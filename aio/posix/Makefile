@@ -8,10 +8,6 @@ CC = gcc
 CFLAGS := -Werror -Wall -D_GNU_SOURCE
 CFLAGS += -DDEBUG -O0 -g
 
-ifneq ($(wildcard $(LIBAIO_HDR)),)
-CFLAGS += -laio
-endif
-
 build: ${TARGETS}
 	@echo
 	@echo -e " \033[1;33m Done \033[m"

@@ -1,3 +1,5 @@
+NUMAIF_HDR = /usr/include/numaif.h
+
 TARGETS :=
 TARGETS += brk sbrk sbrk-bss
 TARGETS += membarrier
@@ -6,7 +8,9 @@ TARGETS += pkey_alloc
 TARGETS += pkey_free
 TARGETS += pkey_mprotect
 TARGETS += mprotect
+ifneq ($(wildcard $(NUMAIF_HDR)),)
 TARGETS += mbind
+endif
 
 CC = gcc
 
