@@ -214,7 +214,7 @@ void *task_recv_fn(void *arg)
 
 	printf("%-8s : Latency Per Message = %lf ns\n",
 		o->name,
-		ns_total * 1.0 / (nloop - 1) * 1000.0);
+		ns_total * 1.0 / (nloop - 1));
 	printf_rate(o, "RX", recv_bytes, end - start);
 	pthread_exit(NULL);
 }
