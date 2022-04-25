@@ -1,0 +1,12 @@
+#!/usr/bin/env bpftrace
+/**
+ * File balance_dirty_pages.bt
+ *
+ * Author Rong Tao <rongtao@cestc.cn>
+ * Date 2022-04-25
+ */
+
+tracepoint:writeback:balance_dirty_pages
+{
+	printf("%s\n", probe);
+}
