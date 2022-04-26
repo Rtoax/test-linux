@@ -135,5 +135,6 @@ interval:s:1
 END
 {
 	clear(@dcount);
+	clear(@lockref_count);
 	printf("Bye.\n");
 }
