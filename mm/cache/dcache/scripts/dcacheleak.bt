@@ -20,9 +20,11 @@
  *  $ while :; do cd `mktemp -u /tmp/rongtaoXXX` 2>/dev/null; done
  *
  * PS:
- *  kmem_cache_alloc() maybe use "kmalloc-192" slab? NO, it will not.
+ * 1. kmem_cache_alloc() maybe use "kmalloc-192" slab? NO, it will not.
  *  $ sudo cat /sys/kernel/slab/dentry/object_size
  *  192
+ * 2. You can modify XXX to XXXXXX when `mktemp -u /tmp/rongtaoXXX`, reduce
+ *	the chance of repetition.
  */
 #include <linux/slab.h>
 #include <linux/slub_def.h>
