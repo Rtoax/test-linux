@@ -60,7 +60,7 @@ kprobe:kmem_cache_alloc_node
 
 	if (!strncmp(str($name), "dentry", 5)) {
 		@dcount[" K ALLOC"] = count();
-		@alloc_kstack_count[kstack] = count();
+		//@alloc_kstack_count[kstack] = count();
 	}
 }
 
