@@ -71,7 +71,7 @@ kprobe:kmem_cache_free
 
 	if (!strncmp(str($name), "dentry", 5)) {
 		@dcount[" K  FREE"] = count();
-		@free_kstack_count[kstack] = count();
+		//@free_kstack_count[kstack] = count();
 	}
 }
 
