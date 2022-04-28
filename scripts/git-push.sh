@@ -14,3 +14,10 @@ git commit -m "$*"
 if [ $? = 0 ]; then
 	git push
 fi
+
+git_sync()
+{
+	cd .. && ./gittools sync test-linux && cd -
+}
+
+test ! -z ../gittools && git_sync
