@@ -1,5 +1,5 @@
 /**
- *	File	./kmem_cache_create.c
+ *	File	slab.c
  *	Time	2021.11.05
  *	Author	Rong Tao <rongtao@cestc.cn>
  */
@@ -15,7 +15,7 @@
 struct test_struct {
 	int id;
 	int ip;
-	char *name;
+	char name[500];
 };
 
 #define SLAB_NAME	"rtoax"
@@ -44,11 +44,11 @@ void print_kmem_cache(struct kmem_cache *cache)
 static int create_slab(void)
 {
 	test_slab = kmem_cache_create(SLAB_NAME, 
-							sizeof(struct test_struct),
-							0, 
-							SLAB_PANIC, 
-							test_constructor);
-	if(!test_slab) {
+				sizeof(struct test_struct),
+				0,
+				SLAB_PANIC,
+				test_constructor);
+	if (!test_slab) {
 		pr_err("Create slab fail.\n");
 		return -1;
 	}
@@ -59,19 +59,20 @@ static void test__slab(void)
 {
 	int i;
 	char *datas[SLAB_ELEM] = {NULL};
+	struct test_struct *test;
 
-	if(!test_slab) {
+	if (!test_slab) {
 		pr_warn("not test.\n");
 		return;
 	}
 
-	for(i=0; i<SLAB_ELEM; i++) {
+	for (i = 0; i < SLAB_ELEM; i++) {
 		datas[i] = kmem_cache_alloc(test_slab, GFP_KERNEL);	
 	}
 
 	print_kmem_cache(test_slab);
 
-	for(i=0; i<SLAB_ELEM; i++) {
+	for (i = 0; i < SLAB_ELEM; i++) {
 		kmem_cache_free(test_slab, datas[i]);
 		datas[i] = NULL;
 	}
@@ -80,23 +81,24 @@ static void test__slab(void)
 
 static void destroy_slab(void)
 {
-	if(test_slab) {
+	if (test_slab) {
 		kmem_cache_destroy(test_slab);
 	}
 }
 
 static int kernel_init(void)
 {
-    printk(KERN_INFO "my init.\n");
+	printk(KERN_INFO "my init.\n");
 	create_slab();
 	test__slab();
 	
 	printk("count_ctor = %d\n", count_ctor);
-    return 0;
+	return 0;
 }
 
 static void kernel_exit(void)
 {
+	printk(KERN_INFO "my exit.\n");
 	destroy_slab();
 }
 
