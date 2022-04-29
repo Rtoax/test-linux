@@ -5,6 +5,11 @@ The Kernel Address Sanitizer (KASAN)
 
 * [https://www.kernel.org/doc/html/latest/dev-tools/kasan.html](https://www.kernel.org/doc/html/latest/dev-tools/kasan.html)
 
+* slab out of bounds
+* user after free
+* stack out of bounds
+* global out of bounds
+
 * `CONFIG_KASAN=y`: To enable KASAN;
 * `CONFIG_KASAN_GENERIC`: to enable generic KASAN;
 * `CONFIG_KASAN_SW_TAGS`: to enable software tag-based KASAN;
