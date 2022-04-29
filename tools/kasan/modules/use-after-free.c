@@ -1,5 +1,5 @@
 /**
- *	File	slab-out-of-bounds.c
+ *	File	free.c
  *	Time	2022-04-29
  *	Author	Rong Tao <rongtao@cestc.cn>
  */
@@ -13,16 +13,8 @@ void *addr = NULL;
 
 static int kernel_init(void)
 {
-	char *s;
-
 	printk(KERN_INFO "init.\n");
 	addr = kmalloc(32, GFP_KERNEL);
-	s = addr;
-	/**
-	 * slab out of bounds
-	 */
-	s[33] = 'a';
-
 	return 0;
 }
 
@@ -30,6 +22,9 @@ static void kernel_exit(void)
 {
 	printk(KERN_INFO "exit.\n");
 	kvfree(addr);
+
+	/* use after free */
+	*(char *)addr = 'a';
 }
 
 module_init(kernel_init);
