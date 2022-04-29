@@ -1,5 +1,5 @@
 /**
- *	File	kmalloc.c
+ *	File	global.c
  *	Time	2022-04-29
  *	Author	Rong Tao <rongtao@cestc.cn>
  */
@@ -9,35 +9,23 @@
 #include <linux/kernel.h>
 #include <linux/slab.h>
 
-void *addr = NULL;
+char string[32] = {"Rong Tao"};
 
 static int kernel_init(void)
 {
-	char *s;
-
 	printk(KERN_INFO "init.\n");
-	addr = kmalloc(32, GFP_KERNEL);
-	s = addr;
+
 	/**
-	 * slab out of bounds
+	 * global out of bounds
 	 */
-	s[33] = 'a';
+	string[32] = 'a';
 
 	return 0;
 }
 
 static void kernel_exit(void)
 {
-	char *s;
-
 	printk(KERN_INFO "exit.\n");
-	kvfree(addr);
-
-	s = addr;
-	/**
-	 * use after free
-	 */
-	s[0] = 'a';
 }
 
 module_init(kernel_init);

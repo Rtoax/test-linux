@@ -6,7 +6,7 @@ The Kernel Address Sanitizer (KASAN)
 * [https://www.kernel.org/doc/html/latest/dev-tools/kasan.html](https://www.kernel.org/doc/html/latest/dev-tools/kasan.html)
 
 * slab out of bounds
-* user after free
+* use after free
 * stack out of bounds
 * global out of bounds
 
