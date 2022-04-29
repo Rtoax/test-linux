@@ -1,6 +1,6 @@
 
 obj-m += vmalloc-out-of-bounds.o
-obj-m += kmalloc.o
+obj-m += slab-out-of-bounds.o
 obj-m += slab.o
 obj-m += global.o
 obj-m += stack.o
