@@ -29,7 +29,7 @@ static int kernel_init(void)
 static void kernel_exit(void)
 {
 	printk(KERN_INFO "exit.\n");
-	kvfree(addr);
+	kfree(addr);
 }
 
 module_init(kernel_init);

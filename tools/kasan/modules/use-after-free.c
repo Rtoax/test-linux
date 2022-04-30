@@ -21,7 +21,7 @@ static int kernel_init(void)
 static void kernel_exit(void)
 {
 	printk(KERN_INFO "exit.\n");
-	kvfree(addr);
+	kfree(addr);
 
 	/* use after free */
 	*(char *)addr = 'a';
