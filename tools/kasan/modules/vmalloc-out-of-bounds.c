@@ -9,6 +9,8 @@
 #include <linux/kernel.h>
 #include <linux/vmalloc.h>
 
+#include "kasan.h"
+
 void *addr = NULL;
 
 static int kernel_init(void)

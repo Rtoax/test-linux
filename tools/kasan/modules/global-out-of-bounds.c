@@ -9,6 +9,8 @@
 #include <linux/kernel.h>
 #include <linux/slab.h>
 
+#include "kasan.h"
+
 char string[32] = {"Rong Tao"};
 
 static int kernel_init(void)

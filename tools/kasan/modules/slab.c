@@ -15,6 +15,8 @@
 #include <linux/slab_def.h>
 #include <linux/gfp.h>
 
+#include "kasan.h"
+
 struct test_struct {
 	int id;
 	int ip;

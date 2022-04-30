@@ -8,6 +8,8 @@
 #include <linux/module.h>
 #include <linux/kernel.h>
 
+#include "kasan.h"
+
 static int call_count = 1000;
 module_param(call_count, int, 0660);
 
