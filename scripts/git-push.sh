@@ -20,4 +20,4 @@ git_sync()
 	cd .. && ./gittools sync test-linux && cd -
 }
 
-test ! -z ../gittools && git_sync
+test -f ../gittools && git_sync
