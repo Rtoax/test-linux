@@ -1,6 +1,8 @@
 vDSO - Virtual Dynamic Shared Object
 ===============
 
+# vDSO 介绍
+
 VDSO就是`Virtual Dynamic Shared Object`，就是内核提供的虚拟的.so,这个.so文件不在磁盘上，而是在内核里头。内核把包含某.so的内存页在程序启动的时候映射入其内存空间，对应的程序就可以当普通的.so来使用里头的函数。比如syscall()这个函数就是在`linux-vdso.so.1`里头的，但是磁盘上并没有对应的文件.可以通过ldd/bin/bash看看。
 
 Linux下传统的系统调用是通过软中断(0x80)实现的,采用传统的int 0x80的系统调用浪费了很多时间,而sysenter/sysexit可以弥补这个缺点，所以才最终决定在linux内核中用后替换前者（最终在2.6版本的内核中才加入了此功能，即采用sysenter/sysexit）。
@@ -30,7 +32,7 @@ $ ldd `which bash` | grep vdso
 
 DSO image的构建过程比较复杂，下面是一个简要的过程描述：
 
-编译出组成vDSO image的三个目标文件：vdso-note.o vclock_gettime.o vgetcpu.o 这几个目标文件主要就是实现了以下几个快速系统调用的函数实现：
+编译出组成vDSO image的三个目标文件：`vdso-note.o vclock_gettime.o vgetcpu.o` 这几个目标文件主要就是实现了以下几个快速系统调用的函数实现：
 
 ```
 clock_gettime()
@@ -61,10 +63,15 @@ void *vdso = (uintptr_t) getauxval(AT_SYSINFO_EHDR);
 当然，识别vDSO mapping只是第一步，伴随而来的是繁复的解析工作；这些工作通常由glibc来承担，应用程序只要还是按照传统方式直接调用C库即可。这就意味着如果真遇到应用程序开发人员非要深入到vDSO如此细节的程度，要么是遇到了非常严重的问题，要么就是彻底搞错了方向。
 
 # vDSO mapping支持重映射
+
 其实这个也没什么神秘的。既然内核能够在加载ELF可执行文件的时候偷偷建立vDSO mapping，那应用程序在运行时也可以自己unmap掉它；还可以再重新映射到其他地址上。
 
 # vvar mapping
 
 与vDSO mapping相伴的是一个叫vvar mapping的。vvar mapping的大小是8-12K，内容是vDSO mapping中的代码要访问的内核与用户进程之间要共享的数据。
 
+# Links
 
+* [LWN: On vsyscalls and the vDSO](https://lwn.net/Articles/446528/)
+* [LWN: Implementing virtual system calls](https://lwn.net/Articles/615809/)
+* [LWN: vDSO, 32-bit time, and seccomp](https://lwn.net/Articles/795128/)
