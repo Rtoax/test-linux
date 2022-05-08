@@ -1,0 +1,20 @@
+#!/usr/bin/env bpftrace
+/**
+ * File: emulate_vsyscall.bt
+ * Author: Rong Tao <rongtao@cestc.cn>
+ * Date: 2022.05.08
+ *
+ */
+
+BEGIN
+{
+	printf("Tracing emulate_vsyscall, hit ctrl-c to end.\n");
+}
+
+/**
+ * 新的进程并不会调用此函数
+ */
+tracepoint:vsyscall:emulate_vsyscall
+{
+	printf("nr = %-8d\n", args->nr);
+}
