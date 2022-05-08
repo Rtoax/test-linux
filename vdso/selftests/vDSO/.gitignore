@@ -1,0 +1,7 @@
+# add for ignore
+vdso_standalone_test_x86
+vdso_test_abi
+vdso_test_clock_getres
+vdso_test_correctness
+vdso_test_getcpu
+vdso_test_gettimeofday

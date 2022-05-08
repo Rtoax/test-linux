@@ -37,6 +37,11 @@ You can use the following macro
 #endif
 ```
 
+# Directories
+
+* Each `scripts` directory contain scriptions.
+* Each `modules` directory contain Linux Modules(KO) source code.
+* Each `selftests` directory from linux source code.
 
 # About
 
