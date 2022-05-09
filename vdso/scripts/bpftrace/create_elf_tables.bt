@@ -1,0 +1,32 @@
+#!/usr/bin/env bpftrace
+/**
+ * File: create_elf_tables.bt
+ * Author: Rong Tao <rongtao@cestc.cn>
+ * Date: 2022.05.09
+ *
+ * Tracing kprobe:create_elf_tables
+ *
+ * Every process create will call 'create_elf_tables' function
+ */
+#include <linux/sched.h>
+#include <linux/mm.h>
+
+BEGIN
+{
+	printf("Tracing kprobe:create_elf_tables, hit ctrl-C to end.\n");
+	printf("%-8s %-16s %-16s\n", "PID", "COMM", "vDSO");
+}
+
+kprobe:create_elf_tables
+{
+	$task = curtask;
+	/* $vdso is '/proc/PID/maps [vdso]' start addr */
+	$vdso = $task->mm->context.vdso;
+	printf("%-8d %-16s %-16lx\n", tid, comm, $vdso);
+	@create_elf_tables_kstack[kstack] = count();
+}
+
+END
+{
+	printf("Bye.\n");
+}
