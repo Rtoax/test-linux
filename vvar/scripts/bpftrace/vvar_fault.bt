@@ -1,0 +1,47 @@
+#!/usr/bin/env bpftrace
+/**
+ * File: vvar_fault.bt
+ * Author: Rong Tao <rongtao@cestc.cn>
+ * Date: 2022.05.09
+ *
+ * Tracing kprobe:vvar_fault
+ */
+#include <linux/kernel.h>
+#include <linux/mm.h>
+#if defined(CONFIG_X86_64)
+// see arch/x86/include/asm/vdso.h
+struct vdso_image {
+	void *data;
+	unsigned long size;   /* Always a multiple of PAGE_SIZE */
+};
+#else
+# error "Unsupport arch, just x86_64 right now."
+#endif
+
+BEGIN
+{
+	printf("Tracing kprobe:vvar_fault, hit ctrl-C to end.\n");
+	printf("%-8s %-16s %-16s %-16s %-16s\n",
+		 "PID", "COMM", "KADDR", "VM_START", "VM_END");
+}
+
+/**
+ * 只有时间相关的进程，才会触发这个 fault
+ */
+kprobe:vvar_fault
+{
+	$vma = (struct vm_area_struct *)arg1;
+	$vmf = (struct vm_fault *)arg2;
+	$vdso_image = (struct vdso_image*)($vma->vm_mm->context.vdso_image);
+	$kaddr = $vdso_image->data + ($vmf->pgoff << PAGE_SHIFT);
+	
+	printf("%-8d %-16s %-16lx %-16lx %-16lx\n",
+		 tid, comm, $kaddr, $vma->vm_start, $vma->vm_end);
+
+	@vvar_fault[kstack] = count();
+}
+
+END
+{
+	printf("Bye.\n");
+}
