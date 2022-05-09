@@ -1,0 +1,40 @@
+#!/usr/bin/env bpftrace
+/**
+ * Rong Tao <rongtao@cestc.cn>
+ * 2022.05.09
+ * Tracing kprobe:vdso_mremap
+ *
+ * Every process create will not call 'vdso_mremap' function.
+ */
+#include <linux/kernel.h>
+#include <linux/mm.h>
+
+#if defined(CONFIG_X86_64)
+#elif defined(CONFIG_ARM64)
+#else
+# error "Unsupport arch, just x86_64/aarch64 right now."
+#endif
+
+BEGIN
+{
+	printf("Tracing kprobe:vdso_mremap, hit ctrl-C to end.\n");
+	printf("%-8s %-16s %-16s %-16s\n",
+		 "PID", "COMM", "VM_START", "VM_END");
+}
+
+kprobe:vdso_mremap
+{
+	$vma = (struct vm_area_struct *)arg1;
+	
+	/**
+	 * VMA start-end is same as `sudo cat /proc/[PID]/maps | grep vdso`
+	 */
+	printf("%-8d %-16s %-16lx %-16lx\n",
+		 tid, comm, $vma->vm_start, $vma->vm_end);
+	@vdso_mremap[kstack] = count();
+}
+
+END
+{
+	printf("Bye.\n");
+}
