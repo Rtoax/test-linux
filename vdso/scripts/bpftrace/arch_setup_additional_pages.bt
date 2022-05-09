@@ -1,0 +1,29 @@
+#!/usr/bin/env bpftrace
+/**
+ * File: arch_setup_additional_pages.bt
+ * Author: Rong Tao
+ * Date: 2022.05.09
+ *
+ */
+#include <linux/kernel.h>
+
+BEGIN
+{
+	printf("Tracing vDSO mmap, hit ctrl-C to end.\n");
+	printf("%-8s %-16s %-16s\n",
+		 "PID", "COMM", "vDSO-MAP-Len");
+}
+
+kprobe:arch_setup_additional_pages
+{
+	@arch_setup_additional_pages[pid] = 1;
+}
+
+kprobe:get_unmapped_area
+/@arch_setup_additional_pages[pid] == 1/
+{
+	$vdso_mapping_len = arg2;
+	printf("%-8d %-16s %-16ld\n",
+		 pid, comm, $vdso_mapping_len);
+	delete(@arch_setup_additional_pages[pid]);
+}
