@@ -1,0 +1,21 @@
+#!/usr/bin/env bpftrace
+/**
+ * File: update_vsyscall.bt
+ *
+ * Author: Rong Tao
+ * Date: 2022.05.10
+ */
+BEGIN
+{
+	printf("Tracing update_vsyscall, hit ctrl-C to end.\n");
+}
+
+kprobe:update_vsyscall*
+{
+	@stack[kstack] = count();
+}
+
+END
+{
+}
+
