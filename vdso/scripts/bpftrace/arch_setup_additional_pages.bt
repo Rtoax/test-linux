@@ -17,6 +17,7 @@ BEGIN
 kprobe:arch_setup_additional_pages
 {
 	@arch_setup_additional_pages[pid] = 1;
+	@[kstack] = count();
 }
 
 kprobe:get_unmapped_area
