@@ -26,7 +26,8 @@ BEGIN
 }
 
 /**
- * 只有时间相关的进程，才会触发这个 fault
+ * when vDSO function called, vvar_fault fault happened.
+ * see also 'clock_gettime.c' demostration.
  */
 kprobe:vvar_fault
 {
