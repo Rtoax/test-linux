@@ -10,12 +10,20 @@ BEGIN
 	printf("Tracing update_vsyscall, hit ctrl-C to end.\n");
 }
 
-kprobe:update_vsyscall*
+kprobe:update_vsyscall
 {
-	@stack[kstack] = count();
+	@start[pid] = nsecs;
+}
+
+kretprobe:update_vsyscall
+/@start[pid]/
+{
+	@latency_us = hist((nsecs - @start[pid]) / 1000);
+	delete(@start[pid]);
 }
 
 END
 {
+	clear(@start);
 }
 
