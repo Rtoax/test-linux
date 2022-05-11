@@ -56,6 +56,7 @@ perf probe 'myfunc%return +0($retval):string'
 
 # Add a tracepoint for the user-level malloc() function from libc:
 perf probe -x /lib64/libc.so.6 malloc
+perf record -e probe_libc:malloc -aR sleep 1
 
 # Add a tracepoint for this user-level static probe (USDT, aka SDT event):
 perf probe -x /usr/lib64/libpthread-2.24.so %sdt_libpthread:mutex_entry
