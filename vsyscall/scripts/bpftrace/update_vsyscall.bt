@@ -8,6 +8,11 @@
 BEGIN
 {
 	printf("Tracing update_vsyscall, hit ctrl-C to end.\n");
+	if ($# == 0) {
+		printf("Usage: ./update_vsyscall.bt [OPTs].\n");
+		printf(" OPTs:\n");
+		printf("	[kstack] to print kernel stack.\n");
+	}
 }
 
 kprobe:update_vsyscall
