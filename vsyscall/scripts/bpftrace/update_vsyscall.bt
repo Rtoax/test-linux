@@ -20,7 +20,7 @@ kprobe:update_vsyscall
 	@start[pid] = nsecs;
 	// See kernel stack of update_vsyscall().
 	if (strncmp(str($1), "kstack", 6) == 0) {
-		@[kstack] = count();
+		@stacks[kstack] = count();
 	}
 }
 
@@ -33,6 +33,8 @@ kretprobe:update_vsyscall
 
 END
 {
+	print(@stacks, 2);
+	clear(@stacks);
 	clear(@start);
 }
 
