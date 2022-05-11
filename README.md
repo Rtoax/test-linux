@@ -40,6 +40,7 @@ You can use the following macro
 # Directories
 
 * Each `scripts` directory contain scriptions.
+* Each `scripts/bpftrace` directory contain bpftrace scriptions.
 * Each `modules` directory contain Linux Modules(KO) source code.
 * Each `selftests` directory from linux source code.
 
