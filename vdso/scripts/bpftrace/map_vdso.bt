@@ -10,6 +10,7 @@
 #if defined(CONFIG_X86_64)
 /* see arch/x86/include/asm/vdso.h */
 struct vdso_image {
+	/* =raw_data: see /arch/x86/entry/vdso/vdso2c.h */
 	void *data;
 	unsigned long size;   /* Always a multiple of PAGE_SIZE */
 	unsigned long alt, alt_len;
