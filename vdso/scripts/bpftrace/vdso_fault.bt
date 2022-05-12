@@ -23,8 +23,8 @@ BEGIN
 	printf("Tracing kprobe:vdso_fault, hit ctrl-C to end.\n");
 	printf("Legend: \033[1;32mvDSO ELF\033[m, ");
 	printf("\033[1;31m[vdso] VMA\033[m\n");
-	printf("%-8s %-16s \033[1;32m%-16s %-8s \033[1;31m%-16s %-16s\033[m\n",
-		 "PID", "COMM", "KADDR", "OFF", "VM_START", "VM_END");
+	printf("%-8s %-16s \033[1;32m%-16s %-8s %-8s \033[1;31m%-16s %-16s\033[m\n",
+		 "PID", "COMM", "KADDR", "SIZE", "OFF", "VM_START", "VM_END");
 }
 
 kprobe:vdso_fault
@@ -33,12 +33,13 @@ kprobe:vdso_fault
 	$vmf = (struct vm_fault *)arg2;
 	$vdso_image = (struct vdso_image*)($vma->vm_mm->context.vdso_image);
 	$kaddr = $vdso_image->data + ($vmf->pgoff << PAGE_SHIFT);
+	$size = $vdso_image->size;
 
 	/**
 	 * VMA start-end is same as `sudo cat /proc/[PID]/maps | grep vdso`
 	 */
-	printf("%-8d %-16s \033[1;32m%-16lx %-8lx \033[1;31m%-16lx %-16lx\033[m\n",
-		tid, comm, $kaddr, ($vmf->pgoff << PAGE_SHIFT),
+	printf("%-8d %-16s \033[1;32m%-16lx %-8d %-8lx \033[1;31m%-16lx %-16lx\033[m\n",
+		tid, comm, $kaddr, $size, ($vmf->pgoff << PAGE_SHIFT),
 		$vma->vm_start, $vma->vm_end);
 
 	// $kaddr is vDSO ELF file pointer.
