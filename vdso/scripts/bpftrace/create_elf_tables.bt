@@ -22,7 +22,7 @@ kprobe:create_elf_tables
 	$task = curtask;
 	/**
 	 * $vdso is '/proc/PID/maps [vdso]' start addr
-	 * current->mm->context.vdso 在 map_vdso 中被赋值;
+	 * current->mm->context.vdso=[value] in map_vdso() function.
 	 */
 	$vdso = $task->mm->context.vdso;
 	printf("%-8d %-16s %-16lx\n", tid, comm, $vdso);
