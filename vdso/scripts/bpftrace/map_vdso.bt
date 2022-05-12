@@ -8,10 +8,22 @@
  */
 #include <linux/kernel.h>
 #if defined(CONFIG_X86_64)
-// see arch/x86/include/asm/vdso.h
+/* see arch/x86/include/asm/vdso.h */
 struct vdso_image {
 	void *data;
 	unsigned long size;   /* Always a multiple of PAGE_SIZE */
+	unsigned long alt, alt_len;
+
+	long sym_vvar_start;  /* Negative offset to the vvar area */
+	long sym_vvar_page;
+	long sym_pvclock_page;
+	long sym_hvclock_page;
+	long sym_timens_page;
+	long sym_VDSO32_NOTE_MASK;
+	long sym___kernel_sigreturn;
+	long sym___kernel_rt_sigreturn;
+	long sym___kernel_vsyscall;
+	long sym_int80_landing_pad;
 };
 #else
 # error "Unsupport arch, just x86_64 right now."
@@ -20,7 +32,9 @@ struct vdso_image {
 BEGIN
 {
 	printf("Tracing kprobe:map_vdso, hit ctrl-C to end.\n");
-	printf("%-8s %-16s %-6s %-16s\n", "PID", "COMM", "SIZE", "ADDR");
+	printf("%-8s %-16s %-6s %-16s\n", "PID", "COMM", "SIZE", "VVAR_ADDR");
+	printf("\t\033[2m%-16s %-8s %-16s %-16s %-16s %-16s\033[m\n",
+		"DATA(raw_data)", "SIZE", "VVAR_Start", "VVAR_Page", "PVCLOCK_Page", "HVCLOCK_Page");
 }
 
 kprobe:map_vdso
@@ -28,7 +42,13 @@ kprobe:map_vdso
 	$vdso_image = (struct vdso_image*)arg0;
 	$addr = arg1;
 	printf("%-8d %-16s %-6d %-16lx\n", tid, comm, $vdso_image->size, $addr);
-
+	printf("\t\033[2m%-16lx %-8d %-16lx %-16lx %-16lx %-16lx\033[m\n",
+		$vdso_image->data,
+		$vdso_image->size,
+		$vdso_image->sym_vvar_start,
+		$vdso_image->sym_vvar_page,
+		$vdso_image->sym_pvclock_page,
+		$vdso_image->sym_hvclock_page);
 	/**
 	 * @map_vdso_kstack[
 	 *     map_vdso+1
