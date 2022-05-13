@@ -1,0 +1,24 @@
+#!/bin/env bpftrace
+/**
+ * File: gate_vma.bt
+ * Author: Rong Tao
+ * Date: 2022.05.13
+ *
+ */
+#include <linux/mm.h>
+
+BEGIN
+{
+	printf("Print gate_vma [vsyscall]\n");
+	$vma = (struct vm_area_struct *)kaddr("gate_vma");
+
+	/* ffffffffff600000-ffffffffff601000 --xp 00000000 00:00 0 [vsyscall] */
+	printf("%lx-%lx %s%s%s%s [vsyscall]\n",
+		$vma->vm_start,
+		$vma->vm_end,
+		($vma->vm_page_prot.pgprot&0x01)?"r":"-",
+		($vma->vm_page_prot.pgprot&0x02)?"w":"-",
+		($vma->vm_page_prot.pgprot&0x04)?"x":"-",
+		($vma->vm_page_prot.pgprot&0x08)?"s":"p");
+	exit();
+}
