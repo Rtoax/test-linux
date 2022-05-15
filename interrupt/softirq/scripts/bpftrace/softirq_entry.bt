@@ -4,6 +4,8 @@
  *
  * Author: Rong Tao <rongtao@cestc.cn>
  * Time: 2022.03.08
+ *
+ * Statistic softirqs on CPUs.
  */
 
 #include <linux/interrupt.h>
