@@ -4,6 +4,8 @@
  *
  * Author: Rong Tao <rongtao@cestc.cn>
  * Time: 2022.03.08
+ *
+ * Statistic softirqs on CPUs.
  */
 
 #include <linux/interrupt.h>
@@ -46,13 +48,14 @@ interval:s:1
 
 	$i = 0;
 	unroll($1) {
-	printf("%-4d %-10ld %-10d %-10d %-10d %-10d %-10d %-10d %-10d %-10d %-10d\n",
+	printf("%-4d %-10ld %-10d %-10d %-10d %-10d ",
 		$i,
 		@vec_count[$i, "HI"],
 		@vec_count[$i, "TIMER"],
 		@vec_count[$i, "NET_TX"],
 		@vec_count[$i, "NET_RX"],
-		@vec_count[$i, "BLOCK"],
+		@vec_count[$i, "BLOCK"]);
+	printf("%-10d %-10d %-10d %-10d %-10d\n",
 		@vec_count[$i, "IRQ_POLL"],
 		@vec_count[$i, "TASKLET"],
 		@vec_count[$i, "SCHED"],
