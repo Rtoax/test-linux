@@ -40,6 +40,7 @@ static int __init print_pid(void)
 			atomic_read((&(p->files)->count)),(p->fs)->umask);
 
 		printk("Offset flags = %ld\n", offsetof(struct task_struct, flags));
+		printk("Offset comm = %ld\n", offsetof(struct task_struct, comm));
 		
 		if((p->mm)!=NULL)
 			printk("total_vm:%ld;",(p->mm)->total_vm);
