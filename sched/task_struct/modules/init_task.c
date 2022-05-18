@@ -41,6 +41,7 @@ static int __init print_pid(void)
 
 		printk("Offset flags = %ld\n", offsetof(struct task_struct, flags));
 		printk("Offset comm = %ld\n", offsetof(struct task_struct, comm));
+		printk("Offset se.on_rq = %ld\n", offsetof(struct task_struct, se.on_rq));
 		
 		if((p->mm)!=NULL)
 			printk("total_vm:%ld;",(p->mm)->total_vm);
