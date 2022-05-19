@@ -15,10 +15,11 @@ CE/UE
 
 内存有两种错误类型分别是CE和UE
 
-* CE 是 Correctable Error 的简称
-* UE是Uncorrectable Error的简称
+* `CE`是`Correctable Error`的简称
+* `UE`是`Uncorrectable Error`的简称
 
-CE即可恢复的错误，暂不影响系统的正常运行。可以在找时机停机换掉。UE为不可恢复的内存错误，通常会导致宕机。
+`CE`即可恢复的错误，暂不影响系统的正常运行，可以在找时机停机换掉。
+`UE`为不可恢复的内存错误，通常会导致宕机。
 
 # devices
 
