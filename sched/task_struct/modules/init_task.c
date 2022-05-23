@@ -14,7 +14,11 @@ static int __init print_pid(void)
 {
 	struct task_struct *task, *p;
 	struct list_head *pos;
-	int count=0;
+	unsigned long count = 0;
+	unsigned long cnt_uninterruptible = 0;
+	unsigned long cnt_interruptible = 0;
+	unsigned long cnt_running = 0;
+
 	printk("Printf process'message begin:\n");
 	task = &init_task;
 	
@@ -41,11 +45,20 @@ static int __init print_pid(void)
 		printk("Offset comm = %ld\n", offsetof(struct task_struct, comm));
 		printk("Offset se.on_rq = %ld\n", offsetof(struct task_struct, se.on_rq));
 		
-		if((p->mm)!=NULL)
+		if ((p->mm)!=NULL)
 			printk("total_vm:%ld;",(p->mm)->total_vm);
+		if (p->STATE & TASK_UNINTERRUPTIBLE)
+			cnt_uninterruptible++;
+		if (p->STATE & TASK_INTERRUPTIBLE)
+			cnt_interruptible++;
+		if (p->STATE & TASK_RUNNING)
+			cnt_running++;
 	}
 	
-	printk("Total process number is %d\n",count);	
+	printk("Total process number is %ld\n", count);
+	printk("Uninterruptible %ld\n", cnt_uninterruptible);
+	printk("  Interruptible %ld\n", cnt_interruptible);
+	printk("        Running %ld\n", cnt_running);
 
 	return 0;
 }
