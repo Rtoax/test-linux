@@ -10,8 +10,10 @@
  */
 #include <unistd.h>
 #include <stdlib.h>
+#include <string.h>
+#include <stdio.h>
 
-int main()
+void vfork_sleep(void)
 {
 	vfork();
 	/**
@@ -19,5 +21,24 @@ int main()
 	 * Parent in uninterruptible sleep
 	 */
 	sleep(60);
+}
+
+void usage(void)
+{
+	printf("usage: [option].\n");
+	printf(" [vfork-sleep]	use vfork() sleep() generate D task.\n");
+	exit(0);
+}
+
+int main(int argc, char *argv[])
+{
+	if (argc < 2) {
+		usage();
+	}
+	if (!strcmp(argv[1], "vfork-sleep")) {
+		vfork_sleep();
+	} else {
+		usage();
+	}
 	return 0;
 }
