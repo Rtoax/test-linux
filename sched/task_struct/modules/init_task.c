@@ -47,11 +47,11 @@ static int __init print_pid(void)
 		
 		if ((p->mm)!=NULL)
 			printk("total_vm:%ld;",(p->mm)->total_vm);
-		if (p->STATE & TASK_UNINTERRUPTIBLE)
+		if (p->STATE == TASK_UNINTERRUPTIBLE)
 			cnt_uninterruptible++;
-		if (p->STATE & TASK_INTERRUPTIBLE)
+		if (p->STATE == TASK_INTERRUPTIBLE)
 			cnt_interruptible++;
-		if (p->STATE & TASK_RUNNING)
+		if (p->STATE == TASK_RUNNING)
 			cnt_running++;
 	}
 	
