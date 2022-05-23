@@ -55,7 +55,7 @@ static void print_all_task_stack(void)
 	trace.max_entries = BACKTRACE_DEPTH;
 	trace.entries = backtrace;
 
-    printk("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
+	printk("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
 	printk("\tLoad: %lu.%02lu, %lu.%02lu, %lu.%02lu\n",
 		LOAD_INT(ptr_avenrun[0]), LOAD_FRAC(ptr_avenrun[0]),
 		LOAD_INT(ptr_avenrun[1]), LOAD_FRAC(ptr_avenrun[1]),
@@ -142,12 +142,12 @@ static void start_timer(void)
 }
 static int load_monitor_init(void)
 {
-        ptr_avenrun = (void *)kallsyms_lookup_name("avenrun");
+	ptr_avenrun = (void *)kallsyms_lookup_name("avenrun");
 	if (!ptr_avenrun)
 		return -EINVAL;
-        
-        start_timer();
-        
+	
+	start_timer();
+	
 	printk("load-monitor loaded.\n");
 
 	return 0;
@@ -157,7 +157,7 @@ static void load_monitor_exit(void)
 {
 	hrtimer_cancel(&timer);
 
-        printk("load-monitor unloaded.\n");
+	printk("load-monitor unloaded.\n");
 }
 
 module_init(load_monitor_init)
