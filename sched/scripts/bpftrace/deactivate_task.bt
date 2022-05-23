@@ -7,10 +7,11 @@
 
 #include <linux/sched.h>
 
+kprobe:activate_task,
 kprobe:deactivate_task
 {
 	$prev = (struct task_struct*)arg1;
 	if ($prev->state & TASK_UNINTERRUPTIBLE) {
-		@deactiveD[$prev->comm] = count();
+		@deactiveD[func, $prev->comm] = count();
 	}
 }
