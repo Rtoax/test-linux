@@ -26,16 +26,14 @@ static int __init print_pid(void)
 
 #if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 14, 0)
 # define Sfmt "%x"
+# define STATE __state
 #else
 # define Sfmt "%lx"
+# define STATE state
 #endif 
 		printk("pid:%d; state:"Sfmt"; prio:%d; static_prio:%d; parent'pid:%d; count:%d; umask:%d;",
 			p->pid,
-#if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 14, 0)
-			p->__state,
-#else
-			p->state,
-#endif
+			p->STATE,
 			p->prio,p->static_prio,(p->parent)->pid,
 			atomic_read((&(p->files)->count)),(p->fs)->umask);
 
