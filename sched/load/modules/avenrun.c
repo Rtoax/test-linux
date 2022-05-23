@@ -3,7 +3,7 @@
  * Author: Rong Tao <rongtao@cestc.cn>
  * Date: 2022.05.23
  *
- * Print load average like 'uptime'
+ * Print load average like 'uptime' and bpftrace/tools loads.bt.
  */
 #include <linux/kernel.h>
 #include <linux/module.h>
