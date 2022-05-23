@@ -36,7 +36,7 @@ int main(int argc, char *argv[])
 		usage();
 	}
 	if (!strcmp(argv[1], "vfork-sleep")) {
-		int secs = argc==2?atoi(argv[2]):60;
+		int secs = argc==3?atoi(argv[2]):60;
 		vfork_sleep(secs?:60);
 	} else {
 		usage();
