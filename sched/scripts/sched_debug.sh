@@ -16,4 +16,5 @@ count_running()
 	awk '/\.nr_running/ {c += $3} END{print c}' /proc/sched_debug
 }
 
-count_uninterruptible
+echo "Uninter: `count_uninterruptible`"
+echo "Running: `count_running`"
