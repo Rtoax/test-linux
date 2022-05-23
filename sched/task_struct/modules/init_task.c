@@ -22,6 +22,9 @@ static int __init print_pid(void)
 	printk("Printf process'message begin:\n");
 	task = &init_task;
 	
+	/**
+	 * TODO: Not safe here.
+	 */
 	list_for_each(pos,&task->tasks)
 	{
 		p = list_entry(pos,struct task_struct,tasks);
