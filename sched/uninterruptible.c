@@ -13,20 +13,20 @@
 #include <string.h>
 #include <stdio.h>
 
-void vfork_sleep(void)
+void vfork_sleep(int secs)
 {
 	vfork();
 	/**
 	 * Children in interruptible sleep
 	 * Parent in uninterruptible sleep
 	 */
-	sleep(60);
+	sleep(secs);
 }
 
 void usage(void)
 {
 	printf("usage: [option].\n");
-	printf(" [vfork-sleep]	use vfork() sleep() generate D task.\n");
+	printf(" vfork-sleep [sleep sec(60 by default)]: use vfork() sleep() generate D task.\n");
 	exit(0);
 }
 
@@ -36,7 +36,8 @@ int main(int argc, char *argv[])
 		usage();
 	}
 	if (!strcmp(argv[1], "vfork-sleep")) {
-		vfork_sleep();
+		int secs = argc==2?atoi(argv[2]):60;
+		vfork_sleep(secs?:60);
 	} else {
 		usage();
 	}
