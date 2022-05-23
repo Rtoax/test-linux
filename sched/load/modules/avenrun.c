@@ -28,7 +28,7 @@ void get_avenrun(unsigned long *loads, unsigned long offset, int shift)
     loads[2] = (avenrun[2] + offset) << shift;
 }
 
-/** 
+/**
  * $ sudo cat /proc/loadavg
  *   0.00 0.02 0.05 1/275 96511
  */
