@@ -12,15 +12,23 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+#include <sys/types.h>
+#include <sys/wait.h>
 
 void vfork_sleep(int secs)
 {
-	vfork();
+	pid_t pid = vfork();
 	/**
 	 * Children in interruptible sleep
 	 * Parent in uninterruptible sleep
 	 */
 	sleep(secs);
+
+	if (pid > 0) {
+		waitpid(pid, NULL, 0);
+	} else if (pid == 0) {
+		exit(0);
+	}
 }
 
 void usage(void)
