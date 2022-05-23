@@ -1,5 +1,10 @@
 #!/bin/bash
 
+check_support()
+{
+	grep CONFIG_SCHED_DEBUG /boot/config-`uname -r`
+}
+
 # Count number of D processes
 count_uninterruptible()
 {
