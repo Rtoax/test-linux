@@ -26,7 +26,7 @@ check_state()
 
 find_state()
 {
-	ps -e -w -o stat,pid,lstart,comm | grep $1
+	ps -e -w -o stat,pid,lstart,comm | grep $1 | nl
 }
 
 find_D()
@@ -42,3 +42,5 @@ find_Sleep()
 # check D task by default
 test -z $1 && check_state
 test ! -z $1 && find_state ^$1
+
+echo "Total tasks `ps -e | wc -l`"
