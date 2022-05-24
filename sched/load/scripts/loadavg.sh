@@ -12,6 +12,21 @@ nr_tasks()
 	echo `ps -ef | wc -l`
 }
 
+nr_R_tasks()
+{
+	ps -e -w -o stat,pid,lstart,comm | grep ^R | wc -l
+}
+
+nr_S_tasks()
+{
+	ps -e -w -o stat,pid,lstart,comm | grep ^S | wc -l
+}
+
+nr_D_tasks()
+{
+	ps -e -w -o stat,pid,lstart,comm | grep ^D | wc -l
+}
+
 load_avg()
 {
 	load=`cat /proc/loadavg`
@@ -22,16 +37,16 @@ load_avg()
 	echo "$load1 $load5 $load15"
 }
 
-format_5()
+format_output()
 {
 	echo $@ | \
-	awk '{print $1"\t\t"$2"\t\t"$3"\t\t"$4"\t\t"$5}'
+	awk '{print $1"\t\t"$2"\t\t"$3"\t\t"$4"\t\t"$5"\t\t"$6"\t\t"$7"\t\t"$8}'
 }
 
-format_5 "DATE NTask LV1 LV5 LV15"
+format_output "DATE NTask DTask RTask STask LV1 LV5 LV15"
 for ((i=0;;i++))
 do
 	echo "Loop $i" 1>&2
-	format_5 "`date_` `nr_tasks` `load_avg`"
-	sleep 10
+	format_output "`date_` `nr_tasks` `nr_D_tasks` `nr_R_tasks` `nr_S_tasks` `load_avg`"
+	sleep 60
 done
