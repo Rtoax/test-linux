@@ -31,23 +31,25 @@ void vfork_sleep(int secs)
 	}
 }
 
-void usage(void)
+void usage(int argc, char *argv[])
 {
 	printf("usage: [option].\n");
 	printf(" vfork-sleep [sleep sec(60 by default)]: use vfork() sleep() generate D task.\n");
+	printf("\n");
+	printf(" run 'for ((i=0;i<100;i++)); do %s [opts] & done' to make plenty of D tasks.\n", argv[0]);
 	exit(0);
 }
 
 int main(int argc, char *argv[])
 {
 	if (argc < 2) {
-		usage();
+		usage(argc, argv);
 	}
 	if (!strcmp(argv[1], "vfork-sleep")) {
 		int secs = argc==3?atoi(argv[2]):60;
 		vfork_sleep(secs?:60);
 	} else {
-		usage();
+		usage(argc, argv);
 	}
 	return 0;
 }
