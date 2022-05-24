@@ -1,6 +1,7 @@
 #!/bin/bash
 # Rong Tao <rongtao@cestc.cn>
 # Print Load Average [to file]
+# Like 'sar -q ALL'
 
 date_()
 {
