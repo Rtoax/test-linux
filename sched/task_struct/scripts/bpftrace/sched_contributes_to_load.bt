@@ -1,0 +1,33 @@
+#!/usr/bin/env bpftrace
+/**
+ * File: sched_contributes_to_load.bt
+ * Author: Rong Tao <rongtao@cestc.cn>
+ * Date: 2022.05.24
+ *
+ * Tracing tasks contributes to loadavg.
+ */
+#include <linux/sched.h>
+
+BEGIN
+{
+	printf("Sampling sched_contributes_to_load. Hit Ctrl-C to end.\n");
+}
+
+kprobe:ttwu_do_activate
+{
+	$task = (struct task_struct *)arg1;
+	/**
+	 * contributes to /proc/loadavg
+	 */
+	$load = $task->sched_contributes_to_load;
+	@sched_contributes_to_load = lhist($load, 0, 100, 1);
+	if ($load) {
+		@tasks_contributes_to_load[$task->comm] = count();
+	}
+}
+
+END
+{
+	print(@tasks_contributes_to_load, 10);
+	clear(@tasks_contributes_to_load);
+}
