@@ -16,9 +16,9 @@ load_avg()
 {
 	load=`cat /proc/loadavg`
 	# 89.99 91.24 90.00 7/7062 3562576
-	load1=${load: 0: 5}
-	load5=${load: 6: 5}
-	load15=${load: 12: 5}
+	load1=`echo $load | awk '{print $1}'`
+	load5=`echo $load | awk '{print $2}'`
+	load15=`echo $load | awk '{print $3}'`
 	echo "$load1 $load5 $load15"
 }
 
