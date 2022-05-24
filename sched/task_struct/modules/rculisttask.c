@@ -33,6 +33,11 @@ const char* state_to_string(long state)
 
 void list_from_task(struct task_struct *task)
 {
+	unsigned long count = 0;
+	unsigned long cnt_uninterruptible = 0;
+	unsigned long cnt_interruptible = 0;
+	unsigned long cnt_running = 0;
+
 	/**
 	 * tasklist_lock is not exported anymore, use RCU as p->tasks 
 	 * is updated wth list_add_tail_rcu(), see copy_process(),
@@ -43,26 +48,40 @@ void list_from_task(struct task_struct *task)
 	{
 		struct task_struct* p = task;
         
+#if LINUX_VERSION_CODE < KERNEL_VERSION(5, 14, 0)
+# define STATE state
+#else
+# define STATE __state
+#endif
         printk(KERN_INFO "%-17s %-6s %-6s %-3s %-4s %-4s %-20s\n", 
                         "Name", "PID", "TGID", "Pri","PriS","PriN", "State");
 		do
 		{
 			struct list_head*  next;
-#if LINUX_VERSION_CODE < KERNEL_VERSION(5, 14, 0)
-			long               state = p->state;
-#else
-			long               state = p->__state;
-#endif
+			long               state = p->STATE;
 			printk(KERN_INFO "%-17s %-6d %-6d %-3d %-4d %-4d %-2ld(-%9s)\n", 
                                 p->comm, p->pid, p->tgid,
                                 p->prio, p->static_prio, p->normal_prio, 
                                 state, state_to_string(state));
+
+			if (p->STATE == TASK_UNINTERRUPTIBLE)
+				cnt_uninterruptible++;
+			if (p->STATE == TASK_INTERRUPTIBLE)
+				cnt_interruptible++;
+			if (p->STATE == TASK_RUNNING)
+				cnt_running++;
+			count++;
 
 			next = rcu_dereference(p->tasks.next);
 			p = list_entry(next, struct task_struct, tasks);
 		} while (p != task);
 	}
 	rcu_read_unlock();
+
+	printk("Total process number is %ld\n", count);
+	printk("Uninterruptible %ld\n", cnt_uninterruptible);
+	printk("  Interruptible %ld\n", cnt_interruptible);
+	printk("        Running %ld\n", cnt_running);
 }
 
 void list_tasks(void)
