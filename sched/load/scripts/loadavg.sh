@@ -2,6 +2,11 @@
 # Rong Tao <rongtao@cestc.cn>
 # Print Load Average [to file]
 
+date_()
+{
+	date +%R
+}
+
 nr_tasks()
 {
 	echo `ps -ef | wc -l`
@@ -17,15 +22,16 @@ load_avg()
 	echo "$load1 $load5 $load15"
 }
 
-format_4()
+format_5()
 {
 	echo $@ | \
-	awk '{print $1"\t\t"$2"\t\t"$3"\t\t"$4}'
+	awk '{print $1"\t\t"$2"\t\t"$3"\t\t"$4"\t\t"$5}'
 }
 
-format_4 "NTask LV1 LV5 LV15"
+format_5 "DATE NTask LV1 LV5 LV15"
 for ((i=0;;i++))
 do
-	format_4 "`nr_tasks` `load_avg`"
+	echo "Loop $i" 1>&2
+	format_5 "`date_` `nr_tasks` `load_avg`"
 	sleep 10
 done
