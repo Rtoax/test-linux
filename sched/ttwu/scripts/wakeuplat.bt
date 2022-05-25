@@ -1,0 +1,33 @@
+#!/usr/bin/env bpftrace
+/**
+ * File: wakeuplat.bt
+ * Author: Rong Tao <rongtao@cestc.cn>
+ * Date: 2022.05.25
+ *
+ */
+#include <linux/sched.h>
+
+BEGIN
+{
+	printf("Tracing sched_waking and sched_wakeup, hit ctrl-c to end.\n");
+}
+
+tracepoint:sched:sched_waking
+{
+	$pid = args->pid;
+	@start[$pid] = nsecs;
+}
+
+tracepoint:sched:sched_wakeup
+{
+	$pid = args->pid;
+	if (@start[$pid]) {
+		@latency_usecs = hist((nsecs - @start[$pid]) / 1000);
+		delete(@start[$pid]);
+	}
+}
+
+END
+{
+	clear(@start);
+}
