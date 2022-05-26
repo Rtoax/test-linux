@@ -12,6 +12,14 @@ dd_()
 	done
 }
 
+# TEST negative dentry dcache
+neg_dentry_()
+{
+	echo "Generate negative dentry, hit ctrl-c to end."
+	# access no exist directory
+	while :; do cd `mktemp -u /tmp/rongtaoXXXXX` 2>/dev/null; done
+}
+
 signal_handler()
 {
 	echo "Catch SIG"
@@ -23,10 +31,12 @@ signal_handler()
 usage()
 {
 cat<<'EOF'
+
 usage guest-stress [OPT]
 
 [OPT]
-  dd	- write a file to disk.
+          dd	- Write a file to disk.
+  neg_dentry	- Generate negative dentry.
 
  All test is RUNNING FOREVER, hit ctrl-C to end.
 EOF
@@ -40,6 +50,9 @@ trap "signal_handler" SIGINT
 case $1 in
 dd)
 	dd_
+	;;
+neg_dentry)
+	neg_dentry_
 	;;
 *)
 	usage
