@@ -6,6 +6,15 @@ OUTPUT_FILE=data.out
 OUTPUT_FILE2=data2.out
 
 ###############################################################################
+check_root()
+{
+	if [ $(id -G | awk '{print $1}') != 0 ]; then
+		echo -e "\033[1;31mOnly root can do this.\033[m"
+		exit 1
+	fi
+}
+
+###############################################################################
 # TEST dd
 dd_output_()
 {
@@ -80,6 +89,7 @@ memory_mount=/tmp/memory__mnt_dir
 memory_block=block
 memory_clean_()
 {
+	check_root
 	while test -d $memory_mount
 	do
 		sudo umount $memory_mount
@@ -96,6 +106,7 @@ malloc_()
 }
 free_()
 {
+	check_root
 	rm $memory_mount/$memory_block
 	sudo umount $memory_mount
 	rmdir $memory_mount
@@ -142,6 +153,7 @@ get_random_()
 }
 random_loop_()
 {
+	check_root
 	echo "Test all, hit ctrl-c to end."
 	for ((i=0;i<$test_num;i++))
 	do
@@ -221,10 +233,6 @@ trap "signal_handler" SIGINT
 
 ###############################################################################
 # __main__
-if [ $(id -G | awk '{print $1}') != 0 ]; then
-	echo "Only root can do this."
-	exit 1
-fi
 
 logo_mark
 
