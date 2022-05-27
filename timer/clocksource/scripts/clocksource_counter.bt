@@ -1,0 +1,15 @@
+#!/bin/env bpftrace
+/**
+ * File: clocksource_counter.bt
+ * Author: Rong Tao <rongtao@cestc.cn>
+ * Date: 2022.05.27
+ *
+ */
+#include <linux/clocksource.h>
+
+BEGIN
+{
+	$counter = (struct clocksource*)kaddr("clocksource_counter");
+	printf("NAME: %s\n", str($counter->name));
+	exit();
+}
