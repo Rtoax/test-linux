@@ -3,6 +3,7 @@
 # Rong Tao <rongtao@cestc.cn>
 
 OUTPUT_FILE=data.out
+OUTPUT_FILE2=data2.out
 
 ###############################################################################
 # TEST dd
@@ -12,7 +13,7 @@ dd_output_()
 }
 dd_input_()
 {
-	test -f $OUTPUT_FILE && dd if=$OUTPUT_FILE of=/dev/null bs=1M count=100
+	test -f $OUTPUT_FILE && dd if=$OUTPUT_FILE of=$OUTPUT_FILE2 bs=1M count=100
 }
 dd_loop_()
 {
@@ -92,7 +93,8 @@ random_loop_()
 signal_handler()
 {
 	echo "Catch SIG"
-	rm -f $OUTPUT_FILE
+	rm -f $OUTPUT_FILE \
+		$OUTPUT_FILE2
 	rm -rf /tmp/test____dir*
 	pkill iperf3
 	exit 0
