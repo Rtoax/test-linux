@@ -60,9 +60,10 @@ iperf3_()
 	test ! -f /usr/bin/iperf3 && echo "Install iperf3 first" && exit 1
 	NUMABIND_SERVER=""
 	NUMABIND_CLIENT=""
-	[ $numa_num > 0 ] && NUMABIND_SERVER="numactl --cpunodebind=0 --membind=0"
-	[ $numa_num > 0 ] && NUMABIND_CLIENT="numactl --cpunodebind=1 --membind=1"
+	test $numa_num -gt 1 && NUMABIND_SERVER="numactl --cpunodebind=0 --membind=0"
+	test $numa_num -gt 1 && NUMABIND_CLIENT="numactl --cpunodebind=1 --membind=1"
 	$NUMABIND_SERVER timeout $iperf3_timeout iperf3 -s >/dev/null &
+	sleep 0.05
 	$NUMABIND_CLIENT timeout $iperf3_timeout iperf3 -c 0 >/dev/null
 }
 
