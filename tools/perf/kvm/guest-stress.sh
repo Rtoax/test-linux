@@ -48,11 +48,25 @@ dentry_loop_()
 	done
 }
 
+###############################################################################
+iperf3_timeout=2
+iperf3_()
+{
+	test ! -f /usr/bin/iperf3 && echo "Install iperf3 first" && exit 1
+	timeout $iperf3_timeout iperf3 -s >/dev/null &
+	timeout $iperf3_timeout iperf3 -c 0 >/dev/null
+}
 ##
 ###############################################################################
 # Set all test here.
 #
-test_list=(dd_input_ dd_output_ neg_dentry_ mkdir_cd_rmdir_)
+test_list=(\
+	dd_input_ \
+	dd_output_ \
+	neg_dentry_ \
+	mkdir_cd_rmdir_ \
+	iperf3_ \
+)
 test_num=${#test_list[@]}
 
 ###############################################################################
@@ -80,6 +94,7 @@ signal_handler()
 	echo "Catch SIG"
 	rm -f $OUTPUT_FILE
 	rm -rf /tmp/test____dir*
+	pkill iperf3
 	exit 0
 }
 
@@ -94,6 +109,7 @@ usage guest-stress [OPT]
 [OPT]
           dd	- Write/Read a file to/from disk.
       dentry	- Generate/Access/Remove dentry.
+      iperf3	- Test Localhost iperf3 for 2 seconds.
          ALL	- Random test all above.
 
  All test is RUNNING FOREVER, hit ctrl-C to end.
@@ -112,6 +128,9 @@ dd)
 	;;
 dentry)
 	dentry_loop_
+	;;
+iperf3)
+	iperf3_
 	;;
 ALL)
 	random_loop_
