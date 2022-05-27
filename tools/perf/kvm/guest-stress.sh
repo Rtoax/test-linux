@@ -69,6 +69,14 @@ yes_for_each_numa_()
 		numactl --cpunodebind=$i --membind=$i timeout 3 yes >/dev/null &
 	done
 }
+yes_loop_()
+{
+	while :
+	do
+		yes_for_each_numa_
+		sleep 2
+	done
+}
 
 ###############################################################################
 iperf3_timeout=2
@@ -184,7 +192,7 @@ signal_handler()
 	rm -rf /tmp/test____dir*
 	pkill iperf3
 	pkill yes
-	memory_clean_
+	test -f .test_count/malloc_free_ && memory_clean_
 	# Print function count
 	echo -e "\033[1;31m==== TEST COUNT ====\033[m"
 	for func in $(ls .test_count)
@@ -247,7 +255,7 @@ iperf3)
 	iperf3_
 	;;
 yes)
-	yes_for_each_numa_
+	yes_loop_
 	;;
 memory)
 	memory_loop_
