@@ -69,11 +69,21 @@ yes_for_each_numa_()
 		numactl --cpunodebind=$i --membind=$i timeout 3 yes >/dev/null &
 	done
 }
+yes_for_each_cpu_()
+{
+	test ! -f /usr/bin/taskset && echo "Install util-linux-core(taskset) first" && exit 1
+	for ((i=0; i<$(nproc); i++))
+	do
+		taskset -c $i timeout 3 yes >/dev/null &
+	done
+}
 yes_loop_()
 {
 	while :
 	do
 		yes_for_each_numa_
+		sleep 2
+		yes_for_each_cpu_
 		sleep 2
 	done
 }
@@ -234,7 +244,8 @@ usage guest-stress [OPT]
           dd	- Write/Read a file to/from disk.
       dentry	- Generate/Access/Remove dentry.
       iperf3	- Test Localhost iperf3 for 2 seconds.
-         yes	- Exec 'yes' for 3 seconds in background on each numa node.
+         yes	- Exec 'yes' for 3 seconds in background on each numa node or
+            	  each CPU.
       memory	- Malloc/Free test with tmpfs.
          ALL	- Random test all above.
 
