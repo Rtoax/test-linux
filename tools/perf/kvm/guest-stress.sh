@@ -149,9 +149,35 @@ test_list=(\
 )
 test_num=${#test_list[@]}
 
+###############################################################################
 # Record test
-test -d .test_count && rm -rf .test_count
-mkdir .test_count
+create_func_count()
+{
+	mkdir .test_count
+}
+clean_func_count()
+{
+	test -d .test_count && rm -rf .test_count
+}
+record_func_count()
+{
+	func=$1
+	local cnt=0
+
+	# Statistic function call count.
+	test -f .test_count/$func && cnt=`cat .test_count/$func`
+	cnt=$[ $cnt + 1 ]
+	echo $cnt > .test_count/$func
+}
+print_func_count()
+{
+	# Print function count
+	echo -e "\033[1;31m==== TEST COUNT ====\033[m"
+	for func in $(ls .test_count)
+	do
+		echo -e "$func \t\t $(cat .test_count/$func)"
+	done
+}
 
 ###############################################################################
 # TEST random
@@ -171,15 +197,11 @@ random_loop_()
 	while :
 	do
 		local idx=`get_random_`
-		local cnt=0
 
 		# TEST
 		${test_list[$idx]} 2>/dev/null
 
-		# Statistic function call count.
-		test -f .test_count/${test_list[$idx]} && cnt=`cat .test_count/${test_list[$idx]}`
-		cnt=$[ $cnt + 1 ]
-		echo $cnt > .test_count/${test_list[$idx]}
+		record_func_count ${test_list[$idx]}
 	done
 }
 
@@ -192,14 +214,11 @@ signal_handler()
 	rm -rf /tmp/test____dir*
 	pkill iperf3
 	pkill yes
+
 	test -f .test_count/malloc_free_ && memory_clean_
-	# Print function count
-	echo -e "\033[1;31m==== TEST COUNT ====\033[m"
-	for func in $(ls .test_count)
-	do
-		echo -e "$func \t\t $(cat .test_count/$func)"
-	done
-	rm -rf .test_count
+
+	print_func_count
+	clean_func_count
 	exit 0
 }
 
@@ -243,6 +262,10 @@ trap "signal_handler" SIGINT
 # __main__
 
 logo_mark
+
+clean_func_count
+create_func_count
+
 
 case $1 in
 dd)
