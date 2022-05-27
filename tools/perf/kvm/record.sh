@@ -1,5 +1,16 @@
 #!/bin/bash
 
-pid=1
-perf kvm --host -o perf.data stat record -p $pid
-perf kvm -i perf.data stat report
+kvm_record_host()
+{
+	pid=$1
+	sudo perf kvm --host -o perf.data stat record -p $pid
+	sudo perf kvm -i perf.data stat report
+}
+
+stat_cache_misses()
+{
+	pid=$1
+	sudo perf stat -e L1-dcache-load-misses,L1-icache-load-misses,LLC-load-misses,LLC-store-misses,cache-misses,branch-misses,branch-load-misses,dTLB-load-misses,dTLB-store-misses,iTLB-load-misses,node-load-misses,node-store-misses -p $pid
+}
+
+stat_cache_misses $@
