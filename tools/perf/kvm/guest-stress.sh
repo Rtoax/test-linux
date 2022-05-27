@@ -52,6 +52,10 @@ dentry_loop_()
 ###############################################################################
 numa_num=$(numactl --hardware | grep available | awk '{print $2}')
 
+yes_()
+{
+	timeout 3 yes >/dev/null &
+}
 
 ###############################################################################
 iperf3_timeout=2
@@ -78,6 +82,7 @@ test_list=(\
 	neg_dentry_ \
 	mkdir_cd_rmdir_ \
 	iperf3_ \
+	yes_ \
 )
 test_num=${#test_list[@]}
 
@@ -123,6 +128,7 @@ usage guest-stress [OPT]
           dd	- Write/Read a file to/from disk.
       dentry	- Generate/Access/Remove dentry.
       iperf3	- Test Localhost iperf3 for 2 seconds.
+         yes	- Exec 'yes' for 3 seconds in background.
          ALL	- Random test all above.
 
  All test is RUNNING FOREVER, hit ctrl-C to end.
@@ -144,6 +150,9 @@ dentry)
 	;;
 iperf3)
 	iperf3_
+	;;
+yes)
+	yes_
 	;;
 ALL)
 	random_loop_
