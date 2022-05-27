@@ -75,7 +75,46 @@ iperf3_()
 	$NUMABIND_CLIENT timeout $iperf3_timeout iperf3 -c 0 >/dev/null
 }
 
-
+###############################################################################
+memory_mount=/tmp/memory__mnt_dir
+memory_block=block
+memory_clean_()
+{
+	while test -d $memory_mount
+	do
+		sudo umount $memory_mount
+		rmdir $memory_mount
+	done
+}
+malloc_()
+{
+	memory_clean_
+	mkdir -p $memory_mount
+	sudo mount -t tmpfs -o size=100M tmpfs $memory_mount
+	# malloc(100M)
+	dd if=/dev/random of=$memory_mount/$memory_block bs=1M count=99
+}
+free_()
+{
+	rm $memory_mount/$memory_block
+	sudo umount $memory_mount
+	rmdir $memory_mount
+}
+malloc_free_()
+{
+	malloc_
+	sleep 1
+	free_
+}
+memory_loop_()
+{
+	echo "Test memory, hit ctrl-c to end."
+	while :
+	do
+		malloc_
+		free_
+	done
+}
 ##
 ###############################################################################
 # Set all test here.
@@ -87,6 +126,7 @@ test_list=(\
 	mkdir_cd_rmdir_ \
 	iperf3_ \
 	yes_for_each_numa_ \
+	malloc_free_ \
 )
 test_num=${#test_list[@]}
 
@@ -116,7 +156,9 @@ signal_handler()
 	rm -f $OUTPUT_FILE \
 		$OUTPUT_FILE2
 	rm -rf /tmp/test____dir*
-	pkill iperf3 yes
+	pkill iperf3
+	pkill yes
+	memory_clean_
 	exit 0
 }
 
@@ -133,6 +175,7 @@ usage guest-stress [OPT]
       dentry	- Generate/Access/Remove dentry.
       iperf3	- Test Localhost iperf3 for 2 seconds.
          yes	- Exec 'yes' for 3 seconds in background on each numa node.
+      memory	- Malloc/Free test with tmpfs.
          ALL	- Random test all above.
 
  All test is RUNNING FOREVER, hit ctrl-C to end.
@@ -157,6 +200,9 @@ iperf3)
 	;;
 yes)
 	yes_for_each_numa_
+	;;
+memory)
+	memory_loop_
 	;;
 ALL)
 	random_loop_
