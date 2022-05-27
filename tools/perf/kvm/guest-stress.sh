@@ -130,6 +130,10 @@ test_list=(\
 )
 test_num=${#test_list[@]}
 
+# Record test
+test -d .test_count && rm -rf .test_count
+mkdir .test_count
+
 ###############################################################################
 # TEST random
 get_random_()
@@ -143,9 +147,19 @@ random_loop_()
 	do
 		echo ${test_list[$i]}
 	done
+
 	while :
 	do
-		${test_list[`get_random_`]} 2>/dev/null
+		local idx=`get_random_`
+		local cnt=0
+
+		# TEST
+		${test_list[$idx]} 2>/dev/null
+
+		# Statistic function call count.
+		test -f .test_count/${test_list[$idx]} && cnt=`cat .test_count/${test_list[$idx]}`
+		cnt=$[ $cnt + 1 ]
+		echo $cnt > .test_count/${test_list[$idx]}
 	done
 }
 
@@ -159,6 +173,13 @@ signal_handler()
 	pkill iperf3
 	pkill yes
 	memory_clean_
+	# Print function count
+	echo -e "\033[1;31m==== TEST COUNT ====\033[m"
+	for func in $(ls .test_count)
+	do
+		echo -e "$func \t\t $(cat .test_count/$func)"
+	done
+	rm -rf .test_count
 	exit 0
 }
 
@@ -182,12 +203,26 @@ usage guest-stress [OPT]
 EOF
 	exit ${1-0}
 }
+logo_mark()
+{
+cat<<'EOF'
+
+████████ ███████ ███████ ████████      ██████  ██    ██ ███████ ███████ ████████  ██████  ███████
+   ██    ██      ██         ██        ██       ██    ██ ██      ██         ██    ██    ██ ██
+   ██    █████   ███████    ██        ██   ███ ██    ██ █████   ███████    ██    ██    ██ ███████
+   ██    ██           ██    ██        ██    ██ ██    ██ ██           ██    ██    ██    ██      ██
+   ██    ███████ ███████    ██         ██████   ██████  ███████ ███████    ██     ██████  ███████
+
+EOF
+}
 
 trap "echo Goodbye..." EXIT
 trap "signal_handler" SIGINT
 
 ###############################################################################
 # __main__
+logo_mark
+
 case $1 in
 dd)
 	dd_loop_
