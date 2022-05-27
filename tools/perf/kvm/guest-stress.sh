@@ -50,13 +50,23 @@ dentry_loop_()
 }
 
 ###############################################################################
+numa_num=$(numactl --hardware | grep available | awk '{print $2}')
+
+
+###############################################################################
 iperf3_timeout=2
 iperf3_()
 {
 	test ! -f /usr/bin/iperf3 && echo "Install iperf3 first" && exit 1
-	timeout $iperf3_timeout iperf3 -s >/dev/null &
-	timeout $iperf3_timeout iperf3 -c 0 >/dev/null
+	NUMABIND_SERVER=""
+	NUMABIND_CLIENT=""
+	[ $numa_num > 0 ] && NUMABIND_SERVER="numactl --cpunodebind=0 --membind=0"
+	[ $numa_num > 0 ] && NUMABIND_CLIENT="numactl --cpunodebind=1 --membind=1"
+	$NUMABIND_SERVER timeout $iperf3_timeout iperf3 -s >/dev/null &
+	$NUMABIND_CLIENT timeout $iperf3_timeout iperf3 -c 0 >/dev/null
 }
+
+
 ##
 ###############################################################################
 # Set all test here.
