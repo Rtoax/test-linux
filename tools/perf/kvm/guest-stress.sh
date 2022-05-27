@@ -52,9 +52,13 @@ dentry_loop_()
 ###############################################################################
 numa_num=$(numactl --hardware | grep available | awk '{print $2}')
 
-yes_()
+yes_for_each_numa_()
 {
-	timeout 3 yes >/dev/null &
+	test ! -f /usr/bin/numactl && echo "Install numactl first" && exit 1
+	for ((i=0; i<$numa_num; i++))
+	do
+		numactl --cpunodebind=$i --membind=$i timeout 3 yes >/dev/null &
+	done
 }
 
 ###############################################################################
@@ -82,7 +86,7 @@ test_list=(\
 	neg_dentry_ \
 	mkdir_cd_rmdir_ \
 	iperf3_ \
-	yes_ \
+	yes_for_each_numa_ \
 )
 test_num=${#test_list[@]}
 
@@ -112,7 +116,7 @@ signal_handler()
 	rm -f $OUTPUT_FILE \
 		$OUTPUT_FILE2
 	rm -rf /tmp/test____dir*
-	pkill iperf3
+	pkill iperf3 yes
 	exit 0
 }
 
@@ -128,7 +132,7 @@ usage guest-stress [OPT]
           dd	- Write/Read a file to/from disk.
       dentry	- Generate/Access/Remove dentry.
       iperf3	- Test Localhost iperf3 for 2 seconds.
-         yes	- Exec 'yes' for 3 seconds in background.
+         yes	- Exec 'yes' for 3 seconds in background on each numa node.
          ALL	- Random test all above.
 
  All test is RUNNING FOREVER, hit ctrl-C to end.
@@ -152,7 +156,7 @@ iperf3)
 	iperf3_
 	;;
 yes)
-	yes_
+	yes_for_each_numa_
 	;;
 ALL)
 	random_loop_
