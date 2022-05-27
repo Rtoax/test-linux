@@ -221,6 +221,11 @@ trap "signal_handler" SIGINT
 
 ###############################################################################
 # __main__
+if [ $(id -G | awk '{print $1}') != 0 ]; then
+	echo "Only root can do this."
+	exit 1
+fi
+
 logo_mark
 
 case $1 in
