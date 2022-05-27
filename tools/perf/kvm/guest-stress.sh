@@ -8,7 +8,7 @@ OUTPUT_FILE=data.out
 # TEST dd
 dd_output_()
 {
-	dd if=/dev/zero of=$OUTPUT_FILE bs=1M count=100
+	dd if=/dev/random of=$OUTPUT_FILE bs=1M count=100
 }
 dd_input_()
 {
