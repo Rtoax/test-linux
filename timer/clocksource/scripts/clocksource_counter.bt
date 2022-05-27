@@ -6,10 +6,14 @@
  *
  */
 #include <linux/clocksource.h>
+#ifndef CONFIG_ARM64
+# error "Not support arch"
+#endif
 
 BEGIN
 {
 	$counter = (struct clocksource*)kaddr("clocksource_counter");
 	printf("NAME: %s\n", str($counter->name));
+	printf("RATING: %d\n", $counter->rating);
 	exit();
 }
