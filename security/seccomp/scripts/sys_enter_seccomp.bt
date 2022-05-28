@@ -1,0 +1,32 @@
+#!/bin/env bpftrace
+/**
+ * File: sys_enter_seccomp.bt
+ * Author: Rong Tao <rongtao@cestc.cn>
+ * Date: 2022.05.28
+ *
+ */
+#include <uapi/linux/prctl.h>
+
+BEGIN
+{
+	@modes[0] = "DISABLE"; // SECCOMP_MODE_DISABLED
+	@modes[1] = " STRICT"; // SECCOMP_MODE_STRICT
+	@modes[2] = " FILTER"; // SECCOMP_MODE_FILTER
+}
+
+tracepoint:syscalls:sys_enter_prctl
+/args->option == PR_SET_SECCOMP/
+{
+	$seccomp_mode = args->arg2;
+	printf("OPTIONE = %s\n", @modes[$seccomp_mode]);
+}
+
+tracepoint:syscalls:sys_enter_seccomp
+{
+	printf("OP: %d\n", args->op);
+}
+
+END
+{
+	clear(@modes);
+}
