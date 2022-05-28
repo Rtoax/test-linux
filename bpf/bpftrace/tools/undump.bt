@@ -4,6 +4,7 @@
 // UNIX socket STREAM 抓包
 // 2021年7月8日
 // 内核版本: 3.10.0-1062.el7.x86_64
+// 解决方法：https://github.com/iovisor/bpftrace/pull/2225
 
 #include <linux/aio.h>
 #include <linux/socket.h>
