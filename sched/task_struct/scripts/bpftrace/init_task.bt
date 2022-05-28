@@ -1,0 +1,15 @@
+#!/bin/env bpftrace
+/**
+ * File: init_task.bt
+ * Author: Rong Tao <rongtao@cestc.cn>
+ * Date: 2022.05.28
+ *
+ */
+#include <linux/sched.h>
+
+BEGIN
+{
+	$init = (struct task_struct *)kaddr("init_task");
+	printf("init_task.comm = %s\n", $init->comm);
+	exit();
+}
