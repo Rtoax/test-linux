@@ -1,0 +1,22 @@
+#!/bin/env bpftrace
+/**
+ * File:
+ * Author:
+ * Date:
+ *
+ * Description:
+ * Ref:
+ */
+#include <linux/sched.h>
+
+BEGIN
+{
+	printf("Tracing xxx, hit ctrl-c to end.\n");
+}
+
+/* kprobe/kretprobe/kfunc/kretfunc/tracepoint/usdt, etc. */
+
+END
+{
+	printf("Bye.\n");
+}
