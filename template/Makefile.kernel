@@ -1,6 +1,5 @@
 
-obj-m += a.o
-obj-m += b.o
+obj-m += main.kernel.o
 
 KERNELDIR ?= /lib/modules/$(shell uname -r)/build
 

@@ -1,7 +1,6 @@
 
 TARGETS= \
-	a.out \
-	b.out
+	main.user.out
 
 DEBUG = yes
 SRC_PATH := $(shell pwd)
