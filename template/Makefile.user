@@ -3,6 +3,14 @@ TARGETS= \
 	a.out \
 	b.out
 
+DEBUG = yes
+SRC_PATH := $(shell pwd)
+CC = clang
+
+ifdef DEBUG
+CFLAGS += -DDEBUG -O0 -g
+endif
+
 build: ${TARGETS}
 	@echo
 	@echo -e " \033[1;33m xxx \033[m"
