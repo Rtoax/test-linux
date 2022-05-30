@@ -9,7 +9,8 @@ kvm_record_host()
 
 stat_cache_misses_0()
 {
-	sudo perf stat -e cache-misses -p 2373960
+	pid=$1
+	sudo perf stat -e cache-misses -p $pid
 }
 
 stat_cache_misses_1()
@@ -20,4 +21,4 @@ stat_cache_misses_1()
 
 }
 
-stat_cache_misses $@
+stat_cache_misses_0 $@
