@@ -1,3 +1,7 @@
+/**
+ * File: test.S
+ * Output: 'h' 'e' 'l' 'l' 'o' '\n'
+ */
 start:
 	mov	$0x48, %al
 	outb	%al, $0xf1

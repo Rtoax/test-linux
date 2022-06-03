@@ -12,6 +12,8 @@
 #include <sys/mman.h>
 #include <linux/kvm.h>
 
+#define MEM_SIZE 0x1000
+
 int main()
 {
 	struct kvm_sregs sregs;
@@ -33,13 +35,13 @@ int main()
 		return -1;
 	}
 
-	ram = mmap(NULL, 0x1000, PROT_READ | PROT_WRITE, MAP_SHARED | MAP_ANONYMOUS, -1, 0);
+	ram = mmap(NULL, MEM_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED | MAP_ANONYMOUS, -1, 0);
 	kfd = open("test.bin", O_RDONLY);
 	if (kfd <= 0) {
 		perror("open(test.bin)");
 		return -1;
 	}
-	ret = read(kfd, ram, 4096);
+	ret = read(kfd, ram, MEM_SIZE);
 	if (ret <= 0) {
 		perror("read(test.bin)");
 		return -1;
@@ -48,7 +50,7 @@ int main()
 	struct kvm_userspace_memory_region mem = {
 		.slot = 0,
 		.guest_phys_addr = 0,
-		.memory_size = 0x1000,
+		.memory_size = MEM_SIZE,
 		.userspace_addr = (unsigned long)ram,
 	};
 
@@ -62,11 +64,13 @@ int main()
 	mmap_size = ioctl(kvmfd, KVM_GET_VCPU_MMAP_SIZE, NULL);
 
 	run = mmap(NULL, mmap_size, PROT_READ | PROT_WRITE, MAP_SHARED, vcpufd, 0);
+
 	ret = ioctl(vcpufd, KVM_GET_SREGS, &sregs);
 	sregs.cs.base = 0;
 	sregs.cs.selector = 0;
 	ret = ioctl(vcpufd, KVM_SET_SREGS, &sregs);
 	struct kvm_regs regs = {
+		/* Running from 'start:' in test.S */
 		.rip = 0,
 	};
 	ret = ioctl(vcpufd, KVM_SET_REGS, &regs);
