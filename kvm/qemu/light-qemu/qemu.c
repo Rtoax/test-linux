@@ -1,3 +1,10 @@
+/**
+ * File: qemu.c
+ * Author: Qiang Li
+ * Recode: Rong Tao <rongtao@cestc.cn>
+ * Date: 2022.06.03
+ *
+ */
 #include <fcntl.h>
 #include <stdio.h>
 #include <unistd.h>
