@@ -75,7 +75,7 @@ int main()
 				puts("KVM_EXIT_HLT");
 				return 0;
 			case KVM_EXIT_IO:
-				putchar(*((char *)run) + run->io.data_offset);
+				putchar(*(((char *)run) + run->io.data_offset));
 				break;
 			case KVM_EXIT_FAIL_ENTRY:
 				puts("entry error.");
