@@ -5,4 +5,7 @@
 虚拟机的 Firmware(如 SeaBIOS) 可以根据这些数据进行相应的配置。Qemu 提供了所谓 Firmware Configuration(`fw_cfg`)
 Device 机制来完成这项工作。
 
+# /sys/firmware/qemu_fw_cfg/
+
+In GuestOS `/sys/firmware/qemu_fw_cfg` has `fw_cfg` informations.
 
