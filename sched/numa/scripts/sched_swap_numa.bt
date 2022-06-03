@@ -1,0 +1,22 @@
+#!/usr/bin/env bpftrace
+/**
+ * File: sched_swap_numa.bt
+ * Author: Rong Tao <rongtao@cestc.cn>
+ * Date: 2022.06.03
+ *
+ */
+
+BEGIN
+{
+	printf("Tracing sched_swap_numa, hit ctrl-c to end.\n");
+	printf("%-8s %-8s %-8s %-8s %-8s %-8s %-8s\n",
+		"TIME", "S_NUMA", "S_CPU", "S_TGID", "D_NUMA", "D_CPU", "D_TGID");
+}
+
+tracepoint:sched:sched_swap_numa
+{
+	time("%H:%M:%S ");
+	printf("%-8d %-8d %-8d %-8d %-8d %-8d\n",
+		args->src_nid, args->src_cpu, args->src_tgid,
+		args->dst_nid, args->dst_cpu, args->dst_tgid);
+}
