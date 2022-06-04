@@ -14,6 +14,10 @@
 
 #define MEM_SIZE 0x1000
 
+#if !defined(__x86_64__)
+# error "Not support arch, just x86_64 now."
+#endif
+
 int main()
 {
 	struct kvm_sregs sregs;
@@ -66,12 +70,16 @@ int main()
 	run = mmap(NULL, mmap_size, PROT_READ | PROT_WRITE, MAP_SHARED, vcpufd, 0);
 
 	ret = ioctl(vcpufd, KVM_GET_SREGS, &sregs);
+#if defined(__x86_64__)
 	sregs.cs.base = 0;
 	sregs.cs.selector = 0;
+#endif
 	ret = ioctl(vcpufd, KVM_SET_SREGS, &sregs);
 	struct kvm_regs regs = {
 		/* Running from 'start:' in test.S */
+#if defined(__x86_64__)
 		.rip = 0,
+#endif
 	};
 	ret = ioctl(vcpufd, KVM_SET_REGS, &regs);
 
