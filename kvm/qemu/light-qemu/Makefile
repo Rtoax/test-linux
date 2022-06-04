@@ -1,8 +1,17 @@
 
+ARCH=$(shell uname -m)
+
+ifeq (${ARCH},x86_64)
+TEST_SRC=test-x86_64.S
+AS_FLAGS=-32
+endif
+
+QEMU_SRC=qemu.c
+
 all:
-	as -32 test.S -o test.o
+	as ${AS_FLAGS} ${TEST_SRC} -o test.o
 	objcopy -O binary test.o test.bin
-	gcc qemu.c -o light-qemu.out
+	gcc ${QEMU_SRC} -o light-qemu.out
 
 clean:
 	rm -f test.o test.bin light-qemu.out
