@@ -1,0 +1,17 @@
+#!/bin/env bpftrace
+/**
+ * File: kvm_vcpu_ioctl.bt
+ * Author: Rong Tao <rongtao@cestc.cn>
+ * Date: 2022.06.05
+ *
+ */
+BEGIN
+{
+	printf("Tracing qemu:kvm_vcpu_ioctl, hit ctrl-c to end.\n");
+}
+
+uprobe:/usr/libexec/qemu-kvm:kvm_vcpu_ioctl
+{
+	time("%H:%M:%S ");
+	printf("kvm_vcpu_ioctl\n")
+}
