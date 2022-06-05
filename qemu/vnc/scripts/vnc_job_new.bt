@@ -1,0 +1,18 @@
+#!/bin/env bpftrace
+/**
+ * File: vnc_job_new.bt
+ * Author: Rong Tao <rongtao@cestc.cn>
+ * Date: 2022.06.05
+ *
+ * When VNC Viewer linked, some operation cause vnc_job_new() called.
+ */
+BEGIN
+{
+	printf("Tracing qemu:vnc_job_new, hit ctrl-c to end.\n");
+}
+
+uprobe:/usr/libexec/qemu-kvm:vnc_job_new
+{
+	time("%H:%M:%S ");
+	printf("vnc_job_new\n")
+}
