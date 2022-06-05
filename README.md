@@ -8,7 +8,13 @@ test linux code
 > Windows OS.
 > 
 > In directory `modules` store some API demos.
-> You'd better rename any of folder and file's name.
+> You'd better don't rename any of folder and file's name.
+
+# Linux Kernel Git
+
+* [https://github.com/torvalds/linux](https://github.com/torvalds/linux)
+* [git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git](git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git)
+* [git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git](git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git)
 
 # Relate Repos
 
@@ -24,7 +30,7 @@ test linux code
 
 # Linux Version
 
-linux >= 5.0, some time 5.14 will successful.
+`linux >= 5.0`, some time 5.14 will successful.
 You can use the following macro
 
 ```c
@@ -43,6 +49,7 @@ You can use the following macro
 * Each `scripts/bpftrace` directory contain bpftrace scriptions.
 * Each `modules` directory contain Linux Modules(KO) source code.
 * Each `selftests` directory from linux source code.
+* Each `samples` directory contain source userspace code.
 
 # About
 
