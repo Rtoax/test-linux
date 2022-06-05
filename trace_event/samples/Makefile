@@ -1,7 +1,6 @@
 
-obj-m += trace-events-sample.o
 
-all:
+kbuild:
 	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
 
 clean:

@@ -514,9 +514,11 @@ DEFINE_EVENT_PRINT(foo_template, foo_with_template_print,
  * then we could risk that being converted too, and give us an unexpected
  * result.
  */
+#if 0 // See 'Kbuild' file.
 #undef TRACE_INCLUDE_PATH
 #undef TRACE_INCLUDE_FILE
 #define TRACE_INCLUDE_PATH .
+#endif
 /*
  * TRACE_INCLUDE_FILE is not needed if the filename and TRACE_SYSTEM are equal
  */
