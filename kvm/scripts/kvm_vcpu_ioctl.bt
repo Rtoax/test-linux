@@ -1,0 +1,47 @@
+#!/bin/env bpftrace
+/**
+ * File: kvm_vcpu_ioctl.bt
+ * Author: Rong Tao <rongtao@cestc.cn>
+ * Date: 2022.06.05
+ *
+ */
+BEGIN
+{
+	@ioctls[0x000000000000ae80] = "            KVM_RUN";
+	@ioctls[0x000000008090ae81] = "       KVM_GET_REGS";
+	@ioctls[0x000000004090ae82] = "       KVM_SET_REGS";
+	@ioctls[0x000000008138ae83] = "      KVM_GET_SREGS";
+	@ioctls[0x000000004138ae84] = "      KVM_SET_SREGS";
+	@ioctls[0x000000008004ae98] = "   KVM_GET_MP_STATE";
+	@ioctls[0x000000004004ae99] = "   KVM_SET_MP_STATE";
+	@ioctls[0x00000000c018ae85] = "      KVM_TRANSLATE";
+	@ioctls[0x000000004048ae9b] = "KVM_SET_GUEST_DEBUG";
+	@ioctls[0x000000004004ae8b] = "KVM_SET_SIGNAL_MASK";
+	@ioctls[0x0000000081a0ae8c] = "        KVM_GET_FPU";
+	@ioctls[0x0000000041a0ae8d] = "        KVM_SET_FPU";
+
+	printf("Tracing kvm_vcpu_ioctl, hit ctrl-c to end.\n");
+	printf("%-8s %-16s %-8s %-8s\n", "TIME", "COMM", "PID", "IOCTL");
+}
+
+kprobe:kvm_vcpu_ioctl
+{
+	time("%H:%M:%S ");
+	$ioctl = arg1;
+	printf("%-16s %-8d %-8lx\n", comm, pid, $ioctl);
+	@start[pid] = nsecs;
+	@ioctl_count[@ioctls[$ioctl]] = count();
+}
+
+kretprobe:kvm_vcpu_ioctl
+/@start[pid]/
+{
+	@hist = hist((nsecs - @start[pid]) / 1000);
+	delete(@start[pid]);
+}
+
+END
+{
+	clear(@ioctls);
+	clear(@start);
+}
