@@ -13,5 +13,5 @@ BEGIN
 uprobe:/usr/libexec/qemu-kvm:kvm_vcpu_ioctl
 {
 	time("%H:%M:%S ");
-	printf("kvm_vcpu_ioctl\n")
+	printf("kvm_vcpu_ioctl\n");
 }
