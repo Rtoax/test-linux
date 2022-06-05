@@ -33,6 +33,10 @@ static void simple_thread_func(int cnt)
 	array[i] = 0;
 
 	/* Silly tracepoints */
+	/**
+	 * Tracing with:
+	 * sudo bpftrace -e 'tracepoint:sample-trace:foo_bar{ ... }'
+	 */
 	trace_foo_bar("hello", cnt, array, random_strings[len],
 		      current->cpus_ptr);
 
@@ -94,7 +98,7 @@ int foo_bar_reg(void)
 	 * for consistency sake, we still take the thread_mutex.
 	 */
 	simple_tsk_fn = kthread_run(simple_thread_fn, NULL, "event-sample-fn");
- out:
+out:
 	mutex_unlock(&thread_mutex);
 	return 0;
 }
@@ -109,7 +113,7 @@ void foo_bar_unreg(void)
 	if (simple_tsk_fn)
 		kthread_stop(simple_tsk_fn);
 	simple_tsk_fn = NULL;
- out:
+out:
 	mutex_unlock(&thread_mutex);
 }
 
