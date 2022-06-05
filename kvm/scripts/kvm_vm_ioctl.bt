@@ -1,0 +1,40 @@
+#!/bin/env bpftrace
+/**
+ * File: kvm_vm_ioctl.bt
+ * Author: Rong Tao <rongtao@cestc.cn>
+ * Date: 2022.06.05
+ *
+ */
+#include <uapi/linux/kvm.h>
+
+BEGIN
+{
+	@ioctls[0x000000000000ae41] = "    KVM_CREATE_VCPU";
+	@ioctls[0x000000004020aea5] = "     KVM_SIGNAL_MSI";
+	@ioctls[0x00000000c008ae67] = "KVM_IRQ_LINE_STATUS";
+
+	printf("Tracing kvm_vm_ioctl, hit ctrl-c to end.\n");
+	printf("%-8s %-16s %-8s %-8s\n", "TIME", "COMM", "PID", "IOCTL");
+}
+
+kprobe:kvm_vm_ioctl
+{
+	time("%H:%M:%S ");
+	$ioctl = arg1;
+	printf("%-16s %-8d %-8lx\n", comm, pid, $ioctl);
+	@start[pid] = nsecs;
+	@ioctl_count[@ioctls[$ioctl]] = count();
+}
+
+kretprobe:kvm_vm_ioctl
+/@start[pid]/
+{
+	@hist = hist((nsecs - @start[pid]) / 1000);
+	delete(@start[pid]);
+}
+
+END
+{
+	clear(@ioctls);
+	clear(@start);
+}
