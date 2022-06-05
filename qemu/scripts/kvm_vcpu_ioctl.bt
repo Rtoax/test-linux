@@ -5,13 +5,38 @@
  * Date: 2022.06.05
  *
  */
+struct CPUState {
+	// Add some elements and delete 'int a'
+	int a;
+};
+
 BEGIN
 {
 	printf("Tracing qemu:kvm_vcpu_ioctl, hit ctrl-c to end.\n");
+	printf("%-8s %-16s %-8s %-8s\n", "TIME", "COMM", "PID", "IOCTL");
 }
 
 uprobe:/usr/libexec/qemu-kvm:kvm_vcpu_ioctl
 {
 	time("%H:%M:%S ");
-	printf("kvm_vcpu_ioctl\n");
+	$cpu = (struct CPUState *)arg0;
+	$opt = arg1;
+	printf("%-16s %-8d %-8d\n", comm, pid, $opt);
+
+	/* KVM_RUN: 44672 */
+	if ($opt == 44672) {
+		@start[pid] = nsecs;
+	}
+}
+
+uretprobe:/usr/libexec/qemu-kvm:kvm_vcpu_ioctl
+/@start[pid]/
+{
+	@hist[pid] = hist((nsecs - @start[pid]) / 1000);
+	delete(@start[pid]);
+}
+
+END
+{
+	clear(@start);
 }
