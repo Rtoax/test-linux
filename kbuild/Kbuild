@@ -1,3 +1,4 @@
-EXTRA_CFLAGS = -Wall -g
+EXTRA_CFLAGS = -Wall -g \
+		 -DCURRENT_PATH=\"$(PWD)\"
 
 obj-m        = hello.o

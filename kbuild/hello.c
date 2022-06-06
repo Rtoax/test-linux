@@ -9,6 +9,7 @@ MODULE_LICENSE("GPL");
 static int hello_init(void)
 {
 	printk("Hi, hello\n");
+	printk("CURRENT_PATH = %s\n", CURRENT_PATH);
 	return 0;
 }
 
