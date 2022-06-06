@@ -62,7 +62,7 @@ static void print_all_task_stack(void)
 		LOAD_INT(ptr_avenrun[2]), LOAD_FRAC(ptr_avenrun[2]));
 	printk("dump all task: balabala\n");
 
-  	rcu_read_lock();
+	rcu_read_lock();
 
 	printk("dump running task.\n");
 	do_each_thread(g, p) {

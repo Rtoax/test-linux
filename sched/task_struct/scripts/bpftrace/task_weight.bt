@@ -1,0 +1,28 @@
+#!/bin/env bpftrace
+/**
+ * File: weight.bt
+ * Author: Rong Tao <rongtao@cestc.cn>
+ * Date: 2022.06.06
+ *
+ */
+#include <linux/sched.h>
+
+BEGIN
+{
+	printf("Profile task weight, hit ctrl-c to end.\n");
+}
+
+profile:hz:99
+{
+	$task = (struct task_struct *)curtask;
+	$weight = $task->se.load.weight;
+
+	@W[$weight] = count();
+	@C[$task->comm] = count();
+}
+
+END
+{
+	print(@C, 10);
+	clear(@C);
+}

@@ -1,0 +1,42 @@
+#!/bin/env bpftrace
+/**
+ * File: runnable_avg_yN_inv.bt
+ * Author: Rong Tao <rongtao@cestc.cn>
+ * Date: 2022.06.06
+ *
+ */
+#include <linux/sched.h>
+
+BEGIN
+{
+	printf("Get runnable_avg_yN_inv[], hit ctrl-c to end.\n");
+
+	/**
+	 *  A     2^32 * A     A * (2^32 / B)
+	 * --- = ---------- = ----------------
+	 *  B     2^32 * B          2^32
+	 *
+	 *                           2^32
+	 *                     A * (------)
+	 *  A     2^32 * A             B
+	 * --- = ---------- = --------------
+	 *  B     2^32 * B         2^32
+	 *
+	 * 0-31: 0~32ms 的负载贡献的衰减因子
+	 * B: ms, 32ms -> runnable_avg_yN_inv[31]
+	 *    Load = (100 * runnable_avg_yN_inv[31]) >> 32 = 51;
+	 */
+	$avg_yN_inv = kaddr("runnable_avg_yN_inv");
+	$a0  = *$avg_yN_inv;
+	$a1  = *($avg_yN_inv + 4);
+	$a2  = *($avg_yN_inv + 8);
+	/* */
+	$a31 = *($avg_yN_inv + 124);
+
+	printf("avg_yN_inv[ 0] = 0x%08x\n", $a0);
+	printf("avg_yN_inv[ 1] = 0x%08x\n", $a1);
+	printf("avg_yN_inv[ 2] = 0x%08x\n", $a2);
+	printf("avg_yN_inv[31] = 0x%08x\n", $a31);
+
+	exit();
+}

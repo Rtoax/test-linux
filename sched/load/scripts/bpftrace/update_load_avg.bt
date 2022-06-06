@@ -1,0 +1,24 @@
+#!/bin/env bpftrace
+/**
+ * File: update_load_avg.bt
+ * Author: Rong Tao <rongtao@cestc.cn>
+ * Date: 2022.06.06
+ *
+ */
+BEGIN
+{
+	printf("Tracing update_load_avg, hit ctrl-c to end.\n");
+}
+
+/**
+ * __update_load_avg_se: Update sched entity load information
+ * __update_load_avg_blocked_se: Update sched entity, which is under blocked state.
+ * __update_load_avg_cfs_rq: Update CFS run queue load information
+ *
+ */
+kprobe:__update_load_avg_se,
+kprobe:__update_load_avg_blocked_se,
+kprobe:__update_load_avg_cfs_rq
+{
+	@[func] = count();
+}
