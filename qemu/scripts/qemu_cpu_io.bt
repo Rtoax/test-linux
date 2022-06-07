@@ -1,6 +1,6 @@
 #!/usr/bin/env bpftrace 
 /**
- * File: qemu_io.bt
+ * File: qemu_cpu_io.bt
  * Author: Rong Tao <rongtao@cestc.cn>
  * Date: 2022.06.07
  *
