@@ -1,0 +1,19 @@
+#!/usr/bin/env bpftrace 
+/**
+ * File: qemu_io.bt
+ * Author: Rong Tao <rongtao@cestc.cn>
+ * Date: 2022.06.07
+ *
+ * Refs:
+ * 1. https://github.com/wcohen/qemu_systemtap/blob/master/qemu_io.stp
+ */
+BEGIN
+{
+	printf("Tracing qemu In/Out, hit ctrl-C to end.\n");
+}
+
+uprobe:/usr/libexec/qemu-kvm:cpu_in*,
+uprobe:/usr/libexec/qemu-kvm:cpu_out*
+{
+	@cnt[func] = count();
+}
