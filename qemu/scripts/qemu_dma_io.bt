@@ -1,0 +1,21 @@
+#!/usr/bin/env bpftrace 
+/**
+ * File: qemu_dma_io.bt
+ * Author: Rong Tao <rongtao@cestc.cn>
+ * Date: 2022.06.07
+ *
+ */
+BEGIN
+{
+	printf("Tracing qemu DMA block I/O, hit ctrl-C to end.\n");
+}
+
+uprobe:/usr/libexec/qemu-kvm:dma_blk_read,
+uprobe:/usr/libexec/qemu-kvm:dma_blk_write,
+uprobe:/usr/libexec/qemu-kvm:dma_buf_read,
+uprobe:/usr/libexec/qemu-kvm:dma_buf_write
+{
+	@cnt[func] = count();
+}
+
+// TODO: cal latency
