@@ -12,9 +12,15 @@
 BEGIN
 {
 	printf("Tracing xxx, hit ctrl-c to end.\n");
+	printf("%-8s %-8s %-8s\n", "TIME", "PID", "COMM");
 }
 
-/* kprobe/kretprobe/kfunc/kretfunc/tracepoint/usdt, etc. */
+/* kprobe/kretprobe/kfunc/kretfunc/tracepoint/usdt/uprobe/uretprobe, etc. */
+kprobe:do_nanosleep
+{
+	time("%H:%M:%S ");
+	printf("%-8d %-8s\n", pid, comm);
+}
 
 END
 {
