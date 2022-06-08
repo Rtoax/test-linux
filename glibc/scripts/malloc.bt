@@ -1,0 +1,23 @@
+#!/bin/env bpftrace
+/**
+ * File: malloc.bt
+ * Author: Rong Tao <rongtao@cestc.cn>
+ * Date: 2022.06.08
+ *
+ */
+BEGIN
+{
+	printf("Tracing malloc(), hit ctrl-c to end.\n");
+}
+
+uprobe:/lib64/libc.so.6:malloc
+{
+	$size = arg0;
+	@malloc = hist($size);
+
+	/* Print 'ls' malloc() */
+	if (comm == "ls") {
+		printf("ls malloc %d\n", $size);
+	}
+}
+
