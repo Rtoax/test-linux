@@ -1,0 +1,42 @@
+#!/bin/env bpftrace
+/**
+ * File: kvm_tdp_page_fault.bt
+ * Author: Rong Tao <rongtao@cestc.cn>
+ * Date: 2022.06.08
+ *
+ * Description:
+ *  When EPT page fault happen, kvm_tdp_page_fault called.
+ *  TDP: Two Dimission Page
+ *
+ * Ref:
+ */
+BEGIN
+{
+	printf("Tracing kvm_tdp_page_fault, hit ctrl-c to end.\n");
+	printf("%-8s %-8s %-8s\n", "TIME", "PID", "COMM");
+}
+
+kprobe:kvm_tdp_page_fault
+{
+	time("%H:%M:%S ");
+	printf("%-8d %-8s\n", pid, comm);
+	/**
+	 * Example kstack:
+	 *  kvm_tdp_page_fault+1
+	 *  kvm_mmu_page_fault+121
+	 *  vcpu_enter_guest+2716
+	 *  kvm_arch_vcpu_ioctl_run+202
+	 *  kvm_vcpu_ioctl+554
+	 *  do_vfs_ioctl+164
+	 *  ksys_ioctl+96
+	 *  __x64_sys_ioctl+22
+	 *  do_syscall_64+91
+	 *  entry_SYSCALL_64_after_hwframe+101
+	 */
+	@stack[kstack] = count();
+}
+
+END
+{
+	printf("Bye.\n");
+}

@@ -11,3 +11,5 @@ EPT - Extended Page Table
 
 * `GPA -> HPA`;
 
+> tdp: Two Dimission Page, 两级页表转换
+
