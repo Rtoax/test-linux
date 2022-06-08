@@ -1,0 +1,33 @@
+#!/usr/bin/env bpftrace
+/**
+ * File: frwstat.bt
+ * Author: Rong Tao <rongtao@cestc.cn>
+ * Date: 2022.06.08
+ *
+ */
+
+BEGIN
+{
+	printf("Tracing GLibc file read/write... Hit Ctrl-C to end.\n");
+
+}
+
+uprobe:/lib64/libc.so.6:fwrite,
+uprobe:/lib64/libc.so.6:fwrite_unlocked,
+uprobe:/lib64/libc.so.6:fread,
+uprobe:/lib64/libc.so.6:fread_unlocked
+{
+	@[func] = count();
+}
+
+interval:s:1
+{
+	time();
+	print(@);
+	clear(@);
+}
+
+END
+{
+	clear(@);
+}

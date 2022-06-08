@@ -1,0 +1,31 @@
+#!/usr/bin/env bpftrace
+/**
+ * File: rwstat.bt
+ * Author: Rong Tao <rongtao@cestc.cn>
+ * Date: 2022.06.08
+ *
+ */
+
+BEGIN
+{
+	printf("Tracing GLibc read/write... Hit Ctrl-C to end.\n");
+
+}
+
+uprobe:/lib64/libc.so.6:write,
+uprobe:/lib64/libc.so.6:read
+{
+	@[func] = count();
+}
+
+interval:s:1
+{
+	time();
+	print(@);
+	clear(@);
+}
+
+END
+{
+	clear(@);
+}
