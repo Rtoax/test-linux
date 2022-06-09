@@ -1,6 +1,6 @@
 
 TARGETS= \
-	main.user.out
+	watchdog-simple.out
 
 DEBUG = yes
 SRC_PATH := $(shell pwd)
