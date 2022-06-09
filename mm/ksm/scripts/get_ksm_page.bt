@@ -1,0 +1,22 @@
+#!/bin/env bpftrace
+/**
+ * File: get_ksm_page.bt
+ * Author: Rong Tao <rongtao@cestc.cn>
+ * Date: 2022.06.09
+ *
+ */
+BEGIN
+{
+	printf("Tracing get_ksm_page, hit ctrl-c to end.\n");
+}
+
+// "ksmd" thread call
+kprobe:get_ksm_page
+{
+	@[pid, comm] = count();
+}
+
+END
+{
+	printf("Bye.\n");
+}

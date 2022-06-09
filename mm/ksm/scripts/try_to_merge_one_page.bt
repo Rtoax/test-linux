@@ -1,0 +1,51 @@
+#!/bin/env bpftrace
+/**
+ * File: try_to_merge_one_page.bt
+ * Author: Rong Tao <rongtao@cestc.cn>
+ * Date: 2022.06.09
+ *
+ */
+#include <linux/rmap.h> // struct anon_vma
+#include <linux/mm_types.h> // struct mm_struct
+#include <linux/sched.h> // struct task_struct
+
+struct rmap_item {
+	struct rmap_item *rmap_list;
+	union {
+		struct anon_vma *anon_vma;
+#ifdef CONFIG_NUMA
+		int nid;
+#endif
+	};
+	struct mm_struct *mm;
+};
+
+BEGIN
+{
+	printf("Tracing try_to_merge_one_page, hit ctrl-c to end.\n");
+	printf("%-8s %-8s %-8s %-16s\n", "TIME", "PID", "COMM", "DST_COMM");
+}
+
+kprobe:try_to_merge_with_ksm_page
+{
+	$rmap = (struct rmap_item *)arg0;
+	@task[pid] = (struct task_struct *)$rmap->mm->owner;
+	@start[pid] = nsecs;
+}
+
+kretprobe:try_to_merge_one_page
+/@start[pid]/
+{
+	$err = retval;
+	if (!$err) {
+		time("%H:%M:%S ");
+		printf("%-8d %-8s %-16s\n", pid, comm, @task[pid]->comm);
+	}
+	delete(@task[pid]);
+	delete(@start[pid]);
+}
+
+END
+{
+	printf("Bye.\n");
+}
