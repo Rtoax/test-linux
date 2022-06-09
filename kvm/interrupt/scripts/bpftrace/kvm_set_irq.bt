@@ -17,11 +17,17 @@ BEGIN
 	printf("Tracing KVM kvm_set_irq, ctrl-C to end.\n");
 }
 
+// linux-5.10.13
+// int kvm_set_irq(struct kvm *kvm, int irq_source_id, u32 irq, int level,
+//        bool line_status)
 kprobe:kvm_set_irq
 {
-	$nr = arg2;
+	$irq_source_id = arg1;
+	$irq = arg2;
+	$level = arg3;
+
 	@k[kstack] = count();
-	@n[$nr] = count();
+	@irq[$irq, $level] = count();
 }
 
 END
