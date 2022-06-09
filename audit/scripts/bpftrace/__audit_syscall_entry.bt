@@ -1,4 +1,12 @@
 #!/usr/bin/env bpftrace
+/**
+ * File: __audit_syscall_entry.bt
+ * Author: Rong Tao
+ * Date: 2022.01.13
+ *
+ * Description:
+ * Ref:
+ */
 
 BEGIN
 {
@@ -7,7 +15,7 @@ BEGIN
 
 kprobe:__audit_syscall_entry
 {
-	printf("called %d %s %ld %s\n", pid, comm, arg0, kstack);
+	@stack[kstack] = count();
 }
 
 END
