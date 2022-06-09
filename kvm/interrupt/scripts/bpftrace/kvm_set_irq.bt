@@ -1,4 +1,16 @@
 #!/usr/bin/env bpftrace
+/**
+ * File: kvm_set_irq.bt
+ * Author: Rong Tao <rongtao@cestc.cn>
+ * Date: 2022.01.07
+ *
+ * kvm_set_irq: Trigger interrupt
+ *  Qemu has same name api
+ *   int kvm_set_irq(KVMState *s, int irq, int level)
+ *   {
+ *     kvm_vm_ioctl(s, KVM_IRQ_LINE_STATUS, &event);
+ *   }
+ */
 
 BEGIN
 {
@@ -7,8 +19,9 @@ BEGIN
 
 kprobe:kvm_set_irq
 {
-	printf("kstack %s\n", kstack);
-	printf("ustack %s\n", ustack);
+	$nr = arg2;
+	@k[kstack] = count();
+	@n[$nr] = count();
 }
 
 END
