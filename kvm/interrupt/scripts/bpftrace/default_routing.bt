@@ -1,0 +1,21 @@
+#!/bin/env bpftrace
+/**
+ * File: default_routing.bt
+ * Author: Rong Tao <rongtao@cestc.cn>
+ * Date: 2022.06.09
+ *
+ * Description:
+ * Ref:
+ *   linux:arch/x86/kvm/irq_comm.c
+ */
+#include <uapi/linux/kvm.h>
+
+BEGIN
+{
+	printf("Tracing KVM default_routing, hit ctrl-c to end.\n");
+
+	/**
+	 * see arch/x86/kvm/irq_comm.c
+	 */
+	$routing = (struct kvm_irq_routing_entry *)kaddr("default_routing");
+}
