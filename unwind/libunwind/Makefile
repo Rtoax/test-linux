@@ -1,12 +1,14 @@
 
 TARGETS= \
-	main.user.out
+	backtrace.out \
+	backtrace2.out \
+	do_backtrace.out
 
 DEBUG = yes
 SRC_PATH := $(shell pwd)
-CC = clang
+CC = gcc
 
-CFLAGS :=
+CFLAGS := -lunwind -lunwind-ptrace -lunwind-generic
 
 ifdef DEBUG
 CFLAGS += -DDEBUG -O0 -g
@@ -14,8 +16,7 @@ endif
 
 build: ${TARGETS}
 	@echo
-	@echo -e " \033[1;33m xxx \033[m"
-	@echo -e " \033[1;33m xxx \033[m"
+	@echo -e " \033[1;33m Done \033[m"
 
 %.d: %.c
 	@echo -e "Generate \033[1m$(@)\033[m"
