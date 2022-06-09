@@ -3,6 +3,9 @@ IO-APIC
 
 [Kernel Document IO-APIC](https://www.kernel.org/doc/html/latest/x86/i386/IO-APIC.html)
 
+* 每个 CPU 都有一个 LAPIC，在 CPU 内部;
+* 另一个是用来链接设备的 I/O APIC, 系统中可以有多个 I/O APIC;
+
 ```
           ,-.        ,-.        ,-.        ,-.        ,-.
 PIRQ4 ----| |-.    ,-| |-.    ,-| |-.    ,-| |--------| |
