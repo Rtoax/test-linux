@@ -1,5 +1,5 @@
 /**
- *   @file: staticlinkedlist.c
+ *   @file: list_static.c
  *
  *   @date: 2021.11.03
  *   @author: Rong Tao <rongtao@cestc.cn>

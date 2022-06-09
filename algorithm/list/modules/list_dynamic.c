@@ -1,5 +1,5 @@
 /**
- *   @file: dynamiclinkedlist.c
+ *   @file: list_dynamic.c
  *
  *   @date: 2021.11.03
  *   @author: Rong Tao <rongtao@cestc.cn>
