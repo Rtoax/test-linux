@@ -1,1 +1,1 @@
-../../../vsyscall/scripts/bpftrace/update_vsyscall.bt
+../../vsyscall/scripts/bpftrace/update_vsyscall.bt
