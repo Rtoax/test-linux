@@ -1,16 +1,17 @@
 /**
- *	File ./listvma.c 
+ *	File ./listvma.c
  *	Time 2021.11.03
  *	Author	Rong Tao <rongtao@cestc.cn>
  */
 #include <linux/init.h>
 #include <linux/module.h>
-#include <asm/uaccess.h>
 #include <linux/mm.h>
 #include <linux/mm_types.h>
 #include <linux/sched.h>
 #include <linux/pid.h>
 #include <linux/dcache.h> //for d_path()
+
+#include <asm/uaccess.h>
 
 static pid_t pid = 0;
 module_param(pid, int, 0644);
@@ -23,17 +24,17 @@ static struct task_struct* this_task(pid_t PID)
 	if(pid <= 0) {
 		return current;
 	}
-    
+
 	_pid = find_get_pid(PID);
-    if(!_pid) {
-        printk("Not exist PID %d\n", PID);
-        return current;
-    }
-    
-	task = pid_task(_pid, PIDTYPE_TGID);
-    if(!task) {
+	if(!_pid) {
+		printk("Not exist PID %d\n", PID);
 		return current;
-    }
+	}
+
+	task = pid_task(_pid, PIDTYPE_TGID);
+	if(!task) {
+		return current;
+	}
 	return task;
 }
 
@@ -45,7 +46,7 @@ static void list_myvma(void)
 
 	printk("list vma..\n");
 	printk("task:%s pid:%d\n", task->comm, task->pid);
-	
+
 	down_read(&mm->mmap_lock);
 	//vma is a linklist
 	for(vma = mm->mmap; vma; vma = vma->vm_next)
