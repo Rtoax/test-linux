@@ -44,28 +44,28 @@ endef
 default: user kernel
 user: $(SUB_user_DIR)
 $(SUB_user_DIR):
-	$(call make_,U, $@)
+	$(call make_,U,$@)
 kernel: $(SUB_kernel_DIR)
 $(SUB_kernel_DIR):
-	$(call make_,K, $@)
+	$(call make_,K,$@)
 
 # Make test
 test: testuser testkernel
 testuser:$(SUB_user_DIR_TEST)
 $(SUB_user_DIR_TEST):
-	$(call make_test,U, $(@:%_test=%))
+	$(call make_test,U,$(@:%_test=%))
 testkernel:$(SUB_kernel_DIR_TEST)
 $(SUB_kernel_DIR_TEST):
-	$(call make_test,K, $(@:%_test=%))
+	$(call make_test,K,$(@:%_test=%))
 
 # Make clean
 clean: cleanuser cleankernel
 cleanuser: $(SUB_user_DIR_CLEAN)
 $(SUB_user_DIR_CLEAN):
-	$(call make_clean,U, $(@:%_clean=%))
+	$(call make_clean,U,$(@:%_clean=%))
 cleankernel: $(SUB_kernel_DIR_CLEAN)
 $(SUB_kernel_DIR_CLEAN):
-	$(call make_clean,K, $(@:%_clean=%))
+	$(call make_clean,K,$(@:%_clean=%))
 
 .PHONY: all test clean \
 	$(SUB_user_DIR) \
