@@ -23,7 +23,7 @@ static void print_sections(void)
 
 static int kernel_init(void)
 {
-    printk(KERN_INFO "my init.\n");
+	printk(KERN_INFO "my init.\n");
 
 	print_sections();
 
@@ -32,7 +32,7 @@ static int kernel_init(void)
 
 static void kernel_exit(void)
 {
-    printk(KERN_INFO "my exit.\n");
+	printk(KERN_INFO "my exit.\n");
 }
 
 module_init(kernel_init);

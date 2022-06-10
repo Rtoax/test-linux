@@ -32,7 +32,7 @@ static void test_key_false(void)
 
 static int kernel_init(void)
 {
-    printk(KERN_INFO "my init.\n");
+	printk(KERN_INFO "my init.\n");
 
 	test_key_true();
 	test_key_false();
@@ -49,12 +49,12 @@ static int kernel_init(void)
 	test_key_true();
 	test_key_false();
 
-    return 0;
+	return 0;
 }
 
 static void kernel_exit(void)
 {	
-    printk(KERN_INFO "my exit.\n");
+	printk(KERN_INFO "my exit.\n");
 }
 
 module_init(kernel_init);
