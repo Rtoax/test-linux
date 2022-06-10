@@ -21,6 +21,7 @@
 #include <linux/slab.h>
 #include <linux/string.h>
 #include <linux/uaccess.h>
+#include <linux/version.h>
 
 //#include "../tools/testing/selftests/kselftest_module.h"
 
@@ -282,6 +283,11 @@ static void __init test_copy(void)
 
 static void __init test_replace(void)
 {
+	/**
+	 * support bitmap_replace() since 5.5
+	 * https://elixir.bootlin.com/linux/v5.5-rc1/source/include/linux/bitmap.h#L441
+	 */
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 5, 0)
 	unsigned int nbits = 64;
 	unsigned int nlongs = DIV_ROUND_UP(nbits, BITS_PER_LONG);
 	DECLARE_BITMAP(bmap, 1024);
@@ -303,6 +309,7 @@ static void __init test_replace(void)
 	bitmap_fill(bmap, 1024);
 	bitmap_replace(bmap, &exp2[1 * nlongs], &exp2[0 * nlongs], exp2_to_exp3_mask, nbits);
 	expect_eq_bitmap(bmap, exp3_1_0, nbits);
+#endif
 }
 
 #define PARSE_TIME	0x1

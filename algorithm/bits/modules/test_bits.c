@@ -8,7 +8,7 @@
 
 #include <kunit/test.h>
 #include <linux/bits.h>
-
+#include <linux/version.h>
 
 static void genmask_test(struct kunit *test)
 {
@@ -44,6 +44,7 @@ static void genmask_ull_test(struct kunit *test)
 
 static void genmask_input_check_test(struct kunit *test)
 {
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 7, 0)
 	unsigned int x, y;
 	int z, w;
 
@@ -59,6 +60,7 @@ static void genmask_input_check_test(struct kunit *test)
 	/* Valid input */
 	KUNIT_EXPECT_EQ(test, 0, GENMASK_INPUT_CHECK(1, 1));
 	KUNIT_EXPECT_EQ(test, 0, GENMASK_INPUT_CHECK(39, 21));
+#endif
 }
 
 
