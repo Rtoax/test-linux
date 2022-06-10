@@ -163,7 +163,7 @@ static int cn_test_init(void)
 
 	return 0;
 
-      err_out:
+err_out:
 	if (nls && nls->sk_socket)
 		sock_release(nls->sk_socket);
 
