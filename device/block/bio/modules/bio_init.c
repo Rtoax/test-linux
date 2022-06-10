@@ -17,19 +17,19 @@ static int kernel_init(void)
 	struct bio_vec *vecs;
 	int nr_pages = 32;
 
-    printk(KERN_INFO "my bio test init.\n");
+	printk(KERN_INFO "my bio test init.\n");
 	
 	vecs = kmalloc_array(nr_pages, sizeof(struct bio_vec), GFP_KERNEL);
 
 	bio_init(&test_bio, vecs, nr_pages);
 
-    return 0;
+	return 0;
 }
 
 static void kernel_exit(void)
 {
 	bio_uninit(&test_bio);
-    printk(KERN_INFO "my bio test exit.\n");
+	printk(KERN_INFO "my bio test exit.\n");
 }
 
 module_init(kernel_init);
