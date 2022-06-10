@@ -1,0 +1,12 @@
+#!/bin/env bpftrace
+/**
+ * File: linux_banner.bt
+ * Author: Rong Tao <rongtao@cestc.cn>
+ * Date: 2022.06.10
+ *
+ */
+BEGIN
+{
+	printf("linux_banner: %s\n", str(kaddr("linux_banner")));
+	exit();
+}
