@@ -16,4 +16,5 @@ KERNEL_LIST = \
 	algorithm/ida/modules \
 	algorithm/list/modules \
 	algorithm/rbtree/modules \
-	algorithm/string/modules
+	algorithm/string/modules \
+	device/block/bio/modules
