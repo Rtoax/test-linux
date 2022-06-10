@@ -9,7 +9,7 @@ DEBUG = yes
 SRC_PATH := $(shell pwd)
 CC = gcc
 
-CFLAGS :=
+CFLAGS := -Werror -Wall
 
 ifdef DEBUG
 CFLAGS += -DDEBUG -O0 -g
