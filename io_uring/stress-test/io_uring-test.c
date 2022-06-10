@@ -15,7 +15,8 @@
 
 #define QD    4 // io_uring 队列长度
 
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[])
+{
     int i, fd, pending, done;
     void *buf;
 	int offset = 0;

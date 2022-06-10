@@ -1,13 +1,16 @@
 
 TARGETS= \
-	link-cp.out \
-	io_uring-test.out
+	io_uring-cat.out \
+	io_uring-cat-libuing.out \
+	io_uring-multi-reqs.out \
+	io_uring-web-server.out \
+	ordinary-cat.out
 
 DEBUG = yes
 SRC_PATH := $(shell pwd)
 CC = gcc
 
-CFLAGS := -Wall -O2 -D_GNU_SOURCE -luring
+CFLAGS := -luring
 
 ifdef DEBUG
 CFLAGS += -DDEBUG -O0 -g
