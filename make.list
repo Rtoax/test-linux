@@ -5,7 +5,8 @@ USER_LIST = \
 	algorithm/rbtree/samples \
 	bpf/bcc/samples/usdt \
 	bpf/samples/execsnoop \
-	bpf/seccomp/samples
+	bpf/seccomp/samples \
+	cgroup/tools
 
 KERNEL_LIST = \
 	algorithm/bitmap/modules \
