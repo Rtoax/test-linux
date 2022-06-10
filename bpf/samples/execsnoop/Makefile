@@ -1,10 +1,15 @@
 
+CFLAGS := -Wall -Werror
+
 all:
 	# Compile bpf_program
-	clang -O2 -target bpf -c bpf_program.c -o bpf_program.o
+	clang $(CFLAGS) -O2 -target bpf -c bpf_program.c -o bpf_program.o
 
 	# Compile loader
-	gcc loader.c bpf_load.c -lelf trace_helpers.c -lbpf -o execsnoop.out
+	gcc $(CFLAGS) loader.c bpf_load.c -lelf trace_helpers.c -lbpf -o execsnoop.out
+
+test:
+	@echo "skip"
 
 clean:
 	rm -f *.out *.o

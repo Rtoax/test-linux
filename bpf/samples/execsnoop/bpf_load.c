@@ -27,6 +27,8 @@
 #include "bpf_load.h"
 #include "perf-sys.h"
 
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
 #define DEBUGFS "/sys/kernel/debug/tracing/"
 
 static char license[128];
@@ -128,8 +130,16 @@ static int load_and_attach(const char *event, struct bpf_insn *prog, int size)
 	if (prog_cnt == MAX_PROGS)
 		return -1;
 
+#if LIBBPF_MAJOR_VERSION == 0 && LIBBPF_MINOR_VERSION >= 7
+	LIBBPF_OPTS(bpf_prog_load_opts, opt);
+	/**
+	 * May should fill 'opt'
+	 */
+	fd = bpf_prog_load(prog_type, "test", license, prog, insns_cnt, &opt);
+#else
 	fd = bpf_load_program(prog_type, prog, insns_cnt, license, kern_version,
 			      bpf_log_buf, BPF_LOG_BUF_SIZE);
+#endif
 	if (fd < 0) {
 		printf("bpf_load_program() err=%d\n%s", errno, bpf_log_buf);
 		return -1;
@@ -349,7 +359,7 @@ static int parse_relo_and_apply(Elf_Data *data, Elf_Data *symbols,
 		GElf_Rel rel;
 		unsigned int insn_idx;
 		bool match = false;
-		int j, map_idx;
+		int map_idx;
 
 		gelf_getrel(data, i, &rel);
 
@@ -405,7 +415,6 @@ static int load_elf_maps_section(struct bpf_map_data *maps, int maps_shndx,
 	int i, nr_maps;
 	GElf_Sym *sym;
 	Elf_Scn *scn;
-	int copy_sz;
 
 	if (maps_shndx < 0)
 		return -EINVAL;
