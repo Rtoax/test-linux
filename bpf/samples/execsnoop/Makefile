@@ -9,7 +9,7 @@ all:
 	gcc $(CFLAGS) loader.c bpf_load.c -lelf trace_helpers.c -lbpf -o execsnoop.out
 
 test:
-	@echo "skip"
+	@echo "skip" >/dev/null
 
 clean:
 	rm -f *.out *.o

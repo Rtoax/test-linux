@@ -2,7 +2,7 @@
 
 #include "bitmask.h"
 
-#define print_info(fmt...) fprintf(stderr, fmt)
+#define print_info(fmt...) fprintf(stdout, fmt)
 
 int memshow(const void*in, int len)
 {

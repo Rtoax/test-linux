@@ -32,9 +32,7 @@ $(TARGETS): %:
 	@$(CC) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
 
 test: ${TARGETS}
-	@echo -e "Test   \033[1;32m$(@)\033[m"
 	./filter-write.out /usr/bin/ls
 
 clean:
-	@echo -e "Clean   \033[1;32m$(@)\033[m"
-	rm -f ${TARGETS} *.o *.d
+	@rm -f ${TARGETS} *.o *.d

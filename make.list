@@ -1,15 +1,18 @@
-algorithm/bitmask/samples
-algorithm/hashmap/samples
-algorithm/list/samples
-algorithm/rbtree/samples
-algorithm/bitmap/modules
-algorithm/bitops/modules
-algorithm/bits/modules
-algorithm/hash/modules
-algorithm/ida/modules
-algorithm/list/modules
-algorithm/rbtree/modules
-algorithm/string/modules
-bpf/bcc/samples/usdt
-bpf/samples/execsnoop
-bpf/seccomp/samples
+USER_LIST = \
+	algorithm/bitmask/samples \
+	algorithm/hashmap/samples \
+	algorithm/list/samples \
+	algorithm/rbtree/samples \
+	bpf/bcc/samples/usdt \
+	bpf/samples/execsnoop \
+	bpf/seccomp/samples
+
+KERNEL_LIST = \
+	algorithm/bitmap/modules \
+	algorithm/bitops/modules \
+	algorithm/bits/modules \
+	algorithm/hash/modules \
+	algorithm/ida/modules \
+	algorithm/list/modules \
+	algorithm/rbtree/modules \
+	algorithm/string/modules

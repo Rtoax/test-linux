@@ -31,7 +31,7 @@ $(TARGETS): %:
 	@$(CC) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
 
 test: ${TARGETS}
-	./test-1.out
+	./test-1.out >/dev/null
 
 clean:
 	rm -f ${TARGETS} *.o *.d
