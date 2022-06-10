@@ -1,1 +1,0 @@
-../../vdso/test/clock_gettime.c
