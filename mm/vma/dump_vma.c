@@ -5,12 +5,13 @@
  */
 #include <linux/init.h>
 #include <linux/module.h>
-#include <asm/uaccess.h>
 #include <linux/mm.h>
 #include <linux/mm_types.h>
 #include <linux/sched.h>
 #include <linux/mmdebug.h>
 #include <linux/printk.h>
+#include <linux/version.h>
+#include <asm/uaccess.h>
 
 #ifndef CONFIG_DEBUG_VM
 void dump_vma(const struct vm_area_struct *vma)
@@ -38,7 +39,12 @@ static void list_myvma(void)
         //print the current process's name and pid
 	printk("current:%s pid:%d\n", current->comm, current->pid);
 	
+#if LINUX_VERSION_CODE > KERNEL_VERSION(5, 8, 0)
 	down_read(&mm->mmap_lock);
+#else
+	down_read(&mm->mmap_sem);
+#endif
+
 	//vma is a linklist
 	for(vma = mm->mmap; vma; vma = vma->vm_next)
 	{
@@ -58,7 +64,11 @@ static void list_myvma(void)
 		dump_vma(vma);
 #endif	
 	}
+#if LINUX_VERSION_CODE > KERNEL_VERSION(5, 8, 0)
 	up_read(&mm->mmap_lock);
+#else
+	up_read(&mm->mmap_sem);
+#endif
 }
 
 static int __init mymem_init(void)

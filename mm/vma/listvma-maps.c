@@ -10,7 +10,7 @@
 #include <linux/sched.h>
 #include <linux/pid.h>
 #include <linux/dcache.h> //for d_path()
-
+#include <linux/version.h>
 #include <asm/uaccess.h>
 
 static pid_t pid = 0;
@@ -47,7 +47,11 @@ static void list_myvma(void)
 	printk("list vma..\n");
 	printk("task:%s pid:%d\n", task->comm, task->pid);
 
+#if LINUX_VERSION_CODE > KERNEL_VERSION(5, 8, 0)
 	down_read(&mm->mmap_lock);
+#else
+	down_read(&mm->mmap_sem);
+#endif
 	//vma is a linklist
 	for(vma = mm->mmap; vma; vma = vma->vm_next)
 	{
@@ -65,7 +69,11 @@ static void list_myvma(void)
 			(vma->vm_flags & VM_SHARED)?"s":"p",
 			vma->vm_file?filep:"");
 	}
+#if LINUX_VERSION_CODE > KERNEL_VERSION(5, 8, 0)
 	up_read(&mm->mmap_lock);
+#else
+	up_read(&mm->mmap_sem);
+#endif
 }
 
 static int __init mymem_init(void)

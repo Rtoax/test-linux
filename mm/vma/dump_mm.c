@@ -5,14 +5,15 @@
  */
 #include <linux/init.h>
 #include <linux/module.h>
-#include <asm/uaccess.h>
 #include <linux/mm.h>
 #include <linux/mm_types.h>
 #include <linux/sched.h>
-
+#include <linux/version.h>
+#include <asm/uaccess.h>
 
 void dump_mm(const struct mm_struct *mm)
 {
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 10, 0)
 	pr_emerg("mm %px mmap %px seqnum %llu task_size %lu\n"
 #ifdef CONFIG_MMU
 		"get_unmapped_area %px\n"
@@ -73,6 +74,7 @@ void dump_mm(const struct mm_struct *mm)
 		atomic_read(&mm->tlb_flush_pending),
 		mm->def_flags, &mm->def_flags
 	);
+#endif
 }
 
 
