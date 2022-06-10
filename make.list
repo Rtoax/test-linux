@@ -10,3 +10,4 @@ algorithm/ida/modules
 algorithm/list/modules
 algorithm/rbtree/modules
 algorithm/string/modules
+bpf/bcc/samples/usdt
