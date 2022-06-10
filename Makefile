@@ -12,7 +12,7 @@ all: $(SUB_DIR)
 
 $(SUB_DIR):
 	@echo -e "\033[1;34mMake [$@] starting\033[m"
-	@cd $@ ; make ; cd -
+	@cd $@ ; make ; cd - >/dev/null
 	@echo -e "Make [$@] done"
 
 # Make test
@@ -20,7 +20,7 @@ test:$(SUB_DIR_TEST)
 
 $(SUB_DIR_TEST):
 	@echo -e "\033[1;35mTest [$(@:%_test=%)] starting\033[m"
-	@cd $(@:%_test=%); make test; cd -
+	@cd $(@:%_test=%); make test; cd - >/dev/null
 	@echo -e "Test [$(@:%_test=%)] done"
 
 # Make clean
@@ -28,7 +28,7 @@ clean:$(SUB_DIR_CLEAN)
 
 $(SUB_DIR_CLEAN):
 	@echo -e "\033[1;36mClean [$(@:%_clean=%)] starting\033[m"
-	@cd $(@:%_clean=%); make clean; cd -
+	@cd $(@:%_clean=%); make clean; cd - >/dev/null
 	@echo -e "Clean [$(@:%_clean=%)] done"
 
 .PHONY: all test clean $(SUB_DIR) $(SUB_DIR_TEST) $(SUB_DIR_CLEAN)

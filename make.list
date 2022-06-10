@@ -12,3 +12,4 @@ algorithm/rbtree/modules
 algorithm/string/modules
 bpf/bcc/samples/usdt
 bpf/samples/execsnoop
+bpf/seccomp/samples
