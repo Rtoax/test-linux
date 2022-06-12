@@ -3,7 +3,7 @@ CMAKE_MINIMUM_REQUIRED(VERSION 3.5)
 SET(CMAKE_C_COMPILER /usr/bin/clang)
 SET(CMAKE_CXX_COMPILER /usr/bin/clang++)
 
-PROJECT(libcareplus)
+PROJECT(PROG_NAME)
 
 include_directories(src)
 
@@ -15,4 +15,4 @@ link_libraries(${ELF} ${RT} ${LZMA})
 
 add_definitions(-MD -Wall -g -ggdb -O0 -D_GNU_SOURCE -Wuninitialized -Wreturn-type -pg)
 
-add_executable(a.out a.c)
+add_executable(main.user.out main.user.c)
