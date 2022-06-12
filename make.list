@@ -32,4 +32,5 @@ KERNEL_LIST = \
 	interrupt/softirq/modules \
 	interrupt/tasklet/modules \
 	interrupt/workqueue/modules \
-	interrupt/trace-irqoff
+	interrupt/trace-irqoff \
+	kprobes/modules

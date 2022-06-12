@@ -2,9 +2,14 @@
 obj-m += kprobe_icmp_echo.o
 obj-m += kprobe___handle_sysrq.o
 #obj-m += kprobe_read_tsc.o
+obj-m += kprobe_example.o
+obj-m += kretprobe_example.o
 
 all:
 	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
+
+test:
+	@echo >/dev/null
 
 clean:
 	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) clean
