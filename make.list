@@ -22,4 +22,5 @@ KERNEL_LIST = \
 	fs/debugfs/modules \
 	fs/procfs/modules \
 	fs/myfs/myfs \
-	ftrace/modules
+	ftrace/modules \
+	hw_breakpoint/modules
