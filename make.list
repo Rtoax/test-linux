@@ -18,5 +18,6 @@ KERNEL_LIST = \
 	algorithm/rbtree/modules \
 	algorithm/string/modules \
 	driver/block/bio/modules \
+	fs/configfs/modules \
 	fs/debugfs/modules \
 	fs/myfs/myfs
