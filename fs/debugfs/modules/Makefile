@@ -4,5 +4,9 @@ KERNELROOT=/lib/modules/`uname -r`/build
 
 all:
 	make -C $(KERNELROOT) M=$(PWD) modules
+
+test:
+	@echo >/dev/null
+
 clean:
 	make -C $(KERNELROOT) M=$(PWD) clean
