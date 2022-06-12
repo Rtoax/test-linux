@@ -1,76 +1,68 @@
-# include <linux/module.h>
-# include <linux/fs.h>
-# include <linux/dcache.h>
-# include <linux/pagemap.h>
-# include <linux/mount.h>
-# include <linux/init.h>
-# include <linux/namei.h>
-//current_fsuid函数：
-//current_fsgid函数：
-# include <linux/cred.h>
-//加入misc机制
-# include <linux/kfifo.h>
+#include <linux/module.h>
+#include <linux/fs.h>
+#include <linux/dcache.h>
+#include <linux/pagemap.h>
+#include <linux/mount.h>
+#include <linux/init.h>
+#include <linux/namei.h>
+#include <linux/cred.h> // current_fsuid/current_fsgid
+#include <linux/kfifo.h> // misc
 
 
 //每个文件系统需要一个MAGIC number
-# define MYFS_MAGIC 0X64668735
-# define MYFS "myfs"
+#define MYFS_MAGIC 0X64668735
+#define MYFS "myfs"
 
 static struct vfsmount * myfs_mount;
 static int myfs_mount_count;
 
-DEFINE_KFIFO(mydemo_fifo,char,64);
+DEFINE_KFIFO(mydemo_fifo, char, 64);
 
 int g_val;
 
-
 //*****************************************************************************
-//									底层创建函数
+//	底层创建函数
 //*****************************************************************************
 static struct inode * myfs_get_inode(struct super_block * sb, int mode, dev_t dev)
 {
 	struct inode * inode = new_inode(sb);
 
-	if(inode)
-	{
-		inode -> i_mode = mode;
+	if (inode) {
+		inode->i_mode = mode;
 		//@i_uid：user id
 		inode->i_uid  = current_fsuid();
 		//@i_gid：group id组标识符
 		inode->i_gid  = current_fsgid();
 		//@i_size：文件长度
-		inode -> i_size = VMACACHE_SIZE;
+		inode->i_size = VMACACHE_SIZE;
 		//@i_blocks：指定文件按块计算的长度
-		inode -> i_blocks = 0;
+		inode->i_blocks = 0;
 		//@i_atime：最后访问时间
 		//@i_mtime：最后修改时间
 		//@i_ctime：最后修改inode时间
-		inode -> i_atime = inode->i_mtime = inode->i_ctime = current_time(inode);
+		inode->i_atime = inode->i_mtime = inode->i_ctime = current_time(inode);
 
-		switch(mode & S_IFMT)
-		{
-			default:
-				init_special_inode(inode,mode,dev);
-				break;
+		switch (mode & S_IFMT) {
 			case S_IFREG:
 				printk("creat a file\n");
 				break;
 			case S_IFDIR:
 				printk("creat a content\n");
 				//inode_operations
-				inode -> i_op = &simple_dir_inode_operations;
-				//file_operation	
-				inode -> i_fop = &simple_dir_operations;
+				inode->i_op = &simple_dir_inode_operations;
+				//file_operation
+				inode->i_fop = &simple_dir_operations;
 				//@：文件的链接计数，使用stat命令可以看到Links的值，硬链接数目
-				//inode -> i_nlink++;
+				//inode->i_nlink++;
 				inc_nlink(inode);
-				break;			
+				break;
+			default:
+				init_special_inode(inode,mode,dev);
+				break;
 		}
 	}
 	return inode;
 }
-
-
 
 //把创建的inode和dentry连接起来
 static int myfs_mknod(struct inode * dir, struct dentry * dentry, int mode, dev_t dev)
@@ -78,22 +70,20 @@ static int myfs_mknod(struct inode * dir, struct dentry * dentry, int mode, dev_
 	struct inode * inode;
 	int error = -EPERM;
 
-	if(dentry -> d_inode)
+	if (dentry -> d_inode)
 		return -EPERM;
 
 	inode = myfs_get_inode(dir->i_sb, mode, dev);
-	if(inode)
-	{
+	if (inode) {
 		d_instantiate(dentry,inode);
 		dget(dentry);
 		error = 0;
-
 	}
 	return error;
 }
 
 //************************************************************************
-//							创建目录，文件
+//	创建目录，文件
 //************************************************************************
 
 static int myfs_mkdir(struct inode * dir, struct dentry * dentry, int mode)
@@ -101,10 +91,8 @@ static int myfs_mkdir(struct inode * dir, struct dentry * dentry, int mode)
 	int res;
 
 	res = myfs_mknod(dir, dentry, mode|S_IFDIR, 0);
-	if(!res)
-	{
+	if (!res) {
 		inc_nlink(dir);
-
 	}
 	return res;
 }
@@ -116,23 +104,19 @@ static int myfs_creat(struct inode * dir, struct dentry * dentry, int mode)
 
 
 //************************************************************************
-//							　　　注册信息
+//　注册信息
 //************************************************************************
-
-/*
-
-*/
 static int myfs_fill_super(struct super_block *sb, void *data, int silent)
 {
-	//这个结构体如下：
-	//struct tree_descr { const char *name; const struct file_operations *ops; int mode; };
+	//struct tree_descr {
+	//	const char *name;
+	//	const struct file_operations *ops;
+	//	int mode;
+	//};
 	static struct tree_descr debug_files[] = {{""}};
 
 	return simple_fill_super(sb,MYFS_MAGIC,debug_files);
 }
-
-
-
 
 /*
 这个函数是按照内核代码中的样子改的，是struct dentry *类型，这里是一个封装，这里可以返回好几种函数：
@@ -142,23 +126,21 @@ static int myfs_fill_super(struct super_block *sb, void *data, int silent)
 */
 
 static struct dentry *myfs_get_sb(struct file_system_type *fs_type, int flags,
-		       const char *dev_name, void *data)
+		const char *dev_name, void *data)
 {
 	return mount_single(fs_type, flags, data, myfs_fill_super);
 }
 
-
-
 /*********************************************************************
-								文件操作部分
+文件操作部分
 *********************************************************************/
 //对应于打开aufs文件的方法
 static int myfs_file_open(struct inode *inode, struct file *file)
 {
 	printk("已打开文件");
-
 	return 0;
 }
+
 //对应于读取的aufs文件的读取方法
 static ssize_t myfs_file_read(struct file *file, char __user *buf, size_t count, loff_t *ppos)
 {
@@ -166,7 +148,7 @@ static ssize_t myfs_file_read(struct file *file, char __user *buf, size_t count,
 	int ret;
 
 	ret = kfifo_to_user(&mydemo_fifo,buf, count, &actual_readed);
-	if(ret)
+	if (ret)
 		return -EIO;
 
 	printk("%s,actual_readed=%d,pos=%lld\n",__func__,actual_readed,*ppos);
@@ -175,42 +157,30 @@ static ssize_t myfs_file_read(struct file *file, char __user *buf, size_t count,
 }
 //对应于写入的aufs文件的写入方法
 static ssize_t myfs_file_write(struct file *file, const char __user *buf, size_t count, loff_t *ppos)
-{	
+{
 	unsigned int actual_write;
 	int ret;
 
 	ret = kfifo_from_user(&mydemo_fifo, buf, count, &actual_write);
-	if(ret)
+	if (ret)
 		return -EIO;
 
 	printk("%s: actual_write=%d,ppos=%lld\n",__func__,actual_write,*ppos);
-
 	return actual_write;
-
 }
-
-
-
 
 static struct file_system_type my_fs_type = {
 	.owner 		= THIS_MODULE,
 	.name 		= MYFS,
 	.mount 		= myfs_get_sb,
-	.kill_sb 	= kill_litter_super 
+	.kill_sb 	= kill_litter_super
 };
-
 
 static struct file_operations myfs_file_operations = {
-    .open = myfs_file_open,
-    .read = myfs_file_read,
-    .write = myfs_file_write,
+	.open = myfs_file_open,
+	.read = myfs_file_read,
+	.write = myfs_file_write,
 };
-
-
-
-//*****************************************************************************
-//					
-//*****************************************************************************
 
 
 static int myfs_creat_by_name(const char * name, mode_t mode,
@@ -218,16 +188,13 @@ static int myfs_creat_by_name(const char * name, mode_t mode,
 {
 	int error = 0;
 
-	if(!parent)
-	{
-		if(myfs_mount && myfs_mount -> mnt_sb)
-		{
+	if (!parent) {
+		if (myfs_mount && myfs_mount -> mnt_sb) {
 			parent = myfs_mount->mnt_sb->s_root;
 		}
 	}
 
-	if(!parent)
-	{
+	if (!parent) {
 		printk("can't find a parent");
 		return -EFAULT;
 	}
@@ -236,18 +203,13 @@ static int myfs_creat_by_name(const char * name, mode_t mode,
 
 	inode_lock(d_inode(parent));
 	*dentry = lookup_one_len(name,parent,strlen(name));
-	if(!IS_ERR(*dentry))
-	{
-		if((mode & S_IFMT) == S_IFDIR)
-		{
+	if (!IS_ERR(*dentry)) {
+		if ((mode & S_IFMT) == S_IFDIR) {
 			error = myfs_mkdir(parent->d_inode, *dentry, mode);
-		}
-		else
-		{
+		} else {
 			error = myfs_creat(parent->d_inode, *dentry, mode);
 		}
 	}
-	//error是０才对
 	if (IS_ERR(*dentry)) {
 		error = PTR_ERR(*dentry);
 	}
@@ -255,7 +217,6 @@ static int myfs_creat_by_name(const char * name, mode_t mode,
 
 	return error;
 }
-
 
 struct dentry * myfs_creat_file(const char * name, mode_t mode,
 				struct dentry * parent, void * data,
@@ -268,14 +229,12 @@ struct dentry * myfs_creat_file(const char * name, mode_t mode,
 
 	error = myfs_creat_by_name(name, mode, parent, &dentry);
 
-	if(error)
-	{
+	if (error) {
 		dentry = NULL;
 		goto exit;
 	}
 
-	if(dentry->d_inode)
-	{
+	if (dentry->d_inode) {
 		if(data)
 			dentry->d_inode->i_private = data;
 		if(fops)
@@ -295,11 +254,9 @@ struct dentry * myfs_creat_dir(const char * name, struct dentry * parent)
 	return myfs_creat_file(name, S_IFDIR|S_IRWXU|S_IRUGO, parent, NULL, NULL);
 }
 
-
-
 //*************************************************************************
-//								模块注册退出
-//*************************************************************************	
+//	模块注册退出
+//*************************************************************************
 
 static int __init myfs_init(void)
 {
@@ -309,13 +266,11 @@ static int __init myfs_init(void)
 	//将文件系统登录到系统中去
 	retval = register_filesystem(&my_fs_type);
 
-	if(!retval)
-	{
+	if (!retval) {
 		//创建super_block根dentry的inode
 		myfs_mount = kern_mount(&my_fs_type);
 		//如果装载错误就卸载文件系统
-		if(IS_ERR(myfs_mount))
-		{
+		if (IS_ERR(myfs_mount)) {
 			printk("--ERROR:aufs could not mount!--\n");
 			unregister_filesystem(&my_fs_type);
 			return retval;

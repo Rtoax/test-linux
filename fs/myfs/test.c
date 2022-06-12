@@ -18,29 +18,27 @@ int main()
 
 	len = sizeof(message);
 
-	fd = open(FILE_NAME,O_RDWR);
-	if(fd<0) 
-	{
+	fd = open(FILE_NAME, O_RDWR);
+	if (fd<0) {
 		printf("wrong\n");
 		return -1;
 	}
 
 	//向设备写数据
-	ret = write(fd,message,len);
-	if(ret != len)
-	{
+	ret = write(fd, message, len);
+	if (ret != len) {
 		printf("wrongd\n");
 		return -1;
 	}
 
 	read_buffer = malloc(2*len);
-	memset(read_buffer,0,2*len);
+	memset(read_buffer, 0, 2*len);
+
+	ret = read(fd, read_buffer, 2*len);
+	printf("read %d bytes\n", ret);
+	printf("read buffer=%s\n", read_buffer);
+
 	//关闭设备
-
-	ret = read(fd,read_buffer,2*len);
-	printf("read %d bytes\n",ret);
-	printf("read buffer=%s\n",read_buffer);
-
 	close(fd);
 
 	return 0;
