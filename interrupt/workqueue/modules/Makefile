@@ -9,5 +9,8 @@ PWD	:= $(shell pwd)
 all:
 	$(MAKE) -C $(KERNELDIR) M=$(PWD) modules
 
+test:
+	@echo >/dev/null
+
 clean:
 	$(MAKE) -C $(KERNELDIR) M=$(PWD) clean

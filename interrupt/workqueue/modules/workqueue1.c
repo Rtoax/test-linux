@@ -43,7 +43,7 @@ static int __init onload(void)
 	return 0;
 }
 
-static void __exit onunload(void) 
+static void __exit onunload(void)
 {
 	printk("Work queue module exit: %s %d\n", __FUNCTION__, __LINE__);
 }

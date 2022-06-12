@@ -81,7 +81,7 @@ static int type_open(struct inode *inode, struct file *file)
 }
 
 static ssize_t type_write(struct file *file, const char __user *ubuf,
-			  size_t count, loff_t *ppos)
+			size_t count, loff_t *ppos)
 {
 	pr_info("%s: called\n", __func__);
 

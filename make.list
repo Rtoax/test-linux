@@ -29,4 +29,5 @@ KERNEL_LIST = \
 	interrupt/ioapic/modules \
 	interrupt/request_irq \
 	interrupt/softirq/modules \
-	interrupt/tasklet/modules
+	interrupt/tasklet/modules \
+	interrupt/workqueue/modules
