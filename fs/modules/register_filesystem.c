@@ -5,14 +5,13 @@
  */
 #include <linux/init.h>
 #include <linux/module.h>
-#include <asm/uaccess.h>
 #include <linux/mm.h>
 #include <linux/mm_types.h>
 #include <linux/sched.h>
 #include <linux/pid.h>
 #include <linux/dcache.h> //for d_path()
 #include <linux/fs.h>
-
+#include <asm/uaccess.h>
 
 static struct file_system_type myfs_fs_type = {
 	.owner = THIS_MODULE,
