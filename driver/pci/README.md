@@ -5,6 +5,9 @@ PCI - Peripheral Component Interconnect
 
 操作系统与 PCI 设备交互的主要方式是 PIO 和 MMIO.
 
+* PIO: `/proc/ioports`
+* MMIO: `/proc/iomem`
+
 # PCI 总线结构
 
 `00:00:0` = `总线号(Bus Number)` + `设备号(Device Number)` + `功能号(Function Number)`
@@ -34,3 +37,6 @@ PCI - Peripheral Component Interconnect
  |                             |                                                           | Line  |  Pin  | Gnt   | Lat   |
  +-----------------------------+-----------------------------------------------------------+-------+-------+-------+-------+
 ```
+
+* BAR - Base Address Register
+
