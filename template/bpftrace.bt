@@ -16,7 +16,7 @@ BEGIN
 }
 
 /* kprobe/kretprobe/kfunc/kretfunc/tracepoint/usdt/uprobe/uretprobe, etc. */
-kprobe:do_nanosleep
+interval:s:1
 {
 	time("%H:%M:%S ");
 	printf("%-8d %-8s\n", pid, comm);
