@@ -20,4 +20,5 @@ KERNEL_LIST = \
 	driver/block/bio/modules \
 	fs/configfs/modules \
 	fs/debugfs/modules \
+	fs/procfs/modules \
 	fs/myfs/myfs
