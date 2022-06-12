@@ -25,7 +25,7 @@ MODULE_LICENSE("Dual BSD/GPL");
 static int hello_init(void)
 {
 	printk(KERN_ALERT "init: Hello, world\n");
-    printk(KERN_ALERT "init: NR_SOFTIRQS is %d\n", NR_SOFTIRQS);
+	printk(KERN_ALERT "init: NR_SOFTIRQS is %d\n", NR_SOFTIRQS);
 	return 0;
 }
 

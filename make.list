@@ -26,4 +26,5 @@ KERNEL_LIST = \
 	hw_breakpoint/modules \
 	interrupt/idt/modules \
 	interrupt/ioapic/modules \
+	interrupt/softirq/modules \
 	interrupt/tasklet/modules

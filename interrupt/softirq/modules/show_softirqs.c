@@ -17,11 +17,11 @@ MODULE_AUTHOR("Rong Tao");
 
 const char * const softirq_to_name[NR_SOFTIRQS] = {
 	"HI",       /* 高优先级 */
-    "TIMER",    /* 定时器 */
-    "NET_TX",   /* 网络发包 */
-    "NET_RX",   /* 网络收包 */
-    "BLOCK",    /* 块 */
-    "IRQ_POLL", /* 中断 poll */
+	"TIMER",    /* 定时器 */
+	"NET_TX",   /* 网络发包 */
+	"NET_RX",   /* 网络收包 */
+	"BLOCK",    /* 块 */
+	"IRQ_POLL", /* 中断 poll */
 	"TASKLET",  /* 小任务 tasklet */
 	"SCHED",    /* 调度 */
 	"HRTIMER",  /* 高精度定时器 */
@@ -50,10 +50,9 @@ struct proc_dir_entry *proc_softirqs;
 
 static int hello_init(void)
 {
-    printk(KERN_ALERT "init: NR_SOFTIRQS is %d\n", NR_SOFTIRQS);
+	printk(KERN_ALERT "init: NR_SOFTIRQS is %d\n", NR_SOFTIRQS);
 	proc_softirqs = proc_create_single("softirqs-rongtao", 
 						0, NULL, show_softirqs);
-
 	return 0;
 }
 
