@@ -24,4 +24,5 @@ KERNEL_LIST = \
 	fs/myfs/myfs \
 	ftrace/modules \
 	hw_breakpoint/modules \
-	interrupt/idt/modules
+	interrupt/idt/modules \
+	interrupt/ioapic/modules
