@@ -124,7 +124,7 @@ static struct per_cpu_stack_trace __percpu *cpu_stack_trace;
 
 #if LINUX_VERSION_CODE < KERNEL_VERSION(5, 1, 0)
 static void (*save_stack_trace_skip_hardirq)(struct pt_regs *regs,
-					     struct stack_trace *trace);
+			struct stack_trace *trace);
 
 static inline void stack_trace_skip_hardirq_init(void)
 {
@@ -133,9 +133,9 @@ static inline void stack_trace_skip_hardirq_init(void)
 }
 
 static inline void store_stack_trace(struct pt_regs *regs,
-				     struct irqoff_trace *trace,
-				     unsigned long *entries,
-				     unsigned int max_entries, int skip)
+				struct irqoff_trace *trace,
+				unsigned long *entries,
+				unsigned int max_entries, int skip)
 {
 	struct stack_trace stack_trace;
 

@@ -1,5 +1,5 @@
 /**
- *	Trigger a irqoff with latency 
+ *	Trigger a irqoff with latency
  *
  *	Author	Rong Tao <rongtao@cestc.cn>
  *	Time	2021.11.05
@@ -22,18 +22,18 @@ static void disable_hardirq(unsigned long latency)
 
 static int my_set(const char *val, const struct kernel_param *kp)
 {
-		int n = 0, ret;
+	int n = 0, ret;
 
-		ret = kstrtoint(val, 10, &n);
-		if (ret != 0 || n < 1 || n > 1000)
-			return -EINVAL;
+	ret = kstrtoint(val, 10, &n);
+	if (ret != 0 || n < 1 || n > 1000)
+		return -EINVAL;
 
-		return param_set_int(val, kp);
+	return param_set_int(val, kp);
 }
 
 static const struct kernel_param_ops param_ops = {
-		.set	= my_set,
-		.get	= param_get_int,
+	.set	= my_set,
+	.get	= param_get_int,
 };
 
 static int latency_ms = 100;
