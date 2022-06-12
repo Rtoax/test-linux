@@ -1,12 +1,14 @@
 
-TARGETS= \
-	./main.user.out
+TARGETS := \
+	demo-eventfd.out \
+	demo-select_eventfd.out \
+	demo-epoll_eventfd.out
 
 DEBUG = yes
 SRC_PATH := $(shell pwd)
 CC = gcc
 
-CFLAGS := -Werror -Wall
+CFLAGS := -Werror -Wall -pthread
 
 ifdef DEBUG
 CFLAGS += -DDEBUG -O0 -g
@@ -17,7 +19,9 @@ build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
 # Add more object.o file
-main.user.out: main.user.o
+demo-eventfd.out: demo-eventfd.o common.o
+demo-select_eventfd.out: demo-select_eventfd.o common.o
+demo-epoll_eventfd.out: demo-epoll_eventfd.o common.o
 
 %.d: %.c
 	@echo -e "Generate \033[1m$(@)\033[m"
@@ -29,11 +33,10 @@ main.user.out: main.user.o
 
 $(TARGETS): %:
 	@echo -e "Target   \033[1;32m$(@)\033[m"
-	@$(CC) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
+	@$(CC) $(CFLAGS) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
-	./main.user.out
 
 clean:
 	@echo -e "Clean   \033[1;32m$(@)\033[m"

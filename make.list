@@ -6,7 +6,8 @@ USER_LIST = \
 	bpf/bcc/samples/usdt \
 	bpf/samples/execsnoop \
 	bpf/seccomp/samples \
-	cgroup/tools
+	cgroup/tools \
+	interrupt/test/Rescheduling-interrupts
 
 KERNEL_LIST = \
 	algorithm/bitmap/modules \

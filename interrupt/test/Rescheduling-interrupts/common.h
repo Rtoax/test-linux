@@ -8,14 +8,9 @@
 
 #define MAX_EVENTS 10
 
-
-
-
 struct epoll_context {
     int epollfd;
-
     struct epoll_event events[MAX_EVENTS];
-    
 };
 
 struct select_context {
@@ -39,16 +34,12 @@ struct task_arg {
 void select_add_fd(struct select_context *ctx, int evt_fd);
 int select_context_init(struct select_context *ctx);
 
-
 int epoll_context_init(struct epoll_context *ctx);
 void epoll_add_fd(struct epoll_context *ctx, int fd);
 
-
 int eventfd_create();
-
 
 void reset_self_sched(int sched_policy, int sched_priority);
 void reset_self_cpuset(char *cpu_list);
-
 
 #endif
