@@ -14,6 +14,8 @@
 #include <linux/interrupt.h>
 #include <linux/slab.h> // kmalloc
 #include <linux/workqueue.h> // workqueue_struct
+#include <linux/version.h>
+
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Zex");
@@ -45,14 +47,25 @@ MODULE_PARM_DESC(delay_in_ms, "time to delay befor fire in ms");
 
 char *red_tasklet_data = "The tasklet is red !!";
 
+/**
+ * https://elixir.bootlin.com/linux/v5.9/source/include/linux/interrupt.h
+ */
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 9, 0)
 void tasklet_callback(struct tasklet_struct * data )
+#else
+void tasklet_callback(unsigned long int data )
+#endif
 {
 	printk( "%s\n", red_tasklet_data );
 	room_number -= 100;
 	printk( "%d\n", room_number );
 }
 
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 9, 0)
 DECLARE_TASKLET( red_tasklet, tasklet_callback);
+#else
+DECLARE_TASKLET( red_tasklet, tasklet_callback, 0);
+#endif
 
 static struct workqueue_struct *wq_a;
 

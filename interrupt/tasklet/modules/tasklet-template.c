@@ -8,6 +8,7 @@
 #include <linux/init.h>      // included for __init and __exit macros
 #include <linux/interrupt.h> // included for request_irq and free_irq macros
 #include <linux/preempt.h>
+#include <linux/version.h>
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Rong Tao");
@@ -32,7 +33,9 @@ static void print_irq_status(char *prefix)
 {
 	printk(KERN_INFO "%20s in_task       = %d\n", prefix, in_task());
 	printk(KERN_INFO "%20s in_irq        = %ld\n", prefix, in_irq());
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 11, 0)
 	printk(KERN_INFO "%20s in_hardirq    = %ld\n", prefix, in_hardirq());
+#endif
 	printk(KERN_INFO "%20s in_softirq    = %ld\n", prefix, in_softirq());
 	printk(KERN_INFO "%20s in_interrupt  = %ld\n", prefix, in_interrupt());
 	printk(KERN_INFO "%20s softirq_count = %ld\n", prefix, softirq_count());

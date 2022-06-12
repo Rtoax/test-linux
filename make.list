@@ -25,4 +25,5 @@ KERNEL_LIST = \
 	ftrace/modules \
 	hw_breakpoint/modules \
 	interrupt/idt/modules \
-	interrupt/ioapic/modules
+	interrupt/ioapic/modules \
+	interrupt/tasklet/modules
