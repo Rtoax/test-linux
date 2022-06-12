@@ -1,7 +1,9 @@
 PCI - Peripheral Component Interconnect
 =======================================
 
-外设组件互连标准
+# PCI - 外设组件互连标准
+
+操作系统与 PCI 设备交互的主要方式是 PIO 和 MMIO.
 
 # PCI 总线结构
 
