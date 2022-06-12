@@ -224,7 +224,7 @@ void read_from_cq(struct submitter *s) {
     struct file_info *fi;
     struct app_io_cq_ring *cring = &s->cq_ring;
     struct io_uring_cqe *cqe;
-    unsigned head, reaped = 0;
+    unsigned head;
 
     head = *cring->head;
 

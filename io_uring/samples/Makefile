@@ -1,12 +1,19 @@
 
 TARGETS= \
-	./main.user.out
+	io_uring-cat.out \
+	io_uring-cat-libuing.out \
+	io_uring-multi-reqs.out \
+	io_uring-web-server.out \
+	iordinary-cat.out \
+	link-cp.out \
+	io_uring-test.out
+
 
 DEBUG = yes
 SRC_PATH := $(shell pwd)
 CC = gcc
 
-CFLAGS := -Werror -Wall
+CFLAGS := -Werror -Wall -luring
 
 ifdef DEBUG
 CFLAGS += -DDEBUG -O0 -g
@@ -17,7 +24,13 @@ build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
 # Add more object.o file
-main.user.out: main.user.o
+io_uring-cat.out: io_uring-cat.o
+io_uring-cat-libuing.out: io_uring-cat-libuing.o
+io_uring-multi-reqs.out: io_uring-multi-reqs.o
+io_uring-web-server.out: io_uring-web-server.o
+iordinary-cat.out: ordinary-cat.o
+link-cp.out: link-cp.o
+io_uring-test.out: io_uring-test.o
 
 %.d: %.c
 	@echo -e "Generate \033[1m$(@)\033[m"
@@ -33,7 +46,6 @@ $(TARGETS): %:
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
-	./main.user.out
 
 clean:
 	@echo -e "Clean   \033[1;32m$(@)\033[m"
