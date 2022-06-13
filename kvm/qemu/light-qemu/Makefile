@@ -18,5 +18,8 @@ all:
 	objcopy -O binary test.o test.bin
 	gcc ${QEMU_SRC} -o light-qemu.out
 
+test:
+	$(shell test -f ./light-qemu.out && echo ./light-qemu.out)
+
 clean:
 	rm -f test.o test.bin light-qemu.out

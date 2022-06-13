@@ -9,6 +9,7 @@ USER_LIST = \
 	cgroup/tools \
 	interrupt/test/Rescheduling-interrupts \
 	io_uring/samples \
+	kvm/qemu/light-qemu \
 	kvm/virtio/tools/virtio-trace
 
 KERNEL_LIST = \
