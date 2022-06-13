@@ -1,7 +1,3 @@
-#ifndef __x86_64__
-# error "Not support Your Arch, just support x86-64"
-#endif
-
 #include <errno.h>
 #include <assert.h>
 #include <stdbool.h>
@@ -12,9 +8,7 @@
 #include <syscall.h>
 #include <sys/types.h>
 
-/**
- *  获取tick
- */
+#if defined(__x86_64__)
 #ifndef RDTSC
 #define RDTSC() ({\
     register uint32_t a,d; \
@@ -22,7 +16,7 @@
     (((uint64_t)a)+(((uint64_t)d)<<32)); \
     })
 #endif
-    
+
 /**
  *  cas，默认 smp 架构
  */
@@ -35,6 +29,7 @@
         : "r"(val_new),"a"(val_old)\
         : "memory"); \
     ret;})
+#endif
 #endif
 
 
@@ -60,7 +55,7 @@ typedef struct {
 } atomic64_t;
 
 
-static inline int always_inline _unused 
+static inline int always_inline _unused
 atomic64_cmpset(volatile uint64_t *dst, uint64_t exp, uint64_t src)
 {
 	uint8_t res;

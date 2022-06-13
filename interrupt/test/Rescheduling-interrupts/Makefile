@@ -1,8 +1,14 @@
 
+ifeq ($(shell uname -m),x86_64)
 TARGETS := \
 	demo-eventfd.out \
 	demo-select_eventfd.out \
 	demo-epoll_eventfd.out
+endif
+ifeq ($(shell uname -m),aarch64)
+TARGETS := \
+	demo-eventfd.out
+endif
 
 DEBUG = yes
 SRC_PATH := $(shell pwd)
