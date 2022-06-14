@@ -23,7 +23,10 @@ $(KOUTPUT):
 $(KOUTPUT_MAKEFILE): $(KOUTPUT)
 	touch "$@"
 
+test:
+	@echo >/dev/null
+
 clean:
 	make -C $(KDIR) M=$(KOUTPUT) src=$(PWD) clean
 	$(shell rm $(KOUTPUT_MAKEFILE))
-	rmdir $(KOUTPUT)
+	@rm -rf $(KOUTPUT)

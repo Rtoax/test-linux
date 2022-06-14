@@ -35,4 +35,8 @@ KERNEL_LIST = \
 	interrupt/tasklet/modules \
 	interrupt/workqueue/modules \
 	interrupt/trace-irqoff \
-	kprobes/modules
+	kprobes/modules \
+	livepatch/kallsyms-mod \
+	livepatch/kthread \
+	livepatch/modules \
+	livepatch/samples
