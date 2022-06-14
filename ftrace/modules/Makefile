@@ -1,6 +1,9 @@
+
+ifeq ($(shell uname -r),x86_64)
 obj-m += ftrace-direct.o
 obj-m += ftrace-direct-modify.o
 obj-m += ftrace-direct-too.o
+endif
 #obj-m += sample-trace-array.o
 
 all:
