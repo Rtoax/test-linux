@@ -12,11 +12,13 @@
 #include <linux/fs.h>
 #include <linux/dcache.h>
 #include <linux/xattr.h>
+#include <linux/sched.h>
 
 BEGIN
 {
 	printf("Tracing selinux context changes, hit ctrl-c to end.\n");
-	printf("%-8s %-8s %-8s %-24s %s\n", "TIME", "PID", "COMM", "CONTEXT", "FILE");
+	printf("%-8s %-8s %-8s %-8s %-8s %-24s %s\n",
+		"TIME", "PID", "PPID", "COMM", "PCOMM", "CONTEXT", "FILE");
 }
 
 tracepoint:syscalls:sys_enter_lsetxattr,
@@ -25,9 +27,13 @@ tracepoint:syscalls:sys_enter_setxattr
 	$pathname = args->pathname;
 	$name = args->name;
 	$flags = args->flags;
+	$task = (struct task_struct *)curtask;
+	$ppid = $task->real_parent->tgid;
+	$pcomm = $task->real_parent->comm;
 
 	time("%H:%M:%S ");
-	printf("%-8d %-8s %-24s %-s\n", pid, comm, str($name), str($pathname));
+	printf("%-8d %-8d %-8s %-8s %-24s %-s\n",
+		pid, $ppid, comm, $pcomm, str($name), str($pathname));
 }
 
 kprobe:xfs_attr_set_args
