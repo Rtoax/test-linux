@@ -1,0 +1,40 @@
+#!/usr/bin/env bpftrace
+/**
+ * File: setxattr.bt
+ * Author: Rong Tao
+ * Date: 2022.06.16
+ *
+ * Tracing setxattr(2)
+ *
+ * $ chcon -t admin_home_t abc.txt
+ * $ chcon -t test_file_t abc.txt
+ */
+#include <linux/fs.h>
+#include <linux/dcache.h>
+#include <linux/xattr.h>
+
+BEGIN
+{
+	printf("Tracing selinux context changes, hit ctrl-c to end.\n");
+	printf("%-8s %-8s %-8s %-24s %s\n", "TIME", "PID", "COMM", "CONTEXT", "FILE");
+}
+
+tracepoint:syscalls:sys_enter_lsetxattr,
+tracepoint:syscalls:sys_enter_setxattr
+{
+	$pathname = args->pathname;
+	$name = args->name;
+	$flags = args->flags;
+
+	time("%H:%M:%S ");
+	printf("%-8d %-8s %-24s %-s\n", pid, comm, str($name), str($pathname));
+}
+
+kprobe:xfs_attr_set_args
+{
+	printf("%s,%s\n", kstack, ustack);
+}
+
+END
+{
+}
