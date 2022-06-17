@@ -1,0 +1,59 @@
+#!/usr/bin/env bpftrace
+/**
+ * File: filexattr.bt
+ * Author: Rong Tao
+ * Date: 2022.06.16
+ *
+ * Tracing setxattr(2)
+ *
+ * $ chcon -t admin_home_t abc.txt
+ * $ chcon -t test_file_t abc.txt
+ */
+BEGIN
+{
+	printf("Tracing selinux context changes, hit ctrl-c to end.\n");
+	printf("%-8s %-8s %-8s %-8s %-8s %-24s %s\n",
+		"TIME", "PID", "PPID", "COMM", "PCOMM", "CONTEXT", "FILE");
+}
+
+tracepoint:syscalls:sys_enter_lsetxattr,
+tracepoint:syscalls:sys_enter_setxattr
+{
+	$pathname = args->pathname;
+	$name = args->name;
+	$flags = args->flags;
+	$task = (struct task_struct *)curtask;
+	$ppid = $task->real_parent->tgid;
+	$pcomm = $task->real_parent->comm;
+
+	time("%H:%M:%S ");
+	printf("%-8d %-8d %-8s %-8s %-24s %-s\n",
+		pid, $ppid, comm, $pcomm, str($name), str($pathname));
+}
+
+tracepoint:syscalls:sys_enter_exec*
+{
+	if (strncmp(str(args->filename), "/usr/bin/podman", 15) == 0) {
+		printf("%-10u %-5d %-8s", elapsed / 1e6, pid, str(args->filename));
+		$ptr = args->argv;
+
+		// unrolled loop for now:
+		// When join() OK, use it
+		printf(" %s", str(*($ptr + 8)));
+		printf(" %s", str(*($ptr + 16)));
+		printf(" %s", str(*($ptr + 24)));
+		printf(" %s", str(*($ptr + 32)));
+		printf(" %s", str(*($ptr + 40)));
+		printf(" %s", str(*($ptr + 48)));
+		printf("\n");
+	}
+}
+
+interval:s:60
+{
+	printf("sleep...\n");
+}
+
+END
+{
+}
