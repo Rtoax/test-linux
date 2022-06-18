@@ -4,6 +4,19 @@
  * Author: Rong Tao
  * Date: 2022.06.18
  *
+ * virtio_add_queue() called after virtio_init(), for example:
+ * virtio-balloon will create 3 virtqueue with virtio_add_queue().
+ *
+ * virtio_balloon_device_realize()
+ * {
+ *   ...
+ *   virtio_init(vdev, "virtio-balloon", ...)
+ *   ...
+ *   virtio_add_queue(vdev, 128, ...)
+ *   virtio_add_queue(vdev, 128, ...)
+ *   virtio_add_queue(vdev, 128, ...)
+ *   ...
+ * }
  */
 struct VirtIODevice
 {
