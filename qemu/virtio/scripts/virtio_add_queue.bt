@@ -1,0 +1,35 @@
+#!/bin/env bpftrace
+/**
+ * File: virtio_add_queue.bt
+ * Author: Rong Tao
+ * Date: 2022.06.18
+ *
+ */
+struct VirtIODevice
+{
+	// Need a right offset
+	char _offset[168];
+	const char *name;
+	// ...
+};
+
+BEGIN
+{
+	printf("Tracing virtio_add_queue, hit ctrl-c to end.\n");
+	printf("%-8s %-8s %-8s %-8s %-16s\n",
+		"TIME", "PID", "COMM", "Q_SIZE", "VDEV");
+}
+
+/* VirtQueue* virtio_add_queue(VirtIODevice *vdev,
+			int queue_size, VirtIOHandleOutput handle_output) */
+uprobe:/usr/libexec/qemu-kvm:virtio_add_queue
+{
+	$queue_size = arg1;
+	time("%H:%M:%S ");
+	printf("%-8d %-8s %-8d\n", pid, comm, $queue_size);
+}
+
+END
+{
+	printf("Bye.\n");
+}
