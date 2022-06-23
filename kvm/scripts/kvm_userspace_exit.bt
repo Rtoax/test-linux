@@ -1,0 +1,28 @@
+#!/bin/env bpftrace
+/**
+ * File: kvm_userspace_exit.bt
+ * Author: Rong Tao
+ * Date: 2022.06.23
+ *
+ * Description:
+ * Ref:
+ */
+BEGIN
+{
+	printf("Tracing kvm_userspace_exit, hit ctrl-c to end.\n");
+	printf("%-8s %-8s %-8s\n", "TIME", "PID", "COMM");
+}
+
+/**
+ * when 'ioctl(vcpufd, KVM_RUN, NULL)' return, this tracepoint will triggered.
+ */
+tracepoint:kvm:kvm_userspace_exit
+{
+	time("%H:%M:%S ");
+	printf("%-8d %-8s\n", pid, comm);
+}
+
+END
+{
+	printf("Bye.\n");
+}
