@@ -1,0 +1,62 @@
+#!/usr/bin/env bpftrace
+/*
+ * kvm_entry.bt	Trace kvm:kvm_entry.
+ *		For Linux, uses bpftrace and eBPF.
+ *
+ * Also a basic example of bpftrace.
+ *
+ * USAGE: kvm_entry.bt
+ *
+ * Copyright 2021 CESTC, Inc.
+ * Licensed under the GPL License, Version 2.0 (the "License")
+ *
+ * 
+ */
+BEGIN
+{
+	if ($# < 1) {
+		printf("need PID arguments.\n");
+		exit();
+	}
+	printf("Tracing kvm:kvm_entry... Hit Ctrl-C to end.\n");
+	printf("%-8s %-8s %-8s\n", "TIME", "VMM%", "GUEST%");
+}
+
+tracepoint:kvm:kvm_entry
+/pid == $1/
+{
+	@entry_start[pid] = nsecs;
+	if (@exit_start[pid]) {
+		$ns = nsecs - @exit_start[pid];
+		@stats["VMM"] += $ns;
+		delete(@exit_start[pid]);
+	}
+}
+
+tracepoint:kvm:kvm_exit
+/pid == $1/
+{
+	@exit_start[pid] = nsecs;
+	if (@entry_start[pid]) {
+		$ns = nsecs - @entry_start[pid];
+		@stats["GOS"] += $ns;
+		delete(@entry_start[pid]);
+	}
+}
+
+interval:s:1
+{
+	time("%H:%M:%S ");
+	$vmm = @stats["VMM"];
+	$gos = @stats["GOS"];
+	$total = @stats["VMM"] + @stats["GOS"];
+	printf("%-8d %-8d\n", $vmm * 100 / $total, $gos * 100 / $total);
+	clear(@stats);
+}
+
+END
+{
+	clear(@entry_start);
+	clear(@exit_start);
+	clear(@stats);
+}
