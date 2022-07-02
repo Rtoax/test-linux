@@ -1,5 +1,8 @@
 #!/usr/bin/env bpftrace
-
+/**
+ *
+ * see also bcc/tools/hardirqs.py
+ */
 BEGIN
 {
 	if ($# < 1) {
