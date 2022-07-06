@@ -5,15 +5,10 @@
  */
 BEGIN
 {
-	if ($# < 1) {
-		printf("Input CPU id.\n");
-		exit();
-	}
 	printf("Tracing interrupts, hit ctrl-C to end.\n");
 }
 
 tracepoint:irq:irq_handler_entry
-/cpu == $1/
 {
 	$irq = args->irq;
 	$name = args->name;
