@@ -1,7 +1,9 @@
 #!/usr/bin/env bpftrace
 /**
  *
- * see also bcc/tools/hardirqs.py
+ * see also
+ * 1. bcc/tools/hardirqs.py
+ * 2. bcc/libbpf-tools/hardirqs
  */
 BEGIN
 {
