@@ -15,4 +15,21 @@ tracepoint:irq:irq_handler_entry
 	$irq = args->irq;
 	$name = args->name;
 	@interrupts[$irq, str($name)] = count();
+
+	@start[pid] = nsecs;
+	@name[pid] = str($name);
+}
+
+tracepoint:irq:irq_handler_exit
+/ @start[pid] /
+{
+	@total_usecs[@name[pid]] = hist((nsecs - @start[pid]) / 1000);
+	delete(@name[pid]);
+	delete(@start[pid]);
+}
+
+END
+{
+	clear(@start);
+	clear(@name);
 }
