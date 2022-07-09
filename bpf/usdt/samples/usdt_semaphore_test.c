@@ -17,7 +17,7 @@ static long myclock()
 	char buffer[100];
 	struct timeval tv;
 	gettimeofday(&tv, NULL);
-	sprintf(buffer, "tracetest_testprobe_semaphore: %d\n", tracetest_testprobe_semaphore);
+	sprintf(buffer, "tracetest_testprobe_semaphore: %d", tracetest_testprobe_semaphore);
 	DTRACE_PROBE2(tracetest,  testprobe,  tv.tv_sec, buffer);
 	return tv.tv_sec;
 }

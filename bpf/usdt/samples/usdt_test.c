@@ -5,11 +5,16 @@
 
 static long myclock()
 {
+	char hello1[] = "Hello world1";
+	char hello2[] = "Hello world2";
+	char hello3[] = "Hello world3";
+
 	struct timeval tv;
 	gettimeofday(&tv, NULL);
-	DTRACE_PROBE2(tracetest,  testprobe,  tv.tv_sec, "Hello world");
-	DTRACE_PROBE2(tracetest,  testprobe2, tv.tv_sec, "Hello world2");
-	DTRACE_PROBE2(tracetest2, testprobe2, tv.tv_sec, "Hello world3");
+	// hello1 must be local
+	DTRACE_PROBE2(tracetest,  testprobe,  tv.tv_sec, hello1);
+	DTRACE_PROBE2(tracetest,  testprobe2, tv.tv_sec, hello2);
+	DTRACE_PROBE2(tracetest2, testprobe2, tv.tv_sec, hello3);
 	return tv.tv_sec;
 }
 
