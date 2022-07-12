@@ -5,6 +5,8 @@
  * Date: 2022.05.25
  *
  * TTWU: try_to_wake_up
+ *
+ * 2022-07-12	Rong Tao	Just print 10st count COMM, add 'kstack'
  */
 #include <linux/sched.h>
 
@@ -16,9 +18,14 @@ BEGIN
 kprobe:try_to_wake_up
 {
 	$task = (struct task_struct *)arg0;
-	@[$task->comm] = count();
+	@count_comm[$task->comm] = count();
+	@stack[kstack] = count();
 }
 
 END
 {
+	print(@count_comm, 20);
+	print(@stack, 1);
+	clear(@count_comm);
+	clear(@stack);
 }
