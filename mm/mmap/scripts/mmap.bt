@@ -1,0 +1,28 @@
+#!/bin/env bpftrace
+/**
+ * File: mmap.bt
+ * Author: Rong Tao
+ * Date: 20220717
+ */
+BEGIN
+{
+	printf("Tracing mmap(2), hit ctrl-c to end.\n");
+	printf("%-8s %-8s %-8s\n", "TIME", "PID", "COMM");
+}
+
+tracepoint:syscalls:sys_enter_mmap
+{
+	time("%H:%M:%S ");
+	printf("%-8d %-8s\n", pid, comm);
+}
+
+tracepoint:syscalls:sys_exit_mmap
+{
+	time("%H:%M:%S ");
+	printf("%-8d %-8s %lx\n", pid, comm, args->ret);
+}
+
+END
+{
+	printf("Bye.\n");
+}
