@@ -1,13 +1,22 @@
-obj-$(CONFIG_LIVEPATCH) += livepatch-callbacks-busymod.o
-obj-$(CONFIG_LIVEPATCH) += livepatch-callbacks-demo.o
-obj-$(CONFIG_LIVEPATCH) += livepatch-callbacks-mod.o
-obj-$(CONFIG_LIVEPATCH) += livepatch-sample.o
-obj-$(CONFIG_LIVEPATCH) += livepatch-shadow-fix1.o
-obj-$(CONFIG_LIVEPATCH) += livepatch-shadow-fix2.o
-obj-$(CONFIG_LIVEPATCH) += livepatch-shadow-mod.o
-obj-$(CONFIG_LIVEPATCH) += loadavg_proc_show.o
+# Copyright (C) Rong Tao @ CESTC
+include /boot/config-$(shell uname -r)
+
+LIVEPATCH:=
+
+ifeq ($(CONFIG_LIVEPATCH),y)
+LIVEPATCH=m
+endif
+obj-$(LIVEPATCH) += livepatch-callbacks-busymod.o
+obj-$(LIVEPATCH) += livepatch-callbacks-demo.o
+obj-$(LIVEPATCH) += livepatch-callbacks-mod.o
+obj-$(LIVEPATCH) += livepatch-sample.o
+obj-$(LIVEPATCH) += livepatch-shadow-fix1.o
+obj-$(LIVEPATCH) += livepatch-shadow-fix2.o
+obj-$(LIVEPATCH) += livepatch-shadow-mod.o
+obj-$(LIVEPATCH) += loadavg_proc_show.o
 
 all:
+	@echo "CONFIG_LIVEPATCH = $(CONFIG_LIVEPATCH)"
 	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
 
 test:
