@@ -1,4 +1,13 @@
-obj-m += kallsyms_example.o
+# Copyright (C) Rong Tao @ CESTC
+include /boot/config-$(shell uname -r)
+
+LIVEPATCH:=
+
+ifeq ($(CONFIG_LIVEPATCH),y)
+LIVEPATCH=m
+endif
+
+obj-$(LIVEPATCH) += kallsyms_example.o
 kallsyms_example-objs := main.o kallsyms.o
 
 MCFLAGS += -g

@@ -1,6 +1,13 @@
+# Copyright (C) Rong Tao @ CESTC
+include /boot/config-$(shell uname -r)
 
-obj-m += kthread.o
-obj-m += patchkthread.o
+LIVEPATCH:=
+
+ifeq ($(CONFIG_LIVEPATCH),y)
+LIVEPATCH=m
+endif
+obj-$(LIVEPATCH) += kthread.o
+obj-$(LIVEPATCH) += patchkthread.o
 
 all:
 	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
