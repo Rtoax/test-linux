@@ -15,7 +15,7 @@
 #define MEM_SIZE 0x1000
 
 #if !defined(__x86_64__)
-# error "Not support arch, just x86_64 now."
+# warning "Not support arch, just x86_64 now."
 #endif
 
 int main()
