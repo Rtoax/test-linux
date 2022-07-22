@@ -1,6 +1,9 @@
 
+# Just support x86_64 right now
+ifeq ($(shell uname -m),x86_64)
 TARGETS= \
 	ioctl_values.out
+endif
 
 DEBUG = yes
 SRC_PATH := $(shell pwd)
