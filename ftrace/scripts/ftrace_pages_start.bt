@@ -1,0 +1,13 @@
+#!/bin/env bpftrace
+/**
+ *
+ * Copyright CESTC, Inc
+ *
+ * 2022-07-29 Rong Tao  Create this
+ */
+BEGIN
+{
+	printf("ftrace_pages_start = %lx\n", kaddr("ftrace_pages_start"));
+	exit();
+}
+
