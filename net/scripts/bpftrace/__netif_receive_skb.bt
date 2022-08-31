@@ -1,0 +1,26 @@
+#!/usr/bin/env bpftrace
+
+BEGIN
+{
+	printf("Tracing __netif_receive_skb.\n");
+}
+
+kprobe:__netif_receive_skb*
+{
+	@[tid] = arg0;
+}
+
+kretprobe:__netif_receive_skb*
+{
+	$skb = (struct sk_buff *)@[tid];
+	delete(@[tid]);
+
+	$saddr = $skb->sk->__sk_common.skc_rcv_saddr;
+	$daddr = $skb->sk->__sk_common.skc_daddr;
+	$sport = $skb->sk->__sk_common.skc_num;
+	$dport = $skb->sk->__sk_common.skc_dport;
+	$dport = ($dport >> 8) | (($dport << 8) & 0x00FF00);
+
+	printf("%s:%d -> %s:%d\n", ntop($saddr), $sport, ntop($daddr), $dport);
+}
+
