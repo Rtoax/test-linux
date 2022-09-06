@@ -20,6 +20,12 @@ int main(int argc, char *argv[])
 	int fd = open(TEST_FILE, O_CREAT | O_RDWR, 0644);
 
 
+	/**
+	 * Use:
+	 * sudo bpftrace -e 'kprobe:*_fallocate { @[probe] = count() }'
+	 *
+	 * tracing fallocate(2)
+	 */
 	fallocate(fd, 0, 0, 1024);
 
 
