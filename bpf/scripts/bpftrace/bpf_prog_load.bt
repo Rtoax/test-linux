@@ -1,0 +1,36 @@
+#!/usr/bin/env bpftrace
+
+#include <linux/filter.h>
+#include <uapi/linux/bpf.h>
+
+
+BEGIN
+{
+	@Type[BPF_PROG_TYPE_UNSPEC] = "Unspec";
+	@Type[BPF_PROG_TYPE_SOCKET_FILTER] = "SockFilter";
+	@Type[BPF_PROG_TYPE_KPROBE] = "Kprobe";
+	@Type[BPF_PROG_TYPE_TRACEPOINT] = "TracePoint";
+	@Type[BPF_PROG_TYPE_PERF_EVENT] = "PerfEvent";
+	@Type[BPF_PROG_TYPE_XDP] = "XDP";
+	@Type[BPF_PROG_TYPE_LWT_IN] = "LWT IN";
+	@Type[BPF_PROG_TYPE_LWT_OUT] = "LWT OUT";
+	@Type[BPF_PROG_TYPE_LWT_XMIT] = "LWT XMIT";
+	@Type[BPF_PROG_TYPE_RAW_TRACEPOINT] = "RawTracePoint";
+
+
+	printf("Tracing bpf_prog_load,\n");
+	printf("%-8s %-8s %-16s\n", "PID", "COMM", "TYPE");
+}
+
+kprobe:bpf_prog_load
+{
+	$attr = (union bpf_attr *)arg0;
+	$type = $attr->prog_type;
+
+	printf("%-8d %-8s %-16s\n", pid, comm, @Type[$type]);
+}
+
+END
+{
+	clear(@Type);
+}
