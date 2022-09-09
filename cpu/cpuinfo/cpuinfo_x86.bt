@@ -4,7 +4,7 @@
  * Author: Rong Tao
  * Date: 2022-09-09
  *
- * Description:
+ * Description: Get boot_cpu_data and print
  * Ref:
  */
 // see linux:arch/x86/include/asm/processor.h
