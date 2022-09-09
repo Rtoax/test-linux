@@ -1,0 +1,39 @@
+#!/bin/env bpftrace
+/**
+ * File: cpuinfo_x86.bt
+ * Author: Rong Tao
+ * Date: 2022-09-09
+ *
+ * Description:
+ * Ref:
+ */
+// see linux:arch/x86/include/asm/processor.h
+struct cpuinfo_x86 {
+	char x86;
+	char x86_vendor;
+	// ...
+};
+
+BEGIN
+{
+	// see arch/x86/include/asm/processor.h
+	@VENDOR[0] = "Intel";
+	@VENDOR[1] = "Cyrix";
+	@VENDOR[2] = "AMD";
+	@VENDOR[3] = "UMC";
+	@VENDOR[5] = "Centaur";
+	@VENDOR[7] = "Transmeta";
+	@VENDOR[8] = "NSC";
+	@VENDOR[9] = "Hygon";
+	@VENDOR[10] = "Zhaoxin";
+
+
+	$cpuinfo = (struct cpuinfo_x86 *)kaddr("boot_cpu_data");
+
+	printf("x86_vendor = %s\n", @VENDOR[$cpuinfo->x86_vendor]);
+
+	clear(@VENDOR);
+
+	exit();
+}
+
