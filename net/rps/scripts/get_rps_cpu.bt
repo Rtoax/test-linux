@@ -1,0 +1,31 @@
+#!/bin/env bpftrace
+/**
+ * File: get_rps_cpu.bt
+ * Author: Rong Tao
+ * Date: 2022-09-18
+ *
+ * Description: Get rps's CPU
+ * Ref: RPS (Receive Packet Steering)
+ */
+
+BEGIN
+{
+	printf("Tracing get_rps_cpu(), hit ctrl-c to end.\n");
+}
+
+kprobe:get_rps_cpu
+{
+	@rps[cpu] = count();
+}
+
+interval:s:1
+{
+	time();
+	print(@rps);
+	clear(@rps);
+}
+
+END
+{
+	printf("Bye.\n");
+}
