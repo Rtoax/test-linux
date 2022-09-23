@@ -1,0 +1,26 @@
+#!/bin/env bpftrace
+/**
+ * File: elf_map.bt
+ * Author: Rong Tao
+ * Date: 2022-09-23
+ *
+ */
+
+BEGIN
+{
+	printf("Tracing xxx, hit ctrl-c to end.\n");
+	printf("%-8s %-8s %-16s %-16s %-8s\n",
+		"TIME", "PID", "ADDR", "MAP ADDR", "COMM");
+}
+
+kprobe:elf_map
+{
+	time("%H:%M:%S ");
+	printf("%-8d %-16lx ", pid, arg2);
+}
+
+kretprobe:elf_map
+{
+	printf("%-16lx %-8s\n", retval, comm);
+}
+
