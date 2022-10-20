@@ -6,16 +6,10 @@
  *
  * 2022-10-20	Rong Tao	Create this
  */
-
+#include <linux/sched.h>
 // usr/include/linux/kvm.h
 // for KVM_SET_USER_MEMORY_REGION
-struct kvm_userspace_memory_region {
-	uint32_t slot;
-	uint32_t flags;
-	uint64_t guest_phys_addr;
-	uint64_t memory_size;
-	uint64_t userspace_addr;
-};
+#include <uapi/linux/kvm.h>
 
 BEGIN
 {
