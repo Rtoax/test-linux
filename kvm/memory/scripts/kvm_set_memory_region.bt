@@ -24,7 +24,7 @@ BEGIN
 		"COMM", "PID", "SLOT", "GPA", "SIZE", "HVA");
 }
 
-kprobe:kvm_set_memory_region
+kprobe:__kvm_set_memory_region
 {
 	$region = (struct kvm_userspace_memory_region *)arg2;
 
@@ -34,6 +34,8 @@ kprobe:kvm_set_memory_region
 		$region->guest_phys_addr,
 		$region->memory_size,
 		$region->userspace_addr);
+
+	@[kstack] = count();
 }
 
 END
