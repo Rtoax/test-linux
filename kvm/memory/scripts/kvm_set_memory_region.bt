@@ -1,0 +1,41 @@
+#!/bin/env bpftrace
+/**
+ * kvm_set_memory_region.bt - Tracing KVM set memory region
+ *
+ * Copyright (C) Rong Tao <rongtao@cestc.cn>
+ *
+ * 2022-10-20	Rong Tao	Create this
+ */
+
+// usr/include/linux/kvm.h
+// for KVM_SET_USER_MEMORY_REGION
+struct kvm_userspace_memory_region {
+	uint32_t slot;
+	uint32_t flags;
+	uint64_t guest_phys_addr;
+	uint64_t memory_size;
+	uint64_t userspace_addr;
+};
+
+BEGIN
+{
+	printf("Tracing kvm_set_memory_region, hit ctrl-c to end.\n");
+	printf("%-16s %-8s %-8s %-16s %-8s %-16s\n",
+		"COMM", "PID", "SLOT", "GPA", "SIZE", "HVA");
+}
+
+kprobe:kvm_set_memory_region
+{
+	$region = (struct kvm_userspace_memory_region *)arg2;
+
+	printf("%-16s %-8d %-8d %-16lx %-8ld %-16lx\n",
+		comm, pid,
+		$region->slot,
+		$region->guest_phys_addr,
+		$region->memory_size,
+		$region->userspace_addr);
+}
+
+END
+{
+}

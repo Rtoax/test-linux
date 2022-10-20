@@ -9,9 +9,10 @@
 
 BEGIN
 {
-	@ioctls[0x000000000000ae41] = "    KVM_CREATE_VCPU";
-	@ioctls[0x000000004020aea5] = "     KVM_SIGNAL_MSI";
-	@ioctls[0x00000000c008ae67] = "KVM_IRQ_LINE_STATUS";
+	@ioctls[0x000000000000ae41] = "      KVM_CREATE_VCPU";
+	@ioctls[0x000000004020aea5] = "       KVM_SIGNAL_MSI";
+	@ioctls[0x00000000c008ae67] = "  KVM_IRQ_LINE_STATUS";
+	@ioctls[0x000000004018ae40] = "KVM_SET_MEMORY_REGION";
 
 	printf("Tracing kvm_vm_ioctl, hit ctrl-c to end.\n");
 	printf("%-8s %-16s %-8s %-8s\n", "TIME", "COMM", "PID", "IOCTL");
