@@ -75,3 +75,6 @@ modules.order
 # perf
 perf.data
 perf.data.old
+
+# Python
+__pycache__
