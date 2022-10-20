@@ -1,11 +1,9 @@
 #!/bin/env bpftrace
 /**
- * File:
- * Author:
- * Date:
  *
- * Description:
- * Ref:
+ *
+ * Copyright (C) Rong Tao 2022
+ *
  */
 #include <linux/sched.h>
 
