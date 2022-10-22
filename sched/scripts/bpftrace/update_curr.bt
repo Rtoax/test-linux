@@ -11,4 +11,5 @@
 
 kprobe:update_curr
 {
+	@[kstack] = count();
 }
