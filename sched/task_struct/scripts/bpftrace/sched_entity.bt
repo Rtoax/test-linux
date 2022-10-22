@@ -1,0 +1,28 @@
+#!/bin/env bpftrace
+/**
+ * sched_entity.bt
+ *
+ * Copyright (C) Rong Tao
+ *
+ * 2022.06.06	Rong Tao	Create this
+ */
+#include <linux/sched.h>
+
+BEGIN
+{
+	printf("Profile runtime, hit ctrl-c to end.\n");
+}
+
+profile:hz:99
+{
+	$task = (struct task_struct *)curtask;
+	$se = $task->se;
+
+	$sum_exec_runtime = $se.sum_exec_runtime;
+
+	@sum = hist($sum_exec_runtime);
+}
+
+END
+{
+}
