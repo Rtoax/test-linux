@@ -1,0 +1,23 @@
+#!/usr/bin/env bpftrace
+/**
+ * sched_fork.bt - Tracing sched_fork()
+ * 
+ * Copyright (C) 2022 Rong Tao
+ * 
+ * 2022-10-22	Rong Tao	Create this
+ */
+
+
+BEGIN
+{
+	printf("Tracing sched_fork, hit ctrl-c to end.\n");
+	printf("%-8s %-16s %-8s\n", "TIME", "COMM", "PID");
+}
+
+kprobe:sched_fork
+{
+	time("%H:%M:%S ");
+	printf("%-16s %-8d\n", comm, pid);
+
+	@ks[kstack] = count();
+}
