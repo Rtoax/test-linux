@@ -1,0 +1,14 @@
+#!/usr/bin/env bpftrace
+/**
+ * update_curr.bt - Tracing update_curr()
+ *
+ * Copyright (C) Rong Tao
+ *
+ * 2022-10-22	Rong Tao	Create this
+ */
+
+#include <linux/sched.h>
+
+kprobe:update_curr
+{
+}
