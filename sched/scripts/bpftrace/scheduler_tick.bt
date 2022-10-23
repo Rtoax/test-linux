@@ -1,0 +1,15 @@
+#!/usr/bin/env bpftrace
+/**
+ * scheduler_tick.bt - Tracing scheduler_tick()
+ *
+ * Copyright (C) Rong Tao
+ *
+ * 2022-10-22	Rong Tao	Create this
+ */
+
+#include <linux/sched.h>
+
+kprobe:scheduler_tick
+{
+	@[kstack] = count();
+}
