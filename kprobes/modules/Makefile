@@ -1,5 +1,6 @@
 
 obj-m += kprobe_icmp_echo.o
+obj-m += kprobe_icmp_reply.o
 obj-m += kprobe___handle_sysrq.o
 #obj-m += kprobe_read_tsc.o
 obj-m += kprobe_example.o
