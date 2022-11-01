@@ -14,6 +14,9 @@
 static char symbol[MAX_SYMBOL_LEN] = "icmp_echo";
 module_param_string(symbol, symbol, sizeof(symbol), 0644);
 
+static long offset = 0;
+module_param(offset, long, 0660);
+
 static unsigned long int count_icmp_echo = 0;
 
 static struct kprobe kp = {
@@ -38,6 +41,7 @@ static int __init kprobe_init(void)
 	int ret;
 	kp.pre_handler = handler_pre;
 	kp.post_handler = handler_post;
+	kp.offset = offset;
 
 	ret = register_kprobe(&kp);
 	if (ret < 0) {
