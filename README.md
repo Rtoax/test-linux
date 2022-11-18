@@ -24,7 +24,6 @@ test linux code
 * [Gitee test-os](https://gitee.com/rtoax/test-os)
 * [GitHub test](https://github.com/rtoax/test)
 * [Gitee test](https://gitee.com/rtoax/test)
-* [Gitee test-github](https://gitee.com/rtoax/test-github)
 * [GitHub Notes](https://github.com/rtoax/notes)
 * [Gitee Notes](https://gitee.com/rtoax/notes)
 
