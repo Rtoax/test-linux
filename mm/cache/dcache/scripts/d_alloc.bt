@@ -16,6 +16,7 @@ kprobe:d_alloc
 	//printf("%s\n", str($name));
 
 	@d_alloc_count[probe, comm, pid] = count();
+	@d_alloc_kstack[kstack] = count();
 }
 
 kprobe:d_alloc_anon,
@@ -26,5 +27,6 @@ kprobe:d_alloc_pseudo
 
 END
 {
+	print(@d_alloc_kstack, 2);
 	printf("Bye.\n");
 }
