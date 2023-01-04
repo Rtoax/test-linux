@@ -5,7 +5,9 @@
  * Date: 2022.06.06
  *
  */
+#ifndef BPFTRACE_HAVE_BTF
 #include <linux/sched.h>
+#endif
 
 BEGIN
 {
