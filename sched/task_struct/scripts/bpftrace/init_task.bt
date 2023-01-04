@@ -13,5 +13,9 @@ BEGIN
 {
 	$init = (struct task_struct *)kaddr("init_task");
 	printf("init_task.comm = %s\n", $init->comm);
+	printf("init_task.prio = %d\n", $init->prio);
+	printf("init_task.static_prio = %d\n", $init->static_prio);
+	printf("init_task.normal_prio = %d\n", $init->normal_prio);
+	printf("init_task.rt_priority = %d\n", $init->rt_priority);
 	exit();
 }
