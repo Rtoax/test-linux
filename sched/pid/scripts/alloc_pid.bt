@@ -1,0 +1,30 @@
+#!/bin/env bpftrace
+/**
+ * alloc_pid.bt
+ *
+ * Copyright (C) Rong Tao 2023
+ *
+ */
+#include <linux/sched.h>
+
+BEGIN
+{
+	printf("Tracing xxx, hit ctrl-c to end.\n");
+	printf("%-8s %-8s %-8s\n", "TIME", "COMM", "NewPID");
+}
+
+kretprobe:alloc_pid
+{
+	$pid = (struct pid *)retval;
+
+	if ($pid->level == 0) {
+		time("%H:%M:%S ");
+		printf("%-8s %-8d\n", comm, $pid->numbers[0].nr);
+	}
+}
+
+END
+{
+	printf("Bye.\n");
+}
+
