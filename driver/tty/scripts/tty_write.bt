@@ -26,9 +26,13 @@ kprobe:tty_write
 	$iovec = $from->iov;
 	$iov_len2 = $iovec->iov_len;
 
+	$count = $from->count;
+	$ubuf = $from->ubuf;
+
 	time("%H:%M:%S ");
-	printf("%-8d %-8s %-8d %-8d %-8d %-8d %-8d\n",
-		pid, comm, $iter_type, $data_source, $iov_len, $bv_len, $iov_len2);
+	printf("%-8d %-8s %-8d %-8d %-8d %-8d %-8d %-8d %016lx\n",
+		pid, comm, $iter_type, $data_source, $iov_len,
+		$bv_len, $iov_len2, $count, $ubuf);
 }
 
 END
