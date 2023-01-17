@@ -9,7 +9,6 @@
 #include <linux/kernel.h>
 #include <linux/printk.h>
 #include <linux/slab.h>
-#include <linux/slab_def.h>
 #include <linux/gfp.h>
 
 struct test_struct {
@@ -31,19 +30,24 @@ void test_constructor(void *data)
 }
 
 void print_kmem_cache(struct kmem_cache *cache)
-{	
+{
 	printk("%-5s %-5s %-8s %-4s\n", "NUM", "SIZE", "OBJSIZE", "REF");
-	printk("%-5d %-5d %-8d %-4d\n", 
-			test_slab->num, 
+	/**
+	 * kernel slab_def.h introduce new slab_address(), we can't print kmem_cache
+	 * in module anymore.
+	 */
+#if 0
+	printk("%-5d %-5d %-8d %-4d\n",
+			test_slab->num,
 			test_slab->size,
 			test_slab->object_size,
 			test_slab->refcount);
-
+#endif
 }
 
 static int create_slab(void)
 {
-	test_slab = kmem_cache_create(SLAB_NAME, 
+	test_slab = kmem_cache_create(SLAB_NAME,
 				sizeof(struct test_struct),
 				0,
 				SLAB_PANIC,
@@ -67,7 +71,7 @@ static void test__slab(void)
 	}
 
 	for (i = 0; i < SLAB_ELEM; i++) {
-		datas[i] = kmem_cache_alloc(test_slab, GFP_KERNEL);	
+		datas[i] = kmem_cache_alloc(test_slab, GFP_KERNEL);
 	}
 
 	print_kmem_cache(test_slab);
@@ -91,7 +95,7 @@ static int kernel_init(void)
 	printk(KERN_INFO "my init.\n");
 	create_slab();
 	test__slab();
-	
+
 	printk("count_ctor = %d\n", count_ctor);
 	return 0;
 }
