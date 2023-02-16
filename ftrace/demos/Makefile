@@ -6,5 +6,5 @@ all:
 	gcc main.c ${CFLAGS} -S -pg -o main-pg.s
 
 clean:
-	rm -f *.s *.S
+	rm -f *.s *.S *.out
 
