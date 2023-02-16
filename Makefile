@@ -60,6 +60,7 @@ $(SUB_kernel_DIR_TEST):
 
 # Make clean
 clean: cleanuser cleankernel
+	git clean -dfx
 cleanuser: $(SUB_user_DIR_CLEAN)
 $(SUB_user_DIR_CLEAN):
 	$(call make_clean,U,$(@:%_clean=%))
