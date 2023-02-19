@@ -99,10 +99,12 @@ int main()
 			case KVM_EXIT_FAIL_ENTRY:
 				puts("entry error.");
 				return -1;
+			case KVM_EXIT_INTERNAL_ERROR:
+			case KVM_EXIT_MMIO:
 			default:
 				puts("other error.");
 				printf("exit_reason: %d\n", run->exit_reason);
-			return -1;
+				return -1;
 		}
 	}
 }
