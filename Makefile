@@ -59,14 +59,20 @@ $(SUB_kernel_DIR_TEST):
 	$(call make_test,K,$(@:%_test=%))
 
 # Make clean
-clean: cleanuser cleankernel
-	git clean -dfx
+clean: cleanuser cleankernel clean-git
+	echo "=== clean all"
 cleanuser: $(SUB_user_DIR_CLEAN)
+	echo "=== clean user"
 $(SUB_user_DIR_CLEAN):
 	$(call make_clean,U,$(@:%_clean=%))
 cleankernel: $(SUB_kernel_DIR_CLEAN)
+	echo "=== clean kernel"
 $(SUB_kernel_DIR_CLEAN):
 	$(call make_clean,K,$(@:%_clean=%))
+# Clean git repo useless file and directory
+clean-git:
+	echo "=== clean git repo"
+	sudo git clean -dfx
 
 .PHONY: all test clean \
 	$(SUB_user_DIR) \
