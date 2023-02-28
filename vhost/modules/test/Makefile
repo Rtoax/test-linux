@@ -7,6 +7,13 @@ all:
 clean:
 	make -C ${KERNELDIR} M=$(PWD) clean
 
+insmod:
+	sudo modprobe vhost
+	sudo insmod vhost_test.ko
+
+rmmod:
+	sudo rmmod vhost_test
+
 sync:
 	cp /home/rongtao/Git/linux/drivers/vhost/test.c .
 	cp /home/rongtao/Git/linux/drivers/vhost/test.h .
