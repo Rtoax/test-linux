@@ -1,0 +1,19 @@
+#!/usr/bin/env bpftrace
+
+
+BEGIN
+{
+	printf("Tracing load_bias value, hit ctrl-C to end.\n");
+	printf("%-8s %-8s %-8s %-16s\n", "TIME", "PID", "COMM", "LOAD_BIAS");
+}
+
+kprobe:load_elf_interp*
+{
+	time("%H:%M:%S ");
+	printf("%-8d %-8s %-16lx\n", pid, comm, arg2);
+}
+
+END
+{
+	printf("Bye.\n");
+}
