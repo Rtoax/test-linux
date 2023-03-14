@@ -14,7 +14,8 @@
 #include <string.h>
 #include <errno.h>
 #include <pthread.h>
-
+#include <getopt.h>
+#include <signal.h>
 #include "list.h"
 
 
@@ -111,11 +112,30 @@ void *thread_fn(void *arg)
 	return NULL;
 }
 
+static int nr_threads = 2;
+pthread_t *threads;
+
+void sig_handler(int signum)
+{
+	int i;
+
+	switch (signum) {
+	case SIGINT:
+		printf("Catch CTRL+C.\n");
+		for (i = 0; i < nr_threads; i++) {
+			pthread_cancel(threads[i]);
+		}
+		break;
+	default:
+		break;
+	}
+}
+
 int main(int argc, char *argv[])
 {
-	int i, nr_threads = 2;
+	int i;
 
-	pthread_t *threads;
+	signal(SIGINT, sig_handler);
 
 	list_init(&proc_files);
 
@@ -126,9 +146,14 @@ int main(int argc, char *argv[])
 		pthread_create(&threads[i], NULL, thread_fn, NULL);
 	}
 
+	/* wait wait wait.. i just wanna wait wait wait, what you waiting for? */
 	for (i = 0; i < nr_threads; i++) {
 		pthread_join(threads[i], NULL);
 	}
+
+	free(threads);
+
+	printf("Bye.\n");
 
 	return 0;
 }
