@@ -37,7 +37,12 @@ int read_dir(const char *path)
 	if (!dir) {
 		if (errno == EACCES) {
 			fprintf(stderr, "%s: %s\n", path, strerror(errno));
-			return -EACCES;
+			fprintf(stderr, "Run with superuser, root maybe.\n");
+			exit(1);
+		} else if (errno == ENOENT || errno == ENOTDIR) {
+			fprintf(stderr, "%s: %s\n", path, strerror(errno));
+			/* skip */
+			return -ENOENT;
 		}
 	}
 
