@@ -87,21 +87,25 @@ void print_files(void)
 	}
 }
 
+static unsigned int read_nloop = 1;
+
 void read_files(void)
 {
 	int fd;
 	struct path *iter;
 	char buffer[64];
+	unsigned int nloop = read_nloop ?: 1;
 
-	list_for_each_entry(iter, &proc_files, node) {
-		fd = open(iter->path, O_RDONLY);
-		/* skip if open failed */
-		if (fd == -1) {
-			fprintf(stderr, "open: %s: %s\n", iter->path, strerror(errno));
-			continue;
+	while (nloop--) {
+		list_for_each_entry(iter, &proc_files, node) {
+			fd = open(iter->path, O_RDONLY);
+			/* skip if open failed */
+			if (fd == -1) {
+				continue;
+			}
+			read(fd, buffer, 2);
+			close(fd);
 		}
-		read(fd, buffer, 2);
-		close(fd);
 	}
 }
 
@@ -131,15 +135,68 @@ void sig_handler(int signum)
 	}
 }
 
+void help(void)
+{
+	printf(
+	"\n"
+	"Usage: \n"
+	"\n"
+	" -h, --help       show this info\n"
+	" -t, --thread     how many thread to create\n"
+	"     --loop       print loop times\n"
+	"\n"
+	);
+
+	exit(0);
+}
+
+void parse_args(int argc, char *argv[])
+{
+	struct option options[] = {
+		{ "thread",    required_argument,   0,  't' },
+		{ "loop",      required_argument,   0,  101 },
+		{ "help",      no_argument,         0,  'h' },
+		{ NULL },
+	};
+
+	while (true) {
+		int idx = 0;
+		char ch;
+		ch = getopt_long(argc, argv, "t:h", options, &idx);
+		if (ch < 0)
+			break;
+
+		switch (ch) {
+		case 'h':
+			help();
+			break;
+		case 't':
+			nr_threads = atoi(optarg);
+			break;
+		case 101:
+			read_nloop = atoi(optarg);
+			break;
+		default:
+			break;
+		}
+	}
+}
+
 int main(int argc, char *argv[])
 {
 	int i;
+
+	parse_args(argc, argv);
 
 	signal(SIGINT, sig_handler);
 
 	list_init(&proc_files);
 
 	read_dir(PROC_ROOT);
+
+	printf("=========================\n");
+	printf("=== Create %d threads\n", nr_threads);
+	printf("=== nloop = %d\n", read_nloop);
 
 	threads = malloc(sizeof(pthread_t) * nr_threads);
 	for (i = 0; i < nr_threads; i++) {
