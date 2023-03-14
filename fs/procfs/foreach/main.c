@@ -13,6 +13,7 @@
 #include <sys/stat.h>
 #include <string.h>
 #include <errno.h>
+#include <pthread.h>
 
 #include "list.h"
 
@@ -85,13 +86,49 @@ void print_files(void)
 	}
 }
 
+void read_files(void)
+{
+	int fd;
+	struct path *iter;
+	char buffer[64];
+
+	list_for_each_entry(iter, &proc_files, node) {
+		fd = open(iter->path, O_RDONLY);
+		/* skip if open failed */
+		if (fd == -1) {
+			fprintf(stderr, "open: %s: %s\n", iter->path, strerror(errno));
+			continue;
+		}
+		read(fd, buffer, 2);
+		close(fd);
+	}
+}
+
+void *thread_fn(void *arg)
+{
+	read_files();
+
+	return NULL;
+}
+
 int main(int argc, char *argv[])
 {
+	int i, nr_threads = 2;
+
+	pthread_t *threads;
+
 	list_init(&proc_files);
 
 	read_dir(PROC_ROOT);
 
-	print_files();
+	threads = malloc(sizeof(pthread_t) * nr_threads);
+	for (i = 0; i < nr_threads; i++) {
+		pthread_create(&threads[i], NULL, thread_fn, NULL);
+	}
+
+	for (i = 0; i < nr_threads; i++) {
+		pthread_join(threads[i], NULL);
+	}
 
 	return 0;
 }
