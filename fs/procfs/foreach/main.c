@@ -1,0 +1,93 @@
+/**
+ * loop read /proc for testing
+ *
+ * 2023-03-14	Rong Tao	Create this.
+ */
+#define _GNU_SOURCE
+#include <stdio.h>
+#include <stdbool.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <dirent.h>
+#include <fcntl.h>
+#include <sys/stat.h>
+#include <string.h>
+#include <errno.h>
+
+#include "list.h"
+
+
+#define PROC_ROOT	"/proc"
+#define MAX_PATH	512
+
+struct path {
+	char *path;
+	struct list node;
+};
+
+static struct list proc_files;
+
+int read_dir(const char *path)
+{
+	DIR *dir;
+	struct dirent *child_dir;
+	char path_child[MAX_PATH];
+
+	dir = opendir(path);
+	if (!dir) {
+		if (errno == EACCES) {
+			fprintf(stderr, "%s: %s\n", path, strerror(errno));
+			return -EACCES;
+		}
+	}
+
+	while (true) {
+		if (!(child_dir = readdir(dir)))
+			/* loop done */
+			break;
+
+		if (child_dir->d_type == DT_REG) {
+
+			struct path *p = malloc(sizeof(struct path));
+
+			snprintf(path_child, MAX_PATH, "%s/%s", path, child_dir->d_name);
+			p->path = strdup(path_child);
+			list_insert(&proc_files, &p->node);
+
+		} else if (child_dir->d_type == DT_DIR) {
+
+			/* skip '.' and '..' */
+			if (strcmp(child_dir->d_name, ".") &&
+				strcmp(child_dir->d_name, "..")) {
+
+				snprintf(path_child, MAX_PATH, "%s/%s", path, child_dir->d_name);
+				read_dir(path_child);
+			}
+		}
+	}
+
+	closedir(dir);
+
+	return 0;
+}
+
+void print_files(void)
+{
+	struct path *iter;
+
+	list_for_each_entry(iter, &proc_files, node) {
+		printf("%s\n", iter->path);
+	}
+}
+
+int main(int argc, char *argv[])
+{
+	list_init(&proc_files);
+
+	read_dir(PROC_ROOT);
+
+	print_files();
+
+	return 0;
+}
+
