@@ -59,7 +59,14 @@ $(SUB_kernel_DIR_TEST):
 	$(call make_test,K,$(@:%_test=%))
 
 # Make clean
-clean: cleanuser cleankernel clean-git
+clean:
+	@echo "==="
+	@echo "=== cleanall"
+	@echo "=== cleanuser"
+	@echo "=== cleankernel"
+	@echo "=== cleangit"
+	@echo "==="
+cleanall: cleanuser cleankernel cleangit
 	echo "=== clean all"
 cleanuser: $(SUB_user_DIR_CLEAN)
 	echo "=== clean user"
@@ -70,7 +77,7 @@ cleankernel: $(SUB_kernel_DIR_CLEAN)
 $(SUB_kernel_DIR_CLEAN):
 	$(call make_clean,K,$(@:%_clean=%))
 # Clean git repo useless file and directory
-clean-git:
+cleangit:
 	echo "=== clean git repo"
 	sudo git clean -dfx
 
