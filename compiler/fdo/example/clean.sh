@@ -1,4 +1,10 @@
 #!/bin/bash
 
-rm -f *.out *.gcda *.profraw \
-	perf.data* *.gcov
+clean()
+{
+	rm -f *.out *.gcda *.profraw *.profdata \
+		perf.data* *.gcov "$@"
+}
+
+clean "$@"
+

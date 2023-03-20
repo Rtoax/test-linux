@@ -38,6 +38,9 @@ gcc_autofdo()
 	gcc -O3 -fauto-profile=sort.gcov sort.c -o sort_autofdo.out
 }
 
+
+. clean.sh
+
 gcc_ordinary
 gcc_optimized
 gcc_fdo
