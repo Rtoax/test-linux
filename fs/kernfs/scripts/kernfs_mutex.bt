@@ -4,17 +4,29 @@
  *
  * Copyright (C) Rong Tao 2022-2023
  */
+#include <linux/mutex.h>
+#include <linux/sched.h>
 
 BEGIN
 {
-	printf("Tracing xxx, hit ctrl-c to end.\n");
+	printf("Tracing who hold kernfs_mutex, hit ctrl-c to end.\n");
 	printf("%-8s %-8s %-8s\n", "TIME", "PID", "COMM");
 }
 
-kprobe:kernfs_get
+interval:s:1
 {
+	/**
+	 * FIXME:
+	 *
+	 * per-fs lock: >= v5.16-rc2-1-g393c3714081a
+	 * kernfs_rwsem: v5.14-rc3-16-g7ba0273b2f34 <= V < v5.16-rc2-1-g393c3714081a
+	 * kernfs_mutex:                               V < v5.14-rc3-16-g7ba0273b2f34
+	 */
+	$kernfs_mutex = (struct mutex *)kaddr("kernfs_mutex");
+	$task = (struct task_struct *)$kernfs_mutex->owner;
+
 	time("%H:%M:%S ");
-	printf("%-8d %-8s\n", pid, comm);
+	printf("%-8d %-8s\n", task->pid, task->comm);
 }
 
 END
