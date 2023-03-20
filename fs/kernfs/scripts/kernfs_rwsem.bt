@@ -1,1 +1,36 @@
-kernfs_mutex.bt
+#!/usr/bin/env bpftrace
+/**
+ * kernfs_rwsem.bt
+ *
+ * Copyright (C) Rong Tao 2022-2023
+ */
+#include <linux/mutex.h>
+#include <linux/rwsem.h>
+#include <linux/sched.h>
+
+BEGIN
+{
+	printf("Tracing who hold kernfs_mutex, hit ctrl-c to end.\n");
+	printf("%-8s %-8s %-8s\n", "TIME", "PID", "COMM");
+}
+
+interval:s:1
+{
+	/**
+	 * FIXME:
+	 *
+	 * per-fs lock: >= v5.16-rc2-1-g393c3714081a
+	 * kernfs_rwsem: v5.14-rc3-16-g7ba0273b2f34 <= V < v5.16-rc2-1-g393c3714081a
+	 * kernfs_mutex:                               V < v5.14-rc3-16-g7ba0273b2f34
+	 */
+	$kernfs_lock = (struct rw_semaphore *)kaddr("kernfs_rwsem");
+	$task = (struct task_struct *)$kernfs_lock->owner.counter;
+
+	time("%H:%M:%S ");
+	printf("%-8d %-8s %-8ld\n", $task->pid, $task->comm, $kernfs_lock->count.counter);
+}
+
+END
+{
+	printf("Bye.\n");
+}
