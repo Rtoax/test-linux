@@ -1,0 +1,38 @@
+#!/usr/bin/env bpftrace
+/**
+ * kernfs_dop_revalidate.bt
+ *
+ * Copyright (C) Rong Tao 2022-2023
+ */
+
+BEGIN
+{
+	printf("Tracing who hold kernfs_mutex, hit ctrl-c to end.\n");
+	printf("%-8s %-8s %-8s\n", "TIME", "PID", "COMM");
+}
+
+kprobe:kernfs_dop_revalidate
+{
+	@comms_enter[comm] = count();
+}
+
+kretprobe:kernfs_dop_revalidate
+{
+	@comms_ret[comm] = count();
+}
+
+interval:s:1
+{
+	printf("=== \n");
+	printf("=== Task may hold or wait kernfs_{mutex,rwsem}, if comms_enter != comms_ret\n");
+	printf("=== \n");
+	print(@comms_enter);
+	print(@comms_ret);
+}
+
+END
+{
+	printf("Bye.\n");
+	clear(@comms_enter);
+	clear(@comms_ret);
+}
