@@ -7,3 +7,4 @@ clang sort.c -o sort_instrumented.out -fprofile-instr-generate
 
 # TODO
 clang -O3 sort.c -o sort_fdo.out -fprofile-instr-use=default.profraw
+

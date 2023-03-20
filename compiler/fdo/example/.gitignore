@@ -1,5 +1,6 @@
 /*.gcda
 /*.profraw
+/*.profdata
 /perf.data
 /*.gcov
 /*.out
