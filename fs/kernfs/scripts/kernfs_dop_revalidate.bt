@@ -17,11 +17,13 @@ BEGIN
 	printf("%-8s %-8s %-8s\n", "TIME", "PID", "COMM");
 }
 
+kprobe:kernfs_add_one,
 kprobe:kernfs_dop_revalidate
 {
 	@start[tid] = nsecs;
 }
 
+kretprobe:kernfs_add_one,
 kretprobe:kernfs_dop_revalidate
 / @start[tid] /
 {
