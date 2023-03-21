@@ -18,12 +18,14 @@ BEGIN
 }
 
 kprobe:kernfs_add_one,
+kprobe:kernfs_iop_permission,
 kprobe:kernfs_dop_revalidate
 {
 	@start[tid] = nsecs;
 }
 
 kretprobe:kernfs_add_one,
+kretprobe:kernfs_iop_permission,
 kretprobe:kernfs_dop_revalidate
 / @start[tid] /
 {
