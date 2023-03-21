@@ -8,6 +8,7 @@
  * Copyright (C) CESTC, 2022-2023
  *
  * 2023-03-20	Rong Tao	Create this.
+ * 2023-03-21	Rong Tao	Add latency hist.
  */
 
 BEGIN
@@ -18,25 +19,39 @@ BEGIN
 
 kprobe:kernfs_dop_revalidate
 {
-	@comms_enter[comm] = count();
+	@start[tid] = nsecs;
 }
 
 kretprobe:kernfs_dop_revalidate
+/ @start[tid] /
 {
-	@comms_ret[comm] = count();
+	@comms[comm] = count();
+
+	$latency = (nsecs - @start[tid]) / 1000;
+	delete(@start[tid]);
+	@latency_usecs = hist($latency);
+
+	if ($latency > @max_latency[1]) {
+		@max_latency[1] = $latency;
+		@max_latency_comm[1] = comm;
+	}
 }
 
 interval:s:1
 {
 	printf("=== \n");
-	printf("=== Task may hold or wait kernfs_{mutex,rwsem}, if comms_enter != comms_ret\n");
+	printf("=== Task may hold or wait kernfs_{mutex,rwsem}\n");
 	printf("=== \n");
-	print(@comms_enter);
-	print(@comms_ret);
+	printf("=== MAX latency %ld us, comm %s\n", @max_latency[1], @max_latency_comm[1]);
+	print(@comms, 3);
+	print(@latency_usecs);
 }
 
 END
 {
-	clear(@comms_enter);
-	clear(@comms_ret);
+	clear(@start);
+	clear(@comms);
+	clear(@latency_usecs);
+	clear(@max_latency);
+	clear(@max_latency_comm);
 }
