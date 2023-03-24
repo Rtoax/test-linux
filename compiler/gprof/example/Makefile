@@ -8,4 +8,4 @@ all:
 	dot -Tsvg a.dot -o a.svg
 
 clean:
-	rm -f *.out *.png
+	rm -f *.out *.dot *.png *.svg
