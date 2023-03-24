@@ -20,7 +20,7 @@ clang_gen_prof()
 	# Generate default.profraw
 	./${_prog}
 
-	[[ ! -z default.profraw ]] && mv default*.profraw default.profraw
+	[[ ! -e default.profraw ]] && mv default*.profraw default.profraw
 }
 
 clang_fdo()
