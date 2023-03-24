@@ -2,26 +2,30 @@
 
 set -e
 
+. config
+. clean.sh
+
 prog_name=gcc-sort
 
-cflags=""
+cflags="${CONFIG_CFLAGS}"
+srcs="${CONFIG_SRC}"
+
 
 # 普通编译
 gcc_ordinary()
 {
-	gcc ${cflags} sort.c -o ${prog_name}-orig.out
+	gcc ${cflags} ${srcs} -o ${prog_name}-orig.out
 }
 
 # 生成profile，并使用
 gcc_fdo()
 {
-	gcc ${cflags} sort.c -o ${prog_name}-fdo.out -fprofile-generate
+	gcc ${cflags} ${srcs} -o ${prog_name}-fdo.out -fprofile-generate
 
 	./${prog_name}-fdo.out
 
 	# -fprofile-use will use default gcda profile
-	gcc ${cflags} sort.c -o ${prog_name}-fdo.out \
-		-fprofile-use
+	gcc ${cflags} ${srcs} -o ${prog_name}-fdo.out -fprofile-use
 }
 
 # 使用AutoFDO
@@ -31,16 +35,20 @@ gcc_autofdo()
 
 	perf record -b -e br_inst_retired.near_taken:pp -- ./${prog_name}-orig.out
 
-	create_gcov --binary=./${prog_name}-orig.out --profile=perf.data \
-		    --gcov=sort.gcov -gcov_version=1 >/dev/null
+	create_gcov \
+		--binary=./${prog_name}-orig.out \
+		--profile=perf.data \
+		--gcov=sort.gcov \
+		-gcov_version=1 >/dev/null
 
-	gcc ${cflags} -fauto-profile=sort.gcov sort.c -o ${prog_name}-autofdo.out
+	gcc ${cflags} -fauto-profile=sort.gcov ${srcs} -o ${prog_name}-autofdo.out
 }
 
 
-. clean.sh
 
 gcc_ordinary
 gcc_fdo
 gcc_autofdo
 
+size ${prog_name}*.out
+md5sum ${prog_name}*.out

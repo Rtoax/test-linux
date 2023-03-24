@@ -9,12 +9,12 @@
 
 static struct timeval tm1;
 
-static inline void start(void)
+void start(void)
 {
 	gettimeofday(&tm1, NULL);
 }
 
-static inline void stop(void)
+void stop(void)
 {
 	struct timeval tm2;
 	gettimeofday(&tm2, NULL);
@@ -25,16 +25,22 @@ static inline void stop(void)
 	printf("%llu ms\n", t);
 }
 
+void swap_int(int *a, int *b)
+{
+	int t;
+	t = *a;
+	*a = *b;
+	*b = t;
+}
+
 void bubble_sort(int *a, int n)
 {
-	int i, t, s = 1;
+	int i, s = 1;
 	while (s) {
 		s = 0;
 		for (i = 1; i < n; i++) {
 			if (a[i] < a[i - 1]) {
-				t = a[i];
-				a[i] = a[i - 1];
-				a[i - 1] = t;
+				swap_int(&a[i], &a[i - 1]);
 				s = 1;
 			}
 		}
@@ -60,3 +66,4 @@ int main()
 
 	return 0;
 }
+

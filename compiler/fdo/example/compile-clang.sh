@@ -1,26 +1,34 @@
 #!/bin/bash
 
+set -e
+
+. config
+. clean.sh
+
 prog_name=clang-sort
 
-cflags=""
+profdata=${prog_name}.profdata
+
+cflags="${CONFIG_CFLAGS}"
+srcs="${CONFIG_SRC}"
 
 clang_orig()
 {
-	clang ${cflags} sort.c -o ${prog_name}.out
+	clang ${cflags} ${srcs} -o ${prog_name}.out
 }
 
 clang_gen_prof()
 {
 	local _prog=${prog_name}-genprof.out
 
-	clang ${cflags} sort.c -o ${_prog} \
+	clang ${cflags} ${srcs} -o ${_prog} \
 		-fexperimental-new-pass-manager \
 		-fprofile-generate
 
 	# Generate default.profraw
 	./${_prog}
 
-	[[ ! -e default.profraw ]] && mv default*.profraw default.profraw
+	llvm-profdata merge --output ${profdata} default*.profraw
 }
 
 clang_fdo()
@@ -31,19 +39,17 @@ clang_fdo()
 
 	clang_gen_prof
 
-	llvm-profdata merge --output default.profdata default.profraw
-
-	clang ${cflags} sort.c -o ${_prog_pgo} \
+	clang ${cflags} ${srcs} -o ${_prog_pgo} \
 		-fexperimental-new-pass-manager \
-		-fprofile-use=default.profdata
+		-fprofile-use=${profdata}
 
 	# FIXME: How to FDO?
 	ln -s ${_prog_pgo} ${_prog_fdo}
 }
 
 
-. clean.sh
-
 clang_orig
 clang_fdo
 
+size ${prog_name}*.out
+md5sum ${prog_name}*.out
