@@ -2,5 +2,5 @@
 
 gcc cachelinesize.c -o cachelinesize
 
-CONFIG_CFLAGS="-O2 -DCACHE_LINE_SIZE=$(./cachelinesize)"
+CONFIG_CFLAGS="-O3 -DCACHE_LINE_SIZE=$(./cachelinesize)"
 CONFIG_SRC="sort.c common.c"
