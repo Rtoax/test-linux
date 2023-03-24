@@ -19,8 +19,8 @@ README
 
 ## 验证 TLB 命中率
 
-```
-$ sudo perf stat -e dTLB-loads,dTLB-loads-misses,iTLB-loads,iTLB-loads-misses ./sort.out
+```bash
+$ ./stat.sh ./sort.out
 ```
 
 
