@@ -3,7 +3,8 @@
 clean()
 {
 	rm -f *.out *.gcda *.profraw *.profdata \
-		perf.data* *.gcov "$@"
+		perf.data* *.gcov  \
+		cachelinesize
 }
 
 clean "$@"

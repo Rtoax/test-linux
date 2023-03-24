@@ -4,3 +4,4 @@
 /perf.data
 /*.gcov
 /*.out
+/cachelinesize

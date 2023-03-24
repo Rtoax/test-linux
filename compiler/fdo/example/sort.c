@@ -3,37 +3,13 @@
  */
 #include <stdio.h>
 #include <stdlib.h>
-#include <sys/time.h>
+
+#include "common.h"
 
 #define ARRAY_LEN 30000
 
-static struct timeval tm1;
-
-void start(void)
-{
-	gettimeofday(&tm1, NULL);
-}
-
-void stop(void)
-{
-	struct timeval tm2;
-	gettimeofday(&tm2, NULL);
-
-	unsigned long long t = 1000 * (tm2.tv_sec - tm1.tv_sec) +
-							(tm2.tv_usec - tm1.tv_usec) / 1000;
-
-	printf("%llu ms\n", t);
-}
-
-void swap_int(int *a, int *b)
-{
-	int t;
-	t = *a;
-	*a = *b;
-	*b = t;
-}
-
-void bubble_sort(int *a, int n)
+void __cacheline_align
+bubble_sort(int *a, int n)
 {
 	int i, s = 1;
 	while (s) {
@@ -47,7 +23,8 @@ void bubble_sort(int *a, int n)
 	}
 }
 
-void sort_array(void)
+void __cacheline_align
+sort_array(void)
 {
 	printf("Bubble sorting array of %d elements\n", ARRAY_LEN);
 	int data[ARRAY_LEN], i;

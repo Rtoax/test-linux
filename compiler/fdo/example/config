@@ -1,2 +1,6 @@
-CONFIG_CFLAGS=-O2
-CONFIG_SRC=sort.c
+#!/bin/bash
+
+gcc cachelinesize.c -o cachelinesize
+
+CONFIG_CFLAGS="-O2 -DCACHE_LINE_SIZE=$(./cachelinesize)"
+CONFIG_SRC="sort.c common.c"
