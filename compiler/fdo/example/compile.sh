@@ -2,7 +2,6 @@
 
 set -e
 
-. config
 . clean.sh
 
 prog_name=sort
@@ -12,8 +11,9 @@ profdata=${prog_name}.profdata
 
 compiler=
 
-cflags="${CONFIG_CFLAGS}"
-srcs="${CONFIG_SRC}"
+gcc cachelinesize.c -o cachelinesize
+cflags="-O3 -DCACHE_LINE_SIZE=$(./cachelinesize)"
+srcs="sort.c common.c"
 
 
 # 普通编译

@@ -8,6 +8,7 @@
 #if defined(CACHELINE_ALIGN)
 # define __cacheline_align	__attribute__ ((aligned (__cacheline_size)))
 #else
+# warning "Not define CACHELINE_ALIGN"
 # define __cacheline_align
 #endif
 
