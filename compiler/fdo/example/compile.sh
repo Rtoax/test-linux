@@ -2,8 +2,6 @@
 
 set -e
 
-. clean.sh
-
 prog_name=sort
 
 # For clang
@@ -84,6 +82,17 @@ clang_fdo()
 	ln -s ${_prog_pgo} ${_prog_fdo}
 }
 
+clean()
+{
+	set -x
+
+	rm -f *.out *.gcda *.profraw *.profdata \
+		perf.data* *.gcov  \
+		cachelinesize
+
+	set +x
+}
+
 set_compiler()
 {
 	case $1 in
@@ -103,7 +112,9 @@ __usage__()
 {
 	echo -e "
 
-compile-gcc [args]
+compile-gcc [clean] [args]
+
+ clean                     clean and return
 
  -c, --compiler            specify compiler, gcc or clang
 
@@ -158,8 +169,16 @@ __main__()
 	return 0
 }
 
+case $1 in
+clean)
+	clean
+	exit 0
+	;;
+esac
+
 __main__ "$@"
 
+clean
 
 case $compiler in
 gcc)
