@@ -7,6 +7,9 @@ set -e
 
 prog_name=sort
 
+# For clang
+profdata=${prog_name}.profdata
+
 compiler=
 
 cflags="${CONFIG_CFLAGS}"
@@ -46,12 +49,48 @@ gcc_autofdo()
 	gcc ${cflags} -fauto-profile=sort.gcov ${srcs} -o ${prog_name}-autofdo.out
 }
 
+clang_orig()
+{
+	clang ${cflags} ${srcs} -o ${prog_name}.out
+}
+
+clang_gen_prof()
+{
+	local _prog=${prog_name}-genprof.out
+
+	clang ${cflags} ${srcs} -o ${_prog} \
+		-fexperimental-new-pass-manager \
+		-fprofile-generate
+
+	# Generate default.profraw
+	./${_prog}
+
+	llvm-profdata merge --output ${profdata} default*.profraw
+}
+
+clang_fdo()
+{
+	local _prog_pgo=${prog_name}-pgo.out
+	local _prog_fdo=${prog_name}-fdo.out
+
+
+	clang_gen_prof
+
+	clang ${cflags} ${srcs} -o ${_prog_pgo} \
+		-fexperimental-new-pass-manager \
+		-fprofile-use=${profdata}
+
+	# FIXME: How to FDO?
+	ln -s ${_prog_pgo} ${_prog_fdo}
+}
+
 set_compiler()
 {
 	case $1 in
 	gcc | clang)
 		compiler=$1
 		prog_name=$compiler-$prog_name
+		profdata=${prog_name}.profdata
 		;;
 	*)
 		echo "Unknown compiler, only support gcc, clang"
@@ -101,6 +140,7 @@ __main__()
 			shift
 			cflags+=" -DCACHELINE_ALIGN"
 			prog_name+="-cacheline-align"
+			profdata=${prog_name}.profdata
 			;;
 		-h | --help)
 			shift
@@ -128,8 +168,8 @@ gcc)
 	gcc_autofdo
 	;;
 clang)
-	echo "ERROR: Not support yet."
-	exit 1
+	clang_orig
+	clang_fdo
 	;;
 esac
 
