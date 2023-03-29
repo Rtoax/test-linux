@@ -28,8 +28,8 @@ stop(void)
 	struct timeval tm2;
 	gettimeofday(&tm2, NULL);
 
-	unsigned long long t = 1000 * (tm2.tv_sec - tm1.tv_sec) +
-							(tm2.tv_usec - tm1.tv_usec) / 1000;
+	unsigned long long t = 1000000 * (tm2.tv_sec - tm1.tv_sec) +
+							(tm2.tv_usec - tm1.tv_usec);
 
-	printf("%llu ms\n", t);
+	printf("%llu us\n", t);
 }

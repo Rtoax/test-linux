@@ -11,7 +11,7 @@ compiler=
 
 gcc cachelinesize.c -o cachelinesize
 cflags="-O3 -DCACHE_LINE_SIZE=$(./cachelinesize)"
-srcs="sort.c common.c"
+srcs="main.c sort.c common.c"
 
 
 # 普通编译

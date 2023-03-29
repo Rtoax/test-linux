@@ -5,8 +5,8 @@
 #include <stdlib.h>
 
 #include "common.h"
+#include "sort.h"
 
-#define ARRAY_LEN 30000
 
 void __cacheline_align
 bubble_sort(int *a, int n)
@@ -24,23 +24,16 @@ bubble_sort(int *a, int n)
 }
 
 void __cacheline_align
-sort_array(void)
+sort_array(int arr_len)
 {
-	printf("Bubble sorting array of %d elements\n", ARRAY_LEN);
-	int data[ARRAY_LEN], i;
+	printf("Bubble sorting array of %d elements\n", arr_len);
+	int *data = malloc(sizeof(int) * arr_len);
+	int i;
 
-	for (i = 0; i < ARRAY_LEN; ++i) {
+	for (i = 0; i < arr_len; ++i) {
 		data[i] = rand();
 	}
-	bubble_sort(data, ARRAY_LEN);
+	bubble_sort(data, arr_len);
+
+	free(data);
 }
-
-int main()
-{
-	start();
-	sort_array();
-	stop();
-
-	return 0;
-}
-
