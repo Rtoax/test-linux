@@ -44,6 +44,53 @@ gcc_autofdo()
 	gcc ${cflags} -fauto-profile=sort.gcov ${srcs} -o ${prog_name}-autofdo.out
 }
 
+__usage__()
+{
+	echo -e "
+
+compile-gcc [args]
+
+ -a, --cacheline-align     cacheline align
+
+ -h, --help                show this help information
+
+" | more
+
+	exit ${1-0}
+}
+
+__main__()
+{
+	TEMP=$(getopt \
+		--options ah \
+		--long cacheline-align \
+		--long help \
+		-n compile-gcc -- "$@")
+
+	test $? != 0 && __usage__ 1
+
+	eval set -- "$TEMP"
+
+	while true; do
+		case $1 in
+		-a | --cacheline-align)
+			shift
+			cflags+=" -DCACHELINE_ALIGN"
+			prog_name+="-cacheline-align"
+			;;
+		-h | --help)
+			shift
+			__usage__
+			;;
+		--)
+			shift
+			break
+			;;
+		esac
+	done
+}
+
+__main__ "$@"
 
 
 gcc_ordinary

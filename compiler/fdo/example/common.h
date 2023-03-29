@@ -4,7 +4,12 @@
 # error "You must define CACHE_LINE_SIZE=?"
 #endif
 #define __cacheline_size	CACHE_LINE_SIZE
-#define __cacheline_align	__attribute__ ((aligned (__cacheline_size)))
+
+#if defined(CACHELINE_ALIGN)
+# define __cacheline_align	__attribute__ ((aligned (__cacheline_size)))
+#else
+# define __cacheline_align
+#endif
 
 void start(void);
 void stop(void);
