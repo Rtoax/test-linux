@@ -12,6 +12,13 @@
 # define __cacheline_align
 #endif
 
+#if defined(NOINLINE)
+# define __noinline	__attribute__ ((noinline))
+#else
+# warning "Not define NOINLINE"
+# define __noinline
+#endif
+
 void start(void);
 void stop(void);
 void swap_int(int *a, int *b);

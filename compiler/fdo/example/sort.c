@@ -8,7 +8,7 @@
 #include "sort.h"
 
 
-void __cacheline_align
+void __cacheline_align __noinline
 bubble_sort(int *a, int n)
 {
 	int i, s = 1;
@@ -23,7 +23,7 @@ bubble_sort(int *a, int n)
 	}
 }
 
-void __cacheline_align
+void __cacheline_align __noinline
 sort_array(int arr_len)
 {
 	printf("Bubble sorting array of %d elements\n", arr_len);

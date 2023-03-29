@@ -118,6 +118,7 @@ compile-gcc [clean] [args]
 
  -c, --compiler            specify compiler, gcc or clang
 
+ -n, --noinline            __attribute__((noinline))
  -a, --cacheline-align     cacheline align
 
  -h, --help                show this help information
@@ -130,8 +131,9 @@ compile-gcc [clean] [args]
 __main__()
 {
 	TEMP=$(getopt \
-		--options c:ah \
+		--options c:nah \
 		--long compiler: \
+		--long noinline \
 		--long cacheline-align \
 		--long help \
 		-n compile-gcc -- "$@")
@@ -151,6 +153,12 @@ __main__()
 			shift
 			cflags+=" -DCACHELINE_ALIGN"
 			prog_name+="-cacheline-align"
+			profdata=${prog_name}.profdata
+			;;
+		-n | --noinline)
+			shift
+			cflags+=" -DNOINLINE"
+			prog_name+="-noinline"
 			profdata=${prog_name}.profdata
 			;;
 		-h | --help)

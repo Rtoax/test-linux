@@ -3,7 +3,7 @@
 #include "common.h"
 
 
-void __cacheline_align
+void __cacheline_align __noinline
 swap_int(int *a, int *b)
 {
 	int t;
@@ -16,13 +16,13 @@ swap_int(int *a, int *b)
 
 static struct timeval tm1;
 
-void __cacheline_align
+void __cacheline_align __noinline
 start(void)
 {
 	gettimeofday(&tm1, NULL);
 }
 
-void __cacheline_align
+void __cacheline_align __noinline
 stop(void)
 {
 	struct timeval tm2;
