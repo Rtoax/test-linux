@@ -19,6 +19,8 @@
 # define __noinline
 #endif
 
-void start(void);
-void stop(void);
-void swap_int(int *a, int *b);
+#define FN(f)	fdo_test_##f
+
+void FN(start)(void);
+void FN(stop)(void);
+void FN(swap_int)(int *a, int *b);

@@ -4,7 +4,7 @@
 
 
 void __cacheline_align __noinline
-swap_int(int *a, int *b)
+FN(swap_int)(int *a, int *b)
 {
 	int t;
 	char pad[__cacheline_size];
@@ -17,13 +17,13 @@ swap_int(int *a, int *b)
 static struct timeval tm1;
 
 void __cacheline_align __noinline
-start(void)
+FN(start)(void)
 {
 	gettimeofday(&tm1, NULL);
 }
 
 void __cacheline_align __noinline
-stop(void)
+FN(stop)(void)
 {
 	struct timeval tm2;
 	gettimeofday(&tm2, NULL);

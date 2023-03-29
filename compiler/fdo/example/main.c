@@ -10,9 +10,9 @@
 
 int main()
 {
-	start();
-	sort_array(30000);
-	stop();
+	FN(start)();
+	FN(sort_array)(30000);
+	FN(stop)();
 
 	return 0;
 }
