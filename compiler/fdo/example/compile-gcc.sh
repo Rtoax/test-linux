@@ -5,7 +5,9 @@ set -e
 . config
 . clean.sh
 
-prog_name=gcc-sort
+prog_name=sort
+
+compiler=
 
 cflags="${CONFIG_CFLAGS}"
 srcs="${CONFIG_SRC}"
@@ -44,11 +46,27 @@ gcc_autofdo()
 	gcc ${cflags} -fauto-profile=sort.gcov ${srcs} -o ${prog_name}-autofdo.out
 }
 
+set_compiler()
+{
+	case $1 in
+	gcc | clang)
+		compiler=$1
+		prog_name=$compiler-$prog_name
+		;;
+	*)
+		echo "Unknown compiler, only support gcc, clang"
+		exit 1
+		;;
+	esac
+}
+
 __usage__()
 {
 	echo -e "
 
 compile-gcc [args]
+
+ -c, --compiler            specify compiler, gcc or clang
 
  -a, --cacheline-align     cacheline align
 
@@ -62,7 +80,8 @@ compile-gcc [args]
 __main__()
 {
 	TEMP=$(getopt \
-		--options ah \
+		--options c:ah \
+		--long compiler: \
 		--long cacheline-align \
 		--long help \
 		-n compile-gcc -- "$@")
@@ -73,6 +92,11 @@ __main__()
 
 	while true; do
 		case $1 in
+		-c | --compiler)
+			shift
+			set_compiler $1
+			shift
+			;;
 		-a | --cacheline-align)
 			shift
 			cflags+=" -DCACHELINE_ALIGN"
@@ -88,14 +112,26 @@ __main__()
 			;;
 		esac
 	done
+
+	[[ -z $compiler ]] && echo "ERROR: Must specify -c, --compiler" && exit 1
+
+	return 0
 }
 
 __main__ "$@"
 
 
-gcc_ordinary
-gcc_fdo
-gcc_autofdo
+case $compiler in
+gcc)
+	gcc_ordinary
+	gcc_fdo
+	gcc_autofdo
+	;;
+clang)
+	echo "ERROR: Not support yet."
+	exit 1
+	;;
+esac
 
 size ${prog_name}*.out
 md5sum ${prog_name}*.out
