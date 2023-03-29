@@ -14,9 +14,9 @@ stat_args+=",node-load-misses"
 stat_args+=",node-store-misses"
 
 if [[ $# < 1 ]] || [[ ! -e $1 ]]; then
-	echo "ERROR: Must specify execution"
+	echo "ERROR: Must specify an execution"
 	exit 1
 fi
 
-
 sudo perf stat -e ${stat_args} ./$1
+
