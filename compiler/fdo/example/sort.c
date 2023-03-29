@@ -24,15 +24,31 @@ FN(bubble_sort)(int *a, int n)
 }
 
 void __cacheline_align __noinline
+FN(pad1)(int *arr, int arr_len) { return; }
+void __cacheline_align __noinline
+FN(pad2)(int *arr, int arr_len) { return; }
+void __cacheline_align __noinline
+FN(pad3)(int *arr, int arr_len) { return; }
+void __cacheline_align __noinline
+FN(pad4)(int *arr, int arr_len) { return; }
+
+void __cacheline_align __noinline
+FN(rand_array)(int *arr, int arr_len)
+{
+	int i;
+
+	for (i = 0; i < arr_len; ++i) {
+		arr[i] = rand();
+	}
+}
+
+void __cacheline_align __noinline
 FN(sort_array)(int arr_len)
 {
 	printf("Bubble sorting array of %d elements\n", arr_len);
 	int *data = malloc(sizeof(int) * arr_len);
-	int i;
 
-	for (i = 0; i < arr_len; ++i) {
-		data[i] = rand();
-	}
+	FN(rand_array)(data, arr_len);
 	FN(bubble_sort)(data, arr_len);
 
 	free(data);
