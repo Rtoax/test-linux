@@ -1,7 +1,8 @@
 /*.gcda
 /*.profraw
 /*.profdata
-/perf.data
+/perf.data*
+/perf.fdata
 /*.gcov
 /*.out
 /cachelinesize

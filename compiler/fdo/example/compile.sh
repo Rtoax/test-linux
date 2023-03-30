@@ -82,12 +82,34 @@ clang_fdo()
 	ln -s ${_prog_pgo} ${_prog_fdo}
 }
 
+clang_bolt()
+{
+	local _prog_bolt=${prog_name}-bolt.out
+
+	clang_orig
+
+	perf record -e cycles:u -j any,u -o perf.data -- ./${prog_name}.out
+
+	perf2bolt -p perf.data -o perf.fdata ${prog_name}.out
+
+		#-reorder-functions=hfsort \
+	llvm-bolt ${prog_name}.out -o ${_prog_bolt} \
+		-data=perf.fdata \
+		-reorder-blocks=ext-tsp \
+		-split-functions \
+		-split-all-cold \
+		-split-eh \
+		-dyno-stats
+}
+
 clean()
 {
 	set -x
 
 	rm -f *.out *.gcda *.profraw *.profdata \
-		perf.data* *.gcov  \
+		perf.data* \
+		perf.fdata* \
+		*.gcov  \
 		cachelinesize
 
 	set +x
@@ -197,6 +219,7 @@ gcc)
 clang)
 	clang_orig
 	clang_fdo
+	clang_bolt
 	;;
 esac
 
