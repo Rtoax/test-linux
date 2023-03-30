@@ -14,6 +14,24 @@ cflags="-O3 -DCACHE_LINE_SIZE=$(./cachelinesize)"
 srcs="main.c sort.c common.c"
 
 
+__common_bolt()
+{
+	local _prog_bolt=${prog_name}-bolt.out
+
+	perf record -e cycles:u -j any,u -o perf.data -- ./${prog_name}-orig.out
+
+	perf2bolt -p perf.data -o perf.fdata ${prog_name}-orig.out
+
+		#-reorder-functions=hfsort \
+	llvm-bolt ${prog_name}-orig.out -o ${_prog_bolt} \
+		-data=perf.fdata \
+		-reorder-blocks=ext-tsp \
+		-split-functions \
+		-split-all-cold \
+		-split-eh \
+		-dyno-stats
+}
+
 # 普通编译
 gcc_ordinary()
 {
@@ -45,6 +63,13 @@ gcc_autofdo()
 		-gcov_version=1 >/dev/null
 
 	gcc ${cflags} -fauto-profile=sort.gcov ${srcs} -o ${prog_name}-autofdo.out
+}
+
+gcc_bolt()
+{
+	gcc_ordinary
+
+	__common_bolt
 }
 
 clang_orig()
@@ -84,22 +109,9 @@ clang_fdo()
 
 clang_bolt()
 {
-	local _prog_bolt=${prog_name}-bolt.out
-
 	clang_orig
 
-	perf record -e cycles:u -j any,u -o perf.data -- ./${prog_name}-orig.out
-
-	perf2bolt -p perf.data -o perf.fdata ${prog_name}-orig.out
-
-		#-reorder-functions=hfsort \
-	llvm-bolt ${prog_name}-orig.out -o ${_prog_bolt} \
-		-data=perf.fdata \
-		-reorder-blocks=ext-tsp \
-		-split-functions \
-		-split-all-cold \
-		-split-eh \
-		-dyno-stats
+	__common_bolt
 }
 
 clean()
@@ -215,6 +227,7 @@ gcc)
 	gcc_ordinary
 	gcc_fdo
 	gcc_autofdo
+	gcc_bolt
 	;;
 clang)
 	clang_orig
