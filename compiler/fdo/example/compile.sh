@@ -49,7 +49,7 @@ gcc_autofdo()
 
 clang_orig()
 {
-	clang ${cflags} ${srcs} -o ${prog_name}.out
+	clang ${cflags} ${srcs} -o ${prog_name}-orig.out
 }
 
 clang_gen_prof()
@@ -88,12 +88,12 @@ clang_bolt()
 
 	clang_orig
 
-	perf record -e cycles:u -j any,u -o perf.data -- ./${prog_name}.out
+	perf record -e cycles:u -j any,u -o perf.data -- ./${prog_name}-orig.out
 
-	perf2bolt -p perf.data -o perf.fdata ${prog_name}.out
+	perf2bolt -p perf.data -o perf.fdata ${prog_name}-orig.out
 
 		#-reorder-functions=hfsort \
-	llvm-bolt ${prog_name}.out -o ${_prog_bolt} \
+	llvm-bolt ${prog_name}-orig.out -o ${_prog_bolt} \
 		-data=perf.fdata \
 		-reorder-blocks=ext-tsp \
 		-split-functions \
