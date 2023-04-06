@@ -7,21 +7,17 @@
 #endif
 #define __cacheline_size	CACHE_LINE_SIZE
 
-#if defined(CACHELINE_ALIGN)
 # define __cacheline_align	__attribute__ ((aligned (__cacheline_size)))
-#else
-# warning "Not define CACHELINE_ALIGN"
-# define __cacheline_align
-#endif
-
-#if defined(NOINLINE)
 # define __noinline	__attribute__ ((noinline))
-#else
-# warning "Not define NOINLINE"
-# define __noinline
-#endif
 
+
+#if defined(CACHELINE_ALIGN) && !defined(NOINLINE)
+#define __attr __cacheline_align
+#elif defined(NOINLINE) && !defined(CACHELINE_ALIGN)
+#define __attr __noinline
+#elif defined(NOINLINE) && defined(CACHELINE_ALIGN)
 #define __attr __cacheline_align __noinline
+#endif
 
 
 #define FN(f)	__attr fdo_test_##f
