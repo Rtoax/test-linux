@@ -137,10 +137,11 @@ clean()
 	set -x
 
 	rm -f *.out *.gcda *.profraw *.profdata \
-		perf.data* \
-		perf.fdata* \
+		*perf.data* \
+		*perf.fdata* \
 		*.gcov  \
-		cachelinesize
+		cachelinesize \
+		*.heatmap* \
 
 	set +x
 }
