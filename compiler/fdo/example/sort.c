@@ -8,7 +8,7 @@
 #include "sort.h"
 
 
-void __cacheline_align __noinline
+void
 FN(bubble_sort)(int *a, int n)
 {
 	int i, s = 1;
@@ -23,16 +23,16 @@ FN(bubble_sort)(int *a, int n)
 	}
 }
 
-void __cacheline_align __noinline
+void
 FN(pad1)(int *arr, int arr_len) { return; }
-void __cacheline_align __noinline
+void
 FN(pad2)(int *arr, int arr_len) { return; }
-void __cacheline_align __noinline
+void
 FN(pad3)(int *arr, int arr_len) { return; }
-void __cacheline_align __noinline
+void
 FN(pad4)(int *arr, int arr_len) { return; }
 
-void __cacheline_align __noinline
+void
 FN(rand_array)(int *arr, int arr_len)
 {
 	int i;
@@ -42,7 +42,7 @@ FN(rand_array)(int *arr, int arr_len)
 	}
 }
 
-void __cacheline_align __noinline
+void
 FN(sort_array)(int arr_len)
 {
 	printf("Bubble sorting array of %d elements\n", arr_len);

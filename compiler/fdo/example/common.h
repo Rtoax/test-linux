@@ -19,7 +19,10 @@
 # define __noinline
 #endif
 
-#define FN(f)	fdo_test_##f
+#define __attr __cacheline_align __noinline
+
+
+#define FN(f)	__attr fdo_test_##f
 
 void FN(start)(void);
 void FN(stop)(void);
