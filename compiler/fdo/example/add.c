@@ -15,7 +15,7 @@ unsigned long FN(D)(unsigned long a);
 #define NR_MIN	1000
 #define NR_MAX	100000
 
-unsigned long __noinline
+unsigned long __noinline __opt_O0
 FN(A)(unsigned long a)
 {
 	unsigned long i;
@@ -42,7 +42,7 @@ DEFINE_FN_PAD(_p10);
 DEFINE_FN_PAD(_p11);
 DEFINE_FN_PAD(_p12);
 
-unsigned long __noinline
+unsigned long __noinline __opt_O0
 FN(B)(unsigned long a)
 {
 	unsigned long i;
@@ -66,7 +66,7 @@ DEFINE_FN_PAD(_10);
 DEFINE_FN_PAD(_11);
 DEFINE_FN_PAD(_12);
 
-unsigned long __noinline
+unsigned long __noinline __opt_O0
 FN(C)(unsigned long a)
 {
 	unsigned long i;
@@ -90,7 +90,7 @@ DEFINE_FN_PAD(p_10);
 DEFINE_FN_PAD(p_11);
 DEFINE_FN_PAD(p_12);
 
-unsigned long __noinline
+unsigned long __noinline __opt_O0
 FN(D)(unsigned long a)
 {
 	return a++;

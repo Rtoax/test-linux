@@ -7,9 +7,17 @@
 #endif
 #define __cacheline_size	CACHE_LINE_SIZE
 
-# define __cacheline_align	__attribute__ ((aligned (__cacheline_size)))
-# define __noinline	__attribute__ ((noinline))
+#define __cacheline_align	__attribute__ ((aligned (__cacheline_size)))
+#define __noinline	__attribute__ ((noinline))
 
+#if defined (__GNUC__) && !defined (__clang__)
+# define __opt_O0 __attribute__((optimize("-O0")))
+#elif defined (__clang__)
+/* FIXME */
+# define __opt_O0
+#else
+# define __opt_O0
+#endif
 
 #if defined(CACHELINE_ALIGN) && !defined(NOINLINE)
 #define __attr __cacheline_align
