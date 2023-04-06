@@ -10,7 +10,8 @@ profdata=${prog_name}.profdata
 compiler=
 
 gcc cachelinesize.c -o cachelinesize
-cflags="-O3 -DCACHE_LINE_SIZE=$(./cachelinesize)"
+CACHE_LINE_SIZE=$(./cachelinesize)
+cflags="-O3 -DCACHE_LINE_SIZE=${CACHE_LINE_SIZE}"
 srcs="main.c sort.c common.c"
 
 
@@ -21,7 +22,11 @@ __common_llvm_bolt_heatmap()
 
 	perf record -e cycles:u -j any,u -o ${elf}.perf.data -- ./${elf}
 
-	llvm-bolt-heatmap -p ${elf}.perf.data ${elf} -o ${elf}.heatmap
+	llvm-bolt-heatmap \
+		-p ${elf}.perf.data \
+		${elf} \
+		--line-size ${CACHE_LINE_SIZE} \
+		-o ${elf}.heatmap
 
 	aha -b -f ${elf}.heatmap > ${elf}.heatmap.html
 }

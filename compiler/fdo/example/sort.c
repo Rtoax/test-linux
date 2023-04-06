@@ -23,24 +23,17 @@ FN(bubble_sort)(int *a, int n)
 	}
 }
 
-void
-FN(pad1)(int *arr, int arr_len) { return; }
-void
-FN(pad2)(int *arr, int arr_len) { return; }
-void
-FN(pad3)(int *arr, int arr_len) { return; }
-void
-FN(pad4)(int *arr, int arr_len) { return; }
-
-void
-FN(rand_array)(int *arr, int arr_len)
-{
-	int i;
-
-	for (i = 0; i < arr_len; ++i) {
-		arr[i] = rand();
-	}
-}
+DEFINE_FN_PAD(pad1);
+DEFINE_FN_PAD(pad2);
+DEFINE_FN_PAD(pad3);
+DEFINE_FN_PAD(pad4);
+DEFINE_FN_PAD(pad5);
+DEFINE_FN_PAD(pad6);
+DEFINE_FN_PAD(pad7);
+DEFINE_FN_PAD(pad8);
+DEFINE_FN_PAD(pad9);
+DEFINE_FN_PAD(pad10);
+DEFINE_FN_PAD(pad11);
 
 void
 FN(sort_array)(int arr_len)
