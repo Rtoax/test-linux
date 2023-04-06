@@ -37,7 +37,7 @@ FN(rand_array)(int *arr, int arr_len)
 	int i;
 
 	for (i = 0; i < arr_len; ++i) {
-		FN(set_rand_value)(&arr[i]);
+		CALL(set_rand_value)(&arr[i]);
 	}
 }
 

@@ -25,6 +25,7 @@
 
 
 #define FN(f)	__attr fdo_test_##f
+#define CALL(f) fdo_test_##f
 
 #define USELESS_FUNC_BODY \
 	int __a, __b, __c; \
