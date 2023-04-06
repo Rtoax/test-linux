@@ -14,6 +14,18 @@ cflags="-O3 -DCACHE_LINE_SIZE=$(./cachelinesize)"
 srcs="main.c sort.c common.c"
 
 
+# $1 - input elf file
+__common_llvm_bolt_heatmap()
+{
+	local elf=$1
+
+	perf record -e cycles:u -j any,u -o ${elf}.perf.data -- ./${elf}
+
+	llvm-bolt-heatmap -p ${elf}.perf.data ${elf} -o ${elf}.heatmap
+
+	aha -b -f ${elf}.heatmap > ${elf}.heatmap.html
+}
+
 __common_bolt()
 {
 	local _prog_bolt=${prog_name}-bolt.out
@@ -112,6 +124,12 @@ clang_bolt()
 	clang_orig
 
 	__common_bolt
+}
+
+clang_heatmap()
+{
+	__common_llvm_bolt_heatmap ${prog_name}-orig.out
+	__common_llvm_bolt_heatmap ${prog_name}-bolt.out
 }
 
 clean()
@@ -233,6 +251,7 @@ clang)
 	clang_orig
 	clang_fdo
 	clang_bolt
+	clang_heatmap
 	;;
 esac
 
