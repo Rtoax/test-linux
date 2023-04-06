@@ -11,8 +11,8 @@ compiler=
 
 gcc cachelinesize.c -o cachelinesize
 CACHE_LINE_SIZE=$(./cachelinesize)
-cflags="-O3 -DCACHE_LINE_SIZE=${CACHE_LINE_SIZE}"
-srcs="main.c sort.c common.c"
+cflags="-O3 -DTEST_ADD -DCACHE_LINE_SIZE=${CACHE_LINE_SIZE}"
+srcs="main.c sort.c common.c add.c"
 
 
 # $1 - input elf file
@@ -35,13 +35,16 @@ __common_bolt()
 {
 	local _prog_bolt=${prog_name}-bolt.out
 
-	perf record -e cycles:u -j any,u -o perf.data -- ./${prog_name}-orig.out
+	perf record -e cycles:u -j any,u -o ${prog_name}-orig.perf.data -- ./${prog_name}-orig.out
 
-	perf2bolt -p perf.data -o perf.fdata ${prog_name}-orig.out
+	perf2bolt \
+		-p ${prog_name}-orig.perf.data \
+		-o ${prog_name}-orig.perf.fdata \
+		${prog_name}-orig.out
 
 		#-reorder-functions=hfsort \
 	llvm-bolt ${prog_name}-orig.out -o ${_prog_bolt} \
-		-data=perf.fdata \
+		-data=${prog_name}-orig.perf.fdata \
 		-reorder-blocks=ext-tsp \
 		-split-functions \
 		-split-all-cold \
@@ -92,6 +95,7 @@ gcc_bolt()
 gcc_heatmap()
 {
 	__common_llvm_bolt_heatmap ${prog_name}-orig.out
+	__common_llvm_bolt_heatmap ${prog_name}-fdo.out
 	__common_llvm_bolt_heatmap ${prog_name}-bolt.out
 }
 
@@ -140,21 +144,18 @@ clang_bolt()
 clang_heatmap()
 {
 	__common_llvm_bolt_heatmap ${prog_name}-orig.out
+	__common_llvm_bolt_heatmap ${prog_name}-fdo.out
 	__common_llvm_bolt_heatmap ${prog_name}-bolt.out
 }
 
 clean()
 {
-	set -x
-
 	rm -f *.out *.gcda *.profraw *.profdata \
 		*perf.data* \
 		*perf.fdata* \
 		*.gcov  \
 		cachelinesize \
-		*.heatmap* \
-
-	set +x
+		*.heatmap*
 }
 
 set_compiler()
@@ -185,6 +186,7 @@ compile-gcc [clean] [args]
  -n, --noinline            __attribute__((noinline))
  -a, --cacheline-align     cacheline align
 
+ -v, --verbose             show detail.
  -h, --help                show this help information
 
 " | more
@@ -195,10 +197,11 @@ compile-gcc [clean] [args]
 __main__()
 {
 	TEMP=$(getopt \
-		--options c:nah \
+		--options c:navh \
 		--long compiler: \
 		--long noinline \
 		--long cacheline-align \
+		--long verbose \
 		--long help \
 		-n compile-gcc -- "$@")
 
@@ -224,6 +227,11 @@ __main__()
 			cflags+=" -DNOINLINE"
 			prog_name+="-noinline"
 			profdata=${prog_name}.profdata
+			;;
+		-v | --verbose)
+			shift
+			export PS4='+${BASH_SOURCE}:${LINENO}:${FUNCNAME[0]}: '
+			set -x
 			;;
 		-h | --help)
 			shift

@@ -17,6 +17,8 @@
 #define __attr __noinline
 #elif defined(NOINLINE) && defined(CACHELINE_ALIGN)
 #define __attr __cacheline_align __noinline
+#else
+#define __attr
 #endif
 
 
@@ -32,7 +34,7 @@
 	} while (0);
 
 #define DEFINE_FN_PAD(name) \
-	void \
+	void __cacheline_align \
 	FN(name)(int *arr, int arr_len) { USELESS_FUNC_BODY; return; }
 
 void FN(start)(void);
