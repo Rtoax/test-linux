@@ -84,6 +84,12 @@ gcc_bolt()
 	__common_bolt
 }
 
+gcc_heatmap()
+{
+	__common_llvm_bolt_heatmap ${prog_name}-orig.out
+	__common_llvm_bolt_heatmap ${prog_name}-bolt.out
+}
+
 clang_orig()
 {
 	clang ${cflags} ${srcs} -o ${prog_name}-orig.out
@@ -245,8 +251,9 @@ case $compiler in
 gcc)
 	gcc_ordinary
 	gcc_fdo
-	gcc_autofdo
+#	gcc_autofdo
 	gcc_bolt
+	gcc_heatmap
 	;;
 clang)
 	clang_orig

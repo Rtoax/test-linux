@@ -7,3 +7,4 @@
 /*.gcov
 /*.out
 /cachelinesize
+/core-*
