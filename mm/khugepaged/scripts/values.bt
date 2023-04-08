@@ -1,0 +1,13 @@
+#!/bin/env bpftrace
+/**
+ * values.bt
+ *
+ * Copyright (C) Rong Tao 2022-2023
+ */
+BEGIN
+{
+	$khugepaged_pages_to_scan = kaddr("khugepaged_pages_to_scan");
+	printf("khugepaged_pages_to_scan = %d\n", *$khugepaged_pages_to_scan);
+
+	exit();
+}
