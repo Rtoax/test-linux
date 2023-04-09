@@ -1,0 +1,38 @@
+#!/usr/bin/env bpftrace
+/*
+ * kvm_emulate_insn.bt
+ *		For Linux, uses bpftrace and eBPF.
+ *
+ * Also a basic example of bpftrace.
+ *
+ * USAGE: kvm_emulate_insn.bt
+ *
+ * Copyright 2021 CESTC, Inc.
+ * Licensed under the GPL License, Version 2.0 (the "License")
+ *
+ * 2023-04-09	Rong Tao	Create this.
+ */
+BEGIN
+{
+	printf("Tracing tracepoint:kvm:kvm_emulate_insn, Hit Ctrl-C to end.\n");
+	printf("%-8s %-8s %-8s %-16s %-8s\n", "TIME", "COMM", "LEN", "RIP", "INSN");
+}
+
+tracepoint:kvm:kvm_emulate_insn
+{
+	time("%H:%M:%S ");
+	printf("%-8s %-8d %-16lx 0x%x 0x%x 0x%x 0x%x 0x%x\n",
+		comm,
+		args->len,
+		args->rip,
+		args->insn[0],
+		args->insn[1],
+		args->insn[2],
+		args->insn[3],
+		args->insn[4]
+	);
+}
+
+END
+{
+}
