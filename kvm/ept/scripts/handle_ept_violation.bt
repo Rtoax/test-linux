@@ -1,0 +1,28 @@
+#!/bin/env bpftrace
+/**
+ * File: handle_ept_violation.bt
+ *
+ * Author: Rong Tao <rongtao@cestc.cn>
+ * Date: 2023-04-09
+ *
+ * Description:
+ *  When EPT page fault happen, handle_ept_violation called.
+ *  TDP: Two Dimission Page
+ */
+BEGIN
+{
+	printf("Tracing handle_ept_violation, hit ctrl-c to end.\n");
+	printf("%-8s %-8s %-8s\n", "TIME", "PID", "COMM");
+}
+
+kprobe:handle_ept_violation
+{
+	time("%H:%M:%S ");
+	printf("%-8d %-8s\n", pid, comm);
+	@stack[kstack] = count();
+}
+
+END
+{
+	printf("Bye.\n");
+}
