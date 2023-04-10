@@ -2,7 +2,7 @@
 
 set -e
 
-prog_name=sort
+prog_name=test
 
 # For clang
 profdata=${prog_name}.profdata
