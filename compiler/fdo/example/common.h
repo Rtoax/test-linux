@@ -3,7 +3,8 @@
 #include <string.h>
 
 #ifndef CACHE_LINE_SIZE
-# error "You must define CACHE_LINE_SIZE=?"
+# warning "Need define CACHE_LINE_SIZE=?, use default 64"
+#define CACHE_LINE_SIZE 64
 #endif
 #define __cacheline_size	CACHE_LINE_SIZE
 
