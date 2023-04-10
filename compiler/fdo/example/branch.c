@@ -11,7 +11,7 @@ unsigned long f_D(unsigned long a);
 #define NR_MIN	10000
 #define NR_MAX	100000
 
-unsigned long __noinline __opt_O0
+unsigned long __noinline
 f_A(unsigned long a)
 {
 	unsigned long i;
@@ -31,7 +31,7 @@ f_A(unsigned long a)
 	return a;
 }
 
-unsigned long __noinline __opt_O0
+unsigned long __noinline
 f_B(unsigned long a)
 {
 	unsigned long i;
@@ -42,7 +42,7 @@ f_B(unsigned long a)
 	return a;
 }
 
-unsigned long __noinline __opt_O0
+unsigned long __noinline
 f_C(unsigned long a)
 {
 	unsigned long i;
@@ -53,7 +53,7 @@ f_C(unsigned long a)
 	return a;
 }
 
-unsigned long __noinline __opt_O0
+unsigned long __noinline
 f_D(unsigned long a)
 {
 	return a++;
