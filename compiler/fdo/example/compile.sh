@@ -211,6 +211,8 @@ compile-gcc [clean] [args]
 
  -t, --test                test: sort, add, branch
 
+ --noclean                 do not clean anything before compile
+
  -n, --noinline            __attribute__((noinline))
  -a, --cacheline-align     cacheline align
 
@@ -224,11 +226,14 @@ compile-gcc [clean] [args]
 
 __main__()
 {
+	local noclean
+
 	TEMP=$(getopt \
 		--options c:t:navh \
 		--long compiler: \
 		--long test: \
 		--long noinline \
+		--long noclean \
 		--long cacheline-align \
 		--long verbose \
 		--long help \
@@ -262,6 +267,10 @@ __main__()
 			prog_name+="-noinline"
 			profdata=${prog_name}.profdata
 			;;
+		--noclean)
+			shift
+			noclean=YES
+			;;
 		-v | --verbose)
 			shift
 			export PS4='+${BASH_SOURCE}:${LINENO}:${FUNCNAME[0]}: '
@@ -281,6 +290,8 @@ __main__()
 	[[ -z $compiler ]] && echo "ERROR: Must specify -c, --compiler" && exit 1
 	[[ -z "$srcs" ]] && echo "ERROR: Must specify -t, --test" && exit 1
 
+	[[ -z ${noclean} ]] && clean
+
 	return 0
 }
 
@@ -292,8 +303,6 @@ clean)
 esac
 
 __main__ "$@"
-
-clean
 
 case $compiler in
 gcc)
