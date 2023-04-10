@@ -11,9 +11,35 @@ compiler=
 
 gcc cachelinesize.c -o cachelinesize
 CACHE_LINE_SIZE=$(./cachelinesize)
-cflags="-O3 -DTEST_ADD -DCACHE_LINE_SIZE=${CACHE_LINE_SIZE}"
-srcs="main.c sort.c common.c add.c"
+cflags="-O3 -DTEST_BRANCH -DCACHE_LINE_SIZE=${CACHE_LINE_SIZE}"
+sort_srcs="sort.c common.c"
+add_srcs="add.c common.c"
+branch_srcs="branch.c common.c"
 
+
+set_test()
+{
+	local t=$1
+
+	case $t in
+	sort)
+		prog_name+="-sort"
+		srcs="$sort_srcs"
+		;;
+	add)
+		prog_name+="-add"
+		srcs="$add_srcs"
+		;;
+	branch)
+		prog_name+="-branch"
+		srcs="$branch_srcs"
+		;;
+	*)
+		echo "Support test list: sort add branch"
+		exit 1
+		;;
+	esac
+}
 
 # $1 - input elf file
 __common_llvm_bolt_heatmap()
@@ -183,6 +209,8 @@ compile-gcc [clean] [args]
 
  -c, --compiler            specify compiler, gcc or clang
 
+ -t, --test                test: sort, add, branch
+
  -n, --noinline            __attribute__((noinline))
  -a, --cacheline-align     cacheline align
 
@@ -197,8 +225,9 @@ compile-gcc [clean] [args]
 __main__()
 {
 	TEMP=$(getopt \
-		--options c:navh \
+		--options c:t:navh \
 		--long compiler: \
+		--long test: \
 		--long noinline \
 		--long cacheline-align \
 		--long verbose \
@@ -214,6 +243,11 @@ __main__()
 		-c | --compiler)
 			shift
 			set_compiler $1
+			shift
+			;;
+		-t | --test)
+			shift
+			set_test $1
 			shift
 			;;
 		-a | --cacheline-align)
@@ -245,6 +279,7 @@ __main__()
 	done
 
 	[[ -z $compiler ]] && echo "ERROR: Must specify -c, --compiler" && exit 1
+	[[ -z "$srcs" ]] && echo "ERROR: Must specify -t, --test" && exit 1
 
 	return 0
 }

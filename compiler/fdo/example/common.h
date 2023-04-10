@@ -30,23 +30,8 @@
 #endif
 
 
-#define FN(f)	__attr fdo_test_##f
-#define CALL(f) fdo_test_##f
-
-#define USELESS_FUNC_BODY \
-	int __a, __b, __c; \
-	char __s[256]; \
-	memset(__s, 0, sizeof(256)); \
-	do { \
-		int i = strlen(__s); \
-	} while (0);
-
-#define DEFINE_FN_PAD(name) \
-	void __cacheline_align \
-	FN(name)(int *arr, int arr_len) { USELESS_FUNC_BODY; return; }
-
-void FN(start)(void);
-void FN(stop)(void);
-void FN(swap_int)(int *a, int *b);
-void FN(set_rand_value)(int *i);
-void FN(rand_array)(int *arr, int arr_len);
+void start(void);
+void stop(void);
+void swap_int(int *a, int *b);
+void set_rand_value(int *i);
+void rand_array(int *arr, int arr_len);

@@ -7,21 +7,27 @@
 #include "common.h"
 #include "sort.h"
 
-unsigned long
-FN(test_add)(void);
+unsigned long test_add(void);
+unsigned long test_branch(void);
 
 int main()
 {
 #if defined(TEST_SORT)
-	CALL(start)();
-	CALL(sort_array)(30000);
-	CALL(stop)();
+	start();
+	sort_array(30000);
+	stop();
 
 #elif defined(TEST_ADD)
 
-	CALL(start)();
-	CALL(test_add)();
-	CALL(stop)();
+	start();
+	test_add();
+	stop();
+
+#elif defined(TEST_BRANCH)
+
+	start();
+	test_branch();
+	stop();
 #endif
 
 	return 0;
