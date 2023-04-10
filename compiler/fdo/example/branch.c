@@ -8,49 +8,47 @@ unsigned long f_B(unsigned long a);
 unsigned long f_C(unsigned long a);
 unsigned long f_D(unsigned long a);
 
-#define NR_MIN	10000
-#define NR_MAX	100000
 
 unsigned long __noinline
 f_A(unsigned long a)
 {
-	unsigned long i;
+	unsigned long i, ret = 0;
 
-	for (i = 0; i < NR_MAX; i+=2) {
+	for (i = 0; i < a; i++) {
 		/* this branch never run */
-		if (i % 2 == 1)
-			a += f_B(i);
+		if (i % 319 == 1)
+			ret += f_B(i);
 		/* this branch never run */
-		else if (i % 3 == 1)
-			a += f_B(i) + f_C(i);
+		else if (i % 217 == 1)
+			ret += f_B(i) + f_C(i);
 		/* this branch will run */
 		else if (i % 2 == 0)
-			a += f_C(i);
+			ret += f_C(i);
 	}
 
-	return a;
+	return ret;
 }
 
 unsigned long __noinline
 f_B(unsigned long a)
 {
-	unsigned long i;
+	unsigned long i, ret = 0;
 
-	for (i = 0; i < NR_MIN; i++)
-		a += f_D(i);
+	for (i = 0; i < a; i++)
+		ret += f_D(i);
 
-	return a;
+	return ret;
 }
 
 unsigned long __noinline
 f_C(unsigned long a)
 {
-	unsigned long i;
+	unsigned long i, ret = 0;
 
-	for (i = 0; i < NR_MIN; i++)
-		a += f_D(i);
+	for (i = 0; i < a; i++)
+		ret += f_D(i);
 
-	return a;
+	return ret;
 }
 
 unsigned long __noinline
@@ -62,7 +60,7 @@ f_D(unsigned long a)
 unsigned long
 test_branch(void)
 {
-	return f_A(1);
+	return f_A(20000);
 }
 
 int main()
