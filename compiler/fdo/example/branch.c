@@ -67,9 +67,13 @@ test_branch(void)
 
 int main()
 {
+	unsigned long ret;
+
 	start();
-	test_branch();
+	ret = test_branch();
 	stop();
+
+	printf("ret = %ld\n", ret);
 
 	return 0;
 }

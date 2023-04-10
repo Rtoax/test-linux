@@ -65,9 +65,13 @@ test_add(void)
 
 int main()
 {
+	unsigned long ret;
+
 	start();
-	test_add();
+	ret = test_add();
 	stop();
+
+	printf("ret = %ld\n", ret);
 
 	return 0;
 }
