@@ -5,7 +5,6 @@
 #include <stdlib.h>
 
 #include "common.h"
-#include "sort.h"
 
 
 void
