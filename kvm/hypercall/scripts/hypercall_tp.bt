@@ -1,0 +1,42 @@
+#!/bin/env bpftrace
+/**
+ * hypercall_tp.bt
+ *
+ * Copyright (C) Rong Tao 2022-2023
+ */
+#ifndef BPFTRACE_HAVE_BTF
+#include <linux/kvm.h>
+#endif
+#include <uapi/linux/kvm_para.h>
+
+BEGIN
+{
+	@HC[KVM_HC_VAPIC_POLL_IRQ]      = "VAPIC_POLL_IRQ";
+	@HC[KVM_HC_MMU_OP]              = "MMU_OP";
+	@HC[KVM_HC_FEATURES]            = "FEATURES";
+	@HC[KVM_HC_PPC_MAP_MAGIC_PAGE]  = "PPC_MAP_MAGIC_PAGE";
+	@HC[KVM_HC_KICK_CPU]            = "KICK_CPU";
+	@HC[KVM_HC_MIPS_GET_CLOCK_FREQ] = "MIPS_GET_CLOCK_FREQ";
+	@HC[KVM_HC_MIPS_EXIT_VM]        = "MIPS_EXIT_VM";
+	@HC[KVM_HC_MIPS_CONSOLE_OUTPUT] = "MIPS_CONSOLE_OUTPUT";
+	@HC[KVM_HC_CLOCK_PAIRING]       = "CLOCK_PAIRING";
+	@HC[KVM_HC_SEND_IPI]            = "SEND_IPI";
+	@HC[KVM_HC_SCHED_YIELD]         = "SCHED_YIELD";
+
+	printf("Tracing tracepoint:kvm:kvm_hypercall, hit ctrl-c to end.\n");
+	printf("%-8s %-8s %-8s %-8s\n", "TIME", "PID", "COMM", "NR");
+}
+
+tracepoint:kvm:kvm_hypercall
+{
+	$nr = args->nr;
+
+	time("%H:%M:%S ");
+	printf("%-8d %-8s %-s\n", pid, comm, @HC[$nr]);
+}
+
+END
+{
+	printf("Bye.\n");
+	clear(@HC);
+}
