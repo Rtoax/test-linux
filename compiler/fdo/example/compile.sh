@@ -11,7 +11,10 @@ compiler=
 
 gcc cachelinesize.c -o cachelinesize
 CACHE_LINE_SIZE=$(./cachelinesize)
-cflags="-O3 -DTEST_BRANCH -DCACHE_LINE_SIZE=${CACHE_LINE_SIZE}"
+cflags_orig="-DCACHE_LINE_SIZE=${CACHE_LINE_SIZE}"
+cflags_opt="-O3"
+cflags+="${cflags_opt} ${cflags_orig}"
+
 sort_srcs="sort.c common.c"
 loc_srcs="loc.c common.c"
 branch_srcs="branch.c common.c"
@@ -103,6 +106,7 @@ __common_bolt()
 # 普通编译
 gcc_ordinary()
 {
+	gcc ${cflags_orig} ${srcs} -o ${prog_name}-orig-pure.out
 	gcc ${cflags} ${srcs} -o ${prog_name}-orig.out
 }
 
@@ -149,6 +153,7 @@ gcc_heatmap()
 
 clang_orig()
 {
+	clang ${cflags_orig} ${srcs} -o ${prog_name}-orig-pure.out
 	clang ${cflags} ${srcs} -o ${prog_name}-orig.out
 }
 
