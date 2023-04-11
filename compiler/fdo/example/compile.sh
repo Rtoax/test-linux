@@ -20,7 +20,7 @@ loc_srcs="loc.c common.c"
 branch_srcs="branch.c common.c"
 loop_srcs="loop.c common.c"
 
-
+test_type=
 set_test()
 {
 	local t=$1
@@ -41,6 +41,40 @@ set_test()
 	loop)
 		prog_name+="-loop"
 		srcs="$loop_srcs"
+		;;
+	*)
+		echo "Support test list: sort loc branch loop"
+		exit 1
+		;;
+	esac
+
+	test_type=$t
+}
+
+# Do something after compile
+test_test()
+{
+	case $test_type in
+	sort)
+		;;
+	loc)
+		echo "Location of function and variables"
+		dump_loc() {
+			echo -e "\033[1;32m>>> $1 <<<\033[0m"
+			objdump -d $1 \
+				| grep '>:' \
+				| grep -e loc_ -e f_pad_ \
+				| sort \
+				| sed 's/^/\t/g'
+		}
+		dump_loc ${prog_name}-orig-pure.out
+		dump_loc ${prog_name}-orig.out
+		dump_loc ${prog_name}-fdo.out
+		dump_loc ${prog_name}-bolt.out
+		;;
+	branch)
+		;;
+	loop)
 		;;
 	*)
 		echo "Support test list: sort loc branch loop"
@@ -332,3 +366,6 @@ esac
 
 size ${prog_name}*.out
 md5sum ${prog_name}*.out
+
+test_test
+
