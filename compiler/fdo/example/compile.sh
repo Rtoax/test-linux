@@ -15,6 +15,7 @@ cflags="-O3 -DTEST_BRANCH -DCACHE_LINE_SIZE=${CACHE_LINE_SIZE}"
 sort_srcs="sort.c common.c"
 add_srcs="add.c common.c"
 branch_srcs="branch.c common.c"
+loop_srcs="loop.c common.c"
 
 
 set_test()
@@ -34,8 +35,12 @@ set_test()
 		prog_name+="-branch"
 		srcs="$branch_srcs"
 		;;
+	loop)
+		prog_name+="-loop"
+		srcs="$loop_srcs"
+		;;
 	*)
-		echo "Support test list: sort add branch"
+		echo "Support test list: sort add branch loop"
 		exit 1
 		;;
 	esac
@@ -226,7 +231,7 @@ compile-gcc [clean] [args]
 
  -c, --compiler            specify compiler, gcc or clang
 
- -t, --test                test: sort, add, branch
+ -t, --test                test: sort, add, branch, loop
 
  --noclean                 do not clean anything before compile
 
