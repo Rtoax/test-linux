@@ -18,5 +18,12 @@ if [[ $# < 1 ]] || [[ ! -e $1 ]]; then
 	exit 1
 fi
 
-sudo perf stat -e ${stat_args} ./$1
+exe=$1
+shift
+# Not absolute path
+if [[ "${exe:0:1}" != "/" ]]; then
+	exe=./${exe}
+fi
+
+sudo perf stat -e ${stat_args} -- ${exe} "$@"
 
