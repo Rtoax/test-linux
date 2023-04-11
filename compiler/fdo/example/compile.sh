@@ -286,6 +286,7 @@ compile-gcc [clean] [args]
 
  -t, --type                test type: sort, loc, branch, loop
 
+ --test-only               only running test_test()
  --noclean                 do not clean anything before compile
 
  -v, --verbose             show detail.
@@ -298,12 +299,13 @@ compile-gcc [clean] [args]
 
 __main__()
 {
-	local noclean
+	local noclean testonly
 
 	TEMP=$(getopt \
 		--options c:t:vh \
 		--long compiler: \
 		--long type: \
+		--long test-only \
 		--long noclean \
 		--long verbose \
 		--long help \
@@ -329,6 +331,11 @@ __main__()
 			shift
 			noclean=YES
 			;;
+		--test-only)
+			shift
+			noclean=YES
+			testonly=YES
+			;;
 		-v | --verbose)
 			shift
 			export PS4='+${BASH_SOURCE}:${LINENO}:${FUNCNAME[0]}: '
@@ -349,6 +356,14 @@ __main__()
 	[[ -z "$srcs" ]] && echo "ERROR: Must specify -t, --type" && exit 1
 
 	[[ -z ${noclean} ]] && clean
+
+	if [[ ! -z $testonly ]]; then
+		[[ -z $compiler ]] && echo "ERROR: Must specify -c" && exit 1
+		[[ -z $test_type ]] && echo "ERROR: Must specify -t" && exit 1
+		test_test
+
+		exit 0
+	fi
 
 	return 0
 }
