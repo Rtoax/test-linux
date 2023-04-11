@@ -63,7 +63,7 @@ test_test()
 			echo -e "\033[1;32m>>> $1 <<<\033[0m"
 			objdump -d $1 \
 				| grep '>:' \
-				| grep -e loc_ -e f_pad_ \
+				| grep -e loc_ \
 				| sort \
 				| sed 's/^/\t/g'
 		}
