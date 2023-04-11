@@ -7,6 +7,8 @@ unsigned long f_A(unsigned long a);
 unsigned long f_B(unsigned long a);
 unsigned long f_C(unsigned long a);
 unsigned long f_D(unsigned long a);
+unsigned long f_E(unsigned long a);
+unsigned long f_F(unsigned long a);
 
 
 unsigned long __noinline
@@ -15,13 +17,14 @@ f_A(unsigned long a)
 	unsigned long i, ret = 0;
 
 	for (i = 0; i < a; i++) {
-		/* this branch never run */
-		if (i % 319 == 1)
+		if (i % 400 == 1)
 			ret += f_B(i);
-		/* this branch never run */
-		else if (i % 217 == 1)
-			ret += f_B(i) + f_C(i);
-		/* this branch will run */
+		else if (i % 300 == 2)
+			ret += f_D(i);
+		else if (i % 200 == 3)
+			ret += f_E(i);
+		else if (i % 100 == 4)
+			ret += f_F(i);
 		else if (i % 2 == 0)
 			ret += f_C(i);
 	}
@@ -32,35 +35,37 @@ f_A(unsigned long a)
 unsigned long __noinline
 f_B(unsigned long a)
 {
-	unsigned long i, ret = 0;
-
-	for (i = 0; i < a; i++)
-		ret += f_D(i);
-
-	return ret;
+	return a + 3;
 }
 
 unsigned long __noinline
 f_C(unsigned long a)
 {
-	unsigned long i, ret = 0;
-
-	for (i = 0; i < a; i++)
-		ret += f_D(i);
-
-	return ret;
+	return a + 4;
 }
 
 unsigned long __noinline
 f_D(unsigned long a)
 {
-	return a++;
+	return a + 5;
+}
+
+unsigned long __noinline
+f_E(unsigned long a)
+{
+	return a + 8;
+}
+
+unsigned long __noinline
+f_F(unsigned long a)
+{
+	return a + 9;
 }
 
 unsigned long
 test_branch(void)
 {
-	return f_A(20000);
+	return f_A(200000000);
 }
 
 int main()

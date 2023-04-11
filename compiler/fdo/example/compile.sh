@@ -49,6 +49,7 @@ __common_llvm_bolt_heatmap()
 	perf record -e cycles:u -j any,u -o ${elf}.perf.data -- ./${elf}
 
 	llvm-bolt-heatmap \
+		--ignore-build-id \
 		-p ${elf}.perf.data \
 		${elf} \
 		--line-size ${CACHE_LINE_SIZE} \
@@ -61,12 +62,28 @@ __common_bolt()
 {
 	local _prog_bolt=${prog_name}-bolt.out
 
-	perf record -e cycles:u -j any,u -o ${prog_name}-orig.perf.data -- ./${prog_name}-orig.out
+	rm -f ${prog_name}-orig.perf.data ${prog_name}-orig.perf.fdata
 
-	perf2bolt \
+	__record() {
+		perf record -e cycles:u -j any,u \
+			-o ${prog_name}-orig.perf.data -- ./${prog_name}-orig.out
+	}
+
+	__record
+
+	set +e
+
+	# Make sure perf2bolt running successfully
+	while ! perf2bolt \
+		--ignore-build-id \
 		-p ${prog_name}-orig.perf.data \
 		-o ${prog_name}-orig.perf.fdata \
 		${prog_name}-orig.out
+	do
+		__record
+	done
+
+	set -e
 
 		#-reorder-functions=hfsort \
 	llvm-bolt ${prog_name}-orig.out -o ${_prog_bolt} \
