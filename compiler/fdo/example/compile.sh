@@ -13,7 +13,7 @@ gcc cachelinesize.c -o cachelinesize
 CACHE_LINE_SIZE=$(./cachelinesize)
 cflags="-O3 -DTEST_BRANCH -DCACHE_LINE_SIZE=${CACHE_LINE_SIZE}"
 sort_srcs="sort.c common.c"
-add_srcs="add.c common.c"
+loc_srcs="loc.c common.c"
 branch_srcs="branch.c common.c"
 loop_srcs="loop.c common.c"
 
@@ -27,9 +27,9 @@ set_test()
 		prog_name+="-sort"
 		srcs="$sort_srcs"
 		;;
-	add)
-		prog_name+="-add"
-		srcs="$add_srcs"
+	loc)
+		prog_name+="-loc"
+		srcs="$loc_srcs"
 		;;
 	branch)
 		prog_name+="-branch"
@@ -40,7 +40,7 @@ set_test()
 		srcs="$loop_srcs"
 		;;
 	*)
-		echo "Support test list: sort add branch loop"
+		echo "Support test list: sort loc branch loop"
 		exit 1
 		;;
 	esac
@@ -231,7 +231,7 @@ compile-gcc [clean] [args]
 
  -c, --compiler            specify compiler, gcc or clang
 
- -t, --test                test: sort, add, branch, loop
+ -t, --test                test: sort, loc, branch, loop
 
  --noclean                 do not clean anything before compile
 

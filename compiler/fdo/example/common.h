@@ -1,5 +1,7 @@
 #pragma once
 
+#include <stdio.h>
+#include <malloc.h>
 #include <string.h>
 
 #ifndef CACHE_LINE_SIZE
@@ -20,6 +22,20 @@
 # define __opt_O0
 #endif
 
+#define PAD_FN(name)	\
+	unsigned long __opt_O0 __noinline	\
+	f_pad_##name(unsigned long v) {	\
+		unsigned long a, b, c, d, e, f, g;	\
+		a = b = c = d = e = f = g = 123;	\
+		char *sa, *sb, *sc, *sd;	\
+		sa = sb = sc = sd = "Hello";	\
+		sa = malloc(123);	\
+		sb = malloc(123);	\
+		memcpy(sa, sb, 123);	\
+		free(sa);	\
+		free(sb);	\
+		return 0;	\
+	}
 
 void start(void);
 void stop(void);
