@@ -284,7 +284,7 @@ compile-gcc [clean] [args]
 
  -c, --compiler            specify compiler, gcc or clang
 
- -t, --test                test: sort, loc, branch, loop
+ -t, --type                test type: sort, loc, branch, loop
 
  --noclean                 do not clean anything before compile
 
@@ -303,7 +303,7 @@ __main__()
 	TEMP=$(getopt \
 		--options c:t:vh \
 		--long compiler: \
-		--long test: \
+		--long type: \
 		--long noclean \
 		--long verbose \
 		--long help \
@@ -320,7 +320,7 @@ __main__()
 			set_compiler $1
 			shift
 			;;
-		-t | --test)
+		-t | --type)
 			shift
 			set_test $1
 			shift
@@ -346,7 +346,7 @@ __main__()
 	done
 
 	[[ -z $compiler ]] && echo "ERROR: Must specify -c, --compiler" && exit 1
-	[[ -z "$srcs" ]] && echo "ERROR: Must specify -t, --test" && exit 1
+	[[ -z "$srcs" ]] && echo "ERROR: Must specify -t, --type" && exit 1
 
 	[[ -z ${noclean} ]] && clean
 
