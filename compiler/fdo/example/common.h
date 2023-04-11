@@ -20,16 +20,6 @@
 # define __opt_O0
 #endif
 
-#if defined(CACHELINE_ALIGN) && !defined(NOINLINE)
-#define __attr __cacheline_align
-#elif defined(NOINLINE) && !defined(CACHELINE_ALIGN)
-#define __attr __noinline
-#elif defined(NOINLINE) && defined(CACHELINE_ALIGN)
-#define __attr __cacheline_align __noinline
-#else
-#define __attr
-#endif
-
 
 void start(void);
 void stop(void);

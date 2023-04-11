@@ -235,9 +235,6 @@ compile-gcc [clean] [args]
 
  --noclean                 do not clean anything before compile
 
- -n, --noinline            __attribute__((noinline))
- -a, --cacheline-align     cacheline align
-
  -v, --verbose             show detail.
  -h, --help                show this help information
 
@@ -251,12 +248,10 @@ __main__()
 	local noclean
 
 	TEMP=$(getopt \
-		--options c:t:navh \
+		--options c:t:vh \
 		--long compiler: \
 		--long test: \
-		--long noinline \
 		--long noclean \
-		--long cacheline-align \
 		--long verbose \
 		--long help \
 		-n compile-gcc -- "$@")
@@ -276,18 +271,6 @@ __main__()
 			shift
 			set_test $1
 			shift
-			;;
-		-a | --cacheline-align)
-			shift
-			cflags+=" -DCACHELINE_ALIGN"
-			prog_name+="-cacheline-align"
-			profdata=${prog_name}.profdata
-			;;
-		-n | --noinline)
-			shift
-			cflags+=" -DNOINLINE"
-			prog_name+="-noinline"
-			profdata=${prog_name}.profdata
 			;;
 		--noclean)
 			shift
