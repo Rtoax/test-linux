@@ -73,6 +73,20 @@ test_test()
 		dump_loc ${prog_name}-bolt.out
 		;;
 	branch)
+		echo "Branch of statement"
+		dump_branch() {
+			local bin=$1
+			echo -e "\033[1;32m>>> $bin <<<\033[0m"
+			gdb -batch \
+				-ex "file $bin" \
+				-ex 'disassemble branch_A' \
+				| grep branch_[B,C,D,E,F,G]_ \
+				| sed 's/^/\t/g'
+		}
+		dump_branch ${prog_name}-orig-pure.out
+		dump_branch ${prog_name}-orig.out
+		dump_branch ${prog_name}-fdo.out
+		dump_branch ${prog_name}-bolt.out
 		;;
 	loop)
 		;;
