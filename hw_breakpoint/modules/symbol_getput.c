@@ -26,7 +26,7 @@ static int __init s_module_init(void)
 
 static void __exit s_module_exit(void)
 {
-	symbol_put(ksym_name);
+	__symbol_put(ksym_name);
 	printk(KERN_INFO "symbol_put(%s) success\n", ksym_name);
 }
 
