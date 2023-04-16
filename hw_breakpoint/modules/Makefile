@@ -1,4 +1,5 @@
 
+obj-m += symbol_getput.o
 obj-m += data_breakpoint.o
 
 all:
