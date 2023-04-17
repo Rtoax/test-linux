@@ -2,15 +2,15 @@ CC = clang
 CFLAGS := -Werror -Wall -pthread
 
 define cacheline
-	@echo "Compile cachelinesize"
-	@gcc cachelinesize.c -o cachelinesize
 endef
 
-all:
-	$(call cacheline)
+all: cachelinesize
 	@echo "Compile struct"
 	@$(CC) $(CFLAGS) -o struct struct.c -DL3_CACHELINE_SIZE=$(shell ./cachelinesize)
 
+cachelinesize:
+	@echo "Compile cachelinesize"
+	@$(CC) $(CFLAGS) cachelinesize.c -o cachelinesize
 
 clean:
 	@rm -f *.o *.d cachelinesize struct
