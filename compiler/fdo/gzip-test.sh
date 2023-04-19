@@ -46,7 +46,7 @@ run_gzip()
 # Clang:
 #  CFLAGS += -fprofile-generate
 #  llvm-profdata merge --output profile.profdata default*.profraw
-#  CFLAGS += -fprofile-use=profile.profdat
+#  CFLAGS += -fprofile-use=profile.profdata
 
 dd if=/dev/random of=${test_data} bs=4096 count=100000
 
