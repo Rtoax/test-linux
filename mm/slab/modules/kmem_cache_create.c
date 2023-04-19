@@ -63,7 +63,6 @@ static void test__slab(void)
 {
 	int i;
 	char *datas[SLAB_ELEM] = {NULL};
-	struct test_struct *test;
 
 	if (!test_slab) {
 		pr_warn("not test.\n");
