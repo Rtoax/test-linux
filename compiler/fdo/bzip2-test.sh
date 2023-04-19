@@ -37,7 +37,16 @@ run_bzip2()
 	rm -f ${record}
 }
 
-# GCC: compile with -fprofile-generate and -fprofile-use to generate fdo binary
+# Compile
+#
+# GCC:
+#  CFLAGS += -fprofile-generate
+#  CFLAGS += -fprofile-use
+#
+# Clang:
+#  CFLAGS += -fprofile-generate
+#  llvm-profdata merge --output profile.profdata default*.profraw
+#  CFLAGS += -fprofile-use=profile.profdat
 
 dd if=/dev/random of=${test_data} bs=4096 count=30000
 
