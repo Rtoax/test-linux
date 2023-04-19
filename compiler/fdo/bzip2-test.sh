@@ -6,10 +6,12 @@
 #
 
 test_data=test.dat
+declare -a orig_record fdo_record
 
 run_bzip2()
 {
-	local b=$1
+	local type=$1
+	local b=$2
 	local record=$(mktemp record-tmp-XXXXX)
 	local real user sys
 
@@ -24,6 +26,12 @@ run_bzip2()
 	real=${real:2:5}
 	user=${user:2:5}
 
+	if [[ $type == orig ]]; then
+		orig_record+=( ${user} )
+	else
+		fdo_record+=( ${user} )
+	fi
+
 	echo -e "${b}\t${real}\t${user}"
 
 	rm -f ${record}
@@ -33,12 +41,17 @@ run_bzip2()
 
 dd if=/dev/random of=${test_data} bs=4096 count=30000
 
+num=10
 echo -e "\tNAME\treal\tuser"
-for b in bzip2.orig bzip2.fdo
+for ((i = 0; i < ${num}; i++))
 do
-	for ((i = 0; i < 10; i++))
-	do
-		run_bzip2 ${b}
-	done
+	run_bzip2 orig bzip2.orig
+	run_bzip2 fdo bzip2.fdo
 done
 
+# Print results
+echo -e "NUM\tOrig\tFDO"
+for ((i = 0; i < ${num}; i++))
+do
+	echo -e "${i}\t${orig_record[$i]}\t${fdo_record[$i]}"
+done
