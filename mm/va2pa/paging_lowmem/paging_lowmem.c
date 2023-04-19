@@ -42,7 +42,7 @@ static unsigned long vaddr2paddr(unsigned long vaddr)
     unsigned long page_addr = 0;
     unsigned long page_offset = 0;
 
-    pgd = pgd_offset(current->mm,vaddr);
+    pgd = pgd_offset(current->mm, vaddr);
     printk("pgd_val = 0x%lx, pgd_index = %lu\n", pgd_val(*pgd),pgd_index(vaddr));
     if (pgd_none(*pgd)) {
         printk("not mapped in pgd\n");
@@ -80,6 +80,7 @@ static unsigned long vaddr2paddr(unsigned long vaddr)
     page_addr = pte_val(*pte) & PAGE_MASK;
     page_offset = vaddr & ~PAGE_MASK;
     paddr = page_addr | page_offset;
+
     printk("page_addr = %lx, page_offset = %lx\n", page_addr, page_offset);
     printk("vaddr = %lx, paddr = %lx\n", vaddr, paddr);
 
@@ -88,27 +89,31 @@ static unsigned long vaddr2paddr(unsigned long vaddr)
 
 static int __init v2p_init(void)
 {
-    unsigned long vaddr = 0 ;
+    unsigned long vaddr = 0;
+
     printk("vaddr to paddr module is running..\n");
+
     get_pgtable_macro();
-    printk("\n");
+
     vaddr = __get_free_page(GFP_KERNEL);
     if (vaddr == 0) {
         printk("__get_free_page failed..\n");
         return 0;
     }
+
     sprintf((char *)vaddr, "hello world from kernel");
-    printk("get_page_vaddr=0x%lx\n", vaddr);
+    printk("get_page_vaddr = 0x%lx\n", vaddr);
+
     vaddr2paddr(vaddr);
 
     return 0;
 }
+
 static void __exit v2p_exit(void)
 {
     printk("vaddr to paddr module is leaving..\n");
     free_page(vaddr);
 }
-
 
 module_init(v2p_init);
 module_exit(v2p_exit);
