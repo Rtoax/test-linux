@@ -66,13 +66,13 @@ void* thread_fn(void *arg)
 	gettimeofday(&tv2, NULL);
 	show_diff_tv(targ->name, &tv2, &tv1);
 
-    pthread_exit(NULL);
+	pthread_exit(NULL);
 	return NULL;
 }
 
 void demo_good(void)
 {
-    pthread_t t1, t2;
+	pthread_t t1, t2;
 	struct good_struct good = {
 		.t1 = 0,
 		.t2 = 0,
@@ -86,15 +86,15 @@ void demo_good(void)
 		.pt = &good.t2,
 	};
 	pthread_create(&t1, NULL, thread_fn, &targ1);
-    pthread_create(&t2, NULL, thread_fn, &targ2);
+	pthread_create(&t2, NULL, thread_fn, &targ2);
 
-    pthread_join(t1, NULL);
-    pthread_join(t2, NULL);
+	pthread_join(t1, NULL);
+	pthread_join(t2, NULL);
 }
 
 void demo_bad(void)
 {
-    pthread_t t1, t2;
+	pthread_t t1, t2;
 	struct bad_struct bad = {
 		.t1 = 0,
 		.t2 = 0,
@@ -108,17 +108,17 @@ void demo_bad(void)
 		.pt = &bad.t2,
 	};
 	pthread_create(&t1, NULL, thread_fn, &targ1);
-    pthread_create(&t2, NULL, thread_fn, &targ2);
+	pthread_create(&t2, NULL, thread_fn, &targ2);
 
-    pthread_join(t1, NULL);
-    pthread_join(t2, NULL);
+	pthread_join(t1, NULL);
+	pthread_join(t2, NULL);
 }
 
 int main(int argc, char *argv[])
 {
-    demo_good();
-    demo_bad();
+	demo_good();
+	demo_bad();
 
-    printf("Done.\n");
+	printf("Done.\n");
 }
 
