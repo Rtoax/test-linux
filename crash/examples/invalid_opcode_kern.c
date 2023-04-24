@@ -3,14 +3,7 @@
 #include <linux/blkdev.h>
 #include <linux/kallsyms.h>
 
-/* ud2 - undefined */
-/* TODO: How to emulate 'invalid opcode' error */
-#define INVALID_OP_BUG()       \
-	__asm__ __volatile__(      \
-		"ud2\n"                \
-		"\t.word %c0\n"        \
-		"\t.long %c1\n"        \
-		: : "i" (__LINE__), "i" (__FILE__))
+#include "invalid_opcode.h"
 
 static int __init invalid_op_init(void)
 {
