@@ -18,13 +18,15 @@ BEGIN
 
 /**
  * #UD(Undefined Instruction) will call handle_exception_nmi()
+ * handle_ud() is called in handle_exception_nmi().
  * static int handle_exception_nmi(struct kvm_vcpu *vcpu)
  */
+kprobe:handle_ud,
 kprobe:handle_exception_nmi
 {
 	$vcpu = (struct kvm_vcpu *)arg0;
 
-	printf("%-8d %-8s\n", pid, comm);
+	printf("%-8d %-8s %s\n", pid, comm, probe);
 
 	@vc[$vcpu->cpu] = count();
 }
