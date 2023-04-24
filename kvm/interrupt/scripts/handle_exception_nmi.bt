@@ -1,0 +1,35 @@
+#!/usr/bin/env bpftrace
+/**
+ * File: handle_exception_nmi.bt
+ *
+ * Author: Rong Tao <rongtao@cestc.cn>
+ * Date: 2023-04-24
+ */
+//#include <linux/kvm_host.h>
+struct kvm_vcpu {
+	void *kvm;
+	int cpu;
+};
+
+BEGIN
+{
+	printf("Tracing KVM handle_exception_nmi(), ctrl-C to end.\n");
+}
+
+/**
+ * #UD(Undefined Instruction) will call handle_exception_nmi()
+ * static int handle_exception_nmi(struct kvm_vcpu *vcpu)
+ */
+kprobe:handle_exception_nmi
+{
+	$vcpu = (struct kvm_vcpu *)arg0;
+
+	printf("%-8d %-8s\n", pid, comm);
+
+	@vc[$vcpu->cpu] = count();
+}
+
+END
+{
+	printf("Bye.\n");
+}
