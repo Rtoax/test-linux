@@ -1,4 +1,4 @@
-
+TARGET=light-qemu
 ARCH=$(shell uname -m)
 
 ifeq (${ARCH},x86_64)
@@ -16,10 +16,10 @@ QEMU_SRC=qemu.c
 all:
 	as ${AS_FLAGS} ${TEST_SRC} -o test.o
 	objcopy -O binary test.o test.bin
-	gcc ${QEMU_SRC} -o light-qemu.out
+	gcc ${QEMU_SRC} -o $(TARGET)
 
 test:
-	$(shell test -f ./light-qemu.out && echo ./light-qemu.out)
+	$(shell test -f ./$(TARGET) && echo ./$(TARGET))
 
 clean:
-	rm -f test.o test.bin light-qemu.out
+	rm -f test.o test.bin $(TARGET)
