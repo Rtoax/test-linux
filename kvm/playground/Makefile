@@ -30,10 +30,6 @@ $(TARGETS): %:
 	@echo -e "Target   \033[1;32m$(@)\033[m"
 	@$(CC) $(CFLAGS) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
 
-test: ${TARGETS}
-	@echo -e "Test   \033[1;32m$(@)\033[m"
-	./main.user.out
-
 clean:
 	@echo -e "Clean   \033[1;32m$(@)\033[m"
 	@rm -f ${TARGETS} *.o *.d
