@@ -10,6 +10,7 @@ endif
 
 TARGETS += basic-vm
 TARGETS += load-payload01
+TARGETS += load-payload02
 
 all: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
@@ -23,6 +24,11 @@ load-payload01: load-payload01.c
 	@echo -e "\033[1;33m$(@)\033[m"
 	$(NASM) load-payload01-program.asm -o load-payload01-program.bin
 	$(NASM) -felf64 -o load-payload01-payload.o load-payload01-payload.asm
+	$(CC) $(CFLAGS) -o $(@) load-payload01-payload.o $(<)
+
+load-payload02: load-payload02.c
+	@echo -e "\033[1;33m$(@)\033[m"
+	$(NASM) load-payload02-program.asm -o load-payload02-program.bin
 	$(CC) $(CFLAGS) -o $(@) load-payload01-payload.o $(<)
 
 clean:
