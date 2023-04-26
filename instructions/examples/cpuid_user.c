@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdint.h>
+#include <stdlib.h>
 //#include <cpuid.h>
 
 
@@ -121,6 +122,9 @@ void model_name(void)
 	printf("module_id: %s\n", x86_model_id);
 }
 
+/**
+ * see kernel kvm_check_cpuid()
+ */
 void cpu_address_sizes()
 {
 	unsigned int x86_virt_bits, x86_phys_bits;
@@ -131,8 +135,13 @@ void cpu_address_sizes()
 	x86_virt_bits = (eax >> 8) & 0xff;
 	x86_phys_bits = eax & 0xff;
 
-	printf("Address size: %d bits physical, %d bits virtual.\n",
-		x86_phys_bits, x86_virt_bits);
+	/* see kernel kvm_check_cpuid() */
+	if (x86_virt_bits != 48 && x86_virt_bits != 57 && x86_virt_bits != 0) {
+		fprintf(stderr, "ERROR: Invalid vaddr bits %d\n", x86_virt_bits);
+		exit(1);
+	} else
+		printf("Address size: %d bits physical, %d bits virtual.\n",
+			x86_phys_bits, x86_virt_bits);
 }
 
 int main(int argc, char *argv[])
