@@ -1,0 +1,18 @@
+#!/bin/env bpftrace
+
+struct kvm_cpuid2 {
+	uint32_t nent;
+}
+
+kprobe:kvm_dev_ioctl_get_cpuid
+{
+	$cpuid = (struct kvm_cpuid2 *)arg0;
+
+	printf("ENTER: %s %d\n", comm, $cpuid->nent);
+}
+
+kretprobe:kvm_dev_ioctl_get_cpuid
+{
+	printf("EXIT:  %s %d(retval)\n", comm, retval);
+}
+

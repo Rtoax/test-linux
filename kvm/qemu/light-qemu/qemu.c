@@ -12,6 +12,8 @@
 #include <sys/mman.h>
 #include <linux/kvm.h>
 
+#include "qemu.h"
+
 #define MEM_SIZE 0x1000
 
 #if !defined(__x86_64__)
@@ -82,6 +84,8 @@ int main()
 #endif
 	};
 	ret = ioctl(vcpufd, KVM_SET_REGS, &regs);
+
+	print_cpuid(kvmfd);
 
 	while (1) {
 		ret = ioctl(vcpufd, KVM_RUN, NULL);

@@ -1,8 +1,12 @@
 TARGET=light-qemu
 ARCH=$(shell uname -m)
 
+QEMU_SRC :=
+QEMU_SRC += qemu.c
+
 ifeq (${ARCH},x86_64)
 TEST_SRC=test-x86_64.S
+QEMU_SRC += cpuid.c
 AS_FLAGS=-32
 endif
 
@@ -11,7 +15,6 @@ TEST_SRC=test-aarch64.S
 AS_FLAGS=
 endif
 
-QEMU_SRC=qemu.c
 
 all:
 	as ${AS_FLAGS} ${TEST_SRC} -o test.o
