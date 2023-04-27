@@ -13,9 +13,11 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-static_assert(sizeof(unsigned) == 4, "This program requires that size of unsigned int type is 4.\n");
+static_assert(sizeof(unsigned) == 4,
+	"This program requires that size of unsigned int type is 4.\n");
 
-void createPageTable(void *mem) {
+void createPageTable(void *mem)
+{
 	uint64_t pml4e = 0x2000 | 0x3;
 	memcpy(mem, &pml4e, 8);
 
@@ -48,7 +50,7 @@ void createPageTable(void *mem) {
 
 	uint64_t pte_8 = 0x7000 | 0x3;
 	memcpy(mem + 0x3038, &pte_8, 8);
-	
+
 	uint64_t pte_9 = 0x8000 | 0x3;
 	memcpy(mem + 0x3040, &pte_9, 8);
 
@@ -64,29 +66,32 @@ void createPageTable(void *mem) {
 	uint64_t pte_13 = 0xc000 | 0x3;
 	memcpy(mem + 0x3060, &pte_13, 8);
 
-        uint64_t pte_14 = 0xd000 | 0x3;
+	uint64_t pte_14 = 0xd000 | 0x3;
 	memcpy(mem + 0x3068, &pte_14, 8);
 
-        uint64_t pte_15 = 0xe000 | 0x3;
+	uint64_t pte_15 = 0xe000 | 0x3;
 	memcpy(mem + 0x3070, &pte_15, 8);
 
-        uint64_t pte_16 = 0xf000 | 0x3;
+	uint64_t pte_16 = 0xf000 | 0x3;
 	memcpy(mem + 0x3078, &pte_16, 8);
 }
 
-off_t get_file_size(int fd) {
-  struct stat s;
-  if(fstat(fd, &s) < 0) {
-	  return -1;
-  }
-  return s.st_size;
+off_t get_file_size(int fd)
+{
+	struct stat s;
+	if (fstat(fd, &s) < 0) {
+		return -1;
+	}
+	return s.st_size;
 }
 
-int read_into_buffer(int fd, uint8_t *buf) {
+int read_into_buffer(int fd, uint8_t *buf)
+{
 	uint8_t temp[32];
 	int r = read(fd, &temp, 32);
 	int total_bytes_copied = 0;
-	while(r != 0) {
+
+	while (r != 0) {
 		memcpy(buf + total_bytes_copied, temp, r);
 		total_bytes_copied += r;
 		r = read(fd, &temp, 32);
@@ -94,153 +99,164 @@ int read_into_buffer(int fd, uint8_t *buf) {
 	return total_bytes_copied;
 }
 
-int main(int argc, char **argv) {
-
-    int a_fd = open("ia32e-paging-a.bin", O_RDONLY);
-    if (a_fd == -1) {
-	    printf("Could not open a.bin.\n");
-	    return -1;
-    }
-
-    int b_fd = open("ia32e-paging-b.bin", O_RDONLY);
-    if (b_fd == -1) {
-	    printf("Could not open b.bin.\n");
-	    return -1;
-    }
-
-    off_t a_fs = get_file_size(a_fd);
-    off_t b_fs = get_file_size(b_fd);
-
-    int kvm = open("/dev/kvm", O_RDWR | O_CLOEXEC);
-    int ret = ioctl(kvm, KVM_GET_API_VERSION, NULL);
-    if (ret != 12) {
-        printf("KVM_GET_API_VERSION expected 12 but got %d.", ret);
-        return -1;
-    }
-
-    ret = ioctl(kvm, KVM_CHECK_EXTENSION, KVM_CAP_USER_MEMORY);
-    if(ret == -1) {
-        printf("KVM_CAP_USER_MEM not available. Error code: %d\n", ret);
-        return -1;
-    }
-
-    
-    
-    ret = ioctl(kvm, KVM_CHECK_EXTENSION, KVM_CAP_EXT_CPUID);
-    if(ret == -1) {
-        printf("KVM_CAP_EXT_CPUID not available. Error code: %d\n", ret);
-        return -1;
-    }
-
-    ret = ioctl(kvm, KVM_CHECK_EXTENSION, KVM_CAP_GET_MSR_FEATURES);
-    if(ret == -1) {
-        printf("KVM_CAP_GET_MSR_FEATURES not available. Error code: %d\n", ret);
-        return -1;
-    }
-    
-    int vmfd = ioctl(kvm, KVM_CREATE_VM, (unsigned long)0);
-    if(vmfd == -1) {
-        printf("There was a problem creating VM. KVM_CREATE_VM exit code: %d\n", vmfd);
-        return -1;
-    }
-    void *mem = mmap(NULL, 0x10000, PROT_READ | PROT_WRITE, MAP_SHARED | MAP_ANONYMOUS, -1, 0);
-    createPageTable(mem + 0x1000);
-    int bytes_copied = read_into_buffer(a_fd, mem + 0x7000);
-    if(bytes_copied != a_fs) {
-	    printf("Expected to copy as many bytes as there are in a.bin.\n");
-	    return -1;
-    }
-
-    bytes_copied = read_into_buffer(b_fd, mem + 0xc000);
-    if(bytes_copied != b_fs) {
-	    printf("Expected to copy as many bytes as there are in b.bin.\n");
-	    return -1;
-    }
-    
-    struct kvm_userspace_memory_region region = {
-	.slot = 0,
-	.guest_phys_addr = 0,
-	.memory_size = 0x10000,
-	.userspace_addr = (uint64_t)mem,
-    };
-
-    ret = ioctl(vmfd, KVM_SET_USER_MEMORY_REGION, &region);
-    if(ret == -1) {
-        printf("Could not set guest memory. Error code: %d\n", ret);
-        return -1;
-    }
-
-    int vcpufd = ioctl(vmfd, KVM_CREATE_VCPU, (unsigned long)0);
-    if(vcpufd == -1) {
-        printf("Could not create VCPU for VM %d. Error code: %d", vmfd, vcpufd);
-        return -1;
-    }
-    
-    size_t mmap_size = ioctl(kvm, KVM_GET_VCPU_MMAP_SIZE, NULL);
-    struct kvm_run *run = (struct kvm_run*) mmap(NULL, mmap_size, PROT_READ | PROT_WRITE, MAP_SHARED, vcpufd, 0);
-    struct kvm_sregs sregs;
-    ret = ioctl(vcpufd, KVM_GET_SREGS, &sregs);
-    if(ret == -1) {
-        printf("KVM_GET_REGS failed to read special registers. Exit code: %d\n", ret);
-        return -1;
-    }
-    sregs.cs.base = 0;
-    sregs.cs.l = 0x1;
-
-    sregs.cr3 = 0x1000;
-    sregs.cr4 = sregs.cr4 | 0x20;
-    sregs.efer = sregs.efer | 0x500;
-    sregs.cr0 = sregs.cr0 | 0x80000001;
-    ret = ioctl(vcpufd, KVM_SET_SREGS, &sregs);
-    if(ret == -1) {
-        printf("KVM_SET_SREGS failed to update special registers. Exit code: %d\n", ret);
-        return -1;
-    }
-
-    struct kvm_regs regs = {
-	.rip = 0x7000,
-    };
-    ret = ioctl(vcpufd, KVM_SET_REGS, &regs);
-    if(ret == -1) {
-        printf("KVM_SET_REGS failed to update registers. Exit code: %d\n", ret);
-        return -1;
-    }
-
-    while (1) {
-        if((ret = ioctl(vcpufd, KVM_RUN, NULL)) == -1) {
-            printf("KVM_RUN was unable to start the VM. Error code: %d\n", ret);
-            return -1;
-        }
-
-	switch (run->exit_reason) {
-	case KVM_EXIT_HLT:
-	    puts("KVM_EXIT_HLT");
-	    return 0;
-	case KVM_EXIT_IO:
-	    if (run->io.direction == KVM_EXIT_IO_OUT &&
-		    run->io.size == 1 &&
-		    run->io.port == 0x3f8 &&
-		    run->io.count == 1) {
-		putchar(*(((char *)run) + run->io.data_offset));
-	        putchar('\n');
-    		ret = ioctl(vcpufd, KVM_GET_SREGS, &sregs);
-                if(ret == -1) {
-                  printf("KVM_GET_REGS failed to read special registers. Exit code: %d\n", ret);
-                  return -1;
-                }
-	    }
-	    else
-		printf("unhandled KVM_EXIT_IO\n");
-	    break;
-	case KVM_EXIT_FAIL_ENTRY:
-	    printf("KVM_EXIT_FAIL_ENTRY: hardware_entry_failure_reason = 0x%llx\n", (unsigned long long)run->fail_entry.hardware_entry_failure_reason);
-	    return -1;
-	case KVM_EXIT_INTERNAL_ERROR:
-	    printf("KVM_EXIT_INTERNAL_ERROR: suberror = 0x%x\n", run->internal.suberror);
-	    printf("KVM_EXIT_INTERNAL_ERROR: size = %d\n", run->internal.ndata);
-	    return -1;
+int main(int argc, char **argv)
+{
+	int a_fd = open("ia32e-paging-a.bin", O_RDONLY);
+	if (a_fd == -1) {
+		printf("Could not open a.bin.\n");
+		return -1;
 	}
-    }
 
-    return ret;
+	int b_fd = open("ia32e-paging-b.bin", O_RDONLY);
+	if (b_fd == -1) {
+		printf("Could not open b.bin.\n");
+		return -1;
+	}
+
+	off_t a_fs = get_file_size(a_fd);
+	off_t b_fs = get_file_size(b_fd);
+
+	int kvm = open("/dev/kvm", O_RDWR | O_CLOEXEC);
+	int ret = ioctl(kvm, KVM_GET_API_VERSION, NULL);
+	if (ret != 12) {
+		printf("KVM_GET_API_VERSION expected 12 but got %d.", ret);
+		return -1;
+	}
+
+	ret = ioctl(kvm, KVM_CHECK_EXTENSION, KVM_CAP_USER_MEMORY);
+	if (ret == -1) {
+		printf("KVM_CAP_USER_MEM not available. Error code: %d\n", ret);
+		return -1;
+	}
+
+
+
+	ret = ioctl(kvm, KVM_CHECK_EXTENSION, KVM_CAP_EXT_CPUID);
+	if (ret == -1) {
+		printf("KVM_CAP_EXT_CPUID not available. Error code: %d\n", ret);
+		return -1;
+	}
+
+	ret = ioctl(kvm, KVM_CHECK_EXTENSION, KVM_CAP_GET_MSR_FEATURES);
+	if (ret == -1) {
+		printf("KVM_CAP_GET_MSR_FEATURES not available. Error code: %d\n", ret);
+		return -1;
+	}
+
+	int vmfd = ioctl(kvm, KVM_CREATE_VM, (unsigned long)0);
+	if (vmfd == -1) {
+		printf("There was a problem creating VM. KVM_CREATE_VM exit code: %d\n", vmfd);
+		return -1;
+	}
+
+	void *mem = mmap(NULL, 0x10000,
+		PROT_READ | PROT_WRITE, MAP_SHARED | MAP_ANONYMOUS, -1, 0);
+
+	createPageTable(mem + 0x1000);
+
+	int bytes_copied = read_into_buffer(a_fd, mem + 0x7000);
+	if (bytes_copied != a_fs) {
+		printf("Expected to copy as many bytes as there are in a.bin.\n");
+		return -1;
+	}
+
+	bytes_copied = read_into_buffer(b_fd, mem + 0xc000);
+	if (bytes_copied != b_fs) {
+		printf("Expected to copy as many bytes as there are in b.bin.\n");
+		return -1;
+	}
+
+	struct kvm_userspace_memory_region region = {
+		.slot = 0,
+		.guest_phys_addr = 0,
+		.memory_size = 0x10000,
+		.userspace_addr = (uint64_t)mem,
+	};
+
+	ret = ioctl(vmfd, KVM_SET_USER_MEMORY_REGION, &region);
+	if (ret == -1) {
+		printf("Could not set guest memory. Error code: %d\n", ret);
+		return -1;
+	}
+
+	int vcpufd = ioctl(vmfd, KVM_CREATE_VCPU, (unsigned long)0);
+	if (vcpufd == -1) {
+		printf("Could not create VCPU for VM %d. Error code: %d", vmfd, vcpufd);
+		return -1;
+	}
+
+	size_t mmap_size = ioctl(kvm, KVM_GET_VCPU_MMAP_SIZE, NULL);
+
+	struct kvm_run *run = (struct kvm_run*)mmap(NULL, mmap_size,
+			PROT_READ | PROT_WRITE, MAP_SHARED, vcpufd, 0);
+
+	struct kvm_sregs sregs;
+
+	ret = ioctl(vcpufd, KVM_GET_SREGS, &sregs);
+	if (ret == -1) {
+		printf("KVM_GET_REGS failed to read special registers. Exit code: %d\n", ret);
+		return -1;
+	}
+
+	sregs.cs.base = 0;
+	sregs.cs.l = 0x1;
+
+	sregs.cr3 = 0x1000;
+	sregs.cr4 = sregs.cr4 | 0x20;
+	sregs.efer = sregs.efer | 0x500;
+	sregs.cr0 = sregs.cr0 | 0x80000001;
+
+	ret = ioctl(vcpufd, KVM_SET_SREGS, &sregs);
+	if (ret == -1) {
+		printf("KVM_SET_SREGS failed to update special registers. Exit code: %d\n", ret);
+		return -1;
+	}
+
+	struct kvm_regs regs = {
+		.rip = 0x7000,
+	};
+	ret = ioctl(vcpufd, KVM_SET_REGS, &regs);
+	if (ret == -1) {
+		printf("KVM_SET_REGS failed to update registers. Exit code: %d\n", ret);
+		return -1;
+	}
+
+	while (1) {
+		if ((ret = ioctl(vcpufd, KVM_RUN, NULL)) == -1) {
+			printf("KVM_RUN was unable to start the VM. Error code: %d\n", ret);
+			return -1;
+		}
+
+		switch (run->exit_reason) {
+		case KVM_EXIT_HLT:
+			puts("KVM_EXIT_HLT");
+			return 0;
+		case KVM_EXIT_IO:
+			if (run->io.direction == KVM_EXIT_IO_OUT &&
+				run->io.size == 1 &&
+				run->io.port == 0x3f8 &&
+				run->io.count == 1) {
+			putchar(*(((char *)run) + run->io.data_offset));
+				putchar('\n');
+				ret = ioctl(vcpufd, KVM_GET_SREGS, &sregs);
+				if (ret == -1) {
+					printf("KVM_GET_REGS failed to read special registers. Exit code: %d\n", ret);
+					return -1;
+				}
+			}
+			else
+			printf("unhandled KVM_EXIT_IO\n");
+			break;
+		case KVM_EXIT_FAIL_ENTRY:
+			printf("KVM_EXIT_FAIL_ENTRY: hardware_entry_failure_reason = 0x%llx\n",
+				(unsigned long long)run->fail_entry.hardware_entry_failure_reason);
+			return -1;
+		case KVM_EXIT_INTERNAL_ERROR:
+			printf("KVM_EXIT_INTERNAL_ERROR: suberror = 0x%x\n", run->internal.suberror);
+			printf("KVM_EXIT_INTERNAL_ERROR: size = %d\n", run->internal.ndata);
+			return -1;
+		}
+	}
+
+	return ret;
 }

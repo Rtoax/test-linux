@@ -1,8 +1,9 @@
 	global start
 
-start:  mov dx, 0x3f8	
-        mov eax, 0x0
-        cpuid
+start:
+	mov dx, 0x3f8	
+	mov eax, 0x0
+	cpuid
 	mov eax, ebx 
 	call print_eax
 	mov eax, edx 
