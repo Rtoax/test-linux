@@ -1,6 +1,7 @@
 	global start
 
-start:	mov dx, 0x3f8
+start:
+	mov dx, 0x3f8
 	add al, bl
 	mov al, `0`
 	out dx, al
