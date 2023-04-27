@@ -120,13 +120,9 @@ int main(int argc, char **argv)
 	int ret;
 	int kvm = open_dev_kvm();
 
-	ret = ioctl(kvm, KVM_CHECK_EXTENSION, KVM_CAP_USER_MEMORY);
-	if (ret == -1) {
-		printf("KVM_CAP_USER_MEM not available. Error code: %d\n", ret);
-		return -1;
-	}
+	check_cap_user_memory(kvm);
 
-
+	int vmfd = create_vm(kvm);
 
 	ret = ioctl(kvm, KVM_CHECK_EXTENSION, KVM_CAP_EXT_CPUID);
 	if (ret == -1) {
@@ -137,12 +133,6 @@ int main(int argc, char **argv)
 	ret = ioctl(kvm, KVM_CHECK_EXTENSION, KVM_CAP_GET_MSR_FEATURES);
 	if (ret == -1) {
 		printf("KVM_CAP_GET_MSR_FEATURES not available. Error code: %d\n", ret);
-		return -1;
-	}
-
-	int vmfd = ioctl(kvm, KVM_CREATE_VM, (unsigned long)0);
-	if (vmfd == -1) {
-		printf("There was a problem creating VM. KVM_CREATE_VM exit code: %d\n", vmfd);
 		return -1;
 	}
 

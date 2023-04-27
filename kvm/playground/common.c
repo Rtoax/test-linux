@@ -26,3 +26,21 @@ int open_dev_kvm(void)
 	return kvm;
 }
 
+void check_cap_user_memory(int kvmfd)
+{
+	int ret = ioctl(kvmfd, KVM_CHECK_EXTENSION, KVM_CAP_USER_MEMORY);
+	if (ret == -1) {
+		fprintf(stderr, "KVM_CAP_USER_MEM not available. Error code: %d\n", ret);
+		exit(1);
+	}
+}
+
+int create_vm(int kvmfd)
+{
+	int vmfd = ioctl(kvmfd, KVM_CREATE_VM, (unsigned long)0);
+	if (vmfd == -1) {
+		printf("ERROR: KVM_CREATE_VM %d\n", vmfd);
+		exit(1);
+	}
+	return vmfd;
+}

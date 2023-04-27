@@ -31,11 +31,9 @@ int main()
 
 	kvmfd = open_dev_kvm();
 
-	vmfd = ioctl(kvmfd, KVM_CREATE_VM, 0);
-	if (vmfd <= 0) {
-		fprintf(stderr, "ioctl KVM_CREATE_VM, %d\n", vmfd);
-		return -1;
-	}
+	check_cap_user_memory(kvmfd);
+
+	vmfd = create_vm(kvmfd);
 
 	ram = mmap(NULL, MEM_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED | MAP_ANONYMOUS, -1, 0);
 	kfd = open("hello.bin", O_RDONLY);

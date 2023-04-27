@@ -18,17 +18,10 @@ int main(int argc, char **argv)
 	int ret;
 	int kvm = open_dev_kvm();
 
-	ret = ioctl(kvm, KVM_CHECK_EXTENSION, KVM_CAP_USER_MEMORY);
-	if (ret == -1) {
-		printf("KVM_CAP_USER_MEM not available. Error code: %d\n", ret);
-		return -1;
-	}
+	check_cap_user_memory(kvm);
 
-	int vmfd = ioctl(kvm, KVM_CREATE_VM, (unsigned long)0);
-	if (vmfd == -1) {
-		printf("There was a problem creating VM. KVM_CREATE_VM exit code: %d\n", vmfd);
-		return -1;
-	}
+	int vmfd = create_vm(kvm);
+
 	void *mem = mmap(NULL, 0x1000, PROT_READ | PROT_WRITE, MAP_SHARED | MAP_ANONYMOUS, -1, 0);
 	memcpy(mem, &start_of_code, &end_of_code - &start_of_code);
 

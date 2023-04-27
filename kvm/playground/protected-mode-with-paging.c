@@ -109,11 +109,9 @@ int main(int argc, char **argv)
 	int ret;
 	int kvm = open_dev_kvm();
 
-	ret = ioctl(kvm, KVM_CHECK_EXTENSION, KVM_CAP_USER_MEMORY);
-	if (ret == -1) {
-		printf("KVM_CAP_USER_MEM not available. Error code: %d\n", ret);
-		return -1;
-	}
+	check_cap_user_memory(kvm);
+
+	int vmfd = create_vm(kvm);
 
 	ret = ioctl(kvm, KVM_CHECK_EXTENSION, KVM_CAP_EXT_CPUID);
 	if (ret == -1) {
@@ -139,12 +137,6 @@ int main(int argc, char **argv)
 	for (i = 0; i < cpuid->nent; i++) {
 		printf("F: 0x%08x, idx: 0x%08x, flags: 0x%08x, eax: 0x%08x, ebx: 0x%08x, ecx: 0x%08x, edx: 0x%08x\n",
 		cpuid->entries[i].function, cpuid->entries[i].index, cpuid->entries[i].flags, cpuid->entries[i].eax, cpuid->entries[i].ebx, cpuid->entries[i].ecx, cpuid->entries[i].edx);
-	}
-
-	int vmfd = ioctl(kvm, KVM_CREATE_VM, (unsigned long)0);
-	if (vmfd == -1) {
-		printf("There was a problem creating VM. KVM_CREATE_VM exit code: %d\n", vmfd);
-		return -1;
 	}
 
 	void *mem = mmap(NULL, 0x8000, PROT_READ | PROT_WRITE, MAP_SHARED | MAP_ANONYMOUS, -1, 0);
