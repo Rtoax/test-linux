@@ -11,6 +11,10 @@
 /ia32e-paging
 /ia32e-paging-a.bin
 /ia32e-paging-b.bin
+/protected-mode-with-paging
+/protected-mode-with-paging-a.bin
+/protected-mode-with-paging-b.bin
+/protected-mode-with-paging-c.bin
 /exceptions
 /exceptions-a.bin
 /exceptions-handler.bin

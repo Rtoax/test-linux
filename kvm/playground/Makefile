@@ -9,6 +9,7 @@ TARGETS += load-payload01
 TARGETS += load-payload02
 TARGETS += cpuid
 TARGETS += ia32e-paging
+TARGETS += protected-mode-with-paging
 TARGETS += exceptions
 endif
 
@@ -64,6 +65,13 @@ ia32e-paging: ia32e-paging.c
 	@echo -e "\033[1;33m$(@)\033[m"
 	$(NASM) -O0 ia32e-paging-a.asm -o ia32e-paging-a.bin
 	$(NASM) -O0 ia32e-paging-b.asm -o ia32e-paging-b.bin
+	$(CC) $(CFLAGS) -o $(@) $(<)
+
+protected-mode-with-paging: protected-mode-with-paging.c
+	@echo -e "\033[1;33m$(@)\033[m"
+	$(NASM) protected-mode-with-paging-a.asm -o protected-mode-with-paging-a.bin
+	$(NASM) protected-mode-with-paging-b.asm -o protected-mode-with-paging-b.bin
+	$(NASM) protected-mode-with-paging-c.asm -o protected-mode-with-paging-c.bin
 	$(CC) $(CFLAGS) -o $(@) $(<)
 
 exceptions: exceptions.c
