@@ -42,7 +42,7 @@ struct gdtEntry {
 
 void createGdtTable(void *mem)
 {
-	struct gdtNullEntry nullEntry;
+	struct gdtNullEntry nullEntry = {};
 	struct gdtEntry csEntry = {
 		.type = 0x9a,
 		.flags = 0xa0
