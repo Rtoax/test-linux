@@ -60,7 +60,8 @@ int main()
 		return -1;
 	}
 
-	vcpufd = ioctl(vmfd, KVM_CREATE_VCPU, 0);
+	vcpufd = create_vcpu(vmfd);
+
 	mmap_size = ioctl(kvmfd, KVM_GET_VCPU_MMAP_SIZE, NULL);
 
 	run = mmap(NULL, mmap_size, PROT_READ | PROT_WRITE, MAP_SHARED, vcpufd, 0);

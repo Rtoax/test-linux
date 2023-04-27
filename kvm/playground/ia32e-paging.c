@@ -157,11 +157,7 @@ int main(int argc, char **argv)
 		return -1;
 	}
 
-	int vcpufd = ioctl(vmfd, KVM_CREATE_VCPU, (unsigned long)0);
-	if (vcpufd == -1) {
-		printf("Could not create VCPU for VM %d. Error code: %d", vmfd, vcpufd);
-		return -1;
-	}
+	int vcpufd = create_vcpu(vmfd);
 
 	size_t mmap_size = ioctl(kvm, KVM_GET_VCPU_MMAP_SIZE, NULL);
 

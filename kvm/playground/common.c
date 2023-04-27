@@ -80,3 +80,13 @@ int create_vm(int kvmfd)
 	return vmfd;
 }
 
+int create_vcpu(int vmfd)
+{
+	int vcpufd = ioctl(vmfd, KVM_CREATE_VCPU, (unsigned long)0);
+	if (vcpufd == -1) {
+		fprintf(stderr, "Could not create VCPU for VM %d. Error code: %d", vmfd, vcpufd);
+		exit(1);
+	}
+	return vcpufd;
+}
+
