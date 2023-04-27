@@ -180,8 +180,12 @@ int main(int argc, char **argv)
 	check_cap_ext_cpuid(kvm);
 	check_cap_get_msr_features(kvm);
 
-	void *mem = mmap(NULL, 0x10000,
-					PROT_READ | PROT_WRITE, MAP_SHARED | MAP_ANONYMOUS, -1, 0);
+#define MEM_SIZE	0x10000
+
+	void *mem = mmap(NULL, MEM_SIZE,
+			PROT_READ | PROT_WRITE,
+			MAP_SHARED | MAP_ANONYMOUS,
+			-1, 0);
 
 	createGdtTable(mem);
 	createPageTable(mem + 0x1000);
@@ -202,7 +206,7 @@ int main(int argc, char **argv)
 	struct kvm_userspace_memory_region region = {
 		.slot = 0,
 		.guest_phys_addr = 0x0,
-		.memory_size = 0x10000,
+		.memory_size = MEM_SIZE,
 		.userspace_addr = (uint64_t)mem,
 	};
 
