@@ -6,3 +6,6 @@
 /load-payload02-program.bin
 /cpuid
 /cpuid-program.bin
+/ia32e-paging
+/ia32e-paging-a.bin
+/ia32e-paging-b.bin

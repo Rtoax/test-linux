@@ -12,6 +12,7 @@ TARGETS += basic-vm
 TARGETS += load-payload01
 TARGETS += load-payload02
 TARGETS += cpuid
+TARGETS += ia32e-paging
 
 all: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
@@ -37,6 +38,12 @@ cpuid: cpuid.c
 	$(NASM) cpuid-program.asm -o cpuid-program.bin
 	$(NASM) -felf64 -o cpuid-payload.o cpuid-payload.asm
 	$(CC) $(CFLAGS) -o $(@) cpuid-payload.o $(<)
+
+ia32e-paging: ia32e-paging.c
+	@echo -e "\033[1;33m$(@)\033[m"
+	$(NASM) -O0 ia32e-paging-a.asm -o ia32e-paging-a.bin
+	$(NASM) -O0 ia32e-paging-b.asm -o ia32e-paging-b.bin
+	$(CC) $(CFLAGS) -o $(@) $(<)
 
 clean:
 	@echo -e "Clean   \033[1;32m$(@)\033[m"
