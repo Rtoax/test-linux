@@ -1,6 +1,15 @@
 ARCH=$(shell uname -m)
 
+TARGETS :=
+
 ifeq (${ARCH},x86_64)
+TARGETS += hello
+TARGETS += basic-vm
+TARGETS += load-payload01
+TARGETS += load-payload02
+TARGETS += cpuid
+TARGETS += ia32e-paging
+TARGETS += exceptions
 endif
 
 ifeq (${ARCH},aarch64)
@@ -19,13 +28,6 @@ ifdef DEBUG
 CFLAGS += -DDEBUG -O0 -g
 endif
 
-TARGETS += hello
-TARGETS += basic-vm
-TARGETS += load-payload01
-TARGETS += load-payload02
-TARGETS += cpuid
-TARGETS += ia32e-paging
-TARGETS += exceptions
 
 all: ${TARGETS}
 	@echo -e "\033[1;33mDone\033[m"
