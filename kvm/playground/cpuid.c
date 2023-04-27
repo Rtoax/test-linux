@@ -33,25 +33,8 @@ int main(int argc, char **argv)
 
 	int vmfd = create_vm(kvm);
 
-	/**
-	 * Check KVM_GET_SUPPORTED_CPUID is support or not.
-	 * https://www.kernel.org/doc/html/latest/virt/kvm/api.html
-	 */
-	ret = ioctl(kvm, KVM_CHECK_EXTENSION, KVM_CAP_EXT_CPUID);
-	if(ret == -1) {
-		printf("KVM_CAP_EXT_CPUID not available. Error code: %d\n", ret);
-		return -1;
-	}
-
-	/**
-	 * Check KVM_GET_EMULATED_CPUID is support or not.
-	 * https://www.kernel.org/doc/html/latest/virt/kvm/api.html
-	 */
-	ret = ioctl(kvm, KVM_CHECK_EXTENSION, KVM_CAP_EXT_EMUL_CPUID);
-	if(ret == -1) {
-		printf("KVM_CAP_EXT_CPUID not available. Error code: %d\n", ret);
-		return -1;
-	}
+	check_cap_ext_cpuid(kvm);
+	check_cap_ext_emul_cpuid(kvm);
 
 	struct kvm_cpuid2 *cpuid;
 	/**

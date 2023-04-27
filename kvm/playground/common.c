@@ -35,6 +35,32 @@ void check_cap_user_memory(int kvmfd)
 	}
 }
 
+/**
+ * Check KVM_GET_SUPPORTED_CPUID is support or not.
+ * https://www.kernel.org/doc/html/latest/virt/kvm/api.html
+ */
+void check_cap_ext_cpuid(int kvmfd)
+{
+	int ret = ioctl(kvmfd, KVM_CHECK_EXTENSION, KVM_CAP_EXT_CPUID);
+	if (ret == -1) {
+		fprintf(stderr, "KVM_CAP_EXT_CPUID not available. Error code: %d\n", ret);
+		exit(1);
+	}
+}
+
+/**
+ * Check KVM_GET_EMULATED_CPUID is support or not.
+ * https://www.kernel.org/doc/html/latest/virt/kvm/api.html
+ */
+void check_cap_ext_emul_cpuid(int kvmfd)
+{
+	int ret = ioctl(kvmfd, KVM_CHECK_EXTENSION, KVM_CAP_EXT_EMUL_CPUID);
+	if (ret == -1) {
+		fprintf(stderr, "KVM_CAP_EXT_CPUID not available. Error code: %d\n", ret);
+		exit(1);
+	}
+}
+
 int create_vm(int kvmfd)
 {
 	int vmfd = ioctl(kvmfd, KVM_CREATE_VM, (unsigned long)0);

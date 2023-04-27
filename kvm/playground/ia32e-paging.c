@@ -124,11 +124,7 @@ int main(int argc, char **argv)
 
 	int vmfd = create_vm(kvm);
 
-	ret = ioctl(kvm, KVM_CHECK_EXTENSION, KVM_CAP_EXT_CPUID);
-	if (ret == -1) {
-		printf("KVM_CAP_EXT_CPUID not available. Error code: %d\n", ret);
-		return -1;
-	}
+	check_cap_ext_cpuid(kvm);
 
 	ret = ioctl(kvm, KVM_CHECK_EXTENSION, KVM_CAP_GET_MSR_FEATURES);
 	if (ret == -1) {
