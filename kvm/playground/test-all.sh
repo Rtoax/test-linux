@@ -20,3 +20,4 @@ do
 	./${p}
 done
 
+echo "=== Done."

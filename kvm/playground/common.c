@@ -56,7 +56,16 @@ void check_cap_ext_emul_cpuid(int kvmfd)
 {
 	int ret = ioctl(kvmfd, KVM_CHECK_EXTENSION, KVM_CAP_EXT_EMUL_CPUID);
 	if (ret == -1) {
-		fprintf(stderr, "KVM_CAP_EXT_CPUID not available. Error code: %d\n", ret);
+		fprintf(stderr, "KVM_CAP_EXT_EMUL_CPUID not available. Error code: %d\n", ret);
+		exit(1);
+	}
+}
+
+void check_cap_get_msr_features(int kvm)
+{
+	int ret = ioctl(kvm, KVM_CHECK_EXTENSION, KVM_CAP_GET_MSR_FEATURES);
+	if (ret == -1) {
+		fprintf(stderr, "KVM_CAP_GET_MSR_FEATURES not available. Error code: %d\n", ret);
 		exit(1);
 	}
 }
@@ -70,3 +79,4 @@ int create_vm(int kvmfd)
 	}
 	return vmfd;
 }
+

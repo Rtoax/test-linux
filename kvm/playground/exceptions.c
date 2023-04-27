@@ -177,17 +177,8 @@ int main(int argc, char **argv)
 
 	int vmfd = create_vm(kvm);
 
-	ret = ioctl(kvm, KVM_CHECK_EXTENSION, KVM_CAP_EXT_CPUID);
-	if(ret == -1) {
-		printf("KVM_CAP_EXT_CPUID not available. Error code: %d\n", ret);
-		return -1;
-	}
-
-	ret = ioctl(kvm, KVM_CHECK_EXTENSION, KVM_CAP_GET_MSR_FEATURES);
-	if(ret == -1) {
-		printf("KVM_CAP_GET_MSR_FEATURES not available. Error code: %d\n", ret);
-		return -1;
-	}
+	check_cap_ext_cpuid(kvm);
+	check_cap_get_msr_features(kvm);
 
 	void *mem = mmap(NULL, 0x10000,
 					PROT_READ | PROT_WRITE, MAP_SHARED | MAP_ANONYMOUS, -1, 0);
