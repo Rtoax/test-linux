@@ -6,7 +6,6 @@ QEMU_SRC += qemu.c
 
 ifeq (${ARCH},x86_64)
 TEST_SRC=test-x86_64.S
-QEMU_SRC += cpuid.c
 AS_FLAGS=-32
 endif
 
