@@ -8,6 +8,8 @@
 #include <linux/kvm.h>
 #include <stdio.h>
 
+#include "common.h"
+
 int main(int argc, char **argv)
 {
 	const uint8_t code[] = {
@@ -24,12 +26,8 @@ int main(int argc, char **argv)
 		0xf4,				/* hlt */
 	};
 
-	int kvm = open("/dev/kvm", O_RDWR | O_CLOEXEC);
-	int ret = ioctl(kvm, KVM_GET_API_VERSION, NULL);
-	if (ret != KVM_API_VERSION) {
-		printf("KVM_GET_API_VERSION expoected 12 but got %d.", ret);
-		return -1;
-	}
+	int ret;
+	int kvm = open_dev_kvm();
 
 	ret = ioctl(kvm, KVM_CHECK_EXTENSION, KVM_CAP_USER_MEMORY);
 	if(ret == -1) {
@@ -43,12 +41,18 @@ int main(int argc, char **argv)
 		return -1;
 	}
 
-	void *mem = mmap(NULL, 0x1000, PROT_READ | PROT_WRITE, MAP_SHARED | MAP_ANONYMOUS, -1, 0);
+#define MEM_SIZE	0x1000
+#define ENTRY_ADDR	0x4000
+
+	void *mem = mmap(NULL, MEM_SIZE,
+					PROT_READ | PROT_WRITE,
+					MAP_SHARED | MAP_ANONYMOUS,
+					-1, 0);
 	memcpy(mem, code, sizeof(code));
 	struct kvm_userspace_memory_region region = {
 		.slot = 0,
-		.guest_phys_addr = 0x1000,
-		.memory_size = 0x1000,
+		.guest_phys_addr = ENTRY_ADDR, /* GPA */
+		.memory_size = MEM_SIZE,
 		.userspace_addr = (uint64_t)mem,
 	};
 
@@ -89,7 +93,7 @@ int main(int argc, char **argv)
 	struct kvm_regs regs = {
 		.rax = 5,
 		.rbx = 2,
-		.rip = 0x1000,
+		.rip = ENTRY_ADDR,
 		.rflags = 0x2,
 	};
 	ret = ioctl(vcpufd, KVM_SET_REGS, &regs);

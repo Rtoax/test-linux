@@ -12,6 +12,8 @@
 #include <sys/mman.h>
 #include <linux/kvm.h>
 
+#include "common.h"
+
 #define MEM_SIZE 0x1000
 
 #if !defined(__x86_64__)
@@ -27,12 +29,8 @@ int main()
 	int mmap_size;
 	struct kvm_run *run;
 
-	kvmfd = open("/dev/kvm", O_RDWR);
-	if (kvmfd <= 0) {
-		fprintf(stderr, "open /dev/kvm %d\n", kvmfd);
-		return -1;
-	}
-	ioctl(kvmfd, KVM_GET_API_VERSION, NULL);
+	kvmfd = open_dev_kvm();
+
 	vmfd = ioctl(kvmfd, KVM_CREATE_VM, 0);
 	if (vmfd <= 0) {
 		fprintf(stderr, "ioctl KVM_CREATE_VM, %d\n", vmfd);

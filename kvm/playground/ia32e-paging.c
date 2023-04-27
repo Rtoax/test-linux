@@ -13,6 +13,8 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+#include "common.h"
+
 static_assert(sizeof(unsigned) == 4,
 	"This program requires that size of unsigned int type is 4.\n");
 
@@ -115,13 +117,8 @@ int main(int argc, char **argv)
 
 	off_t a_fs = get_file_size(a_fd);
 	off_t b_fs = get_file_size(b_fd);
-
-	int kvm = open("/dev/kvm", O_RDWR | O_CLOEXEC);
-	int ret = ioctl(kvm, KVM_GET_API_VERSION, NULL);
-	if (ret != KVM_API_VERSION) {
-		printf("KVM_GET_API_VERSION expected 12 but got %d.", ret);
-		return -1;
-	}
+	int ret;
+	int kvm = open_dev_kvm();
 
 	ret = ioctl(kvm, KVM_CHECK_EXTENSION, KVM_CAP_USER_MEMORY);
 	if (ret == -1) {
