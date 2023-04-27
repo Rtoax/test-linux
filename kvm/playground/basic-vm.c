@@ -40,13 +40,7 @@ int main(int argc, char **argv)
 					code, sizeof(code));
 
 	int vcpufd = create_vcpu(vmfd);
-
-	size_t mmap_size = ioctl(kvm, KVM_GET_VCPU_MMAP_SIZE, NULL);
-	struct kvm_run *run = (struct kvm_run*)mmap(NULL, mmap_size,
-			PROT_READ | PROT_WRITE,
-			MAP_SHARED,
-			vcpufd,
-			0);
+	struct kvm_run *run = mmap_kvm_run(kvm, vcpufd);
 
 	struct kvm_sregs sregs;
 	ret = ioctl(vcpufd, KVM_GET_SREGS, &sregs);

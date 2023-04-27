@@ -26,7 +26,6 @@ int main()
 	int ret;
 	int kvmfd, vmfd, kfd, vcpufd;
 	unsigned char __unused *ram;
-	int mmap_size;
 	struct kvm_run *run;
 	char code[MEM_SIZE];
 
@@ -52,9 +51,7 @@ int main()
 
 	vcpufd = create_vcpu(vmfd);
 
-	mmap_size = ioctl(kvmfd, KVM_GET_VCPU_MMAP_SIZE, NULL);
-
-	run = mmap(NULL, mmap_size, PROT_READ | PROT_WRITE, MAP_SHARED, vcpufd, 0);
+	run = mmap_kvm_run(kvmfd, vcpufd);
 
 	ret = ioctl(vcpufd, KVM_GET_SREGS, &sregs);
 #if defined(__x86_64__)

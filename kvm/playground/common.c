@@ -123,3 +123,15 @@ void* mmap_user_memory_region(int vmfd, size_t size, unsigned long gpa,
 	return mem;
 }
 
+struct kvm_run *mmap_kvm_run(int kvmfd, int vcpufd)
+{
+	size_t mmap_size = ioctl(kvmfd, KVM_GET_VCPU_MMAP_SIZE, NULL);
+	struct kvm_run *run = (struct kvm_run*)mmap(NULL, mmap_size,
+			PROT_READ | PROT_WRITE,
+			MAP_SHARED,
+			vcpufd,
+			0);
+
+	return run;
+}
+
