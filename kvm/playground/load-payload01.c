@@ -22,21 +22,8 @@ int main(int argc, char **argv)
 
 	int vmfd = create_vm(kvm);
 
-	void *mem = mmap(NULL, 0x1000, PROT_READ | PROT_WRITE, MAP_SHARED | MAP_ANONYMOUS, -1, 0);
-	memcpy(mem, &start_of_code, &end_of_code - &start_of_code);
-
-	struct kvm_userspace_memory_region region = {
-		.slot = 0,
-		.guest_phys_addr = 0x1000,
-		.memory_size = 0x1000,
-		.userspace_addr = (uint64_t)mem,
-	};
-
-	ret = ioctl(vmfd, KVM_SET_USER_MEMORY_REGION, &region);
-	if (ret == -1) {
-		printf("Could not set guest memory. Error code: %d\n", ret);
-		return -1;
-	}
+	void __unused *mem = mmap_user_memory_region(vmfd, 0x1000, 0x1000,
+					&start_of_code, &end_of_code - &start_of_code);
 
 	int vcpufd = create_vcpu(vmfd);
 

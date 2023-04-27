@@ -127,8 +127,7 @@ int main(int argc, char **argv)
 	check_cap_ext_cpuid(kvm);
 	check_cap_get_msr_features(kvm);
 
-	void *mem = mmap(NULL, 0x10000,
-		PROT_READ | PROT_WRITE, MAP_SHARED | MAP_ANONYMOUS, -1, 0);
+	void *mem = mmap_user_memory_region(vmfd, 0x10000, 0x0, NULL, 0);
 
 	createPageTable(mem + 0x1000);
 
@@ -141,19 +140,6 @@ int main(int argc, char **argv)
 	bytes_copied = read_into_buffer(b_fd, mem + 0xc000);
 	if (bytes_copied != b_fs) {
 		printf("Expected to copy as many bytes as there are in b.bin.\n");
-		return -1;
-	}
-
-	struct kvm_userspace_memory_region region = {
-		.slot = 0,
-		.guest_phys_addr = 0,
-		.memory_size = 0x10000,
-		.userspace_addr = (uint64_t)mem,
-	};
-
-	ret = ioctl(vmfd, KVM_SET_USER_MEMORY_REGION, &region);
-	if (ret == -1) {
-		printf("Could not set guest memory. Error code: %d\n", ret);
 		return -1;
 	}
 
