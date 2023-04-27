@@ -1,6 +1,17 @@
+ARCH=$(shell uname -m)
+
+ifeq (${ARCH},x86_64)
+endif
+
+ifeq (${ARCH},aarch64)
+endif
+
 DEBUG = yes
+
 CC = gcc
+AS = as
 NASM = nasm
+OBJCOPY = objcopy
 
 CFLAGS := -Werror -Wall
 
@@ -8,6 +19,7 @@ ifdef DEBUG
 CFLAGS += -DDEBUG -O0 -g
 endif
 
+TARGETS += hello
 TARGETS += basic-vm
 TARGETS += load-payload01
 TARGETS += load-payload02
@@ -17,6 +29,12 @@ TARGETS += exceptions
 
 all: ${TARGETS}
 	@echo -e "\033[1;33mDone\033[m"
+
+hello: hello.c
+	@echo -e "\033[1;33m$(@)\033[m"
+	$(CC) $(CFLAGS) -o $(@) $(<)
+	$(AS) hello.asm -o hello.o
+	$(OBJCOPY) -O binary hello.o hello.bin
 
 basic-vm: basic-vm.c
 	@echo -e "\033[1;33m$(@)\033[m"

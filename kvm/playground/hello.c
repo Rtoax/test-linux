@@ -21,7 +21,7 @@
 int main()
 {
 	struct kvm_sregs sregs;
-	int ret, n;
+	int ret;
 	int kvmfd, vmfd, kfd, vcpufd;
 	unsigned char *ram;
 	int mmap_size;
@@ -40,14 +40,14 @@ int main()
 	}
 
 	ram = mmap(NULL, MEM_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED | MAP_ANONYMOUS, -1, 0);
-	kfd = open("test.bin", O_RDONLY);
+	kfd = open("hello.bin", O_RDONLY);
 	if (kfd <= 0) {
-		perror("open(test.bin)");
+		perror("open(hello.bin)");
 		return -1;
 	}
 	ret = read(kfd, ram, MEM_SIZE);
 	if (ret <= 0) {
-		perror("read(test.bin)");
+		perror("read(hello.bin)");
 		return -1;
 	}
 
