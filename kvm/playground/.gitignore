@@ -4,3 +4,5 @@
 /load-payload01-program.bin
 /load-payload02
 /load-payload02-program.bin
+/cpuid
+/cpuid-program.bin

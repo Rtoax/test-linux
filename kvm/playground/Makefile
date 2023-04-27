@@ -11,6 +11,7 @@ endif
 TARGETS += basic-vm
 TARGETS += load-payload01
 TARGETS += load-payload02
+TARGETS += cpuid
 
 all: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
@@ -30,6 +31,12 @@ load-payload02: load-payload02.c
 	@echo -e "\033[1;33m$(@)\033[m"
 	$(NASM) load-payload02-program.asm -o load-payload02-program.bin
 	$(CC) $(CFLAGS) -o $(@) load-payload01-payload.o $(<)
+
+cpuid: cpuid.c
+	@echo -e "\033[1;33m$(@)\033[m"
+	$(NASM) cpuid-program.asm -o cpuid-program.bin
+	$(NASM) -felf64 -o cpuid-payload.o cpuid-payload.asm
+	$(CC) $(CFLAGS) -o $(@) cpuid-payload.o $(<)
 
 clean:
 	@echo -e "Clean   \033[1;32m$(@)\033[m"
