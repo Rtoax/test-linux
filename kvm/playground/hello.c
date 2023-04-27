@@ -46,7 +46,8 @@ int main()
 		return -1;
 	}
 
-	ram = mmap_user_memory_region(vmfd, MEM_SIZE, 0,
+#define ENTRY_ADDR	0x0
+	ram = mmap_user_memory_region(vmfd, MEM_SIZE, ENTRY_ADDR,
 					code, sizeof(code));
 
 	vcpufd = create_vcpu(vmfd);
@@ -62,7 +63,10 @@ int main()
 	struct kvm_regs regs = {
 		/* Running from 'start:' in test.S */
 #if defined(__x86_64__)
-		.rip = 0,
+		.rax = 5,
+		.rbx = 2,
+		.rip = ENTRY_ADDR,
+		.rflags = 0x2,
 #endif
 	};
 	ret = ioctl(vcpufd, KVM_SET_REGS, &regs);
@@ -74,21 +78,23 @@ int main()
 			return -1;
 		}
 		switch (run->exit_reason) {
-			case KVM_EXIT_HLT:
-				puts("KVM_EXIT_HLT");
-				return 0;
-			case KVM_EXIT_IO:
-				putchar(*(((char *)run) + run->io.data_offset));
-				break;
-			case KVM_EXIT_FAIL_ENTRY:
-				puts("entry error.");
-				return -1;
-			case KVM_EXIT_INTERNAL_ERROR:
-			case KVM_EXIT_MMIO:
-			default:
-				puts("other error.");
-				printf("exit_reason: %d\n", run->exit_reason);
-				return -1;
+		case KVM_EXIT_HLT:
+			puts("KVM_EXIT_HLT");
+			return 0;
+		case KVM_EXIT_IO:
+			putchar(*(((char *)run) + run->io.data_offset));
+			break;
+		case KVM_EXIT_FAIL_ENTRY:
+			puts("entry error.");
+			return -1;
+		case KVM_EXIT_INTERNAL_ERROR:
+		case KVM_EXIT_MMIO:
+		default:
+			printf("KVM_EXIT_INTERNAL_ERROR: suberror = 0x%x\n", run->internal.suberror);
+			printf("KVM_EXIT_INTERNAL_ERROR: size = %d\n", run->internal.ndata);
+			puts("other error.");
+			printf("exit_reason: %d\n", run->exit_reason);
+			return -1;
 		}
 	}
 }
