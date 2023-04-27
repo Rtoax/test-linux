@@ -15,6 +15,10 @@ int main(int argc, char **argv)
 		0x00, 0xd8,			/* add %bl, %al */
 		0x04, '1',			/* add $'0', %al */
 		0xee,				/* out %al, (%dx) */
+		0xb0, 'r',			/* mov $'r', %al */
+		0xee,				/* out %al, (%dx) */
+		0xb0, 't',			/* mov $'t', %al */
+		0xee,				/* out %al, (%dx) */
 		0xb0, '\n',			/* mov $'\n', %al */
 		0xee,				/* out %al, (%dx) */
 		0xf4,				/* hlt */
@@ -22,7 +26,7 @@ int main(int argc, char **argv)
 
 	int kvm = open("/dev/kvm", O_RDWR | O_CLOEXEC);
 	int ret = ioctl(kvm, KVM_GET_API_VERSION, NULL);
-	if (ret != 12) {
+	if (ret != KVM_API_VERSION) {
 		printf("KVM_GET_API_VERSION expoected 12 but got %d.", ret);
 		return -1;
 	}
@@ -110,7 +114,6 @@ int main(int argc, char **argv)
 					run->io.port == 0x3f8 &&
 					run->io.count == 1) {
 				putchar(*(((char *)run) + run->io.data_offset));
-				putchar('\n');
 			} else
 				printf("unhandled KVM_EXIT_IO\n");
 			break;

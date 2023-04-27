@@ -47,7 +47,7 @@ int main(int argc, char **argv)
 
 	int kvm = open("/dev/kvm", O_RDWR | O_CLOEXEC);
 	int ret = ioctl(kvm, KVM_GET_API_VERSION, NULL);
-	if (ret != 12) {
+	if (ret != KVM_API_VERSION) {
 		printf("KVM_GET_API_VERSION expected 12 but got %d.", ret);
 		return -1;
 	}
