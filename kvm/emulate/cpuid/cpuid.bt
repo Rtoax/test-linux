@@ -8,11 +8,22 @@ kprobe:kvm_dev_ioctl_get_cpuid
 {
 	$cpuid = (struct kvm_cpuid2 *)arg0;
 
-	printf("ENTER: %s %d\n", comm, $cpuid->nent);
+	printf("%-8s %-8d %s\n", comm, $cpuid->nent, probe);
 }
 
 kretprobe:kvm_dev_ioctl_get_cpuid
 {
-	printf("EXIT:  %s %d(retval)\n", comm, retval);
+	printf("%-8s %-8d(retval) %s\n", comm, retval, probe);
 }
 
+/* called during kvm_dev_ioctl_get_cpuid() */
+kprobe:do_host_cpuid
+{
+	$func = arg1;
+
+	printf("%-8s %-08x(function) %s\n", comm, $func, probe);
+}
+kretprobe:do_host_cpuid
+{
+	printf("%-8s %-016x(retval) %s\n", comm, retval, probe);
+}
