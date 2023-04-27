@@ -90,3 +90,36 @@ int create_vcpu(int vmfd)
 	return vcpufd;
 }
 
+void* mmap_user_memory_region(int vmfd, size_t size, unsigned long gpa,
+		const void *code, size_t code_len)
+{
+	int ret;
+	void *mem = mmap(NULL, size,
+					PROT_READ | PROT_WRITE,
+					MAP_SHARED | MAP_ANONYMOUS,
+					-1, 0);
+
+	if (code) {
+		if (code_len > size) {
+			fprintf(stderr, "ERROR: code length too large.\n");
+			exit(1);
+		}
+		memcpy(mem, code, code_len);
+	}
+
+	struct kvm_userspace_memory_region region = {
+		.slot = 0,
+		.guest_phys_addr = gpa,
+		.memory_size = size,
+		.userspace_addr = (uint64_t)mem,
+	};
+
+	ret = ioctl(vmfd, KVM_SET_USER_MEMORY_REGION, &region);
+	if (ret == -1) {
+		fprintf(stderr, "Could not set guest memory. Error code: %d\n", ret);
+		exit(1);
+	}
+
+	return mem;
+}
+

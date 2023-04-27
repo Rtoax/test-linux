@@ -48,7 +48,7 @@ void createGdtTable(void *mem)
 		.flags = 0xa0
 	};
 
-	struct gdtEntry __attribute__((unused)) dsEntry = {
+	struct gdtEntry __unused dsEntry = {
 		.type = 0x92,
 		.flags = 0xa0
 	};
