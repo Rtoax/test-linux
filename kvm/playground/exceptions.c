@@ -182,10 +182,7 @@ int main(int argc, char **argv)
 
 #define MEM_SIZE	0x10000
 
-	void *mem = mmap(NULL, MEM_SIZE,
-			PROT_READ | PROT_WRITE,
-			MAP_SHARED | MAP_ANONYMOUS,
-			-1, 0);
+	void *mem = mmap_user_memory_region(vmfd, MEM_SIZE, 0x0, NULL, 0);
 
 	createGdtTable(mem);
 	createPageTable(mem + 0x1000);
@@ -200,19 +197,6 @@ int main(int argc, char **argv)
 	bytes_copied = read_into_buffer(handler_fd, mem + 0x9000);
 	if (bytes_copied != handler_fs) {
 		printf("Expected to copy as many bytes as there are in handler.bin.\n");
-		return -1;
-	}
-
-	struct kvm_userspace_memory_region region = {
-		.slot = 0,
-		.guest_phys_addr = 0x0,
-		.memory_size = MEM_SIZE,
-		.userspace_addr = (uint64_t)mem,
-	};
-
-	ret = ioctl(vmfd, KVM_SET_USER_MEMORY_REGION, &region);
-	if (ret == -1) {
-		printf("Could not set guest memory. Error code: %d\n", ret);
 		return -1;
 	}
 

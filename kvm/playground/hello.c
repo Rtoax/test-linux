@@ -25,9 +25,10 @@ int main()
 	struct kvm_sregs sregs;
 	int ret;
 	int kvmfd, vmfd, kfd, vcpufd;
-	unsigned char *ram;
+	unsigned char __unused *ram;
 	int mmap_size;
 	struct kvm_run *run;
+	char code[MEM_SIZE];
 
 	kvmfd = open_dev_kvm();
 
@@ -35,30 +36,19 @@ int main()
 
 	vmfd = create_vm(kvmfd);
 
-	ram = mmap(NULL, MEM_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED | MAP_ANONYMOUS, -1, 0);
 	kfd = open("hello.bin", O_RDONLY);
 	if (kfd <= 0) {
 		perror("open(hello.bin)");
 		return -1;
 	}
-	ret = read(kfd, ram, MEM_SIZE);
+	ret = read(kfd, code, MEM_SIZE);
 	if (ret <= 0) {
 		perror("read(hello.bin)");
 		return -1;
 	}
 
-	struct kvm_userspace_memory_region mem = {
-		.slot = 0,
-		.guest_phys_addr = 0,
-		.memory_size = MEM_SIZE,
-		.userspace_addr = (unsigned long)ram,
-	};
-
-	ret = ioctl(vmfd, KVM_SET_USER_MEMORY_REGION, &mem);
-	if (ret != 0) {
-		perror("ioctl");
-		return -1;
-	}
+	ram = mmap_user_memory_region(vmfd, MEM_SIZE, 0,
+					code, sizeof(code));
 
 	vcpufd = create_vcpu(vmfd);
 
