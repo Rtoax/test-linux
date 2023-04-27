@@ -11,6 +11,9 @@
 /ia32e-paging
 /ia32e-paging-a.bin
 /ia32e-paging-b.bin
+/a16.bin
+/a32.bin
+/a64.bin
 /protected-mode-with-paging
 /protected-mode-with-paging-a.bin
 /protected-mode-with-paging-b.bin

@@ -8,6 +8,7 @@ TARGETS += basic-vm
 TARGETS += load-payload01
 TARGETS += load-payload02
 TARGETS += cpuid
+TARGETS += assemly-compiling
 TARGETS += ia32e-paging
 TARGETS += protected-mode-with-paging
 TARGETS += exceptions
@@ -60,6 +61,12 @@ cpuid: cpuid.c
 	$(NASM) cpuid-program.asm -o cpuid-program.bin
 	$(NASM) -felf64 -o cpuid-payload.o cpuid-payload.asm
 	$(CC) $(CFLAGS) -o $(@) cpuid-payload.o $(<)
+
+assemly-compiling:
+	@echo -e "\033[1;33m$(@)\033[m"
+	$(NASM) a16.asm -o a16.bin
+	$(NASM) a32.asm -o a32.bin
+	$(NASM) -O0 a64.asm -o a64.bin
 
 ia32e-paging: ia32e-paging.c
 	@echo -e "\033[1;33m$(@)\033[m"
