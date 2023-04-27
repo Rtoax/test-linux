@@ -9,3 +9,6 @@
 /ia32e-paging
 /ia32e-paging-a.bin
 /ia32e-paging-b.bin
+/exceptions
+/exceptions-a.bin
+/exceptions-handler.bin

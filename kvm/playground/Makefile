@@ -13,6 +13,7 @@ TARGETS += load-payload01
 TARGETS += load-payload02
 TARGETS += cpuid
 TARGETS += ia32e-paging
+TARGETS += exceptions
 
 all: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
@@ -43,6 +44,12 @@ ia32e-paging: ia32e-paging.c
 	@echo -e "\033[1;33m$(@)\033[m"
 	$(NASM) -O0 ia32e-paging-a.asm -o ia32e-paging-a.bin
 	$(NASM) -O0 ia32e-paging-b.asm -o ia32e-paging-b.bin
+	$(CC) $(CFLAGS) -o $(@) $(<)
+
+exceptions: exceptions.c
+	@echo -e "\033[1;33m$(@)\033[m"
+	$(NASM) exceptions-a.asm -o exceptions-a.bin
+	$(NASM) exceptions-handler.asm -o exceptions-handler.bin
 	$(CC) $(CFLAGS) -o $(@) $(<)
 
 clean:
