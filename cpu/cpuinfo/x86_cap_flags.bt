@@ -1,0 +1,21 @@
+#!/bin/env bpftrace
+/**
+ * File: x86_cap_flags.bt
+ * Author: Rong Tao
+ * Date: 2023-04-28
+ *
+ */
+BEGIN
+{
+	$flags = kaddr("x86_cap_flags");
+
+	$flag = *($flags + 0);
+	printf("-%s\n", str($flag));
+	$flag = *($flags + 32);
+	printf("-%s\n", str($flag));
+	$flag = *($flags + 16);
+	printf("-%s\n", str($flag));
+
+	exit();
+}
+
