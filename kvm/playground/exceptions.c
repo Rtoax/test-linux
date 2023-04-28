@@ -239,6 +239,8 @@ int main(int argc, char **argv)
 	regs.rip = 0x6000;
 	regs.rflags = X86_EFLAGS_FIXED;
 
+	dump_kvm_regs(&regs);
+
 	ret = ioctl(vcpufd, KVM_SET_REGS, &regs);
 	if (ret == -1) {
 		printf("KVM_SET_REGS failed to update registers. Exit code: %d\n", ret);

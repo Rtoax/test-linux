@@ -174,6 +174,7 @@ void dump_kvm_sregs(struct kvm_sregs *sregs)
 #define pu64(name)	\
 	printf("%-5s %#016llx\n", #name, sregs->name);
 
+	printf("Dump kvm_sregs\n");
 	printf("%-5s %-16s %-8s %-8s %-4s\n",
 		"NAME", "Base", "Limit", "Selector", "Type");
 	segment(cs);
@@ -195,8 +196,30 @@ void dump_kvm_sregs(struct kvm_sregs *sregs)
 	pu64(cr8);
 	pu64(efer);
 	pu64(apic_base);
+#undef segment
+#undef dtable
+#undef pu64
 #else
 # error "Unsupport arch"
 #endif
 }
+
+void dump_kvm_regs(struct kvm_regs *regs)
+{
+#if defined(__x86_64__)
+#define pu64(name)	\
+	printf("%-5s %#016llx ", #name, regs->name);
+
+	printf("Dump kvm_regs\n");
+	pu64(rax); pu64(rbx); pu64(rcx); pu64(rdx); printf("\n");
+	pu64(rsi); pu64(rdi); pu64(rsp); pu64(rbp); printf("\n");
+	pu64(r8); pu64(r9); pu64(r10); pu64(r11); printf("\n");
+	pu64(r12); pu64(r13); pu64(r14); pu64(r15); printf("\n");
+	pu64(rip); pu64(rflags); printf("\n");
+#undef pu64
+#else
+# error "Unsupport arch"
+#endif
+}
+
 

@@ -21,3 +21,5 @@ void get_sregs(int vcpufd, struct kvm_sregs *sregs);
 void set_sregs(int vcpufd, struct kvm_sregs *sregs);
 void dump_kvm_sregs(struct kvm_sregs *sregs);
 
+void dump_kvm_regs(struct kvm_regs *regs);
+
