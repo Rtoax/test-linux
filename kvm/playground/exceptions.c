@@ -205,11 +205,7 @@ int main(int argc, char **argv)
 	struct kvm_run *run = mmap_kvm_run(kvm, vcpufd);
 
 	struct kvm_sregs sregs;
-	ret = ioctl(vcpufd, KVM_GET_SREGS, &sregs);
-	if (ret == -1) {
-		printf("KVM_GET_REGS failed to read special registers. Exit code: %d\n", ret);
-		return -1;
-	}
+	get_sregs(vcpufd, &sregs);
 
 	sregs.gdt.base = 0x0;
 	sregs.gdt.limit = 0x17;
@@ -231,14 +227,10 @@ int main(int argc, char **argv)
 	printf("IDT base: 0x%llx\n", sregs.idt.base);
 	printf("IDT limit: 0x%x\n", sregs.idt.limit);
 
-	ret = ioctl(vcpufd, KVM_SET_SREGS, &sregs);
-	if (ret == -1) {
-		printf("KVM_SET_SREGS failed to update special registers. Exit code: %d\n", ret);
-		return -1;
-	}
+	set_sregs(vcpufd, &sregs);
 
 	struct kvm_regs regs;
-	ret = ioctl(vcpufd, KVM_GET_SREGS, &regs);
+	ret = ioctl(vcpufd, KVM_GET_REGS, &regs);
 	if (ret == -1) {
 		printf("KVM_GET_REGS failed to read registers. Exit code: %d\n", ret);
 		return -1;

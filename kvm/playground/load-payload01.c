@@ -30,22 +30,14 @@ int main(int argc, char **argv)
 
 	struct kvm_sregs sregs;
 
-	ret = ioctl(vcpufd, KVM_GET_SREGS, &sregs);
-	if (ret == -1) {
-		printf("KVM_GET_REGS failed to read special registers. Exit code: %d\n", ret);
-		return -1;
-	}
+	get_sregs(vcpufd, &sregs);
 
 	sregs.cs.base = 0;
 	sregs.cs.selector = 0;
 
 	dump_kvm_sregs(&sregs);
 
-	ret = ioctl(vcpufd, KVM_SET_SREGS, &sregs);
-	if (ret == -1) {
-		printf("KVM_SET_SREGS failed to update special registers. Exit code: %d\n", ret);
-		return -1;
-	}
+	set_sregs(vcpufd, &sregs);
 
 	struct kvm_regs regs = {
 		.rax = 5,

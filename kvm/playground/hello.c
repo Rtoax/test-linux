@@ -54,23 +54,20 @@ int main()
 
 	run = mmap_kvm_run(kvmfd, vcpufd);
 
-	ret = ioctl(vcpufd, KVM_GET_SREGS, &sregs);
-#if defined(__x86_64__)
+	get_sregs(vcpufd, &sregs);
+
 	sregs.cs.base = 0;
 	sregs.cs.selector = 0;
-#endif
 
 	dump_kvm_sregs(&sregs);
 
-	ret = ioctl(vcpufd, KVM_SET_SREGS, &sregs);
+	set_sregs(vcpufd, &sregs);
+
 	struct kvm_regs regs = {
-		/* Running from 'start:' in test.S */
-#if defined(__x86_64__)
 		.rax = 5,
 		.rbx = 2,
 		.rip = ENTRY_ADDR,
 		.rflags = X86_EFLAGS_FIXED,
-#endif
 	};
 	ret = ioctl(vcpufd, KVM_SET_REGS, &regs);
 

@@ -149,11 +149,7 @@ int main(int argc, char **argv)
 
 	struct kvm_sregs sregs;
 
-	ret = ioctl(vcpufd, KVM_GET_SREGS, &sregs);
-	if (ret == -1) {
-		printf("KVM_GET_REGS failed to read special registers. Exit code: %d\n", ret);
-		return -1;
-	}
+	get_sregs(vcpufd, &sregs);
 
 	sregs.cs.base = 0;
 	sregs.cs.l = 0x1;
@@ -165,11 +161,7 @@ int main(int argc, char **argv)
 
 	dump_kvm_sregs(&sregs);
 
-	ret = ioctl(vcpufd, KVM_SET_SREGS, &sregs);
-	if (ret == -1) {
-		printf("KVM_SET_SREGS failed to update special registers. Exit code: %d\n", ret);
-		return -1;
-	}
+	set_sregs(vcpufd, &sregs);
 
 	struct kvm_regs regs = {
 		.rip = 0x7000,
@@ -195,16 +187,11 @@ int main(int argc, char **argv)
 				run->io.size == 1 &&
 				run->io.port == 0x3f8 &&
 				run->io.count == 1) {
-			putchar(*(((char *)run) + run->io.data_offset));
+				putchar(*(((char *)run) + run->io.data_offset));
 				putchar('\n');
-				ret = ioctl(vcpufd, KVM_GET_SREGS, &sregs);
-				if (ret == -1) {
-					printf("KVM_GET_REGS failed to read special registers. Exit code: %d\n", ret);
-					return -1;
-				}
-			}
-			else
-			printf("unhandled KVM_EXIT_IO\n");
+				get_sregs(vcpufd, &sregs);
+			} else
+				printf("unhandled KVM_EXIT_IO\n");
 			break;
 		case KVM_EXIT_FAIL_ENTRY:
 			printf("KVM_EXIT_FAIL_ENTRY: hardware_entry_failure_reason = 0x%llx\n",

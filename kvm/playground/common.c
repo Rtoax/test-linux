@@ -136,6 +136,24 @@ struct kvm_run *mmap_kvm_run(int kvmfd, int vcpufd)
 	return run;
 }
 
+void get_sregs(int vcpufd, struct kvm_sregs *sregs)
+{
+	int ret = ioctl(vcpufd, KVM_GET_SREGS, sregs);
+	if (ret == -1) {
+		printf("KVM_GET_REGS failed to read special registers. Exit code: %d\n", ret);
+		exit(1);
+	}
+}
+
+void set_sregs(int vcpufd, struct kvm_sregs *sregs)
+{
+	int ret = ioctl(vcpufd, KVM_SET_SREGS, sregs);
+	if (ret == -1) {
+		printf("KVM_SET_SREGS failed to update special registers. Exit code: %d\n", ret);
+		exit(1);
+	}
+}
+
 void dump_kvm_sregs(struct kvm_sregs *sregs)
 {
 #if defined(__x86_64__)
