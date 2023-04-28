@@ -1,0 +1,82 @@
+#!/usr/bin/env bpftrace
+/*
+ * kvm_exit_reason.bt	Trace kvm:kvm_exit reason
+ *		For Linux, uses bpftrace and eBPF.
+ *
+ * Also a basic example of bpftrace.
+ *
+ * USAGE: kvm_exit_reason.bt
+ *
+ * Copyright 2023 CESTC, Co.
+ * Licensed under the GPL License, Version 2.0 (the "License")
+ *
+ * 2023-04-28	Rong Tao	Create this.
+ */
+BEGIN
+{
+	printf("Stat kvm exit reason... Hit Ctrl-C to end.\n");
+
+	@vmx_str[0] = "EXCEPTION_NMI";
+	@vmx_str[1] = "EXTERNAL_INTERRUPT";
+	@vmx_str[2] = "TRIPLE_FAULT";
+	@vmx_str[3] = "INIT_SIGNAL";
+	@vmx_str[4] = "SIPI_SIGNAL";
+	@vmx_str[7] = "INTERRUPT_WINDOW";
+	@vmx_str[8] = "NMI_WINDOW";
+	@vmx_str[9] = "TASK_SWITCH";
+	@vmx_str[10] = "CPUID";
+	@vmx_str[12] = "HLT";
+	@vmx_str[13] = "INVD";
+	@vmx_str[14] = "INVLPG";
+	@vmx_str[15] = "RDPMC";
+	@vmx_str[16] = "RDTSC";
+	@vmx_str[18] = "VMCALL";
+	@vmx_str[19] = "VMCLEAR";
+	@vmx_str[20] = "VMLAUNCH";
+	@vmx_str[21] = "VMPTRLD";
+	@vmx_str[22] = "VMPTRST";
+	@vmx_str[23] = "VMREAD";
+	@vmx_str[24] = "VMRESUME";
+	@vmx_str[25] = "VMWRITE";
+	@vmx_str[26] = "VMOFF";
+	@vmx_str[27] = "VMON";
+	@vmx_str[28] = "CR_ACCESS";
+	@vmx_str[29] = "DR_ACCESS";
+	@vmx_str[30] = "IO_INSTRUCTION";
+	@vmx_str[31] = "MSR_READ";
+	@vmx_str[32] = "MSR_WRITE";
+	@vmx_str[33] = "INVALID_STATE";
+	@vmx_str[34] = "MSR_LOAD_FAIL";
+	@vmx_str[36] = "MWAIT_INSTRUCTION";
+	@vmx_str[37] = "MONITOR_TRAP_FLAG";
+	@vmx_str[39] = "MONITOR_INSTRUCTION";
+	@vmx_str[40] = "PAUSE_INSTRUCTION";
+	@vmx_str[41] = "MCE_DURING_VMENTRY";
+	@vmx_str[43] = "TPR_BELOW_THRESHOLD";
+	@vmx_str[44] = "APIC_ACCESS";
+	@vmx_str[45] = "EOI_INDUCED";
+	@vmx_str[46] = "GDTR_IDTR";
+	@vmx_str[47] = "LDTR_TR";
+	@vmx_str[48] = "EPT_VIOLATION";
+	@vmx_str[49] = "EPT_MISCONFIG";
+	@vmx_str[50] = "INVEPT";
+	@vmx_str[51] = "RDTSCP";
+	@vmx_str[52] = "PREEMPTION_TIMER";
+	@vmx_str[53] = "INVVPID";
+	@vmx_str[54] = "WBINVD";
+	@vmx_str[55] = "XSETBV";
+	@vmx_str[56] = "APIC_WRITE";
+}
+
+
+tracepoint:kvm:kvm_exit
+{
+	$reason = args->exit_reason;
+
+	@reasons[@vmx_str[$reason]] = count();
+}
+
+END
+{
+	clear(@vmx_str);
+}
