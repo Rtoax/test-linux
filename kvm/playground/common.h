@@ -1,6 +1,8 @@
 #pragma once
 
+#if defined(__x86_64__)
 #include <asm/processor-flags.h> /* X86_EFLAGS_ */
+#endif
 
 #define __unused __attribute__((unused))
 
