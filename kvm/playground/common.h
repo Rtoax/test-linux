@@ -17,3 +17,5 @@ void* mmap_user_memory_region(int vmfd, size_t size, unsigned long gpa,
 		const void *code, size_t code_len);
 struct kvm_run *mmap_kvm_run(int kvmfd, int vcpufd);
 
+void dump_kvm_sregs(struct kvm_sregs *sregs);
+

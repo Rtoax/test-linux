@@ -136,3 +136,49 @@ struct kvm_run *mmap_kvm_run(int kvmfd, int vcpufd)
 	return run;
 }
 
+void dump_kvm_sregs(struct kvm_sregs *sregs)
+{
+#if defined(__x86_64__)
+#define segment(name)	\
+	printf("%-5s %#016llx %#08x %#08x %-4d\n", \
+		#name, \
+		sregs->name.base, \
+		sregs->name.limit, \
+		sregs->name.selector, \
+		sregs->name.type \
+	);
+#define dtable(name)	\
+	printf("%-5s %#016llx %#08x\n", \
+		#name, \
+		sregs->name.base, \
+		sregs->name.limit \
+	);
+#define pu64(name)	\
+	printf("%-5s %#016llx\n", #name, sregs->name);
+
+	printf("%-5s %-16s %-8s %-8s %-4s\n",
+		"NAME", "Base", "Limit", "Selector", "Type");
+	segment(cs);
+	segment(ds);
+	segment(es);
+	segment(fs);
+	segment(gs);
+	segment(ss);
+	segment(tr);
+	segment(ldt);
+	dtable(gdt);
+	dtable(idt);
+
+	printf("\n");
+	pu64(cr0);
+	pu64(cr2);
+	pu64(cr3);
+	pu64(cr4);
+	pu64(cr8);
+	pu64(efer);
+	pu64(apic_base);
+#else
+# error "Unsupport arch"
+#endif
+}
+

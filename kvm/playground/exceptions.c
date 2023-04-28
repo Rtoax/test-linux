@@ -226,6 +226,8 @@ int main(int argc, char **argv)
 	sregs.efer = sregs.efer | 0x500;
 	sregs.cr0 = sregs.cr0 | 0x80000001;
 
+	dump_kvm_sregs(&sregs);
+
 	printf("IDT base: 0x%llx\n", sregs.idt.base);
 	printf("IDT limit: 0x%x\n", sregs.idt.limit);
 

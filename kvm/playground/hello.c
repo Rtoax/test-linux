@@ -59,6 +59,9 @@ int main()
 	sregs.cs.base = 0;
 	sregs.cs.selector = 0;
 #endif
+
+	dump_kvm_sregs(&sregs);
+
 	ret = ioctl(vcpufd, KVM_SET_SREGS, &sregs);
 	struct kvm_regs regs = {
 		/* Running from 'start:' in test.S */

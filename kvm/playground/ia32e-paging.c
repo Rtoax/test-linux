@@ -163,6 +163,8 @@ int main(int argc, char **argv)
 	sregs.efer = sregs.efer | 0x500;
 	sregs.cr0 = sregs.cr0 | 0x80000001;
 
+	dump_kvm_sregs(&sregs);
+
 	ret = ioctl(vcpufd, KVM_SET_SREGS, &sregs);
 	if (ret == -1) {
 		printf("KVM_SET_SREGS failed to update special registers. Exit code: %d\n", ret);

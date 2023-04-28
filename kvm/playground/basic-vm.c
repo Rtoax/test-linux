@@ -49,6 +49,8 @@ int main(int argc, char **argv)
 		return -1;
 	}
 
+	dump_kvm_sregs(&sregs);
+
 	sregs.cs.base = 0;
 	sregs.cs.selector = 0;
 
