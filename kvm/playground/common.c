@@ -9,6 +9,7 @@
 #include <linux/kvm.h>
 #include <stdio.h>
 
+#include "common.h"
 
 int open_dev_kvm(void)
 {

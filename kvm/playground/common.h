@@ -1,5 +1,7 @@
 #pragma once
 
+#include <asm/processor-flags.h> /* X86_EFLAGS_ */
+
 #define __unused __attribute__((unused))
 
 int open_dev_kvm(void);

@@ -61,7 +61,7 @@ int main(int argc, char **argv)
 		.rax = 5,
 		.rbx = 2,
 		.rip = ENTRY_ADDR,
-		.rflags = 0x2,
+		.rflags = X86_EFLAGS_FIXED,
 	};
 	ret = ioctl(vcpufd, KVM_SET_REGS, &regs);
 	if (ret == -1) {

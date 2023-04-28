@@ -243,7 +243,7 @@ int main(int argc, char **argv)
 	}
 
 	regs.rip = 0x6000;
-	regs.rflags = 0x2;
+	regs.rflags = X86_EFLAGS_FIXED;
 
 	ret = ioctl(vcpufd, KVM_SET_REGS, &regs);
 	if (ret == -1) {

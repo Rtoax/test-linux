@@ -84,7 +84,7 @@ int main(int argc, char **argv)
 		.rdx = 0x3f8,
 		.rsp = 0x2000,
 		.rip = 0x1000,
-		.rflags = 0x2,
+		.rflags = X86_EFLAGS_FIXED,
 	};
 
 	ret = ioctl(vcpufd, KVM_SET_REGS, &regs);

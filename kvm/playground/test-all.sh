@@ -17,6 +17,7 @@ make
 
 for p in ${PROGs[@]}
 do
+	echo -e "\033[1;32m=== $p ===\033[m"
 	./${p}
 done
 
