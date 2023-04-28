@@ -7,6 +7,7 @@
 int open_dev_kvm(void);
 int create_vm(int kvmfd);
 int create_vcpu(int vmfd);
+int run_vcpu(int vcpufd);
 
 void check_cap_user_memory(int kvmfd);
 void check_cap_ext_cpuid(int kvmfd);

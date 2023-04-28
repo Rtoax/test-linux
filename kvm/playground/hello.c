@@ -72,11 +72,8 @@ int main()
 	ret = ioctl(vcpufd, KVM_SET_REGS, &regs);
 
 	while (1) {
-		ret = ioctl(vcpufd, KVM_RUN, NULL);
-		if (ret == -1) {
-			printf("exit unknown.\n");
-			return -1;
-		}
+		run_vcpu(vcpufd);
+
 		switch (run->exit_reason) {
 		case KVM_EXIT_HLT:
 			puts("KVM_EXIT_HLT");

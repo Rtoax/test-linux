@@ -53,10 +53,7 @@ int main(int argc, char **argv)
 	}
 
 	while (1) {
-		if((ret = ioctl(vcpufd, KVM_RUN, NULL)) == -1) {
-			printf("KVM_RUN was unable to start the VM. Error code: %d\n", ret);
-			return -1;
-		}
+		run_vcpu(vcpufd);
 
 		switch (run->exit_reason) {
 		case KVM_EXIT_HLT:

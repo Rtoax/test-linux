@@ -27,6 +27,17 @@ int open_dev_kvm(void)
 	return kvm;
 }
 
+int run_vcpu(int vcpufd)
+{
+	int ret;
+	if ((ret = ioctl(vcpufd, KVM_RUN, NULL)) == -1) {
+		printf("KVM_RUN was unable to start the VM. Error code: %d\n", ret);
+		exit(1);
+	}
+	return ret;
+}
+
+
 void check_cap_user_memory(int kvmfd)
 {
 	int ret = ioctl(kvmfd, KVM_CHECK_EXTENSION, KVM_CAP_USER_MEMORY);
@@ -221,5 +232,4 @@ void dump_kvm_regs(struct kvm_regs *regs)
 # error "Unsupport arch"
 #endif
 }
-
 
