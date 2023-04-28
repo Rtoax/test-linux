@@ -1,5 +1,4 @@
 /**
- * File: test.S
  * Output: 'h' 'e' 'l' 'l' 'o' '\n'
  */
 start:
