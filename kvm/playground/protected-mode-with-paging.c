@@ -208,11 +208,6 @@ int main(int argc, char **argv)
 				run->io.count == 1) {
 				putchar(*(((char *)run) + run->io.data_offset));
 				putchar('\n');
-				ret = ioctl(vcpufd, KVM_GET_SREGS, &sregs);
-					if(ret == -1) {
-					printf("KVM_GET_REGS failed to read special registers. Exit code: %d\n", ret);
-					return -1;
-					}
 			} else
 				printf("unhandled KVM_EXIT_IO\n");
 			break;
