@@ -261,7 +261,7 @@ int main(int argc, char **argv)
 
 		switch (run->exit_reason) {
 		case KVM_EXIT_HLT:
-			puts("KVM_EXIT_HLT");
+			puts("\nKVM_EXIT_HLT");
 			return 0;
 		case KVM_EXIT_IO:
 			if (run->io.direction == KVM_EXIT_IO_OUT &&
@@ -269,12 +269,6 @@ int main(int argc, char **argv)
 				run->io.port == 0x3f8 &&
 				run->io.count == 1) {
 				putchar(*(((char *)run) + run->io.data_offset));
-				putchar('\n');
-				ret = ioctl(vcpufd, KVM_GET_SREGS, &sregs);
-				if (ret == -1) {
-				printf("KVM_GET_REGS failed to read special registers. Exit code: %d\n", ret);
-				return -1;
-				}
 			} else
 				printf("unhandled KVM_EXIT_IO\n");
 			break;
