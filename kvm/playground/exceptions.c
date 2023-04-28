@@ -230,22 +230,14 @@ int main(int argc, char **argv)
 	set_sregs(vcpufd, &sregs);
 
 	struct kvm_regs regs;
-	ret = ioctl(vcpufd, KVM_GET_REGS, &regs);
-	if (ret == -1) {
-		printf("KVM_GET_REGS failed to read registers. Exit code: %d\n", ret);
-		return -1;
-	}
+	get_regs(vcpufd, &regs);
 
 	regs.rip = 0x6000;
 	regs.rflags = X86_EFLAGS_FIXED;
 
 	dump_kvm_regs(&regs);
 
-	ret = ioctl(vcpufd, KVM_SET_REGS, &regs);
-	if (ret == -1) {
-		printf("KVM_SET_REGS failed to update registers. Exit code: %d\n", ret);
-		return -1;
-	}
+	set_regs(vcpufd, &regs);
 
 	while (1) {
 		run_vcpu(vcpufd);

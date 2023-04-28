@@ -69,7 +69,7 @@ int main()
 		.rip = ENTRY_ADDR,
 		.rflags = X86_EFLAGS_FIXED,
 	};
-	ret = ioctl(vcpufd, KVM_SET_REGS, &regs);
+	set_regs(vcpufd, &regs);
 
 	while (1) {
 		run_vcpu(vcpufd);

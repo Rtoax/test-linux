@@ -166,11 +166,7 @@ int main(int argc, char **argv)
 	struct kvm_regs regs = {
 		.rip = 0x7000,
 	};
-	ret = ioctl(vcpufd, KVM_SET_REGS, &regs);
-	if (ret == -1) {
-		printf("KVM_SET_REGS failed to update registers. Exit code: %d\n", ret);
-		return -1;
-	}
+	set_regs(vcpufd, &regs);
 
 	while (1) {
 		run_vcpu(vcpufd);
