@@ -12,7 +12,7 @@ BEGIN
 	$i = 0;
 	/* 32 * 19 = 608 */
 	printf("flags: ");
-	unroll (100) {
+	while ($i < 608) {
 		$flag = *($flags + $i);
 		if (str($flag) != "") {
 			printf(" %s", str($flag));
