@@ -31,6 +31,13 @@ kprobe:handle_exception_nmi
 	@vc[$vcpu->cpu] = count();
 }
 
+kretprobe:handle_ud,
+kretprobe:vmx_can_emulate_instruction,
+kretprobe:kvm_emulate_instruction
+{
+	printf("%-8d %-8s %s ret %ld\n", pid, comm, probe, retval);
+}
+
 END
 {
 	printf("Bye.\n");
