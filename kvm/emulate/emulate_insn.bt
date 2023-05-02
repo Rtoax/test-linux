@@ -1,0 +1,38 @@
+#!/usr/bin/env bpftrace
+/**
+ * File: x86_emulate_insn.bt
+ *
+ * Author: Rong Tao <rongtao@cestc.cn>
+ * Date: 2023-05-02
+ */
+#define EMULATION_FAILED 0xffffffff /* -1 */
+#define EMULATION_OK 0
+
+BEGIN
+{
+	printf("Tracing KVM x86_emulate_insn(), ctrl-C to end.\n");
+}
+
+kprobe:handle_ud,
+kprobe:x86_decode_insn,
+kprobe:x86_emulate_insn
+{
+	printf("%-8d %-8s %s\n", pid, comm, probe);
+}
+
+kretprobe:x86_decode_insn
+{
+	printf("%-8d %-8s %s ret %lx ", pid, comm, probe, retval);
+	if (retval == EMULATION_OK) {
+		printf("decode ok.\n");
+	} else if (retval == EMULATION_FAILED) {
+		printf("decode failed.\n");
+	} else {
+		printf("decode unknown failed.\n");
+	}
+}
+
+END
+{
+	printf("Bye.\n");
+}
