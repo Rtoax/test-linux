@@ -1,3 +1,4 @@
 /invalid_opcode_user
 /cpuid_user
 /rdtsc_user
+/rdtscp_user

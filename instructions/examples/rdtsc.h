@@ -14,3 +14,13 @@ uint64_t rdtsc()
 
 	return (((uint64_t)hi << 32) | lo);
 }
+
+static inline __attribute__((always_inline))
+uint64_t rdtscp()
+{
+	uint32_t lo, hi;
+
+	__asm__ __volatile__("rdtscp" : "=a" (lo), "=d" (hi) : : "%rcx");
+
+	return (((uint64_t)hi << 32) | lo);
+}
