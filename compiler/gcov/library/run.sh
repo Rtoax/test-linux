@@ -5,6 +5,9 @@ set -e
 CFLAGS_COMMON='-O3'
 CFLAGS=
 
+gcov_path=$(pwd)
+
+
 clean()
 {
 	rm -f test *.so *.o *.gcda
@@ -24,14 +27,14 @@ compile_lib()
 
 compile_gen()
 {
-	CFLAGS="-fprofile-generate "
+	CFLAGS="-fprofile-generate=${gcov_path} "
 
 	compile_lib
 }
 
 compile_use()
 {
-	CFLAGS="-fprofile-use "
+	CFLAGS="-fprofile-use=${gcov_path} "
 
 	compile_lib
 }
