@@ -1,8 +1,13 @@
 #!/bin/bash
 
-set -x
+#set -x
 
 CFLAGS=
+
+clean()
+{
+	rm -f test *.so *.o *.gcda
+}
 
 compile_test()
 {
@@ -35,9 +40,15 @@ run()
 	LD_LIBRARY_PATH=. ./test
 }
 
-clean()
+dump_fn1_branch()
 {
-	rm -f test *.so *.o *.gcda
+	local bin=$1
+	echo -e "\033[1;32m>>> $bin <<<\033[0m"
+	gdb -batch \
+		-ex "file $bin" \
+		-ex 'disassemble lib_branch_f1' \
+		| grep fn1_branch_ \
+		| sed 's/^/\t/g'
 }
 
 case $1 in
@@ -47,9 +58,12 @@ compile_gen | compile_use | run | clean)
 	$cmd "$@"
 	;;
 all)
+	clean
 	compile_gen
+	dump_fn1_branch libtest.so
 	run
 	compile_use
+	dump_fn1_branch libtest.so
 	;;
 *)
 	cat <<-EOF
