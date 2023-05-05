@@ -2,6 +2,7 @@
 
 set -e
 
+CFLAGS_COMMON='-O3'
 CFLAGS=
 
 clean()
@@ -11,12 +12,12 @@ clean()
 
 compile_test()
 {
-	gcc -L. -ltest test.c -o test ${CFLAGS}
+	gcc -L. -ltest test.c -o test ${CFLAGS_COMMON} ${CFLAGS}
 }
 
 compile_lib()
 {
-	gcc library.c -fPIC -shared -o libtest.so ${CFLAGS}
+	gcc library.c -fPIC -shared -o libtest.so ${CFLAGS_COMMON} ${CFLAGS}
 
 	compile_test
 }
