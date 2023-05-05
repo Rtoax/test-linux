@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#set -x
+set -e
 
 CFLAGS=
 
@@ -11,7 +11,7 @@ clean()
 
 compile_test()
 {
-	gcc -L. -ltest test.c -o test
+	gcc -L. -ltest test.c -o test ${CFLAGS}
 }
 
 compile_lib()
@@ -23,14 +23,14 @@ compile_lib()
 
 compile_gen()
 {
-	CFLAGS="-fprofile-generate=$(pwd) "
+	CFLAGS="-fprofile-generate "
 
 	compile_lib
 }
 
 compile_use()
 {
-	CFLAGS="-fprofile-use -fprofile-dir=$(pwd) "
+	CFLAGS="-fprofile-use "
 
 	compile_lib
 }
@@ -43,10 +43,12 @@ run()
 dump_fn1_branch()
 {
 	local bin=$1
-	echo -e "\033[1;32m>>> $bin <<<\033[0m"
+	local fn=$2
+
+	echo -e "\033[1;32m>>> $bin:$fn <<<\033[0m"
 	gdb -batch \
 		-ex "file $bin" \
-		-ex 'disassemble lib_branch_f1' \
+		-ex "disassemble $fn" \
 		| grep fn1_branch_ \
 		| sed 's/^/\t/g'
 }
@@ -60,10 +62,12 @@ compile_gen | compile_use | run | clean)
 all)
 	clean
 	compile_gen
-	dump_fn1_branch libtest.so
+	dump_fn1_branch libtest.so lib_branch_f1
+	dump_fn1_branch test branch_f1
 	run
 	compile_use
-	dump_fn1_branch libtest.so
+	dump_fn1_branch libtest.so lib_branch_f1
+	dump_fn1_branch test branch_f1
 	;;
 *)
 	cat <<-EOF
