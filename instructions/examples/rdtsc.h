@@ -34,11 +34,18 @@ uint64_t rdtsc()
  * link: https://www.felixcloutier.com/x86/rdtscp
  */
 static inline __attribute__((always_inline))
-uint64_t rdtscp()
+uint64_t rdtscp(uint32_t *aux)
 {
 	uint32_t lo, hi;
+	uint32_t rcx;
 
-	__asm__ __volatile__("rdtscp" : "=a" (lo), "=d" (hi) : : "%rcx");
+	__asm__ __volatile__("rdtscp" : "=a" (lo), "=d" (hi), "=c" (rcx) : : );
+
+	/**
+	 * if $ taskset -c 1 ./rdtscp_user
+	 * then rcx = 1
+	 */
+	*aux = rcx;
 
 	return (((uint64_t)hi << 32) | lo);
 }

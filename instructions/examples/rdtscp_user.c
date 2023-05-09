@@ -3,9 +3,10 @@
 
 int main(void)
 {
-	uint64_t tscp = rdtscp();
+	uint32_t rcx = 0;
+	uint64_t tscp = rdtscp(&rcx);
 
-	printf("tscp = %ld\n", tscp);
+	printf("tscp = %ld, %d\n", tscp, rcx);
 
 	return 0;
 }
