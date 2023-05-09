@@ -15,6 +15,7 @@ BEGIN
 uprobe:/lib64/libc.so.6:clock_gettime
 {
 	@start[tid] = nsecs;
+	@cnt[comm] = count();
 }
 
 uretprobe:/lib64/libc.so.6:clock_gettime
