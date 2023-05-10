@@ -10,7 +10,9 @@ gcov_path=$(pwd)
 
 clean()
 {
-	rm -f test *.so *.o *.gcda *.gcno \
+	rm -f \
+		test test.old \
+		*.so *.o *.gcda *.gcno \
 		*.log
 }
 
