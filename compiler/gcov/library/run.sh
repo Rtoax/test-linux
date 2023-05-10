@@ -27,7 +27,7 @@ compile_lib()
 
 compile_gen()
 {
-	CFLAGS="-fprofile-generate=${gcov_path} "
+	CFLAGS="-fprofile-generate=${gcov_path} -fprofile-arcs -ftest-coverage -lgcov"
 
 	compile_lib
 }

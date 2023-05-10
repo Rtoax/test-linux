@@ -1,3 +1,4 @@
 /libtest.so
 /test
 /*.gcda
+/*.gcno

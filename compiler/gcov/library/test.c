@@ -11,14 +11,17 @@ struct thread_arg {
 	int id;
 };
 
+__thread int threadid = 0;
+
 void* thread_fn(void *arg)
 {
 	struct thread_arg *targ = arg;
+	threadid = targ->id;
 
 	branch_f1(10000000);
 
 	lib_f1();
-	printf("Thread %d.\n", targ->id);
+	printf("Thread %d.\n", threadid);
 
 	return NULL;
 }
