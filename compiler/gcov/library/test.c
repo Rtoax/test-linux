@@ -11,7 +11,20 @@ struct thread_arg {
 	int id;
 };
 
+pthread_key_t thread_log_key;
+
 __thread int threadid = 0;
+
+void thread_log_key_dtor(void *thread_log)
+{
+	fclose((FILE*)thread_log);
+}
+
+void log_thread(const char *message)
+{
+	FILE *thread_log_fp = (FILE *)pthread_getspecific(thread_log_key);
+	fprintf(thread_log_fp, "%s\n", message);
+}
 
 void* thread_fn(void *arg)
 {
@@ -21,6 +34,15 @@ void* thread_fn(void *arg)
 	branch_f1(10000000);
 
 	lib_f1();
+
+	FILE *logfp;
+	char filename[20];
+	sprintf(filename, "thread%d-%d.log", threadid, pthread_self());
+	logfp = fopen(filename, "w");
+
+	pthread_setspecific(thread_log_key, logfp);
+
+	log_thread("This is thread.");
 	printf("Thread %d.\n", threadid);
 
 	return NULL;
@@ -32,6 +54,8 @@ int main(int argc, char *argv[])
 
 	struct thread_arg a1 = { .id = 1, };
 	struct thread_arg a2 = { .id = 2, };
+
+	pthread_key_create(&thread_log_key, thread_log_key_dtor);
 
 	pthread_create(&t1, NULL, thread_fn, &a1);
 	pthread_create(&t2, NULL, thread_fn, &a2);
