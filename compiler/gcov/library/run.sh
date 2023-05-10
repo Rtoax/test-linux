@@ -16,6 +16,7 @@ clean()
 
 compile_test()
 {
+	[[ -e test ]] && mv test test.old
 	gcc -L. -ltest test.c -o test ${CFLAGS_COMMON} ${CFLAGS}
 }
 
@@ -44,6 +45,10 @@ run()
 {
 	LD_LIBRARY_PATH=. ./test
 }
+run_gen()
+{
+	LD_LIBRARY_PATH=. ./test.old
+}
 
 dump_fn1_branch()
 {
@@ -58,8 +63,36 @@ dump_fn1_branch()
 		| sed 's/^/\t/g'
 }
 
+while :;
+do
+	case $1 in
+	-v|--verbose)
+		shift
+		set -x
+		;;
+	-vv)
+		shift
+		export PS4='+${BASH_SOURCE}: '
+		set -x
+		;;
+	-vvv)
+		shift
+		export PS4='+${BASH_SOURCE}:${LINENO}: '
+		set -x
+		;;
+	-vvvv)
+		shift
+		export PS4='+${BASH_SOURCE}:${LINENO}:${FUNCNAME[0]}: '
+		set -x
+		;;
+	*)
+		break
+		;;
+	esac
+done
+
 case $1 in
-compile_gen | compile_use | run | clean)
+compile_gen | compile_use | run | run_gen | clean)
 	cmd=$1
 	shift
 	$cmd "$@"
@@ -79,6 +112,7 @@ all)
 
 	compile_gen
 	run
+	run_gen
 	compile_use
 	clean
 

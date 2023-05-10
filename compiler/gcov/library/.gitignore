@@ -1,5 +1,6 @@
 /libtest.so
 /test
+/test.old
 /*.gcda
 /*.gcno
 /*.log
