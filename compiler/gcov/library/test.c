@@ -36,14 +36,14 @@ void* thread_fn(void *arg)
 	lib_f1();
 
 	FILE *logfp;
-	char filename[20];
-	sprintf(filename, "thread%d-%d.log", threadid, pthread_self());
+	char filename[64];
+	sprintf(filename, "thread%d-%ld.log", threadid, pthread_self());
 	logfp = fopen(filename, "w");
 
 	pthread_setspecific(thread_log_key, logfp);
 
 	log_thread("This is thread.");
-	printf("Thread %d.\n", threadid);
+	printf("Thread %d(%ld).\n", threadid, pthread_self());
 
 	return NULL;
 }
