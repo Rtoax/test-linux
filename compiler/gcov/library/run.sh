@@ -2,7 +2,7 @@
 
 set -e
 
-CFLAGS_COMMON='-O3'
+CFLAGS_COMMON='-O3 -pthread'
 CFLAGS=
 
 gcov_path=$(pwd)
