@@ -145,13 +145,16 @@ void usage(int argc, char **argv)
 #if defined(__x86_64__) && defined(HAVE_DPDK_TSC_FREQ)
 		"|rdtsc"
 #endif
-		"]\n", argv[0]);
+		"]"
+		" [cnt]\n",
+		argv[0]);
 }
 
 int main(int argc, char *argv[])
 {
 	struct timespec start, end;
 	unsigned long long diff_ns;
+	unsigned long long nloop = MAX;
 	test_enum te = TEST_SYSCALL;
 
 	if (argc < 2) {
@@ -172,13 +175,23 @@ int main(int argc, char *argv[])
 		exit(1);
 	}
 
+	if (argc >= 3) {
+		unsigned long long cnt = atoll(argv[2]);
+		if (cnt)
+			nloop = cnt;
+		else {
+			usage(argc, argv);
+			exit(1);
+		}
+	}
+
 	clock_gettime(CLOCK_MONOTONIC, &start);
-	func(MAX, te);
+	func(nloop, te);
 	clock_gettime(CLOCK_MONOTONIC, &end);
 	
 	diff_ns = longtime(end) - longtime(start);
 
-	printf("diff %lld, (%llf nspc)\n", diff_ns, diff_ns*1.0L / MAX);
+	printf("diff %lld, (%llf nspc)\n", diff_ns, diff_ns*1.0L / nloop);
 
 	return 0;
 }
