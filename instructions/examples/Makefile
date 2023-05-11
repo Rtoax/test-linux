@@ -1,32 +1,53 @@
-ifeq ($(shell uname -m),x86_64)
-endif
-ifeq ($(shell uname -m),aarch64)
-endif
-obj-m += invalid_opcode_kern.o
-
-KERNELDIR ?= /lib/modules/$(shell uname -r)/build
 
 default:
 	@echo "make [kernel|user]"
 
+###############################################################################
+# Kernel
+obj-m += invalid_opcode_kern.o
+
+KERNELDIR ?= /lib/modules/$(shell uname -r)/build
+
 kernel:
 	make -C ${KERNELDIR} M=$(PWD) modules
 
-user:
-	gcc invalid_opcode_user.c -o invalid_opcode_user
-	gcc cpuid_user.c -o cpuid_user
-	gcc rdtsc_user.c -o rdtsc_user
-	gcc rdtscp_user.c -o rdtscp_user
-	gcc rdtsc_cmp.c -o rdtsc_cmp
+###############################################################################
+# User
+TARGETS :=
+
+# User
+ifeq ($(shell uname -m),x86_64)
+TARGETS += invalid_opcode_user
+TARGETS += cpuid_user
+TARGETS += rdtsc_user
+TARGETS += rdtscp_user
+TARGETS += rdtsc_cmp
+endif
+ifeq ($(shell uname -m),aarch64)
+endif
+
+invalid_opcode_user: invalid_opcode_user.o
+cpuid_user: cpuid_user.o
+rdtsc_user: rdtsc_user.o
+rdtscp_user: rdtscp_user.o
+rdtsc_cmp: rdtsc_cmp.o
+
+$(TARGETS): %:
+	@echo -e "Target   \033[1;32m$(@)\033[m"
+	@$(CC) $(CFLAGS) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
+
+user: $(TARGETS)
+
 
 test:
 	@echo "empty, [cd $(PWD)] to insmod"
 
 clean:
-	make -C ${KERNELDIR} M=$(PWD) clean
 	rm -f \
+		*.o \
 		invalid_opcode_user \
 		cpuid_user \
 		rdtsc_user \
 		rdtscp_user \
 		rdtsc_cmp
+	make -C ${KERNELDIR} M=$(PWD) clean
