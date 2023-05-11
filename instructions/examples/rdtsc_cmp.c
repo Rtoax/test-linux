@@ -39,6 +39,13 @@ int main(void)
 	gettimeofday(&end, NULL);
 	print_diff_tv("            rdtsc ", &end, &start);
 
+	gettimeofday(&start, NULL);
+	for (i = 0; i < TEST_NLOOP; i++) {
+		tsc = rdtsc_ordered();
+	}
+	gettimeofday(&end, NULL);
+	print_diff_tv("    rdtsc ordered ", &end, &start);
+
 	return 0;
 }
 
