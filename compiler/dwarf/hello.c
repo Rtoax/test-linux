@@ -6,7 +6,11 @@
 
 int main(int argc, char *argv[])
 {
-	printf("Hello World.\n");
+	char *strp1 = "Hello World";
+	char *strp2 = strp1;
+	char *strp_sup = strp1 + 6;
+
+	printf("%s\n", strp1);
 	return 0;
 }
 
