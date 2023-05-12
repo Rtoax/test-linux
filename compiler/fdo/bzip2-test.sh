@@ -39,9 +39,18 @@ run_bzip2()
 
 # Compile
 #
-# GCC:
+# GCC Native:
 #  CFLAGS += -fprofile-generate
 #  CFLAGS += -fprofile-use
+#
+# GCC AutoFDO
+#  perf record -b -e br_inst_retired.near_taken:pp -- ./gzip
+#  create_gcov \
+#		--binary=./gzip \
+#		--profile=perf.data \
+#		--gcov=gzip.gcov \
+#		-gcov_version=1 >/dev/null
+#  gcc -fauto-profile=gzip.gcov ...
 #
 # Clang:
 #  CFLAGS += -fprofile-generate
