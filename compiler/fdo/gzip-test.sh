@@ -53,7 +53,7 @@ run_gzip()
 #		--profile=perf.data \
 #		--gcov=gzip.gcov \
 #		-gcov_version=1 >/dev/null
-#  gcc -fauto-profile=gzip.gcov ...
+#  LDFLAGS += -fauto-profile=gzip.gcov
 #
 # Clang:
 #  CFLAGS += -fprofile-generate
@@ -72,8 +72,8 @@ do
 done
 
 # Print results
-echo -e "NUM\tOrig\tFDO"
+echo -e "NUM\tOrig\tFDO\tAutoFDO"
 for ((i = 0; i < ${num}; i++))
 do
-	echo -e "${i}\t${orig_record[$i]}\t${fdo_record[$i]}"
+	echo -e "${i}\t${orig_record[$i]}\t${fdo_record[$i]}\t${autofdo_record[$i]}"
 done
