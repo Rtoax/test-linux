@@ -1,0 +1,63 @@
+Dwarf - Debugging With Attributed Record Formats
+================================================
+
+- [主页](http://wiki.dwarfstd.org/index.php?title=Main_Page)
+
+
+`DWARF`调试格式和ELF格式的关系是：`DWARF`是`ELF`最常用的调试信息格式，它不一定与`ELF`相关，但两者是一起发展的，因此在开发中常一起使用。
+
+- `DWARF`格式中，高级语言的源文件、函数、变量、类型等调试信息在`.debug_info`节区中存储;
+- 为了节省存储空间，`DWARF`在`.debug_abbrev`节区中定义了所有节点的类型和格式;
+- `.debug_info`和`.debug_abbrev`节区中，每个节点表示一种调试信息，例如`DW_TAG_compile_unit`表示源文件调试信息;
+
+例如：
+
+```
+$ gcc -g hello.c
+$ readelf -S a.out | grep debug
+  [27] .debug_aranges    PROGBITS         0000000000000000  00002c0c
+  [28] .debug_info       PROGBITS         0000000000000000  00002c3c
+  [29] .debug_abbrev     PROGBITS         0000000000000000  00002f66
+  [30] .debug_line       PROGBITS         0000000000000000  00003047
+  [31] .debug_str        PROGBITS         0000000000000000  0000313b
+```
+
+
+# Declaration Information
+
+- https://gcc.gnu.org/wiki/LTO_Reader/Writer
+
+以下内容尚未出现在变量和函数的`DWARF`信息中：
+
+```
+DECL_SECTION_NAME
+DECL_VISIBILITY
+DECL_ONE_ONLY
+DECL_COMDAT
+DECL_WEAK
+DECL_DLLIMPORT_P
+DECL_UNINLINABLE
+DECL_IS_MALLOC
+DECL_IS_RETURNS_TWICE
+DECL_IS_PURE
+DECL_IS_NOVOPS
+DECL_STATIC_CONSTRUCTOR
+DECL_STATIC_DESTRUCTOR
+DECL_NO_INSTRUMENT_FUNCTION_ENTRY_EXIT
+DECL_NO_LIMIT_STACK
+DECL_NO_STATIC_CHAIN
+DECL_INLINE
+DECL_HARD_REGISTER
+DECL_HAS_INIT_PRIORITY
+DECL_INIT_PRIORITY
+DECL_TLS_MODEL
+DECL_THREAD_LOCAL_P
+DECL_IN_TEXT_SECTION
+DECL_COMMON
+```
+
+我们不应该盲目地为所有这些字段创建`DWARF`属性。
+
+例如，表示`DECL_INIT_PRIORITY`的正确方法可能是该字段的`DWARF`属性，但表示`DECL_HAS_INIT_PRIORITY`的正确方法可能是由于`DECL_INIT_PRIORITY`的`DWARF`属性不存在而不是单独的位。作为另一个例子，可以计算 `DECL_SECTION_NAME`通过查看`ELF`符号表。
+
+
