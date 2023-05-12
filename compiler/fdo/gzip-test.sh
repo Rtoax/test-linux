@@ -3,10 +3,11 @@
 # git: https://git.savannah.gnu.org/git/gzip.git
 #
 # 2023-04-19	Rong Tao	Create this
+# 2023-05-12	Rong Tao	Support autofdo
 #
 
 test_data=test.dat
-declare -a orig_record fdo_record
+declare -a orig_record fdo_record audofdo_record
 
 run_gzip()
 {
@@ -28,8 +29,10 @@ run_gzip()
 
 	if [[ $type == orig ]]; then
 		orig_record+=( ${user} )
-	else
+	elif [[ $type == fdo ]]; then
 		fdo_record+=( ${user} )
+	elif [[ $type == autofdo ]]; then
+		autofdo_record+=( ${user} )
 	fi
 
 	echo -e "${b}\t${real}\t${user}"
@@ -65,6 +68,7 @@ for ((i = 0; i < ${num}; i++))
 do
 	run_gzip orig gzip.orig
 	run_gzip fdo gzip.fdo
+	run_gzip autofdo gzip.autofdo
 done
 
 # Print results
