@@ -86,6 +86,9 @@ test_test()
 		dump_branch ${prog_name}-orig-pure.out
 		dump_branch ${prog_name}-orig.out
 		dump_branch ${prog_name}-fdo.out
+		if [[ $compiler == gcc ]]; then
+			dump_branch ${prog_name}-autofdo.out
+		fi
 		dump_branch ${prog_name}-bolt.out
 		;;
 	loop)
@@ -179,10 +182,10 @@ gcc_autofdo()
 	create_gcov \
 		--binary=./${prog_name}-orig.out \
 		--profile=perf.data \
-		--gcov=sort.gcov \
+		--gcov=${prog_name}.gcov \
 		-gcov_version=1 >/dev/null
 
-	gcc ${cflags} -fauto-profile=sort.gcov ${srcs} -o ${prog_name}-autofdo.out
+	gcc ${cflags} -fauto-profile=${prog_name}.gcov ${srcs} -o ${prog_name}-autofdo.out
 }
 
 gcc_bolt()
@@ -381,7 +384,7 @@ case $compiler in
 gcc)
 	gcc_ordinary
 	gcc_fdo
-#	gcc_autofdo
+	gcc_autofdo
 	gcc_bolt
 	gcc_heatmap
 	;;
