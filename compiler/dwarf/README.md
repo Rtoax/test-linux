@@ -23,6 +23,30 @@ $ readelf -S a.out | grep debug
 ```
 
 
+# Sections
+
+## .debug_info .debug_abbrev
+
+这两个节是在一起的两个节，它们是“`实例和类型`”的关系，`.debug_info`节中的内容是`.debug_abbrev`节中的一个结构的实例。在abbrev节中声明了很多中不同的Dwarf类型组合(我们可以想象为C语言中的结构声明，而这些类型都是DWARF格式约定好的类型)，然后在info节的每一项都声明自己使用的是abbrev节中的那个类型，也就是说明自己是那个结构的实例。
+
+- `.debug_abbrev`: dwarfdump --print-abbrev (-b)
+
+
+## .debug_frame
+
+该节主要是为了表示函数栈帧的关系。也就是当执行一个函数的时候，这个函数中的各个寄存器的存放位置及变化情况，栈帧的计算方法的变化情况等。
+
+
+## .debug_line
+
+这里包含的是行号和机器指令之间的映射关系，这也是实现源代码级调试的重要依据。
+
+
+## .debug_str
+
+C语言中的字符串组，它们以零结束，放在一个单独的节是为了提高存储效率。
+
+
 # Declaration Information
 
 - https://gcc.gnu.org/wiki/LTO_Reader/Writer
