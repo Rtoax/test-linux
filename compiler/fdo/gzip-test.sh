@@ -4,10 +4,11 @@
 #
 # 2023-04-19	Rong Tao	Create this
 # 2023-05-12	Rong Tao	Support autofdo
+# 2023-05-15	Rong Tao	Support llvm-bolt
 #
 
 test_data=test.dat
-declare -a orig_record fdo_record audofdo_record
+declare -a orig_record fdo_record autofdo_record bolt_record
 
 run_gzip()
 {
@@ -33,6 +34,8 @@ run_gzip()
 		fdo_record+=( ${user} )
 	elif [[ $type == autofdo ]]; then
 		autofdo_record+=( ${user} )
+	elif [[ $type == bolt ]]; then
+		bolt_record+=( ${user} )
 	fi
 
 	echo -e "${b}\t${real}\t${user}"
@@ -55,6 +58,12 @@ run_gzip()
 #		-gcov_version=1 >/dev/null
 #  LDFLAGS += -fauto-profile=gzip.gcov
 #
+# LLVM BOLT
+#  perf record -e cycles:u -j any,u -o perf.data -- ./gzip.gcc.orig -k test.dat
+#  llvm-bolt gzip.gcc.orig -o gzip.gcc.bolt \
+#    -data=perf.data -reorder-blocks=ext-tsp -split-functions \
+#    -split-all-cold -split-eh -dyno-stats
+#
 # Clang:
 #  CFLAGS += -fprofile-generate
 #  llvm-profdata merge --output profile.profdata default*.profraw
@@ -63,17 +72,18 @@ run_gzip()
 dd if=/dev/random of=${test_data} bs=4096 count=100000
 
 num=10
-echo -e "\tNAME\treal\tuser"
+echo -e "\n\tNAME\treal\tuser"
 for ((i = 0; i < ${num}; i++))
 do
 	run_gzip orig gzip.orig
 	run_gzip fdo gzip.fdo
-	run_gzip autofdo gzip.autofdo
+	[[ -e gzip.autofdo ]] && run_gzip autofdo gzip.autofdo
+	[[ -e gzip.bolt ]] && run_gzip bolt gzip.bolt
 done
 
 # Print results
-echo -e "NUM\tOrig\tFDO\tAutoFDO"
+echo -e "NUM\tOrig\tFDO\tAutoFDO\tBOLT"
 for ((i = 0; i < ${num}; i++))
 do
-	echo -e "${i}\t${orig_record[$i]}\t${fdo_record[$i]}\t${autofdo_record[$i]}"
+	echo -e "${i}\t${orig_record[$i]}\t${fdo_record[$i]}\t${autofdo_record[$i]}\t${bolt_record[$i]}"
 done
