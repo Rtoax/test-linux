@@ -1,4 +1,5 @@
-/libtest.so
+/*.so
+/*.so.old
 /test
 /test.old
 /*.gcda

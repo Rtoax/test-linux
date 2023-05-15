@@ -54,6 +54,8 @@ compile_test()
 
 compile_lib()
 {
+	[[ -e ${libname_so} ]] && mv ${libname_so}{,.old}
+
 	gcc ${lib_srcs} -fPIC -shared -o ${libname_so} ${CFLAGS_COMMON} ${CFLAGS}
 
 	compile_test ${libname}
