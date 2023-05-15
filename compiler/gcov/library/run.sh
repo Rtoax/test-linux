@@ -18,7 +18,8 @@ clean()
 {
 	rm -f \
 		$testname $testname.old \
-		*.so *.o *.gcda *.gcno \
+		*.so *.so.old \
+		*.o *.gcda *.gcno \
 		*.gcov \
 		perf.data* \
 		*.log
