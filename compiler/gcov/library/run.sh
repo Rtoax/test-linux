@@ -159,6 +159,7 @@ fdo)
 autofdo)
 	af_compile_test
 	af_gen_gcov
+	af_compile_test_2nd
 	;;
 *)
 	cat <<-EOF
