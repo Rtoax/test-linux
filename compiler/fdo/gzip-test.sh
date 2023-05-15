@@ -82,6 +82,7 @@ do
 done
 
 # Print results
+echo
 echo -e "NUM\tOrig\tFDO\tAutoFDO\tBOLT"
 for ((i = 0; i < ${num}; i++))
 do
