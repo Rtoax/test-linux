@@ -88,7 +88,8 @@ compile_use()
 af_test_gcov=$testname-autofdo.gcov
 af_compile_test()
 {
-	CFLAGS=
+	# AutoFDO profile is represented using debug info
+	CFLAGS='-g'
 
 	compile_lib
 }
