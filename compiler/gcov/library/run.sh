@@ -19,6 +19,8 @@ clean()
 	rm -f \
 		$testname $testname.old \
 		*.so *.o *.gcda *.gcno \
+		*.gcov \
+		perf.data* \
 		*.log
 }
 
@@ -35,20 +37,28 @@ dump_fn1_branch()
 		| sed 's/^/\t/g'
 }
 
+# $1 - libname, for example: libabc.so -> $1 = abc
+#      link nothing if empty
 compile_test()
 {
-	[[ -e test ]] && mv $testname $testname.old
-	gcc -L. -l${libname} ${test_srcs} -o $testname ${CFLAGS_COMMON} ${CFLAGS}
+	local lib=$1
+
+	[[ -e ${testname} ]] && mv $testname $testname.old
+
+	local libarg=${lib:+-L. -l${lib}}
+
+	gcc ${libarg} ${test_srcs} -o $testname ${CFLAGS_COMMON} ${CFLAGS}
+
+	dump_fn1_branch $testname branch_f1
 }
 
 compile_lib()
 {
 	gcc ${lib_srcs} -fPIC -shared -o ${libname_so} ${CFLAGS_COMMON} ${CFLAGS}
 
-	compile_test
+	compile_test ${libname}
 
 	dump_fn1_branch $libname_so lib_branch_f1
-	dump_fn1_branch $testname branch_f1
 }
 
 ################################################################################
@@ -68,7 +78,33 @@ compile_use()
 }
 
 ################################################################################
-# TODO: GCC AutoFDO
+# GCC AutoFDO
+af_test_gcov=$testname-autofdo.gcov
+af_compile_test()
+{
+	CFLAGS=
+
+	compile_lib
+}
+
+af_gen_gcov()
+{
+	LD_LIBRARY_PATH=. \
+		perf record -b -e br_inst_retired.near_taken:pp -- ./$testname
+
+	create_gcov \
+		--binary=$testname \
+		--profile=perf.data \
+		--gcov=$af_test_gcov \
+		-gcov_version=1 >/dev/null
+}
+
+af_compile_test_2nd()
+{
+	CFLAGS="-fauto-profile=${af_test_gcov}"
+
+	compile_lib
+}
 
 
 run()
@@ -120,6 +156,10 @@ fdo)
 	run
 	compile_use
 	;;
+autofdo)
+	af_compile_test
+	af_gen_gcov
+	;;
 *)
 	cat <<-EOF
 
@@ -132,6 +172,10 @@ fdo)
 	  clean
 
 	  fdo          - all above
+
+	GCC AutoFDO
+
+	  autofdo      - AutoFDO
 
 	EOF
 	;;

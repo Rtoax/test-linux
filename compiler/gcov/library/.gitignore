@@ -3,4 +3,5 @@
 /test.old
 /*.gcda
 /*.gcno
+/*.gcov
 /*.log
