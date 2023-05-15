@@ -99,7 +99,7 @@ compile_gen | compile_use | run | run_gen | clean)
 	shift
 	$cmd "$@"
 	;;
-all)
+fdo-all)
 	clean
 	compile_gen
 	dump_fn1_branch libtest.so lib_branch_f1
@@ -112,13 +112,15 @@ all)
 *)
 	cat <<-EOF
 
-	compile_gen
-	run
-	run_gen
-	compile_use
-	clean
+	GCC -fprofile-generate:
 
-	all
+	  compile_gen
+	  run
+	  run_gen
+	  compile_use
+	  clean
+
+	  fdo-all       - all above
 
 	EOF
 	;;
