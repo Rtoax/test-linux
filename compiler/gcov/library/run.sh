@@ -6,7 +6,8 @@ CFLAGS_COMMON='-O3 -pthread'
 CFLAGS=
 
 gcov_path=$(pwd)
-
+libname=LIBTEST
+libname_so=lib${libname}.so
 
 clean()
 {
@@ -16,17 +17,33 @@ clean()
 		*.log
 }
 
+dump_fn1_branch()
+{
+	local bin=$1
+	local fn=$2
+
+	echo -e "\033[1;32m>>> $bin:$fn <<<\033[0m"
+	gdb -batch \
+		-ex "file $bin" \
+		-ex "disassemble $fn" \
+		| grep fn1_branch_ \
+		| sed 's/^/\t/g'
+}
+
 compile_test()
 {
 	[[ -e test ]] && mv test test.old
-	gcc -L. -ltest test.c -o test ${CFLAGS_COMMON} ${CFLAGS}
+	gcc -L. -l${libname} test.c -o test ${CFLAGS_COMMON} ${CFLAGS}
 }
 
 compile_lib()
 {
-	gcc library.c -fPIC -shared -o libtest.so ${CFLAGS_COMMON} ${CFLAGS}
+	gcc library.c -fPIC -shared -o ${libname_so} ${CFLAGS_COMMON} ${CFLAGS}
 
 	compile_test
+
+	dump_fn1_branch $libname_so lib_branch_f1
+	dump_fn1_branch test branch_f1
 }
 
 compile_gen()
@@ -50,19 +67,6 @@ run()
 run_gen()
 {
 	LD_LIBRARY_PATH=. ./test.old
-}
-
-dump_fn1_branch()
-{
-	local bin=$1
-	local fn=$2
-
-	echo -e "\033[1;32m>>> $bin:$fn <<<\033[0m"
-	gdb -batch \
-		-ex "file $bin" \
-		-ex "disassemble $fn" \
-		| grep fn1_branch_ \
-		| sed 's/^/\t/g'
 }
 
 while :;
@@ -102,12 +106,8 @@ compile_gen | compile_use | run | run_gen | clean)
 fdo-all)
 	clean
 	compile_gen
-	dump_fn1_branch libtest.so lib_branch_f1
-	dump_fn1_branch test branch_f1
 	run
 	compile_use
-	dump_fn1_branch libtest.so lib_branch_f1
-	dump_fn1_branch test branch_f1
 	;;
 *)
 	cat <<-EOF
