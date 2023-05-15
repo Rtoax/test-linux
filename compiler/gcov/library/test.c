@@ -8,20 +8,11 @@
 #include "branch.h"
 #undef LIB_BRANCH_FN
 
-#define ARRAY_LEN	10000
+#define ARRAY_LEN	1000
 
 struct thread_arg {
 	int id;
 };
-
-void sort_array(void)
-{
-	int data[ARRAY_LEN], i;
-	for (i = 0; i < ARRAY_LEN; ++i){
-		data[i] = rand();
-	}
-	bubble_sort(data, ARRAY_LEN);
-}
 
 pthread_key_t thread_log_key;
 
@@ -38,6 +29,27 @@ void log_thread(const char *message)
 	fprintf(thread_log_fp, "%s\n", message);
 }
 
+void sort_array(void)
+{
+	char buf[256];
+	int data[ARRAY_LEN], i;
+
+
+	for (i = 0; i < ARRAY_LEN; ++i) {
+		data[i] = ARRAY_LEN - i;
+	}
+	bubble_sort(data, ARRAY_LEN);
+
+	for (i = 0; i < ARRAY_LEN; ++i) {
+		if (data[i] != i + 1) {
+			fprintf(stderr, "Bubble sort failed.\n");
+			exit(1);
+		}
+		sprintf(buf, "%8d %d", i, data[i]);
+		log_thread(buf);
+	}
+}
+
 void* thread_fn(void *arg)
 {
 	struct thread_arg *targ = arg;
@@ -46,7 +58,6 @@ void* thread_fn(void *arg)
 	branch_f1(10000000);
 
 	lib_f1();
-	sort_array();
 
 	FILE *logfp;
 	char filename[64];
@@ -56,6 +67,9 @@ void* thread_fn(void *arg)
 	pthread_setspecific(thread_log_key, logfp);
 
 	log_thread("This is thread.");
+
+	sort_array();
+
 	printf("Thread %d(%ld).\n", threadid, pthread_self());
 
 	return NULL;
