@@ -8,11 +8,16 @@ CFLAGS=
 gcov_path=$(pwd)
 libname=LIBTEST
 libname_so=lib${libname}.so
+lib_srcs=library.c
+
+test_srcs=test.c
+testname=test
+
 
 clean()
 {
 	rm -f \
-		test test.old \
+		$testname $testname.old \
 		*.so *.o *.gcda *.gcno \
 		*.log
 }
@@ -32,20 +37,22 @@ dump_fn1_branch()
 
 compile_test()
 {
-	[[ -e test ]] && mv test test.old
-	gcc -L. -l${libname} test.c -o test ${CFLAGS_COMMON} ${CFLAGS}
+	[[ -e test ]] && mv $testname $testname.old
+	gcc -L. -l${libname} ${test_srcs} -o $testname ${CFLAGS_COMMON} ${CFLAGS}
 }
 
 compile_lib()
 {
-	gcc library.c -fPIC -shared -o ${libname_so} ${CFLAGS_COMMON} ${CFLAGS}
+	gcc ${lib_srcs} -fPIC -shared -o ${libname_so} ${CFLAGS_COMMON} ${CFLAGS}
 
 	compile_test
 
 	dump_fn1_branch $libname_so lib_branch_f1
-	dump_fn1_branch test branch_f1
+	dump_fn1_branch $testname branch_f1
 }
 
+################################################################################
+# GCC FDO
 compile_gen()
 {
 	CFLAGS="-fprofile-generate=${gcov_path} -fprofile-arcs -ftest-coverage -lgcov"
@@ -60,13 +67,17 @@ compile_use()
 	compile_lib
 }
 
+################################################################################
+# TODO: GCC AutoFDO
+
+
 run()
 {
-	LD_LIBRARY_PATH=. ./test
+	LD_LIBRARY_PATH=. ./$testname
 }
 run_gen()
 {
-	LD_LIBRARY_PATH=. ./test.old
+	LD_LIBRARY_PATH=. ./$testname.old
 }
 
 while :;
@@ -103,7 +114,7 @@ compile_gen | compile_use | run | run_gen | clean)
 	shift
 	$cmd "$@"
 	;;
-fdo-all)
+fdo)
 	clean
 	compile_gen
 	run
@@ -120,7 +131,7 @@ fdo-all)
 	  compile_use
 	  clean
 
-	  fdo-all       - all above
+	  fdo          - all above
 
 	EOF
 	;;
