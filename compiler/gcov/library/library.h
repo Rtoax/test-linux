@@ -20,3 +20,5 @@ DECLARE_FN1(branch_7th)
 
 int lib_f1(void);
 
+void bubble_sort(int *a, int n);
+

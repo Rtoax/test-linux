@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <pthread.h>
 #include <sys/time.h>
 #include "library.h"
@@ -7,9 +8,20 @@
 #include "branch.h"
 #undef LIB_BRANCH_FN
 
+#define ARRAY_LEN	10000
+
 struct thread_arg {
 	int id;
 };
+
+void sort_array(void)
+{
+	int data[ARRAY_LEN], i;
+	for (i = 0; i < ARRAY_LEN; ++i){
+		data[i] = rand();
+	}
+	bubble_sort(data, ARRAY_LEN);
+}
 
 pthread_key_t thread_log_key;
 
@@ -34,6 +46,7 @@ void* thread_fn(void *arg)
 	branch_f1(10000000);
 
 	lib_f1();
+	sort_array();
 
 	FILE *logfp;
 	char filename[64];
