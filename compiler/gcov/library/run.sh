@@ -82,6 +82,9 @@ compile_use()
 
 ################################################################################
 # GCC AutoFDO
+#  LD_LIBRARY_PATH=. perf record -b -e br_inst_retired.near_taken:pp -- ./test
+#  create_gcov --binary=test --profile=perf.data --gcov=test-autofdo.gcov -gcov_version=1
+#  dump_gcov test-autofdo.gcov
 af_test_gcov=$testname-autofdo.gcov
 af_compile_test()
 {
