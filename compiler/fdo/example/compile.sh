@@ -213,7 +213,6 @@ clang_gen_prof()
 	local _prog=${prog_name}-genprof.out
 
 	clang ${cflags} ${srcs} -o ${_prog} \
-		-fexperimental-new-pass-manager \
 		-fprofile-generate
 
 	# Generate default.profraw
@@ -231,7 +230,6 @@ clang_fdo()
 	clang_gen_prof
 
 	clang ${cflags} ${srcs} -o ${_prog_pgo} \
-		-fexperimental-new-pass-manager \
 		-fprofile-use=${profdata}
 
 	# FIXME: How to FDO?
