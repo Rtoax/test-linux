@@ -3,13 +3,16 @@ README
 
 # 编译
 
-直接执行两个编译脚本即可。
+直接执行
 
-- gcc: compile-gcc.sh
-- clang: compile-clang.sh
+```bash
+# 编译 gcc 的分支测试例
+$ ./compile.sh -c clang -t branch
+```
 
 > gcc 编译过程需要执行 create_gcov 来获取代码覆盖信息，需要安装 AutoFDO.
 > [AutoFDO git仓库](https://github.com/google/autofdo.git)
+> [clang BOLT](https://github.com/llvm/llvm-project)
 
 
 ## 运行测试
