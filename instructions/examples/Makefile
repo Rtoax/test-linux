@@ -32,6 +32,8 @@ rdtsc_user: rdtsc_user.o
 rdtscp_user: rdtscp_user.o
 rdtsc_cmp: rdtsc_cmp.o
 
+CFLAGS += -O3
+
 $(TARGETS): %:
 	@echo -e "Target   \033[1;32m$(@)\033[m"
 	@$(CC) $(CFLAGS) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
