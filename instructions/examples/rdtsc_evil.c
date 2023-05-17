@@ -9,12 +9,12 @@ struct clock_test {
 	struct clock *clock;
 	pthread_t r, w;
 	volatile bool end;
+	volatile uint64_t __cacheline_aligned__ now;
+	volatile int64_t __cacheline_aligned__ worst_err;
 	void (*start)(struct clock_test *);
 	void (*stop)(struct clock_test *);
 };
 
-volatile uint64_t __cacheline_aligned__ now;
-volatile int64_t __cacheline_aligned__ worst_err = 0;
 
 void *reader(void *arg)
 {
@@ -22,14 +22,14 @@ void *reader(void *arg)
 	struct clock *clk = test->clock;
 
 	while (!test->end) {
-		now = clk->read();
-		now = clk->read();
-		now = clk->read();
-		now = clk->read();
-		now = clk->read();
-		now = clk->read();
-		now = clk->read();
-		now = clk->read();
+		test->now = clk->read();
+		test->now = clk->read();
+		test->now = clk->read();
+		test->now = clk->read();
+		test->now = clk->read();
+		test->now = clk->read();
+		test->now = clk->read();
+		test->now = clk->read();
 	}
 
 	return NULL;
@@ -41,13 +41,13 @@ void *writer(void *arg)
 	struct clock *clk = test->clock;
 
 	while (!test->end) {
-		uint64_t oth_now = now;
+		uint64_t oth_now = test->now;
 		barrier();
 		uint64_t after = clk->read();
 
 		int64_t err = (int64_t)(oth_now - after);
-		if (err >= worst_err)
-			worst_err = err;
+		if (err >= test->worst_err)
+			test->worst_err = err;
 	}
 
 	return NULL;
@@ -67,26 +67,37 @@ void now_test_stop(struct clock_test *test)
 	pthread_join(test->w, NULL);
 }
 
-struct clock_test rdtsc_test = {
-	.clock = &clock_rdtsc,
-	.end = false,
-	.start = now_test_start,
-	.stop = now_test_stop,
-};
-
 void test(struct clock_test *test)
 {
 	test->start(test);
 	sleep(2);
 	test->stop(test);
 
-	if (worst_err)
-		printf("Worst errr %ld\n", worst_err);
+	printf("%-16s: Worst err %ld\n", test->clock->name, test->worst_err);
 }
+
+struct clock_test rdtsc_test = {
+	.clock = &clock_rdtsc,
+	.end = false,
+	.now = 0,
+	.worst_err = 0,
+	.start = now_test_start,
+	.stop = now_test_stop,
+};
+
+struct clock_test rdtsc_fence_test = {
+	.clock = &clock_rdtsc_fence,
+	.end = false,
+	.now = 0,
+	.worst_err = 0,
+	.start = now_test_start,
+	.stop = now_test_stop,
+};
 
 int main(void)
 {
 	test(&rdtsc_test);
+	test(&rdtsc_fence_test);
 
 	return 0;
 }

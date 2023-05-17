@@ -76,7 +76,6 @@ uint64_t rdtscp_ignore_rcx(void)
 struct clock {
 	const char const *name;
 	uint64_t (*read)(void);
-	uint64_t (*read_strict)(void);
 };
 
 static inline __always_inline__
@@ -94,6 +93,10 @@ uint64_t rdtsc_read_strict(void)
 struct clock clock_rdtsc = {
 	.name = "rdtsc",
 	.read = rdtsc_read,
-	.read_strict = rdtsc_read_strict,
+};
+
+struct clock clock_rdtsc_fence = {
+	.name = "rdtsc-fence",
+	.read = rdtsc_read_strict,
 };
 
