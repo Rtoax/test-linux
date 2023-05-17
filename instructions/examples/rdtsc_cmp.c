@@ -23,28 +23,28 @@ int main(void)
 		tscp = rdtscp(&rcx);
 	}
 	gettimeofday(&end, NULL);
-	print_diff_tv("           rdtscp ", &end, &start);
+	print_diff_tv("           rdtscp ", &end, &start, true);
 
 	gettimeofday(&start, NULL);
 	for (i = 0; i < TEST_NLOOP; i++) {
 		tscp = rdtscp_ignore_rcx();
 	}
 	gettimeofday(&end, NULL);
-	print_diff_tv("rdtscp ignore rcx ", &end, &start);
+	print_diff_tv("rdtscp ignore rcx ", &end, &start, true);
 
 	gettimeofday(&start, NULL);
 	for (i = 0; i < TEST_NLOOP; i++) {
 		tsc = rdtsc();
 	}
 	gettimeofday(&end, NULL);
-	print_diff_tv("            rdtsc ", &end, &start);
+	print_diff_tv("            rdtsc ", &end, &start, true);
 
 	gettimeofday(&start, NULL);
 	for (i = 0; i < TEST_NLOOP; i++) {
 		tsc = rdtsc_ordered();
 	}
 	gettimeofday(&end, NULL);
-	print_diff_tv("    rdtsc ordered ", &end, &start);
+	print_diff_tv("    rdtsc ordered ", &end, &start, true);
 
 	return 0;
 }
