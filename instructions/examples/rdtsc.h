@@ -96,6 +96,14 @@ uint64_t rdtscp_read(void)
 	return rdtsc_fence();
 }
 
+static inline __always_inline__
+uint64_t vdso_monotonic(void)
+{
+    struct timespec t;
+    clock_gettime(CLOCK_MONOTONIC, &t);
+    return (uint64_t)t.tv_sec * 1000000000ULL + (uint64_t)t.tv_nsec;
+}
+
 struct clock clock_rdtsc = {
 	.name = "rdtsc",
 	.read = rdtsc_read,
@@ -109,4 +117,9 @@ struct clock clock_rdtsc_fence = {
 struct clock clock_rdtscp = {
 	.name = "rdtscp",
 	.read = rdtscp_read,
+};
+
+struct clock clock_monotonic = {
+	.name = "vdso-monotonic",
+	.read = vdso_monotonic,
 };
