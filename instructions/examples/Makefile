@@ -32,7 +32,9 @@ rdtsc_user: rdtsc_user.o
 rdtscp_user: rdtscp_user.o
 rdtsc_cmp: rdtsc_cmp.o
 
+CFLAGS += -D_GNU_SOURCE
 CFLAGS += -O3
+CFLAGS += -pthread
 
 $(TARGETS): %:
 	@echo -e "Target   \033[1;32m$(@)\033[m"
