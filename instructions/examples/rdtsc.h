@@ -104,6 +104,14 @@ uint64_t vdso_monotonic(void)
     return (uint64_t)t.tv_sec * 1000000000ULL + (uint64_t)t.tv_nsec;
 }
 
+static inline __always_inline__
+uint64_t vdso_realtime(void)
+{
+    struct timespec t;
+    clock_gettime(CLOCK_REALTIME, &t);
+    return (uint64_t)t.tv_sec * 1000000000ULL + (uint64_t)t.tv_nsec;
+}
+
 struct clock clock_rdtsc = {
 	.name = "rdtsc",
 	.read = rdtsc_read,
@@ -122,4 +130,9 @@ struct clock clock_rdtscp = {
 struct clock clock_monotonic = {
 	.name = "vdso-monotonic",
 	.read = vdso_monotonic,
+};
+
+struct clock clock_realtime = {
+	.name = "vdso-realtime",
+	.read = vdso_realtime,
 };
