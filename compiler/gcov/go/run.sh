@@ -44,6 +44,7 @@ hello_c()
 	gcc hello.c ${CFLAGS} -o hello
 	gcc hello.c -g ${CFLAGS} -fprofile-generate -fprofile-arcs -ftest-coverage -lgcov -o hello1
 	gcc hello.c -g ${CFLAGS} -o hello2
+	gcc hello.c -g -gz=zlib-gnu ${CFLAGS} -o hello3
 }
 
 autofdo()

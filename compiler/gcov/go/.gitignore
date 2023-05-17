@@ -1,3 +1,2 @@
 /hello
-/hello1
-/hello2
+/hello[0-9]
