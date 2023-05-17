@@ -1,6 +1,10 @@
 # Rong Tao, 2022-03-11
 
-all: clock_gettime.sec.out clock_gettime.nsec.out
+TARGETS := clock_gettime.sec.out
+TARGETS += clock_gettime.nsec.out
+TARGETS += evil-clock-test.out
+
+all: ${TARGETS}
 
 ARCH=$(shell uname -m)
 
@@ -23,6 +27,8 @@ clock_gettime.sec.out: ${LIBS}
 	gcc clock_gettime.c ${MACROS} ${LIBS} -o $@ -DACCURATE_TO_SEC
 clock_gettime.nsec.out: ${LIBS}
 	gcc clock_gettime.c ${MACROS} ${LIBS} -o $@
+evil-clock-test.out:
+	g++ -O2 evil-clock-test.cc -o evil-clock-test.out
 
 clean:
 	make -C dpdk clean
