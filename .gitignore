@@ -17,6 +17,7 @@ build/
 *.pch
 *.gcov
 *.gcda
+*.gcno
 
 # Libraries
 *.lib
