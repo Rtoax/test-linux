@@ -22,6 +22,7 @@ TARGETS += cpuid_user
 TARGETS += rdtsc_user
 TARGETS += rdtscp_user
 TARGETS += rdtsc_cmp
+TARGETS += rdtsc_evil
 endif
 ifeq ($(shell uname -m),aarch64)
 endif
@@ -31,7 +32,9 @@ cpuid_user: cpuid_user.o
 rdtsc_user: rdtsc_user.o
 rdtscp_user: rdtscp_user.o
 rdtsc_cmp: rdtsc_cmp.o
+rdtsc_evil: rdtsc_evil.o
 
+CFLAGS += -g -ggdb
 CFLAGS += -D_GNU_SOURCE
 CFLAGS += -O3
 CFLAGS += -pthread
@@ -53,5 +56,6 @@ clean:
 		cpuid_user \
 		rdtsc_user \
 		rdtscp_user \
-		rdtsc_cmp
+		rdtsc_cmp \
+		rdtsc_evil
 	make -C ${KERNELDIR} M=$(PWD) clean
