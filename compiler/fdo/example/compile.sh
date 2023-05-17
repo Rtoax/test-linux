@@ -11,7 +11,7 @@ compiler=
 
 gcc cachelinesize.c -o cachelinesize
 CACHE_LINE_SIZE=$(./cachelinesize)
-cflags_orig="-DCACHE_LINE_SIZE=${CACHE_LINE_SIZE}"
+cflags_orig="-DCACHE_LINE_SIZE=${CACHE_LINE_SIZE} -g"
 cflags_opt="-O3"
 cflags+="${cflags_opt} ${cflags_orig}"
 
