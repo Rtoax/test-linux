@@ -90,6 +90,12 @@ uint64_t rdtsc_read_strict(void)
 	return rdtsc_fence();
 }
 
+static inline __always_inline__
+uint64_t rdtscp_read(void)
+{
+	return rdtsc_fence();
+}
+
 struct clock clock_rdtsc = {
 	.name = "rdtsc",
 	.read = rdtsc_read,
@@ -100,3 +106,7 @@ struct clock clock_rdtsc_fence = {
 	.read = rdtsc_read_strict,
 };
 
+struct clock clock_rdtscp = {
+	.name = "rdtscp",
+	.read = rdtscp_read,
+};

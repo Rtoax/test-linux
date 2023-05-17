@@ -94,10 +94,20 @@ struct clock_test rdtsc_fence_test = {
 	.stop = now_test_stop,
 };
 
+struct clock_test rdtscp_test = {
+	.clock = &clock_rdtscp,
+	.end = false,
+	.now = 0,
+	.worst_err = 0,
+	.start = now_test_start,
+	.stop = now_test_stop,
+};
+
 int main(void)
 {
 	test(&rdtsc_test);
 	test(&rdtsc_fence_test);
+	test(&rdtscp_test);
 
 	return 0;
 }
