@@ -41,7 +41,7 @@ int main(void)
 
 	gettimeofday(&start, NULL);
 	for (i = 0; i < TEST_NLOOP; i++) {
-		tsc = rdtsc_ordered();
+		tsc = rdtsc_fence();
 	}
 	gettimeofday(&end, NULL);
 	print_diff_tv("    rdtsc ordered ", &end, &start, true);

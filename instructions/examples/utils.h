@@ -3,6 +3,12 @@
 #include <stdbool.h>
 #include <sys/time.h>
 
+#define barrier() asm volatile ("" : : : "memory")
+#define mb() asm volatile ("mfence" : : : "memory")
+#define __cacheline_aligned__ __attribute__((aligned(128)))
+#define ACCESS_ONCE(x) (*(volatile typeof(x)*)&x)
+#define __always_inline__ __attribute__((always_inline))
+
 
 void print_diff_tv(const char *name, struct timeval *end, struct timeval *start,
 			bool newline)

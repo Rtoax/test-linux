@@ -1,4 +1,8 @@
+#pragma once
+
 #include <stdint.h>
+
+#include "utils.h"
 
 /**
  * Return the current value of the fine-grain CPU cycle counter
@@ -13,7 +17,7 @@
  *
  * link: https://www.felixcloutier.com/x86/rdtsc
  */
-static inline __attribute__((always_inline))
+static inline __always_inline__
 uint64_t rdtsc()
 {
 	uint32_t lo, hi;
@@ -23,8 +27,8 @@ uint64_t rdtsc()
 	return (((uint64_t)hi << 32) | lo);
 }
 
-static inline __attribute__((always_inline))
-uint64_t rdtsc_ordered()
+static inline __always_inline__
+uint64_t rdtsc_fence()
 {
 	uint32_t lo, hi;
 
@@ -42,7 +46,7 @@ uint64_t rdtsc_ordered()
  *
  * link: https://www.felixcloutier.com/x86/rdtscp
  */
-static inline __attribute__((always_inline))
+static inline __always_inline__
 uint64_t rdtscp(uint32_t *aux)
 {
 	uint32_t lo, hi;
@@ -58,7 +62,7 @@ uint64_t rdtscp(uint32_t *aux)
 
 	return (((uint64_t)hi << 32) | lo);
 }
-static inline __attribute__((always_inline))
+static inline __always_inline__
 uint64_t rdtscp_ignore_rcx(void)
 {
 	uint32_t lo, hi;
@@ -67,3 +71,29 @@ uint64_t rdtscp_ignore_rcx(void)
 
 	return (((uint64_t)hi << 32) | lo);
 }
+
+/* clock */
+struct clock {
+	const char const *name;
+	uint64_t (*read)(void);
+	uint64_t (*read_strict)(void);
+};
+
+static inline __always_inline__
+uint64_t rdtsc_read(void)
+{
+	return rdtsc();
+}
+
+static inline __always_inline__
+uint64_t rdtsc_read_strict(void)
+{
+	return rdtsc_fence();
+}
+
+struct clock clock_rdtsc = {
+	.name = "rdtsc",
+	.read = rdtsc_read,
+	.read_strict = rdtsc_read_strict,
+};
+
