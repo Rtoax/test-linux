@@ -73,7 +73,7 @@ void test(struct clock_test *test)
 	sleep(2);
 	test->stop(test);
 
-	printf("%-16s: Worst err %ld\n", test->clock->name, test->worst_err);
+	printf("%20s : Worst err diff %ld\n", test->clock->name, test->worst_err);
 }
 
 struct clock_test rdtsc_test = {
@@ -121,6 +121,15 @@ struct clock_test vdso_realtime_test = {
 	.stop = now_test_stop,
 };
 
+struct clock_test vdso_gettimeofday_test = {
+	.clock = &clock_gettimeofday,
+	.end = false,
+	.now = 0,
+	.worst_err = 0,
+	.start = now_test_start,
+	.stop = now_test_stop,
+};
+
 int main(void)
 {
 	test(&rdtsc_test);
@@ -128,6 +137,7 @@ int main(void)
 	test(&rdtscp_test);
 	test(&vdso_monotonic_test);
 	test(&vdso_realtime_test);
+	test(&vdso_gettimeofday_test);
 
 	return 0;
 }

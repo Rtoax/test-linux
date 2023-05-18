@@ -1,15 +1,9 @@
 
-default:
-	@echo "make [kernel|user]"
-
 ###############################################################################
 # Kernel
 obj-m += invalid_opcode_kern.o
 
 KERNELDIR ?= /lib/modules/$(shell uname -r)/build
-
-kernel:
-	make -C ${KERNELDIR} M=$(PWD) modules
 
 ###############################################################################
 # User
@@ -27,6 +21,12 @@ endif
 ifeq ($(shell uname -m),aarch64)
 endif
 
+user: $(TARGETS)
+
+kernel:
+	make -C ${KERNELDIR} M=$(PWD) modules
+
+
 invalid_opcode_user: invalid_opcode_user.o
 cpuid_user: cpuid_user.o
 rdtsc_user: rdtsc_user.o
@@ -43,8 +43,9 @@ $(TARGETS): %:
 	@echo -e "Target   \033[1;32m$(@)\033[m"
 	@$(CC) $(CFLAGS) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
 
-user: $(TARGETS)
-
+help:
+	@echo "make [kernel|user|help]"
+	@echo " default: user"
 
 test:
 	@echo "empty, [cd $(PWD)] to insmod"
