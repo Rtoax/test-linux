@@ -34,7 +34,14 @@ hello_go()
 	print_go_env
 	go build -o hello2 hello.go
 
-	#go build -ldflags="-s" -o hello2 hello.go
+	# -ldflags=-w: omit the debug information
+	# ref: https://go.dev/doc/gdb
+	go build -ldflags=-w -o hello3 hello.go
+
+	# As of Go 1.11, debug information is compressed by default.
+	# ref: https://go.dev/doc/gdb
+	go build -ldflags=-compressdwarf=false -o hello4 hello.go
+	go build -ldflags=-compressdwarf=true -o hello5 hello.go
 }
 
 hello_c()
@@ -85,4 +92,4 @@ esac
 autofdo hello
 autofdo hello1
 autofdo hello2
-
+autofdo hello3
