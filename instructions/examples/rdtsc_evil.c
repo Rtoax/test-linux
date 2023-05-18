@@ -67,13 +67,22 @@ void now_test_stop(struct clock_test *test)
 	pthread_join(test->w, NULL);
 }
 
-void test(struct clock_test *test)
+uint64_t test(struct clock_test *test)
 {
+	struct timeval start, end;
+	int test_interval_s = 2;
+
+	gettimeofday(&start, NULL);
+
 	test->start(test);
-	sleep(2);
+	sleep(test_interval_s);
 	test->stop(test);
 
-	printf("%20s : Worst err diff %ld\n", test->clock->name, test->worst_err);
+	gettimeofday(&end, NULL);
+
+	end.tv_sec -= test_interval_s;
+
+	return diff_tv_usec(&end, &start);
 }
 
 struct clock_test rdtsc_test = {
@@ -130,14 +139,33 @@ struct clock_test vdso_gettimeofday_test = {
 	.stop = now_test_stop,
 };
 
+struct clock_test *tests[] = {
+	&rdtsc_test,
+	&rdtsc_fence_test,
+	&rdtscp_test,
+	&vdso_monotonic_test,
+	&vdso_realtime_test,
+	&vdso_gettimeofday_test,
+};
+
 int main(void)
 {
-	test(&rdtsc_test);
-	test(&rdtsc_fence_test);
-	test(&rdtscp_test);
-	test(&vdso_monotonic_test);
-	test(&vdso_realtime_test);
-	test(&vdso_gettimeofday_test);
+	int i;
+
+	printf(
+	"Testing rdtsc/vdso\n"
+	"- Err/Diff: Max rdtsc different or nanosecond different\n"
+	"\n"
+	);
+	printf("%-20s %-16s %-16s\n", "NAME", "Err/Diff", "Latency(us)");
+
+	for (i = 0; i < ARRAY_SIZE(tests); i++) {
+		struct clock_test *t = tests[i];
+		uint64_t us = test(t);
+		printf("%-20s %-16ld %-16ld\n",
+			t->clock->name, t->worst_err,
+			us);
+	}
 
 	return 0;
 }
