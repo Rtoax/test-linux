@@ -6,6 +6,7 @@ hello_go()
 
 	print_go_env() {
 		echo "============ Go ENV ============="
+		go env GOFLAGS | sed 's/^/ GOFLAGS=/g'
 		go env CGO_CFLAGS | sed 's/^/ CGO_CFLAGS=/g'
 		go env CGO_LDFLAGS | sed 's/^/ CGO_LDFLAGS=/g'
 	}
@@ -42,6 +43,11 @@ hello_go()
 	# ref: https://go.dev/doc/gdb
 	go build -ldflags=-compressdwarf=false -o hello4 hello.go
 	go build -ldflags=-compressdwarf=true -o hello5 hello.go
+	GOFLAGS=$(go env GOFLAGS)
+	GOFLAGS+=" -ldflags=-compressdwarf=false"
+	export GOFLAGS=$GOFLAGS
+	print_go_env
+	go build -o hello6 hello.go
 }
 
 hello_c()
