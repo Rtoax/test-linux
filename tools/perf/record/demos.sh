@@ -57,6 +57,9 @@ perf record -e cycles:u -a -- sleep 5
 # Sample on-CPU user instructions precisely (using PEBS), for 5 seconds:
 perf record -e cycles:up -a -- sleep 5
 
+# Sample -j,--branch-filter(man perf-record)
+perf record -e cycles:uk -j any,u,k -a -- sleep 5
+
 # Perform branch tracing (needs HW support), for 1 second:
 perf record -b -a sleep 1
 
