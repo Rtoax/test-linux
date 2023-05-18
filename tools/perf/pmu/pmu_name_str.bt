@@ -1,0 +1,12 @@
+#!/bin/env bpftrace
+/**
+ * pmu_name_str.bt
+ *
+ * Copyright (C) Rong Tao 2022-2023
+ */
+
+BEGIN
+{
+	printf("pmu_name_str = %s\n", str(kaddr("pmu_name_str")));
+	exit();
+}
