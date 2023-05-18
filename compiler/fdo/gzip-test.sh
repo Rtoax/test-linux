@@ -47,16 +47,20 @@ run_gzip()
 #
 # GCC Native:
 #  CFLAGS += -fprofile-generate
+#  gcc ... ${CFLAGS} -o gzip.orig
 #  CFLAGS += -fprofile-use
+#  gcc ... ${CFLAGS} -o gzip.fdo
 #
 # GCC AutoFDO
-#  perf record -b -e br_inst_retired.near_taken:pp -- ./gzip
+#  gcc ... -o gzip.gcc.orig
+#  perf record -b -e br_inst_retired.near_taken:pp -- ./gzip.gcc.orig -k test.dat
 #  create_gcov \
 #		--binary=./gzip \
 #		--profile=perf.data \
 #		--gcov=gzip.gcov \
 #		-gcov_version=1 >/dev/null
 #  LDFLAGS += -fauto-profile=gzip.gcov
+#  gcc ... ${LDFLAGS} -o gzip.gcc.autofdo
 #
 # LLVM BOLT
 #  perf record -e cycles:u -j any,u -o perf.data -- ./gzip.gcc.orig -k test.dat
@@ -66,8 +70,10 @@ run_gzip()
 #
 # Clang:
 #  CFLAGS += -fprofile-generate
+#  gcc ... ${CFLAGS} -o gzip.orig
 #  llvm-profdata merge --output profile.profdata default*.profraw
 #  CFLAGS += -fprofile-use=profile.profdata
+#  gcc ... ${CFLAGS} -o gzip.fdo
 
 dd if=/dev/random of=${test_data} bs=4096 count=100000
 
