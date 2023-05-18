@@ -4,10 +4,10 @@
 sudo perf record -F 99 -a -g
 
 # Sample stacks at 99 Hertz, and, context switches:
-perf record -F99 -e cpu-clock -e cs -a -g
+perf record -F 99 -e cpu-clock -e cs -a -g
 
 # Sample stacks to 2 levels deep, and, context switch stacks to 5 levels (needs 4.8):
-perf record -F99 -e cpu-clock/max-stack=2/ -e cs/max-stack=5/ -a -g
+perf record -F 99 -e cpu-clock/max-stack=2/ -e cs/max-stack=5/ -a -g
 
 # Sample on-CPU functions for the specified command, at 99 Hertz:
 perf record -F 99 command

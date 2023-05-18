@@ -12,6 +12,9 @@ perf stat -p PID
 # CPU counter statistics for the entire system, for 5 seconds:
 perf stat -a sleep 5
 
+# Branches in user space
+perf stat -e branches:u sleep 5
+
 # Various basic CPU statistics, system wide, for 10 seconds:
 perf stat -e cycles,instructions,cache-references,cache-misses,bus-cycles -a sleep 10
 
@@ -20,6 +23,8 @@ perf stat -e L1-dcache-loads,L1-dcache-load-misses,L1-dcache-stores command
 
 # Various CPU data TLB statistics for the specified command:
 perf stat -e dTLB-loads,dTLB-load-misses,dTLB-prefetch-misses command
+
+perf stat -e dTLB-loads,dTLB-loads-misses,iTLB-loads,iTLB-loads-misses -p pid
 
 # Various CPU last level cache statistics for the specified command:
 perf stat -e LLC-loads,LLC-load-misses,LLC-stores,LLC-prefetches command
@@ -47,6 +52,8 @@ perf stat -e 'sched:*' -p PID sleep 10
 
 # Count ext4 events for the entire system, for 10 seconds:
 perf stat -e 'ext4:*' -a sleep 10
+
+sudo perf stat -e "xfs:*" -a sleep 10
 
 # Count block device I/O events for the entire system, for 10 seconds:
 perf stat -e 'block:*' -a sleep 10

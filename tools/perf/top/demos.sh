@@ -11,3 +11,9 @@ perf top -e raw_syscalls:sys_enter -ns comm
 
 # Trace sent network packets by on-CPU process, rolling output (no clear):
 stdbuf -oL perf top -e net:net_dev_xmit -ns comm | strings
+
+# -U, --hide_user_symbols: Hide user symbols.
+sudo perf top --call-graph graph -U
+
+# -K, --hide_kernel_symbols: Hide kernel symbols.
+sudo perf top --call-graph graph -p 1 -K
