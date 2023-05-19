@@ -20,6 +20,9 @@ loc_srcs="loc.c common.c"
 branch_srcs="branch.c common.c"
 loop_srcs="loop.c common.c"
 
+# autofdo: Test all branches_retired
+af_br_all=
+
 test_type=
 set_test()
 {
@@ -87,7 +90,10 @@ test_test()
 		dump_branch ${prog_name}-orig.out
 		dump_branch ${prog_name}-fdo.out
 		if [[ $compiler == gcc ]]; then
-			dump_branch ${prog_name}-autofdo.out
+			for p in $(ls ${prog_name}-autofdo*.out)
+			do
+				dump_branch ${p}
+			done
 		fi
 		dump_branch ${prog_name}-bolt.out
 		;;
@@ -173,19 +179,55 @@ gcc_fdo()
 }
 
 # 使用AutoFDO
-gcc_autofdo()
+gcc_autofdo_1()
 {
+	# Default
+	local br_retired=br_inst_retired.near_taken
+
+	if [[ ! -z $1 ]]; then
+		br_retired=$1
+	fi
+
 	gcc_ordinary
 
-	perf record -b -e br_inst_retired.near_taken:pp -- ./${prog_name}-orig.out
+	echo "=== ${br_retired}"
+	perf record -b -e ${br_retired} -- ./${prog_name}-orig.out
 
+	# true: skip 0 samples error
 	create_gcov \
 		--binary=./${prog_name}-orig.out \
 		--profile=perf.data \
 		--gcov=${prog_name}.gcov \
-		-gcov_version=1 >/dev/null
+		-gcov_version=1 >/dev/null \
+	|| true
 
-	gcc ${cflags} -fauto-profile=${prog_name}.gcov ${srcs} -o ${prog_name}-autofdo.out
+	gcc ${cflags} -fauto-profile=${prog_name}.gcov \
+		${srcs} -o ${prog_name}-autofdo-${br_retired}.out
+}
+
+gcc_autofdo()
+{
+	# perf list : pipeline
+	branches_retired=(
+		br_inst_retired.all_branches
+		br_inst_retired.all_branches_pebs
+		br_inst_retired.cond_ntaken
+		br_inst_retired.conditional
+		br_inst_retired.far_branch
+		br_inst_retired.near_call
+		br_inst_retired.near_return
+		br_inst_retired.near_taken
+		br_inst_retired.not_taken
+		br_misp_retired.all_branches
+		br_misp_retired.all_branches_pebs
+		br_misp_retired.conditional
+		br_misp_retired.near_call
+		br_misp_retired.near_taken
+	)
+	for br in ${branches_retired[@]}
+	do
+		gcc_autofdo_1 $br
+	done
 }
 
 gcc_bolt()
@@ -287,6 +329,8 @@ compile-gcc [clean] [args]
 
  -t, --type                test type: sort, loc, branch, loop
 
+ -a, --af-all              test all branches retired for autofdo
+
  --test-only               only running test_test()
  --noclean                 do not clean anything before compile
 
@@ -303,10 +347,11 @@ __main__()
 	local noclean testonly
 
 	TEMP=$(getopt \
-		--options c:t:vh \
+		--options c:t:avh \
 		--long compiler: \
 		--long type: \
 		--long test-only \
+		--long af-all \
 		--long noclean \
 		--long verbose \
 		--long help \
@@ -327,6 +372,10 @@ __main__()
 			shift
 			set_test $1
 			shift
+			;;
+		-a | --af-all)
+			shift
+			af_br_all=YES
 			;;
 		--noclean)
 			shift
@@ -382,7 +431,11 @@ case $compiler in
 gcc)
 	gcc_ordinary
 	gcc_fdo
-	gcc_autofdo
+	if [[ ! -z $af_br_all ]]; then
+		gcc_autofdo
+	else
+		gcc_autofdo_1
+	fi
 	gcc_bolt
 	gcc_heatmap
 	;;
