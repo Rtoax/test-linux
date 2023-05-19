@@ -183,6 +183,21 @@ compile_fdo()
 
 compile_autofdo()
 {
+	local autofdo_all_branch_retired=
+
+	while :;
+	do
+		case $1 in
+		--br-all)
+			shift
+			autofdo_all_branch_retired=YES
+			;;
+		*)
+			break
+			;;
+		esac
+	done
+
 	configure_makefile
 	make ${verbose:+V=1} clean
 	clean_tmp
@@ -191,7 +206,33 @@ compile_autofdo()
 
 	gen_test_data
 
-	perf record -b -e br_inst_retired.near_taken:pp -- ./gzip -k data.bin
+	# perf list : pipeline
+	local branches_retired=(
+		br_inst_retired.all_branches
+		br_inst_retired.all_branches_pebs
+		br_inst_retired.cond_ntaken
+		br_inst_retired.conditional
+		br_inst_retired.far_branch
+		br_inst_retired.near_call
+		br_inst_retired.near_return
+		# AutoFDO Default
+		# br_inst_retired.near_taken
+		br_inst_retired.not_taken
+		br_misp_retired.all_branches
+		br_misp_retired.all_branches_pebs
+		br_misp_retired.conditional
+		br_misp_retired.near_call
+		br_misp_retired.near_taken
+	)
+	local br_retired=br_inst_retired.near_taken
+	if [[ ! -z $autofdo_all_branch_retired ]]; then
+		for br in ${branches_retired[@]}
+		do
+			br_retired+=",$br"
+		done
+	fi
+
+	perf record -b -e ${br_retired} -- ./gzip -k data.bin
 
 	create_gcov \
 		--binary=./gzip \
@@ -268,7 +309,8 @@ compile-fdo)
 	compile_fdo
 	;;
 compile-autofdo)
-	compile_autofdo
+	shift
+	compile_autofdo "$@"
 	;;
 test)
 	fdo_test
@@ -286,7 +328,7 @@ config
 
 compile-orig
 compile-fdo
-compile-autofdo
+compile-autofdo [--br-all]
 
 test
 
