@@ -22,13 +22,15 @@ branches_retired=(
 
 perf_record()
 {
-	local exe=$1
+	local exe=$(realpath $1)
+	[[ ! -e $exe ]] && echo "$exe is not exist" && exit 1
+	shift
 
 	for br in ${branches_retired[@]}
 	do
 		i=32
 		echo -e "\033[${i}m$br\033[m"
-		perf record -b -e $br -o perf.data.$exe.$br -- ./$exe 2>&1 \
+		perf record -b -e $br -o perf.data.$(basename exe).$br -- $exe $@ 2>&1 \
 			| grep -o -e '[0-9]* samples' || true
 	done
 }
