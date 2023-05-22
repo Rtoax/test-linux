@@ -8,9 +8,11 @@ compile:
 
 asm:
 	@echo "[make assembler]----------------------------------"
-	gcc test.c -S -o test.s
-	gcc test.c -S -o test-gcov.s -ftest-coverage -fprofile-arcs
-	diff -up test.s test-gcov.s
+	gcc test.c -S -o test-orig.s
+	gcc test.c -S -o test-arcs.s -fprofile-arcs
+	gcc test.c -S -o test-arcs-test.s -ftest-coverage -fprofile-arcs
+	gcc test.c -S -o test-values.s -fprofile-values
+	gcc test.c -S -o test-gen.s -fprofile-generate
 
 run:
 	@echo "[execute]---------------------------------------"
