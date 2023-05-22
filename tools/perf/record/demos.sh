@@ -114,6 +114,9 @@ perf record -e block:block_rq_complete --filter 'rwbs == "WS"'
 # Trace all block completions, all types of writes, until Ctrl-C:
 perf record -e block:block_rq_complete --filter 'rwbs ~ "*W*"'
 
+# Trace previously created probe when the bytes (alias) variable is greater than 100:
+perf record -e probe:tcp_sendmsg --filter 'bytes > 100'
+
 # Sample minor faults (RSS growth) with stack traces, until Ctrl-C:
 perf record -e minor-faults -ag
 
