@@ -136,8 +136,8 @@ clean_git()
 
 configure_makefile()
 {
-	clean_git
 	make ${verbose:+V=1} clean || true
+	clean_git
 
 	./bootstrap
 	./configure
