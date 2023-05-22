@@ -207,12 +207,14 @@ compile_autofdo()
 	gen_test_data
 
 	# perf list : pipeline
-	local branches_retired=(
+	local branches_retired_x86_all=(
 		br_inst_retired.all_branches
 		br_inst_retired.all_branches_pebs
+		br_inst_retired.cond
 		br_inst_retired.cond_ntaken
 		br_inst_retired.conditional
 		br_inst_retired.far_branch
+		br_inst_retired.indirect
 		br_inst_retired.near_call
 		br_inst_retired.near_return
 		# AutoFDO Default
@@ -220,9 +222,16 @@ compile_autofdo()
 		br_inst_retired.not_taken
 		br_misp_retired.all_branches
 		br_misp_retired.all_branches_pebs
+		br_misp_retired.cond
+		br_misp_retired.cond_ntaken
+		br_misp_retired.cond_taken
+		br_misp_retired.indirect
 		br_misp_retired.conditional
 		br_misp_retired.near_call
 		br_misp_retired.near_taken
+	)
+	local branches_retired=(
+		$(perf list | grep br_)
 	)
 	local br_retired=br_inst_retired.near_taken
 	if [[ ! -z $autofdo_all_branch_retired ]]; then
