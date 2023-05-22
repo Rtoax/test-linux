@@ -1,8 +1,8 @@
 
 
-all:test run
+all: compile run gcov html
 
-test:
+compile:
 	@echo "[compile]---------------------------------------"
 	gcc -fprofile-arcs -ftest-coverage -o test test.c
 
@@ -15,13 +15,19 @@ asm:
 run:
 	@echo "[execute]---------------------------------------"
 	./test
+
+gcov:
 	@echo "[gcov test.c]---------------------------------------"
-	gcov test.c
-	@echo "[show]----------------------------------------"
-	cat test.c.gcov | sed 's/^/>>  /'
-	@echo "[gcov dump]----------------------------------------"
+	# generate test.c.gcov if no --stdout
+	gcov test.c --stdout
+
+gcov-dump:
+	@echo "[gcov dump gcda]----------------------------------------"
 	gcov-dump test.gcda
+	@echo "[gcov dump gcno]----------------------------------------"
 	gcov-dump test.gcno
+
+html:
 	@echo "[gen html]--------------------------------------"
 	lcov -c -d . -o test.info
 	genhtml -o html test.info
