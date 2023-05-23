@@ -1,8 +1,9 @@
 
 TARGETS :=
-TARGETS += offsetof
-TARGETS += likely
 TARGETS += alias
+TARGETS += bit
+TARGETS += likely
+TARGETS += offsetof
 
 DEBUG = yes
 SRC_PATH := $(shell pwd)
@@ -19,9 +20,10 @@ build: ${TARGETS}
 	@echo
 	@echo -e " \033[1;33m Done \033[m"
 
-offsetof: offsetof.o
-likely: likely.o
 alias: alias.o
+bit: bit.o
+likely: likely.o
+offsetof: offsetof.o
 
 %.d: %.c
 	@echo -e "Generate \033[1m$(@)\033[m"
