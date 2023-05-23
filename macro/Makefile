@@ -1,6 +1,7 @@
 
-TARGETS= \
-	./offsetof
+TARGETS :=
+TARGETS += offsetof
+TARGETS += likely
 
 DEBUG = yes
 SRC_PATH := $(shell pwd)
@@ -16,8 +17,8 @@ build: ${TARGETS}
 	@echo
 	@echo -e " \033[1;33m Done \033[m"
 
-# Add more object.o file
 offsetof: offsetof.o
+likely: likely.o
 
 %.d: %.c
 	@echo -e "Generate \033[1m$(@)\033[m"
