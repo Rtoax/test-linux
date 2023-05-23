@@ -23,6 +23,8 @@ loop_srcs="loop.c common.c"
 # autofdo: Test all branches_retired
 af_br_all=
 
+log_file=/dev/null
+
 test_type=
 set_test()
 {
@@ -111,14 +113,16 @@ __common_llvm_bolt_heatmap()
 {
 	local elf=$1
 
-	perf record -e cycles:u -j any,u -o ${elf}.perf.data -- ./${elf}
+	perf record -e cycles:u -j any,u -o ${elf}.perf.data -- ./${elf} \
+		2>&1 >>${log_file}
 
 	llvm-bolt-heatmap \
 		--ignore-build-id \
 		-p ${elf}.perf.data \
 		${elf} \
 		--line-size ${CACHE_LINE_SIZE} \
-		-o ${elf}.heatmap
+		-o ${elf}.heatmap \
+	2>&1 >>${log_file}
 
 	aha -b -f ${elf}.heatmap > ${elf}.heatmap.html
 }
@@ -131,7 +135,8 @@ __common_bolt()
 
 	__record() {
 		perf record -e cycles:u -j any,u \
-			-o ${prog_name}-orig.perf.data -- ./${prog_name}-orig.out
+			-o ${prog_name}-orig.perf.data -- ./${prog_name}-orig.out \
+		2>&1 >>${log_file}
 	}
 
 	__record
@@ -143,7 +148,8 @@ __common_bolt()
 		--ignore-build-id \
 		-p ${prog_name}-orig.perf.data \
 		-o ${prog_name}-orig.perf.fdata \
-		${prog_name}-orig.out
+		${prog_name}-orig.out \
+	2>&1 >>${log_file}
 	do
 		__record
 	done
@@ -157,7 +163,9 @@ __common_bolt()
 		-split-functions \
 		-split-all-cold \
 		-split-eh \
-		-dyno-stats
+		-dyno-stats \
+	2>&1 >>${log_file}
+
 }
 
 # 普通编译
@@ -201,7 +209,9 @@ gcc_autofdo_1()
 	gcc_ordinary
 
 	echo "=== ${br_retired}"
-	perf record -b -e ${br_retired} -- ./${prog_name}-orig.out
+	perf record -b -e ${br_retired} -- ./${prog_name}-orig.out \
+		2>&1 >>${log_file}
+
 
 	# true: skip 0 samples error
 	create_gcov \
@@ -209,6 +219,7 @@ gcc_autofdo_1()
 		--profile=perf.data \
 		--gcov=${prog_name}-afdo-${br_retired}.gcov \
 		-gcov_version=1 >/dev/null \
+	2>&1 >>${log_file} \
 	|| true
 
 	if [[ ! -e ${prog_name}-afdo-${br_retired}.gcov ]]; then
@@ -333,6 +344,7 @@ compile-gcc [clean] [args]
 
  -a, --af-all              test all branches retired for autofdo
 
+ -l, --log                 specify log file, default: $log_file
  --test-only               only running test_test()
  --noclean                 do not clean anything before compile
 
@@ -349,11 +361,12 @@ __main__()
 	local noclean testonly
 
 	TEMP=$(getopt \
-		--options c:t:avh \
+		--options c:t:al:vh \
 		--long compiler: \
 		--long type: \
 		--long test-only \
 		--long af-all \
+		--long log: \
 		--long noclean \
 		--long verbose \
 		--long help \
@@ -378,6 +391,11 @@ __main__()
 		-a | --af-all)
 			shift
 			af_br_all=YES
+			;;
+		-l | --log)
+			shift
+			log_file=$1
+			shift
 			;;
 		--noclean)
 			shift
