@@ -178,6 +178,16 @@ gcc_fdo()
 	gcc ${cflags} ${srcs} -o ${prog_name}-fdo.out -fprofile-use
 }
 
+dump_all_gcov()
+{
+	for g in `ls *.gcov`
+	do
+		echo
+		echo -e "\033[1;32m>>> $g <<<\033[0m"
+		dump_gcov $g
+	done
+}
+
 # 使用AutoFDO
 gcc_autofdo_1()
 {
@@ -197,37 +207,29 @@ gcc_autofdo_1()
 	create_gcov \
 		--binary=./${prog_name}-orig.out \
 		--profile=perf.data \
-		--gcov=${prog_name}.gcov \
+		--gcov=${prog_name}-afdo-${br_retired}.gcov \
 		-gcov_version=1 >/dev/null \
 	|| true
 
-	gcc ${cflags} -fauto-profile=${prog_name}.gcov \
+	if [[ ! -e ${prog_name}-afdo-${br_retired}.gcov ]]; then
+		return 0
+	fi
+
+	gcc ${cflags} -fauto-profile=${prog_name}-afdo-${br_retired}.gcov \
 		${srcs} -o ${prog_name}-autofdo-${br_retired}.out
 }
 
 gcc_autofdo()
 {
 	# perf list : pipeline
-	branches_retired=(
-		br_inst_retired.all_branches
-		br_inst_retired.all_branches_pebs
-		br_inst_retired.cond_ntaken
-		br_inst_retired.conditional
-		br_inst_retired.far_branch
-		br_inst_retired.near_call
-		br_inst_retired.near_return
-		br_inst_retired.near_taken
-		br_inst_retired.not_taken
-		br_misp_retired.all_branches
-		br_misp_retired.all_branches_pebs
-		br_misp_retired.conditional
-		br_misp_retired.near_call
-		br_misp_retired.near_taken
-	)
+	branches_retired=( $(perf list | grep -e ' br_') )
+
 	for br in ${branches_retired[@]}
 	do
 		gcc_autofdo_1 $br
 	done
+
+	dump_all_gcov
 }
 
 gcc_bolt()
