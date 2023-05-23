@@ -1,6 +1,6 @@
 #pragma once
 
-#ifndef NOLIKELY
+#ifdef NOLIKELY
 #define likely(x)	(x)
 #define unlikely(x)	(x)
 #else

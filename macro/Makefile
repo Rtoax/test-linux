@@ -8,9 +8,10 @@ SRC_PATH := $(shell pwd)
 CC = gcc
 
 CFLAGS := -Werror -Wall
+CFLAGS += -O0
 
 ifdef DEBUG
-CFLAGS += -DDEBUG -O0 -g
+CFLAGS += -DDEBUG -g
 endif
 
 build: ${TARGETS}

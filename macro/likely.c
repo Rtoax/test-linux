@@ -39,6 +39,26 @@ unsigned long __noinline branches(unsigned long a)
 	return ret;
 }
 
+int __noinline reta(int a)
+{
+	if (a < 9)
+		return f_1st(1);
+	else if (a > 9)
+		return f_2nd(1);
+	else
+		return f_3rd(1);
+}
+
+int __noinline reta_likely(int a)
+{
+	if (unlikely(a < 9))
+		return f_1st(1);
+	else if (likely(a > 9))
+		return f_2nd(1);
+	else
+		return f_3rd(1);
+}
+
 int main(void)
 {
 	unsigned long __unused ret = branches(10000);
