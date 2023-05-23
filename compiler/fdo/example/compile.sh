@@ -209,14 +209,15 @@ gcc_autofdo_1()
 	gcc_ordinary
 
 	echo "=== ${br_retired}"
-	perf record -b -e ${br_retired} -- ./${prog_name}-orig.out \
+	perf record -b -e ${br_retired} -o ${prog_name}-afdo-${br_retired}.perf.data \
+		-- ./${prog_name}-orig.out \
 		2>&1 >>${log_file}
 
 
 	# true: skip 0 samples error
 	create_gcov \
 		--binary=./${prog_name}-orig.out \
-		--profile=perf.data \
+		--profile=${prog_name}-afdo-${br_retired}.perf.data \
 		--gcov=${prog_name}-afdo-${br_retired}.gcov \
 		-gcov_version=1 >/dev/null \
 	2>&1 >>${log_file} \
