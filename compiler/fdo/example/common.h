@@ -13,6 +13,14 @@
 #define __cacheline_align	__attribute__ ((aligned (__cacheline_size)))
 #define __noinline	__attribute__ ((noinline))
 
+#ifdef NOLIKELY
+#define likely(x) x
+#define unlikely(x) x
+#else
+#define likely(x)    __builtin_expect(!!(x), 1)
+#define unlikely(x)  __builtin_expect(!!(x), 0)
+#endif
+
 #if defined (__GNUC__) && !defined (__clang__)
 # define __opt_O0 __attribute__((optimize("-O0")))
 #elif defined (__clang__)
