@@ -85,7 +85,7 @@ test_test()
 			gdb -batch \
 				-ex "file $bin" \
 				-ex 'disassemble branch_A' \
-				| grep branch_[B,C,D,E,F,G]_ \
+				| grep branch_[B,C,D,E,F,G,H]_ \
 				| sed 's/^/\t/g'
 		}
 		dump_branch ${prog_name}-orig-pure.out
@@ -467,8 +467,8 @@ clang)
 	;;
 esac
 
-size ${prog_name}*.out
-md5sum ${prog_name}*.out
+size ${prog_name}*.out 2>&1 >>${log_file}
+md5sum ${prog_name}*.out 2>&1 >>${log_file}
 
 test_test
 

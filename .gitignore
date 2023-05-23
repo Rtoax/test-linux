@@ -80,3 +80,6 @@ modules.order
 
 # Python
 __pycache__
+
+# Log
+*.log

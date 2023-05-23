@@ -36,8 +36,10 @@ branch_A(unsigned long a)
 			ret += branch_G_3rd(i);
 		else if (i % 10 == 6)
 			ret += branch_H_2nd(i);
-		else
+		else if (i % 2 == 1)
 			ret += branch_C_1st(i);
+		else
+			ret += 1;
 	}
 
 	return ret;
