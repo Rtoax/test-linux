@@ -1,5 +1,7 @@
 #pragma once
 
+#include <stdint.h>
+
 #ifndef CAS
 #define CAS(ptr, val_old, val_new) ({ \
 	char ret; \
@@ -27,4 +29,17 @@
 #define _fetch_and_and(ptr, v)  __sync_fetch_and_and(ptr, v)
 #define _fetch_and_xor(ptr, v)  __sync_fetch_and_xor(ptr, v)
 #define _fetch_and_nand(ptr, v)  __sync_fetch_and_nand(ptr, v)
+
+
+static uint64_t __cas(uint64_t* addr, uint64_t nval, uint64_t cmp)
+{
+	uint64_t old;
+	__asm__ __volatile__(
+		"lock cmpxchg8b %0\n\t"
+		: "=a" (old), "+m" (*addr)
+		: "d" ((uint32_t)(cmp >> 32)), "a" ((uint32_t)(cmp & 0xffffffff)),
+		  "c" ((uint32_t)(nval >> 32)), "b" ((uint32_t)(nval & 0xffffffff))
+		: "cc"
+	);
+}
 
