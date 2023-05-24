@@ -30,21 +30,21 @@ branch_A(unsigned long a)
 	 * branching statements.
 	 */
 	for (i = 0; i < a; i++) {
-		if (i % 1000 == 1)
+		if (i % 23 == 1)
 			ret += branch_f_9th(i);
-		else if (i % 800 == 1)
+		else if (i % 19 == 1)
 			ret += branch_f_8th(i);
-		else if (i % 400 == 1)
+		else if (i % 17 == 1)
 			ret += branch_f_7th(i);
-		else if (i % 300 == 2)
+		else if (i % 13 == 1)
 			ret += branch_f_6th(i);
-		else if (i % 200 == 3)
+		else if (i % 11 == 1)
 			ret += branch_f_5th(i);
-		else if (i % 100 == 4)
+		else if (i % 7 == 1)
 			ret += branch_f_4th(i);
-		else if (i % 50 == 5)
+		else if (i % 5 == 1)
 			ret += branch_f_3rd(i);
-		else if (i % 10 == 6)
+		else if (i % 3 == 1)
 			ret += branch_f_2nd(i);
 		else if (i % 2 == 1)
 			ret += branch_f_1st(i);
