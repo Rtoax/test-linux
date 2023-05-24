@@ -85,7 +85,7 @@ test_test()
 			gdb -batch \
 				-ex "file $bin" \
 				-ex 'disassemble branch_A' \
-				| grep branch_[B,C,D,E,F,G,H]_ \
+				| grep branch_f_ \
 				| sed 's/^/\t/g'
 		}
 		dump_branch ${prog_name}-orig-pure.out

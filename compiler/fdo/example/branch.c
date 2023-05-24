@@ -5,17 +5,17 @@
 
 #define DEF_F(fname)	\
 	unsigned long __noinline	\
-	branch_##fname(unsigned long a) {	\
+	branch_f_##fname(unsigned long a) {	\
 		return a + 1;	\
 	}
 
-DEF_F(B_7th)
-DEF_F(D_6th)
-DEF_F(E_5th)
-DEF_F(F_4th)
-DEF_F(G_3rd)
-DEF_F(H_2nd)
-DEF_F(C_1st)
+DEF_F(7th)
+DEF_F(6th)
+DEF_F(5th)
+DEF_F(4th)
+DEF_F(3rd)
+DEF_F(2nd)
+DEF_F(1st)
 
 unsigned long __noinline
 branch_A(unsigned long a)
@@ -29,19 +29,19 @@ branch_A(unsigned long a)
 	 */
 	for (i = 0; i < a; i++) {
 		if (i % 400 == 1)
-			ret += branch_B_7th(i);
+			ret += branch_f_7th(i);
 		else if (i % 300 == 2)
-			ret += branch_D_6th(i);
+			ret += branch_f_6th(i);
 		else if (i % 200 == 3)
-			ret += branch_E_5th(i);
+			ret += branch_f_5th(i);
 		else if (i % 100 == 4)
-			ret += branch_F_4th(i);
+			ret += branch_f_4th(i);
 		else if (i % 50 == 5)
-			ret += branch_G_3rd(i);
+			ret += branch_f_3rd(i);
 		else if (i % 10 == 6)
-			ret += branch_H_2nd(i);
+			ret += branch_f_2nd(i);
 		else if (i % 2 == 1)
-			ret += branch_C_1st(i);
+			ret += branch_f_1st(i);
 		else
 			ret += 1;
 	}
