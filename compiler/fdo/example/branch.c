@@ -3,15 +3,19 @@
 
 #include "common.h"
 
-unsigned long branch_A(unsigned long a);
-unsigned long branch_B_7th(unsigned long a);
-unsigned long branch_C_1st(unsigned long a);
-unsigned long branch_D_6th(unsigned long a);
-unsigned long branch_E_5th(unsigned long a);
-unsigned long branch_F_4th(unsigned long a);
-unsigned long branch_G_3rd(unsigned long a);
-unsigned long branch_H_2nd(unsigned long a);
+#define DEF_F(fname)	\
+	unsigned long __noinline	\
+	branch_##fname(unsigned long a) {	\
+		return a + 1;	\
+	}
 
+DEF_F(B_7th)
+DEF_F(D_6th)
+DEF_F(E_5th)
+DEF_F(F_4th)
+DEF_F(G_3rd)
+DEF_F(H_2nd)
+DEF_F(C_1st)
 
 unsigned long __noinline
 branch_A(unsigned long a)
@@ -43,48 +47,6 @@ branch_A(unsigned long a)
 	}
 
 	return ret;
-}
-
-unsigned long __noinline
-branch_B_7th(unsigned long a)
-{
-	return a + 3;
-}
-
-unsigned long __noinline
-branch_C_1st(unsigned long a)
-{
-	return a + 4;
-}
-
-unsigned long __noinline
-branch_D_6th(unsigned long a)
-{
-	return a + 5;
-}
-
-unsigned long __noinline
-branch_E_5th(unsigned long a)
-{
-	return a + 8;
-}
-
-unsigned long __noinline
-branch_F_4th(unsigned long a)
-{
-	return a + 9;
-}
-
-unsigned long __noinline
-branch_G_3rd(unsigned long a)
-{
-	return a + 11;
-}
-
-unsigned long __noinline
-branch_H_2nd(unsigned long a)
-{
-	return a + 13;
 }
 
 unsigned long
