@@ -9,6 +9,8 @@
 		return a + 1;	\
 	}
 
+DEF_F(9th)
+DEF_F(8th)
 DEF_F(7th)
 DEF_F(6th)
 DEF_F(5th)
@@ -28,7 +30,11 @@ branch_A(unsigned long a)
 	 * branching statements.
 	 */
 	for (i = 0; i < a; i++) {
-		if (i % 400 == 1)
+		if (i % 1000 == 1)
+			ret += branch_f_9th(i);
+		else if (i % 800 == 1)
+			ret += branch_f_8th(i);
+		else if (i % 400 == 1)
 			ret += branch_f_7th(i);
 		else if (i % 300 == 2)
 			ret += branch_f_6th(i);
