@@ -55,10 +55,68 @@ branch_A(unsigned long a)
 	return ret;
 }
 
+unsigned long __noinline
+branch_B(unsigned long a)
+{
+	unsigned long i, ret = 0;
+
+	/**
+	 * I deliberately put the number of function calls in reverse order
+	 * of branching statements, and FDO will optimize the ordering of
+	 * branching statements.
+	 *
+	 * Unforturnatly, AutoFDO can't handle this sort of condition.
+	 */
+	for (i = 0; i < a; i++) {
+		if (i % 29 == 1) {
+			ret += branch_f_9th(i);
+			continue;
+		}
+		if (i % 23 == 1) {
+			ret += branch_f_8th(i);
+			continue;
+		}
+		if (i % 19 == 1) {
+			ret += branch_f_7th(i);
+			continue;
+		}
+		if (i % 17 == 1) {
+			ret += branch_f_6th(i);
+			continue;
+		}
+		if (i % 13 == 1) {
+			ret += branch_f_5th(i);
+			continue;
+		}
+		if (i % 11 == 1) {
+			ret += branch_f_4th(i);
+			continue;
+		}
+		if (i % 7 == 1) {
+			ret += branch_f_3rd(i);
+			continue;
+		}
+		if (i % 5 == 1) {
+			ret += branch_f_2nd(i);
+			continue;
+		}
+		if (i % 3 == 1) {
+			ret += branch_f_1st(i);
+			continue;
+		}
+
+		ret += 1;
+	}
+
+	return ret;
+}
+
 unsigned long
 test_branch(void)
 {
-	return branch_A(200000000);
+	unsigned long nloop = 200000000;
+
+	return branch_A(nloop) + branch_B(nloop);
 }
 
 int main()

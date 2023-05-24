@@ -81,23 +81,29 @@ test_test()
 		echo "Branch of statement"
 		dump_branch() {
 			local bin=$1
-			echo -e "\033[1;32m>>> $bin <<<\033[0m"
+			local fun=$2
+			echo -e "\033[1;32m>>> $bin:$fun <<<\033[0m"
 			gdb -batch \
 				-ex "file $bin" \
-				-ex 'disassemble branch_A' \
+				-ex "disassemble $fun" \
 				| grep branch_f_ \
-				| sed 's/^/\t/g'
+				| sed "s|^|\t$fun|g"
 		}
-		dump_branch ${prog_name}-orig-pure.out
-		dump_branch ${prog_name}-orig.out
-		dump_branch ${prog_name}-fdo.out
+		dump_branch ${prog_name}-orig-pure.out branch_A
+		dump_branch ${prog_name}-orig-pure.out branch_B
+		dump_branch ${prog_name}-orig.out branch_A
+		dump_branch ${prog_name}-orig.out branch_B
+		dump_branch ${prog_name}-fdo.out branch_A
+		dump_branch ${prog_name}-fdo.out branch_B
 		if [[ $compiler == gcc ]]; then
 			for p in $(ls ${prog_name}-autofdo*.out)
 			do
-				dump_branch ${p}
+				dump_branch ${p} branch_A
+				dump_branch ${p} branch_B
 			done
 		fi
-		dump_branch ${prog_name}-bolt.out
+		dump_branch ${prog_name}-bolt.out branch_A
+		dump_branch ${prog_name}-bolt.out branch_B
 		;;
 	loop)
 		;;
