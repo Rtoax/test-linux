@@ -1,12 +1,22 @@
-#include<stdio.h>
-#include<stdlib.h>
-#include<unistd.h>
-#include<sys/socket.h>
-#include<arpa/inet.h>
-#include<string.h>
-#include<sys/un.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdint.h>
+#include <unistd.h>
+#include <sys/socket.h>
+#include <arpa/inet.h>
+#include <string.h>
+#include <sys/un.h>
+
+#include "VhostUserRequest.h"
 
 #define BUF_SIZE 1024
+
+/* https://qemu.readthedocs.io/en/latest/interop/vhost-user.html */
+typedef struct VhostUserMsg {
+	VhostUserRequest request;
+	uint32_t flags;
+	uint32_t size;
+} __attribute__((packed)) VhostUserMsg;
 
 
 int main(int argc, char *argv[])
@@ -16,6 +26,7 @@ int main(int argc, char *argv[])
 	int addr_sz, len;
 	char buf[BUF_SIZE];
 	char *path;
+	VhostUserMsg *msg;
 
 	if (argc < 2) {
 		fprintf(stderr, "%s [sock path]\n", argv[0]);
@@ -53,7 +64,10 @@ int main(int argc, char *argv[])
 			close(clientfd);
 			break;
 		}
+		msg = (VhostUserMsg *)buf;
+
 		printf("len = %d\n", len);
+		printf("%d %d %d\n", msg->request, msg->flags, msg->size);
 	}
 
 	close(clientfd);
