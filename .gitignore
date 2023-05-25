@@ -1,9 +1,11 @@
 # Folder
 build/
 
-# File
+# Compressed File
 *.zip
 *.tar.*
+*.xz
+*.gz
 
 # Object files
 *.o
@@ -83,3 +85,11 @@ __pycache__
 
 # Log
 *.log
+
+# Socket
+*.sock
+
+# Images
+*.qcow2
+*.raw
+*.iso
