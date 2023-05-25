@@ -44,17 +44,17 @@ int main(int argc, char *argv[])
 		clilen = sizeof(cliaddr);
 		connfd = accept(listenfd, (struct sockaddr*)&cliaddr, &clilen);
 		if (connfd < 0) {
-		    perror("accept error");
-		    exit(1);
+			perror("accept error");
+			exit(1);
 		}
 
 		if ((childpid = fork()) == 0) {
-	    	close(listenfd);
-	    	ssize_t n;
-	    	char buf[MAX_LINE];
-	    	while((n = read(connfd, buf, MAX_LINE)) > 0)
+			close(listenfd);
+			ssize_t n;
+			char buf[MAX_LINE];
+			while((n = read(connfd, buf, MAX_LINE)) > 0)
 				write(connfd, buf, n);
-	    	exit(0);
+			exit(0);
 		}
 		close(connfd);
 	}
