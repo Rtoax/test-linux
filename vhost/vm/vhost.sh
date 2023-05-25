@@ -2,7 +2,7 @@
 
 . config.sh
 
-rm -f ${SOCK_PATH}
+rm -f ${SOCK_VHOST_PATH}
 
-echo "Listen on ${SOCK_PATH}"
-nc --unixsock --listen ${SOCK_PATH}
+echo "Listen on ${SOCK_VHOST_PATH}"
+nc --unixsock --listen ${SOCK_VHOST_PATH}
