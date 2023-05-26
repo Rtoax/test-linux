@@ -16,6 +16,10 @@ typedef struct VhostUserMsg {
 	VhostUserRequest request;
 	uint32_t flags;
 	uint32_t size;
+
+	union {
+		uint64_t num;
+	};
 } __attribute__((packed)) VhostUserMsg;
 
 
@@ -38,7 +42,7 @@ int main(int argc, char *argv[])
 	sockfd = socket(AF_UNIX, SOCK_STREAM, 0);
 
 	serv_addr.sun_family = AF_UNIX;
-	strncpy(serv_addr.sun_path, path, strlen(path));
+	strncpy(serv_addr.sun_path, path, strlen(path) + 1);
 
 	if (bind(sockfd, (struct sockaddr*)&serv_addr, sizeof(serv_addr)) == -1) {
 		perror("bind() error");
@@ -68,6 +72,19 @@ int main(int argc, char *argv[])
 
 		printf("len = %d\n", len);
 		printf("%d %d %d\n", msg->request, msg->flags, msg->size);
+
+		switch (msg->request) {
+		case VHOST_USER_GET_FEATURES:
+			msg->request = VHOST_USER_SET_FEATURES;
+			msg->flags = 0x3;
+			msg->size = sizeof(msg->num);
+			msg->num = 1ULL << 10;
+
+			write(clientfd, msg, sizeof(struct VhostUserMsg));
+			break;
+		default:
+			break;
+		}
 	}
 
 	close(clientfd);
