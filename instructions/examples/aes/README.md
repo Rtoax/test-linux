@@ -12,6 +12,35 @@ AES - Advanced Encryption Standard
 - AESIMC
 
 
+# 关闭虚拟机`sse`特性:
+
+```xml
+<domain type='kvm' xmlns:qemu='http://libvirt.org/schemas/domain/qemu/1.0'>
+  ...
+  <qemu:commandline>
+    <qemu:arg value='-cpu'/>
+    <qemu:arg value='host,-aes'/>
+  </qemu:commandline>
+</domain>
+```
+
+或者
+
+```xml
+<domain type='kvm' xmlns:qemu='http://libvirt.org/schemas/domain/qemu/1.0'>
+  ...
+  <cpu mode='host-model' check='none'>
+    <feature policy='disable' name='vmx'/>
+  </cpu>
+  ...
+  <qemu:commandline>
+    <qemu:arg value='-cpu'/>
+    <qemu:arg value='host,-aes'/>
+  </qemu:commandline>
+</domain>
+```
+
+
 # Links
 
 - https://en.wikipedia.org/wiki/AES_instruction_set

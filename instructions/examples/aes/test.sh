@@ -2,6 +2,13 @@
 
 openssl_tests=(aes-128-cbc aes-128-ecb aes-256-cbc aes-256-ecb)
 
+# Without AES
+#type             16 bytes     64 bytes    256 bytes   1024 bytes   8192 bytes  16384 bytes
+#AES-128-CBC     373239.36k   409797.67k   451122.35k   467302.91k   473513.98k   465711.09k
+#AES-128-ECB     389699.18k   449418.84k   478088.65k   483042.65k   487969.22k   486517.13k
+#AES-256-CBC     286292.63k   322083.98k   322705.21k   322951.11k   342346.15k   335335.00k
+#AES-256-ECB     287030.38k   332503.38k   343178.45k   344112.81k   343110.55k   349823.06k
+
 # With AES
 #type             16 bytes     64 bytes    256 bytes   1024 bytes   8192 bytes  16384 bytes
 #AES-128-CBC    1091562.54k  1626622.42k  1648401.29k  1714771.29k  1679105.20k  1697398.78k
