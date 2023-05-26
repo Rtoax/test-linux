@@ -1,0 +1,31 @@
+#!/bin/bash
+
+# $1 - feature name
+cpu_feature_support_check_single()
+{
+	local feature=$1
+	local support=$(lscpu | grep -o " $feature ")
+	local feature=$(echo $feature | tr [:lower:] [:upper:])
+
+	if [[ ! -z $support ]]; then
+		echo "Support $feature"
+	else
+		echo "Unsupport $feature"
+	fi
+}
+
+
+cpu_feature_support_check()
+{
+	if [[ $# -lt 1 ]]; then
+		echo "ERROR: Must input a feature name" >&2
+		exit 1
+	fi
+
+	for f in ${@}
+	do
+		cpu_feature_support_check_single $f
+	done
+}
+
+cpu_feature_support_check "$@"
