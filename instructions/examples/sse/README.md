@@ -2,6 +2,11 @@ SSE (Streaming SIMD Extensions)
 ===============================
 
 
+# 介绍
+
+- ssse3 是 sse3 的扩充
+
+
 # Headers
 
 ## SSE2
