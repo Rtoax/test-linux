@@ -14,10 +14,12 @@ Advanced Vector Extensions (AVX)
 # 禁用虚拟机的`avx2`特性
 
 ```xml
+<domain type='kvm' xmlns:qemu='http://libvirt.org/schemas/domain/qemu/1.0'>
   <qemu:commandline>
     <qemu:arg value='-cpu'/>
     <qemu:arg value='host,-avx2'/>
   </qemu:commandline>
+</domain>
 ```
 
 
