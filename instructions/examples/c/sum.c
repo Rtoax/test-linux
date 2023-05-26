@@ -3,7 +3,7 @@
  * ref: https://monoinfinito.wordpress.com/series/vectorization-in-gcc/
  */
 
-#define SIZE (5)
+#define SIZE (1ULL << 15)
 
 #if defined(TYPE_FLOAT)
 typedef float type_t;
@@ -41,9 +41,12 @@ type_t sum_align(struct value_align *v)
 
 int main(void)
 {
-	struct value_align v = {
-		.v = {1, 2, 3, 4, 5}
-	};
+	struct value_align v;
+	int i;
+
+	for (i = 0; i < SIZE; i++)
+		v.v[i] = i + 1;
+
 	type_t sum1 = sum(v.v);
 	type_t sum2 = sum_align(&v);
 
