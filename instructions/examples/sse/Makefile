@@ -1,11 +1,13 @@
 # man gcc: GCC depresses SSEx instructions when -mavx is used
 
+CFLAGS_ORIG += -DTYPE_FLOAT
 CFLAGS :=
 CFLAGS += -O1
 CFLAGS += -ftree-vectorize
-CFLAGS += -DTYPE_FLOAT
+CFLAGS += ${CFLAGS_ORIG}
 
 all:
+	gcc sum.c $(CFLAGS_ORIG) -o orig
 	gcc sum.c $(CFLAGS) -msse -o sse
 	gcc sum.c $(CFLAGS) -msse2 -o sse2
 	gcc sum.c $(CFLAGS) -msse3 -o sse3
