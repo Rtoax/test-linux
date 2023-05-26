@@ -45,32 +45,24 @@ SSE (Streaming SIMD Extensions)
 
 
 ```c
-extern "C"
-{
-    #include <emmintrin.h>
-    #include <mmintrin.h>
-}
+#include <emmintrin.h>
+#include <mmintrin.h>
 ```
 
 
 ## SSE3
 
 ```c
-extern "C"
-{
-    #include <pmmintrin.h>
-    #include <immintrin.h>   // (Meta-header)
-}
+#include <pmmintrin.h>
+#include <immintrin.h>   // (Meta-header)
 ```
 
 
 ## SSE4
 
 ```c
-extern "C"
-{
-    #include <smmintrin.h>
-}
+#include <smmintrin.h>
+#include <nmmintrin.h>
 ```
 
 
