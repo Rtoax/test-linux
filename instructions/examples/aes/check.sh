@@ -1,5 +1,5 @@
 #!/bin/bash
 
-features=$(lscpu | grep -o ' aes ')
+features=(aes)
 
 ../sh/cpu_feature_check ${features[@]}
