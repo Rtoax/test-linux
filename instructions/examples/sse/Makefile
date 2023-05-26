@@ -3,9 +3,9 @@
 CFLAGS :=
 CFLAGS += -O1
 CFLAGS += -ftree-vectorize
+CFLAGS += -DTYPE_FLOAT
 
 all:
-	gcc sum.c -o orig
 	gcc sum.c $(CFLAGS) -msse -o sse
 	gcc sum.c $(CFLAGS) -msse2 -o sse2
 	gcc sum.c $(CFLAGS) -msse3 -o sse3

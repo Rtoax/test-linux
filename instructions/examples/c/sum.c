@@ -5,13 +5,21 @@
 
 #define SIZE (5)
 
+#if defined(TYPE_FLOAT)
+typedef float type_t;
+#elif defined(TYPE_INT)
+typedef int type_t;
+#else
+# pragma error No type defined, use default 'int'
+#endif
+
 struct value_align {
-	int v[SIZE];
+	type_t v[SIZE];
 } __attribute__ ((aligned (__BIGGEST_ALIGNMENT__)));
 
-long sum(int *v)
+type_t sum(type_t *v)
 {
-	long s = 0;
+	type_t s = 0;
 	unsigned int i;
 
 	for (i = 0; i < SIZE; i++)
@@ -20,9 +28,9 @@ long sum(int *v)
 	return s;
 }
 
-long sum_align(struct value_align *v)
+type_t sum_align(struct value_align *v)
 {
-	long s = 0;
+	type_t s = 0;
 	unsigned int i;
 
 	for (i = 0; i < SIZE; i++)
@@ -36,8 +44,8 @@ int main(void)
 	struct value_align v = {
 		.v = {1, 2, 3, 4, 5}
 	};
-	long sum1 = sum(v.v);
-	long sum2 = sum_align(&v);
+	type_t sum1 = sum(v.v);
+	type_t sum2 = sum_align(&v);
 
 	return 0;
 }
