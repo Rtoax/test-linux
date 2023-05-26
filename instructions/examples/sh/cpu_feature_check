@@ -8,9 +8,9 @@ cpu_feature_support_check_single()
 	local feature=$(echo $feature | tr [:lower:] [:upper:])
 
 	if [[ ! -z $support ]]; then
-		echo "Support $feature"
+		echo -e "$feature:\t\033[32mSupport\033[m"
 	else
-		echo "Unsupport $feature"
+		echo -e "$feature:\t\033[31mUnsupport\033[m"
 	fi
 }
 

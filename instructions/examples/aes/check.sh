@@ -2,4 +2,4 @@
 
 features=$(lscpu | grep -o ' aes ')
 
-../sh/cpu_fearute_check ${features[@]}
+../sh/cpu_feature_check ${features[@]}

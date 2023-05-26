@@ -2,4 +2,4 @@
 
 features=(sse sse2 ssse3 sse4_1 sse4_2)
 
-../sh/cpu_fearute_check ${features[@]}
+../sh/cpu_feature_check ${features[@]}

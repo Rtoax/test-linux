@@ -2,4 +2,4 @@
 
 features=(avx avx2)
 
-../sh/cpu_fearute_check ${features[@]}
+../sh/cpu_feature_check ${features[@]}
