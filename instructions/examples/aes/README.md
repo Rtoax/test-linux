@@ -12,6 +12,13 @@ AES - Advanced Encryption Standard
 - AESIMC
 
 
+# Headers
+
+```c
+#include <wmmintrin.h>
+#include <keylockerintrin.h>
+```
+
 # 关闭虚拟机`sse`特性:
 
 ```xml
@@ -45,3 +52,5 @@ AES - Advanced Encryption Standard
 
 - https://en.wikipedia.org/wiki/AES_instruction_set
 - https://medium.com/coccoc-engineering-blog/kvm-guests-cpu-flags-5d3ac9525421
+- https://www.felixcloutier.com/x86/aesenc
+- https://github.com/wolfmuel/aesenc
