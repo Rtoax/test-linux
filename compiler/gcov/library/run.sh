@@ -222,6 +222,7 @@ autofdo)
 dump-test)
 	shift
 	dump_fn1_branch $1 branch_f1
+	dump_layout $1
 	;;
 *)
 	cat <<-EOF
