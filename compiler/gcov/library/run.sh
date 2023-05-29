@@ -2,13 +2,16 @@
 
 set -e
 
+static=no
+
 CFLAGS_COMMON='-O3 -pthread'
 CFLAGS=
 
 gcov_path=$(pwd)
 libname=LIBTEST
 libname_so=lib${libname}.so
-lib_srcs=library.c
+libname_a=lib${libname}.a
+lib_src=library.c
 
 test_srcs=test.c
 testname=test
@@ -38,6 +41,7 @@ dump_fn1_branch()
 		| sed 's/^/\t/g'
 }
 
+################################################################################
 # $1 - libname, for example: libabc.so -> $1 = abc
 #      link nothing if empty
 compile_test()
@@ -53,15 +57,45 @@ compile_test()
 	dump_fn1_branch $testname branch_f1
 }
 
-compile_lib()
+compile_test_static()
+{
+	[[ -e ${testname} ]] && mv $testname $testname.old
+
+	gcc ${libname_a} ${test_srcs} -o $testname ${CFLAGS_COMMON} ${CFLAGS}
+
+	dump_fn1_branch $testname branch_f1
+}
+
+compile_lib_dynamic()
 {
 	[[ -e ${libname_so} ]] && mv ${libname_so}{,.old}
 
-	gcc ${lib_srcs} -fPIC -shared -o ${libname_so} ${CFLAGS_COMMON} ${CFLAGS}
+	gcc ${lib_src} -fPIC -shared -o ${libname_so} ${CFLAGS_COMMON} ${CFLAGS}
 
 	compile_test ${libname}
 
 	dump_fn1_branch $libname_so lib_branch_f1
+}
+
+compile_lib_static()
+{
+	[[ -e ${libname_a} ]] && mv ${libname_a}{,.old}
+
+	gcc ${lib_src} -c -o ${lib_src}.o ${CFLAGS_COMMON} ${CFLAGS}
+	ar rcs ${libname_a} ${lib_src}.o
+
+	compile_test_static
+
+	dump_fn1_branch $libname_a lib_branch_f1
+}
+
+compile_lib()
+{
+	if [[ $static == no ]]; then
+		compile_lib_dynamic
+	else
+		compile_lib_static
+	fi
 }
 
 ################################################################################
@@ -106,6 +140,7 @@ af_gen_gcov()
 		-gcov_version=1 >/dev/null
 }
 
+# FIXME: WHY? AutoFDO doesn't works for dynamic library
 af_compile_test_2nd()
 {
 	CFLAGS="-fauto-profile=${af_test_gcov}"
@@ -128,22 +163,12 @@ do
 	case $1 in
 	-v|--verbose)
 		shift
-		set -x
-		;;
-	-vv)
-		shift
-		export PS4='+${BASH_SOURCE}: '
-		set -x
-		;;
-	-vvv)
-		shift
-		export PS4='+${BASH_SOURCE}:${LINENO}: '
-		set -x
-		;;
-	-vvvv)
-		shift
 		export PS4='+${BASH_SOURCE}:${LINENO}:${FUNCNAME[0]}: '
 		set -x
+		;;
+	-s)
+		shift
+		static=yes
 		;;
 	*)
 		break
@@ -171,19 +196,15 @@ autofdo)
 *)
 	cat <<-EOF
 
-	GCC -fprofile-generate:
+	run.sh [-v|--verbose] [-s] [command]
 
-	  compile_gen
-	  run
-	  run_gen
-	  compile_use
+	  -v, --verbose   show verbose
+	  -s              compile static library
+
+	  fdo             GCC native static fdo
+	  autofdo         AutoFDO
+
 	  clean
-
-	  fdo          - all above
-
-	GCC AutoFDO
-
-	  autofdo      - AutoFDO
 
 	EOF
 	;;

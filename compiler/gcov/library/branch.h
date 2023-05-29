@@ -26,8 +26,10 @@ LIB_BRANCH_FN(unsigned long a)
 			ret += fn1_branch_3rd(i);
 		else if (i % 10 == 6)
 			ret += fn1_branch_2nd(i);
-		else
+		else if (i % 2 == 1)
 			ret += fn1_branch_1st(i);
+		else
+			ret += 1;
 	}
 
 	return ret;
