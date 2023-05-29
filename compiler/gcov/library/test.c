@@ -19,6 +19,7 @@ void test_lib()
 
 struct thread_arg {
 	int id;
+	unsigned long ret;
 };
 
 pthread_key_t thread_log_key;
@@ -41,7 +42,7 @@ void* thread_fn(void *arg)
 	struct thread_arg *targ = arg;
 	threadid = targ->id;
 
-	branch_f1(10000000);
+	targ->ret = branch_f1(rand() % 10000000);
 	test_lib();
 
 	FILE *logfp;
@@ -65,6 +66,8 @@ int main(int argc, char *argv[])
 	struct thread_arg a1 = { .id = 1, };
 	struct thread_arg a2 = { .id = 2, };
 
+	srand((int)time(0));
+
 	pthread_key_create(&thread_log_key, thread_log_key_dtor);
 
 	pthread_create(&t1, NULL, thread_fn, &a1);
@@ -73,6 +76,8 @@ int main(int argc, char *argv[])
 	pthread_join(t1, NULL);
 	pthread_join(t2, NULL);
 
+	printf("Thread1 ret %ld\n", a1.ret);
+	printf("Thread2 ret %ld\n", a2.ret);
 	printf("Done.\n");
 }
 

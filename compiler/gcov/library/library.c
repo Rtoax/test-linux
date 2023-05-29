@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 #include "library.h"
 
@@ -10,7 +11,11 @@
 
 int lib_f1(void)
 {
-	lib_branch_f1(100000);
+	unsigned long ret;
+
+	srand((int)time(0));
+
+	ret = lib_branch_f1(rand() % 100000000);
 
 	return 0;
 }
