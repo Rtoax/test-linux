@@ -48,22 +48,9 @@ dump_fn1_branch()
 #      link nothing if empty
 compile_test()
 {
-	local lib=$1
-
 	[[ -e ${testname} ]] && mv $testname $testname.old
 
-	local libarg=${lib:+-L. -l${lib}}
-
-	gcc ${libarg} ${test_srcs} -o $testname ${CFLAGS_COMMON} ${CFLAGS}
-
-	dump_fn1_branch $testname branch_f1
-}
-
-compile_test_static()
-{
-	[[ -e ${testname} ]] && mv $testname $testname.old
-
-	gcc ${test_srcs} -o $testname ${CFLAGS_COMMON} ${CFLAGS} ./${libname_a}
+	gcc ${test_srcs} -o $testname ${CFLAGS_COMMON} ${CFLAGS}
 
 	dump_fn1_branch $testname branch_f1
 }
@@ -74,7 +61,9 @@ compile_lib_dynamic()
 
 	gcc ${lib_src} -fPIC -shared -o ${libname_so} ${CFLAGS_COMMON} ${CFLAGS}
 
-	compile_test ${libname}
+	CFLAGS+=" -L. -l${libname}"
+
+	compile_test
 
 	dump_fn1_branch $libname_so lib_branch_f1
 }
@@ -86,7 +75,9 @@ compile_lib_static()
 	gcc ${lib_src} -c -o ${lib_src}.o ${CFLAGS_COMMON} ${CFLAGS}
 	ar rcs ${libname_a} ${lib_src}.o
 
-	compile_test_static
+	CFLAGS+=" ./${libname_a}"
+
+	compile_test
 
 	if [[ $static == no ]]; then
 		dump_fn1_branch $libname_a lib_branch_f1
