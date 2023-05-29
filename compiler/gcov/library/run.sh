@@ -4,7 +4,7 @@ set -e
 
 static=no
 
-CFLAGS_COMMON='-O3 -pthread'
+CFLAGS_COMMON='-O3 -pthread -DTEST_LIB'
 CFLAGS=
 
 gcov_path=$(pwd)
@@ -26,7 +26,8 @@ clean()
 		*.gcov \
 		perf.data* \
 		*.log \
-		*.a *.a.old
+		*.a *.a.old \
+		*.out
 }
 
 dump_fn1_branch()
@@ -196,6 +197,10 @@ autofdo)
 	af_gen_gcov
 	af_compile_test_2nd
 	;;
+dump-test)
+	shift
+	dump_fn1_branch $1 branch_f1
+	;;
 *)
 	cat <<-EOF
 
@@ -208,6 +213,7 @@ autofdo)
 	  autofdo         AutoFDO
 
 	  clean
+	  dump-test [executable]
 
 	EOF
 	;;

@@ -9,6 +9,14 @@
 #include "branch.h"
 #undef LIB_BRANCH_FN
 
+void test_lib()
+{
+#ifdef TEST_LIB
+	lib_f1();
+	sort_array();
+#endif
+}
+
 struct thread_arg {
 	int id;
 };
@@ -34,8 +42,7 @@ void* thread_fn(void *arg)
 	threadid = targ->id;
 
 	branch_f1(10000000);
-
-	lib_f1();
+	test_lib();
 
 	FILE *logfp;
 	char filename[64];
@@ -45,8 +52,6 @@ void* thread_fn(void *arg)
 	pthread_setspecific(thread_log_key, logfp);
 
 	log_thread("This is thread.");
-
-	sort_array();
 
 	printf("Thread %d(%ld).\n", threadid, pthread_self());
 
