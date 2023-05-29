@@ -141,7 +141,8 @@ af_gen_gcov()
 		--binary=$testname \
 		--profile=perf.data \
 		--gcov=$af_test_gcov \
-		-gcov_version=1 >/dev/null
+		-gcov_version=1 \
+		2>/dev/null 1>/dev/null
 }
 
 # FIXME: WHY? AutoFDO doesn't works for dynamic library
