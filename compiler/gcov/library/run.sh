@@ -53,6 +53,10 @@ compile_test()
 	gcc ${test_srcs} -o $testname ${CFLAGS_COMMON} ${CFLAGS}
 
 	dump_fn1_branch $testname branch_f1
+
+	if [[ $static == yes ]]; then
+		dump_fn1_branch $testname lib_branch_f1
+	fi
 }
 
 compile_lib_dynamic()
@@ -78,10 +82,6 @@ compile_lib_static()
 	CFLAGS+=" ./${libname_a}"
 
 	compile_test
-
-	if [[ $static == no ]]; then
-		dump_fn1_branch $libname_a lib_branch_f1
-	fi
 }
 
 compile_lib()
