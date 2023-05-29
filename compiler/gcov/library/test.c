@@ -4,11 +4,10 @@
 #include <sys/time.h>
 #include "library.h"
 
+#define COMPILE_TEST
 #define LIB_BRANCH_FN branch_f1
 #include "branch.h"
 #undef LIB_BRANCH_FN
-
-#define ARRAY_LEN	1000
 
 struct thread_arg {
 	int id;
@@ -27,27 +26,6 @@ void log_thread(const char *message)
 {
 	FILE *thread_log_fp = (FILE *)pthread_getspecific(thread_log_key);
 	fprintf(thread_log_fp, "%s\n", message);
-}
-
-void sort_array(void)
-{
-	char buf[256];
-	int data[ARRAY_LEN], i;
-
-
-	for (i = 0; i < ARRAY_LEN; ++i) {
-		data[i] = ARRAY_LEN - i;
-	}
-	bubble_sort(data, ARRAY_LEN);
-
-	for (i = 0; i < ARRAY_LEN; ++i) {
-		if (data[i] != i + 1) {
-			fprintf(stderr, "Bubble sort failed.\n");
-			exit(1);
-		}
-		sprintf(buf, "%8d %d", i, data[i]);
-		log_thread(buf);
-	}
 }
 
 void* thread_fn(void *arg)

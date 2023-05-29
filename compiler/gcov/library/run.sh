@@ -25,7 +25,8 @@ clean()
 		*.o *.gcda *.gcno \
 		*.gcov \
 		perf.data* \
-		*.log
+		*.log \
+		*.a *.a.old
 }
 
 dump_fn1_branch()
@@ -61,7 +62,7 @@ compile_test_static()
 {
 	[[ -e ${testname} ]] && mv $testname $testname.old
 
-	gcc ${libname_a} ${test_srcs} -o $testname ${CFLAGS_COMMON} ${CFLAGS}
+	gcc ${test_srcs} -o $testname ${CFLAGS_COMMON} ${CFLAGS} ./${libname_a}
 
 	dump_fn1_branch $testname branch_f1
 }
@@ -86,7 +87,9 @@ compile_lib_static()
 
 	compile_test_static
 
-	dump_fn1_branch $libname_a lib_branch_f1
+	if [[ $static == no ]]; then
+		dump_fn1_branch $libname_a lib_branch_f1
+	fi
 }
 
 compile_lib()
