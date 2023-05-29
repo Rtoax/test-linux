@@ -35,12 +35,26 @@ dump_fn1_branch()
 	local bin=$1
 	local fn=$2
 
-	echo -e "\033[1;32m>>> $bin:$fn <<<\033[0m"
+	echo -e "\033[1;32m>>> Branch: $bin:$fn <<<\033[0m"
 	gdb -batch \
 		-ex "file $bin" \
 		-ex "disassemble $fn" \
 		| grep fn1_branch_ \
 		| sed 's/^/\t/g'
+}
+
+dump_layout()
+{
+	local bin=$1
+
+	echo -e "\033[1;33m>>> Layout: $bin <<<\033[0m"
+	readelf --syms ${bin} | \
+		grep "[lib|test]_layout_[A-Z]" | \
+		grep -v gcov | \
+		awk '{print $2" "$8}' | \
+		sort | \
+		uniq | \
+		sed 's/^/\t/g'
 }
 
 ################################################################################
@@ -53,6 +67,7 @@ compile_test()
 	gcc ${test_srcs} -o $testname ${CFLAGS_COMMON} ${CFLAGS}
 
 	dump_fn1_branch $testname branch_f1
+	dump_layout $testname
 
 	if [[ $static == yes ]]; then
 		dump_fn1_branch $testname lib_branch_f1
@@ -70,6 +85,7 @@ compile_lib_dynamic()
 	compile_test
 
 	dump_fn1_branch $libname_so lib_branch_f1
+	dump_layout $libname_so
 }
 
 compile_lib_static()
