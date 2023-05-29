@@ -9,11 +9,24 @@
 #include "branch.h"
 #undef LIB_BRANCH_FN
 
+#define LAYOUT_FN_TEST	test_layout_test
+#define LAYOUT_FN_A		test_layout_A
+#define LAYOUT_FN_B		test_layout_B
+#define LAYOUT_FN_C		test_layout_C
+#define LAYOUT_FN_D		test_layout_D
+#include "layout.h"
+#undef LAYOUT_FN_TEST
+#undef LAYOUT_FN_A
+#undef LAYOUT_FN_B
+#undef LAYOUT_FN_C
+#undef LAYOUT_FN_D
+
 void test_lib()
 {
 #ifdef TEST_LIB
 	lib_f1();
 	sort_array();
+	lib_layout_test();
 #endif
 }
 
@@ -43,6 +56,8 @@ void* thread_fn(void *arg)
 	threadid = targ->id;
 
 	targ->ret = branch_f1(rand() % 10000000);
+	targ->ret += test_layout_test();
+
 	test_lib();
 
 	FILE *logfp;

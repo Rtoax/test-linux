@@ -8,6 +8,7 @@
 #define LIB_BRANCH_FN lib_branch_f1
 #include "branch.h"
 #undef LIB_BRANCH_FN
+#undef COMPILE_LIB
 
 int lib_f1(void)
 {
@@ -19,6 +20,19 @@ int lib_f1(void)
 
 	return 0;
 }
+
+#define LAYOUT_FN_TEST	lib_layout_test
+#define LAYOUT_FN_A		lib_layout_A
+#define LAYOUT_FN_B		lib_layout_B
+#define LAYOUT_FN_C		lib_layout_C
+#define LAYOUT_FN_D		lib_layout_D
+#include "layout.h"
+#undef LAYOUT_FN_TEST
+#undef LAYOUT_FN_A
+#undef LAYOUT_FN_B
+#undef LAYOUT_FN_C
+#undef LAYOUT_FN_D
+
 
 void bubble_sort(int *a, int n)
 {
