@@ -6,6 +6,7 @@ FDO&AutoFDO Library tests
 ```
 LibraryType     FDO         AutoFDO
 -----------------------------------
+executable       Ok           Ok
 static         Not ok       Not ok
 dynamic          Ok         Not ok
 ```
@@ -44,6 +45,7 @@ After Optmizization:
 ```
 LibraryType     FDO         AutoFDO
 -----------------------------------
+executable      Ok           Ok
 static          Ok           Ok(low precision than FDO)
 dynamic         Ok           Ok(low precision than FDO)
 ```

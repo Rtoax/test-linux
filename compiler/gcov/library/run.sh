@@ -34,8 +34,15 @@ dump_fn1_branch()
 {
 	local bin=$1
 	local fn=$2
+	local name
 
-	echo -e "\033[1;32m>>> Branch: $bin:$fn <<<\033[0m"
+	if [[ $static == yes ]]; then
+		name="Static: $bin:$fn"
+	else
+		name="Dynamic: $bin:$fn"
+	fi
+
+	echo -e "\033[1;32m>>> Branch: $name <<<\033[0m"
 	gdb -batch \
 		-ex "file $bin" \
 		-ex "disassemble $fn" \
@@ -46,8 +53,15 @@ dump_fn1_branch()
 dump_layout()
 {
 	local bin=$1
+	local name
 
-	echo -e "\033[1;33m>>> Layout: $bin <<<\033[0m"
+	if [[ $static == yes ]]; then
+		name="Static: $bin"
+	else
+		name="Dynamic: $bin"
+	fi
+
+	echo -e "\033[1;33m>>> Layout: $name <<<\033[0m"
 	readelf --syms ${bin} | \
 		grep "[lib|test]_layout_[A-Z]" | \
 		grep -v gcov | \
