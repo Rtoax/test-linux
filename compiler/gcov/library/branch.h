@@ -20,13 +20,17 @@
 #endif
 
 
-DEFINE_FN1(1st)
-DEFINE_FN1(2nd)
-DEFINE_FN1(3rd)
-DEFINE_FN1(4th)
-DEFINE_FN1(5th)
-DEFINE_FN1(6th)
-DEFINE_FN1(7th)
+DEFINE_FN1(1)
+DEFINE_FN1(2)
+DEFINE_FN1(3)
+DEFINE_FN1(4)
+DEFINE_FN1(5)
+DEFINE_FN1(6)
+DEFINE_FN1(7)
+DEFINE_FN1(8)
+DEFINE_FN1(9)
+DEFINE_FN1(10)
+DEFINE_FN1(11)
 
 unsigned long __noinline__
 LIB_BRANCH_FN(unsigned long a)
@@ -39,20 +43,28 @@ LIB_BRANCH_FN(unsigned long a)
 	 * branching statements.
 	 */
 	for (i = 0; i < a; i++) {
-		if (i % 400 == 1)
-			ret += CALLED_FN1(7th, i);
-		else if (i % 300 == 2)
-			ret += CALLED_FN1(6th, i);
-		else if (i % 200 == 3)
-			ret += CALLED_FN1(5th, i);
-		else if (i % 100 == 4)
-			ret += CALLED_FN1(4th, i);
-		else if (i % 50 == 5)
-			ret += CALLED_FN1(3rd, i);
-		else if (i % 10 == 6)
-			ret += CALLED_FN1(2nd, i);
+		if (i % 31 == 1)
+			ret += CALLED_FN1(11, i);
+		else if (i % 29 == 1)
+			ret += CALLED_FN1(10, i);
+		else if (i % 23 == 1)
+			ret += CALLED_FN1(9, i);
+		else if (i % 19 == 1)
+			ret += CALLED_FN1(8, i);
+		else if (i % 17 == 1)
+			ret += CALLED_FN1(7, i);
+		else if (i % 13 == 1)
+			ret += CALLED_FN1(6, i);
+		else if (i % 11 == 1)
+			ret += CALLED_FN1(5, i);
+		else if (i % 7 == 1)
+			ret += CALLED_FN1(4, i);
+		else if (i % 5 == 1)
+			ret += CALLED_FN1(3, i);
+		else if (i % 3 == 1)
+			ret += CALLED_FN1(2, i);
 		else if (i % 2 == 1)
-			ret += CALLED_FN1(1st, i);
+			ret += CALLED_FN1(1, i);
 		else
 			ret += 1;
 	}
