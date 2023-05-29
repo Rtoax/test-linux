@@ -26,12 +26,24 @@ int lib_f1(void)
 #define LAYOUT_FN_B		lib_layout_B
 #define LAYOUT_FN_C		lib_layout_C
 #define LAYOUT_FN_D		lib_layout_D
+#define LAYOUT_FN_E		lib_layout_E
+#define LAYOUT_FN_F		lib_layout_F
+#define LAYOUT_FN_G		lib_layout_G
+#define LAYOUT_FN_H		lib_layout_H
+#define LAYOUT_FN_I		lib_layout_I
+#define LAYOUT_FN_J		lib_layout_J
 #include "layout.h"
 #undef LAYOUT_FN_TEST
 #undef LAYOUT_FN_A
 #undef LAYOUT_FN_B
 #undef LAYOUT_FN_C
 #undef LAYOUT_FN_D
+#undef LAYOUT_FN_E
+#undef LAYOUT_FN_F
+#undef LAYOUT_FN_G
+#undef LAYOUT_FN_H
+#undef LAYOUT_FN_I
+#undef LAYOUT_FN_J
 
 
 void bubble_sort(int *a, int n)

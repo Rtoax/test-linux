@@ -15,23 +15,53 @@
 #ifndef LAYOUT_FN_D
 # error Undefined LAYOUT_FN_D
 #endif
+#ifndef LAYOUT_FN_E
+# error Undefined LAYOUT_FN_E
+#endif
+#ifndef LAYOUT_FN_F
+# error Undefined LAYOUT_FN_F
+#endif
+#ifndef LAYOUT_FN_G
+# error Undefined LAYOUT_FN_G
+#endif
+#ifndef LAYOUT_FN_H
+# error Undefined LAYOUT_FN_H
+#endif
+#ifndef LAYOUT_FN_I
+# error Undefined LAYOUT_FN_I
+#endif
+#ifndef LAYOUT_FN_J
+# error Undefined LAYOUT_FN_J
+#endif
 
 unsigned long __noinline__ LAYOUT_FN_A(unsigned long);
 unsigned long __noinline__ LAYOUT_FN_B(unsigned long);
 unsigned long __noinline__ LAYOUT_FN_C(unsigned long);
 unsigned long __noinline__ LAYOUT_FN_D(unsigned long);
+unsigned long __noinline__ LAYOUT_FN_E(unsigned long);
+unsigned long __noinline__ LAYOUT_FN_F(unsigned long);
+unsigned long __noinline__ LAYOUT_FN_G(unsigned long);
+unsigned long __noinline__ LAYOUT_FN_H(unsigned long);
+unsigned long __noinline__ LAYOUT_FN_I(unsigned long);
+unsigned long __noinline__ LAYOUT_FN_J(unsigned long);
 
 /**
  *                    Layout   Opt Layout
  *       A              A          A
  *      / \             B          B
  * 100 /   \ 10         C          D
- *    /     \           D          C
- *   B       C
+ *    /     \           D          F
+ *   B       C          E          H
+ *   |100    | 10       F          J
+ *   D       E          G          C
+ *   |100    | 10       H          E
+ *   F       G          I          G
+ *   |100    | 10       J          I
+ *   H       I
  *    \     /
  * 100 \   / 10
  *      \ /
- *       D
+ *       J
  */
 
 unsigned long LAYOUT_FN_TEST(void)
@@ -63,10 +93,40 @@ unsigned long __noinline__ LAYOUT_FN_B(unsigned long a)
 
 unsigned long __noinline__ LAYOUT_FN_C(unsigned long a)
 {
-	return LAYOUT_FN_D(a) + a;
+	return LAYOUT_FN_E(a) + a;
 }
 
 unsigned long __noinline__ LAYOUT_FN_D(unsigned long a)
 {
-	return a * 2;
+	return LAYOUT_FN_F(a) + a;
+}
+
+unsigned long __noinline__ LAYOUT_FN_E(unsigned long a)
+{
+	return LAYOUT_FN_G(a) + a;
+}
+
+unsigned long __noinline__ LAYOUT_FN_F(unsigned long a)
+{
+	return LAYOUT_FN_H(a) + a;
+}
+
+unsigned long __noinline__ LAYOUT_FN_G(unsigned long a)
+{
+	return LAYOUT_FN_I(a) + a;
+}
+
+unsigned long __noinline__ LAYOUT_FN_H(unsigned long a)
+{
+	return LAYOUT_FN_J(a) + a;
+}
+
+unsigned long __noinline__ LAYOUT_FN_I(unsigned long a)
+{
+	return LAYOUT_FN_J(a) + a;
+}
+
+unsigned long __noinline__ LAYOUT_FN_J(unsigned long a)
+{
+	return a + a;
 }

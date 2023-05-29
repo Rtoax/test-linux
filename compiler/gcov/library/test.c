@@ -14,12 +14,24 @@
 #define LAYOUT_FN_B		test_layout_B
 #define LAYOUT_FN_C		test_layout_C
 #define LAYOUT_FN_D		test_layout_D
+#define LAYOUT_FN_E		test_layout_E
+#define LAYOUT_FN_F		test_layout_F
+#define LAYOUT_FN_G		test_layout_G
+#define LAYOUT_FN_H		test_layout_H
+#define LAYOUT_FN_I		test_layout_I
+#define LAYOUT_FN_J		test_layout_J
 #include "layout.h"
 #undef LAYOUT_FN_TEST
 #undef LAYOUT_FN_A
 #undef LAYOUT_FN_B
 #undef LAYOUT_FN_C
 #undef LAYOUT_FN_D
+#undef LAYOUT_FN_E
+#undef LAYOUT_FN_F
+#undef LAYOUT_FN_G
+#undef LAYOUT_FN_H
+#undef LAYOUT_FN_I
+#undef LAYOUT_FN_J
 
 void test_lib()
 {
