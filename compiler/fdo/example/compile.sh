@@ -16,7 +16,6 @@ cflags_opt="-O3"
 cflags+="${cflags_opt} ${cflags_orig}"
 
 sort_srcs="sort.c common.c"
-loc_srcs="loc.c common.c"
 branch_srcs="branch.c common.c"
 loop_srcs="loop.c common.c"
 
@@ -35,10 +34,6 @@ set_test()
 		prog_name+="-sort"
 		srcs="$sort_srcs"
 		;;
-	loc)
-		prog_name+="-loc"
-		srcs="$loc_srcs"
-		;;
 	branch)
 		prog_name+="-branch"
 		srcs="$branch_srcs"
@@ -48,7 +43,7 @@ set_test()
 		srcs="$loop_srcs"
 		;;
 	*)
-		echo "Support test list: sort loc branch loop"
+		echo "Support test list: sort branch loop"
 		exit 1
 		;;
 	esac
@@ -61,21 +56,6 @@ test_test()
 {
 	case $test_type in
 	sort)
-		;;
-	loc)
-		echo "Location of function and variables"
-		dump_loc() {
-			echo -e "\033[1;32m>>> $1 <<<\033[0m"
-			objdump -d $1 \
-				| grep '>:' \
-				| grep -e loc_ \
-				| sort \
-				| sed 's/^/\t/g'
-		}
-		dump_loc ${prog_name}-orig-pure.out
-		dump_loc ${prog_name}-orig.out
-		dump_loc ${prog_name}-fdo.out
-		dump_loc ${prog_name}-bolt.out
 		;;
 	branch)
 		echo "Branch of statement"
@@ -108,7 +88,7 @@ test_test()
 	loop)
 		;;
 	*)
-		echo "Support test list: sort loc branch loop"
+		echo "Support test list: sort branch loop"
 		exit 1
 		;;
 	esac
@@ -347,7 +327,7 @@ compile-gcc [clean] [args]
 
  -c, --compiler            specify compiler, gcc or clang
 
- -t, --type                test type: sort, loc, branch, loop
+ -t, --type                test type: sort, branch, loop
 
  -a, --af-all              test all branches retired for autofdo
 
