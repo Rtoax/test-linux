@@ -75,6 +75,7 @@ dump_layout()
 		grep -v '.cold' | \
 		grep -v '.loc' | \
 		grep -v '\[' | \
+		grep -v '.constprop' | \
 		grep -v gcov | \
 		awk '{print $2" "$8}' | \
 		sort | \
