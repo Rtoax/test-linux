@@ -34,6 +34,25 @@
 # error Undefined LAYOUT_FN_J
 #endif
 
+/* like commit 3c9c8f2ab542("gcov/example: -O3 already optimize function
+ * layout(todo)") said, this macro use to interfering compiler to not optimize
+ * function layout.
+ */
+#if defined(HAVE_INTERFERING_COMPILER)
+# define INTERFERING_COMPILER(a) ({	\
+	unsigned long ____b = 0;	\
+	if (unlikely(a == -1ULL)) {	\
+		____b += LAYOUT_FN_A(a) + LAYOUT_FN_B(a) + LAYOUT_FN_C(a) +	\
+			LAYOUT_FN_D(a) + LAYOUT_FN_E(a) + LAYOUT_FN_F(a) +	\
+			LAYOUT_FN_G(a) + LAYOUT_FN_H(a) + LAYOUT_FN_I(a) +	\
+			LAYOUT_FN_J(a);	\
+	}	\
+	____b;	\
+})
+#else
+# define INTERFERING_COMPILER(a) (0)
+#endif
+
 unsigned long __noinline__ LAYOUT_FN_A(unsigned long);
 unsigned long __noinline__ LAYOUT_FN_B(unsigned long);
 unsigned long __noinline__ LAYOUT_FN_C(unsigned long);
@@ -88,45 +107,45 @@ unsigned long __noinline__ LAYOUT_FN_A(unsigned long a)
 
 unsigned long __noinline__ LAYOUT_FN_B(unsigned long a)
 {
-	return LAYOUT_FN_D(a) + a;
+	return LAYOUT_FN_D(a) + a + INTERFERING_COMPILER(a);
 }
 
 unsigned long __noinline__ LAYOUT_FN_C(unsigned long a)
 {
-	return LAYOUT_FN_E(a) + a;
+	return LAYOUT_FN_E(a) + a + INTERFERING_COMPILER(a);
 }
 
 unsigned long __noinline__ LAYOUT_FN_D(unsigned long a)
 {
-	return LAYOUT_FN_F(a) + a;
+	return LAYOUT_FN_F(a) + a + INTERFERING_COMPILER(a);
 }
 
 unsigned long __noinline__ LAYOUT_FN_E(unsigned long a)
 {
-	return LAYOUT_FN_G(a) + a;
+	return LAYOUT_FN_G(a) + a + INTERFERING_COMPILER(a);
 }
 
 unsigned long __noinline__ LAYOUT_FN_F(unsigned long a)
 {
-	return LAYOUT_FN_H(a) + a;
+	return LAYOUT_FN_H(a) + a + INTERFERING_COMPILER(a);
 }
 
 unsigned long __noinline__ LAYOUT_FN_G(unsigned long a)
 {
-	return LAYOUT_FN_I(a) + a;
+	return LAYOUT_FN_I(a) + a + INTERFERING_COMPILER(a);
 }
 
 unsigned long __noinline__ LAYOUT_FN_H(unsigned long a)
 {
-	return LAYOUT_FN_J(a) + a;
+	return LAYOUT_FN_J(a) + a + INTERFERING_COMPILER(a);
 }
 
 unsigned long __noinline__ LAYOUT_FN_I(unsigned long a)
 {
-	return LAYOUT_FN_J(a) + a;
+	return LAYOUT_FN_J(a) + a + INTERFERING_COMPILER(a);
 }
 
 unsigned long __noinline__ LAYOUT_FN_J(unsigned long a)
 {
-	return a + a;
+	return a + a + INTERFERING_COMPILER(a);
 }

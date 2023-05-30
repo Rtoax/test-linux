@@ -4,7 +4,7 @@ set -e
 
 static=no
 
-CFLAGS_COMMON='-O3 -pthread -DTEST_LIB'
+CFLAGS_COMMON='-O3 -pthread -DTEST_LIB -DHAVE_INTERFERING_COMPILER'
 CFLAGS=
 
 gcov_path=$(pwd)
@@ -196,9 +196,15 @@ run_gen()
 test_layout()
 {
 	static=unknown
+
 	log_prefix="-O3                   >>"
 	gcc test.c -o test -O3 -pthread
 	dump_layout test
+
+	log_prefix="-O3+INTERFERING_COMPILER>>"
+	gcc test.c -o test -O3 -pthread -DHAVE_INTERFERING_COMPILER
+	dump_layout test
+
 	log_prefix="-O3+-fprofile-generate>>"
 	gcc test.c -o test -O3 -pthread -fprofile-generate
 	dump_layout test
