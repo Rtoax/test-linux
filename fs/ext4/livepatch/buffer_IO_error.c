@@ -96,6 +96,7 @@ static struct klp_func funcs[] = {
 static struct klp_object objs[] = {
 	{
 		/* name being NULL means vmlinux */
+		.name = "ext4",
 		.funcs = funcs,
 	}, { }
 };
