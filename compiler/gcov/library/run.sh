@@ -16,6 +16,8 @@ lib_src=library.c
 test_srcs=test.c
 testname=test
 
+log_prefix=
+
 
 clean()
 {
@@ -42,12 +44,12 @@ dump_fn1_branch()
 		name="Dynamic: $bin:$fn"
 	fi
 
-	echo -e "\033[1;32m>>> Branch: $name <<<\033[0m"
+	echo -e "${log_prefix} \033[1;32m>>> Branch: $name <<<\033[0m"
 	gdb -batch \
 		-ex "file $bin" \
 		-ex "disassemble $fn" \
 		| grep fn1_branch_ \
-		| sed 's/^/\t/g'
+		| sed "s|^|${log_prefix}\t|g"
 }
 
 dump_layout()
@@ -61,14 +63,14 @@ dump_layout()
 		name="Dynamic: $bin"
 	fi
 
-	echo -e "\033[1;33m>>> Layout: $name <<<\033[0m"
+	echo -e "${log_prefix} \033[1;33m>>> Layout: $name <<<\033[0m"
 	readelf --syms ${bin} | \
 		grep "[lib|test]_layout_[A-Z]" | \
 		grep -v gcov | \
 		awk '{print $2" "$8}' | \
 		sort | \
 		uniq | \
-		sed 's/^/\t/g'
+		sed "s|^|${log_prefix}\t|g"
 }
 
 ################################################################################
@@ -210,13 +212,20 @@ compile_gen | compile_use | run | run_gen | clean)
 	;;
 fdo)
 	clean
+	log_prefix="FDO gen>>"
 	compile_gen
+	log_prefix="FDO run>>"
 	run
+	log_prefix="FDO opt>>"
 	compile_use
 	;;
 autofdo)
+	clean
+	log_prefix="AutoFDO record>>"
 	af_compile_test
+	log_prefix="AutoFDO gcov  >>"
 	af_gen_gcov
+	log_prefix="AutoFDO optimi>>"
 	af_compile_test_2nd
 	;;
 dump-test)

@@ -10,16 +10,16 @@
 #undef LIB_BRANCH_FN
 
 #define LAYOUT_FN_TEST	test_layout_test
-#define LAYOUT_FN_A		test_layout_A
-#define LAYOUT_FN_B		test_layout_B
+#define LAYOUT_FN_A		test_layout_A_
+#define LAYOUT_FN_B		test_layout_B_
 #define LAYOUT_FN_C		test_layout_C
-#define LAYOUT_FN_D		test_layout_D
+#define LAYOUT_FN_D		test_layout_D_
 #define LAYOUT_FN_E		test_layout_E
-#define LAYOUT_FN_F		test_layout_F
+#define LAYOUT_FN_F		test_layout_F_
 #define LAYOUT_FN_G		test_layout_G
-#define LAYOUT_FN_H		test_layout_H
+#define LAYOUT_FN_H		test_layout_H_
 #define LAYOUT_FN_I		test_layout_I
-#define LAYOUT_FN_J		test_layout_J
+#define LAYOUT_FN_J		test_layout_J_
 #include "layout.h"
 #undef LAYOUT_FN_TEST
 #undef LAYOUT_FN_A
