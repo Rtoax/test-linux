@@ -68,8 +68,13 @@ dump_layout()
 	fi
 
 	echo -e "${log_prefix} \033[1;33m>>> Layout: $name <<<\033[0m"
+
+	# Ignore: lib_layout_B_.cold, lib_layout_C.loc[...] in library
 	readelf --syms ${bin} | \
 		grep "[lib|test]_layout_[A-Z]" | \
+		grep -v '.cold' | \
+		grep -v '.loc' | \
+		grep -v '\[' | \
 		grep -v gcov | \
 		awk '{print $2" "$8}' | \
 		sort | \
