@@ -1,0 +1,29 @@
+#!/usr/bin/env bpftrace
+/**
+ * File: ext4_finish_bio.bt
+ *
+ * 2022-02-18	Rong Tao	Create this.
+ */
+#include <linux/bio.h>
+#include <linux/genhd.h>
+
+BEGIN
+{
+	printf("Tracing ext4_finish_bio, Ctrl-C to end.\n");
+	printf("%-8s %-8s %-8s %-8s\n", "DEV", "MAJOR", "MINOR", "dev_t");
+}
+
+kprobe:ext4_finish_bio
+{
+	$bio = (struct bio *)arg0;
+	$bdev = $bio->bi_bdev;
+	$gendisk = $bdev->bd_disk;
+
+	printf("%-8s %-8d %-8d %-8d\n",
+		$gendisk->disk_name, $gendisk->major, $gendisk->minors, $bdev->bd_dev);
+}
+
+END
+{
+	printf("Bye.\n");
+}
