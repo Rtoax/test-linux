@@ -18,6 +18,8 @@
 #include <linux/slab.h>
 #include <linux/mm.h>
 #include <linux/backing-dev.h>
+#include <linux/kallsyms.h>
+#include <linux/kprobes.h>
 
 
 static void buffer_io_error(struct buffer_head *bh)
@@ -103,15 +105,51 @@ static struct klp_patch patch = {
 	.objs = objs,
 };
 
+typedef unsigned long(*kallsyms_lookup_fn)(const char *);
+static kallsyms_lookup_fn __kallsyms_lookup = NULL;
+
+unsigned long kallsyms_lookup_name(const char *name)
+{
+	return __kallsyms_lookup ? __kallsyms_lookup(name) : 0UL;
+}
+
+int init_kallsyms(void)
+{
+	struct kprobe kp = {0};
+	int ret = 0;
+	kp.symbol_name = "kallsyms_lookup_name";
+
+	ret = register_kprobe(&kp);
+	if (ret < 0) {
+		printk(KERN_ERR "Not found kprobe.\n");
+		return ret;
+	}
+
+	__kallsyms_lookup = (kallsyms_lookup_fn)kp.addr;
+
+	unregister_kprobe(&kp);
+
+	return ret;
+}
+
 static int livepatch_init(void)
 {
 	int ret;
+	unsigned long addr;
 
+	init_kallsyms();
+
+	addr = kallsyms_lookup_name("ext4_finish_bio");
+	printk(KERN_INFO "addr %lx.", addr);
+
+	/* TODO: Can't found ext4_finish_bio */
+#if 1
 	ret = klp_enable_patch(&patch);
 	if (ret) {
 		return ret;
 	}
 	printk(KERN_INFO "livepatch insert.");
+#endif
 	return 0;
 }
 
