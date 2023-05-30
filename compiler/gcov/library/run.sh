@@ -40,8 +40,10 @@ dump_fn1_branch()
 
 	if [[ $static == yes ]]; then
 		name="Static: $bin:$fn"
-	else
+	elif [[ $static == no ]]; then
 		name="Dynamic: $bin:$fn"
+	else
+		name="$bin:$fn"
 	fi
 
 	echo -e "${log_prefix} \033[1;32m>>> Branch: $name <<<\033[0m"
@@ -59,8 +61,10 @@ dump_layout()
 
 	if [[ $static == yes ]]; then
 		name="Static: $bin"
-	else
+	elif [[ $static == no ]]; then
 		name="Dynamic: $bin"
+	else
+		name="$bin:$fn"
 	fi
 
 	echo -e "${log_prefix} \033[1;33m>>> Layout: $name <<<\033[0m"
@@ -120,7 +124,7 @@ compile_lib()
 {
 	if [[ $static == no ]]; then
 		compile_lib_dynamic
-	else
+	elif [[ $static == yes ]]; then
 		compile_lib_static
 	fi
 }
@@ -129,6 +133,9 @@ compile_lib()
 # GCC FDO
 compile_gen()
 {
+	# -O3: has good function layout
+	# -O3 -fprofile-generate: For forbidden function layout
+	# -O3 -fprofile-use: Good function layout with gcov
 	CFLAGS="-fprofile-generate=${gcov_path} -fprofile-arcs -ftest-coverage -lgcov"
 
 	compile_lib
@@ -186,6 +193,37 @@ run_gen()
 	LD_LIBRARY_PATH=. ./$testname.old
 }
 
+test_layout()
+{
+	static=unknown
+	log_prefix="-O3                   >>"
+	gcc test.c -o test -O3 -pthread
+	dump_layout test
+	log_prefix="-O3+-fprofile-generate>>"
+	gcc test.c -o test -O3 -pthread -fprofile-generate
+	dump_layout test
+}
+
+test_test()
+{
+	case $1 in
+	layout)
+		shift
+		test_layout "$@"
+		;;
+	*)
+		cat <<-EOF
+
+		test [test]
+
+		[test]
+		 layout    - test some layout
+
+		EOF
+		;;
+	esac
+}
+
 while :;
 do
 	case $1 in
@@ -209,6 +247,10 @@ compile_gen | compile_use | run | run_gen | clean)
 	cmd=$1
 	shift
 	$cmd "$@"
+	;;
+test)
+	shift
+	test_test "$@"
 	;;
 fdo)
 	clean
@@ -245,6 +287,7 @@ dump-test)
 	  autofdo         AutoFDO
 
 	  clean
+	  test [subcommand]
 	  dump-test [executable]
 
 	EOF
