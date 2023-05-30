@@ -7,4 +7,6 @@
 /*.gcda
 /*.gcno
 /*.gcov
+/*.profraw
+/*.profdata
 /*.log

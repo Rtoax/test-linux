@@ -2,6 +2,7 @@
 
 set -e
 
+compiler=gcc
 static=no
 
 CFLAGS_COMMON='-O3 -pthread -DTEST_LIB -DHAVE_INTERFERING_COMPILER'
@@ -16,6 +17,8 @@ lib_src=library.c
 test_srcs=test.c
 testname=test
 
+clang_profdata=default.profdata
+
 log_prefix=
 
 
@@ -26,6 +29,7 @@ clean()
 		*.so *.so.old \
 		*.o *.gcda *.gcno \
 		*.gcov \
+		*.profraw *.profdata \
 		perf.data* \
 		*.log \
 		*.a *.a.old \
@@ -90,7 +94,7 @@ compile_test()
 {
 	[[ -e ${testname} ]] && mv $testname $testname.old
 
-	gcc ${test_srcs} -o $testname ${CFLAGS_COMMON} ${CFLAGS}
+	${compiler} ${test_srcs} -o $testname ${CFLAGS_COMMON} ${CFLAGS}
 
 	dump_fn1_branch $testname branch_f1
 	dump_layout $testname
@@ -104,7 +108,7 @@ compile_lib_dynamic()
 {
 	[[ -e ${libname_so} ]] && mv ${libname_so}{,.old}
 
-	gcc ${lib_src} -fPIC -shared -o ${libname_so} ${CFLAGS_COMMON} ${CFLAGS}
+	${compiler} ${lib_src} -fPIC -shared -o ${libname_so} ${CFLAGS_COMMON} ${CFLAGS}
 
 	CFLAGS+=" -L. -l${libname}"
 
@@ -118,7 +122,7 @@ compile_lib_static()
 {
 	[[ -e ${libname_a} ]] && mv ${libname_a}{,.old}
 
-	gcc ${lib_src} -c -o ${lib_src}.o ${CFLAGS_COMMON} ${CFLAGS}
+	${compiler} ${lib_src} -c -o ${lib_src}.o ${CFLAGS_COMMON} ${CFLAGS}
 	ar rcs ${libname_a} ${lib_src}.o
 
 	CFLAGS+=" ./${libname_a}"
@@ -139,17 +143,32 @@ compile_lib()
 # GCC FDO
 compile_gen()
 {
+	case ${compiler} in
+	gcc)
 	# -O3: has good function layout
 	# -O3 -fprofile-generate: For forbidden function layout
 	# -O3 -fprofile-use: Good function layout with gcov
 	CFLAGS="-fprofile-generate=${gcov_path} -fprofile-arcs -ftest-coverage -lgcov"
+	;;
+	clang)
+	CFLAGS="-fprofile-generate -fprofile-arcs -ftest-coverage -lgcov"
+	;;
+	esac
 
 	compile_lib
 }
 
 compile_use()
 {
+	case ${compiler} in
+	gcc)
 	CFLAGS="-fprofile-use=${gcov_path} "
+	;;
+	clang)
+	llvm-profdata merge --output ${clang_profdata} default*.profraw
+	CFLAGS="-fprofile-use=${clang_profdata} "
+	;;
+	esac
 
 	compile_lib
 }
@@ -204,15 +223,15 @@ test_layout()
 	static=unknown
 
 	log_prefix="-O3                   >>"
-	gcc test.c -o test -O3 -pthread
+	${compiler} test.c -o test -O3 -pthread
 	dump_layout test
 
 	log_prefix="-O3+INTERFERING_COMPILER>>"
-	gcc test.c -o test -O3 -pthread -DHAVE_INTERFERING_COMPILER
+	${compiler} test.c -o test -O3 -pthread -DHAVE_INTERFERING_COMPILER
 	dump_layout test
 
 	log_prefix="-O3+-fprofile-generate>>"
-	gcc test.c -o test -O3 -pthread -fprofile-generate
+	${compiler} test.c -o test -O3 -pthread -fprofile-generate
 	dump_layout test
 }
 
@@ -239,6 +258,15 @@ test_test()
 while :;
 do
 	case $1 in
+	-c|--compiler)
+		shift
+		compiler=$1
+		shift
+		if [[ $compiler != gcc ]] && [[ $compiler != clang ]]; then
+			echo "ERROR: only support gcc/clang compiler"
+			exit 1
+		fi
+		;;
 	-v|--verbose)
 		shift
 		export PS4='+${BASH_SOURCE}:${LINENO}:${FUNCNAME[0]}: '
@@ -274,6 +302,10 @@ fdo)
 	compile_use
 	;;
 autofdo)
+	if [[ ${compiler} != gcc ]]; then
+		echo "ERROR: Only gcc support AutoFDO"
+		exit 1
+	fi
 	clean
 	log_prefix="AutoFDO record>>"
 	af_compile_test
