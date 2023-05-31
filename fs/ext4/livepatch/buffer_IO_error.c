@@ -33,6 +33,10 @@ static void livepatch_ext4_finish_bio(struct bio *bio)
 {
 	struct bio_vec *bvec;
 	struct bvec_iter_all iter_all;
+	sector_t sector = bio->bi_iter.bi_sector;
+	struct block_device *bdev = bio->bi_bdev;
+	struct gendisk *gendisk = bdev->bd_disk;
+	const char *disk_name = gendisk->disk_name;
 
 	bio_for_each_segment_all(bvec, bio, iter_all) {
 		struct page *page = bvec->bv_page;
@@ -73,9 +77,14 @@ static void livepatch_ext4_finish_bio(struct bio *bio)
 				continue;
 			}
 			clear_buffer_async_write(bh);
+
+			if (!strcmp(disk_name, "vdb") &&
+					sector >= 67000000 && sector <= 76000000)
+				bio->bi_status = 1;
+
 			if (bio->bi_status)
 				buffer_io_error(bh);
-		} while ((bh = bh->b_this_page) != head);
+		} while ((bh = bh->b_this_page) != head || bio->bi_status);
 		spin_unlock_irqrestore(&head->b_uptodate_lock, flags);
 		if (!under_io) {
 #if 0
