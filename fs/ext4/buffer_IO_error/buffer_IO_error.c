@@ -79,7 +79,7 @@ static void livepatch_ext4_finish_bio(struct bio *bio)
 			clear_buffer_async_write(bh);
 
 			if (!strcmp(disk_name, "vdb") &&
-					sector >= 67000000 && sector <= 76000000)
+					sector >= 140851384 && sector <= 150851384)
 				bio->bi_status = 1;
 
 			if (bio->bi_status)
