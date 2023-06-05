@@ -16,7 +16,7 @@ build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
 # Add more object.o file
-relocation-truncated-to-fit: relocation-truncated-to-fit.o
+relocation-truncated-to-fit: relocation-truncated-to-fit.o relocation-truncated-to-fit-obj.o
 
 %.d: %.c
 	@echo -e "Generate \033[1m$(@)\033[m"
