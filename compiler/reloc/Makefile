@@ -1,5 +1,5 @@
 
-TARGETS := main.user.out
+TARGETS := relocation-truncated-to-fit
 
 DEBUG = yes
 SRC_PATH := $(shell pwd)
@@ -16,7 +16,7 @@ build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
 # Add more object.o file
-main.user.out: main.user.o
+relocation-truncated-to-fit: relocation-truncated-to-fit.o
 
 %.d: %.c
 	@echo -e "Generate \033[1m$(@)\033[m"
