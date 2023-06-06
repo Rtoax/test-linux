@@ -17,7 +17,7 @@ static void print_sections(void)
 	/**
 	 * _text is undefined
 	 */
-	extern char _text[];
+	extern char __attribute__((unused)) _text[];
 	//printk("_text = %p\n", _text);	
 }
 
