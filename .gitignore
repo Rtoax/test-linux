@@ -93,3 +93,4 @@ __pycache__
 *.qcow2
 *.raw
 *.iso
+*.img
