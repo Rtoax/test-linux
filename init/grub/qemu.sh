@@ -21,8 +21,9 @@ test_grub_with_qemu()
 	sudo mknod ${dev_loop} b 7 ${dev_minor}
 	sudo losetup ${dev_loop} ${grub_img}
 
-	sudo fdisk ${dev_loop}
 	# Add DOS partition table
+	#  o   create a new empty DOS partition table
+	sudo fdisk ${dev_loop}
 
 	# Flush partition info
 	sudo kpartx -av ${dev_loop}
@@ -34,7 +35,7 @@ test_grub_with_qemu()
 	sudo mount ${dev_mapper_part1} ${boot_dir}
 
 	local target_platform=
-	[[ $(uname -m) == x86_64 ]] && target_platform=x86_64-efi
+	[[ $(uname -m) == x86_64 ]] && target_platform=i386-pc
 	[[ $(uname -m) == aarch64 ]] && target_platform=arm64-efi
 	sudo grub2-install \
 		--root-directory=${boot_dir} \
