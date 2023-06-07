@@ -3,9 +3,17 @@
 qemu_emulator=/usr/libexec/qemu-kvm
 grub_img=$PWD/grub.img
 qemu_grub_img=$PWD/qemu-grub.img
-boot_dir=$PWD/boot/
+boot_dir=$PWD/boot_dir.out/
 
 dev_minor=500
+
+goodbye()
+{
+	sudo umount ${boot_dir}
+	sudo rmdir ${boot_dir}
+	sudo rm -f ${grub_img} ${qemu_grub_img}
+}
+trap "goodbye" SIGINT
 
 test_grub_with_qemu()
 {
@@ -14,8 +22,7 @@ test_grub_with_qemu()
 
 
 	# Do some clean first
-	sudo umount ${boot_dir}
-	sudo rm -f ${grub_img}
+	goodbye
 
 	# 512MiB
 	dd if=/dev/zero of=${grub_img} bs=1024 count=524288
