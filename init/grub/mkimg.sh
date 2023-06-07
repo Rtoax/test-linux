@@ -26,6 +26,10 @@ mkimg_bootcd()
 
 	local grub_lib_dir=/usr/lib/grub/i386-pc/
 
+	if [[ ! -e ${grub_lib_dir} ]]; then
+		sudo dnf install grub2-pc-modules
+	fi
+
 	grub2-mkimage \
 		--format=i386-pc \
 		--prefix="(cd)" \
