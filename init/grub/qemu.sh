@@ -60,6 +60,18 @@ while :; do
 		dev_minor=$1
 		shift
 		;;
+	-h | --help)
+		shift
+		cat <<-EOF
+
+		$0 [--minor|-h]
+
+		--minor         device minor
+		-h, --help      show this information
+
+		EOF
+		exit 0
+		;;
 	*)
 		break
 		;;
