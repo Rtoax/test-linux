@@ -55,6 +55,17 @@ mkimg_bootcd()
 	cd ${curr_dir}
 
 	rm -rf ${root_dir}
+
+	echo -e "
+Now you can runing
+
+\033[1;02m # running directly \033[m
+\033[1;32m $ /usr/libexec/qemu-kvm -cdrom bootcd.iso \033[m
+\033[1;02m # running with gdb port \033[m
+\033[1;32m $ /usr/libexec/qemu-kvm -cdrom bootcd.iso -s -S \033[m
+
+more to see <https://www.cnblogs.com/coryxie/archive/2013/03/12/2956807.html>
+"
 }
 
 mkimg_bootcd
