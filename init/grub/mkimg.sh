@@ -1,5 +1,14 @@
 #!/bin/bash
 
+set -e
+
+goodbye()
+{
+	echo "Exit..."
+	rm -rf tmp-*
+}
+trap "goodbye" EXIT
+
 mkimg_bootcd()
 {
 	echo Creating bootable CD image...
@@ -17,27 +26,59 @@ mkimg_bootcd()
 	cp ${curr_dir}/configs/grub-kernel.cfg boot/grub.cfg
 	cp /boot/vmlinuz-$(uname -r) bin/kernel
 
-	local modules=(
-		loadenv biosdisk part_msdos part_gpt fat ntfs
-		ext2 ntfscomp iso9660 loopback search linux boot minicmd cat cpuid chain
-		halt help ls reboot echo test configfile normal sleep memdisk tar font
-		gfxterm gettext true vbe vga video_bochs video_cirrus multiboot multiboot2
-	)
+	local modules
 
-	local grub_lib_dir=/usr/lib/grub/i386-pc/
+	if [[ $(uname -m) == x86_64 ]]; then
+		modules=(
+			loadenv biosdisk part_msdos part_gpt fat ntfs
+			ext2 ntfscomp iso9660 loopback search linux boot minicmd cat cpuid chain
+			halt help ls reboot echo test configfile normal sleep memdisk tar font
+			gfxterm gettext true vbe vga video_bochs video_cirrus multiboot multiboot2
+		)
+	elif [[ $(uname -m) == aarch64 ]]; then
+		modules=(
+			loadenv part_msdos part_gpt fat ntfs
+			ext2 ntfscomp iso9660 loopback search linux boot minicmd cat chain
+			halt help ls reboot echo test configfile normal sleep memdisk tar font
+			gfxterm gettext true
+		)
+	else
+		echo "ERROR: Unsupport arch $(uname -m)"
+		exit 1
+	fi
+
+
+	local grub_lib_dir=
+	local grub_format=
+
+	if [[ $(uname -m) == aarch64 ]]; then
+		grub_lib_dir=/usr/lib/grub/arm64-efi/
+		grub_format=arm64-efi
+	elif [[ $(uname -m) == x86_64 ]]; then
+		grub_lib_dir=/usr/lib/grub/i386-pc/
+		grub_format=i386-pc
+	else
+		echo "ERROR: Unsupport arch $(uname -m)"
+		exit 1
+	fi
 
 	if [[ ! -e ${grub_lib_dir} ]]; then
-		sudo dnf install grub2-pc-modules
+		if [[ $(uname -m) == x86_64 ]]; then
+			sudo dnf install grub2-pc-modules
+		elif [[ $(uname -m) == aarch64 ]]; then
+			sudo dnf install grub2-efi-aa64-modules
+		fi
 	fi
 
 	grub2-mkimage \
-		--format=i386-pc \
+		--format=${grub_format} \
 		--prefix="(cd)" \
 		--directory=${grub_lib_dir} \
 		--output=bin/core.img \
 		--config="boot/grub.cfg" \
 		${modules[@]}
 
+	# FIXME: aarch64: cat: /usr/lib/grub/arm64-efi//cdboot.img: No such file or directory
 	cat ${grub_lib_dir}/cdboot.img bin/core.img > bin/grub.img
 
 	genisoimage \
