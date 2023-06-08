@@ -16,6 +16,7 @@ test ! -e imgdir && mkdir imgdir
 sudo criu dump -D imgdir/ -j -t $(pidof a.out)
 
 log "Wait for 3 seconds..."
+tree imgdir
 sleep 3
 
 sudo criu restore --restore-detached -D imgdir/ -j
