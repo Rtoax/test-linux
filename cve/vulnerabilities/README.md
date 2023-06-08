@@ -1,6 +1,12 @@
 vulnerabilities - 漏洞
 ===================
 
+
+- /sys/devices/system/cpu/vulnerabilities
+
+
+# Links
+
 * [Hardware vulnerabilities](https://www.kernel.org/doc/html/latest/admin-guide/hw-vuln/index.html)
 
 
