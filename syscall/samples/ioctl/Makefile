@@ -1,11 +1,11 @@
 
-TARGETS := fallocate.out
+TARGETS := TIOCGWINSZ
 
 DEBUG = yes
 SRC_PATH := $(shell pwd)
 CC = gcc
 
-CFLAGS := -Werror -Wall -D_GNU_SOURCE
+CFLAGS := -Werror -Wall
 
 ifdef DEBUG
 CFLAGS += -DDEBUG -O0 -g
@@ -13,11 +13,10 @@ endif
 
 build: ${TARGETS}
 	@echo
-	make -C ioctl
 	@echo -e " \033[1;33m Done \033[m"
 
 # Add more object.o file
-fallocate.out: fallocate.o
+TIOCGWINSZ: TIOCGWINSZ.o
 
 %.d: %.c
 	@echo -e "Generate \033[1m$(@)\033[m"
@@ -33,9 +32,8 @@ $(TARGETS): %:
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
-	./fallocate.out
+	./main.user.out
 
 clean:
 	@echo -e "Clean   \033[1;32m$(@)\033[m"
-	make -C ioctl clean
-	@rm -f ${TARGETS} *.o *.d *.txt
+	@rm -f ${TARGETS} *.o *.d
