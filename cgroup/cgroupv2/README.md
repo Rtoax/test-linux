@@ -9,6 +9,7 @@ Cgroup v2 是 cgroup Linux API 的下一个版本。与 cgroup v1 不同的是�
 * 可将安全子树委派给容器
 * 更新的功能，如压力失速信息（Pressure Stall Information）
 
+
 # Enable CGroup V2
 
 ```
@@ -17,6 +18,7 @@ Cgroup v2 是 cgroup Linux API 的下一个版本。与 cgroup v1 不同的是�
   --update-kernel=ALL \
   --args="systemd.unified_cgroup_hierarchy=1"
 ```
+
 
 # Refs
 
