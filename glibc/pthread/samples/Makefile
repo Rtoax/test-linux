@@ -1,5 +1,6 @@
 
 TARGETS := pthread_create
+TARGETS += pthread_create-deadline
 
 DEBUG = yes
 SRC_PATH := $(shell pwd)
@@ -17,6 +18,7 @@ build: ${TARGETS}
 
 # Add more object.o file
 pthread_create: pthread_create.o
+pthread_create-deadline: pthread_create-deadline.o
 
 %.d: %.c
 	@echo -e "Generate \033[1m$(@)\033[m"
