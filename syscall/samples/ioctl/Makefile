@@ -1,5 +1,6 @@
 
 TARGETS := TIOCGWINSZ
+TARGETS += TIOCSWINSZ
 
 DEBUG = yes
 SRC_PATH := $(shell pwd)
@@ -17,6 +18,7 @@ build: ${TARGETS}
 
 # Add more object.o file
 TIOCGWINSZ: TIOCGWINSZ.o
+TIOCSWINSZ: TIOCSWINSZ.o
 
 %.d: %.c
 	@echo -e "Generate \033[1m$(@)\033[m"
