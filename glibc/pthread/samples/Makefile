@@ -1,5 +1,6 @@
 
-TARGETS := pthread_create
+TARGETS += pthread_attr_setstacksize
+TARGETS += pthread_create
 TARGETS += pthread_create-deadline
 
 DEBUG = yes
@@ -17,6 +18,7 @@ build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
 # Add more object.o file
+pthread_attr_setstacksize: pthread_attr_setstacksize.o
 pthread_create: pthread_create.o
 pthread_create-deadline: pthread_create-deadline.o
 

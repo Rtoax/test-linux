@@ -1,2 +1,3 @@
+/pthread_attr_setstacksize
 /pthread_create
 /pthread_create-deadline
