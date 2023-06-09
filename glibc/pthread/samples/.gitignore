@@ -1,4 +1,5 @@
 /pthread_attr_setstacksize
+/pthread_cancel
 /pthread_create
 /pthread_create-deadline
 /pthread_exit

@@ -1,5 +1,6 @@
 
 TARGETS += pthread_attr_setstacksize
+TARGETS += pthread_cancel
 TARGETS += pthread_create
 TARGETS += pthread_create-deadline
 TARGETS += pthread_exit
@@ -25,6 +26,7 @@ build: ${TARGETS}
 
 # Add more object.o file
 pthread_attr_setstacksize: pthread_attr_setstacksize.o
+pthread_cancel: pthread_cancel.o
 pthread_create: pthread_create.o
 pthread_create-deadline: pthread_create-deadline.o
 pthread_exit: pthread_exit.o
