@@ -5,6 +5,8 @@ TARGETS += pthread_create-deadline
 TARGETS += pthread_exit
 TARGETS += pthread_join-coredump
 TARGETS += pthread_join
+TARGETS += pthread_getname_np
+TARGETS += pthread_setname_np
 
 DEBUG = yes
 SRC_PATH := $(shell pwd)
@@ -27,6 +29,8 @@ pthread_create-deadline: pthread_create-deadline.o
 pthread_exit: pthread_exit.o
 pthread_join-coredump: pthread_join-coredump.o
 pthread_join: pthread_join.o
+pthread_getname_np: pthread_getname_np.o
+pthread_setname_np: pthread_setname_np.o
 
 %.d: %.c
 	@echo -e "Generate \033[1m$(@)\033[m"
