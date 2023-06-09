@@ -11,6 +11,7 @@ USER_LIST += io_uring/samples
 USER_LIST += kvm/playground
 USER_LIST += kvm/virtio/tools/virtio-trace
 USER_LIST += syscall/samples
+USER_LIST += glibc/pthread/samples
 
 KERNEL_LIST += algorithm/bitmap/modules
 KERNEL_LIST += algorithm/bitops/modules
