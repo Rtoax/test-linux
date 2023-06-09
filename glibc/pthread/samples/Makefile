@@ -3,6 +3,8 @@ TARGETS += pthread_attr_setstacksize
 TARGETS += pthread_create
 TARGETS += pthread_create-deadline
 TARGETS += pthread_exit
+TARGETS += pthread_join-coredump
+TARGETS += pthread_join
 
 DEBUG = yes
 SRC_PATH := $(shell pwd)
@@ -23,6 +25,8 @@ pthread_attr_setstacksize: pthread_attr_setstacksize.o
 pthread_create: pthread_create.o
 pthread_create-deadline: pthread_create-deadline.o
 pthread_exit: pthread_exit.o
+pthread_join-coredump: pthread_join-coredump.o
+pthread_join: pthread_join.o
 
 %.d: %.c
 	@echo -e "Generate \033[1m$(@)\033[m"

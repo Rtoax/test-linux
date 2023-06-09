@@ -2,3 +2,5 @@
 /pthread_create
 /pthread_create-deadline
 /pthread_exit
+/pthread_join-coredump
+/pthread_join
