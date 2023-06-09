@@ -1,6 +1,7 @@
 
 TARGETS := fallocate
 TARGETS += nr
+TARGETS += pause
 
 DEBUG = yes
 SRC_PATH := $(shell pwd)
@@ -20,6 +21,7 @@ build: ${TARGETS}
 # Add more object.o file
 fallocate: fallocate.o
 nr: nr.o
+pause: pause.o
 
 %.d: %.c
 	@echo -e "Generate \033[1m$(@)\033[m"
