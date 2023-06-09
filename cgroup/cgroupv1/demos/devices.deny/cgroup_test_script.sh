@@ -1,7 +1,7 @@
 #!/bin/bash
 
-while :
+for i in $(seq 1 10000)
 do
-    echo "print line" > /dev/tty
-    sleep 5
+    echo "$i print line" > /dev/tty
+    sleep 2
 done
