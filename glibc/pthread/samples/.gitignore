@@ -3,6 +3,7 @@
 /pthread_atfork
 /pthread_attr_setstacksize
 /pthread_attr_setstack-[0-9]
+/pthread_attr_init
 /pthread_cancel
 /pthread_setcancelstate
 /pthread_testcancel
