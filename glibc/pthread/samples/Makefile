@@ -1,6 +1,7 @@
 
 TARGETS += create_thread
-TARGETS += dead_lock
+TARGETS += dead_lock-1
+TARGETS += dead_lock-2
 TARGETS += pthread_attr_setstacksize
 TARGETS += pthread_attr_setstack-1
 TARGETS += pthread_attr_setstack-2
@@ -32,7 +33,8 @@ build: ${TARGETS}
 
 # Add more object.o file
 create_thread: create_thread.o
-dead_lock: dead_lock.o
+dead_lock-1: dead_lock-1.o
+dead_lock-2: dead_lock-2.o
 pthread_attr_setstacksize: pthread_attr_setstacksize.o
 pthread_attr_setstack-1: pthread_attr_setstack-1.o
 pthread_attr_setstack-2: pthread_attr_setstack-2.o
