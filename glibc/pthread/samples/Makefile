@@ -1,5 +1,6 @@
 
 TARGETS += create_thread
+TARGETS += dead_lock
 TARGETS += pthread_attr_setstacksize
 TARGETS += pthread_cancel pthread_testcancel pthread_setcancelstate
 TARGETS += pthread_create
@@ -27,6 +28,7 @@ build: ${TARGETS}
 
 # Add more object.o file
 create_thread: create_thread.o
+dead_lock: dead_lock.o
 pthread_attr_setstacksize: pthread_attr_setstacksize.o
 pthread_cancel: pthread_cancel.o
 pthread_testcancel: pthread_testcancel.o
