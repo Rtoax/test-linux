@@ -12,5 +12,6 @@
 /pthread_join
 /pthread_getname_np
 /pthread_setname_np
+/pthread_self
 /pthread_once
 /pthread_yield
