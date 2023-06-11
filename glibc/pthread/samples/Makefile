@@ -16,6 +16,7 @@ TARGETS += pthread_getname_np pthread_setname_np
 TARGETS += pthread_self
 TARGETS += pthread_once
 TARGETS += pthread_yield
+TARGETS += tls
 
 DEBUG = yes
 SRC_PATH := $(shell pwd)
@@ -53,6 +54,7 @@ pthread_setname_np: pthread_setname_np.o
 pthread_self: pthread_self.o
 pthread_once: pthread_once.o
 pthread_yield: pthread_yield.o
+tls: tls.o
 
 %.d: %.c
 	@echo -e "Generate \033[1m$(@)\033[m"
