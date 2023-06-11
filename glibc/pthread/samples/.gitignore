@@ -8,6 +8,8 @@
 /pthread_cancel
 /pthread_setcancelstate
 /pthread_testcancel
+/pthread_cleanup_push
+/pthread_cleanup_push-deadlock
 /pthread_create
 /pthread_create-deadline
 /pthread_exit
