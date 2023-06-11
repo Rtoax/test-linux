@@ -8,6 +8,7 @@ TARGETS += pthread_attr_setstack-1
 TARGETS += pthread_attr_setstack-2
 TARGETS += pthread_attr_setstack-3
 TARGETS += pthread_attr_init 
+TARGETS += pthread_barrier_init
 TARGETS += pthread_cancel pthread_testcancel pthread_setcancelstate
 TARGETS += pthread_create
 TARGETS += pthread_create-deadline
@@ -46,6 +47,7 @@ pthread_attr_setstack-1: pthread_attr_setstack-1.o
 pthread_attr_setstack-2: pthread_attr_setstack-2.o
 pthread_attr_setstack-3: pthread_attr_setstack-3.o
 pthread_attr_init: pthread_attr_init.o
+pthread_barrier_init: pthread_barrier_init.o
 pthread_cancel: pthread_cancel.o
 pthread_testcancel: pthread_testcancel.o
 pthread_setcancelstate: pthread_setcancelstate.o
