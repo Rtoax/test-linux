@@ -1,3 +1,19 @@
+/**
+ *
+ * PTHREAD_CANCEL_ENABLE: default
+ * PTHREAD_CANCEL_DISABLE
+ * PTHREAD_CANCEL_DEFFERED: Valid when the Cancel status is Enable, After
+ *                          receiving the signal, continue to run until the next
+ *                          cancellation point and then exit
+ * PTHREAD_CANCEL_ASYNCHRONOUS: Valid when the Cancel status is Enable,
+ *                              Cancel execution as soon as the signal is received
+ *
+ * Cancel Point:
+ * 1. pthread_testcancel()
+ * 2. pthread_cond_wait, pthread_cond_timewait
+ * 3. sigwait
+ * 4. standerd lib function
+ */
 #define _GNU_SOURCE
 #include <pthread.h>
 #include <unistd.h>
