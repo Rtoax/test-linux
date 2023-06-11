@@ -10,7 +10,7 @@ TARGETS += pthread_cancel pthread_testcancel pthread_setcancelstate
 TARGETS += pthread_create
 TARGETS += pthread_create-deadline
 TARGETS += pthread_exit
-TARGETS += pthread_key_create
+TARGETS += pthread_key_create pthread_setspecific
 TARGETS += pthread_join-coredump
 TARGETS += pthread_join
 TARGETS += pthread_getname_np pthread_setname_np
@@ -54,6 +54,7 @@ pthread_join: pthread_join.o
 pthread_getname_np: pthread_getname_np.o
 pthread_setname_np: pthread_setname_np.o
 pthread_self: pthread_self.o
+pthread_setspecific: pthread_setspecific.o
 pthread_once: pthread_once.o
 pthread_yield: pthread_yield.o
 tls: tls.o
@@ -75,4 +76,4 @@ test: ${TARGETS}
 
 clean:
 	@echo -e "Clean   \033[1;32m$(@)\033[m"
-	@rm -f ${TARGETS} *.o *.d
+	@rm -f ${TARGETS} *.o *.d *.log
