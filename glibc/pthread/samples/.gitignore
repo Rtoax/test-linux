@@ -1,6 +1,7 @@
 /create_thread
 /dead_lock
 /pthread_attr_setstacksize
+/pthread_attr_setstack-[0-9]
 /pthread_cancel
 /pthread_setcancelstate
 /pthread_testcancel

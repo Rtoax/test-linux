@@ -2,6 +2,9 @@
 TARGETS += create_thread
 TARGETS += dead_lock
 TARGETS += pthread_attr_setstacksize
+TARGETS += pthread_attr_setstack-1
+TARGETS += pthread_attr_setstack-2
+TARGETS += pthread_attr_setstack-3
 TARGETS += pthread_cancel pthread_testcancel pthread_setcancelstate
 TARGETS += pthread_create
 TARGETS += pthread_create-deadline
@@ -17,6 +20,7 @@ SRC_PATH := $(shell pwd)
 CC = gcc
 
 CFLAGS := -Werror -Wall -pthread
+CFLAGS += -I../../../
 
 ifdef DEBUG
 CFLAGS += -DDEBUG -O0 -g
@@ -30,6 +34,9 @@ build: ${TARGETS}
 create_thread: create_thread.o
 dead_lock: dead_lock.o
 pthread_attr_setstacksize: pthread_attr_setstacksize.o
+pthread_attr_setstack-1: pthread_attr_setstack-1.o
+pthread_attr_setstack-2: pthread_attr_setstack-2.o
+pthread_attr_setstack-3: pthread_attr_setstack-3.o
 pthread_cancel: pthread_cancel.o
 pthread_testcancel: pthread_testcancel.o
 pthread_setcancelstate: pthread_setcancelstate.o
