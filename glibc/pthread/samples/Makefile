@@ -1,4 +1,5 @@
 
+TARGETS += pthread_atfork
 TARGETS += create_thread
 TARGETS += dead_lock-1
 TARGETS += dead_lock-2
@@ -38,6 +39,7 @@ build: ${TARGETS}
 create_thread: create_thread.o
 dead_lock-1: dead_lock-1.o
 dead_lock-2: dead_lock-2.o
+pthread_atfork: pthread_atfork.o
 pthread_attr_setstacksize: pthread_attr_setstacksize.o
 pthread_attr_setstack-1: pthread_attr_setstack-1.o
 pthread_attr_setstack-2: pthread_attr_setstack-2.o
