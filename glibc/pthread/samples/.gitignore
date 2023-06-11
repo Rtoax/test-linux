@@ -10,6 +10,7 @@
 /pthread_testcancel
 /pthread_cleanup_push
 /pthread_cleanup_push-deadlock
+/pthread_cleanup_push_defer_np
 /pthread_create
 /pthread_create-deadline
 /pthread_exit

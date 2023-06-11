@@ -14,6 +14,7 @@ TARGETS += pthread_create
 TARGETS += pthread_create-deadline
 TARGETS += pthread_cleanup_push
 TARGETS += pthread_cleanup_push-deadlock
+TARGETS += pthread_cleanup_push_defer_np
 TARGETS += pthread_exit
 TARGETS += pthread_key_create pthread_setspecific
 TARGETS += pthread_join-coredump
@@ -55,6 +56,7 @@ pthread_testcancel: pthread_testcancel.o
 pthread_setcancelstate: pthread_setcancelstate.o
 pthread_cleanup_push: pthread_cleanup_push.o
 pthread_cleanup_push-deadlock: pthread_cleanup_push-deadlock.o
+pthread_cleanup_push_defer_np: pthread_cleanup_push_defer_np.o
 pthread_create: pthread_create.o
 pthread_create-deadline: pthread_create-deadline.o
 pthread_exit: pthread_exit.o
