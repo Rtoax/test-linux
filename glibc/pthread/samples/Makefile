@@ -17,7 +17,7 @@ TARGETS += pthread_cleanup_push-deadlock
 TARGETS += pthread_exit
 TARGETS += pthread_key_create pthread_setspecific
 TARGETS += pthread_join-coredump
-TARGETS += pthread_join
+TARGETS += pthread_join pthread_tryjoin_np pthread_timedjoin_np
 TARGETS += pthread_getname_np pthread_setname_np
 TARGETS += pthread_self
 TARGETS += pthread_once
@@ -61,6 +61,8 @@ pthread_exit: pthread_exit.o
 pthread_key_create: pthread_key_create.o
 pthread_join-coredump: pthread_join-coredump.o
 pthread_join: pthread_join.o
+pthread_tryjoin_np: pthread_tryjoin_np.o
+pthread_timedjoin_np: pthread_timedjoin_np.o
 pthread_getname_np: pthread_getname_np.o
 pthread_setname_np: pthread_setname_np.o
 pthread_self: pthread_self.o
