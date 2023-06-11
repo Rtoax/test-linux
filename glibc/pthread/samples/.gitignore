@@ -8,6 +8,7 @@
 /pthread_create
 /pthread_create-deadline
 /pthread_exit
+/pthread_key_create
 /pthread_join-coredump
 /pthread_join
 /pthread_getname_np

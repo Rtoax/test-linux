@@ -10,6 +10,7 @@ TARGETS += pthread_cancel pthread_testcancel pthread_setcancelstate
 TARGETS += pthread_create
 TARGETS += pthread_create-deadline
 TARGETS += pthread_exit
+TARGETS += pthread_key_create
 TARGETS += pthread_join-coredump
 TARGETS += pthread_join
 TARGETS += pthread_getname_np pthread_setname_np
@@ -47,6 +48,7 @@ pthread_setcancelstate: pthread_setcancelstate.o
 pthread_create: pthread_create.o
 pthread_create-deadline: pthread_create-deadline.o
 pthread_exit: pthread_exit.o
+pthread_key_create: pthread_key_create.o
 pthread_join-coredump: pthread_join-coredump.o
 pthread_join: pthread_join.o
 pthread_getname_np: pthread_getname_np.o
