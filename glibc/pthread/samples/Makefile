@@ -1,4 +1,5 @@
 
+TARGETS += create_thread
 TARGETS += pthread_attr_setstacksize
 TARGETS += pthread_cancel pthread_testcancel pthread_setcancelstate
 TARGETS += pthread_create
@@ -25,6 +26,7 @@ build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
 # Add more object.o file
+create_thread: create_thread.o
 pthread_attr_setstacksize: pthread_attr_setstacksize.o
 pthread_cancel: pthread_cancel.o
 pthread_testcancel: pthread_testcancel.o

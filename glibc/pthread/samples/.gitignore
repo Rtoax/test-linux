@@ -1,3 +1,4 @@
+/create_thread
 /pthread_attr_setstacksize
 /pthread_cancel
 /pthread_setcancelstate
