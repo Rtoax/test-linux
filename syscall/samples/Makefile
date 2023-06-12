@@ -44,4 +44,4 @@ test: ${TARGETS}
 clean:
 	@echo -e "Clean   \033[1;32m$(@)\033[m"
 	make -C ioctl clean
-	@rm -f ${TARGETS} *.o *.d *.txt
+	@rm -f ${TARGETS} *.o *.d *.txt nr.h
