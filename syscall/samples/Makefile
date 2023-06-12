@@ -14,10 +14,13 @@ ifdef DEBUG
 CFLAGS += -DDEBUG -O0 -g
 endif
 
-build: ${TARGETS}
+build: nr.h ${TARGETS}
 	@echo
 	make -C ioctl
 	@echo -e " \033[1;33m Done \033[m"
+
+nr.h:
+	$(shell sh nr.sh)
 
 # Add more object.o file
 fallocate: fallocate.o
