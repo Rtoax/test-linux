@@ -1,4 +1,5 @@
 /*.txt
 /fallocate
 /nr
+/openat2
 /pause

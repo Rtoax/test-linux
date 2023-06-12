@@ -1,6 +1,7 @@
 
 TARGETS := fallocate
 TARGETS += nr
+TARGETS += openat2
 TARGETS += pause
 
 DEBUG = yes
@@ -21,6 +22,7 @@ build: ${TARGETS}
 # Add more object.o file
 fallocate: fallocate.o
 nr: nr.o
+openat2: openat2.o
 pause: pause.o
 
 %.d: %.c
