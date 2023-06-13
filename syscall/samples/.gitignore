@@ -5,3 +5,7 @@
 /openat2
 /pause
 /pidfd_open
+/setgid
+/setegid
+/setuid
+/seteuid

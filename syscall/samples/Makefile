@@ -4,6 +4,8 @@ TARGETS += nr
 TARGETS += openat2
 TARGETS += pause
 TARGETS += pidfd_open
+TARGETS += setgid setegid
+TARGETS += setuid seteuid
 
 DEBUG = yes
 SRC_PATH := $(shell pwd)
@@ -29,6 +31,10 @@ nr: nr.o
 openat2: openat2.o
 pause: pause.o
 pidfd_open: pidfd_open.o
+setgid: setgid.o
+setegid: setegid.o
+setuid: setuid.o
+seteuid: seteuid.o
 
 %.d: %.c
 	@echo -e "Generate \033[1m$(@)\033[m"
