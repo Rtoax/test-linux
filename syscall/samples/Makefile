@@ -6,6 +6,7 @@ TARGETS += pause
 TARGETS += pidfd_open
 TARGETS += setgid setegid
 TARGETS += setuid seteuid
+TARGETS += inotify_init
 
 DEBUG = yes
 SRC_PATH := $(shell pwd)
@@ -35,6 +36,8 @@ setgid: setgid.o
 setegid: setegid.o
 setuid: setuid.o
 seteuid: seteuid.o
+inotify_init: inotify_init.o
+
 
 %.d: %.c
 	@echo -e "Generate \033[1m$(@)\033[m"
