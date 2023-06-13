@@ -4,3 +4,4 @@
 /nr.h
 /openat2
 /pause
+/pidfd_open

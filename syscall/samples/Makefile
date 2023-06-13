@@ -3,6 +3,7 @@ TARGETS := fallocate
 TARGETS += nr
 TARGETS += openat2
 TARGETS += pause
+TARGETS += pidfd_open
 
 DEBUG = yes
 SRC_PATH := $(shell pwd)
@@ -27,6 +28,7 @@ fallocate: fallocate.o
 nr: nr.o
 openat2: openat2.o
 pause: pause.o
+pidfd_open: pidfd_open.o
 
 %.d: %.c
 	@echo -e "Generate \033[1m$(@)\033[m"
