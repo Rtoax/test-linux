@@ -1,5 +1,6 @@
 
 TARGETS := eventfd
+TARGETS += lt et
 
 DEBUG = yes
 SRC_PATH := $(shell pwd)
@@ -12,15 +13,14 @@ ifdef DEBUG
 CFLAGS += -DDEBUG -O0 -g
 endif
 
-build: nr.h ${TARGETS}
+build: ${TARGETS}
 	@echo
 	@echo -e " \033[1;33m Done \033[m"
 
-nr.h:
-	$(shell sh nr.sh)
-
 # Add more object.o file
 eventfd: eventfd.o
+lt: lt.o
+et: et.o
 
 %.d: %.c
 	@echo -e "Generate \033[1m$(@)\033[m"
