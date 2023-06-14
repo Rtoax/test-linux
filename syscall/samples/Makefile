@@ -6,6 +6,7 @@ TARGETS += pause
 TARGETS += pidfd_open
 TARGETS += setgid setegid
 TARGETS += setuid seteuid
+TARGETS += sched_getaffinity
 TARGETS += inotify_init
 
 DEBUG = yes
@@ -13,6 +14,7 @@ SRC_PATH := $(shell pwd)
 CC = gcc
 
 CFLAGS := -Werror -Wall -D_GNU_SOURCE
+CFLAGS += -I../../
 
 ifdef DEBUG
 CFLAGS += -DDEBUG -O0 -g
@@ -36,6 +38,7 @@ setgid: setgid.o
 setegid: setegid.o
 setuid: setuid.o
 seteuid: seteuid.o
+sched_getaffinity: sched_getaffinity.o
 inotify_init: inotify_init.o
 
 

@@ -9,4 +9,5 @@
 /setegid
 /setuid
 /seteuid
+/sched_getaffinity
 /inotify_init
