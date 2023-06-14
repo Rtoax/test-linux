@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <ctype.h>
 
 static void __attribute__((unused))
 memshow(const char *prefix, void *ptr, ssize_t size)
