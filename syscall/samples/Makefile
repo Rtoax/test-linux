@@ -24,6 +24,7 @@ build: nr.h ${TARGETS}
 	@echo
 	make -C ioctl
 	make -C epoll
+	make -C prctl
 	@echo -e " \033[1;33m Done \033[m"
 
 nr.h:
@@ -63,4 +64,5 @@ clean:
 	@echo -e "Clean   \033[1;32m$(@)\033[m"
 	make -C ioctl clean
 	make -C epoll clean
+	make -C prctl clean
 	@rm -f ${TARGETS} *.o *.d *.txt nr.h
