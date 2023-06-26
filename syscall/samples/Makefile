@@ -9,6 +9,12 @@ TARGETS += setuid seteuid
 TARGETS += sched_getaffinity
 TARGETS += inotify_init
 
+ifeq ($(shell uname -m),x86_64)
+endif
+ifeq ($(shell uname -m),aarch64)
+# TODO: Remove openat2 from TARGETS
+endif
+
 DEBUG = yes
 SRC_PATH := $(shell pwd)
 CC = gcc
