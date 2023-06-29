@@ -19,8 +19,8 @@ echo "Build..."
 
 
 %install
-mkdir -p $RPM_BUILD_ROOT/boot
-dd if=/dev/zero of=$RPM_BUILD_ROOT/boot/initramfs-%{InitramfsVersion}.img bs=1M count=20
+mkdir -p $RPM_BUILD_ROOT/home/rongtao/
+dd if=/dev/zero of=$RPM_BUILD_ROOT/home/rongtao/initramfs-%{InitramfsVersion}.img bs=1M count=20
 
 
 %post
@@ -28,7 +28,7 @@ echo "post..."
 
 
 %files
-%ghost /boot/initramfs-%{InitramfsVersion}.img
+%ghost /home/rongtao/initramfs-%{InitramfsVersion}.img
 
 
 %changelog
