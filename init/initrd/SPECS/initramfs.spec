@@ -28,6 +28,7 @@ echo "post..."
 
 
 %files
+# ghost: not included in rpm package, but in rpm record metadata.
 %ghost /home/rongtao/initramfs-%{InitramfsVersion}.img
 
 
