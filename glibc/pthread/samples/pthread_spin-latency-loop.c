@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include <stdint.h>
 
+#include "log.h"
+
 
 pthread_spinlock_t spinlock, spinlock2;
 
@@ -25,7 +27,7 @@ unsigned long get_nsec(void)
 
 void* task_hold_spin(void* unused)
 {
-	printf("task_hold_spin.\n");
+	log_child("task_hold_spin.\n");
 	pthread_spin_lock(&spinlock2);
 
 	while (1) {
@@ -44,7 +46,7 @@ void* task_hold_spin(void* unused)
 
 void* task_get_spin(void* unused)
 {
-	printf("task_get_spin.\n");
+	log_child("task_get_spin.\n");
 
 	while (1) {
 		pthread_spin_lock(&spinlock2);
@@ -53,7 +55,7 @@ void* task_get_spin(void* unused)
 		total_num++;
 
 		if (total_num % 10000 == 0) {
-			printf("latency. per \033[1;31m%lf ns\033[m, msgs (total %ld).\n",
+			log_child("latency. per \033[1;31m%lf ns\033[m, msgs (total %ld).\n",
 				total_latency * 1.0 / total_num, total_num);
 		}
 

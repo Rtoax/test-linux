@@ -1,6 +1,8 @@
 #include <pthread.h>
 #include <stdio.h>
 
+#include "log.h"
+
 
 void* test_task_fn(void* unused)
 {
@@ -11,7 +13,7 @@ void* test_task_fn(void* unused)
 
 	ret = pthread_equal(pthread_self(), threadid);
 	if (ret) {
-		printf("equal.\n");
+		log_child("equal.\n");
 	}
 
 	pthread_exit(&threadid);
@@ -30,7 +32,7 @@ int main(void)
 
 	eret = pthread_equal(pthread_self(), *threadid_child);
 	if (eret == 0) {
-		printf("non-equal.\n");
+		log_parent("non-equal.\n");
 	}
 
 	return 0;

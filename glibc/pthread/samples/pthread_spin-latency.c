@@ -3,6 +3,8 @@
 #include <unistd.h>
 #include <time.h>
 
+#include "log.h"
+
 
 pthread_spinlock_t spinlock;
 volatile unsigned long ticks_start = 0;
@@ -20,7 +22,7 @@ unsigned long get_nsec(void)
 
 void* task_hold_spin(void* unused)
 {
-	printf("task_hold_spin.\n");
+	log_child("task_hold_spin.\n");
 
 	pthread_spin_lock(&spinlock);
 
@@ -35,7 +37,7 @@ void* task_hold_spin(void* unused)
 
 void* task_get_spin(void* unused)
 {
-	printf("task_get_spin.\n");
+	log_child("task_get_spin.\n");
 
 	sleep(1);
 	pthread_spin_lock(&spinlock);
@@ -62,7 +64,7 @@ int main(void)
 
 	pthread_spin_destroy(&spinlock);
 
-	printf("Latency %ld ns\n", ticks_end - ticks_start);
+	log_parent("Latency %ld ns\n", ticks_end - ticks_start);
 
 	return 0;
 }

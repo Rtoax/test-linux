@@ -1,6 +1,8 @@
 #include <pthread.h>
 #include <stdio.h>
 
+#include "log.h"
+
 
 pthread_spinlock_t spinlock;
 
@@ -9,7 +11,7 @@ void* test_task_fn(void* unused)
 {
 	pthread_spin_lock(&spinlock);
 
-	printf("test_task_fn %ld.\n", pthread_self());
+	log_child("test_task_fn %ld.\n", pthread_self());
 
 	pthread_spin_unlock(&spinlock);
 
