@@ -13,6 +13,7 @@
 /pthread_cleanup_push_defer_np
 /pthread_create
 /pthread_create-deadline
+/pthread_equal
 /pthread_exit
 /pthread_key_create
 /pthread_join-coredump
