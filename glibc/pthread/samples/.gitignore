@@ -23,6 +23,9 @@
 /pthread_setname_np
 /pthread_setspecific
 /pthread_setaffinity_np
+/pthread_spin_lock
+/pthread_spin-latency
+/pthread_spin-latency-loop
 /pthread_self
 /pthread_once
 /pthread_yield

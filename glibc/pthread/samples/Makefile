@@ -21,10 +21,15 @@ TARGETS += pthread_join-coredump
 TARGETS += pthread_join pthread_tryjoin_np pthread_timedjoin_np
 TARGETS += pthread_getname_np pthread_setname_np
 TARGETS += pthread_self
+TARGETS += pthread_spin_lock
 TARGETS += pthread_setaffinity_np
 TARGETS += pthread_once
 TARGETS += pthread_yield
 TARGETS += tls
+
+ifeq ($(shell uname -m),x86_64)
+TARGETS += pthread_spin-latency pthread_spin-latency-loop
+endif
 
 DEBUG = yes
 SRC_PATH := $(shell pwd)
@@ -72,6 +77,9 @@ pthread_setname_np: pthread_setname_np.o
 pthread_self: pthread_self.o
 pthread_setspecific: pthread_setspecific.o
 pthread_setaffinity_np: pthread_setaffinity_np.o
+pthread_spin_lock: pthread_spin_lock.o
+pthread_spin-latency: pthread_spin-latency.o
+pthread_spin-latency-loop: pthread_spin-latency-loop.o
 pthread_once: pthread_once.o
 pthread_yield: pthread_yield.o
 tls: tls.o
