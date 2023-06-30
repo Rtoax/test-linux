@@ -4,6 +4,12 @@
 
 #define MY_STACK_SIZE 1024*1024
 
+/* old glibc version don't have this macro
+ * see also /usr/include/bits/pthread_stack_min.h */
+#ifndef PTHREAD_STACK_MIN
+#define PTHREAD_STACK_MIN      131072
+#endif
+
 static void create_rt_thread(void *(*rt_func)(void*))
 {
 	pthread_t thread;
