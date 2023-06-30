@@ -22,13 +22,13 @@ TARGETS += pthread_join pthread_tryjoin_np pthread_timedjoin_np
 TARGETS += pthread_getname_np pthread_setname_np
 TARGETS += pthread_self
 TARGETS += pthread_spin_lock
+TARGETS += pthread_spin-latency pthread_spin-latency-loop
 TARGETS += pthread_setaffinity_np
 TARGETS += pthread_once
 TARGETS += pthread_yield
 TARGETS += tls
 
 ifeq ($(shell uname -m),x86_64)
-TARGETS += pthread_spin-latency pthread_spin-latency-loop
 endif
 
 DEBUG = yes

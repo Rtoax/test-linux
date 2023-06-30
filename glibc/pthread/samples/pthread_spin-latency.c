@@ -1,47 +1,32 @@
 #include <pthread.h>
 #include <stdio.h>
 #include <unistd.h>
+#include <time.h>
 
 
 pthread_spinlock_t spinlock;
 volatile unsigned long ticks_start = 0;
 volatile unsigned long ticks_end = 0;
 
-static struct cpu_freq {
-	enum {CPU_3GMHZ, CPU_2_7GMHZ,}index;
-	unsigned long freq;
-	char *string;
-} __attribute__((unused)) CPU_MHZ[] = {
-	{CPU_3GMHZ, 3000000000, "3GMHz"},
-	{CPU_2_7GMHZ, 2700000000, "2.7GMHz"},
-};
 
-unsigned long get_x84_64_ticks(void)
+unsigned long get_nsec(void)
 {
-	unsigned long ret;
-	union {
-		unsigned long tsc_64;
-		struct {
-			unsigned int lo_32;
-			unsigned int hi_32;
-		};
-	} tsc;
-	__asm volatile("rdtsc" :
-			 "=a" (tsc.lo_32),
-			 "=d" (tsc.hi_32));
-	 ret = ((unsigned long)tsc.tsc_64);
-	 return ret;
-}
+	struct timespec t;
 
+	clock_gettime(CLOCK_REALTIME, &t);
+
+	return t.tv_sec * 1000000000UL + t.tv_nsec;
+}
 
 void* task_hold_spin(void* unused)
 {
 	printf("task_hold_spin.\n");
+
 	pthread_spin_lock(&spinlock);
 
 	sleep(1);
 
-	ticks_start = get_x84_64_ticks();
+	ticks_start = get_nsec();
 
 	pthread_spin_unlock(&spinlock);
 	pthread_exit(NULL);
@@ -54,7 +39,8 @@ void* task_get_spin(void* unused)
 
 	sleep(1);
 	pthread_spin_lock(&spinlock);
-	ticks_end = get_x84_64_ticks();
+
+	ticks_end = get_nsec();
 
 	pthread_spin_unlock(&spinlock);
 
@@ -76,7 +62,7 @@ int main(void)
 
 	pthread_spin_destroy(&spinlock);
 
-	printf("Latency = %lf ms\n", (ticks_end-ticks_start) * 1.0 / CPU_MHZ[CPU_2_7GMHZ].freq * 1000.0);
+	printf("Latency %ld ns\n", ticks_end - ticks_start);
 
 	return 0;
 }
