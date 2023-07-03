@@ -1,1 +1,0 @@
-../../../perf/trace/opensnoop.sh
