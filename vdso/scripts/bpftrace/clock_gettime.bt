@@ -1,6 +1,6 @@
 #!/usr/bin/env bpftrace
 /**
- * clock_gettime.bt - get clock_gettime() latancy
+ * clock_gettime.bt - get clock_gettime() latency
  *
  * Copyright (C) CESTC, Co.
  *
@@ -22,7 +22,7 @@ uretprobe:/lib64/libc.so.6:clock_gettime
 / @start[tid] /
 {
 	$latency_us = (nsecs - @start[tid]) / 1000;
-	@graph_latancy_us = hist($latency_us);
+	@graph_latency_us = hist($latency_us);
 	delete(@start[tid]);
 }
 
