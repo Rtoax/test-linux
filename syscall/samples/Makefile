@@ -1,5 +1,6 @@
 
 TARGETS := fallocate
+TARGETS += getrlimit
 TARGETS += nr
 TARGETS += openat2
 TARGETS += pause
@@ -38,6 +39,7 @@ nr.h:
 
 # Add more object.o file
 fallocate: fallocate.o
+getrlimit: getrlimit.o
 nr: nr.o
 openat2: openat2.o
 pause: pause.o
