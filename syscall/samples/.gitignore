@@ -6,6 +6,7 @@
 /openat2
 /pause
 /pidfd_open
+/readlink
 /setgid
 /setegid
 /setuid
