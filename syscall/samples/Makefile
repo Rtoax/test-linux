@@ -6,6 +6,7 @@ TARGETS += openat2
 TARGETS += pause
 TARGETS += pidfd_open
 TARGETS += readlink
+TARGETS += getpid
 TARGETS += setgid setegid
 TARGETS += setuid seteuid
 TARGETS += sched_getaffinity
@@ -46,6 +47,7 @@ openat2: openat2.o
 pause: pause.o
 pidfd_open: pidfd_open.o
 readlink: readlink.o
+getpid: getpid.o
 setgid: setgid.o
 setegid: setegid.o
 setuid: setuid.o
