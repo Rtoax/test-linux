@@ -6,6 +6,7 @@ TARGETS += openat2
 TARGETS += pause
 TARGETS += pidfd_open
 TARGETS += readlink
+TARGETS += getcwd
 TARGETS += getpid
 TARGETS += setgid setegid
 TARGETS += setuid seteuid
@@ -48,6 +49,7 @@ openat2: openat2.o
 pause: pause.o
 pidfd_open: pidfd_open.o
 readlink: readlink.o
+getcwd: getcwd.o
 getpid: getpid.o
 setgid: setgid.o
 setegid: setegid.o
