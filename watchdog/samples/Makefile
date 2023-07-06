@@ -1,10 +1,9 @@
 
-TARGETS= \
-	watchdog-simple.out
+TARGETS := watchdog-simple.out
 
 DEBUG = yes
 SRC_PATH := $(shell pwd)
-CC = clang
+CC = gcc
 
 CFLAGS :=
 
