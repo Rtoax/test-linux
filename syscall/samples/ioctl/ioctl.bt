@@ -8,6 +8,13 @@
 #define TIOCGWINSZ  0x5413
 #define TIOCSWINSZ  0x5414
 
+struct winsize {
+	unsigned short ws_row;
+	unsigned short ws_col;
+	unsigned short ws_xpixel;
+	unsigned short ws_ypixel;
+};
+
 BEGIN
 {
 	/* FIXME: add more */
@@ -25,9 +32,15 @@ tracepoint:syscalls:sys_enter_ioctl
 
 	time("%H:%M:%S ");
 	printf("%-8d %-16s %-8d %-8s\n", pid, comm, $fd, @cmd_str[$cmd]);
+
+	if ($cmd == TIOCSWINSZ) {
+		$winsz = (struct winsize *)args->arg;
+		printf("TIOCSWINSZ: %dx%d\n", $winsz->ws_row, $winsz->ws_col);
+	}
 }
 
 END
 {
+	clear(@cmd_str);
 	printf("Bye.\n");
 }
