@@ -94,3 +94,6 @@ __pycache__
 *.raw
 *.iso
 *.img
+
+# Coredump
+core-*
