@@ -1,5 +1,6 @@
 /*.txt
 /fallocate
+/faccessat2
 /getrlimit
 /nr
 /nr.h
