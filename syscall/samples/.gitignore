@@ -4,6 +4,7 @@
 /nr
 /nr.h
 /openat2
+/opendir
 /pause
 /pidfd_open
 /readlink
