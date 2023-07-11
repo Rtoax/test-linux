@@ -4,6 +4,7 @@
 /getrlimit
 /nr
 /nr.h
+/open
 /openat2
 /opendir
 /pause

@@ -3,7 +3,7 @@ TARGETS := fallocate
 TARGETS += faccessat2
 TARGETS += getrlimit
 TARGETS += nr
-TARGETS += openat2
+TARGETS += open openat2
 TARGETS += opendir
 TARGETS += pause
 TARGETS += pidfd_open
@@ -49,6 +49,7 @@ fallocate: fallocate.o
 faccessat2: faccessat2.o
 getrlimit: getrlimit.o
 nr: nr.o
+open: open.o
 openat2: openat2.o
 opendir: opendir.o
 pause: pause.o
