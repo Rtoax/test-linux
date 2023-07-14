@@ -15,11 +15,26 @@ kretprobe:__sys_socket
 {
 	$fd = retval;
 
+	@fds[comm, $fd] = 1;
+
 	time("%H:%M:%S ");
 	printf("%-8d %-8d %-8s\n", pid, $fd, comm);
 }
 
+tracepoint:syscalls:sys_enter_close
+{
+	$fd = args->fd;
+
+	if (@fds[comm, $fd] == 1) {
+		@fds[comm, $fd] = 0;
+
+		time("%H:%M:%S ");
+		printf("%-8d %-8d %-8s CLOSE\n", pid, $fd, comm);
+	}
+}
+
 END
 {
+	clear(@fds);
 	printf("Bye.\n");
 }
