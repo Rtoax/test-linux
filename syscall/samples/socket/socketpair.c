@@ -18,7 +18,7 @@ int main(int argc, char* argv[])
 	pid_t pid;
 
 
-	if (socketpair(AF_UNIX, SOCK_STREAM, 0, socket_pair) == -1 ) {
+	if (socketpair(AF_UNIX, SOCK_STREAM | SOCK_SEQPACKET, 0, socket_pair) == -1 ) {
 		printf("Error, socketpair create failed, errno(%d): %s\n",
 			errno, strerror(errno));
 		return EXIT_FAILURE;
