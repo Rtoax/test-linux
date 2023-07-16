@@ -1,6 +1,7 @@
 
 TARGETS += vasprintf
 TARGETS += vfprintf
+TARGETS += vsprintf
 
 ifeq ($(shell uname -m),x86_64)
 endif
@@ -24,6 +25,7 @@ build: ${TARGETS}
 # Add more object.o file
 vasprintf: vasprintf.o
 vfprintf: vfprintf.o
+vsprintf: vsprintf.o
 
 %.d: %.c
 	@echo -e "Generate \033[1m$(@)\033[m"
