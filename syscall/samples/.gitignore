@@ -1,7 +1,7 @@
 /*.txt
 /fallocate
 /faccessat2
-/getrlimit
+/[g|s]etrlimit
 /nr
 /nr.h
 /open
@@ -20,5 +20,4 @@
 /inotify_init
 /tee
 /tee2
-/maxfd
 /os-release

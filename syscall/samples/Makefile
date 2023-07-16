@@ -1,7 +1,7 @@
 
 TARGETS := fallocate
 TARGETS += faccessat2
-TARGETS += getrlimit
+TARGETS += getrlimit setrlimit
 TARGETS += nr
 TARGETS += open openat2
 TARGETS += opendir
@@ -15,7 +15,6 @@ TARGETS += setuid seteuid
 TARGETS += sched_getaffinity
 TARGETS += inotify_init
 TARGETS += tee tee2
-TARGETS += maxfd
 
 ifeq ($(shell uname -m),x86_64)
 endif
@@ -49,6 +48,7 @@ nr.h:
 fallocate: fallocate.o
 faccessat2: faccessat2.o
 getrlimit: getrlimit.o
+setrlimit: setrlimit.o
 nr: nr.o
 open: open.o
 openat2: openat2.o
@@ -66,7 +66,6 @@ sched_getaffinity: sched_getaffinity.o
 inotify_init: inotify_init.o
 tee: tee.o
 tee2: tee2.o
-maxfd: maxfd.o
 
 %.d: %.c
 	@echo -e "Generate \033[1m$(@)\033[m"
