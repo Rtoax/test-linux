@@ -17,6 +17,7 @@ kretprobe:__sys_socket
 {
 	$fd = retval;
 
+	@start[tid] = nsecs;
 	@fds[pid, comm, $fd] = 1;
 
 	time("%H:%M:%S ");
@@ -24,8 +25,14 @@ kretprobe:__sys_socket
 }
 
 tracepoint:syscalls:sys_enter_close
+/ @start[tid] /
 {
 	$fd = args->fd;
+
+	$usecs = (nsecs - @start[tid]) / 1000;
+	delete(@start[tid]);
+
+	@latency_us = hist($usecs);
 
 	if (@fds[pid, comm, $fd] == 1) {
 		@fds[pid, comm, $fd] = 0;
@@ -38,5 +45,6 @@ tracepoint:syscalls:sys_enter_close
 END
 {
 	clear(@fds);
+	clear(@start);
 	printf("Bye.\n");
 }
