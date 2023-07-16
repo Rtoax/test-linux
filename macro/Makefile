@@ -4,6 +4,7 @@ TARGETS += alias
 TARGETS += arch
 TARGETS += bit
 TARGETS += likely
+TARGETS += log
 TARGETS += offsetof
 
 DEBUG = yes
@@ -25,6 +26,7 @@ arch: arch.o
 alias: alias.o
 bit: bit.o
 likely: likely.o
+log: log.o
 offsetof: offsetof.o
 
 %.d: %.c
