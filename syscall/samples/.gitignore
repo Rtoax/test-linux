@@ -20,4 +20,5 @@
 /inotify_init
 /tee
 /tee2
+/maxfd
 /os-release

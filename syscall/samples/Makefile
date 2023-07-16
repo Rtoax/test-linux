@@ -15,6 +15,7 @@ TARGETS += setuid seteuid
 TARGETS += sched_getaffinity
 TARGETS += inotify_init
 TARGETS += tee tee2
+TARGETS += maxfd
 
 ifeq ($(shell uname -m),x86_64)
 endif
@@ -65,6 +66,7 @@ sched_getaffinity: sched_getaffinity.o
 inotify_init: inotify_init.o
 tee: tee.o
 tee2: tee2.o
+maxfd: maxfd.o
 
 %.d: %.c
 	@echo -e "Generate \033[1m$(@)\033[m"
