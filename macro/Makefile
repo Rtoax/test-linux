@@ -1,5 +1,6 @@
 
 TARGETS :=
+TARGETS += align
 TARGETS += alias
 TARGETS += arch
 TARGETS += bit
@@ -23,6 +24,7 @@ build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
 arch: arch.o
+align: align.o
 alias: alias.o
 bit: bit.o
 likely: likely.o
