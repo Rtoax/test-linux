@@ -13,11 +13,11 @@
 int main(int argc, const char *argv[])
 {
 	const char *ip = "127.0.0.1";
-	int sock;
+	int sock, option;
 	int port = 1234;
 	char recvbuf[BUFFER_SIZE], sendbuf[BUFFER_SIZE];
 	struct sockaddr_in address, client;
-	socklen_t len;
+	socklen_t len, optlen;
 	int ret, connfd;
 
 
@@ -31,6 +31,10 @@ int main(int argc, const char *argv[])
 	assert(sock >= 0);
 
 	len = sizeof(recvbuf);
+
+	option = 1;
+	optlen = sizeof(option);
+	setsockopt(sock, SOL_SOCKET, SO_REUSEADDR, &option, optlen);
 
 	setsockopt(sock, SOL_SOCKET, SO_RCVBUF, &recvbuf, sizeof(recvbuf));
 	getsockopt(sock, SOL_SOCKET, SO_RCVBUF, &recvbuf, (socklen_t *)&len);
