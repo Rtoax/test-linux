@@ -1,5 +1,7 @@
 
 TARGETS := socketpair
+TARGETS += getsockopt
+TARGETS += setsockopt
 
 ifeq ($(shell uname -m),x86_64)
 endif
@@ -23,6 +25,8 @@ build: ${TARGETS}
 
 # Add more object.o file
 socketpair: socketpair.o
+getsockopt: getsockopt.o
+setsockopt: setsockopt.o
 
 
 %.d: %.c
