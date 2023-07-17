@@ -1,0 +1,106 @@
+#!/bin/env bpftrace
+/**
+ * socket.bt - Tracing socket(2) syscall
+ *
+ * Copyright (C) CESTC, Co. 2022-2023
+ *
+ * 2023-07-14   Rong Tao	Create this.
+ * 2023-07-17   Rong Tao	Tracing setsockopt()
+ */
+#define SO_ACCEPTCONN 30
+#define SO_BROADCAST 6
+#define SO_DONTROUTE 5
+#define SO_ERROR 4
+#define SO_KEEPALIVE 9
+#define SO_LINGER 13
+#define SO_OOBINLINE 10
+#define SO_RCVBUF 8
+#define SO_RCVLOWAT 18
+#define SO_REUSEADDR 2
+#define SO_SNDBUF 7
+#define SO_SNDLOWAT 19
+#define SO_TYPE 3
+
+BEGIN
+{
+	if ($# < 1) {
+		printf("ERROR: Must specify [pid]\n");
+		exit();
+	}
+
+	printf("Tracing socket(2) syscall, hit ctrl-c to end.\n");
+	printf("%-8s %-8s %-8s %-32s %-16s %-8s\n",
+		"TIME", "PID", "FD", "COMM", "NSECS", "EVENT");
+
+	@optnames[SO_ACCEPTCONN] = "SO_ACCEPTCONN";
+	@optnames[SO_BROADCAST] = "SO_BROADCAST";
+	@optnames[SO_DONTROUTE] = "SO_DONTROUTE";
+	@optnames[SO_ERROR] = "SO_ERROR";
+	@optnames[SO_KEEPALIVE] = "SO_KEEPALIVE";
+	@optnames[SO_LINGER] = "SO_LINGER";
+	@optnames[SO_OOBINLINE] = "SO_OOBINLINE";
+	@optnames[SO_RCVBUF] = "SO_RCVBUF";
+	@optnames[SO_RCVLOWAT] = "SO_RCVLOWAT";
+	@optnames[SO_REUSEADDR] = "SO_REUSEADDR";
+	@optnames[SO_SNDBUF] = "SO_SNDBUF";
+	@optnames[SO_SNDLOWAT] = "SO_SNDLOWAT";
+	@optnames[SO_TYPE] = "SO_TYPE";
+}
+
+kretprobe:__sys_socket
+{
+	if (pid == $1) {
+		$fd = retval;
+
+		time("%H:%M:%S ");
+		printf("%-8d %-8d %-32s %-16ld %-8s\n",
+			pid, $fd, comm, nsecs, "OPEN");
+	}
+}
+
+kprobe:__sys_setsockopt
+{
+	if (pid == $1) {
+		$fd = arg0;
+		$optname = arg2;
+
+		time("%H:%M:%S ");
+		printf("%-8d %-8d %-32s %-16ld %-8s\n",
+			pid, $fd, comm, nsecs, @optnames[$optname]);
+
+		@record_optname[tid] = $optname;
+	}
+}
+
+kretprobe:__sys_setsockopt
+/ @record_optname[tid] /
+{
+	if (pid == $1) {
+
+		$optname = @record_optname[tid];
+
+		time("%H:%M:%S ");
+		printf("%-8d %-8d %-32s %-16ld %-8s %d\n",
+			pid, -1, comm, nsecs, @optnames[$optname], retval);
+
+		delete(@record_optname[tid]);
+	}
+}
+
+tracepoint:syscalls:sys_enter_close
+{
+	if (pid == $1) {
+		$fd = args->fd;
+
+		time("%H:%M:%S ");
+		printf("%-8d %-8d %-32s %-16ld %-8s\n",
+			pid, $fd, comm, nsecs, "CLOSE");
+	}
+}
+
+END
+{
+	clear(@optnames);
+	printf("Bye.\n");
+}
+
