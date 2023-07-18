@@ -106,5 +106,5 @@ clean:
 	make -C prctl clean
 	make -C socket clean
 	@rm -f ${TARGETS} ${TARGETS_CPP} \
-		*.o *.d *.txt nr.h *.out
+		*.o *.d *.opp *.dpp *.txt nr.h *.out
 
