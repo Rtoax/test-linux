@@ -16,6 +16,8 @@ TARGETS += sched_getaffinity
 TARGETS += inotify_init
 TARGETS += tee tee2
 
+TARGETS_CPP += readlink2
+
 ifeq ($(shell uname -m),x86_64)
 endif
 ifeq ($(shell uname -m),aarch64)
@@ -25,6 +27,7 @@ endif
 DEBUG = yes
 SRC_PATH := $(shell pwd)
 CC = gcc
+CXX = g++
 
 CFLAGS := -Werror -Wall -D_GNU_SOURCE
 CFLAGS += -I../../
@@ -33,7 +36,7 @@ ifdef DEBUG
 CFLAGS += -DDEBUG -O0 -g
 endif
 
-build: nr.h ${TARGETS}
+build: nr.h ${TARGETS} ${TARGETS_CPP}
 	@echo
 	make -C ioctl
 	make -C epoll
@@ -56,6 +59,7 @@ opendir: opendir.o
 pause: pause.o
 pidfd_open: pidfd_open.o
 readlink: readlink.o
+readlink2: readlink2.opp
 getcwd: getcwd.o
 getpid: getpid.o
 setgid: setgid.o
@@ -71,13 +75,25 @@ tee2: tee2.o
 	@echo -e "Generate \033[1m$(@)\033[m"
 	@$(CC) $(CFLAGS) -MM -MF "$@" -MG -MP -MT"$@" -MT"$(<:.c=.o)" $(<)
 
+%.dpp: %.cpp
+	@echo -e "Generate \033[1m$(@)\033[m"
+	@$(CXX) $(CFLAGS) -MM -MF "$@" -MG -MP -MT"$@" -MT"$(<:.c=.o)" $(<)
+
 %.o: %.c %.d
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
 
+%.opp: %.cpp %.dpp
+	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
+	@$(CXX) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
+
 $(TARGETS): %:
 	@echo -e "Target   \033[1;32m$(@)\033[m"
 	@$(CC) $(CFLAGS) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
+
+$(TARGETS_CPP): %:
+	@echo -e "Target   \033[1;32m$(@)\033[m"
+	@$(CXX) $(CFLAGS) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
@@ -89,4 +105,6 @@ clean:
 	make -C epoll clean
 	make -C prctl clean
 	make -C socket clean
-	@rm -f ${TARGETS} *.o *.d *.txt nr.h readlink.out
+	@rm -f ${TARGETS} ${TARGETS_CPP} \
+		*.o *.d *.txt nr.h *.out
+

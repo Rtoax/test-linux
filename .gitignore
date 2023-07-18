@@ -9,10 +9,12 @@ build/
 
 # Object files
 *.o
+*.opp
 *.obj
 *.elf
 *.out
 *.d
+*.dpp
 
 # Precompiled Headers
 *.gch

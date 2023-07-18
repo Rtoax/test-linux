@@ -10,6 +10,7 @@
 /pause
 /pidfd_open
 /readlink
+/readlink[0-9]
 /getcwd
 /getpid
 /setgid
