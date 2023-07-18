@@ -1,6 +1,7 @@
 /*.txt
 /fallocate
 /faccessat2
+/fdopen
 /[g|s]etrlimit
 /nr
 /nr.h

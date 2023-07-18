@@ -1,6 +1,7 @@
 
 TARGETS := fallocate
 TARGETS += faccessat2
+TARGETS += fdopen
 TARGETS += getrlimit setrlimit
 TARGETS += nr
 TARGETS += open openat2
@@ -50,6 +51,7 @@ nr.h:
 # Add more object.o file
 fallocate: fallocate.o
 faccessat2: faccessat2.o
+fdopen: fdopen.o
 getrlimit: getrlimit.o
 setrlimit: setrlimit.o
 nr: nr.o
@@ -106,5 +108,6 @@ clean:
 	make -C prctl clean
 	make -C socket clean
 	@rm -f ${TARGETS} ${TARGETS_CPP} \
-		*.o *.d *.opp *.dpp *.txt nr.h *.out
+		*.o *.d *.opp *.dpp *.txt nr.h *.out \
+		*.txt
 

@@ -2,6 +2,7 @@
 #include <limits.h>
 #include <string>
 #include <iostream>
+#include <filesystem>
 
 
 std::string do_readlink(std::string const& path)
@@ -23,6 +24,11 @@ int main(void)
 	std::string link = do_readlink(path);
 
 	std::cout << path << ": " << link << std::endl;
+
+	std::string path2 = "/bin/ls";
+	std::filesystem::path absolutePath = std::filesystem::canonical(path2);
+
+	std::cout << path2 << ": " << absolutePath << std::endl;
 
 	return 0;
 }
