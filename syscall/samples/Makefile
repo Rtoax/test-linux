@@ -89,4 +89,4 @@ clean:
 	make -C epoll clean
 	make -C prctl clean
 	make -C socket clean
-	@rm -f ${TARGETS} *.o *.d *.txt nr.h
+	@rm -f ${TARGETS} *.o *.d *.txt nr.h readlink.out
