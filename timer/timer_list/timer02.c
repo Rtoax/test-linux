@@ -1,9 +1,10 @@
 /**
  * [Question]  softlockup in run_timer_softirq
  *
- * insmod timer_test.ko size=1000 interval=100 dt=200
+ * insmod timer_test.ko nr=1000 interval=100 dt=200
  *
  * ref: https://lore.kernel.org/lkml/fb8d80434b2148e78c0032c6c70a8b4d@huawei.com/
+ * ref: https://blog.csdn.net/dog250/article/details/104997385
  */
 #include <linux/module.h>
 #include <linux/slab.h>
@@ -11,17 +12,17 @@
 
 static int stop = 1;
 
-// timer num
-static int size = 1000;
-module_param(size, int, 0644);
-MODULE_PARM_DESC(size, "size");
+/* number of timer */
+static int nr = 1000;
+module_param(nr, int, 0644);
+MODULE_PARM_DESC(nr, "nr");
 
-// Timeout of the timer
+/* timer's interval */
 static int interval = 100;
 module_param(interval, int, 0644);
 MODULE_PARM_DESC(interval, "");
 
-//elapsed time
+/* elapsed time */
 static int dt = 200;
 module_param(dt, int, 0644);
 MODULE_PARM_DESC(dt, "");
@@ -39,7 +40,8 @@ static void timer_func(struct timer_list *t)
 
 	spin_lock_bh(&(w->lock));
 	if (stop == 0) {
-		udelay(dt); // elapsed time
+		/* i'm busy */
+		udelay(dt);
 	}
 	spin_unlock_bh(&(w->lock));
 
@@ -52,9 +54,9 @@ static int __init maint_init(void)
 {
 	int i;
 
-	wr = (struct wrapper *)kzalloc(size*sizeof(struct wrapper), GFP_KERNEL);
+	wr = (struct wrapper *)kzalloc(nr * sizeof(struct wrapper), GFP_KERNEL);
 
-	for (i = 0; i < size; i++) {
+	for (i = 0; i < nr; i++) {
 		struct wrapper *w = &wr[i];
 		spin_lock_init(&(w->lock));
 		timer_setup(&(w->timer), timer_func, 0);
@@ -71,12 +73,11 @@ static void __exit maint_exit(void)
 
 	stop = 1;
 	udelay(100);
-	for (i = 0; i < size; i++) {
+	for (i = 0; i < nr; i++) {
 		struct wrapper *w = &wr[i];
 		del_timer_sync(&(w->timer));
 	}
 	kfree(wr);
-
 }
 
 module_init(maint_init);
