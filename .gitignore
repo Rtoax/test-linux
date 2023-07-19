@@ -99,3 +99,8 @@ __pycache__
 
 # Coredump
 core-*
+
+# Binary and data
+*.Binary
+*.dat
+*.bin

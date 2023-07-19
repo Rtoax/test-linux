@@ -1,6 +1,7 @@
 
-TARGETS := eventfd
-TARGETS += lt et
+TARGETS := aio_read
+TARGETS += aio_write
+TARGETS += aio_suspend
 
 DEBUG = yes
 SRC_PATH := $(shell pwd)
@@ -18,9 +19,9 @@ build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
 # Add more object.o file
-eventfd: eventfd.o
-lt: lt.o
-et: et.o
+aio_read: aio_read.o
+aio_write: aio_write.o
+aio_suspend: aio_suspend.o
 
 %.d: %.c
 	@echo -e "Generate \033[1m$(@)\033[m"
