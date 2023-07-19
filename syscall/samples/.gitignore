@@ -10,6 +10,7 @@
 /opendir
 /pause
 /pidfd_open
+/pipe
 /readlink
 /readlink[0-9]
 /getcwd

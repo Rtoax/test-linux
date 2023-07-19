@@ -11,6 +11,7 @@ TARGETS += pidfd_open
 TARGETS += readlink
 TARGETS += getcwd
 TARGETS += getpid
+TARGETS += pipe
 TARGETS += setgid setegid
 TARGETS += setuid seteuid
 TARGETS += sched_getaffinity
@@ -60,6 +61,7 @@ openat2: openat2.o
 opendir: opendir.o
 pause: pause.o
 pidfd_open: pidfd_open.o
+pipe: pipe.o
 readlink: readlink.o
 readlink2: readlink2.opp
 getcwd: getcwd.o
