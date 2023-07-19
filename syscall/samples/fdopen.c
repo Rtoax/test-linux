@@ -4,6 +4,7 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <unistd.h>
+#include <errno.h>
 
 
 int main(void)
@@ -20,5 +21,7 @@ int main(void)
 
 	/* Double close: Bad file descriptor */
 	close(fd);
+	if (errno != EBADF)
+		fprintf(stderr, "ERROR: close() should return EBADF here.\n");
 	perror("close");
 }
