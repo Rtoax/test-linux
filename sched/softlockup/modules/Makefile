@@ -1,3 +1,12 @@
+# Copyright (C) Rong Tao @ CESTC
+include /boot/config-$(shell uname -r)
+
+ifeq ($(CONFIG_PREEMPT),y)
+PREEMPT=m
+else
+$(warning WARNING: CONFIG_PREEMPT is not set, these modules will cause soft lockup)
+endif
+
 ifeq ($(shell uname -m),x86_64)
 endif
 ifeq ($(shell uname -m),aarch64)
