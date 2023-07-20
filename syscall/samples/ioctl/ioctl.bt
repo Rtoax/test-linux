@@ -30,6 +30,8 @@ tracepoint:syscalls:sys_enter_ioctl
 	$fd = args->fd;
 	$cmd = args->cmd;
 
+	@start[tid] = nsecs;
+
 	time("%H:%M:%S ");
 	printf("%-8d %-16s %-8d %-8s\n", pid, comm, $fd, @cmd_str[$cmd]);
 
@@ -37,6 +39,15 @@ tracepoint:syscalls:sys_enter_ioctl
 		$winsz = (struct winsize *)args->arg;
 		printf("TIOCSWINSZ: %dx%d\n", $winsz->ws_row, $winsz->ws_col);
 	}
+}
+
+tracepoint:syscalls:sys_exit_ioctl
+/ @start[tid] /
+{
+	$diff_us = (nsecs - @start[tid]) / 1000;
+
+	@latency_us = hist($diff_us);
+	delete(@start[tid]);
 }
 
 END
