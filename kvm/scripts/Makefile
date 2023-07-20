@@ -1,8 +1,7 @@
 
 # Just support x86_64 right now
 ifeq ($(shell uname -m),x86_64)
-TARGETS= \
-	ioctl_values.out
+TARGETS := ioctl_values
 endif
 
 DEBUG = yes
@@ -13,9 +12,11 @@ ifdef DEBUG
 CFLAGS += -DDEBUG -O0 -g
 endif
 
+ioctl_values: ioctl_values.o
+
 build: ${TARGETS}
 	@echo -e "\033[1;32mExamples: \033[m"
-	@echo -e "\033[1;33m./ioctl_values.out 2>/dev/null | awk '{print \"@ioctls[\"\$$3\"] = \"\$$1\";\"}'\033[m"
+	@echo -e "\033[1;33m./ioctl_values 2>/dev/null | awk '{print \"@ioctls[\"\$$3\"] = \"\$$1\";\"}'\033[m"
 
 %.d: %.c
 	@echo -e "Generate \033[1m$(@)\033[m"
