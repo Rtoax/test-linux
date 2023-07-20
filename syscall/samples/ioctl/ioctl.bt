@@ -3,6 +3,9 @@
  * Tracing ioctl(2) syscall
  *
  * Copyright (C) CESTC 2022-2023
+ *
+ * 2023-07-06	Rong Tao	Create this.
+ * 2023-07-20	Rong Tao	Add latency.
  */
 /* see /usr/include/asm-generic/ioctls.h */
 #define TIOCGWINSZ  0x5413
@@ -31,6 +34,7 @@ tracepoint:syscalls:sys_enter_ioctl
 	$cmd = args->cmd;
 
 	@start[tid] = nsecs;
+	@cmds[tid] = $cmd;
 
 	time("%H:%M:%S ");
 	printf("%-8d %-16s %-8d %-8s\n", pid, comm, $fd, @cmd_str[$cmd]);
@@ -46,12 +50,15 @@ tracepoint:syscalls:sys_exit_ioctl
 {
 	$diff_us = (nsecs - @start[tid]) / 1000;
 
-	@latency_us = hist($diff_us);
+	@latency_us[@cmds[tid]] = hist($diff_us);
 	delete(@start[tid]);
+	delete(@cmds[tid]);
 }
 
 END
 {
 	clear(@cmd_str);
+	clear(@start);
+	clear(@cmds);
 	printf("Bye.\n");
 }
