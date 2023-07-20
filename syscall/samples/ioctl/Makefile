@@ -1,6 +1,7 @@
 
 TARGETS := TIOCGWINSZ
 TARGETS += TIOCSWINSZ
+TARGETS += SIOCETHTOOL
 
 DEBUG = yes
 SRC_PATH := $(shell pwd)
@@ -17,6 +18,7 @@ build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
 # Add more object.o file
+SIOCETHTOOL: SIOCETHTOOL.o
 TIOCGWINSZ: TIOCGWINSZ.o
 TIOCSWINSZ: TIOCSWINSZ.o
 
