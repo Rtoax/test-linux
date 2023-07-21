@@ -34,6 +34,7 @@ CXX = g++
 
 CFLAGS := -Werror -Wall -D_GNU_SOURCE
 CFLAGS += -I../../
+CFLAGS += -pthread
 
 ifdef DEBUG
 CFLAGS += -DDEBUG -O0 -g
