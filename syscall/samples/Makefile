@@ -21,6 +21,7 @@ TARGETS += tee tee2
 TARGETS_CPP += readlink2
 
 ifeq ($(shell uname -m),x86_64)
+TARGETS += get_thread_area
 endif
 ifeq ($(shell uname -m),aarch64)
 # TODO: Remove openat2 from TARGETS
@@ -54,6 +55,7 @@ nr.h:
 fallocate: fallocate.o
 faccessat2: faccessat2.o
 fdopen: fdopen.o
+get_thread_area: get_thread_area.o
 getrlimit: getrlimit.o
 setrlimit: setrlimit.o
 nr: nr.o
