@@ -1,5 +1,6 @@
 
 TARGETS := signal
+TARGETS := psignal
 
 DEBUG = yes
 SRC_PATH := $(shell pwd)
@@ -18,6 +19,7 @@ build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
 signal: signal.o
+psignal: psignal.o
 
 %.d: %.c
 	@echo -e "Generate \033[1m$(@)\033[m"
