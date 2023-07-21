@@ -7,7 +7,9 @@ SRC_PATH := $(shell pwd)
 CC = gcc
 
 CFLAGS := -Werror -Wall -D_GNU_SOURCE
+CFLAGS += -pthread
 CFLAGS += -I../../../
+CFLAGS += -I../
 
 ifdef DEBUG
 CFLAGS += -DDEBUG -O0 -g
