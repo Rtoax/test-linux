@@ -9,6 +9,12 @@
 #include <sys/syscall.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+
+#include <linux/version.h>
+
+bool openat2_supported = false;
+
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 11, 0)
 #include <linux/openat2.h>
 
 
@@ -34,9 +40,6 @@ int sys_openat(int dfd, const char *path, struct open_how *how)
 	return ret >= 0 ? ret : -errno;
 }
 
-
-bool openat2_supported = false;
-
 void __attribute__((constructor)) init(void)
 {
 	struct open_how how = {};
@@ -49,6 +52,7 @@ void __attribute__((constructor)) init(void)
 	if (fd >= 0)
 		close(fd);
 }
+#endif
 
 int main(void)
 {
