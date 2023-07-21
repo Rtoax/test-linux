@@ -1,4 +1,4 @@
 all:
-	gcc getauxval.c -o getauxval.out
+	gcc getauxval.c -o getauxval
 clean:
-	rm -f getauxval.out vDSO-VMA.out
+	rm -f getauxval vDSO-VMA.out
