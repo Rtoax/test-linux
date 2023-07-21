@@ -46,6 +46,7 @@ build: nr.h ${TARGETS} ${TARGETS_CPP}
 	make -C aio
 	make -C ioctl
 	make -C epoll
+	make -C signal
 	make -C socket
 	make -C prctl
 	@echo -e " \033[1;33m Done \033[m"
@@ -114,6 +115,7 @@ clean:
 	make -C aio clean
 	make -C ioctl clean
 	make -C epoll clean
+	make -C signal clean
 	make -C prctl clean
 	make -C socket clean
 	@rm -f ${TARGETS} ${TARGETS_CPP} \
