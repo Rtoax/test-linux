@@ -17,6 +17,7 @@ TARGETS += rdtsc_user
 TARGETS += rdtscp_user
 TARGETS += rdtsc_cmp
 TARGETS += rdtsc_evil
+TARGETS += fsin
 endif
 ifeq ($(shell uname -m),aarch64)
 endif
@@ -33,6 +34,7 @@ rdtsc_user: rdtsc_user.o
 rdtscp_user: rdtscp_user.o
 rdtsc_cmp: rdtsc_cmp.o
 rdtsc_evil: rdtsc_evil.o
+fsin: fsin.o
 
 CFLAGS += -g -ggdb
 CFLAGS += -D_GNU_SOURCE
