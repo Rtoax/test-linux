@@ -4,6 +4,8 @@
 #include <pthread.h>
 #include <sys/types.h>
 
+#include "log.h"
+
 
 void *thread(void *arg)
 {
@@ -13,7 +15,7 @@ void *thread(void *arg)
 
 	pthread_attr_init(&attr);
 	pthread_attr_getstack(&attr, &stack, &stacksize);
-	printf("%p stacksize:%ld\n", stack, stacksize);
+	log_parent("%p stacksize:%ld\n", stack, stacksize);
 
 	return ((void *)0);
 }
@@ -29,7 +31,7 @@ int main(void)
 	pthread_create(&tid, &attr, thread, NULL);
 
 	pthread_attr_getstack(&attr, &stack, &stacksize);
-	printf("%p stacksize:%ld\n", stack, stacksize);
+	log_child("%p stacksize:%ld\n", stack, stacksize);
 
 	pthread_join(tid, NULL);
 
