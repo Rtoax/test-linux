@@ -1,8 +1,13 @@
+LIBAIO_HDR = /usr/include/libaio.h
 
 TARGETS := aio_read
 TARGETS += aio_write
 TARGETS += aio_suspend
 TARGETS += lio_listio
+
+ifneq ($(wildcard $(LIBAIO_HDR)),)
+TARGETS += libaio
+endif
 
 DEBUG = yes
 SRC_PATH := $(shell pwd)
@@ -15,6 +20,10 @@ ifdef DEBUG
 CFLAGS += -DDEBUG -O0 -g
 endif
 
+ifneq ($(wildcard $(LIBAIO_HDR)),)
+CFLAGS += -laio
+endif
+
 build: ${TARGETS}
 	@echo
 	@echo -e " \033[1;33m Done \033[m"
@@ -24,6 +33,8 @@ aio_read: aio_read.o
 aio_write: aio_write.o
 aio_suspend: aio_suspend.o
 lio_listio: lio_listio.o
+
+libaio: libaio.o
 
 %.d: %.c
 	@echo -e "Generate \033[1m$(@)\033[m"
@@ -42,4 +53,4 @@ test: ${TARGETS}
 
 clean:
 	@echo -e "Clean   \033[1;32m$(@)\033[m"
-	@rm -f ${TARGETS} *.o *.d *.txt nr.h
+	@rm -f ${TARGETS} *.o *.d *.txt *.dat
