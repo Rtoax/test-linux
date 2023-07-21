@@ -8,6 +8,9 @@ all: ${TARGETS}
 
 ARCH=$(shell uname -m)
 
+CFLAGS := -O2
+CFLAGS += -pthread
+
 ifeq (${ARCH}, x86_64)
 LIBS += ./dpdk/tsc_freq.o
 MACROS += -DHAVE_DPDK_TSC_FREQ
@@ -28,7 +31,7 @@ clock_gettime.sec.out: ${LIBS}
 clock_gettime.nsec.out: ${LIBS}
 	gcc clock_gettime.c ${MACROS} ${LIBS} -o $@
 evil-clock-test.out:
-	g++ -O2 evil-clock-test.cc -o evil-clock-test.out
+	g++ ${CFLAGS} evil-clock-test.cc -o evil-clock-test.out
 
 clean:
 	make -C dpdk clean
