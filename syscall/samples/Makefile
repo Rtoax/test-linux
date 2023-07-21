@@ -18,6 +18,7 @@ TARGETS += sched_getaffinity
 TARGETS += inotify_init
 TARGETS += tee tee2
 TARGETS += clone
+TARGETS += setitimer
 
 TARGETS_CPP += readlink2
 
@@ -81,6 +82,7 @@ inotify_init: inotify_init.o
 tee: tee.o
 tee2: tee2.o
 clone: clone.o
+setitimer: setitimer.o
 
 %.d: %.c
 	@echo -e "Generate \033[1m$(@)\033[m"

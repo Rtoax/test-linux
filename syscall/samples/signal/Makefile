@@ -1,6 +1,6 @@
 
 TARGETS := signal
-TARGETS := psignal
+TARGETS += psignal
 
 DEBUG = yes
 SRC_PATH := $(shell pwd)
