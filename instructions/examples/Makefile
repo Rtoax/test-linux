@@ -18,6 +18,7 @@ TARGETS += rdtscp_user
 TARGETS += rdtsc_cmp
 TARGETS += rdtsc_evil
 TARGETS += fsin
+TARGETS += bswapl
 endif
 ifeq ($(shell uname -m),aarch64)
 endif
@@ -28,6 +29,7 @@ kernel:
 	make -C ${KERNELDIR} M=$(PWD) modules
 
 
+bswapl: bswapl.o
 invalid_opcode_user: invalid_opcode_user.o
 cpuid_user: cpuid_user.o
 rdtsc_user: rdtsc_user.o

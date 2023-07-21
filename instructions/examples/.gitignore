@@ -5,3 +5,5 @@
 /rdtsc_cmp
 /rdtsc_evil
 /fsin
+/bswapl
+/bswapq
