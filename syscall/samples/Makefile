@@ -40,6 +40,7 @@ endif
 
 build: nr.h ${TARGETS} ${TARGETS_CPP}
 	@echo
+	make -C aio
 	make -C ioctl
 	make -C epoll
 	make -C socket
@@ -105,6 +106,7 @@ test: ${TARGETS}
 
 clean:
 	@echo -e "Clean   \033[1;32m$(@)\033[m"
+	make -C aio clean
 	make -C ioctl clean
 	make -C epoll clean
 	make -C prctl clean
