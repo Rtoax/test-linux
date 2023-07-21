@@ -53,12 +53,6 @@ test:
 	@echo "empty, [cd $(PWD)] to insmod"
 
 clean:
-	rm -f \
-		*.o \
-		invalid_opcode_user \
-		cpuid_user \
-		rdtsc_user \
-		rdtscp_user \
-		rdtsc_cmp \
-		rdtsc_evil
+	rm -f $(TARGETS) \
+		*.o
 	make -C ${KERNELDIR} M=$(PWD) clean
