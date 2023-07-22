@@ -2,6 +2,7 @@
 TARGETS := signal
 TARGETS += psignal
 TARGETS += SIGFPE
+TARGETS += SIGHUP
 
 DEBUG = yes
 SRC_PATH := $(shell pwd)
@@ -22,6 +23,7 @@ build: ${TARGETS}
 signal: signal.o
 psignal: psignal.o
 SIGFPE: SIGFPE.o
+SIGHUP: SIGHUP.o
 
 %.d: %.c
 	@echo -e "Generate \033[1m$(@)\033[m"
