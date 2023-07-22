@@ -1,5 +1,6 @@
 /signal
 /psignal
 /raise
+/kill
 /SIGFPE
 /SIGHUP
