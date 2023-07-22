@@ -2,6 +2,7 @@
 /psignal
 /raise
 /kill
+/kill-fork
 /killpg
 /SIGFPE
 /SIGHUP
