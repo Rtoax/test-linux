@@ -1,7 +1,7 @@
 
 TARGETS := signal
 TARGETS += psignal
-TARGETS += kill
+TARGETS += kill killpg
 TARGETS += raise
 TARGETS += SIGFPE
 TARGETS += SIGHUP
@@ -26,6 +26,7 @@ signal: signal.o
 psignal: psignal.o
 raise: raise.o
 kill: kill.o
+killpg: killpg.o
 SIGFPE: SIGFPE.o
 SIGHUP: SIGHUP.o
 

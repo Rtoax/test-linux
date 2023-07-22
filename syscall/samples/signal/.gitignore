@@ -2,5 +2,6 @@
 /psignal
 /raise
 /kill
+/killpg
 /SIGFPE
 /SIGHUP
