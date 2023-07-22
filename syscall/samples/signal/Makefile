@@ -3,8 +3,7 @@ TARGETS := signal
 TARGETS += psignal
 TARGETS += kill kill-fork killpg
 TARGETS += raise
-TARGETS += SIGFPE
-TARGETS += SIGHUP
+TARGETS += SIGFPE SIGHUP NSIG
 
 DEBUG = yes
 SRC_PATH := $(shell pwd)
@@ -30,6 +29,7 @@ kill-fork: kill-fork.o
 killpg: killpg.o
 SIGFPE: SIGFPE.o
 SIGHUP: SIGHUP.o
+NSIG: NSIG.o
 
 %.d: %.c
 	@echo -e "Generate \033[1m$(@)\033[m"
