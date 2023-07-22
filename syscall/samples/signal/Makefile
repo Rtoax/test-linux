@@ -1,6 +1,7 @@
 
 TARGETS := signal
 TARGETS += psignal
+TARGETS += raise
 TARGETS += SIGFPE
 TARGETS += SIGHUP
 
@@ -22,6 +23,7 @@ build: ${TARGETS}
 
 signal: signal.o
 psignal: psignal.o
+raise: raise.o
 SIGFPE: SIGFPE.o
 SIGHUP: SIGHUP.o
 

@@ -1,4 +1,5 @@
 /signal
 /psignal
+/raise
 /SIGFPE
 /SIGHUP
