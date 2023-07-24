@@ -1,6 +1,7 @@
 /sig.h
 /signo
 /signal
+/sigwait
 /psignal
 /raise
 /kill
