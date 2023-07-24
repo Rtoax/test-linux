@@ -2,6 +2,7 @@
 /signo
 /signal
 /sigwait
+/sigaddset
 /psignal
 /raise
 /kill

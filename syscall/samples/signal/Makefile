@@ -1,6 +1,7 @@
 
 TARGETS := signal
 TARGETS += sigwait
+TARGETS += sigaddset
 TARGETS += signo
 TARGETS += psignal
 TARGETS += kill kill-fork killpg
@@ -30,6 +31,7 @@ sig.h:
 signo: signo.o
 signal: signal.o
 sigwait: sigwait.o
+sigaddset: sigaddset.o
 psignal: psignal.o
 raise: raise.o
 kill: kill.o
