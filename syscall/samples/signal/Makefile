@@ -3,7 +3,7 @@ TARGETS := signal
 TARGETS += psignal
 TARGETS += kill kill-fork killpg
 TARGETS += raise
-TARGETS += SIGFPE SIGHUP NSIG
+TARGETS += SIGFPE SIGHUP SIGALRM SIGUSR1 SIGUSR2 NSIG
 
 DEBUG = yes
 SRC_PATH := $(shell pwd)
@@ -29,6 +29,9 @@ kill-fork: kill-fork.o
 killpg: killpg.o
 SIGFPE: SIGFPE.o
 SIGHUP: SIGHUP.o
+SIGALRM: SIGALRM.o
+SIGUSR1: SIGUSR1.o
+SIGUSR2: SIGUSR2.o
 NSIG: NSIG.o
 
 %.d: %.c
