@@ -1,5 +1,6 @@
 
 TARGETS := signal
+TARGETS += signo
 TARGETS += psignal
 TARGETS += kill kill-fork killpg
 TARGETS += raise
@@ -18,10 +19,14 @@ ifdef DEBUG
 CFLAGS += -DDEBUG -O0 -g
 endif
 
-build: ${TARGETS}
+build: sig.h ${TARGETS}
 	@echo
 	@echo -e " \033[1;33m Done \033[m"
 
+sig.h:
+	$(shell sh signo.sh)
+
+signo: signo.o
 signal: signal.o
 psignal: psignal.o
 raise: raise.o
@@ -53,4 +58,5 @@ test: ${TARGETS}
 
 clean:
 	@echo -e "Clean   \033[1;32m$(@)\033[m"
-	@rm -f ${TARGETS} *.o *.d
+	@rm -f ${TARGETS} *.o *.d \
+		sig.h
