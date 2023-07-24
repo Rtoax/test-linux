@@ -9,3 +9,4 @@
 /NSIG
 /SIGALRM
 /SIGUSR[1|2]
+/strsignal
