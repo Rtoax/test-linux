@@ -1,5 +1,6 @@
 
 TARGETS := nr_errno
+TARGETS += gnu_get_libc_version
 
 ifeq ($(shell uname -m),x86_64)
 endif
@@ -25,18 +26,7 @@ nr_errno.h:
 	$(shell sh errno.sh)
 
 nr_errno: nr_errno.o
-
-%.d: %.c
-	@echo -e "Generate \033[1m$(@)\033[m"
-	@$(CC) $(CFLAGS) -MM -MF "$@" -MG -MP -MT"$@" -MT"$(<:.c=.o)" $(<)
-
-%.o: %.c %.d
-	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
-
-$(TARGETS): %:
-	@echo -e "Target   \033[1;32m$(@)\033[m"
-	@$(CC) $(CFLAGS) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
+gnu_get_libc_version: gnu_get_libc_version.o
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
