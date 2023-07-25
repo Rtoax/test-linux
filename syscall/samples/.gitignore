@@ -28,4 +28,5 @@
 /clone
 /setitimer
 /flock
+/flock-2
 /testfile

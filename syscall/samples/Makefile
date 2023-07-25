@@ -19,7 +19,7 @@ TARGETS += inotify_init
 TARGETS += tee tee2
 TARGETS += clone
 TARGETS += setitimer
-TARGETS += flock
+TARGETS += flock flock-2
 
 TARGETS_CPP += readlink2
 
@@ -85,6 +85,7 @@ tee2: tee2.o
 clone: clone.o
 setitimer: setitimer.o
 flock: flock.o
+flock-2: flock-2.o
 
 %.d: %.c
 	@echo -e "Generate \033[1m$(@)\033[m"
