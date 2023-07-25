@@ -114,7 +114,6 @@ $(TARGETS_CPP): %:
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
-	./fallocate.out
 
 clean:
 	@echo -e "Clean   \033[1;32m$(@)\033[m"
@@ -125,6 +124,6 @@ clean:
 	make -C prctl clean
 	make -C socket clean
 	@rm -f ${TARGETS} ${TARGETS_CPP} \
-		*.o *.d *.opp *.dpp *.txt nr.h *.out \
+		*.o *.d *.opp *.dpp nr.h *.out \
 		*.txt testfile
 

@@ -10,7 +10,6 @@ errnos=(
 file=nr_errno.h
 
 cat >${file}<<-EOF
-#include <errno.h>
 #if defined(NR_ERRNO)
 EOF
 
