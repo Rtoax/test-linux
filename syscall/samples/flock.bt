@@ -16,8 +16,50 @@ BEGIN
 	printf("Tracing flock(2), hit ctrl-c to end.\n");
 	printf(" CMD: Share(S), Exclusive(E), Nonblock(N), Unlock(U)\n");
 	printf("\n");
-	printf("%-16s %-8s %-16s %-8s %-4s %-8s\n",
-		"TIME(ns)", "PID", "COMM", "FD", "CMD", "RESULT");
+	printf("%-16s %-8s %-16s %-8s %-5s %-8s %-16s\n",
+		"TIME(ns)", "PID", "COMM", "FD", "CMD", "RESULT", "FILE");
+}
+
+tracepoint:syscalls:sys_enter_open,
+tracepoint:syscalls:sys_enter_openat
+{
+	$filename = args->filename;
+	@filenames[tid] = $filename;
+}
+
+tracepoint:syscalls:sys_exit_open,
+tracepoint:syscalls:sys_exit_openat
+/ @filenames[tid] /
+{
+	$fd = args->ret;
+	$filename = @filenames[tid];
+
+	printf("%-16ld %-8d %-16s %-8d OPEN  %-8s %-16s\n",
+		nsecs, pid, comm, $fd,
+		$fd > 0 ? "Success" : "Failed",
+		str($filename)
+	);
+
+	delete(@filenames[tid]);
+}
+
+tracepoint:syscalls:sys_enter_close
+{
+	$fd = args->fd;
+	@close_fds[tid] = $fd;
+}
+
+tracepoint:syscalls:sys_exit_close
+/ @close_fds[tid] /
+{
+	$fd = @close_fds[tid];
+	$ret = args->ret;
+
+	printf("%-16ld %-8d %-16s %-8d CLOSE %-8s\n",
+		nsecs, pid, comm, $fd,
+		$ret == 0 ? "Success" : "Failed"
+	);
+	delete(@close_fds[tid]);
 }
 
 tracepoint:syscalls:sys_enter_flock
@@ -36,13 +78,14 @@ tracepoint:syscalls:sys_exit_flock
 	$fd = @fds[tid];
 	$cmd = @cmds[tid];
 
-	printf("%-16ld %-8d %-16s %-8d %s%s%s%s %-8s\n",
+	printf("%-16ld %-8d %-16s %-8d %s%s%s%s  %-8s\n",
 		nsecs, pid, comm, $fd,
 		$cmd & LOCK_SH ? "S" : "-",
 		$cmd & LOCK_EX ? "E" : "-",
 		$cmd & LOCK_NB ? "N" : "-",
 		$cmd & LOCK_UN ? "U" : "-",
-		$ret == 0 ? "Success" : "Failed");
+		$ret == 0 ? "Success" : "Failed"
+	);
 
 	delete(@fds[tid]);
 	delete(@cmds[tid]);
@@ -52,5 +95,7 @@ END
 {
 	clear(@fds);
 	clear(@cmds);
+	clear(@filenames);
+	clear(@close_fds);
 	printf("Bye.\n");
 }
