@@ -1,9 +1,8 @@
 
-TARGETS= \
-	./rbtree_test.out
+TARGETS := rbtree_test
 
 # Add more object.o file
-rbtree_test.out: rbtree_test.o rbtree.o
+rbtree_test: rbtree_test.o rbtree.o
 
 DEBUG = yes
 SRC_PATH := $(shell pwd)
@@ -32,7 +31,7 @@ $(TARGETS): %:
 	@$(CC) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
 
 test: ${TARGETS}
-	./rbtree_test.out >/dev/null
+	./rbtree_test >/dev/null
 
 clean:
 	@rm -f ${TARGETS} *.o *.d
