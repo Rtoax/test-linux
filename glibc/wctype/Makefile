@@ -1,6 +1,7 @@
 
 TARGETS := wchar_t
 TARGETS += iswctype
+TARGETS += wcstol
 
 ifeq ($(shell uname -m),x86_64)
 endif
@@ -24,6 +25,7 @@ build: ${TARGETS}
 
 iswctype: iswctype.o
 wchar_t: wchar_t.o
+wcstol: wcstol.o
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
