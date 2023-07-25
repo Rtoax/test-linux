@@ -27,3 +27,5 @@
 /get_thread_area
 /clone
 /setitimer
+/flock
+/testfile

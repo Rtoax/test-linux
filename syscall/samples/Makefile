@@ -19,6 +19,7 @@ TARGETS += inotify_init
 TARGETS += tee tee2
 TARGETS += clone
 TARGETS += setitimer
+TARGETS += flock
 
 TARGETS_CPP += readlink2
 
@@ -83,6 +84,7 @@ tee: tee.o
 tee2: tee2.o
 clone: clone.o
 setitimer: setitimer.o
+flock: flock.o
 
 %.d: %.c
 	@echo -e "Generate \033[1m$(@)\033[m"
@@ -122,5 +124,5 @@ clean:
 	make -C socket clean
 	@rm -f ${TARGETS} ${TARGETS_CPP} \
 		*.o *.d *.opp *.dpp *.txt nr.h *.out \
-		*.txt
+		*.txt testfile
 
