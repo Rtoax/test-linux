@@ -31,6 +31,7 @@
 /pthread_spin-latency
 /pthread_spin-latency-loop
 /pthread_self
+/pthread_sigmask
 /pthread_once
 /pthread_yield
 /tls
