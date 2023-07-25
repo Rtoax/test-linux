@@ -15,4 +15,4 @@ link_libraries(${ELF} ${RT} ${LZMA})
 
 add_definitions(-MD -Wall -g -ggdb -O0 -D_GNU_SOURCE -Wuninitialized -Wreturn-type -pg)
 
-add_executable(main.user.out main.user.c)
+add_executable(main.user main.user.c)

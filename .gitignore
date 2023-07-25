@@ -104,3 +104,7 @@ core-*
 *.Binary
 *.dat
 *.bin
+
+# CMake
+CMakeFiles
+cmake_install.cmake
