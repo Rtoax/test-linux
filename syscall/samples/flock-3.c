@@ -9,11 +9,14 @@
 #include <sys/wait.h>
 
 
-int main(void)
+int main(int argc, char *argv[])
 {
 	int fd;
 	int ret;
 	const char *filename = "testfile";
+
+	if (argc > 1)
+		filename = argv[1];
 
 	fd = open(filename, O_CREAT | O_TRUNC | O_RDWR, 0644);
 
