@@ -4,13 +4,16 @@
 #include <netinet/in.h>
 #include <string.h>
 #include <stdio.h>
-
+#include <sys/socket.h>
+#include <arpa/inet.h>
 
 int main(void)
 {
 	struct ifreq ifr;
 	struct ifconf ifc;
+	struct sockaddr_in *addr;
 	char buf[2048];
+	char *address;
 	int count = 0;
 
 	int sock = socket(AF_INET, SOCK_DGRAM, IPPROTO_IP);
@@ -51,8 +54,30 @@ int main(void)
 					*(ptr + 3),
 					*(ptr + 4),
 					*(ptr + 5));
-			printf("%d. %-16s  macaddr %-16s\n",
-				count, ifr.ifr_name, str_macaddr);
+			printf("%d. %-16s \n", count, ifr.ifr_name);
+			printf("\tmac %-16s\n", str_macaddr);
+		}
+
+		if (ioctl(sock, SIOCGIFADDR, &ifr) == 0) {
+			addr = (struct sockaddr_in*)&(ifr.ifr_addr);
+			address = inet_ntoa(addr->sin_addr);
+			printf("\tinet %s\n", address);
+		}
+
+		if (ioctl(sock, SIOCGIFNETMASK, &ifr) == 0) {
+			addr = (struct sockaddr_in*)&(ifr.ifr_addr);
+			address = inet_ntoa(addr->sin_addr);
+			printf("\tmask %s\n", address);
+		}
+
+		if (ioctl(sock, SIOCGIFBRDADDR, &ifr) == 0) {
+			addr = (struct sockaddr_in*)&(ifr.ifr_addr);
+			address = inet_ntoa(addr->sin_addr);
+			printf("\tbroad %s\n", address);
 		}
 	}
+
+	close(sock);
+
+	return 0;
 }
