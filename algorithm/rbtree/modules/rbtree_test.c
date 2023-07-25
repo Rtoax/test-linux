@@ -1,5 +1,4 @@
 // SPDX-License-Identifier: GPL-2.0-only
-// from linux-5.10.13
 #include <linux/module.h>
 #include <linux/moduleparam.h>
 #include <linux/rbtree_augmented.h>
@@ -407,4 +406,3 @@ module_exit(rbtree_test_exit)
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Michel Lespinasse");
 MODULE_DESCRIPTION("Red Black Tree test");
-
