@@ -1,0 +1,54 @@
+#!/bin/env bpftrace
+/**
+ * flock.bt: Tracing flock syscall
+ *
+ * Copyright (C) Rong Tao 2022-2023
+ */
+#define LOCK_SH     1	/* Share */
+#define LOCK_EX     2	/* Exclusive */
+#define LOCK_NB     4	/* Non Block */
+#define LOCK_UN     8	/* Unlock */
+
+BEGIN
+{
+	printf("Tracing flock(2), hit ctrl-c to end.\n");
+	printf(" CMD: Share(S), Exclusive(E), Nonblock(N), Unlock(U)\n");
+	printf("\n");
+	printf("%-16s %-8s %-16s %-8s %-4s %-8s\n",
+		"TIME(ns)", "PID", "COMM", "FD", "CMD", "RESULT");
+}
+
+tracepoint:syscalls:sys_enter_flock
+{
+	$fd = args->fd;
+	$cmd = args->cmd;
+
+	@fds[tid] = $fd;
+	@cmds[tid] = $cmd;
+}
+
+tracepoint:syscalls:sys_exit_flock
+/ @fds[tid] && @cmds[tid] /
+{
+	$ret = args->ret;
+	$fd = @fds[tid];
+	$cmd = @cmds[tid];
+
+	printf("%-16ld %-8d %-16s %-8d %s%s%s%s %-8s\n",
+		nsecs, pid, comm, $fd,
+		$cmd & LOCK_SH ? "S" : "-",
+		$cmd & LOCK_EX ? "E" : "-",
+		$cmd & LOCK_NB ? "N" : "-",
+		$cmd & LOCK_UN ? "U" : "-",
+		$ret == 0 ? "Success" : "Failed");
+
+	delete(@fds[tid]);
+	delete(@cmds[tid]);
+}
+
+END
+{
+	clear(@fds);
+	clear(@cmds);
+	printf("Bye.\n");
+}

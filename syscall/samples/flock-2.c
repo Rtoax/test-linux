@@ -28,6 +28,7 @@ int open_and_write(const char *filename, const char *prefix, const char *msg)
 	write(fd, msg, strlen(msg));
 
 	flock(fd, LOCK_UN);
+	close(fd);
 
 	return 0;
 }
@@ -48,14 +49,20 @@ int main(void)
 	/* Children */
 	if (pid == 0) {
 
-		while (!open_and_write(filename, "Child", "hello from child.\n"));
+		int try_times = 10;
+
+		while (try_times-- &&
+			!open_and_write(filename, "Child", "hello from child.\n"));
 
 		exit(0);
 
 	/* Father */
 	} else if (pid > 0) {
 
-		while (!open_and_write(filename, "Father", "hello from parent.\n"));
+		int try_times = 10;
+
+		while (try_times-- &&
+			!open_and_write(filename, "Father", "hello from parent.\n"));
 
 		wait(NULL);
 
