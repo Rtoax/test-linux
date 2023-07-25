@@ -36,7 +36,7 @@ tracepoint:syscalls:sys_exit_openat
 
 	printf("%-16ld %-8d %-16s %-8d OPEN  %-8s %-16s\n",
 		nsecs, pid, comm, $fd,
-		$fd > 0 ? "Success" : "Failed",
+		$fd > 0 ? "Success" : "\033[1;31mFailed\033[m",
 		str($filename)
 	);
 
@@ -57,7 +57,7 @@ tracepoint:syscalls:sys_exit_close
 
 	printf("%-16ld %-8d %-16s %-8d CLOSE %-8s\n",
 		nsecs, pid, comm, $fd,
-		$ret == 0 ? "Success" : "Failed"
+		$ret == 0 ? "Success" : "\033[1;31mFailed\033[m"
 	);
 	delete(@close_fds[tid]);
 }
@@ -84,7 +84,7 @@ tracepoint:syscalls:sys_exit_flock
 		$cmd & LOCK_EX ? "E" : "-",
 		$cmd & LOCK_NB ? "N" : "-",
 		$cmd & LOCK_UN ? "U" : "-",
-		$ret == 0 ? "Success" : "Failed"
+		$ret == 0 ? "Success" : "\033[1;31mFailed\033[m"
 	);
 
 	delete(@fds[tid]);
