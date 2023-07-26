@@ -5,26 +5,39 @@
  * Copyright (C) CESTC, Co. 2022-2023
  *
  * 2023-07-25	Rong Tao	Create this.
+ * 2023-07-26	Rong Tao	Add more hint.
  */
 #define LOCK_SH     1	/* Share */
 #define LOCK_EX     2	/* Exclusive */
 #define LOCK_NB     4	/* Non Block */
 #define LOCK_UN     8	/* Unlock */
 
+#define EINTR	4
+#define EBADF	9
+#define EWOULDBLOCK	11
+#define EINVAL	22
+#define ENOLCK	37
+
 BEGIN
 {
+	@errno_str[EINTR] = "EINTR";
+	@errno_str[EBADF] = "EBADF";
+	@errno_str[EWOULDBLOCK] = "EWOULDBLOCK";
+	@errno_str[EINVAL] = "EINVAL";
+	@errno_str[ENOLCK] = "ENOLCK";
+
 	printf("Tracing flock(2), hit ctrl-c to end.\n");
 	printf(" CMD: Share(S), Exclusive(E), Nonblock(N), Unlock(U)\n");
 	printf("\n");
-	printf("%-16s %-8s %-8s %-16s %-8s %-5s %-8s %-16s\n",
-		"TIME(ns)", "PID", "TID", "COMM", "FD", "CMD", "RESULT", "FILE");
+	printf("%-16s %-8s %-8s %-16s ", "TIME(ns)", "PID", "TID", "COMM");
+	printf("%-8s %-5s %-8s %-16s %-16s\n", "FD", "CMD", "FLAGS", "RESULT", "FILE");
 }
 
 tracepoint:syscalls:sys_enter_open,
 tracepoint:syscalls:sys_enter_openat
 {
-	$filename = args->filename;
-	@filenames[tid] = $filename;
+	@filenames[tid] = args->filename;
+	@openflags[tid] = args->flags;
 }
 
 tracepoint:syscalls:sys_exit_open,
@@ -33,14 +46,17 @@ tracepoint:syscalls:sys_exit_openat
 {
 	$fd = args->ret;
 	$filename = @filenames[tid];
+	$flags = @openflags[tid];
 
-	printf("%-16ld %-8d %-8d %-16s %-8d OPEN  %-8s %-16s\n",
+	printf("%-16ld %-8d %-8d %-16s %-8d OPEN  %-8x %-16s %-16s\n",
 		nsecs, pid, tid, comm, $fd,
-		$fd > 0 ? "Success" : "\033[1;31mFailed\033[m",
+		$flags,
+		$fd > 0 ? "Success" : "Failed",
 		str($filename)
 	);
 
 	delete(@filenames[tid]);
+	delete(@openflags[tid]);
 }
 
 tracepoint:syscalls:sys_enter_close
@@ -55,9 +71,10 @@ tracepoint:syscalls:sys_exit_close
 	$fd = @close_fds[tid];
 	$ret = args->ret;
 
-	printf("%-16ld %-8d %-8d %-16s %-8d CLOSE %-8s\n",
+	printf("%-16ld %-8d %-8d %-16s %-8d CLOSE %-8s %-16s\n",
 		nsecs, pid, tid, comm, $fd,
-		$ret == 0 ? "Success" : "\033[1;31mFailed\033[m"
+		"-",
+		$ret == 0 ? "Success" : "Failed"
 	);
 	delete(@close_fds[tid]);
 }
@@ -78,13 +95,14 @@ tracepoint:syscalls:sys_exit_flock
 	$fd = @fds[tid];
 	$cmd = @cmds[tid];
 
-	printf("%-16ld %-8d %-8d %-16s %-8d %s%s%s%s  %-8s\n",
+	printf("%-16ld %-8d %-8d %-16s %-8d %s%s%s%s  %-8s %-16s\n",
 		nsecs, pid, tid, comm, $fd,
 		$cmd & LOCK_SH ? "S" : "-",
 		$cmd & LOCK_EX ? "E" : "-",
 		$cmd & LOCK_NB ? "N" : "-",
 		$cmd & LOCK_UN ? "U" : "-",
-		$ret == 0 ? "Success" : "\033[1;31mFailed\033[m"
+		"-",
+		$ret == 0 ? "Success" : @errno_str[-$ret]
 	);
 
 	delete(@fds[tid]);
@@ -96,6 +114,8 @@ END
 	clear(@fds);
 	clear(@cmds);
 	clear(@filenames);
+	clear(@openflags);
 	clear(@close_fds);
+	clear(@errno_str);
 	printf("Bye.\n");
 }
