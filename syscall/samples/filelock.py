@@ -26,55 +26,74 @@ struct data_t {
 };
 BPF_PERF_OUTPUT(filelock_events);
 
+struct ctx_info {
+    u32 owner_pid;
+};
+BPF_HASH(lock_pid_map, u32);
+
 TRACEPOINT_PROBE(filelock, flock_lock_inode) {
     unsigned long i_ino = args->i_ino;
     int ret = args->ret;
 
     struct file_lock *lock = args->fl;
     u32 lock_pid = lock->fl_pid;
+    u32 owner_pid = 0;
 
     u32 pid = bpf_get_current_pid_tgid() >> 32;
+    struct ctx_info *ctx_info = (void *)lock_pid_map.lookup(&pid);
+    if (ctx_info == 0) {
+        owner_pid = 0;
+    } else {
+        owner_pid = ctx_info->owner_pid;
+    }
+
     struct data_t data = {};
 
     bpf_get_current_comm(&data.comm, sizeof(data.comm));
     data.pid = lock_pid;
-    data.owner_pid = 0;
+    data.owner_pid = owner_pid;
     data.ino = i_ino;
     data.ret = ret;
+
+    lock_pid_map.delete(&pid);
 
     filelock_events.perf_submit((void *)args, &data, sizeof(data));
 
     return 0;
 }
 
+static inline u32 try_get_owner_pid(u32 pid, struct list_head *head) {
+    u32 owner_pid = 0;
+
+    if (!head || head == head->next) {
+        owner_pid = 0;
+    } else {
+        struct file_lock *fl = (void *)head->next - offsetof(struct file_lock, fl_list);
+        if (pid != fl->fl_pid) {
+            owner_pid = fl->fl_pid;
+        }
+    }
+
+    return owner_pid;
+}
+
 TRACEPOINT_PROBE(filelock, locks_get_lock_context) {
-    unsigned long i_ino = args->i_ino;
     struct file_lock_context *ctx = args->ctx;
-    struct file_lock *fl;
 
     u32 pid = bpf_get_current_pid_tgid() >> 32;
-    struct data_t data = {};
+    struct ctx_info info = {};
 
-    bpf_get_current_comm(&data.comm, sizeof(data.comm));
-    data.pid = pid;
-    data.ino = i_ino;
-    data.ret = 0;
+    info.owner_pid = 0;
 
     /**
      * flock_make_lock: fl->fl_pid = current->tgid;
      * flock_lock_inode: list_for_each_entry(fl, &ctx->flc_flock, fl_list)
      */
     struct list_head *head = &ctx->flc_flock;
-    if (head == head->next) {
-        data.owner_pid = 0;
-    } else {
-        fl = (void *)head->next - offsetof(struct file_lock, fl_list);
-        if (pid != fl->fl_pid) {
-            data.owner_pid = fl->fl_pid;
-        }
-    }
 
-    filelock_events.perf_submit((void *)args, &data, sizeof(data));
+    info.owner_pid = try_get_owner_pid(pid, head);
+
+    lock_pid_map.update(&pid, (void *)&info);
 
     return 0;
 }
