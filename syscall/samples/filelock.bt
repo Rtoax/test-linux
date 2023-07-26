@@ -1,0 +1,52 @@
+#!/bin/env bpftrace
+/**
+ * filelock.bt - Print file lock information
+ *
+ * Copyright (C) Rong Tao 2022-2023
+ *
+ * 2023-07-26	Rong Tao	Create this.
+ */
+#include <linux/fs.h>
+
+#define EINTR	4
+#define EBADF	9
+#define EWOULDBLOCK	11
+#define EINVAL	22
+#define ENOLCK	37
+
+BEGIN
+{
+	@errno_str[0] = "SUCCESS";
+	@errno_str[EINTR] = "EINTR";
+	@errno_str[EBADF] = "EBADF";
+	@errno_str[EWOULDBLOCK] = "EWOULDBLOCK";
+	@errno_str[EINVAL] = "EINVAL";
+	@errno_str[ENOLCK] = "ENOLCK";
+
+	printf("Tracing filelock, hit ctrl-c to end.\n");
+	printf("%-8s %-8s %-8s\n", "TIME", "PID", "COMM");
+}
+
+tracepoint:filelock:flock_lock_inode
+{
+	$ino = args->i_ino;
+	$file = (struct file *)args->fl_owner;
+	$owner_pid = $file->f_owner.pid;
+
+	/* PIDTYPE_PID = 0; */
+	//$hlist_tasks = $owner_pid->tasks;
+	//$hlist_node = $hlist_tasks.first;
+
+	$ret = args->ret;
+
+	//$off_task_pid = offsetof(struct task_struct, pid_links);
+
+	time("%H:%M:%S ");
+	printf("%-8d %-8s %-16ld %-16s\n", pid, comm, $ino, @errno_str[-$ret]);
+}
+
+END
+{
+	clear(@errno_str);
+	printf("Bye.\n");
+}
