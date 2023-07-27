@@ -69,11 +69,15 @@ TRACEPOINT_PROBE(filelock, flock_lock_inode) {
 static inline u32 try_get_owner_tid(u32 tid, struct list_head *head) {
     u32 owner_tid = 0;
 
+    /**
+     * flock_make_lock: fl->fl_pid = current->tgid;
+     * flock_lock_inode: list_for_each_entry(fl, &ctx->flc_flock, fl_list)
+     */
     if (!head || head == head->next) {
         owner_tid = 0;
     } else {
         struct file_lock *fl = (void *)head->next - offsetof(struct file_lock, fl_list);
-        if (tid != fl->fl_pid) {
+        if (tid != fl->fl_pid && fl->fl_type == F_WRLCK) {
             owner_tid = fl->fl_pid;
         }
     }
@@ -89,10 +93,6 @@ TRACEPOINT_PROBE(filelock, locks_get_lock_context) {
 
     info.owner_tid = 0;
 
-    /**
-     * flock_make_lock: fl->fl_pid = current->tgid;
-     * flock_lock_inode: list_for_each_entry(fl, &ctx->flc_flock, fl_list)
-     */
     struct list_head *head = &ctx->flc_flock;
 
     info.owner_tid = try_get_owner_tid(tid, head);
