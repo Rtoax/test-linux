@@ -5,6 +5,7 @@
 # Licensed under the Apache License, Version 2.0 (the "License")
 #
 # 2023-07-26    Rong Tao    Create this.
+# 2023-07-27    Rong Tao    Add tid.
 
 from __future__ import print_function
 from bcc import ArgString, BPF
@@ -19,6 +20,7 @@ bpf_text = """
 
 struct data_t {
     u32 pid;
+    u32 tid;
     u32 owner_pid;
     char comm[TASK_COMM_LEN];
     u32 ino;
@@ -40,6 +42,7 @@ TRACEPOINT_PROBE(filelock, flock_lock_inode) {
     u32 owner_pid = 0;
 
     u32 pid = bpf_get_current_pid_tgid() >> 32;
+    u32 tid = bpf_get_current_pid_tgid() & 0x00000000ffffffff;
     struct ctx_info *ctx_info = (void *)lock_pid_map.lookup(&pid);
     if (ctx_info == 0) {
         owner_pid = 0;
@@ -51,6 +54,7 @@ TRACEPOINT_PROBE(filelock, flock_lock_inode) {
 
     bpf_get_current_comm(&data.comm, sizeof(data.comm));
     data.pid = lock_pid;
+    data.tid = tid;
     data.owner_pid = owner_pid;
     data.ino = i_ino;
     data.ret = ret;
@@ -101,8 +105,9 @@ TRACEPOINT_PROBE(filelock, locks_get_lock_context) {
 
 def print_filelock_event(cpu, data, size):
     event = b["filelock_events"].event(data)
-    printb(b"%-8d %-16s %-8d %-16d %-8d" \
+    printb(b"%-8d %-8d %-16s %-8d %-16d %-8d" \
            % (event.pid,
+              event.tid,
               event.comm,
               event.owner_pid,
               event.ino,
@@ -111,8 +116,8 @@ def print_filelock_event(cpu, data, size):
 b = BPF(text=bpf_text)
 
 print("Tracing filelock ... Hit Ctrl-C to end")
-print("%-8s %-16s %-8s %-16s %-8s" \
-      % ("PID", "COMM", "OWN_PID", "INODE", "RESULT"))
+print("%-8s %-8s %-16s %-8s %-16s %-8s" \
+      % ("PID", "TID", "COMM", "OWN_PID", "INODE", "RESULT"))
 
 b["filelock_events"].open_perf_buffer(print_filelock_event)
 
