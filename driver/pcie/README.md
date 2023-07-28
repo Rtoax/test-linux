@@ -8,9 +8,11 @@ PCI - Peripheral Component Interconnect
 * PIO: `/proc/ioports`
 * MMIO: `/proc/iomem`
 
+
 # PCI 总线结构
 
 `00:00:0` = `总线号(Bus Number)` + `设备号(Device Number)` + `功能号(Function Number)`
+
 
 # PCI 配置空间
 
@@ -39,4 +41,58 @@ PCI - Peripheral Component Interconnect
 ```
 
 * BAR - Base Address Register
+
+
+# Vendors
+
+- https://pcisig.com/membership/member-companies
+
+
+# Device classes
+
+```
+00	Unclassified device
+01	Mass storage controller
+02	Network controller
+03	Display controller
+04	Multimedia controller
+05	Memory controller
+06	Bridge
+07	Communication controller
+08	Generic system peripheral
+09	Input device controller
+0a	Docking station
+0b	Processor
+0c	Serial bus controller
+0d	Wireless controller
+0e	Intelligent controller
+0f	Satellite communications controller
+10	Encryption controller
+11	Signal processing controller
+12	Processing accelerators
+13	Non-Essential Instrumentation
+14
+15
+16
+40	Coprocessor
+64
+ff	Unassigned class
+```
+
+## 根据 Class 过滤
+
+```bash
+$ lspci -d ::0200
+00:1f.6 Ethernet controller: Intel Corporation Ethernet Connection (10) I219-V
+
+$ lspci -d ::0280
+00:14.3 Network controller: Intel Corporation Comet Lake PCH-LP CNVi WiFi
+```
+
+
+# Links
+
+- https://admin.pci-ids.ucw.cz/read/PC
+- https://admin.pci-ids.ucw.cz/read/PD
+- https://pcisig.com/membership/member-companies
 
