@@ -71,6 +71,19 @@ uint64_t rdtscp_ignore_rcx(void)
 
 	return (((uint64_t)hi << 32) | lo);
 }
+/**
+ * https://blog.dynox.cn/?p=1658
+ */
+static inline __always_inline__
+uint64_t __rdtsc_ia32(void)
+{
+	return __builtin_ia32_rdtsc();
+}
+static inline __always_inline__
+uint64_t __rdtscp_ia32(unsigned int *__A)
+{
+	return __builtin_ia32_rdtscp(__A);
+}
 
 /* clock */
 struct clock {
