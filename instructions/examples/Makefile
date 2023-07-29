@@ -19,6 +19,7 @@ TARGETS += rdtsc_cmp
 TARGETS += rdtsc_evil
 TARGETS += fsin
 TARGETS += bswapl
+TARGETS += _mm_clflush
 endif
 ifeq ($(shell uname -m),aarch64)
 endif
@@ -36,6 +37,7 @@ rdtsc_user: rdtsc_user.o
 rdtscp_user: rdtscp_user.o
 rdtsc_cmp: rdtsc_cmp.o
 rdtsc_evil: rdtsc_evil.o
+_mm_clflush: _mm_clflush.o
 fsin: fsin.o
 
 CFLAGS += -g -ggdb
