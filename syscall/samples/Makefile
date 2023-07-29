@@ -2,7 +2,7 @@
 TARGETS := fallocate
 TARGETS += faccessat2
 TARGETS += fdopen
-TARGETS += getrlimit setrlimit
+TARGETS += getrlimit setrlimit ulimit
 TARGETS += nr
 TARGETS += open openat2
 TARGETS += opendir
@@ -63,6 +63,7 @@ fdopen: fdopen.o
 get_thread_area: get_thread_area.o
 getrlimit: getrlimit.o
 setrlimit: setrlimit.o
+ulimit: ulimit.o
 nr: nr.o
 open: open.o
 openat2: openat2.o

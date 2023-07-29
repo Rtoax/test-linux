@@ -3,6 +3,7 @@
 /faccessat2
 /fdopen
 /[g|s]etrlimit
+/ulimit
 /nr
 /nr.h
 /open
