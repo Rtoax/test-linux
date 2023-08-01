@@ -17,4 +17,8 @@ JIT - Just In Time Compiler
 # Links
 
 - https://gcc.gnu.org/wiki/JIT
+- https://llvm.org/docs/DebuggingJITedCode.html
+- https://llvm.org/docs/JITLink.html
+- https://llvm.org/docs/ORCv2.html
+- https://llvm.org/docs/MCJITDesignAndImplementation.html
 
