@@ -7,6 +7,12 @@
 #include <malloc.h>
 #include <string.h>
 
+
+long add(long num)
+{
+	return num + 4;
+}
+
 /**
  * TODO: segvfault
  */
@@ -17,13 +23,23 @@ void emit_code_into_memory(unsigned char *m)
 	 *		return num + 4;
 	 *	}
 	 */
-	unsigned char code[] = {
+	unsigned char __attribute__((unused)) code1[] = {
 		0x48, 0x89, 0xf8,       /* mov %rdi, %rax */
 		0x48, 0x83, 0xc0, 0x04, /* add $4, %rax */
 		0xc3,                   /* ret */
 	};
+	/* objdump -d add.o */
+	unsigned char __attribute__((unused)) code2[] = {
+		0x55,                   // push   %rbp
+		0x48, 0x89, 0xe5,       // mov    %rsp,%rbp
+		0x48, 0x89, 0x7d, 0xf8, // mov    %rdi,-0x8(%rbp)
+		0x48, 0x8b, 0x45, 0xf8, // mov    -0x8(%rbp),%rax
+		0x48, 0x83, 0xc0, 0x04, // add    $0x4,%rax
+		0x5d,                   // pop    %rbp
+		0xc3,                   // retq
+	};
 
-	memcpy(m, code, sizeof(code));
+	memcpy(m, code1, sizeof(code1));
 }
 
 const size_t SIZE = 1024;
