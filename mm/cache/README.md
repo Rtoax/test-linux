@@ -1,6 +1,17 @@
 Cache
 =========
 
+
+# TLB and cacheline
+
+- VIVT (virtual index, virtual tag): Armv4,Armv5
+- PIPT (physical index, physical tag):
+- PIVT (physical index, virtual tag): MIPS R6000
+- VIPT (virtual index, physical tag): Armv8,Intel,AMD
+
+
+# cache and pagecache
+
 1. dcache (dentry slab)
 2. pagecache
 
@@ -32,6 +43,7 @@ int drop_caches_sysctl_handler(struct ctl_table *table, int write,
 
 * `drop_pagecache_sb()`
 * `drop_slab()`
+
 
 # Links
 
