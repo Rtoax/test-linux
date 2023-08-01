@@ -89,7 +89,7 @@ static unsigned long vaddr2paddr(unsigned long vaddr)
 
 static int __init v2p_init(void)
 {
-    unsigned long vaddr = 0;
+    unsigned long vaddr, paddr;
 
     printk("vaddr to paddr module is running..\n");
 
@@ -101,10 +101,10 @@ static int __init v2p_init(void)
         return 0;
     }
 
-    sprintf((char *)vaddr, "hello world from kernel");
-    printk("get_page_vaddr = 0x%lx\n", vaddr);
+    paddr = vaddr2paddr(vaddr);
 
-    vaddr2paddr(vaddr);
+    sprintf((char *)vaddr, "hello world from kernel");
+    printk("get_page_vaddr = 0x%lx (physical addr 0x%lx))\n", vaddr, paddr);
 
     return 0;
 }
