@@ -5,12 +5,20 @@
  * Copyright (C) CESTC, CO.
  *
  * 2023-04-15	Rong Tao	Create this.
+ * 2023-08-02	Rong Tao	Test read/write
  */
 #include <stdio.h>
+#include <stdlib.h>
 #include <pthread.h>
 #include <sys/time.h>
 
+#define ARRAY_SIZE(arr) ((sizeof(arr)) / (sizeof(arr[0])))
 #define LOOP	100000000L
+
+enum op_type {
+	OP_RD,
+	OP_WR,
+};
 
 /**
  * Two threads accessing t1 and t2 at the same time (usually writes), this
@@ -40,7 +48,7 @@ struct bad_struct {
 
 void show_diff_tv(const char *name, struct timeval *end, struct timeval *start)
 {
-	printf("%16s: %ld us\n",
+	printf("%32s: %ld us\n",
 		name,
 		(end->tv_sec - start->tv_sec) * 1000000
 		+ (end->tv_usec - start->tv_usec));
@@ -48,20 +56,45 @@ void show_diff_tv(const char *name, struct timeval *end, struct timeval *start)
 
 struct thread_arg {
 	char *name;
+	enum op_type op;
 	unsigned long *pt;
 };
+
+static inline unsigned long long test_read(unsigned long *pt)
+{
+	unsigned long i;
+	unsigned long long tmp = 0;
+	for(i = 0; i < LOOP; i++)
+		tmp += *pt;
+	return tmp;
+}
+
+static inline void test_write(unsigned long *pt)
+{
+	unsigned long i;
+	for(i = 0; i < LOOP; i++)
+		*pt += 1;
+}
+
 void* thread_fn(void *arg)
 {
-
 	struct timeval tv1, tv2;
 	struct thread_arg *targ = arg;
-	unsigned long int i;
 	unsigned long *pt = targ->pt;
 
 	gettimeofday(&tv1, NULL);
 
-	for(i = 0; i < LOOP; i++)
-		*pt += 1;
+	switch (targ->op) {
+	case OP_RD:
+		test_read(pt);
+		break;
+	case OP_WR:
+		test_write(pt);
+		break;
+	default:
+		abort();
+		break;
+	}
 
 	gettimeofday(&tv2, NULL);
 	show_diff_tv(targ->name, &tv2, &tv1);
@@ -72,46 +105,119 @@ void* thread_fn(void *arg)
 
 void demo_good(void)
 {
+	int i;
 	pthread_t t1, t2;
 	struct good_struct good = {
 		.t1 = 0,
 		.t2 = 0,
 	};
-	struct thread_arg targ1 = {
-		.name = "good thread1",
-		.pt = &good.t1,
+	struct thread_arg_pair {
+		struct thread_arg arg[2];
+	} pairs[] = {
+		{
+			(struct thread_arg){
+				.name = "good1 thread1 (rd)",
+				.op = OP_RD,
+				.pt = &good.t1,
+			},
+			(struct thread_arg){
+				.name = "good1 thread2 (rd)",
+				.op = OP_RD,
+				.pt = &good.t2,
+			}
+		},
+		{
+			(struct thread_arg){
+				.name = "good2 thread1 (wr)",
+				.op = OP_WR,
+				.pt = &good.t1,
+			},
+			(struct thread_arg){
+				.name = "good2 thread2 (wr)",
+				.op = OP_WR,
+				.pt = &good.t2,
+			}
+		},
+		{
+			(struct thread_arg){
+				.name = "good3 thread1 (rd)",
+				.op = OP_RD,
+				.pt = &good.t1,
+			},
+			(struct thread_arg){
+				.name = "good3 thread2 (wr)",
+				.op = OP_WR,
+				.pt = &good.t2,
+			}
+		},
 	};
-	struct thread_arg targ2 = {
-		.name = "good thread2",
-		.pt = &good.t2,
-	};
-	pthread_create(&t1, NULL, thread_fn, &targ1);
-	pthread_create(&t2, NULL, thread_fn, &targ2);
 
-	pthread_join(t1, NULL);
-	pthread_join(t2, NULL);
+	for (i = 0; i < ARRAY_SIZE(pairs); i++) {
+		pthread_create(&t1, NULL, thread_fn, &pairs[i].arg[0]);
+		pthread_create(&t2, NULL, thread_fn, &pairs[i].arg[1]);
+
+		pthread_join(t1, NULL);
+		pthread_join(t2, NULL);
+	}
 }
 
 void demo_bad(void)
 {
+	int i;
 	pthread_t t1, t2;
 	struct bad_struct bad = {
 		.t1 = 0,
 		.t2 = 0,
 	};
-	struct thread_arg targ1 = {
-		.name = "bad thread1",
-		.pt = &bad.t1,
-	};
-	struct thread_arg targ2 = {
-		.name = "bad thread2",
-		.pt = &bad.t2,
-	};
-	pthread_create(&t1, NULL, thread_fn, &targ1);
-	pthread_create(&t2, NULL, thread_fn, &targ2);
 
-	pthread_join(t1, NULL);
-	pthread_join(t2, NULL);
+	struct thread_arg_pair {
+		struct thread_arg arg[2];
+	} pairs[] = {
+		{
+			(struct thread_arg){
+				.name = "bad1 thread1 (rd)",
+				.op = OP_RD,
+				.pt = &bad.t1,
+			},
+			(struct thread_arg){
+				.name = "bad1 thread2 (rd)",
+				.op = OP_RD,
+				.pt = &bad.t2,
+			}
+		},
+		{
+			(struct thread_arg){
+				.name = "bad2 thread1 (wr)",
+				.op = OP_WR,
+				.pt = &bad.t1,
+			},
+			(struct thread_arg){
+				.name = "bad2 thread2 (wr)",
+				.op = OP_WR,
+				.pt = &bad.t2,
+			}
+		},
+		{
+			(struct thread_arg){
+				.name = "bad3 thread1 (rd)",
+				.op = OP_RD,
+				.pt = &bad.t1,
+			},
+			(struct thread_arg){
+				.name = "bad3 thread2 (wr)",
+				.op = OP_WR,
+				.pt = &bad.t2,
+			}
+		},
+	};
+
+	for (i = 0; i < ARRAY_SIZE(pairs); i++) {
+		pthread_create(&t1, NULL, thread_fn, &pairs[i].arg[0]);
+		pthread_create(&t2, NULL, thread_fn, &pairs[i].arg[1]);
+
+		pthread_join(t1, NULL);
+		pthread_join(t2, NULL);
+	}
 }
 
 int main(int argc, char *argv[])
