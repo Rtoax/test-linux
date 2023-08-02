@@ -1,2 +1,3 @@
 #!/bin/bash
 git clean -dfx
+echo "Clean git"
