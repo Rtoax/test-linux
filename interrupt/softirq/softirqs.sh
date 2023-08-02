@@ -1,10 +1,27 @@
 #!/bin/bash
 
-softirqs=( $(cat /proc/softirqs | grep NET_RX) )
+declare -a softirqs
+softirq_type=
+
+case $1 in
+HI | TIMER | NET_TX | NET_RX | BLOCK | IRQ_POLL | TASKLET | SCHED | HRTIMER | RCU)
+	softirq_type=$1
+	softirqs=( $(cat /proc/softirqs | grep $softirq_type -w) )
+	;;
+*)
+	echo "
+ softirqs [type]
+
+ type: HI | TIMER | NET_TX | NET_RX | BLOCK | IRQ_POLL | TASKLET | SCHED | HRTIMER | RCU
+"
+	exit
+	;;
+esac
+
 
 interval=5
 
-echo "Show softirqs: NET_RX"
+echo "Show softirqs: $softirq_type"
 for ((i = 0; i < $interval - 1; i++))
 do
 printf "%-4s %-16s\t" CPU NUM
