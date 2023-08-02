@@ -28,14 +28,18 @@ printf "%-4s %-16s\t" CPU NUM
 done
 printf "%-4s %-16s\n" CPU NUM
 
+# echo ${softirqs[@]}
+# Remove type label like 'SCHED:'
 unset softirqs[0]
+# echo ${softirqs[@]}
 
 
 for ((i = 0; i < ${#softirqs[@]}; i+=$interval))
 do
 	for ((j = 0; j < $interval - 1; j++))
 	do
-		printf "%-4d %-16d\t" $( expr $i + $j ) ${softirqs[$i + $j]}
+		# +1: skip softirqs[0]
+		printf "%-4d %-16d\t" $( expr $i + $j ) ${softirqs[$i + $j + 1]}
 	done
-	printf "%-4d %-16d\n" $( expr $i + $j ) ${softirqs[$i + $j]}
+	printf "%-4d %-16d\n" $( expr $i + $j ) ${softirqs[$i + $j + 1]}
 done
