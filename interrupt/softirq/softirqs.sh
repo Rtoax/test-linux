@@ -35,11 +35,13 @@ echo
 echo "Printing /proc/softirqs, print with alignment"
 echo "Show softirqs: $softirq_type, number ${#softirqs[@]}"
 echo
+echo -e -n "\033[1m"
 for ((i = 0; i < $interval - 1; i++))
 do
-printf "%-4s %-16s\t" CPU NUM
+	printf "%-4s %-16s\t" CPU NUM
 done
 printf "%-4s %-16s\n" CPU NUM
+echo -e -n "\033[m"
 
 
 for ((i = 0; i < ${#softirqs[@]}; i+=$interval))
