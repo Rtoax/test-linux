@@ -1,4 +1,9 @@
 #!/bin/bash
+# Print softirqs
+#
+# Copyright 2023 CESTC, Co.
+#
+# 2023-08-01	Rong Tao	Create this.
 
 declare -a softirqs
 softirq_type=
@@ -21,17 +26,20 @@ esac
 
 interval=5
 
-echo "Show softirqs: $softirq_type"
+# echo ${softirqs[@]}
+# Remove type label like 'SCHED:'
+unset softirqs[0]
+# echo ${softirqs[@]}
+
+echo
+echo "Printing /proc/softirqs, print with alignment"
+echo "Show softirqs: $softirq_type, number ${#softirqs[@]}"
+echo
 for ((i = 0; i < $interval - 1; i++))
 do
 printf "%-4s %-16s\t" CPU NUM
 done
 printf "%-4s %-16s\n" CPU NUM
-
-# echo ${softirqs[@]}
-# Remove type label like 'SCHED:'
-unset softirqs[0]
-# echo ${softirqs[@]}
 
 
 for ((i = 0; i < ${#softirqs[@]}; i+=$interval))
