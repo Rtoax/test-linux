@@ -1,6 +1,7 @@
 
 TARGETS := set-value
-TARGETS += set-value-ok
+TARGETS += set-value-func
+TARGETS += set-value-volatile
 
 CC = gcc
 CFLAGS := -Werror -Wall
@@ -11,7 +12,8 @@ build: ${TARGETS}
 
 # Add more object.o file
 set-value: set-value.o
-set-value-ok: set-value-ok.o
+set-value-func: set-value-func.o
+set-value-volatile: set-value-volatile.o
 
 clean:
 	@echo -e "Clean   \033[1;32m$(@)\033[m"

@@ -1,4 +1,4 @@
-break set-value.c:20
+break set-value.c:23
 run
 #i registers rip
 set rc=-1

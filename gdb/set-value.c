@@ -11,6 +11,9 @@ static int alloc(void)
 
 int __attribute__((optimize("-O0"))) main(void)
 {
+#ifdef VOLATILE_RC
+	volatile
+#endif
 	int rc = 0;
 
 	rc = alloc();
