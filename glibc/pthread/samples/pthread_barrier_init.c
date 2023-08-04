@@ -9,13 +9,13 @@ pthread_barrierattr_t barrierattr;
 
 void* test_task_fn(void* unused)
 {
-	printf("test_task_fn %ld.\n", pthread_self());
+	printf("test_task_fn %ld.\n", (unsigned long)pthread_self());
 
-	sleep(pthread_self() % NR_THREAD);
+	sleep((unsigned long)pthread_self() % NR_THREAD);
 
 	pthread_barrier_wait(&barrier);
 
-	printf("thread %ld done.\n", pthread_self());
+	printf("thread %ld done.\n", (unsigned long)pthread_self());
 
 	pthread_exit(NULL);
 	return NULL;
