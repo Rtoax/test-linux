@@ -9,7 +9,12 @@
 /* No glibc swapper */
 int sys_faccessat2(int dirfd, const char *pathname, int mode, int flags)
 {
+#if defined(SYS_faccessat2)
 	return syscall(SYS_faccessat2, dirfd, pathname, mode, flags);
+#else
+	errno = -ENOSYS;
+	return -1;
+#endif
 }
 
 int main(void)
