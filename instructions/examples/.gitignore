@@ -8,3 +8,5 @@
 /bswapl
 /bswapq
 /_mm_clflush
+/stosb
+/memset

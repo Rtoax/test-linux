@@ -20,6 +20,7 @@ TARGETS += rdtsc_evil
 TARGETS += fsin
 TARGETS += bswapl
 TARGETS += _mm_clflush
+TARGETS += stosb memset
 endif
 ifeq ($(shell uname -m),aarch64)
 endif
@@ -39,6 +40,8 @@ rdtsc_cmp: rdtsc_cmp.o
 rdtsc_evil: rdtsc_evil.o
 _mm_clflush: _mm_clflush.o
 fsin: fsin.o
+stosb: stosb.o
+memset: memset.o
 
 CFLAGS += -g -ggdb
 CFLAGS += -D_GNU_SOURCE
