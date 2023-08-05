@@ -1,6 +1,6 @@
 
 TARGETS := fallocate
-TARGETS += faccessat2
+TARGETS += access faccessat2
 TARGETS += fdopen
 TARGETS += getrlimit setrlimit ulimit
 TARGETS += nr
@@ -59,6 +59,7 @@ nr.h:
 # Add more object.o file
 fallocate: fallocate.o
 faccessat2: faccessat2.o
+access: access.o
 fdopen: fdopen.o
 get_thread_area: get_thread_area.o
 getrlimit: getrlimit.o
