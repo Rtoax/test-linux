@@ -10,16 +10,6 @@ Cgroup v2 是 cgroup Linux API 的下一个版本。与 cgroup v1 不同的是�
 * 更新的功能，如压力失速信息（Pressure Stall Information）
 
 
-# Enable CGroup V2
-
-```
-# dnf install -y grubby && \
-  sudo grubby \
-  --update-kernel=ALL \
-  --args="systemd.unified_cgroup_hierarchy=1"
-```
-
-
 # Refs
 
 * [Linux Documentation: Control Group v2](https://www.kernel.org/doc/Documentation/cgroup-v2.txt)
