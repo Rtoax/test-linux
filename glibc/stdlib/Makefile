@@ -1,5 +1,5 @@
 
-TARGETS += mkdtemp
+TARGETS += mkdtemp mktemp
 
 ifeq ($(shell uname -m),x86_64)
 endif
@@ -22,6 +22,7 @@ build: ${TARGETS}
 
 # Add more object.o file
 mkdtemp: mkdtemp.o
+mktemp: mktemp.o
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
@@ -29,4 +30,4 @@ test: ${TARGETS}
 clean:
 	@echo -e "Clean   \033[1;32m$(@)\033[m"
 	@rm -f ${TARGETS} *.o *.d *.log
-	@rmdir tmpd-*
+	@rmdir tmpd-* tmp-*
