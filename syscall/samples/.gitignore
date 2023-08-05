@@ -1,5 +1,6 @@
 /access
 /*.txt
+/tmp-*
 /fallocate
 /faccessat2
 /fdopen
@@ -35,3 +36,4 @@
 /flock-4-thread
 /testfile
 /tmpfs
+/unlink
