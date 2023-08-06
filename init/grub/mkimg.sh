@@ -2,6 +2,8 @@
 
 set -e
 
+. ../../libs/qemu.sh
+
 goodbye()
 {
 	echo "Exit..."
@@ -101,13 +103,14 @@ mkimg_bootcd()
 
 	rm -rf ${root_dir}
 
+	local qemu_kvm=$(get_qemu_kvm_emulator)
 	echo -e "
 Now you can runing
 
 \033[1;02m # running directly \033[m
-\033[1;32m $ /usr/libexec/qemu-kvm -cdrom bootcd.iso \033[m
+\033[1;32m $ ${qemu_kvm} -cdrom bootcd.iso \033[m
 \033[1;02m # running with gdb port \033[m
-\033[1;32m $ /usr/libexec/qemu-kvm -cdrom bootcd.iso -s -S \033[m
+\033[1;32m $ ${qemu_kvm} -cdrom bootcd.iso -s -S \033[m
 
 more to see <https://www.cnblogs.com/coryxie/archive/2013/03/12/2956807.html>
 "

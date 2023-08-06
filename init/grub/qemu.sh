@@ -1,6 +1,8 @@
 #!/bin/bash
 
-qemu_emulator=/usr/libexec/qemu-kvm
+. ../../libs/qemu.sh
+
+qemu_emulator=$(get_qemu_kvm_emulator)
 grub_img=$PWD/grub.img
 qemu_grub_img=$PWD/qemu-grub.img
 boot_dir=$PWD/boot_dir.out/

@@ -1,19 +1,9 @@
-possible_qemu_emulator=(
-	/usr/libexec/qemu-kvm
-	/usr/bin/qemu-system-$(uname -m)
-)
+. ../../libs/qemu.sh
 
-QEMU=
+QEMU=$(get_qemu_kvm_emulator)
 IMG_QCOW2=$PWD/vm.qcow2
 IMG_ISO=/home/isos/AlmaLinux-9.0-x86_64-dvd.iso
 SOCK_VHOST_PATH=$PWD/vhost.sock
-
-for q in ${possible_qemu_emulator[@]}
-do
-	if [[ -e ${q} ]]; then
-		QEMU=${q}
-	fi
-done
 
 [[ -z ${QEMU} ]] && echo "Not found Qemu/kvm emulator" && exit 1
 
