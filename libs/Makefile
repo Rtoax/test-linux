@@ -1,5 +1,6 @@
 
 TARGETS := gotoxy
+TARGETS += memshow
 
 DEBUG = yes
 SRC_PATH := $(shell pwd)
@@ -17,6 +18,7 @@ build: ${TARGETS}
 
 # Add more object.o file
 gotoxy: gotoxy.o
+memshow: memshow.o
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
