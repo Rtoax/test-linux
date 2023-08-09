@@ -2,6 +2,7 @@
 #include <sys/time.h>
 #include <stdlib.h>
 #include <signal.h>
+#include <unistd.h>
 
 
 void catch_fun(int signo)
