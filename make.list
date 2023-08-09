@@ -21,6 +21,7 @@ KERNEL_LIST += algorithm/ida/modules
 KERNEL_LIST += algorithm/list/modules
 KERNEL_LIST += algorithm/rbtree/modules
 KERNEL_LIST += algorithm/string/modules
+KERNEL_LIST += boot/modules
 KERNEL_LIST += driver/block/bio/modules
 KERNEL_LIST += fs/configfs/modules
 KERNEL_LIST += fs/debugfs/modules

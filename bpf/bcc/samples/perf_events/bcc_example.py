@@ -1,3 +1,4 @@
+#!/bin/env python3
 from bcc import BPF
 
 bpf_source = """
@@ -5,7 +6,7 @@ bpf_source = """
 
 BPF_PERF_OUTPUT(events);
 
-int do_sys_execve(struct pt_regs *ctx, void filename, void argv, void envp) {
+int do_sys_execve(struct pt_regs *ctx, void *filename, void *argv, void *envp) {
   char comm[16];
   bpf_get_current_comm(&comm, sizeof(comm));
 
@@ -32,5 +33,5 @@ while True:
     except KeyboardInterrupt:
       break
 
-for (comm, times) in aggregates.most_common(): 
+for (comm, times) in aggregates.most_common():
   print("Program {} executed {} times".format(comm, times))

@@ -1,3 +1,4 @@
+#!/bin/env python3
 from bcc import BPF
 
 bpf_source = """
@@ -25,6 +26,6 @@ int print_duration(struct pt_regs *ctx) {
 """
 
 bpf = BPF(text = bpf_source)
-bpf.attach_uprobe(name = "./hello-bpf", sym = "main.main", fn_name = "trace_start_time")
-bpf.attach_uretprobe(name = "./hello-bpf", sym = "main.main", fn_name = "print_duration")
+bpf.attach_uprobe(name = "./main", sym = "main.main", fn_name = "trace_start_time")
+bpf.attach_uretprobe(name = "./main", sym = "main.main", fn_name = "print_duration")
 bpf.trace_print()
