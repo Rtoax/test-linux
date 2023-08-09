@@ -1,9 +1,8 @@
 
-TARGETS= \
-	./filter-write.out
+TARGETS := filter-write
 
 # Add more object.o file
-filter-write.out: filter-write.o
+filter-write: filter-write.o
 
 DEBUG = yes
 SRC_PATH := $(shell pwd)
@@ -32,7 +31,7 @@ $(TARGETS): %:
 	@$(CC) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
 
 test: ${TARGETS}
-	./filter-write.out /usr/bin/ls
+	./filter-write /usr/bin/ls
 
 clean:
 	@rm -f ${TARGETS} *.o *.d
