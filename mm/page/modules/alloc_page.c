@@ -1,5 +1,5 @@
 /**
- *	File	./alloc_page.c
+ *	File	alloc_page.c
  *	Time	2021.11.05
  *	Author	Rong Tao <rongtao@cestc.cn>
  */
@@ -10,6 +10,7 @@
 #include <linux/printk.h>
 #include <linux/gfp.h>
 #include <linux/mm.h>
+#include <linux/mmdebug.h>
 #include <linux/page_ref.h> //page_count()
 #include <linux/page-flags.h> //PG_xxxx
 #include <asm/pgtable.h>
@@ -26,6 +27,7 @@ static void print_page(struct page* page)
 	printk("PageAnon  %d\n", PageAnon(page));
 	printk("page2virt %p\n", page_to_virt(page));
 	printk("page2pfn  %lx\n", page_to_pfn(page));
+	dump_page(page, "I just wanna see page.");
 }
 static struct page* test__alloc(void)
 {
