@@ -1,5 +1,8 @@
 #!/bin/bash
 
+set -euo pipefail
+
+
 handle_failed_cmd()
 {
 	touch /root/tmp || {
