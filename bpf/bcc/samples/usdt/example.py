@@ -11,7 +11,7 @@ int trace_binary_exec(struct pt_regs *ctx)
 }
 """
 
-usdt = USDT(path = "./hello_usdt.out")
+usdt = USDT(path = "./hello_usdt")
 usdt.enable_probe(probe = "probe-main", fn_name = "trace_binary_exec")
 bpf = BPF(text = bpf_source, usdt_contexts = [usdt])
 bpf.trace_print()
