@@ -2,6 +2,7 @@
 #include <signal.h>
 #include <string.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 
 void sig_handler(int signum)

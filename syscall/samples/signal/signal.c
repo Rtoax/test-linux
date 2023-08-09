@@ -2,6 +2,7 @@
 #include <signal.h>
 #include <string.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 
 volatile sig_atomic_t keep_going = 1;
