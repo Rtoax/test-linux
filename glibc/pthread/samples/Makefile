@@ -23,7 +23,7 @@ TARGETS += pthread_key_create pthread_setspecific
 TARGETS += pthread_join-coredump
 TARGETS += pthread_join pthread_tryjoin_np pthread_timedjoin_np pthread_detach
 TARGETS += pthread_getname_np pthread_setname_np
-TARGETS += pthread_rwlock_init pthread_rwlock_rdlock
+TARGETS += pthread_rwlock_init pthread_rwlock_rdlock pthread_rwlockattr_setpshared
 TARGETS += pthread_self
 TARGETS += pthread_spin_lock
 TARGETS += pthread_spin-latency pthread_spin-latency-loop
@@ -86,6 +86,7 @@ pthread_timedjoin_np: pthread_timedjoin_np.o
 pthread_getname_np: pthread_getname_np.o
 pthread_rwlock_init: pthread_rwlock_init.o
 pthread_rwlock_rdlock: pthread_rwlock_rdlock.o
+pthread_rwlockattr_setpshared: pthread_rwlockattr_setpshared.o
 pthread_setname_np: pthread_setname_np.o
 pthread_self: pthread_self.o
 pthread_setspecific: pthread_setspecific.o
