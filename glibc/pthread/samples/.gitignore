@@ -25,6 +25,7 @@
 /pthread_tryjoin_np
 /pthread_getname_np
 /pthread_rwlock_init
+/pthread_rwlock_rdlock
 /pthread_setname_np
 /pthread_setspecific
 /pthread_setaffinity_np

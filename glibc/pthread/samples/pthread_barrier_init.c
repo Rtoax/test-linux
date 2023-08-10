@@ -28,7 +28,7 @@ int main(void)
 	pthread_t threadids[NR_THREAD];
 
 	pthread_barrierattr_init(&barrierattr);
-    pthread_barrierattr_setpshared(&barrierattr, PTHREAD_PROCESS_SHARED);
+	pthread_barrierattr_setpshared(&barrierattr, PTHREAD_PROCESS_SHARED);
 
 	pthread_barrier_init(&barrier, &barrierattr, NR_THREAD);
 
