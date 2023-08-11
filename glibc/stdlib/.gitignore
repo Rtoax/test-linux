@@ -1,5 +1,6 @@
 /mkdtemp
 /mktemp
+/env
 /setenv
 /getenv
 /clearenv
