@@ -1,5 +1,6 @@
 
 TARGETS += mkdtemp mktemp
+TARGETS += setenv
 
 ifeq ($(shell uname -m),x86_64)
 endif
@@ -23,6 +24,7 @@ build: ${TARGETS}
 # Add more object.o file
 mkdtemp: mkdtemp.o
 mktemp: mktemp.o
+setenv: setenv.o
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
