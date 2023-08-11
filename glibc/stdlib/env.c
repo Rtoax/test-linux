@@ -10,10 +10,11 @@ int main(void)
 	char *env;
 	int ret;
 	char env_path[1024];
+	char cwd[512];
 
-
+	getcwd(cwd, sizeof(cwd));
 	env = getenv("PATH");
-	sprintf(env_path, "PATH=%s:/home/rongtao/Git/test-linux/glibc/stdlib", env);
+	snprintf(env_path, sizeof(env_path), "PATH=%s:%s", env, cwd);
 	putenv(env_path);
 	env = getenv("PATH");
 	printf("env = %s\n", env);
