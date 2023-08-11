@@ -29,7 +29,7 @@ int main(void)
 
 	sleep(1);
 
-    /* I don't want to know child thread exit, detach is different from join. */
+	/* I don't want to know child thread exit, detach is different from join. */
 	pthread_detach(thread_id);
 
 	return 0;

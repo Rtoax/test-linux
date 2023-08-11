@@ -42,18 +42,18 @@ void init_pi_mutex(pthread_mutex_t * m)
 
 	if ((ret = pthread_mutexattr_init(&attr)) != 0) {
 		printf("Failed to init mutexattr: %d (%s)\n", ret,
-		       strerror(ret));
+			strerror(ret));
 	};
 	if (_use_pi
-	    && (ret =
+		&& (ret =
 		pthread_mutexattr_setprotocol(&attr,
-					      PTHREAD_PRIO_INHERIT)) != 0) {
+						PTHREAD_PRIO_INHERIT)) != 0) {
 		printf("Can't set protocol prio inherit: %d (%s)\n", ret,
-		       strerror(ret));
+			strerror(ret));
 	}
 	if ((ret = pthread_mutexattr_getprotocol(&attr, &protocol)) != 0) {
 		printf("Can't get mutexattr protocol: %d (%s)\n", ret,
-		       strerror(ret));
+			strerror(ret));
 	}
 	if ((ret = pthread_mutex_init(m, &attr)) != 0) {
 		printf("Failed to init mutex: %d (%s)\n", ret, strerror(ret));
@@ -88,7 +88,7 @@ struct thread * create_thread(void *(*func) (void *), void *arg, int prio, int p
 	pthread_attr_setschedparam(&thread->attr, &param);
 
 	if ((ret = pthread_create(&thread->pthread, &thread->attr, func,
-			    (void *)thread))) {
+				(void *)thread))) {
 		printf("pthread_create failed: %d (%s)\n", ret, strerror(ret));
 		pthread_attr_destroy(&thread->attr);
 		free(thread);
@@ -99,17 +99,17 @@ struct thread * create_thread(void *(*func) (void *), void *arg, int prio, int p
 	return thread;
 }
 
-struct thread *  create_fifo_thread(void *(*func) (void *), void *arg, int prio)
+struct thread *create_fifo_thread(void *(*func) (void *), void *arg, int prio)
 {
 	return create_thread(func, arg, prio, SCHED_FIFO);
 }
 
-struct thread *  create_rr_thread(void *(*func) (void *), void *arg, int prio)
+struct thread *create_rr_thread(void *(*func) (void *), void *arg, int prio)
 {
 	return create_thread(func, arg, prio, SCHED_RR);
 }
 
-struct thread *  create_other_thread(void *(*func) (void *), void *arg)
+struct thread *create_other_thread(void *(*func) (void *), void *arg)
 {
 	return create_thread(func, arg, 0, SCHED_OTHER);
 }
