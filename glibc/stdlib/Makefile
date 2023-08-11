@@ -1,6 +1,7 @@
 
 TARGETS += mkdtemp mktemp
 TARGETS += setenv
+TARGETS += getenv
 
 ifeq ($(shell uname -m),x86_64)
 endif
@@ -25,6 +26,7 @@ build: ${TARGETS}
 mkdtemp: mkdtemp.o
 mktemp: mktemp.o
 setenv: setenv.o
+getenv: getenv.o
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"

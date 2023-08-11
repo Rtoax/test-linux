@@ -1,4 +1,5 @@
 /mkdtemp
 /mktemp
 /setenv
+/getenv
 /tmpd-*
