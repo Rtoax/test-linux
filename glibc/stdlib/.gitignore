@@ -2,4 +2,7 @@
 /mktemp
 /setenv
 /getenv
+/clearenv
+/putenv
+/unsetenv
 /tmpd-*
