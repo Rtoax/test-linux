@@ -32,4 +32,4 @@ test: ${TARGETS}
 clean:
 	@echo -e "Clean   \033[1;32m$(@)\033[m"
 	@rm -f ${TARGETS} *.o *.d *.log
-	@rmdir tmpd-* tmp-*
+	@rm -rf tmpd-* tmp-*
