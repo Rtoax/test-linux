@@ -22,6 +22,7 @@ TARGETS += setitimer
 TARGETS += flock flock-2 flock-3 flock-4-thread
 TARGETS += unlink
 TARGETS += uname
+TARGETS += userfaultfd
 
 TARGETS_CPP += readlink2
 
@@ -94,6 +95,7 @@ flock-3: flock-3.o
 flock-4-thread: flock-4-thread.o
 unlink: unlink.o
 uname: uname.o
+userfaultfd: userfaultfd.o
 
 %.d: %.c
 	@echo -e "Generate \033[1m$(@)\033[m"
