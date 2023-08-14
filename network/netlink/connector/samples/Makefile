@@ -3,11 +3,11 @@ obj-m += cn_test.o
 
 all:
 	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
-	gcc ./ucon.c -o ucon.out
+	gcc ./ucon.c -o ucon
 
 test:
 	@echo >/dev/null
 
 clean:
 	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) clean
-	rm -f ucon.out
+	rm -f ucon
