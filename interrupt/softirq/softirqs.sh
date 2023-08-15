@@ -39,10 +39,10 @@ while true; do
 		case $1 in
 		HI | TIMER | NET_TX | NET_RX | BLOCK | IRQ_POLL | TASKLET | SCHED | HRTIMER | RCU)
 			softirq_type=$1
-			softirqs=( $(cat /proc/softirqs | grep $softirq_type -w) )
 			;;
 		*)
 			echo "ERROR: Unknow softirq, check -h,--help"
+			exit 1
 		esac
 		shift
 		;;
@@ -59,10 +59,16 @@ done
 
 [[ -z ${softirq_type} ]] && echo "ERROR: Must specify type. see -h" && exit 1
 
-# echo ${softirqs[@]}
-# Remove type label like 'SCHED:'
-unset softirqs[0]
-# echo ${softirqs[@]}
+update_softirqs()
+{
+	softirqs=( $(cat /proc/softirqs | grep $softirq_type -w) )
+	# echo ${softirqs[@]}
+	# Remove type label like 'SCHED:'
+	unset softirqs[0]
+	# echo ${softirqs[@]}
+}
+
+update_softirqs
 
 echo
 echo "Printing /proc/softirqs, print with alignment"
