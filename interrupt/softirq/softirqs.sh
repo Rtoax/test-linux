@@ -7,24 +7,57 @@
 
 declare -a softirqs
 softirq_type=
-
-case $1 in
-HI | TIMER | NET_TX | NET_RX | BLOCK | IRQ_POLL | TASKLET | SCHED | HRTIMER | RCU)
-	softirq_type=$1
-	softirqs=( $(cat /proc/softirqs | grep $softirq_type -w) )
-	;;
-*)
-	echo "
- softirqs [type]
-
- type: HI | TIMER | NET_TX | NET_RX | BLOCK | IRQ_POLL | TASKLET | SCHED | HRTIMER | RCU
-"
-	exit
-	;;
-esac
-
-
 interval=5
+
+
+__usage__()
+{
+	echo "
+ softirqs [args]
+
+ -t, --type       HI | TIMER | NET_TX | NET_RX | BLOCK | IRQ_POLL | TASKLET | SCHED | HRTIMER | RCU
+
+ -h, --help       show this information
+"
+	exit ${1-0}
+}
+
+ARGS=$(getopt \
+	--options t:h \
+	--long type: \
+	--long help \
+	-n softirqs -- "$@")
+
+test $? != 0 && __usage__ 1
+
+eval set -- "$ARGS"
+
+while true; do
+	case $1 in
+	-t | --type)
+		shift
+		case $1 in
+		HI | TIMER | NET_TX | NET_RX | BLOCK | IRQ_POLL | TASKLET | SCHED | HRTIMER | RCU)
+			softirq_type=$1
+			softirqs=( $(cat /proc/softirqs | grep $softirq_type -w) )
+			;;
+		*)
+			echo "ERROR: Unknow softirq, check -h,--help"
+		esac
+		shift
+		;;
+	-h | --help)
+		shift
+		__usage__
+		;;
+	--)
+		shift
+		break
+		;;
+	esac
+done
+
+[[ -z ${softirq_type} ]] && echo "ERROR: Must specify type. see -h" && exit 1
 
 # echo ${softirqs[@]}
 # Remove type label like 'SCHED:'
