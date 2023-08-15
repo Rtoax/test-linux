@@ -1,3 +1,4 @@
+obj-m += hello.o
 obj-m += chardev0.o
 obj-m += chardev1.o
 obj-m += chardev2.o
@@ -11,12 +12,15 @@ all:
 	make -C $(KERNEL_DIR) M=$(MODULE_DIR) modules
 clean:
 	make -C $(KERNEL_DIR) M=$(MODULE_DIR) clean
-	rm -f chardev1_usertest.out \
-		chardev2_usertest.out \
-		chardev3_usertest.out \
-		chardev4_usertest.out
+	rm -f \
+		hello_user \
+		chardev1_user \
+		chardev2_user \
+		chardev3_user \
+		chardev4_user
 test:
-	gcc ./chardev1_usertest.c -o chardev1_usertest.out
-	gcc ./chardev2_usertest.c -o chardev2_usertest.out
-	gcc ./chardev3_usertest.c -o chardev3_usertest.out
-	gcc ./chardev4_usertest.c -o chardev4_usertest.out
+	gcc ./hello_user.c -o hello_user
+	gcc ./chardev1_usertest.c -o chardev1_user
+	gcc ./chardev2_usertest.c -o chardev2_user
+	gcc ./chardev3_usertest.c -o chardev3_user
+	gcc ./chardev4_usertest.c -o chardev4_user
