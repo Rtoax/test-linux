@@ -2,8 +2,16 @@
 #include <limits.h>
 #include <string>
 #include <iostream>
-#include <filesystem>
 
+#if __has_include(<filesystem>)
+#include <filesystem>
+namespace std_filesystem = std::filesystem;
+#elif __has_include(<experimental/filesystem>)
+#include <experimental/filesystem>
+namespace std_filesystem = std::experimental::filesystem;
+#else
+#error "neither <filesystem> nor <experimental/filesystem> are present"
+#endif
 
 std::string do_readlink(std::string const& path)
 {
@@ -26,7 +34,7 @@ int main(void)
 	std::cout << path << ": " << link << std::endl;
 
 	std::string path2 = "/bin/ls";
-	std::filesystem::path absolutePath = std::filesystem::canonical(path2);
+	std_filesystem::path absolutePath = std_filesystem::canonical(path2);
 
 	std::cout << path2 << ": " << absolutePath << std::endl;
 
