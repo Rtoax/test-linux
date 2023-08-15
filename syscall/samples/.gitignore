@@ -39,3 +39,4 @@
 /unlink
 /uname
 /userfaultfd
+/memfd_create
