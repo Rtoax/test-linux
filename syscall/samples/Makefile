@@ -25,6 +25,7 @@ TARGETS += uname
 TARGETS += userfaultfd
 TARGETS += memfd_create memfd_create-dup2
 TARGETS += membarrier
+TARGETS += symlink
 
 TARGETS_CPP += readlink2
 
@@ -101,6 +102,7 @@ userfaultfd: userfaultfd.o
 memfd_create: memfd_create.o
 memfd_create-dup2: memfd_create-dup2.o
 membarrier: membarrier.o
+symlink: symlink.o
 
 %.d: %.c
 	@echo -e "Generate \033[1m$(@)\033[m"
