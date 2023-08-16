@@ -1,1 +1,3 @@
 /getcwd
+/ttyname
+/ttyname_r
