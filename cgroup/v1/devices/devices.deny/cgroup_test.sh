@@ -1,6 +1,8 @@
 #!/bin/bash
 # link: https://0xax.gitbooks.io/linux-insides/content/Cgroups/linux-cgroups-1.html
 
+set -e
+
 if [[ ! -d /sys/fs/cgroup/devices ]]; then
 	echo "ERROR: not support cgroup-v1"
 	exit 1
@@ -12,13 +14,30 @@ if [[ $(id -u | awk '{print $1}') != 0 ]]; then
 	exit 1
 fi
 
-mkdir /sys/fs/cgroup/devices/cgroup_test_group
+# Create a cgroup
+if [[ ! -d /sys/fs/cgroup/devices/cgroup_test_group ]]; then
+	mkdir /sys/fs/cgroup/devices/cgroup_test_group
+	ls /sys/fs/cgroup/devices/cgroup_test_group/
+fi
 
-ls /sys/fs/cgroup/devices/cgroup_test_group/
-
-echo "c 5:0 w" > /sys/fs/cgroup/devices/cgroup_test_group/devices.deny
-
-ls -l /dev/tty
-
+# Add process to cgroup tasks
 echo $(pidof -x cgroup_test_script.sh) > /sys/fs/cgroup/devices/cgroup_test_group/tasks
+
+# see: ls -l /dev/tty
+# type = c = char
+# major = 5, minor = 0 (tty)
+# access = write
+case $1 in
+deny)
+	echo "c 5:0 w" > /sys/fs/cgroup/devices/cgroup_test_group/devices.deny
+	;;
+allow)
+	echo "c 5:0 w" > /sys/fs/cgroup/devices/cgroup_test_group/devices.allow
+	;;
+*)
+	echo "
+$0 [deny|allow]
+	"
+	;;
+esac
 
