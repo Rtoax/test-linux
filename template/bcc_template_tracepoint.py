@@ -12,6 +12,19 @@ from bcc.utils import printb
 import argparse
 import os
 from time import strftime
+import logging
+from systemd.journal import JournalHandler
+
+# arguments
+parser = argparse.ArgumentParser(
+    description="Add some description",
+    formatter_class=argparse.RawDescriptionHelpFormatter)
+parser.add_argument("-L", "--journal", action="store_true",
+    help="log to systemd.journal")
+
+args = parser.parse_args()
+journal = args.journal
+
 
 bpf_text = """
 #include <linux/fs.h>
@@ -47,6 +60,12 @@ def print_filelock_event(cpu, data, size):
     event = b["filelock_events"].event(data)
     printb(b"%-8s %-8d %-16s %-8d %-8d" %
            (strftime("%H:%M:%S").encode('ascii'), event.pid, event.comm, event.ino, event.ret))
+
+if journal:
+    log = logging.getLogger('some.name')
+    log.addHandler(JournalHandler())
+    log.setLevel(logging.INFO)
+    log.info(b"sent to journal: %d" % (1))
 
 b = BPF(text=bpf_text)
 

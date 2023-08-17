@@ -2,7 +2,7 @@
 #
 # devdeny.py - check cgroup-v1 devices.deny
 #
-# Copyright (C) Rong Tao 2022-2023
+# Copyright (C) CESTC, Co 2022-2023
 #
 # 2023-08-17	Rong Tao	Create this.
 
@@ -13,6 +13,19 @@ from bcc.utils import printb
 import argparse
 import os
 from time import strftime
+import logging
+from systemd.journal import JournalHandler
+
+
+# arguments
+parser = argparse.ArgumentParser(
+    description="Tracing cgroup-v1 devices.deny events",
+    formatter_class=argparse.RawDescriptionHelpFormatter)
+parser.add_argument("-L", "--journal", action="store_true",
+    help="log to systemd.journal")
+
+args = parser.parse_args()
+journal = args.journal
 
 
 bpf_text = """
@@ -75,6 +88,7 @@ def print_devcgroup_update_access(cpu, data, size):
     elif event.filetype == 3: # LIST
         filetype = b"list"
 
+    # Print to stdout
     printb(b"%-8s %-8d %-16s %-8s %-12s %-s" %
         (strftime("%H:%M:%S").encode('ascii'),
          event.pid,
@@ -82,6 +96,20 @@ def print_devcgroup_update_access(cpu, data, size):
          filetype,
          event.buffer,
          event.cgroup_name))
+    # Log to journal
+    if journal:
+        log.info(b"%s(%d) set %s/devices.%s to '%s'" %
+        (event.comm,
+         event.pid,
+         event.cgroup_name,
+         filetype,
+         event.buffer))
+
+if journal:
+    log = logging.getLogger('cgroup-v1:devices.deny')
+    log.addHandler(JournalHandler())
+    log.setLevel(logging.INFO)
+    log.info(b"sent to journal: %d" % (1))
 
 # Main Start
 b = BPF(text=bpf_text)
