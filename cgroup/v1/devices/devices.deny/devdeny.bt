@@ -42,8 +42,9 @@ kprobe:devcgroup_update_access
 	$buffer = str(arg2);
 
 	time("%H:%M:%S ");
-	printf("%-8d %-16s %-8s %-8s %-32s\n",
-		pid, comm, @FILETYPE[$filetype], $buffer, str($kernfs_node->name));
+	printf("%-8d %-16s ", pid, comm);
+	printf("%-8s %-8s %-32s\n",
+		@FILETYPE[$filetype], $buffer, str($kernfs_node->name));
 }
 
 END
