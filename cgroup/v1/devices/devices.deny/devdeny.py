@@ -23,9 +23,17 @@ parser = argparse.ArgumentParser(
     formatter_class=argparse.RawDescriptionHelpFormatter)
 parser.add_argument("-L", "--journal", action="store_true",
     help="log to systemd.journal")
+parser.add_argument("-S", "--silence", action="store_true",
+    help="do not print to console(stdout)")
 
 args = parser.parse_args()
 journal = args.journal
+silence = args.silence
+
+# You must do some thing.
+if journal == 0 and silence:
+    print("Can't set silence if no journal. see --help")
+    exit()
 
 
 bpf_text = """
@@ -89,13 +97,14 @@ def print_devcgroup_update_access(cpu, data, size):
         filetype = b"list"
 
     # Print to stdout
-    printb(b"%-8s %-8d %-16s %-8s %-12s %-s" %
-        (strftime("%H:%M:%S").encode('ascii'),
-         event.pid,
-         event.comm,
-         filetype,
-         event.buffer,
-         event.cgroup_name))
+    if silence == 0:
+        printb(b"%-8s %-8d %-16s %-8s %-12s %-s" %
+            (strftime("%H:%M:%S").encode('ascii'),
+             event.pid,
+             event.comm,
+             filetype,
+             event.buffer,
+             event.cgroup_name))
     # Log to journal
     if journal:
         log.info(b"%s(%d) set %s/devices.%s to '%s'" %
@@ -115,9 +124,10 @@ if journal:
 b = BPF(text=bpf_text)
 b.attach_kprobe(event="devcgroup_update_access", fn_name="trace_devcgroup_update_access")
 
-print("Tracing devices.deny ... Hit Ctrl-C to end")
-print("%-8s %-8s %-16s %-8s %-12s %-s" %
-      ("TIME", "PID", "COMM", "FTYPE", "BUFFER", "CGROUP"))
+if silence == 0:
+    print("Tracing devices.deny ... Hit Ctrl-C to end")
+    print("%-8s %-8s %-16s %-8s %-12s %-s" %
+          ("TIME", "PID", "COMM", "FTYPE", "BUFFER", "CGROUP"))
 
 b["devcgroup_update_access_events"].open_perf_buffer(print_devcgroup_update_access)
 
