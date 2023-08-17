@@ -11,6 +11,7 @@ from bcc import ArgString, BPF
 from bcc.utils import printb
 import argparse
 import os
+from time import strftime
 
 bpf_text = """
 #include <linux/fs.h>
@@ -44,13 +45,13 @@ TRACEPOINT_PROBE(filelock, flock_lock_inode) {
 
 def print_filelock_event(cpu, data, size):
     event = b["filelock_events"].event(data)
-    printb(b"%-8d %-16s %-8d %-8d" \
-           % (event.pid, event.comm, event.ino, event.ret))
+    printb(b"%-8s %-8d %-16s %-8d %-8d" %
+           (strftime("%H:%M:%S").encode('ascii'), event.pid, event.comm, event.ino, event.ret))
 
 b = BPF(text=bpf_text)
 
 print("Tracing filelock ... Hit Ctrl-C to end")
-print("%-8s %-16s %-8s %-8s" % ("PID", "COMM", "INODE", "RESULT"))
+print("%-8s %-8s %-16s %-8s %-8s" % ("TIME", "PID", "COMM", "INODE", "RESULT"))
 
 b["filelock_events"].open_perf_buffer(print_filelock_event)
 

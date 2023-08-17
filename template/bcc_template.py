@@ -12,6 +12,7 @@ from bcc.containers import filter_by_containers
 from bcc.utils import printb
 import argparse
 import os
+from time import strftime
 
 bpf_text = """
 #include <linux/sched.h>
@@ -42,7 +43,8 @@ int trace_sched_fork_entry(struct pt_regs *ctx)
 
 def print_sched_fork_event(cpu, data, size):
     event = b["sched_fork_events"].event(data)
-    printb(b"sched_fork: %lx %lx" % (event.addr_task, event.addr_se))
+    printb(b"sched_fork: %-8s %lx %lx" %
+           (strftime("%H:%M:%S").encode('ascii'), event.addr_task, event.addr_se))
 
 b = BPF(text=bpf_text)
 b.attach_kprobe(event="sched_fork", fn_name="trace_sched_fork_entry")

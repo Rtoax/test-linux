@@ -12,6 +12,7 @@ from bcc.containers import filter_by_containers
 from bcc.utils import printb
 import argparse
 import os
+from time import strftime
 
 
 bpf_text = """
@@ -74,15 +75,21 @@ def print_devcgroup_update_access(cpu, data, size):
     elif event.filetype == 3: # LIST
         filetype = b"list"
 
-    printb(b"%-8d %-16s %-8s %-12s %-s" %
-        (event.pid, event.comm, filetype, event.buffer, event.cgroup_name))
+    printb(b"%-8s %-8d %-16s %-8s %-12s %-s" %
+        (strftime("%H:%M:%S").encode('ascii'),
+         event.pid,
+         event.comm,
+         filetype,
+         event.buffer,
+         event.cgroup_name))
 
 # Main Start
 b = BPF(text=bpf_text)
 b.attach_kprobe(event="devcgroup_update_access", fn_name="trace_devcgroup_update_access")
 
 print("Tracing devices.deny ... Hit Ctrl-C to end")
-print("%-8s %-16s %-8s %-12s %-s" % ("PID", "COMM", "FTYPE", "BUFFER", "CGROUP"))
+print("%-8s %-8s %-16s %-8s %-12s %-s" %
+      ("TIME", "PID", "COMM", "FTYPE", "BUFFER", "CGROUP"))
 
 b["devcgroup_update_access_events"].open_perf_buffer(print_devcgroup_update_access)
 
