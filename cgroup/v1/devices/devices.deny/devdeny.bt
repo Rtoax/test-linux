@@ -1,0 +1,38 @@
+#!/bin/env bpftrace
+/**
+ * devdeny.bt - check cgroup-v1 devices.deny
+ *
+ * Copyright (C) Rong Tao 2022-2023
+ *
+ * 2023-08-17	Rong Tao	Create this.
+ */
+#define DEVCG_ALLOW 1
+#define DEVCG_DENY 2
+#define DEVCG_LIST 3
+
+BEGIN
+{
+	@FILETYPE[DEVCG_ALLOW] = "allow";
+	@FILETYPE[DEVCG_DENY] = "deny";
+	@FILETYPE[DEVCG_LIST] = "list";
+
+	printf("Tracing devices.deny, hit ctrl-c to end.\n");
+	printf("%-8s %-8s %-16s %-8s %-8s\n",
+		"TIME", "PID", "COMM", "FTYPE", "BUFFER");
+}
+
+kprobe:devcgroup_update_access
+{
+	$filetype = arg1;
+	$buffer = str(arg2);
+
+	time("%H:%M:%S ");
+	printf("%-8d %-16s %-8s %-8s\n",
+		pid, comm, @FILETYPE[$filetype], $buffer);
+}
+
+END
+{
+	clear(@FILETYPE);
+	printf("Bye.\n");
+}
