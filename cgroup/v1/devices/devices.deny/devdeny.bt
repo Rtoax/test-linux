@@ -6,8 +6,10 @@
  *
  * 2023-08-17	Rong Tao	Create this.
  */
+#ifndef BPFTRACE_HAVE_BTF
 #include <linux/cgroup-defs.h>
 #include <linux/kernfs.h>
+#endif
 
 #define DEVCG_ALLOW 1
 #define DEVCG_DENY 2
