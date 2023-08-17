@@ -1,4 +1,10 @@
 #!/usr/bin/env python
+#
+# task_struct address - Get task_struct virtual address
+#
+# Licensed under the Apache License, Version 2.0 (the "License")
+#
+# 2022-08-20    Rong Tao    Create this.
 
 from __future__ import print_function
 from bcc import ArgString, BPF
