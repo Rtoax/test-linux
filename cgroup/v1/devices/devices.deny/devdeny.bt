@@ -6,9 +6,18 @@
  *
  * 2023-08-17	Rong Tao	Create this.
  */
+#include <linux/cgroup-defs.h>
+#include <linux/kernfs.h>
+
 #define DEVCG_ALLOW 1
 #define DEVCG_DENY 2
 #define DEVCG_LIST 3
+
+struct dev_cgroup {
+	struct cgroup_subsys_state css;
+	/* more field */
+};
+
 
 BEGIN
 {
@@ -17,18 +26,22 @@ BEGIN
 	@FILETYPE[DEVCG_LIST] = "list";
 
 	printf("Tracing devices.deny, hit ctrl-c to end.\n");
-	printf("%-8s %-8s %-16s %-8s %-8s\n",
-		"TIME", "PID", "COMM", "FTYPE", "BUFFER");
+	printf("%-8s %-8s %-16s %-8s %-8s %-32s\n",
+		"TIME", "PID", "COMM", "FTYPE", "BUFFER", "CGROUP");
 }
 
 kprobe:devcgroup_update_access
 {
+	$devcgroup = (struct dev_cgroup *)arg0;
+	$cgroup = $devcgroup->css.cgroup;
+	$kernfs_node = $cgroup->kn;
+
 	$filetype = arg1;
 	$buffer = str(arg2);
 
 	time("%H:%M:%S ");
-	printf("%-8d %-16s %-8s %-8s\n",
-		pid, comm, @FILETYPE[$filetype], $buffer);
+	printf("%-8d %-16s %-8s %-8s %-32s\n",
+		pid, comm, @FILETYPE[$filetype], $buffer, str($kernfs_node->name));
 }
 
 END
