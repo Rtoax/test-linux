@@ -15,15 +15,15 @@ if [[ $(id -u | awk '{print $1}') != 0 ]]; then
 fi
 
 # Create a cgroup and child cgroup
-if [[ ! -d /sys/fs/cgroup/devices/cgroup_test_group ]]; then
-	# Parent: cgroup_test_group
+if [[ ! -d /sys/fs/cgroup/devices/parent ]]; then
+	# Parent: parent
 	# Child: child
-	mkdir -p /sys/fs/cgroup/devices/cgroup_test_group/child
-	ls /sys/fs/cgroup/devices/cgroup_test_group/
+	mkdir -p /sys/fs/cgroup/devices/parent/child
+	ls /sys/fs/cgroup/devices/parent/
 fi
 
 # Add process to cgroup tasks
-echo $(pidof -x cgroup_test_script.sh) > /sys/fs/cgroup/devices/cgroup_test_group/child/tasks
+echo $(pidof -x cgroup_test_script.sh) > /sys/fs/cgroup/devices/parent/child/tasks
 
 # see: ls -l /dev/tty
 # type = c = char
@@ -31,16 +31,16 @@ echo $(pidof -x cgroup_test_script.sh) > /sys/fs/cgroup/devices/cgroup_test_grou
 # access = write
 case $1 in
 child-deny)
-	echo "c 5:0 w" > /sys/fs/cgroup/devices/cgroup_test_group/child/devices.deny
+	echo "c 5:0 w" > /sys/fs/cgroup/devices/parent/child/devices.deny
 	;;
 child-allow)
-	echo "c 5:0 w" > /sys/fs/cgroup/devices/cgroup_test_group/child/devices.allow
+	echo "c 5:0 w" > /sys/fs/cgroup/devices/parent/child/devices.allow
 	;;
 parent-deny)
-	echo "c 5:0 w" > /sys/fs/cgroup/devices/cgroup_test_group/devices.deny
+	echo "c 5:0 w" > /sys/fs/cgroup/devices/parent/devices.deny
 	;;
 parent-allow)
-	echo "c 5:0 w" > /sys/fs/cgroup/devices/cgroup_test_group/devices.allow
+	echo "c 5:0 w" > /sys/fs/cgroup/devices/parent/devices.allow
 	;;
 *)
 	echo "
