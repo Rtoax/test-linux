@@ -13,6 +13,7 @@ from bcc.utils import printb
 import argparse
 import os
 
+
 bpf_text = """
 #include <linux/fs.h>
 #include <linux/sched.h>
@@ -59,7 +60,15 @@ int trace_devcgroup_update_access(struct pt_regs *ctx)
 
 def print_devcgroup_update_access(cpu, data, size):
     event = b["devcgroup_update_access_events"].event(data)
-    printb(b"%-8d %-16s %-8d %-8s" % (event.pid, event.comm, event.filetype, event.buffer))
+    filetype = b"unknown"
+    if event.filetype == 1: # ALLOW
+        filetype = b"allow"
+    elif event.filetype == 2: # DENY
+        filetype = b"deny"
+    elif event.filetype == 3: # LIST
+        filetype = b"list"
+
+    printb(b"%-8d %-16s %-8s %-8s" % (event.pid, event.comm, filetype, event.buffer))
 
 # Main Start
 b = BPF(text=bpf_text)
