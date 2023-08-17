@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python3
 #
 # devdeny.py - check cgroup-v1 devices.deny
 #
