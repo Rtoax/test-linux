@@ -1,0 +1,3 @@
+#!/bin/bash
+
+cat /sys/kernel/mm/transparent_hugepage/enabled
