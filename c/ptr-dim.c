@@ -7,28 +7,18 @@
 #include <string.h>
 #include <sys/types.h>
 
+#include "helpers.h"
+
 
 struct test_struct {
 	int i;
 };
 
+static struct test_struct *test = NULL;
 
-void *alloc_mem_internal(void **ptr, size_t size)
-{
-	void *p = realloc(*ptr, size);
-	*ptr = p;
-	return p;
-}
-
-void *alloc_mem(void **ptr, size_t size)
-{
-	return alloc_mem_internal(ptr, size);
-}
 
 void test_struct_ptr(void)
 {
-	struct test_struct *test = NULL;
-
 	alloc_mem((void **)&test, 1024);
 	if (test == NULL) {
 		fprintf(stderr, "alloc failed.\n");

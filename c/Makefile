@@ -20,7 +20,7 @@ build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
 # Add more object.o file
-ptr-dim: ptr-dim.o
+ptr-dim: ptr-dim.o helpers.o
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
