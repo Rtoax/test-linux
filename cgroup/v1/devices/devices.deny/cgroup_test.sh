@@ -25,33 +25,63 @@ fi
 # Add process to cgroup tasks
 echo $(pidof -x cgroup_test_script.sh) > /sys/fs/cgroup/devices/parent/child/tasks
 
+cgrp_file=
+buffer="c 5:0 w"
 # see: ls -l /dev/tty
 # type = c = char
 # major = 5, minor = 0 (tty)
 # access = write
 case $1 in
 child-deny)
-	echo "c 5:0 w" > /sys/fs/cgroup/devices/parent/child/devices.deny
+	shift
+	cgrp_file=/sys/fs/cgroup/devices/parent/child/devices.deny
 	;;
 child-allow)
-	echo "c 5:0 w" > /sys/fs/cgroup/devices/parent/child/devices.allow
+	shift
+	cgrp_file=/sys/fs/cgroup/devices/parent/child/devices.allow
+	;;
+child-list)
+	shift
+	cat /sys/fs/cgroup/devices/parent/child/devices.list
+	exit 0
 	;;
 parent-deny)
-	echo "c 5:0 w" > /sys/fs/cgroup/devices/parent/devices.deny
+	shift
+	cgrp_file=/sys/fs/cgroup/devices/parent/devices.deny
 	;;
 parent-allow)
-	echo "c 5:0 w" > /sys/fs/cgroup/devices/parent/devices.allow
+	shift
+	cgrp_file=/sys/fs/cgroup/devices/parent/devices.allow
+	;;
+parent-list)
+	shift
+	cat /sys/fs/cgroup/devices/parent/devices.list
+	exit 0
 	;;
 *)
 	echo "
-$0 [command]
+$0 [command] [buffer]
 
-parent-deny
-parent-allow
+[command]:
+	parent-deny
+	parent-allow
+	parent-list
 
-child-deny
-child-allow
+	child-deny
+	child-allow
+	child-list
+
+[buffer] default: '${buffer}'
+	type major:minor access
+	+ type: a(all), c(char), b(block)
+	+ access: w(write), r(read), m(mknod)
 	"
+	exit 1
 	;;
 esac
 
+if [[ ! -z $1 ]]; then
+	buffer=$1
+fi
+
+echo "${buffer}" > ${cgrp_file}
