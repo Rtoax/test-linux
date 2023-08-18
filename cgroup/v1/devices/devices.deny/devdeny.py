@@ -4,7 +4,8 @@
 #
 # Copyright (C) CESTC, Co 2022-2023
 #
-# 2023-08-17	Rong Tao	Create this.
+# 2023-08-17    Rong Tao    Create this.
+# 2023-08-18    Rong Tao    Apply log level for journal.
 
 from __future__ import print_function
 from bcc import ArgString, BPF
@@ -107,12 +108,18 @@ def print_devcgroup_update_access(cpu, data, size):
              event.cgroup_name))
     # Log to journal
     if journal:
-        log.info(b"%s(%d) set %s/devices.%s to '%s'" %
-        (event.comm,
-         event.pid,
-         event.cgroup_name,
-         filetype,
-         event.buffer))
+        if event.filetype == 2: # deny
+            log_func = log.warning
+        else:
+            log_func = log.info
+
+        log_func(b"%s(%d) set %s/devices.%s to '%s'" %
+            (event.comm,
+             event.pid,
+             event.cgroup_name,
+             filetype,
+             event.buffer))
+
 
 if journal:
     log = logging.getLogger('cgroup-v1:devices.deny')
