@@ -3,6 +3,7 @@ TARGETS := swapcontext
 TARGETS += getcontext
 TARGETS += ucontext_t
 TARGETS += makecontext
+TARGETS += demo1
 
 ifeq ($(shell uname -m),x86_64)
 endif
@@ -28,6 +29,7 @@ swapcontext: swapcontext.o
 getcontext: getcontext.o
 ucontext_t: ucontext_t.o
 makecontext: makecontext.o
+demo1: demo1.o
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
