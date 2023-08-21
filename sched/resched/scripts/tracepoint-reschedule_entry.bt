@@ -1,1 +1,1 @@
-../../../../interrupt/irq_vectors/scripts/reschedule_entry.bt
+../../../interrupt/irq_vectors/scripts/reschedule_entry.bt
