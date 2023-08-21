@@ -4,6 +4,8 @@
 /fallocate
 /faccessat2
 /fdopen
+/fork
+/vfork
 /[g|s]etrlimit
 /ulimit
 /nr

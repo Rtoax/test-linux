@@ -2,6 +2,7 @@
 TARGETS := fallocate
 TARGETS += access faccessat2
 TARGETS += fdopen
+TARGETS += fork vfork
 TARGETS += getrlimit setrlimit ulimit
 TARGETS += nr
 TARGETS += open openat2
@@ -69,6 +70,8 @@ fallocate: fallocate.o
 faccessat2: faccessat2.o
 access: access.o
 fdopen: fdopen.o
+fork: fork.o
+vfork: vfork.o
 get_thread_area: get_thread_area.o
 getrlimit: getrlimit.o
 setrlimit: setrlimit.o
