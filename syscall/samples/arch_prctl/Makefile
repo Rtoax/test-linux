@@ -2,6 +2,7 @@
 TARGETS :=
 ifeq ($(shell uname -m),x86_64)
 TARGETS += ARCH_SET_FS
+TARGETS += fsgsbase
 endif
 
 DEBUG = yes
@@ -20,7 +21,8 @@ build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
 # Add more object.o file
-PR_CAPBSET_DROP: PR_CAPBSET_DROP.o
+ARCH_SET_FS: ARCH_SET_FS.o
+fsgsbase: fsgsbase.o
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
