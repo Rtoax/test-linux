@@ -1,6 +1,7 @@
 
 TARGETS := swapcontext
 TARGETS += getcontext
+TARGETS += ucontext_t
 
 ifeq ($(shell uname -m),x86_64)
 endif
@@ -24,6 +25,7 @@ build: ${TARGETS}
 # Add more object.o file
 swapcontext: swapcontext.o
 getcontext: getcontext.o
+ucontext_t: ucontext_t.o
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
