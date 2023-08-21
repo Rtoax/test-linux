@@ -58,6 +58,7 @@ build: nr.h ${TARGETS} ${TARGETS_CPP}
 	make -C signal
 	make -C socket
 	make -C prctl
+	make -C arch_prctl
 	@echo -e " \033[1;33m Done \033[m"
 
 nr.h:
@@ -141,6 +142,7 @@ clean:
 	make -C epoll clean
 	make -C signal clean
 	make -C prctl clean
+	make -C arch_prctl clean
 	make -C socket clean
 	@rm -f ${TARGETS} ${TARGETS_CPP} \
 		*.o *.d *.opp *.dpp nr.h *.out \

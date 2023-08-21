@@ -1,5 +1,8 @@
 
-TARGETS := PR_CAPBSET_DROP
+TARGETS :=
+ifeq ($(shell uname -m),x86_64)
+TARGETS += ARCH_SET_FS
+endif
 
 DEBUG = yes
 SRC_PATH := $(shell pwd)
