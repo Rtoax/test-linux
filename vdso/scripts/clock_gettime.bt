@@ -28,6 +28,7 @@ uretprobe:/lib64/libc.so.6:clock_gettime
 
 END
 {
+	clear(@cnt);
 	clear(@start);
 }
 
