@@ -2,8 +2,9 @@
 
 filename=rongtao.tar.gz
 
-echo "${filename%%.*}"	# rongtao
-echo "${filename%.*}"	# rongtao.tar
-echo "${filename#*.}"	# tar.gz
-echo "${filename##*.}"	# gz
+printf "filename = %-16s\n" ${filename}
+printf "%-16s = %-16s\n" "\${filename%%.*}" "${filename%%.*}"	# rongtao
+printf "%-16s = %-16s\n" "\${filename%.*}"  "${filename%.*}"	# rongtao.tar
+printf "%-16s = %-16s\n" "\${filename#*.}"  "${filename#*.}"	# tar.gz
+printf "%-16s = %-16s\n" "\${filename##*.}" "${filename##*.}"	# gz
 
