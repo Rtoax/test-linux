@@ -11,6 +11,7 @@ TARGETS :=
 
 # User
 ifeq ($(shell uname -m),x86_64)
+TARGETS += bts
 TARGETS += invalid_opcode_user
 TARGETS += cpuid_user
 TARGETS += rdtsc_user
@@ -31,6 +32,7 @@ kernel:
 	make -C ${KERNELDIR} M=$(PWD) modules
 
 
+bts: bts.o
 bswapl: bswapl.o
 invalid_opcode_user: invalid_opcode_user.o
 cpuid_user: cpuid_user.o
