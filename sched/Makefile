@@ -1,5 +1,6 @@
 
 TARGETS := uninterruptible
+TARGETS += hung
 TARGETS += zombie
 
 ifeq ($(shell uname -m),x86_64)
@@ -23,6 +24,7 @@ build: ${TARGETS}
 
 # Add more object.o file
 uninterruptible: uninterruptible.o
+hung: hung.o
 zombie: zombie.o
 
 test: ${TARGETS}

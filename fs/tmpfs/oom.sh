@@ -4,8 +4,12 @@ set -e
 
 tmpfs=tmpfs.dir
 
-sudo umount ${tmpfs} || true
-rm -rf ${tmpfs}
+clean() {
+	sudo umount ${tmpfs} || true
+	rm -rf ${tmpfs}
+}
+
+clean
 
 mkdir ${tmpfs}
 chmod 777 ${tmpfs}
@@ -15,3 +19,5 @@ pushd ${tmpfs}
 # Trigger OOM
 dd if=/dev/zero of=test.bin bs=512 count=1000000000
 popd
+
+clean

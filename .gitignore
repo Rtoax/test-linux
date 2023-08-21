@@ -108,3 +108,6 @@ core-*
 # CMake
 CMakeFiles
 cmake_install.cmake
+
+# Custom
+*.dir
