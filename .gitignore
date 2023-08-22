@@ -72,6 +72,7 @@ Module.symvers
 modules.order
 .Module.symvers.cmd
 .modules.order.cmd
+*.dtb
 
 # text
 *.txt
