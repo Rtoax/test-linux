@@ -1,0 +1,17 @@
+/dts-v1/;
+
+/ {
+    model = "HELLO1000";
+    compatible = "helloworld,hello100";
+    #address-cells = <1>;
+    #size-cells = <1>;
+
+    memory@30000000 {
+        device_type = "memory";
+        reg =  <0x30000000 0x4000000>;
+    };
+
+    chosen {
+        bootargs = "console=ttyS0,115200 rw";
+    };
+};
