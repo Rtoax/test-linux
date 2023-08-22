@@ -73,6 +73,9 @@ modules.order
 .Module.symvers.cmd
 .modules.order.cmd
 *.dtb
+*.d.dtc.tmp
+*.d.pre.tmp
+*.dts.tmp
 
 # text
 *.txt
