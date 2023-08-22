@@ -2,6 +2,7 @@
 
 / {
 	model = "HELLO1000";
+	/* compatible = [<manufacturer>,]<model> */
 	compatible = "helloworld,hello100";
 	#address-cells = <1>;
 	#size-cells = <1>;
