@@ -20,6 +20,12 @@
 	};
 
 	chosen {
+		stdout-path = &firmware;
 		bootargs = "console=ttyS0,115200 rw";
 	};
+};
+
+&firmware {
+	pinctrl-names = "default";
+	status = "okay";
 };
