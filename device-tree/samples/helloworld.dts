@@ -1,17 +1,21 @@
 /dts-v1/;
 
 / {
-    model = "HELLO1000";
-    compatible = "helloworld,hello100";
-    #address-cells = <1>;
-    #size-cells = <1>;
+	model = "HELLO1000";
+	compatible = "helloworld,hello100";
+	#address-cells = <1>;
+	#size-cells = <1>;
 
-    memory@30000000 {
-        device_type = "memory";
-        reg =  <0x30000000 0x4000000>;
-    };
+	firmware@203F000 {
+		compatible = "samsung,secure-firmware";
+		reg = <0x0203F000 0x1000>;
+	};
+	memory@30000000 {
+		device_type = "memory";
+		reg =  <0x30000000 0x4000000>;
+	};
 
-    chosen {
-        bootargs = "console=ttyS0,115200 rw";
-    };
+	chosen {
+		bootargs = "console=ttyS0,115200 rw";
+	};
 };
