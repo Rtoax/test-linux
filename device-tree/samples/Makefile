@@ -1,9 +1,11 @@
 
-dtb-y := helloworld.dtb
+TARGETS := helloworld.dtb
 
-all:
-	#make -C /lib/modules/$(shell uname -r)/build/ M=${PWD}
-	dtc -I dts -O dtb -o helloworld.dtb helloworld.dts
+build: ${TARGETS}
+
+%.dtb: %.dts
+	@echo -e "Compile  \033[32m$(<)\033[m to \033[32m$(@)\033[m"
+	dtc -I dts -O dtb -o $(@) $(<)
 
 clean:
-	#make -C /lib/modules/$(shell uname -r)/build/ M=${PWD} clean
+	rm -f ${TARGETS}
