@@ -6,10 +6,13 @@
 	#address-cells = <1>;
 	#size-cells = <1>;
 
-	firmware@203F000 {
+	/* <label>:<name>[@<unit_address> */
+	firmware: firmware@203F000 {
 		compatible = "samsung,secure-firmware";
 		reg = <0x0203F000 0x1000>;
 	};
+
+	/* <name>[@<unit_address> */
 	memory@30000000 {
 		device_type = "memory";
 		reg =  <0x30000000 0x4000000>;
