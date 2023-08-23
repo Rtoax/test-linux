@@ -14,7 +14,7 @@ and borrows some code from them.
 You can dynamically add PCI(e) devices like it is done for pci-stub, e.g.:
 
 ```shell
-echo "10ee 7014"  > /sys/bus/pci/drivers/pci_char/new_id 
+echo "10ee 7014"  > /sys/bus/pci/drivers/pci_char/new_id
 echo 0000:20:00.0 > /sys/bus/pci/devices/0000\:20\:00.0/driver/unbind
 echo 0000:20:00.0 > /sys/bus/pci/drivers/pci_char/bind
 ```
@@ -58,6 +58,7 @@ Example write:
 
 ##License##
 Copyright (C) 2012-2014  Andre Richter
+Copyright (C) 2022-2023  Rong Tao
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -72,5 +73,3 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along
 with this program; if not, write to the Free Software Foundation, Inc.,
 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-
-

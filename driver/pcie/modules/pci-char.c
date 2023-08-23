@@ -25,7 +25,7 @@
  *
  * You can dynamically add PCI(e) devices like it is done for pci-stub, e.g.:
  *
- * echo "10ee 7014"  > /sys/bus/pci/drivers/pci_char/new_id 
+ * echo "10ee 7014"  > /sys/bus/pci/drivers/pci_char/new_id
  * echo 0000:20:00.0 > /sys/bus/pci/devices/0000\:20\:00.0/driver/unbind
  * echo 0000:20:00.0 > /sys/bus/pci/drivers/pci_char/bind
  *
@@ -63,9 +63,10 @@
 static char ids[1024] __initdata;
 
 module_param_string(ids, ids, sizeof(ids), 0);
-MODULE_PARM_DESC(ids, "Initial PCI IDs to add to the stub driver, format is "
-                 "\"vendor:device[:subvendor[:subdevice[:class[:class_mask]]]]\""
-		 " and multiple comma separated entries can be specified");
+MODULE_PARM_DESC(ids,
+	"Initial PCI IDs to add to the stub driver, format is "
+	"\"vendor:device[:subvendor[:subdevice[:class[:class_mask]]]]\""
+	" and multiple comma separated entries can be specified");
 
 /* Base Address register */
 struct bar_t {
@@ -378,21 +379,21 @@ static int __init pci_init(void)
 	/* no ids passed actually */
 	if (ids[0] == '\0')
 		return 0;
- 
+
 	/* add ids specified in the module parameter */
 	p = ids;
 	while ((id = strsep(&p, ","))) {
 		unsigned int vendor, device, subvendor = PCI_ANY_ID,
 			subdevice = PCI_ANY_ID, class=0, class_mask=0;
 		int fields;
- 
+
 		if (!strlen(id))
 			continue;
- 
+
 		fields = sscanf(id, "%x:%x:%x:%x:%x:%x",
 				&vendor, &device, &subvendor, &subdevice,
 				&class, &class_mask);
- 
+
 		if (fields < 2) {
 			pr_warn("pci-char: invalid id string \"%s\"\n", id);
 			continue;
@@ -400,7 +401,7 @@ static int __init pci_init(void)
 
 		pr_info("pci-char: add %04X:%04X sub=%04X:%04X cls=%08X/%08X\n",
 			vendor, device, subvendor, subdevice, class, class_mask);
- 
+
 		err = pci_add_dynid(&pchar_driver, vendor, device,
 				   subvendor, subdevice, class, class_mask, 0);
 		if (err)
@@ -412,7 +413,7 @@ static int __init pci_init(void)
 failure_register_driver:
 	class_destroy(pchar_class);
 
-	return err;	
+	return err;
 }
 
 static void __exit pci_exit(void)
@@ -428,4 +429,3 @@ module_exit(pci_exit);
 MODULE_LICENSE("GPL");
 MODULE_DESCRIPTION("generic pci to chardev driver");
 MODULE_AUTHOR("Andre Richter <andre.o.richter @t gmail_com>");
-
