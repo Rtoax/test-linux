@@ -16,7 +16,6 @@ TARGETS += pipe
 TARGETS += setgid setegid
 TARGETS += setuid seteuid
 TARGETS += sched_getaffinity
-TARGETS += inotify_init
 TARGETS += tee tee2
 TARGETS += clone
 TARGETS += setitimer
@@ -56,6 +55,7 @@ build: nr.h ${TARGETS} ${TARGETS_CPP}
 	make -C aio
 	make -C ioctl
 	make -C epoll
+	make -C inotify
 	make -C signal
 	make -C socket
 	make -C prctl
@@ -92,7 +92,6 @@ setegid: setegid.o
 setuid: setuid.o
 seteuid: seteuid.o
 sched_getaffinity: sched_getaffinity.o
-inotify_init: inotify_init.o
 tee: tee.o
 tee2: tee2.o
 clone: clone.o
@@ -143,6 +142,7 @@ clean:
 	make -C aio clean
 	make -C ioctl clean
 	make -C epoll clean
+	make -C inotify clean
 	make -C signal clean
 	make -C prctl clean
 	make -C arch_prctl clean

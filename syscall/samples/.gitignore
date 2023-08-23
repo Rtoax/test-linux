@@ -25,7 +25,6 @@
 /setuid
 /seteuid
 /sched_getaffinity
-/inotify_init
 /tee
 /tee2
 /os-release
