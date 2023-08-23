@@ -125,10 +125,13 @@ def recursive_listdir(path):
 if directory == "-1":
     print("Must specify a directory with -D, --directory")
     exit()
-else:
-    recursive_listdir(directory)
-    if verbose:
-        print(hash_ino_file)
+if not os.path.isdir(directory):
+    print("%s is not directory" % directory)
+    exit()
+
+recursive_listdir(directory)
+if verbose:
+    print(hash_ino_file)
 
 
 if BPF.kernel_struct_has_field(b'renamedata', b'new_mnt_idmap') == 1:
