@@ -12,6 +12,7 @@ BEGIN
 	printf("%-8s %-8s %-16s %-8s\n", "TIME", "PID", "COMM", "FILE");
 }
 
+tracepoint:syscalls:sys_enter_rmdir,
 tracepoint:syscalls:sys_enter_unlink,
 tracepoint:syscalls:sys_enter_unlinkat
 {
