@@ -127,6 +127,7 @@ def recursive_listdir(path):
         if os.path.isfile(file_path):
             file_info(file_path)
         elif os.path.isdir(file_path):
+            file_info(file_path)
             recursive_listdir(file_path)
 
 if directory == "-1":
@@ -150,6 +151,7 @@ else:
 
 b = BPF(text=bpf_text)
 b.attach_kprobe(event="vfs_unlink", fn_name="trace_unlink")
+b.attach_kprobe(event="vfs_rmdir", fn_name="trace_unlink")
 
 print("Tracing file remove ... Hit Ctrl-C to end")
 print("%-8s %-8s %-16s %-16s" %
