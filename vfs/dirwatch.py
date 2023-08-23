@@ -41,6 +41,7 @@ enum op {
 struct my_data {
     u32 pid;
     char comm[TASK_COMM_LEN];
+    u64 parent_ino;
     u64 ino;
     enum op op;
     /* For OP_CREATE */
@@ -50,7 +51,8 @@ struct my_data {
 BPF_PERF_OUTPUT(inode_events);
 
 static int trace_inode_events(struct pt_regs *ctx, enum op op,
-                              struct inode *inode, struct dentry *dentry)
+                              struct inode *dir, struct inode *inode,
+                              struct dentry *dentry)
 {
     u32 pid = bpf_get_current_pid_tgid() >> 32;
 
@@ -62,6 +64,7 @@ static int trace_inode_events(struct pt_regs *ctx, enum op op,
 
     bpf_get_current_comm(&data.comm, sizeof(data.comm));
     data.pid = pid;
+    data.parent_ino = dir->i_ino;
     data.ino = inode->i_ino;
     data.op = op;
 
@@ -81,12 +84,12 @@ submit:
 TRACE_UNLINK
 {
     struct inode *inode = dentry->d_inode;
-    return trace_inode_events(ctx, OP_UNLINK, inode, dentry);
+    return trace_inode_events(ctx, OP_UNLINK, dir, inode, dentry);
 }
 TRACE_CREATE
 {
     struct inode *inode = dentry->d_inode;
-    return trace_inode_events(ctx, OP_CREATE, inode, dentry);
+    return trace_inode_events(ctx, OP_CREATE, dir, inode, dentry);
 }
 
 int trace_open(struct pt_regs *ctx, struct path *path, struct file *file)
@@ -95,7 +98,9 @@ int trace_open(struct pt_regs *ctx, struct path *path, struct file *file)
     if (!(file->f_mode & FMODE_CREATED))
         return 0;
     struct inode *inode = dentry->d_inode;
-    return trace_inode_events(ctx, OP_CREATE, inode, dentry);
+    /* FIXME: Find parent inode. */
+    struct inode *dir = file->f_path.dentry->d_parent->d_inode;
+    return trace_inode_events(ctx, OP_CREATE, dir, inode, dentry);
 }
 """
 
@@ -168,9 +173,10 @@ def handle_inode_event(cpu, data, size):
                  event.comm,
                  event.ino))
     elif event.op == 1: # Create
-        # Add to hash_ino_file
-        #hash_ino_file[event.ino] = event.fname
-        print("create %s" % event.fname)
+        # FIXME: Add to hash_ino_file
+        # if hash_ino_file.get(event.parent_ino):
+            #hash_ino_file[event.ino] = event.fname
+            print("create %s %d %d" % (event.fname, event.parent_ino, event.ino))
 
 
 if directory == "-1":
