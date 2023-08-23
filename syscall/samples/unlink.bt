@@ -1,0 +1,27 @@
+#!/bin/env bpftrace
+/**
+ * unlink.bt - Tracing unlink() syscall
+ *
+ * Copyright (C) CESTC, Co 2022-2023
+ *
+ * 2023-08-23	Rong Tao	Create this.
+ */
+BEGIN
+{
+	printf("Tracing file remove, hit ctrl-c to end.\n");
+	printf("%-8s %-8s %-16s %-8s\n", "TIME", "PID", "COMM", "FILE");
+}
+
+tracepoint:syscalls:sys_enter_unlink,
+tracepoint:syscalls:sys_enter_unlinkat
+{
+	$file = args->pathname;
+
+	time("%H:%M:%S ");
+	printf("%-8d %-16s %-8s\n", pid, comm, str($file));
+}
+
+END
+{
+	printf("Bye.\n");
+}
