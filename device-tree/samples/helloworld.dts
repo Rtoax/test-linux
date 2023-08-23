@@ -18,6 +18,14 @@
 		};
 	};
 
+	gic: interrupt-controller@d000 {
+		compatible = "arm,cortex-a9-gic";
+		#interrupt-cells = <3>;
+		#size-cells = <0>;
+		interrupt-controller;
+		reg = <0xd000 0x1000>, <0xc100 0x100>;
+	};
+
 	/* <label>:<name>[@<unit_address> */
 	firmware: firmware@203F000 {
 		compatible = "samsung,secure-firmware";
