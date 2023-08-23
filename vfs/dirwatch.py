@@ -35,6 +35,7 @@ bpf_text = """
 
 enum op {
     OP_UNLINK,
+    OP_CREATE,
 };
 
 struct my_data {
@@ -72,17 +73,38 @@ TRACE_UNLINK
     struct inode *inode = dentry->d_inode;
     return trace_inode_events(ctx, OP_UNLINK, inode);
 }
+TRACE_CREATE
+{
+    struct inode *inode = dentry->d_inode;
+    return trace_inode_events(ctx, OP_CREATE, inode);
+}
+
+int trace_open(struct pt_regs *ctx, struct path *path, struct file *file)
+{
+    struct dentry *dentry = path->dentry;
+    if (!(file->f_mode & FMODE_CREATED))
+        return 0;
+    struct inode *inode = dentry->d_inode;
+    return trace_inode_events(ctx, OP_CREATE, inode);
+}
 """
 
 # Oldest one
 trace_unlink_func_1="""
 int trace_unlink(struct pt_regs *ctx, struct inode *dir, struct dentry *dentry)
 """
+trace_create_func_1="""
+int trace_create(struct pt_regs *ctx, struct inode *dir, struct dentry *dentry)
+"""
 
 # kernel commit 6521f8917082("namei: prepare for idmapped mounts") add argument
 # 'struct user_namespace'.
 trace_unlink_func_2="""
 int trace_unlink(struct pt_regs *ctx, struct user_namespace *mnt_userns,
+                 struct inode *dir, struct dentry *dentry)
+"""
+trace_create_func_2="""
+int trace_create(struct pt_regs *ctx, struct user_namespace *mnt_userns,
                  struct inode *dir, struct dentry *dentry)
 """
 
@@ -92,22 +114,34 @@ trace_unlink_func_3="""
 int trace_unlink(struct pt_regs *ctx, struct mnt_idmap *idmap,
                  struct inode *dir, struct dentry *dentry)
 """
+trace_create_func_3="""
+int trace_create(struct pt_regs *ctx, struct mnt_idmap *idmap,
+                 struct inode *dir, struct dentry *dentry)
+"""
 
 
-def print_inode_event(cpu, data, size):
+def handle_inode_event(cpu, data, size):
     event = b["inode_events"].event(data)
-    if hash_ino_file.get(event.ino):
-        printb(b"%-8s %-8d %-16s %-16s" %
-            (strftime("%H:%M:%S").encode('ascii'),
-             event.pid,
-             event.comm,
-             hash_ino_file[event.ino].encode('ascii')))
-    elif verbose:
-        printb(b"%-8s %-8d %-16s %-16d" %
-            (strftime("%H:%M:%S").encode('ascii'),
-             event.pid,
-             event.comm,
-             event.ino))
+    if event.op == 0: # unlink
+        if hash_ino_file.get(event.ino):
+            printb(b"%-8s %-8d %-16s %-16s" %
+                (strftime("%H:%M:%S").encode('ascii'),
+                 event.pid,
+                 event.comm,
+                 hash_ino_file[event.ino].encode('ascii')))
+        elif verbose:
+            printb(b"%-8s %-8d %-16s %-16d" %
+                (strftime("%H:%M:%S").encode('ascii'),
+                 event.pid,
+                 event.comm,
+                 event.ino))
+    elif event.op == 1: # Create
+        # FIXME: add to hash_ino_file
+            printb(b"%-8s %-8d %-16s %-16d" %
+                (strftime("%H:%M:%S").encode('ascii'),
+                 event.pid,
+                 event.comm,
+                 event.ino))
 
 # Store inode:pathname key value pairs.
 hash_ino_file = {}
@@ -144,19 +178,25 @@ if verbose:
 
 if BPF.kernel_struct_has_field(b'renamedata', b'new_mnt_idmap') == 1:
     bpf_text = bpf_text.replace('TRACE_UNLINK', trace_unlink_func_3)
+    bpf_text = bpf_text.replace('TRACE_CREATE', trace_create_func_3)
 elif BPF.kernel_struct_has_field(b'renamedata', b'old_mnt_userns') == 1:
     bpf_text = bpf_text.replace('TRACE_UNLINK', trace_unlink_func_2)
+    bpf_text = bpf_text.replace('TRACE_CREATE', trace_create_func_2)
 else:
     bpf_text = bpf_text.replace('TRACE_UNLINK', trace_unlink_func_1)
+    bpf_text = bpf_text.replace('TRACE_CREATE', trace_create_func_1)
 
 b = BPF(text=bpf_text)
 b.attach_kprobe(event="vfs_unlink", fn_name="trace_unlink")
 b.attach_kprobe(event="vfs_rmdir", fn_name="trace_unlink")
+b.attach_kprobe(event="vfs_create", fn_name="trace_create")
+b.attach_kprobe(event="vfs_open", fn_name="trace_open")
+
 
 print("Tracing file remove ... Hit Ctrl-C to end")
 print("%-8s %-8s %-16s %-16s" %
         ("TIME", "PID", "COMM", "INODE"))
-b["inode_events"].open_perf_buffer(print_inode_event)
+b["inode_events"].open_perf_buffer(handle_inode_event)
 
 while True:
     try:
