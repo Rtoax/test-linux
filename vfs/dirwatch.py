@@ -43,12 +43,14 @@ struct my_data {
     char comm[TASK_COMM_LEN];
     u64 ino;
     enum op op;
+    /* For OP_CREATE */
+    char fname[DNAME_INLINE_LEN];
 };
 
 BPF_PERF_OUTPUT(inode_events);
 
 static int trace_inode_events(struct pt_regs *ctx, enum op op,
-                              struct inode *inode)
+                              struct inode *inode, struct dentry *dentry)
 {
     u32 pid = bpf_get_current_pid_tgid() >> 32;
 
@@ -63,6 +65,14 @@ static int trace_inode_events(struct pt_regs *ctx, enum op op,
     data.ino = inode->i_ino;
     data.op = op;
 
+    if (op == OP_CREATE) {
+        struct qstr d_name = dentry->d_name;
+        if (d_name.len == 0)
+            goto submit;
+        bpf_probe_read_kernel(&data.fname, sizeof(data.fname), d_name.name);
+    }
+
+submit:
     inode_events.perf_submit(ctx, &data, sizeof(data));
 
     return 0;
@@ -71,12 +81,12 @@ static int trace_inode_events(struct pt_regs *ctx, enum op op,
 TRACE_UNLINK
 {
     struct inode *inode = dentry->d_inode;
-    return trace_inode_events(ctx, OP_UNLINK, inode);
+    return trace_inode_events(ctx, OP_UNLINK, inode, dentry);
 }
 TRACE_CREATE
 {
     struct inode *inode = dentry->d_inode;
-    return trace_inode_events(ctx, OP_CREATE, inode);
+    return trace_inode_events(ctx, OP_CREATE, inode, dentry);
 }
 
 int trace_open(struct pt_regs *ctx, struct path *path, struct file *file)
@@ -85,7 +95,7 @@ int trace_open(struct pt_regs *ctx, struct path *path, struct file *file)
     if (!(file->f_mode & FMODE_CREATED))
         return 0;
     struct inode *inode = dentry->d_inode;
-    return trace_inode_events(ctx, OP_CREATE, inode);
+    return trace_inode_events(ctx, OP_CREATE, inode, dentry);
 }
 """
 
@@ -119,30 +129,6 @@ int trace_create(struct pt_regs *ctx, struct mnt_idmap *idmap,
                  struct inode *dir, struct dentry *dentry)
 """
 
-
-def handle_inode_event(cpu, data, size):
-    event = b["inode_events"].event(data)
-    if event.op == 0: # unlink
-        if hash_ino_file.get(event.ino):
-            printb(b"%-8s %-8d %-16s %-16s" %
-                (strftime("%H:%M:%S").encode('ascii'),
-                 event.pid,
-                 event.comm,
-                 hash_ino_file[event.ino].encode('ascii')))
-        elif verbose:
-            printb(b"%-8s %-8d %-16s %-16d" %
-                (strftime("%H:%M:%S").encode('ascii'),
-                 event.pid,
-                 event.comm,
-                 event.ino))
-    elif event.op == 1: # Create
-        # FIXME: add to hash_ino_file
-            printb(b"%-8s %-8d %-16s %-16d" %
-                (strftime("%H:%M:%S").encode('ascii'),
-                 event.pid,
-                 event.comm,
-                 event.ino))
-
 # Store inode:pathname key value pairs.
 hash_ino_file = {}
 
@@ -163,6 +149,29 @@ def recursive_listdir(path):
         elif os.path.isdir(file_path):
             file_info(file_path)
             recursive_listdir(file_path)
+
+def handle_inode_event(cpu, data, size):
+    event = b["inode_events"].event(data)
+    if event.op == 0: # unlink
+        if hash_ino_file.get(event.ino):
+            printb(b"%-8s %-8d %-16s %-16s" %
+                (strftime("%H:%M:%S").encode('ascii'),
+                 event.pid,
+                 event.comm,
+                 hash_ino_file[event.ino].encode('ascii')))
+            # Remove from hash
+            hash_ino_file.pop(event.ino)
+        elif verbose:
+            printb(b"%-8s %-8d %-16s %-16d" %
+                (strftime("%H:%M:%S").encode('ascii'),
+                 event.pid,
+                 event.comm,
+                 event.ino))
+    elif event.op == 1: # Create
+        # Add to hash_ino_file
+        #hash_ino_file[event.ino] = event.fname
+        print("create %s" % event.fname)
+
 
 if directory == "-1":
     print("Must specify a directory with -D, --directory")
