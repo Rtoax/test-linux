@@ -94,7 +94,7 @@ int trace_unlink(struct pt_regs *ctx, struct mnt_idmap *idmap,
 """
 
 
-def print_sched_fork_event(cpu, data, size):
+def print_inode_event(cpu, data, size):
     event = b["inode_events"].event(data)
     printb(b"%-8s %-8d %-16s %-16d" %
         (strftime("%H:%M:%S").encode('ascii'),
@@ -144,10 +144,10 @@ else:
 b = BPF(text=bpf_text)
 b.attach_kprobe(event="vfs_unlink", fn_name="trace_unlink")
 
-print("Tracing sched_fork ... Hit Ctrl-C to end")
+print("Tracing file remove ... Hit Ctrl-C to end")
 print("%-8s %-8s %-16s %-16s" %
         ("TIME", "PID", "COMM", "INODE"))
-b["inode_events"].open_perf_buffer(print_sched_fork_event)
+b["inode_events"].open_perf_buffer(print_inode_event)
 
 while True:
     try:
