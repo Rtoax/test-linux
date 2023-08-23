@@ -19,8 +19,14 @@ from time import strftime
 parser = argparse.ArgumentParser(
     description="Add some description",
     formatter_class=argparse.RawDescriptionHelpFormatter)
+parser.add_argument("-D", "--directory", default="-1",
+    help="specify directory to watch")
+parser.add_argument("-V", "--verbose", action="store_true",
+    help="show verbose")
 
 args = parser.parse_args()
+directory = args.directory
+verbose = args.verbose
 
 
 bpf_text = """
@@ -95,6 +101,34 @@ def print_sched_fork_event(cpu, data, size):
          event.pid,
          event.comm,
          event.ino))
+
+# Store inode:pathname key value pairs.
+hash_ino_file = {}
+
+def file_info(pathname):
+    info = os.stat(pathname)
+    if verbose:
+        print("%s ino %d" % (pathname, info.st_ino))
+    hash_ino_file[info.st_ino] = pathname
+
+def recursive_listdir(path):
+    files = os.listdir(path)
+
+    for file in files:
+        file_path = os.path.join(path, file)
+
+        if os.path.isfile(file_path):
+            file_info(file_path)
+        elif os.path.isdir(file_path):
+            recursive_listdir(file_path)
+
+if directory == "-1":
+    print("Must specify a directory with -D, --directory")
+    exit()
+else:
+    recursive_listdir(directory)
+    if verbose:
+        print(hash_ino_file)
 
 
 if BPF.kernel_struct_has_field(b'renamedata', b'new_mnt_idmap') == 1:
