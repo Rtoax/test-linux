@@ -58,6 +58,7 @@
 #include <linux/device.h>
 #include <linux/kernel.h>
 #include <linux/uaccess.h>
+#include <linux/version.h>
 
 static char ids[1024] __initdata;
 
@@ -340,7 +341,7 @@ static struct pci_driver pchar_driver = {
 	.remove         = pci_remove,
 };
 
-static char *pci_char_devnode(struct device *dev, umode_t *mode)
+static char *pci_char_devnode(const struct device *dev, umode_t *mode)
 {
 	struct pci_dev *pdev = to_pci_dev(dev->parent);
 	return kasprintf(GFP_KERNEL, "pci-char/%02x:%02x.%02x/bar%d",
@@ -356,7 +357,14 @@ static int __init pci_init(void)
 	int err;
 	char *p, *id;
 
+#if LINUX_VERSION_CODE < KERNEL_VERSION(6, 3, 0)
 	pchar_class = class_create(THIS_MODULE, "pci-char");
+#else
+	/* kernel commit 1aaba11da9aa ("driver core: class: remove module *
+	 * from class_create()") belongs to v6.3-rc1-13-g1aaba11da9aa, remove
+	 * owner field. */
+	pchar_class = class_create("pci-char");
+#endif
 	if (IS_ERR(pchar_class)) {
 		err = PTR_ERR(pchar_class);
 		return err;
