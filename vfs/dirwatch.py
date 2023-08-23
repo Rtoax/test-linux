@@ -176,6 +176,7 @@ def handle_inode_event(cpu, data, size):
         # FIXME: Add to hash_ino_file
         # if hash_ino_file.get(event.parent_ino):
             #hash_ino_file[event.ino] = event.fname
+        if verbose:
             print("create %s %d %d" % (event.fname, event.parent_ino, event.ino))
 
 
