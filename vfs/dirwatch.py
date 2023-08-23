@@ -96,11 +96,18 @@ int trace_unlink(struct pt_regs *ctx, struct mnt_idmap *idmap,
 
 def print_inode_event(cpu, data, size):
     event = b["inode_events"].event(data)
-    printb(b"%-8s %-8d %-16s %-16d" %
-        (strftime("%H:%M:%S").encode('ascii'),
-         event.pid,
-         event.comm,
-         event.ino))
+    if hash_ino_file.get(event.ino):
+        printb(b"%-8s %-8d %-16s %-16s" %
+            (strftime("%H:%M:%S").encode('ascii'),
+             event.pid,
+             event.comm,
+             hash_ino_file[event.ino].encode('ascii')))
+    elif verbose:
+        printb(b"%-8s %-8d %-16s %-16d" %
+            (strftime("%H:%M:%S").encode('ascii'),
+             event.pid,
+             event.comm,
+             event.ino))
 
 # Store inode:pathname key value pairs.
 hash_ino_file = {}
