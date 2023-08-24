@@ -36,6 +36,11 @@ TARGETS += tls
 ifeq ($(shell uname -m),x86_64)
 endif
 
+OS := $(shell grep ^ID= /etc/os-release | sed 's/ID=//g' | sed 's/"//g')
+ifeq ($(OS),)
+	OS=linux
+endif
+
 DEBUG = yes
 SRC_PATH := $(shell pwd)
 CC = gcc
@@ -45,6 +50,9 @@ CC = gcc
 CFLAGS := -Werror -Wall -pthread
 CFLAGS += -I../../../
 CFLAGS += -lm
+ifeq ($(OS),ubuntu)
+	CFLAGS += -DHAVE_NO_SQRT=1
+endif
 
 ifdef DEBUG
 CFLAGS += -DDEBUG -O0 -g
@@ -100,7 +108,7 @@ pthread_yield: pthread_yield.o
 tls: tls.o
 
 %.d: %.c
-	@echo -e "Generate \033[1m$(@)\033[m"
+	@echo -e "Generate \033[1m$(@)\033[m $(OS)"
 	@$(CC) $(CFLAGS) -MM -MF "$@" -MG -MP -MT"$@" -MT"$(<:.c=.o)" $(<)
 
 %.o: %.c %.d
@@ -108,12 +116,12 @@ tls: tls.o
 	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
 
 $(TARGETS): %:
-	@echo -e "Target   \033[1;32m$(@)\033[m"
+	@echo -e "Target   \033[1;32m$(@)\033[m $(OS)"
 	@$(CC) $(CFLAGS) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
 
 test: ${TARGETS}
-	@echo -e "Test   \033[1;32m$(@)\033[m"
+	@echo -e "Test   \033[1;32m$(@)\033[m <$(OS)>"
 
 clean:
-	@echo -e "Clean   \033[1;32m$(@)\033[m"
+	@echo -e "Clean   \033[1;32m$(@)\033[m <$(OS)>"
 	@rm -f ${TARGETS} *.o *.d *.log

@@ -5,6 +5,11 @@ endif
 ifeq ($(shell uname -m),aarch64)
 endif
 
+OS := $(shell grep ^ID= /etc/os-release | sed 's/ID=//g' | sed 's/"//g')
+ifeq ($(OS),)
+	OS=linux
+endif
+
 DEBUG = yes
 SRC_PATH := $(shell pwd)
 CC = gcc
