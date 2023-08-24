@@ -5,6 +5,7 @@
 # Licensed under the Apache License, Version 2.0 (the "License")
 #
 # 2023-08-23    Rong Tao    Create this.
+# 2023-08-24    Rong Tao    Check directory path exist.
 
 from __future__ import print_function
 from bcc import ArgString, BPF
@@ -182,6 +183,9 @@ def handle_inode_event(cpu, data, size):
 
 if directory == "-1":
     print("Must specify a directory with -D, --directory")
+    exit()
+if not os.path.exists(directory):
+    print("%s is not exist" % directory)
     exit()
 if not os.path.isdir(directory):
     print("%s is not directory" % directory)
