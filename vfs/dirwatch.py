@@ -5,7 +5,7 @@
 # Licensed under the Apache License, Version 2.0 (the "License")
 #
 # 2023-08-23    Rong Tao    Create this.
-# 2023-08-24    Rong Tao    Check directory path exist.
+# 2023-08-24    Rong Tao    Check directory path exist and add ppid/pcomm.
 
 from __future__ import print_function
 from bcc import ArgString, BPF
@@ -31,6 +31,7 @@ verbose = args.verbose
 
 
 bpf_text = """
+#include <linux/sched.h>
 #include <linux/fs.h>
 #include <linux/dcache.h>
 
@@ -40,7 +41,9 @@ enum op {
 };
 
 struct my_data {
+    u32 ppid;
     u32 pid;
+    char pcomm[TASK_COMM_LEN];
     char comm[TASK_COMM_LEN];
     u64 parent_ino;
     u64 ino;
@@ -62,6 +65,12 @@ static int trace_inode_events(struct pt_regs *ctx, enum op op,
         return 0;
 
     struct my_data data = {};
+
+    struct task_struct *task = (struct task_struct *)bpf_get_current_task();;
+    struct task_struct *parent;
+    bpf_probe_read(&parent, sizeof(parent), &task->real_parent);
+    bpf_probe_read(&data.ppid, sizeof(data.ppid), &parent->pid);
+    bpf_probe_read(&data.pcomm, sizeof(data.pcomm), parent->comm);
 
     bpf_get_current_comm(&data.comm, sizeof(data.comm));
     data.pid = pid;
@@ -160,16 +169,20 @@ def handle_inode_event(cpu, data, size):
     event = b["inode_events"].event(data)
     if event.op == 0: # unlink
         if hash_ino_file.get(event.ino):
-            printb(b"%-8s %-8d %-16s %-16s" %
+            printb(b"%-8s %-8d %-16s %-8d %-16s %-16s" %
                 (strftime("%H:%M:%S").encode('ascii'),
+                 event.ppid,
+                 event.pcomm,
                  event.pid,
                  event.comm,
                  hash_ino_file[event.ino].encode('ascii')))
             # Remove from hash
             hash_ino_file.pop(event.ino)
         elif verbose:
-            printb(b"%-8s %-8d %-16s %-16d" %
+            printb(b"%-8s %-8d %-16s %-8d %-16s %-16d" %
                 (strftime("%H:%M:%S").encode('ascii'),
+                 event.ppid,
+                 event.pcomm,
                  event.pid,
                  event.comm,
                  event.ino))
@@ -214,8 +227,8 @@ b.attach_kprobe(event="vfs_open", fn_name="trace_open")
 
 
 print("Tracing file remove ... Hit Ctrl-C to end")
-print("%-8s %-8s %-16s %-16s" %
-        ("TIME", "PID", "COMM", "INODE"))
+print("%-8s %-8s %-16s %-8s %-16s %-16s" %
+        ("TIME", "PPID", "PCOMM", "PID", "COMM", "INODE"))
 b["inode_events"].open_perf_buffer(handle_inode_event)
 
 while True:
