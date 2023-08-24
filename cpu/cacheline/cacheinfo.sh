@@ -8,13 +8,18 @@
 
 cacheline_size()
 {
-	echo -e "LEVEL\tSIZE"
+	printf "%-8s %-8s %-8s %-8s\n" CPU LEVEL LINE SIZE
+	echo "----------------------------------"
 
-	for idx in /sys/devices/system/cpu/cpu1/cache/index[0-9]/
+	for cpu in /sys/devices/system/cpu/cpu[0-9]*
 	do
-		level=$(cat $idx/level)
-		size=$(cat $idx/coherency_line_size)
-		echo -e "$level\t$size"
+		for idx in ${cpu}/cache/index[0-9]/
+		do
+			local level=$(cat $idx/level)
+			local line_size=$(cat $idx/coherency_line_size)
+			local size=$(cat $idx/size)
+			printf "%-8s %-8s %-8s %-8s\n" $(basename $cpu) $level $line_size $size
+		done
 	done
 }
 

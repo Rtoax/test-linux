@@ -1,16 +1,16 @@
 CC = clang
 CFLAGS := -Werror -Wall -pthread
 
-define cacheline
-endef
+L3_CACHELINE_SIZE=$(shell cat /sys/devices/system/cpu/cpu1/cache/index3/coherency_line_size)
 
-all: cachelinesize
-	@echo "Compile struct"
-	@$(CC) $(CFLAGS) -o struct struct.c -DL3_CACHELINE_SIZE=$(shell ./cachelinesize)
+CFLAGS += -DL3_CACHELINE_SIZE=$(L3_CACHELINE_SIZE)
 
-cachelinesize:
-	@echo "Compile cachelinesize"
-	@$(CC) $(CFLAGS) cachelinesize.c -o cachelinesize
+TARGETS := struct
+
+build: ${TARGETS}
+	@echo "Compile struct, L3_CACHELINE_SIZE=$(L3_CACHELINE_SIZE)"
+
+struct: struct.o
 
 clean:
-	@rm -f *.o *.d cachelinesize struct
+	@rm -f *.o *.d ${TARGETS}
