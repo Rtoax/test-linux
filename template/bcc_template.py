@@ -32,6 +32,10 @@ bpf_text = """
 #include <linux/sched.h>
 
 struct my_data {
+    u32 pid;
+    u32 ppid;
+    char comm[TASK_COMM_LEN];
+    char pcomm[TASK_COMM_LEN];
     unsigned long addr_task;
     unsigned long addr_se;
 };
@@ -42,9 +46,18 @@ int trace_sched_fork_entry(struct pt_regs *ctx)
 {
     int ret = PT_REGS_RC(ctx);
 
+    u32 pid = bpf_get_current_pid_tgid() >> 32;
     struct my_data data = {};
     struct task_struct *task = (struct task_struct *)PT_REGS_PARM1(ctx);
 
+    struct task_struct *curtask = (struct task_struct *)bpf_get_current_task();;
+    struct task_struct *parent;
+    bpf_probe_read(&parent, sizeof(parent), &curtask->real_parent);
+    bpf_probe_read(&data.ppid, sizeof(data.ppid), &parent->pid);
+    bpf_probe_read(&data.pcomm, sizeof(data.pcomm), parent->comm);
+
+    bpf_get_current_comm(&data.comm, sizeof(data.comm));
+    data.pid = pid;
     data.addr_task = (unsigned long)task;
     data.addr_se = (unsigned long)&task->se;
 
@@ -57,8 +70,14 @@ int trace_sched_fork_entry(struct pt_regs *ctx)
 
 def print_sched_fork_event(cpu, data, size):
     event = b["sched_fork_events"].event(data)
-    printb(b"sched_fork: %-8s %lx %lx" %
-           (strftime("%H:%M:%S").encode('ascii'), event.addr_task, event.addr_se))
+    printb(b"%-8s %-8d %-16s %-8d %-16s %lx %lx" %
+           (strftime("%H:%M:%S").encode('ascii'),
+            event.ppid,
+            event.pcomm,
+            event.pid,
+            event.comm,
+            event.addr_task,
+            event.addr_se))
 
 
 if journal:
@@ -72,6 +91,9 @@ b = BPF(text=bpf_text)
 b.attach_kprobe(event="sched_fork", fn_name="trace_sched_fork_entry")
 
 print("Tracing sched_fork ... Hit Ctrl-C to end")
+print("%-8s %-8s %-16s %-8s %-16s" %
+      ("TIME", "PID", "PCOMM", "PID", "COMM"))
+
 b["sched_fork_events"].open_perf_buffer(print_sched_fork_event)
 
 while True:
