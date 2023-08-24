@@ -32,7 +32,9 @@ bpf_text = """
 
 struct data_t {
     u32 pid;
+    u32 ppid;
     char comm[TASK_COMM_LEN];
+    char pcomm[TASK_COMM_LEN];
     u32 ino;
     int ret;
 };
@@ -44,6 +46,12 @@ TRACEPOINT_PROBE(filelock, flock_lock_inode) {
 
     u32 pid = bpf_get_current_pid_tgid() >> 32;
     struct data_t data = {};
+
+    struct task_struct *task = (struct task_struct *)bpf_get_current_task();;
+    struct task_struct *parent;
+    bpf_probe_read(&parent, sizeof(parent), &task->real_parent);
+    bpf_probe_read(&data.ppid, sizeof(data.ppid), &parent->pid);
+    bpf_probe_read(&data.pcomm, sizeof(data.pcomm), parent->comm);
 
     bpf_get_current_comm(&data.comm, sizeof(data.comm));
     data.pid = pid;
@@ -58,8 +66,14 @@ TRACEPOINT_PROBE(filelock, flock_lock_inode) {
 
 def print_filelock_event(cpu, data, size):
     event = b["filelock_events"].event(data)
-    printb(b"%-8s %-8d %-16s %-8d %-8d" %
-           (strftime("%H:%M:%S").encode('ascii'), event.pid, event.comm, event.ino, event.ret))
+    printb(b"%-8s %-8d %-16s %-8d %-16s %-8d %-8d" %
+           (strftime("%H:%M:%S").encode('ascii'),
+            event.ppid,
+            event.pcomm,
+            event.pid,
+            event.comm,
+            event.ino,
+            event.ret))
 
 if journal:
     log = logging.getLogger('some.name')
@@ -70,7 +84,8 @@ if journal:
 b = BPF(text=bpf_text)
 
 print("Tracing filelock ... Hit Ctrl-C to end")
-print("%-8s %-8s %-16s %-8s %-8s" % ("TIME", "PID", "COMM", "INODE", "RESULT"))
+print("%-8s %-8s %-16s %-8s %-16s %-8s %-8s" %
+      ("TIME", "PID", "PCOMM", "PID", "COMM", "INODE", "RESULT"))
 
 b["filelock_events"].open_perf_buffer(print_filelock_event)
 
