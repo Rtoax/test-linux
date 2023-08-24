@@ -40,7 +40,7 @@ struct my_data {
 
 BPF_PERF_OUTPUT(file_events);
 
-KFUNC_PROBE(filp_close, struct file *file)
+static int file_event(struct pt_regs *ctx, struct path *path)
 {
     u32 pid = bpf_get_current_pid_tgid() >> 32;
     struct my_data data = {};
@@ -54,11 +54,16 @@ KFUNC_PROBE(filp_close, struct file *file)
     bpf_get_current_comm(&data.comm, sizeof(data.comm));
     data.pid = pid;
 
-    bpf_d_path(&file->f_path, data.path, MAX_PATH_LEN);
+    bpf_d_path(path, data.path, MAX_PATH_LEN);
 
     file_events.perf_submit(ctx, &data, sizeof(data));
 
     return 0;
+}
+
+KFUNC_PROBE(filp_close, struct file *file)
+{
+    return file_event((void *)ctx, &file->f_path);
 }
 
 """
