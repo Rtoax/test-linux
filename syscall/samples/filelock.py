@@ -97,6 +97,17 @@ TRACEPOINT_PROBE(filelock, locks_get_lock_context) {
 
     info.owner_tid = try_get_owner_tid(tid, head);
 
+    /* FIXME: Find owner tid again if find nothing above, the following one
+     * do the totally same thing. Maybe there is a better way. */
+    if (info.owner_tid == 0) {
+        head = head->next;
+        info.owner_tid = try_get_owner_tid(tid, head);
+    }
+    if (info.owner_tid == 0) {
+        head = head->next;
+        info.owner_tid = try_get_owner_tid(tid, head);
+    }
+
     lock_tid_map.update(&tid, (void *)&info);
 
     return 0;
