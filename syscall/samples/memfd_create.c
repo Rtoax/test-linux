@@ -32,7 +32,7 @@ int anonyexec(const char *path, char *argv[])
 	sprintf(cmdline, "/proc/self/fd/%d", fdm);
 	argv[0] = cmdline;
 	execve(argv[0], argv, NULL);
-	free(elfbuf);
+
 	return -1;
 }
 
