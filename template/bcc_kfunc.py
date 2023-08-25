@@ -102,8 +102,8 @@ else:
     exit()
 
 print("Tracing file event ... Hit Ctrl-C to end")
-print("%-8s %-8s %-16s %-8s %-16s %-16s" %
-      ("TIME", "PID", "PCOMM", "PID", "COMM", "FILE"))
+print("%-8s %-8s %-16s %-8s %-16s %-8s %-16s" %
+      ("TIME", "PID", "PCOMM", "PID", "COMM", "OPERATE", "FILE"))
 
 b["file_events"].open_perf_buffer(handle_event)
 
