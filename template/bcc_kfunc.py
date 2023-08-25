@@ -30,17 +30,23 @@ bpf_text = """
 
 #define MAX_PATH_LEN    128
 
+enum op {
+    OP_OPEN,
+    OP_CLOSE,
+};
+
 struct my_data {
     u32 pid;
     u32 ppid;
     char comm[TASK_COMM_LEN];
     char pcomm[TASK_COMM_LEN];
     char path[MAX_PATH_LEN];
+    enum op op;
 };
 
 BPF_PERF_OUTPUT(file_events);
 
-static int file_event(struct pt_regs *ctx, struct path *path)
+static int file_event(struct pt_regs *ctx, struct path *path, enum op op)
 {
     u32 pid = bpf_get_current_pid_tgid() >> 32;
     struct my_data data = {};
@@ -53,6 +59,7 @@ static int file_event(struct pt_regs *ctx, struct path *path)
 
     bpf_get_current_comm(&data.comm, sizeof(data.comm));
     data.pid = pid;
+    data.op = op;
 
     bpf_d_path(path, data.path, MAX_PATH_LEN);
 
@@ -61,21 +68,29 @@ static int file_event(struct pt_regs *ctx, struct path *path)
     return 0;
 }
 
+/* TODO: open,create,remove */
+
 KFUNC_PROBE(filp_close, struct file *file)
 {
-    return file_event((void *)ctx, &file->f_path);
+    return file_event((void *)ctx, &file->f_path, OP_CLOSE);
 }
 
 """
 
 def handle_event(cpu, data, size):
     event = b["file_events"].event(data)
-    printb(b"%-8s %-8d %-16s %-8d %-16s %-16s" %
+    if event.op == 0: # Open
+        operate = b'OPEN'
+    elif event.op == 1: # Close
+        operate = b'CLOSE'
+
+    printb(b"%-8s %-8d %-16s %-8d %-16s %-8s %-16s" %
            (strftime("%H:%M:%S").encode('ascii'),
             event.ppid,
             event.pcomm,
             event.pid,
             event.comm,
+            operate,
             event.path))
 
 
