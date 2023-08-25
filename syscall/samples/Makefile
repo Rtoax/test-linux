@@ -55,6 +55,7 @@ build: nr.h ${TARGETS} ${TARGETS_CPP}
 	make -C aio
 	make -C ioctl
 	make -C epoll
+	make -C fanotify
 	make -C inotify
 	make -C signal
 	make -C socket
@@ -142,6 +143,7 @@ clean:
 	make -C aio clean
 	make -C ioctl clean
 	make -C epoll clean
+	make -C fanotify clean
 	make -C inotify clean
 	make -C signal clean
 	make -C prctl clean
