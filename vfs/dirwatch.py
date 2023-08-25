@@ -169,29 +169,38 @@ def handle_inode_event(cpu, data, size):
     event = b["inode_events"].event(data)
     if event.op == 0: # unlink
         if hash_ino_file.get(event.ino):
-            printb(b"%-8s %-8d %-16s %-8d %-16s %-16s" %
+            printb(b"%-8s %-8d %-16s %-8d %-16s %-8s %-16s" %
                 (strftime("%H:%M:%S").encode('ascii'),
                  event.ppid,
                  event.pcomm,
                  event.pid,
                  event.comm,
+                 b'UNLINK',
                  hash_ino_file[event.ino].encode('ascii')))
             # Remove from hash
             hash_ino_file.pop(event.ino)
         elif verbose:
-            printb(b"%-8s %-8d %-16s %-8d %-16s %-16d" %
+            printb(b"%-8s %-8d %-16s %-8d %-16s %-8s %-16d" %
                 (strftime("%H:%M:%S").encode('ascii'),
                  event.ppid,
                  event.pcomm,
                  event.pid,
                  event.comm,
+                 b'UNLINK',
                  event.ino))
     elif event.op == 1: # Create
         # FIXME: Add to hash_ino_file
         # if hash_ino_file.get(event.parent_ino):
             #hash_ino_file[event.ino] = event.fname
         if verbose:
-            print("create %s %d %d" % (event.fname, event.parent_ino, event.ino))
+            printb(b"%-8s %-8d %-16s %-8d %-16s %-8s %-16d" %
+                (strftime("%H:%M:%S").encode('ascii'),
+                 event.ppid,
+                 event.pcomm,
+                 event.pid,
+                 event.comm,
+                 b'CREATE',
+                 event.ino))
 
 
 if directory == "-1":
@@ -227,8 +236,8 @@ b.attach_kprobe(event="vfs_open", fn_name="trace_open")
 
 
 print("Tracing file remove ... Hit Ctrl-C to end")
-print("%-8s %-8s %-16s %-8s %-16s %-16s" %
-        ("TIME", "PPID", "PCOMM", "PID", "COMM", "INODE"))
+print("%-8s %-8s %-16s %-8s %-16s %-8s %-16s" %
+        ("TIME", "PPID", "PCOMM", "PID", "COMM", "OPERATE", "INODE"))
 b["inode_events"].open_perf_buffer(handle_inode_event)
 
 while True:
