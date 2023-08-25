@@ -56,12 +56,13 @@ struct my_data {
 BPF_PERF_OUTPUT(inode_events);
 
 static int trace_inode_events(struct pt_regs *ctx, enum op op,
-                              struct inode *dir, struct inode *inode,
-                              struct dentry *dentry)
+                              struct inode *dir, struct dentry *dentry)
 {
     u32 pid = bpf_get_current_pid_tgid() >> 32;
 
-    /* Skip negative */
+    struct inode *inode = dentry->d_inode;
+
+    /* Skip negative, FIXME: handle mkdir() inode=NULL */
     if (!inode)
         return 0;
 
@@ -94,13 +95,15 @@ submit:
 
 TRACE_UNLINK
 {
-    struct inode *inode = dentry->d_inode;
-    return trace_inode_events(ctx, OP_UNLINK, dir, inode, dentry);
+    return trace_inode_events(ctx, OP_UNLINK, dir, dentry);
 }
 TRACE_CREATE
 {
-    struct inode *inode = dentry->d_inode;
-    return trace_inode_events(ctx, OP_CREATE, dir, inode, dentry);
+    return trace_inode_events(ctx, OP_CREATE, dir, dentry);
+}
+TRACE_MKDIR
+{
+    return trace_inode_events(ctx, OP_CREATE, dir, dentry);
 }
 
 int trace_open(struct pt_regs *ctx, struct path *path, struct file *file)
@@ -108,10 +111,9 @@ int trace_open(struct pt_regs *ctx, struct path *path, struct file *file)
     struct dentry *dentry = path->dentry;
     if (!(file->f_mode & FMODE_CREATED))
         return 0;
-    struct inode *inode = dentry->d_inode;
     /* FIXME: Find parent inode. */
     struct inode *dir = path->dentry->d_parent->d_inode;
-    return trace_inode_events(ctx, OP_CREATE, dir, inode, dentry);
+    return trace_inode_events(ctx, OP_CREATE, dir, dentry);
 }
 """
 
@@ -121,6 +123,9 @@ int trace_unlink(struct pt_regs *ctx, struct inode *dir, struct dentry *dentry)
 """
 trace_create_func_1="""
 int trace_create(struct pt_regs *ctx, struct inode *dir, struct dentry *dentry)
+"""
+trace_mkdir_func_1="""
+int trace_mkdir(struct pt_regs *ctx, struct inode *dir, struct dentry *dentry)
 """
 
 # kernel commit 6521f8917082("namei: prepare for idmapped mounts") add argument
@@ -133,6 +138,10 @@ trace_create_func_2="""
 int trace_create(struct pt_regs *ctx, struct user_namespace *mnt_userns,
                  struct inode *dir, struct dentry *dentry)
 """
+trace_mkdir_func_2="""
+int trace_mkdir(struct pt_regs *ctx, struct user_namespace *mnt_userns,
+                 struct inode *dir, struct dentry *dentry)
+"""
 
 # kernel commit abf08576afe3("fs: port vfs_*() helpers to struct mnt_idmap")
 # use mnt_idmap instead of user_namespace.
@@ -142,6 +151,10 @@ int trace_unlink(struct pt_regs *ctx, struct mnt_idmap *idmap,
 """
 trace_create_func_3="""
 int trace_create(struct pt_regs *ctx, struct mnt_idmap *idmap,
+                 struct inode *dir, struct dentry *dentry)
+"""
+trace_mkdir_func_3="""
+int trace_mkdir(struct pt_regs *ctx, struct mnt_idmap *idmap,
                  struct inode *dir, struct dentry *dentry)
 """
 
@@ -195,8 +208,8 @@ def handle_inode_event(cpu, data, size):
         # Create file under directory
         if hash_ino_file.get(event.parent_ino):
             if verbose:
-                print("Create %d(%s)" %
-                      (event.parent_ino,
+                print("Create %s in %s" %
+                      (str(event.fname, 'utf-8'),
                        hash_ino_file[event.parent_ino]))
             # Update hash
             hash_ino_file[event.ino] = "%s/%s" % \
@@ -240,18 +253,22 @@ if verbose:
 if BPF.kernel_struct_has_field(b'renamedata', b'new_mnt_idmap') == 1:
     bpf_text = bpf_text.replace('TRACE_UNLINK', trace_unlink_func_3)
     bpf_text = bpf_text.replace('TRACE_CREATE', trace_create_func_3)
+    bpf_text = bpf_text.replace('TRACE_MKDIR', trace_mkdir_func_3)
 elif BPF.kernel_struct_has_field(b'renamedata', b'old_mnt_userns') == 1:
     bpf_text = bpf_text.replace('TRACE_UNLINK', trace_unlink_func_2)
     bpf_text = bpf_text.replace('TRACE_CREATE', trace_create_func_2)
+    bpf_text = bpf_text.replace('TRACE_MKDIR', trace_mkdir_func_2)
 else:
     bpf_text = bpf_text.replace('TRACE_UNLINK', trace_unlink_func_1)
     bpf_text = bpf_text.replace('TRACE_CREATE', trace_create_func_1)
+    bpf_text = bpf_text.replace('TRACE_MKDIR', trace_mkdir_func_1)
 
 b = BPF(text=bpf_text)
 b.attach_kprobe(event="vfs_unlink", fn_name="trace_unlink")
 b.attach_kprobe(event="vfs_rmdir", fn_name="trace_unlink")
 b.attach_kprobe(event="vfs_create", fn_name="trace_create")
 b.attach_kprobe(event="vfs_open", fn_name="trace_open")
+b.attach_kprobe(event="vfs_mkdir", fn_name="trace_mkdir")
 
 
 print("Tracing file remove ... Hit Ctrl-C to end")
