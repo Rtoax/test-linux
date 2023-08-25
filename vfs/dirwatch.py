@@ -6,7 +6,7 @@
 #
 # 2023-08-23    Rong Tao    Create this.
 # 2023-08-24    Rong Tao    Check directory path exist and add ppid/pcomm.
-# 2023-08-25    Rong Tao    Tracing file create in directory(-D)
+# 2023-08-25    Rong Tao    Tracing file create in directory(-D) and mkdir()
 
 from __future__ import print_function
 from bcc import ArgString, BPF
@@ -55,6 +55,13 @@ struct my_data {
 
 BPF_PERF_OUTPUT(inode_events);
 
+struct mkdir_info {
+    struct inode *dir;
+    struct dentry *dentry;
+};
+BPF_HASH(mkdir_inf, u64, struct mkdir_info);
+
+
 static int trace_inode_events(struct pt_regs *ctx, enum op op,
                               struct inode *dir, struct dentry *dentry)
 {
@@ -62,7 +69,7 @@ static int trace_inode_events(struct pt_regs *ctx, enum op op,
 
     struct inode *inode = dentry->d_inode;
 
-    /* Skip negative, FIXME: handle mkdir() inode=NULL */
+    /* Skip negative */
     if (!inode)
         return 0;
 
@@ -103,7 +110,35 @@ TRACE_CREATE
 }
 TRACE_MKDIR
 {
-    return trace_inode_events(ctx, OP_CREATE, dir, dentry);
+    u64 id = bpf_get_current_pid_tgid();
+    struct mkdir_info info = {};
+
+    info.dir = dir;
+    /* dentry->d_inode == NULL here, non-null value when vfs_mkdir() return */
+    info.dentry = dentry;
+
+    mkdir_inf.update(&id, &info);
+
+    return 0;
+}
+
+/**
+ * kretprobe make sure dentry->d_inode != NULL.
+ */
+int trace_mkdir_return(struct pt_regs *ctx)
+{
+    u64 id = bpf_get_current_pid_tgid();
+    struct mkdir_info *info;
+    int ret;
+
+    info = mkdir_inf.lookup(&id);
+    if (!info)
+        return 0;
+
+    ret = trace_inode_events(ctx, OP_CREATE, info->dir, info->dentry);
+
+    mkdir_inf.delete(&id);
+    return ret;
 }
 
 int trace_open(struct pt_regs *ctx, struct path *path, struct file *file)
@@ -111,7 +146,7 @@ int trace_open(struct pt_regs *ctx, struct path *path, struct file *file)
     struct dentry *dentry = path->dentry;
     if (!(file->f_mode & FMODE_CREATED))
         return 0;
-    /* FIXME: Find parent inode. */
+    /* Find parent inode. */
     struct inode *dir = path->dentry->d_parent->d_inode;
     return trace_inode_events(ctx, OP_CREATE, dir, dentry);
 }
@@ -269,6 +304,8 @@ b.attach_kprobe(event="vfs_rmdir", fn_name="trace_unlink")
 b.attach_kprobe(event="vfs_create", fn_name="trace_create")
 b.attach_kprobe(event="vfs_open", fn_name="trace_open")
 b.attach_kprobe(event="vfs_mkdir", fn_name="trace_mkdir")
+
+b.attach_kretprobe(event="vfs_mkdir", fn_name="trace_mkdir_return");
 
 
 print("Tracing file remove ... Hit Ctrl-C to end")
