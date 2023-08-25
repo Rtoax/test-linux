@@ -157,6 +157,8 @@ def file_info(pathname):
 def recursive_listdir(path):
     files = os.listdir(path)
 
+    file_info(path)
+
     for file in files:
         file_path = os.path.join(path, file)
 
