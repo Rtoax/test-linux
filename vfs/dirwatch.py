@@ -6,7 +6,7 @@
 #
 # 2023-08-23    Rong Tao    Create this.
 # 2023-08-24    Rong Tao    Check directory path exist and add ppid/pcomm.
-# 2023-08-25    Rong Tao    Tracing file create in directory(-D) and mkdir()
+# 2023-08-25    Rong Tao    Tracing file create in directory(-D) and mkdir/rmdir
 
 from __future__ import print_function
 from bcc import ArgString, BPF
@@ -140,6 +140,10 @@ int trace_mkdir_return(struct pt_regs *ctx)
     mkdir_inf.delete(&id);
     return ret;
 }
+TRACE_RMDIR
+{
+    return trace_inode_events(ctx, OP_UNLINK, dir, dentry);
+}
 
 int trace_open(struct pt_regs *ctx, struct path *path, struct file *file)
 {
@@ -162,6 +166,9 @@ int trace_create(struct pt_regs *ctx, struct inode *dir, struct dentry *dentry)
 trace_mkdir_func_1="""
 int trace_mkdir(struct pt_regs *ctx, struct inode *dir, struct dentry *dentry)
 """
+trace_rmdir_func_1="""
+int trace_rmdir(struct pt_regs *ctx, struct inode *dir, struct dentry *dentry)
+"""
 
 # kernel commit 6521f8917082("namei: prepare for idmapped mounts") add argument
 # 'struct user_namespace'.
@@ -177,6 +184,10 @@ trace_mkdir_func_2="""
 int trace_mkdir(struct pt_regs *ctx, struct user_namespace *mnt_userns,
                  struct inode *dir, struct dentry *dentry)
 """
+trace_rmdir_func_2="""
+int trace_rmdir(struct pt_regs *ctx, struct user_namespace *mnt_userns,
+                 struct inode *dir, struct dentry *dentry)
+"""
 
 # kernel commit abf08576afe3("fs: port vfs_*() helpers to struct mnt_idmap")
 # use mnt_idmap instead of user_namespace.
@@ -190,6 +201,10 @@ int trace_create(struct pt_regs *ctx, struct mnt_idmap *idmap,
 """
 trace_mkdir_func_3="""
 int trace_mkdir(struct pt_regs *ctx, struct mnt_idmap *idmap,
+                 struct inode *dir, struct dentry *dentry)
+"""
+trace_rmdir_func_3="""
+int trace_rmdir(struct pt_regs *ctx, struct mnt_idmap *idmap,
                  struct inode *dir, struct dentry *dentry)
 """
 
@@ -289,14 +304,17 @@ if BPF.kernel_struct_has_field(b'renamedata', b'new_mnt_idmap') == 1:
     bpf_text = bpf_text.replace('TRACE_UNLINK', trace_unlink_func_3)
     bpf_text = bpf_text.replace('TRACE_CREATE', trace_create_func_3)
     bpf_text = bpf_text.replace('TRACE_MKDIR', trace_mkdir_func_3)
+    bpf_text = bpf_text.replace('TRACE_RMDIR', trace_rmdir_func_3)
 elif BPF.kernel_struct_has_field(b'renamedata', b'old_mnt_userns') == 1:
     bpf_text = bpf_text.replace('TRACE_UNLINK', trace_unlink_func_2)
     bpf_text = bpf_text.replace('TRACE_CREATE', trace_create_func_2)
     bpf_text = bpf_text.replace('TRACE_MKDIR', trace_mkdir_func_2)
+    bpf_text = bpf_text.replace('TRACE_RMDIR', trace_rmdir_func_2)
 else:
     bpf_text = bpf_text.replace('TRACE_UNLINK', trace_unlink_func_1)
     bpf_text = bpf_text.replace('TRACE_CREATE', trace_create_func_1)
     bpf_text = bpf_text.replace('TRACE_MKDIR', trace_mkdir_func_1)
+    bpf_text = bpf_text.replace('TRACE_RMDIR', trace_rmdir_func_1)
 
 b = BPF(text=bpf_text)
 b.attach_kprobe(event="vfs_unlink", fn_name="trace_unlink")
@@ -304,6 +322,7 @@ b.attach_kprobe(event="vfs_rmdir", fn_name="trace_unlink")
 b.attach_kprobe(event="vfs_create", fn_name="trace_create")
 b.attach_kprobe(event="vfs_open", fn_name="trace_open")
 b.attach_kprobe(event="vfs_mkdir", fn_name="trace_mkdir")
+b.attach_kprobe(event="vfs_rmdir", fn_name="trace_rmdir")
 
 b.attach_kretprobe(event="vfs_mkdir", fn_name="trace_mkdir_return");
 
