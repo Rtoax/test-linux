@@ -6,6 +6,7 @@
 #
 # 2023-08-23    Rong Tao    Create this.
 # 2023-08-24    Rong Tao    Check directory path exist and add ppid/pcomm.
+# 2023-08-25    Rong Tao    Tracing file create in directory(-D)
 
 from __future__ import print_function
 from bcc import ArgString, BPF
@@ -109,7 +110,7 @@ int trace_open(struct pt_regs *ctx, struct path *path, struct file *file)
         return 0;
     struct inode *inode = dentry->d_inode;
     /* FIXME: Find parent inode. */
-    struct inode *dir = file->f_path.dentry->d_parent->d_inode;
+    struct inode *dir = path->dentry->d_parent->d_inode;
     return trace_inode_events(ctx, OP_CREATE, dir, inode, dentry);
 }
 """
@@ -189,10 +190,26 @@ def handle_inode_event(cpu, data, size):
                  b'UNLINK',
                  event.ino))
     elif event.op == 1: # Create
-        # FIXME: Add to hash_ino_file
-        # if hash_ino_file.get(event.parent_ino):
-            #hash_ino_file[event.ino] = event.fname
-        if verbose:
+        # Create file under directory
+        if hash_ino_file.get(event.parent_ino):
+            if verbose:
+                print("Create %d(%s)" %
+                      (event.parent_ino,
+                       hash_ino_file[event.parent_ino]))
+            # Update hash
+            hash_ino_file[event.ino] = "%s/%s" % \
+                        (hash_ino_file[event.parent_ino],
+                         str(event.fname,'utf-8'))
+
+            printb(b"%-8s %-8d %-16s %-8d %-16s %-8s %-16s" %
+                (strftime("%H:%M:%S").encode('ascii'),
+                 event.ppid,
+                 event.pcomm,
+                 event.pid,
+                 event.comm,
+                 b'CREATE',
+                 hash_ino_file[event.ino].encode('ascii')))
+        elif verbose:
             printb(b"%-8s %-8d %-16s %-8d %-16s %-8s %-16d" %
                 (strftime("%H:%M:%S").encode('ascii'),
                  event.ppid,
