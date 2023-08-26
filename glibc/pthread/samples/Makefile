@@ -9,7 +9,7 @@ TARGETS += pthread_attr_setstack-2
 TARGETS += pthread_attr_setstack-3
 TARGETS += pthread_attr_getstack
 TARGETS += pthread_attr_getstacksize
-TARGETS += pthread_attr_init 
+TARGETS += pthread_attr_init
 TARGETS += pthread_barrier_init
 TARGETS += pthread_cancel pthread_testcancel pthread_setcancelstate
 TARGETS += pthread_create
@@ -32,8 +32,17 @@ TARGETS += pthread_sigmask
 TARGETS += pthread_once
 TARGETS += pthread_yield
 TARGETS += tls
+TARGETS += pthread_mutexattr_setprioceiling
+TARGETS += pthread_mutexattr_setprotocol
+TARGETS += pthread_mutexattr_setpshared
+TARGETS += pthread_mutexattr_setrobust
+TARGETS += pthread_mutexattr_settype
+TARGETS += pthread_mutex_consistent
+TARGETS += pthread_mutex_getprioceiling
+TARGETS += pthread_mutex_init
 
 ifeq ($(shell uname -m),x86_64)
+TARGETS += pthread_mutex_latency
 endif
 
 OS := $(shell grep ^ID= /etc/os-release | sed 's/ID=//g' | sed 's/"//g')
@@ -106,6 +115,15 @@ pthread_spin-latency-loop: pthread_spin-latency-loop.o
 pthread_once: pthread_once.o
 pthread_yield: pthread_yield.o
 tls: tls.o
+pthread_mutexattr_setprioceiling: pthread_mutexattr_setprioceiling.o
+pthread_mutexattr_setprotocol: pthread_mutexattr_setprotocol.o
+pthread_mutexattr_setpshared: pthread_mutexattr_setpshared.o
+pthread_mutexattr_setrobust: pthread_mutexattr_setrobust.o
+pthread_mutexattr_settype: pthread_mutexattr_settype.o
+pthread_mutex_consistent: pthread_mutex_consistent.o
+pthread_mutex_getprioceiling: pthread_mutex_getprioceiling.o
+pthread_mutex_init: pthread_mutex_init.o
+pthread_mutex_latency: pthread_mutex_latency.o
 
 %.d: %.c
 	@echo -e "Generate \033[1m$(@)\033[m $(OS)"
