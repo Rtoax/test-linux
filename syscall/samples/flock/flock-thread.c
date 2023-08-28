@@ -41,8 +41,8 @@ int open_and_write(const char *filename, const char *prefix, const char *msg)
 
 	ret = flock(fd, LOCK_EX | LOCK_NB);
 	if (ret != 0) {
-		fprintf(stderr, "[%s:%d] flock: %s\n", prefix, gettid(),
-				strerror(errno));
+		fprintf(stderr, "[%s:pid=%d:tid=%d] flock: %s\n", prefix,
+				getpid(), gettid(), strerror(errno));
 		close(fd);
 		return -1;
 	}
@@ -60,7 +60,8 @@ void *task_routinue(void *arg)
 	int try = try_times;
 	char buffer[1024];
 
-	snprintf(buffer, sizeof(buffer), "I am %d\n", gettid());
+	snprintf(buffer, sizeof(buffer), "I am process %d's thread %d\n",
+			getpid(), gettid());
 	printf("%s", buffer);
 
 	while (try-- &&
