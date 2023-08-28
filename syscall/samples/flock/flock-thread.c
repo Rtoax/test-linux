@@ -41,7 +41,7 @@ void *task_routinue(void *arg)
 	int try_times = 10;
 
 	while (try_times-- &&
-		!open_and_write(filename, "Father", "hello from parent.\n"));
+		!open_and_write(filename, "Thread", "hello from parent.\n"));
 
 	return NULL;
 }
