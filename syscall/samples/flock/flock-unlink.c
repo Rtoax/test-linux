@@ -21,20 +21,28 @@ int main(int argc, char *argv[])
 	fd = open(filename, O_CREAT | O_TRUNC | O_RDWR, 0644);
 
 	/* Remove file will not cause: Resource temporarily unavailable */
-	// unlink(filename);
+	unlink(filename);
+	if (access(filename, F_OK) == 0) {
+		fprintf(stderr, "Unlink failed.\n");
+		exit(1);
+	}
 
+	/* lock ok after unlink */
 	ret = flock(fd, LOCK_EX | LOCK_NB);
 	if (ret != 0) {
 		fprintf(stderr, "flock: %s\n", strerror(errno));
 		exit(1);
 	}
 
-	/* Holding the lock for seconds. */
-	sleep(2);
+	/* write ok after unlink */
+	ret = write(fd, "hello\n", sizeof("hello\n"));
+	if (ret <= 0)
+		fprintf(stderr, "Write faild.\n");
 
-	write(fd, "hello\n", sizeof("hello\n"));
-
-	flock(fd, LOCK_UN);
+	/* unlock ok after unlink */
+	ret = flock(fd, LOCK_UN);
+	if (ret != 0)
+		fprintf(stderr, "unflock: %s\n", strerror(errno));
 
 	close(fd);
 	return 0;

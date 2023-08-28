@@ -1,6 +1,6 @@
 /flock
 /flock-fork
-/flock-3
+/flock-unlink
 /flock-thread
 /testfile
 /tmpfs
