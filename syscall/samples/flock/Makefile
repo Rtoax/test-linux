@@ -1,5 +1,5 @@
 
-TARGETS += flock flock-2 flock-3 flock-4-thread
+TARGETS += flock flock-fork flock-3 flock-4-thread
 
 DEBUG = yes
 SRC_PATH := $(shell pwd)
@@ -20,7 +20,7 @@ build: ${TARGETS}
 
 # Add more object.o file
 flock: flock.o
-flock-2: flock-2.o
+flock-fork: flock-fork.o
 flock-3: flock-3.o
 flock-4-thread: flock-4-thread.o
 
