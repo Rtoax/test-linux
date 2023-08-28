@@ -79,7 +79,8 @@ int main(int argc, char *argv[])
 	ret = flock(fd, operation);
 	if (ret != 0) {
 		fprintf(stderr, "flock: %s\n", strerror(errno));
-		exit(1);
+		close(fd);
+		return errno;
 	}
 
 	/* Hold flock for a little while */

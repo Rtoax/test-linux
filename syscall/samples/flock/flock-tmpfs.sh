@@ -24,3 +24,14 @@ sleep 0.5
 # Resource temporarily unavailable until above flock exit
 while ! ./flock -f $PWD/tmpfs/testfile; do :; done
 
+todo_while() {
+	while true; do
+		./flock -f $PWD/tmpfs/testfile || {
+			ret=$?
+			# EAGAIN (11) : Resource temporarily unavailable
+			if [[ $ret == 11 ]]; then
+				echo ">Resource temporarily unavailable<"
+			fi
+		}
+	done
+}
