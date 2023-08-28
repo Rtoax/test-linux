@@ -84,7 +84,7 @@ int main(int argc, char *argv[])
 	};
 
 	while (1) {
-		cmd = getopt_long(argc, argv, "hf:t:", options, &option_index);
+		cmd = getopt_long(argc, argv, "hf:t:n:", options, &option_index);
 		if (cmd == -1)
 			break;
 		switch (cmd) {
