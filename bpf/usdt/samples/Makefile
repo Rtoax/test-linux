@@ -1,24 +1,24 @@
 
-TARGETS= \
-	usdt_test.out \
-	usdt_hello.out \
-	usdt_inlined.out \
-	usdt_quoted_probe.out \
-	usdt_semaphore_test.out \
-	usdt_sized_args.out
+TARGETS += usdt_test
+TARGETS += usdt_hello
+TARGETS += usdt_inlined
+TARGETS += usdt_quoted_probe
+TARGETS += usdt_semaphore_test
+TARGETS += usdt_sized_args
+
+CC = gcc
 
 build: ${TARGETS}
 	@echo
 	@echo -e "CHECK USDT: \033[1;33msudo bpftrace -l usdt:./usdt_xxx:*\033[m"
 	@echo -e "TRACING IT: \033[1;33msudo bpftrace -e 'usdt:./usdt_xxx:tracetest:testprobe{printf("x\n");}'\033[m"
 
-%.d: %.c
-	@echo -e "Generate \033[1m$(@)\033[m"
-	@$(CC) $(CFLAGS) -MM -MF "$@" -MG -MP -MT"$@" -MT"$(<:.c=.o)" $(<)
-
-%.out: %.c %.d
-	@echo -e "Compile  \033[1m$(<)\033[m to \033[1;31m$(@)\033[m"
-	@$(CC) $(CFLAGS) -o $(@) $(<)
+usdt_test: usdt_test.o
+usdt_hello: usdt_hello.o
+usdt_inlined: usdt_inlined.o
+usdt_quoted_probe: usdt_quoted_probe.o
+usdt_semaphore_test: usdt_semaphore_test.o
+usdt_sized_args: usdt_sized_args.o
 
 clean:
 	rm -f ${TARGETS} *.o
