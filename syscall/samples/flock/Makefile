@@ -1,5 +1,5 @@
 
-TARGETS += flock flock-fork flock-3 flock-4-thread
+TARGETS += flock flock-fork flock-3 flock-thread
 
 DEBUG = yes
 SRC_PATH := $(shell pwd)
@@ -22,7 +22,7 @@ build: ${TARGETS}
 flock: flock.o
 flock-fork: flock-fork.o
 flock-3: flock-3.o
-flock-4-thread: flock-4-thread.o
+flock-thread: flock-thread.o
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
