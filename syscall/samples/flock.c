@@ -16,7 +16,8 @@ int main(void)
 
 	fd = open("testfile", O_CREAT | O_TRUNC | O_RDWR, 0644);
 
-	ret = flock(fd, LOCK_EX | LOCK_NB);
+	/* LOCK_RW = LOCK_READ | LOCK_WRITE */
+	ret = flock(fd, LOCK_EX | LOCK_NB | LOCK_MAND | LOCK_READ | LOCK_WRITE);
 	if (ret != 0) {
 		fprintf(stderr, "flock: %s\n", strerror(errno));
 		exit(1);
