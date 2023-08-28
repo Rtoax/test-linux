@@ -53,8 +53,9 @@ TRACEPOINT_PROBE(filelock, flock_lock_inode) {
     u32 lock_tid = lock->fl_pid;
     struct data_t data = {};
 
-    u32 pid = bpf_get_current_pid_tgid() >> 32;
-    u32 tid = bpf_get_current_pid_tgid() & 0x00000000ffffffff;
+    u64 pid_tgid = bpf_get_current_pid_tgid();
+    u32 pid = pid_tgid >> 32;
+    u32 tid = (u32)pid_tgid;
     struct ctx_info *ctx_info = (void *)lock_tid_map.lookup(&tid);
     if (ctx_info == 0) {
     } else {
