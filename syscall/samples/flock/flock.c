@@ -9,12 +9,16 @@
 #include <sys/wait.h>
 
 
-int main(void)
+int main(int argc, char *argv[])
 {
 	int fd;
 	int ret;
+	const char *filename = "testfile";
 
-	fd = open("testfile", O_CREAT | O_TRUNC | O_RDWR, 0644);
+	if (argc > 1)
+		filename = argv[1];
+
+	fd = open(filename, O_CREAT | O_TRUNC | O_RDWR, 0644);
 
 	/* LOCK_RW = LOCK_READ | LOCK_WRITE */
 	ret = flock(fd, LOCK_EX | LOCK_NB | LOCK_MAND | LOCK_READ | LOCK_WRITE);
@@ -22,6 +26,9 @@ int main(void)
 		fprintf(stderr, "flock: %s\n", strerror(errno));
 		exit(1);
 	}
+
+	/* Hold flock for a little while */
+	sleep(2);
 
 	write(fd, "hello\n", sizeof("hello\n"));
 
