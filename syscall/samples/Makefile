@@ -19,7 +19,6 @@ TARGETS += sched_getaffinity
 TARGETS += tee tee2
 TARGETS += clone
 TARGETS += setitimer
-TARGETS += flock flock-2 flock-3 flock-4-thread
 TARGETS += unlink
 TARGETS += uname
 TARGETS += userfaultfd
@@ -55,6 +54,7 @@ build: nr.h ${TARGETS} ${TARGETS_CPP}
 	make -C aio
 	make -C ioctl
 	make -C epoll
+	make -C flock
 	make -C fanotify
 	make -C inotify
 	make -C signal
@@ -97,10 +97,6 @@ tee: tee.o
 tee2: tee2.o
 clone: clone.o
 setitimer: setitimer.o
-flock: flock.o
-flock-2: flock-2.o
-flock-3: flock-3.o
-flock-4-thread: flock-4-thread.o
 unlink: unlink.o
 uname: uname.o
 userfaultfd: userfaultfd.o
@@ -143,6 +139,7 @@ clean:
 	make -C aio clean
 	make -C ioctl clean
 	make -C epoll clean
+	make -C flock clean
 	make -C fanotify clean
 	make -C inotify clean
 	make -C signal clean

@@ -1,0 +1,32 @@
+
+TARGETS += flock flock-2 flock-3 flock-4-thread
+
+DEBUG = yes
+SRC_PATH := $(shell pwd)
+CC = gcc
+
+CFLAGS := -Werror -Wall -D_GNU_SOURCE
+CFLAGS += -pthread
+CFLAGS += -I../../../
+CFLAGS += -I../
+
+ifdef DEBUG
+CFLAGS += -DDEBUG -O0 -g
+endif
+
+build: ${TARGETS}
+	@echo
+	@echo -e " \033[1;33m Done \033[m"
+
+# Add more object.o file
+flock: flock.o
+flock-2: flock-2.o
+flock-3: flock-3.o
+flock-4-thread: flock-4-thread.o
+
+test: ${TARGETS}
+	@echo -e "Test   \033[1;32m$(@)\033[m"
+
+clean:
+	@echo -e "Clean   \033[1;32m$(@)\033[m"
+	@rm -f ${TARGETS} *.o *.d *.txt
