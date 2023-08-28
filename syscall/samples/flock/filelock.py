@@ -6,6 +6,7 @@
 #
 # 2023-07-26    Rong Tao    Create this.
 # 2023-07-27    Rong Tao    Use tid(tgid) instead of pid.
+# 2023-08-28    Rong Tao    Get more possible owner's tid.
 
 from __future__ import print_function
 from bcc import ArgString, BPF
@@ -15,13 +16,22 @@ import os
 
 bpf_text = """
 #include <linux/fs.h>
+#include <linux/version.h>
 #include <linux/sched.h>
 #include <linux/list.h>
+/* commit 5970e15dbcfe("filelock: move file locking definitions to separate
+ * header file")
+ */
+#if LINUX_VERSION_CODE > KERNEL_VERSION(6, 2, 0)
+#include <linux/filelock.h>
+#endif
+
+#define MAX_MAYBE_OWNER 2
 
 struct data_t {
     u32 pid;
     u32 tid;
-    u32 owner_tid;
+    u32 owner_tid[MAX_MAYBE_OWNER];
     char comm[TASK_COMM_LEN];
     u32 ino;
     int ret;
@@ -29,33 +39,33 @@ struct data_t {
 BPF_PERF_OUTPUT(filelock_events);
 
 struct ctx_info {
-    u32 owner_tid;
+    u32 owner_tid[MAX_MAYBE_OWNER];
 };
 BPF_HASH(lock_tid_map, u32);
 
 TRACEPOINT_PROBE(filelock, flock_lock_inode) {
     unsigned long i_ino = args->i_ino;
     int ret = args->ret;
+    int i;
 
     struct file_lock *lock = args->fl;
     u32 lock_tid = lock->fl_pid;
-    u32 owner_tid = 0;
+    struct data_t data = {};
 
     u32 pid = bpf_get_current_pid_tgid() >> 32;
     u32 tid = bpf_get_current_pid_tgid() & 0x00000000ffffffff;
     struct ctx_info *ctx_info = (void *)lock_tid_map.lookup(&tid);
     if (ctx_info == 0) {
-        owner_tid = 0;
     } else {
-        owner_tid = ctx_info->owner_tid;
+        #pragma unroll
+        for (i = 0; i < MAX_MAYBE_OWNER; i++) {
+            data.owner_tid[i] = ctx_info->owner_tid[i];
+        }
     }
-
-    struct data_t data = {};
 
     bpf_get_current_comm(&data.comm, sizeof(data.comm));
     data.pid = lock_tid;
     data.tid = tid;
-    data.owner_tid = owner_tid;
     data.ino = i_ino;
     data.ret = ret;
 
@@ -90,22 +100,13 @@ TRACEPOINT_PROBE(filelock, locks_get_lock_context) {
 
     u32 tid = bpf_get_current_pid_tgid() & 0x00000000ffffffff;
     struct ctx_info info = {};
-
-    info.owner_tid = 0;
+    int i;
 
     struct list_head *head = &ctx->flc_flock;
 
-    info.owner_tid = try_get_owner_tid(tid, head);
-
-    /* FIXME: Find owner tid again if find nothing above, the following one
-     * do the totally same thing. Maybe there is a better way. */
-    if (info.owner_tid == 0) {
-        head = head->next;
-        info.owner_tid = try_get_owner_tid(tid, head);
-    }
-    if (info.owner_tid == 0) {
-        head = head->next;
-        info.owner_tid = try_get_owner_tid(tid, head);
+    #pragma unroll
+    for (i = 0; i < MAX_MAYBE_OWNER; i++, head = head->next) {
+        info.owner_tid[i] = try_get_owner_tid(tid, head);
     }
 
     lock_tid_map.update(&tid, (void *)&info);
@@ -116,19 +117,20 @@ TRACEPOINT_PROBE(filelock, locks_get_lock_context) {
 
 def print_filelock_event(cpu, data, size):
     event = b["filelock_events"].event(data)
-    printb(b"%-8d %-8d %-16s %-8d %-16d %-8d" \
+    printb(b"%-8d %-8d %-16s %8d,%8d %-16d %-8d" \
            % (event.pid,
               event.tid,
               event.comm,
-              event.owner_tid,
+              event.owner_tid[0],
+              event.owner_tid[1],
               event.ino,
               event.ret))
 
 b = BPF(text=bpf_text)
 
 print("Tracing filelock ... Hit Ctrl-C to end")
-print("%-8s %-8s %-16s %-8s %-16s %-8s" \
-      % ("PID", "TID", "COMM", "OWN_TID", "INODE", "RESULT"))
+print("%-8s %-8s %-16s %-17s %-16s %-8s" \
+      % ("PID", "TID", "COMM", "OWNERS_TID(may)", "INODE", "RESULT"))
 
 b["filelock_events"].open_perf_buffer(print_filelock_event)
 
