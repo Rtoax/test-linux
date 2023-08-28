@@ -1,5 +1,7 @@
 
 TARGETS += getopt
+TARGETS += getopt_long
+TARGETS += demo-wls
 
 ifeq ($(shell uname -m),x86_64)
 endif
@@ -22,6 +24,8 @@ build: ${TARGETS}
 
 # Add more object.o file
 getopt: getopt.o
+getopt_long: getopt_long.o
+demo-wls: demo-wls.o
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
