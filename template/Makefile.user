@@ -10,6 +10,10 @@ ifeq ($(OS),)
 	OS=linux
 endif
 
+ifeq ($(OS),ubuntu)
+else ifeq ($(OS),debian)
+endif
+
 DEBUG = yes
 SRC_PATH := $(shell pwd)
 CC = gcc
