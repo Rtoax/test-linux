@@ -61,6 +61,8 @@ CFLAGS += -I../../../
 CFLAGS += -lm
 ifeq ($(OS),ubuntu)
 	CFLAGS += -DHAVE_NO_SQRT=1
+else ifeq ($(OS),debian)
+	CFLAGS += -DHAVE_NO_SQRT=1
 endif
 
 ifdef DEBUG
