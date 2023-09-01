@@ -6,3 +6,9 @@ eMMC - embedded Multi-MediaCard
 个拓展，具有体积小，功耗低，容量大等优点，非常适合用作智能手机、平板电脑、移动
 互联网设备等消费类电子设备的存储介质。
 
+
+# 关键词
+
+- GPP: General Purpose Partitions
+- RPMB: Replay Protected Memory Block (Partition)
+- UDA: User Data Area (Partition)
