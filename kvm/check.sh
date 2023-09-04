@@ -1,6 +1,6 @@
 #!/bin/bash 
 
-kvm=`egrep -c '(vmx|svm)' /proc/cpuinfo`
+kvm=`grep -c -E '(vmx|svm)' /proc/cpuinfo`
 if [ kvm = 0 ]; then
 	echo "Not support vmx or svm"
 else
