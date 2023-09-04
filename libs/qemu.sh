@@ -1,17 +1,11 @@
 #!/bin/bash
 
-get_qemu_kvm_emulator()
+find_qemu_emulator()
 {
-	qemu_kvm=""
+	local qemu_kvm=""
+	local emulators=( "$@" )
 
-	qemu_kvm_possible_emulators=(
-		/usr/libexec/qemu-kvm
-		/usr/libexec/qemu-system-$(uname -m)
-		/usr/bin/qemu-system-$(uname -m)
-		/usr/local/bin/qemu-system-$(uname -m)
-	)
-
-	for b in ${qemu_kvm_possible_emulators[@]}
+	for b in ${emulators[@]}
 	do
 		if [[ -e ${b} ]]; then
 			qemu_kvm=${b}
@@ -25,7 +19,18 @@ get_qemu_kvm_emulator()
 	else
 		echo $qemu_kvm
 	fi
+}
 
+get_qemu_kvm_emulator()
+{
+	local qemu_kvm_possible_emulators=(
+		/usr/libexec/qemu-kvm
+		/usr/libexec/qemu-system-$(uname -m)
+		/usr/bin/qemu-system-$(uname -m)
+		/usr/local/bin/qemu-system-$(uname -m)
+	)
+
+	find_qemu_emulator ${qemu_kvm_possible_emulators[@]}
 	return 0
 }
 
