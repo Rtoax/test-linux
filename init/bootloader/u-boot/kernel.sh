@@ -22,3 +22,11 @@ kernel_run_arm_1() {
 		-dtb /home/rongtao/Git/linux/arch/arm/boot/dts/allwinner/sun8i-h3-orangepi-pc.dtb
 }
 
+kernel_run_arm_2() {
+	qemu-system-arm  -M orangepi-pc -nic user -nographic \
+		-kernel /home/rongtao/Git/linux/arch/arm/boot/zImage \
+		-append 'console=ttyS0,115200 root=/dev/mmcblk0p2' \
+		-dtb /home/rongtao/Git/linux/arch/arm/boot/dts/allwinner/sun8i-h3-orangepi-pc.dtb \
+		-sd uboot.disk
+}
+kernel_run_arm_2
