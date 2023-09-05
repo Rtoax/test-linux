@@ -28,6 +28,9 @@ ub_qemu_x86_64_custom()
 	# kill: pkill ${qemu_emulator} -f
 	${qemu_emulator} -nographic -bios ${U_BOOT_DIR}/u-boot.rom \
 		-machine acpi=on \
+		-device sdhci-pci \
+			-device sd-card,drive=mydrive \
+			-drive id=mydrive,if=none,format=qcow2,file=${PWD}/test.qcow2 \
 		-m 8G -smp 4
 }
 
