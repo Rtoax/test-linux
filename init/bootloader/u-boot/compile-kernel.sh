@@ -1,5 +1,7 @@
 #!/bin/bash
 
+. config
+
 kernel_compile_cross_aarch64() {
 	sudo make ARCH=arm CROSS_COMPILE=aarch64-linux-gnu- vexpress_defconfig
 	sudo make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- menuconfig
@@ -29,4 +31,54 @@ kernel_run_arm_2() {
 		-dtb /home/rongtao/Git/linux/arch/arm/boot/dts/allwinner/sun8i-h3-orangepi-pc.dtb \
 		-sd uboot.disk
 }
-kernel_run_arm_2
+
+usage()
+{
+	cat <<-EOF
+
+	compile [type]
+
+	type: cross-aarch64 cross-arm
+
+		-v, --verbose
+		-h, --help
+
+	EOF
+}
+
+while true
+do
+case $1 in
+-v | --verbose)
+	shift
+	export PS4='+${BASH_SOURCE}:${LINENO}:${FUNCNAME[0]}: '
+	set -x
+	;;
+-h | --help)
+	shift
+	usage
+	exit 0
+	;;
+*)
+	break
+	;;
+esac
+done
+
+case $1 in
+cross-aarch64)
+	pushd ${LINUX_KERNEL_DIR}
+	kernel_compile_cross_aarch64
+	popd
+	;;
+cross-arm)
+	pushd ${LINUX_KERNEL_DIR}
+	kernel_compile_cross_arm
+	popd
+	;;
+*)
+	usage
+	echo "ERROR: Unsupport '$1'"
+	exit 1
+	;;
+esac
