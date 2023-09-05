@@ -18,6 +18,6 @@ compile_qemu_aarch64()
 compile_cross_aarch64()
 {
 	sudo make clean
-	sudo make CROSS_COMPILE=aarch64-linux-gnu- qemu_arm64_defconfig
-	sudo make CROSS_COMPILE=aarch64-linux-gnu- -j8
+	sudo make ARCH=arm CROSS_COMPILE=aarch64-linux-gnu- qemu_arm64_defconfig
+	sudo make ARCH=arm CROSS_COMPILE=aarch64-linux-gnu- -j8
 }
