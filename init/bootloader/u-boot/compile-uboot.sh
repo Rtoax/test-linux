@@ -31,13 +31,20 @@ compile_cross_arm()
 	sudo make ARCH=arm CROSS_COMPILE=arm-linux-gnu- -j8
 }
 
+compile_cross_arm_orangepi()
+{
+	sudo make clean
+	sudo make ARCH=arm CROSS_COMPILE=arm-linux-gnu- orangepi_one_defconfig
+	sudo make ARCH=arm CROSS_COMPILE=arm-linux-gnu- -j8
+}
+
 usage()
 {
 	cat <<-EOF
 
 	compile [type]
 
-	type: x86_64 aarch64 cross-aarch64 cross-arm
+	type: x86_64 aarch64 cross-aarch64 cross-arm cross-arm-orangepi
 
 		-v, --verbose
 		-h, --help
@@ -90,6 +97,12 @@ cross-arm)
 	pushd ${U_BOOT_DIR}
 	sudo git clean -dfx
 	compile_cross_arm
+	popd
+	;;
+cross-arm-orangepi)
+	pushd ${U_BOOT_DIR}
+	sudo git clean -dfx
+	compile_cross_arm_orangepi
 	popd
 	;;
 *)
