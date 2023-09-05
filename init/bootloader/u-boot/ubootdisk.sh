@@ -1,6 +1,8 @@
 #!/bin/bash
 
-kernel_root_dir=/home/rongtao/Git/linux
+. config
+
+kernel_root_dir=${LINUX_KERNEL_DIR}
 
 dd if=/dev/zero of=uboot.disk bs=1M count=1024
 
