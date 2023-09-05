@@ -60,9 +60,11 @@ ub_qemu_arm_custom()
 {
 	qemu_emulator=$(get_qemu_kvm_emulator_arch arm)
 
-	${qemu_emulator} -nographic -bios ${U_BOOT_DIR}/u-boot.bin \
+	${qemu_emulator} -machine orangepi-pc -nographic -nic user \
 		-kernel ${U_BOOT_DIR}/u-boot \
-		-machine virt
+		-dtb ${LINUX_KERNEL_DIR}/arch/arm/boot/dts/allwinner/sun8i-h3-orangepi-pc.dtb \
+		-sd uboot.disk \
+		-m 1G -smp 4
 }
 
 usage()
@@ -102,6 +104,11 @@ case $1 in
 	shift
 	usage
 	exit 0
+	;;
+-*)
+	usage
+	echo "ERROR: Unkown $1"
+	exit 1
 	;;
 *)
 	break

@@ -46,6 +46,7 @@ usage()
 }
 
 compile_type=$(uname -m)
+git_clean=
 
 while true
 do
@@ -69,21 +70,25 @@ done
 case $1 in
 x86_64)
 	pushd ${U_BOOT_DIR}
+	sudo git clean -dfx
 	compile_qemu_x86_64
 	popd
 	;;
 aarch64)
 	pushd ${U_BOOT_DIR}
+	sudo git clean -dfx
 	compile_qemu_aarch64
 	popd
 	;;
 cross-aarch64)
 	pushd ${U_BOOT_DIR}
+	sudo git clean -dfx
 	compile_cross_aarch64
 	popd
 	;;
 cross-arm)
 	pushd ${U_BOOT_DIR}
+	sudo git clean -dfx
 	compile_cross_arm
 	popd
 	;;

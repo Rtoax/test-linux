@@ -19,16 +19,16 @@ kernel_compile_cross_arm() {
 # qemu: docs/system/arm/orangepi.rst
 kernel_run_arm_1() {
 	qemu-system-arm  -M orangepi-pc -nic user -nographic \
-		-kernel /home/rongtao/Git/linux/arch/arm/boot/zImage \
+		-kernel ${LINUX_KERNEL_DIR}/arch/arm/boot/zImage \
 		-append 'console=ttyS0,115200' \
-		-dtb /home/rongtao/Git/linux/arch/arm/boot/dts/allwinner/sun8i-h3-orangepi-pc.dtb
+		-dtb ${LINUX_KERNEL_DIR}/arch/arm/boot/dts/allwinner/sun8i-h3-orangepi-pc.dtb
 }
 
 kernel_run_arm_2() {
 	qemu-system-arm  -M orangepi-pc -nic user -nographic \
-		-kernel /home/rongtao/Git/linux/arch/arm/boot/zImage \
+		-kernel ${LINUX_KERNEL_DIR}/arch/arm/boot/zImage \
 		-append 'console=ttyS0,115200 root=/dev/mmcblk0p2' \
-		-dtb /home/rongtao/Git/linux/arch/arm/boot/dts/allwinner/sun8i-h3-orangepi-pc.dtb \
+		-dtb ${LINUX_KERNEL_DIR}/arch/arm/boot/dts/allwinner/sun8i-h3-orangepi-pc.dtb \
 		-sd uboot.disk
 }
 
@@ -38,7 +38,7 @@ usage()
 
 	compile [type]
 
-	type: cross-aarch64 cross-arm
+	type: cross-aarch64 cross-arm test-cross-arm test-cross-arm-disk
 
 		-v, --verbose
 		-h, --help
@@ -75,6 +75,12 @@ cross-arm)
 	pushd ${LINUX_KERNEL_DIR}
 	kernel_compile_cross_arm
 	popd
+	;;
+test-cross-arm)
+	kernel_run_arm_1
+	;;
+test-cross-arm-disk)
+	kernel_run_arm_2
 	;;
 *)
 	usage
