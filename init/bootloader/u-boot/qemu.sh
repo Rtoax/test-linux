@@ -1,7 +1,7 @@
 #!/bin/bash
 
 . compile.sh
-. ../../libs/qemu.sh
+. ../../../libs/qemu.sh
 
 program_name=$0
 qemu_emulator=$(get_qemu_kvm_emulator)
