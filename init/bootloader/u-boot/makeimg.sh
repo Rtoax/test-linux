@@ -2,16 +2,18 @@
 
 set -e
 
+img_format=qcow2
+
 pre_clean() {
-	sudo rm -f test.qcow2
+	sudo rm -f test.${img_format}
 }
 create_disk() {
 	pre_clean
 	sudo modprobe nbd max_part=16
 	lsmod | grep nbd
-	sudo qemu-img create -f qcow2 test.qcow2 128G
-	sudo qemu-nbd --connect /dev/nbd0 test.qcow2 -f qcow2
-	sudo chown rongtao:rongtao test.qcow2
+	sudo qemu-img create -f ${img_format} test.${img_format} 128G
+	sudo qemu-nbd --connect /dev/nbd0 test.${img_format} -f ${img_format}
+	sudo chown rongtao:rongtao test.${img_format}
 }
 
 partition() {
@@ -64,6 +66,8 @@ usage()
 {
 	cat <<-EOF
 
+	--raw           use raw instead ${img_format}
+
 	--nofs
 	--nodestroy
 	-v, --verbose
@@ -87,6 +91,10 @@ case $1 in
 	shift
 	usage
 	exit 0
+	;;
+--raw)
+	shift
+	img_format=raw
 	;;
 --nofs)
 	shift
