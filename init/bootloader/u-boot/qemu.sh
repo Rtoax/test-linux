@@ -27,6 +27,7 @@ ub_qemu_x86_64_custom()
 {
 	# kill: pkill ${qemu_emulator} -f
 	${qemu_emulator} -nographic -bios ${U_BOOT_DIR}/u-boot.rom \
+		-kernel ${U_BOOT_DIR}/u-boot \
 		-machine acpi=on \
 		-device sdhci-pci \
 			-device sd-card,drive=mydrive \
@@ -37,6 +38,7 @@ ub_qemu_x86_64_custom()
 ub_qemu_aarch64_custom()
 {
 	${qemu_emulator} -nographic -bios ${U_BOOT_DIR}/u-boot.bin \
+		-kernel ${U_BOOT_DIR}/u-boot \
 		-machine virt -cpu cortex-a57
 }
 
