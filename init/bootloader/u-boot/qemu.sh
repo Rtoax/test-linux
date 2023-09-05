@@ -1,17 +1,29 @@
 #!/bin/bash
 
-. compile.sh
 . ../../../libs/qemu.sh
 . config
 
 program_name=$0
 qemu_emulator=$(get_qemu_kvm_emulator)
 
-ub_qemu_x86_64_easy()
-{
+ub_qemu_easy() {
 	${qemu_emulator} -nographic -bios ${U_BOOT_DIR}/u-boot.rom
 }
 
+ub_qemu_x86_64_easy() {
+	qemu_emulator=$(get_qemu_kvm_emulator_arch x86_64)
+	ub_qemu_easy
+}
+ub_qemu_aarch64_easy() {
+	qemu_emulator=$(get_qemu_kvm_emulator_arch aarch64)
+	ub_qemu_easy
+}
+ub_qemu_arm_easy() {
+	qemu_emulator=$(get_qemu_kvm_emulator_arch arm)
+	ub_qemu_easy
+}
+
+# TODO
 ub_qemu_x86_64_complex()
 {
 	local root_img=${PWD}/root.img
@@ -25,7 +37,8 @@ ub_qemu_x86_64_complex()
 
 ub_qemu_x86_64_custom()
 {
-	# kill: pkill ${qemu_emulator} -f
+	qemu_emulator=$(get_qemu_kvm_emulator_arch x86_64)
+
 	${qemu_emulator} -nographic -bios ${U_BOOT_DIR}/u-boot.rom \
 		-machine acpi=on \
 		-device sdhci-pci \
@@ -36,9 +49,20 @@ ub_qemu_x86_64_custom()
 
 ub_qemu_aarch64_custom()
 {
+	qemu_emulator=$(get_qemu_kvm_emulator_arch aarch64)
+
 	${qemu_emulator} -nographic -bios ${U_BOOT_DIR}/u-boot.bin \
 		-kernel ${U_BOOT_DIR}/u-boot \
 		-machine virt -cpu cortex-a57
+}
+
+ub_qemu_arm_custom()
+{
+	qemu_emulator=$(get_qemu_kvm_emulator_arch arm)
+
+	${qemu_emulator} -nographic -bios ${U_BOOT_DIR}/u-boot.bin \
+		-kernel ${U_BOOT_DIR}/u-boot \
+		-machine virt
 }
 
 usage()
@@ -47,8 +71,7 @@ usage()
 	test u-boot with qemu:
 
 	-a, --arch           specify arch: x86_64, aarch64, arm
-	-r, --run            set run type: complex, easy, custom
-	                     default: ${run_type}
+	-r, --run            run type: easy, custom, complex
 	-v, --verbose
 	-h, --help
 	EOF
@@ -65,6 +88,11 @@ case $1 in
 	arch_type=$1
 	shift
 	;;
+-r | --run)
+	shift
+	run_type=$1
+	shift
+	;;
 -v | --verbose)
 	shift
 	export PS4='+${BASH_SOURCE}:${LINENO}:${FUNCNAME[0]}: '
@@ -74,11 +102,6 @@ case $1 in
 	shift
 	usage
 	exit 0
-	;;
--r | --run)
-	shift
-	run_type=$1
-	shift
 	;;
 *)
 	break
