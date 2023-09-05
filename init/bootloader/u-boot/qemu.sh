@@ -27,7 +27,6 @@ ub_qemu_x86_64_custom()
 {
 	# kill: pkill ${qemu_emulator} -f
 	${qemu_emulator} -nographic -bios ${U_BOOT_DIR}/u-boot.rom \
-		-kernel ${U_BOOT_DIR}/u-boot \
 		-machine acpi=on \
 		-device sdhci-pci \
 			-device sd-card,drive=mydrive \
