@@ -40,6 +40,7 @@ TARGETS += pthread_mutexattr_settype
 TARGETS += pthread_mutex_consistent
 TARGETS += pthread_mutex_getprioceiling
 TARGETS += pthread_mutex_init
+TARGETS += pthread_setconcurrency
 
 ifeq ($(shell uname -m),x86_64)
 TARGETS += pthread_mutex_latency
@@ -59,9 +60,13 @@ CC = gcc
 CFLAGS := -Werror -Wall -pthread
 CFLAGS += -I../../../
 CFLAGS += -lm
+
+# FIXME: Not use OS type
 ifeq ($(OS),ubuntu)
 	CFLAGS += -DHAVE_NO_SQRT=1
 else ifeq ($(OS),debian)
+	CFLAGS += -DHAVE_NO_SQRT=1
+else ifeq ($(OS),fedora)
 	CFLAGS += -DHAVE_NO_SQRT=1
 endif
 
@@ -126,18 +131,7 @@ pthread_mutex_consistent: pthread_mutex_consistent.o
 pthread_mutex_getprioceiling: pthread_mutex_getprioceiling.o
 pthread_mutex_init: pthread_mutex_init.o
 pthread_mutex_latency: pthread_mutex_latency.o
-
-%.d: %.c
-	@echo -e "Generate \033[1m$(@)\033[m $(OS)"
-	@$(CC) $(CFLAGS) -MM -MF "$@" -MG -MP -MT"$@" -MT"$(<:.c=.o)" $(<)
-
-%.o: %.c %.d
-	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
-
-$(TARGETS): %:
-	@echo -e "Target   \033[1;32m$(@)\033[m $(OS)"
-	@$(CC) $(CFLAGS) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
+pthread_setconcurrency: pthread_setconcurrency.o
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m <$(OS)>"
