@@ -18,6 +18,13 @@ sudo mmc extcsd read /dev/mmcblk0 | grep -A1 MAX_ENH_SIZE_MULT
 #  mmcblk0boot1                          4M
 sudo mmc extcsd read /dev/mmcblk0 | grep BOOT_SIZE_MULTI
 
+# General Purpose Partitions
+#  [GP_SIZE_MULT_4]: 0x000000
+#  [GP_SIZE_MULT_3]: 0x000000
+#  [GP_SIZE_MULT_2]: 0x000000
+#  [GP_SIZE_MULT_1]: 0x000000
+sudo mmc extcsd read /dev/mmcblk0 | grep GP_SIZE_MULT
+
 # Boot configuration bytes [PARTITION_CONFIG: 0x00]
 sudo mmc extcsd read /dev/mmcblk0 | grep PARTITION_CONFIG
 
