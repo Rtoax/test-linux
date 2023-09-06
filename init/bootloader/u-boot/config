@@ -1,2 +1,3 @@
 U_BOOT_DIR=/home/rongtao/Git/u-boot
 LINUX_KERNEL_DIR=/home/rongtao/Git/linux
+TURST_FIRMWARE_A_DIR=/home/rongtao/Git/trusted-firmware-a
