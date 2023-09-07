@@ -31,6 +31,13 @@ compile_cross_aarch64_nanopc_t4_rk3399()
 	sudo make ARCH=arm CROSS_COMPILE=aarch64-linux-gnu- -j8
 }
 
+compile_cross_aarch64_rpi()
+{
+	sudo make clean
+	sudo make ARCH=arm CROSS_COMPILE=aarch64-linux-gnu- rpi_arm64_defconfig
+	sudo make ARCH=arm CROSS_COMPILE=aarch64-linux-gnu- -j8
+}
+
 compile_cross_arm()
 {
 	sudo make clean
@@ -57,6 +64,7 @@ usage()
 	aarch64
 	cross-aarch64
 	cross-aarch64-nanopc-t4
+	cross-aarch64-rpi
 	cross-arm
 	cross-arm-orangepi
 
@@ -111,6 +119,12 @@ cross-aarch64-nanopc-t4)
 	pushd ${U_BOOT_DIR}
 	sudo git clean -dfx
 	compile_cross_aarch64_nanopc_t4_rk3399
+	popd
+	;;
+cross-aarch64-rpi)
+	pushd ${U_BOOT_DIR}
+	sudo git clean -dfx
+	compile_cross_aarch64_rpi
 	popd
 	;;
 cross-arm)
