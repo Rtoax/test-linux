@@ -2,12 +2,17 @@ U_BOOT_DIR=/home/rongtao/Git/u-boot
 LINUX_KERNEL_DIR=/home/rongtao/Git/linux
 TURST_FIRMWARE_A_DIR=/home/rongtao/Git/trusted-firmware-a
 
+# BM1684
+# Link: https://github.com/p7salon/linux-arm64.git
 BM1684_ROOT=/home/rongtao/Git/p7salon/linux-arm64.build.1/bm1684
+BM1684_KERNEL_IMAGE=${BM1684_ROOT}/normal/arch/arm64/boot/Image
+BM1684_KERNEL_IMAGE_GZ=${BM1684_ROOT}/normal/arch/arm64/boot/Image.gz
+BM1684_DTB=${BM1684_ROOT}/normal/arch/arm64/boot/dts/bitmain/bm1684_sm5_v1.2_tb.dtb
 UBOOTDISK_PARTITION1_FILES_BM1684=(
-	${BM1684_ROOT}/normal/arch/arm64/boot/dts/bitmain/bm1684_sm5_v1.2_tb.dtb
-	${BM1684_ROOT}/normal/arch/arm64/boot/Image{,.gz}
+	${BM1684_KERNEL_IMAGE}
+	${BM1684_KERNEL_IMAGE_GZ}
+	${BM1684_DTB}
 )
 
-# Use this.
 UBOOTDISK_PARTITION1_FILES=( ${UBOOTDISK_PARTITION1_FILES_BM1684[@]} )
 
