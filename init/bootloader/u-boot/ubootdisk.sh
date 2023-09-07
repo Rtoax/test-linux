@@ -18,7 +18,7 @@ dev_loop=$(sudo losetup -f)
 sudo losetup ${dev_loop} uboot.disk
 sudo partprobe ${dev_loop}
 
-sudo mkfs.ext4 ${dev_loop}p1
+sudo mkfs.fat ${dev_loop}p1
 sudo mkfs.ext4 ${dev_loop}p2
 
 mkdir p1 p2

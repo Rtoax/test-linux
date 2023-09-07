@@ -53,6 +53,9 @@ ub_qemu_aarch64_custom()
 
 	${qemu_emulator} -nographic -bios ${U_BOOT_DIR}/u-boot.bin \
 		-kernel ${U_BOOT_DIR}/u-boot \
+		-device sdhci-pci,sd-spec-version=3 \
+			-drive if=none,file=uboot.disk,format=raw,id=MMC1 \
+			-device sd-card,drive=MMC1 \
 		-machine virt -cpu cortex-a57
 }
 
