@@ -28,15 +28,10 @@ sudo mount ${dev_loop}p2 p2
 # Copy files
 #  p1: kernel + dtb
 #   linux: aarch64 + vexpress_defconfig
-if [[ -e ${kernel_root_dir}/arch/arm64/boot/dts/arm/vexpress-v2f-1xv7-ca53x2.dtb ]]; then
-	sudo cp ${kernel_root_dir}/arch/arm64/boot/dts/arm/vexpress-v2f-1xv7-ca53x2.dtb p1/
-	sudo cp ${kernel_root_dir}/arch/arm64/boot/Image{,.gz} p1/
-#   linux: arm + sunxi_defconfig
-elif [[ -e ${kernel_root_dir}/arch/arm/boot/zImage ]]; then
-	sudo cp ${kernel_root_dir}/arch/arm/boot/zImage p1/
-	sudo cp ${kernel_root_dir}/arch/arm/boot/dts/allwinner/sun8i-h3-orangepi-pc.dtb p1/
+if [[ ! -z "${UBOOTDISK_PARTITION1_FILES[@]}" ]]; then
+	sudo cp ${UBOOTDISK_PARTITION1_FILES[@]} p1/
 else
-	echo "WARNING: not found any kernel in ${kernel_root_dir}"
+	echo "WARNING: not found any files"
 	read -p "Press any key to continue."
 fi
 #  p2: rootfs
