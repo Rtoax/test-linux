@@ -32,6 +32,13 @@ compile_cross_aarch64()
 	sudo make ARCH=arm CROSS_COMPILE=aarch64-linux-gnu- -j8
 }
 
+compile_cross_aarch64_vexpress_aemv8a_semi()
+{
+	sudo make clean
+	sudo make ARCH=arm CROSS_COMPILE=aarch64-linux-gnu- vexpress_aemv8a_semi_defconfig
+	sudo make ARCH=arm CROSS_COMPILE=aarch64-linux-gnu- -j8
+}
+
 compile_cross_aarch64_custom()
 {
 	cp ${WORK_DIR}/configs/qemu_arm64_defconfig ${U_BOOT_DIR}/configs
@@ -89,6 +96,7 @@ usage()
 	x86_64-custom
 	aarch64
 	cross-aarch64
+	cross-aarch64-vexpress_aemv8a_semi
 	cross-aarch64-custom
 	cross-aarch64-nanopc-t4
 	cross-aarch64-rpi
@@ -147,6 +155,12 @@ cross-aarch64)
 	pushd ${U_BOOT_DIR}
 	sudo git clean -dfx
 	compile_cross_aarch64
+	popd
+	;;
+cross-aarch64-vexpress_aemv8a_semi)
+	pushd ${U_BOOT_DIR}
+	sudo git clean -dfx
+	compile_cross_aarch64_vexpress_aemv8a_semi
 	popd
 	;;
 cross-aarch64-custom)
