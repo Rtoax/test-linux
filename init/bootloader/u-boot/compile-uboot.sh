@@ -32,6 +32,14 @@ compile_cross_aarch64()
 	sudo make ARCH=arm CROSS_COMPILE=aarch64-linux-gnu- -j8
 }
 
+compile_cross_aarch64_custom()
+{
+	cp ${WORK_DIR}/configs/qemu_arm64_defconfig ${U_BOOT_DIR}/configs
+	sudo make clean
+	sudo make ARCH=arm CROSS_COMPILE=aarch64-linux-gnu- qemu_arm64_defconfig
+	sudo make ARCH=arm CROSS_COMPILE=aarch64-linux-gnu- -j8
+}
+
 compile_cross_aarch64_nanopc_t4_rk3399()
 {
 	sudo make clean
@@ -80,6 +88,7 @@ usage()
 	x86_64-custom
 	aarch64
 	cross-aarch64
+	cross-aarch64-custom
 	cross-aarch64-nanopc-t4
 	cross-aarch64-rpi
 	cross-arm
@@ -137,6 +146,12 @@ cross-aarch64)
 	pushd ${U_BOOT_DIR}
 	sudo git clean -dfx
 	compile_cross_aarch64
+	popd
+	;;
+cross-aarch64-custom)
+	pushd ${U_BOOT_DIR}
+	sudo git clean -dfx
+	compile_cross_aarch64_custom
 	popd
 	;;
 cross-aarch64-nanopc-t4)
