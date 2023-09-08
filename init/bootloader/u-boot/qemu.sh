@@ -49,19 +49,22 @@ ub_qemu_x86_64_custom()
 
 ub_qemu_aarch64_custom()
 {
-	local device_tree
+	local args
 	qemu_emulator=$(get_qemu_kvm_emulator_arch aarch64)
 
-	# FIXME:
-	device_tree=( -dtb ${U_BOOT_DIR}/arch/arm/dts/rk3399-nanopc-t4.dtb )
+	# https://github.com/ARM-software/u-boot/blob/master/doc/README.qemu-arm
+	args+=( -machine virt -cpu cortex-a57 )
+	args+=( -bios ${U_BOOT_DIR}/u-boot.bin )
 
-	${qemu_emulator} -nographic -bios ${U_BOOT_DIR}/u-boot.bin \
+	# FIXME: Pass different device tree blob
+	#args+=( -dtb ${U_BOOT_DIR}/arch/arm/dts/rk3399-nanopc-t4.dtb )
+
+	${qemu_emulator} -nographic \
 		-kernel ${U_BOOT_DIR}/u-boot \
 		-device sdhci-pci,sd-spec-version=3 \
 			-drive if=none,file=uboot.disk,format=raw,id=MMC1 \
 			-device sd-card,drive=MMC1 \
-		${device_tree[@]} \
-		-machine virt -cpu cortex-a57
+		${args[@]}
 }
 
 ub_qemu_arm_custom()
