@@ -4,27 +4,26 @@
 . config
 
 program_name=$0
-qemu_emulator=$(get_qemu_kvm_emulator)
+qemu_emulator=
+
+arch_type=$(uname -m)
+run_type=custom
+cross_run=
+
+function update_qemu_kvm() {
+	if [[ ${arch_type} == $(uname -m) ]]; then
+		qemu_emulator=$(get_qemu_kvm_emulator)
+	else
+		qemu_emulator=$(get_qemu_kvm_emulator_arch $(arch_type))
+	fi
+}
 
 ub_qemu_easy() {
 	${qemu_emulator} -nographic -bios ${U_BOOT_DIR}/u-boot.rom
 }
 
-ub_qemu_x86_64_easy() {
-	qemu_emulator=$(get_qemu_kvm_emulator_arch x86_64)
-	ub_qemu_easy
-}
-ub_qemu_aarch64_easy() {
-	qemu_emulator=$(get_qemu_kvm_emulator_arch aarch64)
-	ub_qemu_easy
-}
-ub_qemu_arm_easy() {
-	qemu_emulator=$(get_qemu_kvm_emulator_arch arm)
-	ub_qemu_easy
-}
-
 # TODO
-ub_qemu_x86_64_complex()
+ub_qemu_complex()
 {
 	local root_img=${PWD}/root.img
 	local iso_img=/home/isos/ubuntu-22.04-desktop-amd64.iso
@@ -37,8 +36,6 @@ ub_qemu_x86_64_complex()
 
 ub_qemu_x86_64_custom()
 {
-	qemu_emulator=$(get_qemu_kvm_emulator_arch x86_64)
-
 	${qemu_emulator} -nographic -bios ${U_BOOT_DIR}/u-boot.rom \
 		-machine q35,acpi=on \
 		-device sdhci-pci \
@@ -50,7 +47,6 @@ ub_qemu_x86_64_custom()
 ub_qemu_aarch64_custom()
 {
 	local args
-	qemu_emulator=$(get_qemu_kvm_emulator_arch aarch64)
 
 	# https://github.com/ARM-software/u-boot/blob/master/doc/README.qemu-arm
 	args+=( -machine virt -cpu cortex-a57 )
@@ -69,8 +65,6 @@ ub_qemu_aarch64_custom()
 
 ub_qemu_arm_custom()
 {
-	qemu_emulator=$(get_qemu_kvm_emulator_arch arm)
-
 	orangepi() {
 		${qemu_emulator} -machine orangepi-pc -nographic -nic user \
 			-kernel ${U_BOOT_DIR}/u-boot \
@@ -100,9 +94,6 @@ usage()
 	-h, --help
 	EOF
 }
-
-arch_type=$(uname -m)
-run_type=custom
 
 while true
 do
@@ -138,12 +129,14 @@ case $1 in
 esac
 done
 
+update_qemu_kvm
+
 case $run_type in
 complex)
-	ub_qemu_${arch_type}_complex
+	ub_qemu_complex
 	;;
 easy)
-	ub_qemu_${arch_type}_easy
+	ub_qemu_easy
 	;;
 custom)
 	ub_qemu_${arch_type}_custom
