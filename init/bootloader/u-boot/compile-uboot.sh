@@ -21,7 +21,7 @@ compile_qemu_x86_64_custom()
 compile_qemu_aarch64()
 {
 	sudo make clean
-	sudo make qemu-arm64_defconfig
+	sudo make qemu_arm64_defconfig
 	sudo make -j8
 }
 
