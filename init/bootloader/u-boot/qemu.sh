@@ -14,7 +14,7 @@ function update_qemu_kvm() {
 	if [[ ${arch_type} == $(uname -m) ]]; then
 		qemu_emulator=$(get_qemu_kvm_emulator)
 	else
-		qemu_emulator=$(get_qemu_kvm_emulator_arch $(arch_type))
+		qemu_emulator=$(get_qemu_kvm_emulator_arch ${arch_type})
 	fi
 }
 
