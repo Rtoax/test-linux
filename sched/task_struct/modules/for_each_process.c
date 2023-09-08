@@ -17,8 +17,13 @@ int init_test(void)
 	rcu_read_lock();
 	for_each_process(task) {
 		print_task(task);
-		for_each_thread(task, thread)
+		rcu_read_lock();
+		for_each_thread(task, thread) {
+			task_lock(thread);
 			print_task(thread);
+			task_unlock(thread);
+		}
+		rcu_read_unlock();
 	}
 	rcu_read_unlock();
 	/* Don't insmod success, only print */
