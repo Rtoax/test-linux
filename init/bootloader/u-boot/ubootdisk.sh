@@ -29,7 +29,7 @@ sudo mount ${dev_loop}p2 p2
 #  p1: kernel + dtb
 #   linux: aarch64 + vexpress_defconfig
 if [[ ! -z "${UBOOTDISK_PARTITION1_FILES[@]}" ]]; then
-	sudo cp ${UBOOTDISK_PARTITION1_FILES[@]} p1/
+	sudo cp ${UBOOTDISK_PARTITION1_FILES[@]} p1/ || true
 else
 	echo "WARNING: not found any files"
 	read -p "Press any key to continue."
