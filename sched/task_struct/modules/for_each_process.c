@@ -4,15 +4,22 @@
 #include <linux/init_task.h>
 #include <linux/version.h>
 
+static void print_task(struct task_struct *task)
+{
+	printk(KERN_INFO "***RTOAX %s [%d] parent %s\n",
+		task->comm, task->pid, task->parent->comm);
+}
 
 int init_test(void)
 {
-	struct task_struct *task;
+	struct task_struct *task, *thread;
 
 	rcu_read_lock();
-	for_each_process(task)
-		printk(KERN_INFO "***RTOAX %s [%d] parent %s\n",
-				task->comm, task->pid, task->parent->comm);
+	for_each_process(task) {
+		print_task(task);
+		for_each_thread(task, thread)
+			print_task(thread);
+	}
 	rcu_read_unlock();
 	/* Don't insmod success, only print */
 	return -1;
