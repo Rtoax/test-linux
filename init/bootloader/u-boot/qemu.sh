@@ -40,11 +40,11 @@ ub_qemu_x86_64_custom()
 	qemu_emulator=$(get_qemu_kvm_emulator_arch x86_64)
 
 	${qemu_emulator} -nographic -bios ${U_BOOT_DIR}/u-boot.rom \
-		-machine acpi=on \
+		-machine q35,acpi=on \
 		-device sdhci-pci \
 			-device sd-card,drive=mydrive \
 			-drive id=mydrive,if=none,format=qcow2,file=${PWD}/test.qcow2 \
-		-m 8G -smp 4
+		-m 2G -smp cores=4
 }
 
 ub_qemu_aarch64_custom()
