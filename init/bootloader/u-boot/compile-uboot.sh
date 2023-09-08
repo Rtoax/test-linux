@@ -25,89 +25,88 @@ compile_qemu_aarch64()
 	sudo make -j8
 }
 
-compile_cross_aarch64()
-{
+__compile_cross_aarch64() {
+	local config=$1
 	sudo make clean
-	sudo make ARCH=arm CROSS_COMPILE=aarch64-linux-gnu- qemu_arm64_defconfig
+	sudo make ARCH=arm CROSS_COMPILE=aarch64-linux-gnu- ${config}
 	sudo make ARCH=arm CROSS_COMPILE=aarch64-linux-gnu- -j8
+}
+compile_cross_aarch64_qemu()
+{
+	__compile_cross_aarch64 qemu_arm64_defconfig
 }
 
 compile_cross_aarch64_vexpress_aemv8a_semi()
 {
-	sudo make clean
-	sudo make ARCH=arm CROSS_COMPILE=aarch64-linux-gnu- vexpress_aemv8a_semi_defconfig
-	sudo make ARCH=arm CROSS_COMPILE=aarch64-linux-gnu- -j8
+	__compile_cross_aarch64 vexpress_aemv8a_semi_defconfig
 }
 
 compile_cross_aarch64_custom()
 {
 	cp ${WORK_DIR}/configs/qemu_arm64_defconfig ${U_BOOT_DIR}/configs
 	cp ${WORK_DIR}/arch/arm/dts/qemu-arm64.dts ${U_BOOT_DIR}/arch/arm/dts/qemu-arm64-custom.dts
-	sudo make clean
-	sudo make ARCH=arm CROSS_COMPILE=aarch64-linux-gnu- qemu_arm64_defconfig
-	sudo make ARCH=arm CROSS_COMPILE=aarch64-linux-gnu- -j8
+
+	__compile_cross_aarch64 qemu_arm64_defconfig
 }
 
 compile_cross_aarch64_nanopc_t4_rk3399()
 {
-	sudo make clean
-	sudo make ARCH=arm CROSS_COMPILE=aarch64-linux-gnu- nanopc-t4-rk3399_defconfig
-	sudo make ARCH=arm CROSS_COMPILE=aarch64-linux-gnu- -j8
+	__compile_cross_aarch64 nanopc-t4-rk3399_defconfig
 }
 
 compile_cross_aarch64_rpi()
 {
-	sudo make clean
-	sudo make ARCH=arm CROSS_COMPILE=aarch64-linux-gnu- rpi_arm64_defconfig
-	sudo make ARCH=arm CROSS_COMPILE=aarch64-linux-gnu- -j8
+	__compile_cross_aarch64 rpi_arm64_defconfig
 }
 
-compile_cross_arm()
+__compile_cross_arm()
 {
+	local config=${1}
 	sudo make clean
-	sudo make ARCH=arm CROSS_COMPILE=arm-linux-gnu- qemu_arm_defconfig
+	sudo make ARCH=arm CROSS_COMPILE=arm-linux-gnu- ${config}
 	sudo make ARCH=arm CROSS_COMPILE=arm-linux-gnu- -j8
+}
+
+compile_cross_arm_qemu()
+{
+	__compile_cross_arm qemu_arm_defconfig
 }
 
 compile_cross_arm_orangepi()
 {
-	sudo make clean
-	sudo make ARCH=arm CROSS_COMPILE=arm-linux-gnu- orangepi_one_defconfig
-	sudo make ARCH=arm CROSS_COMPILE=arm-linux-gnu- -j8
+	__compile_cross_arm orangepi_one_defconfig
 }
 
 # ref: <ubuntu16.04 qemu arm u-boot> https://juejin.cn/post/6844903606500458510
 compile_cross_arm_vexpress_ca9x4()
 {
-	sudo make clean
-	sudo make ARCH=arm CROSS_COMPILE=arm-linux-gnu- vexpress_ca9x4_defconfig
-	sudo make ARCH=arm CROSS_COMPILE=arm-linux-gnu- -j8
+	__compile_cross_arm vexpress_ca9x4_defconfig
 }
 
 usage()
 {
-	cat <<-EOF
+	echo "
+compile [opt] [type]
 
-	compile [type]
-
-	type:
-
+type:
 	x86_64
 	x86_64-custom
 	aarch64
-	cross-aarch64
+
+	cross-aarch64-qemu
 	cross-aarch64-vexpress_aemv8a_semi
-	cross-aarch64-custom
 	cross-aarch64-nanopc-t4
 	cross-aarch64-rpi
-	cross-arm
+	cross-aarch64-custom
+
+	cross-arm-qemu
 	cross-arm-vexpress_ca9x4
 	cross-arm-orangepi
 
-		-v, --verbose
-		-h, --help
-
-	EOF
+opt:
+	-v, --verbose
+	-h, --help
+	"
 }
 
 compile_type=$(uname -m)
@@ -154,7 +153,7 @@ aarch64)
 cross-aarch64)
 	pushd ${U_BOOT_DIR}
 	sudo git clean -dfx
-	compile_cross_aarch64
+	compile_cross_aarch64_qemu
 	popd
 	;;
 cross-aarch64-vexpress_aemv8a_semi)
@@ -181,10 +180,10 @@ cross-aarch64-rpi)
 	compile_cross_aarch64_rpi
 	popd
 	;;
-cross-arm)
+cross-arm-qemu)
 	pushd ${U_BOOT_DIR}
 	sudo git clean -dfx
-	compile_cross_arm
+	compile_cross_arm_qemu
 	popd
 	;;
 cross-arm-vexpress_ca9x4)
