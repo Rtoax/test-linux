@@ -74,11 +74,12 @@ ub_qemu_arm_custom()
 	}
 
 	# Ref: https://juejin.cn/post/6844903606500458510
+	# '-sd uboot.disk' as same as '-drive if=sd,driver=file,filename=uboot.disk'
 	vexpress_ca9x4() {
 		${qemu_emulator} -machine vexpress-a9 -nographic -m 512M \
 			-kernel ${U_BOOT_DIR}/u-boot \
 			-dtb ${U_BOOT_DIR}/arch/arm/dts/vexpress-v2p-ca9.dtb \
-			-sd uboot.disk
+			-drive if=sd,driver=file,filename=uboot.disk
 	}
 	vexpress_ca9x4
 }
