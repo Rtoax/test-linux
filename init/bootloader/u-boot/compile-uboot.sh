@@ -60,6 +60,14 @@ compile_cross_arm_orangepi()
 	sudo make ARCH=arm CROSS_COMPILE=arm-linux-gnu- -j8
 }
 
+# ref: <ubuntu16.04 qemu arm u-boot> https://juejin.cn/post/6844903606500458510
+compile_cross_arm_vexpress_ca9x4()
+{
+	sudo make clean
+	sudo make ARCH=arm CROSS_COMPILE=arm-linux-gnu- vexpress_ca9x4_defconfig
+	sudo make ARCH=arm CROSS_COMPILE=arm-linux-gnu- -j8
+}
+
 usage()
 {
 	cat <<-EOF
@@ -75,6 +83,7 @@ usage()
 	cross-aarch64-nanopc-t4
 	cross-aarch64-rpi
 	cross-arm
+	cross-arm-vexpress_ca9x4
 	cross-arm-orangepi
 
 		-v, --verbose
@@ -146,6 +155,12 @@ cross-arm)
 	pushd ${U_BOOT_DIR}
 	sudo git clean -dfx
 	compile_cross_arm
+	popd
+	;;
+cross-arm-vexpress_ca9x4)
+	pushd ${U_BOOT_DIR}
+	sudo git clean -dfx
+	compile_cross_arm_vexpress_ca9x4
 	popd
 	;;
 cross-arm-orangepi)

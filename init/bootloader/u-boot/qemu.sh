@@ -63,11 +63,21 @@ ub_qemu_arm_custom()
 {
 	qemu_emulator=$(get_qemu_kvm_emulator_arch arm)
 
-	${qemu_emulator} -machine orangepi-pc -nographic -nic user \
-		-kernel ${U_BOOT_DIR}/u-boot \
-		-dtb ${LINUX_KERNEL_DIR}/arch/arm/boot/dts/allwinner/sun8i-h3-orangepi-pc.dtb \
-		-sd uboot.disk \
-		-m 1G -smp 4
+	orangepi() {
+		${qemu_emulator} -machine orangepi-pc -nographic -nic user \
+			-kernel ${U_BOOT_DIR}/u-boot \
+			-dtb ${LINUX_KERNEL_DIR}/arch/arm/boot/dts/allwinner/sun8i-h3-orangepi-pc.dtb \
+			-sd uboot.disk \
+			-m 1G -smp 4
+	}
+
+	# Ref: https://juejin.cn/post/6844903606500458510
+	vexpress_ca9x4() {
+		${qemu_emulator} -machine vexpress-a9 -nographic -m 512M \
+			-kernel ${U_BOOT_DIR}/u-boot \
+			-sd uboot.disk
+	}
+	vexpress_ca9x4
 }
 
 usage()
