@@ -1,0 +1,13 @@
+#include <stdlib.h>
+#include "gotoxy.h"
+
+int main(int argc, char *argv[])
+{
+	if (argc < 4) {
+		fprintf(stderr, "ERROR: %s [x] [y] [str]\n", argv[0]);
+		exit(1);
+	}
+	gotoxy(atoi(argv[1]), atoi(argv[2]));
+	printf("%s", argv[3]);
+	return 0;
+}
