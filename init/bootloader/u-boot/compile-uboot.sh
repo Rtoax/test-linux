@@ -33,9 +33,12 @@ compile_aarch64_qemu()
 
 __compile_cross_aarch64() {
 	local config=$1
+	local cross_args
+
+	[[ $(uname -m) != aarch64 ]] && cross_args="ARCH=arm CROSS_COMPILE=aarch64-linux-gnu-"
 	sudo make clean
-	sudo make ARCH=arm CROSS_COMPILE=aarch64-linux-gnu- ${config}
-	sudo make ARCH=arm CROSS_COMPILE=aarch64-linux-gnu- -j8
+	sudo make ${cross_args} ${config}
+	sudo make ${cross_args} -j8
 }
 compile_cross_aarch64_qemu()
 {
