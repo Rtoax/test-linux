@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 . config
 
 kernel_root_dir=${LINUX_KERNEL_DIR}
@@ -34,7 +36,10 @@ else
 	echo "WARNING: not found any files"
 	read -p "Press any key to continue."
 fi
+sudo touch p1/hello.txt
+
 #  p2: rootfs
+sudo touch p2/hello.txt
 
 destroy() {
 	sudo umount p1 p2 || true
@@ -43,3 +48,4 @@ destroy() {
 }
 trap destroy EXIT
 
+echo "Success.."
