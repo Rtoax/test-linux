@@ -18,11 +18,17 @@ compile_qemu_x86_64_custom()
 	sudo make -j8
 }
 
-compile_qemu_aarch64()
+__compile_aarch64()
 {
+	local config=$1
 	sudo make clean
-	sudo make qemu_arm64_defconfig
+	sudo make ${config}
 	sudo make -j8
+}
+
+compile_aarch64_qemu()
+{
+	__compile_aarch64 qemu_arm64_defconfig
 }
 
 __compile_cross_aarch64() {
@@ -91,7 +97,8 @@ compile [opt] [type]
 type:
 	x86_64
 	x86_64-custom
-	aarch64
+
+	aarch64-qemu
 
 	cross-aarch64 [config]
 	cross-aarch64-qemu
@@ -145,10 +152,10 @@ x86_64-custom)
 	compile_qemu_x86_64_custom
 	popd
 	;;
-aarch64)
+aarch64-qemu)
 	pushd ${U_BOOT_DIR}
 	sudo git clean -dfx
-	compile_qemu_aarch64
+	compile_aarch64_qemu
 	popd
 	;;
 cross-aarch64)
