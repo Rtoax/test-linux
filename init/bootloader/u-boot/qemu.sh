@@ -80,6 +80,7 @@ ub_qemu_arm_custom()
 	vexpress_ca9x4() {
 		${qemu_emulator} -machine vexpress-a9 -nographic -m 512M \
 			-kernel ${U_BOOT_DIR}/u-boot \
+			-dtb ${U_BOOT_DIR}/arch/arm/dts/vexpress-v2p-ca9.dtb \
 			-sd uboot.disk
 	}
 	vexpress_ca9x4
