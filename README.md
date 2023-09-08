@@ -1,5 +1,6 @@
-# test-linux
-test linux code
+####################
+test-linux
+####################
 
 > Rong Tao <rongtao@cestc.cn>
 > more about auther see AUTHOR file.
@@ -20,12 +21,6 @@ test linux code
 
 * [GitHub test-linux(Me)](https://github.com/Rtoax/test-linux)
 * [Gitee test-linux(Me)](https://gitee.com/rtoax/test-linux)
-* [GitHub test-os](https://github.com/rtoax/test-os)
-* [Gitee test-os](https://gitee.com/rtoax/test-os)
-* [GitHub test](https://github.com/rtoax/test)
-* [Gitee test](https://gitee.com/rtoax/test)
-* [GitHub Notes](https://github.com/rtoax/notes)
-* [Gitee Notes](https://gitee.com/rtoax/notes)
 
 # Linux Version
 
@@ -44,8 +39,7 @@ You can use the following macro
 
 # Directories
 
-* Each `scripts` directory contain scriptions.
-* Each `scripts/bpftrace` directory contain bpftrace scriptions.
+* Each `scripts` directory contain scriptions(bpftrace, bcc, shell).
 * Each `modules` directory contain Linux Modules(KO) source code.
 * Each `selftests` directory from linux source code.
 * Each `samples` directory contain source userspace code.
