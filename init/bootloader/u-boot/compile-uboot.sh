@@ -93,6 +93,7 @@ type:
 	x86_64-custom
 	aarch64
 
+	cross-aarch64 [config]
 	cross-aarch64-qemu
 	cross-aarch64-vexpress_aemv8a_semi
 	cross-aarch64-nanopc-t4
@@ -100,7 +101,7 @@ type:
 	cross-aarch64-custom
 
 	cross-arm-qemu
-	cross-arm-vexpress_ca9x4
+	cross-arm-vexpress_ca9x4             # qemu-system-arm run OK
 	cross-arm-orangepi
 
 opt:
@@ -151,6 +152,23 @@ aarch64)
 	popd
 	;;
 cross-aarch64)
+	shift
+	config=$1
+	if [[ -z ${config} ]]; then
+		echo "ERROR: ./compile-uboot.sh cross-aarch64 [CONFIG]"
+		exit 1
+	fi
+	if [[ ! -e ${U_BOOT_DIR}/configs/${config} ]]; then
+		echo "ERROR: ${U_BOOT_DIR}/configs/${config} is not exist."
+		echo "       see: ls ${U_BOOT_DIR}/configs/"
+		exit 1
+	fi
+	pushd ${U_BOOT_DIR}
+	sudo git clean -dfx
+	__compile_cross_aarch64 ${config}
+	popd
+	;;
+cross-aarch64-qemu)
 	pushd ${U_BOOT_DIR}
 	sudo git clean -dfx
 	compile_cross_aarch64_qemu
