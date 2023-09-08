@@ -49,13 +49,18 @@ ub_qemu_x86_64_custom()
 
 ub_qemu_aarch64_custom()
 {
+	local device_tree
 	qemu_emulator=$(get_qemu_kvm_emulator_arch aarch64)
+
+	# FIXME:
+	device_tree=( -dtb ${U_BOOT_DIR}/arch/arm/dts/rk3399-nanopc-t4.dtb )
 
 	${qemu_emulator} -nographic -bios ${U_BOOT_DIR}/u-boot.bin \
 		-kernel ${U_BOOT_DIR}/u-boot \
 		-device sdhci-pci,sd-spec-version=3 \
 			-drive if=none,file=uboot.disk,format=raw,id=MMC1 \
 			-device sd-card,drive=MMC1 \
+		${device_tree[@]} \
 		-machine virt -cpu cortex-a57
 }
 
