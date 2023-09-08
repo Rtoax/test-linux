@@ -10,6 +10,14 @@ compile_qemu_x86_64()
 	sudo make -j8
 }
 
+compile_qemu_x86_64_custom()
+{
+	cp ${WORK_DIR}/configs/qemu-x86_64_defconfig ${U_BOOT_DIR}/configs
+	sudo make clean
+	sudo make qemu-x86_64_defconfig
+	sudo make -j8
+}
+
 compile_qemu_aarch64()
 {
 	sudo make clean
@@ -61,6 +69,7 @@ usage()
 	type:
 
 	x86_64
+	x86_64-custom
 	aarch64
 	cross-aarch64
 	cross-aarch64-nanopc-t4
@@ -101,6 +110,12 @@ x86_64)
 	pushd ${U_BOOT_DIR}
 	sudo git clean -dfx
 	compile_qemu_x86_64
+	popd
+	;;
+x86_64-custom)
+	pushd ${U_BOOT_DIR}
+	sudo git clean -dfx
+	compile_qemu_x86_64_custom
 	popd
 	;;
 aarch64)
