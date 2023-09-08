@@ -7,19 +7,13 @@
 
 int init_test(void)
 {
-	struct task_struct *task = &init_task;
-	rcu_read_lock();
-	do {
-#if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 14, 0)
-		if(task->__state == TASK_RUNNING)
-#else
-		if(task->state == TASK_RUNNING)
-#endif
-		printk( KERN_INFO "***RTOAX %s [%d] parent %s\n",
-				task->comm, task->pid, task->parent->comm);
-	} while ((task = next_task(task)) != &init_task);
-	rcu_read_unlock();
+	struct task_struct *task;
 
+	rcu_read_lock();
+	for_each_process(task)
+		printk(KERN_INFO "***RTOAX %s [%d] parent %s\n",
+				task->comm, task->pid, task->parent->comm);
+	rcu_read_unlock();
 	/* Don't insmod success, only print */
 	return -1;
 }
