@@ -106,12 +106,12 @@ type:
 	cross-aarch64 [config]
 	cross-aarch64-qemu
 	cross-aarch64-vexpress_aemv8a_semi
-	cross-aarch64-nanopc-t4
+	cross-aarch64-nanopc-t4              # Failed
 	cross-aarch64-rpi
 	cross-aarch64-custom
 
 	cross-arm-qemu
-	cross-arm-vexpress_ca9x4             # qemu-system-arm run OK
+	cross-arm-vexpress_ca9x4             # OK
 	cross-arm-orangepi
 
 opt:
