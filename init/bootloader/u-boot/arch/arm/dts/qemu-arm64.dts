@@ -1,8 +1,10 @@
 // SPDX-License-Identifier: GPL-2.0+ OR MIT
 /*
- * Empty device tree for qemu_arm64
-
- * Copyright 2021 Google LLC
+ * Empty device tree for qemu_arm64-custom
+ *
+ * Copyright 2023 CESTC, Co.
+ *
+ * 2023-09-08	Rong Tao	Create this.
  */
 
 /dts-v1/;

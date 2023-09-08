@@ -35,6 +35,7 @@ compile_cross_aarch64()
 compile_cross_aarch64_custom()
 {
 	cp ${WORK_DIR}/configs/qemu_arm64_defconfig ${U_BOOT_DIR}/configs
+	cp ${WORK_DIR}/arch/arm/dts/qemu-arm64.dts ${U_BOOT_DIR}/arch/arm/dts/qemu-arm64-custom.dts
 	sudo make clean
 	sudo make ARCH=arm CROSS_COMPILE=aarch64-linux-gnu- qemu_arm64_defconfig
 	sudo make ARCH=arm CROSS_COMPILE=aarch64-linux-gnu- -j8
