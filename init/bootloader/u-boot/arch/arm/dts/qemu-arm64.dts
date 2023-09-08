@@ -10,4 +10,6 @@
 /dts-v1/;
 
 / {
+	model = "CCLinuxEdge 1000";
+	compatible = "friendlyelec,nanopc-t4";
 };
