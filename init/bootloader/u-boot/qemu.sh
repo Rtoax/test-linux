@@ -76,8 +76,11 @@ ub_qemu_aarch64_custom()
 		args+=(		-device sd-card,drive=MMC1 )
 	}
 	add_nvme_disk() {
-		args+=( -drive if=none,file=uboot.disk,format=raw,id=NVME1 )
-		args+=(		-device nvme,drive=NVME1,serial=nvme-1 )
+		local disk_type=$1
+		local drive_id=$2
+		local disk_path=$3
+		args+=( -drive if=none,file=${disk_path},format=${disk_type},id=${drive_id} )
+		args+=(		-device nvme,drive=${drive_id},serial=sn-${drive_id} )
 	}
 	add_sata_disk() {
 		args+=( -device ahci,id=ahci0 )
@@ -89,10 +92,14 @@ ub_qemu_aarch64_custom()
 		args+=(		-device virtio-blk,drive=VIRTIO1 )
 	}
 
-	add_nvme_disk
+	add_nvme_disk raw NVME1 uboot.disk
 
 	# TODO: Mount an ISO
-	#args+=( -cdrom ${CCLINUX_ISO_AARCH64} )
+	install_iso() {
+		args+=( -cdrom ${CCLINUX_ISO_AARCH64} )
+		add_nvme_disk qcow2 NVME2 test.qcow2
+	}
+	install_iso
 
 	${qemu_emulator} -nographic \
 		-kernel ${U_BOOT_DIR}/u-boot \
