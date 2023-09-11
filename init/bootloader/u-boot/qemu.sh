@@ -7,12 +7,11 @@ program_name=$0
 qemu_emulator=
 
 arch_type=$(uname -m)
-run_type=custom
-cross_run=
 
 dumpcmd=
 
 declare -a qemu_args
+
 
 # Emulate Disk
 # ref: https://u-boot.readthedocs.io/en/latest/board/emulation/blkdev.html
@@ -134,16 +133,15 @@ ub_qemu_arm_custom()
 
 usage()
 {
-	cat <<-EOF
-	test u-boot with qemu:
+	echo "
+test u-boot with qemu:
 
-	-a, --arch           specify arch: x86_64, aarch64, arm
-	-r, --run            run type: easy, custom, complex
+-a, --arch           specify arch: x86_64, aarch64, arm
 
-	-d, --dumpcmd        dump command instead of execute
-	-v, --verbose
-	-h, --help
-	EOF
+-d, --dumpcmd        dump command instead of execute
+-v, --verbose
+-h, --help
+"
 }
 
 while true
@@ -152,11 +150,6 @@ case $1 in
 -a | --arch)
 	shift
 	arch_type=$1
-	shift
-	;;
--r | --run)
-	shift
-	run_type=$1
 	shift
 	;;
 -d | --dumpcmd)
@@ -186,19 +179,4 @@ done
 
 update_qemu_kvm
 
-case $run_type in
-complex)
-	ub_qemu_complex
-	;;
-easy)
-	ub_qemu_easy
-	;;
-custom)
-	ub_qemu_${arch_type}_custom
-	;;
-*)
-	usage
-	echo "ERROR: Unkown run type"
-	exit 1
-	;;
-esac
+ub_qemu_${arch_type}_custom
