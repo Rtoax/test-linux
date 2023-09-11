@@ -5,7 +5,7 @@ log() {
 }
 
 log "Compiling..."
-gcc test.c -o a.out
+gcc hello.c -o a.out
 
 ./a.out &
 log "Running in background, pid = $(pidof a.out)..."

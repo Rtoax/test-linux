@@ -6,7 +6,7 @@ int main(void)
 	int count = 0;
 
 	while (++count) {
-		printf("count  = %d\n", count);
+		printf("hello %d\n", count);
 		sleep(1);
 	}
 
