@@ -83,8 +83,6 @@ ub_qemu_x86_64_custom()
 	qemu_args+=( -m 2G -smp cores=4 )
 
 	add_nvme_disk qcow2 NVME1 test.qcow2
-
-	${qemu_emulator} ${qemu_args[@]}
 }
 
 ################################################################################
@@ -103,28 +101,27 @@ ub_qemu_aarch64_custom()
 	add_nvme_disk raw NVME1 uboot.disk
 
 	add_cdrom_and_install
-
-	${qemu_emulator} ${qemu_args[@]}
 }
 
 ################################################################################
 ub_qemu_arm_custom()
 {
 	orangepi() {
-		${qemu_emulator} -machine orangepi-pc -nographic -nic user \
-			-kernel ${U_BOOT_DIR}/u-boot \
-			-dtb ${LINUX_KERNEL_DIR}/arch/arm/boot/dts/allwinner/sun8i-h3-orangepi-pc.dtb \
-			-sd uboot.disk \
-			-m 1G -smp 4
+		qemu_args+=( -machine orangepi-pc -nographic -nic user )
+		qemu_args+=( -kernel ${U_BOOT_DIR}/u-boot )
+		qemu_args+=( -dtb ${LINUX_KERNEL_DIR}/arch/arm/boot/dts/allwinner/sun8i-h3-orangepi-pc.dtb )
+		qemu_args+=( -sd uboot.disk )
+		qemu_args+=( -m 1G -smp 4 )
 	}
 
 	# Ref: https://juejin.cn/post/6844903606500458510
 	# '-sd uboot.disk' as same as '-drive if=sd,driver=file,filename=uboot.disk'
 	vexpress_ca9x4() {
-		${qemu_emulator} -machine vexpress-a9 -nographic -m 512M \
-			-kernel ${U_BOOT_DIR}/u-boot \
-			-dtb ${U_BOOT_DIR}/arch/arm/dts/vexpress-v2p-ca9.dtb \
-			-drive if=sd,driver=file,filename=uboot.disk
+		qemu_args+=( -machine vexpress-a9 )
+		qemu_args+=( -nographic -m 512M )
+		qemu_args+=( -kernel ${U_BOOT_DIR}/u-boot )
+		qemu_args+=( -dtb ${U_BOOT_DIR}/arch/arm/dts/vexpress-v2p-ca9.dtb )
+		qemu_args+=( -drive if=sd,driver=file,filename=uboot.disk )
 	}
 	vexpress_ca9x4
 }
@@ -185,3 +182,5 @@ fi
 qemu_emulator="qemu_eval "${qemu_emulator}
 
 ub_qemu_${arch_type}_custom
+
+${qemu_emulator} ${qemu_args[@]}
