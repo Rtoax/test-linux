@@ -13,6 +13,16 @@ dumpcmd=
 declare -a qemu_args
 
 
+qemu_eval()
+{
+	if [[ -z $dumpcmd ]]; then
+		eval "$@"
+	else
+		echo -e "\033[1;33mDUMPCMD\033[m: $@"
+	fi
+}
+
+################################################################################
 # Emulate Disk
 # ref: https://u-boot.readthedocs.io/en/latest/board/emulation/blkdev.html
 add_emmc_disk() {
@@ -42,36 +52,19 @@ add_cdrom_and_install() {
 	qemu_args+=( -cdrom ${CCLINUX_ISO_AARCH64} )
 
 	local qcow2=$(mktemp --dry-run test-XXXXXX.qcow2)
-	qemu-img create -f qcow2 ${qcow2} 100G
+
+	qemu_eval qemu-img create -f qcow2 ${qcow2} 100G
 	add_nvme_disk qcow2 NVME2 ${qcow2}
 }
 
-qemu_eval()
-{
-	if [[ -z $dumpcmd ]]; then
-		eval "$@"
-	else
-		echo "DUMPCMD: $@"
-	fi
-}
-
-function update_qemu_kvm() {
-	if [[ ${arch_type} == $(uname -m) ]]; then
-		qemu_emulator=$(get_qemu_kvm_emulator)
-	else
-		qemu_emulator=$(get_qemu_kvm_emulator_arch ${arch_type})
-	fi
-
-	qemu_emulator="qemu_eval "${qemu_emulator}
-}
-
+################################################################################
+# Just an example, never run
 ub_qemu_easy() {
 	${qemu_emulator} -nographic -bios ${U_BOOT_DIR}/u-boot.rom
 }
 
-# TODO
-ub_qemu_complex()
-{
+# Just an example, never run
+ub_qemu_complex() {
 	local root_img=${PWD}/root.img
 	local iso_img=/home/isos/ubuntu-22.04-desktop-amd64.iso
 
@@ -81,6 +74,7 @@ ub_qemu_complex()
 		-drive file=${iso_img},if=virtio,driver=raw
 }
 
+################################################################################
 ub_qemu_x86_64_custom()
 {
 	${qemu_emulator} -nographic -bios ${U_BOOT_DIR}/u-boot.rom \
@@ -91,6 +85,7 @@ ub_qemu_x86_64_custom()
 		-m 2G -smp cores=4
 }
 
+################################################################################
 ub_qemu_aarch64_custom()
 {
 	# https://github.com/ARM-software/u-boot/blob/master/doc/README.qemu-arm
@@ -110,6 +105,7 @@ ub_qemu_aarch64_custom()
 	${qemu_emulator} ${qemu_args[@]}
 }
 
+################################################################################
 ub_qemu_arm_custom()
 {
 	orangepi() {
@@ -131,6 +127,7 @@ ub_qemu_arm_custom()
 	vexpress_ca9x4
 }
 
+################################################################################
 usage()
 {
 	echo "
@@ -144,6 +141,7 @@ test u-boot with qemu:
 "
 }
 
+################################################################################
 while true
 do
 case $1 in
@@ -177,6 +175,11 @@ case $1 in
 esac
 done
 
-update_qemu_kvm
+if [[ ${arch_type} == $(uname -m) ]]; then
+	qemu_emulator=$(get_qemu_kvm_emulator)
+else
+	qemu_emulator=$(get_qemu_kvm_emulator_arch ${arch_type})
+fi
+qemu_emulator="qemu_eval "${qemu_emulator}
 
 ub_qemu_${arch_type}_custom
