@@ -115,6 +115,7 @@ type:
 	cross-arm-orangepi
 
 opt:
+	-u, --uboot-dir [directory]
 	-v, --verbose
 	-h, --help
 	"
@@ -126,6 +127,15 @@ git_clean=
 while true
 do
 case $1 in
+-u | --uboot-dir)
+	shift
+	U_BOOT_DIR=$1
+	if [[ ! -d ${U_BOOT_DIR} ]]; then
+		echo "ERROR: ${U_BOOT_DIR} is not directory"
+		exit 1
+	fi
+	shift
+	;;
 -v | --verbose)
 	shift
 	export PS4='+${BASH_SOURCE}:${LINENO}:${FUNCNAME[0]}: '
