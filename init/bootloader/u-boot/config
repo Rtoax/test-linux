@@ -2,6 +2,7 @@ WORK_DIR=${PWD}
 U_BOOT_DIR=/home/rongtao/Git/u-boot
 LINUX_KERNEL_DIR=/home/rongtao/Git/linux
 TURST_FIRMWARE_A_DIR=/home/rongtao/Git/trusted-firmware-a
+CCLINUX_ISO_DIR_AARCH64=/home/isos/cclinux2209-aarch64/
 
 # BM1684
 # Link: https://github.com/p7salon/linux-arm64.git

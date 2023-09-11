@@ -55,11 +55,22 @@ ub_qemu_aarch64_custom()
 	# FIXME: Pass different device tree blob
 	#args+=( -dtb ${U_BOOT_DIR}/arch/arm/dts/rk3399-nanopc-t4.dtb )
 
+	# Emulate Disk
+	# ref: https://u-boot.readthedocs.io/en/latest/board/emulation/blkdev.html
+	add_emmc_disk() {
+		args+=( -device sdhci-pci,sd-spec-version=3 )
+		args+=(		-drive if=none,file=uboot.disk,format=raw,id=MMC1 )
+		args+=(		-device sd-card,drive=MMC1 )
+	}
+	add_nvme_disk() {
+		args+=( -drive if=none,file=uboot.disk,format=raw,id=NVME1 )
+		args+=(		-device nvme,drive=NVME1,serial=nvme-1 )
+	}
+
+	add_nvme_disk
+
 	${qemu_emulator} -nographic \
 		-kernel ${U_BOOT_DIR}/u-boot \
-		-device sdhci-pci,sd-spec-version=3 \
-			-drive if=none,file=uboot.disk,format=raw,id=MMC1 \
-			-device sd-card,drive=MMC1 \
 		${args[@]}
 }
 
