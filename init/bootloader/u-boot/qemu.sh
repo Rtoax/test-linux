@@ -12,6 +12,41 @@ cross_run=
 
 dumpcmd=
 
+declare -a qemu_args
+
+# Emulate Disk
+# ref: https://u-boot.readthedocs.io/en/latest/board/emulation/blkdev.html
+add_emmc_disk() {
+	qemu_args+=( -device sdhci-pci,sd-spec-version=3 )
+	qemu_args+=(		-drive if=none,file=uboot.disk,format=raw,id=MMC1 )
+	qemu_args+=(		-device sd-card,drive=MMC1 )
+}
+add_nvme_disk() {
+	local disk_type=$1
+	local drive_id=$2
+	local disk_path=$3
+	qemu_args+=( -drive if=none,file=${disk_path},format=${disk_type},id=${drive_id} )
+	qemu_args+=(		-device nvme,drive=${drive_id},serial=sn-${drive_id} )
+}
+add_sata_disk() {
+	qemu_args+=( -device ahci,id=ahci0 )
+	qemu_args+=(		-drive if=none,file=uboot.disk,format=raw,id=SATA1 )
+	qemu_args+=(		-device ide-hd,bus=ahci0.0,drive=SATA1 )
+}
+add_virtio_disk() {
+	qemu_args+=(	-drive if=none,file=uboot.disk,format=raw,id=VIRTIO1 )
+	qemu_args+=(		-device virtio-blk,drive=VIRTIO1 )
+}
+
+# TODO: Mount an ISO
+add_cdrom_and_install() {
+	qemu_args+=( -cdrom ${CCLINUX_ISO_AARCH64} )
+
+	local qcow2=$(mktemp --dry-run test-XXXXXX.qcow2)
+	qemu-img create -f qcow2 ${qcow2} 100G
+	add_nvme_disk qcow2 NVME2 ${qcow2}
+}
+
 qemu_eval()
 {
 	if [[ -z $dumpcmd ]]; then
@@ -59,52 +94,21 @@ ub_qemu_x86_64_custom()
 
 ub_qemu_aarch64_custom()
 {
-	local args
-
 	# https://github.com/ARM-software/u-boot/blob/master/doc/README.qemu-arm
-	args+=( -machine virt -cpu cortex-a57 )
-	args+=( -bios ${U_BOOT_DIR}/u-boot.bin )
+	qemu_args+=( -nographic )
+	qemu_args+=( -kernel ${U_BOOT_DIR}/u-boot )
+	qemu_args+=( -machine virt -cpu cortex-a57 )
+	qemu_args+=( -bios ${U_BOOT_DIR}/u-boot.bin )
+	qemu_args+=( -m 2048M )
 
 	# FIXME: Pass different device tree blob
-	#args+=( -dtb ${U_BOOT_DIR}/arch/arm/dts/rk3399-nanopc-t4.dtb )
-
-	# Emulate Disk
-	# ref: https://u-boot.readthedocs.io/en/latest/board/emulation/blkdev.html
-	add_emmc_disk() {
-		args+=( -device sdhci-pci,sd-spec-version=3 )
-		args+=(		-drive if=none,file=uboot.disk,format=raw,id=MMC1 )
-		args+=(		-device sd-card,drive=MMC1 )
-	}
-	add_nvme_disk() {
-		local disk_type=$1
-		local drive_id=$2
-		local disk_path=$3
-		args+=( -drive if=none,file=${disk_path},format=${disk_type},id=${drive_id} )
-		args+=(		-device nvme,drive=${drive_id},serial=sn-${drive_id} )
-	}
-	add_sata_disk() {
-		args+=( -device ahci,id=ahci0 )
-		args+=(		-drive if=none,file=uboot.disk,format=raw,id=SATA1 )
-		args+=(		-device ide-hd,bus=ahci0.0,drive=SATA1 )
-	}
-	add_virtio_disk() {
-		args+=(	-drive if=none,file=uboot.disk,format=raw,id=VIRTIO1 )
-		args+=(		-device virtio-blk,drive=VIRTIO1 )
-	}
+	#qemu_args+=( -dtb ${U_BOOT_DIR}/arch/arm/dts/rk3399-nanopc-t4.dtb )
 
 	add_nvme_disk raw NVME1 uboot.disk
 
-	# TODO: Mount an ISO
-	install_iso() {
-		args+=( -cdrom ${CCLINUX_ISO_AARCH64} )
-		add_nvme_disk qcow2 NVME2 test.qcow2
-	}
-	install_iso
+	add_cdrom_and_install
 
-	${qemu_emulator} -nographic \
-		-kernel ${U_BOOT_DIR}/u-boot \
-		${args[@]} \
-		-m 2048M
+	${qemu_emulator} ${qemu_args[@]}
 }
 
 ub_qemu_arm_custom()
