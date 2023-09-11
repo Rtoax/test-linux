@@ -71,7 +71,8 @@ ub_qemu_aarch64_custom()
 
 	${qemu_emulator} -nographic \
 		-kernel ${U_BOOT_DIR}/u-boot \
-		${args[@]}
+		${args[@]} \
+		-m 2048M
 }
 
 ub_qemu_arm_custom()
