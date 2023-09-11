@@ -79,6 +79,15 @@ ub_qemu_aarch64_custom()
 		args+=( -drive if=none,file=uboot.disk,format=raw,id=NVME1 )
 		args+=(		-device nvme,drive=NVME1,serial=nvme-1 )
 	}
+	add_sata_disk() {
+		args+=( -device ahci,id=ahci0 )
+		args+=(		-drive if=none,file=uboot.disk,format=raw,id=SATA1 )
+		args+=(		-device ide-hd,bus=ahci0.0,drive=SATA1 )
+	}
+	add_virtio_disk() {
+		args+=(	-drive if=none,file=uboot.disk,format=raw,id=VIRTIO1 )
+		args+=(		-device virtio-blk,drive=VIRTIO1 )
+	}
 
 	add_nvme_disk
 
