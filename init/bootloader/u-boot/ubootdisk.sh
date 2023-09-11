@@ -7,23 +7,25 @@ set -e
 kernel_root_dir=${LINUX_KERNEL_DIR}
 dev_loop=
 
+disk_file=uboot.disk
+
 create_disk() {
-	dd if=/dev/zero of=uboot.disk bs=1M count=1024
+	dd if=/dev/zero of=${disk_file} bs=1M count=1024
 }
 
 partition() {
 	# Create GPT partition
-	sgdisk -n 0:0:+900M -c 0:kernel uboot.disk
-	sgdisk -n 0:0:0 -c 0:rootfs uboot.disk
+	sgdisk -n 0:0:+900M -c 0:kernel ${disk_file}
+	sgdisk -n 0:0:0 -c 0:rootfs ${disk_file}
 	# Check partitions
-	sgdisk -p uboot.disk
+	sgdisk -p ${disk_file}
 }
 
 makefs() {
 	# Example: /dev/loop0
 	dev_loop=$(sudo losetup -f)
 
-	sudo losetup ${dev_loop} uboot.disk
+	sudo losetup ${dev_loop} ${disk_file}
 	sudo partprobe ${dev_loop}
 
 	sudo mkfs.fat ${dev_loop}p1
@@ -53,10 +55,50 @@ destroy() {
 	rmdir p1 p2 || true
 	sudo losetup -d ${dev_loop} || true
 }
-trap destroy EXIT
+
+usage() {
+	echo "
+create u-boot disk:
+
+-n, --disk-name   [NAME]         specify disk name, default: ${disk_file}
+
+-v, --verbose
+-h, --help
+"
+}
 
 # __main__
+while true
+do
+case $1 in
+-n | --disk-name)
+	shift
+	disk_file=$1
+	shift
+	;;
+-v | --verbose)
+	shift
+	export PS4='+${BASH_SOURCE}:${LINENO}:${FUNCNAME[0]}: '
+	set -x
+	;;
+-h | --help)
+	shift
+	usage
+	exit 0
+	;;
+-*)
+	usage
+	echo "ERROR: Unkown $1"
+	exit 1
+	;;
+*)
+	break
+	;;
+esac
+done
+
 create_disk
 partition
 makefs
+destroy
 echo "Success.."
