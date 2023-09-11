@@ -77,12 +77,14 @@ ub_qemu_complex() {
 ################################################################################
 ub_qemu_x86_64_custom()
 {
-	${qemu_emulator} -nographic -bios ${U_BOOT_DIR}/u-boot.rom \
-		-machine q35,acpi=on \
-		-device sdhci-pci \
-			-device sd-card,drive=mydrive \
-			-drive id=mydrive,if=none,format=qcow2,file=${PWD}/test.qcow2 \
-		-m 2G -smp cores=4
+	qemu_args+=( -nographic )
+	qemu_args+=( -machine q35,acpi=on )
+	qemu_args+=( -bios ${U_BOOT_DIR}/u-boot.rom )
+	qemu_args+=( -m 2G -smp cores=4 )
+
+	add_nvme_disk qcow2 NVME1 test.qcow2
+
+	${qemu_emulator} ${qemu_args[@]}
 }
 
 ################################################################################
