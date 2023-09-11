@@ -138,40 +138,47 @@ test u-boot with qemu:
 -v, --verbose
 -h, --help
 "
+	exit ${1-0}
 }
 
 ################################################################################
-while true
-do
-case $1 in
--a | --arch)
-	shift
-	arch_type=$1
-	shift
-	;;
--d | --dumpcmd)
-	shift
-	dumpcmd=YES
-	;;
--v | --verbose)
-	shift
-	export PS4='+${BASH_SOURCE}:${LINENO}:${FUNCNAME[0]}: '
-	set -x
-	;;
--h | --help)
-	shift
-	usage
-	exit 0
-	;;
--*)
-	usage
-	echo "ERROR: Unkown $1"
-	exit 1
-	;;
-*)
-	break
-	;;
-esac
+TEMP=$(getopt \
+	--options a:dv:h \
+	--long arch: \
+	--long dumpcmd \
+	--long verbose: \
+	--long help \
+	-n ${program_name} -- "$@")
+
+test $? != 0 && usage 1
+
+eval set -- "$TEMP"
+
+while true; do
+	case $1 in
+	-a | --arch)
+		shift
+		arch_type=$1
+		shift
+		;;
+	-d | --dumpcmd)
+		shift
+		dumpcmd=YES
+		;;
+	-v | --verbose)
+		shift
+		export PS4='+${BASH_SOURCE}:${LINENO}:${FUNCNAME[0]}: '
+		set -x
+		;;
+	-h | --help)
+		shift
+		usage 0
+		;;
+	--)
+		shift
+		break
+		;;
+	esac
 done
 
 if [[ ${arch_type} == $(uname -m) ]]; then
