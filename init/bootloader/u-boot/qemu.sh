@@ -10,12 +10,25 @@ arch_type=$(uname -m)
 run_type=custom
 cross_run=
 
+dumpcmd=
+
+qemu_eval()
+{
+	if [[ -z $dumpcmd ]]; then
+		eval "$@"
+	else
+		echo "DUMPCMD: $@"
+	fi
+}
+
 function update_qemu_kvm() {
 	if [[ ${arch_type} == $(uname -m) ]]; then
 		qemu_emulator=$(get_qemu_kvm_emulator)
 	else
 		qemu_emulator=$(get_qemu_kvm_emulator_arch ${arch_type})
 	fi
+
+	qemu_emulator="qemu_eval "${qemu_emulator}
 }
 
 ub_qemu_easy() {
@@ -69,6 +82,9 @@ ub_qemu_aarch64_custom()
 
 	add_nvme_disk
 
+	# TODO: Mount an ISO
+	#args+=( -cdrom ${CCLINUX_ISO_AARCH64} )
+
 	${qemu_emulator} -nographic \
 		-kernel ${U_BOOT_DIR}/u-boot \
 		${args[@]} \
@@ -103,6 +119,8 @@ usage()
 
 	-a, --arch           specify arch: x86_64, aarch64, arm
 	-r, --run            run type: easy, custom, complex
+
+	-d, --dumpcmd        dump command instead of execute
 	-v, --verbose
 	-h, --help
 	EOF
@@ -120,6 +138,10 @@ case $1 in
 	shift
 	run_type=$1
 	shift
+	;;
+-d | --dumpcmd)
+	shift
+	dumpcmd=YES
 	;;
 -v | --verbose)
 	shift

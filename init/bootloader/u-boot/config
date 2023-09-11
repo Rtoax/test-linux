@@ -4,6 +4,7 @@ LINUX_KERNEL_DIR=/home/rongtao/Git/linux
 TURST_FIRMWARE_A_DIR=/home/rongtao/Git/trusted-firmware-a
 
 # CCLinux aarch64 ISO
+CCLINUX_ISO_AARCH64=/home/isos/CCLinux-22.09.2-aarch64-dvd-202308241714.iso
 CCLINUX_ISO_DIR_AARCH64=/home/isos/cclinux2209-aarch64/
 CCLINUX_AARCH64_GRUBAA64_EFI=${CCLINUX_ISO_DIR_AARCH64}/EFI/BOOT/grubaa64.efi
 CCLINUX_AARCH64_GRUB_CFG=${CCLINUX_ISO_DIR_AARCH64}/EFI/BOOT/grub.cfg
