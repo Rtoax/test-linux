@@ -43,8 +43,8 @@ add_emmc_disk() {
 }
 add_nvme_disk() {
 	local disk_type=$1
-	local drive_id=$2
-	local disk_path=$3
+	local disk_path=$2
+	local drive_id=$(mktemp --dry-run NVME-XXXXXX)
 
 	check_file ${disk_path}
 
@@ -68,7 +68,7 @@ add_virtio_disk() {
 create_nvme() {
 	local qcow2=$(mktemp --dry-run test-XXXXXX.qcow2)
 	qemu_eval qemu-img create -f qcow2 ${qcow2} 100G
-	add_nvme_disk qcow2 NVME-${qcow2} ${qcow2}
+	add_nvme_disk qcow2 ${qcow2}
 }
 
 ################################################################################
@@ -97,7 +97,7 @@ ub_qemu_x86_64_custom()
 	qemu_args+=( -bios ${U_BOOT_DIR}/u-boot.rom )
 	qemu_args+=( -m 2G -smp cores=4 )
 
-	add_nvme_disk qcow2 NVME1 test.qcow2
+	add_nvme_disk qcow2 test.qcow2
 }
 
 ################################################################################
@@ -116,7 +116,7 @@ ub_qemu_aarch64_custom()
 	# FIXME: Pass different device tree blob
 	#qemu_args+=( -dtb ${U_BOOT_DIR}/arch/arm/dts/rk3399-nanopc-t4.dtb )
 
-	add_nvme_disk raw NVME1 uboot.disk
+	add_nvme_disk raw uboot.disk
 }
 
 ################################################################################
@@ -249,7 +249,7 @@ qemu_emulator="qemu_eval "${qemu_emulator}
 
 for nvme in ${nvmes[@]}
 do
-	add_nvme_disk qcow2 NVME-${nvme} ${nvme}
+	add_nvme_disk qcow2 ${nvme}
 done
 
 ub_qemu_${arch_type}_custom
