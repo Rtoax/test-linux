@@ -162,6 +162,8 @@ examples:
   $ ./qemu.sh -a aarch64 -d
   # Add nvme storage and an ISO
   $ ./qemu.sh -a aarch64 --nvme test.qcow2 --cdrom ${CCLINUX_ISO_AARCH64}
+  # Above will generate test-03PP38.qcow2, then:
+  $ ./qemu.sh -a aarch64 --nvme test-03PP38.qcow2
 "
 	exit ${1-0}
 }
