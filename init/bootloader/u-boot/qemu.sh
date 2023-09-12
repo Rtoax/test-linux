@@ -150,6 +150,9 @@ test u-boot with qemu:
 
   -a, --arch           specify arch: x86_64, aarch64, arm
 
+  -u, --uboot-dir [directory]
+                       default: ${U_BOOT_DIR}
+
   --nvme               add qcow2 as NVMe storage (may be listed multiple times)
   --graphic            with graphic
   -d, --dumpcmd        dump command instead of execute
@@ -173,9 +176,10 @@ graphic=
 declare -a nvmes
 
 TEMP=$(getopt \
-	--options a:dv:h \
+	--options a:du:v:h \
 	--long arch: \
 	--long nvme: \
+	--long uboot-dir: \
 	--long cdrom: \
 	--long graphic \
 	--long dumpcmd \
@@ -201,6 +205,15 @@ while true; do
 			exit 1
 		fi
 		nvmes+=( $1 )
+		shift
+		;;
+	-u | --uboot-dir)
+		shift
+		U_BOOT_DIR=$1
+		if [[ ! -d ${U_BOOT_DIR} ]]; then
+			echo "ERROR: ${U_BOOT_DIR} is not directory"
+			exit 1
+		fi
 		shift
 		;;
 	--cdrom)

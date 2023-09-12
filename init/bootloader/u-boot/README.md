@@ -41,3 +41,11 @@ Device 0: Vendor: 0x1b36 Rev: 8.1.0    Prod: nvme-1
 => bootefi ${kernel_addr_r}
 ...
 ```
+
+
+## 例子
+
+```bash
+$ ./compile-uboot.sh --uboot-dir /home/rongtao/Git/u-boot cross-aarch64-custom
+$ ./qemu.sh -a aarch64 --uboot-dir /home/rongtao/Git/u-boot --nvme /home/qcow2s/cclinux2209-aarch64-UEFI-on-U-Boot.qcow2
+```
