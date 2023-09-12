@@ -132,6 +132,7 @@ test u-boot with qemu:
 
   -a, --arch           specify arch: x86_64, aarch64, arm
 
+  --nvme               add qcow2 as NVMe storage (may be listed multiple times)
   --graphic            with graphic
   -d, --dumpcmd        dump command instead of execute
   -v, --verbose
@@ -141,18 +142,20 @@ examples:
 
   # Dump command
   $ ./qemu.sh -a aarch64 -d
-  # With graphic
-  $ ./qemu.sh -a aarch64 --graphic
+  # Add nvme storage
+  $ ./qemu.sh -a aarch64 --nvme test.qcow2
 "
 	exit ${1-0}
 }
 
 ################################################################################
 graphic=
+declare -a nvmes
 
 TEMP=$(getopt \
 	--options a:dv:h \
 	--long arch: \
+	--long nvme: \
 	--long graphic \
 	--long dumpcmd \
 	--long verbose: \
@@ -168,6 +171,15 @@ while true; do
 	-a | --arch)
 		shift
 		arch_type=$1
+		shift
+		;;
+	--nvme)
+		shift
+		if [[ ! -e ${1} ]]; then
+			echo "ERROR: ${1} is not exist."
+			exit 1
+		fi
+		nvmes+=( $1 )
 		shift
 		;;
 	--graphic)
@@ -202,6 +214,11 @@ fi
 qemu_emulator="qemu_eval "${qemu_emulator}
 
 [[ -z ${graphic} ]] && qemu_args+=( -nographic )
+
+for nvme in ${nvmes[@]}
+do
+	add_nvme_disk qcow2 NVME-${nvme} ${nvme}
+done
 
 ub_qemu_${arch_type}_custom
 
