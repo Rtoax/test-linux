@@ -6,6 +6,14 @@ mnt_efivarfs() {
 	sudo mount -t efivarfs none /sys/firmware/efi/efivars
 }
 
-efi_var_list() {
-	efivar -l
+efivar_list() {
+	efivar --list
 }
+
+efivar_print() {
+	local boot0=$(efivar --list | grep Boot0000)
+
+	efivar --name ${boot0} --print
+}
+
+efivar_print
