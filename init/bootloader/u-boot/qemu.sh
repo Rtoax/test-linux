@@ -77,7 +77,6 @@ ub_qemu_complex() {
 ################################################################################
 ub_qemu_x86_64_custom()
 {
-	qemu_args+=( -nographic )
 	qemu_args+=( -machine q35,acpi=on )
 	qemu_args+=( -bios ${U_BOOT_DIR}/u-boot.rom )
 	qemu_args+=( -m 2G -smp cores=4 )
@@ -89,7 +88,6 @@ ub_qemu_x86_64_custom()
 ub_qemu_aarch64_custom()
 {
 	# https://github.com/ARM-software/u-boot/blob/master/doc/README.qemu-arm
-	qemu_args+=( -nographic )
 	qemu_args+=( -kernel ${U_BOOT_DIR}/u-boot )
 	qemu_args+=( -machine virt -cpu cortex-a57 )
 	qemu_args+=( -bios ${U_BOOT_DIR}/u-boot.bin )
@@ -107,7 +105,7 @@ ub_qemu_aarch64_custom()
 ub_qemu_arm_custom()
 {
 	orangepi() {
-		qemu_args+=( -machine orangepi-pc -nographic -nic user )
+		qemu_args+=( -machine orangepi-pc -nic user )
 		qemu_args+=( -kernel ${U_BOOT_DIR}/u-boot )
 		qemu_args+=( -dtb ${LINUX_KERNEL_DIR}/arch/arm/boot/dts/allwinner/sun8i-h3-orangepi-pc.dtb )
 		qemu_args+=( -sd uboot.disk )
@@ -118,7 +116,7 @@ ub_qemu_arm_custom()
 	# '-sd uboot.disk' as same as '-drive if=sd,driver=file,filename=uboot.disk'
 	vexpress_ca9x4() {
 		qemu_args+=( -machine vexpress-a9 )
-		qemu_args+=( -nographic -m 512M )
+		qemu_args+=( -m 512M )
 		qemu_args+=( -kernel ${U_BOOT_DIR}/u-boot )
 		qemu_args+=( -dtb ${U_BOOT_DIR}/arch/arm/dts/vexpress-v2p-ca9.dtb )
 		qemu_args+=( -drive if=sd,driver=file,filename=uboot.disk )
@@ -132,19 +130,30 @@ usage()
 	echo "
 test u-boot with qemu:
 
--a, --arch           specify arch: x86_64, aarch64, arm
+  -a, --arch           specify arch: x86_64, aarch64, arm
 
--d, --dumpcmd        dump command instead of execute
--v, --verbose
--h, --help
+  --graphic            with graphic
+  -d, --dumpcmd        dump command instead of execute
+  -v, --verbose
+  -h, --help
+
+examples:
+
+  # Dump command
+  $ ./qemu.sh -a aarch64 -d
+  # With graphic
+  $ ./qemu.sh -a aarch64 --graphic
 "
 	exit ${1-0}
 }
 
 ################################################################################
+graphic=
+
 TEMP=$(getopt \
 	--options a:dv:h \
 	--long arch: \
+	--long graphic \
 	--long dumpcmd \
 	--long verbose: \
 	--long help \
@@ -160,6 +169,10 @@ while true; do
 		shift
 		arch_type=$1
 		shift
+		;;
+	--graphic)
+		shift
+		graphic=YES
 		;;
 	-d | --dumpcmd)
 		shift
@@ -187,6 +200,8 @@ else
 	qemu_emulator=$(get_qemu_kvm_emulator_arch ${arch_type})
 fi
 qemu_emulator="qemu_eval "${qemu_emulator}
+
+[[ -z ${graphic} ]] && qemu_args+=( -nographic )
 
 ub_qemu_${arch_type}_custom
 
