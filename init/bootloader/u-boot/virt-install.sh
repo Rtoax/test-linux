@@ -9,4 +9,4 @@ virt-install \
 	--name=$(mktemp --dry-run test-vm-XXXXXX) \
 	--cdrom ${CCLINUX_ISO_AARCH64} \
 	--boot uefi,firmware.feature0.name=secure-boot,firmware.feature0.enabled=no \
-	--boot loader=${U_BOOT_DIR}/u-boot.rom
+	--boot loader=${U_BOOT_DIR}/u-boot.bin
