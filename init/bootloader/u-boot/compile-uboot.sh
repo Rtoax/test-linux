@@ -146,6 +146,10 @@ case $1 in
 	usage
 	exit 0
 	;;
+-*)
+	echo "ERROR: Unknown $1"
+	exit 1
+	;;
 *)
 	break
 	;;
