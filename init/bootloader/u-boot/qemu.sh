@@ -22,10 +22,21 @@ qemu_eval()
 	fi
 }
 
+check_file()
+{
+	local f=$1
+	if [[ ! -e ${f} ]]; then
+		echo "ERROR: ${f} is not exist"
+		exit 1
+	fi
+}
+
 ################################################################################
 # Emulate Disk
 # ref: https://u-boot.readthedocs.io/en/latest/board/emulation/blkdev.html
 add_emmc_disk() {
+	check_file uboot.disk
+
 	qemu_args+=( -device sdhci-pci,sd-spec-version=3 )
 	qemu_args+=(		-drive if=none,file=uboot.disk,format=raw,id=MMC1 )
 	qemu_args+=(		-device sd-card,drive=MMC1 )
@@ -34,27 +45,30 @@ add_nvme_disk() {
 	local disk_type=$1
 	local drive_id=$2
 	local disk_path=$3
+
+	check_file ${disk_path}
+
 	qemu_args+=( -drive if=none,file=${disk_path},format=${disk_type},id=${drive_id} )
 	qemu_args+=(		-device nvme,drive=${drive_id},serial=sn-${drive_id} )
 }
 add_sata_disk() {
+	check_file uboot.disk
+
 	qemu_args+=( -device ahci,id=ahci0 )
 	qemu_args+=(		-drive if=none,file=uboot.disk,format=raw,id=SATA1 )
 	qemu_args+=(		-device ide-hd,bus=ahci0.0,drive=SATA1 )
 }
 add_virtio_disk() {
+	check_file uboot.disk
+
 	qemu_args+=(	-drive if=none,file=uboot.disk,format=raw,id=VIRTIO1 )
 	qemu_args+=(		-device virtio-blk,drive=VIRTIO1 )
 }
 
-# TODO: Mount an ISO
-add_cdrom_and_install() {
-	qemu_args+=( -cdrom ${CCLINUX_ISO_AARCH64} )
-
+create_nvme() {
 	local qcow2=$(mktemp --dry-run test-XXXXXX.qcow2)
-
 	qemu_eval qemu-img create -f qcow2 ${qcow2} 100G
-	add_nvme_disk qcow2 NVME2 ${qcow2}
+	add_nvme_disk qcow2 NVME-${qcow2} ${qcow2}
 }
 
 ################################################################################
@@ -77,6 +91,8 @@ ub_qemu_complex() {
 ################################################################################
 ub_qemu_x86_64_custom()
 {
+	check_file ${U_BOOT_DIR}/u-boot.rom
+
 	qemu_args+=( -machine q35,acpi=on )
 	qemu_args+=( -bios ${U_BOOT_DIR}/u-boot.rom )
 	qemu_args+=( -m 2G -smp cores=4 )
@@ -87,6 +103,10 @@ ub_qemu_x86_64_custom()
 ################################################################################
 ub_qemu_aarch64_custom()
 {
+	check_file ${U_BOOT_DIR}/u-boot
+	check_file ${U_BOOT_DIR}/u-boot.bin
+	check_file uboot.disk
+
 	# https://github.com/ARM-software/u-boot/blob/master/doc/README.qemu-arm
 	qemu_args+=( -kernel ${U_BOOT_DIR}/u-boot )
 	qemu_args+=( -machine virt -cpu cortex-a57 )
@@ -97,8 +117,6 @@ ub_qemu_aarch64_custom()
 	#qemu_args+=( -dtb ${U_BOOT_DIR}/arch/arm/dts/rk3399-nanopc-t4.dtb )
 
 	add_nvme_disk raw NVME1 uboot.disk
-
-	add_cdrom_and_install
 }
 
 ################################################################################
@@ -142,8 +160,8 @@ examples:
 
   # Dump command
   $ ./qemu.sh -a aarch64 -d
-  # Add nvme storage
-  $ ./qemu.sh -a aarch64 --nvme test.qcow2
+  # Add nvme storage and an ISO
+  $ ./qemu.sh -a aarch64 --nvme test.qcow2 --cdrom ${CCLINUX_ISO_AARCH64}
 "
 	exit ${1-0}
 }
@@ -156,6 +174,7 @@ TEMP=$(getopt \
 	--options a:dv:h \
 	--long arch: \
 	--long nvme: \
+	--long cdrom: \
 	--long graphic \
 	--long dumpcmd \
 	--long verbose: \
@@ -180,6 +199,17 @@ while true; do
 			exit 1
 		fi
 		nvmes+=( $1 )
+		shift
+		;;
+	--cdrom)
+		shift
+		if [[ ! -e ${1} ]]; then
+			echo "ERROR: ${1} is not exist."
+			exit 1
+		fi
+		qemu_args+=( -cdrom ${1} )
+		# If specify ISO, need a target storage
+		create_nvme
 		shift
 		;;
 	--graphic)
