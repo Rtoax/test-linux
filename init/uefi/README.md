@@ -7,6 +7,12 @@ UEFI (Unified Extensible Firmware Interface)
 UEFI (可扩展固件接口) ，也称为 UEFI BIOS，是两种不同类型的主板固件中最常见的一种(另一种为 BIOS)。
 
 
+# Services
+
+- Boot Services
+- Runtime Services
+
+
 # efivars `/sys/firmware/efi/vars/`
 
 通过sysfs接口来实现对 EFI variables的管理。
