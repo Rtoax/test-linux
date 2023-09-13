@@ -1,0 +1,27 @@
+#!/usr/bin/env bpftrace
+/**
+ * audit_enabled.bt - Print audit_enabled value
+ *
+ * 2023-09-13	Rong Tao	Create this.
+ */
+#include <linux/audit.h>
+
+struct val {
+	u32 i;
+};
+
+BEGIN
+{
+	@V[AUDIT_OFF] = "OFF";
+	@V[AUDIT_ON] = "ON";
+	@V[AUDIT_LOCKED] = "LOCKED";
+
+	$pval = (struct val *)kaddr("audit_enabled");
+	printf("audit_enabled = %s\n", @V[$pval->i]);
+	exit();
+}
+
+END
+{
+	clear(@V);
+}
