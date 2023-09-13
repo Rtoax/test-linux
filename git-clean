@@ -35,5 +35,5 @@ if [[ ${answer} != y ]]; then
 	done
 fi
 
-git clean -dfx
+sudo git clean -dfx
 echo "Clean git"
