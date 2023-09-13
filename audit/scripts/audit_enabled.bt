@@ -1,6 +1,6 @@
 #!/usr/bin/env bpftrace
 /**
- * audit_enabled.bt - Print audit_enabled value
+ * audit_enabled.bt - Print audit_enabled,audit_ever_enabled,... value
  *
  * 2023-09-13	Rong Tao	Create this.
  */
@@ -16,8 +16,11 @@ BEGIN
 	@V[AUDIT_ON] = "ON";
 	@V[AUDIT_LOCKED] = "LOCKED";
 
-	$pval = (struct val *)kaddr("audit_enabled");
-	printf("audit_enabled = %s\n", @V[$pval->i]);
+	$audit_enabled = (struct val *)kaddr("audit_enabled");
+	$audit_ever_enabled = (struct val *)kaddr("audit_ever_enabled");
+
+	printf("audit_enabled = %s\n", @V[$audit_enabled->i]);
+	printf("audit_ever_enabled = %d\n", $audit_ever_enabled->i);
 	exit();
 }
 
