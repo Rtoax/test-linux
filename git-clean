@@ -4,21 +4,27 @@ answer=N
 
 no_commit_files() {
 	echo "Files not commited will be removed:"
-	git status --porcelain | grep '^??' | cut -c4-
+	git status --porcelain | grep '^??' | cut -c4- | sed 's/^/- /g'
+}
+
+ignore_files() {
+	echo "Files ignored will be removed:"
+	git clean -dfx --dry-run | sed 's/^/- /g'
 }
 
 pre_hint() {
 	no_commit_files
+	ignore_files
 }
 
 if [[ ${answer} != y ]]; then
 	while pre_hint && read -p "Are you sure? [N/y] " answer
 	do
 		case $answer in
-		y)
+		y | Y | Yes | yes)
 			break
 			;;
-		N)
+		n | N | No | no)
 			echo "Bye!"
 			exit 0
 			;;
