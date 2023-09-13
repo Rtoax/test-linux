@@ -13,6 +13,36 @@ UEFI (可扩展固件接口) ，也称为 UEFI BIOS，是两种不同类型的�
 - Runtime Services
 
 
+# UEFI Precedures
+
+- SEC: Security
+	- 重启事件
+	- 临时内存
+	- 安全的根
+	- 信息交换
+- PEI: Pre-EFI Initialization
+	- 永久内存
+	- HOB 内存
+	- HOB 固件
+	- 信息交换
+- DXE: Driver Execution Envrionment
+	- DXE 基础
+	- DXE 分发
+	- DXE 驱动
+- BDS: Boot Device Selection
+	- 启动设备
+- TSL: Transient System Load
+	- OS 预加载
+	- (OS Loader)
+- RT: Runtime
+	- 运行时
+- AL: After Life
+	- 关机
+	- 休眠
+	- 睡眠
+	- 重启
+
+
 # efivars `/sys/firmware/efi/vars/`
 
 通过sysfs接口来实现对 EFI variables的管理。
