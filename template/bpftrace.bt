@@ -6,7 +6,9 @@
  *
  * 2023-07-25	Rong Tao	Create this.
  */
+#ifndef BPFTRACE_HAVE_BTF
 #include <linux/sched.h>
+#endif
 
 BEGIN
 {
