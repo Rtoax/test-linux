@@ -79,7 +79,7 @@ $(SUB_kernel_DIR_CLEAN):
 # Clean git repo useless file and directory
 cleangit:
 	echo "=== clean git repo"
-	sh git-clean
+	sh git-clean y
 
 .PHONY: all test clean \
 	$(SUB_user_DIR) \
