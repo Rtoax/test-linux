@@ -108,7 +108,7 @@ type:
 	cross-aarch64-vexpress_aemv8a_semi
 	cross-aarch64-nanopc-t4              # Failed
 	cross-aarch64-rpi
-	cross-aarch64-custom
+	cross-aarch64-custom                 # OK
 
 	cross-arm-qemu
 	cross-arm-vexpress_ca9x4             # OK
