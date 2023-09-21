@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. ../../../libs/qemu.sh
+. ../../libs/qemu.sh
 . config
 
 program_name=$0
