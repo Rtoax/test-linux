@@ -41,6 +41,7 @@ TARGETS += pthread_mutex_consistent
 TARGETS += pthread_mutex_getprioceiling
 TARGETS += pthread_mutex_init
 TARGETS += pthread_setconcurrency
+TARGETS += pthread_cond_wait
 
 ifeq ($(shell uname -m),x86_64)
 TARGETS += pthread_mutex_latency
@@ -132,6 +133,7 @@ pthread_mutex_getprioceiling: pthread_mutex_getprioceiling.o
 pthread_mutex_init: pthread_mutex_init.o
 pthread_mutex_latency: pthread_mutex_latency.o
 pthread_setconcurrency: pthread_setconcurrency.o
+pthread_cond_wait: pthread_cond_wait.o
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m <$(OS)>"
