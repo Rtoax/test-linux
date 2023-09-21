@@ -1,5 +1,7 @@
 
 TARGETS := ptr-dim
+TARGETS += compat
+
 ifeq ($(shell uname -m),x86_64)
 endif
 ifeq ($(shell uname -m),aarch64)
@@ -21,6 +23,7 @@ build: ${TARGETS}
 
 # Add more object.o file
 ptr-dim: ptr-dim.o helpers.o
+compat: compat.o
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
