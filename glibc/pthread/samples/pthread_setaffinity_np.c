@@ -1,3 +1,6 @@
+/**
+ * 绑定线程到cpu核上运行
+ */
 #define _GNU_SOURCE
 #include <stdio.h>
 #include <math.h>
