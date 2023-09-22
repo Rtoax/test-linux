@@ -1,6 +1,7 @@
 
 TARGETS += sqrt
 TARGETS += ceil
+TARGETS += copysign
 
 ifeq ($(shell uname -m),x86_64)
 endif
@@ -24,6 +25,7 @@ build: ${TARGETS}
 # Add more object.o file
 ceil: ceil.o
 sqrt: sqrt.o
+copysign: copysign.o
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
