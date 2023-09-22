@@ -11,5 +11,7 @@ static int currentel(void)
 	register uint32_t r0 __asm__ ("r0");
 	__asm__ ("mrs r0, CPSR" : : : "%r0");
 	return r0 & 0x1F;
+#else
+# error "Not support arch"
 #endif
 }

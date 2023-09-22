@@ -1,8 +1,7 @@
-TARGETS := currentel_user
-
 ifeq ($(shell uname -m),x86_64)
 endif
 ifeq ($(shell uname -m),aarch64)
+TARGETS += currentel_user
 obj-m += currentel.o
 endif
 
