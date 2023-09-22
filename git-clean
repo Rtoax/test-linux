@@ -21,14 +21,15 @@ if [[ ${answer} != y ]]; then
 	while pre_hint && read -p "Are you sure? [N/y] " answer
 	do
 		case $answer in
-		y | Y | Yes | yes)
+		y | Y | Yes | yes | YES)
 			break
 			;;
-		n | N | No | no)
+		n | N | No | no | NO)
 			echo "Bye!"
 			exit 0
 			;;
 		*)
+			echo "WARNING: Unknown $answer"
 			continue
 			;;
 		esac
