@@ -101,4 +101,6 @@ create_disk
 partition
 makefs
 destroy
+# a.raw to a.qcow2
+qemu-img convert -O qcow2 ${disk_file} ${disk_file%.*}.qcow2
 echo "Success.."
