@@ -108,7 +108,6 @@ ub_qemu_aarch64_custom()
 	check_file uboot.disk
 
 	# https://github.com/ARM-software/u-boot/blob/master/doc/README.qemu-arm
-	qemu_args+=( -kernel ${U_BOOT_DIR}/u-boot )
 	qemu_args+=( -machine virt -cpu cortex-a57 )
 	qemu_args+=( -bios ${U_BOOT_DIR}/u-boot.bin )
 	qemu_args+=( -m 2048M )
