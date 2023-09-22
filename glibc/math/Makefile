@@ -1,5 +1,6 @@
 
 TARGETS += sqrt
+TARGETS += ceil
 
 ifeq ($(shell uname -m),x86_64)
 endif
@@ -21,6 +22,7 @@ build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
 # Add more object.o file
+ceil: ceil.o
 sqrt: sqrt.o
 
 test: ${TARGETS}
