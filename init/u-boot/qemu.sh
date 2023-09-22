@@ -103,9 +103,7 @@ ub_qemu_x86_64_custom()
 ################################################################################
 ub_qemu_aarch64_custom()
 {
-	check_file ${U_BOOT_DIR}/u-boot
 	check_file ${U_BOOT_DIR}/u-boot.bin
-	check_file uboot.disk
 
 	# https://github.com/ARM-software/u-boot/blob/master/doc/README.qemu-arm
 	qemu_args+=( -machine virt -cpu cortex-a57 )
@@ -114,8 +112,6 @@ ub_qemu_aarch64_custom()
 
 	# FIXME: Pass different device tree blob
 	#qemu_args+=( -dtb ${U_BOOT_DIR}/arch/arm/dts/rk3399-nanopc-t4.dtb )
-
-	add_nvme_disk raw uboot.disk
 }
 
 ################################################################################

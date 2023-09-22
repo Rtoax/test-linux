@@ -4,18 +4,30 @@ U-Boot: Universal Boot Loader
 
 # 测试步骤
 
-- compile-kernel.sh
+- compile-kernel.sh (optional)
 - compile-uboot.sh
-- ubootdish.sh or makeimg.sh
+- ubootdish.sh or makeimg.sh (optional)
 - qemu.sh
 
+
 ## 例
+
+### aarch64
+
+```bash
+$ ./compile-uboot.sh cross-aarch64-custom
+$ ./qemu.sh -a aarch64 --nvme /home/qcow2s/cclinux2209-aarch64-UEFI-on-U-Boot.qcow2
+```
+
+
+### arm
 
 ```bash
 $ ./compile-uboot.sh cross-arm-vexpress_ca9x4
 $ ./ubootdisk.sh
 $ ./qemu.sh -a arm
 ```
+
 
 # UEFI on U-Boot
 
