@@ -2,7 +2,7 @@
 
 set -e
 
-. ../../../libs/qemu.sh
+. ../../libs/qemu.sh
 
 goodbye()
 {
