@@ -11,8 +11,10 @@
 
 static int __init kernel_init(void)
 {
-	register uint64_t x0 = currentel();
-	printk(KERN_INFO "EL = %lld\n", x0);
+	register uint64_t x0 = read_sysreg(CurrentEL);
+	register int el = currentel();
+
+	printk(KERN_INFO "EL = %lld, el = %d\n", x0 >> 2, el);
 	/* make insmod failed, so, we don't need to rmmod */
 	return -1;
 }
