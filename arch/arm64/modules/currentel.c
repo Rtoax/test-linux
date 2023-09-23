@@ -14,7 +14,23 @@ static int __init kernel_init(void)
 	register uint64_t x0 = read_sysreg(CurrentEL);
 	register int el = currentel();
 
-	printk(KERN_INFO "EL = %lld, el = %d\n", x0 >> 2, el);
+	char *run = "Unknown";
+	switch (el) {
+	case 0:
+		run = "userspace";
+		break;
+	case 1:
+		run = "kernel";
+		break;
+	case 2:
+		run = "hypervisor";
+		break;
+	case 3:
+		run = "secure monitor";
+		break;
+	}
+
+	printk(KERN_INFO "EL = %lld, el = %d, may run %s\n", x0 >> 2, el, run);
 	/* make insmod failed, so, we don't need to rmmod */
 	return -1;
 }
