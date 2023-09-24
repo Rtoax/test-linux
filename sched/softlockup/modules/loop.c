@@ -4,6 +4,10 @@
 
 struct task_struct *kt;
 
+/**
+ * If CONFIG_PREEMPT=y, this infinite loop will not cause soft lockup,
+ * otherwise, it'll cause soft lockup.
+ */
 static int loop_func(void *arg)
 {
 	int i = 0;
