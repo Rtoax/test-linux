@@ -12,7 +12,12 @@ DTC: Device Tree Compiler
 DTB: Device Tree binary file (device tree blob)
 
 
-# /sys/firmware/devicetree/
+# Device Tree
+
+- /sys/firmware/devicetree/
+- /sys/firmware/fdt
+
+FDT (flattened device tree)
 
 
 # 节点格式
