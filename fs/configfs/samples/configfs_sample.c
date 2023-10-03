@@ -331,8 +331,6 @@ static int __init configfs_example_init(void)
 {
 	struct configfs_subsystem *subsys;
 	int ret, i;
-	
-	printk(KERN_INFO "Hi.\n");
 
 	for (i = 0; example_subsys[i]; i++) {
 		subsys = example_subsys[i];
@@ -359,7 +357,7 @@ out_unregister:
 static void __exit configfs_example_exit(void)
 {
 	int i;
-	printk(KERN_INFO "bye.\n");
+
 	for (i = 0; example_subsys[i]; i++)
 		configfs_unregister_subsystem(example_subsys[i]);
 }
