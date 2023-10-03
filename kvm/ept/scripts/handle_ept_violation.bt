@@ -15,6 +15,19 @@ BEGIN
 	printf("%-8s %-8s %-8s\n", "TIME", "PID", "COMM");
 }
 
+/**
+ * Both VM creation and VM running call this function.
+ *
+ * Example stack:
+ *
+ *     handle_ept_violation+5
+ *     vmx_handle_exit+301
+ *     kvm_arch_vcpu_ioctl_run+3186
+ *     kvm_vcpu_ioctl+409
+ *     __x64_sys_ioctl+148
+ *     do_syscall_64+93
+ *     entry_SYSCALL_64_after_hwframe+110
+ */
 kprobe:handle_ept_violation
 {
 	time("%H:%M:%S ");
