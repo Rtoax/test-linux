@@ -1,0 +1,28 @@
+#!/bin/env bpftrace
+/**
+ * kvm_mmu_spte_requested.bt - Tracing EPT page fault
+ *
+ * 2023-10-03	Rong Tao	Create this.
+ */
+BEGIN
+{
+	printf("Tracing kvm_mmu_spte_requested, hit ctrl-c to end.\n");
+	printf("%-8s %-8s %-16s %-16s %-16s\n",
+		"TIME", "PID", "COMM", "GPA", "PFN");
+}
+
+/* see arch/x86/kvm/mmu/mmu.c: __direct_map() */
+tracepoint:kvmmmu:kvm_mmu_spte_requested
+{
+	$gpa = args->gfn;
+	$pfn = args->pfn;
+
+	time("%H:%M:%S ");
+	printf("%-8d %-16s %-16lx %-16lx\n", pid, comm, $gpa, $pfn);
+	@stack[kstack] = count();
+}
+
+END
+{
+	printf("Bye.\n");
+}
