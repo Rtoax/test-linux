@@ -1,0 +1,26 @@
+#!/bin/env bpftrace
+/**
+ * kvm_page_fault.bt - Tracing EPT page fault
+ *
+ * 2023-10-03	Rong Tao	Create this.
+ */
+BEGIN
+{
+	printf("Tracing kvm_page_fault, hit ctrl-c to end.\n");
+	printf("%-8s %-8s %-8s %-16s\n", "TIME", "PID", "COMM", "GPA");
+}
+
+/* tracepoint in handle_ept_violation() */
+tracepoint:kvm:kvm_page_fault
+{
+	$gpa = args->fault_address;
+
+	time("%H:%M:%S ");
+	printf("%-8d %-8s %-16lx\n", pid, comm, $gpa);
+	@stack[kstack] = count();
+}
+
+END
+{
+	printf("Bye.\n");
+}
