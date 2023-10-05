@@ -13,6 +13,7 @@ int main(int argc, char *argv[])
 	family_model();
 	model_name();
 	cpu_address_sizes();
+	printf("AVX: %s\n", is_avx_supported() ? "support" : "NOTREACHEDt support");
 
 	return 0;
 }

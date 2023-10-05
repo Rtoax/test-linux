@@ -4,6 +4,7 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <cpuid.h>
 
 
 static inline void
@@ -206,3 +207,11 @@ void cpu_address_sizes(void)
 			x86_phys_bits, x86_virt_bits);
 }
 
+
+static inline int
+is_avx_supported(void)
+{
+	unsigned int eax = 0, ebx = 0, ecx = 0, edx = 0;
+	cpuid(1, &eax, &ebx, &ecx, &edx);
+	return ecx & bit_AVX ? 1 : 0;
+}
