@@ -19,8 +19,10 @@ static const char *random_strings[] = {
 	"One ring to rule them all"
 };
 
-static void simple_thread_func(int cnt)
+static void do_simple_thread_func(int cnt, const char *fmt, ...)
 {
+	unsigned long bitmask[1] = {0xdeadbeefUL};
+	va_list va;
 	int array[6];
 	int len = cnt % 5;
 	int i;
@@ -32,13 +34,13 @@ static void simple_thread_func(int cnt)
 		array[i] = i + 1;
 	array[i] = 0;
 
+	va_start(va, fmt);
+
 	/* Silly tracepoints */
-	/**
-	 * Tracing with:
-	 * sudo bpftrace -e 'tracepoint:sample-trace:foo_bar{ ... }'
-	 */
 	trace_foo_bar("hello", cnt, array, random_strings[len],
-		      current->cpus_ptr);
+		      current->cpus_ptr, fmt, &va);
+
+	va_end(va);
 
 	trace_foo_with_template_simple("HELLO", cnt);
 
@@ -47,6 +49,13 @@ static void simple_thread_func(int cnt)
 	trace_foo_with_template_cond("prints other times", cnt);
 
 	trace_foo_with_template_print("I have to be different", cnt);
+
+	trace_foo_rel_loc("Hello __rel_loc", cnt, bitmask, current->cpus_ptr);
+}
+
+static void simple_thread_func(int cnt)
+{
+	do_simple_thread_func(cnt, "iter=%d", cnt);
 }
 
 static int simple_thread(void *arg)
@@ -98,7 +107,7 @@ int foo_bar_reg(void)
 	 * for consistency sake, we still take the thread_mutex.
 	 */
 	simple_tsk_fn = kthread_run(simple_thread_fn, NULL, "event-sample-fn");
-out:
+ out:
 	mutex_unlock(&thread_mutex);
 	return 0;
 }
@@ -113,7 +122,7 @@ void foo_bar_unreg(void)
 	if (simple_tsk_fn)
 		kthread_stop(simple_tsk_fn);
 	simple_tsk_fn = NULL;
-out:
+ out:
 	mutex_unlock(&thread_mutex);
 }
 
