@@ -23,6 +23,7 @@ TARGETS += bswapl
 TARGETS += _mm_clflush
 TARGETS += stosb memset
 TARGETS += nop
+TARGETS += rdmsr
 endif
 ifeq ($(shell uname -m),aarch64)
 endif
@@ -46,6 +47,7 @@ fsin: fsin.o
 stosb: stosb.o
 memset: memset.o
 nop: nop.o
+rdmsr: rdmsr.o
 
 CFLAGS += -g -ggdb
 CFLAGS += -D_GNU_SOURCE

@@ -12,3 +12,4 @@
 /stosb
 /memset
 /nop
+/rdmsr
