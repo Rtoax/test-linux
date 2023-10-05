@@ -14,6 +14,7 @@ int main(int argc, char *argv[])
 	model_name();
 	cpu_address_sizes();
 	printf("AVX: %s\n", is_avx_supported() ? "support" : "NOTREACHEDt support");
+	detect_vm_cpuid();
 
 	return 0;
 }
