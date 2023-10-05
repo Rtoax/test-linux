@@ -18,4 +18,13 @@ int main(int argc, char *argv[])
 
 	return 0;
 }
+#elif defined(__aarch64__)
+#include "cpuid-arm64.h"
+
+int main(int argc, char *argv[])
+{
+	detect_vm_cpuid();
+
+	return 0;
+}
 #endif
