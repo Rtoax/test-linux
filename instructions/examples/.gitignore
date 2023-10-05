@@ -11,3 +11,4 @@
 /_mm_clflush
 /stosb
 /memset
+/nop
