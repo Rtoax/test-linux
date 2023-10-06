@@ -1,4 +1,5 @@
 TARGETS := crc32b
+TARGETS += crc32w
 
 # User
 ifeq ($(shell uname -m),x86_64)
@@ -12,6 +13,7 @@ kernel:
 	make -C ${KERNELDIR} M=$(PWD) modules
 
 crc32b: crc32b.o
+crc32w: crc32w.o
 
 CFLAGS += -g -ggdb
 CFLAGS += -D_GNU_SOURCE
@@ -26,6 +28,4 @@ test:
 	@echo "empty, [cd $(PWD)] to insmod"
 
 clean:
-	rm -f \
-		*.o \
-		crc32b
+	rm -f *.o ${TARGETS}
