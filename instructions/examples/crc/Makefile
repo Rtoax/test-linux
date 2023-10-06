@@ -19,6 +19,7 @@ CFLAGS += -g -ggdb
 CFLAGS += -D_GNU_SOURCE
 CFLAGS += -O3
 CFLAGS += -pthread
+CFLAGS += -march=armv8.1-a
 
 $(TARGETS): %:
 	@echo -e "Target   \033[1;32m$(@)\033[m"
