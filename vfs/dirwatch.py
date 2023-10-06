@@ -9,8 +9,7 @@
 # 2023-08-25    Rong Tao    Tracing file create in directory(-D) and mkdir/rmdir
 
 from __future__ import print_function
-from bcc import ArgString, BPF
-from bcc.containers import filter_by_containers
+from bcc import BPF
 from bcc.utils import printb
 import argparse
 import os
