@@ -13,3 +13,4 @@
 /memset
 /nop
 /rdmsr
+/msr

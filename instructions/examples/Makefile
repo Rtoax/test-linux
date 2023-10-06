@@ -26,6 +26,7 @@ TARGETS += nop
 TARGETS += rdmsr
 endif
 ifeq ($(shell uname -m),aarch64)
+TARGETS += msr
 endif
 
 user: $(TARGETS)
@@ -48,6 +49,7 @@ stosb: stosb.o
 memset: memset.o
 nop: nop.o
 rdmsr: rdmsr.o
+msr: msr.o
 
 CFLAGS += -g -ggdb
 CFLAGS += -D_GNU_SOURCE
