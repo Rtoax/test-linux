@@ -13,7 +13,6 @@ TARGETS :=
 ifeq ($(shell uname -m),x86_64)
 TARGETS += bts
 TARGETS += invalid_opcode_user
-TARGETS += cpuid_user
 TARGETS += rdtsc_user
 TARGETS += rdtscp_user
 TARGETS += rdtsc_cmp
@@ -28,6 +27,8 @@ endif
 ifeq ($(shell uname -m),aarch64)
 TARGETS += msr
 endif
+
+TARGETS += cpuid_user
 
 user: $(TARGETS)
 
