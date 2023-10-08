@@ -2,6 +2,7 @@
 TARGETS += array
 TARGETS += compat
 TARGETS += ptr-dim
+TARGETS += xor
 
 ifeq ($(shell uname -m),x86_64)
 endif
@@ -26,6 +27,7 @@ build: ${TARGETS}
 array: array.o
 compat: compat.o
 ptr-dim: ptr-dim.o helpers.o
+xor: xor.o
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"

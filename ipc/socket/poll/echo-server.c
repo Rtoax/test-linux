@@ -59,7 +59,7 @@ int main(int argc, char **argv)
 	maxi = 0;
 
 	while (1) {
-		nready = poll(client, maxi+1, INFTIM);
+		nready = poll(client, maxi + 1, INFTIM);
 
 		if (client[0].revents & POLLRDNORM) {
 			clilen = sizeof(cliaddr);
