@@ -1,5 +1,6 @@
 #include <jni.h>
 #include <stdbool.h>
+#include <unistd.h>
 #include "swap.h"
 
 
@@ -15,25 +16,23 @@ Java_swap_swap_1float(JNIEnv *env, jclass cla, jstring in, jstring out)
 {
 	char *FN1;
 	char *FN2;
+	float val;
+	FILE *fp1, *fp2;
 
 	FN1 = (char*)(*env)->GetStringUTFChars(env,in,NULL);
 	FN2 = (char*)(*env)->GetStringUTFChars(env,out,NULL);
 
-	//printf("FN1 = %s, FN2 + %s\n",FN1, FN2);
+	printf("FN1 = %s, FN2 = %s\n", FN1, FN2);
 
-	int i,j,k,nx,nz;
-	float val;
-
-	FILE *fp1,*fp2;
-	fp1=fopen(FN1,"rb");
-	fp2=fopen(FN2,"wb");
+	fp1=fopen(FN1, "rb");
+	fp2=fopen(FN2, "wb");
 
 	for(;;){
-		if (fread(&val,4,1,fp1) == 0)
+		if (fread(&val, sizeof(float), 1, fp1) == 0)
 			break;
 
 		swap_float_4(&val);
-		fwrite(&val,4,1,fp2);
+		fwrite(&val, sizeof(float), 1, fp2);
 	}
 
 	fclose(fp1);
