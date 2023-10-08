@@ -1,6 +1,6 @@
 #!/bin/bash
 
-JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.382.b05-3.fc40.x86_64/
+JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk
 
 javac main.java
 javah -jni swap poll

@@ -31,7 +31,7 @@ static int nr_clients;
 static int nready;
 
 JNIEXPORT jint JNICALL
-Java_poll_init(JNIEnv *, jclass)
+Java_poll_init(JNIEnv *env, jclass jcl)
 {
 	int i;
 
