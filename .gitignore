@@ -89,6 +89,9 @@ modules.order
 # Python
 __pycache__
 
+# Java
+*.class
+
 # Log
 *.log
 
@@ -124,3 +127,6 @@ cmake_install.cmake
 # Grub/EFI/BIOS/EDK2/OVMF
 *.efi
 *.fd
+
+# OS
+os-release
