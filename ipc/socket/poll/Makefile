@@ -1,5 +1,6 @@
 
 TARGETS := echo-server
+TARGETS += fork-client-server
 
 DEBUG = yes
 SRC_PATH := $(shell pwd)
@@ -17,6 +18,7 @@ build: ${TARGETS}
 
 # Add more object.o file
 echo-server: echo-server.o
+fork-client-server: fork-client-server.o
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
