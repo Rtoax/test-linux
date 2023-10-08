@@ -53,6 +53,7 @@ build: nr.h ${TARGETS} ${TARGETS_CPP}
 	@echo
 	make -C aio
 	make -C ioctl
+	make -C poll
 	make -C epoll
 	make -C flock
 	make -C fanotify
@@ -138,6 +139,7 @@ clean:
 	@echo -e "Clean   \033[1;32m$(@)\033[m"
 	make -C aio clean
 	make -C ioctl clean
+	make -C poll clean
 	make -C epoll clean
 	make -C flock clean
 	make -C fanotify clean
