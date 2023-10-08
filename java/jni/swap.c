@@ -12,22 +12,22 @@ void swap_float_4(float *tnf4)
 }
 
 JNIEXPORT void JNICALL
-Java_swap_swap_1float(JNIEnv *env, jclass cla, jstring in, jstring out)
+Java_swap_swapFloatFile(JNIEnv *env, jclass cla, jstring in, jstring out)
 {
 	char *FN1;
 	char *FN2;
 	float val;
 	FILE *fp1, *fp2;
 
-	FN1 = (char*)(*env)->GetStringUTFChars(env,in,NULL);
-	FN2 = (char*)(*env)->GetStringUTFChars(env,out,NULL);
+	FN1 = (char*)(*env)->GetStringUTFChars(env, in, NULL);
+	FN2 = (char*)(*env)->GetStringUTFChars(env, out, NULL);
 
 	printf("FN1 = %s, FN2 = %s\n", FN1, FN2);
 
 	fp1=fopen(FN1, "rb");
 	fp2=fopen(FN2, "wb");
 
-	for(;;){
+	for (;;) {
 		if (fread(&val, sizeof(float), 1, fp1) == 0)
 			break;
 
