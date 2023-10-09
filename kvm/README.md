@@ -8,6 +8,14 @@ KVM (for Kernel-based Virtual Machine) is a full virtualization solution for Lin
 Using KVM, one can run multiple virtual machines running unmodified Linux or Windows images. Each virtual machine has private virtualized hardware: a network card, disk, graphics adapter, etc.
 
 
+# Memory Virtualization
+
+- GVA
+- GPA (IPA in arm)
+- HVA
+- HPA
+
+
 # KVM 支持的 CPU modules
 
 - Host passthrough

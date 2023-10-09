@@ -1,6 +1,9 @@
 EPT - Extended Page Table
 =========================
 
+- Intel: EPT
+- AMD: NPT
+
 
 # 影子页表
 
@@ -10,7 +13,8 @@ EPT - Extended Page Table
 
 # VMX EPT
 
-* `GPA -> HPA`;
+* 1. `GVA -> GPA`;
+* 2. `GPA -> HPA`;
 
 > tdp: Two Dimission Page, 两级页表转换
 > EPT Violation: EPT页表中缺少页表项
