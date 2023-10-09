@@ -2,10 +2,13 @@
 TARGETS := set-value
 TARGETS += set-value-func
 TARGETS += set-value-volatile
+TARGETS += global-var
 
 CC = gcc
 CFLAGS := -Werror -Wall
 CFLAGS += -O3 -ggdb
+CXXFLAGS :=
+CXXFLAGS += -O0 -ggdb
 
 build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
