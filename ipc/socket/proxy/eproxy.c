@@ -369,9 +369,9 @@ int main(int ac, char **av)
 					touch_conn(conn, now);
 
 				/* When the pipe filled up could have
- 				   lost input events.  Unfortunately
- 				   splice doesn't tell us which end
- 				   was responsible for 0, so have to ask
+				   lost input events.  Unfortunately
+				   splice doesn't tell us which end
+				   was responsible for 0, so have to ask
 				   explicitely. */
 				int len = 0;
 				if (ioctl(other->fd, FIONREAD, &len) < 0)
