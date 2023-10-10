@@ -3,6 +3,7 @@ TARGETS += current
 TARGETS += uninterruptible
 TARGETS += hung
 TARGETS += zombie
+TARGETS += stopped
 
 ifeq ($(shell uname -m),x86_64)
 endif
@@ -28,6 +29,7 @@ current: current.o
 uninterruptible: uninterruptible.o
 hung: hung.o
 zombie: zombie.o
+stopped: stopped.o
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
