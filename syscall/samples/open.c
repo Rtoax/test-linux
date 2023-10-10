@@ -17,6 +17,12 @@ int sys_open(const char *pathname, int flags, mode_t mode)
 
 int main(void)
 {
-
+	char* path = "tmp.txt";
+	mode_t mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH;
+	int fd = open(path, O_WRONLY | O_EXCL | O_CREAT, mode);
+	if (fd == -1) {
+		perror("open");
+		return 1;
+	}
 	return 0;
 }
