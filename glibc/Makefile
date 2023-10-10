@@ -1,6 +1,7 @@
 
 TARGETS := nr_errno
 TARGETS += gnu_get_libc_version
+TARGETS += environ
 
 ifeq ($(shell uname -m),x86_64)
 endif
@@ -27,6 +28,7 @@ nr_errno.h:
 
 nr_errno: nr_errno.o
 gnu_get_libc_version: gnu_get_libc_version.o
+environ: environ.o
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
