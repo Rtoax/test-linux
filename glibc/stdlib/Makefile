@@ -1,5 +1,5 @@
 
-TARGETS += mkdtemp mktemp
+TARGETS += mkdtemp mktemp mkstemp
 TARGETS += env setenv getenv clearenv putenv unsetenv
 
 ifeq ($(shell uname -m),x86_64)
@@ -24,6 +24,7 @@ build: ${TARGETS}
 # Add more object.o file
 mkdtemp: mkdtemp.o
 mktemp: mktemp.o
+mkstemp: mkstemp.o
 env: env.o
 setenv: setenv.o
 getenv: getenv.o
