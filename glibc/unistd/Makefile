@@ -1,6 +1,7 @@
 
 TARGETS := getcwd
 TARGETS += ttyname ttyname_r
+TARGETS += lseek-huge
 
 ifeq ($(shell uname -m),x86_64)
 endif
@@ -25,6 +26,7 @@ build: ${TARGETS}
 getcwd: getcwd.o
 ttyname: ttyname.o
 ttyname_r: ttyname_r.o
+lseek-huge: lseek-huge.o
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"

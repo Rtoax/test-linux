@@ -1,3 +1,4 @@
 /getcwd
 /ttyname
 /ttyname_r
+/lseek-huge
