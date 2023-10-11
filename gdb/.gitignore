@@ -2,3 +2,4 @@
 /set-value
 /set-value-func
 /set-value-volatile
+/pthread-gdb
