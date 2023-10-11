@@ -15,3 +15,10 @@ IPv6
 ```
 sudo sysctl -a | grep -w disable_ipv6
 ```
+
+3. NetworkManager
+
+```
+$ sudo nmcli connection modify [InterfaceName] ipv6.method "disabled"
+$ sudo nmcli connection up [InterfaceName]
+```
