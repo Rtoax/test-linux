@@ -3,6 +3,7 @@ TARGETS += array
 TARGETS += compat
 TARGETS += ptr-dim
 TARGETS += xor
+TARGETS += __label__
 
 ifeq ($(shell uname -m),x86_64)
 endif
