@@ -163,7 +163,7 @@ static int cn_test_init(void)
 
 	return 0;
 
-err_out:
+      err_out:
 	if (nls && nls->sk_socket)
 		sock_release(nls->sk_socket);
 
@@ -172,7 +172,6 @@ err_out:
 
 static void cn_test_fini(void)
 {
-	printk(KERN_INFO "Bye.\n");
 	del_timer_sync(&cn_test_timer);
 	cn_del_callback(&cn_test_id);
 	cn_test_id.val--;
