@@ -1,0 +1,17 @@
+IPv6
+====
+
+# Disable IPv6
+
+1. 修改 cmdline
+
+```
+	$ sudo vi /etc/default/grub
+	GRUB_CMDLINE_LINUX="xxxxx ipv6.disable=1"
+```
+
+2. 临时修改 sysctl
+
+```
+sudo sysctl -a | grep -w disable_ipv6
+```
