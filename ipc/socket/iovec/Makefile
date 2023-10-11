@@ -2,6 +2,7 @@
 TARGETS := unix-server
 TARGETS += unix-client
 TARGETS += unix-client-memfd_create
+TARGETS += socketpair
 
 DEBUG = yes
 SRC_PATH := $(shell pwd)
@@ -22,6 +23,7 @@ build: ${TARGETS}
 unix-server: unix-server.o common.o
 unix-client: unix-client.o common.o
 unix-client-memfd_create: unix-client-memfd_create.o common.o
+socketpair: socketpair.o
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
