@@ -1,0 +1,34 @@
+#!/bin/env bpftrace
+
+tracepoint:syscalls:sys_exit_read,
+tracepoint:syscalls:sys_exit_recvfrom,
+tracepoint:syscalls:sys_exit_recvmsg,
+tracepoint:syscalls:sys_exit_recvmmsg
+{
+	$ret = args->ret;
+	@recv_bytes = hist($ret);
+	@recv_cnt[comm, tid] = count();
+}
+
+tracepoint:syscalls:sys_exit_write,
+tracepoint:syscalls:sys_exit_sendto,
+tracepoint:syscalls:sys_exit_sendmsg,
+tracepoint:syscalls:sys_exit_sendmmsg
+{
+	$ret = args->ret;
+	@send_bytes = hist($ret);
+	@send_cnt[comm, tid] = count();
+}
+
+/* TX/RX */
+kprobe:net_tx_action,
+kprobe:net_rx_action
+{
+	@net_rxtx[probe, comm] = count();
+}
+
+/* UNIX Stream Socket */
+kprobe:unix_stream_read_actor
+{
+	@unsocket_cnt[comm] = count();
+}
