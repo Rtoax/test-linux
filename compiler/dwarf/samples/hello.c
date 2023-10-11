@@ -1,6 +1,7 @@
 /**
- *	hello.c
- *	Rong Tao 2022.01.24
+ * hello.c - For test dwarf
+ *
+ * 2022-01-24	Rong Tao	Create this.
  */
 #include <stdio.h>
 
