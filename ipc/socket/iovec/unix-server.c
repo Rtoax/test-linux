@@ -10,32 +10,6 @@
 
 #include "common.h"
 
-static int *recv_fd(int socket, int n)
-{
-	int *fds = malloc (n * sizeof(int));
-	struct msghdr msg = {0};
-	struct cmsghdr *cmsg;
-
-	char buf[CMSG_SPACE(n * sizeof(int))], dup[256];
-	memset(buf, '\0', sizeof(buf));
-
-	struct iovec io = { .iov_base = &dup, .iov_len = sizeof(dup) };
-
-	msg.msg_iov = &io;
-	msg.msg_iovlen = 1;
-	msg.msg_control = buf;
-	msg.msg_controllen = sizeof(buf);
-
-	if (recvmsg(socket, &msg, 0) < 0)
-		handle_error ("Failed to receive message");
-
-	cmsg = CMSG_FIRSTHDR(&msg);
-
-	memcpy(fds, (int *)CMSG_DATA(cmsg), n * sizeof(int));
-
-	return fds;
-}
-
 int main(int argc, char *argv[])
 {
 	int i;
