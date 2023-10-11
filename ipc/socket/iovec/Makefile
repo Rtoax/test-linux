@@ -1,5 +1,7 @@
 
-TARGETS := unix-server unix-client
+TARGETS := unix-server
+TARGETS += unix-client
+TARGETS += unix-client-memfd_create
 
 DEBUG = yes
 SRC_PATH := $(shell pwd)
