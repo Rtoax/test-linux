@@ -3,5 +3,9 @@
 pkgs=( make cmake gcc clang )
 pkgs+=( systemtap-sdt-devel )  # sdt.h
 pkgs+=( libdwarf-tools )       # dwarfdump
+pkgs+=( bpftrace bcc )         # eBPF
 
-sudo dnf install -y ${pkgs[@]}
+args=( --skip-broken )
+args+=( --nogpgcheck )
+
+sudo dnf install ${args[@]} -y ${pkgs[@]}
