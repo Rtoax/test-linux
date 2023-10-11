@@ -20,5 +20,6 @@ sudo sysctl -a | grep -w disable_ipv6
 
 ```
 $ sudo nmcli connection modify [InterfaceName] ipv6.method "disabled"
+$ sudo nmcli connection down [InterfaceName]
 $ sudo nmcli connection up [InterfaceName]
 ```
