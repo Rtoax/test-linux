@@ -20,7 +20,7 @@ void* print_xs(void* unused)
 	pthread_setname_np(pthread_self(), "pthread-child");
 
 	while (loop) {
-		fputc('x', stderr);
+		fprintf(stderr, "\033[31mx\033[m");
 		usleep(us);
 	}
 
