@@ -4,11 +4,12 @@
 # Copyright 2023 CESTC, Co.
 #
 # 2023-08-01	Rong Tao	Create this.
+# 2023-10-11	Rong Tao	Add --no-color argument.
 
 declare -a softirqs
 softirq_type=
 interval=5
-
+color=YES
 
 __usage__()
 {
@@ -16,6 +17,8 @@ __usage__()
  softirqs [args]
 
  -t, --type       HI | TIMER | NET_TX | NET_RX | BLOCK | IRQ_POLL | TASKLET | SCHED | HRTIMER | RCU
+
+ --no-color       no highlight color
 
  -h, --help       show this information
 "
@@ -25,6 +28,7 @@ __usage__()
 ARGS=$(getopt \
 	--options t:h \
 	--long type: \
+	--long no-color \
 	--long help \
 	-n softirqs -- "$@")
 
@@ -45,6 +49,10 @@ while true; do
 			exit 1
 		esac
 		shift
+		;;
+	--no-color)
+		shift
+		color=""
 		;;
 	-h | --help)
 		shift
@@ -74,13 +82,13 @@ print_softirqs()
 	echo "Printing /proc/softirqs, print with alignment"
 	echo "Show softirqs: $softirq_type, number ${#softirqs[@]}"
 	echo
-	echo -e -n "\033[1m"
+	[[ ! -z ${color} ]] && echo -e -n "\033[1m"
 	for ((i = 0; i < $interval - 1; i++))
 	do
 		printf "%-4s %-16s\t" CPU NUM
 	done
 	printf "%-4s %-16s\n" CPU NUM
-	echo -e -n "\033[m"
+	[[ ! -z ${color} ]] && echo -e -n "\033[m"
 
 
 	for ((i = 0; i < ${#softirqs[@]}; i+=$interval))
