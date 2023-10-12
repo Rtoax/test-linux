@@ -7,16 +7,18 @@
 BEGIN
 {
 	printf("Tracing kvm_page_fault, hit ctrl-c to end.\n");
-	printf("%-8s %-8s %-16s %-16s\n", "TIME", "PID", "COMM", "GPA");
+	printf("%-8s %-8s %-16s %-8s %-16s\n",
+		"TIME", "PID", "COMM", "VCPU", "GPA");
 }
 
 /* tracepoint in handle_ept_violation() */
 tracepoint:kvm:kvm_page_fault
 {
+	$vcpu_id = args->vcpu_id;
 	$gpa = args->fault_address;
 
 	time("%H:%M:%S ");
-	printf("%-8d %-16s %-16lx\n", pid, comm, $gpa);
+	printf("%-8d %-16s %-8d %-16lx\n", pid, comm, $vcpu_id, $gpa);
 	@stack[kstack] = count();
 }
 
