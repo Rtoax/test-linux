@@ -1,10 +1,28 @@
+TARGETS := main
 
-CFLAGS := -O0
+CC = gcc
 
-all:
-	gcc main.c ${CFLAGS} -S -o main.s
-	gcc main.c ${CFLAGS} -S -pg -o main-pg.s
+CFLAGS := -Werror -Wall -O0
+
+build: ${TARGETS}
+	@echo
+	@echo -e " \033[1;33m Done \033[m"
+
+main: main.o
+
+%.o: %.c
+	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
+	$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
+	$(CC) $(CFLAGS) $(CFLAGS_$(*)) -S $(<) -o $(<:.c=.s)
+	$(CC) $(CFLAGS) $(CFLAGS_$(*)) -S -pg $(<) -o $(<:.c=-pg.s)
+
+$(TARGETS): %:
+	@echo -e "Target   \033[1;32m$(@)\033[m"
+	$(CC) $(CFLAGS) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
+
+test: ${TARGETS}
+	@echo -e "Test   \033[1;32m$(@)\033[m"
 
 clean:
-	rm -f *.s *.S *.out
-
+	@echo -e "Clean   \033[1;32m$(@)\033[m"
+	@rm -f ${TARGETS} *.o *.d *.s
