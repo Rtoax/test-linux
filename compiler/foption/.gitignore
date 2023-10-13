@@ -1,2 +1,3 @@
 /fpatchable-function-entry
+/flto
 /*.s
