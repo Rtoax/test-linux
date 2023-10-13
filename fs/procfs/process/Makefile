@@ -1,0 +1,3 @@
+TARGETS := loginuid
+
+all: $(TARGETS)
