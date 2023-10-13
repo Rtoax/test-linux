@@ -1,5 +1,6 @@
 #include <stdio.h>
 
+/* Override -fpatchable-function-entry=N,M */
 #define __patchable(N,M) __attribute__ ((patchable_function_entry (N,M)))
 
 /**
@@ -16,14 +17,20 @@
  *    nop
  *    nop <------------------------------------------------
  */
-int __patchable(8,3) function_patchable(void)
+int __patchable(8,3) function_patchable_1(void)
 {
 	int a = 10, b = 20;
 	return printf("Hello World! %d %d\n", a, b);
 }
 
+int hello(void)
+{
+	return printf("Hello World!\n");
+}
+
 int main(void)
 {
-	function_patchable();
+	function_patchable_1();
+	hello();
 	return 0;
 }
