@@ -1,0 +1,11 @@
+#!/bin/bash
+#
+cmake \
+	-DCMAKE_INSTALL_PREFIX=/usr/ \
+	-DCMAKE_BUILD_TYPE=Debug \
+	-DBUILD_TESTING=ON \
+	-DVENDOR_GTEST=OFF \
+	..
+
+make -j$(nproc)
+# sudo make install
