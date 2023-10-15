@@ -1,4 +1,5 @@
 
+TARGETS += auto
 TARGETS += array
 TARGETS += compat
 TARGETS += ptr-dim
@@ -22,15 +23,22 @@ ifdef DEBUG
 CFLAGS += -DDEBUG -O0 -g -ggdb
 endif
 
+CFLAGS_auto := -Wno-error=implicit-int
+
 build: ${TARGETS}
 	@echo
 	@echo -e " \033[1;33m Done \033[m"
 
 # Add more object.o file
+auto: auto.o
 array: array.o
 compat: compat.o
 ptr-dim: ptr-dim.o helpers.o
 xor: xor.o
+
+%.o: %.c
+	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
+	$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
