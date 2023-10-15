@@ -4,6 +4,7 @@ TARGETS += compat
 TARGETS += ptr-dim
 TARGETS += xor
 TARGETS += __label__
+TARGETS += __typeof__
 
 ifeq ($(shell uname -m),x86_64)
 endif
@@ -15,6 +16,7 @@ SRC_PATH := $(shell pwd)
 CC = gcc
 
 CFLAGS := -Werror -Wall
+CFLAGS += -I../macro/
 
 ifdef DEBUG
 CFLAGS += -DDEBUG -O0 -g -ggdb
