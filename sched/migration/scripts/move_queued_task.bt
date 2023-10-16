@@ -2,6 +2,10 @@
 /**
  * move_queued_task.bt - Tracing migration/[core] task migration
  *
+ * The follow command could trigger migration:
+ *
+ *     $ while :; do ls >/dev/null; done
+ *
  * Copyright (C) Rong Tao 2022-2023
  *
  * 2023-10-16	Rong Tao	Create this.
@@ -22,6 +26,19 @@ kfunc:move_queued_task
 	time("%H:%M:%S ");
 	printf("%-8d %-16s %-16s -> %-8d\n",
 		pid, curtask->comm, args->p->comm, args->new_cpu);
+	@stack[kstack] = count();
+}
+
+/* execve() is a valuable balancing opportunity */
+kprobe:sched_exec
+{
+	@cnt_sched_exec = count();
+}
+
+/* NUMA balance relate migration */
+kprobe:migrate_task_to
+{
+	@cnt_numa_migrate = count();
 }
 
 END
