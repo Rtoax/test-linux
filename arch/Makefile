@@ -1,0 +1,44 @@
+
+TARGETS := cpu_relax
+ifeq ($(shell uname -m),x86_64)
+endif
+ifeq ($(shell uname -m),aarch64)
+endif
+
+DEBUG = yes
+SRC_PATH := $(shell pwd)
+CC = gcc
+
+CFLAGS := -Werror -Wall
+
+ifdef DEBUG
+CFLAGS += -DDEBUG -O0 -g
+endif
+
+.PHONY: build
+build: ${TARGETS}
+	@echo
+	@echo -e " \033[1;33m Done \033[m"
+
+# Add more object.o file
+cpu_relax: cpu_relax.o
+
+CFLAGS_cpu_relax :=
+
+
+%.o: %.c
+	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
+	$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
+	$(CC) $(CFLAGS) $(CFLAGS_$(*)) -S $(<) -o $(<:.c=.s)
+
+$(TARGETS): %:
+	@echo -e "Target   \033[1;32m$(@)\033[m"
+	$(CC) $(CFLAGS) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
+
+test: ${TARGETS}
+	@echo -e "Test   \033[1;32m$(@)\033[m"
+
+.PHONY: clean
+clean:
+	@echo -e "Clean   \033[1;32m$(@)\033[m"
+	@rm -f ${TARGETS} *.o *.d
