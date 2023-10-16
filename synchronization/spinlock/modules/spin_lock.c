@@ -23,7 +23,7 @@ int thread_function(void *data)
 {
 	int nr_inc = 10000;
 
-    while (!kthread_should_stop()) {
+	while (!kthread_should_stop()) {
 
 		if(nr_inc <= 0) {
 			msleep_interruptible(1000);
@@ -40,17 +40,17 @@ int thread_function(void *data)
 		}
 		spin_unlock(&my_spinlock);
 
-        schedule();
-    }
+		schedule();
+	}
 
-    printk(KERN_INFO "thread done, sum = %ld\n", my_sum);
-    return 0;
+	printk(KERN_INFO "thread done, sum = %ld\n", my_sum);
+	return 0;
 }
 
 static int kernel_init(void)
 {
 	int itask;
-    printk(KERN_INFO "mykthread init.\n");
+	printk(KERN_INFO "mykthread init.\n");
 
 	spin_lock_init(&my_spinlock);
 
@@ -58,7 +58,7 @@ static int kernel_init(void)
 		task[itask] = kthread_run(&thread_function, NULL, "rtoax-%d", itask);
 	}
 
-    return 0;
+	return 0;
 }
 
 static void kernel_exit(void)
@@ -67,7 +67,7 @@ static void kernel_exit(void)
 	for(itask = 0; itask < NR_KTHREAD; itask ++) {
 		kthread_stop(task[itask]);
 	}
-    printk(KERN_INFO "Exit, SUM = %ld\n", my_sum);
+	printk(KERN_INFO "Exit, SUM = %ld\n", my_sum);
 }
 
 module_init(kernel_init);

@@ -54,13 +54,13 @@ atomic64_init(atomic64_t *v)
 static inline int64_t
 atomic64_read(atomic64_t *v)
 {
-    return v->cnt;
+	return v->cnt;
 }
 
 static inline void
 atomic64_set(atomic64_t *v, int64_t new_value)
 {
-    atomic64_cmpset((volatile uint64_t *)&v->cnt, v->cnt, new_value);
+	atomic64_cmpset((volatile uint64_t *)&v->cnt, v->cnt, new_value);
 }
 
 static inline void

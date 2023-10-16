@@ -259,8 +259,8 @@ static __init int test_atomics_init(void)
 #else
 		"i386+",
 #endif
-	       boot_cpu_has(X86_FEATURE_CX8) ? "with" : "without",
-	       boot_cpu_has(X86_FEATURE_XMM) ? "with" : "without");
+	boot_cpu_has(X86_FEATURE_CX8) ? "with" : "without",
+	boot_cpu_has(X86_FEATURE_XMM) ? "with" : "without");
 #else
 	pr_info("passed\n");
 #endif
