@@ -90,7 +90,7 @@ void static_key_slow_inc(struct static_key *key)
 	if (atomic_inc_not_zero(&key->enabled))
 		return;
 
-    // jl lock()	
+	// jl lock()
 	if (atomic_read(&key->enabled) == 0) {
 		if (!jump_label_get_branch_default(key))
 			jump_label_update(key, JUMP_LABEL_ENABLE);
@@ -106,7 +106,7 @@ static void __static_key_slow_dec(struct static_key *key)
 	// lock and aquire mutex
 	if (!atomic_dec_and_mutex_lock(&key->enabled)) {
 		WARN(atomic_read(&key->enabled) < 0,
-		     "jump label: negative count!\n");
+			 "jump label: negative count!\n");
 		return;
 	}
 
@@ -148,16 +148,16 @@ static int __jump_label_text_reserved(struct jump_entry *iter_start,
 	return 0;
 }
 
-/* 
+/*
  * Update code which is definitely not currently executing.
  * Architectures which need heavyweight synchronization to modify
  * running code can override this to make the non-live update case
  * cheaper.
  */
 void arch_jump_label_transform_static(struct jump_entry *entry,
-					    enum jump_label_type type)
+						enum jump_label_type type)
 {
-	arch_jump_label_transform(entry, type);	
+	arch_jump_label_transform(entry, type);
 }
 
 static void __jump_label_update(struct static_key *key,
@@ -165,8 +165,8 @@ static void __jump_label_update(struct static_key *key,
 				struct jump_entry *stop, int enable)
 {
 	for (; (entry < stop) &&
-	      (entry->key == (jump_label_t)(unsigned long)key);
-	      entry++) {
+		  (entry->key == (jump_label_t)(unsigned long)key);
+		  entry++) {
 		/*
 		 * entry->code set to 0 invalidates module init text sections
 		 * kernel_text_address() verifies we are not in core kernel
@@ -187,7 +187,6 @@ static enum jump_label_type jump_label_type(struct static_key *key)
 
 	return JUMP_LABEL_DISABLE;
 }
-
 
 void jump_label_init(void)
 {
@@ -250,4 +249,3 @@ static void jump_label_update(struct static_key *key, int enable)
 	if (entry)
 		__jump_label_update(key, entry, stop, enable);
 }
-

@@ -9,19 +9,19 @@
 #define STATIC_KEY_INIT_NOP P6_NOP5_ATOMIC
 
 struct jump_entry {
-        uint64_t code;
-        uint64_t target;
-        uint64_t key;
+	uint64_t code;
+	uint64_t target;
+	uint64_t key;
 };
 
 typedef struct {
-        int counter;
+	int counter;
 } atomic_t;
 
 
 struct static_key {
-        atomic_t enabled;
-        struct jump_entry *entries;
+	atomic_t enabled;
+	struct jump_entry *entries;
 };
 
 struct static_key key;
@@ -52,5 +52,3 @@ int main (int argc, char *argv[])
 	printf("after\n");
 	return 0;
 }
-
-

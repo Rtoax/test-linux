@@ -1,11 +1,28 @@
-CPPFLAGS+=-Iinclude
-CFLAGS+=-O1 -g
+TARGETS := main
+TARGETS += jl
+
+CFLAGS += -Iinclude
+CFLAGS += -O1 -g
 
 .PHONY: all
-all: main
+all: $(TARGETS)
 
-main: main.c jump_label.c jump_label_x86.c
+main: main.o jump_label.o jump_label_x86.o
+jl: jl.o
+
+%.o: %.c
+	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
+	$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
+	$(CC) $(CFLAGS) $(CFLAGS_$(*)) -S $(<) -o $(<:.c=.s)
+
+$(TARGETS): %:
+	@echo -e "Target   \033[1;32m$(@)\033[m"
+	$(CC) $(CFLAGS) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
+
+test: ${TARGETS}
+	@echo -e "Test   \033[1;32m$(@)\033[m"
 
 .PHONY: clean
 clean:
-	rm -f main *.o *.s basic*
+	@echo -e "Clean   \033[1;32m$(@)\033[m"
+	@rm -f ${TARGETS} *.o *.d *.s

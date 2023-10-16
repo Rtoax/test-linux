@@ -61,7 +61,7 @@ static void bug_at(unsigned char *ip, int line)
 	 */
 
 	printf("Unexpected op at %p (%02x %02x %02x %02x %02x) %s:%d\n",
-	       ip, ip[0], ip[1], ip[2], ip[3], ip[4], __FILE__, line);
+		   ip, ip[0], ip[1], ip[2], ip[3], ip[4], __FILE__, line);
 	//assert(false);
 }
 
@@ -72,8 +72,8 @@ static void __jump_label_transform(struct jump_entry *entry,
 	const unsigned char default_nop[] = { STATIC_KEY_INIT_NOP };
 	const unsigned char ideal_nop[] = { STATIC_KEY_INIT_NOP };
 	union jump_code_union code = { .jump = 0xe9,
-				       .offset = entry->target - (entry->code + JUMP_LABEL_NOP_SIZE)
-				     };
+					   .offset = entry->target - (entry->code + JUMP_LABEL_NOP_SIZE)
+					 };
 
 	if (type == JUMP_LABEL_ENABLE) {
 //		printf("ENABLE\n");
@@ -83,7 +83,7 @@ static void __jump_label_transform(struct jump_entry *entry,
 			 * So we expect a default_nop...
 			 */
 			if (unlikely(memcmp((void *)entry->code, default_nop, 5)
-				     != 0))
+					 != 0))
 				bug_at((void *)entry->code, __LINE__);
 		} else {
 			/*
@@ -122,14 +122,14 @@ static void __jump_label_transform(struct jump_entry *entry,
 	 */
 
 	if (sk_mprotect((void *)entry->code, JUMP_LABEL_NOP_SIZE) == NULL)
-	    bug_at("sk_mprotect", __LINE__);
-	
+		bug_at("sk_mprotect", __LINE__);
+
 	// and now do the actual copy:
 	memcpy((void*) entry->code, &code, JUMP_LABEL_NOP_SIZE);
 }
 
 void arch_jump_label_transform(struct jump_entry *entry,
-			       enum jump_label_type type)
+				   enum jump_label_type type)
 {
 	__jump_label_transform(entry, type, 0);
 }

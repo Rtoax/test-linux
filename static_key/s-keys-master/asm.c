@@ -9,19 +9,19 @@
 #define STATIC_KEY_INIT_NOP P6_NOP5_ATOMIC
 
 struct jump_entry {
-        uint64_t code;
-        uint64_t target;
-        uint64_t key;
+	uint64_t code;
+	uint64_t target;
+	uint64_t key;
 };
 
 typedef struct {
-        int counter;
+	int counter;
 } atomic_t;
 
 
 struct static_key {
-        atomic_t enabled;
-        struct jump_entry *entries;
+	atomic_t enabled;
+	struct jump_entry *entries;
 };
 
 struct static_key key;
@@ -43,16 +43,13 @@ l_yes:
 	return true;
 }
 
-int main (int argc, char *argv[])
+int main(int argc, char *argv[])
 {
-//    __asm__ volatile goto (_ASM_ALIGN "\n\t" _ASM_PTR  "%l[l_yes]\n\t" : : : : l_yes );
-    __asm__ volatile (".pushsection __jump_table,  \"aw\" \n\t"
+	__asm__ volatile (".pushsection __jump_table,  \"aw\" \n\t"
 			".byte " stringify(STATIC_KEY_INIT_NOP) "\n\t"
 			".byte " stringify(STATIC_KEY_INIT_NOP) "\n\t"
 			".byte " stringify(STATIC_KEY_INIT_NOP) "\n\t"
 			".popsection \n\t" );
 
-    return 0;
+	return 0;
 }
-
-
