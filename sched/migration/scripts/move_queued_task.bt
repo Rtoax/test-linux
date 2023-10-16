@@ -2,7 +2,7 @@
 /**
  * move_queued_task.bt - Tracing migration/[core] task migration
  *
- * The follow command could trigger migration:
+ * The follow command could trigger migration on x86_64:
  *
  *     $ while :; do ls >/dev/null; done
  *
@@ -21,11 +21,14 @@ BEGIN
 		"TIME", "PID", "Migration", "TASK", "CPU");
 }
 
-kfunc:move_queued_task
+kprobe:move_queued_task
 {
+	$p = (struct task_struct *)arg2;
+	$new_cpu = arg3;
+
 	time("%H:%M:%S ");
 	printf("%-8d %-16s %-16s -> %-8d\n",
-		pid, curtask->comm, args->p->comm, args->new_cpu);
+		pid, curtask->comm, $p->comm, $new_cpu);
 	@stack[kstack] = count();
 }
 
