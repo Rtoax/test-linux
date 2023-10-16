@@ -7,12 +7,14 @@
 #include <stdbool.h>
 #include <pthread.h>
 
+#include "barrier.h"
+
 #define __unused __attribute__((unused))
 
 #if defined(HAVE_MBARRIER)
-static void __unused inline mrwbarrier() { asm volatile("mfence":::"memory"); }
-static void __unused inline mrbarrier()  { asm volatile("lfence":::"memory"); }
-static void __unused inline mwbarrier()  { asm volatile("sfence":::"memory"); }
+static void __unused inline mrwbarrier() { smp_rwmb(); }
+static void __unused inline mrbarrier()  { smp_rmb(); }
+static void __unused inline mwbarrier()  { smp_wmb(); }
 #else
 #define mrwbarrier()
 #define mrbarrier()
