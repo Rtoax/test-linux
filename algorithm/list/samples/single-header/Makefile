@@ -1,9 +1,8 @@
 
-TARGETS= \
-	./main.out
+TARGETS := main
 
 # Add more object.o file
-main.out: main.o
+main: main.o
 
 DEBUG = yes
 SRC_PATH := $(shell pwd)
@@ -33,7 +32,7 @@ $(TARGETS): %:
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
-	./main.out
+	./main
 
 clean:
 	@echo -e "Clean   \033[1;32m$(@)\033[m"

@@ -1,9 +1,8 @@
 
-TARGETS= \
-	./list_test.out
+TARGETS := list_test
 
 # Add more object.o file
-list_test.out: list_test.o list.o llist.o
+list_test: list_test.o list.o llist.o
 
 DEBUG = yes
 SRC_PATH := $(shell pwd)
@@ -32,7 +31,7 @@ $(TARGETS): %:
 	@$(CC) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
 
 test: ${TARGETS}
-	./list_test.out >/dev/null
+	./list_test >/dev/null
 
 clean:
 	@rm -f ${TARGETS} *.o *.d
