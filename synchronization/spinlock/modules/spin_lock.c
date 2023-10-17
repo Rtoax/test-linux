@@ -25,7 +25,7 @@ int thread_function(void *data)
 
 	while (!kthread_should_stop()) {
 
-		if(nr_inc <= 0) {
+		if (nr_inc <= 0) {
 			msleep_interruptible(1000);
 			printk("kthread sleep.\n");
 			continue;
@@ -34,7 +34,7 @@ int thread_function(void *data)
 		spin_lock(&my_spinlock);
 		my_sum++;
 		nr_inc--;
-		if(!nr_inc) {
+		if (!nr_inc) {
 			spin_unlock(&my_spinlock);
 			continue;
 		}
@@ -54,7 +54,7 @@ static int kernel_init(void)
 
 	spin_lock_init(&my_spinlock);
 
-	for(itask = 0; itask < NR_KTHREAD; itask ++) {
+	for (itask = 0; itask < NR_KTHREAD; itask++) {
 		task[itask] = kthread_run(&thread_function, NULL, "rtoax-%d", itask);
 	}
 
@@ -64,7 +64,7 @@ static int kernel_init(void)
 static void kernel_exit(void)
 {
 	int itask;
-	for(itask = 0; itask < NR_KTHREAD; itask ++) {
+	for (itask = 0; itask < NR_KTHREAD; itask++) {
 		kthread_stop(task[itask]);
 	}
 	printk(KERN_INFO "Exit, SUM = %ld\n", my_sum);
