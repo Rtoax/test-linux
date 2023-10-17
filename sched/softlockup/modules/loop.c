@@ -4,6 +4,10 @@
 
 struct task_struct *kt;
 
+static int sched = 0;
+module_param(sched, int, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+MODULE_PARM_DESC(sched, "Loop with schedule() switch on/off");
+
 /**
  * If CONFIG_PREEMPT=y, this infinite loop will not cause soft lockup,
  * otherwise, it'll cause soft lockup.
@@ -13,6 +17,11 @@ static int loop_func(void *arg)
 	int i = 0;
 	while (!kthread_should_stop()) {
 		i++;
+
+		/* If never call schedule(), CPU stuck on this loop forever,
+		 * then soft lockup will happen. */
+		if (sched)
+			schedule();
 	}
 	return 0;
 }
