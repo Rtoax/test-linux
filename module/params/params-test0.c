@@ -1,13 +1,13 @@
 /**
- *	File ./params-test0.c 
+ *	File ./params-test0.c
  *	Time 2021.11.03
  *	Author	Rong Tao <rongtao@cestc.cn>
  */
 #include <linux/module.h>
 #include <linux/moduleparam.h>
 #include <linux/init.h>
-#include <linux/kernel.h> 
- 
+#include <linux/kernel.h>
+
 #define SIZE 8
 
 MODULE_LICENSE("GPL");
@@ -105,7 +105,7 @@ module_param(devname, charp, 0660);
 
 static int simple_init(void)
 {
-	printk(KERN_WARNING "irq=%d num=%d name=%s debug=%d\n", 
+	printk(KERN_WARNING "irq=%d num=%d name=%s debug=%d\n",
 			irq, num, devname, debug);
 	return 0;
 }

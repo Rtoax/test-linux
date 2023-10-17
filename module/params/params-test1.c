@@ -1,5 +1,5 @@
 /**
- *	File ./params-test1.c 
+ *	File ./params-test1.c
  *	Time 2021.11.03
  *	Author	Rong Tao <rongtao@cestc.cn>
  */
@@ -47,7 +47,7 @@ MODULE_PARM_DESC(mystring, "A character string");
 module_param_array(myintArray, int, &arr_argc, 0000);
 MODULE_PARM_DESC(myintArray, "An array of integers");
 
-static int 
+static int
 __init hello_5_init(void)
 {
     int i;
@@ -56,7 +56,7 @@ __init hello_5_init(void)
     printk(KERN_INFO "myint is an integer: %d\n", myint);
     printk(KERN_INFO "mylong is a long integer: %ld\n", mylong);
     printk(KERN_INFO "mystring is a string: %s\n", mystring);
-    
+
     for (i = 0; i < (sizeof myintArray / sizeof (int)); i++) {
         printk(KERN_INFO "myintArray[%d] = %d\n", i, myintArray[i]);
     }
@@ -64,7 +64,7 @@ __init hello_5_init(void)
     return 0;
 }
 
-static void 
+static void
 __exit hello_5_exit(void)
 {
     printk(KERN_INFO "Goodbye, world 5\n");
