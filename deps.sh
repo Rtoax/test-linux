@@ -4,6 +4,7 @@ pkgs=( make cmake gcc clang gdb )
 pkgs+=( systemtap-sdt-devel )  # sdt.h
 pkgs+=( libdwarf-tools )       # dwarfdump
 pkgs+=( bpftrace bcc )         # eBPF
+pkgs+=( efivar mokutil )       # UEFI
 
 args=( --skip-broken )
 args+=( --nogpgcheck )
