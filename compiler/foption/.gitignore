@@ -1,3 +1,7 @@
 /fpatchable-function-entry
 /flto
+/fstack-protector
+/fstack-protector-all
+/fstack-protector-strong
+/fstack-protector-explicit
 /*.s

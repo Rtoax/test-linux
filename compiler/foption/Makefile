@@ -1,6 +1,7 @@
 
 TARGETS := fpatchable-function-entry
 TARGETS += flto
+TARGETS += fstack-protector fstack-protector-all fstack-protector-strong fstack-protector-explicit
 
 CC = gcc
 
@@ -9,6 +10,10 @@ CFLAGS := -Werror -Wall
 # N,M M=0 by default
 CFLAGS_fpatchable-function-entry := -fpatchable-function-entry=5,2
 CFLAGS_flto := -flto=auto
+CFLAGS_fstack-protector := -fstack-protector
+CFLAGS_fstack-protector-all := -fstack-protector-all
+CFLAGS_fstack-protector-strong := -fstack-protector-strong
+CFLAGS_fstack-protector-explicit := -fstack-protector-explicit
 
 build: ${TARGETS}
 	@echo
@@ -16,6 +21,10 @@ build: ${TARGETS}
 
 fpatchable-function-entry: fpatchable-function-entry.o
 flto: flto.o
+fstack-protector: fstack-protector.o
+fstack-protector-all: fstack-protector-all.o
+fstack-protector-explicit: fstack-protector-explicit.o
+fstack-protector-strong: fstack-protector-strong.o
 
 %.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
