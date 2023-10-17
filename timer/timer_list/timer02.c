@@ -15,17 +15,17 @@ static int stop = 1;
 /* number of timer */
 static int nr = 1000;
 module_param(nr, int, 0644);
-MODULE_PARM_DESC(nr, "nr");
+MODULE_PARM_DESC(nr, "Number of timers");
 
 /* timer's interval */
 static int interval = 100;
 module_param(interval, int, 0644);
-MODULE_PARM_DESC(interval, "");
+MODULE_PARM_DESC(interval, "Interval of timer");
 
 /* elapsed time */
 static int dt = 200;
 module_param(dt, int, 0644);
-MODULE_PARM_DESC(dt, "");
+MODULE_PARM_DESC(dt, "Timer's callback occupy");
 
 struct wrapper {
 	struct timer_list timer;
@@ -34,6 +34,11 @@ struct wrapper {
 
 struct wrapper *wr;
 
+/**
+ * Timer callback in softirq, it's can't be preempted by any task. If all the
+ * timer's callbacks spent time bigger than 20s(watchdog), soft lockup will
+ * happen.
+ */
 static void timer_func(struct timer_list *t)
 {
 	struct wrapper *w = from_timer(w, t, timer);
@@ -75,7 +80,7 @@ static void __exit maint_exit(void)
 	udelay(100);
 	for (i = 0; i < nr; i++) {
 		struct wrapper *w = &wr[i];
-		del_timer_sync(&(w->timer));
+		del_timer_sync(&w->timer);
 	}
 	kfree(wr);
 }
