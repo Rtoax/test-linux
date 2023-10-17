@@ -1,6 +1,7 @@
 
 TARGETS :=
 TARGETS += fcf-protection
+TARGETS += ffat-lto-objects
 TARGETS += fpatchable-function-entry
 TARGETS += flto
 TARGETS += fstack-protector fstack-protector-all fstack-protector-strong fstack-protector-explicit
@@ -11,6 +12,7 @@ CFLAGS := -Werror -Wall
 
 # N,M M=0 by default
 CFLAGS_fcf-protection := -fcf-protection
+CFLAGS_ffat-lto-objects := -flto -ffat-lto-objects
 CFLAGS_fpatchable-function-entry := -fpatchable-function-entry=5,2
 CFLAGS_flto := -flto=auto
 CFLAGS_fstack-protector := -fstack-protector
@@ -23,6 +25,7 @@ build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
 fcf-protection: fcf-protection.o
+ffat-lto-objects: ffat-lto-objects.o
 fpatchable-function-entry: fpatchable-function-entry.o
 flto: flto.o
 fstack-protector: fstack-protector.o
