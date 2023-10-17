@@ -1,4 +1,5 @@
 /create_thread
+/multi_thread_stress
 /dead_lock-[0-9]
 /pthread_atfork
 /pthread_attr_setstacksize

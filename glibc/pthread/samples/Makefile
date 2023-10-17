@@ -1,6 +1,7 @@
 
 TARGETS += pthread_atfork
 TARGETS += create_thread
+TARGETS += multi_thread_stress
 TARGETS += dead_lock-1
 TARGETS += dead_lock-2
 TARGETS += pthread_attr_setstacksize
@@ -83,6 +84,7 @@ build: ${TARGETS}
 
 # Add more object.o file
 create_thread: create_thread.o
+multi_thread_stress: multi_thread_stress.o
 dead_lock-1: dead_lock-1.o
 dead_lock-2: dead_lock-2.o
 pthread_atfork: pthread_atfork.o
