@@ -2,23 +2,47 @@
 answer=N
 [[ ! -z $1 ]] && answer=$1
 
-no_commit_files() {
-	echo "Files not commited will be removed:"
-	git status --porcelain | grep '^??' | cut -c4- | sed 's/^/- /g'
+declare -a no_commit_files ignore_files
+
+get_no_commit_files() {
+	no_commit_files=( $(git status --porcelain | grep '^??' | cut -c4- | tr -d ' ') )
 }
 
-ignore_files() {
-	echo "Files ignored will be removed:"
-	git clean -dfx --dry-run | sed 's/^/- /g'
+get_ignore_files() {
+	ignore_files=( $(git clean -dfx --dry-run | sed 's/Would remove//g' | tr -d ' ') )
 }
 
-pre_hint() {
-	no_commit_files
-	ignore_files
+print_list() {
+	local list=( $@ )
+	local i
+	for ((i = 1; i <= ${#list[@]}; i++))
+	do
+		printf "\t%s\n" ${list[$i]}
+	done
+}
+
+pre_check() {
+	get_no_commit_files
+	get_ignore_files
+
+	if [[ -z "${no_commit_files[@]}" ]] && [[ -z "${ignore_files[@]}" ]]; then
+		echo "Nothing to clean"
+		exit 0
+	fi
+
+	if [[ "${no_commit_files[@]}" ]]; then
+		echo "Files not commited will be removed:"
+		print_list ${no_commit_files[@]}
+	fi
+
+	if [[ "${ignore_files[@]}" ]]; then
+		echo "Files ignored will be removed:"
+		print_list ${ignore_files[@]}
+	fi
 }
 
 if [[ ${answer} != y ]]; then
-	while pre_hint && read -p "Are you sure? [N/y] " answer
+	while pre_check && read -p "Are you sure? [N/y] " answer
 	do
 		case $answer in
 		y | Y | Yes | yes | YES)
