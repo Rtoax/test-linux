@@ -69,6 +69,8 @@ else ifeq ($(OS),debian)
 	CFLAGS += -DHAVE_NO_SQRT=1
 else ifeq ($(OS),fedora)
 	CFLAGS += -DHAVE_NO_SQRT=1
+else ifeq ($(OS),centos)
+	CFLAGS += -DHAVE_NO_SQRT=1
 endif
 
 ifdef DEBUG
