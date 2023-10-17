@@ -15,6 +15,9 @@ static DECLARE_COMPLETION(cpu_running);
 
 static int thread1(void *data)
 {
+	const int ms = 2000;
+	printk(KERN_INFO "Sleep %d ms\n", ms);
+	msleep(ms);
 	complete(&cpu_running);
 	return 0;
 }
