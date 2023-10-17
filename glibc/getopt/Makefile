@@ -2,6 +2,7 @@
 TARGETS += getopt
 TARGETS += getopt_long
 TARGETS += demo-wls
+TARGETS += demo-clr
 
 ifeq ($(shell uname -m),x86_64)
 endif
@@ -26,6 +27,7 @@ build: ${TARGETS}
 getopt: getopt.o
 getopt_long: getopt_long.o
 demo-wls: demo-wls.o
+demo-clr: demo-clr.o
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
