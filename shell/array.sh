@@ -3,7 +3,7 @@
 read_array()
 {
 	pkgs="a b c"
-	read -a arr <<< pkgs
+	read -a arr <<< ${pkgs[@]}
 	echo ${arr[@]}
 }
 
