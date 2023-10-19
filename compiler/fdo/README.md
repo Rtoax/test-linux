@@ -2,6 +2,14 @@ FDO
 ===
 
 
+* FDO: Feedback Directed Optimization
+* FDO: Feedback Driven Optimization
+* PGO: Profile Guided Optimization
+	* Profile guided optimization (PGO), also known as profile-directed feedback (PDF)
+* PDF: Profile Directed Feedback
+* PFO: Profile Feedback Optimization
+
+
 # 注意点
 
 - 当使用`-O0`编译时，FDO相关参数不生效；
