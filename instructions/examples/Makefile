@@ -20,6 +20,7 @@ TARGETS += rdtsc_evil
 TARGETS += fsin
 TARGETS += bswapl
 TARGETS += _mm_clflush
+TARGETS += vgetbv
 TARGETS += stosb memset
 TARGETS += nop
 TARGETS += rdmsr
@@ -46,6 +47,7 @@ rdtsc_cmp: rdtsc_cmp.o
 rdtsc_evil: rdtsc_evil.o
 _mm_clflush: _mm_clflush.o
 fsin: fsin.o
+vgetbv: vgetbv.o
 stosb: stosb.o
 memset: memset.o
 nop: nop.o
