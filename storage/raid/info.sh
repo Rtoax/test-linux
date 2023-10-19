@@ -4,6 +4,8 @@ dev_raid_metadata() {
 	local dev=$1
 	# -E, --examine Print contents of the metadata stored on the named device(s)
 	sudo mdadm --examine ${dev}
+	# formatted as key=value pairs
+	sudo mdadm --examine --export ${dev}
 }
 
 find_raid() {
