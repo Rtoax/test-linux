@@ -1,6 +1,7 @@
 
 TARGETS += auto
 TARGETS += array
+TARGETS += param-pass
 TARGETS += compat
 TARGETS += ptr-dim
 TARGETS += xor
@@ -24,6 +25,7 @@ CFLAGS += -DDEBUG -O0 -g -ggdb
 endif
 
 CFLAGS_auto := -Wno-error=implicit-int
+CFLAGS_param-pass := -O0 -I../macro/
 
 build: ${TARGETS}
 	@echo
@@ -31,6 +33,7 @@ build: ${TARGETS}
 
 # Add more object.o file
 auto: auto.o
+param-pass: param-pass.o
 array: array.o
 compat: compat.o
 ptr-dim: ptr-dim.o helpers.o
@@ -39,10 +42,11 @@ xor: xor.o
 %.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
+	$(CC) $(CFLAGS) $(CFLAGS_$(*)) -S $(<) -o $(<:.c=.s)
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
 
 clean:
 	@echo -e "Clean   \033[1;32m$(@)\033[m"
-	@rm -f ${TARGETS} *.o *.d
+	@rm -f ${TARGETS} *.o *.d *.s

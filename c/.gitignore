@@ -1,7 +1,9 @@
 /auto
 /array
+/param-pass
 /compat
 /ptr-dim
 /xor
 /__label__
 /__typeof__
+/*.s
