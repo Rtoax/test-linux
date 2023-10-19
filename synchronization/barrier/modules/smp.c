@@ -10,7 +10,13 @@ static struct task_struct *task[2];
 int writer(void *data)
 {
 	while (!kthread_should_stop()) {
+#if 0
+		/* Same as smp_store_release() */
+		smp_wmb();
+		WRITE_ONCE(writer_task, current);
+#else
 		smp_store_release(&writer_task, current);
+#endif
 		schedule();
 	}
 	return 0;

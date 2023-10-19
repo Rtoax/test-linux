@@ -5,6 +5,8 @@ pkgs+=( systemtap-sdt-devel )  # sdt.h
 pkgs+=( libdwarf-tools )       # dwarfdump
 pkgs+=( bpftrace bcc )         # eBPF
 pkgs+=( efivar mokutil )       # UEFI
+pkgs+=( mmc )                  # mmc
+pkgs+=( lshw )                 # lshw
 
 args=( --skip-broken )
 args+=( --nogpgcheck )
