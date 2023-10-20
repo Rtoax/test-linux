@@ -1,7 +1,7 @@
 CC = clang
 CFLAGS := -Werror -Wall -pthread
 CFLAGS += -DHAVE_MBARRIER=1
-CFLAGS += -I../../../synchronization/barrier/
+CFLAGS += -I$(shell realpath .)/../../../synchronization/barrier/
 
 TARGETS := barrier
 
