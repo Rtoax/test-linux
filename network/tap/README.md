@@ -3,6 +3,21 @@ TAP/TUN
 
 # TAP/TUN
 
+- TUN: network TUNnel
+- TAP:
+
+```
++----------------+             +----------------+
+| Transport Layer|             | Transport Layer|
++----------------+     TUN     +----------------+
+|  Network Layer | <---------> |  Network Layer |
++----------------+             +----------------+
+| DateLink Layer | <---------> | DateLink Layer |
++----------------+     TAP     +----------------+
+| Physical Layer |             | Physical Layer |
++----------------+             +----------------+
+```
+
 TAP 设备与 TUN 设备工作方式完全相同, 区别在于：
 
 * `TUN` 设备是一个`三层设备`，它只模拟到了 IP 层，即网络层 我们可以通过 `/dev/tunX` 文件收发 IP 层数据包，它无法与物理网卡做 bridge，但是可以通过三层交换（如 `ip_forward`）与物理网卡连通。可以使用ifconfig之类的命令给该设备设定 IP 地址。
@@ -14,4 +29,5 @@ tun 和 tap 设备都是通过 Linux 内核中的 tun 驱动创建的，tun 驱�
 # Links
 
 - https://wiki.qemu.org/Documentation/Networking
+- https://en.wikipedia.org/wiki/TUN/TAP
 
