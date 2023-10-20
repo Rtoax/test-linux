@@ -139,4 +139,4 @@ test: ${TARGETS}
 
 clean:
 	@echo -e "Clean   \033[1;32m$(@)\033[m <$(OS)>"
-	@rm -f ${TARGETS} *.o *.d *.log
+	@rm -f ${TARGETS} *.o *.d *.log *.s
