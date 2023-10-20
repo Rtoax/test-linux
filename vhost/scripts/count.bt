@@ -1,0 +1,12 @@
+#!/bin/env bpftrace
+
+BEGIN
+{
+	printf("Statistic vhost count, hit ctrl-c to end.\n");
+}
+
+kprobe:vhost_*
+{
+	@comm[comm] = count();
+	@probe[probe] = count();
+}
