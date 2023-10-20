@@ -49,9 +49,6 @@ TARGETS += pthread_mutex_latency
 endif
 
 OS := $(shell grep ^ID= /etc/os-release | sed 's/ID=//g' | sed 's/"//g')
-ifeq ($(OS),)
-	OS=linux
-endif
 
 DEBUG = yes
 SRC_PATH := $(shell pwd)
@@ -62,19 +59,6 @@ CC = gcc
 CFLAGS := -Werror -Wall -pthread
 CFLAGS += -I../../../
 CFLAGS += -lm
-
-# FIXME: Not use OS type
-ifeq ($(OS),ubuntu)
-	CFLAGS += -DHAVE_NO_SQRT=1
-else ifeq ($(OS),debian)
-	CFLAGS += -DHAVE_NO_SQRT=1
-else ifeq ($(OS),fedora)
-	CFLAGS += -DHAVE_NO_SQRT=1
-else ifeq ($(OS),centos)
-	CFLAGS += -DHAVE_NO_SQRT=1
-else ifeq ($(OS),arch)
-	CFLAGS += -DHAVE_NO_SQRT=1
-endif
 
 ifdef DEBUG
 CFLAGS += -DDEBUG -O0 -g
@@ -140,6 +124,15 @@ pthread_mutex_init: pthread_mutex_init.o
 pthread_mutex_latency: pthread_mutex_latency.o
 pthread_setconcurrency: pthread_setconcurrency.o
 pthread_cond_wait: pthread_cond_wait.o
+
+%.o: %.c
+	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
+	$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
+	$(CC) $(CFLAGS) $(CFLAGS_$(*)) -S $(<) -o $(<:.c=.s)
+
+$(TARGETS): %:
+	@echo -e "Target   \033[1;32m$(@)\033[m"
+	$(CC) $(CFLAGS) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m <$(OS)>"

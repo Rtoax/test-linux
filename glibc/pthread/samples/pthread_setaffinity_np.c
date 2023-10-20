@@ -16,11 +16,7 @@ double waste_time(long n)
 
 	while (i < n * 200000000) {
 		i++;
-#if defined(HAVE_NO_SQRT)
-		res += 1;
-#else
 		res += sqrt(i);
-#endif
 	}
 	return res;
 }
