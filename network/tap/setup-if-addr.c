@@ -16,6 +16,7 @@
 
 
 #define IF_NAME	"tun_rongtao"
+#define IF_ADDR	"10.170.6.90"
 
 /* This is copied from srsue gw */
 int setup_if_addr(char *ip_addr, char *netmask)
@@ -74,8 +75,16 @@ int setup_if_addr(char *ip_addr, char *netmask)
 
 int main(void)
 {
-	int fd = setup_if_addr("10.170.6.90", "255.255.255.0");
+	int fd;
+
+	/* Create virtual device */
+	fd = setup_if_addr(IF_ADDR, "255.255.255.0");
+
+	/* Show virtual device */
 	system("ifconfig " IF_NAME);
+	system("ping -c 3 " IF_ADDR);
+
+	/* Delete virtual device */
 	close(fd);
 	return 0;
 }
