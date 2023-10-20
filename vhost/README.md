@@ -56,7 +56,7 @@ vhost
  Host Kernel Space     | |
                        | |
                  +-----v-+-----+
-                 | vhost-user  |
+                 | vhost-net   |
                  +-------------+
 ```
 
