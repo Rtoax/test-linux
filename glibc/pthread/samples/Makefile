@@ -1,4 +1,5 @@
 
+TARGETS += foobar
 TARGETS += pthread_atfork
 TARGETS += create_thread
 TARGETS += multi_thread_stress
@@ -69,6 +70,7 @@ build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
 # Add more object.o file
+foobar: foobar.o
 create_thread: create_thread.o
 multi_thread_stress: multi_thread_stress.o
 dead_lock-1: dead_lock-1.o

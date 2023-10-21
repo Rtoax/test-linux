@@ -1,4 +1,5 @@
 /*.s
+/foobar
 /create_thread
 /multi_thread_stress
 /dead_lock-[0-9]
