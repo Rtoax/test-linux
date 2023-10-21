@@ -1,5 +1,6 @@
 
 TARGETS := call-func call-func-ret
+TARGETS += jmp jg jl
 TARGETS += write write-2
 
 TARGETS_todo := echo
@@ -28,6 +29,9 @@ build: ${TARGETS}
 echo: echo.o
 call-func: call-func.o
 call-func-ret: call-func-ret.o
+jmp: jmp.o
+jg: jg.o
+jl: jl.o
 write: write.o
 write-2: write-2.o
 
