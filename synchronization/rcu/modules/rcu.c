@@ -1,0 +1,120 @@
+#include <linux/init.h>
+#include <linux/module.h>
+#include <linux/kernel.h>
+#include <linux/kthread.h>
+#include <linux/sched.h>
+#include <linux/delay.h>
+#include <linux/mm.h>
+#include <linux/completion.h>
+
+
+struct task_struct *tasks[2];
+
+struct foo {
+	int a;
+	char b;
+	long c;
+};
+DEFINE_SPINLOCK(foo_mutex);
+
+struct foo __rcu *gbl_foo;
+
+/*
+ * Create a new struct foo that is the same as the one currently
+ * pointed to by gbl_foo, except that field "a" is replaced
+ * with "new_a".  Points gbl_foo to the new structure, and
+ * frees up the old structure after a grace period.
+ *
+ * Uses rcu_assign_pointer() to ensure that concurrent readers
+ * see the initialized version of the new structure.
+ *
+ * Uses synchronize_rcu() to ensure that any readers that might
+ * have references to the old structure complete before freeing
+ * the old structure.
+ */
+void foo_update_a(int new_a)
+{
+	struct foo *new_fp;
+	struct foo *old_fp;
+
+	new_fp = kmalloc(sizeof(*new_fp), GFP_KERNEL);
+	spin_lock(&foo_mutex);
+	old_fp = rcu_dereference_protected(gbl_foo, lockdep_is_held(&foo_mutex));
+	*new_fp = *old_fp;
+	new_fp->a = new_a;
+	rcu_assign_pointer(gbl_foo, new_fp);
+	spin_unlock(&foo_mutex);
+	synchronize_rcu();
+	kfree(old_fp);
+}
+
+/*
+ * Return the value of field "a" of the current gbl_foo
+ * structure.  Use rcu_read_lock() and rcu_read_unlock()
+ * to ensure that the structure does not get deleted out
+ * from under us, and use rcu_dereference() to ensure that
+ * we see the initialized version of the structure (important
+ * for DEC Alpha and for people reading the code).
+ */
+int foo_get_a(void)
+{
+	int retval;
+
+	rcu_read_lock();
+	retval = rcu_dereference(gbl_foo)->a;
+	rcu_read_unlock();
+	return retval;
+}
+
+static int thread1(void *data)
+{
+	int val = 0;
+
+	while (val++ < 10000) {
+		foo_update_a(val);
+
+		while (!kthread_should_stop())
+			schedule();
+	}
+	printk(KERN_INFO "Thread1: exit.\n");
+	return 0;
+}
+
+static int thread2(void *data)
+{
+	int old_val, val;
+
+	old_val = val = -1;
+
+	while (true) {
+		old_val = foo_get_a();
+		if (val != old_val) {
+			val = old_val;
+			printk(KERN_INFO "RCU get %d\n", val);
+		}
+		while (!kthread_should_stop())
+			schedule();
+	}
+	printk(KERN_INFO "Thread2: exit.\n");
+	return 0;
+}
+
+static int kernel_init(void)
+{
+	tasks[0] = kthread_run(&thread1, NULL, "rtoax-writer");
+	tasks[1] = kthread_run(&thread2, NULL, "rtoax-reader");
+	return 0;
+}
+
+static void kernel_exit(void)
+{
+	int i;
+
+	for (i = 0; i < 2; i++)
+		kthread_stop(tasks[i]);
+}
+
+module_init(kernel_init);
+module_exit(kernel_exit);
+MODULE_AUTHOR("Rong Tao");
+MODULE_LICENSE("GPL");
