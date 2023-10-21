@@ -7,6 +7,7 @@ pkgs+=( bpftrace bcc )         # eBPF
 pkgs+=( efivar mokutil )       # UEFI
 pkgs+=( mmc )                  # mmc
 pkgs+=( lshw )                 # lshw
+pkgs+=( nasm )                 # nasm
 
 args=( --skip-broken )
 args+=( --nogpgcheck )
