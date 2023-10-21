@@ -1,1 +1,5 @@
 /echo
+/call-func
+/call-func-ret
+/write
+/write-2

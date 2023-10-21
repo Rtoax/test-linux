@@ -1,5 +1,8 @@
 
-TARGETS := echo
+TARGETS := call-func call-func-ret
+TARGETS += write write-2
+
+TARGETS_todo := echo
 ifeq ($(shell uname -m),x86_64)
 endif
 ifeq ($(shell uname -m),aarch64)
@@ -23,6 +26,10 @@ build: ${TARGETS}
 
 # Add more object.o file
 echo: echo.o
+call-func: call-func.o
+call-func-ret: call-func-ret.o
+write: write.o
+write-2: write-2.o
 
 %.o: %.asm
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
@@ -30,7 +37,7 @@ echo: echo.o
 
 $(TARGETS): %.o:
 	@echo -e "Target   \033[1;32m$(@)\033[m"
-	$(CC) $(CFLAGS) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
+	ld -m elf_i386 -o $(@) $(^)
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
