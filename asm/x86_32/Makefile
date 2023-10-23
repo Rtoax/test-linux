@@ -3,6 +3,8 @@ TARGETS := call-func call-func-ret
 TARGETS += jmp jg jl
 TARGETS += write write-2
 
+TARGETS_gcc := factorial_call
+
 TARGETS_todo := echo
 ifeq ($(shell uname -m),x86_64)
 endif
@@ -21,7 +23,7 @@ CFLAGS += -DDEBUG -O0 -g
 endif
 
 .PHONY: build
-build: ${TARGETS}
+build: ${TARGETS} ${TARGETS_gcc}
 	@echo
 	@echo -e " \033[1;33m Done \033[m"
 
@@ -34,6 +36,7 @@ jg: jg.o
 jl: jl.o
 write: write.o
 write-2: write-2.o
+factorial_call: factorial_call.o factorial.o
 
 %.o: %.asm
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
@@ -43,6 +46,10 @@ $(TARGETS): %.o:
 	@echo -e "Target   \033[1;32m$(@)\033[m"
 	ld -m elf_i386 -o $(@) $(^)
 
+$(TARGETS_gcc): %.o:
+	@echo -e "Target   \033[1;32m$(@)\033[m"
+	gcc -m32 -o $(@) $(^)
+
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
 	./echo Hello World
@@ -50,4 +57,4 @@ test: ${TARGETS}
 .PHONY: clean
 clean:
 	@echo -e "Clean   \033[1;32m$(@)\033[m"
-	@rm -f ${TARGETS} *.o *.d
+	@rm -f ${TARGETS} ${TARGETS_gcc} *.o *.d
