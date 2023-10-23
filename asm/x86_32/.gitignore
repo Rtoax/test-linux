@@ -2,6 +2,7 @@
 /call-func
 /call-func-ret
 /factorial_call
+/maxofthree_call
 /jmp
 /jg
 /jl

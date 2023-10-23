@@ -5,10 +5,10 @@
 ;        return (n <= 1) ? 1 : n * factorial(n-1);
 ;    }
 ; Illustration of a recursive function.
-; ----------------------------------------------------------------------------	
+; ----------------------------------------------------------------------------
 
 	global factorial
-	
+
 	section .text
 factorial:
         mov     eax, [esp+4]		; n

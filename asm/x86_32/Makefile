@@ -4,6 +4,7 @@ TARGETS += jmp jg jl
 TARGETS += write write-2
 
 TARGETS_gcc := factorial_call
+TARGETS_gcc += maxofthree_call
 
 TARGETS_todo := echo
 ifeq ($(shell uname -m),x86_64)
@@ -37,6 +38,7 @@ jl: jl.o
 write: write.o
 write-2: write-2.o
 factorial_call: factorial_call.o factorial.o
+maxofthree_call: maxofthree_call.o maxofthree.o
 
 %.o: %.asm
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
