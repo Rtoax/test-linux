@@ -8,16 +8,33 @@
 #include <linux/completion.h>
 
 
+static int stuck = 1;
+
+module_param(stuck, int, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+MODULE_PARM_DESC(stuck, "Use synchronize_rcu() if 1, use call_rcu if 0");
+
+
 struct task_struct *tasks[2];
 
 struct foo {
 	int a;
 	char b;
 	long c;
+	struct rcu_head rcu;
 };
 DEFINE_SPINLOCK(foo_mutex);
 
 struct foo __rcu *gbl_foo;
+
+
+void foo_cleanup(int a) {}
+
+void foo_reclaim(struct rcu_head *rp)
+{
+	struct foo *fp = container_of(rp, struct foo, rcu);
+	foo_cleanup(fp->a);
+	kfree(fp);
+}
 
 /*
  * Create a new struct foo that is the same as the one currently
@@ -31,6 +48,10 @@ struct foo __rcu *gbl_foo;
  * Uses synchronize_rcu() to ensure that any readers that might
  * have references to the old structure complete before freeing
  * the old structure.
+ *
+ * Uses call_rcu() to ensure that any readers that might have
+ * references to the old structure complete before freeing the
+ * old structure.
  */
 void foo_update_a(int new_a)
 {
@@ -45,9 +66,14 @@ void foo_update_a(int new_a)
 	rcu_assign_pointer(gbl_foo, new_fp);
 	spin_unlock(&foo_mutex);
 
-	/* Wait all read access done */
-	synchronize_rcu();
-	kfree(old_fp);
+	if (stuck) {
+		/* Block and wait all read access done */
+		synchronize_rcu();
+		kfree(old_fp);
+	} else {
+		/* If it is not permitted to block */
+		call_rcu(&old_fp->rcu, foo_reclaim);
+	}
 }
 
 /*
