@@ -1,7 +1,7 @@
 #include <pthread.h>
 #include <stdio.h>
 
-#include "log.h"
+#include <libs/log.h>
 
 
 void* test_task_fn(void* unused)

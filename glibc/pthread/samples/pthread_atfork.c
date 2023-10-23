@@ -8,7 +8,7 @@
 #include <errno.h>
 #include <signal.h>
 
-#include "log.h"
+#include <libs/log.h>
 
 int count = 0;
 pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;

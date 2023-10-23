@@ -11,7 +11,7 @@
 #include <stdio.h>
 #include <unistd.h>
 
-#include "log.h"
+#include <libs/log.h>
 
 
 void* test_task_fn(void* unused)

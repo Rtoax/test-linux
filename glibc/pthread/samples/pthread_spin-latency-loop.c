@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdint.h>
 
-#include "log.h"
+#include <libs/log.h>
 
 
 pthread_spinlock_t spinlock, spinlock2;

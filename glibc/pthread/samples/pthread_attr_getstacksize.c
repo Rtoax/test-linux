@@ -4,7 +4,7 @@
 #include <pthread.h>
 #include <sys/types.h>
 
-#include "log.h"
+#include <libs/log.h>
 
 
 void *thread(void *arg)
