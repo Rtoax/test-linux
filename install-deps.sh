@@ -12,4 +12,5 @@ pkgs+=( nasm )                 # nasm
 args=( --skip-broken )
 args+=( --nogpgcheck )
 
+sudo dnf up -y
 sudo dnf install ${args[@]} -y ${pkgs[@]}
