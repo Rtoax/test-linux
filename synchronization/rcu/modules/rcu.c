@@ -44,6 +44,8 @@ void foo_update_a(int new_a)
 	new_fp->a = new_a;
 	rcu_assign_pointer(gbl_foo, new_fp);
 	spin_unlock(&foo_mutex);
+
+	/* Wait all read access done */
 	synchronize_rcu();
 	kfree(old_fp);
 }
@@ -66,13 +68,14 @@ int foo_get_a(void)
 	return retval;
 }
 
-static int thread1(void *data)
+static int writer(void *data)
 {
 	int val = 0;
 
-	while (val++ < 10000) {
-		foo_update_a(val);
+	while (true) {
+		foo_update_a(val++);
 
+		msleep(400);
 		while (!kthread_should_stop())
 			schedule();
 	}
@@ -80,7 +83,7 @@ static int thread1(void *data)
 	return 0;
 }
 
-static int thread2(void *data)
+static int reader(void *data)
 {
 	int old_val, val;
 
@@ -92,6 +95,7 @@ static int thread2(void *data)
 			val = old_val;
 			printk(KERN_INFO "RCU get %d\n", val);
 		}
+		msleep(400);
 		while (!kthread_should_stop())
 			schedule();
 	}
@@ -101,8 +105,11 @@ static int thread2(void *data)
 
 static int kernel_init(void)
 {
-	tasks[0] = kthread_run(&thread1, NULL, "rtoax-writer");
-	tasks[1] = kthread_run(&thread2, NULL, "rtoax-reader");
+	gbl_foo = kmalloc(sizeof(*gbl_foo), GFP_KERNEL);
+	gbl_foo->a = 1;
+
+	tasks[0] = kthread_run(&writer, NULL, "rtoax-writer");
+	tasks[1] = kthread_run(&reader, NULL, "rtoax-reader");
 	return 0;
 }
 
@@ -112,6 +119,9 @@ static void kernel_exit(void)
 
 	for (i = 0; i < 2; i++)
 		kthread_stop(tasks[i]);
+
+	if (gbl_foo)
+		kfree(gbl_foo);
 }
 
 module_init(kernel_init);
