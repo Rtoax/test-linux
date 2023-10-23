@@ -6,15 +6,16 @@
 #include <linux/delay.h>
 #include <linux/mutex.h>
 
-#define NR_KTHREAD 3
+#define NR_KTHREAD_CAL 3
 #define NR_COUNT   10000
 
-struct task_struct *task[NR_KTHREAD];
+/* +1: a printer thread */
+struct task_struct *task[NR_KTHREAD_CAL + 1];
 
 static unsigned long my_sum = 0;
 static DEFINE_MUTEX(my_mutexlock);
 
-int thread_function(void *data)
+int cal_thread(void *data)
 {
 	int nr_inc = NR_COUNT;
 
@@ -41,13 +42,30 @@ int thread_function(void *data)
 	return 0;
 }
 
+int print_thread(void *data)
+{
+	while (!kthread_should_stop()) {
+		/**
+		 * TODO: Use mutex_optimistic_spin()
+		 */
+		mutex_lock(&my_mutexlock);
+		printk(KERN_INFO "SUM = %ld\n", my_sum);
+		mutex_unlock(&my_mutexlock);
+		msleep(1000);
+		schedule();
+	}
+	return 0;
+}
+
 static int kernel_init(void)
 {
 	int itask;
 	printk(KERN_INFO "mykthread init.\n");
 
-	for (itask = 0; itask < NR_KTHREAD; itask++)
-		task[itask] = kthread_run(&thread_function, NULL, "rtoax-%d", itask);
+	task[NR_KTHREAD_CAL] = kthread_run(&print_thread, NULL, "rtoax-printer");
+
+	for (itask = 0; itask < NR_KTHREAD_CAL; itask++)
+		task[itask] = kthread_run(&cal_thread, NULL, "rtoax-%d", itask);
 
 	return 0;
 }
@@ -55,12 +73,13 @@ static int kernel_init(void)
 static void kernel_exit(void)
 {
 	int itask;
-	for (itask = 0; itask < NR_KTHREAD; itask++)
+	for (itask = 0; itask < NR_KTHREAD_CAL; itask++)
 		kthread_stop(task[itask]);
+	kthread_stop(task[NR_KTHREAD_CAL]);
 
-	if (my_sum != NR_KTHREAD * NR_COUNT)
+	if (my_sum != NR_KTHREAD_CAL * NR_COUNT)
 		printk(KERN_ERR "Exit, Wrong SUM value %ld, expect %ld\n",
-			my_sum, NR_KTHREAD * NR_COUNT);
+			my_sum, NR_KTHREAD_CAL * NR_COUNT);
 	else
 		printk(KERN_INFO "Exit, SUM = %ld\n", my_sum);
 }
