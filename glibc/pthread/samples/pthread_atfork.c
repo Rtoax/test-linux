@@ -24,7 +24,8 @@ void atfork_prepare()
 	int err;
 	log_parent("atfork_prepare: pthread_mutex_lock ...\n");
 	err = pthread_mutex_lock(&lock);
-	if (err != 0) LOG_ERROR(err, "atfork_prepare: pthread_mutex_lock failed");
+	if (err != 0)
+		LOG_ERROR(err, "atfork_prepare: pthread_mutex_lock failed");
 }
 
 void atfork_parent()
@@ -32,7 +33,8 @@ void atfork_parent()
 	int err;
 	log_parent("atfork_parent: pthread_mutex_unlock ...\n");
 	err = pthread_mutex_unlock(&lock);
-	if (err != 0) LOG_ERROR(err, "atfork_parent: pthread_mutex_unlock");
+	if (err != 0)
+		LOG_ERROR(err, "atfork_parent: pthread_mutex_unlock");
 }
 
 void atfork_child()
@@ -40,7 +42,8 @@ void atfork_child()
 	int err;
 	log_child("atfork_child: pthread_mutex_unlock ...\n");
 	err = pthread_mutex_unlock(&lock);
-	if (err != 0) LOG_ERROR(err, "atfork_child: pthread_mutex_unlock");
+	if (err != 0)
+		LOG_ERROR(err, "atfork_child: pthread_mutex_unlock");
 }
 
 void* thread_proc(void* arg)
