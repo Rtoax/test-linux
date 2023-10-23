@@ -10,14 +10,20 @@
 #include <linux/list.h>
 #include <linux/rculist.h>
 #include <linux/slab.h>
+#include <linux/spinlock.h>
 
-LIST_HEAD(os_release_list);
 
 struct os_release {
 	struct list_head list;
 	char release[20];
 	char vender[20];
 };
+
+spinlock_t list_lock;
+LIST_HEAD(os_release_list);
+
+const char* RELEASE[] = {"CentOS", "Ubuntu", "CCLinux", "OpenEuler"};
+const char* VENDERS[] = {"RedHat", "Canonical", "CESTC", "HuaWei"};
 
 static struct os_release *alloc_os(const char *release, const char *vender)
 {
@@ -30,9 +36,6 @@ static struct os_release *alloc_os(const char *release, const char *vender)
 
 static void fill_list(void)
 {
-	const char* RELEASE[] = {"CentOS", "Ubuntu", "CCLinux", "OpenEuler"};
-	const char* VENDERS[] = {"RedHat", "Canonical", "CESTC", "HuaWei"};
-
 	int i;
 	struct os_release *item;
 	for (i = 0; i < sizeof(RELEASE) / sizeof(RELEASE[0]); i++) {
@@ -45,11 +48,31 @@ static void print_list(void)
 {
 	struct os_release *entry;
 
+	printk(KERN_DEBUG "Print list:\n");
 	rcu_read_lock();
 	list_for_each_entry_rcu(entry, &os_release_list, list) {
 		printk(KERN_INFO "%s - %s\n", entry->release, entry->vender);
 	}
 	rcu_read_unlock();
+}
+
+static int delete_entry(const char *release)
+{
+	struct os_release *entry;
+
+	spin_lock(&list_lock);
+	list_for_each_entry(entry, &os_release_list, list) {
+		if (!strcmp(entry->release, release)) {
+			list_del_rcu(&entry->list);
+			printk(KERN_DEBUG "Delete %s.\n", release);
+			spin_unlock(&list_lock);
+			synchronize_rcu();
+			kfree(entry);
+			return 1;
+		}
+	}
+	spin_unlock(&list_lock);
+	return 0;
 }
 
 static void clean_list(void)
@@ -68,8 +91,16 @@ static void clean_list(void)
 static int __init lkm_init(void)
 {
 	printk(KERN_INFO "Preparing RCU list module.\n");
+
+	spin_lock_init(&list_lock);
+
 	fill_list();
 	print_list();
+
+	delete_entry(RELEASE[1]);
+
+	print_list();
+
 	return 0;
 }
 
@@ -77,6 +108,8 @@ static void __exit lkm_cleanup(void)
 {
 	printk(KERN_INFO "Cleaning up rcu list module.\n\n");
 	clean_list();
+
+	print_list();
 }
 
 module_init(lkm_init);
