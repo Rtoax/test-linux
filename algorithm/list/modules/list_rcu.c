@@ -34,6 +34,11 @@ static struct os_release *alloc_os(const char *release, const char *vender)
 	return item;
 }
 
+static void print_os(const char *prefix, struct os_release *entry)
+{
+	printk(KERN_INFO "%s %s %s\n", prefix ?: ">", entry->release, entry->vender);
+}
+
 static void fill_list(void)
 {
 	int i;
@@ -50,9 +55,8 @@ static void print_list(void)
 
 	printk(KERN_DEBUG "Print list:\n");
 	rcu_read_lock();
-	list_for_each_entry_rcu(entry, &os_release_list, list) {
-		printk(KERN_INFO "%s - %s\n", entry->release, entry->vender);
-	}
+	list_for_each_entry_rcu(entry, &os_release_list, list)
+		print_os("Print:", entry);
 	rcu_read_unlock();
 }
 
@@ -64,7 +68,7 @@ static int delete_entry(const char *release)
 	list_for_each_entry(entry, &os_release_list, list) {
 		if (!strcmp(entry->release, release)) {
 			list_del_rcu(&entry->list);
-			printk(KERN_DEBUG "Delete %s.\n", release);
+			print_os("Delete: ", entry);
 			spin_unlock(&list_lock);
 			synchronize_rcu();
 			kfree(entry);
@@ -81,7 +85,7 @@ static void clean_list(void)
 
 	while (!list_empty(&os_release_list)) {
 		entry = list_first_entry(&os_release_list, struct os_release, list);
-		printk(KERN_INFO "freeing %s\n", entry->release);
+		print_os("Clean: ", entry);
 		list_del_rcu(&entry->list);
 		synchronize_rcu();
 		kfree(entry);
