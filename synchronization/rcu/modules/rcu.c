@@ -72,12 +72,11 @@ static int writer(void *data)
 {
 	int val = 0;
 
-	while (true) {
+	while (!kthread_should_stop()) {
 		foo_update_a(val++);
 
 		msleep(400);
-		while (!kthread_should_stop())
-			schedule();
+		schedule();
 	}
 	printk(KERN_INFO "Thread1: exit.\n");
 	return 0;
@@ -89,15 +88,14 @@ static int reader(void *data)
 
 	old_val = val = -1;
 
-	while (true) {
+	while (!kthread_should_stop()) {
 		old_val = foo_get_a();
 		if (val != old_val) {
 			val = old_val;
 			printk(KERN_INFO "RCU get %d\n", val);
 		}
 		msleep(400);
-		while (!kthread_should_stop())
-			schedule();
+		schedule();
 	}
 	printk(KERN_INFO "Thread2: exit.\n");
 	return 0;
