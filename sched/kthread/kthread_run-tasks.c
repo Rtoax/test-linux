@@ -18,9 +18,17 @@ int thread_function(void *data)
 	printk(KERN_INFO "KThread entry %s\n", (char*) data);
 
 	while (!kthread_should_stop()) {
-		msleep_interruptible(1000);
+		msleep_interruptible(100);
 		printk(KERN_INFO "Count %lld, total %d\n", count++, atomic_read(&my_count));
 		atomic_inc(&my_count);
+
+		/* Condition is established if kthread_park() */
+		if (kthread_should_park()) {
+			printk(KERN_DEBUG "Parked\n");
+			/* Wait kthread_unpark() or kthread_stop() */
+			kthread_parkme();
+			printk(KERN_DEBUG "Unparked\n");
+		}
 		schedule();
 	}
 
@@ -35,6 +43,15 @@ static int kernel_init(void)
 
 	for (itask = 0; itask < NR_KTHREAD; itask++)
 		task[itask] = kthread_run(&thread_function, (void *)THREAD_MESSAGE, "rtoax-%d", itask);
+
+	msleep(100);
+	for (itask = 0; itask < NR_KTHREAD; itask++)
+		kthread_park(task[itask]);
+
+	msleep(100);
+	for (itask = 0; itask < NR_KTHREAD; itask++)
+		kthread_unpark(task[itask]);
+
 	return 0;
 }
 
