@@ -1,3 +1,6 @@
+/**
+ * ref: https://www.kernel.org/doc/html/latest/RCU/whatisRCU.html
+ */
 #include <linux/init.h>
 #include <linux/module.h>
 #include <linux/kernel.h>
