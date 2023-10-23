@@ -45,8 +45,8 @@ static spinlock_t books_lock;
 /**
  * callback function for async-reclaim
  *
- * call_rcu() 		:  callback function is called when finish to wait every grace periods (async)
- * synchronize_rcu() :  wait to finish every grace periods (sync)
+ * call_rcu()        : callback function is called when finish to wait every grace periods (async)
+ * synchronize_rcu() : wait to finish every grace periods (sync)
  */
 static void book_reclaim_callback(struct rcu_head *rcu)
 {
@@ -105,7 +105,6 @@ static int borrow_book(int id, int async)
 				rcu_read_unlock();
 				return -1;
 			}
-
 			old_b = b;
 			break;
 		}

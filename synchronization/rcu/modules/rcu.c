@@ -11,10 +11,10 @@
 #include <linux/completion.h>
 
 
-static int stuck = 1;
+static int async = 1;
 
-module_param(stuck, int, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
-MODULE_PARM_DESC(stuck, "Use synchronize_rcu() if 1, use call_rcu if 0");
+module_param(async, int, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+MODULE_PARM_DESC(async, "Use synchronize_rcu() if 0, use call_rcu if 1");
 
 
 struct task_struct *tasks[2];
@@ -79,7 +79,7 @@ void foo_update_a(int new_a)
 	rcu_assign_pointer(gbl_foo, new_fp);
 	spin_unlock(&foo_mutex);
 
-	if (stuck) {
+	if (likely(!async)) {
 		/* Block and wait all read access done */
 		synchronize_rcu();
 		kfree(old_fp);
