@@ -10,6 +10,9 @@
 #include <linux/list.h>
 #include <linux/slab.h>
 
+const char* RELEASE[] = {"CentOS", "Ubuntu", "CCLinux", "OpenEuler"};
+const char* VENDERS[] = {"RedHat", "Canonical", "CESTC", "HuaWei"};
+
 LIST_HEAD(os_release_list);
 
 struct os_release {
@@ -20,11 +23,9 @@ struct os_release {
 
 static void fill_list(void)
 {
-	const char* RELEASE[] = {"CentOS", "Ubuntu", "CCLinux", "OpenEuler"};
-	const char* VENDERS[] = {"RedHat", "Canonical", "CESTC", "HuaWei"};
-
 	int i;
 	struct os_release *item;
+
 	for (i = 0; i < sizeof(RELEASE) / sizeof(RELEASE[0]); i++) {
 		item = kmalloc(sizeof(struct os_release), GFP_KERNEL);
 		strncpy(item->release, RELEASE[i], sizeof(item->release));
