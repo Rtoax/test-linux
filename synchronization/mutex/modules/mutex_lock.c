@@ -7,6 +7,7 @@
 #include <linux/mutex.h>
 
 #define NR_KTHREAD 3
+#define NR_COUNT   10000
 
 struct task_struct *task[NR_KTHREAD];
 
@@ -15,7 +16,7 @@ static DEFINE_MUTEX(my_mutexlock);
 
 int thread_function(void *data)
 {
-	int nr_inc = 10000;
+	int nr_inc = NR_COUNT;
 
 	while (!kthread_should_stop()) {
 		if (nr_inc <= 0) {
@@ -56,7 +57,12 @@ static void kernel_exit(void)
 	int itask;
 	for (itask = 0; itask < NR_KTHREAD; itask++)
 		kthread_stop(task[itask]);
-	printk(KERN_INFO "Exit, SUM = %ld\n", my_sum);
+
+	if (my_sum != NR_KTHREAD * NR_COUNT)
+		printk(KERN_ERR "Exit, Wrong SUM value %ld, expect %ld\n",
+			my_sum, NR_KTHREAD * NR_COUNT);
+	else
+		printk(KERN_INFO "Exit, SUM = %ld\n", my_sum);
 }
 
 module_init(kernel_init);
