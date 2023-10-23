@@ -1,5 +1,6 @@
 
 TARGETS := gotoxy goprint
+TARGETS += log
 TARGETS += memshow
 
 DEBUG = yes
@@ -19,6 +20,7 @@ build: ${TARGETS}
 # Add more object.o file
 gotoxy: gotoxy.o
 goprint: goprint.o
+log: log.o
 memshow: memshow.o
 
 test: ${TARGETS}
