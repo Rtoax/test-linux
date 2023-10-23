@@ -29,6 +29,16 @@ struct foo __rcu *gbl_foo;
 
 void foo_cleanup(int a) {}
 
+/**
+ * If the callback for call_rcu() is not doing anything more than calling
+ * kfree() on the structure, you can use kfree_rcu() instead of call_rcu()
+ * to avoid having to write your own callback.
+ *
+ * If the occasional sleep is permitted, the single-argument form may be
+ * used, omitting the rcu_head structure from struct foo.
+ *
+ *	kfree_rcu_mightsleep(old_fp);
+ */
 void foo_reclaim(struct rcu_head *rp)
 {
 	struct foo *fp = container_of(rp, struct foo, rcu);
@@ -71,7 +81,11 @@ void foo_update_a(int new_a)
 		synchronize_rcu();
 		kfree(old_fp);
 	} else {
-		/* If it is not permitted to block */
+		/* If it is not permitted to block, or only kfree_rcu() instead
+		 * of call_rcu()
+		 *
+		 *	kfree_rcu(old_fp, rcu);
+		 */
 		call_rcu(&old_fp->rcu, foo_reclaim);
 	}
 }
