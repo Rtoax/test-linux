@@ -15,7 +15,7 @@ get_ignore_files() {
 print_list() {
 	local list=( $@ )
 	local i
-	for ((i = 1; i <= ${#list[@]}; i++))
+	for ((i = 0; i < ${#list[@]}; i++))
 	do
 		printf "\t%s\n" ${list[$i]}
 	done
