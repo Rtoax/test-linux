@@ -1,3 +1,4 @@
+/average
 /echo
 /call-func
 /call-func-ret
@@ -6,5 +7,6 @@
 /jmp
 /jg
 /jl
+/power
 /write
 /write-2
