@@ -17,7 +17,7 @@ module_param(async, int, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 MODULE_PARM_DESC(async, "Use synchronize_rcu() if 0, use call_rcu if 1");
 
 
-struct task_struct *tasks[2];
+struct task_struct *tasks[4];
 
 struct foo {
 	int a;
@@ -150,7 +150,9 @@ static int kernel_init(void)
 	gbl_foo->a = 1;
 
 	tasks[0] = kthread_run(&writer, NULL, "rtoax-writer");
-	tasks[1] = kthread_run(&reader, NULL, "rtoax-reader");
+	tasks[1] = kthread_run(&reader, NULL, "rtoax-reader1");
+	tasks[2] = kthread_run(&reader, NULL, "rtoax-reader2");
+	tasks[3] = kthread_run(&reader, NULL, "rtoax-reader3");
 	return 0;
 }
 
@@ -158,7 +160,7 @@ static void kernel_exit(void)
 {
 	int i;
 
-	for (i = 0; i < 2; i++)
+	for (i = 0; i < 4; i++)
 		kthread_stop(tasks[i]);
 
 	if (gbl_foo)
