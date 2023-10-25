@@ -7,13 +7,13 @@ memcpy:
 	mov rbp, rsp	; Initialize stack
 	mov r14, rdi
 
-loop:	
+loop:
 	cmp rdx, 0
 	je end
 
 	mov bl, [rsi]
 	mov [rdi], bl
-	
+
 	dec rdx
 	inc rdi
 	inc rsi

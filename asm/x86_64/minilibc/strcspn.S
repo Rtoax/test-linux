@@ -1,7 +1,7 @@
 	[BITS 64]
 	global strcspn
 	section .text
-	
+
 strcspn:
 	xor rdx, rdx
 	mov rcx, 0
@@ -20,7 +20,7 @@ second_loop:
 
 	cmp al, [rdi + rdx]
 	je end
-	
+
 	inc rcx
 	jmp second_loop
 

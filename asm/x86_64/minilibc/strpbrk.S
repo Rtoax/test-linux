@@ -12,7 +12,7 @@ loop:
 	mov bl, BYTE [rdi]
 	cmp bl, 0
 	je end_null
-	
+
 	mov r15, rsi
 
 other_loop:
@@ -21,7 +21,7 @@ other_loop:
 
 	cmp bl, [r15]
 	je end
-	
+
 	inc r15
 	jmp other_loop
 
@@ -39,7 +39,7 @@ end:
 	mov rax, rdi
 	leave
 	ret
-	
-	
-	
-	
+
+
+
+

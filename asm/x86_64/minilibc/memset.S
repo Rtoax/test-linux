@@ -13,8 +13,8 @@ loop:
 	je end		; if the value are different, go to the end, because its an error
 
 	cmp rdi, 0
-	je end 
-	
+	je end
+
 	mov [rdi], sil
 	sub rdx, 1
 	inc rdi         ; increment rdi (1st operand)
@@ -23,4 +23,4 @@ loop:
 end:
 	mov rax, r14    ; assign cl to rax
 	leave		; free the stack
-	ret             ; return obligatoire 
+	ret             ; return obligatoire

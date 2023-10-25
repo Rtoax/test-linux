@@ -17,13 +17,13 @@ loop:
 
 	cmp bl, 0
 	je end_null
-	
+
 	cmp al, 0
 	je end_null
 
 	cmp rdx, 1
 	je end
-	
+
 	dec rdx
 
 	inc rdi

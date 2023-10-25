@@ -14,9 +14,9 @@ memmove:
 	je end
 
 	mov r14, rdi
-	
+
 	mov bl, [rsi]
-	
+
 	cmp rdi, rsi
 	jl loop
 
@@ -44,14 +44,14 @@ other_loop:
 
 	mov bl, [rsi]
 	mov [rdi], bl
-	
+
 	dec rdx
 	dec rdi
 	dec rsi
 
 	jmp other_loop
-	
+
 end:
 	mov rax, r14	; assign cl to rax
 	leave		; free the stack
-	ret             ; return obligatoire 
+	ret             ; return obligatoire

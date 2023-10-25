@@ -11,23 +11,23 @@ strstr:
 	je end
 
 	cmp byte[rdi], 0
-	je end_null	
+	je end_null
 
 loop:
 	cmp byte[r14], 0
 	je end_null
 
 	mov r15, rsi
-	
+
         other_loop:
 		mov bl, [r14]
-	
+
 		cmp byte[r15], 0
 		je end
-	
+
 		cmp byte[r15], bl
 		jne end_loop
-	
+
 		inc r14
 		inc r15
 		jmp other_loop

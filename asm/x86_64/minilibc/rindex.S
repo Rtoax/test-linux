@@ -1,7 +1,7 @@
 	[BITS 64]
 	global rindex
 	section .text
-	
+
 rindex:
 	push rbp
 	mov rbp, rsp
@@ -13,7 +13,7 @@ loop:
 
 	inc rdx
 	jmp loop
-	
+
 other_loop:
 	cmp byte[rdi + rdx], sil
 	je end
@@ -34,4 +34,4 @@ end_null:
 	mov rax, 0
 	leave
 	ret
-	
+

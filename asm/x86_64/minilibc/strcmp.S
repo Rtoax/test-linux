@@ -15,13 +15,13 @@ loop:
 
 	cmp al, 0	; compare cl (first) == \0
 	je end		; stop if the compare worked
-	
+
 	cmp bl, 0	; compare cl (first) == \0
 	je end		; stop if the compare worked
 
 	cmp al, bl	; compare the two value of the character stocked in the cl and dl register
 	jne end		; if the value are different, go to the end, because its an error
-	
+
 	inc rdi		; increment rdi (1st operand)
 	inc rsi		; increment rsi (2nd operand)
 	jmp loop	; call loop (recursive)
