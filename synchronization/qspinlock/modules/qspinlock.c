@@ -1,0 +1,79 @@
+#include <linux/init.h>
+#include <linux/module.h>
+#include <linux/kernel.h>
+#include <linux/kthread.h>
+#include <linux/sched.h>
+#include <linux/delay.h>
+#include <asm-generic/qspinlock.h>
+
+#define NR_KTHREAD 3
+#define NR_COUNT   10000
+
+struct task_struct *task[NR_KTHREAD];
+
+static unsigned long my_sum = 0;
+
+#if 1
+static struct qspinlock qspinlock = __ARCH_SPIN_LOCK_UNLOCKED;
+#else
+/* Wrong sum */
+#define queued_spin_lock(a) do {} while (0)
+#define queued_spin_unlock(a) do {} while (0)
+#endif
+
+int thread_function(void *data)
+{
+	int nr_inc = NR_COUNT;
+
+	while (!kthread_should_stop()) {
+
+		if (nr_inc <= 0) {
+			msleep_interruptible(1000);
+			printk("kthread sleep.\n");
+			continue;
+		}
+
+		queued_spin_lock(&qspinlock);
+		my_sum++;
+		nr_inc--;
+		if (!nr_inc) {
+			queued_spin_unlock(&qspinlock);
+			continue;
+		}
+		queued_spin_unlock(&qspinlock);
+
+		schedule();
+	}
+
+	printk(KERN_INFO "thread done, sum = %ld\n", my_sum);
+	return 0;
+}
+
+static int kernel_init(void)
+{
+	int itask;
+	printk(KERN_INFO "mykthread init.\n");
+
+	for (itask = 0; itask < NR_KTHREAD; itask++)
+		task[itask] = kthread_run(&thread_function, NULL, "rtoax-%d", itask);
+
+	return 0;
+}
+
+static void kernel_exit(void)
+{
+	int itask;
+	for (itask = 0; itask < NR_KTHREAD; itask++)
+		kthread_stop(task[itask]);
+
+	if (my_sum != NR_KTHREAD * NR_COUNT)
+		printk(KERN_ERR "Exit, Wrong SUM value %ld, expect %d\n",
+			my_sum, NR_KTHREAD * NR_COUNT);
+	else
+		printk(KERN_INFO "Exit, SUM = %ld\n", my_sum);
+}
+
+module_init(kernel_init);
+module_exit(kernel_exit);
+MODULE_AUTHOR("Rong Tao");
+MODULE_LICENSE("GPL");
