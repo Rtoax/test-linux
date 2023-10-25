@@ -1,0 +1,36 @@
+#!/bin/env bpftrace
+/**
+ * osq_lock.bt - Tracing osq_lock/unlock
+ *
+ * Copyright (C) Rong Tao 2022-2023
+ *
+ * 2023-10-25	Rong Tao	Create this.
+ */
+BEGIN
+{
+	printf("Tracing osq_lock, hit ctrl-c to end.\n");
+}
+
+kprobe:osq_lock
+{
+	@start[tid] = nsecs;
+}
+
+kprobe:osq_unlock
+/@start[tid]/
+{
+	$ns = (nsecs - @start[tid]);
+	delete(@start[tid]);
+	@hist_ns = hist($ns);
+}
+
+interval:s:1
+{
+	print(@hist_ns);
+}
+
+END
+{
+	printf("Bye.\n");
+}
+
