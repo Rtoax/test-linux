@@ -9,10 +9,7 @@ static const unsigned char *binary32(u32 v)
 	static unsigned char s[32] = {0};
 	int i;
 	for (i = 0; i < 32; i++)
-		if (v & (1UL << i))
-			s[31 - i] = '1';
-		else
-			s[31 - i] = '0';
+		s[31 - i] = '0' + !!(v & (1UL << i));
 	return s;
 }
 
