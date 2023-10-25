@@ -17,7 +17,9 @@ int main(void)
 	for (i = 0; i < nr_tests; i++) {
 		t = tests[i];
 		printf("%s\n", t->name);
+		t->init();
 		t->run();
+		t->fini();
 	}
 
 	return 0;
