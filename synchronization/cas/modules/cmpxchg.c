@@ -18,7 +18,7 @@ int thread_function(void *data)
 		/**
 		 * cmpxchg(void *ptr, unsigned long old, unsigned long new) {
 		 *   if (*ptr == old) {
-		 *     *ptr = old;
+		 *     *ptr = new;
 		 *     return old;
 		 *   }
 		 *   return *ptr;
