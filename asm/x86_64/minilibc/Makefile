@@ -20,8 +20,9 @@ ASM	= nasm
 ASFLAGS	= -f elf64
 RM	= rm -f
 NAME	= libasm.so
+TEST	= test
 
-all: $(NAME)
+all: $(NAME) $(TEST)
 
 %.o:	%.S
 	$(ASM) $(ASFLAGS) $< -o $@
@@ -29,8 +30,13 @@ all: $(NAME)
 $(NAME): $(OBJS)
 	$(LD) $(LDFLAGS) $(OBJS) -o $(NAME)
 
+$(TEST):
+	make -C tests
+	cp tests/tests $(TEST)
+
 clean:
-	$(RM) $(OBJS) $(NAME)
+	$(RM) $(OBJS) $(NAME) $(TEST)
+	make -C tests clean
 
 re: all
 
