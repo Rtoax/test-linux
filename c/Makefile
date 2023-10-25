@@ -1,6 +1,7 @@
 
 TARGETS += auto
 TARGETS += array
+TARGETS += ascii
 TARGETS += param-pass
 TARGETS += compat
 TARGETS += ptr-dim
@@ -33,6 +34,7 @@ build: ${TARGETS}
 
 # Add more object.o file
 auto: auto.o
+ascii: ascii.o
 param-pass: param-pass.o
 array: array.o
 compat: compat.o
