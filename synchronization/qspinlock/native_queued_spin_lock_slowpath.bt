@@ -14,6 +14,8 @@ BEGIN
 kprobe:native_queued_spin_lock_slowpath
 {
 	@start[tid] = nsecs;
+	$val = arg1;
+	@val_count[$val] = count();
 }
 
 kretprobe:native_queued_spin_lock_slowpath
@@ -26,6 +28,7 @@ kretprobe:native_queued_spin_lock_slowpath
 
 interval:s:1
 {
+	printf("-------------------------------\n");
 	print(@hist_ns);
 }
 
