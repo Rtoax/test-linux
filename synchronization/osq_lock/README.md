@@ -21,31 +21,31 @@ MCS 锁机制的一个实现。
  osq_lock:                         prev=CPU0                        |
                next=CPU1                                            |
                                    for (;;) {                       v
-                                     /*atomic load*/              time
+                                     ##atomic load##              time
                                      if (locked==1)
                                        return true;
                                      cpu_relax();
-                                     /*update prev*/
+                                     ##update prev##
                                    }
 +---------------------------------------------------------------+
-  CPU0         /*atomic cas*/
+  CPU0         ##atomic cas##
 osq_unlock:    if (tail==1) {
                  tail=0;
                  return;
                }
               +if (next) {
-              |  /*atomic store*/
+              |  ##atomic store##
               |  next->locked=1
               |  next=NULL
               |                    for (;;) {
-              |                      /*atomic load*/
+              |                      ##atomic load##
               |                      if (locked==1)
               |                        return true;##CPU1 GET Lock##
               |                    }
               +} else {
                  TODO
  +---------------------------------------------------------------+
-   CPU1                            /*atomic cas*/
+   CPU1                            ##atomic cas##
  osq_unlock:                       if (tail==2) {
                                      tail=0;
                                      return;
