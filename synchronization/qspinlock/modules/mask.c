@@ -9,7 +9,7 @@
 static int kernel_init(void)
 {
 #define Print(v32) \
-	printk(KERN_INFO "%-32s : %#016x %32s\n", #v32, v32, binary32(v32))
+	printk(KERN_INFO "%-32s : %#016x %32s\n", #v32, v32, binary32_unsafe(v32))
 
 	printk(KERN_INFO "---------- print qspinlock val mask ---------\n");
 	Print(_Q_LOCKED_MASK);

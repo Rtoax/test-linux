@@ -58,7 +58,7 @@ int thread_printer(void *data)
 	while (!kthread_should_stop()) {
 		u32 val = atomic_read(&qspinlock.val);
 		if (val)
-			printk(KERN_INFO "qspinlock val = %s\n", binary32(val));
+			printk(KERN_INFO "qspinlock val = %s\n", binary32_unsafe(val));
 		schedule();
 	}
 
