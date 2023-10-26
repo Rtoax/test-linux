@@ -15,6 +15,9 @@ static __init int test_atomics_init(void)
 
 	atomic_set(&a, 0xff00);
 
+	/**
+	 * atomic_try_cmpxchg_relaxed() is same
+	 */
 	ret = atomic_try_cmpxchg_acquire(&a, &val, 1 << 3);
 	pr_info("%d %x %x\n", ret, val, atomic_read(&a));
 
