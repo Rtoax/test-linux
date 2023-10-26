@@ -2,6 +2,7 @@
 obj-m += atomic-test0.o
 obj-m += atomic64_test.o
 obj-m += atomic_fetch_or_acquire.o
+obj-m += atomic_try_cmpxchg_acquire.o
 
 
 all:
