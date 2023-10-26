@@ -1,1 +1,0 @@
-../init/mbr.sh
