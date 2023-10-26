@@ -8,13 +8,27 @@
 #include <sys/types.h>
 
 
+struct gpt_hdr {
+	uint64_t signature;
+	uint32_t revision_number;
+	uint32_t size;
+	uint32_t crc32;
+	uint32_t reserved1;
+	uint64_t current_lba;
+	uint64_t backup_lba;
+	uint64_t first_usable_lba;
+	uint64_t last_usable_lba;
+	uint8_t  guid[16];
+	/* more */
+} __attribute__((packed));
+
 int main(void)
 {
 	char *path;
-	int fd;
+	int i, fd;
 	unsigned char *mbr;
 	unsigned char *primary_gpt_hdr;
-	void *hdr;
+	struct gpt_hdr *hdr;
 
 	path = "/dev/nvme0n1";
 
@@ -31,33 +45,29 @@ int main(void)
 	read(fd, mbr, 512);
 	read(fd, primary_gpt_hdr, 0x5c);
 
-	hdr = primary_gpt_hdr;
-	uint64_t signature = *(uint64_t *)hdr;
-	hdr += sizeof(signature);
-	uint32_t revision_number = *(uint32_t *)(hdr);
-	hdr += sizeof(revision_number);
-	uint32_t hdr_size = *(uint32_t *)hdr;
-	hdr += sizeof(hdr_size);
-	uint32_t hdr_crc32 = *(uint32_t *)hdr;
-	hdr += sizeof(hdr_crc32);
-	hdr += 4; /* Reserved */
-
-	/* TODO: More */
+	hdr = (struct gpt_hdr *)primary_gpt_hdr;
 
 	/**
 	 * "EFI PART" = 45h 46h 49h 20h 50h 41h 52h 54h
 	 *            = 0x5452415020494645ULL
 	 */
-	if (signature == 0x5452415020494645ULL)
+	if (hdr->signature == 0x5452415020494645ULL)
 		printf("Partition Table: GPT\n");
 	/**
 	 * 00h 00h 01h 00h
 	 */
-	if (revision_number == 0x00010000U)
+	if (hdr->revision_number == 0x00010000U)
 		printf("Revision 1.0 for UEFI 2.0\n");
 
-	printf("Header Size: %d bytes\n", hdr_size);
-	printf("Header CRC32: %#08x\n", hdr_crc32);
+	printf("Header Size: %d bytes\n", hdr->size);
+	printf("Header CRC32: %#08x\n", hdr->crc32);
+
+	printf("GUID: ");
+	for (i = 0; i < sizeof(hdr->guid); i++) {
+		unsigned char ch = hdr->guid[i];
+		printf("%02x", ch);
+	} printf("\n");
+
 
 	close(fd);
 	return 0;
