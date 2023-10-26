@@ -6,8 +6,13 @@
 #include <linux/delay.h>
 #include <asm-generic/qspinlock.h>
 
-#define NR_KTHREAD 3
-#define NR_COUNT   10000
+#include "mask.h"
+
+
+#define NR_SPINNER 3
+#define NR_PRINTER 1
+#define NR_KTHREAD (NR_SPINNER + NR_PRINTER)
+#define NR_COUNT   1000000
 
 struct task_struct *task[NR_KTHREAD];
 
@@ -29,7 +34,6 @@ int thread_function(void *data)
 
 		if (nr_inc <= 0) {
 			msleep_interruptible(1000);
-			printk("kthread sleep.\n");
 			continue;
 		}
 
@@ -49,13 +53,29 @@ int thread_function(void *data)
 	return 0;
 }
 
+int thread_printer(void *data)
+{
+	while (!kthread_should_stop()) {
+		u32 val = atomic_read(&qspinlock.val);
+		if (val)
+			printk(KERN_INFO "qspinlock val = %s\n", binary32(val));
+		schedule();
+	}
+
+	return 0;
+}
+
 static int kernel_init(void)
 {
 	int itask;
 	printk(KERN_INFO "mykthread init.\n");
 
-	for (itask = 0; itask < NR_KTHREAD; itask++)
-		task[itask] = kthread_run(&thread_function, NULL, "rtoax-%d", itask);
+	/* Start printer first */
+	for (itask = 0; itask < NR_PRINTER; itask++)
+		task[itask] = kthread_run(&thread_printer, NULL, "rtoax-%d-printer", itask);
+
+	for (itask = NR_PRINTER; itask < NR_KTHREAD; itask++)
+		task[itask] = kthread_run(&thread_function, NULL, "rtoax-%d-spinner", itask);
 
 	return 0;
 }
@@ -66,9 +86,9 @@ static void kernel_exit(void)
 	for (itask = 0; itask < NR_KTHREAD; itask++)
 		kthread_stop(task[itask]);
 
-	if (my_sum != NR_KTHREAD * NR_COUNT)
+	if (my_sum != NR_SPINNER * NR_COUNT)
 		printk(KERN_ERR "Exit, Wrong SUM value %ld, expect %d\n",
-			my_sum, NR_KTHREAD * NR_COUNT);
+			my_sum, NR_SPINNER * NR_COUNT);
 	else
 		printk(KERN_INFO "Exit, SUM = %ld\n", my_sum);
 }

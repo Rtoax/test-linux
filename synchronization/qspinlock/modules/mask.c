@@ -3,15 +3,8 @@
 #include <linux/kernel.h>
 #include <asm-generic/qspinlock.h>
 
+#include "mask.h"
 
-static const unsigned char *binary32(u32 v)
-{
-	static unsigned char s[32] = {0};
-	int i;
-	for (i = 0; i < 32; i++)
-		s[31 - i] = '0' + !!(v & (1UL << i));
-	return s;
-}
 
 static int kernel_init(void)
 {
