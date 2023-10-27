@@ -12,7 +12,7 @@
 int setsocktimeout(int sockfd, struct timeval *tv)
 {
 	int ret;
-	ret = setsockopt(sockfd, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(struct timeval));
+	ret = setsockopt(sockfd, SOL_SOCKET, SO_RCVTIMEO, tv, sizeof(struct timeval));
 	if (ret) {
 		perror("setsockopt error");
 	}
@@ -35,10 +35,13 @@ int main(int argc, char *argv[])
 	 * see kernel commit ba78073e6f70 ("[NET]: "wrong timeout value" in
 	 * sk_wait_data() v2").
 	 */
-	tv.tv_sec = 1;
+	tv.tv_sec = 0;
 	tv.tv_usec = 1500000;
 	setsocktimeout(sockfd, &tv);
 
+	/**
+	 * Fix EDOM(Numerical argument out of domain) error
+	 */
 	tv.tv_sec = 1;
 	tv.tv_usec = 500000;
 	setsocktimeout(sockfd, &tv);
