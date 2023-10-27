@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 pkgs=( make cmake gcc clang gdb )
 pkgs+=( bpftrace bcc )         # eBPF

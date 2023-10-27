@@ -58,6 +58,9 @@ testkernel:$(SUB_kernel_DIR_TEST)
 $(SUB_kernel_DIR_TEST):
 	$(call make_test,K,$(@:%_test=%))
 
+installdeps:
+	sh install-deps.sh
+
 # Make clean
 clean:
 	@echo "==="
