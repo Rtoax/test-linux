@@ -1,6 +1,5 @@
 
-TARGETS := environ
-TARGETS += gnu_get_libc_version
+TARGETS := nr_errno
 
 ifeq ($(shell uname -m),x86_64)
 endif
@@ -19,11 +18,13 @@ ifdef DEBUG
 CFLAGS += -DDEBUG -O0 -g
 endif
 
-build: ${TARGETS}
+build: nr_errno.h ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
-gnu_get_libc_version: gnu_get_libc_version.o
-environ: environ.o
+nr_errno.h:
+	$(shell sh errno.sh)
+
+nr_errno: nr_errno.o
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
@@ -31,5 +32,6 @@ test: ${TARGETS}
 clean:
 	@echo -e "Clean   \033[1;32m$(@)\033[m"
 	@rm -f ${TARGETS} \
-		*.o *.d *.out
+		*.o *.d *.out \
+		nr_errno.h
 
