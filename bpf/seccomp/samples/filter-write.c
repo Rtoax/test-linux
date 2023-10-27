@@ -12,6 +12,7 @@
 
 static int install_filter(int nr, int arch, int error)
 {
+	printf("INFO: nr syscall %d, arch %x, error %d\n", nr, arch, error);
 	struct sock_filter filter[] = {
 		BPF_STMT(BPF_LD + BPF_W + BPF_ABS, (offsetof(struct seccomp_data, arch))),
 		BPF_JUMP(BPF_JMP + BPF_JEQ + BPF_K, arch, 0, 3),
