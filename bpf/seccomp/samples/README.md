@@ -1,31 +1,35 @@
-# Chapter 8: Linux Kernel security, Capabilities and Seccomp
+Linux Kernel security, Capabilities and Seccomp
+===============================================
 
 Compiling this program is very straightforward, you just do a:
 
 ```bash
-clang main.c -o filter-write
+$ clang filter-write.c -o filter-write
 ```
 
-The program is made to filter any write syscall that happens, if you try it using a command that is supposed
-to write it will not print anything.
+The program is made to filter any write syscall that happens, if you try it
+using a command that is supposed to write it will not print anything.
 
 
 Let's first do a command that prints stuff, like `ls -la`:
 
 ```bash
-[vagrant@bpfbook seccomp]$ ls -la
-total 40
-drwxr-xr-x. 2 vagrant vagrant  4096 Dec 10 01:07 .
-drwxr-xr-x. 3 vagrant vagrant  4096 Oct 29 16:59 ..
--rwxrwxr-x. 1 vagrant vagrant 22016 Dec 10 01:07 filter-write
--rw-r--r--. 1 vagrant vagrant    19 Oct 29 16:59 .gitignore
--rw-r--r--. 1 vagrant vagrant  1210 Oct 29 16:59 main.c
+$ ls -la
+total 44
+drwxr-xr-x. 2 rongtao rongtao   121 Oct 27 17:05 .
+drwxr-xr-x. 3 rongtao rongtao    36 Jun  6  2022 ..
+-rwxr-xr-x  1 rongtao rongtao 18888 Oct 27 17:01 filter-write
+-rw-r--r--. 1 rongtao rongtao  1175 Jun  6  2022 filter-write.c
+-rw-r--r--  1 rongtao rongtao  5960 Oct 27 17:01 filter-write.o
+-rw-r--r--  1 rongtao rongtao    14 Aug  9 20:28 .gitignore
+-rw-r--r--  1 rongtao rongtao   683 Aug  9 20:27 Makefile
+-rw-r--r--. 1 rongtao rongtao  2208 Oct 27 17:05 README.md
 ```
 
 Now let's do the same with `filter-write`:
 
 ```
-[vagrant@bpfbook seccomp]$ ./filter-write "ls -la"
+$ ./filter-write "ls -la"
 ```
 
 No output! Let's see why!
@@ -33,21 +37,15 @@ No output! Let's see why!
 We can use `strace` to dig into this:
 
 ```bash
-strace -f ./filter-write "ls -la"
-[pid  2657] lstat(".gitignore", {st_mode=S_IFREG|0644, st_size=19, ...}) = 0
-[pid  2657] lgetxattr(".gitignore", "security.selinux", "unconfined_u:object_r:default_t:"..., 255) = 35
-[pid  2657] getxattr(".gitignore", "system.posix_acl_access", NULL, 0) = -1 ENODATA (No data available)
-[pid  2657] getdents64(3, /* 0 entries */, 32768) = 0
-[pid  2657] close(3)                    = 0
-[pid  2657] openat(AT_FDCWD, "/usr/share/locale/en_US.UTF-8/LC_MESSAGES/coreutils.mo", O_RDONLY) = -1 ENOENT (No such file or directory)
-[pid  2657] openat(AT_FDCWD, "/usr/share/locale/en_US.utf8/LC_MESSAGES/coreutils.mo", O_RDONLY) = -1 ENOENT (No such file or directory)
-[pid  2657] openat(AT_FDCWD, "/usr/share/locale/en_US/LC_MESSAGES/coreutils.mo", O_RDONLY) = -1 ENOENT (No such file or directory)
-[pid  2657] openat(AT_FDCWD, "/usr/share/locale/en.UTF-8/LC_MESSAGES/coreutils.mo", O_RDONLY) = -1 ENOENT (No such file or directory)
-[pid  2657] openat(AT_FDCWD, "/usr/share/locale/en.utf8/LC_MESSAGES/coreutils.mo", O_RDONLY) = -1 ENOENT (No such file or directory)
-[pid  2657] openat(AT_FDCWD, "/usr/share/locale/en/LC_MESSAGES/coreutils.mo", O_RDONLY) = -1 ENOENT (No such file or directory)
+$ strace --follow-forks ./filter-write "ls -la"
+[pid 37782] write(1, "drwxr-xr-x. 2 rongtao rongtao   "..., 51) = -1 EPERM (Operation not permitted)
+[pid 37782] write(1, "drwxr-xr-x. 3 rongtao rongtao   "..., 52) = -1 EPERM (Operation not permitted)
+[pid 37782] write(1, "-rwxr-xr-x  1 rongtao rongtao 18"..., 62) = -1 EPERM (Operation not permitted)
+[pid 37782] write(1, "-rw-r--r--. 1 rongtao rongtao  1"..., 64) = -1 EPERM (Operation not permitted)
+[pid 37782] write(1, "-rw-r--r--  1 rongtao rongtao  5"..., 64) = -1 EPERM (Operation not permitted)
+[pid 37782] write(1, "-rw-r--r--  1 rongtao rongtao   "..., 60) = -1 EPERM (Operation not permitted)
+[pid 37782] write(1, "-rw-r--r--  1 rongtao rongtao   "..., 58) = -1 EPERM (Operation not permitted)
+[pid 37782] write(1, "-rw-r--r--. 1 rongtao rongtao  1"..., 59) = -1 EPERM (Operation not permitted)
 ```
 
-All the write syscalls got `ENOENT` as defined in `main.c`, that's why no output was given!
-
-
-
+All the write syscalls got `EPERM`.
