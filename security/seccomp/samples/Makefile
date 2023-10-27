@@ -1,8 +1,8 @@
-TARGETS := prctl-PR_SET_SECCOMP
+TARGETS := mode_strict
 
 CFLAGS :=
 
-prctl-PR_SET_SECCOMP: prctl-PR_SET_SECCOMP.o
+mode_strict: mode_strict.o
 
 all: ${TARGETS}
 
