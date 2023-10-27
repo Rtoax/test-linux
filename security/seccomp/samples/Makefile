@@ -1,7 +1,10 @@
+TARGETS := prctl-PR_SET_SECCOMP
 
-all:
-	gcc prctl-PR_SET_SECCOMP.c -o seccomp_prctl.out
+CFLAGS :=
 
+prctl-PR_SET_SECCOMP: prctl-PR_SET_SECCOMP.o
+
+all: ${TARGETS}
 
 clean:
-	rm -f *.out
+	rm -f ${TARGETS} *.o

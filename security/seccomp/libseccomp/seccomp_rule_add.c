@@ -9,7 +9,6 @@
 #include <seccomp.h>
 #include <linux/seccomp.h>
 
-//gcc seccomp_rule_add.c -lseccomp
 
 int main(void)
 {
@@ -26,4 +25,3 @@ int main(void)
 
 	return 0;
 }
-
