@@ -33,11 +33,13 @@ int main(int argc, char *argv[])
 	/**
 	 * errno = EDOM if tv_usec >= 10^6
 	 * see kernel commit ba78073e6f70 ("[NET]: "wrong timeout value" in
-	 * sk_wait_data() v2").
+	 * sk_wait_data() v2") kernel <= 2.6.22
 	 */
 	tv.tv_sec = 0;
 	tv.tv_usec = 1500000;
 	setsocktimeout(sockfd, &tv);
+	if (errno != EDOM)
+		fprintf(stderr, "Your kernel <= 2.6\n");
 
 	/**
 	 * Fix EDOM(Numerical argument out of domain) error
