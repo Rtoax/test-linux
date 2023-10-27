@@ -1,0 +1,22 @@
+
+TARGETS += data-type
+TARGETS += hello
+TARGETS += threads
+
+data-type: data-type.rs
+hello: hello.rs
+threads: threads.rs
+
+all: $(TARGETS)
+
+$(TARGETS): %:
+	@echo -e "Target   \033[1;32m$(@)\033[m"
+	rustc -o $(@) $(^)
+
+test: ${TARGETS}
+	@echo -e "Test   \033[1;32m$(@)\033[m"
+
+.PHONY: clean
+clean:
+	@echo -e "Clean   \033[1;32m$(@)\033[m"
+	@rm -f ${TARGETS}
