@@ -6,27 +6,39 @@
  *
  */
 #include <uapi/linux/prctl.h>
+#include <linux/seccomp.h>
 
 BEGIN
 {
 	@modes[0] = "DISABLE"; // SECCOMP_MODE_DISABLED
 	@modes[1] = " STRICT"; // SECCOMP_MODE_STRICT
 	@modes[2] = " FILTER"; // SECCOMP_MODE_FILTER
+
+	@operations[SECCOMP_SET_MODE_STRICT]  = "SET STRICT";
+	@operations[SECCOMP_SET_MODE_FILTER]  = "SET FILTER";
+	@operations[SECCOMP_GET_ACTION_AVAIL] = "GET ACTION AVAIL";
+	@operations[SECCOMP_GET_NOTIF_SIZES]  = "GET NOTIF SIZES";
+
+	printf("Tracing seccomp(2), hit ctrl-c to end.\n");
+	printf("%-8s %-16s %-20s\n", "PID", "COMM", "OPERATION");
 }
 
 tracepoint:syscalls:sys_enter_prctl
 /args->option == PR_SET_SECCOMP/
 {
 	$seccomp_mode = args->arg2;
-	printf("OPTIONE = %s\n", @modes[$seccomp_mode]);
+	printf("prctl: SET: OPTIONE = %s\n", @modes[$seccomp_mode]);
 }
 
 tracepoint:syscalls:sys_enter_seccomp
 {
-	printf("OP: %d\n", args->op);
+	$op = args->op;
+	$flags = args->flags;
+	printf("%-8d %-16s %-20s\n", pid, comm, @operations[$op]);
 }
 
 END
 {
+	clear(@operations);
 	clear(@modes);
 }
