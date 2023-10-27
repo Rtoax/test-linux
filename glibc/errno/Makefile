@@ -1,5 +1,6 @@
 
 TARGETS := nr_errno
+TARGETS += EDOM
 
 ifeq ($(shell uname -m),x86_64)
 endif
