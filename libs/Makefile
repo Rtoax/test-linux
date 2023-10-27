@@ -1,5 +1,6 @@
 
-TARGETS := gotoxy goprint
+TARGETS += byteswap
+TARGETS += gotoxy goprint
 TARGETS += log
 TARGETS += memshow
 TARGETS += progress
@@ -21,6 +22,7 @@ build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
 # Add more object.o file
+byteswap: byteswap.o
 gotoxy: gotoxy.o
 goprint: goprint.o
 log: log.o
