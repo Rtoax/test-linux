@@ -1,5 +1,6 @@
 
 TARGETS += byteswap
+TARGETS += endian
 TARGETS += gotoxy goprint
 TARGETS += log
 TARGETS += memshow
@@ -23,6 +24,7 @@ build: ${TARGETS}
 
 # Add more object.o file
 byteswap: byteswap.o
+endian: endian.o
 gotoxy: gotoxy.o
 goprint: goprint.o
 log: log.o

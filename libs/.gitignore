@@ -1,4 +1,5 @@
 /byteswap
+/endian
 /gotoxy
 /goprint
 /log
