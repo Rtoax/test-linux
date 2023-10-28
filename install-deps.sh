@@ -6,6 +6,7 @@ pkgs+=( bpftrace bcc )         # eBPF
 pkgs+=( efivar mokutil )       # UEFI
 pkgs+=( libdwarf-tools )       # dwarfdump
 pkgs+=( lshw )                 # lshw
+pkgs+=( ltrace )               # ltrace
 pkgs+=( mmc )                  # mmc
 pkgs+=( nasm )                 # nasm
 pkgs+=( rust )                 # rustc
