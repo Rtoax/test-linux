@@ -2,6 +2,7 @@
 TARGETS := socketpair
 TARGETS += getsockopt
 TARGETS += setsockopt
+TARGETS += gethostbyname
 
 ifeq ($(shell uname -m),x86_64)
 endif
@@ -27,6 +28,7 @@ build: ${TARGETS}
 socketpair: socketpair.o
 getsockopt: getsockopt.o
 setsockopt: setsockopt.o
+gethostbyname: gethostbyname.o
 
 
 %.d: %.c

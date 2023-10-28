@@ -1,2 +1,3 @@
 /socketpair
 /[s,g]etsockopt
+/gethostbyname
