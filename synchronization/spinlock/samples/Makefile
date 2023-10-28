@@ -1,6 +1,7 @@
 
 TARGETS := pthread_none
 TARGETS += pthread_orig
+TARGETS += pthread_pthread
 
 DEBUG = yes
 SRC_PATH := $(shell pwd)
@@ -21,9 +22,11 @@ build: ${TARGETS}
 # Add more object.o file
 pthread_none: pthread_none.o
 pthread_orig: pthread_orig.o
+pthread_pthread: pthread_pthread.o
 
 CFLAGS_pthread_none := -DSPIN_NONE
 CFLAGS_pthread_orig := -DSPIN_ORIG
+CFLAGS_pthread_pthread := -DSPIN_PTHREAD
 
 %.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

@@ -1,1 +1,3 @@
-/pthread
+/pthread_none
+/pthread_orig
+/pthread_pthread

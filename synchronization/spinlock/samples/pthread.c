@@ -11,7 +11,7 @@
 #define ADD_VAL	100000UL
 
 
-spinlock_t spinlock = SPINLOCK();
+spinlock_t spinlock;
 static long int sum = 0;
 
 void* test_task_fn(void* unused)
@@ -31,6 +31,8 @@ int main(void)
 {
 	int i, ret = 0;
 	pthread_t threads[NR_THREADS];
+
+	spinlock_init(&spinlock);
 
 	for (i = 0; i < NR_THREADS; i++)
 		pthread_create(&threads[i], NULL, test_task_fn, NULL);
