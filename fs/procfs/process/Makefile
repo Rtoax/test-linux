@@ -1,4 +1,5 @@
 TARGETS := loginuid
+TARGETS += pagemap
 
 all: $(TARGETS)
 
