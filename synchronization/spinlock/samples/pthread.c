@@ -2,9 +2,7 @@
 #include <stdio.h>
 
 #include <libs/log.h>
-
-
-pthread_spinlock_t spinlock;
+#include "spinlock.h"
 
 #ifndef NR_THREADS
 #define NR_THREADS	10
@@ -12,16 +10,17 @@ pthread_spinlock_t spinlock;
 
 #define ADD_VAL	100000UL
 
+
+spinlock_t spinlock = SPINLOCK();
 static long int sum = 0;
 
 void* test_task_fn(void* unused)
 {
 	int i;
-	log_child("test_task_fn %ld.\n", pthread_self());
 	for (i = 0; i < ADD_VAL; i++) {
-		pthread_spin_lock(&spinlock);
+		spinlock_lock(&spinlock);
 		sum++;
-		pthread_spin_unlock(&spinlock);
+		spinlock_unlock(&spinlock);
 	}
 
 	pthread_exit(NULL);
@@ -32,8 +31,6 @@ int main(void)
 {
 	int i, ret = 0;
 	pthread_t threads[NR_THREADS];
-
-	pthread_spin_init(&spinlock, PTHREAD_PROCESS_SHARED);
 
 	for (i = 0; i < NR_THREADS; i++)
 		pthread_create(&threads[i], NULL, test_task_fn, NULL);
@@ -50,6 +47,6 @@ int main(void)
 		ret = 1;
 	}
 
-	pthread_spin_destroy(&spinlock);
+	spinlock_destroy(&spinlock);
 	return ret;
 }
