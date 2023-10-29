@@ -28,3 +28,5 @@ do
 		${carriers[$i]}
 done
 
+echo
+sudo lshw -c network -businfo
