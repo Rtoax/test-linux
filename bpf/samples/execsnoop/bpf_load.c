@@ -130,7 +130,7 @@ static int load_and_attach(const char *event, struct bpf_insn *prog, int size)
 	if (prog_cnt == MAX_PROGS)
 		return -1;
 
-#if LIBBPF_MAJOR_VERSION == 0 && LIBBPF_MINOR_VERSION >= 7
+#if (LIBBPF_MAJOR_VERSION == 0 && LIBBPF_MINOR_VERSION >= 7) || LIBBPF_MAJOR_VERSION >= 1
 	LIBBPF_OPTS(bpf_prog_load_opts, opt);
 	/**
 	 * May should fill 'opt'
@@ -275,7 +275,7 @@ static int load_and_attach(const char *event, struct bpf_insn *prog, int size)
 static int load_maps(struct bpf_map_data *maps, int nr_maps,
 		     fixup_map_cb fixup_map)
 {
-	int i, numa_node;
+	int i;
 
 	for (i = 0; i < nr_maps; i++) {
 		if (fixup_map) {
@@ -287,13 +287,25 @@ static int load_maps(struct bpf_map_data *maps, int nr_maps,
 			}
 		}
 
-		numa_node = maps[i].def.map_flags & BPF_F_NUMA_NODE ?
+#if (LIBBPF_MAJOR_VERSION == 0 && LIBBPF_MINOR_VERSION >= 7) || LIBBPF_MAJOR_VERSION >= 1
+
+			LIBBPF_OPTS(bpf_map_create_opts, opts,
+				.inner_map_fd = map_fd[maps[i].def.inner_map_idx],
+				.map_flags = maps[i].def.map_flags,
+				);
+			map_fd[i] = bpf_map_create(maps[i].def.type,
+							maps[i].name,
+							maps[i].def.key_size,
+							4,
+							maps[i].def.max_entries,
+							&opts);
+#else
+		int numa_node = maps[i].def.map_flags & BPF_F_NUMA_NODE ?
 			maps[i].def.numa_node : -1;
 
 		if (maps[i].def.type == BPF_MAP_TYPE_ARRAY_OF_MAPS ||
 		    maps[i].def.type == BPF_MAP_TYPE_HASH_OF_MAPS) {
 			int inner_map_fd = map_fd[maps[i].def.inner_map_idx];
-
 			map_fd[i] = bpf_create_map_in_map_node(maps[i].def.type,
 							maps[i].name,
 							maps[i].def.key_size,
@@ -310,6 +322,7 @@ static int load_maps(struct bpf_map_data *maps, int nr_maps,
 							maps[i].def.map_flags,
 							numa_node);
 		}
+#endif
 		if (map_fd[i] < 0) {
 			printf("failed to create map %d (%s): %d %s\n",
 			       i, maps[i].name, errno, strerror(errno));

@@ -1,8 +1,0 @@
-libbpf version caused compile error
-
-bpf_load.c:297:37: error: implicit declaration of function ‘bpf_create_map_in_map_node’ [-Werror=implicit-function-declaration]
-  297 |                         map_fd[i] = bpf_create_map_in_map_node(maps[i].def.type,
-      |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~
-bpf_load.c:305:37: error: implicit declaration of function ‘bpf_create_map_node’ [-Werror=implicit-function-declaration]
-  305 |                         map_fd[i] = bpf_create_map_node(maps[i].def.type,
-      |                                     ^~~~~~~~~~~~~~~~~~~
