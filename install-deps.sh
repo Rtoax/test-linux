@@ -4,6 +4,7 @@ set -e
 pkgs=( make cmake gcc clang gdb )
 pkgs+=( bpftrace bcc )         # eBPF
 pkgs+=( efivar mokutil )       # UEFI
+pkgs+=( gtk3-devel )           # GTK3
 pkgs+=( libdwarf-tools )       # dwarfdump
 pkgs+=( lshw )                 # lshw
 pkgs+=( ltrace )               # ltrace
