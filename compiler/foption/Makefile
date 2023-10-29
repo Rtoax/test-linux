@@ -9,6 +9,7 @@ TARGETS += fstack-protector fstack-protector-all fstack-protector-strong fstack-
 CC = gcc
 
 CFLAGS := -Werror -Wall
+CFLAGS += -Wstrict-prototypes
 
 # N,M M=0 by default
 CFLAGS_fcf-protection := -fcf-protection

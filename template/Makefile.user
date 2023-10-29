@@ -19,6 +19,7 @@ SRC_PATH := $(shell pwd)
 CC = gcc
 
 CFLAGS := -Werror -Wall
+CFLAGS += -Wstrict-prototypes
 
 ifdef DEBUG
 CFLAGS += -DDEBUG -O0 -g

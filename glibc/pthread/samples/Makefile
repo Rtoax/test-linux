@@ -58,6 +58,7 @@ CC = gcc
 # glibc >= 2.34, pthread APIs move from libpthread.so to libc.so.
 # ref: https://developers.redhat.com/articles/2021/12/17/why-glibc-234-removed-libpthread
 CFLAGS := -Werror -Wall -pthread
+CFLAGS += -Wstrict-prototypes
 CFLAGS += -I$(shell realpath .)/../../../
 CFLAGS += -lm
 
