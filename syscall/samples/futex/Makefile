@@ -1,6 +1,9 @@
 
 TARGETS := wait-wake
 TARGETS += requeue
+TARGETS += h2o
+TARGETS += spin
+TARGETS += latency
 
 DEBUG = yes
 SRC_PATH := $(shell pwd)
@@ -20,6 +23,9 @@ build: ${TARGETS}
 
 requeue: requeue.o
 wait-wake: wait-wake.o
+h2o: h2o.o
+spin: spin.o
+latency: latency.o
 
 %.d: %.c
 	@echo -e "Generate \033[1m$(@)\033[m"

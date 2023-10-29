@@ -1,3 +1,4 @@
+TARGETS += __attribute__alias
 TARGETS += __attribute__cleanup
 TARGETS += __attribute__const
 TARGETS += __attribute__constructor
@@ -18,6 +19,7 @@ TARGETS += __attribute__weak
 
 all: ${TARGETS}
 
+__attribute__alias: __attribute__alias.o
 __attribute__cleanup: __attribute__cleanup.o
 __attribute__const: __attribute__const.o
 __attribute__constructor: __attribute__constructor.o
