@@ -6,6 +6,7 @@ TARGETS += param-pass
 TARGETS += compat
 TARGETS += ptr-dim
 TARGETS += xor
+TARGETS += __alignof__
 TARGETS += __label__
 TARGETS += __typeof__
 
@@ -40,6 +41,7 @@ array: array.o
 compat: compat.o
 ptr-dim: ptr-dim.o helpers.o
 xor: xor.o
+__alignof__: __alignof__.o
 
 %.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

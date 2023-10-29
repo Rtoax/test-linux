@@ -5,6 +5,7 @@
 /compat
 /ptr-dim
 /xor
+/__alignof__
 /__label__
 /__typeof__
 /*.s
