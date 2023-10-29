@@ -12,7 +12,7 @@ void *thread_fn(void *arg)
 	return NULL;
 }
 
-int main ()
+int main(void)
 {
 	int r;
 	bool join = false;

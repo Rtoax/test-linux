@@ -21,7 +21,7 @@ void * fun(void *arg)
 		printf("thread：get muntex\n");
 	}
 }
-int main()
+int main(void)
 {
 	int ret;
 	pthread_t tid;
@@ -49,4 +49,3 @@ int main()
 	}
 	return 0;
 }
-

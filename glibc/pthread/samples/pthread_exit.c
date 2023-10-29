@@ -9,7 +9,7 @@ void* test_task_fn(void* unused)
 	return NULL;
 }
 
-int main ()
+int main(void)
 {
 	int *pstatus;
 	pthread_t thread_id;
@@ -20,4 +20,3 @@ int main ()
 	printf("pstatus = %d\n", *pstatus);
 	return 0;
 }
-

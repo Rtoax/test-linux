@@ -39,7 +39,7 @@ void* thread_function(void* args)
 	return NULL;
 }
 
-int main()
+int main(void)
 {
 	int i;
 	pthread_t threads[nr_threads];
@@ -61,4 +61,3 @@ int main()
 
 	return 0;
 }
-

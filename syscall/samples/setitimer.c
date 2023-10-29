@@ -10,7 +10,7 @@ void catch_fun(int signo)
 	printf("catch signal\n");
 }
 
-int main()
+int main(void)
 {
 	int ret;
 	struct itimerval sa;

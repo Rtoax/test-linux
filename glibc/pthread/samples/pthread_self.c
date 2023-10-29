@@ -13,7 +13,7 @@ void* test_task_fn(void* unused)
 	return NULL;
 }
 
-int main ()
+int main(void)
 {
 	int *pstatus;
 	pthread_t thread_id;
@@ -25,4 +25,3 @@ int main ()
 	printf("pthread_self() = %ld\n", pthread_self());
 	return 0;
 }
-

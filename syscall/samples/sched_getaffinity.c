@@ -6,7 +6,7 @@
 
 #include <libs/memshow.h>
 
-int main()
+int main(void)
 {
 	int ret;
 	cpu_set_t cpuset;

@@ -60,7 +60,6 @@ build: nr.h ${TARGETS} ${TARGETS_CPP}
 	make -C fanotify
 	make -C inotify
 	make -C signal
-	make -C socket
 	make -C prctl
 	make -C arch_prctl
 	@echo -e " \033[1;33m Done \033[m"
@@ -115,7 +114,7 @@ mlockall: mlockall.o
 
 %.dpp: %.cpp
 	@echo -e "Generate \033[1m$(@)\033[m"
-	@$(CXX) $(CFLAGS) -MM -MF "$@" -MG -MP -MT"$@" -MT"$(<:.c=.o)" $(<)
+	@$(CXX) $(CXXFLAGS) -MM -MF "$@" -MG -MP -MT"$@" -MT"$(<:.c=.o)" $(<)
 
 %.o: %.c %.d
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
@@ -123,7 +122,7 @@ mlockall: mlockall.o
 
 %.opp: %.cpp %.dpp
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	@$(CXX) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
+	@$(CXX) $(CXXFLAGS) $(CXXFLAGS_$(*)) -o $(@) -c $(<)
 
 $(TARGETS): %:
 	@echo -e "Target   \033[1;32m$(@)\033[m"
@@ -148,7 +147,6 @@ clean:
 	make -C signal clean
 	make -C prctl clean
 	make -C arch_prctl clean
-	make -C socket clean
 	@rm -f ${TARGETS} ${TARGETS_CPP} \
 		*.o *.d *.opp *.dpp nr.h *.out \
 		*.txt testfile

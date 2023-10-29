@@ -8,8 +8,10 @@ struct test1 {
 	 int  id;
 };
 
-__thread struct test1 t;
-__thread int tid = 0;
+#define __tls __attribute__((tls_model("local-exec")))
+
+__thread __tls struct test1 t;
+__thread __tls int tid = 0;
 
 void* test_task_fn(void* unused)
 {
@@ -25,7 +27,7 @@ void* test_task_fn(void* unused)
 	return NULL;
 }
 
-int main ()
+int main(void)
 {
 	pthread_t t1, t2;
 
@@ -40,4 +42,3 @@ int main ()
 
 	return 0;
 }
-

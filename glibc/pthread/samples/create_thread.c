@@ -119,7 +119,7 @@ void* f1(void *arg)
 	return NULL;
 }
 #ifndef NO_CREATE_PTHREAD_MAIN_TEST
-int main()
+int main(void)
 {
 	create_fifo_thread(f1, NULL, 10);
 	return 0;

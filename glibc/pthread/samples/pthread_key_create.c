@@ -30,7 +30,7 @@ void* thread1(void* arg)
 	return NULL;
 }
 
-int main()
+int main(void)
 {
 	printf("main thread:%lu is running\n", pthread_self());
 
@@ -49,4 +49,3 @@ int main()
 
 	return 0;
 }
-

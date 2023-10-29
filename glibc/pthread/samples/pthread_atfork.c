@@ -19,7 +19,7 @@ void sig_handler(int signum)
 	exit(1);
 }
 
-void atfork_prepare()
+void atfork_prepare(void)
 {
 	int err;
 	log_parent("atfork_prepare: pthread_mutex_lock ...\n");
@@ -28,7 +28,7 @@ void atfork_prepare()
 		LOG_ERROR(err, "atfork_prepare: pthread_mutex_lock failed");
 }
 
-void atfork_parent()
+void atfork_parent(void)
 {
 	int err;
 	log_parent("atfork_parent: pthread_mutex_unlock ...\n");
@@ -37,7 +37,7 @@ void atfork_parent()
 		LOG_ERROR(err, "atfork_parent: pthread_mutex_unlock");
 }
 
-void atfork_child()
+void atfork_child(void)
 {
 	int err;
 	log_child("atfork_child: pthread_mutex_unlock ...\n");

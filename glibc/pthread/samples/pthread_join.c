@@ -28,7 +28,7 @@ void *fun3(void *arg)
 	return ((void *)3);
 }
 
-int main()
+int main(void)
 {
 	pthread_t tid;
 	void *retval = NULL;
