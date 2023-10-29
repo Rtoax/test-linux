@@ -1,0 +1,17 @@
+/__attribute__cleanup
+/__attribute__const
+/__attribute__constructor
+/__attribute__deprecated
+/__attribute__error
+/__attribute__format
+/__attribute____gnu_inline__
+/__attribute____naked__
+/__attribute__nonnull
+/__attribute__noreturn
+/__attribute__optimize_omit-frame-pointer
+/__attribute____pure__
+/__attribute__randomize_layout
+/__attribute__section-initcall
+/__attribute__section-readmostly
+/__attribute__vector_size
+/__attribute__weak

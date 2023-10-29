@@ -1,0 +1,1 @@
+#define _OPTIMIZE_O0 __attribute__((optimize("-O0")))
