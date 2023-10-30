@@ -1,13 +1,15 @@
 #include <pthread.h>
 #include <stdio.h>
 
+
+#define builtin_thread_self() (pthread_t)__builtin_thread_pointer()
+
 void* test_task_fn(void* unused)
 {
-	printf(">>pthread_self() = %ld\n", pthread_self());
-
 	static int status = 12121;
 
 	printf(">>pthread_self() = %ld\n", pthread_self());
+	printf(">>builtin_thread_self() = %ld\n", builtin_thread_self());
 
 	pthread_exit(&status);
 	return NULL;
@@ -23,5 +25,6 @@ int main(void)
 	pthread_join(thread_id, (void**)&pstatus);
 
 	printf("pthread_self() = %ld\n", pthread_self());
+	printf(">>builtin_thread_self() = %ld\n", builtin_thread_self());
 	return 0;
 }
