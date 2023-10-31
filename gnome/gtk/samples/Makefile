@@ -1,5 +1,6 @@
 
 TARGETS := drawing
+TARGETS += hello
 
 DEBUG = yes
 SRC_PATH := $(shell pwd)
@@ -24,6 +25,7 @@ build: ${TARGETS}
 
 # Add more object.o file
 drawing: drawing.o
+hello: hello.o
 
 %.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
