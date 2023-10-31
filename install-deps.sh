@@ -3,6 +3,7 @@ set -e
 
 pkgs=( make cmake gcc clang gdb )
 pkgs+=( bpftrace bcc )         # eBPF
+pkgs+=( criu )
 pkgs+=( efivar mokutil )       # UEFI
 pkgs+=( gtk3-devel )           # GTK3
 pkgs+=( kernel-devel )         # kernel
