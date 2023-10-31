@@ -1,6 +1,6 @@
 
 TARGETS += builder
-TARGETS += button
+TARGETS += button button2
 TARGETS += drawing
 TARGETS += grid
 TARGETS += hello
@@ -31,6 +31,7 @@ build: ${TARGETS}
 # Add more object.o file
 builder: builder.o
 button: button.o
+button2: button2.o
 drawing: drawing.o
 grid: grid.o
 hello: hello.o
