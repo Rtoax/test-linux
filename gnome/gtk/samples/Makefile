@@ -1,6 +1,11 @@
 
-TARGETS := drawing
+TARGETS += builder
+TARGETS += button
+TARGETS += drawing
+TARGETS += grid
 TARGETS += hello
+TARGETS += image
+TARGETS += window
 
 DEBUG = yes
 SRC_PATH := $(shell pwd)
@@ -24,8 +29,13 @@ build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
 # Add more object.o file
+builder: builder.o
+button: button.o
 drawing: drawing.o
+grid: grid.o
 hello: hello.o
+image: image.o
+window: window.o
 
 %.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
