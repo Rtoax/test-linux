@@ -91,6 +91,7 @@ __pycache__
 
 # Java
 *.class
+*.jar
 
 # Log
 *.log
