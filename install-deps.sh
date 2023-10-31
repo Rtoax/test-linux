@@ -10,6 +10,7 @@ pkgs+=( kernel-devel )         # kernel
 pkgs+=( libdwarf-tools )       # dwarfdump
 pkgs+=( libbpf-devel )         # libbpf
 pkgs+=( liburing-devel )       # uring
+pkgs+=( llvm )                 # llvm-as llvm-dis llc
 pkgs+=( lshw )                 # lshw
 pkgs+=( ltrace )               # ltrace
 pkgs+=( mmc )                  # mmc
