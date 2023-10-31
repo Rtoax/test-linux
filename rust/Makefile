@@ -3,11 +3,11 @@ TARGETS += data-type
 TARGETS += hello
 TARGETS += threads
 
+all: $(TARGETS)
+
 data-type: data-type.rs
 hello: hello.rs
 threads: threads.rs
-
-all: $(TARGETS)
 
 $(TARGETS): %:
 	@echo -e "Target   \033[1;32m$(@)\033[m"
