@@ -1,6 +1,6 @@
 
 TARGETS += builder
-TARGETS += button button2
+TARGETS += button button2 button_keyboard
 TARGETS += drawing
 TARGETS += grid
 TARGETS += hello
@@ -32,11 +32,14 @@ build: ${TARGETS}
 builder: builder.o
 button: button.o
 button2: button2.o
+button_keyboard: button_keyboard.o
 drawing: drawing.o
 grid: grid.o
 hello: hello.o
 image: image.o
 window: window.o
+
+CFLAGS_button_keyboard := -Wno-error=deprecated-declarations
 
 %.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
