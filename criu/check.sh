@@ -1,2 +1,2 @@
 #!/bin/bash
-criu check
+sudo criu check
