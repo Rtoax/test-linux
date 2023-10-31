@@ -1,6 +1,6 @@
 
 TARGETS += builder
-TARGETS += button button2 button_keyboard button_image button_image2 radiobutton checkbutton
+TARGETS += button button2 button_keyboard button_image button_image2 radiobutton checkbutton arrow_button
 TARGETS += drawing
 TARGETS += grid
 TARGETS += hello
@@ -30,6 +30,7 @@ build: ${TARGETS}
 
 # Add more object.o file
 builder: builder.o
+arrow_button: arrow_button.o
 button: button.o
 button2: button2.o
 button_keyboard: button_keyboard.o
@@ -43,6 +44,7 @@ hello: hello.o
 image: image.o
 window: window.o
 
+CFLAGS_arrow_button := -Wno-error=deprecated-declarations
 CFLAGS_button_keyboard := -Wno-error=deprecated-declarations
 CFLAGS_button_image2 := -Wno-error=deprecated-declarations
 CFLAGS_radiobutton := -Wno-error=deprecated-declarations
