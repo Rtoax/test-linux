@@ -131,3 +131,6 @@ cmake_install.cmake
 
 # OS
 os-release
+*.rpm
+*.deb
+*.exe
