@@ -13,6 +13,12 @@
 #define MYFS_MAGIC 0X64668735
 #define MYFS "myfs"
 
+/* TODO */
+#ifndef VMACACHE_SIZE
+#define VMACACHE_BITS 2
+#define VMACACHE_SIZE (1U << VMACACHE_BITS)
+#endif
+
 static struct vfsmount * myfs_mount;
 static int myfs_mount_count;
 
@@ -40,7 +46,9 @@ static struct inode * myfs_get_inode(struct super_block * sb, int mode, dev_t de
 		//@i_atime：最后访问时间
 		//@i_mtime：最后修改时间
 		//@i_ctime：最后修改inode时间
-		inode->i_atime = inode->i_mtime = inode->i_ctime = current_time(inode);
+		struct timespec64 curtime = current_time(inode);
+		inode->i_atime = inode->i_mtime = curtime;
+		inode_set_ctime_to_ts(inode, curtime);
 
 		switch (mode & S_IFMT) {
 			case S_IFREG:
