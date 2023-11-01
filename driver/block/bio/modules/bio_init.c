@@ -9,6 +9,8 @@
 #include <linux/kernel.h>
 #include <linux/bio.h>
 #include <linux/slab.h>
+#include <linux/version.h>
+
 
 struct bio test_bio;
 
@@ -21,7 +23,11 @@ static int kernel_init(void)
 	
 	vecs = kmalloc_array(nr_pages, sizeof(struct bio_vec), GFP_KERNEL);
 
+#if LINUX_VERSION_CODE < KERNEL_VERSION(5, 17, 0)
 	bio_init(&test_bio, vecs, nr_pages);
+#else
+	/* TODO */
+#endif
 
 	return 0;
 }
