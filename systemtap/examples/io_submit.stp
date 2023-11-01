@@ -1,4 +1,4 @@
-#! /usr/bin/env stap
+#!/usr/bin/env stap
 #
 # Copyright (C) 2007 Oracle Corp. Chris Mason <chris.mason@oracle.com>
 #
@@ -9,7 +9,7 @@
 # When the probe exits, it prints out the 30 most common call stacks for
 # schedule().
 #
-# This file is free software. You can redistribute it and/or modify it under 
+# This file is free software. You can redistribute it and/or modify it under
 # the terms of the GNU General Public License (GPL); either version 2, or (at
 # your option) any later version.
 

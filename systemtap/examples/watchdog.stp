@@ -1,4 +1,4 @@
-#! /usr/bin/env stap
+#!/usr/bin/env stap
 /*
  * watchdog.stp
  * usage: stap watchdog.stp start_event stop_event time_ms
@@ -6,7 +6,7 @@
 
 global active, count
 
-function trigger(p:long) { 
+function trigger(p:long) {
   /* may want to change the action here */
   event=sprintf("/usr/bin/pstack %d", p);
   system(event);
@@ -18,7 +18,7 @@ probe $2 { delete active[pid()]; delete count[pid()]}
 probe timer.ms($3) {
   foreach (p in active) {
     count[p]++
-    if (count[p] == 2) 
+    if (count[p] == 2)
       trigger(p)
   }
 }

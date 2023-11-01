@@ -1,4 +1,4 @@
-#! /usr/bin/env stap
+#!/usr/bin/env stap
 
 # Useless, but amusing. Based on an idea I saw on a
 # dtrace site. (wav files are from emacs).

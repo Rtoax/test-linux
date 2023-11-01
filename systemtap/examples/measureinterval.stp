@@ -1,8 +1,8 @@
-#! /usr/bin/env stap
+#!/usr/bin/env stap
 
 # General interval measurement / monitor.  Gives a report of event interval measurement on a
 # per-process or systemwide basis.
-# 
+#
 # Invoke with a list of probe point patterns as script command-line arguments:
 # stap measureinterval.stp 'measurement' 'match' 'accumulation' 'start_event(s)' 'end_event(s)'
 #

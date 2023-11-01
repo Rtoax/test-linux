@@ -1,4 +1,4 @@
-#! /usr/bin/env stap
+#!/usr/bin/env stap
 // From https://blog.verbum.org/2011/03/19/analyzing-memory-use-with-systemtap/
 // gmalloc_watch.stp: Print calls to g_malloc
 // Usage: stap ./gmalloc-watch.stp

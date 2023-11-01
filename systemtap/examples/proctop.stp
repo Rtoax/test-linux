@@ -1,4 +1,4 @@
-#! /usr/bin/env stap
+#!/usr/bin/env stap
 
 global processes, stime, virtmem, rssmem, shrmem, utime, proc_state
 global tot_intervals, sec_counter
@@ -12,7 +12,7 @@ global tot_intervals, sec_counter
 global sort="stime", sortdir="decrease", show=25, interval=5, clear_screen="n"
 
 probe scheduler.ctxswitch {
-  //don't let the process name get overwritten 
+  //don't let the process name get overwritten
   if (processes[prev_pid] == "" || prev_task_name != "")
     processes[prev_pid] = prev_task_name
 
@@ -68,7 +68,7 @@ function print_info (){
     println();
 
   printf("%d seconds: showing %d out of %d tasks\n",
-         tot_intervals*interval, ((show>tot_processes) ? tot_processes : show), 
+         tot_intervals*interval, ((show>tot_processes) ? tot_processes : show),
          tot_processes)
 
   printf("%8s %20s %10s %12s %12s %12s %16s %16s\n",

@@ -1,8 +1,8 @@
-#! /usr/bin/env stap
+#!/usr/bin/env stap
 
 # General event counter / monitor.  Gives a report of event counts/rates on a
 # per-process or systemwide basis at script shutdown.
-# 
+#
 # Invoke with a list of probe point patterns as script command-line arguments:
 # stap eventcount.stp 'syscall.*' ...
 #
@@ -99,7 +99,7 @@ probe %($# >= 1 %? $1 %: never %),
 }
 
 probe begin {
-      start_ms = gettimeofday_ms() 
+      start_ms = gettimeofday_ms()
       if (target()) msg = sprintf ("pid %d + children", target())
       else if (comm != "") msg = sprintf ("execname %s", comm)
       else msg = "unfiltered";

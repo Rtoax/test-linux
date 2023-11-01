@@ -1,4 +1,4 @@
-#! /bin/sh
+#!/bin/env stap
 
 # suppress some run-time errors here for cleaner output
 //bin/true && exec stap --suppress-handler-errors --skip-badvars $0 ${1+"$@"}
@@ -13,7 +13,7 @@ global thread_argstr%
 global thread_time%
 
 global syscalls_nonreturn[2]
-probe begin 
+probe begin
   {
     /* list those syscalls that never .return */
     syscalls_nonreturn["exit"]=1
@@ -30,7 +30,7 @@ function filter_p()
     return 0;
   }
 
-probe nd_syscall.* 
+probe nd_syscall.*
   {
     if (filter_p()) next;
 
@@ -76,9 +76,9 @@ function report(syscall_name, syscall_argstr, syscall_retstr)
     }
 
     printf("%s%s(%s) = %s%s\n",
-           prefix, 
+           prefix,
            syscall_name, syscall_argstr, syscall_retstr,
            suffix)
-    
+
     delete thread_argstr[tid()]
   }

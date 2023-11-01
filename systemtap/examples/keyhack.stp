@@ -1,4 +1,4 @@
-#! /usr/bin/env stap
+#!/usr/bin/env stap
 
 # This is not useful, but it demonstrates that
 # Systemtap can modify variables in a running kernel.
