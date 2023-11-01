@@ -7,7 +7,9 @@ int prog_load_deprecated(int a, int b, int c, int d)
 	return printf("4: %d %d %d %d\n", a, b, c, d);
 }
 
+#if !defined(__clang__)
 DEFAULT_VERSION(prog_load_v0_6_0, prog_load, LIB0.6.0)
+#endif
 int prog_load(int a, int b, int c, int d, int e, int f)
 {
 	return printf("6: %d %d %d %d %d %d\n", a, b, c, d, e, f);
