@@ -67,4 +67,5 @@ KERNEL_LIST += module/nothing
 KERNEL_LIST += module/params
 KERNEL_LIST += module/version
 KERNEL_LIST += sched/kthread
+KERNEL_LIST += sched/softlockup/modules
 KERNEL_LIST += sched/waitqueue/modules
