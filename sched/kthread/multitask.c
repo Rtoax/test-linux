@@ -9,6 +9,7 @@
 #include <linux/slab.h>
 #include <linux/kthread.h>
 #include <linux/kallsyms.h>
+#include <linux/version.h>
 
 #define NTHREADS 200
 
@@ -21,7 +22,15 @@ static struct work_struct work_queue;
 static struct timer_list mytimer;
 static LIST_HEAD(tasks_list);
 static unsigned int list_len = 0;
+/**
+ * kernel commit 48380368dec1 ("Change DEFINE_SEMAPHORE() to take a number
+ * argument") add number argument.
+ */
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(6, 3, 0)
+static DEFINE_SEMAPHORE(sem, 0);
+#else
 static DEFINE_SEMAPHORE(sem);
+#endif
 static DEFINE_SPINLOCK(my_lock);
 static atomic_t my_count = ATOMIC_INIT(0);
 static int count = 0;

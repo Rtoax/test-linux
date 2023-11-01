@@ -61,3 +61,4 @@ KERNEL_LIST += livepatch/kallsyms-mod
 KERNEL_LIST += livepatch/kthread
 KERNEL_LIST += livepatch/modules
 KERNEL_LIST += livepatch/samples
+KERNEL_LIST += sched/kthread
