@@ -15,7 +15,14 @@ int main(int argc, char **argv)
 	GtkApplication *app;
 	int status;
 
-	app = gtk_application_new("org.gtk.example", G_APPLICATION_DEFAULT_FLAGS);
+/* see /usr/include/glib-2.0/gio/gioenums.h comment */
+#if GLIB_MAJOR_VERSION<=2 && GLIB_MINOR_VERSION>=74
+	int flag = G_APPLICATION_DEFAULT_FLAGS;
+#else
+	int flag = G_APPLICATION_FLAGS_NONE;
+#endif
+
+	app = gtk_application_new("org.gtk.example", flag);
 	g_signal_connect(app, "activate", G_CALLBACK(activate), NULL);
 	status = g_application_run(G_APPLICATION(app), argc, argv);
 	g_object_unref(app);
