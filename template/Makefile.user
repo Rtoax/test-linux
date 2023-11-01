@@ -21,6 +21,10 @@ CC = gcc
 CFLAGS := -Werror -Wall
 CFLAGS += -Wstrict-prototypes
 
+LDFLAGS :=
+
+STATIC_OPTS :=
+
 ifdef DEBUG
 CFLAGS += -DDEBUG -O0 -g
 endif
@@ -42,7 +46,7 @@ CFLAGS_main.user += -D_MAIN_USER=1
 
 $(TARGETS): %:
 	@echo -e "Target   \033[1;32m$(@)\033[m"
-	$(CC) $(CFLAGS) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
+	$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS) $(LDFLAGS) $(LDFLAGS_$(*))
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"

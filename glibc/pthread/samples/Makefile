@@ -55,12 +55,18 @@ DEBUG = yes
 SRC_PATH := $(shell pwd)
 CC = gcc
 
+LDFLAGS :=
+
 # glibc >= 2.34, pthread APIs move from libpthread.so to libc.so.
 # ref: https://developers.redhat.com/articles/2021/12/17/why-glibc-234-removed-libpthread
 CFLAGS := -Werror -Wall -pthread
 CFLAGS += -Wstrict-prototypes
 CFLAGS += -I$(shell realpath .)/../../../
+ifeq ($(CC),clang)
+LDFLAGS += -Wl,-lm
+else
 CFLAGS += -lm
+endif
 
 ifdef DEBUG
 CFLAGS += -DDEBUG -O0 -g
@@ -135,7 +141,7 @@ pthread_cond_wait: pthread_cond_wait.o
 
 $(TARGETS): %:
 	@echo -e "Target   \033[1;32m$(@)\033[m"
-	$(CC) $(CFLAGS) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
+	$(CC) $(CFLAGS) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS) $(LDFLAGS) $(LDFLAGS_$(*))
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m <$(OS)>"
