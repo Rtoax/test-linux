@@ -29,10 +29,14 @@ define cleankernellog
 	@rm -f $(kernel_FAILED_LOG)
 endef
 define printuserlog
-	@cat $(user_FAILED_LOG)
+	@if [[ -e $(user_FAILED_LOG) ]]; then \
+		cat $(user_FAILED_LOG) ; \
+	fi
 endef
 define printkernellog
-	@cat $(kernel_FAILED_LOG)
+	@if [[ -e $(kernel_FAILED_LOG) ]]; then \
+		cat $(kernel_FAILED_LOG) ; \
+	fi
 endef
 
 # make_ [U|K] [dir]
@@ -78,7 +82,7 @@ user: cleanuserlog $(SUB_user_DIR)
 $(SUB_user_DIR):
 	$(call make_,U,$@)
 kernel: cleankernellog $(SUB_kernel_DIR)
-	@echo "=========== User done ==========="
+	@echo "=========== Kernel done ==========="
 	$(call printkernellog)
 $(SUB_user_DIR):
 $(SUB_kernel_DIR):
