@@ -7,6 +7,11 @@
 
 #define NR_KTHREAD 3
 
+static int bind = 1;
+
+module_param(bind, int, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+MODULE_PARM_DESC(bind, "Bind cpu with when creating kthread");
+
 struct task_struct *task[NR_KTHREAD];
 char *THREAD_MESSAGE = "Hello from MyThread!";
 
@@ -19,7 +24,8 @@ int thread_function(void *data)
 
 	while (!kthread_should_stop()) {
 		msleep_interruptible(100);
-		printk(KERN_INFO "Count %lld, total %d\n", count++, atomic_read(&my_count));
+		printk(KERN_INFO "Count %lld, total %d\n", count++,
+			atomic_read(&my_count));
 		atomic_inc(&my_count);
 
 		/* Condition is established if kthread_park() */
@@ -36,21 +42,45 @@ int thread_function(void *data)
 	return 0;
 }
 
+struct task_struct *create_task(int cpu)
+{
+	struct task_struct *task;
+	task = kthread_run(&thread_function, (void *)THREAD_MESSAGE,
+			"rtoax-%d", cpu);
+	if (IS_ERR(task)) {
+		printk(KERN_ERR "Create task failed\n");
+		return NULL;
+	}
+	/* TODO: bind faild */
+	kthread_bind(task, cpu);
+	return task;
+}
+
+struct task_struct *create_task_on_cpu(int cpu)
+{
+	struct task_struct *task;
+	char name[TASK_COMM_LEN];
+
+	sprintf(name, "rtoax-%d", cpu);
+	task = kthread_create_on_cpu(&thread_function, (void *)THREAD_MESSAGE,
+			cpu, name);
+	if (IS_ERR(task)) {
+		printk(KERN_ERR "Create task failed\n");
+		return NULL;
+	}
+	return task;
+}
+
 static int kernel_init(void)
 {
-	int itask, cpu;
-	int ret;
+	int itask;
 	printk(KERN_INFO "mykthread init.\n");
 
 	for (itask = 0; itask < NR_KTHREAD; itask++) {
-		cpu = itask;
-		task[itask] = kthread_run(&thread_function, (void *)THREAD_MESSAGE, "rtoax-%d", itask);
-		if (IS_ERR(task[itask])) {
-			ret = PTR_ERR(task[itask]);
-			printk(KERN_ERR "Locking thread returned error %d\n", ret);
-			continue;
-		}
-		kthread_bind(task[itask], cpu);
+		if (bind)
+			task[itask] = create_task_on_cpu(itask);
+		else
+			task[itask] = create_task(itask);
 	}
 
 	msleep(100);
