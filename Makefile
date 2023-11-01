@@ -4,6 +4,9 @@
 MAKEFLAGS = --silent --no-print-directory
 MKFILE_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))
 
+user_FAILED_LOG = $(shell pwd)/failed-user.log
+kernel_FAILED_LOG = $(shell pwd)/failed-kernel.log
+
 include make.list
 SUB_user_DIR = $(USER_LIST)
 SUB_user_DIR_TEST := $(SUB_user_DIR:%=%_test)
@@ -19,11 +22,32 @@ all:
 	@echo -e "make [test|testuser|testkernel]"
 	@echo -e "make [clean|cleanuser|cleankernel]"
 
+define cleanuserlog
+	@rm -f $(user_FAILED_LOG)
+endef
+define cleankernellog
+	@rm -f $(kernel_FAILED_LOG)
+endef
+define printuserlog
+	@cat $(user_FAILED_LOG)
+endef
+define printkernellog
+	@cat $(kernel_FAILED_LOG)
+endef
+
 # make_ [U|K] [dir]
 define make_
 	@echo -e "[$(1)] \033[1;34mMake [$(2)] starting\033[m"
 	@pushd $(2) >/dev/null ; \
 		make ; \
+		if [ $$? -ne 0 ]; then \
+			if [ $(1) == U ]; then \
+				echo "Failed $(1) $(2)" >>$(user_FAILED_LOG); \
+			elif [ $(1) == K ]; then \
+				echo "Failed $(1) $(2)" >>$(kernel_FAILED_LOG); \
+			fi ; \
+			false; \
+		fi ; \
 		popd >/dev/null
 	@echo -e "[$(1)] Make [$(2)] done"
 endef
@@ -46,12 +70,17 @@ define make_clean
 	@echo -e "[$(1)] Clean [$(2)] done"
 endef
 
+
 default: user kernel
-user: $(SUB_user_DIR)
+user: cleanuserlog $(SUB_user_DIR)
 	@echo "=========== User done ==========="
+	$(call printuserlog)
 $(SUB_user_DIR):
 	$(call make_,U,$@)
-kernel: $(SUB_kernel_DIR)
+kernel: cleankernellog $(SUB_kernel_DIR)
+	@echo "=========== User done ==========="
+	$(call printkernellog)
+$(SUB_user_DIR):
 $(SUB_kernel_DIR):
 	$(call make_,K,$@)
 
@@ -89,6 +118,11 @@ $(SUB_kernel_DIR_CLEAN):
 cleangit:
 	echo "=== clean git repo"
 	sh git-clean y
+
+cleanuserlog:
+	$(call cleanuserlog)
+cleankernellog:
+	$(call cleankernellog)
 
 .PHONY: all test clean \
 	$(SUB_user_DIR) \
