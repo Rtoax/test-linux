@@ -1,3 +1,3 @@
 #!/bin/bash
 # Default: gcc
-make CC=clang
+make CC=clang -j$(nproc)
