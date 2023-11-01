@@ -13,7 +13,6 @@ SUB_kernel_DIR = $(KERNEL_LIST)
 SUB_kernel_DIR_TEST := $(SUB_kernel_DIR:%=%_test)
 SUB_kernel_DIR_CLEAN := $(SUB_kernel_DIR:%=%_clean)
 
-
 all:
 	@echo -e "make default: user+kernel"
 	@echo -e "make [user|kernel]"
@@ -23,26 +22,33 @@ all:
 # make_ [U|K] [dir]
 define make_
 	@echo -e "[$(1)] \033[1;34mMake [$(2)] starting\033[m"
-	@cd $(2) ; make ; cd - >/dev/null
+	@pushd $(2) >/dev/null ; \
+		make ; \
+		popd >/dev/null
 	@echo -e "[$(1)] Make [$(2)] done"
 endef
 
 # make_test [U|K] [dir]
 define make_test
 	@echo -e "[$(1)] \033[1;35mTest [$(2)] starting\033[m"
-	@cd $(2); make test; cd - >/dev/null
+	@pushd $(2) >/dev/null ; \
+		make test ; \
+		popd >/dev/null
 	@echo -e "[$(1)] Test [$(2)] done"
 endef
 
 # make_clean [U|K] [dir]
 define make_clean
 	@echo -e "[$(1)] \033[1;36mClean [$(2)] starting\033[m"
-	@cd $(2); make clean; cd - >/dev/null
+	@pushd $(2) >/dev/null ; \
+		make clean ; \
+		popd >/dev/null
 	@echo -e "[$(1)] Clean [$(2)] done"
 endef
 
 default: user kernel
 user: $(SUB_user_DIR)
+	@echo "=========== User done ==========="
 $(SUB_user_DIR):
 	$(call make_,U,$@)
 kernel: $(SUB_kernel_DIR)
