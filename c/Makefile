@@ -4,6 +4,7 @@ TARGETS += array
 TARGETS += ascii
 TARGETS += param-pass
 TARGETS += compat
+TARGETS += _Generic
 TARGETS += ptr-dim
 TARGETS += xor
 TARGETS += __alignof__
@@ -39,9 +40,12 @@ ascii: ascii.o
 param-pass: param-pass.o
 array: array.o
 compat: compat.o
+_Generic: _Generic.o
 ptr-dim: ptr-dim.o helpers.o
 xor: xor.o
 __alignof__: __alignof__.o
+
+CFLAGS__Generic := -Wno-all
 
 %.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

@@ -3,6 +3,7 @@
 /array
 /param-pass
 /compat
+/_Generic
 /ptr-dim
 /xor
 /__alignof__
