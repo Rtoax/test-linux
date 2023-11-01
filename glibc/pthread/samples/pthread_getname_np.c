@@ -5,6 +5,8 @@
 #include <unistd.h>
 #include <errno.h>
 #include <stdlib.h>
+#include <signal.h>
+#include <stdbool.h>
 
 #define NAMELEN 16
 
@@ -14,7 +16,7 @@
 
 static void *threadfunc(void *parm)
 {
-	sleep(5);
+	sleep(2);
 	return NULL;
 }
 
@@ -22,28 +24,28 @@ int main(int argc, char **argv)
 {
 	pthread_t thread;
 	int rc;
-	char thread_name[NAMELEN];
+	char name[NAMELEN];
 
 	rc = pthread_create(&thread, NULL, threadfunc, NULL);
 	if (rc != 0)
 		err_exit(rc, "pthread_create");
 
-	rc = pthread_getname_np(thread, thread_name, NAMELEN);
+	rc = pthread_getname_np(thread, name, NAMELEN);
 	if (rc != 0)
 		err_exit(rc, "pthread_getname_np");
 
-	printf("Created a thread. Default name is: %s\n", thread_name);
-	rc = pthread_setname_np(thread, (argc > 1) ? argv[1] : "THREADFOO");
+	printf("Created a thread. Default name is: %s\n", name);
+	rc = pthread_setname_np(thread, "THREADFOO");
 	if (rc != 0)
 		err_exit(rc, "pthread_setname_np");
 
-	sleep(2);
+	sleep(1);
 
-	rc = pthread_getname_np(thread, thread_name, (argc > 2) ? atoi(argv[2]) : NAMELEN);
+	rc = pthread_getname_np(thread, name, NAMELEN);
 	if (rc != 0)
 		err_exit(rc, "pthread_getname_np");
 
-	printf("The thread name after setting it is %s.\n", thread_name);
+	printf("The thread name after setting it is %s.\n", name);
 
 	rc = pthread_join(thread, NULL);
 	if (rc != 0)

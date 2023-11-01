@@ -14,6 +14,7 @@ int sys_affinity_bind(int cpu)
 	rc = pthread_setaffinity_np(pthread_self(), sizeof(cpu_set_t), &cpuset);
 	if (rc) {
 		perror("pthread_setaffinity_np failed");
+		return rc;
 	}
 
 	/* check the actual affinity mask assigned to the thread */
@@ -23,6 +24,7 @@ int sys_affinity_bind(int cpu)
 	rc = pthread_getaffinity_np(pthread_self(), sizeof(cpu_set_t), &cpuset);
 	if (rc) {
 		perror("pthread_getaffinity_np failed");
+		return rc;
 	}
 
 	fprintf(stderr, "set sys affinity: ");
