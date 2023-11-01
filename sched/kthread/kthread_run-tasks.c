@@ -38,11 +38,20 @@ int thread_function(void *data)
 
 static int kernel_init(void)
 {
-	int itask;
+	int itask, cpu;
+	int ret;
 	printk(KERN_INFO "mykthread init.\n");
 
-	for (itask = 0; itask < NR_KTHREAD; itask++)
+	for (itask = 0; itask < NR_KTHREAD; itask++) {
+		cpu = itask;
 		task[itask] = kthread_run(&thread_function, (void *)THREAD_MESSAGE, "rtoax-%d", itask);
+		if (IS_ERR(task[itask])) {
+			ret = PTR_ERR(task[itask]);
+			printk(KERN_ERR "Locking thread returned error %d\n", ret);
+			continue;
+		}
+		kthread_bind(task[itask], cpu);
+	}
 
 	msleep(100);
 	for (itask = 0; itask < NR_KTHREAD; itask++)
