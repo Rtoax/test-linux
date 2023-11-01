@@ -15,6 +15,8 @@
 #include <sys/mman.h>
 #include <fcntl.h>
 #include <math.h>
+#include <stdbool.h>
+
 
 #define HAS_PRIORITY_INHERIT 1
 
@@ -29,9 +31,6 @@ struct thread {
 	int policy;
 	int flags;
 };
-typedef struct { volatile int counter; } atomic_t;
-
-static int _use_pi = 1;
 
 void init_pi_mutex(pthread_mutex_t * m)
 {
@@ -44,10 +43,7 @@ void init_pi_mutex(pthread_mutex_t * m)
 		printf("Failed to init mutexattr: %d (%s)\n", ret,
 			strerror(ret));
 	};
-	if (_use_pi
-		&& (ret =
-		pthread_mutexattr_setprotocol(&attr,
-						PTHREAD_PRIO_INHERIT)) != 0) {
+	if ((ret = pthread_mutexattr_setprotocol(&attr, PTHREAD_PRIO_INHERIT)) != 0) {
 		printf("Can't set protocol prio inherit: %d (%s)\n", ret,
 			strerror(ret));
 	}
@@ -63,7 +59,7 @@ void init_pi_mutex(pthread_mutex_t * m)
 	/* FIXME: does any of this need to be destroyed ? */
 }
 
-struct thread * create_thread(void *(*func) (void *), void *arg, int prio, int policy)
+struct thread *create_thread(void *(*func) (void *), void *arg, int prio, int policy)
 {
 	struct sched_param param;
 	int ret;
@@ -99,29 +95,40 @@ struct thread * create_thread(void *(*func) (void *), void *arg, int prio, int p
 	return thread;
 }
 
-struct thread *create_fifo_thread(void *(*func) (void *), void *arg, int prio)
+struct thread *create_fifo_thread(void *(*func)(void *), void *arg, int prio)
 {
 	return create_thread(func, arg, prio, SCHED_FIFO);
 }
 
-struct thread *create_rr_thread(void *(*func) (void *), void *arg, int prio)
+struct thread *create_rr_thread(void *(*func)(void *), void *arg, int prio)
 {
 	return create_thread(func, arg, prio, SCHED_RR);
 }
 
-struct thread *create_other_thread(void *(*func) (void *), void *arg)
+struct thread *create_other_thread(void *(*func)(void *), void *arg)
 {
 	return create_thread(func, arg, 0, SCHED_OTHER);
 }
 
-void* f1(void *arg)
+#ifdef MAIN_TEST
+void* loop(void *arg)
 {
+	while (true);
 	return NULL;
 }
-#ifndef NO_CREATE_PTHREAD_MAIN_TEST
+
 int main(void)
 {
-	create_fifo_thread(f1, NULL, 10);
+	struct thread *thread;
+
+	thread = create_fifo_thread(loop, NULL, 10);
+	if (!thread)
+		goto failed;
+
+	pthread_join(thread->pthread, NULL);
+
 	return 0;
+failed:
+	return -1;
 }
 #endif
