@@ -19,7 +19,7 @@ int main(int argc,char **argv)
 
 	bzero(&wr,sizeof(wr));
 
-	fd = open("test.dat",O_WRONLY | O_APPEND | O_CREAT, 0644);
+	fd = open("test.dat", O_WRONLY | O_APPEND | O_CREAT, 0644);
 	if (fd < 0) {
 		perror("open");
 		exit(1);
@@ -39,12 +39,10 @@ int main(int argc,char **argv)
 		perror("aio_write");
 	}
 
-	while (aio_error(&wr) == EINPROGRESS) {
-		printf("hello,world\n");
-	}
+	while (aio_error(&wr) == EINPROGRESS);
 
 	ret = aio_return(&wr);
-	printf("\nReturn: %d\n",ret);
+	printf("Return: %d\n", ret);
 
 	return 0;
 }

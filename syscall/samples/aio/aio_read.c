@@ -6,6 +6,7 @@
 #include <sys/types.h>
 #include <fcntl.h>
 #include <aio.h>
+#include <sys/stat.h>
 
 
 #define BUFFER_SIZE 1024
@@ -14,13 +15,16 @@ int main(int argc,char **argv)
 {
 	struct aiocb rd;
 	const char *filename = "/etc/os-release";
-	int fd, ret, counter;
+	int fd, ret, counter, times;
+	struct stat stat;
 
 	fd = open(filename, O_RDONLY);
 	if (fd < 0) {
 		perror("open");
 		exit(1);
 	}
+
+	fstat(fd, &stat);
 
 	bzero(&rd, sizeof(rd));
 
@@ -36,14 +40,16 @@ int main(int argc,char **argv)
 	}
 
 	counter = 0;
-
+	times = 0;
 	while (aio_error(&rd) == EINPROGRESS) {
-		printf("%s", (char*)rd.aio_buf);
-		counter++;
+		/* Print text and count number of bytes */
+		counter += printf("%s", (char *)rd.aio_buf);
+		times++;
 	}
 
 	ret = aio_return(&rd);
-	printf("\nReturn: %d\n", ret);
+	printf("\nReturn: %d, counter %d, stat size %ld (times %d)\n",
+		ret, counter, stat.st_size, times);
 
 	return 0;
 }

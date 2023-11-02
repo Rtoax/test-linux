@@ -59,6 +59,7 @@ int main(int argc,char **argv)
 
 	listio[1] = &wr;
 
+	/* initiate a list of I/O requests */
 	ret = lio_listio(LIO_WAIT, listio, MAX_LIST, NULL);
 
 	ret = aio_return(&rd);
