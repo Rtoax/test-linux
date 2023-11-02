@@ -15,12 +15,19 @@
 
 int main(void)
 {
-	io_context_t context;
-	struct iocb io[1], *p[1] = {&io[0]};
-	struct timespec timeout;
-	char *wbuf;
+	int i;
 	int ret;
-	int fd;
+	int ifd, ofd;
+	char *wbuf;
+	io_context_t context;
+	struct iocb io[2];
+	struct timespec timeout;
+	struct iocb *p[2] = {
+		&io[0],
+		&io[1],
+	};
+#define IO_READER	0
+#define IO_WRITER	1
 
 
 	posix_memalign((void **)&wbuf, 512, BUF_LEN);
@@ -30,8 +37,14 @@ int main(void)
 	timeout.tv_sec = 0;
 	timeout.tv_nsec = 10000000;
 
-	fd = open("test3.dat", O_CREAT | O_RDWR | O_DIRECT, 0644);
-	if (fd < 0) {
+	ifd = open("/etc/os-release", O_RDONLY);
+	if (ifd < 0) {
+		perror("open");
+		exit(1);
+	}
+
+	ofd = open("test3.dat", O_CREAT | O_RDWR | O_DIRECT, 0644);
+	if (ofd < 0) {
 		printf("open error: %d\n", errno);
 		return 0;
 	}
@@ -42,26 +55,33 @@ int main(void)
 		return 0;
 	}
 
-	io_prep_pwrite(&io[0], fd, wbuf, BUF_LEN, 0);
+	/* reader and writer use same buffer */
+	io_prep_pread(&io[IO_READER], ifd, wbuf, BUF_LEN, 0);
+	io_prep_pwrite(&io[IO_WRITER], ofd, wbuf, BUF_LEN, 0);
 
-	ret = io_submit(context, 1, p);
-	if (ret != 1) {
+	ret = io_submit(context, 2, p);
+	if (ret != 2) {
 		printf("io_submit error: %d\n", ret);
 		io_destroy(context);
 		return -1;
 	}
 
-	while (1) {
+	/* read and write */
+	for (i = 0; i < 2; i++) {
 		struct io_event e[1];
 		ret = io_getevents(context, 1, 1, e, &timeout);
-		if (ret < 0) {
+		if (ret <= 0) {
 			printf("io_getevents error: %d\n", ret);
-			break;
+			continue;
 		}
-		if (ret > 0) {
-			printf("result, res2: %ld, res: %ld\n", e[0].res2, e[0].res);
-			break;
+		struct iocb *cb = (struct iocb *)e->obj;
+		fprintf(stderr, "%p %p %p\n", &io[0], &io[1], cb);
+		if (cb == &io[IO_READER]) {
+			printf("Read event, ");
+		} else if (cb == &io[IO_WRITER]) {
+			printf("Write event, ");
 		}
+		printf("result, res2: %ld, res: %ld\n", e[0].res2, e[0].res);
 	}
 	free(wbuf);
 	return 0;
