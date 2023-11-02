@@ -27,7 +27,7 @@ build: ${TARGETS}
 cpu_set: cpu_set.o
 CPU_SETSIZE: CPU_SETSIZE.o
 CPU_ALLOC: CPU_ALLOC.o
-getcpu: getcpu.o
+getcpu: getcpu.o helpers.o
 sched_getparam: sched_getparam.o
 sched_setparam: sched_setparam.o
 sched_setscheduler: sched_setscheduler.o
@@ -35,7 +35,7 @@ sched_getscheduler: sched_getscheduler.o
 sched_get_priority_max: sched_get_priority_max.o
 sched_get_priority_min: sched_get_priority_min.o
 sched_getaffinity: sched_getaffinity.o
-sched_getcpu: sched_getcpu.o
+sched_getcpu: sched_getcpu.o helpers.o
 sched_yield: sched_yield.o
 
 %.d: %.c
