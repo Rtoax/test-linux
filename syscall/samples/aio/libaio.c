@@ -17,7 +17,6 @@ int main(void)
 {
 	io_context_t context;
 	struct iocb io[1], *p[1] = {&io[0]};
-	struct io_event e[1];
 	struct timespec timeout;
 	char *wbuf;
 	int ret;
@@ -37,20 +36,23 @@ int main(void)
 		return 0;
 	}
 
-	if (0 != io_setup(NR_EVENT, &context)) {
+	ret = io_setup(NR_EVENT, &context);
+	if (ret != 0) {
 		printf("io_setup error: %d\n", errno);
 		return 0;
 	}
 
 	io_prep_pwrite(&io[0], fd, wbuf, BUF_LEN, 0);
 
-	if ((ret = io_submit(context, 1, p)) != 1) {
+	ret = io_submit(context, 1, p);
+	if (ret != 1) {
 		printf("io_submit error: %d\n", ret);
 		io_destroy(context);
 		return -1;
 	}
 
 	while (1) {
+		struct io_event e[1];
 		ret = io_getevents(context, 1, 1, e, &timeout);
 		if (ret < 0) {
 			printf("io_getevents error: %d\n", ret);
@@ -61,5 +63,6 @@ int main(void)
 			break;
 		}
 	}
+	free(wbuf);
 	return 0;
 }
