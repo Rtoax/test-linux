@@ -2,6 +2,8 @@
 /CPU_SETSIZE
 /CPU_ALLOC
 /getcpu
+/sched_get_priority_max
+/sched_get_priority_min
 /sched_getaffinity
 /sched_getcpu
 /sched_yield
