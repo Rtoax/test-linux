@@ -1,5 +1,7 @@
 
-TARGETS := sched_getaffinity
+TARGETS += cpu_set
+TARGETS += getcpu
+TARGETS += sched_getaffinity
 
 DEBUG = yes
 SRC_PATH := $(shell pwd)
@@ -18,6 +20,8 @@ endif
 build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
+cpu_set: cpu_set.o
+getcpu: getcpu.o
 sched_getaffinity: sched_getaffinity.o
 
 %.d: %.c
@@ -31,10 +35,6 @@ sched_getaffinity: sched_getaffinity.o
 $(TARGETS): %:
 	@echo -e "Target   \033[1;32m$(@)\033[m"
 	@$(CC) $(CFLAGS) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
-
-$(TARGETS_CPP): %:
-	@echo -e "Target   \033[1;32m$(@)\033[m"
-	@$(CXX) $(CFLAGS) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
