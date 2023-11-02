@@ -1,5 +1,1 @@
-/aio_read
-/aio_write
-/aio_suspend
-/lio_listio
 /libaio
