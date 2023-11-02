@@ -9,6 +9,7 @@ pkgs+=( gtk3-devel )           # GTK3
 pkgs+=( kernel-devel )         # kernel
 pkgs+=( libdwarf-tools )       # dwarfdump
 pkgs+=( libbpf-devel )         # libbpf
+pkgs+=( libselinux-devel )     # SELinux
 pkgs+=( liburing-devel )       # uring
 pkgs+=( llvm )                 # llvm-as llvm-dis llc
 pkgs+=( lshw )                 # lshw

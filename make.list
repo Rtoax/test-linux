@@ -20,6 +20,7 @@ USER_LIST += interrupt/test/Rescheduling-interrupts
 USER_LIST += io_uring/samples
 USER_LIST += kvm/playground
 USER_LIST += kvm/virtio/tools/virtio-trace
+USER_LIST += security/access/lsm/selinux/libselinux/samples/
 USER_LIST += syscall/samples
 USER_LIST += syscall/samples/sched
 USER_LIST += glibc/pthread/samples
