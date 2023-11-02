@@ -5,6 +5,7 @@
 /compat
 /_Generic
 /ptr-dim
+/struct
 /xor
 /__alignof__
 /__label__

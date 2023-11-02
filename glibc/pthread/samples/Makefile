@@ -80,7 +80,7 @@ build: ${TARGETS}
 
 # Add more object.o file
 foobar: foobar.o
-create_thread: create_thread.o
+create_thread: create_thread.o sys_affinity_bind.o
 multi_thread_stress: multi_thread_stress.o
 dead_lock-1: dead_lock-1.o
 dead_lock-2: dead_lock-2.o

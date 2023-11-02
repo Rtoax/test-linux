@@ -6,6 +6,7 @@ TARGETS += param-pass
 TARGETS += compat
 TARGETS += _Generic
 TARGETS += ptr-dim
+TARGETS += struct
 TARGETS += xor
 TARGETS += __alignof__
 TARGETS += __label__
@@ -42,6 +43,7 @@ array: array.o
 compat: compat.o
 _Generic: _Generic.o
 ptr-dim: ptr-dim.o helpers.o
+struct: struct.o
 xor: xor.o
 __alignof__: __alignof__.o
 
