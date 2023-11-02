@@ -17,9 +17,9 @@ int main(int argc,char **argv)
 	int fd, ret, counter;
 	struct aiocb const *aiocb_list[MAX_LIST];
 
-	fd = open("test.dat", O_RDONLY);
+	fd = open("/etc/os-release", O_RDONLY);
 	if (fd < 0) {
-		perror("test.txt");
+		perror("open");
 		exit(1);
 	}
 
@@ -41,7 +41,7 @@ int main(int argc,char **argv)
 	counter = 0;
 
 	while (aio_error(&rd) == EINPROGRESS) {
-		printf("%s\n", (char*)rd.aio_buf);
+		printf("%s", (char *)rd.aio_buf);
 		++counter;
 	}
 
