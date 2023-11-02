@@ -2,6 +2,7 @@
 TARGETS += cpu_set CPU_SETSIZE CPU_ALLOC
 TARGETS += getcpu sched_getcpu
 TARGETS += sched_setscheduler sched_getscheduler
+TARGETS += sched_getparam sched_setparam
 TARGETS += sched_getaffinity
 TARGETS += sched_get_priority_max sched_get_priority_min
 TARGETS += sched_yield
@@ -27,6 +28,8 @@ cpu_set: cpu_set.o
 CPU_SETSIZE: CPU_SETSIZE.o
 CPU_ALLOC: CPU_ALLOC.o
 getcpu: getcpu.o
+sched_getparam: sched_getparam.o
+sched_setparam: sched_setparam.o
 sched_setscheduler: sched_setscheduler.o
 sched_getscheduler: sched_getscheduler.o
 sched_get_priority_max: sched_get_priority_max.o

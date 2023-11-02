@@ -8,4 +8,6 @@
 /sched_getcpu
 /sched_setscheduler
 /sched_getscheduler
+/sched_getparam
+/sched_setparam
 /sched_yield
