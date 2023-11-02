@@ -1,5 +1,5 @@
 
-TARGETS += cpu_set
+TARGETS += cpu_set CPU_SETSIZE CPU_ALLOC
 TARGETS += getcpu
 TARGETS += sched_getaffinity
 
@@ -21,6 +21,8 @@ build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
 cpu_set: cpu_set.o
+CPU_SETSIZE: CPU_SETSIZE.o
+CPU_ALLOC: CPU_ALLOC.o
 getcpu: getcpu.o
 sched_getaffinity: sched_getaffinity.o
 

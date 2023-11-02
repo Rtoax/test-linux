@@ -1,3 +1,5 @@
 /cpu_set
+/CPU_SETSIZE
+/CPU_ALLOC
 /getcpu
 /sched_getaffinity
