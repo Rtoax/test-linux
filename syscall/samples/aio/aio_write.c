@@ -27,7 +27,9 @@ int main(int argc,char **argv)
 
 	wr.aio_buf = (char *)malloc(BUFFER_SIZE);
 	if (wr.aio_buf == NULL) {
-		perror("buf");
+		perror("malloc");
+		close(fd);
+		exit(1);
 	}
 
 	wr.aio_buf = str;
@@ -37,6 +39,7 @@ int main(int argc,char **argv)
 	ret = aio_write(&wr);
 	if (ret < 0) {
 		perror("aio_write");
+		exit(1);
 	}
 
 	while (aio_error(&wr) == EINPROGRESS);
