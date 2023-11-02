@@ -15,7 +15,6 @@ TARGETS += getpid
 TARGETS += pipe
 TARGETS += setgid setegid
 TARGETS += setuid seteuid
-TARGETS += sched_getaffinity
 TARGETS += tee tee2
 TARGETS += clone
 TARGETS += setitimer
@@ -93,7 +92,6 @@ setgid: setgid.o
 setegid: setegid.o
 setuid: setuid.o
 seteuid: seteuid.o
-sched_getaffinity: sched_getaffinity.o
 tee: tee.o
 tee2: tee2.o
 clone: clone.o
