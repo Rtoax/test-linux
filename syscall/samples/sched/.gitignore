@@ -6,4 +6,6 @@
 /sched_get_priority_min
 /sched_getaffinity
 /sched_getcpu
+/sched_setscheduler
+/sched_getscheduler
 /sched_yield
