@@ -3,3 +3,5 @@
 /CPU_ALLOC
 /getcpu
 /sched_getaffinity
+/sched_getcpu
+/sched_yield

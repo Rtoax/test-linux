@@ -1,7 +1,8 @@
 
 TARGETS += cpu_set CPU_SETSIZE CPU_ALLOC
-TARGETS += getcpu
+TARGETS += getcpu sched_getcpu
 TARGETS += sched_getaffinity
+TARGETS += sched_yield
 
 DEBUG = yes
 SRC_PATH := $(shell pwd)
@@ -25,6 +26,8 @@ CPU_SETSIZE: CPU_SETSIZE.o
 CPU_ALLOC: CPU_ALLOC.o
 getcpu: getcpu.o
 sched_getaffinity: sched_getaffinity.o
+sched_getcpu: sched_getcpu.o
+sched_yield: sched_yield.o
 
 %.d: %.c
 	@echo -e "Generate \033[1m$(@)\033[m"

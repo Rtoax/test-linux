@@ -1,8 +1,27 @@
 #!/bin/sh
-# 荣涛 
-#windows "\r\n" to "\n"
-#or delete ^M
+# Replace "\n\r"(^M) to "\n"
+
+function dos2unix_sed()
+{
+	for f in $@
+	do
+		# Skip the symbol link
+		[[ -L $f ]] && continue
+		sed -i 's/\r$//' $f
+	done
+}
+
 function win2linux()
 {
-	sed -i 's/\r$//' $*
+	if [[ -e /usr/bin/dos2unix ]]; then
+		dos2unix "$@"
+	else
+		dos2unix_sed "$@"
+	fi
 }
+
+if [[ $# > 0 ]]; then
+	win2linux "$@"
+else
+	echo "$0 need input files."
+fi

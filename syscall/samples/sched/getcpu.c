@@ -49,8 +49,15 @@ int main(void)
 		fprintf(stderr, "sched_setaffinity(%d) != getcpu(%d).\n", bindcpu, icpu);
 		assert(0);
 	}
-
 	printf("getcpu icpu = %d, inode = %d\n", icpu, inode);
+
+	icpu = -1;
+	icpu = sched_getcpu();
+	if (bindcpu != icpu) {
+		fprintf(stderr, "sched_setaffinity(%d) != sched_getcpu(%d).\n", bindcpu, icpu);
+		assert(0);
+	}
+	printf("sched_getcpu icpu = %d\n", icpu);
 
 	CPU_ZERO(&cpuset);
 	ret = sched_getaffinity(getpid(), sizeof(cpuset), &cpuset);
