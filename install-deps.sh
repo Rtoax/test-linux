@@ -7,6 +7,7 @@ pkgs+=( criu )
 pkgs+=( efivar mokutil )       # UEFI
 pkgs+=( gtk3-devel )           # GTK3
 pkgs+=( kernel-devel )         # kernel
+pkgs+=( libaio-devel )         # aio
 pkgs+=( libdwarf-tools )       # dwarfdump
 pkgs+=( libbpf-devel )         # libbpf
 pkgs+=( libselinux-devel )     # SELinux

@@ -28,12 +28,12 @@ int main(int argc,char **argv)
 
 	rd.aio_buf = (char *)malloc(BUFFER_SIZE);
 	if (rd.aio_buf == NULL) {
-		perror("aio_buf");
+		perror("malloc aio_buf");
 		exit(1);
 	}
 
 	rd.aio_fildes = fd_rd;
-	rd.aio_nbytes = 1024;
+	rd.aio_nbytes = BUFFER_SIZE;
 	rd.aio_offset = 0;
 	rd.aio_lio_opcode = LIO_READ;
 
@@ -49,12 +49,12 @@ int main(int argc,char **argv)
 
 	wr.aio_buf = (char *)malloc(BUFFER_SIZE);
 	if (wr.aio_buf == NULL) {
-		perror("aio_buf");
+		perror("malloc aio_buf");
 		exit(1);
 	}
 
 	wr.aio_fildes = fd_wr;
-	wr.aio_nbytes = 1024;
+	wr.aio_nbytes = BUFFER_SIZE;
 	wr.aio_lio_opcode = LIO_WRITE;
 
 	listio[1] = &wr;

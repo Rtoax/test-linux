@@ -43,7 +43,7 @@ int main(int argc,char **argv)
 	}
 
 	ret = aio_return(&rd);
-	printf("\nReturn: %d", ret);
+	printf("\nReturn: %d\n", ret);
 
 	return 0;
 }
