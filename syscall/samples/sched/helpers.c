@@ -6,7 +6,9 @@
 #include <assert.h>
 #include <sched.h>
 #include <ctype.h>
+#include <errno.h>
 #include <string.h>
+#include <stdbool.h>
 
 #include "helpers.h"
 
@@ -19,7 +21,94 @@ long int sys_getcpu(unsigned *cpu, unsigned *node)
 void print_cpuset(cpu_set_t *cpuset)
 {
 	int j;
-	for (j = 0; j < CPU_SETSIZE; j++)
-		if (CPU_ISSET(j, cpuset))
-			printf("CPU_SETSIZE = %d, j = %d\n", CPU_SETSIZE, j);
+	bool has = false;
+	for (j = 0; j < CPU_SETSIZE; j++) {
+		if (CPU_ISSET(j, cpuset)) {
+			has = true;
+			printf("%d,", j);
+		}
+	}
+	if (has)
+		printf("\n");
+}
+
+static const char *next_token(const char *q,  int sep)
+{
+	if (q)
+		q = strchr(q, sep);
+	if (q)
+		q++;
+
+	return q;
+}
+
+static int next_num(const char *str, char **end, int *result)
+{
+	if (!str || *str == '\0' || !isdigit(*str))
+		return -1;
+
+	*result = strtoul(str, end, 10);
+	if (str == *end)
+		return -1;
+
+	return 0;
+}
+
+/* set current thread cpu affinity to cpu list, this function works like
+ * taskset command (actually cpulist parsing logic reference to util-linux).
+ * example of this function: "0,2,3", "0,2-3", "0-20:2". */
+int str2cpuset(const char *cpulist, cpu_set_t *cpuset)
+{
+	const char *p, *q;
+	char *end = NULL;
+	cpu_set_t tmpcpuset;
+
+	if (!cpulist)
+		return -EINVAL;
+
+	CPU_ZERO(&tmpcpuset);
+
+	q = cpulist;
+	while (p = q, q = next_token(q, ','), p) {
+		int a, b, s;
+		const char *c1, *c2;
+
+		if (next_num(p, &end, &a) != 0)
+			return -EINVAL;
+
+		b = a;
+		s = 1;
+		p = end;
+
+		c1 = next_token(p, '-');
+		c2 = next_token(p, ',');
+
+		if (c1 != NULL && (c2 == NULL || c1 < c2)) {
+			if (next_num(c1, &end, &b) != 0)
+				return -EINVAL;
+
+			c1 = end && *end ? next_token(end, ':') : NULL;
+			if (c1 != NULL && (c2 == NULL || c1 < c2)) {
+				if (next_num(c1, &end, &s) != 0)
+					return -EINVAL;
+
+				if (s == 0)
+					return -EINVAL;
+			}
+		}
+
+		if ((a > b))
+			return -EINVAL;
+
+		while (a <= b) {
+			CPU_SET(a, &tmpcpuset);
+			a += s;
+		}
+	}
+
+	if (end && *end)
+		return -EINVAL;
+
+	memcpy(cpuset, &tmpcpuset, sizeof(cpu_set_t));
+	return 0;
 }

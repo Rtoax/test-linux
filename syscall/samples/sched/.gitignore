@@ -1,6 +1,7 @@
 /cpu_set
 /CPU_SETSIZE
 /CPU_ALLOC
+/str2cpuset
 /getcpu
 /sched_get_priority_max
 /sched_get_priority_min
