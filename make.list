@@ -21,6 +21,7 @@ USER_LIST += io_uring/samples
 USER_LIST += kvm/playground
 USER_LIST += kvm/virtio/tools/virtio-trace
 USER_LIST += syscall/samples
+USER_LIST += syscall/samples/sched
 USER_LIST += glibc/pthread/samples
 
 ifeq ($(shell uname -m),x86_64)
