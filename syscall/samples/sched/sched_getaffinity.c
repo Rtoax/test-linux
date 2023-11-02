@@ -1,4 +1,3 @@
-#define __USE_GNU
 #include <sched.h>
 #include <stdio.h>
 #include <sys/types.h>
