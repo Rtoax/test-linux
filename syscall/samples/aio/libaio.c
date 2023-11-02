@@ -84,5 +84,6 @@ int main(void)
 		printf("result, res2: %ld, res: %ld\n", e[0].res2, e[0].res);
 	}
 	free(wbuf);
+	io_destroy(context);
 	return 0;
 }

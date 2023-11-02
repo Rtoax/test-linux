@@ -1,0 +1,44 @@
+#!/bin/env bpftrace
+/**
+ * aio_tp.bt - description
+ *
+ * Copyright (C) Rong Tao 2022-2023
+ *
+ * 2023-11-02	Rong Tao	Create this.
+ */
+BEGIN
+{
+	printf("Tracing aio, hit ctrl-c to end.\n");
+	printf("%-8s %-8s %-8s %-8s\n", "TIME", "PID", "COMM", "PROBE");
+}
+
+tracepoint:syscalls:sys_enter_io_cancel,
+tracepoint:syscalls:sys_enter_io_destroy,
+tracepoint:syscalls:sys_enter_io_getevents,
+tracepoint:syscalls:sys_enter_io_pgetevents,
+tracepoint:syscalls:sys_enter_io_setup,
+tracepoint:syscalls:sys_enter_io_submit
+{
+	time("%H:%M:%S ");
+	@start[tid] = nsecs;
+	printf("%-8d %-8s %s\n", pid, comm, probe);
+}
+
+tracepoint:syscalls:sys_exit_io_cancel,
+tracepoint:syscalls:sys_exit_io_destroy,
+tracepoint:syscalls:sys_exit_io_getevents,
+tracepoint:syscalls:sys_exit_io_pgetevents,
+tracepoint:syscalls:sys_exit_io_setup,
+tracepoint:syscalls:sys_exit_io_submit
+/@start[tid]/
+{
+	$latency = (nsecs - @start[tid]) / 1000;
+	delete(@start[tid]);
+	@latency_ns[probe] = hist($latency);
+}
+
+END
+{
+	clear(@start);
+	printf("Bye.\n");
+}

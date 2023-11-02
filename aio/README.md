@@ -8,6 +8,7 @@ Asynchronous I/O
 - `io_submit`
 - `io_cancel`
 - `io_getevents`
+- `io_pgetevents`
 
 
 # Libaio
