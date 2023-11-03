@@ -11,6 +11,8 @@ from bcc.utils import printb
 from time import strftime
 import argparse
 import os
+import time
+import threading
 
 # arguments
 parser = argparse.ArgumentParser(
@@ -226,9 +228,23 @@ print("Tracing aio latency ... Hit Ctrl-C to end")
 print("%-8s %-8s %-16s %-8s %-8s %-16s" %
       ("TIME", "PID", "COMM", "IOTYPE", "IDX", "IOCB"))
 
+def iocbs_timer_callback():
+    global stop_timer
+    while True:
+        time.sleep(2)
+        print_iocbs()
+        if stop_timer:
+            break
+
+stop_timer = False
+iocbs_print_timer = threading.Thread(target=iocbs_timer_callback)
+iocbs_print_timer.start()
+
 bpf["events"].open_perf_buffer(print_event)
 while True:
     try:
         bpf.perf_buffer_poll()
     except KeyboardInterrupt:
+        stop_timer = True
+        iocbs_print_timer.join()
         exit()
