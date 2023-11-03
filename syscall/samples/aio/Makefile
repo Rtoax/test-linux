@@ -3,6 +3,8 @@ LIBAIO_HDR = /usr/include/libaio.h
 ifneq ($(wildcard $(LIBAIO_HDR)),)
 TARGETS += libaio
 TARGETS += epoll
+else
+$(error "ERROR: Must install libaio development header")
 endif
 
 DEBUG = yes
