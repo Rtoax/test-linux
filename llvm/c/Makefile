@@ -8,6 +8,8 @@ CC = clang
 CFLAGS := -Werror -Wall
 CFLAGS += -Wstrict-prototypes
 
+LLVM_CFLAGS := $(shell llvm-config --cflags)
+
 ifdef DEBUG
 CFLAGS += -DDEBUG -O0 -g
 endif
@@ -29,6 +31,8 @@ CFLAGS_hello +=
 	llvm-as $(<:.c=.ll) -o $(<:.c=.bc)
 	llvm-dis $(<:.c=.bc) -o $(<:.c=.dis.ll)
 	llc $(<:.c=.ll) -o $(<:.c=.s)
+	# TODO: fatal error: 'stdio.h' file not found
+	$(CC) -cc1 -ast-print $(<) || true
 
 $(TARGETS): %:
 	@echo -e "Target   \033[1;32m$(@)\033[m"

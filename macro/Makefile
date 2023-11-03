@@ -6,6 +6,7 @@ TARGETS += arch
 TARGETS += bit
 TARGETS += likely
 TARGETS += offsetof
+TARGETS += __clang__
 
 DEBUG = yes
 SRC_PATH := $(shell pwd)
@@ -28,6 +29,7 @@ alias: alias.o
 bit: bit.o
 likely: likely.o
 offsetof: offsetof.o
+__clang__: __clang__.o
 
 %.d: %.c
 	@echo -e "Generate \033[1m$(@)\033[m"
