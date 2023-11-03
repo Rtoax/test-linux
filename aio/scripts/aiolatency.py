@@ -18,8 +18,11 @@ parser = argparse.ArgumentParser(
     formatter_class=argparse.RawDescriptionHelpFormatter)
 parser.add_argument("-V", "--verbose", action="store_true",
     help="show verbose")
+parser.add_argument("-S", "--silence", action="store_true",
+    help="do not print each iocb")
 
 args = parser.parse_args()
+silence = args.silence
 verbose = args.verbose
 
 
@@ -207,14 +210,15 @@ def print_iocbs():
 def print_event(cpu, data, size):
     event = bpf["events"].event(data)
     record_iocbs(event)
-    printb(b"%-8s %-8d %-16s %-8d %-8d %-16lx" % (
-        strftime("%H:%M:%S").encode('ascii'),
-        event.pid,
-        event.comm,
-        event.io_type,
-        event.idx,
-        event.iocb
-    ));
+    if not silence:
+        printb(b"%-8s %-8d %-16s %-8d %-8d %-16lx" % (
+            strftime("%H:%M:%S").encode('ascii'),
+            event.pid,
+            event.comm,
+            event.io_type,
+            event.idx,
+            event.iocb
+        ));
     if verbose:
         print_iocbs()
 
