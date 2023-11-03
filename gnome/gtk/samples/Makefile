@@ -3,6 +3,7 @@ TARGETS += builder
 TARGETS += button button2 button_keyboard button_image button_image2 radiobutton checkbutton arrow_button
 TARGETS += drawing
 TARGETS += grid
+TARGETS += label
 TARGETS += hello
 TARGETS += image
 TARGETS += window
@@ -38,6 +39,7 @@ button_image: button_image.o
 button_image2: button_image2.o
 radiobutton: radiobutton.o
 checkbutton: checkbutton.o
+label: label.o
 drawing: drawing.o
 grid: grid.o
 hello: hello.o
@@ -49,6 +51,7 @@ CFLAGS_button_keyboard := -Wno-error=deprecated-declarations
 CFLAGS_button_image2 := -Wno-error=deprecated-declarations
 CFLAGS_radiobutton := -Wno-error=deprecated-declarations
 CFLAGS_checkbutton := -Wno-error=deprecated-declarations
+CFLAGS_label := -Wno-error=deprecated-declarations
 
 %.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
