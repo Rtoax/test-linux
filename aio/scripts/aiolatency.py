@@ -9,6 +9,19 @@
 from bcc import BPF
 from bcc.utils import printb
 from time import strftime
+import argparse
+import os
+
+# arguments
+parser = argparse.ArgumentParser(
+    description="Add some description",
+    formatter_class=argparse.RawDescriptionHelpFormatter)
+parser.add_argument("-V", "--verbose", action="store_true",
+    help="show verbose")
+
+args = parser.parse_args()
+verbose = args.verbose
+
 
 bpf_source = """
 #include <linux/aio.h>
@@ -167,14 +180,29 @@ int trace_io_getevents_exit(struct tp_io_getevents_args_ret *args)
 }
 """
 
+# Record all iocb that still in kernel, which is already io_submit, but
+# never io_getevents.
+hash_iocbs = {}
+
 bpf = BPF(text = bpf_source)
 bpf.attach_tracepoint(tp = "syscalls:sys_enter_io_submit", fn_name = "trace_io_submit_enter")
 bpf.attach_tracepoint(tp = "syscalls:sys_exit_io_submit", fn_name = "trace_io_submit_exit")
 bpf.attach_tracepoint(tp = "syscalls:sys_enter_io_getevents", fn_name = "trace_io_getevents_enter")
 bpf.attach_tracepoint(tp = "syscalls:sys_exit_io_getevents", fn_name = "trace_io_getevents_exit")
 
+def record_iocbs(event):
+    # Record iocbs
+    if event.io_type == 1: # IO_SUBMIT
+        hash_iocbs[event.iocb] = event.iocb;
+    elif event.io_type == 2: # IO_GETEVENTS
+        hash_iocbs.pop(event.iocb)
+
+def print_iocbs():
+    print(hash_iocbs)
+
 def print_event(cpu, data, size):
     event = bpf["events"].event(data)
+    record_iocbs(event)
     printb(b"%-8s %-8d %-16s %-8d %-8d %-16lx" % (
         strftime("%H:%M:%S").encode('ascii'),
         event.pid,
@@ -183,6 +211,8 @@ def print_event(cpu, data, size):
         event.idx,
         event.iocb
     ));
+    if verbose:
+        print_iocbs()
 
 print("Tracing aio latency ... Hit Ctrl-C to end")
 print("%-8s %-8s %-16s %-8s %-8s %-16s" %
