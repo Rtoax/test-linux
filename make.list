@@ -23,6 +23,7 @@ USER_LIST += kvm/virtio/tools/virtio-trace
 USER_LIST += security/access/lsm/selinux/libselinux/samples/
 USER_LIST += syscall/samples
 USER_LIST += syscall/samples/aio
+USER_LIST += syscall/samples/aio/posix
 USER_LIST += syscall/samples/eventfd
 USER_LIST += syscall/samples/sched
 USER_LIST += glibc/pthread/samples
