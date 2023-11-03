@@ -202,7 +202,7 @@ if BPF.tracepoint_exists("syscalls", "sys_enter_io_pgetevents"):
 def record_iocbs(event):
     # Record iocbs
     if event.io_type == 1: # IO_SUBMIT
-        hash_iocbs[event.iocb] = event.iocb;
+        hash_iocbs[event.iocb] = [event.pid, event.comm, event.iocb];
     elif event.io_type == 2: # IO_GETEVENTS
         hash_iocbs.pop(event.iocb)
 
@@ -224,9 +224,12 @@ def print_event(cpu, data, size):
     if verbose:
         print_iocbs()
 
+
 print("Tracing aio latency ... Hit Ctrl-C to end")
-print("%-8s %-8s %-16s %-8s %-8s %-16s" %
-      ("TIME", "PID", "COMM", "IOTYPE", "IDX", "IOCB"))
+
+if not silence:
+    print("%-8s %-8s %-16s %-8s %-8s %-16s" %
+            ("TIME", "PID", "COMM", "IOTYPE", "IDX", "IOCB"))
 
 def iocbs_timer_callback():
     global stop_timer
