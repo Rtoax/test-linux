@@ -255,5 +255,6 @@ while True:
         bpf.perf_buffer_poll()
     except KeyboardInterrupt:
         stop_timer = True
-        iocbs_print_timer.join()
+        if verbose:
+            iocbs_print_timer.join()
         exit()
