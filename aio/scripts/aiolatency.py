@@ -189,6 +189,10 @@ bpf.attach_tracepoint(tp = "syscalls:sys_enter_io_submit", fn_name = "trace_io_s
 bpf.attach_tracepoint(tp = "syscalls:sys_exit_io_submit", fn_name = "trace_io_submit_exit")
 bpf.attach_tracepoint(tp = "syscalls:sys_enter_io_getevents", fn_name = "trace_io_getevents_enter")
 bpf.attach_tracepoint(tp = "syscalls:sys_exit_io_getevents", fn_name = "trace_io_getevents_exit")
+if BPF.tracepoint_exists("syscalls", "sys_enter_io_pgetevents"):
+    bpf.attach_tracepoint(tp = "syscalls:sys_enter_io_pgetevents", fn_name = "trace_io_getevents_enter")
+    bpf.attach_tracepoint(tp = "syscalls:sys_exit_io_pgetevents", fn_name = "trace_io_getevents_exit")
+
 
 def record_iocbs(event):
     # Record iocbs
