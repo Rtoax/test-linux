@@ -2,18 +2,17 @@
 #include <stdio.h>
 #include <string.h>
 #include <sys/eventfd.h>
+#include "utils.h"
 
 
 int main(int argc, char *argv[])
 {
 	eventfd_t count;
 	int efd;
-	int flags = EFD_NONBLOCK | EFD_CLOEXEC;
+	int flags;
 
-	fprintf(stderr, "%s [--semaphore]\n", argv[0]);
-	if (argc >= 2 && !strcmp(argv[1], "--semaphore")) {
-		flags |= EFD_SEMAPHORE;
-	}
+	flags = parse_flags(argc, argv);
+	flags |= EFD_NONBLOCK;
 
 	efd = eventfd(0, flags);
 

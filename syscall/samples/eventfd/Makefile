@@ -1,6 +1,7 @@
 
 TARGETS := epoll
 TARGETS += eventfd_read
+TARGETS += eventfd-irq
 
 DEBUG = yes
 SRC_PATH := $(shell pwd)
@@ -21,7 +22,8 @@ build: ${TARGETS}
 
 # Add more object.o file
 epoll: epoll.o
-eventfd_read: eventfd_read.o
+eventfd_read: eventfd_read.o utils.o
+eventfd-irq: eventfd-irq.o utils.o
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
