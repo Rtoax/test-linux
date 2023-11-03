@@ -189,6 +189,10 @@ int trace_io_getevents_exit(struct tp_io_getevents_args_ret *args)
 # never io_getevents.
 hash_iocbs = {}
 
+io_type_str = {}
+io_type_str[1] = b"SUBMIT"
+io_type_str[2] = b"GETEVT"
+
 bpf = BPF(text = bpf_source)
 bpf.attach_tracepoint(tp = "syscalls:sys_enter_io_submit", fn_name = "trace_io_submit_enter")
 bpf.attach_tracepoint(tp = "syscalls:sys_exit_io_submit", fn_name = "trace_io_submit_exit")
@@ -213,11 +217,11 @@ def print_event(cpu, data, size):
     event = bpf["events"].event(data)
     record_iocbs(event)
     if not silence:
-        printb(b"%-8s %-8d %-16s %-8d %-8d %-16lx" % (
+        printb(b"%-8s %-8d %-16s %-8s %-8d %-16lx" % (
             strftime("%H:%M:%S").encode('ascii'),
             event.pid,
             event.comm,
-            event.io_type,
+            io_type_str[event.io_type],
             event.idx,
             event.iocb
         ));
