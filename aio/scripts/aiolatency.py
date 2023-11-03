@@ -21,6 +21,12 @@ struct tp_io_submit_args {
     struct iocb * * iocbpp;
 };
 
+struct tp_io_submit_args_ret {
+    u64 __unused__;
+    int __syscall_nr;
+    long ret;
+};
+
 struct tp_io_getevents_args {
     u64 __unused__;
     int __syscall_nr;
@@ -29,6 +35,11 @@ struct tp_io_getevents_args {
     long nr;
     struct io_event * events;
     struct __kernel_timespec * timeout;
+};
+struct tp_io_getevents_args_ret {
+    u64 __unused__;
+    int __syscall_nr;
+    long ret;
 };
 
 #define IO_SUBMIT   1
@@ -47,6 +58,21 @@ struct event {
 
 BPF_PERF_OUTPUT(events);
 
+typedef struct data_key {
+    u32 pid;
+} data_key_t;
+
+typedef struct data_val_io_submit {
+    struct iocb **iocbpp;
+} data_val_io_submit_t;
+
+typedef struct data_val_io_getevents {
+    struct io_event *events;
+} data_val_io_getevents_t;
+
+BPF_HASH(hash_io_submit, data_key_t, data_val_io_submit_t);
+BPF_HASH(hash_io_getevents, data_key_t, data_val_io_getevents_t);
+
 static int __trace(void *ctx, int io_type, int idx, u64 iocb)
 {
     struct event event = {};
@@ -61,15 +87,38 @@ static int __trace(void *ctx, int io_type, int idx, u64 iocb)
     return 0;
 }
 
-#define TRY_NR  128
+#define TRY_NR  1024
 
-int trace_io_submit(struct tp_io_submit_args *args)
+int trace_io_submit_enter(struct tp_io_submit_args *args)
+{
+    data_key_t key = {0};
+    data_val_io_submit_t val = {0};
+    u32 pid = bpf_get_current_pid_tgid() >> 32;
+
+    key.pid = pid;
+    val.iocbpp = args->iocbpp;
+    hash_io_submit.update(&key, &val);
+    return 0;
+}
+
+int trace_io_submit_exit(struct tp_io_submit_args_ret *args)
 {
     int i, ret = 0;
-    struct iocb **iocbpp = args->iocbpp;
+    data_key_t key = {0};
+    data_val_io_submit_t *valp;
+    u32 pid = bpf_get_current_pid_tgid() >> 32;
 
-    for (i = 0; i < 4; i++) {
-        if (i >= args->nr)
+    key.pid = pid;
+    valp = hash_io_submit.lookup(&key);
+    if (valp == 0)
+        return 0;
+    hash_io_submit.delete(&key);
+
+    struct iocb **iocbpp = valp->iocbpp;
+    long nr = args->ret;
+
+    for (i = 0; i < TRY_NR; i++) {
+        if (i >= nr)
             break;
         u64 addr;
         bpf_probe_read(&addr, sizeof(u64), &iocbpp[i]);
@@ -78,13 +127,36 @@ int trace_io_submit(struct tp_io_submit_args *args)
     return ret;
 }
 
-int trace_io_getevents(struct tp_io_getevents_args *args)
+int trace_io_getevents_enter(struct tp_io_getevents_args *args)
+{
+    data_key_t key = {0};
+    data_val_io_getevents_t val = {0};
+    u32 pid = bpf_get_current_pid_tgid() >> 32;
+
+    key.pid = pid;
+    val.events = args->events;
+    hash_io_getevents.update(&key, &val);
+    return 0;
+}
+
+int trace_io_getevents_exit(struct tp_io_getevents_args_ret *args)
 {
     int i, ret = 0;
-    struct io_event *events = args->events;
+    data_key_t key = {0};
+    data_val_io_getevents_t *valp;
+    u32 pid = bpf_get_current_pid_tgid() >> 32;
+
+    key.pid = pid;
+    valp = hash_io_getevents.lookup(&key);
+    if (valp == 0)
+        return 0;
+    hash_io_getevents.delete(&key);
+
+    struct io_event *events = valp->events;
+    long nr = args->ret;
 
     for (i = 0; i < TRY_NR; i++) {
-        if (i >= args->nr)
+        if (i >= nr)
             break;
         struct io_event *event = &events[i];
         u64 addr;
@@ -96,8 +168,10 @@ int trace_io_getevents(struct tp_io_getevents_args *args)
 """
 
 bpf = BPF(text = bpf_source)
-bpf.attach_tracepoint(tp = "syscalls:sys_enter_io_submit", fn_name = "trace_io_submit")
-bpf.attach_tracepoint(tp = "syscalls:sys_enter_io_getevents", fn_name = "trace_io_getevents")
+bpf.attach_tracepoint(tp = "syscalls:sys_enter_io_submit", fn_name = "trace_io_submit_enter")
+bpf.attach_tracepoint(tp = "syscalls:sys_exit_io_submit", fn_name = "trace_io_submit_exit")
+bpf.attach_tracepoint(tp = "syscalls:sys_enter_io_getevents", fn_name = "trace_io_getevents_enter")
+bpf.attach_tracepoint(tp = "syscalls:sys_exit_io_getevents", fn_name = "trace_io_getevents_exit")
 
 def print_event(cpu, data, size):
     event = bpf["events"].event(data)
