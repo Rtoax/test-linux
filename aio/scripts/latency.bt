@@ -15,6 +15,10 @@ BEGIN
 
 tracepoint:syscalls:sys_enter_io_submit
 {
+	$nr = args->nr;
+	if ($nr > 1) {
+		printf("\033[31msubmit: Number of submit bigger than 1, drop it.\033[m\n");
+	}
 	$iocb = (struct iocb *)args->iocbpp[0];
 	@start[$iocb] = nsecs;
 }
@@ -28,6 +32,14 @@ tracepoint:syscalls:sys_enter_io_getevents
 		$latency = nsecs - @start[$iocb];
 		@hist_ns = hist($latency);
 		delete(@start[$iocb]);
+	}
+}
+
+tracepoint:syscalls:sys_exit_io_getevents
+{
+	$nr = args->ret;
+	if ($nr > 1) {
+		printf("\033[31mgetevents: Number of submit bigger than 1, drop it.\033[m\n");
 	}
 }
 
