@@ -102,13 +102,13 @@ int main(int argc, char *argv[])
 	i = 0;
 	while (i < NUM_EVENTS) {
 		uint64_t finished_aio;
-
-		if (epoll_wait(epfd, &epevent, 1, -1) != 1) {
+		int n = epoll_wait(epfd, &epevent, 1, -1);
+		if (n != 1) {
 			perror("epoll_wait");
 			return 9;
 		}
 
-		if (read(efd, &finished_aio, sizeof(finished_aio)) != sizeof(finished_aio)) {
+		if (eventfd_read(efd, &finished_aio) < 0) {
 			perror("read");
 			return 10;
 		}
@@ -121,7 +121,8 @@ int main(int argc, char *argv[])
 			r = io_getevents(ctx, 1, NUM_EVENTS, events, &tms);
 			if (r > 0) {
 				for (j = 0; j < r; ++j) {
-					((io_callback_t)(events[j].data))(ctx, events[j].obj, events[j].res, events[j].res2);
+					io_callback_t cb = events[j].data;
+					cb(ctx, events[j].obj, events[j].res, events[j].res2);
 				}
 				i += r;
 				finished_aio -= r;
