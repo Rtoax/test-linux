@@ -1,0 +1,43 @@
+#!/bin/env bpftrace
+/**
+ * latency.bt - description
+ *
+ * Copyright (C) Rong Tao 2022-2023
+ *
+ * 2023-11-03	Rong Tao	Create this.
+ */
+#include <uapi/linux/aio_abi.h>
+
+BEGIN
+{
+	printf("Tracing aio submit-getevent latency, hit ctrl-c to end.\n");
+}
+
+tracepoint:syscalls:sys_enter_io_submit
+{
+	$iocb = (struct iocb *)args->iocbpp[0];
+	@start[$iocb] = nsecs;
+}
+
+tracepoint:syscalls:sys_enter_io_getevents
+{
+	$io_event = (struct io_event *)args->events;
+	$iocb = (struct iocb *)$io_event->obj;
+
+	if (@start[$iocb]) {
+		$latency = nsecs - @start[$iocb];
+		@hist_ns = hist($latency);
+		delete(@start[$iocb]);
+	}
+}
+
+i:s:1
+{
+	print(@hist_ns);
+}
+
+END
+{
+	clear(@start);
+	printf("Bye.\n");
+}
