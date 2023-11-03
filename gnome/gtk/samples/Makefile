@@ -6,7 +6,7 @@ TARGETS += grid
 TARGETS += label
 TARGETS += hello
 TARGETS += image
-TARGETS += window
+TARGETS += window window_2nd
 
 DEBUG = yes
 SRC_PATH := $(shell pwd)
@@ -45,6 +45,7 @@ grid: grid.o
 hello: hello.o
 image: image.o
 window: window.o
+window_2nd: window_2nd.o
 
 CFLAGS_arrow_button := -Wno-error=deprecated-declarations
 CFLAGS_button_keyboard := -Wno-error=deprecated-declarations
