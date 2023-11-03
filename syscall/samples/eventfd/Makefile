@@ -2,6 +2,7 @@
 TARGETS := epoll
 TARGETS += eventfd_read
 TARGETS += eventfd-irq
+TARGETS += eventfd-latency
 
 DEBUG = yes
 SRC_PATH := $(shell pwd)
@@ -24,6 +25,7 @@ build: ${TARGETS}
 epoll: epoll.o
 eventfd_read: eventfd_read.o utils.o
 eventfd-irq: eventfd-irq.o utils.o
+eventfd-latency: eventfd-latency.o utils.o
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"

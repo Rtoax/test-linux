@@ -1,6 +1,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <time.h>
 #include <sys/eventfd.h>
 #include "utils.h"
 
@@ -29,4 +30,11 @@ int parse_flags(int argc, char *argv[])
 	}
 
 	return flags;
+}
+
+unsigned long get_nsecs(void)
+{
+	struct timespec tp;
+	while (clock_gettime(CLOCK_REALTIME, &tp));
+	return  tp.tv_sec * 1000000000ul + tp.tv_nsec;
 }

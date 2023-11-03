@@ -18,3 +18,4 @@
 	} while (0)
 
 int parse_flags(int argc, char *argv[]);
+unsigned long get_nsecs(void);
