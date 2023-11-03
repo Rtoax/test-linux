@@ -19,7 +19,7 @@ parser = argparse.ArgumentParser(
     description="Add some description",
     formatter_class=argparse.RawDescriptionHelpFormatter)
 parser.add_argument("-V", "--verbose", action="store_true",
-    help="show verbose")
+    help="show verbose, will create a timer print iocbs")
 parser.add_argument("-S", "--silence", action="store_true",
     help="do not print each iocb")
 
@@ -189,6 +189,7 @@ int trace_io_getevents_exit(struct tp_io_getevents_args_ret *args)
 # never io_getevents.
 hash_iocbs = {}
 
+stop_timer = False
 io_type_str = {}
 io_type_str[1] = b"SUBMIT"
 io_type_str[2] = b"GETEVT"
@@ -243,9 +244,10 @@ def iocbs_timer_callback():
         if stop_timer:
             break
 
-stop_timer = False
-iocbs_print_timer = threading.Thread(target=iocbs_timer_callback)
-iocbs_print_timer.start()
+# Start printer timer if verbose
+if verbose:
+    iocbs_print_timer = threading.Thread(target=iocbs_timer_callback)
+    iocbs_print_timer.start()
 
 bpf["events"].open_perf_buffer(print_event)
 while True:
