@@ -2,6 +2,7 @@ LIBAIO_HDR = /usr/include/libaio.h
 
 ifneq ($(wildcard $(LIBAIO_HDR)),)
 TARGETS += libaio
+TARGETS += epoll
 endif
 
 DEBUG = yes
@@ -25,6 +26,7 @@ build: ${TARGETS}
 
 # Add more object.o file
 libaio: libaio.o
+epoll: epoll.o
 
 %.d: %.c
 	@echo -e "Generate \033[1m$(@)\033[m"
