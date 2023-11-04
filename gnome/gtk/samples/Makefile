@@ -1,12 +1,19 @@
 
 TARGETS += builder
-TARGETS += button button2 button_keyboard button_image button_image2 radiobutton checkbutton arrow_button button_fixed_move
+TARGETS += button button2
+TARGETS += button_keyboard
+TARGETS += button_image button_image2
+TARGETS += radiobutton
+TARGETS += checkbutton
+TARGETS += arrow_button
+TARGETS += button_fixed_move
+TARGETS += button_boxs
 TARGETS += drawing
 TARGETS += grid
 TARGETS += label
 TARGETS += hello
 TARGETS += image
-TARGETS += window window_2nd
+TARGETS += window window_2nd scrolled_window
 TARGETS += statusbar
 TARGETS += frame aspect_frame
 
@@ -45,6 +52,7 @@ button_image2: button_image2.o
 radiobutton: radiobutton.o
 checkbutton: checkbutton.o
 button_fixed_move: button_fixed_move.o
+button_boxs: button_boxs.o
 label: label.o
 drawing: drawing.o
 grid: grid.o
@@ -52,6 +60,7 @@ hello: hello.o
 image: image.o
 window: window.o
 window_2nd: window_2nd.o
+scrolled_window: scrolled_window.o
 statusbar: statusbar.o
 frame: frame.o
 aspect_frame: aspect_frame.o
