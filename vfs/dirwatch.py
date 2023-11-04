@@ -19,7 +19,7 @@ from time import strftime
 
 # arguments
 parser = argparse.ArgumentParser(
-    description="Add some description",
+    description="Monitor the creation and deletion of files under a directory",
     formatter_class=argparse.RawDescriptionHelpFormatter)
 parser.add_argument("-D", "--directory", default="-1",
     help="specify directory to watch")
