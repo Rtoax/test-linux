@@ -277,8 +277,15 @@ def recursive_listdir(path):
     for file in files:
         file_path = os.path.join(path, file)
 
+        if os.path.islink(file_path):
+            if not os.path.exists(os.readlink(file_path)):
+                continue
+
         if os.path.isfile(file_path):
             file_info(file_path)
+        elif os.path.islink(file_path):
+            file_info(file_path)
+            continue
         elif os.path.isdir(file_path):
             file_info(file_path)
             recursive_listdir(file_path)
