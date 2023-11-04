@@ -8,6 +8,7 @@ TARGETS += hello
 TARGETS += image
 TARGETS += window window_2nd
 TARGETS += statusbar
+TARGETS += frame aspect_frame
 
 DEBUG = yes
 SRC_PATH := $(shell pwd)
@@ -52,6 +53,8 @@ image: image.o
 window: window.o
 window_2nd: window_2nd.o
 statusbar: statusbar.o
+frame: frame.o
+aspect_frame: aspect_frame.o
 
 %.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
