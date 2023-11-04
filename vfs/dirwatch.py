@@ -233,7 +233,7 @@ def recursive_listdir(path):
             file_info(file_path)
             recursive_listdir(file_path)
 
-def printb_event(event, operate):
+def printb_event(event, operate, filename):
     printb(b"%-8s %-8d %-16s %-8d %-16s %-8s %-16s" %
         (strftime("%H:%M:%S").encode('ascii'),
          event.ppid,
@@ -241,7 +241,7 @@ def printb_event(event, operate):
          event.pid,
          event.comm,
          operate,
-         hash_ino_file[event.ino].encode('ascii')))
+         filename))
 
 
 def handle_inode_event(cpu, data, size):
@@ -249,21 +249,15 @@ def handle_inode_event(cpu, data, size):
     global poll_running
     if event.op == 0: # unlink
         if hash_ino_file.get(event.ino):
-            printb_event(event, b'UNLINK')
+            printb_event(event, b'UNLINK', hash_ino_file[event.ino].encode('ascii'))
             # Remove from hash
             hash_ino_file.pop(event.ino)
         elif verbose:
-            printb(b"%-8s %-8d %-16s %-8d %-16s %-8s %-16d" %
-                (strftime("%H:%M:%S").encode('ascii'),
-                 event.ppid,
-                 event.pcomm,
-                 event.pid,
-                 event.comm,
-                 b'UNLINK',
-                 event.ino))
+            # Never call here
+            printb_event(event, b'UNLINK', b'?????')
         # Root directory be removed
         if root_dir_ino == event.ino:
-            printb(b"Root directory %s be removed." % directory.encode('ascii'))
+            print("Root directory %s be removed." % directory)
             poll_running = False
     elif event.op == 1: # Create
         # Create file under directory
@@ -277,16 +271,10 @@ def handle_inode_event(cpu, data, size):
                         (hash_ino_file[event.parent_ino],
                          str(event.fname,'utf-8'))
 
-            printb_event(event, b'CREATE')
+            printb_event(event, b'CREATE', hash_ino_file[event.ino].encode('ascii'))
         elif verbose:
-            printb(b"%-8s %-8d %-16s %-8d %-16s %-8s %-16d" %
-                (strftime("%H:%M:%S").encode('ascii'),
-                 event.ppid,
-                 event.pcomm,
-                 event.pid,
-                 event.comm,
-                 b'CREATE',
-                 event.ino))
+            # Never call here
+            printb_event(event, b'CREATE', b'?????')
 
 
 if directory == "-1":
