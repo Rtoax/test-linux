@@ -16,7 +16,6 @@ import argparse
 import os
 from time import strftime
 
-
 # arguments
 parser = argparse.ArgumentParser(
     description="Monitor the creation and deletion of files under a directory",
@@ -29,7 +28,6 @@ parser.add_argument("-V", "--verbose", action="store_true",
 args = parser.parse_args()
 directory = args.directory
 verbose = args.verbose
-
 
 bpf_text = """
 #include <linux/sched.h>
@@ -53,16 +51,16 @@ struct my_data {
     u64 parent_ino;
     u64 ino;
     enum op op;
-    /* For OP_CREATE */
+    /* For OP_CREATE, OP_MKDIR */
     char fname[DNAME_INLINE_LEN];
 };
-
-BPF_PERF_OUTPUT(inode_events);
 
 struct mkdir_info {
     struct inode *dir;
     struct dentry *dentry;
 };
+
+BPF_PERF_OUTPUT(inode_events);
 BPF_HASH(mkdir_inf, u64, struct mkdir_info);
 
 
@@ -108,10 +106,12 @@ TRACE_UNLINK
 {
     return trace_inode_events(ctx, OP_UNLINK, dir, dentry);
 }
+
 TRACE_CREATE
 {
     return trace_inode_events(ctx, OP_CREATE, dir, dentry);
 }
+
 TRACE_MKDIR
 {
     u64 id = bpf_get_current_pid_tgid();
@@ -144,6 +144,7 @@ int trace_mkdir_return(struct pt_regs *ctx)
     mkdir_inf.delete(&id);
     return ret;
 }
+
 TRACE_RMDIR
 {
     return trace_inode_events(ctx, OP_RMDIR, dir, dentry);
@@ -230,6 +231,7 @@ def file_info(pathname):
         print("%s ino %d" % (pathname, info.st_ino))
     hash_ino_file[info.st_ino] = pathname
 
+
 def recursive_listdir(path):
     files = os.listdir(path)
 
@@ -243,6 +245,7 @@ def recursive_listdir(path):
         elif os.path.isdir(file_path):
             file_info(file_path)
             recursive_listdir(file_path)
+
 
 def printb_event(event, filename):
     printb(b"%-8s " % strftime("%H:%M:%S").encode('ascii'), nl='')
@@ -309,7 +312,6 @@ recursive_listdir(directory)
 if verbose:
     print(hash_ino_file)
 
-
 if BPF.kernel_struct_has_field(b'renamedata', b'new_mnt_idmap') == 1:
     bpf_text = bpf_text.replace('TRACE_UNLINK', trace_unlink_func_3)
     bpf_text = bpf_text.replace('TRACE_CREATE', trace_create_func_3)
@@ -335,7 +337,6 @@ b.attach_kprobe(event="vfs_mkdir", fn_name="trace_mkdir")
 b.attach_kprobe(event="vfs_rmdir", fn_name="trace_rmdir")
 
 b.attach_kretprobe(event="vfs_mkdir", fn_name="trace_mkdir_return");
-
 
 print("Tracing file remove ... Hit Ctrl-C to end")
 print("%-8s " % "TIME", end='')
