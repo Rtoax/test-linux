@@ -37,8 +37,12 @@ bpf_text = """
 #include <linux/dcache.h>
 
 enum op {
-    OP_UNLINK,
-    OP_CREATE,
+    OP_NULL,
+    OP_UNLINK,  // 1
+    OP_CREATE,  // 2
+    OP_MKDIR,   // 3
+    OP_RMDIR,   // 4
+    OP_UNKNOWN,
 };
 
 struct my_data {
@@ -87,7 +91,7 @@ static int trace_inode_events(struct pt_regs *ctx, enum op op,
     data.ino = inode->i_ino;
     data.op = op;
 
-    if (op == OP_CREATE) {
+    if (op == OP_CREATE || op == OP_MKDIR) {
         struct qstr d_name = dentry->d_name;
         if (d_name.len == 0)
             goto submit;
@@ -135,14 +139,14 @@ int trace_mkdir_return(struct pt_regs *ctx)
     if (!info)
         return 0;
 
-    ret = trace_inode_events(ctx, OP_CREATE, info->dir, info->dentry);
+    ret = trace_inode_events(ctx, OP_MKDIR, info->dir, info->dentry);
 
     mkdir_inf.delete(&id);
     return ret;
 }
 TRACE_RMDIR
 {
-    return trace_inode_events(ctx, OP_UNLINK, dir, dentry);
+    return trace_inode_events(ctx, OP_RMDIR, dir, dentry);
 }
 
 int trace_open(struct pt_regs *ctx, struct path *path, struct file *file)
@@ -213,6 +217,13 @@ hash_ino_file = {}
 root_dir_ino = 0
 poll_running = True
 
+operate_string = {}
+operate_string[1] = b'UNLINK'
+operate_string[2] = b'CREATE'
+operate_string[3] = b'MKDIR'
+operate_string[4] = b'RMDIR'
+
+
 def file_info(pathname):
     info = os.stat(pathname)
     if verbose:
@@ -233,14 +244,14 @@ def recursive_listdir(path):
             file_info(file_path)
             recursive_listdir(file_path)
 
-def printb_event(event, operate, filename):
+def printb_event(event, filename):
     printb(b"%-8s " % strftime("%H:%M:%S").encode('ascii'), nl='')
     if verbose:
         printb(b"%-8d %-16s " % (event.ppid, event.pcomm), nl='')
     printb(b"%-8d %-16s %-8s %-12d %-16s" %
             (event.pid,
             event.comm,
-            operate,
+            operate_string[event.op],
             event.ino,
             filename))
 
@@ -248,19 +259,19 @@ def printb_event(event, operate, filename):
 def handle_inode_event(cpu, data, size):
     event = b["inode_events"].event(data)
     global poll_running
-    if event.op == 0: # unlink
+    if event.op == 1 or event.op == 4: # unlink, rmdir
         if hash_ino_file.get(event.ino):
-            printb_event(event, b'UNLINK', hash_ino_file[event.ino].encode('ascii'))
+            printb_event(event, hash_ino_file[event.ino].encode('ascii'))
             # Remove from hash
             hash_ino_file.pop(event.ino)
         elif verbose:
             # Never call here
-            printb_event(event, b'UNLINK', b'?????')
+            printb_event(event, b'?????')
         # Root directory be removed
         if root_dir_ino == event.ino:
             print("Root directory %s be removed." % directory)
             poll_running = False
-    elif event.op == 1: # Create
+    elif event.op == 2 or event.op == 3: # create,mkdir
         # Create file under directory
         if hash_ino_file.get(event.parent_ino):
             if verbose:
@@ -272,10 +283,10 @@ def handle_inode_event(cpu, data, size):
                         (hash_ino_file[event.parent_ino],
                          str(event.fname,'utf-8'))
 
-            printb_event(event, b'CREATE', hash_ino_file[event.ino].encode('ascii'))
+            printb_event(event, hash_ino_file[event.ino].encode('ascii'))
         elif verbose:
             # Never call here
-            printb_event(event, b'CREATE', b'?????')
+            printb_event(event, b'?????')
 
 
 if directory == "-1":
