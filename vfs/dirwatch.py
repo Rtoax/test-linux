@@ -7,6 +7,7 @@
 # 2023-08-23    Rong Tao    Create this.
 # 2023-08-24    Rong Tao    Check directory path exist and add ppid/pcomm.
 # 2023-08-25    Rong Tao    Tracing file create in directory(-D) and mkdir/rmdir
+# 2023-11-04    Rong Tao    Exit if root directory be removed
 
 from __future__ import print_function
 from bcc import BPF
@@ -209,6 +210,8 @@ int trace_rmdir(struct pt_regs *ctx, struct mnt_idmap *idmap,
 
 # Store inode:pathname key value pairs.
 hash_ino_file = {}
+root_dir_ino = 0
+poll_running = True
 
 def file_info(pathname):
     info = os.stat(pathname)
@@ -232,6 +235,7 @@ def recursive_listdir(path):
 
 def handle_inode_event(cpu, data, size):
     event = b["inode_events"].event(data)
+    global poll_running
     if event.op == 0: # unlink
         if hash_ino_file.get(event.ino):
             printb(b"%-8s %-8d %-16s %-8d %-16s %-8s %-16s" %
@@ -253,6 +257,10 @@ def handle_inode_event(cpu, data, size):
                  event.comm,
                  b'UNLINK',
                  event.ino))
+        # Root directory be removed
+        if root_dir_ino == event.ino:
+            printb(b"Root directory %s be removed." % directory.encode('ascii'))
+            poll_running = False
     elif event.op == 1: # Create
         # Create file under directory
         if hash_ino_file.get(event.parent_ino):
@@ -294,6 +302,12 @@ if not os.path.isdir(directory):
     print("%s is not directory" % directory)
     exit()
 
+# Get root directory inode number
+root_dir_stat = os.stat(directory)
+if verbose:
+    print("%s ino %d" % (directory, root_dir_stat.st_ino))
+root_dir_ino = root_dir_stat.st_ino
+
 recursive_listdir(directory)
 if verbose:
     print(hash_ino_file)
@@ -331,7 +345,7 @@ print("%-8s %-8s %-16s %-8s %-16s %-8s %-16s" %
         ("TIME", "PPID", "PCOMM", "PID", "COMM", "OPERATE", "INODE"))
 b["inode_events"].open_perf_buffer(handle_inode_event)
 
-while True:
+while poll_running:
     try:
         b.perf_buffer_poll()
     except KeyboardInterrupt:
