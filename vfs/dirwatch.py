@@ -1,13 +1,13 @@
 #!/usr/bin/env python
+# @lint-avoid-python-3-compatibility-imports
 #
-# dirwatch.py - Monitor directory file changes
+# dirwatch Monitor directory file create and remove.
+#           For Linux, uses BCC, eBPF. Embedded C.
 #
+# Copyright 2023 CESTC, Co.
 # Licensed under the Apache License, Version 2.0 (the "License")
 #
-# 2023-08-23    Rong Tao    Create this.
-# 2023-08-24    Rong Tao    Check directory path exist and add ppid/pcomm.
-# 2023-08-25    Rong Tao    Tracing file create in directory(-D) and mkdir/rmdir
-# 2023-11-04    Rong Tao    Exit if root directory be removed
+# 23-Aug-2023    Rong Tao    Create this.
 
 from __future__ import print_function
 from bcc import BPF
