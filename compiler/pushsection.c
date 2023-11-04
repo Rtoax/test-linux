@@ -1,6 +1,10 @@
 #include <stdio.h>
 
 
+/**
+ * TODO:
+ * const char interp[] __attribute__((section(".interp"))) = "/lib/i386-linux-gnu/ld-linux.so.2";
+ */
 #if 1
 asm(
 	".pushsection .interp.my,\"a\"\n"

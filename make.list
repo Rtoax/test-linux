@@ -17,6 +17,7 @@ USER_LIST += bpf/samples/execsnoop
 USER_LIST += bpf/seccomp/samples
 USER_LIST += cgroup/tools
 USER_LIST += compiler
+USER_LIST += compiler/annobin
 USER_LIST += glibc/pthread/samples
 USER_LIST += gnome/gtk/samples
 USER_LIST += interrupt/test/Rescheduling-interrupts
