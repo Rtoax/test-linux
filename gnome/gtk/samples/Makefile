@@ -8,7 +8,7 @@ TARGETS += checkbutton
 TARGETS += arrow_button
 TARGETS += button_fixed_move
 TARGETS += button_boxs
-TARGETS += drawing
+TARGETS += drawing drawing_pic
 TARGETS += grid
 TARGETS += label
 TARGETS += hello
@@ -16,6 +16,7 @@ TARGETS += image
 TARGETS += window window_2nd scrolled_window
 TARGETS += statusbar
 TARGETS += frame aspect_frame
+TARGETS += menu
 
 DEBUG = yes
 SRC_PATH := $(shell pwd)
@@ -55,6 +56,7 @@ button_fixed_move: button_fixed_move.o
 button_boxs: button_boxs.o
 label: label.o
 drawing: drawing.o
+drawing_pic: drawing_pic.o
 grid: grid.o
 hello: hello.o
 image: image.o
@@ -64,6 +66,7 @@ scrolled_window: scrolled_window.o
 statusbar: statusbar.o
 frame: frame.o
 aspect_frame: aspect_frame.o
+menu: menu.o
 
 %.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

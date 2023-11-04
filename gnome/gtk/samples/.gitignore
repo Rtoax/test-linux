@@ -8,6 +8,7 @@
 /radiobutton
 /checkbutton
 /drawing
+/drawing_pic
 /grid
 /image
 /hello
@@ -20,3 +21,4 @@
 /aspect_frame
 /scrolled_window
 /button_boxs
+/menu
