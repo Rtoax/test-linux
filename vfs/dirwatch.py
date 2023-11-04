@@ -233,19 +233,23 @@ def recursive_listdir(path):
             file_info(file_path)
             recursive_listdir(file_path)
 
+def printb_event(event, operate):
+    printb(b"%-8s %-8d %-16s %-8d %-16s %-8s %-16s" %
+        (strftime("%H:%M:%S").encode('ascii'),
+         event.ppid,
+         event.pcomm,
+         event.pid,
+         event.comm,
+         operate,
+         hash_ino_file[event.ino].encode('ascii')))
+
+
 def handle_inode_event(cpu, data, size):
     event = b["inode_events"].event(data)
     global poll_running
     if event.op == 0: # unlink
         if hash_ino_file.get(event.ino):
-            printb(b"%-8s %-8d %-16s %-8d %-16s %-8s %-16s" %
-                (strftime("%H:%M:%S").encode('ascii'),
-                 event.ppid,
-                 event.pcomm,
-                 event.pid,
-                 event.comm,
-                 b'UNLINK',
-                 hash_ino_file[event.ino].encode('ascii')))
+            printb_event(event, b'UNLINK')
             # Remove from hash
             hash_ino_file.pop(event.ino)
         elif verbose:
@@ -273,14 +277,7 @@ def handle_inode_event(cpu, data, size):
                         (hash_ino_file[event.parent_ino],
                          str(event.fname,'utf-8'))
 
-            printb(b"%-8s %-8d %-16s %-8d %-16s %-8s %-16s" %
-                (strftime("%H:%M:%S").encode('ascii'),
-                 event.ppid,
-                 event.pcomm,
-                 event.pid,
-                 event.comm,
-                 b'CREATE',
-                 hash_ino_file[event.ino].encode('ascii')))
+            printb_event(event, b'CREATE')
         elif verbose:
             printb(b"%-8s %-8d %-16s %-8d %-16s %-8s %-16d" %
                 (strftime("%H:%M:%S").encode('ascii'),
