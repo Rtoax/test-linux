@@ -1,13 +1,6 @@
 
-TARGETS := main.user
-ifeq ($(shell uname -m),x86_64)
-endif
-ifeq ($(shell uname -m),aarch64)
-endif
+TARGETS := pushsection
 
-OS := $(shell grep ^ID= /etc/os-release | sed 's/ID=//g' | sed 's/"//g')
-
-DEBUG = yes
 SRC_PATH := $(shell pwd)
 CC = gcc
 
@@ -17,20 +10,13 @@ CFLAGS += -Wstrict-prototypes
 LDFLAGS :=
 LDLIBS :=
 
-ifdef DEBUG
-CFLAGS += -DDEBUG -O0 -g
-endif
-
 .PHONY: build
 build: ${TARGETS}
 	@echo
 	@echo -e " \033[1;33m Done \033[m"
 
 # Add more object.o file
-main.user: main.user.o
-
-CFLAGS_main.user := -D_MAIN_USER=1
-LDFLAGS_main.user :=
+pushsection: pushsection.o
 
 %.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
@@ -47,7 +33,4 @@ test: ${TARGETS}
 .PHONY: clean
 clean:
 	@echo -e "Clean   \033[1;32m$(@)\033[m"
-	@rm -f ${TARGETS} \
-		*.s \
-		*.o \
-		*.d
+	@rm -f ${TARGETS} *.o *.d *.s

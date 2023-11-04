@@ -8,7 +8,7 @@ a.out: hello.o
 	ld $(<) -o $(@)
 
 hello.out:
-	ld -T linker.ld -o $(@)
+	ld -T hello.ld -o $(@)
 	@objdump -D hello.out | grep -e "\.text" -e "\.data" -A 2 | sed 's/^/[objdump] /g'
 
 clean:
