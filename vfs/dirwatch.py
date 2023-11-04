@@ -60,13 +60,14 @@ struct my_data {
     char fname[DNAME_INLINE_LEN];
 };
 
-struct mkdir_info {
+struct inode_info {
     struct inode *dir;
     struct dentry *dentry;
 };
 
 BPF_PERF_OUTPUT(inode_events);
-BPF_HASH(mkdir_inf, u64, struct mkdir_info);
+BPF_HASH(mkdir_inf, u64, struct inode_info);
+BPF_HASH(rmdir_inf, u64, struct inode_info);
 
 
 static int trace_inode_events(struct pt_regs *ctx, enum op op,
@@ -120,7 +121,7 @@ TRACE_CREATE
 TRACE_MKDIR
 {
     u64 id = bpf_get_current_pid_tgid();
-    struct mkdir_info info = {};
+    struct inode_info info = {};
 
     info.dir = dir;
     /* dentry->d_inode == NULL here, non-null value when vfs_mkdir() return */
@@ -138,7 +139,7 @@ int trace_mkdir_return(struct pt_regs *ctx)
 {
     int ret = PT_REGS_RC(ctx);
     u64 id = bpf_get_current_pid_tgid();
-    struct mkdir_info *info;
+    struct inode_info *info;
 
     info = mkdir_inf.lookup(&id);
     if (!info)
@@ -157,7 +158,33 @@ int trace_mkdir_return(struct pt_regs *ctx)
 
 TRACE_RMDIR
 {
-    return trace_inode_events(ctx, OP_RMDIR, dir, dentry);
+    u64 id = bpf_get_current_pid_tgid();
+    struct inode_info info = {};
+
+    info.dir = dir;
+    info.dentry = dentry;
+
+    rmdir_inf.update(&id, &info);
+    return 0;
+}
+
+int trace_rmdir_return(struct pt_regs *ctx)
+{
+    int ret = PT_REGS_RC(ctx);
+    u64 id = bpf_get_current_pid_tgid();
+    struct inode_info *info;
+
+    info = rmdir_inf.lookup(&id);
+    if (!info)
+        return 0;
+
+    rmdir_inf.delete(&id);
+
+    /* rmdir failed. skip */
+    if (ret)
+        return 0;
+
+    return trace_inode_events(ctx, OP_RMDIR, info->dir, info->dentry);
 }
 
 int trace_open(struct pt_regs *ctx, struct path *path, struct file *file)
@@ -347,6 +374,7 @@ b.attach_kprobe(event="vfs_mkdir", fn_name="trace_mkdir")
 b.attach_kprobe(event="vfs_rmdir", fn_name="trace_rmdir")
 
 b.attach_kretprobe(event="vfs_mkdir", fn_name="trace_mkdir_return");
+b.attach_kretprobe(event="vfs_rmdir", fn_name="trace_rmdir_return");
 
 print("Tracing file remove ... Hit Ctrl-C to end")
 print("%-8s " % "TIME", end='')
