@@ -24,7 +24,7 @@ parser = argparse.ArgumentParser(
 parser.add_argument("-D", "--directory", default="-1",
     help="specify directory to watch")
 parser.add_argument("-V", "--verbose", action="store_true",
-    help="show verbose")
+    help="show file/directory create and remove, and show parent task pid/comm.")
 
 args = parser.parse_args()
 directory = args.directory
@@ -234,11 +234,11 @@ def recursive_listdir(path):
             recursive_listdir(file_path)
 
 def printb_event(event, operate, filename):
-    printb(b"%-8s %-8d %-16s %-8d %-16s %-8s %-16s" %
-        (strftime("%H:%M:%S").encode('ascii'),
-         event.ppid,
-         event.pcomm,
-         event.pid,
+    printb(b"%-8s " % strftime("%H:%M:%S").encode('ascii'), nl='')
+    if verbose:
+        printb(b"%-8d %-16s " % (event.ppid, event.pcomm), nl='')
+    printb(b"%-8d %-16s %-8s %-16s" %
+         (event.pid,
          event.comm,
          operate,
          filename))
@@ -326,8 +326,11 @@ b.attach_kretprobe(event="vfs_mkdir", fn_name="trace_mkdir_return");
 
 
 print("Tracing file remove ... Hit Ctrl-C to end")
-print("%-8s %-8s %-16s %-8s %-16s %-8s %-16s" %
-        ("TIME", "PPID", "PCOMM", "PID", "COMM", "OPERATE", "INODE"))
+print("%-8s " % "TIME", end='')
+if verbose:
+    print("%-8s %-16s " % ("PPID", "PCOMM"), end='')
+print("%-8s %-16s %-8s %-16s" %
+        ("PID", "COMM", "OPERATE", "INODE"))
 b["inode_events"].open_perf_buffer(handle_inode_event)
 
 while poll_running:
