@@ -77,9 +77,6 @@ modules.order
 *.d.pre.tmp
 *.dts.tmp
 
-# text
-*.txt
-
 # vim temp swap file
 *.swp
 
