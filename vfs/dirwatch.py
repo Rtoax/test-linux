@@ -136,17 +136,22 @@ TRACE_MKDIR
  */
 int trace_mkdir_return(struct pt_regs *ctx)
 {
+    int ret = PT_REGS_RC(ctx);
     u64 id = bpf_get_current_pid_tgid();
     struct mkdir_info *info;
-    int ret;
 
     info = mkdir_inf.lookup(&id);
     if (!info)
         return 0;
 
+    mkdir_inf.delete(&id);
+
+    /* mkdir failed. skip */
+    if (ret)
+        return 0;
+
     ret = trace_inode_events(ctx, OP_MKDIR, info->dir, info->dentry);
 
-    mkdir_inf.delete(&id);
     return ret;
 }
 
