@@ -237,11 +237,12 @@ def printb_event(event, operate, filename):
     printb(b"%-8s " % strftime("%H:%M:%S").encode('ascii'), nl='')
     if verbose:
         printb(b"%-8d %-16s " % (event.ppid, event.pcomm), nl='')
-    printb(b"%-8d %-16s %-8s %-16s" %
-         (event.pid,
-         event.comm,
-         operate,
-         filename))
+    printb(b"%-8d %-16s %-8s %-12d %-16s" %
+            (event.pid,
+            event.comm,
+            operate,
+            event.ino,
+            filename))
 
 
 def handle_inode_event(cpu, data, size):
@@ -329,8 +330,8 @@ print("Tracing file remove ... Hit Ctrl-C to end")
 print("%-8s " % "TIME", end='')
 if verbose:
     print("%-8s %-16s " % ("PPID", "PCOMM"), end='')
-print("%-8s %-16s %-8s %-16s" %
-        ("PID", "COMM", "OPERATE", "INODE"))
+print("%-8s %-16s %-8s %-12s %-16s" %
+        ("PID", "COMM", "OPERATE", "INODE", "FILEPATH"))
 b["inode_events"].open_perf_buffer(handle_inode_event)
 
 while poll_running:
