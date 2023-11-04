@@ -1,12 +1,13 @@
 
 TARGETS += builder
-TARGETS += button button2 button_keyboard button_image button_image2 radiobutton checkbutton arrow_button
+TARGETS += button button2 button_keyboard button_image button_image2 radiobutton checkbutton arrow_button button_fixed_move
 TARGETS += drawing
 TARGETS += grid
 TARGETS += label
 TARGETS += hello
 TARGETS += image
 TARGETS += window window_2nd
+TARGETS += statusbar
 
 DEBUG = yes
 SRC_PATH := $(shell pwd)
@@ -24,6 +25,9 @@ ifdef DEBUG
 CFLAGS += -DDEBUG -O0 -g
 endif
 
+# TODO: no deprecated
+CFLAGS += -Wno-error=deprecated-declarations
+
 .PHONY: build
 build: ${TARGETS}
 	@echo
@@ -39,6 +43,7 @@ button_image: button_image.o
 button_image2: button_image2.o
 radiobutton: radiobutton.o
 checkbutton: checkbutton.o
+button_fixed_move: button_fixed_move.o
 label: label.o
 drawing: drawing.o
 grid: grid.o
@@ -46,13 +51,7 @@ hello: hello.o
 image: image.o
 window: window.o
 window_2nd: window_2nd.o
-
-CFLAGS_arrow_button := -Wno-error=deprecated-declarations
-CFLAGS_button_keyboard := -Wno-error=deprecated-declarations
-CFLAGS_button_image2 := -Wno-error=deprecated-declarations
-CFLAGS_radiobutton := -Wno-error=deprecated-declarations
-CFLAGS_checkbutton := -Wno-error=deprecated-declarations
-CFLAGS_label := -Wno-error=deprecated-declarations
+statusbar: statusbar.o
 
 %.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
