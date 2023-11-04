@@ -17,9 +17,14 @@ import os
 from time import strftime
 
 # arguments
+examples = """
+    ./dirwatch -D /etc         # trace file create/remove under /etc
+    ./dirwatch -D /etc -V      # same as above, print more information(ppid,pcomm)
+"""
 parser = argparse.ArgumentParser(
     description="Monitor the creation and deletion of files under a directory",
-    formatter_class=argparse.RawDescriptionHelpFormatter)
+    formatter_class=argparse.RawDescriptionHelpFormatter,
+    epilog=examples)
 parser.add_argument("-D", "--directory", default="-1",
     help="specify directory to watch")
 parser.add_argument("-V", "--verbose", action="store_true",
