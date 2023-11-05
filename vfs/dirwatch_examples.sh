@@ -13,6 +13,7 @@ recursive_touch() {
 	local files=$(ls $root)
 	pushd $root
 	touch readme
+	ln -s readme README.md
 	touch $(basename $root).txt
 	for f in ${files[@]}
 	do

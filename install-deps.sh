@@ -19,6 +19,7 @@ pkgs+=( mmc )                  # mmc
 pkgs+=( nasm )                 # nasm
 pkgs+=( rust )                 # rustc
 pkgs+=( systemtap-sdt-devel )  # sdt.h
+pkgs+=( tree )
 
 args=( --skip-broken )
 args+=( --nogpgcheck )
