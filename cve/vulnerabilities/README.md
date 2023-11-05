@@ -1,5 +1,5 @@
 vulnerabilities - 漏洞
-===================
+======================
 
 
 - /sys/devices/system/cpu/vulnerabilities
@@ -8,9 +8,6 @@ vulnerabilities - 漏洞
 # Links
 
 * [Hardware vulnerabilities](https://www.kernel.org/doc/html/latest/admin-guide/hw-vuln/index.html)
-
-
-
 * [Spectre Side Channels](https://www.kernel.org/doc/html/latest/admin-guide/hw-vuln/spectre.html)
 * [L1TF - L1 Terminal Fault](https://www.kernel.org/doc/html/latest/admin-guide/hw-vuln/l1tf.html)
 * [MDS - Microarchitectural Data Sampling](https://www.kernel.org/doc/html/latest/admin-guide/hw-vuln/mds.html)

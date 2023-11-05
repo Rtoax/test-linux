@@ -7,6 +7,7 @@
 /__attribute__format
 /__attribute____gnu_inline__
 /__attribute____naked__
+/__attribute__nocf_check
 /__attribute__nonnull
 /__attribute__noreturn
 /__attribute__optimize_omit-frame-pointer
@@ -16,3 +17,4 @@
 /__attribute__section-readmostly
 /__attribute__vector_size
 /__attribute__weak
+/*.s

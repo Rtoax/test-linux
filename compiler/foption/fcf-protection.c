@@ -1,1 +1,1 @@
-pure-main.c
+../__attribute__/__attribute__nocf_check.c
