@@ -11,9 +11,10 @@ CC = gcc
 CFLAGS := -Werror -Wall
 CFLAGS += -Wstrict-prototypes
 
-# N,M M=0 by default
+# gcc: -fcf-protection=[full|branch|return|none|check]
 CFLAGS_fcf-protection := -fcf-protection
 CFLAGS_ffat-lto-objects := -flto -ffat-lto-objects
+# N,M M=0 by default
 CFLAGS_fpatchable-function-entry := -fpatchable-function-entry=5,2
 CFLAGS_flto := -flto=auto
 CFLAGS_fstack-protector := -fstack-protector
