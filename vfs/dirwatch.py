@@ -283,11 +283,10 @@ def printb_event(event, filename):
     printb(b"%-8s " % strftime("%H:%M:%S").encode('ascii'), nl='')
     if verbose:
         printb(b"%-8d %-16s " % (event.ppid, event.pcomm), nl='')
-    printb(b"%-8d %-16s %-8s %-12d %-12d %-16s" %
+    printb(b"%-8d %-16s %-8s %-12d %-16s" %
             (event.pid,
             event.comm,
             operate_string[event.op],
-            event.parent_ino,
             event.ino,
             filename))
 
