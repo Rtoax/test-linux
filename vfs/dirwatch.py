@@ -67,7 +67,7 @@ BPF_PERF_OUTPUT(inode_events);
 BPF_HASH(events_hash, u64, struct my_data);
 
 
-static int trace_and_record_event(struct pt_regs *ctx, enum op op,
+static int record_event(struct pt_regs *ctx, enum op op,
                               struct inode *dir, struct dentry *dentry)
 {
     u64 pid_tgid = bpf_get_current_pid_tgid();
@@ -151,23 +151,23 @@ submit:
 
 TRACE_UNLINK
 {
-    return trace_and_record_event(ctx, OP_UNLINK, dir, dentry);
+    return record_event(ctx, OP_UNLINK, dir, dentry);
 }
 
 TRACE_CREATE
 {
-    return trace_and_record_event(ctx, OP_CREATE, dir, dentry);
+    return record_event(ctx, OP_CREATE, dir, dentry);
 }
 
 /* dentry->d_inode == NULL here, non-null value when vfs_mkdir() return */
 TRACE_MKDIR
 {
-    return trace_and_record_event(ctx, OP_MKDIR, dir, dentry);
+    return record_event(ctx, OP_MKDIR, dir, dentry);
 }
 
 TRACE_RMDIR
 {
-    return trace_and_record_event(ctx, OP_RMDIR, dir, dentry);
+    return record_event(ctx, OP_RMDIR, dir, dentry);
 }
 
 int trace_open(struct pt_regs *ctx, struct path *path, struct file *file)
@@ -177,7 +177,7 @@ int trace_open(struct pt_regs *ctx, struct path *path, struct file *file)
         return 0;
     /* Find parent inode. */
     struct inode *dir = path->dentry->d_parent->d_inode;
-    return trace_and_record_event(ctx, OP_CREATE, dir, dentry);
+    return record_event(ctx, OP_CREATE, dir, dentry);
 }
 
 int trace_return(struct pt_regs *ctx)
