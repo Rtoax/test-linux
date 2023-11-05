@@ -58,28 +58,20 @@ struct my_data {
     enum op op;
     /* For OP_CREATE, OP_MKDIR */
     char fname[DNAME_INLINE_LEN];
-};
 
-struct inode_info {
-    struct inode *dir;
-    struct dentry *dentry;
+    /* private */
+    void *dir, *dentry;
 };
 
 BPF_PERF_OUTPUT(inode_events);
-BPF_HASH(mkdir_inf, u64, struct inode_info);
-BPF_HASH(rmdir_inf, u64, struct inode_info);
+BPF_HASH(events_hash, u64, struct my_data);
 
 
-static int trace_inode_events(struct pt_regs *ctx, enum op op,
+static int trace_and_record_event(struct pt_regs *ctx, enum op op,
                               struct inode *dir, struct dentry *dentry)
 {
-    u32 pid = bpf_get_current_pid_tgid() >> 32;
-
-    struct inode *inode = dentry->d_inode;
-
-    /* Skip negative */
-    if (!inode)
-        return 0;
+    u64 pid_tgid = bpf_get_current_pid_tgid();
+    u32 pid = pid_tgid >> 32;
 
     struct my_data data = {};
 
@@ -91,100 +83,91 @@ static int trace_inode_events(struct pt_regs *ctx, enum op op,
 
     bpf_get_current_comm(&data.comm, sizeof(data.comm));
     data.pid = pid;
-    data.parent_ino = dir->i_ino;
-    data.ino = inode->i_ino;
     data.op = op;
+    data.dir = dir;
+    data.dentry = dentry;
 
+    /**
+     * Unlink/Rmdir: use dir and dentry when kprobe, not kretprobe
+     */
+    if (op == OP_RMDIR || op == OP_UNLINK) {
+        struct inode *inode = dentry->d_inode;
+        /* Skip negative */
+        if (!inode)
+            return 0;
+
+        data.parent_ino = dir->i_ino;
+        data.ino = inode->i_ino;
+    }
+
+    events_hash.update(&pid_tgid, &data);
+
+    return 0;
+}
+
+static int submit_event(struct pt_regs *ctx)
+{
+    int ret = PT_REGS_RC(ctx);
+    u64 id = bpf_get_current_pid_tgid();
+    struct my_data *info;
+
+    info = events_hash.lookup(&id);
+    if (!info)
+        return 0;
+
+    events_hash.delete(&id);
+
+    /* skip failed */
+    if (ret)
+        return 0;
+
+    enum op op = info->op;
+
+    /**
+     * Create/Mkdir refresh dir and dentry, get info when kretprobe
+     */
     if (op == OP_CREATE || op == OP_MKDIR) {
+        struct inode *dir = (struct inode *)info->dir;
+        struct dentry *dentry = (struct dentry *)info->dentry;
+
+        struct inode *inode = dentry->d_inode;
+        /* Skip negative */
+        if (!inode)
+            return 0;
+
+        info->parent_ino = dir->i_ino;
+        info->ino = inode->i_ino;
+
         struct qstr d_name = dentry->d_name;
         if (d_name.len == 0)
             goto submit;
-        bpf_probe_read_kernel(&data.fname, sizeof(data.fname), d_name.name);
+        bpf_probe_read_kernel(&info->fname, sizeof(info->fname), d_name.name);
     }
 
 submit:
-    inode_events.perf_submit(ctx, &data, sizeof(data));
-
+    inode_events.perf_submit(ctx, info, sizeof(*info));
     return 0;
 }
 
 TRACE_UNLINK
 {
-    return trace_inode_events(ctx, OP_UNLINK, dir, dentry);
+    return trace_and_record_event(ctx, OP_UNLINK, dir, dentry);
 }
 
 TRACE_CREATE
 {
-    return trace_inode_events(ctx, OP_CREATE, dir, dentry);
+    return trace_and_record_event(ctx, OP_CREATE, dir, dentry);
 }
 
+/* dentry->d_inode == NULL here, non-null value when vfs_mkdir() return */
 TRACE_MKDIR
 {
-    u64 id = bpf_get_current_pid_tgid();
-    struct inode_info info = {};
-
-    info.dir = dir;
-    /* dentry->d_inode == NULL here, non-null value when vfs_mkdir() return */
-    info.dentry = dentry;
-
-    mkdir_inf.update(&id, &info);
-
-    return 0;
-}
-
-/**
- * kretprobe make sure dentry->d_inode != NULL.
- */
-int trace_mkdir_return(struct pt_regs *ctx)
-{
-    int ret = PT_REGS_RC(ctx);
-    u64 id = bpf_get_current_pid_tgid();
-    struct inode_info *info;
-
-    info = mkdir_inf.lookup(&id);
-    if (!info)
-        return 0;
-
-    mkdir_inf.delete(&id);
-
-    /* mkdir failed. skip */
-    if (ret)
-        return 0;
-
-    ret = trace_inode_events(ctx, OP_MKDIR, info->dir, info->dentry);
-
-    return ret;
+    return trace_and_record_event(ctx, OP_MKDIR, dir, dentry);
 }
 
 TRACE_RMDIR
 {
-    u64 id = bpf_get_current_pid_tgid();
-    struct inode_info info = {};
-
-    info.dir = dir;
-    info.dentry = dentry;
-
-    rmdir_inf.update(&id, &info);
-    return 0;
-}
-
-int trace_rmdir_return(struct pt_regs *ctx)
-{
-    int ret = PT_REGS_RC(ctx);
-    u64 id = bpf_get_current_pid_tgid();
-    struct inode_info *info;
-
-    info = rmdir_inf.lookup(&id);
-    if (!info)
-        return 0;
-
-    rmdir_inf.delete(&id);
-
-    /* rmdir failed. skip */
-    if (ret)
-        return 0;
-
-    return trace_inode_events(ctx, OP_RMDIR, info->dir, info->dentry);
+    return trace_and_record_event(ctx, OP_RMDIR, dir, dentry);
 }
 
 int trace_open(struct pt_regs *ctx, struct path *path, struct file *file)
@@ -194,7 +177,12 @@ int trace_open(struct pt_regs *ctx, struct path *path, struct file *file)
         return 0;
     /* Find parent inode. */
     struct inode *dir = path->dentry->d_parent->d_inode;
-    return trace_inode_events(ctx, OP_CREATE, dir, dentry);
+    return trace_and_record_event(ctx, OP_CREATE, dir, dentry);
+}
+
+int trace_return(struct pt_regs *ctx)
+{
+    return submit_event(ctx);
 }
 """
 
@@ -295,10 +283,11 @@ def printb_event(event, filename):
     printb(b"%-8s " % strftime("%H:%M:%S").encode('ascii'), nl='')
     if verbose:
         printb(b"%-8d %-16s " % (event.ppid, event.pcomm), nl='')
-    printb(b"%-8d %-16s %-8s %-12d %-16s" %
+    printb(b"%-8d %-16s %-8s %-12d %-12d %-16s" %
             (event.pid,
             event.comm,
             operate_string[event.op],
+            event.parent_ino,
             event.ino,
             filename))
 
@@ -318,7 +307,7 @@ def handle_inode_event(cpu, data, size):
         if root_dir_ino == event.ino:
             print("Root directory %s be removed." % directory)
             poll_running = False
-    elif event.op == 2 or event.op == 3: # create,mkdir
+    elif event.op == 2 or event.op == 3: # create, mkdir
         # Create file under directory
         if hash_ino_file.get(event.parent_ino):
             if verbose:
@@ -374,14 +363,16 @@ else:
 
 b = BPF(text=bpf_text)
 b.attach_kprobe(event="vfs_unlink", fn_name="trace_unlink")
-b.attach_kprobe(event="vfs_rmdir", fn_name="trace_unlink")
 b.attach_kprobe(event="vfs_create", fn_name="trace_create")
 b.attach_kprobe(event="vfs_open", fn_name="trace_open")
 b.attach_kprobe(event="vfs_mkdir", fn_name="trace_mkdir")
 b.attach_kprobe(event="vfs_rmdir", fn_name="trace_rmdir")
 
-b.attach_kretprobe(event="vfs_mkdir", fn_name="trace_mkdir_return");
-b.attach_kretprobe(event="vfs_rmdir", fn_name="trace_rmdir_return");
+b.attach_kretprobe(event="vfs_unlink", fn_name="trace_return")
+b.attach_kretprobe(event="vfs_create", fn_name="trace_return")
+b.attach_kretprobe(event="vfs_open", fn_name="trace_return")
+b.attach_kretprobe(event="vfs_mkdir", fn_name="trace_return");
+b.attach_kretprobe(event="vfs_rmdir", fn_name="trace_return");
 
 print("Tracing file remove ... Hit Ctrl-C to end")
 print("%-8s " % "TIME", end='')
