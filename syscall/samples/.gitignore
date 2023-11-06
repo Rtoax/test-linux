@@ -39,3 +39,5 @@
 /symlink
 /mlock
 /mlockall
+/execve
+/execve-fork

@@ -1,3 +1,12 @@
+/execl
+/execle
+/execlp
+/execv
+/execve-fork
+/execve
+/execvp-fork
+/execvp-timedrun
+/execvp
 /getcwd
 /ttyname
 /ttyname_r

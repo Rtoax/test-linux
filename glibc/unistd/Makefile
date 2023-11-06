@@ -1,5 +1,14 @@
-
-TARGETS := getcwd
+TARGETS :=
+TARGETS += execl
+TARGETS += execle
+TARGETS += execlp
+TARGETS += execv
+TARGETS += execve-fork
+TARGETS += execve
+TARGETS += execvp-fork
+TARGETS += execvp-timedrun
+TARGETS += execvp
+TARGETS += getcwd
 TARGETS += ttyname ttyname_r
 TARGETS += lseek-huge
 
@@ -23,6 +32,15 @@ build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
 # Add more object.o file
+execl: execl.o
+execle: execle.o
+execlp: execlp.o
+execv: execv.o
+execve-fork: execve-fork.o
+execve: execve.o
+execvp-fork: execvp-fork.o
+execvp-timedrun: execvp-timedrun.o
+execvp: execvp.o
 getcwd: getcwd.o
 ttyname: ttyname.o
 ttyname_r: ttyname_r.o
