@@ -1,28 +1,17 @@
 #include <stdio.h>
-#include <stdlib.h>
-#include <sys/utsname.h>
 
-const char *cpu_arch(void)
-{
-	const char *arch = "Unknown";
-
-#if defined(__x86_64__)
-	arch = "x86_64";
-#elif defined(__aarch64__)
-	arch = "aarch64";
-#else
-	static struct utsname name;
-	if (uname(&name) == -1) {
-		fprintf(stderr, "cannot get system name");
-	} else {
-		arch = name.machine;
-	}
-#endif
-	return arch;
-}
+#include "unused.h"
 
 int main(void)
 {
-	printf("%s\n", cpu_arch());
+	int __unused *p = NULL;
+
+#if defined(__i386__)
+	printf("x86-32\n");
+	printf("sizeof(*) = %d\n", sizeof(p));
+#elif defined(__x86_64__)
+	printf("x86-64\n");
+	printf("sizeof(*) = %ld\n", sizeof(p));
+#endif
 	return 0;
 }

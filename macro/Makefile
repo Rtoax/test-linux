@@ -7,6 +7,8 @@ TARGETS += bit
 TARGETS += likely
 TARGETS += offsetof
 TARGETS += __clang__
+TARGETS += __i386__
+TARGETS += __x86_64__
 
 DEBUG = yes
 SRC_PATH := $(shell pwd)
@@ -30,18 +32,19 @@ bit: bit.o
 likely: likely.o
 offsetof: offsetof.o
 __clang__: __clang__.o
+__i386__: __i386__.o
+__x86_64__: __x86_64__.o
 
-%.d: %.c
-	@echo -e "Generate \033[1m$(@)\033[m"
-	@$(CC) $(CFLAGS) -MM -MF "$@" -MG -MP -MT"$@" -MT"$(<:.c=.o)" $(<)
+CFLAGS___i386__ := -m32
+CFLAGS___x86_64__ := -m64
 
-%.o: %.c %.d
+%.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
 
 $(TARGETS): %:
 	@echo -e "Target   \033[1;32m$(@)\033[m"
-	@$(CC) $(CFLAGS) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
+	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) $(^)
 
 clean:
 	@echo -e "Clean   \033[1;32m$(@)\033[m"
