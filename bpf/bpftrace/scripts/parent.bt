@@ -1,0 +1,26 @@
+#!/bin/env bpftrace
+/**
+ * parent.bt - description
+ *
+ * Copyright (C) Rong Tao 2022-2023
+ *
+ * 2023-11-06	Rong Tao	Create this.
+ */
+#ifndef BPFTRACE_HAVE_BTF
+#include <linux/sched.h>
+#endif
+
+BEGIN
+{
+	printf("   %-8s %-8s %-16s\n", "PID", "TID", "COMM");
+}
+
+tracepoint:syscalls:sys_enter_execve*
+{
+	$current = curtask;
+	$parent = $current->real_parent;
+
+	printf("1. %-8d %-8d %s\n", pid, tid, comm);
+	printf("2. %-8d %-8d %s\n", $current->pid, $current->tgid, $current->comm);
+	printf("3. %-8d %-8d %s\n", $parent->pid, $parent->tgid, $parent->comm);
+}
