@@ -1,15 +1,24 @@
 #!/usr/bin/env bpftrace
 /**
- * scheduler_tick.bt - Tracing scheduler_tick()
+ * sched_type.bt - Tracing schedule type
  *
  * Copyright (C) Rong Tao
  *
  * 2022-10-22	Rong Tao	Create this
  */
-
 #include <linux/sched.h>
 
-kprobe:scheduler_tick
+kprobe:schedule,
+kprobe:scheduler_tick,
+kprobe:hrtick,
+kprobe:wake_up_process
 {
-	@[kstack] = count();
+	@stack[kstack] = count();
+	@probe_cnt[probe] = count();
 }
+
+i:s:1
+{
+	print(@probe_cnt);
+}
+
