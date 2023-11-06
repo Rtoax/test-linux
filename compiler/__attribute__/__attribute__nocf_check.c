@@ -16,7 +16,14 @@
  * endbr64,endbr32 is part of Intel CET. CET is hareware protection of
  * Return-oriented Programming (ROP) and Jump/Call-oriented Programming (JOP/COP)
  */
+#if defined(__x86_64__) || defined(__i386__)
 #define __noendbr       __attribute__((nocf_check))
+#elif defined(__aarch64__)
+#define __noendbr
+# warning "TODO: aarch64"
+#else
+# error "Not support arch"
+#endif
 
 /* No endbr64 insn in front of func() */
 __noendbr int func(bool disable)
