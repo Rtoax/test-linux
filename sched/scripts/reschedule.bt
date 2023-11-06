@@ -27,7 +27,7 @@ tracepoint:irq_vectors:reschedule_exit
 	$diff_ns = nsecs - @start[tid];
 	delete(@start[tid]);
 
-	@hist = hist($diff_ns);
+	@latency_hist_ns = hist($diff_ns);
 
 	time("%H:%M:%S ");
 	printf("%-8d %-8s\n", pid, comm);
