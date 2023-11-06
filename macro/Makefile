@@ -7,8 +7,11 @@ TARGETS += bit
 TARGETS += likely
 TARGETS += offsetof
 TARGETS += __clang__
+
+ifeq ($(shell uname -m),x86_64)
 TARGETS += __i386__
 TARGETS += __x86_64__
+endif
 
 DEBUG = yes
 SRC_PATH := $(shell pwd)
