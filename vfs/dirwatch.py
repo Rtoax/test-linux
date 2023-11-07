@@ -64,7 +64,7 @@ struct my_data {
 };
 
 BPF_PERF_OUTPUT(inode_events);
-BPF_HASH(events_hash, u64, struct my_data);
+BPF_HASH(events_hash, u32, struct my_data);
 
 
 static int record_event(struct pt_regs *ctx, enum op op,
@@ -72,6 +72,7 @@ static int record_event(struct pt_regs *ctx, enum op op,
 {
     u64 pid_tgid = bpf_get_current_pid_tgid();
     u32 pid = pid_tgid >> 32;
+    u32 tid = (u32)pid_tgid;
 
     struct my_data data = {};
 
@@ -100,7 +101,7 @@ static int record_event(struct pt_regs *ctx, enum op op,
         data.ino = inode->i_ino;
     }
 
-    events_hash.update(&pid_tgid, &data);
+    events_hash.update(&tid, &data);
 
     return 0;
 }
@@ -108,14 +109,14 @@ static int record_event(struct pt_regs *ctx, enum op op,
 static int submit_event(struct pt_regs *ctx)
 {
     int ret = PT_REGS_RC(ctx);
-    u64 id = bpf_get_current_pid_tgid();
+    u32 tid = (u32)bpf_get_current_pid_tgid();
     struct my_data *info;
 
-    info = events_hash.lookup(&id);
+    info = events_hash.lookup(&tid);
     if (!info)
         return 0;
 
-    events_hash.delete(&id);
+    events_hash.delete(&tid);
 
     /* skip failed */
     if (ret)
