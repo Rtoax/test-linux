@@ -1,1 +1,0 @@
-open-fd.sh
