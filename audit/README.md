@@ -28,3 +28,9 @@ Audit 通过 netlink 与内核进行交互(`NETLINK_AUDIT`)。
 |                                  |
 +----------------------------------+
 ```
+
+
+# audit rules
+
+- /etc/audit/rules.d/
+

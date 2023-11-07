@@ -1,4 +1,5 @@
 #!/bin/bash
+# audit: 审计
 
 set -e
 
@@ -29,12 +30,23 @@ clean_all_rule() {
 	sudo auditctl -D
 }
 
+seperator() {
+	printf "\033[32m## %s ##\033[m\n" "$*"
+}
 
+
+seperator "audit add"
 start_audit_file /etc/hostname
+start_audit_file /etc/os-release
 
+seperator "access file"
 # Access /etc/hostname
 cat /etc/hostname
+cat /etc/os-release
 
+seperator "report"
 report_audit
 sleep 1
+seperator "audit stop"
 stop_audit_file /etc/hostname
+stop_audit_file /etc/os-release
