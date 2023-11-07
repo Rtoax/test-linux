@@ -90,7 +90,9 @@ SHELL shell的全路径名
 SHELLOPTS 已启用bash shell选项列表，由冒号分隔
 SHLVL 表明shell层级，每次启动一个新的bash shell时计数加1
 TIMEFORMAT 指定了shell显示的时间值的格式
-TMOUT select和read命令在没输入的情况下等待多久（以秒为单位）。默认值为零，表示无限长
+TMOUT select和read命令在没输入的情况下等待多久（以秒为单位）。
+	可用作终端的超时时间，如在 /etc/profile 中添加 export TMOUT=600，表示
+	10分钟无操作自动退出。默认值为零，表示无限长
 TMPDIR 如果设置成目录名， shell会将其作为临时文件目录
 UID 当前用户的真实用户ID（数字形式）
 
