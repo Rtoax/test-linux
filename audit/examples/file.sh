@@ -3,7 +3,7 @@
 
 set -e
 
-key=$(mktemp --dry-run key-XXXXXX)
+key=$(mktemp --dry-run auditkey-XXXXXX)
 
 start_audit_file() {
 	local file=$1
@@ -34,15 +34,18 @@ seperator() {
 	printf "\033[32m## %s ##\033[m\n" "$*"
 }
 
+testfile=$PWD/$(mktemp tmpfile-XXXXXX.out)
 
 seperator "audit add"
 start_audit_file /etc/hostname
 start_audit_file /etc/os-release
+start_audit_file ${testfile}
 
 seperator "access file"
 # Access /etc/hostname
 cat /etc/hostname
 cat /etc/os-release
+echo "hello" > ${testfile}
 
 seperator "report"
 report_audit
@@ -50,3 +53,6 @@ sleep 1
 seperator "audit stop"
 stop_audit_file /etc/hostname
 stop_audit_file /etc/os-release
+stop_audit_file ${testfile}
+
+rm -r ${testfile}
