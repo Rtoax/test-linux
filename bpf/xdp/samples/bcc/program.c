@@ -1,4 +1,6 @@
+#ifndef KBUILD_MODNAME
 #define KBUILD_MODNAME "program"
+#endif
 #include <linux/bpf.h>
 #include <linux/in.h>
 #include <linux/ip.h>
