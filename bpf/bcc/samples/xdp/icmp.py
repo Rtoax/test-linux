@@ -6,7 +6,7 @@ import sys
 import argparse
 
 examples = """examples:
-    ./loader.py -i eno1       # track eno1 interface
+    ./icmp.py -i eno1       # track eno1 interface
 """
 
 parser = argparse.ArgumentParser(
@@ -23,23 +23,14 @@ if device == "-1":
     print("Must specify interface with -i")
     exit()
 
-b = BPF(src_file="program.c")
-fn = b.load_func("myprogram", BPF.XDP)
+b = BPF(src_file="icmp.c")
+fn = b.load_func("xdp_icmp", BPF.XDP)
 b.attach_xdp(device, fn, 0)
-packetcnt = b.get_table("packetcnt")
 
-prev = [0] * 256
-print("Printing packet counts per IP protocol-number, hit CTRL+C to stop")
+print("Tracing ICMP, hit CTRL+C to stop")
 while 1:
     try:
-        for k in packetcnt.keys():
-            val = packetcnt.sum(k).value
-            i = k.value
-            if val:
-                delta = val - prev[i]
-                prev[i] = val
-                print("{}: {} pkt/s".format(i, delta))
-        time.sleep(1)
+        b.trace_print()
     except KeyboardInterrupt:
         print("Removing filter from device")
         break
