@@ -74,6 +74,7 @@ KERNEL_LIST += livepatch/kallsyms-mod
 KERNEL_LIST += livepatch/kthread
 KERNEL_LIST += livepatch/modules
 KERNEL_LIST += livepatch/samples
+KERNEL_LIST += mm/vma/modules
 KERNEL_LIST += module/kbuild
 KERNEL_LIST += module/multi-srcfile
 KERNEL_LIST += module/nothing

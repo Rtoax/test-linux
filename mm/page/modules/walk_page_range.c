@@ -1,12 +1,3 @@
-/**
- *	test page walk
- *	
- *	Author	Rong Tao <rongtao@cestc.cn>
- *	Time	2021.11.05
- *
- *	2022-02-05 
- */
-
 #include <linux/pagewalk.h>
 #include <linux/module.h>
 #include <linux/kernel.h>
@@ -37,21 +28,21 @@ static struct task_struct* this_task(pid_t PID)
 	if(pid <= 0) {
 		return current;
 	}
-    _pid = find_get_pid(PID);
-    if(!_pid) {
-        printk("Not exist PID %d\n", PID);
-        return current;
-    }
-    
-	task = pid_task(_pid, PIDTYPE_TGID);
-    if(!task) {
+	_pid = find_get_pid(PID);
+	if(!_pid) {
+		printk("Not exist PID %d\n", PID);
 		return current;
-    }
+	}
+
+	task = pid_task(_pid, PIDTYPE_TGID);
+	if(!task) {
+		return current;
+	}
 	return task;
 }
 
 /**
- *	见内核同名函数
+ * see kernel same name func
  */
 static int walk_page_test(unsigned long start, unsigned long end,
 			struct mm_walk *walk)
@@ -97,9 +88,9 @@ static int __walk_page_range(unsigned long start, unsigned long end,
 			err = walk_hugetlb_range(start, end, walk);
 	} else
 		err = walk_pgd_range(start, end, walk);
-    /**
-     *  调用
-     */
+	/**
+	 *  调用
+	 */
 	if (vma && ops->post_vma)
 		ops->post_vma(walk);
 
@@ -107,8 +98,8 @@ static int __walk_page_range(unsigned long start, unsigned long end,
 }
 
 /**
- *	初始化函数
- *	见 `walk_page_range()`
+ * 初始化函数
+ * 见 `walk_page_range()`
  */
 static int __init pagewalktest_init(void)
 {

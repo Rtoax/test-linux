@@ -1,8 +1,3 @@
-/**
- *	File dump_mm.c 
- *	Time 2021.11.12
- *	Author	Rong Tao <rongtao@cestc.cn>
- */
 #include <linux/init.h>
 #include <linux/module.h>
 #include <linux/mm.h>
@@ -42,11 +37,35 @@ void dump_mm(const struct mm_struct *mm)
 		"tlb_flush_pending %d\n"
 		"def_flags: %#lx(%pGv)\n",
 
-		mm, mm->mmap, (long long) mm->vmacache_seqnum, mm->task_size,
+		mm,
+/**
+ * commit 763ecb035029 ("mm: remove the vma linked list") remove linked list
+ *
+ * $ git describe 763ecb035029f500d7e6dc99acd1ad299b7726a1
+ * v6.0-rc3-284-g763ecb035029
+ */
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(6, 0, 0)
+		NULL,
+#else
+		mm->mmap,
+#endif
+/* commit 7964cf8caa4d ("mm: remove vmacache") */
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(6, 0, 0)
+		0UL,
+#else
+		(long long)mm->vmacache_seqnum,
+#endif
+		mm->task_size,
 #ifdef CONFIG_MMU
 		mm->get_unmapped_area,
 #endif
-		mm->mmap_base, mm->mmap_legacy_base, mm->highest_vm_end,
+		mm->mmap_base, mm->mmap_legacy_base,
+/* commit 763ecb035029 ("mm: remove the vma linked list") remove linked list */
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(6, 0, 0)
+		0UL,
+#else
+		mm->highest_vm_end,
+#endif
 		mm->pgd, atomic_read(&mm->mm_users),
 		atomic_read(&mm->mm_count),
 		mm_pgtables_bytes(mm),

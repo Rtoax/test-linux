@@ -1,8 +1,3 @@
-/**
- *	File ./listvma.c 
- *	Time 2021.11.03
- *	Author	Rong Tao <rongtao@cestc.cn>
- */
 #include <linux/init.h>
 #include <linux/module.h>
 #include <linux/mm.h>
@@ -17,7 +12,6 @@ static void list_myvma(void)
 	struct vm_area_struct *vma;
 
 	printk("list vma..\n");
-        //print the current process's name and pid
 	printk("current:%s pid:%d\n", current->comm, current->pid);
 
 #if LINUX_VERSION_CODE > KERNEL_VERSION(5, 8, 0)
@@ -25,10 +19,18 @@ static void list_myvma(void)
 #else
 	down_read(&mm->mmap_sem);
 #endif
-	//vma is a linklist
-	for(vma = mm->mmap; vma; vma = vma->vm_next)
-	{
-		//from the begining to the ending of a virtual memory area
+/**
+ * commit 763ecb035029 ("mm: remove the vma linked list") remove linked list
+ *
+ * $ git describe 763ecb035029f500d7e6dc99acd1ad299b7726a1
+ * v6.0-rc3-284-g763ecb035029
+ */
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(6, 0, 0)
+	MA_STATE(mas, &mm->mm_mt, 0, 0);
+	mas_for_each(&mas, vma, ULONG_MAX) {
+#else
+	for (vma = mm->mmap; vma; vma = vma->vm_next) {
+#endif
 		printk("0x%lx-0x%lx %s%s%s%s\n",
 			vma->vm_start, vma->vm_end,
 			(vma->vm_flags & VM_READ)?"r":"-",
@@ -46,9 +48,9 @@ static void list_myvma(void)
 static int __init mymem_init(void)
 {
 	printk("mymem module is working..\n");
-
 	list_myvma();
-	return 0;
+	/* insmod failed on purpose */
+	return -1;
 }
 
 static void __exit mymem_exit(void)
