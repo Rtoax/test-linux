@@ -62,3 +62,9 @@ int tc(struct __sk_buff *skb)
 	}
 	return TC_ACT_OK;
 }
+
+int tc_drop(struct __sk_buff *skb)
+{
+	bpf_trace_printk("[tc] dropping packet\n");
+	return TC_ACT_SHOT;
+}

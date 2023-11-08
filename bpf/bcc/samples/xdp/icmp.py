@@ -8,7 +8,8 @@ import socket
 from pyroute2 import IPRoute
 
 examples = """examples:
-    ./icmp.py -i eno1       # track eno1 interface
+    ./icmp.py -i eno1                # track eno1 interface
+    ./icmp.py -i eno1 -t tc_drop     # drop icmp
 """
 
 parser = argparse.ArgumentParser(
@@ -18,7 +19,7 @@ parser = argparse.ArgumentParser(
 parser.add_argument("-i", "--interface", default="-1",
     help="specify ether interface to track, check with ifconfig, ip, etc.")
 parser.add_argument("-t", "--tc", default="-1",
-    help="specify a traffix control.")
+    help="specify a traffix control. tc, tc_drop")
 
 args = parser.parse_args()
 device = args.interface
@@ -34,11 +35,11 @@ b.attach_xdp(device, fn, 0)
 
 if tc == "-1":
     print("You can specify -t,--tc")
-elif tc == "tc":
+elif tc == "tc" or tc == "tc_drop":
     global iproute
     iproute = IPRoute()
     # BPF_PROG_TYPE_SCHED_CLS
-    fi = b.load_func("tc", BPF.SCHED_CLS)
+    fi = b.load_func(tc, BPF.SCHED_CLS)
     links = iproute.link_lookup(ifname=device)
     idx = links[0]
 
@@ -49,6 +50,9 @@ elif tc == "tc":
 
     iproute.tc("add-filter", "bpf", idx, ":1", fd=fi.fd, name=fi.name,
                 parent="ffff:", action="drop", classid=1)
+else:
+    print("ERROR: Unknow -t argument")
+    exit()
 
 print("Tracing ICMP, hit CTRL+C to stop")
 while 1:
@@ -59,5 +63,5 @@ while 1:
         break
 
 b.remove_xdp(device, 0)
-if tc == "tc":
+if tc != "-1":
     iproute.tc("del", "ingress", idx, "ffff:")
