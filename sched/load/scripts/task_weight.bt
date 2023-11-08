@@ -1,1 +1,1 @@
-../../../task_struct/scripts/bpftrace/task_weight.bt
+../../task_struct/scripts/task_weight.bt

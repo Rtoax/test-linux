@@ -1,1 +1,1 @@
-../../../task_struct/scripts/bpftrace/sched_contributes_to_load.bt
+../../task_struct/scripts/sched_contributes_to_load.bt
