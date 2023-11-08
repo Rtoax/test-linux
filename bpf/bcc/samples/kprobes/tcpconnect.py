@@ -7,7 +7,7 @@ from bcc import BPF
 
 interface = "eno1"
 
-b = BPF(src_file = "network.c")
+b = BPF(src_file = "tcpconnect.c")
 
 b.attach_kprobe(event="tcp_v4_connect", fn_name="tcpconnect")
 
