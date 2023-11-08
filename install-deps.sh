@@ -17,6 +17,7 @@ pkgs+=( lshw )                 # lshw
 pkgs+=( ltrace )               # ltrace
 pkgs+=( mmc )                  # mmc
 pkgs+=( nasm )                 # nasm
+pkgs+=( python3-pyroute2 )     # pyroute2
 pkgs+=( rust )                 # rustc
 pkgs+=( systemtap-sdt-devel )  # sdt.h
 pkgs+=( tree )
