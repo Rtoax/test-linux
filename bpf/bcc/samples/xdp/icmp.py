@@ -9,7 +9,9 @@ from pyroute2 import IPRoute
 
 examples = """examples:
     ./icmp.py -i eno1                # track eno1 interface
-    ./icmp.py -i eno1 -t tc_drop     # drop icmp
+    ./icmp.py -i eno1 -t tc          # drop icmp
+    ./icmp.py -i eno1 -t tc_drop     # drop all packets
+    ./icmp.py -i eno1 -t tc_pingpong # drop nothing
 """
 
 parser = argparse.ArgumentParser(
@@ -19,7 +21,7 @@ parser = argparse.ArgumentParser(
 parser.add_argument("-i", "--interface", default="-1",
     help="specify ether interface to track, check with ifconfig, ip, etc.")
 parser.add_argument("-t", "--tc", default="-1",
-    help="specify a traffix control. tc, tc_drop")
+    help="specify a traffix control. tc, tc_drop, tc_pingpong")
 
 args = parser.parse_args()
 device = args.interface
@@ -35,7 +37,7 @@ b.attach_xdp(device, fn, 0)
 
 if tc == "-1":
     print("You can specify -t,--tc")
-elif tc == "tc" or tc == "tc_drop":
+elif tc == "tc" or tc == "tc_drop" or tc == "tc_pingpong":
     global iproute
     iproute = IPRoute()
     # BPF_PROG_TYPE_SCHED_CLS
