@@ -3,6 +3,7 @@
 #include <linux/icmp.h>
 #include <linux/if_ether.h>
 #include <linux/ip.h>
+#include <linux/pkt_cls.h>
 #include <uapi/linux/bpf.h>
 
 static __always_inline unsigned short
@@ -44,4 +45,20 @@ int xdp_icmp(struct xdp_md *ctx)
 	}
 
 	return XDP_PASS;
+}
+
+int tc(struct __sk_buff *skb)
+{
+	bpf_trace_printk("[tc] ingress got packet\n");
+
+	void *data = (void *)(long)skb->data;
+	void *data_end = (void *)(long)skb->data_end;
+
+	if (is_icmp_ping_request(data, data_end)) {
+		struct iphdr *iph = data + sizeof(struct ethhdr);
+		struct icmphdr *icmp = data + sizeof(struct ethhdr) + sizeof(struct iphdr);
+		bpf_trace_printk("[tc] ICMP request for %x type %x\n", iph->daddr, icmp->type);
+		return TC_ACT_SHOT;
+	}
+	return TC_ACT_OK;
 }
