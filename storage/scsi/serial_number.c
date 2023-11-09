@@ -1,3 +1,6 @@
+/**
+ * <SCSI Commands Reference Manual> 100293068, Rev. J
+ */
 #include <stdlib.h>
 #include <unistd.h>
 #include <fcntl.h>
@@ -21,6 +24,7 @@ int main(void)
 	unsigned char sense_buffer[32];
 	sg_io_hdr_t io_hdr;
 
+	unsigned char evpd = 0x01;
 	/**
 	 * INQUIRY Command
 	 * +=====-========-========-========-========-========-========-========-========+
@@ -42,7 +46,7 @@ int main(void)
 	 */
 	unsigned char inquiry[6] = {
 		INQUIRY, /* 0x12 */
-		0x01, /* enable EVPD (VPD: Vital Product Data) */
+		evpd, /* enable EVPD (VPD: Vital Product Data) */
 		SCSI_VPD_UNIT_SERIAL_NUMBER,
 		0x00, /* Reserved */
 		sizeof(reply_buffer), /* Allocation Length */
@@ -54,7 +58,7 @@ int main(void)
 	file_name = devicefile;
 	printf("Get Type & SN from device file: %s\n", file_name);
 	if ((sg_fd = open(file_name, O_RDWR)) < 0) {
-		fprintf(stderr, "Cannot open devicefile! %s\n\n", strerror(errno));
+		fprintf(stderr, "Cannot open devicefile! %s\n", strerror(errno));
 		exit(1);
 	}
 
@@ -86,16 +90,35 @@ int main(void)
 		exit(1);
 	}
 
-	/* Extract SN */
+	if (evpd == 0) {
+		/* standard INQUIRY data */
+		fprintf(stderr, "standard INQUIRY data.\n");
+		exit(1);
+	} else if (evpd == 1) {
+		/* Unit Serial Number page */
+	}
+
+	/* Unit Serial Number page */
+
+	/* Extract SN: Page Code */
 	if (reply_buffer[1] != SCSI_VPD_UNIT_SERIAL_NUMBER) {
-		fprintf(stderr, "Unit serial number page invalid!\n\n");
+		fprintf(stderr, "Unit serial number page invalid!\n");
+		exit(1);
+	}
+	if (reply_buffer[2] != 0x0) {
+		fprintf(stderr, "Unit serial number page invalid!\n");
 		exit(1);
 	}
 
-	printf("Device type: 0x%02X\n", reply_buffer[1] & 0x1F);
+	/* Device-Type Modifier */
+	printf("Device type: 0x%02X\n", reply_buffer[0] & 0x1F);
+	printf("Device qualifier: 0x%02X\n", (reply_buffer[0] >> 5) & 0x07);
+	printf("Page Code: %d\n", reply_buffer[1]);
 	printf("Serial number: ");
-	for (i = 4; i < reply_buffer[3] + 4; i++)
-		printf("%c", reply_buffer[i]);
+	const int serial_len = reply_buffer[3];
+	const unsigned char *serial = &reply_buffer[4];
+	for (i = 0; i < serial_len; i++)
+		printf("%c", serial[i]);
 	printf("\n");
 	exit(0);
 }
