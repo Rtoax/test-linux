@@ -1,0 +1,26 @@
+#!/bin/env bpftrace
+#define SG_IO 0x2285
+BEGIN
+{
+	@cmds[SG_IO] = "SG_IO";
+
+	printf("Tracing ioctl of scsi, hit ctrl-c to end.\n");
+	printf("%-8s %-8s %-16s %-8s\n", "TIME", "PID", "COMM", "CMD");
+}
+
+tracepoint:syscalls:sys_enter_ioctl
+{
+	$cmd = args->cmd;
+
+	/* Only need the command we need */
+	if (@cmds[$cmd] != "") {
+		time("%H:%M:%S ");
+		printf("%-8d %-16s %-8s\n", pid, comm, @cmds[$cmd]);
+	}
+}
+
+END
+{
+	clear(@cmds);
+	printf("Bye.\n");
+}
