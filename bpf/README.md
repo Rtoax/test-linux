@@ -1,5 +1,7 @@
-bpf
-==========
+eBPF
+====
 
-* [https://github.com/rtoax/libbpf-tools](https://github.com/rtoax/libbpf-tools)
-* [https://gitee.com/rtoax/libbpf-tools](https://gitee.com/rtoax/libbpf-tools)
+# Links
+
+* [https://github.com/lizrice/learning-ebpf](https://github.com/lizrice/learning-ebpf)
+* [https://github.com/lizrice/ebpf-beginners](https://github.com/lizrice/ebpf-beginners)
