@@ -7,7 +7,10 @@
 #include <sys/ioctl.h>
 #include <sys/types.h>
 #include <scsi/sg.h> /* glibc-headers */
+#include <scsi/scsi.h>
 
+
+#define SCSI_VPD_UNIT_SERIAL_NUMBER     0x80
 
 int main(void)
 {
@@ -17,7 +20,34 @@ int main(void)
 	unsigned char reply_buffer[96];
 	unsigned char sense_buffer[32];
 	sg_io_hdr_t io_hdr;
-	unsigned char inquiry[6] = {0x12, 0x01, 0x80, 0x00, sizeof(reply_buffer), 0x00};
+
+	/**
+	 * INQUIRY Command
+	 * +=====-========-========-========-========-========-========-========-========+
+	 * |  Bit|   7    |   6    |   5    |   4    |   3    |   2    |   1    |   0    |
+	 * |Byte |        |        |        |        |        |        |        |        |
+	 * |=====+=======================================================================|
+	 * | 0   |                           Operation Code (12h)                        |
+	 * |-----+-----------------------------------------------------------------------|
+	 * | 1   | Logical Unit Number      |                  Reserved         |  EVPD  |
+	 * |-----+-----------------------------------------------------------------------|
+	 * | 2   |                           Page Code                                   |
+	 * |-----+-----------------------------------------------------------------------|
+	 * | 3   |                           Reserved                                    |
+	 * |-----+-----------------------------------------------------------------------|
+	 * | 4   |                           Allocation Length                           |
+	 * |-----+-----------------------------------------------------------------------|
+	 * | 5   |                           Control                                     |
+	 * +=============================================================================+
+	 */
+	unsigned char inquiry[6] = {
+		INQUIRY, /* 0x12 */
+		0x01, /* enable EVPD (VPD: Vital Product Data) */
+		SCSI_VPD_UNIT_SERIAL_NUMBER,
+		0x00, /* Reserved */
+		sizeof(reply_buffer), /* Allocation Length */
+		0x00, /* Control */
+	};
 	int i;
 
 	/* Open device file */
@@ -57,10 +87,11 @@ int main(void)
 	}
 
 	/* Extract SN */
-	if (reply_buffer[1] != 0x80) {
+	if (reply_buffer[1] != SCSI_VPD_UNIT_SERIAL_NUMBER) {
 		fprintf(stderr, "Unit serial number page invalid!\n\n");
 		exit(1);
 	}
+
 	printf("Device type: 0x%02X\n", reply_buffer[1] & 0x1F);
 	printf("Serial number: ");
 	for (i = 4; i < reply_buffer[3] + 4; i++)
