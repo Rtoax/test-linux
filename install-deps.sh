@@ -19,6 +19,8 @@ pkgs+=( mmc )                  # mmc
 pkgs+=( nasm )                 # nasm
 pkgs+=( python3-pyroute2 )     # pyroute2
 pkgs+=( rust )                 # rustc
+pkgs+=( sg3_utils )            # sg_inq, etc.
+pkgs+=( smartmontools )        # smartctl
 pkgs+=( systemtap-sdt-devel )  # sdt.h
 pkgs+=( tree )
 

@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include <fcntl.h>
 #include <errno.h>
-#include <scsi/sg.h>
+#include <scsi/sg.h> /* glibc-headers */
 
 #define SCSI_OFF sizeof(struct sg_header)
 static unsigned char cmd[SCSI_OFF + 18];      /* SCSI command buffer */
