@@ -22,7 +22,7 @@ int main(void)
 
 	/* Open device file */
 	file_name = devicefile;
-	printf("\nGet Type & SN from device file: %s\n\n", file_name);
+	printf("Get Type & SN from device file: %s\n", file_name);
 	if ((sg_fd = open(file_name, O_RDWR)) < 0) {
 		fprintf(stderr, "Cannot open devicefile! %s\n\n", strerror(errno));
 		exit(1);
@@ -41,12 +41,12 @@ int main(void)
 	io_hdr.timeout = 1000; /* Miliseconds */
 
 	if (ioctl(sg_fd, SG_IO, &io_hdr) < 0) {
-		fprintf(stderr, "Cannot send INQUIRY command!\n\n");
+		fprintf(stderr, "Cannot send INQUIRY command! %s\n", strerror(errno));
 		exit(1);
 	}
 
 	if ((io_hdr.info & SG_INFO_OK_MASK) != SG_INFO_OK) {
-		fprintf(stderr, "INQUIRY command failed!\n");
+		fprintf(stderr, "INQUIRY command failed! %s\n", strerror(errno));
 		if (io_hdr.sb_len_wr > 0) {
 			printf("Sense data: ");
 			for (i = 0; i < io_hdr.sb_len_wr; i++)
@@ -65,6 +65,6 @@ int main(void)
 	printf("Serial number: ");
 	for (i = 4; i < reply_buffer[3] + 4; i++)
 		printf("%c", reply_buffer[i]);
-	printf("\n\n");
+	printf("\n");
 	exit(0);
 }
