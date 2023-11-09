@@ -3,13 +3,16 @@ set -e
 
 pkgs=( make cmake gcc clang gdb )
 pkgs+=( bpftrace bcc )         # eBPF
+pkgs+=( binutils-devel )
 pkgs+=( criu )
 pkgs+=( efivar mokutil )       # UEFI
+pkgs+=( elfutils-libelf-devel )
 pkgs+=( gtk3-devel )           # GTK3
 pkgs+=( kernel-devel )         # kernel
 pkgs+=( libaio-devel )         # aio
 pkgs+=( libdwarf-tools )       # dwarfdump
 pkgs+=( libbpf-devel )         # libbpf
+pkgs+=( libpcap-devel )
 pkgs+=( libselinux-devel )     # SELinux
 pkgs+=( liburing-devel )       # uring
 pkgs+=( llvm )                 # llvm-as llvm-dis llc
