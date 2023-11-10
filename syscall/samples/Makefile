@@ -62,6 +62,7 @@ build: nr.h ${TARGETS} ${TARGETS_CPP}
 	make -C inotify
 	make -C signal
 	make -C prctl
+	make -C perf_event_open
 	make -C arch_prctl
 	@echo -e " \033[1;33m Done \033[m"
 
@@ -148,6 +149,7 @@ clean:
 	make -C fanotify clean
 	make -C inotify clean
 	make -C signal clean
+	make -C perf_event_open clean
 	make -C prctl clean
 	make -C arch_prctl clean
 	@rm -f ${TARGETS} ${TARGETS_CPP} \
