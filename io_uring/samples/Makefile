@@ -1,12 +1,12 @@
 
-TARGETS= \
-	io_uring-cat.out \
-	io_uring-cat-libuing.out \
-	io_uring-multi-reqs.out \
-	io_uring-web-server.out \
-	iordinary-cat.out \
-	link-cp.out \
-	io_uring-test.out
+TARGETS :=
+TARGETS += io_uring-cat
+TARGETS += io_uring-cat-libuing
+TARGETS += io_uring-multi-reqs
+TARGETS += io_uring-web-server
+TARGETS += iordinary-cat
+TARGETS += link-cp
+TARGETS += io_uring-test
 
 
 DEBUG = yes
@@ -24,13 +24,13 @@ build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
 # Add more object.o file
-io_uring-cat.out: io_uring-cat.o
-io_uring-cat-libuing.out: io_uring-cat-libuing.o
-io_uring-multi-reqs.out: io_uring-multi-reqs.o
-io_uring-web-server.out: io_uring-web-server.o
-iordinary-cat.out: ordinary-cat.o
-link-cp.out: link-cp.o
-io_uring-test.out: io_uring-test.o
+io_uring-cat: io_uring-cat.o
+io_uring-cat-libuing: io_uring-cat-libuing.o
+io_uring-multi-reqs: io_uring-multi-reqs.o
+io_uring-web-server: io_uring-web-server.o
+iordinary-cat: ordinary-cat.o
+link-cp: link-cp.o
+io_uring-test: io_uring-test.o
 
 %.d: %.c
 	@echo -e "Generate \033[1m$(@)\033[m"
