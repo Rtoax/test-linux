@@ -3,6 +3,7 @@ TARGETS := fallocate
 TARGETS += access faccessat2
 TARGETS += fdopen
 TARGETS += fork vfork
+TARGETS += kcmp
 TARGETS += execve execve-fork
 TARGETS += getrlimit setrlimit ulimit
 TARGETS += nr
@@ -73,6 +74,7 @@ nr.h:
 fallocate: fallocate.o
 faccessat2: faccessat2.o
 access: access.o
+kcmp: kcmp.o
 fdopen: fdopen.o
 fork: fork.o
 vfork: vfork.o
