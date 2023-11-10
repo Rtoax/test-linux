@@ -1,19 +1,25 @@
-TARGET = hello-buffer-config
+TARGET = hello-verifier
 ARCH = $(shell uname -m | sed 's/x86_64/x86/' | sed 's/aarch64/arm64/')
 
-BPF_OBJ = ${TARGET:=.bpf.o}
+BPF_TARGET = ${TARGET:=.bpf}
+BPF_C = ${BPF_TARGET:=.c}
+BPF_OBJ = ${BPF_TARGET:=.o}
+
 USER_C = ${TARGET:=.c}
 USER_SKEL = ${TARGET:=.skel.h}
+
+COMMON_H = ${TARGET:=.h}
 
 all: $(TARGET) $(BPF_OBJ)
 .PHONY: all
 
-$(TARGET): $(USER_C) $(USER_SKEL)
+$(TARGET): $(USER_C) $(USER_SKEL) $(COMMON_H)
 	gcc -Wall -o $(TARGET) $(USER_C) -lbpf -lelf -lz
 
-%.bpf.o: %.bpf.c vmlinux.h
+$(BPF_OBJ): %.o: $(BPF_C) vmlinux.h  $(COMMON_H)
 	clang \
 		-target bpf \
+		-D __BPF_TRACING__ \
 		-D __TARGET_ARCH_$(ARCH) \
 		-Wall \
 		-O2 -g -o $@ -c $<
@@ -26,5 +32,6 @@ vmlinux.h:
 	bpftool btf dump file /sys/kernel/btf/vmlinux format c > vmlinux.h
 
 clean:
-	- rm -f $(BPF_OBJ) $(TARGET) vmlinux.h *.skel.h
+	- rm $(BPF_OBJ)
+	- rm -f $(TARGET) *.skel.h vmlinux.h
 
