@@ -131,3 +131,6 @@ os-release
 *.rpm
 *.deb
 *.exe
+
+# Temp File
+vmlinux.h
