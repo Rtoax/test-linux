@@ -1,7 +1,7 @@
 
 TARGETS :=
 TARGETS += io_uring-cat
-TARGETS += io_uring-cat-libuing
+TARGETS += io_uring-cat-liburing
 TARGETS += io_uring-multi-reqs
 TARGETS += io_uring-web-server
 TARGETS += iordinary-cat
@@ -25,7 +25,7 @@ build: ${TARGETS}
 
 # Add more object.o file
 io_uring-cat: io_uring-cat.o
-io_uring-cat-libuing: io_uring-cat-libuing.o
+io_uring-cat-liburing: io_uring-cat-liburing.o
 io_uring-multi-reqs: io_uring-multi-reqs.o
 io_uring-web-server: io_uring-web-server.o
 iordinary-cat: ordinary-cat.o
