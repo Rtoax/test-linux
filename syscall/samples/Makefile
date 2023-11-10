@@ -25,6 +25,7 @@ TARGETS += userfaultfd
 TARGETS += memfd_create memfd_create-dup2
 TARGETS += membarrier
 TARGETS += symlink
+TARGETS += sysctl
 TARGETS += mlock mlockall
 
 TARGETS_CPP += readlink2
@@ -105,6 +106,7 @@ userfaultfd: userfaultfd.o
 memfd_create: memfd_create.o
 memfd_create-dup2: memfd_create-dup2.o
 membarrier: membarrier.o
+sysctl: sysctl.o
 symlink: symlink.o
 mlock: mlock.o
 mlockall: mlockall.o

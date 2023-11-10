@@ -41,3 +41,4 @@
 /mlockall
 /execve
 /execve-fork
+/sysctl
