@@ -2,7 +2,7 @@
 set -e
 
 pkgs=( make cmake gcc clang gdb )
-pkgs+=( bpftrace bcc )         # eBPF
+pkgs+=( bpftrace bpftool bcc ) # eBPF
 pkgs+=( binutils-devel )
 pkgs+=( criu )
 pkgs+=( efivar mokutil )       # UEFI
