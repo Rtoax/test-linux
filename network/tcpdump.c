@@ -15,9 +15,9 @@ typedef unsigned short u_short;
 
 /* include/uapi/linux/if_ether.h: struct ethhdr {} */
 struct eth_hdr {
-	 char h_dest[6];
-	 char h_source[6];
-	 short h_proto;
+	char h_dest[6];
+	char h_source[6];
+	short h_proto;
 } __attribute__((packed));
 
 /* include/uapi/linux/ip.h: struct iphdr {} */

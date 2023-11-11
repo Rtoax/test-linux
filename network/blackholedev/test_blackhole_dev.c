@@ -1,11 +1,3 @@
-/**
- *	File ./test_blackhole_dev.c 
- *	Time 2021.11.23
- *	Author Rong Tao
- *
- *	Refs
- *	1. linux-5.10.13/lib/test_blackhole_dev.c
- */
 // SPDX-License-Identifier: GPL-2.0
 /*
  * This module tests the blackhole_dev that is created during the
