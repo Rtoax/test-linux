@@ -5,8 +5,9 @@ function dos2unix_sed()
 {
 	for f in $@
 	do
-		# Skip the symbol link
+		# Skip the symbol link and directory
 		[[ -L $f ]] && continue
+		[[ -d $f ]] && continue
 		sed -i 's/\r$//' $f
 	done
 }
