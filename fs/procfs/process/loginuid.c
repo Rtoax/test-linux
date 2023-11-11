@@ -5,17 +5,16 @@
 #include <sys/types.h>
 #include <unistd.h>
 
-uid_t
-get_process_owner(pid_t pid)
+
+uid_t get_process_owner(pid_t pid)
 {
 	char procpath[128];
+	struct stat info;
+
 	snprintf(procpath, sizeof(procpath), "/proc/%d/loginuid", pid);
 
-	struct stat info;
-	if (stat(procpath, &info)) {
+	if (stat(procpath, &info))
 		return 0;
-	}
-
 	return info.st_uid;
 }
 
@@ -26,3 +25,4 @@ int main(void)
 	printf("Pid %d belongs to uid %d\n", pid, uid);
 	return 0;
 }
+
