@@ -28,6 +28,10 @@ pkgs+=( smartmontools )        # smartctl
 pkgs+=( systemtap-sdt-devel )  # sdt.h
 pkgs+=( tree )
 
+if [[ $(uname -m) == x86_64 ]]; then
+	pkgs+=( glibc-devel.i686 )
+fi
+
 args=( --skip-broken )
 args+=( --nogpgcheck )
 
