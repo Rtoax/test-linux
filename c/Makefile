@@ -11,6 +11,7 @@ TARGETS += xor
 TARGETS += __alignof__
 TARGETS += __label__
 TARGETS += __typeof__
+TARGETS += NULL
 
 ifeq ($(shell uname -m),x86_64)
 endif
@@ -46,6 +47,7 @@ ptr-dim: ptr-dim.o helpers.o
 struct: struct.o
 xor: xor.o
 __alignof__: __alignof__.o
+NULL: NULL.o
 
 CFLAGS__Generic := -Wno-all
 
