@@ -1,0 +1,26 @@
+#!/bin/env bpftrace
+/**
+ * pick_eevdf.bt - description
+ *
+ * Copyright (C) Rong Tao 2022-2023
+ *
+ * 2023-11-13	Rong Tao	Create this.
+ */
+#ifndef BPFTRACE_HAVE_BTF
+#include <linux/sched.h>
+#endif
+
+BEGIN
+{
+	printf("Tracing EEVDF, hit ctrl-c to end.\n");
+}
+
+kprobe:__pick_eevdf
+{
+	@[kstack] = count();
+}
+
+END
+{
+	printf("Bye.\n");
+}
