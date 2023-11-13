@@ -3,6 +3,7 @@ TARGETS := hello
 TARGETS += socket
 TARGETS += malloc
 TARGETS += vdso
+TARGETS += dlinfo
 
 TARGETS_LIBS := libhello.so
 
@@ -30,6 +31,7 @@ hello: hello.o
 socket: socket.o libc.o
 malloc: malloc.o libc.o
 vdso: vdso.o
+dlinfo: dlinfo.o
 
 CFLAGS_main.user := -D_MAIN_USER=1
 LDFLAGS_main.user :=

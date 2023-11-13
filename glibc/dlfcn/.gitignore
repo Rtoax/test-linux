@@ -2,3 +2,4 @@
 /socket
 /malloc
 /vdso
+/dlinfo
