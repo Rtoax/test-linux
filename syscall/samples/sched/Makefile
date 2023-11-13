@@ -22,6 +22,7 @@ CFLAGS += -DDEBUG -O0 -g
 endif
 
 build: ${TARGETS}
+	make -C clone
 	@echo -e " \033[1;33m Done \033[m"
 
 cpu_set: cpu_set.o
@@ -56,6 +57,7 @@ test: ${TARGETS}
 
 clean:
 	@echo -e "Clean   \033[1;32m$(@)\033[m"
+	make -C clone clean
 	@rm -f ${TARGETS} \
 		*.o *.d
 
