@@ -14,7 +14,7 @@
 #include "common.h"
 
 
-#define LIBC_SO "/usr/lib64/libc.so.6"
+#define LIBC_SO "libc.so.6" /* /usr/lib64/libc.so.6 */
 
 
 typedef int (*socket_fn_t)(int domain, int type, int protocol);
