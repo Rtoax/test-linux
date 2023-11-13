@@ -1,6 +1,7 @@
 
 TARGETS := hello
 TARGETS += socket
+TARGETS += malloc
 
 TARGETS_LIBS := libhello.so
 
@@ -26,6 +27,7 @@ build: ${TARGETS} ${TARGETS_LIBS}
 # Add more object.o file
 hello: hello.o
 socket: socket.o libc.o
+malloc: malloc.o libc.o
 
 CFLAGS_main.user := -D_MAIN_USER=1
 LDFLAGS_main.user :=
