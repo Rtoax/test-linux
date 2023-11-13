@@ -10,12 +10,14 @@
 #include <unistd.h>
 #include <errno.h>
 #include <string.h>
+#include <stdbool.h>
 
 #include "common.h"
 
 
 #define LIBC_SO "libc.so.6" /* /usr/lib64/libc.so.6 */
 
+static __thread bool override = false;
 
 typedef int (*socket_fn_t)(int domain, int type, int protocol);
 
@@ -44,9 +46,11 @@ static strdup_fn_t      g_libc_real_strdup_func = NULL;
 static strndup_fn_t     g_libc_real_strndup_func = NULL;
 
 
+static void *__libc_dl_handle = RTLD_NEXT;
+
 #define HOOK_SYS_FUNC(name) \
 	if ( !g_sys_##name##_func ) { \
-		g_sys_##name##_func = (name##_fn_t)dlsym(RTLD_NEXT, #name); \
+		g_sys_##name##_func = (name##_fn_t)dlsym(__libc_dl_handle, #name); \
 		if (!g_sys_##name##_func) { \
 			fprintf(stderr, "Failed to load %s\n", #name); \
 		} \
@@ -89,13 +93,32 @@ static void __real_libc(void)
 
 void __attribute__((constructor(101))) __dlsym_sys_func_init(void)
 {
+	override = false;
+
 	__sys_libc();
 	__real_libc();
 }
 
+void libc_override_set(bool state)
+{
+	override = state;
+}
+
+bool libc_override_get(void)
+{
+	return override;
+}
+
+static int __socket(int domain, int type, int protocol)
+{
+	debug();
+	return 0;
+}
+
 int socket(int domain, int type, int protocol)
 {
-	printf("call socket.\n");
+	if (override)
+		return __socket(domain, type, protocol);
 	return g_sys_socket_func(domain, type, protocol);
 }
 
