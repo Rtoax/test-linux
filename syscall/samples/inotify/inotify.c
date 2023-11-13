@@ -56,7 +56,7 @@ int main(int argc, char *argv[])
 		} else {
 			index = 0;
 			while (index < len) {
-				event = (struct inotify_event *)(buf+index);
+				event = (struct inotify_event *)(buf + index);
 				_inotify_event_handler(event);
 				index += sizeof(struct inotify_event) + event->len;
 			}
