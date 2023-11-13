@@ -1,5 +1,6 @@
 
 TARGETS += clone
+TARGETS += ns_pid
 
 DEBUG = yes
 SRC_PATH := $(shell pwd)
@@ -19,12 +20,11 @@ build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
 clone: clone.o
+ns_pid: ns_pid.o
 
-%.d: %.c
-	@echo -e "Generate \033[1m$(@)\033[m"
-	@$(CC) $(CFLAGS) -MM -MF "$@" -MG -MP -MT"$@" -MT"$(<:.c=.o)" $(<)
+CFLAGS_ns_pid := -Wno-error=int-to-pointer-cast
 
-%.o: %.c %.d
+%.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
 

@@ -41,6 +41,7 @@ int main(void)
 	pid = clone(child, stack + STACK_SIZE, flags, NULL);
 	if (pid == -1) {
 		perror("clone");
+		return -1;
 	}
 
 	waitpid(pid, NULL, 0);
