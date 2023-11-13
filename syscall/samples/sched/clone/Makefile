@@ -1,6 +1,7 @@
 
 TARGETS += clone
 TARGETS += ns_pid
+TARGETS += ns_net
 
 DEBUG = yes
 SRC_PATH := $(shell pwd)
@@ -21,6 +22,7 @@ build: ${TARGETS}
 
 clone: clone.o
 ns_pid: ns_pid.o
+ns_net: ns_net.o
 
 CFLAGS_ns_pid := -Wno-error=int-to-pointer-cast
 
