@@ -58,6 +58,10 @@ CFLAGS += -g -ggdb
 CFLAGS += -D_GNU_SOURCE
 CFLAGS += -O3
 CFLAGS += -pthread
+ifdef STATIC
+CFLAGS += -static
+$(info Defined STATIC)
+endif
 
 $(TARGETS): %:
 	@echo -e "Target   \033[1;32m$(@)\033[m"

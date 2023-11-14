@@ -20,6 +20,10 @@ LDLIBS :=
 ifdef DEBUG
 CFLAGS += -DDEBUG -O0 -g
 endif
+ifdef STATIC
+CFLAGS += -static
+$(info Defined STATIC)
+endif
 
 .PHONY: build
 build: ${TARGETS}

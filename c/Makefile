@@ -22,8 +22,15 @@ DEBUG = yes
 SRC_PATH := $(shell pwd)
 CC = gcc
 
+LDFLAGS :=
+LDLIBS :=
+
 CFLAGS := -Werror -Wall
 CFLAGS += -I../macro/
+ifdef STATIC
+CFLAGS += -static
+$(info Defined STATIC)
+endif
 
 ifdef DEBUG
 CFLAGS += -DDEBUG -O0 -g -ggdb
@@ -47,6 +54,8 @@ ptr-dim: ptr-dim.o helpers.o
 struct: struct.o
 xor: xor.o
 __alignof__: __alignof__.o
+__label__: __label__.o
+__typeof__: __typeof__.o
 NULL: NULL.o
 
 CFLAGS__Generic := -Wno-all
@@ -55,6 +64,10 @@ CFLAGS__Generic := -Wno-all
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
 	$(CC) $(CFLAGS) $(CFLAGS_$(*)) -S $(<) -o $(<:.c=.s)
+
+$(TARGETS): %:
+	@echo -e "Target   \033[1;32m$(@)\033[m"
+	$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) $(^) $(LDLIBS) $(LDFLAGS) $(LDFLAGS_$(*))
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
