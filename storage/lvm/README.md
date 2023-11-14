@@ -7,10 +7,10 @@ distributions are LVM-aware to the point of  being able to have their root
 file systems on a logical volume.
 
 
+- VG: Volume Groups      (sudo vgs)
+- PV: Physical Volumes   (sudo pvs)
 - PP: Physical Partition
-- PV: Physical Volumes
-- VG: Volume Groups
-- LV: Logical Volumes
+- LV: Logical Volumes    (sudo lvs)
 - FS: Filesystem
 - MP: Mounting Point
 
