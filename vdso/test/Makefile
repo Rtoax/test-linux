@@ -1,8 +1,8 @@
 # Rong Tao, 2022-03-11
 
-TARGETS := clock_gettime.sec.out
-TARGETS += clock_gettime.nsec.out
-TARGETS += evil-clock-test.out
+TARGETS := clock_gettime.sec
+TARGETS += clock_gettime.nsec
+TARGETS += evil-clock-test
 
 all: ${TARGETS}
 
@@ -26,13 +26,13 @@ endif
 ${LIBS}:
 	make -C dpdk
 
-clock_gettime.sec.out: ${LIBS}
+clock_gettime.sec: ${LIBS}
 	gcc clock_gettime.c ${MACROS} ${LIBS} -o $@ -DACCURATE_TO_SEC
-clock_gettime.nsec.out: ${LIBS}
+clock_gettime.nsec: ${LIBS}
 	gcc clock_gettime.c ${MACROS} ${LIBS} -o $@
-evil-clock-test.out:
-	g++ ${CFLAGS} evil-clock-test.cc -o evil-clock-test.out
+evil-clock-test:
+	g++ ${CFLAGS} evil-clock-test.cc -o evil-clock-test
 
 clean:
 	make -C dpdk clean
-	rm -f *.out
+	rm -f $(TARGETS)
