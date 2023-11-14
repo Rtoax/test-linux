@@ -26,19 +26,27 @@ static int child_fn(void *arg)
 
 int main(void)
 {
+	int ret;
 	char buf[255];
+	pid_t pid;
 
-	pid_t pid = clone(child_fn, child_stack + STACK_SIZE, CLONE_NEWNET, NULL);
+	pid = clone(child_fn, child_stack + STACK_SIZE, CLONE_NEWNET, NULL);
 	if (pid == -1) {
 		perror("clone");
 		return -1;
 	}
 
+	fprintf(stdout, "child pid = %d\n", pid);
+
 	sprintf(buf, "ip link add name veth0 type veth peer name veth1 netns %d", pid);
 	system(buf);
 	system("ifconfig veth0 10.0.0.3");
 
-	waitpid(pid, NULL, 0);
+	ret = waitpid(pid, NULL, 0);
+	if (ret) {
+		perror("waitpid");
+		return 0;
+	}
 	return 0;
 }
 

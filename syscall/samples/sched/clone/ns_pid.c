@@ -45,6 +45,7 @@ int child_fn(void *arg)
 
 int main(void)
 {
+	int ret;
 	pid_t ppid = getpid();
 	pid_t pid = clone(child_fn, child_stack + STACK_SIZE, CLONE_NEWPID, (void *)ppid);
 	if (pid == -1) {
@@ -53,7 +54,11 @@ int main(void)
 	}
 	printf("clone() = %d\n", pid);
 
-	waitpid(pid, NULL, 0);
+	ret = waitpid(pid, NULL, 0);
+	if (ret) {
+		perror("waitpid");
+		return 0;
+	}
 	return 0;
 }
 

@@ -25,8 +25,16 @@ int child(void* arg)
 		perror("chroot");
 		return 0;
 	}
-	chdir("/");
-	mount("proc", "/proc", "proc", 0, NULL);
+	ret = chdir("/");
+	if (ret) {
+		perror("chdir");
+		return 0;
+	}
+	ret = mount("proc", "/proc", "proc", MS_PRIVATE, NULL);
+	if (ret) {
+		perror("mount");
+		return 0;
+	}
 	execlp("/bin/sh", "/bin/sh" , NULL);
 	printf("Ooops\n");
 	return 1;

@@ -56,7 +56,7 @@ int child(void* arg)
 		return 0;
 	}
 	chdir("/");
-	mount("proc", "/proc", "proc", 0, NULL);
+	mount("proc", "/proc", "proc", MS_PRIVATE, NULL);
 
 	setip("veth1", "10.0.0.15", "255.0.0.0");
 	execlp("/bin/sh", "/bin/sh" , NULL);
@@ -66,6 +66,7 @@ int child(void* arg)
 
 int main(void)
 {
+	int ret;
 	char buf[255];
 	int flags = CLONE_NEWNET | CLONE_NEWUTS | CLONE_NEWIPC | CLONE_NEWPID | CLONE_NEWNS | SIGCHLD;
 	pid_t pid = clone(child, stack + STACK_SIZE, flags, NULL);
@@ -78,7 +79,11 @@ int main(void)
 	system(buf);
 	setip("veth0", "10.0.0.13", "255.0.0.0");
 
-	waitpid(pid, NULL, 0);
+	ret = waitpid(pid, NULL, 0);
+	if (ret) {
+		perror("waitpid");
+		return 0;
+	}
 	return 0;
 }
 
