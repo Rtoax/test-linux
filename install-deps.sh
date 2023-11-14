@@ -21,6 +21,7 @@ pkgs+=( lshw )                 # lshw
 pkgs+=( ltrace )               # ltrace
 pkgs+=( mmc )                  # mmc
 pkgs+=( nasm )                 # nasm
+pkgs+=( numactl )              # numastat
 pkgs+=( python3-pyroute2 )     # pyroute2
 pkgs+=( rust )                 # rustc
 pkgs+=( sg3_utils )            # sg_inq, etc.
