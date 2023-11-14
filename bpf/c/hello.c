@@ -35,21 +35,22 @@ int main(void)
 	};
 	size_t insns_cnt = sizeof(prog)/sizeof(struct bpf_insn);
 
-	prog_fd = bpf_load_program(BPF_PROG_TYPE_KPROBE,
+	prog_fd = bpf_prog_load(BPF_PROG_TYPE_KPROBE,
+				"TEST",
+				"GPL",
 				prog,
 				insns_cnt,
-				"GPL",
-				LINUX_VERSION_CODE,
-				bpf_log_buf,
-				BPF_LOG_BUF_SIZE);
+				NULL);
 	if (prog_fd < 0) {
 		printf("ERROR: failed to load prog '%s'\n", strerror(errno));
 		return 1;
 	}
 
-	probe_fd = bpf_attach_kprobe(prog_fd, BPF_PROBE_ENTRY, "hello_world", "do_nanosleep", 0,0);
-	if (prog_fd < 0)
+	probe_fd = bpf_attach_kprobe(prog_fd, BPF_PROBE_ENTRY, "hello_world", "do_nanosleep", 0, 0);
+	if (prog_fd < 0) {
+		printf("ERROR: failed to attach kprobe to do_nanosleep.\n");
 		return 2;
+	}
 
 	system("cat " DEBUGFS "/trace_pipe");
 	close(probe_fd);
