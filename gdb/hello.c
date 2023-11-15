@@ -4,6 +4,7 @@ int global_i = 10;
 
 int hello(int argc, char *argv[])
 {
+	global_i++;
 	return printf("Hello %s.\n", "World");
 }
 
@@ -18,5 +19,5 @@ int main(int argc, char *argv[])
 		printf("\n");
 	}
 	ret = hello(argc, argv);
-	return ret;
+	return ret + global_i;
 }
