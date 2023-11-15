@@ -1,6 +1,8 @@
 #include <stdio.h>
 
-int hello(void)
+int global_i = 10;
+
+int hello(int argc, char *argv[])
 {
 	return printf("Hello %s.\n", "World");
 }
@@ -15,6 +17,6 @@ int main(int argc, char *argv[])
 			printf("%s ", argv[i]);
 		printf("\n");
 	}
-	ret = hello();
+	ret = hello(argc, argv);
 	return ret;
 }
