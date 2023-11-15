@@ -1,11 +1,3 @@
-/**
- *	File ./kprobe_read_tsc.c 
- *	Time 2022.01.10
- *	Author Rong Tao
- *
- *	Discription
- *	  sudo bpftrace -e 'kprobe:read_tsc {printf("read_tsc.\n");}'
- */
 #include <linux/kernel.h>
 #include <linux/module.h>
 #include <linux/kprobes.h>
@@ -22,14 +14,13 @@ static struct kprobe kp = {
 
 static int __kprobes handler_pre(struct kprobe *p, struct pt_regs *regs)
 {
-	printk("ICMP ECHO <%s> %ld\n", p->symbol_name, count_read_tsc++);
-
+	printk("read_tsc <%s> %ld\n", p->symbol_name, count_read_tsc++);
 	return 0;
 }
 
 /* kprobe post_handler: called after the probed instruction is executed */
-static void __kprobes handler_post(struct kprobe *p, struct pt_regs *regs,
-				unsigned long flags)
+static void __kprobes
+handler_post(struct kprobe *p, struct pt_regs *regs, unsigned long flags)
 {
 }
 
