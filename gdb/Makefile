@@ -8,7 +8,7 @@ TARGETS += hello
 
 CC = gcc
 CFLAGS := -Werror -Wall
-CFLAGS += -O3 -ggdb
+CFLAGS += -O0 -ggdb
 CXXFLAGS :=
 CXXFLAGS += -O0 -ggdb
 
