@@ -2,16 +2,7 @@
 #include <string.h>
 
 
-int demo1_errortry(void)
-{
-	char s1[] = {"rong tao is a good man"};
-	char **s2 = NULL;
-	strsep(s2, s1);
-	printf("%s\n", s2[2]);
-	return 0;
-}
-
-int main(void)
+void demo1(void)
 {
 	char source[] = "hello, world! welcome to china!";
 	char delim[] = " ,!";
@@ -24,5 +15,29 @@ int main(void)
 		printf("+");
 	}
 	printf("\n");
+}
+
+void demo2_man(void)
+{
+	char string[] = {"a/bbb///cc;xxx:yyy:"};
+	char *stringp = strdup(string);
+	const char *delim1 = ":;";
+	const char *delim2 = "/";
+
+	char *token, *subtoken;
+
+	for (unsigned int j = 1; (token = strsep(&stringp, delim1)); j++) {
+		printf("%u: %s\n", j, token);
+
+		while ((subtoken = strsep(&token, delim2)))
+			printf("\t --> %s\n", subtoken);
+	}
+}
+
+int main(void)
+{
+	demo1();
+	demo2_man();
+
 	return 0;
 }
