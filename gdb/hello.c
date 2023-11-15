@@ -7,11 +7,14 @@ int hello(void)
 
 int main(int argc, char *argv[])
 {
+	int ret;
+
 	if (argc > 1) {
 		int i;
 		for (i = 1; i < argc; i++)
 			printf("%s ", argv[i]);
 		printf("\n");
 	}
-	return hello();
+	ret = hello();
+	return ret;
 }
