@@ -2,6 +2,7 @@ TARGETS += bcopy
 TARGETS += index
 TARGETS += memchr
 TARGETS += memcpy
+TARGETS += memset
 TARGETS += memmove
 TARGETS += stpcpy
 TARGETS += strcmp
@@ -41,6 +42,7 @@ bcopy: bcopy.o
 index: index.o
 memchr: memchr.o
 memcpy: memcpy.o
+memset: memset.o
 memmove: memmove.o
 stpcpy: stpcpy.o
 strcat: strcat.o
