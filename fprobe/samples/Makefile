@@ -2,7 +2,9 @@ ifeq ($(shell uname -m),x86_64)
 endif
 ifeq ($(shell uname -m),aarch64)
 endif
+ifeq ($(CONFIG_FPROBE),y)
 obj-m += fprobe_example.o
+endif
 
 KERNELDIR ?= /lib/modules/$(shell uname -r)/build
 
