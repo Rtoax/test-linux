@@ -1,1 +1,4 @@
 /asctime
+/asctime_r
+/localtime
+/localtime_r
