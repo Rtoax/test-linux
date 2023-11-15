@@ -18,3 +18,15 @@ int sys_clock_gettime(clockid_t clockid, struct timespec *tp)
 {
 	return syscall(__NR_clock_gettime, clockid, tp);
 }
+
+int nsec_to_ts(nsec_t ns, struct timespec *ts)
+{
+	if (ts == NULL) {
+		printf("ERROR in %s: ts is NULL\n", __FUNCTION__);
+		return 1;
+	}
+	ts->tv_sec = ns / NS_PER_SEC;
+	ts->tv_nsec = ns % NS_PER_SEC;
+	return 0;
+}
+
