@@ -20,8 +20,8 @@ build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
 # Add more object.o file
-clock_getres: clock_getres.o
-clock_gettime: clock_gettime.o
+clock_getres: clock_getres.o helpers.o
+clock_gettime: clock_gettime.o helpers.o
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"

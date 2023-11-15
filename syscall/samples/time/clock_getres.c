@@ -1,11 +1,12 @@
 #include <signal.h>
 #include <time.h>
 #include <stdio.h>
+#include "helpers.h"
 
 
 #define test(clk_id) {\
 	struct timespec tp;\
-	clock_getres(clk_id, &tp);\
+	sys_clock_getres(clk_id, &tp);\
 	printf("resolution >> %40s: %ld, %ld\n", #clk_id, tp.tv_sec, tp.tv_nsec);\
 }
 
