@@ -20,6 +20,7 @@ USER_LIST += compiler/annobin
 USER_LIST += compiler/linker
 USER_LIST += compiler/__attribute__
 USER_LIST += compiler/__builtin_
+USER_LIST += gdb/samples
 USER_LIST += glibc
 USER_LIST += glibc/arpa/inet
 USER_LIST += glibc/dlfcn

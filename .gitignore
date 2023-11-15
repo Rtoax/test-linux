@@ -103,8 +103,9 @@ __pycache__
 *.img
 *.disk
 
-# Coredump
+# Coredump and gcore generate
 core-*
+core.*
 
 # Binary and data
 *.Binary
