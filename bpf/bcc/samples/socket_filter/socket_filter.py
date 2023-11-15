@@ -4,8 +4,21 @@ import os
 from time import sleep
 from pyroute2 import IPRoute
 from bcc import BPF
+import argparse
 
-interface = "eno1"
+examples = """examples:
+    ./socket_filter.py -i eno1                # track eno1 interface
+"""
+
+parser = argparse.ArgumentParser(
+    description="bcc socket_filter demo",
+    formatter_class=argparse.RawDescriptionHelpFormatter,
+    epilog=examples)
+parser.add_argument("-i", "--interface", default="-1",
+    help="specify ether interface to track, check with ifconfig, ip, etc.")
+
+args = parser.parse_args()
+interface = args.interface
 
 b = BPF(src_file = "socket_filter.c")
 
