@@ -1,0 +1,2 @@
+disassemble main
+disassemble hello
