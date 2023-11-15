@@ -4,6 +4,7 @@ TARGETS += set-value-func
 TARGETS += set-value-volatile
 TARGETS += global-var
 TARGETS += pthread-gdb
+TARGETS += hello
 
 CC = gcc
 CFLAGS := -Werror -Wall
@@ -19,6 +20,7 @@ set-value: set-value.o
 set-value-func: set-value-func.o
 set-value-volatile: set-value-volatile.o
 pthread-gdb: pthread-gdb.o
+hello: hello.o
 
 clean:
 	@echo -e "Clean   \033[1;32m$(@)\033[m"
