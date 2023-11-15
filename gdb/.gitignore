@@ -4,3 +4,5 @@
 /set-value-volatile
 /pthread-gdb
 /hello
+/linklist
+/coredump.*
