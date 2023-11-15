@@ -2,3 +2,5 @@
 /asctime_r
 /localtime
 /localtime_r
+/clock
+/clock_getcpuclockid
