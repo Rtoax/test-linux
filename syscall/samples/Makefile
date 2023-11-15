@@ -58,6 +58,7 @@ build: nr.h ${TARGETS} ${TARGETS_CPP}
 	make -C ioctl
 	make -C poll
 	make -C epoll
+	make -C time
 	make -C flock
 	make -C fanotify
 	make -C inotify
@@ -147,6 +148,7 @@ clean:
 	make -C ioctl clean
 	make -C poll clean
 	make -C epoll clean
+	make -C time clean
 	make -C flock clean
 	make -C fanotify clean
 	make -C inotify clean
