@@ -14,6 +14,7 @@ TARGETS += __typeof__
 TARGETS += NULL
 TARGETS += _Nullable
 TARGETS += _Nonnull
+TARGETS += BUILD_BUG_ON_ZERO
 
 ifeq ($(shell uname -m),x86_64)
 endif
@@ -61,6 +62,7 @@ __typeof__: __typeof__.o
 NULL: NULL.o
 _Nullable: _Nullable.o
 _Nonnull: _Nonnull.o
+BUILD_BUG_ON_ZERO: BUILD_BUG_ON_ZERO.o
 
 CFLAGS__Generic := -Wno-all
 

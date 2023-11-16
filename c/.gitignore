@@ -13,4 +13,5 @@
 /NULL
 /_Nullable
 /_Nonnull
+/BUILD_BUG_ON_ZERO
 /*.s
