@@ -7,6 +7,7 @@ TARGETS += bit
 TARGETS += likely
 TARGETS += offsetof
 TARGETS += __clang__
+TARGETS += __nonnull
 
 ifeq ($(shell uname -m),x86_64)
 TARGETS += __i386__
@@ -37,6 +38,7 @@ offsetof: offsetof.o
 __clang__: __clang__.o
 __i386__: __i386__.o
 __x86_64__: __x86_64__.o
+__nonnull: __nonnull.o
 
 CFLAGS___i386__ := -m32
 CFLAGS___x86_64__ := -m64

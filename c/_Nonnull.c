@@ -2,6 +2,9 @@
 #include <stdio.h>
 
 
+/**
+ * see also __attribute__((nonnull (1, 2)))
+ */
 #if defined(__clang__)
 int print_ptr(void *_Nonnull ptr)
 #else
