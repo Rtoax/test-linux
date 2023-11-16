@@ -12,6 +12,8 @@ TARGETS += __alignof__
 TARGETS += __label__
 TARGETS += __typeof__
 TARGETS += NULL
+TARGETS += _Nullable
+TARGETS += _Nonnull
 
 ifeq ($(shell uname -m),x86_64)
 endif
@@ -57,6 +59,8 @@ __alignof__: __alignof__.o
 __label__: __label__.o
 __typeof__: __typeof__.o
 NULL: NULL.o
+_Nullable: _Nullable.o
+_Nonnull: _Nonnull.o
 
 CFLAGS__Generic := -Wno-all
 
