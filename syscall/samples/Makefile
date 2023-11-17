@@ -26,13 +26,13 @@ TARGETS += userfaultfd
 TARGETS += memfd_create memfd_create-dup2
 TARGETS += membarrier
 TARGETS += symlink
-TARGETS += sysctl
 TARGETS += mlock mlockall
 
 TARGETS_CPP += readlink2
 
 ifeq ($(shell uname -m),x86_64)
 TARGETS += get_thread_area
+TARGETS += sysctl
 endif
 ifeq ($(shell uname -m),aarch64)
 # TODO: Remove openat2 from TARGETS
