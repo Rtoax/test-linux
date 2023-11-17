@@ -1,9 +1,3 @@
-/**
- *	File	alloc_page.c
- *	Time	2021.11.05
- *	Author	Rong Tao <rongtao@cestc.cn>
- */
-
 #include <linux/init.h>
 #include <linux/module.h>
 #include <linux/kernel.h>
@@ -15,9 +9,7 @@
 #include <linux/page-flags.h> //PG_xxxx
 #include <asm/pgtable.h>
 
-/**
- *	Print page information
- */
+
 static void print_page(struct page* page)
 {
 	printk("flags     %lx\n", page->flags);
@@ -29,30 +21,35 @@ static void print_page(struct page* page)
 	printk("page2pfn  %lx\n", page_to_pfn(page));
 	dump_page(page, "I just wanna see page.");
 }
+
 static struct page* test__alloc(void)
 {
 	pte_t entry;
 	struct page *page = alloc_page(GFP_KERNEL|GFP_ATOMIC);
-	if(!page) {
+	if (!page) {
 		printk("fail alloc_page.\n");
+		return NULL;
 	}
-	__SetPageUptodate(page); //PG_uptodate 标志内容有效
+	/* PG_uptodate 标志内容有效 */
+	__SetPageUptodate(page);
 	/* 设置页属性 */
 	entry = mk_pte(page, PAGE_SHARED);
-	entry = pte_sw_mkyoung(entry);//see do_anonymous_page()
-	entry = pte_mkwrite(pte_mkdirty(entry)); //可写属性
-	get_page(page); //_refcount++
+	entry = pte_sw_mkyoung(entry);
+	/* 可写属性 */
+	entry = pte_mkwrite(pte_mkdirty(entry));
+	/* __refcount++ */
+	get_page(page);
 	return page;
 }
 
 static void test__free(struct page *page)
 {
-	if(page) {
-		put_page(page); //__refcount--
+	if (page) {
+		/* __refcount-- */
+		put_page(page);
 		__free_pages(page, 0);
 	}
 }
-
 
 static int kernel_init(void)
 {
@@ -60,15 +57,16 @@ static int kernel_init(void)
 	int ipage;
 	struct page *page[npage];
 
-    printk(KERN_INFO "========== my init =========\n");
-	for(ipage = 0; ipage < npage; ipage++) {
+	printk(KERN_INFO "========== my init =========\n");
+	for (ipage = 0; ipage < npage; ipage++) {
 		page[ipage] = test__alloc();
 		print_page(page[ipage]);
 	}
-	for(ipage = 0; ipage < npage; ipage++) {
+	for (ipage = 0; ipage < npage; ipage++) {
 		test__free(page[ipage]);
 	}
-    return 0;
+	/* insmod failed on purpose */
+	return -1;
 }
 
 static void kernel_exit(void)
