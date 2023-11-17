@@ -3,11 +3,13 @@
 #include <linux/kernel.h>
 #include <linux/printk.h>
 #include <linux/gfp.h>
+#include <linux/version.h>
 #include <linux/mm.h>
 #include <linux/mmdebug.h>
 #include <linux/page_ref.h> //page_count()
 #include <linux/page-flags.h> //PG_xxxx
 #include <asm/pgtable.h>
+#include <linux/pgtable.h>
 
 
 static void print_page(struct page* page)
@@ -35,8 +37,13 @@ static struct page* test__alloc(void)
 	/* 设置页属性 */
 	entry = mk_pte(page, PAGE_SHARED);
 	entry = pte_sw_mkyoung(entry);
+/**
+ * commit 161e393c0f63 ("mm: Make pte_mkwrite() take a VMA")
+ */
+#if LINUX_VERSION_CODE < KERNEL_VERSION(6, 5, 0)
 	/* 可写属性 */
 	entry = pte_mkwrite(pte_mkdirty(entry));
+#endif
 	/* __refcount++ */
 	get_page(page);
 	return page;
