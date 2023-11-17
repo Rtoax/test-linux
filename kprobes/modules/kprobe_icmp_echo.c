@@ -3,6 +3,13 @@
 #include <linux/kprobes.h>
 
 #define MAX_SYMBOL_LEN	64
+/**
+ * For example:
+ * - kernel_clone()
+ * - read_tsc()
+ * - icmp_reply()
+ * - __handle_sysrq()
+ */
 static char symbol[MAX_SYMBOL_LEN] = "icmp_echo";
 module_param_string(symbol, symbol, sizeof(symbol), 0644);
 
@@ -17,7 +24,7 @@ static struct kprobe kp = {
 
 static int __kprobes handler_pre(struct kprobe *p, struct pt_regs *regs)
 {
-	printk("ICMP ECHO <%s> %ld\n", p->symbol_name, count_icmp_echo++);
+	printk("Kprobe <%s> %ld\n", p->symbol_name, count_icmp_echo++);
 	return 0;
 }
 
