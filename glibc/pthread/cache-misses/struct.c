@@ -46,6 +46,8 @@ struct bad_struct {
 	unsigned long t2;
 };
 
+static unsigned long nloop = LOOP;
+
 void show_diff_tv(const char *name, struct timeval *end, struct timeval *start)
 {
 	printf("%32s: %ld us\n",
@@ -64,7 +66,7 @@ static inline unsigned long long test_read(unsigned long *pt)
 {
 	unsigned long i;
 	unsigned long long tmp = 0;
-	for(i = 0; i < LOOP; i++)
+	for(i = 0; i < nloop; i++)
 		tmp += *pt;
 	return tmp;
 }
@@ -72,7 +74,7 @@ static inline unsigned long long test_read(unsigned long *pt)
 static inline void test_write(unsigned long *pt)
 {
 	unsigned long i;
-	for(i = 0; i < LOOP; i++)
+	for(i = 0; i < nloop; i++)
 		*pt += 1;
 }
 
@@ -222,6 +224,13 @@ void demo_bad(void)
 
 int main(int argc, char *argv[])
 {
+	if (argc < 2)
+		fprintf(stderr, "Usage: %s [nloop], default: %ld\n", argv[0], LOOP);
+	else
+		nloop = strtoul(argv[1], NULL, 10);
+
+	printf("nloop = %ld\n", nloop);
+
 	demo_good();
 	demo_bad();
 
