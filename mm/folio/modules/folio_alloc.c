@@ -20,6 +20,7 @@ static struct folio* test__alloc(void)
 		printk("fail folio_alloc.\n");
 		return NULL;
 	}
+	printk("Folio order %d\n", folio_order(folio));
 	printk("Folio size %ld\n", folio_size(folio));
 	printk("Folio nr page %ld\n", folio_nr_pages(folio));
 	folio_zero_range(folio, 0, folio_size(folio));
