@@ -10,4 +10,5 @@ DAMON is a Linux kernel subsystem that provides a framework for data access moni
 # Links
 
 - https://docs.kernel.org/mm/damon/index.html
+- [LWN: Using DAMON for proactive reclaim](https://lwn.net/Articles/863753/)
 
