@@ -66,7 +66,7 @@ build: nr.h ${TARGETS} ${TARGETS_CPP}
 	make -C arch_prctl
 	@echo -e " \033[1;33m Done \033[m"
 
-nr.h:
+nr.h: nr.sh
 	$(shell sh nr.sh)
 
 # Add more object.o file

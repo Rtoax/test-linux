@@ -8,6 +8,7 @@ pkgs+=( criu )
 pkgs+=( efivar mokutil )       # UEFI
 pkgs+=( elfutils-libelf-devel )
 pkgs+=( gtk3-devel )           # GTK3
+pkgs+=( hwloc )                # lstopo
 pkgs+=( iproute-tc )           # tc
 pkgs+=( kernel-devel )         # kernel
 pkgs+=( libaio-devel )         # aio
