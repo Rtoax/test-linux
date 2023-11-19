@@ -33,12 +33,7 @@
 /unlink
 /uname
 /userfaultfd
-/memfd_create
-/memfd_create-dup2
-/membarrier
 /symlink
-/mlock
-/mlockall
 /execve
 /execve-fork
 /sysctl

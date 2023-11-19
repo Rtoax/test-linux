@@ -1,0 +1,5 @@
+/memfd_create
+/memfd_create-dup2
+/membarrier
+/mlock
+/mlockall

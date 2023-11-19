@@ -23,10 +23,7 @@ TARGETS += setitimer
 TARGETS += unlink
 TARGETS += uname
 TARGETS += userfaultfd
-TARGETS += memfd_create memfd_create-dup2
-TARGETS += membarrier
 TARGETS += symlink
-TARGETS += mlock mlockall
 
 TARGETS_CPP += readlink2
 
@@ -58,6 +55,7 @@ build: nr.h ${TARGETS} ${TARGETS_CPP}
 	make -C ioctl
 	make -C poll
 	make -C epoll
+	make -C mm
 	make -C time
 	make -C flock
 	make -C fanotify
@@ -107,13 +105,8 @@ setitimer: setitimer.o
 unlink: unlink.o
 uname: uname.o
 userfaultfd: userfaultfd.o
-memfd_create: memfd_create.o
-memfd_create-dup2: memfd_create-dup2.o
-membarrier: membarrier.o
 sysctl: sysctl.o
 symlink: symlink.o
-mlock: mlock.o
-mlockall: mlockall.o
 
 %.d: %.c
 	@echo -e "Generate \033[1m$(@)\033[m"
@@ -148,6 +141,7 @@ clean:
 	make -C ioctl clean
 	make -C poll clean
 	make -C epoll clean
+	make -C mm clean
 	make -C time clean
 	make -C flock clean
 	make -C fanotify clean
