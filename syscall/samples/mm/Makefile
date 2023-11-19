@@ -1,4 +1,5 @@
 
+TARGETS += brk sbrk sbrk-bss
 TARGETS += memfd_create memfd_create-dup2
 TARGETS += membarrier
 TARGETS += mlock mlockall
@@ -26,6 +27,9 @@ build: ${TARGETS} ${TARGETS_CPP}
 	@echo -e " \033[1;33m Done \033[m"
 
 # Add more object.o file
+brk: brk.o
+sbrk: sbrk.o
+sbrk-bss: sbrk-bss.o
 memfd_create: memfd_create.o
 memfd_create-dup2: memfd_create-dup2.o
 membarrier: membarrier.o
