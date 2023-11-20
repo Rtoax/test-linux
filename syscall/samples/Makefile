@@ -1,6 +1,7 @@
 
 TARGETS := fallocate
 TARGETS += access faccessat2
+TARGETS += acct
 TARGETS += fdopen
 TARGETS += fork vfork
 TARGETS += kcmp
@@ -72,6 +73,7 @@ nr.h: nr.sh
 # Add more object.o file
 fallocate: fallocate.o
 faccessat2: faccessat2.o
+acct: acct.o
 access: access.o
 kcmp: kcmp.o
 fdopen: fdopen.o
