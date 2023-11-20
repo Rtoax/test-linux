@@ -7,6 +7,7 @@ TARGETS += sched_getparam sched_setparam
 TARGETS += sched_getaffinity
 TARGETS += sched_get_priority_max sched_get_priority_min
 TARGETS += sched_yield
+TARGETS += fork vfork
 
 DEBUG = yes
 SRC_PATH := $(shell pwd)
@@ -41,6 +42,8 @@ sched_get_priority_min: sched_get_priority_min.o
 sched_getaffinity: sched_getaffinity.o
 sched_getcpu: sched_getcpu.o helpers.o
 sched_yield: sched_yield.o
+fork: fork.o
+vfork: vfork.o
 
 %.d: %.c
 	@echo -e "Generate \033[1m$(@)\033[m"

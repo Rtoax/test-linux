@@ -6,7 +6,6 @@ TARGETS += chdir
 TARGETS += chmod
 TARGETS += chown
 TARGETS += fdopen
-TARGETS += fork vfork
 TARGETS += kcmp
 TARGETS += execve execve-fork
 TARGETS += getrlimit setrlimit ulimit
@@ -83,8 +82,6 @@ chown: chown.o
 chdir: chdir.o
 kcmp: kcmp.o
 fdopen: fdopen.o
-fork: fork.o
-vfork: vfork.o
 execve: execve.o
 execve-fork: execve-fork.o
 get_thread_area: get_thread_area.o

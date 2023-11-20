@@ -13,3 +13,5 @@
 /sched_setparam
 /sched_yield
 /nice
+/fork
+/vfork
