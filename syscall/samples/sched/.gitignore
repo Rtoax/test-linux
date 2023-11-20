@@ -12,3 +12,4 @@
 /sched_getparam
 /sched_setparam
 /sched_yield
+/nice
