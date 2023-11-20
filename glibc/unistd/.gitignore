@@ -11,3 +11,4 @@
 /ttyname
 /ttyname_r
 /lseek-huge
+/daemon
