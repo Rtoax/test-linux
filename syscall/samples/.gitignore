@@ -1,5 +1,8 @@
 /access
 /acct
+/chdir
+/chmod
+/chown
 /fallocate
 /faccessat2
 /fdopen

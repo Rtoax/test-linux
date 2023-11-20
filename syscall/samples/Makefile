@@ -2,6 +2,9 @@
 TARGETS := fallocate
 TARGETS += access faccessat2
 TARGETS += acct
+TARGETS += chdir
+TARGETS += chmod
+TARGETS += chown
 TARGETS += fdopen
 TARGETS += fork vfork
 TARGETS += kcmp
@@ -75,6 +78,9 @@ fallocate: fallocate.o
 faccessat2: faccessat2.o
 acct: acct.o
 access: access.o
+chmod: chmod.o
+chown: chown.o
+chdir: chdir.o
 kcmp: kcmp.o
 fdopen: fdopen.o
 fork: fork.o
@@ -152,7 +158,7 @@ clean:
 	make -C perf_event_open clean
 	make -C prctl clean
 	make -C arch_prctl clean
-	@rm -f ${TARGETS} ${TARGETS_CPP} \
+	@rm -rf ${TARGETS} ${TARGETS_CPP} \
 		*.o *.d *.opp *.dpp nr.h *.out \
 		*.txt testfile
 
