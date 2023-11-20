@@ -3,6 +3,8 @@
 /chdir
 /chmod
 /chown
+/fchown
+/fchdir
 /fallocate
 /faccessat2
 /fdopen
