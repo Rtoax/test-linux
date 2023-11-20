@@ -36,6 +36,7 @@ sysconf: sysconf.o
 
 CFLAGS_NPROCESSORS := -D_NPROCESSORS=1
 LDFLAGS_NPROCESSORS :=
+CFLAGS_sysconf := -Wno-error
 
 %.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

@@ -21,18 +21,29 @@ cat >$conf_list <<-EOF
 #if !defined(SYSCONF)
 #error Not defined SYSCONF(conf)
 #endif
+#if !defined(PC_SYSCONF)
+#warning Not defined PC_SYSCONF(conf)
+#define PC_SYSCONF(c)
+#endif
 EOF
 
 	for ((i = 0; i < ${#confnames[@]}; i++))
 	do
 		conf=${confnames[$i]}
-cat >>$conf_list <<-EOF
-#if defined($conf)
-SYSCONF($conf)
-#else
-# warning Undefined $conf
-#endif
-EOF
+		cat >>$conf_list <<-EOF
+		#if defined($conf)
+		SYSCONF($conf)
+		EOF
+		if [[ ${conf:0:4} == _PC_ ]]; then
+			cat >>$conf_list <<-EOF
+			PC_SYSCONF($conf)
+			EOF
+		fi
+		cat >>$conf_list <<-EOF
+		#else
+		# warning Undefined $conf
+		#endif
+		EOF
 	done
 }
 
