@@ -3,10 +3,15 @@ set -e
 
 pkgs=( make cmake gcc clang gdb )
 pkgs+=( bpftrace bpftool bcc ) # eBPF
+pkgs+=( bcc-devel )
 pkgs+=( binutils-devel )
+pkgs+=( cereal-devel )
+pkgs+=( clang-devel )
 pkgs+=( criu )
+pkgs+=( dwarves )              # pahole
 pkgs+=( efivar mokutil )       # UEFI
 pkgs+=( elfutils-libelf-devel )
+pkgs+=( gtest-devel gmock-devel )
 pkgs+=( gtk3-devel )           # GTK3
 pkgs+=( hwloc )                # lstopo
 pkgs+=( iproute-tc )           # tc
@@ -17,7 +22,7 @@ pkgs+=( libbpf-devel )         # libbpf
 pkgs+=( libpcap-devel )
 pkgs+=( libselinux-devel )     # SELinux
 pkgs+=( liburing-devel )       # uring
-pkgs+=( llvm )                 # llvm-as llvm-dis llc
+pkgs+=( llvm llvm-devel )      # llvm-as llvm-dis llc
 pkgs+=( lshw )                 # lshw
 pkgs+=( ltrace )               # ltrace
 pkgs+=( mmc )                  # mmc
