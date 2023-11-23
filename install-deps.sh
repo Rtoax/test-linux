@@ -31,6 +31,7 @@ pkgs+=( numactl )              # numastat
 pkgs+=( python3-pyroute2 )     # pyroute2
 pkgs+=( rust )                 # rustc
 pkgs+=( sg3_utils )            # sg_inq, etc.
+pkgs+=( strace )
 pkgs+=( smartmontools )        # smartctl
 pkgs+=( systemtap-sdt-devel )  # sdt.h
 pkgs+=( tree )
