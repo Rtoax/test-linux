@@ -18,6 +18,7 @@ int main(int argc, char *argv[])
 	if (ret < 0 && ! (errno == EINVAL)) {
 		perror("prctl PR_SET_NAME");
 	}
+	printf("set: %s\n", setname);
 
 	ret = prctl(PR_GET_NAME, buffer, 0, 0, 0);
 	if (strcmp(setname, buffer)) {
