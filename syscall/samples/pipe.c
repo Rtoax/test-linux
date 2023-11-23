@@ -13,7 +13,7 @@ void sig_handler(int signum)
 {
 	switch (signum) {
 	case SIGPIPE:
-		fprintf(stderr, "Broken Pipe.\n");
+		fprintf(stderr, "Catch Broken Pipe signal.\n");
 		break;
 	default:
 		break;
@@ -40,9 +40,9 @@ int main(void)
 	pthread_t task;
 	pthread_create(&task, NULL, task_fn, NULL);
 
-	while ((ch = fgetc(pipe_fp[0])) != EOF) {
+	while ((ch = fgetc(pipe_fp[0])) != EOF)
 		putchar(ch);
-	}
+
 	fclose(pipe_fp[0]);
 
 	pthread_join(task, NULL);
@@ -55,13 +55,6 @@ int main(void)
 	if (errno != EBADF)
 		fprintf(stderr, "ERROR: close() should return EBADF here.\n");
 
-	/* Test Broken Pipe, trigger SIGPIPE signal. */
-	pipe(pipe_fd);
-	/* close read peer */
-	close(pipe_fd[0]);
-	/* write to write peer, trigger SIGPIPE signal. */
-	write(pipe_fd[1], "Hello", 5);
-	close(pipe_fd[1]);
-
 	return 0;
 }
+

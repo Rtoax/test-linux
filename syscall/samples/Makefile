@@ -17,7 +17,7 @@ TARGETS += pidfd_open
 TARGETS += readlink
 TARGETS += getcwd
 TARGETS += getpid
-TARGETS += pipe
+TARGETS += pipe pipe-broken-pipe
 TARGETS += setgid setegid
 TARGETS += setuid seteuid
 TARGETS += tee tee2
@@ -97,6 +97,7 @@ opendir: opendir.o
 pause: pause.o
 pidfd_open: pidfd_open.o
 pipe: pipe.o
+pipe-broken-pipe: pipe-broken-pipe.o
 readlink: readlink.o
 readlink2: readlink2.opp
 getcwd: getcwd.o
