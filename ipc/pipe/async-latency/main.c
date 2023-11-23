@@ -1,5 +1,6 @@
 #define _GNU_SOURCE
 #include <stdio.h>
+#include <assert.h>
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <unistd.h>
@@ -13,11 +14,7 @@
 
 #define MAX_EVENTS 64
 
-static pthread_t tpipe_in1;
-static pthread_t tpipe_in2;
-static pthread_t tpipe_in3;
-static pthread_t tpipe_in4;
-static pthread_t tpipe_in5;
+static pthread_t *tpipe_ins;
 static pthread_t tpipe_out;
 
 static int pipe_fd[2] = {-1};
@@ -117,31 +114,20 @@ void *thread_pipe_out(void *arg)
 
 void thread_execute(void)
 {
-	if (nr_thread_write >= 1)
-		pthread_create(&tpipe_in1, NULL, thread_pipe_in, NULL);
-	if (nr_thread_write >= 2)
-		pthread_create(&tpipe_in2, NULL, thread_pipe_in, NULL);
-	if (nr_thread_write >= 3)
-		pthread_create(&tpipe_in3, NULL, thread_pipe_in, NULL);
-	if (nr_thread_write >= 4)
-		pthread_create(&tpipe_in4, NULL, thread_pipe_in, NULL);
-	if (nr_thread_write >= 5)
-		pthread_create(&tpipe_in5, NULL, thread_pipe_in, NULL);
+	int i;
+	for (i = 0; i < nr_thread_write; i++)
+		pthread_create(&tpipe_ins[i], NULL, thread_pipe_in, NULL);
 
 	pthread_create(&tpipe_out, NULL, thread_pipe_out, NULL);
 
-	if (nr_thread_write >= 1)
-		pthread_setname_np(tpipe_in1, "pipe-in1");
-	if (nr_thread_write >= 2)
-		pthread_setname_np(tpipe_in2, "pipe-in2");
-	if (nr_thread_write >= 3)
-		pthread_setname_np(tpipe_in3, "pipe-in3");
-	if (nr_thread_write >= 4)
-		pthread_setname_np(tpipe_in4, "pipe-in4");
-	if (nr_thread_write >= 5)
-		pthread_setname_np(tpipe_in5, "pipe-in5");
+	for (i = 0; i < nr_thread_write; i++) {
+		char name[64];
+		snprintf(name, sizeof(name), "pipe-in/%d", i);
+		pthread_setname_np(tpipe_ins[i], name);
+	}
 
 	pthread_setname_np(tpipe_out, "pipe-out");
+	pthread_setname_np(pthread_self(), "pipe-main");
 }
 
 void epoll_initial(void)
@@ -171,6 +157,9 @@ int main(int argc, char *argv[]) {
 	pipe_in_fp = fdopen(pipe_fd[1], "w");
 	pipe_out_fp = fdopen(pipe_fd[0], "r");
 
+	tpipe_ins = malloc(sizeof(pthread_t) * nr_thread_write);
+	assert(tpipe_ins && "malloc faild.");
+
 	epoll_initial();
 
 	thread_execute();
@@ -179,6 +168,8 @@ int main(int argc, char *argv[]) {
 		sleep(1);
 		/* do nothing */
 	}
+
+	free(tpipe_ins);
 
 	return 0;
 }
