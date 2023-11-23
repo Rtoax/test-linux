@@ -1,8 +1,5 @@
 
-TARGETS += brk sbrk sbrk-bss
-TARGETS += memfd_create memfd_create-dup2
-TARGETS += membarrier
-TARGETS += mlock mlockall
+TARGETS += fexecve
 
 ifeq ($(shell uname -m),x86_64)
 endif
@@ -27,14 +24,7 @@ build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
 # Add more object.o file
-brk: brk.o
-sbrk: sbrk.o
-sbrk-bss: sbrk-bss.o
-memfd_create: memfd_create.o
-memfd_create-dup2: memfd_create-dup2.o
-membarrier: membarrier.o
-mlock: mlock.o
-mlockall: mlockall.o
+fexecve: fexecve.o
 
 %.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
