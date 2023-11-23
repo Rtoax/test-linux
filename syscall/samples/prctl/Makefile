@@ -1,5 +1,6 @@
 
 TARGETS := PR_CAPBSET_DROP
+TARGETS += PR_GET_NAME
 
 DEBUG = yes
 SRC_PATH := $(shell pwd)
@@ -18,6 +19,7 @@ build: ${TARGETS}
 
 # Add more object.o file
 PR_CAPBSET_DROP: PR_CAPBSET_DROP.o
+PR_GET_NAME: PR_GET_NAME.o
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
