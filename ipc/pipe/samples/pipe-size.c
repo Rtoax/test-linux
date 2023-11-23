@@ -12,15 +12,23 @@
 int main(void)
 {
 	int pipefd[2];
-	for (int i = 0; i < 1025; i++)
-		if (pipe(pipefd) == -1)
-			return 1;
-	size_t bufsz = fcntl(pipefd[1], F_GETPIPE_SZ);
-	printf("%zd\n", bufsz);
-	char *buf = calloc(bufsz, 1);
+	int pagesize = getpagesize();
+	char *buf;
+	size_t bufsz;
+
+	if (pipe(pipefd) == -1) {
+		perror("pipe");
+		return 1;
+	}
+
+	bufsz = fcntl(pipefd[1], F_GETPIPE_SZ);
+	printf("%zd, %ld pages\n", bufsz, (bufsz + 1) / pagesize);
+
+	buf = calloc(bufsz, 1);
 	write(pipefd[1], buf, bufsz);
-	read(pipefd[0], buf, bufsz-1);
+	read(pipefd[0], buf, bufsz - 1);
 	write(pipefd[1], buf, 1);
 
+	free(buf);
 	return 0;
 }

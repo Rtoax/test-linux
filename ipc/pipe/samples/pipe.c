@@ -6,6 +6,20 @@
 #include <errno.h>
 
 
+/**
+ *   Thread0          Thread1
+ *  +------+----------+------+
+ *  | fd 0 |  PIPE    | fd 1 |
+ *  +--+---+----------+--+---+
+ *     |                 |
+ *     |fdopen()         |fdopen()
+ *     |                 |
+ *  +--+---+          +--+---+
+ *  | fp 0 |          | fp 1 |
+ *  +------+          +------+
+ *   fgetc             fprintf
+ */
+
 int pipe_fd[2] = {0};
 FILE *pipe_fp[2];
 
