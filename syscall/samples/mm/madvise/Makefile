@@ -1,5 +1,6 @@
 
 TARGETS += madvise-MADV_MERGEABLE
+TARGETS += madvise-MADV_HUGEPAGE
 
 CC = gcc
 CXX = g++
@@ -15,6 +16,7 @@ build: ${TARGETS}
 
 # Add more object.o file
 madvise-MADV_MERGEABLE: madvise-MADV_MERGEABLE.o
+madvise-MADV_HUGEPAGE: madvise-MADV_HUGEPAGE.o
 
 %.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

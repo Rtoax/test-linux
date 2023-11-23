@@ -1,5 +1,6 @@
 
 TARGETS := malloc
+TARGETS += madvise-MADV_HUGEPAGE
 
 DEBUG = yes
 SRC_PATH := $(shell pwd)
@@ -18,6 +19,7 @@ build: ${TARGETS}
 
 # Add more object.o file
 malloc: malloc.o
+madvise-MADV_HUGEPAGE: madvise-MADV_HUGEPAGE.o
 
 %.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
