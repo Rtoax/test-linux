@@ -1,6 +1,7 @@
 
 TARGETS := pipe-size
 TARGETS += pipe
+TARGETS += pipe-fork
 TARGETS += pipe-broken-pipe
 
 DEBUG = yes
@@ -20,6 +21,7 @@ build: ${TARGETS}
 # Add more object.o file
 pipe-size: pipe-size.o
 pipe: pipe.o
+pipe-fork: pipe-fork.o
 pipe-broken-pipe: pipe-broken-pipe.o
 
 test: ${TARGETS}
