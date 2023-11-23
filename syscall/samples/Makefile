@@ -17,7 +17,6 @@ TARGETS += pidfd_open
 TARGETS += readlink
 TARGETS += getcwd
 TARGETS += getpid
-TARGETS += pipe pipe-broken-pipe
 TARGETS += setgid setegid
 TARGETS += setuid seteuid
 TARGETS += tee tee2
@@ -58,6 +57,7 @@ build: nr.h ${TARGETS} ${TARGETS_CPP}
 	make -C ioctl
 	make -C poll
 	make -C epoll
+	make -C pipe
 	make -C mm
 	make -C time
 	make -C flock
@@ -96,8 +96,6 @@ openat2: openat2.o
 opendir: opendir.o
 pause: pause.o
 pidfd_open: pidfd_open.o
-pipe: pipe.o
-pipe-broken-pipe: pipe-broken-pipe.o
 readlink: readlink.o
 readlink2: readlink2.opp
 getcwd: getcwd.o
@@ -149,6 +147,7 @@ clean:
 	make -C ioctl clean
 	make -C poll clean
 	make -C epoll clean
+	make -C pipe clean
 	make -C mm clean
 	make -C time clean
 	make -C flock clean

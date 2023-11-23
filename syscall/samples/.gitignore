@@ -17,8 +17,6 @@
 /opendir
 /pause
 /pidfd_open
-/pipe
-/pipe-broken-pipe
 /readlink
 /readlink[0-9]
 /getcwd

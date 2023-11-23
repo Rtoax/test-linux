@@ -1,5 +1,7 @@
 
 TARGETS := pipe-size
+TARGETS += pipe
+TARGETS += pipe-broken-pipe
 
 DEBUG = yes
 SRC_PATH := $(shell pwd)
@@ -17,6 +19,8 @@ build: ${TARGETS}
 
 # Add more object.o file
 pipe-size: pipe-size.o
+pipe: pipe.o
+pipe-broken-pipe: pipe-broken-pipe.o
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
