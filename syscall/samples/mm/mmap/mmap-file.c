@@ -80,6 +80,7 @@ int main(void)
 			putchar(ch);
 			pout[i] = ch;
 		}
+		msync(pout, size, MS_SYNC);
 		exit(0);
 	} else {
 		wait(NULL);
