@@ -6,6 +6,7 @@
 /membarrier
 /mlock
 /mlockall
+/mprotect
 /pkey_mprotect
 /pkey_alloc
 /pkey_free

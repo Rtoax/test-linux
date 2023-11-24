@@ -6,6 +6,7 @@ TARGETS += mlock mlockall
 TARGETS += pkey_alloc
 TARGETS += pkey_free
 TARGETS += pkey_mprotect
+TARGETS += mprotect
 
 ifeq ($(shell uname -m),x86_64)
 endif
@@ -43,6 +44,7 @@ mlockall: mlockall.o
 pkey_alloc: pkey_alloc.o
 pkey_free: pkey_free.o
 pkey_mprotect: pkey_mprotect.o
+mprotect: mprotect.o
 
 %.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
