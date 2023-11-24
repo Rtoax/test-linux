@@ -11,19 +11,21 @@
 
 
 #define MAP_FILENAME	"/etc/os-release"
+#define MAP_FILENAME_OUT	"os-release"
 
-int fd;
+int fd, fdout;
 
 void sig_handler(int signo)
 {
 	close(fd);
+	close(fdout);
 	exit(0);
 }
 
 int main(void)
 {
 	int i, ret;
-	char *p;
+	char *p, *pout;
 	struct stat st;
 
 	signal(SIGINT, sig_handler);
@@ -33,14 +35,27 @@ int main(void)
 		perror("open\n");
 		exit(1);
 	}
+	fdout = open(MAP_FILENAME_OUT, O_RDWR | O_CREAT | O_TRUNC, 0644);
+	if (fdout == -1) {
+		perror("open\n");
+		exit(1);
+	}
+
 	ret = stat(MAP_FILENAME, &st);
 	if (ret == -1) {
 		perror("stat");
 		exit(1);
 	}
 
+	ftruncate(fdout, st.st_size);
+
 	p = mmap(NULL, st.st_size, PROT_READ, MAP_SHARED, fd, 0);
 	if (p == MAP_FAILED) {
+		perror("mmap\n");
+		exit(1);
+	}
+	pout = mmap(NULL, st.st_size, PROT_WRITE|PROT_READ, MAP_SHARED, fdout, 0);
+	if (pout == MAP_FAILED) {
 		perror("mmap\n");
 		exit(1);
 	}
@@ -48,6 +63,7 @@ int main(void)
 	for (i = 0; i < st.st_size; i++) {
 		char ch = *(p + i);
 		putchar(ch);
+		pout[i] = ch;
 	}
 
 	sig_handler(0);
