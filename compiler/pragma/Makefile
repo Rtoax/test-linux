@@ -1,5 +1,6 @@
 
 TARGETS += poison
+TARGETS += GCC_diagnostic
 
 DEBUG = yes
 SRC_PATH := $(shell pwd)
@@ -17,6 +18,7 @@ build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
 poison: poison.o
+GCC_diagnostic: GCC_diagnostic.o
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
