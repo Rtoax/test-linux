@@ -1,6 +1,7 @@
 
 TARGETS += fexecve
 TARGETS += mmap-file
+TARGETS += remap_file_pages
 
 ifeq ($(shell uname -m),x86_64)
 endif
@@ -27,6 +28,7 @@ build: ${TARGETS}
 # Add more object.o file
 fexecve: fexecve.o
 mmap-file: mmap-file.o
+remap_file_pages: remap_file_pages.o
 
 %.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
