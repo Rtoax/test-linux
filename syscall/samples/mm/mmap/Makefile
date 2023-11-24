@@ -41,5 +41,5 @@ test: ${TARGETS}
 
 clean:
 	@echo -e "Clean   \033[1;32m$(@)\033[m"
-	@rm -f ${TARGETS} *.o
+	@rm -f ${TARGETS} *.o os-release
 

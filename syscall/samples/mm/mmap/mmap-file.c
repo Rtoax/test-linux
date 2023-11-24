@@ -13,11 +13,15 @@
 #define MAP_FILENAME	"/etc/os-release"
 #define MAP_FILENAME_OUT	"os-release"
 
-int fd, fdout;
+int fdin, fdout;
+char *pin, *pout;
+size_t size;
 
 void sig_handler(int signo)
 {
-	close(fd);
+	munmap(pin, size);
+	munmap(pout, size);
+	close(fdin);
 	close(fdout);
 	exit(0);
 }
@@ -25,16 +29,21 @@ void sig_handler(int signo)
 int main(void)
 {
 	int i, ret;
-	char *p, *pout;
 	struct stat st;
+	pid_t child;
 
 	signal(SIGINT, sig_handler);
 
-	fd = open(MAP_FILENAME, O_RDONLY);
-	if (fd == -1) {
+	fdin = open(MAP_FILENAME, O_RDONLY);
+	if (fdin == -1) {
 		perror("open\n");
 		exit(1);
 	}
+	/* remove the exist one */
+	ret = access(MAP_FILENAME_OUT, F_OK);
+	if (!ret)
+		unlink(MAP_FILENAME_OUT);
+
 	fdout = open(MAP_FILENAME_OUT, O_RDWR | O_CREAT | O_TRUNC, 0644);
 	if (fdout == -1) {
 		perror("open\n");
@@ -46,24 +55,34 @@ int main(void)
 		perror("stat");
 		exit(1);
 	}
+	size = st.st_size;
 
-	ftruncate(fdout, st.st_size);
+	ftruncate(fdout, size);
 
-	p = mmap(NULL, st.st_size, PROT_READ, MAP_SHARED, fd, 0);
-	if (p == MAP_FAILED) {
+	pin = mmap(NULL, size, PROT_READ, MAP_PRIVATE, fdin, 0);
+	if (pin == MAP_FAILED) {
 		perror("mmap\n");
 		exit(1);
 	}
-	pout = mmap(NULL, st.st_size, PROT_WRITE|PROT_READ, MAP_SHARED, fdout, 0);
+
+	/* Can't write in child if MAP_PRIVATE */
+	pout = mmap(NULL, size, PROT_WRITE | PROT_READ, MAP_SHARED, fdout, 0);
 	if (pout == MAP_FAILED) {
 		perror("mmap\n");
 		exit(1);
 	}
 
-	for (i = 0; i < st.st_size; i++) {
-		char ch = *(p + i);
-		putchar(ch);
-		pout[i] = ch;
+	child = fork();
+
+	if (child == 0) {
+		for (i = 0; i < size; i++) {
+			char ch = *(pin + i);
+			putchar(ch);
+			pout[i] = ch;
+		}
+		exit(0);
+	} else {
+		wait(NULL);
 	}
 
 	sig_handler(0);
