@@ -14,6 +14,7 @@ pkgs+=( elfutils-libelf-devel )
 pkgs+=( gtest-devel gmock-devel )
 pkgs+=( gtk3-devel )           # GTK3
 pkgs+=( hwloc )                # lstopo
+pkgs+=( inotify-tools )        # inotifywatch, ...
 pkgs+=( iproute-tc )           # tc
 pkgs+=( kernel-devel )         # kernel
 pkgs+=( libaio-devel )         # aio
