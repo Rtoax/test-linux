@@ -3,6 +3,9 @@ TARGETS += brk sbrk sbrk-bss
 TARGETS += memfd_create memfd_create-dup2
 TARGETS += membarrier
 TARGETS += mlock mlockall
+TARGETS += pkey_alloc
+TARGETS += pkey_free
+TARGETS += pkey_mprotect
 
 ifeq ($(shell uname -m),x86_64)
 endif
@@ -37,6 +40,9 @@ memfd_create-dup2: memfd_create-dup2.o
 membarrier: membarrier.o
 mlock: mlock.o
 mlockall: mlockall.o
+pkey_alloc: pkey_alloc.o
+pkey_free: pkey_free.o
+pkey_mprotect: pkey_mprotect.o
 
 %.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
