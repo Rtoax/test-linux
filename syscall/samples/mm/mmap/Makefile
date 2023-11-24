@@ -1,5 +1,6 @@
 
 TARGETS += fexecve
+TARGETS += mmap-anon
 TARGETS += mmap-file
 TARGETS += remap_file_pages
 
@@ -27,6 +28,7 @@ build: ${TARGETS}
 
 # Add more object.o file
 fexecve: fexecve.o
+mmap-anon: mmap-anon.o
 mmap-file: mmap-file.o
 remap_file_pages: remap_file_pages.o
 

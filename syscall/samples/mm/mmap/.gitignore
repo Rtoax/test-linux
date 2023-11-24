@@ -1,3 +1,4 @@
 /fexecve
+/mmap-anon
 /mmap-file
 /remap_file_pages
