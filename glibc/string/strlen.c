@@ -10,6 +10,7 @@ int main(void)
 
 	char str2[10] = {'e','d','c','b','a'};
 
+	printf("%ld\n", strlen("\0"));
 	printf("%ls, %ld, %ld\n", str, strlen((char*)str), sizeof(str));
 	printf("%ls, %ld, %ld\n", str, wcslen(str), sizeof(str));
 	printf("%ls, %ld, %ld\n", str, wcsnlen(str, 4), sizeof(str));
