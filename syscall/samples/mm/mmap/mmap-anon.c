@@ -68,8 +68,21 @@ int main(void)
 	snprintf(cmd, sizeof(cmd), "cat /proc/%d/maps", getpid());
 	system(cmd);
 
-	for (i = 0; i < nr_mems && mems[i]; i++)
+	for (i = 0; i < nr_mems && mems[i]; i++) {
+/**
+ * TODO: I want to add PR_GET_VMA and PR_GET_VMA_ANON_NAME to kernel
+ */
+#if defined(PR_GET_VMA) && defined(PR_GET_VMA_ANON_NAME)
+#ifndef PR_GET_VMA
+#define PR_GET_VMA             0x53564d42
+# define PR_GET_VMA_ANON_NAME          0
+#endif
+		char buffer[80];
+		prctl(PR_GET_VMA, PR_GET_VMA_ANON_NAME, mems[i], buffer, 0);
+		printf("%s\n", buffer);
+#endif
 		munmap(mems[i], size);
+	}
 
 	free(mems);
 
