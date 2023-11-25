@@ -47,7 +47,17 @@ int main(void)
 
 #ifdef CONFIG_ANON_VMA_NAME
 		char name[80];
-		snprintf(name, sizeof(name), "vma%d", i);
+		switch (i % 3) {
+		case 0:
+			snprintf(name, sizeof(name), "vma%d", i);
+			break;
+		case 1:
+			snprintf(name, sizeof(name), "vma");
+			break;
+		case 2:
+			snprintf(name, sizeof(name), "anon");
+			break;
+		}
 		rename_vma((unsigned long)mems[i], size, name);
 #else
 		fprintf(stderr, "No CONFIG_ANON_VMA_NAME in kernel, skip.\n");
