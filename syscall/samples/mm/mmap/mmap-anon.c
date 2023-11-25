@@ -21,6 +21,25 @@ int rename_vma(unsigned long addr, unsigned long size, char *name)
 	return res;
 }
 
+/**
+ * TODO: I want to add PR_GET_VMA and PR_GET_VMA_ANON_NAME to kernel
+ */
+const char *get_vma_name(unsigned long addr)
+{
+#ifndef PR_GET_VMA
+#define PR_GET_VMA             0x53564d42
+# define PR_GET_VMA_ANON_NAME          0
+#endif
+	int ret;
+	static char buffer[80];
+	ret = prctl(PR_GET_VMA, PR_GET_VMA_ANON_NAME, addr, buffer, 0);
+	if (ret) {
+		perror("prctl PR_GET_VMA");
+		return NULL;
+	}
+	return strlen(buffer) > 0 ? buffer : NULL;
+}
+
 int main(void)
 {
 	int i;
@@ -68,21 +87,15 @@ int main(void)
 	snprintf(cmd, sizeof(cmd), "cat /proc/%d/maps", getpid());
 	system(cmd);
 
+	const char *name = get_vma_name(0);
+	printf("%s\n", name ?: "");
 	for (i = 0; i < nr_mems && mems[i]; i++) {
-/**
- * TODO: I want to add PR_GET_VMA and PR_GET_VMA_ANON_NAME to kernel
- */
-#if defined(PR_GET_VMA) && defined(PR_GET_VMA_ANON_NAME)
-#ifndef PR_GET_VMA
-#define PR_GET_VMA             0x53564d42
-# define PR_GET_VMA_ANON_NAME          0
-#endif
-		char buffer[80];
-		prctl(PR_GET_VMA, PR_GET_VMA_ANON_NAME, mems[i], buffer, 0);
-		printf("%s\n", buffer);
-#endif
-		munmap(mems[i], size);
+		name = get_vma_name((unsigned long)mems[i]);
+		printf("%s\n", name ?: "");
 	}
+
+	for (i = 0; i < nr_mems && mems[i]; i++)
+		munmap(mems[i], size);
 
 	free(mems);
 
