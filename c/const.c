@@ -6,7 +6,7 @@
 int main(void)
 {
 	const char __unused *s1 = "rongtao";
-	const char __unused const *s2 = "rongtao";
+	const char __unused * const s2 = "rongtao";
 
 	s1 = "hello";
 	/* Forbidden */
