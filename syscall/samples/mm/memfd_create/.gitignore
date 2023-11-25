@@ -1,2 +1,3 @@
 /memfd_create
 /memfd_create-dup2
+/MFD_ALLOW_SEALING

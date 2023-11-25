@@ -1,6 +1,7 @@
 
 TARGETS += memfd_create
 TARGETS += memfd_create-dup2
+TARGETS += MFD_ALLOW_SEALING
 
 CC = gcc
 CXX = g++
@@ -17,6 +18,7 @@ build: ${TARGETS}
 # Add more object.o file
 memfd_create: memfd_create.o
 memfd_create-dup2: memfd_create-dup2.o
+MFD_ALLOW_SEALING: MFD_ALLOW_SEALING.o
 
 %.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
