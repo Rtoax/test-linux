@@ -1,13 +1,7 @@
 
-TARGETS += brk sbrk sbrk-bss
-TARGETS += membarrier
-TARGETS += mlock mlockall
-TARGETS += pkey_alloc
-TARGETS += pkey_free
-TARGETS += pkey_mprotect
-TARGETS += mprotect
+TARGETS += memfd_create
+TARGETS += memfd_create-dup2
 
-SRC_PATH := $(shell pwd)
 CC = gcc
 CXX = g++
 
@@ -19,20 +13,10 @@ CFLAGS += -DDEBUG -O0 -g
 
 build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
-	make -C mmap
-	make -C madvise
 
 # Add more object.o file
-brk: brk.o
-sbrk: sbrk.o
-sbrk-bss: sbrk-bss.o
-membarrier: membarrier.o
-mlock: mlock.o
-mlockall: mlockall.o
-pkey_alloc: pkey_alloc.o
-pkey_free: pkey_free.o
-pkey_mprotect: pkey_mprotect.o
-mprotect: mprotect.o
+memfd_create: memfd_create.o
+memfd_create-dup2: memfd_create-dup2.o
 
 %.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
@@ -48,6 +32,4 @@ test: ${TARGETS}
 clean:
 	@echo -e "Clean   \033[1;32m$(@)\033[m"
 	@rm -f ${TARGETS} *.o
-	make -C mmap clean
-	make -C madvise clean
 
