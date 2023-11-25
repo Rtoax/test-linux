@@ -7,7 +7,19 @@
 #include <sys/types.h>
 #include <sys/prctl.h>
 #include <wait.h>
+#include <errno.h>
 
+
+int rename_vma(unsigned long addr, unsigned long size, char *name)
+{
+	int res;
+	res = prctl(PR_SET_VMA, PR_SET_VMA_ANON_NAME, addr, size, name);
+	if (res < 0) {
+		perror("[!] prctl");
+		return -errno;
+	}
+	return res;
+}
 
 int main(void)
 {
@@ -34,28 +46,17 @@ int main(void)
 		memset(mems[i], 'a', size);
 
 #ifdef CONFIG_ANON_VMA_NAME
-#if 0
 		char name[80];
 		snprintf(name, sizeof(name), "vma%d", i);
-#else
-		char name[80];
-		char test_str[] = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
-		memcpy(name, test_str, 72);
-		char store[8];
-		memset(store, 0, 8);
-		sprintf(store, "%d", i);
-		memcpy(&name[72], store, 8);
-#endif
-
-		int ret = prctl(PR_SET_VMA, PR_SET_VMA_ANON_NAME, mems[i], size, name);
-		if (ret)
-			perror("prctl");
+		rename_vma((unsigned long)mems[i], size, name);
 #else
 		fprintf(stderr, "No CONFIG_ANON_VMA_NAME in kernel, skip.\n");
 #endif
 	}
 
-	system("cat /proc/self/maps");
+	char cmd[128];
+	snprintf(cmd, sizeof(cmd), "cat /proc/%d/maps", getpid());
+	system(cmd);
 
 	for (i = 0; i < nr_mems && mems[i]; i++)
 		munmap(mems[i], size);
