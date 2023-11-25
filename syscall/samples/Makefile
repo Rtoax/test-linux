@@ -114,19 +114,11 @@ userfaultfd: userfaultfd.o
 sysctl: sysctl.o
 symlink: symlink.o
 
-%.d: %.c
-	@echo -e "Generate \033[1m$(@)\033[m"
-	@$(CC) $(CFLAGS) -MM -MF "$@" -MG -MP -MT"$@" -MT"$(<:.c=.o)" $(<)
-
-%.dpp: %.cpp
-	@echo -e "Generate \033[1m$(@)\033[m"
-	@$(CXX) $(CXXFLAGS) -MM -MF "$@" -MG -MP -MT"$@" -MT"$(<:.c=.o)" $(<)
-
-%.o: %.c %.d
+%.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
 
-%.opp: %.cpp %.dpp
+%.opp: %.cpp
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	@$(CXX) $(CXXFLAGS) $(CXXFLAGS_$(*)) -o $(@) -c $(<)
 
@@ -158,6 +150,6 @@ clean:
 	make -C prctl clean
 	make -C arch_prctl clean
 	@rm -rf ${TARGETS} ${TARGETS_CPP} \
-		*.o *.d *.opp *.dpp nr.h *.out \
+		*.o *.opp nr.h *.out \
 		*.txt testfile
 

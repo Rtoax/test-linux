@@ -11,7 +11,7 @@
 
 int main(void)
 {
-	int i, ret;
+	int i;
 	char **mems;
 	int nr_mems = 10;
 	size_t size = getpagesize();
@@ -33,6 +33,7 @@ int main(void)
 		/* pagefault */
 		memset(mems[i], 'a', size);
 
+#ifdef CONFIG_ANON_VMA_NAME
 #if 0
 		char name[80];
 		snprintf(name, sizeof(name), "vma%d", i);
@@ -46,9 +47,12 @@ int main(void)
 		memcpy(&name[72], store, 8);
 #endif
 
-		ret = prctl(PR_SET_VMA, PR_SET_VMA_ANON_NAME, mems[i], size, name);
+		int ret = prctl(PR_SET_VMA, PR_SET_VMA_ANON_NAME, mems[i], size, name);
 		if (ret)
 			perror("prctl");
+#else
+		fprintf(stderr, "No CONFIG_ANON_VMA_NAME in kernel, skip.\n");
+#endif
 	}
 
 	system("cat /proc/self/maps");

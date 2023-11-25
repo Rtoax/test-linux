@@ -1,3 +1,4 @@
+include /boot/config-$(shell uname -r)
 
 TARGETS := main.user
 ifeq ($(shell uname -m),x86_64)
@@ -34,6 +35,9 @@ build: ${TARGETS}
 main.user: main.user.o
 
 CFLAGS_main.user := -D_MAIN_USER=1
+ifeq ($(CONFIG_MMU),y)
+CFLAGS_main.user += -DCONFIG_MMU=1
+endif
 LDFLAGS_main.user :=
 
 %.o: %.c

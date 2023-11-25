@@ -1,3 +1,4 @@
+include /boot/config-$(shell uname -r)
 
 TARGETS += fexecve
 TARGETS += mmap-anon
@@ -31,6 +32,10 @@ fexecve: fexecve.o
 mmap-anon: mmap-anon.o
 mmap-file: mmap-file.o
 remap_file_pages: remap_file_pages.o
+
+ifeq ($(CONFIG_ANON_VMA_NAME),y)
+CFLAGS_mmap-anon := -DCONFIG_ANON_VMA_NAME=1
+endif
 
 %.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
