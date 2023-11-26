@@ -26,6 +26,8 @@ TARGETS += unlink
 TARGETS += uname
 TARGETS += userfaultfd
 TARGETS += symlink
+TARGETS += lstat
+TARGETS += readdir
 
 TARGETS_CPP += readlink2
 
@@ -114,6 +116,8 @@ uname: uname.o
 userfaultfd: userfaultfd.o
 sysctl: sysctl.o
 symlink: symlink.o
+lstat: lstat.o
+readdir: readdir.o
 
 %.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

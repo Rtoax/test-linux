@@ -39,5 +39,7 @@
 /execve-fork
 /sysctl
 /kcmp
+/readdir
+/lstat
 /*.txt
 /tmp-*
