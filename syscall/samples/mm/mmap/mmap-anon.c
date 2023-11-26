@@ -87,12 +87,14 @@ int main(void)
 	snprintf(cmd, sizeof(cmd), "cat /proc/%d/maps", getpid());
 	system(cmd);
 
+#ifdef CONFIG_ANON_VMA_NAME
 	const char *name = get_vma_name(0);
 	printf("%s\n", name ?: "");
 	for (i = 0; i < nr_mems && mems[i]; i++) {
 		name = get_vma_name((unsigned long)mems[i]);
 		printf("%s\n", name ?: "");
 	}
+#endif
 
 	for (i = 0; i < nr_mems && mems[i]; i++)
 		munmap(mems[i], size);
