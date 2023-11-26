@@ -5,47 +5,20 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <unistd.h>
+#include <malloc.h>
 
 
-/* Return a string that describes the type of the file system entry PATH. */
-const char* get_file_type(const char* path)
+int listdir_recur(char *dir_path)
 {
-	struct stat st;
-	lstat(path, &st);
-	if (S_ISLNK(st.st_mode))
-		return "symbolic link";
-	else if (S_ISDIR(st.st_mode))
-		return "directory";
-	else if (S_ISCHR(st.st_mode))
-		return "character device";
-	else if (S_ISBLK(st.st_mode))
-		return "block device";
-	else if (S_ISFIFO(st.st_mode))
-		return "fifo";
-	else if (S_ISSOCK(st.st_mode))
-		return "socket";
-	else if (S_ISREG(st.st_mode))
-		return "regular file";
-	else
-		/* Unexpected. Each entry should be one of the types above. */
-		assert(0);
-}
-
-int main(int argc, char* argv[])
-{
-	char* dir_path;
 	DIR* dir;
 	struct dirent* entry;
-	char entry_path[PATH_MAX + 1];
+	size_t entry_size = PATH_MAX + 1;
+	char *entry_path = malloc(entry_size);
 	size_t path_len;
-
-	if (argc >= 2)
-		dir_path = argv[1];
-	else
-		dir_path = ".";
+	struct stat st;
 
 	/* Copy the directory path into entry_path. */
-	strncpy(entry_path, dir_path, sizeof(entry_path));
+	strncpy(entry_path, dir_path, entry_size);
 	path_len = strlen(dir_path);
 
 	/* If the directory path doesn't end with a slash, append a slash. */
@@ -63,13 +36,48 @@ int main(int argc, char* argv[])
 		/* Build the path to the directory entry by appending the entry
 		 * name to the path name. */
 		strncpy(entry_path + path_len, entry->d_name,
-				sizeof(entry_path) - path_len);
+				entry_size - path_len);
+
 		/* Determine the type of the entry. */
-		type = get_file_type(entry_path);
+		lstat(entry_path, &st);
+		if (S_ISLNK(st.st_mode))
+			type = "symbolic link";
+		else if (S_ISDIR(st.st_mode)) {
+			type = "directory";
+			if (strcmp(entry->d_name, ".") && strcmp(entry->d_name, ".."))
+				listdir_recur(entry_path);
+		} else if (S_ISCHR(st.st_mode))
+			type = "character device";
+		else if (S_ISBLK(st.st_mode))
+			type = "block device";
+		else if (S_ISFIFO(st.st_mode))
+			type = "fifo";
+		else if (S_ISSOCK(st.st_mode))
+			type = "socket";
+		else if (S_ISREG(st.st_mode))
+			type = "regular file";
+		else
+			/* Unexpected. Each entry should be one of the types above. */
+			assert(0 && "Unknown file type.");
+
 		/* Print the type and path of the entry. */
 		printf("%-18s: %s\n", type, entry_path);
 	}
 
+	free(entry_path);
 	closedir(dir);
+	return 0;
+}
+
+int main(int argc, char* argv[])
+{
+	char* dir_path;
+
+	if (argc >= 2)
+		dir_path = argv[1];
+	else
+		dir_path = ".";
+
+	listdir_recur(dir_path);
 	return 0;
 }
