@@ -54,6 +54,17 @@ int main(int argc, char *argv[])
 		return 1;
 	}
 	printf("get: %s\n", buffer);
+	{
+		/**
+		 * PR_SET_NAME = /proc/PID/comm
+		 */
+		char proc[64];
+		snprintf(proc, sizeof(proc), "/proc/%d/comm", getpid());
+		FILE *fp = fopen(proc, "r");
+		fread(buffer, sizeof(buffer), 1, fp);
+		printf("proc: %s\n", buffer);
+		fclose(fp);
+	}
 
 	return 0;
 }
