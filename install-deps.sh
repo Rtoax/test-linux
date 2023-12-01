@@ -11,6 +11,7 @@ pkgs+=( criu )
 pkgs+=( dwarves )              # pahole
 pkgs+=( efivar mokutil )       # UEFI
 pkgs+=( elfutils-libelf-devel )
+pkgs+=( grub2-tools-minimal grub2-tools-extra )
 pkgs+=( gtest-devel gmock-devel )
 pkgs+=( gtk3-devel )           # GTK3
 pkgs+=( hwloc )                # lstopo
