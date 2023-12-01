@@ -8,6 +8,7 @@ pkgs+=( binutils-devel )
 pkgs+=( cereal-devel )
 pkgs+=( clang-devel )
 pkgs+=( criu )
+pkgs+=( dtc )                  # device tree
 pkgs+=( dwarves )              # pahole
 pkgs+=( efivar mokutil )       # UEFI
 pkgs+=( elfutils-libelf-devel )
