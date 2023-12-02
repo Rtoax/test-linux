@@ -18,6 +18,7 @@ int main(void)
 
 	/**
 	 * x86_64: R_X86_64_PLT32
+	 * aarch64: R_AARCH64_CALL26
 	 */
 	puts("Hello\n");
 	p = malloc(1024);
