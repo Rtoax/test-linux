@@ -1,15 +1,11 @@
 
 TARGETS := relocation-truncated-to-fit
+TARGETS += reloc-types
 
-DEBUG = yes
-SRC_PATH := $(shell pwd)
 CC = gcc
 
 CFLAGS := -Werror -Wall
-
-ifdef DEBUG
-CFLAGS += -DDEBUG -O0 -g
-endif
+CFLAGS += -O0 -g
 
 build: ${TARGETS}
 	@echo
@@ -17,10 +13,15 @@ build: ${TARGETS}
 
 # Add more object.o file
 relocation-truncated-to-fit: relocation-truncated-to-fit.o relocation-truncated-to-fit-obj.o
+reloc-types: reloc-types.o
+
+CFLAGS_reloc-types := -Wno-error=unused-variable
 
 %.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
+	@readelf --relocs $(@)
+	@readelf --syms $(@)
 
 $(TARGETS): %:
 	@echo -e "Target   \033[1;32m$(@)\033[m"
