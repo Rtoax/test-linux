@@ -5,7 +5,7 @@ TARGETS += reloc-types
 CC = gcc
 
 CFLAGS := -Werror -Wall
-CFLAGS += -O0 -g
+CFLAGS += -O0
 
 build: ${TARGETS}
 	@echo
