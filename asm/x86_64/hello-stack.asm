@@ -20,8 +20,11 @@ _start:
         mov     dl  , 0x0c
         syscall
 
+        pop rsi
+        pop rsi
+
         ; exit(0)
         mov     eax, 60                 ; 60 号系统调用是退出
-        xor     rdi, rdi                ; 0 号系统调用作为退出
+        mov     rdi, 0xff               ; exit code 0xff
         syscall                         ; 调用系统执行退出
 
