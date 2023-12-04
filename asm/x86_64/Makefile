@@ -1,5 +1,6 @@
 
 TARGETS := echo
+TARGETS += hello-puts
 TARGETS += hola
 TARGETS += fibonacci
 TARGETS += power
@@ -34,6 +35,7 @@ build: ${TARGETS} ${TARGETS_ld}
 
 # Add more object.o file
 echo: echo.o
+hello-puts: hello-puts.o
 hello: hello.o
 hello-stack: hello-stack.o
 fibonacci: fibonacci.o
@@ -62,4 +64,4 @@ test: ${TARGETS}
 .PHONY: clean
 clean:
 	@echo -e "Clean   \033[1;32m$(@)\033[m"
-	@rm -f ${TARGETS} ${TARGETS_ld} *.o *.d
+	@rm -f ${TARGETS} ${TARGETS_ld} *.o *.d core.*
