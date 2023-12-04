@@ -13,8 +13,8 @@ _start:
         mov     al  , 0x01
         mov     dil , al
 
-        push    0x0a20206f  ; text: "o  \n"
-        push    0x6c6c6548  ; text: "Hell"
+        push    `o  \n`
+        push    `Hell`
 
         mov     rsi , rsp
         mov     dl  , 0x0c
