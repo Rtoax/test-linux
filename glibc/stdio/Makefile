@@ -2,6 +2,7 @@
 TARGETS += vasprintf
 TARGETS += vfprintf
 TARGETS += vsprintf
+TARGETS += puts
 
 ifeq ($(shell uname -m),x86_64)
 endif
@@ -26,6 +27,7 @@ build: ${TARGETS}
 vasprintf: vasprintf.o
 vfprintf: vfprintf.o
 vsprintf: vsprintf.o
+puts: puts.o
 
 %.d: %.c
 	@echo -e "Generate \033[1m$(@)\033[m"
