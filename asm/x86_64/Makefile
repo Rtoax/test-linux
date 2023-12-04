@@ -7,6 +7,7 @@ TARGETS += factorial_call
 TARGETS += maxofthree_call
 
 TARGETS_ld := hello
+TARGETS_ld += hello-stack
 
 # TODO
 TARGETS_todo += sum_cal
@@ -34,6 +35,7 @@ build: ${TARGETS} ${TARGETS_ld}
 # Add more object.o file
 echo: echo.o
 hello: hello.o
+hello-stack: hello-stack.o
 fibonacci: fibonacci.o
 hola: hola.o
 sum_cal: sum_cal.o sum.o
