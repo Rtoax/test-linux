@@ -33,6 +33,10 @@ ifdef DEBUG
 CFLAGS += -DDEBUG -O0 -g
 endif
 
+ifdef SIMD
+CFLAGS += -mavx2
+endif
+
 build: ${TARGETS}
 	@echo
 	@echo -e " \033[1;33m Done \033[m"
