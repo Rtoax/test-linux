@@ -1,5 +1,6 @@
 
 TARGETS := relocation-truncated-to-fit
+TARGETS += nostdlib
 TARGETS += reloc-types
 
 CC = gcc
@@ -18,8 +19,11 @@ build: ${TARGETS}
 # Add more object.o file
 relocation-truncated-to-fit: relocation-truncated-to-fit.o relocation-truncated-to-fit-obj.o
 reloc-types: reloc-types.o
+nostdlib: nostdlib.o nostdlib-libs.o
 
 CFLAGS_reloc-types := -Wno-error=unused-variable
+CFLAGS_nostdlib := -nostdlib
+CFLAGS_nostdlib-libs := $(CFLAGS_nostdlib)
 
 %.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
@@ -29,7 +33,7 @@ CFLAGS_reloc-types := -Wno-error=unused-variable
 
 $(TARGETS): %:
 	@echo -e "Target   \033[1;32m$(@)\033[m"
-	@$(CC) $(CFLAGS) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
+	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) $(^) $(LDLIBS)
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
