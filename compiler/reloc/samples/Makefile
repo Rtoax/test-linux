@@ -7,6 +7,10 @@ CC = gcc
 CFLAGS := -Werror -Wall
 CFLAGS += -O0
 
+ifdef DEBUG
+CFLAGS += -g -ggdb
+endif
+
 build: ${TARGETS}
 	@echo
 	@echo -e " \033[1;33m Done \033[m"

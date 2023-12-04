@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-pkgs=( make cmake gcc clang gdb )
+pkgs=( make cmake gcc clang gdb cgdb )
 pkgs+=( bpftrace bpftool bcc ) # eBPF
 pkgs+=( bcc-devel )
 pkgs+=( binutils-devel )
