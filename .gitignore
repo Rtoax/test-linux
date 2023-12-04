@@ -106,6 +106,7 @@ __pycache__
 # Coredump and gcore generate
 core-*
 core.*
+coredump.*
 
 # Binary and data
 *.Binary
