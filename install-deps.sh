@@ -2,6 +2,7 @@
 set -e
 
 pkgs=( make cmake gcc clang gdb cgdb )
+pkgs+=( gcc-aarch64-linux-gnu )
 pkgs+=( bpftrace bpftool bcc ) # eBPF
 pkgs+=( bcc-devel )
 pkgs+=( binutils-devel )
@@ -33,6 +34,7 @@ pkgs+=( nasm )                 # nasm
 pkgs+=( numactl )              # numastat
 pkgs+=( python3-pyroute2 )     # pyroute2
 pkgs+=( python3-matplotlib )   # matplotlib
+pkgs+=( qemu-kvm qemu-user )
 pkgs+=( rust )                 # rustc
 pkgs+=( sg3_utils )            # sg_inq, etc.
 pkgs+=( strace )
