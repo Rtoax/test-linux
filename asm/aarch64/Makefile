@@ -1,17 +1,9 @@
 
 TARGETS_ld := hello
 
-DEBUG = yes
-CC = gcc
 AS = as
 LD = ld
 RUN_PFX =
-
-CFLAGS := -Werror -Wall
-
-ifdef DEBUG
-CFLAGS += -DDEBUG -O0 -g
-endif
 
 ifneq ($(shell uname -m),aarch64)
 	AS = aarch64-linux-gnu-as

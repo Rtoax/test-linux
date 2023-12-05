@@ -3,16 +3,6 @@ ifeq ($(shell uname -m),aarch64)
 TARGETS := branch
 endif
 
-DEBUG = yes
-SRC_PATH := $(shell pwd)
-CC = gcc
-
-CFLAGS := -Werror -Wall
-
-ifdef DEBUG
-CFLAGS += -DDEBUG -O0 -g
-endif
-
 build: ${TARGETS}
 	@echo
 	@echo -e " \033[1;33m Done \033[m"
