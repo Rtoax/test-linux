@@ -18,16 +18,18 @@ build: ${TARGETS}
 
 # Add more object.o file
 relocation-truncated-to-fit: relocation-truncated-to-fit.o relocation-truncated-to-fit-obj.o
-reloc-types: reloc-types.o reloc-types-libs.o
+reloc-types: reloc-types.o reloc-types-libs.o reloc-types-vars.o
 nostdlib: nostdlib.o nostdlib-libs.o
 
 CFLAGS_reloc-types := -Wno-error=unused-variable
+CFLAGS_reloc-types += -Wno-error=unused-function
 CFLAGS_reloc-types-libs := ${CFLAGS_reloc-types}
+CFLAGS_reloc-types-vars := ${CFLAGS_reloc-types}
 CFLAGS_nostdlib := -nostdlib
 CFLAGS_nostdlib-libs := $(CFLAGS_nostdlib)
 
 define print_elf
-	@echo -e "\033[1;33m-------------$(1)------------\033[m"
+	@echo -e "\033[1;33m------------- $(1) ------------\033[m"
 	@readelf --relocs $(1)
 	@readelf --syms $(1)
 endef
