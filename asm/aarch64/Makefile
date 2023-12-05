@@ -1,5 +1,6 @@
 
 TARGETS := hello
+TARGETS += hello-stack
 
 AS = as
 LD = ld
@@ -18,6 +19,7 @@ build: $(TARGETS)
 
 # Add more object.o file
 hello: hello.o
+hello-stack: hello-stack.o
 
 %.o: %.asm
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

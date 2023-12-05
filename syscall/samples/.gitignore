@@ -41,5 +41,6 @@
 /kcmp
 /readdir
 /lstat
+/write
 /*.txt
 /tmp-*
