@@ -19,7 +19,6 @@ ifeq ($(shell uname -m),aarch64)
 endif
 
 DEBUG = yes
-SRC_PATH := $(shell pwd)
 CC = gcc
 
 CFLAGS := -Werror -Wall
