@@ -1,5 +1,5 @@
 
-TARGETS_ld := hello
+TARGETS := hello
 
 AS = as
 LD = ld
@@ -12,7 +12,7 @@ ifneq ($(shell uname -m),aarch64)
 endif
 
 .PHONY: build
-build: ${TARGETS} ${TARGETS_ld}
+build: $(TARGETS)
 	@echo
 	@echo -e " \033[1;33m Done \033[m"
 
@@ -23,15 +23,15 @@ hello: hello.o
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	$(AS) $(<) -o $(@)
 
-$(TARGETS_ld): %.o:
+$(TARGETS): %.o:
 	@echo -e "Target ld \033[1;32m$(@)\033[m"
 	$(LD) -o $(@) $(^)
 
-test: ${TARGETS}
+test: $(TARGETS)
 	@echo -e "Test   \033[1;32m$(@)\033[m"
 	$(RUN_PFX) ./hello
 
 .PHONY: clean
 clean:
 	@echo -e "Clean   \033[1;32m$(@)\033[m"
-	@rm -f ${TARGETS} ${TARGETS_ld} *.o *.d core.*
+	@rm -f ${TARGETS} *.o *.d core.*
