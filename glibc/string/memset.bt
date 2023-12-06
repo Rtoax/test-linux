@@ -9,5 +9,11 @@ uprobe:/lib64/libc.so.6:__memset_*,
 uprobe:/lib64/libc.so.6:__wmemset*,
 uprobe:/lib64/libc.so.6:memset*
 {
-	@[probe, comm] = count();
+	@set[probe, comm] = count();
+}
+
+i:s:1
+{
+	printf("\n");
+	print(@set, 10);
 }

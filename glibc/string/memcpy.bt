@@ -1,0 +1,19 @@
+#!/bin/env bpftrace
+
+BEGIN
+{
+	printf("Tracing libc.so.6 memcpy. Hit ctrl-c to end\n");
+}
+
+uprobe:/lib64/libc.so.6:__memcpy_*,
+uprobe:/lib64/libc.so.6:__wmemcpy*,
+uprobe:/lib64/libc.so.6:memcpy*
+{
+	@copy[probe, comm] = count();
+}
+
+i:s:1
+{
+	printf("\n");
+	print(@copy, 10);
+}
