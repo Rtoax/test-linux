@@ -16,7 +16,7 @@ endif
 TARGETS :=
 TARGETS += sve-width
 
-CFLAGS += -march=armv8-a+sve
+CFLAGS += -march=armv9-a+sve2
 
 all: $(TARGETS)
 
