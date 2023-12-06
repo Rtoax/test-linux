@@ -13,4 +13,4 @@ sve-width-intrinsics: sve-width-intrinsics.o
 
 
 clean:
-        rm -f $(TARGETS) *.o
+	rm -f $(TARGETS) *.o
