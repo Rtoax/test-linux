@@ -1,4 +1,4 @@
-/cpu_set
+/cpuset
 /CPU_SETSIZE
 /CPU_ALLOC
 /str2cpuset

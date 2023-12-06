@@ -1,5 +1,5 @@
 
-TARGETS += cpu_set CPU_SETSIZE CPU_ALLOC str2cpuset
+TARGETS += cpuset CPU_SETSIZE CPU_ALLOC str2cpuset
 TARGETS += getcpu sched_getcpu
 TARGETS += nice
 TARGETS += sched_setscheduler sched_getscheduler
@@ -27,7 +27,7 @@ build: ${TARGETS}
 	make -C clone
 	@echo -e " \033[1;33m Done \033[m"
 
-cpu_set: cpu_set.o
+cpuset: cpuset.o
 CPU_SETSIZE: CPU_SETSIZE.o
 CPU_ALLOC: CPU_ALLOC.o
 str2cpuset: str2cpuset.o helpers.o
