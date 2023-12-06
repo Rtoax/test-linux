@@ -2,7 +2,7 @@
 #include <unistd.h>
 
 
-int main(void)
+int fun1(void)
 {
 	union {
 		unsigned long l;
@@ -18,5 +18,22 @@ int main(void)
 
 	char *s = (void *)&hello.l;
 	write(1, s, 8);
+	return 0;
+}
+
+void fun2(void)
+{
+	char s[8] = {"hello\n"};
+	write(1, s, 8);
+	return;
+}
+
+/**
+ * TODO: Use asm()
+ */
+
+int main(void)
+{
+	fun1();
 	return 0;
 }
