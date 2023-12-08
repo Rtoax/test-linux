@@ -18,20 +18,12 @@ TARGETS += strsep
 TARGETS += strtok
 TARGETS += strtol
 
-ifeq ($(shell uname -m),x86_64)
-endif
-
-DEBUG = yes
-SRC_PATH := $(shell pwd)
 CC = gcc
 
 CFLAGS := -Werror -Wall
 CFLAGS += -I../../../
 CFLAGS += -lm
-
-ifdef DEBUG
-CFLAGS += -DDEBUG -O0 -g
-endif
+CFLAGS += -O0 -g -ggdb
 
 ifdef SIMD
 CFLAGS += -mavx2
@@ -41,7 +33,6 @@ build: ${TARGETS}
 	@echo
 	@echo -e " \033[1;33m Done \033[m"
 
-# Add more object.o file
 bcopy: bcopy.o
 index: index.o
 memchr: memchr.o
