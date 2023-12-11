@@ -12,6 +12,18 @@ SVE 和 SVE2 的设计保证了同一个程序可以在不同的指令集架构�
 编译代码。
 
 
+# 在 qemu virsh xml 中使能 SVE
+
+> qemu 命令行`-cpu max,sve=on,sve256=on`
+
+```
+  <qemu:commandline>
+    <qemu:arg value='-cpu'/>
+    <qemu:arg value='max,sve=on,sve256=on'/>
+  </qemu:commandline>
+```
+
+
 # Links
 
 - https://developer.arm.com/Architectures/Scalable%20Vector%20Extensions
