@@ -67,6 +67,8 @@ int main(int argc, char *argv[])
 			break;
 		case '?':
 			/* getopt_long already printed an error message. */
+			fprintf(stderr, "Unknown option or requires an argument.\n");
+			exit(1);
 			break;
 		default:
 			abort();
@@ -89,3 +91,4 @@ int main(int argc, char *argv[])
 
 	return 0;
 }
+
