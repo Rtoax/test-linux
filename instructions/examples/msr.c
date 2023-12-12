@@ -7,6 +7,7 @@
 #include <setjmp.h>
 #include <signal.h>
 #include <stdlib.h>
+#include <inttypes.h>
 
 sigjmp_buf go_here;
 
@@ -15,19 +16,21 @@ void sigill_handler(int signum) {
 	siglongjmp(go_here, 1);
 }
 
-#define PRINT_REG(s)                                          \
-	do {                                                  \
+#define GET_REG(s) ({                                         \
+		unsigned long ___r = 0UL;                     \
 		if (sigsetjmp(go_here, 1)) {                  \
 			printf("%s:\tSIGILL\n", s);           \
 		} else {                                      \
-			unsigned long ret;                    \
-			asm("mrs %0, " s : "=r" (ret));       \
-			printf("%s:\t%#lx\n", s, ret);        \
+			asm("mrs %0, " s : "=r" (___r));      \
+			printf("%s:\t%#lx\n", s, ___r);       \
 		}                                             \
-	} while (0)
+		___r;                                         \
+	})
 
 int main(void)
 {
+	unsigned long val;
+
 	struct sigaction sa;
 	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = 0;
@@ -37,19 +40,26 @@ int main(void)
 		exit(2);
 	}
 
-	PRINT_REG("MIDR_EL1");
-	PRINT_REG("VPIDR_EL2");
-	PRINT_REG("REVIDR_EL1");
-	PRINT_REG("ID_AA64ISAR0_EL1");
-	PRINT_REG("ID_AA64ISAR1_EL1");
-	PRINT_REG("ID_AA64MMFR0_EL1");
-	PRINT_REG("ID_AA64MMFR1_EL1");
-	PRINT_REG("ID_AA64PFR0_EL1");
-	PRINT_REG("ID_AA64PFR1_EL1");
-	PRINT_REG("ID_AA64DFR0_EL1");
-	PRINT_REG("ID_AA64DFR1_EL1");
-	PRINT_REG("MVFR0_EL1");
-	PRINT_REG("MVFR1_EL1");
-	PRINT_REG("MVFR2_EL1");
+	val = GET_REG("CurrentEL");
+	val = GET_REG("MIDR_EL1");
+	val = GET_REG("VPIDR_EL2");
+	val = GET_REG("REVIDR_EL1");
+	val = GET_REG("SCTLR_EL1");
+	val = GET_REG("TCR_EL1");
+	val = GET_REG("ID_AA64ISAR0_EL1");
+	val = GET_REG("ID_AA64ISAR1_EL1");
+	val = GET_REG("ID_AA64MMFR0_EL1");
+	val = GET_REG("ID_AA64MMFR1_EL1");
+	val = GET_REG("ID_AA64PFR0_EL1");
+	printf("ID_AA64PFR0_EL1.SVE:\t0x%" PRIX64 "\n", (val >> 32) & 0xF);
+	val = GET_REG("ID_AA64PFR1_EL1");
+	val = GET_REG("ID_AA64DFR0_EL1");
+	val = GET_REG("ID_AA64DFR1_EL1");
+	val = GET_REG("MVFR0_EL1");
+	val = GET_REG("MVFR1_EL1");
+	val = GET_REG("MVFR2_EL1");
+	val = GET_REG("TTBR0_EL1");
+	val = GET_REG("TTBR1_EL1");
+
 	return 0;
 }
