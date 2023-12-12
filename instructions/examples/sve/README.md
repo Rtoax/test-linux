@@ -17,10 +17,12 @@ SVE 和 SVE2 的设计保证了同一个程序可以在不同的指令集架构�
 > qemu 命令行`-cpu max,sve=on,sve256=on`
 
 ```
+<domain type='qemu' xmlns:qemu='http://libvirt.org/schemas/domain/qemu/1.0'>
   <qemu:commandline>
     <qemu:arg value='-cpu'/>
     <qemu:arg value='max,sve=on,sve256=on'/>
   </qemu:commandline>
+</domain>
 ```
 
 
