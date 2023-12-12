@@ -16,6 +16,7 @@ endif
 TARGETS :=
 TARGETS += sve-width
 TARGETS += add_array
+TARGETS += svaddlb
 
 CFLAGS += -march=armv8-a+sve2
 
@@ -23,6 +24,7 @@ all: $(TARGETS)
 
 sve-width: sve-width.o
 add_array: add_array.o
+svaddlb: svaddlb.o
 
 test:
 	$(RUN_PFX) ./sve-width
