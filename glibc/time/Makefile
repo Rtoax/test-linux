@@ -3,6 +3,8 @@ TARGETS += asctime asctime_r
 TARGETS += localtime localtime_r
 TARGETS += clock
 TARGETS += clock_getcpuclockid
+TARGETS += strftime
+TARGETS += strptime
 
 DEBUG = yes
 SRC_PATH := $(shell pwd)
@@ -27,6 +29,8 @@ localtime: localtime.o
 localtime_r: localtime_r.o
 clock: clock.o
 clock_getcpuclockid: clock_getcpuclockid.o
+strftime: strftime.o
+strptime: strptime.o
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"

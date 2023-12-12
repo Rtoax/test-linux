@@ -4,3 +4,5 @@
 /localtime_r
 /clock
 /clock_getcpuclockid
+/strftime
+/strptime
