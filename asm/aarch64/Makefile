@@ -2,6 +2,10 @@
 TARGETS := hello
 TARGETS += hello-stack
 
+ifneq ($(shell lscpu | grep -w -e sve -e sve2),)
+	TARGETS += hello_sve
+endif
+
 AS = as
 LD = ld
 RUN_PFX =
