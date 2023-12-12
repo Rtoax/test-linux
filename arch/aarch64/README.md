@@ -7,3 +7,4 @@ ARM64(aarch64)
 - EL1：特权模式，常用来跑内核；
 - EL2：虚拟化监控程序，例如hypervisor；
 - EL3：安全模式，例如secure monitor;
+
