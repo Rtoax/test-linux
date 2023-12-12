@@ -5,4 +5,5 @@
 /pthread-gdb
 /hello
 /linklist
+/daxpy
 /coredump.*

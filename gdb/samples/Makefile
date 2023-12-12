@@ -6,6 +6,7 @@ TARGETS += global-var
 TARGETS += pthread-gdb
 TARGETS += hello
 TARGETS += linklist
+TARGETS += daxpy
 
 CC = gcc
 CFLAGS := -Werror -Wall
@@ -23,6 +24,7 @@ set-value-volatile: set-value-volatile.o
 pthread-gdb: pthread-gdb.o
 hello: hello.o
 linklist: linklist.o
+daxpy: daxpy.o
 
 clean:
 	@echo -e "Clean   \033[1;32m$(@)\033[m"
