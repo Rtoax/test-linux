@@ -2,7 +2,17 @@
 CC = gcc
 CFLAGS :=
 RUN_PFX :=
+TARGETS :=
 
+ifeq ($(shell lscpu | grep -w -e sve -e sve2),)
+$(warning Not support SVE/SVE on this CPU)
+else
+TARGETS += sve-width
+TARGETS += add_array
+TARGETS += svaddlb
+endif
+
+# Cross compile
 ifneq ($(shell uname -m),aarch64)
 	CC = aarch64-linux-gnu-gcc
 	AS = aarch64-linux-gnu-as
@@ -13,10 +23,6 @@ ifneq ($(shell uname -m),aarch64)
 	RUN_PFX = qemu-aarch64 --sysroot=$(shell pwd)/sysroot
 endif
 
-TARGETS :=
-TARGETS += sve-width
-TARGETS += add_array
-TARGETS += svaddlb
 
 CFLAGS += -march=armv8-a+sve2
 
