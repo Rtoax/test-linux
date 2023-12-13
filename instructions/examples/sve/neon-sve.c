@@ -36,6 +36,13 @@ void double_c_X_x_Y(double *x, double *y, double a, size_t n)
 		y[i] = x[i] * y[i];
 }
 
+void u8_c_X_x_Y(uint8_t *x, uint8_t *y, uint8_t a, size_t n)
+{
+	size_t i;
+	for (i = 0; i < n; i++)
+		y[i] = x[i] * y[i];
+}
+
 void double_neon_X_x_Y(double *x, double *y, double a, size_t n)
 {
 	size_t i;
@@ -47,12 +54,12 @@ void double_neon_X_x_Y(double *x, double *y, double a, size_t n)
 	}
 }
 
-void init_arr(double *arr, size_t n)
-{
-	size_t i;
-	for (i = 0; i < n; i++)
-		arr[i] = i;
-}
+#define init_arr(type, array, n) do {	\
+	size_t i;	\
+	type *arr = array;	\
+	for (i = 0; i < n; i++)	\
+		arr[i] = i;	\
+} while (0)
 
 #define cmp_arr(type, x, y, n) ({	\
 	int __ret = 0;	\
@@ -66,6 +73,14 @@ void init_arr(double *arr, size_t n)
 		}	\
 	__ret;	\
 })
+
+struct test tests_u8[] = {
+	{
+		.name = "   C: y[i] = x[i] * y[i] (u8)",
+		.fn_u8 = u8_c_X_x_Y,
+		.spent_us = 0,
+	},
+};
 
 struct test tests_double[] = {
 	{
@@ -86,7 +101,8 @@ int main(int argc, char *argv[])
 	size_t n = 10000000;
 	double a = 1.1;
 
-	struct test *t_base = &tests_double[0];
+	struct test *t_double_base = &tests_double[0];
+	struct test *t_u8_base = &tests_u8[0];
 
 	for (i = 0; i < ARRAY_SIZE(tests_double); i++) {
 		unsigned long start;
@@ -95,18 +111,38 @@ int main(int argc, char *argv[])
 		t->x = malloc(sizeof(double) * n);
 		t->y = malloc(sizeof(double) * n);
 
-		init_arr(t->x, n);
-		init_arr(t->y, n);
+		init_arr(double, t->x, n);
+		init_arr(double, t->y, n);
 
 		start = usecs();
 		t->fn_double(t->x, t->y, a, n);
 		t->spent_us = usecs() - start;
 
 		if (i != 0)
-			t->cmp = cmp_arr(double, t_base->y, t->y, n);
+			t->cmp = cmp_arr(double, t_double_base->y, t->y, n);
 		else
 			t->cmp = 0;
 	}
+	for (i = 0; i < ARRAY_SIZE(tests_u8); i++) {
+		unsigned long start;
+		struct test *t = &tests_u8[i];
+
+		t->x = malloc(sizeof(uint8_t) * n);
+		t->y = malloc(sizeof(uint8_t) * n);
+
+		init_arr(uint8_t, t->x, n);
+		init_arr(uint8_t, t->y, n);
+
+		start = usecs();
+		t->fn_u8(t->x, t->y, a, n);
+		t->spent_us = usecs() - start;
+
+		if (i != 0)
+			t->cmp = cmp_arr(uint8_t, t_u8_base->y, t->y, n);
+		else
+			t->cmp = 0;
+	}
+
 
 	printf("Length of array %ld\n", n);
 	printf("%-32s %-16s %-8s\n", "TEST_NAME", "SPENT(us)", "RSLT");
@@ -115,9 +151,18 @@ int main(int argc, char *argv[])
 		struct test *t = &tests_double[i];
 		printf("%-32s %-16ld %-8s\n", t->name, t->spent_us, t->cmp ? "Failed" : "Passed");
 	}
+	for (i = 0; i < ARRAY_SIZE(tests_u8); i++) {
+		struct test *t = &tests_u8[i];
+		printf("%-32s %-16ld %-8s\n", t->name, t->spent_us, t->cmp ? "Failed" : "Passed");
+	}
 
 	for (i = 0; i < ARRAY_SIZE(tests_double); i++) {
 		struct test *t = &tests_double[i];
+		free(t->x);
+		free(t->y);
+	}
+	for (i = 0; i < ARRAY_SIZE(tests_u8); i++) {
+		struct test *t = &tests_u8[i];
 		free(t->x);
 		free(t->y);
 	}
