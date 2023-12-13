@@ -7,13 +7,17 @@
 
 #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof(arr[0]))
 
+typedef void (*test_u8_fn_t)(uint8_t *x, uint8_t *y, uint8_t a, size_t n);
 typedef void (*test_fn_t)(double *x, double *y, double a, size_t n);
 
 struct test {
 	const char *name;
-	test_fn_t fn;
+	union {
+		test_u8_fn_t fn_u8;
+		test_fn_t fn_double;
+	};
 	unsigned long spent_us;
-	double *x, *y;
+	void *x, *y;
 	int cmp;
 };
 
@@ -25,14 +29,14 @@ static inline unsigned long usecs(void)
 	return tv.tv_sec * 1000000UL + tv.tv_usec;
 }
 
-void c_X_x_Y(double *x, double *y, double a, size_t n)
+void double_c_X_x_Y(double *x, double *y, double a, size_t n)
 {
 	size_t i;
 	for (i = 0; i < n; i++)
 		y[i] = x[i] * y[i];
 }
 
-void neon_X_x_Y(double *x, double *y, double a, size_t n)
+void double_neon_X_x_Y(double *x, double *y, double a, size_t n)
 {
 	size_t i;
 	for (i = 0; i < n; i += 2) {
@@ -50,24 +54,28 @@ void init_arr(double *arr, size_t n)
 		arr[i] = i;
 }
 
-int cmp_arr(double *x, double *y, size_t n)
-{
-	size_t i;
-	for (i = 0; i < n; i++)
-		if (x[i] != y[i])
-			return 1;
-	return 0;
-}
+#define cmp_arr(type, x, y, n) ({	\
+	int __ret = 0;	\
+	size_t ___i;	\
+	type *___x = x;	\
+	type *___y = y;	\
+	for (___i = 0; ___i < n; ___i++)	\
+		if (___x[___i] != ___y[___i]) {	\
+			__ret = 1;	\
+			break;	\
+		}	\
+	__ret;	\
+})
 
-struct test tests[] = {
+struct test tests_double[] = {
 	{
 		.name = "   C: y[i] = x[i] * y[i]",
-		.fn = c_X_x_Y,
+		.fn_double = double_c_X_x_Y,
 		.spent_us = 0,
 	},
 	{
 		.name = "Neon: y[i] = x[i] * y[i]",
-		.fn = neon_X_x_Y,
+		.fn_double = double_neon_X_x_Y,
 		.spent_us = 0,
 	},
 };
@@ -78,11 +86,11 @@ int main(int argc, char *argv[])
 	size_t n = 10000000;
 	double a = 1.1;
 
-	struct test *t_base = &tests[0];
+	struct test *t_base = &tests_double[0];
 
-	for (i = 0; i < ARRAY_SIZE(tests); i++) {
+	for (i = 0; i < ARRAY_SIZE(tests_double); i++) {
 		unsigned long start;
-		struct test *t = &tests[i];
+		struct test *t = &tests_double[i];
 
 		t->x = malloc(sizeof(double) * n);
 		t->y = malloc(sizeof(double) * n);
@@ -91,11 +99,11 @@ int main(int argc, char *argv[])
 		init_arr(t->y, n);
 
 		start = usecs();
-		t->fn(t->x, t->y, a, n);
+		t->fn_double(t->x, t->y, a, n);
 		t->spent_us = usecs() - start;
 
 		if (i != 0)
-			t->cmp = cmp_arr(t_base->y, t->y, n);
+			t->cmp = cmp_arr(double, t_base->y, t->y, n);
 		else
 			t->cmp = 0;
 	}
@@ -103,13 +111,13 @@ int main(int argc, char *argv[])
 	printf("Length of array %ld\n", n);
 	printf("%-32s %-16s %-8s\n", "TEST_NAME", "SPENT(us)", "RSLT");
 
-	for (i = 0; i < ARRAY_SIZE(tests); i++) {
-		struct test *t = &tests[i];
+	for (i = 0; i < ARRAY_SIZE(tests_double); i++) {
+		struct test *t = &tests_double[i];
 		printf("%-32s %-16ld %-8s\n", t->name, t->spent_us, t->cmp ? "Failed" : "Passed");
 	}
 
-	for (i = 0; i < ARRAY_SIZE(tests); i++) {
-		struct test *t = &tests[i];
+	for (i = 0; i < ARRAY_SIZE(tests_double); i++) {
+		struct test *t = &tests_double[i];
 		free(t->x);
 		free(t->y);
 	}
