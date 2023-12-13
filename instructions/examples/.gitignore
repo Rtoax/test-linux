@@ -14,4 +14,4 @@
 /memset
 /nop
 /rdmsr
-/msr
+/mrs

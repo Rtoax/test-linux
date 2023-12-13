@@ -35,7 +35,7 @@ ifneq ($(shell lscpu | grep -w sve2),)
 CFLAGS += -DCPU_HAVE_SVE2=1
 endif
 
-TARGETS += msr
+TARGETS += mrs
 endif
 
 TARGETS += cpuid_user
@@ -61,7 +61,7 @@ stosb: stosb.o
 memset: memset.o
 nop: nop.o
 rdmsr: rdmsr.o
-msr: msr.o
+mrs: mrs.o
 
 CFLAGS += -g -ggdb
 CFLAGS += -D_GNU_SOURCE

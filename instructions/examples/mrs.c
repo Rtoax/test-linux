@@ -56,6 +56,9 @@ int main(void)
 	printf("ID_AA64PFR0_EL1.EL1:\t0x%" PRIX64 "\n", (val >> 4) & 0xF);
 	printf("ID_AA64PFR0_EL1.EL2:\t0x%" PRIX64 "\n", (val >> 8) & 0xF);
 	printf("ID_AA64PFR0_EL1.SVE:\t0x%" PRIX64 "(sve)\n", (val >> 32) & 0xF);
+#if defined(CPU_HAVE_SVE) || defined(CPU_HAVE_SVE2)
+	//val = GET_REG("ZCR_EL1");
+#endif
 	val = GET_REG("ID_AA64PFR1_EL1");
 	val = GET_REG("ID_AA64DFR0_EL1");
 	val = GET_REG("ID_AA64DFR1_EL1");
