@@ -75,7 +75,7 @@ struct test tests[] = {
 int main(int argc, char *argv[])
 {
 	int i;
-	size_t n = 10000000000;
+	size_t n = 10000000;
 	double a = 1.1;
 
 	struct test *t_base = &tests[0];
@@ -100,7 +100,7 @@ int main(int argc, char *argv[])
 			t->cmp = 0;
 	}
 
-
+	printf("Length of array %ld\n", n);
 	printf("%-32s %-16s %-8s\n", "TEST_NAME", "SPENT(us)", "RSLT");
 
 	for (i = 0; i < ARRAY_SIZE(tests); i++) {
