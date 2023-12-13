@@ -1,6 +1,6 @@
 
 CC = gcc
-CFLAGS :=
+CFLAGS := -O0 -g -ggdb
 TARGETS :=
 
 TARGETS += vrsqrtsq_f32
