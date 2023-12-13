@@ -30,6 +30,7 @@
 /schedule_static
 /sections_section
 /shared
+/simd
 /single
 /threadprivate_copyin
 /threadprivate_copyprivate

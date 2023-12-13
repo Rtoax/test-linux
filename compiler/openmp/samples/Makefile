@@ -32,6 +32,7 @@ TARGETS += schedule_sections_single_master_nowait
 TARGETS += schedule_static
 TARGETS += sections_section
 TARGETS += shared
+TARGETS += simd
 TARGETS += single
 TARGETS += threadprivate_copyin
 TARGETS += threadprivate_copyprivate
@@ -85,6 +86,7 @@ schedule_static: schedule_static.o
 sections_section: sections_section.o
 shared: shared.o
 single: single.o
+simd: simd.o
 threadprivate_copyin: threadprivate_copyin.o
 threadprivate_copyprivate: threadprivate_copyprivate.o
 
