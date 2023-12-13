@@ -1,2 +1,4 @@
 /vrsqrtsq_f32
 /vst1q_u8
+/vaddq_s64
+/neon-sve

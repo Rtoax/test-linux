@@ -10,6 +10,7 @@ else
 TARGETS += sve-width
 TARGETS += add_array
 TARGETS += svaddlb
+TARGETS += neon-sve
 endif
 
 # Cross compile
@@ -31,6 +32,7 @@ all: $(TARGETS)
 sve-width: sve-width.o
 add_array: add_array.o
 svaddlb: svaddlb.o
+neon-sve: neon-sve
 
 test:
 	$(RUN_PFX) ./sve-width
