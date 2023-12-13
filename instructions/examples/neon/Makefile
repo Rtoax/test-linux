@@ -11,6 +11,8 @@ TARGETS += neon-sve
 ifeq ($(shell lscpu | grep -w -e sve -e sve2),)
 $(warning Not support SVE/SVE2 on this CPU)
 CFLAGS += -DCONFIG_NO_SVE=1
+else
+CFLAGS += -march=armv8-a+sve2
 endif
 
 #CFLAGS += -mfpu=neon
