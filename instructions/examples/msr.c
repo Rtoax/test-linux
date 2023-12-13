@@ -47,6 +47,7 @@ int main(void)
 	val = GET_REG("SCTLR_EL1");
 	val = GET_REG("TCR_EL1");
 	val = GET_REG("ID_AA64ISAR0_EL1");
+	printf("ID_AA64ISAR0_EL1.DP:\t0x%" PRIX64 "(asimdd)\n", (val >> 44) & 0xF);
 	val = GET_REG("ID_AA64ISAR1_EL1");
 	val = GET_REG("ID_AA64MMFR0_EL1");
 	val = GET_REG("ID_AA64MMFR1_EL1");
@@ -54,7 +55,7 @@ int main(void)
 	printf("ID_AA64PFR0_EL1.EL0:\t0x%" PRIX64 "\n", val & 0xF);
 	printf("ID_AA64PFR0_EL1.EL1:\t0x%" PRIX64 "\n", (val >> 4) & 0xF);
 	printf("ID_AA64PFR0_EL1.EL2:\t0x%" PRIX64 "\n", (val >> 8) & 0xF);
-	printf("ID_AA64PFR0_EL1.SVE:\t0x%" PRIX64 "\n", (val >> 32) & 0xF);
+	printf("ID_AA64PFR0_EL1.SVE:\t0x%" PRIX64 "(sve)\n", (val >> 32) & 0xF);
 	val = GET_REG("ID_AA64PFR1_EL1");
 	val = GET_REG("ID_AA64DFR0_EL1");
 	val = GET_REG("ID_AA64DFR1_EL1");
