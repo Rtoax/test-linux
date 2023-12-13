@@ -1,6 +1,7 @@
 
 TARGETS :=
 TARGETS += ptrace-breakpoint
+TARGETS += ptrace-strace
 
 DEBUG = yes
 SRC_PATH := $(shell pwd)
@@ -21,6 +22,7 @@ build: ${TARGETS}
 
 # Add more object.o file
 ptrace-breakpoint: ptrace-breakpoint.o
+ptrace-strace: ptrace-strace.o
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
