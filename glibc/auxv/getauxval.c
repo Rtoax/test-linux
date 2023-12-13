@@ -42,7 +42,8 @@ _rte_cpu_getauxval(unsigned long type, const char *str)
 
 	errno = 0;
 	val = getauxval(type);
-	printf("%-12s: %s\n", str, (const char *)val);
+	if (str)
+		printf("%-12s: %s\n", str, (const char *)val);
 
 	if (!val && (errno == ENOTSUP || errno == ENOENT)) {
 		int auxv_fd = open("/proc/self/auxv", O_RDONLY);
@@ -77,9 +78,35 @@ int rte_cpu_strcmp_auxval(unsigned long type, const char *str)
 	return _rte_cpu_getauxval(type, str);
 }
 
+void print_hwcap_arm(unsigned long val)
+{
+#define HWCAP_NEON (1 << 12)
+	if (val & HWCAP_NEON)
+		printf("neon");
+	/* MORE */
+	printf("\n");
+}
+
+void print_hwcap_x86(unsigned long val)
+{}
+
+void print_hwcap(unsigned long val)
+{
+	printf("AT_HWCAP: ");
+#if defined(__aarch64__)
+	return print_hwcap_arm(val);
+#elif defined(__x86_64__)
+	return print_hwcap_x86(val);
+#endif
+}
+
 int main(void)
 {
+	unsigned long val;
+
 	rte_cpu_strcmp_auxval(AT_PLATFORM, "AT_PLATFORM");
 	rte_cpu_strcmp_auxval(AT_EXECFN, "AT_EXECFN");
+	val = rte_cpu_getauxval(AT_HWCAP);
+	print_hwcap(val);
 	return 0;
 }
