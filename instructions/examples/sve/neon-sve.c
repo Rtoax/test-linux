@@ -54,6 +54,17 @@ void double_neon_X_x_Y(double *x, double *y, double a, size_t n)
 	}
 }
 
+void u8_neon_X_x_Y(uint8_t *x, uint8_t *y, uint8_t a, size_t n)
+{
+	size_t i;
+	for (i = 0; i < n; i += 8) {
+		uint8x8_t xi = vld1_u8(x + i);
+		uint8x8_t yi = vld1_u8(y + i);
+		uint8x8_t mul = vmul_u8(xi, yi);
+		vst1_u8(&y[i], mul);
+	}
+}
+
 #define init_arr(type, array, n) do {	\
 	size_t i;	\
 	type *arr = array;	\
@@ -78,6 +89,11 @@ struct test tests_u8[] = {
 	{
 		.name = "   C: y[i] = x[i] * y[i] (u8)",
 		.fn_u8 = u8_c_X_x_Y,
+		.spent_us = 0,
+	},
+	{
+		.name = "Neon: y[i] = x[i] * y[i] (u8)",
+		.fn_u8 = u8_neon_X_x_Y,
 		.spent_us = 0,
 	},
 };
