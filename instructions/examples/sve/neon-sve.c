@@ -4,7 +4,9 @@
 #include <time.h>
 #include <sys/time.h>
 #include <arm_neon.h>
+#if !defined(CONFIG_NO_SVE)
 #include <arm_sve.h>
+#endif
 
 #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof(arr[0]))
 
@@ -66,6 +68,7 @@ void u8_neon_X_x_Y(uint8_t *x, uint8_t *y, uint8_t a, size_t n)
 	}
 }
 
+#if !defined(CONFIG_NO_SVE)
 void u8_sve_X_x_Y(uint8_t *x, uint8_t *y, uint8_t a, size_t n)
 {
 	size_t i;
@@ -96,6 +99,7 @@ void double_sve_X_x_Y(double *x, double *y, double a, size_t n)
 		svst1_f64(predicate, y + i, mul);
 	}
 }
+#endif
 
 #define init_arr(type, array, n) do {	\
 	size_t i;	\
@@ -129,11 +133,13 @@ struct test tests_u8[] = {
 		.fn_u8 = u8_neon_X_x_Y,
 		.spent_us = 0,
 	},
+#if !defined(CONFIG_NO_SVE)
 	{
 		.name = " Sve: y[i] = x[i] * y[i] (u8)",
 		.fn_u8 = u8_sve_X_x_Y,
 		.spent_us = 0,
 	},
+#endif
 };
 
 struct test tests_double[] = {
@@ -147,11 +153,13 @@ struct test tests_double[] = {
 		.fn_double = double_neon_X_x_Y,
 		.spent_us = 0,
 	},
+#if !defined(CONFIG_NO_SVE)
 	{
 		.name = " Sve: y[i] = x[i] * y[i] (f64)",
 		.fn_double = double_sve_X_x_Y,
 		.spent_us = 0,
 	},
+#endif
 };
 
 int main(int argc, char *argv[])

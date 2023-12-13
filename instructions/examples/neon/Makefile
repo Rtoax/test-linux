@@ -8,6 +8,11 @@ TARGETS += vst1q_u8
 TARGETS += vaddq_s64
 TARGETS += neon-sve
 
+ifeq ($(shell lscpu | grep -w -e sve -e sve2),)
+$(warning Not support SVE/SVE2 on this CPU)
+CFLAGS += -DCONFIG_NO_SVE=1
+endif
+
 #CFLAGS += -mfpu=neon
 
 all: $(TARGETS)
