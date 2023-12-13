@@ -4,6 +4,7 @@
 #include <time.h>
 #include <sys/time.h>
 #include <arm_neon.h>
+#include <arm_sve.h>
 
 #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof(arr[0]))
 
@@ -65,6 +66,19 @@ void u8_neon_X_x_Y(uint8_t *x, uint8_t *y, uint8_t a, size_t n)
 	}
 }
 
+void u8_sve_X_x_Y(uint8_t *x, uint8_t *y, uint8_t a, size_t n)
+{
+	size_t i;
+	size_t vl = svcntb();
+	for (i = 0; i < n; i += vl) {
+		svbool_t predicate = svwhilelt_b8(i, n);
+		svuint8_t xi = svld1_u8(predicate, x + i);
+		svuint8_t yi = svld1_u8(predicate, y + i);
+		svuint8_t mul = svmul_z(predicate, xi, yi);
+		svst1_u8(predicate, y + i, mul);
+	}
+}
+
 #define init_arr(type, array, n) do {	\
 	size_t i;	\
 	type *arr = array;	\
@@ -94,6 +108,11 @@ struct test tests_u8[] = {
 	{
 		.name = "Neon: y[i] = x[i] * y[i] (u8)",
 		.fn_u8 = u8_neon_X_x_Y,
+		.spent_us = 0,
+	},
+	{
+		.name = " Sve: y[i] = x[i] * y[i] (u8)",
+		.fn_u8 = u8_sve_X_x_Y,
 		.spent_us = 0,
 	},
 };
