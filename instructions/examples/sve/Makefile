@@ -5,7 +5,7 @@ RUN_PFX :=
 TARGETS :=
 
 ifeq ($(shell lscpu | grep -w -e sve -e sve2),)
-$(warning Not support SVE/SVE on this CPU)
+$(warning Not support SVE/SVE2 on this CPU)
 else
 TARGETS += sve-width
 TARGETS += add_array
