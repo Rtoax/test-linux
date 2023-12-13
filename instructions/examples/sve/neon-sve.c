@@ -70,6 +70,8 @@ void u8_sve_X_x_Y(uint8_t *x, uint8_t *y, uint8_t a, size_t n)
 {
 	size_t i;
 	size_t vl = svcntb();
+	printf("SVE lane %ld\n", vl);
+
 	for (i = 0; i < n; i += vl) {
 		svbool_t predicate = svwhilelt_b8(i, n);
 		svuint8_t xi = svld1_u8(predicate, x + i);
@@ -83,6 +85,8 @@ void double_sve_X_x_Y(double *x, double *y, double a, size_t n)
 {
 	size_t i;
 	size_t vl = svcntb();
+	printf("SVE lane %ld\n", vl);
+
 	for (i = 0; i < n; i += vl / sizeof(double)) {
 		/* or use svptrue_b64(); */
 		svbool_t predicate = svwhilelt_b64(i, n);
@@ -163,6 +167,8 @@ int main(int argc, char *argv[])
 		unsigned long start;
 		struct test *t = &tests_double[i];
 
+		printf("Testing %s\n", t->name);
+
 		t->x = malloc(sizeof(double) * n);
 		t->y = malloc(sizeof(double) * n);
 
@@ -182,6 +188,8 @@ int main(int argc, char *argv[])
 		unsigned long start;
 		struct test *t = &tests_u8[i];
 
+		printf("Testing %s\n", t->name);
+
 		t->x = malloc(sizeof(uint8_t) * n);
 		t->y = malloc(sizeof(uint8_t) * n);
 
@@ -200,15 +208,15 @@ int main(int argc, char *argv[])
 
 
 	printf("Length of array %ld\n", n);
-	printf("%-32s %-16s %-8s\n", "TEST_NAME", "SPENT(us)", "RSLT");
+	printf("%-50s %-16s %-8s\n", "TEST_NAME", "SPENT(us)", "RSLT");
 
 	for (i = 0; i < ARRAY_SIZE(tests_double); i++) {
 		struct test *t = &tests_double[i];
-		printf("%-32s %-16ld %-8s\n", t->name, t->spent_us, t->cmp ? "Failed" : "Passed");
+		printf("%-50s %-16ld %-8s\n", t->name, t->spent_us, t->cmp ? "Failed" : "Passed");
 	}
 	for (i = 0; i < ARRAY_SIZE(tests_u8); i++) {
 		struct test *t = &tests_u8[i];
-		printf("%-32s %-16ld %-8s\n", t->name, t->spent_us, t->cmp ? "Failed" : "Passed");
+		printf("%-50s %-16ld %-8s\n", t->name, t->spent_us, t->cmp ? "Failed" : "Passed");
 	}
 
 	for (i = 0; i < ARRAY_SIZE(tests_double); i++) {
