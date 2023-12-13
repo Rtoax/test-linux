@@ -10,7 +10,6 @@ int gval = 8;
 /* z: private */
 void funcb(int *x, int *y, int z)
 {
-	static int sv;
 	int u;
 	u = (*y)*gval;
 	*x = u + z;

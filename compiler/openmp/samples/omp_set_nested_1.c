@@ -6,7 +6,7 @@
 
 int main(int argc, char *argv[])
 {
-	int sum = 0, i;
+	int sum = 0;
 
 	#ifdef _OPENMP
 	omp_set_num_threads(5);

@@ -7,8 +7,8 @@ double step, pi;
 
 int main(void)
 {
-	int x=1,y=1,z=0;
-	int i, j;
+	int x=1, y=1, z=0;
+	int i;
 	#pragma omp parallel for private(x,y)
 	for (i = 0; i < 3; i++) {
 		x = i;
@@ -52,7 +52,7 @@ int main(void)
 	printf("#########################################################\n");
 
 	i = 0;
-	int A, B, a = 0, b = 0;
+	int a = 0, b = 0;
 	#pragma omp parallel for reduction(+:a,b)
 	for (i = 0; i < 3; i++) {
 		a = a + omp_get_thread_num();
@@ -73,7 +73,6 @@ int main(void)
 	}
 	printf("#########################################################\n");
 
-	int jobs;
 	#pragma omp parallel
 	{
 		printf("ID = %d\n", omp_get_thread_num());

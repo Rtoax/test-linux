@@ -7,8 +7,7 @@
 
 int main(int argc, char *argv[])
 {
-	int i, j, id;
-	int count = 0;
+	int j;
 
 	omp_set_num_threads(4);
 

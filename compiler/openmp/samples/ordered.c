@@ -7,7 +7,7 @@
 
 int main(int argc, char *argv[])
 {
-	int i, j, id;
+	int j;
 
 	#pragma omp parallel
 	{

@@ -4,7 +4,7 @@
 
 int main(void)
 {
-	int count = 0, i;
+	int count = 0;
 
 	#pragma omp parallel
 	{

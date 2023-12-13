@@ -7,9 +7,6 @@
 
 int main(int argc, char *argv[])
 {
-	int i, j, id;
-	int count = 0;
-
 	omp_set_num_threads(10);
 
 	#pragma omp parallel

@@ -7,8 +7,7 @@ int m = 3;
 
 int main(int argc, char *argv[])
 {
-	int i = 97, j = 99, id;
-	int sum = 0;
+	int j = 99;
 
 	m = 13;
 	#pragma omp parallel for copyin(m)

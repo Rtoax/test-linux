@@ -9,17 +9,13 @@ static omp_lock_t lock;
 
 int main(int argc, char *argv[])
 {
-
-	int i, j, id;
+	int j;
 
 	omp_init_lock(&lock);
-
 	omp_set_num_threads(5);
-
 
 	#pragma omp parallel for
 	for (j = 0; j < 5; j++) {
-
 		omp_set_lock(&lock);
 
 		//#pragma omp crtitical
@@ -29,8 +25,6 @@ int main(int argc, char *argv[])
 
 		omp_unset_lock(&lock);
 	}
-
 	omp_destroy_lock(&lock);
-
 	return 0;
 }

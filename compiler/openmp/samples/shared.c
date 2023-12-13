@@ -3,7 +3,7 @@
 
 int main(int argc, char *argv[])
 {
-	int i, j, id;
+	int j;
 	int sum = 0;
 
 	#pragma omp parallel for shared(sum)

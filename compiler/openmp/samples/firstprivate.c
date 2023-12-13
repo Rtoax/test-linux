@@ -3,8 +3,7 @@
 
 int main(int argc, char *argv[])
 {
-	int i = 97, j = 99, id;
-	int sum = 0;
+	int i = 97, j = 99;
 
 	#pragma omp parallel for firstprivate(i) num_threads(6)
 	for (j = 0; j < 5; j++) {

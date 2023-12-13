@@ -6,8 +6,6 @@
 
 int main(int argc, char *argv[])
 {
-	int sum = 0, i;
-
 	#ifdef _OPENMP
 	omp_set_num_threads(5);
 	omp_set_nested(1);

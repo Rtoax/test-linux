@@ -7,7 +7,7 @@
 
 int main(int argc, char *argv[])
 {
-	int i, j, id;
+	int i;
 	int max = 0, a[] = {1,2,3,4,5,6,4,3,2,1,2,7,9,5,3,2,4,5,7,6,5,2,3,5,7,5};
 
 	omp_set_num_threads(10);
