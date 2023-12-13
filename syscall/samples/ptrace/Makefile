@@ -1,7 +1,9 @@
 
 TARGETS :=
+TARGETS += PTRACE_GETREGS
 TARGETS += ptrace-breakpoint
 TARGETS += ptrace-strace
+
 
 DEBUG = yes
 SRC_PATH := $(shell pwd)
@@ -21,6 +23,7 @@ build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
 # Add more object.o file
+PTRACE_GETREGS: PTRACE_GETREGS.o helpers.o
 ptrace-breakpoint: ptrace-breakpoint.o
 ptrace-strace: ptrace-strace.o
 
