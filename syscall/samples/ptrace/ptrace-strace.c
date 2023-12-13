@@ -40,6 +40,8 @@ int main(void)
 				printf("SYS_write call return %lld\n", regs.rax);
 				iscalling = 0;
 			}
+		} else {
+			printf("syscall: orig_rax = %ld()\n", orig_rax);
 		}
 		/**
 		 * 使暂停的子进程继续执行，并在子进程下次进行系统调用前或系统调
