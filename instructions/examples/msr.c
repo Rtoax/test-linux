@@ -51,6 +51,9 @@ int main(void)
 	val = GET_REG("ID_AA64MMFR0_EL1");
 	val = GET_REG("ID_AA64MMFR1_EL1");
 	val = GET_REG("ID_AA64PFR0_EL1");
+	printf("ID_AA64PFR0_EL1.EL0:\t0x%" PRIX64 "\n", val & 0xF);
+	printf("ID_AA64PFR0_EL1.EL1:\t0x%" PRIX64 "\n", (val >> 4) & 0xF);
+	printf("ID_AA64PFR0_EL1.EL2:\t0x%" PRIX64 "\n", (val >> 8) & 0xF);
 	printf("ID_AA64PFR0_EL1.SVE:\t0x%" PRIX64 "\n", (val >> 32) & 0xF);
 	val = GET_REG("ID_AA64PFR1_EL1");
 	val = GET_REG("ID_AA64DFR0_EL1");
