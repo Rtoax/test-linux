@@ -20,4 +20,5 @@ int main(int argc, char *argv[])
 			printf("   size: i = %2d, id = %2d\n",i,omp_get_thread_num());
 		}
 	}
+	return 0;
 }

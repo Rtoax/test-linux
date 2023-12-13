@@ -13,4 +13,5 @@ int main(int argc, char *argv[])
 		printf("j = %d, id = %d, sum = %d\n", j, omp_get_thread_num(), sum);
 	}
 	printf("sum = %d\n",sum);
+	return 0;
 }

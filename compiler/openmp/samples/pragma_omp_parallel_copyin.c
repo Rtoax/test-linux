@@ -3,7 +3,6 @@
 
 
 int global = 0;
-
 #pragma omp threadprivate(global)
 
 int main(void)
@@ -20,4 +19,5 @@ int main(void)
 	for (i = 0; i < 5; i++) {
 		printf("#Again: global = %d\n", global);
 	}
+	return 0;
 }

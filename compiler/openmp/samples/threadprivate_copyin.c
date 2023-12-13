@@ -23,4 +23,5 @@ int main(int argc, char *argv[])
 	for (j = 0; j < 5; j++) {
 		printf("--m = %d\n",m);
 	}
+	return 0;
 }

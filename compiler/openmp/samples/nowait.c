@@ -21,4 +21,5 @@ int main(int argc, char *argv[])
 		for (j = 0; j < 8; j++)
 			printf(" after: j = %d, id = %d/%d\n",j,omp_get_thread_num(),omp_get_num_threads());
 	}
+	return 0;
 }

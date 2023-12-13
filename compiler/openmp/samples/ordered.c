@@ -19,4 +19,5 @@ int main(int argc, char *argv[])
 			printf("+++: j = %d, id = %d\n",j,omp_get_thread_num());
 		}
 	}
+	return 0;
 }

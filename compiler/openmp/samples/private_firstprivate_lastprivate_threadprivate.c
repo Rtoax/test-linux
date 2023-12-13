@@ -85,4 +85,5 @@ int main(void)
 		printf("i = %2d, count = %2d, id = %2d/%2d\n",i,count,omp_get_thread_num(), omp_get_num_threads());
 	}
 	printf("O: i = %2d, count = %2d, id = %2d/%2d\n",i,count,omp_get_thread_num(), omp_get_num_threads());
+	return 0;
 }

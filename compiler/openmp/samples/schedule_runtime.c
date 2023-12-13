@@ -19,4 +19,5 @@ int main(int argc, char *argv[])
 		#pragma omp single
 		printf("\n");
 	}
+	return 0;
 }

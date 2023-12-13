@@ -35,4 +35,5 @@ int main(int argc, char *argv[])
 		}
 		printf("----m = %d\n",m);
 	}
+	return 0;
 }

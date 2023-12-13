@@ -15,4 +15,5 @@ int main(void)
 		printf("count = %d\n", count++);
 		omp_unset_nest_lock(&lock);
 	}
+	return 0;
 }

@@ -14,4 +14,5 @@ int main(void)
 		}
 	}
 	printf("count = %d\n",count);
+	return 0;
 }

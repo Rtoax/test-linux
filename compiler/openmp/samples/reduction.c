@@ -14,4 +14,5 @@ int main(int argc, char *argv[])
 		printf("sum = %d\n",sum);
 	}
 	printf("sum = %d\n",sum);
+	return 0;
 }

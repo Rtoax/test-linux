@@ -11,4 +11,5 @@ int main(void)
 		printf("count = %d\n", count++);
 		#pragma omp barrier
 	}
+	return 0;
 }

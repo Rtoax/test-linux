@@ -41,4 +41,5 @@ int main(int argc, char *argv[])
 			printf("section24, id = %2d\n",omp_get_thread_num());
 		}
 	}
+	return 0;
 }

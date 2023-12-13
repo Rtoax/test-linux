@@ -23,4 +23,5 @@ int main(int argc, char *argv[])
 		#pragma omp single
 		printf("section14, id = %2d\n",omp_get_thread_num());
 	}
+	return 0;
 }

@@ -32,5 +32,5 @@ int main(int argc, char *argv[])
 
 	omp_destroy_lock(&lock);
 
-
+	return 0;
 }

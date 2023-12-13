@@ -22,5 +22,6 @@ int main(int argc, char *argv[])
 			printf(" a[%d] = %d, j = %d, id = %d/%d\n",
 				j, a[j],j,omp_get_thread_num(),omp_get_num_threads());
 	}
+	return 0;
 }
 

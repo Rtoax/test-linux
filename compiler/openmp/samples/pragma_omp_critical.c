@@ -21,4 +21,5 @@ int main(void)
 		printf("i = %d, sum = %d\n",i,sum2);
 	}
 	printf("i = %d, sum = %d\n",i,sum2);
+	return 0;
 }

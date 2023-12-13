@@ -32,4 +32,5 @@ int main(int argc, char *argv[])
 	int n = 10;
 	int *a = malloc(sizeof(int)*n);
 	funca(a,n);
+	return 0;
 }

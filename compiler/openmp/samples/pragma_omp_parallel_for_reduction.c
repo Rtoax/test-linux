@@ -82,4 +82,5 @@ int main(void)
 			printf("id = %d\n",omp_get_thread_num());
 		}
 	}
+	return 0;
 }

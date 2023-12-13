@@ -4,14 +4,13 @@
 #endif
 
 
-int main(int argc, char *argv[]){
-
+int main(int argc, char *argv[])
+{
 #ifdef _OPENMP
 	omp_set_num_threads(10);
 	#pragma omp parallel num_threads(3)
 #endif
 	{
-
 		printf("hello world\n");
 	}
 	int j;
@@ -29,4 +28,5 @@ int main(int argc, char *argv[]){
 		}
 	}
 #endif
+	return 0;
 }

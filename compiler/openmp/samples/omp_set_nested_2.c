@@ -43,4 +43,5 @@ int main(int argc, char *argv[])
 		}
 		printf("loop3: id = %d, a = %d, c = %d\n", omp_get_thread_num(), a, c);
 	}
+	return 0;
 }
