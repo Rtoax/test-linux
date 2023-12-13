@@ -79,6 +79,20 @@ void u8_sve_X_x_Y(uint8_t *x, uint8_t *y, uint8_t a, size_t n)
 	}
 }
 
+void double_sve_X_x_Y(double *x, double *y, double a, size_t n)
+{
+	size_t i;
+	size_t vl = svcntb();
+	for (i = 0; i < n; i += vl / sizeof(double)) {
+		/* or use svptrue_b64(); */
+		svbool_t predicate = svwhilelt_b64(i, n);
+		svfloat64_t xi = svld1_f64(predicate, x + i);
+		svfloat64_t yi = svld1_f64(predicate, y + i);
+		svfloat64_t mul = svmul_z(predicate, xi, yi);
+		svst1_f64(predicate, y + i, mul);
+	}
+}
+
 #define init_arr(type, array, n) do {	\
 	size_t i;	\
 	type *arr = array;	\
@@ -93,6 +107,7 @@ void u8_sve_X_x_Y(uint8_t *x, uint8_t *y, uint8_t a, size_t n)
 	type *___y = y;	\
 	for (___i = 0; ___i < n; ___i++)	\
 		if (___x[___i] != ___y[___i]) {	\
+			fprintf(stderr, "F:%ld\n", ___i);	\
 			__ret = 1;	\
 			break;	\
 		}	\
@@ -119,13 +134,18 @@ struct test tests_u8[] = {
 
 struct test tests_double[] = {
 	{
-		.name = "   C: y[i] = x[i] * y[i]",
+		.name = "   C: y[i] = x[i] * y[i] (f64)",
 		.fn_double = double_c_X_x_Y,
 		.spent_us = 0,
 	},
 	{
-		.name = "Neon: y[i] = x[i] * y[i]",
+		.name = "Neon: y[i] = x[i] * y[i] (f64)",
 		.fn_double = double_neon_X_x_Y,
+		.spent_us = 0,
+	},
+	{
+		.name = " Sve: y[i] = x[i] * y[i] (f64)",
+		.fn_double = double_sve_X_x_Y,
 		.spent_us = 0,
 	},
 };
