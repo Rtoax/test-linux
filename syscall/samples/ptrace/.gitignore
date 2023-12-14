@@ -1,3 +1,4 @@
 /PTRACE_GETREGS
+/PTRACE_PEEKTEXT
 /ptrace-breakpoint
 /ptrace-strace

@@ -1,6 +1,7 @@
 
 TARGETS :=
 TARGETS += PTRACE_GETREGS
+TARGETS += PTRACE_PEEKTEXT
 TARGETS += ptrace-breakpoint
 TARGETS += ptrace-strace
 
@@ -24,6 +25,7 @@ build: ${TARGETS}
 
 # Add more object.o file
 PTRACE_GETREGS: PTRACE_GETREGS.o helpers.o
+PTRACE_PEEKTEXT: PTRACE_PEEKTEXT.o
 ptrace-breakpoint: ptrace-breakpoint.o
 ptrace-strace: ptrace-strace.o
 
