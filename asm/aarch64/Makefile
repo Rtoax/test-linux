@@ -19,6 +19,14 @@ ifneq ($(shell uname -m),aarch64)
 	RUN_PFX = qemu-aarch64
 endif
 
+DYNAMIC_LINKER =
+ifneq ($(wildcard /lib/ld-linux-aarch64.so.1),)
+DYNAMIC_LINKER = /lib/ld-linux-aarch64.so.1
+endif
+ifneq ($(wildcard /lib64/ld-linux-aarch64.so.1),)
+DYNAMIC_LINKER = /lib64/ld-linux-aarch64.so.1
+endif
+
 .PHONY: build
 build: $(TARGETS)
 	@echo
@@ -40,7 +48,7 @@ daxpy: daxpy.o daxpy-c.co
 
 $(TARGETS): %.o:
 	@echo -e "Target ld \033[1;32m$(@)\033[m"
-	$(LD) -o $(@) $(^)
+	$(LD) -o $(@) $(^) -lc -I ${DYNAMIC_LINKER}
 
 test: $(TARGETS)
 	@echo -e "Test   \033[1;32m$(@)\033[m"

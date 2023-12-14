@@ -2,5 +2,5 @@
 .global _start
 
 _start:
-	mov     r0, #511
-	bkpt
+	mov     x0, #511
+	ret

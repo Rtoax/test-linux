@@ -1,8 +1,7 @@
-.section .text
+.text
 .global _start
-
 _start:
-	mov r0, pc
-	mov r1, #2
-	add r2, r1, r1
-	bkpt
+	mov x0, #1
+	mov x1, #2
+	add x2, x1, x1
+	ret
