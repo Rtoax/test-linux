@@ -1,3 +1,4 @@
+CC = gcc
 AS = as
 LD = ld
 RUN_PFX =
@@ -8,6 +9,7 @@ TARGETS += hello-stack
 
 ifneq ($(shell lscpu | grep -w -e sve -e sve2),)
 	TARGETS += hello_sve
+	TARGETS += daxpy
 	AS_ARGS := -march=armv8-a+sve2
 endif
 
@@ -26,10 +28,15 @@ build: $(TARGETS)
 hello: hello.o
 hello-stack: hello-stack.o
 hello_sve: hello_sve.o
+daxpy: daxpy.o daxpy-c.co
 
 %.o: %.asm
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	$(AS) $(<) -o $(@) $(AS_ARGS)
+
+%.co: %.c
+	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
+	$(CC) $(<) -c -o $(@) $(CFLAGS)
 
 $(TARGETS): %.o:
 	@echo -e "Target ld \033[1;32m$(@)\033[m"
@@ -42,4 +49,4 @@ test: $(TARGETS)
 .PHONY: clean
 clean:
 	@echo -e "Clean   \033[1;32m$(@)\033[m"
-	@rm -f ${TARGETS} *.o *.d core.*
+	@rm -f ${TARGETS} *.o *.d core.* *.co

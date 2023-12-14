@@ -1,3 +1,5 @@
 /hello
 /hello-stack
 /hello_sve
+/daxpy
+/*.co
