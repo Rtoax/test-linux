@@ -78,6 +78,15 @@ void double_c_X_x_Y(void *_x, void *_y, size_t n)
 		y[i] = x[i] * y[i];
 }
 
+void double_c_X_add_Y(void *_x, void *_y, size_t n)
+{
+	size_t i;
+	double *x = _x;
+	double *y = _y;
+	for (i = 0; i < n; i++)
+		y[i] = x[i] + y[i];
+}
+
 void float_c_X_x_Y(void *_x, void *_y, size_t n)
 {
 	size_t i;
@@ -85,6 +94,15 @@ void float_c_X_x_Y(void *_x, void *_y, size_t n)
 	float *y = _y;
 	for (i = 0; i < n; i++)
 		y[i] = x[i] * y[i];
+}
+
+void float_c_X_add_Y(void *_x, void *_y, size_t n)
+{
+	size_t i;
+	float *x = _x;
+	float *y = _y;
+	for (i = 0; i < n; i++)
+		y[i] = x[i] + y[i];
 }
 
 void u8_c_X_x_Y(void *_x, void *_y, size_t n)
@@ -127,6 +145,19 @@ void double_neon_X_x_Y(void *_x, void *_y, size_t n)
 	}
 }
 
+void double_neon_X_add_Y(void *_x, void *_y, size_t n)
+{
+	size_t i;
+	double *x = _x;
+	double *y = _y;
+	for (i = 0; i < n; i += 2) {
+		float64x2_t xi = vld1q_f64(&x[i]);
+		float64x2_t yi = vld1q_f64(&y[i]);
+		float64x2_t add = vaddq_f64(xi, yi);
+		vst1q_f64(&y[i], add);
+	}
+}
+
 void float_neon_X_x_Y(void *_x, void *_y, size_t n)
 {
 	size_t i;
@@ -137,6 +168,19 @@ void float_neon_X_x_Y(void *_x, void *_y, size_t n)
 		float32x4_t yi = vld1q_f32(&y[i]);
 		float32x4_t sum = vmulq_f32(xi, yi);
 		vst1q_f32(&y[i], sum);
+	}
+}
+
+void float_neon_X_add_Y(void *_x, void *_y, size_t n)
+{
+	size_t i;
+	float *x = _x;
+	float *y = _y;
+	for (i = 0; i < n; i += 4) {
+		float32x4_t xi = vld1q_f32(&x[i]);
+		float32x4_t yi = vld1q_f32(&y[i]);
+		float32x4_t add = vaddq_f32(xi, yi);
+		vst1q_f32(&y[i], add);
 	}
 }
 
@@ -271,6 +315,24 @@ void double_sve_X_x_Y(void *_x, void *_y, size_t n)
 	}
 }
 
+void double_sve_X_add_Y(void *_x, void *_y, size_t n)
+{
+	size_t i;
+	double *x = _x;
+	double *y = _y;
+	size_t vl = svcntb();
+	printf("SVE lane %ld\n", vl);
+
+	for (i = 0; i < n; i += vl / sizeof(double)) {
+		/* or use svptrue_b64(); */
+		svbool_t predicate = svwhilelt_b64(i, n);
+		svfloat64_t xi = svld1_f64(predicate, x + i);
+		svfloat64_t yi = svld1_f64(predicate, y + i);
+		svfloat64_t add = svadd_z(predicate, xi, yi);
+		svst1_f64(predicate, y + i, add);
+	}
+}
+
 void float_sve_X_x_Y(void *_x, void *_y, size_t n)
 {
 	size_t i;
@@ -288,14 +350,34 @@ void float_sve_X_x_Y(void *_x, void *_y, size_t n)
 		svst1_f32(predicate, y + i, mul);
 	}
 }
+
+void float_sve_X_add_Y(void *_x, void *_y, size_t n)
+{
+	size_t i;
+	float *x = _x;
+	float *y = _y;
+	size_t vl = svcntb();
+	printf("SVE lane %ld\n", vl);
+
+	for (i = 0; i < n; i += vl / sizeof(float)) {
+		/* or use svptrue_b64(); */
+		svbool_t predicate = svwhilelt_b32(i, n);
+		svfloat32_t xi = svld1_f32(predicate, x + i);
+		svfloat32_t yi = svld1_f32(predicate, y + i);
+		svfloat32_t add = svadd_z(predicate, xi, yi);
+		svst1_f32(predicate, y + i, add);
+	}
+}
 #endif
 
 enum {
 	T_BASE_U8_MUL,
 	T_BASE_U8_ADD,
 	T_BASE_U16,
-	T_BASE_F32,
-	T_BASE_F64,
+	T_BASE_F32_MUL,
+	T_BASE_F32_ADD,
+	T_BASE_F64_MUL,
+	T_BASE_F64_ADD,
 };
 
 struct test tests[] = {
@@ -326,7 +408,7 @@ struct test tests[] = {
 		.spent_us = 0,
 		.cmp_with = NULL,
 	},
-	[T_BASE_F32] = {
+	[T_BASE_F32_MUL] = {
 		.name = "   C: y[i] = x[i] * y[i] (f32)",
 		.fn = float_c_X_x_Y,
 		.init = init_arr_f32,
@@ -335,9 +417,27 @@ struct test tests[] = {
 		.spent_us = 0,
 		.cmp_with = NULL,
 	},
-	[T_BASE_F64] = {
+	[T_BASE_F32_ADD] = {
+		.name = "   C: y[i] = x[i] + y[i] (f32)",
+		.fn = float_c_X_add_Y,
+		.init = init_arr_f32,
+		.cmp = cmp_arr_f32,
+		.elem_size = sizeof(float),
+		.spent_us = 0,
+		.cmp_with = NULL,
+	},
+	[T_BASE_F64_MUL] = {
 		.name = "   C: y[i] = x[i] * y[i] (f64)",
 		.fn = double_c_X_x_Y,
+		.init = init_arr_f64,
+		.cmp = cmp_arr_f64,
+		.elem_size = sizeof(double),
+		.spent_us = 0,
+		.cmp_with = NULL,
+	},
+	[T_BASE_F64_ADD] = {
+		.name = "   C: y[i] = x[i] + y[i] (f64)",
+		.fn = double_c_X_add_Y,
 		.init = init_arr_f64,
 		.cmp = cmp_arr_f64,
 		.elem_size = sizeof(double),
@@ -405,7 +505,16 @@ struct test tests[] = {
 		.cmp = cmp_arr_f32,
 		.elem_size = sizeof(float),
 		.spent_us = 0,
-		.cmp_with = &tests[T_BASE_F32],
+		.cmp_with = &tests[T_BASE_F32_MUL],
+	},
+	{
+		.name = "Neon: y[i] = x[i] + y[i] (f32)",
+		.fn = float_neon_X_add_Y,
+		.init = init_arr_f32,
+		.cmp = cmp_arr_f32,
+		.elem_size = sizeof(float),
+		.spent_us = 0,
+		.cmp_with = &tests[T_BASE_F32_ADD],
 	},
 	{
 		.name = "Neon: y[i] = x[i] * y[i] (f64)",
@@ -414,7 +523,16 @@ struct test tests[] = {
 		.cmp = cmp_arr_f64,
 		.elem_size = sizeof(double),
 		.spent_us = 0,
-		.cmp_with = &tests[T_BASE_F64],
+		.cmp_with = &tests[T_BASE_F64_MUL],
+	},
+	{
+		.name = "Neon: y[i] = x[i] + y[i] (f64)",
+		.fn = double_neon_X_add_Y,
+		.init = init_arr_f64,
+		.cmp = cmp_arr_f64,
+		.elem_size = sizeof(double),
+		.spent_us = 0,
+		.cmp_with = &tests[T_BASE_F64_ADD],
 	},
 #if !defined(CONFIG_NO_SVE)
 	{
@@ -442,7 +560,16 @@ struct test tests[] = {
 		.cmp = cmp_arr_f32,
 		.elem_size = sizeof(float),
 		.spent_us = 0,
-		.cmp_with = &tests[T_BASE_F32],
+		.cmp_with = &tests[T_BASE_F32_MUL],
+	},
+	{
+		.name = " Sve: y[i] = x[i] + y[i] (f32)",
+		.fn = float_sve_X_add_Y,
+		.init = init_arr_f32,
+		.cmp = cmp_arr_f32,
+		.elem_size = sizeof(float),
+		.spent_us = 0,
+		.cmp_with = &tests[T_BASE_F32_ADD],
 	},
 	{
 		.name = " Sve: y[i] = x[i] * y[i] (f64)",
@@ -451,7 +578,16 @@ struct test tests[] = {
 		.cmp = cmp_arr_f64,
 		.elem_size = sizeof(double),
 		.spent_us = 0,
-		.cmp_with = &tests[T_BASE_F64],
+		.cmp_with = &tests[T_BASE_F64_MUL],
+	},
+	{
+		.name = " Sve: y[i] = x[i] + y[i] (f64)",
+		.fn = double_sve_X_add_Y,
+		.init = init_arr_f64,
+		.cmp = cmp_arr_f64,
+		.elem_size = sizeof(double),
+		.spent_us = 0,
+		.cmp_with = &tests[T_BASE_F64_ADD],
 	},
 #endif
 };
