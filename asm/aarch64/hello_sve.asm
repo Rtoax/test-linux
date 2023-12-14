@@ -1,22 +1,23 @@
-.section .data
+.data
+msg:
+	.ascii        "Hello, SVE!\n"
+	len = . - msg
 
-.align  3
-print_hello_sve:
-    .string "hello sve\n"
+.text
+.globl _start
+_start:
+	/* syscall write(int fd, const void *buf, size_t count) */
+	mov     x0, #1      /* fd := STDOUT_FILENO */
+	ldr     x1, =msg    /* buf := msg */
+	ldr     x2, =len    /* count := len */
+	mov     w8, #64     /* write is syscall #64 */
+	svc     #0          /* invoke syscall */
 
-.section .text
-.globl main
-main:
-    stp     x29, x30, [sp, -16]!
+	/* Only SVE has setffr insn */
+	setffr
 
-    mov x2, #4
-    whilelo p0.s, xzr, x2
-    mov z0.s, p0/z, #0x55
-
-    adrp x0, print_hello_sve
-    add x0, x0, :lo12:print_hello_sve
-    bl printf
-
-    mov x0, #0
-    ldp  x29, x30, [sp], 16
-    ret
+	/* syscall exit(int status) */
+	mov     x0, #0      /* status := 0 */
+	mov     w8, #93     /* exit is syscall #93 */
+	svc     #0          /* invoke syscall */
+	ret
