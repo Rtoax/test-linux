@@ -168,6 +168,24 @@ void double_sve_X_x_Y(void *_x, void *_y, size_t n)
 		svst1_f64(predicate, y + i, mul);
 	}
 }
+
+void float_sve_X_x_Y(void *_x, void *_y, size_t n)
+{
+	size_t i;
+	float *x = _x;
+	float *y = _y;
+	size_t vl = svcntb();
+	printf("SVE lane %ld\n", vl);
+
+	for (i = 0; i < n; i += vl / sizeof(float)) {
+		/* or use svptrue_b64(); */
+		svbool_t predicate = svwhilelt_b32(i, n);
+		svfloat32_t xi = svld1_f32(predicate, x + i);
+		svfloat32_t yi = svld1_f32(predicate, y + i);
+		svfloat32_t mul = svmul_z(predicate, xi, yi);
+		svst1_f32(predicate, y + i, mul);
+	}
+}
 #endif
 
 struct test tests[] = {
@@ -243,6 +261,15 @@ struct test tests[] = {
 		.elem_size = sizeof(double),
 		.spent_us = 0,
 		.cmp_with = &tests[1],
+	},
+	{
+		.name = " Sve: y[i] = x[i] * y[i] (f32)",
+		.fn = float_sve_X_x_Y,
+		.init = init_arr_f32,
+		.cmp = cmp_arr_f32,
+		.elem_size = sizeof(float),
+		.spent_us = 0,
+		.cmp_with = &tests[2],
 	},
 #endif
 };
