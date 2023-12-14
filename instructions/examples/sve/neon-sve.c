@@ -131,7 +131,7 @@ void float_neon_X_x_Y(void *_x, void *_y, size_t n)
 	}
 }
 
-void u8_neon_X_x_Y(void *_x, void *_y, size_t n)
+void u8_64_neon_X_x_Y(void *_x, void *_y, size_t n)
 {
 	size_t i;
 	uint8_t *x = _x;
@@ -141,6 +141,19 @@ void u8_neon_X_x_Y(void *_x, void *_y, size_t n)
 		uint8x8_t yi = vld1_u8(y + i);
 		uint8x8_t mul = vmul_u8(xi, yi);
 		vst1_u8(&y[i], mul);
+	}
+}
+
+void u8_128_neon_X_x_Y(void *_x, void *_y, size_t n)
+{
+	size_t i;
+	uint8_t *x = _x;
+	uint8_t *y = _y;
+	for (i = 0; i < n; i += 16) {
+		uint8x16_t xi = vld1q_u8(x + i);
+		uint8x16_t yi = vld1q_u8(y + i);
+		uint8x16_t mul = vmulq_u8(xi, yi);
+		vst1q_u8(&y[i], mul);
 	}
 }
 
@@ -244,8 +257,17 @@ struct test tests[] = {
 		.cmp_with = NULL,
 	},
 	{
-		.name = "Neon: y[i] = x[i] * y[i] (u8)",
-		.fn = u8_neon_X_x_Y,
+		.name = "Neon: y[i] = x[i] * y[i] (u8) lane=128",
+		.fn = u8_128_neon_X_x_Y,
+		.init = init_arr_u8,
+		.cmp = cmp_arr_u8,
+		.elem_size = sizeof(uint8_t),
+		.spent_us = 0,
+		.cmp_with = &tests[T_BASE_U8],
+	},
+	{
+		.name = "Neon: y[i] = x[i] * y[i] (u8) lane=64",
+		.fn = u8_64_neon_X_x_Y,
 		.init = init_arr_u8,
 		.cmp = cmp_arr_u8,
 		.elem_size = sizeof(uint8_t),
