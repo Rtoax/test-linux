@@ -36,9 +36,11 @@ void funcname(void *array, size_t n) {	\
 }
 
 DEFINE_CMP_FUNC(cmp_arr_u8, uint8_t)
+DEFINE_CMP_FUNC(cmp_arr_f32, double)
 DEFINE_CMP_FUNC(cmp_arr_f64, double)
 
 DEFINE_INIT_FUNC(init_arr_u8, uint8_t)
+DEFINE_INIT_FUNC(init_arr_f32, double)
 DEFINE_INIT_FUNC(init_arr_f64, double)
 
 typedef void (*test_fn_t)(void *x, void *y, size_t n);
@@ -70,6 +72,15 @@ void double_c_X_x_Y(void *_x, void *_y, size_t n)
 	size_t i;
 	double *x = _x;
 	double *y = _y;
+	for (i = 0; i < n; i++)
+		y[i] = x[i] * y[i];
+}
+
+void float_c_X_x_Y(void *_x, void *_y, size_t n)
+{
+	size_t i;
+	float *x = _x;
+	float *y = _y;
 	for (i = 0; i < n; i++)
 		y[i] = x[i] * y[i];
 }
@@ -161,6 +172,15 @@ struct test tests[] = {
 		.fn = double_c_X_x_Y,
 		.init = init_arr_f64,
 		.cmp = cmp_arr_f64,
+		.elem_size = sizeof(double),
+		.spent_us = 0,
+		.cmp_with = NULL,
+	},
+	[2] = {
+		.name = "   C: y[i] = x[i] * y[i] (f32)",
+		.fn = double_c_X_x_Y,
+		.init = init_arr_f32,
+		.cmp = cmp_arr_f32,
 		.elem_size = sizeof(double),
 		.spent_us = 0,
 		.cmp_with = NULL,
