@@ -36,11 +36,11 @@ void funcname(void *array, size_t n) {	\
 }
 
 DEFINE_CMP_FUNC(cmp_arr_u8, uint8_t)
-DEFINE_CMP_FUNC(cmp_arr_f32, double)
+DEFINE_CMP_FUNC(cmp_arr_f32, float)
 DEFINE_CMP_FUNC(cmp_arr_f64, double)
 
 DEFINE_INIT_FUNC(init_arr_u8, uint8_t)
-DEFINE_INIT_FUNC(init_arr_f32, double)
+DEFINE_INIT_FUNC(init_arr_f32, float)
 DEFINE_INIT_FUNC(init_arr_f64, double)
 
 typedef void (*test_fn_t)(void *x, void *y, size_t n);
@@ -104,6 +104,19 @@ void double_neon_X_x_Y(void *_x, void *_y, size_t n)
 		float64x2_t yi = vld1q_f64(&y[i]);
 		float64x2_t sum = vmulq_f64(xi, yi);
 		vst1q_f64(&y[i], sum);
+	}
+}
+
+void float_neon_X_x_Y(void *_x, void *_y, size_t n)
+{
+	size_t i;
+	float *x = _x;
+	float *y = _y;
+	for (i = 0; i < n; i += 4) {
+		float32x4_t xi = vld1q_f32(&x[i]);
+		float32x4_t yi = vld1q_f32(&y[i]);
+		float32x4_t sum = vmulq_f32(xi, yi);
+		vst1q_f32(&y[i], sum);
 	}
 }
 
@@ -178,10 +191,10 @@ struct test tests[] = {
 	},
 	[2] = {
 		.name = "   C: y[i] = x[i] * y[i] (f32)",
-		.fn = double_c_X_x_Y,
+		.fn = float_c_X_x_Y,
 		.init = init_arr_f32,
 		.cmp = cmp_arr_f32,
-		.elem_size = sizeof(double),
+		.elem_size = sizeof(float),
 		.spent_us = 0,
 		.cmp_with = NULL,
 	},
@@ -202,6 +215,15 @@ struct test tests[] = {
 		.elem_size = sizeof(double),
 		.spent_us = 0,
 		.cmp_with = &tests[1],
+	},
+	{
+		.name = "Neon: y[i] = x[i] * y[i] (f32)",
+		.fn = float_neon_X_x_Y,
+		.init = init_arr_f32,
+		.cmp = cmp_arr_f32,
+		.elem_size = sizeof(float),
+		.spent_us = 0,
+		.cmp_with = &tests[2],
 	},
 #if !defined(CONFIG_NO_SVE)
 	{
