@@ -10,8 +10,8 @@
 
 #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof(arr[0]))
 
-typedef void (*test_u8_fn_t)(uint8_t *x, uint8_t *y, uint8_t a, size_t n);
-typedef void (*test_fn_t)(double *x, double *y, double a, size_t n);
+typedef void (*test_u8_fn_t)(uint8_t *x, uint8_t *y, size_t n);
+typedef void (*test_fn_t)(double *x, double *y, size_t n);
 
 struct test {
 	const char *name;
@@ -32,21 +32,21 @@ static inline unsigned long usecs(void)
 	return tv.tv_sec * 1000000UL + tv.tv_usec;
 }
 
-void double_c_X_x_Y(double *x, double *y, double a, size_t n)
+void double_c_X_x_Y(double *x, double *y, size_t n)
 {
 	size_t i;
 	for (i = 0; i < n; i++)
 		y[i] = x[i] * y[i];
 }
 
-void u8_c_X_x_Y(uint8_t *x, uint8_t *y, uint8_t a, size_t n)
+void u8_c_X_x_Y(uint8_t *x, uint8_t *y, size_t n)
 {
 	size_t i;
 	for (i = 0; i < n; i++)
 		y[i] = x[i] * y[i];
 }
 
-void double_neon_X_x_Y(double *x, double *y, double a, size_t n)
+void double_neon_X_x_Y(double *x, double *y, size_t n)
 {
 	size_t i;
 	for (i = 0; i < n; i += 2) {
@@ -57,7 +57,7 @@ void double_neon_X_x_Y(double *x, double *y, double a, size_t n)
 	}
 }
 
-void u8_neon_X_x_Y(uint8_t *x, uint8_t *y, uint8_t a, size_t n)
+void u8_neon_X_x_Y(uint8_t *x, uint8_t *y, size_t n)
 {
 	size_t i;
 	for (i = 0; i < n; i += 8) {
@@ -69,7 +69,7 @@ void u8_neon_X_x_Y(uint8_t *x, uint8_t *y, uint8_t a, size_t n)
 }
 
 #if !defined(CONFIG_NO_SVE)
-void u8_sve_X_x_Y(uint8_t *x, uint8_t *y, uint8_t a, size_t n)
+void u8_sve_X_x_Y(uint8_t *x, uint8_t *y, size_t n)
 {
 	size_t i;
 	size_t vl = svcntb();
@@ -84,7 +84,7 @@ void u8_sve_X_x_Y(uint8_t *x, uint8_t *y, uint8_t a, size_t n)
 	}
 }
 
-void double_sve_X_x_Y(double *x, double *y, double a, size_t n)
+void double_sve_X_x_Y(double *x, double *y, size_t n)
 {
 	size_t i;
 	size_t vl = svcntb();
@@ -166,7 +166,6 @@ int main(int argc, char *argv[])
 {
 	int i;
 	size_t n = 10000000;
-	double a = 1.1;
 
 	struct test *t_double_base = &tests_double[0];
 	struct test *t_u8_base = &tests_u8[0];
@@ -184,7 +183,7 @@ int main(int argc, char *argv[])
 		init_arr(double, t->y, n);
 
 		start = usecs();
-		t->fn_double(t->x, t->y, a, n);
+		t->fn_double(t->x, t->y, n);
 		t->spent_us = usecs() - start;
 
 		if (i != 0)
@@ -205,7 +204,7 @@ int main(int argc, char *argv[])
 		init_arr(uint8_t, t->y, n);
 
 		start = usecs();
-		t->fn_u8(t->x, t->y, a, n);
+		t->fn_u8(t->x, t->y, n);
 		t->spent_us = usecs() - start;
 
 		if (i != 0)
