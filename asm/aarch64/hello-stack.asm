@@ -15,14 +15,14 @@ _start:
 	strb	w0, [sp, #19]
 	mov	w0, #0x6f                  	// #111
 	strb	w0, [sp, #20]
-	mov	w0, #0xa                   	// #10
+	mov	w0, #0xa                   	// #10 '\n'
 	strb	w0, [sp, #21]
 	add	x0, sp, #0x10
 	str	x0, [sp, #24]
 
 	mov     x0, #1      /* fd := STDOUT_FILENO */
 	ldr     x1, [sp, #24]    /* buf := msg */
-	ldr     x2, #0x8    /* count := len */
+	mov     x2, #0x8    /* count := len */
 	mov     w8, #64     /* write is syscall #64 */
 	svc     #0          /* invoke syscall */
 
