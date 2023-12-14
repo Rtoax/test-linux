@@ -236,6 +236,23 @@ void u8_sve_X_x_Y(void *_x, void *_y, size_t n)
 	}
 }
 
+void u8_sve_X_add_Y(void *_x, void *_y, size_t n)
+{
+	size_t i;
+	uint8_t *x = _x;
+	uint8_t *y = _y;
+	size_t vl = svcntb();
+	printf("SVE lane %ld\n", vl);
+
+	for (i = 0; i < n; i += vl) {
+		svbool_t predicate = svwhilelt_b8(i, n);
+		svuint8_t xi = svld1_u8(predicate, x + i);
+		svuint8_t yi = svld1_u8(predicate, y + i);
+		svuint8_t mul = svadd_z(predicate, xi, yi);
+		svst1_u8(predicate, y + i, mul);
+	}
+}
+
 void double_sve_X_x_Y(void *_x, void *_y, size_t n)
 {
 	size_t i;
@@ -408,6 +425,15 @@ struct test tests[] = {
 		.elem_size = sizeof(uint8_t),
 		.spent_us = 0,
 		.cmp_with = &tests[T_BASE_U8_MUL],
+	},
+	{
+		.name = " Sve: y[i] = x[i] + y[i] (u8)",
+		.fn = u8_sve_X_add_Y,
+		.init = init_arr_u8,
+		.cmp = cmp_arr_u8,
+		.elem_size = sizeof(uint8_t),
+		.spent_us = 0,
+		.cmp_with = &tests[T_BASE_U8_ADD],
 	},
 	{
 		.name = " Sve: y[i] = x[i] * y[i] (f32)",
