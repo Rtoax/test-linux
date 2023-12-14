@@ -36,10 +36,12 @@ void funcname(void *array, size_t n) {	\
 }
 
 DEFINE_CMP_FUNC(cmp_arr_u8, uint8_t)
+DEFINE_CMP_FUNC(cmp_arr_u16, uint16_t)
 DEFINE_CMP_FUNC(cmp_arr_f32, float)
 DEFINE_CMP_FUNC(cmp_arr_f64, double)
 
 DEFINE_INIT_FUNC(init_arr_u8, uint8_t)
+DEFINE_INIT_FUNC(init_arr_u16, uint16_t)
 DEFINE_INIT_FUNC(init_arr_f32, float)
 DEFINE_INIT_FUNC(init_arr_f64, double)
 
@@ -90,6 +92,15 @@ void u8_c_X_x_Y(void *_x, void *_y, size_t n)
 	size_t i;
 	uint8_t *x = _x;
 	uint8_t *y = _y;
+	for (i = 0; i < n; i++)
+		y[i] = x[i] * y[i];
+}
+
+void u16_c_X_x_Y(void *_x, void *_y, size_t n)
+{
+	size_t i;
+	uint16_t *x = _x;
+	uint16_t *y = _y;
 	for (i = 0; i < n; i++)
 		y[i] = x[i] * y[i];
 }
@@ -188,8 +199,15 @@ void float_sve_X_x_Y(void *_x, void *_y, size_t n)
 }
 #endif
 
+enum {
+	T_BASE_U8,
+	T_BASE_U16,
+	T_BASE_F32,
+	T_BASE_F64,
+};
+
 struct test tests[] = {
-	[0] = {
+	[T_BASE_U8] = {
 		.name = "   C: y[i] = x[i] * y[i] (u8)",
 		.fn = u8_c_X_x_Y,
 		.init = init_arr_u8,
@@ -198,21 +216,30 @@ struct test tests[] = {
 		.spent_us = 0,
 		.cmp_with = NULL,
 	},
-	[1] = {
-		.name = "   C: y[i] = x[i] * y[i] (f64)",
-		.fn = double_c_X_x_Y,
-		.init = init_arr_f64,
-		.cmp = cmp_arr_f64,
-		.elem_size = sizeof(double),
+	[T_BASE_U16] = {
+		.name = "   C: y[i] = x[i] * y[i] (u16)",
+		.fn = u16_c_X_x_Y,
+		.init = init_arr_u16,
+		.cmp = cmp_arr_u16,
+		.elem_size = sizeof(uint16_t),
 		.spent_us = 0,
 		.cmp_with = NULL,
 	},
-	[2] = {
+	[T_BASE_F32] = {
 		.name = "   C: y[i] = x[i] * y[i] (f32)",
 		.fn = float_c_X_x_Y,
 		.init = init_arr_f32,
 		.cmp = cmp_arr_f32,
 		.elem_size = sizeof(float),
+		.spent_us = 0,
+		.cmp_with = NULL,
+	},
+	[T_BASE_F64] = {
+		.name = "   C: y[i] = x[i] * y[i] (f64)",
+		.fn = double_c_X_x_Y,
+		.init = init_arr_f64,
+		.cmp = cmp_arr_f64,
+		.elem_size = sizeof(double),
 		.spent_us = 0,
 		.cmp_with = NULL,
 	},
@@ -223,16 +250,7 @@ struct test tests[] = {
 		.cmp = cmp_arr_u8,
 		.elem_size = sizeof(uint8_t),
 		.spent_us = 0,
-		.cmp_with = &tests[0],
-	},
-	{
-		.name = "Neon: y[i] = x[i] * y[i] (f64)",
-		.fn = double_neon_X_x_Y,
-		.init = init_arr_f64,
-		.cmp = cmp_arr_f64,
-		.elem_size = sizeof(double),
-		.spent_us = 0,
-		.cmp_with = &tests[1],
+		.cmp_with = &tests[T_BASE_U8],
 	},
 	{
 		.name = "Neon: y[i] = x[i] * y[i] (f32)",
@@ -241,7 +259,16 @@ struct test tests[] = {
 		.cmp = cmp_arr_f32,
 		.elem_size = sizeof(float),
 		.spent_us = 0,
-		.cmp_with = &tests[2],
+		.cmp_with = &tests[T_BASE_F32],
+	},
+	{
+		.name = "Neon: y[i] = x[i] * y[i] (f64)",
+		.fn = double_neon_X_x_Y,
+		.init = init_arr_f64,
+		.cmp = cmp_arr_f64,
+		.elem_size = sizeof(double),
+		.spent_us = 0,
+		.cmp_with = &tests[T_BASE_F64],
 	},
 #if !defined(CONFIG_NO_SVE)
 	{
@@ -251,16 +278,7 @@ struct test tests[] = {
 		.cmp = cmp_arr_u8,
 		.elem_size = sizeof(uint8_t),
 		.spent_us = 0,
-		.cmp_with = &tests[0],
-	},
-	{
-		.name = " Sve: y[i] = x[i] * y[i] (f64)",
-		.fn = double_sve_X_x_Y,
-		.init = init_arr_f64,
-		.cmp = cmp_arr_f64,
-		.elem_size = sizeof(double),
-		.spent_us = 0,
-		.cmp_with = &tests[1],
+		.cmp_with = &tests[T_BASE_U8],
 	},
 	{
 		.name = " Sve: y[i] = x[i] * y[i] (f32)",
@@ -269,7 +287,16 @@ struct test tests[] = {
 		.cmp = cmp_arr_f32,
 		.elem_size = sizeof(float),
 		.spent_us = 0,
-		.cmp_with = &tests[2],
+		.cmp_with = &tests[T_BASE_F32],
+	},
+	{
+		.name = " Sve: y[i] = x[i] * y[i] (f64)",
+		.fn = double_sve_X_x_Y,
+		.init = init_arr_f64,
+		.cmp = cmp_arr_f64,
+		.elem_size = sizeof(double),
+		.spent_us = 0,
+		.cmp_with = &tests[T_BASE_F64],
 	},
 #endif
 };
