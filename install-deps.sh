@@ -38,6 +38,7 @@ pkgs+=( python3-matplotlib )   # matplotlib
 pkgs+=( qemu-kvm qemu-user )
 pkgs+=( rust )                 # rustc
 pkgs+=( sg3_utils )            # sg_inq, etc.
+pkgs+=( sparse )               # sparse
 pkgs+=( strace )
 pkgs+=( smartmontools )        # smartctl
 pkgs+=( systemtap-sdt-devel )  # sdt.h
