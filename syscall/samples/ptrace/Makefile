@@ -2,6 +2,7 @@
 TARGETS :=
 TARGETS += PTRACE_GETREGS
 TARGETS += PTRACE_PEEKTEXT
+TARGETS += PTRACE_PEEKUSER
 TARGETS += peeksiginfo
 TARGETS += ptrace-breakpoint
 TARGETS += ptrace-strace
@@ -30,6 +31,7 @@ nr.h: ../nr.sh
 # Add more object.o file
 PTRACE_GETREGS: PTRACE_GETREGS.o helpers.o
 PTRACE_PEEKTEXT: PTRACE_PEEKTEXT.o
+PTRACE_PEEKUSER: PTRACE_PEEKUSER.o
 peeksiginfo: peeksiginfo.o
 ptrace-breakpoint: ptrace-breakpoint.o
 ptrace-strace: ptrace-strace.o
