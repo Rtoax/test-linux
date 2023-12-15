@@ -4,12 +4,13 @@ LD = ld
 RUN_PFX =
 AS_ARGS :=
 
+TARGETS_C :=
 TARGETS := hello
 TARGETS += hello-stack
 
 ifneq ($(shell lscpu | grep -w -e sve -e sve2),)
 	TARGETS += hello_sve
-	TARGETS += daxpy
+	TARGETS_C += daxpy
 	AS_ARGS := -march=armv8-a+sve2
 endif
 
@@ -28,7 +29,7 @@ DYNAMIC_LINKER = /lib64/ld-linux-aarch64.so.1
 endif
 
 .PHONY: build
-build: $(TARGETS)
+build: $(TARGETS) $(TARGETS_C)
 	@echo
 	@echo -e " \033[1;33m Done \033[m"
 
@@ -36,7 +37,7 @@ build: $(TARGETS)
 hello: hello.o
 hello-stack: hello-stack.o
 hello_sve: hello_sve.o
-daxpy: daxpy.o daxpy-c.co
+daxpy: daxpy.o daxpy_sve.o daxpy-c.co
 
 %.o: %.asm
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
@@ -50,6 +51,10 @@ $(TARGETS): %.o:
 	@echo -e "Target ld \033[1;32m$(@)\033[m"
 	$(LD) -o $(@) $(^) -lc -I ${DYNAMIC_LINKER}
 
+$(TARGETS_C): %.o:
+	@echo -e "Target ld \033[1;32m$(@)\033[m"
+	$(CC) -o $(@) $(^)
+
 test: $(TARGETS)
 	@echo -e "Test   \033[1;32m$(@)\033[m"
 	$(RUN_PFX) ./hello
@@ -57,4 +62,4 @@ test: $(TARGETS)
 .PHONY: clean
 clean:
 	@echo -e "Clean   \033[1;32m$(@)\033[m"
-	@rm -f ${TARGETS} *.o *.d core.* *.co
+	@rm -f ${TARGETS} ${TARGETS_C} *.o *.d core.* *.co
