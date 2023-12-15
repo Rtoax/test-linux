@@ -11,10 +11,12 @@ int main(void)
 	int i;
 	double x[] = {ELEMS};
 	double y[] = {ELEMS};
+	double a = 2;
+	int n = ARRAY_SIZE(x);
 
-	daxpy(x, y, 2, ARRAY_SIZE(x));
+	daxpy(x, y, a, n);
 
-	for (i = 0; i < ARRAY_SIZE(x); i++) {
+	for (i = 0; i < n; i++) {
 		printf("%lf,", y[i]);
 	} printf("\n");
 	return 0;
