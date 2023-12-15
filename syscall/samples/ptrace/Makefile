@@ -1,6 +1,8 @@
 
 TARGETS :=
+ifneq ($(shell uname -m),aarch64)
 TARGETS += PTRACE_GETREGS
+endif
 TARGETS += PTRACE_PEEKTEXT
 TARGETS += PTRACE_PEEKUSER
 TARGETS += peeksiginfo
