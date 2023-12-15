@@ -20,9 +20,12 @@ ifdef DEBUG
 CFLAGS += -DDEBUG -O0 -g
 endif
 
-build: ${TARGETS}
+build: nr.h ${TARGETS}
 	@echo
 	@echo -e " \033[1;33m Done \033[m"
+
+nr.h: ../nr.sh
+	$(shell sh ../nr.sh)
 
 # Add more object.o file
 PTRACE_GETREGS: PTRACE_GETREGS.o helpers.o
@@ -36,4 +39,4 @@ test: ${TARGETS}
 
 clean:
 	@echo -e "Clean   \033[1;32m$(@)\033[m"
-	@rm -f ${TARGETS} *.o *.d *.txt
+	@rm -f ${TARGETS} *.o *.d *.txt nr.h

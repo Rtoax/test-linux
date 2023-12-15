@@ -60,6 +60,7 @@ build: nr.h ${TARGETS} ${TARGETS_CPP}
 	make -C ioctl
 	make -C poll
 	make -C epoll
+	make -C ptrace
 	make -C fcntl
 	make -C pipe
 	make -C mm
@@ -148,6 +149,7 @@ clean:
 	make -C ioctl clean
 	make -C poll clean
 	make -C epoll clean
+	make -C ptrace clean
 	make -C fcntl clean
 	make -C pipe clean
 	make -C mm clean
