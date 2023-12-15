@@ -2,6 +2,7 @@
 TARGETS :=
 TARGETS += PTRACE_GETREGS
 TARGETS += PTRACE_PEEKTEXT
+TARGETS += peeksiginfo
 TARGETS += ptrace-breakpoint
 TARGETS += ptrace-strace
 
@@ -10,7 +11,7 @@ DEBUG = yes
 SRC_PATH := $(shell pwd)
 CC = gcc
 
-CFLAGS := -Werror -Wall -D_GNU_SOURCE
+CFLAGS := -Werror -Wall
 CFLAGS += -pthread
 CFLAGS += -I../../../
 CFLAGS += -I../
@@ -26,6 +27,7 @@ build: ${TARGETS}
 # Add more object.o file
 PTRACE_GETREGS: PTRACE_GETREGS.o helpers.o
 PTRACE_PEEKTEXT: PTRACE_PEEKTEXT.o
+peeksiginfo: peeksiginfo.o
 ptrace-breakpoint: ptrace-breakpoint.o
 ptrace-strace: ptrace-strace.o
 
