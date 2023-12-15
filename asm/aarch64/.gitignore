@@ -1,5 +1,7 @@
+/add-c
 /hello
 /hello-stack
 /hello_sve
+/loop-c
 /daxpy
 /*.co
