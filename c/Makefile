@@ -2,6 +2,7 @@
 TARGETS += auto
 TARGETS += array
 TARGETS += ascii
+TARGETS += alignas
 TARGETS += const
 TARGETS += param-pass
 TARGETS += compat
@@ -50,6 +51,7 @@ build: ${TARGETS}
 # Add more object.o file
 auto: auto.o
 ascii: ascii.o
+alignas: alignas.o
 const: const.o
 param-pass: param-pass.o
 array: array.o

@@ -14,5 +14,6 @@
 /NULL
 /_Nullable
 /_Nonnull
+/alignas
 /BUILD_BUG_ON_ZERO
 /*.s
