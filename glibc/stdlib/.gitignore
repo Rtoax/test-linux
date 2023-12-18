@@ -8,3 +8,5 @@
 /putenv
 /unsetenv
 /tmpd-*
+/rand
+/random

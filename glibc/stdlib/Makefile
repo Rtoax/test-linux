@@ -1,6 +1,7 @@
 
 TARGETS += mkdtemp mktemp mkstemp
 TARGETS += env setenv getenv clearenv putenv unsetenv
+TARGETS += rand random
 
 ifeq ($(shell uname -m),x86_64)
 endif
@@ -31,6 +32,8 @@ getenv: getenv.o
 putenv: putenv.o
 unsetenv: unsetenv.o
 clearenv: clearenv.o
+rand: rand.o
+random: random.o
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
