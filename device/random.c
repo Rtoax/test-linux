@@ -35,7 +35,7 @@ int random_number(int min, int max)
 		bytes_read = read(dev_random_fd, next_random_byte, bytes_to_read);
 		bytes_to_read -= bytes_read;
 		next_random_byte += bytes_read;
-	} while(bytes_to_read > 0);
+	} while (bytes_to_read > 0);
 	/* Compute a random number in the correct range. */
 	return min + (random_value % (max - min + 1));
 }
