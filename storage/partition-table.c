@@ -12,13 +12,19 @@ struct gpt_hdr {
 	uint64_t signature;
 	uint32_t revision_number;
 	uint32_t size;
-	uint32_t crc32;
+	uint32_t hdr_crc32;
 	uint32_t reserved1;
 	uint64_t current_lba;
 	uint64_t backup_lba;
 	uint64_t first_usable_lba;
 	uint64_t last_usable_lba;
 	uint8_t  guid[16];
+	/* Starting LBA of array of partition entries (usually 2 for compatibility) */
+	uint64_t start_lba;
+	uint32_t nr_partition_entries;
+	/* Size of a single partition entry (usually 80h or 128) */
+	uint32_t sz_partition_entry;
+	uint32_t part_entries_crc32;
 	/* more */
 } __attribute__((packed));
 
@@ -64,6 +70,8 @@ int main(void)
 
 	hdr = (struct gpt_hdr *)primary_gpt_hdr;
 
+	printf("Disk: %s\n", path);
+
 	/**
 	 * "EFI PART" = 45h 46h 49h 20h 50h 41h 52h 54h
 	 *            = 0x5452415020494645ULL
@@ -77,7 +85,7 @@ int main(void)
 		printf("Revision 1.0 for UEFI 2.0\n");
 
 	printf("Header Size: %d bytes\n", hdr->size);
-	printf("Header CRC32: %#08x\n", hdr->crc32);
+	printf("Header CRC32: %#08x\n", hdr->hdr_crc32);
 
 	printf("GUID: ");
 	for (i = 0; i < sizeof(hdr->guid); i++) {
@@ -85,6 +93,10 @@ int main(void)
 		printf("%02x", ch);
 	} printf("\n");
 
+	printf("Starting LBA: %ld\n", hdr->start_lba);
+	printf("Number of partition entries: %d\n", hdr->nr_partition_entries);
+	printf("Size of partition entry: %d\n", hdr->sz_partition_entry);
+	printf("Partition entries CRC32: %#08x\n", hdr->part_entries_crc32);
 
 	close(fd);
 	return 0;
