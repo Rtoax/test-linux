@@ -6,6 +6,8 @@
 #include <sys/syscall.h>
 #include <sys/ptrace.h>
 
+#include "helpers.h"
+
 
 int main(void)
 {
@@ -17,8 +19,8 @@ int main(void)
 
 	child = fork();
 	if (child == 0) {
-		ptrace(PTRACE_TRACEME,0,NULL,NULL);
-		execl("/bin/ls","ls","-l","-h",NULL);
+		ptrace(PTRACE_TRACEME, 0, NULL, NULL);
+		execl("/bin/ls", "ls", "-l", "-h", NULL);
 	}
 
 	/* Parent process */
@@ -27,9 +29,10 @@ int main(void)
 		/**
 		 * 检查子进程是暂停还准备退出
 		 */
-		if(WIFEXITED(status))
+		if (WIFEXITED(status))
 			break;
 		orig_rax = ptrace(PTRACE_PEEKUSER, child, 8 * ORIG_RAX, NULL);
+		printf("Call syscall %ld, %s\n", orig_rax, find_syscall_symbol(orig_rax));
 		if (orig_rax == SYS_write) {
 			ptrace(PTRACE_GETREGS, child, NULL, &regs);
 			if (!iscalling) {
@@ -40,8 +43,6 @@ int main(void)
 				printf("SYS_write call return %lld\n", regs.rax);
 				iscalling = 0;
 			}
-		} else {
-			printf("syscall: orig_rax = %ld()\n", orig_rax);
 		}
 		/**
 		 * 使暂停的子进程继续执行，并在子进程下次进行系统调用前或系统调

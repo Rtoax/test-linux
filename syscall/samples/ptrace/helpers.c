@@ -1,11 +1,36 @@
 #include <stdio.h>
 #include <sys/user.h>
+#include <syscall.h>
+#include <sys/syscall.h>
 
 
 #define debug(fmt...) do { \
 		fprintf(stderr, "[%s:%s %d]", __FILE__, __func__, __LINE__); \
 		fprintf(stderr, fmt); \
 	} while(0)
+
+struct syscall_name {
+	int code;
+	char *name;
+} syscall_table[] = {
+#define NR_SYS(s)
+#define __NR_SYS(s) {__NR_##s, #s},
+#include "nr.h"
+#undef NR_SYS
+#undef __NR_SYS
+	{-1, NULL},
+};
+
+
+char *find_syscall_symbol(int code)
+{
+	struct syscall_name *sc;
+	for (sc = syscall_table; sc->code >= 0; sc++) {
+		if (sc->code == code)
+			return sc->name;
+	}
+	return NULL;
+}
 
 #ifdef __x86_64__
 void print_user_regs_struct(struct user_regs_struct *regs)

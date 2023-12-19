@@ -24,6 +24,9 @@ do
 	cat >>nr.h<<-EOF
 	#if defined($n)
 	NR_SYS($n)
+	# if defined(__NR_SYS)
+	    __NR_SYS(${n:5})
+	# endif
 	#endif
 	EOF
 done >> nr.h

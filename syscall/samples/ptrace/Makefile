@@ -19,7 +19,7 @@ CC = gcc
 CFLAGS := -Werror -Wall
 CFLAGS += -pthread
 CFLAGS += -I../../../
-CFLAGS += -I../
+#CFLAGS += -I../
 
 ifdef DEBUG
 CFLAGS += -DDEBUG -O0 -g
@@ -40,7 +40,7 @@ PTRACE_PEEKDATA: PTRACE_PEEKDATA.o
 PTRACE_POKEDATA: PTRACE_POKEDATA.o
 peeksiginfo: peeksiginfo.o
 ptrace-breakpoint: ptrace-breakpoint.o
-ptrace-strace: ptrace-strace.o
+ptrace-strace: ptrace-strace.o helpers.o
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
