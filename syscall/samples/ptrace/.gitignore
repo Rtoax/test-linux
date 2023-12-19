@@ -1,6 +1,8 @@
 /PTRACE_GETREGS
 /PTRACE_PEEKTEXT
 /PTRACE_PEEKUSER
+/PTRACE_PEEKDATA
+/PTRACE_POKEDATA
 /peeksiginfo
 /ptrace-breakpoint
 /ptrace-strace

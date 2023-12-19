@@ -5,6 +5,8 @@ TARGETS += PTRACE_GETREGS
 endif
 TARGETS += PTRACE_PEEKTEXT
 TARGETS += PTRACE_PEEKUSER
+TARGETS += PTRACE_PEEKDATA
+TARGETS += PTRACE_POKEDATA
 TARGETS += peeksiginfo
 TARGETS += ptrace-breakpoint
 TARGETS += ptrace-strace
@@ -34,6 +36,8 @@ nr.h: ../nr.sh
 PTRACE_GETREGS: PTRACE_GETREGS.o helpers.o
 PTRACE_PEEKTEXT: PTRACE_PEEKTEXT.o
 PTRACE_PEEKUSER: PTRACE_PEEKUSER.o
+PTRACE_PEEKDATA: PTRACE_PEEKDATA.o
+PTRACE_POKEDATA: PTRACE_POKEDATA.o
 peeksiginfo: peeksiginfo.o
 ptrace-breakpoint: ptrace-breakpoint.o
 ptrace-strace: ptrace-strace.o
