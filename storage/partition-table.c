@@ -104,6 +104,13 @@ void print_mixed_endian_guid(uint8_t i_guid[16])
 
 	memcpy(guid, i_guid, sizeof(guid));
 
+	/**
+	 * fdisk -l:  C9516251-2856-4737-B86D-06225B05B911
+	 * hdr->guid: 516251c9 5628 3747 b86d 06225b05b911
+	 *            ^^^^^^^^^^^^^^^^^^
+	 *                big endian     ^^^^^^^^^^^^^^^^^
+	 *                                 little endian
+	 */
 	uint32_t *guid_hi_32 = (uint32_t *)&guid[0];
 	uint16_t *guid_hi_16 = (uint16_t *)&guid[4];
 	uint16_t *guid_mid_16 = (uint16_t *)&guid[6];
@@ -221,13 +228,6 @@ int main(int argc, char *argv[])
 	printf("Header Size: %d bytes\n", hdr->size);
 	printf("Header CRC32: %#08x\n", hdr->hdr_crc32);
 
-	/**
-	 * fdisk -l:  C9516251-2856-4737-B86D-06225B05B911
-	 * hdr->guid: 516251c9 5628 3747 b86d 06225b05b911
-	 *            ^^^^^^^^^^^^^^^^^^
-	 *                big endian     ^^^^^^^^^^^^^^^^^
-	 *                                 little endian
-	 */
 	printf("GUID: ");
 	print_mixed_endian_guid(hdr->guid);
 	printf("\n");
