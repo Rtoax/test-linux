@@ -19,6 +19,12 @@
  * LBA: logical block addressing
  */
 
+enum part_table_type {
+	TYPE_UNKNOWN,
+	TYPE_MBR,
+	TYPE_GPT,
+};
+
 struct classical_generic_mbr {
 	uint8_t bootstrap_code_area[446];
 	uint8_t part_entry1[16];
@@ -137,6 +143,7 @@ int main(int argc, char *argv[])
 	struct aap_mbr *aap_mbr;
 	struct gpt_hdr *hdr;
 	struct gpt_partition_entry *part_entries = NULL;
+	enum part_table_type tab_type = TYPE_UNKNOWN;
 
 	struct option options[] = {
 		{"disk",    required_argument, 0, 'd'},
@@ -204,21 +211,25 @@ int main(int argc, char *argv[])
 
 	hdr = (struct gpt_hdr *)primary_gpt_hdr;
 
-	printf("MBR Signature: %x %x\n", cg_mbr->boot_signature[0], cg_mbr->boot_signature[1]);
+	if (cg_mbr->boot_signature[0] == 0x55 && cg_mbr->boot_signature[1] == 0xAA) {
+		tab_type = TYPE_MBR;
+	}
 
 	printf("Disk: %s\n", path);
 
-	printf("Signature: 0x%-16lx\n", hdr->signature);
 	/**
 	 * "EFI PART" = 45h 46h 49h 20h 50h 41h 52h 54h
 	 *            = 0x5452415020494645ULL
 	 */
-	if (hdr->signature == 0x5452415020494645ULL)
+	if (hdr->signature == 0x5452415020494645ULL) {
 		printf("Partition Table: GPT\n");
-	else {
-		printf("No GPT found.\n");
-		goto gpt_done;
+		tab_type = TYPE_GPT;
+	} else {
+		printf("No GPT found in %s.\n", path);
+		goto parse_mbr;
 	}
+
+	printf("Signature: 0x%-16lx\n", hdr->signature);
 	/**
 	 * 00h 00h 01h 00h
 	 */
@@ -252,7 +263,17 @@ int main(int argc, char *argv[])
 		 */
 	}
 
-gpt_done:
+parse_mbr:
+	/**
+	 * MBR maybe
+	 */
+	if (tab_type != TYPE_MBR && tab_type != TYPE_GPT) {
+		printf("No MBR found in %s.\n", path);
+		goto all_done;
+	}
+	printf("MBR Signature: %x %x\n", cg_mbr->boot_signature[0], cg_mbr->boot_signature[1]);
+
+all_done:
 	close(fd);
 	return 0;
 }
