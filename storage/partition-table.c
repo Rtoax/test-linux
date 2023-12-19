@@ -46,6 +46,8 @@ int main(void)
 			printf("open(%s) %s\n", path, strerror(errno));
 			return 1;
 		}
+		if (fd >= 0)
+			break;
 	}
 
 	if (fd == -1) {
