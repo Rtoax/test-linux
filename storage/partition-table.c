@@ -150,6 +150,26 @@ struct gpt_partition_entry {
 	uint8_t name[72];
 } __attribute__((packed));
 
+/**
+ * https://en.wikipedia.org/wiki/Partition_type
+ */
+const char *mbr_partition_type_str(uint8_t type)
+{
+	static char hex[3];
+	sprintf(hex, "%02x", type);
+	switch (type) {
+#define T(v, s)	case v: return s;
+	T(0x43, "Linux File system(old)")
+	T(0x83, "Linux File system")
+	T(0x85, "Linux extended")
+	T(0x86, "Linux RAID")
+	T(0x88, "Linux plaintext")
+	T(0x8e, "Linux LVM")
+	T(0xee, "EFI Blocker(GPT protective MBR)")
+#undef T
+	default: return hex;
+	}
+}
 
 void print_mixed_endian_guid(uint8_t i_guid[16])
 {
@@ -332,7 +352,8 @@ parse_mbr:
 		struct mbr_entry *e = me[i];
 		if (e->nr_sectors <= 0)
 			continue;
-		printf("%-8d %-16d %-16d %-8x\n", i + 1, e->first_abs_sector, e->nr_sectors, e->partition_type);
+		printf("%-8d %-16d %-16d %-16s\n", i + 1, e->first_abs_sector,
+			e->nr_sectors, mbr_partition_type_str(e->partition_type));
 	}
 
 all_done:
