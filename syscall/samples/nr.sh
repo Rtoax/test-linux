@@ -22,6 +22,9 @@ grep 'define __NR_' ${unistd} | \
 	grep -v '[{|)|(|,|;|:]')
 do
 	cat >>nr.h<<-EOF
+	#if !defined(__NR_read)
+	# error "You need to include <syscall.h>"
+	#endif
 	#if defined($n)
 	NR_SYS($n)
 	# if defined(__NR_SYS)

@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <sys/user.h>
 #include <syscall.h>
-#include <sys/syscall.h>
 
 
 #define debug(fmt...) do { \
