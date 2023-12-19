@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <stdalign.h>
 #include <immintrin.h>
 
@@ -36,8 +37,8 @@ int main(void)
 		Ymm2 = _mm256_movehdup_ps(Ymm0);
 		Ymm2 = _mm256_mul_ps(Ymm2, Ymm_sin_cos);
 		Ymm3 = _mm256_fmaddsub_ps(Ymm1, Ymm_cos_sin, Ymm2);
-
 		_mm256_store_ps(pOutVector + i, Ymm3);
+
 		Ymm0 = _mm256_load_ps(pInVector + i + 8);
 		Ymm1 = _mm256_moveldup_ps(Ymm0);
 		Ymm2 = _mm256_movehdup_ps(Ymm0);
@@ -45,6 +46,9 @@ int main(void)
 		Ymm3 = _mm256_fmaddsub_ps(Ymm1, Ymm_cos_sin, Ymm2);
 		_mm256_store_ps(pOutVector + i + 8, Ymm3);
 	}
+
+	for (i = 0; i < len; i++)
+		printf("%f - %f\n", pInVector[i], pOutVector[i]);
 
 	_mm_free(pInVector);
 	_mm_free(pOutVector);

@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <stdalign.h>
 #include <immintrin.h>
 
@@ -48,6 +49,9 @@ int main(void)
 		Zmm3 = _mm512_fmaddsub_ps(Zmm1, Zmm_cos_sin, Zmm2);
 		_mm512_store_ps(pOutVector + i + 16, Zmm3);
 	}
+
+	for (i = 0; i < len; i++)
+		printf("%f - %f\n", pInVector[i], pOutVector[i]);
 
 	_mm_free(pInVector);
 	_mm_free(pOutVector);
