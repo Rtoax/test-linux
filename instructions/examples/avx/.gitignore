@@ -7,3 +7,4 @@
 /test-asm
 /avx512_aux
 /mul-avx256
+/mul-avx512
