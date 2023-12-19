@@ -90,6 +90,37 @@ struct aap_mbr {
  * TODO: More MBR type, see https://en.wikipedia.org/wiki/Master_boot_record
  */
 
+struct chs_addr {
+	uint8_t head;
+	union {
+		struct {
+			uint8_t cylinder_9_8:2;
+			uint8_t sector:6;
+		};
+		uint8_t cylinder_sector;
+	};
+	uint8_t cylinder_7_0;
+};
+
+struct mbr_entry {
+	union {
+		uint8_t status;
+		uint8_t phy_drv;
+	};
+	union {
+		uint8_t first_chs_addr[3];
+		struct chs_addr first_chs_addr_struct;
+	};
+	uint8_t partition_type;
+	union {
+		uint8_t last_chs_addr[3];
+		struct chs_addr last_chs_addr_struct;
+	};
+	uint32_t first_abs_sector;
+	uint32_t nr_sectors;
+} __attribute__((packed));
+
+
 struct gpt_hdr {
 	uint64_t signature;
 	uint32_t revision_number;
@@ -289,6 +320,20 @@ parse_mbr:
 		goto all_done;
 	}
 	printf("MBR Signature: %x %x\n", cg_mbr->boot_signature[0], cg_mbr->boot_signature[1]);
+
+	struct mbr_entry *me[4];
+	me[0] = (void *)cg_mbr->part_entry1;
+	me[1] = (void *)cg_mbr->part_entry2;
+	me[2] = (void *)cg_mbr->part_entry3;
+	me[3] = (void *)cg_mbr->part_entry4;
+
+	printf("%-8s %-16s %-16s %-8s\n", "ENTRY", "ABS_SECTOR", "NR_SECTOR", "TYPE");
+	for (i = 0; i < 4; i++) {
+		struct mbr_entry *e = me[i];
+		if (e->nr_sectors <= 0)
+			continue;
+		printf("%-8d %-16d %-16d %-8x\n", i + 1, e->first_abs_sector, e->nr_sectors, e->partition_type);
+	}
 
 all_done:
 	close(fd);
