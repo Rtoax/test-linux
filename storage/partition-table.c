@@ -22,19 +22,34 @@ struct gpt_hdr {
 	/* more */
 } __attribute__((packed));
 
+char *try_disks[] = {
+	"/dev/nvme0n1",
+	"/dev/vdb",
+	NULL
+};
+
 int main(void)
 {
 	char *path;
-	int i, fd;
+	int i, fd = -1;
 	unsigned char *mbr;
 	unsigned char *primary_gpt_hdr;
 	struct gpt_hdr *hdr;
 
-	path = "/dev/nvme0n1";
+	for (i = 0; try_disks[i]; i++) {
+		path = try_disks[i];
+		fd = open(path, O_RDONLY);
+		if (fd == -1 && errno == ENOENT) {
+			printf("open(%s) %s\n", path, strerror(errno));
+			continue;
+		} else if (fd == -1 && errno == EPERM) {
+			printf("open(%s) %s\n", path, strerror(errno));
+			return 1;
+		}
+	}
 
-	fd = open(path, O_RDONLY);
 	if (fd == -1) {
-		perror("open");
+		printf("open(%s) %s\n", path, strerror(errno));
 		return 1;
 	}
 
