@@ -133,7 +133,7 @@ void print_mixed_endian_guid(uint8_t i_guid[16])
 
 int main(int argc, char *argv[])
 {
-	char *path;
+	char *path = NULL;
 	size_t size;
 	int i, fd = -1;
 	unsigned char *mbr;
