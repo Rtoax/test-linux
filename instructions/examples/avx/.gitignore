@@ -2,3 +2,4 @@
 /sum-avx
 /sum-avx2
 /*.obj.s
+/cpu-features

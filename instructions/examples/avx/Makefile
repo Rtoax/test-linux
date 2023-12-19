@@ -3,6 +3,7 @@ TARGETS :=
 TARGETS += sum
 TARGETS += sum-avx
 TARGETS += sum-avx2
+TARGETS += cpu-features
 
 all: $(TARGETS)
 
@@ -17,6 +18,7 @@ CFLAGS_sum-avx2 := -DTYPE_FLOAT -mavx2
 sum: sum.o
 sum-avx: sum-avx.o
 sum-avx2: sum-avx2.o
+cpu-features: cpu-features.o
 
 %.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
