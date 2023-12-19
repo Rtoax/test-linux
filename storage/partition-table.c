@@ -4,12 +4,14 @@
  * - https://en.wikipedia.org/wiki/Master_boot_record
  */
 #include <stdio.h>
+#include <stdlib.h>
 #include <errno.h>
 #include <fcntl.h>
 #include <string.h>
 #include <malloc.h>
 #include <unistd.h>
 #include <stdint.h>
+#include <getopt.h>
 #include <byteswap.h>
 #include <sys/types.h>
 
@@ -94,11 +96,6 @@ struct gpt_partition_entry {
 	uint8_t name[72];
 } __attribute__((packed));
 
-char *try_disks[] = {
-	"/dev/nvme0n1",
-	"/dev/vdb",
-	NULL
-};
 
 void print_mixed_endian_guid(uint8_t i_guid[16])
 {
@@ -121,7 +118,7 @@ void print_mixed_endian_guid(uint8_t i_guid[16])
 	}
 }
 
-int main(void)
+int main(int argc, char *argv[])
 {
 	char *path;
 	size_t size;
@@ -134,19 +131,52 @@ int main(void)
 	struct gpt_hdr *hdr;
 	struct gpt_partition_entry *part_entries = NULL;
 
+	struct option options[] = {
+		{"disk",    required_argument, 0, 'd'},
+		{"help",    no_argument,       0, 'h'},
+		{0, 0, 0, 0}
+	};
 
-	for (i = 0; try_disks[i]; i++) {
-		path = try_disks[i];
-		fd = open(path, O_RDONLY);
-		if (fd == -1 && errno == ENOENT) {
-			printf("open(%s) %s\n", path, strerror(errno));
-			continue;
-		} else if (fd == -1 && errno == EPERM) {
-			printf("open(%s) %s\n", path, strerror(errno));
-			return 1;
-		}
-		if (fd >= 0)
+	void usage(void) {
+		printf("%s\n", argv[0]);
+		printf("\n");
+		printf(" -d, --disk   specify disk to check, for example: /dev/vda\n");
+		printf("\n");
+		printf(" -h, --help   show this information.\n");
+		printf("\n");
+	}
+
+	while (1) {
+		int option_index = 0;
+		int c = getopt_long(argc, argv, "d:h", options, &option_index);
+		if (c == -1)
 			break;
+		switch (c) {
+		case 'd':
+			path = strdup(optarg);
+			break;
+		case 'h':
+			usage();
+			return 0;
+		case '?':
+			fprintf(stderr, "Unknown option or requires an argument.\n");
+			exit(1);
+			break;
+		default:
+			abort();
+		}
+	}
+
+	if (!path) {
+		usage();
+		fprintf(stderr, "No disk input(-d).\n");
+		exit(1);
+	}
+
+	fd = open(path, O_RDONLY);
+	if (fd == -1) {
+		printf("open(%s) %s\n", path, strerror(errno));
+		exit(1);
 	}
 
 	if (fd == -1) {
