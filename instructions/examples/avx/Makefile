@@ -5,6 +5,7 @@ TARGETS += sum-avx
 TARGETS += sum-avx2
 TARGETS += cpu-features
 TARGETS += test-asm
+TARGETS += avx512_aux
 
 all: $(TARGETS)
 
@@ -16,12 +17,14 @@ CFLAGS_sum := -DTYPE_FLOAT
 CFLAGS_sum-avx := -DTYPE_FLOAT -mavx
 CFLAGS_sum-avx2 := -DTYPE_FLOAT -mavx2
 CFLAGS_test-asm := -std=gnu17
+CFLAGS_avx512_aux := -mavx512f
 
 sum: sum.o
 sum-avx: sum-avx.o
 sum-avx2: sum-avx2.o
 cpu-features: cpu-features.o
 test-asm: test-asm.oS test-asm.o
+avx512_aux: avx512_aux.o
 
 %.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

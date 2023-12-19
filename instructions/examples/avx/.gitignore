@@ -5,3 +5,4 @@
 /*.oS
 /cpu-features
 /test-asm
+/avx512_aux
