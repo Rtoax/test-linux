@@ -1,3 +1,6 @@
+/**
+ * ref: https://en.wikipedia.org/wiki/GUID_Partition_Table
+ */
 #include <stdio.h>
 #include <errno.h>
 #include <fcntl.h>
@@ -8,6 +11,9 @@
 #include <byteswap.h>
 #include <sys/types.h>
 
+/**
+ * LBA: logical block addressing
+ */
 
 struct gpt_hdr {
 	uint64_t signature;
@@ -26,7 +32,16 @@ struct gpt_hdr {
 	/* Size of a single partition entry (usually 80h or 128) */
 	uint32_t sz_partition_entry;
 	uint32_t part_entries_crc32;
-	/* more */
+	uint8_t reserved[];
+} __attribute__((packed));
+
+struct gpt_partition_entry {
+	uint8_t  partition_type_guid[16];
+	uint8_t  unique_partition_guid[16];
+	uint64_t first_lba;
+	uint64_t last_lba;
+	uint64_t attr_flags;
+	uint8_t name[72];
 } __attribute__((packed));
 
 char *try_disks[] = {
@@ -35,13 +50,37 @@ char *try_disks[] = {
 	NULL
 };
 
+void print_mixed_endian_guid(uint8_t i_guid[16])
+{
+	int i;
+	uint8_t guid[16];
+
+	memcpy(guid, i_guid, sizeof(guid));
+
+	uint32_t *guid_hi_32 = (uint32_t *)&guid[0];
+	uint16_t *guid_hi_16 = (uint16_t *)&guid[4];
+	uint16_t *guid_mid_16 = (uint16_t *)&guid[6];
+	*guid_hi_32 = bswap_32(*guid_hi_32);
+	*guid_hi_16 = bswap_16(*guid_hi_16);
+	*guid_mid_16 = bswap_16(*guid_mid_16);
+	for (i = 0; i < sizeof(guid); i++) {
+		unsigned char ch = guid[i];
+		printf("%02X", ch);
+		if (i == 3 || i == 5 || i == 7 || i == 9)
+			printf("-");
+	}
+}
+
 int main(void)
 {
 	char *path;
+	size_t size;
 	int i, fd = -1;
 	unsigned char *mbr;
 	unsigned char *primary_gpt_hdr;
 	struct gpt_hdr *hdr;
+	struct gpt_partition_entry *part_entries = NULL;
+
 
 	for (i = 0; try_disks[i]; i++) {
 		path = try_disks[i];
@@ -97,23 +136,28 @@ int main(void)
 	 *                                 little endian
 	 */
 	printf("GUID: ");
-	uint32_t *guid_hi_32 = (uint32_t *)&hdr->guid[0];
-	uint16_t *guid_hi_16 = (uint16_t *)&hdr->guid[4];
-	uint16_t *guid_mid_16 = (uint16_t *)&hdr->guid[6];
-	*guid_hi_32 = bswap_32(*guid_hi_32);
-	*guid_hi_16 = bswap_16(*guid_hi_16);
-	*guid_mid_16 = bswap_16(*guid_mid_16);
-	for (i = 0; i < sizeof(hdr->guid); i++) {
-		unsigned char ch = hdr->guid[i];
-		printf("%02X", ch);
-		if (i == 3 || i == 5 || i == 7 || i == 9)
-			printf("-");
-	} printf("\n");
+	print_mixed_endian_guid(hdr->guid);
+	printf("\n");
 
 	printf("Starting LBA: %ld\n", hdr->start_lba);
 	printf("Number of partition entries: %d\n", hdr->nr_partition_entries);
 	printf("Size of partition entry: %d\n", hdr->sz_partition_entry);
 	printf("Partition entries CRC32: %#08x\n", hdr->part_entries_crc32);
+
+	size = sizeof(struct gpt_partition_entry) * hdr->nr_partition_entries;
+	part_entries = malloc(size);
+	read(fd, part_entries, size);
+	printf("%-8s %-16s %-16s %-16s\n", "ENTRY", "FIRST_LBA", "LAST_LBA", "ATTR_FLAGS");
+	for (i = 0; i < hdr->nr_partition_entries; i++) {
+		struct gpt_partition_entry *e = &part_entries[i];
+		if (e->first_lba == 0 || e->last_lba == 0)
+			continue;
+
+		printf("%-8d %16lx %16lx %16lx\n", i, e->first_lba, e->last_lba, e->attr_flags);
+		/**
+		 * TODO: print entries
+		 */
+	}
 
 	close(fd);
 	return 0;
