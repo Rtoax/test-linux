@@ -5,6 +5,7 @@
 #include <malloc.h>
 #include <unistd.h>
 #include <stdint.h>
+#include <byteswap.h>
 #include <sys/types.h>
 
 
@@ -72,6 +73,7 @@ int main(void)
 
 	printf("Disk: %s\n", path);
 
+	printf("Signature: 0x%-16lx\n", hdr->signature);
 	/**
 	 * "EFI PART" = 45h 46h 49h 20h 50h 41h 52h 54h
 	 *            = 0x5452415020494645ULL
@@ -87,10 +89,25 @@ int main(void)
 	printf("Header Size: %d bytes\n", hdr->size);
 	printf("Header CRC32: %#08x\n", hdr->hdr_crc32);
 
+	/**
+	 * fdisk -l:  C9516251-2856-4737-B86D-06225B05B911
+	 * hdr->guid: 516251c9 5628 3747 b86d 06225b05b911
+	 *            ^^^^^^^^^^^^^^^^^^
+	 *                big endian     ^^^^^^^^^^^^^^^^^
+	 *                                 little endian
+	 */
 	printf("GUID: ");
+	uint32_t *guid_hi_32 = (uint32_t *)&hdr->guid[0];
+	uint16_t *guid_hi_16 = (uint16_t *)&hdr->guid[4];
+	uint16_t *guid_mid_16 = (uint16_t *)&hdr->guid[6];
+	*guid_hi_32 = bswap_32(*guid_hi_32);
+	*guid_hi_16 = bswap_16(*guid_hi_16);
+	*guid_mid_16 = bswap_16(*guid_mid_16);
 	for (i = 0; i < sizeof(hdr->guid); i++) {
 		unsigned char ch = hdr->guid[i];
-		printf("%02x", ch);
+		printf("%02X", ch);
+		if (i == 3 || i == 5 || i == 7 || i == 9)
+			printf("-");
 	} printf("\n");
 
 	printf("Starting LBA: %ld\n", hdr->start_lba);
