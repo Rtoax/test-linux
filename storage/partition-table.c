@@ -1,5 +1,7 @@
 /**
- * ref: https://en.wikipedia.org/wiki/GUID_Partition_Table
+ * refs:
+ * - https://en.wikipedia.org/wiki/GUID_Partition_Table
+ * - https://en.wikipedia.org/wiki/Master_boot_record
  */
 #include <stdio.h>
 #include <errno.h>
@@ -13,6 +15,54 @@
 
 /**
  * LBA: logical block addressing
+ */
+
+struct classical_generic_mbr {
+	uint8_t bootstrap_code_area[446];
+	uint8_t part_entry1[16];
+	uint8_t part_entry2[16];
+	uint8_t part_entry3[16];
+	uint8_t part_entry4[16];
+	/* 0x55, 0xAA */
+	uint8_t boot_signature[2];
+} __attribute__((packed));
+
+struct modern_standard_mbr {
+	uint8_t bootstrap_code_area[218];
+	struct {
+		uint8_t zero[2];
+		uint8_t orig_phy_drv;
+		uint8_t secs;
+		uint8_t mins;
+		uint8_t hours;
+	} timestamp;
+	uint8_t bootstrap_code_area2[216]; /* 216 or 222 */
+	/**
+	 * optional; UEFI, Linux, Windows NT family and other OSes
+	 */
+	struct {
+		uint32_t signature;
+		/* 0x0000 (0x5A5A if copy-protected) */
+		uint16_t copy_protected;
+	} disk_signature;
+
+	uint8_t part_entry1[16];
+	uint8_t part_entry2[16];
+	uint8_t part_entry3[16];
+	uint8_t part_entry4[16];
+	/* 0x55, 0xAA */
+	uint8_t boot_signature[2];
+} __attribute__((packed));
+
+struct aap_mbr {
+	uint8_t bootstrap_code_area[428];
+	/* 0x78, 0x56 */
+	uint8_t aap_signature[2];
+	/* TODO: More */
+} __attribute__((packed));
+
+/**
+ * TODO: More MBR type, see https://en.wikipedia.org/wiki/Master_boot_record
  */
 
 struct gpt_hdr {
@@ -78,6 +128,9 @@ int main(void)
 	int i, fd = -1;
 	unsigned char *mbr;
 	unsigned char *primary_gpt_hdr;
+	struct classical_generic_mbr *cg_mbr;
+	struct modern_standard_mbr *ms_mbr;
+	struct aap_mbr *aap_mbr;
 	struct gpt_hdr *hdr;
 	struct gpt_partition_entry *part_entries = NULL;
 
@@ -108,7 +161,13 @@ int main(void)
 	read(fd, mbr, 512);
 	read(fd, primary_gpt_hdr, 0x5c);
 
+	cg_mbr = (void *)mbr;
+	ms_mbr = (void *)mbr;
+	aap_mbr = (void *)mbr;
+
 	hdr = (struct gpt_hdr *)primary_gpt_hdr;
+
+	printf("MBR Signature: %x %x\n", cg_mbr->boot_signature[0], cg_mbr->boot_signature[1]);
 
 	printf("Disk: %s\n", path);
 
