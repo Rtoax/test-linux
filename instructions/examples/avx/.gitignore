@@ -2,4 +2,6 @@
 /sum-avx
 /sum-avx2
 /*.obj.s
+/*.oS
 /cpu-features
+/test-asm

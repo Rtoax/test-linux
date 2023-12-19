@@ -4,6 +4,7 @@ TARGETS += sum
 TARGETS += sum-avx
 TARGETS += sum-avx2
 TARGETS += cpu-features
+TARGETS += test-asm
 
 all: $(TARGETS)
 
@@ -14,13 +15,20 @@ CFLAGS += -O0
 CFLAGS_sum := -DTYPE_FLOAT
 CFLAGS_sum-avx := -DTYPE_FLOAT -mavx
 CFLAGS_sum-avx2 := -DTYPE_FLOAT -mavx2
+CFLAGS_test-asm := -std=gnu17
 
 sum: sum.o
 sum-avx: sum-avx.o
 sum-avx2: sum-avx2.o
 cpu-features: cpu-features.o
+test-asm: test-asm.oS test-asm.o
 
 %.o: %.c
+	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
+	$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
+	objdump -d $(@) > $(@).obj.s
+
+%.oS: %.S
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
 	objdump -d $(@) > $(@).obj.s
@@ -33,4 +41,4 @@ test:
 	@echo "empty"
 
 clean:
-	rm -f $(TARGETS) *.o *.obj.s
+	rm -f $(TARGETS) *.o *.obj.s *.oS
