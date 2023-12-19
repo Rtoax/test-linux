@@ -1,3 +1,4 @@
-/orig
-/avx
-/avx2
+/sum
+/sum-avx
+/sum-avx2
+/*.obj.s
