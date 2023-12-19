@@ -17,6 +17,7 @@ nvme0n1                     disk
 # Boot Linux
 
 ```
+(grub)> set debug=all
 (grub)> ls
 ... (hd1,gpt1) (hd1,gpt2) (hd1,gpt3) ...
 (grub)> ls (hd1,gpt3)
