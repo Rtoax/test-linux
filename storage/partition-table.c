@@ -178,6 +178,10 @@ int main(void)
 	 */
 	if (hdr->signature == 0x5452415020494645ULL)
 		printf("Partition Table: GPT\n");
+	else {
+		printf("No GPT found.\n");
+		goto gpt_done;
+	}
 	/**
 	 * 00h 00h 01h 00h
 	 */
@@ -218,6 +222,7 @@ int main(void)
 		 */
 	}
 
+gpt_done:
 	close(fd);
 	return 0;
 }
