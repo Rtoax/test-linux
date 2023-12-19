@@ -8,6 +8,7 @@ CXX = g++
 
 CXXFLAGS := -Werror -Wall
 CXXFLAGS += -I../macro/
+CXXFLAGS += -DCPP
 
 ifdef DEBUG
 CFLAGS += -DDEBUG -O0 -g -ggdb

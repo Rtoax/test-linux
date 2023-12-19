@@ -43,6 +43,7 @@ endif
 
 CFLAGS_auto := -Wno-error=implicit-int
 CFLAGS_param-pass := -O0 -I../macro/
+CFLAGS_alignas := -std=gnu17
 
 build: ${TARGETS}
 	@echo
