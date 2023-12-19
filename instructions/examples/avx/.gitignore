@@ -6,3 +6,4 @@
 /cpu-features
 /test-asm
 /avx512_aux
+/mul-avx256
