@@ -66,7 +66,24 @@ struct aap_mbr {
 	uint8_t bootstrap_code_area[428];
 	/* 0x78, 0x56 */
 	uint8_t aap_signature[2];
-	/* TODO: More */
+	uint8_t aap_phy_drv;
+	/* CHS (start) address of AAP partition/image file or VBR/EBR */
+	uint8_t chs_addr[3];
+	uint8_t reserved1;
+	uint8_t reserved2[3];
+	union {
+		uint32_t start_lba;
+		uint32_t vbr_ebr;
+		uint32_t relative_sectors;
+		uint32_t aap_partition;
+	};
+	uint32_t reserved3;
+	uint8_t part_entry1[16];
+	uint8_t part_entry2[16];
+	uint8_t part_entry3[16];
+	uint8_t part_entry4[16];
+	/* 0x55, 0xAA */
+	uint8_t boot_signature[2];
 } __attribute__((packed));
 
 /**
