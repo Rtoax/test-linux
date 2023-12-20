@@ -6,6 +6,7 @@ pkgs+=( gcc-aarch64-linux-gnu )
 pkgs+=( bpftrace bpftool bcc ) # eBPF
 pkgs+=( bcc-devel )
 pkgs+=( binutils-devel )
+pkgs+=( capstone-devel )       # Capstone is a disassembly framework
 pkgs+=( cereal-devel )
 pkgs+=( clang-devel )
 pkgs+=( criu )
