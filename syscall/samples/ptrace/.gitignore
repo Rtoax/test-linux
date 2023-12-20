@@ -5,5 +5,6 @@
 /PTRACE_POKEDATA
 /peeksiginfo
 /ptrace-breakpoint
+/ptrace-breakpoint-2
 /ptrace-strace
 /nr.h

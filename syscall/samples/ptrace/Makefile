@@ -9,6 +9,7 @@ TARGETS += PTRACE_PEEKDATA
 TARGETS += PTRACE_POKEDATA
 TARGETS += peeksiginfo
 TARGETS += ptrace-breakpoint
+TARGETS += ptrace-breakpoint-2
 TARGETS += ptrace-strace
 
 
@@ -40,6 +41,7 @@ PTRACE_PEEKDATA: PTRACE_PEEKDATA.o
 PTRACE_POKEDATA: PTRACE_POKEDATA.o
 peeksiginfo: peeksiginfo.o
 ptrace-breakpoint: ptrace-breakpoint.o
+ptrace-breakpoint-2: ptrace-breakpoint-2.o
 ptrace-strace: ptrace-strace.o helpers.o
 
 test: ${TARGETS}
