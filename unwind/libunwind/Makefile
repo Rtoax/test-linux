@@ -1,7 +1,6 @@
 
 TARGETS :=
 TARGETS += backtrace
-TARGETS += backtrace2
 TARGETS += do_backtrace
 
 DEBUG = yes
@@ -22,7 +21,6 @@ build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
 backtrace: backtrace.o
-backtrace2: backtrace2.o
 do_backtrace: do_backtrace.o
 
 %.o: %.c
