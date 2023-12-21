@@ -1,5 +1,6 @@
 
 TARGETS :=
+TARGETS += unw_regname
 TARGETS += backtrace
 TARGETS += do_backtrace
 
@@ -20,6 +21,7 @@ endif
 build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
+unw_regname: unw_regname.o
 backtrace: backtrace.o
 do_backtrace: do_backtrace.o
 
