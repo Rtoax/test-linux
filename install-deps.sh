@@ -27,6 +27,7 @@ pkgs+=( libdwarf-tools )       # dwarfdump
 pkgs+=( libbpf-devel )         # libbpf
 pkgs+=( libpcap-devel )
 pkgs+=( libselinux-devel )     # SELinux
+pkgs+=( libunwind-devel )      # Unwind
 pkgs+=( liburing-devel )       # uring
 pkgs+=( llvm llvm-devel )      # llvm-as llvm-dis llc
 pkgs+=( lshw )                 # lshw
