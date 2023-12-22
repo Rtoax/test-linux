@@ -1,8 +1,6 @@
 /**
- *
- *	https://stackoverflow.com/questions/31437045/how-do-you-programmatically-obtain-a-stack-trace-of-a-child-process-from-its-par
+ * https://stackoverflow.com/questions/31437045/how-do-you-programmatically-obtain-a-stack-trace-of-a-child-process-from-its-par
  */
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -15,6 +13,7 @@
 #include <libunwind-x86_64.h>
 #include <signal.h>
 
+
 #define panic(X) fprintf(stderr, #X "\n");
 
 static unw_addr_space_t as;
@@ -22,7 +21,6 @@ static struct UPT_info *ui;
 
 void do_backtrace(pid_t child)
 {
-
 	ui = _UPT_create(child);
 	if (!ui) {
 		panic("_UPT_create failed");
@@ -52,12 +50,11 @@ void do_backtrace(pid_t child)
 
 		unw_get_reg(&c, UNW_REG_IP, &pc);
 		fname[0] = '\0';
-		(void) unw_get_proc_name(&c, fname, sizeof(fname), &offset);
+		unw_get_proc_name(&c, fname, sizeof(fname), &offset);
 
-		printf("\n%p : (%s+0x%x) [%p]\n",
-			   (void *)pc, fname, (int) offset, (void *) pc);
+		printf("\n%p : (%s+0x%x) [%p]\n", (void *)pc, fname,
+			(int)offset, (void *)pc);
 	} while (unw_step(&c) > 0);
-
 
 	ptrace(PTRACE_DETACH, child, 0, 0);
 
@@ -76,23 +73,17 @@ int main(int argc __attribute__((unused)), char **argv, char **envp)
 	child = fork();
 
 	if (!child) {
-
 		execve("/home/#######/#######/my_utilities/child_bt/cg.A.x",
 				argv, envp);
-
 		return 0;
-
 	} else {
-
+		int status;
 		struct timespec t = { .tv_sec = 1, .tv_nsec = 0 };
 		nanosleep(&t, NULL);
 
 		do_backtrace(child);
 
-		int status;
 		waitpid(child, &status, 0);
-
 	}
-
 	return 0;
 }

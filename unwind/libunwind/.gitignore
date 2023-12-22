@@ -1,3 +1,6 @@
+/test
 /unw_regname
 /backtrace
+/backtrace-pid
 /do_backtrace
+/*.oo

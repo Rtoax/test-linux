@@ -3,7 +3,7 @@
 #include <libunwind.h>
 
 
-void do_backtrace()
+void do_backtrace(void)
 {
 	unw_cursor_t cursor;
 	unw_context_t context;
