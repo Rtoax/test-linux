@@ -17,6 +17,7 @@ TARGETS += strpbrk
 TARGETS += strsep
 TARGETS += strtok
 TARGETS += strtol
+TARGETS += strsignal
 
 CC = gcc
 
@@ -29,9 +30,12 @@ ifdef SIMD
 CFLAGS += -mavx2
 endif
 
-build: ${TARGETS}
+build: sig.h ${TARGETS}
 	@echo
 	@echo -e " \033[1;33m Done \033[m"
+
+sig.h:
+	$(shell sh signo.sh)
 
 bcopy: bcopy.o
 index: index.o
@@ -52,6 +56,7 @@ strpbrk: strpbrk.o
 strsep: strsep.o
 strtok: strtok.o
 strtol: strtol.o
+strsignal: strsignal.o
 
 %.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

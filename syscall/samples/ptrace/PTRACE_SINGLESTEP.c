@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <string.h>
 #include <sys/wait.h>
 #include <sys/reg.h>
 #include <sys/user.h>
@@ -14,6 +15,7 @@ int main(void)
 {
 	pid_t child;
 	int status;
+	size_t sigtrap_count = 0;
 	size_t instruction_count = 0;
 
 	child = fork();
@@ -27,11 +29,15 @@ int main(void)
 		wait(&status);
 		if (WIFEXITED(status))
 			break;
+		if (WSTOPSIG(status) == SIGTRAP)
+			sigtrap_count++;
 		instruction_count++;
+
 		ptrace(PTRACE_SINGLESTEP, child, NULL, NULL);
 	}
 
 	printf("instruction count %ld\n", instruction_count);
+	printf("SIGTRAP count %ld\n", sigtrap_count);
 	return 0;
 }
 

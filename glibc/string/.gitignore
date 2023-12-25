@@ -17,3 +17,5 @@
 /strsep
 /strtok
 /strtol
+/sig.h
+/strsignal
