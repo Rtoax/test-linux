@@ -10,7 +10,7 @@
 int main(void)
 {
 	pid_t child;
-	long orig_rax;
+	long orig_rax, rip;
 
 	child=fork();
 	if (child == 0) {
@@ -18,9 +18,15 @@ int main(void)
 		execl("/bin/ls", "ls", NULL);
 	} else {
 		wait(NULL);
-		orig_rax = ptrace(PTRACE_PEEKUSER, child, 8 * ORIG_RAX, NULL);
+
+		orig_rax = ptrace(PTRACE_PEEKUSER, child,
+				sizeof(unsigned long) * ORIG_RAX, NULL);
+		rip = ptrace(PTRACE_PEEKUSER, child,
+				sizeof(unsigned long) * RIP, NULL);
+
 		printf("__NR_execve = %d\n", __NR_execve);
 		printf("The child made a system call %ld\n", orig_rax);
+		printf("RIP %lx\n", rip);
 		ptrace(PTRACE_CONT, child, NULL, NULL);
 	}
 	return 0;
