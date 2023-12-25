@@ -12,6 +12,7 @@ TARGETS += __builtin_index
 TARGETS += __builtin_object_size
 TARGETS += __builtin_offsetof
 TARGETS += __builtin_popcount
+TARGETS += __builtin_prefetch
 TARGETS += __builtin_return_address-2
 TARGETS += __builtin_return_address
 TARGETS += __builtin_rindex
@@ -37,6 +38,7 @@ __builtin_index: __builtin_index.o
 __builtin_object_size: __builtin_object_size.o
 __builtin_offsetof: __builtin_offsetof.o
 __builtin_popcount: __builtin_popcount.o
+__builtin_prefetch: __builtin_prefetch.o
 __builtin_preserve_field_info: __builtin_preserve_field_info.o
 __builtin_read8: __builtin_read8.o
 __builtin_return_address-2: __builtin_return_address-2.o

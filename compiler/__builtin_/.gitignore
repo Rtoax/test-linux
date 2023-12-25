@@ -12,6 +12,7 @@
 /__builtin_object_size
 /__builtin_offsetof
 /__builtin_popcount
+/__builtin_prefetch
 /__builtin_preserve_field_info
 /__builtin_read8
 /__builtin_return_address-2
