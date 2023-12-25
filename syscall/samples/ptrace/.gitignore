@@ -10,3 +10,4 @@
 /ptrace-strace
 /nr.h
 /pthread_create
+/multi-thread
