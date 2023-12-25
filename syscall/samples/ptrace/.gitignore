@@ -9,3 +9,4 @@
 /ptrace-breakpoint-2
 /ptrace-strace
 /nr.h
+/pthread_create
