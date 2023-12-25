@@ -3,6 +3,7 @@
 /PTRACE_PEEKUSER
 /PTRACE_PEEKDATA
 /PTRACE_POKEDATA
+/PTRACE_SINGLESTEP
 /peeksiginfo
 /ptrace-breakpoint
 /ptrace-breakpoint-2
