@@ -8,9 +8,10 @@ if [[ -z "$pid" ]]; then
 	sleep 1
 	pid=$(pidof pthread-gdb)
 fi
-child_tid=$(ls /proc/$pid/task/ | tail -n1)
+tids=( $(ls /proc/$pid/task/ | tail -n1) )
+child_tid=${tids[0]}
 
-gdb -p $child_tid < pthread-gdb.gdb
+gdb -p $child_tid -q < pthread-gdb.gdb
 
 sleep 1
 kill -9 ${pid}
