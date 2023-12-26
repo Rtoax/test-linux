@@ -408,7 +408,7 @@ void double_avx512_X_add_Y(void *_x, void *_y, size_t n)
 {
 	double *x = _x;
 	double *y = _y;
-	size_t i, r = n&7, n2 = n & (-8);
+	size_t i, r = n & 7, n2 = n & (-8);
 	for(i = -n2; i != 0; i += 8) {
 		__m512d yv = _mm512_loadu_pd(&y[i + n2]);
 		__m512d xv = _mm512_loadu_pd(&x[i + n2]);
