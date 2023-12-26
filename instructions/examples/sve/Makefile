@@ -6,11 +6,11 @@ TARGETS :=
 
 ifeq ($(shell lscpu | grep -w -e sve -e sve2),)
 $(warning Not support SVE/SVE2 on this CPU)
-CFLAGS += -DCONFIG_NO_SVE=1
 else
 TARGETS += sve-width
 TARGETS += add_array
 TARGETS += svaddlb
+CFLAGS += -DCPU_HAVE_SVE=1
 endif
 
 TARGETS += neon-sve
@@ -30,9 +30,7 @@ endif
 
 ifeq ($(shell uname -m),aarch64)
 CFLAGS += -march=armv8-a+sve2
-else
-CFLAGS += -DCONFIG_NO_NEON=1
-CFLAGS += -DCONFIG_NO_SVE=1
+CFLAGS += -DCPU_HAVE_NEON=1
 endif
 
 all: $(TARGETS)

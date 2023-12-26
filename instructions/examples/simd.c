@@ -4,10 +4,10 @@
 #include <sys/types.h>
 #include <time.h>
 #include <sys/time.h>
-#if !defined(CONFIG_NO_NEON)
+#if defined(CPU_HAVE_NEON)
 #include <arm_neon.h>
 #endif
-#if !defined(CONFIG_NO_SVE)
+#if defined(CPU_HAVE_SVE)
 #include <arm_sve.h>
 #endif
 #if defined(CPU_HAVE_AVX512F)
@@ -138,7 +138,7 @@ void u16_c_X_x_Y(void *_x, void *_y, size_t n)
 		y[i] = x[i] * y[i];
 }
 
-#if !defined(CONFIG_NO_NEON)
+#if defined(CPU_HAVE_NEON)
 void double_neon_X_x_Y(void *_x, void *_y, size_t n)
 {
 	size_t i;
@@ -270,7 +270,7 @@ void u16_128_neon_X_x_Y(void *_x, void *_y, size_t n)
 }
 #endif
 
-#if !defined(CONFIG_NO_SVE)
+#if defined(CPU_HAVE_SVE)
 void u8_sve_X_x_Y(void *_x, void *_y, size_t n)
 {
 	size_t i;
@@ -474,7 +474,7 @@ struct test tests[] = {
 		.spent_us = 0,
 		.cmp_with = NULL,
 	},
-#if !defined(CONFIG_NO_NEON)
+#if defined(CPU_HAVE_NEON)
 	{
 		.name = "Neon: y[i] = x[i] * y[i] (u8) lane=128",
 		.fn = u8_128_neon_X_x_Y,
@@ -566,7 +566,7 @@ struct test tests[] = {
 		.cmp_with = &tests[T_BASE_F64_ADD],
 	},
 #endif
-#if !defined(CONFIG_NO_SVE)
+#if defined(CPU_HAVE_SVE)
 	{
 		.name = " Sve: y[i] = x[i] * y[i] (u8)",
 		.fn = u8_sve_X_x_Y,

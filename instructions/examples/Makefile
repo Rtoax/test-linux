@@ -35,20 +35,12 @@ ifeq ($(shell uname -m),aarch64)
 # Check cpu flags
 ifneq ($(shell lscpu | grep -w sve),)
 CFLAGS += -DCPU_HAVE_SVE=1
-else
-CFLAGS += -DCONFIG_NO_SVE=1
 endif
 ifneq ($(shell lscpu | grep -w sve2),)
 CFLAGS += -DCPU_HAVE_SVE2=1
-else
-CFLAGS += -DCONFIG_NO_SVE2=1
 endif
 
 TARGETS += mrs
-else
-CFLAGS += -DCONFIG_NO_NEON=1
-CFLAGS += -DCONFIG_NO_SVE=1
-CFLAGS += -DCONFIG_NO_SVE2=1
 endif
 
 TARGETS += simd
