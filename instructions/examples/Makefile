@@ -8,9 +8,14 @@ KERNELDIR ?= /lib/modules/$(shell uname -r)/build
 ###############################################################################
 # User
 TARGETS :=
+CFLAGS :=
 
 # User
 ifeq ($(shell uname -m),x86_64)
+ifneq ($(shell lscpu | grep -w avx512f),)
+	CFLAGS += -mavx512f -mfma
+	CFLAGS += -DCPU_HAVE_AVX512F=1
+endif
 TARGETS += bts
 TARGETS += invalid_opcode_user
 TARGETS += rdtsc_user
