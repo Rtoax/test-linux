@@ -1,9 +1,12 @@
 #include <stdio.h>
+#include <stdint.h>
 #include <malloc.h>
 #include <sys/types.h>
 #include <time.h>
 #include <sys/time.h>
+#if !defined(CONFIG_NO_NEON)
 #include <arm_neon.h>
+#endif
 #if !defined(CONFIG_NO_SVE)
 #include <arm_sve.h>
 #endif
@@ -132,6 +135,7 @@ void u16_c_X_x_Y(void *_x, void *_y, size_t n)
 		y[i] = x[i] * y[i];
 }
 
+#if !defined(CONFIG_NO_NEON)
 void double_neon_X_x_Y(void *_x, void *_y, size_t n)
 {
 	size_t i;
@@ -261,6 +265,7 @@ void u16_128_neon_X_x_Y(void *_x, void *_y, size_t n)
 		vst1q_u16(&y[i], mul);
 	}
 }
+#endif
 
 #if !defined(CONFIG_NO_SVE)
 void u8_sve_X_x_Y(void *_x, void *_y, size_t n)
@@ -444,6 +449,7 @@ struct test tests[] = {
 		.spent_us = 0,
 		.cmp_with = NULL,
 	},
+#if !defined(CONFIG_NO_NEON)
 	{
 		.name = "Neon: y[i] = x[i] * y[i] (u8) lane=128",
 		.fn = u8_128_neon_X_x_Y,
@@ -534,6 +540,7 @@ struct test tests[] = {
 		.spent_us = 0,
 		.cmp_with = &tests[T_BASE_F64_ADD],
 	},
+#endif
 #if !defined(CONFIG_NO_SVE)
 	{
 		.name = " Sve: y[i] = x[i] * y[i] (u8)",

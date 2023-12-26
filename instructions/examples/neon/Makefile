@@ -3,9 +3,14 @@ CC = gcc
 CFLAGS := -O0 -g -ggdb
 TARGETS :=
 
+ifeq ($(shell uname -m),aarch64)
 TARGETS += vrsqrtsq_f32
 TARGETS += vst1q_u8
 TARGETS += vaddq_s64
+else
+CFLAGS += -DCONFIG_NO_NEON=1
+endif
+
 TARGETS += neon-sve
 
 ifeq ($(shell lscpu | grep -w -e sve -e sve2),)
