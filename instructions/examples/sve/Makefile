@@ -6,14 +6,17 @@ TARGETS :=
 
 ifeq ($(shell lscpu | grep -w -e sve -e sve2),)
 $(warning Not support SVE/SVE2 on this CPU)
+CFLAGS += -DCONFIG_NO_SVE=1
 else
 TARGETS += sve-width
 TARGETS += add_array
 TARGETS += svaddlb
-TARGETS += neon-sve
 endif
 
+TARGETS += neon-sve
+
 # Cross compile
+ifdef CROSS_COMPILE
 ifneq ($(shell uname -m),aarch64)
 	CC = aarch64-linux-gnu-gcc
 	AS = aarch64-linux-gnu-as
@@ -23,9 +26,14 @@ ifneq ($(shell uname -m),aarch64)
 	CFLAGS += --sysroot=$(shell pwd)/sysroot
 	RUN_PFX = qemu-aarch64 --sysroot=$(shell pwd)/sysroot
 endif
+endif
 
-
+ifeq ($(shell uname -m),aarch64)
 CFLAGS += -march=armv8-a+sve2
+else
+CFLAGS += -DCONFIG_NO_NEON=1
+CFLAGS += -DCONFIG_NO_SVE=1
+endif
 
 all: $(TARGETS)
 
