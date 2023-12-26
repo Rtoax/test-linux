@@ -40,6 +40,7 @@ ifneq ($(shell lscpu | grep -w sve2),)
 CFLAGS += -DCPU_HAVE_SVE2=1
 endif
 
+CFLAGS += -DCPU_HAVE_NEON=1
 TARGETS += mrs
 endif
 
