@@ -22,7 +22,6 @@ int funcname(void *x, void *y, size_t n) {	\
 	size_t ___i;	\
 	type *___x = x;	\
 	type *___y = y;	\
-	printf("call %s\n", #funcname);	\
 	for (___i = 0; ___i < n; ___i++)	\
 		if (___x[___i] != ___y[___i]) {	\
 			fprintf(stderr, "F:%ld\n", ___i);	\
@@ -36,7 +35,6 @@ int funcname(void *x, void *y, size_t n) {	\
 void funcname(void *array, size_t n) {	\
 	size_t i;	\
 	type *arr = array;	\
-	printf("call %s\n", #funcname);	\
 	for (i = 0; i < n; i++)	\
 		arr[i] = i;	\
 }
@@ -662,30 +660,37 @@ struct test tests[] = {
 
 int main(int argc, char *argv[])
 {
-	int i;
-	size_t n = 10000000;
+	int i, j;
+	size_t n = 8192;
+	size_t nloop = 10000;
 
-	for (i = 0; i < ARRAY_SIZE(tests); i++) {
-		unsigned long start;
-		struct test *t = &tests[i];
-		struct test *t_cmp = t->cmp_with;
+	for (j = 0; j < nloop; j++) {
+#if 0
+		if (j % 1000 == 0)
+			printf("Testing %d/%d\n", j, nloop);
+#endif
+		for (i = 0; i < ARRAY_SIZE(tests); i++) {
+			unsigned long start;
+			struct test *t = &tests[i];
+			struct test *t_cmp = t->cmp_with;
 
-		printf("Testing %s\n", t->name);
+			//printf("Testing %s\n", t->name);
 
-		t->x = malloc(t->elem_size * n);
-		t->y = malloc(t->elem_size * n);
+			t->x = malloc(t->elem_size * n);
+			t->y = malloc(t->elem_size * n);
 
-		t->init(t->x, n);
-		t->init(t->y, n);
+			t->init(t->x, n);
+			t->init(t->y, n);
 
-		start = usecs();
-		t->fn(t->x, t->y, n);
-		t->spent_us = usecs() - start;
+			start = usecs();
+			t->fn(t->x, t->y, n);
+			t->spent_us += usecs() - start;
 
-		if (t_cmp)
-			t->cmp_rslt = t->cmp(t_cmp->y, t->y, n);
-		else
-			t->cmp_rslt = 0;
+			if (t_cmp)
+				t->cmp_rslt += t->cmp(t_cmp->y, t->y, n);
+			else
+				t->cmp_rslt += 0;
+		}
 	}
 
 	printf("Length of array %ld\n", n);
