@@ -4,7 +4,11 @@
 
 void add512(double a[], double b[], double c[])
 {
-	_mm512_storeu_pd(&c, _mm512_add_pd(_mm512_loadu_pd(&a), _mm512_loadu_pd(&b)));
+	__m512d aa, bb, cc;
+	aa = _mm512_loadu_pd(&a);
+	bb = _mm512_loadu_pd(&b);
+	cc = _mm512_add_pd(aa, bb);
+	_mm512_storeu_pd(c, cc);
 }
 
 int main(void)

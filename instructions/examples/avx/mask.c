@@ -85,6 +85,7 @@ void free_data(void)
 	free(a);
 	free(b);
 	free(c);
+	a = b = c = NULL;
 	N = 0;
 }
 

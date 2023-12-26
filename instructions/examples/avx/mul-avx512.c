@@ -35,12 +35,12 @@ int main(void)
 
 	/* processing 32 elements in an unrolled twice loop */
 	for(i = 0; i < len; i += 32) {
-		Zmm0 = _mm512_load_ps(pInVector+i);
+		Zmm0 = _mm512_load_ps(pInVector + i);
 		Zmm1 = _mm512_moveldup_ps(Zmm0);
 		Zmm2 = _mm512_movehdup_ps(Zmm0);
-		Zmm2 = _mm512_mul_ps(Zmm2,Zmm_sin_cos);
+		Zmm2 = _mm512_mul_ps(Zmm2, Zmm_sin_cos);
 		Zmm3 = _mm512_fmaddsub_ps(Zmm1, Zmm_cos_sin, Zmm2);
-		_mm512_store_ps(pOutVector + i,Zmm3);
+		_mm512_store_ps(pOutVector + i, Zmm3);
 
 		Zmm0 = _mm512_load_ps(pInVector + i + 16);
 		Zmm1 = _mm512_moveldup_ps(Zmm0);
