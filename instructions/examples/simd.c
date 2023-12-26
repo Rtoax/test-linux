@@ -57,6 +57,7 @@ typedef void (*init_fn_t)(void *x, size_t n);
 
 struct test {
 	const char *name;
+	const char *cpufeature;
 	test_fn_t fn;
 	cmp_fn_t cmp;
 	init_fn_t init;
@@ -412,7 +413,8 @@ enum {
 
 struct test tests[] = {
 	[T_BASE_U8_MUL] = {
-		.name = "   C: y[i] = x[i] * y[i] (u8)",
+		.name = "y[i] = x[i] * y[i] (u8)",
+		.cpufeature = "C",
 		.fn = u8_c_X_x_Y,
 		.init = init_arr_u8,
 		.cmp = cmp_arr_u8,
@@ -421,7 +423,8 @@ struct test tests[] = {
 		.cmp_with = NULL,
 	},
 	[T_BASE_U8_ADD] = {
-		.name = "   C: y[i] = x[i] + y[i] (u8)",
+		.name = "y[i] = x[i] + y[i] (u8)",
+		.cpufeature = "C",
 		.fn = u8_c_X_add_Y,
 		.init = init_arr_u8,
 		.cmp = cmp_arr_u8,
@@ -430,7 +433,8 @@ struct test tests[] = {
 		.cmp_with = NULL,
 	},
 	[T_BASE_U16] = {
-		.name = "   C: y[i] = x[i] * y[i] (u16)",
+		.name = "y[i] = x[i] * y[i] (u16)",
+		.cpufeature = "C",
 		.fn = u16_c_X_x_Y,
 		.init = init_arr_u16,
 		.cmp = cmp_arr_u16,
@@ -439,7 +443,8 @@ struct test tests[] = {
 		.cmp_with = NULL,
 	},
 	[T_BASE_F32_MUL] = {
-		.name = "   C: y[i] = x[i] * y[i] (f32)",
+		.name = "y[i] = x[i] * y[i] (f32)",
+		.cpufeature = "C",
 		.fn = float_c_X_x_Y,
 		.init = init_arr_f32,
 		.cmp = cmp_arr_f32,
@@ -448,7 +453,8 @@ struct test tests[] = {
 		.cmp_with = NULL,
 	},
 	[T_BASE_F32_ADD] = {
-		.name = "   C: y[i] = x[i] + y[i] (f32)",
+		.name = "y[i] = x[i] + y[i] (f32)",
+		.cpufeature = "C",
 		.fn = float_c_X_add_Y,
 		.init = init_arr_f32,
 		.cmp = cmp_arr_f32,
@@ -457,7 +463,8 @@ struct test tests[] = {
 		.cmp_with = NULL,
 	},
 	[T_BASE_F64_MUL] = {
-		.name = "   C: y[i] = x[i] * y[i] (f64)",
+		.name = "y[i] = x[i] * y[i] (f64)",
+		.cpufeature = "C",
 		.fn = double_c_X_x_Y,
 		.init = init_arr_f64,
 		.cmp = cmp_arr_f64,
@@ -466,7 +473,8 @@ struct test tests[] = {
 		.cmp_with = NULL,
 	},
 	[T_BASE_F64_ADD] = {
-		.name = "   C: y[i] = x[i] + y[i] (f64)",
+		.name = "y[i] = x[i] + y[i] (f64)",
+		.cpufeature = "C",
 		.fn = double_c_X_add_Y,
 		.init = init_arr_f64,
 		.cmp = cmp_arr_f64,
@@ -476,7 +484,8 @@ struct test tests[] = {
 	},
 #if defined(CPU_HAVE_NEON)
 	{
-		.name = "Neon: y[i] = x[i] * y[i] (u8) lane=128",
+		.name = "y[i] = x[i] * y[i] (u8) lane=128",
+		.cpufeature = "neon",
 		.fn = u8_128_neon_X_x_Y,
 		.init = init_arr_u8,
 		.cmp = cmp_arr_u8,
@@ -485,7 +494,8 @@ struct test tests[] = {
 		.cmp_with = &tests[T_BASE_U8_MUL],
 	},
 	{
-		.name = "Neon: y[i] = x[i] + y[i] (u8) lane=128",
+		.name = "y[i] = x[i] + y[i] (u8) lane=128",
+		.cpufeature = "neon",
 		.fn = u8_128_neon_X_add_Y,
 		.init = init_arr_u8,
 		.cmp = cmp_arr_u8,
@@ -494,7 +504,8 @@ struct test tests[] = {
 		.cmp_with = &tests[T_BASE_U8_ADD],
 	},
 	{
-		.name = "Neon: y[i] = x[i] * y[i] (u8) lane=64",
+		.name = "y[i] = x[i] * y[i] (u8) lane=64",
+		.cpufeature = "neon",
 		.fn = u8_64_neon_X_x_Y,
 		.init = init_arr_u8,
 		.cmp = cmp_arr_u8,
@@ -503,7 +514,8 @@ struct test tests[] = {
 		.cmp_with = &tests[T_BASE_U8_MUL],
 	},
 	{
-		.name = "Neon: y[i] = x[i] + y[i] (u8) lane=64",
+		.name = "y[i] = x[i] + y[i] (u8) lane=64",
+		.cpufeature = "neon",
 		.fn = u8_64_neon_X_add_Y,
 		.init = init_arr_u8,
 		.cmp = cmp_arr_u8,
@@ -512,7 +524,8 @@ struct test tests[] = {
 		.cmp_with = &tests[T_BASE_U8_ADD],
 	},
 	{
-		.name = "Neon: y[i] = x[i] * y[i] (u16) lane=128",
+		.name = "y[i] = x[i] * y[i] (u16) lane=128",
+		.cpufeature = "neon",
 		.fn = u16_128_neon_X_x_Y,
 		.init = init_arr_u16,
 		.cmp = cmp_arr_u16,
@@ -521,7 +534,8 @@ struct test tests[] = {
 		.cmp_with = &tests[T_BASE_U16],
 	},
 	{
-		.name = "Neon: y[i] = x[i] * y[i] (u16) lane=64",
+		.name = "y[i] = x[i] * y[i] (u16) lane=64",
+		.cpufeature = "neon",
 		.fn = u16_64_neon_X_x_Y,
 		.init = init_arr_u16,
 		.cmp = cmp_arr_u16,
@@ -530,7 +544,8 @@ struct test tests[] = {
 		.cmp_with = &tests[T_BASE_U16],
 	},
 	{
-		.name = "Neon: y[i] = x[i] * y[i] (f32)",
+		.name = "y[i] = x[i] * y[i] (f32)",
+		.cpufeature = "neon",
 		.fn = float_neon_X_x_Y,
 		.init = init_arr_f32,
 		.cmp = cmp_arr_f32,
@@ -539,7 +554,8 @@ struct test tests[] = {
 		.cmp_with = &tests[T_BASE_F32_MUL],
 	},
 	{
-		.name = "Neon: y[i] = x[i] + y[i] (f32)",
+		.name = "y[i] = x[i] + y[i] (f32)",
+		.cpufeature = "neon",
 		.fn = float_neon_X_add_Y,
 		.init = init_arr_f32,
 		.cmp = cmp_arr_f32,
@@ -548,7 +564,8 @@ struct test tests[] = {
 		.cmp_with = &tests[T_BASE_F32_ADD],
 	},
 	{
-		.name = "Neon: y[i] = x[i] * y[i] (f64)",
+		.name = "y[i] = x[i] * y[i] (f64)",
+		.cpufeature = "neon",
 		.fn = double_neon_X_x_Y,
 		.init = init_arr_f64,
 		.cmp = cmp_arr_f64,
@@ -557,7 +574,8 @@ struct test tests[] = {
 		.cmp_with = &tests[T_BASE_F64_MUL],
 	},
 	{
-		.name = "Neon: y[i] = x[i] + y[i] (f64)",
+		.name = "y[i] = x[i] + y[i] (f64)",
+		.cpufeature = "neon",
 		.fn = double_neon_X_add_Y,
 		.init = init_arr_f64,
 		.cmp = cmp_arr_f64,
@@ -568,7 +586,8 @@ struct test tests[] = {
 #endif
 #if defined(CPU_HAVE_SVE)
 	{
-		.name = " Sve: y[i] = x[i] * y[i] (u8)",
+		.name = "y[i] = x[i] * y[i] (u8)",
+		.cpufeature = "sve",
 		.fn = u8_sve_X_x_Y,
 		.init = init_arr_u8,
 		.cmp = cmp_arr_u8,
@@ -577,7 +596,8 @@ struct test tests[] = {
 		.cmp_with = &tests[T_BASE_U8_MUL],
 	},
 	{
-		.name = " Sve: y[i] = x[i] + y[i] (u8)",
+		.name = "y[i] = x[i] + y[i] (u8)",
+		.cpufeature = "sve",
 		.fn = u8_sve_X_add_Y,
 		.init = init_arr_u8,
 		.cmp = cmp_arr_u8,
@@ -586,7 +606,8 @@ struct test tests[] = {
 		.cmp_with = &tests[T_BASE_U8_ADD],
 	},
 	{
-		.name = " Sve: y[i] = x[i] * y[i] (f32)",
+		.name = "y[i] = x[i] * y[i] (f32)",
+		.cpufeature = "sve",
 		.fn = float_sve_X_x_Y,
 		.init = init_arr_f32,
 		.cmp = cmp_arr_f32,
@@ -595,7 +616,8 @@ struct test tests[] = {
 		.cmp_with = &tests[T_BASE_F32_MUL],
 	},
 	{
-		.name = " Sve: y[i] = x[i] + y[i] (f32)",
+		.name = "y[i] = x[i] + y[i] (f32)",
+		.cpufeature = "sve",
 		.fn = float_sve_X_add_Y,
 		.init = init_arr_f32,
 		.cmp = cmp_arr_f32,
@@ -604,7 +626,8 @@ struct test tests[] = {
 		.cmp_with = &tests[T_BASE_F32_ADD],
 	},
 	{
-		.name = " Sve: y[i] = x[i] * y[i] (f64)",
+		.name = "y[i] = x[i] * y[i] (f64)",
+		.cpufeature = "sve",
 		.fn = double_sve_X_x_Y,
 		.init = init_arr_f64,
 		.cmp = cmp_arr_f64,
@@ -613,7 +636,8 @@ struct test tests[] = {
 		.cmp_with = &tests[T_BASE_F64_MUL],
 	},
 	{
-		.name = " Sve: y[i] = x[i] + y[i] (f64)",
+		.name = "y[i] = x[i] + y[i] (f64)",
+		.cpufeature = "sve",
 		.fn = double_sve_X_add_Y,
 		.init = init_arr_f64,
 		.cmp = cmp_arr_f64,
@@ -624,7 +648,8 @@ struct test tests[] = {
 #endif
 #if defined(CPU_HAVE_AVX512F)
 	{
-		.name = "avx512: y[i] = x[i] + y[i] (f64)",
+		.name = "y[i] = x[i] + y[i] (f64)",
+		.cpufeature = "avx512f",
 		.fn = double_avx512_X_add_Y,
 		.init = init_arr_f64,
 		.cmp = cmp_arr_f64,
@@ -664,11 +689,12 @@ int main(int argc, char *argv[])
 	}
 
 	printf("Length of array %ld\n", n);
-	printf("%-50s %-16s %-8s\n", "TEST_NAME", "SPENT(us)", "RSLT");
+	printf("%-50s %-16s %-16s %-8s\n", "TEST_NAME", "FLAGS", "SPENT(us)", "RSLT");
 
 	for (i = 0; i < ARRAY_SIZE(tests); i++) {
 		struct test *t = &tests[i];
-		printf("%-50s %-16ld %-8s\n", t->name, t->spent_us, t->cmp_rslt ? "Failed" : "Passed");
+		printf("%-50s %-16s %-16ld %-8s\n", t->name, t->cpufeature,
+			t->spent_us, t->cmp_rslt ? "Failed" : "Passed");
 	}
 
 	for (i = 0; i < ARRAY_SIZE(tests); i++) {
