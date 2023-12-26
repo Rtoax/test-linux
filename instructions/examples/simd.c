@@ -31,12 +31,16 @@ int funcname(void *x, void *y, size_t n) {	\
 	return __ret;	\
 }
 
+#define prefetch(x) __builtin_prefetch(x)
+
 #define DEFINE_INIT_FUNC(funcname, type)	\
 void funcname(void *array, size_t n) {	\
 	size_t i;	\
 	type *arr = array;	\
 	for (i = 0; i < n; i++)	\
 		arr[i] = i;	\
+	for (i = 0; i < n; i += 64)	\
+		prefetch(&arr[i]);	\
 }
 
 DEFINE_CMP_FUNC(cmp_arr_u8, uint8_t)
