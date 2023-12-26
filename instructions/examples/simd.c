@@ -14,6 +14,10 @@
 #include <immintrin.h>
 #endif
 
+#define __no_optimize __attribute__((optimize("-O0")))
+
+#define function_attr	__no_optimize
+
 #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof(arr[0]))
 
 #define DEFINE_CMP_FUNC(funcname, type) \
@@ -78,6 +82,7 @@ static inline unsigned long usecs(void)
 	return tv.tv_sec * 1000000UL + tv.tv_usec;
 }
 
+function_attr
 void double_c_X_x_Y(void *_x, void *_y, size_t n)
 {
 	size_t i;
@@ -87,6 +92,7 @@ void double_c_X_x_Y(void *_x, void *_y, size_t n)
 		y[i] = x[i] * y[i];
 }
 
+function_attr
 void double_c_X_add_Y(void *_x, void *_y, size_t n)
 {
 	size_t i;
@@ -96,6 +102,7 @@ void double_c_X_add_Y(void *_x, void *_y, size_t n)
 		y[i] = x[i] + y[i];
 }
 
+function_attr
 void float_c_X_x_Y(void *_x, void *_y, size_t n)
 {
 	size_t i;
@@ -105,6 +112,7 @@ void float_c_X_x_Y(void *_x, void *_y, size_t n)
 		y[i] = x[i] * y[i];
 }
 
+function_attr
 void float_c_X_add_Y(void *_x, void *_y, size_t n)
 {
 	size_t i;
@@ -114,6 +122,7 @@ void float_c_X_add_Y(void *_x, void *_y, size_t n)
 		y[i] = x[i] + y[i];
 }
 
+function_attr
 void u8_c_X_x_Y(void *_x, void *_y, size_t n)
 {
 	size_t i;
@@ -123,6 +132,7 @@ void u8_c_X_x_Y(void *_x, void *_y, size_t n)
 		y[i] = x[i] * y[i];
 }
 
+function_attr
 void u8_c_X_add_Y(void *_x, void *_y, size_t n)
 {
 	size_t i;
@@ -132,6 +142,7 @@ void u8_c_X_add_Y(void *_x, void *_y, size_t n)
 		y[i] = x[i] + y[i];
 }
 
+function_attr
 void u16_c_X_x_Y(void *_x, void *_y, size_t n)
 {
 	size_t i;
@@ -142,6 +153,7 @@ void u16_c_X_x_Y(void *_x, void *_y, size_t n)
 }
 
 #if defined(CPU_HAVE_NEON)
+function_attr
 void double_neon_X_x_Y(void *_x, void *_y, size_t n)
 {
 	size_t i;
@@ -155,6 +167,7 @@ void double_neon_X_x_Y(void *_x, void *_y, size_t n)
 	}
 }
 
+function_attr
 void double_neon_X_add_Y(void *_x, void *_y, size_t n)
 {
 	size_t i;
@@ -168,6 +181,7 @@ void double_neon_X_add_Y(void *_x, void *_y, size_t n)
 	}
 }
 
+function_attr
 void float_neon_X_x_Y(void *_x, void *_y, size_t n)
 {
 	size_t i;
@@ -181,6 +195,7 @@ void float_neon_X_x_Y(void *_x, void *_y, size_t n)
 	}
 }
 
+function_attr
 void float_neon_X_add_Y(void *_x, void *_y, size_t n)
 {
 	size_t i;
@@ -194,6 +209,7 @@ void float_neon_X_add_Y(void *_x, void *_y, size_t n)
 	}
 }
 
+function_attr
 void u8_64_neon_X_x_Y(void *_x, void *_y, size_t n)
 {
 	size_t i;
@@ -207,6 +223,7 @@ void u8_64_neon_X_x_Y(void *_x, void *_y, size_t n)
 	}
 }
 
+function_attr
 void u8_64_neon_X_add_Y(void *_x, void *_y, size_t n)
 {
 	size_t i;
@@ -220,6 +237,7 @@ void u8_64_neon_X_add_Y(void *_x, void *_y, size_t n)
 	}
 }
 
+function_attr
 void u8_128_neon_X_x_Y(void *_x, void *_y, size_t n)
 {
 	size_t i;
@@ -233,6 +251,7 @@ void u8_128_neon_X_x_Y(void *_x, void *_y, size_t n)
 	}
 }
 
+function_attr
 void u8_128_neon_X_add_Y(void *_x, void *_y, size_t n)
 {
 	size_t i;
@@ -246,6 +265,7 @@ void u8_128_neon_X_add_Y(void *_x, void *_y, size_t n)
 	}
 }
 
+function_attr
 void u16_64_neon_X_x_Y(void *_x, void *_y, size_t n)
 {
 	size_t i;
@@ -259,6 +279,7 @@ void u16_64_neon_X_x_Y(void *_x, void *_y, size_t n)
 	}
 }
 
+function_attr
 void u16_128_neon_X_x_Y(void *_x, void *_y, size_t n)
 {
 	size_t i;
@@ -274,6 +295,7 @@ void u16_128_neon_X_x_Y(void *_x, void *_y, size_t n)
 #endif
 
 #if defined(CPU_HAVE_SVE)
+function_attr
 void u8_sve_X_x_Y(void *_x, void *_y, size_t n)
 {
 	size_t i;
@@ -290,6 +312,7 @@ void u8_sve_X_x_Y(void *_x, void *_y, size_t n)
 	}
 }
 
+function_attr
 void u8_sve_X_add_Y(void *_x, void *_y, size_t n)
 {
 	size_t i;
@@ -306,6 +329,7 @@ void u8_sve_X_add_Y(void *_x, void *_y, size_t n)
 	}
 }
 
+function_attr
 void double_sve_X_x_Y(void *_x, void *_y, size_t n)
 {
 	size_t i;
@@ -323,6 +347,7 @@ void double_sve_X_x_Y(void *_x, void *_y, size_t n)
 	}
 }
 
+function_attr
 void double_sve_X_add_Y(void *_x, void *_y, size_t n)
 {
 	size_t i;
@@ -340,6 +365,7 @@ void double_sve_X_add_Y(void *_x, void *_y, size_t n)
 	}
 }
 
+function_attr
 void float_sve_X_x_Y(void *_x, void *_y, size_t n)
 {
 	size_t i;
@@ -357,6 +383,7 @@ void float_sve_X_x_Y(void *_x, void *_y, size_t n)
 	}
 }
 
+function_attr
 void float_sve_X_add_Y(void *_x, void *_y, size_t n)
 {
 	size_t i;
@@ -376,6 +403,7 @@ void float_sve_X_add_Y(void *_x, void *_y, size_t n)
 #endif
 
 #if defined(CPU_HAVE_AVX512F)
+function_attr
 void double_avx512_X_add_Y(void *_x, void *_y, size_t n)
 {
 	double *x = _x;
