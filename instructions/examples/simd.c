@@ -10,7 +10,7 @@
 #if defined(CPU_HAVE_SVE)
 #include <arm_sve.h>
 #endif
-#if defined(CPU_HAVE_AVX512F)
+#if defined(CPU_HAVE_AVX512F) || defined(CPU_HAVE_AVX2)
 #include <immintrin.h>
 #endif
 
@@ -402,6 +402,22 @@ void float_sve_X_add_Y(void *_x, void *_y, size_t n)
 }
 #endif
 
+#if defined(CPU_HAVE_AVX2)
+function_attr
+void double_avx256_X_add_Y(void *_x, void *_y, size_t n)
+{
+	double *x = _x;
+	double *y = _y;
+	size_t i, r = n & 3, n2 = n & (-4);
+	for(i = -n2; i != 0; i += 4) {
+		__m256d yv = _mm256_loadu_pd(&y[i + n2]);
+		__m256d xv = _mm256_loadu_pd(&x[i + n2]);
+		yv = _mm256_add_pd(xv, yv);
+		_mm256_storeu_pd(&y[i + n2], yv);
+	}
+}
+#endif
+
 #if defined(CPU_HAVE_AVX512F)
 function_attr
 void double_avx512_X_add_Y(void *_x, void *_y, size_t n)
@@ -663,6 +679,18 @@ struct test tests[] = {
 		.name = "y[i] = x[i] + y[i] (f64)",
 		.cpufeature = "sve",
 		.fn = double_sve_X_add_Y,
+		.init = init_arr_f64,
+		.cmp = cmp_arr_f64,
+		.elem_size = sizeof(double),
+		.spent_us = 0,
+		.cmp_with = &tests[T_BASE_F64_ADD],
+	},
+#endif
+#if defined(CPU_HAVE_AVX2)
+	{
+		.name = "y[i] = x[i] + y[i] (f64)",
+		.cpufeature = "avx2",
+		.fn = double_avx256_X_add_Y,
 		.init = init_arr_f64,
 		.cmp = cmp_arr_f64,
 		.elem_size = sizeof(double),
