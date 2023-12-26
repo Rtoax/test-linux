@@ -8,4 +8,5 @@
 /avx512_aux
 /mul-avx256
 /mul-avx512
+/add_pd-avx512
 /mask
