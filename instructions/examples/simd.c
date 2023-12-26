@@ -280,7 +280,6 @@ void u8_sve_X_x_Y(void *_x, void *_y, size_t n)
 	uint8_t *x = _x;
 	uint8_t *y = _y;
 	size_t vl = svcntb();
-	printf("SVE lane %ld\n", vl);
 
 	for (i = 0; i < n; i += vl) {
 		svbool_t predicate = svwhilelt_b8(i, n);
@@ -297,7 +296,6 @@ void u8_sve_X_add_Y(void *_x, void *_y, size_t n)
 	uint8_t *x = _x;
 	uint8_t *y = _y;
 	size_t vl = svcntb();
-	printf("SVE lane %ld\n", vl);
 
 	for (i = 0; i < n; i += vl) {
 		svbool_t predicate = svwhilelt_b8(i, n);
@@ -314,7 +312,6 @@ void double_sve_X_x_Y(void *_x, void *_y, size_t n)
 	double *x = _x;
 	double *y = _y;
 	size_t vl = svcntb();
-	printf("SVE lane %ld\n", vl);
 
 	for (i = 0; i < n; i += vl / sizeof(double)) {
 		/* or use svptrue_b64(); */
@@ -332,7 +329,6 @@ void double_sve_X_add_Y(void *_x, void *_y, size_t n)
 	double *x = _x;
 	double *y = _y;
 	size_t vl = svcntb();
-	printf("SVE lane %ld\n", vl);
 
 	for (i = 0; i < n; i += vl / sizeof(double)) {
 		/* or use svptrue_b64(); */
@@ -350,7 +346,6 @@ void float_sve_X_x_Y(void *_x, void *_y, size_t n)
 	float *x = _x;
 	float *y = _y;
 	size_t vl = svcntb();
-	printf("SVE lane %ld\n", vl);
 
 	for (i = 0; i < n; i += vl / sizeof(float)) {
 		/* or use svptrue_b64(); */
@@ -368,7 +363,6 @@ void float_sve_X_add_Y(void *_x, void *_y, size_t n)
 	float *x = _x;
 	float *y = _y;
 	size_t vl = svcntb();
-	printf("SVE lane %ld\n", vl);
 
 	for (i = 0; i < n; i += vl / sizeof(float)) {
 		/* or use svptrue_b64(); */
