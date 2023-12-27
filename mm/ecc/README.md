@@ -24,3 +24,8 @@ CE/UE
 # devices
 
 * /sys/devices/system/edac/mc
+
+
+# Reed-Solomon编码
+
+- [Reed–Solomon error-correcting code decoder](https://www.nayuki.io/page/reed-solomon-error-correcting-code-decoder)
