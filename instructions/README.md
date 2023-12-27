@@ -82,4 +82,5 @@ NEON < SVE = SVE2
 # Links
 
 - https://www.felixcloutier.com/x86/
+- [Intel ISA-L](https://github.com/intel/isa-l)
 

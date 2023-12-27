@@ -1,3 +1,6 @@
+/**
+ * Better test see ISA-L (https://github.com/intel/isa-l)
+ */
 #include <stdio.h>
 #include <stdint.h>
 #include <malloc.h>
