@@ -416,6 +416,20 @@ void double_avx256_X_add_Y(void *_x, void *_y, size_t n)
 		_mm256_storeu_pd(&y[i + n2], yv);
 	}
 }
+
+function_attr
+void double_avx256_X_mul_Y(void *_x, void *_y, size_t n)
+{
+	double *x = _x;
+	double *y = _y;
+	size_t i, r = n & 3, n2 = n & (-4);
+	for(i = -n2; i != 0; i += 4) {
+		__m256d yv = _mm256_loadu_pd(&y[i + n2]);
+		__m256d xv = _mm256_loadu_pd(&x[i + n2]);
+		yv = _mm256_mul_pd(xv, yv);
+		_mm256_storeu_pd(&y[i + n2], yv);
+	}
+}
 #endif
 
 #if defined(CPU_HAVE_AVX512F)
@@ -434,9 +448,30 @@ void double_avx512_X_add_Y(void *_x, void *_y, size_t n)
 	//__mmask8 mask = _bzhi_u32(-1, r);
 	__mmask8 mask = (1 << r) - 1;
 	__m512d src;
-	__m512d yv = _mm512_mask_loadu_pd(_mm512_undefined_pd (), mask, &y[n2]);
-	__m512d xv = _mm512_mask_loadu_pd(_mm512_undefined_pd (), mask, &x[n2]);
+	__m512d yv = _mm512_mask_loadu_pd(_mm512_undefined_pd(), mask, &y[n2]);
+	__m512d xv = _mm512_mask_loadu_pd(_mm512_undefined_pd(), mask, &x[n2]);
 	yv = _mm512_mask_add_pd(src, mask, xv, yv);
+	_mm512_mask_storeu_pd(&y[n2], mask, yv);
+}
+
+function_attr
+void double_avx512_X_mul_Y(void *_x, void *_y, size_t n)
+{
+	double *x = _x;
+	double *y = _y;
+	size_t i, r = n & 7, n2 = n & (-8);
+	for(i = -n2; i != 0; i += 8) {
+		__m512d yv = _mm512_loadu_pd(&y[i + n2]);
+		__m512d xv = _mm512_loadu_pd(&x[i + n2]);
+		yv = _mm512_mul_pd(xv, yv);
+		_mm512_storeu_pd(&y[i + n2], yv);
+	}
+	//__mmask8 mask = _bzhi_u32(-1, r);
+	__mmask8 mask = (1 << r) - 1;
+	__m512d src;
+	__m512d yv = _mm512_mask_loadu_pd(_mm512_undefined_pd(), mask, &y[n2]);
+	__m512d xv = _mm512_mask_loadu_pd(_mm512_undefined_pd(), mask, &x[n2]);
+	yv = _mm512_mask_mul_pd(src, mask, xv, yv);
 	_mm512_mask_storeu_pd(&y[n2], mask, yv);
 }
 #endif
@@ -688,6 +723,16 @@ struct test tests[] = {
 #endif
 #if defined(CPU_HAVE_AVX2)
 	{
+		.name = "y[i] = x[i] * y[i] (f64)",
+		.cpufeature = "avx2",
+		.fn = double_avx256_X_mul_Y,
+		.init = init_arr_f64,
+		.cmp = cmp_arr_f64,
+		.elem_size = sizeof(double),
+		.spent_us = 0,
+		.cmp_with = &tests[T_BASE_F64_MUL],
+	},
+	{
 		.name = "y[i] = x[i] + y[i] (f64)",
 		.cpufeature = "avx2",
 		.fn = double_avx256_X_add_Y,
@@ -699,6 +744,16 @@ struct test tests[] = {
 	},
 #endif
 #if defined(CPU_HAVE_AVX512F)
+	{
+		.name = "y[i] = x[i] * y[i] (f64)",
+		.cpufeature = "avx512f",
+		.fn = double_avx512_X_mul_Y,
+		.init = init_arr_f64,
+		.cmp = cmp_arr_f64,
+		.elem_size = sizeof(double),
+		.spent_us = 0,
+		.cmp_with = &tests[T_BASE_F64_MUL],
+	},
 	{
 		.name = "y[i] = x[i] + y[i] (f64)",
 		.cpufeature = "avx512f",
