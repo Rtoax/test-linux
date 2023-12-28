@@ -20,3 +20,4 @@
 /__builtin_rindex
 /__builtin_thread_pointer
 /__builtin_va_arg_pack
+/__builtin___clear_cache
