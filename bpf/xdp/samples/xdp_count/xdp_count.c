@@ -3,7 +3,21 @@
 #include <linux/if_ether.h>
 #include <arpa/inet.h>
 
-struct bpf_map_def SEC("maps") cnt = {
+/**
+ * libbpf: https://github.com/libbpf/libbpf
+ * commit d8454ba8ad83("libbpf: remove most other deprecated high-level APIs")
+ * remove struct bpf_map_def {}
+ */
+struct bpf_map_def {
+	unsigned int type;
+	unsigned int key_size;
+	unsigned int value_size;
+	unsigned int max_entries;
+	unsigned int map_flags;
+/**
+ * https://github.com/libbpf/libbpf/wiki/Libbpf:-the-road-to-v1.0#drop-support-for-legacy-bpf-map-declaration-syntax
+ */
+} cnt SEC(".maps") = {
 	.type = BPF_MAP_TYPE_ARRAY,
 	.key_size = sizeof(__u32),
 	.value_size = sizeof(long),
