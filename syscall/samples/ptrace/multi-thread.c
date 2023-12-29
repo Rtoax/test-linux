@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include <signal.h>
 #include <string.h>
 #include <sys/wait.h>
@@ -16,6 +17,7 @@
 
 size_t sigtrap_count = 0;
 size_t instruction_count = 0;
+sig_atomic_t keep_running = true;
 
 void print_count(void)
 {
@@ -26,7 +28,7 @@ void print_count(void)
 void sig_handler(int signo)
 {
 	print_count();
-	exit(1);
+	keep_running = false;
 }
 
 int main(void)
@@ -46,7 +48,7 @@ int main(void)
 	/* Parent process */
 	ptrace(PTRACE_ATTACH, child, NULL, NULL);
 
-	while (1) {
+	while (keep_running) {
 		int status;
 		waitpid(child, &status, 0);
 		if (WIFEXITED(status)) {
