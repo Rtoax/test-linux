@@ -1,17 +1,19 @@
 
 TARGETS :=
-ifneq ($(shell uname -m),aarch64)
+ifeq ($(shell uname -m),x86_64)
 TARGETS += PTRACE_GETREGS
-endif
-TARGETS += PTRACE_PEEKTEXT
 TARGETS += PTRACE_PEEKUSER
 TARGETS += PTRACE_PEEKDATA
 TARGETS += PTRACE_POKEDATA
-TARGETS += PTRACE_SINGLESTEP
-TARGETS += peeksiginfo
 TARGETS += ptrace-breakpoint
 TARGETS += ptrace-breakpoint-2
 TARGETS += ptrace-strace
+endif
+ifeq ($(shell uname -m),aarch64)
+endif
+TARGETS += PTRACE_PEEKTEXT
+TARGETS += PTRACE_SINGLESTEP
+TARGETS += peeksiginfo
 TARGETS += pthread_create
 TARGETS += multi-thread
 

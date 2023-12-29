@@ -7,7 +7,9 @@
 
 #include <sys/ptrace.h>
 #include <sys/wait.h>
+#if defined(__x86_64__)
 #include <sys/reg.h>
+#endif
 #include <sys/syscall.h>
 #include <sys/user.h>
 #include <stdio.h>

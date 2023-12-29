@@ -4,7 +4,9 @@
 #include <signal.h>
 #include <string.h>
 #include <sys/wait.h>
+#if defined(__x86_64__)
 #include <sys/reg.h>
+#endif
 #include <sys/user.h>
 #include <sys/syscall.h>
 #include <sys/ptrace.h>
