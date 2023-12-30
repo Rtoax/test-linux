@@ -6,6 +6,7 @@ TARGETS += alignas
 TARGETS += const
 TARGETS += param-pass
 TARGETS += compat
+TARGETS += compare
 TARGETS += _Generic
 TARGETS += ptr-dim
 TARGETS += struct
@@ -57,6 +58,7 @@ const: const.o
 param-pass: param-pass.o
 array: array.o
 compat: compat.o
+compare: compare.o
 _Generic: _Generic.o
 ptr-dim: ptr-dim.o helpers.o
 struct: struct.o
