@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include <elf.h>
 #include <fcntl.h>
 #include <string.h>
@@ -38,7 +39,7 @@ static unsigned long getauxval(unsigned long type __rte_unused)
 static unsigned long
 _rte_cpu_getauxval(unsigned long type, const char *str)
 {
-	unsigned long val;
+	unsigned long val = 0;
 
 	errno = 0;
 	val = getauxval(type);
@@ -103,10 +104,21 @@ void print_hwcap(unsigned long val)
 int main(void)
 {
 	unsigned long val;
+	char buffer[256];
+	pid_t pid = getpid();
 
 	rte_cpu_strcmp_auxval(AT_PLATFORM, "AT_PLATFORM");
 	rte_cpu_strcmp_auxval(AT_EXECFN, "AT_EXECFN");
 	val = rte_cpu_getauxval(AT_HWCAP);
 	print_hwcap(val);
+	/**
+	 * AT_PHDR: see kernel
+	 */
+	{
+		val = rte_cpu_getauxval(AT_PHDR);
+		printf("AT_PHDR = %lx\n", val);
+		sprintf(buffer, "cat /proc/%d/maps", pid);
+		system(buffer);
+	}
 	return 0;
 }
