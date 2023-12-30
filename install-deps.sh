@@ -68,6 +68,8 @@ cclinux|fedora|centos|rhel)
 	sudo dnf install ${args[@]} -y ${pkgs[@]}
 	;;
 debian|ubuntu)
+	pkgs+=( libaio-dev )           # aio
+
 	sudo apt install ${pkgs[@]}
 	;;
 *)
