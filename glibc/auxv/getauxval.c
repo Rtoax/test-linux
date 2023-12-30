@@ -7,6 +7,7 @@
 #include <unistd.h>
 #include <errno.h>
 #include <stdio.h>
+#include <stdbool.h>
 
 #if defined(__GLIBC__) && defined(__GLIBC_PREREQ)
 #if __GLIBC_PREREQ(2, 16)
@@ -15,6 +16,7 @@
 #endif
 #endif
 
+#define RTE_ARCH_64
 #ifdef RTE_ARCH_64
 typedef Elf64_auxv_t Internal_Elfx_auxv_t;
 #else
@@ -40,11 +42,10 @@ static unsigned long
 _rte_cpu_getauxval(unsigned long type, const char *str)
 {
 	unsigned long val = 0;
+	int n;
 
 	errno = 0;
 	val = getauxval(type);
-	if (str)
-		printf("%-12s: %s\n", str, (const char *)val);
 
 	if (!val && (errno == ENOTSUP || errno == ENOENT)) {
 		int auxv_fd = open("/proc/self/auxv", O_RDONLY);
@@ -54,17 +55,21 @@ _rte_cpu_getauxval(unsigned long type, const char *str)
 			return 0;
 
 		errno = ENOENT;
-		while (read(auxv_fd, &auxv, sizeof(auxv)) == sizeof(auxv)) {
+		while (true) {
+			n = read(auxv_fd, &auxv, sizeof(auxv));
+			if (n < sizeof(auxv))
+				break;
 			if (auxv.a_type == type) {
 				errno = 0;
 				val = auxv.a_un.a_val;
-				if (str)
-					val = strcmp((const char *)val, str);
 				break;
 			}
 		}
 		close(auxv_fd);
 	}
+
+	if (str)
+		printf("%-12s: %s\n", str, (const char *)val);
 
 	return val;
 }
