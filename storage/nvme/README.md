@@ -17,12 +17,26 @@ NVMe，又叫非易失性存储主机控制器接口规范（NVMHCIS），是一
 除了M.2以外的其它三种物理设备都支持热插拔。
 
 
-# 热插拔
+## 热插拔
 
 ```bash
 $ echo 1 > /sys/bus/pci/devices/0000:e3:00.0/remove
 $ echo 1 > /sys/bus/pci/rescan
 ```
+
+
+# NVMe-oF (over Fabrics)
+
+- NVMe-oF
+	- Fibre Channel
+	- RDMA
+		- InfiniBand
+		- RoCE
+			- RoCEv1: 以太网链路层协议（以太网 0x8915）
+			- RoCEv2: UDP/IP, 默认端口 4791
+		- iWARP
+	- TCP
+	- Next Gen Fabrics
 
 
 # Links
