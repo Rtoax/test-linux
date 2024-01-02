@@ -71,6 +71,7 @@ cclinux|fedora|centos|rhel)
 	;;
 debian|ubuntu)
 	pkgs+=( libaio-dev )           # aio
+	pkgs+=( libmpich-dev )         # MPI
 
 	sudo apt install ${pkgs[@]}
 	;;

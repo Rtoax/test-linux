@@ -1,10 +1,12 @@
-MPICC =
-MPIRUN =
-MPIEXEC =
+MPICC = $(shell which mpicc 2>/dev/null)
+MPIRUN = $(shell which mpirun 2>/dev/null)
+MPIEXEC = $(shell which mpiexec 2>/dev/null)
 
+ifeq ($(MPICC),)
 MPICC = /usr/lib64/mpich/bin/mpicc
 MPIRUN = /usr/lib64/mpich/bin/mpirun
 MPIEXEC = /usr/lib64/mpich/bin/mpiexec
+endif
 
 CC = ${MPICC}
 
