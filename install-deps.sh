@@ -17,6 +17,7 @@ pkgs+=( golang )               # go
 pkgs+=( hwloc )                # lstopo
 pkgs+=( inotify-tools )        # inotifywatch, ...
 pkgs+=( llvm )                 # llvm-as llvm-dis llc
+pkgs+=( lsb_release )
 pkgs+=( lshw )                 # lshw
 pkgs+=( nasm )                 # nasm
 pkgs+=( numactl )              # numastat
