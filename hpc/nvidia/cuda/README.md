@@ -7,6 +7,15 @@ CUDA™是一种由NVIDIA推出的通用并行计算架构，该架构使GPU能�
 它包含了CUDA指令集架构（ISA）以及GPU内部的并行计算引擎。
 
 
+# Requirements
+
+## ubuntu
+
+```
+sudo apt install nvidia-cuda-toolkit-gcc nvidia-cuda-toolkit
+```
+
+
 # Links
 
 - https://developer.nvidia.com/cuda-downloads
