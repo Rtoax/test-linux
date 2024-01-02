@@ -1,5 +1,10 @@
+MPICC =
+MPIRUN =
+MPIEXEC =
+
 MPICC = /usr/lib64/mpich/bin/mpicc
 MPIRUN = /usr/lib64/mpich/bin/mpirun
+MPIEXEC = /usr/lib64/mpich/bin/mpiexec
 
 CC = ${MPICC}
 
