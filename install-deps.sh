@@ -21,6 +21,7 @@ pkgs+=( lsb_release )
 pkgs+=( lshw )                 # lshw
 pkgs+=( nasm )                 # nasm
 pkgs+=( numactl )              # numastat
+pkgs+=( opencl-headers )
 pkgs+=( python3-matplotlib )   # matplotlib
 pkgs+=( python3-pyroute2 )     # pyroute2
 pkgs+=( python3-scapy )
@@ -59,7 +60,6 @@ cclinux|fedora|centos|rhel)
 	pkgs+=( ltrace )               # ltrace
 	pkgs+=( mmc )                  # mmc
 	pkgs+=( mpich mpich-devel )    # mpi
-	pkgs+=( opencl-headers )
 	pkgs+=( rust )                 # rustc
 	pkgs+=( sg3_utils )            # sg_inq, etc.
 	pkgs+=( systemtap-sdt-devel )  # sdt.h
