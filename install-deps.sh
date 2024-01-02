@@ -57,6 +57,7 @@ cclinux|fedora|centos|rhel)
 	pkgs+=( llvm-devel )
 	pkgs+=( ltrace )               # ltrace
 	pkgs+=( mmc )                  # mmc
+	pkgs+=( mpich mpich-devel )    # mpi
 	pkgs+=( rust )                 # rustc
 	pkgs+=( sg3_utils )            # sg_inq, etc.
 	pkgs+=( systemtap-sdt-devel )  # sdt.h
