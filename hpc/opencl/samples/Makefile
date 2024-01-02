@@ -1,7 +1,7 @@
 
-TARGETS := hello
+TARGETS := clGetPlatformIDs
 
-CC = nvcc
+CC = gcc
 
 CFLAGS :=
 
@@ -9,6 +9,8 @@ LDFLAGS :=
 LDLIBS :=
 
 CFLAGS += -DDEBUG -O0 -g
+CFLAGS += -lOpenCL
+CFLAGS += -DCL_TARGET_OPENCL_VERSION=100
 
 .PHONY: build
 build: ${TARGETS}
@@ -16,15 +18,15 @@ build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
 # Add more object.o file
-hello: hello.o
+clGetPlatformIDs: clGetPlatformIDs.o
 
-%.o: %.cu
+%.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
+	$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
 
 $(TARGETS): %:
 	@echo -e "Target   \033[1;32m$(@)\033[m"
-	$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) $(^) $(LDLIBS) $(LDFLAGS) $(LDFLAGS_$(*))
+	$(CC) -o $(@) $(^) $(CFLAGS) $(CFLAGS_$(*))
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
