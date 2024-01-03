@@ -5,29 +5,28 @@
 #include <pthread.h>
 #include <stdio.h>
 
-
 static unsigned int nr_threads = 10;
 
 /* The key used to associate a log file pointer with each thread. */
 static pthread_key_t thread_log_key;
 
 /* Write MESSAGE to the log file for the current thread. */
-void write_to_thread_log(const char* message)
+void write_to_thread_log(const char *message)
 {
-	FILE* thread_log =(FILE*) pthread_getspecific(thread_log_key);
+	FILE *thread_log = (FILE *) pthread_getspecific(thread_log_key);
 	fprintf(thread_log, "%s\n", message);
 }
 
 /* Close the log file pointer THREAD_LOG. */
-void close_thread_log(void* thread_log)
+void close_thread_log(void *thread_log)
 {
-	fclose((FILE*)thread_log);
+	fclose((FILE *) thread_log);
 }
 
-void* thread_function(void* args)
+void *thread_function(void *args)
 {
 	char thread_log_filename[20];
-	FILE* thread_log;
+	FILE *thread_log;
 
 	sprintf(thread_log_filename, "thread%d.log", (int)pthread_self());
 	thread_log = fopen(thread_log_filename, "w");

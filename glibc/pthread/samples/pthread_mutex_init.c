@@ -1,11 +1,10 @@
 #include <stdio.h>
 #include <pthread.h>
 
-
 pthread_mutex_t mutex1 = PTHREAD_MUTEX_INITIALIZER;
 pthread_mutex_t mutex2;
 
-void* test_task_fn(void* unused)
+void *test_task_fn(void *unused)
 {
 	printf("test_task_fn.\n");
 
@@ -15,7 +14,7 @@ void* test_task_fn(void* unused)
 	return NULL;
 }
 
-int main (void)
+int main(void)
 {
 	int *pstatus;
 	pthread_t thread_id;
@@ -24,7 +23,7 @@ int main (void)
 
 	pthread_create(&thread_id, NULL, test_task_fn, NULL);
 
-	pthread_join(thread_id, (void**)&pstatus);
+	pthread_join(thread_id, (void **)&pstatus);
 
 	printf("pstatus = %d\n", *pstatus);
 

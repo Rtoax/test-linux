@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include <unistd.h>
 
-
 pthread_mutex_t mutex1 = PTHREAD_MUTEX_INITIALIZER;
 volatile unsigned long ticks_start = 0;
 volatile unsigned long ticks_end = 0;
@@ -28,14 +27,12 @@ unsigned long get_x84_64_ticks(void)
 			unsigned int hi_32;
 		};
 	} tsc;
-	__asm volatile("rdtsc" :
-			 "=a" (tsc.lo_32),
-			 "=d" (tsc.hi_32));
-	 ret = ((unsigned long)tsc.tsc_64);
-	 return ret;
+	__asm volatile ("rdtsc": "=a" (tsc.lo_32), "=d"(tsc.hi_32));
+	ret = ((unsigned long)tsc.tsc_64);
+	return ret;
 }
 
-void* task_hold_mutex(void* unused)
+void *task_hold_mutex(void *unused)
 {
 	printf("task_hold_mutex.\n");
 	pthread_mutex_lock(&mutex1);
@@ -48,7 +45,7 @@ void* task_hold_mutex(void* unused)
 	return NULL;
 }
 
-void* task_get_mutex(void* unused)
+void *task_get_mutex(void *unused)
 {
 	printf("task_get_mutex.\n");
 
@@ -76,7 +73,9 @@ int main(void)
 
 	pthread_mutex_destroy(&mutex1);
 
-	printf("Latency = %lf ms\n", (ticks_end-ticks_start)*1.0/CPU_MHZ[CPU_2_7GMHZ].freq*1000.0);
+	printf("Latency = %lf ms\n",
+	       (ticks_end -
+		ticks_start) * 1.0 / CPU_MHZ[CPU_2_7GMHZ].freq * 1000.0);
 
 	return 0;
 }

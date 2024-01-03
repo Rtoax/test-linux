@@ -13,11 +13,13 @@ void *fun1(void *arg)
 	printf("I'm thread 1;\n");
 	return (void *)1;
 }
+
 void *fun2(void *arg)
 {
 	printf("I'm thread 2;\n");
 	pthread_exit((void *)2);
 }
+
 void *fun3(void *arg)
 {
 	while (1) {
@@ -43,7 +45,7 @@ int main(void)
 	if (err != 0) {
 		fprintf(stderr, "pthread_join error:%s\n", strerror(err));
 	}
-	printf("thread exit code :%ld\n", (intptr_t)retval);
+	printf("thread exit code :%ld\n", (intptr_t) retval);
 
 	ret = pthread_create(&tid, NULL, fun2, NULL);
 	if (ret != 0) {
@@ -53,7 +55,7 @@ int main(void)
 	if (err != 0) {
 		fprintf(stderr, "pthread_join error:%s\n", strerror(err));
 	}
-	printf("thread exit code :%ld\n", (intptr_t)retval);
+	printf("thread exit code :%ld\n", (intptr_t) retval);
 
 	ret = pthread_create(&tid, NULL, fun3, NULL);
 	if (ret != 0) {
@@ -66,7 +68,7 @@ int main(void)
 	if (err != 0) {
 		fprintf(stderr, "pthread_join error:%s\n", strerror(err));
 	}
-	printf("thread exit code :%ld\n", (intptr_t)retval);
+	printf("thread exit code :%ld\n", (intptr_t) retval);
 
 	return 0;
 }

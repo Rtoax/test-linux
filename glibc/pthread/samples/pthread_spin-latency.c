@@ -5,11 +5,9 @@
 
 #include <libs/log.h>
 
-
 pthread_spinlock_t spinlock;
 volatile unsigned long ticks_start = 0;
 volatile unsigned long ticks_end = 0;
-
 
 unsigned long get_nsec(void)
 {
@@ -20,7 +18,7 @@ unsigned long get_nsec(void)
 	return t.tv_sec * 1000000000UL + t.tv_nsec;
 }
 
-void* task_hold_spin(void* unused)
+void *task_hold_spin(void *unused)
 {
 	log_child("task_hold_spin.\n");
 
@@ -35,7 +33,7 @@ void* task_hold_spin(void* unused)
 	return NULL;
 }
 
-void* task_get_spin(void* unused)
+void *task_get_spin(void *unused)
 {
 	log_child("task_get_spin.\n");
 

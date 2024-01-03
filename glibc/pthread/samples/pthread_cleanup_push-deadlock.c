@@ -8,12 +8,13 @@
 #include <stdbool.h>
 #include <string.h>
 
-
 pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 pthread_cond_t cond = PTHREAD_COND_INITIALIZER;
 
 #if defined(DEADLOCK)
-void cleanup(void *arg) {}
+void cleanup(void *arg)
+{
+}
 #else
 void cleanup(void *arg)
 {
@@ -22,7 +23,7 @@ void cleanup(void *arg)
 }
 #endif
 
-void* thread0(void* arg)
+void *thread0(void *arg)
 {
 	/* thread cleanup handler */
 	pthread_cleanup_push(cleanup, NULL);
@@ -44,7 +45,7 @@ void* thread0(void* arg)
 	return NULL;
 }
 
-void* thread1(void* arg)
+void *thread1(void *arg)
 {
 	/* Make sure thread0 lock mutex first. */
 	sleep(1);
@@ -82,4 +83,3 @@ int main(int argc, char *argv[])
 
 	return 0;
 }
-

@@ -3,7 +3,6 @@
 
 #include <libs/log.h>
 
-
 pthread_spinlock_t spinlock;
 
 #ifndef NR_THREADS
@@ -14,7 +13,7 @@ pthread_spinlock_t spinlock;
 
 static long int sum = 0;
 
-void* test_task_fn(void* unused)
+void *test_task_fn(void *unused)
 {
 	int i;
 	log_child("test_task_fn %ld.\n", pthread_self());
@@ -46,7 +45,7 @@ int main(void)
 		ret = 0;
 	} else {
 		printf("Failed call sum %ld, expect %ld\n",
-			sum, NR_THREADS * ADD_VAL);
+		       sum, NR_THREADS * ADD_VAL);
 		ret = 1;
 	}
 

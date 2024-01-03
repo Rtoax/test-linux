@@ -13,8 +13,7 @@
 
 #include <libs/log.h>
 
-
-void* test_task_fn(void* unused)
+void *test_task_fn(void *unused)
 {
 	log_child("test_task_fn.\n");
 
@@ -43,5 +42,3 @@ int main(void)
 
 	return 0;
 }
-
-

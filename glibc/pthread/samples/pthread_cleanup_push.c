@@ -9,21 +9,23 @@
 #include <pthread.h>
 
 /* Allocate a temporary buffer. */
-void* allocate_buffer(size_t size)
+void *allocate_buffer(size_t size)
 {
 	printf("allocate_buffer.\n");
 	return malloc(size);
 }
+
 /* Deallocate a temporary buffer. */
-void deallocate_buffer(void* buffer)
+void deallocate_buffer(void *buffer)
 {
 	printf("deallocate_buffer.\n");
-	free (buffer);
+	free(buffer);
 }
+
 void do_some_work(void)
 {
 	/* Allocate a temporary buffer. */
-	void* temp_buffer = allocate_buffer(1024);
+	void *temp_buffer = allocate_buffer(1024);
 
 	/* Register a cleanup handler for this buffer, to deallocate it in
 	 * case the thread exits or is cancelled. */

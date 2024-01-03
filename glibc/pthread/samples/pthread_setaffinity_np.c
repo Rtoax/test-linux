@@ -6,8 +6,7 @@
 #include <math.h>
 #include <pthread.h>
 
-
-cpu_set_t cpuset,cpuget;
+cpu_set_t cpuset, cpuget;
 
 double waste_time(long n)
 {
@@ -30,7 +29,8 @@ void *thread_func(void *param)
 	CPU_SET(1, &cpuset);
 
 	/* bind process to processor 0 */
-	ret = pthread_setaffinity_np(pthread_self(), sizeof(cpu_set_t), &cpuset);
+	ret =
+	    pthread_setaffinity_np(pthread_self(), sizeof(cpu_set_t), &cpuset);
 	if (ret != 0) {
 		perror("pthread_setaffinity_np");
 		return NULL;
@@ -49,17 +49,17 @@ int main(int argc, char *argv[])
 	pthread_t my_thread;
 	time_t startwtime, endwtime;
 
-	startwtime = time (NULL);
+	startwtime = time(NULL);
 
-	if (pthread_create(&my_thread, NULL, thread_func,NULL) != 0) {
+	if (pthread_create(&my_thread, NULL, thread_func, NULL) != 0) {
 		perror("pthread_create");
 	}
 
-	pthread_join(my_thread,NULL);
+	pthread_join(my_thread, NULL);
 
-	endwtime = time (NULL);
+	endwtime = time(NULL);
 
-	printf ("wall clock time = %ld\n", (endwtime - startwtime));
+	printf("wall clock time = %ld\n", (endwtime - startwtime));
 
 	return 0;
 }

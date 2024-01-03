@@ -2,14 +2,13 @@
 #include <pthread.h>
 #include <stdio.h>
 
-
 #define nr_threads	100
 
 pthread_rwlock_t rwlock2;
 
 int sum_count = 0;
 
-void* test_task_write_fn(void* unused)
+void *test_task_write_fn(void *unused)
 {
 	pthread_rwlock_wrlock(&rwlock2);
 	sum_count = sum_count + 1;
@@ -18,7 +17,7 @@ void* test_task_write_fn(void* unused)
 	return NULL;
 }
 
-void* test_task_read_fn(void* unused)
+void *test_task_read_fn(void *unused)
 {
 	pthread_rwlock_rdlock(&rwlock2);
 	printf("sum_count = %d\n", sum_count);
@@ -27,7 +26,7 @@ void* test_task_read_fn(void* unused)
 	return NULL;
 }
 
-int main (void)
+int main(void)
 {
 	int *pstatus;
 	int i;
@@ -45,8 +44,8 @@ int main (void)
 	}
 
 	for (i = 0; i < nr_threads; i++) {
-		pthread_join(wr_threads[i], (void**)&pstatus);
-		pthread_join(rd_threads[i], (void**)&pstatus);
+		pthread_join(wr_threads[i], (void **)&pstatus);
+		pthread_join(rd_threads[i], (void **)&pstatus);
 
 	}
 

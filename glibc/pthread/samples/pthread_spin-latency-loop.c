@@ -4,17 +4,15 @@
 
 #include <libs/log.h>
 
-
 pthread_spinlock_t spinlock, spinlock2;
 
 unsigned long pad0[7];
-unsigned long latency  = 0;
+unsigned long latency = 0;
 unsigned long pad1[7];
 unsigned long total_latency = 0;
 unsigned long pad2[7];
 unsigned long total_num = 0;
 unsigned long pad3[7];
-
 
 unsigned long get_nsec(void)
 {
@@ -25,7 +23,7 @@ unsigned long get_nsec(void)
 	return t.tv_sec * 1000000000UL + t.tv_nsec;
 }
 
-void* task_hold_spin(void* unused)
+void *task_hold_spin(void *unused)
 {
 	log_child("task_hold_spin.\n");
 	pthread_spin_lock(&spinlock2);
@@ -44,7 +42,7 @@ void* task_hold_spin(void* unused)
 	return NULL;
 }
 
-void* task_get_spin(void* unused)
+void *task_get_spin(void *unused)
 {
 	log_child("task_get_spin.\n");
 
@@ -55,8 +53,9 @@ void* task_get_spin(void* unused)
 		total_num++;
 
 		if (total_num % 10000 == 0) {
-			log_child("latency. per \033[1;31m%lf ns\033[m, msgs (total %ld).\n",
-				total_latency * 1.0 / total_num, total_num);
+			log_child
+			    ("latency. per \033[1;31m%lf ns\033[m, msgs (total %ld).\n",
+			     total_latency * 1.0 / total_num, total_num);
 		}
 
 		pthread_spin_unlock(&spinlock);
@@ -86,4 +85,3 @@ int main(void)
 
 	return 0;
 }
-

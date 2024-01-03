@@ -7,7 +7,7 @@
 pthread_barrier_t barrier;
 pthread_barrierattr_t barrierattr;
 
-void* test_task_fn(void* unused)
+void *test_task_fn(void *unused)
 {
 	printf("test_task_fn %ld.\n", (unsigned long)pthread_self());
 
@@ -32,10 +32,10 @@ int main(void)
 
 	pthread_barrier_init(&barrier, &barrierattr, NR_THREAD);
 
-	for(i = 0;i < NR_THREAD; i++)
+	for (i = 0; i < NR_THREAD; i++)
 		pthread_create(&threadids[i], NULL, test_task_fn, NULL);
 
-	for(i = 0;i < NR_THREAD; i++)
+	for (i = 0; i < NR_THREAD; i++)
 		pthread_join(threadids[i], NULL);
 
 	pthread_barrier_destroy(&barrier);
@@ -43,7 +43,3 @@ int main(void)
 
 	return 0;
 }
-
-
-
-

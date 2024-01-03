@@ -10,7 +10,7 @@
 #define PTHREAD_STACK_MIN      131072
 #endif
 
-static void create_rt_thread(void *(*rt_func)(void*))
+static void create_rt_thread(void *(*rt_func)(void *))
 {
 	pthread_t thread;
 	pthread_attr_t attr;
@@ -18,17 +18,17 @@ static void create_rt_thread(void *(*rt_func)(void*))
 	if (pthread_attr_init(&attr)) {
 		perror("pthread_attr_init");
 		assert(0);
-		return ;
+		return;
 	}
 	if (pthread_attr_setstacksize(&attr, PTHREAD_STACK_MIN + MY_STACK_SIZE)) {
 		perror("pthread_attr_setstacksize");
 		assert(0);
-		return ;
+		return;
 	}
 	pthread_create(&thread, &attr, rt_func, NULL);
 }
 
-void* routine(void* unused)
+void *routine(void *unused)
 {
 	return NULL;
 }

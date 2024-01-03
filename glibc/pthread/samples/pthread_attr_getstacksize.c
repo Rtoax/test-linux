@@ -6,7 +6,6 @@
 
 #include <libs/log.h>
 
-
 void *thread(void *arg)
 {
 	size_t stacksize;
@@ -35,4 +34,3 @@ int main(void)
 
 	return 0;
 }
-

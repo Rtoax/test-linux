@@ -3,8 +3,7 @@
 
 #include <libs/log.h>
 
-
-void* test_task_fn(void* unused)
+void *test_task_fn(void *unused)
 {
 	pthread_t threadid;
 	int ret;
@@ -28,7 +27,7 @@ int main(void)
 
 	pthread_create(&thread_id, NULL, test_task_fn, NULL);
 
-	pthread_join(thread_id, (void**)&threadid_child);
+	pthread_join(thread_id, (void **)&threadid_child);
 
 	eret = pthread_equal(pthread_self(), *threadid_child);
 	if (eret == 0) {
@@ -37,5 +36,3 @@ int main(void)
 
 	return 0;
 }
-
-

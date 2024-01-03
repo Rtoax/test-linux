@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <time.h>
 
-void* test_task_fn(void* unused)
+void *test_task_fn(void *unused)
 {
 	printf("test_task_fn.\n");
 
@@ -17,18 +17,15 @@ int main(void)
 {
 	int *pstatus;
 	pthread_t thread_id;
-	struct timespec abstime = {1,1};
+	struct timespec abstime = { 1, 1 };
 
 	time_t abst = time(&abst);
-	abstime.tv_sec = abst+1;
+	abstime.tv_sec = abst + 1;
 
 	pthread_create(&thread_id, NULL, test_task_fn, NULL);
 
-	pthread_timedjoin_np(thread_id, (void**)&pstatus, &abstime);
+	pthread_timedjoin_np(thread_id, (void **)&pstatus, &abstime);
 
 	printf("pstatus = %d\n", *pstatus);
 	return 0;
 }
-
-
-

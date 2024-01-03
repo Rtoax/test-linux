@@ -16,7 +16,6 @@
 #include <string.h>
 #include <sched.h>
 
-
 #define MAXITEMS	(100 * 10000)
 #define MAXTHREADS	(100)
 #define min(a, b)	(a < b ? a : b)
@@ -28,22 +27,21 @@ struct {
 	int buff[MAXITEMS];
 	int nput;
 	int nval;
-} shared = {PTHREAD_MUTEX_INITIALIZER};
-
+} shared = { PTHREAD_MUTEX_INITIALIZER };
 
 struct Node {
 	int count;
 	int num;
 };
 
-void* producer(void *arg)
+void *producer(void *arg)
 {
-	struct Node *p = (struct Node*)arg;
-	printf("producer: num[%d] = %d\n",  p->num, p->count);
+	struct Node *p = (struct Node *)arg;
+	printf("producer: num[%d] = %d\n", p->num, p->count);
 
 	while (1) {
 		pthread_mutex_lock(&shared.mutex);
-		if (shared.nput >= nitems){
+		if (shared.nput >= nitems) {
 			pthread_mutex_unlock(&shared.mutex);
 			return NULL;
 		}
@@ -56,7 +54,7 @@ void* producer(void *arg)
 	}
 }
 
-void* consumer(void* arg)
+void *consumer(void *arg)
 {
 	int i;
 	for (i = 0; i < nitems; ++i) {
@@ -89,25 +87,30 @@ int main(int argc, char **argv)
 	printf("getconcurrency = %d\n", level);
 
 	if (pthread_setconcurrency(nthreads) != 0) {
-		printf("setconcurrency error: %d, %s\n", errno, strerror(errno));
+		printf("setconcurrency error: %d, %s\n", errno,
+		       strerror(errno));
 		exit(0);
 	} else {
 		level = pthread_getconcurrency();
-		printf("after set = %d, getconcurrency = %d\n", nthreads, level);
+		printf("after set = %d, getconcurrency = %d\n", nthreads,
+		       level);
 	}
 
 	for (i = 0; i < nthreads; ++i) {
 		count[i].num = i;
 		count[i].count = 0;
-		if (pthread_create(&tid_producer[i], NULL, producer, &count[i]) != 0) {
-			printf("create pthread %d error: %d,%s\n", i, errno, strerror(errno));
+		if (pthread_create(&tid_producer[i], NULL, producer, &count[i])
+		    != 0) {
+			printf("create pthread %d error: %d,%s\n", i, errno,
+			       strerror(errno));
 			exit(0);
 		}
 	}
 
 	for (i = 0; i < nthreads; ++i) {
 		pthread_join(tid_producer[i], NULL);
-		printf("producer exit: num[%d] = %d\n", count[i].num, count[i].count);
+		printf("producer exit: num[%d] = %d\n", count[i].num,
+		       count[i].count);
 	}
 
 	pthread_create(&tid_consumer, NULL, consumer, NULL);

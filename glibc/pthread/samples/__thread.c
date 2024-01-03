@@ -5,7 +5,7 @@
 #include <stdio.h>
 
 struct test1 {
-	 int  id;
+	int id;
 };
 
 #define __tls __attribute__((tls_model("local-exec")))
@@ -13,7 +13,7 @@ struct test1 {
 __thread __tls struct test1 t;
 __thread __tls int tid = 0;
 
-void* test_task_fn(void* unused)
+void *test_task_fn(void *unused)
 {
 	printf("test_task_fn.\n");
 

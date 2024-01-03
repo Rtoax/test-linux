@@ -30,7 +30,7 @@ int main(void)
 #if defined(HAVE_MISOPERATION)
 	thread = 0;
 #else
-# pragma message "-DHAVE_MISOPERATION to misoperation pthread_t"
+#pragma message "-DHAVE_MISOPERATION to misoperation pthread_t"
 #endif
 
 	if (join) {

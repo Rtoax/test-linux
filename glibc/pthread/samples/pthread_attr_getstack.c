@@ -6,7 +6,6 @@
 
 #include <libs/log.h>
 
-
 void *thread(void *arg)
 {
 	void *stack;
@@ -37,4 +36,3 @@ int main(void)
 
 	return 0;
 }
-

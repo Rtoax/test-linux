@@ -5,7 +5,6 @@
 #include <signal.h>
 #include <unistd.h>
 
-
 bool loop = true;
 const int us = 100000;
 
@@ -15,7 +14,7 @@ void sig_handler(int signum)
 	loop = false;
 }
 
-void* print_xs(void* unused)
+void *print_xs(void *unused)
 {
 	pthread_setname_np(pthread_self(), "pthread-child");
 

@@ -19,7 +19,6 @@
 
 #include "sys_affinity_bind.h"
 
-
 #define HAS_PRIORITY_INHERIT 1
 
 struct thread {
@@ -28,13 +27,13 @@ struct thread {
 	pthread_mutex_t mutex;
 	pthread_cond_t cond;
 	void *arg;
-	void *(*func)(void*);
+	void *(*func)(void *);
 	int priority;
 	int policy;
 	int flags;
 };
 
-void init_pi_mutex(pthread_mutex_t * m)
+void init_pi_mutex(pthread_mutex_t *m)
 {
 #if HAS_PRIORITY_INHERIT
 	pthread_mutexattr_t attr;
@@ -43,15 +42,16 @@ void init_pi_mutex(pthread_mutex_t * m)
 
 	if ((ret = pthread_mutexattr_init(&attr)) != 0) {
 		printf("Failed to init mutexattr: %d (%s)\n", ret,
-			strerror(ret));
+		       strerror(ret));
 	};
-	if ((ret = pthread_mutexattr_setprotocol(&attr, PTHREAD_PRIO_INHERIT)) != 0) {
+	if ((ret =
+	     pthread_mutexattr_setprotocol(&attr, PTHREAD_PRIO_INHERIT)) != 0) {
 		printf("Can't set protocol prio inherit: %d (%s)\n", ret,
-			strerror(ret));
+		       strerror(ret));
 	}
 	if ((ret = pthread_mutexattr_getprotocol(&attr, &protocol)) != 0) {
 		printf("Can't get mutexattr protocol: %d (%s)\n", ret,
-			strerror(ret));
+		       strerror(ret));
 	}
 	if ((ret = pthread_mutex_init(m, &attr)) != 0) {
 		printf("Failed to init mutex: %d (%s)\n", ret, strerror(ret));
@@ -61,7 +61,8 @@ void init_pi_mutex(pthread_mutex_t * m)
 	/* FIXME: does any of this need to be destroyed ? */
 }
 
-struct thread *create_thread(void *(*func) (void *), void *arg, int prio, int policy)
+struct thread *create_thread(void *(*func)(void *), void *arg, int prio,
+			     int policy)
 {
 	struct sched_param param;
 	int ret;
@@ -86,7 +87,7 @@ struct thread *create_thread(void *(*func) (void *), void *arg, int prio, int po
 	pthread_attr_setschedparam(&thread->attr, &param);
 
 	if ((ret = pthread_create(&thread->pthread, &thread->attr, func,
-				(void *)thread))) {
+				  (void *)thread))) {
 		printf("pthread_create failed: %d (%s)\n", ret, strerror(ret));
 		pthread_attr_destroy(&thread->attr);
 		free(thread);
@@ -117,14 +118,14 @@ struct args {
 	int cpu;
 };
 
-void* loop(void *arg)
+void *loop(void *arg)
 {
 	struct thread *t = arg;
 	struct args *a = (struct args *)t->arg;
 
 	fprintf(stderr, "Try set cpu affinity %d\n", a->cpu);
 	sys_affinity_bind(a->cpu);
-	while (true);
+	while (true) ;
 	return NULL;
 }
 
@@ -134,14 +135,14 @@ int main(void)
 
 	struct args args[3] = {
 		{
-			.cpu = 1,
-		},
+		 .cpu = 1,
+		 },
 		{
-			.cpu = 2,
-		},
+		 .cpu = 2,
+		 },
 		{
-			.cpu = 3,
-		},
+		 .cpu = 3,
+		 },
 	};
 
 	threads[0] = create_fifo_thread(loop, &args[0], 99);
@@ -155,7 +156,7 @@ int main(void)
 	pthread_join(threads[2]->pthread, NULL);
 
 	return 0;
-failed:
+ failed:
 	return -1;
 }
 #endif

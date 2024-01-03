@@ -20,7 +20,7 @@
 #include <stdio.h>
 #include <time.h>
 
-void* test_task_fn(void* unused)
+void *test_task_fn(void *unused)
 {
 	printf("child thread sleeping.\n");
 
@@ -48,19 +48,19 @@ void* test_task_fn(void* unused)
 	return NULL;
 }
 
-int main (void)
+int main(void)
 {
 	int *pstatus;
 	pthread_t thread_id;
 
 	pthread_create(&thread_id, NULL, test_task_fn, NULL);
 
-	struct timespec abstime = {1, 1};
+	struct timespec abstime = { 1, 1 };
 	time_t abst = time(&abst);
 	abstime.tv_sec = abst + 1;
 
 	printf("parent wait child thread to exit\n");
-	pthread_timedjoin_np(thread_id, (void**)&pstatus, &abstime);
+	pthread_timedjoin_np(thread_id, (void **)&pstatus, &abstime);
 	printf("parent wait child thread to exit timeout\n");
 
 	printf("parent cancel child thread\n");
@@ -69,4 +69,3 @@ int main (void)
 	printf("pstatus = %d\n", *pstatus);
 	return 0;
 }
-

@@ -46,12 +46,12 @@ void atfork_child(void)
 		LOG_ERROR(err, "atfork_child: pthread_mutex_unlock");
 }
 
-void* thread_proc(void* arg)
+void *thread_proc(void *arg)
 {
-	while(1) {
+	while (1) {
 		pthread_mutex_lock(&lock);
 		count++;
-		log_parent("parent thread:  count:%d\n",count);
+		log_parent("parent thread:  count:%d\n", count);
 		sleep(5);
 		pthread_mutex_unlock(&lock);
 		sleep(1);
@@ -59,7 +59,7 @@ void* thread_proc(void* arg)
 	return NULL;
 }
 
-int main(int argc,char * argv[])
+int main(int argc, char *argv[])
 {
 	int err;
 	pid_t pid;
@@ -88,8 +88,8 @@ int main(int argc,char * argv[])
 
 		while (1) {
 			pthread_mutex_lock(&lock);
-			count ++;
-			log_child("child: count:%d\n",count);
+			count++;
+			log_child("child: count:%d\n", count);
 			sleep(2);
 			pthread_mutex_unlock(&lock);
 			sleep(1);
@@ -100,4 +100,3 @@ int main(int argc,char * argv[])
 
 	pthread_join(tid, NULL);
 }
-

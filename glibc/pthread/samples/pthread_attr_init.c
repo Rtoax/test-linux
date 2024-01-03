@@ -4,8 +4,7 @@
 
 #include <libs/memshow.h>
 
-
-void* test_task_fn(void* unused)
+void *test_task_fn(void *unused)
 {
 	pthread_attr_t attr;
 

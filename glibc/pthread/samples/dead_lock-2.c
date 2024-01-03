@@ -4,15 +4,15 @@
 #include<unistd.h>
 #include<pthread.h>
 
-pthread_mutex_t mutex,mutex2;
+pthread_mutex_t mutex, mutex2;
 
-void sys_err(char *s,int ret)
+void sys_err(char *s, int ret)
 {
-	fprintf(stderr,"%s error: %s",s,strerror(ret));
+	fprintf(stderr, "%s error: %s", s, strerror(ret));
 	exit(1);
 }
 
-void * fun(void *arg)
+void *fun(void *arg)
 {
 	while (1) {
 		pthread_mutex_lock(&mutex2);
@@ -21,23 +21,24 @@ void * fun(void *arg)
 		printf("thread：get muntex\n");
 	}
 }
+
 int main(void)
 {
 	int ret;
 	pthread_t tid;
 
-	ret = pthread_create(&tid,NULL,fun,NULL);
+	ret = pthread_create(&tid, NULL, fun, NULL);
 	if (ret != 0) {
-		sys_err("pthread_create",ret);
+		sys_err("pthread_create", ret);
 	}
 
-	ret = pthread_mutex_init(&mutex,NULL);
+	ret = pthread_mutex_init(&mutex, NULL);
 	if (ret != 0) {
-		sys_err("pthread_mutex_init",ret);
+		sys_err("pthread_mutex_init", ret);
 	}
-	ret = pthread_mutex_init(&mutex2,NULL);
+	ret = pthread_mutex_init(&mutex2, NULL);
 	if (ret != 0) {
-		sys_err("pthread_mutex2_init",ret);
+		sys_err("pthread_mutex2_init", ret);
 	}
 
 	while (1) {

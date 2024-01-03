@@ -5,8 +5,8 @@
 int a = 0;
 int b = 0;
 
-pthread_mutex_t   mutex_a;
-pthread_mutex_t   mutex_b;
+pthread_mutex_t mutex_a;
+pthread_mutex_t mutex_b;
 
 void *another(void *arg)
 {
@@ -36,7 +36,7 @@ int main(int argc, const char *argv[])
 	sleep(2);
 	++a;
 	pthread_mutex_lock(&mutex_b);
-	a+= b++;
+	a += b++;
 	pthread_mutex_unlock(&mutex_b);
 	pthread_mutex_unlock(&mutex_a);
 
@@ -47,4 +47,3 @@ int main(int argc, const char *argv[])
 
 	return 0;
 }
-

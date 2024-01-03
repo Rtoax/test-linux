@@ -5,15 +5,13 @@
 #include <pthread.h>
 #include <errno.h>
 
-
 #define handle_error_en(en, msg) do { \
 		errno = en; perror(msg); exit(EXIT_FAILURE); \
 	} while(0);
 
-
 static void *sig_thread(void *arg)
 {
-	sigset_t *set = (sigset_t *)arg;
+	sigset_t *set = (sigset_t *) arg;
 	int s, sig;
 
 	for (;;) {

@@ -59,7 +59,7 @@ int sched_setattr(pid_t pid, const struct sched_attr *attr, unsigned int flags)
 }
 
 int sched_getattr(pid_t pid, struct sched_attr *attr, unsigned int size,
-				  unsigned int flags)
+		  unsigned int flags)
 {
 	return syscall(__NR_sched_getattr, pid, attr, size, flags);
 }
@@ -114,4 +114,3 @@ int main(int argc, char **argv)
 	printf("main dies [%ld]\n", gettid());
 	return 0;
 }
-

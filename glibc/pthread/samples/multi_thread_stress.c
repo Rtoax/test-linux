@@ -4,8 +4,7 @@
 #include <assert.h>
 #include <malloc.h>
 
-
-void* stress_fn(void* unused)
+void *stress_fn(void *unused)
 {
 	pthread_exit(NULL);
 	return NULL;
@@ -28,7 +27,7 @@ int main(int argc, char *argv[])
 		exit(1);
 	}
 
-	threads = (pthread_t *)malloc(nr_threads * sizeof(pthread_t));
+	threads = (pthread_t *) malloc(nr_threads * sizeof(pthread_t));
 	assert(threads && "malloc fatal");
 
 	for (i = 0; i < nr_threads; i++)

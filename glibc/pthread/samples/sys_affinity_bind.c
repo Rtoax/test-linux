@@ -37,4 +37,3 @@ int sys_affinity_bind(int cpu)
 
 	return rc;
 }
-

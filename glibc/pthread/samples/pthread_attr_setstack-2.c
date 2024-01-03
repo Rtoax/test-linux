@@ -19,7 +19,7 @@
 
 #define BUFFER_LEN 0x3000
 
-void *testThead1(void* arg)
+void *testThead1(void *arg)
 {
 	prctl(PR_SET_NAME, "zoobiTask1");
 
@@ -32,7 +32,7 @@ void *testThead1(void* arg)
 }
 
 #define THREAD_STACK_LEN 0x4001
-int main(int argc, const char* argv[])
+int main(int argc, const char *argv[])
 {
 	pthread_t thread1ID;
 	pthread_attr_t attr;
@@ -52,14 +52,17 @@ int main(int argc, const char* argv[])
 #if 1
 	ret = pthread_attr_setstack(&attr, stackAddr, THREAD_STACK_LEN);
 	if (0 != ret) {
-		DBG_PRINT("pthread_attr_setstack failed, errno:%s\n", strerror(ret));
+		DBG_PRINT("pthread_attr_setstack failed, errno:%s\n",
+			  strerror(ret));
 		return -1;
 	}
 #endif
 	void *getstackaddr = NULL;
 	size_t getstackSize = 0;
 	pthread_attr_getstack(&attr, &getstackaddr, &getstackSize);
-	DBG_PRINT("pthread_attr_getstack>>getstackaddr:%p, getstackSize:0x%lx\n", getstackaddr, getstackSize);
+	DBG_PRINT
+	    ("pthread_attr_getstack>>getstackaddr:%p, getstackSize:0x%lx\n",
+	     getstackaddr, getstackSize);
 
 	ret = pthread_create(&thread1ID, &attr, testThead1, NULL);
 	if (ret != 0) {
@@ -74,4 +77,3 @@ int main(int argc, const char* argv[])
 
 	return 0;
 }
-

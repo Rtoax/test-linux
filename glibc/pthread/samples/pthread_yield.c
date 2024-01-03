@@ -2,7 +2,7 @@
 #include <pthread.h>
 #include <stdio.h>
 
-void* test_task_fn(void* unused)
+void *test_task_fn(void *unused)
 {
 	printf("test_task_fn.\n");
 
@@ -24,10 +24,8 @@ int main(void)
 
 	pthread_create(&thread_id, NULL, test_task_fn, NULL);
 
-	pthread_join(thread_id, (void**)&pstatus);
+	pthread_join(thread_id, (void **)&pstatus);
 
 	printf("pstatus = %d\n", *pstatus);
 	return 0;
 }
-
-

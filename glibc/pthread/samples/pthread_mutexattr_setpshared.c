@@ -4,7 +4,7 @@
 pthread_mutex_t mutex;
 pthread_mutexattr_t mutexattr;
 
-void* test_task1_fn(void* unused)
+void *test_task1_fn(void *unused)
 {
 	printf("test_task1_fn.\n");
 
@@ -17,7 +17,7 @@ void* test_task1_fn(void* unused)
 	return NULL;
 }
 
-void* test_task2_fn(void* unused)
+void *test_task2_fn(void *unused)
 {
 	printf("test_task2_fn.\n");
 
@@ -48,8 +48,8 @@ int main(void)
 	pthread_create(&thread_id1, NULL, test_task1_fn, NULL);
 	pthread_create(&thread_id2, NULL, test_task2_fn, NULL);
 
-	pthread_join(thread_id1, (void**)&pstatus);
-	pthread_join(thread_id1, (void**)&pstatus);
+	pthread_join(thread_id1, (void **)&pstatus);
+	pthread_join(thread_id1, (void **)&pstatus);
 
 	pthread_mutex_destroy(&mutex);
 	return 0;
