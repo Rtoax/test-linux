@@ -13,7 +13,7 @@ int main(void)
 	printf("TIOCGWINSZ = %#08x\n", TIOCGWINSZ);
 #endif
 	printf("%i, %i, %i, %i\n",
-		sz.ws_col, sz.ws_row, sz.ws_xpixel, sz.ws_ypixel);
+	       sz.ws_col, sz.ws_row, sz.ws_xpixel, sz.ws_ypixel);
 
 	return 0;
 }

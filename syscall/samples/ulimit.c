@@ -4,7 +4,6 @@
 #include <string.h>
 #include <sys/vlimit.h>
 
-
 int main(void)
 {
 	int fsize = ulimit(UL_GETFSIZE);

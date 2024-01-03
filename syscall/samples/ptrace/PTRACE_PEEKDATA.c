@@ -25,9 +25,9 @@ void reverse(char *str)
 	int i, j;
 	char temp;
 	for (i = 0, j = strlen(str) - 2; i <= j; ++i, --j) {
-		temp=str[i];
-		str[i]=str[j];
-		str[j]=temp;
+		temp = str[i];
+		str[i] = str[j];
+		str[j] = temp;
 	}
 }
 
@@ -43,10 +43,11 @@ void getdata(pid_t child, long addr, char *str, int len)
 	j = len / long_size;
 	laddr = str;
 	while (i < j) {
-		data.val = ptrace(PTRACE_PEEKDATA, child, addr + i * long_size, NULL);
+		data.val =
+		    ptrace(PTRACE_PEEKDATA, child, addr + i * long_size, NULL);
 		if (data.val == -1) {
 			if (errno)
-				printf("READ error: %s\n",strerror(errno));
+				printf("READ error: %s\n", strerror(errno));
 		}
 		memcpy(laddr, data.chars, long_size);
 		++i;
@@ -54,7 +55,8 @@ void getdata(pid_t child, long addr, char *str, int len)
 	}
 	j = len % long_size;
 	if (j != 0) {
-		data.val = ptrace(PTRACE_PEEKDATA, child, addr + i * long_size, NULL);
+		data.val =
+		    ptrace(PTRACE_PEEKDATA, child, addr + i * long_size, NULL);
 		memcpy(laddr, data.chars, j);
 	}
 	str[len] = '\0';
@@ -63,13 +65,13 @@ void getdata(pid_t child, long addr, char *str, int len)
 void putdata(pid_t child, long addr, char *str, int len)
 {
 	char *laddr;
-	int i,j;
+	int i, j;
 	union u {
 		long val;
 		char chars[long_size];
 	} data;
 	i = 0;
-	j = len /long_size;
+	j = len / long_size;
 	laddr = str;
 	while (i < j) {
 		memcpy(data.chars, laddr, long_size);
@@ -93,7 +95,7 @@ int main(void)
 	pid_t child;
 	int status;
 	struct user_regs_struct regs;
-	child =fork();
+	child = fork();
 	if (child == 0) {
 		ptrace(PTRACE_TRACEME, 0, NULL, NULL);
 		execl("/bin/ls", "ls", NULL);
@@ -105,7 +107,8 @@ int main(void)
 			wait(&status);
 			if (WIFEXITED(status))
 				break;
-			orig_eax = ptrace(PTRACE_PEEKUSER, child, 8 * ORIG_RAX, NULL);
+			orig_eax =
+			    ptrace(PTRACE_PEEKUSER, child, 8 * ORIG_RAX, NULL);
 			/**
 			 * ssize_t write(int fd, const void buf[.count], size_t count);
 			 * rax = fd;
@@ -115,8 +118,11 @@ int main(void)
 			if (orig_eax == SYS_write) {
 				if (toggle == 0) {
 					toggle = 1;
-					ptrace(PTRACE_GETREGS, child, NULL, &regs);
-					str = (char *)calloc((regs.rdx + 1), sizeof(char));
+					ptrace(PTRACE_GETREGS, child, NULL,
+					       &regs);
+					str =
+					    (char *)calloc((regs.rdx + 1),
+							   sizeof(char));
 					getdata(child, regs.rsi, str, regs.rdx);
 					reverse(str);
 					putdata(child, regs.rsi, str, regs.rdx);
@@ -129,4 +135,3 @@ int main(void)
 	}
 	return 0;
 }
-

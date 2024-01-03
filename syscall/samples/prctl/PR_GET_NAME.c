@@ -9,7 +9,6 @@
 #include <string.h>
 #include <unistd.h>
 
-
 int get_name(char *buffer)
 {
 	int ret;
@@ -28,7 +27,7 @@ int main(int argc, char *argv[])
 	char buffer[64];
 
 	ret = prctl(PR_SET_NAME, setname, 0, 0, 0);
-	if (ret < 0 && ! (errno == EINVAL)) {
+	if (ret < 0 && !(errno == EINVAL)) {
 		perror("prctl PR_SET_NAME");
 	}
 	printf("set: %s\n", setname);
@@ -38,7 +37,7 @@ int main(int argc, char *argv[])
 	{
 		int pagesize = getpagesize();
 		char *s = mmap(NULL, pagesize, PROT_READ | PROT_WRITE,
-				MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
+			       MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
 		/* no enough space, so Bad address */
 		get_name(s + getpagesize() - 4);
 		munmap(s, pagesize);

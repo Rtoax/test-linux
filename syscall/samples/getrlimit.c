@@ -2,7 +2,6 @@
 #include <sys/time.h>
 #include <sys/resource.h>
 
-
 static void print_rlimit(const char *prefix, struct rlimit *rlimit)
 {
 	printf("%s : %ld %ld\n", prefix, rlimit->rlim_cur, rlimit->rlim_max);

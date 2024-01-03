@@ -19,7 +19,6 @@
 #define ALIGN_SIZE  512
 #define RD_WR_SIZE  1024
 
-
 struct custom_iocb {
 	struct iocb iocb;
 	int nth_request;
@@ -28,11 +27,11 @@ struct custom_iocb {
 void aio_callback(io_context_t ctx, struct iocb *iocb, long res, long res2)
 {
 	struct custom_iocb *iocbp = (struct custom_iocb *)iocb;
-	printf("nth_request: %d, request_type: %s, offset: %lld, " \
-		"length: %lu, res: %ld, res2: %ld\n",
-		iocbp->nth_request,
-		(iocb->aio_lio_opcode == IO_CMD_PREAD) ? "READ" : "WRITE",
-		iocb->u.c.offset, iocb->u.c.nbytes, res, res2);
+	printf("nth_request: %d, request_type: %s, offset: %lld, "
+	       "length: %lu, res: %ld, res2: %ld\n",
+	       iocbp->nth_request,
+	       (iocb->aio_lio_opcode == IO_CMD_PREAD) ? "READ" : "WRITE",
+	       iocb->u.c.offset, iocb->u.c.nbytes, res, res2);
 }
 
 int main(int argc, char *argv[])
@@ -75,7 +74,8 @@ int main(int argc, char *argv[])
 
 	for (i = 0, iocbp = iocbs; i < NUM_EVENTS; ++i, ++iocbp) {
 		iocbps[i] = &iocbp->iocb;
-		io_prep_pread(&iocbp->iocb, fd, buf, RD_WR_SIZE, i * RD_WR_SIZE);
+		io_prep_pread(&iocbp->iocb, fd, buf, RD_WR_SIZE,
+			      i * RD_WR_SIZE);
 		io_set_eventfd(&iocbp->iocb, efd);
 		io_set_callback(&iocbp->iocb, aio_callback);
 		iocbp->nth_request = i + 1;
@@ -113,7 +113,7 @@ int main(int argc, char *argv[])
 			return 10;
 		}
 
-		printf("finished io number: %"PRIu64"\n", finished_aio);
+		printf("finished io number: %" PRIu64 "\n", finished_aio);
 
 		while (finished_aio > 0) {
 			tms.tv_sec = 0;
@@ -122,7 +122,8 @@ int main(int argc, char *argv[])
 			if (r > 0) {
 				for (j = 0; j < r; ++j) {
 					io_callback_t cb = events[j].data;
-					cb(ctx, events[j].obj, events[j].res, events[j].res2);
+					cb(ctx, events[j].obj, events[j].res,
+					   events[j].res2);
 				}
 				i += r;
 				finished_aio -= r;

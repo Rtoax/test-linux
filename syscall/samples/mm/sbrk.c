@@ -13,14 +13,15 @@ int main(void)
 	pmem = (char *)malloc(32);
 	if (pmem == NULL) {
 		perror("malloc");
-		exit (EXIT_FAILURE);
+		exit(EXIT_FAILURE);
 	}
 
 	printf("pmem = %p\n", pmem);
 
 	sbrkret = sbrk(0);
 	if (sbrkret != (void *)-1)
-		printf("heap size on each load: %lu\n", (long)sbrkret - (long)pmem);
+		printf("heap size on each load: %lu\n",
+		       (long)sbrkret - (long)pmem);
 
 	for (i = 0; i < 8; i++) {
 		printf("sbrkret = %p\n", sbrk(1));
@@ -29,4 +30,3 @@ int main(void)
 
 	return 0;
 }
-

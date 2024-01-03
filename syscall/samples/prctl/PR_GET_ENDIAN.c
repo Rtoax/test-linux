@@ -1,13 +1,12 @@
 #include <stdio.h>
 #include <sys/prctl.h>
 
-
 void pr_get_endian(void)
 {
-	int endian; 
-	prctl(PR_GET_ENDIAN, &endian, 0,0,0);
+	int endian;
+	prctl(PR_GET_ENDIAN, &endian, 0, 0, 0);
 
-	switch(endian) {
+	switch (endian) {
 	case PR_ENDIAN_BIG:
 		printf("PR_ENDIAN_BIG\n");
 		break;
@@ -28,4 +27,3 @@ int main(void)
 	pr_get_endian();
 	return 0;
 }
-

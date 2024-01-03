@@ -10,13 +10,11 @@
 
 #include "helpers.h"
 
-
 int main(int argc, char *argv[])
 {
 	pid_t child;
 	int status;
 	struct user_regs_struct regs;
-
 
 	child = fork();
 	if (child == 0) {

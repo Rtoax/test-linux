@@ -6,7 +6,6 @@
 #include <unistd.h>
 #include <errno.h>
 
-
 int main(void)
 {
 	int fd = open("a.txt", O_CREAT | O_CLOEXEC | O_RDWR, 0644);

@@ -14,12 +14,11 @@
 #include <net/if.h>
 #include <string.h>
 
-
 #define STACK_SIZE (1024 * 1024)
 
 static char stack[STACK_SIZE];
 
-int setip(char *name,char *addr,char *netmask)
+int setip(char *name, char *addr, char *netmask)
 {
 	struct ifreq ifr;
 	int fd = socket(PF_INET, SOCK_DGRAM, IPPROTO_IP);
@@ -43,7 +42,7 @@ int setip(char *name,char *addr,char *netmask)
 	return 0;
 }
 
-int child(void* arg)
+int child(void *arg)
 {
 	int ret;
 	sleep(1);
@@ -59,7 +58,7 @@ int child(void* arg)
 	mount("proc", "/proc", "proc", MS_PRIVATE, NULL);
 
 	setip("veth1", "10.0.0.15", "255.0.0.0");
-	execlp("/bin/sh", "/bin/sh" , NULL);
+	execlp("/bin/sh", "/bin/sh", NULL);
 
 	return 1;
 }
@@ -68,14 +67,18 @@ int main(void)
 {
 	int ret;
 	char buf[255];
-	int flags = CLONE_NEWNET | CLONE_NEWUTS | CLONE_NEWIPC | CLONE_NEWPID | CLONE_NEWNS | SIGCHLD;
+	int flags =
+	    CLONE_NEWNET | CLONE_NEWUTS | CLONE_NEWIPC | CLONE_NEWPID |
+	    CLONE_NEWNS | SIGCHLD;
 	pid_t pid = clone(child, stack + STACK_SIZE, flags, NULL);
 	if (pid == -1) {
 		perror("clone");
 		return -1;
 	}
 
-	sprintf(buf, "sudo ip link add name veth0 type veth peer name veth1 netns %d", pid);
+	sprintf(buf,
+		"sudo ip link add name veth0 type veth peer name veth1 netns %d",
+		pid);
 	system(buf);
 	setip("veth0", "10.0.0.13", "255.0.0.0");
 
@@ -86,4 +89,3 @@ int main(void)
 	}
 	return 0;
 }
-

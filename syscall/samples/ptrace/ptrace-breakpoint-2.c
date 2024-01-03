@@ -25,7 +25,7 @@ typedef enum {
 
 enum {
 	BREAK_LOCAL = 0x1,
-	BREAK_GLOBAL= 0x10,
+	BREAK_GLOBAL = 0x10,
 };
 
 enum {
@@ -92,19 +92,18 @@ bool set_breakpoint(void *addr, int bpno, void (*handler)(int), break_type type)
 		 * set the breakpoint address.
 		 */
 		if (ptrace(PTRACE_POKEUSER,
-				parent,
-				offsetof(struct user, u_debugreg[bpno]),
-				addr))
-			_exit(1);
+			   parent,
+			   offsetof(struct user, u_debugreg[bpno]), addr))
+			 _exit(1);
 
 		/*
 		 * set parameters for when the breakpoint should be triggered.
 		 */
 		if (ptrace(PTRACE_POKEUSER,
-				parent,
-				offsetof(struct user, u_debugreg[7]),
-				enable_breakwrite | enable_breakpoint | break_len))
-			_exit(1);
+			   parent,
+			   offsetof(struct user, u_debugreg[7]),
+			   enable_breakwrite | enable_breakpoint | break_len))
+			 _exit(1);
 
 		if (ptrace(PTRACE_DETACH, parent, NULL, NULL))
 			_exit(1);
@@ -136,7 +135,8 @@ bool del_breakpoint(int bpno, break_type type)
 }
 
 void do_foo(void)
-{}
+{
+}
 
 /*
  * Example of how to use this /library/.
@@ -152,19 +152,17 @@ void handle_sigtrap(int s)
 int main(int argc, char **argv)
 {
 	int i;
-	int16_t a[3] = {0};
+	int16_t a[3] = { 0 };
 	break_type bp_type = CMD_BREAK;
 
 	if (!set_breakpoint(do_foo, 0, handle_sigtrap, bp_type))
 		printf("failed to set the breakpoint!\n");
-
 
 	for (i = 0; i < 12321; i++) {
 		do_foo();
 	}
 	if (!del_breakpoint(0, bp_type))
 		printf("failed to disable the breakpoint!\n");
-
 
 	if (!set_breakpoint(a, 1, handle_sigtrap, DATA_BREAK))
 		printf("failed to set the breakpoint!\n");
@@ -182,4 +180,3 @@ int main(int argc, char **argv)
 
 	return 1;
 }
-

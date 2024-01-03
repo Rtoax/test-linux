@@ -2,7 +2,6 @@
 #include <sys/user.h>
 #include <syscall.h>
 
-
 #define debug(fmt...) do { \
 		fprintf(stderr, "[%s:%s %d]", __FILE__, __func__, __LINE__); \
 		fprintf(stderr, fmt); \
@@ -19,7 +18,6 @@ struct syscall_name {
 #undef __NR_SYS
 	{-1, NULL},
 };
-
 
 char *find_syscall_symbol(int code)
 {
@@ -68,4 +66,3 @@ void print_user_regs_struct(struct user_regs_struct *regs)
 	printf("Only support X86-64 arch linux OS.\n");
 }
 #endif
-

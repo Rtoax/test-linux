@@ -3,16 +3,15 @@
 
 #include "libs/memshow.h"
 
-
 int main(void)
 {
-    sigset_t st;
+	sigset_t st;
 
-    sigemptyset(&st);
+	sigemptyset(&st);
 	memshow("Empty: ", &st, sizeof(st));
 
-    sigaddset(&st, SIGINT);
-    sigaddset(&st, SIGSTOP);
+	sigaddset(&st, SIGINT);
+	sigaddset(&st, SIGSTOP);
 	memshow("  Add: ", &st, sizeof(st));
 
 	sigdelset(&st, SIGINT);
@@ -25,5 +24,5 @@ int main(void)
 		printf("Setted SIGSTOP\n");
 	}
 
-    return 0;
+	return 0;
 }

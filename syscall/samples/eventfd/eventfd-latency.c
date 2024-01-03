@@ -34,15 +34,17 @@ void *read_task(void *arg)
 	while (1) {
 		ret = eventfd_read(efd, &count);
 		if (ret < 0) {
-			log_dequeue("read error ret = %d, count = %ld\n", ret, count);
+			log_dequeue("read error ret = %d, count = %ld\n", ret,
+				    count);
 			break;
 		}
 		total_latency += get_nsecs() - latency;
 		total_num++;
 
 		if (total_num % 100000 == 0)
-			printf("latency. per msgs \033[1;31m%lf ns\033[m, msgs (total %ld).\n",
-				total_latency * 1.0 / total_num, total_num);
+			printf
+			    ("latency. per msgs \033[1;31m%lf ns\033[m, msgs (total %ld).\n",
+			     total_latency * 1.0 / total_num, total_num);
 		count = 0;
 	}
 	pthread_exit(NULL);

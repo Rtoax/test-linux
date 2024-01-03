@@ -3,7 +3,6 @@
 #include <signal.h>
 #include <unistd.h>
 
-
 void handler(int signum)
 {
 	printf("Get signal\n");

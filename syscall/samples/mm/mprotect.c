@@ -7,9 +7,8 @@
 #include <sys/types.h>
 #include <unistd.h>
 
-
 static int alloc_size;
-static char* memory;
+static char *memory;
 
 void segv_handler(int signal_number)
 {
@@ -49,4 +48,3 @@ int main(void)
 	munmap(memory, alloc_size);
 	return 0;
 }
-

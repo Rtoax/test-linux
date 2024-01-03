@@ -3,18 +3,17 @@
 #include <stdio.h>
 #include <unistd.h>
 
-
 const char *policy_string(int policy)
 {
 	switch (policy) {
 #define CASE(P)	case P: return #P; break
-	CASE(SCHED_NORMAL);
-	CASE(SCHED_FIFO);
-	CASE(SCHED_RR);
-	CASE(SCHED_BATCH);
-	CASE(SCHED_ISO);
-	CASE(SCHED_IDLE);
-	CASE(SCHED_DEADLINE);
+		CASE(SCHED_NORMAL);
+		CASE(SCHED_FIFO);
+		CASE(SCHED_RR);
+		CASE(SCHED_BATCH);
+		CASE(SCHED_ISO);
+		CASE(SCHED_IDLE);
+		CASE(SCHED_DEADLINE);
 	default:
 		return "Unknown";
 #undef CASE

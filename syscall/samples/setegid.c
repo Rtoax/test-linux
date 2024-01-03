@@ -5,7 +5,6 @@
 #include <sys/syscall.h>
 #include <sys/types.h>
 
-
 int main(void)
 {
 	int ret;

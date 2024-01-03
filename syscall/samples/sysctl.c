@@ -22,7 +22,7 @@ int main(void)
 
 	memset(&args, 0, sizeof(struct __sysctl_args));
 	args.name = name;
-	args.nlen = sizeof(name)/sizeof(name[0]);
+	args.nlen = sizeof(name) / sizeof(name[0]);
 	args.oldval = osname;
 	args.oldlenp = &osnamelth;
 

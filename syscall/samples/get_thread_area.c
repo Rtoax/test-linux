@@ -11,9 +11,8 @@
 
 #include <linux/unistd.h>
 #if defined __i386__ || defined __x86_64__
-# include <asm/ldt.h>
+#include <asm/ldt.h>
 #endif
-
 
 int sys_get_thread_area(struct user_desc *u_info)
 {
@@ -32,7 +31,8 @@ int main(void)
 
 	ret = sys_get_thread_area(&u_info);
 	if (ret != 0) {
-		fprintf(stderr, "get_thread_area failed: %s\n", strerror(errno));
+		fprintf(stderr, "get_thread_area failed: %s\n",
+			strerror(errno));
 		exit(1);
 	}
 

@@ -24,15 +24,14 @@
  * $ cat /etc/os-release | ./tee2 | cat
  */
 
-int main(int argc,const char* argv[])
+int main(int argc, const char *argv[])
 {
 	int pipefd_stdout[2];
 	int pipefd_file[2];
 	int filefd;
 	int ret;
 
-
-	filefd = open("tee.txt", O_WRONLY|O_CREAT|O_TRUNC, 0666);
+	filefd = open("tee.txt", O_WRONLY | O_CREAT | O_TRUNC, 0666);
 	if (filefd <= 0) {
 		perror("open:");
 		exit(EXIT_FAILURE);
@@ -50,7 +49,9 @@ int main(int argc,const char* argv[])
 	}
 
 	/* splice stdin to pipefd_stdout */
-	ret = splice(STDIN_FILENO, NULL, pipefd_stdout[1], NULL, 32768, SPLICE_F_MORE|SPLICE_F_MOVE);
+	ret =
+	    splice(STDIN_FILENO, NULL, pipefd_stdout[1], NULL, 32768,
+		   SPLICE_F_MORE | SPLICE_F_MOVE);
 	if (ret <= 0) {
 		perror("splice stdin to pipefd_stdout:");
 		exit(EXIT_FAILURE);
@@ -71,7 +72,9 @@ int main(int argc,const char* argv[])
 	}
 
 	/* splice pipefd_stdout to stdout */
-	ret = splice(pipefd_stdout[0], NULL, STDOUT_FILENO, NULL, 32768, SPLICE_F_MORE|SPLICE_F_MOVE);
+	ret =
+	    splice(pipefd_stdout[0], NULL, STDOUT_FILENO, NULL, 32768,
+		   SPLICE_F_MORE | SPLICE_F_MOVE);
 	if (ret <= 0) {
 		perror("splice pipefd_stdout to stdout:");
 		exit(EXIT_FAILURE);
@@ -85,4 +88,3 @@ int main(int argc,const char* argv[])
 
 	return 0;
 }
-

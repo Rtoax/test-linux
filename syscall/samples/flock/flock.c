@@ -9,7 +9,6 @@
 #include <sys/wait.h>
 #include <getopt.h>
 
-
 enum {
 	ARG_LOCK_MAND = 101,
 };
@@ -22,14 +21,10 @@ static int secs = 1;
 
 void usage(int err)
 {
-	printf(
-	"-h, --help      show this information\n" \
-	"-f, --file      specify file to lock, default: %s\n" \
-	"-s, --secs      hold lock for seconds, default: %d\n" \
-	"--lock-mand     operation LOCK_MAND\n" \
-	,
-	filename,
-	secs);
+	printf("-h, --help      show this information\n"
+	       "-f, --file      specify file to lock, default: %s\n"
+	       "-s, --secs      hold lock for seconds, default: %d\n"
+	       "--lock-mand     operation LOCK_MAND\n", filename, secs);
 
 	exit(err);
 }
@@ -42,10 +37,10 @@ int main(int argc, char *argv[])
 	int operation = 0;
 
 	static struct option options[] = {
-		{"help",        no_argument,       0, 'h'},
-		{"file",        required_argument, 0, 'f'},
-		{"secs",        required_argument, 0, 's'},
-		{"lock-mand",   no_argument,       0, ARG_LOCK_MAND},
+		{"help", no_argument, 0, 'h'},
+		{"file", required_argument, 0, 'f'},
+		{"secs", required_argument, 0, 's'},
+		{"lock-mand", no_argument, 0, ARG_LOCK_MAND},
 		{0, 0, 0, 0}
 	};
 

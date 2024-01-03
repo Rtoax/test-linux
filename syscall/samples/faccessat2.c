@@ -1,10 +1,9 @@
-#include <fcntl.h> /* Definition of AT_* constants */
+#include <fcntl.h>		/* Definition of AT_* constants */
 #include <unistd.h>
 #include <stdio.h>
 #include <errno.h>
 #include <string.h>
 #include <sys/syscall.h>
-
 
 /* No glibc swapper */
 int sys_faccessat2(int dirfd, const char *pathname, int mode, int flags)
@@ -28,4 +27,3 @@ int main(void)
 
 	return 0;
 }
-

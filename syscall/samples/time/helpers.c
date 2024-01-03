@@ -8,7 +8,6 @@
 #include <sys/syscall.h>
 #include "helpers.h"
 
-
 int sys_clock_getres(clockid_t clockid, struct timespec *tp)
 {
 	return syscall(__NR_clock_getres, clockid, tp);
@@ -29,4 +28,3 @@ int nsec_to_ts(nsec_t ns, struct timespec *ts)
 	ts->tv_nsec = ns % NS_PER_SEC;
 	return 0;
 }
-

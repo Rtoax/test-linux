@@ -2,7 +2,6 @@
 #include <signal.h>
 #include <sys/ioctl.h>
 
-
 void sig_handler(int signum)
 {
 	switch (signum) {
@@ -32,7 +31,7 @@ int main(void)
 	printf("TIOCSWINSZ = %#08x\n", TIOCSWINSZ);
 #endif
 	printf("%i, %i, %i, %i\n",
-		sz.ws_col, sz.ws_row, sz.ws_xpixel, sz.ws_ypixel);
+	       sz.ws_col, sz.ws_row, sz.ws_xpixel, sz.ws_ypixel);
 
 	return 0;
 }

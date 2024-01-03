@@ -7,7 +7,7 @@
 
 #include "utils.h"
 
-int efd=0;
+int efd = 0;
 
 unsigned long latency = 0;
 unsigned long total_latency = 0;
@@ -42,7 +42,8 @@ void *write_task(void *arg)
 			continue;
 		}
 		if (++count == 3000000) {
-			log_enqueue("enqueue = %ld, failed = %ld\n", count, failed);
+			log_enqueue("enqueue = %ld, failed = %ld\n", count,
+				    failed);
 			count = 0;
 		}
 	}

@@ -5,12 +5,11 @@
 #include <unistd.h>
 #include <errno.h>
 
-
 int main(void)
 {
-    chdir("/home/");
-    system("ls; pwd");
-    chdir("/etc/");
-    system("ls; pwd");
-    return 0;
+	chdir("/home/");
+	system("ls; pwd");
+	chdir("/etc/");
+	system("ls; pwd");
+	return 0;
 }

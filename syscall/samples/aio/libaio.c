@@ -9,7 +9,6 @@
 #include <unistd.h>
 #include <fcntl.h>
 
-
 #define NR_EVENT	10
 #define BUF_LEN 1024
 
@@ -28,7 +27,6 @@ int main(void)
 	};
 #define IO_READER	0
 #define IO_WRITER	1
-
 
 	posix_memalign((void **)&wbuf, 512, BUF_LEN);
 

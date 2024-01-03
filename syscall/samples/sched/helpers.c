@@ -12,7 +12,6 @@
 
 #include "helpers.h"
 
-
 long int sys_getcpu(unsigned *cpu, unsigned *node)
 {
 	return syscall(__NR_getcpu, cpu, node);
@@ -32,7 +31,7 @@ void print_cpuset(cpu_set_t *cpuset)
 		printf("\n");
 }
 
-static const char *next_token(const char *q,  int sep)
+static const char *next_token(const char *q, int sep)
 {
 	if (q)
 		q = strchr(q, sep);

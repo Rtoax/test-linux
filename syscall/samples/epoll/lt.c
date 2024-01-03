@@ -10,7 +10,7 @@ int main(void)
 	epfd = epoll_create(1);
 
 	event.data.fd = STDIN_FILENO;
-	event.events = EPOLLIN; /* default */
+	event.events = EPOLLIN;	/* default */
 
 	epoll_ctl(epfd, EPOLL_CTL_ADD, STDIN_FILENO, &event);
 	while (1) {

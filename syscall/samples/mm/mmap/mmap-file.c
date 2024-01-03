@@ -9,7 +9,6 @@
 #include <wait.h>
 #include <sys/stat.h>
 
-
 #define MAP_FILENAME	"/etc/os-release"
 #define MAP_FILENAME_OUT	"os-release"
 
@@ -90,4 +89,3 @@ int main(void)
 
 	return 0;
 }
-

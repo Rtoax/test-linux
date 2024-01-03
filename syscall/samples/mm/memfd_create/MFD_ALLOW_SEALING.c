@@ -10,7 +10,6 @@
 #include <stdio.h>
 #include <linux/memfd.h>
 
-
 #define errExit(msg)	do { perror(msg); exit(EXIT_FAILURE); } while (0)
 
 int main(int argc, char *argv[])
@@ -23,7 +22,7 @@ int main(int argc, char *argv[])
 	if (argc < 1) {
 		fprintf(stderr, "%s [seals]\n", argv[0]);
 		fprintf(stderr, "\t'seals' can contain any of the "
-				"following characters:\n");
+			"following characters:\n");
 		fprintf(stderr, "\t\tg - F_SEAL_GROW\n");
 		fprintf(stderr, "\t\ts - F_SEAL_SHRINK\n");
 		fprintf(stderr, "\t\tw - F_SEAL_WRITE\n");
@@ -49,7 +48,7 @@ int main(int argc, char *argv[])
 		errExit("truncate");
 
 	printf("PID: %jd; fd: %d; /proc/%jd/fd/%d\n",
-		(intmax_t)getpid(), fd, (intmax_t)getpid(), fd);
+	       (intmax_t) getpid(), fd, (intmax_t) getpid(), fd);
 
 	/* Code to map the file and populate the mapping with data
 	   omitted */

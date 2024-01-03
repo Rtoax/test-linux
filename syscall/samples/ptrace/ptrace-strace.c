@@ -8,13 +8,12 @@
 
 #include "helpers.h"
 
-
 int main(void)
 {
 	pid_t child;
 	long orig_rax;
 	int status;
-	int iscalling=0;
+	int iscalling = 0;
 	struct user_regs_struct regs;
 
 	child = fork();
@@ -32,15 +31,17 @@ int main(void)
 		if (WIFEXITED(status))
 			break;
 		orig_rax = ptrace(PTRACE_PEEKUSER, child, 8 * ORIG_RAX, NULL);
-		printf("Call syscall %ld, %s\n", orig_rax, find_syscall_symbol(orig_rax));
+		printf("Call syscall %ld, %s\n", orig_rax,
+		       find_syscall_symbol(orig_rax));
 		if (orig_rax == SYS_write) {
 			ptrace(PTRACE_GETREGS, child, NULL, &regs);
 			if (!iscalling) {
-				iscalling =1;
+				iscalling = 1;
 				printf("SYS_write call with %lld, %lld, %lld\n",
-					regs.rdi, regs.rsi, regs.rdx);
+				       regs.rdi, regs.rsi, regs.rdx);
 			} else {
-				printf("SYS_write call return %lld\n", regs.rax);
+				printf("SYS_write call return %lld\n",
+				       regs.rax);
 				iscalling = 0;
 			}
 		}
@@ -52,4 +53,3 @@ int main(void)
 	}
 	return 0;
 }
-

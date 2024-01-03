@@ -12,13 +12,11 @@
 #include <fcntl.h>
 #include <unistd.h>
 
-
 #define TEST_FILE	"a.txt"
 
 int main(int argc, char *argv[])
 {
 	int fd = open(TEST_FILE, O_CREAT | O_RDWR, 0644);
-
 
 	/**
 	 * Use:
@@ -27,7 +25,6 @@ int main(int argc, char *argv[])
 	 * tracing fallocate(2)
 	 */
 	fallocate(fd, 0, 0, 1024);
-
 
 	close(fd);
 

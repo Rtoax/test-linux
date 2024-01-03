@@ -6,8 +6,7 @@
 #include <pthread.h>
 #include "futex.h"
 
-
-struct worker_args{
+struct worker_args {
 	int *futex_1;
 	int *futex_2;
 };
@@ -35,20 +34,20 @@ static void fpost(int *futexp)
 		/* Prevent the lost wake up problem. */
 		while (*futexp == 0) {
 			s = futex(futexp, FUTEX_WAKE, 1, NULL, NULL, 0);
-			if (s  == -1)
+			if (s == -1)
 				exit(0);
 		}
 	}
 }
 
-void* worker(void* param)
+void *worker(void *param)
 {
 	int i;
 
-	for ( i = 0; i < 8; i++) {
-		fwait(((struct worker_args*) param)->futex_1);
+	for (i = 0; i < 8; i++) {
+		fwait(((struct worker_args *)param)->futex_1);
 		printf("Thread\n");
-		fpost(((struct worker_args*) param)->futex_2);
+		fpost(((struct worker_args *)param)->futex_2);
 	}
 	return NULL;
 }
@@ -64,7 +63,7 @@ int main(void)
 	args.futex_1 = &futex_1;
 	args.futex_2 = &futex_2;
 
-	pthread_create(&thread, NULL, worker, (void*)&args);
+	pthread_create(&thread, NULL, worker, (void *)&args);
 
 	for (i = 0; i < 8; i++) {
 		fwait(args.futex_2);

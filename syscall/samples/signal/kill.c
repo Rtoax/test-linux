@@ -3,7 +3,6 @@
 #include <signal.h>
 #include <unistd.h>
 
-
 int ret = -1;
 
 void handler(int signum)

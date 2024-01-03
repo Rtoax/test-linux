@@ -4,7 +4,6 @@
 #include <sys/mman.h>
 #include <memory.h>
 
-
 #define LEN		 8192
 #define TEST_FILE   "text.out"
 
@@ -33,7 +32,7 @@ void remove_test_file(void)
 int main(void)
 {
 	int fd, ret;
-	char str[LEN] = {0};
+	char str[LEN] = { 0 };
 	char *start;
 
 	gen_test_file();
@@ -64,7 +63,7 @@ int main(void)
 		return 0;
 	}
 
-	/* 将文件的第一页重新映射到start+4096的位置。*/
+	/* 将文件的第一页重新映射到start+4096的位置。 */
 	ret = remap_file_pages(start + 4096, LEN >> 1, 0, 0, MAP_SHARED);
 	if (ret < 0) {
 		perror("remap file pages failed2");
@@ -89,4 +88,3 @@ int main(void)
 
 	return 0;
 }
-

@@ -7,7 +7,6 @@
 #include <sys/mman.h>
 #include <sys/types.h>
 
-
 typedef struct {
 	char name[32];
 	int age;
@@ -19,11 +18,11 @@ int main(int argc, char *argv[])
 	people *p_map;
 	size_t size;
 
-	fd = open("/dev/zero",O_CREAT | O_RDWR, 00777);
+	fd = open("/dev/zero", O_CREAT | O_RDWR, 00777);
 	size = sizeof(people) * 1024;
 
-	p_map = (people *)mmap(NULL, size, PROT_READ | PROT_WRITE,
-			MAP_SHARED, fd, 0);
+	p_map = (people *) mmap(NULL, size, PROT_READ | PROT_WRITE,
+				MAP_SHARED, fd, 0);
 	if (p_map == MAP_FAILED) {
 		fprintf(stderr, "mmap: %s\n", strerror(errno));
 		return -1;

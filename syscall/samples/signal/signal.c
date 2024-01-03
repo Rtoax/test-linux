@@ -4,7 +4,6 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-
 volatile sig_atomic_t keep_going = 1;
 
 void sig_handler(int signum)

@@ -10,8 +10,7 @@
 #include <linux/sockios.h>
 #include <linux/ethtool.h>
 
-
-int main(int argc, char* argv[])
+int main(int argc, char *argv[])
 {
 	int fd;
 	int ret;
@@ -33,7 +32,7 @@ int main(int argc, char* argv[])
 	strcpy(ifr.ifr_name, "eno1");
 
 	/* ETHTOOL_GSSET_INFO */
-	ifr.ifr_data = (void*)&sset_info;
+	ifr.ifr_data = (void *)&sset_info;
 
 	ret = ioctl(fd, SIOCETHTOOL, &ifr);
 	if (0 != ret) {
@@ -46,7 +45,7 @@ int main(int argc, char* argv[])
 
 	/* ETHTOOL_GLINK */
 	edata.cmd = ETHTOOL_GLINK;
-	ifr.ifr_data = (caddr_t)&edata;
+	ifr.ifr_data = (caddr_t) & edata;
 
 	ret = ioctl(fd, SIOCETHTOOL, &ifr);
 	if (0 != ret) {

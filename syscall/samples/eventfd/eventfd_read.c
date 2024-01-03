@@ -4,7 +4,6 @@
 #include <sys/eventfd.h>
 #include "utils.h"
 
-
 int main(int argc, char *argv[])
 {
 	eventfd_t count;

@@ -2,7 +2,6 @@
 #include <unistd.h>
 #include <sys/resource.h>
 
-
 int nice_self(int increment)
 {
 	int result, old = getpriority(PRIO_PROCESS, 0);

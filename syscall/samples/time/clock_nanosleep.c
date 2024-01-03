@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include "helpers.h"
 
-
 void rt_nanosleep(nsec_t ns)
 {
 	struct timespec ts_sleep, ts_rem;
@@ -11,7 +10,7 @@ void rt_nanosleep(nsec_t ns)
 	rc = clock_nanosleep(CLOCK_MONOTONIC, 0, &ts_sleep, &ts_rem);
 	if (rc != 0)
 		printf("WARNING: rt_nanosleep() returned early by %d s %d ns\n",
-			(int)ts_rem.tv_sec, (int)ts_rem.tv_nsec);
+		       (int)ts_rem.tv_sec, (int)ts_rem.tv_nsec);
 }
 
 int main(void)
@@ -23,4 +22,3 @@ int main(void)
 	}
 	return 0;
 }
-

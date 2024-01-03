@@ -9,7 +9,6 @@
 #include <wait.h>
 #include <errno.h>
 
-
 int rename_vma(unsigned long addr, unsigned long size, char *name)
 {
 	int res;
@@ -28,7 +27,7 @@ const char *get_vma_name(unsigned long addr)
 {
 #ifndef PR_GET_VMA
 #define PR_GET_VMA             0x53564d42
-# define PR_GET_VMA_ANON_NAME          0
+#define PR_GET_VMA_ANON_NAME          0
 #endif
 	int ret;
 	static char buffer[80];
@@ -47,12 +46,11 @@ int main(void)
 	int nr_mems = 10;
 	size_t size = getpagesize();
 
-
 	mems = (char **)malloc(sizeof(char *) * nr_mems);
 
 	for (i = 0; i < nr_mems; i++) {
 		mems[i] = mmap(NULL, size, PROT_READ | PROT_WRITE,
-				MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
+			       MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
 		if (mems[i] == MAP_FAILED) {
 			perror("mmap");
 			mems[i] = NULL;
@@ -89,10 +87,10 @@ int main(void)
 
 #ifdef CONFIG_ANON_VMA_NAME
 	const char *name = get_vma_name(0);
-	printf("%s\n", name ?: "");
+	printf("%s\n", name ? : "");
 	for (i = 0; i < nr_mems && mems[i]; i++) {
 		name = get_vma_name((unsigned long)mems[i]);
-		printf("%s\n", name ?: "");
+		printf("%s\n", name ? : "");
 	}
 #endif
 

@@ -16,13 +16,11 @@
 // http://blog.csdn.net/shandianling/article/details/17032607
 // http://blog.chinaunix.net/uid-16813896-id-4992830.html
 
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>
 #include <signal.h>
 #include <unistd.h>
-
 
 void signal_handle(int signum)
 {
@@ -34,7 +32,7 @@ int main(void)
 	pid_t pid;
 
 	pid = fork();
-	if (pid < 0){
+	if (pid < 0) {
 		printf("fork error\n");
 	} else if (pid > 0) {
 		printf("parent, pid is %d\n", getpid());
@@ -51,4 +49,3 @@ int main(void)
 
 	return 0;
 }
-

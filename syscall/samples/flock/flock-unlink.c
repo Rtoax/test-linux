@@ -8,7 +8,6 @@
 #include <sys/file.h>
 #include <sys/wait.h>
 
-
 int main(int argc, char *argv[])
 {
 	int fd;

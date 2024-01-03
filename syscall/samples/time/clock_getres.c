@@ -3,7 +3,6 @@
 #include <stdio.h>
 #include "helpers.h"
 
-
 #define test(clk_id) {\
 	struct timespec tp;\
 	sys_clock_getres(clk_id, &tp);\
@@ -22,4 +21,3 @@ int main(void)
 	test(CLOCK_THREAD_CPUTIME_ID);
 	return 0;
 }
-

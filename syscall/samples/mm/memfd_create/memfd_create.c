@@ -7,12 +7,11 @@
 #include <linux/memfd.h>
 #include <sys/syscall.h>
 
-
 int anonyexec(const char *path, char *argv[])
 {
 	int fd, fdm, filesize;
 	void *elfbuf;
-	char  cmdline[256];
+	char cmdline[256];
 
 	/* Open elf file */
 	fd = open(path, O_RDONLY);
@@ -39,7 +38,7 @@ int anonyexec(const char *path, char *argv[])
 int main(void)
 {
 	int ret;
-	char *argv[] = {"/bin/uname", "-a", NULL};
+	char *argv[] = { "/bin/uname", "-a", NULL };
 
 	ret = anonyexec("/bin/uname", argv);
 

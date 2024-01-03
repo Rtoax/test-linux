@@ -10,22 +10,17 @@
 #include <sys/wait.h>
 #include <getopt.h>
 
-
 static const char *filename = "testfile";
 static int try_times = 10;
 static int nr_threads = 2;
 
 void usage(int err)
 {
-	printf(
-	"-h, --help      show this information\n" \
-	"-f, --file      specify file to lock, default: %s\n" \
-	"-n, --times     try times to get file lock, default: %d\n" \
-	"-t, --threads   number of parallel threads, default: %d\n" \
-	,
-	filename,
-	try_times,
-	nr_threads);
+	printf("-h, --help      show this information\n"
+	       "-f, --file      specify file to lock, default: %s\n"
+	       "-n, --times     try times to get file lock, default: %d\n"
+	       "-t, --threads   number of parallel threads, default: %d\n",
+	       filename, try_times, nr_threads);
 
 	exit(err);
 }
@@ -42,7 +37,7 @@ int open_and_write(const char *filename, const char *prefix, const char *msg)
 	ret = flock(fd, LOCK_EX | LOCK_NB);
 	if (ret != 0) {
 		fprintf(stderr, "[%s:pid=%d:tid=%d] flock: %s\n", prefix,
-				getpid(), gettid(), strerror(errno));
+			getpid(), gettid(), strerror(errno));
 		close(fd);
 		return -1;
 	}
@@ -61,11 +56,10 @@ void *task_routinue(void *arg)
 	char buffer[1024];
 
 	snprintf(buffer, sizeof(buffer), "I am process %d's thread %d\n",
-			getpid(), gettid());
+		 getpid(), gettid());
 	printf("%s", buffer);
 
-	while (try-- &&
-		!open_and_write(filename, "Thread", buffer));
+	while (try-- && !open_and_write(filename, "Thread", buffer)) ;
 
 	return NULL;
 }
@@ -77,15 +71,16 @@ int main(int argc, char *argv[])
 	int cmd, option_index;
 
 	static struct option options[] = {
-		{"help",        no_argument,       0, 'h'},
-		{"file",        required_argument, 0, 'f'},
-		{"times",       required_argument, 0, 'n'},
-		{"threads",     required_argument, 0, 't'},
+		{"help", no_argument, 0, 'h'},
+		{"file", required_argument, 0, 'f'},
+		{"times", required_argument, 0, 'n'},
+		{"threads", required_argument, 0, 't'},
 		{0, 0, 0, 0}
 	};
 
 	while (1) {
-		cmd = getopt_long(argc, argv, "hf:t:n:", options, &option_index);
+		cmd =
+		    getopt_long(argc, argv, "hf:t:n:", options, &option_index);
 		if (cmd == -1)
 			break;
 		switch (cmd) {

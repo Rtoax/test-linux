@@ -4,7 +4,6 @@
 #include <signal.h>
 #include <unistd.h>
 
-
 void catch_fun(int signo)
 {
 	printf("catch signal\n");

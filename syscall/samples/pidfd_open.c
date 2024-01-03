@@ -24,9 +24,9 @@ int main(void)
 	pid_t pid;
 
 	pid = fork();
-	if (pid == 0) { /* If child */
+	if (pid == 0) {		/* If child */
 		/* do something */
-	} else if (pid > 0) { /* If parent */
+	} else if (pid > 0) {	/* If parent */
 		pidfd = sys_pidfd_open(pid, 0);
 		printf("fd = %d\n", pidfd);
 	}

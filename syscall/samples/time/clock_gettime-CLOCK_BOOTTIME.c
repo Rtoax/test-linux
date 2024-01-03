@@ -3,7 +3,6 @@
 #include <stdio.h>
 #include "helpers.h"
 
-
 int main(int argc, char **argv)
 {
 	struct timespec elapsed_from_boot;

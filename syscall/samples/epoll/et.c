@@ -26,7 +26,8 @@ int main(void)
 #if 0
 				event.data.fd = STDIN_FILENO;
 				event.events = EPOLLIN | EPOLLET;
-				epoll_ctl(epfd, EPOLL_CTL_MOD, STDIN_FILENO, &event);
+				epoll_ctl(epfd, EPOLL_CTL_MOD, STDIN_FILENO,
+					  &event);
 #endif
 			}
 		}

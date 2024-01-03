@@ -5,7 +5,6 @@
 #include <assert.h>
 #include <sys/mman.h>
 
-
 void demo1(void)
 {
 	size_t i;
@@ -46,7 +45,7 @@ void demo2(void)
 
 	a[18] = 11;
 	a[10] = 10;
-	a[2]  = 12;
+	a[2] = 12;
 
 	printf("a[10] = %d\n", a[10]);
 

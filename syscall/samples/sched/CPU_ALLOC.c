@@ -7,10 +7,9 @@
 #include <errno.h>
 #include <sched.h>
 
-
 int main(int argc, char **argv)
 {
-	int i, online=0;
+	int i, online = 0;
 	ulong ncores = sysconf(_SC_NPROCESSORS_CONF);
 	cpu_set_t *setp = CPU_ALLOC(ncores);
 	ulong setsz = CPU_ALLOC_SIZE(ncores);
@@ -22,13 +21,13 @@ int main(int argc, char **argv)
 		exit(errno);
 	}
 
-	for (i=0; i < CPU_COUNT_S(setsz, setp); i++) {
+	for (i = 0; i < CPU_COUNT_S(setsz, setp); i++) {
 		if (CPU_ISSET_S(i, setsz, setp))
 			online++;
 	}
 
 	printf("%ld cores configured, %d cpus allowed in affinity mask\n",
-		ncores, online);
+	       ncores, online);
 	CPU_FREE(setp);
 
 	return 0;

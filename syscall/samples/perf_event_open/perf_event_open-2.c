@@ -19,7 +19,6 @@
 
 #include "helpers.h"
 
-
 struct read_format {
 	uint64_t nr;
 	struct {
@@ -28,19 +27,18 @@ struct read_format {
 	} values[];
 };
 
-
 void do_malloc(void)
 {
 	int i;
-	char* ptr;
-	int len = 2*1024*1024;
+	char *ptr;
+	int len = 2 * 1024 * 1024;
 	ptr = malloc(len);
 
 	mlock(ptr, len);
 
 	/* pagefault */
 	for (i = 0; i < len; i++)
-		ptr[i] = (char) (i & 0xff);
+		ptr[i] = (char)(i & 0xff);
 
 	free(ptr);
 }
@@ -82,7 +80,8 @@ int create_hardware_perf(int grp_fd, enum perf_hw_id hw_ids, uint64_t *ioc_id)
 	pea.exclude_hv = 1;
 	pea.read_format = PERF_FORMAT_GROUP | PERF_FORMAT_ID;
 
-	fd = perf_event_open(&pea, getpid(), -1, grp_fd > 2 ? grp_fd : -1, PERF_FLAG_FD_CLOEXEC);
+	fd = perf_event_open(&pea, getpid(), -1, grp_fd > 2 ? grp_fd : -1,
+			     PERF_FLAG_FD_CLOEXEC);
 
 	ioctl(fd, PERF_EVENT_IOC_ID, ioc_id);
 
@@ -108,14 +107,15 @@ int create_software_perf(int grp_fd, enum perf_sw_ids sw_ids, uint64_t *ioc_id)
 	pea.exclude_hv = 1;
 	pea.read_format = PERF_FORMAT_GROUP | PERF_FORMAT_ID;
 
-	fd = perf_event_open(&pea, getpid(), -1, grp_fd > 2 ? grp_fd : -1, PERF_FLAG_FD_CLOEXEC);
+	fd = perf_event_open(&pea, getpid(), -1, grp_fd > 2 ? grp_fd : -1,
+			     PERF_FLAG_FD_CLOEXEC);
 
 	ioctl(fd, PERF_EVENT_IOC_ID, ioc_id);
 
 	return fd;
 }
 
-int main(int argc, char* argv[])
+int main(int argc, char *argv[])
 {
 	struct perf_event_attr pea;
 
@@ -123,7 +123,7 @@ int main(int argc, char* argv[])
 	uint64_t id1, id2, id3, id4, id5;
 	uint64_t val1, val2, val3, val4, val5;
 	char buf[4096];
-	struct read_format* rf = (struct read_format*) buf;
+	struct read_format *rf = (struct read_format *)buf;
 	int i;
 
 	group_fd = create_hardware_perf(-1, PERF_COUNT_HW_CPU_CYCLES, &id1);
@@ -142,7 +142,6 @@ int main(int argc, char* argv[])
 
 	ioctl(group_fd, PERF_EVENT_IOC_DISABLE, PERF_IOC_FLAG_GROUP);
 
-
 	read(group_fd, buf, sizeof(buf));
 	for (i = 0; i < rf->nr; i++) {
 		if (rf->values[i].id == id1) {
@@ -158,11 +157,11 @@ int main(int argc, char* argv[])
 		}
 	}
 
-	printf("cpu cycles:	 %"PRIu64"\n", val1);
-	printf("cache misses:   %"PRIu64"\n", val2);
-	printf("page faults:	%"PRIu64"\n", val3);
-	printf(" cpu clock:	 %"PRIu64"\n", val4);
-	printf("task clock:	 %"PRIu64"\n", val5);
+	printf("cpu cycles:	 %" PRIu64 "\n", val1);
+	printf("cache misses:   %" PRIu64 "\n", val2);
+	printf("page faults:	%" PRIu64 "\n", val3);
+	printf(" cpu clock:	 %" PRIu64 "\n", val4);
+	printf("task clock:	 %" PRIu64 "\n", val5);
 
 	close(group_fd);
 	close(fd2);

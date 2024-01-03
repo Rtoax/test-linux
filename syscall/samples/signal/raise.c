@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <signal.h>
 
-
 void handler(int signum)
 {
 	printf("RongTao\n");

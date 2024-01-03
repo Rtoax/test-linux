@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <sched.h>
 
-
 int main(void)
 {
 	cpu_set_t cpuset;

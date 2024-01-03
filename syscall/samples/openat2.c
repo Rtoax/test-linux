@@ -17,7 +17,6 @@ bool openat2_supported = false;
 #if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 11, 0)
 #include <linux/openat2.h>
 
-
 bool needs_openat2(const struct open_how *how)
 {
 	return how->resolve != 0;
@@ -42,7 +41,7 @@ int sys_openat(int dfd, const char *path, struct open_how *how)
 
 void __attribute__((constructor)) init(void)
 {
-	struct open_how how = {};
+	struct open_how how = { };
 	int fd;
 
 	/* Check openat2(2) support. */
@@ -56,7 +55,8 @@ void __attribute__((constructor)) init(void)
 
 int main(void)
 {
-	printf("openat2(2) %s\n", openat2_supported ? "supported" : "unsupported");
+	printf("openat2(2) %s\n",
+	       openat2_supported ? "supported" : "unsupported");
 
 	return 0;
 }

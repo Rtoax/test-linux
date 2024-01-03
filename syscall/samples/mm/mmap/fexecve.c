@@ -6,7 +6,6 @@
 #include <unistd.h>
 #include <sys/wait.h>
 
-
 #define SHM_FILE	"wurstverschwendung"
 
 int main(void)
@@ -35,7 +34,7 @@ int main(void)
 	}
 
 	p = mmap(NULL, st.st_size, PROT_READ | PROT_WRITE, MAP_SHARED,
-		shm_fd, 0);
+		 shm_fd, 0);
 	if (p == MAP_FAILED) {
 		perror("mmap");
 		exit(1);

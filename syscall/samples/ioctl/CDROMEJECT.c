@@ -5,7 +5,7 @@
 #include <sys/types.h>
 #include <unistd.h>
 
-int main(int argc, char* argv[])
+int main(int argc, char *argv[])
 {
 	int fd = open(argv[1], O_RDONLY);
 	ioctl(fd, CDROMEJECT);

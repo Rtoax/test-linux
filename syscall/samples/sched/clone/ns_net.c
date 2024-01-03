@@ -7,7 +7,6 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
-
 #define STACK_SIZE (1024 * 1024)
 
 static char child_stack[STACK_SIZE];
@@ -38,7 +37,9 @@ int main(void)
 
 	fprintf(stdout, "child pid = %d\n", pid);
 
-	sprintf(buf, "ip link add name veth0 type veth peer name veth1 netns %d", pid);
+	sprintf(buf,
+		"ip link add name veth0 type veth peer name veth1 netns %d",
+		pid);
 	system(buf);
 	system("ifconfig veth0 10.0.0.3");
 
@@ -49,4 +50,3 @@ int main(void)
 	}
 	return 0;
 }
-

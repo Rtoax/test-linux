@@ -8,6 +8,6 @@
 int main(int argc, char *argv[])
 {
 	int ret = acct(argv[1]);
-	printf("acct: ret = %d, %s\n",ret, strerror(errno));
+	printf("acct: ret = %d, %s\n", ret, strerror(errno));
 	return 0;
 }

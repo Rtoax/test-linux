@@ -6,7 +6,6 @@
 #include <string.h>
 #include <stdlib.h>
 
-
 int main(int argc, char *argv[])
 {
 	char *buf;
@@ -22,7 +21,7 @@ int main(int argc, char *argv[])
 
 	strcpy(filename, argv[1]);
 
-	fd = open(filename, O_RDWR|O_CREAT, 0664);
+	fd = open(filename, O_RDWR | O_CREAT, 0664);
 	fstat(fd, &stat);
 
 	buf = mmap(NULL, stat.st_size, PROT_WRITE, MAP_PRIVATE, fd, 0);
@@ -36,4 +35,3 @@ int main(int argc, char *argv[])
 
 	return 0;
 }
-

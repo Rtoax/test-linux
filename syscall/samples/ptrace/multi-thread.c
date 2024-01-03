@@ -14,7 +14,6 @@
 
 #include "helpers.h"
 
-
 size_t sigtrap_count = 0;
 size_t instruction_count = 0;
 sig_atomic_t keep_running = true;
@@ -67,4 +66,3 @@ int main(void)
 
 	return 0;
 }
-

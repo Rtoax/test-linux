@@ -5,7 +5,6 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
-
 int main(void)
 {
 	int fd;

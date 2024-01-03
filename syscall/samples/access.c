@@ -5,7 +5,6 @@
 #include <errno.h>
 #include <sys/stat.h>
 
-
 int main(void)
 {
 	char dir[] = "tmpd-access";

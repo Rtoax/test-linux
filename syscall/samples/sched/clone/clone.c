@@ -9,12 +9,11 @@
 #include <signal.h>
 #include <unistd.h>
 
-
 #define STACK_SIZE (1024 * 1024)
 
 static char stack[STACK_SIZE];
 
-int child(void* arg)
+int child(void *arg)
 {
 	int ret;
 
@@ -35,7 +34,7 @@ int child(void* arg)
 		perror("mount");
 		return 0;
 	}
-	execlp("/bin/sh", "/bin/sh" , NULL);
+	execlp("/bin/sh", "/bin/sh", NULL);
 	printf("Ooops\n");
 	return 1;
 }
@@ -45,7 +44,8 @@ int main(void)
 	int flags;
 	pid_t pid;
 
-	flags = CLONE_NEWUTS | CLONE_NEWIPC | CLONE_NEWPID | CLONE_NEWNS | SIGCHLD;
+	flags =
+	    CLONE_NEWUTS | CLONE_NEWIPC | CLONE_NEWPID | CLONE_NEWNS | SIGCHLD;
 	pid = clone(child, stack + STACK_SIZE, flags, NULL);
 	if (pid == -1) {
 		perror("clone");
@@ -55,4 +55,3 @@ int main(void)
 	waitpid(pid, NULL, 0);
 	return 0;
 }
-

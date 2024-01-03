@@ -7,10 +7,8 @@
 #include <sys/syscall.h>
 #include <sys/types.h>
 
-
 int sys_gettid(void)
 {
 	int ret = syscall(__NR_gettid);
 	return ret >= 0 ? ret : -errno;
 }
-

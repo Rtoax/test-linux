@@ -8,11 +8,10 @@
 
 #include "helpers.h"
 
-
 int main(int argc, char **argv)
 {
 	struct perf_event_attr pe;
-	long long count,cycles,instructions;
+	long long count, cycles, instructions;
 	double ipc;
 	int fd;
 	int i;
@@ -62,7 +61,7 @@ int main(int argc, char **argv)
 	ipc = (double)instructions / (double)cycles;
 
 	printf("Used %lld instructions, %lld cycles ,ips %f\n",
-		instructions, cycles, ipc);
+	       instructions, cycles, ipc);
 
 	close(fd);
 	return 0;

@@ -5,7 +5,6 @@
 #include <sys/socket.h>
 #include <sys/resource.h>
 
-
 int main(void)
 {
 	unsigned long i, cnt_success = 0;
@@ -15,7 +14,7 @@ int main(void)
 
 	getrlimit(RLIMIT_NOFILE, &rlimit);
 	printf("Number open files limit is %ld(%ld)\n",
-		rlimit.rlim_cur, rlimit.rlim_max);
+	       rlimit.rlim_cur, rlimit.rlim_max);
 
 	/* Set max number of open files to rlim_max  */
 	rlimit.rlim_cur = rlimit.rlim_max;

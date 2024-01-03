@@ -7,7 +7,6 @@
 #define HWCAP2_FSGSBASE        (1 << 1)
 #endif
 
-
 int main(void)
 {
 	unsigned val = getauxval(AT_HWCAP2);

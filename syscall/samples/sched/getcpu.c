@@ -10,14 +10,12 @@
 
 #include "helpers.h"
 
-
 int main(void)
 {
 	int ret;
 	unsigned int icpu, inode, bindcpu;
 	cpu_set_t cpuset;
 	long int ncpu = sysconf(_SC_NPROCESSORS_ONLN);
-
 
 	/* Choice a cpu to bind */
 	bindcpu = ncpu > 1 ? ncpu - 1 : 1;
@@ -35,7 +33,8 @@ int main(void)
 	icpu = inode = -1;
 	ret = getcpu(&icpu, &inode);
 	if (bindcpu != icpu) {
-		fprintf(stderr, "sched_setaffinity(%d) != getcpu(%d).\n", bindcpu, icpu);
+		fprintf(stderr, "sched_setaffinity(%d) != getcpu(%d).\n",
+			bindcpu, icpu);
 		assert(0);
 	}
 	printf("getcpu icpu = %d, inode = %d\n", icpu, inode);
@@ -43,7 +42,8 @@ int main(void)
 	icpu = -1;
 	icpu = sched_getcpu();
 	if (bindcpu != icpu) {
-		fprintf(stderr, "sched_setaffinity(%d) != sched_getcpu(%d).\n", bindcpu, icpu);
+		fprintf(stderr, "sched_setaffinity(%d) != sched_getcpu(%d).\n",
+			bindcpu, icpu);
 		assert(0);
 	}
 	printf("sched_getcpu icpu = %d\n", icpu);

@@ -10,7 +10,6 @@
 
 #include "wrapper.h"
 
-
 #define MAX_EVENTS 10
 
 #define log_enqueue(fmt...) do { \
@@ -71,7 +70,7 @@ void *read_task(void *arg)
 {
 	struct epoll_context *ectx = (struct epoll_context *)arg;
 
-	int i =0, imsg = 0, ret, nfds;
+	int i = 0, imsg = 0, ret, nfds;
 	eventfd_t count = 1;
 
 	for (;;) {
@@ -135,4 +134,3 @@ int main(int argc, char *argv[])
 
 	return EXIT_SUCCESS;
 }
-

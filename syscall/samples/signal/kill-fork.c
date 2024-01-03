@@ -3,7 +3,6 @@
 #include <unistd.h>
 #include <signal.h>
 
-
 void handler(int signum)
 {
 	printf("Get signal, pid %d\n", getpid());

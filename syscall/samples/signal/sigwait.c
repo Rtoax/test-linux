@@ -4,7 +4,6 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-
 void sig_handler(int signum)
 {
 	/* Click ctrl-c twice */
@@ -17,7 +16,6 @@ int main(void)
 	sighandler_t sighandler;
 	sigset_t sigset;
 	int signum;
-
 
 	sighandler = signal(SIGINT, sig_handler);
 	if (sighandler == SIG_ERR) {
@@ -36,4 +34,3 @@ int main(void)
 
 	return 0;
 }
-

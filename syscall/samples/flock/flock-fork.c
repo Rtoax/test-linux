@@ -8,7 +8,6 @@
 #include <sys/file.h>
 #include <sys/wait.h>
 
-
 /**
  * duplicate file descriptors (created by, for example, fork(2) or dup(2))
  * refer to the same lock. (see flock(2))
@@ -52,17 +51,19 @@ int main(void)
 		int try_times = 10;
 
 		while (try_times-- &&
-			!open_and_write(filename, "Child", "hello from child.\n"));
+		       !open_and_write(filename, "Child",
+				       "hello from child.\n")) ;
 
 		exit(0);
 
-	/* Father */
+		/* Father */
 	} else if (pid > 0) {
 
 		int try_times = 10;
 
 		while (try_times-- &&
-			!open_and_write(filename, "Father", "hello from parent.\n"));
+		       !open_and_write(filename, "Father",
+				       "hello from parent.\n")) ;
 
 		wait(NULL);
 

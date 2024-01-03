@@ -129,29 +129,37 @@ TRACEPOINT_PROBE(filelock, locks_get_lock_context) {
 }
 """
 
+
 def print_filelock_event(cpu, data, size):
     event = b["filelock_events"].event(data)
-    if event.lock_type == 1: # LOCK_SH
+    if event.lock_type == 1:  # LOCK_SH
         type = b"SHARED"
-    elif event.lock_type == 2: # LOCK_EX
+    elif event.lock_type == 2:  # LOCK_EX
         type = b"EXCLUS"
-    elif event.lock_type == 8: # LOCK_UN
+    elif event.lock_type == 8:  # LOCK_UN
         type = b"UNLOCK"
-    printb(b"%-8d %-8d %-16s %8d,%8d %-8s %-16d %-8d" \
-           % (event.pid,
-              event.tid,
-              event.comm,
-              event.owner_tid[0],
-              event.owner_tid[1],
-              type,
-              event.ino,
-              event.ret))
+    printb(
+        b"%-8d %-8d %-16s %8d,%8d %-8s %-16d %-8d"
+        % (
+            event.pid,
+            event.tid,
+            event.comm,
+            event.owner_tid[0],
+            event.owner_tid[1],
+            type,
+            event.ino,
+            event.ret,
+        )
+    )
+
 
 b = BPF(text=bpf_text)
 
 print("Tracing filelock ... Hit Ctrl-C to end")
-print("%-8s %-8s %-16s %-17s %-8s %-16s %-8s" \
-      % ("PID", "TID", "COMM", "OWNERS_TID(may)", "TYPE", "INODE", "RESULT"))
+print(
+    "%-8s %-8s %-16s %-17s %-8s %-16s %-8s"
+    % ("PID", "TID", "COMM", "OWNERS_TID(may)", "TYPE", "INODE", "RESULT")
+)
 
 b["filelock_events"].open_perf_buffer(print_filelock_event)
 

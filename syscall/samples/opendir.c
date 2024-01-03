@@ -8,7 +8,8 @@ int main(void)
 	struct dirent *diren;
 
 	while ((diren = readdir(dir))) {
-		printf("%s, %ld, %d\n", diren->d_name, diren->d_fileno, diren->d_type);
+		printf("%s, %ld, %d\n", diren->d_name, diren->d_fileno,
+		       diren->d_type);
 	}
 
 	closedir(dir);

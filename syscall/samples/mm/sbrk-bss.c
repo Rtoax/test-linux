@@ -4,7 +4,6 @@
 #include <sys/time.h>
 #include <sys/resource.h>
 
-
 /* undefined global var in bss segment */
 int bssvar;
 
@@ -25,7 +24,7 @@ int main(void)
 	//计算堆的开始地址和 bss segment 结束处得空隙大小，
 	//注意每次加载程序时这个空隙都是变化的，但是在同一次加载中它不会改变
 	heap_gap_bss = (long)pmem - (long)&bssvar - 4;
-	printf ("1-gap between heap and bss:%lu\n", heap_gap_bss);
+	printf("1-gap between heap and bss:%lu\n", heap_gap_bss);
 
 	//释放内存，归还给堆
 	free(pmem);
@@ -37,18 +36,16 @@ int main(void)
 	pmem = (char *)malloc(32);
 	if (pmem == NULL) {
 		perror("malloc");
-		exit (EXIT_FAILURE);
+		exit(EXIT_FAILURE);
 	}
-
 	//检查和第一次获取的内存区的起始地址是否一样
-	printf ("pmem:%p\n", pmem);
+	printf("pmem:%p\n", pmem);
 
 	//计算调整 program break 后的空隙
 	heap_gap_bss = (long)pmem - (long)&bssvar - 4;
-	printf ("2-gap between heap and bss:%lu\n", heap_gap_bss);
+	printf("2-gap between heap and bss:%lu\n", heap_gap_bss);
 
 	//释放
 	free(pmem);
 	return 0;
 }
-

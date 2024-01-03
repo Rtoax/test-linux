@@ -12,8 +12,7 @@
 #include <errno.h>
 #include <limits.h>
 
-int
-main(int argc, char *argv[])
+int main(int argc, char *argv[])
 {
 	int fd;
 	int len, slen;
@@ -31,26 +30,25 @@ main(int argc, char *argv[])
 
 	do {
 		/*
-		* tee stdin to stdout.
-		*/
+		 * tee stdin to stdout.
+		 */
 		len = tee(STDIN_FILENO, STDOUT_FILENO,
-					INT_MAX, SPLICE_F_NONBLOCK);
+			  INT_MAX, SPLICE_F_NONBLOCK);
 
 		if (len < 0) {
 			if (errno == EAGAIN)
 				continue;
 			perror("tee");
 			exit(EXIT_FAILURE);
-		} else
-			if (len == 0)
-				break;
+		} else if (len == 0)
+			break;
 
 		/*
-		* Consume stdin by splicing it to a file.
-		*/
+		 * Consume stdin by splicing it to a file.
+		 */
 		while (len > 0) {
 			slen = splice(STDIN_FILENO, NULL, fd, NULL,
-							len, SPLICE_F_MOVE);
+				      len, SPLICE_F_MOVE);
 			if (slen < 0) {
 				perror("splice");
 				break;

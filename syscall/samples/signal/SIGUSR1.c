@@ -3,13 +3,12 @@
 #include <stdlib.h>
 #include <signal.h>
 
-
 int n = 0;
 int flag = 0;
 
 void sig_child(int num)
 {
-	printf("I'm child[%d]: n = %d\n",getpid(),n);
+	printf("I'm child[%d]: n = %d\n", getpid(), n);
 	n += 2;
 	flag = 1;
 	sleep(1);
@@ -17,7 +16,7 @@ void sig_child(int num)
 
 void sig_parent(int num)
 {
-	printf("I'm parent[%d]: n = %d\n",getpid(),n);
+	printf("I'm parent[%d]: n = %d\n", getpid(), n);
 	n += 2;
 	flag = 1;
 	sleep(1);
@@ -32,7 +31,7 @@ int main(void)
 	if (pid < 0) {
 		perror("fork\n");
 		exit(1);
-	} else if(pid == 0) {
+	} else if (pid == 0) {
 		n = 2;
 		sigemptyset(&act.sa_mask);
 		act.sa_handler = sig_child;
@@ -69,4 +68,3 @@ int main(void)
 
 	return 0;
 }
-

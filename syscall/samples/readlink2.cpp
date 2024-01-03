@@ -13,10 +13,10 @@ namespace std_filesystem = std::experimental::filesystem;
 #error "neither <filesystem> nor <experimental/filesystem> are present"
 #endif
 
-std::string do_readlink(std::string const& path)
+std::string do_readlink(std::string const &path)
 {
 	char buff[PATH_MAX];
-	ssize_t len = ::readlink(path.c_str(), buff, sizeof(buff)-1);
+	ssize_t len =::readlink(path.c_str(), buff, sizeof(buff) - 1);
 
 	if (len != -1) {
 		buff[len] = '\0';

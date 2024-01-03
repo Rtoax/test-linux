@@ -20,7 +20,6 @@
 #include <sys/ioctl.h>
 #include <linux/userfaultfd.h>
 
-
 #define errExit(msg) \
 	do { \
 		perror(msg); \
@@ -31,9 +30,9 @@ static int page_size;
 
 static void *fault_handler_thread(void *arg)
 {
-	static struct uffd_msg msg;   /* Data read from userfaultfd */
-	static int fault_cnt = 0;	 /* Number of faults so far handled */
-	long uffd;					/* userfaultfd file descriptor */
+	static struct uffd_msg msg;	/* Data read from userfaultfd */
+	static int fault_cnt = 0;	/* Number of faults so far handled */
+	long uffd;		/* userfaultfd file descriptor */
 	static char *page = NULL;
 	struct uffdio_copy uffdio_copy;
 	ssize_t nread;
@@ -44,7 +43,7 @@ static void *fault_handler_thread(void *arg)
 
 	if (page == NULL) {
 		page = mmap(NULL, page_size, PROT_READ | PROT_WRITE,
-					MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
+			    MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
 		if (page == MAP_FAILED)
 			errExit("mmap");
 	}
@@ -66,9 +65,9 @@ static void *fault_handler_thread(void *arg)
 
 		printf("\nfault_handler_thread():\n");
 		printf("	poll() returns: nready = %d; "
-				"POLLIN = %d; POLLERR = %d\n", nready,
-				(pollfd.revents & POLLIN) != 0,
-				(pollfd.revents & POLLERR) != 0);
+		       "POLLIN = %d; POLLERR = %d\n", nready,
+		       (pollfd.revents & POLLIN) != 0,
+		       (pollfd.revents & POLLERR) != 0);
 
 		/* Read an event from the userfaultfd. */
 
@@ -106,24 +105,25 @@ static void *fault_handler_thread(void *arg)
 		/* We need to handle page faults in units of pages(!).
 		   So, round faulting address down to page boundary. */
 
-		uffdio_copy.dst = (unsigned long) msg.arg.pagefault.address &
-										   ~(page_size - 1);
+		uffdio_copy.dst = (unsigned long)msg.arg.pagefault.address &
+		    ~(page_size - 1);
 		uffdio_copy.len = page_size;
 		uffdio_copy.mode = 0;
 		uffdio_copy.copy = 0;
 		if (ioctl(uffd, UFFDIO_COPY, &uffdio_copy) == -1)
 			errExit("ioctl-UFFDIO_COPY");
 
-		printf("		(uffdio_copy.copy returned %lld)\n", uffdio_copy.copy);
+		printf("		(uffdio_copy.copy returned %lld)\n",
+		       uffdio_copy.copy);
 	}
 }
 
 int main(int argc, char *argv[])
 {
-	long uffd;		   /* userfaultfd file descriptor */
-	char *addr;		   /* Start of region handled by userfaultfd */
-	uint64_t len;	   /* Length of region handled by userfaultfd */
-	pthread_t thr;	   /* ID of thread that handles page faults */
+	long uffd;		/* userfaultfd file descriptor */
+	char *addr;		/* Start of region handled by userfaultfd */
+	uint64_t len;		/* Length of region handled by userfaultfd */
+	pthread_t thr;		/* ID of thread that handles page faults */
 	struct uffdio_api uffdio_api;
 	struct uffdio_register uffdio_register;
 	int s;
@@ -153,7 +153,7 @@ int main(int argc, char *argv[])
 	   the userfaultfd. */
 
 	addr = mmap(NULL, len, PROT_READ | PROT_WRITE,
-				MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
+		    MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
 	if (addr == MAP_FAILED)
 		errExit("mmap");
 
@@ -182,7 +182,7 @@ int main(int argc, char *argv[])
 	   events for all pages in the region. */
 
 	int l;
-	l = 0xf;	/* Ensure that faulting address is not on a page
+	l = 0xf;		/* Ensure that faulting address is not on a page
 				   boundary, in order to test that we correctly
 				   handle that case in fault_handling_thread(). */
 	while (l < len) {
@@ -190,7 +190,7 @@ int main(int argc, char *argv[])
 		printf("Read address %p in main(): ", addr + l);
 		printf("%c\n", c);
 		l += 1024;
-		usleep(100000);		 /* Slow things down a little */
+		usleep(100000);	/* Slow things down a little */
 	}
 
 	exit(EXIT_SUCCESS);

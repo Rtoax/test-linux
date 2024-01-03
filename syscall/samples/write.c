@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <unistd.h>
 
-
 int fun1(void)
 {
 	union {
@@ -23,7 +22,7 @@ int fun1(void)
 
 void fun2(void)
 {
-	char s[8] = {"hello\n"};
+	char s[8] = { "hello\n" };
 	write(1, s, 8);
 	return;
 }

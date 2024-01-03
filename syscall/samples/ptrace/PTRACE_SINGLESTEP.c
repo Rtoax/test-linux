@@ -12,7 +12,6 @@
 
 #include "helpers.h"
 
-
 int main(void)
 {
 	pid_t child;
@@ -42,4 +41,3 @@ int main(void)
 	printf("SIGTRAP count %ld\n", sigtrap_count);
 	return 0;
 }
-

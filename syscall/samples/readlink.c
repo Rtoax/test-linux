@@ -8,10 +8,9 @@
 int main(int argc, char *argv[])
 {
 	int ret;
-	char buffer[BUF_LEN] = {0};
+	char buffer[BUF_LEN] = { 0 };
 	char *exec_file = argv[0];
 	char *filename = argv[1];
-
 
 	if (!filename) {
 		filename = "readlink.out";

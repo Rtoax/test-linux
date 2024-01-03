@@ -58,19 +58,18 @@ bool install_breakpoint(void *addr, int bpno, void (*handler)(int))
 		 * set the breakpoint address.
 		 */
 		if (ptrace(PTRACE_POKEUSER,
-			parent,
-			offsetof(struct user, u_debugreg[bpno]),
-			addr))
-			_exit(1);
+			   parent,
+			   offsetof(struct user, u_debugreg[bpno]), addr))
+			 _exit(1);
 
 		/*
 		 * set parameters for when the breakpoint should be triggered.
 		 */
 		if (ptrace(PTRACE_POKEUSER,
-			parent,
-			offsetof(struct user, u_debugreg[7]),
-			enable_breakwrite | enable_breakpoint))
-			_exit(1);
+			   parent,
+			   offsetof(struct user, u_debugreg[7]),
+			   enable_breakwrite | enable_breakpoint))
+			 _exit(1);
 
 		if (ptrace(PTRACE_DETACH, parent, NULL, NULL))
 			_exit(1);
@@ -123,7 +122,7 @@ int main(int argc, char **argv)
 	if (!install_breakpoint(&a, 0, handle))
 		printf("failed to set the breakpoint!\n");
 
-	for(i = 0; i < 100202; i++)
+	for (i = 0; i < 100202; i++)
 		a = 1;
 
 	printf("handled: %d\n", handled);
@@ -133,4 +132,3 @@ int main(int argc, char **argv)
 
 	return 1;
 }
-

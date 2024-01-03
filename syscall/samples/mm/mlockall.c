@@ -5,14 +5,12 @@
 #include <assert.h>
 #include <sys/mman.h>
 
-
 int main(void)
 {
 	size_t i;
 	size_t page_size;
 	int alloc_size;
 	char *mem = NULL;
-
 
 	if (mlockall(MCL_CURRENT | MCL_FUTURE)) {
 		perror("mlockall failed.");
