@@ -8,7 +8,7 @@ int prog_load_deprecated(int a, int b, int c, int d)
 }
 
 #if !defined(__clang__)
-DEFAULT_VERSION(prog_load_v0_6_0, prog_load, LIB0 .6 .0)
+DEFAULT_VERSION(prog_load_v0_6_0, prog_load, LIB0.6.0)
 #endif
 int prog_load(int a, int b, int c, int d, int e, int f)
 {
