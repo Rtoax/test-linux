@@ -1,7 +1,6 @@
 #include <math.h>
 #include <stdio.h>
 
-
 int print_int(int i)
 {
 	return printf("int: %d\n", i);

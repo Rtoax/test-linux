@@ -8,7 +8,7 @@ int func1(a, b, c)
 int a, b, c;
 #endif
 {
-	return a + b +c;
+	return a + b + c;
 }
 
 #ifdef __clang__
@@ -32,7 +32,8 @@ int a, b, c, d, e, f, g, h;
 }
 
 void func0(void)
-{}
+{
+}
 
 int main(void)
 {
@@ -47,7 +48,7 @@ int main(void)
 	g = 7;
 	h = 8;
 
-	func1(a,b,c);
-	func2(a,b,c,d,e,f);
-	func3(a,b,c,d,e,f,g,h);
+	func1(a, b, c);
+	func2(a, b, c, d, e, f);
+	func3(a, b, c, d, e, f, g, h);
 }

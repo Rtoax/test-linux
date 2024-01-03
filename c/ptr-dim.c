@@ -9,13 +9,11 @@
 
 #include "helpers.h"
 
-
 struct test_struct {
 	int i;
 };
 
 static struct test_struct *test = NULL;
-
 
 void test_struct_ptr(void)
 {

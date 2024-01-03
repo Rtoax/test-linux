@@ -1,7 +1,6 @@
 #include <math.h>
 #include <stdio.h>
 
-
 /**
  * see also __attribute__((nonnull (1, 2)))
  */

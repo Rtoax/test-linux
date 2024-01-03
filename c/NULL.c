@@ -7,7 +7,7 @@ int main(void)
 	if (ul == (unsigned long)NULL)
 		printf("0 == (unsigned long)NULL\n");
 
-	if ((void*)0 == NULL)
+	if ((void *)0 == NULL)
 		printf("void *0 == NULL\n");
 
 	return 0;

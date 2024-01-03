@@ -16,7 +16,7 @@ int prog_load(int a, int b, int c, int d, int e, int f);
 		prog_load_deprecated(file, type, pobj, prog_fd)
 #define ___prog_load6(prog_type, prog_name, license, insns, insn_cnt, opts) \
 		prog_load(prog_type, prog_name, license, insns, insn_cnt, opts)
-#endif /* prog_load */
+#endif				/* prog_load */
 
 #define SHARED
 
@@ -34,7 +34,7 @@ int prog_load(int a, int b, int c, int d, int e, int f);
 #define DEFAULT_VERSION(internal_name, api_name, version) \
 		asm(".symver " #internal_name "," #api_name "@@" #version);
 
-#else /* !SHARED */
+#else				/* !SHARED */
 
 #define COMPAT_VERSION(internal_name, api_name, version)
 #define DEFAULT_VERSION(internal_name, api_name, version) \

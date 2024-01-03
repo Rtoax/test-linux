@@ -6,7 +6,6 @@
 
 #include "helpers.h"
 
-
 void *alloc_mem_internal(void **ptr, size_t size)
 {
 	void *p = realloc(*ptr, size);

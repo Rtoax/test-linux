@@ -1,7 +1,6 @@
 #include <math.h>
 #include <stdio.h>
 
-
 #if defined(__clang__)
 int print_ptr(void *_Nullable ptr)
 #else
