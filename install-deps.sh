@@ -13,6 +13,7 @@ pkgs+=( bpftrace bpftool bcc ) # eBPF
 pkgs+=( criu )
 pkgs+=( dwarves )              # pahole
 pkgs+=( efivar mokutil )       # UEFI
+pkgs+=( git-clang-format )
 pkgs+=( golang )               # go
 pkgs+=( hwloc )                # lstopo
 pkgs+=( inotify-tools )        # inotifywatch, ...
