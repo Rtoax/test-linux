@@ -7,7 +7,7 @@
 
 #ifndef likely
 #define likely(exp) __builtin_expect(!!(exp), 1)
-#endif 
+#endif
 
 #ifndef unlikely
 #define unlikely(exp) __builtin_expect(!!(exp), 0)
@@ -302,5 +302,4 @@ _api int bitmask_displaylist(char *buf, int buflen, const struct bitmask *bmp)
 	}
 	return len;
 }
-
 
