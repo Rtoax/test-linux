@@ -37,7 +37,7 @@ if [[ $(uname -m) == x86_64 ]]; then
 fi
 
 case ${OS} in
-cclinux|fedora|centos|rhel)
+cclinux|fedora|centos|rhel|openEuler)
 	pkgs+=( bcc-devel )
 	pkgs+=( binutils-devel )
 	pkgs+=( capstone-devel )       # Capstone is a disassembly framework
