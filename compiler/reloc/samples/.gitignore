@@ -1,3 +1,5 @@
 /relocation-truncated-to-fit
 /reloc-types
 /nostdlib
+/testcase
+/testcase-now
