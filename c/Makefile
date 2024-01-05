@@ -3,6 +3,7 @@ TARGETS += auto
 TARGETS += array
 TARGETS += ascii
 TARGETS += alignas
+TARGETS += case
 TARGETS += const
 TARGETS += param-pass
 TARGETS += compat
@@ -55,6 +56,7 @@ build: ${TARGETS}
 auto: auto.o
 ascii: ascii.o
 alignas: alignas.o
+case: case.o
 const: const.o
 param-pass: param-pass.o
 array: array.o
