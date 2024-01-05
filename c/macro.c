@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include "unused.h"
 
 struct attr {
 	void (*show)(void);
@@ -13,7 +14,7 @@ struct attr {
 
 void print_show(void) { }
 
-ATTR_RO(print);
+static __unused ATTR_RO(print);
 
 int main(void)
 {
