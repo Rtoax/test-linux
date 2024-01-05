@@ -17,5 +17,6 @@
 /_Nonnull
 /alignas
 /BUILD_BUG_ON_ZERO
+/macro
 /*.s
 /*.E.c
