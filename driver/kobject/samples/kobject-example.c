@@ -18,9 +18,9 @@
  * later read out of it.
  */
 
-static int foo = 1;
-static int baz = 2;
-static int bar = 3;
+static int foo;
+static int baz;
+static int bar;
 
 /*
  * The "foo" file where a static variable is read from and written to.
@@ -28,7 +28,7 @@ static int bar = 3;
 static ssize_t foo_show(struct kobject *kobj, struct kobj_attribute *attr,
 			char *buf)
 {
-	return sprintf(buf, "%d\n", foo);
+	return sysfs_emit(buf, "%d\n", foo);
 }
 
 static ssize_t foo_store(struct kobject *kobj, struct kobj_attribute *attr,
@@ -60,7 +60,7 @@ static ssize_t b_show(struct kobject *kobj, struct kobj_attribute *attr,
 		var = baz;
 	else
 		var = bar;
-	return sprintf(buf, "%d\n", var);
+	return sysfs_emit(buf, "%d\n", var);
 }
 
 static ssize_t b_store(struct kobject *kobj, struct kobj_attribute *attr,
@@ -112,7 +112,6 @@ static int __init example_init(void)
 {
 	int retval;
 
-	printk(KERN_INFO "hello.\n");
 	/*
 	 * Create a simple kobject with the name of "kobject_example",
 	 * located under /sys/kernel/
@@ -136,7 +135,6 @@ static int __init example_init(void)
 
 static void __exit example_exit(void)
 {
-	printk(KERN_INFO "Bye.\n");
 	kobject_put(example_kobj);
 }
 

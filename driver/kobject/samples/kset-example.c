@@ -112,7 +112,7 @@ static void foo_release(struct kobject *kobj)
 static ssize_t foo_show(struct foo_obj *foo_obj, struct foo_attribute *attr,
 			char *buf)
 {
-	return sprintf(buf, "%d\n", foo_obj->foo);
+	return sysfs_emit(buf, "%d\n", foo_obj->foo);
 }
 
 static ssize_t foo_store(struct foo_obj *foo_obj, struct foo_attribute *attr,
@@ -144,7 +144,7 @@ static ssize_t b_show(struct foo_obj *foo_obj, struct foo_attribute *attr,
 		var = foo_obj->baz;
 	else
 		var = foo_obj->bar;
-	return sprintf(buf, "%d\n", var);
+	return sysfs_emit(buf, "%d\n", var);
 }
 
 static ssize_t b_store(struct foo_obj *foo_obj, struct foo_attribute *attr,
@@ -185,7 +185,7 @@ ATTRIBUTE_GROUPS(foo_default);
  * release function, and the set of default attributes we want created
  * whenever a kobject of this type is registered with the kernel.
  */
-static struct kobj_type foo_ktype = {
+static const struct kobj_type foo_ktype = {
 	.sysfs_ops = &foo_sysfs_ops,
 	.release = foo_release,
 	.default_groups = foo_default_groups,
@@ -240,7 +240,6 @@ static void destroy_foo_obj(struct foo_obj *foo)
 
 static int __init example_init(void)
 {
-	printk(KERN_INFO "Hello.\n");
 	/*
 	 * Create a kset with the name of "kset_example",
 	 * located under /sys/kernel/
@@ -277,7 +276,6 @@ foo_error:
 
 static void __exit example_exit(void)
 {
-	printk(KERN_INFO "Bye.\n");
 	destroy_foo_obj(baz_obj);
 	destroy_foo_obj(bar_obj);
 	destroy_foo_obj(foo_obj);
