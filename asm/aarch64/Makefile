@@ -9,6 +9,7 @@ TARGETS_C += add-c
 TARGETS_C += loop-c
 TARGETS := hello
 TARGETS += hello-stack
+TARGETS += while
 
 ifneq ($(shell lscpu | grep -w -e sve -e sve2),)
 	TARGETS += hello_sve
@@ -42,6 +43,7 @@ hello_sve: hello_sve.o
 daxpy: daxpy.o daxpy_sve.o daxpy-c.co
 add-c: add-c.o
 loop-c: loop-c.o
+while: while.o
 
 %.o: %.asm
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
