@@ -19,5 +19,6 @@
 /alignas
 /BUILD_BUG_ON_ZERO
 /macro
+/while
 /*.s
 /*.E.c
