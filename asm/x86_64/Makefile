@@ -9,6 +9,7 @@ TARGETS += maxofthree_call
 
 TARGETS_ld := hello
 TARGETS_ld += hello-stack
+TARGETS_ld += while
 
 # TODO
 TARGETS_todo += sum_cal
@@ -43,6 +44,7 @@ sum_cal: sum_cal.o sum.o
 factorial_call: factorial_call.o factorial.o
 maxofthree_call: maxofthree_call.o maxofthree.o
 power: power.o
+while: while.o
 
 %.o: %.asm
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
