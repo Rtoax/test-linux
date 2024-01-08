@@ -7,16 +7,17 @@
 #include <unistd.h>
 #include <wait.h>
 #include <sys/ptrace.h>
-#define UNW_LOCAL_ONLY
 #include <libunwind.h>
 #include <libunwind-ptrace.h>
-#include <libunwind-x86_64.h>
 #include <signal.h>
 
 
-#define panic(X) fprintf(stderr, #X "\n");
+#define panic(X) do {	\
+		fprintf(stderr, #X "\n");	\
+		exit(1);	\
+	} while (0)
 
-static unw_addr_space_t as;
+static unw_addr_space_t addr_space;
 static struct UPT_info *ui;
 
 void do_backtrace(pid_t child)
@@ -31,7 +32,7 @@ void do_backtrace(pid_t child)
 	nanosleep(&t, NULL);
 
 	unw_cursor_t c;
-	int rc = unw_init_remote(&c, as, ui);
+	int rc = unw_init_remote(&c, addr_space, ui);
 	if (rc != 0) {
 		if (rc == UNW_EINVAL) {
 			panic("unw_init_remote: UNW_EINVAL");
@@ -61,20 +62,18 @@ void do_backtrace(pid_t child)
 	_UPT_destroy(ui);
 }
 
-
-int main(int argc __attribute__((unused)), char **argv, char **envp)
+int main(int argc, char **argv, char **envp)
 {
-	as = unw_create_addr_space(&_UPT_accessors, 0);
-	if (!as) {
-		panic("unw_create_addr_space failed");
-	}
-
 	pid_t child;
-	child = fork();
 
+	addr_space = unw_create_addr_space(&_UPT_accessors, __BYTE_ORDER__);
+	if (!addr_space)
+		panic("unw_create_addr_space failed");
+
+	child = fork();
 	if (!child) {
-		execve("/home/#######/#######/my_utilities/child_bt/cg.A.x",
-				argv, envp);
+		char pathname[] = {"./test"};
+		execve(pathname, NULL, NULL);
 		return 0;
 	} else {
 		int status;

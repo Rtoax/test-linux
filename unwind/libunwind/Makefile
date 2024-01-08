@@ -4,6 +4,7 @@ TARGETS_CPP :=
 
 TARGETS += test
 TARGETS += unw_regname
+TARGETS += unw_create_addr_space
 TARGETS += backtrace
 TARGETS += do_backtrace
 
@@ -31,6 +32,7 @@ CFLAGS_test := -g -ggdb -O0
 
 test: test.o
 unw_regname: unw_regname.o
+unw_create_addr_space: unw_create_addr_space.o
 backtrace: backtrace.o
 backtrace-pid: backtrace-pid.oo
 do_backtrace: do_backtrace.o

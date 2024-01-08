@@ -76,12 +76,19 @@ void get_backtrace(pid_t pid)
 	ptrace(PTRACE_DETACH, pid, nullptr, nullptr);
 }
 
-int main(int argc, char **argv)
+int main(void)
 {
-	if (argc < 2)
-		std::cerr << "please input pid" << std::endl;
-
-	pid_t pid = std::atoi(argv[1]);
-	get_backtrace(pid);
+	pid_t child = fork();
+	if (!child) {
+		char pathname[] = {"./test"};
+		execve(pathname, NULL, NULL);
+		return 0;
+	} else {
+		int status;
+		struct timespec t = { .tv_sec = 1, .tv_nsec = 0 };
+		nanosleep(&t, NULL);
+		get_backtrace(child);
+		waitpid(child, &status, 0);
+	}
 	return 0;
 }

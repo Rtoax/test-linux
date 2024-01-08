@@ -1,5 +1,6 @@
 /test
 /unw_regname
+/unw_create_addr_space
 /backtrace
 /backtrace-pid
 /do_backtrace
