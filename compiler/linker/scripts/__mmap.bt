@@ -1,0 +1,39 @@
+#!/bin/env bpftrace
+/**
+ * __mmap.bt - Tracing ld linker __mmap()
+ *
+ * Copyright (C) Rong Tao 2022-2024
+ *
+ * 2024-01-08	Rong Tao	Create this.
+ */
+BEGIN
+{
+	printf("Tracing __mmap, hit ctrl-c to end.\n");
+	printf("%-8s %-8s %-16s %-8s %-16s\n",
+		"TIME", "PID", "COMM", "LEN", "ADDR");
+}
+
+uprobe:/lib64/ld-linux-x86-64.so.2:__mmap,
+uprobe:/lib64/ld-linux-x86-64.so.2:__mmap64
+{
+	$len = arg1;
+	@lens[tid] = $len;
+}
+
+uretprobe:/lib64/ld-linux-x86-64.so.2:__mmap,
+uretprobe:/lib64/ld-linux-x86-64.so.2:__mmap64
+/ @lens[tid] /
+{
+	$len = @lens[tid];
+	$addr = retval;
+	time("%H:%M:%S ");
+	printf("%-8d %-16s %-8lx", pid, comm, $len);
+	printf(" %-016lx\n", $addr);
+	delete(@lens[tid]);
+}
+
+END
+{
+	clear(@lens);
+	printf("Bye.\n");
+}
