@@ -27,3 +27,9 @@ Using KVM, one can run multiple virtual machines running unmodified Linux or Win
 ```bash
 $ sudo virsh cpu-models x86_64
 ```
+
+# Devices
+
+- IOMMU: x86
+- SMMU: arm
+
