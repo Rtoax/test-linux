@@ -28,8 +28,10 @@ void get_backtrace(pid_t pid)
 	unw_word_t ip, sp, off;
 
 	unw_addr_space_t addr_space = unw_create_addr_space(&_UPT_accessors, __BYTE_ORDER__);
-	if (!addr_space)
+	if (!addr_space) {
 		std::cerr << "Failed to create address space" << std::endl;
+		exit(1);
+	}
 
 	unw_getcontext(&context);
 

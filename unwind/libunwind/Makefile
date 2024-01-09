@@ -5,10 +5,12 @@ TARGETS_CPP :=
 TARGETS += test
 TARGETS += unw_regname
 TARGETS += unw_create_addr_space
-TARGETS += backtrace
 TARGETS += do_backtrace
 
 TARGETS_CPP += backtrace-pid
+ifeq ($(shell uname -m),x86_64)
+TARGETS += backtrace
+endif
 
 DEBUG = yes
 SRC_PATH := $(shell pwd)
@@ -17,7 +19,12 @@ CXX = g++
 
 CFLAGS :=
 CFLAGS += -lunwind
+ifeq ($(shell uname -m),x86_64)
 CFLAGS += -lunwind-x86_64
+endif
+ifeq ($(shell uname -m),aarch64)
+CFLAGS += -lunwind-aarch64
+endif
 
 UNWIND_PTRACE=/lib64/libunwind-ptrace.a
 
