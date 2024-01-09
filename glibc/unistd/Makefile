@@ -10,6 +10,7 @@ TARGETS += execvp-fork
 TARGETS += execvp-timedrun
 TARGETS += execvp
 TARGETS += getcwd
+TARGETS += getpagesize
 TARGETS += ttyname ttyname_r
 TARGETS += lseek-huge
 
@@ -44,6 +45,7 @@ execvp-fork: execvp-fork.o
 execvp-timedrun: execvp-timedrun.o
 execvp: execvp.o
 getcwd: getcwd.o
+getpagesize: getpagesize.o
 ttyname: ttyname.o
 ttyname_r: ttyname_r.o
 lseek-huge: lseek-huge.o

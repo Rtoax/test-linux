@@ -8,6 +8,7 @@
 /execvp-timedrun
 /execvp
 /getcwd
+/getpagesize
 /ttyname
 /ttyname_r
 /lseek-huge
