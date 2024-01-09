@@ -7,7 +7,8 @@
 
 int main(void)
 {
-	unw_addr_space_t addr_space = unw_create_addr_space(&_UPT_accessors, __BYTE_ORDER__);
+	/* byteorder set to 0 to request the default byte-order of the unwind target */
+	unw_addr_space_t addr_space = unw_create_addr_space(&_UPT_accessors, 0);
 	if (!addr_space) {
 		fprintf(stderr, "create unw addr space failed %s\n", strerror(errno));
 		return -1;
