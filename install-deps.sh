@@ -21,6 +21,7 @@ pkgs+=( llvm )                 # llvm-as llvm-dis llc
 pkgs+=( lsb_release )
 pkgs+=( lshw )                 # lshw
 pkgs+=( nasm )                 # nasm
+pkgs+=( net-tools )            # netstat
 pkgs+=( numactl )              # numastat
 pkgs+=( opencl-headers )
 pkgs+=( python3-matplotlib )   # matplotlib
