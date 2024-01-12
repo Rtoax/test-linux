@@ -4,7 +4,7 @@
 #if defined(__loogarch64__)
 #define builtin_thread_self() (pthread_t)__builtin_thread_pointer()
 #else
-#define builtin_thread_self() 0UL
+#define builtin_thread_self() pthread_self()
 #endif
 
 void *test_task_fn(void *unused)
