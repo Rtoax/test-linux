@@ -9,6 +9,7 @@ TARGETS_C += add-c
 TARGETS_C += loop-c
 TARGETS := hello
 TARGETS += hello-stack
+TARGETS += exit
 TARGETS += while
 
 ifneq ($(shell lscpu | grep -w -e sve -e sve2),)
@@ -39,6 +40,7 @@ build: $(TARGETS) $(TARGETS_C)
 # Add more object.o file
 hello: hello.o
 hello-stack: hello-stack.o
+exit: exit.o
 hello_sve: hello_sve.o
 daxpy: daxpy.o daxpy_sve.o daxpy-c.co
 add-c: add-c.o
