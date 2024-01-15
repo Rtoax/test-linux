@@ -10,3 +10,10 @@ void print_proc_pid_maps(void)
 	system(cmd);
 }
 
+#ifdef TEST
+int main(void)
+{
+	print_proc_pid_maps();
+	return 0;
+}
+#endif
