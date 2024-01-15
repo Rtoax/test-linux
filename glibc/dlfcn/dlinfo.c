@@ -8,6 +8,7 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
+#include <libs/proc.h>
 #include "common.h"
 
 
@@ -32,10 +33,10 @@ static void test(const char *lib)
 
 int main(void)
 {
-	system("cat /proc/self/maps");
+	print_proc_pid_maps();
 	test("libc.so.6");
 	test("ld-linux-x86-64.so.2");
-	system("cat /proc/self/maps");
+	print_proc_pid_maps();
 	return 0;
 }
 

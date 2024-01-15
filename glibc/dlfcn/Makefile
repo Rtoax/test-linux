@@ -20,6 +20,8 @@ LDLIBS :=
 ifdef DEBUG
 CFLAGS += -DDEBUG -O0 -g
 endif
+CFLAGS += -I../../
+
 
 .PHONY: build
 build: ${TARGETS} ${TARGETS_LIBS}
@@ -31,7 +33,7 @@ hello: hello.o
 socket: socket.o libc.o
 malloc: malloc.o libc.o
 vdso: vdso.o
-dlinfo: dlinfo.o
+dlinfo: dlinfo.o ../../libs/proc.o
 
 CFLAGS_main.user := -D_MAIN_USER=1
 LDFLAGS_main.user :=
