@@ -1,0 +1,11 @@
+#!/bin/env bpftrace
+
+BEGIN
+{
+	$i = 0;
+	unroll (4) {
+		printf("%d\n", $i);
+		$i++;
+	}
+	exit();
+}
