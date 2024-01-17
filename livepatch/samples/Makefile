@@ -10,6 +10,7 @@ obj-$(LIVEPATCH) += livepatch-callbacks-busymod.o
 obj-$(LIVEPATCH) += livepatch-callbacks-demo.o
 obj-$(LIVEPATCH) += livepatch-callbacks-mod.o
 obj-$(LIVEPATCH) += livepatch-sample.o
+obj-$(LIVEPATCH) += livepatch-sample-2nd.o
 obj-$(LIVEPATCH) += livepatch-shadow-fix1.o
 obj-$(LIVEPATCH) += livepatch-shadow-fix2.o
 obj-$(LIVEPATCH) += livepatch-shadow-mod.o
