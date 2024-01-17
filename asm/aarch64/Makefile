@@ -10,6 +10,7 @@ TARGETS_C += loop-c
 TARGETS := hello
 TARGETS += hello-stack
 TARGETS += exit
+TARGETS += ldr
 TARGETS += while
 
 ifneq ($(shell lscpu | grep -w -e sve -e sve2),)
@@ -46,10 +47,12 @@ daxpy: daxpy.o daxpy_sve.o daxpy-c.co
 add-c: add-c.o
 loop-c: loop-c.o
 while: while.o
+ldr: ldr.o
 
 %.o: %.asm
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	$(AS) $(<) -o $(@) $(AS_ARGS)
+	objdump -Dr $(@)
 
 %.co: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
