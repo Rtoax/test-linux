@@ -2,8 +2,8 @@
 
 #include <stdint.h>
 
-#ifndef CAS
-#define CAS(ptr, val_old, val_new) ({ \
+#ifndef ASM_CAS_X86_64
+#define ASM_CAS_X86_64(ptr, val_old, val_new) ({ \
 	char ret; \
 	__asm__ __volatile__("lock; "\
 		"cmpxchgl %2,%0; setz %1"\
@@ -15,6 +15,7 @@
 
 #define _val_compare_and_swap(ptr, oldval, newold) __sync_val_compare_and_swap(ptr, oldval, newold)
 #define _bool_compare_and_swap(loc, oldval, newval) __sync_bool_compare_and_swap((void **)loc, oldval, newval)
+#define CAS(loc, old, new) _bool_compare_and_swap(loc, old, new)
 
 #define _add_and_fetch(ptr, v)  __sync_add_and_fetch(ptr, v)
 #define _sub_and_fetch(ptr, v)  __sync_sub_and_fetch(ptr, v)
@@ -31,6 +32,7 @@
 #define _fetch_and_nand(ptr, v)  __sync_fetch_and_nand(ptr, v)
 
 
+#if defined(__x86_64__)
 static uint64_t __cas(uint64_t* addr, uint64_t nval, uint64_t cmp)
 {
 	uint64_t old;
@@ -42,4 +44,5 @@ static uint64_t __cas(uint64_t* addr, uint64_t nval, uint64_t cmp)
 		: "cc"
 	);
 }
+#endif
 
