@@ -2,7 +2,9 @@
 /exit
 /hello
 /hello-stack
+/hello-puts
 /hello_sve
+/say_hello
 /loop-c
 /daxpy
 /while

@@ -7,14 +7,19 @@ AS_ARGS :=
 TARGETS_C :=
 TARGETS_C += add-c
 TARGETS_C += loop-c
-TARGETS := hello
-TARGETS += hello-stack
-TARGETS += exit
-TARGETS += ldr
-TARGETS += while
+
+TARGETS_ASM := hello
+TARGETS_ASM += hello-stack
+TARGETS_ASM += exit
+TARGETS_ASM += ldr
+TARGETS_ASM += while
+
+TARGETS_S :=
+TARGETS_S += say_hello
+TARGETS_S += hello-puts
 
 ifneq ($(shell lscpu | grep -w -e sve -e sve2),)
-	TARGETS += hello_sve
+	TARGETS_ASM += hello_sve
 	TARGETS_C += daxpy
 	AS_ARGS := -march=armv8-a+sve2
 endif
@@ -34,13 +39,15 @@ DYNAMIC_LINKER = /lib64/ld-linux-aarch64.so.1
 endif
 
 .PHONY: build
-build: $(TARGETS) $(TARGETS_C)
+build: $(TARGETS_ASM) $(TARGETS_C) $(TARGETS_S)
 	@echo
 	@echo -e " \033[1;33m Done \033[m"
 
 # Add more object.o file
 hello: hello.o
 hello-stack: hello-stack.o
+hello-puts: hello-puts.o
+say_hello: say_hello.o
 exit: exit.o
 hello_sve: hello_sve.o
 daxpy: daxpy.o daxpy_sve.o daxpy-c.co
@@ -58,19 +65,23 @@ ldr: ldr.o
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	$(CC) $(<) -c -o $(@) $(CFLAGS)
 
-$(TARGETS): %.o:
+%.o: %.S
+	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
+	$(CC) $(<) -c -o $(@) $(CFLAGS)
+
+$(TARGETS_ASM): %.o:
 	@echo -e "Target ld \033[1;32m$(@)\033[m"
 	$(LD) -o $(@) $(^) -lc -I ${DYNAMIC_LINKER}
 
-$(TARGETS_C): %.o:
+$(TARGETS_S) $(TARGETS_C): %.o:
 	@echo -e "Target ld \033[1;32m$(@)\033[m"
 	$(CC) -o $(@) $(^)
 
-test: $(TARGETS)
+test: $(TARGETS_ASM)
 	@echo -e "Test   \033[1;32m$(@)\033[m"
 	$(RUN_PFX) ./hello
 
 .PHONY: clean
 clean:
 	@echo -e "Clean   \033[1;32m$(@)\033[m"
-	@rm -f ${TARGETS} ${TARGETS_C} *.o *.d core.* *.co
+	@rm -f ${TARGETS_ASM} ${TARGETS_S} ${TARGETS_C} *.o *.d core.* *.co

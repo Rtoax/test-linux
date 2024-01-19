@@ -1,9 +1,8 @@
 
 .text
-.globl _start
-_start:
-	sub	sp, sp, #0x10
-	str	x0, [sp, #8]
+.globl puts
+.globl main
+main:
 	stp	x29, x30, [sp, #-32]!
 	mov	x29, sp
 	str	xzr, [sp, #16]
@@ -22,16 +21,8 @@ _start:
 	add	x0, sp, #0x10
 	str	x0, [sp, #24]
 
-	mov	x0, #1			/* fd := STDOUT_FILENO */
-	ldr	x1, [sp, #24]		/* buf := msg */
-	mov	x2, #0x8		/* count := len */
-	mov	w8, #64			/* write is syscall #64 */
-	svc	#0			/* invoke syscall */
-
-	/* exit(0) */
-	mov	x0, #0
-	mov	w8, #93
-	svc	#0
+	ldr	x0, [sp, #24]		/* buf := msg */
+	bl	puts
 	nop
-	add	sp, sp, #0x10
+	mov	w0, #0
 	ret
