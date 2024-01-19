@@ -22,6 +22,7 @@ TARGETS_ASM += while
 TARGETS_S :=
 TARGETS_S += say_hello
 TARGETS_S += hello-puts
+TARGETS_S += hello-puts-infinite-loop
 
 ifneq ($(shell lscpu | grep -w -e sve -e sve2),)
 	TARGETS_ASM += hello_sve
@@ -52,6 +53,7 @@ build: $(TARGETS_ASM) $(TARGETS_C) $(TARGETS_S)
 hello: hello.o
 hello-stack: hello-stack.o
 hello-puts: hello-puts.o
+hello-puts-infinite-loop: hello-puts-infinite-loop.o
 say_hello: say_hello.o
 exit: exit.o
 hello_sve: hello_sve.o
@@ -62,6 +64,8 @@ puts: puts.o
 while: while.o
 ldr: ldr.o
 
+CFLAGS_hello-puts-infinite-loop := -DINFINITE_LOOP=1
+
 %.o: %.asm
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	$(AS) $(<) -o $(@) $(AS_ARGS)
@@ -69,11 +73,11 @@ ldr: ldr.o
 
 %.co: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	$(CC) $(<) -c -o $(@) $(CFLAGS)
+	$(CC) $(<) -c -o $(@) $(CFLAGS) $(CFLAGS_$(*))
 
 %.o: %.S
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	$(CC) $(<) -c -o $(@) $(CFLAGS)
+	$(CC) $(<) -c -o $(@) $(CFLAGS) $(CFLAGS_$(*))
 
 $(TARGETS_ASM): %.o:
 	@echo -e "Target ld \033[1;32m$(@)\033[m"

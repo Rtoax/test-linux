@@ -22,14 +22,14 @@ main:
 	mov	w0, #0x6f		// #111
 	strb	w0, [sp, #28]
 
-	mov	w0, #0xa
-	strb	w0, [sp, #29]
-
 	add	x0, sp, #0x18
 	// This will cause segv fault
 	//ldr	x0, [sp, #0x18]		/* buf := msg */
 	bl	puts
 
 	mov	w0, #0x0
+#if !defined(INFINITE_LOOP)
+	# If no this line, this program will running in infinite loop.
 	ldp	x29, x30, [sp], #32
+#endif
 	ret
