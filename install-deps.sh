@@ -93,7 +93,12 @@ debian|ubuntu)
 	pkgs+=( linux-tools-common )
 	pkgs+=( lsb-release )
 
-	sudo apt install ${pkgs[@]}
+	args=( --fix-missing )
+
+	sudo apt update -y
+	sudo apt list --upgradable
+	sudo apt upgrade -y
+	sudo apt install ${args[@]} ${pkgs[@]}
 	;;
 *)
 	echo "ERROR: Unknown OS ${OS}"
