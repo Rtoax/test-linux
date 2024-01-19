@@ -1,13 +1,24 @@
 #!/bin/bash
 set -e
 
+declare -a pkgs
+
 . /etc/os-release
 
 OS=${ID}
 
 echo "OS: ${OS}"
 
-pkgs=( make cmake gcc clang gdb cgdb )
+# Install extra software package repo
+case ${OS} in
+centos|rhel|almalinux)
+	sudo dnf install -y epel-release
+	;;
+fedora)
+	;;
+esac
+
+pkgs+=( make cmake gcc clang gdb cgdb )
 pkgs+=( gcc-aarch64-linux-gnu )
 pkgs+=( bpftrace bpftool bcc ) # eBPF
 pkgs+=( criu )
@@ -36,6 +47,9 @@ pkgs+=( tree )
 if [[ $(uname -m) == x86_64 ]]; then
 	pkgs+=( glibc-devel.i686 )
 fi
+
+# Desktop Packages
+pkgs+=( terminator )
 
 case ${OS} in
 cclinux|fedora|centos|rhel|openEuler)
