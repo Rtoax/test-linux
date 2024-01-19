@@ -8,5 +8,6 @@
 /loop-c
 /daxpy
 /while
+/puts
 /ldr
 /*.co

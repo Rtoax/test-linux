@@ -5,5 +5,5 @@ main:
         push    `ABCD`
         mov     rdi, rsp
         call    puts
-        pop rsi
+        pop     rsi
         ret

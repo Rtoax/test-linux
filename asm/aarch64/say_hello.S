@@ -15,16 +15,16 @@ keep_x30: .dword 0
 
 .globl main
 main:
-    ldr x0, addr_keep_x30     // w0 ← &keep_30   [64]
-    str x30, [x0]             // *keep_30 ← x30  [64]
+    ldr x0, addr_keep_x30     // x0 <- &keep_30   [64]
+    str x30, [x0]             // *keep_30 <- x30  [64]
 
-    ldr x0, addr_say_hello    // w0 ← &say_hello [64]
+    ldr x0, addr_say_hello    // x0 <- &say_hello [64]
     bl puts                   // call puts
 
-    ldr x0, addr_keep_x30     // w0 ← &keep_30   [64]
-    ldr x30, [x0]             // x30 ← *keep_30  [64]
+    ldr x0, addr_keep_x30     // x0 <- &keep_30   [64]
+    ldr x30, [x0]             // x30 <- *keep_30  [64]
 
-    mov w0, #0                // w0 ← 0
+    mov w0, #0                // w0 <- 0
     ret                       // return
 
 addr_keep_x30 : .dword keep_x30

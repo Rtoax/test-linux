@@ -4,9 +4,14 @@ LD = ld
 RUN_PFX =
 AS_ARGS :=
 
+CFLAGS :=
+
+CFLAGS += -O0 -g -ggdb
+
 TARGETS_C :=
 TARGETS_C += add-c
 TARGETS_C += loop-c
+TARGETS_C += puts
 
 TARGETS_ASM := hello
 TARGETS_ASM += hello-stack
@@ -53,6 +58,7 @@ hello_sve: hello_sve.o
 daxpy: daxpy.o daxpy_sve.o daxpy-c.co
 add-c: add-c.o
 loop-c: loop-c.o
+puts: puts.o
 while: while.o
 ldr: ldr.o
 
