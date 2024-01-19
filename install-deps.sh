@@ -20,16 +20,14 @@ esac
 
 pkgs+=( make cmake gcc clang gdb cgdb )
 pkgs+=( gcc-aarch64-linux-gnu )
-pkgs+=( bpftrace bpftool bcc ) # eBPF
+pkgs+=( bpftrace bcc )         # eBPF
 pkgs+=( criu )
 pkgs+=( dwarves )              # pahole
 pkgs+=( efivar mokutil )       # UEFI
-pkgs+=( git-clang-format )
 pkgs+=( golang )               # go
 pkgs+=( hwloc )                # lstopo
 pkgs+=( inotify-tools )        # inotifywatch, ...
 pkgs+=( llvm )                 # llvm-as llvm-dis llc
-pkgs+=( lsb_release )
 pkgs+=( lshw )                 # lshw
 pkgs+=( nasm )                 # nasm
 pkgs+=( net-tools )            # netstat
@@ -44,22 +42,23 @@ pkgs+=( strace )
 pkgs+=( smartmontools )        # smartctl
 pkgs+=( tree )
 
-if [[ $(uname -m) == x86_64 ]]; then
-	pkgs+=( glibc-devel.i686 )
-fi
-
 # Desktop Packages
 pkgs+=( terminator )
 
 case ${OS} in
 cclinux|fedora|centos|rhel|openEuler)
+	if [[ $(uname -m) == x86_64 ]]; then
+		pkgs+=( glibc-devel.i686 )
+	fi
 	pkgs+=( bcc-devel )
 	pkgs+=( binutils-devel )
+	pkgs+=( bpftool )
 	pkgs+=( capstone-devel )       # Capstone is a disassembly framework
 	pkgs+=( cereal-devel )
 	pkgs+=( clang-devel )
 	pkgs+=( dtc )                  # device tree
 	pkgs+=( elfutils-libelf-devel )
+	pkgs+=( git-clang-format )
 	pkgs+=( grub2-tools-minimal grub2-tools-extra )
 	pkgs+=( gtest-devel gmock-devel )
 	pkgs+=( gtk3-devel )           # GTK3
@@ -73,6 +72,7 @@ cclinux|fedora|centos|rhel|openEuler)
 	pkgs+=( liburing-devel )       # uring
 	pkgs+=( libdwarf-tools )       # dwarfdump
 	pkgs+=( llvm-devel )
+	pkgs+=( lsb_release )
 	pkgs+=( ltrace )               # ltrace
 	pkgs+=( mmc )                  # mmc
 	pkgs+=( mpich mpich-devel )    # mpi
@@ -87,8 +87,11 @@ cclinux|fedora|centos|rhel|openEuler)
 	sudo dnf install ${args[@]} -y ${pkgs[@]}
 	;;
 debian|ubuntu)
+	pkgs+=( clang-format )
 	pkgs+=( libaio-dev )           # aio
 	pkgs+=( libmpich-dev )         # MPI
+	pkgs+=( linux-tools-common )
+	pkgs+=( lsb-release )
 
 	sudo apt install ${pkgs[@]}
 	;;
