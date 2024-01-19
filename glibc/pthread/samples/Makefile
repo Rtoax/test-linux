@@ -138,12 +138,12 @@ pthread_cond_wait: pthread_cond_wait.o
 
 %.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
-	$(CC) $(CFLAGS) $(CFLAGS_$(*)) -S $(<) -o $(<:.c=.s)
+	$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
+	$(CC) -S $(<) -o $(<:.c=.s) $(CFLAGS) $(CFLAGS_$(*))
 
 $(TARGETS): %:
 	@echo -e "Target   \033[1;32m$(@)\033[m"
-	$(CC) $(CFLAGS) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS) $(LDFLAGS) $(LDFLAGS_$(*))
+	$(CC) -o $(@) $(^) $(CFLAGS) $(STATIC_OPTS) $(LDLIBS) $(LDFLAGS) $(LDFLAGS_$(*))
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m <$(OS)>"
