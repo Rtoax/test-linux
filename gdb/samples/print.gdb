@@ -15,7 +15,18 @@ set args abc
 print /d global_i
 print /x main
 
+echo --- printf ---\n
+print 'printf'
+echo --- printf@plt ---\n
+print 'printf@plt'
+
 break main
 run
 print /c argv[0]
+
+echo --- printf ---\n
+print 'printf'
+echo --- printf@plt ---\n
+print 'printf@plt'
+
 continue
