@@ -49,9 +49,9 @@ file systems on a logical volume.
 
 ## mount: unknown filesystem type 'LVM2_member'
 
-- mount /dev/mapper/
 - vgs
-  lvchange -ay cl
+  lvchange -ay cl (-a: activate)
+- mount /dev/mapper/
 
 
 # Links
