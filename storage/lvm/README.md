@@ -45,6 +45,15 @@ file systems on a logical volume.
 ```
 
 
+# Q&A
+
+## mount: unknown filesystem type 'LVM2_member'
+
+- mount /dev/mapper/
+- vgs
+  lvchange -ay cl
+
+
 # Links
 
 - https://en.wikipedia.org/wiki/Logical_Volume_Manager_(Linux)
