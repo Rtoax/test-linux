@@ -1,8 +1,18 @@
 module SIG
 ==========
 
-config `CONFIG_MODULE_SIG_FORCE`
-command line `module.sig_enforce=1`
+
+# CONFIG
+
+- `CONFIG_MODULE_SIG`
+- `CONFIG_MODULE_SIG_FORCE`
+   - command line `module.sig_enforce=1`
+   - `/proc/sys/module/sig_enforce`
+- `CONFIG_MODULE_SIG_SHA1`
+- `CONFIG_MODULE_SIG_SHA224`
+- `CONFIG_MODULE_SIG_SHA256`
+- `CONFIG_MODULE_SIG_SHA384`
+- `CONFIG_MODULE_SIG_SHA512`
 
 
 # keyctl(2)
