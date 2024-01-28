@@ -1,5 +1,5 @@
 #!/bin/bash
-# TODO: see man ld.so
+# see ld.so(8) dlopen(3)
 
 LD_BIND_NOW=1
 export LD_BIND_NOW
