@@ -12,6 +12,8 @@
 #		f	浮点格式
 set args abc
 
+echo --- global_i address in ELF ---\n
+print &global_i
 print /d global_i
 print /x main
 
@@ -23,6 +25,9 @@ print 'printf@plt'
 break main
 run
 print /c argv[0]
+
+echo --- global_i address ---\n
+print &global_i
 
 echo --- printf ---\n
 print 'printf'
