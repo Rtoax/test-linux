@@ -9,11 +9,6 @@ open, read, write, malloc, printf, getaddrinfo, dlopen, `pthread_create`,
 crypt, login, exit and more.
 
 
-# Source Code
-
-- rtld: `glibc/elf/rtld.c`
-
-
 # Links
 
 * [https://www.gnu.org/software/libc/](https://www.gnu.org/software/libc/)
