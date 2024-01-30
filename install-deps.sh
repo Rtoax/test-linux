@@ -33,6 +33,7 @@ pkgs+=( nasm )                 # nasm
 pkgs+=( net-tools )            # netstat
 pkgs+=( numactl )              # numastat
 pkgs+=( opencl-headers )
+pkgs+=( parallel )
 pkgs+=( python3-matplotlib )   # matplotlib
 pkgs+=( python3-pyroute2 )     # pyroute2
 pkgs+=( python3-scapy )
