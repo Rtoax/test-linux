@@ -13,6 +13,7 @@ TARGETS += getcwd
 TARGETS += getpagesize
 TARGETS += ttyname ttyname_r
 TARGETS += lseek-huge
+TARGETS += getdents64
 
 ifeq ($(shell uname -m),x86_64)
 endif
@@ -49,6 +50,7 @@ getpagesize: getpagesize.o
 ttyname: ttyname.o
 ttyname_r: ttyname_r.o
 lseek-huge: lseek-huge.o
+getdents64: getdents64.o
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"

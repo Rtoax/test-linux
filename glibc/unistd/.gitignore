@@ -13,3 +13,4 @@
 /ttyname_r
 /lseek-huge
 /daemon
+/getdents64

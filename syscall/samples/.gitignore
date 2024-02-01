@@ -42,5 +42,6 @@
 /readdir
 /lstat
 /write
+/getdents
 /*.txt
 /tmp-*

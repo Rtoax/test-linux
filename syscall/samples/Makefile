@@ -29,6 +29,7 @@ TARGETS += symlink
 TARGETS += lstat
 TARGETS += readdir
 TARGETS += write
+TARGETS += getdents
 
 TARGETS_CPP += readlink2
 
@@ -121,6 +122,7 @@ symlink: symlink.o
 lstat: lstat.o
 readdir: readdir.o
 write: write.o
+getdents: getdents.o
 
 CFLAGS_write := -Wno-error=unused-variable
 
