@@ -1,0 +1,34 @@
+#!/bin/env bpftrace
+/**
+ * Tracing io_submit syscall.
+ *
+ * Copyright (C) Rong Tao 2022-2024
+ *
+ * 2024-02-01	Rong Tao	Create this.
+ */
+BEGIN
+{
+	printf("Tracing io_submit syscall, hit ctrl-c to end.\n");
+	printf("%-8s %-8s %-16s %-8s %-8s\n",
+		"TIME", "PID", "COMM", "NR", "RET");
+}
+
+tracepoint:syscalls:sys_enter_io_submit
+{
+	@nr[tid] = args->nr;
+}
+
+tracepoint:syscalls:sys_exit_io_submit
+/ @nr[tid] /
+{
+	$ret = args->ret;
+	time("%H:%M:%S ");
+	printf("%-8d %-16s %-8d %-8d\n", pid, comm, @nr[tid], $ret);
+	delete(@nr[tid]);
+}
+
+END
+{
+	clear(@nr);
+	printf("Bye.\n");
+}
