@@ -1,3 +1,6 @@
+/call-func
 /poison
 /GCC_diagnostic
+/GCC_target
 /pragma-message
+/push_macro
