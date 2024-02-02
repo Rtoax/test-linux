@@ -21,3 +21,4 @@
 /__builtin_thread_pointer
 /__builtin_va_arg_pack
 /__builtin___clear_cache
+/__builtin_types_compatible_p

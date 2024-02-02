@@ -18,6 +18,7 @@ TARGETS += __builtin_return_address
 TARGETS += __builtin_rindex
 TARGETS += __builtin_thread_pointer
 TARGETS += __builtin___clear_cache
+TARGETS += __builtin_types_compatible_p
 
 TARGETS_todo += __builtin_preserve_field_info
 TARGETS_todo += __builtin_read8
@@ -48,6 +49,7 @@ __builtin_rindex: __builtin_rindex.o
 __builtin_thread_pointer: __builtin_thread_pointer.o
 __builtin_va_arg_pack: __builtin_va_arg_pack.o
 __builtin___clear_cache: __builtin___clear_cache.o
+__builtin_types_compatible_p: __builtin_types_compatible_p.o
 
 clean:
 	rm -f ${TARGETS} *.o
