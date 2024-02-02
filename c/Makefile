@@ -21,6 +21,7 @@ TARGETS += _Nonnull
 TARGETS += BUILD_BUG_ON_ZERO
 TARGETS += macro
 TARGETS += while
+TARGETS += stub
 
 ifeq ($(shell uname -m),x86_64)
 endif
@@ -76,6 +77,7 @@ _Nonnull: _Nonnull.o
 BUILD_BUG_ON_ZERO: BUILD_BUG_ON_ZERO.o
 macro: macro.o
 while: while.o
+stub: stub.o
 
 CFLAGS__Generic := -Wno-all
 

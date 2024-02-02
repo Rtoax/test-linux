@@ -20,5 +20,6 @@
 /BUILD_BUG_ON_ZERO
 /macro
 /while
+/stub
 /*.s
 /*.E.c
