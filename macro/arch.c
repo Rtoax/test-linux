@@ -8,10 +8,11 @@ int main(void)
 
 #if defined(__i386__)
 	printf("x86-32\n");
-	printf("sizeof(*) = %d\n", sizeof(p));
 #elif defined(__x86_64__)
 	printf("x86-64\n");
-	printf("sizeof(*) = %ld\n", sizeof(p));
+#elif defined(__aarch64__)
+	printf("aarch64\n");
 #endif
+	printf("sizeof(*) = %ld\n", sizeof(p));
 	return 0;
 }
