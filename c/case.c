@@ -5,6 +5,9 @@ int main(void)
 	int a = 11;
 
 	switch (a) {
+	case 'a'...'z':
+		printf("a-z\n");
+		break;
 #if 0
 	/* error: duplicate (or overlapping) case value */
 	case 3:
