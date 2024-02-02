@@ -1,13 +1,13 @@
 
 TARGETS += hello
 TARGETS += alignas
+TARGETS += extern_C
 
 DEBUG = yes
 SRC_PATH := $(shell pwd)
 CXX = g++
 
 CXXFLAGS := -Werror -Wall
-CXXFLAGS += -I../macro/
 CXXFLAGS += -DCPP
 
 ifdef DEBUG
@@ -21,6 +21,7 @@ build: ${TARGETS}
 # Add more object.o file
 hello: hello.o
 alignas: alignas.o
+extern_C: extern_C.o
 
 %.o: %.cpp
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
