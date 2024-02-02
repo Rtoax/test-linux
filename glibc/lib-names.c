@@ -7,7 +7,7 @@ int main (void)
 #if defined(__x86_64__)
 	P(LD_LINUX_X86_64_SO);
 #elif defined(__aarch64__)
-	puts(LD_LINUX_AARCH64_SO);
+	P(LD_LINUX_AARCH64_SO);
 #endif
 	P(LD_SO);
 	P(LIBANL_SO);
