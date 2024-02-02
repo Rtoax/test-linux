@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 #
-# task_struct address - Get task_struct virtual address
+# Tracing file open,close,write, etc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License")
 #
@@ -74,7 +74,6 @@ KFUNC_PROBE(filp_close, struct file *file)
 {
     return file_event((void *)ctx, &file->f_path, OP_CLOSE);
 }
-
 """
 
 def handle_event(cpu, data, size):

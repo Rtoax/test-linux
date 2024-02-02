@@ -50,7 +50,7 @@ int trace_sched_fork_entry(struct pt_regs *ctx)
     struct my_data data = {};
     struct task_struct *task = (struct task_struct *)PT_REGS_PARM1(ctx);
 
-    struct task_struct *curtask = (struct task_struct *)bpf_get_current_task();;
+    struct task_struct *curtask = (struct task_struct *)bpf_get_current_task();
     struct task_struct *parent;
     bpf_probe_read(&parent, sizeof(parent), &curtask->real_parent);
     bpf_probe_read(&data.ppid, sizeof(data.ppid), &parent->pid);
@@ -65,7 +65,6 @@ int trace_sched_fork_entry(struct pt_regs *ctx)
 
     return 0;
 }
-
 """
 
 def print_sched_fork_event(cpu, data, size):
