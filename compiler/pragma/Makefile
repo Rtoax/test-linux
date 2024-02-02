@@ -1,6 +1,7 @@
 
 TARGETS += poison
 TARGETS += GCC_diagnostic
+TARGETS += pragma-message
 
 DEBUG = yes
 SRC_PATH := $(shell pwd)
@@ -19,6 +20,7 @@ build: ${TARGETS}
 
 poison: poison.o
 GCC_diagnostic: GCC_diagnostic.o
+pragma-message: pragma-message.o
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
