@@ -9,6 +9,8 @@ TARGETS += offsetof
 TARGETS += __clang__
 TARGETS += __nonnull
 
+TARGETS_CXX := __cplusplus
+
 ifeq ($(shell uname -m),x86_64)
 TARGETS += __i386__
 TARGETS += __x86_64__
@@ -17,6 +19,7 @@ endif
 DEBUG = yes
 SRC_PATH := $(shell pwd)
 CC = gcc
+CXX = c++
 
 CFLAGS := -Werror -Wall
 CFLAGS += -O0
@@ -25,7 +28,7 @@ ifdef DEBUG
 CFLAGS += -DDEBUG -g
 endif
 
-build: ${TARGETS}
+build: ${TARGETS} ${TARGETS_CXX}
 	@echo
 	@echo -e " \033[1;33m Done \033[m"
 
@@ -39,6 +42,7 @@ __clang__: __clang__.o
 __i386__: __i386__.o
 __x86_64__: __x86_64__.o
 __nonnull: __nonnull.o
+__cplusplus: __cplusplus.o
 
 CFLAGS___i386__ := -m32
 CFLAGS___x86_64__ := -m64
@@ -50,6 +54,10 @@ CFLAGS___x86_64__ := -m64
 $(TARGETS): %:
 	@echo -e "Target   \033[1;32m$(@)\033[m"
 	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) $(^)
+
+$(TARGETS_CXX): %:
+	@echo -e "Target   \033[1;32m$(@)\033[m"
+	@$(CXX) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) $(^)
 
 clean:
 	@echo -e "Clean   \033[1;32m$(@)\033[m"
