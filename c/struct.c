@@ -1,5 +1,7 @@
 #include <stdio.h>
 
+#define __unused __attribute__((unused))
+
 struct test {
 	int a;
 };
@@ -33,8 +35,14 @@ struct test tests3[] = {
 		} \
 	} while (0)
 
+
+int widths[] = { [0 ... 9] = 1, [10 ... 99] = 2, [100] = 3 };
+
 int main(void)
 {
+	struct test __unused t1 = { .a = 0 };
+	struct test __unused t2 = { 0 };
+	struct test __unused t3 = { a : 10 };
 	PRINT_ARR(tests1);
 	PRINT_ARR(tests2);
 	PRINT_ARR(tests3);
