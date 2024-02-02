@@ -1,6 +1,7 @@
 
 TARGETS := environ
 TARGETS += gnu_get_libc_version
+TARGETS += lib-names
 
 ifeq ($(shell uname -m),x86_64)
 endif
@@ -24,6 +25,7 @@ build: ${TARGETS}
 
 gnu_get_libc_version: gnu_get_libc_version.o
 environ: environ.o
+lib-names: lib-names.o
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
