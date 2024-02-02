@@ -9,6 +9,7 @@ TARGETS += offsetof
 TARGETS += __clang__
 TARGETS += __nonnull
 TARGETS += __restrict__
+TARGETS += __func__
 
 TARGETS_CXX := __cplusplus
 
@@ -45,6 +46,7 @@ __x86_64__: __x86_64__.o
 __nonnull: __nonnull.o
 __cplusplus: __cplusplus.o
 __restrict__: __restrict__.o
+__func__: __func__.o
 
 CFLAGS___i386__ := -m32
 CFLAGS___x86_64__ := -m64
