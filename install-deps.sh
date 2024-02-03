@@ -79,6 +79,7 @@ cclinux|fedora|centos|rhel|openEuler)
 	pkgs+=( mmc )                  # mmc
 	pkgs+=( mpich mpich-devel )    # mpi
 	pkgs+=( rust )                 # rustc
+	pkgs+=( scl-utils )
 	pkgs+=( sg3_utils )            # sg_inq, etc.
 	pkgs+=( systemtap-sdt-devel )  # sdt.h
 
