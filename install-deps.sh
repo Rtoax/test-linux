@@ -64,6 +64,7 @@ cclinux|fedora|centos|rhel|openEuler)
 	pkgs+=( gtest-devel gmock-devel )
 	pkgs+=( gtk3-devel )           # GTK3
 	pkgs+=( iproute-tc )           # tc
+	pkgs+=( jemalloc-devel )
 	pkgs+=( kernel-devel )         # kernel
 	pkgs+=( libaio-devel )         # aio
 	pkgs+=( libbpf-devel )         # libbpf
