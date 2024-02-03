@@ -22,3 +22,10 @@ $ smem
 26302 rongtao  cat                                0      104      128     1884
  2633 rongtao  dbus-broker --log 4 --contr        0      304      382     2592
 ```
+
+
+# 用户态内存管理
+
+- jemalloc
+- tcmalloc
+
