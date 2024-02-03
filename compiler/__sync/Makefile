@@ -1,7 +1,8 @@
-TARGETS :=
+TARGETS := atomic_test
 
 all: ${TARGETS}
 
+atomic_test: atomic_test.o
 
 %.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
