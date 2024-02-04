@@ -9,14 +9,18 @@
 BEGIN
 {
 	printf("Tracing (f)init_module(2), hit ctrl-c to end.\n");
-	printf("%-8s %-8s %-16s\n", "TIME", "PID", "COMM");
+	printf("%-8s %-8s %-16s %-8s %-16s\n",
+		"TIME", "PID", "COMM", "PPID", "PCOMM");
 }
 
 tracepoint:syscalls:sys_enter_finit_module,
 tracepoint:syscalls:sys_enter_init_module
 {
+	$parent = (struct task_struct *)curtask->real_parent;
+	$ppid = $parent->tgid;
+	$pcomm = $parent->comm;
 	time("%H:%M:%S ");
-	printf("%-8d %-16s\n", pid, comm);
+	printf("%-8d %-16s %-8d %-16s\n", pid, comm, $ppid, $pcomm);
 }
 
 END
