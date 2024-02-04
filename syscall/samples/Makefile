@@ -93,9 +93,9 @@ fdopen: fdopen.o
 execve: execve.o
 execve-fork: execve-fork.o
 get_thread_area: get_thread_area.o
-getrlimit: getrlimit.o
+getrlimit: getrlimit.o helpers.o
 setrlimit: setrlimit.o
-prlimit: prlimit.o
+prlimit: prlimit.o helpers.o
 ulimit: ulimit.o
 nr: nr.o
 open: open.o
