@@ -8,7 +8,6 @@ TARGETS += chown fchown
 TARGETS += fdopen
 TARGETS += kcmp
 TARGETS += execve execve-fork
-TARGETS += getrlimit setrlimit ulimit prlimit
 TARGETS += nr
 TARGETS += open openat2
 TARGETS += opendir
@@ -61,6 +60,7 @@ build: nr.h ${TARGETS} ${TARGETS_CPP}
 	make -C ioctl
 	make -C poll
 	make -C epoll
+	make -C resource
 	make -C ptrace
 	make -C fcntl
 	make -C pipe
@@ -93,10 +93,6 @@ fdopen: fdopen.o
 execve: execve.o
 execve-fork: execve-fork.o
 get_thread_area: get_thread_area.o
-getrlimit: getrlimit.o helpers.o
-setrlimit: setrlimit.o
-prlimit: prlimit.o helpers.o
-ulimit: ulimit.o
 nr: nr.o
 open: open.o
 openat2: openat2.o
@@ -152,6 +148,7 @@ clean:
 	make -C ioctl clean
 	make -C poll clean
 	make -C epoll clean
+	make -C resource clean
 	make -C ptrace clean
 	make -C fcntl clean
 	make -C pipe clean
