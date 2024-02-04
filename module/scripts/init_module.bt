@@ -1,0 +1,25 @@
+#!/bin/env bpftrace
+/**
+ * init_module.bt
+ *
+ * Copyright (C) Rong Tao 2022-2024
+ *
+ * 2024-02-04	Rong Tao	Create this.
+ */
+BEGIN
+{
+	printf("Tracing (f)init_module(2), hit ctrl-c to end.\n");
+	printf("%-8s %-8s %-16s\n", "TIME", "PID", "COMM");
+}
+
+tracepoint:syscalls:sys_enter_finit_module,
+tracepoint:syscalls:sys_enter_init_module
+{
+	time("%H:%M:%S ");
+	printf("%-8d %-16s\n", pid, comm);
+}
+
+END
+{
+	printf("Bye.\n");
+}
