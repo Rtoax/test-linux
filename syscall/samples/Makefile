@@ -8,7 +8,7 @@ TARGETS += chown fchown
 TARGETS += fdopen
 TARGETS += kcmp
 TARGETS += execve execve-fork
-TARGETS += getrlimit setrlimit ulimit
+TARGETS += getrlimit setrlimit ulimit prlimit
 TARGETS += nr
 TARGETS += open openat2
 TARGETS += opendir
@@ -95,6 +95,7 @@ execve-fork: execve-fork.o
 get_thread_area: get_thread_area.o
 getrlimit: getrlimit.o
 setrlimit: setrlimit.o
+prlimit: prlimit.o
 ulimit: ulimit.o
 nr: nr.o
 open: open.o

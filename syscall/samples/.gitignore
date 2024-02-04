@@ -45,3 +45,4 @@
 /getdents
 /*.txt
 /tmp-*
+/prlimit
