@@ -9,7 +9,7 @@ int main(int argc, char *argv[])
 {
 	int c;
 
-	/* Flag set by ‘--verbose'. */
+	/* Flag set by '--verbose'. */
 	static int verbose_flag;
 	static struct option options[] = {
 		/* These options set a ﬂag. */
@@ -75,11 +75,11 @@ int main(int argc, char *argv[])
 		}
 	}
 
-	/* Instead of reporting ‘--verbose'
-		and ‘--brief' as they are encountered,
-		we report the fnal status resulting from them. */
+	/* Instead of reporting '--verbose'
+	 * and '--brief' as they are encountered,
+	 * we report the fnal status resulting from them. */
 	if (verbose_flag)
-		puts ("verbose flag is set");
+		puts("verbose flag is set");
 
 	/* Print any remaining command line arguments (not options). */
 	if (optind < argc) {
