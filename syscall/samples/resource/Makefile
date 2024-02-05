@@ -1,6 +1,7 @@
 
 TARGETS :=
 TARGETS += getrlimit setrlimit ulimit prlimit
+TARGETS += fork-inherit
 
 CC = gcc
 CXX = g++
@@ -19,22 +20,15 @@ getrlimit: getrlimit.o helpers.o
 setrlimit: setrlimit.o
 prlimit: prlimit.o helpers.o
 ulimit: ulimit.o
+fork-inherit: fork-inherit.o helpers.o
 
 %.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
 
-%.opp: %.cpp
-	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	@$(CXX) $(CXXFLAGS) $(CXXFLAGS_$(*)) -o $(@) -c $(<)
-
 $(TARGETS): %:
 	@echo -e "Target   \033[1;32m$(@)\033[m"
 	@$(CC) $(CFLAGS) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
-
-$(TARGETS_CPP): %:
-	@echo -e "Target   \033[1;32m$(@)\033[m"
-	@$(CXX) $(CFLAGS) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
