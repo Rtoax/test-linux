@@ -33,7 +33,11 @@ main(int argc, char *argv[])
 		err(EXIT_FAILURE, "open");
 
 	for (;;) {
+#if defined(__aarch64__)
+		nread = syscall(SYS_getdents64, fd, buf, BUF_SIZE);
+#else
 		nread = syscall(SYS_getdents, fd, buf, BUF_SIZE);
+#endif
 		if (nread == -1)
 			err(EXIT_FAILURE, "getdents");
 

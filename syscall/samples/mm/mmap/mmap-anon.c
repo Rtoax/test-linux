@@ -9,6 +9,7 @@
 #include <wait.h>
 #include <errno.h>
 
+#ifdef CONFIG_ANON_VMA_NAME
 int rename_vma(unsigned long addr, unsigned long size, char *name)
 {
 	int res;
@@ -38,6 +39,7 @@ const char *get_vma_name(unsigned long addr)
 	}
 	return strlen(buffer) > 0 ? buffer : NULL;
 }
+#endif
 
 int main(void)
 {
