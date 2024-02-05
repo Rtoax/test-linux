@@ -3,3 +3,4 @@
 /malloc
 /vdso
 /dlinfo
+/dlsym-RTLD_DEFAULT
