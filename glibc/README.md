@@ -11,5 +11,6 @@ crypt, login, exit and more.
 
 # Links
 
+* [https://sourceware.org/git/glibc](https://sourceware.org/git/glibc)
 * [https://www.gnu.org/software/libc/](https://www.gnu.org/software/libc/)
 
