@@ -1,0 +1,9 @@
+/fgetgrent
+/getgrent
+/getgrgid
+/getgrnam
+/getgrouplist
+/initgroups
+/setgrent
+/getgroups
+/demo-pwd-grp
