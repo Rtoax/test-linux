@@ -29,6 +29,7 @@ TARGETS += lstat
 TARGETS += readdir
 TARGETS += write
 TARGETS += getdents
+TARGETS += getgroups
 
 TARGETS_CPP += readlink2
 
@@ -120,6 +121,7 @@ lstat: lstat.o
 readdir: readdir.o
 write: write.o
 getdents: getdents.o
+getgroups: getgroups.o
 
 CFLAGS_write := -Wno-error=unused-variable
 

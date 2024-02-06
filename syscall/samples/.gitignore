@@ -43,3 +43,4 @@
 /getdents
 /*.txt
 /tmp-*
+/getgroups
