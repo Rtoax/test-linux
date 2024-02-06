@@ -6,6 +6,7 @@ TARGETS += test
 TARGETS += unw_regname
 TARGETS += unw_create_addr_space
 TARGETS += do_backtrace
+TARGETS += unwind-backtrace
 
 TARGETS_CPP += backtrace-pid
 ifeq ($(shell uname -m),x86_64)
@@ -43,6 +44,7 @@ unw_create_addr_space: unw_create_addr_space.o
 backtrace: backtrace.o
 backtrace-pid: backtrace-pid.oo
 do_backtrace: do_backtrace.o
+unwind-backtrace: unwind-backtrace.o
 
 %.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

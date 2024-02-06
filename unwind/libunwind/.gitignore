@@ -4,4 +4,6 @@
 /backtrace
 /backtrace-pid
 /do_backtrace
+/unwind-backtrace
+/backtrace.txt
 /*.oo
