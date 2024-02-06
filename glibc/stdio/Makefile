@@ -3,21 +3,14 @@ TARGETS += vasprintf
 TARGETS += vfprintf
 TARGETS += vsprintf
 TARGETS += puts
+TARGETS += __freadable
 
-ifeq ($(shell uname -m),x86_64)
-endif
-
-DEBUG = yes
-SRC_PATH := $(shell pwd)
 CC = gcc
 
 CFLAGS := -Werror -Wall
 CFLAGS += -I../../../
 CFLAGS += -lm
-
-ifdef DEBUG
 CFLAGS += -DDEBUG -O0 -g
-endif
 
 build: ${TARGETS}
 	@echo
@@ -28,6 +21,7 @@ vasprintf: vasprintf.o
 vfprintf: vfprintf.o
 vsprintf: vsprintf.o
 puts: puts.o
+__freadable: __freadable.o
 
 %.d: %.c
 	@echo -e "Generate \033[1m$(@)\033[m"
