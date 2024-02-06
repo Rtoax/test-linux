@@ -90,6 +90,7 @@ cclinux|fedora|centos|rhel|openEuler)
 	sudo dnf install ${args[@]} -y ${pkgs[@]}
 	;;
 debian|ubuntu)
+	pkgs+=( binutils-dev )
 	pkgs+=( clang-format )
 	pkgs+=( libaio-dev )           # aio
 	pkgs+=( libmpich-dev )         # MPI

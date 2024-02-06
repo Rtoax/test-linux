@@ -1,0 +1,6 @@
+/bfd_init
+/bfd_symbol_info
+/breakpoint_tst
+/breakpoint_bfd
+/reloc
+/*.s
