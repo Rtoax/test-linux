@@ -1,9 +1,10 @@
-
+TARGETS :=
 TARGETS += vasprintf
 TARGETS += vfprintf
 TARGETS += vsprintf
 TARGETS += puts
 TARGETS += __freadable
+TARGETS += open_memstream
 
 CC = gcc
 
@@ -22,6 +23,7 @@ vfprintf: vfprintf.o
 vsprintf: vsprintf.o
 puts: puts.o
 __freadable: __freadable.o
+open_memstream: open_memstream.o
 
 %.d: %.c
 	@echo -e "Generate \033[1m$(@)\033[m"
