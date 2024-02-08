@@ -37,9 +37,6 @@ vdso: vdso.o
 dlinfo: dlinfo.o ../../libs/proc.o
 dlsym-RTLD_DEFAULT: dlsym-RTLD_DEFAULT.o
 
-CFLAGS_main.user := -D_MAIN_USER=1
-LDFLAGS_main.user :=
-
 %.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
