@@ -93,7 +93,9 @@ debian|ubuntu)
 	pkgs+=( binutils-dev )
 	pkgs+=( clang-format )
 	pkgs+=( libaio-dev )           # aio
+	pkgs+=( libc6-dev )
 	pkgs+=( libmpich-dev )         # MPI
+	pkgs+=( linux-libc-dev )
 	pkgs+=( linux-tools-common )
 	pkgs+=( lsb-release )
 
