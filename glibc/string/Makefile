@@ -35,7 +35,7 @@ build: sig.h ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
 sig.h:
-	$(shell sh signo.sh)
+	$(shell bash signo.sh)
 
 bcopy: bcopy.o
 index: index.o

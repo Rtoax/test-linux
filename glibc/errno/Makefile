@@ -23,7 +23,7 @@ build: nr_errno.h ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
 nr_errno.h:
-	$(shell sh errno.sh)
+	$(shell bash errno.sh)
 
 nr_errno: nr_errno.o
 

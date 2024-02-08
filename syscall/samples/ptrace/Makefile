@@ -36,7 +36,7 @@ build: nr.h ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
 nr.h: ../nr.sh
-	$(shell sh ../nr.sh)
+	$(shell bash ../nr.sh)
 
 # Add more object.o file
 PTRACE_GETREGS: PTRACE_GETREGS.o helpers.o

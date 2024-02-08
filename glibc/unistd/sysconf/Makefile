@@ -28,7 +28,7 @@ build: confs_def.h ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
 confs_def.h: sysconf.sh
-	$(shell sh sysconf.sh)
+	$(shell bash sysconf.sh)
 
 # Add more object.o file
 NPROCESSORS: NPROCESSORS.o

@@ -77,7 +77,7 @@ build: nr.h ${TARGETS} ${TARGETS_CPP}
 	@echo -e " \033[1;33m Done \033[m"
 
 nr.h: nr.sh
-	$(shell sh nr.sh)
+	$(shell bash nr.sh)
 
 # Add more object.o file
 fallocate: fallocate.o
