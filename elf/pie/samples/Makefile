@@ -9,6 +9,7 @@ LDLIBS :=
 build: ${TARGETS}
 	@echo
 	@echo -e " \033[1;33m Done \033[m"
+	@diff -up hello.s hello-pie.s
 
 # Add more object.o file
 hello: hello.o proc.o
@@ -26,6 +27,7 @@ CFLAGS_proc := -fpie
 $(TARGETS): %:
 	@echo -e "Target   \033[1;32m$(@)\033[m"
 	$(CC) -o $(@) $(^) $(LDLIBS) $(LDFLAGS) $(LDFLAGS_$(*)) $(CFLAGS) $(CFLAGS_$(*))
+	size --format=sysv $(@)
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
