@@ -67,6 +67,7 @@ cclinux|fedora|centos|rhel|openEuler)
 	pkgs+=( jemalloc-devel )
 	pkgs+=( kernel-devel )         # kernel
 	pkgs+=( libaio-devel )         # aio
+	pkgs+=( libedit-devel )
 	pkgs+=( libbpf-devel )         # libbpf
 	pkgs+=( libpcap-devel )
 	pkgs+=( libselinux-devel )     # SELinux
