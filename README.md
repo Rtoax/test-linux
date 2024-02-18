@@ -7,7 +7,7 @@ test-linux
 > You must clone this repo under Linux(UNIX like) system. Because
 > there are lots of symbol links, some file system not support in
 > Windows OS.
-> 
+>
 > In directory `modules` store some API demos.
 > You'd better don't rename any of folder and file's name.
 
@@ -48,12 +48,12 @@ You can use the following macro
 
 ## Links
 
-There are so many LINKs in this repo, so you better clone this repo 
+There are so many LINKs in this repo, so you better clone this repo
 in linux system, if windows, oops.
 
 ## Ignore
 
-This repo ignore `.txt` file(check `.gitignore`). If you want to write 
+This repo ignore `.txt` file(check `.gitignore`). If you want to write
 a text `Note`, use `.md`(`markdown`) instead.
 
 ## Reference
