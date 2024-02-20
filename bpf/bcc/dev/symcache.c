@@ -4,6 +4,7 @@ int main(void)
 {
 	int pid = 1;
 	void *psyms;
+	struct bcc_symbol sym;
 	struct bcc_symbol_option symopts = {
 		.use_debug_file = 1,
 		.check_debug_file_crc = 1,
@@ -12,6 +13,14 @@ int main(void)
 	};
 
 	psyms = bcc_symcache_new(pid, &symopts);
+	if (!psyms) {
+		fprintf(stderr, "bcc_symcache_new failed.\n");
+		return -1;
+	}
+
+	bcc_symcache_resolve_no_demangle(psyms, 0xffff, &sym);
+
+	printf("name: %s\n", sym.name);
 
 	/* TODO: How to list all symbols in memory? */
 
