@@ -21,6 +21,7 @@ esac
 pkgs+=( make cmake gcc clang gdb cgdb )
 pkgs+=( gcc-aarch64-linux-gnu )
 pkgs+=( bpftrace bcc )         # eBPF
+pkgs+=( cargo )                # The Rust package manager
 pkgs+=( criu )
 pkgs+=( dwarves )              # pahole
 pkgs+=( efivar mokutil )       # UEFI
