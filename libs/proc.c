@@ -20,7 +20,12 @@ const char *proc_comm(char *buf, size_t buf_len)
 	return buf;
 }
 
-unsigned long proc_elf_base_addr(void)
+enum vma_type {
+	VT_COMM,
+	VT_LIBC,
+};
+
+static unsigned long __proc_elf_base_addr(enum vma_type vma_type)
 {
 	unsigned long addr = 0;
 	char maps[128], comm[128];
@@ -53,15 +58,36 @@ unsigned long proc_elf_base_addr(void)
 			fprintf(stderr, "ERROR: sscanf failed.\n");
 			break;
 		}
-		proc_comm(comm, sizeof(comm));
-		if (!strcmp(basename(name_), comm)) {
-			addr = start;
+		switch (vma_type) {
+		case VT_COMM:
+			proc_comm(comm, sizeof(comm));
+			if (!strcmp(basename(name_), comm)) {
+				addr = start;
+				goto found;
+			}
+			break;
+		case VT_LIBC:
+			if (!strcmp(basename(name_), "libc.so.6")) {
+				addr = start;
+				goto found;
+			}
 			break;
 		}
 	} while (1);
 
+found:
 	fclose(fp);
 	return addr;
+}
+
+unsigned long proc_elf_base_addr(void)
+{
+	return __proc_elf_base_addr(VT_COMM);
+}
+
+unsigned long proc_elf_base_libc_addr(void)
+{
+	return __proc_elf_base_addr(VT_LIBC);
 }
 
 void print_proc_pid_maps(void)
@@ -78,6 +104,7 @@ int main(void)
 	print_proc_pid_maps();
 	printf("comm : %s\n", proc_comm(comm, sizeof(comm)));
 	printf("base addr : %lx\n", proc_elf_base_addr());
+	printf("libc addr : %lx\n", proc_elf_base_libc_addr());
 	return 0;
 }
 #endif
