@@ -9,7 +9,7 @@ LDLIBS :=
 build: ${TARGETS}
 	@echo
 	@echo -e " \033[1;33m Done \033[m"
-	@diff -up hello.s hello-pie.s
+	@diff -up hello.s hello-pie.s || true
 
 # Add more object.o file
 hello: hello.o proc.o
