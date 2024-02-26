@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-declare -a pkgs
+declare -a pkgs whls
 
 . /etc/os-release
 
@@ -37,6 +37,7 @@ pkgs+=( opencl-headers )
 pkgs+=( parallel )
 pkgs+=( procps-ng )            # pidof, top, etc.
 pkgs+=( python3-matplotlib )   # matplotlib
+pkgs+=( python3-pip )          # pip wheel
 pkgs+=( python3-pyroute2 )     # pyroute2
 pkgs+=( python3-scapy )
 pkgs+=( qemu-kvm qemu-user )
@@ -47,6 +48,14 @@ pkgs+=( tree )
 
 # Desktop Packages
 pkgs+=( terminator )
+
+whls+=( numpy pyyaml )
+whls+=( tqdm )
+whls+=( 'mkdocs>=1.5.2' )
+whls+=( 'mkdocs-material>=9.2.6' )
+whls+=( 'mkdocstrings[python]>=0.22.0' )
+whls+=( 'mkdocs-static-i18n>=1.0.2' )
+whls+=( 'mkdocs-include-markdown-plugin>=6.0.1' )
 
 case ${OS} in
 cclinux|fedora|centos|rhel|openEuler)
@@ -113,3 +122,8 @@ debian|ubuntu)
 	echo "ERROR: Unknown OS ${OS}"
 	;;
 esac
+
+# Install python3 pip wheels
+if [[ -e /usr/bin/pip3 ]]; then
+	pip3 install ${whls[@]}
+fi
