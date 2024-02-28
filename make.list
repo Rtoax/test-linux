@@ -1,14 +1,13 @@
+# test-linux make list
 USER_LIST += acpi
+USER_LIST += asm
 USER_LIST += aio
 USER_LIST += algorithm
 USER_LIST += arch
 USER_LIST += audit
 USER_LIST += bpf
+USER_LIST += compiler
 USER_LIST += cgroup/tools
-USER_LIST += compiler/annobin
-USER_LIST += compiler/linker
-USER_LIST += compiler/__attribute__
-USER_LIST += compiler/__builtin_
 USER_LIST += gdb/samples
 USER_LIST += glibc
 USER_LIST += gnome
@@ -23,14 +22,6 @@ USER_LIST += network
 USER_LIST += security/access/lsm/selinux/libselinux/samples/
 USER_LIST += syscall
 USER_LIST += template/
-
-ifeq ($(shell uname -m),x86_64)
-USER_LIST += asm/x86_64
-USER_LIST += asm/x86_64/minilibc
-USER_LIST += compiler/linker/hello
-endif
-ifeq ($(shell uname -m),aarch64)
-endif
 
 KERNEL_LIST += algorithm/bitmap/modules
 KERNEL_LIST += algorithm/bitops/modules
