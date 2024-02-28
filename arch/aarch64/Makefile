@@ -1,4 +1,4 @@
-sub-dir := SUBDIR
+sub-dir := asm
 
 sub-dir-build := $(sub-dir:=.build)
 sub-dir-clean := $(sub-dir:=.clean)

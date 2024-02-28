@@ -1,12 +1,14 @@
+sub-dir :=
 
 TARGETS := cpu_relax
 ifeq ($(shell uname -m),x86_64)
+sub-dir += x86_64
 endif
 ifeq ($(shell uname -m),aarch64)
+sub-dir += aarch64
 endif
 
 DEBUG = yes
-SRC_PATH := $(shell pwd)
 CC = gcc
 
 CFLAGS := -Werror -Wall
@@ -15,8 +17,11 @@ ifdef DEBUG
 CFLAGS += -DDEBUG -O0 -g
 endif
 
+sub-dir-build := $(sub-dir:=.build)
+sub-dir-clean := $(sub-dir:=.clean)
+
 .PHONY: build
-build: ${TARGETS}
+build: ${TARGETS} $(sub-dir-build)
 	@echo
 	@echo -e " \033[1;33m Done \033[m"
 
@@ -39,6 +44,13 @@ test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
 
 .PHONY: clean
-clean:
+clean: $(sub-dir-clean)
 	@echo -e "Clean   \033[1;32m$(@)\033[m"
 	@rm -f ${TARGETS} *.o *.d *.s
+
+$(sub-dir-build):
+	@echo -e "\033[1;32m [sub-dir] build $(@)\033[m"
+	make -C $(@:.build=)
+$(sub-dir-clean):
+	@echo -e "\033[1;32m [sub-dir] clean $(@)\033[m"
+	make -C $(@:.clean=) clean
