@@ -19,6 +19,7 @@ fedora)
 esac
 
 pkgs+=( make cmake gcc clang gdb cgdb )
+pkgs+=( autoconf-archive )
 pkgs+=( gcc-aarch64-linux-gnu )
 pkgs+=( bpftrace bcc )         # eBPF
 pkgs+=( cargo )                # The Rust package manager
@@ -81,6 +82,7 @@ cclinux|fedora|centos|rhel|openEuler)
 	pkgs+=( libedit-devel )
 	pkgs+=( libbpf-devel )         # libbpf
 	pkgs+=( libpcap-devel )
+	pkgs+=( libseccomp-devel )
 	pkgs+=( libselinux-devel )     # SELinux
 	pkgs+=( libunwind-devel )      # Unwind
 	pkgs+=( liburing-devel )       # uring
