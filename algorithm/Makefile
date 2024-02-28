@@ -1,3 +1,13 @@
+sub-dir := bitmask
+sub-dir += bitops
+sub-dir += hashmap
+sub-dir += linklist
+sub-dir += rbtree
+sub-dir += md5
+sub-dir += string
+
+sub-dir-build := $(sub-dir:=.build)
+sub-dir-clean := $(sub-dir:=.clean)
 
 TARGETS += pi
 
@@ -12,7 +22,8 @@ ifdef DEBUG
 CFLAGS += -DDEBUG -O0 -g -ggdb
 endif
 
-build: ${TARGETS}
+.PHONY: build
+build: ${TARGETS} $(sub-dir-build)
 	@echo
 	@echo -e " \033[1;33m Done \033[m"
 
@@ -26,6 +37,14 @@ pi: pi.o
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
 
-clean:
+.PHONY: clean
+clean: $(sub-dir-clean)
 	@echo -e "Clean   \033[1;32m$(@)\033[m"
 	@rm -f ${TARGETS} *.o *.d
+
+$(sub-dir-build):
+	@echo -e "\033[1;32m [sub-dir] build $(@)\033[m"
+	make -C $(@:.build=)
+$(sub-dir-clean):
+	@echo -e "\033[1;32m [sub-dir] clean $(@)\033[m"
+	make -C $(@:.clean=) clean

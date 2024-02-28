@@ -1,11 +1,10 @@
-sub-dir := dmidecode
+sub-dir := samples
 
 sub-dir-build := $(sub-dir:=.build)
 sub-dir-clean := $(sub-dir:=.clean)
 
 .PHONY: build
 build: $(sub-dir-build)
-	./support.sh
 
 .PHONY: clean
 clean: $(sub-dir-clean)
