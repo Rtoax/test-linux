@@ -18,6 +18,9 @@ TARGETS_ASM += hello-stack
 TARGETS_ASM += exit
 TARGETS_ASM += ldr
 TARGETS_ASM += while
+TARGETS_ASM += add
+TARGETS_ASM += branch
+TARGETS_ASM += mov
 
 TARGETS_S :=
 TARGETS_S += say_hello
@@ -50,6 +53,8 @@ build: $(TARGETS_ASM) $(TARGETS_C) $(TARGETS_S)
 	@echo -e " \033[1;33m Done \033[m"
 
 # Add more object.o file
+add: add.o
+branch: branch.o
 hello: hello.o
 hello-stack: hello-stack.o
 hello-puts: hello-puts.o
