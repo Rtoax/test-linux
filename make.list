@@ -1,3 +1,4 @@
+USER_LIST += acpi
 USER_LIST += aio/posix
 USER_LIST += algorithm/
 USER_LIST += algorithm/bitmask/samples
