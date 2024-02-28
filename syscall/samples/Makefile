@@ -61,6 +61,7 @@ build: nr.h ${TARGETS} ${TARGETS_CPP}
 	make -C ioctl
 	make -C poll
 	make -C epoll
+	make -C msgqueue
 	make -C resource
 	make -C ptrace
 	make -C fcntl
@@ -150,6 +151,7 @@ clean:
 	make -C ioctl clean
 	make -C poll clean
 	make -C epoll clean
+	make -C msgqueue clean
 	make -C resource clean
 	make -C ptrace clean
 	make -C fcntl clean
