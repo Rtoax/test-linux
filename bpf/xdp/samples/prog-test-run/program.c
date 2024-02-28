@@ -6,6 +6,10 @@
 #include <linux/in.h>
 #include <linux/ip.h>
 
+#ifndef htons
+extern short htons(short hostshort);
+#endif
+
 int myprogram(struct xdp_md *ctx)
 {
 	int ipsize = 0;
