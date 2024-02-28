@@ -41,6 +41,7 @@ USER_LIST += syscall/samples
 USER_LIST += syscall/samples/aio
 USER_LIST += syscall/samples/eventfd
 USER_LIST += syscall/samples/sched
+USER_LIST += template/
 
 ifeq ($(shell uname -m),x86_64)
 USER_LIST += arch/x86_64/asm/

@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
 # error "Must define _MAIN_USER"
 #endif
 #if !defined(CONFIG_MMU)
-# error "Kernel not define CONFIG_MMU"
+# warning "Kernel not define CONFIG_MMU"
 #endif
 	return 0;
 }

@@ -4,8 +4,11 @@ SET(CMAKE_C_COMPILER /usr/bin/clang)
 SET(CMAKE_CXX_COMPILER /usr/bin/clang++)
 
 PROJECT(PROG_NAME)
+execute_process(COMMAND uname -r OUTPUT_VARIABLE KERNEL_VERSION)
+message(STATUS "Kernel: ${KERNEL_VERSION}")
 
-include_directories(src)
+include_directories(./)
+add_subdirectory(SUBDIR)
 
 find_library(ELF elf /usr/lib64)
 find_library(RT rt /usr/lib64)

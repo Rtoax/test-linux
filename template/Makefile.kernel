@@ -2,15 +2,17 @@ ifeq ($(shell uname -m),x86_64)
 endif
 ifeq ($(shell uname -m),aarch64)
 endif
-obj-m += main.kernel.o
+obj-m := main.kernel.o
 
 KERNELDIR ?= /lib/modules/$(shell uname -r)/build
 
-all:
+.PHONY: build
+build:
 	make -C ${KERNELDIR} M=$(PWD) modules
 
 test:
 	@echo "empty, [cd $(PWD)] to insmod"
 
+.PHONY: clean
 clean:
 	make -C ${KERNELDIR} M=$(PWD) clean

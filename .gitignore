@@ -115,6 +115,7 @@ coredump.*
 *.bin
 
 # CMake
+CMakeCache.txt
 CMakeFiles
 cmake_install.cmake
 

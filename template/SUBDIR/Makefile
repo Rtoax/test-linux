@@ -1,0 +1,6 @@
+.PHONY: all
+all:
+	@echo -e " \033[1;33m SUBDIR build \033[m"
+.PHONY: clean
+clean:
+	@echo -e " \033[1;33m SUBDIR clean \033[m"

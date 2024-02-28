@@ -27,5 +27,5 @@ module_init(kernel_init);
 module_exit(kernel_exit);
 
 MODULE_LICENSE("GPL");
-MODULE_AUTHOR("");
-MODULE_DESCRIPTION("xxx");
+MODULE_AUTHOR("Rong Tao");
+MODULE_DESCRIPTION("Test kernel module");
