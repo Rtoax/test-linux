@@ -1,6 +1,7 @@
 /echo
 /hello-puts
 /hello
+/hello-c
 /hello-stack
 /hola
 /power
@@ -8,3 +9,6 @@
 /factorial_call
 /maxofthree_call
 /while
+/atomic_forced_read
+/time
+/*.s

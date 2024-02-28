@@ -6,6 +6,9 @@ TARGETS += fibonacci
 TARGETS += power
 TARGETS += factorial_call
 TARGETS += maxofthree_call
+TARGETS += hello-c
+TARGETS += atomic_forced_read
+TARGETS += time
 
 TARGETS_ld := hello
 TARGETS_ld += hello-stack
@@ -37,6 +40,7 @@ build: ${TARGETS} ${TARGETS_ld}
 echo: echo.o
 hello-puts: hello-puts.o
 hello: hello.o
+hello-c: hello-c.o
 hello-stack: hello-stack.o
 fibonacci: fibonacci.o
 hola: hola.o
@@ -45,10 +49,17 @@ factorial_call: factorial_call.o factorial.o
 maxofthree_call: maxofthree_call.o maxofthree.o
 power: power.o
 while: while.o
+atomic_forced_read: atomic_forced_read.o
+time: time.o
 
 %.o: %.asm
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	nasm -felf64 $(<) -o $(@)
+
+%.o: %.c
+	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
+	$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
+	$(CC) -S $(<) -o $(<:.c=.s) $(CFLAGS) $(CFLAGS_$(*))
 
 $(TARGETS): %.o:
 	@echo -e "Target   \033[1;32m$(@)\033[m"
@@ -65,4 +76,4 @@ test: ${TARGETS}
 .PHONY: clean
 clean:
 	@echo -e "Clean   \033[1;32m$(@)\033[m"
-	@rm -f ${TARGETS} ${TARGETS_ld} *.o *.d core.*
+	@rm -f ${TARGETS} ${TARGETS_ld} *.o *.d core.* *.s

@@ -12,4 +12,4 @@ test:
 	@echo "skip" >/dev/null
 
 clean:
-	rm -f *.out *.o
+	rm -f *.out *.o execsnoop
