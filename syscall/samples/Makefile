@@ -1,3 +1,24 @@
+# Makefile of syscall samples
+
+sub-dir :=
+sub-dir += aio
+sub-dir += ioctl
+sub-dir += poll
+sub-dir += epoll
+sub-dir += msgqueue
+sub-dir += resource
+sub-dir += ptrace
+sub-dir += fcntl
+sub-dir += pipe
+sub-dir += mm
+sub-dir += time
+sub-dir += flock
+sub-dir += fanotify
+sub-dir += inotify
+sub-dir += signal
+sub-dir += prctl
+sub-dir += perf_event_open
+sub-dir += arch_prctl
 
 TARGETS := fallocate
 TARGETS += access faccessat2
@@ -55,27 +76,16 @@ ifdef DEBUG
 CFLAGS += -DDEBUG -O0 -g
 endif
 
-build: nr.h ${TARGETS} ${TARGETS_CPP}
+sub-dir-build := $(sub-dir:=.build)
+
+.PHONY: build
+build: nr.h ${TARGETS} ${TARGETS_CPP} $(sub-dir-build)
 	@echo
-	make -C aio
-	make -C ioctl
-	make -C poll
-	make -C epoll
-	make -C msgqueue
-	make -C resource
-	make -C ptrace
-	make -C fcntl
-	make -C pipe
-	make -C mm
-	make -C time
-	make -C flock
-	make -C fanotify
-	make -C inotify
-	make -C signal
-	make -C prctl
-	make -C perf_event_open
-	make -C arch_prctl
 	@echo -e " \033[1;33m Done \033[m"
+
+$(sub-dir-build):
+	@echo -e "\033[1;32m [sub-dir] build $(@)\033[m"
+	make -C $(@:.build=)
 
 nr.h: nr.sh
 	$(shell bash nr.sh)
@@ -145,27 +155,15 @@ $(TARGETS_CPP): %:
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
 
-clean:
+sub-dir-clean := $(sub-dir:=.clean)
+
+.PHONY: clean
+clean: $(sub-dir-clean)
 	@echo -e "Clean   \033[1;32m$(@)\033[m"
-	make -C aio clean
-	make -C ioctl clean
-	make -C poll clean
-	make -C epoll clean
-	make -C msgqueue clean
-	make -C resource clean
-	make -C ptrace clean
-	make -C fcntl clean
-	make -C pipe clean
-	make -C mm clean
-	make -C time clean
-	make -C flock clean
-	make -C fanotify clean
-	make -C inotify clean
-	make -C signal clean
-	make -C perf_event_open clean
-	make -C prctl clean
-	make -C arch_prctl clean
 	@rm -rf ${TARGETS} ${TARGETS_CPP} \
 		*.o *.opp nr.h *.out \
 		*.txt testfile
 
+$(sub-dir-clean):
+	@echo -e "\033[1;32m [sub-dir] clean $(@)\033[m"
+	make -C $(@:.clean=) clean

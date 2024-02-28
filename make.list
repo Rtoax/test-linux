@@ -29,10 +29,7 @@ USER_LIST += llvm/lr
 USER_LIST += macro
 USER_LIST += network
 USER_LIST += security/access/lsm/selinux/libselinux/samples/
-USER_LIST += syscall/samples
-USER_LIST += syscall/samples/aio
-USER_LIST += syscall/samples/eventfd
-USER_LIST += syscall/samples/sched
+USER_LIST += syscall
 USER_LIST += template/
 
 ifeq ($(shell uname -m),x86_64)
