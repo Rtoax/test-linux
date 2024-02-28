@@ -1,6 +1,7 @@
 # test-linux make
 # By Rong Tao <rongtao@cestc.cn>
 #
+SHELL := bash
 MAKEFLAGS = --silent --no-print-directory
 MKFILE_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))
 
