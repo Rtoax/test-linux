@@ -1,4 +1,4 @@
-
+TARGETS :=
 TARGETS += byteswap
 TARGETS += endian
 TARGETS += gotoxy goprint
