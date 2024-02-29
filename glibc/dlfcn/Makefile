@@ -4,7 +4,10 @@ TARGETS += socket
 TARGETS += malloc
 TARGETS += vdso
 TARGETS += dlinfo
+
+ifneq ($(shell uname -m),aarch64)
 TARGETS += dlsym-RTLD_DEFAULT
+endif
 
 TARGETS_LIBS := libhello.so
 

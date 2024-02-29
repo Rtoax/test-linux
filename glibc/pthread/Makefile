@@ -1,7 +1,10 @@
 sub-dir := cache-misses
 sub-dir += out-of-order
-sub-dir += pthread_self
 sub-dir += samples
+
+ifeq ($(shell uname -m),x86_64)
+sub-dir += pthread_self
+endif
 
 sub-dir-build := $(sub-dir:=.build)
 sub-dir-clean := $(sub-dir:=.clean)

@@ -16,7 +16,7 @@
 
 #ifdef __x86_64__
 # define __PTHREAD_MUTEX_HAVE_PREV      1
-#else
+#elif !defined(__aarch64__)
 # define __PTHREAD_MUTEX_HAVE_PREV      0
 #endif
 
