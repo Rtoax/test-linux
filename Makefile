@@ -122,7 +122,7 @@ $(SUB_kernel_DIR_CLEAN):
 # Clean git repo useless file and directory
 cleangit:
 	echo "=== clean git repo"
-	sh git-clean y
+	sh git-clean
 
 cleanuserlog:
 	$(call cleanuserlog)
