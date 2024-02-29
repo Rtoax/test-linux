@@ -44,8 +44,7 @@ void *read_task(void *arg)
     pthread_exit(NULL);
 }
 
-
-int main()
+int main(void)
 {
     pthread_t write_taskid[10], read_taskid;
 

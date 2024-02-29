@@ -1,13 +1,10 @@
-
+TARGETS :=
+TARGETS += demo-eventfd
 ifeq ($(shell uname -m),x86_64)
-TARGETS := \
-	demo-eventfd.out \
-	demo-select_eventfd.out \
-	demo-epoll_eventfd.out
+TARGETS += demo-select_eventfd
+TARGETS += demo-epoll_eventfd
 endif
 ifeq ($(shell uname -m),aarch64)
-TARGETS := \
-	demo-eventfd.out
 endif
 
 DEBUG = yes
@@ -25,9 +22,9 @@ build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
 # Add more object.o file
-demo-eventfd.out: demo-eventfd.o common.o
-demo-select_eventfd.out: demo-select_eventfd.o common.o
-demo-epoll_eventfd.out: demo-epoll_eventfd.o common.o
+demo-eventfd: demo-eventfd.o common.o
+demo-select_eventfd: demo-select_eventfd.o common.o
+demo-epoll_eventfd: demo-epoll_eventfd.o common.o
 
 %.d: %.c
 	@echo -e "Generate \033[1m$(@)\033[m"
