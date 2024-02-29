@@ -6,4 +6,8 @@
 /fstack-protector-all
 /fstack-protector-strong
 /fstack-protector-explicit
+/fdump-ipa-all
+/fdump-ipa-all.c.*
+/fdump-ipa-clones
+/*.ipa-clones
 /*.s

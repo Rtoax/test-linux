@@ -5,6 +5,7 @@ TARGETS += ffat-lto-objects
 TARGETS += fpatchable-function-entry
 TARGETS += flto
 TARGETS += fstack-protector fstack-protector-all fstack-protector-strong fstack-protector-explicit
+TARGETS += fdump-ipa-all fdump-ipa-clones
 
 CC = gcc
 
@@ -21,6 +22,8 @@ CFLAGS_fstack-protector := -fstack-protector
 CFLAGS_fstack-protector-all := -fstack-protector-all
 CFLAGS_fstack-protector-strong := -fstack-protector-strong
 CFLAGS_fstack-protector-explicit := -fstack-protector-explicit
+CFLAGS_fdump-ipa-all := -fdump-ipa-all
+CFLAGS_fdump-ipa-clones := -fdump-ipa-clones
 
 build: ${TARGETS}
 	@echo
@@ -34,6 +37,8 @@ fstack-protector: fstack-protector.o
 fstack-protector-all: fstack-protector-all.o
 fstack-protector-explicit: fstack-protector-explicit.o
 fstack-protector-strong: fstack-protector-strong.o
+fdump-ipa-all: fdump-ipa-all.o
+fdump-ipa-clones: fdump-ipa-clones.o
 
 %.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
