@@ -1,3 +1,5 @@
+sub-dir := pie
+
 TARGETS :=
 TARGETS += macro
 
@@ -5,7 +7,11 @@ CC = gcc
 
 CFLAGS := -Werror -Wall
 
-build: ${TARGETS}
+sub-dir-build := $(sub-dir:=.build)
+sub-dir-clean := $(sub-dir:=.clean)
+
+.PHONY: build
+build: ${TARGETS} $(sub-dir-build)
 	@echo
 	@echo -e " \033[1;33m Done \033[m"
 
@@ -15,6 +21,14 @@ macro: macro.o
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
 
-clean:
+.PHONY: clean
+clean: $(sub-dir-clean)
 	@echo -e "Clean   \033[1;32m$(@)\033[m"
 	@rm -f ${TARGETS} *.o
+
+$(sub-dir-build):
+	@echo -e "\033[1;32m [sub-dir] build $(@)\033[m"
+	make -C $(@:.build=)
+$(sub-dir-clean):
+	@echo -e "\033[1;32m [sub-dir] clean $(@)\033[m"
+	make -C $(@:.clean=) clean

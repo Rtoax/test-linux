@@ -8,6 +8,7 @@ USER_LIST += audit
 USER_LIST += bpf
 USER_LIST += compiler
 USER_LIST += cgroup/tools
+USER_LIST += elf
 USER_LIST += gdb
 USER_LIST += glibc
 USER_LIST += gnome
