@@ -29,6 +29,8 @@ int main(void)
 
 	newsockfd = accept(sockfd, (struct sockaddr *)&addr, &addr_len);
 
+	printf("Get new client.\n");
+
 	close(newsockfd);
 	close(sockfd);
 	exit(0);

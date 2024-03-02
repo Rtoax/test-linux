@@ -5,7 +5,9 @@ TARGETS += setsockopt
 TARGETS += gethostbyname
 TARGETS += socket
 TARGETS += bind
+TARGETS += listen
 TARGETS += accept
+TARGETS += connect
 
 ifeq ($(shell uname -m),x86_64)
 endif
@@ -34,8 +36,9 @@ setsockopt: setsockopt.o
 gethostbyname: gethostbyname.o
 socket: socket.o
 bind: bind.o
+listen: listen.o
 accept: accept.o
-
+connect: connect.o
 
 %.d: %.c
 	@echo -e "Generate \033[1m$(@)\033[m"

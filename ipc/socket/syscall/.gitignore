@@ -3,4 +3,7 @@
 /gethostbyname
 /socket
 /bind
+/listen
 /accept
+/connect
+
