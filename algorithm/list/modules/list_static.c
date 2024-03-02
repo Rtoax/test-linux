@@ -1,12 +1,6 @@
-/**
- *   @file: list_static.c
- *
- *   @date: 2021.11.03
- *   @author: Rong Tao <rongtao@cestc.cn>
- */
-#include <linux/module.h>	// included for all kernel modules
-#include <linux/kernel.h>	// included for KERN_INFO
-#include <linux/init.h> 	// included for __init and __exit macros
+#include <linux/module.h>
+#include <linux/kernel.h>
+#include <linux/init.h>
 #include <linux/list.h>
 
 LIST_HEAD(os_release_list);
@@ -28,8 +22,8 @@ struct os_release c2 = {
 };
 
 struct os_release c3 = {
-	.release = "CCLinux",
-	.vender = "CESTC"
+	.release = "Fedora",
+	.vender = "Redhat"
 };
 
 static void fill_list(void)

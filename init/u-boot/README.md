@@ -16,7 +16,7 @@ U-Boot: Universal Boot Loader
 
 ```bash
 $ ./compile-uboot.sh cross-aarch64-custom
-$ ./qemu.sh -a aarch64 --nvme /home/qcow2s/cclinux2209-aarch64-UEFI-on-U-Boot.qcow2
+$ ./qemu.sh -a aarch64 --nvme /home/qcow2s/ubuntu-aarch64-UEFI-on-U-Boot.qcow2
 ```
 
 
@@ -59,5 +59,5 @@ Device 0: Vendor: 0x1b36 Rev: 8.1.0    Prod: nvme-1
 
 ```bash
 $ ./compile-uboot.sh --uboot-dir /home/rongtao/Git/u-boot cross-aarch64-custom
-$ ./qemu.sh -a aarch64 --uboot-dir /home/rongtao/Git/u-boot --nvme /home/qcow2s/cclinux2209-aarch64-UEFI-on-U-Boot.qcow2
+$ ./qemu.sh -a aarch64 --uboot-dir /home/rongtao/Git/u-boot --nvme /home/qcow2s/ubuntu-aarch64-UEFI-on-U-Boot.qcow2
 ```

@@ -1,9 +1,3 @@
-/**
- *   @file: rcu_list.c
- *
- *   @date: 2021.11.12
- *   @author: Rong Tao <rongtao@cestc.cn>
- */
 #include <linux/module.h>
 #include <linux/kernel.h>
 #include <linux/init.h>
@@ -22,8 +16,8 @@ struct os_release {
 spinlock_t list_lock;
 LIST_HEAD(os_release_list);
 
-const char* RELEASE[] = {"CentOS", "Ubuntu", "CCLinux", "OpenEuler"};
-const char* VENDERS[] = {"RedHat", "Canonical", "CESTC", "HuaWei"};
+const char* RELEASE[] = {"CentOS", "Ubuntu", "Fedora", "OpenEuler"};
+const char* VENDERS[] = {"RedHat", "Canonical", "Redhat", "HuaWei"};
 
 static struct os_release *alloc_os(const char *release, const char *vender)
 {

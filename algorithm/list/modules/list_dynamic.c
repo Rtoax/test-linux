@@ -1,17 +1,11 @@
-/**
- *   @file: list_dynamic.c
- *
- *   @date: 2021.11.03
- *   @author: Rong Tao <rongtao@cestc.cn>
- */
 #include <linux/module.h>
 #include <linux/kernel.h>
 #include <linux/init.h>
 #include <linux/list.h>
 #include <linux/slab.h>
 
-const char* RELEASE[] = {"CentOS", "Ubuntu", "CCLinux", "OpenEuler"};
-const char* VENDERS[] = {"RedHat", "Canonical", "CESTC", "HuaWei"};
+const char* RELEASE[] = {"CentOS", "Ubuntu", "Fedora", "OpenEuler"};
+const char* VENDERS[] = {"RedHat", "Canonical", "Redhat", "HuaWei"};
 
 LIST_HEAD(os_release_list);
 
