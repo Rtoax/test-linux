@@ -16,6 +16,7 @@ sub-dir += flock
 sub-dir += fanotify
 sub-dir += inotify
 sub-dir += signal
+sub-dir += socket
 sub-dir += prctl
 sub-dir += perf_event_open
 sub-dir += arch_prctl
