@@ -1,7 +1,7 @@
 #!/bin/env bpftrace
 /**
  * File: update_load_avg.bt
- * Author: Rong Tao <rongtao@cestc.cn>
+ * Author: Rong Tao <rtoax@foxmail.com>
  * Date: 2022.06.06
  *
  */

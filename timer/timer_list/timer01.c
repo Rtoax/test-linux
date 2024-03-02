@@ -1,9 +1,3 @@
-/**
- *	File timer.c
- *	Time 2021.11.03
- *	Author	Rong Tao <cestc.cn>
- *	
- */
 #include <linux/module.h>
 #include <linux/init.h>
 #include <linux/sched.h>

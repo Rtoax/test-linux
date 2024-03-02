@@ -2,7 +2,7 @@
  *	File	on_each_cpu.c
  *	Time	2021.11.03
  *	Author	Slava Imameev 
- *	Modify  Rong Tao <rongtao@cestc.cn>
+ *	Modify  Rong Tao <rtoax@foxmail.com>
  */
 #include <linux/module.h>
 #include <linux/kernel.h>

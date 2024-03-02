@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-2.0
-// Copyright (C) 2022 Rong Tao <rongtao@cestc.cn>
+// Copyright (C) 2022 Rong Tao <rtoax@foxmail.com>
 
 #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
 
@@ -103,5 +103,5 @@ module_init(test_klp_livepatch_init);
 module_exit(test_klp_livepatch_exit);
 MODULE_LICENSE("GPL");
 MODULE_INFO(livepatch, "Y");
-MODULE_AUTHOR("Rong Tao <rongtao@cestc.cn>");
+MODULE_AUTHOR("Rong Tao <rtoax@foxmail.com>");
 MODULE_DESCRIPTION("Livepatch test: livepatch module");

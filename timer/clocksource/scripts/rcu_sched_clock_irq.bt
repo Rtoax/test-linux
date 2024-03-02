@@ -1,7 +1,7 @@
 #!/usr/bin/env bpftrace
 /**
  * File: rcu_sched_clock_irq.bt
- * Author: Rong Tao <rongtao@cestc.cn>
+ * Author: Rong Tao <rtoax@foxmail.com>
  * Date: 2022-04-02
  */
 

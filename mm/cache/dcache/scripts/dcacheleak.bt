@@ -4,7 +4,7 @@
  *
  * Description: Check dentry slab memory leak
  *
- * Author: Rong Tao <rongtao@cestc.cn>
+ * Author: Rong Tao <rtoax@foxmail.com>
  * Data: 2022-04-22
  *
  * How to test:

@@ -1,7 +1,7 @@
 /**
  * This tool use to get level3 cacheline size
  *
- * Copyright (C) CESTC, Co.
+ * Copyright (C) Rong Tao.
  *
  * 2023-03-24	Rong Tao	Create this.
  */

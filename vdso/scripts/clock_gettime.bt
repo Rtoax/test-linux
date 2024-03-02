@@ -2,7 +2,7 @@
 /**
  * clock_gettime.bt - get clock_gettime() latency
  *
- * Copyright (C) CESTC, Co.
+ * Copyright (C) Rong Tao.
  *
  * 2023-04-06	Rong Tao	Create this.
  */

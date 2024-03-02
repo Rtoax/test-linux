@@ -52,8 +52,8 @@ popd
 
 
 %changelog
-* Wed Jul 05 2023 Rong Tao <rongtao@cestc.cn> - 5.10.0-1
+* Wed Jul 05 2023 Rong Tao <rtoax@foxmail.com> - 5.10.0-1
 - Make a initramfs.img link.
 
-* Thu Jun 29 2023 Rong Tao <rongtao@cestc.cn> - 5.10.0-0
+* Thu Jun 29 2023 Rong Tao <rtoax@foxmail.com> - 5.10.0-0
 - First version.

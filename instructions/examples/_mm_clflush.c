@@ -1,6 +1,6 @@
 /**
  * File: _mm_clflush.c
- * Author: Rong Tao <rongtao@cestc.cn>
+ * Author: Rong Tao <rtoax@foxmail.com>
  * Date: 2022.05.06
  *
  * _mm_clflush() will flush cacheline if vars in cache.

@@ -1,7 +1,7 @@
 /**
  *	find pid struct by PID
  *	
- *	Author	Rong Tao <rongtao@cestc.cn>
+ *	Author	Rong Tao <rtoax@foxmail.com>
  *	Time	2021.11.05
  */
 

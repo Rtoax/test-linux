@@ -2,7 +2,7 @@
  * cache-misses.c - Test the program efficiency problems caused by the
  * influence of data structures on cache misses.
  *
- * Copyright (C) CESTC, CO.
+ * Copyright (C) Rong Tao.
  *
  * 2023-04-15	Rong Tao	Create this.
  * 2023-08-02	Rong Tao	Test read/write

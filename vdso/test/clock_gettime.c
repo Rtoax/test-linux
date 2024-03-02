@@ -2,8 +2,8 @@
  * File: clock_gettime.c
  * Discription: Compare the latency of vDSO, syscall, etc.
  *
- * Author:	Ge Changzhong (gechangzhong@cestc.cn)
- *			Rong Tao (rongtao@cestc.cn)
+ * Author:	Ge Changzhong
+ *			Rong Tao (rtoax@foxmail.com)
  *
  * Date: 2022-02-20
  *

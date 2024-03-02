@@ -1,10 +1,10 @@
 /**
  *	File	slab.c
  *	Time	2021.11.05
- *	Author	Rong Tao <rongtao@cestc.cn>
+ *	Author	Rong Tao <rtoax@foxmail.com>
  *
  *	Modify:
- *	2022-04-29	KASAN Testing <rongtao@cestc.cn>
+ *	2022-04-29	KASAN Testing <rtoax@foxmail.com>
  */
 
 #include <linux/init.h>

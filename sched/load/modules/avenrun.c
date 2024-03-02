@@ -1,6 +1,6 @@
 /**
  * File: avenrun.c
- * Author: Rong Tao <rongtao@cestc.cn>
+ * Author: Rong Tao <rtoax@foxmail.com>
  * Date: 2022.05.23
  *
  * Print load average like 'uptime' and bpftrace/tools loads.bt.

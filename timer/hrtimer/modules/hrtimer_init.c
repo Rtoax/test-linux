@@ -1,6 +1,6 @@
 /**
  *	File: hrtimer_init.c
- *	Author: Rong Tao <rongtao@cestc.cn>
+ *	Author: Rong Tao <rtoax@foxmail.com>
  *	Create at: 2022-01-08
  *
  *	Refs:

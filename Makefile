@@ -1,5 +1,5 @@
 # test-linux make
-# By Rong Tao <rongtao@cestc.cn>
+# By Rong Tao <rtoax@foxmail.com>
 #
 SHELL := bash
 MAKEFLAGS = --silent --no-print-directory

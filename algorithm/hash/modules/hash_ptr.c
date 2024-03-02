@@ -1,7 +1,7 @@
 /**
  *	File	hash_ptr.c
  *	Time	2021.11.18
- *	Author	Rong Tao <rongtao@cestc.cn>
+ *	Author	Rong Tao <rtoax@foxmail.com>
  */
 
 #include <linux/init.h>

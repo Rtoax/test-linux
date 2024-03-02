@@ -1,4 +1,4 @@
-# Copyright (C) Rong Tao @ CESTC
+# Copyright (C) Rong Tao
 include /boot/config-$(shell uname -r)
 
 LIVEPATCH:=

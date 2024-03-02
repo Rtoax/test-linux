@@ -1,5 +1,5 @@
 Discription: module/driver kthread livepatch demo
-Author:	Rong Tao <rongtao.cestc.cn>
+Author:	Rong Tao <rtoax@foxmail.com>
 Time:	2021.11.03
 
 # Procedures

@@ -1,7 +1,7 @@
 /**
  *	find pid namespace struct by PID
  *	
- *	Author	Rong Tao <rongtao@cestc.cn>
+ *	Author	Rong Tao <rtoax@foxmail.com>
  *	Time	2022-03-24
  */
 

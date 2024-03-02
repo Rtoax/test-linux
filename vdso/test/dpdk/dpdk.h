@@ -1,6 +1,6 @@
 /**
  * File: dpdk.h
- * Author: Rong Tao (rongtao.cestc.cn)
+ * Author: Rong Tao (rtoax@foxmail.com)
  * Date: 2022-03-11
  *
  * Get tsc frequency

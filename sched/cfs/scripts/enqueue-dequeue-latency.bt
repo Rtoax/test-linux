@@ -2,7 +2,7 @@
 /**
  *	File:	enqueue-dequeue-latency.bt
  *	Time:	2022.01.13
- *	Author: 荣涛 <rongtao@cestc.cn>
+ *	Author: 荣涛 <rtoax@foxmail.com>
  *
  *	跟踪一个进程 入队 到 出队 的时延
  */

@@ -1,7 +1,7 @@
 /**
  *	File	kthread.c
  *	Time	2021.11.03
- *	Author	Rong Tao <rongtao@cestc.cn>
+ *	Author	Rong Tao <rtoax@foxmail.com>
  *	Refs	linux-5.10.13/lib/test_fpu.c
  */
 // SPDX-License-Identifier: GPL-2.0+

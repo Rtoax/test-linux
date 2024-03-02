@@ -1,7 +1,7 @@
 /**
  * File patchkthread.c
  * Time 2021.11.03
- * Author Rong Tao <rongtao@cestc.cn>
+ * Author Rong Tao <rtoax@foxmail.com>
  */
 
 

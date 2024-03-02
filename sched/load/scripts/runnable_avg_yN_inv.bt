@@ -1,7 +1,7 @@
 #!/bin/env bpftrace
 /**
  * File: runnable_avg_yN_inv.bt
- * Author: Rong Tao <rongtao@cestc.cn>
+ * Author: Rong Tao <rtoax@foxmail.com>
  * Date: 2022.06.06
  *
  */

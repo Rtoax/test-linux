@@ -1,7 +1,7 @@
 #!/usr/bin/env bpftrace
 /**
  * File: kvm_irq_map_gsi.bt
- * Author: Rong Tao <rongtao@cestc.cn>
+ * Author: Rong Tao <rtoax@foxmail.com>
  * Date: 2022.01.07
  *
  * gsi: Global System Interrupt

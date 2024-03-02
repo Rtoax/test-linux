@@ -1,6 +1,6 @@
 #!/usr/bin/env bpftrace
 /**
- * Rong Tao <rongtao@cestc.cn>
+ * Rong Tao <rtoax@foxmail.com>
  * 2022.02.20
  * Tracing clock_gettime
  */

@@ -1,5 +1,5 @@
 #!/bin/bash
-# Rong Tao <rongtao@cestc.cn>
+# Rong Tao <rtoax@foxmail.com>
 # Print Load Average [to file]
 # Like 'sar -q ALL'
 

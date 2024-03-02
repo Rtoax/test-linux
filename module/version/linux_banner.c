@@ -1,7 +1,7 @@
 /**
  *	File	linux_banner.c
  *	Time	2021.11.20
- *	Author	Rong Tao <rongtao@cestc.cn>
+ *	Author	Rong Tao <rtoax@foxmail.com>
  */
 
 #include <linux/init.h>

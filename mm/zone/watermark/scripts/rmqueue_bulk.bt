@@ -2,7 +2,7 @@
 /**
  * File: rmqueue_bulk.bt
  *
- * Author: Rong Tao <rongtao@cestc.cn>
+ * Author: Rong Tao <rtoax@foxmail.com>
  */
 
 #include <linux/mmzone.h>

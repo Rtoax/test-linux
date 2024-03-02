@@ -1,7 +1,7 @@
 /**
  *	File	clocksource_resigter_hz.c
  *	Time	2022.01.10
- *	Author	Rong Tao <rongtao@cestc.cn>
+ *	Author	Rong Tao <rtoax@foxmail.com>
  */
 
 #include <linux/init.h>

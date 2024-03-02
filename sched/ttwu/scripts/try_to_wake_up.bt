@@ -1,7 +1,7 @@
 #!/usr/bin/env bpftrace
 /**
  * File: try_to_wake_up.bt
- * Author: Rong Tao <rongtao@cestc.cn>
+ * Author: Rong Tao <rtoax@foxmail.com>
  * Date: 2022.05.25
  *
  * TTWU: try_to_wake_up

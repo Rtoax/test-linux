@@ -2,7 +2,7 @@
 /**
  * kvm_set_memory_region.bt - Tracing KVM set memory region
  *
- * Copyright (C) Rong Tao <rongtao@cestc.cn>
+ * Copyright (C) Rong Tao <rtoax@foxmail.com>
  *
  * 2022-10-20	Rong Tao	Create this
  */

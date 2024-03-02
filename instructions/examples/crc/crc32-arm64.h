@@ -4,7 +4,7 @@
  * Refs:
  * http://main.lv/writeup/arm64_assembly_crc32.md
  *
- * Rewrite By Rong Tao <rongtao@cestc.cn>
+ * Rewrite By Rong Tao <rtoax@foxmail.com>
  */
 #if !defined(__aarch64__)
 # error "Just support aarch64"

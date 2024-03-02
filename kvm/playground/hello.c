@@ -1,7 +1,7 @@
 /**
  * File: qemu.c
  * Author: Qiang Li
- * Recode: Rong Tao <rongtao@cestc.cn>
+ * Recode: Rong Tao <rtoax@foxmail.com>
  * Date: 2022.06.03
  *
  */

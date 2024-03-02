@@ -1,7 +1,7 @@
 /**
  *	File	nr_swap_pages.c
  *	Time	2022-03-27
- *	Author	Rong Tao <rongtao@cestc.cn>
+ *	Author	Rong Tao <rtoax@foxmail.com>
  */
 
 #include <linux/init.h>

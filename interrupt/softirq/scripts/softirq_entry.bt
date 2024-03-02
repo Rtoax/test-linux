@@ -2,7 +2,7 @@
 /**
  * File: softirq_entry.bt
  *
- * Author: Rong Tao <rongtao@cestc.cn>
+ * Author: Rong Tao <rtoax@foxmail.com>
  * Time: 2022.03.08
  *
  * Statistic softirqs on CPUs.

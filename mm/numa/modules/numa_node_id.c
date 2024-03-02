@@ -1,7 +1,7 @@
 /**
  *	File	numa_node_id.c
  *	Time	2022-03-30
- *	Author	Rong Tao <rongtao@cestc.cn>
+ *	Author	Rong Tao <rtoax@foxmail.com>
  */
 
 #include <linux/init.h>

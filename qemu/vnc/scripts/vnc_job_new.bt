@@ -1,7 +1,7 @@
 #!/bin/env bpftrace
 /**
  * File: vnc_job_new.bt
- * Author: Rong Tao <rongtao@cestc.cn>
+ * Author: Rong Tao <rtoax@foxmail.com>
  * Date: 2022.06.05
  *
  * When VNC Viewer linked, some operation cause vnc_job_new() called.

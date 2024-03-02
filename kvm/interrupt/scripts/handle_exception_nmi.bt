@@ -2,7 +2,7 @@
 /**
  * File: handle_exception_nmi.bt
  *
- * Author: Rong Tao <rongtao@cestc.cn>
+ * Author: Rong Tao <rtoax@foxmail.com>
  * Date: 2023-04-24
  */
 //#include <linux/kvm_host.h>

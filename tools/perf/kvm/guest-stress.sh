@@ -1,6 +1,6 @@
 #!/bin/bash
 # Guest OS stress test
-# Rong Tao <rongtao@cestc.cn>
+# Rong Tao <rtoax@foxmail.com>
 
 OUTPUT_FILE=data.out
 OUTPUT_FILE2=data2.out

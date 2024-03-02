@@ -1,5 +1,5 @@
 #!/bin/bash
-# Rong Tao <rongtao@cestc.cn>
+# Rong Tao <rtoax@foxmail.com>
 
 # man ps | grep -A 21 "^PROCESS STATE"
 # R - Running

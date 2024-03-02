@@ -1,7 +1,7 @@
 #!/bin/bash
 # Print softirqs
 #
-# Copyright 2023 CESTC, Co.
+# Copyright 2023 Rong Tao.
 #
 # 2023-08-01	Rong Tao	Create this.
 # 2023-10-11	Rong Tao	Add --no-color argument.

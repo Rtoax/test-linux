@@ -2,7 +2,7 @@
 /**
  * File: x86_emulate_insn.bt
  *
- * Author: Rong Tao <rongtao@cestc.cn>
+ * Author: Rong Tao <rtoax@foxmail.com>
  * Date: 2023-05-02
  */
 #define EMULATION_FAILED 0xffffffff /* -1 */

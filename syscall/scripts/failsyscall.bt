@@ -2,7 +2,7 @@
 /**
 *	File: failsyscall.bt
  *	Time: 2022年1月13日
- *	Author: 荣涛 <rongtao@cestc.cn>
+ *	Author: 荣涛 <rtoax@foxmail.com>
  *	
  *	追踪 read(2) 系统调用时延，并显示失败的调用 和 原因
  *	追踪其他系统调用请 修改 sys_enter_read 和 sys_exit_read

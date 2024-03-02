@@ -1,6 +1,6 @@
 /**
  * File: getauxval.c
- * AUthor: Rong Tao <rongtao@cestc.cn>
+ * AUthor: Rong Tao <rtoax@foxmail.com>
  * Date: 2022.05.09
  *
  * Get vDSO aux vector.
