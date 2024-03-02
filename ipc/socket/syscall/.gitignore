@@ -1,3 +1,6 @@
 /socketpair
 /[s,g]etsockopt
 /gethostbyname
+/socket
+/bind
+/accept

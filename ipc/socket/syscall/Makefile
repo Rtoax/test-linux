@@ -3,6 +3,9 @@ TARGETS := socketpair
 TARGETS += getsockopt
 TARGETS += setsockopt
 TARGETS += gethostbyname
+TARGETS += socket
+TARGETS += bind
+TARGETS += accept
 
 ifeq ($(shell uname -m),x86_64)
 endif
@@ -29,6 +32,9 @@ socketpair: socketpair.o
 getsockopt: getsockopt.o
 setsockopt: setsockopt.o
 gethostbyname: gethostbyname.o
+socket: socket.o
+bind: bind.o
+accept: accept.o
 
 
 %.d: %.c
