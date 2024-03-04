@@ -1,0 +1,11 @@
+
+- show task status statistic
+
+```bash
+crash> ps -S
+  RU: 264
+  IN: 20808
+  ID: 1386
+  NE: 3
+```
+
