@@ -23,6 +23,7 @@ pkgs+=( autoconf-archive )
 pkgs+=( gcc-aarch64-linux-gnu )
 pkgs+=( bpftrace bcc )         # eBPF
 pkgs+=( cargo )                # The Rust package manager
+pkgs+=( crash )
 pkgs+=( criu )
 pkgs+=( dwarves )              # pahole
 pkgs+=( efivar mokutil )       # UEFI
