@@ -45,6 +45,10 @@ You can use the following macro
 * Each `samples` directory contain source userspace code.
 * Each `commands` directory contain relative command lines.
 
+# Files
+
+* Each `README.md` is current directory's description.
+* Each `abbreviation.md` is current directory's relative abbreviation.
 
 # About
 

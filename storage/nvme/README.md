@@ -27,6 +27,8 @@ $ echo 1 > /sys/bus/pci/rescan
 
 # NVMe-oF (over Fabrics)
 
+> Fabrics: 织品，构造，结构，布；
+
 - NVMe-oF
 	- Fibre Channel
 	- RDMA

@@ -1,0 +1,10 @@
+- AFA: (全闪存阵列)
+- iSER: iSCSI Extensions for RDMA
+- iWARP: RDMA over TCP
+- IB: InfiniBand
+- NVMe: Non-Volatile Memory Express (非易失性内存表达)
+- NVMe-oF: NVMe over Fabrics
+- RDMA: Remote Direct Memory Access (远程直接内存访问)
+- RoCE: RDMA over Converged Ethernet
+- SRP: SCSI RDMA Protocol
+
