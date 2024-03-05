@@ -9,7 +9,7 @@
 
 int main(void)
 {
-	char *filename = "msgq1";
+	char *filename = "/msgq1";
 	struct mq_attr attr;
 	int flags = O_RDWR | O_CREAT | O_EXCL;
 
