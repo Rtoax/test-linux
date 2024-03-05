@@ -1,5 +1,6 @@
 
 TARGETS := semaphore
+TARGETS += latency
 
 CC = gcc
 
@@ -18,6 +19,7 @@ build: ${TARGETS}
 
 # Add more object.o file
 semaphore: semaphore.o
+latency: latency.o
 
 %.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
