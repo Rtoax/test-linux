@@ -1,5 +1,6 @@
 
 TARGETS := semget
+TARGETS += fork-pv
 
 CC = gcc
 
@@ -18,6 +19,7 @@ build: ${TARGETS}
 
 # Add more object.o file
 semget: semget.o
+fork-pv: fork-pv.o
 
 %.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
