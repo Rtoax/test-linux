@@ -22,6 +22,7 @@ USER_LIST += libs
 USER_LIST += macro
 USER_LIST += network
 USER_LIST += security/access/lsm/selinux/libselinux/samples/
+USER_LIST += synchronization
 USER_LIST += syscall
 USER_LIST += template/
 

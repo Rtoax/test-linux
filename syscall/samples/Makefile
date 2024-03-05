@@ -16,6 +16,7 @@ sub-dir += time
 sub-dir += flock
 sub-dir += fanotify
 sub-dir += inotify
+sub-dir += semaphore
 sub-dir += signal
 sub-dir += socket
 sub-dir += prctl
