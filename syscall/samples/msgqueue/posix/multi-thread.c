@@ -7,6 +7,8 @@
 #include <string.h>
 #include <time.h>
 #include <unistd.h>
+#include <signal.h>
+#include <stdlib.h>
 
 struct dbg_msg {
 	unsigned long msg_seq;
@@ -16,6 +18,13 @@ struct dbg_msg {
 #define MQUEUE_NAME "/_rtoax_mq_"
 
 mqd_t mqd;
+
+static void my_sigev_notify_function(union sigval sv)
+{
+	struct mq_attr attr;
+	mq_getattr(mqd, &attr);
+	printf("Avail %ld bytes in mqueue\n", (long)attr.mq_msgsize);
+}
 
 void *task1_fn(void *arg)
 {
@@ -73,6 +82,7 @@ void *task2_fn(void *arg)
 
 int main(void)
 {
+	int ret;
 	struct mq_attr attr;
 	pthread_t task1, task2;
 
@@ -89,11 +99,26 @@ int main(void)
 		return -errno;
 	}
 
+	struct sigevent sev;
+	sev.sigev_notify = SIGEV_THREAD;
+	sev.sigev_notify_function = my_sigev_notify_function;
+	sev.sigev_notify_attributes = NULL;
+	sev.sigev_value.sival_ptr = &mqd;   /* Arg. to thread func. */
+
+	ret = mq_notify(mqd, &sev);
+	if (ret == -1) {
+		fprintf(stderr, "mq_notify failed, %s\n", strerror(errno));
+		goto close;
+	}
+
 	pthread_create(&task1, NULL, task1_fn, NULL);
 	pthread_create(&task2, NULL, task2_fn, NULL);
 
 	pthread_join(task1, NULL);
 	pthread_join(task2, NULL);
 
+close:
+	mq_close(mqd);
+	mq_unlink(MQUEUE_NAME);
 	return 0;
 }
