@@ -2,6 +2,7 @@
 
 sub-dir :=
 sub-dir += aio
+sub-dir += capability
 sub-dir += ioctl
 sub-dir += poll
 sub-dir += epoll
