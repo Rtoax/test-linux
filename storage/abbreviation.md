@@ -1,11 +1,16 @@
 - AFA: (全闪存阵列)
+- FCP: Fibre Channel Protocol (光纤通道)
+- iSCSI: Internet Small Computer Systems Interface
 - iSER: iSCSI Extensions for RDMA
 - iWARP: RDMA over TCP
 - IB: InfiniBand
 - NVMe: Non-Volatile Memory Express (非易失性内存表达)
-- NVMe-oF: NVMe over Fabrics
-- NVMe/FC: NVMe over Fibre Channel (FC-NVMe,NVMe over FC)
+- NVMe-oF: NVMe over Fabrics (NoF)
+- NVMe/FC: NVMe over Fibre Channel (FC-NVMe, NVMe over FC)
+- NVMe/RoCE: NVMe over RoCE
+- NVMe/TCP: NVMe over TCP
 - RDMA: Remote Direct Memory Access (远程直接内存访问)
-- RoCE: RDMA over Converged Ethernet
+- RoCE: RDMA over Converged Ethernet (聚合以太网上的 RDMA)
+- SCSI: Small Computer Systems Interface
 - SRP: SCSI RDMA Protocol
 
