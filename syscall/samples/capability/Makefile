@@ -1,5 +1,6 @@
 
 TARGETS := capget
+TARGETS += version
 
 CC = gcc
 
@@ -12,6 +13,7 @@ build: ${TARGETS}
 
 # Add more object.o file
 capget: capget.o
+version: version.o
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
