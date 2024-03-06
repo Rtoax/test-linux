@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <libgen.h>
+#include <errno.h>
 #include <unistd.h>
 
 
@@ -97,10 +98,53 @@ void print_proc_pid_maps(void)
 	system(cmd);
 }
 
+int for_each_mnt_point(void (*callback)(const char *mnt_point))
+{
+	char s[2000];
+	FILE *f;
+
+	if (!callback)
+		return -EINVAL;
+
+	f = fopen("/proc/mounts", "r");
+
+	while (fgets(s, 2000, f)) {
+		char *c, *e = s;
+
+		for (c = s; *c; c++) {
+			if (*c == ' ') {
+				e = c + 1;
+				break;
+			}
+		}
+
+		for (c = e; *c; c++) {
+			if (*c == ' ') {
+				*c = '\0';
+				break;
+			}
+		}
+
+		callback(e);
+	}
+	fclose(f);
+
+	return 0;
+}
+
 #ifdef TEST
+
+static void mnt_point_callback(const char *mnt_point)
+{
+	printf("MNT: %s\n", mnt_point);
+}
+
 int main(void)
 {
 	char comm[128];
+
+	for_each_mnt_point(mnt_point_callback);
+
 	print_proc_pid_maps();
 	printf("comm : %s\n", proc_comm(comm, sizeof(comm)));
 	printf("base addr : %lx\n", proc_elf_base_addr());
