@@ -1,5 +1,6 @@
 
 TARGETS := lstat
+TARGETS += stat
 
 CC = gcc
 
@@ -14,6 +15,7 @@ build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
 # Add more object.o file
+stat: stat.o
 lstat: lstat.o
 
 test: ${TARGETS}
