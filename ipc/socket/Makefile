@@ -1,4 +1,5 @@
 sub-dir := poll
+sub-dir += epoll
 sub-dir += iovec
 sub-dir += proxy
 sub-dir += syscall
