@@ -6,3 +6,4 @@
 /fchmod
 /mkdir
 /mknod
+/st_mode

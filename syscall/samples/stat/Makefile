@@ -7,6 +7,7 @@ TARGETS += chmod
 TARGETS += fchmod
 TARGETS += mkdir
 TARGETS += mknod
+TARGETS += st_mode
 
 CC = gcc
 
@@ -29,6 +30,7 @@ chmod: chmod.o
 fchmod: fchmod.o
 mkdir: mkdir.o
 mknod: mknod.o
+st_mode: st_mode.o
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
