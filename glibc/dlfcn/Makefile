@@ -37,8 +37,12 @@ hello: hello.o
 socket: socket.o libc.o
 malloc: malloc.o libc.o
 vdso: vdso.o
-dlinfo: dlinfo.o ../../libs/proc.o
+dlinfo: dlinfo.o proc.o
 dlsym-RTLD_DEFAULT: dlsym-RTLD_DEFAULT.o
+
+proc.o: ../../libs/proc.o
+	$(info We are in $(shell pwd))
+	mv $(<) $(@)
 
 %.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

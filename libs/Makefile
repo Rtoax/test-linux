@@ -4,7 +4,7 @@ TARGETS += endian
 TARGETS += gotoxy goprint
 TARGETS += log
 TARGETS += memshow
-TARGETS += proc
+TARGETS += proc_examples
 TARGETS += progress
 
 DEBUG = yes
@@ -17,7 +17,7 @@ ifdef DEBUG
 CFLAGS += -DDEBUG -O0 -g
 endif
 
-CFLAGS_proc += -DTEST=1
+CFLAGS_proc_examples += -DTEST=1
 CFLAGS_progress += -DTEST=1
 
 build: ${TARGETS}
@@ -32,7 +32,7 @@ goprint: goprint.o
 log: log.o
 memshow: memshow.o
 progress: progress.o
-proc: proc.o
+proc_examples: proc_examples.o proc.o
 
 %.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

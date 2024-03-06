@@ -1,5 +1,7 @@
 #pragma once
 
+#include <sys/types.h>
+
 /* /proc/PID/comm */
 const char *proc_comm(char *buf, size_t buf_len);
 

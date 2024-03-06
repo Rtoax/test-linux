@@ -2,6 +2,7 @@
 TARGETS := hello
 TARGETS += hello-pie
 
+CFLAGS :=
 LDFLAGS :=
 LDLIBS :=
 
