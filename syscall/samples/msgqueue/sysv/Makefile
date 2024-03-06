@@ -1,4 +1,5 @@
 TARGETS :=
+TARGETS += msg_server msg_client
 
 DEBUG = yes
 SRC_PATH := $(shell pwd)
@@ -12,6 +13,8 @@ build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
 # Add more object.o file
+msg_server: msg_server.o
+msg_client: msg_client.o
 
 %.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
