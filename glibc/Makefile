@@ -19,6 +19,7 @@ sub-dir += pwd
 sub-dir += scripts
 sub-dir += semaphore
 sub-dir += spawn
+sub-dir += stat
 sub-dir += stdio
 sub-dir += stdlib
 sub-dir += string
