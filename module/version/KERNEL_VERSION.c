@@ -8,11 +8,9 @@
 
 static int kernel_init(void)
 {
-    printk(KERN_INFO "my init.\n");
-#define	S(v) \
-	printk(KERN_INFO "init_uts_ns.%s = %s\n", #v, init_uts_ns.v)
-#define	I(v) \
-	printk(KERN_INFO "init_uts_ns.%s = %d\n", #v, init_uts_ns.v)
+	printk(KERN_INFO "my init.\n");
+#define	S(v) printk(KERN_INFO "init_uts_ns.%s = %s\n", #v, init_uts_ns.v)
+#define	I(v) printk(KERN_INFO "init_uts_ns.%s = %d\n", #v, init_uts_ns.v)
 
 	/**
 	 * Don't have kref since >= 5.11
@@ -34,7 +32,7 @@ static int kernel_init(void)
 
 static void kernel_exit(void)
 {
-    printk(KERN_INFO "my exit.\n");
+	printk(KERN_INFO "my exit.\n");
 }
 
 module_init(kernel_init);
