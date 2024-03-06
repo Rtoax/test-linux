@@ -1,22 +1,20 @@
 
 TARGETS += poison
 TARGETS += GCC_diagnostic
-TARGETS += GCC_target
 TARGETS += pragma-message
 TARGETS += call-func
 TARGETS += push_macro
 
-DEBUG = yes
-SRC_PATH := $(shell pwd)
+ifneq ($(shell uname -m),aarch64)
+TARGETS += GCC_target
+endif
+
 CC = gcc
 
 CFLAGS := -Werror -Wall -D_GNU_SOURCE
 CFLAGS += -I../../
 CFLAGS += -pthread
-
-ifdef DEBUG
 CFLAGS += -DDEBUG -O0 -g
-endif
 
 build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"

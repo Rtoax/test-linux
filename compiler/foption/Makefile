@@ -1,11 +1,14 @@
 
 TARGETS :=
-TARGETS += fcf-protection
 TARGETS += ffat-lto-objects
 TARGETS += fpatchable-function-entry
 TARGETS += flto
 TARGETS += fstack-protector fstack-protector-all fstack-protector-strong fstack-protector-explicit
 TARGETS += fdump-ipa-all fdump-ipa-clones
+
+ifneq ($(shell uname -m),aarch64)
+TARGETS += fcf-protection
+endif
 
 CC = gcc
 
