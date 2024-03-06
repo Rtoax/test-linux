@@ -1,6 +1,8 @@
 
 TARGETS := lstat
 TARGETS += stat
+TARGETS += fstat
+TARGETS += listdir
 
 CC = gcc
 
@@ -16,7 +18,9 @@ build: ${TARGETS}
 
 # Add more object.o file
 stat: stat.o
+fstat: fstat.o
 lstat: lstat.o
+listdir: listdir.o
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
