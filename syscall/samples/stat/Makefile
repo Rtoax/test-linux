@@ -5,6 +5,7 @@ TARGETS += fstat
 TARGETS += listdir
 TARGETS += chmod
 TARGETS += fchmod
+TARGETS += mkdir
 
 CC = gcc
 
@@ -25,6 +26,7 @@ lstat: lstat.o
 listdir: listdir.o
 chmod: chmod.o
 fchmod: fchmod.o
+mkdir: mkdir.o
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
