@@ -50,7 +50,6 @@ TARGETS += unlink
 TARGETS += uname
 TARGETS += userfaultfd
 TARGETS += symlink
-TARGETS += lstat
 TARGETS += readdir
 TARGETS += write
 TARGETS += getdents
@@ -132,7 +131,6 @@ uname: uname.o
 userfaultfd: userfaultfd.o
 sysctl: sysctl.o
 symlink: symlink.o
-lstat: lstat.o
 readdir: readdir.o
 write: write.o
 getdents: getdents.o
