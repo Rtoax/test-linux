@@ -6,7 +6,7 @@ CC = gcc
 
 CFLAGS := -Werror -Wall
 CFLAGS += -Wstrict-prototypes
-CFLAGS += -specs=/usr/lib/rpm/redhat/redhat-annobin-cc1
+CFLAGS += -specs=$(shell pwd)/annobin-cc1
 
 LDFLAGS :=
 LDLIBS :=
