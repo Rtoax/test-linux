@@ -5,3 +5,4 @@
 /chmod
 /fchmod
 /mkdir
+/mknod
