@@ -1,18 +1,17 @@
-sub-dir := simple
-
-TARGETS += tcp-syn-flood
+sub-dir := poll
+sub-dir += iovec
+sub-dir += proxy
+sub-dir += syscall
+sub-dir += tcp
 
 sub-dir-build := $(sub-dir:=.build)
 sub-dir-clean := $(sub-dir:=.clean)
 
 .PHONY: build
-all: $(TARGETS) $(sub-dir-build)
-
-tcp-syn-flood: tcp-syn-flood.o
+build: $(sub-dir-build)
 
 .PHONY: clean
 clean: $(sub-dir-clean)
-	rm -f $(TARGETS) *.o
 
 $(sub-dir-build):
 	@echo -e "\033[1;32m [sub-dir] build $(@)\033[m"
