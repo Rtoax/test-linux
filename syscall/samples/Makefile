@@ -28,7 +28,6 @@ TARGETS := fallocate
 TARGETS += access faccessat2
 TARGETS += acct
 TARGETS += chdir fchdir
-TARGETS += chmod
 TARGETS += chown fchown
 TARGETS += fdopen
 TARGETS += kcmp
@@ -98,7 +97,6 @@ fallocate: fallocate.o
 faccessat2: faccessat2.o
 acct: acct.o
 access: access.o
-chmod: chmod.o
 chown: chown.o
 fchown: fchown.o
 chdir: chdir.o

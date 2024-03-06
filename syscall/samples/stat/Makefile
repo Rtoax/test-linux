@@ -3,6 +3,7 @@ TARGETS := lstat
 TARGETS += stat
 TARGETS += fstat
 TARGETS += listdir
+TARGETS += chmod
 
 CC = gcc
 
@@ -21,6 +22,7 @@ stat: stat.o
 fstat: fstat.o
 lstat: lstat.o
 listdir: listdir.o
+chmod: chmod.o
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
