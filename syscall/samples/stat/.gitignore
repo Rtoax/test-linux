@@ -3,3 +3,4 @@
 /fstat
 /listdir
 /chmod
+/fchmod

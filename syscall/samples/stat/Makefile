@@ -4,6 +4,7 @@ TARGETS += stat
 TARGETS += fstat
 TARGETS += listdir
 TARGETS += chmod
+TARGETS += fchmod
 
 CC = gcc
 
@@ -23,6 +24,7 @@ fstat: fstat.o
 lstat: lstat.o
 listdir: listdir.o
 chmod: chmod.o
+fchmod: fchmod.o
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
@@ -30,3 +32,4 @@ test: ${TARGETS}
 clean:
 	@echo -e "Clean   \033[1;32m$(@)\033[m"
 	@rm -f ${TARGETS} *.o *.d *.txt
+	@rmdir rong.out
