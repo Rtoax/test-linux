@@ -1,2 +1,4 @@
 /semaphore
 /latency
+/pthread-semaphore
+/test.txt

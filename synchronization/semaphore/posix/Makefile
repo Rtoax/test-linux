@@ -1,6 +1,7 @@
 
 TARGETS := semaphore
 TARGETS += latency
+TARGETS += pthread-semaphore
 
 CC = gcc
 
@@ -20,6 +21,7 @@ build: ${TARGETS}
 # Add more object.o file
 semaphore: semaphore.o
 latency: latency.o
+pthread-semaphore: pthread-semaphore.o
 
 %.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
@@ -35,4 +37,4 @@ test: ${TARGETS}
 .PHONY: clean
 clean:
 	@echo -e "Clean   \033[1;32m$(@)\033[m"
-	@rm -f ${TARGETS} *.s *.o *.d
+	@rm -f ${TARGETS} *.s *.o *.d test.out
