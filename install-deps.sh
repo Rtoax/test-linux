@@ -1,11 +1,55 @@
 #!/bin/bash
 set -e
 
+prog=inst-deps
+
 declare -a pkgs whls
 
 . /etc/os-release
 
 OS=${ID}
+
+__usage__()
+{
+	echo -e "
+NAME
+	$prog - Install depends
+
+SYNOPSIS
+	$prog [--base|--whl|--compilers|--all]
+
+DESCRIPTION
+	Install various dependencies.
+
+ARGUMENT
+
+	-h, --help         show this help information
+
+SEE ALSO
+"
+	exit ${1-0}
+}
+
+TEMP=$(getopt --options h \
+	--long help \
+	--name $prog -- "$@")
+
+test $? != 0 && __usage__ 1
+
+eval set -- "$TEMP"
+
+while true; do
+	case $1 in
+	-h|--help)
+		shift
+		__usage__
+		;;
+	--)
+		shift
+		break
+		;;
+	esac
+done
 
 echo "OS: ${OS}"
 
