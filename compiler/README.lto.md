@@ -1,4 +1,4 @@
-LTO - Link-Time Openmizations
+LTO - Link-Time Opemizations
 ==============================
 
 * [https://gcc.gnu.org/wiki/LinkTimeOptimization](https://gcc.gnu.org/wiki/LinkTimeOptimization)

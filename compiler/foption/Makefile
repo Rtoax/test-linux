@@ -5,6 +5,8 @@ TARGETS += fpatchable-function-entry
 TARGETS += flto
 TARGETS += fstack-protector fstack-protector-all fstack-protector-strong fstack-protector-explicit
 TARGETS += fdump-ipa-all fdump-ipa-clones
+TARGETS += fdump-tree-gimple
+TARGETS += fdump-tree-all-raw fdump-tree-all
 
 ifneq ($(shell uname -m),aarch64)
 TARGETS += fcf-protection
@@ -27,6 +29,9 @@ CFLAGS_fstack-protector-strong := -fstack-protector-strong
 CFLAGS_fstack-protector-explicit := -fstack-protector-explicit
 CFLAGS_fdump-ipa-all := -fdump-ipa-all
 CFLAGS_fdump-ipa-clones := -fdump-ipa-clones
+CFLAGS_fdump-tree-gimple := -fdump-tree-gimple
+CFLAGS_fdump-tree-all-raw := -fdump-tree-all-raw
+CFLAGS_fdump-tree-all := -fdump-tree-all
 
 build: ${TARGETS}
 	@echo
@@ -42,6 +47,9 @@ fstack-protector-explicit: fstack-protector-explicit.o
 fstack-protector-strong: fstack-protector-strong.o
 fdump-ipa-all: fdump-ipa-all.o
 fdump-ipa-clones: fdump-ipa-clones.o
+fdump-tree-gimple: fdump-tree-gimple.o
+fdump-tree-all-raw: fdump-tree-all-raw.o
+fdump-tree-all: fdump-tree-all.o
 
 %.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
@@ -58,4 +66,7 @@ test: ${TARGETS}
 
 clean:
 	@echo -e "Clean   \033[1;32m$(@)\033[m"
-	@rm -f ${TARGETS} *.o *.d *.s fdump-ipa-all.c.* fdump-ipa-clones.c.*
+	@rm -f ${TARGETS} *.o *.d *.s \
+		fdump-ipa-all.c.* fdump-ipa-clones.c.* \
+		fdump-tree-gimple.c.* \
+		fdump-tree-all-raw.c.* fdump-tree-all.c.*

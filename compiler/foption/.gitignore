@@ -9,5 +9,11 @@
 /fdump-ipa-all
 /fdump-ipa-all.c.*
 /fdump-ipa-clones
+/fdump-tree-gimple
+/fdump-tree-all
+/fdump-tree-all.c.*
+/fdump-tree-all-raw
+/fdump-tree-all-raw.c.*
 /*.ipa-clones
+/*.gimple
 /*.s
