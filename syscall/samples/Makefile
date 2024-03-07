@@ -23,6 +23,7 @@ sub-dir += socket
 sub-dir += prctl
 sub-dir += perf_event_open
 sub-dir += arch_prctl
+sub-dir += wait
 
 TARGETS := fallocate
 TARGETS += access faccessat2
