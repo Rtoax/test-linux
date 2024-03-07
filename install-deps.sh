@@ -117,6 +117,7 @@ debian|ubuntu)
 	pkgs+=( linux-tools-common )
 	pkgs+=( lsb-release )
 	pkgs+=( procps )
+	pkgs+=( rust-all )
 
 	args=( --fix-missing )
 
