@@ -37,7 +37,6 @@ pkgs+=( net-tools )            # netstat
 pkgs+=( numactl )              # numastat
 pkgs+=( opencl-headers )
 pkgs+=( parallel )
-pkgs+=( procps-ng )            # pidof, top, etc.
 pkgs+=( python3-matplotlib )   # matplotlib
 pkgs+=( python3-pip )          # pip wheel
 pkgs+=( python3-pyroute2 )     # pyroute2
@@ -96,6 +95,7 @@ cclinux|fedora|centos|rhel|openEuler)
 	pkgs+=( ltrace )               # ltrace
 	pkgs+=( mmc )                  # mmc
 	pkgs+=( mpich mpich-devel )    # mpi
+	pkgs+=( procps-ng )            # pidof, top, etc.
 	pkgs+=( rust )                 # rustc
 	pkgs+=( scl-utils )
 	pkgs+=( sg3_utils )            # sg_inq, etc.
@@ -116,13 +116,14 @@ debian|ubuntu)
 	pkgs+=( linux-libc-dev )
 	pkgs+=( linux-tools-common )
 	pkgs+=( lsb-release )
+	pkgs+=( procps )
 
 	args=( --fix-missing )
 
 	sudo apt update -y
 	sudo apt list --upgradable
 	sudo apt upgrade -y
-	sudo apt install ${args[@]} ${pkgs[@]}
+	sudo apt install ${args[@]} ${pkgs[@]} -y
 	;;
 *)
 	echo "ERROR: Unknown OS ${OS}"
