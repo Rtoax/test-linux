@@ -99,7 +99,7 @@ $(SUB_kernel_DIR_TEST):
 	$(call make_test,K,$(@:%_test=%))
 
 installdeps:
-	sh install-deps.sh
+	bash install-deps.sh
 
 # Make clean
 clean:
@@ -122,7 +122,7 @@ $(SUB_kernel_DIR_CLEAN):
 # Clean git repo useless file and directory
 cleangit:
 	echo "=== clean git repo"
-	sh git-clean
+	bash git-clean
 
 cleanuserlog:
 	$(call cleanuserlog)
