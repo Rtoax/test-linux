@@ -3,7 +3,11 @@ set -e
 
 prog=inst-deps
 
-declare -a pkgs whls
+declare -a pkgs pkgs_compiler pkgs_desktop whls
+
+have_whls=
+have_compiler=
+have_desktop=
 
 . /etc/os-release
 
@@ -16,12 +20,17 @@ NAME
 	$prog - Install depends
 
 SYNOPSIS
-	$prog [--base|--whl|--compilers|--all]
+	$prog [--all]
 
 DESCRIPTION
 	Install various dependencies.
 
 ARGUMENT
+	--all
+
+	--compilers        install extra compilers, such as rust java
+	--whls             install python pip wheel packages
+	--desktop          instal desktop relate packages
 
 	-h, --help         show this help information
 
@@ -31,6 +40,10 @@ SEE ALSO
 }
 
 TEMP=$(getopt --options h \
+	--long all \
+	--long compilers \
+	--long whls \
+	--long desktop \
 	--long help \
 	--name $prog -- "$@")
 
@@ -43,6 +56,23 @@ while true; do
 	-h|--help)
 		shift
 		__usage__
+		;;
+	--all)
+		shift
+		have_compiler=YES
+		have_whls=YES
+		;;
+	--compilers)
+		shift
+		have_compiler=YES
+		;;
+	--desktop)
+		shift
+		have_desktop=YES
+		;;
+	--whls)
+		shift
+		have_whls=YES
 		;;
 	--)
 		shift
@@ -92,7 +122,7 @@ pkgs+=( smartmontools )        # smartctl
 pkgs+=( tree )
 
 # Desktop Packages
-pkgs+=( terminator )
+pkgs_desktop+=( terminator )
 
 whls+=( numpy pyyaml )
 whls+=( tqdm )
@@ -140,13 +170,18 @@ cclinux|fedora|centos|rhel|openEuler)
 	pkgs+=( mmc )                  # mmc
 	pkgs+=( mpich mpich-devel )    # mpi
 	pkgs+=( procps-ng )            # pidof, top, etc.
-	pkgs+=( rust )                 # rustc
 	pkgs+=( scl-utils )
 	pkgs+=( sg3_utils )            # sg_inq, etc.
 	pkgs+=( systemtap-sdt-devel )  # sdt.h
 
+	pkgs_compiler+=( java-1.8.0-openjdk-devel )
+	pkgs_compiler+=( rust )
+
 	args=( --skip-broken )
 	args+=( --nogpgcheck )
+
+	[[ ${have_compiler} ]] && pkgs+=( ${pkgs_compiler[@]} )
+	[[ ${have_desktop} ]] && pkgs+=( ${pkgs_desktop[@]} )
 
 	sudo dnf up -y
 	sudo dnf install ${args[@]} -y ${pkgs[@]}
@@ -161,7 +196,11 @@ debian|ubuntu)
 	pkgs+=( linux-tools-common )
 	pkgs+=( lsb-release )
 	pkgs+=( procps )
-	pkgs+=( rust-all )
+
+	pkgs_compiler+=( rust-all )
+
+	[[ ${have_compiler} ]] && pkgs+=( ${pkgs_compiler[@]} )
+	[[ ${have_desktop} ]] && pkgs+=( ${pkgs_desktop[@]} )
 
 	args=( --fix-missing )
 
@@ -176,6 +215,6 @@ debian|ubuntu)
 esac
 
 # Install python3 pip wheels
-if [[ -e /usr/bin/pip3 ]]; then
+if [[ ${have_whls} ]] && [[ -e /usr/bin/pip3 ]]; then
 	pip3 install ${whls[@]}
 fi
