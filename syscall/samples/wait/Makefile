@@ -1,6 +1,7 @@
 
 TARGETS := waitpid
 TARGETS += waitpid-sig
+TARGETS += waitpid-kill
 TARGETS += wait
 
 CC = gcc
@@ -18,6 +19,7 @@ build: ${TARGETS}
 # Add more object.o file
 waitpid: waitpid.o
 waitpid-sig: waitpid-sig.o
+waitpid-kill: waitpid-kill.o
 wait: wait.o
 
 test: ${TARGETS}
