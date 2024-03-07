@@ -18,6 +18,14 @@ test-linux
 * [git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git](git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git)
 
 
+# Relative Architecture
+
+- [x] `x86_64`
+- [x] `aarch64`
+- [x] `sw_64`
+- [ ] `loongarch64`
+
+
 # Relate Repos
 
 * [GitHub test-linux(Me)](https://github.com/Rtoax/test-linux)
