@@ -1,4 +1,5 @@
 sub-dir := socket
+sub-dir += msgqueue
 
 sub-dir-build := $(sub-dir:=.build)
 sub-dir-clean := $(sub-dir:=.clean)
