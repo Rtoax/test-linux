@@ -1,3 +1,6 @@
+- GPA: Guest Physical Address
+- HPA: Host Physical Address
 - IOMMU: Input/Output Memory Management Unit
 - KVM: Kernel Virtual Machine
 - SMMU: System MMU
+- VT-d: Virtualization Technology for Directed I/O
