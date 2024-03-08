@@ -30,8 +30,19 @@ Access-capable I/O Bus）和主存（main memory）。传统的内存管理单�
                       +
 ```
 
+
+# 虚拟化
+
+- GPA to HPA
+
 IOMMU的一个重要用途是在虚拟化技术（virtualization）：虚拟机上运行的操作系统
 （guest OS）通常不知道它所访问的host-physical内存地址。如果要进行DMA操作，就
 有可能破坏内存，因为实际的硬件（hardware）不知道guest-physical和host-physical
 内存地址之间的映射关系。IOMMU根据guest-physical和host-physical内存地址之间的
 转换表（translation table），re-mapping硬件访问的地址，就可以解决这个问题。
+
+
+# Links
+
+- https://en.wikipedia.org/wiki/Input%E2%80%93output_memory_management_unit
+
