@@ -8,6 +8,7 @@ TARGETS += bind
 TARGETS += listen
 TARGETS += accept
 TARGETS += connect
+TARGETS += shutdown
 
 ifeq ($(shell uname -m),x86_64)
 endif
@@ -39,6 +40,7 @@ bind: bind.o
 listen: listen.o
 accept: accept.o
 connect: connect.o
+shutdown: shutdown.o
 
 %.d: %.c
 	@echo -e "Generate \033[1m$(@)\033[m"
