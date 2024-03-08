@@ -1,6 +1,9 @@
 IOMMU (Input/Output Memory Management Unit)
 ===========================================
 
+- iommu: AMD
+- vt-d: Intel
+
 在计算机领域，IOMMU（Input/Output Memory Management Unit）是一个内存管理单元
 （Memory Management Unit），它的作用是连接DMA-capable I/O总线（Direct Memory
 Access-capable I/O Bus）和主存（main memory）。传统的内存管理单元会把CPU访问

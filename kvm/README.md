@@ -31,5 +31,7 @@ $ sudo virsh cpu-models x86_64
 # Devices
 
 - IOMMU: x86
+	- iommu: AMD
+	- VT-d: Intel
 - SMMU: arm
 
