@@ -1,5 +1,6 @@
 
 TARGETS := signal
+TARGETS += sigaction
 TARGETS += sigwait
 TARGETS += sigaddset
 TARGETS += signo
@@ -30,6 +31,7 @@ sig.h:
 
 signo: signo.o
 signal: signal.o
+sigaction: sigaction.o
 sigwait: sigwait.o
 sigaddset: sigaddset.o
 psignal: psignal.o
