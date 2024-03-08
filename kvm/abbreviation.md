@@ -1,0 +1,3 @@
+- IOMMU: Input/Output Memory Management Unit
+- KVM: Kernel Virtual Machine
+- SMMU: System MMU
