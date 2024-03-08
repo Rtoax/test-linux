@@ -1,5 +1,6 @@
 
 TARGETS := writev
+TARGETS += readv
 
 CC = gcc
 
@@ -15,6 +16,7 @@ build: ${TARGETS}
 
 # Add more object.o file
 writev: writev.o
+readv: readv.o
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
