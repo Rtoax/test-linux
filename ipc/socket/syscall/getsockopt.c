@@ -5,13 +5,13 @@
 #include <sys/types.h>
 
 
-int main()
+void test(int domain, int type)
 {
 	int sockfd;
 	int val;
 	socklen_t len = sizeof(socklen_t);
 
-	sockfd = socket(AF_INET, SOCK_STREAM, 0);
+	sockfd = socket(domain, type, 0);
 
 	getsockopt(sockfd, SOL_SOCKET, SO_SNDBUF, &val, &len);
 	printf("SO_SNDBUF: optval = %d, optlen = %d\n", val, len);
@@ -24,3 +24,11 @@ int main()
 
 	close(sockfd);
 }
+
+int main(void)
+{
+	test(AF_INET, SOCK_STREAM);
+	test(AF_INET, SOCK_DGRAM);
+	return 0;
+}
+
