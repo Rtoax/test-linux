@@ -35,6 +35,7 @@ TARGETS += sections_section
 TARGETS += shared
 TARGETS += simd
 TARGETS += single
+TARGETS += threadprivate
 TARGETS += threadprivate_copyin
 TARGETS += threadprivate_copyprivate
 
@@ -89,6 +90,7 @@ sections_section: sections_section.o
 shared: shared.o
 single: single.o
 simd: simd.o
+threadprivate: threadprivate.o
 threadprivate_copyin: threadprivate_copyin.o
 threadprivate_copyprivate: threadprivate_copyprivate.o
 

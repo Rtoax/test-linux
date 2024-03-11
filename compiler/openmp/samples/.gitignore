@@ -33,5 +33,6 @@
 /shared
 /simd
 /single
+/threadprivate
 /threadprivate_copyin
 /threadprivate_copyprivate
