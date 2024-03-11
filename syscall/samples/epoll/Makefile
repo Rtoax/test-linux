@@ -1,6 +1,7 @@
 
 TARGETS := eventfd
 TARGETS += lt et
+TARGETS += tcp-echo
 
 CC = gcc
 
@@ -18,6 +19,7 @@ build: ${TARGETS}
 eventfd: eventfd.o
 lt: lt.o
 et: et.o
+tcp-echo: tcp-echo.o
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
