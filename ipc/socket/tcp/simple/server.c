@@ -42,11 +42,14 @@ int main(int argc, char *argv[])
 
 	for (;;) {
 		clilen = sizeof(cliaddr);
-		connfd = accept(listenfd, (struct sockaddr*)&cliaddr, &clilen);
+		connfd = accept(listenfd, (struct sockaddr *)&cliaddr, &clilen);
 		if (connfd < 0) {
 			perror("accept error");
 			exit(1);
 		}
+
+		printf("Accept new client: %s:%d\n",
+			inet_ntoa(cliaddr.sin_addr), cliaddr.sin_port);
 
 		if ((childpid = fork()) == 0) {
 			close(listenfd);
