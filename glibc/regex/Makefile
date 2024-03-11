@@ -1,6 +1,7 @@
 TARGETS :=
 TARGETS += email
 TARGETS += getprocessruntime-regex
+TARGETS += printf-format-arg-split
 TARGETS += tr069
 
 CC = gcc
@@ -17,6 +18,7 @@ build: ${TARGETS}
 # Add more object.o file
 email: email.o
 getprocessruntime-regex: getprocessruntime-regex.o
+printf-format-arg-split: printf-format-arg-split.o
 tr069: tr069.o
 
 %.d: %.c
