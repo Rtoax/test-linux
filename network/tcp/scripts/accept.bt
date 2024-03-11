@@ -32,7 +32,7 @@ tracepoint:syscalls:sys_exit_accept*
 {
 	if (args->ret <= 0) {
 		@accept["FAILED"] = count();
-		@accept_failed[comm, pid, @fds[tid]] = count();
+		@accept_failed[comm, pid, @fds[tid], args->ret] = count();
 	} else {
 		@accept["SUCCES"] = count();
 	}
