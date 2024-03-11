@@ -1,1 +1,3 @@
 - IB: InfiniBand
+- MPLS: Multi-Protocol Label Switching (多协议标签交换)
+- QUIC: Quick UDP Internet Connections (快速 UDP 网络连接)
