@@ -16,6 +16,7 @@ sub-dir += malloc
 sub-dir += math
 sub-dir += pthread
 sub-dir += pwd
+sub-dir += regex
 sub-dir += scripts
 sub-dir += semaphore
 sub-dir += spawn
