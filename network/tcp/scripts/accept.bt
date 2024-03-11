@@ -1,0 +1,46 @@
+#!/usr/bin/env bpftrace
+/**
+ * accept.bt
+ *
+ * 2024-03-11	Rong Tao	Create this.
+ */
+#include <net/sock.h>
+
+kretprobe:inet_csk_accept
+{
+	@clt_rates = count();
+	$sk = (struct sock *)retval;
+	$protocol = $sk->sk_protocol;
+	$family = $sk->__sk_common.skc_family;
+
+	//printf("%d, %d, %d - %d - %d\n", retval, $protocol, $family, AF_INET, AF_INET6);
+
+	if ($family == AF_INET) {
+		printf("IPv4\n");
+	} else if ($family == AF_INET6) {
+		printf("IPv6\n");
+	}
+}
+
+tracepoint:syscalls:sys_exit_accept*
+{
+	if (args->ret <= 0) {
+		@accept["FAILED"] = count();
+	} else {
+		@accept["SUCCES"] = count();
+	}
+}
+
+i:s:1
+{
+	print(@clt_rates);
+	print(@accept);
+	clear(@clt_rates);
+	clear(@accept);
+}
+
+END
+{
+	clear(@clt_rates);
+	clear(@accept);
+}
