@@ -140,3 +140,9 @@ os-release
 # Temp File
 vmlinux.h
 
+# File system
+*.ext4
+*.ext3
+*.ext2
+*.xfs
+
