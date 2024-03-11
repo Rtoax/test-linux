@@ -1,5 +1,6 @@
 /lstat
 /stat
+/statx
 /fstat
 /listdir
 /chmod

@@ -1,6 +1,7 @@
 
 TARGETS := lstat
 TARGETS += stat
+TARGETS += statx
 TARGETS += fstat
 TARGETS += listdir
 TARGETS += chmod
@@ -23,6 +24,7 @@ build: ${TARGETS}
 
 # Add more object.o file
 stat: stat.o
+statx: statx.o
 fstat: fstat.o
 lstat: lstat.o
 listdir: listdir.o
