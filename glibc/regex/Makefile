@@ -1,4 +1,6 @@
 TARGETS :=
+TARGETS += re_search
+TARGETS += re_match
 TARGETS += email
 TARGETS += getprocessruntime-regex
 TARGETS += printf-format-arg-split
@@ -7,25 +9,26 @@ TARGETS += tr069
 CC = gcc
 
 CFLAGS := -Werror -Wall
-CFLAGS += -I../../../
-CFLAGS += -lm
 CFLAGS += -DDEBUG -O0 -g
+CFLAGS += -D__USE_GNU=1
 
 build: ${TARGETS}
 	@echo
 	@echo -e " \033[1;33m Done \033[m"
 
 # Add more object.o file
+re_search: re_search.o
+re_match: re_match.o
 email: email.o
 getprocessruntime-regex: getprocessruntime-regex.o
 printf-format-arg-split: printf-format-arg-split.o
 tr069: tr069.o
 
-%.d: %.c
-	@echo -e "Generate \033[1m$(@)\033[m"
-	@$(CC) $(CFLAGS) -MM -MF "$@" -MG -MP -MT"$@" -MT"$(<:.c=.o)" $(<)
+# TODO: I don't know why `implicit declaration of function`
+CFLAGS_re_search := -Wno-error=implicit-function-declaration
+CFLAGS_re_match := -Wno-error=implicit-function-declaration
 
-%.o: %.c %.d
+%.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
 
