@@ -13,6 +13,7 @@
 /omp_set_nested_1
 /omp_set_nested_2
 /omp_set_nest_lock
+/omp_set_num_threads
 /ordered
 /parallel_for
 /pragma_omp_atomic

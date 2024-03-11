@@ -12,6 +12,7 @@ TARGETS += master
 TARGETS += memory
 TARGETS += nowait
 TARGETS += omp_get_thread_num
+TARGETS += omp_set_num_threads
 TARGETS += omp_set_nested_1
 TARGETS += omp_set_nested_2
 TARGETS += omp_set_nest_lock
@@ -65,6 +66,7 @@ master: master.o
 memory: memory.o
 nowait: nowait.o
 omp_get_thread_num: omp_get_thread_num.o
+omp_set_num_threads: omp_set_num_threads.o
 omp_set_nested_1: omp_set_nested_1.o
 omp_set_nested_2: omp_set_nested_2.o
 omp_set_nest_lock: omp_set_nest_lock.o
