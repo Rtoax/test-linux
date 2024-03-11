@@ -22,13 +22,21 @@ kretprobe:inet_csk_accept
 	}
 }
 
+tracepoint:syscalls:sys_enter_accept*
+{
+	@fds[tid] = args->fd;
+}
+
 tracepoint:syscalls:sys_exit_accept*
+/ @fds[tid] /
 {
 	if (args->ret <= 0) {
 		@accept["FAILED"] = count();
+		@accept_failed[comm, pid, @fds[tid]] = count();
 	} else {
 		@accept["SUCCES"] = count();
 	}
+	delete(@fds[tid]);
 }
 
 i:s:1
