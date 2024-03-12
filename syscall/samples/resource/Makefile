@@ -2,6 +2,7 @@
 TARGETS :=
 TARGETS += getrlimit setrlimit ulimit prlimit
 TARGETS += fork-inherit
+TARGETS += getrusage
 
 CC = gcc
 CXX = g++
@@ -21,6 +22,7 @@ setrlimit: setrlimit.o
 prlimit: prlimit.o helpers.o
 ulimit: ulimit.o
 fork-inherit: fork-inherit.o helpers.o
+getrusage: getrusage.o
 
 %.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

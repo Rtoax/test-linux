@@ -2,3 +2,4 @@
 /[g|s]etrlimit
 /ulimit
 /fork-inherit
+/getrusage
