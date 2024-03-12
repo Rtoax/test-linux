@@ -2,27 +2,26 @@
 TARGETS += mkdtemp mktemp mkstemp
 TARGETS += env setenv getenv clearenv putenv unsetenv
 TARGETS += rand random random-dev
+TARGETS += bsearch
+TARGETS += qsort
 
 ifeq ($(shell uname -m),x86_64)
 endif
 
-DEBUG = yes
-SRC_PATH := $(shell pwd)
 CC = gcc
 
 CFLAGS := -Werror -Wall
 CFLAGS += -I../../../
 CFLAGS += -lm
-
-ifdef DEBUG
 CFLAGS += -DDEBUG -O0 -g
-endif
 
 build: ${TARGETS}
 	@echo
 	@echo -e " \033[1;33m Done \033[m"
 
 # Add more object.o file
+bsearch: bsearch.o
+qsort: qsort.o
 mkdtemp: mkdtemp.o
 mktemp: mktemp.o
 mkstemp: mkstemp.o
@@ -38,6 +37,7 @@ random-dev: random-dev.o
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
+	./qsort b a c 2 1 3
 
 clean:
 	@echo -e "Clean   \033[1;32m$(@)\033[m"
