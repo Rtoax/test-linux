@@ -1,17 +1,5 @@
-sub-dir := annobin
-sub-dir += ast
-sub-dir += linker
-sub-dir += llvm
-sub-dir += __atomic
-sub-dir += __attribute__
-sub-dir += __builtin_
-sub-dir += dwarf
-sub-dir += foption
-sub-dir += LD_PRELOAD
-sub-dir += openmp
-sub-dir += pragma
-sub-dir += reloc
-sub-dir += __sync
+sub-dir := c
+sub-dir += lr
 
 sub-dir-build := $(sub-dir:=.build)
 sub-dir-clean := $(sub-dir:=.clean)

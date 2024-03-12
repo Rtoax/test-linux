@@ -2,6 +2,7 @@
 - FDO: Feedback Directed Optimization
 - LGEN: Local Generation
 - LLVM: Low Level Virtual Machine
+- LLVM IR: LLVM Intermediate Representation (LLVM 中间表示)
 - LTO: Link-Time Opemizations (链接时优化)
 - LTRANS: Local Transformations
 - PDF: Profile-Directed Feedback
