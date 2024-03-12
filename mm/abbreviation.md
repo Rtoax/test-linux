@@ -1,1 +1,5 @@
+- DRAM: Dynamic Random Access Memory (动态随机存取存储器)
+- ECC: Error Checking and Correcting
+- EDAC: Error Detection And Correction
+- MCE: Machine Check Exceptions
 - RSS: Resident Set Size (常驻内存集合大小)
