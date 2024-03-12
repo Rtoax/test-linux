@@ -1,4 +1,5 @@
 sub-dir := annobin
+sub-dir += ast
 sub-dir += linker
 sub-dir += __atomic
 sub-dir += __attribute__
