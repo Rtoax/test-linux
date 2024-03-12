@@ -1,4 +1,5 @@
-sub-dir := pie
+sub-dir := got
+sub-dir += pie
 
 TARGETS :=
 TARGETS += macro
