@@ -5,6 +5,7 @@ sub-dir += linklist
 sub-dir += rbtree
 sub-dir += md5
 sub-dir += string
+sub-dir += sort
 
 sub-dir-build := $(sub-dir:=.build)
 sub-dir-clean := $(sub-dir:=.clean)
