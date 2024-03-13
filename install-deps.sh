@@ -174,6 +174,7 @@ cclinux|fedora|centos|rhel|openEuler)
 	pkgs+=( scl-utils )
 	pkgs+=( sg3_utils )            # sg_inq, etc.
 	pkgs+=( systemtap-sdt-devel )  # sdt.h
+	pkgs+=( xfsprogs-devel )       # xfs
 
 	pkgs_compiler+=( java-1.8.0-openjdk-devel )
 	pkgs_compiler+=( rust )
