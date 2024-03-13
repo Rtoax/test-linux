@@ -25,6 +25,7 @@ sub-dir += stdio
 sub-dir += stdlib
 sub-dir += string
 sub-dir += syslog
+sub-dir += sysinfo
 sub-dir += termios
 sub-dir += time
 sub-dir += ucontext

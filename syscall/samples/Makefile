@@ -25,6 +25,7 @@ sub-dir += perf_event_open
 sub-dir += arch_prctl
 sub-dir += wait
 sub-dir += uio
+sub-dir += sysinfo
 
 TARGETS := fallocate
 TARGETS += access faccessat2

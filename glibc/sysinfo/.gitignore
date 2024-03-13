@@ -1,0 +1,5 @@
+/sysinfo
+/get_avphys_pages
+/get_phys_pages
+/get_nprocs
+/get_nprocs_conf
