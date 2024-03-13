@@ -2,4 +2,7 @@
 - ECC: Error Checking and Correcting
 - EDAC: Error Detection And Correction
 - MCE: Machine Check Exceptions
-- RSS: Resident Set Size (常驻内存集合大小)
+- PSS: Proportional Set Size (实际使用的物理内存 比例分配共享库占用的内存)
+- RSS: Resident Set Size (常驻内存集合大小 包含共享库占用的内存)
+- USS: Unique Set Size (进程独占使用的物理内存 不包含共享库占用的内存)
+- VSS: Virtual Set Size (虚拟耗用内存 包含共享库占用的内存)

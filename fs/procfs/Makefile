@@ -1,6 +1,7 @@
-
+TARGETS :=
 TARGETS += self
 TARGETS += auxv
+TARGETS += statm
 
 DEBUG = yes
 SRC_PATH := $(shell pwd)
@@ -19,6 +20,7 @@ build: ${TARGETS}
 # Add more object.o file
 self: self.o
 auxv: auxv.o
+statm: statm.o
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
