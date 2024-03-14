@@ -26,6 +26,7 @@ do
 		${interfaces[$i]} \
 		${operstates[$i]} \
 		${carriers[$i]}
+	sudo udevadm info /sys/class/net/${interfaces[$i]} | sed 's/^/\t/g'
 done
 
 echo
