@@ -41,3 +41,7 @@ NIC
 	ether 08:c0:eb:8e:fb:d9
 ```
 
+### Onboard
+
+- eno1
+
