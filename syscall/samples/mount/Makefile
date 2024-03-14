@@ -1,6 +1,7 @@
 TARGETS :=
 TARGETS += mount
 TARGETS += fsmount
+TARGETS += ramdisk
 
 TARGETS_FS := fs.ext4
 
@@ -15,9 +16,12 @@ build: ${TARGETS} ${TARGETS_FS}
 	@echo
 	@echo -e " \033[1;33m Done \033[m"
 
+CFLAGS_ramdisk := -DTESTING=1
+
 # Add more object.o file
 mount: mount.o
 fsmount: fsmount.o helpers.o
+ramdisk: ramdisk.o
 
 fs.ext4:
 	./mkfs.sh
