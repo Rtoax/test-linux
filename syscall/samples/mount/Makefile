@@ -41,5 +41,5 @@ test: ${TARGETS}
 clean:
 	@echo -e "Clean   \033[1;32m$(@)\033[m"
 	@rm -f ${TARGETS} *.o *.d *.txt fs.ext4
-	@umount tmp-dir || true
+	@sudo umount tmp-dir || true
 	@rmdir tmp-dir || true
