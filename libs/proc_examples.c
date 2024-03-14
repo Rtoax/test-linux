@@ -16,7 +16,7 @@ int main(void)
 {
 	char comm[128];
 
-	for_each_mnt_point(mnt_point_callback);
+	proc_for_each_mnt_point(mnt_point_callback);
 
 	print_proc_pid_maps();
 	printf("comm : %s\n", proc_comm(comm, sizeof(comm)));

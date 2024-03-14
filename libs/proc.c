@@ -99,7 +99,7 @@ void print_proc_pid_maps(void)
 	system(cmd);
 }
 
-int for_each_mnt_point(void (*callback)(const char *mnt_point))
+int proc_for_each_mnt_point(void (*callback)(const char *mnt_point))
 {
 	char s[2000];
 	FILE *f;

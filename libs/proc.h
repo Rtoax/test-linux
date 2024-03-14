@@ -11,5 +11,5 @@ unsigned long proc_elf_base_libc_addr(void);
 void print_proc_pid_maps(void);
 
 /* /proc/mounts */
-int for_each_mnt_point(void (*callback)(const char *mnt_point));
+int proc_for_each_mnt_point(void (*callback)(const char *mnt_point));
 
