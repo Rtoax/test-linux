@@ -1,3 +1,4 @@
 /MPI_Init
 /MPI_Get_processor_name
+/MPI_Send
 /*.s
