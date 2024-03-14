@@ -1,0 +1,13 @@
+#!/bin/env bpftrace
+
+tracepoint:syscalls:sys_enter_fsconfig,
+tracepoint:syscalls:sys_enter_fsmount,
+tracepoint:syscalls:sys_enter_fsopen,
+tracepoint:syscalls:sys_enter_mount,
+tracepoint:syscalls:sys_enter_mount_setattr,
+tracepoint:syscalls:sys_enter_move_mount,
+tracepoint:syscalls:sys_enter_umount
+{
+	printf("%s %s\n", comm, probe);
+}
+

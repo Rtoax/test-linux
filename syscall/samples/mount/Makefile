@@ -1,5 +1,8 @@
 TARGETS :=
+TARGETS += mount
 TARGETS += fsmount
+
+TARGETS_FS := fs.ext4
 
 CC = gcc
 
@@ -8,13 +11,17 @@ CFLAGS += -pthread
 CFLAGS += -DDEBUG -O0 -g
 CFLAGS += -I../../libs/
 
-build: ${TARGETS}
+build: ${TARGETS} ${TARGETS_FS}
 	@echo
 	@echo -e " \033[1;33m Done \033[m"
 
 # Add more object.o file
+mount: mount.o
 fsmount: fsmount.o helpers.o
 
+fs.ext4:
+	./mkfs.sh
+	mkdir tmp-dir
 
 %.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
@@ -29,4 +36,6 @@ test: ${TARGETS}
 
 clean:
 	@echo -e "Clean   \033[1;32m$(@)\033[m"
-	@rm -f ${TARGETS} *.o *.d *.txt
+	@umount tmp-dir || true
+	@rm -f ${TARGETS} *.o *.d *.txt fs.ext4
+	@rmdir tmp-dir

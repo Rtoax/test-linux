@@ -61,6 +61,7 @@ build/
 *.symvers
 .tmp_versions
 .tmp_*
+tmp-*
 .cache.mk
 *.ko.cmd
 *.o.cmd
