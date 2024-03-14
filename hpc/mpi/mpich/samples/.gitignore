@@ -1,2 +1,3 @@
 /MPI_Init
+/MPI_Get_processor_name
 /*.s

@@ -11,6 +11,7 @@ endif
 CC = ${MPICC}
 
 TARGETS := MPI_Init
+TARGETS += MPI_Get_processor_name
 
 CFLAGS := -Werror -Wall
 CFLAGS += -Wstrict-prototypes
@@ -27,8 +28,7 @@ build: ${TARGETS}
 
 # Add more object.o file
 MPI_Init: MPI_Init.o
-
-CFLAGS_main.user := -D_MAIN_USER=1
+MPI_Get_processor_name: MPI_Get_processor_name.o
 
 %.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
