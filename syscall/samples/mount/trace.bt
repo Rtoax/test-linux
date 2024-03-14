@@ -36,6 +36,12 @@ tracepoint:syscalls:sys_enter_fsopen
 		pid, comm, "fsopen", str(args->_fs_name));
 }
 
+tracepoint:syscalls:sys_exit_fsopen
+{
+	printf("%-8d %-16s %-10s fd:%d\n",
+		pid, comm, "fsopen:r", args->ret);
+}
+
 tracepoint:syscalls:sys_enter_mount
 {
 	printf("%-8d %-16s %-10s dev:%s dir:%s type:%s options:%s\n",
