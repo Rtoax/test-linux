@@ -12,7 +12,7 @@ CC = ${MPICC}
 
 TARGETS := MPI_Init
 TARGETS += MPI_Get_processor_name
-TARGETS += MPI_Send
+TARGETS += MPI_Send MPI_Send-2
 
 CFLAGS := -Werror -Wall
 CFLAGS += -Wstrict-prototypes
@@ -31,6 +31,7 @@ build: ${TARGETS}
 MPI_Init: MPI_Init.o
 MPI_Get_processor_name: MPI_Get_processor_name.o
 MPI_Send: MPI_Send.o
+MPI_Send-2: MPI_Send-2.o
 
 %.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
@@ -45,6 +46,7 @@ test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
 	$(MPIRUN) -n 2 ./MPI_Init
 	$(MPIRUN) -n 2 ./MPI_Send
+	$(MPIRUN) -n 10 ./MPI_Send-2
 
 .PHONY: clean
 clean:
