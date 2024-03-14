@@ -43,6 +43,9 @@ static void check_messages(int fd)
 		case 'i':
 			fprintf(stderr, "Info: %*.*s\n", n, n, buf + 2);
 			break;
+		default:
+			fprintf(stderr, "Unknown: %*.*s\n", n, n, buf + 2);
+			break;
 		}
 	}
 
@@ -59,8 +62,10 @@ void mount_error(int fd, const char *s)
 
 #define E_fsconfig(fd, cmd, key, val, aux)				\
 	do {								\
-		if (fsconfig(fd, cmd, key, val, aux) == -1)		\
+		if (fsconfig(fd, cmd, key, val, aux) == -1) {		\
+			fprintf(stderr, "fsconfig: %m\n");		\
 			mount_error(fd, key ?: "create");		\
+		}							\
 	} while (0)
 
 int main(int argc, char *argv[])
