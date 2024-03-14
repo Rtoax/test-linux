@@ -38,15 +38,21 @@ char *ramdisk(const char *ns, const char *sz)
 	return strdup(mountpoint);
 }
 
-#ifdef TESTING
 int main(void)
 {
 	char *tmpfs = ramdisk("ramdisk", "1M");
-	if (tmpfs != NULL){
-		printf("created tmpfs here: %s\n", tmpfs);
-		free(tmpfs);
+	if (!tmpfs){
+		return -1;
 	}
+
+	printf("Mount created at %s...\n", tmpfs);
+	printf("Press <return> to unmount the volume: ");
+	getchar();
+
+	umount(tmpfs);
+
+	rmdir(tmpfs);
+	free(tmpfs);
 	return 0;
 }
-#endif
 

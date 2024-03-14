@@ -1,5 +1,6 @@
 TARGETS :=
 TARGETS += mount
+TARGETS += mount-tmpfs
 TARGETS += fsmount
 TARGETS += ramdisk
 
@@ -16,10 +17,9 @@ build: ${TARGETS} ${TARGETS_FS}
 	@echo
 	@echo -e " \033[1;33m Done \033[m"
 
-CFLAGS_ramdisk := -DTESTING=1
-
 # Add more object.o file
 mount: mount.o
+mount-tmpfs: mount-tmpfs.o
 fsmount: fsmount.o helpers.o
 ramdisk: ramdisk.o
 
