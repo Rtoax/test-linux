@@ -1,14 +1,27 @@
 #!/bin/env bpftrace
+#include <uapi/linux/mount.h>
 
 BEGIN
 {
+	@FSCONFIG_CMD[FSCONFIG_SET_FLAG] = "SET_FLAG";
+	@FSCONFIG_CMD[FSCONFIG_SET_STRING] = "SET_STRING";
+	@FSCONFIG_CMD[FSCONFIG_SET_BINARY] = "SET_BINARY";
+	@FSCONFIG_CMD[FSCONFIG_SET_PATH] = "SET_PATH";
+	@FSCONFIG_CMD[FSCONFIG_SET_PATH_EMPTY] = "SET_PATH_EMPTY";
+	@FSCONFIG_CMD[FSCONFIG_SET_FD] = "SET_FD";
+	@FSCONFIG_CMD[FSCONFIG_CMD_CREATE] = "CMD_CREATE";
+	@FSCONFIG_CMD[FSCONFIG_CMD_RECONFIGURE] = "CMD_RECONFIGURE";
+	@FSCONFIG_CMD[FSCONFIG_CMD_CREATE_EXCL] = "CMD_CREATE_EXCL";
+
 	printf("%-8s %-16s %-10s\n", "PID", "COMM", "SYSCALL");
 }
 
 tracepoint:syscalls:sys_enter_fsconfig
 {
-	printf("%-8d %-16s %-10s key:%s value:%s\n",
-		pid, comm, "fsconfig", str(args->_key), str(args->_value));
+	printf("%-8d %-16s %-10s cmd:%s key:%s value:%s\n",
+		pid, comm, "fsconfig",
+		@FSCONFIG_CMD[args->cmd],
+		str(args->_key), str(args->_value));
 }
 
 tracepoint:syscalls:sys_enter_fsmount
@@ -49,3 +62,7 @@ tracepoint:syscalls:sys_enter_umount
 		pid, comm, "umount", str(args->name));
 }
 
+END
+{
+	clear(@FSCONFIG_CMD);
+}

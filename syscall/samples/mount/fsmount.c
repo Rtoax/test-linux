@@ -66,15 +66,15 @@ void mount_error(int fd, const char *s)
 int main(int argc, char *argv[])
 {
 	int fsfd, mfd;
+	const char *target = "./tmp-dir/";
 
-	/* Mount a publically available AFS filesystem */
-	fsfd = fsopen("afs", 0);
+	fsfd = fsopen("ext4", 0);
 	if (fsfd == -1) {
 		perror("fsopen");
 		exit(1);
 	}
 
-	E_fsconfig(fsfd, FSCONFIG_SET_STRING, "source", "#grand.central.org:root.cell.", 0);
+	E_fsconfig(fsfd, FSCONFIG_SET_STRING, "source", "/dev/loop0", 0);
 	E_fsconfig(fsfd, FSCONFIG_CMD_CREATE, NULL, NULL, 0);
 
 	mfd = fsmount(fsfd, 0, MOUNT_ATTR_RDONLY);
@@ -82,12 +82,19 @@ int main(int argc, char *argv[])
 		mount_error(fsfd, "fsmount");
 	E(close(fsfd));
 
-	if (move_mount(mfd, "", AT_FDCWD, "/mnt", MOVE_MOUNT_F_EMPTY_PATH) < 0) {
+	if (move_mount(mfd, "", AT_FDCWD, target, MOVE_MOUNT_F_EMPTY_PATH) < 0) {
 		perror("move_mount");
 		exit(1);
 	}
 
 	E(close(mfd));
+
+	printf("Mount created at %s...\n", target);
+	printf("Press <return> to unmount the volume: ");
+	getchar();
+
+	umount(target);
+	rmdir(target);
 	exit(0);
 }
 
