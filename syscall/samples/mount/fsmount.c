@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 /* fd-based mount test.
  *
+ * Copyright (C) 2024 Rong Tao. All Rights Reserved.
  * Copyright (C) 2017 Red Hat, Inc. All Rights Reserved.
  * Written by David Howells (dhowells@redhat.com)
  */
@@ -9,12 +10,16 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <errno.h>
+#include <limits.h>
+#include <string.h>
 #include <fcntl.h>
 #include <sys/prctl.h>
 #include <sys/wait.h>
 #include <sys/mount.h>
+#include <sys/ioctl.h>
 #include <linux/mount.h>
 #include <linux/unistd.h>
+#include <linux/loop.h>
 
 #include "helpers.h"
 
@@ -70,8 +75,42 @@ void mount_error(int fd, const char *s)
 
 int main(int argc, char *argv[])
 {
-	int fsfd, mfd;
+	int fd, ffd, lfd, fsfd, mfd;
+	int free_nr_loop = -1;
 	const char *target = "./tmp-dir/";
+	char loop[PATH_MAX];
+
+	fd = openat(AT_FDCWD, "/dev/loop-control", O_RDWR | O_CLOEXEC);
+
+	free_nr_loop = ioctl(fd, LOOP_CTL_GET_FREE);
+	if (free_nr_loop < 0) {
+		perror("ioctl");
+		exit(1);
+	}
+	close(fd);
+
+	printf("Get free /dev/loop%d\n", free_nr_loop);
+	snprintf(loop, sizeof(loop), "/dev/loop%d", free_nr_loop);
+
+	ffd = openat(AT_FDCWD, "./fs.ext4", O_RDWR | O_CLOEXEC);
+	if (ffd == -1) {
+		perror("openat fs");
+		exit(1);
+	}
+	lfd = openat(AT_FDCWD, loop, O_RDWR | O_CLOEXEC);
+
+	struct loop_config lconfig = {
+		.fd = ffd,
+		.block_size = 0,
+		.info = {
+			.lo_offset = 0,
+			.lo_number = 0,
+			.lo_flags = LO_FLAGS_AUTOCLEAR,
+		},
+	};
+	strncpy((char *)lconfig.info.lo_file_name, "./fs.ext4", LO_NAME_SIZE);
+
+	ioctl(lfd, LOOP_CONFIGURE, &lconfig);
 
 	fsfd = fsopen("ext4", 0);
 	if (fsfd == -1) {
