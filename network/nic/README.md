@@ -14,4 +14,23 @@ NIC
 
 ## 示例
 
+### PCIe
+
+- enp129s0f0np0
+```
+	81:00.0 Ethernet controller: xxx
+	        ^^^^^^^^   en
+	^^                 p129
+	   ^^              s0
+	      ^            f0
+```
+
+- enp129s0f1np1
+```
+	81:00.1 Ethernet controller: xxx
+	        ^^^^^^^^   en
+	^^                 p129
+	   ^^              s0
+	      ^            f1
+```
 
