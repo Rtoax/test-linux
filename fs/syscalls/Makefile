@@ -1,5 +1,6 @@
 
 TARGETS := statfs
+TARGETS += fstatfs
 
 CC = gcc
 
@@ -14,6 +15,7 @@ build: ${TARGETS}
 
 # Add more object.o file
 statfs: statfs.o proc.o
+fstatfs: fstatfs.o
 
 proc.o: ../../libs/proc.o
 	$(info We are in $(shell pwd))
