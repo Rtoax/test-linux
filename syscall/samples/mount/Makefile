@@ -40,6 +40,6 @@ test: ${TARGETS}
 
 clean:
 	@echo -e "Clean   \033[1;32m$(@)\033[m"
-	@umount tmp-dir || true
 	@rm -f ${TARGETS} *.o *.d *.txt fs.ext4
-	@rmdir tmp-dir
+	@umount tmp-dir || true
+	@rmdir tmp-dir || true
