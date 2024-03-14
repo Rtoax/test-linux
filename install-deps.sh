@@ -169,6 +169,7 @@ cclinux|fedora|centos|rhel|openEuler)
 	pkgs+=( ltrace )               # ltrace
 	pkgs+=( mmc )                  # mmc
 	pkgs+=( mpich mpich-devel )    # mpi
+	pkgs+=( nvme-cli )             # nvme
 	pkgs+=( overlayfs-tools )
 	pkgs+=( procps-ng )            # pidof, top, etc.
 	pkgs+=( scl-utils )
