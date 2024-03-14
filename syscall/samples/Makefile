@@ -26,6 +26,7 @@ sub-dir += arch_prctl
 sub-dir += wait
 sub-dir += uio
 sub-dir += sysinfo
+sub-dir += mount
 
 TARGETS := fallocate
 TARGETS += access faccessat2
