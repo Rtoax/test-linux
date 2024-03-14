@@ -1,13 +1,51 @@
 #!/bin/env bpftrace
 
-tracepoint:syscalls:sys_enter_fsconfig,
-tracepoint:syscalls:sys_enter_fsmount,
-tracepoint:syscalls:sys_enter_fsopen,
-tracepoint:syscalls:sys_enter_mount,
-tracepoint:syscalls:sys_enter_mount_setattr,
-tracepoint:syscalls:sys_enter_move_mount,
+BEGIN
+{
+	printf("%-8s %-16s %-10s\n", "PID", "COMM", "SYSCALL");
+}
+
+tracepoint:syscalls:sys_enter_fsconfig
+{
+	printf("%-8d %-16s %-10s key:%s value:%s\n",
+		pid, comm, "fsconfig", str(args->_key), str(args->_value));
+}
+
+tracepoint:syscalls:sys_enter_fsmount
+{
+	printf("%-8d %-16s %-10s fd:%d\n",
+		pid, comm, "fsmount", args->fs_fd);
+}
+
+tracepoint:syscalls:sys_enter_fsopen
+{
+	printf("%-8d %-16s %-10s fs_name:%s\n",
+		pid, comm, "fsopen", str(args->_fs_name));
+}
+
+tracepoint:syscalls:sys_enter_mount
+{
+	printf("%-8d %-16s %-10s dev:%s dir:%s type:%s\n",
+		pid, comm, "mount", str(args->dev_name), str(args->dir_name),
+		str(args->type));
+}
+
+tracepoint:syscalls:sys_enter_mount_setattr
+{
+	printf("%-8d %-16s %-10s path:%s\n",
+		pid, comm, "setattr", str(args->path));
+}
+
+tracepoint:syscalls:sys_enter_move_mount
+{
+	printf("%-8d %-16s %-10s from:%s to:%s\n",
+		pid, comm, "movemnt", str(args->from_pathname),
+		str(args->to_pathname));
+}
+
 tracepoint:syscalls:sys_enter_umount
 {
-	printf("%s %s\n", comm, probe);
+	printf("%-8d %-16s %-10s name:%s\n",
+		pid, comm, "umount", str(args->name));
 }
 
