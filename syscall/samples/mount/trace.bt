@@ -25,9 +25,9 @@ tracepoint:syscalls:sys_enter_fsopen
 
 tracepoint:syscalls:sys_enter_mount
 {
-	printf("%-8d %-16s %-10s dev:%s dir:%s type:%s\n",
+	printf("%-8d %-16s %-10s dev:%s dir:%s type:%s options:%s\n",
 		pid, comm, "mount", str(args->dev_name), str(args->dir_name),
-		str(args->type));
+		str(args->type), str(args->data));
 }
 
 tracepoint:syscalls:sys_enter_mount_setattr
