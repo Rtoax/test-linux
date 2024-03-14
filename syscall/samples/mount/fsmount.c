@@ -74,6 +74,7 @@ int main(int argc, char *argv[])
 		exit(1);
 	}
 
+	E_fsconfig(fsfd, FSCONFIG_SET_FLAG, "rw", NULL, 0);
 	E_fsconfig(fsfd, FSCONFIG_SET_STRING, "source", "/dev/loop0", 0);
 	E_fsconfig(fsfd, FSCONFIG_CMD_CREATE, NULL, NULL, 0);
 
