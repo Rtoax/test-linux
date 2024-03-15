@@ -43,3 +43,4 @@
 /tmp-*
 /getgroups
 /[sg]ethostname
+/[sg]ethostid
