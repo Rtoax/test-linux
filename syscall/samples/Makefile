@@ -63,6 +63,7 @@ TARGETS += vhangup
 TARGETS += truncate ftruncate
 TARGETS += syscall
 TARGETS += sync
+TARGETS += setsid
 
 TARGETS_CPP += readlink2
 
@@ -152,6 +153,7 @@ truncate: truncate.o helpers.o
 ftruncate: ftruncate.o helpers.o
 syscall: syscall.o
 sync: sync.o
+setsid: setsid.o
 
 CFLAGS_write := -Wno-error=unused-variable
 
