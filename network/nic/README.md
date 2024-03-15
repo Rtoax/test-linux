@@ -45,3 +45,18 @@ NIC
 
 - eno1
 
+
+# ethtool
+
+- 查看网卡固件版本
+
+```bash
+$ sudo ethtool -i [Interface]
+```
+
+- 关闭发送 checksum
+
+```bash
+$ sudo ethtool -K [Interface] tx off
+```
+
