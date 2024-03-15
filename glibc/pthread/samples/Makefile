@@ -49,10 +49,10 @@ ifeq ($(shell uname -m),x86_64)
 TARGETS += pthread_mutex_latency
 endif
 
+TARGETS += taskset_example
+
 OS := $(shell grep ^ID= /etc/os-release | sed 's/ID=//g' | sed 's/"//g')
 
-DEBUG = yes
-SRC_PATH := $(shell pwd)
 CC = gcc
 
 LDFLAGS :=
@@ -68,9 +68,7 @@ else
 CFLAGS += -lm
 endif
 
-ifdef DEBUG
 CFLAGS += -DDEBUG -O0 -g
-endif
 
 CFLAGS_create_thread := -DMAIN_TEST=1
 
@@ -135,6 +133,7 @@ pthread_mutex_init: pthread_mutex_init.o
 pthread_mutex_latency: pthread_mutex_latency.o
 pthread_setconcurrency: pthread_setconcurrency.o
 pthread_cond_wait: pthread_cond_wait.o
+taskset_example: taskset_example.o helpers.o
 
 %.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
