@@ -8,19 +8,15 @@ TARGETS += psignal
 TARGETS += kill kill-fork killpg
 TARGETS += raise
 TARGETS += strsignal
+TARGETS += alarm-sleep
 TARGETS += SIGFPE SIGHUP SIGALRM SIGUSR1 SIGUSR2 NSIG
 
-DEBUG = yes
-SRC_PATH := $(shell pwd)
 CC = gcc
 
 CFLAGS := -Werror -Wall -D_GNU_SOURCE
 CFLAGS += -I../../../
 CFLAGS += -I../
-
-ifdef DEBUG
 CFLAGS += -DDEBUG -O0 -g
-endif
 
 build: sig.h ${TARGETS}
 	@echo
@@ -46,6 +42,7 @@ SIGUSR1: SIGUSR1.o
 SIGUSR2: SIGUSR2.o
 NSIG: NSIG.o
 strsignal: strsignal.o
+alarm-sleep: alarm-sleep.o
 
 %.d: %.c
 	@echo -e "Generate \033[1m$(@)\033[m"
