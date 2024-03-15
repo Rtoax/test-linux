@@ -43,7 +43,8 @@ TARGETS += pause
 TARGETS += pidfd_open
 TARGETS += readlink
 TARGETS += getcwd
-TARGETS += getpid
+TARGETS += getpid getpgid
+TARGETS += setpgid setpgid-fork
 TARGETS += setgid setegid setregid
 TARGETS += setuid seteuid setreuid
 TARGETS += tee tee2
@@ -127,9 +128,12 @@ readlink: readlink.o
 readlink2: readlink2.opp
 getcwd: getcwd.o
 getpid: getpid.o
+getpgid: getpgid.o
 setgid: setgid.o
 setegid: setegid.o
 setregid: setregid.o
+setpgid: setpgid.o
+setpgid-fork: setpgid-fork.o
 setuid: setuid.o
 seteuid: seteuid.o
 setreuid: setreuid.o

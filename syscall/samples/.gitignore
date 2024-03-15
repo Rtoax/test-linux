@@ -18,9 +18,12 @@
 /readlink[0-9]
 /getcwd
 /getpid
+/getpgid
 /setgid
 /setegid
 /setregid
+/setpgid
+/setpgid-fork
 /setuid
 /seteuid
 /setreuid
