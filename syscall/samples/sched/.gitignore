@@ -16,3 +16,4 @@
 /fork
 /vfork
 /setns
+/taskset

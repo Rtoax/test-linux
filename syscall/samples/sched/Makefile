@@ -9,6 +9,7 @@ TARGETS += sched_get_priority_max sched_get_priority_min
 TARGETS += sched_yield
 TARGETS += fork vfork
 TARGETS += setns
+TARGETS += taskset
 
 CC = gcc
 CXX = g++
@@ -41,6 +42,7 @@ sched_yield: sched_yield.o
 fork: fork.o
 vfork: vfork.o
 setns: setns.o
+taskset: taskset.o
 
 %.d: %.c
 	@echo -e "Generate \033[1m$(@)\033[m"
