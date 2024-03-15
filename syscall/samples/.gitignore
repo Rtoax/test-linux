@@ -35,6 +35,7 @@
 /execve
 /execve-fork
 /sysctl
+/syscall
 /kcmp
 /readdir
 /write

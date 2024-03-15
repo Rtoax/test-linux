@@ -61,6 +61,7 @@ TARGETS += gethostname sethostname
 TARGETS += gethostid sethostid
 TARGETS += vhangup
 TARGETS += truncate
+TARGETS += syscall
 
 TARGETS_CPP += readlink2
 
@@ -147,6 +148,7 @@ gethostid: gethostid.o
 sethostid: sethostid.o
 vhangup: vhangup.o
 truncate: truncate.o
+syscall: syscall.o
 
 CFLAGS_write := -Wno-error=unused-variable
 
