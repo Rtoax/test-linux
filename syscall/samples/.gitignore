@@ -20,8 +20,10 @@
 /getpid
 /setgid
 /setegid
+/setregid
 /setuid
 /seteuid
+/setreuid
 /tee
 /tee2
 /os-release

@@ -44,8 +44,8 @@ TARGETS += pidfd_open
 TARGETS += readlink
 TARGETS += getcwd
 TARGETS += getpid
-TARGETS += setgid setegid
-TARGETS += setuid seteuid
+TARGETS += setgid setegid setregid
+TARGETS += setuid seteuid setreuid
 TARGETS += tee tee2
 TARGETS += clone
 TARGETS += setitimer
@@ -129,8 +129,10 @@ getcwd: getcwd.o
 getpid: getpid.o
 setgid: setgid.o
 setegid: setegid.o
+setregid: setregid.o
 setuid: setuid.o
 seteuid: seteuid.o
+setreuid: setreuid.o
 tee: tee.o
 tee2: tee2.o
 clone: clone.o
