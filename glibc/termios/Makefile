@@ -1,20 +1,13 @@
 
 TARGETS := tcsetattr
+TARGETS += tcgetsid
 
-ifeq ($(shell uname -m),x86_64)
-endif
-
-DEBUG = yes
-SRC_PATH := $(shell pwd)
 CC = gcc
 
 CFLAGS := -Werror -Wall
 CFLAGS += -I../../../
 CFLAGS += -lm
-
-ifdef DEBUG
 CFLAGS += -DDEBUG -O0 -g
-endif
 
 build: ${TARGETS}
 	@echo
@@ -22,6 +15,7 @@ build: ${TARGETS}
 
 # Add more object.o file
 tcsetattr: tcsetattr.o
+tcgetsid: tcgetsid.o
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"

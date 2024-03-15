@@ -15,6 +15,7 @@ TARGETS += ttyname ttyname_r
 TARGETS += lseek-huge
 TARGETS += getdents64
 TARGETS += ualarm
+TARGETS += tcgetpgrp tcsetpgrp
 
 ifeq ($(shell uname -m),x86_64)
 endif
@@ -53,6 +54,8 @@ ttyname_r: ttyname_r.o
 lseek-huge: lseek-huge.o
 getdents64: getdents64.o
 ualarm: ualarm.o
+tcgetpgrp: tcgetpgrp.o
+tcsetpgrp: tcsetpgrp.o
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
