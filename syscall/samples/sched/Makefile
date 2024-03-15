@@ -8,9 +8,8 @@ TARGETS += sched_getaffinity
 TARGETS += sched_get_priority_max sched_get_priority_min
 TARGETS += sched_yield
 TARGETS += fork vfork
+TARGETS += setns
 
-DEBUG = yes
-SRC_PATH := $(shell pwd)
 CC = gcc
 CXX = g++
 
@@ -18,10 +17,7 @@ CFLAGS := -Werror -Wall -D_GNU_SOURCE -D__USE_GNU
 CFLAGS += -Wstrict-prototypes
 CFLAGS += -I../../../
 CFLAGS += -pthread
-
-ifdef DEBUG
 CFLAGS += -DDEBUG -O0 -g
-endif
 
 build: ${TARGETS}
 	make -C clone
@@ -44,6 +40,7 @@ sched_getcpu: sched_getcpu.o helpers.o
 sched_yield: sched_yield.o
 fork: fork.o
 vfork: vfork.o
+setns: setns.o
 
 %.d: %.c
 	@echo -e "Generate \033[1m$(@)\033[m"
