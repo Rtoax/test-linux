@@ -57,6 +57,7 @@ TARGETS += readdir
 TARGETS += write
 TARGETS += getdents
 TARGETS += getgroups
+TARGETS += gethostname sethostname
 
 TARGETS_CPP += readlink2
 
@@ -137,6 +138,8 @@ readdir: readdir.o
 write: write.o
 getdents: getdents.o
 getgroups: getgroups.o
+gethostname: gethostname.o
+sethostname: sethostname.o
 
 CFLAGS_write := -Wno-error=unused-variable
 
