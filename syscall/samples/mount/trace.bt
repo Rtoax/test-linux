@@ -18,9 +18,8 @@ BEGIN
 
 tracepoint:syscalls:sys_enter_fsconfig
 {
-	printf("%-8d %-16s %-10s cmd:%s key:%s value:%s\n",
-		pid, comm, "fsconfig",
-		@FSCONFIG_CMD[args->cmd],
+	printf("%-8d %-16s %-10s ", pid, comm, "fsconfig");
+	printf("cmd:%s key:%s value:%s\n", @FSCONFIG_CMD[args->cmd],
 		str(args->_key), str(args->_value));
 }
 
