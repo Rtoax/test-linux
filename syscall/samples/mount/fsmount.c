@@ -81,6 +81,10 @@ int main(int argc, char *argv[])
 	char loop[PATH_MAX];
 
 	fd = openat(AT_FDCWD, "/dev/loop-control", O_RDWR | O_CLOEXEC);
+	if (fd < 0) {
+		perror("openat loop-control failed.");
+		exit(1);
+	}
 
 	free_nr_loop = ioctl(fd, LOOP_CTL_GET_FREE);
 	if (free_nr_loop < 0) {
@@ -94,10 +98,14 @@ int main(int argc, char *argv[])
 
 	ffd = openat(AT_FDCWD, "./fs.ext4", O_RDWR | O_CLOEXEC);
 	if (ffd == -1) {
-		perror("openat fs");
+		perror("openat fs file");
 		exit(1);
 	}
 	lfd = openat(AT_FDCWD, loop, O_RDWR | O_CLOEXEC);
+	if (lfd == -1) {
+		perror("openat loop");
+		exit(1);
+	}
 
 	struct loop_config lconfig = {
 		.fd = ffd,
@@ -140,6 +148,8 @@ int main(int argc, char *argv[])
 
 	umount(target);
 	rmdir(target);
+	close(ffd);
+	close(lfd);
 	exit(0);
 }
 
