@@ -1,3 +1,5 @@
+sub-dir :=
+sub-dir += clone
 
 TARGETS += cpuset CPU_SETSIZE CPU_ALLOC str2cpuset
 TARGETS += getcpu sched_getcpu
@@ -21,7 +23,11 @@ CFLAGS += -I../../../
 CFLAGS += -pthread
 CFLAGS += -DDEBUG -O0 -g
 
-build: ${TARGETS}
+sub-dir-build := $(sub-dir:=.build)
+sub-dir-clean := $(sub-dir:=.clean)
+
+.PHONY: build
+build: ${TARGETS} $(sub-dir-build)
 	make -C clone
 	@echo -e " \033[1;33m Done \033[m"
 
@@ -63,9 +69,18 @@ test: ${TARGETS}
 	sudo chrt -r 10 ./sched_rr_get_interval
 	sudo chrt -f 10 ./sched_rr_get_interval
 
-clean:
+.PHONY: clean
+clean: $(sub-dir-clean)
 	@echo -e "Clean   \033[1;32m$(@)\033[m"
 	make -C clone clean
 	@rm -f ${TARGETS} \
 		*.o *.d
+
+$(sub-dir-build):
+	@echo -e "\033[1;32m [sub-dir] build $(@)\033[m"
+	make -C $(@:.build=)
+
+$(sub-dir-clean):
+	@echo -e "\033[1;32m [sub-dir] clean $(@)\033[m"
+	make -C $(@:.clean=) clean
 
