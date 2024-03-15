@@ -23,6 +23,16 @@
 
 #include "helpers.h"
 
+#if __GLIBC__ != 2
+# error Not support glibc < 2
+#endif
+#if __GLIBC_MINOR__ < 35
+# define fsopen sys_fsopen
+# define fsmount sys_fsmount
+# define fsconfig sys_fsconfig
+# define move_mount sys_move_mount
+#endif
+
 #define E(x) do { if ((x) == -1) { perror(#x); exit(1); } } while(0)
 
 static void check_messages(int fd)
