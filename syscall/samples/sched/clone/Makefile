@@ -3,9 +3,8 @@ TARGETS += clone
 TARGETS += ns_pid
 TARGETS += ns_net
 TARGETS += container
+TARGETS += uts_hostname
 
-DEBUG = yes
-SRC_PATH := $(shell pwd)
 CC = gcc
 CXX = g++
 
@@ -13,10 +12,7 @@ CFLAGS := -Werror -Wall -D_GNU_SOURCE -D__USE_GNU
 CFLAGS += -Wstrict-prototypes
 CFLAGS += -I../../../
 CFLAGS += -pthread
-
-ifdef DEBUG
 CFLAGS += -DDEBUG -O0 -g
-endif
 
 build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
@@ -25,6 +21,7 @@ clone: clone.o
 ns_pid: ns_pid.o
 ns_net: ns_net.o
 container: container.o
+uts_hostname: uts_hostname.o
 
 CFLAGS_ns_pid := -Wno-error=int-to-pointer-cast
 

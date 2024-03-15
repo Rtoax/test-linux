@@ -1,0 +1,1 @@
+../../syscall/samples/sched/clone/uts_hostname.c

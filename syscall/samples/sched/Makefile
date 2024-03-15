@@ -12,6 +12,7 @@ TARGETS += sched_rr_get_interval
 TARGETS += sched_yield
 TARGETS += fork vfork
 TARGETS += setns
+TARGETS += unshare
 TARGETS += taskset
 
 CC = gcc
@@ -50,6 +51,7 @@ sched_yield: sched_yield.o
 fork: fork.o
 vfork: vfork.o
 setns: setns.o
+unshare: unshare.o
 taskset: taskset.o
 
 %.d: %.c

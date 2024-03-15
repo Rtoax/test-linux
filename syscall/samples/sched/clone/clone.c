@@ -44,8 +44,7 @@ int main(void)
 	int flags;
 	pid_t pid;
 
-	flags =
-	    CLONE_NEWUTS | CLONE_NEWIPC | CLONE_NEWPID | CLONE_NEWNS | SIGCHLD;
+	flags = CLONE_NEWUTS | CLONE_NEWIPC | CLONE_NEWPID | CLONE_NEWNS | SIGCHLD;
 	pid = clone(child, stack + STACK_SIZE, flags, NULL);
 	if (pid == -1) {
 		perror("clone");

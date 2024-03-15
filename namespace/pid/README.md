@@ -1,4 +1,4 @@
-pid namespace
+Namespace pid
 =============
 
 PID Namespace对进程PID重新标号，即不同的Namespace下的进程可以有同一个PID。

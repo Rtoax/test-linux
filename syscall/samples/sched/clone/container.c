@@ -67,9 +67,8 @@ int main(void)
 {
 	int ret;
 	char buf[255];
-	int flags =
-	    CLONE_NEWNET | CLONE_NEWUTS | CLONE_NEWIPC | CLONE_NEWPID |
-	    CLONE_NEWNS | SIGCHLD;
+	int flags = CLONE_NEWNET | CLONE_NEWUTS | CLONE_NEWIPC | CLONE_NEWPID |
+		    CLONE_NEWNS | SIGCHLD;
 	pid_t pid = clone(child, stack + STACK_SIZE, flags, NULL);
 	if (pid == -1) {
 		perror("clone");
