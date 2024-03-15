@@ -47,4 +47,5 @@
 /[sg]ethostid
 /vhangup
 /truncate
+/ftruncate
 /sync

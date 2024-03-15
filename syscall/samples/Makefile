@@ -60,7 +60,7 @@ TARGETS += getgroups
 TARGETS += gethostname sethostname
 TARGETS += gethostid sethostid
 TARGETS += vhangup
-TARGETS += truncate
+TARGETS += truncate ftruncate
 TARGETS += syscall
 TARGETS += sync
 
@@ -148,7 +148,8 @@ sethostname: sethostname.o
 gethostid: gethostid.o
 sethostid: sethostid.o
 vhangup: vhangup.o
-truncate: truncate.o
+truncate: truncate.o helpers.o
+ftruncate: ftruncate.o helpers.o
 syscall: syscall.o
 sync: sync.o
 
