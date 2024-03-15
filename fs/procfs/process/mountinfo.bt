@@ -1,0 +1,38 @@
+#!/bin/env bpftrace
+/**
+ * mountinfo.bt - /proc/PID/mountinfo
+ *
+ * Copyright (C) Rong Tao 2022-2024
+ *
+ * 2024-03-15	Rong Tao	Create this.
+ */
+#ifndef BPFTRACE_HAVE_BTF
+#include <linux/fs.h>
+#endif
+
+BEGIN
+{
+	printf("Tracing xxx, hit ctrl-c to end.\n");
+	printf("%-8s %-8s %-16s %-16s\n", "TIME", "PID", "COMM", "MNT_ROOT");
+}
+
+kprobe:show_mountinfo
+{
+	$mnt = (struct vfsmount *)arg1;
+	$sb = $mnt->mnt_sb;
+	$mnt_root_dentry = $mnt->mnt_root;
+
+	$dname = str($mnt_root_dentry->d_name.name);
+
+	if ($sb->s_op->show_path != 0) {
+		/* do something */
+	}
+
+	time("%H:%M:%S ");
+	printf("%-8d %-16s %-16s\n", pid, comm, $dname);
+}
+
+END
+{
+	printf("Bye.\n");
+}
