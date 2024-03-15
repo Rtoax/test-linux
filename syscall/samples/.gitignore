@@ -44,3 +44,4 @@
 /getgroups
 /[sg]ethostname
 /[sg]ethostid
+/vhangup
