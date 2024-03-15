@@ -18,21 +18,17 @@ TARGETS += ualarm
 TARGETS += tcgetpgrp tcsetpgrp
 TARGETS += execve-spawn
 TARGETS += pathconf
+TARGETS += cuserid
 
 ifeq ($(shell uname -m),x86_64)
 endif
 
-DEBUG = yes
-SRC_PATH := $(shell pwd)
 CC = gcc
 
 CFLAGS := -Werror -Wall
 CFLAGS += -I../../../
 CFLAGS += -lm
-
-ifdef DEBUG
 CFLAGS += -DDEBUG -O0 -g
-endif
 
 build: ${TARGETS}
 	@echo
@@ -60,6 +56,7 @@ ualarm: ualarm.o
 tcgetpgrp: tcgetpgrp.o
 tcsetpgrp: tcsetpgrp.o
 pathconf: pathconf.o
+cuserid: cuserid.o
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"

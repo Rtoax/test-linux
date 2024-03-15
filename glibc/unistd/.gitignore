@@ -18,3 +18,4 @@
 /tc[sg]etpgrp
 /execve-spawn
 /pathconf
+/cuserid
