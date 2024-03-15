@@ -33,8 +33,8 @@ nice: nice.o
 getcpu: getcpu.o helpers.o
 sched_getparam: sched_getparam.o
 sched_setparam: sched_setparam.o
-sched_setscheduler: sched_setscheduler.o
-sched_getscheduler: sched_getscheduler.o
+sched_setscheduler: sched_setscheduler.o helpers.o
+sched_getscheduler: sched_getscheduler.o helpers.o
 sched_get_priority_max: sched_get_priority_max.o
 sched_get_priority_min: sched_get_priority_min.o
 sched_getaffinity: sched_getaffinity.o

@@ -6,3 +6,5 @@
 long int sys_getcpu(unsigned *cpu, unsigned *node);
 void print_cpuset(cpu_set_t * cpuset);
 int str2cpuset(const char *cpulist, cpu_set_t * cpuset);
+const char *sched_policy_string(int policy);
+

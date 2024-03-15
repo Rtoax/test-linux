@@ -9,6 +9,7 @@
 #include <errno.h>
 #include <string.h>
 #include <stdbool.h>
+#include <linux/sched.h>
 
 #include "helpers.h"
 
@@ -111,3 +112,21 @@ int str2cpuset(const char *cpulist, cpu_set_t *cpuset)
 	memcpy(cpuset, &tmpcpuset, sizeof(cpu_set_t));
 	return 0;
 }
+
+const char *sched_policy_string(int policy)
+{
+	switch (policy) {
+#define CASE(P)	case P: return #P; break
+		CASE(SCHED_NORMAL);
+		CASE(SCHED_FIFO);
+		CASE(SCHED_RR);
+		CASE(SCHED_BATCH);
+		CASE(SCHED_ISO);
+		CASE(SCHED_IDLE);
+		CASE(SCHED_DEADLINE);
+	default:
+		return "Unknown";
+#undef CASE
+	}
+}
+

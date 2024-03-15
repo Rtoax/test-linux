@@ -3,22 +3,7 @@
 #include <stdio.h>
 #include <unistd.h>
 
-const char *policy_string(int policy)
-{
-	switch (policy) {
-#define CASE(P)	case P: return #P; break
-		CASE(SCHED_NORMAL);
-		CASE(SCHED_FIFO);
-		CASE(SCHED_RR);
-		CASE(SCHED_BATCH);
-		CASE(SCHED_ISO);
-		CASE(SCHED_IDLE);
-		CASE(SCHED_DEADLINE);
-	default:
-		return "Unknown";
-#undef CASE
-	}
-}
+#include "helpers.h"
 
 int main(void)
 {
@@ -40,7 +25,7 @@ int main(void)
 		return ret;
 	}
 
-	printf("Success: pid %d, policy %s\n", pid, policy_string(policy));
+	printf("Success: pid %d, policy %s\n", pid, sched_policy_string(policy));
 
 	return 0;
 }
