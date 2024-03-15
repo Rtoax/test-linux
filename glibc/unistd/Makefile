@@ -17,6 +17,7 @@ TARGETS += getdents64
 TARGETS += ualarm
 TARGETS += tcgetpgrp tcsetpgrp
 TARGETS += execve-spawn
+TARGETS += pathconf
 
 ifeq ($(shell uname -m),x86_64)
 endif
@@ -58,6 +59,7 @@ getdents64: getdents64.o
 ualarm: ualarm.o
 tcgetpgrp: tcgetpgrp.o
 tcsetpgrp: tcsetpgrp.o
+pathconf: pathconf.o
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
