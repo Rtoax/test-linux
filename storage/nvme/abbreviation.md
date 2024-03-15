@@ -1,0 +1,7 @@
+- L2P Table: LBA to PBA Table (逻辑与物理地址映射关系表) @LBA @PBA
+- LBA: Logical Block Addresses (逻辑块地址) @PBA
+- NCAP: Namespace Capacity
+- NSID: Namespace ID
+- NSZE: Namespace Size
+- NUSE: Namespace Utilization
+- PBA: Physical Block Address (物理块地址) @LBA

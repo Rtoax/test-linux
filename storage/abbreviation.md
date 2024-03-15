@@ -1,4 +1,5 @@
 - AFA: (全闪存阵列)
+- BB: Bad Block
 - FCP: Fibre Channel Protocol (光纤通道)
 - iSCSI: Internet Small Computer Systems Interface
 - iSER: iSCSI Extensions for RDMA

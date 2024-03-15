@@ -24,6 +24,12 @@ $ echo 1 > /sys/bus/pci/devices/0000:e3:00.0/remove
 $ echo 1 > /sys/bus/pci/rescan
 ```
 
+## 命名空间
+
+- /dev/nvme0n1
+	- 0: 控制器
+	- 1: 命名空间 (sudo nvme id-ns /dev/nvme0n1)
+
 
 # NVMe-oF (over Fabrics)
 
@@ -43,5 +49,6 @@ $ echo 1 > /sys/bus/pci/rescan
 
 # Links
 
+- https://nvmexpress.org/
 - https://en.wikipedia.org/wiki/NVM_Express
 
