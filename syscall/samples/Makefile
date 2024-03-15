@@ -60,6 +60,7 @@ TARGETS += getgroups
 TARGETS += gethostname sethostname
 TARGETS += gethostid sethostid
 TARGETS += vhangup
+TARGETS += truncate
 
 TARGETS_CPP += readlink2
 
@@ -145,6 +146,7 @@ sethostname: sethostname.o
 gethostid: gethostid.o
 sethostid: sethostid.o
 vhangup: vhangup.o
+truncate: truncate.o
 
 CFLAGS_write := -Wno-error=unused-variable
 
@@ -173,7 +175,7 @@ sub-dir-clean := $(sub-dir:=.clean)
 clean: $(sub-dir-clean)
 	@echo -e "Clean   \033[1;32m$(@)\033[m"
 	@rm -rf ${TARGETS} ${TARGETS_CPP} \
-		*.o *.opp nr.h *.out \
+		*.o *.opp nr.h *.out *.dat \
 		*.txt testfile
 
 $(sub-dir-clean):
