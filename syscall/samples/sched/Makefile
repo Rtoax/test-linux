@@ -6,6 +6,7 @@ TARGETS += sched_setscheduler sched_getscheduler
 TARGETS += sched_getparam sched_setparam
 TARGETS += sched_getaffinity
 TARGETS += sched_get_priority_max sched_get_priority_min
+TARGETS += sched_rr_get_interval
 TARGETS += sched_yield
 TARGETS += fork vfork
 TARGETS += setns
@@ -37,6 +38,7 @@ sched_getscheduler: sched_getscheduler.o
 sched_get_priority_max: sched_get_priority_max.o
 sched_get_priority_min: sched_get_priority_min.o
 sched_getaffinity: sched_getaffinity.o
+sched_rr_get_interval: sched_rr_get_interval.o
 sched_getcpu: sched_getcpu.o helpers.o
 sched_yield: sched_yield.o
 fork: fork.o
@@ -58,6 +60,8 @@ $(TARGETS): %:
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
+	sudo chrt -r 10 ./sched_rr_get_interval
+	sudo chrt -f 10 ./sched_rr_get_interval
 
 clean:
 	@echo -e "Clean   \033[1;32m$(@)\033[m"
