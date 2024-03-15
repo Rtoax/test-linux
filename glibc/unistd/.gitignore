@@ -16,3 +16,4 @@
 /getdents64
 /ualarm
 /tc[sg]etpgrp
+/execve-spawn

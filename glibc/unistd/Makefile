@@ -16,6 +16,7 @@ TARGETS += lseek-huge
 TARGETS += getdents64
 TARGETS += ualarm
 TARGETS += tcgetpgrp tcsetpgrp
+TARGETS += execve-spawn
 
 ifeq ($(shell uname -m),x86_64)
 endif
@@ -47,6 +48,7 @@ execve: execve.o
 execvp-fork: execvp-fork.o
 execvp-timedrun: execvp-timedrun.o
 execvp: execvp.o
+execve-spawn: execve-spawn.o
 getcwd: getcwd.o
 getpagesize: getpagesize.o
 ttyname: ttyname.o
