@@ -177,6 +177,10 @@ cclinux|fedora|centos|rhel|openEuler)
 	pkgs+=( systemtap-sdt-devel )  # sdt.h
 	pkgs+=( xfsprogs-devel )       # xfs
 
+	# Cross compile packages
+	pkgs_compiler+=( binutils-aarch64-linux-gnu binutils-x86_64-linux-gnu )
+	pkgs_compiler+=( gcc-aarch64-linux-gnu gcc-x86_64-linux-gnu )
+
 	pkgs_compiler+=( java-1.8.0-openjdk-devel )
 	pkgs_compiler+=( rust )
 
