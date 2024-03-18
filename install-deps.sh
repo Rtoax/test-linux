@@ -133,7 +133,7 @@ whls+=( 'mkdocs-static-i18n>=1.0.2' )
 whls+=( 'mkdocs-include-markdown-plugin>=6.0.1' )
 
 case ${OS} in
-cclinux|fedora|centos|rhel|openEuler)
+cclinux|fedora|centos|rhel|openEuler|almalinux)
 	if [[ $(uname -m) == x86_64 ]]; then
 		pkgs+=( glibc-devel.i686 )
 	fi
