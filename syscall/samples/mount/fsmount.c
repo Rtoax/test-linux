@@ -95,29 +95,7 @@ int main(int argc, char *argv[])
 	printf("Get free /dev/loop%d\n", free_nr_loop);
 	snprintf(loop, sizeof(loop), "/dev/loop%d", free_nr_loop);
 
-	ffd = openat(AT_FDCWD, "./fs.ext4", O_RDWR | O_CLOEXEC);
-	if (ffd == -1) {
-		perror("openat fs file");
-		exit(1);
-	}
-	lfd = openat(AT_FDCWD, loop, O_RDWR | O_CLOEXEC);
-	if (lfd == -1) {
-		perror("openat loop");
-		exit(1);
-	}
-
-	struct loop_config lconfig = {
-		.fd = ffd,
-		.block_size = 0,
-		.info = {
-			.lo_offset = 0,
-			.lo_number = 0,
-			.lo_flags = LO_FLAGS_AUTOCLEAR,
-		},
-	};
-	strncpy((char *)lconfig.info.lo_file_name, "./fs.ext4", LO_NAME_SIZE);
-
-	ioctl(lfd, LOOP_CONFIGURE, &lconfig);
+	bind_file_with_loop("./fs.ext4", &ffd, loop, &lfd);
 
 	fsfd = fsopen("ext4", 0);
 	if (fsfd == -1) {

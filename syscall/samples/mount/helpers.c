@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <errno.h>
+#include <string.h>
 #include <fcntl.h>
 #include <sys/prctl.h>
 #include <sys/wait.h>
@@ -68,5 +69,44 @@ int get_free_dev_loop(void)
 	close(fd);
 
 	return free_nr_loop;
+}
+
+int bind_file_with_loop(const char *file, int *pffd, const char *dev_loop,
+			int *plfd)
+{
+	int ret, ffd, lfd;
+
+	ffd = openat(AT_FDCWD, file, O_RDWR | O_CLOEXEC);
+	if (ffd == -1) {
+		perror("openat fs file");
+		exit(1);
+	}
+	lfd = openat(AT_FDCWD, dev_loop, O_RDWR | O_CLOEXEC);
+	if (lfd == -1) {
+		perror("openat loop");
+		exit(1);
+	}
+
+	struct loop_config lconfig = {
+		.fd = ffd,
+		.block_size = 0,
+		.info = {
+			.lo_offset = 0,
+			.lo_number = 0,
+			.lo_flags = LO_FLAGS_AUTOCLEAR,
+		},
+	};
+	strncpy((char *)lconfig.info.lo_file_name, file, LO_NAME_SIZE);
+
+	ret = ioctl(lfd, LOOP_CONFIGURE, &lconfig);
+	if (ret == -1) {
+		perror("ioctl loop failed, ");
+		exit(1);
+	}
+
+	*pffd = ffd;
+	*plfd = lfd;
+
+	return 0;
 }
 

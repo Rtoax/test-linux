@@ -12,3 +12,6 @@ int sys_move_mount(int from_dfd, const char *from_pathname, int to_dfd,
 
 int get_free_dev_loop(void);
 
+int bind_file_with_loop(const char *file, int *pffd, const char *dev_loop,
+			int *plfd);
+
