@@ -13,6 +13,7 @@ TARGETS += time
 TARGETS_ld := hello
 TARGETS_ld += hello-stack
 TARGETS_ld += while
+TARGETS_ld += nanosleep
 
 # TODO
 TARGETS_todo += sum_cal
@@ -42,6 +43,7 @@ hello-puts: hello-puts.o
 hello: hello.o
 hello-c: hello-c.o
 hello-stack: hello-stack.o
+nanosleep: nanosleep.o
 fibonacci: fibonacci.o
 hola: hola.o
 sum_cal: sum_cal.o sum.o

@@ -2,3 +2,4 @@
 /clock_gettime
 /clock_gettime-CLOCK_BOOTTIME
 /clock_nanosleep
+/nanosleep

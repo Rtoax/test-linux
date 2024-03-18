@@ -11,4 +11,5 @@
 /while
 /atomic_forced_read
 /time
+/nanosleep
 /*.s

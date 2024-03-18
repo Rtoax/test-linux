@@ -2,6 +2,7 @@
 TARGETS := clock_getres
 TARGETS += clock_gettime clock_gettime-CLOCK_BOOTTIME
 TARGETS += clock_nanosleep
+TARGETS += nanosleep
 
 CC = gcc
 
@@ -20,6 +21,7 @@ clock_getres: clock_getres.o helpers.o
 clock_gettime: clock_gettime.o helpers.o
 clock_gettime-CLOCK_BOOTTIME: clock_gettime-CLOCK_BOOTTIME.o helpers.o
 clock_nanosleep: clock_nanosleep.o helpers.o
+nanosleep: nanosleep.o
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
