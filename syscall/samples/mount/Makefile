@@ -18,7 +18,7 @@ build: ${TARGETS} ${TARGETS_FS}
 	@echo -e " \033[1;33m Done \033[m"
 
 # Add more object.o file
-mount: mount.o
+mount: mount.o helpers.o
 mount-tmpfs: mount-tmpfs.o
 fsmount: fsmount.o helpers.o
 ramdisk: ramdisk.o
