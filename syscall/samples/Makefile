@@ -48,6 +48,7 @@ TARGETS += getpid getpgid
 TARGETS += setpgid setpgid-fork
 TARGETS += setgid setegid setregid
 TARGETS += setuid seteuid setreuid
+TARGETS += setpgrp
 TARGETS += tee tee2
 TARGETS += clone
 TARGETS += setitimer
@@ -139,6 +140,7 @@ setpgid-fork: setpgid-fork.o
 setuid: setuid.o
 seteuid: seteuid.o
 setreuid: setreuid.o
+setpgrp: setpgrp.o
 tee: tee.o
 tee2: tee2.o
 clone: clone.o

@@ -28,6 +28,7 @@
 /setuid
 /seteuid
 /setreuid
+/setpgrp
 /tee
 /tee2
 /os-release
