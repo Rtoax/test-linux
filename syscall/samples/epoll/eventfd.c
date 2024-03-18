@@ -8,17 +8,15 @@
 #include <sys/types.h>
 #include <unistd.h>
 
-#include "wrapper.h"
-
 #define MAX_EVENTS 10
 
 #define log_enqueue(fmt...) do { \
-		printf("\033[33m[%d]", sys_gettid()); \
+		printf("\033[33m[%d]", gettid()); \
 		printf(fmt); \
 		printf("\033[m"); \
 	} while (0)
 #define log_dequeue(fmt...) do { \
-		printf("\033[32m[%d]", sys_gettid()); \
+		printf("\033[32m[%d]", gettid()); \
 		printf(fmt); \
 		printf("\033[m"); \
 	} while (0)

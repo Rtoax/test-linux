@@ -12,3 +12,12 @@ int sys_gettid(void)
 	int ret = syscall(__NR_gettid);
 	return ret >= 0 ? ret : -errno;
 }
+
+int main(void)
+{
+	pid_t tid = gettid();
+
+	printf("tid = %d, sys = %d\n", tid, sys_gettid());
+
+	return 0;
+}

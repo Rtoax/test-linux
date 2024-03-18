@@ -17,6 +17,7 @@
 /readlink
 /readlink[0-9]
 /getcwd
+/gettid
 /getpid
 /getpgid
 /setgid
