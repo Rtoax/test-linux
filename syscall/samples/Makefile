@@ -67,6 +67,7 @@ TARGETS += truncate ftruncate
 TARGETS += syscall
 TARGETS += sync
 TARGETS += setsid
+TARGETS += getdomainname
 
 TARGETS_CPP += readlink2
 
@@ -164,6 +165,7 @@ ftruncate: ftruncate.o helpers.o
 syscall: syscall.o
 sync: sync.o
 setsid: setsid.o
+getdomainname: getdomainname.o
 
 CFLAGS_write := -Wno-error=unused-variable
 
