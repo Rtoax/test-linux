@@ -85,23 +85,12 @@ void mount_error(int fd, const char *s)
 
 int main(int argc, char *argv[])
 {
-	int fd, ffd, lfd, fsfd, mfd;
+	int ffd, lfd, fsfd, mfd;
 	int free_nr_loop = -1;
 	const char *target = "./tmp-dir/";
 	char loop[PATH_MAX];
 
-	fd = openat(AT_FDCWD, "/dev/loop-control", O_RDWR | O_CLOEXEC);
-	if (fd < 0) {
-		perror("openat loop-control failed.");
-		exit(1);
-	}
-
-	free_nr_loop = ioctl(fd, LOOP_CTL_GET_FREE);
-	if (free_nr_loop < 0) {
-		perror("ioctl");
-		exit(1);
-	}
-	close(fd);
+	free_nr_loop = get_free_dev_loop();
 
 	printf("Get free /dev/loop%d\n", free_nr_loop);
 	snprintf(loop, sizeof(loop), "/dev/loop%d", free_nr_loop);

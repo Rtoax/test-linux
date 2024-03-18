@@ -5,7 +5,9 @@
 #include <fcntl.h>
 #include <sys/prctl.h>
 #include <sys/wait.h>
+#include <sys/ioctl.h>
 #include <linux/mount.h>
+#include <linux/loop.h>
 #include <linux/unistd.h>
 
 
@@ -45,5 +47,26 @@ int sys_move_mount(int from_dfd, const char *from_pathname, int to_dfd,
 {
 	return syscall(__NR_move_mount, from_dfd, from_pathname, to_dfd,
 		       to_pathname, flags);
+}
+
+int get_free_dev_loop(void)
+{
+	int fd;
+	int free_nr_loop = -1;
+
+	fd = openat(AT_FDCWD, "/dev/loop-control", O_RDWR | O_CLOEXEC);
+	if (fd < 0) {
+		perror("openat loop-control failed.");
+		exit(1);
+	}
+
+	free_nr_loop = ioctl(fd, LOOP_CTL_GET_FREE);
+	if (free_nr_loop < 0) {
+		perror("ioctl");
+		exit(1);
+	}
+	close(fd);
+
+	return free_nr_loop;
 }
 

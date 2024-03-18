@@ -9,3 +9,6 @@ int sys_fsconfig(int fsfd, unsigned int cmd, const char *key, const void *val,
 
 int sys_move_mount(int from_dfd, const char *from_pathname, int to_dfd,
 		   const char *to_pathname, unsigned int flags);
+
+int get_free_dev_loop(void);
+
