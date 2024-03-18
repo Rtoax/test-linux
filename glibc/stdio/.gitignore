@@ -5,3 +5,4 @@
 /__freadable
 /open_memstream
 /remove
+/popen

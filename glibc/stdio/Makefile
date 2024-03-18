@@ -6,6 +6,7 @@ TARGETS += puts
 TARGETS += __freadable
 TARGETS += open_memstream
 TARGETS += remove
+TARGETS += popen
 
 CC = gcc
 
@@ -26,6 +27,7 @@ puts: puts.o
 __freadable: __freadable.o
 open_memstream: open_memstream.o
 remove: remove.o
+popen: popen.o
 
 %.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
