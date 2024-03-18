@@ -104,7 +104,7 @@ int main(int argc, char *argv[])
 	}
 
 	E_fsconfig(fsfd, FSCONFIG_SET_FLAG, "rw", NULL, 0);
-	E_fsconfig(fsfd, FSCONFIG_SET_STRING, "source", "/dev/loop0", 0);
+	E_fsconfig(fsfd, FSCONFIG_SET_STRING, "source", loop, 0);
 	E_fsconfig(fsfd, FSCONFIG_CMD_CREATE, NULL, NULL, 0);
 
 	mfd = fsmount(fsfd, 0, MOUNT_ATTR_RDONLY);
