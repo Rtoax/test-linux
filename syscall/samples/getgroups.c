@@ -1,18 +1,25 @@
 #include <stdio.h>
 #include <unistd.h>
-#include <grp.h>
+#include <malloc.h>
 #include <sys/types.h>
+#include <grp.h>
 
 
 int main(void)
 {
-	gid_t list[3];
+	int i, nr;
+	gid_t *list;
 
-	getgroups(3, list);
+	nr = getgroups(0, NULL);
 
-	printf("list[0]=%d\n", list[0]);
-	printf("list[1]=%d\n", list[1]);
-	printf("list[2]=%d\n", list[2]);
+	list =(gid_t *)malloc(nr * sizeof(gid_t));
+
+	getgroups(nr, list);
+
+	for (i = 0; i < nr; i++)
+		printf("list[%d]=%d\n", nr, list[0]);
+
+	free(list);
 
 	return 0;
 }
