@@ -35,6 +35,7 @@
 /get_thread_area
 /clone
 /setitimer
+/rmdir
 /unlink
 /uname
 /userfaultfd

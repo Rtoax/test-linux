@@ -53,6 +53,7 @@ TARGETS += tee tee2
 TARGETS += clone
 TARGETS += setitimer
 TARGETS += unlink
+TARGETS += rmdir
 TARGETS += uname
 TARGETS += userfaultfd
 TARGETS += symlink
@@ -147,6 +148,7 @@ tee2: tee2.o
 clone: clone.o
 setitimer: setitimer.o
 unlink: unlink.o
+rmdir: rmdir.o
 uname: uname.o
 userfaultfd: userfaultfd.o
 sysctl: sysctl.o
