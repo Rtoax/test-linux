@@ -19,9 +19,8 @@ TARGETS += tcgetpgrp tcsetpgrp
 TARGETS += execve-spawn
 TARGETS += pathconf
 TARGETS += cuserid
+TARGETS += lockf lockf-nolock
 
-ifeq ($(shell uname -m),x86_64)
-endif
 
 CC = gcc
 
@@ -57,6 +56,18 @@ tcgetpgrp: tcgetpgrp.o
 tcsetpgrp: tcsetpgrp.o
 pathconf: pathconf.o
 cuserid: cuserid.o
+lockf: lockf.o
+lockf-nolock: lockf-nolock.o
+
+CFLAGS_lockf-nolock := -DNO_LOCK=1
+
+%.o: %.c
+	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
+	$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
+
+$(TARGETS): %:
+	@echo -e "Target   \033[1;32m$(@)\033[m"
+	$(CC) -o $(@) $(^) $(LDLIBS) $(LDFLAGS) $(LDFLAGS_$(*)) $(CFLAGS) $(CFLAGS_$(*))
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"

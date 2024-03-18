@@ -19,3 +19,5 @@
 /execve-spawn
 /pathconf
 /cuserid
+/lockf
+/lockf-nolock
