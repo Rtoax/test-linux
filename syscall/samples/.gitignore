@@ -60,3 +60,4 @@
 /setsid
 /getdomainname
 /lseek
+/link
