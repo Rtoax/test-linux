@@ -4,3 +4,4 @@
 /puts
 /__freadable
 /open_memstream
+/remove
