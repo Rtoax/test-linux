@@ -69,6 +69,7 @@ TARGETS += syscall
 TARGETS += sync
 TARGETS += setsid
 TARGETS += getdomainname
+TARGETS += lseek
 
 TARGETS_CPP += readlink2
 
@@ -128,6 +129,7 @@ openat2: openat2.o
 opendir: opendir.o
 pause: pause.o
 pidfd_open: pidfd_open.o
+lseek: lseek.o
 readlink: readlink.o
 readlink2: readlink2.opp
 getcwd: getcwd.o

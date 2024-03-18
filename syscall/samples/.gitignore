@@ -59,3 +59,4 @@
 /sync
 /setsid
 /getdomainname
+/lseek
