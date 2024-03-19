@@ -18,7 +18,7 @@ build: ${TARGETS}
 
 # Add more object.o file
 getrlimit: getrlimit.o helpers.o
-setrlimit: setrlimit.o
+setrlimit: setrlimit.o helpers.o
 prlimit: prlimit.o helpers.o
 ulimit: ulimit.o
 fork-inherit: fork-inherit.o helpers.o

@@ -18,5 +18,8 @@ int main(void)
 	/* unlimited(-1) */
 	print_rlimit("RLIMIT_CORE", &rlimit);
 
+	getrlimit(RLIMIT_CPU, &rlimit);
+	print_rlimit("RLIMIT_CPU", &rlimit);
+
 	return 0;
 }
