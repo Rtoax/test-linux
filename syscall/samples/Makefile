@@ -67,6 +67,7 @@ TARGETS += vhangup
 TARGETS += truncate ftruncate
 TARGETS += syscall
 TARGETS += sync
+TARGETS += getsid
 TARGETS += setsid
 TARGETS += getdomainname
 TARGETS += lseek
@@ -170,6 +171,7 @@ ftruncate: ftruncate.o helpers.o
 syscall: syscall.o
 sync: sync.o
 setsid: setsid.o
+getsid: getsid.o
 getdomainname: getdomainname.o
 link: link.o helpers.o
 
