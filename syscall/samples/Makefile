@@ -72,6 +72,7 @@ TARGETS += setsid
 TARGETS += getdomainname
 TARGETS += lseek
 TARGETS += link
+TARGETS += fsync
 
 TARGETS_CPP += readlink2
 
@@ -174,6 +175,7 @@ setsid: setsid.o
 getsid: getsid.o
 getdomainname: getdomainname.o
 link: link.o helpers.o
+fsync: fsync.o
 
 CFLAGS_write := -Wno-error=unused-variable
 
