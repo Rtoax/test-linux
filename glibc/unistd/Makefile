@@ -21,6 +21,7 @@ TARGETS += pathconf
 TARGETS += cuserid
 TARGETS += lockf lockf-nolock
 TARGETS += isatty
+TARGETS += getwd
 
 
 CC = gcc
@@ -60,6 +61,9 @@ cuserid: cuserid.o
 lockf: lockf.o
 lockf-nolock: lockf-nolock.o
 isatty: isatty.o
+getwd: getwd.o
+
+CFLAGS_getwd := -Wno-error=deprecated-declarations
 
 CFLAGS_lockf-nolock := -DNO_LOCK=1
 
