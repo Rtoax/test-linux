@@ -26,6 +26,7 @@ TARGETS += getusershell
 TARGETS += getpass
 TARGETS += getdtablesize
 TARGETS += get_current_dir_name
+TARGETS += fexecve
 
 
 CC = gcc
@@ -70,6 +71,7 @@ getusershell: getusershell.o
 getpass: getpass.o
 getdtablesize: getdtablesize.o
 get_current_dir_name: get_current_dir_name.o
+fexecve: fexecve.o
 
 CFLAGS_getwd := -Wno-error=deprecated-declarations
 

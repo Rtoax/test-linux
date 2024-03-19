@@ -6,7 +6,7 @@
 #include <unistd.h>
 #include <sys/wait.h>
 
-#define SHM_FILE	"wurstverschwendung"
+#define SHM_FILE	"shm_test_file(fexecve)"
 
 int main(void)
 {
@@ -64,7 +64,7 @@ int main(void)
 	pid = fork();
 	if (pid == 0) {
 		static char *args[] = {
-			"hic et nunc",
+			"ls",
 			"-l",
 			"/dev/shm",
 			NULL

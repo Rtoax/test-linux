@@ -27,3 +27,4 @@
 /getpass
 /getdtablesize
 /get_current_dir_name
+/fexecve
