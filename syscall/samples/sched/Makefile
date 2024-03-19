@@ -10,7 +10,7 @@ TARGETS += sched_getaffinity
 TARGETS += sched_get_priority_max sched_get_priority_min
 TARGETS += sched_rr_get_interval
 TARGETS += sched_yield
-TARGETS += fork vfork
+TARGETS += fork vfork fork-share
 TARGETS += setns
 TARGETS += unshare
 TARGETS += taskset
@@ -50,6 +50,7 @@ sched_getcpu: sched_getcpu.o helpers.o
 sched_yield: sched_yield.o
 fork: fork.o
 vfork: vfork.o
+fork-share: fork-share.o
 setns: setns.o
 unshare: unshare.o
 taskset: taskset.o

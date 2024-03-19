@@ -14,6 +14,7 @@
 /sched_yield
 /nice
 /fork
+/fork-share
 /vfork
 /setns
 /taskset
