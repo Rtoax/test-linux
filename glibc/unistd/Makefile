@@ -24,6 +24,8 @@ TARGETS += isatty
 TARGETS += getwd
 TARGETS += getusershell
 TARGETS += getpass
+TARGETS += getdtablesize
+TARGETS += get_current_dir_name
 
 
 CC = gcc
@@ -66,6 +68,8 @@ isatty: isatty.o
 getwd: getwd.o
 getusershell: getusershell.o
 getpass: getpass.o
+getdtablesize: getdtablesize.o
+get_current_dir_name: get_current_dir_name.o
 
 CFLAGS_getwd := -Wno-error=deprecated-declarations
 

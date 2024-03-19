@@ -10,5 +10,9 @@ int main(void)
 	getcwd(buffer, sizeof(buffer));
 	printf("cwd = %s\n", buffer);
 
+	chdir("/etc");
+	getcwd(buffer, sizeof(buffer));
+	printf("cwd = %s\n", buffer);
+
 	return 0;
 }
