@@ -21,3 +21,4 @@
 /cuserid
 /lockf
 /lockf-nolock
+/isatty

@@ -20,6 +20,7 @@ TARGETS += execve-spawn
 TARGETS += pathconf
 TARGETS += cuserid
 TARGETS += lockf lockf-nolock
+TARGETS += isatty
 
 
 CC = gcc
@@ -58,6 +59,7 @@ pathconf: pathconf.o
 cuserid: cuserid.o
 lockf: lockf.o
 lockf-nolock: lockf-nolock.o
+isatty: isatty.o
 
 CFLAGS_lockf-nolock := -DNO_LOCK=1
 
