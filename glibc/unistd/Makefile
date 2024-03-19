@@ -23,6 +23,7 @@ TARGETS += lockf lockf-nolock
 TARGETS += isatty
 TARGETS += getwd
 TARGETS += getusershell
+TARGETS += getpass
 
 
 CC = gcc
@@ -64,6 +65,7 @@ lockf-nolock: lockf-nolock.o
 isatty: isatty.o
 getwd: getwd.o
 getusershell: getusershell.o
+getpass: getpass.o
 
 CFLAGS_getwd := -Wno-error=deprecated-declarations
 

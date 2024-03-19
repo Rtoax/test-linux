@@ -24,3 +24,4 @@
 /isatty
 /getwd
 /getusershell
+/getpass
