@@ -1,4 +1,5 @@
 sub-dir := simple
+sub-dir := select
 
 sub-dir-build := $(sub-dir:=.build)
 sub-dir-clean := $(sub-dir:=.clean)
