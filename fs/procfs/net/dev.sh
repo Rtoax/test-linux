@@ -1,0 +1,3 @@
+#!/bin/bash
+# ifconfig's RX,TX packages, ...
+cat /proc/net/dev
