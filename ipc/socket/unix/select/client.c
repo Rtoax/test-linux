@@ -20,7 +20,7 @@ int connect_fd;
 void handle_sigint(int signum)
 {
 	printf("Catch the SIGINT signal.\n");
-	write(connect_fd, GOODBYE, 8);
+	send(connect_fd, GOODBYE, 8, 0);
 	close(connect_fd);
 	exit(1);
 }
@@ -52,10 +52,10 @@ int main(void)
 	}
 
 	while (1) {
-		write(connect_fd, msg, 8);
+		send(connect_fd, msg, 8, 0);
 
 		memset(msg, 0 , sizeof(msg));
-		msglen = read(connect_fd, msg, sizeof(msg));
+		msglen = recv(connect_fd, msg, sizeof(msg), 0);
 
 		printf("%s\n", msg);
 

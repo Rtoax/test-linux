@@ -131,7 +131,7 @@ int main(void)
 			}
 			if (FD_ISSET(sockfd, &rset)) {
 				memset(msg, 0, 256);
-				msglen = read(sockfd, msg, sizeof(msg));
+				msglen = recv(sockfd, msg, sizeof(msg), 0);
 				if (msglen <= 0) {
 					close(sockfd);
 					FD_CLR(sockfd, &allset);
@@ -139,7 +139,7 @@ int main(void)
 				}
 				printf("[%3d]:  %s\n", sockfd, msg);
 				if (strcmp(msg, GOODBYE) != 0) {
-					write(sockfd, "Recv your message.", 19);
+					send(sockfd, "Recv your message.", 19, 0);
 				}
 			}
 		}
