@@ -3,11 +3,12 @@ set -e
 
 prog=inst-deps
 
-declare -a pkgs pkgs_compiler pkgs_desktop whls
+declare -a pkgs pkgs_compiler pkgs_desktop whls pkgs_bench
 
 have_whls=
 have_compiler=
 have_desktop=
+have_bench=
 
 . /etc/os-release
 
@@ -30,7 +31,8 @@ ARGUMENT
 
 	--compilers        install extra compilers, such as rust java
 	--whls             install python pip wheel packages
-	--desktop          instal desktop relate packages
+	--desktop          install desktop relate packages
+	--bench            install benchmark relate packages
 
 	-h, --help         show this help information
 
@@ -44,6 +46,7 @@ TEMP=$(getopt --options h \
 	--long compilers \
 	--long whls \
 	--long desktop \
+	--long bench \
 	--long help \
 	--name $prog -- "$@")
 
@@ -61,6 +64,8 @@ while true; do
 		shift
 		have_compiler=YES
 		have_whls=YES
+		have_desktop=YES
+		have_bench=YES
 		;;
 	--compilers)
 		shift
@@ -69,6 +74,10 @@ while true; do
 	--desktop)
 		shift
 		have_desktop=YES
+		;;
+	--bench)
+		shift
+		have_bench=YES
 		;;
 	--whls)
 		shift
@@ -121,6 +130,9 @@ pkgs+=( sparse )               # sparse
 pkgs+=( strace )
 pkgs+=( smartmontools )        # smartctl
 pkgs+=( tree )
+
+# Benchmark
+pkgs_bench+=( iperf iperf3 )
 
 # Desktop Packages
 pkgs_desktop+=( terminator )
@@ -190,6 +202,7 @@ cclinux|fedora|centos|rhel|openEuler|almalinux)
 
 	[[ ${have_compiler} ]] && pkgs+=( ${pkgs_compiler[@]} )
 	[[ ${have_desktop} ]] && pkgs+=( ${pkgs_desktop[@]} )
+	[[ ${have_bench} ]] && pkgs+=( ${pkgs_bench[@]} )
 
 	sudo dnf up -y
 	sudo dnf install ${args[@]} -y ${pkgs[@]}
@@ -209,6 +222,7 @@ debian|ubuntu)
 
 	[[ ${have_compiler} ]] && pkgs+=( ${pkgs_compiler[@]} )
 	[[ ${have_desktop} ]] && pkgs+=( ${pkgs_desktop[@]} )
+	[[ ${have_bench} ]] && pkgs+=( ${pkgs_bench[@]} )
 
 	args=( --fix-missing )
 
