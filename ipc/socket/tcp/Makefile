@@ -1,5 +1,6 @@
 sub-dir := simple
 sub-dir := select
+sub-dir := epoll
 
 TARGETS += tcp-syn-flood
 
