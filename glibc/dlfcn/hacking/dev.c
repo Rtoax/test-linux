@@ -8,7 +8,8 @@
 int main(void)
 {
 	int totalmem = dev_gettotalmemsize();
-	printf("Total memory of device is %d\n", totalmem);
+	int allocatedmem = dev_getallocatedsize();
+	printf("Memory usage %d/%d\n", allocatedmem, totalmem);
 	return 0;
 }
 

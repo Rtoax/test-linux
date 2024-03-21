@@ -22,6 +22,10 @@ static struct symbol libdev_table[] = {
 		.name = "dev_gettotalmemsize",
 		.ptr = NULL,
 	},
+	{
+		.name = "dev_getallocatedsize",
+		.ptr = NULL,
+	},
 };
 
 static pthread_once_t init_once = PTHREAD_ONCE_INIT;
@@ -66,6 +70,16 @@ int dev_gettotalmemsize(void)
 	 */
 	if (orig)
 		return orig() / 2;
+	/* fake value */
+	return 64;
+}
+
+int dev_getallocatedsize(void)
+{
+	hacking_init();
+	int (*orig)(void) = find_fptr("dev_getallocatedsize");
+	if (orig)
+		return orig();
 	/* fake value */
 	return 64;
 }
