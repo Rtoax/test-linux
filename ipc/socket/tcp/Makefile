@@ -1,4 +1,5 @@
 sub-dir := simple
+sub-dir := select
 
 TARGETS += tcp-syn-flood
 
