@@ -50,6 +50,12 @@ kprobe:ovl_rename
 	printf("%-8d %-16s %-8s\n", pid, comm, "rename");
 }
 
+kprobe:ovl_new_inode
+{
+	time("%H:%M:%S ");
+	printf("%-8d %-16s %-8s\n", pid, comm, "new-ino");
+}
+
 END
 {
 	printf("Bye.\n");
