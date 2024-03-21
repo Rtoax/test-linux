@@ -3,6 +3,7 @@
 #include <string.h>
 #include <pthread.h>
 #include <dlfcn.h>
+#include <errno.h>
 
 #include "libdev.h"
 
@@ -19,6 +20,10 @@ struct symbol {
 
 static struct symbol libdev_table[] = {
 	{
+		.name = "dev_malloc",
+		.ptr = NULL,
+	},
+	{
 		.name = "dev_gettotalmemsize",
 		.ptr = NULL,
 	},
@@ -28,7 +33,11 @@ static struct symbol libdev_table[] = {
 	},
 };
 
+static int dev_memsize = 0;
+static int dev_memuse = 0;
+
 static pthread_once_t init_once = PTHREAD_ONCE_INIT;
+static pthread_rwlock_t dev_rwlock;
 
 
 static inline void *find_fptr(const char *name)
@@ -46,6 +55,8 @@ static void init_libdev(void)
 	int i;
 	void *handle;
 
+	pthread_rwlock_init(&dev_rwlock, NULL);
+
 	handle = dlopen(ORIG_LIBDEV, RTLD_NOW | RTLD_NODELETE);
 
 	for (i = 0; i < ARRAY_SIZE(libdev_table); i++) {
@@ -53,6 +64,13 @@ static void init_libdev(void)
 	}
 
 	dlclose(handle);
+
+	int (*getsize)(void) = find_fptr("dev_gettotalmemsize");
+	pthread_rwlock_wrlock(&dev_rwlock);
+	/* Only give user 50% memory. */
+	dev_memsize = getsize() / 2;
+	dev_memuse = 0;
+	pthread_rwlock_unlock(&dev_rwlock);
 }
 
 static int hacking_init(void)
@@ -61,26 +79,54 @@ static int hacking_init(void)
 	return 0;
 }
 
+char *dev_malloc(size_t size)
+{
+	hacking_init();
+	char *new = NULL;
+
+	int (*getsize)(void) = find_fptr("dev_getallocatedsize");
+	char *(*orig)(size_t) = find_fptr("dev_malloc");
+
+	if (!getsize || !orig) {
+		fprintf(stderr, "Not found APIs.\n");
+		errno = -EINVAL;
+		return NULL;
+	}
+
+	pthread_rwlock_rdlock(&dev_rwlock);
+	if (dev_memuse + size > dev_memsize) {
+		fprintf(stderr, "Device out of memory.\n");
+		errno = -ENOMEM;
+		pthread_rwlock_unlock(&dev_rwlock);
+		return NULL;
+	}
+
+	new = orig(size);
+	if (new)
+		dev_memuse += size;
+
+	pthread_rwlock_unlock(&dev_rwlock);
+
+	return new;
+}
+
 int dev_gettotalmemsize(void)
 {
 	hacking_init();
-	int (*orig)(void) = find_fptr("dev_gettotalmemsize");
-	/**
-	 * Only give user 50% memory.
-	 */
-	if (orig)
-		return orig() / 2;
-	/* fake value */
-	return 64;
+	int total = 0;
+	pthread_rwlock_rdlock(&dev_rwlock);
+	total = dev_memsize;
+	pthread_rwlock_unlock(&dev_rwlock);
+	return total;
 }
 
 int dev_getallocatedsize(void)
 {
 	hacking_init();
-	int (*orig)(void) = find_fptr("dev_getallocatedsize");
-	if (orig)
-		return orig();
-	/* fake value */
-	return 64;
+	int use = 0;
+	pthread_rwlock_rdlock(&dev_rwlock);
+	use = dev_memuse;
+	pthread_rwlock_unlock(&dev_rwlock);
+	return use;
 }
 

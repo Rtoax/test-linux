@@ -7,8 +7,18 @@
 
 int main(void)
 {
-	int totalmem = dev_gettotalmemsize();
-	int allocatedmem = dev_getallocatedsize();
+	int totalmem, allocatedmem;
+	totalmem = dev_gettotalmemsize();
+	allocatedmem = dev_getallocatedsize();
+	printf("Memory usage %d/%d\n", allocatedmem, totalmem);
+	dev_malloc(1024);
+	allocatedmem = dev_getallocatedsize();
+	printf("Memory usage %d/%d\n", allocatedmem, totalmem);
+	dev_malloc(1024);
+	allocatedmem = dev_getallocatedsize();
+	printf("Memory usage %d/%d\n", allocatedmem, totalmem);
+	dev_malloc(1024);
+	allocatedmem = dev_getallocatedsize();
 	printf("Memory usage %d/%d\n", allocatedmem, totalmem);
 	return 0;
 }

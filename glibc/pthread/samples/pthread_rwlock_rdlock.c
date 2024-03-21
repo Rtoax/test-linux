@@ -1,4 +1,3 @@
-
 #include <pthread.h>
 #include <stdio.h>
 
@@ -6,6 +5,7 @@
 
 pthread_rwlock_t rwlock2;
 int sum_count = 0;
+
 
 void *test_task_write_fn(void *unused)
 {
