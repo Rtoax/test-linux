@@ -5,6 +5,12 @@ set -e
 interfaces=( $(ls /sys/class/net/) )
 declare -a operstates carriers
 
+getifspeed()
+{
+	local iface=$1
+	( ethtool $iface 2>/dev/null || echo "Speed Unknown" ) | grep Speed | awk '{print $2}'
+}
+
 # Get informations
 for i in ${interfaces[@]}
 do
@@ -19,13 +25,14 @@ do
 done
 
 # Print informations
-printf "%-16s %-8s %-8s\n" INTERFACE STATE CARRIER
+printf "%-16s %-8s %-8s %-8s\n" INTERFACE STATE CARRIER SPEED
 for ((i = 0; i < ${#interfaces[@]}; i++))
 do
-	printf "%-16s %-8s %-8s\n" \
+	printf "%-16s %-8s %-8s %-8s\n" \
 		${interfaces[$i]} \
 		${operstates[$i]} \
-		${carriers[$i]}
+		${carriers[$i]} \
+		$(getifspeed ${interfaces[$i]})
 	sudo udevadm info /sys/class/net/${interfaces[$i]} | sed 's/^/\t/g'
 done
 
