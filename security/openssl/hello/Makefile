@@ -1,0 +1,38 @@
+TARGETS :=
+TARGETS += server
+TARGETS += client
+
+CC = gcc
+
+LDFLAGS :=
+LDLIBS :=
+
+CFLAGS := -Werror -Wall
+CFLAGS += -I../macro/
+CFLAGS += -DDEBUG -O0 -g -ggdb
+CFLAGS +=$(shell pkg-config --libs --cflags openssl)
+
+build: ${TARGETS}
+	$(shell bash gen-key.sh)
+	@echo
+	@echo -e " \033[1;33m Done \033[m"
+
+# Add more object.o file
+server: server.o
+client: client.o
+
+
+%.o: %.c
+	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
+	$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
+
+$(TARGETS): %:
+	@echo -e "Target   \033[1;32m$(@)\033[m"
+	$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) $(^) $(LDLIBS) $(LDFLAGS) $(LDFLAGS_$(*))
+
+test: ${TARGETS}
+	@echo -e "Test   \033[1;32m$(@)\033[m"
+
+clean:
+	@echo -e "Clean   \033[1;32m$(@)\033[m"
+	@rm -f ${TARGETS} *.o *.cer *.pem

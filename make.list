@@ -21,6 +21,7 @@ USER_LIST += kvm/virtio/tools/virtio-trace
 USER_LIST += libs
 USER_LIST += macro
 USER_LIST += network
+USER_LIST += security
 USER_LIST += security/access/lsm/selinux/libselinux/samples/
 USER_LIST += synchronization
 USER_LIST += syscall

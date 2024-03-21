@@ -119,6 +119,7 @@ pkgs+=( nasm )                 # nasm
 pkgs+=( net-tools )            # netstat
 pkgs+=( numactl )              # numastat
 pkgs+=( opencl-headers )
+pkgs+=( openssl )
 pkgs+=( parallel )
 pkgs+=( python3-matplotlib )   # matplotlib
 pkgs+=( python3-pip )          # pip wheel
