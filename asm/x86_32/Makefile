@@ -1,7 +1,7 @@
 
 TARGETS := call-func call-func-ret
 TARGETS += jmp jg jl
-TARGETS += write write-2
+TARGETS += write write-2 write-3
 
 TARGETS_gcc := average
 TARGETS_gcc += echo
@@ -11,16 +11,11 @@ TARGETS_gcc += maxofthree_call
 
 TARGETS_todo :=
 
-DEBUG = yes
-SRC_PATH := $(shell pwd)
 CC = gcc
 
 CFLAGS := -Werror -Wall
 CFLAGS += -m32
-
-ifdef DEBUG
 CFLAGS += -DDEBUG -O0 -g
-endif
 
 .PHONY: build
 build: ${TARGETS} ${TARGETS_gcc}
@@ -38,6 +33,7 @@ jl: jl.o
 power: power.o
 write: write.o
 write-2: write-2.o
+write-3: write-3.o
 factorial_call: factorial_call.o factorial.o
 maxofthree_call: maxofthree_call.o maxofthree.o
 
