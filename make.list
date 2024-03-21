@@ -13,6 +13,7 @@ USER_LIST += fs
 USER_LIST += gdb
 USER_LIST += glibc
 USER_LIST += gnome
+USER_LIST += instructions
 USER_LIST += interrupt
 USER_LIST += ipc
 USER_LIST += io_uring/samples
@@ -22,10 +23,11 @@ USER_LIST += libs
 USER_LIST += macro
 USER_LIST += network
 USER_LIST += security
+# FIXME
 USER_LIST += security/access/lsm/selinux/libselinux/samples/
 USER_LIST += synchronization
 USER_LIST += syscall
-USER_LIST += template/
+USER_LIST += template
 
 KERNEL_LIST += algorithm/bitmap/modules
 KERNEL_LIST += algorithm/bitops/modules
