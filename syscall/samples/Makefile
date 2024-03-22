@@ -1,8 +1,14 @@
 # Makefile of syscall samples
 
 sub-dir :=
+ifneq ($(wildcard /usr/include/libaio.h),)
+$(info Already install libaio development)
 sub-dir += aio
+endif
+ifneq ($(wildcard /usr/include/sys/capability.h),)
+$(info Already install capability development)
 sub-dir += capability
+endif
 sub-dir += ioctl
 sub-dir += poll
 sub-dir += epoll
