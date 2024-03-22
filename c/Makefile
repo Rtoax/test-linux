@@ -28,9 +28,22 @@ endif
 ifeq ($(shell uname -m),aarch64)
 endif
 
-DEBUG = yes
-SRC_PATH := $(shell pwd)
-CC = gcc
+ifeq ("", "$(CROSS_COMPILE)")
+  MK_ARCH="${shell uname -m}"
+else
+  MK_ARCH="${shell echo $(CROSS_COMPILE) | sed -n 's/^[[:space:]]*\([^\/]*\/\)*\([^-]*\)-[^[:space:]]*/\2/p'}"
+endif
+
+AS = $(CROSS_COMPILE)as
+AR = $(CROSS_COMPILE)ar
+CC = $(CROSS_COMPILE)gcc
+ifneq ($(shell $(CROSS_COMPILE)ld.bfd -v 2> /dev/null),)
+LD = $(CROSS_COMPILE)ld.bfd
+else
+LD = $(CROSS_COMPILE)ld
+endif
+
+# FIXME: need set gcc --sysroot=
 
 LDFLAGS :=
 LDLIBS :=
