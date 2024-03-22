@@ -83,6 +83,9 @@ endif
 ifeq ($(shell uname -m),aarch64)
 # TODO: Remove openat2 from TARGETS
 endif
+ifeq ($(shell uname -m),sw_64)
+	TARGETS := $(filter-out pause, $(TARGETS))
+endif
 
 DEBUG = yes
 SRC_PATH := $(shell pwd)
