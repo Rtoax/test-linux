@@ -43,8 +43,6 @@ else
 LD = $(CROSS_COMPILE)ld
 endif
 
-# FIXME: need set gcc --sysroot=
-
 LDFLAGS :=
 LDLIBS :=
 
@@ -57,6 +55,11 @@ endif
 
 ifdef DEBUG
 CFLAGS += -DDEBUG -O0 -g -ggdb
+endif
+
+# For CROSS_COMPILE
+ifdef SYSROOT
+CFLAGS += --sysroot=$(SYSROOT)
 endif
 
 CFLAGS_auto := -Wno-error=implicit-int
