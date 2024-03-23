@@ -1,6 +1,4 @@
-sub-dir := socket
-sub-dir += msgqueue
-sub-dir += shm
+sub-dir := linklist
 
 sub-dir-build := $(sub-dir:=.build)
 sub-dir-clean := $(sub-dir:=.clean)
