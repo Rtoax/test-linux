@@ -42,7 +42,10 @@ int main(void)
 {
 	struct test __unused t1 = { .a = 0 };
 	struct test __unused t2 = { 0 };
+#if !defined(__clang__)
+	/* clang not support a : 10 */
 	struct test __unused t3 = { a : 10 };
+#endif
 	PRINT_ARR(tests1);
 	PRINT_ARR(tests2);
 	PRINT_ARR(tests3);
