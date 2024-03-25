@@ -10,6 +10,8 @@ have_compiler=
 have_desktop=
 have_bench=
 
+[[ ! -e /etc/os-release ]] && echo "ERROR: No /etc/os-release found" && exit 1
+
 . /etc/os-release
 
 OS=${ID}
