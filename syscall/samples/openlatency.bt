@@ -17,38 +17,41 @@ tracepoint:syscalls:sys_enter_openat,
 tracepoint:syscalls:sys_enter_openat2
 {
 	@start[tid] = nsecs;
+	@files[tid] = args->filename;
 }
 
 tracepoint:syscalls:sys_exit_open,
 tracepoint:syscalls:sys_exit_openat,
 tracepoint:syscalls:sys_exit_openat2
-/ @start[tid] /
+/ @start[tid] && @files[tid] /
 {
 	$latency = nsecs - @start[tid];
-	delete(@start[tid]);
 
 	@latency_ns = hist($latency);
 
 	/* 1s */
 	if ($latency > 1000000000) {
-		@spend_more_than_1s[pid, comm] = count();
+		@spent_more_than_1s[pid, comm, str(@files[tid])] = count();
 	} else if ($latency > 500000000) {
-		@spend_more_than_500ms[pid, comm] = count();
+		@spent_more_than_500ms[pid, comm, str(@files[tid])] = count();
 	}
+	delete(@start[tid]);
+	delete(@files[tid]);
 }
 
 i:s:2
 {
 	print(@latency_ns);
-	print(@spend_more_than_1s);
-	print(@spend_more_than_500ms, 10);
+	print(@spent_more_than_1s);
+	print(@spent_more_than_500ms, 10);
 }
 
 END
 {
 	clear(@start);
 	clear(@latency_ns);
-	clear(@spend_more_than_1s);
-	clear(@spend_more_than_500ms);
+	clear(@spent_more_than_1s);
+	clear(@spent_more_than_500ms);
+	clear(@files);
 }
 
