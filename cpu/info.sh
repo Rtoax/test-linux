@@ -46,3 +46,6 @@ cpu_stat()
 }
 
 cpu_stat
+iostat -c
+mpstat -P ALL
+
