@@ -1,11 +1,4 @@
-sub-dir := poll
-sub-dir += epoll
-sub-dir += iovec
-sub-dir += proxy
-sub-dir += syscall
-sub-dir += unix
-sub-dir += tcp
-sub-dir += udp
+sub-dir := simple
 
 sub-dir-build := $(sub-dir:=.build)
 sub-dir-clean := $(sub-dir:=.clean)
