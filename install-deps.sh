@@ -5,6 +5,7 @@ prog=inst-deps
 
 declare -a pkgs pkgs_compiler pkgs_desktop whls pkgs_bench
 
+have_upgrade=YES
 have_whls=
 have_compiler=
 have_desktop=
@@ -36,6 +37,8 @@ ARGUMENT
 	--desktop          install desktop relate packages
 	--bench            install benchmark relate packages
 
+	--noup             skip upgrade
+
 	-h, --help         show this help information
 
 SEE ALSO
@@ -45,6 +48,7 @@ SEE ALSO
 
 TEMP=$(getopt --options h \
 	--long all \
+	--long noup \
 	--long compilers \
 	--long whls \
 	--long desktop \
@@ -68,6 +72,10 @@ while true; do
 		have_whls=YES
 		have_desktop=YES
 		have_bench=YES
+		;;
+	--noup)
+		shift
+		have_upgrade=""
 		;;
 	--compilers)
 		shift
@@ -209,7 +217,9 @@ cclinux|fedora|centos|rhel|openEuler|almalinux)
 	[[ ${have_desktop} ]] && pkgs+=( ${pkgs_desktop[@]} )
 	[[ ${have_bench} ]] && pkgs+=( ${pkgs_bench[@]} )
 
-	sudo dnf up -y
+	if [[ ${have_upgrade} ]]; then
+		sudo dnf up -y
+	fi
 	sudo dnf install ${args[@]} -y ${pkgs[@]}
 	;;
 debian|ubuntu)
@@ -231,9 +241,11 @@ debian|ubuntu)
 
 	args=( --fix-missing )
 
-	sudo apt update -y
-	sudo apt list --upgradable
-	sudo apt upgrade -y
+	if [[ ${have_upgrade} ]]; then
+		sudo apt update -y
+		sudo apt list --upgradable
+		sudo apt upgrade -y
+	fi
 	sudo apt install ${args[@]} ${pkgs[@]} -y
 	;;
 *)
