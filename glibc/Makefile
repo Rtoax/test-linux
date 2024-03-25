@@ -41,17 +41,12 @@ endif
 ifeq ($(shell uname -m),aarch64)
 endif
 
-DEBUG = yes
-SRC_PATH := $(shell pwd)
 CC = gcc
 
 CFLAGS := -Werror -Wall -D_GNU_SOURCE
 CFLAGS += -I../../
 CFLAGS += -pthread
-
-ifdef DEBUG
 CFLAGS += -DDEBUG -O0 -g
-endif
 
 sub-dir-build := $(sub-dir:=.build)
 sub-dir-clean := $(sub-dir:=.clean)

@@ -46,8 +46,9 @@ $(TARGETS): %:
 	@echo -e "Target   \033[1;32m$(@)\033[m"
 	LD_LIBRARY_PATH=$(shell pwd) $(CC) $(CFLAGS) -o $(@) $(^) $(LDLIBS) $(LDFLAGS) $(LDFLAGS_$(*))
 
-test: ${TARGETS}
+test: ${TARGETS} ${TARGETS_LIBS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
+	./run.sh
 
 .PHONY: clean
 clean:

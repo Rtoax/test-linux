@@ -1,3 +1,4 @@
+sub-dir := hacking
 
 TARGETS := hello
 TARGETS += socket
@@ -26,9 +27,11 @@ CFLAGS += -DDEBUG -O0 -g
 endif
 CFLAGS += -I../../
 
+sub-dir-build := $(sub-dir:=.build)
+sub-dir-clean := $(sub-dir:=.clean)
 
 .PHONY: build
-build: ${TARGETS} ${TARGETS_LIBS}
+build: ${TARGETS} ${TARGETS_LIBS} $(sub-dir-build)
 	@echo
 	@echo -e " \033[1;33m Done \033[m"
 
@@ -61,5 +64,13 @@ test: ${TARGETS}
 
 .PHONY: clean
 clean:
+clean: $(sub-dir-clean)
 	@echo -e "Clean   \033[1;32m$(@)\033[m"
 	@rm -f ${TARGETS} *.o *.so
+
+$(sub-dir-build):
+	@echo -e "\033[1;32m [sub-dir] build $(@)\033[m"
+	make -C $(@:.build=)
+$(sub-dir-clean):
+	@echo -e "\033[1;32m [sub-dir] clean $(@)\033[m"
+	make -C $(@:.clean=) clean
