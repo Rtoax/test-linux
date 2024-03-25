@@ -1,4 +1,5 @@
 sub-dir := make
+sub-dir += gnupg
 
 TARGETS := __GNUC__
 
