@@ -10,6 +10,7 @@
 BEGIN
 {
 	printf("Tracing open syscall latency.\n");
+	@open_rate = 0;
 }
 
 tracepoint:syscalls:sys_enter_open,
@@ -23,8 +24,10 @@ tracepoint:syscalls:sys_enter_openat2
 tracepoint:syscalls:sys_exit_open,
 tracepoint:syscalls:sys_exit_openat,
 tracepoint:syscalls:sys_exit_openat2
-/ @start[tid] && @files[tid] /
+/ @start[tid] && @files[tid] != 0 /
 {
+	@open_rate++;
+
 	$latency = nsecs - @start[tid];
 
 	@latency_ns = hist($latency);
@@ -39,11 +42,13 @@ tracepoint:syscalls:sys_exit_openat2
 	delete(@files[tid]);
 }
 
-i:s:2
+i:s:1
 {
+	printf("Call open(2) %ld/s\n", @open_rate);
 	print(@latency_ns);
 	print(@spent_more_than_1s);
 	print(@spent_more_than_500ms, 10);
+	clear(@open_rate);
 }
 
 END
@@ -53,5 +58,6 @@ END
 	clear(@spent_more_than_1s);
 	clear(@spent_more_than_500ms);
 	clear(@files);
+	clear(@open_rate);
 }
 
