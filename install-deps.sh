@@ -130,6 +130,7 @@ pkgs+=( socat )
 pkgs+=( sparse )               # sparse
 pkgs+=( strace )
 pkgs+=( smartmontools )        # smartctl
+pkgs+=( sysstat )
 pkgs+=( tree )
 
 # Benchmark
