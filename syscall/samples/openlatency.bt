@@ -7,7 +7,7 @@
  * 2024-03-25	Rong Tao	Create this.
  */
 
-struct open_how {
+struct __open_how {
 	unsigned long flags;
 	unsigned long mode;
 	unsigned long resolve;
@@ -30,7 +30,7 @@ tracepoint:syscalls:sys_enter_openat
 
 tracepoint:syscalls:sys_enter_openat2
 {
-	$how = (struct open_how *)args->how;
+	$how = (struct __open_how *)args->how;
 	$flags = $how->flags;
 	@flags[tid] = $flags;
 	@start[tid] = nsecs;
