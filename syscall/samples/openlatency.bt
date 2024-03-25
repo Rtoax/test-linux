@@ -7,6 +7,12 @@
  * 2024-03-25	Rong Tao	Create this.
  */
 
+struct open_how {
+	unsigned long flags;
+	unsigned long mode;
+	unsigned long resolve;
+};
+
 BEGIN
 {
 	printf("Tracing open syscall latency.\n");
@@ -14,9 +20,19 @@ BEGIN
 }
 
 tracepoint:syscalls:sys_enter_open,
-tracepoint:syscalls:sys_enter_openat,
+tracepoint:syscalls:sys_enter_openat
+{
+	$flags = args->flags;
+	@flags[tid] = $flags;
+	@start[tid] = nsecs;
+	@files[tid] = args->filename;
+}
+
 tracepoint:syscalls:sys_enter_openat2
 {
+	$how = (struct open_how *)args->how;
+	$flags = $how->flags;
+	@flags[tid] = $flags;
 	@start[tid] = nsecs;
 	@files[tid] = args->filename;
 }
@@ -28,18 +44,20 @@ tracepoint:syscalls:sys_exit_openat2
 {
 	@open_rate++;
 
+	$flags = @flags[tid];
 	$latency = nsecs - @start[tid];
 
 	@latency_ns = hist($latency);
 
 	/* 1s */
 	if ($latency > 1000000000) {
-		@spent_more_than_1s[pid, comm, str(@files[tid])] = count();
+		@spent_more_than_1s[pid, comm, str(@files[tid]), $flags] = count();
 	} else if ($latency > 500000000) {
-		@spent_more_than_500ms[pid, comm, str(@files[tid])] = count();
+		@spent_more_than_500ms[pid, comm, str(@files[tid]), $flags] = count();
 	}
 	delete(@start[tid]);
 	delete(@files[tid]);
+	delete(@flags[tid]);
 }
 
 i:s:1
@@ -58,6 +76,7 @@ END
 	clear(@spent_more_than_1s);
 	clear(@spent_more_than_500ms);
 	clear(@files);
+	clear(@flags);
 	clear(@open_rate);
 }
 
