@@ -11,3 +11,6 @@ echo $PIDS
 
 ## 按照Pss计算所有进程使用的总内存
 for pid in $PIDS; do cat /proc/$pid/smaps; done | awk '/Pss/ {mem += $2} END {print mem, "kB"}'
+
+vmstat
+
