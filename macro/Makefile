@@ -17,6 +17,9 @@ ifeq ($(shell uname -m),x86_64)
 TARGETS += __i386__
 TARGETS += __x86_64__
 endif
+ifeq ($(shell uname -m),aarch64)
+TARGETS += __aarch64__
+endif
 
 DEBUG = yes
 SRC_PATH := $(shell pwd)
@@ -43,6 +46,7 @@ offsetof: offsetof.o
 __clang__: __clang__.o
 __i386__: __i386__.o
 __x86_64__: __x86_64__.o
+__aarch64__: __aarch64__.o
 __nonnull: __nonnull.o
 __cplusplus: __cplusplus.o
 __restrict__: __restrict__.o

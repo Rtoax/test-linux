@@ -8,6 +8,7 @@
 /__clang__
 /__i386__
 /__x86_64__
+/__aarch64__
 /__nonnull
 /__cplusplus
 /__restrict__
