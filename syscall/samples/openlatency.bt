@@ -32,13 +32,16 @@ tracepoint:syscalls:sys_exit_openat2
 	/* 1s */
 	if ($latency > 1000000000) {
 		@spend_more_than_1s[pid, comm] = count();
+	} else if ($latency > 500000000) {
+		@spend_more_than_500ms[pid, comm] = count();
 	}
 }
 
 i:s:2
 {
 	print(@latency_ns);
-	print(@spend_more_than_1s)
+	print(@spend_more_than_1s);
+	print(@spend_more_than_500ms, 10);
 }
 
 END
@@ -46,5 +49,6 @@ END
 	clear(@start);
 	clear(@latency_ns);
 	clear(@spend_more_than_1s);
+	clear(@spend_more_than_500ms);
 }
 
