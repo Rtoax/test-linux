@@ -126,7 +126,10 @@ cmake_install.cmake
 
 # LVM, Filesystem File
 *.ext4
+*.ext3
+*.ext2
 *.vg
+*.xfs
 
 # Grub/EFI/BIOS/EDK2/OVMF
 *.efi
@@ -141,9 +144,12 @@ os-release
 # Temp File
 vmlinux.h
 
-# File system
-*.ext4
-*.ext3
-*.ext2
-*.xfs
+
+# Crypt. like gnupg, ssl, etc.
+*.asc
+*.cer
+*.gpg
+*.pem
+*.sig
+*.sign
 

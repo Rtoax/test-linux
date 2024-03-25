@@ -110,6 +110,7 @@ pkgs+=( crash )
 pkgs+=( criu )
 pkgs+=( dwarves )              # pahole
 pkgs+=( efivar mokutil )       # UEFI
+pkgs+=( gnupg2 )               # gpg
 pkgs+=( golang )               # go
 pkgs+=( hwloc )                # lstopo
 pkgs+=( inotify-tools )        # inotifywatch, ...
