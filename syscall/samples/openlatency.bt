@@ -2,7 +2,7 @@
 /**
  * openlatency.bt - Tracing open syscall latency
  *
- * Copyright (C) CESTC.
+ * Copyright (C) Rong Tao.
  *
  * 2024-03-25	Rong Tao	Create this.
  */
