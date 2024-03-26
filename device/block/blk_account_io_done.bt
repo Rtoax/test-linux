@@ -13,25 +13,27 @@
 BEGIN
 {
 	printf("Tracing block request, hit ctrl-c to end.\n");
-	printf("%-8s %-8s %-16s\n", "TIME", "PID", "COMM");
+	printf("%-8s %-8s %-16s %-8s\n", "TIME", "PID", "COMM", "CMD");
 }
 
 kprobe:blk_account_io_done
 {
 	$req = (struct request *)arg0;
 	$cmd_flags = $req->cmd_flags;
+	/* see REQ_OP_MASK in linux/blk_types.h */
+	$cmd = $cmd_flags & 0x000000FF;
 
-	if ($cmd_flags == REQ_OP_READ) {
+	if ($cmd == REQ_OP_READ) {
 		@read[comm] = count();
 	}
-	if ($cmd_flags == REQ_OP_WRITE) {
+	if ($cmd == REQ_OP_WRITE) {
 		@write[comm] = count();
 	}
-	if ($cmd_flags == REQ_OP_FLUSH) {
+	if ($cmd == REQ_OP_FLUSH) {
 		@flush[comm] = count();
 	}
 	time("%H:%M:%S ");
-	printf("%-8d %-16s %-8x\n", pid, comm, $cmd_flags);
+	printf("%-8d %-16s %-8x\n", pid, comm, $cmd);
 }
 
 END
