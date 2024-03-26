@@ -21,6 +21,15 @@ kprobe:blk_account_io_done
 	$req = (struct request *)arg0;
 	$cmd_flags = $req->cmd_flags;
 
+	if ($cmd_flags == REQ_OP_READ) {
+		@read[comm] = count();
+	}
+	if ($cmd_flags == REQ_OP_WRITE) {
+		@write[comm] = count();
+	}
+	if ($cmd_flags == REQ_OP_FLUSH) {
+		@flush[comm] = count();
+	}
 	time("%H:%M:%S ");
 	printf("%-8d %-16s %-8x\n", pid, comm, $cmd_flags);
 }
