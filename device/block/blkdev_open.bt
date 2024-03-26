@@ -1,0 +1,53 @@
+#!/bin/env bpftrace
+/**
+ * blkdev_open.bt - description
+ *
+ * Copyright (C) Rong Tao 2022-2024
+ *
+ * 2024-03-26	Rong Tao	Create this.
+ */
+#ifndef BPFTRACE_HAVE_BTF
+#include <linux/blkdev.h>
+#endif
+
+BEGIN
+{
+	printf("Tracing block dev open, hit ctrl-c to end.\n");
+}
+
+kprobe:blkdev_open
+{
+	@start[tid] = nsecs;
+}
+
+kretprobe:blkdev_open
+/ @start[tid] /
+{
+	$latency = nsecs - @start[tid];
+	@latency_ns = hist($latency);
+
+	/* 1s */
+	if ($latency > 1000000000) {
+		@spent_more_than_1s[pid, comm] = count();
+	} else if ($latency > 500000000) {
+		@spent_more_than_500ms[pid, comm] = count();
+	}
+
+	delete(@start[tid]);
+}
+
+i:s:1
+{
+	print(@latency_ns);
+	print(@spent_more_than_1s);
+	print(@spent_more_than_500ms, 10);
+}
+
+END
+{
+	clear(@start);
+	clear(@latency_ns);
+	clear(@spent_more_than_1s);
+	clear(@spent_more_than_500ms);
+	printf("Bye.\n");
+}
