@@ -1,8 +1,6 @@
 test-linux
 ==========
 
-> Rong Tao <rtoax@foxmail.com>
-> more about auther see AUTHOR file.
 > You must clone this repo under Linux(UNIX like) system. Because
 > there are lots of symbol links, some file system not support in
 > Windows OS.
