@@ -4,16 +4,12 @@ TARGETS += TIOCSWINSZ
 TARGETS += SIOCETHTOOL
 TARGETS += SIOCGIFCONF
 TARGETS += CDROMEJECT
+TARGETS += num
 
-DEBUG = yes
-SRC_PATH := $(shell pwd)
 CC = gcc
 
 CFLAGS := -Werror -Wall
-
-ifdef DEBUG
 CFLAGS += -DDEBUG -O0 -g
-endif
 
 build: ${TARGETS}
 	@echo
@@ -25,6 +21,7 @@ TIOCGWINSZ: TIOCGWINSZ.o
 TIOCSWINSZ: TIOCSWINSZ.o
 SIOCGIFCONF: SIOCGIFCONF.o
 CDROMEJECT: CDROMEJECT.o
+num: num.o
 
 %.d: %.c
 	@echo -e "Generate \033[1m$(@)\033[m"

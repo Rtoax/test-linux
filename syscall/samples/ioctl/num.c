@@ -1,0 +1,46 @@
+#include <stdio.h>
+#include <sys/mount.h>
+#include <linux/fs.h>
+#include <linux/blktrace_api.h>
+
+
+int main(void)
+{
+#define V32(b)	printf("%32s 0x%016x\n", #b, b);
+#define V64(b)	printf("%32s 0x%016lx\n", #b, b);
+	V32(BLKROSET);
+	V32(BLKROGET);
+	V32(BLKRRPART);
+	V32(BLKGETSIZE);
+	V32(BLKFLSBUF);
+	V32(BLKRASET);
+	V32(BLKRAGET);
+	V32(BLKFRASET);
+	V32(BLKFRAGET);
+	V32(BLKSECTSET);
+	V32(BLKSECTGET);
+	V32(BLKSSZGET);
+	V64(BLKBSZGET);
+	V64(BLKBSZSET);
+	V64(BLKGETSIZE64);
+
+	V64(BLKTRACESETUP);
+	V32(BLKTRACESTART);
+	V32(BLKTRACESTOP);
+	V32(BLKTRACETEARDOWN);
+	V32(BLKDISCARD);
+	V32(BLKIOMIN);
+	V32(BLKIOOPT);
+	V32(BLKALIGNOFF);
+	V32(BLKPBSZGET);
+	V32(BLKDISCARDZEROES);
+	V32(BLKSECDISCARD);
+	V32(BLKROTATIONAL);
+	V32(BLKZEROOUT);
+	V64(BLKGETDISKSEQ);
+#undef V32
+#undef V64
+
+	return 0;
+}
+
