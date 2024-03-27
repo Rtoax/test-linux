@@ -9,11 +9,22 @@ rota_s()
 	esac
 }
 
-# or lsblk -o name,rota
-printf "%-16s %-8s\n" "BLK" "TYPE"
-echo "--------------------"
+sched_s()
+{
+	local l="$@"
+	local a=${l##*[}
+	local b=${a%]*}
+	echo ${b}
+}
+
+# or lsblk -o name,rota,sched
+printf "%-16s %-8s %-8s\n" "NAME" "ROTA" "SCHED"
 for b in ${blks[@]}
 do
 	rota=$(cat /sys/block/${b}/queue/rotational)
-	printf "%-16s %-8s\n" ${b} $(rota_s ${rota})
+	sched=$(cat /sys/block/${b}/queue/scheduler 2>/dev/null || echo -[-]-)
+	printf "%-16s %-8s %-8s\n" \
+		${b} \
+		$(rota_s ${rota}) \
+		$(sched_s ${sched})
 done
