@@ -1,3 +1,7 @@
+/**
+ * Test:
+ * while true; do for b in $(ls /dev/sd[a-z]); do sudo ./open $b; done; done
+ */
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>

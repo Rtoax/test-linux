@@ -94,6 +94,7 @@ __pycache__
 
 # Log
 *.log
+*.log.[0-9]
 
 # Socket
 *.sock
