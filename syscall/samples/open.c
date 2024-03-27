@@ -23,5 +23,6 @@ int main(void)
 		perror("open");
 		return 1;
 	}
+	close(fd);
 	return 0;
 }
