@@ -50,7 +50,7 @@ BEGIN
 	@S_CMD[0x0000000000002282] = "SG_GET_VERSION_NUM";
 
 	printf("Tracing block dev ioctl, hit ctrl-c to end.\n");
-	printf("%-16s %-16s\n", "BLK/DISK", "CMD");
+	printf("%-8s %-16s %-16s %-16s\n", "PID", "COMM", "BLK/DISK", "CMD");
 }
 
 /**
@@ -65,10 +65,10 @@ kprobe:block_ioctl
 	$name = $dentry->d_name.name;
 
 	if (@S_CMD[$cmd] != "") {
-		printf("%-16s %-16s\n", str($name), @S_CMD[$cmd]);
+		printf("%-8d %-16s %-16s %-16s\n", pid, comm, str($name), @S_CMD[$cmd]);
 		@cnt_cmds_s[comm, str($name), @S_CMD[$cmd]] = count();
 	} else {
-		printf("%-16s %-16lx\n", str($name), $cmd);
+		printf("%-8d %-16s %-16s %-16lx\n", pid, comm, str($name), $cmd);
 		@cnt_cmds[comm, str($name), $cmd] = count();
 	}
 }
