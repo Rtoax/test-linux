@@ -1,0 +1,57 @@
+#!/bin/env bpftrace
+/**
+ * blkdev_ioctl.bt - Tracing block ioctl
+ *
+ * Copyright (C) Rong Tao 2022-2024
+ *
+ * 2024-03-27	Rong Tao	Create this.
+ */
+#ifndef BPFTRACE_HAVE_BTF
+#include <linux/blkdev.h>
+#endif
+
+BEGIN
+{
+	printf("Tracing block dev ioctl, hit ctrl-c to end.\n");
+}
+
+kprobe:blkdev_open
+{
+	@bdev[tid] = (struct block_device *)arg0;
+}
+
+kretprobe:blkdev_open
+/ @bdev[tid] /
+{
+	$bdev = @bdev[tid];
+	$inode =$bdev->bd_inode;
+	$disk = $bdev->bd_disk;
+	$major = $disk->major;
+	$name = $disk->disk_name;
+	$cmd = 0;
+
+	/**
+	 * TODO: all zero?? why?
+	 * Maybe is kernel's BUG, check it.
+	 */
+
+	printf("i_ino = %lx\n", $inode->i_ino);
+	printf("bd_dev = %lx\n", $bdev->bd_dev);
+	printf("bd_holders = %d\n", $bdev->bd_holders);
+	printf("bd_partno = %d\n", $bdev->bd_partno);
+	printf("gendisk->node_id = %d\n", $disk->node_id);
+	printf("gendisk->flags = %d\n", $disk->flags);
+	printf("%-8s %-8lx %-8d %-8d\n", $name, $cmd, $major, $inode->i_ino);
+
+	delete(@bdev[tid]);
+}
+
+i:s:1
+{
+	printf("\n");
+}
+
+END
+{
+	printf("Bye.\n");
+}
