@@ -1,10 +1,11 @@
 #!/bin/env bpftrace
 /**
- * blkdev_open.bt - description
+ * blkopensnoop.bt - Tracing block open
  *
  * Copyright (C) Rong Tao 2022-2024
  *
  * 2024-03-26	Rong Tao	Create this.
+ * 2024-03-27	Rong Tao	Tracing block device file name.
  */
 #ifndef BPFTRACE_HAVE_BTF
 #include <linux/blkdev.h>
@@ -15,7 +16,16 @@ BEGIN
 	printf("Tracing block dev open, hit ctrl-c to end.\n");
 }
 
+tracepoint:syscalls:sys_enter_open,
+tracepoint:syscalls:sys_enter_openat,
+tracepoint:syscalls:sys_enter_openat2
+{
+	@start[tid] = nsecs;
+	@files[tid] = args->filename;
+}
+
 kprobe:blkdev_open
+/ @start[tid] /
 {
 	@start[tid] = nsecs;
 }
@@ -28,24 +38,39 @@ kretprobe:blkdev_open
 
 	/* 1s */
 	if ($latency > 1000000000) {
-		@spent_more_than_1s[pid, comm] = count();
+		@spent_more_than_1s[pid, comm, str(@files[tid])] = count();
 	} else if ($latency > 500000000) {
-		@spent_more_than_500ms[pid, comm] = count();
+		@spent_more_than_500ms[pid, comm, str(@files[tid])] = count();
 	}
 
+	@opens[comm, str(@files[tid])] = count();
+
 	delete(@start[tid]);
+	delete(@files[tid]);
+}
+
+tracepoint:syscalls:sys_exit_open,
+tracepoint:syscalls:sys_exit_openat,
+tracepoint:syscalls:sys_exit_openat2
+{
+	delete(@start[tid]);
+	delete(@files[tid]);
 }
 
 i:s:1
 {
+	printf("\n");
 	print(@latency_ns);
 	print(@spent_more_than_1s);
 	print(@spent_more_than_500ms, 10);
+	print(@opens)
 }
 
 END
 {
 	clear(@start);
+	clear(@files);
+	clear(@opens);
 	clear(@latency_ns);
 	clear(@spent_more_than_1s);
 	clear(@spent_more_than_500ms);
