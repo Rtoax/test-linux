@@ -1,5 +1,11 @@
+/**
+ * bpftrace script can use:
+ * $ ./num | awk '{print "\t@S_CMD["$2"] = \""$1"\";"}'
+ */
 #include <stdio.h>
 #include <sys/mount.h>
+#include <scsi/scsi.h>
+#include <scsi/sg.h>
 #include <linux/fs.h>
 #include <linux/blktrace_api.h>
 
@@ -38,6 +44,15 @@ int main(void)
 	V32(BLKROTATIONAL);
 	V32(BLKZEROOUT);
 	V64(BLKGETDISKSEQ);
+
+	V32(SCSI_IOCTL_GET_IDLUN);
+	V32(SCSI_IOCTL_TAGGED_ENABLE);
+	V32(SCSI_IOCTL_TAGGED_DISABLE);
+	V32(SCSI_IOCTL_PROBE_HOST);
+	V32(SCSI_IOCTL_GET_BUS_NUMBER);
+
+	V32(SG_IO);
+	V32(SG_GET_VERSION_NUM);
 #undef V32
 #undef V64
 
