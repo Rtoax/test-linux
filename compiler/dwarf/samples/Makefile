@@ -23,6 +23,7 @@ CFLAGS_hello += -Wno-error=unused-variable
 $(TARGETS): %:
 	@echo -e "Target   \033[1;32m$(@)\033[m"
 	$(CC) $(CFLAGS) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
+	dwz $(@) -o $(@).dwz
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
