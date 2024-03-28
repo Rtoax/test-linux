@@ -1,4 +1,5 @@
 sub-dir := openssl
+sub-dir += pam
 
 TARGETS :=
 

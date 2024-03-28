@@ -200,6 +200,7 @@ cclinux|fedora|centos|rhel|openEuler|almalinux)
 	pkgs+=( mpich mpich-devel )    # mpi
 	pkgs+=( nvme-cli )             # nvme
 	pkgs+=( overlayfs-tools )
+	pkgs+=( pam-devel )
 	pkgs+=( procps-ng )            # pidof, top, etc.
 	pkgs+=( scl-utils )
 	pkgs+=( sg3_utils )            # sg_inq, etc.
