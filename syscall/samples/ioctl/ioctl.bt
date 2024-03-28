@@ -6,7 +6,9 @@
  *
  * 2023-07-06	Rong Tao	Create this.
  * 2023-07-20	Rong Tao	Add latency.
+ * 2024-03-28	Rong Tao	Record big latency
  */
+#define u64 unsigned long
 /* see /usr/include/asm-generic/ioctls.h */
 #define TIOCGWINSZ  0x5413
 #define TIOCSWINSZ  0x5414
