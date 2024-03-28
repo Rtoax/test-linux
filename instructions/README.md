@@ -84,4 +84,5 @@ NEON < SVE = SVE2
 - https://www.felixcloutier.com/x86/
 - [Intel ISA-L](https://github.com/intel/isa-l)
 - https://en.wikipedia.org/wiki/CPUID
+- https://en.wikipedia.org/wiki/Advanced_Vector_Extensions
 
