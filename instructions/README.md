@@ -28,13 +28,20 @@ Register Letter Registers That GCC May Use
 ## x86 Bits
 
 ```
-SSE < SSE2 < SSE3 < SSE4 < AVX < AVX512
+SSE < SSE2 < SSE3 < SSE4 < (SSE5) < AVX < AVX512
 ```
+
+> SSE5: AMD发布，Intel生气不玩了
+
+
+### AVX -> AVX2
+
+TODO
 
 ## arm Bits
 
 ```
-NEON < SVE = SVE2
+NEON < SVE <= SVE2
 ```
 
 ### NEON SVE/SVE2
