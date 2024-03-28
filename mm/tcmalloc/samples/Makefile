@@ -1,6 +1,7 @@
 
 TARGETS :=
 TARGETS += tc_malloc
+TARGETS += tc_calloc
 
 CC = gcc
 
@@ -19,6 +20,7 @@ build: ${TARGETS}
 
 # Add more object.o file
 tc_malloc: tc_malloc.o
+tc_calloc: tc_calloc.o
 
 %.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
