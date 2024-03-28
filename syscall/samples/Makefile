@@ -23,6 +23,7 @@ sub-dir += flock
 sub-dir += fs
 sub-dir += fanotify
 sub-dir += inotify
+sub-dir += seccomp
 sub-dir += semaphore
 sub-dir += signal
 sub-dir += socket
