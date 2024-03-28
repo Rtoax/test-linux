@@ -191,14 +191,14 @@ void cpu_address_sizes(void)
 
 static int __lvl_ecx_has_bit(int lvl, unsigned int bit)
 {
-	unsigned int eax = 0, ebx = 0, ecx = 0, edx = 0;
+	unsigned int eax, ebx, ecx, edx;
 	cpuid(lvl, &eax, &ebx, &ecx, &edx);
 	return ecx & bit ? 1 : 0;
 }
 
 static int __lvl_edx_has_bit(int lvl, unsigned int bit)
 {
-	unsigned int eax = 0, ebx = 0, ecx = 0, edx = 0;
+	unsigned int eax, ebx, ecx, edx;
 	cpuid(lvl, &eax, &ebx, &ecx, &edx);
 	return edx & bit ? 1 : 0;
 }
