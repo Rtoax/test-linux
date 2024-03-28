@@ -4,27 +4,19 @@
 #include <stdbool.h>
 #include "cpuid-generic.h"
 
-#if defined(__x86_64__)
-#include "cpuid-x86.h"
 
 int main(int argc, char *argv[])
 {
 	vendor_id();
+#if defined(__x86_64__)
 	family_model();
 	model_name();
 	cpu_address_sizes();
 	printf("AVX: %s\n", have_avx() ? "support" : "NOTREACHEDt support");
 	detect_vm_cpuid();
 
-	return 0;
-}
 #elif defined(__aarch64__)
-#include "cpuid-arm64.h"
 
-int main(int argc, char *argv[])
-{
-	detect_vm_cpuid();
-
+#endif
 	return 0;
 }
-#endif

@@ -27,7 +27,6 @@ void cpu_detect(int cpuid_level);
 #define X86EMUL_CPUID_VENDOR_CentaurHauls_ecx 0x736c7561
 #define X86EMUL_CPUID_VENDOR_CentaurHauls_edx 0x48727561
 
-void vendor_id(void);
 void family_model(void);
 void model_name(void);
 
@@ -45,3 +44,14 @@ int have_avx(void);
 #define kCPUFeature_AVX		0x40
 
 unsigned int checkCPUFeatures(void);
+
+#define VIRTUALIZATION_NONE 0
+#define VIRTUALIZATION_XEN 1
+#define VIRTUALIZATION_KVM 2
+#define VIRTUALIZATION_QEMU 3
+#define VIRTUALIZATION_VMWARE 4
+#define VIRTUALIZATION_MICROSOFT 5
+#define VIRTUALIZATION_BHYVE 6
+#define VIRTUALIZATION_QNX 7
+#define VIRTUALIZATION_VM_OTHER 8
+int detect_vm_cpuid(void);
