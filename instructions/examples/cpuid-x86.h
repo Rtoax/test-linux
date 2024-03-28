@@ -34,16 +34,15 @@ void model_name(void);
 void cpu_address_sizes(void);
 
 int have_avx(void);
-
-#define kCPUFeature_SSE		0x01
-#define kCPUFeature_SSE2	0x02
-#define kCPUFeature_SSE3	0x04
-#define kCPUFeature_SSE3_S	0x08
-#define kCPUFeature_SSE4_1	0x10
-#define kCPUFeature_SSE4_2	0x20
-#define kCPUFeature_AVX		0x40
-
-unsigned int checkCPUFeatures(void);
+int have_sse3(void);
+int have_sse4_1(void);
+int have_sse4_2(void);
+int have_ssse3(void);
+int have_fma(void);
+int have_xsave(void);
+int have_mmx(void);
+int have_sse(void);
+int have_sse2(void);
 
 #define VIRTUALIZATION_NONE 0
 #define VIRTUALIZATION_XEN 1

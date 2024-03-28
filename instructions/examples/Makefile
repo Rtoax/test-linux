@@ -80,6 +80,7 @@ rdmsr: rdmsr.o
 mrs: mrs.o
 simd: simd.o
 
+#CFLAGS += -Werror -Wall
 CFLAGS += -g -ggdb
 CFLAGS += -D_GNU_SOURCE
 CFLAGS += -O3

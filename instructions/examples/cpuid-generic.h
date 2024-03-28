@@ -6,4 +6,5 @@
 #endif
 
 int vendor_id(void);
+int cpu_flags(void);
 

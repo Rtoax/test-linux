@@ -9,21 +9,8 @@
 
 #define ARRAY_SIZE(a) (sizeof(a)/sizeof(a[0]))
 
-
-static inline void cpuid(unsigned int op, unsigned int *eax, unsigned int *ebx,
-			 unsigned int *ecx, unsigned int *edx)
-{
-	*eax = op;
-	*ecx = 0;
-
-	asm volatile("cpuid"
-		: "=a" (*eax),
-		  "=b" (*ebx),
-		  "=c" (*ecx),
-		  "=d" (*edx)
-		: "0" (*eax), "2" (*ecx)
-		: "memory");
-}
+/* see /usr/lib/gcc/x86_64-xxx-linux/xx/include/cpuid.h */
+#define cpuid __get_cpuid
 
 unsigned int x86_family(unsigned int sig)
 {
@@ -208,58 +195,44 @@ void cpu_address_sizes(void)
 			x86_phys_bits, x86_virt_bits);
 }
 
-int have_avx(void)
+static int __lvl_ecx_has_bit(int lvl, unsigned int bit)
 {
 	unsigned int eax = 0, ebx = 0, ecx = 0, edx = 0;
-	cpuid(1, &eax, &ebx, &ecx, &edx);
-	return ecx & bit_AVX ? 1 : 0;
+	cpuid(lvl, &eax, &ebx, &ecx, &edx);
+	return ecx & bit ? 1 : 0;
 }
 
-#define kCPUFeature_SSE		0x01
-#define kCPUFeature_SSE2	0x02
-#define kCPUFeature_SSE3	0x04
-#define kCPUFeature_SSE3_S	0x08
-#define kCPUFeature_SSE4_1	0x10
-#define kCPUFeature_SSE4_2	0x20
-#define kCPUFeature_AVX		0x40
-
-unsigned int checkCPUFeatures(void)
+static int __lvl_edx_has_bit(int lvl, unsigned int bit)
 {
-	uint32_t xcr0;
 	unsigned int eax = 0, ebx = 0, ecx = 0, edx = 0;
-	unsigned int features = 0;
+	cpuid(lvl, &eax, &ebx, &ecx, &edx);
+	return edx & bit ? 1 : 0;
+}
 
-	cpuid(1, &eax, &ebx, &ecx, &edx);
+int have_mmx(void) { return __lvl_edx_has_bit(1, bit_MMX); }
+int have_sse(void) { return __lvl_edx_has_bit(1, bit_SSE); }
+int have_sse2(void) { return __lvl_edx_has_bit(1, bit_SSE2); }
+int have_sse3(void) { return __lvl_ecx_has_bit(1, bit_SSE3); }
+int have_sse4_1(void) { return __lvl_ecx_has_bit(1, bit_SSE4_1); }
+int have_sse4_2(void) { return __lvl_ecx_has_bit(1, bit_SSE4_2); }
+int have_ssse3(void) { return __lvl_ecx_has_bit(1, bit_SSSE3); }
+int have_fma(void) { return __lvl_ecx_has_bit(1, bit_FMA); }
+int have_xsave(void) { return __lvl_ecx_has_bit(1, bit_XSAVE); }
+int have_avx(void) { return __lvl_ecx_has_bit(1, bit_AVX); }
 
-	if( (edx & (1 << 25)) != 0 ) {
-		features |= kCPUFeature_SSE;
-	}
-	if( (edx & (1 << 26)) != 0 ) {
-		features |= kCPUFeature_SSE2;
-	}
-	if( (ecx & (1 << 0)) != 0 ) {
-		features |= kCPUFeature_SSE3;
-	}
-	if( (ecx & (1 << 9)) != 0 ) {
-		features |= kCPUFeature_SSE3_S;
-	}
-	if( (ecx & (1 << 19)) != 0 ) {
-		features |= kCPUFeature_SSE4_1;
-	}
-	if( (ecx & (1 << 20)) != 0 ) {
-		features |= kCPUFeature_SSE4_2;
-	}
-	if( (ecx & (1 << 28)) != 0 && (ecx & (1 << 27)) != 0 && (ecx & (1 << 26)) != 0 ) {
-#if defined(_MSC_VER)
-		xcr0 = _xgetbv();
-#else
-		__asm__("xgetbv" : "=a" (xcr0) : "c" (0) : "%edx");
-#endif
-		if((xcr0 & 6) == 6) {
-			features |= kCPUFeature_AVX;
-		}
-	}
-	return features;
+int cpu_flags(void)
+{
+	printf("flags:");
+	printf("%s", have_avx() ? " avx" : "");
+	printf("%s", have_sse() ? " sse" : "");
+	printf("%s", have_sse2() ? " sse2" : "");
+	printf("%s", have_sse3() ? " sse3" : "");
+	printf("%s", have_sse4_1() ? " sse4_1" : "");
+	printf("%s", have_sse4_2() ? " sse4_2" : "");
+	printf("%s", have_ssse3() ? " ssse3" : "");
+	printf("%s", have_fma() ? " fma" : "");
+	printf("%s", have_xsave() ? " xsave" : "");
+	printf("\n");
 }
 
 int detect_vm_cpuid(void)

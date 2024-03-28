@@ -12,11 +12,12 @@ int main(int argc, char *argv[])
 	family_model();
 	model_name();
 	cpu_address_sizes();
-	printf("AVX: %s\n", have_avx() ? "support" : "NOTREACHEDt support");
 	detect_vm_cpuid();
 
 #elif defined(__aarch64__)
 
 #endif
+	cpu_flags();
+
 	return 0;
 }

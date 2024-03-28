@@ -25,3 +25,9 @@ int vendor_id(void)
 	return vendor_id;
 }
 
+int cpu_flags(void)
+{
+	/* TODO */
+	return 0;
+}
+
