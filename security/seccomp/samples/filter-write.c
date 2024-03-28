@@ -1,3 +1,12 @@
+/**
+ * Seccomp bpf demo
+ *
+ * # show nothing
+ * $ ./filter-write "ls -la"
+ *
+ * # All the write syscalls got `EPERM`
+ * $ strace --follow-forks ./filter-write "ls -la"
+ */
 #include <errno.h>
 #include <stddef.h>
 #include <stdio.h>
