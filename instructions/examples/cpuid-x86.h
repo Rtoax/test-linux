@@ -227,6 +227,7 @@ is_avx_supported(void)
 
 static unsigned int checkCPUFeatures(void)
 {
+	uint32_t xcr0;
 	unsigned int eax = 0, ebx = 0, ecx = 0, edx = 0;
 	unsigned int features = 0;
 	cpuid(1, &eax, &ebx, &ecx, &edx);

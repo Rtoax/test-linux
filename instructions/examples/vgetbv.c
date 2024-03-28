@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdbool.h>
+#include <stdint.h>
 
 #define VGA_amd64 1
 
@@ -33,8 +34,18 @@ static bool have_xgetbv(void)
 
 int main(void)
 {
+	uint32_t xcr0, xmm_ymm;
 
 	printf("%d\n", have_xgetbv());
-	//printf("%d\n", _xgetbv());
+#if defined(_MSC_VER)
+	xcr0 = _xgetbv();
+#else
+	__asm__("xgetbv" : "=a" (xcr0) : "c" (0) : "%edx");
+#endif
+	printf("xcr0 = 0x%x\n", xcr0);
+
+	xmm_ymm = xcr0 & 0x6;
+	printf("xmm/ymm = 0x%x\n", xmm_ymm);
+
 	return 0;
 }
