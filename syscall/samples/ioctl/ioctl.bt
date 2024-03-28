@@ -51,8 +51,22 @@ tracepoint:syscalls:sys_exit_ioctl
 	$diff_us = (nsecs - @start[tid]) / 1000;
 
 	@latency_us[@cmds[tid]] = hist($diff_us);
+
+	/* 1s */
+	if ($diff_us > 1000000) {
+		@spent_more_than_1s[pid, comm, @cmds[tid]] = count();
+	} else if ($diff_us > 500000) {
+		@spent_more_than_500ms[pid, comm, @cmds[tid]] = count();
+	}
+
 	delete(@start[tid]);
 	delete(@cmds[tid]);
+}
+
+i:s:1
+{
+	print(@spent_more_than_1s);
+	print(@spent_more_than_500ms);
 }
 
 END
