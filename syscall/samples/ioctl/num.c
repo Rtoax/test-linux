@@ -12,16 +12,58 @@
 #include <scsi/scsi_ioctl.h>
 #include <linux/blkpg.h>
 #include <linux/blkzoned.h>
+#include <linux/cdrom.h>
 #include <linux/fs.h>
 #include <linux/fiemap.h>
 #include <linux/nvme_ioctl.h>
 #include <linux/blktrace_api.h>
 
+#define ARRAY_SIZE(arr) (sizeof(arr) / sizeof(arr[0]))
+
+const static char *ascii[] = {
+	"\033[1;32m",
+	"\033[1;33m",
+};
+static char *reset = "\033[m";
+static int ascii_idx = 0;
+#define seperator() printf("%s%s", reset, ascii[ascii_idx++ % ARRAY_SIZE(ascii)])
+#define reset() printf("%s", reset)
 
 int main(void)
 {
 #define V32(b)	printf("%32s 0x%016x\n", #b, b);
 #define V64(b)	printf("%32s 0x%016lx\n", #b, b);
+
+	seperator();
+
+	V32(CDROMPAUSE);
+	V32(CDROMRESUME);
+	V32(CDROMPLAYMSF);
+	V32(CDROMPLAYTRKIND);
+	V32(CDROMREADTOCHDR);
+	V32(CDROMREADTOCENTRY);
+	V32(CDROMSTOP);
+	V32(CDROMSTART);
+	V32(CDROMEJECT);
+	V32(CDROMVOLCTRL);
+	V32(CDROMSUBCHNL);
+	V32(CDROMREADMODE2);
+	V32(CDROMREADMODE1);
+	V32(CDROMREADAUDIO);
+	V32(CDROMEJECT_SW);
+	V32(CDROMMULTISESSION);
+	V32(CDROM_GET_MCN);
+	V32(CDROM_GET_UPC);
+	V32(CDROMRESET);
+	V32(CDROMVOLREAD);
+	V32(CDROMREADRAW);
+	V32(CDROMREADCOOKED);
+	V32(CDROMSEEK);
+	V32(CDROMPLAYBLK);
+	V32(CDROMREADALL);
+
+	seperator();
+
 	V32(BLKROSET);
 	V32(BLKROGET);
 	V32(BLKRRPART);
@@ -39,6 +81,8 @@ int main(void)
 	V64(BLKBSZSET);
 	V64(BLKGETSIZE64);
 
+	seperator();
+
 	V64(BLKTRACESETUP);
 	V32(BLKTRACESTART);
 	V32(BLKTRACESTOP);
@@ -54,6 +98,8 @@ int main(void)
 	V32(BLKZEROOUT);
 	V64(BLKGETDISKSEQ);
 
+	seperator();
+
 	V64(BLKREPORTZONE);
 	V64(BLKRESETZONE);
 	V64(BLKGETZONESZ);
@@ -61,6 +107,8 @@ int main(void)
 	V64(BLKOPENZONE);
 	V64(BLKCLOSEZONE);
 	V64(BLKFINISHZONE);
+
+	seperator();
 
 	V32(SCSI_IOCTL_GET_IDLUN);
 	V32(SCSI_IOCTL_TAGGED_ENABLE);
@@ -76,8 +124,12 @@ int main(void)
 	V32(SCSI_IOCTL_DOORLOCK);
 	V32(SCSI_IOCTL_DOORUNLOCK);
 
+	seperator();
+
 	V32(SG_IO);
 	V32(SG_GET_VERSION_NUM);
+
+	seperator();
 
 	V64(FS_IOC_GETFLAGS);
 	V64(FS_IOC_SETFLAGS);
@@ -93,6 +145,8 @@ int main(void)
 	V64(FS_IOC_GETFSLABEL);
 	V64(FS_IOC_SETFSLABEL);
 
+	seperator();
+
 	V32(NVME_IOCTL_ID);
 	V64(NVME_IOCTL_ADMIN_CMD);
 	V64(NVME_IOCTL_SUBMIT_IO);
@@ -105,6 +159,7 @@ int main(void)
 #undef V32
 #undef V64
 
+	reset();
 	return 0;
 }
 
