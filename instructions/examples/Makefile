@@ -9,6 +9,7 @@ KERNELDIR ?= /lib/modules/$(shell uname -r)/build
 # User
 TARGETS :=
 CFLAGS :=
+ARCH_LIB_CPUID :=
 
 # User
 ifeq ($(shell uname -m),x86_64)
@@ -33,6 +34,8 @@ TARGETS += vgetbv
 TARGETS += stosb memset
 TARGETS += nop
 TARGETS += rdmsr
+
+ARCH_LIB_CPUID += cpuid-x86.o
 endif
 
 ifeq ($(shell uname -m),aarch64)
@@ -46,6 +49,8 @@ endif
 
 CFLAGS += -DCPU_HAVE_NEON=1
 TARGETS += mrs
+
+ARCH_LIB_CPUID += cpuid-arm64.o
 endif
 
 TARGETS += simd
@@ -60,7 +65,7 @@ kernel:
 bts: bts.o
 bswapl: bswapl.o
 invalid_opcode_user: invalid_opcode_user.o
-cpuid_user: cpuid_user.o
+cpuid_user: cpuid_user.o ${ARCH_LIB_CPUID}
 rdtsc_user: rdtsc_user.o
 rdtscp_user: rdtscp_user.o
 rdtsc_cmp: rdtsc_cmp.o

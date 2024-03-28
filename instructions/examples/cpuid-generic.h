@@ -1,4 +1,5 @@
 #pragma once
+#include <cpuid.h>
 
 #define VIRTUALIZATION_NONE 0
 #define VIRTUALIZATION_XEN 1
