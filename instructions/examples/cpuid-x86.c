@@ -132,10 +132,11 @@ is_guest_vendor_hygon(uint32_t ebx, uint32_t ecx, uint32_t edx)
 	       edx == X86EMUL_CPUID_VENDOR_HygonGenuine_edx;
 }
 
-void vendor_id(void)
+int vendor_id(void)
 {
-	int	cpuid_level = 0;
+	int cpuid_level = 0;
 	char x86_vendor_id[16] = {0};
+	uint32_t ebx, ecx, edx;
 
 	cpuid(0x00000000,
 		(unsigned int *)&cpuid_level,
@@ -143,9 +144,9 @@ void vendor_id(void)
 		(unsigned int *)&x86_vendor_id[8],
 		(unsigned int *)&x86_vendor_id[4]);
 
-	uint32_t ebx = *(uint32_t *)&x86_vendor_id[0];
-	uint32_t ecx = *(uint32_t *)&x86_vendor_id[8];
-	uint32_t edx = *(uint32_t *)&x86_vendor_id[4];
+	ebx = *(uint32_t *)&x86_vendor_id[0];
+	ecx = *(uint32_t *)&x86_vendor_id[8];
+	edx = *(uint32_t *)&x86_vendor_id[4];
 
 	if (is_guest_vendor_intel(ebx, ecx, edx))
 		printf("Vendor: Intel\n");
@@ -165,10 +166,8 @@ void vendor_id(void)
 void family_model(void)
 {
 	uint32_t eax, ebx, ecx, edx;
-	int ret = 0;
 
 	eax = ebx = ecx = edx = 0;
-
 	cpuid(1, &eax, &ebx, &ecx, &edx);
 
 	printf("%#08x %#08x %#08x %#08x \n", eax, ebx, ecx, edx);
