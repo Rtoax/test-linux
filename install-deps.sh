@@ -175,6 +175,7 @@ cclinux|fedora|centos|rhel|openEuler|almalinux)
 	pkgs+=( elfutils-libelf-devel )
 	pkgs+=( git-clang-format )
 	pkgs+=( golang-github-cilium-ebpf )
+	pkgs+=( gperftools-devel )
 	pkgs+=( grub2-tools-minimal grub2-tools-extra )
 	pkgs+=( gtest-devel gmock-devel )
 	pkgs+=( gtk3-devel )           # GTK3
