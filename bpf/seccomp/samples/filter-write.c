@@ -1,16 +1,17 @@
 #include <errno.h>
-#include <linux/audit.h>
-#include <linux/bpf.h>
-#include <linux/filter.h>
-#include <linux/seccomp.h>
-#include <linux/unistd.h>
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/prctl.h>
 #include <unistd.h>
+#include <linux/audit.h>
+#include <linux/bpf.h>
+#include <linux/filter.h>
+#include <linux/seccomp.h>
+#include <linux/unistd.h>
 
-static int install_filter(int nr, int arch, int error)
+
+int install_filter(int nr, int arch, int error)
 {
 	printf("INFO: nr syscall %d, arch %x, error %d\n", nr, arch, error);
 	struct sock_filter filter[] = {
