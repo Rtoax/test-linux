@@ -12,7 +12,7 @@
 /* see /usr/lib/gcc/x86_64-xxx-linux/xx/include/cpuid.h */
 #define cpuid __get_cpuid
 
-unsigned int x86_family(unsigned int sig)
+static unsigned int x86_family(unsigned int sig)
 {
 	unsigned int x86;
 
@@ -24,7 +24,7 @@ unsigned int x86_family(unsigned int sig)
 	return x86;
 }
 
-unsigned int x86_model(unsigned int sig)
+static unsigned int x86_model(unsigned int sig)
 {
 	unsigned int fam, model;
 
@@ -38,19 +38,19 @@ unsigned int x86_model(unsigned int sig)
 	return model;
 }
 
-unsigned int x86_stepping(unsigned int sig)
+static unsigned int x86_stepping(unsigned int sig)
 {
 	return sig & 0xf;
 }
 
-void cpu_detect(int cpuid_level)
+void cpu_detect(int level)
 {
 	unsigned char family, model, stepping;
 	int cache_alignment;
 	unsigned short clflush_size;
 
 	/* Intel-defined flags: level 0x00000001 */
-	if (cpuid_level >= 0x00000001) {
+	if (level >= 0x00000001) {
 		unsigned int junk, tfms, cap0, misc;
 
 		cpuid(0x00000001, &tfms, &misc, &junk, &cap0);
@@ -92,16 +92,14 @@ void cpu_detect(int cpuid_level)
 #define X86EMUL_CPUID_VENDOR_CentaurHauls_edx 0x48727561
 
 /* see kernel: arch/x86/kvm/kvm_emulate.h */
-static inline bool
-is_guest_vendor_intel(uint32_t ebx, uint32_t ecx, uint32_t edx)
+static inline bool is_vendor_intel(uint32_t ebx, uint32_t ecx, uint32_t edx)
 {
 	return ebx == X86EMUL_CPUID_VENDOR_GenuineIntel_ebx &&
 	       ecx == X86EMUL_CPUID_VENDOR_GenuineIntel_ecx &&
 	       edx == X86EMUL_CPUID_VENDOR_GenuineIntel_edx;
 }
 
-static inline bool
-is_guest_vendor_amd(uint32_t ebx, uint32_t ecx, uint32_t edx)
+static inline bool is_vendor_amd(uint32_t ebx, uint32_t ecx, uint32_t edx)
 {
 	return (ebx == X86EMUL_CPUID_VENDOR_AuthenticAMD_ebx &&
 		ecx == X86EMUL_CPUID_VENDOR_AuthenticAMD_ecx &&
@@ -111,8 +109,7 @@ is_guest_vendor_amd(uint32_t ebx, uint32_t ecx, uint32_t edx)
 		edx == X86EMUL_CPUID_VENDOR_AMDisbetterI_edx);
 }
 
-static inline bool
-is_guest_vendor_hygon(uint32_t ebx, uint32_t ecx, uint32_t edx)
+static inline bool is_vendor_hygon(uint32_t ebx, uint32_t ecx, uint32_t edx)
 {
 	return ebx == X86EMUL_CPUID_VENDOR_HygonGenuine_ebx &&
 	       ecx == X86EMUL_CPUID_VENDOR_HygonGenuine_ecx &&
@@ -121,12 +118,11 @@ is_guest_vendor_hygon(uint32_t ebx, uint32_t ecx, uint32_t edx)
 
 int vendor_id(void)
 {
-	int cpuid_level = 0;
+	unsigned int max_level = 0;
 	char x86_vendor_id[16] = {0};
 	uint32_t ebx, ecx, edx;
 
-	cpuid(0x00000000,
-		(unsigned int *)&cpuid_level,
+	cpuid(0x00000000, &max_level,
 		(unsigned int *)&x86_vendor_id[0],
 		(unsigned int *)&x86_vendor_id[8],
 		(unsigned int *)&x86_vendor_id[4]);
@@ -135,19 +131,17 @@ int vendor_id(void)
 	ecx = *(uint32_t *)&x86_vendor_id[8];
 	edx = *(uint32_t *)&x86_vendor_id[4];
 
-	if (is_guest_vendor_intel(ebx, ecx, edx))
+	if (is_vendor_intel(ebx, ecx, edx))
 		printf("Vendor: Intel\n");
-	else if (is_guest_vendor_amd(ebx, ecx, edx))
+	else if (is_vendor_amd(ebx, ecx, edx))
 		printf("Vendor: AMD\n");
-	else if (is_guest_vendor_hygon(ebx, ecx, edx))
+	else if (is_vendor_hygon(ebx, ecx, edx))
 		printf("Vendor: Hygon\n");
 	else
 		printf("Vendor: Unknown\n");
 
-	/* cpuid_level: 22, vendor_id: GenuineIntel */
-	printf("cpuid_level: %d, vendor_id: %s\n", cpuid_level, x86_vendor_id);
-
-	cpu_detect(cpuid_level);
+	/* max_level: 22, vendor_id: GenuineIntel */
+	printf("max_level: %d, vendor_id: %s\n", max_level, x86_vendor_id);
 }
 
 void family_model(void)
