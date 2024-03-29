@@ -92,7 +92,7 @@ CFLAGS += -static
 $(info Defined STATIC)
 endif
 
-CFLAGS_rdrand := -march=native
+CFLAGS_rdrand := -mrdrnd
 
 %.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
