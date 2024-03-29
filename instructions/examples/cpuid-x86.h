@@ -19,6 +19,7 @@ int have_xsave(void);
 int have_mmx(void);
 int have_sse(void);
 int have_sse2(void);
+int have_rdrand(void);
 
 #define VIRTUALIZATION_NONE 0
 #define VIRTUALIZATION_XEN 1

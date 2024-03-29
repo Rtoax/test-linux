@@ -34,6 +34,7 @@ TARGETS += vgetbv
 TARGETS += stosb memset
 TARGETS += nop
 TARGETS += rdmsr
+TARGETS += rdrand
 
 ARCH_LIB_CPUID += cpuid-x86.o
 endif
@@ -79,6 +80,7 @@ nop: nop.o
 rdmsr: rdmsr.o
 mrs: mrs.o
 simd: simd.o
+rdrand: rdrand.o
 
 #CFLAGS += -Werror -Wall
 CFLAGS += -g -ggdb

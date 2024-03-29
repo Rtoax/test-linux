@@ -16,3 +16,4 @@
 /rdmsr
 /mrs
 /simd
+/rdrand
