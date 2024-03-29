@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 #define debug() do { \
 		printf("[%s:%s %d]\n", __FILE__, __func__, __LINE__); \
@@ -33,5 +34,9 @@ void __attribute__((destructor(101))) after2(void)
 int main(void)
 {
 	debug();
+	/**
+	 * The dtor still running after main
+	 */
+	exit(1);
 	return 0;
 }
