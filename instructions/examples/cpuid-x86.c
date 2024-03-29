@@ -213,6 +213,7 @@ int have_ssse3(void) { return __lvl_ecx_has_bit(1, bit_SSSE3); }
 int have_fma(void) { return __lvl_ecx_has_bit(1, bit_FMA); }
 int have_xsave(void) { return __lvl_ecx_has_bit(1, bit_XSAVE); }
 int have_avx(void) { return __lvl_ecx_has_bit(1, bit_AVX); }
+int have_rdrand(void) { return __lvl_ecx_has_bit(1, (1 << 30)); }
 
 int cpu_flags(void)
 {
@@ -226,6 +227,7 @@ int cpu_flags(void)
 	printf("%s", have_ssse3() ? " ssse3" : "");
 	printf("%s", have_fma() ? " fma" : "");
 	printf("%s", have_xsave() ? " xsave" : "");
+	printf("%s", have_rdrand() ? " rdrand" : "");
 	printf("\n");
 }
 
