@@ -66,6 +66,18 @@ BEGIN
 	@vmx_str[54] = "WBINVD";
 	@vmx_str[55] = "XSETBV";
 	@vmx_str[56] = "APIC_WRITE";
+	@vmx_str[57] = "RDRAND";
+	@vmx_str[58] = "INVPCID";
+	@vmx_str[59] = "VMFUNC";
+	@vmx_str[60] = "ENCLS";
+	@vmx_str[61] = "RDSEED";
+	@vmx_str[62] = "PML_FULL";
+	@vmx_str[63] = "XSAVES";
+	@vmx_str[64] = "XRSTORS";
+	@vmx_str[67] = "UMWAIT";
+	@vmx_str[68] = "TPAUSE";
+	@vmx_str[74] = "BUS_LOCK";
+	@vmx_str[75] = "NOTIFY";
 }
 
 
