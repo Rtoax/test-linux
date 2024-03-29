@@ -1,9 +1,17 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <signal.h>
+
 
 #define debug() do { \
 		printf("[%s:%s %d]\n", __FILE__, __func__, __LINE__); \
 	} while(0)
+
+void sig_handler(int signo)
+{
+	printf("Catch signal.\n");
+	exit(1);
+}
 
 void __attribute__((constructor)) before(void)
 {
@@ -33,7 +41,10 @@ void __attribute__((destructor(101))) after2(void)
 
 int main(void)
 {
+	signal(SIGINT, sig_handler);
+
 	debug();
+	raise(SIGINT);
 	/**
 	 * The dtor still running after main
 	 */
