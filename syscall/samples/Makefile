@@ -80,6 +80,7 @@ TARGETS += getdomainname
 TARGETS += lseek
 TARGETS += link
 TARGETS += fsync
+TARGETS += getpagesize
 
 TARGETS_CPP += readlink2
 
@@ -94,8 +95,6 @@ ifeq ($(shell uname -m),sw_64)
 	TARGETS := $(filter-out pause, $(TARGETS))
 endif
 
-DEBUG = yes
-SRC_PATH := $(shell pwd)
 CC = gcc
 CXX = g++
 
@@ -103,10 +102,7 @@ CFLAGS := -Werror -Wall -D_GNU_SOURCE
 CFLAGS += -Wstrict-prototypes
 CFLAGS += -I../../
 CFLAGS += -pthread
-
-ifdef DEBUG
 CFLAGS += -DDEBUG -O0 -g
-endif
 
 sub-dir-build := $(sub-dir:=.build)
 
@@ -186,6 +182,7 @@ getsid: getsid.o
 getdomainname: getdomainname.o
 link: link.o helpers.o
 fsync: fsync.o
+getpagesize: getpagesize.o
 
 CFLAGS_write := -Wno-error=unused-variable
 

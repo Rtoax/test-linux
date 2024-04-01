@@ -5,7 +5,8 @@
 int main(void)
 {
 	int ret = getpagesize();
-	printf("getpagesize      = %d\n", ret);
+
+	printf("getpagesize      = %dBytes (%dKB)\n", ret, ret / 1024);
 	/*
 	 * Widely available on System V derived systems is a method to get
 	 * information about the physical memory the system has. The call
@@ -15,5 +16,6 @@ int main(void)
 
 	ret = sysconf(_SC_AVPHYS_PAGES);
 	printf("_SC_AVPHYS_PAGES = %d\n", ret);
+
 	return 0;
 }

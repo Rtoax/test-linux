@@ -63,3 +63,4 @@
 /lseek
 /link
 /fsync
+/getpagesize
