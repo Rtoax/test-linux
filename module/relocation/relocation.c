@@ -4,11 +4,19 @@
 #include <linux/printk.h>
 
 int local_i = 123;
+int local_i_no;
+/* No rela entry */
+static int s_local_i = 123;
 
 static int kernel_init(void)
 {
 	local_i++;
+	local_i_no += 1;
+
 	printk(KERN_INFO "i = %d.\n", local_i);
+	printk(KERN_INFO "i = %d.\n", local_i_no);
+	printk(KERN_INFO "i = %d.\n", s_local_i);
+
 	return -EINVAL;
 }
 
