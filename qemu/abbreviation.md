@@ -1,0 +1,2 @@
+- QMP: Qemu Monitor Protocol
+- TCG: Tiny Code Generator
