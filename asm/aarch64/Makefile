@@ -1,8 +1,10 @@
 CC = gcc
 AS = as
 LD = ld
+OBJDUMP = objdump
 RUN_PFX =
 AS_ARGS :=
+LD_ARGS :=
 
 CFLAGS :=
 
@@ -19,7 +21,6 @@ TARGETS_ASM += exit
 TARGETS_ASM += ldr
 TARGETS_ASM += while
 TARGETS_ASM += add
-TARGETS_ASM += branch
 TARGETS_ASM += mov
 
 TARGETS_S :=
@@ -33,18 +34,16 @@ ifneq ($(shell lscpu | grep -w -e sve -e sve2),)
 	AS_ARGS := -march=armv8-a+sve2
 endif
 
+# Cross compile
 ifneq ($(shell uname -m),aarch64)
 	AS = aarch64-linux-gnu-as
 	LD = aarch64-linux-gnu-ld
+	OBJDUMP = aarch64-linux-gnu-objdump
 	RUN_PFX = qemu-aarch64
 endif
-
-DYNAMIC_LINKER =
-ifneq ($(wildcard /lib/ld-linux-aarch64.so.1),)
-DYNAMIC_LINKER = /lib/ld-linux-aarch64.so.1
-endif
-ifneq ($(wildcard /lib64/ld-linux-aarch64.so.1),)
-DYNAMIC_LINKER = /lib64/ld-linux-aarch64.so.1
+ifeq ($(shell uname -m),aarch64)
+	TARGETS_ASM += branch
+	LD_ARGS := -lc
 endif
 
 .PHONY: build
@@ -68,13 +67,14 @@ loop-c: loop-c.o
 puts: puts.o
 while: while.o
 ldr: ldr.o
+mov: mov.o
 
 CFLAGS_hello-puts-infinite-loop := -DINFINITE_LOOP=1
 
 %.o: %.asm
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	$(AS) $(<) -o $(@) $(AS_ARGS)
-	objdump -Dr $(@)
+	$(OBJDUMP) -Dr $(@)
 
 %.co: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
@@ -86,7 +86,7 @@ CFLAGS_hello-puts-infinite-loop := -DINFINITE_LOOP=1
 
 $(TARGETS_ASM): %.o:
 	@echo -e "Target ld \033[1;32m$(@)\033[m"
-	$(LD) -o $(@) $(^) -lc -I ${DYNAMIC_LINKER}
+	$(LD) -o $(@) $(^) $(LD_ARGS)
 
 $(TARGETS_S) $(TARGETS_C): %.o:
 	@echo -e "Target ld \033[1;32m$(@)\033[m"

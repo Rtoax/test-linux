@@ -16,7 +16,7 @@
 .text
 _start:
 	sub   sp, sp, #(8 * 14)
-	   // 调用printf
+	// 调用printf
 	ldr x0, addr_msg_start // x0 ← &msg_output [64-bit]
 	bl printf                // call printf
 	mov x1, #124           /* r1 ← 123 */
