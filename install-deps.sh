@@ -152,6 +152,7 @@ pkgs_bench+=( iperf iperf3 )
 
 # Desktop Packages
 pkgs_desktop+=( terminator )
+pkgs_desktop+=( gtk3 gtk3-devel )
 
 whls+=( numpy pyyaml )
 whls+=( tqdm )
@@ -179,7 +180,6 @@ cclinux|fedora|centos|rhel|openEuler|almalinux)
 	pkgs+=( gperftools-devel )
 	pkgs+=( grub2-tools-minimal grub2-tools-extra )
 	pkgs+=( gtest-devel gmock-devel )
-	pkgs+=( gtk3-devel )           # GTK3
 	pkgs+=( iproute-tc )           # tc
 	pkgs+=( jemalloc-devel )
 	pkgs+=( kernel-devel )         # kernel
