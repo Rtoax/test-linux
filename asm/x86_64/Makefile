@@ -1,14 +1,12 @@
+CC = gcc
+AS = as
+LD = ld
+OBJDUMP = objdump
+RUN_PFX =
+AS_ARGS :=
+LD_ARGS :=
 
-TARGETS := echo
-TARGETS += hello-puts
-TARGETS += hola
-TARGETS += fibonacci
-TARGETS += power
-TARGETS += factorial_call
-TARGETS += maxofthree_call
-TARGETS += hello-c
-TARGETS += atomic_forced_read
-TARGETS += time
+TARGETS :=
 
 TARGETS_ld := hello
 TARGETS_ld += hello-stack
@@ -21,6 +19,25 @@ TARGETS_todo += sum_cal
 ifeq ($(shell uname -m),x86_64)
 endif
 ifeq ($(shell uname -m),aarch64)
+endif
+
+ifneq ($(shell uname -m),x86_64)
+	CC = x86_64-linux-gnu-gcc
+	AS = x86_64-linux-gnu-as
+	LD = x86_64-linux-gnu-ld
+	OBJDUMP = x86_64-linux-gnu-objdump
+	RUN_PFX = qemu-x86_64
+else
+	TARGETS += echo
+	TARGETS += hello-puts
+	TARGETS += hola
+	TARGETS += fibonacci
+	TARGETS += power
+	TARGETS += factorial_call
+	TARGETS += maxofthree_call
+	TARGETS += hello-c
+	TARGETS += atomic_forced_read
+	TARGETS += time
 endif
 
 DEBUG = yes
@@ -69,11 +86,11 @@ $(TARGETS): %.o:
 
 $(TARGETS_ld): %.o:
 	@echo -e "Target ld \033[1;32m$(@)\033[m"
-	ld -o $(@) $(^)
+	$(LD) -o $(@) $(^)
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
-	./echo Hello World
+	$(RUN_PFX) ./hello
 
 .PHONY: clean
 clean:
