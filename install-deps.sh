@@ -145,6 +145,7 @@ pkgs+=( strace )
 pkgs+=( smartmontools )        # smartctl
 pkgs+=( sysstat )
 pkgs+=( tree )
+pkgs+=( vim )
 
 # Benchmark
 pkgs_bench+=( iperf iperf3 )
