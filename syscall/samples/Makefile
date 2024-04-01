@@ -90,6 +90,7 @@ TARGETS += sysctl
 endif
 ifeq ($(shell uname -m),aarch64)
 # TODO: Remove openat2 from TARGETS
+	TARGETS := $(filter-out pause, $(TARGETS))
 endif
 ifeq ($(shell uname -m),sw_64)
 	TARGETS := $(filter-out pause, $(TARGETS))
