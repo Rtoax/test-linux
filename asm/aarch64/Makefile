@@ -11,9 +11,6 @@ CFLAGS :=
 CFLAGS += -O0 -g -ggdb
 
 TARGETS_C :=
-TARGETS_C += add-c
-TARGETS_C += loop-c
-TARGETS_C += puts
 
 TARGETS_ASM := hello
 TARGETS_ASM += hello-stack
@@ -24,9 +21,6 @@ TARGETS_ASM += add
 TARGETS_ASM += mov
 
 TARGETS_S :=
-TARGETS_S += say_hello
-TARGETS_S += hello-puts
-TARGETS_S += hello-puts-infinite-loop
 
 ifneq ($(shell lscpu | grep -w -e sve -e sve2),)
 	TARGETS_ASM += hello_sve
@@ -42,7 +36,16 @@ ifneq ($(shell uname -m),aarch64)
 	RUN_PFX = qemu-aarch64
 endif
 ifeq ($(shell uname -m),aarch64)
+	TARGETS_C += add-c
+	TARGETS_C += loop-c
+	TARGETS_C += puts
+
 	TARGETS_ASM += branch
+
+	TARGETS_S += say_hello
+	TARGETS_S += hello-puts
+	TARGETS_S += hello-puts-infinite-loop
+
 	LD_ARGS := -lc
 endif
 
