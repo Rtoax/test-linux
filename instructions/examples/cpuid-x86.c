@@ -214,6 +214,7 @@ int have_fma(void) { return __lvl_ecx_has_bit(1, bit_FMA); }
 int have_xsave(void) { return __lvl_ecx_has_bit(1, bit_XSAVE); }
 int have_avx(void) { return __lvl_ecx_has_bit(1, bit_AVX); }
 int have_rdrand(void) { return __lvl_ecx_has_bit(1, bit_RDRND); }
+int have_rdseed(void) { return __lvl_edx_has_bit(0, bit_RDSEED); /* FIXME */ }
 
 int cpu_flags(void)
 {
@@ -228,6 +229,7 @@ int cpu_flags(void)
 	printf("%s", have_fma() ? " fma" : "");
 	printf("%s", have_xsave() ? " xsave" : "");
 	printf("%s", have_rdrand() ? " rdrand" : "");
+	printf("%s", have_rdseed() ? " rdseed" : "");
 	printf("\n");
 }
 

@@ -35,6 +35,7 @@ TARGETS += stosb memset
 TARGETS += nop
 TARGETS += rdmsr
 TARGETS += rdrand
+TARGETS += rdseed
 
 ARCH_LIB_CPUID += cpuid-x86.o
 endif
@@ -81,6 +82,7 @@ rdmsr: rdmsr.o
 mrs: mrs.o
 simd: simd.o
 rdrand: rdrand.o
+rdseed: rdseed.o
 
 #CFLAGS += -Werror -Wall
 CFLAGS += -g -ggdb
@@ -93,6 +95,7 @@ $(info Defined STATIC)
 endif
 
 CFLAGS_rdrand := -mrdrnd
+CFLAGS_rdseed := -mrdseed
 
 %.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
