@@ -7,5 +7,6 @@
 - LTRANS: Local Transformations
 - PDF: Profile-Directed Feedback
 - PGO: Profile-Guided Optimizations
+- TCG: Tiny Code Generator
 - WPA: Whole Program Analysis
 
