@@ -20,8 +20,6 @@ TARGETS += frame aspect_frame
 TARGETS += menu
 TARGETS += dialog
 
-DEBUG = yes
-SRC_PATH := $(shell pwd)
 CC = gcc
 
 GTK_VERSION := gtk+-3.0
