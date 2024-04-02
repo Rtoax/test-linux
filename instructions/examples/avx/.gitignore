@@ -1,8 +1,9 @@
+/*.obj.s
+/*.oS
+/*.os
 /sum
 /sum-avx
 /sum-avx2
-/*.obj.s
-/*.oS
 /cpu-features
 /test-asm
 /avx512_aux
@@ -11,3 +12,4 @@
 /add_pd-avx256
 /add_pd-avx512
 /mask
+/vperm2i128

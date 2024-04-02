@@ -13,7 +13,9 @@ TARGETS += add_pd-avx256
 TARGETS += add_pd-avx512
 TARGETS += mask
 
-all: $(TARGETS)
+TARGETS_asm := vperm2i128
+
+all: $(TARGETS) $(TARGETS_asm)
 
 CFLAGS += -g -ggdb
 CFLAGS += -D_GNU_SOURCE
@@ -44,6 +46,7 @@ mul-avx512: mul-avx512.o
 add_pd-avx256: add_pd-avx256.o
 add_pd-avx512: add_pd-avx512.o
 mask: mask.o
+vperm2i128: vperm2i128.os
 
 %.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
@@ -55,12 +58,20 @@ mask: mask.o
 	$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
 	objdump -d $(@) > $(@).obj.s
 
+%.os: %.asm
+	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
+	nasm -o $(@) -felf64 $(<)
+
 $(TARGETS): %:
 	@echo -e "Target   \033[1;32m$(@)\033[m"
 	@$(CC) $(CFLAGS) -o $(@) $(^) $(LDLIBS)
+
+$(TARGETS_asm): %.os:
+	@echo -e "Target ld \033[1;32m$(@)\033[m"
+	$(LD) -o $(@) $(^)
 
 test:
 	@echo "empty"
 
 clean:
-	rm -f $(TARGETS) *.o *.obj.s *.oS
+	rm -f $(TARGETS) *.o *.obj.s *.oS *.os
