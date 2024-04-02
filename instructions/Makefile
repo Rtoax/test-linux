@@ -14,7 +14,7 @@ sub-dir-clean := $(sub-dir:=.clean)
 
 .PHONY: build
 build: ${TARGETS} $(sub-dir-build)
-	$(shell ./instruction-set-version.sh || true)
+	@echo $(shell ./instruction-set-version.sh || true)
 	@echo -e " \033[1;33m Done \033[m"
 
 
