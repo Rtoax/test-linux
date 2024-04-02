@@ -10,8 +10,11 @@ CC = gcc
 CFLAGS := -Werror -Wall
 CFLAGS += -O0
 
+ifdef ULP
+	CFLAGS += -fpic
+endif
 ifdef DEBUG
-CFLAGS += -g -ggdb
+	CFLAGS += -g -ggdb
 endif
 
 build: ${TARGETS}
