@@ -1,2 +1,2 @@
-- GOT: Global Offset Table
-
+- GOT: Global Offset Table (全局偏移表)
+- PLT: Procedure Linkage Table (过程链接表)
