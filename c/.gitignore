@@ -21,5 +21,6 @@
 /macro
 /while
 /stub
+/if
 /*.s
 /*.E.c

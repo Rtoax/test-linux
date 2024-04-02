@@ -22,6 +22,7 @@ TARGETS += BUILD_BUG_ON_ZERO
 TARGETS += macro
 TARGETS += while
 TARGETS += stub
+TARGETS += if
 
 ifeq ($(shell uname -m),x86_64)
 endif
@@ -65,6 +66,9 @@ endif
 CFLAGS_auto := -Wno-error=implicit-int
 CFLAGS_param-pass := -O0 -I../macro/
 CFLAGS_alignas := -std=gnu17
+CFLAGS_if := -Wno-error=unused-value
+CFLAGS__Generic := -Wno-all
+
 
 build: ${TARGETS}
 	@echo
@@ -94,8 +98,7 @@ BUILD_BUG_ON_ZERO: BUILD_BUG_ON_ZERO.o
 macro: macro.o
 while: while.o
 stub: stub.o
-
-CFLAGS__Generic := -Wno-all
+if: if.o
 
 %.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
