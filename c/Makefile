@@ -23,6 +23,7 @@ TARGETS += macro
 TARGETS += while
 TARGETS += stub
 TARGETS += if
+TARGETS += enum
 
 ifeq ($(shell uname -m),x86_64)
 endif
@@ -99,6 +100,7 @@ macro: macro.o
 while: while.o
 stub: stub.o
 if: if.o
+enum: enum.o
 
 %.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
