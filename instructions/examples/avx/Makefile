@@ -74,4 +74,4 @@ test:
 	@echo "empty"
 
 clean:
-	rm -f $(TARGETS) *.o *.obj.s *.oS *.os
+	rm -f $(TARGETS) $(TARGETS_asm) *.o *.obj.s *.oS *.os
