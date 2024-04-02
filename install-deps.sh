@@ -111,7 +111,7 @@ fedora)
 	;;
 esac
 
-pkgs+=( make cmake gcc clang gdb cgdb )
+pkgs+=( make cmake gcc gcc-c++ clang gdb cgdb )
 pkgs+=( autoconf-archive )
 pkgs+=( gcc-aarch64-linux-gnu )
 pkgs+=( blktrace )
