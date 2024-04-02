@@ -10,6 +10,7 @@ TARGETS += __clang__
 TARGETS += __nonnull
 TARGETS += __restrict__
 TARGETS += __func__
+TARGETS += __linux__
 
 TARGETS_CXX := __cplusplus
 
@@ -51,6 +52,7 @@ __nonnull: __nonnull.o
 __cplusplus: __cplusplus.o
 __restrict__: __restrict__.o
 __func__: __func__.o
+__linux__: __linux__.o
 
 CFLAGS___i386__ := -m32
 CFLAGS___x86_64__ := -m64
