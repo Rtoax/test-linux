@@ -1,4 +1,5 @@
 sub-dir := rss
+sub-dir += oom
 sub-dir += tcmalloc
 
 TARGETS := virt2phy
