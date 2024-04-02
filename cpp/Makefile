@@ -2,6 +2,7 @@
 TARGETS += hello
 TARGETS += alignas
 TARGETS += extern_C
+TARGETS += pass-arg
 
 DEBUG = yes
 SRC_PATH := $(shell pwd)
@@ -22,6 +23,7 @@ build: ${TARGETS}
 hello: hello.o
 alignas: alignas.o
 extern_C: extern_C.o
+pass-arg: pass-arg.o
 
 %.o: %.cpp
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
