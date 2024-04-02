@@ -13,3 +13,4 @@
 /add_pd-avx512
 /mask
 /vperm2i128
+/kxord

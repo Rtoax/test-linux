@@ -14,6 +14,7 @@ TARGETS += add_pd-avx512
 TARGETS += mask
 
 TARGETS_asm := vperm2i128
+TARGETS_asm += kxord
 
 all: $(TARGETS) $(TARGETS_asm)
 
@@ -47,6 +48,7 @@ add_pd-avx256: add_pd-avx256.o
 add_pd-avx512: add_pd-avx512.o
 mask: mask.o
 vperm2i128: vperm2i128.os
+kxord: kxord.os
 
 %.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
