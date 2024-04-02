@@ -3,6 +3,7 @@ sub-dir := process
 TARGETS :=
 TARGETS += self
 TARGETS += auxv
+TARGETS += stat
 TARGETS += statm
 
 CC = gcc
@@ -21,6 +22,7 @@ build: ${TARGETS} $(sub-dir-build)
 # Add more object.o file
 self: self.o
 auxv: auxv.o
+stat: stat.o
 statm: statm.o
 
 test: ${TARGETS}
