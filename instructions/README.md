@@ -92,4 +92,7 @@ NEON < SVE <= SVE2
 - [Intel ISA-L](https://github.com/intel/isa-l)
 - https://en.wikipedia.org/wiki/CPUID
 - https://en.wikipedia.org/wiki/Advanced_Vector_Extensions
+- AVX: [oracle](https://docs.oracle.com/cd/E36784_01/html/E36859/gntbd.html)
+- AVX2: [oracle](https://docs.oracle.com/cd/E36784_01/html/E36859/gntae.html)
+- AVX512: [oracle](https://docs.oracle.com/cd/E37838_01/html/E61064/gsesq.html)
 
