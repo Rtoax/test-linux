@@ -4,51 +4,62 @@
 #include <syslog.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <fcntl.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 
 
-#define MAXFD 64
-
-int my_daemon(void)
+/**
+ * daemon(3) implementation for systems lacking one.
+ */
+void daemonize(int nochdir, int noclose)
 {
-	int i;
-	pid_t pid;
+	int fd;
 
-	if ((pid = fork()) != 0) {
-		printf("parent terminates.\n");
-		exit(0);
-	}
-
-	setsid();
-	perror("setsid: ");
-
+	/*
+	 * Ignore any possible SIGHUP when the parent process exits.
+	 * Note that the iperf3 server process will eventually install
+	 * its own signal handler for SIGHUP, so we can be a little
+	 * sloppy about not restoring the prior value.  This does not
+	 * generalize.
+	 */
 	signal(SIGHUP, SIG_IGN);
 
-	if ((pid=fork()) != 0) {
-		printf("1st child terminates.\n");
+	/* parent exits */
+	if (fork() != 0)
 		exit(0);
+
+	/* create a new session */
+	setsid();
+
+	while(1) {
+		printf("[daemon:%d] is running.\n", getpid());
+		sleep(1);
 	}
 
-	chdir("/home/rongtao");
-	perror("chdir: ");
-	umask(0);
+	if (!nochdir)
+		chdir("/");
 
-	for (i = 0; i < MAXFD; i++) {
-		printf("close fd = %d\n", i);
-		close(i);
-		perror("close: ");
+	if (!noclose && (fd = open("/dev/null", O_RDWR, 0)) != -1) {
+		dup2(fd, STDIN_FILENO);
+		dup2(fd, STDOUT_FILENO);
+		dup2(fd, STDERR_FILENO);
+		if (fd > STDERR_FILENO)
+			close(fd);
 	}
-
-	openlog("openlog_name", LOG_PID, 0);
-	perror("openlog: ");
-
-	return 0;
 }
 
 int main(void)
 {
-	my_daemon();
+	daemonize(1, 1);
+
+	/**
+	 * This will not be printed.
+	 */
+	while (1) {
+		printf("[%d] is running.\n", getpid());
+		sleep(1);
+	}
 	return 0;
 }
 
