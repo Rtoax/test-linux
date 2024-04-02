@@ -15,6 +15,13 @@ int main(void)
 #endif
 	case 0 ... 10:
 		break;
+	/**
+	 * This is a label
+	 */
+	defualt:
+		break;
+	default:
+		break;
 	}
 	return 0;
 }

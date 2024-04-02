@@ -68,7 +68,7 @@ CFLAGS_param-pass := -O0 -I../macro/
 CFLAGS_alignas := -std=gnu17
 CFLAGS_if := -Wno-error=unused-value
 CFLAGS__Generic := -Wno-all
-
+CFLAGS_case := -Wno-error=unused-label
 
 build: ${TARGETS}
 	@echo
