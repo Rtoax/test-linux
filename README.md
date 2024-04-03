@@ -82,6 +82,13 @@ a text `Note`, use `.md`(`markdown`) instead.
 * linux-5.15.0 ~ ?
 
 
+# APIs
+
+## POSIX
+
+## System V
+
+
 # Licenses
 
 * https://spdx.org/licenses/

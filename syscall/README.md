@@ -1,3 +1,6 @@
 syscall
-=======
+========
+
+Because linux's syscall don't have all POSIX APIs, Thus, some unistd in glibc
+directory.
 
