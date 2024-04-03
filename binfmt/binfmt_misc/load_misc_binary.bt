@@ -1,0 +1,30 @@
+#!/bin/env bpftrace
+/**
+ * load_misc_binary.bt - binfmt_misc load
+ *
+ * Copyright (C) Rong Tao 2022-2024
+ *
+ * 2024-04-03	Rong Tao	Create this.
+ */
+#ifndef BPFTRACE_HAVE_BTF
+#include <linux/binfmts.h>
+#endif
+
+BEGIN
+{
+	printf("Tracing load_misc_binary(), hit ctrl-c to end.\n");
+	printf("%-8s %-8s %-16s %-16s\n", "TIME", "PID", "COMM", "BIN");
+}
+
+kprobe:load_misc_binary
+{
+	$bprm = (struct linux_binprm *)arg0;
+
+	time("%H:%M:%S ");
+	printf("%-8d %-16s %-16s\n", pid, comm, str($bprm->interp));
+}
+
+END
+{
+	printf("Bye.\n");
+}
