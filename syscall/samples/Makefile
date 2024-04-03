@@ -34,6 +34,7 @@ sub-dir += wait
 sub-dir += uio
 sub-dir += sysinfo
 sub-dir += mount
+sub-dir += random
 
 TARGETS := fallocate
 TARGETS += access faccessat2
