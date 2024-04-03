@@ -1,12 +1,27 @@
+#define _GNU_SOURCE
 #include <stdio.h>
 #include <unistd.h>
+#include <syscall.h>
+#include <sys/syscall.h>
 
+
+#ifdef __NR_getpagesize
+int sys_getpagesize(void)
+{
+	return syscall(__NR_getpagesize);
+}
+#endif
 
 int main(void)
 {
-	int ret = getpagesize();
+	int ret;
 
+	ret = getpagesize();
 	printf("getpagesize      = %dBytes (%dKB)\n", ret, ret / 1024);
+
+	ret = sysconf(_SC_PAGESIZE);
+	printf("_SC_PAGESIZE     = %d\n", ret);
+
 	/*
 	 * Widely available on System V derived systems is a method to get
 	 * information about the physical memory the system has. The call
