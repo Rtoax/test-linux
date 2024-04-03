@@ -27,7 +27,7 @@ build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
 # Add more object.o file
-libaio: libaio.o
+libaio: libaio.o helpers.o
 epoll: epoll.o
 
 %.d: %.c
