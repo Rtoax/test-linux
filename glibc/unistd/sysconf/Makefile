@@ -1,5 +1,6 @@
 
 TARGETS := NPROCESSORS
+TARGETS += PAGESIZE
 TARGETS += sysconf
 
 OS := $(shell grep ^ID= /etc/os-release | sed 's/ID=//g' | sed 's/"//g')
@@ -32,6 +33,7 @@ confs_def.h: sysconf.sh
 
 # Add more object.o file
 NPROCESSORS: NPROCESSORS.o
+PAGESIZE: PAGESIZE.o
 sysconf: sysconf.o
 
 CFLAGS_NPROCESSORS := -D_NPROCESSORS=1

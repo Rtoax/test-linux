@@ -1,4 +1,5 @@
 /gen-sysconf-*
 /confs_def.h
 /NPROCESSORS
+/PAGESIZE
 /sysconf
