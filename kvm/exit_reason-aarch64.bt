@@ -1,0 +1,31 @@
+#!/usr/bin/env bpftrace
+/*
+ * kvm_exit_reason-aarch64.bt	Trace kvm:kvm_exit reason
+ *		For Linux, uses bpftrace and eBPF.
+ *
+ * Also a basic example of bpftrace.
+ *
+ * USAGE: kvm_exit_reason.bt
+ *
+ * Copyright 2024 Rong Tao.
+ * Licensed under the GPL License, Version 2.0 (the "License")
+ *
+ * 2024-04-03	Rong Tao	Create this.
+ */
+BEGIN
+{
+	printf("Stat kvm exit reason... Hit Ctrl-C to end.\n");
+}
+
+tracepoint:kvm:kvm_exit
+{
+	$esr_ec = args->esr_ec;
+	printf("%ld %lx.\n", $esr_ec, $esr_ec);
+	/**
+	 * TODO: Reasons?
+	 */
+}
+
+END
+{
+}
