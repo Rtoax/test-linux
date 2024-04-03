@@ -11,6 +11,7 @@ TARGETS += __nonnull
 TARGETS += __restrict__
 TARGETS += __func__
 TARGETS += __linux__
+TARGETS += __WORDSIZE __WORDSIZE-32
 
 TARGETS_CXX := __cplusplus
 
@@ -22,17 +23,12 @@ ifeq ($(shell uname -m),aarch64)
 TARGETS += __aarch64__
 endif
 
-DEBUG = yes
-SRC_PATH := $(shell pwd)
 CC = gcc
 CXX = c++
 
 CFLAGS := -Werror -Wall
 CFLAGS += -O0
-
-ifdef DEBUG
 CFLAGS += -DDEBUG -g
-endif
 
 build: ${TARGETS} ${TARGETS_CXX}
 	@echo
@@ -53,9 +49,12 @@ __cplusplus: __cplusplus.o
 __restrict__: __restrict__.o
 __func__: __func__.o
 __linux__: __linux__.o
+__WORDSIZE: __WORDSIZE.o
+__WORDSIZE-32: __WORDSIZE-32.o
 
 CFLAGS___i386__ := -m32
 CFLAGS___x86_64__ := -m64
+CFLAGS___WORDSIZE-32 := -m32
 
 %.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

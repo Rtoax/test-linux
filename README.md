@@ -89,6 +89,12 @@ a text `Note`, use `.md`(`markdown`) instead.
 ## System V
 
 
+# Function Name
+
+If glibc/posix/syscall already have name `a`, The function test-linux implemented
+is name `tl_a`(the `tl_` prefix).
+
+
 # Licenses
 
 * https://spdx.org/licenses/

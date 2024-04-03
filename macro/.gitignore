@@ -14,3 +14,5 @@
 /__restrict__
 /__func__
 /__linux__
+/__WORDSIZE
+/__WORDSIZE-32
