@@ -7,7 +7,6 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-
 #ifndef LIST_POISON1
 #define LIST_POISON1  ((void *) 0x00100100)
 #endif
@@ -36,7 +35,7 @@
 #endif
 
 #ifndef __force
-#define __force	
+#define __force
 #endif
 static inline void __write_once_size(volatile void *p, void *res, int size)
 {
@@ -60,8 +59,6 @@ static inline void __write_once_size(volatile void *p, void *res, int size)
 })
 #endif
 
-
-
 /*
  * Simple doubly linked list implementation.
  *
@@ -71,7 +68,7 @@ static inline void __write_once_size(volatile void *p, void *res, int size)
  * generate better code by using them directly rather than
  * using the generic single-entry routines.
  */
-    
+
 #define LIST_NULL_INIT(name) { NULL, NULL }
 #define LIST_HEAD_INIT(name) { &(name), &(name) }
 
@@ -970,6 +967,4 @@ static inline void list_del_range(struct list_head *begin,
 
 
 #endif
-
-
 

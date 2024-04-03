@@ -1,5 +1,4 @@
 #include <stdio.h>
-
 #include <malloc.h>
 
 #define log(fmt, arg...) printf(""fmt,##arg)
@@ -13,22 +12,20 @@ struct list_test {
 #define LIST_TEST_INITIALIZER(v)   {{NULL, NULL}, v}
 };
 
-
-
 int demo_list_1_add_del_swap_for_each()
 {
 	struct list_head lhead;
-	
+
 	struct list_test lt1 = LIST_TEST_INITIALIZER(1);
 	struct list_test lt2 = LIST_TEST_INITIALIZER(2);
 	struct list_test lt3 = LIST_TEST_INITIALIZER(3);
 	struct list_test lt4 = LIST_TEST_INITIALIZER(4);
 	struct list_test lt5 = LIST_TEST_INITIALIZER(5);
-	
+
 	struct list_test *iter;
-	
+
 	INIT_LIST_HEAD(&lhead);
-	
+
 	list_add_tail(&lt1.list, &lhead);
 	list_add_tail(&lt2.list, &lhead);
 	list_add_tail(&lt3.list, &lhead);
@@ -39,28 +36,26 @@ int demo_list_1_add_del_swap_for_each()
 	list_for_each_entry(iter, &lhead, list) {
 		printf("%d - ", iter->a);
 	}printf("\n");
-	
+
 
 	return 0;
 }
 
-
-
 int demo_list_2_move_and_move_tail()
 {
 	struct list_head lhead1, lhead2;
-	
+
 	struct list_test lt1 = LIST_TEST_INITIALIZER(1);
 	struct list_test lt2 = LIST_TEST_INITIALIZER(2);
 	struct list_test lt3 = LIST_TEST_INITIALIZER(3);
 	struct list_test lt4 = LIST_TEST_INITIALIZER(4);
 	struct list_test lt5 = LIST_TEST_INITIALIZER(5);
-	
+
 	struct list_test *iter;
-	
+
 	INIT_LIST_HEAD(&lhead1);
 	INIT_LIST_HEAD(&lhead2);
-	
+
 	list_add_tail(&lt1.list, &lhead1);
 	list_add_tail(&lt2.list, &lhead1);
 	list_add_tail(&lt3.list, &lhead1);
@@ -95,14 +90,10 @@ int demo_list_2_move_and_move_tail()
 	return 0;
 }
 
-
-int main()
+int main(void)
 {
 	demo_list_1_add_del_swap_for_each();
 	demo_list_2_move_and_move_tail();
 
-
 	return 0;
 }
-
-
