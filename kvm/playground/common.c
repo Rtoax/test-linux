@@ -102,14 +102,12 @@ int create_vcpu(int vmfd)
 	return vcpufd;
 }
 
-void* mmap_user_memory_region(int vmfd, size_t size, unsigned long gpa,
-		const void *code, size_t code_len)
+void *mmap_user_memory_region(int vmfd, size_t size, unsigned long gpa,
+			      const void *code, size_t code_len)
 {
 	int ret;
-	void *mem = mmap(NULL, size,
-					PROT_READ | PROT_WRITE,
-					MAP_SHARED | MAP_ANONYMOUS,
-					-1, 0);
+	void *mem = mmap(NULL, size, PROT_READ | PROT_WRITE,
+			 MAP_SHARED | MAP_ANONYMOUS, -1, 0);
 
 	if (code) {
 		if (code_len > size) {
@@ -137,12 +135,12 @@ void* mmap_user_memory_region(int vmfd, size_t size, unsigned long gpa,
 
 struct kvm_run *mmap_kvm_run(int kvmfd, int vcpufd)
 {
-	size_t mmap_size = ioctl(kvmfd, KVM_GET_VCPU_MMAP_SIZE, NULL);
-	struct kvm_run *run = (struct kvm_run*)mmap(NULL, mmap_size,
-			PROT_READ | PROT_WRITE,
-			MAP_SHARED,
-			vcpufd,
-			0);
+	size_t mmap_size;
+	struct kvm_run *run;
+
+	mmap_size = ioctl(kvmfd, KVM_GET_VCPU_MMAP_SIZE, NULL);
+	run = (struct kvm_run *)mmap(NULL, mmap_size, PROT_READ | PROT_WRITE,
+					MAP_SHARED, vcpufd, 0);
 
 	return run;
 }

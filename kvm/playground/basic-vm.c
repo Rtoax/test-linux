@@ -14,16 +14,16 @@ int main(int argc, char **argv)
 {
 	const uint8_t code[] = {
 		0xba, 0xf8, 0x03,	/* mov $0x3f8, %dx */
-		0x00, 0xd8,			/* add %bl, %al */
-		0x04, '1',			/* add $'0', %al */
-		0xee,				/* out %al, (%dx) */
-		0xb0, 'r',			/* mov $'r', %al */
-		0xee,				/* out %al, (%dx) */
-		0xb0, 't',			/* mov $'t', %al */
-		0xee,				/* out %al, (%dx) */
-		0xb0, '\n',			/* mov $'\n', %al */
-		0xee,				/* out %al, (%dx) */
-		0xf4,				/* hlt */
+		0x00, 0xd8,		/* add %bl, %al */
+		0x04, '1',		/* add $'0', %al */
+		0xee,			/* out %al, (%dx) */
+		0xb0, 'r',		/* mov $'r', %al */
+		0xee,			/* out %al, (%dx) */
+		0xb0, 't',		/* mov $'t', %al */
+		0xee,			/* out %al, (%dx) */
+		0xb0, '\n',		/* mov $'\n', %al */
+		0xee,			/* out %al, (%dx) */
+		0xf4,			/* hlt */
 	};
 
 	int ret;
@@ -36,8 +36,8 @@ int main(int argc, char **argv)
 #define MEM_SIZE	0x1000
 #define ENTRY_ADDR	0x4000
 
-	void __unused *mem = mmap_user_memory_region(vmfd, MEM_SIZE, ENTRY_ADDR,
-					code, sizeof(code));
+	void *mem = mmap_user_memory_region(vmfd, MEM_SIZE, ENTRY_ADDR, code,
+					    sizeof(code));
 
 	int vcpufd = create_vcpu(vmfd);
 	struct kvm_run *run = mmap_kvm_run(kvm, vcpufd);
@@ -68,9 +68,9 @@ int main(int argc, char **argv)
 			return 0;
 		case KVM_EXIT_IO:
 			if (run->io.direction == KVM_EXIT_IO_OUT &&
-					run->io.size == 1 &&
-					run->io.port == 0x3f8 &&
-					run->io.count == 1) {
+				run->io.size == 1 &&
+				run->io.port == 0x3f8 &&
+				run->io.count == 1) {
 				putchar(*(((char *)run) + run->io.data_offset));
 			} else
 				printf("unhandled KVM_EXIT_IO\n");
@@ -85,6 +85,8 @@ int main(int argc, char **argv)
 			break;
 		}
 	}
+
+	munmap(mem, MEM_SIZE);
 
 	return ret;
 }
