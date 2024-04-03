@@ -3,6 +3,8 @@ TARGETS += htonl
 TARGETS += htons
 TARGETS += ntohl
 TARGETS += ntohs
+TARGETS += inet_ntoa
+TARGETS += inet_pton
 
 DEBUG = yes
 SRC_PATH := $(shell pwd)
@@ -23,6 +25,8 @@ htonl: htonl.o
 htons: htons.o
 ntohl: ntohl.o
 ntohs: ntohs.o
+inet_ntoa: inet_ntoa.o
+inet_pton: inet_pton.o
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"

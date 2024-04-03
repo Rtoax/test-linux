@@ -2,3 +2,5 @@
 /htons
 /ntohl
 /ntohs
+/inet_ntoa
+/inet_pton
