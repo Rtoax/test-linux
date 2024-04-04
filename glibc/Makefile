@@ -3,6 +3,7 @@ sub-dir += auxv
 sub-dir += byteswap
 sub-dir += crypt
 sub-dir += complex
+sub-dir += ctype
 sub-dir += dirent
 sub-dir += dlfcn
 sub-dir += errno
