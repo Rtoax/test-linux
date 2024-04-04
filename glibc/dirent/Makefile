@@ -3,6 +3,7 @@ TARGETS += opendir
 TARGETS += readdir
 TARGETS += telldir
 TARGETS += seekdir
+TARGETS += rewinddir
 TARGETS += scandir
 TARGETS += listdir
 TARGETS += fdopendir
@@ -21,6 +22,7 @@ opendir: opendir.o
 readdir: readdir.o
 telldir: telldir.o
 seekdir: seekdir.o
+rewinddir: rewinddir.o
 scandir: scandir.o
 listdir: listdir.o
 fdopendir: fdopendir.o
