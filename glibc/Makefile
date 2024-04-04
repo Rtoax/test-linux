@@ -8,6 +8,7 @@ sub-dir += dirent
 sub-dir += dlfcn
 sub-dir += errno
 sub-dir += fenv
+sub-dir += ftw
 sub-dir += fstab
 sub-dir += getopt
 sub-dir += glob
