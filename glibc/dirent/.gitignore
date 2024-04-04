@@ -1,2 +1,6 @@
+/opendir
+/readdir
+/telldir
+/seekdir
 /listdir
 /fdopendir
