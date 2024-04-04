@@ -4,3 +4,7 @@
 /ntohs
 /inet_ntoa
 /inet_pton
+/inet_ntop
+/inet_aton
+/inet_addr
+/inet_network
