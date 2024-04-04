@@ -37,6 +37,7 @@ sub-dir += sysinfo
 sub-dir += mount
 sub-dir += random
 sub-dir += ldt
+sub-dir += xattr
 
 TARGETS := fallocate
 TARGETS += access faccessat2
