@@ -6,3 +6,4 @@
 /scandir
 /listdir
 /fdopendir
+/remove_dir
