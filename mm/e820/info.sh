@@ -1,3 +1,3 @@
 #!/bin/bash
 
-dmesg | grep BIOS-e820
+sudo dmesg | grep BIOS-e820
