@@ -7,4 +7,7 @@ int main(void)
 
 	int i = __imag__ c;
 	int r = __real__ c;
+
+	printf("real %d, imag %d\n", i, r);
+	return 0;
 }
