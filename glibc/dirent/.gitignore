@@ -2,5 +2,6 @@
 /readdir
 /telldir
 /seekdir
+/scandir
 /listdir
 /fdopendir
