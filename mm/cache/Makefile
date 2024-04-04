@@ -1,21 +1,13 @@
-sub-dir := rss
-sub-dir += cache
-sub-dir += oom
-sub-dir += tcmalloc
-
-TARGETS := virt2phy
+sub-dir := syscall
 
 sub-dir-build := $(sub-dir:=.build)
 sub-dir-clean := $(sub-dir:=.clean)
 
-.PHONY: all
-all: ${TARGETS} $(sub-dir-build)
-
-virt2phy: virt2phy.o
+.PHONY: build
+build: $(sub-dir-build)
 
 .PHONY: clean
 clean: $(sub-dir-clean)
-	rm -f ${TARGETS} *.o
 
 $(sub-dir-build):
 	@echo -e "\033[1;32m [sub-dir] build $(@)\033[m"

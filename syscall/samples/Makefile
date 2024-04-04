@@ -11,6 +11,7 @@ sub-dir += capability
 endif
 sub-dir += ioctl
 sub-dir += poll
+sub-dir += cache
 sub-dir += epoll
 sub-dir += msgqueue
 sub-dir += resource
