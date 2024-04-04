@@ -1,6 +1,8 @@
 - DRAM: Dynamic Random Access Memory (动态随机存取存储器)
 - ECC: Error Checking and Correcting
 - EDAC: Error Detection And Correction
+- GDT: Global Descriptor Table (全局描述符表)
+- LDT: Local Descriptor Table (局部描述符表)
 - MCE: Machine Check Exceptions
 - PSS: Proportional Set Size (实际使用的物理内存 比例分配共享库占用的内存)
 - RSS: Resident Set Size (常驻内存集合大小 包含共享库占用的内存)
