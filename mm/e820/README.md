@@ -12,3 +12,7 @@ E820是基于X86的计算机系统的BIOS将内存映射报告给操作系统或
 dmesg | grep BIOS-e820
 ```
 
+# Headers
+
+- /usr/include/asm/e820.h
+

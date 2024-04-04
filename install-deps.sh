@@ -184,6 +184,7 @@ cclinux|fedora|centos|rhel|openEuler|almalinux)
 	pkgs+=( iproute-tc )           # tc
 	pkgs+=( jemalloc-devel )
 	pkgs+=( kernel-devel )         # kernel
+	pkgs+=( kernel-headers )       # kernel
 	pkgs+=( libaio-devel )         # aio
 	pkgs+=( libcap-ng-devel )
 	pkgs+=( libcap-ng-utils )
