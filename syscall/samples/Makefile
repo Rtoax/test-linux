@@ -36,6 +36,7 @@ sub-dir += uio
 sub-dir += sysinfo
 sub-dir += mount
 sub-dir += random
+sub-dir += ldt
 
 TARGETS := fallocate
 TARGETS += access faccessat2
@@ -87,7 +88,6 @@ TARGETS += getpagesize
 TARGETS_CPP += readlink2
 
 ifeq ($(shell uname -m),x86_64)
-TARGETS += get_thread_area
 TARGETS += sysctl
 endif
 ifeq ($(shell uname -m),aarch64)
@@ -134,7 +134,6 @@ kcmp: kcmp.o
 fdopen: fdopen.o
 execve: execve.o
 execve-fork: execve-fork.o
-get_thread_area: get_thread_area.o
 nr: nr.o
 open: open.o
 openat2: openat2.o
