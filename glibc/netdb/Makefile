@@ -19,7 +19,7 @@ build: ${TARGETS}
 
 gai_strerror: gai_strerror.o
 getaddrinfo: getaddrinfo.o
-gethostbyaddr: gethostbyaddr.o
+gethostbyaddr: gethostbyaddr.o helpers.o
 
 .PHONY: clean
 clean:

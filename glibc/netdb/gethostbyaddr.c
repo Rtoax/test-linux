@@ -7,9 +7,11 @@
 #include <netdb.h>
 #include <string.h>
 
+#include "helpers.h"
+
+
 int main(int argc, char* argv[])
 {
-	int i;
 	struct hostent *host;
 	char ip[] = "127.0.0.1";
 
@@ -19,14 +21,7 @@ int main(int argc, char* argv[])
 		exit(1);
 	}
 
-	printf("Domain name: %s \n", host->h_name);
-	for (i = 0; host->h_aliases[i]; i++) {
-		printf("Aliases %d: %s\n", i + 1, host->h_aliases[i]);
-	}
-	printf("Address type: %s \n", host->h_addrtype == AF_INET? "AF_INET":"AF_INET6");
-	for (i = 0; host->h_addr_list[i]; i++) {
-		printf("IP address %d: %s \n", i + 1, inet_ntoa(*(struct in_addr *)host->h_addr_list[i]));
-	}
+	print_hostent(host);
 
 	return 0;
 }
