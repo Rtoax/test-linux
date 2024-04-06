@@ -6,6 +6,11 @@ CFLAGS :=
 LDFLAGS :=
 LDLIBS :=
 
+ifdef PIC
+# FIXME: Why cause 'Illegal instruction (core dumped)' on x86
+CFLAGS__GLOBAL_OFFSET_TABLE_ := -fpic
+endif
+
 .PHONY: build
 build: ${TARGETS}
 	@echo
