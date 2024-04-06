@@ -18,6 +18,7 @@ sub-dir += libgen
 sub-dir += link
 sub-dir += malloc
 sub-dir += math
+sub-dir += netdb
 sub-dir += pthread
 sub-dir += pwd
 sub-dir += regex

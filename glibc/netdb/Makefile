@@ -1,0 +1,22 @@
+CC = gcc
+
+TARGETS := gai_strerror
+
+CFLAGS := -Werror -Wall
+CFLAGS += -Wstrict-prototypes
+
+LDFLAGS :=
+LDLIBS :=
+
+
+.PHONY: build
+build: ${TARGETS}
+	@echo
+	@echo -e " \033[1;33m Done \033[m"
+
+gai_strerror: gai_strerror.o
+
+.PHONY: clean
+clean:
+	@echo -e "Clean   \033[1;32m$(@)\033[m"
+	@rm -f ${TARGETS} *.o
