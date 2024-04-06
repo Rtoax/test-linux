@@ -1,4 +1,6 @@
+TARGETS :=
 TARGETS += __attribute__alias
+TARGETS += __attribute__always_inline
 TARGETS += __attribute__cleanup
 TARGETS += __attribute__const
 TARGETS += __attribute__constructor
@@ -21,6 +23,7 @@ TARGETS += __attribute__weak
 all: ${TARGETS}
 
 __attribute__alias: __attribute__alias.o
+__attribute__always_inline: __attribute__always_inline.o
 __attribute__cleanup: __attribute__cleanup.o
 __attribute__const: __attribute__const.o
 __attribute__constructor: __attribute__constructor.o
@@ -54,8 +57,6 @@ endif
 $(TARGETS): %:
 	@echo -e "Target   \033[1;32m$(@)\033[m"
 	$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) $(^) $(LDLIBS) $(LDFLAGS) $(LDFLAGS_$(*))
-
-
 
 clean:
 	rm -f ${TARGETS} *.o *.s

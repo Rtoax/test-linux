@@ -1,4 +1,5 @@
 /__attribute__alias
+/__attribute__always_inline
 /__attribute__cleanup
 /__attribute__const
 /__attribute__constructor
