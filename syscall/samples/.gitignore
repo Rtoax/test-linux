@@ -2,6 +2,7 @@
 /acct
 /chdir
 /chown
+/dup-dup2
 /fchown
 /fchdir
 /fallocate

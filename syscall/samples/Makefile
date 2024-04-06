@@ -44,6 +44,7 @@ TARGETS += access faccessat2
 TARGETS += acct
 TARGETS += chdir fchdir
 TARGETS += chown fchown
+TARGETS += dup-dup2
 TARGETS += fdopen
 TARGETS += kcmp
 TARGETS += execve execve-fork
@@ -128,6 +129,7 @@ faccessat2: faccessat2.o
 acct: acct.o
 access: access.o
 chown: chown.o
+dup-dup2: dup-dup2.o
 fchown: fchown.o
 chdir: chdir.o
 fchdir: fchdir.o
