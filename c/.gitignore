@@ -7,6 +7,7 @@
 /compat
 /compare
 /_Generic
+/goto
 /ptr-dim
 /struct
 /xor

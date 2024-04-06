@@ -9,6 +9,7 @@ TARGETS += param-pass
 TARGETS += compat
 TARGETS += compare
 TARGETS += _Generic
+TARGETS += goto
 TARGETS += ptr-dim
 TARGETS += struct
 TARGETS += xor
@@ -86,6 +87,7 @@ array: array.o
 compat: compat.o
 compare: compare.o
 _Generic: _Generic.o
+goto: goto.o
 ptr-dim: ptr-dim.o helpers.o
 struct: struct.o
 xor: xor.o
