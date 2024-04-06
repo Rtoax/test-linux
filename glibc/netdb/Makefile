@@ -3,6 +3,7 @@ TARGETS += gai_strerror
 TARGETS += getaddrinfo
 TARGETS += gethostbyaddr
 TARGETS += gethostbyname
+TARGETS += hstrerror
 
 CC = gcc
 
@@ -22,6 +23,7 @@ gai_strerror: gai_strerror.o
 getaddrinfo: getaddrinfo.o
 gethostbyaddr: gethostbyaddr.o helpers.o
 gethostbyname: gethostbyname.o helpers.o
+hstrerror: hstrerror.o
 
 .PHONY: clean
 clean:

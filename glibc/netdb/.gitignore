@@ -2,3 +2,4 @@
 /getaddrinfo
 /gethostbyaddr
 /gethostbyname
+/hstrerror

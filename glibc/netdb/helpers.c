@@ -10,6 +10,8 @@
 int print_hostent(struct hostent *host)
 {
 	int i;
+	struct sockaddr_in addr_in;
+	struct in_addr in;
 
 	if (!host)
 		return -1;
@@ -22,6 +24,10 @@ int print_hostent(struct hostent *host)
 	for (i = 0; host->h_addr_list[i]; i++) {
 		printf("IP address %d: %s \n", i + 1, inet_ntoa(*(struct in_addr *)host->h_addr_list[i]));
 	}
+
+	memcpy(&addr_in.sin_addr.s_addr, host->h_addr, 4);
+	in.s_addr = addr_in.sin_addr.s_addr;
+	printf("IP: %s\n", inet_ntoa(in));
 
 	return 0;
 }
