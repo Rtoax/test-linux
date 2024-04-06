@@ -1,8 +1,32 @@
 #pragma once
+/**
+ * 从奔腾系列开始，Intel x86 处理器中增加了一个 64 位时间戳寄存器 TSC
+ * 每经过一个时钟周期，该寄存器+1，及其重启时，该寄存器将清空。
+ *
+ * rdtsc 指一条机器指令，用于读取该时间戳寄存器中的值。
+ *
+ * 查询CPU主频：
+ * $ cat /proc/cpuinfo | grep cpu | grep  MHz | sed -e 's/.*:[^0-9]//'
+*/
 
 #include <stdint.h>
 
 #include "utils.h"
+
+unsigned long timer_get_ticks(void)
+{
+	union {
+		unsigned long tsc_64;
+		struct {
+			unsigned int lo_32;
+			unsigned int hi_32;
+		};
+	} tsc;
+
+	__asm volatile("rdtsc" : "=a" (tsc.lo_32), "=d" (tsc.hi_32));
+
+	 return ((unsigned long)tsc.tsc_64);
+}
 
 /**
  * Return the current value of the fine-grain CPU cycle counter
@@ -112,25 +136,25 @@ uint64_t rdtscp_read(void)
 static inline __always_inline__
 uint64_t vdso_monotonic(void)
 {
-    struct timespec t;
-    clock_gettime(CLOCK_MONOTONIC, &t);
-    return (uint64_t)t.tv_sec * 1000000000ULL + (uint64_t)t.tv_nsec;
+	struct timespec t;
+	clock_gettime(CLOCK_MONOTONIC, &t);
+	return (uint64_t)t.tv_sec * 1000000000ULL + (uint64_t)t.tv_nsec;
 }
 
 static inline __always_inline__
 uint64_t vdso_realtime(void)
 {
-    struct timespec t;
-    clock_gettime(CLOCK_REALTIME, &t);
-    return (uint64_t)t.tv_sec * 1000000000ULL + (uint64_t)t.tv_nsec;
+	struct timespec t;
+	clock_gettime(CLOCK_REALTIME, &t);
+	return (uint64_t)t.tv_sec * 1000000000ULL + (uint64_t)t.tv_nsec;
 }
 
 static inline __always_inline__
 uint64_t vdso_gettimeofday(void)
 {
-    struct timeval t;
-    gettimeofday(&t, NULL);
-    return (uint64_t)t.tv_sec * 1000000000ULL + (uint64_t)t.tv_usec * 1000ULL;
+	struct timeval t;
+	gettimeofday(&t, NULL);
+	return (uint64_t)t.tv_sec * 1000000000ULL + (uint64_t)t.tv_usec * 1000ULL;
 }
 
 struct clock clock_rdtsc = {
