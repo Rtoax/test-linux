@@ -1,2 +1,3 @@
 /gai_strerror
 /getaddrinfo
+/gethostbyaddr
