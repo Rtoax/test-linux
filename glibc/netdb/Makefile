@@ -2,6 +2,7 @@ TARGETS :=
 TARGETS += gai_strerror
 TARGETS += getaddrinfo
 TARGETS += gethostbyaddr
+TARGETS += gethostbyname
 
 CC = gcc
 
@@ -20,6 +21,7 @@ build: ${TARGETS}
 gai_strerror: gai_strerror.o
 getaddrinfo: getaddrinfo.o
 gethostbyaddr: gethostbyaddr.o helpers.o
+gethostbyname: gethostbyname.o helpers.o
 
 .PHONY: clean
 clean:
