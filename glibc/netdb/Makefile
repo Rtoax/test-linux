@@ -1,6 +1,8 @@
-CC = gcc
+TARGETS :=
+TARGETS += gai_strerror
+TARGETS += getaddrinfo
 
-TARGETS := gai_strerror
+CC = gcc
 
 CFLAGS := -Werror -Wall
 CFLAGS += -Wstrict-prototypes
@@ -15,6 +17,7 @@ build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
 gai_strerror: gai_strerror.o
+getaddrinfo: getaddrinfo.o
 
 .PHONY: clean
 clean:
