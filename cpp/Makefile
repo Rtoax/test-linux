@@ -3,6 +3,7 @@ TARGETS += hello
 TARGETS += alignas
 TARGETS += extern_C
 TARGETS += pass-arg
+TARGETS += return
 
 DEBUG = yes
 SRC_PATH := $(shell pwd)
@@ -24,6 +25,9 @@ hello: hello.o
 alignas: alignas.o
 extern_C: extern_C.o
 pass-arg: pass-arg.o
+return: return.o
+
+CXXFLAGS_return := -Wno-error=return-type
 
 %.o: %.cpp
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
@@ -32,7 +36,7 @@ pass-arg: pass-arg.o
 
 ${TARGETS}: %:
 	@echo -e "Target   \033[1;32m$(@)\033[m"
-	$(CXX) $(CXXFLAGS) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
+	$(CXX) $(CXXFLAGS) $(CXXFLAGS_$(*)) -o $(@) $(^)
 
 
 test: ${TARGETS}
