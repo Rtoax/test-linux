@@ -1,5 +1,8 @@
-TARGETS := tcpdump
+TARGETS :=
+TARGETS += ethtool
+TARGETS += tcpdump
 
+ethtool: ethtool.o
 tcpdump: tcpdump.o
 
 build: ${TARGETS}
