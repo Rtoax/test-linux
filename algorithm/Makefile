@@ -1,5 +1,6 @@
 sub-dir := bitmask
 sub-dir += bitops
+sub-dir += fft
 sub-dir += hashmap
 sub-dir += linklist
 sub-dir += rbtree

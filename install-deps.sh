@@ -3,12 +3,13 @@ set -e
 
 prog=inst-deps
 
-declare -a pkgs pkgs_compiler pkgs_desktop whls pkgs_bench
+declare -a pkgs pkgs_compiler pkgs_desktop whls pkgs_bench pkgs_math
 
 have_upgrade=YES
 have_whls=
 have_compiler=
 have_desktop=
+have_math=
 have_bench=
 
 [[ ! -e /etc/os-release ]] && echo "ERROR: No /etc/os-release found" && exit 1
@@ -35,6 +36,7 @@ ARGUMENT
 	--compilers        install extra compilers, such as rust java
 	--whls             install python pip wheel packages
 	--desktop          install desktop relate packages
+	--math             install math relate packages
 	--bench            install benchmark relate packages
 
 	--noup             skip upgrade
@@ -52,6 +54,7 @@ TEMP=$(getopt --options h \
 	--long compilers \
 	--long whls \
 	--long desktop \
+	--long math \
 	--long bench \
 	--long help \
 	--name $prog -- "$@")
@@ -71,6 +74,7 @@ while true; do
 		have_compiler=YES
 		have_whls=YES
 		have_desktop=YES
+		have_math=YES
 		have_bench=YES
 		;;
 	--noup)
@@ -84,6 +88,10 @@ while true; do
 	--desktop)
 		shift
 		have_desktop=YES
+		;;
+	--math)
+		shift
+		have_math=YES
 		;;
 	--bench)
 		shift
@@ -218,11 +226,14 @@ cclinux|fedora|centos|rhel|openEuler|almalinux)
 	pkgs_compiler+=( java-1.8.0-openjdk-devel )
 	pkgs_compiler+=( rust )
 
+	pkgs_math+=( fftw-devel )
+
 	args=( --skip-broken )
 	args+=( --nogpgcheck )
 
 	[[ ${have_compiler} ]] && pkgs+=( ${pkgs_compiler[@]} )
 	[[ ${have_desktop} ]] && pkgs+=( ${pkgs_desktop[@]} )
+	[[ ${have_math} ]] && pkgs+=( ${pkgs_math[@]} )
 	[[ ${have_bench} ]] && pkgs+=( ${pkgs_bench[@]} )
 
 	if [[ ${have_upgrade} ]]; then
@@ -243,8 +254,11 @@ debian|ubuntu)
 
 	pkgs_compiler+=( rust-all )
 
+	pkgs_math+=( fftw-dev )
+
 	[[ ${have_compiler} ]] && pkgs+=( ${pkgs_compiler[@]} )
 	[[ ${have_desktop} ]] && pkgs+=( ${pkgs_desktop[@]} )
+	[[ ${have_math} ]] && pkgs+=( ${pkgs_math[@]} )
 	[[ ${have_bench} ]] && pkgs+=( ${pkgs_bench[@]} )
 
 	args=( --fix-missing )
