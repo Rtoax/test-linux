@@ -41,6 +41,7 @@ ifeq ($(shell uname -m),aarch64)
 	TARGETS_C += add-c
 	TARGETS_C += loop-c
 	TARGETS_C += puts
+	TARGETS_C += paciasp-c
 
 	TARGETS_ASM += branch
 
@@ -70,6 +71,7 @@ hello_sve: hello_sve.o
 daxpy: daxpy.o daxpy_sve.o daxpy-c.co
 add-c: add-c.o
 loop-c: loop-c.o
+paciasp-c: paciasp-c.o
 puts: puts.o
 while: while.o
 ldr: ldr.o
