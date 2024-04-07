@@ -14,6 +14,7 @@ TARGETS_C :=
 
 TARGETS_ASM := hello
 TARGETS_ASM += hello-stack
+TARGETS_ASM += paciasp
 TARGETS_ASM += exit
 TARGETS_ASM += ldr
 TARGETS_ASM += while
@@ -60,6 +61,7 @@ add: add.o
 branch: branch.o
 hello: hello.o
 hello-stack: hello-stack.o
+paciasp: paciasp.o
 hello-puts: hello-puts.o
 hello-puts-infinite-loop: hello-puts-infinite-loop.o
 say_hello: say_hello.o
