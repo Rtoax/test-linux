@@ -1,5 +1,4 @@
-sub-dir := samples
-sub-dir += breakpoint
+sub-dir := breakfast
 
 sub-dir-build := $(sub-dir:=.build)
 sub-dir-clean := $(sub-dir:=.clean)
