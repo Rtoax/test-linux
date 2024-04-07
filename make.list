@@ -4,6 +4,7 @@ USER_LIST += aio
 USER_LIST += algorithm
 USER_LIST += arch
 USER_LIST += audit
+USER_LIST += binutils
 USER_LIST += bpf
 USER_LIST += c
 USER_LIST += cpp
