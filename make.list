@@ -1,6 +1,5 @@
 # test-linux make list
 USER_LIST += acpi
-USER_LIST += asm
 USER_LIST += aio
 USER_LIST += algorithm
 USER_LIST += arch
