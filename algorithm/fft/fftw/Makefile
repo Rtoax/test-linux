@@ -13,7 +13,7 @@ CFLAGS += -lm
 ifneq ($(wildcard /usr/include/fftw3.h),)
 CFLAGS += -lfftw3
 else
-$(error "Not found fftw header")
+$(error "Not found header /usr/include/fftw3.h, please install fftw")
 endif
 
 build: ${TARGETS}
