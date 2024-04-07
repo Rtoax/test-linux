@@ -1,6 +1,7 @@
 TARGETS :=
 TARGETS += fftw_plan_dft_1d
 TARGETS += fftw_plan_dft_1d-1
+TARGETS += fftw_plan_dft_r2c_1d
 
 CC = gcc
 
@@ -22,6 +23,7 @@ build: ${TARGETS}
 # Add more object.o file
 fftw_plan_dft_1d: fftw_plan_dft_1d.o
 fftw_plan_dft_1d-1: fftw_plan_dft_1d-1.o
+fftw_plan_dft_r2c_1d: fftw_plan_dft_r2c_1d.o
 
 %.d: %.c
 	@echo -e "Generate \033[1m$(@)\033[m"
