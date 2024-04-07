@@ -4,6 +4,7 @@ TARGETS += endian
 TARGETS += gotoxy goprint
 TARGETS += log
 TARGETS += memshow
+TARGETS += mac
 TARGETS += proc_examples
 TARGETS += progress
 
@@ -19,6 +20,7 @@ endif
 
 CFLAGS_proc_examples += -DTEST=1
 CFLAGS_progress += -DTEST=1
+CFLAGS_mac := -DTEST=1
 
 build: ${TARGETS}
 	@echo
@@ -31,6 +33,7 @@ gotoxy: gotoxy.o
 goprint: goprint.o
 log: log.o
 memshow: memshow.o
+mac: mac.o
 progress: progress.o
 proc_examples: proc_examples.o proc.o
 
