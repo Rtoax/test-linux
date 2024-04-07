@@ -1,4 +1,7 @@
-TARGETS := test
+TARGETS :=
+ifeq ($(shell uname -m),x86_64)
+TARGETS += test
+endif
 
 CC = gcc
 CFLAGS := -O0
