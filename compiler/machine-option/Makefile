@@ -2,16 +2,16 @@
 TARGETS :=
 TARGETS += mbranch-protection
 
-ifneq ($(shell uname -m),aarch64)
-TARGETS += fcf-protection
-endif
-
 CC = gcc
 
 CFLAGS := -Werror -Wall
 CFLAGS += -Wstrict-prototypes
 
+
 CFLAGS_mbranch-protection := -mbranch-protection=pac-ret
+ifeq ($(shell uname -m),aarch64)
+CFLAGS_mbranch-protection += -march=armv8.3-a
+endif
 
 build: ${TARGETS}
 	@echo
