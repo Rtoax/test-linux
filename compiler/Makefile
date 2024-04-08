@@ -8,6 +8,7 @@ sub-dir += __builtin_
 sub-dir += dwarf
 sub-dir += foption
 sub-dir += LD_PRELOAD
+sub-dir += machine-option
 sub-dir += openmp
 sub-dir += pragma
 sub-dir += reloc
