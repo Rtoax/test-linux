@@ -1,15 +1,24 @@
 #!/bin/bash
 
+bytes=unlimited
+
 # run with it, generate a core.XXXX file.
 function coredump() {
-	ulimit -c unlimited
+	echo "Core ${bytes} Bytes"
+	ulimit -c ${bytes}
 	echo 1 | sudo tee /proc/sys/kernel/core_uses_pid
 	echo "./core.%p" | sudo tee /proc/sys/kernel/core_pattern
 	echo 0 | sudo tee /proc/sys/kernel/nmi_watchdog
 	echo 1 | sudo tee /sys/module/rcupdate/parameters/rcu_cpu_stall_suppress
+
+	ulimit -c
 	cat /proc/sys/kernel/core_pattern
 }
 
-if [ $# -gt 1 ]; then
+if [ $# -gt 0 ]; then
+	bytes=$1
 	coredump
+else
+	echo "Usage: coredump.sh [bytes]"
+	return 1
 fi
