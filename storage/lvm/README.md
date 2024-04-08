@@ -17,7 +17,7 @@ file systems on a logical volume.
 - PP: Physical Partition
 - LV: Logical Volumes
 	- sudo lvs
-	- sudo lvscan
+	- sudo lvscan --all
 	- sudo lvchange -ay /dev/XXX/xxx (active)
 - FS: Filesystem
 - MP: Mounting Point
