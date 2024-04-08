@@ -7,10 +7,18 @@ distributions are LVM-aware to the point of  being able to have their root
 file systems on a logical volume.
 
 
-- VG: Volume Groups      (sudo vgs)
-- PV: Physical Volumes   (sudo pvs)
+- VG: Volume Groups
+	- sudo vgs
+	- sudo vgscan
+	- sudo vgchange -ay /dev/xxx (active)
+- PV: Physical Volumes
+	- sudo pvs
+	- sudo pvscan
 - PP: Physical Partition
-- LV: Logical Volumes    (sudo lvs)
+- LV: Logical Volumes
+	- sudo lvs
+	- sudo lvscan
+	- sudo lvchange -ay /dev/XXX/xxx (active)
 - FS: Filesystem
 - MP: Mounting Point
 
