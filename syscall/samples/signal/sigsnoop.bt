@@ -1,0 +1,53 @@
+#!/bin/env bpftrace
+/**
+ * sigsnoop.bt - Trace standard and real-time signals.
+ *
+ * Copyright (C) Rong Tao 2022-2024
+ *
+ * 08-Apr-2024	Rong Tao	Create this.
+ */
+BEGIN
+{
+	printf("Tracing signals, hit ctrl-c to end.\n");
+	printf("%-8s %-8s %-16s %-8s %-8s\n",
+		"TIME", "PID", "COMM", "TPID", "SIG");
+}
+
+tracepoint:syscalls:sys_enter_kill,
+tracepoint:syscalls:sys_enter_tkill,
+tracepoint:syscalls:sys_enter_tgkill
+{
+	@pids[tid] = args->pid;
+	@sigs[tid] = args->sig;
+}
+
+tracepoint:syscalls:sys_exit_kill,
+tracepoint:syscalls:sys_exit_tkill,
+tracepoint:syscalls:sys_exit_tgkill
+/ @pids[tid] && @sigs[tid] /
+{
+	$pid = @pids[tid];
+	$sig = @sigs[tid];
+
+	time("%H:%M:%S ");
+	printf("%-8d %-16s %-8d %-8d\n", pid, comm, $pid, $sig);
+
+	delete(@pids[tid]);
+	delete(@sigs[tid]);
+}
+
+tracepoint:signal:signal_generate
+{
+	$pid = args->pid;
+	$sig = args->sig;
+
+	time("%H:%M:%S ");
+	printf("%-8d %-16s %-8d %-8d\n", pid, comm, $pid, $sig);
+}
+
+END
+{
+	clear(@pids);
+	clear(@sigs);
+	printf("Bye.\n");
+}
