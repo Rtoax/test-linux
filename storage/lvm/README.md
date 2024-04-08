@@ -47,8 +47,9 @@ file systems on a logical volume.
 
 # Q&A
 
-## mount: unknown filesystem type 'LVM2_member'
+## 1. mount: unknown filesystem type 'LVM2_member' or lsblk can't see LVM partitions
 
+- lvs
 - vgs
   lvchange -ay cl (-a: activate)
 - mount /dev/mapper/
