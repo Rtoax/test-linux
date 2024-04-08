@@ -6,7 +6,6 @@ TARGETS += pass-arg
 TARGETS += return
 
 DEBUG = yes
-SRC_PATH := $(shell pwd)
 CXX = g++
 
 CXXFLAGS := -Werror -Wall
