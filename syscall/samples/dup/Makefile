@@ -1,4 +1,5 @@
 TARGETS :=
+TARGETS += dup
 TARGETS += dup-dup2
 TARGETS += fork-pipe
 
@@ -13,6 +14,7 @@ build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
 # Add more object.o file
+dup: dup.o
 dup-dup2: dup-dup2.o
 fork-pipe: fork-pipe.o
 
