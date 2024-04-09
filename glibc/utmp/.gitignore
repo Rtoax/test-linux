@@ -6,3 +6,5 @@
 /endutent
 /utmpname
 /updwtmp
+/login
+/logwtmp

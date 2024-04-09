@@ -4,6 +4,7 @@ TARGETS += getutline pututline
 TARGETS += utmpname
 TARGETS += updwtmp
 TARGETS += setutent endutent
+TARGETS += login logwtmp
 
 CC = gcc
 
@@ -27,6 +28,8 @@ utmpname: utmpname.o
 updwtmp: updwtmp.o helpers.o
 setutent: setutent.o
 endutent: endutent.o
+login: login.o
+logwtmp: logwtmp.o
 
 .PHONY: clean
 clean:
