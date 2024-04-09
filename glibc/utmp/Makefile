@@ -5,6 +5,7 @@ TARGETS += utmpname
 TARGETS += updwtmp
 TARGETS += setutent endutent
 TARGETS += login logwtmp
+TARGETS += login_tty
 
 CC = gcc
 
@@ -30,6 +31,7 @@ setutent: setutent.o
 endutent: endutent.o
 login: login.o
 logwtmp: logwtmp.o
+login_tty: login_tty.o
 
 .PHONY: clean
 clean:
