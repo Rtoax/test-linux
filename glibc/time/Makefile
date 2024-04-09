@@ -10,6 +10,7 @@ TARGETS += ctime
 TARGETS += timeval_substract
 TARGETS += show_systime
 TARGETS += getdate
+TARGETS += timelocal
 
 CC = gcc
 
@@ -33,6 +34,7 @@ clock: clock.o
 clock_getcpuclockid: clock_getcpuclockid.o
 strftime: strftime.o
 strptime: strptime.o
+timelocal: timelocal.o
 timeval_substract: timeval_substract.o
 show_systime: show_systime.o
 
