@@ -1,5 +1,6 @@
 TARGETS :=
 TARGETS += dup-dup2
+TARGETS += fork-pipe
 
 CC = gcc
 
@@ -13,6 +14,7 @@ build: ${TARGETS}
 
 # Add more object.o file
 dup-dup2: dup-dup2.o
+fork-pipe: fork-pipe.o
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
