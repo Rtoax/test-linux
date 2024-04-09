@@ -9,12 +9,12 @@ TARGETS += strptime
 TARGETS += ctime
 TARGETS += timeval_substract
 TARGETS += show_systime
+TARGETS += getdate
 
 CC = gcc
 
 CFLAGS := -Werror -Wall
-CFLAGS += -I../../../
-CFLAGS += -lm
+CFLAGS += -D_GNU_SOURCE
 CFLAGS += -DDEBUG -O0 -g
 
 build: ${TARGETS}
@@ -26,6 +26,7 @@ asctime: asctime.o
 asctime_r: asctime_r.o
 ctime: ctime.o
 difftime: difftime.o
+getdate: getdate.o
 localtime: localtime.o
 localtime_r: localtime_r.o
 clock: clock.o
