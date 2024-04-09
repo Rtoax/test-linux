@@ -36,11 +36,11 @@ localtime_r: localtime_r.o
 clock: clock.o
 clock_getcpuclockid: clock_getcpuclockid.o
 strftime: strftime.o
-strptime: strptime.o
+strptime: strptime.o helpers.o
 timelocal: timelocal.o
 time: time.o
-timegm: timegm.o
-gmtime: gmtime.o
+timegm: timegm.o helpers.o
+gmtime: gmtime.o helpers.o
 timeval_substract: timeval_substract.o
 show_systime: show_systime.o
 
