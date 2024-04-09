@@ -18,10 +18,10 @@ build: ${TARGETS}
 	@echo
 	@echo -e " \033[1;33m Done \033[m"
 
-getutent: getutent.o
-getutid: getutid.o
+getutent: getutent.o helpers.o
+getutid: getutid.o helpers.o
 utmpname: utmpname.o
-updwtmp: updwtmp.o
+updwtmp: updwtmp.o helpers.o
 setutent: setutent.o
 endutent: endutent.o
 
