@@ -16,3 +16,5 @@
 /gmtime
 /mktime
 /process-runtime
+/timer_create
+/timer-demo

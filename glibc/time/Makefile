@@ -14,6 +14,9 @@ TARGETS += timegm
 TARGETS += gmtime
 TARGETS += mktime
 
+TARGETS += timer_create
+TARGETS += timer-demo
+
 TARGETS += timeval_substract
 TARGETS += show_systime
 TARGETS += process-runtime
@@ -44,6 +47,8 @@ time: time.o
 timegm: timegm.o helpers.o
 gmtime: gmtime.o helpers.o
 mktime: mktime.o
+timer_create: timer_create.o
+timer-demo: timer-demo.o
 timeval_substract: timeval_substract.o
 show_systime: show_systime.o
 process-runtime: process-runtime.o
