@@ -8,8 +8,6 @@ CC = gcc
 
 CFLAGS := -Werror -Wall -D_GNU_SOURCE
 CFLAGS += -pthread
-CFLAGS += -I../../../
-CFLAGS += -I../
 CFLAGS += -DDEBUG -O0 -g
 
 build: ${TARGETS}
