@@ -1,5 +1,6 @@
 TARGETS :=
 TARGETS += daemon
+TARGETS += eaccess
 TARGETS += execl
 TARGETS += execle
 TARGETS += execlp
@@ -42,6 +43,7 @@ build: ${TARGETS}
 
 # Add more object.o file
 daemon: daemon.o
+eaccess: eaccess.o
 execl: execl.o
 execle: execle.o
 execlp: execlp.o

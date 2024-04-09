@@ -1,6 +1,7 @@
 # Makefile of syscall samples
 
 sub-dir :=
+sub-dir += access
 ifneq ($(wildcard /usr/include/libaio.h),)
 $(info Already install libaio development)
 sub-dir += aio
@@ -41,7 +42,6 @@ sub-dir += ldt
 sub-dir += xattr
 
 TARGETS := fallocate
-TARGETS += access faccessat2
 TARGETS += acct
 TARGETS += chdir fchdir
 TARGETS += chown fchown
@@ -125,9 +125,7 @@ nr.h: nr.sh
 
 # Add more object.o file
 fallocate: fallocate.o
-faccessat2: faccessat2.o
 acct: acct.o
-access: access.o
 chown: chown.o
 fchown: fchown.o
 chdir: chdir.o
