@@ -1,4 +1,5 @@
 /*.txt
 /dup
+/dup2
 /dup-dup2
 /fork-pipe
