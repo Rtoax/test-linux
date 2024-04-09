@@ -1,5 +1,8 @@
 TARGETS :=
+TARGETS += getutent getutid
 TARGETS += utmpname
+TARGETS += updwtmp
+TARGETS += setutent endutent
 
 CC = gcc
 
@@ -15,7 +18,12 @@ build: ${TARGETS}
 	@echo
 	@echo -e " \033[1;33m Done \033[m"
 
+getutent: getutent.o
+getutid: getutid.o
 utmpname: utmpname.o
+updwtmp: updwtmp.o
+setutent: setutent.o
+endutent: endutent.o
 
 .PHONY: clean
 clean:

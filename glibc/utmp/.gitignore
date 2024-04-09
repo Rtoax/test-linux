@@ -1,1 +1,6 @@
+/getutent
+/getutid
+/setutent
+/endutent
 /utmpname
+/updwtmp
