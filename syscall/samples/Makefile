@@ -30,6 +30,7 @@ sub-dir += seccomp
 sub-dir += semaphore
 sub-dir += signal
 sub-dir += socket
+sub-dir += utime
 sub-dir += prctl
 sub-dir += perf_event_open
 sub-dir += arch_prctl

@@ -3,10 +3,12 @@ TARGETS += asctime asctime_r
 TARGETS += localtime localtime_r
 TARGETS += clock
 TARGETS += clock_getcpuclockid
+TARGETS += difftime
 TARGETS += strftime
 TARGETS += strptime
 TARGETS += ctime
 TARGETS += timeval_substract
+TARGETS += show_systime
 
 CC = gcc
 
@@ -23,6 +25,7 @@ build: ${TARGETS}
 asctime: asctime.o
 asctime_r: asctime_r.o
 ctime: ctime.o
+difftime: difftime.o
 localtime: localtime.o
 localtime_r: localtime_r.o
 clock: clock.o
@@ -30,6 +33,7 @@ clock_getcpuclockid: clock_getcpuclockid.o
 strftime: strftime.o
 strptime: strptime.o
 timeval_substract: timeval_substract.o
+show_systime: show_systime.o
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
