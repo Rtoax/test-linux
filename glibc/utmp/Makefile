@@ -1,5 +1,6 @@
 TARGETS :=
 TARGETS += getutent getutid
+TARGETS += getutline pututline
 TARGETS += utmpname
 TARGETS += updwtmp
 TARGETS += setutent endutent
@@ -20,6 +21,8 @@ build: ${TARGETS}
 
 getutent: getutent.o helpers.o
 getutid: getutid.o helpers.o
+getutline: getutline.o helpers.o
+pututline: pututline.o helpers.o
 utmpname: utmpname.o
 updwtmp: updwtmp.o helpers.o
 setutent: setutent.o

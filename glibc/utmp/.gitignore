@@ -1,5 +1,7 @@
 /getutent
 /getutid
+/getutline
+/pututline
 /setutent
 /endutent
 /utmpname
