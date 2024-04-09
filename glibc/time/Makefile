@@ -1,10 +1,11 @@
-
+TARGETS :=
 TARGETS += asctime asctime_r
 TARGETS += localtime localtime_r
 TARGETS += clock
 TARGETS += clock_getcpuclockid
 TARGETS += strftime
 TARGETS += strptime
+TARGETS += ctime
 
 CC = gcc
 
@@ -20,6 +21,7 @@ build: ${TARGETS}
 # Add more object.o file
 asctime: asctime.o
 asctime_r: asctime_r.o
+ctime: ctime.o
 localtime: localtime.o
 localtime_r: localtime_r.o
 clock: clock.o

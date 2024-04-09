@@ -1,5 +1,6 @@
 /asctime
 /asctime_r
+/ctime
 /localtime
 /localtime_r
 /clock
