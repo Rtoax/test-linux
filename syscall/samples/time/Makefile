@@ -1,5 +1,6 @@
-
-TARGETS := clock_getres
+TARGETS :=
+TARGETS += stime
+TARGETS += clock_getres
 TARGETS += clock_gettime clock_gettime-CLOCK_BOOTTIME
 TARGETS += clock_nanosleep
 TARGETS += nanosleep
@@ -19,6 +20,7 @@ clock_getres: clock_getres.o helpers.o
 clock_gettime: clock_gettime.o helpers.o
 clock_gettime-CLOCK_BOOTTIME: clock_gettime-CLOCK_BOOTTIME.o helpers.o
 clock_nanosleep: clock_nanosleep.o helpers.o
+stime: stime.o
 nanosleep: nanosleep.o
 
 test: ${TARGETS}

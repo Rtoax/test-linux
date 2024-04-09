@@ -12,3 +12,5 @@
 /difftime
 /getdate
 /timelocal
+/timegm
+/time
