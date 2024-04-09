@@ -6,6 +6,7 @@ TARGETS += clock_getcpuclockid
 TARGETS += strftime
 TARGETS += strptime
 TARGETS += ctime
+TARGETS += timeval_substract
 
 CC = gcc
 
@@ -28,6 +29,7 @@ clock: clock.o
 clock_getcpuclockid: clock_getcpuclockid.o
 strftime: strftime.o
 strptime: strptime.o
+timeval_substract: timeval_substract.o
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"

@@ -7,3 +7,4 @@
 /clock_getcpuclockid
 /strftime
 /strptime
+/timeval_substract
