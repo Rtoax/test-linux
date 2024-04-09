@@ -8,13 +8,15 @@ TARGETS += difftime
 TARGETS += strftime
 TARGETS += strptime
 TARGETS += ctime
-TARGETS += timeval_substract
-TARGETS += show_systime
 TARGETS += getdate
 TARGETS += timelocal
 TARGETS += timegm
 TARGETS += gmtime
 TARGETS += mktime
+
+TARGETS += timeval_substract
+TARGETS += show_systime
+TARGETS += process-runtime
 
 CC = gcc
 
@@ -44,6 +46,7 @@ gmtime: gmtime.o helpers.o
 mktime: mktime.o
 timeval_substract: timeval_substract.o
 show_systime: show_systime.o
+process-runtime: process-runtime.o
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
