@@ -1,2 +1,4 @@
+/NCCS
 /tcsetattr
+/tcgetattr
 /tcgetsid

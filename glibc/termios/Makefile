@@ -1,5 +1,6 @@
-
-TARGETS := tcsetattr
+TARGETS :=
+TARGETS += NCCS
+TARGETS += tcsetattr tcgetattr
 TARGETS += tcgetsid
 
 CC = gcc
@@ -14,8 +15,10 @@ build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
 # Add more object.o file
+NCCS: NCCS.o
 tcsetattr: tcsetattr.o
 tcgetsid: tcgetsid.o
+tcgetattr: tcgetattr.o
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
