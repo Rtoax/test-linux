@@ -2,7 +2,6 @@
 /asctime_r
 /ctime
 /localtime
-/localtime_r
 /clock
 /clock_getcpuclockid
 /strftime

@@ -1,7 +1,7 @@
 TARGETS :=
 TARGETS += time
 TARGETS += asctime asctime_r
-TARGETS += localtime localtime_r
+TARGETS += localtime
 TARGETS += clock
 TARGETS += clock_getcpuclockid
 TARGETS += difftime
@@ -31,8 +31,7 @@ asctime_r: asctime_r.o
 ctime: ctime.o
 difftime: difftime.o
 getdate: getdate.o
-localtime: localtime.o
-localtime_r: localtime_r.o
+localtime: localtime.o helpers.o
 clock: clock.o
 clock_getcpuclockid: clock_getcpuclockid.o
 strftime: strftime.o
