@@ -1,14 +1,13 @@
 TARGETS := crypt
+TARGETS += encrypt
 
-DEBUG = yes
-SRC_PATH := $(shell pwd)
 CC = gcc
 
 CFLAGS := -Werror -Wall
-
-ifdef DEBUG
 CFLAGS += -DDEBUG -O0 -g
-endif
+CFLAGS += -lcrypt
+CFLAGS += -D_XOPEN_SOURCE -D_GNU_SOURCE
+CFLAGS += -Wno-error=implicit-function-declaration
 
 build: ${TARGETS}
 	@echo
@@ -16,6 +15,7 @@ build: ${TARGETS}
 
 # Add more object.o file
 crypt: crypt.o
+encrypt: encrypt.o
 
 CFLAGS_crypt := -lcrypt
 
