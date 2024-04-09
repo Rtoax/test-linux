@@ -13,6 +13,7 @@ TARGETS += show_systime
 TARGETS += getdate
 TARGETS += timelocal
 TARGETS += timegm
+TARGETS += gmtime
 
 CC = gcc
 
@@ -39,6 +40,7 @@ strptime: strptime.o
 timelocal: timelocal.o
 time: time.o
 timegm: timegm.o
+gmtime: gmtime.o
 timeval_substract: timeval_substract.o
 show_systime: show_systime.o
 
