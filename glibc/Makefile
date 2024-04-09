@@ -34,6 +34,7 @@ sub-dir += sysinfo
 sub-dir += termios
 sub-dir += time
 sub-dir += ucontext
+sub-dir += utmp
 sub-dir += unistd
 sub-dir += wctype
 
