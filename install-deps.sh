@@ -160,6 +160,7 @@ pkgs_bench+=( iperf iperf3 )
 
 # Desktop Packages
 pkgs_desktop+=( terminator )
+pkgs_desktop+=( gimp )
 pkgs_desktop+=( gtk3 gtk3-devel )
 
 whls+=( numpy pyyaml )
