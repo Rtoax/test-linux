@@ -8,15 +8,15 @@ int main(int argc, char *argv[])
 	int i;
 	struct termios old, new;
 
-
 	tcgetattr(STDIN_FILENO, &old);
+
 	new = old;
 	/* disable line buffering and feedback */
 	new.c_lflag &= ~(ICANON | ECHO);
+
 	tcsetattr(STDIN_FILENO, TCSANOW, &new);
 
 	printf("Reading 5 characters without local echo...\n");
-
 	for (i = 0; i < 5; i++) {
 		char x = getchar();
 		printf("[%c] ", x);
