@@ -14,6 +14,7 @@ TARGETS += getdate
 TARGETS += timelocal
 TARGETS += timegm
 TARGETS += gmtime
+TARGETS += mktime
 
 CC = gcc
 
@@ -40,6 +41,7 @@ timelocal: timelocal.o
 time: time.o
 timegm: timegm.o helpers.o
 gmtime: gmtime.o helpers.o
+mktime: mktime.o
 timeval_substract: timeval_substract.o
 show_systime: show_systime.o
 
