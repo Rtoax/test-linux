@@ -16,7 +16,7 @@ void sigtrap(int sig)
 	printf("Get SIGTRAP.\n");
 }
 
-int func(void)
+int trap(void)
 {
 	BREAKPOINT();
 }
@@ -28,8 +28,6 @@ void usage(void)
 
 int main(int argc, char *argv[])
 {
-	int i = 0;
-
 	prog = argv[0];
 
 	if (argc > 1) {
@@ -41,10 +39,7 @@ int main(int argc, char *argv[])
 	}
 	usage();
 
-	while (i < 6){
-		printf("i : %d\n", i);
-		BREAKPOINT();
-		++i;
-		func();
-	}
+	trap();
+
+	return 0;
 }
