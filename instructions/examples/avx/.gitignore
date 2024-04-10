@@ -11,6 +11,7 @@
 /mul-avx512
 /add_pd-avx256
 /add_pd-avx512
+/add-2dim
 /mask
 /vperm2i128
 /kxord
