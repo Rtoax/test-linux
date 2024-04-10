@@ -1,8 +1,13 @@
 #!/bin/env bpftrace
 /**
  * sigsnoop.bt - Trace standard and real-time signals.
+ *               For Linux, uses bpftrace and eBPF.
  *
- * Copyright (C) Rong Tao 2022-2024
+ * This is a bpftrace version of the bcc libbpf-tools/sigsnoop of the same name.
+ *
+ * USAGE: sigsnoop.bt
+ *
+ * Copyright (C) 2024 CESTC, Co.
  *
  * 08-Apr-2024	Rong Tao	Create this.
  */
@@ -12,6 +17,38 @@
 
 BEGIN
 {
+	@SIG_STR[1] = "SIGHUP";
+	@SIG_STR[2] = "SIGINT";
+	@SIG_STR[3] = "SIGQUIT";
+	@SIG_STR[4] = "SIGILL";
+	@SIG_STR[5] = "SIGTRAP";
+	@SIG_STR[6] = "SIGABRT";
+	@SIG_STR[7] = "SIGBUS";
+	@SIG_STR[8] = "SIGFPE";
+	@SIG_STR[9] = "SIGKILL";
+	@SIG_STR[10] = "SIGUSR1";
+	@SIG_STR[11] = "SIGSEGV";
+	@SIG_STR[12] = "SIGUSR2";
+	@SIG_STR[13] = "SIGPIPE";
+	@SIG_STR[14] = "SIGALRM";
+	@SIG_STR[15] = "SIGTERM";
+	@SIG_STR[16] = "SIGSTKFLT";
+	@SIG_STR[17] = "SIGCHLD";
+	@SIG_STR[18] = "SIGCONT";
+	@SIG_STR[19] = "SIGSTOP";
+	@SIG_STR[20] = "SIGTSTP";
+	@SIG_STR[21] = "SIGTTIN";
+	@SIG_STR[22] = "SIGTTOU";
+	@SIG_STR[23] = "SIGURG";
+	@SIG_STR[24] = "SIGXCPU";
+	@SIG_STR[25] = "SIGXFSZ";
+	@SIG_STR[26] = "SIGVTALRM";
+	@SIG_STR[27] = "SIGPROF";
+	@SIG_STR[28] = "SIGWINCH";
+	@SIG_STR[29] = "SIGIO";
+	@SIG_STR[30] = "SIGPWR";
+	@SIG_STR[31] = "SIGSYS";
+
 	printf("Tracing signals, hit ctrl-c to end.\n");
 	printf("%-8s %-8s %-16s %-8s %-8s\n",
 		"TIME", "PID", "COMM", "TPID", "SIG");
@@ -34,7 +71,11 @@ tracepoint:syscalls:sys_exit_tgkill
 	$sig = @sigs[tid];
 
 	time("%H:%M:%S ");
-	printf("%-8d %-16s %-8d %-8d\n", pid, comm, $pid, $sig);
+	if (@SIG_STR[$sig] == "") {
+		printf("%-8d %-16s %-8d %-8d\n", pid, comm, $pid, $sig);
+	} else {
+		printf("%-8d %-16s %-8d %-8s\n", pid, comm, $pid, @SIG_STR[$sig]);
+	}
 
 	delete(@pids[tid]);
 	delete(@sigs[tid]);
@@ -46,12 +87,17 @@ tracepoint:signal:signal_generate
 	$sig = args->sig;
 
 	time("%H:%M:%S ");
-	printf("%-8d %-16s %-8d %-8d\n", pid, comm, $pid, $sig);
+	if (@SIG_STR[$sig] == "") {
+		printf("%-8d %-16s %-8d %-8d\n", pid, comm, $pid, $sig);
+	} else {
+		printf("%-8d %-16s %-8d %-8s\n", pid, comm, $pid, @SIG_STR[$sig]);
+	}
 }
 
 END
 {
 	clear(@pids);
 	clear(@sigs);
+	clear(@SIG_STR);
 	printf("Bye.\n");
 }
