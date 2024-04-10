@@ -225,6 +225,7 @@ cclinux|fedora|centos|rhel|openEuler|almalinux)
 	pkgs_compiler+=( gcc-aarch64-linux-gnu gcc-x86_64-linux-gnu )
 
 	pkgs_compiler+=( java-1.8.0-openjdk-devel )
+	pkgs_compiler+=( libgccjit-devel )
 	pkgs_compiler+=( rust )
 
 	pkgs_math+=( fftw-devel )

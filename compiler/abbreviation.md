@@ -1,5 +1,6 @@
 - AST: Abstract Syntax Trees (抽象语法树)
 - FDO: Feedback Directed Optimization
+- JIT: Just In Time
 - LGEN: Local Generation
 - LLVM: Low Level Virtual Machine
 - LLVM IR: LLVM Intermediate Representation (LLVM 中间表示)
