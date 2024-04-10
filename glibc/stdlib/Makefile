@@ -1,10 +1,11 @@
-
+TARGETS :=
 TARGETS += mkdtemp mktemp mkstemp
 TARGETS += env setenv getenv clearenv putenv unsetenv
 TARGETS += rand random random-dev
 TARGETS += bsearch
 TARGETS += qsort
 TARGETS += getloadavg
+TARGETS += atexit
 
 ifeq ($(shell uname -m),x86_64)
 endif
@@ -21,6 +22,7 @@ build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
 # Add more object.o file
+atexit: atexit.o
 bsearch: bsearch.o
 qsort: qsort.o
 mkdtemp: mkdtemp.o
