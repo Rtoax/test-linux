@@ -5,6 +5,8 @@ TARGETS += accuracy
 TARGETS += clock_gettime.sec
 TARGETS += clock_gettime.nsec
 
+CC = gcc
+
 all: ${TARGETS}
 
 ARCH=$(shell uname -m)
@@ -14,27 +16,30 @@ CFLAGS += -pthread
 
 CXXFLAGS := $(CFLAGS)
 
-ifeq (${ARCH}, x86_64)
-	TARGETS += evil-clock-test
-	TARGETS += time
-	LIBS += ./dpdk/tsc_freq.o
-	MACROS += -DHAVE_DPDK_TSC_FREQ
-else
-	ifeq (${ARCH}, aarch64)
-		LIBS +=
-		MACROS +=
-	else
-		$(error Not support arch.)
-	endif
+ifeq (${ARCH},x86_64)
+TARGETS += evil-clock-test
+TARGETS += time
 endif
 
-${LIBS}:
+accuracy: accuracy.o
+clock_gettime.sec: clock_gettime.sec.o ./dpdk/tsc_freq.o
+clock_gettime.nsec: clock_gettime.nsec.o ./dpdk/tsc_freq.o
+time: time.o
+evil-clock-test: evil-clock-test.o
+
+./dpdk/tsc_freq.o:
 	make -C dpdk
 
-clock_gettime.sec: ${LIBS}
-	gcc clock_gettime.c ${MACROS} ${LIBS} -o $@ -DACCURATE_TO_SEC
-clock_gettime.nsec: ${LIBS}
-	gcc clock_gettime.c ${MACROS} ${LIBS} -o $@
+CFLAGS_clock_gettime.sec := -DHAVE_DPDK_TSC_FREQ -DACCURATE_TO_SEC
+CFLAGS_clock_gettime.nsec := -DHAVE_DPDK_TSC_FREQ
+
+%.o: %.c
+	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
+	$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
+
+$(TARGETS): %:
+	@echo -e "Target   \033[1;32m$(@)\033[m"
+	$(CC) -o $(@) $(^) $(LDLIBS) $(LDFLAGS) $(LDFLAGS_$(*)) $(CFLAGS) $(CFLAGS_$(*))
 
 clean:
 	make -C dpdk clean
