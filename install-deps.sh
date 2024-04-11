@@ -191,6 +191,7 @@ cclinux|fedora|centos|rhel|openEuler|almalinux)
 	pkgs+=( grub2-tools-minimal grub2-tools-extra )
 	pkgs+=( gtest-devel gmock-devel )
 	pkgs+=( iproute-tc )           # tc
+	pkgs+=( iptables-devel )
 	pkgs+=( jemalloc-devel )
 	pkgs+=( kernel-devel )         # kernel
 	pkgs+=( kernel-headers )       # kernel
