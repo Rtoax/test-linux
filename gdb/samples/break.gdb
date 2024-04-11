@@ -29,6 +29,7 @@
 #	delete breakpoints <brk num>	删除一个或所有断点
 break hello
 break main
+break *0xffff1234
 info breakpoints
 # hello()
 enable 1
