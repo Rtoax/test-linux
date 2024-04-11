@@ -2,8 +2,6 @@
 
 TARGETS :=
 TARGETS += accuracy
-TARGETS += evil-clock-test
-TARGETS += time
 TARGETS += clock_gettime.sec
 TARGETS += clock_gettime.nsec
 
@@ -17,15 +15,17 @@ CFLAGS += -pthread
 CXXFLAGS := $(CFLAGS)
 
 ifeq (${ARCH}, x86_64)
-LIBS += ./dpdk/tsc_freq.o
-MACROS += -DHAVE_DPDK_TSC_FREQ
+	TARGETS += evil-clock-test
+	TARGETS += time
+	LIBS += ./dpdk/tsc_freq.o
+	MACROS += -DHAVE_DPDK_TSC_FREQ
 else
- ifeq (${ARCH}, aarch64)
- LIBS +=
- MACROS +=
- else
- $(error Not support arch.)
- endif
+	ifeq (${ARCH}, aarch64)
+		LIBS +=
+		MACROS +=
+	else
+		$(error Not support arch.)
+	endif
 endif
 
 ${LIBS}:
