@@ -1,4 +1,5 @@
-all:
-	gcc vsyscall-vma.c -o vsyscall-vma.out
+TARGETS := vsyscall-vma
+
+all: ${TARGETS}
 clean:
-	rm -f vsyscall-vma.out vsyscall-VMA.out
+	rm -f ${TARGETS} *.out
