@@ -2,4 +2,4 @@ TARGETS := vsyscall-vma
 
 all: ${TARGETS}
 clean:
-	rm -f ${TARGETS} *.out
+	rm -f ${TARGETS} *.elf

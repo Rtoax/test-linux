@@ -4,23 +4,24 @@
  * Date: 2022.05.13
  *
  * Read [vsyscall] vma and output to file.
- *
- * TODO: [vsyscall] not readable
  */
 #include <stdio.h>
 #include <stdlib.h>
+#include <fcntl.h>
 #include <string.h>
 #include <sys/types.h>
 #include <unistd.h>
 
-#define VSYSCALL_FILE_NAME "vsyscall-VMA.out"
+#define VSYSCALL_FILE_NAME "vsyscall.elf"
 
 int main(int argc, char *argv[])
 {
-	char cmd[256];
+	char cmd[256], buf[256];
 	FILE *fp;
-	int i, length;
+	int i, length, fdmem;
 	unsigned long start, end;
+	char *vsyscall;
+	ssize_t sz;
 
 	/* Read /proc/PID/maps [vsyscall] item */
 	snprintf(cmd, sizeof(cmd), "cat /proc/%d/maps | grep vsyscall]$", getpid());
@@ -44,7 +45,6 @@ int main(int argc, char *argv[])
 			if (perms[0] != 'r') {
 				/* ffffffffff600000-ffffffffff601000 --xp 00000000 00:00 0 [vsyscall] */
 				printf("[vsyscall] not readable, check /proc/self/maps.\n");
-				return 1;
 			}
 			break;
 		}
@@ -55,15 +55,30 @@ int main(int argc, char *argv[])
 		printf("Not find [vsyscall] VMA.\n");
 		return 1;
 	}
+	length = end - start;
 	printf("Find [vsyscall]: %lx-%lx, len = %d\n", start, end, length);
+
+	snprintf(buf, sizeof(buf), "/proc/%d/mem", getpid());
+	fdmem = open(buf, O_RDONLY);
+	if (fdmem == -1) {
+		fprintf(stderr, "open(%s) failed.\n", buf);
+		return 1;
+	}
 
 	/* Output [vsyscall] VMA to File */
 	fp = fopen(VSYSCALL_FILE_NAME, "w");
-	length = end - start;
-	if ((i = fwrite((void*)start, length, 1, fp)) <= 0) {
+	vsyscall = malloc(length);
+	sz = pread(fdmem, vsyscall, length, start);
+	if (sz < length) {
+		fprintf(stderr, "pread(%s)=%ld failed. %m\n", buf, sz);
+		return 1;
+	}
+	if ((i = fwrite((void*)vsyscall, length, 1, fp)) <= 0) {
 		perror("fwrite:");
 	}
+	free(vsyscall);
 	fclose(fp);
+	close(fdmem);
 
 	return 0;
 }
