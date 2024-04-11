@@ -11,6 +11,8 @@ all: ${TARGETS}
 
 ARCH=$(shell uname -m)
 
+DPDK_TSC_FREQ :=
+
 CFLAGS := -O2
 CFLAGS += -pthread
 
@@ -19,11 +21,12 @@ CXXFLAGS := $(CFLAGS)
 ifeq (${ARCH},x86_64)
 TARGETS += evil-clock-test
 TARGETS += time
+DPDK_TSC_FREQ = ./dpdk/tsc_freq.o
 endif
 
 accuracy: accuracy.o
-clock_gettime.sec: clock_gettime.sec.o ./dpdk/tsc_freq.o
-clock_gettime.nsec: clock_gettime.nsec.o ./dpdk/tsc_freq.o
+clock_gettime.sec: clock_gettime.sec.o ${DPDK_TSC_FREQ}
+clock_gettime.nsec: clock_gettime.nsec.o ${DPDK_TSC_FREQ}
 time: time.o
 evil-clock-test: evil-clock-test.o
 
