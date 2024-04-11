@@ -1,12 +1,12 @@
 #!/bin/bash
 
-gcc time.c -o time.out
+make time
 
 echo "Syscall"
-time ./time.out syscall
+time ./time syscall
 echo "Vsyscall"
-time ./time.out vsyscall
+time ./time vsyscall
 echo "VDSO"
-time ./time.out vdso
+time ./time vdso
 
-rm -f time.out
+rm -f time
