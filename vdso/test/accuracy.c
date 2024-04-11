@@ -13,38 +13,50 @@ int sys_clock_gettime(clockid_t clockid, struct timespec *tp)
 	return syscall(__NR_clock_gettime, clockid, tp);
 }
 
-unsigned long sys_nsecs(void)
+unsigned long sys_nsecs(clockid_t clockid)
 {
 	struct timespec start;
-	sys_clock_gettime(CLOCK_MONOTONIC_COARSE, &start);
+	sys_clock_gettime(clockid, &start);
 	return (start.tv_sec * 1E9 + start.tv_nsec);
 }
 
-unsigned long vdso_nsecs(void)
+unsigned long vdso_nsecs(clockid_t clockid)
 {
 	struct timespec start;
-	clock_gettime(CLOCK_MONOTONIC_COARSE, &start);
+	clock_gettime(clockid, &start);
 	return (start.tv_sec * 1E9 + start.tv_nsec);
 }
 
-void test(char *name, unsigned long (*nsecs)(void))
+void test(char *name, unsigned long (*nsecs)(clockid_t), clockid_t clockid)
 {
 	unsigned long start, end, cnt;
 
 	cnt = 0;
-	start = end = nsecs();
+	start = end = nsecs(clockid);
 	/* 5ms */
 	while (end - start < 5000000) {
 		cnt++;
-		end = nsecs();
+		end = nsecs(clockid);
 	}
-	printf("%-8s %-16ld %-16ld\n", name, end - start, cnt);
+	printf("%-48s %-16ld %-16ld\n", name, end - start, cnt);
 }
 
 int main(int argc, char *argv[])
 {
-	test("syscall", sys_nsecs);
-	test("vdso", vdso_nsecs);
+	test("syscall REALTIME", sys_nsecs, CLOCK_REALTIME);
+	test("syscall REALTIME_ALARM", sys_nsecs, CLOCK_REALTIME_ALARM);
+	test("syscall REALTIME_COARSE", sys_nsecs, CLOCK_REALTIME_COARSE);
+	test("syscall MONOTONIC", sys_nsecs, CLOCK_MONOTONIC);
+	test("syscall MONOTONIC_COARSE", sys_nsecs, CLOCK_MONOTONIC_COARSE);
+	test("syscall MONOTONIC_RAW", sys_nsecs, CLOCK_MONOTONIC_RAW);
+	test("syscall PROCESS_CPUTIME_ID", sys_nsecs, CLOCK_PROCESS_CPUTIME_ID);
+	test("vdso    REALTIME", vdso_nsecs, CLOCK_REALTIME);
+	test("vdso    REALTIME_ALARM", vdso_nsecs, CLOCK_REALTIME_ALARM);
+	test("vdso    REALTIME_COARSE", vdso_nsecs, CLOCK_REALTIME_COARSE);
+	test("vdso    MONOTONIC", vdso_nsecs, CLOCK_MONOTONIC);
+	test("vdso    MONOTONIC_COARSE", vdso_nsecs, CLOCK_MONOTONIC_COARSE);
+	test("vdso    MONOTONIC_RAW", vdso_nsecs, CLOCK_MONOTONIC_RAW);
+	test("vdso    PROCESS_CPUTIME_ID", vdso_nsecs, CLOCK_PROCESS_CPUTIME_ID);
 	return 0;
 }
 
