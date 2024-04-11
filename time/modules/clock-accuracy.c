@@ -11,7 +11,7 @@ static inline unsigned long nsecs64(fn_ts64_t fn)
 {
 	struct timespec64 ts;
 	fn(&ts);
-	return (ts.tv_sec * 1E9 + ts.tv_nsec);
+	return (ts.tv_sec * 1000000000UL + ts.tv_nsec);
 }
 
 static void test(char *name, fn_ts64_t fn)
