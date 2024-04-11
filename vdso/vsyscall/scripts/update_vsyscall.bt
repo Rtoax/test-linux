@@ -22,6 +22,7 @@ kprobe:update_vsyscall
 	if (strncmp(str($1), "kstack", 6) == 0) {
 		@stacks[kstack] = count();
 	}
+	@update_count = count();
 }
 
 kretprobe:update_vsyscall
@@ -29,6 +30,12 @@ kretprobe:update_vsyscall
 {
 	@latency_us = hist((nsecs - @start[pid]) / 1000);
 	delete(@start[pid]);
+}
+
+i:s:1
+{
+	print(@update_count);
+	clear(@update_count);
 }
 
 END
