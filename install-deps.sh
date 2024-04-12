@@ -142,7 +142,6 @@ pkgs+=( numactl )              # numastat
 pkgs+=( opencl-headers )
 pkgs+=( openssl )
 pkgs+=( parallel )
-pkgs+=( python3-matplotlib )   # matplotlib
 pkgs+=( python3-pip )          # pip wheel
 pkgs+=( python3-pyroute2 )     # pyroute2
 pkgs+=( python3-scapy )
@@ -161,7 +160,9 @@ pkgs_bench+=( iperf iperf3 )
 # Desktop Packages
 pkgs_desktop+=( terminator )
 pkgs_desktop+=( gimp )
+pkgs_desktop+=( gnuplot )
 pkgs_desktop+=( gtk3 gtk3-devel )
+pkgs_desktop+=( python3-matplotlib )
 
 whls+=( numpy pyyaml )
 whls+=( tqdm )
