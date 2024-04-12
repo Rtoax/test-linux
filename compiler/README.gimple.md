@@ -1,15 +1,14 @@
 GIMPLE
 ======
 
-* [https://gcc.gnu.org/onlinedocs/gccint/GIMPLE.html](https://gcc.gnu.org/onlinedocs/gccint/GIMPLE.html)
+GIMPLE is a family of intermediate representations (IR) based on the tree data structure.
+
 
 GIMPLE 是从 GENERIC 派生的三地址表示，它通过将 GENERIC 表达式分解为不超过 3 个操作数的元组（有一些例外，如函数调用）。
 
 # LTO
 
 The C front end defines the following hooks which may affect interpretation of GIMPLE:
-
-* [https://gcc.gnu.org/wiki/LTO_Representation_Changes](https://gcc.gnu.org/wiki/LTO_Representation_Changes)
 
 ```
 FINISH
@@ -62,4 +61,10 @@ The C front end defines the following hooks which do not affect interpretation o
 
 * `IDENTIFIER_SIZE`:This hook is only use to compute the size to use when allocating an `IDENTIFIER_NODE`.
 * `STATICP`: The only case handled by this hook is `COMPOUND_LITERAL_EXPR` which is eliminated during before GIMPLE.
+
+
+# Links
+
+* [https://gcc.gnu.org/onlinedocs/gccint/GIMPLE.html](https://gcc.gnu.org/onlinedocs/gccint/GIMPLE.html)
+* [https://gcc.gnu.org/wiki/LTO_Representation_Changes](https://gcc.gnu.org/wiki/LTO_Representation_Changes)
 

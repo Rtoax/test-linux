@@ -1,5 +1,7 @@
 - AST: Abstract Syntax Trees (抽象语法树)
 - FDO: Feedback Directed Optimization
+- IPA: Inter-Procedural Analysis (过程间分析)
+- IPO: Inter-Procedural Optimization (过程间优化)
 - JIT: Just In Time
 - LGEN: Local Generation
 - LLVM: Low Level Virtual Machine
@@ -8,5 +10,6 @@
 - LTRANS: Local Transformations
 - PDF: Profile-Directed Feedback
 - PGO: Profile-Guided Optimizations
+- WHOPR: Whole Program Optimizer
 - WPA: Whole Program Analysis
 

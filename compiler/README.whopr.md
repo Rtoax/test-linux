@@ -1,4 +1,4 @@
-WHOPR - Whole Program optimizer
+WHOPR - Whole Program Optimizer
 ===============================
 
 * [https://gcc.gnu.org/wiki/whopr/driver](https://gcc.gnu.org/wiki/whopr/driver)
