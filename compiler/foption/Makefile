@@ -1,9 +1,6 @@
-
 TARGETS :=
 TARGETS += ffat-lto-objects
 TARGETS += fpatchable-function-entry
-# command-line option ‘-fwpa’ is valid for LTO but not for C
-# TARGETS += fwpa
 TARGETS += flto
 TARGETS += fwhole-program
 TARGETS += fstack-protector fstack-protector-all fstack-protector-strong fstack-protector-explicit
@@ -14,6 +11,10 @@ TARGETS += fdump-tree-all-raw fdump-tree-all
 ifneq ($(shell uname -m),aarch64)
 TARGETS += fcf-protection
 endif
+
+# command-line option ‘-fwpa’ is valid for LTO but not for C
+# TARGETS += fwpa
+# TARGETS += fltrans
 
 CC = gcc
 
@@ -28,6 +29,7 @@ CFLAGS_fpatchable-function-entry := -fpatchable-function-entry=5,2
 CFLAGS_fwpa := -flto -fwpa
 CFLAGS_flto := -flto=auto
 CFLAGS_fwhole-program := -fwhole-program
+CFLAGS_fltrans := -fltrans -fltrans-output-list=fltrans.txt
 CFLAGS_fstack-protector := -fstack-protector
 CFLAGS_fstack-protector-all := -fstack-protector-all
 CFLAGS_fstack-protector-strong := -fstack-protector-strong
@@ -48,6 +50,7 @@ fpatchable-function-entry: fpatchable-function-entry.o
 fwpa: fwpa.o
 flto: flto.o
 fwhole-program: fwhole-program.o
+fltrans: fltrans.o
 fstack-protector: fstack-protector.o
 fstack-protector-all: fstack-protector-all.o
 fstack-protector-explicit: fstack-protector-explicit.o
