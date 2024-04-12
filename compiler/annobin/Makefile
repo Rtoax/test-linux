@@ -1,12 +1,17 @@
+TARGETS :=
+TARGETS += hello
 
-TARGETS := hello
-
-SRC_PATH := $(shell pwd)
 CC = gcc
+ANNOBIN = $(shell pwd)/annobin-cc1
+
+ifneq ($(wildcard /usr/lib/rpm/redhat/redhat-annobin-cc1),)
+$(info Found /usr/lib/rpm/redhat/redhat-annobin-cc1)
+ANNOBIN = /usr/lib/rpm/redhat/redhat-annobin-cc1
+endif
 
 CFLAGS := -Werror -Wall
 CFLAGS += -Wstrict-prototypes
-CFLAGS += -specs=$(shell pwd)/annobin-cc1
+CFLAGS += -specs=$(ANNOBIN)
 
 LDFLAGS :=
 LDLIBS :=
