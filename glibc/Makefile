@@ -19,6 +19,7 @@ sub-dir += link
 sub-dir += malloc
 sub-dir += math
 sub-dir += netdb
+sub-dir += obstack
 sub-dir += pthread
 sub-dir += pwd
 sub-dir += regex
