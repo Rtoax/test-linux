@@ -2,6 +2,8 @@
 TARGETS :=
 TARGETS += ffat-lto-objects
 TARGETS += fpatchable-function-entry
+# command-line option ‘-fwpa’ is valid for LTO but not for C
+# TARGETS += fwpa
 TARGETS += flto
 TARGETS += fstack-protector fstack-protector-all fstack-protector-strong fstack-protector-explicit
 TARGETS += fdump-ipa-all fdump-ipa-clones
@@ -22,6 +24,7 @@ CFLAGS_fcf-protection := -fcf-protection
 CFLAGS_ffat-lto-objects := -flto -ffat-lto-objects
 # N,M M=0 by default
 CFLAGS_fpatchable-function-entry := -fpatchable-function-entry=5,2
+CFLAGS_fwpa := -flto -fwpa
 CFLAGS_flto := -flto=auto
 CFLAGS_fstack-protector := -fstack-protector
 CFLAGS_fstack-protector-all := -fstack-protector-all
@@ -40,6 +43,7 @@ build: ${TARGETS}
 fcf-protection: fcf-protection.o
 ffat-lto-objects: ffat-lto-objects.o
 fpatchable-function-entry: fpatchable-function-entry.o
+fwpa: fwpa.o
 flto: flto.o
 fstack-protector: fstack-protector.o
 fstack-protector-all: fstack-protector-all.o

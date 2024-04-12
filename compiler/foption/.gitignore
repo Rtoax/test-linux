@@ -1,6 +1,7 @@
 /fcf-protection
 /ffat-lto-objects
 /fpatchable-function-entry
+/fwpa
 /flto
 /fstack-protector
 /fstack-protector-all
