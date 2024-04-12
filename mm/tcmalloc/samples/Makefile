@@ -1,4 +1,3 @@
-
 TARGETS :=
 TARGETS += tc_malloc
 TARGETS += tc_calloc
