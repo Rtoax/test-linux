@@ -12,6 +12,7 @@ TARGETS += mul-avx512
 TARGETS += add_pd-avx256
 TARGETS += add_pd-avx512
 TARGETS += add-2dim
+TARGETS += ctrl_flow-f4
 TARGETS += mask
 
 TARGETS_asm := vperm2i128
@@ -36,6 +37,7 @@ CFLAGS_mul-avx512 := -mavx512f -mfma
 CFLAGS_add_pd-avx256 := -mavx2 -mfma
 CFLAGS_add_pd-avx512 := -mavx512f -mfma
 CFLAGS_add-2dim := -mavx2 -mfma
+CFLAGS_ctrl_flow-f4 := -mavx2 -mfma
 CFLAGS_mask := -mavx2 -mavx512f -mfma
 
 sum: sum.o
@@ -49,6 +51,7 @@ mul-avx512: mul-avx512.o
 add_pd-avx256: add_pd-avx256.o
 add_pd-avx512: add_pd-avx512.o
 add-2dim: add-2dim.o
+ctrl_flow-f4: ctrl_flow-f4.o
 mask: mask.o
 vperm2i128: vperm2i128.os
 kxord: kxord.os
