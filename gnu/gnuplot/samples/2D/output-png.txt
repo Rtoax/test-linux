@@ -1,0 +1,6 @@
+# gnuplot recommends setting terminal before output
+set terminal png
+# The output filename; to be set after setting
+# terminal
+set output "output.png"
+replot
