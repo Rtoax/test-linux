@@ -20,31 +20,36 @@ void myfree(void*ptr)
 #define obstack_chunk_alloc mymalloc
 #define obstack_chunk_free myfree
 
+void pool_info(struct obstack *pool)
+{
+	printf("room = %d, objsz = %d\n", obstack_room(pool), obstack_object_size(pool));
+}
+
 int main(void)
 {
-	struct obstack obs;
+	struct obstack pool;
 	char *addr;
 
-	obstack_init(&obs);
+	obstack_init(&pool);
 
-	printf("root = %d\n", obstack_room(&obs));
+	pool_info(&pool);
 
-	addr = obstack_alloc(&obs, 100);
+	addr = obstack_alloc(&pool, 100);
 
-	printf("root = %d\n", obstack_room(&obs));
+	pool_info(&pool);
 
-	obstack_copy(&obs, addr, 20);
+	obstack_copy(&pool, addr, 20);
 
-	printf("root = %d\n", obstack_room(&obs));
+	pool_info(&pool);
 
-	obstack_grow(&obs, addr, 300);
+	obstack_grow(&pool, addr, 300);
 
-	printf("root = %d\n", obstack_room(&obs));
+	pool_info(&pool);
 
-	obstack_free(&obs, addr);
-	obstack_finish(&obs);
+	obstack_free(&pool, addr);
+	obstack_finish(&pool);
 
-	printf("root = %d\n", obstack_room(&obs));
+	pool_info(&pool);
 
 	return 0;
 }
