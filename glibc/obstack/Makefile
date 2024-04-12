@@ -1,11 +1,13 @@
 TARGETS :=
 TARGETS += obstack
 TARGETS += alloc-performance-cmp
+TARGETS += multithread
 
 CC = gcc
 
 CFLAGS := -Werror -Wall
 CFLAGS += -Wstrict-prototypes
+CFLAGS += -lpthread
 
 LDFLAGS :=
 LDLIBS :=
@@ -30,6 +32,7 @@ build: ${TARGETS}
 
 obstack: obstack.o
 alloc-performance-cmp: alloc-performance-cmp.o
+multithread:  multithread.o
 
 .PHONY: clean
 clean:

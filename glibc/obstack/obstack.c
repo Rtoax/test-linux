@@ -22,7 +22,10 @@ void myfree(void*ptr)
 
 void pool_info(struct obstack *pool)
 {
-	printf("room = %d, objsz = %d\n", obstack_room(pool), obstack_object_size(pool));
+	printf("chunk size = %ld, room = %d, objsz = %d\n",
+		obstack_chunk_size(pool),
+		obstack_room(pool),
+		obstack_object_size(pool));
 }
 
 int main(void)
