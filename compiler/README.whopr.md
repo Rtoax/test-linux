@@ -1,8 +1,19 @@
 WHOPR - Whole Program Optimizer
 ===============================
 
-* [https://gcc.gnu.org/wiki/whopr/driver](https://gcc.gnu.org/wiki/whopr/driver)
 
 * LGEN (front-end driver)
 * WPA (actual IPA)
 * LTRANS (backend / code generation)
+
+
+# foptions
+
+- `-fwhole-program`
+
+
+# Links
+
+* https://gcc.gnu.org/onlinedocs/gccint/WHOPR.html
+* https://gcc.gnu.org/wiki/whopr/driver
+

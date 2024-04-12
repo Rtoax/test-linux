@@ -5,6 +5,7 @@ TARGETS += fpatchable-function-entry
 # command-line option ‘-fwpa’ is valid for LTO but not for C
 # TARGETS += fwpa
 TARGETS += flto
+TARGETS += fwhole-program
 TARGETS += fstack-protector fstack-protector-all fstack-protector-strong fstack-protector-explicit
 TARGETS += fdump-ipa-all fdump-ipa-clones
 TARGETS += fdump-tree-gimple
@@ -26,6 +27,7 @@ CFLAGS_ffat-lto-objects := -flto -ffat-lto-objects
 CFLAGS_fpatchable-function-entry := -fpatchable-function-entry=5,2
 CFLAGS_fwpa := -flto -fwpa
 CFLAGS_flto := -flto=auto
+CFLAGS_fwhole-program := -fwhole-program
 CFLAGS_fstack-protector := -fstack-protector
 CFLAGS_fstack-protector-all := -fstack-protector-all
 CFLAGS_fstack-protector-strong := -fstack-protector-strong
@@ -45,6 +47,7 @@ ffat-lto-objects: ffat-lto-objects.o
 fpatchable-function-entry: fpatchable-function-entry.o
 fwpa: fwpa.o
 flto: flto.o
+fwhole-program: fwhole-program.o
 fstack-protector: fstack-protector.o
 fstack-protector-all: fstack-protector-all.o
 fstack-protector-explicit: fstack-protector-explicit.o

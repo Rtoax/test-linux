@@ -1,8 +1,12 @@
+/*.ipa-clones
+/*.gimple
+/*.s
 /fcf-protection
 /ffat-lto-objects
 /fpatchable-function-entry
 /fwpa
 /flto
+/fwhole-program
 /fstack-protector
 /fstack-protector-all
 /fstack-protector-strong
@@ -15,6 +19,3 @@
 /fdump-tree-all.c.*
 /fdump-tree-all-raw
 /fdump-tree-all-raw.c.*
-/*.ipa-clones
-/*.gimple
-/*.s
