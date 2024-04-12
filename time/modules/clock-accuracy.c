@@ -30,9 +30,13 @@ static void test(char *name, fn_ts64_t fn)
 
 static int kernel_init(void)
 {
-	printk(KERN_INFO "Testing CLOCK accuracy.\n");
+	printk(KERN_INFO "Testing CLOCK accuracy, HZ = %d.\n", CONFIG_HZ);
 	test("REALTIME", ktime_get_real_ts64);
 	test("REALTIME_COARSE", ktime_get_coarse_real_ts64);
+	test("MONOTONIC", ktime_get_ts64);
+	test("MONOTONIC_COARSE", ktime_get_coarse_ts64);
+	test("MONOTONIC_RAW", ktime_get_raw_ts64);
+	test("TAI", ktime_get_clocktai_ts64);
 	return -1;
 }
 
