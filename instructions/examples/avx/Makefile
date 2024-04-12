@@ -15,6 +15,7 @@ TARGETS += add-2dim
 TARGETS += ctrl_flow-f4
 TARGETS += reducetion-f4
 TARGETS += add-unalign-f4
+TARGETS += cvt-df
 TARGETS += mask
 
 TARGETS_asm := vperm2i128
@@ -42,6 +43,7 @@ CFLAGS_add-2dim := -mavx2 -mfma
 CFLAGS_ctrl_flow-f4 := -mavx2 -mfma
 CFLAGS_reducetion-f4 := -mavx2 -mfma
 CFLAGS_add-unalign-f4 := -mavx2 -mfma
+CFLAGS_cvt-df := -mavx2 -mfma
 CFLAGS_mask := -mavx2 -mavx512f -mfma
 
 sum: sum.o
@@ -58,6 +60,7 @@ add-2dim: add-2dim.o
 ctrl_flow-f4: ctrl_flow-f4.o
 reducetion-f4: reducetion-f4.o
 add-unalign-f4: add-unalign-f4.o
+cvt-df: cvt-df.o
 mask: mask.o
 vperm2i128: vperm2i128.os
 kxord: kxord.os
