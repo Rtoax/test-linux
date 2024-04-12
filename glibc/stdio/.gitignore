@@ -1,8 +1,14 @@
+/ansi_ascii
 /vasprintf
 /vfprintf
 /vsprintf
+/printf
+/vprintf
 /puts
 /__freadable
 /open_memstream
 /remove
 /popen
+/fwrite
+/getchar
+/sscanf

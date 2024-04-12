@@ -1,12 +1,17 @@
 TARGETS :=
+TARGETS += ansi_ascii
 TARGETS += vasprintf
 TARGETS += vfprintf
 TARGETS += vsprintf
+TARGETS += printf vprintf
 TARGETS += puts
 TARGETS += __freadable
 TARGETS += open_memstream
 TARGETS += remove
 TARGETS += popen
+TARGETS += fwrite
+TARGETS += getchar
+TARGETS += sscanf
 
 CC = gcc
 
@@ -20,14 +25,20 @@ build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
 # Add more object.o file
+ansi_ascii: ansi_ascii.o
 vasprintf: vasprintf.o
 vfprintf: vfprintf.o
 vsprintf: vsprintf.o
-puts: puts.o
+printf: printf.o
+vprintf: vprintf.o
 __freadable: __freadable.o
 open_memstream: open_memstream.o
 remove: remove.o
 popen: popen.o
+fwrite: fwrite.o
+getchar: getchar.o
+puts: puts.o
+sscanf: sscanf.o
 
 %.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
@@ -39,7 +50,8 @@ $(TARGETS): %:
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
+	./getchar < getchar.c
 
 clean:
 	@echo -e "Clean   \033[1;32m$(@)\033[m"
-	@rm -f ${TARGETS} *.o *.d *.log *.out
+	@rm -f ${TARGETS} *.o *.d *.log *.out *.bin
