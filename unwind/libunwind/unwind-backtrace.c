@@ -44,6 +44,7 @@ static _Unwind_Reason_Code backtrace_helper(struct _Unwind_Context *ctx, void *a
 	return _URC_NO_REASON;
 }
 
+/* See also backtrace(3) */
 int __backtrace(void **array, int size)
 {
 	struct trace_arg arg = {
@@ -66,16 +67,17 @@ int __backtrace(void **array, int size)
 	return arg.cnt != -1 ? arg.cnt : 0;
 }
 
+#define BACKTRACE_SIZE	1024
 
-/* Obtain a backtrace and print it to stdout. */
+/* Obtain a backtrace and print it to stdout. see also glibc::execinfo.h */
 void print_trace(void)
 {
-	void *array[10240];
+	void *array[BACKTRACE_SIZE];
 	size_t size;
-	char **strings;
+	char **symbols;
 	size_t i;
-	size = __backtrace(array, 10240);
-	strings = backtrace_symbols(array, size);
+	size = __backtrace(array, BACKTRACE_SIZE);
+	symbols = backtrace_symbols(array, size);
 
 	FILE *fp = fopen("backtrace.txt", "w");
 	backtrace_symbols_fd(array, size, fileno(fp));
@@ -83,9 +85,9 @@ void print_trace(void)
 
 	printf("Obtained %zd stack frames.\n", size);
 	for (i = 0; i < size; i++)
-		printf(">> %s\n", strings[i]);
+		printf(">> %s\n", symbols[i]);
 
-	free(strings);
+	free(symbols);
 }
 
 void dummy_function(void)
