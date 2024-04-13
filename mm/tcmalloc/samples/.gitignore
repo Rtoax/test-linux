@@ -8,3 +8,9 @@
 /tc_nallocx
 /tc_memalign
 /tc_mallopt
+/tc_malloc_stats
+/tc_malloc_skip_new_handler
+/tc_malloc_stats
+/tc_mallinfo
+/tc_free_sized
+/tc_cfree
