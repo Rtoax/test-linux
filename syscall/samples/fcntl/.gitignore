@@ -8,3 +8,5 @@
 /F_GETFL
 /splice
 /splice-socket-echo
+/O_CLOEXEC
+/O_TMPFILE
