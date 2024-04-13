@@ -1,2 +1,10 @@
 /tc_malloc
 /tc_calloc
+/tc_valloc
+/tc_pvalloc
+/tc_realloc
+/tc_version
+/tc_posix_memalign
+/tc_nallocx
+/tc_memalign
+/tc_mallopt
