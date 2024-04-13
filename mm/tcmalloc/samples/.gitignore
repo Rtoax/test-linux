@@ -14,3 +14,11 @@
 /tc_mallinfo
 /tc_free_sized
 /tc_cfree
+/GetHeapProfile
+/GetStackFrames
+/GetStackTrace
+/HeapProfilerStart
+/IsHeapProfilerRunning
+/MallocExtension_VerifyNewMemory
+/ProfilerStart
+/ProfilerStartWithOptions

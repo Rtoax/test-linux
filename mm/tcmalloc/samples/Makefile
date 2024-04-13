@@ -14,11 +14,26 @@ TARGETS += tc_mallinfo
 TARGETS += tc_free_sized
 TARGETS += tc_cfree
 
+ifdef PROFILE
+TARGETS += GetHeapProfile
+TARGETS += GetStackFrames
+TARGETS += GetStackTrace
+TARGETS += HeapProfilerStart
+TARGETS += IsHeapProfilerRunning
+TARGETS += MallocExtension_VerifyNewMemory
+TARGETS += ProfilerStart
+TARGETS += ProfilerStartWithOptions
+endif
+
 CC = gcc
 
 CFLAGS := -Werror -Wall
 CFLAGS += -Wstrict-prototypes
 CFLAGS += -ltcmalloc
+CFLAGS += -ltcmalloc_and_profiler
+CFLAGS += -ltcmalloc_debug
+CFLAGS += -ltcmalloc_minimal
+CFLAGS += -ltcmalloc_minimal_debug
 CFLAGS += -lpthread
 
 LDFLAGS :=
@@ -45,6 +60,15 @@ tc_malloc_stats: tc_malloc_stats.o
 tc_mallinfo: tc_mallinfo.o
 tc_free_sized: tc_free_sized.o
 tc_cfree: tc_cfree.o
+
+GetHeapProfile: GetHeapProfile.o
+GetStackFrames: GetStackFrames.o
+GetStackTrace: GetStackTrace.o
+HeapProfilerStart: HeapProfilerStart.o
+IsHeapProfilerRunning: IsHeapProfilerRunning.o
+MallocExtension_VerifyNewMemory: MallocExtension_VerifyNewMemory.o
+ProfilerStart: ProfilerStart.o
+ProfilerStartWithOptions: ProfilerStartWithOptions.o
 
 %.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
