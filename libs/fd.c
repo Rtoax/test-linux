@@ -6,15 +6,15 @@
 
 int setnonblock(int fd)
 {
-	int opts;
-	opts = fcntl(fd, F_GETFL);
-	if (opts < 0) {
+	int flags;
+	flags = fcntl(fd, F_GETFL);
+	if (flags < 0) {
 		perror("fcntl(sock, GETFL) error");
 		return -errno;
 	}
-	opts = opts|O_NONBLOCK;
-	if (fcntl(fd, F_SETFL, opts) < 0) {
-		perror("fcntl(sock, SETFL, opts)");
+	flags = flags | O_NONBLOCK;
+	if (fcntl(fd, F_SETFL, flags) < 0) {
+		perror("fcntl(sock, SETFL, flags)");
 		return -errno;
 	}
 	return 0;

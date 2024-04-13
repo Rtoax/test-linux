@@ -5,3 +5,4 @@
 /F_GETFD
 /F_DUPFD
 /*.txt
+/F_GETFL
