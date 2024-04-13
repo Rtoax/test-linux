@@ -1,34 +1,59 @@
 #include <fcntl.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 
-int main(int argc, char* argv[])
+void tl_fwrlock(int fd)
 {
-	char *file = argv[1];
-	int fd;
 	struct flock lock;
 
+	memset(&lock, 0, sizeof(lock));
+
+	lock.l_type = F_WRLCK;
+	lock.l_whence = SEEK_SET;
+	lock.l_start = 0;
+	/* 0: write lock entire file */
+	lock.l_len = 0;
+
+	fcntl(fd, F_SETLKW, &lock);
+}
+
+void tl_funlock(int fd)
+{
+	struct flock lock;
+
+	memset(&lock, 0, sizeof(lock));
+
+	lock.l_type = F_UNLCK;
+	lock.l_whence = SEEK_SET;
+	lock.l_start = 0;
+	/* 0: unlock entire file */
+	lock.l_len = 0;
+
+	fcntl(fd, F_SETLK, &lock);
+}
+
+int main(int argc, char* argv[])
+{
+	char *file = argv[1] ?: "a.txt";
+	int fd;
+
 	printf("opening %s\n", file);
-	/* Open a file descriptor to the file. */
-	fd = open(file, O_WRONLY);
+	fd = open(file, O_CREAT | O_WRONLY, 0644);
+	if (fd == -1) {
+		fprintf(stderr, "open %s %m\n", file);
+		exit(1);
+	}
 
 	printf("locking\n");
-	/* Initialize the flock structure. */
-	memset(&lock, 0, sizeof(lock));
-	lock.l_type = F_WRLCK;
-	/* Place a write lock on the file. */
-	fcntl(fd, F_SETLKW, &lock);
+	tl_fwrlock(fd);
 
 	printf("locked; hit Enter to unlock... ");
-	/* Wait for the user to hit Enter. */
-
 	getchar();
 
 	printf("unlocking\n");
-	/* Release the lock. */
-	lock.l_type = F_UNLCK;
-	fcntl(fd, F_SETLKW, &lock);
+	tl_funlock(fd);
 
 	close(fd);
 	return 0;
