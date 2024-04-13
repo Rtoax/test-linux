@@ -6,6 +6,7 @@ TARGETS += F_SETLKW
 TARGETS += F_DUPFD
 TARGETS += F_GETFD
 TARGETS += F_GETFL
+TARGETS += splice splice-socket-echo
 
 CC = gcc
 
@@ -26,6 +27,8 @@ F_SETLKW: F_SETLKW.o
 F_DUPFD: F_DUPFD.o
 F_GETFD: F_GETFD.o
 F_GETFL: F_GETFL.o
+splice: splice.o
+splice-socket-echo: splice-socket-echo.o
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"

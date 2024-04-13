@@ -6,3 +6,5 @@
 /F_DUPFD
 /*.txt
 /F_GETFL
+/splice
+/splice-socket-echo
