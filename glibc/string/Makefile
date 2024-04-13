@@ -1,3 +1,4 @@
+TARGETS :=
 TARGETS += bcopy
 TARGETS += index
 TARGETS += memchr
@@ -18,6 +19,7 @@ TARGETS += strsep
 TARGETS += strtok
 TARGETS += strtol
 TARGETS += strsignal
+TARGETS += strerror strerror_r
 
 CC = gcc
 
@@ -57,6 +59,8 @@ strsep: strsep.o
 strtok: strtok.o
 strtol: strtol.o
 strsignal: strsignal.o
+strerror: strerror.o
+strerror_r: strerror_r.o
 
 %.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

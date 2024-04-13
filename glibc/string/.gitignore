@@ -19,3 +19,5 @@
 /strtol
 /sig.h
 /strsignal
+/strerror
+/strerror_r
