@@ -127,6 +127,7 @@ pkgs+=( bpftrace bcc )         # eBPF
 pkgs+=( cargo )                # The Rust package manager
 pkgs+=( crash )
 pkgs+=( criu )
+pkgs+=( dialog kdialog )
 pkgs+=( dwz )                  # DWARF optimization and duplicate removal tool
 pkgs+=( dwarves )              # pahole
 pkgs+=( efivar mokutil )       # UEFI
