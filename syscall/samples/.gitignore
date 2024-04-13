@@ -4,7 +4,6 @@
 /dup-dup2
 /fchown
 /fchdir
-/fallocate
 /fdopen
 /nr
 /nr.h

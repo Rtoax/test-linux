@@ -42,7 +42,7 @@ sub-dir += random
 sub-dir += ldt
 sub-dir += xattr
 
-TARGETS := fallocate
+TARGETS :=
 TARGETS += acct
 TARGETS += chdir fchdir
 TARGETS += chown fchown
@@ -125,7 +125,6 @@ nr.h: nr.sh
 	$(shell bash nr.sh)
 
 # Add more object.o file
-fallocate: fallocate.o
 acct: acct.o
 chown: chown.o
 fchown: fchown.o

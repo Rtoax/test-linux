@@ -1,5 +1,7 @@
+/fallocate
 /F_GET_SEALS
 /F_ADD_SEALS
 /F_SETLKW
 /F_GETFD
 /F_DUPFD
+/*.txt

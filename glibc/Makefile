@@ -10,6 +10,7 @@ sub-dir += err
 sub-dir += error
 sub-dir += error
 sub-dir += execinfo
+sub-dir += fcntl
 sub-dir += fenv
 sub-dir += ftw
 sub-dir += fstab
