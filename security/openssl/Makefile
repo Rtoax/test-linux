@@ -1,4 +1,5 @@
 sub-dir := hello
+sub-dir += samples
 
 sub-dir-build := $(sub-dir:=.build)
 sub-dir-clean := $(sub-dir:=.clean)
