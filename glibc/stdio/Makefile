@@ -12,6 +12,7 @@ TARGETS += popen
 TARGETS += fwrite
 TARGETS += getchar
 TARGETS += sscanf
+TARGETS += perror
 
 CC = gcc
 
@@ -39,6 +40,7 @@ fwrite: fwrite.o
 getchar: getchar.o
 puts: puts.o
 sscanf: sscanf.o
+perror: perror.o
 
 %.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

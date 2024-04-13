@@ -12,3 +12,4 @@
 /fwrite
 /getchar
 /sscanf
+/perror
