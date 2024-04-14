@@ -12,6 +12,7 @@ sub-dir += error
 sub-dir += execinfo
 sub-dir += fcntl
 sub-dir += fenv
+sub-dir += fnmatch
 sub-dir += ftw
 sub-dir += fstab
 sub-dir += getopt
