@@ -45,13 +45,13 @@ int main(int argc, char *argv[])
 	int flags = 0;
 
 	if (argc > 2 && strchr(argv[2], 'd') != NULL) {
-		flags |= 8/*FTW_DEPTH*/;
+		flags |= FTW_DEPTH;
 	}
 	if (argc > 2 && strchr(argv[2], 'p') != NULL) {
-		flags |= 1;/*FTW_PHYS*/;
+		flags |= FTW_PHYS;
 	}
 
-	if (nftw((argc <2) ? "." : argv[1], display_ftw, 20, flags)) {
+	if (nftw((argc < 2) ? "." : argv[1], display_ftw, 20, flags)) {
 		perror("nftw");
 		exit(1);
 	}
