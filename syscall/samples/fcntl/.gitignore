@@ -7,6 +7,7 @@
 /*.txt
 /F_GETFL
 /splice
+/splice-read
 /splice-socket-echo
 /O_CLOEXEC
 /O_TMPFILE
