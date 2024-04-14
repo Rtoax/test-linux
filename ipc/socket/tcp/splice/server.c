@@ -21,7 +21,7 @@ int main(int argc, char **argv)
 	struct sockaddr_in address;
 
 	ip = "127.0.0.1";
-	port = 1234;
+	port = 8888;
 
 	bzero(&address, sizeof(address));
 	address.sin_family = AF_INET;
@@ -56,6 +56,7 @@ int main(int argc, char **argv)
 	assert(ret != -1);
 
 	while (1) {
+		/* FIXME: 0 is faster */
 		int flags = SPLICE_F_MORE | SPLICE_F_MOVE;
 
 		/* 将 connfd 上流入的客户端数据定向到管道中 */

@@ -1,6 +1,6 @@
 TARGETS :=
 TARGETS += fallocate
-TARGETS += splice splice-read splice-socket-echo
+TARGETS += splice splice-read
 # F_ flags
 TARGETS += F_GET_SEALS
 TARGETS += F_ADD_SEALS
@@ -27,7 +27,6 @@ build: ${TARGETS}
 fallocate: fallocate.o
 splice: splice.o
 splice-read: splice-read.o
-splice-socket-echo: splice-socket-echo.o
 
 F_GET_SEALS: F_GET_SEALS.o
 F_ADD_SEALS: F_ADD_SEALS.o

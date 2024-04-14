@@ -2,6 +2,7 @@ sub-dir := simple
 sub-dir += select
 sub-dir += epoll
 sub-dir += poll
+sub-dir += splice
 
 TARGETS += tcp-syn-flood
 
