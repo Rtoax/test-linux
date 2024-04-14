@@ -1,9 +1,16 @@
 TARGETS :=
 TARGETS += fegetenv
+TARGETS += feclearexcept
+TARGETS += fegetround
+TARGETS += feraiseexcept
+TARGETS += fesetround
+TARGETS += fetestexcept
+TARGETS += demo-exception
 
 CC = gcc
 
 CFLAGS := -Wall
+CFLAGS += -Wno-unused-variable -Wno-unused-but-set-variable
 CFLAGS += -I../../../
 CFLAGS += -lm
 CFLAGS += -O0 -g
@@ -16,6 +23,12 @@ build: ${TARGETS}
 
 # Add more object.o file
 fegetenv: fegetenv.o
+feclearexcept: feclearexcept.o
+fegetround: fegetround.o
+feraiseexcept: feraiseexcept.o
+fesetround: fesetround.o
+fetestexcept: fetestexcept.o
+demo-exception: demo-exception.o
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"

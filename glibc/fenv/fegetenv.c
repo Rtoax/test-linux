@@ -2,16 +2,14 @@
 #include <math.h>
 #include <fenv.h>
 
-#define _print(val) printf("%s:%x\n", #val, val)
 
 int main(void)
 {
-    fenv_t envp;
+	fenv_t envp;
 
-    fegetenv(&envp);
+	fegetenv(&envp);
+	printf("envp = %x\n", envp);
 
-    _print(envp);
-
-    return 0;
+	return 0;
 }
 
