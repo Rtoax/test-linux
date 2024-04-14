@@ -40,7 +40,7 @@ O_TMPFILE: O_TMPFILE.o
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
-
+	./fallocate.test.sh
 clean:
 	@echo -e "Clean   \033[1;32m$(@)\033[m"
-	@rm -f ${TARGETS} *.o *.d *.txt
+	@rm -f ${TARGETS} *.o *.d *.txt *.dat
