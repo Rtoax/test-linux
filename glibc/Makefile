@@ -18,6 +18,7 @@ sub-dir += fstab
 sub-dir += getopt
 sub-dir += glob
 sub-dir += grp
+sub-dir += iconv
 sub-dir += ld
 sub-dir += libgen
 sub-dir += link
