@@ -7,6 +7,7 @@ TARGETS += memshow
 TARGETS += mac
 TARGETS += proc_examples
 TARGETS += progress
+TARGETS += str
 
 DEBUG = yes
 SRC_PATH := $(shell pwd)
@@ -21,6 +22,7 @@ endif
 CFLAGS_proc_examples += -DTEST=1
 CFLAGS_progress += -DTEST=1
 CFLAGS_mac := -DTEST=1
+CFLAGS_str := -DTEST=1
 
 build: ${TARGETS}
 	@echo
@@ -36,6 +38,7 @@ memshow: memshow.o
 mac: mac.o
 progress: progress.o
 proc_examples: proc_examples.o proc.o
+str: str.o
 
 %.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
