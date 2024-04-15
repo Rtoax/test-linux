@@ -45,10 +45,10 @@ if [[ ${answer} != y ]]; then
 	while pre_check && read -p "Are you sure? [N/y] " answer
 	do
 		case $answer in
-		y | Y | Yes | yes | YES)
+		[Yy]|[Yy][Ee]|[Yy][Ee][Ss])
 			break
 			;;
-		n | N | No | no | NO)
+		[Nn]|[Nn][On])
 			echo "Bye!"
 			exit 0
 			;;
