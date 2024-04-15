@@ -8,6 +8,7 @@ TARGETS += mac
 TARGETS += proc_examples
 TARGETS += progress
 TARGETS += str
+TARGETS += ipaddr
 
 DEBUG = yes
 SRC_PATH := $(shell pwd)
@@ -39,6 +40,7 @@ mac: mac.o
 progress: progress.o
 proc_examples: proc_examples.o proc.o
 str: str.o
+ipaddr: ipaddr.o
 
 %.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
