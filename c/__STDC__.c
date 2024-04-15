@@ -22,5 +22,12 @@ int main(void)
 	 * This macro is not defned if the ‘-traditional-cpp’ option is used,
 	 * nor when compiling C++ or Objective-C. */
 	printf("__STDC_VERSION__ %ld\n", __STDC_VERSION__);
+
+#ifdef __OBJC__
+	/* This macro is defned, with value 1, when the Objective-C compiler is
+	 * in use. You can use __OBJC__ to test whether a header is compiled by
+	 * a C compiler or an Objective-C compiler. */
+	printf("__OBJC__ %d\n", __OBJC__);
+#endif
 	return 0;
 }
