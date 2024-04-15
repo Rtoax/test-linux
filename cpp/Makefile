@@ -1,16 +1,15 @@
-
+TARGETS :=
 TARGETS += hello
 TARGETS += alignas
 TARGETS += extern_C
 TARGETS += pass-arg
 TARGETS += return
+TARGETS += this
 
-DEBUG = yes
 CXX = g++
 
 CXXFLAGS := -Werror -Wall
 CXXFLAGS += -DCPP
-
 ifdef DEBUG
 CFLAGS += -DDEBUG -O0 -g -ggdb
 endif
@@ -25,6 +24,7 @@ alignas: alignas.o
 extern_C: extern_C.o
 pass-arg: pass-arg.o
 return: return.o
+this: this.o
 
 CXXFLAGS_return := -Wno-error=return-type
 
