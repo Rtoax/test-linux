@@ -24,6 +24,10 @@ endif
 ifeq ($(shell uname -m),aarch64)
 TARGETS += __aarch64__
 endif
+ifeq ($(shell uname -m),sw_64)
+# sw_64's gcc not support -m32
+TARGETS := $(subst __WORDSIZE-32,,${TARGETS})
+endif
 
 CC = gcc
 CXX = c++
