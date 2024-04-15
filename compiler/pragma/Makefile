@@ -4,9 +4,14 @@ TARGETS += GCC_diagnostic
 TARGETS += pragma-message
 TARGETS += call-func
 TARGETS += push_macro
+TARGETS += message
 
 ifneq ($(shell uname -m),aarch64)
 TARGETS += GCC_target
+endif
+
+ifneq ($(shell uname -m),x86_64)
+TARGETS += GCC_error
 endif
 
 CC = gcc
@@ -22,9 +27,11 @@ build: ${TARGETS}
 GCC_poison: GCC_poison.o
 GCC_diagnostic: GCC_diagnostic.o
 GCC_target: GCC_target.o
+GCC_error: GCC_error.o
 pragma-message: pragma-message.o
 call-func: call-func.o
 push_macro: push_macro.o
+message: message.o
 
 # TODO
 CFLAGS_call-func := -Wno-unknown-pragmas
