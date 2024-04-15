@@ -1,4 +1,5 @@
 info
+info files
 info sources
 break hello
 r
