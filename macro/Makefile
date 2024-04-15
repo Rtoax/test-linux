@@ -14,6 +14,7 @@ TARGETS += __WORDSIZE __WORDSIZE-32
 TARGETS += __TIME__
 TARGETS += __VERSION__
 TARGETS += __FILE__
+TARGETS += machine
 
 TARGETS_CXX := __cplusplus
 
@@ -60,10 +61,12 @@ __WORDSIZE-32: __WORDSIZE-32.o
 __TIME__: __TIME__.o
 __VERSION__: __VERSION__.o
 __FILE__: __FILE__.o
+machine: machine.o
 
 CFLAGS___i386__ := -m32
 CFLAGS___x86_64__ := -m64
 CFLAGS___WORDSIZE-32 := -m32
+CFLAGS_machine := -Wno-error=deprecated -Wno-deprecated
 
 %.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
