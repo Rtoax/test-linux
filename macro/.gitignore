@@ -16,3 +16,5 @@
 /__linux__
 /__WORDSIZE
 /__WORDSIZE-32
+/__VERSION__
+/__TIME__

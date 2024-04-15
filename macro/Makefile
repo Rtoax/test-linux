@@ -1,4 +1,3 @@
-
 TARGETS :=
 TARGETS += align
 TARGETS += alias
@@ -12,6 +11,8 @@ TARGETS += __restrict__
 TARGETS += __func__
 TARGETS += __linux__
 TARGETS += __WORDSIZE __WORDSIZE-32
+TARGETS += __TIME__
+TARGETS += __VERSION__
 
 TARGETS_CXX := __cplusplus
 
@@ -51,6 +52,8 @@ __func__: __func__.o
 __linux__: __linux__.o
 __WORDSIZE: __WORDSIZE.o
 __WORDSIZE-32: __WORDSIZE-32.o
+__TIME__: __TIME__.o
+__VERSION__: __VERSION__.o
 
 CFLAGS___i386__ := -m32
 CFLAGS___x86_64__ := -m64
