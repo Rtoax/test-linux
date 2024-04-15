@@ -3,6 +3,7 @@
 /CPU_ALLOC
 /str2cpuset
 /getcpu
+/sched_setattr
 /sched_get_priority_max
 /sched_get_priority_min
 /sched_getaffinity
