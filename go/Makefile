@@ -12,4 +12,4 @@ ${TARGETS}:
 	go build $(@).go
 
 clean:
-	rm -f ${TARGETS}
+	rm -f ${TARGETS} *.txt
