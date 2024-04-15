@@ -2,3 +2,4 @@
 /*.s
 /spin-demo3
 /spin-demo3-nonlock
+/__sync_synchronize

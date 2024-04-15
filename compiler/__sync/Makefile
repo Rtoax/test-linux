@@ -1,10 +1,12 @@
 TARGETS := atomic_test
+TARGETS += __sync_synchronize
 TARGETS += spin-demo3 spin-demo3-nonlock
 
 CFLAGS :=
 
 all: ${TARGETS}
 
+__sync_synchronize: __sync_synchronize.o
 atomic_test: atomic_test.o
 spin-demo3: spin-demo3.o
 spin-demo3-nonlock: spin-demo3-nonlock.o
