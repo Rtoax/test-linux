@@ -14,7 +14,7 @@ int main(void)
 		exit(1);
 	}
 
-	/* Child */
+	/* Child exit immediatly */
 	if (pid == 0)
 		exit(0);
 
