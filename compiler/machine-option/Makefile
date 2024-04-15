@@ -1,4 +1,3 @@
-
 TARGETS :=
 TARGETS += mbranch-protection
 

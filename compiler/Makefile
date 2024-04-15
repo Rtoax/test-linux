@@ -17,11 +17,19 @@ sub-dir += __sync
 sub-dir-build := $(sub-dir:=.build)
 sub-dir-clean := $(sub-dir:=.clean)
 
+TARGETS :=
+TARGETS += __VERSION__
+
+CC = gcc
+
 .PHONY: build
-build: $(sub-dir-build)
+build: $(TARGETS) $(sub-dir-build)
+
+__VERSION__: __VERSION__.o
 
 .PHONY: clean
 clean: $(sub-dir-clean)
+	rm -rf $(TARGETS) *.o
 
 $(sub-dir-build):
 	@echo -e "\033[1;32m [sub-dir] build $(@)\033[m"
