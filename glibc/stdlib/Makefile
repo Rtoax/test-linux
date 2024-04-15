@@ -6,6 +6,7 @@ TARGETS += bsearch
 TARGETS += qsort
 TARGETS += getloadavg
 TARGETS += atexit
+TARGETS += system
 
 ifeq ($(shell uname -m),x86_64)
 endif
@@ -38,6 +39,7 @@ rand: rand.o
 random: random.o
 random-dev: random-dev.o
 getloadavg: getloadavg.o
+system: system.o
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
@@ -46,4 +48,4 @@ test: ${TARGETS}
 clean:
 	@echo -e "Clean   \033[1;32m$(@)\033[m"
 	@rm -f ${TARGETS} *.o *.d *.log
-	@rm -rf tmpd-* tmp-*
+	@rm -rf tmpd-* tmp-* *.dir
