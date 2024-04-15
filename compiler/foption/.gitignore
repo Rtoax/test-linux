@@ -20,3 +20,4 @@
 /fdump-tree-all.c.*
 /fdump-tree-all-raw
 /fdump-tree-all-raw.c.*
+/finput-charset

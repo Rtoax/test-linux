@@ -7,6 +7,7 @@ TARGETS += fstack-protector fstack-protector-all fstack-protector-strong fstack-
 TARGETS += fdump-ipa-all fdump-ipa-clones
 TARGETS += fdump-tree-gimple
 TARGETS += fdump-tree-all-raw fdump-tree-all
+TARGETS += finput-charset
 
 ifneq ($(shell uname -m),aarch64)
 TARGETS += fcf-protection
@@ -39,6 +40,7 @@ CFLAGS_fdump-ipa-clones := -fdump-ipa-clones
 CFLAGS_fdump-tree-gimple := -fdump-tree-gimple
 CFLAGS_fdump-tree-all-raw := -fdump-tree-all-raw
 CFLAGS_fdump-tree-all := -fdump-tree-all
+CFLAGS_finput-charset := -finput-charset=UTF-8
 
 build: ${TARGETS}
 	@echo
@@ -60,6 +62,7 @@ fdump-ipa-clones: fdump-ipa-clones.o
 fdump-tree-gimple: fdump-tree-gimple.o
 fdump-tree-all-raw: fdump-tree-all-raw.o
 fdump-tree-all: fdump-tree-all.o
+finput-charset: finput-charset.o
 
 %.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
