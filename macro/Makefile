@@ -13,6 +13,7 @@ TARGETS += __linux__
 TARGETS += __WORDSIZE __WORDSIZE-32
 TARGETS += __TIME__
 TARGETS += __VERSION__
+TARGETS += __FILE__
 
 TARGETS_CXX := __cplusplus
 
@@ -54,6 +55,7 @@ __WORDSIZE: __WORDSIZE.o
 __WORDSIZE-32: __WORDSIZE-32.o
 __TIME__: __TIME__.o
 __VERSION__: __VERSION__.o
+__FILE__: __FILE__.o
 
 CFLAGS___i386__ := -m32
 CFLAGS___x86_64__ := -m64
