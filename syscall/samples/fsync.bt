@@ -1,0 +1,24 @@
+#!/bin/env bpftrace
+/**
+ * fsync.bt - Tracing fsync(2), sync(2)
+ *
+ * 2024-04-15	Rong Tao	Create this.
+ */
+BEGIN
+{
+	printf("Tracing sync relate syscall, hit ctrl-c to end.\n");
+	printf("%-8s %-8s %-16s\n", "TIME", "PID", "COMM");
+}
+
+tracepoint:syscalls:sys_enter_fdatasync,
+tracepoint:syscalls:sys_enter_fsync,
+tracepoint:syscalls:sys_enter_sync
+{
+	time("%H:%M:%S ");
+	printf("%-8d %-16s %s\n", pid, comm, probe);
+}
+
+END
+{
+	printf("Bye.\n");
+}
