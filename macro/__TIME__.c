@@ -2,6 +2,6 @@
 
 int main(void)
 {
-	printf("%s\n", __TIME__);
+	printf("%s %s\n", __DATE__, __TIME__);
 	return 0;
 }
