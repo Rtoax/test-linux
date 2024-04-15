@@ -1,2 +1,4 @@
 /atomic_test
 /*.s
+/spin-demo3
+/spin-demo3-nonlock
