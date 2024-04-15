@@ -1,4 +1,4 @@
-
+TARGETS :=
 TARGETS += auto
 TARGETS += array
 TARGETS += ascii
@@ -25,6 +25,7 @@ TARGETS += while
 TARGETS += stub
 TARGETS += if
 TARGETS += enum
+TARGETS += __STDC__
 
 ifeq ($(shell uname -m),x86_64)
 endif
@@ -103,6 +104,7 @@ while: while.o
 stub: stub.o
 if: if.o
 enum: enum.o
+__STDC__: __STDC__.o
 
 %.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
