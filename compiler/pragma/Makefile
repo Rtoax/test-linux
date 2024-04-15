@@ -1,5 +1,5 @@
-
-TARGETS += poison
+TARGETS :=
+TARGETS += GCC_poison
 TARGETS += GCC_diagnostic
 TARGETS += pragma-message
 TARGETS += call-func
@@ -19,7 +19,7 @@ CFLAGS += -DDEBUG -O0 -g
 build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
-poison: poison.o
+GCC_poison: GCC_poison.o
 GCC_diagnostic: GCC_diagnostic.o
 GCC_target: GCC_target.o
 pragma-message: pragma-message.o

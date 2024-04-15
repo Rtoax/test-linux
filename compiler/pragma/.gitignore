@@ -1,5 +1,5 @@
 /call-func
-/poison
+/GCC_poison
 /GCC_diagnostic
 /GCC_target
 /pragma-message
