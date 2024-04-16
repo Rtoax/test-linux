@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <malloc.h>
+#include <string.h>
 #include <assert.h>
 #include <sys/types.h>
 #include <unistd.h>
@@ -17,6 +18,7 @@ unsigned long virt_to_phy(unsigned long vaddr)
 	unsigned long pfn = 0;
 	ssize_t rc;
 	unsigned long pagesize = sysconf(_SC_PAGESIZE);
+	unsigned int offset;
 
 	/* Get page frame number of address */
 	fd = open("/proc/self/pagemap", O_RDONLY);
@@ -36,9 +38,14 @@ unsigned long virt_to_phy(unsigned long vaddr)
 		fprintf(stderr, "read: %m\n");
 		goto failed;
 	}
+	pfn &= 0x7fffffffffffffULL;
+
+	fprintf(stderr, "pgsize = %ld, pfn = %lx\n", pagesize, pfn);
 
 	close(fd);
-	return (pfn & 0x7fffffffffffffULL) * pagesize + vaddr % pagesize;
+
+	offset = (unsigned long)vaddr % pagesize;
+	return pfn * pagesize + offset;
 
 failed:
 	close(fd);
@@ -47,8 +54,9 @@ failed:
 
 int main(void)
 {
-	int i, fd;
+	int i, fd, ret;
 	char *buf;
+	unsigned long phy;
 
 	fd = open("/dev/mem", O_RDWR);
 	if (fd == -1) {
@@ -59,8 +67,29 @@ int main(void)
 	buf = malloc(1024);
 	assert(buf && "malloc failed");
 
-	printf("%#016lx %#016lx\n", &i, virt_to_phy((unsigned long)buf));
+	mlock(buf, 1024);
 
+	memset(buf, 0x00, 1024);
+
+	phy = virt_to_phy((unsigned long)buf);
+	printf("%#016lx %#016lx\n", (unsigned long)buf, phy);
+
+	ret = lseek(fd, phy, SEEK_SET);
+	if (ret == -1) {
+		fprintf(stderr, "lseek /dev/mem: %m\n");
+		goto exit;
+	}
+
+#define BUF_STRING	"Hello, Memory!"
+	ret = write(fd, BUF_STRING, strlen(BUF_STRING));
+	if (ret < strlen(BUF_STRING)) {
+		fprintf(stderr, "write /dev/mem: %m\n");
+		goto exit;
+	}
+
+	printf("buf = %s\n", buf);
+
+exit:
 	free(buf);
 	close(fd);
 
