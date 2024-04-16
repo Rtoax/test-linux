@@ -2,6 +2,7 @@
 #include <fcntl.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include <malloc.h>
 #include <assert.h>
 #include <sys/types.h>
 #include <unistd.h>
@@ -46,7 +47,22 @@ failed:
 
 int main(void)
 {
-	int i;
-	printf("%#016lx %#016lx\n", &i, virt_to_phy((unsigned long)&i));
+	int i, fd;
+	char *buf;
+
+	fd = open("/dev/mem", O_RDWR);
+	if (fd == -1) {
+		fprintf(stderr, "open /dev/mem: %m\n");
+		exit(1);
+	}
+
+	buf = malloc(1024);
+	assert(buf && "malloc failed");
+
+	printf("%#016lx %#016lx\n", &i, virt_to_phy((unsigned long)buf));
+
+	free(buf);
+	close(fd);
+
 	return 0;
 }
