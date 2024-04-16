@@ -16,6 +16,7 @@ TARGETS += __VERSION__
 TARGETS += __FILE__
 TARGETS += machine
 TARGETS += __ASSEMBLER__
+TARGETS += ident
 
 TARGETS_CXX := __cplusplus
 
@@ -64,6 +65,7 @@ __VERSION__: __VERSION__.o
 __FILE__: __FILE__.o
 machine: machine.o
 __ASSEMBLER__: __ASSEMBLER__.o
+ident: ident.o
 
 CFLAGS___i386__ := -m32
 CFLAGS___x86_64__ := -m64
