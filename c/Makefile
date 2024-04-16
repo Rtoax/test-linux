@@ -26,6 +26,7 @@ TARGETS += stub
 TARGETS += if
 TARGETS += enum
 TARGETS += __STDC__
+TARGETS += include_next
 
 ifeq ($(shell uname -m),x86_64)
 endif
@@ -72,6 +73,7 @@ CFLAGS_alignas := -std=gnu17
 CFLAGS_if := -Wno-error=unused-value
 CFLAGS__Generic := -Wno-all
 CFLAGS_case := -Wno-error=unused-label
+CFLAGS_include_next := -Dinclude/ -Wno-error
 
 build: ${TARGETS}
 	@echo
@@ -105,6 +107,7 @@ stub: stub.o
 if: if.o
 enum: enum.o
 __STDC__: __STDC__.o
+include_next: include_next.o
 
 %.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
