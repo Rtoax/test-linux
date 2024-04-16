@@ -12,11 +12,21 @@ have_desktop=
 have_math=
 have_bench=
 
+dry_run=
+
 [[ ! -e /etc/os-release ]] && echo "ERROR: No /etc/os-release found" && exit 1
 
 . /etc/os-release
 
 OS=${ID}
+
+inst_eval() {
+	if [[ -z ${dry_run} ]]; then
+		eval "$@"
+	else
+		echo "$@"
+	fi
+}
 
 __usage__()
 {
@@ -25,7 +35,7 @@ NAME
 	$prog - Install depends
 
 SYNOPSIS
-	$prog [--all]
+	$prog [--dry-run] [--all]
 
 DESCRIPTION
 	Install various dependencies.
@@ -40,6 +50,8 @@ ARGUMENT
 	--bench            install benchmark relate packages
 
 	--noup             skip upgrade
+
+	--dry-run          only show commands
 
 	-h, --help         show this help information
 
@@ -56,6 +68,7 @@ TEMP=$(getopt --options h \
 	--long desktop \
 	--long math \
 	--long bench \
+	--long dry-run \
 	--long help \
 	--name $prog -- "$@")
 
@@ -101,6 +114,10 @@ while true; do
 		shift
 		have_whls=YES
 		;;
+	--dry-run)
+		shift
+		dry_run=YES
+		;;
 	--)
 		shift
 		break
@@ -113,7 +130,7 @@ echo "OS: ${OS}"
 # Install extra software package repo
 case ${OS} in
 centos|rhel|almalinux)
-	sudo dnf install -y epel-release
+	inst_eval sudo dnf install -y epel-release
 	;;
 fedora)
 	;;
@@ -246,9 +263,9 @@ cclinux|fedora|centos|rhel|openEuler|almalinux)
 	[[ ${have_bench} ]] && pkgs+=( ${pkgs_bench[@]} )
 
 	if [[ ${have_upgrade} ]]; then
-		sudo dnf up -y
+		inst_eval sudo dnf up -y
 	fi
-	sudo dnf install ${args[@]} -y ${pkgs[@]}
+	inst_eval sudo dnf install ${args[@]} -y ${pkgs[@]}
 	;;
 debian|ubuntu)
 	pkgs+=( binutils-dev )
@@ -273,11 +290,11 @@ debian|ubuntu)
 	args=( --fix-missing )
 
 	if [[ ${have_upgrade} ]]; then
-		sudo apt update -y
-		sudo apt list --upgradable
-		sudo apt upgrade -y
+		inst_eval sudo apt update -y
+		inst_eval sudo apt list --upgradable
+		inst_eval sudo apt upgrade -y
 	fi
-	sudo apt install ${args[@]} ${pkgs[@]} -y
+	inst_eval sudo apt install ${args[@]} ${pkgs[@]} -y
 	;;
 *)
 	echo "ERROR: Unknown OS ${OS}"
@@ -286,5 +303,5 @@ esac
 
 # Install python3 pip wheels
 if [[ ${have_whls} ]] && [[ -e /usr/bin/pip3 ]]; then
-	pip3 install ${whls[@]}
+	inst_eval pip3 install ${whls[@]}
 fi
