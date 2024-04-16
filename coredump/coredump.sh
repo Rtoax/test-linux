@@ -7,7 +7,7 @@ function coredump() {
 	echo "Core ${bytes} Bytes"
 	ulimit -c ${bytes}
 	echo 1 | sudo tee /proc/sys/kernel/core_uses_pid
-	echo "./core.%p" | sudo tee /proc/sys/kernel/core_pattern
+	echo "./core.%e-%p-%t" | sudo tee /proc/sys/kernel/core_pattern
 	echo 0 | sudo tee /proc/sys/kernel/nmi_watchdog
 	echo 1 | sudo tee /sys/module/rcupdate/parameters/rcu_cpu_stall_suppress
 
