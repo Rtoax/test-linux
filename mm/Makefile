@@ -7,6 +7,8 @@ TARGETS := virt2phy
 
 CC = gcc
 
+CFLAGS := -DDPDK=1
+
 sub-dir-build := $(sub-dir:=.build)
 sub-dir-clean := $(sub-dir:=.clean)
 
