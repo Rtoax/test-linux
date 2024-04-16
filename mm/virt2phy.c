@@ -47,6 +47,6 @@ failed:
 int main(void)
 {
 	int i;
-	printf("%#016lx %#016lx\n", &i, virt_to_phy(&i));
+	printf("%#016lx %#016lx\n", &i, virt_to_phy((unsigned long)&i));
 	return 0;
 }

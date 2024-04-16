@@ -5,6 +5,8 @@ sub-dir += tcmalloc
 
 TARGETS := virt2phy
 
+CC = gcc
+
 sub-dir-build := $(sub-dir:=.build)
 sub-dir-clean := $(sub-dir:=.clean)
 
