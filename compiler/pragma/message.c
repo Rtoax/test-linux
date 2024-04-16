@@ -2,6 +2,6 @@
 
 int main(void)
 {
-#pragma message("xyh, i still love you! I'm sorry.\n")
+#pragma message("xyh, I still love you!\n")
 	return 0;
 }

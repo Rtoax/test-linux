@@ -3,6 +3,8 @@
 /GCC_diagnostic
 /GCC_target
 /GCC_error
+/GCC_dependency
+/_Pragma
 /pragma-message
 /push_macro
 /message

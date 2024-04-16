@@ -1,10 +1,12 @@
 TARGETS :=
 TARGETS += GCC_poison
 TARGETS += GCC_diagnostic
+TARGETS += GCC_dependency
 TARGETS += pragma-message
 TARGETS += call-func
 TARGETS += push_macro
 TARGETS += message
+TARGETS += _Pragma
 
 ifneq ($(shell uname -m),aarch64)
 TARGETS += GCC_target
@@ -28,10 +30,12 @@ GCC_poison: GCC_poison.o
 GCC_diagnostic: GCC_diagnostic.o
 GCC_target: GCC_target.o
 GCC_error: GCC_error.o
+GCC_dependency: GCC_dependency.o
 pragma-message: pragma-message.o
 call-func: call-func.o
 push_macro: push_macro.o
 message: message.o
+_Pragma: _Pragma.o
 
 # TODO
 CFLAGS_call-func := -Wno-unknown-pragmas
@@ -51,6 +55,5 @@ test: ${TARGETS}
 
 clean:
 	@echo -e "Clean   \033[1;32m$(@)\033[m"
-	@rm -f ${TARGETS} \
-		*.o *.d *.out
+	@rm -f ${TARGETS} *.o *.d *.out
 
