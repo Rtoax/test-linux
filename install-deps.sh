@@ -119,9 +119,7 @@ fedora)
 	;;
 esac
 
-pkgs+=( make cmake gcc gcc-c++ clang gdb cgdb )
 pkgs+=( autoconf-archive )
-pkgs+=( gcc-aarch64-linux-gnu )
 pkgs+=( blktrace )
 pkgs+=( bpftrace bcc )         # eBPF
 pkgs+=( cargo )                # The Rust package manager
@@ -131,12 +129,13 @@ pkgs+=( dialog kdialog )
 pkgs+=( dwz )                  # DWARF optimization and duplicate removal tool
 pkgs+=( dwarves )              # pahole
 pkgs+=( efivar mokutil )       # UEFI
+pkgs+=( gdb cgdb )
 pkgs+=( gnupg2 )               # gpg
-pkgs+=( golang )               # go
 pkgs+=( hwloc )                # lstopo
 pkgs+=( inotify-tools )        # inotifywatch, ...
 pkgs+=( llvm )                 # llvm-as llvm-dis llc
 pkgs+=( lshw )                 # lshw
+pkgs+=( make cmake )
 pkgs+=( nasm )                 # nasm
 pkgs+=( net-tools )            # netstat
 pkgs+=( numactl )              # numastat
@@ -154,6 +153,11 @@ pkgs+=( smartmontools )        # smartctl
 pkgs+=( sysstat )
 pkgs+=( tree )
 pkgs+=( vim )
+
+pkgs_compiler+=( clang )
+pkgs_compiler+=( gcc-aarch64-linux-gnu )
+pkgs_compiler+=( gcc gcc-c++ )
+pkgs_compiler+=( golang )
 
 # Benchmark
 pkgs_bench+=( iperf iperf3 )
