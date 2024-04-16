@@ -4,6 +4,7 @@
 /GCC_target
 /GCC_error
 /GCC_dependency
+/GCC_system_header
 /_Pragma
 /pragma-message
 /push_macro

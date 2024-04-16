@@ -2,6 +2,7 @@ TARGETS :=
 TARGETS += GCC_poison
 TARGETS += GCC_diagnostic
 TARGETS += GCC_dependency
+TARGETS += GCC_system_header
 TARGETS += pragma-message
 TARGETS += call-func
 TARGETS += push_macro
@@ -31,6 +32,7 @@ GCC_diagnostic: GCC_diagnostic.o
 GCC_target: GCC_target.o
 GCC_error: GCC_error.o
 GCC_dependency: GCC_dependency.o
+GCC_system_header: GCC_system_header.o
 pragma-message: pragma-message.o
 call-func: call-func.o
 push_macro: push_macro.o
@@ -39,6 +41,7 @@ _Pragma: _Pragma.o
 
 # TODO
 CFLAGS_call-func := -Wno-unknown-pragmas
+CFLAGS_GCC_system_header := -I./
 
 %.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
