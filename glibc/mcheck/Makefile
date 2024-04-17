@@ -1,5 +1,5 @@
 TARGETS :=
-TARGETS += posix_memalign
+TARGETS += mtrace
 
 CC = gcc
 
@@ -10,8 +10,7 @@ build: ${TARGETS}
 	@echo
 	@echo -e " \033[1;33m Done \033[m"
 
-# Add more object.o file
-posix_memalign: posix_memalign.o
+mtrace: mtrace.o
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
