@@ -55,6 +55,7 @@ TARGETS += opendir
 TARGETS += pause
 TARGETS += pidfd_open
 TARGETS += readlink
+TARGETS += rename
 TARGETS += getcwd
 TARGETS += gettid
 TARGETS += getpid getpgid
@@ -141,6 +142,7 @@ opendir: opendir.o
 pause: pause.o
 pidfd_open: pidfd_open.o
 lseek: lseek.o
+rename: rename.o
 readlink: readlink.o
 readlink2: readlink2.opp
 getcwd: getcwd.o
