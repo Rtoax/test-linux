@@ -13,9 +13,13 @@ static int kernel_init(void)
 	local_i++;
 	local_i_no += 1;
 
-	printk(KERN_INFO "i = %d.\n", local_i);
-	printk(KERN_INFO "i = %d.\n", local_i_no);
-	printk(KERN_INFO "i = %d.\n", s_local_i);
+#define P_int(i)	printk("I: %-16s  %-8d %016p.\n", #i, i, (void *)&i);
+#define P_f(f)		printk("F: %-16s           %016p.\n", #f, (void *)f);
+	printk("\n");
+	P_int(local_i);
+	P_int(local_i_no);
+	P_int(s_local_i);
+	P_f(kernel_init);
 
 	return -EINVAL;
 }
