@@ -10,6 +10,7 @@ USER_LIST += c
 USER_LIST += cpp
 USER_LIST += compiler
 USER_LIST += cgroup/tools
+USER_LIST += database
 USER_LIST += device
 USER_LIST += elf
 USER_LIST += fs

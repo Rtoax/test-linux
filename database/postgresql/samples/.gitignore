@@ -1,0 +1,14 @@
+/list_tables
+/PQconnectdb
+/PQdb
+/PQexec
+/PQexecParams
+/PQfname
+/PQgetvalue
+/PQlibVersion
+/PQnfields
+/PQntuples
+/PQpass
+/PQserverVersion
+/PQuser
+/transaction

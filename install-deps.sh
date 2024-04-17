@@ -3,7 +3,7 @@ set -e
 
 prog=inst-deps
 
-declare -a pkgs pkgs_compiler pkgs_desktop whls pkgs_bench pkgs_math
+declare -a pkgs pkgs_compiler pkgs_desktop whls pkgs_bench pkgs_math pkgs_db
 
 have_upgrade=YES
 have_whls=
@@ -11,6 +11,7 @@ have_compiler=
 have_desktop=
 have_math=
 have_bench=
+have_db=
 
 dry_run=
 
@@ -48,6 +49,7 @@ ARGUMENT
 	--desktop          install desktop relate packages
 	--math             install math relate packages
 	--bench            install benchmark relate packages
+	--db               install database relate packages
 
 	--noup             skip upgrade
 
@@ -68,6 +70,7 @@ TEMP=$(getopt --options h \
 	--long desktop \
 	--long math \
 	--long bench \
+	--long db \
 	--long dry-run \
 	--long help \
 	--name $prog -- "$@")
@@ -109,6 +112,10 @@ while true; do
 	--bench)
 		shift
 		have_bench=YES
+		;;
+	--db)
+		shift
+		have_db=YES
 		;;
 	--whls)
 		shift
@@ -186,6 +193,9 @@ pkgs_desktop+=( gnuplot )
 pkgs_desktop+=( gtk3 gtk3-devel )
 pkgs_desktop+=( python3-matplotlib )
 
+# Database
+pkgs_db+=( postgresql )
+
 whls+=( numpy pyyaml )
 whls+=( tqdm )
 whls+=( 'mkdocs>=1.5.2' )
@@ -254,6 +264,8 @@ cclinux|fedora|centos|rhel|openEuler|almalinux)
 
 	pkgs_math+=( fftw-devel )
 
+	pkgs_db+=( libpq-devel )
+
 	args=( --skip-broken )
 	args+=( --nogpgcheck )
 
@@ -261,6 +273,7 @@ cclinux|fedora|centos|rhel|openEuler|almalinux)
 	[[ ${have_desktop} ]] && pkgs+=( ${pkgs_desktop[@]} )
 	[[ ${have_math} ]] && pkgs+=( ${pkgs_math[@]} )
 	[[ ${have_bench} ]] && pkgs+=( ${pkgs_bench[@]} )
+	[[ ${have_db} ]] && pkgs+=( ${pkgs_db[@]} )
 
 	if [[ ${have_upgrade} ]]; then
 		inst_eval sudo dnf up -y
@@ -286,6 +299,7 @@ debian|ubuntu)
 	[[ ${have_desktop} ]] && pkgs+=( ${pkgs_desktop[@]} )
 	[[ ${have_math} ]] && pkgs+=( ${pkgs_math[@]} )
 	[[ ${have_bench} ]] && pkgs+=( ${pkgs_bench[@]} )
+	[[ ${have_db} ]] && pkgs+=( ${pkgs_db[@]} )
 
 	args=( --fix-missing )
 
