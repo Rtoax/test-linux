@@ -5,6 +5,9 @@ CC = gcc
 
 CFLAGS := -Werror -Wall
 CFLAGS += -DDEBUG -O0 -g
+CFLAGS += -lmcheck
+
+LDFLAGS := $(CFLAGS)
 
 build: ${TARGETS}
 	@echo

@@ -1,5 +1,6 @@
 TARGETS :=
 TARGETS += mallinfo
+TARGETS += mallopt
 TARGETS += posix_memalign
 
 CC = gcc
@@ -15,6 +16,7 @@ CFLAGS_mallinfo := -Wno-error=deprecated-declarations
 
 # Add more object.o file
 mallinfo: mallinfo.o
+mallopt: mallopt.o
 posix_memalign: posix_memalign.o
 
 %.o: %.c
