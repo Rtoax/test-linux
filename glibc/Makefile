@@ -22,6 +22,7 @@ sub-dir += iconv
 sub-dir += ld
 sub-dir += libgen
 sub-dir += link
+sub-dir += locale
 sub-dir += malloc
 sub-dir += math
 sub-dir += netdb
