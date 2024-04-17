@@ -14,12 +14,14 @@ static int kernel_init(void)
 	local_i_no += 1;
 
 #define P_int(i)	printk("I: %-16s  %-8d %016p.\n", #i, i, (void *)&i);
+#define P_long(l)	printk("L: %-16s  %-8lx %016p.\n", #l, l, (void *)&l);
 #define P_f(f)		printk("F: %-16s           %016p.\n", #f, (void *)f);
 	printk("\n");
 	P_int(local_i);
 	P_int(local_i_no);
 	P_int(s_local_i);
 	P_f(kernel_init);
+	P_long(vmalloc_base);
 
 	return -EINVAL;
 }

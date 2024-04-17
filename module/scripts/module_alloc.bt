@@ -1,0 +1,30 @@
+#!/bin/env bpftrace
+/**
+ * module_alloc.bt
+ *
+ * Copyright (C) Rong Tao 2022-2024
+ *
+ * 2024-04-17	Rong Tao	Create this.
+ */
+BEGIN
+{
+	printf("Tracing module_alloc, hit ctrl-c to end.\n");
+	printf("%-8s %-8s %-16s %-8s %-16s %-16s\n",
+		"TIME", "PID", "COMM", "PPID", "PCOMM", "ADDRESS");
+}
+
+kretprobe:module_alloc
+{
+	$parent = (struct task_struct *)curtask->real_parent;
+	$ppid = $parent->tgid;
+	$pcomm = $parent->comm;
+	$addr = retval;
+	time("%H:%M:%S ");
+	printf("%-8d %-16s %-8d %-16s %-16lx\n",
+		pid, comm, $ppid, $pcomm, $addr);
+}
+
+END
+{
+	printf("Bye.\n");
+}

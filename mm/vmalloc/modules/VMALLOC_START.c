@@ -1,11 +1,3 @@
-/**
- *	File ./VMALLOC_START.c
- *	Time 2021.11.23
- *	Author Rong Tao
- *
- *	Ref: linux-5.10.13/lib/test_debug_virtual
- */
-// SPDX-License-Identifier: GPL-2.0-only
 #include <linux/kernel.h>
 #include <linux/module.h>
 #include <linux/export.h>
@@ -14,7 +6,6 @@
 #include <linux/slab.h>
 #include <linux/sizes.h>
 #include <linux/io.h>
-
 #include <asm/page.h>
 #ifdef CONFIG_MIPS
 #include <asm/bootinfo.h>
@@ -26,7 +17,7 @@ struct foo {
 
 static struct foo *foo;
 
-static int __init test_debug_virtual_init(void)
+static int __init mod_init(void)
 {
 	phys_addr_t pa;
 	void *va;
@@ -40,7 +31,7 @@ static int __init test_debug_virtual_init(void)
 	pa = virt_to_phys(va);
 
 	pr_info("PA: %pa for VA: 0x%lx(VMALLOC_END)\n", &pa, (unsigned long)va);
-	
+
 	foo = kzalloc(sizeof(*foo), GFP_KERNEL);
 	if (!foo)
 		return -ENOMEM;
@@ -62,15 +53,9 @@ static int __init test_debug_virtual_init(void)
 
 	vfree(foo);
 
-	return 0;
+	return -EINVAL;
 }
-module_init(test_debug_virtual_init);
-
-static void __exit test_debug_virtual_exit(void)
-{
-	//kfree(foo);
-}
-module_exit(test_debug_virtual_exit);
+module_init(mod_init);
 
 MODULE_LICENSE("GPL");
 MODULE_DESCRIPTION("Test module for CONFIG_DEBUG_VIRTUAL");
