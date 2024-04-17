@@ -132,7 +132,11 @@ int main(void)
 		exit(1);
 	}
 
+#ifdef PAGE_ALIGN
+	posix_memalign((void **)&buf, 4096, 1024);
+#else
 	buf = malloc(1024);
+#endif
 	assert(buf && "malloc failed");
 
 	mlock(buf, 1024);

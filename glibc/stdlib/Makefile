@@ -7,6 +7,7 @@ TARGETS += qsort
 TARGETS += getloadavg
 TARGETS += atexit
 TARGETS += system
+TARGETS += posix_memalign
 
 ifeq ($(shell uname -m),x86_64)
 endif
@@ -40,6 +41,7 @@ random: random.o
 random-dev: random-dev.o
 getloadavg: getloadavg.o
 system: system.o
+posix_memalign: posix_memalign.o
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"

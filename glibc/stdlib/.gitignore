@@ -16,3 +16,4 @@
 /qsort
 /getloadavg
 /system
+/posix_memalign
