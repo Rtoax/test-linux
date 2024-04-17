@@ -13,6 +13,7 @@ TARGETS += fwrite
 TARGETS += getchar
 TARGETS += sscanf
 TARGETS += perror
+TARGETS += tmpfile
 
 CC = gcc
 
@@ -41,6 +42,7 @@ getchar: getchar.o
 puts: puts.o
 sscanf: sscanf.o
 perror: perror.o
+tmpfile: tmpfile.o
 
 %.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

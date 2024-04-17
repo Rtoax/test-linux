@@ -13,3 +13,4 @@
 /getchar
 /sscanf
 /perror
+/tmpfile
