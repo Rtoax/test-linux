@@ -18,6 +18,8 @@ TARGETS += omp_set_nest_lock
 TARGETS += omp_set_lock
 TARGETS += omp_test_lock
 TARGETS += omp_test_nest_lock
+TARGETS += omp_set_max_active_levels
+TARGETS += omp_in_parallel
 TARGETS += ordered
 TARGETS += parallel_for
 TARGETS += pragma_omp_atomic
@@ -76,6 +78,8 @@ omp_set_nest_lock: omp_set_nest_lock.o
 omp_set_lock: omp_set_lock.o
 omp_test_lock: omp_test_lock.o
 omp_test_nest_lock: omp_test_nest_lock.o
+omp_set_max_active_levels: omp_set_max_active_levels.o
+omp_in_parallel: omp_in_parallel.o
 ordered: ordered.o
 parallel_for: parallel_for.o
 pragma_omp_atomic: pragma_omp_atomic.o
