@@ -36,3 +36,6 @@
 /threadprivate
 /threadprivate_copyin
 /threadprivate_copyprivate
+/omp_set_lock
+/omp_test_lock
+/omp_test_nest_lock

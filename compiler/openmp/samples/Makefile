@@ -1,4 +1,3 @@
-
 TARGETS :=
 TARGETS += atomic
 TARGETS += barrier
@@ -16,6 +15,9 @@ TARGETS += omp_set_num_threads
 TARGETS += omp_set_nested_1
 TARGETS += omp_set_nested_2
 TARGETS += omp_set_nest_lock
+TARGETS += omp_set_lock
+TARGETS += omp_test_lock
+TARGETS += omp_test_nest_lock
 TARGETS += ordered
 TARGETS += parallel_for
 TARGETS += pragma_omp_atomic
@@ -71,6 +73,9 @@ omp_set_num_threads: omp_set_num_threads.o
 omp_set_nested_1: omp_set_nested_1.o
 omp_set_nested_2: omp_set_nested_2.o
 omp_set_nest_lock: omp_set_nest_lock.o
+omp_set_lock: omp_set_lock.o
+omp_test_lock: omp_test_lock.o
+omp_test_nest_lock: omp_test_nest_lock.o
 ordered: ordered.o
 parallel_for: parallel_for.o
 pragma_omp_atomic: pragma_omp_atomic.o
