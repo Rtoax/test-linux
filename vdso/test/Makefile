@@ -46,4 +46,4 @@ $(TARGETS): %:
 
 clean:
 	make -C dpdk clean
-	rm -f $(TARGETS)
+	rm -f $(TARGETS) *.o
