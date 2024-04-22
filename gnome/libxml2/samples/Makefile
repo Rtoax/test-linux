@@ -2,6 +2,7 @@ TARGETS :=
 TARGETS += addchild
 TARGETS += parsexml
 TARGETS += newformatxml
+TARGETS += modifyxml
 
 CC = gcc
 
@@ -26,6 +27,7 @@ build: ${TARGETS}
 addchild: addchild.o
 parsexml: parsexml.o
 newformatxml: newformatxml.o
+modifyxml: modifyxml.o
 
 # FIXME: maybe use BAD_CAST
 CFLAGS_addchild := -Wno-error=pointer-sign
