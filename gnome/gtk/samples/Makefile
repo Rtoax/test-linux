@@ -1,5 +1,6 @@
-
+TARGETS :=
 TARGETS += builder
+TARGETS += builder-menu
 TARGETS += button button2
 TARGETS += button_keyboard
 TARGETS += button_image button_image2
@@ -44,6 +45,7 @@ build: ${TARGETS}
 
 # Add more object.o file
 builder: builder.o
+builder-menu: builder-menu.o
 arrow_button: arrow_button.o
 button: button.o
 button2: button2.o
