@@ -14,13 +14,18 @@ void sig_handler(int signum)
 	loop = false;
 }
 
+void print_ansi(void)
+{
+	fprintf(stderr, "\033[31mx\033[m");
+	usleep(us);
+}
+
 void *print_xs(void *unused)
 {
 	pthread_setname_np(pthread_self(), "pthread-child");
 
 	while (loop) {
-		fprintf(stderr, "\033[31mx\033[m");
-		usleep(us);
+		print_ansi();
 	}
 
 	return NULL;
