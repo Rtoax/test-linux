@@ -1,6 +1,7 @@
 TARGETS :=
 TARGETS += addchild
 TARGETS += parsexml
+TARGETS += newformatxml
 
 CC = gcc
 
@@ -24,6 +25,7 @@ build: ${TARGETS}
 # Add more object.o file
 addchild: addchild.o
 parsexml: parsexml.o
+newformatxml: newformatxml.o
 
 # FIXME: maybe use BAD_CAST
 CFLAGS_addchild := -Wno-error=pointer-sign
@@ -42,4 +44,4 @@ test: ${TARGETS}
 .PHONY: clean
 clean:
 	@echo -e "Clean   \033[1;32m$(@)\033[m"
-	@rm -f ${TARGETS} *.o *.d
+	@rm -f ${TARGETS} *.o *.d tmp-*.xml
