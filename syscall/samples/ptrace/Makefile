@@ -1,4 +1,3 @@
-
 TARGETS :=
 ifeq ($(shell uname -m),x86_64)
 TARGETS += PTRACE_GETREGS
@@ -18,18 +17,11 @@ TARGETS += pthread_create
 TARGETS += multi-thread
 
 
-DEBUG = yes
-SRC_PATH := $(shell pwd)
 CC = gcc
 
 CFLAGS := -Werror -Wall
 CFLAGS += -pthread
-CFLAGS += -I../../../
-#CFLAGS += -I../
-
-ifdef DEBUG
 CFLAGS += -DDEBUG -O0 -g
-endif
 
 build: nr.h ${TARGETS}
 	@echo

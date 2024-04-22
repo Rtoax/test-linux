@@ -59,6 +59,12 @@ int main(void)
 		instruction_count++;
 		usleep(2000);
 
+#if defined(__x86_64__)
+		struct user_regs_struct regs;
+		ptrace(PTRACE_GETREGS, child, NULL, &regs);
+		printf("ip = %llx\n", regs.rip);
+#endif
+
 		ptrace(PTRACE_SINGLESTEP, child, NULL, NULL);
 	}
 
