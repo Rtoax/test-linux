@@ -1,4 +1,5 @@
 TARGETS :=
+TARGETS += addchild
 TARGETS += parsexml
 
 CC = gcc
@@ -21,7 +22,11 @@ build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
 # Add more object.o file
+addchild: addchild.o
 parsexml: parsexml.o
+
+# FIXME: maybe use BAD_CAST
+CFLAGS_addchild := -Wno-error=pointer-sign
 
 %.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

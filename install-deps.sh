@@ -241,6 +241,7 @@ cclinux|fedora|centos|rhel|openEuler|almalinux)
 	pkgs+=( liburing-devel )       # uring
 	pkgs+=( libdwarf-tools )       # dwarfdump
 	pkgs+=( libattr-devel )
+	pkgs+=( libxml2-devel )
 	pkgs+=( llvm-devel )
 	pkgs+=( lsb_release )
 	pkgs+=( ltrace )               # ltrace
