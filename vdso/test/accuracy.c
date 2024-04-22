@@ -14,6 +14,8 @@
 #include <string.h>
 #include <sys/syscall.h>
 
+/* 5ms */
+unsigned long diff_ns = 5000000;
 
 int sys_clock_gettime(clockid_t clockid, struct timespec *tp)
 {
@@ -40,8 +42,7 @@ void test(char *name, unsigned long (*nsecs)(clockid_t), clockid_t clockid)
 
 	cnt = 0;
 	start = end = nsecs(clockid);
-	/* 5ms */
-	while (end - start < 5000000) {
+	while (end - start < diff_ns) {
 		cnt++;
 		end = nsecs(clockid);
 	}
@@ -50,6 +51,13 @@ void test(char *name, unsigned long (*nsecs)(clockid_t), clockid_t clockid)
 
 int main(int argc, char *argv[])
 {
+	fprintf(stderr, "%s [ns (default:%ld)]\n", argv[0], diff_ns);
+
+	if (argc > 1) {
+		diff_ns = strtoul(argv[1], NULL, 10);
+		fprintf(stderr, "change ns to %ld\n", diff_ns);
+	}
+
 	test("syscall REALTIME", sys_nsecs, CLOCK_REALTIME);
 #if defined(__x86_64__) /* aarch64 run this clockid is too slow. */
 	test("syscall REALTIME_ALARM", sys_nsecs, CLOCK_REALTIME_ALARM);
