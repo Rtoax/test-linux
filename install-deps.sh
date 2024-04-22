@@ -230,17 +230,17 @@ cclinux|fedora|centos|rhel|openEuler|almalinux)
 	pkgs+=( kernel-devel )         # kernel
 	pkgs+=( kernel-headers )       # kernel
 	pkgs+=( libaio-devel )         # aio
+	pkgs+=( libattr-devel )
+	pkgs+=( libbpf-devel )         # libbpf
 	pkgs+=( libcap-ng-devel )
 	pkgs+=( libcap-ng-utils )
+	pkgs+=( libdwarf-tools )       # dwarfdump
 	pkgs+=( libedit-devel )
-	pkgs+=( libbpf-devel )         # libbpf
 	pkgs+=( libpcap-devel )
 	pkgs+=( libseccomp-devel )
 	pkgs+=( libselinux-devel )     # SELinux
 	pkgs+=( libunwind-devel )      # Unwind
 	pkgs+=( liburing-devel )       # uring
-	pkgs+=( libdwarf-tools )       # dwarfdump
-	pkgs+=( libattr-devel )
 	pkgs+=( libxml2-devel )
 	pkgs+=( llvm-devel )
 	pkgs+=( lsb_release )
@@ -257,8 +257,10 @@ cclinux|fedora|centos|rhel|openEuler|almalinux)
 	pkgs+=( xfsprogs-devel )       # xfs
 
 	# Cross compile packages
-	pkgs_compiler+=( binutils-aarch64-linux-gnu binutils-x86_64-linux-gnu )
-	pkgs_compiler+=( gcc-aarch64-linux-gnu gcc-x86_64-linux-gnu )
+	pkgs_compiler+=( binutils-aarch64-linux-gnu )
+	pkgs_compiler+=( binutils-x86_64-linux-gnu )
+	pkgs_compiler+=( gcc-aarch64-linux-gnu )
+	pkgs_compiler+=( gcc-x86_64-linux-gnu )
 
 	pkgs_compiler+=( java-1.8.0-openjdk-devel )
 	pkgs_compiler+=( libgccjit-devel )
