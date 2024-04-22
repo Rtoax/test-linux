@@ -1,8 +1,3 @@
-/**
- *	File ./params-test0.c
- *	Time 2021.11.03
- *	Author	Rong Tao <rtoax@foxmail.com>
- */
 #include <linux/module.h>
 #include <linux/moduleparam.h>
 #include <linux/init.h>
@@ -15,7 +10,7 @@ MODULE_AUTHOR("Rong Tao");
 
 static int addr[SIZE];
 static int count;
-module_param_array(addr, int, &count,  0660);
+module_param_array(addr, int, &count, 0660);
 
 enum irq_type {
 	IRQ_TYPE_LEVEL,
@@ -26,7 +21,7 @@ enum irq_type {
 static int irq_type = IRQ_TYPE_LEVEL;
 
 static int irqtype_op_write_handler(const char *val,
-				  const struct kernel_param *kp)
+				    const struct kernel_param *kp)
 {
 	char valcp[16];
 	char *s;

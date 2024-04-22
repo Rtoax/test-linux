@@ -5,6 +5,11 @@
 #include <linux/timekeeping.h>
 
 
+/* 5ms */
+unsigned long diff_ns = 5000000;
+module_param(diff_ns, long, S_IRUSR);
+MODULE_PARM_DESC(diff_ns, "Precision value");
+
 typedef void (*fn_ts64_t)(struct timespec64 *);
 
 static inline unsigned long nsecs64(fn_ts64_t fn)
@@ -20,8 +25,7 @@ static void test(char *name, fn_ts64_t fn)
 
 	cnt = 0;
 	start = end = nsecs64(fn);
-	/* 5ms */
-	while (end - start < 5000000) {
+	while (end - start < diff_ns) {
 		cnt++;
 		end = nsecs64(fn);
 	}

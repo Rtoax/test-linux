@@ -1,9 +1,3 @@
-/**
- *	File ./params-test1.c
- *	Time 2021.11.03
- *	Author	Rong Tao <rtoax@foxmail.com>
- */
-
 #include <linux/module.h>
 #include <linux/moduleparam.h>
 #include <linux/kernel.h>
