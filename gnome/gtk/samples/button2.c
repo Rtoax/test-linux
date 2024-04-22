@@ -7,8 +7,8 @@ void callback(GtkWidget *widget, gpointer data)
 
 gint delete_event(GtkWidget *widget, GdkEvent *event, gpointer data)
 {
-     gtk_main_quit();
-     return FALSE;
+	gtk_main_quit();
+	return FALSE;
 }
 
 int main(int argc, char *argv[])
