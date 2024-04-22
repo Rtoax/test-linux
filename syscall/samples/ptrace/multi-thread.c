@@ -90,10 +90,19 @@ int main(int argc, char *argv[])
 			printf("pc = %llx\n", regs.pc);
 #endif
 
-		ptrace(PTRACE_SINGLESTEP, child, NULL, NULL);
+		if (instruction_count < 5000)
+			ptrace(PTRACE_SINGLESTEP, child, NULL, NULL);
+		else {
+			ptrace(PTRACE_CONT, child, NULL, NULL);
+			break;
+		}
 	}
 
 	print_count();
+
+	/* Give child some time to print, then kill it. */
+	sleep(2);
+	kill(child, SIGINT);
 
 	return 0;
 }
