@@ -1,4 +1,5 @@
 sub-dir := gtk
+sub-dir += libxml2/samples/
 
 sub-dir-build := $(sub-dir:=.build)
 sub-dir-clean := $(sub-dir:=.clean)

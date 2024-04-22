@@ -1,0 +1,10 @@
+<domain type='kvm'>
+  <name>almalinux9</name>
+  <uuid>4434a858-899b-4264-bf65-402a05d788e8</uuid>
+  <memory unit='KiB'>8392704</memory>
+  <vcpu placement='static'>8</vcpu>
+  <cpu mode='custom' match='exact' check='none'>
+    <model fallback='allow'>SandyBridge</model>
+  </cpu>
+</domain>
+
