@@ -20,6 +20,7 @@ TARGETS += statusbar
 TARGETS += frame aspect_frame
 TARGETS += menu
 TARGETS += dialog
+TARGETS += sunny
 
 CC = gcc
 
@@ -57,6 +58,7 @@ checkbutton: checkbutton.o
 button_fixed_move: button_fixed_move.o
 button_boxs: button_boxs.o
 spin_button: spin_button.o
+sunny: sunny.o
 label: label.o
 drawing: drawing.o
 drawing_pic: drawing_pic.o
