@@ -73,7 +73,7 @@ static void activate(GApplication *app, gpointer user_data)
 	GMenu *button_menu;
 	GMenuItem *section;
 
-	if(gtk_application_get_windows(GTK_APPLICATION(app)) != NULL)
+	if (gtk_application_get_windows(GTK_APPLICATION(app)) != NULL)
 		return;
 
 	win = gtk_application_window_new(GTK_APPLICATION(app));
