@@ -170,6 +170,7 @@ pkgs+=( python3-pip )          # pip wheel
 pkgs+=( python3-pyroute2 )     # pyroute2
 pkgs+=( python3-scapy )
 pkgs+=( qemu-kvm qemu-user )
+pkgs+=( sg3_utils )
 pkgs+=( socat )
 pkgs+=( sparse )               # sparse
 pkgs+=( strace )
