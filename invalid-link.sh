@@ -7,5 +7,7 @@ do
 	real_f=$(realpath $f 2>/dev/null || true)
 	if [[ ! -f $real_f ]] && [[ ! -d $real_f ]]; then
 		echo "Invalid-link: $f"
+		# Remove broken symlinks
+		# sudo find ./ -type l -xtype l -delete
 	fi
 done
