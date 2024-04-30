@@ -9,3 +9,5 @@
 /realloc
 /malloc_trim
 /malloc_usable_size
+/memalign
+/pvalloc
