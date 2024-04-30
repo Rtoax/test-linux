@@ -5,12 +5,15 @@ TARGETS += exp
 TARGETS += fpclassify
 TARGETS += finite
 TARGETS += sqrt
+TARGETS += nan
 
 CC = gcc
 
 CFLAGS := -Werror -Wall
 CFLAGS += -lm
 CFLAGS += -DDEBUG -O0 -g
+
+LDFLAGS := ${CFLAGS}
 
 build: ${TARGETS}
 	@echo
@@ -23,6 +26,7 @@ sqrt: sqrt.o
 copysign: copysign.o
 fpclassify: fpclassify.o
 finite: finite.o
+nan: nan.o
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
