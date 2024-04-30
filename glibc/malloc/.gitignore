@@ -7,3 +7,4 @@
 /malloc_info.xml
 /malloc_stats
 /realloc
+/malloc_trim

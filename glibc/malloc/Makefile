@@ -7,6 +7,7 @@ TARGETS += malloc_info
 TARGETS += malloc_stats
 TARGETS += posix_memalign
 TARGETS += realloc
+TARGETS += malloc_trim
 
 CC = gcc
 
@@ -18,16 +19,18 @@ build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
 CFLAGS_mallinfo := -Wno-error=deprecated-declarations
+CFLAGS_helpers := -Wno-error=deprecated-declarations
 
 # Add more object.o file
 malloc: malloc.o
-mallinfo: mallinfo.o
+mallinfo: mallinfo.o helpers.o
 mallopt: mallopt.o
 malloc_get_state: malloc_get_state.o
 malloc_info: malloc_info.o
 malloc_stats: malloc_stats.o
 posix_memalign: posix_memalign.o
 realloc: realloc.o
+malloc_trim: malloc_trim.o helpers.o
 
 
 %.o: %.c
