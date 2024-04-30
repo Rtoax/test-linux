@@ -1,6 +1,8 @@
 TARGETS :=
+TARGETS += malloc
 TARGETS += mallinfo
 TARGETS += mallopt
+TARGETS += malloc_get_state
 TARGETS += posix_memalign
 
 CC = gcc
@@ -15,8 +17,10 @@ build: ${TARGETS}
 CFLAGS_mallinfo := -Wno-error=deprecated-declarations
 
 # Add more object.o file
+malloc: malloc.o
 mallinfo: mallinfo.o
 mallopt: mallopt.o
+malloc_get_state: malloc_get_state.o
 posix_memalign: posix_memalign.o
 
 %.o: %.c

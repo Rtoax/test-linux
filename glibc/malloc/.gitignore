@@ -1,3 +1,5 @@
 /mallopt
 /mallinfo
 /posix_memalign
+/malloc
+/malloc_get_state
