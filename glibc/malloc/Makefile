@@ -8,6 +8,7 @@ TARGETS += malloc_stats
 TARGETS += posix_memalign
 TARGETS += realloc
 TARGETS += malloc_trim
+TARGETS += malloc_usable_size
 
 CC = gcc
 
@@ -31,6 +32,7 @@ malloc_stats: malloc_stats.o
 posix_memalign: posix_memalign.o
 realloc: realloc.o
 malloc_trim: malloc_trim.o helpers.o
+malloc_usable_size: malloc_usable_size.o
 
 
 %.o: %.c

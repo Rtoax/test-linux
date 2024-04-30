@@ -8,3 +8,4 @@
 /malloc_stats
 /realloc
 /malloc_trim
+/malloc_usable_size
