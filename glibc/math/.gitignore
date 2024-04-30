@@ -2,3 +2,5 @@
 /copysign
 /sqrt
 /exp
+/fpclassify
+/finite

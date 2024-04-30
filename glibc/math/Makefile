@@ -2,6 +2,8 @@ TARGETS :=
 TARGETS += ceil
 TARGETS += copysign
 TARGETS += exp
+TARGETS += fpclassify
+TARGETS += finite
 TARGETS += sqrt
 
 CC = gcc
@@ -19,6 +21,8 @@ ceil: ceil.o
 exp: exp.o
 sqrt: sqrt.o
 copysign: copysign.o
+fpclassify: fpclassify.o
+finite: finite.o
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
