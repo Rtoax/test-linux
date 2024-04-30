@@ -1,0 +1,15 @@
+#include <math.h>
+#include <stdio.h>
+
+int main(void)
+{
+	float exp_1 = 1.0 / exp(5.0 / 60.0) * 2048;
+	float exp_5 = 1.0 / exp(5.0 / 300.0) * 2048;
+	float exp_15 = 1.0 / exp(5.0 / 900.0) * 2048;
+
+	printf("%f\n", exp_1);
+	printf("%f\n", exp_5);
+	printf("%f\n", exp_15);
+
+	return 0;
+}
