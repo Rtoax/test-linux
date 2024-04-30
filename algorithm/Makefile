@@ -5,6 +5,7 @@ sub-dir += hashmap
 sub-dir += linklist
 sub-dir += rbtree
 sub-dir += md5
+sub-dir += math
 sub-dir += string
 sub-dir += sort
 

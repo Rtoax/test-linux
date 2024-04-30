@@ -4,6 +4,8 @@ TARGETS += insert
 TARGETS += merge
 TARGETS += quick-1 quick-2
 
+CC = gcc
+
 all: ${TARGETS}
 
 clean:
