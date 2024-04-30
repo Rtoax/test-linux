@@ -26,6 +26,11 @@ int main(void)
 		if (isnanl(s))
 			printf("isnanl: %d\n", i);
 
+		if (isfinite(f))
+			printf("isfinite: %d\n", i);
+		if (isnormal(f))
+			printf("isnormal: %d\n", i);
+
 		if (finite(f))
 			printf(" finite: %d\n", i);
 		if (finitef(f))
