@@ -19,6 +19,7 @@ int main(void)
 {
 	int *a;
 
+	setenv("MALLOC_CHECK_", "1", 1);
 	setenv("MALLOC_TRACE", "./mtrace.log", 1);
 
 	mtrace();
