@@ -6,6 +6,7 @@ TARGETS += malloc_get_state
 TARGETS += malloc_info
 TARGETS += malloc_stats
 TARGETS += posix_memalign
+TARGETS += realloc
 
 CC = gcc
 
@@ -26,6 +27,7 @@ malloc_get_state: malloc_get_state.o
 malloc_info: malloc_info.o
 malloc_stats: malloc_stats.o
 posix_memalign: posix_memalign.o
+realloc: realloc.o
 
 
 %.o: %.c
