@@ -220,6 +220,7 @@ cclinux|fedora|centos|rhel|openEuler|almalinux)
 	pkgs+=( dtc )                  # device tree
 	pkgs+=( elfutils-libelf-devel )
 	pkgs+=( glibc-common )
+	pkgs+=( glibc-utils )
 	pkgs+=( git-clang-format )
 	pkgs+=( golang-github-cilium-ebpf )
 	pkgs+=( gperftools-devel )

@@ -17,11 +17,17 @@ static void disable(int sig)
 
 int main(void)
 {
-	int *a = malloc(12);
+	int *a;
+
+	setenv("MALLOC_TRACE", "./mtrace.log", 1);
+
 	mtrace();
 
+	a = malloc(12);
 	a[3] = 14;
-	muntrace();
 	free(a);
+
+	muntrace();
+
 	return 0;
 }
