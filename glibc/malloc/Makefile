@@ -3,6 +3,8 @@ TARGETS += malloc
 TARGETS += mallinfo
 TARGETS += mallopt
 TARGETS += malloc_get_state
+TARGETS += malloc_info
+TARGETS += malloc_stats
 TARGETS += posix_memalign
 
 CC = gcc
@@ -21,7 +23,10 @@ malloc: malloc.o
 mallinfo: mallinfo.o
 mallopt: mallopt.o
 malloc_get_state: malloc_get_state.o
+malloc_info: malloc_info.o
+malloc_stats: malloc_stats.o
 posix_memalign: posix_memalign.o
+
 
 %.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
@@ -36,4 +41,4 @@ test: ${TARGETS}
 
 clean:
 	@echo -e "Clean   \033[1;32m$(@)\033[m"
-	@rm -f ${TARGETS} *.o *.d
+	@rm -f ${TARGETS} *.o *.d *.xml

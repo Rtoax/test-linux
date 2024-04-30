@@ -3,3 +3,6 @@
 /posix_memalign
 /malloc
 /malloc_get_state
+/malloc_info
+/malloc_info.xml
+/malloc_stats
