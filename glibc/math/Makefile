@@ -9,6 +9,8 @@ TARGETS += nan
 TARGETS += isgreater
 TARGETS += log
 TARGETS += sin
+TARGETS += signbit
+TARGETS += nextafter
 
 CC = gcc
 
@@ -33,6 +35,8 @@ nan: nan.o
 isgreater: isgreater.o
 log: log.o
 sin: sin.o
+signbit: signbit.o
+nextafter: nextafter.o
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"

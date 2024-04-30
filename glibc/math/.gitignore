@@ -8,3 +8,5 @@
 /isgreater
 /log
 /sin
+/signbit
+/nextafter
