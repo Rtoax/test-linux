@@ -5,3 +5,6 @@
 /fpclassify
 /finite
 /nan
+/isgreater
+/log
+/sin

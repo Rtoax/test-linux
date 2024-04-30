@@ -6,6 +6,9 @@ TARGETS += fpclassify
 TARGETS += finite
 TARGETS += sqrt
 TARGETS += nan
+TARGETS += isgreater
+TARGETS += log
+TARGETS += sin
 
 CC = gcc
 
@@ -27,6 +30,9 @@ copysign: copysign.o
 fpclassify: fpclassify.o
 finite: finite.o
 nan: nan.o
+isgreater: isgreater.o
+log: log.o
+sin: sin.o
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
