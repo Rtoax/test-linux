@@ -12,7 +12,9 @@ int main (void)
 	P(LD_SO);
 	P(LIBANL_SO);
 	P(LIBBROKENLOCALE_SO);
+#ifdef LIBCRYPT_SO
 	P(LIBCRYPT_SO);
+#endif
 	P(LIBC_MALLOC_DEBUG_SO);
 	P(LIBC_SO);
 	P(LIBDL_SO);
