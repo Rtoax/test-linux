@@ -1,6 +1,7 @@
 TARGETS :=
 TARGETS += mtrace
 TARGETS += mprobe
+TARGETS += mcheck_check_all
 
 CC = gcc
 
@@ -16,6 +17,7 @@ build: ${TARGETS}
 
 mtrace: mtrace.o
 mprobe: mprobe.o
+mcheck_check_all: mcheck_check_all.o
 
 CFLAGS_mprobe := -Wno-error=use-after-free
 
