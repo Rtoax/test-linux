@@ -26,6 +26,7 @@ sub-dir += link
 sub-dir += locale
 sub-dir += malloc
 sub-dir += math
+sub-dir += mntent
 sub-dir += netdb
 sub-dir += obstack
 sub-dir += pthread
