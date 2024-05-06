@@ -1,3 +1,4 @@
 /mq_getattr
 /mq_open
+/mq_notify
 /multi-thread

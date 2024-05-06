@@ -1,5 +1,6 @@
 TARGETS := mq_open
 TARGETS += mq_getattr
+TARGETS += mq_notify
 TARGETS += multi-thread
 
 DEBUG = yes
@@ -17,6 +18,7 @@ build: ${TARGETS}
 # Add more object.o file
 mq_open: mq_open.o
 mq_getattr: mq_getattr.o
+mq_notify: mq_notify.o
 multi-thread: multi-thread.o
 
 CFLAGS_multi-thread := -pthread

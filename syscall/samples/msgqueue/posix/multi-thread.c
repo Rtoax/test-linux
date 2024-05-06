@@ -85,6 +85,7 @@ int main(void)
 	int ret;
 	struct mq_attr attr;
 	pthread_t task1, task2;
+	struct sigevent sev;
 
 	mq_unlink(MQUEUE_NAME);
 	perror("mq_unlink: ");
@@ -99,7 +100,8 @@ int main(void)
 		return -errno;
 	}
 
-	struct sigevent sev;
+	printf("mq_open %s success.\n", MQUEUE_NAME);
+
 	sev.sigev_notify = SIGEV_THREAD;
 	sev.sigev_notify_function = my_sigev_notify_function;
 	sev.sigev_notify_attributes = NULL;
