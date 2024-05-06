@@ -1,4 +1,5 @@
 /ansi_ascii
+/asprintf
 /vasprintf
 /vfprintf
 /vsprintf
