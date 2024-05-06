@@ -20,6 +20,7 @@
 #include <linux/backing-dev.h>
 #include <linux/kallsyms.h>
 #include <linux/kprobes.h>
+#include <linux/blkdev.h>
 
 
 static void buffer_io_error(struct buffer_head *bh)
@@ -123,7 +124,7 @@ unsigned long kallsyms_lookup_name(const char *name)
 	return __kallsyms_lookup ? __kallsyms_lookup(name) : 0UL;
 }
 
-int init_kallsyms(void)
+static int init_kallsyms(void)
 {
 	struct kprobe kp = {0};
 	int ret = 0;
@@ -170,5 +171,6 @@ static void livepatch_exit(void)
 
 module_init(livepatch_init);
 module_exit(livepatch_exit);
+MODULE_AUTHOR("Rong Tao");
 MODULE_LICENSE("GPL");
 MODULE_INFO(livepatch, "Y");
