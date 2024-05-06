@@ -1,11 +1,10 @@
 test-linux
 ==========
 
-> You must clone this repo under Linux(UNIX like) system. Because
-> there are lots of symbol links, some file system not support in
-> Windows OS.
->
-> In directory `modules` store some API demos.
+This code repository contains `GNU/Linux` related test case codes, scripts and knowledge points, as well as operating system related content.
+
+You must clone this repo under Linux(UNIX like) system. Because there are lots of symbol links, some file system not support in Windows OS.
+
 > You'd better don't rename any of folder and file's name.
 
 
