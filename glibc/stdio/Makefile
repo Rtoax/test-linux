@@ -1,5 +1,6 @@
 TARGETS :=
 TARGETS += ansi_ascii
+TARGETS += ctermid
 TARGETS += vasprintf
 TARGETS += vfprintf
 TARGETS += vsprintf
@@ -28,6 +29,7 @@ build: ${TARGETS}
 
 # Add more object.o file
 ansi_ascii: ansi_ascii.o
+ctermid: ctermid.o
 vasprintf: vasprintf.o
 vfprintf: vfprintf.o
 vsprintf: vsprintf.o
