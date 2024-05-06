@@ -10,10 +10,10 @@ esac
 
 [[ ${strace} ]] && echo "Turn on strace"
 
-sudo dd if=/dev/zero of=fs.xfs bs=1M count=310
-sudo ${strace:+strace} mkfs.xfs fs.xfs
+sudo dd if=/dev/zero of=fs.ext4 bs=1M count=4
+sudo ${strace:+strace} mkfs.ext4 fs.ext4
 sudo mkdir -p tmp-mnt
-sudo mount fs.xfs tmp-mnt -o loop,rw
+sudo mount fs.ext4 tmp-mnt -o loop,rw
 sudo cp /etc/os-release tmp-mnt/
 sudo tree tmp-mnt/
 sudo umount tmp-mnt
