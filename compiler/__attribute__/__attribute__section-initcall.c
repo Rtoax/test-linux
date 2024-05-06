@@ -32,10 +32,10 @@ DECLARE_INIT(C_init);
 
 void do_initcalls(void)
 {
-	init_call *init_ptr = A_init;
-	for (; init_ptr < C_init; init_ptr++) {
-		printf("init address: %p\n", init_ptr);
-		(*init_ptr)();
+	init_call init = A_init;
+	for (; init < C_init; init++) {
+		printf("init address: %p\n", init);
+		init();
 	}
 }
 
