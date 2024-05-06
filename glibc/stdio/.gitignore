@@ -12,6 +12,7 @@
 /popen
 /fwrite
 /getchar
+/scanf
 /sscanf
 /perror
 /tmpfile

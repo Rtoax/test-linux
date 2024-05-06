@@ -12,7 +12,7 @@ TARGETS += remove
 TARGETS += popen
 TARGETS += fwrite
 TARGETS += getchar
-TARGETS += sscanf
+TARGETS += scanf sscanf
 TARGETS += perror
 TARGETS += tmpfile
 
@@ -43,6 +43,7 @@ popen: popen.o
 fwrite: fwrite.o
 getchar: getchar.o
 puts: puts.o
+scanf: scanf.o
 sscanf: sscanf.o
 perror: perror.o
 tmpfile: tmpfile.o
@@ -58,6 +59,7 @@ $(TARGETS): %:
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
 	./getchar < getchar.c
+	echo 1.2 | ./scanf
 
 clean:
 	@echo -e "Clean   \033[1;32m$(@)\033[m"
