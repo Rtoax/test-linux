@@ -3,4 +3,5 @@
 /TIOCSWINSZ
 /SIOCGIFCONF
 /CDROMEJECT
+/ifconfig
 /num

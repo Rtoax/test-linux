@@ -1,14 +1,16 @@
 TARGETS :=
 TARGETS += ethtool
 TARGETS += tcpdump
+TARGETS += ifconfig
 
 CC = gcc
 
-ethtool: ethtool.o
-tcpdump: tcpdump.o
-
 .PHONY: build
 build: ${TARGETS}
+
+ethtool: ethtool.o
+tcpdump: tcpdump.o
+ifconfig: ifconfig.o
 
 .PHONY: clean
 clean:
