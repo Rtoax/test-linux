@@ -170,7 +170,6 @@ pkgs+=( python3-pip )          # pip wheel
 pkgs+=( python3-pyroute2 )     # pyroute2
 pkgs+=( python3-scapy )
 pkgs+=( qemu-kvm qemu-user )
-pkgs+=( sg3_utils )
 pkgs+=( socat )
 pkgs+=( sparse )               # sparse
 pkgs+=( strace )
@@ -292,10 +291,12 @@ debian|ubuntu)
 	pkgs+=( libaio-dev )           # aio
 	pkgs+=( libc6-dev )
 	pkgs+=( libmpich-dev )         # MPI
+	pkgs+=( libunwind-dev )
 	pkgs+=( linux-libc-dev )
 	pkgs+=( linux-tools-common )
 	pkgs+=( lsb-release )
 	pkgs+=( procps )
+	pkgs+=( sg3-utils )            # sg_inq, etc.
 
 	pkgs_compiler+=( rust-all )
 
