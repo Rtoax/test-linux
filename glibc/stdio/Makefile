@@ -14,13 +14,11 @@ TARGETS += fwrite
 TARGETS += getchar
 TARGETS += scanf sscanf
 TARGETS += perror
-TARGETS += tmpfile
+TARGETS += tmpfile tmpnam
 
 CC = gcc
 
 CFLAGS := -Werror -Wall
-CFLAGS += -I../../../
-CFLAGS += -lm
 CFLAGS += -DDEBUG -O0 -g
 
 build: ${TARGETS}
@@ -47,6 +45,7 @@ scanf: scanf.o
 sscanf: sscanf.o
 perror: perror.o
 tmpfile: tmpfile.o
+tmpnam: tmpnam.o
 
 %.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
