@@ -15,6 +15,7 @@ TARGETS += getchar
 TARGETS += scanf sscanf
 TARGETS += perror
 TARGETS += tmpfile tmpnam tempnam
+TARGETS += setbuf setvbuf
 
 CC = gcc
 
@@ -48,6 +49,8 @@ tmpfile: tmpfile.o
 tmpnam: tmpnam.o
 tempnam: tempnam.o
 snprintf: snprintf.o
+setbuf: setbuf.o
+setvbuf: setvbuf.o
 
 %.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

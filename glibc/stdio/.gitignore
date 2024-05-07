@@ -20,3 +20,5 @@
 /tmpnam
 /tempnam
 /snprintf
+/setbuf
+/setvbuf
