@@ -2,3 +2,4 @@
 /tcsetattr
 /tcgetattr
 /tcgetsid
+/password

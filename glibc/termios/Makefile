@@ -2,6 +2,7 @@ TARGETS :=
 TARGETS += NCCS
 TARGETS += tcsetattr tcgetattr
 TARGETS += tcgetsid
+TARGETS += password
 
 CC = gcc
 
@@ -19,6 +20,7 @@ NCCS: NCCS.o
 tcsetattr: tcsetattr.o
 tcgetsid: tcgetsid.o
 tcgetattr: tcgetattr.o
+password: password.o
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
