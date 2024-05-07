@@ -5,6 +5,7 @@ TARGETS += NCCS
 TARGETS += tcsetattr tcgetattr
 TARGETS += tcgetsid
 TARGETS += password
+TARGETS += set_istrip set_input_mode
 
 CC = gcc
 
@@ -29,6 +30,8 @@ tcsetattr: tcsetattr.o
 tcgetsid: tcgetsid.o
 tcgetattr: tcgetattr.o helpers.o
 password: password.o
+set_istrip: set_istrip.o
+set_input_mode: set_input_mode.o
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"

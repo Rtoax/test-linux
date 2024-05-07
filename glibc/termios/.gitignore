@@ -9,3 +9,5 @@
 /tcgetattr
 /tcgetsid
 /password
+/set_istrip
+/set_input_mode
