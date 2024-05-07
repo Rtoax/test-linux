@@ -7,7 +7,7 @@ int main(void)
 {
 	struct termios t;
 
-	tcgetattr(fileno(stdout), &t);
+	cfmakeraw(&t);
 
 	print_termios(&t);
 

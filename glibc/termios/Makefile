@@ -1,5 +1,6 @@
 TARGETS :=
 TARGETS += cfsetspeed cfsetospeed cfsetispeed cfgetispeed cfgetospeed
+TARGETS += cfmakeraw
 TARGETS += NCCS
 TARGETS += tcsetattr tcgetattr
 TARGETS += tcgetsid
@@ -22,10 +23,11 @@ cfsetospeed: cfsetospeed.o
 cfsetispeed: cfsetispeed.o
 cfgetispeed: cfgetispeed.o
 cfgetospeed: cfgetospeed.o
+cfmakeraw: cfmakeraw.o helpers.o
 NCCS: NCCS.o
 tcsetattr: tcsetattr.o
 tcgetsid: tcgetsid.o
-tcgetattr: tcgetattr.o
+tcgetattr: tcgetattr.o helpers.o
 password: password.o
 
 test: ${TARGETS}

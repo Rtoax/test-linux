@@ -3,6 +3,7 @@
 /cfsetispeed
 /cfgetispeed
 /cfgetospeed
+/cfmakeraw
 /NCCS
 /tcsetattr
 /tcgetattr
