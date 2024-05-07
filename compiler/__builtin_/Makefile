@@ -27,6 +27,10 @@ TARGETS_todo += __builtin_va_arg_pack
 
 CC = gcc
 
+# TODO: Fix this warning skip
+CFLAGS___builtin_apply_args := -Wno-incompatible-pointer-types
+CFLAGS___builtin_popcount := -Wno-int-conversion
+
 build: ${TARGETS}
 
 __builtin_apply_args: __builtin_apply_args.o
@@ -54,6 +58,14 @@ __builtin_va_arg_pack: __builtin_va_arg_pack.o
 __builtin___clear_cache: __builtin___clear_cache.o
 __builtin_types_compatible_p: __builtin_types_compatible_p.o
 __builtin_clzl: __builtin_clzl.o
+
+%.o: %.c
+	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
+	$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
+
+$(TARGETS): %:
+	@echo -e "Target   \033[1;32m$(@)\033[m"
+	$(CC) -o $(@) $(^) $(LDLIBS) $(LDFLAGS) $(LDFLAGS_$(*)) $(CFLAGS) $(CFLAGS_$(*))
 
 clean:
 	rm -f ${TARGETS} *.o
