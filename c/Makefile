@@ -27,6 +27,7 @@ TARGETS += if
 TARGETS += enum
 TARGETS += __STDC__
 TARGETS += include_next
+TARGETS += unsigned
 
 ifeq ($(shell uname -m),x86_64)
 endif
@@ -108,6 +109,7 @@ if: if.o
 enum: enum.o
 __STDC__: __STDC__.o
 include_next: include_next.o
+unsigned: unsigned.o
 
 %.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
