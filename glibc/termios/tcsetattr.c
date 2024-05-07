@@ -12,7 +12,7 @@ int main(int argc, char *argv[])
 
 	new = old;
 	/* disable line buffering and feedback */
-	new.c_lflag &= ~(ICANON | ECHO);
+	new.c_lflag &= ~(ICANON | ECHO | ECHOE | ISIG);
 
 	tcsetattr(STDIN_FILENO, TCSANOW, &new);
 
