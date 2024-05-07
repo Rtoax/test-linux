@@ -1,4 +1,6 @@
 sub-dir := procfs
+sub-dir += ext4
+sub-dir += xfs
 
 sub-dir-build := $(sub-dir:=.build)
 sub-dir-clean := $(sub-dir:=.clean)
