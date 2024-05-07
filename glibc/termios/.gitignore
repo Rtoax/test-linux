@@ -1,3 +1,5 @@
+/cfgetispeed
+/cfgetospeed
 /NCCS
 /tcsetattr
 /tcgetattr

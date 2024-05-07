@@ -1,4 +1,5 @@
 TARGETS :=
+TARGETS += cfgetispeed cfgetospeed
 TARGETS += NCCS
 TARGETS += tcsetattr tcgetattr
 TARGETS += tcgetsid
@@ -16,6 +17,8 @@ build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
 # Add more object.o file
+cfgetispeed: cfgetispeed.o
+cfgetospeed: cfgetospeed.o
 NCCS: NCCS.o
 tcsetattr: tcsetattr.o
 tcgetsid: tcgetsid.o
