@@ -1,3 +1,6 @@
+/cfsetspeed
+/cfsetospeed
+/cfsetispeed
 /cfgetispeed
 /cfgetospeed
 /NCCS

@@ -1,18 +1,20 @@
 #include <stdio.h>
 #include <termios.h>
 
-
 int main(void)
 {
 	struct termios t;
-	speed_t speedo, speedi;
 
-	tcgetattr(fileno(stdout), &t);
+	cfsetospeed(&t, 12);
 
-	speedo = cfgetospeed(&t);
+	speed_t speedo = cfgetospeed(&t);
+
 	printf("%d\n", speedo);
 
-	speedi = cfgetispeed(&t);
+	cfsetispeed(&t, 11);
+
+	speed_t speedi = cfgetispeed(&t);
+
 	printf("%d\n", speedi);
 
 	return 0;
