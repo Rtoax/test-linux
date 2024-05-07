@@ -1,5 +1,5 @@
-JBOD (Just A bunch of disks)
-============================
+JBOD (Just A Bunch Of Disks / Just a Bunch Of Drives)
+======================================================
 
 ```
   +--------+
@@ -13,3 +13,9 @@ JBOD (Just A bunch of disks)
 +----+  +----+
 Disk1    Disk2
 ```
+
+
+# Links
+
+- https://en.wikipedia.org/wiki/Non-RAID_drive_architectures
+

@@ -5,12 +5,13 @@
 - iSER: iSCSI Extensions for RDMA
 - iWARP: RDMA over TCP
 - IB: InfiniBand
-- JBOD: Just a Bunch Of Disks ("简单磁盘捆绑"或者“磁盘簇”，通常又称为Span)
+- JBOD: Just a Bunch Of Disks / Just a Bunch Of Drives ("简单磁盘捆绑"或者“磁盘簇”，通常又称为Span)
 - NVMe: Non-Volatile Memory Express (非易失性内存表达)
 - NVMe-oF: NVMe over Fabrics (NoF)
 - NVMe/FC: NVMe over Fibre Channel (FC-NVMe, NVMe over FC)
 - NVMe/RoCE: NVMe over RoCE
 - NVMe/TCP: NVMe over TCP
+- RAID: Redundant Arrays of Independent Disks (独立磁盘冗余阵列)
 - RDMA: Remote Direct Memory Access (远程直接内存访问)
 - RoCE: RDMA over Converged Ethernet (聚合以太网上的 RDMA)
 - SCSI: Small Computer Systems Interface
