@@ -9,6 +9,8 @@ CFLAGS += -lcrypt
 CFLAGS += -D_XOPEN_SOURCE -D_GNU_SOURCE
 CFLAGS += -Wno-error=implicit-function-declaration
 
+LDFLAGS := -lcrypt
+
 build: ${TARGETS}
 	@echo
 	@echo -e " \033[1;33m Done \033[m"
