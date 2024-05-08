@@ -17,3 +17,4 @@
 /getloadavg
 /system
 /posix_memalign
+/valloc

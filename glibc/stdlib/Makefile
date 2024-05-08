@@ -8,6 +8,7 @@ TARGETS += getloadavg
 TARGETS += atexit
 TARGETS += system
 TARGETS += posix_memalign
+TARGETS += valloc
 
 ifeq ($(shell uname -m),x86_64)
 endif
@@ -42,6 +43,7 @@ random-dev: random-dev.o
 getloadavg: getloadavg.o
 system: system.o
 posix_memalign: posix_memalign.o
+valloc: valloc.o
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
