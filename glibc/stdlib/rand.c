@@ -1,10 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 
 int main(void)
 {
 	RAND_MAX;
+
+#ifdef SRAND
+	srand((int)time(0));
+#endif
 
 	int i, j;
 	for (i = 1; i <= 3000; i++) {
