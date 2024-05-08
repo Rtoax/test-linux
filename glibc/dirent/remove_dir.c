@@ -9,8 +9,8 @@
 
 int remove_dir(const char *dir)
 {
-	char cur_dir[] = ".";
-	char up_dir[] = "..";
+	const char cur_dir[] = ".";
+	const char up_dir[] = "..";
 
 	char dir_name[1024];
 	DIR *dirp;
@@ -32,7 +32,7 @@ int remove_dir(const char *dir)
 	if (S_ISREG(dir_stat.st_mode)) {
 		remove(dir);
 		fprintf(stderr, "Delete file %s\n", dir);
-	} else if(S_ISDIR(dir_stat.st_mode)) {
+	} else if (S_ISDIR(dir_stat.st_mode)) {
 		dirp = opendir(dir);
 		while ((dp = readdir(dirp))!= NULL) {
 			if ((0 == strcmp(cur_dir, dp->d_name)) ||
@@ -49,7 +49,6 @@ int remove_dir(const char *dir)
 	}
 	return 0;
 }
-
 
 int main(int argc, char *argv[])
 {
