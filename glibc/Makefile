@@ -41,6 +41,7 @@ sub-dir += stdarg
 sub-dir += stdio
 sub-dir += stdlib
 sub-dir += string
+sub-dir += strings
 sub-dir += syslog
 sub-dir += sysinfo
 sub-dir += termios
