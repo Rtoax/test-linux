@@ -2,12 +2,15 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <errno.h>
-#include <sys/stat.h>		/*S_IRUSR */
+#include <sys/stat.h>
 
 int main(int argc, char *argv[])
 {
 	int ret;
-	char *file = argv[1];
+	char *file = "rongtao.out";
+
+	ret = mkdir(file, 0777);
+	printf("mkdir ret: %d\n", ret);
 
 	ret = chown(file, 0, 0);
 	if (ret == -1) {
