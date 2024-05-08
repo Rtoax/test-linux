@@ -14,6 +14,7 @@ TARGETS += strtod strtof strtol strtold strtoul
 TARGETS += setkey
 TARGETS += rpmatch
 TARGETS += ptsname
+TARGETS += on_exit
 
 CC = gcc
 
@@ -54,6 +55,7 @@ strtoul: strtoul.o
 setkey: setkey.o
 rpmatch: rpmatch.o
 ptsname: ptsname.o
+on_exit: on_exit.o
 
 CFLAGS_unlockpt := -D_XOPEN_SOURCE
 # TODO
