@@ -3,6 +3,7 @@
 /chown
 /dup-dup2
 /fchown
+/fchownat
 /fchdir
 /fdopen
 /nr

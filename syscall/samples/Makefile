@@ -45,7 +45,7 @@ sub-dir += xattr
 TARGETS :=
 TARGETS += acct
 TARGETS += chdir fchdir
-TARGETS += chown fchown
+TARGETS += chown fchown fchownat
 TARGETS += fdopen
 TARGETS += kcmp
 TARGETS += execve execve-fork
@@ -129,6 +129,7 @@ nr.h: nr.sh
 acct: acct.o
 chown: chown.o
 fchown: fchown.o
+fchownat: fchownat.o
 chdir: chdir.o
 fchdir: fchdir.o
 kcmp: kcmp.o
