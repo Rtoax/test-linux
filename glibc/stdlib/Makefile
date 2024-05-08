@@ -12,9 +12,7 @@ TARGETS += valloc
 TARGETS += unlockpt
 TARGETS += strtod strtof strtol strtold strtoul
 TARGETS += setkey
-
-ifeq ($(shell uname -m),x86_64)
-endif
+TARGETS += rpmatch
 
 CC = gcc
 
@@ -53,6 +51,7 @@ strtol: strtol.o
 strtold: strtold.o
 strtoul: strtoul.o
 setkey: setkey.o
+rpmatch: rpmatch.o
 
 CFLAGS_unlockpt := -D_XOPEN_SOURCE
 # TODO
