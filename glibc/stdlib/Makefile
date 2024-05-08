@@ -9,6 +9,7 @@ TARGETS += atexit
 TARGETS += system
 TARGETS += posix_memalign
 TARGETS += valloc
+TARGETS += unlockpt
 
 ifeq ($(shell uname -m),x86_64)
 endif
@@ -16,8 +17,6 @@ endif
 CC = gcc
 
 CFLAGS := -Werror -Wall
-CFLAGS += -I../../../
-CFLAGS += -lm
 CFLAGS += -DDEBUG -O0 -g
 
 build: ${TARGETS}
@@ -44,6 +43,19 @@ getloadavg: getloadavg.o
 system: system.o
 posix_memalign: posix_memalign.o
 valloc: valloc.o
+unlockpt: unlockpt.o
+
+CFLAGS_unlockpt := -D_XOPEN_SOURCE
+# TODO
+CFLAGS_unlockpt += -Wno-implicit-function-declaration
+
+%.o: %.c
+	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
+	$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
+
+$(TARGETS): %:
+	@echo -e "Target   \033[1;32m$(@)\033[m"
+	$(CC) -o $(@) $(^) $(LDLIBS) $(LDFLAGS) $(LDFLAGS_$(*)) $(CFLAGS) $(CFLAGS_$(*))
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
