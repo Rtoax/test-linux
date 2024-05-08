@@ -1,6 +1,4 @@
-#ifndef _XOPEN_SOURCE
-#define _XOPEN_SOURCE 1
-#endif
+#define _XOPEN_SOURCE
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -8,16 +6,12 @@
 #include <unistd.h>
 #include <fcntl.h>
 
+char *ptsname (int __fd);
 
 int main(void)
 {
 	int fd = open("/dev/ptmx", 0x1111);
-
-	if (unlockpt(fd) < 0)
-		printf("Unable to unlockpt: %m");
-	if (grantpt(fd) < 0)
-		printf("Unable to grantpt: %m");
-
+	printf("ptsname:%s\n", ptsname(fd));
 	close(fd);
 
 	return 0;
