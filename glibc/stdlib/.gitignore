@@ -19,3 +19,8 @@
 /posix_memalign
 /valloc
 /unlockpt
+/strtod
+/strtof
+/strtol
+/strtold
+/strtoul

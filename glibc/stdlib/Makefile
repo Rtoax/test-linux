@@ -10,6 +10,7 @@ TARGETS += system
 TARGETS += posix_memalign
 TARGETS += valloc
 TARGETS += unlockpt
+TARGETS += strtod strtof strtol strtold strtoul
 
 ifeq ($(shell uname -m),x86_64)
 endif
@@ -44,6 +45,11 @@ system: system.o
 posix_memalign: posix_memalign.o
 valloc: valloc.o
 unlockpt: unlockpt.o
+strtod: strtod.o
+strtof: strtof.o
+strtol: strtol.o
+strtold: strtold.o
+strtoul: strtoul.o
 
 CFLAGS_unlockpt := -D_XOPEN_SOURCE
 # TODO
