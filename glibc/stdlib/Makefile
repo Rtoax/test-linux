@@ -69,7 +69,6 @@ $(TARGETS): %:
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
-	./qsort b a c 2 1 3
 
 clean:
 	@echo -e "Clean   \033[1;32m$(@)\033[m"
