@@ -48,3 +48,8 @@ As of this writing, the pre-ld driver collect2 performs the LTO file identificat
 * The linker knows which functions and globals are externally referenced. [LLVM's IPA](http://llvm.org/docs/LinkTimeOptimization.html) page provides an extended example on why the integration in the linker is necessary to perform precise dead function elimination. The same chain of arguments holds for globals. LTO needs to know about externally referenced symbols.
 * Less work - currently, collect2 needs to fork/exec 'nm' on every input file to determine whether it contains IR, which is not optimal.
 
+
+## Links
+
+- https://gcc.gnu.org/wiki/LinkTimeOptimization
+- https://gcc.gnu.org/wiki/LTO_Representation_Changes

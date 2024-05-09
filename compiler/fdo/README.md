@@ -1,7 +1,6 @@
 FDO
 ===
 
-
 * FDO: Feedback Directed Optimization
 * FDO: Feedback Driven Optimization
 * PGO: Profile Guided Optimization
@@ -20,4 +19,12 @@ FDO
 
 可能在编译过程需要额外添加 `-fprofile-arcs`, `-ftest-coverage`.
 在链接过程需要添加 `-fprofile-arcs`。
+
+
+# Links
+
+- AutoFDO: [https://github.com/google/autofdo](https://github.com/google/autofdo)
+	- Mergo to [GCC](https://github.com/gcc-mirror/gcc), 但是还会做小的修改.
+- BOLT: [https://github.com/facebookincubator/BOLT](https://github.com/facebookincubator/BOLT)
+	- Merge to [LLVM](https://github.com/llvm/llvm-project.git), BOLT will not be updated.
 
