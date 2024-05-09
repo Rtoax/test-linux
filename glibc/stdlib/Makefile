@@ -16,11 +16,12 @@ TARGETS += rpmatch
 TARGETS += ptsname
 TARGETS += on_exit
 TARGETS += l64a
+TARGETS += initstate
 
 CC = gcc
 
 CFLAGS := -Werror -Wall
-CFLAGS += -DDEBUG -O0 -g
+CFLAGS += -DDEBUG -O0 -g -ggdb
 
 build: ${TARGETS}
 	@echo
@@ -59,6 +60,7 @@ rpmatch: rpmatch.o
 ptsname: ptsname.o
 on_exit: on_exit.o
 l64a: l64a.o
+initstate: initstate.o
 
 CFLAGS_unlockpt := -D_XOPEN_SOURCE
 # TODO
