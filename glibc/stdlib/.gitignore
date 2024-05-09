@@ -32,3 +32,5 @@
 /mkostemp
 /l64a
 /initstate
+/grantpt
+/getpt

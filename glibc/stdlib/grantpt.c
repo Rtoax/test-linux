@@ -1,4 +1,3 @@
-#define _XOPEN_SOURCE
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -6,13 +5,13 @@
 #include <unistd.h>
 #include <fcntl.h>
 
-char *ptsname(int __fd);
+int grantpt(int fd);
 
 int main(void)
 {
 	int fd = open("/dev/ptmx", 0x1111);
-	printf("ptsname:%s\n", ptsname(fd));
+	grantpt(fileno(stdout));
+	perror("grantpt");
 	close(fd);
 	return 0;
 }
-

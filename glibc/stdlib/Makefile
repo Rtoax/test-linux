@@ -14,6 +14,7 @@ TARGETS += strtod strtof strtol strtold strtoul
 TARGETS += setkey
 TARGETS += rpmatch
 TARGETS += ptsname
+TARGETS += grantpt getpt
 TARGETS += on_exit
 TARGETS += l64a
 TARGETS += initstate
@@ -58,6 +59,8 @@ strtoul: strtoul.o
 setkey: setkey.o
 rpmatch: rpmatch.o
 ptsname: ptsname.o
+grantpt: grantpt.o
+getpt: getpt.o
 on_exit: on_exit.o
 l64a: l64a.o
 initstate: initstate.o
