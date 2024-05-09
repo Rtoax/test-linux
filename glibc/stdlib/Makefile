@@ -1,5 +1,5 @@
 TARGETS :=
-TARGETS += mkdtemp mktemp mkstemp
+TARGETS += mkdtemp mktemp mkstemp mkostemp
 TARGETS += env setenv getenv clearenv putenv unsetenv
 TARGETS += rand random random-dev srand
 TARGETS += bsearch
@@ -32,6 +32,7 @@ qsort: qsort.o
 mkdtemp: mkdtemp.o
 mktemp: mktemp.o
 mkstemp: mkstemp.o
+mkostemp: mkostemp.o
 env: env.o
 setenv: setenv.o
 getenv: getenv.o
