@@ -1,4 +1,4 @@
 whatis main
 whatis global_i
-whatis t1
+whatis st1
 continue

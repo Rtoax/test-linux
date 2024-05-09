@@ -1,12 +1,18 @@
 #include <stdio.h>
 
-struct test {
+union utest {
 	int i;
-	struct test *parent;
+	char c[4];
+};
+
+struct stest {
+	int i;
+	struct stest *parent;
 };
 
 int global_i = 10;
-struct test t1;
+union utest ut1;
+struct stest st1;
 
 int hello(int argc, char *argv[])
 {
