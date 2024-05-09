@@ -1,4 +1,6 @@
 TARGETS :=
+TARGETS += abort
+TARGETS += atof
 TARGETS += mkdtemp mktemp mkstemp mkostemp
 TARGETS += env setenv getenv clearenv putenv unsetenv
 TARGETS += rand random random-dev srand
@@ -29,6 +31,8 @@ build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
 # Add more object.o file
+abort: abort.o
+atof: atof.o
 atexit: atexit.o
 bsearch: bsearch.o
 qsort: qsort.o
