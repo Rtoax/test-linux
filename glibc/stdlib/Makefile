@@ -15,6 +15,7 @@ TARGETS += setkey
 TARGETS += rpmatch
 TARGETS += ptsname
 TARGETS += on_exit
+TARGETS += l64a
 
 CC = gcc
 
@@ -57,6 +58,7 @@ setkey: setkey.o
 rpmatch: rpmatch.o
 ptsname: ptsname.o
 on_exit: on_exit.o
+l64a: l64a.o
 
 CFLAGS_unlockpt := -D_XOPEN_SOURCE
 # TODO
