@@ -1,6 +1,12 @@
 #include <stdio.h>
 
+struct test {
+	int i;
+	struct test *parent;
+};
+
 int global_i = 10;
+struct test t1;
 
 int hello(int argc, char *argv[])
 {
