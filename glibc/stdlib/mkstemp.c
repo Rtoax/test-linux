@@ -3,7 +3,7 @@
 #include <unistd.h>
 
 
-int write_temp_file(char* buffer, size_t length)
+int write_temp_file(char *buffer, size_t length)
 {
 	char temp_filename[] = "tmp-XXXXXX";
 	int fd = mkstemp(temp_filename);
@@ -13,13 +13,12 @@ int write_temp_file(char* buffer, size_t length)
 	return fd;
 }
 
-char* read_temp_file(int temp_file, size_t* length)
+char *read_temp_file(int fd, size_t *length)
 {
-	char* buffer;
-	int fd = temp_file;
+	char *buffer;
 	lseek(fd, 0, SEEK_SET);
 	read(fd, length, sizeof(*length));
-	buffer =(char*)malloc(*length);
+	buffer =(char *)malloc(*length);
 	read(fd, buffer, *length);
 	close(fd);
 	return buffer;
@@ -27,10 +26,11 @@ char* read_temp_file(int temp_file, size_t* length)
 
 int main(void)
 {
+	int fd;
 	size_t length;
 	char *buf;
 
-	int fd = write_temp_file("HELLO", 5);
+	fd = write_temp_file("HELLO", 5);
 	buf = read_temp_file(fd, &length);
 
 	printf("%s\n", buf);
