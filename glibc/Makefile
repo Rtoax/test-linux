@@ -34,6 +34,7 @@ sub-dir += pthread
 sub-dir += pwd
 sub-dir += regex
 sub-dir += scripts
+sub-dir += search
 sub-dir += semaphore
 sub-dir += spawn
 sub-dir += stat
