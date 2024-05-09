@@ -8,6 +8,7 @@ sub-dir += md5
 sub-dir += math
 sub-dir += string
 sub-dir += sort
+sub-dir += search
 
 sub-dir-build := $(sub-dir:=.build)
 sub-dir-clean := $(sub-dir:=.clean)
