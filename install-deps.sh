@@ -218,11 +218,11 @@ pkgs_storage+=( device-mapper-multipath )
 
 whls+=( numpy pyyaml )
 whls+=( tqdm )
-whls+=( 'mkdocs>=1.5.2' )
-whls+=( 'mkdocs-material>=9.2.6' )
-whls+=( 'mkdocstrings[python]>=0.22.0' )
-whls+=( 'mkdocs-static-i18n>=1.0.2' )
-whls+=( 'mkdocs-include-markdown-plugin>=6.0.1' )
+whls+=( "\"mkdocs>=1.5.2\"" )
+whls+=( "\"mkdocs-material>=9.2.6\"" )
+whls+=( "\"mkdocstrings[python]>=0.22.0\"" )
+whls+=( "\"mkdocs-static-i18n>=1.0.2\"" )
+whls+=( "\"mkdocs-include-markdown-plugin>=6.0.1\"" )
 
 case ${OS} in
 cclinux|fedora|centos|rhel|openEuler|almalinux)
@@ -345,5 +345,5 @@ esac
 
 # Install python3 pip wheels
 if [[ ${have_whls} ]] && [[ -e /usr/bin/pip3 ]]; then
-	inst_eval pip3 install ${whls[@]}
+	inst_eval pip3 install "${whls[@]}"
 fi
