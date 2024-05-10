@@ -1,10 +1,16 @@
 LVM - Logical Volume Manager
 ============================
 
-In Linux, Logical Volume Manager (LVM)  is  a device mapper framework that
+In Linux, `Logical Volume Manager (LVM)` is a `device mapper` framework that
 provides logical volume management for the Linux kernel. Most modern Linux
 distributions are LVM-aware to the point of  being able to have their root
 file systems on a logical volume.
+
+The `device mapper` is a framework provided by the Linux kernel for mapping
+physical block devices onto higher-level virtual block devices. It forms the
+foundation of the `logical volume manager (LVM)`, `software RAIDs` and
+`dm-crypt` disk encryption, and offers additional features such as file system
+snapshots.
 
 
 - VG: Volume Groups
