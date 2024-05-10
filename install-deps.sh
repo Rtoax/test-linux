@@ -3,6 +3,7 @@ set -e
 
 prog=inst-deps
 
+declare -a dnf_args
 declare -a pkgs pkgs_compiler pkgs_desktop whls pkgs_bench pkgs_math pkgs_db
 
 have_upgrade=YES
@@ -55,6 +56,8 @@ ARGUMENT
 
 	--dry-run          only show commands
 
+	--allowerasing     allow erasing of installed packages to resolve dependencies
+
 	-h, --help         show this help information
 
 SEE ALSO
@@ -72,6 +75,7 @@ TEMP=$(getopt --options h \
 	--long bench \
 	--long db \
 	--long dry-run \
+	--long allowerasing \
 	--long help \
 	--name $prog -- "$@")
 
@@ -125,6 +129,10 @@ while true; do
 		shift
 		dry_run=YES
 		;;
+	--allowerasing)
+		shift
+		dnf_args+=( --allowerasing )
+		;;
 	--)
 		shift
 		break
@@ -137,7 +145,7 @@ echo "OS: ${OS}"
 # Install extra software package repo
 case ${OS} in
 centos|rhel|almalinux)
-	inst_eval sudo dnf install -y epel-release
+	inst_eval sudo dnf install ${dnf_args[@]} -y epel-release
 	;;
 fedora)
 	;;
@@ -281,9 +289,9 @@ cclinux|fedora|centos|rhel|openEuler|almalinux)
 	[[ ${have_db} ]] && pkgs+=( ${pkgs_db[@]} )
 
 	if [[ ${have_upgrade} ]]; then
-		inst_eval sudo dnf up -y
+		inst_eval sudo dnf up ${dnf_args[@]} -y
 	fi
-	inst_eval sudo dnf install ${args[@]} -y ${pkgs[@]}
+	inst_eval sudo dnf install ${dnf_args[@]} ${args[@]} -y ${pkgs[@]}
 	;;
 debian|ubuntu)
 	pkgs+=( binutils-dev )
