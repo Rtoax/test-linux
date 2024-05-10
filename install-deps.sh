@@ -214,6 +214,7 @@ pkgs_desktop+=( python3-matplotlib )
 pkgs_db+=( postgresql )
 
 # Storage
+pkgs_storage+=( device-mapper )
 pkgs_storage+=( device-mapper-multipath )
 
 whls+=( numpy pyyaml )
