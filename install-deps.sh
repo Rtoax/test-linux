@@ -5,6 +5,7 @@ prog=inst-deps
 
 declare -a dnf_args
 declare -a pkgs pkgs_compiler pkgs_desktop whls pkgs_bench pkgs_math pkgs_db
+declare -a pkgs_storage
 
 have_upgrade=YES
 have_whls=
@@ -13,6 +14,7 @@ have_desktop=
 have_math=
 have_bench=
 have_db=
+have_storage=
 
 dry_run=
 
@@ -51,6 +53,7 @@ ARGUMENT
 	--math             install math relate packages
 	--bench            install benchmark relate packages
 	--db               install database relate packages
+	--storage          install storage relate packages
 
 	--noup             skip upgrade
 
@@ -74,6 +77,7 @@ TEMP=$(getopt --options h \
 	--long math \
 	--long bench \
 	--long db \
+	--long storage \
 	--long dry-run \
 	--long allowerasing \
 	--long help \
@@ -120,6 +124,10 @@ while true; do
 	--db)
 		shift
 		have_db=YES
+		;;
+	--storage)
+		shift
+		have_storage=YES
 		;;
 	--whls)
 		shift
@@ -205,6 +213,9 @@ pkgs_desktop+=( python3-matplotlib )
 # Database
 pkgs_db+=( postgresql )
 
+# Storage
+pkgs_storage+=( device-mapper-multipath )
+
 whls+=( numpy pyyaml )
 whls+=( tqdm )
 whls+=( 'mkdocs>=1.5.2' )
@@ -287,6 +298,7 @@ cclinux|fedora|centos|rhel|openEuler|almalinux)
 	[[ ${have_math} ]] && pkgs+=( ${pkgs_math[@]} )
 	[[ ${have_bench} ]] && pkgs+=( ${pkgs_bench[@]} )
 	[[ ${have_db} ]] && pkgs+=( ${pkgs_db[@]} )
+	[[ ${have_storage} ]] && pkgs+=( ${pkgs_storage[@]} )
 
 	if [[ ${have_upgrade} ]]; then
 		inst_eval sudo dnf up ${dnf_args[@]} -y
@@ -315,6 +327,7 @@ debian|ubuntu)
 	[[ ${have_math} ]] && pkgs+=( ${pkgs_math[@]} )
 	[[ ${have_bench} ]] && pkgs+=( ${pkgs_bench[@]} )
 	[[ ${have_db} ]] && pkgs+=( ${pkgs_db[@]} )
+	[[ ${have_storage} ]] && pkgs+=( ${pkgs_storage[@]} )
 
 	args=( --fix-missing )
 
