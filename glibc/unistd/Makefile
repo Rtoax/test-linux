@@ -29,6 +29,7 @@ TARGETS += getdtablesize
 TARGETS += get_current_dir_name
 TARGETS += fexecve
 TARGETS += getopt
+TARGETS += _exit
 
 
 CC = gcc
@@ -74,6 +75,7 @@ getdtablesize: getdtablesize.o
 get_current_dir_name: get_current_dir_name.o
 fexecve: fexecve.o
 getopt: getopt.o
+_exit: _exit.o
 
 CFLAGS_getwd := -Wno-error=deprecated-declarations
 
