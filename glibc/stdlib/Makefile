@@ -9,7 +9,7 @@ TARGETS += qsort
 TARGETS += getloadavg
 TARGETS += atexit
 TARGETS += system
-TARGETS += posix_memalign
+TARGETS += posix_memalign aligned_alloc
 TARGETS += valloc
 TARGETS += unlockpt
 TARGETS += strtod strtof strtol strtold strtoul
@@ -56,6 +56,7 @@ srand: srand.o
 getloadavg: getloadavg.o
 system: system.o
 posix_memalign: posix_memalign.o
+aligned_alloc: aligned_alloc.o
 valloc: valloc.o
 unlockpt: unlockpt.o
 strtod: strtod.o
