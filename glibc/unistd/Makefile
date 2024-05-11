@@ -28,13 +28,12 @@ TARGETS += getpass
 TARGETS += getdtablesize
 TARGETS += get_current_dir_name
 TARGETS += fexecve
+TARGETS += getopt
 
 
 CC = gcc
 
 CFLAGS := -Werror -Wall
-CFLAGS += -I../../../
-CFLAGS += -lm
 CFLAGS += -DDEBUG -O0 -g
 
 build: ${TARGETS}
@@ -74,6 +73,7 @@ getpass: getpass.o
 getdtablesize: getdtablesize.o
 get_current_dir_name: get_current_dir_name.o
 fexecve: fexecve.o
+getopt: getopt.o
 
 CFLAGS_getwd := -Wno-error=deprecated-declarations
 

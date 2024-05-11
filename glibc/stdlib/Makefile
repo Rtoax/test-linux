@@ -20,6 +20,7 @@ TARGETS += grantpt getpt
 TARGETS += on_exit
 TARGETS += l64a
 TARGETS += initstate
+TARGETS += getsubopt
 
 CC = gcc
 
@@ -68,6 +69,7 @@ getpt: getpt.o
 on_exit: on_exit.o
 l64a: l64a.o
 initstate: initstate.o
+getsubopt: getsubopt.o
 
 CFLAGS_unlockpt := -D_XOPEN_SOURCE
 # TODO

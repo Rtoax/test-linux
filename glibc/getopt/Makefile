@@ -1,23 +1,15 @@
-
+TARGETS :=
 TARGETS += getopt
 TARGETS += getopt_long
+TARGETS += getsubopt
 TARGETS += demo-wls
 TARGETS += demo-clr
 
-ifeq ($(shell uname -m),x86_64)
-endif
-
 DEBUG = yes
-SRC_PATH := $(shell pwd)
 CC = gcc
 
 CFLAGS := -Werror -Wall
-CFLAGS += -I../../../
-CFLAGS += -lm
-
-ifdef DEBUG
 CFLAGS += -DDEBUG -O0 -g
-endif
 
 build: ${TARGETS}
 	@echo
@@ -26,6 +18,7 @@ build: ${TARGETS}
 # Add more object.o file
 getopt: getopt.o
 getopt_long: getopt_long.o
+getsubopt: getsubopt.o
 demo-wls: demo-wls.o
 demo-clr: demo-clr.o
 
