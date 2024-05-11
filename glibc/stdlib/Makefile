@@ -23,6 +23,7 @@ TARGETS += initstate
 TARGETS += getsubopt
 TARGETS += ecvt fcvt gcvt
 TARGETS += _Exit
+TARGETS += open_pty_pair
 
 CC = gcc
 
@@ -77,6 +78,7 @@ ecvt: ecvt.o
 fcvt: fcvt.o
 gcvt: gcvt.o
 _Exit: _Exit.o
+open_pty_pair: open_pty_pair.o
 
 CFLAGS_unlockpt := -D_XOPEN_SOURCE
 # TODO

@@ -42,3 +42,4 @@
 /gcvt
 /_Exit
 /aligned_alloc
+/open_pty_pair
