@@ -21,6 +21,7 @@ TARGETS += on_exit
 TARGETS += l64a
 TARGETS += initstate
 TARGETS += getsubopt
+TARGETS += ecvt fcvt gcvt
 
 CC = gcc
 
@@ -70,6 +71,9 @@ on_exit: on_exit.o
 l64a: l64a.o
 initstate: initstate.o
 getsubopt: getsubopt.o
+ecvt: ecvt.o
+fcvt: fcvt.o
+gcvt: gcvt.o
 
 CFLAGS_unlockpt := -D_XOPEN_SOURCE
 # TODO

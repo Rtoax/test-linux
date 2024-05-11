@@ -37,3 +37,6 @@
 /grantpt
 /getpt
 /getsubopt
+/ecvt
+/fcvt
+/gcvt
