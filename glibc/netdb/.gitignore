@@ -3,3 +3,5 @@
 /gethostbyaddr
 /gethostbyname
 /hstrerror
+/setservent
+/setnetent

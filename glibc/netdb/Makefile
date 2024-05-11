@@ -4,6 +4,8 @@ TARGETS += getaddrinfo
 TARGETS += gethostbyaddr
 TARGETS += gethostbyname
 TARGETS += hstrerror
+TARGETS += setservent
+TARGETS += setnetent
 
 CC = gcc
 
@@ -24,6 +26,8 @@ getaddrinfo: getaddrinfo.o
 gethostbyaddr: gethostbyaddr.o helpers.o
 gethostbyname: gethostbyname.o helpers.o
 hstrerror: hstrerror.o
+setservent: setservent.o
+setnetent: setnetent.o
 
 .PHONY: clean
 clean:
