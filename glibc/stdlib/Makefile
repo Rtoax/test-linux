@@ -24,6 +24,7 @@ TARGETS += getsubopt
 TARGETS += ecvt fcvt gcvt
 TARGETS += _Exit
 TARGETS += open_pty_pair
+TARGETS += div
 
 CC = gcc
 
@@ -79,6 +80,7 @@ fcvt: fcvt.o
 gcvt: gcvt.o
 _Exit: _Exit.o
 open_pty_pair: open_pty_pair.o
+div: div.o
 
 CFLAGS_unlockpt := -D_XOPEN_SOURCE
 # TODO
