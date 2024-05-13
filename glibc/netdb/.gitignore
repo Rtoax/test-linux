@@ -5,3 +5,4 @@
 /hstrerror
 /setservent
 /setnetent
+/sethostent

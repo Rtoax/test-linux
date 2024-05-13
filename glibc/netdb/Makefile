@@ -6,6 +6,7 @@ TARGETS += gethostbyname
 TARGETS += hstrerror
 TARGETS += setservent
 TARGETS += setnetent
+TARGETS += sethostent
 
 CC = gcc
 
@@ -28,6 +29,7 @@ gethostbyname: gethostbyname.o helpers.o
 hstrerror: hstrerror.o
 setservent: setservent.o
 setnetent: setnetent.o
+sethostent: sethostent.o
 
 .PHONY: clean
 clean:
