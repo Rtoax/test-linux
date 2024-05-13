@@ -32,3 +32,11 @@ int print_hostent(struct hostent *host)
 	return 0;
 }
 
+int print_servent(struct servent *ser)
+{
+	printf("name:  %s\n", ser->s_name);
+	printf("port:  %d\n", ntohs(ser->s_port));
+	printf("proto: %s\n", ser->s_proto);
+	printf("alias: %s\n", ser->s_aliases[0]);
+	return 0;
+}

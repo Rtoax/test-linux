@@ -7,3 +7,4 @@
 /setnetent
 /sethostent
 /innetgr
+/getservbyport
