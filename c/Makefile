@@ -2,6 +2,7 @@ TARGETS :=
 TARGETS += auto
 TARGETS += array
 TARGETS += ascii
+TARGETS += arch-unsigned-signed
 TARGETS += alignas
 TARGETS += case
 TARGETS += const
@@ -84,6 +85,7 @@ build: ${TARGETS}
 auto: auto.o
 ascii: ascii.o
 alignas: alignas.o
+arch-unsigned-signed: arch-unsigned-signed.o
 case: case.o
 const: const.o
 param-pass: param-pass.o
