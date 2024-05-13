@@ -2,10 +2,10 @@
 #include <netdb.h>
 #include "helpers.h"
 
-static void __port(int port, char *proto)
+static void __name(char *name, char *proto)
 {
 	struct servent *ser;
-	ser = getservbyport(port, proto);
+	ser = getservbyname(name, proto);
 	if (ser) {
 		print_servent(ser);
 	} else {
@@ -15,7 +15,7 @@ static void __port(int port, char *proto)
 
 int main(void)
 {
-	__port(htons(23), "tcp");
-	__port(htons(80), "tcp");
+	__name("ftp", "tcp");
+	__name("http", "tcp");
 	return 0;
 }
