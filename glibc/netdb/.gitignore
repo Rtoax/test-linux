@@ -9,3 +9,4 @@
 /innetgr
 /getservbyport
 /getservbyname
+/getprotoent

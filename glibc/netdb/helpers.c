@@ -40,3 +40,15 @@ int print_servent(struct servent *ser)
 	printf("alias: %s\n", ser->s_aliases[0]);
 	return 0;
 }
+
+int print_protoent(struct protoent *pro)
+{
+	printf("name:   %s\n", pro->p_name);
+	printf("number: %d\n", pro->p_proto);
+	printf("alias:  %s\n", pro->p_aliases[0]);
+#if 0
+	printf("alias:  %s\n", pro->p_aliases[1]);
+	printf("alias:  %s\n", pro->p_aliases[2]);
+#endif
+	return 0;
+}

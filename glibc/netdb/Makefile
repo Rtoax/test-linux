@@ -9,6 +9,7 @@ TARGETS += setservent
 TARGETS += setnetent
 TARGETS += sethostent
 TARGETS += innetgr
+TARGETS += getprotoent
 
 CC = gcc
 
@@ -35,6 +36,7 @@ setservent: setservent.o
 setnetent: setnetent.o
 sethostent: sethostent.o
 innetgr: innetgr.o
+getprotoent: getprotoent.o helpers.o
 
 .PHONY: clean
 clean:
