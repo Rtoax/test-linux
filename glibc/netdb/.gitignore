@@ -10,3 +10,5 @@
 /getservbyport
 /getservbyname
 /getprotoent
+/getprotobynumber
+/getprotobyname
