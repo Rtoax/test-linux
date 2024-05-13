@@ -7,6 +7,7 @@ TARGETS += hstrerror
 TARGETS += setservent
 TARGETS += setnetent
 TARGETS += sethostent
+TARGETS += innetgr
 
 CC = gcc
 
@@ -30,6 +31,7 @@ hstrerror: hstrerror.o
 setservent: setservent.o
 setnetent: setnetent.o
 sethostent: sethostent.o
+innetgr: innetgr.o
 
 .PHONY: clean
 clean:
