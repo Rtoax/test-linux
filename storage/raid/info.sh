@@ -16,6 +16,12 @@ find_raid() {
 	echo "-------------------------------------------------------------------------"
 }
 
+software_raid_info() {
+	sudo cat /proc/mdstat
+	[[ -e /dev/md0 ]] && sudo mdadm -D /dev/md0
+}
+
 find_raid
 dev_raid_metadata /dev/sda
+software_raid_info
 
