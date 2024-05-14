@@ -2,10 +2,10 @@
 - FDO: Feedback Directed Optimization
 - IPA: Inter-Procedural Analysis (过程间分析)
 - IPO: Inter-Procedural Optimization (过程间优化)
+- IR: Intermediate Representation (中间表示) (LLVM)
 - JIT: Just In Time
 - LGEN: Local Generation
 - LLVM: Low Level Virtual Machine
-- LLVM IR: LLVM Intermediate Representation (LLVM 中间表示)
 - LTO: Link-Time Opemizations (链接时优化)
 - LTRANS: Local Transformations
 - PDF: Profile-Directed Feedback
