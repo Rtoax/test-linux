@@ -2,7 +2,7 @@ TARGETS :=
 TARGETS += gai_strerror
 TARGETS += getaddrinfo
 TARGETS += gethostbyaddr
-TARGETS += gethostbyname
+TARGETS += gethostbyname gethostbyname_r
 TARGETS += getservbyport getservbyname
 TARGETS += hstrerror
 TARGETS += setservent
@@ -31,6 +31,7 @@ gai_strerror: gai_strerror.o
 getaddrinfo: getaddrinfo.o
 gethostbyaddr: gethostbyaddr.o helpers.o
 gethostbyname: gethostbyname.o helpers.o
+gethostbyname_r: gethostbyname_r.o helpers.o
 getservbyport: getservbyport.o helpers.o
 getservbyname: getservbyname.o helpers.o
 hstrerror: hstrerror.o

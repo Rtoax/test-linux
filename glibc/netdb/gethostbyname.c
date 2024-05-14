@@ -13,7 +13,7 @@
 int main(int argc, char* argv[])
 {
 	struct hostent *host;
-	char name[] = "https://cn.bing.com/";
+	char name[] = "www.baidu.com";
 
 	host = gethostbyname(name);
 	if (!host) {

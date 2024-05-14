@@ -2,6 +2,7 @@
 /getaddrinfo
 /gethostbyaddr
 /gethostbyname
+/gethostbyname_r
 /hstrerror
 /setservent
 /setnetent
