@@ -12,3 +12,5 @@
 /getprotoent
 /getprotobynumber
 /getprotobyname
+/getipnodebyname
+/getnetbyname

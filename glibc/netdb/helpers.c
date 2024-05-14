@@ -7,6 +7,15 @@
 #include <netdb.h>
 #include <string.h>
 
+int print_netent(struct netent *net)
+{
+	printf("netent: n_name: %s\n", net->n_name);
+	printf("netent: n_aliases[0]: %s\n", net->n_aliases[0]);
+	printf("netent: n_addrtype: %d\n", net->n_addrtype);
+	printf("netent: n_net: %d\n", net->n_net);
+	return 0;
+}
+
 int print_hostent(struct hostent *host)
 {
 	int i;
