@@ -1,7 +1,4 @@
-sub-dir := socket
-sub-dir += msgqueue
-sub-dir += shm
-sub-dir += dbus
+sub-dir := samples
 
 sub-dir-build := $(sub-dir:=.build)
 sub-dir-clean := $(sub-dir:=.clean)
