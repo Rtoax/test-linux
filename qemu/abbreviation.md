@@ -1,2 +1,4 @@
+- DBT: Dynamic Binary Translation (动态二进制转换) (JIT)
 - QMP: Qemu Monitor Protocol
-- TCG: Tiny Code Generator
+- SBT: Static Binary Translation (静态二进制转换)
+- TCG: Tiny Code Generator (DBT,SBT)
