@@ -5,6 +5,7 @@ sub-dir += proxy
 sub-dir += syscall
 sub-dir += unix
 sub-dir += tcp
+sub-dir += sctp
 sub-dir += udp
 
 sub-dir-build := $(sub-dir:=.build)

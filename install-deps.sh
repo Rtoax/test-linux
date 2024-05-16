@@ -265,6 +265,7 @@ cclinux|fedora|centos|rhel|openEuler|almalinux)
 	pkgs+=( libunwind-devel )      # Unwind
 	pkgs+=( liburing-devel )       # uring
 	pkgs+=( libxml2-devel )
+	pkgs+=( lksctp-tools-devel )   # SCTP
 	pkgs+=( llvm-devel )
 	pkgs+=( lsb_release )
 	pkgs+=( ltrace )               # ltrace
