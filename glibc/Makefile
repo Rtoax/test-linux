@@ -29,6 +29,7 @@ sub-dir += math
 sub-dir += mntent
 sub-dir += netdb
 sub-dir += net
+sub-dir += netinet
 sub-dir += obstack
 sub-dir += pthread
 sub-dir += pwd

@@ -1,21 +1,14 @@
-TARGETS := wchar_t
-TARGETS += iswctype
-TARGETS += wcstol
-TARGETS += demo-1
+TARGETS := IPPORT_
 
 CC = gcc
 
 CFLAGS := -Werror -Wall -D_GNU_SOURCE
-CFLAGS += -pthread
 CFLAGS += -DDEBUG -O0 -g
 
 build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
-iswctype: iswctype.o
-wchar_t: wchar_t.o
-wcstol: wcstol.o
-demo-1: demo-1.o
+IPPORT_: IPPORT_.o
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
