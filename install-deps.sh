@@ -159,6 +159,7 @@ fedora)
 	;;
 esac
 
+pkgs+=( acpi acpica-tools )
 pkgs+=( autoconf-archive )
 pkgs+=( blktrace )
 pkgs+=( bpftrace bcc )         # eBPF
