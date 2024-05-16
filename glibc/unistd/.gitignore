@@ -31,3 +31,5 @@
 /fexecve
 /date.txt
 /_exit
+/gethostid
+/getopt
