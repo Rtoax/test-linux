@@ -1,12 +1,9 @@
-# 编译makefile
-# 荣涛 2020年10月12日
-
 ICMP_INC := -I ./
 ICMP_SRC := icmpping.c
 
 ICMP_DEP := icmpping.o
 
-ICMP_TARGET=icmpping
+ICMP_TARGET = icmpping
 
 all:$(ICMP_TARGET)
 
