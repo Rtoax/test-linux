@@ -30,6 +30,7 @@ sub-dir += mntent
 sub-dir += netdb
 sub-dir += net
 sub-dir += netinet
+sub-dir += nl_types
 sub-dir += obstack
 sub-dir += pthread
 sub-dir += pwd
