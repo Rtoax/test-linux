@@ -274,6 +274,7 @@ cclinux|fedora|centos|rhel|openEuler|almalinux)
 	pkgs+=( ltrace )               # ltrace
 	pkgs+=( mmc )                  # mmc
 	pkgs+=( mpich mpich-devel )    # mpi
+	pkgs+=( numactl-devel )        # numaif.h
 	pkgs+=( nvme-cli )             # nvme
 	pkgs+=( overlayfs-tools )
 	pkgs+=( pam-devel )
