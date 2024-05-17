@@ -1,0 +1,18 @@
+#!/bin/env bpftrace
+/**
+ * dmi_base.bt
+ *
+ * Copyright (C) Rong Tao 2022-2024
+ *
+ * 2024-05-17	Rong Tao	Create this.
+ */
+struct phys_addr_t {
+	unsigned long addr;
+};
+
+BEGIN
+{
+	$addr = (struct phys_addr_t *)kaddr("dmi_base");
+	printf("0x%lx, addr: 0x%lx\n", kaddr("dmi_base"), $addr->addr);
+	exit();
+}
