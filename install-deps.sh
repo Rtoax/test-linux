@@ -203,6 +203,7 @@ pkgs_compiler+=( golang )
 # Benchmark
 pkgs_bench+=( iperf iperf3 )
 pkgs_bench+=( fio )
+pkgs_bench+=( sysbench )
 
 # Desktop Packages
 pkgs_desktop+=( terminator )
