@@ -218,6 +218,7 @@ pkgs_db+=( postgresql )
 # Storage
 pkgs_storage+=( device-mapper )
 pkgs_storage+=( device-mapper-multipath )
+pkgs_storage+=( iotop )
 pkgs_storage+=( mdadm ) # manage MD devices aka Linux Software RAID
 
 whls+=( numpy pyyaml )
