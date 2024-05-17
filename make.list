@@ -1,4 +1,5 @@
 # test-linux make list
+USER_LIST :=
 USER_LIST += acpi
 USER_LIST += aio
 USER_LIST += algorithm
@@ -38,6 +39,7 @@ USER_LIST += synchronization
 USER_LIST += syscall
 USER_LIST += template
 
+KERNEL_LIST :=
 KERNEL_LIST += algorithm/bitmap/modules
 KERNEL_LIST += algorithm/bitops/modules
 KERNEL_LIST += algorithm/bits/modules
