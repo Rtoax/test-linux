@@ -6,3 +6,4 @@
 /numa_node_size
 /numa_pagesize
 /numa_preferred
+/migrate_pages

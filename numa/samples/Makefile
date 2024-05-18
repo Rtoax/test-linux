@@ -7,6 +7,7 @@ TARGETS += numa_node_size64
 TARGETS += numa_node_size
 TARGETS += numa_pagesize
 TARGETS += numa_preferred
+TARGETS += migrate_pages
 
 CC = gcc
 
@@ -33,6 +34,7 @@ numa_node_size64: numa_node_size64.o
 numa_node_size: numa_node_size.o
 numa_pagesize: numa_pagesize.o
 numa_preferred: numa_preferred.o
+migrate_pages: migrate_pages.o
 
 %.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
