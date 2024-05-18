@@ -15,6 +15,7 @@ TARGETS += omp_set_num_threads
 TARGETS += omp_set_nested_1
 TARGETS += omp_set_nested_2
 TARGETS += omp_set_nest_lock
+TARGETS += omp_destroy_nest_lock
 TARGETS += omp_set_lock
 TARGETS += omp_test_lock
 TARGETS += omp_test_nest_lock
@@ -42,6 +43,8 @@ TARGETS += single
 TARGETS += threadprivate
 TARGETS += threadprivate_copyin
 TARGETS += threadprivate_copyprivate
+TARGETS += omp_get_active_level
+TARGETS += omp_get_ancestor_thread_num
 
 CC = gcc
 
@@ -78,7 +81,9 @@ omp_set_nest_lock: omp_set_nest_lock.o
 omp_set_lock: omp_set_lock.o
 omp_test_lock: omp_test_lock.o
 omp_test_nest_lock: omp_test_nest_lock.o
+omp_destroy_nest_lock: omp_destroy_nest_lock.o
 omp_set_max_active_levels: omp_set_max_active_levels.o
+omp_get_active_level: omp_get_active_level.o
 omp_in_parallel: omp_in_parallel.o
 ordered: ordered.o
 parallel_for: parallel_for.o
@@ -102,7 +107,7 @@ simd: simd.o
 threadprivate: threadprivate.o
 threadprivate_copyin: threadprivate_copyin.o
 threadprivate_copyprivate: threadprivate_copyprivate.o
-
+omp_get_ancestor_thread_num: omp_get_ancestor_thread_num.o
 
 %.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

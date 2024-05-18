@@ -41,3 +41,6 @@
 /omp_test_nest_lock
 /omp_set_max_active_levels
 /omp_in_parallel
+/omp_get_active_level
+/omp_get_ancestor_thread_num
+/omp_destroy_nest_lock
