@@ -1,0 +1,8 @@
+/numa_alloc
+/numa_available
+/numa_max_node
+/numa_max_possible_node
+/numa_node_size64
+/numa_node_size
+/numa_pagesize
+/numa_preferred

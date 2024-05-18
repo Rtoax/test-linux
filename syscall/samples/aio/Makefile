@@ -7,16 +7,10 @@ else
 $(error "ERROR: Must install libaio development header")
 endif
 
-DEBUG = yes
-SRC_PATH := $(shell pwd)
 CC = gcc
 
 CFLAGS := -Werror -Wall -D_GNU_SOURCE
-CFLAGS += -I../../../
-
-ifdef DEBUG
 CFLAGS += -DDEBUG -O0 -g
-endif
 
 ifneq ($(wildcard $(LIBAIO_HDR)),)
 CFLAGS += -laio

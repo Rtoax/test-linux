@@ -1,0 +1,50 @@
+TARGETS :=
+TARGETS += numa_alloc
+TARGETS += numa_available
+TARGETS += numa_max_node
+TARGETS += numa_max_possible_node
+TARGETS += numa_node_size64
+TARGETS += numa_node_size
+TARGETS += numa_pagesize
+TARGETS += numa_preferred
+
+CC = gcc
+
+LIBNUMA_HDR = /usr/include/numa.h
+
+ifeq ($(wildcard $(LIBNUMA_HDR)),)
+$(error "ERROR: Must install numactl development header")
+endif
+
+CFLAGS := -Werror -Wall
+CFLAGS += -DDEBUG -O0 -g
+CFLAGS += -lnuma
+
+build: ${TARGETS}
+	@echo
+	@echo -e " \033[1;33m Done \033[m"
+
+# Add more object.o file
+numa_alloc: numa_alloc.o
+numa_available: numa_available.o
+numa_max_node: numa_max_node.o
+numa_max_possible_node: numa_max_possible_node.o
+numa_node_size64: numa_node_size64.o
+numa_node_size: numa_node_size.o
+numa_pagesize: numa_pagesize.o
+numa_preferred: numa_preferred.o
+
+%.o: %.c
+	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
+	$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
+
+$(TARGETS): %:
+	@echo -e "Target   \033[1;32m$(@)\033[m"
+	$(CC) -o $(@) $(^) $(LDLIBS) $(LDFLAGS) $(LDFLAGS_$(*)) $(CFLAGS) $(CFLAGS_$(*))
+
+test: ${TARGETS}
+	@echo -e "Test   \033[1;32m$(@)\033[m"
+
+clean:
+	@echo -e "Clean   \033[1;32m$(@)\033[m"
+	@rm -f ${TARGETS} *.o
