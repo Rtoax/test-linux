@@ -8,7 +8,7 @@ OUTPUT_FILE2=data2.out
 ###############################################################################
 check_root()
 {
-	if [ $(id -G | awk '{print $1}') != 0 ]; then
+	if [ $(id -u) != 0 ]; then
 		echo -e "\033[1;31mOnly root can do this.\033[m"
 		exit 1
 	fi
