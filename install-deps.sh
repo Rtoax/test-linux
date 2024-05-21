@@ -193,7 +193,7 @@ pkgs+=( strace )
 pkgs+=( smartmontools )        # smartctl
 pkgs+=( sysstat )
 pkgs+=( tree )
-pkgs+=( vim )
+pkgs+=( vim vim-default-editor )
 
 pkgs_compiler+=( clang )
 pkgs_compiler+=( gcc-aarch64-linux-gnu )
