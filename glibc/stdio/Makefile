@@ -1,7 +1,8 @@
 TARGETS :=
 TARGETS += ansi_ascii
 TARGETS += ctermid
-TARGETS += asprintf vasprintf snprintf
+TARGETS += asprintf vasprintf
+TARGETS += snprintf
 TARGETS += vfprintf
 TARGETS += vsprintf
 TARGETS += printf vprintf

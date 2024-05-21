@@ -36,7 +36,7 @@ getservbyport: getservbyport.o helpers.o
 getservbyname: getservbyname.o helpers.o
 hstrerror: hstrerror.o
 setservent: setservent.o
-setnetent: setnetent.o
+setnetent: setnetent.o helpers.o
 sethostent: sethostent.o
 innetgr: innetgr.o
 getprotoent: getprotoent.o helpers.o

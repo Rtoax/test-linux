@@ -12,7 +12,12 @@ int print_netent(struct netent *net)
 	printf("netent: n_name: %s\n", net->n_name);
 	printf("netent: n_aliases[0]: %s\n", net->n_aliases[0]);
 	printf("netent: n_addrtype: %d\n", net->n_addrtype);
-	printf("netent: n_net: %d\n", net->n_net);
+#if defined(__sw_64__)
+# define F_N_NET "%ld"
+#else
+# define F_N_NET "%d"
+#endif
+	printf("netent: n_net: "F_N_NET"\n", net->n_net);
 	return 0;
 }
 

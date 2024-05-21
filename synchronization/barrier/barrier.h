@@ -2,4 +2,7 @@
 #include "barrier-arm.h"
 #elif defined(__x86_64__) || defined(__i386__)
 #include "barrier-x86.h"
+#else
+/* FIXME: support sw64 */
+# error "Not support cpu architecture"
 #endif

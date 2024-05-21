@@ -1,4 +1,4 @@
-CC = clang
+CC = gcc
 CFLAGS := -Werror -Wall -pthread
 
 L3_CACHELINE_SIZE=$(shell cat /sys/devices/system/cpu/cpu1/cache/index3/coherency_line_size 2>/dev/null)
