@@ -10,8 +10,6 @@
 #include <sys/syscall.h>
 #include <sys/ptrace.h>
 
-#include "helpers.h"
-
 int main(void)
 {
 	pid_t child;

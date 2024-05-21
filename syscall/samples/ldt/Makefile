@@ -1,14 +1,13 @@
-
 TARGETS :=
+ifeq ($(shell uname -m),x86_64)
 TARGETS += get_thread_area
 TARGETS += set_thread_area
+endif
 
 CC = gcc
 
 CFLAGS := -Werror -Wall -D_GNU_SOURCE
 CFLAGS += -pthread
-CFLAGS += -I../../../
-CFLAGS += -I../
 CFLAGS += -DDEBUG -O0 -g
 
 build: ${TARGETS}

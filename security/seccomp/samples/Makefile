@@ -2,7 +2,7 @@ TARGETS := mode_strict
 TARGETS += mode_filter
 TARGETS += filter-write
 
-CC = clang
+CC = gcc
 CFLAGS :=
 
 all: ${TARGETS}

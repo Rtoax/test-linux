@@ -54,6 +54,8 @@ int main(int argc, char const *argv[])
 	arch = AUDIT_ARCH_X86_64;
 #elif defined(__aarch64__)
 	arch = AUDIT_ARCH_AARCH64;
+#elif defined(__sw_64__)
+	arch = AUDIT_ARCH_SW64;
 #else
 # error "Not support arch"
 #endif

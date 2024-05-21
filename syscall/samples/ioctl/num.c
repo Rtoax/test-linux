@@ -96,7 +96,9 @@ int main(void)
 	V32(BLKSECDISCARD);
 	V32(BLKROTATIONAL);
 	V32(BLKZEROOUT);
+#if !defined(__sw_64__)
 	V64(BLKGETDISKSEQ);
+#endif
 
 	seperator();
 
