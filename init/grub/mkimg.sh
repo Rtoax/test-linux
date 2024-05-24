@@ -18,6 +18,7 @@ mkimg_bootcd()
 	local root_dir=$(mktemp -u tmp-XXXXXXX)
 	local grub_lib_dir=
 	local grub_format=
+	local grub_bootefi=
 
 	local modules
 
@@ -83,12 +84,15 @@ mkimg_bootcd()
 	if [[ $(uname -m) == aarch64 ]]; then
 		grub_lib_dir=/usr/lib/grub/arm64-efi/
 		grub_format=arm64-efi
+		grub_bootefi=BOOTAA64.EFI
 	elif [[ $(uname -m) == x86_64 ]]; then
 		grub_lib_dir=/usr/lib/grub/i386-pc/
 		grub_format=i386-pc
+		grub_bootefi=BOOTX64.EFI
 	elif [[ $(uname -m) == sw_64 ]]; then
 		grub_lib_dir=/usr/lib/grub/sw64-efi/
 		grub_format=sw64-efi
+		grub_bootefi=BOOTSW64.EFI
 	else
 		echo "ERROR: Unsupport arch $(uname -m)"
 		exit 1
@@ -109,6 +113,8 @@ mkimg_bootcd()
 		--output=bin/core.img \
 		--config="boot/grub.cfg" \
 		${modules[@]}
+
+	cp bin/core.img ${curr_dir}/${grub_bootefi}
 
 	# FIXME: aarch64: cat: /usr/lib/grub/arm64-efi//cdboot.img: No such file or directory
 	cat ${grub_lib_dir}/cdboot.img bin/core.img > bin/grub.img

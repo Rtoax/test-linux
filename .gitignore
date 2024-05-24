@@ -137,6 +137,7 @@ cmake_install.cmake
 
 # Grub/EFI/BIOS/EDK2/OVMF
 *.efi
+*.EFI
 *.fd
 
 # OS
