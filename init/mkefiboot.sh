@@ -22,6 +22,54 @@
 #
 set -e
 
+prog_name=mkefiboot
+
+__usage__() {
+	echo -e "
+${ANSI_BOLD}NAME${ANSI_RESET}
+
+    $prog_name - Make efiboot image
+
+${ANSI_BOLD}SYNOPSIS${ANSI_RESET}
+
+    $prog_name [options]
+
+${ANSI_BOLD}DESCRIPTION${ANSI_RESET}
+
+${ANSI_BOLD}ARGUMENT${ANSI_RESET}
+
+    -h, --help         show this help information
+
+${ANSI_BOLD}SEE ALSO${ANSI_RESET}
+
+" | more
+	exit ${1-0}
+}
+
+__main__() {
+	TEMP=$(getopt \
+		--options h \
+		--long help \
+		-n ${prog_name} -- "$@")
+
+	test $? != 0 && __usage__ 1
+
+	eval set -- "$TEMP"
+
+	while true; do
+		case $1 in
+		-h|--help)
+			shift
+			__usage__
+			;;
+		--)
+			shift
+			break
+			;;
+		esac
+	done
+}
+
 mkefiboot() {
 	local tmp dev_loop
 	local efibootimg=efiboot.img
@@ -62,6 +110,8 @@ mkefiboot() {
 	sudo rmdir ${mnt_point}
 	sudo losetup --detach ${dev_loop}
 }
+
+__main__ "$@"
 
 mkefiboot
 
