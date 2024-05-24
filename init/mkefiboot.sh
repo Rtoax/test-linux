@@ -24,6 +24,17 @@ set -e
 
 prog_name=mkefiboot
 
+localhost_files=( $(sudo find /boot/efi/EFI/BOOT/ -type f) )
+
+declare -a files
+
+add_file() {
+	local f=$1
+	[[ -z ${f} ]] && echo "ERROR: need input file" && exit 1
+	[[ ! -e ${f} ]] && echo "ERROR: ${f} is not exist." && exit 1
+	files+=( $f )
+}
+
 __usage__() {
 	echo -e "
 ${ANSI_BOLD}NAME${ANSI_RESET}
@@ -38,9 +49,14 @@ ${ANSI_BOLD}DESCRIPTION${ANSI_RESET}
 
 ${ANSI_BOLD}ARGUMENT${ANSI_RESET}
 
+    -f, --file [FILE]  the files will be copied into image::EFI/BOOT/ directory
+                       (may be listed multiple times)
+
     -h, --help         show this help information
 
 ${ANSI_BOLD}SEE ALSO${ANSI_RESET}
+
+    mkfs.msdos(8)
 
 " | more
 	exit ${1-0}
@@ -48,7 +64,8 @@ ${ANSI_BOLD}SEE ALSO${ANSI_RESET}
 
 __main__() {
 	TEMP=$(getopt \
-		--options h \
+		--options f:h \
+		--long file: \
 		--long help \
 		-n ${prog_name} -- "$@")
 
@@ -62,12 +79,22 @@ __main__() {
 			shift
 			__usage__
 			;;
+		-f|--file)
+			shift
+			add_file $1
+			shift
+			;;
 		--)
 			shift
 			break
 			;;
 		esac
 	done
+
+	if [[ -z "${files[@]}" ]]; then
+		echo "ERROR: Must specify -f, --file [FILE]"
+		exit 1
+	fi
 }
 
 mkefiboot() {
@@ -78,7 +105,6 @@ mkefiboot() {
 	# FIXME: Get actual size
 	local size=2M
 	local mnt_point=$(mktemp -u mnt-XXXXXX)
-	local files
 
 	truncate --size ${size} ${efibootimg}
 
@@ -96,10 +122,6 @@ mkefiboot() {
 
 	sudo mkdir -p ${mnt_point}/EFI/BOOT/
 
-	# Copy files
-	files=(
-		$(sudo find /boot/efi/EFI/BOOT/ -type f)
-	)
 	sudo cp -R -L --preserve=timestamps ${files[@]} ${mnt_point}/EFI/BOOT
 
 	sudo df ${mnt_point}
