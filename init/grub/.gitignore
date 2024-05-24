@@ -1,2 +1,4 @@
 /boot_dir.out
 /tmp-*
+/bin
+/boot
