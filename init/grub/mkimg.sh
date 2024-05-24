@@ -19,10 +19,20 @@ mkimg_bootcd()
 	local grub_lib_dir=
 	local grub_format=
 	local grub_bootefi=
+	local grub_mkimage=
 
 	local modules
 
 	echo Creating bootable CD image...
+
+	if [[ -e /usr/bin/grub-mkimage ]]; then
+		grub_mkimage=grub-mkimage
+	elif [[ -e /usr/bin/grub2-mkimage ]]; then
+		grub_mkimage=grub2-mkimage
+	else
+		echo "ERROR: Not found any grub mkimage ELF"
+		exit 1
+	fi
 
 	mkdir -p ${root_dir}
 
@@ -100,13 +110,13 @@ mkimg_bootcd()
 
 	if [[ ! -e ${grub_lib_dir} ]]; then
 		if [[ $(uname -m) == x86_64 ]]; then
-			sudo dnf install grub2-pc-modules
+			sudo dnf install -y grub2-pc-modules
 		elif [[ $(uname -m) == aarch64 ]]; then
-			sudo dnf install grub2-efi-aa64-modules
+			sudo dnf install -y grub2-efi-aa64-modules
 		fi
 	fi
 
-	grub2-mkimage \
+	${grub_mkimage} \
 		--format=${grub_format} \
 		--prefix="(cd)" \
 		--directory=${grub_lib_dir} \
