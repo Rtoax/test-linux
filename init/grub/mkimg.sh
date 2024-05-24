@@ -64,7 +64,7 @@ mkimg_bootcd()
 			acpi adler32 affs afs afsplitter all_video archelp bfs bitmap bitmap_scale
 			blocklist boot bswap_test btrfs bufio cat cbfs chain cmdline_cat_test cmp
 			cmp_test configfile cpio_be cpio crc64 cryptodisk crypto ctz_test datehook
-			date datetimediskfilter disk div div_test dm_nv echo efifwsetup efi_gop
+			date disk div div_test dm_nv echo efifwsetup efi_gop
 			efinet elf eval exfat exfctest ext2 extcmd f2fs fat fdt file font fshelp
 			functional_test gcry_arcfour gcry_blowfish gcry_camellia gcry_cast5 gcry_crc
 			gcry_des gcry_dsa gcry_idea gcry_md4 gcry_md5 gcry_rfc2268 gcry_rijndael
@@ -75,7 +75,7 @@ mkimg_bootcd()
 			loopback lsacpi lsefimmap lsefi lsefisystab lsmmap ls lssal luks2 luks lvm
 			lzopio macbless macho mdraid09_be mdraid09 mdraid1x memdisk memrw minicmd
 			minix2_be minix2 minix3_be minix3 minix_be minix mmap mpi msdospart mul_test
-			net newc nilfs2 normal ntfscomp ntfs odc offsetio part_acorn part_amigapart_apple
+			net newc nilfs2 normal ntfscomp ntfs odc offsetio part_acorn
 			part_bsd part_dfly part_dvh part_gpt part_msdos part_plan part_sun part_sunpc
 			parttool password password_pbkdf2 pbkdf2 pbkdf2_test pgp png priority_queue
 			probe procfs progress raid5rec raid6rec read reboot regexp reiserfs romfs scsi
