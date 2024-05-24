@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -e
+set -ex
 
 . ../../libs/qemu.sh
 
@@ -13,10 +13,11 @@ trap "goodbye" EXIT
 
 mkimg_bootcd()
 {
-	echo Creating bootable CD image...
-
 	local curr_dir=$PWD
 	local root_dir=$(mktemp -u tmp-XXXXXXX)
+	local modules
+
+	echo Creating bootable CD image...
 
 	mkdir -p ${root_dir}
 
@@ -27,8 +28,6 @@ mkimg_bootcd()
 
 	cp ${curr_dir}/configs/grub-kernel.cfg boot/grub.cfg
 	cp /boot/vmlinuz-$(uname -r) bin/kernel
-
-	local modules
 
 	if [[ $(uname -m) == x86_64 ]]; then
 		modules=(
@@ -147,3 +146,4 @@ more to see <https://www.cnblogs.com/coryxie/archive/2013/03/12/2956807.html>
 }
 
 mkimg_bootcd
+
