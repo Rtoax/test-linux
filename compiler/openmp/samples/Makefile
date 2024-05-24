@@ -11,7 +11,10 @@ TARGETS += master
 TARGETS += memory
 TARGETS += nowait
 TARGETS += omp_get_thread_num
+TARGETS += omp_get_max_threads
 TARGETS += omp_set_num_threads
+TARGETS += omp_get_num_procs
+TARGETS += omp_get_nested
 TARGETS += omp_set_nested_1
 TARGETS += omp_set_nested_2
 TARGETS += omp_set_nest_lock
@@ -45,6 +48,11 @@ TARGETS += threadprivate_copyin
 TARGETS += threadprivate_copyprivate
 TARGETS += omp_get_active_level
 TARGETS += omp_get_ancestor_thread_num
+TARGETS += omp_get_schedule
+TARGETS += omp_get_level
+TARGETS += omp_get_thread_limit
+TARGETS += omp_get_team_size
+TARGETS += omp_get_wtick
 
 CC = gcc
 
@@ -73,8 +81,13 @@ lock: lock.o
 master: master.o
 memory: memory.o
 nowait: nowait.o
+omp_get_thread_limit: omp_get_thread_limit.o
+omp_get_num_procs: omp_get_num_procs.o
+omp_get_level: omp_get_level.o
 omp_get_thread_num: omp_get_thread_num.o
+omp_get_max_threads: omp_get_max_threads.o
 omp_set_num_threads: omp_set_num_threads.o
+omp_get_nested: omp_get_nested.o
 omp_set_nested_1: omp_set_nested_1.o
 omp_set_nested_2: omp_set_nested_2.o
 omp_set_nest_lock: omp_set_nest_lock.o
@@ -108,6 +121,9 @@ threadprivate: threadprivate.o
 threadprivate_copyin: threadprivate_copyin.o
 threadprivate_copyprivate: threadprivate_copyprivate.o
 omp_get_ancestor_thread_num: omp_get_ancestor_thread_num.o
+omp_get_schedule: omp_get_schedule.o
+omp_get_team_size: omp_get_team_size.o
+omp_get_wtick: omp_get_wtick.o
 
 %.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
