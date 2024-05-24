@@ -14,14 +14,18 @@ trap "goodbye" EXIT
 mkimg_bootcd()
 {
 	local curr_dir=$PWD
+	local qemu_kvm=$(get_qemu_kvm_emulator)
 	local root_dir=$(mktemp -u tmp-XXXXXXX)
+	local grub_lib_dir=
+	local grub_format=
+
 	local modules
 
 	echo Creating bootable CD image...
 
 	mkdir -p ${root_dir}
 
-	cd ${root_dir}
+	pushd ${root_dir}
 
 	mkdir -p bin
 	mkdir -p boot
@@ -75,10 +79,6 @@ mkimg_bootcd()
 		exit 1
 	fi
 
-
-	local grub_lib_dir=
-	local grub_format=
-
 	if [[ $(uname -m) == aarch64 ]]; then
 		grub_lib_dir=/usr/lib/grub/arm64-efi/
 		grub_format=arm64-efi
@@ -128,11 +128,10 @@ mkimg_bootcd()
 
 	mv bootcd.iso ${curr_dir}/
 
-	cd ${curr_dir}
+	popd
 
 	rm -rf ${root_dir}
 
-	local qemu_kvm=$(get_qemu_kvm_emulator)
 	echo -e "
 Now you can runing
 
