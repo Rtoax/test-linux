@@ -32,6 +32,7 @@ mkimg_bootcd()
 
 	cp ${curr_dir}/configs/grub-kernel.cfg boot/grub.cfg
 	cp /boot/vmlinuz-$(uname -r) bin/kernel
+	sudo cp /boot/initramfs-$(uname -r).img bin/initrd.img
 
 	if [[ $(uname -m) == x86_64 ]]; then
 		modules=(
@@ -123,6 +124,7 @@ mkimg_bootcd()
 		-boot-info-table \
 		-o bootcd.iso \
 		boot/kernel=bin/kernel \
+		boot/initrd.img=bin/initrd.img \
 		boot/grub/grub.cfg=boot/grub.cfg \
 		boot/grub/grub.img=bin/grub.img
 
