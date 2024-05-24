@@ -1,1 +1,3 @@
 - DMI: Desktop Management Interface
+- GRUB: GRand Unified Bootloader
+- UEFI: Unified Extensible Firmware Interface (可扩展固件接口)
