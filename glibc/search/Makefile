@@ -1,5 +1,6 @@
 TARGETS :=
 TARGETS += hsearch
+TARGETS += lfind
 
 CC = gcc
 
@@ -13,6 +14,7 @@ build: ${TARGETS}
 
 # Add more object.o file
 hsearch: hsearch.o
+lfind: lfind.o
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
