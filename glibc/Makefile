@@ -32,6 +32,7 @@ sub-dir += net
 sub-dir += netinet
 sub-dir += nl_types
 sub-dir += obstack
+sub-dir += printf
 sub-dir += pthread
 sub-dir += pwd
 sub-dir += regex
@@ -53,6 +54,7 @@ sub-dir += ucontext
 sub-dir += utmp
 sub-dir += unistd
 sub-dir += wctype
+sub-dir += wordexp
 
 TARGETS := environ
 TARGETS += gnu_get_libc_version
