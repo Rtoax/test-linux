@@ -99,7 +99,7 @@ $(SUB_kernel_DIR_TEST):
 	$(call make_test,K,$(@:%_test=%))
 
 installdeps:
-	bash install-deps.sh
+	bash scripts/install-deps.sh
 
 # Make clean
 clean:

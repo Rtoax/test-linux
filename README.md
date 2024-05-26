@@ -66,7 +66,8 @@ You can use the following macro
 ## Links
 
 There are so many LINKs in this repo, so you better clone this repo
-in linux system, if windows, oops.
+in linux system, if windows, oops. You'd better use `./scripts/invalid-link.sh`
+check invalid links and modify them.
 
 
 ## Ignore
@@ -93,6 +94,13 @@ a text `Note`, use `.md`(`markdown`) instead.
 
 If glibc/posix/syscall already have name `a`, The function test-linux implemented
 is name `tl_a`(the `tl_` prefix).
+
+
+# Compile
+
+## Install depends
+
+Install depends with `make installdeps`.
 
 
 # Licenses
