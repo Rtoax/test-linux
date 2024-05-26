@@ -1,4 +1,5 @@
 TARGETS :=
+TARGETS += regcomp
 TARGETS += re_search
 TARGETS += re_match
 TARGETS += email
@@ -17,6 +18,7 @@ build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
 # Add more object.o file
+regcomp: regcomp.o
 re_search: re_search.o
 re_match: re_match.o
 email: email.o
