@@ -13,8 +13,8 @@ static void print_policy(int policy)
 {
 	switch (policy) {
 	case SCHED_FIFO: printf("SCHED_FIFO\n"); break;
-	case SCHED_RR:printf("SCHED_RR\n"); break;
-	case SCHED_OTHER:printf("SCHED_OTHER\n"); break;
+	case SCHED_RR: printf("SCHED_RR\n"); break;
+	case SCHED_OTHER: printf("SCHED_OTHER\n"); break;
 	}
 }
 
