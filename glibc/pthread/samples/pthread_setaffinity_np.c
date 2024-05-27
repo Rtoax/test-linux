@@ -1,6 +1,3 @@
-/**
- * 绑定线程到cpu核上运行
- */
 #define _GNU_SOURCE
 #include <stdio.h>
 #include <math.h>
@@ -29,8 +26,7 @@ void *thread_func(void *param)
 	CPU_SET(1, &cpuset);
 
 	/* bind process to processor 0 */
-	ret =
-	    pthread_setaffinity_np(pthread_self(), sizeof(cpu_set_t), &cpuset);
+	ret = pthread_setaffinity_np(pthread_self(), sizeof(cpu_set_t), &cpuset);
 	if (ret != 0) {
 		perror("pthread_setaffinity_np");
 		return NULL;
