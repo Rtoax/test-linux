@@ -59,6 +59,7 @@ sub-dir += wordexp
 TARGETS := environ
 TARGETS += gnu_get_libc_version
 TARGETS += lib-names
+TARGETS += ftm _GNU_SOURCE _XOPEN_SOURCE
 
 ifeq ($(shell uname -m),x86_64)
 endif
@@ -82,6 +83,20 @@ build: ${TARGETS} $(sub-dir-build)
 gnu_get_libc_version: gnu_get_libc_version.o
 environ: environ.o
 lib-names: lib-names.o
+ftm: ftm.o
+_GNU_SOURCE: _GNU_SOURCE.o
+_XOPEN_SOURCE: _XOPEN_SOURCE.o
+
+CFLAGS__GNU_SOURCE := -D_GNU_SOURCE=1
+CFLAGS__XOPEN_SOURCE := -D_XOPEN_SOURCE=1
+
+%.o: %.c
+	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
+	$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
+
+$(TARGETS): %:
+	@echo -e "Target   \033[1;32m$(@)\033[m"
+	$(CC) -o $(@) $(^) $(LDLIBS) $(LDFLAGS) $(LDFLAGS_$(*)) $(CFLAGS) $(CFLAGS_$(*))
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"

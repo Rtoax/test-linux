@@ -1,3 +1,6 @@
 /gnu_get_libc_version
 /environ
 /lib-names
+/ftm
+/_GNU_SOURCE
+/_XOPEN_SOURCE
