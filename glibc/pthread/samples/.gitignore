@@ -9,6 +9,7 @@
 /pthread_attr_getstack
 /pthread_attr_getstacksize
 /pthread_attr_getdetachstate
+/pthread_attr_getinheritsched
 /pthread_attr_init
 /pthread_barrier_init
 /pthread_cancel
