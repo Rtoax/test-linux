@@ -8,7 +8,7 @@ grub_format=
 grub_bootefi=
 grub_mkimage=
 
-declare -a modules
+declare -a modules exist_modules
 
 if [[ -e /usr/bin/grub-mkimage ]]; then
 	grub_mkimage=grub-mkimage
@@ -83,6 +83,14 @@ else
 	exit 1
 fi
 
+for ((i = 0; i < ${#modules[@]}; i++))
+do
+	# echo "${grub_lib_dir}/${modules[$i]}.mod"
+	if [[ -e ${grub_lib_dir}/${modules[$i]}.mod ]]; then
+		exist_modules+=( ${modules[$i]} )
+	fi
+done
+
 if [[ ! -e ${grub_lib_dir} ]]; then
 	if [[ $(uname -m) == x86_64 ]]; then
 		sudo dnf install -y grub2-pc-modules
@@ -105,7 +113,7 @@ ${grub_mkimage} \
 	--directory=${grub_lib_dir} \
 	--output=${grub_bootefi} \
 	--config="boot/grub.cfg" \
-	${modules[@]}
+	${exist_modules[@]}
 
 cp ${grub_bootefi} ${curr_dir}/
 cp ${grub_bootefi} ${curr_dir}/core.img
