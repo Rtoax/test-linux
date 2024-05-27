@@ -13,6 +13,7 @@ TARGETS += pthread_attr_getstack
 TARGETS += pthread_attr_getstacksize
 TARGETS += pthread_attr_getdetachstate
 TARGETS += pthread_attr_getinheritsched
+TARGETS += pthread_attr_getschedpolicy
 TARGETS += pthread_attr_init
 TARGETS += pthread_barrier_init
 TARGETS += pthread_cancel pthread_testcancel pthread_setcancelstate
@@ -95,6 +96,7 @@ pthread_attr_getstack: pthread_attr_getstack.o
 pthread_attr_getstacksize: pthread_attr_getstacksize.o
 pthread_attr_getdetachstate: pthread_attr_getdetachstate.o
 pthread_attr_getinheritsched: pthread_attr_getinheritsched.o
+pthread_attr_getschedpolicy: pthread_attr_getschedpolicy.o
 pthread_attr_init: pthread_attr_init.o
 pthread_barrier_init: pthread_barrier_init.o
 pthread_cancel: pthread_cancel.o
