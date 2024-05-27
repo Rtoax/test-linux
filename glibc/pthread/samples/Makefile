@@ -1,4 +1,4 @@
-
+TARGETS :=
 TARGETS += foobar
 TARGETS += pthread_atfork
 TARGETS += create_thread
