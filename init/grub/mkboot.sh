@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -ex
 
 curr_dir=$PWD
 root_dir=$(mktemp -u tmp-XXXXXXX)
@@ -19,6 +19,12 @@ else
 	exit 1
 fi
 
+clean_all()
+{
+	echo "Exiting..."
+	sudo rm -rf ${root_dir}
+}
+trap "clean_all" EXIT
 
 if [[ $(uname -m) == x86_64 ]]; then
 	modules=(
@@ -122,6 +128,4 @@ cp ${grub_bootefi} ${curr_dir}/core.img
 cat ${grub_lib_dir}/cdboot.img ${curr_dir}/core.img > ${curr_dir}/grub.img
 
 popd
-
-rm -rf ${root_dir}
 
