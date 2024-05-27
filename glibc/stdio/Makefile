@@ -53,6 +53,8 @@ snprintf: snprintf.o
 setbuf: setbuf.o
 setvbuf: setvbuf.o
 
+CFLAGS_asprintf := -D_GNU_SOURCE=1
+
 %.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
