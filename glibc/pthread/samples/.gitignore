@@ -55,3 +55,4 @@
 /pthread_cond_wait
 /taskset_example
 /taskset
+/rt_thread

@@ -45,6 +45,7 @@ TARGETS += pthread_mutex_init
 TARGETS += pthread_setconcurrency
 TARGETS += pthread_cond_wait
 TARGETS += taskset
+TARGETS += rt_thread
 
 ifeq ($(shell uname -m),x86_64)
 TARGETS += pthread_mutex_latency
@@ -136,6 +137,7 @@ pthread_setconcurrency: pthread_setconcurrency.o
 pthread_cond_wait: pthread_cond_wait.o
 taskset_example: taskset_example.o helpers.o
 taskset: taskset.o
+rt_thread: rt_thread.o
 
 %.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
