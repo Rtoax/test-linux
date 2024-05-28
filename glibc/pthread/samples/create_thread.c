@@ -44,8 +44,7 @@ void init_pi_mutex(pthread_mutex_t *m)
 		printf("Failed to init mutexattr: %d (%s)\n", ret,
 		       strerror(ret));
 	};
-	if ((ret =
-	     pthread_mutexattr_setprotocol(&attr, PTHREAD_PRIO_INHERIT)) != 0) {
+	if ((ret = pthread_mutexattr_setprotocol(&attr, PTHREAD_PRIO_INHERIT)) != 0) {
 		printf("Can't set protocol prio inherit: %d (%s)\n", ret,
 		       strerror(ret));
 	}

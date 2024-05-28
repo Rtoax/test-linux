@@ -57,6 +57,8 @@
 /pthread_mutex_latency
 /pthread_setconcurrency
 /pthread_cond_wait
+/pthread_condattr_init
+/pthread_condattr_getclock
 /taskset_example
 /taskset
 /rt_thread
