@@ -26,18 +26,41 @@ prog_name=mkefiboot
 
 localhost_files=( $(sudo find /boot/efi/EFI/BOOT/ -type f) )
 
+dev_loop=
+mnt_point=$(mktemp -u mnt-XXXXXX)
+
 declare -a files
 
 # vfat, msdos
+overhead=256
 blocksize=2048
-# FIXME: Get actual size
-total_size=2M
+total_size=$(( ${overhead} * ${blocksize} ))
+
+# $1 - block size
+# $2 - size
+roundup()
+{
+	local blksize=$1
+	local size=$2
+	local diff
+	# Round up to block size
+	diff=$(( ${size} % ${blksize} ))
+	size=$(( ${size} + ${blksize} - ${diff} ))
+	echo ${size}
+}
 
 add_file() {
 	local f=$1
+	local sz
+
 	[[ -z ${f} ]] && echo "ERROR: need input file" && exit 1
 	[[ ! -e ${f} ]] && echo "ERROR: ${f} is not exist." && exit 1
 	files+=( $f )
+
+	sz=$(stat --printf %s ${f})
+	sz=$(roundup ${blocksize} ${sz})
+
+	total_size=$(( ${total_size} + ${sz} ))
 }
 
 __usage__() {
@@ -104,9 +127,8 @@ __main__() {
 }
 
 mkefiboot() {
-	local tmp dev_loop
+	local tmp
 	local efibootimg=efiboot.img
-	local mnt_point=$(mktemp -u mnt-XXXXXX)
 
 	truncate --size ${total_size} ${efibootimg}
 
@@ -128,14 +150,19 @@ mkefiboot() {
 
 	sudo df ${mnt_point}
 	sudo tree ${mnt_point}
-
-	# Do some clean
-	sudo umount ${mnt_point} || true
-	sudo rmdir ${mnt_point}
-	sudo losetup --detach ${dev_loop}
 }
 
 __main__ "$@"
+
+clean_all() {
+	# Do some clean
+	sudo umount ${mnt_point} || true
+	sudo rmdir ${mnt_point} || true
+	sudo losetup --detach ${dev_loop} || true
+}
+trap clean_all EXIT
+
+echo "Total size ${total_size} Bytes."
 
 mkefiboot
 
