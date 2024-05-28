@@ -9,6 +9,7 @@ TARGETS += pthread_attr_setstacksize
 TARGETS += pthread_attr_setstack-1
 TARGETS += pthread_attr_setstack-2
 TARGETS += pthread_attr_setstack-3
+TARGETS += pthread_attr_setdetachstate
 TARGETS += pthread_attr_getstack
 TARGETS += pthread_attr_getstacksize
 TARGETS += pthread_attr_getdetachstate
@@ -92,6 +93,7 @@ pthread_attr_setstacksize: pthread_attr_setstacksize.o
 pthread_attr_setstack-1: pthread_attr_setstack-1.o
 pthread_attr_setstack-2: pthread_attr_setstack-2.o
 pthread_attr_setstack-3: pthread_attr_setstack-3.o
+pthread_attr_setdetachstate: pthread_attr_setdetachstate.o
 pthread_attr_getstack: pthread_attr_getstack.o
 pthread_attr_getstacksize: pthread_attr_getstacksize.o
 pthread_attr_getdetachstate: pthread_attr_getdetachstate.o

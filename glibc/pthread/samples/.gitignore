@@ -6,6 +6,7 @@
 /pthread_atfork
 /pthread_attr_setstacksize
 /pthread_attr_setstack-[0-9]
+/pthread_attr_setdetachstate
 /pthread_attr_getstack
 /pthread_attr_getstacksize
 /pthread_attr_getdetachstate
