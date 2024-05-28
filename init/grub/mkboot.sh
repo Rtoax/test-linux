@@ -124,8 +124,11 @@ ${grub_mkimage} \
 cp ${grub_bootefi} ${curr_dir}/
 cp ${grub_bootefi} ${curr_dir}/core.img
 
-# FIXME: aarch64: cat: /usr/lib/grub/arm64-efi//cdboot.img: No such file or directory
-cat ${grub_lib_dir}/cdboot.img ${curr_dir}/core.img > ${curr_dir}/grub.img
+if [[ $(uname -m) == x86_64 ]] && [[ "BIOS" ]]; then
+	cat ${grub_lib_dir}/cdboot.img ${curr_dir}/core.img > ${curr_dir}/grub.img
+else
+	echo "TODO"
+fi
 
 popd
 
