@@ -28,6 +28,11 @@ localhost_files=( $(sudo find /boot/efi/EFI/BOOT/ -type f) )
 
 declare -a files
 
+# vfat, msdos
+blocksize=2048
+# FIXME: Get actual size
+total_size=2M
+
 add_file() {
 	local f=$1
 	[[ -z ${f} ]] && echo "ERROR: need input file" && exit 1
@@ -51,6 +56,7 @@ ${ANSI_BOLD}ARGUMENT${ANSI_RESET}
 
     -f, --file [FILE]  the files will be copied into image::EFI/BOOT/ directory
                        (may be listed multiple times)
+                       for example: -f path/to/BOOTX64.EFI
 
     -h, --help         show this help information
 
@@ -100,13 +106,9 @@ __main__() {
 mkefiboot() {
 	local tmp dev_loop
 	local efibootimg=efiboot.img
-	# vfat, msdos
-	local blocksize=2048
-	# FIXME: Get actual size
-	local size=2M
 	local mnt_point=$(mktemp -u mnt-XXXXXX)
 
-	truncate --size ${size} ${efibootimg}
+	truncate --size ${total_size} ${efibootimg}
 
 	sudo losetup --find --show ${efibootimg}
 	sudo udevadm settle --timeout 300
