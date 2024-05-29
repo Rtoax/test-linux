@@ -1,5 +1,6 @@
 #!/bin/env lua
 
+-- Execute command
 cmd = function(cmd)
 	cmd = io.popen(cmd, 'r')
 	cmd = cmd:read('a+')
