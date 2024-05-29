@@ -9,3 +9,6 @@ end
 
 erg = cmd('cat /etc/os-release')
 print(erg)
+
+erg = cmd('test -e /lib64/libc.so.6 && echo /lib64/libc.so.6')
+print(erg)
