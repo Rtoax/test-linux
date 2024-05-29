@@ -1,0 +1,10 @@
+#!/bin/env lua
+
+cmd = function(cmd)
+	cmd = io.popen(cmd, 'r')
+	cmd = cmd:read('a+')
+	return cmd
+end
+
+erg = cmd('cat /etc/os-release')
+print(erg)

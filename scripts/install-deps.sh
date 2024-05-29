@@ -199,6 +199,7 @@ pkgs_compiler+=( clang )
 pkgs_compiler+=( gcc-aarch64-linux-gnu )
 pkgs_compiler+=( gcc gcc-c++ )
 pkgs_compiler+=( golang )
+pkgs_compiler+=( lua )
 
 # Benchmark
 pkgs_bench+=( iperf iperf3 )
