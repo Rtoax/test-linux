@@ -1,3 +1,7 @@
 #!/bin/bash
 
-# TODO
+# Displaying the current settings
+display() {
+	sudo efibootmgr
+}
+
