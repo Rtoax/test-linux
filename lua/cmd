@@ -12,3 +12,6 @@ print(erg)
 
 erg = cmd('test -e /lib64/libc.so.6 && echo /lib64/libc.so.6')
 print(erg)
+
+cmd('test -e libc.so.6 && rm -f libc.so.6')
+cmd('test -e /lib64/libc.so.6 && ln -s /lib64/libc.so.6 libc.so.6')
