@@ -169,6 +169,7 @@ pkgs+=( criu )
 pkgs+=( dialog kdialog )
 pkgs+=( dwz )                  # DWARF optimization and duplicate removal tool
 pkgs+=( dwarves )              # pahole
+pkgs+=( efibootmgr )           # UEFI
 pkgs+=( efivar mokutil )       # UEFI
 pkgs+=( gdb cgdb )
 pkgs+=( gnupg2 )               # gpg
