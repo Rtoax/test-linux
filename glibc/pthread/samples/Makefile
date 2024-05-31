@@ -48,6 +48,7 @@ TARGETS += pthread_mutex_getprioceiling
 TARGETS += pthread_mutex_init
 TARGETS += pthread_setconcurrency
 TARGETS += pthread_cond_wait
+TARGETS += pthread_cond_broadcast
 TARGETS += pthread_condattr_init
 TARGETS += pthread_condattr_getclock
 TARGETS += pthread_condattr_setpshared
@@ -146,6 +147,7 @@ pthread_mutex_init: pthread_mutex_init.o
 pthread_mutex_latency: pthread_mutex_latency.o
 pthread_setconcurrency: pthread_setconcurrency.o
 pthread_cond_wait: pthread_cond_wait.o
+pthread_cond_broadcast: pthread_cond_broadcast.o
 pthread_condattr_init: pthread_condattr_init.o
 pthread_condattr_getclock: pthread_condattr_getclock.o
 pthread_condattr_setpshared: pthread_condattr_setpshared.o
