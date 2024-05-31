@@ -10,9 +10,13 @@ endif
 
 CC = ${MPICC}
 
-TARGETS := MPI_Init
+TARGETS :=
+# If not install mpich
+ifneq ($(wildcard $(CC)),)
+TARGETS += MPI_Init
 TARGETS += MPI_Get_processor_name
 TARGETS += MPI_Send MPI_Send-2
+endif
 
 CFLAGS := -Werror -Wall
 CFLAGS += -Wstrict-prototypes

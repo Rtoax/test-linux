@@ -1,7 +1,13 @@
+CC = $(shell which clang 2>/dev/null)
 
-TARGETS := hello
+TARGETS :=
 
-CC = clang
+ifneq ($(wildcard $(CC)),)
+TARGETS += hello
+else
+CC = gcc
+endif
+
 
 CFLAGS := -Werror -Wall
 CFLAGS += -O0

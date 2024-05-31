@@ -244,6 +244,7 @@ cclinux|fedora|centos|rhel|openEuler|almalinux)
 	pkgs+=( clang-devel )
 	pkgs+=( dbus-devel )           # D-Bus
 	pkgs+=( dtc )                  # device tree
+	pkgs+=( elfutils-devel )
 	pkgs+=( elfutils-libelf-devel )
 	pkgs+=( glibc-common )
 	pkgs+=( glibc-utils )
@@ -285,6 +286,7 @@ cclinux|fedora|centos|rhel|openEuler|almalinux)
 	pkgs+=( sg3_utils )            # sg_inq, etc.
 	pkgs+=( systemtap-sdt-devel )  # sdt.h
 	pkgs+=( xfsprogs-devel )       # xfs
+	pkgs+=( xz-devel )
 
 	# Cross compile packages
 	pkgs_compiler+=( binutils-aarch64-linux-gnu )

@@ -1,7 +1,9 @@
-
+TARGETS :=
 ifeq ($(shell uname -m),x86_64)
-all: a.out hello.out
+TARGETS += a.out hello.out
 endif
+
+all: ${TARGETS}
 
 hello.o: hello.asm
 	nasm hello.asm -felf64

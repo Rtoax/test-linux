@@ -1,6 +1,6 @@
 TARGETS := pam_authenticate
 
-CC = clang
+CC = gcc
 CFLAGS :=
 LDFLAGS := -lpam -lpam_misc
 
