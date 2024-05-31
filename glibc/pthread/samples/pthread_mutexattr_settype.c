@@ -37,11 +37,25 @@ void *test_task2_fn(void *unused)
 
 int main(void)
 {
-	int *pstatus;
+	int *pstatus, mutextype;
 	pthread_t thread_id1, thread_id2;
 
 	pthread_mutexattr_init(&mutexattr);
+
+	/**
+	 * deprecated mutex creation attributes:
+	 * - pthread_mutexattr_setkind_np()
+	 * - pthread_mutexattr_getkind_np()
+	 *
+	 * kind:
+	 * - PTHREAD_MUTEX_FAST_NP
+	 * - PTHREAD_MUTEX_RECURSIVE_NP
+	 * - PTHREAD_MUTEX_ERRORCHECK_NP
+	 */
 	pthread_mutexattr_settype(&mutexattr, PTHREAD_MUTEX_RECURSIVE);
+	pthread_mutexattr_gettype(&mutexattr, &mutextype);
+
+	printf("mutextype = %x\n", mutextype);
 
 	pthread_mutex_init(&mutex, &mutexattr);
 
