@@ -21,9 +21,16 @@
 #include <stdio.h>
 #include <time.h>
 
+void cleanup_handler(void *arg)
+{
+	printf("cleanup_handler.\n");
+}
+
 void *test_task_fn(void *unused)
 {
 	printf("child thread sleeping.\n");
+
+	pthread_cleanup_push(cleanup_handler, NULL);
 
 	/**
 	 * Disable cancel
@@ -48,7 +55,9 @@ void *test_task_fn(void *unused)
 	 * 调用pthread_testcancel()函数，检查一下在cancel state 为disabled状态的
 	 * 时候，是否有取消请求发送给本线程。如果有的话就取消（退出）.
 	 */
+	printf("test cancel start...\n");
 	pthread_testcancel();
+	printf("test cancel done.\n");
 
 	/**
 	 * pthread_testcancel()返回了，表明之前没有取消请求发送给本线程
@@ -66,6 +75,8 @@ void *test_task_fn(void *unused)
 	 */
 	pthread_setcanceltype(PTHREAD_CANCEL_ASYNCHRONOUS, NULL);
 
+	pthread_cleanup_pop(1);
+
 	static int status = 12121;
 
 	printf("thread normal exit\n");
@@ -82,7 +93,7 @@ int main(void)
 
 	struct timespec abstime = { 1, 1 };
 	time_t abst = time(&abst);
-	abstime.tv_sec = abst + 1;
+	abstime.tv_sec = abst + 3;
 
 	printf("parent wait child thread to exit\n");
 	pthread_timedjoin_np(thread_id, (void **)&pstatus, &abstime);
