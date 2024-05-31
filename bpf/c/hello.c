@@ -33,14 +33,24 @@ int main(void)
 		BPF_MOV64_IMM(BPF_REG_0, 0),
 		BPF_EXIT_INSN(),
 	};
-	size_t insns_cnt = sizeof(prog)/sizeof(struct bpf_insn);
+	size_t insns_cnt = sizeof(prog) / sizeof(struct bpf_insn);
 
+#if defined(HAVE_BPF_LOAD_PROGRAM)
+	prog_fd = bpf_load_program(BPF_PROG_TYPE_KPROBE,
+				   prog,
+				   insns_cnt,
+				   "GPL",
+				   LINUX_VERSION_CODE,
+				   bpf_log_buf,
+				   BPF_LOG_BUF_SIZE);
+#else
 	prog_fd = bpf_prog_load(BPF_PROG_TYPE_KPROBE,
 				"TEST",
 				"GPL",
 				prog,
 				insns_cnt,
 				NULL);
+#endif
 	if (prog_fd < 0) {
 		printf("ERROR: failed to load prog '%s'\n", strerror(errno));
 		return 1;
