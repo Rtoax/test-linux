@@ -17,21 +17,10 @@
 #include <math.h>
 #include <stdbool.h>
 
+#include "create_thread.h"
 #include "sys_affinity_bind.h"
 
 #define HAS_PRIORITY_INHERIT 1
-
-struct thread {
-	pthread_t pthread;
-	pthread_attr_t attr;
-	pthread_mutex_t mutex;
-	pthread_cond_t cond;
-	void *arg;
-	void *(*func)(void *);
-	int priority;
-	int policy;
-	int flags;
-};
 
 void init_pi_mutex(pthread_mutex_t *m)
 {
