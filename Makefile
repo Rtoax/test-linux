@@ -21,7 +21,8 @@ all:
 	@echo -e "make default: user+kernel"
 	@echo -e "make [user|kernel]"
 	@echo -e "make [test|testuser|testkernel]"
-	@echo -e "make [clean|cleanuser|cleankernel]"
+	@echo -e "make [clean|cleanuser|cleankernel|cleangit]"
+	@echo -e "make archive"
 
 define cleanuserlog
 	@rm -f $(user_FAILED_LOG)
@@ -101,6 +102,9 @@ $(SUB_kernel_DIR_TEST):
 installdeps:
 	bash scripts/install-deps.sh
 
+archive:
+	bash scripts/git-archive
+
 # Make clean
 clean:
 	@echo "==="
@@ -122,7 +126,7 @@ $(SUB_kernel_DIR_CLEAN):
 # Clean git repo useless file and directory
 cleangit:
 	echo "=== clean git repo"
-	bash git-clean
+	bash scripts/git-clean
 
 cleanuserlog:
 	$(call cleanuserlog)
