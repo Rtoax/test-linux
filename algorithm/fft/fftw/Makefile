@@ -1,7 +1,11 @@
+FFTW_HDR = /usr/include/fftw3.h
+
 TARGETS :=
+ifneq ($(wildcard ${FFTW_HDR}),)
 TARGETS += fftw_plan_dft_1d
 TARGETS += fftw_plan_dft_1d-1
 TARGETS += fftw_plan_dft_r2c_1d
+endif
 
 CC = gcc
 
@@ -10,10 +14,10 @@ CFLAGS += -I../../../
 CFLAGS += -DDEBUG -O0 -g
 CFLAGS += -lm
 
-ifneq ($(wildcard /usr/include/fftw3.h),)
+ifneq ($(wildcard ${FFTW_HDR}),)
 CFLAGS += -lfftw3
 else
-$(error "Not found header /usr/include/fftw3.h, please install fftw")
+$(warning "Not found header ${FFTW_HDR}, please install fftw")
 endif
 
 build: ${TARGETS}
