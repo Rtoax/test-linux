@@ -37,7 +37,6 @@ TARGETS += pthread_setaffinity_np
 TARGETS += pthread_sigmask
 TARGETS += pthread_once
 TARGETS += pthread_yield
-TARGETS += tls
 TARGETS += pthread_mutexattr_setprioceiling
 TARGETS += pthread_mutexattr_setprotocol
 TARGETS += pthread_mutexattr_setpshared
@@ -53,8 +52,10 @@ TARGETS += pthread_cond_broadcast pthread_cond_broadcast-1
 TARGETS += pthread_condattr_init
 TARGETS += pthread_condattr_getclock
 TARGETS += pthread_condattr_setpshared
+TARGETS += tls
 TARGETS += taskset
 TARGETS += rt_thread
+TARGETS += cond-demo1 cond-demo2
 
 ifeq ($(shell uname -m),x86_64)
 TARGETS += pthread_mutex_latency
@@ -136,7 +137,6 @@ pthread_spin-latency: pthread_spin-latency.o
 pthread_spin-latency-loop: pthread_spin-latency-loop.o
 pthread_once: pthread_once.o
 pthread_yield: pthread_yield.o
-tls: tls.o
 pthread_mutexattr_setprioceiling: pthread_mutexattr_setprioceiling.o
 pthread_mutexattr_setprotocol: pthread_mutexattr_setprotocol.o
 pthread_mutexattr_setpshared: pthread_mutexattr_setpshared.o
@@ -155,8 +155,11 @@ pthread_condattr_init: pthread_condattr_init.o
 pthread_condattr_getclock: pthread_condattr_getclock.o
 pthread_condattr_setpshared: pthread_condattr_setpshared.o
 taskset_example: taskset_example.o helpers.o
+tls: tls.o
 taskset: taskset.o
 rt_thread: rt_thread.o
+cond-demo1: cond-demo1.o
+cond-demo2: cond-demo2.o
 
 %.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

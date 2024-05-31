@@ -66,3 +66,5 @@
 /taskset_example
 /taskset
 /rt_thread
+/cond-demo1
+/cond-demo2
