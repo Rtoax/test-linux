@@ -59,6 +59,7 @@
 /pthread_cond_wait
 /pthread_condattr_init
 /pthread_condattr_getclock
+/pthread_condattr_setpshared
 /taskset_example
 /taskset
 /rt_thread

@@ -50,6 +50,7 @@ TARGETS += pthread_setconcurrency
 TARGETS += pthread_cond_wait
 TARGETS += pthread_condattr_init
 TARGETS += pthread_condattr_getclock
+TARGETS += pthread_condattr_setpshared
 TARGETS += taskset
 TARGETS += rt_thread
 
@@ -147,6 +148,7 @@ pthread_setconcurrency: pthread_setconcurrency.o
 pthread_cond_wait: pthread_cond_wait.o
 pthread_condattr_init: pthread_condattr_init.o
 pthread_condattr_getclock: pthread_condattr_getclock.o
+pthread_condattr_setpshared: pthread_condattr_setpshared.o
 taskset_example: taskset_example.o helpers.o
 taskset: taskset.o
 rt_thread: rt_thread.o
