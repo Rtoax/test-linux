@@ -58,6 +58,7 @@
 /pthread_setconcurrency
 /pthread_cond_wait
 /pthread_cond_broadcast
+/pthread_cond_broadcast-1
 /pthread_condattr_init
 /pthread_condattr_getclock
 /pthread_condattr_setpshared
