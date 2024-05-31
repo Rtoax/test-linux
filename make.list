@@ -1,6 +1,5 @@
 # test-linux make list
 USER_LIST :=
-USER_LIST += acpi
 USER_LIST += aio
 USER_LIST += algorithm
 USER_LIST += arch
@@ -23,6 +22,7 @@ USER_LIST += hpc
 USER_LIST += instructions
 USER_LIST += interrupt
 USER_LIST += ipc
+USER_LIST += init
 USER_LIST += io_uring/samples
 USER_LIST += java
 USER_LIST += kvm/playground

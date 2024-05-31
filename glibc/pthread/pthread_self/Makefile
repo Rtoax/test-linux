@@ -1,4 +1,4 @@
-CC = clang
+CC = gcc
 CFLAGS := -Werror -Wall -pthread
 
 TARGETS := pthread_self

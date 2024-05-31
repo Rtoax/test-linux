@@ -1,0 +1,6 @@
+TARGETS :=
+
+all:
+
+clean:
+
