@@ -57,7 +57,7 @@ TARGETS += pthread_getcpuclockid
 TARGETS += tls
 TARGETS += taskset
 TARGETS += rt_thread
-TARGETS += cond-demo1 cond-demo2
+TARGETS += cond-demo1 cond-demo2 cond-demo3-latency
 
 ifeq ($(shell uname -m),x86_64)
 TARGETS += pthread_mutex_latency
@@ -167,6 +167,7 @@ taskset: taskset.o
 rt_thread: rt_thread.o
 cond-demo1: cond-demo1.o
 cond-demo2: cond-demo2.o
+cond-demo3-latency: cond-demo3-latency.o
 
 %.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

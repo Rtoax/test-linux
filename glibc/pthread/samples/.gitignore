@@ -71,3 +71,4 @@
 /rt_thread
 /cond-demo1
 /cond-demo2
+/cond-demo3-latency
