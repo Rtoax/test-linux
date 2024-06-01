@@ -49,6 +49,7 @@ TARGETS += pthread_setconcurrency
 TARGETS += pthread_cond_init
 TARGETS += pthread_cond_wait
 TARGETS += pthread_cond_broadcast pthread_cond_broadcast-1
+TARGETS += pthread_cond_signal
 TARGETS += pthread_condattr_init
 TARGETS += pthread_condattr_getclock
 TARGETS += pthread_condattr_setpshared
@@ -153,6 +154,7 @@ pthread_cond_init: pthread_cond_init.o
 pthread_cond_wait: pthread_cond_wait.o
 pthread_cond_broadcast: pthread_cond_broadcast.o
 pthread_cond_broadcast-1: pthread_cond_broadcast-1.o
+pthread_cond_signal: pthread_cond_signal.o
 pthread_condattr_init: pthread_condattr_init.o
 pthread_condattr_getclock: pthread_condattr_getclock.o
 pthread_condattr_setpshared: pthread_condattr_setpshared.o

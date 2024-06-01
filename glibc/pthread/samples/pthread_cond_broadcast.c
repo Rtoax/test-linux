@@ -26,13 +26,16 @@ int main(void)
 
 	for (i = 0; i < MAX_THREAD_NUM; i++) {
 		pthread_create(&tid[i], NULL, thread_fun, &i);
-		sleep(1);
 	}
+
+	/* wakeup one by one for two thread */
+	sleep(1);
+	pthread_cond_signal(&cond);
+	sleep(1);
+	pthread_cond_signal(&cond);
 	sleep(1);
 
-	/* wakeup one */
-	pthread_cond_signal(&cond);
-	/* wakeup all */
+	/* wakeup the left all */
 	pthread_cond_broadcast(&cond);
 
 	for (i = 0; i < MAX_THREAD_NUM; ++i)
