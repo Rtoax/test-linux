@@ -52,6 +52,7 @@ TARGETS += pthread_cond_broadcast pthread_cond_broadcast-1
 TARGETS += pthread_condattr_init
 TARGETS += pthread_condattr_getclock
 TARGETS += pthread_condattr_setpshared
+TARGETS += pthread_getcpuclockid
 TARGETS += tls
 TARGETS += taskset
 TARGETS += rt_thread
@@ -155,6 +156,7 @@ pthread_cond_broadcast-1: pthread_cond_broadcast-1.o
 pthread_condattr_init: pthread_condattr_init.o
 pthread_condattr_getclock: pthread_condattr_getclock.o
 pthread_condattr_setpshared: pthread_condattr_setpshared.o
+pthread_getcpuclockid: pthread_getcpuclockid.o
 taskset_example: taskset_example.o helpers.o
 tls: tls.o
 taskset: taskset.o

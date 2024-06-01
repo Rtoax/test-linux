@@ -64,6 +64,7 @@
 /pthread_condattr_init
 /pthread_condattr_getclock
 /pthread_condattr_setpshared
+/pthread_getcpuclockid
 /taskset_example
 /taskset
 /rt_thread
