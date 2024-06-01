@@ -85,6 +85,8 @@ endif
 CFLAGS += -DDEBUG -O0 -g
 
 CFLAGS_create_thread := -DMAIN_TEST=1
+CFLAGS_pthread_cond_broadcast := -DCOND_ATTR=1
+CFLAGS_pthread_cond_signal := -DCOND_ATTR=1
 
 build: ${TARGETS}
 	@echo

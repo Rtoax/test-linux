@@ -24,6 +24,18 @@ int main(void)
 	int i;
 	pthread_t tid[MAX_THREAD_NUM];
 
+#if defined(COND_ATTR)
+	pthread_condattr_t condattr;
+	clockid_t clockid = -1;
+
+	pthread_condattr_init(&condattr);
+	pthread_condattr_getclock(&condattr, &clockid);
+	pthread_condattr_setclock(&condattr, CLOCK_MONOTONIC);
+	pthread_condattr_setpshared(&condattr, PTHREAD_PROCESS_SHARED);
+
+	pthread_cond_init(&cond, &condattr);
+#endif
+
 	for (i = 0; i < MAX_THREAD_NUM; i++) {
 		pthread_create(&tid[i], NULL, thread_fun, &i);
 	}
@@ -40,6 +52,10 @@ int main(void)
 
 	for (i = 0; i < MAX_THREAD_NUM; ++i)
 		pthread_join(tid[i], NULL);
+
+#if defined(COND_ATTR)
+	pthread_cond_destroy(&cond);
+#endif
 
 	return 0;
 }
