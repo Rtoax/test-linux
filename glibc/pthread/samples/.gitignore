@@ -36,6 +36,7 @@
 /pthread_rwlockattr_setpshared
 /pthread_setname_np
 /pthread_setspecific
+/pthread_getspecific
 /pthread_setaffinity_np
 /pthread_spin_lock
 /pthread_spin-latency

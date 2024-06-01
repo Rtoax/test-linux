@@ -25,7 +25,7 @@ TARGETS += pthread_cleanup_push-deadlock
 TARGETS += pthread_cleanup_push_defer_np
 TARGETS += pthread_equal
 TARGETS += pthread_exit
-TARGETS += pthread_key_create pthread_setspecific
+TARGETS += pthread_key_create pthread_setspecific pthread_getspecific
 TARGETS += pthread_join-coredump
 TARGETS += pthread_join pthread_tryjoin_np pthread_timedjoin_np pthread_detach
 TARGETS += pthread_getname_np pthread_setname_np
@@ -130,6 +130,7 @@ pthread_rwlockattr_setpshared: pthread_rwlockattr_setpshared.o
 pthread_setname_np: pthread_setname_np.o
 pthread_self: pthread_self.o
 pthread_setspecific: pthread_setspecific.o
+pthread_getspecific: pthread_getspecific.o
 pthread_setaffinity_np: pthread_setaffinity_np.o
 pthread_sigmask: pthread_sigmask.o
 pthread_spin_lock: pthread_spin_lock.o
