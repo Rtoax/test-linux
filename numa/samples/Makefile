@@ -36,6 +36,9 @@ numa_pagesize: numa_pagesize.o
 numa_preferred: numa_preferred.o
 migrate_pages: migrate_pages.o
 
+# FIXME:
+CFLAGS_numa_node_size := -Wno-incompatible-pointer-types
+
 %.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
