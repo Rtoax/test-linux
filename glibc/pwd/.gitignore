@@ -1,4 +1,8 @@
 /setpwent
 /endpwent
 /getpwent
+/getpwnam
+/getpwuid
+/putpwent
 /demo-pwd-grp
+/new_passwd
