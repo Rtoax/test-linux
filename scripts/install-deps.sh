@@ -5,7 +5,7 @@ prog=inst-deps
 
 declare -a dnf_args
 declare -a pkgs pkgs_compiler pkgs_desktop whls pkgs_bench pkgs_math pkgs_db
-declare -a pkgs_storage
+declare -a pkgs_storage pkgs_net
 
 have_upgrade=YES
 have_whls=
@@ -15,6 +15,7 @@ have_math=
 have_bench=
 have_db=
 have_storage=
+have_net=
 
 dry_run=
 
@@ -54,6 +55,7 @@ ARGUMENT
 	--bench            install benchmark relate packages
 	--db               install database relate packages
 	--storage          install storage relate packages
+	--net              install network relate packages
 
 	--noup             skip upgrade
 
@@ -78,6 +80,7 @@ TEMP=$(getopt --options h \
 	--long bench \
 	--long db \
 	--long storage \
+	--long net \
 	--long dry-run \
 	--long allowerasing \
 	--long help \
@@ -129,6 +132,10 @@ while true; do
 		shift
 		have_storage=YES
 		;;
+	--net)
+		shift
+		have_net=YES
+		;;
 	--whls)
 		shift
 		have_whls=YES
@@ -179,7 +186,6 @@ pkgs+=( llvm )                 # llvm-as llvm-dis llc
 pkgs+=( lshw )                 # lshw
 pkgs+=( make cmake )
 pkgs+=( nasm )                 # nasm
-pkgs+=( net-tools )            # netstat
 pkgs+=( numactl )              # numastat
 pkgs+=( opencl-headers )
 pkgs+=( openssl )
@@ -222,6 +228,8 @@ pkgs_storage+=( device-mapper )
 pkgs_storage+=( device-mapper-multipath )
 pkgs_storage+=( iotop )
 pkgs_storage+=( mdadm ) # manage MD devices aka Linux Software RAID
+
+pkgs_net+=( net-tools ) # netstat
 
 whls+=( numpy pyyaml )
 whls+=( tqdm )
@@ -311,6 +319,7 @@ cclinux|fedora|centos|rhel|openEuler|almalinux)
 	[[ ${have_bench} ]] && pkgs+=( ${pkgs_bench[@]} )
 	[[ ${have_db} ]] && pkgs+=( ${pkgs_db[@]} )
 	[[ ${have_storage} ]] && pkgs+=( ${pkgs_storage[@]} )
+	[[ ${have_net} ]] && pkgs+=( ${pkgs_net[@]} )
 
 	if [[ ${have_upgrade} ]]; then
 		inst_eval sudo dnf up ${dnf_args[@]} -y
@@ -340,6 +349,7 @@ debian|ubuntu)
 	[[ ${have_bench} ]] && pkgs+=( ${pkgs_bench[@]} )
 	[[ ${have_db} ]] && pkgs+=( ${pkgs_db[@]} )
 	[[ ${have_storage} ]] && pkgs+=( ${pkgs_storage[@]} )
+	[[ ${have_net} ]] && pkgs+=( ${pkgs_net[@]} )
 
 	args=( --fix-missing )
 
