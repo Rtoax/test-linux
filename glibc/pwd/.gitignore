@@ -4,5 +4,6 @@
 /getpwnam
 /getpwuid
 /putpwent
+/fgetpwent
 /demo-pwd-grp
 /new_passwd

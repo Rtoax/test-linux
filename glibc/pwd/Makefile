@@ -3,6 +3,7 @@ TARGETS += setpwent getpwent endpwent
 TARGETS += putpwent
 TARGETS += getpwnam
 TARGETS += getpwuid
+TARGETS += fgetpwent
 TARGETS += demo-pwd-grp
 
 CC = gcc
@@ -19,6 +20,7 @@ endpwent: endpwent.o
 putpwent: putpwent.o
 getpwnam: getpwnam.o
 getpwuid: getpwuid.o
+fgetpwent: fgetpwent.o
 demo-pwd-grp: demo-pwd-grp.o
 
 test: ${TARGETS}
