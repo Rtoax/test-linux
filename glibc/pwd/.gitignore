@@ -1,1 +1,4 @@
+/setpwent
+/endpwent
+/getpwent
 /demo-pwd-grp
