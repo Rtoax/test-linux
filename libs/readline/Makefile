@@ -1,9 +1,9 @@
-LIBAIO_HDR = /usr/include/libaio.h
+READLINE_HDR = /usr/include/readline/readline.h
 
 TARGETS :=
-ifneq ($(wildcard $(LIBAIO_HDR)),)
-TARGETS += libaio
-TARGETS += epoll
+ifneq ($(wildcard $(READLINE_HDR)),)
+TARGETS += rlversion
+TARGETS += rltest
 else
 $(error "ERROR: Must install libaio development header")
 endif
@@ -13,8 +13,8 @@ CC = gcc
 CFLAGS := -Werror -Wall -D_GNU_SOURCE
 CFLAGS += -DDEBUG -O0 -g
 
-ifneq ($(wildcard $(LIBAIO_HDR)),)
-CFLAGS += -laio
+ifneq ($(wildcard $(READLINE_HDR)),)
+CFLAGS += -lreadline -lutil -ltermcap -lhistory
 endif
 
 build: ${TARGETS}
@@ -22,14 +22,10 @@ build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
 # Add more object.o file
-libaio: libaio.o helpers.o
-epoll: epoll.o
+rlversion: rlversion.o
+rltest: rltest.o
 
-%.d: %.c
-	@echo -e "Generate \033[1m$(@)\033[m"
-	@$(CC) $(CFLAGS) -MM -MF "$@" -MG -MP -MT"$@" -MT"$(<:.c=.o)" $(<)
-
-%.o: %.c %.d
+%.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
 
@@ -42,4 +38,4 @@ test: ${TARGETS}
 
 clean:
 	@echo -e "Clean   \033[1;32m$(@)\033[m"
-	@rm -f ${TARGETS} *.o *.d *.txt *.dat
+	@rm -f ${TARGETS} *.o *.d
