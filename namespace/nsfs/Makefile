@@ -1,7 +1,5 @@
-sub-dir := uts
-sub-dir += nsfs
-
-TARGETS := unshare
+TARGETS := owner
+TARGETS += pidns
 
 CC = gcc
 
@@ -13,14 +11,14 @@ LDLIBS :=
 
 CFLAGS += -DDEBUG -O0 -g
 
-sub-dir-build := $(sub-dir:=.build)
-sub-dir-clean := $(sub-dir:=.clean)
-
 .PHONY: build
-build: ${TARGETS} $(sub-dir-build)
+build: ${TARGETS}
+	@echo
 	@echo -e " \033[1;33m Done \033[m"
 
-unshare: unshare.o
+# Add more object.o file
+owner: owner.o
+pidns: pidns.o
 
 %.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
@@ -34,13 +32,6 @@ test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
 
 .PHONY: clean
-clean: $(sub-dir-clean)
+clean:
 	@echo -e "Clean   \033[1;32m$(@)\033[m"
-	@rm -f ${TARGETS} *.s *.o *.d
-
-$(sub-dir-build):
-	@echo -e "\033[1;32m [sub-dir] build $(@)\033[m"
-	make -C $(@:.build=)
-$(sub-dir-clean):
-	@echo -e "\033[1;32m [sub-dir] clean $(@)\033[m"
-	make -C $(@:.clean=) clean
+	@rm -f ${TARGETS} *.o
