@@ -38,7 +38,7 @@ get_qemu_kvm_emulator_arch()
 {
 	local arch=$1
 	if [[ -z ${arch} ]]; then
-		echo "ERROR: Must specify arch"
+		echo "ERROR: Must specify arch" >&2
 		exit 1
 	fi
 	local qemu_kvm_possible_emulators=(
