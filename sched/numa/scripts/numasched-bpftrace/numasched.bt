@@ -1,4 +1,5 @@
 #!/bin/env bpftrace
+// SPDX-License-Identifier: GPL-2.0-or-later
 /*
  * numasched	Trace task switch numa
  *		For Linux, uses bpftrace and eBPF.
@@ -7,16 +8,13 @@
  *
  * USAGE: numasched.bt
  *
- * Copyright 2022 CESTC, Inc.
- * Licensed under the Apache License, Version 2.0 (the "License")
- *
- * 24-Nov-2022	Rong Tao	Created this.
+ * Copyright 2022 CESTC, Co.
  */
 BEGIN
 {
 	printf("Tracing task numa switch.\n");
 	printf("%-8s %-8s %-8s %-8s    %-8s %-8s\n",
-			"TIME", "PID", "TID", "SRC_NID", "DST_NID", "COMM");
+	       "TIME", "PID", "TID", "SRC_NID", "DST_NID", "COMM");
 }
 
 tracepoint:sched:sched_switch
