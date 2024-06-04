@@ -4,7 +4,7 @@
  * numasched	Trace task switch numa
  *		For Linux, uses bpftrace and eBPF.
  *
- * Also a basic example of bpftrace.
+ * Also a basic example of bpftrace. This tool need bpftrace numaid builtin.
  *
  * USAGE: numasched.bt
  *
