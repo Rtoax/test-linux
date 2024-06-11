@@ -25,6 +25,7 @@ TARGETS += ecvt fcvt gcvt
 TARGETS += _Exit
 TARGETS += open_pty_pair
 TARGETS += div
+TARGETS += demo-qsort-bsearch
 
 CC = gcc
 
@@ -81,6 +82,7 @@ gcvt: gcvt.o
 _Exit: _Exit.o
 open_pty_pair: open_pty_pair.o
 div: div.o
+demo-qsort-bsearch: demo-qsort-bsearch.o
 
 CFLAGS_unlockpt := -D_XOPEN_SOURCE
 # TODO
