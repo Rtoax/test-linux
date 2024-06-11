@@ -39,6 +39,7 @@ sub-dir += regex
 sub-dir += scripts
 sub-dir += search
 sub-dir += semaphore
+sub-dir += setjmp
 sub-dir += spawn
 sub-dir += stat
 sub-dir += stdarg
