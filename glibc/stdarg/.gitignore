@@ -1,3 +1,6 @@
 /*.txt
 /delete_files
+/sum_int
 /__VA_ARGS__
+/va_start
+/va_arg
