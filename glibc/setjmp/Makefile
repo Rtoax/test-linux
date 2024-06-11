@@ -1,5 +1,6 @@
 TARGETS :=
 TARGETS += setjmp
+TARGETS += sigsetjmp
 
 CC = gcc
 
@@ -13,6 +14,7 @@ build: ${TARGETS}
 
 # Add more object.o file
 setjmp: setjmp.o
+sigsetjmp: sigsetjmp.o
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
