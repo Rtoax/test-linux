@@ -1,6 +1,5 @@
-TARGETS := semaphore
-TARGETS += latency
-TARGETS += pthread-semaphore
+TARGETS :=
+TARGETS += atomic_fetch_add
 
 CC = gcc
 
@@ -18,9 +17,7 @@ build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
 # Add more object.o file
-semaphore: semaphore.o
-latency: latency.o
-pthread-semaphore: pthread-semaphore.o
+atomic_fetch_add: atomic_fetch_add.o
 
 %.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
@@ -36,4 +33,4 @@ test: ${TARGETS}
 .PHONY: clean
 clean:
 	@echo -e "Clean   \033[1;32m$(@)\033[m"
-	@rm -f ${TARGETS} *.s *.o test.out
+	@rm -f ${TARGETS} *.o

@@ -1,5 +1,4 @@
-sub-dir := atomic
-sub-dir += semaphore
+sub-dir := samples
 
 sub-dir-build := $(sub-dir:=.build)
 sub-dir-clean := $(sub-dir:=.clean)
