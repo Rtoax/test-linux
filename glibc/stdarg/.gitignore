@@ -4,3 +4,4 @@
 /__VA_ARGS__
 /va_start
 /va_arg
+/va_copy
