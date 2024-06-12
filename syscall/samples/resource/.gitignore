@@ -3,3 +3,4 @@
 /ulimit
 /fork-inherit
 /getrusage
+/vlimit
