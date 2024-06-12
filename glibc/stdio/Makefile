@@ -18,6 +18,7 @@ TARGETS += perror
 TARGETS += tmpfile tmpnam tempnam
 TARGETS += setbuf setvbuf
 TARGETS += fgets
+TARGETS += fopen
 
 CC = gcc
 
@@ -54,6 +55,7 @@ snprintf: snprintf.o
 setbuf: setbuf.o
 setvbuf: setvbuf.o
 fgets: fgets.o
+fopen: fopen.o
 
 CFLAGS_asprintf := -D_GNU_SOURCE=1
 
