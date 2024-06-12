@@ -1,0 +1,35 @@
+#!/bin/env bpftrace
+/**
+ * msgqsnoop.bt - Tracing and dump System V msgq
+ *
+ * Copyright (C) Rong Tao 2022-2024
+ *
+ * 2024-06-12	Rong Tao	Create this.
+ */
+struct msgbuf {
+	long mtype;
+	char mtext[1];
+};
+
+BEGIN
+{
+	printf("Tracing xxx, hit ctrl-c to end.\n");
+	printf("%-8s %-8s %-16s %-8s %-8s %-8s\n",
+		"TIME", "PID", "COMM", "MTYPE", "MSIZE", "MTEXT");
+}
+
+kprobe:do_msgsnd
+{
+	$mtype = arg1;
+	$mtext = arg2;
+	$msgsz = arg3;
+
+	time("%H:%M:%S ");
+	printf("%-8d %-16s %-8d %-8d %r\n",
+		pid, comm, $mtype, $msgsz, buf($mtext, $msgsz));
+}
+
+END
+{
+	printf("Bye.\n");
+}

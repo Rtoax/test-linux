@@ -11,7 +11,7 @@ typedef struct {
 
 struct msg_form {
 	long mtype;
-	char mtext[256];
+	char mtext[64];
 	float f;
 	void *ptr;
 };

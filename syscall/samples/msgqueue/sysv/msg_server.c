@@ -11,7 +11,6 @@ int main(void)
 	key_t key;
 	struct msg_form msg;
 
-
 	if ((key = ftok(MSG_FILE, PROG_ID)) < 0) {
 		perror("ftok error");
 		exit(1);

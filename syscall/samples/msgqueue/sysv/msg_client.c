@@ -11,6 +11,7 @@ int main(void)
 	int msqid;
 	key_t key;
 	struct msg_form msg;
+	char ch = 'a';
 
 	if ((key = ftok(MSG_FILE, PROG_ID)) < 0) {
 		perror("ftok error");
@@ -27,20 +28,19 @@ int main(void)
 	printf("My msqid is: %d\n", msqid);
 	printf("My pid is: %d\n", getpid());
 
-	char ch = 'a';
 	for (;;) {
 		ch = getchar();
 
 		msg.mtype = 888;
 		sprintf(msg.mtext, "%c: hello, I'm client %d", ch, getpid());
 		msg.f = 3.14;
-		msgsnd(msqid, &msg, sizeof(msg)-sizeof(msg.mtype), 0);
+		msgsnd(msqid, &msg, sizeof(msg) - sizeof(msg.mtype), 0);
 
 		if (ch == 'q')
 			break;
 
 		msg.mtype = 999;
-		msgrcv(msqid, &msg, sizeof(msg)-sizeof(msg.mtype), msg.mtype, 0);
+		msgrcv(msqid, &msg, sizeof(msg) - sizeof(msg.mtype), msg.mtype, 0);
 		msg_print("client: ", msg);
 	}
 
