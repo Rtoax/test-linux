@@ -19,6 +19,7 @@ TARGETS += tmpfile tmpnam tempnam
 TARGETS += setbuf setvbuf
 TARGETS += fgets
 TARGETS += fopen
+TARGETS += fopencookie
 
 CC = gcc
 
@@ -56,6 +57,7 @@ setbuf: setbuf.o
 setvbuf: setvbuf.o
 fgets: fgets.o
 fopen: fopen.o
+fopencookie: fopencookie.o
 
 CFLAGS_asprintf := -D_GNU_SOURCE=1
 
@@ -71,6 +73,7 @@ test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
 	./getchar < getchar.c
 	echo 1.2 | ./scanf
+	./fopencookie 'hello world'
 
 clean:
 	@echo -e "Clean   \033[1;32m$(@)\033[m"
