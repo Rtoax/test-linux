@@ -1,7 +1,7 @@
 TARGETS := mq_open
 TARGETS += mq_getattr
 TARGETS += mq_notify
-TARGETS += multi-thread
+TARGETS += multi-thread-minimal multi-thread
 
 DEBUG = yes
 SRC_PATH := $(shell pwd)
@@ -19,6 +19,7 @@ build: ${TARGETS}
 mq_open: mq_open.o
 mq_getattr: mq_getattr.o
 mq_notify: mq_notify.o
+multi-thread-minimal: multi-thread-minimal.o
 multi-thread: multi-thread.o
 
 CFLAGS_multi-thread := -pthread

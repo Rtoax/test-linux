@@ -13,7 +13,8 @@ BEGIN
 		"TIME", "PID", "COMM", "LEN", "PRIO", "MSG");
 }
 
-uprobe:/lib64/libc.so.6:mq_send,
+/* No need to attach uprobe:/lib64/libc.so.6:mq_send, mq_send() will call
+ * mq_timedsend() */
 uprobe:/lib64/libc.so.6:mq_timedsend
 {
 	$msg = arg1;

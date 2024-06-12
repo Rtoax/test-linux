@@ -76,7 +76,7 @@ void *task2_fn(void *arg)
 		pdmsg->msg_seq++;
 		pdmsg->msg_ack++;
 
-		ret = mq_send(mqd, (char*)pdmsg, sizeof(struct dbg_msg), 0);
+		ret = mq_send(mqd, (char *)pdmsg, sizeof(struct dbg_msg), 0);
 		printf("T2: send seq(%ld), ack(%ld)\n", pdmsg->msg_seq, pdmsg->msg_ack);
 	}
 }
