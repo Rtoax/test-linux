@@ -1,9 +1,11 @@
 #include <stdio.h>
 #include <sys/utsname.h>
+#include <unistd.h>
 
 int main(void)
 {
 	struct utsname name;
+	char hostname[1024];
 
 	uname(&name);
 
@@ -17,15 +19,18 @@ int main(void)
 	       name.release, name.version, name.machine, name.nodename,
 #if _UTSNAME_DOMAIN_LENGTH - 0
 	       /* Name of the domain of this node on the network.  */
-#ifdef __USE_GNU
+# ifdef __USE_GNU
 	       name.domainname
-#else
+# else
 	       name.__domainname
-#endif
+# endif
 #else
 	       /*no domainname */ "no domainname"
 #endif
-	    );
+	);
+
+	gethostname(hostname, sizeof(hostname));
+	printf("Hostname %s\n", hostname);
 
 	return 0;
 }
