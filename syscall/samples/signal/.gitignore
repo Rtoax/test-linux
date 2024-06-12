@@ -16,3 +16,4 @@
 /SIGUSR[1|2]
 /strsignal
 /alarm-sleep
+/sigaltstack

@@ -1,4 +1,3 @@
-
 TARGETS := signal
 TARGETS += sigaction
 TARGETS += sigwait
@@ -10,6 +9,7 @@ TARGETS += raise
 TARGETS += strsignal
 TARGETS += alarm-sleep
 TARGETS += SIGFPE SIGHUP SIGALRM SIGUSR1 SIGUSR2 NSIG
+TARGETS += sigaltstack
 
 CC = gcc
 
@@ -43,6 +43,7 @@ SIGUSR2: SIGUSR2.o
 NSIG: NSIG.o
 strsignal: strsignal.o
 alarm-sleep: alarm-sleep.o
+sigaltstack: sigaltstack.o
 
 %.d: %.c
 	@echo -e "Generate \033[1m$(@)\033[m"
