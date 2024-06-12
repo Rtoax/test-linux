@@ -22,3 +22,4 @@
 /snprintf
 /setbuf
 /setvbuf
+/fgets
