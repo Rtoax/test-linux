@@ -13,7 +13,7 @@ struct msgbuf {
 
 BEGIN
 {
-	printf("Tracing xxx, hit ctrl-c to end.\n");
+	printf("Tracing SystemV message queue send, hit ctrl-c to end.\n");
 	printf("%-8s %-8s %-16s %-8s %-8s %-8s\n",
 		"TIME", "PID", "COMM", "MTYPE", "MSIZE", "MTEXT");
 }

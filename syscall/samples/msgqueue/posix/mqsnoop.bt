@@ -1,0 +1,31 @@
+#!/bin/env bpftrace
+/**
+ * mqsnoop.bt - Tracing and dump POSIX message queue.
+ *
+ * Copyright (C) Rong Tao 2022-2024
+ *
+ * 2024-06-12	Rong Tao	Create this.
+ */
+BEGIN
+{
+	printf("Tracing POSIX message queue send, hit ctrl-c to end.\n");
+	printf("%-8s %-8s %-16s %-8s %-8s %-8s\n",
+		"TIME", "PID", "COMM", "LEN", "PRIO", "MSG");
+}
+
+uprobe:/lib64/libc.so.6:mq_send,
+uprobe:/lib64/libc.so.6:mq_timedsend
+{
+	$msg = arg1;
+	$len = arg2;
+	$prio = arg3;
+
+	time("%H:%M:%S ");
+	printf("%-8d %-16s %-8d %-8d %r\n",
+		pid, comm, $len, $prio, buf($msg, $len));
+}
+
+END
+{
+	printf("Bye.\n");
+}

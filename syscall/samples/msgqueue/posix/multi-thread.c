@@ -18,6 +18,7 @@ struct dbg_msg {
 #define MQUEUE_NAME "/_rtoax_mq_"
 
 mqd_t mqd;
+int max_prio;
 
 static void my_sigev_notify_function(union sigval sv)
 {
@@ -36,7 +37,7 @@ void *task1_fn(void *arg)
 
 
 	while (1) {
-		ret = mq_send(mqd, (char*)&dmsg, sizeof(struct dbg_msg), 0);
+		ret = mq_send(mqd, (char*)&dmsg, sizeof(struct dbg_msg), max_prio);
 		if (ret == -1) {
 			continue;
 		}
@@ -86,6 +87,8 @@ int main(void)
 	struct mq_attr attr;
 	pthread_t task1, task2;
 	struct sigevent sev;
+
+	max_prio = sysconf(_SC_MQ_PRIO_MAX) - 1;
 
 	mq_unlink(MQUEUE_NAME);
 	perror("mq_unlink: ");
