@@ -2,12 +2,12 @@
 
 BEGIN
 {
-	printf("Tracing libc.so.6 memcpy. Hit ctrl-c to end\n");
+	printf("Tracing libc memcpy. Hit ctrl-c to end\n");
 }
 
-uprobe:/lib64/libc.so.6:__memcpy_*,
-uprobe:/lib64/libc.so.6:__wmemcpy*,
-uprobe:/lib64/libc.so.6:memcpy*
+uprobe:libc:__memcpy_*,
+uprobe:libc:__wmemcpy*,
+uprobe:libc:memcpy*
 {
 	@copy[probe, comm] = count();
 }

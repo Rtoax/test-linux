@@ -12,8 +12,8 @@ BEGIN
 
 }
 
-uprobe:/lib64/libc.so.6:write,
-uprobe:/lib64/libc.so.6:read
+uprobe:libc:write,
+uprobe:libc:read
 {
 	@[func] = count();
 }

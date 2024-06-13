@@ -4,4 +4,4 @@ if ! [[ -e /usr/bin/bpftrace ]]; then
 	exit 0
 fi
 
-sudo bpftrace -l usdt:/lib64/libc.so.6:*
+sudo bpftrace -l usdt:libc:*

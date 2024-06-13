@@ -13,7 +13,7 @@ BEGIN
 		"TIME", "PID", "COMM", "OPERATE", "RESULT", "FUNC/LIB");
 }
 
-uprobe:/lib64/libc.so.6:dlopen
+uprobe:libc:dlopen
 {
 	$file = arg0;
 	time("%H:%M:%S ");
@@ -21,13 +21,13 @@ uprobe:/lib64/libc.so.6:dlopen
 		pid, comm, "DLOPEN", "-", str($file));
 }
 
-uprobe:/lib64/libc.so.6:dlsym
+uprobe:libc:dlsym
 {
 	$symbol = arg1;
 	@symbols[tid] = $symbol;
 }
 
-uretprobe:/lib64/libc.so.6:dlsym
+uretprobe:libc:dlsym
 / @symbols[tid] /
 {
 	$ret = retval;

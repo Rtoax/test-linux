@@ -1,3 +1,3 @@
 #!/bin/bash
 
-sudo bpftrace -l uprobe:/lib64/libc.so.6:*
+sudo bpftrace -l uprobe:libc:*

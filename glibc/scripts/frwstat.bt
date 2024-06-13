@@ -12,10 +12,10 @@ BEGIN
 
 }
 
-uprobe:/lib64/libc.so.6:fwrite,
-uprobe:/lib64/libc.so.6:fwrite_unlocked,
-uprobe:/lib64/libc.so.6:fread,
-uprobe:/lib64/libc.so.6:fread_unlocked
+uprobe:libc:fwrite,
+uprobe:libc:fwrite_unlocked,
+uprobe:libc:fread,
+uprobe:libc:fread_unlocked
 {
 	@[func] = count();
 }

@@ -13,7 +13,7 @@ BEGIN
 }
 
 /* glibc 2.34, pthread apis move to libc.so */
-uprobe:/lib64/libc.so.6:pthread_create
+uprobe:libc:pthread_create
 {
 	time("%H:%M:%S ");
 	printf("%-8d %-16s %s\n", pid, comm, usym(arg2));

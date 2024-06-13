@@ -2,12 +2,12 @@
 
 BEGIN
 {
-	printf("Tracing libc.so.6 memset. Hit ctrl-c to end\n");
+	printf("Tracing libc memset. Hit ctrl-c to end\n");
 }
 
-uprobe:/lib64/libc.so.6:__memset_*,
-uprobe:/lib64/libc.so.6:__wmemset*,
-uprobe:/lib64/libc.so.6:memset*
+uprobe:libc:__memset_*,
+uprobe:libc:__wmemset*,
+uprobe:libc:memset*
 {
 	@set[probe, comm] = count();
 }

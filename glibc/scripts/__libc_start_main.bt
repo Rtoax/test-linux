@@ -11,7 +11,7 @@ BEGIN
 	printf("%-8s %-8s %-8s\n", "TIME", "PID", "COMM");
 }
 
-uprobe:/lib64/libc.so.6:__libc_start_main
+uprobe:libc:__libc_start_main
 {
 	time("%H:%M:%S ");
 	printf("%-8d %-8s\n", pid, comm);

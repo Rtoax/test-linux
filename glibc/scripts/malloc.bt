@@ -10,7 +10,7 @@ BEGIN
 	printf("Tracing malloc(), hit ctrl-c to end.\n");
 }
 
-uprobe:/lib64/libc.so.6:malloc
+uprobe:libc:malloc
 {
 	$size = arg0;
 	@malloc = hist($size);

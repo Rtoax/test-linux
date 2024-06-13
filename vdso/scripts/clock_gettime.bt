@@ -12,13 +12,13 @@ BEGIN
 	printf("Tracing clock_gettime latency, hit ctrl-C to exit.\n");
 }
 
-uprobe:/lib64/libc.so.6:clock_gettime
+uprobe:libc:clock_gettime
 {
 	@start[tid] = nsecs;
 	@cnt[comm] = count();
 }
 
-uretprobe:/lib64/libc.so.6:clock_gettime
+uretprobe:libc:clock_gettime
 / @start[tid] /
 {
 	$latency_us = (nsecs - @start[tid]) / 1000;
