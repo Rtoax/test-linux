@@ -7,8 +7,8 @@
 /* ioctl cmd */
 typedef enum shmq_ioc_cmd {
 #define SHMQ_IOC_MAGIC  0xf0000000
-	SHMQ_IOC_WAIT		= (SHMQ_IOC_MAGIC | (1L<<0)),
-	SHMQ_IOC_WAKE_UP	= (SHMQ_IOC_MAGIC | (1L<<2)),
+	SHMQ_IOC_WAIT		= (SHMQ_IOC_MAGIC | (1L << 0)),
+	SHMQ_IOC_WAKE_UP	= (SHMQ_IOC_MAGIC | (1L << 2)),
 } shmq_ioc_cmd_t;
 
 /* shm queue hdr info */

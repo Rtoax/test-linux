@@ -78,13 +78,13 @@ static struct {
 	char *str;
 } shmq_log_prefix[] __attribute__((unused)) = {
 	{SHMQ_DEBUG,	KERN_DEBUG},
-	{SHMQ_INFO,	 KERN_INFO},
+	{SHMQ_INFO,	KERN_INFO},
 	{SHMQ_DEFAULT,  KERN_DEFAULT},
 	{SHMQ_NOTICE,   KERN_NOTICE},
 	{SHMQ_EMERG,	KERN_EMERG},
 	{SHMQ_ALERT,	KERN_ALERT},
 	{SHMQ_WARNING,  KERN_WARNING},
-	{SHMQ_ERR,	  KERN_ERR},
+	{SHMQ_ERR,	KERN_ERR},
 };
 
 static inline int __shmq_log(shmq_log_lv level, const char *func, int line,
@@ -110,7 +110,7 @@ static inline int __shmq_log(shmq_log_lv level, const char *func, int line,
 #define shmq_err(fmt...)	__shmq_log(SHMQ_ERR, __func__, __LINE__, fmt)
 
 
-static shmq_dev_t* shmq_dev[1];
+static shmq_dev_t *shmq_dev[1];
 static int __attribute__((unused)) _shmq_opened = 0;
 static int __attribute__((unused)) _shmq_writeable = 1;
 static int __attribute__((unused)) _shmq_readable = 1;
@@ -204,7 +204,8 @@ static int shmq_fasync(int i1, struct file *file, int i2)
 	return 0;
 }
 
-static int shmq_flock(struct file *file, int operation, struct file_lock *file_lock)
+static int shmq_flock(struct file *file, int operation,
+		      struct file_lock *file_lock)
 {
 	shmq_debug(__SHMQ_DEV_NAME"\n");
 	return 0;
@@ -313,8 +314,8 @@ static int __init shmq_init(void)
 
 	if (shmq_dev[0]->class) {
 		shmq_dev[0]->device = device_create(shmq_dev[0]->class, NULL,
-						shmq_dev[0]->dev_no,
-						NULL, __SHMQ_DEV_NAME);
+						    shmq_dev[0]->dev_no,
+						    NULL, __SHMQ_DEV_NAME);
 		if (IS_ERR((void *)shmq_dev[0]->device)) {
 			shmq_err("failed create / device\n");
 			ret = -2;
