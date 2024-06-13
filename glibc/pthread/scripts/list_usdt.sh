@@ -1,3 +1,5 @@
 #!/bin/bash
 
-sudo bpftrace -l usdt:/lib64/libpthread.so:*
+so=/lib64/libpthread.so.0
+
+sudo bpftrace -l usdt:${so}:*
