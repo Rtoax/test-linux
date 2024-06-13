@@ -5,7 +5,7 @@ ifneq ($(wildcard $(READLINE_HDR)),)
 TARGETS += rlversion
 TARGETS += rltest
 else
-$(error "ERROR: Must install libaio development header")
+$(error "ERROR: Must install readline development header")
 endif
 
 CC = gcc
