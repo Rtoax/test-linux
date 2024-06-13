@@ -15,6 +15,7 @@
 /SIGALRM
 /SIGUSR[1|2]
 /SIGUSR1-1
+/SIGCHLD
 /strsignal
 /alarm-sleep
 /sigaltstack
