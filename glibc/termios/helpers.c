@@ -9,7 +9,10 @@ int print_termios(struct termios *t)
 	printf("%2d:%4d:%c\n", VINTR, t->c_cc[VINTR], (char)t->c_cc[VINTR]);
 	printf("%2d:%4d:%c\n", VQUIT, t->c_cc[VQUIT], (char)t->c_cc[VQUIT]);
 	printf("%2d:%4d:%c\n", VSUSP, t->c_cc[VSUSP], (char)t->c_cc[VSUSP]);
-	//printf("%2d:%4d:%c\n", VDSUSP, t->c_cc[VDSUSP], (char)t->c_cc[VDSUSP]);
+
+#ifdef VDSUSP
+	printf("%2d:%4d:%c\n", VDSUSP, t->c_cc[VDSUSP], (char)t->c_cc[VDSUSP]);
+#endif
 
 	printf("%2d:%4d:%c\n", VEOF, t->c_cc[VEOF], (char)t->c_cc[VEOF]);
 	printf("%2d:%4d:%c\n", VEOL, t->c_cc[VEOL], (char)t->c_cc[VEOL]);
