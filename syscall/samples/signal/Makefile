@@ -8,7 +8,7 @@ TARGETS += kill kill-fork killpg
 TARGETS += raise
 TARGETS += strsignal
 TARGETS += alarm-sleep
-TARGETS += SIGFPE SIGHUP SIGALRM SIGUSR1 SIGUSR2 NSIG
+TARGETS += SIGFPE SIGHUP SIGALRM SIGUSR1 SIGUSR1-1 SIGUSR2 NSIG
 TARGETS += sigaltstack
 
 CC = gcc
@@ -39,17 +39,14 @@ SIGFPE: SIGFPE.o
 SIGHUP: SIGHUP.o
 SIGALRM: SIGALRM.o
 SIGUSR1: SIGUSR1.o
+SIGUSR1-1: SIGUSR1-1.o
 SIGUSR2: SIGUSR2.o
 NSIG: NSIG.o
 strsignal: strsignal.o
 alarm-sleep: alarm-sleep.o
 sigaltstack: sigaltstack.o
 
-%.d: %.c
-	@echo -e "Generate \033[1m$(@)\033[m"
-	@$(CC) $(CFLAGS) -MM -MF "$@" -MG -MP -MT"$@" -MT"$(<:.c=.o)" $(<)
-
-%.o: %.c %.d
+%.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
 
@@ -62,5 +59,4 @@ test: ${TARGETS}
 
 clean:
 	@echo -e "Clean   \033[1;32m$(@)\033[m"
-	@rm -f ${TARGETS} *.o *.d \
-		sig.h
+	@rm -f ${TARGETS} *.o sig.h

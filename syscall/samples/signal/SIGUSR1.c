@@ -31,6 +31,7 @@ int main(void)
 	if (pid < 0) {
 		perror("fork\n");
 		exit(1);
+	/* child */
 	} else if (pid == 0) {
 		n = 2;
 		sigemptyset(&act.sa_mask);
@@ -41,11 +42,12 @@ int main(void)
 
 		while (1) {
 			if (flag == 1) {
-				/* Send SIGUSR1 to parent */
+				/* Send SIGUSR2 to parent */
 				kill(getppid(), SIGUSR2);
 				flag = 0;
 			}
 		}
+	/* parent */
 	} else {
 		n = 1;
 		sleep(2);
