@@ -10,7 +10,7 @@ TARGETS += kill kill-fork killpg
 TARGETS += raise
 TARGETS += strsignal
 TARGETS += alarm-sleep alarm-sleep-2
-TARGETS += SIGFPE SIGHUP SIGALRM SIGUSR1 SIGUSR1-1 SIGUSR2 NSIG SIGCHLD SIGRTMAX SIGPIPE
+TARGETS += SIGFPE SIGHUP SIGALRM SIGUSR1 SIGUSR1-1 SIGUSR2 NSIG SIGCHLD SIGRTMAX SIGPIPE SIGBUS
 TARGETS += sigaltstack
 TARGETS += sigpending
 TARGETS += sigsuspend
@@ -48,6 +48,7 @@ raise: raise.o
 kill: kill.o
 kill-fork: kill-fork.o
 killpg: killpg.o
+SIGBUS: SIGBUS.o
 SIGFPE: SIGFPE.o
 SIGHUP: SIGHUP.o
 SIGALRM: SIGALRM.o

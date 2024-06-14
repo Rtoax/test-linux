@@ -20,6 +20,7 @@
 /SIGCHLD
 /SIGRTMAX
 /SIGPIPE
+/SIGBUS
 /strsignal
 /alarm-sleep
 /alarm-sleep-2
