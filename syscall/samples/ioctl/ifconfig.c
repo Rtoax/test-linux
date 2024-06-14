@@ -125,11 +125,12 @@ int main(int argc, char *argv[])
 		exit(0);
 	}
 
-	/*open a socket*/
+	/* open a socket */
 	skfd = socket(AF_INET, SOCK_DGRAM, 0);
 
 	detect_ip(skfd, ifname);
 
+	/* detect physic link */
 	retval = detect_ethtool(skfd, ifname);
 	if (retval == 2) {
 		retval = detect_mii(skfd, ifname);
@@ -142,6 +143,5 @@ int main(int argc, char *argv[])
 		printf("link up\n");
 
 	close(skfd);
-
 	return retval;
 }
