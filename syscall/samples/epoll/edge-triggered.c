@@ -12,6 +12,9 @@ int main(void)
 
 	event.data.fd = STDIN_FILENO;
 	event.events = EPOLLIN | EPOLLET;
+#ifdef USE_ONESHOT
+	event.events |= EPOLLONESHOT;
+#endif
 
 	epoll_ctl(epfd, EPOLL_CTL_ADD, STDIN_FILENO, &event);
 	while (1) {
