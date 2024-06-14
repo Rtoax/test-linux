@@ -10,6 +10,7 @@ TARGETS += strsignal
 TARGETS += alarm-sleep
 TARGETS += SIGFPE SIGHUP SIGALRM SIGUSR1 SIGUSR1-1 SIGUSR2 NSIG SIGCHLD SIGRTMAX
 TARGETS += sigaltstack
+TARGETS += sigpending
 
 CC = gcc
 
@@ -49,6 +50,7 @@ NSIG: NSIG.o
 strsignal: strsignal.o
 alarm-sleep: alarm-sleep.o
 sigaltstack: sigaltstack.o
+sigpending: sigpending.o
 
 %.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
@@ -59,7 +61,14 @@ $(TARGETS): %:
 	@$(CC) $(CFLAGS) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
 
 test: ${TARGETS}
-	@echo -e "Test   \033[1;32m$(@)\033[m"
+	@echo -e "Test \033[1;32msigpending\033[m"
+	./sigpending &
+	sleep 1
+	kill -2 $(shell pidof sigpending) # SIGINT
+	sleep 1
+	kill -20 $(shell pidof sigpending) # SIGTSTP
+	sleep 1
+	kill -9 $(shell pidof sigpending)
 
 clean:
 	@echo -e "Clean   \033[1;32m$(@)\033[m"
