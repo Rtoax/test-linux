@@ -15,6 +15,7 @@ OS := $(shell grep ^ID= /etc/os-release | sed 's/ID=//g' | sed 's/"//g')
 
 DEBUG = yes
 CC = gcc
+SHELL = /bin/bash
 
 CFLAGS := -Werror -Wall
 CFLAGS += -Wstrict-prototypes

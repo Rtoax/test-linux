@@ -15,6 +15,7 @@ TARGETS += sigsuspend
 TARGETS += sigprocmask
 
 CC = gcc
+SHELL = /bin/bash
 
 CFLAGS := -Werror -Wall -D_GNU_SOURCE
 CFLAGS += -I../../../
