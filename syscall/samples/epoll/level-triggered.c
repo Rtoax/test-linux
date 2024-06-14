@@ -24,6 +24,12 @@ int main(void)
 				printf("hello world\n");
 			}
 		}
+#ifdef USE_ONESHOT
+		/* Reset for oneshot */
+		event.data.fd = STDIN_FILENO;
+		event.events = EPOLLIN | EPOLLONESHOT;
+		epoll_ctl(epfd, EPOLL_CTL_MOD, STDIN_FILENO, &event);
+#endif
 	}
 
 	return 0;
