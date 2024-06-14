@@ -17,6 +17,7 @@ int main(int argc, char *argv[])
 	unsigned int n_stats;
 	struct ethtool_value edata;
 	struct ifreq ifr;
+	struct ethtool_cmd cmd;
 	struct {
 		struct ethtool_sset_info hdr;
 		unsigned int buf[1];
@@ -36,7 +37,7 @@ int main(int argc, char *argv[])
 
 	ret = ioctl(fd, SIOCETHTOOL, &ifr);
 	if (0 != ret) {
-		printf("errno=%d\n", errno);
+		printf("errno = %d\n", errno);
 		return -1;
 	}
 
@@ -45,17 +46,41 @@ int main(int argc, char *argv[])
 
 	/* ETHTOOL_GLINK */
 	edata.cmd = ETHTOOL_GLINK;
-	ifr.ifr_data = (caddr_t) & edata;
+	ifr.ifr_data = (caddr_t)&edata;
 
 	ret = ioctl(fd, SIOCETHTOOL, &ifr);
 	if (0 != ret) {
-		printf("errno=%d\n", errno);
+		printf("errno = %d\n", errno);
 		return -1;
 	}
 
 	if (edata.data) {
 		printf("Link detected on %s\n", ifr.ifr_name);
 	}
+
+	/* ETHTOOL_GSET */
+	cmd.cmd = ETHTOOL_GSET;
+	ifr.ifr_data = (caddr_t)&cmd;
+	ret = ioctl(fd, SIOCETHTOOL, &ifr);
+	if (0 != ret) {
+		printf("errno = %d\n", errno);
+		return -1;
+	}
+	printf("supported           %d \n", cmd.supported);
+	printf("advertising         %d \n", cmd.advertising);
+	printf("speed               %d Mb \n", cmd.speed);
+	printf("duplex              %u \n", cmd.duplex);
+	printf("port                %u \n", cmd.port);
+	printf("phy_address         %u \n", cmd.phy_address);
+	printf("transceiver         %u \n", cmd.transceiver);
+	printf("autoneg             %u \n", cmd.autoneg);
+	printf("mdio_support        %u \n", cmd.mdio_support);
+	printf("maxtxpkt            %d \n", cmd.maxtxpkt);
+	printf("maxrxpkt            %d \n", cmd.maxrxpkt);
+	printf("speed_hi            %d \n", cmd.speed_hi);
+	printf("eth_tp_mdix         %u \n", cmd.eth_tp_mdix);
+	printf("eth_tp_mdix_ctrl    %u \n", cmd.eth_tp_mdix_ctrl);
+	printf("lp_advertising      %d \n", cmd.lp_advertising);
 
 	return 0;
 }
