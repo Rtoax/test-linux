@@ -16,7 +16,7 @@ int main(void)
 		j = 1 + (int)(10.0 * rand() / RAND_MAX + 1.0);
 		printf("%3d", j);
 		if (i % 30 == 0)
-		printf("\n");
+			printf("\n");
 	}
 
 	return 0;

@@ -3,6 +3,9 @@
  */
 #include <pthread.h>
 #include <stdio.h>
+#include <stdlib.h>
+
+#define NR_THREADS	10
 
 struct test1 {
 	int id;
@@ -15,13 +18,15 @@ __thread __tls int tid = 0;
 
 void *test_task_fn(void *unused)
 {
+	int r;
 	printf("test_task_fn.\n");
 
-	tid++;
-	t.id++;
+	r = (int)(10.0 * rand() / RAND_MAX + 1.0);
 
-	printf("child: tid = %d\n", tid);
-	printf("child: t.id = %d\n", t.id);
+	tid = r;
+	t.id = r;
+
+	printf("child: tid = %d, t.id = %d\n", tid, t.id);
 
 	pthread_exit(NULL);
 	return NULL;
@@ -29,13 +34,14 @@ void *test_task_fn(void *unused)
 
 int main(void)
 {
-	pthread_t t1, t2;
+	int i;
+	pthread_t threads[NR_THREADS];
 
-	pthread_create(&t1, NULL, test_task_fn, NULL);
-	pthread_create(&t2, NULL, test_task_fn, NULL);
+	for (i = 0; i < NR_THREADS; i++)
+		pthread_create(&threads[i], NULL, test_task_fn, NULL);
 
-	pthread_join(t1, NULL);
-	pthread_join(t2, NULL);
+	for (i = 0; i < NR_THREADS; i++)
+		pthread_join(threads[i], NULL);
 
 	printf("parent: tid = %d\n", tid);
 	printf("parent: t.id = %d\n", t.id);
