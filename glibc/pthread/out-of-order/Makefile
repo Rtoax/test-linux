@@ -1,16 +1,26 @@
 TARGETS :=
 TARGETS += barrier
+TARGETS += no-barrier
 
 CC = gcc
 
 CFLAGS := -Werror -Wall -pthread
-CFLAGS += -DHAVE_MBARRIER=1
 CFLAGS += -I$(shell realpath .)/../../../synchronization/barrier/
 
+CFLAGS_barrier += -DHAVE_MBARRIER=1
 
 build: ${TARGETS}
 
 barrier: barrier.o
+no-barrier: no-barrier.o
+
+%.o: %.c
+	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
+	$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
+
+$(TARGETS): %:
+	@echo -e "Target   \033[1;32m$(@)\033[m"
+	$(CC) -o $(@) $(^) $(LDLIBS) $(LDFLAGS) $(LDFLAGS_$(*)) $(CFLAGS) $(CFLAGS_$(*))
 
 clean:
 	@rm -f *.o *.d ${TARGETS}
