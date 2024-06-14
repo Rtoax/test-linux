@@ -26,6 +26,41 @@ static void usage(void)
 	exit(1);
 }
 
+int detect_ip(int sockfd, char *name)
+{
+	struct ifreq ifr;
+	struct sockaddr_in *addr;
+	char *address;
+
+	strncpy(ifr.ifr_name, name, strlen(name) + 1);
+
+	if (ioctl(sockfd, SIOCGIFADDR, &ifr) < 0) {
+		perror("ioctl error");
+		exit(0);
+	}
+	addr = (struct sockaddr_in*)&(ifr.ifr_addr);
+	address = inet_ntoa(addr->sin_addr);
+	printf("inet addr: %s\n", address);
+
+	if (ioctl(sockfd, SIOCGIFBRDADDR, &ifr) == -1) {
+		perror("ioctl error");
+		exit(0);
+	}
+	addr = (struct sockaddr_in*)&(ifr.ifr_broadaddr);
+	address = inet_ntoa(addr->sin_addr);
+	printf("broad addr: %s\n", address);
+
+	if (ioctl(sockfd, SIOCGIFNETMASK, &ifr) == -1) {
+		perror("ioctl error");
+		exit(0);
+	}
+	addr = (struct sockaddr_in*)&(ifr.ifr_addr);
+	address = inet_ntoa(addr->sin_addr);
+	printf("inet mask: %s\n", address);
+
+	return 0;
+}
+
 int detect_mii(int skfd, char *ifname)
 {
 	struct ifreq ifr;
@@ -93,18 +128,20 @@ int main(int argc, char *argv[])
 	/*open a socket*/
 	skfd = socket(AF_INET, SOCK_DGRAM, 0);
 
+	detect_ip(skfd, ifname);
+
 	retval = detect_ethtool(skfd, ifname);
 	if (retval == 2) {
 		retval = detect_mii(skfd, ifname);
 	}
-	close(skfd);
-
 	if (retval == 2)
 		printf("could not determine status\n");
 	if (retval == 1)
 		printf("link down\n");
 	if (retval == 0)
 		printf("link up\n");
+
+	close(skfd);
 
 	return retval;
 }
