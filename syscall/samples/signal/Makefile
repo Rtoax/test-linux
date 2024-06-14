@@ -7,10 +7,12 @@ TARGETS += psignal
 TARGETS += kill kill-fork killpg
 TARGETS += raise
 TARGETS += strsignal
-TARGETS += alarm-sleep
+TARGETS += alarm-sleep alarm-sleep-2
 TARGETS += SIGFPE SIGHUP SIGALRM SIGUSR1 SIGUSR1-1 SIGUSR2 NSIG SIGCHLD SIGRTMAX
 TARGETS += sigaltstack
 TARGETS += sigpending
+TARGETS += sigsuspend
+TARGETS += sigprocmask
 
 CC = gcc
 
@@ -49,8 +51,11 @@ SIGRTMAX: SIGRTMAX.o
 NSIG: NSIG.o
 strsignal: strsignal.o
 alarm-sleep: alarm-sleep.o
+alarm-sleep-2: alarm-sleep-2.o
 sigaltstack: sigaltstack.o
 sigpending: sigpending.o
+sigsuspend: sigsuspend.o
+sigprocmask: sigprocmask.o
 
 %.o: %.c
 	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

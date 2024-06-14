@@ -21,5 +21,8 @@
 /SIGRTMAX
 /strsignal
 /alarm-sleep
+/alarm-sleep-2
 /sigaltstack
 /sigpending
+/sigsuspend
+/sigprocmask
