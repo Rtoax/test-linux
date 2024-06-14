@@ -7,9 +7,11 @@
  * Author: Rong Tao <rtoax@foxmail.com>
  * Data: 2022-04-24
  */
+#ifdef BPFTRACE_HAVE_BTF
 #include <linux/slab.h>
 #include <linux/slub_def.h>
 #include <linux/dcache.h>
+#endif
 
 BEGIN
 {
