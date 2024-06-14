@@ -1,3 +1,5 @@
+TCMALLOC_HDR = /usr/include/gperftools/tcmalloc.h
+
 TARGETS :=
 TARGETS += tc_malloc tc_malloc_skip_new_handler
 TARGETS += tc_calloc
@@ -23,6 +25,12 @@ TARGETS += IsHeapProfilerRunning
 TARGETS += MallocExtension_VerifyNewMemory
 TARGETS += ProfilerStart
 TARGETS += ProfilerStartWithOptions
+endif
+
+ifeq ($(wildcard $(TCMALLOC_HDR)),)
+$(warning "WARNING: Must install gperftools/tcmalloc development header")
+# Compile nothing
+TARGETS :=
 endif
 
 CC = gcc
