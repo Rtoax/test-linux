@@ -18,11 +18,13 @@ SUB_kernel_DIR_TEST := $(SUB_kernel_DIR:%=%_test)
 SUB_kernel_DIR_CLEAN := $(SUB_kernel_DIR:%=%_clean)
 
 all:
-	@echo -e "make default: user+kernel"
+	@echo -e "make default: show this information"
 	@echo -e "make [user|kernel]"
 	@echo -e "make [test|testuser|testkernel]"
 	@echo -e "make [clean|cleanuser|cleankernel|cleangit]"
 	@echo -e "make archive"
+	@echo -e "make check"
+	@echo -e "make installdeps"
 
 define cleanuserlog
 	@rm -f $(user_FAILED_LOG)
@@ -104,6 +106,11 @@ installdeps:
 
 archive:
 	bash scripts/git-archive
+
+check:
+	@echo "Check invalid symbol link start"
+	bash scripts/invalid-link.sh
+	@echo "Check invalid symbol link done"
 
 # Make clean
 clean:
