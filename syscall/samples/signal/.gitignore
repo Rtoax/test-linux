@@ -1,5 +1,7 @@
 /sig.h
 /sigaction
+/sigaction-2
+/sigaction-3
 /signo
 /signal
 /sigwait
