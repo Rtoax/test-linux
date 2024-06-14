@@ -1,4 +1,4 @@
 /eventfd
-/lt
-/et
+/level-triggered
+/edge-triggered
 /tcp-echo

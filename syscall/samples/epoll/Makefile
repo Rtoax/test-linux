@@ -1,14 +1,11 @@
-
 TARGETS := eventfd
-TARGETS += lt et
+TARGETS += level-triggered edge-triggered
 TARGETS += tcp-echo
 
 CC = gcc
 
 CFLAGS := -Werror -Wall -D_GNU_SOURCE
 CFLAGS += -pthread
-CFLAGS += -I../../../
-CFLAGS += -I../
 CFLAGS += -DDEBUG -O0 -g
 
 build: ${TARGETS}
@@ -17,8 +14,8 @@ build: ${TARGETS}
 
 # Add more object.o file
 eventfd: eventfd.o
-lt: lt.o
-et: et.o
+level-triggered: level-triggered.o
+edge-triggered: edge-triggered.o
 tcp-echo: tcp-echo.o
 
 test: ${TARGETS}
