@@ -1,3 +1,5 @@
+sub-dir := SIGURG
+
 TARGETS := signal
 TARGETS += sigaction sigaction-2 sigaction-3
 TARGETS += sigwait
@@ -22,7 +24,12 @@ CFLAGS += -I../../../
 CFLAGS += -I../
 CFLAGS += -DDEBUG -O0 -g
 
-build: sig.h ${TARGETS}
+
+sub-dir-build := $(sub-dir:=.build)
+sub-dir-clean := $(sub-dir:=.clean)
+
+.PHONY: build
+build: sig.h ${TARGETS} $(sub-dir-build)
 	@echo
 	@echo -e " \033[1;33m Done \033[m"
 
@@ -77,6 +84,15 @@ test: ${TARGETS}
 	sleep 1
 	kill -9 $(shell pidof sigpending)
 
-clean:
+.PHONY: clean
+clean: $(sub-dir-clean)
 	@echo -e "Clean   \033[1;32m$(@)\033[m"
 	@rm -f ${TARGETS} *.o sig.h
+
+$(sub-dir-build):
+	@echo -e "\033[1;32m [sub-dir] build $(@)\033[m"
+	make -C $(@:.build=)
+$(sub-dir-clean):
+	@echo -e "\033[1;32m [sub-dir] clean $(@)\033[m"
+	make -C $(@:.clean=) clean
+
