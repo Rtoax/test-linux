@@ -1,5 +1,6 @@
 sub-dir := linklist
 sub-dir += samples
+sub-dir += mmap
 
 sub-dir-build := $(sub-dir:=.build)
 sub-dir-clean := $(sub-dir:=.clean)
