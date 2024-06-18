@@ -1,7 +1,15 @@
+TARGETS :=
 
-TARGETS := main
+CLANG = $(shell which clang 2>/dev/null)
 
-CC = clang
+ifeq ($(CLANG),)
+$(warning Not found clang, please install clang first)
+else
+TARGETS += main
+endif
+
+CC = ${CLANG}
+
 CFLAGS := -O0 -Wall
 
 .PHONY: build
