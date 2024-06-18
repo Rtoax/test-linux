@@ -18,7 +18,7 @@ mkdir bin/ boot/
 
 ./mkboot.sh
 
-cp configs/grub-kernel.cfg boot/grub.cfg
+cp configs/grub.cfg boot/grub.cfg
 cp /boot/vmlinuz-$(uname -r) bin/kernel
 sudo cp /boot/initramfs-$(uname -r).img bin/initrd.img
 mv grub.img bin/
@@ -27,6 +27,7 @@ genisoimage \
 	-graft-points \
 	-input-charset utf8 \
 	-A "grub2" \
+	-V "grub2" \
 	-quiet -R -b \
 	boot/grub/grub.img \
 	-no-emul-boot \

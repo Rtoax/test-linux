@@ -111,7 +111,7 @@ pushd ${root_dir}
 mkdir -p bin
 mkdir -p boot
 
-cp ${curr_dir}/configs/grub-kernel.cfg boot/grub.cfg
+cp ${curr_dir}/configs/grub.cfg boot/grub.cfg
 
 ${grub_mkimage} \
 	--format=${grub_format} \
