@@ -1,18 +1,20 @@
+TARGETS :=
 
-TARGETS := hello
+CLANG = $(shell which clang 2>/dev/null)
+ifeq ($(CLANG),)
+$(error Not found clang, please install clang first)
+else
+TARGETS += hello
+endif
 
-DEBUG = yes
-SRC_PATH := $(shell pwd)
-CC = clang
+CC = ${CLANG}
 
 CFLAGS := -Werror -Wall
 CFLAGS += -Wstrict-prototypes
 
 LLVM_CFLAGS := $(shell llvm-config --cflags)
 
-ifdef DEBUG
 CFLAGS += -DDEBUG -O0 -g
-endif
 
 .PHONY: build
 build: ${TARGETS}
