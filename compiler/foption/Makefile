@@ -9,7 +9,7 @@ TARGETS += fdump-tree-gimple
 TARGETS += fdump-tree-all-raw fdump-tree-all
 TARGETS += finput-charset
 
-ifneq ($(shell uname -m),aarch64)
+ifeq ($(shell uname -m),x86_64)
 TARGETS += fcf-protection
 endif
 
