@@ -28,6 +28,19 @@ Asynchronous I/O
 # Libaio
 
 
+# Sysfs
+
+- `/sys/block/$BLK/device/queue_count`
+- `/sys/block/$BLK/queue/nr_requests`
+- `/sys/block/$BLK/queue/max_sectors_kb`
+
+
+# Procfs
+
+- `/proc/sys/fs/aio-nr`
+- `/proc/sys/fs/aio-max-nr`
+
+
 # Links
 
 - https://github.com/littledan/linux-aio
