@@ -168,6 +168,7 @@ esac
 
 pkgs+=( acpi acpica-tools )
 pkgs+=( autoconf-archive )
+pkgs+=( bc )
 pkgs+=( blktrace )
 pkgs+=( bpftrace bcc )         # eBPF
 pkgs+=( cargo )                # The Rust package manager
