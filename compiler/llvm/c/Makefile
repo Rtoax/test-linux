@@ -1,8 +1,10 @@
 TARGETS :=
 
 CLANG = $(shell which clang 2>/dev/null)
+LLVM_CONFIG = $(shell which llvm-config 2>/dev/null)
+
 ifeq ($(CLANG),)
-$(error Not found clang, please install clang first)
+$(warning Not found clang, please install clang first)
 else
 TARGETS += hello
 endif
@@ -12,7 +14,13 @@ CC = ${CLANG}
 CFLAGS := -Werror -Wall
 CFLAGS += -Wstrict-prototypes
 
-LLVM_CFLAGS := $(shell llvm-config --cflags)
+LLVM_CFLAGS :=
+
+ifeq ($(LLVM_CONFIG),)
+$(warning Not found llvm-config, please install llvm first)
+else
+LLVM_CFLAGS += $(shell llvm-config --cflags)
+endif
 
 CFLAGS += -DDEBUG -O0 -g
 
