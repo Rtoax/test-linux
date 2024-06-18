@@ -1,5 +1,4 @@
 #!/bin/bash
-
 set -ex
 
 . ../../libs/qemu.sh
@@ -21,9 +20,10 @@ mkdir bin/ boot/
 cp configs/grub.cfg boot/grub.cfg
 cp /boot/vmlinuz-$(uname -r) bin/kernel
 sudo cp /boot/initramfs-$(uname -r).img bin/initrd.img
+sudo chmod +rw bin/initrd.img
 mv grub.img bin/
 
-genisoimage \
+sudo genisoimage \
 	-graft-points \
 	-input-charset utf8 \
 	-A "grub2" \
@@ -43,9 +43,9 @@ echo -e "
 Now you can runing
 
 \033[1;02m # running directly \033[m
-\033[1;32m $ ${qemu_kvm} -cdrom bootcd.iso \033[m
+\033[1;32m $ ${qemu_kvm} -m 1024 -cdrom bootcd.iso \033[m
 \033[1;02m # running with gdb port \033[m
-\033[1;32m $ ${qemu_kvm} -cdrom bootcd.iso -s -S \033[m
+\033[1;32m $ ${qemu_kvm} -m 1024 -cdrom bootcd.iso -s -S \033[m
 
 more to see <https://www.cnblogs.com/coryxie/archive/2013/03/12/2956807.html>
 "
