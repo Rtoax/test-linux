@@ -1,6 +1,8 @@
 TARGETS := atomic_test
 TARGETS += __sync_synchronize
+ifeq ($(shell uname -m),x86_64)
 TARGETS += spin-demo3 spin-demo3-nonlock
+endif
 
 CFLAGS :=
 
