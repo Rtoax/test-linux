@@ -43,10 +43,10 @@ __attribute__section-readmostly: __attribute__section-readmostly.o
 __attribute__vector_size: __attribute__vector_size.o
 __attribute__weak: __attribute__weak.o
 
-ifneq ($(shell uname -m),aarch64)
+ifeq ($(shell uname -m),x86_64)
 CFLAGS___attribute__nocf_check := -fcf-protection
 else
-$(warning TODO: Does aarch64 support -fcf-protection=full)
+$(warning FXIME: Arch may not support -fcf-protection=full)
 endif
 
 %.o: %.c

@@ -21,6 +21,9 @@
 #elif defined(__aarch64__)
 #define __noendbr
 # warning "TODO: aarch64"
+#elif defined(__sw_64__)
+#define __noendbr
+# warning "TODO: sw_64"
 #else
 # error "Not support arch"
 #endif
