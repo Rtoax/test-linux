@@ -36,6 +36,7 @@ USER_LIST += rust
 USER_LIST += security
 # FIXME
 USER_LIST += security/access/lsm/selinux/libselinux/samples/
+USER_LIST += shell
 USER_LIST += synchronization
 USER_LIST += syscall
 USER_LIST += template

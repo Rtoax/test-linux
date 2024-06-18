@@ -9,10 +9,10 @@ handle_failed_cmd()
 		ret_code=$?
 		if [[ ${ret_code} -eq 1 ]]; then
 			echo Failed.
-			exit ${ret_code}
+			return ${ret_code}
 		fi
 	}
 }
 
-handle_failed_cmd
+handle_failed_cmd || true
 

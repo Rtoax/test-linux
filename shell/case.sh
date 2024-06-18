@@ -15,4 +15,4 @@ yes_or_no()
 	esac
 }
 
-yes_or_no
+yes_or_no "$@"

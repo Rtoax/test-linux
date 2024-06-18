@@ -8,4 +8,5 @@
 		echo -e  "require root user"
 		exit  $UID
 	}
+	true
 }

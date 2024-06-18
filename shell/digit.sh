@@ -8,8 +8,9 @@ is_digit() {
 	return 0
 }
 
-is_digit abc
+is_digit abc || true
 is_digit 000
 is_digit 123
-is_digit a23
+is_digit -123
+is_digit a23 || true
 

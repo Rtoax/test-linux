@@ -16,5 +16,5 @@ echo var=$var
 unset var
 
 # shell exit here
-echo ${var:?$message}
+echo ${var:?$message} || true
 
