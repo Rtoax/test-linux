@@ -9,6 +9,13 @@ CC = gcc
 CFLAGS := -Werror -Wall -D_GNU_SOURCE
 CFLAGS += -DDEBUG -O0 -g
 CFLAGS += -lbfd
+# FIXME: /usr/include/bfd.h may include these lines. There must be a better way
+# to fix this.
+#  /* PR 14072: Ensure that config.h is included first.  */
+#  #if !defined PACKAGE && !defined PACKAGE_VERSION
+#  error config.h must be included before this header
+#  endif
+CFLAGS += -DPACKAGE=1
 
 # Get binutils version
 BINUTILS_VERSION = $(shell ld -v | grep -o [0-9].[0-9]\. | sed -n '1p')
