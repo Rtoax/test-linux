@@ -1,9 +1,12 @@
-TARGETS :=
+CACHEFLUSH_HDR = /usr/include/asm/cacheflush.h
 
+TARGETS :=
+ifneq ($(wildcard $(CACHEFLUSH_HDR)),)
 ifeq ($(shell uname -m),x86_64)
 endif
 ifeq ($(shell uname -m),aarch64)
 TARGETS += cacheflush
+endif
 endif
 
 CC = gcc
