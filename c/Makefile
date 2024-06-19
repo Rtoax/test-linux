@@ -55,6 +55,11 @@ LDLIBS :=
 
 CFLAGS := -Werror -Wall
 CFLAGS += -I../macro/
+ifeq ($(shell uname -m),sw_64)
+	ifeq ($(shell lscpu | grep -o WX-H8000 || true),WX-H8000)
+		CFLAGS += -mcpu=sw8a
+	endif
+endif
 ifdef STATIC
 CFLAGS += -static
 $(info Defined STATIC)
