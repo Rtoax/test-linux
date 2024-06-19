@@ -72,14 +72,16 @@ sudo mkdir -p boot.boot.mnt/grub2/
 sudo cp /boot/efi/EFI/${ID}/grub${EFI_ARCH}.efi boot.efi.mnt/efi/boot/boot${EFI_ARCH}.efi
 # Get boot partition UUID
 boot_uuid=$( lsblk -o uuid ${loop}p2 | sed 1d )
-echo "search --no-floppy --fs-uuid --set=dev ${boot_uuid}
-set prefix=(\$dev)/grub2
+echo "search --no-floppy --fs-uuid --set=boot ${boot_uuid}
+set prefix=(\$boot)/grub2
 
 export \$prefix
 configfile \$prefix/grub.cfg
 " | sudo tee boot.efi.mnt/efi/boot/grub.cfg
 
 sudo cp grub.cfg boot.boot.mnt/grub2/grub.cfg
+sudo cp /boot/vmlinuz-$(uname -r) boot.boot.mnt/vmlinuz
+sudo cp /boot/initramfs-$(uname -r).img boot.boot.mnt/initrd.img
 
 [[ ${loop} ]] && sudo fdisk -l ${loop}
 sudo fdisk -l boot.img
