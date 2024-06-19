@@ -52,6 +52,7 @@ sub-dir += sysinfo
 sub-dir += sysmacros
 sub-dir += termios
 sub-dir += time
+sub-dir += times
 sub-dir += timex
 sub-dir += ucontext
 sub-dir += utmp
