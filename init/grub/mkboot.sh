@@ -28,7 +28,7 @@ trap "clean_all" EXIT
 
 if [[ $(uname -m) == x86_64 ]]; then
 	modules=(
-		loadenv biosdisk part_msdos part_gpt fat ntfs
+		gzio loadenv biosdisk part_msdos part_gpt fat ntfs efi_gop efi_uga
 		ext2 ntfscomp iso9660 loopback search linux boot minicmd cat cpuid chain
 		halt help ls reboot echo test configfile normal sleep memdisk tar font
 		gfxterm gettext true vbe vga video_bochs video_cirrus multiboot multiboot2
