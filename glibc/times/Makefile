@@ -1,5 +1,6 @@
 TARGETS :=
 TARGETS += times
+TARGETS += times-cnt times-cal
 
 CC = gcc
 
@@ -12,6 +13,8 @@ build: ${TARGETS}
 
 # Add more object.o file
 times: times.o
+times-cal: times-cal.o
+times-cnt: times-cnt.o
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
