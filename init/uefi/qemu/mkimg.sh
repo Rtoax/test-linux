@@ -19,11 +19,11 @@ esac
 
 dd if=/dev/zero of=boot.img bs=1M count=512
 sudo mkfs.vfat boot.img
-mkdir -p boot.mnt
-sudo mount boot.img boot.mnt
-sudo mkdir -p boot.mnt/efi/boot/
+mkdir -p boot.efi.mnt
+sudo mount boot.img boot.efi.mnt
+sudo mkdir -p boot.efi.mnt/efi/boot/
 
-sudo cp /boot/efi/EFI/${ID}/grub${EFI_ARCH}.efi boot.mnt/efi/boot/boot${EFI_ARCH}.efi
-sudo cp grub.cfg boot.mnt/efi/boot/grub.cfg
-sudo umount boot.mnt
-rmdir boot.mnt
+sudo cp /boot/efi/EFI/${ID}/grub${EFI_ARCH}.efi boot.efi.mnt/efi/boot/boot${EFI_ARCH}.efi
+sudo cp grub.cfg boot.efi.mnt/efi/boot/grub.cfg
+sudo umount boot.efi.mnt
+rmdir boot.efi.mnt
