@@ -24,5 +24,6 @@ sudo mount boot.img boot.mnt
 sudo mkdir -p boot.mnt/efi/boot/
 
 sudo cp /boot/efi/EFI/${ID}/grub${EFI_ARCH}.efi boot.mnt/efi/boot/boot${EFI_ARCH}.efi
+sudo cp grub.cfg boot.mnt/efi/boot/grub.cfg
 sudo umount boot.mnt
 rmdir boot.mnt
