@@ -8,7 +8,7 @@ qemu_kvm=$(get_qemu_kvm_emulator)
 goodbye()
 {
 	echo "Exit..."
-	rm -rf tmp-*
+	rm -rf tmp-* boot/
 }
 trap "goodbye" EXIT
 
