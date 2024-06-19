@@ -41,7 +41,10 @@ multi_partitions() {
 	EOF
 	loop=$( sudo losetup --find --show boot.img )
 
-	# FIXME: fdisk return 1
+	# FIXME: fdisk return 1, the error/warning:
+	# Re-reading the partition table failed.: Invalid argument
+	# The kernel still uses the old table. The new table will be used at
+	# the next reboot or after you run partprobe(8) or partx(8).
 	sudo fdisk ${loop} < fdiskpart.txt || true
 
 	sudo losetup --detach ${loop}
