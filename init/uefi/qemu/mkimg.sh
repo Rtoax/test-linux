@@ -67,9 +67,19 @@ single_partition() {
 multi_partitions
 
 sudo mkdir -p boot.efi.mnt/efi/boot/
+sudo mkdir -p boot.boot.mnt/grub2/
 
 sudo cp /boot/efi/EFI/${ID}/grub${EFI_ARCH}.efi boot.efi.mnt/efi/boot/boot${EFI_ARCH}.efi
-sudo cp grub.cfg boot.efi.mnt/efi/boot/grub.cfg
+# Get boot partition UUID
+boot_uuid=$( lsblk -o uuid ${loop}p2 | sed 1d )
+echo "search --no-floppy --fs-uuid --set=dev ${boot_uuid}
+set prefix=(\$dev)/grub2
+
+export \$prefix
+configfile \$prefix/grub.cfg
+" | sudo tee boot.efi.mnt/efi/boot/grub.cfg
+
+sudo cp grub.cfg boot.boot.mnt/grub2/grub.cfg
 
 [[ ${loop} ]] && sudo fdisk -l ${loop}
 sudo fdisk -l boot.img
