@@ -1,3 +1,6 @@
+# Contained in glibc-devel i686
+GNU_STUBS_32_HDR = /usr/include/gnu/stubs-32.h
+
 TARGETS :=
 TARGETS += align
 TARGETS += alias
@@ -31,6 +34,13 @@ TARGETS := $(subst __WORDSIZE-32,,${TARGETS})
 endif
 ifeq ($(shell uname -m),sw_64)
 # sw_64's gcc not support -m32
+TARGETS := $(subst __WORDSIZE-32,,${TARGETS})
+endif
+
+# No m32 found
+ifeq ($(wildcard $(GNU_STUBS_32_HDR)),)
+$(warning "ERROR: Not found glibc-devel i686 headers")
+TARGETS := $(subst __i386__,,${TARGETS})
 TARGETS := $(subst __WORDSIZE-32,,${TARGETS})
 endif
 
