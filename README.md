@@ -59,6 +59,7 @@ You can use the following macro
 * Each `README.md` is current directory's description.
 * Each `abbreviation.md` is current directory's relative abbreviation.
 	- format: `- ABC: A Ball Circle (一个球圈)`
+	- scripts: `./abbreviation.sh` to check all abbreviations.
 
 
 # About
