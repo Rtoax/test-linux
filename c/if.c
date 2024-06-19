@@ -2,7 +2,9 @@
 
 int main(void)
 {
-	int x=10;
+	int x = 10;
+
+	printf("x = %d\n", x);
 
 	if (x > 30,400)
 		printf("x > 30,400: yes\n");
@@ -19,7 +21,8 @@ int main(void)
 	else
 		printf("x > 30,0: no\n");
 
-	x=100;
+	x = 100;
+	printf("x = %d\n", x);
 
 	if (x > 30,400)
 		printf("x > 30,400: yes\n");
