@@ -108,7 +108,6 @@ fi
 mkdir -p ${root_dir}
 pushd ${root_dir}
 
-mkdir -p bin
 mkdir -p boot
 
 cp ${curr_dir}/configs/grub.cfg boot/grub.cfg

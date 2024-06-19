@@ -12,16 +12,16 @@ goodbye()
 }
 trap "goodbye" EXIT
 
-rm -rf bin/ boot/
-mkdir bin/ boot/
+rm -rf boot/
+mkdir boot/
 
 ./mkboot.sh
 
 cp configs/grub.cfg boot/grub.cfg
-cp /boot/vmlinuz-$(uname -r) bin/kernel
-sudo cp /boot/initramfs-$(uname -r).img bin/initrd.img
-sudo chmod +rw bin/initrd.img
-mv grub.img bin/
+cp /boot/vmlinuz-$(uname -r) boot/kernel
+sudo cp /boot/initramfs-$(uname -r).img boot/initrd.img
+sudo chmod +rw boot/initrd.img
+mv grub.img boot/
 
 sudo genisoimage \
 	-graft-points \
@@ -34,10 +34,10 @@ sudo genisoimage \
 	-boot-load-size 4 \
 	-boot-info-table \
 	-o bootcd.iso \
-	boot/kernel=bin/kernel \
-	boot/initrd.img=bin/initrd.img \
+	boot/kernel=boot/kernel \
+	boot/initrd.img=boot/initrd.img \
 	boot/grub/grub.cfg=boot/grub.cfg \
-	boot/grub/grub.img=bin/grub.img
+	boot/grub/grub.img=boot/grub.img
 
 echo -e "
 Now you can runing
