@@ -5,12 +5,13 @@ prog=inst-deps
 
 declare -a dnf_args
 declare -a pkgs pkgs_compiler pkgs_desktop whls pkgs_bench pkgs_math pkgs_db
-declare -a pkgs_storage pkgs_net pkgs_container
+declare -a pkgs_storage pkgs_net pkgs_container pkgs_virt
 
 have_upgrade=YES
 have_whls=
 have_compiler=
 have_container=
+have_virt=
 have_desktop=
 have_math=
 have_bench=
@@ -58,6 +59,7 @@ ARGUMENT
 	--db               install database relate packages
 	--storage          install storage relate packages
 	--net              install network relate packages
+	--virt             install virtualization relate package
 
 	--noup             skip upgrade
 
@@ -77,6 +79,7 @@ TEMP=$(getopt --options h \
 	--long noup \
 	--long compilers \
 	--long container \
+	--long virt \
 	--long whls \
 	--long desktop \
 	--long math \
@@ -103,6 +106,7 @@ while true; do
 		shift
 		have_compiler=YES
 		have_container=YES
+		have_virt=YES
 		have_whls=YES
 		have_desktop=YES
 		have_math=YES
@@ -119,6 +123,10 @@ while true; do
 	--container)
 		shift
 		have_container=YES
+		;;
+	--virt)
+		shift
+		have_virt=YES
 		;;
 	--desktop)
 		shift
@@ -202,7 +210,6 @@ pkgs+=( parallel )
 pkgs+=( python3-pip )          # pip wheel
 pkgs+=( python3-pyroute2 )     # pyroute2
 pkgs+=( python3-scapy )
-pkgs+=( qemu-kvm qemu-user )
 pkgs+=( socat )
 pkgs+=( sparse )               # sparse
 pkgs+=( strace )
@@ -228,6 +235,10 @@ pkgs_container+=( podman )
 pkgs_container+=( runc )
 pkgs_container+=( skopeo )
 pkgs_container+=( udica )
+
+pkgs_virt+=( edk2-ovmf )
+pkgs_virt+=( libvirt )
+pkgs_virt+=( qemu-kvm qemu-user )
 
 # Benchmark
 pkgs_bench+=( iperf iperf3 )
@@ -337,6 +348,7 @@ cclinux|fedora|centos|rhel|openEuler|almalinux)
 
 	[[ ${have_compiler} ]] && pkgs+=( ${pkgs_compiler[@]} )
 	[[ ${have_container} ]] && pkgs+=( ${pkgs_container[@]} )
+	[[ ${have_virt} ]] && pkgs+=( ${pkgs_virt[@]} )
 	[[ ${have_desktop} ]] && pkgs+=( ${pkgs_desktop[@]} )
 	[[ ${have_math} ]] && pkgs+=( ${pkgs_math[@]} )
 	[[ ${have_bench} ]] && pkgs+=( ${pkgs_bench[@]} )
@@ -368,6 +380,7 @@ debian|ubuntu)
 
 	[[ ${have_compiler} ]] && pkgs+=( ${pkgs_compiler[@]} )
 	[[ ${have_container} ]] && pkgs+=( ${pkgs_container[@]} )
+	[[ ${have_virt} ]] && pkgs+=( ${pkgs_virt[@]} )
 	[[ ${have_desktop} ]] && pkgs+=( ${pkgs_desktop[@]} )
 	[[ ${have_math} ]] && pkgs+=( ${pkgs_math[@]} )
 	[[ ${have_bench} ]] && pkgs+=( ${pkgs_bench[@]} )
