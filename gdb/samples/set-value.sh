@@ -1,6 +1,6 @@
 #!/bin/bash
 
-make clean && make
+make
 
 gdb -q set-value < set-value.gdb
 gdb -q set-value-func < set-value.gdb

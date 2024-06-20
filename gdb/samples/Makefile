@@ -11,8 +11,8 @@ TARGETS_CPP := global-var
 
 # Get all .sh suffix scripts
 SCRIPTS := $(shell ls *.sh)
-# Output .sh.out suffix file list
-SCRIPTS_OUT = $(foreach s,${SCRIPTS},${s}.out)
+# Output .sh.log suffix file list
+SCRIPTS_OUT = $(foreach s,${SCRIPTS},${s}.log)
 
 CC = gcc
 CXX = g++
@@ -57,6 +57,7 @@ $(TARGETS): %:
 $(TARGETS_CPP): %:
 	$(CXX) -o $(@) $(^) $(LDXXFLAGS) $(LDXXFLAGS_$(*)) $(CXXFLAGS) $(CXXFLAGS_$(*))
 
+.PHONY: test
 test: ${SCRIPTS_OUT}
 	@echo
 	@echo "Test Done"
@@ -66,6 +67,7 @@ ${SCRIPTS_OUT}: %:
 	# Strip suffix and execute
 	./$(basename $(@)) | tee $(@)
 
+.PHONY: clean
 clean:
 	@echo -e "Clean   \033[1;32m$(@)\033[m"
-	@rm -f ${TARGETS} ${TARGETS_CPP} *.o *.d *.opp *.out
+	@rm -f ${TARGETS} ${TARGETS_CPP} *.o *.d *.opp *.log
