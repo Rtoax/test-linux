@@ -15,6 +15,7 @@ build/
 *.out
 *.d
 *.dpp
+*.strip
 
 # Precompiled Headers
 *.gch
@@ -158,3 +159,6 @@ vmlinux.h
 *.sig
 *.sign
 
+# Debug
+*.debug
+*.dbg

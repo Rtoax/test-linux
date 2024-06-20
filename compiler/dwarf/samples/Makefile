@@ -24,10 +24,11 @@ $(TARGETS): %:
 	@echo -e "Target   \033[1;32m$(@)\033[m"
 	$(CC) $(CFLAGS) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
 	dwz $(@) -o $(@).dwz
+	eu-strip $(@) -f $(@).debug -o $(@).strip
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
 
 clean:
 	@echo -e "Clean   \033[1;32m$(@)\033[m"
-	@rm -f ${TARGETS} *.o *.d *.s *.dwz
+	@rm -f ${TARGETS} *.o *.d *.s *.dwz *.debug *.strip
