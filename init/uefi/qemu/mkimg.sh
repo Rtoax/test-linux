@@ -4,15 +4,21 @@ set -ex
 source /etc/os-release
 
 EFI_ARCH=
+EFI_ARCH_U=
+# efi/boot is also works fine.
+EFI_BOOT_DIR=EFI/BOOT
 
 loop=
+
 
 case $(uname -m) in
 aarch64)
 	EFI_ARCH=aa64
+	EFI_ARCH_U=AA64
 	;;
 x86_64)
 	EFI_ARCH=x64
+	EFI_ARCH_U=X64
 	;;
 *)
 	echo "ERROR: Unknown arch $(uname -m)"
@@ -69,10 +75,19 @@ single_partition() {
 #single_partition
 multi_partitions
 
-sudo mkdir -p boot.efi.mnt/efi/boot/
+sudo mkdir -p boot.efi.mnt/${EFI_BOOT_DIR}/
 sudo mkdir -p boot.boot.mnt/grub2/
 
-sudo cp /boot/efi/EFI/${ID}/grub${EFI_ARCH}.efi boot.efi.mnt/efi/boot/boot${EFI_ARCH}.efi
+# The following methods work fine, choise one.
+grub_1() {
+	sudo cp /boot/efi/EFI/BOOT/BOOT${EFI_ARCH_U}.EFI boot.efi.mnt/${EFI_BOOT_DIR}/BOOT${EFI_ARCH_U}.EFI
+	sudo cp /boot/efi/EFI/${ID}/grub${EFI_ARCH}.efi boot.efi.mnt/${EFI_BOOT_DIR}/grub${EFI_ARCH}.efi
+}
+grub_2() {
+	sudo cp /boot/efi/EFI/${ID}/grub${EFI_ARCH}.efi boot.efi.mnt/${EFI_BOOT_DIR}/boot${EFI_ARCH}.efi
+}
+grub_1
+
 # Get boot partition UUID
 boot_uuid=$( lsblk -o uuid ${loop}p2 | sed 1d )
 echo "search --no-floppy --fs-uuid --set=boot ${boot_uuid}
@@ -80,7 +95,7 @@ set prefix=(\$boot)/grub2
 
 export \$prefix
 configfile \$prefix/grub.cfg
-" | sudo tee boot.efi.mnt/efi/boot/grub.cfg
+" | sudo tee boot.efi.mnt/${EFI_BOOT_DIR}/grub.cfg
 
 sudo cp grub.cfg boot.boot.mnt/grub2/grub.cfg
 sudo cp /boot/vmlinuz-$(uname -r) boot.boot.mnt/vmlinuz
