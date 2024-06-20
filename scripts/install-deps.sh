@@ -224,6 +224,7 @@ pkgs_container+=( cri-tools )
 pkgs_container+=( criu )
 pkgs_container+=( cri-o )
 pkgs_container+=( podman )
+pkgs_container+=( runc )
 pkgs_container+=( skopeo )
 pkgs_container+=( udica )
 
