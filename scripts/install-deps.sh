@@ -5,11 +5,12 @@ prog=inst-deps
 
 declare -a dnf_args
 declare -a pkgs pkgs_compiler pkgs_desktop whls pkgs_bench pkgs_math pkgs_db
-declare -a pkgs_storage pkgs_net
+declare -a pkgs_storage pkgs_net pkgs_container
 
 have_upgrade=YES
 have_whls=
 have_compiler=
+have_container=
 have_desktop=
 have_math=
 have_bench=
@@ -49,6 +50,7 @@ ARGUMENT
 	--all
 
 	--compilers        install extra compilers, such as rust java
+	--container        install container relate packages, such as podman
 	--whls             install python pip wheel packages
 	--desktop          install desktop relate packages
 	--math             install math relate packages
@@ -74,6 +76,7 @@ TEMP=$(getopt --options h \
 	--long all \
 	--long noup \
 	--long compilers \
+	--long container \
 	--long whls \
 	--long desktop \
 	--long math \
@@ -99,6 +102,7 @@ while true; do
 	--all)
 		shift
 		have_compiler=YES
+		have_container=YES
 		have_whls=YES
 		have_desktop=YES
 		have_math=YES
@@ -111,6 +115,10 @@ while true; do
 	--compilers)
 		shift
 		have_compiler=YES
+		;;
+	--container)
+		shift
+		have_container=YES
 		;;
 	--desktop)
 		shift
@@ -173,7 +181,6 @@ pkgs+=( blktrace )
 pkgs+=( bpftrace bcc )         # eBPF
 pkgs+=( cargo )                # The Rust package manager
 pkgs+=( crash )
-pkgs+=( criu )
 pkgs+=( dialog kdialog )
 pkgs+=( dwz )                  # DWARF optimization and duplicate removal tool
 pkgs+=( dwarves )              # pahole
@@ -208,6 +215,17 @@ pkgs_compiler+=( gcc-aarch64-linux-gnu )
 pkgs_compiler+=( gcc gcc-c++ )
 pkgs_compiler+=( golang )
 pkgs_compiler+=( lua )
+
+pkgs_container+=( buildah )
+pkgs_container+=( conmon )
+pkgs_container+=( container-tools )
+pkgs_container+=( crun )
+pkgs_container+=( crictl )
+pkgs_container+=( criu )
+pkgs_container+=( cri-o )
+pkgs_container+=( podman )
+pkgs_container+=( skopeo )
+pkgs_container+=( udica )
 
 # Benchmark
 pkgs_bench+=( iperf iperf3 )
@@ -316,6 +334,7 @@ cclinux|fedora|centos|rhel|openEuler|almalinux)
 	args+=( --nogpgcheck )
 
 	[[ ${have_compiler} ]] && pkgs+=( ${pkgs_compiler[@]} )
+	[[ ${have_container} ]] && pkgs+=( ${pkgs_container[@]} )
 	[[ ${have_desktop} ]] && pkgs+=( ${pkgs_desktop[@]} )
 	[[ ${have_math} ]] && pkgs+=( ${pkgs_math[@]} )
 	[[ ${have_bench} ]] && pkgs+=( ${pkgs_bench[@]} )
@@ -346,6 +365,7 @@ debian|ubuntu)
 	pkgs_math+=( fftw-dev )
 
 	[[ ${have_compiler} ]] && pkgs+=( ${pkgs_compiler[@]} )
+	[[ ${have_container} ]] && pkgs+=( ${pkgs_container[@]} )
 	[[ ${have_desktop} ]] && pkgs+=( ${pkgs_desktop[@]} )
 	[[ ${have_math} ]] && pkgs+=( ${pkgs_math[@]} )
 	[[ ${have_bench} ]] && pkgs+=( ${pkgs_bench[@]} )
