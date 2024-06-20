@@ -13,6 +13,7 @@ sub-dir += openmp
 sub-dir += pragma
 sub-dir += reloc
 sub-dir += __sync
+sub-dir += Wwarn
 
 sub-dir-build := $(sub-dir:=.build)
 sub-dir-clean := $(sub-dir:=.clean)
