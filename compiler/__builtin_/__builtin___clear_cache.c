@@ -2,6 +2,7 @@
 #include <malloc.h>
 
 #if defined(__aarch64__)
+extern void __aarch64_sync_cache_range(void *, void *);
 # define flush_cache(start, end) __aarch64_sync_cache_range(start, end)
 #else
 # define flush_cache(start, end) __builtin___clear_cache(start, end)
