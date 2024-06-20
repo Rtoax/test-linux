@@ -186,6 +186,7 @@ pkgs+=( dwz )                  # DWARF optimization and duplicate removal tool
 pkgs+=( dwarves )              # pahole
 pkgs+=( efibootmgr )           # UEFI
 pkgs+=( efivar mokutil )       # UEFI
+pkgs+=( elfutils )             # eu- prefix tools
 pkgs+=( gdb cgdb )
 pkgs+=( gnupg2 )               # gpg
 pkgs+=( hwloc )                # lstopo
