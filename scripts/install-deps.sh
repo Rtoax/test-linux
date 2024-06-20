@@ -357,7 +357,7 @@ cclinux|fedora|centos|rhel|openEuler|almalinux)
 	[[ ${have_net} ]] && pkgs+=( ${pkgs_net[@]} )
 
 	if [[ ${have_upgrade} ]]; then
-		inst_eval sudo dnf up ${dnf_args[@]} -y
+		inst_eval sudo dnf up ${dnf_args[@]} -y --allowerasing
 	fi
 	inst_eval sudo dnf install ${dnf_args[@]} ${args[@]} -y ${pkgs[@]}
 	;;
