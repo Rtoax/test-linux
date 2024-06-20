@@ -1,5 +1,5 @@
-
-TARGETS := set-value
+TARGETS :=
+TARGETS += set-value
 TARGETS += set-value-func
 TARGETS += set-value-volatile
 TARGETS += pthread-gdb
@@ -8,6 +8,11 @@ TARGETS += linklist
 TARGETS += daxpy
 
 TARGETS_CPP := global-var
+
+# Get all .sh suffix scripts
+SCRIPTS := $(shell ls *.sh)
+# Output .sh.out suffix file list
+SCRIPTS_OUT = $(foreach s,${SCRIPTS},${s}.out)
 
 CC = gcc
 CXX = g++
@@ -38,12 +43,29 @@ daxpy: daxpy.o
 global-var: global-var.opp
 
 
+%.o: %.c
+	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
+	$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
+
+$(TARGETS): %:
+	@echo -e "Target   \033[1;32m$(@)\033[m"
+	$(CC) -o $(@) $(^) $(LDLIBS) $(LDFLAGS) $(LDFLAGS_$(*)) $(CFLAGS) $(CFLAGS_$(*))
+
 %.opp: %.cpp
 	$(CXX) -o $(@) -c $(<) $(CXXFLAGS) $(CXXFLAGS_$(*))
 
 $(TARGETS_CPP): %:
 	$(CXX) -o $(@) $(^) $(LDXXFLAGS) $(LDXXFLAGS_$(*)) $(CXXFLAGS) $(CXXFLAGS_$(*))
 
+test: ${SCRIPTS_OUT}
+	@echo
+	@echo "Test Done"
+
+${SCRIPTS_OUT}: %:
+	@echo "Testing \033[1;32m$(basename $(@))\033[m"
+	# Strip suffix and execute
+	./$(basename $(@)) | tee $(@)
+
 clean:
 	@echo -e "Clean   \033[1;32m$(@)\033[m"
-	@rm -f ${TARGETS} ${TARGETS_CPP} *.o *.d *.opp
+	@rm -f ${TARGETS} ${TARGETS_CPP} *.o *.d *.opp *.out
