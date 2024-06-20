@@ -27,4 +27,4 @@ all:
 
 test:
 clean:
-	rm -f a.txt *.log
+	rm -f a.txt *.log tmp.sh
