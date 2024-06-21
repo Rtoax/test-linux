@@ -1,0 +1,6 @@
+- CFS: Complete Fair Schedule (完全公平调度)
+- DL: Dead-Line Schedule (最后期限调度)
+- EEVDF: Earliest Eligible Virtual Deadline First (最早符合条件的虚拟截止日期优先)
+- NUMA: Non-Uniform Memory Access (非一致型内存访问)
+- PELT: Per-Entity Load Tracking
+- SCX: Sched-ext
