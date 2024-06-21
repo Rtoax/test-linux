@@ -17,6 +17,7 @@ int main(int argc,char **argv)
 	const char *filename = "/etc/os-release";
 	int fd, ret, counter, times;
 	struct stat stat;
+	void *buf;
 
 	fd = open(filename, O_RDONLY);
 	if (fd < 0) {
@@ -28,7 +29,9 @@ int main(int argc,char **argv)
 
 	bzero(&rd, sizeof(rd));
 
-	rd.aio_buf = malloc(BUFFER_SIZE + 1);
+	buf = malloc(BUFFER_SIZE + 1);
+
+	rd.aio_buf = buf;
 	rd.aio_fildes = fd;
 	rd.aio_nbytes = BUFFER_SIZE;
 	rd.aio_offset = 0;
@@ -50,6 +53,8 @@ int main(int argc,char **argv)
 	ret = aio_return(&rd);
 	printf("\nReturn: %d, counter %d, stat size %ld (times %d)\n",
 		ret, counter, stat.st_size, times);
+
+	free(buf);
 
 	return 0;
 }
