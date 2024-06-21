@@ -55,14 +55,16 @@ LDLIBS :=
 
 CFLAGS := -Werror -Wall
 CFLAGS += -I../macro/
+
 ifeq ($(shell uname -m),sw_64)
-	ifeq ($(shell lscpu | grep -o WX-H8000 || true),WX-H8000)
-		CFLAGS += -mcpu=sw8a
-	endif
-	ifeq ($(shell lscpu | grep -o SW3231 || true),SW3231)
-		CFLAGS += -mcpu=sw6b
-	endif
+  ifeq ($(shell lscpu | grep -o WX-H8000 || true),WX-H8000)
+    CFLAGS += -mcpu=sw8a
+  endif
+  ifeq ($(shell lscpu | grep -o SW3231 || true),SW3231)
+    CFLAGS += -mcpu=sw6b
+  endif
 endif
+
 ifdef STATIC
 CFLAGS += -static
 $(info Defined STATIC)
@@ -80,9 +82,9 @@ endif
 CFLAGS_auto := -Wno-error=implicit-int
 CFLAGS_param-pass := -O0 -I../macro/
 CFLAGS_alignas := -std=gnu17
-CFLAGS_if := -Wno-error=unused-value
+CFLAGS_if := -Wno-error=unused-value -Wno-unused-value
 CFLAGS__Generic := -Wno-all
-CFLAGS_case := -Wno-error=unused-label
+CFLAGS_case := -Wno-error=unused-label -Wno-unused-label
 CFLAGS_include_next := -Dinclude/ -Wno-error
 
 build: ${TARGETS}
