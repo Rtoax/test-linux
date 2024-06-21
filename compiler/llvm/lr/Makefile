@@ -22,7 +22,7 @@ main: main.ll
 
 $(TARGETS): %:
 	@echo -e "LD   \033[1;32m$(@)\033[m"
-	$(CC) $(CFLAGS) -o $(@) $(^)
+	@$(CC) $(CFLAGS) -o $(@) $(^)
 
 .PHONY: clean
 clean:

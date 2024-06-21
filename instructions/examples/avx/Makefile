@@ -67,12 +67,12 @@ kxord: kxord.os
 
 %.o: %.c
 	@echo -e "CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
+	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
 	objdump -d $(@) > $(@).obj.s
 
 %.oS: %.S
 	@echo -e "CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
+	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
 	objdump -d $(@) > $(@).obj.s
 
 %.os: %.asm

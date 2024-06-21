@@ -50,15 +50,15 @@ proc.o: ../../libs/proc.o
 
 %.o: %.c
 	@echo -e "CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<) -fpic
+	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<) -fpic
 
 %.so: %.o
 	@echo -e "CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) $(<) -shared -fpic
+	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) $(<) -shared -fpic
 
 $(TARGETS): %:
 	@echo -e "LD   \033[1;32m$(@)\033[m"
-	$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) $(^) $(LDLIBS) $(LDFLAGS) $(LDFLAGS_$(*))
+	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) $(^) $(LDLIBS) $(LDFLAGS) $(LDFLAGS_$(*))
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"

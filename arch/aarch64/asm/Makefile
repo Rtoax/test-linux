@@ -86,11 +86,11 @@ CFLAGS_hello-puts-infinite-loop := -DINFINITE_LOOP=1
 
 %.co: %.c
 	@echo -e "CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	$(CC) $(<) -c -o $(@) $(CFLAGS) $(CFLAGS_$(*))
+	@$(CC) $(<) -c -o $(@) $(CFLAGS) $(CFLAGS_$(*))
 
 %.o: %.S
 	@echo -e "CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	$(CC) $(<) -c -o $(@) $(CFLAGS) $(CFLAGS_$(*))
+	@$(CC) $(<) -c -o $(@) $(CFLAGS) $(CFLAGS_$(*))
 
 $(TARGETS_ASM): %.o:
 	@echo -e "LD ld \033[1;32m$(@)\033[m"
@@ -98,7 +98,7 @@ $(TARGETS_ASM): %.o:
 
 $(TARGETS_S) $(TARGETS_C): %.o:
 	@echo -e "LD ld \033[1;32m$(@)\033[m"
-	$(CC) -o $(@) $(^)
+	@$(CC) -o $(@) $(^)
 
 test: $(TARGETS_ASM)
 	@echo -e "Test   \033[1;32m$(@)\033[m"

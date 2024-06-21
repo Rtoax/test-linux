@@ -22,12 +22,12 @@ CFLAGS_proc := -fpie
 
 %.o: %.c
 	@echo -e "CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
-	$(CC) -S $(<) -o $(<:.c=.s) $(CFLAGS) $(CFLAGS_$(*))
+	@$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
+	@$(CC) -S $(<) -o $(<:.c=.s) $(CFLAGS) $(CFLAGS_$(*))
 
 $(TARGETS): %:
 	@echo -e "LD   \033[1;32m$(@)\033[m"
-	$(CC) -o $(@) $(^) $(LDLIBS) $(LDFLAGS) $(LDFLAGS_$(*)) $(CFLAGS) $(CFLAGS_$(*))
+	@$(CC) -o $(@) $(^) $(LDLIBS) $(LDFLAGS) $(LDFLAGS_$(*)) $(CFLAGS) $(CFLAGS_$(*))
 	size --format=sysv $(@)
 
 test: ${TARGETS}

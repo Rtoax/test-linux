@@ -12,7 +12,7 @@ CC = ${MPICC}
 
 TARGETS :=
 # If not install mpich
-ifneq ($(wildcard $(CC)),)
+ifneq ($(wildcard @$(CC)),)
 TARGETS += MPI_Init
 TARGETS += MPI_Get_processor_name
 TARGETS += MPI_Send MPI_Send-2
@@ -39,12 +39,12 @@ MPI_Send-2: MPI_Send-2.o
 
 %.o: %.c
 	@echo -e "CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
-	$(CC) $(CFLAGS) $(CFLAGS_$(*)) -S $(<) -o $(<:.c=.s)
+	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
+	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -S $(<) -o $(<:.c=.s)
 
 $(TARGETS): %:
 	@echo -e "LD   \033[1;32m$(@)\033[m"
-	$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) $(^) $(LDLIBS) $(LDFLAGS) $(LDFLAGS_$(*))
+	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) $(^) $(LDLIBS) $(LDFLAGS) $(LDFLAGS_$(*))
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"

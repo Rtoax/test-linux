@@ -2,7 +2,7 @@ CC = $(shell which clang 2>/dev/null)
 
 TARGETS :=
 
-ifneq ($(wildcard $(CC)),)
+ifneq ($(wildcard @$(CC)),)
 TARGETS += hello
 else
 CC = gcc

@@ -1,4 +1,4 @@
-
+TARGETS :=
 TARGETS += getpidcon
 
 CC = gcc
@@ -9,7 +9,8 @@ build: $(TARGETS)
 getpidcon: getpidcon.o
 
 $(TARGETS): %:
-	$(CC) $(CFLAGS) -o $(@) $(<)
+	@echo -e "LD   \033[1;32m$(@)\033[m"
+	@$(CC) $(CFLAGS) -o $(@) $(<)
 
 clean:
 	rm -rf $(TARGETS) *.o

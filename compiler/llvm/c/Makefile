@@ -36,17 +36,17 @@ CFLAGS_hello +=
 
 %.o: %.c
 	@echo -e "CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
-	$(CC) $(CFLAGS) $(CFLAGS_$(*)) -S -emit-llvm $(<) -o $(<:.c=.ll)
+	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
+	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -S -emit-llvm $(<) -o $(<:.c=.ll)
 	llvm-as $(<:.c=.ll) -o $(<:.c=.bc)
 	llvm-dis $(<:.c=.bc) -o $(<:.c=.dis.ll)
 	llc $(<:.c=.ll) -o $(<:.c=.s)
 	# TODO: fatal error: 'stdio.h' file not found
-	$(CC) -cc1 -ast-print $(<) || true
+	@$(CC) -cc1 -ast-print $(<) || true
 
 $(TARGETS): %:
 	@echo -e "LD   \033[1;32m$(@)\033[m"
-	$(CC) $(CFLAGS) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
+	@$(CC) $(CFLAGS) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"

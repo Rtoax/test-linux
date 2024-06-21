@@ -8,16 +8,16 @@ all: io_uring-cp.out \
 	 io_uring-latency.out
 	 
 %: %.c
-	$(CC) $(CFLAGS) -o $@ $^
+	@$(CC) $(CFLAGS) -o $@ $^
 
 io_uring-bench.out: syscall.o io_uring-bench.o
-	$(CC) $(CFLAGS) -o $@ $^ $(LDLIBS)
+	@$(CC) $(CFLAGS) -o $@ $^ $(LDLIBS)
 
 io_uring-cp.out: setup.o syscall.o queue.o io_uring-cp.o
-	$(CC) $(CFLAGS) -o $@ $^ $(LDLIBS)
+	@$(CC) $(CFLAGS) -o $@ $^ $(LDLIBS)
 
 io_uring-latency.out:  setup.o syscall.o queue.o io_uring-latency.o
-	$(CC) $(CFLAGS) -o $@ $^ $(LDLIBS)
+	@$(CC) $(CFLAGS) -o $@ $^ $(LDLIBS)
 	
 clean:
 	$(RM) io_uring-cp io_uring-bench *.o *.out

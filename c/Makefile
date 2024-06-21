@@ -123,15 +123,15 @@ unsigned: unsigned.o
 
 %.o: %.c
 	@echo -e "CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
-	$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@:.o=.pic.o) -c $(<) -fpic
-	$(CC) $(CFLAGS) $(CFLAGS_$(*)) -S $(<) -o $(<:.c=.s)
-	$(CC) $(CFLAGS) $(CFLAGS_$(*)) -S $(<) -o $(<:.c=.pic.s) -fpic
-	$(CC) $(CFLAGS) $(CFLAGS_$(*)) -E $(<) -o $(<:.c=.E.c)
+	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
+	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@:.o=.pic.o) -c $(<) -fpic
+	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -S $(<) -o $(<:.c=.s)
+	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -S $(<) -o $(<:.c=.pic.s) -fpic
+	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -E $(<) -o $(<:.c=.E.c)
 
 $(TARGETS): %:
 	@echo -e "LD   \033[1;32m$(@)\033[m"
-	$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) $(^) $(LDLIBS) $(LDFLAGS) $(LDFLAGS_$(*))
+	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) $(^) $(LDLIBS) $(LDFLAGS) $(LDFLAGS_$(*))
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"

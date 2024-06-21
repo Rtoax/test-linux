@@ -48,7 +48,7 @@ unwind-backtrace: unwind-backtrace.o
 
 %.o: %.c
 	@echo -e "CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
+	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
 
 %.oo: %.cc
 	@echo -e "CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
@@ -56,7 +56,7 @@ unwind-backtrace: unwind-backtrace.o
 
 ${TARGETS}: %:
 	@echo -e "CC  \033[1m$(<)\033[m to \033[1;32m$(@)\033[m"
-	$(CC) $(CFLAGS) -o $(@) $(<) ${UNWIND_PTRACE}
+	@$(CC) $(CFLAGS) -o $(@) $(<) ${UNWIND_PTRACE}
 
 ${TARGETS_CPP}: %:
 	@echo -e "CC  \033[1m$(<)\033[m to \033[1;32m$(@)\033[m"

@@ -20,13 +20,13 @@ mbranch-protection: mbranch-protection.o
 
 %.o: %.c
 	@echo -e "CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<) || true
-	$(CC) $(CFLAGS) $(CFLAGS_$(*)) -S $(<) -o $(<:.c=.s) || true
-	$(CC) $(CFLAGS) -S $(<) -o $(<:.c=-nof.s) -Wno-error || true
+	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<) || true
+	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -S $(<) -o $(<:.c=.s) || true
+	@$(CC) $(CFLAGS) -S $(<) -o $(<:.c=-nof.s) -Wno-error || true
 
 $(TARGETS): %:
 	@echo -e "LD   \033[1;32m$(@)\033[m"
-	$(CC) $(CFLAGS) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS) || true
+	@$(CC) $(CFLAGS) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS) || true
 
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
