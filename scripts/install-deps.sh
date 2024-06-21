@@ -23,6 +23,8 @@ have_net=
 dry_run=
 
 [[ ! -e /etc/os-release ]] && echo "ERROR: No /etc/os-release found" && exit 1
+[[ ! -e /usr/bin/sudo ]] && echo "ERROR: Not found sudo, please install sudo first" && exit 1
+[[ ! -e /usr/bin/getopt ]] && echo "ERROR: Not found getopt, please install util-linux first" && exit 1
 
 . /etc/os-release
 
@@ -224,6 +226,7 @@ pkgs_base+=( smartmontools )        # smartctl
 pkgs_base+=( sysstat )
 pkgs_base+=( tree )
 pkgs_base+=( vim vim-default-editor )
+pkgs_base+=( which )
 
 pkgs_compiler+=( clang )
 pkgs_compiler+=( gcc-aarch64-linux-gnu )
