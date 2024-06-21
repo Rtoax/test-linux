@@ -4,6 +4,8 @@
 - IPO: Inter-Procedural Optimization (过程间优化)
 - IR: Intermediate Representation (中间表示) (LLVM)
 - JIT: Just In Time
+- LALR: Look-Ahead, Left-to-Right, rightmost derivation parser (最右派生解析器)
+- LEX: Lexical Analyser (词法分析器)
 - LGEN: Local Generation
 - LLVM: Low Level Virtual Machine
 - LTO: Link-Time Opemizations (链接时优化)

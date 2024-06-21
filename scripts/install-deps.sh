@@ -229,6 +229,7 @@ pkgs_base+=( vim vim-default-editor )
 pkgs_base+=( which )
 
 pkgs_compiler+=( bison )
+pkgs_compiler+=( byacc )
 pkgs_compiler+=( clang )
 pkgs_compiler+=( flex )
 pkgs_compiler+=( gcc-aarch64-linux-gnu )
