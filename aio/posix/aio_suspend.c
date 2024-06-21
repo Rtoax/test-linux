@@ -16,6 +16,7 @@ int main(int argc,char **argv)
 	struct aiocb rd;
 	int fd, ret, counter;
 	struct aiocb const *aiocb_list[MAX_LIST];
+	void *buf;
 
 	fd = open("/etc/os-release", O_RDONLY);
 	if (fd < 0) {
@@ -25,7 +26,9 @@ int main(int argc,char **argv)
 
 	bzero(&rd,sizeof(rd));
 
-	rd.aio_buf = malloc(BUFFER_SIZE + 1);
+	buf = malloc(BUFFER_SIZE + 1);
+
+	rd.aio_buf = buf;
 	rd.aio_fildes = fd;
 	rd.aio_nbytes =  BUFFER_SIZE;
 	rd.aio_offset = 0;
@@ -52,5 +55,6 @@ int main(int argc,char **argv)
 	ret = aio_return(&rd);
 	printf("\nReturn: %d\n",ret);
 
+	free(buf);
 	return 0;
 }
