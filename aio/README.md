@@ -3,29 +3,38 @@ Asynchronous I/O
 
 # Syscalls
 
-- `io_setup`
-- `io_destroy`
-- `io_submit`
-- `io_cancel`
-- `io_getevents`
-- `io_pgetevents`
+```c
+#include <linux/aio_abi.h>
+#include <libaio.h>
+```
+
+- `io_setup(2)`
+- `io_destroy(2)`
+- `io_submit(2)`
+- `io_cancel(2)`
+- `io_getevents(2)`
+- `io_pgetevents(2)`
+
+
+## Libaio
 
 
 # Posix AIO
 
 > man aio(7)
 
-- `aio_read`
-- `aio_write`
-- `aio_fsync`
-- `aio_error`
-- `aio_return`
-- `aio_suspend`
-- `aio_cancel`
-- `lio_listio`
+```c
+#include <aio.h>
+```
 
-
-# Libaio
+- `aio_read(3)`
+- `aio_write(3)`
+- `aio_fsync(3)`
+- `aio_error(3)`
+- `aio_return(3)`
+- `aio_suspend(3)`
+- `aio_cancel(3)`
+- `lio_listio(3)`
 
 
 # Sysfs
