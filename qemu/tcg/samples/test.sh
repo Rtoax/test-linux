@@ -12,4 +12,7 @@ else
 	exit 1
 fi
 
+# out_asm show generated host assembly code for each compiled TB
+# in_asm  show target assembly code for each compiled TB
+# op      show micro ops for each compiled TB
 ${QEMU} -d in_asm,op,out_asm ./hello
