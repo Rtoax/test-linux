@@ -29,12 +29,12 @@ this: this.o
 CXXFLAGS_return := -Wno-error=return-type
 
 %.o: %.cpp
-	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
+	@echo -e "CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	$(CXX) $(CXXFLAGS) $(CXXFLAGS_$(*)) -o $(@) -c $(<)
 	$(CXX) $(CXXFLAGS) $(CXXFLAGS_$(*)) -S $(<) -o $(<:.cpp=.s)
 
 ${TARGETS}: %:
-	@echo -e "Target   \033[1;32m$(@)\033[m"
+	@echo -e "LD   \033[1;32m$(@)\033[m"
 	$(CXX) $(CXXFLAGS) $(CXXFLAGS_$(*)) -o $(@) $(^)
 
 

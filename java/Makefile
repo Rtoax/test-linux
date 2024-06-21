@@ -6,7 +6,7 @@ all: $(TARGETS)
 hello.class: hello.java
 
 $(TARGETS): %:
-	@echo -e "Target   \033[1;32m$(@)\033[m"
+	@echo -e "LD   \033[1;32m$(@)\033[m"
 	javac $(^)
 
 test: ${TARGETS}

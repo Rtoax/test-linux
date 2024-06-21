@@ -30,20 +30,20 @@ libdev.so: libdev.o
 dev: dev.o
 
 %.o: %.c
-	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
+	@echo -e "CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	LD_LIBRARY_PATH=$(shell pwd) $(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
 
 %.so: %.c
-	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
+	@echo -e "CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	LD_LIBRARY_PATH=$(shell pwd) $(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) $(<) -shared -fpic
 
 %.so.1: %.so
-	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
+	@echo -e "CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	mv $(<) $(@)
 	ln -s $(@) $(<)
 
 $(TARGETS): %:
-	@echo -e "Target   \033[1;32m$(@)\033[m"
+	@echo -e "LD   \033[1;32m$(@)\033[m"
 	LD_LIBRARY_PATH=$(shell pwd) $(CC) $(CFLAGS) -o $(@) $(^) $(LDLIBS) $(LDFLAGS) $(LDFLAGS_$(*))
 
 test: ${TARGETS} ${TARGETS_LIBS}

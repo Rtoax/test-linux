@@ -22,11 +22,11 @@ mcheck_check_all: mcheck_check_all.o
 CFLAGS_mprobe := -Wno-error=use-after-free
 
 %.o: %.c
-	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
+	@echo -e "CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
 
 $(TARGETS): %:
-	@echo -e "Target   \033[1;32m$(@)\033[m"
+	@echo -e "LD   \033[1;32m$(@)\033[m"
 	$(CC) -o $(@) $(^) $(LDLIBS) $(LDFLAGS) $(LDFLAGS_$(*)) $(CFLAGS) $(CFLAGS_$(*))
 
 test: ${TARGETS}

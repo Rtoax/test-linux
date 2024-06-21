@@ -194,19 +194,19 @@ getpagesize: getpagesize.o
 CFLAGS_write := -Wno-error=unused-variable
 
 %.o: %.c
-	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
+	@echo -e "CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
 
 %.opp: %.cpp
-	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
+	@echo -e "CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	@$(CXX) $(CXXFLAGS) $(CXXFLAGS_$(*)) -o $(@) -c $(<)
 
 $(TARGETS): %:
-	@echo -e "Target   \033[1;32m$(@)\033[m"
+	@echo -e "LD   \033[1;32m$(@)\033[m"
 	@$(CC) $(CFLAGS) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
 
 $(TARGETS_CPP): %:
-	@echo -e "Target   \033[1;32m$(@)\033[m"
+	@echo -e "LD   \033[1;32m$(@)\033[m"
 	@$(CXX) $(CFLAGS) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
 
 test: ${TARGETS}

@@ -66,25 +66,25 @@ vperm2i128: vperm2i128.os
 kxord: kxord.os
 
 %.o: %.c
-	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
+	@echo -e "CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
 	objdump -d $(@) > $(@).obj.s
 
 %.oS: %.S
-	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
+	@echo -e "CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
 	objdump -d $(@) > $(@).obj.s
 
 %.os: %.asm
-	@echo -e "Compile  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
+	@echo -e "CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	nasm -o $(@) -felf64 $(<)
 
 $(TARGETS): %:
-	@echo -e "Target   \033[1;32m$(@)\033[m"
+	@echo -e "LD   \033[1;32m$(@)\033[m"
 	@$(CC) $(CFLAGS) -o $(@) $(^) $(LDLIBS)
 
 $(TARGETS_asm): %.os:
-	@echo -e "Target ld \033[1;32m$(@)\033[m"
+	@echo -e "LD ld \033[1;32m$(@)\033[m"
 	$(LD) -o $(@) $(^)
 
 test:
