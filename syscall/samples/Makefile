@@ -210,13 +210,13 @@ $(TARGETS_CPP): %:
 	@$(CXX) $(CFLAGS) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
 
 test: ${TARGETS}
-	@echo -e "Test   \033[1;32m$(@)\033[m"
+	@echo -e "  TEST  \033[1;32m$(@)\033[m"
 
 sub-dir-clean := $(sub-dir:=.clean)
 
 .PHONY: clean
 clean: $(sub-dir-clean)
-	@echo -e "Clean   \033[1;32m$(@)\033[m"
+	@echo -e "  CLEAN  \033[1;32m$(@)\033[m"
 	@rm -rf ${TARGETS} ${TARGETS_CPP} \
 		*.o *.opp nr.h *.out *.dat \
 		*.txt testfile

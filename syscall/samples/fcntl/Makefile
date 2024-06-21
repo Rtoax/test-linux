@@ -39,8 +39,8 @@ O_CLOEXEC: O_CLOEXEC.o
 O_TMPFILE: O_TMPFILE.o
 
 test: ${TARGETS}
-	@echo -e "Test   \033[1;32m$(@)\033[m"
+	@echo -e "  TEST  \033[1;32m$(@)\033[m"
 	./fallocate.test.sh
 clean:
-	@echo -e "Clean   \033[1;32m$(@)\033[m"
+	@echo -e "  CLEAN  \033[1;32m$(@)\033[m"
 	@rm -f ${TARGETS} *.o *.d *.txt *.dat

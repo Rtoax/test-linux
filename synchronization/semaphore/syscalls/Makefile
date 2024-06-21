@@ -30,9 +30,9 @@ $(TARGETS): %:
 	@$(CC) -o $(@) $(^) $(LDLIBS) $(LDFLAGS) $(LDFLAGS_$(*)) $(CFLAGS) $(CFLAGS_$(*))
 
 test: ${TARGETS}
-	@echo -e "Test   \033[1;32m$(@)\033[m"
+	@echo -e "  TEST  \033[1;32m$(@)\033[m"
 
 .PHONY: clean
 clean:
-	@echo -e "Clean   \033[1;32m$(@)\033[m"
+	@echo -e "  CLEAN  \033[1;32m$(@)\033[m"
 	@rm -f ${TARGETS} *.s *.o *.d

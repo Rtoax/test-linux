@@ -76,7 +76,7 @@ $(TARGETS): %:
 	@$(CC) $(CFLAGS) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
 
 test: ${TARGETS}
-	@echo -e "Test \033[1;32msigpending\033[m"
+	@echo -e "  TEST  \033[1;32msigpending\033[m"
 	./sigpending &
 	sleep 1
 	kill -2 $(shell pidof sigpending) # SIGINT
@@ -87,7 +87,7 @@ test: ${TARGETS}
 
 .PHONY: clean
 clean: $(sub-dir-clean)
-	@echo -e "Clean   \033[1;32m$(@)\033[m"
+	@echo -e "  CLEAN  \033[1;32m$(@)\033[m"
 	@rm -f ${TARGETS} *.o sig.h
 
 $(sub-dir-build):

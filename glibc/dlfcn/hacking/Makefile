@@ -47,11 +47,11 @@ $(TARGETS): %:
 	@LD_LIBRARY_PATH=$(shell pwd) $(CC) $(CFLAGS) -o $(@) $(^) $(LDLIBS) $(LDFLAGS) $(LDFLAGS_$(*))
 
 test: ${TARGETS} ${TARGETS_LIBS}
-	@echo -e "Test   \033[1;32m$(@)\033[m"
+	@echo -e "  TEST  \033[1;32m$(@)\033[m"
 	./run.sh
 
 .PHONY: clean
 clean:
-	@echo -e "Clean   \033[1;32m$(@)\033[m"
+	@echo -e "  CLEAN  \033[1;32m$(@)\033[m"
 	@rm -f ${TARGETS} ${TARGETS_LIBS} *.o *.so
 	@rm -rf rootfs.out

@@ -38,5 +38,5 @@ multithread:  multithread.o
 
 .PHONY: clean
 clean:
-	@echo -e "Clean   \033[1;32m$(@)\033[m"
+	@echo -e "  CLEAN  \033[1;32m$(@)\033[m"
 	@rm -f ${TARGETS} *.o
