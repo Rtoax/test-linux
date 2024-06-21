@@ -16,5 +16,10 @@ int main(int argc, char *argv[])
 #if !defined(CONFIG_MMU)
 # warning "Kernel not define CONFIG_MMU"
 #endif
+#if !defined(HAVE_PRINTF)
+# error "Not found printf(3)"
+#else
+	printf("Hello\n");
+#endif
 	return 0;
 }
