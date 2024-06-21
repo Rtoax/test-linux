@@ -1,2 +1,11 @@
 #!/bin/bash
-cat `find -name abbreviation.md` | sort | nl
+files=( $(find -name abbreviation.md) )
+
+for f in ${files[@]}
+do
+	# - Delete white lines
+	# - Add filename suffix
+	cat ${f} | \
+		sed '/^$/d' | \
+		sed "s|$| <${f}>|g"
+done | sort | nl
