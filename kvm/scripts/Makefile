@@ -23,7 +23,7 @@ build: ${TARGETS}
 	@$(CC) $(CFLAGS) -MM -MF "$@" -MG -MP -MT"$@" -MT"$(<:.c=.o)" $(<)
 
 %.out: %.c %.d
-	@echo -e "CC  \033[1m$(<)\033[m to \033[1;31m$(@)\033[m"
+	@echo -e "  CC  \033[1m$(<)\033[m to \033[1;31m$(@)\033[m"
 	@$(CC) $(CFLAGS) -o $(@) $(<)
 
 clean:

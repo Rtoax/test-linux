@@ -50,12 +50,12 @@ $(warning FXIME: Arch may not support -fcf-protection=full)
 endif
 
 %.o: %.c
-	@echo -e "CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
+	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
 	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -S $(<) -o $(<:.c=.s)
 
 $(TARGETS): %:
-	@echo -e "LD   \033[1;32m$(@)\033[m"
+	@echo -e "  LD  \033[1;32m$(@)\033[m"
 	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) $(^) $(LDLIBS) $(LDFLAGS) $(LDFLAGS_$(*))
 
 clean:

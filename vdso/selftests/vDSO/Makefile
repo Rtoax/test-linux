@@ -25,12 +25,12 @@ $(OUTPUT)/vdso_test_getcpu: parse_vdso.c vdso_test_getcpu.c
 $(OUTPUT)/vdso_test_abi: parse_vdso.c vdso_test_abi.c
 $(OUTPUT)/vdso_test_clock_getres: vdso_test_clock_getres.c
 $(OUTPUT)/vdso_standalone_test_x86: vdso_standalone_test_x86.c parse_vdso.c
-	@echo -e "LD   \033[1;32m$(@)\033[m"
+	@echo -e "  LD  \033[1;32m$(@)\033[m"
 	@$(CC) $(CFLAGS) $(CFLAGS_vdso_standalone_test_x86) \
 		vdso_standalone_test_x86.c parse_vdso.c \
 		-o $@
 $(OUTPUT)/vdso_test_correctness: vdso_test_correctness.c
-	@echo -e "LD   \033[1;32m$(@)\033[m"
+	@echo -e "  LD  \033[1;32m$(@)\033[m"
 	@$(CC) $(CFLAGS) \
 		vdso_test_correctness.c \
 		-o $@ \

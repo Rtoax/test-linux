@@ -11,12 +11,12 @@ main: main.o jump_label.o jump_label_x86.o
 jl: jl.o
 
 %.o: %.c
-	@echo -e "CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
+	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
 	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -S $(<) -o $(<:.c=.s)
 
 $(TARGETS): %:
-	@echo -e "LD   \033[1;32m$(@)\033[m"
+	@echo -e "  LD  \033[1;32m$(@)\033[m"
 	@$(CC) $(CFLAGS) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
 
 test: ${TARGETS}

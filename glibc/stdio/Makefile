@@ -62,11 +62,11 @@ fopencookie: fopencookie.o
 CFLAGS_asprintf := -D_GNU_SOURCE=1
 
 %.o: %.c
-	@echo -e "CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
+	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
 
 $(TARGETS): %:
-	@echo -e "LD   \033[1;32m$(@)\033[m"
+	@echo -e "  LD  \033[1;32m$(@)\033[m"
 	@$(CC) $(CFLAGS) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
 
 test: ${TARGETS}

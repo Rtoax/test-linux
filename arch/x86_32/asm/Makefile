@@ -38,15 +38,15 @@ factorial_call: factorial_call.o factorial.o
 maxofthree_call: maxofthree_call.o maxofthree.o
 
 %.o: %.asm
-	@echo -e "CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
+	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	nasm -felf32 $(<) -o $(@)
 
 $(TARGETS): %.o:
-	@echo -e "LD   \033[1;32m$(@)\033[m"
+	@echo -e "  LD  \033[1;32m$(@)\033[m"
 	ld -m elf_i386 -o $(@) $(^)
 
 $(TARGETS_gcc): %.o:
-	@echo -e "LD   \033[1;32m$(@)\033[m"
+	@echo -e "  LD  \033[1;32m$(@)\033[m"
 	gcc -m32 -o $(@) $(^)
 
 test: ${TARGETS}

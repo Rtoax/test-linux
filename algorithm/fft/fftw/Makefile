@@ -34,11 +34,11 @@ fftw_plan_dft_r2c_1d: fftw_plan_dft_r2c_1d.o
 	@$(CC) $(CFLAGS) -MM -MF "$@" -MG -MP -MT"$@" -MT"$(<:.c=.o)" $(<)
 
 %.o: %.c %.d
-	@echo -e "CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
+	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
 
 $(TARGETS): %:
-	@echo -e "LD   \033[1;32m$(@)\033[m"
+	@echo -e "  LD  \033[1;32m$(@)\033[m"
 	@$(CC) $(CFLAGS) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
 
 test: ${TARGETS}

@@ -23,7 +23,7 @@ CFLAGS_eproxy := -I../../../algorithm/list/samples/single-header/
 CFLAGS_proxy2 := -DUSE_SPLICE
 
 %.o: %.c
-	@echo -e "CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
+	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
 
 test: ${TARGETS}

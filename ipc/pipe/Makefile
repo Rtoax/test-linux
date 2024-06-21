@@ -1,8 +1,5 @@
-sub-dir := socket
-sub-dir += msgqueue
-sub-dir += shm
-sub-dir += pipe
-sub-dir += dbus
+sub-dir := async-latency
+sub-dir += samples
 
 sub-dir-build := $(sub-dir:=.build)
 sub-dir-clean := $(sub-dir:=.clean)

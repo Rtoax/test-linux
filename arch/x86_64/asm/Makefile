@@ -72,20 +72,20 @@ atomic_forced_read: atomic_forced_read.o
 time: time.o
 
 %.o: %.asm
-	@echo -e "CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
+	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	nasm -felf64 $(<) -o $(@)
 
 %.o: %.c
-	@echo -e "CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
+	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	@$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
 	@$(CC) -S $(<) -o $(<:.c=.s) $(CFLAGS) $(CFLAGS_$(*))
 
 $(TARGETS): %.o:
-	@echo -e "LD   \033[1;32m$(@)\033[m"
+	@echo -e "  LD  \033[1;32m$(@)\033[m"
 	@$(CC) $(CFLAGS) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
 
 $(TARGETS_ld): %.o:
-	@echo -e "LD ld \033[1;32m$(@)\033[m"
+	@echo -e "  LD  ld \033[1;32m$(@)\033[m"
 	$(LD) -o $(@) $(^)
 
 test: ${TARGETS}

@@ -22,7 +22,7 @@ CFLAGS += -pthread
 CFLAGS += -march=armv8.1-a
 
 $(TARGETS): %:
-	@echo -e "LD   \033[1;32m$(@)\033[m"
+	@echo -e "  LD  \033[1;32m$(@)\033[m"
 	@$(CC) $(CFLAGS) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
 
 test:

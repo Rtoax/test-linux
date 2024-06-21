@@ -10,7 +10,7 @@ hello: hello.rs
 threads: threads.rs
 
 $(TARGETS): %:
-	@echo -e "LD   \033[1;32m$(@)\033[m"
+	@echo -e "  LD  \033[1;32m$(@)\033[m"
 	rustc -o $(@) $(^)
 
 test: ${TARGETS}

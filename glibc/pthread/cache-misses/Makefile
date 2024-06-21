@@ -12,7 +12,7 @@ CFLAGS += -DL3_CACHELINE_SIZE=$(L3_CACHELINE_SIZE)
 TARGETS := struct
 
 build: ${TARGETS}
-	@echo "CC struct, L3_CACHELINE_SIZE=$(L3_CACHELINE_SIZE)"
+	@echo "  CC  struct, L3_CACHELINE_SIZE=$(L3_CACHELINE_SIZE)"
 
 struct: struct.o
 

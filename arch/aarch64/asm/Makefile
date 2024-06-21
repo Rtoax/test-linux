@@ -80,24 +80,24 @@ mov: mov.o
 CFLAGS_hello-puts-infinite-loop := -DINFINITE_LOOP=1
 
 %.o: %.asm
-	@echo -e "CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
+	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	$(AS) $(<) -o $(@) $(AS_ARGS)
 	$(OBJDUMP) -Dr $(@)
 
 %.co: %.c
-	@echo -e "CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
+	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	@$(CC) $(<) -c -o $(@) $(CFLAGS) $(CFLAGS_$(*))
 
 %.o: %.S
-	@echo -e "CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
+	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	@$(CC) $(<) -c -o $(@) $(CFLAGS) $(CFLAGS_$(*))
 
 $(TARGETS_ASM): %.o:
-	@echo -e "LD ld \033[1;32m$(@)\033[m"
+	@echo -e "  LD  ld \033[1;32m$(@)\033[m"
 	$(LD) -o $(@) $(^) $(LD_ARGS)
 
 $(TARGETS_S) $(TARGETS_C): %.o:
-	@echo -e "LD ld \033[1;32m$(@)\033[m"
+	@echo -e "  LD  ld \033[1;32m$(@)\033[m"
 	@$(CC) -o $(@) $(^)
 
 test: $(TARGETS_ASM)

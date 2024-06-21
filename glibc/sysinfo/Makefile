@@ -21,6 +21,14 @@ get_phys_pages: get_phys_pages.o
 get_nprocs: get_nprocs.o
 get_nprocs_conf: get_nprocs_conf.o
 
+%.o: %.c
+	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
+	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
+
+$(TARGETS): %:
+	@echo -e "  LD  \033[1;32m$(@)\033[m"
+	@$(CC) $(CFLAGS) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
+
 test: ${TARGETS}
 	@echo -e "Test   \033[1;32m$(@)\033[m"
 
