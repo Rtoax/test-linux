@@ -113,6 +113,5 @@ test:
 	@echo "empty, [cd $(PWD)] to insmod"
 
 clean:
-	rm -f $(TARGETS) \
-		*.o
+	rm -f $(TARGETS) *.o
 	make -C ${KERNELDIR} M=$(PWD) clean

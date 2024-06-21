@@ -1,0 +1,2 @@
+- ISA: Instruction Set Architecture (指令集架构)
+- ISS: Instruction Set Simulator (指令集模拟)

@@ -1,11 +1,11 @@
 sub-dir := examples
+sub-dir += translations
 
 TARGETS :=
 
 CC = gcc
 
 CFLAGS := -Werror -Wall -D_GNU_SOURCE
-CFLAGS += -I../../
 CFLAGS += -pthread
 CFLAGS += -DDEBUG -O0 -g
 
@@ -24,8 +24,7 @@ test: ${TARGETS}
 .PHONY: clean
 clean: $(sub-dir-clean)
 	@echo -e "  CLEAN  \033[1;32m$(@)\033[m"
-	@rm -f ${TARGETS} \
-		*.o *.d *.out
+	@rm -f ${TARGETS} *.o
 
 $(sub-dir-build):
 	@echo -e "\033[1;32m [sub-dir] build $(@)\033[m"
