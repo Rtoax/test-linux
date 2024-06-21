@@ -1,2 +1,8 @@
+- BT: Binary Translator (二进制翻译) @SBT @DBT @HBT
+- CISC: Complex Instruction Set Computer (复杂指令集) @RISC
+- DBT: Dynamic Binary Translator (动态二进制翻译) @BT @HBT @SBT
+- HBT: Hybrid Binary Translator (混合二进制翻译) @SBT @DBT
 - ISA: Instruction Set Architecture (指令集架构)
 - ISS: Instruction Set Simulator (指令集模拟)
+- RISC: Reduced Instruction Set Computer (精简指令集计算机) @CISC
+- SBT: Static Binary Translator (静态二进制翻译) @BT @DBT @HBT

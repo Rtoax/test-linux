@@ -58,8 +58,15 @@ You can use the following macro
 
 * Each `README.md` is current directory's description.
 * Each `abbreviation.md` is current directory's relative abbreviation.
-	- format: `- ABC: A Ball Circle (一个球圈)`
+	- format: **abbreviation: full name (中文全称) @relate1 @relate2**
 	- scripts: `./abbreviation.sh` to check all abbreviations.
+
+## abbreviation.md example
+
+```
+- AB: A Ball (一个球)
+- ABC: A Ball Circle (一个球圈) @AB
+```
 
 
 # About
