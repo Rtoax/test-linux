@@ -7,5 +7,5 @@ do
 	# - Add filename suffix
 	cat ${f} | \
 		sed '/^$/d' | \
-		sed "s|$| <${f}>|g"
+		sed "s|$| <$(dirname ${f})>|g"
 done | sort | nl
