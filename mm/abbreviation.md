@@ -1,7 +1,10 @@
+- DMB: Data Memory Barrier (数据内存屏障) @arm @DSB @ISB
 - DRAM: Dynamic Random Access Memory (动态随机存取存储器)
+- DSB: Data Synchronization Barrier (数据同步屏障) @arm @DMB @ISB
 - ECC: Error Checking and Correcting
 - EDAC: Error Detection And Correction
 - GDT: Global Descriptor Table (全局描述符表)
+- ISB: Instruction Synchronization Barrier (指令同步屏障) @arm @DMB @DSB
 - LDT: Local Descriptor Table (局部描述符表)
 - MCE: Machine Check Exceptions
 - MMU: Memory Management Unit (内存管理单元) @IOMMU @SMMU
