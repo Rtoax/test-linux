@@ -5,8 +5,9 @@ prog=inst-deps
 
 declare -a dnf_args
 declare -a pkgs pkgs_compiler pkgs_desktop whls pkgs_bench pkgs_math pkgs_db
-declare -a pkgs_storage pkgs_net pkgs_container pkgs_virt
+declare -a pkgs_storage pkgs_net pkgs_container pkgs_virt pkgs_base
 
+have_base=YES
 have_upgrade=YES
 have_whls=
 have_compiler=
@@ -61,6 +62,7 @@ ARGUMENT
 	--net              install network relate packages
 	--virt             install virtualization relate package
 
+	--nobase           skip basic packages
 	--noup             skip upgrade
 
 	--dry-run          only show commands
@@ -76,6 +78,7 @@ SEE ALSO
 
 TEMP=$(getopt --options h \
 	--long all \
+	--long nobase \
 	--long noup \
 	--long compilers \
 	--long container \
@@ -115,6 +118,10 @@ while true; do
 	--noup)
 		shift
 		have_upgrade=""
+		;;
+	--nobase)
+		shift
+		have_base=""
 		;;
 	--compilers)
 		shift
@@ -182,41 +189,41 @@ fedora)
 	;;
 esac
 
-pkgs+=( acpi acpica-tools )
-pkgs+=( autoconf-archive )
-pkgs+=( bc )
-pkgs+=( blktrace )
-pkgs+=( bpftrace bcc )         # eBPF
-pkgs+=( cargo )                # The Rust package manager
-pkgs+=( crash )
-pkgs+=( dialog kdialog )
-pkgs+=( dwz )                  # DWARF optimization and duplicate removal tool
-pkgs+=( dwarves )              # pahole
-pkgs+=( efibootmgr )           # UEFI
-pkgs+=( efivar mokutil )       # UEFI
-pkgs+=( elfutils )             # eu- prefix tools
-pkgs+=( gdb cgdb )
-pkgs+=( gnupg2 )               # gpg
-pkgs+=( hwloc )                # lstopo
-pkgs+=( inotify-tools )        # inotifywatch, ...
-pkgs+=( llvm )                 # llvm-as llvm-dis llc
-pkgs+=( lshw )                 # lshw
-pkgs+=( make cmake )
-pkgs+=( nasm )                 # nasm
-pkgs+=( numactl )              # numastat
-pkgs+=( opencl-headers )
-pkgs+=( openssl )
-pkgs+=( parallel )
-pkgs+=( python3-pip )          # pip wheel
-pkgs+=( python3-pyroute2 )     # pyroute2
-pkgs+=( python3-scapy )
-pkgs+=( socat )
-pkgs+=( sparse )               # sparse
-pkgs+=( strace )
-pkgs+=( smartmontools )        # smartctl
-pkgs+=( sysstat )
-pkgs+=( tree )
-pkgs+=( vim vim-default-editor )
+pkgs_base+=( acpi acpica-tools )
+pkgs_base+=( autoconf-archive )
+pkgs_base+=( bc )
+pkgs_base+=( blktrace )
+pkgs_base+=( bpftrace bcc )         # eBPF
+pkgs_base+=( cargo )                # The Rust package manager
+pkgs_base+=( crash )
+pkgs_base+=( dialog kdialog )
+pkgs_base+=( dwz )                  # DWARF optimization and duplicate removal tool
+pkgs_base+=( dwarves )              # pahole
+pkgs_base+=( efibootmgr )           # UEFI
+pkgs_base+=( efivar mokutil )       # UEFI
+pkgs_base+=( elfutils )             # eu- prefix tools
+pkgs_base+=( gdb cgdb )
+pkgs_base+=( gnupg2 )               # gpg
+pkgs_base+=( hwloc )                # lstopo
+pkgs_base+=( inotify-tools )        # inotifywatch, ...
+pkgs_base+=( llvm )                 # llvm-as llvm-dis llc
+pkgs_base+=( lshw )                 # lshw
+pkgs_base+=( make cmake )
+pkgs_base+=( nasm )                 # nasm
+pkgs_base+=( numactl )              # numastat
+pkgs_base+=( opencl-headers )
+pkgs_base+=( openssl )
+pkgs_base+=( parallel )
+pkgs_base+=( python3-pip )          # pip wheel
+pkgs_base+=( python3-pyroute2 )     # pyroute2
+pkgs_base+=( python3-scapy )
+pkgs_base+=( socat )
+pkgs_base+=( sparse )               # sparse
+pkgs_base+=( strace )
+pkgs_base+=( smartmontools )        # smartctl
+pkgs_base+=( sysstat )
+pkgs_base+=( tree )
+pkgs_base+=( vim vim-default-editor )
 
 pkgs_compiler+=( clang )
 pkgs_compiler+=( gcc-aarch64-linux-gnu )
@@ -275,60 +282,60 @@ whls+=( "\"mkdocs-include-markdown-plugin>=6.0.1\"" )
 case ${OS} in
 cclinux|fedora|centos|rhel|openEuler|almalinux)
 	if [[ $(uname -m) == x86_64 ]]; then
-		pkgs+=( glibc-devel.i686 )
+		pkgs_base+=( glibc-devel.i686 )
 	fi
-	pkgs+=( bcc-devel )
-	pkgs+=( binutils-devel )
-	pkgs+=( bpftool )
-	pkgs+=( capstone-devel )       # Capstone is a disassembly framework
-	pkgs+=( cereal-devel )
-	pkgs+=( clang-devel )
-	pkgs+=( dbus-devel )           # D-Bus
-	pkgs+=( dtc )                  # device tree
-	pkgs+=( elfutils-devel )
-	pkgs+=( elfutils-libelf-devel )
-	pkgs+=( glibc-common )
-	pkgs+=( glibc-utils )
-	pkgs+=( git-clang-format )
-	pkgs+=( golang-github-cilium-ebpf )
-	pkgs+=( gperftools-devel )
-	pkgs+=( grub2-tools-minimal grub2-tools-extra )
-	pkgs+=( gtest-devel gmock-devel )
-	pkgs+=( iproute-tc )           # tc
-	pkgs+=( iptables-devel )
-	pkgs+=( jemalloc-devel )
-	pkgs+=( kernel-devel )         # kernel
-	pkgs+=( kernel-headers )       # kernel
-	pkgs+=( libaio-devel )         # aio
-	pkgs+=( libattr-devel )
-	pkgs+=( libbpf-devel )         # libbpf
-	pkgs+=( libcap-ng-devel )
-	pkgs+=( libcap-ng-utils )
-	pkgs+=( libdwarf-tools )       # dwarfdump
-	pkgs+=( libedit-devel )
-	pkgs+=( libpcap-devel )
-	pkgs+=( libseccomp-devel )
-	pkgs+=( libselinux-devel )     # SELinux
-	pkgs+=( libunwind-devel )      # Unwind
-	pkgs+=( liburing-devel )       # uring
-	pkgs+=( libxml2-devel )
-	pkgs+=( lksctp-tools-devel )   # SCTP
-	pkgs+=( llvm-devel )
-	pkgs+=( lsb_release )
-	pkgs+=( ltrace )               # ltrace
-	pkgs+=( mmc )                  # mmc
-	pkgs+=( mpich mpich-devel )    # mpi
-	pkgs+=( numactl-devel )        # numaif.h
-	pkgs+=( nvme-cli )             # nvme
-	pkgs+=( overlayfs-tools )
-	pkgs+=( pam-devel )
-	pkgs+=( procps-ng )            # pidof, top, etc.
-	pkgs+=( readline-devel )
-	pkgs+=( scl-utils )
-	pkgs+=( sg3_utils )            # sg_inq, etc.
-	pkgs+=( systemtap-sdt-devel )  # sdt.h
-	pkgs+=( xfsprogs-devel )       # xfs
-	pkgs+=( xz-devel )
+	pkgs_base+=( bcc-devel )
+	pkgs_base+=( binutils-devel )
+	pkgs_base+=( bpftool )
+	pkgs_base+=( capstone-devel )       # Capstone is a disassembly framework
+	pkgs_base+=( cereal-devel )
+	pkgs_base+=( clang-devel )
+	pkgs_base+=( dbus-devel )           # D-Bus
+	pkgs_base+=( dtc )                  # device tree
+	pkgs_base+=( elfutils-devel )
+	pkgs_base+=( elfutils-libelf-devel )
+	pkgs_base+=( glibc-common )
+	pkgs_base+=( glibc-utils )
+	pkgs_base+=( git-clang-format )
+	pkgs_base+=( golang-github-cilium-ebpf )
+	pkgs_base+=( gperftools-devel )
+	pkgs_base+=( grub2-tools-minimal grub2-tools-extra )
+	pkgs_base+=( gtest-devel gmock-devel )
+	pkgs_base+=( iproute-tc )           # tc
+	pkgs_base+=( iptables-devel )
+	pkgs_base+=( jemalloc-devel )
+	pkgs_base+=( kernel-devel )         # kernel
+	pkgs_base+=( kernel-headers )       # kernel
+	pkgs_base+=( libaio-devel )         # aio
+	pkgs_base+=( libattr-devel )
+	pkgs_base+=( libbpf-devel )         # libbpf
+	pkgs_base+=( libcap-ng-devel )
+	pkgs_base+=( libcap-ng-utils )
+	pkgs_base+=( libdwarf-tools )       # dwarfdump
+	pkgs_base+=( libedit-devel )
+	pkgs_base+=( libpcap-devel )
+	pkgs_base+=( libseccomp-devel )
+	pkgs_base+=( libselinux-devel )     # SELinux
+	pkgs_base+=( libunwind-devel )      # Unwind
+	pkgs_base+=( liburing-devel )       # uring
+	pkgs_base+=( libxml2-devel )
+	pkgs_base+=( lksctp-tools-devel )   # SCTP
+	pkgs_base+=( llvm-devel )
+	pkgs_base+=( lsb_release )
+	pkgs_base+=( ltrace )               # ltrace
+	pkgs_base+=( mmc )                  # mmc
+	pkgs_base+=( mpich mpich-devel )    # mpi
+	pkgs_base+=( numactl-devel )        # numaif.h
+	pkgs_base+=( nvme-cli )             # nvme
+	pkgs_base+=( overlayfs-tools )
+	pkgs_base+=( pam-devel )
+	pkgs_base+=( procps-ng )            # pidof, top, etc.
+	pkgs_base+=( readline-devel )
+	pkgs_base+=( scl-utils )
+	pkgs_base+=( sg3_utils )            # sg_inq, etc.
+	pkgs_base+=( systemtap-sdt-devel )  # sdt.h
+	pkgs_base+=( xfsprogs-devel )       # xfs
+	pkgs_base+=( xz-devel )
 
 	# Cross compile packages
 	pkgs_compiler+=( binutils-aarch64-linux-gnu )
@@ -347,6 +354,7 @@ cclinux|fedora|centos|rhel|openEuler|almalinux)
 	args=( --skip-broken )
 	args+=( --nogpgcheck )
 
+	[[ ${have_base} ]] && pkgs+=( ${pkgs_base[@]} )
 	[[ ${have_compiler} ]] && pkgs+=( ${pkgs_compiler[@]} )
 	[[ ${have_container} ]] && pkgs+=( ${pkgs_container[@]} )
 	[[ ${have_virt} ]] && pkgs+=( ${pkgs_virt[@]} )
@@ -360,25 +368,28 @@ cclinux|fedora|centos|rhel|openEuler|almalinux)
 	if [[ ${have_upgrade} ]]; then
 		inst_eval sudo dnf up ${dnf_args[@]} -y --allowerasing
 	fi
-	inst_eval sudo dnf install ${dnf_args[@]} ${args[@]} -y ${pkgs[@]}
+	if [[ ! -z "${pkgs[@]}" ]]; then
+		inst_eval sudo dnf install ${dnf_args[@]} ${args[@]} -y ${pkgs[@]}
+	fi
 	;;
 debian|ubuntu)
-	pkgs+=( binutils-dev )
-	pkgs+=( clang-format )
-	pkgs+=( libaio-dev )           # aio
-	pkgs+=( libc6-dev )
-	pkgs+=( libmpich-dev )         # MPI
-	pkgs+=( libunwind-dev )
-	pkgs+=( linux-libc-dev )
-	pkgs+=( linux-tools-common )
-	pkgs+=( lsb-release )
-	pkgs+=( procps )
-	pkgs+=( sg3-utils )            # sg_inq, etc.
+	pkgs_base+=( binutils-dev )
+	pkgs_base+=( clang-format )
+	pkgs_base+=( libaio-dev )           # aio
+	pkgs_base+=( libc6-dev )
+	pkgs_base+=( libmpich-dev )         # MPI
+	pkgs_base+=( libunwind-dev )
+	pkgs_base+=( linux-libc-dev )
+	pkgs_base+=( linux-tools-common )
+	pkgs_base+=( lsb-release )
+	pkgs_base+=( procps )
+	pkgs_base+=( sg3-utils )            # sg_inq, etc.
 
 	pkgs_compiler+=( rust-all )
 
 	pkgs_math+=( fftw-dev )
 
+	[[ ${have_base} ]] && pkgs+=( ${pkgs_base[@]} )
 	[[ ${have_compiler} ]] && pkgs+=( ${pkgs_compiler[@]} )
 	[[ ${have_container} ]] && pkgs+=( ${pkgs_container[@]} )
 	[[ ${have_virt} ]] && pkgs+=( ${pkgs_virt[@]} )
@@ -396,7 +407,9 @@ debian|ubuntu)
 		inst_eval sudo apt list --upgradable
 		inst_eval sudo apt upgrade -y
 	fi
-	inst_eval sudo apt install ${args[@]} ${pkgs[@]} -y
+	if [[ ! -z "${pkgs[@]}" ]]; then
+		inst_eval sudo apt install ${args[@]} ${pkgs[@]} -y
+	fi
 	;;
 *)
 	echo "ERROR: Unknown OS ${OS}"
