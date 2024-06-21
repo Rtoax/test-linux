@@ -10,7 +10,9 @@
 #include <fcntl.h>
 
 #define NR_EVENT	10
-#define BUF_LEN 1024
+#define BUF_LEN	1024
+
+#define ARRAY_SIZE(arr) (sizeof(arr) / sizeof(arr[0]))
 
 int main(void)
 {
@@ -21,7 +23,7 @@ int main(void)
 	io_context_t context;
 	struct iocb io[2];
 	struct timespec timeout;
-	struct iocb *p[2] = {
+	struct iocb *iocbs[ARRAY_SIZE(io)] = {
 		&io[0],
 		&io[1],
 	};
@@ -57,7 +59,7 @@ int main(void)
 	io_prep_pread(&io[IO_READER], ifd, wbuf, BUF_LEN, 0);
 	io_prep_pwrite(&io[IO_WRITER], ofd, wbuf, BUF_LEN, 0);
 
-	ret = io_submit(context, 2, p);
+	ret = io_submit(context, ARRAY_SIZE(iocbs), iocbs);
 	if (ret != 2) {
 		printf("io_submit error: %d\n", ret);
 		io_destroy(context);
@@ -65,7 +67,7 @@ int main(void)
 	}
 
 	/* read and write */
-	for (i = 0; i < 2; i++) {
+	for (i = 0; i < ARRAY_SIZE(iocbs); i++) {
 		struct io_event e[1];
 		ret = io_getevents(context, 1, 1, e, &timeout);
 		if (ret <= 0) {
@@ -81,7 +83,9 @@ int main(void)
 		}
 		printf("result, res2: %ld, res: %ld\n", e[0].res2, e[0].res);
 	}
+
 	free(wbuf);
 	io_destroy(context);
+
 	return 0;
 }
