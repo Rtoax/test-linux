@@ -323,6 +323,7 @@ cclinux|fedora|centos|rhel|openEuler|almalinux)
 	pkgs+=( overlayfs-tools )
 	pkgs+=( pam-devel )
 	pkgs+=( procps-ng )            # pidof, top, etc.
+	pkgs+=( readline-devel )
 	pkgs+=( scl-utils )
 	pkgs+=( sg3_utils )            # sg_inq, etc.
 	pkgs+=( systemtap-sdt-devel )  # sdt.h
