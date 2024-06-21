@@ -233,7 +233,6 @@ pkgs_compiler+=( lua )
 
 pkgs_container+=( buildah )
 pkgs_container+=( conmon )
-pkgs_container+=( container-tools )
 pkgs_container+=( crun )
 pkgs_container+=( cri-tools )
 pkgs_container+=( criu )
