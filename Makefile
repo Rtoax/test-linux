@@ -17,14 +17,24 @@ SUB_kernel_DIR = $(KERNEL_LIST)
 SUB_kernel_DIR_TEST := $(SUB_kernel_DIR:%=%_test)
 SUB_kernel_DIR_CLEAN := $(SUB_kernel_DIR:%=%_clean)
 
+this-makefile := $(lastword $(MAKEFILE_LIST))
+abs_srctree := $(realpath $(dir $(this-makefile)))
+export abs_srctree
+
+include $(abs_srctree)/scripts/TLbuild.include
+
 all:
-	@echo -e "make default: show this information"
-	@echo -e "make [user|kernel]"
-	@echo -e "make [test|testuser|testkernel]"
-	@echo -e "make [clean|cleanuser|cleankernel|cleangit]"
-	@echo -e "make archive"
-	@echo -e "make check"
-	@echo -e "make installdeps"
+	@echo >&2 -e "***"
+	@echo >&2 -e "*** srctree ${abs_srctree}"
+	@echo >&2 -e "***"
+	@echo >&2 -e "*** make default: show this information"
+	@echo >&2 -e "*** make [user|kernel]"
+	@echo >&2 -e "*** make [test|testuser|testkernel]"
+	@echo >&2 -e "*** make [clean|cleanuser|cleankernel|cleangit]"
+	@echo >&2 -e "*** make archive"
+	@echo >&2 -e "*** make check"
+	@echo >&2 -e "*** make installdeps"
+	@echo >&2 -e "***"
 
 define cleanuserlog
 	@rm -f $(user_FAILED_LOG)

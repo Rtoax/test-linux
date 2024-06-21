@@ -12,6 +12,7 @@ CFLAGS += -lrt
 build: ${TARGETS}
 	@echo
 	@echo -e " \033[1;33m Done \033[m"
+	@echo -e "  SRCTREE  ${abs_srctree}"
 
 # Add more object.o file
 aio_read: aio_read.o
