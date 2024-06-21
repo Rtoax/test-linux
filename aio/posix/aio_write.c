@@ -10,25 +10,23 @@
 
 #define BUFFER_SIZE 1025
 
+static char doc[] = {
+	"I like you, as you know!\n" \
+	"I dig you, as you know!\n" \
+	"I love you, as everyone knows.\n"
+};
+
 int main(int argc,char **argv)
 {
 	struct aiocb wr;
 	int ret, fd;
-	char str[20] = {"hello, world"};
+	char *str = doc;
 
-
-	bzero(&wr,sizeof(wr));
+	bzero(&wr, sizeof(wr));
 
 	fd = open("test.dat", O_WRONLY | O_APPEND | O_CREAT, 0644);
 	if (fd < 0) {
 		perror("open");
-		exit(1);
-	}
-
-	wr.aio_buf = (char *)malloc(BUFFER_SIZE);
-	if (wr.aio_buf == NULL) {
-		perror("malloc");
-		close(fd);
 		exit(1);
 	}
 
