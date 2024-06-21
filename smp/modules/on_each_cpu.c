@@ -1,15 +1,6 @@
-/**
- *	File	on_each_cpu.c
- *	Time	2021.11.03
- *	Author	Slava Imameev 
- *	Modify  Rong Tao <rtoax@foxmail.com>
- */
 #include <linux/module.h>
 #include <linux/kernel.h>
 #include <linux/smp.h>   // for on_each_cpu
-
-MODULE_LICENSE("GPL");
-MODULE_AUTHOR("Rong Tao");
 
 void smp_call_func(void *info)
 {
@@ -27,13 +18,10 @@ static int __init each_cpu_init(void)
 
 	on_each_cpu(smp_call_func, NULL, 2);
 
-	return 0;
-}
-
-static void __exit each_cpu_exit(void)
-{
-	printk(KERN_INFO "Bye!\n");
+	/* I don't want to rmmod */
+	return -EINVAL;
 }
 
 module_init(each_cpu_init);
-module_exit(each_cpu_exit);
+MODULE_AUTHOR("Slava Imameev & Rong Tao");
+MODULE_LICENSE("GPL");
