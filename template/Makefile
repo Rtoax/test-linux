@@ -5,13 +5,13 @@ $(warning WARNING: This is warning)
 .PHONY: all
 all:
 	@echo -e " \033[1;33m Building User \033[m"
-	make -f Makefile.user
-	mkdir -p build && pushd build && cmake .. && make && popd
+	@make -f Makefile.user
+	@mkdir -p build && pushd build && cmake .. && make && popd
 	@echo -e " \033[1;33m Building Kernel \033[m"
-	make -f Makefile.kernel
+	@make -f Makefile.kernel
 
 .PHONY: clean
 clean:
-	make clean -f Makefile.user
-	make clean -f Makefile.kernel
-	rm -rf build
+	@make clean -f Makefile.user
+	@make clean -f Makefile.kernel
+	@rm -rf build
