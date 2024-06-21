@@ -1,6 +1,6 @@
 - GPA: Guest Physical Address
 - HPA: Host Physical Address
-- IOMMU: Input/Output Memory Management Unit
+- IOMMU: Input/Output Memory Management Unit (IO内存管理单元) @MMU @SMMU
 - KVM: Kernel Virtual Machine
-- SMMU: System MMU
+- SMMU: System MMU (系统内存管理单元) @MMU @IOMMU
 - VT-d: Virtualization Technology for Directed I/O

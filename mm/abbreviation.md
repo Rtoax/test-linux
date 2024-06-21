@@ -4,6 +4,7 @@
 - GDT: Global Descriptor Table (全局描述符表)
 - LDT: Local Descriptor Table (局部描述符表)
 - MCE: Machine Check Exceptions
+- MMU: Memory Management Unit (内存管理单元) @IOMMU @SMMU
 - PSS: Proportional Set Size (实际使用的物理内存 比例分配共享库占用的内存)
 - RSS: Resident Set Size (常驻内存集合大小 包含共享库占用的内存)
 - USS: Unique Set Size (进程独占使用的物理内存 不包含共享库占用的内存)
