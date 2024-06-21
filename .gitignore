@@ -9,6 +9,7 @@ build/
 
 # Object files
 *.o
+*.oc
 *.opp
 *.obj
 *.elf

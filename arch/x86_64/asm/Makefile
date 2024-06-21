@@ -73,7 +73,7 @@ time: time.o
 
 %.o: %.asm
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	nasm -felf64 $(<) -o $(@)
+	@nasm -felf64 $(<) -o $(@)
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
@@ -86,7 +86,7 @@ $(TARGETS): %.o:
 
 $(TARGETS_ld): %.o:
 	@echo -e "  LD  ld \033[1;32m$(@)\033[m"
-	$(LD) -o $(@) $(^)
+	@$(LD) -o $(@) $(^)
 
 test: ${TARGETS}
 	@echo -e "  TEST  \033[1;32m$(@)\033[m"

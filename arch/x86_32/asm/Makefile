@@ -12,6 +12,8 @@ TARGETS_gcc += maxofthree_call
 TARGETS_todo :=
 
 CC = gcc
+LD = ld
+AS = nasm
 
 CFLAGS := -Werror -Wall
 CFLAGS += -m32
@@ -34,20 +36,24 @@ power: power.o
 write: write.o
 write-2: write-2.o
 write-3: write-3.o
-factorial_call: factorial_call.o factorial.o
-maxofthree_call: maxofthree_call.o maxofthree.o
+factorial_call: factorial_call.oc factorial.o
+maxofthree_call: maxofthree_call.oc maxofthree.o
 
 %.o: %.asm
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	nasm -felf32 $(<) -o $(@)
+	@$(AS) -felf32 $(<) -o $(@)
+
+%.oc: %.c
+	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
+	@$(CC) -m32 -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
 
 $(TARGETS): %.o:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	ld -m elf_i386 -o $(@) $(^)
+	@$(LD) -m elf_i386 -o $(@) $(^)
 
 $(TARGETS_gcc): %.o:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	gcc -m32 -o $(@) $(^)
+	@$(CC) -m32 -o $(@) $(^)
 
 test: ${TARGETS}
 	@echo -e "  TEST  \033[1;32m$(@)\033[m"
@@ -57,4 +63,4 @@ test: ${TARGETS}
 .PHONY: clean
 clean:
 	@echo -e "  CLEAN  \033[1;32m$(@)\033[m"
-	@rm -f ${TARGETS} ${TARGETS_gcc} *.o *.d
+	@rm -f ${TARGETS} ${TARGETS_gcc} *.o *.d *.oc
