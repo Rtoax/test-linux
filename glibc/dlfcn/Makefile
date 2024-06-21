@@ -18,6 +18,7 @@ CC = gcc
 
 CFLAGS := -Werror -Wall
 CFLAGS += -Wstrict-prototypes
+CFLAGS += -ldl
 
 LDFLAGS :=
 LDLIBS :=

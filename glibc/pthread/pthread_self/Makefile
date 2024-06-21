@@ -1,5 +1,6 @@
 CC = gcc
 CFLAGS := -Werror -Wall -pthread
+LDFLAGS := -pthread
 
 TARGETS := pthread_self
 

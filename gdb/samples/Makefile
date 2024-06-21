@@ -19,6 +19,7 @@ CXX = g++
 
 CFLAGS := -Werror -Wall
 CFLAGS += -O0 -ggdb
+CFLAGS += -pthread
 
 CXXFLAGS :=
 CXXFLAGS += -O0 -ggdb

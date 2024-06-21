@@ -20,6 +20,7 @@ TARGETS += __FILE__
 TARGETS += machine
 TARGETS += __ASSEMBLER__
 TARGETS += ident
+TARGETS += __GNUC__
 
 TARGETS_CXX := __cplusplus
 
@@ -78,6 +79,7 @@ __FILE__: __FILE__.o
 machine: machine.o
 __ASSEMBLER__: __ASSEMBLER__.o
 ident: ident.o
+__GNUC__: __GNUC__.o
 
 CFLAGS___i386__ := -m32
 CFLAGS___x86_64__ := -m64

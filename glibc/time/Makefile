@@ -27,6 +27,9 @@ CC = gcc
 CFLAGS := -Werror -Wall
 CFLAGS += -D_GNU_SOURCE
 CFLAGS += -DDEBUG -O0 -g
+CFLAGS += -pthread -lrt
+
+LDFLAGS := -pthread -lrt
 
 build: ${TARGETS}
 	@echo

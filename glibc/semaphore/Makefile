@@ -1,4 +1,3 @@
-
 TARGETS := h2o
 
 DEBUG = yes
@@ -6,6 +5,7 @@ SRC_PATH := $(shell pwd)
 CC = gcc
 
 CFLAGS := -Werror -Wall
+CFLAGS += -pthread
 
 ifdef DEBUG
 CFLAGS += -DDEBUG -O0 -g

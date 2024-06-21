@@ -13,6 +13,11 @@ int sys_gettid(void)
 	return ret >= 0 ? ret : -errno;
 }
 
+int gettid(void)
+{
+	return sys_gettid();
+}
+
 int main(void)
 {
 	pid_t tid = gettid();

@@ -15,7 +15,9 @@ int main (void)
 #ifdef LIBCRYPT_SO
 	P(LIBCRYPT_SO);
 #endif
+#ifdef LIBC_MALLOC_DEBUG_SO
 	P(LIBC_MALLOC_DEBUG_SO);
+#endif
 	P(LIBC_SO);
 	P(LIBDL_SO);
 	P(LIBGCC_S_SO);

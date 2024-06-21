@@ -5,9 +5,22 @@
 #include <stdbool.h>
 #include <signal.h>
 #include <unistd.h>
+#include <errno.h>
+#include <sys/syscall.h>
 
 #include "tls.h"
 #include "res_state.h"
+
+int sys_gettid(void)
+{
+	int ret = syscall(__NR_gettid);
+	return ret >= 0 ? ret : -errno;
+}
+
+int gettid(void)
+{
+	return sys_gettid();
+}
 
 /* Some compilers, like SunOS4 cc, don't have offsetof in <stddef.h>.  */
 #ifndef offsetof

@@ -12,6 +12,8 @@ CFLAGS += -lpthread
 LDFLAGS :=
 LDLIBS :=
 
+LDFLAGS := -pthread
+
 ifneq ($(wildcard /usr/include/jemalloc/jemalloc.h),)
 $(info Found jemalloc)
 CFLAGS += -DHAVE_JEMALLOC -ljemalloc

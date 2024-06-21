@@ -19,8 +19,15 @@ int main(void)
 	printf("ntp_gettime = %d\n", ntp_gettime(&ntv));
 	print_ntptimeval(&ntv);
 
+/**
+ * See /usr/include/sys/timex.h
+ * extern int ntp_gettimex (struct ntptimeval *__ntv) __THROW;
+ * # define ntp_gettime ntp_gettimex
+ */
+#ifdef ntp_gettime
 	printf("ntp_gettimex = %d\n", ntp_gettimex(&ntv));
 	print_ntptimeval(&ntv);
+#endif
 
 	return 0;
 }

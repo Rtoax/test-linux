@@ -11,10 +11,12 @@ CC = gcc
 
 CFLAGS := -Werror -Wall
 CFLAGS += -Wstrict-prototypes
+CFLAGS += -lutil
 
 LDFLAGS :=
 LDLIBS :=
 
+LDFLAGS += -lutil
 
 .PHONY: build
 build: ${TARGETS}

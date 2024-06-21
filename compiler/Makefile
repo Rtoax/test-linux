@@ -19,6 +19,7 @@ sub-dir-build := $(sub-dir:=.build)
 sub-dir-clean := $(sub-dir:=.clean)
 
 TARGETS :=
+TARGETS += __GNUC__
 TARGETS += __VERSION__
 
 CC = gcc
@@ -27,6 +28,7 @@ CC = gcc
 build: $(TARGETS) $(sub-dir-build)
 
 __VERSION__: __VERSION__.o
+__GNUC__: __GNUC__.o
 
 .PHONY: clean
 clean: $(sub-dir-clean)
