@@ -18,6 +18,7 @@ USER_LIST += gdb
 USER_LIST += glibc
 USER_LIST += gnome
 USER_LIST += gnu
+USER_LIST += go
 USER_LIST += hpc
 USER_LIST += instructions
 USER_LIST += interrupt
