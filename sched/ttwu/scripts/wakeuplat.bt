@@ -1,11 +1,7 @@
 #!/usr/bin/env bpftrace
-/**
- * File: wakeuplat.bt
- * Author: Rong Tao <rtoax@foxmail.com>
- * Date: 2022.05.25
- *
- */
+#ifndef BPFTRACE_HAVE_BTF
 #include <linux/sched.h>
+#endif
 
 BEGIN
 {
@@ -22,7 +18,7 @@ tracepoint:sched:sched_wakeup
 {
 	$pid = args->pid;
 	if (@start[$pid]) {
-		@latency_usecs = hist((nsecs - @start[$pid]) / 1000);
+		@latency_usecs[comm] = hist((nsecs - @start[$pid]) / 1000);
 		delete(@start[$pid]);
 	}
 }
