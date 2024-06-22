@@ -1,17 +1,13 @@
 #!/usr/bin/env bpftrace
-/**
- * File: deactivate_task.bt
- * Author: Rong Tao <rtoax@foxmail.com>
- * Date: 2022.05.23
- */
-
+//#ifndef BPFTRACE_HAVE_BTF
 #include <linux/sched.h>
+//#endif
 
 kprobe:activate_task,
 kprobe:deactivate_task
 {
 	$prev = (struct task_struct*)arg1;
-	if ($prev->state & TASK_UNINTERRUPTIBLE) {
+	if ($prev->__state & TASK_UNINTERRUPTIBLE) {
 		@deactiveD[func, $prev->comm] = count();
 	}
 }
