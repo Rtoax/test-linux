@@ -2,9 +2,9 @@
 
 perf_sched_record_latency()
 {
-	echo "sleep 3"
+	# Record sched
 	sudo perf sched record sleep 3
-
+	# Show latency
 	sudo perf sched latency
 }
 
