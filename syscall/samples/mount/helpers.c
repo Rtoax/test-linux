@@ -106,6 +106,9 @@ int bind_file_with_loop(const char *file, int *pffd, const char *dev_loop,
 		exit(1);
 	}
 
+	/* FIXME: Just show loop device */
+	system("lsblk");
+
 	*pffd = ffd;
 	*plfd = lfd;
 
