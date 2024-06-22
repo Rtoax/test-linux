@@ -1,4 +1,4 @@
-sub-dir := samples
+sub-dir := vhost-user
 
 sub-dir-build := $(sub-dir:=.build)
 sub-dir-clean := $(sub-dir:=.clean)
