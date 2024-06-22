@@ -5,7 +5,8 @@ BEGIN
 	printf("Statistic vhost count, hit ctrl-c to end.\n");
 }
 
-kprobe:vhost_*
+/* kernel vhost */
+kprobe:vhost*
 {
 	@comm[comm] = count();
 	@probe[probe] = count();
