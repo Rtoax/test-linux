@@ -18,7 +18,7 @@ BEGIN
 kprobe:try_to_wake_up
 {
 	$task = (struct task_struct *)arg0;
-	@count_comm[$task->comm] = count();
+	@count_comm[$task->comm, pid] = count();
 	@stack[kstack] = count();
 }
 
