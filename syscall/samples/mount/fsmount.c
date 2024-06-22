@@ -17,6 +17,7 @@
 #include <sys/wait.h>
 #include <sys/mount.h>
 #include <sys/ioctl.h>
+#include <sys/stat.h>
 #include <linux/mount.h>
 #include <linux/unistd.h>
 #include <linux/loop.h>
@@ -85,9 +86,9 @@ void mount_error(int fd, const char *s)
 
 int main(int argc, char *argv[])
 {
-	int ffd, lfd, fsfd, mfd;
+	int ret, ffd, lfd, fsfd, mfd;
 	int free_nr_loop = -1;
-	const char *target = "./tmp-dir/";
+	const char *target_dir = "./tmp-dir/";
 	char loop[PATH_MAX];
 
 	free_nr_loop = get_free_dev_loop();
@@ -112,19 +113,28 @@ int main(int argc, char *argv[])
 		mount_error(fsfd, "fsmount");
 	E(close(fsfd));
 
-	if (move_mount(mfd, "", AT_FDCWD, target, MOVE_MOUNT_F_EMPTY_PATH) < 0) {
+	/* check and make directory */
+	if (access(target_dir, F_OK)) {
+		ret = mkdir(target_dir, 0777);
+		if (ret) {
+			fprintf(stderr, "mkdir %s %m\n", target_dir);
+			exit(1);
+		}
+	}
+
+	if (move_mount(mfd, "", AT_FDCWD, target_dir, MOVE_MOUNT_F_EMPTY_PATH) < 0) {
 		perror("move_mount");
 		exit(1);
 	}
 
 	E(close(mfd));
 
-	printf("Mount created at %s...\n", target);
+	printf("Mount created at %s...\n", target_dir);
 	printf("Press <return> to unmount the volume: ");
 	getchar();
 
-	umount(target);
-	rmdir(target);
+	umount(target_dir);
+	rmdir(target_dir);
 	close(ffd);
 	close(lfd);
 	exit(0);
