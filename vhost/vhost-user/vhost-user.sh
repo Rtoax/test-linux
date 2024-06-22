@@ -2,9 +2,8 @@
 
 . config.sh
 
-rm -f ${SOCK_VHOST_PATH}
-
-gcc vhost-user.c -o vhost-user
+make clean
+make
 
 echo "Listen on ${SOCK_VHOST_PATH}"
 ./vhost-user ${SOCK_VHOST_PATH}

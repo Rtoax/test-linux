@@ -27,7 +27,8 @@ int main(int argc, char *argv[])
 {
 	int sockfd, clientfd;
 	struct sockaddr_un serv_addr,clnt_addr;
-	int addr_sz, len;
+	socklen_t addr_sz;
+	int len;
 	char buf[BUF_SIZE];
 	char *path;
 	VhostUserMsg *msg;
