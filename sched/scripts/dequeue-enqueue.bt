@@ -1,0 +1,40 @@
+#!/bin/env bpftrace
+#ifndef BPFTRACE_HAVE_BTF
+#include <linux/sched.h>
+#endif
+
+BEGIN
+{
+	printf("Tracing (en)dequeue latency, hit ctrl-c to end.\n");
+	// printf("%-8s %-8s %-8s\n", "TIME", "PID", "COMM");
+}
+
+kprobe:dequeue_task_dl,
+kprobe:dequeue_task_fair,
+kprobe:dequeue_task_idle,
+kprobe:dequeue_task_rt,
+kprobe:dequeue_task_stop
+{
+	@start[tid] = nsecs;
+}
+
+kprobe:enqueue_task_dl,
+kprobe:enqueue_task_fair,
+kprobe:enqueue_task_rt,
+kprobe:enqueue_task_stop
+/ @start[tid] /
+{
+	$diff_ns = nsecs - @start[tid];
+	delete(@start[tid]);
+
+	@latency_hist_ns[comm, pid] = hist($diff_ns);
+
+	// time("%H:%M:%S ");
+	// printf("%-8d %-8s\n", pid, comm);
+}
+
+END
+{
+	clear(@start);
+	printf("Bye.\n");
+}
