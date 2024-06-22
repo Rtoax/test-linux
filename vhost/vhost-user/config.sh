@@ -1,8 +1,8 @@
+#!/bin/bash
 . ../../libs/qemu.sh
 
 QEMU=$(get_qemu_kvm_emulator)
 IMG_QCOW2=$PWD/vm.qcow2
-IMG_ISO=/home/isos/AlmaLinux-9.0-x86_64-dvd.iso
 SOCK_VHOST_PATH=$PWD/vhost.sock
 
 [[ -z ${QEMU} ]] && echo "Not found Qemu/kvm emulator" && exit 1
