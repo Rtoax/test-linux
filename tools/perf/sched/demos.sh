@@ -2,9 +2,9 @@
 
 perf_sched_record_latency()
 {
-	# Record sched
-	sudo perf sched record sleep 3
-	# Show latency
-	sudo perf sched latency
+	# Record sched for seconds
+	sudo perf sched record -- sleep 5
+	# Show latency sort by max value
+	sudo perf sched latency --sort max
 }
 
