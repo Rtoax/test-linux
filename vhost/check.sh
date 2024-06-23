@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [[ -e /dev/vhost-net ]]; then
-	echo "You are in vhost-net guest OS"
+	echo "Found /dev/vhost-net"
 	exit 0
 fi
 
