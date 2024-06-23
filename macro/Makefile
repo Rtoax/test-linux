@@ -22,7 +22,8 @@ TARGETS += __ASSEMBLER__
 TARGETS += ident
 TARGETS += __GNUC__
 
-TARGETS_CXX := __cplusplus
+TARGETS_CXX :=
+TARGETS_CXX += __cplusplus
 
 ifeq ($(shell uname -m),x86_64)
 TARGETS += __i386__
@@ -67,7 +68,7 @@ __i386__: __i386__.o
 __x86_64__: __x86_64__.o
 __aarch64__: __aarch64__.o
 __nonnull: __nonnull.o
-__cplusplus: __cplusplus.o
+__cplusplus: __cplusplus.opp
 __restrict__: __restrict__.o
 __func__: __func__.o
 __linux__: __linux__.o
@@ -90,6 +91,10 @@ CFLAGS_machine := -Wno-error=deprecated -Wno-deprecated
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
 
+%.opp: %.cpp
+	@echo -e "  CXX  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
+	@$(CXX) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
+
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
 	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) $(^)
@@ -100,4 +105,4 @@ $(TARGETS_CXX): %:
 
 clean:
 	@echo -e "  CLEAN  \033[1;32m$(@)\033[m"
-	@rm -f ${TARGETS} ${TARGETS_CXX} *.o *.d
+	@rm -f ${TARGETS} ${TARGETS_CXX} *.o *.opp
