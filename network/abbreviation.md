@@ -1,3 +1,4 @@
+- DPDK: Data Plane Development Kit (数据面开发工具)
 - IB: InfiniBand
 - MPLS: Multi-Protocol Label Switching (多协议标签交换)
 - MQTT: Message Queuing Telemetry Transport (消息队列遥测传输协议)
