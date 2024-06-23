@@ -7,6 +7,7 @@ ifeq ($(CONFIG_LIVEPATCH),y)
 LIVEPATCH=m
 endif
 
+obj-$(LIVEPATCH) += estimation_timer.o
 obj-$(LIVEPATCH) += test_klp_atomic_replace.o
 obj-$(LIVEPATCH) += test_klp_callbacks_busy.o
 obj-$(LIVEPATCH) += test_klp_callbacks_demo2.o
