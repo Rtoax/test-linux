@@ -68,6 +68,8 @@ int get_free_dev_loop(void)
 	}
 	close(fd);
 
+	fprintf(stderr, "get free /dev/loop%d\n", free_nr_loop);
+
 	return free_nr_loop;
 }
 
@@ -78,12 +80,12 @@ int bind_file_with_loop(const char *file, int *pffd, const char *dev_loop,
 
 	ffd = openat(AT_FDCWD, file, O_RDWR | O_CLOEXEC);
 	if (ffd == -1) {
-		perror("openat fs file");
+		fprintf(stderr, "openat %s: %m\n", file);
 		exit(1);
 	}
 	lfd = openat(AT_FDCWD, dev_loop, O_RDWR | O_CLOEXEC);
 	if (lfd == -1) {
-		perror("openat loop");
+		fprintf(stderr, "openat %s: %m\n", dev_loop);
 		exit(1);
 	}
 
@@ -103,6 +105,9 @@ int bind_file_with_loop(const char *file, int *pffd, const char *dev_loop,
 		perror("ioctl loop failed, ");
 		exit(1);
 	}
+
+	/* FIXME: Just show loop device */
+	system("lsblk");
 
 	*pffd = ffd;
 	*plfd = lfd;
