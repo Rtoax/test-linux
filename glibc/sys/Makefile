@@ -1,4 +1,5 @@
-sub-dir := timeb
+sub-dir := time
+sub-dir += timeb
 
 sub-dir-build := $(sub-dir:=.build)
 sub-dir-clean := $(sub-dir:=.clean)
