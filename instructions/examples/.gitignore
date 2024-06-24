@@ -9,6 +9,7 @@
 /bswapl
 /bswapq
 /_mm_clflush
+/rte_memcpy
 /vgetbv
 /stosb
 /memset
