@@ -224,6 +224,7 @@ pkgs_base+=( sparse )               # sparse
 pkgs_base+=( strace )
 pkgs_base+=( smartmontools )        # smartctl
 pkgs_base+=( sysstat )
+pkgs_base+=( tmux )
 pkgs_base+=( tree )
 pkgs_base+=( vim vim-default-editor )
 pkgs_base+=( which )
