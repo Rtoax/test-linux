@@ -6,6 +6,7 @@ TARGETS += arch-unsigned-signed
 TARGETS += alignas
 TARGETS += case
 TARGETS += const
+TARGETS += dummy
 TARGETS += param-pass
 TARGETS += compat
 TARGETS += compare
@@ -102,6 +103,7 @@ param-pass: param-pass.o
 array: array.o
 compat: compat.o
 compare: compare.o
+dummy: dummy.o
 _Generic: _Generic.o
 goto: goto.o
 ptr-dim: ptr-dim.o helpers.o
