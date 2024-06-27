@@ -22,6 +22,7 @@ int main(void)
 		perror("open");
 		return 1;
 	}
+	printf("O_PATH = 0x%x\n", O_PATH);
 
 	ret = read(fd, buf, 2);
 	if (ret > 0 || errno != EBADF) {
