@@ -291,6 +291,7 @@ case ${OS} in
 cclinux|fedora|centos|rhel|openEuler|almalinux)
 	if [[ $(uname -m) == x86_64 ]]; then
 		pkgs_base+=( glibc-devel.i686 )
+		pkgs_bench+=( memtest86+ )
 	fi
 	pkgs_base+=( bcc-devel )
 	pkgs_base+=( binutils-devel )
