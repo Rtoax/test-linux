@@ -206,6 +206,7 @@ pkgs_base+=( efivar mokutil )       # UEFI
 pkgs_base+=( elfutils )             # eu- prefix tools
 pkgs_base+=( gdb cgdb )
 pkgs_base+=( gnupg2 )               # gpg
+pkgs_base+=( gperf )
 pkgs_base+=( hwloc )                # lstopo
 pkgs_base+=( inotify-tools )        # inotifywatch, ...
 pkgs_base+=( llvm )                 # llvm-as llvm-dis llc
