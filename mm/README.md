@@ -1,5 +1,5 @@
-Memory Managment
-============
+MM - Memory Managment
+====================
 
 
 # 进程内存类型
@@ -15,12 +15,16 @@ $ sudo dnf install smem
 $ sudo apt-get install smem
 ```
 
+# Tools
+
+## smem
+
 ```bash
 $ smem
   PID User     Command                         Swap      USS      PSS      RSS
-26301 rongtao  cat                                0      104      128     1884
-26302 rongtao  cat                                0      104      128     1884
- 2633 rongtao  dbus-broker --log 4 --contr        0      304      382     2592
+218967 rongtao  cat                                0      104      131     1848
+218968 rongtao  cat                                0      112      141     1928
+218980 rongtao  /usr/libexec/cgroupify app-        0      248      327     2880
 ```
 
 

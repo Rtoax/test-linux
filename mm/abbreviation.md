@@ -7,6 +7,7 @@
 - ISB: Instruction Synchronization Barrier (指令同步屏障) @arm @DMB @DSB
 - LDT: Local Descriptor Table (局部描述符表)
 - MCE: Machine Check Exceptions
+- MM: Memory Managment (内存管理) @MMU
 - MMU: Memory Management Unit (内存管理单元) @IOMMU @SMMU
 - PSS: Proportional Set Size (实际使用的物理内存 比例分配共享库占用的内存)
 - RSS: Resident Set Size (常驻内存集合大小 包含共享库占用的内存)

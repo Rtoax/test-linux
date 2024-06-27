@@ -220,6 +220,7 @@ pkgs_base+=( parallel )
 pkgs_base+=( python3-pip )          # pip wheel
 pkgs_base+=( python3-pyroute2 )     # pyroute2
 pkgs_base+=( python3-scapy )
+pkgs_base+=( smem )
 pkgs_base+=( socat )
 pkgs_base+=( sparse )               # sparse
 pkgs_base+=( strace )
