@@ -67,6 +67,7 @@ TARGETS += setuid seteuid setreuid
 TARGETS += setpgrp
 TARGETS += tee tee2
 TARGETS += clone
+TARGETS += close_range
 TARGETS += setitimer
 TARGETS += unlink
 TARGETS += rmdir
@@ -162,6 +163,7 @@ setpgrp: setpgrp.o
 tee: tee.o
 tee2: tee2.o
 clone: clone.o
+close_range: close_range.o
 setitimer: setitimer.o
 unlink: unlink.o
 rmdir: rmdir.o

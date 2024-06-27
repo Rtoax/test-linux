@@ -30,6 +30,7 @@
 /tee2
 /os-release
 /clone
+/close_range
 /setitimer
 /rmdir
 /unlink
