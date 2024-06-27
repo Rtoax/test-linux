@@ -1,15 +1,16 @@
-
-TARGETS := call-func call-func-ret
+# Include '_start' function
+TARGETS :=
+TARGETS += call-func call-func-ret
 TARGETS += jmp jg jl
 TARGETS += write write-2 write-3
 
-TARGETS_gcc := average
-TARGETS_gcc += echo
-TARGETS_gcc += power
-TARGETS_gcc += factorial_call
-TARGETS_gcc += maxofthree_call
-
-TARGETS_todo :=
+# Include 'main' function
+TARGETS_MAIN :=
+TARGETS_MAIN += average
+TARGETS_MAIN += echo
+TARGETS_MAIN += power
+TARGETS_MAIN += factorial_call
+TARGETS_MAIN += maxofthree_call
 
 CC = gcc
 LD = ld
@@ -20,7 +21,7 @@ CFLAGS += -m32
 CFLAGS += -DDEBUG -O0 -g
 
 .PHONY: build
-build: ${TARGETS} ${TARGETS_gcc}
+build: ${TARGETS} ${TARGETS_MAIN}
 	@echo
 	@echo -e " \033[1;33m Done \033[m"
 
@@ -51,7 +52,7 @@ $(TARGETS): %.o:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
 	@$(LD) -m elf_i386 -o $(@) $(^)
 
-$(TARGETS_gcc): %.o:
+$(TARGETS_MAIN): %.o:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
 	@$(CC) -m32 -o $(@) $(^)
 
@@ -63,4 +64,4 @@ test: ${TARGETS}
 .PHONY: clean
 clean:
 	@echo -e "  CLEAN  \033[1;32m$(@)\033[m"
-	@rm -f ${TARGETS} ${TARGETS_gcc} *.o *.d *.oc
+	@rm -f ${TARGETS} ${TARGETS_MAIN} *.o *.d *.oc
