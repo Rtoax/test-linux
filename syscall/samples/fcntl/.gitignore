@@ -1,4 +1,6 @@
 /fallocate
+/open
+/openat2
 /F_GET_SEALS
 /F_ADD_SEALS
 /F_SETLKW

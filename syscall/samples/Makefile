@@ -52,7 +52,6 @@ TARGETS += fdopen
 TARGETS += kcmp
 TARGETS += execve execve-fork
 TARGETS += nr
-TARGETS += open openat2
 TARGETS += opendir
 TARGETS += pause
 TARGETS += pidfd_open
@@ -139,8 +138,6 @@ fdopen: fdopen.o
 execve: execve.o
 execve-fork: execve-fork.o
 nr: nr.o
-open: open.o
-openat2: openat2.o
 opendir: opendir.o
 pause: pause.o
 pidfd_open: pidfd_open.o

@@ -1,5 +1,6 @@
 TARGETS :=
 TARGETS += fallocate
+TARGETS += open openat2
 TARGETS += splice splice-read
 # F_ flags
 TARGETS += F_GET_SEALS
@@ -25,6 +26,8 @@ build: ${TARGETS}
 
 # Add more object.o file
 fallocate: fallocate.o
+open: open.o
+openat2: openat2.o
 splice: splice.o
 splice-read: splice-read.o
 
@@ -37,6 +40,14 @@ F_GETFL: F_GETFL.o
 
 O_CLOEXEC: O_CLOEXEC.o
 O_TMPFILE: O_TMPFILE.o
+
+%.o: %.c
+	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
+	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
+
+$(TARGETS): %:
+	@echo -e "  LD  \033[1;32m$(@)\033[m"
+	@$(CC) $(CFLAGS) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
 
 test: ${TARGETS}
 	@echo -e "  TEST  \033[1;32m$(@)\033[m"

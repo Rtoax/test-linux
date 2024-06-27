@@ -8,8 +8,6 @@
 /fdopen
 /nr
 /nr.h
-/open
-/openat2
 /opendir
 /pause
 /pidfd_open
