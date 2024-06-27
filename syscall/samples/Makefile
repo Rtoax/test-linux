@@ -25,6 +25,7 @@ sub-dir += time
 sub-dir += times
 sub-dir += flock
 sub-dir += fs
+sub-dir += vfs
 sub-dir += fanotify
 sub-dir += inotify
 sub-dir += sched

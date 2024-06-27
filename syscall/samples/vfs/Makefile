@@ -7,7 +7,7 @@ CC = gcc
 CFLAGS := -Werror -Wall -D_GNU_SOURCE
 CFLAGS += -pthread
 CFLAGS += -DDEBUG -O0 -g
-CFLAGS += -I../../libs/
+CFLAGS += -I../../../libs/
 
 build: ${TARGETS}
 	@echo
@@ -17,7 +17,7 @@ build: ${TARGETS}
 statfs: statfs.o proc.o
 fstatfs: fstatfs.o
 
-proc.o: ../../libs/proc.o
+proc.o: ../../../libs/proc.o
 	$(info We are in $(shell pwd))
 	mv $(<) $(@)
 
