@@ -262,7 +262,7 @@ pkgs_bench+=( sysbench )
 pkgs_desktop+=( terminator )
 pkgs_desktop+=( gimp )
 pkgs_desktop+=( gnuplot )
-pkgs_desktop+=( gtk3 gtk3-devel )
+pkgs_desktop+=( gtk3 )
 pkgs_desktop+=( python3-matplotlib )
 
 # Database
@@ -353,6 +353,8 @@ cclinux|fedora|centos|rhel|openEuler|almalinux)
 	pkgs_compiler+=( java-1.8.0-openjdk-devel )
 	pkgs_compiler+=( libgccjit-devel )
 	pkgs_compiler+=( rust )
+
+	pkgs_desktop+=( gtk3-devel )
 
 	pkgs_math+=( fftw-devel )
 
