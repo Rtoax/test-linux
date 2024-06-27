@@ -373,7 +373,10 @@ cclinux|fedora|centos|rhel|openEuler|almalinux)
 	[[ ${have_net} ]] && pkgs+=( ${pkgs_net[@]} )
 
 	if [[ ${have_upgrade} ]]; then
-		inst_eval sudo dnf up ${dnf_args[@]} -y --allowerasing
+		inst_eval sudo dnf up ${dnf_args[@]} -y --allowerasing --skip-broken --nobest || {
+			echo "WARNING: Failed to upgrade, skiping"
+			true
+		}
 	fi
 	if [[ ! -z "${pkgs[@]}" ]]; then
 		inst_eval sudo dnf install ${dnf_args[@]} ${args[@]} -y ${pkgs[@]}
