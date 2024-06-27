@@ -11,4 +11,5 @@
 /splice
 /splice-read
 /O_CLOEXEC
+/O_PATH
 /O_TMPFILE
