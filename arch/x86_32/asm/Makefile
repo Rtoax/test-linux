@@ -1,3 +1,5 @@
+GLIBC_M32_CRT1_O = /usr/lib/crt1.o
+
 # Include '_start' function
 TARGETS :=
 TARGETS += call-func call-func-ret
@@ -6,11 +8,15 @@ TARGETS += write write-2 write-3
 
 # Include 'main' function
 TARGETS_MAIN :=
+ifneq ($(wildcard $(GLIBC_M32_CRT1_O)),)
 TARGETS_MAIN += average
 TARGETS_MAIN += echo
 TARGETS_MAIN += power
 TARGETS_MAIN += factorial_call
 TARGETS_MAIN += maxofthree_call
+else
+$(warning "WARNING: Not install glibc m32 development package")
+endif
 
 CC = gcc
 LD = ld
