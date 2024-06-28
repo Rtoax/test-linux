@@ -1,5 +1,6 @@
-TARGETS := mode_strict
-TARGETS += mode_filter
+TARGETS :=
+TARGETS += mode_strict
+TARGETS += mode_filter mode_filter-no-scmp
 TARGETS += filter-write
 
 CC = gcc
@@ -9,7 +10,10 @@ all: ${TARGETS}
 
 mode_strict: mode_strict.o seccomp.o
 mode_filter: mode_filter.o
+mode_filter-no-scmp: mode_filter-no-scmp.o
 filter-write: filter-write.o
+
+CFLAGS_mode_filter-no-scmp := -DCONFIG_NO_SECCOMP=1
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

@@ -2,6 +2,7 @@
  * Seccomp bpf demo
  */
 #include <stdio.h>
+#include <stdlib.h>
 #include <fcntl.h>
 #include <unistd.h>
 #include <stddef.h>
@@ -10,7 +11,9 @@
 #include <linux/filter.h>
 #include <linux/unistd.h>
 
-
+#ifdef CONFIG_NO_SECCOMP
+void configure_seccomp(void) {}
+#else
 void configure_seccomp(void)
 {
 	struct sock_filter filter[] = {
@@ -36,6 +39,7 @@ void configure_seccomp(void)
 	prctl(PR_SET_NO_NEW_PRIVS, 1, 0, 0, 0);
 	prctl(PR_SET_SECCOMP, SECCOMP_MODE_FILTER, &prog);
 }
+#endif
 
 int main(int argc, char *argv[])
 {
@@ -50,13 +54,22 @@ int main(int argc, char *argv[])
 	configure_seccomp();
 
 	printf("Opening '%s' for reading\n", from);
-	if ((infd = open(from, O_RDONLY)) > 0) {
-		printf("Opening '%s' for writing\n", to);
-		if ((outfd = open(to, O_WRONLY | O_CREAT, 0644)) > 0) {
-			while ((read_bytes = read(infd, &buffer, 1024)) > 0)
-				write(outfd, &buffer, (ssize_t)read_bytes);
-		}
+	infd = open(from, O_RDONLY);
+	if (infd <= 0) {
+		fprintf(stderr, "Opening '%s' failed, %m\n", from);
+		exit(1);
 	}
+
+	printf("Opening '%s' for writing\n", to);
+	outfd = open(to, O_WRONLY | O_CREAT, 0644);
+	if (outfd <= 0) {
+		fprintf(stderr, "Opening '%s' failed, %m\n", to);
+		exit(1);
+	}
+
+	while ((read_bytes = read(infd, &buffer, 1024)) > 0)
+		write(outfd, &buffer, (ssize_t)read_bytes);
+
 	close(infd);
 	close(outfd);
 	return 0;
