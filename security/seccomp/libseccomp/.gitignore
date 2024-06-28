@@ -1,2 +1,3 @@
+/seccomp_arch_resolve_name
 /seccomp_syscall_resolve_name
 /seccomp_rule_add
