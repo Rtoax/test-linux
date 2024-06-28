@@ -12,5 +12,6 @@ import (
 )
 
 func main() {
+	fmt.Printf("%d\n", 1024)
 	fmt.Println("Hello")
 }

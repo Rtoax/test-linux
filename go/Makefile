@@ -17,5 +17,5 @@ ${TARGETS}:
 	@$(GO) build $(@).go
 
 clean:
-	@echo -e "  CLEAN  \033[1;32mGO\033[m"
+	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
 	@rm -f ${TARGETS} *.txt
