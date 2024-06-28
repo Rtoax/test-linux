@@ -1,4 +1,5 @@
 /auxv
 /self
+/thread-self
 /stat
 /statm

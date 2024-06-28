@@ -1,7 +1,7 @@
 sub-dir := process
 
 TARGETS :=
-TARGETS += self
+TARGETS += self thread-self
 TARGETS += auxv
 TARGETS += stat
 TARGETS += statm
@@ -21,17 +21,18 @@ build: ${TARGETS} $(sub-dir-build)
 
 # Add more object.o file
 self: self.o
+thread-self: thread-self.o
 auxv: auxv.o
 stat: stat.o
 statm: statm.o
 
 test: ${TARGETS}
-	@echo -e "  TEST  \033[1;32m$(@)\033[m"
+	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
 	./self
 
 .PHONY: clean
 clean: $(sub-dir-clean)
-	@echo -e "  CLEAN  \033[1;32m$(@)\033[m"
+	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
 	@rm -f ${TARGETS} *.o *.d
 
 $(sub-dir-build):
