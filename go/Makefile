@@ -8,6 +8,8 @@ TARGETS += fibonacci
 TARGETS += pi
 #TARGETS += ignition
 TARGETS += write
+else
+$(warning Please install golang)
 endif
 
 all: ${TARGETS}
