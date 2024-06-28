@@ -19,14 +19,13 @@ struct linux_dirent {
 
 #define BUF_SIZE 1024
 
-int
-main(int argc, char *argv[])
+int main(int argc, char *argv[])
 {
-	int                  fd;
-	char                 d_type;
-	char                 buf[BUF_SIZE];
-	long                 nread;
-	struct linux_dirent  *d;
+	int fd;
+	char d_type;
+	char buf[BUF_SIZE];
+	long nread;
+	struct linux_dirent *d;
 
 	fd = open(argc > 1 ? argv[1] : ".", O_RDONLY | O_DIRECTORY);
 	if (fd == -1)
