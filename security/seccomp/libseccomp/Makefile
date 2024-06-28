@@ -4,6 +4,7 @@ TARGETS :=
 
 ifneq ($(wildcard $(LIBSECCOMP_HDR)),)
 TARGETS += seccomp_rule_add
+TARGETS += seccomp_syscall_resolve_name
 else
 $(warning "ERROR: Must install libseccomp header")
 endif
@@ -11,9 +12,10 @@ endif
 
 LDFLAGS := -lseccomp
 
-seccomp_rule_add: seccomp_rule_add.o
-
 build: ${TARGETS}
+
+seccomp_rule_add: seccomp_rule_add.o
+seccomp_syscall_resolve_name: seccomp_syscall_resolve_name.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
