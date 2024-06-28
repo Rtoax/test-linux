@@ -12,6 +12,10 @@ int main(void)
 
 #if defined(__sw_64__)
 	name = "sw_64";
+#elif defined(__x86_64__)
+	name = "x86_64";
+#elif defined(__aarch64__)
+	name = "aarch64";
 #else
 # warning Unkown arch
 	name = "unknown-arch";
