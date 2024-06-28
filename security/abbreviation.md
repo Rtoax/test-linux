@@ -1,4 +1,5 @@
 - ACL: Access Control List (访问控制表)
 - KMS: Key Management Services
 - LSM: Linux Security Modules (统一访问安全框架)
+- Secomp: SECure COMPuting (安全计算)
 - SSL: Secure Sockets Layer (安全套接字层)
