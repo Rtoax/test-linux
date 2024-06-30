@@ -6,3 +6,6 @@
 /stime
 /nanosleep
 /timeval
+/getitimer
+/setitimer
+/setitimer-1

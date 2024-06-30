@@ -6,6 +6,7 @@ TARGETS += clock_gettime clock_gettime-CLOCK_BOOTTIME
 TARGETS += clock_nanosleep
 TARGETS += nanosleep
 TARGETS += timeval
+TARGETS += getitimer setitimer setitimer-1
 
 CC = gcc
 
@@ -26,6 +27,9 @@ clock_nanosleep: clock_nanosleep.o helpers.o
 stime: stime.o
 nanosleep: nanosleep.o
 timeval: timeval.o
+getitimer: getitimer.o
+setitimer: setitimer.o
+setitimer-1: setitimer-1.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
