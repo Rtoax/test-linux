@@ -2,11 +2,9 @@
 #include <stdlib.h>
 #include <sys/time.h>
 
-/* Subtract the ‘struct timeval’ values X and Y,
- * storing the result in RESULT.
- * Return 1 if the diﬀerence is negative, otherwise 0. */
-int timeval_subtract(result, x, y)
-	struct timeval *result, *x, *y;
+
+int timeval_subtract(struct timeval *result, struct timeval *x,
+		     struct timeval *y)
 {
 	/* Perform the carry for the later subtraction by updating y. */
 	if (x->tv_usec < y->tv_usec) {
@@ -34,7 +32,7 @@ int main(void)
 	x.tv_sec = 12;
 	x.tv_usec = 12;
 	y.tv_sec = 9;
-	y.tv_usec = 99;
+	y.tv_usec  = 99;
 
 	timeval_subtract(&rslt, &x, &y);
 

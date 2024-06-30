@@ -6,7 +6,7 @@
 /clock_getcpuclockid
 /strftime
 /strptime
-/timeval_substract
+/timeval
 /show_systime
 /difftime
 /getdate

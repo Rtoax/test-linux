@@ -18,7 +18,7 @@ TARGETS += timer_create
 TARGETS += timer-demo
 
 TARGETS += iso8601
-TARGETS += timeval_substract
+TARGETS += timeval
 TARGETS += show_systime
 TARGETS += process-runtime
 
@@ -53,7 +53,7 @@ gmtime: gmtime.o helpers.o
 mktime: mktime.o
 timer_create: timer_create.o
 timer-demo: timer-demo.o
-timeval_substract: timeval_substract.o
+timeval: timeval.o
 show_systime: show_systime.o
 process-runtime: process-runtime.o
 iso8601: iso8601.o
