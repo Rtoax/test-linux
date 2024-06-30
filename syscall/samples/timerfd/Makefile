@@ -1,6 +1,7 @@
 TARGETS :=
 TARGETS += timerfd_create
 TARGETS += timerfd_select
+TARGETS += demo
 
 CC = gcc
 
@@ -15,6 +16,7 @@ build: ${TARGETS}
 # Add more object.o file
 timerfd_create: timerfd_create.o
 timerfd_select: timerfd_select.o
+demo: demo.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
