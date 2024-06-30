@@ -1,5 +1,7 @@
 #!/bin/bash
 
 version=$(git describe --abbrev=6 --dirty --tags 2>/dev/null)
+name=test-linux-${version}
 
-git archive --format tar.gz --output test-linux-${version}.tar.gz main
+
+git archive --format tar.gz --prefix=${name}/ --output ${name}.tar.gz main
