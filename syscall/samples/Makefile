@@ -42,6 +42,7 @@ sub-dir += wait
 sub-dir += uio
 sub-dir += sysinfo
 sub-dir += mount
+sub-dir += module
 sub-dir += random
 sub-dir += ldt
 sub-dir += xattr
