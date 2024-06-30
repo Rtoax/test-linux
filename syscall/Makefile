@@ -1,4 +1,5 @@
 sub-dir := samples
+sub-dir += deprecated
 
 sub-dir-build := $(sub-dir:=.build)
 sub-dir-clean := $(sub-dir:=.clean)
