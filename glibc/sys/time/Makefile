@@ -1,5 +1,6 @@
 TARGETS :=
 TARGETS += adjtime
+TARGETS += TIMEVAL_TO_TIMESPEC
 
 CC = gcc
 
@@ -13,6 +14,7 @@ build: ${TARGETS}
 
 # Add more object.o file
 adjtime: adjtime.o
+TIMEVAL_TO_TIMESPEC: TIMEVAL_TO_TIMESPEC.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
