@@ -1,4 +1,5 @@
 TARGETS :=
+TARGETS += alarm
 TARGETS += stime
 TARGETS += clock_getres
 TARGETS += clock_gettime clock_gettime-CLOCK_BOOTTIME
@@ -16,6 +17,7 @@ build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
 # Add more object.o file
+alarm: alarm.o
 clock_getres: clock_getres.o helpers.o
 clock_gettime: clock_gettime.o helpers.o
 clock_gettime-CLOCK_BOOTTIME: clock_gettime-CLOCK_BOOTTIME.o helpers.o
