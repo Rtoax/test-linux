@@ -9,3 +9,5 @@
 /getitimer
 /setitimer
 /setitimer-1
+/gettimeofday
+/settimeofday
