@@ -15,6 +15,7 @@ TARGETS += sigaltstack
 TARGETS += sigpending
 TARGETS += sigsuspend
 TARGETS += sigprocmask
+TARGETS += signalfd
 
 CC = gcc
 SHELL = /bin/bash
@@ -67,6 +68,7 @@ sigaltstack: sigaltstack.o
 sigpending: sigpending.o
 sigsuspend: sigsuspend.o
 sigprocmask: sigprocmask.o
+signalfd: signalfd.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
