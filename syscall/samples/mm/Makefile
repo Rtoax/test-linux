@@ -10,6 +10,7 @@ TARGETS += pkey_mprotect
 TARGETS += mprotect
 ifneq ($(wildcard $(NUMAIF_HDR)),)
 TARGETS += mbind
+TARGETS += migrate_pages
 endif
 
 CC = gcc
@@ -37,6 +38,9 @@ pkey_free: pkey_free.o
 pkey_mprotect: pkey_mprotect.o
 mprotect: mprotect.o
 mbind: mbind.o
+migrate_pages: migrate_pages.o
+
+CFLAGS_migrate_pages := -lnuma
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
@@ -44,7 +48,7 @@ mbind: mbind.o
 
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	@$(CC) $(CFLAGS) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
+	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
 
 test: ${TARGETS}
 	@echo -e "  TEST  \033[1;32m$(@)\033[m"

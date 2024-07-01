@@ -9,3 +9,4 @@
 /pkey_alloc
 /pkey_free
 /mbind
+/migrate_pages
