@@ -3,6 +3,7 @@ sub-dir := readline
 TARGETS :=
 TARGETS += byteswap
 TARGETS += endian
+TARGETS += file
 TARGETS += gotoxy goprint
 TARGETS += log
 TARGETS += memshow
@@ -26,6 +27,7 @@ CFLAGS_proc_examples += -DTEST=1
 CFLAGS_progress += -DTEST=1
 CFLAGS_mac := -DTEST=1
 CFLAGS_str := -DTEST=1
+CFLAGS_file := -DTEST=1
 
 sub-dir-build := $(sub-dir:=.build)
 sub-dir-clean := $(sub-dir:=.clean)
@@ -40,6 +42,7 @@ byteswap: byteswap.o
 endian: endian.o
 gotoxy: gotoxy.o
 goprint: goprint.o
+file: file.o
 log: log.o
 memshow: memshow.o
 mac: mac.o
@@ -51,6 +54,10 @@ ipaddr: ipaddr.o
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
+
+$(TARGETS): %:
+	@echo -e "  LD  \033[1;32m$(@)\033[m"
+	@$(CC) -o $(@) $(^) $(LDLIBS) $(LDFLAGS) $(LDFLAGS_$(*)) $(CFLAGS) $(CFLAGS_$(*))
 
 test: ${TARGETS}
 	@echo -e "  TEST  \033[1;32m$(@)\033[m"
