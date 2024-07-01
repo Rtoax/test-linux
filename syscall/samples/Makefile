@@ -93,6 +93,7 @@ TARGETS += lseek
 TARGETS += link
 TARGETS += fsync
 TARGETS += getpagesize
+TARGETS += ioprio_get ioprio_set
 
 TARGETS_CPP += readlink2
 
@@ -192,6 +193,8 @@ getdomainname: getdomainname.o
 link: link.o helpers.o
 fsync: fsync.o
 getpagesize: getpagesize.o
+ioprio_get: ioprio_get.o
+ioprio_set: ioprio_set.o
 
 CFLAGS_write := -Wno-error=unused-variable
 

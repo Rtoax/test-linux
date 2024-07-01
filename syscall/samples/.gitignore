@@ -62,3 +62,5 @@
 /fsync
 /getpagesize
 /rename
+/ioprio_get
+/ioprio_set
