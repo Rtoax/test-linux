@@ -75,7 +75,7 @@ signalfd: signalfd.o
 	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
 
 $(TARGETS): %:
-	@echo -e "  LD  \033[1;32m$(@)\033[m"
+	@echo -e "  LD  \033[1;32m$(<)\033[m"
 	@$(CC) $(CFLAGS) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
 
 test: ${TARGETS}
@@ -90,7 +90,7 @@ test: ${TARGETS}
 
 .PHONY: clean
 clean: $(sub-dir-clean)
-	@echo -e "  CLEAN  \033[1;32m$(@)\033[m"
+	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
 	@rm -f ${TARGETS} *.o sig.h
 
 $(sub-dir-build):
