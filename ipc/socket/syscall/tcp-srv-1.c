@@ -7,6 +7,7 @@
 #include <arpa/inet.h>
 #include <unistd.h>
 #include <signal.h>
+#include <errno.h>
 
 #define PORT 5678
 #define MAX 10

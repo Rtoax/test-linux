@@ -4,7 +4,7 @@ TARGETS += getsockopt
 TARGETS += setsockopt
 TARGETS += gethostbyname
 TARGETS += socket
-TARGETS += bind
+TARGETS += bind bind-ENOTSOCK
 TARGETS += listen
 TARGETS += accept
 TARGETS += connect
@@ -38,6 +38,7 @@ setsockopt: setsockopt.o
 gethostbyname: gethostbyname.o
 socket: socket.o
 bind: bind.o
+bind-ENOTSOCK: bind-ENOTSOCK.o
 listen: listen.o
 accept: accept.o
 connect: connect.o

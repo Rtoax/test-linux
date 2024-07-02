@@ -3,6 +3,7 @@
 /gethostbyname
 /socket
 /bind
+/bind-ENOTSOCK
 /listen
 /accept
 /connect
