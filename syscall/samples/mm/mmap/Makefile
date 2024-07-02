@@ -5,6 +5,7 @@ TARGETS += mmap-anon
 TARGETS += mmap-file
 TARGETS += remap_file_pages
 TARGETS += get_unmapped_page
+TARGETS += mmap-multi-thread-copy
 
 ifeq ($(shell uname -m),x86_64)
 endif
@@ -34,6 +35,7 @@ mmap-anon: mmap-anon.o
 mmap-file: mmap-file.o
 remap_file_pages: remap_file_pages.o
 get_unmapped_page: get_unmapped_page.o helpers.o
+mmap-multi-thread-copy: mmap-multi-thread-copy.o
 
 ifeq ($(CONFIG_ANON_VMA_NAME),y)
 CFLAGS_mmap-anon := -DCONFIG_ANON_VMA_NAME=1
@@ -49,6 +51,7 @@ $(TARGETS): %:
 
 test: ${TARGETS}
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
+	./mmap-multi-thread-copy /etc/os-release os-release 4
 
 clean:
 	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
