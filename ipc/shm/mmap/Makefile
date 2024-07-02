@@ -24,6 +24,7 @@ $(TARGETS): %:
 test: $(TARGETS)
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
 	./shm-writer && ./shm-reader
+	./mmap-writer && ./mmap-reader
 
 clean:
 	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
