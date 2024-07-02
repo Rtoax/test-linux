@@ -1,5 +1,6 @@
 TARGETS :=
 TARGETS += msg_server msg_client
+TARGETS += fork-trigger
 
 DEBUG = yes
 SRC_PATH := $(shell pwd)
@@ -15,6 +16,7 @@ build: ${TARGETS}
 # Add more object.o file
 msg_server: msg_server.o
 msg_client: msg_client.o
+fork-trigger: fork-trigger.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
@@ -25,8 +27,8 @@ $(TARGETS): %:
 	@$(CC) $(CFLAGS) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
 
 test: ${TARGETS}
-	@echo -e "  TEST  \033[1;32m$(@)\033[m"
+	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
 
 clean:
-	@echo -e "  CLEAN  \033[1;32m$(@)\033[m"
+	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
 	@rm -f ${TARGETS} *.o *.d *.txt
