@@ -33,7 +33,7 @@ fexecve: fexecve.o
 mmap-anon: mmap-anon.o
 mmap-file: mmap-file.o
 remap_file_pages: remap_file_pages.o
-get_unmapped_page: get_unmapped_page.o
+get_unmapped_page: get_unmapped_page.o helpers.o
 
 ifeq ($(CONFIG_ANON_VMA_NAME),y)
 CFLAGS_mmap-anon := -DCONFIG_ANON_VMA_NAME=1
