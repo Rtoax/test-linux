@@ -2,3 +2,4 @@
 /mmap-anon
 /mmap-file
 /remap_file_pages
+/get_unmapped_page
