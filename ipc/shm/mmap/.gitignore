@@ -1,2 +1,4 @@
 /shm-writer
 /shm-reader
+/mmap-reader
+/mmap-writer

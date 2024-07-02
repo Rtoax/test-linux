@@ -1,13 +1,17 @@
 CC := gcc
 
 TARGETS :=
-TARGETS += shm-reader
-TARGETS += shm-writer
+TARGETS += shm-reader shm-writer
+TARGETS += mmap-reader mmap-writer
+
+CFLAGS := -g -ggdb -O0
 
 ALL: $(TARGETS)
 
 shm-reader: shm-reader.o
 shm-writer: shm-writer.o
+mmap-reader: mmap-reader.o
+mmap-writer: mmap-writer.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
