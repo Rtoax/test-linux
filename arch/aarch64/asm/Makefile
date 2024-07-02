@@ -101,10 +101,10 @@ $(TARGETS_S) $(TARGETS_C): %.o:
 	@$(CC) -o $(@) $(^)
 
 test: $(TARGETS_ASM)
-	@echo -e "  TEST  \033[1;32m$(@)\033[m"
+	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
 	$(RUN_PFX) ./hello
 
 .PHONY: clean
 clean:
-	@echo -e "  CLEAN  \033[1;32m$(@)\033[m"
+	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
 	@rm -f ${TARGETS_ASM} ${TARGETS_S} ${TARGETS_C} *.o *.d core.* *.co

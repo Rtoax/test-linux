@@ -19,9 +19,9 @@ build: ${TARGETS}
 main: main.o
 
 test: ${TARGETS}
-	@echo -e "  TEST  \033[1;32m$(@)\033[m"
+	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
 	./main
 
 clean:
-	@echo -e "  CLEAN  \033[1;32m$(@)\033[m"
+	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
 	@rm -f ${TARGETS} *.o *.d

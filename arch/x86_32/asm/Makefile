@@ -63,11 +63,11 @@ $(TARGETS_MAIN): %.o:
 	@$(CC) -m32 -o $(@) $(^)
 
 test: ${TARGETS}
-	@echo -e "  TEST  \033[1;32m$(@)\033[m"
+	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
 	./echo Hello World
 	./average 1 2 3 4
 
 .PHONY: clean
 clean:
-	@echo -e "  CLEAN  \033[1;32m$(@)\033[m"
+	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
 	@rm -f ${TARGETS} ${TARGETS_MAIN} *.o *.d *.oc

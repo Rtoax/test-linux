@@ -89,10 +89,10 @@ $(TARGETS_ld): %.o:
 	@$(LD) -o $(@) $(^)
 
 test: ${TARGETS}
-	@echo -e "  TEST  \033[1;32m$(@)\033[m"
+	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
 	$(RUN_PFX) ./hello
 
 .PHONY: clean
 clean:
-	@echo -e "  CLEAN  \033[1;32m$(@)\033[m"
+	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
 	@rm -f ${TARGETS} ${TARGETS_ld} *.o *.d core.* *.s

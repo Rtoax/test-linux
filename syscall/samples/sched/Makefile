@@ -70,13 +70,13 @@ $(TARGETS): %:
 	@$(CC) $(CFLAGS) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
 
 test: ${TARGETS}
-	@echo -e "  TEST  \033[1;32m$(@)\033[m"
+	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
 	sudo chrt -r 10 ./sched_rr_get_interval
 	sudo chrt -f 10 ./sched_rr_get_interval
 
 .PHONY: clean
 clean: $(sub-dir-clean)
-	@echo -e "  CLEAN  \033[1;32m$(@)\033[m"
+	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
 	make -C clone clean
 	@rm -f ${TARGETS} \
 		*.o *.d

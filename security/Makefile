@@ -19,11 +19,11 @@ build: ${TARGETS} $(sub-dir-build)
 	@echo -e " \033[1;33m Done \033[m"
 
 test: ${TARGETS}
-	@echo -e "  TEST  \033[1;32m$(@)\033[m"
+	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
 
 .PHONY: clean
 clean: $(sub-dir-clean)
-	@echo -e "  CLEAN  \033[1;32m$(@)\033[m"
+	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
 	@rm -f ${TARGETS} \
 		*.o *.d *.out
 

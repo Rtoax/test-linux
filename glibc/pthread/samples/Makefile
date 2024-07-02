@@ -179,8 +179,8 @@ $(TARGETS): %:
 	@$(CC) -o $(@) $(^) $(CFLAGS) $(STATIC_OPTS) $(LDLIBS) $(LDFLAGS) $(LDFLAGS_$(*))
 
 test: ${TARGETS}
-	@echo -e "  TEST  \033[1;32m$(@)\033[m <$(OS)>"
+	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m <$(OS)>"
 
 clean:
-	@echo -e "  CLEAN  \033[1;32m$(@)\033[m <$(OS)>"
+	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m <$(OS)>"
 	@rm -f ${TARGETS} *.o *.d *.log *.s
