@@ -1,3 +1,4 @@
+#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -10,6 +11,19 @@
 #include <errno.h>
 
 #include "fd.h"
+
+void set_sock_timeout(int sockfd, int secs)
+{
+	int ret;
+	struct timeval timeout;
+	socklen_t len = sizeof(timeout);
+
+	timeout.tv_sec = secs;
+	timeout.tv_usec = 0;
+
+	ret = setsockopt(sockfd, SOL_SOCKET, SO_SNDTIMEO, &timeout, len);
+	assert(ret != -1);
+}
 
 //https://www.cnblogs.com/Anker/p/6413642.html
 int main(int argc, char **argv)
@@ -34,6 +48,7 @@ int main(int argc, char **argv)
 	addr.sin_port = htons(port);
 	inet_pton(AF_INET, ipaddr, &addr.sin_addr);
 
+	set_sock_timeout(fd, 10);
 	setnonblock(fd);
 
 	/* 阻塞情况下linux系统默认超时时间为75s */
