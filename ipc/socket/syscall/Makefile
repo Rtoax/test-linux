@@ -1,5 +1,5 @@
-
-TARGETS := socketpair
+TARGETS :=
+TARGETS += socketpair
 TARGETS += getsockopt
 TARGETS += setsockopt
 TARGETS += gethostbyname
@@ -9,6 +9,7 @@ TARGETS += listen
 TARGETS += accept
 TARGETS += connect
 TARGETS += shutdown
+TARGETS += tcp-srv-1 tcp-clt-1
 
 ifeq ($(shell uname -m),x86_64)
 endif
@@ -41,6 +42,8 @@ listen: listen.o
 accept: accept.o
 connect: connect.o
 shutdown: shutdown.o
+tcp-srv-1: tcp-srv-1.o
+tcp-clt-1: tcp-clt-1.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

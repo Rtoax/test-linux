@@ -7,4 +7,5 @@
 /accept
 /connect
 /shutdown
-
+/tcp-srv-1
+/tcp-clt-1
