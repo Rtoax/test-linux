@@ -14,6 +14,14 @@ all: $(TARGETS) $(sub-dir-build)
 
 tcp-syn-flood: tcp-syn-flood.o
 
+%.o: %.c
+	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
+	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
+
+$(TARGETS): %:
+	@echo -e "  LD  \033[1;32m$(@)\033[m"
+	@$(CC) $(CFLAGS) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
+
 .PHONY: clean
 clean: $(sub-dir-clean)
 	rm -f $(TARGETS) *.o
