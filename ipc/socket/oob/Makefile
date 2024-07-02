@@ -1,6 +1,7 @@
 TARGETS :=
 TARGETS += server
 TARGETS += client
+TARGETS += SO_OOBINLINE
 
 CC = gcc
 
@@ -8,6 +9,7 @@ ALL: $(TARGETS)
 
 server: server.o
 client: client.o
+SO_OOBINLINE: SO_OOBINLINE.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
