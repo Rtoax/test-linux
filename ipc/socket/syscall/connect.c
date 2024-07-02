@@ -9,6 +9,8 @@
 #include <fcntl.h>
 #include <errno.h>
 
+#include "fd.h"
+
 //https://www.cnblogs.com/Anker/p/6413642.html
 int main(int argc, char **argv)
 {
@@ -32,21 +34,7 @@ int main(int argc, char **argv)
 	addr.sin_port = htons(port);
 	inet_pton(AF_INET, ipaddr, &addr.sin_addr);
 
-	/*设置套接字为非阻塞*/
-	int flags = fcntl(fd, F_GETFL, 0);
-	if (flags < 0) {
-		fprintf(stderr, "Get flags error: %m\n");
-		close(fd);
-		return -1;
-	}
-
-	flags |= O_NONBLOCK;
-
-	if (fcntl(fd, F_SETFL, flags) < 0) {
-		fprintf(stderr, "Set flags error: %m\n");
-		close(fd);
-		return -1;
-	}
+	setnonblock(fd);
 
 	/* 阻塞情况下linux系统默认超时时间为75s */
 	int rc = connect(fd, (struct sockaddr*)&addr, sizeof(addr));

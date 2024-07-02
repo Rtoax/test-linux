@@ -3,6 +3,7 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <fcntl.h>
+#include <stdio.h>
 
 int setnonblock(int fd)
 {
@@ -20,3 +21,10 @@ int setnonblock(int fd)
 	return 0;
 }
 
+#ifdef TEST
+int main(void)
+{
+	setnonblock(0);
+	return 0;
+}
+#endif

@@ -23,6 +23,7 @@ CC = gcc
 
 CFLAGS := -Werror -Wall -D_GNU_SOURCE
 CFLAGS += -I../../
+CFLAGS += -I../../../libs/
 
 ifdef DEBUG
 CFLAGS += -DDEBUG -O0 -g
@@ -41,7 +42,7 @@ bind: bind.o
 bind-ENOTSOCK: bind-ENOTSOCK.o
 listen: listen.o
 accept: accept.o
-connect: connect.o
+connect: connect.o ../../../libs/fd.o
 shutdown: shutdown.o
 tcp-srv-1: tcp-srv-1.o
 tcp-clt-1: tcp-clt-1.o
@@ -55,8 +56,8 @@ $(TARGETS): %:
 	@$(CC) $(CFLAGS) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
 
 test: ${TARGETS}
-	@echo -e "  TEST  \033[1;32m$(@)\033[m"
+	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
 
 clean:
-	@echo -e "  CLEAN  \033[1;32m$(@)\033[m"
+	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
 	@rm -f ${TARGETS} *.o *.d *.txt

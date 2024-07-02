@@ -4,6 +4,7 @@ TARGETS :=
 TARGETS += byteswap
 TARGETS += endian
 TARGETS += file
+TARGETS += fd
 TARGETS += gotoxy goprint
 TARGETS += log
 TARGETS += memshow
@@ -28,6 +29,7 @@ CFLAGS_progress += -DTEST=1
 CFLAGS_mac := -DTEST=1
 CFLAGS_str := -DTEST=1
 CFLAGS_file := -DTEST=1
+CFLAGS_fd := -DTEST=1
 
 sub-dir-build := $(sub-dir:=.build)
 sub-dir-clean := $(sub-dir:=.clean)
@@ -43,6 +45,7 @@ endian: endian.o
 gotoxy: gotoxy.o
 goprint: goprint.o
 file: file.o
+fd: fd.o
 log: log.o
 memshow: memshow.o
 mac: mac.o
