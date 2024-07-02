@@ -58,6 +58,7 @@ TARGETS += nr
 TARGETS += opendir
 TARGETS += pause
 TARGETS += pidfd_open
+TARGETS += personality
 TARGETS += readlink
 TARGETS += rename
 TARGETS += getcwd
@@ -146,6 +147,7 @@ nr: nr.o
 opendir: opendir.o
 pause: pause.o
 pidfd_open: pidfd_open.o
+personality: personality.o
 lseek: lseek.o
 rename: rename.o
 readlink: readlink.o

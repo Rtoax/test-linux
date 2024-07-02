@@ -64,3 +64,4 @@
 /rename
 /ioprio_get
 /ioprio_set
+/personality
