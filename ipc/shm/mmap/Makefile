@@ -1,13 +1,13 @@
 CC := gcc
 
 TARGETS :=
-TARGETS += reader
-TARGETS += writer
+TARGETS += shm-reader
+TARGETS += shm-writer
 
 ALL: $(TARGETS)
 
-reader: reader.o
-writer: writer.o
+shm-reader: shm-reader.o
+shm-writer: shm-writer.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
@@ -19,7 +19,7 @@ $(TARGETS): %:
 
 test: $(TARGETS)
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
-	./writer && ./reader
+	./shm-writer && ./shm-reader
 
 clean:
 	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
