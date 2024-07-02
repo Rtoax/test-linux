@@ -1,3 +1,4 @@
+obj-m += myproc.o
 obj-m += baseproc.o
 obj-m += cmdline.o
 
