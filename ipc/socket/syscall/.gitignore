@@ -1,6 +1,7 @@
 /socketpair
 /[s,g]etsockopt
 /gethostbyname
+/getsockname
 /socket
 /bind
 /bind-ENOTSOCK

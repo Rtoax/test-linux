@@ -2,6 +2,7 @@ TARGETS :=
 TARGETS += socketpair
 TARGETS += getsockopt
 TARGETS += setsockopt
+TARGETS += getsockname
 TARGETS += gethostbyname
 TARGETS += socket
 TARGETS += bind bind-ENOTSOCK
@@ -37,6 +38,7 @@ socketpair: socketpair.o
 getsockopt: getsockopt.o
 setsockopt: setsockopt.o
 gethostbyname: gethostbyname.o
+getsockname: getsockname.o
 socket: socket.o
 bind: bind.o
 bind-ENOTSOCK: bind-ENOTSOCK.o
