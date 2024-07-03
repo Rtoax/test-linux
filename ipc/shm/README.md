@@ -3,11 +3,24 @@ Share Memory
 
 # POSIX
 
-1. `#include <sys/mman.h>` use `mmap(2)`;
+Header `#include <sys/mman.h>`
+
+## syscalls & glibc
+
+- `shm_open(3)`
+- `mmap(2)`
+- `shm_overview(3)`
+- `shm_unlink(3)`
 
 
 # System V Share Memory
 
-2. `#include <sys/shm.h>` is System V API;
+Header `#include <sys/shm.h>`
 
+## syscalls
+
+- `shmctl(2)`
+- `shmget(2)`
+- `shmat(2)`
+- `shmdt(2)`
 
