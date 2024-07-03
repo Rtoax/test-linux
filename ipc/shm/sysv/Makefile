@@ -5,6 +5,8 @@ TARGETS += reader
 TARGETS += writer
 TARGETS += private
 
+CFLAGS := -g -ggdb -O0
+
 ALL: $(TARGETS)
 
 reader: reader.o
