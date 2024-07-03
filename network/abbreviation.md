@@ -1,3 +1,4 @@
+- DLPI: Datalink Provider Interface (数据链路提供者接口)
 - DPDK: Data Plane Development Kit (数据面开发工具)
 - IB: InfiniBand
 - MPLS: Multi-Protocol Label Switching (多协议标签交换)
