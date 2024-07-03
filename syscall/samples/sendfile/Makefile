@@ -1,5 +1,6 @@
 TARGETS :=
 TARGETS += sendfile
+TARGETS += sendfile-tcp-server
 TARGETS += sendfile-socket
 
 CC = gcc
@@ -12,6 +13,7 @@ build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
 sendfile: sendfile.o
+sendfile-tcp-server: sendfile-tcp-server.o
 sendfile-socket: sendfile-socket.o
 
 %.o: %.c
