@@ -1,2 +1,4 @@
-/server
-/client
+/tcp-server
+/tcp-client
+/udp-server
+/udp-client
