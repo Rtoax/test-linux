@@ -1,5 +1,6 @@
 TARGETS :=
 TARGETS += sendfile
+TARGETS += sendfile-socket
 
 CC = gcc
 
@@ -11,6 +12,7 @@ build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
 sendfile: sendfile.o
+sendfile-socket: sendfile-socket.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
