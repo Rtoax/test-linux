@@ -18,7 +18,9 @@ $(TARGETS): %:
 	@$(CC) $(CFLAGS) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
 
 test: $(TARGETS)
+	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
 	./writer && ./reader
 
 clean:
-	rm -f ${TARGETS} *.o
+	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
+	@rm -f ${TARGETS} *.o
