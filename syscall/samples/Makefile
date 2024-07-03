@@ -33,6 +33,7 @@ sub-dir += sched
 sub-dir += seccomp
 sub-dir += semaphore
 sub-dir += signal
+sub-dir += shm
 sub-dir += socket
 sub-dir += utime
 sub-dir += prctl

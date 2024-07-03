@@ -1,3 +1,0 @@
-System V Share Memory
-=====================
-
