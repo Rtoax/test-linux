@@ -10,7 +10,7 @@
 int main(void)
 {
 	key_t key;
-	int shm_id;
+	int shm_id, flag;
 	char *p;
 
 	key = ftok(PATHNAME, PROJ_ID);
@@ -19,7 +19,9 @@ int main(void)
 		exit(0);
 	}
 
-	shm_id = shmget(key, 0x400000, IPC_CREAT | 0666);
+	flag = SVSHM_MODE | IPC_CREAT;
+
+	shm_id = shmget(key, 0x400000, flag);
 	if (shm_id == -1) {
 		perror("shmget");
 		exit(0);

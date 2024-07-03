@@ -19,7 +19,7 @@ int main(void)
 		exit(0);
 	}
 
-	shm_id = shmget(key, 0x400000, 0666);
+	shm_id = shmget(key, 0x400000, SVSHM_MODE);
 	if (shm_id == -1) {
 		perror("shmget");
 		exit(0);
