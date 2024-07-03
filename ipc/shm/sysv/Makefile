@@ -2,7 +2,7 @@ CC := gcc
 
 TARGETS :=
 TARGETS += reader
-TARGETS += writer
+TARGETS += writer writer-hugetlb
 TARGETS += private
 
 CFLAGS := -g -ggdb -O0
@@ -11,7 +11,10 @@ ALL: $(TARGETS)
 
 reader: reader.o
 writer: writer.o
+writer-hugetlb: writer-hugetlb.o
 private: private.o
+
+CFLAGS_writer-hugetlb := -DHAVE_HUGETLB=1
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

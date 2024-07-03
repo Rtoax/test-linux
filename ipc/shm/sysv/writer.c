@@ -21,6 +21,10 @@ int main(void)
 
 	flag = SVSHM_MODE | IPC_CREAT;
 
+#if defined(HAVE_HUGETLB)
+	flag |= SHM_HUGETLB;
+#endif
+
 	shm_id = shmget(key, 0x400000, flag);
 	if (shm_id == -1) {
 		perror("shmget");
