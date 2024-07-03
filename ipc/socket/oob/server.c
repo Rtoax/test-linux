@@ -27,7 +27,7 @@ void sig_urg(int sig)
 	printf("SIGURG signal.\n");
 
 	memset(buffer, '\0', BUF_SIZE);
-	ret = recv(connfd, buffer, BUF_SIZE-1, MSG_OOB);
+	ret = recv(connfd, buffer, BUF_SIZE - 1, MSG_OOB);
 	printf("got %d bytes of oob data '%s'\n", ret, buffer);
 
 	errno = save_errno;

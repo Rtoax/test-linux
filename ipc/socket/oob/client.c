@@ -1,12 +1,34 @@
-#include <sys/socket.h>
-#include <netinet/in.h>
 #include <arpa/inet.h>
 #include <assert.h>
-#include <stdio.h>
-#include <unistd.h>
-#include <string.h>
-#include <stdlib.h>
 #include <libgen.h>
+#include <netinet/in.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/ioctl.h>
+#include <sys/socket.h>
+#include <unistd.h>
+
+
+/**
+ * Whenever out-of-band data is received, there is an associated out-of-band mark.
+ * This is the position in the normal stream of data at the sender when the sending
+ * process sent the out-of-band byte. The receiving process determines whether or
+ * not it is at the out-of-band mark by calling the sockatmark function while it
+ * reads from the socket.
+ */
+static int sockcatmark(int fd)
+{
+	int ret, flag;
+
+	ret = ioctl(fd, SIOCATMARK, &flag);
+	if (ret < 0) {
+		perror("ioctl: SIOCATMARK");
+		return -1;
+	}
+	printf("SIOCATMARK = %d\n", flag);
+	return 0;
+}
 
 int main(int argc, char* argv[])
 {
@@ -32,6 +54,8 @@ int main(int argc, char* argv[])
 		printf( "connection failed\n" );
 		exit(1);
 	}
+
+	sockcatmark(sockfd);
 
 	printf( "send oob data out\n" );
 	const char *oob_data = "abc";
