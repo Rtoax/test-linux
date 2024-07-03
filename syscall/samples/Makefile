@@ -41,6 +41,7 @@ sub-dir += perf_event_open
 sub-dir += arch_prctl
 sub-dir += wait
 sub-dir += uio
+sub-dir += sendfile
 sub-dir += sysinfo
 sub-dir += mount
 sub-dir += module
