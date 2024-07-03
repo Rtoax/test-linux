@@ -2,3 +2,4 @@
 /pipe
 /pipe-fork
 /pipe-broken-pipe
+/shutdown-broken-pipe

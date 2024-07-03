@@ -1,7 +1,7 @@
 TARGETS := pipe-size
 TARGETS += pipe
 TARGETS += pipe-fork
-TARGETS += pipe-broken-pipe
+TARGETS += pipe-broken-pipe shutdown-broken-pipe
 
 DEBUG = yes
 SRC_PATH := $(shell pwd)
@@ -22,6 +22,7 @@ pipe-size: pipe-size.o
 pipe: pipe.o
 pipe-fork: pipe-fork.o
 pipe-broken-pipe: pipe-broken-pipe.o
+shutdown-broken-pipe: shutdown-broken-pipe.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

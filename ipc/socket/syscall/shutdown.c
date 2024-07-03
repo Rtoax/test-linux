@@ -12,15 +12,13 @@
 
 int main(void)
 {
-	int sockfd, newsockfd;
+	int sockfd, newsockfd, ret;
+	char buf[64];
 
 	struct sockaddr_in addr;
 	socklen_t addr_len = sizeof(struct sockaddr_in);
 
 	sockfd = socket(AF_INET, SOCK_STREAM, 0);
-
-	/* SHUT_WR, SHUT_RD, SHUT_RDWR */
-	shutdown(sockfd, SHUT_WR);
 
 	bzero(&addr, sizeof(addr));
 	addr.sin_family = AF_INET;
@@ -30,9 +28,26 @@ int main(void)
 	bind(sockfd, (struct sockaddr *)&addr, sizeof(addr));
 	listen(sockfd, MAX);
 
+	printf("Getting new client, $ nc 0.0.0.0 %d\n", PORT);
+
 	newsockfd = accept(sockfd, (struct sockaddr *)&addr, &addr_len);
 
 	printf("Get new client.\n");
+
+	while (1) {
+		while ((ret = read(newsockfd, buf, sizeof(buf))) > 0) {
+			ret = write(newsockfd, "hello", 5);
+			if (ret <= 0)
+				perror("write: ");
+
+			/**
+			 * how: SHUT_WR, SHUT_RD, SHUT_RDWR
+			 * Cause: Ncat: Broken pipe.
+			 */
+			shutdown(newsockfd, SHUT_RDWR);
+		}
+		break;
+	}
 
 	close(newsockfd);
 	close(sockfd);
