@@ -3,11 +3,13 @@ CC := gcc
 TARGETS :=
 TARGETS += reader
 TARGETS += writer
+TARGETS += private
 
 ALL: $(TARGETS)
 
 reader: reader.o
 writer: writer.o
+private: private.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
@@ -20,6 +22,7 @@ $(TARGETS): %:
 test: $(TARGETS)
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
 	./writer && ./reader
+	./private
 
 clean:
 	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
