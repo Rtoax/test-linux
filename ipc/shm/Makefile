@@ -1,5 +1,5 @@
 sub-dir := linklist
-sub-dir += samples
+sub-dir += sysv
 sub-dir += mmap
 
 sub-dir-build := $(sub-dir:=.build)
