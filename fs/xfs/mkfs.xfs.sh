@@ -5,7 +5,7 @@ strace=""
 
 case $1 in
 strace) shift; strace=YES; ;;
-*) break;
+*) ;;
 esac
 
 [[ ${strace} ]] && echo "Turn on strace"
