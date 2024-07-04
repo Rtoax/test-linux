@@ -9,8 +9,8 @@ TARGETS += ptrace-breakpoint-2
 TARGETS += ptrace-execve
 endif
 ifeq ($(shell uname -m),aarch64)
-TARGETS += PTRACE_GETREGSET
 endif
+TARGETS += PTRACE_GETREGSET
 TARGETS += PTRACE_PEEKTEXT
 TARGETS += PTRACE_SINGLESTEP
 TARGETS += peeksiginfo
