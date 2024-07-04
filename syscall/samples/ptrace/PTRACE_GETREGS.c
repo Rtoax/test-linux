@@ -44,7 +44,7 @@ int main(int argc, char *argv[])
 #endif
 		perror("ptrace: ");
 
-		print_user_regs_struct(&regs);
+		print_registers(&regs);
 	}
 
 	return 0;

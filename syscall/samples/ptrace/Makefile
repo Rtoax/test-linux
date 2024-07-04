@@ -31,7 +31,7 @@ build: nr.h ${TARGETS}
 
 nr.h: ../nr.sh
 	$(shell bash ../nr.sh)
-	cp nr.h ../
+	@cp nr.h ../
 
 # Add more object.o file
 PTRACE_GETREGS: PTRACE_GETREGS.o helpers.o

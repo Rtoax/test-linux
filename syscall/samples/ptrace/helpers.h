@@ -1,4 +1,4 @@
 #pragma once
 
 const char *find_syscall_symbol(int code);
-void print_user_regs_struct(struct user_regs_struct *regs);
+void print_registers(struct user_regs_struct *regs);

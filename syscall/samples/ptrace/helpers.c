@@ -15,7 +15,7 @@ const char *find_syscall_symbol(int code)
 }
 
 #ifdef __x86_64__
-void print_user_regs_struct(struct user_regs_struct *regs)
+void print_registers(struct user_regs_struct *regs)
 {
 	printf("r15     = 0x%016llx\n", regs->r15);
 	printf("r14     = 0x%016llx\n", regs->r14);
@@ -46,7 +46,7 @@ void print_user_regs_struct(struct user_regs_struct *regs)
 	printf("gs      = 0x%016llx\n", regs->gs);
 }
 #elif defined(__aarch64__)
-void print_user_regs_struct(struct user_regs_struct *regs)
+void print_registers(struct user_regs_struct *regs)
 {
 	int i;
 	for (i = 0; i < 31; i++)
@@ -56,7 +56,7 @@ void print_user_regs_struct(struct user_regs_struct *regs)
 	printf("pstate  = 0x%016llx\n", regs->pstate);
 }
 #else
-void print_user_regs_struct(struct user_regs_struct *regs)
+void print_registers(struct user_regs_struct *regs)
 {
 	printf("Only support X86-64 arch linux OS.\n");
 }

@@ -46,8 +46,6 @@ int main(void)
 		ptrace(PTRACE_GETREGSET, child, (void *)NT_PRSTATUS,
 			(void *)&regs_iov);
 
-		//print_user_regs_struct(&regs);
-
 		printf("Call syscall %lld, \033[31m%s\033[m\n", regs.regs[8],
 		       find_syscall_symbol(regs.regs[8]));
 #elif defined(__x86_64__)
