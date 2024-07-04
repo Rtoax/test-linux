@@ -21,7 +21,7 @@ setrlimit: setrlimit.o helpers.o
 prlimit: prlimit.o helpers.o
 ulimit: ulimit.o
 fork-inherit: fork-inherit.o helpers.o
-getrusage: getrusage.o
+getrusage: getrusage.o helpers.o
 vlimit: vlimit.o
 
 %.o: %.c
