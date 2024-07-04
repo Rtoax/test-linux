@@ -1,4 +1,4 @@
-
+TARGETS :=
 TARGETS += clone
 TARGETS += ns_pid
 TARGETS += ns_net

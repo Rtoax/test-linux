@@ -25,9 +25,11 @@ void grchild(int num)
 int child_fn(void *arg)
 {
 	int i;
-	int ppid = (intptr_t) arg;
+	int ppid = (intptr_t)arg;
+
 	printf("PID: %ld, Parent: %d\n", (long)getpid(), getppid());
 	printf("ppid	= %d\n", ppid);
+
 	for (i = 0; i < 3; i++) {
 		if (fork() == 0) {
 			grchild(i + 1);
@@ -45,10 +47,12 @@ int child_fn(void *arg)
 int main(void)
 {
 	int ret;
-	pid_t ppid = getpid();
-	pid_t pid =
-	    clone(child_fn, child_stack + STACK_SIZE, CLONE_NEWPID,
-		  (void *)ppid);
+	pid_t ppid;
+	pid_t pid;
+
+	ppid = getpid();
+	pid = clone(child_fn, child_stack + STACK_SIZE, CLONE_NEWPID,
+		    (void *)ppid);
 	if (pid == -1) {
 		perror("clone");
 		return -1;
