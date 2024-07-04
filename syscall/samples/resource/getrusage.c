@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <sys/resource.h>
+#include <malloc.h>
 #include <unistd.h>
 
 #include "helpers.h"
@@ -23,14 +24,32 @@ void user_sys(void)
 	printf("user: %g, sys time: %g\n", user, sys);
 }
 
-int main(void)
+void memory(void)
 {
+	int i, pagesize;
+	int size = 1024 * 1024 * 1024;
+	char *mem;
 	struct rusage rusage;
 
-	getrusage(RUSAGE_SELF, &rusage);
-	print_rusage(&rusage);
+	pagesize = getpagesize();
 
+	getrusage(RUSAGE_SELF, &rusage);
+	print_rusage("BEFORE: ", &rusage);
+
+	mem = malloc(size);
+	for (i = 0; i < size; i += pagesize)
+		mem[i] = 'A';
+
+	getrusage(RUSAGE_SELF, &rusage);
+	print_rusage("AFTER: ", &rusage);
+
+	free(mem);
+}
+
+int main(void)
+{
 	user_sys();
+	memory();
 
 	return 0;
 }
