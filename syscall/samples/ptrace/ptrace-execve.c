@@ -31,14 +31,22 @@ static void ptrace1_setup(char **argv)
 			execv(argv[1], argv + 1);
 		/* parent */
 		} else {
+			unsigned long o_flags = 0;
+
 			spid[i] = pid;
 			ptrace(PTRACE_ATTACH, spid[i], NULL, NULL);
 			pid = waitpid(spid[i], &status, WUNTRACED);
 			assert(pid == spid[i]);
 
-			ptrace(PTRACE_SETOPTIONS, spid[i], NULL,
-				PTRACE_O_TRACEEXEC | PTRACE_O_TRACEEXIT |
-				PTRACE_O_TRACESYSGOOD | PTRACE_O_EXITKILL);
+			o_flags |= PTRACE_O_TRACECLONE;
+			o_flags |= PTRACE_O_TRACEEXEC;
+			o_flags |= PTRACE_O_TRACEEXIT;
+			o_flags |= PTRACE_O_TRACEFORK;
+			o_flags |= PTRACE_O_TRACEVFORK;
+			o_flags |= PTRACE_O_TRACESYSGOOD;
+			o_flags |= PTRACE_O_EXITKILL;
+
+			ptrace(PTRACE_SETOPTIONS, spid[i], NULL, o_flags);
 
 			ptrace(PTRACE_SYSCALL, spid[i], NULL, NULL);
 
@@ -54,7 +62,7 @@ static void ptrace1_setup(char **argv)
 
 static void wait_for_procs(void)
 {
-	int status, sig;
+	int status, sig, event;
 	pid_t pid;
 	struct user_regs_struct regs;
 	int i;
@@ -62,6 +70,8 @@ static void wait_for_procs(void)
 
 	while (TRUE) {
 		pid = waitpid(-1, &status, WUNTRACED);
+
+		event = status >> 16;
 		sig = WSTOPSIG(status);
 
 		if (WIFEXITED(status)) {
@@ -70,9 +80,37 @@ static void wait_for_procs(void)
 				break;
 		} else if (WIFSTOPPED(status) && sig == (SIGTRAP | 0x80)) {
 			ptrace(PTRACE_GETREGS, pid, NULL, &regs);
-			printf("%d was stopped at %llu(%s), fork : %d, vfork : %d, clone : %d\n",
-				pid, regs.orig_rax, find_syscall_symbol(regs.orig_rax),
-				__NR_fork, __NR_vfork, __NR_clone);
+			printf("%d was stopped at %llu(%s)\n",
+				pid, regs.orig_rax,
+				find_syscall_symbol(regs.orig_rax));
+		} else if (sig == SIGTRAP && event == PTRACE_EVENT_EXEC) {
+			printf("Call exec.\n");
+		} else if (sig == SIGTRAP &&
+				(event == PTRACE_EVENT_FORK ||
+				event == PTRACE_EVENT_VFORK ||
+				event == PTRACE_EVENT_CLONE)) {
+
+			struct user_regs_struct regs;
+			pid_t new_pid;
+			unsigned long o_flags;
+
+			ptrace(PTRACE_GETEVENTMSG, pid, 0, &new_pid);
+			ptrace(PTRACE_GETREGS, pid, NULL, &regs);
+
+			printf("Call vfork,fork,clone, new_pid = %d.\n", new_pid);
+
+			ptrace(PTRACE_ATTACH, new_pid, NULL, NULL);
+
+			o_flags = 0;
+			o_flags |= PTRACE_O_TRACESYSGOOD;
+			o_flags |= PTRACE_O_TRACEFORK;
+			o_flags |= PTRACE_O_TRACECLONE;
+			o_flags |= PTRACE_O_TRACEVFORK;
+			o_flags |= PTRACE_O_TRACEEXEC;
+
+			ptrace(PTRACE_SETOPTIONS, new_pid, NULL, o_flags);
+
+			ptrace(PTRACE_SYSCALL, new_pid, NULL, NULL);
 		}
 
 		if (count == 0) {
