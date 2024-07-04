@@ -44,10 +44,14 @@ bind: bind.o
 bind-ENOTSOCK: bind-ENOTSOCK.o
 listen: listen.o
 accept: accept.o
-connect: connect.o ../../../libs/fd.o
+connect: connect.o fd.o
 shutdown: shutdown.o
 tcp-srv-1: tcp-srv-1.o
 tcp-clt-1: tcp-clt-1.o
+
+fd.c:
+	@echo -e "  COPY  \033[1m$(@)\033[m"
+	@cp ../../../libs/fd.c fd.c
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
@@ -62,4 +66,4 @@ test: ${TARGETS}
 
 clean:
 	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
-	@rm -f ${TARGETS} *.o *.d *.txt ../../../libs/fd.o
+	@rm -f ${TARGETS} *.o *.d *.txt fd.c

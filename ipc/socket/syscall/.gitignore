@@ -11,3 +11,4 @@
 /shutdown
 /tcp-srv-1
 /tcp-clt-1
+/fd.c
