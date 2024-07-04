@@ -45,6 +45,16 @@ void print_user_regs_struct(struct user_regs_struct *regs)
 	printf("fs      = 0x%016llx\n", regs->fs);
 	printf("gs      = 0x%016llx\n", regs->gs);
 }
+#elif defined(__aarch64__)
+void print_user_regs_struct(struct user_regs_struct *regs)
+{
+	int i;
+	for (i = 0; i < 31; i++)
+		printf("regs[%d] = 0x%016llx\n", i, regs->regs[i]);
+	printf("sp      = 0x%016llx\n", regs->sp);
+	printf("pc      = 0x%016llx\n", regs->pc);
+	printf("pstate  = 0x%016llx\n", regs->pstate);
+}
 #else
 void print_user_regs_struct(struct user_regs_struct *regs)
 {

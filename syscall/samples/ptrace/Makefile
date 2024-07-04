@@ -6,16 +6,17 @@ TARGETS += PTRACE_PEEKDATA
 TARGETS += PTRACE_POKEDATA
 TARGETS += ptrace-breakpoint
 TARGETS += ptrace-breakpoint-2
-TARGETS += ptrace-strace
 TARGETS += ptrace-execve
 endif
 ifeq ($(shell uname -m),aarch64)
+TARGETS += PTRACE_GETREGSET
 endif
 TARGETS += PTRACE_PEEKTEXT
 TARGETS += PTRACE_SINGLESTEP
 TARGETS += peeksiginfo
 TARGETS += pthread_create
 TARGETS += multi-thread
+TARGETS += ptrace-strace
 
 
 CC = gcc
@@ -34,6 +35,7 @@ nr.h: ../nr.sh
 
 # Add more object.o file
 PTRACE_GETREGS: PTRACE_GETREGS.o helpers.o
+PTRACE_GETREGSET: PTRACE_GETREGSET.o helpers.o
 PTRACE_PEEKTEXT: PTRACE_PEEKTEXT.o
 PTRACE_PEEKUSER: PTRACE_PEEKUSER.o
 PTRACE_PEEKDATA: PTRACE_PEEKDATA.o

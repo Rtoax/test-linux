@@ -6,6 +6,7 @@
 #include <stdint.h>
 #include <sys/ptrace.h>
 #include <sys/user.h>
+#include <sys/uio.h>
 #include <sys/wait.h>
 
 #include "helpers.h"
@@ -31,7 +32,16 @@ int main(int argc, char *argv[])
 			return 1;
 
 		/* 获取被跟踪进程寄存器的值 */
+#if defined(__aarch64__)
+		struct iovec regs_iov;
+		regs_iov.iov_base = &regs;
+		regs_iov.iov_len = sizeof(regs);
+
+		ptrace(PTRACE_GETREGSET, child, (void *)NT_PRSTATUS,
+			(void *)&regs_iov);
+#elif defined(__x86_64__)
 		ptrace(PTRACE_GETREGS, child, 0, &regs);
+#endif
 		perror("ptrace: ");
 
 		print_user_regs_struct(&regs);

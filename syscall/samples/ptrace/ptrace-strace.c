@@ -1,17 +1,23 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <sys/wait.h>
+#if defined(__x86_64__)
 #include <sys/reg.h>
+#endif
 #include <sys/user.h>
 #include <sys/syscall.h>
 #include <sys/ptrace.h>
+#include <sys/uio.h>
 
 #include "helpers.h"
+
+#ifndef NT_PRSTATUS
+#define NT_PRSTATUS 1
+#endif
 
 int main(void)
 {
 	pid_t child;
-	long orig_rax;
 	int status;
 	int iscalling = 0;
 	struct user_regs_struct regs;
@@ -22,6 +28,8 @@ int main(void)
 		execl("/bin/ls", "ls", "-l", "-h", NULL);
 	}
 
+	(void)iscalling;
+
 	/* Parent process */
 	while (1) {
 		wait(&status);
@@ -30,6 +38,21 @@ int main(void)
 		 */
 		if (WIFEXITED(status))
 			break;
+#if defined(__aarch64__)
+		struct iovec regs_iov;
+		regs_iov.iov_base = &regs;
+		regs_iov.iov_len = sizeof(regs);
+
+		ptrace(PTRACE_GETREGSET, child, (void *)NT_PRSTATUS,
+			(void *)&regs_iov);
+
+		//print_user_regs_struct(&regs);
+
+		printf("Call syscall %lld, \033[31m%s\033[m\n", regs.regs[8],
+		       find_syscall_symbol(regs.regs[8]));
+#elif defined(__x86_64__)
+		long orig_rax;
+
 		orig_rax = ptrace(PTRACE_PEEKUSER, child, 8 * ORIG_RAX, NULL);
 
 		printf("Call syscall %ld, \033[31m%s\033[m\n", orig_rax,
@@ -47,6 +70,7 @@ int main(void)
 				iscalling = 0;
 			}
 		}
+#endif
 		/**
 		 * 使暂停的子进程继续执行，并在子进程下次进行系统调用前或系统调
 		 * 后，向子进程发送 SINTRAP 信号量，让子进程暂停。
