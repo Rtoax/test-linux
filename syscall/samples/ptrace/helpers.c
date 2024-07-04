@@ -50,10 +50,10 @@ void print_registers(struct user_regs_struct *regs)
 {
 	int i;
 	for (i = 0; i < 31; i++)
-		printf("regs[%d] = 0x%016llx\n", i, regs->regs[i]);
-	printf("sp      = 0x%016llx\n", regs->sp);
-	printf("pc      = 0x%016llx\n", regs->pc);
-	printf("pstate  = 0x%016llx\n", regs->pstate);
+		printf("x%-2d\t0x%016llx %lld\n", i, regs->regs[i], regs->regs[i]);
+	printf("sp\t0x%016llx %lld\n", regs->sp, regs->sp);
+	printf("pc\t0x%016llx %lld\n", regs->pc, regs->pc);
+	printf("pstate\t0x%016llx %lld\n", regs->pstate, regs->pstate);
 }
 #else
 void print_registers(struct user_regs_struct *regs)
