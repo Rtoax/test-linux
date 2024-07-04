@@ -5,6 +5,7 @@ TARGETS += self thread-self
 TARGETS += auxv
 TARGETS += stat
 TARGETS += statm
+TARGETS += status
 
 CC = gcc
 
@@ -25,6 +26,7 @@ thread-self: thread-self.o
 auxv: auxv.o
 stat: stat.o
 statm: statm.o
+status: status.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
