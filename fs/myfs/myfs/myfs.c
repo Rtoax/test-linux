@@ -7,6 +7,19 @@
 #include <linux/namei.h>
 #include <linux/cred.h> // current_fsuid/current_fsgid
 #include <linux/kfifo.h> // misc
+#include <linux/version.h>
+
+
+/**
+ * kernel commit 12cd44023651 ("fs: rename inode i_atime and i_mtime fields")
+ */
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(6, 6, 0)
+#define I_ATIME __i_atime
+#define I_MTIME	__i_mtime
+#else
+#define I_ATIME i_atime
+#define I_MTIME	i_mtime
+#endif
 
 
 //每个文件系统需要一个MAGIC number
@@ -47,7 +60,7 @@ static struct inode * myfs_get_inode(struct super_block * sb, int mode, dev_t de
 		//@i_mtime：最后修改时间
 		//@i_ctime：最后修改inode时间
 		struct timespec64 curtime = current_time(inode);
-		inode->i_atime = inode->i_mtime = curtime;
+		inode->I_ATIME = inode->I_MTIME = curtime;
 		inode_set_ctime_to_ts(inode, curtime);
 
 		switch (mode & S_IFMT) {
@@ -192,7 +205,7 @@ static struct file_operations myfs_file_operations = {
 
 
 static int myfs_creat_by_name(const char * name, mode_t mode,
-				struct dentry * parent, struct dentry ** dentry)
+			      struct dentry * parent, struct dentry ** dentry)
 {
 	int error = 0;
 
@@ -226,9 +239,9 @@ static int myfs_creat_by_name(const char * name, mode_t mode,
 	return error;
 }
 
-struct dentry * myfs_creat_file(const char * name, mode_t mode,
-				struct dentry * parent, void * data,
-				struct file_operations * fops)
+static struct dentry *myfs_creat_file(const char * name, mode_t mode,
+				      struct dentry * parent, void * data,
+				      struct file_operations * fops)
 {
 	struct dentry * dentry = NULL;
 	int error;
@@ -253,7 +266,7 @@ exit:
 	return dentry;
 }
 
-struct dentry * myfs_creat_dir(const char * name, struct dentry * parent)
+static struct dentry *myfs_creat_dir(const char * name, struct dentry * parent)
 {
 	//使用man creat查找
 	//@S_IFREG：表示一个目录

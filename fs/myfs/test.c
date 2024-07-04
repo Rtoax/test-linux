@@ -1,12 +1,12 @@
-# include <stdio.h>
-# include <fcntl.h>
-# include <unistd.h>
-# include <malloc.h>
-# include <string.h>
+#include <stdio.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <malloc.h>
+#include <string.h>
 
-# define FILE_NAME "/myfs/First/one"
+#define FILE_NAME "/myfs/First/one"
 
-int main() 
+int main(void)
 {
 	char buffer[64];
 	int fd;
