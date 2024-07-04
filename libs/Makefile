@@ -14,22 +14,11 @@ TARGETS += progress
 TARGETS += str
 TARGETS += ipaddr
 
-DEBUG = yes
-SRC_PATH := $(shell pwd)
 CC = gcc
 
 CFLAGS := -Werror -Wall
-
-ifdef DEBUG
 CFLAGS += -DDEBUG -O0 -g
-endif
-
-CFLAGS_proc_examples += -DTEST=1
-CFLAGS_progress += -DTEST=1
-CFLAGS_mac := -DTEST=1
-CFLAGS_str := -DTEST=1
-CFLAGS_file := -DTEST=1
-CFLAGS_fd := -DTEST=1
+CFLAGS += -DTEST=1
 
 sub-dir-build := $(sub-dir:=.build)
 sub-dir-clean := $(sub-dir:=.clean)
