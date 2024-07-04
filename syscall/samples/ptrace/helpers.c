@@ -7,26 +7,11 @@
 		fprintf(stderr, fmt); \
 	} while(0)
 
-struct syscall_name {
-	int code;
-	char *name;
-} syscall_table[] = {
-#define NR_SYS(s)
-#define __NR_SYS(s) {__NR_##s, #s},
-#include "nr.h"
-#undef NR_SYS
-#undef __NR_SYS
-	{-1, NULL},
-};
+#include "../nr2s.h"
 
 const char *find_syscall_symbol(int code)
 {
-	struct syscall_name *sc;
-	for (sc = syscall_table; sc->code >= 0; sc++) {
-		if (sc->code == code)
-			return sc->name;
-	}
-	return NULL;
+	return syscall_str[code].name;
 }
 
 #ifdef __x86_64__
