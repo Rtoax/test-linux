@@ -7,6 +7,7 @@ TARGETS += PTRACE_POKEDATA
 TARGETS += ptrace-breakpoint
 TARGETS += ptrace-breakpoint-2
 TARGETS += ptrace-strace
+TARGETS += ptrace-execve
 endif
 ifeq ($(shell uname -m),aarch64)
 endif
@@ -41,6 +42,7 @@ peeksiginfo: peeksiginfo.o
 ptrace-breakpoint: ptrace-breakpoint.o
 ptrace-breakpoint-2: ptrace-breakpoint-2.o
 ptrace-strace: ptrace-strace.o helpers.o
+ptrace-execve: ptrace-execve.o helpers.o
 pthread_create: pthread_create.o
 multi-thread: multi-thread.o
 

@@ -11,3 +11,4 @@
 /nr.h
 /pthread_create
 /multi-thread
+/ptrace-execve

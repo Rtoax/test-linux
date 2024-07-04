@@ -19,7 +19,7 @@ struct syscall_name {
 	{-1, NULL},
 };
 
-char *find_syscall_symbol(int code)
+const char *find_syscall_symbol(int code)
 {
 	struct syscall_name *sc;
 	for (sc = syscall_table; sc->code >= 0; sc++) {

@@ -31,8 +31,10 @@ int main(void)
 		if (WIFEXITED(status))
 			break;
 		orig_rax = ptrace(PTRACE_PEEKUSER, child, 8 * ORIG_RAX, NULL);
-		printf("Call syscall %ld, %s\n", orig_rax,
+
+		printf("Call syscall %ld, \033[31m%s\033[m\n", orig_rax,
 		       find_syscall_symbol(orig_rax));
+
 		if (orig_rax == SYS_write) {
 			ptrace(PTRACE_GETREGS, child, NULL, &regs);
 			if (!iscalling) {

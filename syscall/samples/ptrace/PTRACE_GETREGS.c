@@ -25,6 +25,7 @@ int main(int argc, char *argv[])
 	} else {
 		/* 接收子进程发送的 SIGCHLD 信号 */
 		wait(&status);
+
 		/* 如果子进程退出了, 那么终止跟踪 */
 		if (WIFEXITED(status))
 			return 1;
