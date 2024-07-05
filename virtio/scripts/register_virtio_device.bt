@@ -10,20 +10,31 @@
 BEGIN
 {
 	printf("Tracing register_virtio_device(), hit ctrl-c to end.\n");
-	printf("%-8s %-8s %-8s %-4s\n", "TIME", "PID", "COMM", "IDX");
+	printf("%-8s %-8s %-16s %-4s %-8s\n",
+		"TIME", "PID", "COMM", "IDX", "NAME");
 }
 
 /* This function will not be called during Start a VM */
 kprobe:register_virtio_device
 {
-	$dev = (struct virtio_device *)arg0;
+	@devs[tid] = (struct virtio_device *)arg0;
+}
+
+kretprobe:register_virtio_device
+/ @devs[tid] /
+{
+	$dev = @devs[tid];
 	$index = $dev->index;
 
 	time("%H:%M:%S ");
-	printf("%-8d %-8s %-4d\n", pid, comm, $index);
+	printf("%-8d %-16s %-4d %-8s\n", pid, comm, $index,
+		str($dev->dev.kobj.name));
+
+	delete(@devs[tid]);
 }
 
 END
 {
+	clear(@devs);
 	printf("Bye.\n");
 }
