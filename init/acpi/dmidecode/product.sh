@@ -1,3 +1,3 @@
 #!/bin/bash
 
-sudo dmidecode | grep 'Product Name'
+sudo dmidecode | grep 'Product Name' || true
