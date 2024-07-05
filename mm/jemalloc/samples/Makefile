@@ -1,5 +1,9 @@
+JEMALLOC_HEADER=/usr/include/jemalloc/jemalloc.h
 
 TARGETS :=
+
+TARGETS :=
+ifneq ($(wildcard $(JEMALLOC_HEADER)),)
 TARGETS += dallocx
 TARGETS += mallctl
 TARGETS += malloc_stats_print
@@ -10,6 +14,9 @@ TARGETS += rallocx
 TARGETS += sallocx
 TARGETS += sdallocx
 TARGETS += xallocx
+else
+$(warning "WARNING: Maybe install jemalloc development package")
+endif
 
 CC = gcc
 
