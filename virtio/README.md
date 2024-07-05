@@ -52,4 +52,5 @@ virtio
 # Links
 
 - https://kernelgo.org/virtio-overview.html
+- PDF: [Virtual I/O Device (VIRTIO) Version 1.2](https://docs.oasis-open.org/virtio/virtio/v1.2/virtio-v1.2.pdf)
 
