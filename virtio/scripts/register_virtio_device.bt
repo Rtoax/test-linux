@@ -2,19 +2,25 @@
 /**
  * register_virtio_device.bt
  *
+ * Copyright (C) Rong Tao 2024
  * Copyright (C) Rong Tao 2022-2023
  */
+#include <linux/virtio.h>
+
 BEGIN
 {
 	printf("Tracing register_virtio_device(), hit ctrl-c to end.\n");
-	printf("%-8s %-8s %-8s\n", "TIME", "PID", "COMM");
+	printf("%-8s %-8s %-8s %-4s\n", "TIME", "PID", "COMM", "IDX");
 }
 
 /* This function will not be called during Start a VM */
 kprobe:register_virtio_device
 {
+	$dev = (struct virtio_device *)arg0;
+	$index = $dev->index;
+
 	time("%H:%M:%S ");
-	printf("%-8d %-8s\n", pid, comm);
+	printf("%-8d %-8s %-4d\n", pid, comm, $index);
 }
 
 END
