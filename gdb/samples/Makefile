@@ -56,9 +56,16 @@ $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
 	@$(CC) -o $(@) $(^) $(LDLIBS) $(LDFLAGS) $(LDFLAGS_$(*)) $(CFLAGS) $(CFLAGS_$(*))
 
+# The following two commands same as
+#  @eu-strip hello -f hello.debug -o hello.strip
+define mystrip
+	@objcopy --only-keep-debug $(1) $(1).debug
+	@strip $(1) -o $(1).strip
+endef
+
 $(TARGETS_STRIP): %:
 	@echo -e "  STRIP  \033[1;32m$(@)\033[m"
-	@eu-strip $(^) -f $(^).debug -o $(@)
+	$(call mystrip,$(^))
 
 %.opp: %.cpp
 	$(CXX) -o $(@) -c $(<) $(CXXFLAGS) $(CXXFLAGS_$(*))
