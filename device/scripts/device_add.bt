@@ -19,6 +19,8 @@ BEGIN
 kprobe:device_add
 {
 	$dev = (struct device *)arg0;
+
+	/* If add virtio blk device to VM, init_name is NULL. */
 	$name = $dev->init_name;
 
 	if ($name == 0) {
