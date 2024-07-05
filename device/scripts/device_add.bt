@@ -14,6 +14,7 @@
 BEGIN
 {
 	printf("Tracing device_add(), hit ctrl-c to end.\n");
+	printf("$ sudo ./device_add.bt [1] to print kstack\n");
 	printf("%-8s %-8s %-16s %-16s %-8s\n",
 		"TIME", "PID", "COMM", "NAME", "BUS");
 }
@@ -33,6 +34,10 @@ kprobe:device_add
 	time("%H:%M:%S ");
 	printf("%-8d %-16s %-16s %-8s\n", pid, comm, str($name),
 		str($bus->name));
+
+	if ($1 == 1) {
+		printf("%s\n", kstack);
+	}
 
 	@kstacks[kstack] = count();
 }
