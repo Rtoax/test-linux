@@ -38,3 +38,6 @@ done
 
 echo
 sudo lshw -c network -businfo
+
+echo
+sudo ip -br link show up
