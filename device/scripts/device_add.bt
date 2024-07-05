@@ -1,0 +1,35 @@
+#!/bin/env bpftrace
+/**
+ * device_add.bt
+ *
+ * Copyright (C) Rong Tao 2024
+ *
+ * 2024-07-05	Rong Tao	Create this.
+ */
+#ifndef BPFTRACE_HAVE_BTF
+#include <linux/device.h>
+#endif
+
+BEGIN
+{
+	printf("Tracing device_add(), hit ctrl-c to end.\n");
+	printf("%-8s %-8s %-16s %-8s\n", "TIME", "PID", "COMM", "NAME");
+}
+
+kprobe:device_add
+{
+	$dev = (struct device *)arg0;
+	$name = $dev->init_name;
+
+	if ($name == 0) {
+		$name = $dev->kobj.name;
+	}
+
+	time("%H:%M:%S ");
+	printf("%-8d %-16s %-8s\n", pid, comm, str($name));
+}
+
+END
+{
+	printf("Bye.\n");
+}
