@@ -1,5 +1,12 @@
+/*.s
+/MPI_Abort
 /MPI_Init
+/MPI_Initialized
 /MPI_Get_processor_name
 /MPI_Send
 /MPI_Send-2
-/*.s
+/MPI_Send-3
+/MPI_Sendrecv
+/MPI_Sendrecv_replace
+/MPI_Wtime
+/MPI_Wtick

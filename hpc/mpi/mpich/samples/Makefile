@@ -10,16 +10,20 @@ endif
 
 CC = ${MPICC}
 
-$(info MPICC = ${MPICC})
-$(info MPIRUN = ${MPIRUN})
-$(info MPIRUN = ${MPIRUN})
+$(info - INFO MPICC = ${MPICC})
+$(info - INFO MPIRUN = ${MPIRUN})
+$(info - INFO MPIRUN = ${MPIRUN})
 
 TARGETS :=
 # If not install mpich
 ifneq ($(wildcard $(CC)),)
+TARGETS += MPI_Abort
 TARGETS += MPI_Init
+TARGETS += MPI_Initialized
 TARGETS += MPI_Get_processor_name
-TARGETS += MPI_Send MPI_Send-2
+TARGETS += MPI_Send MPI_Send-2 MPI_Send-3
+TARGETS += MPI_Sendrecv MPI_Sendrecv_replace
+TARGETS += MPI_Wtime MPI_Wtick
 endif
 
 CFLAGS := -Werror -Wall
@@ -36,10 +40,19 @@ build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
 # Add more object.o file
+MPI_Abort: MPI_Abort.o
 MPI_Init: MPI_Init.o
+MPI_Initialized: MPI_Initialized.o
 MPI_Get_processor_name: MPI_Get_processor_name.o
 MPI_Send: MPI_Send.o
 MPI_Send-2: MPI_Send-2.o
+MPI_Send-3: MPI_Send-3.o
+MPI_Sendrecv: MPI_Sendrecv.o
+MPI_Sendrecv_replace: MPI_Sendrecv_replace.o
+MPI_Wtime: MPI_Wtime.o
+MPI_Wtick: MPI_Wtick.o
+
+CFLAGS_MPI_Sendrecv_replace := -DCONFIG_MPI_Sendrecv_replace=1
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
