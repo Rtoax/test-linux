@@ -32,4 +32,5 @@ all:
 
 test:
 clean:
-	rm -f a.txt *.log tmp.sh
+	@echo -e "  CLEAN  \033[1;32m$(@)\033[m"
+	@rm -f a.txt *.log tmp.sh
