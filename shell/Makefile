@@ -4,6 +4,7 @@ all:
 	./array_culling.sh
 	./array_pair.sh
 	./array.sh
+	./bc.sh
 	./digit.sh
 	./dmesg-tail.sh
 	./fact.sh
