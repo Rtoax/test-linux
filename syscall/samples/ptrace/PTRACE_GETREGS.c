@@ -15,7 +15,11 @@ int main(int argc, char *argv[])
 {
 	pid_t child;
 	int status;
+#if defined(__aarch64__) || defined(__x86_64__)
 	struct user_regs_struct regs;
+#elif defined(__sw_64__)
+	struct user regs;
+#endif
 
 	child = fork();
 	if (child == 0) {
@@ -32,7 +36,7 @@ int main(int argc, char *argv[])
 			return 1;
 
 		/* 获取被跟踪进程寄存器的值 */
-#if defined(__aarch64__)
+#if defined(__aarch64__) || defined(__sw_64__)
 		struct iovec regs_iov;
 		regs_iov.iov_base = &regs;
 		regs_iov.iov_len = sizeof(regs);

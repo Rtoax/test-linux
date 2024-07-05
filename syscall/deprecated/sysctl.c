@@ -1,4 +1,5 @@
 #include <unistd.h>
+#include <errno.h>
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -16,7 +17,11 @@ int sysctl(int *names, int nlen, void *oldval, size_t *oldlenp, void *newval,
 #endif
 int sysctl(struct __sysctl_args *args)
 {
+#ifdef __NR__sysctl
 	return syscall(__NR__sysctl, args);
+#else
+	return -ENOSYS;
+#endif
 }
 
 int main(void)

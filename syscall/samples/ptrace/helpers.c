@@ -14,7 +14,7 @@ const char *find_syscall_symbol(int code)
 	return syscall_str[code].name;
 }
 
-#ifdef __x86_64__
+#if defined(__x86_64__)
 void print_registers(struct user_regs_struct *regs)
 {
 #define DOUBLE(a) a, a
@@ -56,6 +56,29 @@ void print_registers(struct user_regs_struct *regs)
 	printf("sp\t0x%016llx %lld\n", regs->sp, regs->sp);
 	printf("pc\t0x%016llx %lld\n", regs->pc, regs->pc);
 	printf("pstate\t0x%016llx %lld\n", regs->pstate, regs->pstate);
+}
+#elif defined(__sw_64__)
+# if 0
+struct user
+{
+  unsigned long	int regs[EF_SIZE / 8 + 32];	/* integer and fp regs */
+  size_t u_tsize;				/* text size (pages) */
+  size_t u_dsize;				/* data size (pages) */
+  size_t u_ssize;				/* stack size (pages) */
+  unsigned long	int start_code;			/* text starting address */
+  unsigned long	int start_data;			/* data starting address */
+  unsigned long	int start_stack;		/* stack starting address */
+  long int signal;				/* signal causing core dump */
+  struct regs *u_ar0;				/* help gdb find registers */
+  unsigned long	int magic;			/* identifies a core file */
+  char u_comm[32];				/* user command name */
+};
+# endif
+void print_registers(struct user *regs)
+{
+	int i;
+	for (i = 0; i < EF_SIZE / 8 + 32; i++)
+		printf("x%-2d\t0x%016lx %ld\n", i, regs->regs[i], regs->regs[i]);
 }
 #else
 void print_registers(struct user_regs_struct *regs)
