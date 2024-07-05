@@ -7,4 +7,18 @@ read_array()
 	echo ${arr[@]}
 }
 
+array_string()
+{
+	groups=(
+		"Server with GUI"
+		"Development Tools"
+	)
+
+	for str in "${groups[@]}"
+	do
+		echo $str
+	done
+}
+
 read_array
+array_string
