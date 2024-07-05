@@ -150,7 +150,8 @@ os-release
 
 # Temp File
 vmlinux.h
-
+.bash_history
+.bashrc
 
 # Crypt. like gnupg, ssl, etc.
 *.asc
