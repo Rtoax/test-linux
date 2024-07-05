@@ -1,3 +1,8 @@
+# This Makefile is a template for test-linux userspace code. You can copy the
+# code blob to develope Makefile your own.
+
+STDIO_HEADER = /usr/include/stdio.h
+
 pound := \#
 
 include /boot/config-$(shell uname -r)
@@ -7,7 +12,14 @@ sub-dir := SUBDIR
 sub-dir-build := $(sub-dir:=.build)
 sub-dir-clean := $(sub-dir:=.clean)
 
-TARGETS := main.user
+TARGETS :=
+
+ifneq ($(wildcard $(STDIO_HEADER)),)
+TARGETS += main.user
+else
+$(warning "WARNING: You need to install glibc-headers")
+endif
+
 ifeq ($(shell uname -m),x86_64)
 endif
 ifeq ($(shell uname -m),aarch64)
@@ -34,6 +46,8 @@ $(info Defined STATIC)
 endif
 
 # Probe a function with non-output gcc command
+# The following demostration is probe printf(3) function, and add macro to
+# CFLAGS.
 PRINTF_PROBE := '$(pound)include <stdio.h>\n'
 PRINTF_PROBE += 'int main(void) {\n'
 PRINTF_PROBE += '	printf("hello\\n");\n'
