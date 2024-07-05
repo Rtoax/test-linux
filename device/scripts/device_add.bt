@@ -33,6 +33,8 @@ kprobe:device_add
 	time("%H:%M:%S ");
 	printf("%-8d %-16s %-16s %-8s\n", pid, comm, str($name),
 		str($bus->name));
+
+	@kstacks[kstack] = count();
 }
 
 END
