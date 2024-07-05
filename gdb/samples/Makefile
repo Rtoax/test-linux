@@ -7,6 +7,8 @@ TARGETS += hello
 TARGETS += linklist
 TARGETS += daxpy
 
+TARGETS_STRIP := hello.strip
+
 TARGETS_CPP := global-var
 
 # Get all .sh suffix scripts
@@ -30,7 +32,7 @@ LDFLAGS += -pie
 CXXFLAGS += -fpie
 endif
 
-build: ${TARGETS} ${TARGETS_CPP} ${SCRIPTS_OUT}
+build: ${TARGETS} ${TARGETS_STRIP} ${TARGETS_CPP} ${SCRIPTS_OUT}
 	@echo -e " \033[1;33m Done \033[m"
 
 # Add more object.o file
@@ -43,6 +45,8 @@ linklist: linklist.o
 daxpy: daxpy.o
 global-var: global-var.opp
 
+# Strip
+hello.strip: hello
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
@@ -51,6 +55,10 @@ global-var: global-var.opp
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
 	@$(CC) -o $(@) $(^) $(LDLIBS) $(LDFLAGS) $(LDFLAGS_$(*)) $(CFLAGS) $(CFLAGS_$(*))
+
+$(TARGETS_STRIP): %:
+	@echo -e "  STRIP  \033[1;32m$(@)\033[m"
+	@eu-strip $(^) -f $(^).debug -o $(@)
 
 %.opp: %.cpp
 	$(CXX) -o $(@) -c $(<) $(CXXFLAGS) $(CXXFLAGS_$(*))
@@ -70,5 +78,6 @@ ${SCRIPTS_OUT}: %:
 
 .PHONY: clean
 clean:
-	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
-	@rm -f ${TARGETS} ${TARGETS_CPP} *.o *.d *.opp *.log
+	@echo -e "  CLEAN  \033[1;32m$(TARGETS) $(TARGETS_STRIP) ${TARGETS_CPP}\033[m"
+	@rm -f ${TARGETS} ${TARGETS_STRIP} ${TARGETS_CPP} \
+		*.o *.opp *.log *.debug *.strip

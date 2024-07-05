@@ -1,9 +1,12 @@
 /**
  * hello.c - For test dwarf
- *
- * 2022-01-24	Rong Tao	Create this.
  */
 #include <stdio.h>
+
+int foo(int i)
+{
+	return i * 2;
+}
 
 int main(int argc, char *argv[])
 {
@@ -12,6 +15,7 @@ int main(int argc, char *argv[])
 	char *strp_sup = strp1 + 6;
 
 	printf("%s\n", strp1);
+	printf("%d\n", foo(1024));
 	return 0;
 }
 
