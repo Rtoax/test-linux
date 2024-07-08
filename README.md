@@ -20,6 +20,7 @@ You must clone this repo under Linux(UNIX like) system. Because there are lots o
 - [x] `x86_64`
 - [x] `aarch64`
 - [x] `sw_64`
+- [ ] `riscv64`
 - [ ] `loongarch64`
 
 

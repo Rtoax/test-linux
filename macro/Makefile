@@ -56,6 +56,7 @@ CFLAGS += -DDEBUG -g
 build: ${TARGETS} ${TARGETS_CXX}
 	@echo
 	@echo -e " \033[1;33m Done \033[m"
+	@$(CC) -E -dM - </dev/null
 
 arch: arch.o
 align: align.o

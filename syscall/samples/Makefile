@@ -110,6 +110,11 @@ endif
 ifeq ($(shell uname -m),sw_64)
 	TARGETS := $(filter-out pause, $(TARGETS))
 endif
+ifeq ($(shell uname -m),riscv64)
+	TARGETS := $(filter-out pause, $(TARGETS))
+	TARGETS := $(filter-out chmod, $(TARGETS))
+	TARGETS := $(filter-out getdents, $(TARGETS))
+endif
 
 CC = gcc
 CXX = g++

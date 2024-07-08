@@ -6,7 +6,7 @@
 
 int main(int argc, char *argv[])
 {
-#if !defined(__aarch64__)
+#if !defined(__aarch64__) && !defined(__riscv)
 	syscall(SYS_chmod, argv[0], 0777);
 #endif
 

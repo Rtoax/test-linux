@@ -191,14 +191,12 @@ fedora)
 	;;
 esac
 
-pkgs_base+=( acpi acpica-tools )
 pkgs_base+=( autoconf-archive )
 pkgs_base+=( bash-completion )
 pkgs_base+=( bc )
 pkgs_base+=( blktrace )
 pkgs_base+=( bpftrace bcc )         # eBPF
 pkgs_base+=( cargo )                # The Rust package manager
-pkgs_base+=( crash )
 pkgs_base+=( dialog kdialog )
 pkgs_base+=( dwz )                  # DWARF optimization and duplicate removal tool
 pkgs_base+=( dwarves )              # pahole
@@ -229,7 +227,7 @@ pkgs_base+=( smartmontools )        # smartctl
 pkgs_base+=( sysstat )
 pkgs_base+=( tmux )
 pkgs_base+=( tree )
-pkgs_base+=( vim vim-default-editor )
+pkgs_base+=( vim )
 pkgs_base+=( which )
 
 pkgs_compiler+=( bison )
@@ -294,12 +292,14 @@ cclinux|fedora|centos|rhel|openEuler|almalinux)
 		pkgs_base+=( glibc-devel.i686 )
 		pkgs_bench+=( memtest86+ )
 	fi
+	pkgs_base+=( acpi acpica-tools )
 	pkgs_base+=( bcc-devel )
 	pkgs_base+=( binutils-devel )
 	pkgs_base+=( bpftool )
 	pkgs_base+=( capstone-devel )       # Capstone is a disassembly framework
 	pkgs_base+=( cereal-devel )
 	pkgs_base+=( clang-devel )
+	pkgs_base+=( crash )
 	pkgs_base+=( dbus-devel )           # D-Bus
 	pkgs_base+=( dtc )                  # device tree
 	pkgs_base+=( elfutils-devel )
@@ -345,6 +345,7 @@ cclinux|fedora|centos|rhel|openEuler|almalinux)
 	pkgs_base+=( scl-utils )
 	pkgs_base+=( sg3_utils )            # sg_inq, etc.
 	pkgs_base+=( systemtap-sdt-devel )  # sdt.h
+	pkgs_base+=( vim-default-editor )
 	pkgs_base+=( xfsprogs-devel )       # xfs
 	pkgs_base+=( xz-devel )
 
@@ -390,16 +391,20 @@ cclinux|fedora|centos|rhel|openEuler|almalinux)
 	;;
 debian|ubuntu)
 	pkgs_base+=( binutils-dev )
+	pkgs_base+=( build-essential )
 	pkgs_base+=( clang-format )
 	pkgs_base+=( libaio-dev )           # aio
 	pkgs_base+=( libc6-dev )
+	pkgs_base+=( libc-bin )
 	pkgs_base+=( libmpich-dev )         # MPI
 	pkgs_base+=( libunwind-dev )
 	pkgs_base+=( linux-libc-dev )
-	pkgs_base+=( linux-tools-common )
 	pkgs_base+=( lsb-release )
 	pkgs_base+=( procps )
 	pkgs_base+=( sg3-utils )            # sg_inq, etc.
+	if [[ ${OS} == ubuntu ]]; then
+		pkgs_base+=( linux-tools-common )
+	fi
 
 	pkgs_compiler+=( rust-all )
 
@@ -424,7 +429,7 @@ debian|ubuntu)
 		inst_eval sudo apt upgrade -y
 	fi
 	if [[ ! -z "${pkgs[@]}" ]]; then
-		inst_eval sudo apt install ${args[@]} ${pkgs[@]} -y
+		inst_eval sudo apt install ${args[@]} ${pkgs[@]} -f -y
 	fi
 	;;
 *)

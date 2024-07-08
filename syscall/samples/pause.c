@@ -5,10 +5,14 @@
 #include <sys/stat.h>
 #include <sys/syscall.h>
 
+#if !defined(__riscv)
 int sys_pause(void)
 {
 	return syscall(SYS_pause);
 }
+#else
+# define sys_pause()
+#endif
 
 int main(int argc, char *argv[])
 {

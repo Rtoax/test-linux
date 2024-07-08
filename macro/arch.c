@@ -15,6 +15,13 @@ int main(void)
 #elif defined(__aarch64__)
 	printf("aarch64\n");
 	printf("sizeof(*) = %ld\n", sizeof(p));
+#elif defined(__riscv)
+# if __riscv_xlen == 64
+	printf("riscv64\n");
+	printf("sizeof(*) = %ld\n", sizeof(p));
+# else
+	printf("riscv32\n");
+# endif
 #endif
 	return 0;
 }
