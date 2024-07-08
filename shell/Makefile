@@ -5,6 +5,7 @@ all:
 	./array_pair.sh
 	./array.sh
 	./bc.sh
+	./call.sh
 	./digit.sh
 	./dmesg-tail.sh
 	./fact.sh
