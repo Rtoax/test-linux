@@ -1,4 +1,16 @@
-GLIBC_M32_CRT1_O = /usr/lib/crt1.o
+SHELL = bash
+
+CC = gcc
+LD = ld
+AS = nasm
+
+# Check compiler support -m32 or not
+define m32_build
+  $(shell $(CC) -x c -Wall -m32 factorial_call.c -c -o - >/dev/null 2>&1 \
+      && echo 1)
+endef
+gcc-feature-m32 := $(findstring 1,$(call m32_build,))
+#$(info FEATURE m32: ${gcc-feature-m32})
 
 # Include '_start' function
 TARGETS :=
@@ -8,19 +20,15 @@ TARGETS += write write-2 write-3
 
 # Include 'main' function
 TARGETS_MAIN :=
-ifneq ($(wildcard $(GLIBC_M32_CRT1_O)),)
+ifeq ($(gcc-feature-m32),1)
 TARGETS_MAIN += average
 TARGETS_MAIN += echo
 TARGETS_MAIN += power
 TARGETS_MAIN += factorial_call
 TARGETS_MAIN += maxofthree_call
 else
-$(warning "WARNING: Not install glibc m32 development package")
+$(warning "WARNING: Not support 32bit")
 endif
-
-CC = gcc
-LD = ld
-AS = nasm
 
 CFLAGS := -Werror -Wall
 CFLAGS += -m32
