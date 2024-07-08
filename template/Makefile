@@ -1,3 +1,5 @@
+SHELL = /bin/bash
+
 $(info INFO: This is info)
 $(warning WARNING: This is warning)
 #$(error ERROR: This error)
