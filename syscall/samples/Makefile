@@ -1,4 +1,5 @@
 # Makefile of syscall samples
+SHELL = /bin/bash
 
 sub-dir :=
 sub-dir += access

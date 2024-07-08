@@ -1,3 +1,5 @@
+SHELL = /bin/bash
+
 sub-dir :=
 sub-dir += clone
 

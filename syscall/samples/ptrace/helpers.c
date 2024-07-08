@@ -2,6 +2,8 @@
 #include <sys/user.h>
 #include <syscall.h>
 
+#include "helpers.h"
+
 #define debug(fmt...) do { \
 		fprintf(stderr, "[%s:%s %d]", __FILE__, __func__, __LINE__); \
 		fprintf(stderr, fmt); \
@@ -57,6 +59,48 @@ void print_registers(struct user_regs_struct *regs)
 	printf("pc\t0x%016llx %lld\n", regs->pc, regs->pc);
 	printf("pstate\t0x%016llx %lld\n", regs->pstate, regs->pstate);
 }
+#elif defined(__riscv)
+# if __riscv_xlen == 64
+void print_registers(struct user_regs_struct *regs)
+{
+# define P(v) printf(#v"\t0x%016lx %ld\n", regs->v, regs->v);
+	P(pc)
+	P(ra);
+	P(sp);
+	P(gp);
+	P(tp);
+	P(t0);
+	P(t1);
+	P(t2);
+	P(s0);
+	P(s1);
+	P(a0);
+	P(a1);
+	P(a2);
+	P(a3);
+	P(a4);
+	P(a5);
+	P(a6);
+	P(a7);
+	P(s2);
+	P(s3);
+	P(s4);
+	P(s5);
+	P(s6);
+	P(s7);
+	P(s8);
+	P(s9);
+	P(s10);
+	P(s11);
+	P(t3);
+	P(t4);
+	P(t5);
+	P(t6);
+# undef P
+}
+# else
+#  error "Not support riscv32 yet"
+# endif
 #elif defined(__sw_64__)
 # if 0
 struct user

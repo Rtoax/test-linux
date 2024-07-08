@@ -1,4 +1,12 @@
-include /boot/config-$(shell uname -r)
+KERN_CONFIG=/boot/config-$(shell uname -r)
+
+ifneq ($(wildcard $(KERN_CONFIG)),)
+include ${KERN_CONFIG}
+else
+$(warning "WARNING: not found ${KERN_CONFIG}")
+endif
+
+SHELL = /bin/bash
 
 TARGETS := PR_CAPBSET_DROP
 TARGETS += PR_GET_NAME

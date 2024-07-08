@@ -15,7 +15,7 @@ int main(int argc, char *argv[])
 {
 	pid_t child;
 	int status;
-#if defined(__aarch64__) || defined(__x86_64__)
+#if defined(__aarch64__) || defined(__x86_64__) || defined(__riscv)
 	struct user_regs_struct regs;
 #elif defined(__sw_64__)
 	struct user regs;

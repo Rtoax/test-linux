@@ -41,7 +41,7 @@ int io_submit(aio_context_t ctx_id, long nr, struct iocb **iocbpp)
 	return (int)syscall(SYS_io_submit, ctx_id, nr, iocbpp);
 }
 
-#if !defined(__aarch64__)
+#if !defined(__aarch64__) && !defined(__riscv)
 int eventfd(unsigned int initval, int flags)
 {
 	return  (int)syscall(SYS_eventfd, initval, flags);

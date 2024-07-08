@@ -7,7 +7,7 @@
 #include <sys/syscall.h>
 #include <sys/types.h>
 
-#if !defined(__aarch64__)
+#if !defined(__aarch64__) && !defined(__riscv)
 /* FIXME: stdarg??? */
 int sys_open_fm(const char *pathname, int flags, mode_t mode)
 {

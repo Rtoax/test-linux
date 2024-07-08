@@ -1,4 +1,11 @@
-include /boot/config-$(shell uname -r)
+KERN_CONFIG=/boot/config-$(shell uname -r)
+
+ifneq ($(wildcard $(KERN_CONFIG)),)
+include ${KERN_CONFIG}
+else
+$(warning "WARNING: not found ${KERN_CONFIG}")
+endif
+
 TARGETS :=
 TARGETS += fexecve
 TARGETS += mmap-anon
