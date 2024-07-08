@@ -3,22 +3,34 @@ set -e
 
 huge_mnt_path="/mnt/huge"
 
-mount_hugetlbfs() {
-
+mount_hugetlbfs()
+{
 	# test if dir exist
-	if [ ! -x $huge_mnt_path ]
-	then
+	if [[ ! -x $huge_mnt_path ]]; then
 		mkdir $huge_mnt_path
 	fi
+
+	# Or add new line to /etc/fstab
+	# nodev /mnt/huge hugetlbfs defaults 0 0
+	# nodev /mnt/huge_1GB hugetlbfs pagesize=1GB 0 0
 	mount -t hugetlbfs nodev $huge_mnt_path
-	echo 20 > /proc/sys/vm/nr_hugepages
+	echo 20 | sudo tee /proc/sys/vm/nr_hugepages
 }
-umount_hugetlbfs() {
+
+umount_hugetlbfs()
+{
 	# TODO: can't umount hugetlbfs
 	umount $huge_mnt_path
 }
 
-get_hugepage_info() {
+#
+# /sys/kernel/mm/hugepages/hugepages-2048kB/nr_hugepages
+#
+# On 2 NUMA System
+# /sys/devices/system/node/node0/hugepages/hugepages-2048kB/nr_hugepages
+# /sys/devices/system/node/node1/hugepages/hugepages-2048kB/nr_hugepages
+get_hugepage_info()
+{
 	declare -a hugepage_dirs
 	declare -a nr_hugepages
 

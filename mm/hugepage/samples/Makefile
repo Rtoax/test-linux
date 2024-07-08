@@ -1,16 +1,12 @@
+SHELL = bash
 
 TARGETS := malloc
 TARGETS += madvise-MADV_HUGEPAGE
 
-DEBUG = yes
-SRC_PATH := $(shell pwd)
 CC = gcc
 
 CFLAGS := -Werror -Wall
-
-ifdef DEBUG
 CFLAGS += -DDEBUG -O0 -g
-endif
 
 .PHONY: build
 build: ${TARGETS}

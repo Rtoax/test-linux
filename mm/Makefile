@@ -1,5 +1,6 @@
 sub-dir := rss
 sub-dir += cache
+sub-dir += hugepage
 sub-dir += oom
 sub-dir += tcmalloc
 sub-dir += jemalloc
