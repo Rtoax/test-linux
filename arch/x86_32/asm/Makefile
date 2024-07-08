@@ -1,27 +1,21 @@
-# Check compiler support -m32 or not
-define m32_build
-  $(shell $(CC) -x c -Wall -m32 __WORDSIZE-32.c -o - >/dev/null 2>&1 \
-      && echo 1)
-endef
-
-feature-m32 := $(findstring 1,$(call m32_build,-pthread))
+GLIBC_M32_CRT1_O = /usr/lib/crt1.o
 
 # Include '_start' function
 TARGETS :=
-ifeq ($(feature-m32),1)
 TARGETS += call-func call-func-ret
 TARGETS += jmp jg jl
 TARGETS += write write-2 write-3
-endif
 
 # Include 'main' function
 TARGETS_MAIN :=
-ifeq ($(feature-m32),1)
+ifneq ($(wildcard $(GLIBC_M32_CRT1_O)),)
 TARGETS_MAIN += average
 TARGETS_MAIN += echo
 TARGETS_MAIN += power
 TARGETS_MAIN += factorial_call
 TARGETS_MAIN += maxofthree_call
+else
+$(warning "WARNING: Not install glibc m32 development package")
 endif
 
 CC = gcc
