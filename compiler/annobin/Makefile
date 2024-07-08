@@ -1,5 +1,9 @@
+SHELL = bash
+
 TARGETS :=
+ifneq ($(shell uname -m),riscv64)
 TARGETS += hello
+endif
 
 CC = gcc
 ANNOBIN = $(shell pwd)/annobin-cc1

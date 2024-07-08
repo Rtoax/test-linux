@@ -1,3 +1,6 @@
+SHELL = bash
+
+TARGETS :=
 TARGETS += __builtin_apply_args
 TARGETS += __builtin_apply
 TARGETS += __builtin_bswap16
@@ -68,4 +71,5 @@ $(TARGETS): %:
 	@$(CC) -o $(@) $(^) $(LDLIBS) $(LDFLAGS) $(LDFLAGS_$(*)) $(CFLAGS) $(CFLAGS_$(*))
 
 clean:
-	rm -f ${TARGETS} *.o
+	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
+	@rm -f ${TARGETS} *.o

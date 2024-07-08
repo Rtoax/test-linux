@@ -20,7 +20,7 @@ int main(void)
 	}
 #elif defined(__aarch64__) || defined(__arm__)
 # warning "TODO: arm"
-#elif defined(__sw_64__)
+#elif defined(__sw_64__) || defined(__riscv)
 # warning "TODO: sw"
 #else
 # error "Not support __builtin_cpu_supports but x86, arm."

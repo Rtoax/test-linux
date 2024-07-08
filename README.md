@@ -70,6 +70,11 @@ You can use the following macro
 ```
 
 
+# Defaults
+
+- `SHELL`: `bash`
+
+
 # About
 
 ## Links

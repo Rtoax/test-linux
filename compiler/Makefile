@@ -1,3 +1,5 @@
+SHELL = bash
+
 sub-dir := annobin
 sub-dir += ast
 sub-dir += linker
@@ -30,6 +32,17 @@ build: $(TARGETS) $(sub-dir-build)
 
 __VERSION__: __VERSION__.o
 __GNUC__: __GNUC__.o
+
+%.o: %.c
+	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
+	@$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
+
+$(TARGETS): %:
+	@echo -e "  LD  \033[1;32m$(@)\033[m"
+	@$(CC) -o $(@) $(^) $(LDLIBS) $(LDFLAGS) $(LDFLAGS_$(*)) $(CFLAGS) $(CFLAGS_$(*))
+
+test: ${TARGETS}
+	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
 
 .PHONY: clean
 clean: $(sub-dir-clean)

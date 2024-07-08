@@ -8,6 +8,8 @@ int main(void)
 	printf("__aarch64__\n");
 #elif defined(__sw_64__)
 	printf("__sw_64__\n");
+#elif defined(__riscv) && __riscv_xlen == 64
+	printf("riscv64\n");
 #else
 # pragma GCC error "No support arch\n"
 #endif

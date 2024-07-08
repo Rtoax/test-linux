@@ -1,3 +1,5 @@
+SHELL = bash
+
 TARGETS :=
 TARGETS += __attribute__alias
 TARGETS += __attribute__always_inline
@@ -59,4 +61,5 @@ $(TARGETS): %:
 	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) $(^) $(LDLIBS) $(LDFLAGS) $(LDFLAGS_$(*))
 
 clean:
-	rm -f ${TARGETS} *.o *.s
+	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
+	@rm -f ${TARGETS} *.o *.s

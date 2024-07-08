@@ -1,21 +1,17 @@
+SHELL = bash
+
 TARGETS :=
+TARGETS += GCC_error
 TARGETS += GCC_poison
 TARGETS += GCC_diagnostic
 TARGETS += GCC_dependency
 TARGETS += GCC_system_header
+TARGETS += GCC_target
 TARGETS += pragma-message
 TARGETS += call-func
 TARGETS += push_macro
 TARGETS += message
 TARGETS += _Pragma
-
-ifneq ($(shell uname -m),aarch64)
-TARGETS += GCC_target
-endif
-
-ifneq ($(shell uname -m),x86_64)
-TARGETS += GCC_error
-endif
 
 CC = gcc
 

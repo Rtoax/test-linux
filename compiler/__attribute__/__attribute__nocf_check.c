@@ -21,7 +21,7 @@
 #elif defined(__aarch64__)
 #define __noendbr
 # warning "TODO: aarch64"
-#elif defined(__sw_64__)
+#elif defined(__sw_64__) || defined(__riscv)
 #define __noendbr
 # warning "TODO: sw_64"
 #else
