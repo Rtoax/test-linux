@@ -1,5 +1,16 @@
-# Contained in glibc-devel i686
-GNU_STUBS_32_HDR = /usr/include/gnu/stubs-32.h
+SHELL = bash
+
+CC = gcc
+CXX = c++
+
+# Check compiler support -m32 or not
+define m32_build
+  $(shell $(CC) -x c -Wall -m32 __WORDSIZE-32.c -o - >/dev/null 2>&1 \
+      && echo 1)
+endef
+
+feature-m32 := $(findstring 1,$(call m32_build,-pthread))
+#$(info FEATURE m32: ${feature-m32})
 
 TARGETS :=
 TARGETS += align
@@ -13,7 +24,10 @@ TARGETS += __nonnull
 TARGETS += __restrict__
 TARGETS += __func__
 TARGETS += __linux__
-TARGETS += __WORDSIZE __WORDSIZE-32
+TARGETS += __WORDSIZE
+ifeq ($(feature-m32),1)
+TARGETS += __WORDSIZE-32
+endif
 TARGETS += __TIME__
 TARGETS += __VERSION__
 TARGETS += __FILE__
@@ -26,28 +40,16 @@ TARGETS_CXX :=
 TARGETS_CXX += __cplusplus
 
 ifeq ($(shell uname -m),x86_64)
-TARGETS += __i386__
 TARGETS += __x86_64__
+ifeq ($(feature-m32),1)
+TARGETS += __i386__
+endif
 endif
 ifeq ($(shell uname -m),aarch64)
 TARGETS += __aarch64__
-# aarch64's gcc not support -m32
-TARGETS := $(subst __WORDSIZE-32,,${TARGETS})
 endif
 ifeq ($(shell uname -m),sw_64)
-# sw_64's gcc not support -m32
-TARGETS := $(subst __WORDSIZE-32,,${TARGETS})
 endif
-
-# No m32 found
-ifeq ($(wildcard $(GNU_STUBS_32_HDR)),)
-$(warning "ERROR: Not found glibc-devel i686 headers")
-TARGETS := $(subst __i386__,,${TARGETS})
-TARGETS := $(subst __WORDSIZE-32,,${TARGETS})
-endif
-
-CC = gcc
-CXX = c++
 
 CFLAGS := -Werror -Wall
 CFLAGS += -O0
@@ -56,7 +58,7 @@ CFLAGS += -DDEBUG -g
 build: ${TARGETS} ${TARGETS_CXX}
 	@echo
 	@echo -e " \033[1;33m Done \033[m"
-	@$(CC) -E -dM - </dev/null
+	@$(CC) -E -dM - </dev/null > $(CC)-macros.log
 
 arch: arch.o
 align: align.o
@@ -106,4 +108,4 @@ $(TARGETS_CXX): %:
 
 clean:
 	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
-	@rm -f ${TARGETS} ${TARGETS_CXX} *.o *.opp
+	@rm -f ${TARGETS} ${TARGETS_CXX} *.o *.opp $(CC)-macros.log
