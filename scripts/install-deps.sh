@@ -193,6 +193,7 @@ esac
 
 pkgs_base+=( acpi acpica-tools )
 pkgs_base+=( autoconf-archive )
+pkgs_base+=( bash-completion )
 pkgs_base+=( bc )
 pkgs_base+=( blktrace )
 pkgs_base+=( bpftrace bcc )         # eBPF
