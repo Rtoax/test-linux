@@ -1,5 +1,32 @@
 #!/bin/bash
 #
+
+deb() {
+	sudo apt-get install -y \
+		ament-cmake-googletest \
+		asciidoctor \
+		binutils-dev \
+		bison \
+		build-essential \
+		clang \
+		cmake \
+		flex \
+		google-mock \
+		googletest \
+		libbpf-dev \
+		libbpfcc-dev \
+		libcereal-dev \
+		libelf-dev \
+		libiberty-dev \
+		libpcap-dev \
+		llvm-dev \
+		liblldb-dev \
+		libclang-dev \
+		systemtap-sdt-dev \
+		xxd \
+		zlib1g-dev
+}
+
 cmake \
 	-DCMAKE_INSTALL_PREFIX=/usr/ \
 	-DCMAKE_BUILD_TYPE=Debug \
