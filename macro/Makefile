@@ -108,4 +108,6 @@ $(TARGETS_CXX): %:
 
 clean:
 	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
-	@rm -f ${TARGETS} ${TARGETS_CXX} *.o *.opp $(CC)-macros.log
+	# FIXME: fedora40 x86_64 gcc has an error, m32_build will generate '-'
+	# file.
+	@rm -f ${TARGETS} ${TARGETS_CXX} *.o *.opp $(CC)-macros.log -
