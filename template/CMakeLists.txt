@@ -40,6 +40,16 @@ if (CMAKE_COMPILER_IS_GNUCC)
 	endif()
 endif()
 
+if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+	message(STATUS "User clang")
+elseif (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+	message(STATUS "User gcc")
+elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Intel")
+	message(STATUS "User Intel icc")
+elseif (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+	message(STATUS "User msvc")
+endif()
+
 # Check architecture
 if(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "x86_64")
 	message(STATUS "arch ${CMAKE_HOST_SYSTEM_PROCESSOR}")

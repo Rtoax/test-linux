@@ -26,6 +26,7 @@ CC = gcc
 
 .PHONY: build
 build: $(TARGETS) $(sub-dir-build)
+	@$(CC) -dumpfullversion -dumpversion
 
 __VERSION__: __VERSION__.o
 __GNUC__: __GNUC__.o
