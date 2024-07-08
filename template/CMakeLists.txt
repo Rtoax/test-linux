@@ -20,4 +20,24 @@ add_definitions(-MD -Wall -g -ggdb -O0 -D_GNU_SOURCE -Wuninitialized -Wreturn-ty
 add_definitions(-D_MAIN_USER=1)
 add_definitions(-DHAVE_PRINTF=1)
 
+# GNU GCC version
+if (CMAKE_COMPILER_IS_GNUCC)
+	execute_process(COMMAND ${CMAKE_C_COMPILER} -dumpfullversion -dumpversion
+		OUTPUT_VARIABLE GCC_VERSION)
+	string(REGEX MATCHALL "[0-9]+" GCC_VERSION_COMPONENTS ${GCC_VERSION})
+	list(GET GCC_VERSION_COMPONENTS 0 GCC_MAJOR)
+	list(GET GCC_VERSION_COMPONENTS 1 GCC_MINOR)
+
+	message(STATUS "cmake version=${CMAKE_VERSION}")
+
+	set(GCC_VERSION "${GCC_MAJOR}.${GCC_MINOR}")
+	message(STATUS "gcc version=${GCC_VERSION}")
+
+	if (GCC_VERSION GREATER "4.7")
+		message(STATUS "gcc version major=${GCC_MAJOR}")
+		message(STATUS "gcc version minor=${GCC_MINOR}")
+		add_definitions("-Wno-implicit-fallthrough")
+	endif()
+endif()
+
 add_executable(main.user main.user.c)
