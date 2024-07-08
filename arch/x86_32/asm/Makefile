@@ -47,7 +47,7 @@ factorial_call: factorial_call.oc factorial.o
 maxofthree_call: maxofthree_call.oc maxofthree.o
 
 %.o: %.asm
-	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
+	@echo -e "  AS  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	@$(AS) -felf32 $(<) -o $(@)
 
 %.oc: %.c
