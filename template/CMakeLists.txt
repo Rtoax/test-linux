@@ -40,4 +40,14 @@ if (CMAKE_COMPILER_IS_GNUCC)
 	endif()
 endif()
 
+# Check architecture
+if(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "x86_64")
+	message(STATUS "arch ${CMAKE_HOST_SYSTEM_PROCESSOR}")
+elseif(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "aarch64")
+	message(STATUS "arch ${CMAKE_HOST_SYSTEM_PROCESSOR}")
+elseif(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "riscv64")
+	message(STATUS "arch ${CMAKE_HOST_SYSTEM_PROCESSOR}")
+endif()
+
+
 add_executable(main.user main.user.c)
