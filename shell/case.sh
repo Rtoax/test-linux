@@ -16,3 +16,16 @@ yes_or_no()
 }
 
 yes_or_no "$@"
+
+usage_1()
+{
+	case $1 in
+	# Not support this synax
+	--{help,usage})
+		echo "Usage"
+		;;
+	esac
+}
+
+# Print nothing
+usage_1 --help
