@@ -80,11 +80,11 @@ time: time.o
 	@$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
 	@$(CC) -S $(<) -o $(<:.c=.s) $(CFLAGS) $(CFLAGS_$(*))
 
-$(TARGETS): %.o:
+$(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
 	@$(CC) $(CFLAGS) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
 
-$(TARGETS_ld): %.o:
+$(TARGETS_ld): %:
 	@echo -e "  LD  ld \033[1;32m$(@)\033[m"
 	@$(LD) -o $(@) $(^)
 

@@ -68,27 +68,28 @@ kxord: kxord.os
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
-	objdump -d $(@) > $(@).obj.s
+	@objdump -d $(@) > $(@).obj.s
 
 %.oS: %.S
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
-	objdump -d $(@) > $(@).obj.s
+	@objdump -d $(@) > $(@).obj.s
 
 %.os: %.asm
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	nasm -o $(@) -felf64 $(<)
+	@nasm -o $(@) -felf64 $(<)
 
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
 	@$(CC) $(CFLAGS) -o $(@) $(^) $(LDLIBS)
 
-$(TARGETS_asm): %.os:
-	@echo -e "  LD  ld \033[1;32m$(@)\033[m"
-	$(LD) -o $(@) $(^)
+$(TARGETS_asm): %:
+	@echo -e "  LD  \033[1;32m$(@)\033[m"
+	@$(LD) -o $(@) $(^)
 
 test:
 	@echo "empty"
 
 clean:
-	rm -f $(TARGETS) $(TARGETS_asm) *.o *.obj.s *.oS *.os
+	@echo -e "  CLEAN \033[1;32m$(TARGETS) $(TARGETS_asm)\033[m"
+	@rm -f $(TARGETS) $(TARGETS_asm) *.o *.obj.s *.oS *.os

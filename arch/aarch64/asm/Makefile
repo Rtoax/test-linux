@@ -92,11 +92,11 @@ CFLAGS_hello-puts-infinite-loop := -DINFINITE_LOOP=1
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	@$(CC) $(<) -c -o $(@) $(CFLAGS) $(CFLAGS_$(*))
 
-$(TARGETS_ASM): %.o:
+$(TARGETS_ASM): %:
 	@echo -e "  LD  ld \033[1;32m$(@)\033[m"
 	$(LD) -o $(@) $(^) $(LD_ARGS)
 
-$(TARGETS_S) $(TARGETS_C): %.o:
+$(TARGETS_S) $(TARGETS_C): %:
 	@echo -e "  LD  ld \033[1;32m$(@)\033[m"
 	@$(CC) -o $(@) $(^)
 
@@ -106,5 +106,5 @@ test: $(TARGETS_ASM)
 
 .PHONY: clean
 clean:
-	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
+	@echo -e "  CLEAN  \033[1;32m$(TARGETS_C) $(TARGETS_ASM) $(TARGETS_S)\033[m"
 	@rm -f ${TARGETS_ASM} ${TARGETS_S} ${TARGETS_C} *.o *.d core.* *.co

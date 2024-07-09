@@ -63,11 +63,11 @@ maxofthree_call: maxofthree_call.oc maxofthree.o
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	@$(CC) -m32 -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
 
-$(TARGETS): %.o:
+$(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
 	@$(LD) -m elf_i386 -o $(@) $(^)
 
-$(TARGETS_MAIN): %.o:
+$(TARGETS_MAIN): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
 	@$(CC) -m32 -o $(@) $(^)
 
@@ -79,4 +79,5 @@ test: ${TARGETS}
 .PHONY: clean
 clean:
 	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
-	@rm -f ${TARGETS} ${TARGETS_MAIN} *.o *.d *.oc
+	# FIXME: Gcc on fedora40 '-o -' generate '-'
+	@rm -f ${TARGETS} ${TARGETS_MAIN} *.o *.d *.oc -
