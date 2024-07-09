@@ -6,11 +6,12 @@ AS = nasm
 
 # Check compiler support -m32 or not
 define m32_build
-  $(shell $(CC) -x c -Wall -m32 factorial_call.c -c -o - >/dev/null 2>&1 \
+  $(shell $(AS) average.asm -felf32 -o a.o && \
+	  $(CC) -Wall -m32 a.o -o - >/dev/null 2>&1 \
       && echo 1)
 endef
-gcc-feature-m32 := $(findstring 1,$(call m32_build,))
-#$(info FEATURE m32: ${gcc-feature-m32})
+feature-m32 := $(findstring 1,$(call m32_build,))
+#$(info FEATURE m32: ${feature-m32})
 
 # Include '_start' function
 TARGETS :=
@@ -20,7 +21,7 @@ TARGETS += write write-2 write-3
 
 # Include 'main' function
 TARGETS_MAIN :=
-ifeq ($(gcc-feature-m32),1)
+ifeq ($(feature-m32),1)
 TARGETS_MAIN += average
 TARGETS_MAIN += echo
 TARGETS_MAIN += power
