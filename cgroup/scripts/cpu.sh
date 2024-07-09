@@ -1,13 +1,10 @@
 #!/bin/bash 
-# Rong Tao 2021.11.16
-# test cgroup
-# Need `libcgroup-tools`, you can install with
-# $ sudo yum install libcgroup-tools
-
 set -euo pipefail
 
 # create cgroup CPU
-# will create cgroupfs: /sys/fs/cgroup/cpu/rongtao/
+# will create cgroupfs:
+# v1: /sys/fs/cgroup/cpu/rongtao/
+# v2: /sys/fs/cgroup/rongtao/
 cgcreate -g cpu:rongtao
 
 # limits cgroup CPU util 30%
@@ -29,6 +26,6 @@ cgclassify -g cpu:rongtao 181482
 more /sys/fs/cgroup/cpu/rongtao/tasks
 
 # delete cgroup
-# will delete cgroupfs: /sys/fs/cgroup/cpu/rongtao/
+# will delete cgroupfs
 cgdelete -g cpu:rongtao
 
