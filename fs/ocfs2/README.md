@@ -8,3 +8,10 @@ OCFS2是 Oracle Cluster File System Version 2 的缩写，是Oracle公司内部�
 - 磁盘文件系统
 - 共享文件系统: NFS, samba 等
 - 共享磁盘文件系统: OCFS2
+
+
+# CONFIG
+
+- `CONFIG_OCFS2_FS`
+
+

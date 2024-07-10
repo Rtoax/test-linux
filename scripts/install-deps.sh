@@ -5,10 +5,11 @@ prog=inst-deps
 
 declare -a dnf_args
 declare -a pkgs pkgs_compiler pkgs_desktop whls pkgs_bench pkgs_math pkgs_db
-declare -a pkgs_storage pkgs_net pkgs_container pkgs_virt pkgs_base
+declare -a pkgs_storage pkgs_net pkgs_container pkgs_virt pkgs_base pkgs_fs
 
 have_base=YES
 have_upgrade=YES
+have_fs=
 have_whls=
 have_compiler=
 have_container=
@@ -62,7 +63,8 @@ ARGUMENT
 	--db               install database relate packages
 	--storage          install storage relate packages
 	--net              install network relate packages
-	--virt             install virtualization relate package
+	--virt             install virtualization relate packages
+	--fs               install filesystem relate packages
 
 	--nobase           skip basic packages
 	--noup             skip upgrade
@@ -82,6 +84,7 @@ TEMP=$(getopt --options h \
 	--long all \
 	--long nobase \
 	--long noup \
+	--long fs \
 	--long compilers \
 	--long container \
 	--long virt \
@@ -116,6 +119,7 @@ while true; do
 		have_desktop=YES
 		have_math=YES
 		have_bench=YES
+		have_fs=YES
 		;;
 	--noup)
 		shift
@@ -124,6 +128,10 @@ while true; do
 	--nobase)
 		shift
 		have_base=""
+		;;
+	--fs)
+		shift
+		have_fs=YES
 		;;
 	--compilers)
 		shift
@@ -339,7 +347,6 @@ cclinux|fedora|centos|rhel|openEuler|almalinux)
 	pkgs_base+=( mpich mpich-devel )    # mpi
 	pkgs_base+=( numactl-devel )        # numaif.h
 	pkgs_base+=( nvme-cli )             # nvme
-	pkgs_base+=( overlayfs-tools )
 	pkgs_base+=( pam-devel )
 	pkgs_base+=( procps-ng )            # pidof, top, etc.
 	pkgs_base+=( readline-devel )
@@ -347,8 +354,12 @@ cclinux|fedora|centos|rhel|openEuler|almalinux)
 	pkgs_base+=( sg3_utils )            # sg_inq, etc.
 	pkgs_base+=( systemtap-sdt-devel )  # sdt.h
 	pkgs_base+=( vim-default-editor )
-	pkgs_base+=( xfsprogs-devel )       # xfs
 	pkgs_base+=( xz-devel )
+
+	# Filesystem
+	pkgs_fs+=( ocfs2-tools )
+	pkgs_fs+=( overlayfs-tools )
+	pkgs_fs+=( xfsprogs-devel )         # xfs
 
 	# Cross compile packages
 	pkgs_compiler+=( binutils-aarch64-linux-gnu )
@@ -370,6 +381,7 @@ cclinux|fedora|centos|rhel|openEuler|almalinux)
 	args+=( --nogpgcheck )
 
 	[[ ${have_base} ]] && pkgs+=( ${pkgs_base[@]} )
+	[[ ${have_fs} ]] && pkgs+=( ${pkgs_fs[@]} )
 	[[ ${have_compiler} ]] && pkgs+=( ${pkgs_compiler[@]} )
 	[[ ${have_container} ]] && pkgs+=( ${pkgs_container[@]} )
 	[[ ${have_virt} ]] && pkgs+=( ${pkgs_virt[@]} )
@@ -412,6 +424,7 @@ debian|ubuntu)
 	pkgs_math+=( fftw-dev )
 
 	[[ ${have_base} ]] && pkgs+=( ${pkgs_base[@]} )
+	[[ ${have_fs} ]] && pkgs+=( ${pkgs_fs[@]} )
 	[[ ${have_compiler} ]] && pkgs+=( ${pkgs_compiler[@]} )
 	[[ ${have_container} ]] && pkgs+=( ${pkgs_container[@]} )
 	[[ ${have_virt} ]] && pkgs+=( ${pkgs_virt[@]} )
