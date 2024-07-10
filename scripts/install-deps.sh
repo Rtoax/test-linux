@@ -326,6 +326,8 @@ cclinux|fedora|centos|rhel|openEuler|almalinux)
 	pkgs_base+=( jemalloc-devel )
 	pkgs_base+=( kernel-devel )         # kernel
 	pkgs_base+=( kernel-headers )       # kernel
+	pkgs_base+=( kernel-modules )       # modules
+	pkgs_base+=( kernel-modules-extra ) # modules, ocfs2, etc.
 	pkgs_base+=( libaio-devel )         # aio
 	pkgs_base+=( libattr-devel )
 	pkgs_base+=( libbpf-devel )         # libbpf
