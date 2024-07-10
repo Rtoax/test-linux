@@ -3,6 +3,7 @@ sub-dir += cache
 sub-dir += hugepage
 sub-dir += oom
 sub-dir += tcmalloc
+sub-dir += tlb
 sub-dir += jemalloc
 
 TARGETS := virt2phy
