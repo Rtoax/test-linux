@@ -1,4 +1,5 @@
 TARGETS :=
+TARGETS += cmdline
 TARGETS += environ
 TARGETS += loginuid
 TARGETS += pagemap
@@ -7,6 +8,7 @@ TARGETS += maps
 
 all: $(TARGETS)
 
+cmdline: cmdline.o
 environ: environ.o
 loginuid: loginuid.o
 pagemap: pagemap.o
