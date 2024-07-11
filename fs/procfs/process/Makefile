@@ -1,4 +1,5 @@
 TARGETS :=
+TARGETS += environ
 TARGETS += loginuid
 TARGETS += pagemap
 TARGETS += mem
@@ -6,6 +7,7 @@ TARGETS += maps
 
 all: $(TARGETS)
 
+environ: environ.o
 loginuid: loginuid.o
 pagemap: pagemap.o
 mem: mem.o
