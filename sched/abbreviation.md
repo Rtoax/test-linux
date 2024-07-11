@@ -4,3 +4,4 @@
 - NUMA: Non-Uniform Memory Access (非一致型内存访问)
 - PELT: Per-Entity Load Tracking
 - SCX: Sched-ext
+- TSS: Task State Segment ()
