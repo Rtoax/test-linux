@@ -4,6 +4,7 @@
 - IB: InfiniBand
 - MPLS: Multi-Protocol Label Switching (多协议标签交换)
 - MQTT: Message Queuing Telemetry Transport (消息队列遥测传输协议)
+- NAPI: New API (新API)
 - OOB: Out-Of-Band (带外)
 - QUIC: Quick UDP Internet Connections (快速 UDP 网络连接)
 - SCTP: Stream Control Transmission Protocol (流控制传输协议)
