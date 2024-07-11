@@ -6,6 +6,7 @@ TARGETS += auxv
 TARGETS += stat
 TARGETS += statm
 TARGETS += status
+TARGETS += uptime
 
 CC = gcc
 
@@ -27,6 +28,7 @@ auxv: auxv.o
 stat: stat.o
 statm: statm.o
 status: status.o
+uptime: uptime.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
@@ -47,7 +49,7 @@ clean: $(sub-dir-clean)
 
 $(sub-dir-build):
 	@echo -e "\033[1;32m [sub-dir] build $(@)\033[m"
-	make -C $(@:.build=)
+	@make -C $(@:.build=)
 $(sub-dir-clean):
 	@echo -e "\033[1;32m [sub-dir] clean $(@)\033[m"
-	make -C $(@:.clean=) clean
+	@make -C $(@:.clean=) clean
