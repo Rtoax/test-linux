@@ -10,6 +10,7 @@
 - MM: Memory Managment (内存管理) @MMU
 - MMU: Memory Management Unit (内存管理单元) @IOMMU @SMMU
 - NUMA: Non-Uniform Memory Architecture (非一致性内存架构)
+- PAE: Physical Address Extension (物理地址扩展)
 - PSS: Proportional Set Size (实际使用的物理内存 比例分配共享库占用的内存)
 - RSS: Resident Set Size (常驻内存集合大小 包含共享库占用的内存)
 - TLB: Translation Lookaside Buffer (旁路转换缓冲, 地址转换后备缓冲)
