@@ -1,3 +1,3 @@
 #!/bin/bash
 
-coredumpctl list | nl
+coredumpctl list -r | nl
