@@ -20,6 +20,7 @@ CC = gcc
 CFLAGS := -Werror -Wall -D_GNU_SOURCE
 CFLAGS += -Wstrict-prototypes
 CFLAGS += -pthread
+CFLAGS += -lrt
 CFLAGS += -DDEBUG -O0 -g
 
 build: ${TARGETS}

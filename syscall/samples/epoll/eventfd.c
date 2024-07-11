@@ -6,6 +6,7 @@
 #include <sys/eventfd.h>
 #include <sys/epoll.h>
 #include <sys/types.h>
+#include <syscall.h>
 #include <unistd.h>
 
 #define MAX_EVENTS 10
@@ -25,6 +26,13 @@ struct epoll_context {
 	int epollfd;
 	struct epoll_event events[MAX_EVENTS];
 };
+
+/* FIXME: In some glibc, there is no gettid() */
+int sys_gettid(void)
+{
+	return syscall(__NR_gettid);
+}
+#define gettid() sys_gettid()
 
 static int epoll_context_init(struct epoll_context *ctx)
 {

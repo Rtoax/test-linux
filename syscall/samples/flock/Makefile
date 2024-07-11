@@ -1,18 +1,13 @@
-
+TARGETS :=
 TARGETS += flock flock-fork flock-unlink flock-thread
 
-DEBUG = yes
-SRC_PATH := $(shell pwd)
 CC = gcc
 
 CFLAGS := -Werror -Wall -D_GNU_SOURCE
 CFLAGS += -pthread
 CFLAGS += -I../../../
 CFLAGS += -I../
-
-ifdef DEBUG
 CFLAGS += -DDEBUG -O0 -g
-endif
 
 build: ${TARGETS}
 	@echo
@@ -23,6 +18,14 @@ flock: flock.o
 flock-fork: flock-fork.o
 flock-unlink: flock-unlink.o
 flock-thread: flock-thread.o
+
+%.o: %.c
+	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
+	@$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
+
+$(TARGETS): %:
+	@echo -e "  LD  \033[1;32m$(@)\033[m"
+	@$(CC) -o $(@) $(^) $(LDLIBS) $(LDFLAGS) $(LDFLAGS_$(*)) $(CFLAGS) $(CFLAGS_$(*))
 
 test: ${TARGETS}
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"

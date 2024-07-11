@@ -9,6 +9,14 @@
 #include <sys/file.h>
 #include <sys/wait.h>
 #include <getopt.h>
+#include <syscall.h>
+
+/* FIXME: In some glibc, there is no gettid() */
+int sys_gettid(void)
+{
+	return syscall(__NR_gettid);
+}
+#define gettid() sys_gettid()
 
 static const char *filename = "testfile";
 static int try_times = 10;

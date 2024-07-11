@@ -8,6 +8,9 @@ CFLAGS := -Werror -Wall -D_GNU_SOURCE
 CFLAGS += -pthread
 CFLAGS += -DDEBUG -O0 -g
 # CFLAGS += -DUSE_ONESHOT=1
+CFLAGS += -pthread
+
+LDFLAGS := -pthread
 
 build: ${TARGETS}
 	@echo

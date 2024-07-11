@@ -1,12 +1,11 @@
 TARGETS := latency
 
-DEBUG = yes
-SRC_PATH := $(shell pwd)
 CC = gcc
 
 CFLAGS := -Werror -Wall -D_GNU_SOURCE
 CFLAGS += -DDEBUG -O0 -g
 CFLAGS += -lrt
+CFLAGS += -lpthread
 
 build: ${TARGETS}
 	@echo

@@ -1,12 +1,16 @@
+NASM = $(shell which nasm 2>/dev/null)
+
 TARGETS :=
 ifeq ($(shell uname -m),x86_64)
-TARGETS += a.out hello.out
+  ifneq ($(NASM),)
+    TARGETS += a.out hello.out
+  endif
 endif
 
 all: ${TARGETS}
 
 hello.o: hello.asm
-	nasm hello.asm -felf64
+	$(NASM) hello.asm -felf64
 
 a.out: hello.o
 	ld $(<) -o $(@)

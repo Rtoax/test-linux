@@ -26,7 +26,9 @@ int main(int argc, char *argv[])
 		fprintf(stderr, "\t\tg - F_SEAL_GROW\n");
 		fprintf(stderr, "\t\ts - F_SEAL_SHRINK\n");
 		fprintf(stderr, "\t\tw - F_SEAL_WRITE\n");
+#ifdef F_SEAL_FUTURE_WRITE
 		fprintf(stderr, "\t\tW - F_SEAL_FUTURE_WRITE\n");
+#endif
 		fprintf(stderr, "\t\tS - F_SEAL_SEAL\n");
 		exit(EXIT_FAILURE);
 	}
@@ -65,8 +67,10 @@ int main(int argc, char *argv[])
 			seals |= F_SEAL_SHRINK;
 		if (strchr(seals_arg, 'w') != NULL)
 			seals |= F_SEAL_WRITE;
+#ifdef F_SEAL_FUTURE_WRITE
 		if (strchr(seals_arg, 'W') != NULL)
 			seals |= F_SEAL_FUTURE_WRITE;
+#endif
 		if (strchr(seals_arg, 'S') != NULL)
 			seals |= F_SEAL_SEAL;
 

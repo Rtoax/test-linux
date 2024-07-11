@@ -5,6 +5,7 @@ CC = gcc
 
 CFLAGS := -Werror -Wall
 CFLAGS += -Wstrict-prototypes
+CFLAGS += -lpthread
 
 LDFLAGS :=
 LDLIBS :=

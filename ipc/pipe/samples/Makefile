@@ -3,15 +3,11 @@ TARGETS += pipe
 TARGETS += pipe-fork
 TARGETS += pipe-broken-pipe shutdown-broken-pipe
 
-DEBUG = yes
-SRC_PATH := $(shell pwd)
 CC = gcc
 
 CFLAGS := -Werror -Wall
-
-ifdef DEBUG
 CFLAGS += -DDEBUG -O0 -g
-endif
+CFLAGS += -lpthread
 
 build: ${TARGETS}
 	@echo

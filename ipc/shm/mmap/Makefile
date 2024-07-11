@@ -5,6 +5,7 @@ TARGETS += shm-reader shm-writer
 TARGETS += mmap-reader mmap-writer
 
 CFLAGS := -g -ggdb -O0
+CFLAGS += -lrt
 
 ALL: $(TARGETS)
 

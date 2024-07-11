@@ -7,8 +7,12 @@
 #include <sched.h>
 #include <ctype.h>
 #include <string.h>
+/* FIXME: opencloudos 8.8 man shows getcpu() need this header */
+//#include <linux/getcpu.h>
 
 #include "helpers.h"
+
+#define getcpu(c, n) sys_getcpu(c, n)
 
 int main(void)
 {

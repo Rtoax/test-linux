@@ -96,7 +96,7 @@ int main(void)
 	V32(BLKSECDISCARD);
 	V32(BLKROTATIONAL);
 	V32(BLKZEROOUT);
-#if !defined(__sw_64__)
+#ifdef BLKGETDISKSEQ
 	V64(BLKGETDISKSEQ);
 #endif
 
@@ -106,9 +106,15 @@ int main(void)
 	V64(BLKRESETZONE);
 	V64(BLKGETZONESZ);
 	V64(BLKGETNRZONES);
+#ifdef BLKOPENZONE
 	V64(BLKOPENZONE);
+#endif
+#ifdef BLKCLOSEZONE
 	V64(BLKCLOSEZONE);
+#endif
+#ifdef BLKFINISHZONE
 	V64(BLKFINISHZONE);
+#endif
 
 	seperator();
 

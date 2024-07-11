@@ -73,7 +73,11 @@ TARGETS += setuid seteuid setreuid
 TARGETS += setpgrp
 TARGETS += tee tee2
 TARGETS += clone
+ifneq ($(wildcard /usr/include/linux/close_range.h),)
 TARGETS += close_range
+else
+$(warning "WARNING: not found /usr/include/linux/close_range.h")
+endif
 TARGETS += setitimer
 TARGETS += unlink
 TARGETS += rmdir
@@ -99,6 +103,7 @@ TARGETS += fsync
 TARGETS += getpagesize
 TARGETS += ioprio_get ioprio_set
 
+TARGETS_CPP :=
 TARGETS_CPP += readlink2
 
 ifeq ($(shell uname -m),x86_64)

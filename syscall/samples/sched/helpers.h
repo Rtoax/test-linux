@@ -5,6 +5,7 @@
 #include <stdint.h>
 #include <unistd.h>
 #include <sched.h>
+#include <syscall.h>
 #include <sys/syscall.h>
 
 #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof(arr[0]))
@@ -27,6 +28,13 @@ struct sched_attr {
 	uint64_t sched_deadline;
 	uint64_t sched_period;
 };
+
+/* FIXME: In some glibc, there is no gettid() */
+static __attribute__((unused)) int sys_gettid(void)
+{
+	return syscall(__NR_gettid);
+}
+#define gettid() sys_gettid()
 
 long int sys_getcpu(unsigned *cpu, unsigned *node);
 void print_cpuset(cpu_set_t * cpuset);

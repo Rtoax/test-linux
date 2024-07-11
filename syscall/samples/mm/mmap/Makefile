@@ -28,6 +28,7 @@ CFLAGS := -Werror -Wall -D_GNU_SOURCE
 CFLAGS += -Wstrict-prototypes
 CFLAGS += -I../../
 CFLAGS += -pthread
+CFLAGS += -lrt
 
 ifdef DEBUG
 CFLAGS += -DDEBUG -O0 -g

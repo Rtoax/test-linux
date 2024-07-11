@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <signal.h>
 #include <stddef.h>
+#include <unistd.h>
 
 void print_pending(void)
 {

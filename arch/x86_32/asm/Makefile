@@ -2,22 +2,27 @@ SHELL = bash
 
 CC = gcc
 LD = ld
-AS = nasm
+NASM = $(shell which nasm 2>/dev/null)
+
 
 # Check compiler support -m32 or not
+ifneq ($(NASM),)
 define m32_build
-  $(shell $(AS) average.asm -felf32 -o a.o && \
+  $(shell $(NASM) average.asm -felf32 -o a.o && \
 	  $(CC) -Wall -m32 a.o -o - >/dev/null 2>&1 \
       && echo 1)
 endef
 feature-m32 := $(findstring 1,$(call m32_build,))
+endif
 #$(info FEATURE m32: ${feature-m32})
 
 # Include '_start' function
 TARGETS :=
+ifneq ($(NASM),)
 TARGETS += call-func call-func-ret
 TARGETS += jmp jg jl
 TARGETS += write write-2 write-3
+endif
 
 # Include 'main' function
 TARGETS_MAIN :=
@@ -56,8 +61,8 @@ factorial_call: factorial_call.oc factorial.o
 maxofthree_call: maxofthree_call.oc maxofthree.o
 
 %.o: %.asm
-	@echo -e "  AS  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	@$(AS) -felf32 $(<) -o $(@)
+	@echo -e "  NASM  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
+	@$(NASM) -felf32 $(<) -o $(@)
 
 %.oc: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

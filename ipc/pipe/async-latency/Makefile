@@ -1,10 +1,10 @@
 TARGETS := main
 
 DEBUG = yes
-SRC_PATH := $(shell pwd)
 CC = gcc
 
 CFLAGS := -Werror -Wall
+CFLAGS += -lpthread
 
 ifdef DEBUG
 CFLAGS += -DDEBUG -O0 -g

@@ -1,17 +1,17 @@
 CC = gcc
-AS = as
+NASM = $(shell which nasm 2>/dev/null)
 LD = ld
 OBJDUMP = objdump
 RUN_PFX =
-AS_ARGS :=
-LD_ARGS :=
 
 TARGETS :=
 
+ifneq ($(NASM),)
 TARGETS_ld := hello
 TARGETS_ld += hello-stack
 TARGETS_ld += while
 TARGETS_ld += nanosleep
+endif
 
 # TODO
 TARGETS_todo += sum_cal
@@ -23,11 +23,11 @@ endif
 
 ifneq ($(shell uname -m),x86_64)
 	CC = x86_64-linux-gnu-gcc
-	AS = x86_64-linux-gnu-as
 	LD = x86_64-linux-gnu-ld
 	OBJDUMP = x86_64-linux-gnu-objdump
 	RUN_PFX = qemu-x86_64
 else
+    ifneq ($(NASM),)
 	TARGETS += echo
 	TARGETS += hello-puts
 	TARGETS += hola
@@ -38,6 +38,7 @@ else
 	TARGETS += hello-c
 	TARGETS += atomic_forced_read
 	TARGETS += time
+    endif
 endif
 
 DEBUG = yes
@@ -73,7 +74,7 @@ time: time.o
 
 %.o: %.asm
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	@nasm -felf64 $(<) -o $(@)
+	@$(NASM) -felf64 $(<) -o $(@)
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

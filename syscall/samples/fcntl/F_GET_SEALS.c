@@ -31,8 +31,10 @@ int main(int argc, char *argv[])
 		printf(" GROW");
 	if (seals & F_SEAL_WRITE)
 		printf(" WRITE");
+#ifdef F_SEAL_FUTURE_WRITE
 	if (seals & F_SEAL_FUTURE_WRITE)
 		printf(" FUTURE_WRITE");
+#endif
 	if (seals & F_SEAL_SHRINK)
 		printf(" SHRINK");
 	printf("\n");

@@ -2,6 +2,14 @@
 #include <stdio.h>
 #include <sys/types.h>
 #include <unistd.h>
+#include <sys/syscall.h>
+
+/* FIXME: In some glibc, there is no gettid() */
+int sys_gettid(void)
+{
+	return syscall(__NR_gettid);
+}
+#define gettid() sys_gettid()
 
 /* Returns the process ID of the calling processes, as determined from
  * the /proc/self symlink. */

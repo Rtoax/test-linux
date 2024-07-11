@@ -7,8 +7,11 @@
 
 int main(void)
 {
+/* FIXME */
+#ifdef MEMBARRIER_CMD_FLAG_CPU
 	syscall(SYS_membarrier, MEMBARRIER_CMD_GLOBAL, MEMBARRIER_CMD_FLAG_CPU,
 		0);
+#endif
 
 	return 0;
 }
