@@ -9,8 +9,10 @@
 - MCE: Machine Check Exceptions
 - MM: Memory Managment (内存管理) @MMU
 - MMU: Memory Management Unit (内存管理单元) @IOMMU @SMMU
+- NUMA: Non-Uniform Memory Architecture (非一致性内存架构)
 - PSS: Proportional Set Size (实际使用的物理内存 比例分配共享库占用的内存)
 - RSS: Resident Set Size (常驻内存集合大小 包含共享库占用的内存)
 - TLB: Translation Lookaside Buffer (旁路转换缓冲, 地址转换后备缓冲)
+= UMA: Uniform Memory Architecture (一致性内存架构)
 - USS: Unique Set Size (进程独占使用的物理内存 不包含共享库占用的内存)
 - VSS: Virtual Set Size (虚拟耗用内存 包含共享库占用的内存)
