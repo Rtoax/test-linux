@@ -1,3 +1,7 @@
+Filesystem
+===========
+
+# Write
 
 ```
                                      User Data
@@ -28,3 +32,12 @@ kernel space                         write(), etc.\
                                         DISK
 ```
 
+
+# wipe
+
+## wipefs
+
+```
+# 这会擦出块，谨慎执行
+$ sudo wipefs -af /dev/sdxxx
+```

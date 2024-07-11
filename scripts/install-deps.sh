@@ -236,6 +236,7 @@ pkgs_base+=( sysstat )
 pkgs_base+=( systemd-udev )         # coredumpctl
 pkgs_base+=( tmux )
 pkgs_base+=( tree )
+pkgs_base+=( util-linux )           # wipefs, etc.
 pkgs_base+=( vim )
 pkgs_base+=( which )
 
