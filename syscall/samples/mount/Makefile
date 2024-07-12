@@ -24,8 +24,9 @@ fsmount: fsmount.o helpers.o
 ramdisk: ramdisk.o
 
 fs.ext4:
-	./mkfs.sh
-	mkdir tmp-dir
+	@echo -e "  MKFS  \033[1;32m$(@)\033[m"
+	@./mkfs.sh
+	@mkdir tmp-dir
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

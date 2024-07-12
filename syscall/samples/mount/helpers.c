@@ -76,6 +76,11 @@ int get_free_dev_loop(void)
 int bind_file_with_loop(const char *file, int *pffd, const char *dev_loop,
 			int *plfd)
 {
+/**
+ * Since kernel commit 3448914e8cc5 ("loop: Add LOOP_CONFIGURE ioctl")
+ * v5.7-rc2-189-g3448914e8cc5
+ */
+#ifdef LOOP_CONFIGURE
 	int ret, ffd, lfd;
 
 	ffd = openat(AT_FDCWD, file, O_RDWR | O_CLOEXEC);
@@ -113,5 +118,8 @@ int bind_file_with_loop(const char *file, int *pffd, const char *dev_loop,
 	*plfd = lfd;
 
 	return 0;
+#else
+	return -ENOSYS;
+#endif
 }
 
