@@ -23,4 +23,5 @@
 /__ASSEMBLER__
 /ident
 /__GNUC__
+/__has_include
 /-
