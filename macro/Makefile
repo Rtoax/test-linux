@@ -36,6 +36,7 @@ TARGETS += __ASSEMBLER__
 TARGETS += ident
 TARGETS += __GNUC__
 TARGETS += __has_include
+TARGETS += __user
 
 TARGETS_CXX :=
 TARGETS_CXX += __cplusplus
@@ -86,11 +87,13 @@ __ASSEMBLER__: __ASSEMBLER__.o
 ident: ident.o
 __GNUC__: __GNUC__.o
 __has_include: __has_include.o
+__user: __user.o
 
 CFLAGS___i386__ := -m32
 CFLAGS___x86_64__ := -m64
 CFLAGS___WORDSIZE-32 := -m32
 CFLAGS_machine := -Wno-error=deprecated -Wno-deprecated
+CFLAGS___user := -Wno-error=attributes
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
