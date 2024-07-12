@@ -3,6 +3,11 @@
 #include <string>
 #include <iostream>
 
+/* /usr/include/c++/${version}/filesystem */
+#ifdef __cpp_lib_filesystem // C++ >= 17 && HOSTED
+# pragma message "Define __cpp_lib_filesystem"
+#endif
+
 #if __has_include(<filesystem>)
 #include <filesystem>
 namespace std_filesystem = std::filesystem;

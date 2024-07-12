@@ -104,7 +104,9 @@ TARGETS += getpagesize
 TARGETS += ioprio_get ioprio_set
 
 TARGETS_CPP :=
+ifdef NOCPP
 TARGETS_CPP += readlink2
+endif
 
 ifeq ($(shell uname -m),x86_64)
 TARGETS += sysctl
