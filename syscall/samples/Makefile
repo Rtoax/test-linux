@@ -104,7 +104,7 @@ TARGETS += getpagesize
 TARGETS += ioprio_get ioprio_set
 
 TARGETS_CPP :=
-ifdef NOCPP
+ifndef NOCPP
 TARGETS_CPP += readlink2
 endif
 
