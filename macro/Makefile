@@ -35,6 +35,7 @@ TARGETS += machine
 TARGETS += __ASSEMBLER__
 TARGETS += ident
 TARGETS += __GNUC__
+TARGETS += __has_include
 
 TARGETS_CXX :=
 TARGETS_CXX += __cplusplus
@@ -84,6 +85,7 @@ machine: machine.o
 __ASSEMBLER__: __ASSEMBLER__.o
 ident: ident.o
 __GNUC__: __GNUC__.o
+__has_include: __has_include.o
 
 CFLAGS___i386__ := -m32
 CFLAGS___x86_64__ := -m64

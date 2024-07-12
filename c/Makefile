@@ -16,6 +16,7 @@ TARGETS += ptr-dim
 TARGETS += struct
 TARGETS += xor
 TARGETS += __alignof__
+TARGETS += __has_include
 TARGETS += __label__
 TARGETS += __typeof__
 TARGETS += NULL
@@ -110,6 +111,7 @@ ptr-dim: ptr-dim.o helpers.o
 struct: struct.o
 xor: xor.o
 __alignof__: __alignof__.o
+__has_include: __has_include.o
 __label__: __label__.o
 __typeof__: __typeof__.o
 NULL: NULL.o
