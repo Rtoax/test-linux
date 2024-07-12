@@ -113,7 +113,7 @@ $(SUB_kernel_DIR_TEST):
 	$(call make_test,K,$(@:%_test=%))
 
 installdeps:
-	bash scripts/install-deps.sh
+	bash scripts/install-deps.sh --all --allowerasing
 
 archive:
 	bash scripts/git-archive
