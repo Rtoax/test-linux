@@ -5,6 +5,7 @@ TARGETS += button button2
 TARGETS += button_keyboard
 TARGETS += button_image button_image2
 TARGETS += radiobutton
+TARGETS += calculater
 TARGETS += checkbutton
 TARGETS += arrow_button
 TARGETS += button_fixed_move
@@ -53,6 +54,7 @@ button2: button2.o
 button_keyboard: button_keyboard.o
 button_image: button_image.o
 button_image2: button_image2.o
+calculater: calculater.o
 radiobutton: radiobutton.o
 checkbutton: checkbutton.o
 button_fixed_move: button_fixed_move.o
