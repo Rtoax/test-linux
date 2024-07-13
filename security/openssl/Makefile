@@ -1,4 +1,5 @@
-sub-dir := hello
+sub-dir := commands
+sub-dir += hello
 sub-dir += samples
 
 sub-dir-build := $(sub-dir:=.build)

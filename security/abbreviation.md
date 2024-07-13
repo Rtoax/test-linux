@@ -1,4 +1,5 @@
 - ACL: Access Control List (访问控制表)
+- ASN.1: Abstract Syntax Notation One (ISO/ITU-T 标准，数据编解码)
 - KMS: Key Management Services
 - LSM: Linux Security Modules (统一访问安全框架)
 - Secomp: SECure COMPuting (安全计算)
