@@ -22,6 +22,7 @@ TARGETS += frame aspect_frame
 TARGETS += menu
 TARGETS += dialog
 TARGETS += sunny
+TARGETS += entry_get_text
 
 CC = gcc
 
@@ -59,6 +60,7 @@ radiobutton: radiobutton.o
 checkbutton: checkbutton.o
 button_fixed_move: button_fixed_move.o
 button_boxs: button_boxs.o
+entry_get_text: entry_get_text.o
 spin_button: spin_button.o
 sunny: sunny.o
 label: label.o
