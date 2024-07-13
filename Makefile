@@ -119,8 +119,13 @@ $(SUB_kernel_DIR_TEST):
 installdeps:
 	bash scripts/install-deps.sh --all --allowerasing
 
-archive:
+define git_archive
 	bash scripts/git-archive
+endef
+
+archive:
+	@echo "=== archive"
+	$(call git_archive)
 
 check:
 	@echo "Check invalid symbol link start"
@@ -140,18 +145,18 @@ clean:
 	@echo "=== cleangit (default)"
 	@echo "==="
 cleanall: cleanuser cleankernel cleangit
-	echo "=== clean all"
+	@echo "=== clean all"
 cleanuser: $(SUB_user_DIR_CLEAN)
-	echo "=== clean user"
+	@echo "=== clean user"
 $(SUB_user_DIR_CLEAN):
 	$(call make_clean,U,$(@:%_clean=%))
 cleankernel: $(SUB_kernel_DIR_CLEAN)
-	echo "=== clean kernel"
+	@echo "=== clean kernel"
 $(SUB_kernel_DIR_CLEAN):
 	$(call make_clean,K,$(@:%_clean=%))
 # Clean git repo useless file and directory
 cleangit:
-	echo "=== clean git repo"
+	@echo "=== clean git repo"
 	$(call git_clean)
 
 cleanuserlog:
