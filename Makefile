@@ -6,8 +6,10 @@ SHELL = bash
 MAKEFLAGS = --silent --no-print-directory
 MKFILE_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))
 
-user_FAILED_LOG = $(shell pwd)/failed-user.log
-kernel_FAILED_LOG = $(shell pwd)/failed-kernel.log
+USER_FAILED_LOG := $(shell pwd)/failed-user.log
+KERNEL_FAILED_LOG := $(shell pwd)/failed-kernel.log
+export USER_FAILED_LOG
+export KERNEL_FAILED_LOG
 
 include make.list
 SUB_user_DIR = $(USER_LIST)
@@ -19,14 +21,16 @@ SUB_kernel_DIR_TEST := $(SUB_kernel_DIR:%=%_test)
 SUB_kernel_DIR_CLEAN := $(SUB_kernel_DIR:%=%_clean)
 
 this-makefile := $(lastword $(MAKEFILE_LIST))
-abs_srctree := $(realpath $(dir $(this-makefile)))
-export abs_srctree
+ABS_SRCTREE := $(realpath $(dir $(this-makefile)))
+export ABS_SRCTREE
 
-include $(abs_srctree)/scripts/TLbuild.include
+include $(ABS_SRCTREE)/scripts/TLbuild.include
 
 all:
 	@echo >&2 -e "***"
-	@echo >&2 -e "*** srctree ${abs_srctree}"
+	@echo >&2 -e "*** ABS_SRCTREE ${ABS_SRCTREE}"
+	@echo >&2 -e "*** USER_FAILED_LOG ${USER_FAILED_LOG}"
+	@echo >&2 -e "*** KERNEL_FAILED_LOG ${KERNEL_FAILED_LOG}"
 	@echo >&2 -e "***"
 	@echo >&2 -e "*** make default: show this information"
 	@echo >&2 -e "*** make [user|kernel]"
@@ -38,19 +42,19 @@ all:
 	@echo >&2 -e "***"
 
 define cleanuserlog
-	@rm -f $(user_FAILED_LOG)
+	@rm -f $(USER_FAILED_LOG)
 endef
 define cleankernellog
-	@rm -f $(kernel_FAILED_LOG)
+	@rm -f $(KERNEL_FAILED_LOG)
 endef
 define printuserlog
-	@if [[ -e $(user_FAILED_LOG) ]]; then \
-		cat $(user_FAILED_LOG) ; \
+	@if [[ -e $(USER_FAILED_LOG) ]]; then \
+		cat $(USER_FAILED_LOG) ; \
 	fi
 endef
 define printkernellog
-	@if [[ -e $(kernel_FAILED_LOG) ]]; then \
-		cat $(kernel_FAILED_LOG) ; \
+	@if [[ -e $(KERNEL_FAILED_LOG) ]]; then \
+		cat $(KERNEL_FAILED_LOG) ; \
 	fi
 endef
 
@@ -61,9 +65,9 @@ define make_
 		make ; \
 		if [ $$? -ne 0 ]; then \
 			if [ $(1) == U ]; then \
-				echo "Failed $(1) $(2)" >>$(user_FAILED_LOG); \
+				echo "Failed $(1) $(2)" >>$(USER_FAILED_LOG); \
 			elif [ $(1) == K ]; then \
-				echo "Failed $(1) $(2)" >>$(kernel_FAILED_LOG); \
+				echo "Failed $(1) $(2)" >>$(KERNEL_FAILED_LOG); \
 			fi ; \
 			false; \
 		fi ; \
