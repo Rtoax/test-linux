@@ -116,8 +116,12 @@ testkernel:$(SUB_kernel_DIR_TEST)
 $(SUB_kernel_DIR_TEST):
 	$(call make_test,K,$(@:%_test=%))
 
-installdeps:
+define installdeps
 	bash scripts/install-deps.sh --all --allowerasing
+endef
+
+installdeps:
+	$(call installdeps)
 
 define git_archive
 	bash scripts/git-archive
