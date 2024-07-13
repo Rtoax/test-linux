@@ -127,13 +127,17 @@ check:
 	bash scripts/invalid-link.sh
 	@echo "Check invalid symbol link done"
 
+define git_clean
+	bash scripts/git-clean
+endef
 # Make clean
 clean:
+	$(call git_clean)
 	@echo "==="
 	@echo "=== cleanall"
 	@echo "=== cleanuser"
 	@echo "=== cleankernel"
-	@echo "=== cleangit"
+	@echo "=== cleangit (default)"
 	@echo "==="
 cleanall: cleanuser cleankernel cleangit
 	echo "=== clean all"
@@ -148,7 +152,7 @@ $(SUB_kernel_DIR_CLEAN):
 # Clean git repo useless file and directory
 cleangit:
 	echo "=== clean git repo"
-	bash scripts/git-clean
+	$(call git_clean)
 
 cleanuserlog:
 	$(call cleanuserlog)
