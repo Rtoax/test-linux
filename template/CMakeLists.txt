@@ -62,6 +62,7 @@ endif()
 # Check compiler options
 # 1. Use check_c_source_compiles()
 # 2. Use command
+set(my_cflags "-Wall")
 execute_process(
 	COMMAND echo "int main(void) { return 0; }"
 	COMMAND ${CMAKE_C_COMPILER} -x c -Wall - -mno-omit-leaf-frame-pointer -o -
@@ -69,6 +70,7 @@ execute_process(
 message(STATUS "NO_MNO_OMIT_LEAF_FRAME_POINTER = ${NO_MNO_OMIT_LEAF_FRAME_POINTER}")
 if(NOT ${NO_MNO_OMIT_LEAF_FRAME_POINTER})
 	message(STATUS "Compiler support -mno-omit-leaf-frame-pointer")
+	string(APPEND my_cflags " -mno-omit-leaf-frame-pointer")
 else()
 	message(STATUS "Compiler not support -mno-omit-leaf-frame-pointer")
 endif()
