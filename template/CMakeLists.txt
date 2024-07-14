@@ -59,5 +59,16 @@ elseif(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "riscv64")
 	message(STATUS "arch ${CMAKE_HOST_SYSTEM_PROCESSOR}")
 endif()
 
+# Check compiler options
+# 1. Use check_c_source_compiles()
+# 2. Use command
+execute_process(
+	COMMAND echo "int main(void) { return 0; }"
+	COMMAND ${CMAKE_C_COMPILER} -x c -Wall - -mno-omit-leaf-frame-pointer -o -
+	RESULT_VARIABLE NO_MNO_OMIT_LEAF_FRAME_POINTER)
+message(STATUS "NO_MNO_OMIT_LEAF_FRAME_POINTER = ${NO_MNO_OMIT_LEAF_FRAME_POINTER}")
+if(NOT ${NO_MNO_OMIT_LEAF_FRAME_POINTER})
+	message(STATUS "Compiler support -mno-omit-leaf-frame-pointer")
+endif()
 
 add_executable(main.user main.user.c)

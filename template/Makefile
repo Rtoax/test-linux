@@ -16,4 +16,5 @@ all:
 clean:
 	@make clean -f Makefile.user
 	@make clean -f Makefile.kernel
-	@rm -rf build
+	# FIXME: '-' is gcc's bug
+	@rm -rf build -
