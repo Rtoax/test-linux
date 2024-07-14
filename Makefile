@@ -137,7 +137,7 @@ check:
 	@echo "Check invalid symbol link done"
 
 define git_clean
-	bash scripts/git-clean
+	bash scripts/git-clean y
 endef
 # Make clean
 clean:
