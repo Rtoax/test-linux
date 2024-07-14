@@ -344,6 +344,7 @@ cclinux|fedora|centos|rhel|openEuler|almalinux|opencloudos)
 	pkgs_base+=( liburing-devel )       # uring
 	pkgs_base+=( libxml2-devel )
 	pkgs_base+=( lksctp-tools-devel )   # SCTP
+	pkgs_base+=( lldb-devel )
 	pkgs_base+=( llvm-devel )
 	pkgs_base+=( lsb_release )
 	pkgs_base+=( ltrace )               # ltrace
