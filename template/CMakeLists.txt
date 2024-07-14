@@ -69,6 +69,8 @@ execute_process(
 message(STATUS "NO_MNO_OMIT_LEAF_FRAME_POINTER = ${NO_MNO_OMIT_LEAF_FRAME_POINTER}")
 if(NOT ${NO_MNO_OMIT_LEAF_FRAME_POINTER})
 	message(STATUS "Compiler support -mno-omit-leaf-frame-pointer")
+else()
+	message(STATUS "Compiler not support -mno-omit-leaf-frame-pointer")
 endif()
 
 add_executable(main.user main.user.c)
