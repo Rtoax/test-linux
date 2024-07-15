@@ -62,6 +62,7 @@ endif()
 # Check compiler options
 # 1. Use check_c_source_compiles()
 # 2. Use command
+set_property(GLOBAL APPEND_STRING PROPERTY global_cflags "-Wall -O0")
 function(check_and_add_cflags flag)
 	execute_process(
 		COMMAND echo "int main(void) { return 0; }"
@@ -75,7 +76,6 @@ function(check_and_add_cflags flag)
 		message(STATUS "Compiler not support ${flag}")
 	endif()
 endfunction()
-check_and_add_cflags("-Wall")
 check_and_add_cflags("-no-this-flag")
 check_and_add_cflags("-fno-omit-frame-pointer")
 check_and_add_cflags("-mno-omit-leaf-frame-pointer")
