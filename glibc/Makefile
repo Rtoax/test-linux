@@ -9,7 +9,6 @@ sub-dir += dirent
 sub-dir += dlfcn
 sub-dir += err
 sub-dir += error
-sub-dir += error
 sub-dir += execinfo
 sub-dir += fcntl
 sub-dir += fenv
