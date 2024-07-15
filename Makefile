@@ -131,10 +131,14 @@ archive:
 	@echo "=== archive"
 	$(call git_archive)
 
-check:
+define check_links
 	@echo "Check invalid symbol link start"
 	bash scripts/invalid-link.sh
 	@echo "Check invalid symbol link done"
+endef
+
+check:
+	$(call check_links)
 
 define git_clean
 	bash scripts/git-clean y
