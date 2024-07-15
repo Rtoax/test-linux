@@ -11,21 +11,27 @@
 void get_home_page(int socket_fd)
 {
 	char buffer[10000];
-	ssize_t number_characters_read;
+	ssize_t nbytes;
 
 	/* Send the HTTP GET command for the home page. */
 	sprintf(buffer, "GET /\n");
-	write(socket_fd, buffer, strlen(buffer));
+	nbytes = write(socket_fd, buffer, strlen(buffer));
+	if (nbytes == 0) {
+		perror("write");
+		return;
+	}
 
 	/* Read from the socket. The call to read may not
 	 * return all the data at one time, so keep
 	 * trying until we run out. */
 	while (1) {
-		number_characters_read = read(socket_fd, buffer, 10000);
-		if (number_characters_read == 0)
+		nbytes = read(socket_fd, buffer, 10000);
+		if (nbytes == 0) {
+			perror("read");
 			return;
+		}
 		/* Write the data to standard output. */
-		fwrite(buffer, sizeof(char), number_characters_read, stdout);
+		fwrite(buffer, sizeof(char), nbytes, stdout);
 	}
 }
 
@@ -35,12 +41,14 @@ int main(int argc, char* const argv[])
 	struct sockaddr_in name;
 	struct hostent* hostinfo;
 
+	hostinfo = gethostbyname("www.baidu.com");
+	if (hostinfo == NULL) {
+		perror("gethostbyname");
+		return 1;
+	}
+
 	socket_fd = socket(PF_INET, SOCK_STREAM, 0);
 	name.sin_family = AF_INET;
-	hostinfo = gethostbyname("www.baidu.com");
-	if (hostinfo == NULL)
-		return 1;
-
 	name.sin_addr = *((struct in_addr *)hostinfo->h_addr);
 	name.sin_port = htons(80);
 
