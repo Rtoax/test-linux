@@ -1,6 +1,9 @@
-.PHONY : clean
+TARGETS := key-handler-user
 
-all:
-	gcc key-handler-user.c -o key-handler-user.out -std=c11 -I.
+key-handler-user: key-handler-user.o
+
+all: @{TARGETS}
+
+.PHONY : clean
 clean:
-	-rm key-handler-user.out
+	@rm ${TARGETS} *.o
