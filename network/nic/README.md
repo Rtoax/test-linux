@@ -60,3 +60,9 @@ $ sudo ethtool -i [Interface]
 $ sudo ethtool -K [Interface] tx off
 ```
 
+
+# SmartNIC
+
+- Mellanox SmartNIC
+- ...
+
