@@ -1,6 +1,8 @@
-- DBT: Dynamic Binary Translation (动态二进制转换) (JIT)
+- BT: Binary Translation (二进制转译) @SBT @DBT
+- DBT: Dynamic Binary Translation (动态二进制转译) @BT @SBT @JIT
 - QEMU: Quick Emulator (快速模拟)
 - QMP: QEMU Machine Protocol (Qemu 机器协议) @QEMU
 - QMP: Qemu Monitor Protocol (Qemu 监控协议) @QEMU
-- SBT: Static Binary Translation (静态二进制转换)
-- TCG: Tiny Code Generator (DBT,SBT)
+- SBT: Static Binary Translation (静态二进制转译) @BT @DBT
+- TB: Translation Block (转译块)
+- TCG: Tiny Code Generator () @DBT @SBT
