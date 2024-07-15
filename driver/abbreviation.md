@@ -1,4 +1,5 @@
+- MMIO: Memory Mapping I/O (内存映射I/O) @PIO
 - PCIe ACS: Access Control Services
 - PCIe AER: Advanced Error Reporting
 - PCIe BAR: Base Address Register
-
+- PIO: Port I/O (端口IO) @MMIO

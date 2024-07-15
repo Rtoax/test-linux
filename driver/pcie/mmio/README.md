@@ -1,4 +1,4 @@
-MMIO - Memory mapping I/O
+MMIO - Memory Mapping I/O
 =========================
 
 # 介绍
