@@ -81,6 +81,7 @@ _exit: _exit.o
 gethostid: gethostid.o
 
 CFLAGS_getwd := -Wno-error=deprecated-declarations
+CFLAGS_getwd += -Wno-deprecated-declarations
 
 CFLAGS_lockf-nolock := -DNO_LOCK=1
 
