@@ -2,14 +2,15 @@
 #include <stdlib.h>
 #include <sys/stat.h>
 
+#include "helpers.h"
+
 int main(void)
 {
 	struct stat buf;
 
 	lstat("/etc/os-release", &buf);
 
-	printf("mode: %d\n", buf.st_mode);
-	printf("ino: %ld\n", buf.st_ino);
+	print_stat(&buf);
 
 	return 0;
 }

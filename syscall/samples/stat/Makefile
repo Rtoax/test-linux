@@ -1,4 +1,3 @@
-
 TARGETS := lstat
 TARGETS += stat
 TARGETS += statx
@@ -23,16 +22,16 @@ build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
 # Add more object.o file
-stat: stat.o
+stat: stat.o helpers.o
 statx: statx.o
-fstat: fstat.o
-lstat: lstat.o
+fstat: fstat.o helpers.o
+lstat: lstat.o helpers.o
 listdir: listdir.o
 chmod: chmod.o
 fchmod: fchmod.o
 mkdir: mkdir.o
 mknod: mknod.o
-st_mode: st_mode.o
+st_mode: st_mode.o helpers.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

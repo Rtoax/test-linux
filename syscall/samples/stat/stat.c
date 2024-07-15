@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <sys/stat.h>
 
+#include "helpers.h"
+
 
 int main(int argc, char *argv[])
 {
@@ -10,11 +12,7 @@ int main(int argc, char *argv[])
 
 	stat(filename, &buf);
 
-	printf("mode: %x\n", buf.st_mode);
-	printf("ino: %ld\n", buf.st_ino);
-
-	if (buf.st_mode & S_IWUSR)
-		printf("Owning user can write `%s'.\n", filename);
+	print_stat(&buf);
 
 	return 0;
 }
