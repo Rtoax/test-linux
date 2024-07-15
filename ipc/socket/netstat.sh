@@ -1,7 +1,13 @@
 #!/bin/bash
 
-stat_unix() {
+netstat_unix() {
 	sudo netstat --protocol=unix --program
 }
 
-stat_unix | sed 's/^/UNIX: /g'
+netstat_unix | sed 's/^/UNIX: /g'
+
+ss_unix() {
+	sudo ss --unix
+}
+
+ss_unix | sed 's/^/UNIX: /g'
