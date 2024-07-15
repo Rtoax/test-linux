@@ -68,8 +68,14 @@ snapshots.
   lvchange -ay cl (-a: activate)
 - mount /dev/mapper/
 
+## 2. Why LVM must need /boot partition?
+
+- When not using LVM, a separate /boot partition is primarily useful for ensuring that the files necessary for booting are close enough to the beginning of the drive, when the / partition is itself not at the beginning of the drive.
+- When using LVM, if your / partition is on the LVM, it used to be necessary to have a separate /boot partition.
+
 
 # Links
 
 - https://en.wikipedia.org/wiki/Logical_Volume_Manager_(Linux)
+- https://askubuntu.com/questions/76095/what-is-the-use-of-boot-lvm-based-in-partitioning
 
