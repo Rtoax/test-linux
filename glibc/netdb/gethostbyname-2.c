@@ -53,7 +53,7 @@ int main(int argc, char* const argv[])
 	name.sin_port = htons(80);
 
 	/* Connect to the Web server */
-	if (connect(socket_fd, &name, sizeof(struct sockaddr_in)) == -1) {
+	if (connect(socket_fd, (struct sockaddr *)&name, sizeof(struct sockaddr_in)) == -1) {
 		perror("connect");
 		return 1;
 	}
