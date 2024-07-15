@@ -51,8 +51,15 @@ static int __init init(void)
         return -1;
     }
     printk(KERN_INFO "<Major, Minor>: <%d, %d>\n", MAJOR(first), MINOR(first));
-    if ((cl = class_create(THIS_MODULE, "chardrv")) == NULL)
-    {
+    /**
+     * See linux kernel commit 1aaba11da9aa ("driver core: class: remove
+     * module * from class_create()") v6.3-rc1-13-g1aaba11da9aa
+     */
+#if LINUX_VERSION_CODE < KERNEL_VERSION(6, 3, 0)
+    if ((cl = class_create(THIS_MODULE, "chardrv")) == NULL) {
+#else
+    if ((cl = class_create("chardrv")) == NULL) {
+#endif
         printk(KERN_INFO "class_create() failed");
         unregister_chrdev_region(first, 1);
         return -1;
