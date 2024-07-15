@@ -17,5 +17,6 @@
 - RDMA: Remote Direct Memory Access (远程直接内存访问)
 - RoCE: RDMA over Converged Ethernet (聚合以太网上的 RDMA)
 - SCSI: Small Computer Systems Interface
+- SPDK: Storage Performance Development Kit (存储性能开发套件)
 - SRP: SCSI RDMA Protocol
 
