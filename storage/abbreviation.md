@@ -1,5 +1,6 @@
 - AFA: (全闪存阵列)
 - BB: Bad Block
+- BDEV: Block Device Abstraction (bdev, 跨设备抽象层) @SPDK
 - DM-MPIO: Device Mapper Multipath Input Output / DM-Multipathing
 - FCP: Fibre Channel Protocol (光纤通道)
 - iSCSI: Internet Small Computer Systems Interface
@@ -17,6 +18,6 @@
 - RDMA: Remote Direct Memory Access (远程直接内存访问)
 - RoCE: RDMA over Converged Ethernet (聚合以太网上的 RDMA)
 - SCSI: Small Computer Systems Interface
-- SPDK: Storage Performance Development Kit (存储性能开发套件)
+- SPDK: Storage Performance Development Kit (存储性能开发套件) @bdev
 - SRP: SCSI RDMA Protocol
 
