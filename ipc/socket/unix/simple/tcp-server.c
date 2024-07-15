@@ -53,7 +53,11 @@ int main(void)
 		recv_php_num = read(client_fd, recv_php_buf, sizeof(recv_php_buf));
 		_print_buf(recv_php_buf, sizeof(recv_php_buf));
 		printf("\n");
+#if defined(NO_CLOSE_CLIENT_FD)
+# pragma message "TEST: Do not close client fd"
+#else
 		close(client_fd);
+#endif
 	}
 
 	return 0;

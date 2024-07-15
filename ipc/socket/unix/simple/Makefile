@@ -1,15 +1,18 @@
 CC := gcc
 
 TARGETS :=
-TARGETS += tcp-server tcp-client
+TARGETS += tcp-server tcp-client tcp-server-noclose
 TARGETS += udp-server udp-client
 
 ALL: $(TARGETS)
 
 tcp-server: tcp-server.o
+tcp-server-noclose: tcp-server-noclose.o
 tcp-client: tcp-client.o
 udp-server: udp-server.o
 udp-client: udp-client.o
+
+CFLAGS_tcp-server-noclose := -DNO_CLOSE_CLIENT_FD=1
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

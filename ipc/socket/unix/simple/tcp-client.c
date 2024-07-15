@@ -24,8 +24,6 @@ int main(void)
 		exit(1);
 	}
 
-	sleep(10);
-
 	printf("Send: %04x %04x %04x\n", recv_php_buf[0], recv_php_buf[1], recv_php_buf[2]);
 	_print_buf(recv_php_buf, sizeof(recv_php_buf));
 	write(connect_fd, recv_php_buf, sizeof(recv_php_buf));
