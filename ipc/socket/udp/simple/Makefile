@@ -32,5 +32,5 @@ $(TARGETS_CPP): %:
 
 clean:
 	@echo -e "  CLEAN  \033[1;32m$(TARGETS) ${TARGETS_CPP}\033[m"
-	@rm -f ${TARGETS} *.o
+	@rm -f ${TARGETS} ${TARGETS_CPP} *.o *.oc
 
