@@ -67,6 +67,8 @@ function(check_and_add_cflags flag)
 	execute_process(
 		COMMAND echo "int main(void) { return 0; }"
 		COMMAND ${CMAKE_C_COMPILER} -x c -Wall - ${flag} -o -
+		OUTPUT_VARIABLE /dev/null
+		ERROR_VARIABLE /dev/null
 		RESULT_VARIABLE NO_THIS_FLAG)
 	message(STATUS "NO_THIS_FLAG = ${NO_THIS_FLAG}")
 	if(NOT ${NO_THIS_FLAG})
