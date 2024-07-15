@@ -62,7 +62,6 @@ endif()
 # Check compiler options
 # 1. Use check_c_source_compiles()
 # 2. Use command
-set(my_cflags "-Wall")
 function(check_and_add_cflags flag)
 	execute_process(
 		COMMAND echo "int main(void) { return 0; }"
@@ -71,12 +70,16 @@ function(check_and_add_cflags flag)
 	message(STATUS "NO_THIS_FLAG = ${NO_THIS_FLAG}")
 	if(NOT ${NO_THIS_FLAG})
 		message(STATUS "Compiler support ${flag}")
-		string(APPEND my_cflags " ${flag}")
+		set_property(GLOBAL APPEND_STRING PROPERTY global_cflags " ${flag}")
 	else()
 		message(STATUS "Compiler not support ${flag}")
 	endif()
 endfunction()
+check_and_add_cflags("-Wall")
 check_and_add_cflags("-no-this-flag")
+check_and_add_cflags("-fno-omit-frame-pointer")
 check_and_add_cflags("-mno-omit-leaf-frame-pointer")
+get_property(global_cflags GLOBAL PROPERTY global_cflags)
+message(STATUS "global_cflags = ${global_cflags}")
 
 add_executable(main.user main.user.c)
