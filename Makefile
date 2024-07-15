@@ -141,7 +141,7 @@ check:
 	$(call check_links)
 
 define git_clean
-	bash scripts/git-clean y
+	bash scripts/git-clean
 endef
 # Make clean
 clean:
