@@ -63,16 +63,20 @@ endif()
 # 1. Use check_c_source_compiles()
 # 2. Use command
 set(my_cflags "-Wall")
-execute_process(
-	COMMAND echo "int main(void) { return 0; }"
-	COMMAND ${CMAKE_C_COMPILER} -x c -Wall - -mno-omit-leaf-frame-pointer -o -
-	RESULT_VARIABLE NO_MNO_OMIT_LEAF_FRAME_POINTER)
-message(STATUS "NO_MNO_OMIT_LEAF_FRAME_POINTER = ${NO_MNO_OMIT_LEAF_FRAME_POINTER}")
-if(NOT ${NO_MNO_OMIT_LEAF_FRAME_POINTER})
-	message(STATUS "Compiler support -mno-omit-leaf-frame-pointer")
-	string(APPEND my_cflags " -mno-omit-leaf-frame-pointer")
-else()
-	message(STATUS "Compiler not support -mno-omit-leaf-frame-pointer")
-endif()
+function(check_and_add_cflags flag)
+	execute_process(
+		COMMAND echo "int main(void) { return 0; }"
+		COMMAND ${CMAKE_C_COMPILER} -x c -Wall - ${flag} -o -
+		RESULT_VARIABLE NO_THIS_FLAG)
+	message(STATUS "NO_THIS_FLAG = ${NO_THIS_FLAG}")
+	if(NOT ${NO_THIS_FLAG})
+		message(STATUS "Compiler support ${flag}")
+		string(APPEND my_cflags " ${flag}")
+	else()
+		message(STATUS "Compiler not support ${flag}")
+	endif()
+endfunction()
+check_and_add_cflags("-no-this-flag")
+check_and_add_cflags("-mno-omit-leaf-frame-pointer")
 
 add_executable(main.user main.user.c)
