@@ -9,6 +9,10 @@
 
 #define MAX_CLIENT_NUM      10 /* FD_SETSIZE */
 
-#define debug() fprintf(stderr, "%s:%d\n", __func__, __LINE__)
+#ifdef DEBUG
+# define debug() fprintf(stderr, "%s:%d\n", __func__, __LINE__)
+#else
+# define debug()
+#endif
 
 #endif /*<_COMMON_H>*/

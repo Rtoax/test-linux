@@ -4,6 +4,12 @@ TARGETS :=
 TARGETS += server
 TARGETS += client
 
+CFLAGS :=
+
+ifdef DEBUG
+  CFLAGS += -DDEBUG=1
+endif
+
 ALL: $(TARGETS)
 
 server: server.o
