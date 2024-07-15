@@ -17,7 +17,7 @@
 #include <sys/un.h>
 #include <netinet/tcp.h>
 
-#define UNIX_DOMAIN "/tmp/UINX"
+#define UNIX_DOMAIN "./UINX.sock"
 
 #ifndef TEST_SIZE
 #define TEST_SIZE   1024

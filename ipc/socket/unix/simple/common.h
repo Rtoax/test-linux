@@ -15,7 +15,7 @@
 #include <sys/un.h>
 #include <arpa/inet.h>
 
-#define UNIX_DOMAIN "/tmp/UNIX"
+#define UNIX_DOMAIN "./UNIX.sock"
 
 static short recv_php_buf[] = {0x0102, 0x0304, 0x0506};
 static int recv_php_num = 0;

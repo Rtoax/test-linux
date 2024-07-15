@@ -1,7 +1,7 @@
 #ifndef _COMMON_H
 #define _COMMON_H
 
-#define PATH "/tmp/UNIX"
+#define PATH "./UNIX.sock"
 
 #define HELLO       "Hello"
 #define GOODBYE     "Goodbye"

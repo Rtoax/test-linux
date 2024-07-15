@@ -25,5 +25,5 @@ test: ${TARGETS}
 .PHONY: clean
 clean:
 	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
-	@rm -f ${TARGETS} *.s *.o
+	@rm -f ${TARGETS} *.s *.o *.sock
 
