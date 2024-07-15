@@ -1,12 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/stat.h>
+#include <sys/sysmacros.h>
 
 #include "helpers.h"
 
 
 void print_stat(struct stat *stat)
 {
+	unsigned int maj, min;
+
 	printf("mode: %x\n", stat->st_mode);
 	printf("ino: %ld\n", stat->st_ino);
 
@@ -24,5 +27,9 @@ void print_stat(struct stat *stat)
 	printf("type:S_TYPEISMQ:%d\n", S_TYPEISMQ(stat));
 	printf("type:S_TYPEISSEM:%d\n", S_TYPEISSEM(stat));
 	printf("type:S_TYPEISSHM:%d\n", S_TYPEISSHM(stat));
+
+	maj = major(stat->st_dev);
+	min = minor(stat->st_dev);
+	printf("major:%d, minor:%d\n", maj, min);
 }
 
