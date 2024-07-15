@@ -1,8 +1,15 @@
-
-TARGETS := hello
+TARGETS :=
+TARGETS += hello
 
 CFLAGS := -Werror -Wall
 CFLAGS_DBG := -g
+
+ifdef DWARF5
+  CFLAGS += -gdwarf-5
+endif
+ifdef DWARF4
+  CFLAGS += -gdwarf-4
+endif
 
 build: ${TARGETS}
 	@echo
