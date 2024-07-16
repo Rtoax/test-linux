@@ -22,6 +22,11 @@ int main(void)
 
 	path = "tmp.txt";
 
+	unlink(path);
+
+	/**
+	 * flag make file could not exist.
+	 */
 	mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH;
 	fd = open(path, O_WRONLY | O_EXCL | O_CREAT, mode);
 	if (fd == -1) {
