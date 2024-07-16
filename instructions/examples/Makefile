@@ -1,4 +1,3 @@
-
 ###############################################################################
 # Kernel
 obj-m += invalid_opcode_kern.o
@@ -14,12 +13,12 @@ ARCH_LIB_CPUID :=
 # User
 ifeq ($(shell uname -m),x86_64)
 ifneq ($(shell lscpu | grep -w avx2),)
-	CFLAGS += -mavx2 -mfma
-	CFLAGS += -DCPU_HAVE_AVX2=1
+  CFLAGS += -mavx2 -mfma
+  CFLAGS += -DCPU_HAVE_AVX2=1
 endif
 ifneq ($(shell lscpu | grep -w avx512f),)
-	CFLAGS += -mavx512f -mfma
-	CFLAGS += -DCPU_HAVE_AVX512F=1
+  CFLAGS += -mavx512f -mfma
+  CFLAGS += -DCPU_HAVE_AVX512F=1
 endif
 TARGETS += bts
 TARGETS += invalid_opcode_user
@@ -44,10 +43,12 @@ endif
 ifeq ($(shell uname -m),aarch64)
 # Check cpu flags
 ifneq ($(shell lscpu | grep -w sve),)
-CFLAGS += -DCPU_HAVE_SVE=1
+  CFLAGS += -DCPU_HAVE_SVE=1
+  CFLAGS += -march=armv8-a+sve
 endif
 ifneq ($(shell lscpu | grep -w sve2),)
-CFLAGS += -DCPU_HAVE_SVE2=1
+  CFLAGS += -DCPU_HAVE_SVE2=1
+  CFLAGS += -march=armv8-a+sve2
 endif
 
 CFLAGS += -DCPU_HAVE_NEON=1
