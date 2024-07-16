@@ -6,7 +6,7 @@ LD = ld
 OBJDUMP = objdump
 RUN_PFX =
 AS_ARGS :=
-LD_ARGS :=
+LDFLAGS :=
 
 CFLAGS :=
 
@@ -51,7 +51,7 @@ ifeq ($(shell uname -m),aarch64)
   TARGETS_S += hello-puts
   TARGETS_S += hello-puts-infinite-loop
 
-  LD_ARGS := -lc
+  LDFLAGS := -lc
 endif
 
 .PHONY: build
@@ -82,7 +82,7 @@ mov: mov.o
 CFLAGS_hello-puts-infinite-loop := -DINFINITE_LOOP=1
 
 %.o: %.asm
-	@echo -e "  CC(asm)  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
+	@echo -e "  AS  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	@$(AS) $(<) -o $(@) $(AS_ARGS)
 	@$(OBJDUMP) -Dr $(@) > $(@).obj
 
@@ -100,7 +100,7 @@ CFLAGS_hello-puts-infinite-loop := -DINFINITE_LOOP=1
 
 $(TARGETS_ASM): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	@$(LD) -o $(@) $(^) $(LD_ARGS)
+	@$(LD) -o $(@) $(^) $(LDFLAGS)
 
 $(TARGETS_S) $(TARGETS_C): %:
 	@echo -e "  LD  ld \033[1;32m$(@)\033[m"
