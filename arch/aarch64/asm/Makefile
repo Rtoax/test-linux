@@ -51,7 +51,17 @@ ifeq ($(shell uname -m),aarch64)
   TARGETS_S += hello-puts
   TARGETS_S += hello-puts-infinite-loop
 
-  LDFLAGS := -lc
+  LDFLAGS += -lc
+endif
+
+ifdef STATIC
+  CFLAGS += -static
+  # Remove -lc
+  LDFLAGS :=
+  LDFLAGS += -static
+  # FIXME: branch.asm no main() but call libc::printf(), I try 'gcc -nostdlib'
+  # but it not works.
+  TARGETS_ASM := $(filter-out branch, $(TARGETS_ASM))
 endif
 
 .PHONY: build
@@ -99,12 +109,12 @@ CFLAGS_hello-puts-infinite-loop := -DINFINITE_LOOP=1
 	@$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
 
 $(TARGETS_ASM): %:
-	@echo -e "  LD  \033[1;32m$(@)\033[m"
+	@echo -e "  LD(ASM)  \033[1;32m$(@)\033[m"
 	@$(LD) -o $(@) $(^) $(LDFLAGS)
 
 $(TARGETS_S) $(TARGETS_C): %:
-	@echo -e "  LD  ld \033[1;32m$(@)\033[m"
-	@$(CC) -o $(@) $(^)
+	@echo -e "  LD(C,S)  \033[1;32m$(@)\033[m"
+	@$(CC) -o $(@) $(^) $(LDFLAGS) $(CFLAGS)
 
 test: $(TARGETS_ASM)
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
