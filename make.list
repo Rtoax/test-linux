@@ -33,6 +33,7 @@ USER_LIST += macro
 USER_LIST += mm
 USER_LIST += network
 USER_LIST += numa
+USER_LIST += qemu
 USER_LIST += rust
 USER_LIST += security
 USER_LIST += shell

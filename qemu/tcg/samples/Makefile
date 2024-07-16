@@ -18,5 +18,6 @@ $(TARGETS): %:
 	@$(CC) -o $(@) $(^) $(LDLIBS) $(LDFLAGS) $(LDFLAGS_$(*)) $(CFLAGS) $(CFLAGS_$(*))
 
 clean:
-	rm -rf ${TARGETS} *.o
+	@echo -e "  RM  \033[1;32m$(TARGETS)\033[m"
+	@rm -rf ${TARGETS} *.o
 
