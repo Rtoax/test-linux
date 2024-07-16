@@ -1,6 +1,10 @@
+- AVX: Advanced Vector Extensions (高级矢量扩展) @SIMD
+- AVX2: Advanced Vector Extensions 2 (高级矢量扩展2) @SIMD
 - BT: Binary Translator (二进制翻译) @SBT @DBT @HBT
 - CISC: Complex Instruction Set Computer (复杂指令集) @RISC
 - DBT: Dynamic Binary Translator (动态二进制翻译) @BT @HBT @SBT
+- GNI: Gesher New Instructions () @AVX
+- HNI: Haswell New Instructions () @AVX2
 - HBT: Hybrid Binary Translator (混合二进制翻译) @SBT @DBT
 - ISA: Instruction Set Architecture (指令集架构)
 - ISS: Instruction Set Simulator (指令集模拟)
@@ -8,6 +12,7 @@
 - MNI: Merom New Instructions () @SSSE3
 - PNI: Prescott New Instructions (Prescott 新指令) @SSE3
 - RISC: Reduced Instruction Set Computer (精简指令集计算机) @CISC
+- SBNI: Sandy Bridge New Instructions () @AVX
 - SBT: Static Binary Translator (静态二进制翻译) @BT @DBT @HBT
 - SIMD: Single Instruction Multiple Data (单指令多数据)
 - SSE: Streaming SIMD Extensions (单指令多数据流扩展) @SIMD

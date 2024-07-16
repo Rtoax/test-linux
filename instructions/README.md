@@ -33,22 +33,35 @@ Bits: SSE < SSE2 < SSE3 < SSE4 < (SSE5) < AVX < AVX512
 
 > SSE5: AMD发布，Intel生气不玩了
 
+
+### Registers
+
+```
+                                                64bit  0
+                                                +-------+
+                                                |       |   MMX
+                                                +-------+
+                                                MM0 - MM7
+                                         128bit         0
+                                         +---------------+
+                                         |               |  SSE
+                                         +---------------+
+                                             XMM0 - XMM7
+                            256bit                      0
+                           +-----------------------------+
+                           |                             |  AVX
+                           +-----------------------------+
+                                   YMM0 - YMM15
+512bit                                                  0
++--------------------------------------------------------+
+|                                                        |  AVX-512
++--------------------------------------------------------+
+                    ZMM0 - ZMM31
+```
+
 ### MMX
 
 Introduced on January 8, 1997 with its Pentium P5.
-
-#### MMX Registers
-
-Eight 128-bit registers: MM0 - MM7
-
-```
-64bit            0
-+-----------------+
-|                 |  MMX
-+-----------------+
-    MM0 - MM7
-```
-
 
 ### SSE
 
@@ -64,22 +77,11 @@ Eight 128-bit registers: MM0 - MM7
   - SSE4.2: Added with Nehalem (Intel: consists of the 7 remaining instructions)
 
 
-#### SSE, SSE2, SSE3 Registers
+### AVX, AVX2, AVX-512
 
-Eight 128-bit registers: XMM0 XMM1 XMM2 XMM3 XMM4 XMM5 XMM6 XMM7
-
-```
-128bit                            0
-+----------------------------------+
-|                                  |  SSE, SSE2, SSE3
-+----------------------------------+
-             XMM0 - XMM7
-```
-
-
-### AVX -> AVX2
-
-TODO
+- AVX:
+- AVX2:
+- AVX512:
 
 
 ## ARM
