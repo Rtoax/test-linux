@@ -1,3 +1,5 @@
+SHELL = bash
+
 TARGETS :=
 ifeq ($(shell uname -m),x86_64)
 TARGETS += get_thread_area

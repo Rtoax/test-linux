@@ -1,3 +1,5 @@
+SHELL = bash
+
 obj-m:= paging_lowmem.o
 PWD:= $(shell pwd)
 KERNELDIR:= /lib/modules/$(shell uname -r)/build

@@ -1,3 +1,5 @@
+SHELL = bash
+
 
 all:
 	@echo -e "  MK  \033[1;32m$(@)\033[m"

@@ -1,3 +1,5 @@
+SHELL = bash
+
 sub-dir := postgresql/samples/
 
 sub-dir-build := $(sub-dir:=.build)

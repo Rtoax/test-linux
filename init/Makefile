@@ -1,3 +1,5 @@
+SHELL = bash
+
 sub-dir := acpi
 
 sub-dir-build := $(sub-dir:=.build)

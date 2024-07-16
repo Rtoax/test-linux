@@ -1,3 +1,5 @@
+SHELL = bash
+
 TARGETS := eventfd
 TARGETS += level-triggered edge-triggered
 TARGETS += tcp-echo

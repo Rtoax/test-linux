@@ -1,3 +1,5 @@
+SHELL = bash
+
 
 TARGETS := unix-server
 TARGETS += unix-client

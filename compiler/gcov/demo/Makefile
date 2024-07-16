@@ -1,3 +1,5 @@
+SHELL = bash
+
 
 
 all: compile run gcov html

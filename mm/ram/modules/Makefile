@@ -1,3 +1,5 @@
+SHELL = bash
+
 obj-m += totalram_pages.o
 
 PWD := $(shell pwd)

@@ -1,3 +1,5 @@
+SHELL = bash
+
 sub-dir := gtk
 sub-dir += libxml2/samples/
 

@@ -1,3 +1,5 @@
+SHELL = bash
+
 
 all:
 	# clang is ok too

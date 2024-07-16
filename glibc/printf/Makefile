@@ -1,3 +1,5 @@
+SHELL = bash
+
 TARGETS :=
 TARGETS += parse_printf_format
 TARGETS += register_printf_function

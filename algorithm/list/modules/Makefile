@@ -1,3 +1,5 @@
+SHELL = bash
+
 obj-m += list_static.o
 obj-m += list_dynamic.o
 obj-m += list_rcu.o

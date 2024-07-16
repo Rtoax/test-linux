@@ -1,3 +1,5 @@
+SHELL = bash
+
 sub-dir := scsi
 
 TARGETS := partition-table

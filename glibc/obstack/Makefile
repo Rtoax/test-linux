@@ -1,3 +1,5 @@
+SHELL = bash
+
 TARGETS :=
 TARGETS += obstack
 TARGETS += alloc-performance-cmp

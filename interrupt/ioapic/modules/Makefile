@@ -1,3 +1,5 @@
+SHELL = bash
+
 obj-m += proc-ioapic.o
 
 all:

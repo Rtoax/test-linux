@@ -1,3 +1,5 @@
+SHELL = bash
+
 TARGETS :=
 TARGETS += adjtime
 TARGETS += TIMEVAL_TO_TIMESPEC

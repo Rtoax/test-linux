@@ -1,3 +1,5 @@
+SHELL = bash
+
 TARGETS := delete_files
 TARGETS += sum_int
 TARGETS += __VA_ARGS__

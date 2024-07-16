@@ -1,3 +1,5 @@
+SHELL = bash
+
 TARGETS :=
 TARGETS += getrlimit setrlimit ulimit prlimit
 TARGETS += fork-inherit

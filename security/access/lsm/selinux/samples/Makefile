@@ -1,3 +1,5 @@
+SHELL = bash
+
 
 uid=$(shell id -g)
 

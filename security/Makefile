@@ -1,3 +1,5 @@
+SHELL = bash
+
 sub-dir := openssl
 sub-dir += pam
 sub-dir += seccomp

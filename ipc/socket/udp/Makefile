@@ -1,3 +1,5 @@
+SHELL = bash
+
 sub-dir := simple
 sub-dir += multicast
 sub-dir += broadcast

@@ -1,3 +1,5 @@
+SHELL = bash
+
 TCMALLOC_HDR = /usr/include/gperftools/tcmalloc.h
 
 TARGETS :=

@@ -1,3 +1,5 @@
+SHELL = bash
+
 CXX ?= g++
 CPPFLAGS += -Wall -Werror -pedantic -std=c++11
 

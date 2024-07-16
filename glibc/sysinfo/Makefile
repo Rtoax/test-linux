@@ -1,3 +1,5 @@
+SHELL = bash
+
 TARGETS :=
 TARGETS += sysinfo
 TARGETS += get_avphys_pages get_phys_pages

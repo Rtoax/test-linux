@@ -1,3 +1,5 @@
+SHELL = bash
+
 TARGETS :=
 TARGETS += cfsetspeed cfsetospeed cfsetispeed cfgetispeed cfgetospeed
 TARGETS += cfmakeraw

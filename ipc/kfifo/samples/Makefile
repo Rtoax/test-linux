@@ -1,3 +1,5 @@
+SHELL = bash
+
 obj-m += bytestream-example.o
 obj-m += dma-example.o
 obj-m += inttype-example.o

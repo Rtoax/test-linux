@@ -1,3 +1,5 @@
+SHELL = bash
+
 TARGETS :=
 TARGETS += scsi_command
 TARGETS += serial_number

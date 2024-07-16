@@ -1,3 +1,5 @@
+SHELL = bash
+
 TARGETS :=
 TARGETS += list_tables
 TARGETS += PQconnectdb

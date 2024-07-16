@@ -1,3 +1,5 @@
+SHELL = bash
+
 TARGETS :=
 TARGETS += time
 TARGETS += asctime asctime_r

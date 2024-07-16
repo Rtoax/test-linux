@@ -1,3 +1,5 @@
+SHELL = bash
+
 
 SRC := main.c init.c
 

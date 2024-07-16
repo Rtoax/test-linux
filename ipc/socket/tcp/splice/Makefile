@@ -1,3 +1,5 @@
+SHELL = bash
+
 TARGETS :=
 TARGETS += server
 TARGETS += server-poll

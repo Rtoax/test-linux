@@ -1,3 +1,5 @@
+SHELL = bash
+
 TARGETS := uts_hostname
 
 CC = gcc

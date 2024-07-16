@@ -1,3 +1,5 @@
+SHELL = bash
+
 
 obj-m += test_ida.o
 obj-m += ida_alloc.o

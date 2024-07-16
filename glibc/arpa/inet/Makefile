@@ -1,3 +1,5 @@
+SHELL = bash
+
 TARGETS :=
 TARGETS += htonl
 TARGETS += htons

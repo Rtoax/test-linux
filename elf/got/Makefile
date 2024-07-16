@@ -1,3 +1,5 @@
+SHELL = bash
+
 
 TARGETS :=
 TARGETS += _GLOBAL_OFFSET_TABLE_

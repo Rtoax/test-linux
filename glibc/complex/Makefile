@@ -1,3 +1,5 @@
+SHELL = bash
+
 TARGETS :=
 TARGETS += _Complex_I _Complex __complex__
 TARGETS += creal cimag

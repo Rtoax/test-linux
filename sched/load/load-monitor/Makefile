@@ -1,3 +1,5 @@
+SHELL = bash
+
 OS_VER := UNKNOWN
 UNAME := $(shell uname -r)
 ifneq ($(findstring 4.15.0-39-generic,$(UNAME)),)

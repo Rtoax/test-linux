@@ -1,3 +1,5 @@
+SHELL = bash
+
 TARGETS :=
 TARGETS += dup
 TARGETS += dup2

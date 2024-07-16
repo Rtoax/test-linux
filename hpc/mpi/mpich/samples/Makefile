@@ -1,3 +1,5 @@
+SHELL = bash
+
 MPICC = $(shell which mpicc 2>/dev/null)
 MPIRUN = $(shell which mpirun 2>/dev/null)
 MPIEXEC = $(shell which mpiexec 2>/dev/null)

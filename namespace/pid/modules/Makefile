@@ -1,3 +1,5 @@
+SHELL = bash
+
 obj-m += task_active_pid_ns.o
 
 PWD := $(shell pwd)

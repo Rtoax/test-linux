@@ -1,3 +1,5 @@
+SHELL = bash
+
 JAVA = $(shell which java 2>/dev/null)
 JAVAC = $(shell which javac 2>/dev/null)
 

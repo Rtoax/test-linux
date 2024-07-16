@@ -1,3 +1,5 @@
+SHELL = bash
+
 all:
 	make -C vDSO OUTPUT=.
 clean:

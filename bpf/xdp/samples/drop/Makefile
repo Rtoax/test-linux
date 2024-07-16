@@ -1,3 +1,5 @@
+SHELL = bash
+
 
 INTERFACE = eno1
 

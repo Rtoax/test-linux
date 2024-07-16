@@ -1,3 +1,5 @@
+SHELL = bash
+
 READLINE_HDR = /usr/include/readline/readline.h
 
 TARGETS :=

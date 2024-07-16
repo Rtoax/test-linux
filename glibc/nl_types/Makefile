@@ -1,3 +1,5 @@
+SHELL = bash
+
 TARGETS := catgets
 
 CC = gcc

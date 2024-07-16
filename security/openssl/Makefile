@@ -1,3 +1,5 @@
+SHELL = bash
+
 sub-dir := asn.1
 sub-dir += commands
 sub-dir += hello

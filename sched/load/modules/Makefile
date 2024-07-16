@@ -1,3 +1,5 @@
+SHELL = bash
+
 obj-m += avenrun.o
 
 KERNELDIR ?= /lib/modules/$(shell uname -r)/build

@@ -1,3 +1,5 @@
+SHELL = bash
+
 
 CFLAGS := -Wall -Werror
 

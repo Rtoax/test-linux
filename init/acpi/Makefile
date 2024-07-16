@@ -1,3 +1,5 @@
+SHELL = bash
+
 sub-dir := dmidecode
 
 sub-dir-build := $(sub-dir:=.build)

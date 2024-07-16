@@ -1,3 +1,5 @@
+SHELL = bash
+
 
 obj-m += init_uts_ns.o
 

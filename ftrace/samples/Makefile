@@ -1,3 +1,5 @@
+SHELL = bash
+
 
 ifeq ($(shell uname -m),x86_64)
 obj-m += ftrace-direct.o

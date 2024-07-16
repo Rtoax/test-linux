@@ -1,3 +1,5 @@
+SHELL = bash
+
 obj-m	:=   ramdisk_driver.o
 
 KBUILD_CFLAGS +=-g -O0

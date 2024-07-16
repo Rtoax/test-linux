@@ -1,3 +1,5 @@
+SHELL = bash
+
 TARGETS :=
 TARGETS += epoll
 TARGETS += eventfd_read

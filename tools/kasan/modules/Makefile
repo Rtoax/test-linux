@@ -1,3 +1,5 @@
+SHELL = bash
+
 
 obj-m += vmalloc-out-of-bounds.o
 obj-m += slab-out-of-bounds.o

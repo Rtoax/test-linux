@@ -1,3 +1,5 @@
+SHELL = bash
+
 TARGETS := semaphore
 TARGETS += latency
 TARGETS += pthread-semaphore

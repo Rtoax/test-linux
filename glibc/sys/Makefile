@@ -1,3 +1,5 @@
+SHELL = bash
+
 sub-dir := time
 sub-dir += timeb
 

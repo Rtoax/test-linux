@@ -1,3 +1,5 @@
+SHELL = bash
+
 TARGETS :=
 TARGETS += iconv_open
 TARGETS += file2wcs

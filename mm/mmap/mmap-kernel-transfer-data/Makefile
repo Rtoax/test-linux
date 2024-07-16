@@ -1,3 +1,5 @@
+SHELL = bash
+
 obj-m += mmap-example.o
 
 all: test

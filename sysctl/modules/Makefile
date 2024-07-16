@@ -1,3 +1,5 @@
+SHELL = bash
+
 
 obj-m += register_sysctl.o
 obj-m += register_sysctl_paths.o

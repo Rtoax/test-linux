@@ -1,3 +1,5 @@
+SHELL = bash
+
 TARGETS :=
 TARGETS += msg_server msg_client
 TARGETS += fork-trigger

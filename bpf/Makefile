@@ -1,3 +1,5 @@
+SHELL = bash
+
 sub-dir := bcc
 sub-dir += bpftrace
 sub-dir += c

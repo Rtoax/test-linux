@@ -1,3 +1,5 @@
+SHELL = bash
+
 sub-dir := posix
 
 sub-dir-build := $(sub-dir:=.build)

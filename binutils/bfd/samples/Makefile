@@ -1,3 +1,5 @@
+SHELL = bash
+
 TARGETS :=
 TARGETS += bfd_init
 TARGETS += bfd_symbol_info

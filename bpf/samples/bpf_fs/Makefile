@@ -1,3 +1,5 @@
+SHELL = bash
+
 CLANG = clang
 
 INCLUDE_PATH += -I/kernel-src/tools/lib/bpf

@@ -1,3 +1,5 @@
+SHELL = bash
+
 
 TARGETS := waitpid
 TARGETS += waitpid-sig

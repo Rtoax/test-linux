@@ -1,3 +1,5 @@
+SHELL = bash
+
 # Test vDSO linux-vdso.so.1
 # Rong Tao 2022.05.10
 #

@@ -1,3 +1,5 @@
+SHELL = bash
+
 TARGETS := alloca
 
 CC = gcc

@@ -1,3 +1,5 @@
+SHELL = bash
+
 
 TARGETS := semget
 TARGETS += fork-pv

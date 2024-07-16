@@ -1,3 +1,5 @@
+SHELL = bash
+
 obj-m += in_task.o
 obj-m += preempt_count.o
 

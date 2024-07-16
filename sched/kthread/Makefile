@@ -1,3 +1,5 @@
+SHELL = bash
+
 
 obj-m += kthread_run.o
 obj-m += kthread_run-tasks.o

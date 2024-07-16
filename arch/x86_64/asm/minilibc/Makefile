@@ -1,3 +1,5 @@
+SHELL = bash
+
 SRCS            =       memcpy.S         \
                         memset.S         \
                         memmove.S        \

@@ -1,3 +1,5 @@
+SHELL = bash
+
 ICMP_INC := -I ./
 ICMP_SRC := icmpping.c
 

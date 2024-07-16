@@ -1,3 +1,5 @@
+SHELL = bash
+
 sub-dir := rss
 sub-dir += cache
 sub-dir += hugepage

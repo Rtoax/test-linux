@@ -1,3 +1,5 @@
+SHELL = bash
+
 TARGETS := lstat
 TARGETS += stat
 TARGETS += statx

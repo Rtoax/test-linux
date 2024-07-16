@@ -1,3 +1,5 @@
+SHELL = bash
+
 
 all:
 	gcc -fPIC -shared mcount-nop.c -o libmcount-nop.so

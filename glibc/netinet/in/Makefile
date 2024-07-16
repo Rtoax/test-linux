@@ -1,3 +1,5 @@
+SHELL = bash
+
 TARGETS := IPPORT_
 
 CC = gcc

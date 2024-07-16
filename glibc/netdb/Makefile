@@ -1,3 +1,5 @@
+SHELL = bash
+
 TARGETS :=
 TARGETS += gai_strerror
 TARGETS += getaddrinfo

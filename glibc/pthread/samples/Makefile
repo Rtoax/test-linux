@@ -1,3 +1,5 @@
+SHELL = bash
+
 TARGETS :=
 TARGETS += foobar
 TARGETS += pthread_atfork

@@ -1,3 +1,5 @@
+SHELL = bash
+
 
 obj-m += nf_register_net_hook.o
 obj-m += xt_register_match.o

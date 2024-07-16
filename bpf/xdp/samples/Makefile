@@ -1,3 +1,5 @@
+SHELL = bash
+
 sub-dir := drop
 sub-dir += icmp
 sub-dir += iproute2

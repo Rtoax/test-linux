@@ -1,3 +1,5 @@
+SHELL = bash
+
 
 TARGETS += madvise-MADV_MERGEABLE
 TARGETS += madvise-MADV_HUGEPAGE

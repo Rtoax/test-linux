@@ -1,3 +1,5 @@
+SHELL = bash
+
 all:
 	gcc getauxval.c -o getauxval
 clean:

@@ -1,3 +1,5 @@
+SHELL = bash
+
 TARGETS += vfio_region_info
 
 vfio_region_info: vfio_region_info.o

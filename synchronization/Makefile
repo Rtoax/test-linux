@@ -1,3 +1,5 @@
+SHELL = bash
+
 sub-dir := atomic
 sub-dir += semaphore
 

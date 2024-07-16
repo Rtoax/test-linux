@@ -1,3 +1,5 @@
+SHELL = bash
+
 TARGETS :=
 TARGETS += ansi_ascii
 TARGETS += ctermid

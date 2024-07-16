@@ -1,3 +1,5 @@
+SHELL = bash
+
 TARGETS :=
 TARGETS += hsearch
 TARGETS += lfind

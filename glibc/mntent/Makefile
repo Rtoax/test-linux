@@ -1,3 +1,5 @@
+SHELL = bash
+
 TARGETS :=
 TARGETS += getmntent getmntent_r
 TARGETS += setmntent

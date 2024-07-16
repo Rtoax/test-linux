@@ -1,3 +1,5 @@
+SHELL = bash
+
 TARGETS :=
 TARGETS += getutent getutid
 TARGETS += getutline pututline

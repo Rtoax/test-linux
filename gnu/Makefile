@@ -1,3 +1,5 @@
+SHELL = bash
+
 sub-dir := make
 sub-dir += gnupg
 

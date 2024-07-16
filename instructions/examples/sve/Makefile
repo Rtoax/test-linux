@@ -1,3 +1,5 @@
+SHELL = bash
+
 
 CC = gcc
 CFLAGS :=

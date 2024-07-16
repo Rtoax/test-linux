@@ -1,3 +1,5 @@
+SHELL = bash
+
 ARCH=$(shell uname -m)
 
 TARGETS :=

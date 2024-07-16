@@ -1,3 +1,5 @@
+SHELL = bash
+
 obj-m += key-handler-kernel.o
 ccflags-y := -std=gnu99 -Wno-declaration-after-statement
 

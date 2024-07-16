@@ -1,3 +1,5 @@
+SHELL = bash
+
 
 obj-m += linux_banner.o
 obj-m += KERNEL_VERSION.o

@@ -1,3 +1,5 @@
+SHELL = bash
+
 
 TARGETS := setup-if-addr
 

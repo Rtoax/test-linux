@@ -1,3 +1,5 @@
+SHELL = bash
+
 TARGETS :=
 TARGETS += daemon
 TARGETS += eaccess

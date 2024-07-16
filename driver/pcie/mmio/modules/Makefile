@@ -1,3 +1,5 @@
+SHELL = bash
+
 
 obj-m := iomem_resource.o
 

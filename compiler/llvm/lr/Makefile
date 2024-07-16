@@ -1,3 +1,5 @@
+SHELL = bash
+
 TARGETS :=
 
 CLANG = $(shell which clang 2>/dev/null)

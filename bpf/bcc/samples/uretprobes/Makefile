@@ -1,3 +1,5 @@
+SHELL = bash
+
 
 main:
 	go build main.go

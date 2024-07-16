@@ -1,3 +1,5 @@
+SHELL = bash
+
 
 TARGETS := relocation-truncated-to-fit
 TARGETS += nostdlib

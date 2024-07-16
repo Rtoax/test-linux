@@ -1,3 +1,5 @@
+SHELL = bash
+
 CACHEFLUSH_HDR = /usr/include/asm/cacheflush.h
 
 TARGETS :=

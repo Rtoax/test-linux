@@ -1,3 +1,5 @@
+SHELL = bash
+
 
 TARGETS := test_file
 TARGETS += test_string

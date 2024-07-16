@@ -1,3 +1,5 @@
+SHELL = bash
+
 TARGETS :=
 TARGETS += flock flock-fork flock-unlink flock-thread
 
