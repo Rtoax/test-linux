@@ -1,5 +1,5 @@
-arm, x86 and amd64 instruction reference
-=========================================
+Instruction Reference
+=====================
 
 # Register
 
@@ -25,30 +25,34 @@ Register Letter Registers That GCC May Use
 
 # SIMD
 
-## x86 Bits
+## x86
 
 ```
-SSE < SSE2 < SSE3 < SSE4 < (SSE5) < AVX < AVX512
+Bits: SSE < SSE2 < SSE3 < SSE4 < (SSE5) < AVX < AVX512
 ```
 
 > SSE5: AMD发布，Intel生气不玩了
 
+### SSE
+
+TODO
 
 ### AVX -> AVX2
 
 TODO
 
-## arm Bits
+
+## ARM
 
 ```
-NEON < SVE <= SVE2
+Bits: NEON < SVE <= SVE2
 ```
 
 ### NEON SVE/SVE2
 
-```
-     SVE/SVE2  Scalable Vector Registers
+- SVE/SVE2  Scalable Vector Registers
 
+```
               128 bits ~ 2048 bits
                                   Neon
         LEN x 128                128 bits
@@ -61,10 +65,11 @@ NEON < SVE <= SVE2
 +------------------------   ---------------+
 |          Z1           ....  |    V1      |
 +------------------------   --+------------+
+```
 
+- SVE/SVE2 Scalable Predicate Registers
 
-     SVE/SVE2 Scalable Predicate Registers
-
+```
    LEN x 16
 +-----------+   +-----------+
 |    P7     |   |    P15    |
@@ -75,10 +80,11 @@ NEON < SVE <= SVE2
 +-----------+   +-----------+   +----------+
 |    P0     |   |    P8     |   |   FFR    |
 +-----------+   +-----------+   +----------+
+```
 
+- SVE/SVE2 Scalable Vector Control Registers
 
-  SVE/SVE2 Scalable Vector Control Registers
-
+```
   LEN=1...16
 +----------+  +----------+  +----------+
 | ZCR_EL1  |  | ZCR_EL2  |  | ZCR_EL3  |
