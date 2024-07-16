@@ -1,11 +1,12 @@
 SHELL = bash
 
-
 .PHONY: all
 all:
-	@sh file.sh
+
+.PHONY: test
 test:
+	@$(SHELL) file.sh
 
 .PHONY: clean
 clean:
-	rm -f tmpfile-*.out
+	@rm -f tmpfile-*.out
