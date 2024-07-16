@@ -2,6 +2,7 @@ SHELL = bash
 
 sub-dir := openssl
 sub-dir += pam
+sub-dir += access/lsm/selinux/libselinux/samples/
 sub-dir += seccomp
 
 TARGETS :=
