@@ -1,2 +1,3 @@
+- AMD: Advanced Micro Devices ()
 - MSR: Module Specific Register (TODO)
 - SMP: Symmetric Multiple Processing (对称多处理器)

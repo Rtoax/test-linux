@@ -4,5 +4,9 @@
 - HBT: Hybrid Binary Translator (混合二进制翻译) @SBT @DBT
 - ISA: Instruction Set Architecture (指令集架构)
 - ISS: Instruction Set Simulator (指令集模拟)
+- MMX: Matrix Math eXtension (or MultiMedia eXtension) @SIMD
 - RISC: Reduced Instruction Set Computer (精简指令集计算机) @CISC
 - SBT: Static Binary Translator (静态二进制翻译) @BT @DBT @HBT
+- SIMD: Single Instruction Multiple Data (单指令多数据)
+- SSE: Streaming SIMD Extensions (单指令多数据流扩展) @SIMD
+- SSE2: Streaming SIMD Extensions 2 (单指令多数据流扩展2) @SIMD

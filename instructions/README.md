@@ -33,12 +33,29 @@ Bits: SSE < SSE2 < SSE3 < SSE4 < (SSE5) < AVX < AVX512
 
 > SSE5: AMD发布，Intel生气不玩了
 
+### MMX
+
+Introduced on January 8, 1997 with its Pentium P5.
+
+#### MMX Registers
+
+Eight 128-bit registers: MM0 - MM7
+
+```
+64bit            0
++-----------------+
+|                 |  MMX
++-----------------+
+    MM0 - MM7
+```
+
+
 ### SSE
 
 #### SSE Instruction Set
 
 - SSE: Added with Pentium III
-- SSE2: Added with Pentium 4
+- SSE2: Added with Pentium 4 in 2000
 - SSE3: Added with later Pentium 4
 - SSSE3: Added with Xeon 5100 and early Core 2
 - SSE4
@@ -46,14 +63,14 @@ Bits: SSE < SSE2 < SSE3 < SSE4 < (SSE5) < AVX < AVX512
   - SSE4a: Added with Phenom
   - SSE4.2: Added with Nehalem
 
-#### SSE
+#### SSE, SSE2 Registers
 
 Eight 128-bit registers: XMM0 XMM1 XMM2 XMM3 XMM4 XMM5 XMM6 XMM7
 
 ```
 128bit                            0
 +----------------------------------+
-|                                  |  SSE
+|                                  |  SSE, SSE2
 +----------------------------------+
              XMM0 - XMM7
 ```
