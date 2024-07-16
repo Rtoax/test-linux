@@ -1,6 +1,4 @@
 SHELL = bash
-
-
 CC = gcc
 CFLAGS :=
 RUN_PFX :=
@@ -19,20 +17,24 @@ TARGETS += neon-sve
 
 # Cross compile
 ifdef CROSS_COMPILE
-ifneq ($(shell uname -m),aarch64)
-	CC = aarch64-linux-gnu-gcc
-	AS = aarch64-linux-gnu-as
-	LD = aarch64-linux-gnu-ld
-	# This root could be created by Docker Image Tar Archive
-	# see: aarch64-linux-gnu-gcc -print-sysroot
-	CFLAGS += --sysroot=$(shell pwd)/sysroot
-	RUN_PFX = qemu-aarch64 --sysroot=$(shell pwd)/sysroot
-endif
+  ifneq ($(shell uname -m),aarch64)
+    CC = aarch64-linux-gnu-gcc
+    AS = aarch64-linux-gnu-as
+    LD = aarch64-linux-gnu-ld
+    # This root could be created by Docker Image Tar Archive
+    # see: aarch64-linux-gnu-gcc -print-sysroot
+    CFLAGS += --sysroot=$(shell pwd)/sysroot
+    RUN_PFX = qemu-aarch64 --sysroot=$(shell pwd)/sysroot
+  endif
 endif
 
 ifeq ($(shell uname -m),aarch64)
-CFLAGS += -march=armv8-a+sve2
-CFLAGS += -DCPU_HAVE_NEON=1
+  CFLAGS += -march=armv8-a+sve2
+  CFLAGS += -DCPU_HAVE_NEON=1
+endif
+
+ifdef STATIC
+  CFLAGS += -static
 endif
 
 all: $(TARGETS)
