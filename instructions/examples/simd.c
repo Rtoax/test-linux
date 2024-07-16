@@ -3,6 +3,7 @@
  */
 #include <stdio.h>
 #include <stdint.h>
+#include <stdlib.h>
 #include <malloc.h>
 #include <sys/types.h>
 #include <time.h>
@@ -775,6 +776,18 @@ int main(int argc, char *argv[])
 	int i, j;
 	size_t n = 8192;
 	size_t nloop = 10000;
+
+	fprintf(stderr, "USAGE: %s [NLOOP=%ld]\n", argv[0], nloop);
+
+	if (argc > 1) {
+		nloop = strtol(argv[1], NULL, 10);
+	}
+
+	fprintf(stderr, "Test nloop = %ld\n", nloop);
+#if defined(CPU_HAVE_SVE)
+	uint64_t lanes = svcntb();
+	printf("SVE vector width is %d bytes or %d bits.\n", lanes, lanes * 8);
+#endif
 
 	for (j = 0; j < nloop; j++) {
 #if 0
