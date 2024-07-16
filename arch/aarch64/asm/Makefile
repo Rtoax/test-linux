@@ -26,32 +26,32 @@ TARGETS_ASM += mov
 TARGETS_S :=
 
 ifneq ($(shell lscpu | grep -w -e sve -e sve2),)
-	TARGETS_ASM += hello_sve
-	TARGETS_C += daxpy
-	AS_ARGS := -march=armv8-a+sve2
+  TARGETS_ASM += hello_sve
+  TARGETS_C += daxpy
+  AS_ARGS := -march=armv8-a+sve2
 endif
 
 # Cross compile
 # If cross compile, you could use binfmt_misc to running aarch64 on x86_64, ..
 ifneq ($(shell uname -m),aarch64)
-	AS = aarch64-linux-gnu-as
-	LD = aarch64-linux-gnu-ld
-	OBJDUMP = aarch64-linux-gnu-objdump
-	RUN_PFX = qemu-aarch64
+  AS = aarch64-linux-gnu-as
+  LD = aarch64-linux-gnu-ld
+  OBJDUMP = aarch64-linux-gnu-objdump
+  RUN_PFX = qemu-aarch64
 endif
 ifeq ($(shell uname -m),aarch64)
-	TARGETS_C += add-c
-	TARGETS_C += loop-c
-	TARGETS_C += puts
-	TARGETS_C += paciasp-c
+  TARGETS_C += add-c
+  TARGETS_C += loop-c
+  TARGETS_C += puts
+  TARGETS_C += paciasp-c
 
-	TARGETS_ASM += branch
+  TARGETS_ASM += branch
 
-	TARGETS_S += say_hello
-	TARGETS_S += hello-puts
-	TARGETS_S += hello-puts-infinite-loop
+  TARGETS_S += say_hello
+  TARGETS_S += hello-puts
+  TARGETS_S += hello-puts-infinite-loop
 
-	LD_ARGS := -lc
+  LD_ARGS := -lc
 endif
 
 .PHONY: build
@@ -84,7 +84,7 @@ CFLAGS_hello-puts-infinite-loop := -DINFINITE_LOOP=1
 %.o: %.asm
 	@echo -e "  CC(asm)  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	@$(AS) $(<) -o $(@) $(AS_ARGS)
-	@$(OBJDUMP) -Dr $(@)
+	@$(OBJDUMP) -Dr $(@) > $(@).obj
 
 %.co: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
@@ -113,4 +113,4 @@ test: $(TARGETS_ASM)
 .PHONY: clean
 clean:
 	@echo -e "  CLEAN  \033[1;32m$(TARGETS_C) $(TARGETS_ASM) $(TARGETS_S)\033[m"
-	@rm -f ${TARGETS_ASM} ${TARGETS_S} ${TARGETS_C} *.o *.d core.* *.co
+	@rm -f ${TARGETS_ASM} ${TARGETS_S} ${TARGETS_C} *.o *.d core.* *.co *.obj
