@@ -35,7 +35,29 @@ Bits: SSE < SSE2 < SSE3 < SSE4 < (SSE5) < AVX < AVX512
 
 ### SSE
 
-TODO
+#### SSE Instruction Set
+
+- SSE: Added with Pentium III
+- SSE2: Added with Pentium 4
+- SSE3: Added with later Pentium 4
+- SSSE3: Added with Xeon 5100 and early Core 2
+- SSE4
+  - SSE4.1: Added with later Core 2
+  - SSE4a: Added with Phenom
+  - SSE4.2: Added with Nehalem
+
+#### SSE
+
+Eight 128-bit registers: XMM0 XMM1 XMM2 XMM3 XMM4 XMM5 XMM6 XMM7
+
+```
+128bit                            0
++----------------------------------+
+|                                  |  SSE
++----------------------------------+
+             XMM0 - XMM7
+```
+
 
 ### AVX -> AVX2
 
@@ -98,6 +120,7 @@ Bits: NEON < SVE <= SVE2
 - [Intel ISA-L](https://github.com/intel/isa-l)
 - https://en.wikipedia.org/wiki/CPUID
 - https://en.wikipedia.org/wiki/Advanced_Vector_Extensions
+- SSE: [https://en.wikibooks.org/wiki/X86_Assembly/SSE](https://en.wikibooks.org/wiki/X86_Assembly/SSE)
 - AVX: [oracle](https://docs.oracle.com/cd/E36784_01/html/E36859/gntbd.html)
 - AVX2: [oracle](https://docs.oracle.com/cd/E36784_01/html/E36859/gntae.html)
 - AVX512: [oracle](https://docs.oracle.com/cd/E37838_01/html/E61064/gsesq.html)
