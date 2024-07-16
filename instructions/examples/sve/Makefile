@@ -4,6 +4,12 @@ CFLAGS :=
 RUN_PFX :=
 TARGETS :=
 
+# Help information
+$(info Usage: make [options])
+$(info :      STATIC=1)
+$(info :      CROSS_COMPILE=1)
+$(info :      SYSROOT=/path/to/rootfs)
+
 ifeq ($(shell lscpu | grep -w -e sve -e sve2),)
 $(warning Not support SVE/SVE2 on this CPU)
 else
@@ -17,14 +23,17 @@ TARGETS += neon-sve
 
 # Cross compile
 ifdef CROSS_COMPILE
+  ifndef SYSROOT
+    $(error "Must define SYSROOT if CROSS_COMPILE")
+  endif
   ifneq ($(shell uname -m),aarch64)
     CC = aarch64-linux-gnu-gcc
     AS = aarch64-linux-gnu-as
     LD = aarch64-linux-gnu-ld
     # This root could be created by Docker Image Tar Archive
     # see: aarch64-linux-gnu-gcc -print-sysroot
-    CFLAGS += --sysroot=$(shell pwd)/sysroot
-    RUN_PFX = qemu-aarch64 --sysroot=$(shell pwd)/sysroot
+    CFLAGS += --sysroot=${SYSROOT}
+    RUN_PFX = qemu-aarch64 --sysroot=${SYSROOT}
   endif
 endif
 

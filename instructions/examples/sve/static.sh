@@ -1,3 +1,3 @@
 #!/bin/bash
 make clean
-make STATIC=1
+make STATIC=1 "$@"
