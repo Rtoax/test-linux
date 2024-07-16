@@ -1,3 +1,5 @@
+SHELL = bash
+
 LIBAIO_HDR = /usr/include/libaio.h
 
 TARGETS :=

@@ -1,3 +1,5 @@
+SHELL = bash
+
 TARGETS := aio_read
 TARGETS += aio_write
 TARGETS += aio_suspend
@@ -20,11 +22,7 @@ aio_write: aio_write.o
 aio_suspend: aio_suspend.o
 lio_listio: lio_listio.o
 
-%.d: %.c
-	@echo -e "Generate \033[1m$(@)\033[m"
-	@$(CC) $(CFLAGS) -MM -MF "$@" -MG -MP -MT"$@" -MT"$(<:.c=.o)" $(<)
-
-%.o: %.c %.d
+%.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
 
