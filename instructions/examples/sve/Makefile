@@ -3,14 +3,6 @@ CC = gcc
 CFLAGS :=
 RUN_PFX :=
 TARGETS :=
-
-
-# Help information
-$(info Usage: make [options])
-$(info :      STATIC=1)
-$(info :      CROSS_COMPILE=1)
-$(info :      SYSROOT=/path/to/rootfs)
-
 TARGETS += neon-sve
 
 # Cross compile
@@ -70,6 +62,17 @@ neon-sve: neon-sve.o
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
 	@$(CC) -o $(@) $(^) $(LDLIBS) $(LDFLAGS) $(LDFLAGS_$(*)) $(CFLAGS) $(CFLAGS_$(*))
+
+# Help information
+help:
+	@echo ""
+	@echo "Usage: make [options]"
+	@echo ""
+	@echo "Options:"
+	@echo "       STATIC=1"
+	@echo "       CROSS_COMPILE=1"
+	@echo "       SYSROOT=/path/to/rootfs"
+	@echo ""
 
 test:
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
