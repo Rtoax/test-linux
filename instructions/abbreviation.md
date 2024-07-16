@@ -1,3 +1,4 @@
+- ACLE: Arm C Language Extensions (Arm C语言扩展)
 - AVX: Advanced Vector Extensions (高级矢量扩展) @SIMD
 - AVX2: Advanced Vector Extensions 2 (高级矢量扩展2) @SIMD
 - BT: Binary Translator (二进制翻译) @SBT @DBT @HBT
