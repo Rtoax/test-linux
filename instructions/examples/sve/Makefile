@@ -4,20 +4,12 @@ CFLAGS :=
 RUN_PFX :=
 TARGETS :=
 
+
 # Help information
 $(info Usage: make [options])
 $(info :      STATIC=1)
 $(info :      CROSS_COMPILE=1)
 $(info :      SYSROOT=/path/to/rootfs)
-
-ifeq ($(shell lscpu | grep -w -e sve -e sve2),)
-$(warning Not support SVE/SVE2 on this CPU)
-else
-TARGETS += sve-width
-TARGETS += add_array
-TARGETS += svaddlb
-CFLAGS += -DCPU_HAVE_SVE=1
-endif
 
 TARGETS += neon-sve
 
@@ -34,16 +26,34 @@ ifdef CROSS_COMPILE
     # see: aarch64-linux-gnu-gcc -print-sysroot
     CFLAGS += --sysroot=${SYSROOT}
     RUN_PFX = qemu-aarch64 --sysroot=${SYSROOT}
+  else
+    $(error "$(shell uname -m) is not support CROSS_COMPILE")
   endif
-endif
-
-ifeq ($(shell uname -m),aarch64)
-  CFLAGS += -march=armv8-a+sve2
-  CFLAGS += -DCPU_HAVE_NEON=1
 endif
 
 ifdef STATIC
   CFLAGS += -static
+endif
+
+# All CC set done here
+MAIN_C_CODE := 'int main(void) { return 0; }'
+define check_compiler_option
+  $(shell printf '%b\n' $(MAIN_C_CODE) | \
+    $(CC) -x c -Wall - $(1) -S -o - >/dev/null 2>&1 \
+      && echo 1)
+endef
+feature-sve2 := $(findstring 1,$(call check_compiler_option,-march=armv8-a+sve+sve2))
+
+ifeq (${feature-sve2},1)
+  $(info feature-sve2 = ${feature-sve2})
+
+  TARGETS += sve-width
+  TARGETS += add_array
+  TARGETS += svaddlb
+
+  CFLAGS += -march=armv8-a+sve+sve2
+  CFLAGS += -DCPU_HAVE_NEON=1
+  CFLAGS += -DCPU_HAVE_SVE=1
 endif
 
 all: $(TARGETS)
