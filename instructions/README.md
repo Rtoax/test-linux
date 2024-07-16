@@ -58,10 +58,10 @@ Eight 128-bit registers: MM0 - MM7
 - SSE2: Added with Pentium 4 in 2000 (144 new instructions over SSE)
 - SSE3: Added with later Pentium 4 in 2004 (13 new instructions over SSE2)
 - SSSE3: Added with Xeon 5100 and early Core 2 in 2006 (contains 16 new discrete instructions)
-- SSE4: 2006
-  - SSE4.1: Added with later Core 2
-  - SSE4a: Added with Phenom
-  - SSE4.2: Added with Nehalem
+- SSE4: 2006 (consists of 54 instructions)
+  - SSE4.1: Added with later Core 2 (Intel: consists of 47 instructions)
+  - SSE4a: Added with Phenom (AMD: 4 SSE4 instructions and 4 new SSE instructions)
+  - SSE4.2: Added with Nehalem (Intel: consists of the 7 remaining instructions)
 
 
 #### SSE, SSE2, SSE3 Registers

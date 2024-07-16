@@ -12,6 +12,7 @@
 - SIMD: Single Instruction Multiple Data (单指令多数据)
 - SSE: Streaming SIMD Extensions (单指令多数据流扩展) @SIMD
 - SSE2: Streaming SIMD Extensions 2 (单指令多数据流扩展2) @SIMD
-- SSE3: Streaming SIMD Extensions 2 (单指令多数据流扩展3) @SIMD @PNI
+- SSE3: Streaming SIMD Extensions 3 (单指令多数据流扩展3) @SIMD @PNI
+- SSE4: Streaming SIMD Extensions 4 (单指令多数据流扩展4) @SIMD
 - SSSE3: Supplemental Streaming SIMD Extensions 3 (补充单指令多数据流扩展3) @SIMD
 - TNI: Tejas New Instructions () @SSSE3
