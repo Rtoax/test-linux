@@ -1,3 +1,5 @@
+SHELL = bash
+
 
 obj-m += nr_swap_pages.o
 

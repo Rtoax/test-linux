@@ -1,3 +1,5 @@
+SHELL = bash
+
 TARGETS :=
 TARGETS += usdt_test
 TARGETS += usdt_hello

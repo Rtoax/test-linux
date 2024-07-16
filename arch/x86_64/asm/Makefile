@@ -1,3 +1,5 @@
+SHELL = bash
+
 CC = gcc
 NASM = $(shell which nasm 2>/dev/null)
 LD = ld

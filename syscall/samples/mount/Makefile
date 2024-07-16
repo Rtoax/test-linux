@@ -1,3 +1,5 @@
+SHELL = bash
+
 TARGETS :=
 TARGETS += mount
 TARGETS += mount-tmpfs

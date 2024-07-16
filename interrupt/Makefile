@@ -1,3 +1,5 @@
+SHELL = bash
+
 sub-dir := Rescheduling-interrupts
 
 sub-dir-build := $(sub-dir:=.build)

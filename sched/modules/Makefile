@@ -1,3 +1,5 @@
+SHELL = bash
+
 obj-m += sched_debug.o
 obj-m += uninterruptible.o
 

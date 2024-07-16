@@ -1,3 +1,5 @@
+SHELL = bash
+
 
 obj-m += my_audit.o myaudit.o
 

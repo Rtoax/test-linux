@@ -1,3 +1,5 @@
+SHELL = bash
+
 sub-dir := cache-misses
 sub-dir += out-of-order
 sub-dir += samples

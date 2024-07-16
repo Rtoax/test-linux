@@ -1,3 +1,5 @@
+SHELL = bash
+
 sub-dir := usdt
 
 sub-dir-build := $(sub-dir:=.build)

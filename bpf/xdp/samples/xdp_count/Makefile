@@ -1,3 +1,5 @@
+SHELL = bash
+
 # ref: https://www.containiq.com/post/btf-bpf-type-format
 #
 

@@ -1,3 +1,5 @@
+SHELL = bash
+
 
 obj-m += cmpxchg.o
 

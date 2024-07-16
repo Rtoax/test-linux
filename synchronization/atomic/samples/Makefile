@@ -1,3 +1,5 @@
+SHELL = bash
+
 TARGETS :=
 TARGETS += atomic_fetch_add
 

@@ -1,3 +1,5 @@
+SHELL = bash
+
 
 TARGETS += memfd_create
 TARGETS += memfd_create-dup2

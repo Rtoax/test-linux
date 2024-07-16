@@ -1,3 +1,5 @@
+SHELL = bash
+
 
 obj-m += kobject-example.o
 obj-m += kset-example.o

@@ -1,3 +1,5 @@
+SHELL = bash
+
 # Copyright (C) Rong Tao
 include /boot/config-$(shell uname -r)
 

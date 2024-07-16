@@ -1,3 +1,5 @@
+SHELL = bash
+
 TARGETS += perf_event_open
 TARGETS += perf_event_open-2
 

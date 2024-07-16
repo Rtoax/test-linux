@@ -1,3 +1,5 @@
+SHELL = bash
+
 TARGETS :=
 TARGETS += timerfd_create
 TARGETS += timerfd_select

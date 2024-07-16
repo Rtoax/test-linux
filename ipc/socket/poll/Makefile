@@ -1,3 +1,5 @@
+SHELL = bash
+
 
 TARGETS := echo-server
 TARGETS += fork-client-server

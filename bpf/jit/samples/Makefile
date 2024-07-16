@@ -1,3 +1,5 @@
+SHELL = bash
+
 
 TARGETS := add
 ifeq ($(shell uname -m),x86_64)

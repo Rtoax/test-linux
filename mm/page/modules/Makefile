@@ -1,3 +1,5 @@
+SHELL = bash
+
 obj-m += alloc_page.o
 obj-m += dump_page.o
 obj-m += my_zero_pfn.o

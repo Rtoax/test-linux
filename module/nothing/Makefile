@@ -1,3 +1,5 @@
+SHELL = bash
+
 obj-m += nothing.o
 obj-m += reloc.o
 

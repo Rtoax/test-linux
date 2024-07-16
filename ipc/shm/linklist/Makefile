@@ -1,3 +1,5 @@
+SHELL = bash
+
 #
 # 2021-08-02	Rong Tao	Create this.
 

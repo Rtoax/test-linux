@@ -1,3 +1,5 @@
+SHELL = bash
+
 TARGETS := mq_open
 TARGETS += mq_getattr
 TARGETS += mq_notify

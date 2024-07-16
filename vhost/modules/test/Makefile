@@ -1,3 +1,5 @@
+SHELL = bash
+
 obj-m += vhost_test.o
 
 KERNELDIR ?= /lib/modules/$(shell uname -r)/build

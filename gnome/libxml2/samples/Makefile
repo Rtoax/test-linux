@@ -1,3 +1,5 @@
+SHELL = bash
+
 TARGETS :=
 TARGETS += addchild
 TARGETS += parsexml

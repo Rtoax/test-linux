@@ -1,3 +1,5 @@
+SHELL = bash
+
 sub-dir := examples
 sub-dir += translations
 

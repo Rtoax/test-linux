@@ -1,3 +1,5 @@
+SHELL = bash
+
 LKSCTP_TOOLS_DEVEL=/usr/include/netinet/sctp.h
 
 TARGETS :=

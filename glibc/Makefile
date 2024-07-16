@@ -1,3 +1,5 @@
+SHELL = bash
+
 sub-dir := arpa
 sub-dir += auxv
 sub-dir += alloca

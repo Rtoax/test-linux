@@ -1,3 +1,5 @@
+SHELL = bash
+
 NASM = $(shell which nasm 2>/dev/null)
 
 TARGETS :=

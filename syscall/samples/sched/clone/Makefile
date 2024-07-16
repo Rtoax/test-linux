@@ -1,3 +1,5 @@
+SHELL = bash
+
 TARGETS :=
 TARGETS += clone
 TARGETS += ns_pid

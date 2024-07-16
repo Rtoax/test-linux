@@ -1,3 +1,5 @@
+SHELL = bash
+
 
 all:
 	./base64.sh

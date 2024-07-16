@@ -1,3 +1,5 @@
+SHELL = bash
+
 
 TARGETS := rbtree_test
 

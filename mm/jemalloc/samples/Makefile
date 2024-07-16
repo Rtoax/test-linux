@@ -1,3 +1,5 @@
+SHELL = bash
+
 JEMALLOC_HEADER=/usr/include/jemalloc/jemalloc.h
 
 TARGETS :=

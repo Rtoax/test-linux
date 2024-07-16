@@ -1,3 +1,5 @@
+SHELL = bash
+
 TARGETS :=
 TARGETS += mode_strict
 TARGETS += mode_filter mode_filter-no-scmp

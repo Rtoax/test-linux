@@ -1,3 +1,5 @@
+SHELL = bash
+
 test-tlb: test-tlb.c
 	gcc -g -Wall -O test-tlb.c -o test-tlb -lm
 

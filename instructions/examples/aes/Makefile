@@ -1,3 +1,5 @@
+SHELL = bash
+
 
 all:
 	gcc aesdec.c -maes -o aesdec

@@ -1,3 +1,5 @@
+SHELL = bash
+
 #ifneq ($(KERNELRELEASE),)
 MODULE_NAME = shmqueue
 

@@ -1,3 +1,5 @@
+SHELL = bash
+
 sub-dir := asm
 
 sub-dir-build := $(sub-dir:=.build)

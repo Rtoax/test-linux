@@ -1,3 +1,5 @@
+SHELL = bash
+
 CC = $(shell which clang 2>/dev/null)
 
 TARGETS :=

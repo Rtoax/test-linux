@@ -1,3 +1,5 @@
+SHELL = bash
+
 # man gcc: GCC depresses SSEx instructions when -mavx is used
 
 CFLAGS_ORIG += -DTYPE_FLOAT

@@ -1,3 +1,5 @@
+SHELL = bash
+
 TARGETS :=
 TARGETS += times
 TARGETS += times-cnt times-cal

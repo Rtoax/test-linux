@@ -1,3 +1,5 @@
+SHELL = bash
+
 sub-dir := rate
 sub-dir += simple
 sub-dir += select

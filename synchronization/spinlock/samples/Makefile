@@ -1,3 +1,5 @@
+SHELL = bash
+
 
 TARGETS := pthread_none
 TARGETS += pthread_orig

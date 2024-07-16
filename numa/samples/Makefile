@@ -1,3 +1,5 @@
+SHELL = bash
+
 TARGETS :=
 TARGETS += numa_alloc
 TARGETS += numa_available

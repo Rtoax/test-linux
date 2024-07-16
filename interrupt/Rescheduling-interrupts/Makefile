@@ -1,3 +1,5 @@
+SHELL = bash
+
 TARGETS :=
 TARGETS += demo-eventfd
 ifeq ($(shell uname -m),x86_64)

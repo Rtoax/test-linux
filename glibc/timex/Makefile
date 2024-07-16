@@ -1,3 +1,5 @@
+SHELL = bash
+
 TARGETS :=
 TARGETS += ntp_adjtime
 TARGETS += ntp_gettime

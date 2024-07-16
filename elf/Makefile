@@ -1,3 +1,5 @@
+SHELL = bash
+
 sub-dir := got
 sub-dir += pie
 

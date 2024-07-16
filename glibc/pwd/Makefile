@@ -1,3 +1,5 @@
+SHELL = bash
+
 TARGETS :=
 TARGETS += setpwent getpwent endpwent
 TARGETS += putpwent

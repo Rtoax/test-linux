@@ -1,3 +1,5 @@
+SHELL = bash
+
 MODULE_NAME = shmqueue
 
 $(MODULE_NAME)-objs := shmq.o

@@ -1,3 +1,5 @@
+SHELL = bash
+
 KERN_CONFIG=/boot/config-$(shell uname -r)
 
 ifneq ($(wildcard $(KERN_CONFIG)),)

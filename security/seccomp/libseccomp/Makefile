@@ -1,3 +1,5 @@
+SHELL = bash
+
 LIBSECCOMP_HDR = /usr/include/seccomp.h
 
 TARGETS :=

@@ -1,3 +1,5 @@
+SHELL = bash
+
 TARGETS :=
 TARGETS += sendfile
 TARGETS += sendfile-tcp-server

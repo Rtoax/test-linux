@@ -1,3 +1,5 @@
+SHELL = bash
+
 
 obj-m += NR_IRQS.o
 

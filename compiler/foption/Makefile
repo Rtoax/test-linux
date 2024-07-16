@@ -1,3 +1,5 @@
+SHELL = bash
+
 TARGETS :=
 TARGETS += ffat-lto-objects
 TARGETS += fpatchable-function-entry

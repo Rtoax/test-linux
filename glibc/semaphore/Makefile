@@ -1,3 +1,5 @@
+SHELL = bash
+
 TARGETS := h2o
 
 DEBUG = yes

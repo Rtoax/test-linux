@@ -1,3 +1,5 @@
+SHELL = bash
+
 .PHONY: all
 all:
 	@echo -e "  CC  \033[1;33m SUBDIR build \033[m"

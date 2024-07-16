@@ -1,3 +1,5 @@
+SHELL = bash
+
 all:
 	sh list_usdt.sh
 	sh list_uprobe.sh

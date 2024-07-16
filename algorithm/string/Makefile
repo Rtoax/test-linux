@@ -1,3 +1,5 @@
+SHELL = bash
+
 TARGETS += huiwen
 TARGETS += reverse_string_words
 

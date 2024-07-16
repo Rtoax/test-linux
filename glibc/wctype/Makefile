@@ -1,3 +1,5 @@
+SHELL = bash
+
 TARGETS := wchar_t
 TARGETS += iswctype
 TARGETS += wcstol

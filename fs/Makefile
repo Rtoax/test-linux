@@ -1,3 +1,5 @@
+SHELL = bash
+
 sub-dir := procfs
 sub-dir += ext4
 sub-dir += xfs

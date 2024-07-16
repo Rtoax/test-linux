@@ -1,3 +1,5 @@
+SHELL = bash
+
 obj-m += virt_to_phys.o
 
 all:

@@ -1,3 +1,5 @@
+SHELL = bash
+
 sub-dir := poll
 sub-dir += epoll
 sub-dir += iovec

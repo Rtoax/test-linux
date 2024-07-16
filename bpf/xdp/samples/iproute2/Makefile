@@ -1,3 +1,5 @@
+SHELL = bash
+
 
 IFNAME=enp1s0
 

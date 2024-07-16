@@ -1,3 +1,5 @@
+SHELL = bash
+
 obj-m += create-test1.o
 
 KERNELROOT=/lib/modules/`uname -r`/build

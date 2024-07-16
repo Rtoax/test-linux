@@ -1,3 +1,5 @@
+SHELL = bash
+
 TARGETS := latency
 
 CC = gcc

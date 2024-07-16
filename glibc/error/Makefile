@@ -1,3 +1,5 @@
+SHELL = bash
+
 TARGETS :=
 TARGETS += error
 TARGETS += error_print_progname

@@ -1,3 +1,5 @@
+SHELL = bash
+
 
 obj-m += test_blackhole_dev.o
 

@@ -1,3 +1,5 @@
+SHELL = bash
+
 
 TARGETS := nr_errno
 TARGETS += EDOM

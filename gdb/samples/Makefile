@@ -1,3 +1,5 @@
+SHELL = bash
+
 TARGETS :=
 TARGETS += set-value
 TARGETS += set-value-func

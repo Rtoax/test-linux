@@ -1,3 +1,5 @@
+SHELL = bash
+
 
 TARGET=clock_gettime.out
 

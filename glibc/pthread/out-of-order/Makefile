@@ -1,3 +1,5 @@
+SHELL = bash
+
 TARGETS :=
 TARGETS += barrier
 TARGETS += no-barrier

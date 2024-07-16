@@ -1,3 +1,5 @@
+SHELL = bash
+
 obj-m += request-irq.o
 obj-m += tasklet-bh.o
 

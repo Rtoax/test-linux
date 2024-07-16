@@ -1,3 +1,5 @@
+SHELL = bash
+
 sub-dir := socket
 sub-dir += msgqueue
 sub-dir += shm

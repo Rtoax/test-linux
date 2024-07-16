@@ -1,3 +1,5 @@
+SHELL = bash
+
 obj-m += hrtimer_init.o
 
 all:

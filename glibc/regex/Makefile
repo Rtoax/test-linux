@@ -1,3 +1,5 @@
+SHELL = bash
+
 TARGETS :=
 TARGETS += regcomp
 TARGETS += re_search

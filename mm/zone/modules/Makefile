@@ -1,3 +1,5 @@
+SHELL = bash
+
 
 obj-m += zone.o
 obj-m += first_online_node.o

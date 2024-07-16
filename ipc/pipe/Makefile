@@ -1,3 +1,5 @@
+SHELL = bash
+
 sub-dir := async-latency
 sub-dir += samples
 

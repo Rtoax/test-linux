@@ -1,3 +1,5 @@
+SHELL = bash
+
 
 obj-m += numa_node_id.o
 

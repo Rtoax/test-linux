@@ -1,3 +1,5 @@
+SHELL = bash
+
 # Rong Tao, 2022.05.09
 
 ARCH=$(shell uname -m)

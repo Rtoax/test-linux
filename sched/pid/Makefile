@@ -1,3 +1,5 @@
+SHELL = bash
+
 obj-m += find_get_pid.o
 
 PWD := $(shell pwd)

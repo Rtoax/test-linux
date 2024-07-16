@@ -1,3 +1,5 @@
+SHELL = bash
+
 # ref: https://www.kernel.org/doc/html/latest/bpf/btf.html
 # 6. BTF Generation
 

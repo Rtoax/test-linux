@@ -1,3 +1,5 @@
+SHELL = bash
+
 TARGETS := pam_authenticate
 
 CC = gcc

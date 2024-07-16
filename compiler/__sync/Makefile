@@ -1,3 +1,5 @@
+SHELL = bash
+
 TARGETS := atomic_test
 TARGETS += __sync_synchronize
 ifeq ($(shell uname -m),x86_64)

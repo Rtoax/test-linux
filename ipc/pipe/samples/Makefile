@@ -1,3 +1,5 @@
+SHELL = bash
+
 TARGETS := pipe-size
 TARGETS += pipe
 TARGETS += pipe-fork

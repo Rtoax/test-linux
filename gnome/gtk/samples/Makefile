@@ -1,3 +1,5 @@
+SHELL = bash
+
 TARGETS :=
 TARGETS += builder
 TARGETS += builder-menu

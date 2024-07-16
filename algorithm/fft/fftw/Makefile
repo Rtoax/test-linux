@@ -1,3 +1,5 @@
+SHELL = bash
+
 FFTW_HDR = /usr/include/fftw3.h
 
 TARGETS :=

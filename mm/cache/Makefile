@@ -1,3 +1,5 @@
+SHELL = bash
+
 sub-dir := syscall
 
 sub-dir-build := $(sub-dir:=.build)

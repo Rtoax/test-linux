@@ -1,3 +1,5 @@
+SHELL = bash
+
 TARGETS :=
 TARGETS += getopt
 TARGETS += getopt_long

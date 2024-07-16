@@ -1,3 +1,5 @@
+SHELL = bash
+
 TARGET = hello-verifier
 ARCH = $(shell uname -m | sed 's/x86_64/x86/' | sed 's/aarch64/arm64/')
 

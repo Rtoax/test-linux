@@ -1,3 +1,5 @@
+SHELL = bash
+
 RUSTC = $(shell which rustc 2>/dev/null)
 
 TARGETS :=

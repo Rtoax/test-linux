@@ -1,3 +1,5 @@
+SHELL = bash
+
 TARGETS := crc32b
 TARGETS += crc32w
 

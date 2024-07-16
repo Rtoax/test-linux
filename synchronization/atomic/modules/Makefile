@@ -1,3 +1,5 @@
+SHELL = bash
+
 
 obj-m += atomic-test0.o
 obj-m += atomic64_test.o

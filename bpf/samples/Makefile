@@ -1,3 +1,5 @@
+SHELL = bash
+
 sub-dir := execsnoop
 
 sub-dir-build := $(sub-dir:=.build)
