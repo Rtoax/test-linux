@@ -8,4 +8,4 @@ macros() {
 }
 
 version
-macros | grep -e SSE -e AVX
+macros | grep -e SSE -e AVX -e SVE -e NEON
