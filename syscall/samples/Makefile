@@ -93,7 +93,7 @@ TARGETS += gethostid sethostid
 TARGETS += vhangup
 TARGETS += truncate ftruncate
 TARGETS += syscall
-TARGETS += sync
+TARGETS += sync syncfs
 TARGETS += getsid
 TARGETS += setsid
 TARGETS += getdomainname
@@ -204,6 +204,7 @@ truncate: truncate.o helpers.o
 ftruncate: ftruncate.o helpers.o
 syscall: syscall.o
 sync: sync.o
+syncfs: syncfs.o
 setsid: setsid.o
 getsid: getsid.o
 getdomainname: getdomainname.o

@@ -54,6 +54,7 @@
 /truncate
 /ftruncate
 /sync
+/syncfs
 /setsid
 /getsid
 /getdomainname

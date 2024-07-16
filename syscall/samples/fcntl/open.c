@@ -22,9 +22,14 @@ int sys_open_f(const char *pathname, int flags)
 
 int main(void)
 {
-	char *path = "tmp.txt";
-	mode_t mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH;
-	int fd = open(path, O_WRONLY | O_EXCL | O_CREAT, mode);
+	int fd;
+	mode_t mode;
+	char *path;
+
+	path = "tmp.txt";
+
+	mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH;
+	fd = open(path, O_WRONLY | O_EXCL | O_CREAT, mode);
 	if (fd == -1) {
 		perror("open");
 		return 1;
