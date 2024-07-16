@@ -36,8 +36,12 @@ TARGETS += vgetbv
 TARGETS += stosb memset
 TARGETS += nop
 TARGETS += rdmsr
+ifneq ($(shell lscpu | grep -w rdrand),)
 TARGETS += rdrand
+endif
+ifneq ($(shell lscpu | grep -w rdseed),)
 TARGETS += rdseed
+endif
 
 ARCH_LIB_CPUID += cpuid-x86.o
 endif
@@ -115,8 +119,10 @@ help:
 	@echo " default: user"
 
 test:
+	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
 	@echo "empty, [cd $(PWD)] to insmod"
 
 clean:
-	rm -f $(TARGETS) *.o
-	make -C ${KERNELDIR} M=$(PWD) clean
+	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
+	@rm -f $(TARGETS) *.o
+	@make -C ${KERNELDIR} M=$(PWD) clean
