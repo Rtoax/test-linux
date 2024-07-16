@@ -38,10 +38,20 @@ all: $(TARGETS)
 sve-width: sve-width.o
 add_array: add_array.o
 svaddlb: svaddlb.o
-neon-sve: neon-sve
+neon-sve: neon-sve.o
+
+%.o: %.c
+	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
+	@$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
+
+$(TARGETS): %:
+	@echo -e "  LD  \033[1;32m$(@)\033[m"
+	@$(CC) -o $(@) $(^) $(LDLIBS) $(LDFLAGS) $(LDFLAGS_$(*)) $(CFLAGS) $(CFLAGS_$(*))
 
 test:
+	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
 	$(RUN_PFX) ./sve-width
 
 clean:
-	rm -f $(TARGETS) *.o
+	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
+	@rm -f $(TARGETS) *.o
