@@ -1,13 +1,37 @@
 #include <stdio.h>
 #include <time.h>
 #include <string.h>
+#include <stdlib.h>
+#include <unistd.h>
 
+#include "helpers.h"
+
+#define TFILE "./tfile.txt"
 
 int main(void)
 {
-	struct tm __attribute__((unused)) *t;
+	FILE *fp;
+	struct tm *t;
+	char *env;
 
-	t = getdate("Thursday Thu January Jan 19 Thu Jan  1 08:00:01 1970 %");
+	fp = fopen(TFILE, "w");
+	fprintf(fp, "%%A\n");
+	fprintf(fp, "%%T\n");
+	fprintf(fp, "%%F\n");
+	fclose(fp);
+
+	setenv("DATEMSK", TFILE, 1);
+	env = getenv("DATEMSK");
+	printf("DATEMSK = %s\n", env);
+
+	t = getdate("2009-12-28");
+	if (t == NULL) {
+		printf("getdate_err = %d\n", getdate_err);
+	}
+
+	print_tm(t);
+
+	//unlink(TFILE);
 
 	return 0;
 }

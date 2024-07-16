@@ -40,7 +40,7 @@ asctime: asctime.o
 asctime_r: asctime_r.o
 ctime: ctime.o
 difftime: difftime.o
-getdate: getdate.o
+getdate: getdate.o helpers.o
 localtime: localtime.o helpers.o
 clock: clock.o
 clock_getcpuclockid: clock_getcpuclockid.o
@@ -71,4 +71,4 @@ test: ${TARGETS}
 
 clean:
 	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
-	@rm -f ${TARGETS} *.o *.d
+	@rm -f ${TARGETS} *.o *.d tfile.txt

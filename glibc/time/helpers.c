@@ -1,11 +1,15 @@
 #include <stdio.h>
 #include <time.h>
+#include <errno.h>
 
 #include "helpers.h"
 
 
 int print_tm(struct tm *tm)
 {
+	if (!tm)
+		return -EINVAL;
+
 	printf("tm_sec = %d\n", tm->tm_sec);
 	printf("tm_min = %d\n", tm->tm_min);
 	printf("tm_hour = %d\n", tm->tm_hour);
