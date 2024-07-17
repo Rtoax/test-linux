@@ -49,9 +49,9 @@ AS = $(CROSS_COMPILE)as
 AR = $(CROSS_COMPILE)ar
 CC = $(CROSS_COMPILE)gcc
 ifneq ($(shell $(CROSS_COMPILE)ld.bfd -v 2> /dev/null),)
-LD = $(CROSS_COMPILE)ld.bfd
+  LD = $(CROSS_COMPILE)ld.bfd
 else
-LD = $(CROSS_COMPILE)ld
+  LD = $(CROSS_COMPILE)ld
 endif
 
 LDFLAGS :=
@@ -70,17 +70,17 @@ ifeq ($(shell uname -m),sw_64)
 endif
 
 ifdef STATIC
-CFLAGS += -static
-$(info Defined STATIC)
+  CFLAGS += -static
+  $(info Defined STATIC)
 endif
 
 ifdef DEBUG
-CFLAGS += -DDEBUG -O0 -g -ggdb
+  CFLAGS += -DDEBUG -O0 -g -ggdb
 endif
 
 # For CROSS_COMPILE
 ifdef SYSROOT
-CFLAGS += --sysroot=$(SYSROOT)
+  CFLAGS += --sysroot=$(SYSROOT)
 endif
 
 CFLAGS_auto := -Wno-error=implicit-int
