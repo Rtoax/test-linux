@@ -28,9 +28,8 @@ ifdef STATIC
 endif
 
 # All CC set done here
-MAIN_C_CODE := 'int main(void) { return 0; }'
 define check_compiler_option
-  $(shell printf '%b\n' $(MAIN_C_CODE) | \
+  $(shell echo 'int main(void) { return 0; }' | \
     $(CC) -x c -Wall - $(1) -S -o - >/dev/null 2>&1 \
       && echo 1)
 endef
