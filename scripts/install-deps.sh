@@ -242,19 +242,18 @@ pkgs_compiler+=( bison )
 pkgs_compiler+=( byacc )
 pkgs_compiler+=( clang )
 pkgs_compiler+=( flex )
-pkgs_compiler+=( gcc gcc-c++ )
+pkgs_compiler+=( gcc )
 pkgs_compiler+=( golang )
 pkgs_compiler+=( llvm )                   # llvm-as llvm-dis llc
 
 pkgs_container+=( buildah )
 pkgs_container+=( conmon )
 pkgs_container+=( crun )
-pkgs_container+=( criu )
 pkgs_container+=( podman )
 pkgs_container+=( runc )
 pkgs_container+=( skopeo )
 
-pkgs_virt+=( qemu-kvm qemu-user )
+pkgs_virt+=( qemu-user )
 
 # Benchmark
 pkgs_bench+=( iperf iperf3 )
@@ -364,6 +363,7 @@ cclinux|fedora|centos|rhel|openEuler|almalinux|opencloudos)
 	pkgs_compiler+=( binutils-aarch64-linux-gnu )
 	pkgs_compiler+=( binutils-x86_64-linux-gnu )
 	pkgs_compiler+=( gcc-aarch64-linux-gnu )
+	pkgs_compiler+=( gcc-c++ )
 	pkgs_compiler+=( gcc-x86_64-linux-gnu )
 	pkgs_compiler+=( lua )
 
@@ -373,6 +373,7 @@ cclinux|fedora|centos|rhel|openEuler|almalinux|opencloudos)
 
 	pkgs_container+=( cri-tools )
 	pkgs_container+=( cri-o )
+	pkgs_container+=( criu )
 	pkgs_container+=( libcgroup-tools )
 	pkgs_container+=( udica )
 
@@ -385,6 +386,7 @@ cclinux|fedora|centos|rhel|openEuler|almalinux|opencloudos)
 
 	pkgs_virt+=( edk2-ovmf )
 	pkgs_virt+=( libvirt )
+	pkgs_virt+=( qemu-kvm )
 
 	args=( --skip-broken )
 	args+=( --nogpgcheck )
@@ -428,11 +430,13 @@ debian|ubuntu)
 		pkgs_base+=( linux-tools-common )
 	fi
 
+	pkgs_compiler+=( build-essential )
 	pkgs_compiler+=( rust-all )
 
 	pkgs_math+=( fftw-dev )
 
 	pkgs_virt+=( libvirt0 )
+	pkgs_virt+=( qemu-system )
 
 	[[ ${have_base} ]] && pkgs+=( ${pkgs_base[@]} )
 	[[ ${have_fs} ]] && pkgs+=( ${pkgs_fs[@]} )
