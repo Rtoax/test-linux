@@ -62,6 +62,7 @@
 /link
 /fsync
 /fdatasync
+/sync_file_range
 /getpagesize
 /rename
 /ioprio_get
