@@ -99,7 +99,7 @@ TARGETS += setsid
 TARGETS += getdomainname
 TARGETS += lseek
 TARGETS += link
-TARGETS += fsync
+TARGETS += fsync fdatasync
 TARGETS += getpagesize
 TARGETS += ioprio_get ioprio_set
 
@@ -210,6 +210,7 @@ getsid: getsid.o
 getdomainname: getdomainname.o
 link: link.o helpers.o
 fsync: fsync.o
+fdatasync: fdatasync.o
 getpagesize: getpagesize.o
 ioprio_get: ioprio_get.o
 ioprio_set: ioprio_set.o

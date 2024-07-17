@@ -61,6 +61,7 @@
 /lseek
 /link
 /fsync
+/fdatasync
 /getpagesize
 /rename
 /ioprio_get
