@@ -67,10 +67,21 @@ mask: mask.o
 vperm2i128: vperm2i128.os
 kxord: kxord.os
 
+ifeq ($(CC),clang)
+  # If clang, i want to get IR
+  define clang_emit_llvm
+    @$(CC) $(CFLAGS) $(CFLAGS_$(*)) -S -emit-llvm $(1) -o $(1:.c=.ll)
+  endef
+else
+  define clang_emit_llvm
+  endef
+endif
+
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
 	@objdump -d $(@) > $(@).obj.s
+	$(call clang_emit_llvm,$(<))
 
 %.oS: %.S
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
@@ -94,4 +105,4 @@ test:
 
 clean:
 	@echo -e "  CLEAN \033[1;32m$(TARGETS) $(TARGETS_asm)\033[m"
-	@rm -f $(TARGETS) $(TARGETS_asm) *.o *.obj.s *.oS *.os
+	@rm -f $(TARGETS) $(TARGETS_asm) *.o *.obj.s *.oS *.os *.ll
