@@ -11,6 +11,7 @@
 - ISS: Instruction Set Simulator (指令集模拟)
 - MMX: Matrix Math eXtension (or MultiMedia eXtension) @SIMD
 - MNI: Merom New Instructions () @SSSE3
+- NEON: ? () @ARM @SIMD
 - PNI: Prescott New Instructions (Prescott 新指令) @SSE3
 - RISC: Reduced Instruction Set Computer (精简指令集计算机) @CISC
 - SBNI: Sandy Bridge New Instructions () @AVX
@@ -21,4 +22,6 @@
 - SSE3: Streaming SIMD Extensions 3 (单指令多数据流扩展3) @SIMD @PNI
 - SSE4: Streaming SIMD Extensions 4 (单指令多数据流扩展4) @SIMD
 - SSSE3: Supplemental Streaming SIMD Extensions 3 (补充单指令多数据流扩展3) @SIMD
+- SVE: Scalable Vector Extensions (可伸缩向量扩展) @ARM @SIMD @SVE2
+- SVE2: Scalable Vector Extensions 2 (可伸缩向量扩展2) @ARM @SIMD @SVE
 - TNI: Tejas New Instructions () @SSSE3
