@@ -7,6 +7,8 @@ TARGETS :=
 
 ifneq ($(JAVAC),)
 TARGETS += hello.class
+TARGETS += malloc.class
+TARGETS += url_GET.class
 else
 $(warning "Not found javac compiler")
 endif
@@ -14,6 +16,8 @@ endif
 all: $(TARGETS)
 
 hello.class: hello.java
+malloc.class: malloc.java
+url_GET.class: url_GET.java
 
 $(TARGETS): %:
 	@echo -e "  JAVAC  \033[1;32m$(@)\033[m"
