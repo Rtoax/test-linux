@@ -1,0 +1,8 @@
+# Check compiler support option or not
+# $(1) - compiler
+# $(2) - compile option
+define check_compiler_option
+  $(shell echo 'int main(void) { return 0; }' | \
+    $(1) -x c -Wall - $(2) -S -o - >/dev/null 2>&1 \
+      && echo 1)
+endef

@@ -28,12 +28,8 @@ ifdef STATIC
 endif
 
 # All CC set done here
-define check_compiler_option
-  $(shell echo 'int main(void) { return 0; }' | \
-    $(CC) -x c -Wall - $(1) -S -o - >/dev/null 2>&1 \
-      && echo 1)
-endef
-feature-sve2 := $(findstring 1,$(call check_compiler_option,-march=armv8-a+sve+sve2))
+include ../../../scripts/check_compiler_option.mk
+feature-sve2 := $(findstring 1,$(call check_compiler_option,$(CC),-march=armv8-a+sve+sve2))
 
 ifeq (${feature-sve2},1)
   $(info feature-sve2 = ${feature-sve2})
