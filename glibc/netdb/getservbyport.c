@@ -15,7 +15,9 @@ static void __port(int port, char *proto)
 
 int main(void)
 {
+	__port(htons(22), "tcp");
 	__port(htons(23), "tcp");
 	__port(htons(80), "tcp");
+	__port(htons(8080), "tcp");
 	return 0;
 }

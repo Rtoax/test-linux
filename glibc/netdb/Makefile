@@ -14,6 +14,7 @@ TARGETS += innetgr
 TARGETS += getprotoent getprotobyname getprotobynumber
 TARGETS += getnetbyname
 TARGETS += getipnodebyname
+TARGETS += herror
 
 CC = gcc
 
@@ -47,6 +48,7 @@ getprotobynumber: getprotobynumber.o helpers.o
 getprotobyname: getprotobyname.o helpers.o
 getnetbyname: getnetbyname.o helpers.o
 getipnodebyname: getipnodebyname.o
+herror: herror.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

@@ -17,5 +17,6 @@ int main(void)
 {
 	__name("ftp", "tcp");
 	__name("http", "tcp");
+	__name("_not_exist_", "tcp");
 	return 0;
 }
