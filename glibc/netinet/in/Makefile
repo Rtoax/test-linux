@@ -1,6 +1,8 @@
 SHELL = bash
 
 TARGETS := IPPORT_
+TARGETS += inet6_opt_
+TARGETS += inet6_rth_
 
 CC = gcc
 
@@ -11,6 +13,8 @@ build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
 IPPORT_: IPPORT_.o
+inet6_opt_: inet6_opt_.o
+inet6_rth_: inet6_rth_.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
