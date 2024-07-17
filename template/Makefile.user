@@ -4,8 +4,6 @@
 STDIO_HEADER = /usr/include/stdio.h
 KERN_CONFIG=/boot/config-$(shell uname -r)
 
-pound := \#
-
 ifneq ($(wildcard $(KERN_CONFIG)),)
 include ${KERN_CONFIG}
 else
@@ -50,19 +48,10 @@ CFLAGS += -static
 $(info Defined STATIC)
 endif
 
-# Probe a function with non-output gcc command
+include ../scripts/libc-printf.mk
 # The following demostration is probe printf(3) function, and add macro to
 # CFLAGS.
-PRINTF_PROBE := '$(pound)include <stdio.h>\n'
-PRINTF_PROBE += 'int main(void) {\n'
-PRINTF_PROBE += '	printf("hello\\n");\n'
-PRINTF_PROBE += '}'
-define printf_build
-  $(shell printf '%b\n' $(PRINTF_PROBE) | \
-    $(CC) -x c -Wall - $(1) -S -o - >/dev/null 2>&1 \
-      && echo 1)
-endef
-feature-printf := $(findstring 1,$(call printf_build,-pthread))
+feature-printf := $(findstring 1,$(call probe_libc_printf))
 ifeq ($(feature-printf),1)
   CFLAGS += -DHAVE_PRINTF=1
 endif
