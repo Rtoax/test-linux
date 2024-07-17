@@ -1,15 +1,30 @@
-SHELL = bash
-
 #
 # 2021-08-02	Rong Tao	Create this.
+SHELL = bash
 
-INC = -I.
-LIB = mlinklist.c
-GDB = -g -ggdb
+TARGETS :=
+TARGETS += consumer producer
 
-all:
-	gcc consumer.c ${LIB} ${INC} ${GDB} -o consumer
-	gcc producer.c ${LIB} ${INC} ${GDB} -o producer
+CFLAGS :=
+CFLAGS += -I. -ggdb
+
+ALL: $(TARGETS)
+
+consumer: consumer.o mlinklist.o
+producer: producer.o mlinklist.o
+
+%.o: %.c
+	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
+	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
+
+$(TARGETS): %:
+	@echo -e "  LD  \033[1;32m$(@)\033[m"
+	@$(CC) $(CFLAGS) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
+
+test: $(TARGETS)
+	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
+	./producer && ./consumer
 
 clean:
-	rm -f consumer producer test.mmap
+	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
+	@rm -f ${TARGETS} *.o test.mmap
