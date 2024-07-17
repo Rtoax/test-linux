@@ -232,7 +232,6 @@ pkgs_base+=( sparse )               # sparse
 pkgs_base+=( strace )
 pkgs_base+=( smartmontools )        # smartctl
 pkgs_base+=( sysstat )
-pkgs_base+=( systemd-udev )         # coredumpctl
 pkgs_base+=( tmux )
 pkgs_base+=( tree )
 pkgs_base+=( util-linux )           # wipefs, etc.
@@ -243,38 +242,28 @@ pkgs_compiler+=( bison )
 pkgs_compiler+=( byacc )
 pkgs_compiler+=( clang )
 pkgs_compiler+=( flex )
-pkgs_compiler+=( gcc-aarch64-linux-gnu )
 pkgs_compiler+=( gcc gcc-c++ )
 pkgs_compiler+=( golang )
 pkgs_compiler+=( llvm )                   # llvm-as llvm-dis llc
-pkgs_compiler+=( lua )
 
 pkgs_container+=( buildah )
 pkgs_container+=( conmon )
 pkgs_container+=( crun )
-pkgs_container+=( cri-tools )
 pkgs_container+=( criu )
-pkgs_container+=( cri-o )
-pkgs_container+=( libcgroup-tools )
 pkgs_container+=( podman )
 pkgs_container+=( runc )
 pkgs_container+=( skopeo )
-pkgs_container+=( udica )
 
-pkgs_virt+=( edk2-ovmf )
-pkgs_virt+=( libvirt )
 pkgs_virt+=( qemu-kvm qemu-user )
 
 # Benchmark
 pkgs_bench+=( iperf iperf3 )
 pkgs_bench+=( fio )
-pkgs_bench+=( sysbench )
 
 # Desktop Packages
 pkgs_desktop+=( terminator )
 pkgs_desktop+=( gimp )
 pkgs_desktop+=( gnuplot )
-pkgs_desktop+=( gtk3 )
 pkgs_desktop+=( python3-matplotlib )
 
 # Database
@@ -359,9 +348,12 @@ cclinux|fedora|centos|rhel|openEuler|almalinux|opencloudos)
 	pkgs_base+=( readline-devel )
 	pkgs_base+=( scl-utils )
 	pkgs_base+=( sg3_utils )            # sg_inq, etc.
+	pkgs_base+=( systemd-udev )         # coredumpctl
 	pkgs_base+=( systemtap-sdt-devel )  # sdt.h
 	pkgs_base+=( vim-default-editor )
 	pkgs_base+=( xz-devel )
+
+	pkgs_bench+=( sysbench )
 
 	# Filesystem
 	pkgs_fs+=( ocfs2-tools )
@@ -373,16 +365,26 @@ cclinux|fedora|centos|rhel|openEuler|almalinux|opencloudos)
 	pkgs_compiler+=( binutils-x86_64-linux-gnu )
 	pkgs_compiler+=( gcc-aarch64-linux-gnu )
 	pkgs_compiler+=( gcc-x86_64-linux-gnu )
+	pkgs_compiler+=( lua )
 
 	pkgs_compiler+=( java-1.8.0-openjdk-devel )
 	pkgs_compiler+=( libgccjit-devel )
 	pkgs_compiler+=( rust )
 
+	pkgs_container+=( cri-tools )
+	pkgs_container+=( cri-o )
+	pkgs_container+=( libcgroup-tools )
+	pkgs_container+=( udica )
+
+	pkgs_desktop+=( gtk3 )
 	pkgs_desktop+=( gtk3-devel )
 
 	pkgs_math+=( fftw-devel )
 
 	pkgs_db+=( libpq-devel )
+
+	pkgs_virt+=( edk2-ovmf )
+	pkgs_virt+=( libvirt )
 
 	args=( --skip-broken )
 	args+=( --nogpgcheck )
@@ -429,6 +431,8 @@ debian|ubuntu)
 	pkgs_compiler+=( rust-all )
 
 	pkgs_math+=( fftw-dev )
+
+	pkgs_virt+=( libvirt0 )
 
 	[[ ${have_base} ]] && pkgs+=( ${pkgs_base[@]} )
 	[[ ${have_fs} ]] && pkgs+=( ${pkgs_fs[@]} )
