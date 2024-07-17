@@ -2,6 +2,7 @@ SHELL = bash
 
 sub-dir := c
 sub-dir += lr
+sub-dir += samples
 
 sub-dir-build := $(sub-dir:=.build)
 sub-dir-clean := $(sub-dir:=.clean)
