@@ -25,7 +25,7 @@ int avx(float a[N], float b[N], float c[N])
 	__m256 mask;
 	__m256 blendv;
 
-	for (i = 0; i < 1; i++){
+	for (i = 0; i < 1; i++) {
 		ymm_a = _mm256_loadu_ps(a +i * 8);
 		ymm_b = _mm256_loadu_ps(b +i * 8);
 		ymm_c = _mm256_loadu_ps(c +i * 8);
@@ -39,7 +39,7 @@ int avx(float a[N], float b[N], float c[N])
 		printf("%f, %f, %f, %f, %f, %f, %f, %f\n",
 			blendv[0], blendv[1], blendv[2], blendv[3],
 			blendv[4], blendv[5], blendv[6], blendv[7]);
-		_mm256_storeu_ps(a + i*8, blendv);
+		_mm256_storeu_ps(a + i * 8, blendv);
 	}
 	return 0;
 }
@@ -56,6 +56,7 @@ int main(void)
 		printf("Success\n");
 	else
 		printf("Failed\n");
+
 	return 0;
 }
 
