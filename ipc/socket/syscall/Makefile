@@ -11,6 +11,7 @@ TARGETS += listen
 TARGETS += accept
 TARGETS += connect
 TARGETS += shutdown
+TARGETS += recv
 TARGETS += tcp-srv-1 tcp-clt-1
 
 ifeq ($(shell uname -m),x86_64)
@@ -46,6 +47,7 @@ listen: listen.o
 accept: accept.o
 connect: connect.o fd.o
 shutdown: shutdown.o
+recv: recv.o
 tcp-srv-1: tcp-srv-1.o
 tcp-clt-1: tcp-clt-1.o
 
