@@ -12,6 +12,7 @@ int orig(float a[N], float b[N], float c[N])
 		else
 			a[i] = c[i] - a[i];
 	}
+	return 0;
 }
 
 int avx(float a[N], float b[N], float c[N])
@@ -40,6 +41,7 @@ int avx(float a[N], float b[N], float c[N])
 			blendv[4], blendv[5], blendv[6], blendv[7]);
 		_mm256_storeu_ps(a + i*8, blendv);
 	}
+	return 0;
 }
 
 int main(void)

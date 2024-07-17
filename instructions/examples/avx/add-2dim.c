@@ -10,6 +10,7 @@ int add_c(double a[N][N], double b[N][N], double c[N][N])
 		for (j = 0; j < N; j++)
 			c[i][j] = a[i][j] + b[i][j];
 	}
+	return 0;
 }
 
 int add_avx2(double a[N][N], double b[N][N], double c[N][N])
@@ -27,6 +28,7 @@ int add_avx2(double a[N][N], double b[N][N], double c[N][N])
 			_mm256_storeu_pd(*(c + i) + j * 4, avx_sum0);
 		}
 	}
+	return 0;
 }
 
 int main(void)
