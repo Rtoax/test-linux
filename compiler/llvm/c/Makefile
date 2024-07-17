@@ -4,11 +4,14 @@ TARGETS :=
 
 CLANG = $(shell which clang 2>/dev/null)
 LLVM_CONFIG = $(shell which llvm-config 2>/dev/null)
+LLVM_AS = $(shell which llvm-as 2>/dev/null)
+LLVM_DIS = $(shell which llvm-dis 2>/dev/null)
+LLC = $(shell which llc 2>/dev/null)
 
 ifeq ($(CLANG),)
-$(warning Not found clang, please install clang first)
+  $(warning Not found clang, please install clang first)
 else
-TARGETS += hello
+  TARGETS += hello
 endif
 
 CC = ${CLANG}
@@ -19,9 +22,9 @@ CFLAGS += -Wstrict-prototypes
 LLVM_CFLAGS :=
 
 ifeq ($(LLVM_CONFIG),)
-$(warning Not found llvm-config, please install llvm first)
+  $(warning Not found llvm-config, please install llvm first)
 else
-LLVM_CFLAGS += $(shell llvm-config --cflags)
+  LLVM_CFLAGS += $(shell llvm-config --cflags)
 endif
 
 CFLAGS += -DDEBUG -O0 -g
@@ -40,9 +43,9 @@ CFLAGS_hello +=
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
 	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -S -emit-llvm $(<) -o $(<:.c=.ll)
-	llvm-as $(<:.c=.ll) -o $(<:.c=.bc)
-	llvm-dis $(<:.c=.bc) -o $(<:.c=.dis.ll)
-	llc $(<:.c=.ll) -o $(<:.c=.s)
+	$(LLVM_AS) $(<:.c=.ll) -o $(<:.c=.bc)
+	$(LLVM_DIS) $(<:.c=.bc) -o $(<:.c=.dis.ll)
+	$(LLC) $(<:.c=.ll) -o $(<:.c=.s)
 	# TODO: fatal error: 'stdio.h' file not found
 	@$(CC) -cc1 -ast-print $(<) || true
 

@@ -216,7 +216,6 @@ pkgs_base+=( gnupg2 )               # gpg
 pkgs_base+=( gperf )
 pkgs_base+=( hwloc )                # lstopo
 pkgs_base+=( inotify-tools )        # inotifywatch, ...
-pkgs_base+=( llvm )                 # llvm-as llvm-dis llc
 pkgs_base+=( lshw )                 # lshw
 pkgs_base+=( make cmake )
 pkgs_base+=( nasm )                 # nasm
@@ -247,6 +246,7 @@ pkgs_compiler+=( flex )
 pkgs_compiler+=( gcc-aarch64-linux-gnu )
 pkgs_compiler+=( gcc gcc-c++ )
 pkgs_compiler+=( golang )
+pkgs_compiler+=( llvm )                   # llvm-as llvm-dis llc
 pkgs_compiler+=( lua )
 
 pkgs_container+=( buildah )

@@ -1,4 +1,6 @@
 /*.ll
+/*.bc
+/*.llc.s
 /*.obj.s
 /*.oS
 /*.os

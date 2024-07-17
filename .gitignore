@@ -80,6 +80,7 @@ modules.order
 *.d.dtc.tmp
 *.d.pre.tmp
 *.dts.tmp
+*.o.tmp
 
 # vim temp swap file
 *.swp

@@ -1,5 +1,10 @@
 SHELL = bash
 
+LLVM_CONFIG = $(shell which llvm-config 2>/dev/null)
+LLVM_AS = $(shell which llvm-as 2>/dev/null)
+LLVM_DIS = $(shell which llvm-dis 2>/dev/null)
+LLC = $(shell which llc 2>/dev/null)
+
 CC = gcc
 
 TARGETS :=
@@ -71,6 +76,9 @@ ifeq ($(CC),clang)
   # If clang, i want to get IR
   define clang_emit_llvm
     @$(CC) $(CFLAGS) $(CFLAGS_$(*)) -S -emit-llvm $(1) -o $(1:.c=.ll)
+    @$(LLVM_AS) $(1:.c=.ll) -o $(1:.c=.bc)
+    @$(LLVM_DIS) $(1:.c=.bc) -o $(1:.c=.dis.ll)
+    @$(LLC) $(1:.c=.ll) -o $(1:.c=.llc.s)
   endef
 else
   define clang_emit_llvm
@@ -101,8 +109,10 @@ $(TARGETS_asm): %:
 	@$(LD) -o $(@) $(^)
 
 test:
+	@echo -e "  TEST  \033[1;32m$(TARGETS) ${TARGETS_asm}\033[m"
 	@echo "empty"
 
 clean:
 	@echo -e "  CLEAN \033[1;32m$(TARGETS) $(TARGETS_asm)\033[m"
-	@rm -f $(TARGETS) $(TARGETS_asm) *.o *.obj.s *.oS *.os *.ll
+	@rm -f $(TARGETS) $(TARGETS_asm) \
+		*.o *.obj.s *.oS *.os *.ll *.llc.s *.bc
