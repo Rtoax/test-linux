@@ -9,6 +9,7 @@ $(warning "WARNING: not found ${KERN_CONFIG}")
 endif
 
 TARGETS :=
+TARGETS += msync
 TARGETS += fexecve
 TARGETS += mmap-anon
 TARGETS += mmap-file
@@ -40,6 +41,7 @@ build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
 # Add more object.o file
+msync: msync.o
 fexecve: fexecve.o
 mmap-anon: mmap-anon.o
 mmap-file: mmap-file.o
