@@ -10,6 +10,10 @@ $(info feature-sve2 ${feature-sve2})
 $(info feature-avx2 ${feature-avx2})
 $(info feature-avx512 ${feature-avx512})
 
+ifeq (${feature-sve2},1)
+  $(info CPU support SVE2)
+endif
+
 all:
 	@echo -e "  \033[1;33mDone\033[m"
 test:
