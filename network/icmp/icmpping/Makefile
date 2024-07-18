@@ -1,21 +1,27 @@
 SHELL = bash
 
-ICMP_INC := -I ./
-ICMP_SRC := icmpping.c
+TARGETS :=
+TARGETS += icmping
 
-ICMP_DEP := icmpping.o
+CC = gcc
 
-ICMP_TARGET = icmpping
+.PHONY: build
+build: ${TARGETS}
 
-all:$(ICMP_TARGET)
+icmping: main.o icmpping.o
 
+%.o: %.c
+	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
+	@$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
 
-$(ICMP_DEP): $(ICMP_SRC)
-	gcc -c $(ICMP_SRC) $(ICMP_INC) -o $(ICMP_DEP)
+$(TARGETS): %:
+	@echo -e "  LD  \033[1;32m$(@)\033[m"
+	@$(CC) -o $(@) $(^) $(LDLIBS) $(LDFLAGS) $(LDFLAGS_$(*)) $(CFLAGS) $(CFLAGS_$(*))
 
-$(ICMP_TARGET): $(ICMP_DEP)
-	gcc $(ICMP_DEP) main.c $(ICMP_INC) -o $(ICMP_TARGET)
+test: ${TARGETS}
+	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
 
+.PHONY: clean
 clean:
-	rm -f $(ICMP_DEP) $(ICMP_TARGET)
-
+	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
+	@rm -f ${TARGETS} *.o

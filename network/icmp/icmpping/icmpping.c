@@ -50,12 +50,14 @@ typedef struct __icmp_ping_s {
 	int timeout_s;  //time out second
 	int (*log)(const char *fmt, ...);
 	int rslt; //__ICMP_PING_XXXX
-}icmp_ping_t;
+} icmp_ping_t;
 
 
 /* functions */
-static icmp_ping_t* icmp_ping_init(const char *ipv4, int timeout_sec, int ntry, int (*log)(const char *fmt, ...));
-int icmp_ping(const char *ipv4, unsigned int timeout, int ntry, int (*log)(const char *fmt, ...), long int *latency);
+static icmp_ping_t* icmp_ping_init(const char *ipv4, int timeout_sec, int ntry,
+				   int (*log)(const char *fmt, ...));
+int icmp_ping(const char *ipv4, unsigned int timeout, int ntry,
+	      int (*log)(const char *fmt, ...), long int *latency);
 static void icmp_ping_finish (icmp_ping_t *ping);
 static int icmp_ping_destroy(icmp_ping_t* ping);
 
@@ -63,7 +65,8 @@ static int icmp_ping_destroy(icmp_ping_t* ping);
 static int icmp_socket();
 static int icmp_dst_addr(const char *addrHost, struct sockaddr_in * dst_addr);
 static unsigned short icmp_gen_chksum(unsigned short * data, int len);
-static int icmp_pkg_pack(void *buffer, int pack_no, const void *data, int data_size);
+static int icmp_pkg_pack(void *buffer, int pack_no, const void *data,
+			 int data_size);
 static int icmp_send_pkg(icmp_ping_t *ping, const void *data, int size);
 static int icmp_recv_pkg(icmp_ping_t *ping, void *recvbuf, int size);
 static int icmp_pkg_unpack(icmp_ping_t *ping, char * buf, int len);
@@ -97,7 +100,7 @@ static unsigned short icmp_gen_chksum(unsigned short * data, int len)
 }
 
 /* create a socke to icmp */
-static int icmp_socket()
+static int icmp_socket(void)
 {
 	int sockfd;
 	int size = ICMP_RECVBUF_SIZE;
@@ -118,7 +121,7 @@ static int icmp_socket()
 		return -1;
 	}
 #if 1
-	struct timeval timeout = {1,0}; //sec
+	struct timeval timeout = {1, 0};
 	if (setsockopt(sockfd, SOL_SOCKET, SO_RCVTIMEO, (char*)&timeout, sizeof(struct timeval))!=0) {
 		ICMP_LOG_ERR("setsockopt SO_RCVTIMEO error.\n\r");
 		close(sockfd);
