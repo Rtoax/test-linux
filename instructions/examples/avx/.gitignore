@@ -17,6 +17,7 @@
 /add-2dim
 /mask
 /vperm2i128
+/vfmadd231ps
 /kxord
 /ctrl_flow-f4
 /reducetion-f4

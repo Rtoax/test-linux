@@ -26,6 +26,7 @@ TARGETS += cvt-df
 TARGETS += mask
 
 TARGETS_asm := vperm2i128
+TARGETS_asm += vfmadd231ps
 TARGETS_asm += kxord
 
 all: $(TARGETS) $(TARGETS_asm)
@@ -70,6 +71,7 @@ add-unalign-f4: add-unalign-f4.o
 cvt-df: cvt-df.o
 mask: mask.o
 vperm2i128: vperm2i128.os
+vfmadd231ps: vfmadd231ps.os
 kxord: kxord.os
 
 ifeq ($(CC),clang)
