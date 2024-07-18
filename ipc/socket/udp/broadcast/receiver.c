@@ -34,7 +34,7 @@ int main(int argc,char *argv[])
 	if (bind(sock, (struct sockaddr*)&addr, sizeof(addr)) == -1)
 		error_handling("bind() error");
 
-	while (1){
+	while (1) {
 		str_len = recvfrom(sock, message, BUF_SIZE - 1, 0, NULL, NULL);
 		if (str_len <= 0)
 			break;

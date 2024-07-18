@@ -3,13 +3,15 @@ SHELL = bash
 CC := gcc
 
 TARGETS :=
-TARGETS += receiver
-TARGETS += sender
+TARGETS += receiver sender
+TARGETS += server client
 
 ALL: $(TARGETS)
 
 receiver: receiver.o
 sender: sender.o
+server: server.o
+client: client.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
