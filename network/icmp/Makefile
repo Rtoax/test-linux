@@ -1,13 +1,10 @@
 SHELL = bash
 
 sub-dir :=
-sub-dir += icmp
+sub-dir += icmpping
 
 TARGETS :=
-TARGETS += ethtool
-TARGETS += tcpdump
-TARGETS += ifconfig
-TARGETS += ping
+TARGETS += icmp_checksum
 
 CC = gcc
 
@@ -17,10 +14,7 @@ sub-dir-clean := $(sub-dir:=.clean)
 .PHONY: build
 build: ${TARGETS} $(sub-dir-build)
 
-ethtool: ethtool.o
-tcpdump: tcpdump.o
-ifconfig: ifconfig.o
-ping: ping.o
+icmp_checksum: icmp_checksum.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
