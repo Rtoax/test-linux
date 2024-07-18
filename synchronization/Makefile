@@ -2,6 +2,7 @@ SHELL = bash
 
 sub-dir := atomic
 sub-dir += semaphore
+sub-dir += mcs_spinlock/dpdk
 
 sub-dir-build := $(sub-dir:=.build)
 sub-dir-clean := $(sub-dir:=.clean)
