@@ -5,11 +5,14 @@
 - GPA: Guest Physical Address
 - GVA: Guest Virtual Address
 - HPA: Host Physical Address
-- IOMMU: Input/Output Memory Management Unit (IO内存管理单元) @MMU @SMMU
+- IOMMU: Input/Output Memory Management Unit (IO内存管理单元,AMD) @MMU @SMMU
 - IOVA: IO Virtual Address space (IO虚拟地址空间)
 - IPA: Intermediate Phyical Address (中间物理地址)
 - KVM: Kernel Virtual Machine
 - NPT: Nested Page Table (嵌套页表) @EPT
 - S2TTB：Stage 2 Translate Table Base (第二阶段翻译表库)
 - SMMU: System MMU (系统内存管理单元) @MMU @IOMMU
-- VT-d: Virtualization Technology for Directed I/O (直接I/O虚拟化技术)
+- SVM: Secure Virtual Machine (安全虚拟机)
+- VMCS: Virtual Machine Control Structure (虚拟机控制结构)
+- VMX: Virtual Machine Extensions (虚拟机扩展)
+- VT-d: Virtualization Technology for Directed I/O (直接I/O虚拟化技术,Intel)
