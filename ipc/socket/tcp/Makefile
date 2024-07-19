@@ -6,6 +6,7 @@ sub-dir += epoll
 sub-dir += poll
 sub-dir += splice
 sub-dir += ftp
+sub-dir += ipv6
 
 TARGETS += tcp-syn-flood
 
