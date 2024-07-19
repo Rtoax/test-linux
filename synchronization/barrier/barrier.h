@@ -4,6 +4,8 @@
 #include "barrier-x86.h"
 #elif defined(__sw_64__)
 #include "barrier-sw64.h"
+#elif defined(__riscv)
+#include "barrier-riscv.h"
 #else
 # error "Not support cpu architecture"
 #endif

@@ -4,6 +4,8 @@
 #include "x86_64/asm/cpu_relax.h"
 #elif defined(__sw_64__)
 #include "sw_64/asm/cpu_relax.h"
+#elif defined(__riscv) && __riscv_xlen == 64
+#include "riscv64/asm/cpu_relax.h"
 #endif
 
 int main(void)
