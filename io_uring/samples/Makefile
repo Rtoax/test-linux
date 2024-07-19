@@ -1,6 +1,5 @@
 SHELL = bash
 
-
 TARGETS :=
 TARGETS += io_uring-cat
 TARGETS += io_uring-cat-liburing
@@ -10,9 +9,7 @@ TARGETS += ordinary-cat
 TARGETS += link-cp
 TARGETS += io_uring-test
 
-
 DEBUG = yes
-SRC_PATH := $(shell pwd)
 CC = gcc
 
 CFLAGS := -Werror -Wall -luring
