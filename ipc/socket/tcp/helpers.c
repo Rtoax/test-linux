@@ -18,6 +18,15 @@
 #include <netinet/tcp.h>
 #include <arpa/inet.h>
 
+/**
+ *  Nagle 算法为了避免网络中存在太多的小数据包，尽可能发送大的数据包。
+ *  定义为在任意时刻，最多只有一个未被确认的小段。小段为小于MSS尺寸的
+ *  数据块，未被确认是指数据发出去后未收到对端的ack。
+ *
+ *  Nagle 算法是在网速较慢的时代的产物，目前的网络环境已经不太需要该机
+ *  制，该算法在linux系统中默认关闭。
+ */
+
 void tcp_nodelay(int fd)
 {
 	int value = 1;
@@ -25,6 +34,10 @@ void tcp_nodelay(int fd)
 		perror("setsockopt(TCP_NODELAY):");
 }
 
+/**
+ *  libautocork
+ *  git://git.kernel.org/pub/scm/linux/kernel/git/acme/libautocork
+ */
 static void tcp_cork_value(int fd, int cork)
 {
 	int value = cork;
