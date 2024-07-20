@@ -17,6 +17,11 @@ int main(int argc, char* argv[])
 	struct ip_mreq join_addr;
 	const int loopback = 0;
 
+	if (argc < 2) {
+		fprintf(stderr, "%s [IP]\n", argv[0]);
+		exit(1);
+	}
+
 	sock = socket(AF_INET, SOCK_DGRAM, 0);
 	memset(&addr, 0, sizeof(addr));
 
@@ -28,7 +33,8 @@ int main(int argc, char* argv[])
 
 	join_addr.imr_multiaddr.s_addr = inet_addr(argv[1]);
 	join_addr.imr_interface.s_addr = htonl(INADDR_ANY);
-	setsockopt(sock,IPPROTO_IP, IP_ADD_MEMBERSHIP, (void*)&join_addr, sizeof(join_addr));
+
+	setsockopt(sock, IPPROTO_IP, IP_ADD_MEMBERSHIP, (void*)&join_addr, sizeof(join_addr));
 
 	if (bind(sock, (struct sockaddr*)&addr, sizeof(addr)) == -1)
 		error_handling("bind error");

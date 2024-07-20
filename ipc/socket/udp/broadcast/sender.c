@@ -22,6 +22,11 @@ int main(int argc,char* argv[])
 	char message[BUF_SIZE];
 	int so_brd = 1;
 
+	if (argc < 2) {
+		fprintf(stderr, "%s [IP]\n", argv[0]);
+		exit(1);
+	}
+
 	sock = socket(AF_INET, SOCK_DGRAM, 0);
 	if (sock == -1)
 		error_handling("socket() error");
