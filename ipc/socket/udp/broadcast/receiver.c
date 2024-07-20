@@ -8,7 +8,7 @@
 #define PORT 1235
 #define BUF_SIZE 30
 
-void error_handling(const char* message)
+void error_handling(const char *message)
 {
 	fputs(message, stderr);
 	fputc('\n', stderr);

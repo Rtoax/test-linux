@@ -32,19 +32,22 @@ int main(int argc ,char* argv[])
 	addr.sin_addr.s_addr = inet_addr(argv[1]);
 	addr.sin_port = htons(PORT);
 
-	setsockopt(sock, IPPROTO_IP, IP_MULTICAST_LOOP, (char*)&loopback, sizeof(loopback));
+	setsockopt(sock, IPPROTO_IP, IP_MULTICAST_LOOP, (char *)&loopback,
+		   sizeof(loopback));
 
 	/* 设置生存时间为64，也就是最多经过64个路由器的转发 */
 	time_live = 64;
-	setsockopt(sock, IPPROTO_IP, IP_MULTICAST_TTL, (void*)&time_live, sizeof(time_live));
+	setsockopt(sock, IPPROTO_IP, IP_MULTICAST_TTL, (void *)&time_live,
+		   sizeof(time_live));
 
-	fp = fopen("/etc/os-release","r");
+	fp = fopen("/etc/os-release", "r");
 	if (fp == NULL)
 		error_handling("fopen error");
 
 	while (!feof(fp)) {
 		fgets(buf, BUF_SIZE, fp);
-		sendto(sock, buf, strlen(buf), 0, (struct sockaddr*)&addr, sizeof(addr));
+		sendto(sock, buf, strlen(buf), 0, (struct sockaddr*)&addr,
+			sizeof(addr));
 		sleep(1);
 	}
 

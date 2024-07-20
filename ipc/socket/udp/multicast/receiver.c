@@ -29,12 +29,13 @@ int main(int argc, char* argv[])
 	addr.sin_addr.s_addr = htonl(INADDR_ANY);
 	addr.sin_port = htons(PORT);
 
-	setsockopt(sock, IPPROTO_IP, IP_MULTICAST_LOOP, (char*)&loopback, sizeof(loopback));
+	setsockopt(sock, IPPROTO_IP, IP_MULTICAST_LOOP, (char *)&loopback,
+		   sizeof(loopback));
 
 	join_addr.imr_multiaddr.s_addr = inet_addr(argv[1]);
 	join_addr.imr_interface.s_addr = htonl(INADDR_ANY);
-
-	setsockopt(sock, IPPROTO_IP, IP_ADD_MEMBERSHIP, (void*)&join_addr, sizeof(join_addr));
+	setsockopt(sock, IPPROTO_IP, IP_ADD_MEMBERSHIP, (void *)&join_addr,
+		   sizeof(join_addr));
 
 	if (bind(sock, (struct sockaddr*)&addr, sizeof(addr)) == -1)
 		error_handling("bind error");
