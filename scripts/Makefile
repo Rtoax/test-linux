@@ -1,6 +1,8 @@
 SHELL = bash
 
 include check_compiler_option.mk
+include success.mk
+include wow.mk
 
 feature-sve2 := $(findstring 1,$(call check_compiler_option,$(CC),-march=armv8-a+sve+sve2))
 feature-avx2 := $(findstring 1,$(call check_compiler_option,$(CC),-mavx2))
@@ -15,6 +17,8 @@ ifeq (${feature-sve2},1)
 endif
 
 all:
+	$(call success)
+	$(call wow)
 	@echo -e "  \033[1;33mDone\033[m"
 test:
 clean:
