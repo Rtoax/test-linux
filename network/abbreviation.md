@@ -2,6 +2,7 @@
 - DLPI: Datalink Provider Interface (数据链路提供者接口)
 - DPDK: Data Plane Development Kit (数据面开发工具)
 - IB: InfiniBand
+- KNI: Kernel Network Interface (内核网络接口) @DPDK
 - MPLS: Multi-Protocol Label Switching (多协议标签交换)
 - MQTT: Message Queuing Telemetry Transport (消息队列遥测传输协议)
 - NAPI: New API (新API)
