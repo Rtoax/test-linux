@@ -10,6 +10,8 @@
 #include <arpa/inet.h>
 
 #include "config.h"
+#include "helpers.h"
+
 
 int main(int argc, char *argv[])
 {
@@ -47,6 +49,8 @@ int main(int argc, char *argv[])
 			perror("accept error");
 			exit(1);
 		}
+
+		tcp_nodelay(connfd);
 
 		printf("Accept new client: %s:%d\n",
 			inet_ntoa(cliaddr.sin_addr), cliaddr.sin_port);

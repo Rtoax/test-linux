@@ -10,6 +10,8 @@
 #include <arpa/inet.h>
 
 #include "config.h"
+#include "helpers.h"
+
 
 ssize_t readline(int fd, char *vptr, size_t maxlen)
 {
@@ -64,6 +66,8 @@ int main(int argc, char *argv[])
 		perror("connect error");
 		exit(1);
 	}
+
+	tcp_nodelay(sockfd);
 
 	while (fgets(sendline, MAX_LINE, stdin) != NULL) {
 		write(sockfd, sendline, strlen(sendline));

@@ -9,9 +9,9 @@ CC = gcc
 
 ALL: $(TARGETS)
 
-server: server.o
+server: server.o helpers.o
 server-fork-pipe: server-fork-pipe.o
-client: client.o
+client: client.o helpers.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
