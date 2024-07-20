@@ -1,4 +1,6 @@
 /server
+/server-pthread
 /server-fork-pipe
 /client
+/client-pthread
 /echo.txt

@@ -3,15 +3,19 @@ SHELL = bash
 TARGETS :=
 TARGETS += server
 TARGETS += server-fork-pipe
+TARGETS += server-pthread
 TARGETS += client
+TARGETS += client-pthread
 
 CC = gcc
 
 ALL: $(TARGETS)
 
 server: server.o helpers.o
+server-pthread: server-pthread.o
 server-fork-pipe: server-fork-pipe.o
 client: client.o helpers.o
+client-pthread: client-pthread.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
