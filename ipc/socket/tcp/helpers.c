@@ -54,3 +54,10 @@ void tcp_uncork(int fd)
 {
 	tcp_cork_value(fd, 0);
 }
+
+void tcp_reuseaddr(int fd)
+{
+	int on = 1;
+	if (setsockopt(fd, SOL_SOCKET, SO_REUSEADDR, &on, sizeof(on)) < 0)
+		perror("setsockopt(SO_REUSEADDR):");
+}
