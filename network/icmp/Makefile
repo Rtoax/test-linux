@@ -4,6 +4,7 @@ sub-dir :=
 sub-dir += icmpping
 
 TARGETS :=
+TARGETS += ping
 TARGETS += icmp_checksum
 
 CC = gcc
@@ -14,6 +15,7 @@ sub-dir-clean := $(sub-dir:=.clean)
 .PHONY: build
 build: ${TARGETS} $(sub-dir-build)
 
+ping: ping.o
 icmp_checksum: icmp_checksum.o
 
 %.o: %.c
