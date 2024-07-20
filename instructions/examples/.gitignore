@@ -19,3 +19,4 @@
 /simd
 /rdrand
 /rdseed
+/prefetch

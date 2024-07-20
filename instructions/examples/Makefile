@@ -31,6 +31,7 @@ TARGETS += rdtsc_evil
 TARGETS += fsin
 TARGETS += bswapl
 TARGETS += _mm_clflush
+TARGETS += prefetch
 TARGETS += rte_memcpy
 TARGETS += vgetbv
 TARGETS += stosb memset
@@ -81,6 +82,7 @@ rdtscp_user: rdtscp_user.o
 rdtsc_cmp: rdtsc_cmp.o
 rdtsc_evil: rdtsc_evil.o
 _mm_clflush: _mm_clflush.o
+prefetch: prefetch.o
 rte_memcpy: rte_memcpy.o
 fsin: fsin.o
 vgetbv: vgetbv.o
