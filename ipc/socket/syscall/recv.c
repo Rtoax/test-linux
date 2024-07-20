@@ -28,7 +28,7 @@ int main(void)
 
 	connect(s, (struct sockaddr*)&addr, sizeof(addr));
 
-	recv(s, mybuffer, sizeof(mybuffer), 0);
+	recv(s, mybuffer, sizeof(mybuffer), MSG_PEEK | MSG_DONTWAIT);
 
 	printf("mybuffer: %s\n", mybuffer);
 

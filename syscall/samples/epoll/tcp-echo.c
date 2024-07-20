@@ -138,7 +138,8 @@ int main(int argc, char *argv[])
 				int newsockfd = events[i].data.fd;
 				int bytes_received;
 
-				bytes_received = recv(newsockfd, buffer, msg_len, 0);
+				bytes_received = recv(newsockfd, buffer, msg_len,
+						      MSG_PEEK | MSG_DONTWAIT);
 				if (bytes_received <= 0) {
 					epoll_ctl(epollfd, EPOLL_CTL_DEL, newsockfd, NULL);
 					shutdown(newsockfd, SHUT_RDWR);
