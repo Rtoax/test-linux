@@ -2,6 +2,7 @@ SHELL = bash
 
 TARGETS :=
 TARGETS += server
+TARGETS += server-fork-pipe
 TARGETS += client
 
 CC = gcc
@@ -9,6 +10,7 @@ CC = gcc
 ALL: $(TARGETS)
 
 server: server.o
+server-fork-pipe: server-fork-pipe.o
 client: client.o
 
 %.o: %.c
@@ -21,4 +23,4 @@ $(TARGETS): %:
 
 clean:
 	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
-	@rm -f ${TARGETS} *.o
+	@rm -f ${TARGETS} *.o *.txt
