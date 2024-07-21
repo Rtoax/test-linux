@@ -1,0 +1,36 @@
+#!/bin/env bpftrace
+/**
+ * install_breakpoint.bt
+ *
+ * Copyright (C) Rong Tao 2022-2024
+ *
+ * 2024-07-21	Rong Tao	Create this.
+ */
+#ifndef BPFTRACE_HAVE_BTF
+#include <linux/sched.h>
+#endif
+
+BEGIN
+{
+	printf("Tracing install_breakpoint(), hit ctrl-c to end.\n");
+	printf("%-8s %-8s %-16s\n", "TIME", "PID", "COMM");
+}
+
+/* Name could be kprobe:install_breakpoint.isra.0 */
+kprobe:install_breakpoint*
+{
+	$uprobe = (struct uprobe *)arg0;
+	$mm = (struct mm_struct *)arg1;
+	$vma = (struct vm_area_struct *)arg2;
+	$vaddr = arg3;
+
+	$task = (struct task_struct *)$mm->owner;
+
+	time("%H:%M:%S ");
+	printf("%-8d %-16s %-016lx\n", pid, $task->comm, $vaddr);
+}
+
+END
+{
+	printf("Bye.\n");
+}
