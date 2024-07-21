@@ -13,6 +13,8 @@ find_raid() {
 	sudo lspci | grep RAID | sed 's/^/LSPCI: /g'
 	echo "------------------------------- lshw ------------------------------------"
 	sudo lshw -class storage | grep '\-raid' -A11 | sed 's/^/LSHW: /g'
+	echo "------------------------------- /proc/scsi/scsi--------------------------"
+	sudo cat /proc/scsi/scsi | grep -i raid
 	echo "-------------------------------------------------------------------------"
 }
 
