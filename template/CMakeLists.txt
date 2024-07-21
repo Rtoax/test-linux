@@ -70,6 +70,13 @@ function(check_and_add_cflags flag)
 		OUTPUT_VARIABLE /dev/null
 		ERROR_VARIABLE /dev/null
 		RESULT_VARIABLE NO_THIS_FLAG)
+	# Or
+	#try_compile(FLAG_AVAILABLE
+	#	${CMAKE_CURRENT_BINARY_DIR}
+	#	SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/xxx.c
+	#	LINK_OPTIONS ${flag}
+	#)
+	#if(${FLAG_AVAILABLE})
 	message(STATUS "NO_THIS_FLAG = ${NO_THIS_FLAG}")
 	if(NOT ${NO_THIS_FLAG})
 		message(STATUS "Compiler support ${flag}")
