@@ -1,6 +1,11 @@
 Uprobes
 ==========
 
+# CONFIG
+
+- `CONFIG_UPROBES`
+
+
 # Links
 
 - https://www.kernel.org/doc/html/latest/trace/uprobetracer.html
