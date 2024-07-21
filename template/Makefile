@@ -20,5 +20,4 @@ clean:
 	@make clean -f Makefile.user
 	@make clean -f Makefile.subdir
 	@make clean -f Makefile.kernel
-	# FIXME: '-' is gcc's bug
-	@rm -rf build -
+	@rm -rf build

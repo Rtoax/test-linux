@@ -9,7 +9,7 @@ NASM = $(shell which nasm 2>/dev/null)
 ifneq ($(NASM),)
 define m32_build
   $(shell $(NASM) average.asm -felf32 -o a.o && \
-	  $(CC) -Wall -m32 a.o -o - >/dev/null 2>&1 \
+	  $(CC) -Wall -m32 a.o -o /dev/null >/dev/null 2>&1 \
       && echo 1)
 endef
 feature-m32 := $(findstring 1,$(call m32_build,))
@@ -84,5 +84,4 @@ test: ${TARGETS}
 .PHONY: clean
 clean:
 	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
-	# FIXME: Gcc on fedora40 '-o -' generate '-'
-	@rm -f ${TARGETS} ${TARGETS_MAIN} *.o *.d *.oc -
+	@rm -f ${TARGETS} ${TARGETS_MAIN} *.o *.d *.oc

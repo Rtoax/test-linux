@@ -5,7 +5,7 @@ CXX = c++
 
 # Check compiler support -m32 or not
 define m32_build
-  $(shell $(CC) -x c -Wall -m32 __WORDSIZE-32.c -o - >/dev/null 2>&1 \
+  $(shell $(CC) -x c -Wall -m32 __WORDSIZE-32.c -o /dev/null >/dev/null 2>&1 \
       && echo 1)
 endef
 
@@ -113,6 +113,4 @@ $(TARGETS_CXX): %:
 
 clean:
 	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
-	# FIXME: fedora40 x86_64 gcc has an error, m32_build will generate '-'
-	# file.
-	@rm -f ${TARGETS} ${TARGETS_CXX} *.o *.opp $(CC)-macros.log -
+	@rm -f ${TARGETS} ${TARGETS_CXX} *.o *.opp $(CC)-macros.log
