@@ -1,9 +1,3 @@
-/**
- *	File	linux_banner.c
- *	Time	2021.11.20
- *	Author	Rong Tao <rtoax@foxmail.com>
- */
-
 #include <linux/init.h>
 #include <linux/module.h>
 #include <linux/kernel.h>
