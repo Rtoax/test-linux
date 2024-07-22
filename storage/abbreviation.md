@@ -8,6 +8,7 @@
 - iWARP: RDMA over TCP
 - IB: InfiniBand
 - JBOD: Just a Bunch Of Disks / Just a Bunch Of Drives ("简单磁盘捆绑"或者“磁盘簇”，通常又称为Span)
+- LSM: Live Storage Migration (存储热迁移) @LVM
 - LVM: Logical Volume Manager (逻辑卷管理)
 - NVMe: Non-Volatile Memory Express (非易失性内存表达)
 - NVMe-oF: NVMe over Fabrics (NoF)
