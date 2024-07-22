@@ -16,7 +16,9 @@ Using KVM, one can run multiple virtual machines running unmodified Linux or Win
 - HPA
 
 
-# KVM 支持的 CPU modules
+# vCPU
+
+## KVM 支持的 CPU modules
 
 - Host passthrough
 - Custom (Named model)
@@ -27,6 +29,12 @@ Using KVM, one can run multiple virtual machines running unmodified Linux or Win
 ```bash
 $ sudo virsh cpu-models x86_64
 ```
+
+
+# x86 vAPIC
+
+TODO
+
 
 # Devices
 
