@@ -1,0 +1,22 @@
+#!/usr/bin/env bpftrace
+/**
+ * File: kvm_inj_virq.bt
+ *
+ * 2024-07-22	Rong Tao	Create this.
+ */
+
+BEGIN
+{
+	printf("Tracing KVM tracepoint:kvm:kvm_inj_virq, ctrl-C to end.\n");
+}
+
+tracepoint:kvm:kvm_inj_virq
+{
+	$vector = args->vector;
+	@vectors[$vector] = count();
+}
+
+END
+{
+	printf("Bye.\n");
+}
