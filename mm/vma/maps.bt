@@ -16,7 +16,14 @@
 
 iter:task_vma
 {
-	$path = ctx->vma->vm_file->f_path;
-	printf("%s\n", path($path));
+	$vma = ctx->vma;
+
+	$vm_start = $vma->vm_start;
+	$vm_end = $vma->vm_end;
+	$vm_pgoff = $vma->vm_pgoff;
+	$path = $vma->vm_file->f_path;
+
+	printf("%-16lx-%-16lx %-16lx %s\n", $vm_start, $vm_end, $vm_pgoff,
+		path($path));
 }
 

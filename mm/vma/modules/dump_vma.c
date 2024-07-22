@@ -63,16 +63,10 @@ static void list_myvma(void)
 static int __init mymem_init(void)
 {
 	printk("mymem module is working..\n");
-
 	list_myvma();
-	return 0;
-}
-
-static void __exit mymem_exit(void)
-{
-	printk("mymem module is leaving..\n");
+	/* fake insmod failed. */
+	return -EINVAL;
 }
 
 MODULE_LICENSE("GPL");
 module_init(mymem_init);
-module_exit(mymem_exit);
