@@ -20,5 +20,6 @@ if [ $# -gt 0 ]; then
 	coredump
 else
 	echo "Usage: coredump.sh [bytes]"
-	return 1
+	echo "set to ${bytes}"
+	coredump
 fi
