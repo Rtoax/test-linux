@@ -25,10 +25,8 @@ ABS_SRCTREE := $(realpath $(dir $(this-makefile)))
 export ABS_SRCTREE
 
 include $(ABS_SRCTREE)/scripts/TLbuild.include
-include $(ABS_SRCTREE)/scripts/wow.mk
 
 all:
-	$(call wow,"***")
 	@echo >&2 -e "***"
 	@echo >&2 -e "*** ABS_SRCTREE ${ABS_SRCTREE}"
 	@echo >&2 -e "*** USER_FAILED_LOG ${USER_FAILED_LOG}"
@@ -120,7 +118,6 @@ $(SUB_kernel_DIR_TEST):
 
 define installdeps
 	bash scripts/install-deps.sh --all --allowerasing
-	$(call wow)
 endef
 
 installdeps:
@@ -144,7 +141,6 @@ check:
 	$(call check_links)
 
 define git_clean
-	$(call wow)
 	bash scripts/git-clean
 endef
 # Make clean

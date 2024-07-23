@@ -19,6 +19,7 @@ endif
 all:
 	$(call success)
 	$(call wow)
+	$(call wow,PERFIX)
 	@echo -e "  \033[1;33mDone\033[m"
 test:
 clean:
