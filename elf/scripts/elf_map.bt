@@ -14,9 +14,10 @@
 BEGIN
 {
 	printf("Tracing xxx, hit ctrl-c to end.\n");
-	printf("%-8s %-8s %-16s %-8s %-4s %-16s %-8s\n",
-		"TIME", "PID", "ADDR", "SIZE", "PROT",
-		"MAP ADDR", "COMM");
+	printf("%-8s %-8s %-16s %-8s %-4s ",
+		"TIME", "PID", "ADDR", "SIZE(e)", "PROT");
+	printf("%-8s %-16s %-16s %-8s\n",
+		"SIZE(m)", "OFF", "MAP ADDR", "COMM");
 }
 
 kprobe:elf_map
@@ -31,16 +32,29 @@ kprobe:elf_map
 		$prot & PROT_WRITE ? "w" : "-",
 		$prot & PROT_EXEC ? "x" : "-");
 
-	@start[tid] = nsecs;
+	@elf_map_start[tid] = nsecs;
+}
+
+/* elf_map() call vm_mmap() */
+kprobe:vm_mmap
+/ @elf_map_start[tid] /
+{
+	$size = arg2;
+	$off = arg5;
+
+	printf("%-8lx %-16lx", $size, $off);
+
+	@vm_mmap_start[tid] = nsecs;
 }
 
 kretprobe:elf_map
-/ @start[tid] /
+/ @elf_map_start[tid] && @vm_mmap_start[tid] /
 {
 	$map_addr = retval;
 
 	printf("%-16lx %-8s\n", $map_addr, comm);
 
-	delete(@start[tid]);
+	delete(@elf_map_start[tid]);
+	delete(@vm_mmap_start[tid]);
 }
 
