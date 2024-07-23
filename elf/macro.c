@@ -20,6 +20,8 @@ int main(void)
 	V(ELF_PAGEOFFSET(0xffff123UL));
 	V(ELF_PAGEALIGN(0xffff123UL));
 	V(ELF_PAGEALIGN(0xffff000UL));
+	V(ELF_PAGEALIGN(0x00fffffUL));
+	V(ELF_PAGEALIGN(0x000e001UL));
 
 #undef V
 	return 0;
