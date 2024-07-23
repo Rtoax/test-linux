@@ -7,22 +7,40 @@
  * 2022-09-23	Rong Tao	Create this.
  * 2024-01-06	Rong Tao	Print total size and fix arg error.
  */
+#define PROT_READ	0x1		/* page can be read */
+#define PROT_WRITE	0x2		/* page can be written */
+#define PROT_EXEC	0x4		/* page can be executed */
 
 BEGIN
 {
 	printf("Tracing xxx, hit ctrl-c to end.\n");
-	printf("%-8s %-8s %-16s %-16s %-16s %-8s\n",
-		"TIME", "PID", "ADDR", "TOTAL_SIZE", "MAP ADDR", "COMM");
+	printf("%-8s %-8s %-16s %-8s %-4s %-16s %-8s\n",
+		"TIME", "PID", "ADDR", "SIZE", "PROT",
+		"MAP ADDR", "COMM");
 }
 
 kprobe:elf_map
 {
+	$addr = arg1;
+	$prot = arg3;
+	$total_size = arg5;
+
 	time("%H:%M:%S ");
-	printf("%-8d %-16lx %-016lx", pid, arg1, arg5);
+	printf("%-8d %-16lx %-08lx %s%s%s- ", pid, $addr, $total_size,
+		$prot & PROT_READ ? "r" : "-",
+		$prot & PROT_WRITE ? "w" : "-",
+		$prot & PROT_EXEC ? "x" : "-");
+
+	@start[tid] = nsecs;
 }
 
 kretprobe:elf_map
+/ @start[tid] /
 {
-	printf("%-16lx %-8s\n", retval, comm);
+	$map_addr = retval;
+
+	printf("%-16lx %-8s\n", $map_addr, comm);
+
+	delete(@start[tid]);
 }
 
