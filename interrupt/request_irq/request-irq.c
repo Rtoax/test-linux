@@ -1,11 +1,6 @@
-/**
- *	File request-irq.c 
- *	Time 2021.11.03
- *	Author Rong Tao <rtoax@foxmail.com>
- */
-#include <linux/module.h>    // included for all kernel modules
-#include <linux/kernel.h>    // included for KERN_INFO
-#include <linux/init.h>      // included for __init and __exit macros
+#include <linux/module.h>
+#include <linux/kernel.h>
+#include <linux/init.h>
 #include <linux/interrupt.h> // included for request_irq and free_irq macros
 #include <linux/preempt.h>
 #include <linux/version.h>
@@ -21,7 +16,7 @@ MODULE_PARM_DESC(irqnum, "irq number, acpi is OK");
 
 static char *name = "testirq";
 module_param( name, charp, S_IRUGO);
-MODULE_PARM_DESC(name, "irq name");	
+MODULE_PARM_DESC(name, "irq name");
 
 struct myirq {
 	int devid;
@@ -30,7 +25,7 @@ struct myirq mydev = {1119};
 
 irqreturn_t no_action(int cpl, void *dev_id)
 {
-    printk(KERN_INFO "irq line number is %d!\n", cpl);
+	printk(KERN_INFO "irq line number is %d!\n", cpl);
 	printk(KERN_INFO "in_task       = %d\n", in_task());
 	printk(KERN_INFO "in_irq        = %ld\n", in_irq());
 #if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 11, 0)
@@ -50,10 +45,10 @@ static int __init rtoax_irq_init(void)
 {
 	printk(KERN_INFO "request irq %s!\n", name);
 	/**
-	 *	IRQF_SHARED - 共享中断线，在支持共享的中断线上可注册
+	 * IRQF_SHARED - 共享中断线，在支持共享的中断线上可注册
 	 */
-    if (request_irq(irqnum, no_action, IRQF_SHARED, name, &mydev) != 0) {
-	    printk(KERN_ERR "%s: request_irq() failed\n", name);
+	if (request_irq(irqnum, no_action, IRQF_SHARED, name, &mydev) != 0) {
+		printk(KERN_ERR "%s: request_irq() failed\n", name);
 		return -1;
 	}
 	return 0;
@@ -62,10 +57,10 @@ static int __init rtoax_irq_init(void)
 static void __exit rtoax_irq_cleanup(void)
 {
 	printk(KERN_INFO "free irq.\n");
-    /*
-     *  释放中断
-     */
-    free_irq(irqnum, &mydev);
+	/*
+	 * 释放中断
+	 */
+	free_irq(irqnum, &mydev);
 }
 
 module_init(rtoax_irq_init);

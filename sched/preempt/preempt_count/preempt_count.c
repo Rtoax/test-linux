@@ -1,9 +1,3 @@
-/**
- *	File ./preempt_count.c 
- *	Time 2021.11.20 
- *	Author Rong Tao
- */
-
 #include <linux/module.h>
 #include <linux/preempt.h>
 #include <linux/kernel.h>
