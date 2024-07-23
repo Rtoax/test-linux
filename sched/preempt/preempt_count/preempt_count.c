@@ -2,6 +2,12 @@
 #include <linux/preempt.h>
 #include <linux/kernel.h>
 
+/**
+ * preempt_count
+ * x86: In global pre-CPU __preempt_count
+ * arm: In struct thread_info {}
+ */
+
 static int print_count(const char *discription)
 {
 	printk("======== %s ========\n", discription);
@@ -35,16 +41,9 @@ static int test_init(void)
 
 	preempt_enable();
 
-	return 0;
-}
-
-static void test_exit(void)
-{
-	printk(KERN_INFO "bye.\n");
+	return -EINVAL;
 }
 
 module_init(test_init);
-module_exit(test_exit);
-
 MODULE_AUTHOR("Rong Tao");
 MODULE_LICENSE("GPL");
