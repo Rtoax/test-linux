@@ -27,7 +27,8 @@ grep -w cgroup2 /proc/filesystems
 
 ```
 dnf install -y grubby
-sudo grubby --update-kernel=ALL --args="systemd.unified_cgroup_hierarchy=0"
+sudo grubby --update-kernel=ALL --args="systemd.unified_cgroup_hierarchy=0 systemd.legacy_systemd_cgroup_controller"
+sudo systemctl reboot
 ```
 
 # Enable CGroup V2
@@ -35,6 +36,7 @@ sudo grubby --update-kernel=ALL --args="systemd.unified_cgroup_hierarchy=0"
 ```
 dnf install -y grubby
 sudo grubby --update-kernel=ALL --args="systemd.unified_cgroup_hierarchy=1"
+sudo systemctl reboot
 ```
 
 
