@@ -11,10 +11,14 @@ int main()
 	 */
 #define P64(ioctl)	printf("%30s = 0x%016lx\n", #ioctl, ioctl)
 #define P32(ioctl)	printf("%30s = %8s0x%08x\n", #ioctl, "", ioctl)
+#ifdef KVM_SET_MEMORY_REGION
 	P64(KVM_SET_MEMORY_REGION);
+#endif
 	P32(KVM_CREATE_VCPU);
 	P64(KVM_GET_DIRTY_LOG);
+#ifdef KVM_SET_MEMORY_ALIAS
 	P64(KVM_SET_MEMORY_ALIAS);
+#endif
 	P32(KVM_SET_NR_MMU_PAGES);
 	P32(KVM_GET_NR_MMU_PAGES);
 	P64(KVM_SET_USER_MEMORY_REGION);
@@ -32,6 +36,7 @@ int main()
 	P64(KVM_GET_XSAVE);
 	P64(KVM_SET_XSAVE);
 	P64(KVM_SIGNAL_MSI);
+	P64(KVM_SET_XCRS);
 
 	fprintf(stderr, "===== kvm_vcpu_ioctl =====\n");
 	P32(KVM_RUN);

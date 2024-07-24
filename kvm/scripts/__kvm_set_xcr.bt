@@ -1,0 +1,50 @@
+#!/bin/env bpftrace
+/**
+ * __kvm_set_xcr.bt
+ *
+ * 2024-07-24	Rong Tao	Create this.
+ */
+#ifndef BPFTRACE_HAVE_BTF
+#include <linux/kvm_host.h>
+#endif
+
+/**
+ * See arch/x86/include/asm/fpu/types.h
+ */
+#define XFEATURE_MASK_AVX512 0xe0
+
+
+BEGIN
+{
+	printf("XFEATURE_MASK_AVX512 = %lx\n", XFEATURE_MASK_AVX512);
+	printf("Tracing __kvm_set_xcr(), hit ctrl-c to end.\n");
+	printf("%-8s %-8s %-16s %-16s %-16s %-4s\n",
+		"TIME", "INDEX", "XCR", "GUEST_SUPPORT", "GUEST", "RET");
+}
+
+kprobe:__kvm_set_xcr
+{
+	$vcpu = (struct kvm_vcpu *)arg0;
+	$index = arg1;
+	$xcr = arg2;
+	$guest_supported_xcr0 = $vcpu->arch.guest_supported_xcr0;
+
+	@vcpus[tid] = $vcpu;
+
+	time("%H:%M:%S ");
+	printf("%-8d %-16lx %-16lx ", $index, $xcr, $guest_supported_xcr0);
+}
+
+kretprobe:__kvm_set_xcr
+/ @vcpus[tid] /
+{
+	$vcpu = (struct kvm_vcpu *)@vcpus[tid];
+
+	printf("%-16lx %-4ld\n", $vcpu->arch.xcr0, retval);
+
+	delete(@vcpus[tid]);
+}
+
+END
+{
+}

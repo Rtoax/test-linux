@@ -4,6 +4,7 @@
 - AVX2: Advanced Vector Extensions 2 (高级矢量扩展2) @SIMD
 - BT: Binary Translator (二进制翻译) @SBT @DBT @HBT
 - CISC: Complex Instruction Set Computer (复杂指令集) @RISC
+- CR: Control Register (控制寄存器)
 - DBT: Dynamic Binary Translator (动态二进制翻译) @BT @HBT @SBT @JIT
 - GNI: Gesher New Instructions () @AVX
 - HNI: Haswell New Instructions () @AVX2
