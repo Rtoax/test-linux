@@ -4,6 +4,7 @@ SHELL = bash
 all:
 	./args.sh
 	./array_culling.sh
+	./array_elem_replace.sh
 	./array_pair.sh
 	./array.sh
 	./bc.sh

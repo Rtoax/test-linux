@@ -355,6 +355,7 @@ cclinux|fedora|centos|rhel|openEuler|almalinux|opencloudos)
 	pkgs_bench+=( sysbench )
 
 	# Filesystem
+	pkgs_fs+=( e2fsprogs )              # badblocks
 	pkgs_fs+=( ocfs2-tools )
 	pkgs_fs+=( overlayfs-tools )
 	pkgs_fs+=( xfsprogs-devel )         # xfs

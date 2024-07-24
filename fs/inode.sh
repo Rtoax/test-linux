@@ -12,5 +12,10 @@ inode2path()
 	find / -xdev -inum ${ino}
 }
 
+list_inodes()
+{
+	sudo find /etc/ -type f -exec stat -c %i {} \;
+}
+
 path2inode "$@"
 
