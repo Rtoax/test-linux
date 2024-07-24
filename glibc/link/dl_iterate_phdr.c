@@ -7,8 +7,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-static int
-callback(struct dl_phdr_info *info, size_t size, void *data)
+static int callback(struct dl_phdr_info *info, size_t size, void *data)
 {
 	char *type;
 	int p_type;
@@ -27,7 +26,7 @@ callback(struct dl_phdr_info *info, size_t size, void *data)
 			(p_type == PT_TLS) ? "PT_TLS" :
 			(p_type == PT_GNU_EH_FRAME) ? "PT_GNU_EH_FRAME" :
 			(p_type == PT_GNU_STACK) ? "PT_GNU_STACK" :
-			(p_type == PT_GNU_RELRO) ? "PT_GNU_RELRO" : NULL;
+			(p_type == PT_GNU_RELRO) ? "PT_GNU_RELRO" : "UNKNOWN";
 
 		printf("	%2zu: [%14p; memsz:%7jx] flags: %#jx; ", j,
 			(void *) (info->dlpi_addr + info->dlpi_phdr[j].p_vaddr),
@@ -42,8 +41,7 @@ callback(struct dl_phdr_info *info, size_t size, void *data)
 	return 0;
 }
 
-int
-main(void)
+int main(void)
 {
 	dl_iterate_phdr(callback, NULL);
 
