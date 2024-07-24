@@ -11,11 +11,21 @@
 /**
  * See arch/x86/include/asm/fpu/types.h
  */
-#define XFEATURE_MASK_AVX512 0xe0
+#define XFEATURE_MASK_FP	(1 << 0)
+#define XFEATURE_MASK_SSE	(1 << 1)
+#define XFEATURE_MASK_YMM	(1 << 2)
+#define XFEATURE_MASK_OPMASK	(1 << 5)
+#define XFEATURE_MASK_ZMM_Hi256	(1 << 6)
+#define XFEATURE_MASK_Hi16_ZMM	(1 << 7)
+#define XFEATURE_MASK_PKRU	(1 << 9)
+
+#define XFEATURE_MASK_FPSSE	(XFEATURE_MASK_FP | XFEATURE_MASK_SSE)
+#define XFEATURE_MASK_AVX512	(XFEATURE_MASK_OPMASK | XFEATURE_MASK_ZMM_Hi256 | XFEATURE_MASK_Hi16_ZMM)
 
 
 BEGIN
 {
+	printf("XFEATURE_MASK_PKRU = %lx\n", XFEATURE_MASK_PKRU);
 	printf("XFEATURE_MASK_AVX512 = %lx\n", XFEATURE_MASK_AVX512);
 	printf("Tracing __kvm_set_xcr(), hit ctrl-c to end.\n");
 	printf("%-8s %-8s %-16s %-16s %-16s %-4s\n",
