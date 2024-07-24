@@ -18,7 +18,7 @@ CXXFLAGS += -DDEBUG -O0 -g
 ifeq ($(LLVM_CONFIG),)
   $(warning Not found llvm-config, please install llvm first)
 else
-  CXXFLAGS += $(shell llvm-config --cflags --libs)
+  CXXFLAGS += $(shell llvm-config --cxxflags --ldflags --system-libs --libs core mc mcjit ExecutionEngine)
 endif
 
 

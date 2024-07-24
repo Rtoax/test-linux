@@ -20,11 +20,13 @@ CFLAGS := -Werror -Wall
 CFLAGS += -Wstrict-prototypes
 
 LLVM_CFLAGS :=
+LLVM_CXXFLAGS :=
 
 ifeq ($(LLVM_CONFIG),)
   $(warning Not found llvm-config, please install llvm first)
 else
   LLVM_CFLAGS += $(shell llvm-config --cflags)
+  LLVM_CXXFLAGS += $(shell llvm-config --cxxflags)
 endif
 
 CFLAGS += -DDEBUG -O0 -g
