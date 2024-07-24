@@ -1,0 +1,35 @@
+#!/bin/env bpftrace
+/**
+ * mprotect.bt
+ *
+ * Copyright (C) Rong Tao 2022-2024
+ */
+#define PROT_READ      0x1             /* page can be read */
+#define PROT_WRITE     0x2             /* page can be written */
+#define PROT_EXEC      0x4             /* page can be executed */
+
+BEGIN
+{
+	printf("Tracing mprotect(2), hit ctrl-c to end.\n");
+	printf("%-8s %-8s %-16s %-16s %-8s %-4s\n",
+		"TIME", "PID", "COMM", "ADDR", "LEN", "PROT");
+}
+
+tracepoint:syscalls:sys_enter_mprotect
+{
+	$start = args->start;
+	$len = args->len;
+	$prot = args->prot;
+
+	time("%H:%M:%S ");
+	printf("%-8d %-16s %-16lx %-8ld %s%s%s-\n", pid, comm,
+		$start, $len,
+		$prot & PROT_READ ? "r" : "-",
+		$prot & PROT_WRITE ? "w" : "-",
+		$prot & PROT_EXEC ? "x" : "-");
+}
+
+END
+{
+	printf("Bye.\n");
+}
