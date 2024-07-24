@@ -1,4 +1,5 @@
 - ACLE: Arm C Language Extensions (Arm C语言扩展)
+- ARRs: Address Ranage Registers ()
 - AVX: Advanced Vector Extensions (高级矢量扩展) @SIMD
 - AVX2: Advanced Vector Extensions 2 (高级矢量扩展2) @SIMD
 - BT: Binary Translator (二进制翻译) @SBT @DBT @HBT
@@ -11,6 +12,8 @@
 - ISS: Instruction Set Simulator (指令集模拟)
 - MMX: Matrix Math eXtension (or MultiMedia eXtension) @SIMD
 - MNI: Merom New Instructions () @SSSE3
+- MSR: Module Specific Register ()
+- MTRRs: Memory Type Range Registers () @MSR
 - NEON: ? () @ARM @SIMD
 - PNI: Prescott New Instructions (Prescott 新指令) @SSE3
 - RISC: Reduced Instruction Set Computer (精简指令集计算机) @CISC

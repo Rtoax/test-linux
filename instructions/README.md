@@ -1,5 +1,5 @@
-Instruction Reference
-=====================
+Instruction and Registers Reference
+===================================
 
 # Register
 

@@ -62,7 +62,7 @@ void rdmsr_on_all_cpus(uint32_t reg)
 
 	for (i = 0; i < ncpu; i++) {
 		data = rdmsr_on_cpu(reg, i);
-		printf("CPU %-4d : %lx\n", i, data);
+		printf("CPU %-4d : %lx (%ld)\n", i, data, data);
 	}
 }
 

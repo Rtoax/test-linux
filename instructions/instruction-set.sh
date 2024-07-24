@@ -8,4 +8,7 @@ macros() {
 }
 
 version
-macros | grep -e SSE -e AVX -e SVE -e NEON
+if [[ $(uname -m) == x86_64 ]]; then
+	macros | grep -e SSE -e AVX -e SVE -e NEON
+# TODO: More architectures
+fi
