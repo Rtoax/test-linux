@@ -2,6 +2,7 @@
 #include <signal.h>
 #include <stdio.h>
 #include <string.h>
+#include <malloc.h>
 #include <sys/mman.h>
 #include <sys/stat.h>
 #include <sys/types.h>
@@ -31,9 +32,12 @@ int main(void)
 #if 1
 	memory = mmap(NULL, alloc_size, PROT_WRITE, MAP_PRIVATE, fd, 0);
 #else
+	/* failed */
 	memory = malloc(alloc_size);
 #endif
+
 	close(fd);
+
 	memory[0] = 0;
 
 	/* Make the memory unwritable. */
