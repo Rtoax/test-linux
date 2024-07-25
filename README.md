@@ -77,17 +77,14 @@ You can use the following macro
 
 # About
 
-## Links
+## Symbol Links
 
-There are so many LINKs in this repo, so you better clone this repo
-in linux system, if windows, oops. You'd better use `./scripts/invalid-link.sh`
-check invalid links and modify them.
+There are so many **symlinks** in this repo, so you better clone this repo in linux system, if windows, oops. You'd better use `make check`(or `./scripts/invalid-link.sh`) check invalid links and modify them.
 
 
 ## Ignore
 
-This repo ignore `.txt` file(check `.gitignore`). If you want to write
-a text `Note`, use `.md`(`markdown`) instead.
+This repo ignore file(check `.gitignore`). If you want to write a text `Note`, use `.md`(`markdown`).
 
 
 ## Reference
@@ -106,8 +103,7 @@ a text `Note`, use `.md`(`markdown`) instead.
 
 # Function Name
 
-If glibc/posix/syscall already have name `a`, The function test-linux implemented
-is name `tl_a`(the `tl_` prefix).
+If glibc/posix/syscall already have name `a`, The function test-linux implemented is name `tl_a`(the `tl_` prefix).
 
 
 # Compile
@@ -116,16 +112,25 @@ is name `tl_a`(the `tl_` prefix).
 
 Install depends with `make installdeps`.
 
+## Compile User
 
-# Licenses
-
-* https://spdx.org/licenses/
+Compile all userspace code with `make user`.
 
 
 # Links
+
+## Licenses
+
+- [https://spdx.org/licenses/](https://spdx.org/licenses/)
 
 ## Projects
 
 - [https://github.com/linux-test-project/ltp](https://github.com/linux-test-project/ltp)
 - [https://github.com/unpbook/unpv13e](https://github.com/unpbook/unpv13e)
 
+## Linux
+
+- [https://www.kernel.org/](https://www.kernel.org/)
+- [https://elixir.bootlin.com/linux/latest/source](https://elixir.bootlin.com/linux/latest/source)
+- [https://lore.kernel.org/lkml/](https://lore.kernel.org/lkml/)
+- [https://www.kernel.org/doc/html/latest/](https://www.kernel.org/doc/html/latest/)
