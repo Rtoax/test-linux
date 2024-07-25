@@ -1,15 +1,15 @@
 SHELL = bash
 
-CC = $(shell which clang 2>/dev/null)
+CLANG = $(shell which clang 2>/dev/null)
 
 TARGETS :=
 
-ifneq ($(wildcard @$(CC)),)
+ifneq ($(wildcard $(CLANG)),)
 TARGETS += hello
+CC = ${CLANG}
 else
 CC = gcc
 endif
-
 
 CFLAGS := -Werror -Wall
 CFLAGS += -O0
@@ -18,14 +18,13 @@ build: ${TARGETS}
 	@echo
 	@echo -e " \033[1;33m Done \033[m"
 
-# Add more object.o file
 hello: hello.o
 
 %.o: %.c
-	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
+	@echo -e "  CC/CLANG  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
-	clang -Xclang -ast-dump -fsyntax-only $(<)
-	clang -S -emit-llvm $(<)
+	@$(CLANG) -Xclang -ast-dump -fsyntax-only $(<)
+	@$(CLANG) -S -emit-llvm $(<)
 
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"

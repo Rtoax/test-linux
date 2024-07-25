@@ -1,5 +1,6 @@
 SHELL = bash
 
+LD = ld
 NASM = $(shell which nasm 2>/dev/null)
 
 TARGETS :=
@@ -15,11 +16,12 @@ hello.o: hello.asm
 	$(NASM) hello.asm -felf64
 
 a.out: hello.o
-	ld $(<) -o $(@)
+	$(LD) $(<) -o $(@)
 
 hello.out:
-	ld -T hello.ld -o $(@)
+	$(LD) -T hello.ld -o $(@)
 	@objdump -D hello.out | grep -e "\.text" -e "\.data" -A 2 | sed 's/^/[objdump] /g'
 
 clean:
-	rm -f *.o *.out
+	@echo "CLEAN"
+	@rm -f *.o *.out

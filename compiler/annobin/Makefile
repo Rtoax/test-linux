@@ -9,8 +9,8 @@ CC = gcc
 ANNOBIN = $(shell pwd)/annobin-cc1
 
 ifneq ($(wildcard /usr/lib/rpm/redhat/redhat-annobin-cc1),)
-$(info Found /usr/lib/rpm/redhat/redhat-annobin-cc1)
-ANNOBIN = /usr/lib/rpm/redhat/redhat-annobin-cc1
+  $(info Found /usr/lib/rpm/redhat/redhat-annobin-cc1)
+  ANNOBIN = /usr/lib/rpm/redhat/redhat-annobin-cc1
 endif
 
 CFLAGS := -Werror -Wall
@@ -25,7 +25,6 @@ build: ${TARGETS}
 	@echo
 	@echo -e " \033[1;33m Done \033[m"
 
-# Add more object.o file
 hello: hello.o
 
 %.o: %.c

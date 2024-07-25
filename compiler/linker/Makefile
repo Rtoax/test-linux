@@ -1,12 +1,10 @@
 SHELL = bash
 
-
 sub-dir := hello
 
 TARGETS := pushsection
 TARGETS += attribute
 
-SRC_PATH := $(shell pwd)
 CC = gcc
 
 CFLAGS := -Werror -Wall
