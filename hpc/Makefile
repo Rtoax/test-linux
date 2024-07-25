@@ -1,6 +1,8 @@
 SHELL = bash
 
-sub-dir := mpi
+sub-dir :=
+sub-dir += cuda/samples/
+sub-dir += mpi
 sub-dir += openmp
 
 sub-dir-build := $(sub-dir:=.build)

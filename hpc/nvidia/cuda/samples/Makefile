@@ -1,14 +1,18 @@
 SHELL = bash
+NVCC = $(shell which nvcc 2>/dev/null)
 
-
-TARGETS := hello
-
-CC = nvcc
+TARGETS :=
 
 CFLAGS :=
-
 LDFLAGS :=
 LDLIBS :=
+
+ifneq ($(wildcard $(NVCC)),)
+  TARGETS += hello
+  CC = nvcc
+else
+  $(warning Not found nvcc, install cuda first)
+endif
 
 CFLAGS += -DDEBUG -O0 -g
 
@@ -17,7 +21,6 @@ build: ${TARGETS}
 	@echo
 	@echo -e " \033[1;33m Done \033[m"
 
-# Add more object.o file
 hello: hello.o
 
 %.o: %.cu
@@ -34,4 +37,4 @@ test: ${TARGETS}
 .PHONY: clean
 clean:
 	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
-	@rm -f ${TARGETS} *.s *.o *.d
+	@rm -f ${TARGETS} *.o
