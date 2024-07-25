@@ -31,7 +31,7 @@ static void test(const char *lib)
 	dlclose(handle);
 }
 
-int main(void)
+int main(int argc, char *argv[])
 {
 	print_proc_pid_maps();
 	test("libc.so.6");

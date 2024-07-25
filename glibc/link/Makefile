@@ -3,6 +3,7 @@ SHELL = bash
 CC = gcc
 
 TARGETS := dl_iterate_phdr
+TARGETS += dl_iterate_phdr-pie
 TARGETS += has_shared_object
 
 CFLAGS := -Werror -Wall
@@ -18,7 +19,12 @@ build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
 dl_iterate_phdr: dl_iterate_phdr.o
+dl_iterate_phdr-pie: dl_iterate_phdr-pie.o
 has_shared_object: has_shared_object.o
+
+CFLAGS_dl_iterate_phdr := -no-pie
+CFLAGS_dl_iterate_phdr-pie := -fpie
+LDFLAGS_dl_iterate_phdr-pie := -pie
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

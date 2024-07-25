@@ -1,2 +1,3 @@
 /dl_iterate_phdr
+/dl_iterate_phdr-pie
 /has_shared_object
