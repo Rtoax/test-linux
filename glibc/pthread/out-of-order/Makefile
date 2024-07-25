@@ -25,4 +25,5 @@ $(TARGETS): %:
 	@$(CC) -o $(@) $(^) $(LDLIBS) $(LDFLAGS) $(LDFLAGS_$(*)) $(CFLAGS) $(CFLAGS_$(*))
 
 clean:
-	@rm -f *.o *.d ${TARGETS}
+	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
+	@rm -f *.o ${TARGETS}
