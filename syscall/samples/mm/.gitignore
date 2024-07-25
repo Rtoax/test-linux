@@ -5,6 +5,7 @@
 /mlock
 /mlockall
 /mprotect
+/mprotect-ld
 /pkey_mprotect
 /pkey_alloc
 /pkey_free

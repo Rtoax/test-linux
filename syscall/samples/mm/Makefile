@@ -10,6 +10,7 @@ TARGETS += pkey_alloc
 TARGETS += pkey_free
 TARGETS += pkey_mprotect
 TARGETS += mprotect
+TARGETS += mprotect-ld
 ifneq ($(wildcard $(NUMAIF_HDR)),)
 TARGETS += mbind
 TARGETS += migrate_pages
@@ -40,6 +41,7 @@ pkey_alloc: pkey_alloc.o
 pkey_free: pkey_free.o
 pkey_mprotect: pkey_mprotect.o
 mprotect: mprotect.o
+mprotect-ld: mprotect-ld.o
 mbind: mbind.o
 migrate_pages: migrate_pages.o
 
