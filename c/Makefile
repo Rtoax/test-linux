@@ -1,5 +1,7 @@
 SHELL = bash
 
+include ../scripts/check_compiler_option.mk
+
 TARGETS :=
 TARGETS += auto
 TARGETS += array
@@ -60,6 +62,9 @@ LDLIBS :=
 CFLAGS := -Werror -Wall
 CFLAGS += -I../macro/
 
+feature-gnu11 := $(findstring 1,$(call check_compiler_option,$(CC),-std=gnu11))
+feature-gnu17 := $(findstring 1,$(call check_compiler_option,$(CC),-std=gnu17))
+
 ifeq ($(shell uname -m),sw_64)
   ifeq ($(shell lscpu | grep -o WX-H8000 || true),WX-H8000)
     CFLAGS += -mcpu=sw8a
@@ -85,7 +90,9 @@ endif
 
 CFLAGS_auto := -Wno-error=implicit-int
 CFLAGS_param-pass := -O0 -I../macro/
+ifeq (${feature-gnu17},1)
 CFLAGS_alignas := -std=gnu17
+endif
 CFLAGS_if := -Wno-error=unused-value -Wno-unused-value
 CFLAGS__Generic := -Wno-all
 CFLAGS_case := -Wno-error=unused-label -Wno-unused-label
