@@ -67,8 +67,6 @@ endif
 
 TARGETS += taskset_example
 
-OS := $(shell grep ^ID= /etc/os-release | sed 's/ID=//g' | sed 's/"//g')
-
 CC = gcc
 
 LDFLAGS :=
@@ -181,8 +179,8 @@ $(TARGETS): %:
 	@$(CC) -o $(@) $(^) $(CFLAGS) $(STATIC_OPTS) $(LDLIBS) $(LDFLAGS) $(LDFLAGS_$(*))
 
 test: ${TARGETS}
-	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m <$(OS)>"
+	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
 
 clean:
-	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m <$(OS)>"
-	@rm -f ${TARGETS} *.o *.d *.log *.s
+	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
+	@rm -f ${TARGETS} *.o *.log *.s
