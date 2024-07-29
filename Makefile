@@ -1,6 +1,12 @@
 # test-linux make
 # By Rong Tao <rtoax@foxmail.com>
 #
+VERSION = 2
+PATCHLEVEL = 2
+SUBLEVEL = 4
+EXTRAVERSION = -rc1
+NAME = Apple
+
 SHELL = bash
 
 MAKEFLAGS = --silent --no-print-directory
@@ -24,6 +30,9 @@ this-makefile := $(lastword $(MAKEFILE_LIST))
 ABS_SRCTREE := $(realpath $(dir $(this-makefile)))
 export ABS_SRCTREE
 
+TEST_LINUX_VERSION = $(VERSION)$(if $(PATCHLEVEL),.$(PATCHLEVEL)$(if $(SUBLEVEL),.$(SUBLEVEL)))$(EXTRAVERSION)
+export VERSION PATCHLEVEL SUBLEVEL TEST_LINUX_VERSION
+
 include $(ABS_SRCTREE)/scripts/TLbuild.include
 
 all:
@@ -31,6 +40,7 @@ all:
 	@echo >&2 -e "*** ABS_SRCTREE ${ABS_SRCTREE}"
 	@echo >&2 -e "*** USER_FAILED_LOG ${USER_FAILED_LOG}"
 	@echo >&2 -e "*** KERNEL_FAILED_LOG ${KERNEL_FAILED_LOG}"
+	@echo >&2 -e "*** TEST_LINUX_VERSION ${TEST_LINUX_VERSION}"
 	@echo >&2 -e "***"
 	@echo >&2 -e "*** make default: show this information"
 	@echo >&2 -e "*** make [user|kernel]"
