@@ -27,15 +27,14 @@ static int kernel_init(void)
 
 	I(ns.inum);
 
-	return 0;
-}
+#ifdef LINUX_VERSION_MAJOR
+	printk("Version: %d.%d.%d\n", LINUX_VERSION_MAJOR,
+		LINUX_VERSION_PATCHLEVEL, LINUX_VERSION_SUBLEVEL);
+#endif
 
-static void kernel_exit(void)
-{
-	printk(KERN_INFO "my exit.\n");
+	return -EINVAL;
 }
 
 module_init(kernel_init);
-module_exit(kernel_exit);
 MODULE_AUTHOR("Rong Tao");
 MODULE_LICENSE("GPL");
