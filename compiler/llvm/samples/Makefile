@@ -1,14 +1,19 @@
 SHELL = bash
 LLVM_CONFIG = $(shell which llvm-config 2>/dev/null)
-CXX = clang++
+CLANG_CXX = $(shell which clang++ 2>/dev/null)
+
+ifneq ($(wildcard $(CLANG_CXX)),)
+CXX = ${CLANG_CXX}
+else
+$(warning "WARNING: not found ${CLANG_CXX}")
+CXX = c++
+endif
 
 ifeq ($(CXX),)
   $(warning Not found ${CXX}, please install first)
 endif
 
 TARGETS :=
-TARGETS += ParseCommandLineOptions
-TARGETS += ParseCommandLineOptions-2
 
 CXXFLAGS :=
 CXXFLAGS += -Werror -Wall
@@ -18,6 +23,9 @@ CXXFLAGS += -DDEBUG -O0 -g
 ifeq ($(LLVM_CONFIG),)
   $(warning Not found llvm-config, please install llvm first)
 else
+  TARGETS += ParseCommandLineOptions
+  TARGETS += ParseCommandLineOptions-2
+
   CXXFLAGS += $(shell llvm-config --cxxflags --ldflags --system-libs --libs core mc mcjit ExecutionEngine)
 endif
 
