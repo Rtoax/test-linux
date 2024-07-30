@@ -9,5 +9,7 @@ int main(void)
 #include "nr_errno.h"
 #undef NR_ERRNO
 
+	printf("errno = %d\n", errno);
+
 	return 0;
 }
