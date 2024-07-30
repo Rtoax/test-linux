@@ -1,3 +1,4 @@
+- ASPM: Active-State Power Management () @PCIe
 - BIOS: Basic Input Ouput System (基础输入输出系统)
 - DMI: Desktop Management Interface
 - GRUB: GRand Unified Bootloader
