@@ -7,7 +7,7 @@
 
 int main(void)
 {
-	int __attribute__((unused)) ret;
+	int ret;
 	struct rlimit rlimit;
 
 	ret = getrlimit(RLIMIT_CORE, &rlimit);
@@ -20,6 +20,9 @@ int main(void)
 
 	getrlimit(RLIMIT_CPU, &rlimit);
 	print_rlimit("RLIMIT_CPU", &rlimit);
+
+	getrlimit(RLIMIT_NPROC, &rlimit);
+	print_rlimit("RLIMIT_NPROC", &rlimit);
 
 	return 0;
 }

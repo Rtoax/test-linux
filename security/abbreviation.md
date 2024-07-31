@@ -2,5 +2,6 @@
 - ASN.1: Abstract Syntax Notation One (ISO/ITU-T 标准，数据编解码)
 - KMS: Key Management Services
 - LSM: Linux Security Modules (统一访问安全框架)
+- PAM: Pluggable Authentication Modules (可插入验证模块)
 - Secomp: SECure COMPuting (安全计算)
 - SSL: Secure Sockets Layer (安全套接字层)

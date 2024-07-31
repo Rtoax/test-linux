@@ -8,18 +8,17 @@
 
 int main(void)
 {
-	int __attribute__((unused)) ret;
+	int ret;
 	struct rlimit rlimit;
 	pid_t pid = getpid();
 
 	ret = prlimit(pid, RLIMIT_NOFILE, NULL, &rlimit);
 	if (ret != 0) {
-		fprintf(stderr, "get RLIMIT_CORE failed.\n");
+		fprintf(stderr, "get RLIMIT_NOFILE failed.\n");
 		return 1;
 	}
 
-	/* unlimited(-1) */
-	print_rlimit("RLIMIT_CORE", &rlimit);
+	print_rlimit("RLIMIT_NOFILE", &rlimit);
 
 	return 0;
 }

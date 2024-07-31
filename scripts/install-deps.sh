@@ -222,6 +222,7 @@ pkgs_base+=( nasm )                 # nasm
 pkgs_base+=( numactl )              # numastat
 pkgs_base+=( opencl-headers )
 pkgs_base+=( openssl )
+pkgs_base+=( pam )                  # /etc/security/limits.conf
 pkgs_base+=( parallel )
 pkgs_base+=( python3-pip )          # pip wheel
 pkgs_base+=( python3-pyroute2 )     # pyroute2

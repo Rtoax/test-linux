@@ -4,7 +4,14 @@
 
 void print_rlimit(const char *prefix, struct rlimit *rlimit)
 {
-	printf("%s : %ld %ld\n", prefix, rlimit->rlim_cur, rlimit->rlim_max);
+	/**
+	 * rlim_cur is soft limit
+	 * rlim_max is hard limit
+	 *
+	 * see also pam:/etc/security/limits.conf
+	 */
+	printf("%s : soft:%ld hard:%ld\n", prefix, rlimit->rlim_cur,
+		rlimit->rlim_max);
 }
 
 void print_rusage(const char *prefix, const struct rusage *rusage)
