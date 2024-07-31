@@ -24,3 +24,12 @@ Header `#include <sys/shm.h>`
 - `shmat(2)`
 - `shmdt(2)`
 
+
+# Kernel Sysctl
+
+Check with `sudo sysctl -a | grep kernel.shm`
+
+- `kernel.shmmni`: max number of segments
+- `kernel.shmmax`: max seg size (kbytes) = 32768
+- `kernel.shmall`: max total shared memory (kbytes)
+
