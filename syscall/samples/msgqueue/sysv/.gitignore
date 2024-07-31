@@ -1,3 +1,5 @@
+/msgsnd
+/msgctl
 /msg_server
 /msg_client
 /fork-trigger

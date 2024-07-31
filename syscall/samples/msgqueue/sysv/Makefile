@@ -1,6 +1,8 @@
 SHELL = bash
 
 TARGETS :=
+TARGETS += msgsnd
+TARGETS += msgctl
 TARGETS += msg_server msg_client
 TARGETS += fork-trigger
 
@@ -16,6 +18,8 @@ build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
 # Add more object.o file
+msgsnd: msgsnd.o
+msgctl: msgctl.o
 msg_server: msg_server.o
 msg_client: msg_client.o
 fork-trigger: fork-trigger.o

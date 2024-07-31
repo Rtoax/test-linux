@@ -23,7 +23,7 @@ int main(void)
 		exit(1);
 	}
 
-	printf("My msqid id: %d\n", msqid);
+	printf("My msqid is: %d\n", msqid);
 	printf("My pid is: %d\n", getpid());
 
 	for (;;) {
