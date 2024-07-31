@@ -25,3 +25,4 @@
 /__GNUC__
 /__has_include
 /__user
+/__stringify

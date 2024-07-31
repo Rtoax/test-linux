@@ -37,6 +37,7 @@ TARGETS += ident
 TARGETS += __GNUC__
 TARGETS += __has_include
 TARGETS += __user
+TARGETS += __stringify
 
 TARGETS_CXX :=
 TARGETS_CXX += __cplusplus
@@ -88,6 +89,7 @@ ident: ident.o
 __GNUC__: __GNUC__.o
 __has_include: __has_include.o
 __user: __user.o
+__stringify: __stringify.o
 
 CFLAGS___i386__ := -m32
 CFLAGS___x86_64__ := -m64
