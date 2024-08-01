@@ -9,10 +9,10 @@ RUN_PFX =
 TARGETS :=
 
 ifneq ($(NASM),)
-TARGETS_ld := hello
-TARGETS_ld += hello-stack
-TARGETS_ld += while
-TARGETS_ld += nanosleep
+TARGETS_ASM := hello
+TARGETS_ASM += hello-stack
+TARGETS_ASM += while
+TARGETS_ASM += nanosleep
 endif
 
 # TODO
@@ -24,23 +24,23 @@ ifeq ($(shell uname -m),aarch64)
 endif
 
 ifneq ($(shell uname -m),x86_64)
-	CC = x86_64-linux-gnu-gcc
-	LD = x86_64-linux-gnu-ld
-	OBJDUMP = x86_64-linux-gnu-objdump
-	RUN_PFX = qemu-x86_64
+  CC = x86_64-linux-gnu-gcc
+  LD = x86_64-linux-gnu-ld
+  OBJDUMP = x86_64-linux-gnu-objdump
+  RUN_PFX = qemu-x86_64
 else
-    ifneq ($(NASM),)
-	TARGETS += echo
-	TARGETS += hello-puts
-	TARGETS += hola
-	TARGETS += fibonacci
-	TARGETS += power
-	TARGETS += factorial_call
-	TARGETS += maxofthree_call
-	TARGETS += hello-c
-	TARGETS += atomic_forced_read
-	TARGETS += time
-    endif
+  ifneq ($(NASM),)
+    TARGETS += echo
+    TARGETS += hello-puts
+    TARGETS += hola
+    TARGETS += fibonacci
+    TARGETS += power
+    TARGETS += factorial_call
+    TARGETS += maxofthree_call
+    TARGETS += hello-c
+    TARGETS += atomic_forced_read
+    TARGETS += time
+  endif
 endif
 
 DEBUG = yes
@@ -53,7 +53,7 @@ CFLAGS += -DDEBUG -O0 -g
 endif
 
 .PHONY: build
-build: ${TARGETS} ${TARGETS_ld}
+build: ${TARGETS} ${TARGETS_ASM}
 	@echo
 	@echo -e " \033[1;33m Done \033[m"
 
@@ -87,7 +87,7 @@ $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
 	@$(CC) $(CFLAGS) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
 
-$(TARGETS_ld): %:
+$(TARGETS_ASM): %:
 	@echo -e "  LD  ld \033[1;32m$(@)\033[m"
 	@$(LD) -o $(@) $(^)
 
@@ -98,4 +98,4 @@ test: ${TARGETS}
 .PHONY: clean
 clean:
 	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
-	@rm -f ${TARGETS} ${TARGETS_ld} *.o *.d core.* *.s
+	@rm -f ${TARGETS} ${TARGETS_ASM} *.o *.d core.* *.s
