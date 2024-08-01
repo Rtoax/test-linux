@@ -3,10 +3,13 @@
 /mov
 /add-c
 /exit
+/exit-main
 /hello
 /hello-stack
 /hello-puts
 /hello-puts-infinite-loop
+/hello-main
+/read-main
 /hello_sve
 /say_hello
 /loop-c

@@ -1,0 +1,24 @@
+        .global main
+
+main:
+        /* read(2) system-call */
+        mov     x8, 63                  /* system-call number: read() */
+        mov     x0, 0                   /* fd: stdin */
+        adr     x1, buf                 /* buf: */
+        mov     x2, 3                   /* count: */
+        svc     0                       /* system call */
+
+        /* write(2) system-call */
+        mov     x8, 64                  /* system-call number: write() */
+        mov     x0, 1                   /* fd: stdout */
+        adr     x1, buf                 /* buf: */
+        mov     x2, 3                   /* count: */
+        svc     0                       /* system call */
+
+        /* return from main */
+        ret
+
+        /* read-write zero initialized data */
+        .bss
+buf:
+        .space 10

@@ -51,6 +51,9 @@ ifeq ($(shell uname -m),aarch64)
   TARGETS_S += say_hello
   TARGETS_S += hello-puts
   TARGETS_S += hello-puts-infinite-loop
+  TARGETS_S += hello-main
+  TARGETS_S += read-main
+  TARGETS_S += exit-main
 
   LDFLAGS += -lc
 endif
@@ -78,6 +81,9 @@ hello-stack: hello-stack.o
 paciasp: paciasp.o
 hello-puts: hello-puts.o
 hello-puts-infinite-loop: hello-puts-infinite-loop.o
+hello-main: hello-main.o
+read-main: read-main.o
+exit-main: exit-main.o
 say_hello: say_hello.o
 exit: exit.o
 nanosleep: nanosleep.o
