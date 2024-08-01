@@ -12,6 +12,6 @@ _start:
 	str x0, [sp, 32]
 	add x0, sp, 24
 	mov x1, 0	/* rem = NULL */
-	mov x16, 0x65
+	mov x8, 0x65
 	svc #0		/* syscall */
 	ret
