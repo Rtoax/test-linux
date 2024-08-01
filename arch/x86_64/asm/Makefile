@@ -38,6 +38,7 @@ else
     TARGETS += factorial_call
     TARGETS += maxofthree_call
     TARGETS += hello-c
+    TARGETS += nanosleep-c
     TARGETS += atomic_forced_read
     TARGETS += time
   endif
@@ -62,6 +63,7 @@ echo: echo.o
 hello-puts: hello-puts.o
 hello: hello.o
 hello-c: hello-c.o
+nanosleep-c: nanosleep-c.o
 hello-stack: hello-stack.o
 nanosleep: nanosleep.o
 fibonacci: fibonacci.o

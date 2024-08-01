@@ -12,4 +12,5 @@
 /atomic_forced_read
 /time
 /nanosleep
+/nanosleep-c
 /*.s
