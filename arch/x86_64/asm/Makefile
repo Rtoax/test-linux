@@ -7,6 +7,7 @@ OBJDUMP = objdump
 RUN_PFX =
 
 TARGETS :=
+TARGETS_S :=
 
 ifneq ($(NASM),)
 TARGETS_ASM := hello
@@ -14,6 +15,9 @@ TARGETS_ASM += hello-stack
 TARGETS_ASM += while
 TARGETS_ASM += nanosleep
 endif
+
+TARGETS_S += printf-main
+TARGETS_S += read-main write-main
 
 # TODO
 TARGETS_todo += sum_cal
@@ -54,7 +58,7 @@ CFLAGS += -DDEBUG -O0 -g
 endif
 
 .PHONY: build
-build: ${TARGETS} ${TARGETS_ASM}
+build: ${TARGETS} ${TARGETS_S} ${TARGETS_ASM}
 	@echo
 	@echo -e " \033[1;33m Done \033[m"
 
@@ -66,6 +70,9 @@ hello-c: hello-c.o
 nanosleep-c: nanosleep-c.o
 hello-stack: hello-stack.o
 nanosleep: nanosleep.o
+printf-main: printf-main.o
+read-main: read-main.o
+write-main: write-main.o
 fibonacci: fibonacci.o
 hola: hola.o
 sum_cal: sum_cal.o sum.o
@@ -85,7 +92,7 @@ time: time.o
 	@$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
 	@$(CC) -S $(<) -o $(<:.c=.s) $(CFLAGS) $(CFLAGS_$(*))
 
-$(TARGETS): %:
+$(TARGETS) $(TARGETS_S): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
 	@$(CC) $(CFLAGS) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
 

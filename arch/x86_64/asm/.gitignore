@@ -14,3 +14,6 @@
 /nanosleep
 /nanosleep-c
 /*.s
+/printf-main
+/read-main
+/write-main
