@@ -6,14 +6,20 @@ int main(void)
 	/**
 	 * int nanosleep(const struct timespec *req, struct timespec *rem);
 	 */
-	__asm__("pushq $0 \n\t" /* tv_nsec = 0 */
+	__asm__("pushq %rax \n\t"
+		"pushq %rdi \n\t"
+		"pushq %rsi \n\t"
+		"pushq $0 \n\t" /* tv_nsec = 0 */
 		"pushq $1 \n\t" /* tv_sec = 1 */
 		"movq %rsp, %rdi \n\t"
 		"xor %rsi, %rsi \n\t" /* rem = NULL */
 		"movq $35, %rax \n\t" /* __NR_nanosleep==35 */
 		"syscall \n\t"
 		"popq %rdi\n\t"
-		"popq %rdi\n\t");
+		"popq %rdi\n\t"
+		"popq %rsi\n\t"
+		"popq %rdi\n\t"
+		"popq %rax\n\t");
 
 	printf("exit.\n");
 
