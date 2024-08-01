@@ -22,6 +22,7 @@ TARGETS_ASM += ldr
 TARGETS_ASM += while
 TARGETS_ASM += add
 TARGETS_ASM += mov
+TARGETS_ASM += nanosleep
 
 TARGETS_S :=
 
@@ -79,6 +80,7 @@ hello-puts: hello-puts.o
 hello-puts-infinite-loop: hello-puts-infinite-loop.o
 say_hello: say_hello.o
 exit: exit.o
+nanosleep: nanosleep.o
 hello_sve: hello_sve.o
 daxpy: daxpy.o daxpy_sve.o daxpy-c.co
 add-c: add-c.o
