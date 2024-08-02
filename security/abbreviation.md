@@ -1,9 +1,11 @@
 - ACL: Access Control List (访问控制表)
 - ASN.1: Abstract Syntax Notation One (ISO/ITU-T 标准，数据编解码)
+- ATF: ARM Trusted Firmware (ARM信任固件)
 - KMS: Key Management Services
 - LSM: Linux Security Modules (统一访问安全框架)
 - OP-TEE:
 - PAM: Pluggable Authentication Modules (可插入验证模块)
+- PSCI: Power State Coordination Interface (电源状态协调接口) @ATF
 - REE: Rich Execution Environment () @TEE
 - Secomp: SECure COMPuting (安全计算)
 - SSL: Secure Sockets Layer (安全套接字层)
