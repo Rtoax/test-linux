@@ -424,6 +424,7 @@ debian|ubuntu)
 	pkgs_base+=( libc6-dev )
 	pkgs_base+=( libc-bin )
 	pkgs_base+=( libmpich-dev )         # MPI
+	pkgs_base+=( libnuma-dev )
 	pkgs_base+=( libunwind-dev )
 	pkgs_base+=( linux-libc-dev )
 	pkgs_base+=( lsb-release )

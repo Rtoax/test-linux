@@ -1,9 +1,8 @@
 SHELL = bash
 
+include ../../scripts/check_compiler_option.mk
+
 TARGETS :=
-ifneq ($(shell uname -m),riscv64)
-TARGETS += hello
-endif
 
 CC = gcc
 ANNOBIN = $(shell pwd)/annobin-cc1
@@ -12,6 +11,15 @@ ifneq ($(wildcard /usr/lib/rpm/redhat/redhat-annobin-cc1),)
   $(info Found /usr/lib/rpm/redhat/redhat-annobin-cc1)
   ANNOBIN = /usr/lib/rpm/redhat/redhat-annobin-cc1
 endif
+
+feature-annobin := $(findstring 1,$(call check_compiler_option,$(CC),-specs=${ANNOBIN}))
+
+$(info feature-annobin ${feature-annobin})
+ifeq (${feature-annobin},1)
+  $(info Support ANNOBIN)
+  TARGETS += hello
+endif
+
 
 CFLAGS := -Werror -Wall
 CFLAGS += -Wstrict-prototypes
