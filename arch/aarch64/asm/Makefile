@@ -35,6 +35,7 @@ endif
 # Cross compile
 # If cross compile, you could use binfmt_misc to running aarch64 on x86_64, ..
 ifneq ($(shell uname -m),aarch64)
+  CC = aarch64-linux-gnu-gcc
   AS = aarch64-linux-gnu-as
   LD = aarch64-linux-gnu-ld
   OBJDUMP = aarch64-linux-gnu-objdump
