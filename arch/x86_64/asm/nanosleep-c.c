@@ -1,5 +1,6 @@
 #include <string.h>
 #include <stdio.h>
+#include <time.h>
 
 int main(void)
 {
@@ -20,6 +21,17 @@ int main(void)
 		"popq %rsi\n\t"
 		"popq %rdi\n\t"
 		"popq %rax\n\t");
+
+#if 0
+	struct timespec ts = {1, 0};
+
+	__asm__("movq %0, %rdi \n\t"  /* rdi = &ts */
+		"xor %rsi, %rsi \n\t" /* rem = NULL */
+		"movq $35, %rax \n\t" /* __NR_nanosleep==35 */
+		"syscall \n\t"
+		: /* No return */
+		: "r"(&ts));
+#endif
 
 	printf("exit.\n");
 
