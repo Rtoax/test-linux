@@ -5,9 +5,11 @@
 - LSM: Linux Security Modules (统一访问安全框架)
 - OP-TEE:
 - PAM: Pluggable Authentication Modules (可插入验证模块)
+- PL: Privilege Level (特权等级)
 - PSCI: Power State Coordination Interface (电源状态协调接口) @ATF
 - REE: Rich Execution Environment () @TEE
 - Secomp: SECure COMPuting (安全计算)
+- SMC: Secure Monitor Call () @TEE
 - SSL: Secure Sockets Layer (安全套接字层)
 - TEE: The Trusted Execution Environment (可信运行环境) @OP-TEE @REE
 - TPM: Trusted Platform Module
