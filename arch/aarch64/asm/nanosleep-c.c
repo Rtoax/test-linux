@@ -2,10 +2,10 @@
 #include <stdio.h>
 #include <time.h>
 
-int main(void)
+int asm_sleep(unsigned int sec)
 {
 	int ret;
-	struct timespec ts = {1, 0};
+	struct timespec ts = {sec, 0};
 
 	/* int nanosleep(const struct timespec *req, struct timespec *rem); */
 	__asm__("stp x0, x1, [sp, #-16]! \n\t"
@@ -17,6 +17,18 @@ int main(void)
 		: "=g"(ret)
 		: [pts] "r"(&ts),
 		  [rem] "g"(0));
+
+	return ret;
+}
+
+int main(void)
+{
+	int i = 3;
+
+	while (i--) {
+		printf("sleep.\n");
+		asm_sleep(1);
+	}
 
 	printf("exit.\n");
 
