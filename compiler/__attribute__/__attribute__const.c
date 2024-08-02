@@ -8,10 +8,11 @@ int square(int a)
 	return a * a;
 }
 
-int main(void)
+int main(int argc, char *argv[])
 {
-	printf("----------%d\n", square(5));
-	printf("----------%d\n", square(5));
-	printf("----------%d\n", square(2));
+	int a = 5;
+	printf("%d\n", square(5));
+	printf("%d\n", square(a));
+	printf("%d\n", square(argc));
 	return 0;
 }
