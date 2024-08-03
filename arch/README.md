@@ -1,6 +1,18 @@
 Arch
 ====
 
+# Inline Assembly in Linux C
+
+```
+asm (
+	assembler template
+	: output operands (optional)
+	: input operands (optional)
+	: list of clobbered registers (optional)
+);
+```
+
+
 # Cross Compile
 
 ```

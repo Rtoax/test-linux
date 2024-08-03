@@ -23,6 +23,7 @@ TARGETS_S += read-main write-main
 TARGETS_todo += sum_cal
 
 ifeq ($(shell uname -m),x86_64)
+  TARGETS += cr3
 endif
 ifeq ($(shell uname -m),aarch64)
 endif
@@ -63,6 +64,7 @@ build: ${TARGETS} ${TARGETS_S} ${TARGETS_ASM}
 	@echo -e " \033[1;33m Done \033[m"
 
 # Add more object.o file
+cr3: cr3.o
 echo: echo.o
 hello-puts: hello-puts.o
 hello: hello.o

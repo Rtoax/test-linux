@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <time.h>
 
-int main(void)
+int asm_sleep1(void)
 {
 	/**
 	 * int nanosleep(const struct timespec *req, struct timespec *rem);
@@ -21,18 +21,28 @@ int main(void)
 		"popq %rsi\n\t"
 		"popq %rdi\n\t"
 		"popq %rax\n\t");
+}
 
-#if 0
+int asm_sleep2(void)
+{
+#if 1
 	struct timespec ts = {1, 0};
 
-	__asm__("movq %0, %rdi \n\t"  /* rdi = &ts */
-		"xor %rsi, %rsi \n\t" /* rem = NULL */
-		"movq $35, %rax \n\t" /* __NR_nanosleep==35 */
+	__asm__("movq %0, %%rdi \n\t"  /* rdi = &ts */
+		"xor %%rsi, %%rsi \n\t" /* rem = NULL */
+		"movq $35, %%rax \n\t" /* __NR_nanosleep==35 */
 		"syscall \n\t"
 		: /* No return */
 		: "r"(&ts));
 #endif
 
+	return 0;
+}
+
+int main(void)
+{
+	asm_sleep1();
+	asm_sleep2();
 	printf("exit.\n");
 
 	return 0;
