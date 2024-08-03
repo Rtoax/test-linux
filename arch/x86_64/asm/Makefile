@@ -94,6 +94,10 @@ time: time.o
 	@$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
 	@$(CC) -S $(<) -o $(<:.c=.s) $(CFLAGS) $(CFLAGS_$(*))
 
+%.o: %.S
+	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
+	@$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
+
 $(TARGETS) $(TARGETS_S): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
 	@$(CC) $(CFLAGS) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
@@ -109,4 +113,4 @@ test: ${TARGETS}
 .PHONY: clean
 clean:
 	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
-	@rm -f ${TARGETS} ${TARGETS_ASM} *.o *.d core.* *.s
+	@rm -f ${TARGETS} ${TARGETS_ASM} ${TARGETS_S} *.o *.d core.* *.s

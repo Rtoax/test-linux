@@ -21,11 +21,12 @@ int asm_sleep1(void)
 		"popq %rsi\n\t"
 		"popq %rdi\n\t"
 		"popq %rax\n\t");
+
+	return 0;
 }
 
 int asm_sleep2(void)
 {
-#if 1
 	struct timespec ts = {1, 0};
 
 	__asm__("movq %0, %%rdi \n\t"  /* rdi = &ts */
@@ -34,7 +35,6 @@ int asm_sleep2(void)
 		"syscall \n\t"
 		: /* No return */
 		: "r"(&ts));
-#endif
 
 	return 0;
 }
