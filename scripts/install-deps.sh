@@ -265,6 +265,7 @@ pkgs_desktop+=( terminator )
 pkgs_desktop+=( gimp )
 pkgs_desktop+=( gnuplot )
 pkgs_desktop+=( python3-matplotlib )
+pkgs_desktop+=( tigervnc )
 
 # Database
 pkgs_db+=( postgresql )
