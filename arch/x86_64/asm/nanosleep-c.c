@@ -1,6 +1,8 @@
 #include <string.h>
 #include <stdio.h>
+#include <errno.h>
 #include <time.h>
+
 
 int asm_sleep1(void)
 {
@@ -25,24 +27,32 @@ int asm_sleep1(void)
 	return 0;
 }
 
-int asm_sleep2(void)
+int asm_sleep2(int sec)
 {
-	struct timespec ts = {1, 0};
+	int ret = -EINVAL;
 
-	__asm__("movq %0, %%rdi \n\t"  /* rdi = &ts */
+	struct timespec ts = {sec, 0};
+
+	__asm__("movq %1, %%rdi \n\t"  /* rdi = &ts */
 		"xor %%rsi, %%rsi \n\t" /* rem = NULL */
 		"movq $35, %%rax \n\t" /* __NR_nanosleep==35 */
 		"syscall \n\t"
-		: /* No return */
+		: "=r"(ret)
 		: "r"(&ts));
 
-	return 0;
+	if (ret) {
+		fprintf(stderr, "nanosleep failed %d, sec = %d, %s\n",
+			ret, sec, strerror(-ret));
+	}
+
+	return ret;
 }
 
 int main(void)
 {
 	asm_sleep1();
-	asm_sleep2();
+	asm_sleep2(1);
+	asm_sleep2(-1);
 	printf("exit.\n");
 
 	return 0;
