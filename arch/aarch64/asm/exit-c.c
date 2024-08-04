@@ -3,7 +3,7 @@
 
 void asm_exit(int v)
 {
-	__asm__("mov x0, #0xff \n\t"
+	__asm__("mov x0, %[v] \n\t"
 		"mov w8, #0x5d \n\t"
 		"svc #0x0 \n\t"
 		: /* No return value */
