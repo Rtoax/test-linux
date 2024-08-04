@@ -44,6 +44,7 @@ else
     TARGETS += maxofthree_call
     TARGETS += hello-c
     TARGETS += nanosleep-c
+    TARGETS += exit-c
     TARGETS += atomic_forced_read
     TARGETS += time
   endif
@@ -70,6 +71,7 @@ hello-puts: hello-puts.o
 hello: hello.o
 hello-c: hello-c.o
 nanosleep-c: nanosleep-c.o
+exit-c: exit-c.o
 hello-stack: hello-stack.o
 nanosleep: nanosleep.o
 printf-main: printf-main.o
