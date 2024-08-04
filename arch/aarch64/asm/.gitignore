@@ -5,6 +5,7 @@
 /add-c
 /exit
 /exit-main
+/exit-c
 /hello
 /hello-stack
 /hello-puts
