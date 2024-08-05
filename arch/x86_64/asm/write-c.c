@@ -25,7 +25,7 @@ int main(void)
 /**
  * Test stackoverflow of asm_write()
  */
-#ifdef LOOP
+#ifdef INFINITE_LOOP
 	while (1)
 #endif
 		asm_write();

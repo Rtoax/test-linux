@@ -47,7 +47,7 @@ ifeq ($(shell uname -m),aarch64)
   TARGETS_C += puts
   TARGETS_C += paciasp-c
   TARGETS_C += nanosleep-c
-  TARGETS_C += write-c
+  TARGETS_C += write-c write-c-loop
   TARGETS_C += exit-c
 
   TARGETS_ASM += branch
@@ -104,6 +104,7 @@ loop-c: loop-c.o
 paciasp-c: paciasp-c.o
 nanosleep-c: nanosleep-c.o
 write-c: write-c.o
+write-c-loop: write-c-loop.o
 exit-c: exit-c.o
 puts: puts.o
 while: while.o
@@ -111,6 +112,7 @@ ldr: ldr.o
 mov: mov.o
 
 CFLAGS_hello-puts-infinite-loop := -DINFINITE_LOOP=1
+CFLAGS_write-c-loop := -DINFINITE_LOOP=1
 
 %.o: %.asm
 	@echo -e "  AS  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

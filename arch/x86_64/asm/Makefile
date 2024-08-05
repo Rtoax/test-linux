@@ -90,7 +90,7 @@ while: while.o
 atomic_forced_read: atomic_forced_read.o
 time: time.o
 
-CFLAGS_write-c-loop := -DLOOP=1
+CFLAGS_write-c-loop := -DINFINITE_LOOP=1
 
 %.o: %.asm
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
