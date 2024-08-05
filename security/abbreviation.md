@@ -1,11 +1,13 @@
 - ACL: Access Control List (访问控制表)
 - ASN.1: Abstract Syntax Notation One (ISO/ITU-T 标准，数据编解码)
 - ATF: ARM Trusted Firmware (ARM信任固件)
+- CC: Confidential Compute (机密计算)
 - KMS: Key Management Services
 - LSM: Linux Security Modules (统一访问安全框架)
 - MB: Measure Boot () @TB
 - OP-TEE:
 - PAM: Pluggable Authentication Modules (可插入验证模块)
+- PC: Privacy Computing (隐私计算) @AI
 - PL: Privilege Level (特权等级)
 - PSCI: Power State Coordination Interface (电源状态协调接口) @ATF
 - REE: Rich Execution Environment () @TEE
@@ -15,6 +17,7 @@
 - TB: Trusted Boot (可信启动) @MB
 - TC: Trusted Computing (可信计算)
 - TCG: Trusted Computing Group (可信计算组织)
-- TEE: The Trusted Execution Environment (可信运行环境) @OP-TEE @REE
+- TEE: The Trusted Execution Environment (可信运行环境) @OP-TEE @REE @SGX @TrustZone
 - TPM: Trusted Platform Module (可信平台模块)
+- TTP: Trusted Third Party (可信第三方)
 - TXT: Trusted Execution Technology (可信运行技术) @Intel

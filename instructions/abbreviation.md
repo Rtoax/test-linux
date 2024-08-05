@@ -20,6 +20,7 @@
 - RISC: Reduced Instruction Set Computer (精简指令集计算机) @CISC
 - SBNI: Sandy Bridge New Instructions () @AVX
 - SBT: Static Binary Translator (静态二进制翻译) @BT @DBT @HBT
+- SGX: Software Guard Extensions (软件防护扩展) @Intel
 - SIMD: Single Instruction Multiple Data (单指令多数据)
 - SSE: Streaming SIMD Extensions (单指令多数据流扩展) @SIMD
 - SSE2: Streaming SIMD Extensions 2 (单指令多数据流扩展2) @SIMD
