@@ -45,7 +45,7 @@ else
     TARGETS += hello-c
     TARGETS += nanosleep-c
     TARGETS += exit-c
-    TARGETS += write-c
+    TARGETS += write-c write-c-loop
     TARGETS += atomic_forced_read
     TARGETS += time
   endif
@@ -74,6 +74,7 @@ hello-c: hello-c.o
 nanosleep-c: nanosleep-c.o
 exit-c: exit-c.o
 write-c: write-c.o
+write-c-loop: write-c-loop.o
 hello-stack: hello-stack.o
 nanosleep: nanosleep.o
 printf-main: printf-main.o
@@ -88,6 +89,8 @@ power: power.o
 while: while.o
 atomic_forced_read: atomic_forced_read.o
 time: time.o
+
+CFLAGS_write-c-loop := -DLOOP=1
 
 %.o: %.asm
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

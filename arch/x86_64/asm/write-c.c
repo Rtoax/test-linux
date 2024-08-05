@@ -22,7 +22,13 @@ void asm_write(void)
 
 int main(void)
 {
-	asm_write();
+/**
+ * Test stackoverflow of asm_write()
+ */
+#ifdef LOOP
+	while (1)
+#endif
+		asm_write();
 	printf("exit.\n");
 	return 0;
 }
