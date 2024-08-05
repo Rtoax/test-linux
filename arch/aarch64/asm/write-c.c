@@ -1,6 +1,39 @@
 #include <string.h>
 #include <stdio.h>
 
+#define ASM_WRITE_HELLO_AARCH64() ({		\
+	__asm__("stp x29, x30, [sp, #-32]!\n"	\
+		"mov x29, sp\n"			\
+		"str xzr, [sp, #16]\n"		\
+		"mov w0, #0x48\n"		\
+		"strb w0, [sp, #16]\n"		\
+		"mov w0, #0x65\n"		\
+		"strb w0, [sp, #17]\n"		\
+		"mov w0, #0x6c\n"		\
+		"strb w0, [sp, #18]\n"		\
+		"mov w0, #0x6c\n"		\
+		"strb w0, [sp, #19]\n"		\
+		"mov w0, #0x6f\n"		\
+		"strb w0, [sp, #20]\n"		\
+		"mov w0, #0xa\n"		\
+		"strb w0, [sp, #21]\n"		\
+		"add x0, sp, #0x10\n"		\
+		"str x0, [sp, #24]\n"		\
+		"\n"				\
+		"mov x0, #1\n"			\
+		"ldr x1, [sp, #24]\n"		\
+		"mov x2, #0x8\n"		\
+		"mov w8, #64\n"			\
+		"svc #0\n"			\
+		"ldp x29, x30, [sp], #32\n");	\
+})
+
+int asm_write_stack(void)
+{
+	ASM_WRITE_HELLO_AARCH64();
+	return 0;
+}
+
 int asm_write(void)
 {
 	int ret;
@@ -27,9 +60,13 @@ int main(void)
  * Test stackoverflow of asm_write()
  */
 #ifdef INFINITE_LOOP
-	while (1)
+	while (1) {
 #endif
 		asm_write();
+		asm_write_stack();
+#ifdef INFINITE_LOOP
+	}
+#endif
 	printf("exit.\n");
 
 	return 0;
