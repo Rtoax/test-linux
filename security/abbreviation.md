@@ -3,6 +3,7 @@
 - ATF: ARM Trusted Firmware (ARM信任固件)
 - KMS: Key Management Services
 - LSM: Linux Security Modules (统一访问安全框架)
+- MB: Measure Boot () @TB
 - OP-TEE:
 - PAM: Pluggable Authentication Modules (可插入验证模块)
 - PL: Privilege Level (特权等级)
@@ -11,7 +12,9 @@
 - Secomp: SECure COMPuting (安全计算)
 - SMC: Secure Monitor Call () @TEE
 - SSL: Secure Sockets Layer (安全套接字层)
+- TB: Trusted Boot (可信启动) @MB
 - TC: Trusted Computing (可信计算)
+- TCG: Trusted Computing Group (可信计算组织)
 - TEE: The Trusted Execution Environment (可信运行环境) @OP-TEE @REE
-- TPM: Trusted Platform Module
+- TPM: Trusted Platform Module (可信平台模块)
 - TXT: Trusted Execution Technology (可信运行技术) @Intel
