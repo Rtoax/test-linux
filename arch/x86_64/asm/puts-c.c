@@ -10,11 +10,21 @@ void puts_stack(void)
 	puts(msg);
 }
 
-void asm_puts_stack(void)
+void asm_puts_stack_1(void)
 {
 	/**
 	 * FIXME: Why print 'Hell'?
 	 */
+	__asm__("push $0x00000a6f\n"
+		"push $0x6c6c6548\n"
+		"mov %rsp, %rdi\n"
+		"call puts\n"
+		"pop %rdi\n"
+		"pop %rdi\n");
+}
+
+void asm_puts_stack(void)
+{
 	__asm__("push %rax\n"
 		"mov $0x0000006f6c6c6548, %rax\n"
 		"push %rax\n"
@@ -36,6 +46,7 @@ int main(void)
 #undef C
 
 	puts_stack();
+	asm_puts_stack_1();
 
 /**
  * Test stackoverflow
