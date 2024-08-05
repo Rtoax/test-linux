@@ -21,3 +21,5 @@
 /exit-c
 /write-c
 /write-c-loop
+/puts-c
+/puts-c-loop
