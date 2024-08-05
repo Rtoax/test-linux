@@ -7,16 +7,17 @@
 void asm_write(void)
 {
 	int ret;
-	char msg[] = {"Hello\0"};
+	int fd = 1;
+	char msg[] = {"Hello\n"};
 	size_t len = 6;
 
-	__asm__("mov $1, %%edi \n\t"
-		"movq %1, %%rsi \n\t"
-		"movq %2, %%rdx \n\t"
+	__asm__("mov %[fd], %%edi \n\t"
+		"movq %[msg], %%rsi \n\t"
+		"movq %[len], %%rdx \n\t"
 		"movq $1, %%rax \n\t"
 		"syscall \n\t"
 		: "=r"(ret)
-		: "r"(msg), "r"(len));
+		: [fd]"r"(fd), [msg]"r"(msg), [len]"r"(len));
 }
 
 int main(void)
