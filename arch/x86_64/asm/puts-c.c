@@ -4,17 +4,24 @@
 #include <time.h>
 
 
+void puts_stack(void)
+{
+	char msg[] = {"1234567890"};
+	puts(msg);
+}
+
 void asm_puts_stack(void)
 {
 	/**
 	 * FIXME: Why print 'Hell'?
 	 */
-	__asm__("push $0x00000a6f\n"
-		"push $0x6c6c6548\n"
+	__asm__("push %rax\n"
+		"mov $0x0000006f6c6c6548, %rax\n"
+		"push %rax\n"
 		"mov %rsp, %rdi\n"
 		"call puts\n"
-		"pop %rdi\n"
-		"pop %rdi\n");
+		"pop %rax\n"
+		"pop %rax\n");
 }
 
 int main(void)
@@ -27,6 +34,9 @@ int main(void)
 	C('o');
 	C('\n');
 #undef C
+
+	puts_stack();
+
 /**
  * Test stackoverflow
  */
