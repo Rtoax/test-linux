@@ -47,6 +47,7 @@ ifeq ($(shell uname -m),aarch64)
   TARGETS_C += puts
   TARGETS_C += paciasp-c
   TARGETS_C += nanosleep-c
+  TARGETS_C += write-c
   TARGETS_C += exit-c
 
   TARGETS_ASM += branch
@@ -102,6 +103,7 @@ add-c: add-c.o
 loop-c: loop-c.o
 paciasp-c: paciasp-c.o
 nanosleep-c: nanosleep-c.o
+write-c: write-c.o
 exit-c: exit-c.o
 puts: puts.o
 while: while.o
