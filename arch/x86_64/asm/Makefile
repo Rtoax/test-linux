@@ -18,6 +18,8 @@ endif
 
 TARGETS_S += printf-main
 TARGETS_S += read-main write-main
+TARGETS_S += puts-main
+TARGETS_S += putchar-main
 
 # TODO
 TARGETS_todo += sum_cal
@@ -83,6 +85,8 @@ nanosleep: nanosleep.o
 printf-main: printf-main.o
 read-main: read-main.o
 write-main: write-main.o
+puts-main: puts-main.o
+putchar-main: putchar-main.o
 fibonacci: fibonacci.o
 hola: hola.o
 sum_cal: sum_cal.o sum.o

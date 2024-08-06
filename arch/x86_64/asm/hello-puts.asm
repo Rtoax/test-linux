@@ -1,9 +1,12 @@
-        global  main
-        extern  puts
-        section .text
+	global  main
+	extern  puts
+	section .text
 main:
-        push    `ABCD`
-        mov     rdi, rsp
-        call    puts
-        pop     rsi
-        ret
+	; FIXME: Only print one ABCD?
+	push    `ABCD`
+	push    `ABCD`
+	mov     rdi, rsp
+	call    puts
+	pop     rsi
+	pop     rsi
+	ret

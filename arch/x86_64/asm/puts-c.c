@@ -15,7 +15,7 @@ void asm_puts_stack_1(void)
 	/**
 	 * FIXME: Why print 'Hell'?
 	 */
-	__asm__("push $0x00000a6f\n"
+	__asm__("push $0x6f\n"
 		"push $0x6c6c6548\n"
 		"mov %rsp, %rdi\n"
 		"call puts\n"

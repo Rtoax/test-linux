@@ -23,3 +23,5 @@
 /write-c-loop
 /puts-c
 /puts-c-loop
+/puts-main
+/putchar-main
