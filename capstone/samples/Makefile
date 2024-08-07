@@ -1,13 +1,13 @@
 SHELL = bash
 
-CS_HDR_PLATFORM = /usr/include/capstone/platform.h
+CS_HDR_CAPSTONE = /usr/include/capstone/capstone.h
 
 TARGETS :=
 TARGETS += demo
+TARGETS += x86_64
 
-ifneq ($(wildcard $(STDIO_HEADER)),)
+ifeq ($(wildcard $(CS_HDR_CAPSTONE)),)
   TARGETS :=
-else
   $(warning "WARNING: You need to install capstone development")
 endif
 
@@ -22,6 +22,7 @@ build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
 demo: demo.o
+x86_64: x86_64.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
