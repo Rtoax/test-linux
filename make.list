@@ -7,6 +7,7 @@ USER_LIST += audit
 USER_LIST += binutils
 USER_LIST += bpf
 USER_LIST += c
+USER_LIST += capstone
 USER_LIST += cpp
 USER_LIST += compiler
 USER_LIST += cgroup/tools
