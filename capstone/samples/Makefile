@@ -3,8 +3,8 @@ SHELL = bash
 CS_HDR_CAPSTONE = /usr/include/capstone/capstone.h
 
 TARGETS :=
-TARGETS += demo
-TARGETS += x86_64
+TARGETS += simple
+TARGETS += detail
 
 ifeq ($(wildcard $(CS_HDR_CAPSTONE)),)
   TARGETS :=
@@ -21,8 +21,8 @@ build: ${TARGETS}
 	@echo
 	@echo -e " \033[1;33m Done \033[m"
 
-demo: demo.o
-x86_64: x86_64.o
+detail: detail.o
+simple: simple.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
