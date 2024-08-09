@@ -5,7 +5,7 @@ CLANG_CXX = $(shell which clang++ 2>/dev/null)
 ifneq ($(wildcard $(CLANG_CXX)),)
 CXX = ${CLANG_CXX}
 else
-$(warning "WARNING: not found ${CLANG_CXX}")
+$(warning "WARNING: not found clang++")
 CXX = c++
 endif
 
@@ -17,7 +17,6 @@ TARGETS :=
 
 CXXFLAGS :=
 CXXFLAGS += -Werror -Wall
-CXXFLAGS += -Wstrict-prototypes
 CXXFLAGS += -DDEBUG -O0 -g
 
 ifeq ($(LLVM_CONFIG),)
