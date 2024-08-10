@@ -1,53 +1,58 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <errno.h>
 
 #include <capstone/platform.h>
 #include <capstone/capstone.h>
 
-static void print_string_hex(const char *comment, unsigned char *str, size_t len)
+
+void print_string_hex(FILE *fp, const char *comment, unsigned char *str,
+		      size_t len)
 {
 	unsigned char *c;
-	printf("%s", comment);
+	fprintf(fp, "%s", comment);
 	for (c = str; c < str + len; c++)
-		printf("0x%02x ", *c & 0xff);
-	printf("\n");
+		fprintf(fp, "0x%02x ", *c & 0xff);
+	fprintf(fp, "\n");
 }
 
-int disasm(cs_arch arch, cs_mode mode, unsigned char *code, size_t size)
+int fdisasm(FILE *fp, cs_arch arch, cs_mode mode, unsigned char *code,
+	    size_t size)
 {
 	uint64_t address = 0x1000;
 	cs_insn *insn;
-	size_t count;
+	size_t j, count;
 	csh handle;
+	int ret = 0;
+
 
 	cs_err err = cs_open(arch, mode, &handle);
 	if (err) {
-		printf("Failed on cs_open() with error returned: %u\n", err);
-		abort();
+		fprintf(stderr, "cs_open() fatal returned: %u\n", err);
+		return -EINVAL;
 	}
 
 	cs_option(handle, CS_OPT_DETAIL, CS_OPT_ON);
 
-	print_string_hex("Code:", code, size);
-
 	count = cs_disasm(handle, code, size, address, 0, &insn);
-	if (count) {
-		size_t j;
-
-		printf("Disasm:\n");
-		for (j = 0; j < count; j++)
-			printf("0x%" PRIx64 ":\t%s\t%s\n", insn[j].address, insn[j].mnemonic, insn[j].op_str);
-		printf("0x%" PRIx64 ":\n", insn[j-1].address + insn[j-1].size);
-
-		cs_free(insn, count);
-	} else {
-		printf("ERROR: Failed to disasm given code!\n");
-		abort();
+	if (!count) {
+		fprintf(stderr, "ERROR: Failed to disasm given code!\n");
+		ret = -EINVAL;
+		goto close;
 	}
 
-	cs_close(&handle);
+	fprintf(fp, "Disasm:\n");
+	for (j = 0; j < count; j++)
+		fprintf(fp, "0x%" PRIx64 ":\t%s\t%s\n",
+			insn[j].address,
+			insn[j].mnemonic,
+			insn[j].op_str);
+	fprintf(fp, "0x%" PRIx64 ":\n", insn[j-1].address + insn[j-1].size);
 
-	return 0;
+	cs_free(insn, count);
+close:
+	cs_close(&handle);
+	return ret;
 }
 
 int main(void)
@@ -85,13 +90,15 @@ int main(void)
 	mode = CS_MODE_64;
 	code = (unsigned char *)X86_64_CODE;
 	size = sizeof(X86_64_CODE) - 1;
-	disasm(arch, mode, code, size);
+	print_string_hex(stdout, "Code:", code, size);
+	fdisasm(stdout, arch, mode, code, size);
 
 	arch = CS_ARCH_ARM64;
 	mode = CS_MODE_ARM;
 	code = (unsigned char *)AArch64_CODE;
 	size = sizeof(AArch64_CODE) - 1;
-	disasm(arch, mode, code, size);
+	print_string_hex(stdout, "Code:", code, size);
+	fdisasm(stdout, arch, mode, code, size);
 
 	return 0;
 }
