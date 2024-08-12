@@ -1,6 +1,11 @@
 Process Schedule
 ================
 
+# Key Words
+
+- **等效让渡时长差值**
+
+
 # Kernel Threads
 
 - kblockd/%u:
