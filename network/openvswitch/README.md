@@ -17,9 +17,17 @@ The Linux kernel implementation of Open vSwitch was merged into the kernel
 mainline in kernel version 3.3,  which was released on March 18, 2012.
 
 
+# OVN - OVN (Open Virtual Network)
+
+OVN (Open Virtual Network) is a series of daemons for the Open vSwitch that
+translate virtual network configurations into OpenFlow. OVN is licensed under
+the open source Apache 2 license.
+
+
 # Links
 
 - https://www.openvswitch.org/
 - https://en.wikipedia.org/wiki/Open_vSwitch
 - https://github.com/openvswitch/ovs/blob/master/Documentation/intro/why-ovs.rst
+- https://www.ovn.org/en/
 
