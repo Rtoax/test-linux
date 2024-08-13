@@ -116,6 +116,7 @@ core.*
 coredump.*
 *.coredump
 *.core
+!core*.c
 
 # Binary and data
 *.Binary
