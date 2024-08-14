@@ -222,7 +222,6 @@ pkgs_base+=( nasm )                 # nasm
 pkgs_base+=( numactl )              # numastat
 pkgs_base+=( opencl-headers )
 pkgs_base+=( openssl )
-pkgs_base+=( pam )                  # /etc/security/limits.conf
 pkgs_base+=( parallel )
 pkgs_base+=( python3-pip )          # pip wheel
 pkgs_base+=( python3-pyroute2 )     # pyroute2
@@ -344,6 +343,7 @@ cclinux|fedora|centos|rhel|openEuler|almalinux|opencloudos)
 	pkgs_base+=( mpich mpich-devel )    # mpi
 	pkgs_base+=( numactl-devel )        # numaif.h
 	pkgs_base+=( nvme-cli )             # nvme
+	pkgs_base+=( pam )                  # /etc/security/limits.conf
 	pkgs_base+=( pam-devel )
 	pkgs_base+=( procps-ng )            # pidof, top, etc.
 	pkgs_base+=( readline-devel )
