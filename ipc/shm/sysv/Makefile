@@ -3,6 +3,7 @@ SHELL = bash
 CC := gcc
 
 TARGETS :=
+TARGETS += shmctl
 TARGETS += reader
 TARGETS += writer writer-hugetlb
 TARGETS += private
@@ -11,6 +12,7 @@ CFLAGS := -g -ggdb -O0
 
 ALL: $(TARGETS)
 
+shmctl: shmctl.o
 reader: reader.o
 writer: writer.o
 writer-hugetlb: writer-hugetlb.o

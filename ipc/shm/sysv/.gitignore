@@ -2,3 +2,4 @@
 /writer-hugetlb
 /reader
 /private
+/shmctl
