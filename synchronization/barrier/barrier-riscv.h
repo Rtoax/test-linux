@@ -15,4 +15,4 @@
 #define smp_mb()	RISCV_FENCE(rw, rw)
 #define smp_rmb()	RISCV_FENCE(r, r)
 #define smp_wmb()	RISCV_FENCE(w, w)
-
+#define smp_rwmb()	smp_mb()
