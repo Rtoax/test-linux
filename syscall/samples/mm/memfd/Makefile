@@ -1,9 +1,10 @@
 SHELL = bash
 
-
+TARGETS :=
 TARGETS += memfd_create
 TARGETS += memfd_create-dup2
 TARGETS += MFD_ALLOW_SEALING
+TARGETS += memfd_secret
 
 CC = gcc
 CXX = g++
@@ -21,6 +22,7 @@ build: ${TARGETS}
 memfd_create: memfd_create.o
 memfd_create-dup2: memfd_create-dup2.o
 MFD_ALLOW_SEALING: MFD_ALLOW_SEALING.o
+memfd_secret: memfd_secret.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
