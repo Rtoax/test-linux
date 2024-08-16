@@ -5,7 +5,9 @@
 #include <unistd.h>
 #include <errno.h>
 #include <linux/memfd.h>
-#include <sys/syscall.h>
+
+#include "helpers.h"
+
 
 int anonyexec(const char *path, char *argv[])
 {
@@ -22,7 +24,7 @@ int anonyexec(const char *path, char *argv[])
 	close(fd);
 
 	/* Create memfd and copy ELF into it. */
-	fdm = syscall(__NR_memfd_create, "elf", MFD_CLOEXEC);
+	fdm = sys_memfd_create("elf", MFD_CLOEXEC);
 	ftruncate(fdm, filesize);
 	write(fdm, elfbuf, filesize);
 	free(elfbuf);

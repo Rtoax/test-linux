@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <sys/syscall.h>
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <unistd.h>
+#include "helpers.h"
 
 int main(void)
 {
@@ -12,7 +12,7 @@ int main(void)
 	char buf[BUFSIZ] = "";
 	ssize_t br;
 
-	fd = syscall(SYS_memfd_create, "foofile", 0);
+	fd = sys_memfd_create("foofile", 0);
 	if (fd == -1) {
 		perror("memfd_create");
 		exit(EXIT_FAILURE);
