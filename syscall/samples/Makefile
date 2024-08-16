@@ -40,6 +40,7 @@ sub-dir += utime
 sub-dir += prctl
 sub-dir += perf_event_open
 sub-dir += arch_prctl
+sub-dir += pidfd
 sub-dir += wait
 sub-dir += uio
 sub-dir += sendfile
@@ -60,7 +61,6 @@ TARGETS += execve execve-fork
 TARGETS += nr
 TARGETS += opendir
 TARGETS += pause
-TARGETS += pidfd_open
 TARGETS += personality
 TARGETS += readlink
 TARGETS += rename
@@ -162,7 +162,6 @@ execve-fork: execve-fork.o
 nr: nr.o
 opendir: opendir.o
 pause: pause.o
-pidfd_open: pidfd_open.o
 personality: personality.o
 lseek: lseek.o
 rename: rename.o
