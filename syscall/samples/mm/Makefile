@@ -30,7 +30,7 @@ build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 	make -C mmap
 	make -C madvise
-	make -C memfd_create
+	make -C memfd
 
 # Add more object.o file
 brk: brk.o
@@ -67,4 +67,4 @@ clean:
 	@rm -f ${TARGETS} *.o
 	make -C mmap clean
 	make -C madvise clean
-	make -C memfd_create clean
+	make -C memfd clean

@@ -1,1 +1,1 @@
-../mm/memfd_create/MFD_ALLOW_SEALING.c
+../mm/memfd/MFD_ALLOW_SEALING.c
