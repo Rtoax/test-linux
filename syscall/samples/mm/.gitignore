@@ -11,3 +11,5 @@
 /pkey_free
 /mbind
 /migrate_pages
+/process_madvise
+/process_mrelease

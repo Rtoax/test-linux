@@ -15,6 +15,8 @@ ifneq ($(wildcard $(NUMAIF_HDR)),)
 TARGETS += mbind
 TARGETS += migrate_pages
 endif
+TARGETS += process_madvise
+TARGETS += process_mrelease
 
 CC = gcc
 
@@ -44,6 +46,8 @@ mprotect: mprotect.o
 mprotect-ld: mprotect-ld.o
 mbind: mbind.o
 migrate_pages: migrate_pages.o
+process_madvise: process_madvise.o
+process_mrelease: process_mrelease.o
 
 CFLAGS_migrate_pages := -lnuma
 
