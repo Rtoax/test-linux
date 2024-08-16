@@ -1,17 +1,23 @@
-- ACL: Access Control List (访问控制表)
+- ABAC: Attribute Based Access Control (基于属性的访问控制)
+- ACL: Access Control List (访问控制表) @DAC
+- ACM: Access Control Matrix (权限控制矩阵)
 - ASN.1: Abstract Syntax Notation One (ISO/ITU-T 标准，数据编解码)
 - ATF: ARM Trusted Firmware (ARM信任固件)
 - CC: Confidential Compute (机密计算)
+- DAC: Discretionary Access Control (自主访问控制) @ACL
 - KMS: Key Management Services
 - LSM: Linux Security Modules (统一访问安全框架)
+- MAC: Mandatory Access Control (强制访问控制) @SELinux
 - MB: Measure Boot () @TB
 - OP-TEE:
 - PAM: Pluggable Authentication Modules (可插入验证模块)
 - PC: Privacy Computing (隐私计算) @AI
 - PL: Privilege Level (特权等级)
 - PSCI: Power State Coordination Interface (电源状态协调接口) @ATF
+- RBAC: Role Based Access Control (基于角色的访问控制)
 - REE: Rich Execution Environment () @TEE
 - Secomp: SECure COMPuting (安全计算)
+- SELinux: Security-Enhanced Linux (安全增强Linux)
 - SMC: Secure Monitor Call () @TEE
 - SSL: Secure Sockets Layer (安全套接字层)
 - TB: Trusted Boot (可信启动) @MB
