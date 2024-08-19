@@ -12,6 +12,7 @@ sub-dir += foption
 sub-dir += LD_PRELOAD
 sub-dir += machine-option
 sub-dir += openmp
+sub-dir += optimize
 sub-dir += pragma
 sub-dir += reloc
 sub-dir += __sync
