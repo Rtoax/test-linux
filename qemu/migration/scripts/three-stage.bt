@@ -1,0 +1,21 @@
+#!/usr/bin/env bpftrace
+/**
+ * Live migration happens in 3 stages
+ * Stage 1: Mark all RAM dirty <ram_save_setup()>
+ * Stage 2: Keep sending dirty RAM pages since last iteration <ram_save_iterate()>
+ *           stop when some low watermark or condition reached
+ * Stage 3: Stop guest, transfer remaining dirty RAM, device state <migration_thread()>
+ * Continue execution on destination qemu
+ */
+BEGIN
+{
+	printf("Tracing qemu migration three stages, hit ctrl-C to end.\n");
+}
+
+uprobe:/usr/bin/qemu-system-x86_64:ram_save_setup*,
+uprobe:/usr/bin/qemu-system-x86_64:ram_save_iterate*,
+uprobe:/usr/bin/qemu-system-x86_64:migration_thread
+{
+	@cnt[func] = count();
+}
+
