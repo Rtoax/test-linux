@@ -15,6 +15,7 @@
 - SMMU: System MMU (系统内存管理单元) @MMU @IOMMU
 - SVM: Secure Virtual Machine (安全虚拟机)
 - VMCS: Virtual Machine Control Structure (虚拟机控制结构)
+- VMM: Virtual Machine Monitor (虚拟机监控器)
 - VMX: Virtual Machine Extensions (虚拟机扩展)
 - VPID: Virtual Processor Id (虚拟处理器ID) @VMCS
 - VT-d: Virtualization Technology for Directed I/O (直接I/O虚拟化技术,Intel)
