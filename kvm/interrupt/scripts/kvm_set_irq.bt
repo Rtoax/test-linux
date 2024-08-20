@@ -8,6 +8,8 @@
 BEGIN
 {
 	printf("Tracing KVM kvm_set_irq, ctrl-C to end.\n");
+	printf("%-8s %-8s %-16s %-8s %-8s %-8s %-8s\n",
+		"TIME", "PID", "COMM", "SRC_ID", "IRQ", "LEVEL", "STATUS");
 }
 
 /**
@@ -30,6 +32,11 @@ kprobe:kvm_set_irq
 	$irq_source_id = arg1;
 	$irq = arg2;
 	$level = arg3;
+	$line_status = arg4;
+
+	time("%H:%M:%S ");
+	printf("%-8d %-16s %-8d %-8d %-8d %-8d\n", pid, comm, $irq_source_id,
+		$irq, $level, $line_status);
 
 	@kstack[kstack] = count();
 	@irq[$irq, $level] = count();
