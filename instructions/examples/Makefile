@@ -24,10 +24,6 @@ ifneq ($(shell lscpu | grep -w avx512f),)
 endif
 TARGETS += bts
 TARGETS += invalid_opcode_user
-TARGETS += rdtsc_user
-TARGETS += rdtscp_user
-TARGETS += rdtsc_cmp
-TARGETS += rdtsc_evil
 TARGETS += fsin
 TARGETS += bswapl
 TARGETS += _mm_clflush
@@ -77,10 +73,6 @@ bts: bts.o
 bswapl: bswapl.o
 invalid_opcode_user: invalid_opcode_user.o
 cpuid_user: cpuid_user.o ${ARCH_LIB_CPUID}
-rdtsc_user: rdtsc_user.o
-rdtscp_user: rdtscp_user.o
-rdtsc_cmp: rdtsc_cmp.o
-rdtsc_evil: rdtsc_evil.o
 _mm_clflush: _mm_clflush.o
 prefetch: prefetch.o
 rte_memcpy: rte_memcpy.o
