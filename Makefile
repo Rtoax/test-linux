@@ -1,10 +1,10 @@
-# test-linux make
-# By Rong Tao <rtoax@foxmail.com>
+# test-linux Makefile
+# Wrote by Rong Tao <rtoax@foxmail.com>
 #
 VERSION = 2
 PATCHLEVEL = 2
 SUBLEVEL = 4
-EXTRAVERSION = -rc1
+EXTRAVERSION = -rc2
 NAME = Apple
 
 SHELL = bash
@@ -43,12 +43,16 @@ all:
 	@echo >&2 -e "*** TEST_LINUX_VERSION ${TEST_LINUX_VERSION}"
 	@echo >&2 -e "***"
 	@echo >&2 -e "*** make default: show this information"
+	@echo >&2 -e "***"
 	@echo >&2 -e "*** make [user|kernel]"
 	@echo >&2 -e "*** make [test|testuser|testkernel]"
 	@echo >&2 -e "*** make [clean|cleanuser|cleankernel|cleangit]"
+	@echo >&2 -e "***"
 	@echo >&2 -e "*** make archive"
 	@echo >&2 -e "*** make check"
 	@echo >&2 -e "*** make installdeps"
+	@echo >&2 -e "***"
+	@echo >&2 -e "*** make version"
 	@echo >&2 -e "***"
 
 define cleanuserlog
@@ -132,6 +136,9 @@ endef
 
 installdeps:
 	$(call installdeps)
+
+version:
+	@echo "v${VERSION}.${PATCHLEVEL}.${SUBLEVEL}${EXTRAVERSION} (${NAME})"
 
 define git_archive
 	bash scripts/git-archive
