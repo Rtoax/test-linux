@@ -11,6 +11,7 @@ ifneq ($(wildcard /usr/include/sys/capability.h),)
 $(info Already install capability development)
 sub-dir += capability
 endif
+sub-dir += io
 sub-dir += ioctl
 sub-dir += poll
 sub-dir += dup

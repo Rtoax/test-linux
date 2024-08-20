@@ -49,6 +49,7 @@ else
     TARGETS += nanosleep-c
     TARGETS += exit-c
     TARGETS += write-c write-c-loop
+    TARGETS += out-c
     TARGETS += puts-c puts-c-loop
     TARGETS += atomic_forced_read
     TARGETS += time
@@ -79,6 +80,7 @@ nanosleep-c: nanosleep-c.o
 exit-c: exit-c.o
 write-c: write-c.o
 write-c-loop: write-c-loop.o
+out-c: out-c.o
 puts-c: puts-c.o
 puts-c-loop: puts-c-loop.o
 hello-stack: hello-stack.o
