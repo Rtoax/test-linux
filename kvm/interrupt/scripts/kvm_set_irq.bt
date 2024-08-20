@@ -1,15 +1,8 @@
 #!/usr/bin/env bpftrace
 /**
- * File: kvm_set_irq.bt
- * Author: Rong Tao <rtoax@foxmail.com>
- * Date: 2022.01.07
+ * kvm_set_irq.bt
  *
- * kvm_set_irq: Trigger interrupt
- *  Qemu has same name api
- *   int kvm_set_irq(KVMState *s, int irq, int level)
- *   {
- *     kvm_vm_ioctl(s, KVM_IRQ_LINE_STATUS, &event);
- *   }
+ * 2022.01.07	Rong Tao	Create this
  */
 
 BEGIN
@@ -17,16 +10,28 @@ BEGIN
 	printf("Tracing KVM kvm_set_irq, ctrl-C to end.\n");
 }
 
-// linux-5.10.13
-// int kvm_set_irq(struct kvm *kvm, int irq_source_id, u32 irq, int level,
-//        bool line_status)
+/**
+ * kvm_set_irq: Trigger interrupt
+ *
+ * This function called during VM Startup.
+ *
+ * linux-5.10.13
+ * int kvm_set_irq(struct kvm *kvm, int irq_source_id, u32 irq, int level,
+ *                 bool line_status)
+ *
+ * Qemu has same name api
+ *  int kvm_set_irq(KVMState *s, int irq, int level)
+ *  {
+ *    kvm_vm_ioctl(s, KVM_IRQ_LINE_STATUS, &event);
+ *  }
+ */
 kprobe:kvm_set_irq
 {
 	$irq_source_id = arg1;
 	$irq = arg2;
 	$level = arg3;
 
-	@k[kstack] = count();
+	@kstack[kstack] = count();
 	@irq[$irq, $level] = count();
 }
 
