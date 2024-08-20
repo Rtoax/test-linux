@@ -15,6 +15,7 @@ tracepoint:kvm:kvm_cpuid
 	time("%H:%M:%S ");
 	printf("%-8d %-8s 0x%8x\n", pid, comm, args->index);
 	@[comm] = count();
+	@stack[kstack] = count();
 }
 
 END
