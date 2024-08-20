@@ -14,12 +14,21 @@ int main(int argc, char **argv)
 {
 	const uint8_t code[] = {
 		0xba, 0xf8, 0x03,	/* mov $0x3f8, %dx */
-		0x00, 0xd8,		/* add %bl, %al */
-		0x04, '1',		/* add $'0', %al */
+		0xb0, 'R',		/* mov $'T', %al */
 		0xee,			/* out %al, (%dx) */
-		0xb0, 'r',		/* mov $'r', %al */
+		0xb0, 'T',		/* mov $'T', %al */
 		0xee,			/* out %al, (%dx) */
-		0xb0, 't',		/* mov $'t', %al */
+		0xb0, ' ',		/* mov $' ', %al */
+		0xee,			/* out %al, (%dx) */
+		0xb0, 'H',		/* mov $'H', %al */
+		0xee,			/* out %al, (%dx) */
+		0xb0, 'e',		/* mov $'e', %al */
+		0xee,			/* out %al, (%dx) */
+		0xb0, 'l',		/* mov $'l', %al */
+		0xee,			/* out %al, (%dx) */
+		0xb0, 'l',		/* mov $'l', %al */
+		0xee,			/* out %al, (%dx) */
+		0xb0, 'o',		/* mov $'o', %al */
 		0xee,			/* out %al, (%dx) */
 		0xb0, '\n',		/* mov $'\n', %al */
 		0xee,			/* out %al, (%dx) */
