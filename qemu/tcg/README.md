@@ -22,6 +22,13 @@ host insns (the processor executing QEMU itself) via the TCG backend.
 - QEMU特殊指令: `tb_exit, goto_tb, qemu_ld/qemu_st`
 
 
+# Features
+
+## x86_64
+
+- TCG not support avx512 yet (qemu 8.2.2 on fedora40).
+
+
 # Links
 
 - https://wiki.qemu.org/Documentation/TCG
