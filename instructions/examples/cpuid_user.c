@@ -1,3 +1,16 @@
+/**
+ * You can run in guestos
+ *
+ *     $ while :; do taskset -c 1 ./cpuid_user ; done
+ *
+ * Then, tracing tracepoint:kvm:kvm_cpuid and count 'comm', like
+ * ../../kvm/emulate/cpuid/kvm_cpuid.tp.bt did, you'll get:
+ *
+ *     @[CPU 0/KVM]: 13469
+ *     @[CPU 3/KVM]: 24445
+ *     @[CPU 2/KVM]: 57177
+ *     @[CPU 1/KVM]: 258910
+ */
 #include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>
