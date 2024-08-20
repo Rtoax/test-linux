@@ -1,3 +1,4 @@
 - APIC: Advanced Programmable Interrupt Controller (高级可编程中断控制器)
+- GSI: Global System Interrupt (全局系统中断)
 - IDT: Interrupt Descripter Table (中断描述符表)
 - LVT: Local Vector Table (局部向量表)
