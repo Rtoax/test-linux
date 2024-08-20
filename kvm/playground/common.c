@@ -37,7 +37,6 @@ int run_vcpu(int vcpufd)
 	return ret;
 }
 
-
 void check_cap_user_memory(int kvmfd)
 {
 	int ret = ioctl(kvmfd, KVM_CHECK_EXTENSION, KVM_CAP_USER_MEMORY);

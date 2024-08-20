@@ -13,6 +13,7 @@ ifneq ($(NASM),)
 TARGETS_ASM := hello
 TARGETS_ASM += hello-stack
 TARGETS_ASM += while
+TARGETS_ASM += out
 TARGETS_ASM += nanosleep
 endif
 
@@ -94,6 +95,7 @@ factorial_call: factorial_call.o factorial.o
 maxofthree_call: maxofthree_call.o maxofthree.o
 power: power.o
 while: while.o
+out: out.o
 atomic_forced_read: atomic_forced_read.o
 time: time.o
 
@@ -118,7 +120,7 @@ $(TARGETS) $(TARGETS_S): %:
 	@$(CC) $(CFLAGS) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
 
 $(TARGETS_ASM): %:
-	@echo -e "  LD  ld \033[1;32m$(@)\033[m"
+	@echo -e "  LD ASM \033[1;32m$(@)\033[m"
 	@$(LD) -o $(@) $(^)
 
 test: ${TARGETS}

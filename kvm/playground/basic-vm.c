@@ -59,6 +59,7 @@ int main(int argc, char **argv)
 	};
 	set_regs(vcpufd, &regs);
 
+	printf("-------------------\n");
 	while (1) {
 		run_vcpu(vcpufd);
 

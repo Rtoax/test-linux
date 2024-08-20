@@ -20,7 +20,7 @@
 # warning "Not support arch, just x86_64 now."
 #endif
 
-int main()
+int main(void)
 {
 	struct kvm_sregs sregs;
 	int ret;

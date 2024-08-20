@@ -47,7 +47,6 @@ hello: hello.c common.o
 basic-vm: basic-vm.c common.o
 	@echo -e "\033[1;33m$(@)\033[m"
 	@$(CC) $(CFLAGS) -o $(@) $(<) $(LIBS)
-	$(NASM) -felf64 -o basic-vm.o basic-vm.asm
 
 load-payload01: load-payload01.c common.o
 	@echo -e "\033[1;33m$(@)\033[m"
