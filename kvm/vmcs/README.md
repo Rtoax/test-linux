@@ -10,8 +10,20 @@ VMCS - Virtual Machine Control Structure
 
 1. vmclear
 2. vmptrld
-3. vmread
-4. vmwrite
+3. vmptrst
+4. vmread
+5. vmwrite
+
+## 机器码
+
+```
+#define VMCLEAR_OPCODE ".byte 0x66,0x0f,0xc7\n" /* reg/opcode: /6 */
+#define VMPTRLD_OPCODE ".byte 0x0f,0xc7\n" /* reg/opcode: /6 */
+#define VMPTRST_OPCODE ".byte 0x0f,0xc7\n" /* reg/opcode: /7 */
+#define VMREAD_OPCODE ".byte 0x0f,0x78\n"
+#define VMWRITE_OPCODE ".byte 0x0f,0x79\n"
+```
+
 
 # struct vmcs
 
