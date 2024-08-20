@@ -8,62 +8,76 @@ KERNELDIR ?= /lib/modules/$(shell uname -r)/build
 
 ###############################################################################
 # User
+sub-dir :=
+
 TARGETS :=
 CFLAGS :=
 ARCH_LIB_CPUID :=
 
 # User
 ifeq ($(shell uname -m),x86_64)
-ifneq ($(shell lscpu | grep -w avx2),)
-  CFLAGS += -mavx2 -mfma
-  CFLAGS += -DCPU_HAVE_AVX2=1
-endif
-ifneq ($(shell lscpu | grep -w avx512f),)
-  CFLAGS += -mavx512f -mfma
-  CFLAGS += -DCPU_HAVE_AVX512F=1
-endif
-TARGETS += bts
-TARGETS += invalid_opcode_user
-TARGETS += fsin
-TARGETS += bswapl
-TARGETS += _mm_clflush
-TARGETS += prefetch
-TARGETS += rte_memcpy
-TARGETS += vgetbv
-TARGETS += stosb memset
-TARGETS += nop
-TARGETS += rdmsr
-ifneq ($(shell lscpu | grep -w rdrand),)
-TARGETS += rdrand
-endif
-ifneq ($(shell lscpu | grep -w rdseed),)
-TARGETS += rdseed
-endif
+  sub-dir += avx
+  sub-dir += tsc
+  sub-dir += pku
+  sub-dir += sse
 
-ARCH_LIB_CPUID += cpuid-x86.o
+  ifneq ($(shell lscpu | grep -w avx2),)
+    CFLAGS += -mavx2 -mfma
+    CFLAGS += -DCPU_HAVE_AVX2=1
+  endif
+  ifneq ($(shell lscpu | grep -w avx512f),)
+    CFLAGS += -mavx512f -mfma
+    CFLAGS += -DCPU_HAVE_AVX512F=1
+  endif
+  TARGETS += bts
+  TARGETS += invalid_opcode_user
+  TARGETS += fsin
+  TARGETS += bswapl
+  TARGETS += _mm_clflush
+  TARGETS += prefetch
+  TARGETS += rte_memcpy
+  TARGETS += vgetbv
+  TARGETS += stosb memset
+  TARGETS += nop
+  TARGETS += rdmsr
+  ifneq ($(shell lscpu | grep -w rdrand),)
+    TARGETS += rdrand
+  endif
+  ifneq ($(shell lscpu | grep -w rdseed),)
+  TARGETS += rdseed
+  endif
+
+  ARCH_LIB_CPUID += cpuid-x86.o
 endif
 
 ifeq ($(shell uname -m),aarch64)
-# Check cpu flags
-ifneq ($(shell lscpu | grep -w sve),)
-  CFLAGS += -DCPU_HAVE_SVE=1
-  CFLAGS += -march=armv8-a+sve
-endif
-ifneq ($(shell lscpu | grep -w sve2),)
-  CFLAGS += -DCPU_HAVE_SVE2=1
-  CFLAGS += -march=armv8-a+sve2
-endif
+  sub-dir += neon
+  sub-dir += sve
 
-CFLAGS += -DCPU_HAVE_NEON=1
-TARGETS += mrs
+  # Check cpu flags
+  ifneq ($(shell lscpu | grep -w sve),)
+    CFLAGS += -DCPU_HAVE_SVE=1
+    CFLAGS += -march=armv8-a+sve
+  endif
+  ifneq ($(shell lscpu | grep -w sve2),)
+    CFLAGS += -DCPU_HAVE_SVE2=1
+    CFLAGS += -march=armv8-a+sve2
+  endif
 
-ARCH_LIB_CPUID += cpuid-arm64.o
+  CFLAGS += -DCPU_HAVE_NEON=1
+  TARGETS += mrs
+
+  ARCH_LIB_CPUID += cpuid-arm64.o
 endif
 
 TARGETS += simd
 TARGETS += cpuid_user
 
-user: $(TARGETS)
+sub-dir-build := $(sub-dir:=.build)
+sub-dir-clean := $(sub-dir:=.clean)
+
+.PHONY: user
+user: $(TARGETS) $(sub-dir-build)
 
 kernel:
 	make -C ${KERNELDIR} M=$(PWD) modules
@@ -116,7 +130,15 @@ test:
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
 	@echo "empty, [cd $(PWD)] to insmod"
 
-clean:
+.PHONY: clean
+clean: $(sub-dir-clean)
 	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
 	@rm -f $(TARGETS) *.o
 	@make -C ${KERNELDIR} M=$(PWD) clean
+
+$(sub-dir-build):
+	@echo -e "\033[1;32m [sub-dir] build $(@)\033[m"
+	@make -C $(@:.build=)
+$(sub-dir-clean):
+	@echo -e "\033[1;32m [sub-dir] clean $(@)\033[m"
+	@make -C $(@:.clean=) clean
