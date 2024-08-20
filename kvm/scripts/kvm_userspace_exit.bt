@@ -1,16 +1,85 @@
 #!/bin/env bpftrace
 /**
- * File: kvm_userspace_exit.bt
- * Author: Rong Tao
- * Date: 2022.06.23
+ * kvm_userspace_exit.bt - Tracing VMM exit to Userspace(Qemu)
  *
- * Description:
- * Ref:
+ * 2022-06-23	Rong Tao	Create this.
  */
+#define KVM_EXIT_HYPERCALL        3 /* kvm_emulate_hypercall() */
+#define KVM_EXIT_DEBUG            4
+#define KVM_EXIT_HLT              5
+#define KVM_EXIT_MMIO             6
+#define KVM_EXIT_IRQ_WINDOW_OPEN  7
+#define KVM_EXIT_SHUTDOWN         8
+#define KVM_EXIT_FAIL_ENTRY       9
+#define KVM_EXIT_INTR             10
+#define KVM_EXIT_SET_TPR          11
+#define KVM_EXIT_TPR_ACCESS       12
+#define KVM_EXIT_S390_SIEIC       13
+#define KVM_EXIT_S390_RESET       14
+#define KVM_EXIT_DCR              15 /* deprecated */
+#define KVM_EXIT_NMI              16
+#define KVM_EXIT_INTERNAL_ERROR   17
+#define KVM_EXIT_OSI              18
+#define KVM_EXIT_PAPR_HCALL	  19
+#define KVM_EXIT_S390_UCONTROL	  20
+#define KVM_EXIT_WATCHDOG         21
+#define KVM_EXIT_S390_TSCH        22
+#define KVM_EXIT_EPR              23
+#define KVM_EXIT_SYSTEM_EVENT     24
+#define KVM_EXIT_S390_STSI        25
+#define KVM_EXIT_IOAPIC_EOI       26
+#define KVM_EXIT_HYPERV           27
+#define KVM_EXIT_ARM_NISV         28
+#define KVM_EXIT_X86_RDMSR        29
+#define KVM_EXIT_X86_WRMSR        30
+#define KVM_EXIT_DIRTY_RING_FULL  31
+#define KVM_EXIT_AP_RESET_HOLD    32
+#define KVM_EXIT_X86_BUS_LOCK     33
+#define KVM_EXIT_XEN              34
+#define KVM_EXIT_RISCV_SBI        35
+#define KVM_EXIT_RISCV_CSR        36
+#define KVM_EXIT_NOTIFY           37
+
 BEGIN
 {
+	@reasons[KVM_EXIT_HYPERCALL] = "HYPERCALL";
+	@reasons[KVM_EXIT_DEBUG] = "DEBUG";
+	@reasons[KVM_EXIT_HLT] = "HLT";
+	@reasons[KVM_EXIT_MMIO] = "MMIO";
+	@reasons[KVM_EXIT_IRQ_WINDOW_OPEN] = "IRQ_WINDOW_OPEN";
+	@reasons[KVM_EXIT_SHUTDOWN] = "SHUTDOWN";
+	@reasons[KVM_EXIT_FAIL_ENTRY] = "FAIL_ENTRY";
+	@reasons[KVM_EXIT_INTR] = "INTR";
+	@reasons[KVM_EXIT_SET_TPR] = "SET_TPR";
+	@reasons[KVM_EXIT_TPR_ACCESS] = "TPR_ACCESS";
+	@reasons[KVM_EXIT_S390_SIEIC] = "S390_SIEIC";
+	@reasons[KVM_EXIT_S390_RESET] = "S390_RESET";
+	@reasons[KVM_EXIT_DCR] = "DCR";
+	@reasons[KVM_EXIT_NMI] = "NMI";
+	@reasons[KVM_EXIT_INTERNAL_ERROR] = "INTERNAL_ERROR";
+	@reasons[KVM_EXIT_OSI] = "OSI";
+	@reasons[KVM_EXIT_PAPR_HCALL] = "PAPR_HCALL";
+	@reasons[KVM_EXIT_S390_UCONTROL] = "S390_UCONTROL";
+	@reasons[KVM_EXIT_WATCHDOG] = "WATCHDOG";
+	@reasons[KVM_EXIT_S390_TSCH] = "S390_TSCH";
+	@reasons[KVM_EXIT_EPR] = "EPR";
+	@reasons[KVM_EXIT_SYSTEM_EVENT] = "SYSTEM_EVENT";
+	@reasons[KVM_EXIT_S390_STSI] = "S390_STSI";
+	@reasons[KVM_EXIT_IOAPIC_EOI] = "IOAPIC_EOI";
+	@reasons[KVM_EXIT_HYPERV] = "HYPERV";
+	@reasons[KVM_EXIT_ARM_NISV] = "ARM_NISV";
+	@reasons[KVM_EXIT_X86_RDMSR] = "X86_RDMSR";
+	@reasons[KVM_EXIT_X86_WRMSR] = "X86_WRMSR";
+	@reasons[KVM_EXIT_DIRTY_RING_FULL] = "DIRTY_RING_FULL";
+	@reasons[KVM_EXIT_AP_RESET_HOLD] = "AP_RESET_HOLD";
+	@reasons[KVM_EXIT_X86_BUS_LOCK] = "X86_BUS_LOCK";
+	@reasons[KVM_EXIT_XEN] = "XEN";
+	@reasons[KVM_EXIT_RISCV_SBI] = "RISCV_SBI";
+	@reasons[KVM_EXIT_RISCV_CSR] = "RISCV_CSR";
+	@reasons[KVM_EXIT_NOTIFY] = "NOTIFY";
+
 	printf("Tracing kvm_userspace_exit, hit ctrl-c to end.\n");
-	printf("%-8s %-8s %-8s\n", "TIME", "PID", "COMM");
+	printf("%-8s %-8s %-16s %-8s\n", "TIME", "PID", "COMM", "REASON");
 }
 
 /**
@@ -18,11 +87,18 @@ BEGIN
  */
 tracepoint:kvm:kvm_userspace_exit
 {
+	$reason = args->reason;
+
 	time("%H:%M:%S ");
-	printf("%-8d %-8s\n", pid, comm);
+	if (@reasons[$reason] == "") {
+		printf("%-8d %-16s %-8u\n", pid, comm, $reason);
+	} else {
+		printf("%-8d %-16s %-8s\n", pid, comm, @reasons[$reason]);
+	}
 }
 
 END
 {
+	clear(@reasons);
 	printf("Bye.\n");
 }
