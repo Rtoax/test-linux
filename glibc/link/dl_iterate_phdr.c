@@ -7,6 +7,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "proc.c"
+
 static int callback(struct dl_phdr_info *info, size_t size, void *data)
 {
 	char *type;
@@ -43,6 +45,8 @@ static int callback(struct dl_phdr_info *info, size_t size, void *data)
 
 int main(void)
 {
+	print_proc_pid_maps();
+
 	dl_iterate_phdr(callback, NULL);
 
 	exit(EXIT_SUCCESS);
