@@ -8,10 +8,11 @@ A generic and open source machine emulator and virtualizer.
 
 ## Initialization
 
+Command `qemu-kvm -accel=[kvm|tcg]`:
+
 ```
 qemu_init() {
   configure_accelerators() {
-    /* config -accel: kvm or tcg */
     do_configure_accelerator() {
       accel_init_machine() {
         /**
