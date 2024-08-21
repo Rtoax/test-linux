@@ -17,3 +17,5 @@ sudo mount fs.xfs tmp-mnt -o loop,rw
 sudo cp /etc/os-release tmp-mnt/
 sudo tree tmp-mnt/
 sudo umount tmp-mnt
+
+sudo xfs_db -c "sb" -c "p" fs.xfs | tr '\n' ';' && echo
