@@ -1,0 +1,42 @@
+#!/bin/env bpftrace
+
+struct xlog_rec_header {
+	__be32    h_magicno;
+	__be32    h_cycle;
+	__be32    h_version;
+};
+
+kprobe:xlog_find_verify_log_record
+{
+	$start_blk = arg1;
+	$plast_blk = arg2;
+
+	printf("start_blk:%ld, last_blk:%ld\n", $start_blk, *$plast_blk);
+
+	@start[tid] = nsecs;
+}
+
+kprobe:xlog_bread
+/ @start[tid] /
+{
+	@poffset[tid] = arg4;
+}
+
+kretprobe:xlog_bread
+/ @poffset[tid] && @start[tid] /
+{
+	$offset = *@poffset[tid];
+
+	$head = (struct xlog_rec_header *)$offset;
+
+	printf("offset:%lx, h_magicno:%x, cycle:%x, version:%x\n",
+		$offset, $head->h_magicno, $head->h_cycle, $head->h_version);
+
+	delete(@poffset[tid]);
+}
+
+kretprobe:xlog_find_verify_log_record
+{
+	delete(@start[tid]);
+}
+
