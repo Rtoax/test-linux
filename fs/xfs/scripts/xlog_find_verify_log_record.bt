@@ -16,6 +16,12 @@ kprobe:xlog_find_verify_log_record
 	@start[tid] = nsecs;
 }
 
+kretprobe:xlog_alloc_buffer
+/ @start[tid] /
+{
+	printf("xlog_alloc_buffer: ret:%d\n", retval);
+}
+
 kprobe:xlog_bread
 / @start[tid] /
 {
@@ -29,8 +35,9 @@ kretprobe:xlog_bread
 
 	$head = (struct xlog_rec_header *)$offset;
 
-	printf("offset:%lx, h_magicno:%x, cycle:%x, version:%x\n",
-		$offset, $head->h_magicno, $head->h_cycle, $head->h_version);
+	printf("offset:%lx, h_magicno:%x, cycle:%x, version:%x, ret:%d\n",
+		$offset, $head->h_magicno, $head->h_cycle, $head->h_version,
+		retval);
 
 	delete(@poffset[tid]);
 }
@@ -39,4 +46,3 @@ kretprobe:xlog_find_verify_log_record
 {
 	delete(@start[tid]);
 }
-
