@@ -1,0 +1,2 @@
+- BFD: Binary File Descriptor (二进制文件描述符)
+- Opcode: Operation Code ()
