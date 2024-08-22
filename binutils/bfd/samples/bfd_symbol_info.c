@@ -2,7 +2,7 @@
 #include <stdio.h>
 
 
-int main(void)
+int main(int argc, char *argv[])
 {
 	bfd *abfd;
 	symbol_info info;
@@ -10,7 +10,7 @@ int main(void)
 
 	bfd_init();
 
-	abfd = bfd_openr("./bfd_symbol_info", NULL);
+	abfd = bfd_openr(argv[0], NULL);
 
 	bfd_symbol_info(&symbol, &info);
 

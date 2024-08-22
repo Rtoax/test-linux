@@ -46,7 +46,7 @@ int main(int argc, char *argv[])
 		bfd_die("bfd_close");
 
 	for (i = 0; i < contents_size; i += sizeof(void*)) {
-		fprintf(stderr, "break *%p\n", *( (void**) (contents+i) ));
+		fprintf(stderr, "break *%p\n", *((void **)(contents + i)));
 	}
 
 	return 0;
