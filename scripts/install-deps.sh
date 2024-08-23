@@ -354,6 +354,7 @@ cclinux|fedora|centos|rhel|openEuler|almalinux|opencloudos)
 	pkgs_base+=( vim-default-editor )
 	pkgs_base+=( xz-devel )
 
+	pkgs_bench+=( rtla )
 	pkgs_bench+=( sysbench )
 
 	# Filesystem
