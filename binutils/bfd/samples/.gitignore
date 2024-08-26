@@ -1,6 +1,7 @@
 /bfd_init
 /bfd_symbol_info
 /bfd_get_start_address
+/bfd_get_flavour
 /breakpoint_tst
 /breakpoint_bfd
 /reloc
