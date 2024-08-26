@@ -1,5 +1,7 @@
 SHELL = bash
 
+sub-dir := demangle
+
 TARGETS :=
 TARGETS += hello
 TARGETS += alignas
@@ -13,14 +15,17 @@ CXX = g++
 CXXFLAGS := -Werror -Wall
 CXXFLAGS += -DCPP
 ifdef DEBUG
-CFLAGS += -DDEBUG -O0 -g -ggdb
+  CFLAGS += -DDEBUG -O0 -g -ggdb
 endif
 
-build: ${TARGETS}
+sub-dir-build := $(sub-dir:=.build)
+sub-dir-clean := $(sub-dir:=.clean)
+
+.PHONY: build
+build: ${TARGETS} $(sub-dir-build)
 	@echo
 	@echo -e " \033[1;33m Done \033[m"
 
-# Add more object.o file
 hello: hello.o
 alignas: alignas.o
 extern_C: extern_C.o
@@ -39,10 +44,17 @@ ${TARGETS}: %:
 	@echo -e "  LD   \033[1;32m$(@)\033[m"
 	@$(CXX) $(CXXFLAGS) $(CXXFLAGS_$(*)) -o $(@) $(^)
 
-
 test: ${TARGETS}
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
 
-clean:
+.PHONY: clean
+clean: $(sub-dir-clean)
 	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
 	@rm -f ${TARGETS} *.o *.d *.s
+
+$(sub-dir-build):
+	@echo -e "\033[1;32m [sub-dir] build $(@)\033[m"
+	@make -C $(@:.build=)
+$(sub-dir-clean):
+	@echo -e "\033[1;32m [sub-dir] clean $(@)\033[m"
+	@make -C $(@:.clean=) clean
