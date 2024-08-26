@@ -19,8 +19,8 @@ CFLAGS += -lbfd
 # to fix this.
 #  /* PR 14072: Ensure that config.h is included first.  */
 #  #if !defined PACKAGE && !defined PACKAGE_VERSION
-#  error config.h must be included before this header
-#  endif
+#  # error config.h must be included before this header
+#  #endif
 CFLAGS += -DPACKAGE=1
 
 # Get binutils version
@@ -30,7 +30,7 @@ BINUTILS_VERSION_MINOR = $(shell echo ${BINUTILS_VERSION} | awk -F '.' '{print $
 
 $(info Binutils version ${BINUTILS_VERSION_MAJOR}.${BINUTILS_VERSION_MINOR})
 ifneq (${BINUTILS_VERSION_MAJOR},2)
-$(error Not support binutils ${BINUTILS_VERSION})
+  $(error Not support binutils ${BINUTILS_VERSION})
 endif
 
 CFLAGS += -DBINUTILS_VERSION_MAJOR=${BINUTILS_VERSION_MAJOR}
@@ -52,7 +52,6 @@ reloc: reloc.o
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	@$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
-	@$(CC) -S $(<) -o $(<:.c=.s) $(CFLAGS) $(CFLAGS_$(*))
 
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
@@ -63,6 +62,5 @@ test: ${TARGETS}
 
 clean:
 	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
-	@rm -f ${TARGETS} \
-		*.o *.d *.out *.s
+	@rm -f ${TARGETS} *.o *.out
 
