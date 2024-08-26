@@ -1,3 +1,5 @@
 - EEMBC: EDN Embedded Microprocessor Benchmark Consortium (嵌入式微处理器基准协会)
 - POSIX: Portable Operating System Interface of UNIX (可移植操作系统接口)
 - RTLA: Real-time Linux Analysis tool (实时分析工具)
+- SVR4: System V Release 4
+- SysV: Unix System V 'System Five' ()
