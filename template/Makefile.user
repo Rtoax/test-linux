@@ -5,9 +5,9 @@ STDIO_HEADER = /usr/include/stdio.h
 KERN_CONFIG=/boot/config-$(shell uname -r)
 
 ifneq ($(wildcard $(KERN_CONFIG)),)
-include ${KERN_CONFIG}
+  include ${KERN_CONFIG}
 else
-$(warning "WARNING: not found ${KERN_CONFIG}")
+  $(warning "WARNING: not found ${KERN_CONFIG}")
 endif
 
 sub-dir := SUBDIR
@@ -18,9 +18,9 @@ sub-dir-clean := $(sub-dir:=.clean)
 TARGETS :=
 
 ifneq ($(wildcard $(STDIO_HEADER)),)
-TARGETS += main.user
+  TARGETS += main.user
 else
-$(warning "WARNING: You need to install glibc-headers")
+  $(warning "WARNING: You need to install glibc-headers")
 endif
 
 ifeq ($(shell uname -m),x86_64)
@@ -41,11 +41,11 @@ LDFLAGS :=
 LDLIBS :=
 
 ifdef DEBUG
-CFLAGS += -DDEBUG -O0 -g
+  CFLAGS += -DDEBUG -O0 -g
 endif
 ifdef STATIC
-CFLAGS += -static
-$(info Defined STATIC)
+  CFLAGS += -static
+  $(info Defined STATIC)
 endif
 
 include ../scripts/libc-printf.mk
@@ -60,6 +60,8 @@ endif
 .PHONY: build
 build: ${TARGETS} $(sub-dir-build)
 	@echo
+	@echo CFLAGS=${CFLAGS}
+	@echo LDFLAGS=${LDFLAGS}
 	@echo -e "  PRINTF  ${feature-printf} "
 	@echo -e "  CFLAGS  $(CFLAGS)"
 	@echo -e "  \033[1;33mDone\033[m"
@@ -72,7 +74,7 @@ main.user: main.user.o
 
 CFLAGS_main.user := -D_MAIN_USER=1
 ifeq ($(CONFIG_MMU),y)
-CFLAGS_main.user += -DCONFIG_MMU=1
+  CFLAGS_main.user += -DCONFIG_MMU=1
 endif
 CFLAGS_main.user += -Wno-error=cpp
 LDFLAGS_main.user :=
