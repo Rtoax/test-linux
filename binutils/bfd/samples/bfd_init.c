@@ -5,8 +5,9 @@
 
 int main(int argc, char *argv[])
 {
-	int ret;
+	int ret, i;
 	bfd *abfd;
+	char **matching;
 	const struct bfd_build_id *build_id;
 
 	ret = bfd_init();
@@ -16,6 +17,20 @@ int main(int argc, char *argv[])
 	}
 
 	abfd = bfd_openr(argv[0], NULL);
+
+	/**
+	 * NOTE: This function will make the section/build_id relate function
+	 * return non-zero/NULL value.
+	 */
+	if (!bfd_check_format_matches(abfd, bfd_object, &matching)) {
+		fprintf(stderr, "format_matches");
+		goto close;
+	}
+
+#if 0 /* segvfault */
+	for (i = 0; matching[i]; i++)
+		printf("matching[%d] = %s\n", i, matching[i]);
+#endif
 
 	printf("get_filename: %s\n", bfd_get_filename(abfd));
 	printf("get_size: %ld\n", bfd_get_size(abfd));
@@ -28,6 +43,7 @@ int main(int argc, char *argv[])
 		printf("BuildID size %ld\n", build_id->size);
 	}
 
+close:
 	bfd_close(abfd);
 	return 0;
 }

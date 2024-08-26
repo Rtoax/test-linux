@@ -14,6 +14,8 @@ CC = gcc
 
 CFLAGS := -Werror -Wall -D_GNU_SOURCE
 CFLAGS += -DDEBUG -O0 -g
+CFLAGS += -Wno-unused-label
+CFLAGS += -Wno-unused-variable
 CFLAGS += -lbfd
 # FIXME: /usr/include/bfd.h may include these lines. There must be a better way
 # to fix this.
@@ -22,6 +24,11 @@ CFLAGS += -lbfd
 #  # error config.h must be included before this header
 #  #endif
 CFLAGS += -DPACKAGE=1
+
+ifdef PIE
+  CFLAGS += -pie -fPIE
+  LDFLAGS += -pie -fPIE
+endif
 
 # Get binutils version
 BINUTILS_VERSION = $(shell ld -v | grep -o [0-9].[0-9]\. | sed -n '1p')
