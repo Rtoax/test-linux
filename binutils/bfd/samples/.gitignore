@@ -4,6 +4,7 @@
 /bfd_get_flavour
 /bfd_elf_bfd_from_remote_memory
 /sections
+/symbol
 /breakpoint_tst
 /breakpoint_bfd
 /reloc
