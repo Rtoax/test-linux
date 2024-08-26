@@ -3,6 +3,7 @@ SHELL = bash
 TARGETS :=
 TARGETS += bfd_init
 TARGETS += bfd_symbol_info
+TARGETS += bfd_get_start_address
 TARGETS += breakpoint_tst breakpoint_bfd
 TARGETS += reloc
 
@@ -37,6 +38,7 @@ build: ${TARGETS}
 
 bfd_init: bfd_init.o
 bfd_symbol_info: bfd_symbol_info.o
+bfd_get_start_address: bfd_get_start_address.o
 breakpoint_tst: breakpoint_tst.o
 breakpoint_bfd: breakpoint_bfd.o
 reloc: reloc.o
