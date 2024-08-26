@@ -5,6 +5,7 @@ TARGETS += bfd_init
 TARGETS += bfd_symbol_info
 TARGETS += bfd_get_start_address
 TARGETS += bfd_get_flavour
+TARGETS += bfd_elf_bfd_from_remote_memory
 TARGETS += sections
 TARGETS += breakpoint_tst breakpoint_bfd
 TARGETS += reloc
@@ -42,6 +43,7 @@ bfd_init: bfd_init.o
 bfd_symbol_info: bfd_symbol_info.o
 bfd_get_start_address: bfd_get_start_address.o
 bfd_get_flavour: bfd_get_flavour.o
+bfd_elf_bfd_from_remote_memory: bfd_elf_bfd_from_remote_memory.o
 sections: sections.o
 breakpoint_tst: breakpoint_tst.o
 breakpoint_bfd: breakpoint_bfd.o

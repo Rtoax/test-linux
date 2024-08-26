@@ -4,16 +4,16 @@
 
 int main(void)
 {
-	bfd *abfd;
+	bfd *templ, *abfd;
 
 	bfd_init();
 
-	abfd = bfd_openr("/bin/ls", NULL);
+	templ = bfd_openr("/bin/bash", NULL);
 
-	/**
-	 * TODO: bfd_elf_bfd_from_remote_memory()
-	 */
+	/* TODO: Apply to ulpatch */
+	abfd = bfd_elf_bfd_from_remote_memory(templ, 0, 0, NULL, NULL);
 
+	bfd_close(templ);
 	bfd_close(abfd);
 	return 0;
 }
