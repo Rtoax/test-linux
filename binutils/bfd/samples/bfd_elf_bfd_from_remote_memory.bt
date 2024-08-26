@@ -1,0 +1,25 @@
+#!/bin/env bpftrace
+BEGIN
+{
+	printf("Tracing binutils-gdb's gdb bfd_elf_bfd_from_remote_memory, hit ctrl-c to end.\n");
+	printf("%-8s %-8s %-16s %-16s %-8s\n",
+		"TIME", "PID", "COMM", "EHDR", "SIZE");
+}
+
+/**
+ * FIXME: Seems like only '[vdso]' call bfd_elf_bfd_from_remote_memory()
+ */
+uprobe:/home/rongtao/Git/binutils-gdb/build/gdb/gdb:bfd_elf_bfd_from_remote_memory
+{
+	/* see /usr/include/bfd.h */
+	$ehdr_vma = arg1;
+	$size = arg2;
+
+	time("%H:%M:%S ");
+	printf("%-8d %-16s %-16lx %-8lx\n", pid, comm, $ehdr_vma, $size);
+}
+
+END
+{
+	printf("Bye.\n");
+}
