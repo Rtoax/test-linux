@@ -8,6 +8,7 @@ int main(void)
 
 	bfd_init();
 	abfd = bfd_openr("/bin/ls", NULL);
+	printf("%s\n", bfd_get_filename(abfd));
 	printf("%ld\n", bfd_get_size(abfd));
 	bfd_close(abfd);
 
