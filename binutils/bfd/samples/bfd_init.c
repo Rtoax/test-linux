@@ -1,13 +1,19 @@
 #include <bfd.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 
 int main(int argc, char *argv[])
 {
+	int ret;
 	bfd *abfd;
 	const struct bfd_build_id *build_id;
 
-	bfd_init();
+	ret = bfd_init();
+	if (ret != BFD_INIT_MAGIC) {
+		fprintf(stderr, "bfd_init failed.\n");
+		exit(1);
+	}
 
 	abfd = bfd_openr(argv[0], NULL);
 
