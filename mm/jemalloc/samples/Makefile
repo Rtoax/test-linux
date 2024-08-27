@@ -16,6 +16,7 @@ TARGETS += rallocx
 TARGETS += sallocx
 TARGETS += sdallocx
 TARGETS += xallocx
+TARGETS += stress
 else
 $(warning "WARNING: Maybe install jemalloc development package")
 endif
@@ -45,6 +46,7 @@ rallocx: rallocx.o
 sallocx: sallocx.o
 sdallocx: sdallocx.o
 xallocx: xallocx.o
+stress: stress.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

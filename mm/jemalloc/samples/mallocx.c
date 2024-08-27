@@ -7,7 +7,7 @@ void test_malloc(void)
 	size_t s1;
 	int *I = malloc(1024);
 
-	for(i = 0; i < 1024; i++)
+	for (i = 0; i < 1024; i++)
 		free(I);
 
 	s1 = malloc_usable_size(I);
@@ -20,7 +20,7 @@ void test_mallocx(void)
 	size_t s1;
 	int *I = mallocx(1024, MALLOCX_LG_ALIGN(8));
 
-	for(i = 0; i < 1024; i++)
+	for (i = 0; i < 1024; i++)
 		free(I);
 
 	s1 = malloc_usable_size(I);
@@ -31,4 +31,5 @@ int main(void)
 {
 	test_malloc();
 	test_mallocx();
+	return 0;
 }
