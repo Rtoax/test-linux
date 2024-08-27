@@ -1,0 +1,75 @@
+#!/bin/env bpftrace
+/**
+ * madvise.bt
+ *
+ * Copyright (C) Rong Tao 2022-2024
+ */
+#define MADV_NORMAL	0
+#define MADV_RANDOM	1
+#define MADV_SEQUENTIAL	2
+#define MADV_WILLNEED	3
+#define MADV_DONTNEED	4
+#define MADV_FREE	8
+#define MADV_REMOVE	9
+#define MADV_DONTFORK	10
+#define MADV_DOFORK	11
+#define MADV_MERGEABLE	12
+#define MADV_UNMERGEABLE	13
+#define MADV_HUGEPAGE	14
+#define MADV_NOHUGEPAGE	15
+#define MADV_DONTDUMP	16
+#define MADV_DODUMP	17
+#define MADV_WIPEONFORK	18
+#define MADV_KEEPONFORK	19
+#define MADV_COLD	20
+#define MADV_PAGEOUT	21
+#define MADV_POPULATE_READ	22
+#define MADV_POPULATE_WRITE	23
+#define MADV_HWPOISON	100
+
+BEGIN
+{
+	@MADV[MADV_NORMAL] = "NORMAL";
+	@MADV[MADV_RANDOM] = "RANDOM";
+	@MADV[MADV_SEQUENTIAL] = "SEQUENTIAL";
+	@MADV[MADV_WILLNEED] = "WILLNEED";
+	@MADV[MADV_DONTNEED] = "DONTNEED";
+	@MADV[MADV_FREE] = "FREE";
+	@MADV[MADV_REMOVE] = "REMOVE";
+	@MADV[MADV_DONTFORK] = "DONTFORK";
+	@MADV[MADV_DOFORK] = "DOFORK";
+	@MADV[MADV_MERGEABLE] = "MERGEABLE";
+	@MADV[MADV_UNMERGEABLE] = "UNMERGEABLE";
+	@MADV[MADV_HUGEPAGE] = "HUGEPAGE";
+	@MADV[MADV_NOHUGEPAGE] = "NOHUGEPAGE";
+	@MADV[MADV_DONTDUMP] = "DONTDUMP";
+	@MADV[MADV_DODUMP] = "DODUMP";
+	@MADV[MADV_WIPEONFORK] = "WIPEONFORK";
+	@MADV[MADV_KEEPONFORK] = "KEEPONFORK";
+	@MADV[MADV_COLD] = "COLD";
+	@MADV[MADV_PAGEOUT] = "PAGEOUT";
+	@MADV[MADV_POPULATE_READ] = "POPULATE_READ";
+	@MADV[MADV_POPULATE_WRITE] = "POPULATE_WRITE";
+	@MADV[MADV_HWPOISON] = "HWPOISON";
+
+	printf("Tracing madvise(2), hit ctrl-c to end.\n");
+	printf("%-8s %-8s %-16s %-16s %-8s %-16s\n",
+		"TIME", "PID", "COMM", "ADDR", "LEN", "MADV");
+}
+
+tracepoint:syscalls:sys_enter_madvise
+{
+	$start = args->start;
+	$len = args->len_in;
+	$behavior = args->behavior;
+
+	time("%H:%M:%S ");
+	printf("%-8d %-16s %-16lx %-8ld %-16s\n", pid, comm,
+		$start, $len, @MADV[$behavior]);
+}
+
+END
+{
+	printf("Bye.\n");
+	clear(@MADV);
+}
