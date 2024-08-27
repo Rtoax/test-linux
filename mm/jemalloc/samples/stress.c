@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 #include <sys/types.h>
 #include <unistd.h>
 #include <jemalloc/jemalloc.h>
@@ -21,6 +22,7 @@ int main(void)
 		/* Page fault */
 		for (i = 0; i < nbytes; i += pagesize)
 			mem[i] = 'a';
+		memset(mem, 0xEF, nbytes);
 
 		free(mem);
 	}
