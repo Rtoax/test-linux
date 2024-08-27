@@ -17,8 +17,8 @@ CFLAGS := -Werror -Wall -D_GNU_SOURCE
 CFLAGS += -DDEBUG -O0 -g
 
 ifneq ($(wildcard $(LIBAIO_HDR)),)
-CFLAGS += -laio
-LDFLAGS += -laio
+  CFLAGS += -laio
+  LDFLAGS += -laio
 endif
 
 build: ${TARGETS}
@@ -29,8 +29,13 @@ build: ${TARGETS}
 libaio: libaio.o helpers.o
 epoll: epoll.o
 
+PFX_CC := CC
+ifeq ($(CC),clang)
+  PFX_CC := CLANG
+endif
+
 %.o: %.c
-	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
+	@echo -e "  ${PFX_CC}  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	@$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
 
 $(TARGETS): %:

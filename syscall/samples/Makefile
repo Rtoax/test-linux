@@ -144,7 +144,7 @@ build: nr.h ${TARGETS} ${TARGETS_CPP} $(sub-dir-build)
 
 $(sub-dir-build):
 	@echo -e "\033[1;32m [sub-dir] build $(@)\033[m"
-	make -C $(@:.build=)
+	make -C $(@:.build=) CC=$(CC) CXX=$(CXX)
 
 nr.h: nr.sh
 	$(shell bash nr.sh)
@@ -219,12 +219,17 @@ ioprio_set: ioprio_set.o
 
 CFLAGS_write := -Wno-error=unused-variable
 
+PFX_CC := CC
+ifeq ($(CC),clang)
+  PFX_CC := CLANG
+endif
+
 %.o: %.c
-	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
+	@echo -e "  ${PFX_CC}  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
 
 %.opp: %.cpp
-	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
+	@echo -e "  ${PFX_CC}  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	@$(CXX) $(CXXFLAGS) $(CXXFLAGS_$(*)) -o $(@) -c $(<)
 
 $(TARGETS): %:
