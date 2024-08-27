@@ -6,3 +6,7 @@ define check_compiler_option
     $(1) -x c -Wall - $(2) -S -o /dev/null >/dev/null 2>&1 \
       && echo 1)
 endef
+
+define check_clang_option
+	$(call check_compiler_option,clang,$(1))
+endef
