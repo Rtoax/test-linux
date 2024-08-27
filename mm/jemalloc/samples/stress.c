@@ -23,6 +23,7 @@ void stop_stats(void)
 	/**
 	 * FIXME: Try to turn off stats, but it's not works
 	 */
+	old = 0;
 	value = 0;
 	mallctl("config.stats", &old, &size, &value, size);
 	printf("config.stats = %ld\n", old);
