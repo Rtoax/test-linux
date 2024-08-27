@@ -15,6 +15,11 @@ check_x86_64()
 
 info() {
 	grep Huge /proc/meminfo
+	sysctl vm.nr_hugepages
+	# Write like:
+	# echo "256" | sudo tee /proc/sys/vm/nr_hugepages
+	sudo cat /proc/sys/vm/nr_hugepages
+	echo "PAGE_SIZE = $(getconf PAGE_SIZE)"
 }
 
 if [[ $(uname -m) == x86_64 ]]; then
