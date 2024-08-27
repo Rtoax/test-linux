@@ -6,8 +6,9 @@
 //	than or equal to stats.allocated. This does not include stats.arenas.<i>.pdirty, stats.arenas.<i>.pmuzzy, nor pages
 //	entirely devoted to allocator metadata.
 
-void get_jemalloc_stats_active(size_t *value) {
-	size_t size= sizeof(size_t);
+void get_jemalloc_stats_active(size_t *value)
+{
+	size_t size = sizeof(size_t);
 	je_mallctl("stats.active", value, &size, NULL, 0);
 }
 

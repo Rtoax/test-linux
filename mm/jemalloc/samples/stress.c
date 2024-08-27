@@ -4,6 +4,30 @@
 #include <unistd.h>
 #include <jemalloc/jemalloc.h>
 
+void stop_stats(void)
+{
+	size_t size = sizeof(size_t);
+	size_t old, value;
+
+	old = 0;
+	mallctl("stats.retained", &old, &size, NULL, 0);
+	printf("stats.retained = %ld bytes, %ld MB\n", old, old / 1024 / 1024);
+
+	old = 0;
+	mallctl("stats.arenas.0.retained", &old, &size, NULL, 0);
+	printf("stats.arenas.0.retained = %ldbytes, %ld MB\n",
+		old, old / 1024 / 1024);
+
+	mallctl("stats.arenas.0.destroy", NULL, NULL, NULL, 0);
+
+	/**
+	 * FIXME: Try to turn off stats, but it's not works
+	 */
+	value = 0;
+	mallctl("config.stats", &old, &size, &value, size);
+	printf("config.stats = %ld\n", old);
+}
+
 int main(void)
 {
 	int i;
@@ -13,6 +37,8 @@ int main(void)
 
 	nbytes = 102400;
 	pagesize = getpagesize();
+
+	stop_stats();
 
 	printf("Page size %ld\n", pagesize);
 

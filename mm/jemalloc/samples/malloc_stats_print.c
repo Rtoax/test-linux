@@ -3,8 +3,7 @@
 
 void my_stats_print(void *cbopaque, const char *s)
 {
-	char *hint = (char*)cbopaque;
-	printf("%s>> %s\n", hint, s);
+	printf("%s", s);
 }
 
 int main(void)

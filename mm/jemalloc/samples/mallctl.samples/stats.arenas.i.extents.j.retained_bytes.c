@@ -33,8 +33,6 @@ void jemalloc_stats_arenas_i_extent_avail(unsigned iarenas, size_t *pextent_avai
 //	printf("stats.arenas.%d.extent_avail = %d ,(%d)\n", i, *pextent_avail, len);
 }
 
-
-
 void jemalloc_stats_arenas_i_extents_j_retained_bytes()
 {
 	unsigned narenas, i, j;
@@ -68,7 +66,6 @@ void jemalloc_stats_arenas_i_extents_j_retained_bytes()
 	}
 }
 
-
 void jemalloc_test()
 {
 	char *str1 = je_malloc(1234);
@@ -80,16 +77,11 @@ void jemalloc_test()
 }
 
 
-int main()
+int main(void)
 {
 	unsigned narenas;
 	jemalloc_test();
 	jemalloc_stats_arenas_i_extents_j_retained_bytes();
 
+	return 0;
 }
-
-
-
-
-
-

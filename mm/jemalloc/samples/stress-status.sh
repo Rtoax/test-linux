@@ -1,3 +1,3 @@
 #!/bin/bash
 pid=$(pidof stress)
-cat /proc/${pid}/status | grep VmRSS
+cat /proc/${pid}/status | grep ^Vm
