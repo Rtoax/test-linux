@@ -18,9 +18,9 @@ int main(void)
 	while (1) {
 		mem = malloc(nbytes);
 
-		for (i = 0; i < nbytes; i += pagesize) {
+		/* Page fault */
+		for (i = 0; i < nbytes; i += pagesize)
 			mem[i] = 'a';
-		}
 
 		free(mem);
 	}
