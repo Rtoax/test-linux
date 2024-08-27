@@ -5,7 +5,7 @@
 #include <sys/mman.h>
 #include <jemalloc/jemalloc.h>
 
-void stop_stats(void)
+void disable_retain(void)
 {
 	size_t size = sizeof(size_t);
 	size_t old, value;
@@ -13,6 +13,10 @@ void stop_stats(void)
 	old = 0;
 	mallctl("stats.retained", &old, &size, NULL, 0);
 	printf("stats.retained = %ld bytes, %ld MB\n", old, old / 1024 / 1024);
+
+	old = 0;
+	mallctl("stats.mapped", &old, &size, NULL, 0);
+	printf("stats.mapped = %ld bytes, %ld MB\n", old, old / 1024 / 1024);
 
 	old = 0;
 	mallctl("stats.arenas.0.retained", &old, &size, NULL, 0);
@@ -28,6 +32,13 @@ void stop_stats(void)
 	value = 0;
 	mallctl("config.stats", &old, &size, &value, size);
 	printf("config.stats = %ld\n", old);
+
+	/**
+	 * Disable retain
+	 */
+	value = 0;
+	mallctl("config.malloc_conf.retain", &old, &size, &value, size);
+	printf("config.malloc_conf.retain = %ld\n", old);
 }
 
 int main(void)
@@ -42,7 +53,7 @@ int main(void)
 	nbytes = 102400;
 	pagesize = getpagesize();
 
-	stop_stats();
+	disable_retain();
 
 	printf("Page size %ld\n", pagesize);
 
