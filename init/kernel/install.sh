@@ -49,7 +49,7 @@ uninstall_kernel()
 		echo "$initramfs not exist" && exit 1
 
 
-	sudo grubby --remove-kernel /boot/vmlinuz-6.2.0-rc4+
+	sudo grubby --remove-kernel /boot/vmlinuz-${version}
 
 	sudo rm -rf $modules
 	sudo rm -f $vmlinuz
