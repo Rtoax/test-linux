@@ -42,14 +42,24 @@ int main(int argc, char *argv[])
 	number_of_symbols = bfd_canonicalize_symtab(abfd, symbol_table);
 
 	printf("Scanning %ld symbols\n", number_of_symbols);
+
+	printf("%-64s %-16s %-4s %-8s\n", "SYM", "VALUE", "TYPE", "LOCAL");
 	for (i = 0; i < number_of_symbols; i++) {
 		if (symbol_table[i]->section == NULL)
 			continue;
 		bfd_symbol_info(symbol_table[i], &symbolinfo);
-		printf("Symbol \"%s\"  value 0x%lx, type %d\n",
-			symbolinfo.name, symbolinfo.value, symbolinfo.type);
+
+		/**
+		 * type: see nm(1)
+		 */
+		printf("%-64s %-16lx %-4c %-8s\n",
+			symbolinfo.name,
+			symbolinfo.value,
+			symbolinfo.type,
+			bfd_is_local_label(abfd, symbol_table[i]) ? "YES" : "-");
 	}
 
+	free(symbol_table);
 close:
 	bfd_close(abfd);
 	return 0;
