@@ -2,6 +2,7 @@
 #include <string.h>
 #include <sys/types.h>
 #include <unistd.h>
+#include <sys/mman.h>
 #include <jemalloc/jemalloc.h>
 
 void stop_stats(void)
@@ -35,6 +36,8 @@ int main(void)
 	char *mem;
 	size_t nbytes;
 	size_t pagesize;
+
+	mlockall(MCL_CURRENT | MCL_ONFAULT);
 
 	nbytes = 102400;
 	pagesize = getpagesize();
