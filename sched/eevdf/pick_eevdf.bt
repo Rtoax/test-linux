@@ -15,7 +15,11 @@ BEGIN
 	printf("Tracing EEVDF, hit ctrl-c to end.\n");
 }
 
-kprobe:__pick_eevdf
+/**
+ * kernel commit 2227a957e1d5 ("sched/eevdf: Sort the rbtree by virtual deadline")
+ * rename __pick_eevdf() to pick_eevdf().
+ */
+kprobe:*pick_eevdf
 {
 	@[kstack] = count();
 }
