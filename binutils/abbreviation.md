@@ -1,2 +1,3 @@
 - BFD: Binary File Descriptor (二进制文件描述符)
+- CTF: Compact ANSI-C Type Format ()
 - Opcode: Operation Code ()
