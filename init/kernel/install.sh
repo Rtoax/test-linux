@@ -35,6 +35,7 @@ uninstall_kernel()
 	local modules=/lib/modules/$version
 	local vmlinuz=/boot/vmlinuz-$version
 	local initramfs=/boot/initramfs-$version.img
+	local config=/boot/config-$version.img
 
 	local curr_version=$(uname -r)
 
@@ -52,8 +53,7 @@ uninstall_kernel()
 	sudo grubby --remove-kernel /boot/vmlinuz-${version}
 
 	sudo rm -rf $modules
-	sudo rm -f $vmlinuz
-	sudo rm -f $initramfs
+	sudo rm -f $vmlinuz $initramfs $config
 
 	sudo grub2-mkconfig -o /boot/grub2/grub.cfg
 
