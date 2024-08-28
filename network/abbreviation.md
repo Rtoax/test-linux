@@ -1,3 +1,4 @@
+- CAKE: Common Applications Kept Enhanced (常用应用持续增强)
 - DDIO: Data Direct IO (数据直接IO) @DPDK
 - DLPI: Datalink Provider Interface (数据链路提供者接口)
 - DPDK: Data Plane Development Kit (数据面开发工具)
