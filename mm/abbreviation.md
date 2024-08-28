@@ -7,6 +7,7 @@
 - ISB: Instruction Synchronization Barrier (指令同步屏障) @arm @DMB @DSB
 - LDT: Local Descriptor Table (局部描述符表)
 - MCE: Machine Check Exceptions
+- MGLRU: Multi-Gen LRU (多代 LRU) @LRU
 - MM: Memory Managment (内存管理) @MMU
 - MMU: Memory Management Unit (内存管理单元) @IOMMU @SMMU
 - NUMA: Non-Uniform Memory Architecture (非一致性内存架构)
