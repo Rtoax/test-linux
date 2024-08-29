@@ -426,6 +426,7 @@ debian|ubuntu)
 	pkgs_base+=( clang-format )
 	pkgs_base+=( libaio-dev )           # aio
 	pkgs_base+=( libbpfcc-dev )
+	pkgs_base+=( libcapstone-dev )
 	pkgs_base+=( libc6-dev )
 	pkgs_base+=( libc-bin )
 	pkgs_base+=( libmpich-dev )         # MPI
