@@ -269,6 +269,9 @@ pkgs_desktop+=( tigervnc )
 # Database
 pkgs_db+=( postgresql )
 
+# Filesystem
+pkgs_fs+=( xfsprogs )
+
 # Storage
 pkgs_storage+=( device-mapper )
 pkgs_storage+=( device-mapper-multipath )
