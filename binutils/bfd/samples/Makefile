@@ -45,8 +45,8 @@ CFLAGS += -DBINUTILS_VERSION_MAJOR=${BINUTILS_VERSION_MAJOR}
 CFLAGS += -DBINUTILS_VERSION_MINOR=${BINUTILS_VERSION_MINOR}
 
 build: ${TARGETS}
-	@echo CFLAGS=${CFLAGS}
-	@echo LDFLAGS=${LDFLAGS}
+	@echo -e "  CFLAGS=${CFLAGS}"
+	@echo -e "  LDFLAGS=${LDFLAGS}"
 	@echo -e " \033[1;33m Done \033[m"
 
 bfd_init: bfd_init.o

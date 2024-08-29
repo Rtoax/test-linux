@@ -60,8 +60,8 @@ endif
 .PHONY: build
 build: ${TARGETS} $(sub-dir-build)
 	@echo
-	@echo CFLAGS=${CFLAGS}
-	@echo LDFLAGS=${LDFLAGS}
+	@echo -e "  CFLAGS=${CFLAGS}"
+	@echo -e "  LDFLAGS=${LDFLAGS}"
 	@echo -e "  PRINTF  ${feature-printf} "
 	@echo -e "  CFLAGS  $(CFLAGS)"
 	@echo -e "  \033[1;33mDone\033[m"
