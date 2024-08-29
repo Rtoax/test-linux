@@ -8,6 +8,7 @@ libc=
 possible_libc=(
 	/lib64/libc.so.6
 	/lib/aarch64-linux-gnu/libc.so.6
+	/lib/x86_64-linux-gnu/libc.so.6
 )
 for c in ${possible_libc[@]}
 do

@@ -1,5 +1,10 @@
 #!/bin/bash
 
-so=/lib64/libpthread.so.0
+if ! [[ -e /usr/bin/bpftrace ]]; then
+	exit 0
+fi
 
-sudo bpftrace -l usdt:${so}:*
+. helpers.sh
+
+lib=$(find_pthread_so)
+sudo bpftrace -l usdt:${lib}:*
