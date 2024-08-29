@@ -11,7 +11,7 @@ void demo1(void)
 	char *token;
 
 	for (token = strsep(&s, delim); token != NULL; token = strsep(&s, delim)) {
-		printf(token);
+		printf("%s", token);
 		printf("+");
 	}
 	printf("\n");
