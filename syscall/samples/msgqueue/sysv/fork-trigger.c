@@ -22,7 +22,7 @@ int task_wait_init(struct task_wait *waitqueue, char *tmpfile)
 {
 	int fd;
 
-	sprintf(waitqueue->tmpfile, tmpfile?:"/tmp/key-XXXXXXX");
+	sprintf(waitqueue->tmpfile, "%s", tmpfile ?: "/tmp/key-XXXXXXX");
 
 	if (tmpfile)
 		return 0;

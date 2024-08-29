@@ -3,11 +3,12 @@ SHELL = bash
 READLINE_HDR = /usr/include/readline/readline.h
 
 TARGETS :=
-ifneq ($(wildcard $(READLINE_HDR)),)
 TARGETS += rlversion
 TARGETS += rltest
-else
-$(error "ERROR: Must install readline development header")
+
+ifeq ($(wildcard $(READLINE_HDR)),)
+  $(warning "WARNING: Must install readline development header")
+  TARGETS :=
 endif
 
 CC = gcc
