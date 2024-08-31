@@ -15,5 +15,5 @@ sudo ${strace:+strace} mkfs.ext4 fs.ext4
 sudo mkdir -p tmp-mnt
 sudo mount fs.ext4 tmp-mnt -o loop,rw
 sudo cp /etc/os-release tmp-mnt/
-sudo tree tmp-mnt/
+which tree && sudo tree tmp-mnt/
 sudo umount tmp-mnt
