@@ -3,6 +3,7 @@
 /bfd_get_start_address
 /bfd_get_flavour
 /bfd_elf_bfd_from_remote_memory
+/phdr
 /sections
 /symbol
 /breakpoint_tst
