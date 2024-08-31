@@ -15,6 +15,7 @@ USER_LIST += database
 USER_LIST += device
 USER_LIST += elf
 USER_LIST += fs
+USER_LIST += ftrace
 USER_LIST += gdb
 USER_LIST += glibc
 USER_LIST += gnome

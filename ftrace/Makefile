@@ -1,8 +1,6 @@
 SHELL = bash
 
-sub-dir := SUBDIR
-
-$(info INFO: USER_FAILED_LOG = ${USER_FAILED_LOG})
+sub-dir := demos
 
 sub-dir-build := $(sub-dir:=.build)
 sub-dir-clean := $(sub-dir:=.clean)
