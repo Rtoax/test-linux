@@ -43,10 +43,16 @@ int main(int argc, char *argv[])
 
 	printf("Scanning %ld symbols\n", number_of_symbols);
 
+	for (i = 0; i < number_of_symbols; i++) {
+		bfd_print_symbol_vandf(abfd, stdout, symbol_table[i]);
+		fprintf(stdout, "\n");
+	}
+
 	printf("%-64s %-16s %-4s %-8s\n", "SYM", "VALUE", "TYPE", "LOCAL");
 	for (i = 0; i < number_of_symbols; i++) {
 		if (symbol_table[i]->section == NULL)
 			continue;
+
 		bfd_symbol_info(symbol_table[i], &symbolinfo);
 
 		/**
