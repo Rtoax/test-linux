@@ -35,6 +35,7 @@ int main(int argc, char *argv[])
 
 	printf("%-32s %-8s %-16s\n", "SECTION", "SIZE", "VMA");
 	for (asect = abfd->sections; asect != NULL; asect = asect->next) {
+		// bfd_set_section_vma(asect, 0xffff);
 		printf("%-32s %-8lx %-16lx\n",
 			bfd_section_name(asect),
 			bfd_section_size(asect),

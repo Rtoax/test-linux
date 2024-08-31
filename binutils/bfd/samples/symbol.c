@@ -36,6 +36,17 @@ int main(int argc, char *argv[])
 		goto close;
 	}
 
+	/**
+	 * If abfd is target process, we should set vma address, it's useful
+	 * for PIE process.
+	 */
+	for (asect = abfd->sections; asect != NULL; asect = asect->next) {
+		/**
+		 * FIXME: section belongs to a VMA.
+		 */
+		//bfd_set_section_vma(asect, 0x0);
+	}
+
 	storage_needed = bfd_get_symtab_upper_bound(abfd);
 
 	symbol_table = (asymbol **)malloc(storage_needed);
@@ -48,21 +59,25 @@ int main(int argc, char *argv[])
 		fprintf(stdout, "\n");
 	}
 
-	printf("%-64s %-16s %-4s %-8s\n", "SYM", "VALUE", "TYPE", "LOCAL");
+	printf("%-16s %-4s %-8s %-16s %-8s\n", "VALUE", "TYPE", "LOCAL", "VMA",
+		"SYM");
 	for (i = 0; i < number_of_symbols; i++) {
 		if (symbol_table[i]->section == NULL)
 			continue;
+
+		asect = symbol_table[i]->section;
 
 		bfd_symbol_info(symbol_table[i], &symbolinfo);
 
 		/**
 		 * type: see nm(1)
 		 */
-		printf("%-64s %-16lx %-4c %-8s\n",
-			symbolinfo.name,
+		printf("%-16lx %-4c %-8s %-16lx %s\n",
 			symbolinfo.value,
 			symbolinfo.type,
-			bfd_is_local_label(abfd, symbol_table[i]) ? "YES" : "-");
+			bfd_is_local_label(abfd, symbol_table[i]) ? "YES" : "-",
+			bfd_section_vma(asect),
+			symbolinfo.name);
 	}
 
 	free(symbol_table);
