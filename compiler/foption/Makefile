@@ -10,6 +10,7 @@ TARGETS += fdump-ipa-all fdump-ipa-clones
 TARGETS += fdump-tree-gimple
 TARGETS += fdump-tree-all-raw fdump-tree-all
 TARGETS += finput-charset
+TARGETS += fno-zero-initialized-in-bss
 
 ifeq ($(shell uname -m),x86_64)
   TARGETS += fcf-protection
@@ -49,6 +50,7 @@ CFLAGS_fstack-protector := -fstack-protector
 CFLAGS_fstack-protector-all := -fstack-protector-all
 CFLAGS_fstack-protector-strong := -fstack-protector-strong
 CFLAGS_finput-charset := -finput-charset=UTF-8
+CFLAGS_fno-zero-initialized-in-bss := -fno-zero-initialized-in-bss -DUNINITIALIZED_VALUES=1
 
 build: ${TARGETS}
 	@echo -e "  CC = ${CC}"
@@ -72,6 +74,7 @@ fdump-tree-gimple: fdump-tree-gimple.o
 fdump-tree-all-raw: fdump-tree-all-raw.o
 fdump-tree-all: fdump-tree-all.o
 finput-charset: finput-charset.o
+fno-zero-initialized-in-bss: fno-zero-initialized-in-bss.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
