@@ -22,3 +22,4 @@
 /fdump-tree-all-raw.c.*
 /finput-charset
 /fno-zero-initialized-in-bss
+/fzero-initialized-in-bss
