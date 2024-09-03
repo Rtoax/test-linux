@@ -254,6 +254,7 @@ pkgs_container+=( runc )
 pkgs_container+=( skopeo )
 
 pkgs_virt+=( qemu-user )
+pkgs_virt+=( virt-manager )
 
 # Benchmark
 pkgs_bench+=( iperf iperf3 )
