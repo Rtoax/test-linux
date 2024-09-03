@@ -9,13 +9,12 @@ CFLAGS += -Wstrict-prototypes
 CFLAGS += -lbpf -lbcc
 
 LDFLAGS :=
-LDLIBS :=
 
 CFLAGS += -DDEBUG -O0 -g
 
 BPF_LOAD_PROGRAM = $(shell grep -row bpf_load_program /usr/include/bpf/bpf.h || true)
 ifeq (${BPF_LOAD_PROGRAM}, bpf_load_program)
-CFLAGS += -DHAVE_BPF_LOAD_PROGRAM=1
+  CFLAGS += -DHAVE_BPF_LOAD_PROGRAM=1
 endif
 
 .PHONY: build
@@ -26,11 +25,11 @@ hello: hello.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
+	@$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
 
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) $(^) $(LDLIBS) $(LDFLAGS) $(LDFLAGS_$(*))
+	@$(CC) -o $(@) $(^) $(CFLAGS) $(CFLAGS_$(*)) $(LDFLAGS) $(LDFLAGS_$(*))
 
 test: ${TARGETS}
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"

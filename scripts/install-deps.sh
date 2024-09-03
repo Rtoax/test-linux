@@ -426,6 +426,7 @@ debian|ubuntu)
 	pkgs_base+=( build-essential )
 	pkgs_base+=( clang-format )
 	pkgs_base+=( libaio-dev )           # aio
+	pkgs_base+=( libbpf-dev )           # libbpf
 	pkgs_base+=( libbpfcc )
 	pkgs_base+=( libbpfcc-dev )
 	pkgs_base+=( libcapstone-dev )
@@ -438,6 +439,7 @@ debian|ubuntu)
 	pkgs_base+=( lsb-release )
 	pkgs_base+=( procps )
 	pkgs_base+=( sg3-utils )            # sg_inq, etc.
+	pkgs_base+=( systemtap-sdt-dev )    # sdt.h
 	if [[ ${OS} == ubuntu ]]; then
 		pkgs_base+=( linux-tools-common )
 	fi
