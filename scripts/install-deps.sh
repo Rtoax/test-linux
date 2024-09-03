@@ -422,9 +422,11 @@ cclinux|fedora|centos|rhel|openEuler|almalinux|opencloudos)
 	;;
 debian|ubuntu)
 	pkgs_base+=( binutils-dev )
+	pkgs_base+=( bpfcc-tools )
 	pkgs_base+=( build-essential )
 	pkgs_base+=( clang-format )
 	pkgs_base+=( libaio-dev )           # aio
+	pkgs_base+=( libbpfcc )
 	pkgs_base+=( libbpfcc-dev )
 	pkgs_base+=( libcapstone-dev )
 	pkgs_base+=( libc6-dev )
