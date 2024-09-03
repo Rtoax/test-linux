@@ -435,6 +435,7 @@ debian|ubuntu)
 	pkgs_base+=( libmpich-dev )         # MPI
 	pkgs_base+=( libnuma-dev )
 	pkgs_base+=( libunwind-dev )
+	pkgs_base+=( linux-headers-$(uname -r) )
 	pkgs_base+=( linux-libc-dev )
 	pkgs_base+=( lsb-release )
 	pkgs_base+=( procps )
