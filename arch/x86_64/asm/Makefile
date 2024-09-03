@@ -60,9 +60,15 @@ DEBUG = yes
 CC = gcc
 
 CFLAGS := -Werror -Wall
+LDFLAGS :=
 
 ifdef DEBUG
-CFLAGS += -DDEBUG -O0 -g
+  CFLAGS += -DDEBUG -O0 -g
+endif
+
+ifdef PIE
+  CFLAGS += -fPIE
+  LDFLAGS += -fPIE
 endif
 
 .PHONY: build
@@ -110,20 +116,20 @@ CFLAGS_puts-c-loop := -DINFINITE_LOOP=1
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	@$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
-	@$(CC) -S $(<) -o $(<:.c=.s) $(CFLAGS) $(CFLAGS_$(*))
+	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
+	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -S $(<) -o $(<:.c=.s)
 
 %.o: %.S
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	@$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
+	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
 
 $(TARGETS) $(TARGETS_S): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	@$(CC) $(CFLAGS) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
+	@$(CC) $(LDFLAGS) $(CFLAGS) -o $(@) $(^)
 
 $(TARGETS_ASM): %:
 	@echo -e "  LD ASM \033[1;32m$(@)\033[m"
-	@$(LD) -o $(@) $(^)
+	@$(LD) $(LDFLAGS) -o $(@) $(^)
 
 test: ${TARGETS}
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
