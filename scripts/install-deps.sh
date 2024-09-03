@@ -264,7 +264,6 @@ pkgs_desktop+=( terminator )
 pkgs_desktop+=( gimp )
 pkgs_desktop+=( gnuplot )
 pkgs_desktop+=( python3-matplotlib )
-pkgs_desktop+=( tigervnc )
 
 # Database
 pkgs_db+=( postgresql )
@@ -386,6 +385,7 @@ cclinux|fedora|centos|rhel|openEuler|almalinux|opencloudos)
 
 	pkgs_desktop+=( gtk3 )
 	pkgs_desktop+=( gtk3-devel )
+	pkgs_desktop+=( tigervnc )
 
 	pkgs_math+=( fftw-devel )
 
@@ -449,6 +449,8 @@ debian|ubuntu)
 
 	pkgs_virt+=( libvirt0 )
 	pkgs_virt+=( qemu-system )
+
+	pkgs_desktop+=( tigervnc-viewer )
 
 	[[ ${have_base} ]] && pkgs+=( ${pkgs_base[@]} )
 	[[ ${have_fs} ]] && pkgs+=( ${pkgs_fs[@]} )
