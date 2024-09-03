@@ -28,16 +28,24 @@ TARGETS += entry_get_text
 
 CC = gcc
 
+CFLAGS :=
+LDFLAGS :=
+
 GTK_VERSION := gtk+-3.0
 GTK_LIBS := $(shell pkg-config --libs gtk+-3.0)
 GTK_CFLAGS := $(shell pkg-config --cflags gtk+-3.0)
 
-CFLAGS := -Werror -Wall
+$(info GTK_CFLAGS=$(GTK_CFLAGS))
+$(info GTK_LIBS=$(GTK_LIBS))
+
+CFLAGS += -Werror -Wall
 CFLAGS += $(GTK_CFLAGS)
 CFLAGS += $(GTK_LIBS)
 
+LDFLAGS += $(GTK_LIBS)
+
 ifdef DEBUG
-CFLAGS += -DDEBUG -O0 -g
+  CFLAGS += -DDEBUG -O0 -g
 endif
 
 # TODO: no deprecated
@@ -82,11 +90,11 @@ dialog: dialog.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
+	@$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
 
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	@$(CC) $(CFLAGS) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
+	@$(CC) -o $(@) $(^) $(CFLAGS) $(CFLAGS_$(*)) $(LDFLAGS)
 
 test: ${TARGETS}
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"

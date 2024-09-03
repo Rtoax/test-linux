@@ -450,6 +450,7 @@ debian|ubuntu)
 	pkgs_virt+=( libvirt0 )
 	pkgs_virt+=( qemu-system )
 
+	pkgs_desktop+=( libgtk-3-dev )
 	pkgs_desktop+=( tigervnc-viewer )
 
 	[[ ${have_base} ]] && pkgs+=( ${pkgs_base[@]} )
