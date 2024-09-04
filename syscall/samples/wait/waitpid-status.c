@@ -11,6 +11,8 @@ void print_wstatus(int status)
 	printf("WSTOPSIG(%d=0x%x)	= %d\n", status, status, WSTOPSIG(status));
 	printf("WIFSIGNALED(%d=0x%x)	= %d\n", status, status, WIFSIGNALED(status));
 	printf("WIFSTOPPED(%d=0x%x)	= %d\n", status, status, WIFSTOPPED(status));
+	printf("WCOREDUMP(%d=0x%x)	= %d\n", status, status, WCOREDUMP(status));
+	printf("WIFCONTINUED(%d=0x%x)	= %d\n", status, status, WIFCONTINUED(status));
 }
 
 #ifdef TEST_MAIN_WAITPID_STATUS
