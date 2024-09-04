@@ -2,3 +2,4 @@
 /waitpid
 /waitpid-sig
 /waitpid-kill
+/waitpid-status

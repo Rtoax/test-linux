@@ -1,17 +1,16 @@
 SHELL = bash
 
-
-TARGETS := waitpid
+TARGETS :=
+TARGETS += waitpid
 TARGETS += waitpid-sig
 TARGETS += waitpid-kill
+TARGETS += waitpid-status
 TARGETS += wait
 
 CC = gcc
 
 CFLAGS := -Werror -Wall -D_GNU_SOURCE
 CFLAGS += -pthread
-CFLAGS += -I../../../
-CFLAGS += -I../
 CFLAGS += -DDEBUG -O0 -g
 
 build: ${TARGETS}
@@ -22,6 +21,7 @@ build: ${TARGETS}
 waitpid: waitpid.o
 waitpid-sig: waitpid-sig.o
 waitpid-kill: waitpid-kill.o
+waitpid-status: waitpid-status.o
 wait: wait.o
 
 %.o: %.c
