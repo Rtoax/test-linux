@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # 有哪些追踪器可用
+#  same as /sys/kernel/tracing/available_tracers
 sudo trace-cmd list -t
 
 # 用 function 启用你的第一个追踪器
@@ -16,7 +17,7 @@ sudo trace-cmd list -f | grep kmalloc
 
 # 追踪内核模块相关的函数
 sudo lsmod | grep kvm_intel
-sudo trace-cmd list -f | grep ]$  | grep kvm_intel
+sudo trace-cmd list -f | grep ']$'  | grep kvm_intel
 
 # 追踪特定函数
 sudo trace-cmd list -f | grep ^xfs_
@@ -27,6 +28,11 @@ sudo trace-cmd record -l xfs_* -p function_graph
 sudo trace-cmd record -P 8085 -p function_graph
 #  Hit Ctrl^C to stop recording
 #  这会生成 trace.dat
+
+# 按 event 追踪
+sudo trace-cmd record -e sched -p function_graph
+sudo trace-cmd record -e sched_switch -p function_graph
+
 # 查看追踪记录
 sudo trace-cmd report | head -20
 
