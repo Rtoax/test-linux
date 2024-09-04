@@ -1,0 +1,32 @@
+#!/bin/env bpftrace
+#ifndef BPFTRACE_HAVE_BTF
+#include <linux/sched.h>
+#endif
+
+BEGIN
+{
+	printf("Tracing clone, hit ctrl-c to end.\n");
+	printf("%-8s %-8s %-16s %-8s\n", "TIME", "PID", "COMM", "LAT(us)");
+}
+
+tracepoint:syscalls:sys_enter_clone
+{
+	time("%H:%M:%S ");
+	printf("%-8d %-16s", pid, comm);
+	@start[tid] = nsecs;
+}
+
+tracepoint:syscalls:sys_exit_clone
+/ @start[tid] /
+{
+	$us = (nsecs - @start[tid]) / 1000;
+	@latency_us = hist($us);
+	printf(" %-8d\n", $us);
+	delete(@start[tid]);
+}
+
+END
+{
+	clear(@start);
+	printf("Bye.\n");
+}
