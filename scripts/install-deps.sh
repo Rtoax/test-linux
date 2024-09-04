@@ -233,6 +233,7 @@ pkgs_base+=( strace )
 pkgs_base+=( smartmontools )        # smartctl
 pkgs_base+=( sysstat )
 pkgs_base+=( tmux )
+pkgs_base+=( trace-cmd )
 pkgs_base+=( tree )
 pkgs_base+=( util-linux )           # wipefs, etc.
 pkgs_base+=( vim )
