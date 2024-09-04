@@ -15,7 +15,9 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 
-sig_atomic_t child_exit_status = 0xffff;
+#include "../wait/waitpid-status.c"
+
+sig_atomic_t child_exit_status = 0;
 
 void clean_up_child_process(int signal_number)
 {
@@ -44,8 +46,10 @@ int main(void)
 			printf("Child running...\n");
 			usleep(100000);
 		}
-		exit(0xff);
+		exit(0);
 	} else if (child_pid > 0) {
+		clean_up_child_process(0);
+
 		while (!WIFEXITED(child_exit_status)) {
 			printf("Parent running...\n");
 			usleep(100000);
@@ -59,6 +63,7 @@ int main(void)
 			}
 		}
 		printf("Child exit status %d\n", WEXITSTATUS(child_exit_status));
+		print_wstatus(child_exit_status);
 	}
 
 	return 0;
