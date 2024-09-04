@@ -30,7 +30,7 @@ void clean_up_child_process(int signal_number)
 
 int main(void)
 {
-	int child_pid;
+	int ret, child_pid;
 	struct sigaction sigchld_action;
 
 	memset(&sigchld_action, 0, sizeof(sigchld_action));
@@ -39,14 +39,26 @@ int main(void)
 
 	child_pid = fork();
 	if (child_pid == 0) {
-		sleep(1);
+		int i;
+		for (i = 0; i < 3; i++) {
+			printf("Child running...\n");
+			usleep(100000);
+		}
 		exit(0xff);
 	} else if (child_pid > 0) {
 		while (!WIFEXITED(child_exit_status)) {
 			printf("Parent running...\n");
 			usleep(100000);
+
+			if (WIFSTOPPED(child_exit_status)) {
+				printf("Parent send SIGCONT\n");
+				ret = kill(child_pid, SIGCONT);
+				if (ret) {
+					perror("kill SIGCONT");
+				}
+			}
 		}
-		printf("child status %d\n", WEXITSTATUS(child_exit_status));
+		printf("Child exit status %d\n", WEXITSTATUS(child_exit_status));
 	}
 
 	return 0;
