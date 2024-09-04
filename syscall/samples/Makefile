@@ -73,7 +73,6 @@ TARGETS += setgid setegid setregid
 TARGETS += setuid seteuid setreuid
 TARGETS += setpgrp
 TARGETS += tee tee2
-TARGETS += clone
 ifneq ($(wildcard /usr/include/linux/close_range.h),)
 TARGETS += close_range
 else
@@ -183,7 +182,6 @@ setreuid: setreuid.o
 setpgrp: setpgrp.o
 tee: tee.o
 tee2: tee2.o
-clone: clone.o
 close_range: close_range.o
 setitimer: setitimer.o
 unlink: unlink.o

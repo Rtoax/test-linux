@@ -13,7 +13,5 @@
 
 int main(void)
 {
-	// TODO
-
-	return 0;
+       return 0;
 }

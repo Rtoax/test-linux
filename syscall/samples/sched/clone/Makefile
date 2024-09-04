@@ -1,6 +1,7 @@
 SHELL = bash
 
 TARGETS :=
+TARGETS += glibc
 TARGETS += clone
 TARGETS += ns_pid
 TARGETS += ns_net
@@ -19,6 +20,7 @@ CFLAGS += -DDEBUG -O0 -g
 build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
+glibc: glibc.o
 clone: clone.o
 ns_pid: ns_pid.o
 ns_net: ns_net.o
