@@ -13,8 +13,8 @@
 BEGIN
 {
 	printf("Tracing vfs_write, hit ctrl-c to end.\n");
-	printf("%-8s %-8s %-16s %-8s %-8s\n",
-		 "TIME", "PID", "COMM", "LAT(us)", "FILE");
+	printf("%-8s %-8s %-16s %-8s %-8s %-8s %-8s\n",
+		 "TIME", "PID", "COMM", "LAT(us)", "FILE", "BUF", "LEN");
 }
 
 kprobe:vfs_write
@@ -22,6 +22,8 @@ kprobe:vfs_write
 	@start[tid] = nsecs;
 	@comm[tid] = comm;
 	@file[tid] = (struct file *)arg0;
+	@buf[tid] = arg1;
+	@buf_len[tid] = arg2;
 }
 
 kretprobe:vfs_write
@@ -33,15 +35,21 @@ kretprobe:vfs_write
 	/* call vfs_write too much times, only print big latency */
 	if ($us > 1000000) {
 		$file = @file[tid];
+		$buf = @buf[tid];
+		$len = @buf_len[tid];
 		$f_name = $file->f_path.dentry->d_name.name;
 
 		time("%H:%M:%S ");
-		printf("%-8d %-16s %-8d %s\n", pid, @comm[tid], $us, str($f_name));
+		printf("%-8d %-16s %-8d %s %r %-8d\n",
+			pid, @comm[tid], $us, str($f_name),
+			buf($buf, $len), $len);
 	}
 
 	delete(@start[tid]);
 	delete(@comm[tid]);
 	delete(@file[tid]);
+	delete(@buf[tid]);
+	delete(@buf_len[tid]);
 }
 
 END
@@ -49,5 +57,7 @@ END
 	clear(@start);
 	clear(@comm);
 	clear(@file);
+	clear(@buf);
+	clear(@buf_len);
 	printf("Bye.\n");
 }
