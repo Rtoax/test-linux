@@ -7,7 +7,7 @@ TARGETS += cpuset CPU_SETSIZE CPU_ALLOC str2cpuset
 TARGETS += getcpu sched_getcpu
 TARGETS += nice
 TARGETS += sched_setattr
-TARGETS += sched_setscheduler sched_getscheduler
+TARGETS += sched_setscheduler sched_getscheduler policy
 TARGETS += sched_getparam sched_setparam
 TARGETS += sched_getaffinity
 TARGETS += sched_get_priority_max sched_get_priority_min
@@ -46,6 +46,7 @@ sched_getparam: sched_getparam.o
 sched_setparam: sched_setparam.o
 sched_setscheduler: sched_setscheduler.o helpers.o
 sched_getscheduler: sched_getscheduler.o helpers.o
+policy: policy.o
 sched_get_priority_max: sched_get_priority_max.o
 sched_get_priority_min: sched_get_priority_min.o
 sched_getaffinity: sched_getaffinity.o
