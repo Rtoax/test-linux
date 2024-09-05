@@ -12,18 +12,25 @@ tracepoint:sched:sched_waking
 {
 	$pid = args->pid;
 	@start[$pid] = nsecs;
+	@count = count();
 }
 
 tracepoint:sched:sched_wakeup
+/ @start[tid] /
 {
 	$pid = args->pid;
-	if (@start[$pid]) {
-		@latency_usecs[comm] = hist((nsecs - @start[$pid]) / 1000);
-		delete(@start[$pid]);
-	}
+	@latency_us = hist((nsecs - @start[$pid]) / 1000);
+	delete(@start[$pid]);
+}
+
+i:s:1
+{
+	print(@count);
+	clear(@count);
 }
 
 END
 {
 	clear(@start);
+	clear(@count);
 }
