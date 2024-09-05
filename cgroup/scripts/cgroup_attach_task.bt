@@ -20,6 +20,8 @@ tracepoint:cgroup:cgroup_attach_task
 	$dst_path = args->dst_path;
 	$comm = args->comm;
 
+	@dst_path[tid] = $dst_path;
+
 	printf("%-6d %-6d %-8d %-8s %s\n",
 		$dst_id, $dst_level, $pid, str($comm), str($dst_path));
 }
@@ -38,14 +40,18 @@ kretprobe:cgroup_attach_task
 	/* Recording big latency */
 	if ($us > 1000000) {
 		@latency_ge_1s[comm, pid] = count();
+		printf("LAT: \033[31m%s %d : %s %ld us\033[m\n",
+			comm, pid, str(@dst_path[tid]), $us);
 	}
 
 	delete(@start[tid]);
+	delete(@dst_path[tid]);
 }
 
 END
 {
 	clear(@start);
+	clear(@dst_path);
 	printf("Bye.\n");
 }
 
