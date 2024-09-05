@@ -59,7 +59,7 @@ kprobe:percpu_up_write
 
 		/* Hold sem write handle too much time */
 		if ($us > 1000000) {
-			@hold[$task->comm, $task->pid, $down_stack, kstack] = count();
+			@hold_wr_ge_1s[$task->comm, $task->pid, $down_stack, kstack] = count();
 		}
 	}
 }
