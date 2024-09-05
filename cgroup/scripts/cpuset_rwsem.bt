@@ -24,10 +24,10 @@ profile:hz:99
 
 	if ($writer != 0) {
 		time("%H:%M:%S ");
-		printf("held: read_count %d, comm '%s' pid %d tgid %d, block %d\n",
+		printf("held: read_count %d, comm '%s' pid %d tgid %d, block %d, cpu %d\n",
 			$read_count,
 			$writer->comm, $writer->pid, $writer->tgid,
-			$block);
+			$block, cpu);
 
 		@count[$writer->tgid, $writer->comm] = count();
 	}
