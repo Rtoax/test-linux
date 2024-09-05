@@ -41,7 +41,7 @@ int child(void *arg)
 
 int main(void)
 {
-	int flags;
+	int flags, status;
 	pid_t pid;
 
 	flags = CLONE_NEWUTS | CLONE_NEWIPC | CLONE_NEWPID | CLONE_NEWNS | SIGCHLD;
@@ -51,6 +51,7 @@ int main(void)
 		return -1;
 	}
 
-	waitpid(pid, NULL, 0);
+	waitpid(pid, &status, 0);
+	printf("Child exit %d.\n", status);
 	return 0;
 }

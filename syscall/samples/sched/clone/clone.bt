@@ -11,9 +11,8 @@ BEGIN
 
 tracepoint:syscalls:sys_enter_clone
 {
-	time("%H:%M:%S ");
-	printf("%-8d %-16s", pid, comm);
 	@start[tid] = nsecs;
+	@comm[tid] = comm;
 }
 
 tracepoint:syscalls:sys_exit_clone
@@ -21,7 +20,9 @@ tracepoint:syscalls:sys_exit_clone
 {
 	$us = (nsecs - @start[tid]) / 1000;
 	@latency_us = hist($us);
-	printf(" %-8d\n", $us);
+
+	time("%H:%M:%S ");
+	printf("%-8d %-16s %-8d\n", pid, @comm[tid], $us);
 	delete(@start[tid]);
 }
 
