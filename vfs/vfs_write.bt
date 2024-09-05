@@ -17,11 +17,17 @@ BEGIN
 		 "TIME", "PID", "COMM", "LAT(us)", "FILE", "BUF", "LEN");
 }
 
+tracepoint:syscalls:sys_enter_write
+{
+	@sys_buf[tid] = args->buf;
+}
+
 kprobe:vfs_write
 {
 	@start[tid] = nsecs;
 	@comm[tid] = comm;
 	@file[tid] = (struct file *)arg0;
+	/* FIXME: Why it's NULL? */
 	@buf[tid] = arg1;
 	@buf_len[tid] = arg2;
 }
@@ -42,7 +48,7 @@ kretprobe:vfs_write
 		time("%H:%M:%S ");
 		printf("%-8d %-16s %-8d %s %r %-8d\n",
 			pid, @comm[tid], $us, str($f_name),
-			buf($buf, $len), $len);
+			buf(@sys_buf[tid], $len), $len);
 	}
 
 	delete(@start[tid]);
@@ -52,6 +58,11 @@ kretprobe:vfs_write
 	delete(@buf_len[tid]);
 }
 
+tracepoint:syscalls:sys_exit_write
+{
+	delete(@sys_buf[tid]);
+}
+
 END
 {
 	clear(@start);
@@ -59,5 +70,6 @@ END
 	clear(@file);
 	clear(@buf);
 	clear(@buf_len);
+	clear(@sys_buf);
 	printf("Bye.\n");
 }
