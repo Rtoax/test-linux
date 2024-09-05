@@ -1,9 +1,4 @@
 #!/usr/bin/env bpftrace
-/**
- *	local_timer_entry and exit
- *
- *	Rong Tao 2022-01-10
- */
 
 BEGIN
 {
@@ -13,24 +8,27 @@ BEGIN
 tracepoint:irq_vectors:local_timer_entry
 {
 	$vector = args->vector;
+	@totalcount = count();
 	@irqcount[$vector] = count();
 	@start[tid] = nsecs;
 }
 
 interval:s:1
 {
-	print(@irqcount);
+	print(@totalcount);
+	clear(@totalcount);
 }
 
 tracepoint:irq_vectors:local_timer_exit
 /@start[tid]/
 {
-	@latency[comm] = hist((nsecs - @start[tid]) / 1000);
+	@latency_us = hist((nsecs - @start[tid]) / 1000);
 	clear(@start);
 }
 
 END
 {
 	clear(@start);
+	clear(@totalcount);
 	printf("Bye\n");
 }
