@@ -1,14 +1,12 @@
 #!/usr/bin/env bpftrace
 /**
- * File: try_to_wake_up.bt
- * Author: Rong Tao <rtoax@foxmail.com>
- * Date: 2022.05.25
- *
- * TTWU: try_to_wake_up
+ * try_to_wake_up.bt
  *
  * 2022-07-12	Rong Tao	Just print 10st count COMM, add 'kstack'
  */
+#ifndef BPFTRACE_HAVE_BTF
 #include <linux/sched.h>
+#endif
 
 BEGIN
 {
@@ -17,15 +15,22 @@ BEGIN
 
 kprobe:try_to_wake_up
 {
+	@count = count();
 	$task = (struct task_struct *)arg0;
 	@count_comm[$task->comm, pid] = count();
 	@stack[kstack] = count();
 }
 
+interval:s:1
+{
+	print(@count);
+	clear(@count);
+}
+
 END
 {
 	print(@count_comm, 20);
-	print(@stack, 1);
+	print(@stack, 3);
 	clear(@count_comm);
 	clear(@stack);
 }
