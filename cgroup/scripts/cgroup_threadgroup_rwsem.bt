@@ -1,0 +1,24 @@
+#!/usr/bin/env bpftrace 
+
+BEGIN
+{
+	printf("Tracing cgroup_threadgroup_rwsem, Hit Ctrl+C end.\n");
+}
+
+interval:s:1
+{
+	$sem = (struct percpu_rw_semaphore *)kaddr("cgroup_threadgroup_rwsem");
+
+	$read_count = $sem->read_count;
+	$writer = $sem->writer.task;
+	$block = $sem->block.counter;
+
+	printf("-------------------\n");
+	printf("read_count %d\n", $read_count);
+	printf("writer.comm '%s'\n", $writer->comm);
+	printf("block %d\n", $block);
+}
+
+END{
+	printf("Bye.\n");
+}
