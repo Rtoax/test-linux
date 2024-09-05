@@ -1,23 +1,11 @@
 #!/usr/bin/env bpftrace
 /**
  * cgroup_attach_task.bt
- * Rong Tao <rtoax@foxmail.com>
- * 2022.02.20
- * 
+ *
  * Tracing cgroup_attach_task
- * 
- * Introduction:
- * You can run:
- *	$ docker run -ti centos /bin/bash
+ *
+ * Test with: $ docker run -ti centos /bin/bash
  */
-/*
-int dst_root
-    int dst_id
-    int dst_level
-    int pid
-    __data_loc char[] dst_path
-    __data_loc char[] comm
-*/
 BEGIN
 {
 	printf("Tracing cgroup_attach_task, hit ctrl-C to end.\n");
