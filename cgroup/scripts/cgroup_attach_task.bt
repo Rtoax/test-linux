@@ -24,8 +24,28 @@ tracepoint:cgroup:cgroup_attach_task
 		$dst_id, $dst_level, $pid, str($comm), str($dst_path));
 }
 
+kprobe:cgroup_attach_task
+{
+	@start[tid] = nsecs;
+}
+
+kretprobe:cgroup_attach_task
+/ @start[tid] /
+{
+	$us = (nsecs - @start[tid]) / 1000;
+	@latency_us = hist($us);
+
+	/* Recording big latency */
+	if ($us > 1000000) {
+		@latency_ge_1s[comm, pid] = count();
+	}
+
+	delete(@start[tid]);
+}
+
 END
 {
+	clear(@start);
 	printf("Bye.\n");
 }
 
