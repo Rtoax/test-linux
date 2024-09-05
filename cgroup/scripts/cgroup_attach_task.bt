@@ -40,8 +40,8 @@ kretprobe:cgroup_attach_task
 	/* Recording big latency */
 	if ($us > 1000000) {
 		@latency_ge_1s[comm, pid] = count();
-		printf("LAT: \033[31m%s %d : %s %ld us\033[m\n",
-			comm, pid, str(@dst_path[tid]), $us);
+		printf("LAT: \033[31m%s %d : %s %ld us, cpu %d\033[m\n",
+			comm, pid, str(@dst_path[tid]), $us, cpu);
 	}
 
 	delete(@start[tid]);
@@ -65,8 +65,8 @@ kretprobe:cgroup_migrate_prepare_dst
 
 	/* Recording big latency */
 	if ($us > 1000000) {
-		printf("LAT_1: \033[31m%s %d : %s %ld us\033[m\n",
-			comm, pid, str(@dst_path[tid]), $us);
+		printf("LAT_1: \033[31m%s %d : %s %ld us, cpu %d\033[m\n",
+			comm, pid, str(@dst_path[tid]), $us, cpu);
 	}
 
 	delete(@start_1[tid]);
@@ -89,8 +89,8 @@ kretprobe:cgroup_migrate
 
 	/* Recording big latency */
 	if ($us > 1000000) {
-		printf("LAT_2: \033[31m%s %d : %s %ld us\033[m\n",
-			comm, pid, str(@dst_path[tid]), $us);
+		printf("LAT_2: \033[31m%s %d : %s %ld us, cpu %d\033[m\n",
+			comm, pid, str(@dst_path[tid]), $us, cpu);
 	}
 
 	delete(@start_2[tid]);
@@ -113,8 +113,8 @@ kretprobe:cgroup_migrate_execute
 
 	/* Recording big latency */
 	if ($us > 1000000) {
-		printf("LAT_3: \033[31m%s %d : %s %ld us\033[m\n",
-			comm, pid, str(@dst_path[tid]), $us);
+		printf("LAT_3: \033[31m%s %d : %s %ld us, cpu %d\033[m\n",
+			comm, pid, str(@dst_path[tid]), $us, cpu);
 	}
 
 	delete(@start_3[tid]);
@@ -137,8 +137,8 @@ kretprobe:cgroup_freezer_migrate_task
 
 	/* Recording big latency */
 	if ($us > 1000000) {
-		printf("LAT_4: \033[31m%s %d : %s %ld us\033[m\n",
-			comm, pid, str(@dst_path[tid]), $us);
+		printf("LAT_4: \033[31m%s %d : %s %ld us, cpu %d\033[m\n",
+			comm, pid, str(@dst_path[tid]), $us, cpu);
 	}
 
 	delete(@start_4[tid]);
@@ -165,8 +165,8 @@ kretprobe:cpuset_attach
 
 	/* Recording big latency */
 	if ($us > 1000000) {
-		printf("LAT_5: \033[31m%s %d : %s %ld us\033[m %s\n",
-			comm, pid, str(@dst_path[tid]), $us, probe);
+		printf("LAT_5: \033[31m%s %d : %s %ld us, cpu %d\033[m %s\n",
+			comm, pid, str(@dst_path[tid]), $us, cpu, probe);
 	}
 
 	delete(@start_5[tid]);
@@ -191,8 +191,8 @@ kretprobe:security_task_setscheduler
 
 	/* Recording big latency */
 	if ($us > 1000000) {
-		printf("LAT_6: \033[31m%s %d : %s %ld us\033[m %s\n",
-			comm, pid, str(@dst_path[tid]), $us, probe);
+		printf("LAT_6: \033[31m%s %d : %s %ld us, cpu %d\033[m %s\n",
+			comm, pid, str(@dst_path[tid]), $us, cpu, probe);
 	}
 
 	delete(@start_6[tid]);

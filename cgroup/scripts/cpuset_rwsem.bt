@@ -4,7 +4,7 @@
  *
  * Tracing sem cpuset_rwsem write hold
  *
- * kernel 5.15.67
+ * kernel 5.10 ~ 5.15.67
  *
  * 2024-09-05  Rong Tao        Create this.
  */
@@ -24,7 +24,7 @@ profile:hz:99
 
 	if ($writer != 0) {
 		time("%H:%M:%S ");
-		printf("read_count %d, comm '%s' pid %d tgid %d, block %d\n",
+		printf("held: read_count %d, comm '%s' pid %d tgid %d, block %d\n",
 			$read_count,
 			$writer->comm, $writer->pid, $writer->tgid,
 			$block);
@@ -40,9 +40,28 @@ kprobe:percpu_down_write
 	$cgrp_sem = (struct percpu_rw_semaphore *)kaddr("cpuset_rwsem");
 	if ($sem == $cgrp_sem) {
 		@start[tid] = nsecs;
+		@start_down[tid] = nsecs;
+		@writer[tid] = $sem->writer.task;
 		@task[tid] = curtask;
 		@stack[tid] = kstack;
 	}
+}
+
+kretprobe:percpu_down_write
+/ @start_down[tid] /
+{
+	$task = @task[tid];
+	$writer = @writer[tid];
+	$down_stack = @stack[tid];
+	$us = (nsecs - @start_down[tid]) / 1000;
+	@latency_us_down = hist($us);
+	if ($us > 1000000) {
+		@hold_wr_down_ge_1s[$task->comm, $task->pid, $down_stack, kstack] = count();
+		printf("\033[31mdown: %s %d (writer %s %d) %ld us, cpu %d\033[m\n",
+			$task->comm, $task->pid, $writer->comm, $writer->pid, $us, cpu);
+	}
+	delete(@start_down[tid]);
+	delete(@writer[tid]);
 }
 
 kprobe:percpu_up_write
@@ -66,6 +85,8 @@ kprobe:percpu_up_write
 		/* Hold sem write handle too much time */
 		if ($us > 1000000) {
 			@hold_wr_ge_1s[$task->comm, $task->pid, $down_stack, kstack] = count();
+			printf("\033[32mdown->up: %s pid %d, %ld us, cpu %d\033[m\n",
+				$task->comm, $task->pid, $us, cpu);
 		}
 	}
 }
@@ -73,7 +94,9 @@ kprobe:percpu_up_write
 END
 {
 	clear(@start);
+	clear(@start_down);
 	clear(@task);
+	clear(@writer);
 	clear(@stack);
 	printf("Bye.\n");
 }
