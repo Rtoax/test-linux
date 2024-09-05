@@ -1,6 +1,10 @@
 #!/bin/env bpftrace
 /**
  * clone.bt - Tracing clone(2)
+ *
+ * Copyright (C) Rong Tao 2024
+ *
+ * 2024-09-05	Rong Tao	Create this.
  */
 #ifndef BPFTRACE_HAVE_BTF
 #include <linux/sched.h>
@@ -24,7 +28,7 @@ tracepoint:syscalls:sys_exit_clone,
 tracepoint:syscalls:sys_exit_clone3
 {
 	time("%H:%M:%S ");
-	printf("%-8d %-16s %-8s %-8d\n", pid, comm, "EXIT", args->ret);
+	printf("%-8d %-16s %-8s %-8d %s\n", pid, comm, "EXIT", args->ret, probe);
 }
 
 END
