@@ -14,6 +14,7 @@ BEGIN
 
 kprobe:__hrtimer_run_queues
 {
+	@count = count();
 	@commcount[comm] = count();
 	@kstackcount[kstack] = count();
 }
@@ -21,10 +22,12 @@ kprobe:__hrtimer_run_queues
 interval:s:1
 {
 	time();
-	print(@commcount);
+	print(@count);
+	clear(@count);
 }
 
 END
 {
+	clear(@count);
 	printf("Bye.\n");
 }
