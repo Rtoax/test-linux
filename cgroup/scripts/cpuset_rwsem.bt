@@ -1,0 +1,79 @@
+#!/usr/bin/env bpftrace
+/**
+ * cpuset_rwsem.bt
+ *
+ * Tracing sem cpuset_rwsem write hold
+ *
+ * kernel 5.15.67
+ *
+ * 2024-09-05  Rong Tao        Create this.
+ */
+
+BEGIN
+{
+	printf("Tracing cpuset_rwsem, Hit Ctrl+C end.\n");
+}
+
+profile:hz:99
+{
+	$sem = (struct percpu_rw_semaphore *)kaddr("cpuset_rwsem");
+
+	$read_count = $sem->read_count;
+	$writer = $sem->writer.task;
+	$block = $sem->block.counter;
+
+	if ($writer != 0) {
+		time("%H:%M:%S ");
+		printf("read_count %d, comm '%s' pid %d tgid %d, block %d\n",
+			$read_count,
+			$writer->comm, $writer->pid, $writer->tgid,
+			$block);
+
+		@count[$writer->tgid, $writer->comm] = count();
+	}
+}
+
+/* Who hold write handle */
+kprobe:percpu_down_write
+{
+	$sem = (struct percpu_rw_semaphore *)arg0;
+	$cgrp_sem = (struct percpu_rw_semaphore *)kaddr("cpuset_rwsem");
+	if ($sem == $cgrp_sem) {
+		@start[tid] = nsecs;
+		@task[tid] = curtask;
+		@stack[tid] = kstack;
+	}
+}
+
+kprobe:percpu_up_write
+/ @start[tid] /
+{
+	$sem = (struct percpu_rw_semaphore *)arg0;
+	$cgrp_sem = (struct percpu_rw_semaphore *)kaddr("cpuset_rwsem");
+	if ($sem == $cgrp_sem) {
+		$task = @task[tid];
+		$down_stack = @stack[tid];
+		$us = (nsecs - @start[tid]) / 1000;
+		@latency_us = hist($us);
+		delete(@start[tid]);
+		delete(@task[tid]);
+		delete(@stack[tid]);
+
+		/* Record all task who was held sem write handle */
+		@hold[$task->comm, $task->pid] = count();
+		@hold_time_us[$task->comm, $task->pid] += $us;
+
+		/* Hold sem write handle too much time */
+		if ($us > 1000000) {
+			@hold_wr_ge_1s[$task->comm, $task->pid, $down_stack, kstack] = count();
+		}
+	}
+}
+
+END
+{
+	clear(@start);
+	clear(@task);
+	clear(@stack);
+	printf("Bye.\n");
+}
