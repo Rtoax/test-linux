@@ -5,7 +5,7 @@ BEGIN
 	printf("Tracing cgroup_threadgroup_rwsem, Hit Ctrl+C end.\n");
 }
 
-interval:s:1
+profile:hz:99
 {
 	$sem = (struct percpu_rw_semaphore *)kaddr("cgroup_threadgroup_rwsem");
 
@@ -13,10 +13,16 @@ interval:s:1
 	$writer = $sem->writer.task;
 	$block = $sem->block.counter;
 
-	printf("-------------------\n");
-	printf("read_count %d\n", $read_count);
-	printf("writer.comm '%s'\n", $writer->comm);
-	printf("block %d\n", $block);
+	if ($writer != 0) {
+		printf("-------------------\n");
+		time();
+		printf("read_count %d\n", $read_count);
+		printf("writer.comm '%s'\n", $writer->comm);
+		printf("writer.pid %d, tgid %d\n", $writer->pid, $writer->tgid);
+		printf("block %d\n", $block);
+
+		@count[$writer->tgid, $writer->comm] = count();
+	}
 }
 
 END{
