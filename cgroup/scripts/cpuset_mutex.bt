@@ -1,0 +1,73 @@
+#!/usr/bin/env bpftrace
+/**
+ * cpuset_mutex.bt
+ *
+ * Tracing cpuset cpuset_mutex hold
+ *
+ * kernel 5.15.131
+ *
+ * 2024-09-05  Rong Tao        Create this.
+ */
+
+BEGIN
+{
+	printf("Tracing cpuset_mutex, Hit Ctrl+C end.\n");
+}
+
+profile:hz:99
+{
+	$mutex = (struct mutex *)kaddr("cpuset_mutex");
+	$owner = (struct task_struct *)$mutex->owner.counter;
+
+	if ($owner != 0) {
+		time("%H:%M:%S ");
+		printf("hold by comm '%s' pid %d tgid %d\n",
+			$owner->comm, $owner->pid, $owner->tgid);
+
+		@count[$owner->tgid, $owner->comm] = count();
+	}
+}
+
+kprobe:mutex_lock
+{
+	$mutex = (struct mutex *)arg0;
+	$cgrp_mutex = (struct mutex *)kaddr("cpuset_mutex");
+	if ($mutex == $cgrp_mutex) {
+		@start[tid] = nsecs;
+		@task[tid] = curtask;
+		@stack[tid] = kstack;
+	}
+}
+
+kprobe:mutex_unlock
+/ @start[tid] /
+{
+	$mutex = (struct mutex *)arg0;
+	$cgrp_mutex = (struct mutex *)kaddr("cpuset_mutex");
+	if ($mutex == $cgrp_mutex) {
+		$task = @task[tid];
+		$down_stack = @stack[tid];
+		$us = (nsecs - @start[tid]) / 1000;
+		@latency_us = hist($us);
+		delete(@start[tid]);
+		delete(@task[tid]);
+		delete(@stack[tid]);
+
+		/* Record all task who was held mutex write handle */
+		@hold[$task->comm, $task->pid] = count();
+		@hold_time_us[$task->comm, $task->pid] += $us;
+
+		/* Hold mutex write handle too much time */
+		if ($us > 1000000) {
+			@hold_wr_ge_1s[$task->comm, $task->pid, $down_stack, kstack] = count();
+		}
+	}
+}
+
+END
+{
+	clear(@start);
+	clear(@task);
+	clear(@stack);
+	printf("Bye.\n");
+}

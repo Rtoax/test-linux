@@ -1,4 +1,4 @@
-#!/usr/bin/env bpftrace 
+#!/usr/bin/env bpftrace
 /**
  * cgroup_threadgroup_rwsem.bt
  *
