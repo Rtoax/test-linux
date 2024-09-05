@@ -13,8 +13,8 @@
 BEGIN
 {
 	printf("Tracing clone, hit ctrl-c to end.\n");
-	printf("%-8s %-8s %-16s %-8s %-8s %-8s\n",
-		"TIME", "PID", "COMM", "LAT(us)", "PID", "ROLE");
+	printf("%-8s %-8s %-16s %-8s %-12s %-8s\n",
+		"TIME", "PID", "COMM", "LAT(us)", "CHILD_PID", "ROLE");
 }
 
 tracepoint:syscalls:sys_enter_clone
@@ -45,7 +45,7 @@ tracepoint:syscalls:sys_exit_clone
 	}
 
 	time("%H:%M:%S ");
-	printf("%-8d %-16s %-8d %-8d %-8s\n", pid, @comm[tid], $us, $pid, $role);
+	printf("%-8d %-16s %-8d %-12d %-8s\n", pid, @comm[tid], $us, $pid, $role);
 
 	delete(@start[tid]);
 	delete(@comm[tid]);
