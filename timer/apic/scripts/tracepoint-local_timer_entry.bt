@@ -23,7 +23,7 @@ tracepoint:irq_vectors:local_timer_exit
 /@start[tid]/
 {
 	@latency_us = hist((nsecs - @start[tid]) / 1000);
-	clear(@start);
+	delete(@start[tid]);
 }
 
 END
