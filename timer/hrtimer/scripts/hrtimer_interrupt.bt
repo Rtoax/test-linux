@@ -1,10 +1,11 @@
 #!/usr/bin/env bpftrace
 /**
- *	File: hrtimer_interrupt.bt
- *	Author: Rong Tao
+ * hrtimer_interrupt.bt
  */
+#ifndef BPFTRACE_HAVE_BTF
 #include <linux/clockchips.h>
 #include <linux/sched.h>
+#endif
 
 BEGIN
 {

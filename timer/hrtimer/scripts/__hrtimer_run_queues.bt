@@ -1,21 +1,19 @@
 #!/usr/bin/env bpftrace
 /**
- *	File: hrtimer_run_queues.bt
- *	Author: Rong Tao
+ * __hrtimer_run_queues.bt
  */
+#ifndef BPFTRACE_HAVE_BTF
 #include <linux/clockchips.h>
 #include <linux/sched.h>
+#endif
 
 BEGIN
 {
-	printf("Tracing hrtimer_run_queues, ctrl-C to end.\n");
-
-	//printf("%-8s %-16s\n", "PID", "COMM");
+	printf("Tracing hrtimer run queues, ctrl-C to end.\n");
 }
 
 kprobe:__hrtimer_run_queues
 {
-	//printf("%-8d %-16s %s\n", pid, comm, kstack);
 	@commcount[comm] = count();
 	@kstackcount[kstack] = count();
 }
