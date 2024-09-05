@@ -48,9 +48,34 @@ kretprobe:cgroup_attach_task
 	delete(@dst_path[tid]);
 }
 
+/**
+ * Called by cgroup_attach_task()
+ */
+kprobe:cgroup_migrate_prepare_dst
+/ @start[tid] /
+{
+	@start_1[tid] = nsecs;
+}
+
+kretprobe:cgroup_migrate_prepare_dst
+/ @start_1[tid] /
+{
+	$us = (nsecs - @start_1[tid]) / 1000;
+	@latency_us_1 = hist($us);
+
+	/* Recording big latency */
+	if ($us > 1000000) {
+		printf("LAT_1: \033[31m%s %d : %s %ld us\033[m\n",
+			comm, pid, str(@dst_path[tid]), $us);
+	}
+
+	delete(@start_1[tid]);
+}
+
 END
 {
 	clear(@start);
+	clear(@start_1);
 	clear(@dst_path);
 	printf("Bye.\n");
 }
