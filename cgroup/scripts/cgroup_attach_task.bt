@@ -96,11 +96,37 @@ kretprobe:cgroup_migrate
 	delete(@start_2[tid]);
 }
 
+/**
+ * Called by cgroup_migrate()
+ *
+ */
+kprobe:cgroup_migrate_execute
+/ @start[tid] /
+{
+	@start_3[tid] = nsecs;
+}
+
+kretprobe:cgroup_migrate_execute
+/ @start_3[tid] /
+{
+	$us = (nsecs - @start_3[tid]) / 1000;
+	@latency_us_2 = hist($us);
+
+	/* Recording big latency */
+	if ($us > 1000000) {
+		printf("LAT_3: \033[31m%s %d : %s %ld us\033[m\n",
+			comm, pid, str(@dst_path[tid]), $us);
+	}
+
+	delete(@start_3[tid]);
+}
+
 END
 {
 	clear(@start);
 	clear(@start_1);
 	clear(@start_2);
+	clear(@start_3);
 	clear(@dst_path);
 	printf("Bye.\n");
 }
