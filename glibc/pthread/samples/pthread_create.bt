@@ -24,6 +24,7 @@ uretprobe:libc:pthread_create
 	time("%H:%M:%S ");
 	printf("%-8d %-16s %-8d\n", pid, @comm[tid], $us);
 	delete(@start[tid]);
+	delete(@comm[tid]);
 }
 
 END
