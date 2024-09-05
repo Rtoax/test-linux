@@ -85,7 +85,7 @@ kretprobe:cgroup_migrate
 / @start_2[tid] /
 {
 	$us = (nsecs - @start_2[tid]) / 1000;
-	@latency_us_1 = hist($us);
+	@latency_us_2 = hist($us);
 
 	/* Recording big latency */
 	if ($us > 1000000) {
@@ -109,7 +109,7 @@ kretprobe:cgroup_migrate_execute
 / @start_3[tid] /
 {
 	$us = (nsecs - @start_3[tid]) / 1000;
-	@latency_us_2 = hist($us);
+	@latency_us_3 = hist($us);
 
 	/* Recording big latency */
 	if ($us > 1000000) {
@@ -133,7 +133,7 @@ kretprobe:cgroup_freezer_migrate_task
 / @start_4[tid] /
 {
 	$us = (nsecs - @start_4[tid]) / 1000;
-	@latency_us_3 = hist($us);
+	@latency_us_4 = hist($us);
 
 	/* Recording big latency */
 	if ($us > 1000000) {
@@ -144,6 +144,34 @@ kretprobe:cgroup_freezer_migrate_task
 	delete(@start_4[tid]);
 }
 
+/**
+ * Called by cgroup_migrate_execute()
+ */
+kprobe:cpuset_can_attach,
+kprobe:freezer_attach,
+kprobe:cpuset_attach
+/ @start[tid] /
+{
+	@start_5[tid] = nsecs;
+}
+
+kretprobe:cpuset_can_attach,
+kretprobe:freezer_attach,
+kretprobe:cpuset_attach
+/ @start_5[tid] /
+{
+	$us = (nsecs - @start_5[tid]) / 1000;
+	@latency_us_5 = hist($us);
+
+	/* Recording big latency */
+	if ($us > 1000000) {
+		printf("LAT_5: \033[31m%s %d : %s %ld us\033[m %s\n",
+			comm, pid, str(@dst_path[tid]), $us, probe);
+	}
+
+	delete(@start_5[tid]);
+}
+
 END
 {
 	clear(@start);
@@ -151,6 +179,7 @@ END
 	clear(@start_2);
 	clear(@start_3);
 	clear(@start_4);
+	clear(@start_5);
 	clear(@dst_path);
 	printf("Bye.\n");
 }
