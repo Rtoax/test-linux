@@ -1,0 +1,46 @@
+#!/bin/env bpftrace
+/**
+ * vfs_write.bt - Tracing vfs_write latency
+ *
+ * Copyright (C) Rong Tao 2024
+ *
+ * 2024-09-05	Rong Tao	Create this.
+ */
+#ifndef BPFTRACE_HAVE_BTF
+#include <linux/fs.h>
+#endif
+
+BEGIN
+{
+	printf("Tracing vfs_write, hit ctrl-c to end.\n");
+	printf("%-8s %-8s %-16s %-8s\n", "TIME", "PID", "COMM", "LAT(us)");
+}
+
+kprobe:vfs_write
+{
+	@start[tid] = nsecs;
+	@comm[tid] = comm;
+}
+
+kretprobe:vfs_write
+/ @start[tid] /
+{
+	$us = (nsecs - @start[tid]) / 1000;
+	@latency_us = hist($us);
+
+	/* call vfs_write too much times, only print big latency */
+	if ($us > 1000000) {
+		time("%H:%M:%S ");
+		printf("%-8d %-16s %-8d\n", pid, @comm[tid], $us);
+	}
+
+	delete(@start[tid]);
+	delete(@comm[tid]);
+}
+
+END
+{
+	clear(@start);
+	clear(@comm);
+	printf("Bye.\n");
+}
