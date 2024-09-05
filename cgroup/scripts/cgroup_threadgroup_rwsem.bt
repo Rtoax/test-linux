@@ -24,6 +24,39 @@ profile:hz:99
 	}
 }
 
-END{
+/* Who hold write handle */
+kprobe:percpu_down_write
+{
+	$sem = (struct percpu_rw_semaphore *)arg0;
+	$cgrp_sem = (struct percpu_rw_semaphore *)kaddr("cgroup_threadgroup_rwsem");
+	if ($sem == $cgrp_sem) {
+		@start[tid] = nsecs;
+		@task[tid] = curtask;
+	}
+}
+
+kprobe:percpu_up_write
+/ @start[tid] /
+{
+	$sem = (struct percpu_rw_semaphore *)arg0;
+	$cgrp_sem = (struct percpu_rw_semaphore *)kaddr("cgroup_threadgroup_rwsem");
+	if ($sem == $cgrp_sem) {
+		$task = @task[tid];
+		$us = (nsecs - @start[tid]) / 1000;
+		@latency_us = hist($us);
+		delete(@start[tid]);
+		delete(@task[tid]);
+
+		/* Hold sem write handle too much time */
+		if ($us > 1000000) {
+			@hold[$task->comm, $task->pid] = count();
+		}
+	}
+}
+
+END
+{
+	clear(@start);
+	clear(@task);
 	printf("Bye.\n");
 }
