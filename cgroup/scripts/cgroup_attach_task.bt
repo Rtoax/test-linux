@@ -172,6 +172,32 @@ kretprobe:cpuset_attach
 	delete(@start_5[tid]);
 }
 
+/**
+ * Called by cpuset_can_attach()
+ */
+kprobe:task_can_attach,
+kprobe:security_task_setscheduler
+/ @start[tid] /
+{
+	@start_6[tid] = nsecs;
+}
+
+kretprobe:task_can_attach,
+kretprobe:security_task_setscheduler
+/ @start_6[tid] /
+{
+	$us = (nsecs - @start_6[tid]) / 1000;
+	@latency_us_6 = hist($us);
+
+	/* Recording big latency */
+	if ($us > 1000000) {
+		printf("LAT_6: \033[31m%s %d : %s %ld us\033[m %s\n",
+			comm, pid, str(@dst_path[tid]), $us, probe);
+	}
+
+	delete(@start_6[tid]);
+}
+
 END
 {
 	clear(@start);
@@ -180,6 +206,7 @@ END
 	clear(@start_3);
 	clear(@start_4);
 	clear(@start_5);
+	clear(@start_6);
 	clear(@dst_path);
 	printf("Bye.\n");
 }
