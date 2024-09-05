@@ -39,6 +39,7 @@ kprobe:percpu_down_write
 	if ($sem == $cgrp_sem) {
 		@start[tid] = nsecs;
 		@task[tid] = curtask;
+		@stack[tid] = kstack;
 	}
 }
 
@@ -49,14 +50,16 @@ kprobe:percpu_up_write
 	$cgrp_sem = (struct percpu_rw_semaphore *)kaddr("cgroup_threadgroup_rwsem");
 	if ($sem == $cgrp_sem) {
 		$task = @task[tid];
+		$down_stack = @stack[tid];
 		$us = (nsecs - @start[tid]) / 1000;
 		@latency_us = hist($us);
 		delete(@start[tid]);
 		delete(@task[tid]);
+		delete(@stack[tid]);
 
 		/* Hold sem write handle too much time */
 		if ($us > 1000000) {
-			@hold[$task->comm, $task->pid, kstack] = count();
+			@hold[$task->comm, $task->pid, $down_stack, kstack] = count();
 		}
 	}
 }
@@ -65,5 +68,6 @@ END
 {
 	clear(@start);
 	clear(@task);
+	clear(@stack);
 	printf("Bye.\n");
 }
