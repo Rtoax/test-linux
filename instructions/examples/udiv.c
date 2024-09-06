@@ -2,7 +2,7 @@
 #include <stdlib.h>
 
 #if defined(__aarch64__)
-static inline arch_asm_udiv(void)
+static inline void arch_asm_udiv(void)
 {
 	unsigned long a, b;
 
@@ -12,6 +12,21 @@ static inline arch_asm_udiv(void)
 	__asm__("udiv x1, %[a], %[b] \n\t"
 		: : [a] "r"(a), [b] "r"(b));
 }
+#elif defined(__x86_64__)
+static inline void arch_asm_div(void)
+{
+	unsigned long a, b, ret;
+
+	a = 1024;
+	b = 512;
+
+	__asm__("mov %[a], %%rax \n\t"
+		"xor %%edx, %%edx \n\t"
+		"div %[b] \n\t"
+		: "=r"(ret)
+		: [a] "r"(a), [b] "r"(b));
+}
+# define arch_asm_udiv() arch_asm_div()
 #else
 # warning "Not support arch for udiv"
 # define arch_asm_udiv() fprintf(stderr, "not support udiv of this program.\n")
