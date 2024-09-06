@@ -349,6 +349,7 @@ cclinux|fedora|centos|rhel|openEuler|almalinux|opencloudos)
 	pkgs_base+=( nvme-cli )             # nvme
 	pkgs_base+=( pam )                  # /etc/security/limits.conf
 	pkgs_base+=( pam-devel )
+	pkgs_base+=( perf )
 	pkgs_base+=( procps-ng )            # pidof, top, etc.
 	pkgs_base+=( readline-devel )
 	pkgs_base+=( scl-utils )
@@ -439,6 +440,7 @@ debian|ubuntu)
 	pkgs_base+=( libunwind-dev )
 	pkgs_base+=( linux-headers-$(uname -r) )
 	pkgs_base+=( linux-libc-dev )
+	pkgs_base+=( linux-perf )
 	pkgs_base+=( lsb-release )
 	pkgs_base+=( procps )
 	pkgs_base+=( sg3-utils )            # sg_inq, etc.
