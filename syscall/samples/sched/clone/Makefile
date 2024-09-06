@@ -9,11 +9,9 @@ TARGETS += container
 TARGETS += uts_hostname
 
 CC = gcc
-CXX = g++
 
 CFLAGS := -Werror -Wall -D_GNU_SOURCE -D__USE_GNU
 CFLAGS += -Wstrict-prototypes
-CFLAGS += -I../../../
 CFLAGS += -pthread
 CFLAGS += -DDEBUG -O0 -g
 
@@ -31,17 +29,16 @@ CFLAGS_ns_pid := -Wno-error=int-to-pointer-cast
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
+	@$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
 
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	@$(CC) $(CFLAGS) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
+	@$(CC) -o $(@) $(^) $(CFLAGS) $(CFLAGS_$(*))
 
 test: ${TARGETS}
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
 
 clean:
 	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
-	@rm -f ${TARGETS} \
-		*.o *.d
+	@rm -f ${TARGETS} *.o *.d
 
