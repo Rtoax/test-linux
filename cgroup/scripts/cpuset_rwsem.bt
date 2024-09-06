@@ -41,6 +41,7 @@ kprobe:percpu_down_write
 	if ($sem == $cgrp_sem) {
 		@start[tid] = nsecs;
 		@start_down[tid] = nsecs;
+		@read_count[tid] = $sem->read_count;
 		@writer[tid] = $sem->writer.task;
 		@task[tid] = curtask;
 		@stack[tid] = kstack;
@@ -57,10 +58,12 @@ kretprobe:percpu_down_write
 	@latency_us_down = hist($us);
 	if ($us > 1000000) {
 		@hold_wr_down_ge_1s[$task->comm, $task->pid, $down_stack, kstack] = count();
-		printf("\033[31mdown: %s %d (writer %s %d) %ld us, cpu %d\033[m\n",
+		printf("\033[31mdown: read_count %d, %s %d (writer %s %d) %ld us, cpu %d\033[m\n",
+			@read_count[tid],
 			$task->comm, $task->pid, $writer->comm, $writer->pid, $us, cpu);
 	}
 	delete(@start_down[tid]);
+	delete(@read_count[tid]);
 	delete(@writer[tid]);
 }
 
@@ -95,6 +98,7 @@ END
 {
 	clear(@start);
 	clear(@start_down);
+	clear(@read_count);
 	clear(@task);
 	clear(@writer);
 	clear(@stack);
