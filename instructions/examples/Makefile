@@ -70,6 +70,7 @@ ifeq ($(shell uname -m),aarch64)
   ARCH_LIB_CPUID += cpuid-arm64.o
 endif
 
+TARGETS += udiv
 TARGETS += simd
 TARGETS += cpuid_user
 
@@ -91,6 +92,7 @@ _mm_clflush: _mm_clflush.o
 prefetch: prefetch.o
 rte_memcpy: rte_memcpy.o
 fsin: fsin.o
+udiv: udiv.o
 vgetbv: vgetbv.o
 stosb: stosb.o
 memset: memset.o
