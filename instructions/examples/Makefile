@@ -116,6 +116,8 @@ endif
 
 CFLAGS_rdrand := -mrdrnd
 CFLAGS_rdseed := -mrdseed
+CFLAGS_udiv := -O0
+CFLAGS_div := -O0
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
