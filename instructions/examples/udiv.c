@@ -15,7 +15,10 @@ static inline void arch_asm_udiv(void)
 #elif defined(__x86_64__)
 static inline void arch_asm_div(void)
 {
-	unsigned long a, b, ret, mod;
+	unsigned long a, b;
+# if !defined(IGNORE_RETURN_VALUE)
+	unsigned long ret, mod;
+# endif
 
 	a = 1024;
 	b = 512;
@@ -23,12 +26,16 @@ static inline void arch_asm_div(void)
 	__asm__("mov %[a], %%rax \n\t"
 		"xor %%edx, %%edx \n\t"
 		"div %[b] \n\t"
+# if !defined(IGNORE_RETURN_VALUE)
 		"mov %%rax, %[ret] \n\t"
 		"mov %%rdx, %[mod] \n\t"
 		: [ret] "=r"(ret), [mod] "=r"(mod)
+# else
+		:
+# endif
 		: [a] "r"(a), [b] "r"(b)
 		: "%rax", "rcx");
-# ifdef DEBUG
+# if defined(DEBUG) && !defined(IGNORE_RETURN_VALUE)
 	printf("ret = %ld, mod = %ld\n", ret, mod);
 # endif
 }

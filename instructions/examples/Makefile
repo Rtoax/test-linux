@@ -110,14 +110,22 @@ CFLAGS += -D_GNU_SOURCE
 CFLAGS += -O3
 CFLAGS += -pthread
 ifdef STATIC
-CFLAGS += -static
-$(info Defined STATIC)
+  CFLAGS += -static
+  $(info Defined STATIC)
+endif
+ifdef DEBUG
+  CFLAGS += -DDEBUG=1
+  $(info Defined DEBUG)
 endif
 
 CFLAGS_rdrand := -mrdrnd
 CFLAGS_rdseed := -mrdseed
 CFLAGS_udiv := -O0
 CFLAGS_div := -O0
+ifdef IGNORE_RETURN_VALUE
+  CFLAGS_udiv += -DIGNORE_RETURN_VALUE=1
+  CFLAGS_div += -DIGNORE_RETURN_VALUE=1
+endif
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
