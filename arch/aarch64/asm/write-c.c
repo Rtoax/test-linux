@@ -56,18 +56,19 @@ int asm_write(void)
 
 int main(void)
 {
+	int ret = 0;
 /**
  * Test stackoverflow of asm_write()
  */
 #ifdef INFINITE_LOOP
 	while (1) {
 #endif
-		asm_write();
+		ret = asm_write();
 		asm_write_stack();
 #ifdef INFINITE_LOOP
 	}
 #endif
-	printf("exit.\n");
+	printf("exit. ret = %d\n", ret);
 
 	return 0;
 }

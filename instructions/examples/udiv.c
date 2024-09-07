@@ -5,12 +5,24 @@
 static inline void arch_asm_udiv(void)
 {
 	unsigned long a, b;
+# if !defined(IGNORE_RETURN_VALUE)
+	unsigned long ret;
+# endif
 
 	a = 1024;
 	b = 512;
 
 	__asm__("udiv x1, %[a], %[b] \n\t"
-		: : [a] "r"(a), [b] "r"(b));
+# if !defined(IGNORE_RETURN_VALUE)
+		"mov %[ret], x1 \n\t"
+		: [ret] "=r"(ret)
+# else
+		:
+# endif
+		: [a] "r"(a), [b] "r"(b));
+# if defined(DEBUG) && !defined(IGNORE_RETURN_VALUE)
+	printf("ret = %ld\n", ret);
+# endif
 }
 #elif defined(__x86_64__)
 static inline void arch_asm_div(void)
