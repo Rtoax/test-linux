@@ -39,6 +39,12 @@ _Pragma: _Pragma.o
 CFLAGS_call-func := -Wno-unknown-pragmas
 CFLAGS_GCC_system_header := -I./
 
+# Use /etc/os-release file for GCC dependency check, if system upgraded,
+# /etc/os-release could be newer than current source code, let's 'Warning',
+# not 'error'.
+CFLAGS_GCC_dependency := -Wno-error
+CFLAGS__Pragma := -Wno-error
+
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
