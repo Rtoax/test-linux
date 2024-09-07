@@ -1,3 +1,10 @@
+/**
+ * Testing div instructions
+ *
+ * Compile macros:
+ * : DEBUG: Debug mode
+ * : IGNORE_RETURN_VALUE: Get return value
+ */
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -20,11 +27,14 @@ static inline void arch_asm_udiv(void)
 		:
 # endif
 		: [a] "r"(a), [b] "r"(b));
+
 # if defined(DEBUG) && !defined(IGNORE_RETURN_VALUE)
 	printf("ret = %ld\n", ret);
 # endif
 }
+
 #elif defined(__x86_64__)
+
 static inline void arch_asm_div(void)
 {
 	unsigned long a, b;
@@ -47,11 +57,14 @@ static inline void arch_asm_div(void)
 # endif
 		: [a] "r"(a), [b] "r"(b)
 		: "%rax", "rcx");
+
 # if defined(DEBUG) && !defined(IGNORE_RETURN_VALUE)
 	printf("ret = %ld, mod = %ld\n", ret, mod);
 # endif
 }
+/* TODO: x86 has udiv too. */
 # define arch_asm_udiv() arch_asm_div()
+
 #else
 # warning "Not support arch for udiv"
 # define arch_asm_udiv() fprintf(stderr, "not support udiv of this program.\n")
