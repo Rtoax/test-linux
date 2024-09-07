@@ -1,7 +1,16 @@
 Arch
 ====
 
-# Inline Assembly in Linux C
+# ASM
+
+## Inline Assembly in Linux C
+
+### AT&T Synx
+
+`OP-code src dst`, for example: `"movl $78, %1 \n"`.
+
+
+### asm()
 
 ```
 asm (

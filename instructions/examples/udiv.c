@@ -15,7 +15,7 @@ static inline void arch_asm_udiv(void)
 #elif defined(__x86_64__)
 static inline void arch_asm_div(void)
 {
-	unsigned long a, b, ret;
+	unsigned long a, b, ret, mod;
 
 	a = 1024;
 	b = 512;
@@ -23,8 +23,14 @@ static inline void arch_asm_div(void)
 	__asm__("mov %[a], %%rax \n\t"
 		"xor %%edx, %%edx \n\t"
 		"div %[b] \n\t"
-		: "=r"(ret)
-		: [a] "r"(a), [b] "r"(b));
+		"mov %%rax, %[ret] \n\t"
+		"mov %%rdx, %[mod] \n\t"
+		: [ret] "=r"(ret), [mod] "=r"(mod)
+		: [a] "r"(a), [b] "r"(b)
+		: "%rax", "rcx");
+# ifdef DEBUG
+	printf("ret = %ld, mod = %ld\n", ret, mod);
+# endif
 }
 # define arch_asm_udiv() arch_asm_div()
 #else
