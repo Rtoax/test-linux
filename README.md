@@ -1,11 +1,13 @@
 test-linux
 ==========
 
-This code repository contains `GNU/Linux` related test case codes, scripts and knowledge points, as well as operating system related content.
+This code repository contains **GNU/Linux** related test case codes, scripts and knowledge points, as well as operating system related content.
 
-You must clone this repo under Linux(UNIX like) system. Because there are lots of symbol links, some file system not support in Windows OS.
+I'd rather name the repository test-gnu-linux, but it's too late to regret it, because I should have referenced the name test-linux somewhere else, like **ostools**.
 
-> You'd better don't rename any of folder and file's name.
+You must clone this repo under **Linux(UNIX like)** system. Because there are lots of symbol links, some file system not support in Windows OS.
+
+> You'd better don't rename any of folder and file's name, because of symlinks.
 
 
 # Linux Kernel Git
