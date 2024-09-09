@@ -16,7 +16,7 @@ getpidcon: getpidcon.o
 
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	@$(CC) $(CFLAGS) -o $(@) $(<)
+	@$(CC) -o $(@) $(<) $(CFLAGS) $(CFLAGS_$(*))
 
 .PHONY: clean
 clean:
