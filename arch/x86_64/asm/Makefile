@@ -69,6 +69,9 @@ endif
 ifdef PIE
   CFLAGS += -fPIE
   LDFLAGS += -fPIE
+else
+  CFLAGS += -no-pie
+  LDFLAGS += -no-pie
 endif
 
 .PHONY: build
@@ -116,20 +119,20 @@ CFLAGS_puts-c-loop := -DINFINITE_LOOP=1
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
-	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -S $(<) -o $(<:.c=.s)
+	@$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
+	@$(CC) -S $(<) -o $(<:.c=.s) $(CFLAGS) $(CFLAGS_$(*))
 
 %.o: %.S
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
+	@$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
 
 $(TARGETS) $(TARGETS_S): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	@$(CC) $(LDFLAGS) $(CFLAGS) -o $(@) $(^)
+	@$(CC) -o $(@) $(^) $(LDFLAGS) $(CFLAGS)
 
 $(TARGETS_ASM): %:
 	@echo -e "  LD ASM \033[1;32m$(@)\033[m"
-	@$(LD) $(LDFLAGS) -o $(@) $(^)
+	@$(LD) -o $(@) $(^) $(LDFLAGS)
 
 test: ${TARGETS}
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
