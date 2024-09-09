@@ -109,6 +109,9 @@ CFLAGS += -g -ggdb
 CFLAGS += -D_GNU_SOURCE
 CFLAGS += -O3
 CFLAGS += -pthread
+
+CFLAGS += -no-pie
+
 ifdef STATIC
   CFLAGS += -static
   $(info Defined STATIC)
@@ -122,6 +125,7 @@ CFLAGS_rdrand := -mrdrnd
 CFLAGS_rdseed := -mrdseed
 CFLAGS_udiv := -O0
 CFLAGS_div := -O0
+
 ifdef IGNORE_RETURN_VALUE
   CFLAGS_udiv += -DIGNORE_RETURN_VALUE=1
   CFLAGS_div += -DIGNORE_RETURN_VALUE=1
@@ -129,11 +133,11 @@ endif
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
+	@$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
 
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	@$(CC) $(CFLAGS) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
+	@$(CC) -o $(@) $(^) $(CFLAGS) $(CFLAGS_$(*))
 
 help:
 	@echo "make [kernel|user|help]"
