@@ -1,4 +1,5 @@
 - AST: Abstract Syntax Trees (抽象语法树)
+- DWARF: Debugging With Attributed Record Formats (调试信息标准)
 - FDO: Feedback Directed Optimization
 - IPA: Inter-Procedural Analysis (过程间分析)
 - IPO: Inter-Procedural Optimization (过程间优化)
