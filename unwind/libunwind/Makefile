@@ -1,6 +1,5 @@
 SHELL = bash
 
-
 TARGETS :=
 TARGETS_CPP :=
 
@@ -12,27 +11,26 @@ TARGETS += unwind-backtrace
 
 TARGETS_CPP += backtrace-pid
 ifeq ($(shell uname -m),x86_64)
-TARGETS += backtrace
+  TARGETS += backtrace
 endif
 
 DEBUG = yes
-SRC_PATH := $(shell pwd)
 CC = gcc
 CXX = g++
 
 CFLAGS :=
 CFLAGS += -lunwind
 ifeq ($(shell uname -m),x86_64)
-CFLAGS += -lunwind-x86_64
+  CFLAGS += -lunwind-x86_64
 endif
 ifeq ($(shell uname -m),aarch64)
-CFLAGS += -lunwind-aarch64
+  CFLAGS += -lunwind-aarch64
 endif
 
 UNWIND_PTRACE=/lib64/libunwind-ptrace.a
 
 ifdef DEBUG
-CFLAGS += -DDEBUG -O0 -g
+  CFLAGS += -DDEBUG -O0 -g
 endif
 
 build: ${TARGETS} ${TARGETS_CPP}
@@ -54,15 +52,16 @@ unwind-backtrace: unwind-backtrace.o
 
 %.oo: %.cc
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	$(CXX) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
+	@$(CXX) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
 
 ${TARGETS}: %:
-	@echo -e "  CC  \033[1m$(<)\033[m to \033[1;32m$(@)\033[m"
+	@echo -e "  LD  \033[1m$(<)\033[m to \033[1;32m$(@)\033[m"
 	@$(CC) $(CFLAGS) -o $(@) $(<) ${UNWIND_PTRACE}
 
 ${TARGETS_CPP}: %:
-	@echo -e "  CC  \033[1m$(<)\033[m to \033[1;32m$(@)\033[m"
-	$(CXX) $(CFLAGS) -o $(@) $(<) ${UNWIND_PTRACE}
+	@echo -e "  LD  \033[1m$(<)\033[m to \033[1;32m$(@)\033[m"
+	@$(CXX) $(CFLAGS) -o $(@) $(<) ${UNWIND_PTRACE}
 
 clean:
-	rm -f ${TARGETS} ${TARGETS_CPP} *.o *.oo
+	@echo -e "  CLEAN  \033[1m$(TARGETS) ${TARGETS_CPP}\033[m"
+	@rm -f ${TARGETS} ${TARGETS_CPP} *.o *.oo
