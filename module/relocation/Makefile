@@ -10,6 +10,9 @@ ifdef OVERFLOW
 KBUILD_CFLAGS :=
 endif
 
+KBUILD_CFLAGS += -Wno-unused-function
+KBUILD_CFLAGS += -Wno-unused-variable
+
 all:
 	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
 

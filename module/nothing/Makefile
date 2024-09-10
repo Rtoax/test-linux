@@ -1,9 +1,8 @@
 SHELL = bash
 
 obj-m += nothing.o
-obj-m += reloc.o
 
-KERNEL_DIR=/lib/modules/`uname -r`/build
+KERNEL_DIR = /lib/modules/`uname -r`/build
 MODULE_DIR := $(shell pwd)
 
 modules:
