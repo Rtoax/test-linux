@@ -10,3 +10,4 @@
 /breakpoint_bfd
 /reloc
 /*.s
+/bfd_print_symbol_vandf

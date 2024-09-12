@@ -11,6 +11,7 @@ TARGETS += sections
 TARGETS += symbol
 TARGETS += breakpoint_tst breakpoint_bfd
 TARGETS += reloc
+TARGETS += bfd_print_symbol_vandf
 
 CC = gcc
 
@@ -61,6 +62,9 @@ symbol: symbol.o
 breakpoint_tst: breakpoint_tst.o
 breakpoint_bfd: breakpoint_bfd.o
 reloc: reloc.o
+bfd_print_symbol_vandf: bfd_print_symbol_vandf.o
+
+CFLAGS_bfd_print_symbol_vandf := -DTEST_bfd_print_symbol_vandf=1
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

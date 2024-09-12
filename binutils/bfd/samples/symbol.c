@@ -97,10 +97,12 @@ int main(int argc, char *argv[])
 	printf("Bfd %s\n", filepath);
 	printf("Scanning %ld symbols\n", number_of_symbols);
 
+#ifdef TEST_bfd_print_symbol_vandf
 	for (i = 0; i < number_of_symbols; i++) {
 		bfd_print_symbol_vandf(abfd, stdout, symbol_table[i]);
 		fprintf(stdout, "\n");
 	}
+#endif
 
 	printf("%-16s %-4s %-8s %-16s %-8s\n", "VALUE", "TYPE", "LOCAL", "VMA",
 		"SYM");
