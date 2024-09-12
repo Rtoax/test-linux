@@ -1,0 +1,2 @@
+- RSDP: Root System Description Pointer ()
+- SPCR: Serial Port Console Redirection Table (串行端口控制台重定向表)

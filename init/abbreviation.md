@@ -1,3 +1,4 @@
+- ACPI: Advanced Configuration and Power Interface (高级配置与电源接口)
 - ASPM: Active-State Power Management () @PCIe
 - BIOS: Basic Input Ouput System (基础输入输出系统)
 - DMI: Desktop Management Interface
