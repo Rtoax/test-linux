@@ -43,8 +43,17 @@ endif
 
 ifeq ("", "$(CROSS_COMPILE)")
   MK_ARCH="${shell uname -m}"
+
+  define arch_strip
+    @strip $(1) -o $(1).strip
+  endef
 else
   MK_ARCH="${shell echo $(CROSS_COMPILE) | sed -n 's/^[[:space:]]*\([^\/]*\/\)*\([^-]*\)-[^[:space:]]*/\2/p'}"
+
+  # Could not strip other arch ELF file
+  define arch_strip
+    @echo "  Skip strip"
+  endef
 endif
 
 AS = $(CROSS_COMPILE)as
@@ -91,7 +100,7 @@ endif
 CFLAGS_auto := -Wno-error=implicit-int
 CFLAGS_param-pass := -O0 -I../macro/
 ifeq (${feature-gnu17},1)
-CFLAGS_alignas := -std=gnu17
+  CFLAGS_alignas := -std=gnu17
 endif
 CFLAGS_if := -Wno-error=unused-value -Wno-unused-value
 CFLAGS__Generic := -Wno-all
@@ -147,7 +156,7 @@ unsigned: unsigned.o
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
 	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) $(^) $(LDLIBS) $(LDFLAGS) $(LDFLAGS_$(*))
-	@strip $(@) -o $(@).strip
+	$(call arch_strip,$(@))
 
 test: ${TARGETS}
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
