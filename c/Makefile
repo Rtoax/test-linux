@@ -92,6 +92,11 @@ ifdef DEBUG
   CFLAGS += -DDEBUG -O0 -g -ggdb
 endif
 
+ifdef PIE
+  CFLAGS += -pie -fPIE
+  LDFLAGS += -pie -fPIE
+endif
+
 # For CROSS_COMPILE
 ifdef SYSROOT
   CFLAGS += --sysroot=$(SYSROOT)
@@ -147,15 +152,15 @@ unsigned: unsigned.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
-	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@:.o=.pic.o) -c $(<) -fpic
-	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -S $(<) -o $(<:.c=.s)
-	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -S $(<) -o $(<:.c=.pic.s) -fpic
-	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -E $(<) -o $(<:.c=.E.c)
+	@$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
+	@$(CC) -o $(@:.o=.pic.o) -c $(<) -fpic $(CFLAGS) $(CFLAGS_$(*))
+	@$(CC) -S $(<) -o $(<:.c=.s) $(CFLAGS) $(CFLAGS_$(*))
+	@$(CC) -S $(<) -o $(<:.c=.pic.s) -fpic $(CFLAGS) $(CFLAGS_$(*))
+	@$(CC) -E $(<) -o $(<:.c=.E.c) $(CFLAGS) $(CFLAGS_$(*))
 
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) $(^) $(LDLIBS) $(LDFLAGS) $(LDFLAGS_$(*))
+	@$(CC) -o $(@) $(^) $(LDLIBS) $(LDFLAGS) $(LDFLAGS_$(*))
 	$(call arch_strip,$(@))
 
 test: ${TARGETS}
