@@ -33,13 +33,18 @@ int main(int argc, char *argv[])
 		goto close;
 	}
 
-	printf("%-32s %-8s %-16s\n", "SECTION", "SIZE", "VMA");
+	printf("Print %s sections.\n", filepath);
+	printf("%-32s %-8s %-16s %-16s\n", "SECTION", "SIZE", "VMA", "ALLOC/DATA/TEXT");
 	for (asect = abfd->sections; asect != NULL; asect = asect->next) {
+		flagword flags = bfd_section_flags(asect);
 		// bfd_set_section_vma(asect, 0xffff);
-		printf("%-32s %-8lx %-16lx\n",
+		printf("%-32s %-8lx %-16lx %c%c%c\n",
 			bfd_section_name(asect),
 			bfd_section_size(asect),
-			bfd_section_vma(asect));
+			bfd_section_vma(asect),
+			flags & SEC_ALLOC ? 'a' : '-',
+			flags & SEC_DATA ? 'd' : '-',
+			flags & SEC_CODE ? 't' : '-');
 	}
 
 	asect = bfd_get_section_by_name(abfd, ".plt");
