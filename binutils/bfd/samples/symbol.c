@@ -2,8 +2,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <malloc.h>
+#include <getopt.h>
 
 #define BFD_ERR	bfd_errmsg(bfd_get_error())
+
+void usage(const char *prog)
+{
+	fprintf(stderr, "\n"
+		"-f, --file     specify file to bfd, default: %s\n"
+		"-h, --help     print this info\n",
+		prog
+	);
+}
 
 int main(int argc, char *argv[])
 {
@@ -17,7 +27,39 @@ int main(int argc, char *argv[])
 	symbol_info symbolinfo;
 	char *filepath;
 
+	struct option options[] = {
+		{"file", required_argument, 0, 'f'},
+		{"help", no_argument, 0, 'h'},
+		{0, 0, 0, 0}
+	};
+
 	filepath = argv[0];
+
+	while (1) {
+		int option_index = 0;
+		int c = getopt_long(argc, argv, "f:h", options, &option_index);
+
+		if (c == -1)
+			break;
+
+		switch (c) {
+		case 'f':
+			filepath = optarg;
+			printf("Set file name %s\n", filepath);
+			break;
+		case 'h':
+			usage(argv[0]);
+			exit(0);
+			break;
+		case '?':
+			usage(argv[0]);
+			fprintf(stderr, "Unknown option or requires an argument.\n");
+			exit(1);
+			break;
+		default:
+			abort();
+		}
+	}
 
 	ret = bfd_init();
 	if (ret != BFD_INIT_MAGIC) {
@@ -52,6 +94,7 @@ int main(int argc, char *argv[])
 	symbol_table = (asymbol **)malloc(storage_needed);
 	number_of_symbols = bfd_canonicalize_symtab(abfd, symbol_table);
 
+	printf("Bfd %s\n", filepath);
 	printf("Scanning %ld symbols\n", number_of_symbols);
 
 	for (i = 0; i < number_of_symbols; i++) {
