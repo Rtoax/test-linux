@@ -97,6 +97,14 @@ ifdef PIE
   LDFLAGS += -pie -fPIE
 endif
 
+ifdef NOPIE
+  CFLAGS += -no-pie
+  LDFLAGS += -no-pie
+  ifdef PIE
+    $(error "Could no specify PIE and NOPIE at the same time")
+  endif
+endif
+
 # For CROSS_COMPILE
 ifdef SYSROOT
   CFLAGS += --sysroot=$(SYSROOT)

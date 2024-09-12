@@ -33,6 +33,14 @@ ifdef PIE
   LDFLAGS += -pie -fPIE
 endif
 
+ifdef NOPIE
+  CFLAGS += -no-pie
+  LDFLAGS += -no-pie
+  ifdef PIE
+    $(error "Could no specify PIE and NOPIE at the same time")
+  endif
+endif
+
 # Get binutils version
 BINUTILS_VERSION = $(shell ld -v | grep -o [0-9].[0-9]\. | sed -n '1p')
 BINUTILS_VERSION_MAJOR = $(shell echo ${BINUTILS_VERSION} | awk -F '.' '{print $$1}')
