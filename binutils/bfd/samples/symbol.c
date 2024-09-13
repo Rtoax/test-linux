@@ -24,10 +24,10 @@ int main(int argc, char *argv[])
 	bfd *abfd;
 	char **matching;
 	asection *asect;
-	asymbol **symbol_table;
-	long storage_needed;
-	long number_of_symbols;
-	symbol_info symbolinfo;
+	asymbol **symbol_table, **dynamic_symbol_table;
+	long storage_needed, dynamic_storage_needed;
+	long number_of_symbols, number_of_dynamic_symbols;
+	symbol_info symbolinfo, dynamic_symbolinfo;
 	char *filepath;
 
 	struct option options[] = {
@@ -108,11 +108,18 @@ int main(int argc, char *argv[])
 	}
 
 	storage_needed = bfd_get_symtab_upper_bound(abfd);
-
 	symbol_table = (asymbol **)malloc(storage_needed);
 	number_of_symbols = bfd_canonicalize_symtab(abfd, symbol_table);
 
+	/**
+	 * FIXME: why symbols == dynamic symbols?
+	 */
+	dynamic_storage_needed = bfd_get_dynamic_symtab_upper_bound(abfd);
+	dynamic_symbol_table = (asymbol **)malloc(dynamic_storage_needed);
+	number_of_dynamic_symbols = bfd_canonicalize_symtab(abfd, dynamic_symbol_table);
+
 	printf("Scanning %ld symbols\n", number_of_symbols);
+	printf("Scanning %ld dynamic symbols\n", number_of_dynamic_symbols);
 
 #ifdef TEST_bfd_print_symbol_vandf
 	for (i = 0; i < number_of_symbols; i++) {
