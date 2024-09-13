@@ -11,3 +11,4 @@
 /reloc
 /*.s
 /bfd_print_symbol_vandf
+/build_id

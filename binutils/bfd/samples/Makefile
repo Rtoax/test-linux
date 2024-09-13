@@ -2,6 +2,7 @@ SHELL = bash
 
 TARGETS :=
 TARGETS += bfd_init
+TARGETS += build_id
 TARGETS += bfd_symbol_info
 TARGETS += bfd_get_start_address
 TARGETS += bfd_get_flavour
@@ -60,6 +61,7 @@ build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
 bfd_init: bfd_init.o
+build_id: build_id.o
 bfd_symbol_info: bfd_symbol_info.o
 bfd_get_start_address: bfd_get_start_address.o
 bfd_get_flavour: bfd_get_flavour.o
