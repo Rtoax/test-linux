@@ -32,6 +32,7 @@ USER_LIST += kvm
 USER_LIST += libs
 USER_LIST += macro
 USER_LIST += mm
+USER_LIST += namespace
 USER_LIST += network
 USER_LIST += numa
 USER_LIST += qemu
