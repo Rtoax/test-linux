@@ -6,10 +6,13 @@
 
 #define BFD_ERR	bfd_errmsg(bfd_get_error())
 
+static unsigned long text_vma = 0;
+
 void usage(const char *prog)
 {
 	fprintf(stderr, "\n"
 		"-f, --file     specify file to bfd, default: %s\n"
+		"-t, --text-vma specify text vma address, format: 0x0xxxx\n"
 		"-h, --help     print this info\n",
 		prog
 	);
@@ -29,6 +32,7 @@ int main(int argc, char *argv[])
 
 	struct option options[] = {
 		{"file", required_argument, 0, 'f'},
+		{"text-vma", required_argument, 0, 't'},
 		{"help", no_argument, 0, 'h'},
 		{0, 0, 0, 0}
 	};
@@ -37,7 +41,7 @@ int main(int argc, char *argv[])
 
 	while (1) {
 		int option_index = 0;
-		int c = getopt_long(argc, argv, "f:h", options, &option_index);
+		int c = getopt_long(argc, argv, "f:t:h", options, &option_index);
 
 		if (c == -1)
 			break;
@@ -46,6 +50,13 @@ int main(int argc, char *argv[])
 		case 'f':
 			filepath = optarg;
 			printf("Set file name %s\n", filepath);
+			break;
+		case 't':
+			if (optarg[0] != '0' || optarg[1] != 'x') {
+				fprintf(stderr, "Wrong format, start with '0x'\n");
+				exit(1);
+			}
+			text_vma = strtoull(optarg, NULL, 16);
 			break;
 		case 'h':
 			usage(argv[0]);
@@ -78,15 +89,22 @@ int main(int argc, char *argv[])
 		goto close;
 	}
 
+	printf("ELF %s\n", filepath);
+
+	if (text_vma)
+		printf("Text VMA 0x%lx\n", text_vma);
+
 	/**
 	 * If abfd is target process, we should set vma address, it's useful
 	 * for PIE process.
 	 */
 	for (asect = abfd->sections; asect != NULL; asect = asect->next) {
-		/**
-		 * FIXME: section belongs to a VMA.
-		 */
-		//bfd_set_section_vma(asect, 0x0);
+		flagword flags = bfd_section_flags(asect);
+		if ((flags & SEC_CODE) && text_vma)
+			/**
+			 * FIXME: set vma, but symbol value not changed
+			 */
+			bfd_set_section_vma(asect, text_vma);
 	}
 
 	storage_needed = bfd_get_symtab_upper_bound(abfd);
@@ -94,7 +112,6 @@ int main(int argc, char *argv[])
 	symbol_table = (asymbol **)malloc(storage_needed);
 	number_of_symbols = bfd_canonicalize_symtab(abfd, symbol_table);
 
-	printf("Bfd %s\n", filepath);
 	printf("Scanning %ld symbols\n", number_of_symbols);
 
 #ifdef TEST_bfd_print_symbol_vandf

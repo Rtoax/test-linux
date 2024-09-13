@@ -23,6 +23,7 @@
 /BUILD_BUG_ON_ZERO
 /macro
 /while
+/while-sleep
 /stub
 /if
 /*.s

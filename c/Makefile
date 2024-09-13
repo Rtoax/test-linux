@@ -28,7 +28,7 @@ TARGETS += _Nullable
 TARGETS += _Nonnull
 TARGETS += BUILD_BUG_ON_ZERO
 TARGETS += macro
-TARGETS += while
+TARGETS += while while-sleep
 TARGETS += stub
 TARGETS += if
 TARGETS += enum
@@ -119,6 +119,7 @@ CFLAGS_if := -Wno-error=unused-value -Wno-unused-value
 CFLAGS__Generic := -Wno-all
 CFLAGS_case := -Wno-error=unused-label -Wno-unused-label
 CFLAGS_include_next := -Dinclude/ -Wno-error
+CFLAGS_while-sleep := -DWHILE_SLEEP=1
 
 build: ${TARGETS}
 	@echo
@@ -151,6 +152,7 @@ _Nonnull: _Nonnull.o
 BUILD_BUG_ON_ZERO: BUILD_BUG_ON_ZERO.o
 macro: macro.o
 while: while.o
+while-sleep: while-sleep.o
 stub: stub.o
 if: if.o
 enum: enum.o
