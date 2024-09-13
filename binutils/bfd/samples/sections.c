@@ -34,13 +34,16 @@ int main(int argc, char *argv[])
 	}
 
 	printf("Print %s sections.\n", filepath);
-	printf("%-32s %-8s %-16s %-16s\n", "SECTION", "SIZE", "VMA", "ALLOC/DATA/TEXT");
+	printf("%-32s %-8s %-8s %-16s %-16s\n", "SECTION", "SIZE", "ALIGN",
+		"VMA", "ALLOC/DATA/TEXT");
 	for (asect = abfd->sections; asect != NULL; asect = asect->next) {
 		flagword flags = bfd_section_flags(asect);
+		bfd_vma align = (bfd_vma) 1UL << bfd_section_alignment(asect);
 		// bfd_set_section_vma(asect, 0xffff);
-		printf("%-32s %-8lx %-16lx %c%c%c\n",
+		printf("%-32s %-8lx %-8lx %-16lx %c%c%c\n",
 			bfd_section_name(asect),
 			bfd_section_size(asect),
+			align,
 			bfd_section_vma(asect),
 			flags & SEC_ALLOC ? 'a' : '-',
 			flags & SEC_DATA ? 'd' : '-',
