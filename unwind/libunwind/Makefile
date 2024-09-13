@@ -18,16 +18,33 @@ DEBUG = yes
 CC = gcc
 CXX = g++
 
+UNWIND_PTRACE :=
+UNWIND_PTRACE1 := /lib64/libunwind-ptrace.a
+UNWIND_PTRACE2 :=
+
 CFLAGS :=
 CFLAGS += -lunwind
 ifeq ($(shell uname -m),x86_64)
   CFLAGS += -lunwind-x86_64
+  UNWIND_PTRACE2 = /usr/lib/x86_64-linux-gnu/libunwind-ptrace.a
 endif
 ifeq ($(shell uname -m),aarch64)
   CFLAGS += -lunwind-aarch64
+  UNWIND_PTRACE2 = /usr/lib/aarch64-linux-gnu/libunwind-ptrace.a
 endif
 
-UNWIND_PTRACE=/lib64/libunwind-ptrace.a
+ifneq ($(wildcard $(UNWIND_PTRACE1)),)
+  UNWIND_PTRACE=${UNWIND_PTRACE1}
+endif
+ifneq ($(wildcard $(UNWIND_PTRACE2)),)
+  UNWIND_PTRACE=${UNWIND_PTRACE2}
+  # Fix: undefined reference to symbol 'lzma_stream_buffer_decode@@XZ_5.0'
+  # on Debian 12 x86_64
+  CFLAGS += -llzma -no-pie
+endif
+ifeq (${UNWIND_PTRACE},)
+  $(error Not found libunwind-ptrace.a)
+endif
 
 ifdef DEBUG
   CFLAGS += -DDEBUG -O0 -g
@@ -48,19 +65,19 @@ unwind-backtrace: unwind-backtrace.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
+	@$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
 
 %.oo: %.cc
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	@$(CXX) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
+	@$(CXX) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
 
 ${TARGETS}: %:
 	@echo -e "  LD  \033[1m$(<)\033[m to \033[1;32m$(@)\033[m"
-	@$(CC) $(CFLAGS) -o $(@) $(<) ${UNWIND_PTRACE}
+	@$(CC) -o $(@) $(<) ${UNWIND_PTRACE} $(CFLAGS) $(CFLAGS_$(*))
 
 ${TARGETS_CPP}: %:
 	@echo -e "  LD  \033[1m$(<)\033[m to \033[1;32m$(@)\033[m"
-	@$(CXX) $(CFLAGS) -o $(@) $(<) ${UNWIND_PTRACE}
+	@$(CXX) -o $(@) $(<) ${UNWIND_PTRACE} $(CFLAGS) $(CFLAGS_$(*))
 
 clean:
 	@echo -e "  CLEAN  \033[1m$(TARGETS) ${TARGETS_CPP}\033[m"
