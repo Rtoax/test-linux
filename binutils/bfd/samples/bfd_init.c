@@ -3,6 +3,14 @@
 #include <stdlib.h>
 
 
+void tl_bfd_print_build_id(const struct bfd_build_id *bid)
+{
+	int i;
+	for (i = 0; i < bid->size; i++)
+		printf("%02x", bid->data[i]);
+	printf("\n");
+}
+
 int main(int argc, char *argv[])
 {
 	int ret, i;
@@ -40,7 +48,8 @@ int main(int argc, char *argv[])
 
 	if (abfd->build_id != NULL) {
 		build_id = abfd->build_id;
-		printf("BuildID size %ld\n", build_id->size);
+		printf("BuildID ");
+		tl_bfd_print_build_id(build_id);
 	}
 
 close:
