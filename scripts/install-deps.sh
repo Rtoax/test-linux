@@ -232,6 +232,7 @@ pkgs_base+=( sparse )               # sparse
 pkgs_base+=( strace )
 pkgs_base+=( smartmontools )        # smartctl
 pkgs_base+=( sysstat )
+pkgs_base+=( texinfo )
 pkgs_base+=( tmux )
 pkgs_base+=( trace-cmd )
 pkgs_base+=( tree )
