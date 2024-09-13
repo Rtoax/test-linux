@@ -85,7 +85,7 @@ int main(int argc, char *argv[])
 	}
 
 	if (!bfd_check_format_matches(abfd, bfd_object, &matching)) {
-		fprintf(stderr, "format_matches");
+		fprintf(stderr, "format_matches\n");
 		goto close;
 	}
 
@@ -128,8 +128,8 @@ int main(int argc, char *argv[])
 	}
 #endif
 
-	printf("%-16s %-4s %-8s %-16s %-8s\n", "VALUE", "TYPE", "LOCAL", "VMA",
-		"SYM");
+	printf("%-16s %-4s %-8s %-16s %-16s %-8s\n", "VALUE", "TYPE", "LOCAL",
+		"VMA", "SECTION", "SYM");
 	for (i = 0; i < number_of_symbols; i++) {
 		asymbol *sym = symbol_table[i];
 		const char *name, *version_string = NULL;
@@ -155,11 +155,12 @@ int main(int argc, char *argv[])
 		/**
 		 * type: see nm(1)
 		 */
-		printf("%-16lx %-4c %-8s %-16lx %s <%s>\n",
+		printf("%-16lx %-4c %-8s %-16lx %-16s %s <%s>\n",
 			symbolinfo.value,
 			symbolinfo.type,
 			bfd_is_local_label(abfd, sym) ? "YES" : "-",
 			bfd_section_vma(asect),
+			bfd_section_name(asect),
 			symbolinfo.name,
 			version_string ?: "-");
 	}
