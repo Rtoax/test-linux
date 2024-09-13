@@ -131,22 +131,37 @@ int main(int argc, char *argv[])
 	printf("%-16s %-4s %-8s %-16s %-8s\n", "VALUE", "TYPE", "LOCAL", "VMA",
 		"SYM");
 	for (i = 0; i < number_of_symbols; i++) {
-		if (symbol_table[i]->section == NULL)
+		asymbol *sym = symbol_table[i];
+		const char *name, *version_string = NULL;
+		bool hidden = false;
+
+		if (sym->section == NULL)
 			continue;
 
-		asect = symbol_table[i]->section;
+		asect = bfd_asymbol_section(sym);
 
-		bfd_symbol_info(symbol_table[i], &symbolinfo);
+		if ((sym->flags & (BSF_SECTION_SYM | BSF_SYNTHETIC)) == 0)
+			version_string = bfd_get_symbol_version_string(abfd,
+							sym, true, &hidden);
+
+		if (bfd_is_und_section(asect))
+			hidden = true;
+
+		/**
+		 * symbolinfo.name = bfd_asymbol_name(sym);
+		 */
+		bfd_symbol_info(sym, &symbolinfo);
 
 		/**
 		 * type: see nm(1)
 		 */
-		printf("%-16lx %-4c %-8s %-16lx %s\n",
+		printf("%-16lx %-4c %-8s %-16lx %s <%s>\n",
 			symbolinfo.value,
 			symbolinfo.type,
-			bfd_is_local_label(abfd, symbol_table[i]) ? "YES" : "-",
+			bfd_is_local_label(abfd, sym) ? "YES" : "-",
 			bfd_section_vma(asect),
-			symbolinfo.name);
+			symbolinfo.name,
+			version_string ?: "-");
 	}
 
 	free(symbol_table);
