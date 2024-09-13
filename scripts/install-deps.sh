@@ -309,11 +309,12 @@ cclinux|fedora|centos|rhel|openEuler|almalinux|opencloudos)
 	pkgs_base+=( dtc )                  # device tree
 	pkgs_base+=( elfutils-devel )
 	pkgs_base+=( elfutils-libelf-devel )
+	pkgs_base+=( git )
+	pkgs_base+=( git-clang-format )
 	pkgs_base+=( glibc-common )
 	pkgs_base+=( glibc-static )
 	pkgs_base+=( glibc-utils )
-	pkgs_base+=( git )
-	pkgs_base+=( git-clang-format )
+	pkgs_base+=( gmp-devel )
 	pkgs_base+=( golang-github-cilium-ebpf )
 	pkgs_base+=( gperftools-devel )
 	pkgs_base+=( grub2-tools-minimal grub2-tools-extra )
@@ -346,6 +347,7 @@ cclinux|fedora|centos|rhel|openEuler|almalinux|opencloudos)
 	pkgs_base+=( ltrace )               # ltrace
 	pkgs_base+=( mmc )                  # mmc
 	pkgs_base+=( mpich mpich-devel )    # mpi
+	pkgs_base+=( mpfr-devel )
 	pkgs_base+=( numactl-devel )        # numaif.h
 	pkgs_base+=( nvme-cli )             # nvme
 	pkgs_base+=( pam )                  # /etc/security/limits.conf
@@ -436,6 +438,8 @@ debian|ubuntu)
 	pkgs_base+=( libcapstone-dev )
 	pkgs_base+=( libc6-dev )
 	pkgs_base+=( libc-bin )
+	pkgs_base+=( libgmp-dev )
+	pkgs_base+=( libmpfr-dev )
 	pkgs_base+=( libmpich-dev )         # MPI
 	pkgs_base+=( libnuma-dev )
 	pkgs_base+=( libpam0g )
