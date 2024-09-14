@@ -7,6 +7,7 @@
 - MPLS: Multi-Protocol Label Switching (多协议标签交换)
 - MQTT: Message Queuing Telemetry Transport (消息队列遥测传输协议)
 - NAPI: New API (新API)
+- NIC: Network Interface Card (网卡)
 - OOB: Out-Of-Band (带外)
 - OVN: Open Virtual Network (开放虚拟网络)
 - PLB: Protect Load Balance (保护性负载平衡) @IPv6
