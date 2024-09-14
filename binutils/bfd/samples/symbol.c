@@ -27,7 +27,6 @@ int main(int argc, char *argv[])
 	asymbol **symbol_table, **dynamic_symbol_table;
 	long storage_needed, dynamic_storage_needed;
 	long number_of_symbols, number_of_dynamic_symbols;
-	symbol_info symbolinfo, dynamic_symbolinfo;
 	char *filepath;
 
 	struct option options[] = {
@@ -128,12 +127,13 @@ int main(int argc, char *argv[])
 	}
 #endif
 
-	printf("%-16s %-4s %-8s %-16s %-16s %-8s\n", "VALUE", "TYPE", "LOCAL",
-		"VMA", "SECTION", "SYM");
+	printf("%-16s %-4s %-8s %-16s %-16s %-16s %-8s\n", "VALUE", "TYPE", "LOCAL",
+		"VMA", "LMA", "SECTION", "SYM");
 	for (i = 0; i < number_of_symbols; i++) {
 		asymbol *sym = symbol_table[i];
 		const char *name, *version_string = NULL;
 		bool hidden = false;
+		symbol_info symbolinfo;
 
 		if (sym->section == NULL)
 			continue;
@@ -155,11 +155,12 @@ int main(int argc, char *argv[])
 		/**
 		 * type: see nm(1)
 		 */
-		printf("%-16lx %-4c %-8s %-16lx %-16s %s <%s>\n",
+		printf("%-16lx %-4c %-8s %-16lx %-16lx %-16s %s <%s>\n",
 			symbolinfo.value,
 			symbolinfo.type,
 			bfd_is_local_label(abfd, sym) ? "YES" : "-",
 			bfd_section_vma(asect),
+			bfd_section_lma(asect),
 			bfd_section_name(asect),
 			symbolinfo.name,
 			version_string ?: "-");

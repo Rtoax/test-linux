@@ -5,10 +5,13 @@
 
 #define BFD_ERR	bfd_errmsg(bfd_get_error())
 
+static unsigned long vma_addr = 0;
+
 void usage(const char *prog)
 {
 	fprintf(stderr, "\n"
 		"-f, --file     specify file to bfd, default: %s\n"
+		"-v, --vma      specify vma address, format: 0x0xxxx\n"
 		"-h, --help     print this info\n",
 		prog
 	);
@@ -24,7 +27,7 @@ int main(int argc, char *argv[])
 
 	struct option options[] = {
 		{"file", required_argument, 0, 'f'},
-		{"text-vma", required_argument, 0, 't'},
+		{"vma", required_argument, 0, 'v'},
 		{"help", no_argument, 0, 'h'},
 		{0, 0, 0, 0}
 	};
@@ -33,7 +36,7 @@ int main(int argc, char *argv[])
 
 	while (1) {
 		int option_index = 0;
-		int c = getopt_long(argc, argv, "f:h", options, &option_index);
+		int c = getopt_long(argc, argv, "f:v:h", options, &option_index);
 
 		if (c == -1)
 			break;
@@ -42,6 +45,13 @@ int main(int argc, char *argv[])
 		case 'f':
 			filepath = optarg;
 			printf("Set file name %s\n", filepath);
+			break;
+		case 'v':
+			if (optarg[0] != '0' || optarg[1] != 'x') {
+				fprintf(stderr, "Wrong format, start with '0x'\n");
+				exit(1);
+			}
+			vma_addr = strtoull(optarg, NULL, 16);
 			break;
 		case 'h':
 			usage(argv[0]);
@@ -78,18 +88,28 @@ int main(int argc, char *argv[])
 		goto close;
 	}
 
+	if (vma_addr)
+		printf("VMA 0x%lx\n", vma_addr);
+
 	printf("Print %s sections.\n", filepath);
-	printf("%-32s %-8s %-8s %-16s %-16s\n", "SECTION", "SIZE", "ALIGN",
-		"VMA", "ALLOC/DATA/TEXT/UDF");
+	printf("%-32s %-16s %-8s %-8s %-16s %-16s %-16s\n", "SECTION", "ADDR",
+		"SIZE",	"ALIGN", "VMA", "LMA", "ALLOC/DATA/TEXT/UDF");
+
 	for (asect = abfd->sections; asect != NULL; asect = asect->next) {
 		flagword flags = bfd_section_flags(asect);
 		bfd_vma align = (bfd_vma) 1UL << bfd_section_alignment(asect);
-		// bfd_set_section_vma(asect, 0xffff);
-		printf("%-32s %-8lx %-8lx %-16lx %c%c%c%c\n",
+		unsigned long addr = bfd_section_vma(asect);
+
+		if (vma_addr)
+			addr += vma_addr;
+
+		printf("%-32s %-16lx %-8lx %-8lx %-16lx %-16lx %c%c%c%c\n",
 			bfd_section_name(asect),
+			addr,
 			bfd_section_size(asect),
 			align,
 			bfd_section_vma(asect),
+			bfd_section_lma(asect),
 			flags & SEC_ALLOC ? 'a' : '-',
 			flags & SEC_DATA ? 'd' : '-',
 			flags & SEC_CODE ? 't' : '-',
