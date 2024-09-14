@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "helpers.h"
 
 int main(int argc, char *argv[])
 {
@@ -40,7 +41,8 @@ int main(int argc, char *argv[])
 
 	if (abfd->build_id != NULL) {
 		build_id = abfd->build_id;
-		printf("BuildID size %ld\n", build_id->size);
+		printf("BuildID ");
+		tl_bfd_print_build_id(build_id);
 	}
 
 close:

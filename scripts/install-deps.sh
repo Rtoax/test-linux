@@ -266,6 +266,7 @@ pkgs_bench+=( fio )
 pkgs_desktop+=( terminator )
 pkgs_desktop+=( thunderbird )
 pkgs_desktop+=( gimp )
+pkgs_desktop+=( gnome-tweaks )
 pkgs_desktop+=( gnuplot )
 pkgs_desktop+=( python3-matplotlib )
 

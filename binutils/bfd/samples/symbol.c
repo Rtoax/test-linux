@@ -24,10 +24,10 @@ int main(int argc, char *argv[])
 	bfd *abfd;
 	char **matching;
 	asection *asect;
-	asymbol **symbol_table;
-	long storage_needed;
-	long number_of_symbols;
-	symbol_info symbolinfo;
+	asymbol **symbol_table, **dynamic_symbol_table;
+	long storage_needed, dynamic_storage_needed;
+	long number_of_symbols, number_of_dynamic_symbols;
+	symbol_info symbolinfo, dynamic_symbolinfo;
 	char *filepath;
 
 	struct option options[] = {
@@ -85,7 +85,7 @@ int main(int argc, char *argv[])
 	}
 
 	if (!bfd_check_format_matches(abfd, bfd_object, &matching)) {
-		fprintf(stderr, "format_matches");
+		fprintf(stderr, "format_matches\n");
 		goto close;
 	}
 
@@ -108,11 +108,18 @@ int main(int argc, char *argv[])
 	}
 
 	storage_needed = bfd_get_symtab_upper_bound(abfd);
-
 	symbol_table = (asymbol **)malloc(storage_needed);
 	number_of_symbols = bfd_canonicalize_symtab(abfd, symbol_table);
 
+	/**
+	 * FIXME: why symbols == dynamic symbols?
+	 */
+	dynamic_storage_needed = bfd_get_dynamic_symtab_upper_bound(abfd);
+	dynamic_symbol_table = (asymbol **)malloc(dynamic_storage_needed);
+	number_of_dynamic_symbols = bfd_canonicalize_symtab(abfd, dynamic_symbol_table);
+
 	printf("Scanning %ld symbols\n", number_of_symbols);
+	printf("Scanning %ld dynamic symbols\n", number_of_dynamic_symbols);
 
 #ifdef TEST_bfd_print_symbol_vandf
 	for (i = 0; i < number_of_symbols; i++) {
@@ -121,25 +128,41 @@ int main(int argc, char *argv[])
 	}
 #endif
 
-	printf("%-16s %-4s %-8s %-16s %-8s\n", "VALUE", "TYPE", "LOCAL", "VMA",
-		"SYM");
+	printf("%-16s %-4s %-8s %-16s %-16s %-8s\n", "VALUE", "TYPE", "LOCAL",
+		"VMA", "SECTION", "SYM");
 	for (i = 0; i < number_of_symbols; i++) {
-		if (symbol_table[i]->section == NULL)
+		asymbol *sym = symbol_table[i];
+		const char *name, *version_string = NULL;
+		bool hidden = false;
+
+		if (sym->section == NULL)
 			continue;
 
-		asect = symbol_table[i]->section;
+		asect = bfd_asymbol_section(sym);
 
-		bfd_symbol_info(symbol_table[i], &symbolinfo);
+		if ((sym->flags & (BSF_SECTION_SYM | BSF_SYNTHETIC)) == 0)
+			version_string = bfd_get_symbol_version_string(abfd,
+							sym, true, &hidden);
+
+		if (bfd_is_und_section(asect))
+			hidden = true;
+
+		/**
+		 * symbolinfo.name = bfd_asymbol_name(sym);
+		 */
+		bfd_symbol_info(sym, &symbolinfo);
 
 		/**
 		 * type: see nm(1)
 		 */
-		printf("%-16lx %-4c %-8s %-16lx %s\n",
+		printf("%-16lx %-4c %-8s %-16lx %-16s %s <%s>\n",
 			symbolinfo.value,
 			symbolinfo.type,
-			bfd_is_local_label(abfd, symbol_table[i]) ? "YES" : "-",
+			bfd_is_local_label(abfd, sym) ? "YES" : "-",
 			bfd_section_vma(asect),
-			symbolinfo.name);
+			bfd_section_name(asect),
+			symbolinfo.name,
+			version_string ?: "-");
 	}
 
 	free(symbol_table);

@@ -1,8 +1,18 @@
 #include <bfd.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <getopt.h>
 
 #define BFD_ERR	bfd_errmsg(bfd_get_error())
+
+void usage(const char *prog)
+{
+	fprintf(stderr, "\n"
+		"-f, --file     specify file to bfd, default: %s\n"
+		"-h, --help     print this info\n",
+		prog
+	);
+}
 
 int main(int argc, char *argv[])
 {
@@ -10,7 +20,42 @@ int main(int argc, char *argv[])
 	bfd *abfd;
 	char **matching;
 	asection *asect;
-	char *filepath = argv[0];
+	char *filepath;
+
+	struct option options[] = {
+		{"file", required_argument, 0, 'f'},
+		{"text-vma", required_argument, 0, 't'},
+		{"help", no_argument, 0, 'h'},
+		{0, 0, 0, 0}
+	};
+
+	filepath = argv[0];
+
+	while (1) {
+		int option_index = 0;
+		int c = getopt_long(argc, argv, "f:h", options, &option_index);
+
+		if (c == -1)
+			break;
+
+		switch (c) {
+		case 'f':
+			filepath = optarg;
+			printf("Set file name %s\n", filepath);
+			break;
+		case 'h':
+			usage(argv[0]);
+			exit(0);
+			break;
+		case '?':
+			usage(argv[0]);
+			fprintf(stderr, "Unknown option or requires an argument.\n");
+			exit(1);
+			break;
+		default:
+			abort();
+		}
+	}
 
 	ret = bfd_init();
 	if (ret != BFD_INIT_MAGIC) {
@@ -35,19 +80,20 @@ int main(int argc, char *argv[])
 
 	printf("Print %s sections.\n", filepath);
 	printf("%-32s %-8s %-8s %-16s %-16s\n", "SECTION", "SIZE", "ALIGN",
-		"VMA", "ALLOC/DATA/TEXT");
+		"VMA", "ALLOC/DATA/TEXT/UDF");
 	for (asect = abfd->sections; asect != NULL; asect = asect->next) {
 		flagword flags = bfd_section_flags(asect);
 		bfd_vma align = (bfd_vma) 1UL << bfd_section_alignment(asect);
 		// bfd_set_section_vma(asect, 0xffff);
-		printf("%-32s %-8lx %-8lx %-16lx %c%c%c\n",
+		printf("%-32s %-8lx %-8lx %-16lx %c%c%c%c\n",
 			bfd_section_name(asect),
 			bfd_section_size(asect),
 			align,
 			bfd_section_vma(asect),
 			flags & SEC_ALLOC ? 'a' : '-',
 			flags & SEC_DATA ? 'd' : '-',
-			flags & SEC_CODE ? 't' : '-');
+			flags & SEC_CODE ? 't' : '-',
+			bfd_is_und_section(asect) ? 'u' : '-');
 	}
 
 	asect = bfd_get_section_by_name(abfd, ".plt");
