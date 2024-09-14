@@ -29,6 +29,7 @@ ifeq ($(shell uname -m),x86_64)
     CFLAGS += -mavx512f -mfma
     CFLAGS += -DCPU_HAVE_AVX512F=1
   endif
+  TARGETS += add-x86
   TARGETS += bts
   TARGETS += invalid_opcode_user
   TARGETS += fsin
@@ -84,6 +85,7 @@ kernel:
 	make -C ${KERNELDIR} M=$(PWD) modules
 
 
+add-x86: add-x86.o
 bts: bts.o
 bswapl: bswapl.o
 invalid_opcode_user: invalid_opcode_user.o
