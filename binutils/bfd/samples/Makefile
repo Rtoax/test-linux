@@ -62,14 +62,14 @@ build: ${TARGETS}
 
 bfd_init: bfd_init.o helpers.o
 build_id: build_id.o helpers.o
-bfd_symbol_info: bfd_symbol_info.o proc.o
+bfd_symbol_info: bfd_symbol_info.o proc.o helpers.o
 bfd_get_start_address: bfd_get_start_address.o
 bfd_get_flavour: bfd_get_flavour.o
 bfd_elf_bfd_from_remote_memory: bfd_elf_bfd_from_remote_memory.o
 phdr: phdr.o
 sections: sections.o
-symbol: symbol.o proc.o
-symbol-value: symbol-value.o proc.o
+symbol: symbol.o proc.o helpers.o
+symbol-value: symbol-value.o proc.o helpers.o
 breakpoint_tst: breakpoint_tst.o
 breakpoint_bfd: breakpoint_bfd.o
 reloc: reloc.o

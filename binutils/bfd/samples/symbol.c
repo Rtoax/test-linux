@@ -8,6 +8,7 @@
 #include <pthread.h>
 
 #include "proc.h"
+#include "helpers.h"
 
 #define BFD_ERR	bfd_errmsg(bfd_get_error())
 
@@ -73,13 +74,20 @@ void handle_sym(const char *prefix, asymbol *sym, bool firstline)
 #if defined(TEST_SYMBOL_VALUE)
 	(void)version_string;
 
-# define TEST_SYM(sym)	\
-	if (!strcmp(#sym, symbolinfo.name)) {	\
-		unsigned long v1 = (unsigned long)&sym;	\
+	char buff[512];
+	bool synth = false;
+
+	if (bfd_section_name(asect), ".plt")
+		synth = true;
+
+# define TEST_SYM(s)	\
+	if (!strcmp(#s, symbolinfo.name) || \
+	    (synth && !strcmp(#s, tl_bfd_pure_name(sym, buff, sizeof(buff))))) {	\
+		unsigned long v1 = (unsigned long)&s;	\
 		unsigned long v2 = symbolinfo.value + base_vma;	\
-		printf("%s: " #sym ": %lx %lx %s in %s\n", prefix, v1, v2,	\
+		printf("%s: " #s ": %lx %lx %s in %s\n", prefix, v1, v2,	\
 			v1 == v2 ? "\033[32mOK\033[m" : "\033[31mNot OK\033[m",	\
-		bfd_section_name(asect));	\
+			bfd_section_name(asect));	\
 	}
 
 	/**
