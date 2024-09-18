@@ -4,6 +4,7 @@
 /memcpy
 /memcpy-stress
 /memset
+/memset-stress
 /memmove
 /stpcpy
 /strcat

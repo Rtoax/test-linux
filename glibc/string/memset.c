@@ -16,6 +16,10 @@ int main(void)
 {
 	char buf[1024] = {'x'};
 
-	memset(buf, 'z', sizeof(buf));
+#if defined(STRESS)
+	while (1)
+#endif
+		memset(buf, 'z', sizeof(buf));
+
 	return 0;
 }

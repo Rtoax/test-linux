@@ -11,9 +11,8 @@ int main(int argc, char *argv[])
 	 * $ sudo perf top -p $(pidof memcpy-stress)
 	 */
 	while (1)
-		memcpy(buf2, buf, sizeof(buf));
-#else
-	memcpy(buf2, buf, sizeof(buf));
 #endif
+		memcpy(buf2, buf, sizeof(buf));
+
 	return 0;
 }
