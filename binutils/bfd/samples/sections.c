@@ -93,7 +93,7 @@ int main(int argc, char *argv[])
 
 	printf("Print %s sections.\n", filepath);
 	printf("%-32s %-16s %-8s %-8s %-16s %-16s %-16s\n", "SECTION", "ADDR",
-		"SIZE",	"ALIGN", "VMA", "LMA", "ALLOC/DATA/TEXT/UDF");
+		"SIZE",	"ALIGN", "VMA", "LMA", "ALLOC/DATA/TEXT/UDF/COM");
 
 	for (asect = abfd->sections; asect != NULL; asect = asect->next) {
 		flagword flags = bfd_section_flags(asect);
@@ -103,7 +103,7 @@ int main(int argc, char *argv[])
 		if (vma_addr)
 			addr += vma_addr;
 
-		printf("%-32s %-16lx %-8lx %-8lx %-16lx %-16lx %c%c%c%c\n",
+		printf("%-32s %-16lx %-8lx %-8lx %-16lx %-16lx %c%c%c%c%c\n",
 			bfd_section_name(asect),
 			addr,
 			bfd_section_size(asect),
@@ -113,7 +113,8 @@ int main(int argc, char *argv[])
 			flags & SEC_ALLOC ? 'a' : '-',
 			flags & SEC_DATA ? 'd' : '-',
 			flags & SEC_CODE ? 't' : '-',
-			bfd_is_und_section(asect) ? 'u' : '-');
+			bfd_is_und_section(asect) ? 'u' : '-',
+			bfd_is_com_section(asect) ? 'C' : '-');
 	}
 
 	asect = bfd_get_section_by_name(abfd, ".plt");
