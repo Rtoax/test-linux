@@ -6,6 +6,7 @@
 /phdr
 /sections
 /symbol
+/symbol-value
 /breakpoint_tst
 /breakpoint_bfd
 /reloc

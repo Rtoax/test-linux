@@ -4,15 +4,19 @@
 #include <malloc.h>
 #include <getopt.h>
 
+#include "proc.h"
+
 #define BFD_ERR	bfd_errmsg(bfd_get_error())
 
-static unsigned long text_vma = 0;
+static unsigned long base_vma = 0;
+
+#include "data.c"
 
 void usage(const char *prog)
 {
 	fprintf(stderr, "\n"
 		"-f, --file     specify file to bfd, default: %s\n"
-		"-t, --text-vma specify text vma address, format: 0x0xxxx\n"
+		"-b, --base     specify base vma address, format: 0x0xxxx\n"
 		"-h, --help     print this info\n",
 		prog
 	);
@@ -31,7 +35,7 @@ int main(int argc, char *argv[])
 
 	struct option options[] = {
 		{"file", required_argument, 0, 'f'},
-		{"text-vma", required_argument, 0, 't'},
+		{"base", required_argument, 0, 'b'},
 		{"help", no_argument, 0, 'h'},
 		{0, 0, 0, 0}
 	};
@@ -40,7 +44,7 @@ int main(int argc, char *argv[])
 
 	while (1) {
 		int option_index = 0;
-		int c = getopt_long(argc, argv, "f:t:h", options, &option_index);
+		int c = getopt_long(argc, argv, "f:b:h", options, &option_index);
 
 		if (c == -1)
 			break;
@@ -50,12 +54,12 @@ int main(int argc, char *argv[])
 			filepath = optarg;
 			printf("Set file name %s\n", filepath);
 			break;
-		case 't':
+		case 'b':
 			if (optarg[0] != '0' || optarg[1] != 'x') {
 				fprintf(stderr, "Wrong format, start with '0x'\n");
 				exit(1);
 			}
-			text_vma = strtoull(optarg, NULL, 16);
+			base_vma = strtoull(optarg, NULL, 16);
 			break;
 		case 'h':
 			usage(argv[0]);
@@ -90,8 +94,8 @@ int main(int argc, char *argv[])
 
 	printf("ELF %s\n", filepath);
 
-	if (text_vma)
-		printf("Text VMA 0x%lx\n", text_vma);
+	if (base_vma)
+		printf("Text VMA 0x%lx\n", base_vma);
 
 	/**
 	 * If abfd is target process, we should set vma address, it's useful
@@ -99,11 +103,11 @@ int main(int argc, char *argv[])
 	 */
 	for (asect = abfd->sections; asect != NULL; asect = asect->next) {
 		flagword flags = bfd_section_flags(asect);
-		if ((flags & SEC_CODE) && text_vma)
+		if ((flags & SEC_CODE) && base_vma)
 			/**
 			 * FIXME: set vma, but symbol value not changed
 			 */
-			bfd_set_section_vma(asect, text_vma);
+			bfd_set_section_vma(asect, base_vma);
 	}
 
 	storage_needed = bfd_get_symtab_upper_bound(abfd);
@@ -127,8 +131,13 @@ int main(int argc, char *argv[])
 	}
 #endif
 
+#if defined(TEST_SYMBOL_VALUE)
+	if (!base_vma)
+		base_vma = proc_elf_base_addr();
+#else
 	printf("%-8s %-16s %-4s %-8s %-16s %-16s %-16s %-8s\n", "IDX", "VALUE",
 		"TYPE", "LOCAL", "VMA", "LMA", "SECTION", "SYM");
+#endif
 	for (i = 0; i < number_of_symbols; i++) {
 		asymbol *sym = symbol_table[i];
 		const char *name, *version_string = NULL;
@@ -152,6 +161,40 @@ int main(int argc, char *argv[])
 		 */
 		bfd_symbol_info(sym, &symbolinfo);
 
+/**
+ * Q: Could we use BFD to resolve all symbols?
+ */
+#if defined(TEST_SYMBOL_VALUE)
+		(void)version_string;
+
+# define TEST_SYM(sym)	\
+		if (!strcmp(#sym, symbolinfo.name)) {	\
+			unsigned long v1 = (unsigned long)&sym;	\
+			unsigned long v2 = symbolinfo.value + base_vma;	\
+			printf(#sym ": %lx %lx %s in %s\n", v1, v2,	\
+				v1 == v2 ? "\033[32mOK\033[m" : "\033[31mNot OK\033[m",	\
+			bfd_section_name(asect));	\
+		}
+
+		/**
+		 * Self
+		 */
+		TEST_SYM(bss_count);
+		TEST_SYM(static_bss_count);
+		TEST_SYM(data_count);
+		TEST_SYM(static_data_count);
+		TEST_SYM(rodata_count);
+		TEST_SYM(static_rodata_count);
+		TEST_SYM(main);
+		TEST_SYM(usage);
+		TEST_SYM(static_func);
+
+		/**
+		 * libc.so
+		 */
+		TEST_SYM(printf);
+# undef TEST_SYM
+#else
 		/**
 		 * type: see nm(1)
 		 */
@@ -165,6 +208,7 @@ int main(int argc, char *argv[])
 			bfd_section_name(asect),
 			symbolinfo.name,
 			version_string ?: "-");
+#endif
 	}
 
 	free(symbol_table);

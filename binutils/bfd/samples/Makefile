@@ -9,7 +9,7 @@ TARGETS += bfd_get_flavour
 TARGETS += bfd_elf_bfd_from_remote_memory
 TARGETS += phdr
 TARGETS += sections
-TARGETS += symbol
+TARGETS += symbol symbol-value
 TARGETS += breakpoint_tst breakpoint_bfd
 TARGETS += reloc
 TARGETS += bfd_print_symbol_vandf
@@ -62,19 +62,21 @@ build: ${TARGETS}
 
 bfd_init: bfd_init.o helpers.o
 build_id: build_id.o helpers.o
-bfd_symbol_info: bfd_symbol_info.o
+bfd_symbol_info: bfd_symbol_info.o proc.o
 bfd_get_start_address: bfd_get_start_address.o
 bfd_get_flavour: bfd_get_flavour.o
 bfd_elf_bfd_from_remote_memory: bfd_elf_bfd_from_remote_memory.o
 phdr: phdr.o
 sections: sections.o
-symbol: symbol.o
+symbol: symbol.o proc.o
+symbol-value: symbol-value.o proc.o
 breakpoint_tst: breakpoint_tst.o
 breakpoint_bfd: breakpoint_bfd.o
 reloc: reloc.o
-bfd_print_symbol_vandf: bfd_print_symbol_vandf.o
+bfd_print_symbol_vandf: bfd_print_symbol_vandf.o proc.o
 
 CFLAGS_bfd_print_symbol_vandf := -DTEST_bfd_print_symbol_vandf=1
+CFLAGS_symbol-value := -DTEST_SYMBOL_VALUE=1
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
