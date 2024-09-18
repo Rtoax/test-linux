@@ -128,8 +128,10 @@ int main(int argc, char *argv[])
 	char **matching;
 	asection *asect;
 	asymbol **symbol_table, **dynamic_symbol_table;
+	asymbol *synthetic_symbols;
 	long storage_needed, dynamic_storage_needed;
 	long number_of_symbols, number_of_dynamic_symbols;
+	long synthcount;
 	char *filepath;
 	char buffer[PATH_MAX];
 
@@ -227,8 +229,18 @@ int main(int argc, char *argv[])
 	dynamic_symbol_table = (asymbol **)malloc(dynamic_storage_needed);
 	number_of_dynamic_symbols = bfd_canonicalize_dynamic_symtab(abfd, dynamic_symbol_table);
 
+	/**
+	 * What's synthetic symtab?
+	 * All print symbol has '@plt' suffix
+	 */
+	synthcount = bfd_get_synthetic_symtab(abfd,
+				number_of_symbols, symbol_table,
+				number_of_dynamic_symbols, dynamic_symbol_table,
+				&synthetic_symbols);
+
 	printf("Scanning %ld symbols\n", number_of_symbols);
 	printf("Scanning %ld dynamic symbols\n", number_of_dynamic_symbols);
+	printf("Scanning %ld synthetic symbols\n", synthcount);
 
 #ifdef TEST_bfd_print_symbol_vandf
 	for (i = 0; i < number_of_symbols; i++) {
@@ -247,8 +259,14 @@ int main(int argc, char *argv[])
 		handle_sym("Dyn", sym, i == 0);
 	}
 
+	for (i = 0; i < synthcount; i++) {
+		asymbol *sym = &synthetic_symbols[i];
+		handle_sym("Syn", sym, i == 0);
+	}
+
 	free(symbol_table);
 	free(dynamic_symbol_table);
+	free(synthetic_symbols);
 close:
 	bfd_close(abfd);
 	return 0;
