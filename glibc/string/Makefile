@@ -4,7 +4,7 @@ TARGETS :=
 TARGETS += bcopy
 TARGETS += index
 TARGETS += memchr
-TARGETS += memcpy
+TARGETS += memcpy memcpy-stress
 TARGETS += memset
 TARGETS += memmove
 TARGETS += stpcpy
@@ -31,8 +31,10 @@ CFLAGS += -lm
 CFLAGS += -O0 -g -ggdb
 
 ifdef SIMD
-CFLAGS += -mavx2
+  CFLAGS += -mavx2
 endif
+
+CFLAGS_memcpy-stress := -DSTRESS=1
 
 build: sig.h ${TARGETS}
 	@echo
@@ -45,6 +47,7 @@ bcopy: bcopy.o
 index: index.o
 memchr: memchr.o
 memcpy: memcpy.o
+memcpy-stress: memcpy-stress.o
 memset: memset.o
 memmove: memmove.o
 stpcpy: stpcpy.o
