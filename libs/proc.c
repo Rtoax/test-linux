@@ -4,6 +4,7 @@
 #include <libgen.h>
 #include <errno.h>
 #include <unistd.h>
+#include <limits.h>
 
 #include "proc.h"
 
@@ -27,7 +28,7 @@ enum vma_type {
 	VT_LIBC,
 };
 
-static unsigned long __proc_elf_base_addr(enum vma_type vma_type)
+static unsigned long __proc_elf_base_addr(enum vma_type vma_type, char *name)
 {
 	unsigned long addr = 0;
 	char maps[128], comm[128];
@@ -71,6 +72,8 @@ static unsigned long __proc_elf_base_addr(enum vma_type vma_type)
 		case VT_LIBC:
 			if (!strcmp(basename(name_), "libc.so.6")) {
 				addr = start;
+				if (name)
+					strcpy(name, name_);
 				goto found;
 			}
 			break;
@@ -84,12 +87,18 @@ found:
 
 unsigned long proc_elf_base_addr(void)
 {
-	return __proc_elf_base_addr(VT_COMM);
+	return __proc_elf_base_addr(VT_COMM, NULL);
 }
 
 unsigned long proc_elf_base_libc_addr(void)
 {
-	return __proc_elf_base_addr(VT_LIBC);
+	return __proc_elf_base_addr(VT_LIBC, NULL);
+}
+
+char *proc_elf_base_libc_name(char *buf, size_t buf_len)
+{
+	__proc_elf_base_addr(VT_LIBC, buf);
+	return buf;
 }
 
 void print_proc_pid_maps(void)

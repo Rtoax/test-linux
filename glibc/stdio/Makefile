@@ -28,6 +28,19 @@ CC = gcc
 CFLAGS := -Werror -Wall
 CFLAGS += -DDEBUG -O0 -g
 
+ifdef PIE
+  CFLAGS += -pie -fPIE
+  LDFLAGS += -pie -fPIE
+endif
+
+ifdef NOPIE
+  CFLAGS += -no-pie
+  LDFLAGS += -no-pie
+  ifdef PIE
+    $(error "Could no specify PIE and NOPIE at the same time")
+  endif
+endif
+
 build: ${TARGETS}
 	@echo
 	@echo -e " \033[1;33m Done \033[m"

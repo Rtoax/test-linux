@@ -7,6 +7,8 @@ int main(void)
 {
 	int i;
 
+	printf("printf addr 0x%lx\n", (unsigned long)&printf);
+
 	for (i = 0; i <= strlen(STR); i++)
 		printf("%3d/%ld  [%.*s]\n", i, strlen(STR), i, STR);
 

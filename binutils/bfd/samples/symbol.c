@@ -3,12 +3,16 @@
 #include <stdlib.h>
 #include <malloc.h>
 #include <getopt.h>
+#include <errno.h>
+#include <limits.h>
+#include <pthread.h>
 
 #include "proc.h"
 
 #define BFD_ERR	bfd_errmsg(bfd_get_error())
 
 static unsigned long base_vma = 0;
+static bool test_libc = 0;
 
 #include "data.c"
 
@@ -17,6 +21,7 @@ void usage(const char *prog)
 	fprintf(stderr, "\n"
 		"-f, --file     specify file to bfd, default: %s\n"
 		"-b, --base     specify base vma address, format: 0x0xxxx\n"
+		"-c, --libc     test libc.so\n"
 		"-h, --help     print this info\n",
 		prog
 	);
@@ -32,10 +37,12 @@ int main(int argc, char *argv[])
 	long storage_needed, dynamic_storage_needed;
 	long number_of_symbols, number_of_dynamic_symbols;
 	char *filepath;
+	char buffer[PATH_MAX];
 
 	struct option options[] = {
 		{"file", required_argument, 0, 'f'},
 		{"base", required_argument, 0, 'b'},
+		{"libc", no_argument, 0, 'c'},
 		{"help", no_argument, 0, 'h'},
 		{0, 0, 0, 0}
 	};
@@ -44,7 +51,7 @@ int main(int argc, char *argv[])
 
 	while (1) {
 		int option_index = 0;
-		int c = getopt_long(argc, argv, "f:b:h", options, &option_index);
+		int c = getopt_long(argc, argv, "f:b:ch", options, &option_index);
 
 		if (c == -1)
 			break;
@@ -53,6 +60,11 @@ int main(int argc, char *argv[])
 		case 'f':
 			filepath = optarg;
 			printf("Set file name %s\n", filepath);
+			break;
+		case 'c':
+			filepath = proc_elf_base_libc_name(buffer, sizeof(buffer));
+			base_vma = proc_elf_base_libc_addr();
+			printf("Set libc %s\n", filepath);
 			break;
 		case 'b':
 			if (optarg[0] != '0' || optarg[1] != 'x') {
@@ -193,6 +205,9 @@ int main(int argc, char *argv[])
 		 * libc.so
 		 */
 		TEST_SYM(printf);
+		TEST_SYM(puts);
+		TEST_SYM(pthread_create);
+		TEST_SYM(errno);
 # undef TEST_SYM
 #else
 		/**

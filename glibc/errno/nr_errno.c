@@ -10,6 +10,7 @@ int main(void)
 #undef NR_ERRNO
 
 	printf("errno = %d\n", errno);
+	printf("errno addr = 0x%lx\n", (unsigned long)&errno);
 
 	return 0;
 }
