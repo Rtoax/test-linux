@@ -8,6 +8,7 @@
 /nan
 /isgreater
 /log
+/log-stress
 /sin
 /signbit
 /nextafter

@@ -9,7 +9,7 @@ TARGETS += finite
 TARGETS += sqrt sqrt-stress
 TARGETS += nan
 TARGETS += isgreater
-TARGETS += log
+TARGETS += log log-stress
 TARGETS += sin
 TARGETS += signbit
 TARGETS += nextafter
@@ -23,6 +23,7 @@ CFLAGS += -DDEBUG -O0 -g
 LDFLAGS := ${CFLAGS}
 
 CFLAGS_sqrt-stress := -DSTRESS=1
+CFLAGS_log-stress := -DSTRESS=1
 
 build: ${TARGETS}
 	@echo
@@ -39,6 +40,7 @@ finite: finite.o
 nan: nan.o
 isgreater: isgreater.o
 log: log.o
+log-stress: log-stress.o
 sin: sin.o
 signbit: signbit.o
 nextafter: nextafter.o
