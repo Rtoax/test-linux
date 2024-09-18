@@ -1,8 +1,14 @@
 #include <stdio.h>
 #include "proc.h"
 
+/**
+ * if initialized with 0, is in .bss
+ * if initialized with none 0, is in .data
+ * if const, is in .rodata
+ */
+
 static int static_i_bss;
-static int static_i = 2;
+static int static_i_data = 2;
 
 void print_addresses(void)
 {
@@ -13,7 +19,7 @@ void print_addresses(void)
 	P(print_addresses);
 	P(print_proc_pid_maps);
 	P(static_i_bss);
-	P(static_i);
+	P(static_i_data);
 }
 
 int main(void)

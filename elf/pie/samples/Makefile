@@ -1,6 +1,5 @@
 SHELL = bash
 
-
 TARGETS := hello
 TARGETS += hello-pie
 
@@ -18,6 +17,8 @@ build: ${TARGETS}
 hello: hello.o proc.o
 hello-pie: hello-pie.o proc.o
 
+CFLAGS_hello += -no-pie
+LDFLAGS_hello += -no-pie
 CFLAGS_hello-pie := -fpie
 LDFLAGS_hello-pie := -pie
 CFLAGS_proc := -fpie

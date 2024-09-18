@@ -1,3 +1,8 @@
+/**
+ * if initialized with 0, is in .bss
+ * if initialized with none 0, is in .data
+ */
+
 int ___i1_i = 1;
 int ___i2;
 static int ___i3_si = 1;
