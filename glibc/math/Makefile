@@ -6,7 +6,7 @@ TARGETS += copysign
 TARGETS += exp
 TARGETS += fpclassify
 TARGETS += finite
-TARGETS += sqrt
+TARGETS += sqrt sqrt-stress
 TARGETS += nan
 TARGETS += isgreater
 TARGETS += log
@@ -22,6 +22,8 @@ CFLAGS += -DDEBUG -O0 -g
 
 LDFLAGS := ${CFLAGS}
 
+CFLAGS_sqrt-stress := -DSTRESS=1
+
 build: ${TARGETS}
 	@echo
 	@echo -e " \033[1;33m Done \033[m"
@@ -30,6 +32,7 @@ build: ${TARGETS}
 ceil: ceil.o
 exp: exp.o
 sqrt: sqrt.o
+sqrt-stress: sqrt-stress.o
 copysign: copysign.o
 fpclassify: fpclassify.o
 finite: finite.o

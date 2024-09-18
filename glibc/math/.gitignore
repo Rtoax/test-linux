@@ -1,6 +1,7 @@
 /ceil
 /copysign
 /sqrt
+/sqrt-stress
 /exp
 /fpclassify
 /finite
