@@ -29,7 +29,7 @@ void usage(const char *prog)
 	);
 }
 
-void handle_sym(asymbol *sym, bool firstline)
+void handle_sym(const char *prefix, asymbol *sym, bool firstline)
 {
 	int i;
 	bfd *abfd;
@@ -48,7 +48,7 @@ void handle_sym(asymbol *sym, bool firstline)
 		base_vma = proc_elf_base_addr();
 #else
 	if (firstline)
-		printf("%-16s %-4s %-8s %-16s %-16s %-16s %-8s\n",
+		printf("%-4s %-16s %-4s %-8s %-16s %-16s %-16s %-8s\n", "PFX",
 			"VALUE", "TYPE", "LOCAL", "VMA", "LMA", "SECTION",
 			"SYM");
 #endif
@@ -107,7 +107,8 @@ void handle_sym(asymbol *sym, bool firstline)
 	/**
 	 * type: see nm(1)
 	 */
-	printf("%-16lx %-4c %-8s %-16lx %-16lx %-16s %s <%s>\n",
+	printf("%-4s %-16lx %-4c %-8s %-16lx %-16lx %-16s %s <%s>\n",
+		prefix,
 		symbolinfo.value,
 		symbolinfo.type,
 		bfd_is_local_label(abfd, sym) ? "YES" : "-",
@@ -237,10 +238,16 @@ int main(int argc, char *argv[])
 
 	for (i = 0; i < number_of_symbols; i++) {
 		asymbol *sym = symbol_table[i];
-		handle_sym(sym, i == 0);
+		handle_sym("Sym", sym, i == 0);
+	}
+
+	for (i = 0; i < number_of_dynamic_symbols; i++) {
+		asymbol *sym = dynamic_symbol_table[i];
+		handle_sym("Dyn", sym, i == 0);
 	}
 
 	free(symbol_table);
+	free(dynamic_symbol_table);
 close:
 	bfd_close(abfd);
 	return 0;
