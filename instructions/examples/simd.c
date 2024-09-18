@@ -819,12 +819,14 @@ int main(int argc, char *argv[])
 	}
 
 	printf("Length of array %ld\n", n);
-	printf("%-50s %-16s %-16s %-8s\n", "TEST_NAME", "FLAGS", "SPENT(us)", "RSLT");
+	printf("%-50s %-16s %-16s %-16s %-8s\n", "TEST_NAME", "FLAGS",
+		"SPENT(us)", "SPENT(ms)", "RSLT");
 
 	for (i = 0; i < ARRAY_SIZE(tests); i++) {
 		struct test *t = &tests[i];
-		printf("%-50s %-16s %-16ld %-8s\n", t->name, t->cpufeature,
-			t->spent_us, t->cmp_rslt ? "Failed" : "Passed");
+		printf("%-50s %-16s %-16ld %-16ld %-8s\n", t->name,
+			t->cpufeature, t->spent_us, t->spent_us / 1000,
+			t->cmp_rslt ? "\033[31mFailed\033[m" : "\033[32mPassed\033[m");
 	}
 
 	for (i = 0; i < ARRAY_SIZE(tests); i++) {
