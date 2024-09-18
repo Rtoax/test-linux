@@ -1,3 +1,3 @@
 #!/bin/bash
 make clean
-make NOPIE=1
+make NOPIE=1 "$@"

@@ -77,7 +77,7 @@ void handle_sym(const char *prefix, asymbol *sym, bool firstline)
 	if (!strcmp(#sym, symbolinfo.name)) {	\
 		unsigned long v1 = (unsigned long)&sym;	\
 		unsigned long v2 = symbolinfo.value + base_vma;	\
-		printf(#sym ": %lx %lx %s in %s\n", v1, v2,	\
+		printf("%s: " #sym ": %lx %lx %s in %s\n", prefix, v1, v2,	\
 			v1 == v2 ? "\033[32mOK\033[m" : "\033[31mNot OK\033[m",	\
 		bfd_section_name(asect));	\
 	}
@@ -102,6 +102,7 @@ void handle_sym(const char *prefix, asymbol *sym, bool firstline)
 	TEST_SYM(puts);
 	TEST_SYM(pthread_create);
 	TEST_SYM(errno);
+	TEST_SYM(stderr);
 # undef TEST_SYM
 #else
 	/**
