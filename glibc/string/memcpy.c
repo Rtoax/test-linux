@@ -8,7 +8,7 @@ int main(int argc, char *argv[])
 #if defined(STRESS)
 	/**
 	 * Check with:
-	 * $ sudo perf top -p $(pidof memcpu-stress)
+	 * $ sudo perf top -p $(pidof memcpy-stress)
 	 */
 	while (1)
 		memcpy(buf2, buf, sizeof(buf));
