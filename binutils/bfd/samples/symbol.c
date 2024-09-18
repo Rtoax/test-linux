@@ -16,6 +16,8 @@ static bool test_libc = 0;
 
 #include "data.c"
 
+int main(int argc, char *argv[]);
+
 void usage(const char *prog)
 {
 	fprintf(stderr, "\n"
@@ -25,6 +27,96 @@ void usage(const char *prog)
 		"-h, --help     print this info\n",
 		prog
 	);
+}
+
+void handle_sym(asymbol *sym, bool firstline)
+{
+	int i;
+	bfd *abfd;
+	const char *name, *version_string = NULL;
+	bool hidden = false;
+	symbol_info symbolinfo;
+	asection *asect;
+
+	abfd = sym->the_bfd;
+
+	if (sym->section == NULL)
+		return;
+
+#if defined(TEST_SYMBOL_VALUE)
+	if (!base_vma)
+		base_vma = proc_elf_base_addr();
+#else
+	if (firstline)
+		printf("%-16s %-4s %-8s %-16s %-16s %-16s %-8s\n",
+			"VALUE", "TYPE", "LOCAL", "VMA", "LMA", "SECTION",
+			"SYM");
+#endif
+
+	asect = bfd_asymbol_section(sym);
+
+	if ((sym->flags & (BSF_SECTION_SYM | BSF_SYNTHETIC)) == 0)
+		version_string = bfd_get_symbol_version_string(abfd,
+						sym, true, &hidden);
+
+	if (bfd_is_und_section(asect))
+		hidden = true;
+
+	/**
+	 * symbolinfo.name = bfd_asymbol_name(sym);
+	 */
+	bfd_symbol_info(sym, &symbolinfo);
+
+/**
+ * Q: Could we use BFD to resolve all symbols?
+ */
+#if defined(TEST_SYMBOL_VALUE)
+	(void)version_string;
+
+# define TEST_SYM(sym)	\
+	if (!strcmp(#sym, symbolinfo.name)) {	\
+		unsigned long v1 = (unsigned long)&sym;	\
+		unsigned long v2 = symbolinfo.value + base_vma;	\
+		printf(#sym ": %lx %lx %s in %s\n", v1, v2,	\
+			v1 == v2 ? "\033[32mOK\033[m" : "\033[31mNot OK\033[m",	\
+		bfd_section_name(asect));	\
+	}
+
+	/**
+	 * Self
+	 */
+	TEST_SYM(bss_count);
+	TEST_SYM(static_bss_count);
+	TEST_SYM(data_count);
+	TEST_SYM(static_data_count);
+	TEST_SYM(rodata_count);
+	TEST_SYM(static_rodata_count);
+	TEST_SYM(main);
+	TEST_SYM(usage);
+	TEST_SYM(static_func);
+
+	/**
+	 * libc.so
+	 */
+	TEST_SYM(printf);
+	TEST_SYM(puts);
+	TEST_SYM(pthread_create);
+	TEST_SYM(errno);
+# undef TEST_SYM
+#else
+	/**
+	 * type: see nm(1)
+	 */
+	printf("%-16lx %-4c %-8s %-16lx %-16lx %-16s %s <%s>\n",
+		symbolinfo.value,
+		symbolinfo.type,
+		bfd_is_local_label(abfd, sym) ? "YES" : "-",
+		bfd_section_vma(asect),
+		bfd_section_lma(asect),
+		bfd_section_name(asect),
+		symbolinfo.name,
+		version_string ?: "-");
+#endif
 }
 
 int main(int argc, char *argv[])
@@ -143,87 +235,9 @@ int main(int argc, char *argv[])
 	}
 #endif
 
-#if defined(TEST_SYMBOL_VALUE)
-	if (!base_vma)
-		base_vma = proc_elf_base_addr();
-#else
-	printf("%-8s %-16s %-4s %-8s %-16s %-16s %-16s %-8s\n", "IDX", "VALUE",
-		"TYPE", "LOCAL", "VMA", "LMA", "SECTION", "SYM");
-#endif
 	for (i = 0; i < number_of_symbols; i++) {
 		asymbol *sym = symbol_table[i];
-		const char *name, *version_string = NULL;
-		bool hidden = false;
-		symbol_info symbolinfo;
-
-		if (sym->section == NULL)
-			continue;
-
-		asect = bfd_asymbol_section(sym);
-
-		if ((sym->flags & (BSF_SECTION_SYM | BSF_SYNTHETIC)) == 0)
-			version_string = bfd_get_symbol_version_string(abfd,
-							sym, true, &hidden);
-
-		if (bfd_is_und_section(asect))
-			hidden = true;
-
-		/**
-		 * symbolinfo.name = bfd_asymbol_name(sym);
-		 */
-		bfd_symbol_info(sym, &symbolinfo);
-
-/**
- * Q: Could we use BFD to resolve all symbols?
- */
-#if defined(TEST_SYMBOL_VALUE)
-		(void)version_string;
-
-# define TEST_SYM(sym)	\
-		if (!strcmp(#sym, symbolinfo.name)) {	\
-			unsigned long v1 = (unsigned long)&sym;	\
-			unsigned long v2 = symbolinfo.value + base_vma;	\
-			printf(#sym ": %lx %lx %s in %s\n", v1, v2,	\
-				v1 == v2 ? "\033[32mOK\033[m" : "\033[31mNot OK\033[m",	\
-			bfd_section_name(asect));	\
-		}
-
-		/**
-		 * Self
-		 */
-		TEST_SYM(bss_count);
-		TEST_SYM(static_bss_count);
-		TEST_SYM(data_count);
-		TEST_SYM(static_data_count);
-		TEST_SYM(rodata_count);
-		TEST_SYM(static_rodata_count);
-		TEST_SYM(main);
-		TEST_SYM(usage);
-		TEST_SYM(static_func);
-
-		/**
-		 * libc.so
-		 */
-		TEST_SYM(printf);
-		TEST_SYM(puts);
-		TEST_SYM(pthread_create);
-		TEST_SYM(errno);
-# undef TEST_SYM
-#else
-		/**
-		 * type: see nm(1)
-		 */
-		printf("%-8d %-16lx %-4c %-8s %-16lx %-16lx %-16s %s <%s>\n",
-			i,
-			symbolinfo.value,
-			symbolinfo.type,
-			bfd_is_local_label(abfd, sym) ? "YES" : "-",
-			bfd_section_vma(asect),
-			bfd_section_lma(asect),
-			bfd_section_name(asect),
-			symbolinfo.name,
-			version_string ?: "-");
-#endif
+		handle_sym(sym, i == 0);
 	}
 
 	free(symbol_table);
