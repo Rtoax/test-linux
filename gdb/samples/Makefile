@@ -29,10 +29,12 @@ CXXFLAGS :=
 CXXFLAGS += -O0 -ggdb
 
 ifneq ($(PIE),)
-CFLAGS += -fpie
-LDFLAGS += -pie
-CXXFLAGS += -fpie
+  CFLAGS += -fpie
+  LDFLAGS += -pie
+  CXXFLAGS += -fpie
 endif
+
+CFLAGS_hello := -Wno-error=unused-function
 
 build: ${TARGETS} ${TARGETS_STRIP} ${TARGETS_CPP} ${SCRIPTS_OUT}
 	@echo -e " \033[1;33m Done \033[m"

@@ -11,27 +11,25 @@
 #		c	字符格式
 #		f	浮点格式
 set args abc
-
-echo --- global_i address in ELF ---\n
-print &global_i
-print /d global_i
+echo --- Addresses in ELF ---\n
+print &data_global_i
+print &rodata_global_i
+print /d data_global_i
 print /x main
-
 echo --- printf ---\n
 print 'printf'
 echo --- printf@plt ---\n
 print 'printf@plt'
-
 break main
 run
 print /c argv[0]
-
-echo --- global_i address ---\n
-print &global_i
-
+echo --- Addresses in MEM ---\n
+echo --- data_global_i address ---\n
+print &data_global_i
+print &rodata_global_i
 echo --- printf ---\n
 print 'printf'
 echo --- printf@plt ---\n
 print 'printf@plt'
-
+info proc mappings
 continue

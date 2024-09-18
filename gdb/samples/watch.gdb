@@ -1,3 +1,3 @@
-watch global_i
+watch data_global_i
 run
 continue
