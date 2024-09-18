@@ -75,14 +75,14 @@ void handle_sym(const char *prefix, asymbol *sym, bool firstline)
 	(void)version_string;
 
 	char buff[512];
-	bool synth = false;
+	bool synthetic = false;
 
 	if (bfd_section_name(asect), ".plt")
-		synth = true;
+		synthetic = true;
 
 # define TEST_SYM(s)	\
 	if (!strcmp(#s, symbolinfo.name) || \
-	    (synth && !strcmp(#s, tl_bfd_pure_name(sym, buff, sizeof(buff))))) {	\
+	    (synthetic && !strcmp(#s, tl_bfd_pure_name(sym, buff, sizeof(buff))))) {	\
 		unsigned long v1 = (unsigned long)&s;	\
 		unsigned long v2 = symbolinfo.value + base_vma;	\
 		printf("%s: " #s ": %lx %lx %s in %s\n", prefix, v1, v2,	\
@@ -139,7 +139,7 @@ int main(int argc, char *argv[])
 	asymbol *synthetic_symbols;
 	long storage_needed, dynamic_storage_needed;
 	long number_of_symbols, number_of_dynamic_symbols;
-	long synthcount;
+	long number_of_synth_symbols;
 	char *filepath;
 	char buffer[PATH_MAX];
 
@@ -241,14 +241,14 @@ int main(int argc, char *argv[])
 	 * What's synthetic symtab?
 	 * All print symbol has '@plt' suffix
 	 */
-	synthcount = bfd_get_synthetic_symtab(abfd,
+	number_of_synth_symbols = bfd_get_synthetic_symtab(abfd,
 				number_of_symbols, symbol_table,
 				number_of_dynamic_symbols, dynamic_symbol_table,
 				&synthetic_symbols);
 
 	printf("Scanning %ld symbols\n", number_of_symbols);
 	printf("Scanning %ld dynamic symbols\n", number_of_dynamic_symbols);
-	printf("Scanning %ld synthetic symbols\n", synthcount);
+	printf("Scanning %ld synthetic symbols\n", number_of_synth_symbols);
 
 #ifdef TEST_bfd_print_symbol_vandf
 	for (i = 0; i < number_of_symbols; i++) {
@@ -267,14 +267,17 @@ int main(int argc, char *argv[])
 		handle_sym("Dyn", sym, i == 0);
 	}
 
-	for (i = 0; i < synthcount; i++) {
+	for (i = 0; i < number_of_synth_symbols; i++) {
 		asymbol *sym = &synthetic_symbols[i];
 		handle_sym("Syn", sym, i == 0);
 	}
 
-	free(symbol_table);
-	free(dynamic_symbol_table);
-	free(synthetic_symbols);
+	if (symbol_table)
+		free(symbol_table);
+	if (dynamic_symbol_table)
+		free(dynamic_symbol_table);
+	if (synthetic_symbols)
+		free(synthetic_symbols);
 close:
 	bfd_close(abfd);
 	return 0;
