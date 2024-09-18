@@ -127,8 +127,8 @@ int main(int argc, char *argv[])
 	}
 #endif
 
-	printf("%-16s %-4s %-8s %-16s %-16s %-16s %-8s\n", "VALUE", "TYPE", "LOCAL",
-		"VMA", "LMA", "SECTION", "SYM");
+	printf("%-8s %-16s %-4s %-8s %-16s %-16s %-16s %-8s\n", "IDX", "VALUE",
+		"TYPE", "LOCAL", "VMA", "LMA", "SECTION", "SYM");
 	for (i = 0; i < number_of_symbols; i++) {
 		asymbol *sym = symbol_table[i];
 		const char *name, *version_string = NULL;
@@ -155,7 +155,8 @@ int main(int argc, char *argv[])
 		/**
 		 * type: see nm(1)
 		 */
-		printf("%-16lx %-4c %-8s %-16lx %-16lx %-16s %s <%s>\n",
+		printf("%-8d %-16lx %-4c %-8s %-16lx %-16lx %-16s %s <%s>\n",
+			i,
 			symbolinfo.value,
 			symbolinfo.type,
 			bfd_is_local_label(abfd, sym) ? "YES" : "-",
