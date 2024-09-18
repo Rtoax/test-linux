@@ -90,7 +90,38 @@ Introduced on January 8, 1997 with its Pentium P5.
 Bits: NEON < SVE <= SVE2
 ```
 
-### NEON SVE/SVE2
+### NEON
+
+- Since Armv7-A.
+- Arm **Cortex-A** and Arm **Cortex-R** series of processors.
+
+#### Operations
+
+Neon instructions allow up to:
+
+- 16x8-bit, 8x16-bit, 4x32-bit, 2x64-bit integer operations
+- 8x16-bit, 4x32-bit, 2x64-bit floating-point operations
+
+
+#### Register
+
+```
+128bit         0
++---------------+
+|               |  NEON
++---------------+
+    Q0-Q15
+
+
+      32bit    0
+       +--------+
+       |        |
+       +--------+
+        D0-D31
+```
+
+
+### SVE/SVE2
 
 - SVE/SVE2  Scalable Vector Registers
 
