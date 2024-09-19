@@ -9,7 +9,6 @@ void tl_bfd_print_build_id(const struct bfd_build_id *bid)
 	int i;
 	for (i = 0; i < bid->size; i++)
 		printf("%02x", bid->data[i]);
-	printf("\n");
 }
 
 const char *tl_bfd_strbid(const struct bfd_build_id *bid, char *buf, int blen)

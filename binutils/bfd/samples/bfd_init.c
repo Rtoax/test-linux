@@ -46,8 +46,10 @@ int main(int argc, char *argv[])
 	if (abfd->build_id != NULL) {
 		char buf[128];
 		build_id = abfd->build_id;
-		printf("BuildID %s vs ", tl_bfd_strbid(build_id, buf, 128));
-		tl_bfd_print_build_id(build_id);
+		printf("BuildID %s\n", tl_bfd_strbid(build_id, buf, 128));
+		printf("BuildID ");
+			tl_bfd_print_build_id(build_id);
+			printf("\n");
 	}
 
 close:
