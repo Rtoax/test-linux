@@ -23,6 +23,7 @@ int main(void)
 	printf("base addr : %lx\n", proc_elf_base_addr());
 	printf("libc name : %s\n", proc_elf_base_libc_name(name, sizeof(name)));
 	printf("libc addr : %lx\n", proc_elf_base_libc_addr());
+	printf("vdso addr : %lx\n", proc_elf_base_vdso_addr());
 	return 0;
 }
 
