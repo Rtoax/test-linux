@@ -6,6 +6,8 @@
 #include <errno.h>
 #include <limits.h>
 #include <pthread.h>
+#include <stdbool.h>
+#include <string.h>
 
 #include "proc.h"
 #include "helpers.h"
@@ -58,7 +60,8 @@ void handle_sym(const char *prefix, asymbol *sym, bool firstline)
 
 	if ((sym->flags & (BSF_SECTION_SYM | BSF_SYNTHETIC)) == 0)
 		version_string = bfd_get_symbol_version_string(abfd,
-						sym, true, &hidden);
+						sym, true,
+						(bfd_boolean *)&hidden);
 
 	if (bfd_is_und_section(asect))
 		hidden = true;
