@@ -1,11 +1,18 @@
 SHELL = bash
 
+BCC_SYMS_HDR := /usr/include/bcc/bcc_syms.h
+
 CC = gcc
 
 TARGETS := symcache
 
 CFLAGS := -lbcc
 LDFLAGS := -lbcc
+
+ifeq ($(wildcard $(BCC_SYMS_HDR)),)
+  TARGETS :=
+  $(warning "WARNING: You need to install bcc dev headers")
+endif
 
 all: $(TARGETS)
 
