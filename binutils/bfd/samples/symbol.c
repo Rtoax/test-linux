@@ -80,7 +80,7 @@ void handle_sym(const char *prefix, asymbol *sym, bool firstline)
 	char buff[512];
 	bool synthetic = false;
 
-	if (bfd_section_name(asect), ".plt")
+	if (!strcmp(bfd_section_name(asect), ".plt"))
 		synthetic = true;
 
 # define TEST_SYM(s)	\
