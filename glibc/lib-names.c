@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <gnu/lib-names.h>
 
-int main (void)
+int main(void)
 {
 #define P(M)	printf("%32s : ", #M); puts(M);
 #if defined(__x86_64__)
