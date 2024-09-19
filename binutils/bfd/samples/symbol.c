@@ -226,10 +226,16 @@ int main(int argc, char *argv[])
 			bfd_set_section_vma(asect, base_vma);
 	}
 
+	if (!(bfd_get_file_flags(abfd) & HAS_SYMS)) {
+		fprintf(stderr, "No syms in %s\n", bfd_get_filename(abfd));
+		goto load_dynamic_sym;
+	}
+
 	storage_needed = bfd_get_symtab_upper_bound(abfd);
 	symbol_table = (asymbol **)malloc(storage_needed);
 	number_of_symbols = bfd_canonicalize_symtab(abfd, symbol_table);
 
+load_dynamic_sym:
 	/**
 	 * FIXME: why symbols == dynamic symbols?
 	 */

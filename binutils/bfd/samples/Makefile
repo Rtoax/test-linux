@@ -55,6 +55,10 @@ endif
 CFLAGS += -DBINUTILS_VERSION_MAJOR=${BINUTILS_VERSION_MAJOR}
 CFLAGS += -DBINUTILS_VERSION_MINOR=${BINUTILS_VERSION_MINOR}
 
+define bfd_strip
+  @strip $(1) -o $(1).strip
+endef
+
 build: ${TARGETS}
 	@echo -e "  CFLAGS=${CFLAGS}"
 	@echo -e "  LDFLAGS=${LDFLAGS}"
@@ -85,11 +89,12 @@ CFLAGS_symbol-value := -DTEST_SYMBOL_VALUE=1
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
 	@$(CC) -o $(@) $(^) $(LDLIBS) $(LDFLAGS) $(LDFLAGS_$(*)) $(CFLAGS) $(CFLAGS_$(*))
+	$(call bfd_strip,$(@))
 
 test: ${TARGETS}
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
 
 clean:
 	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
-	@rm -f ${TARGETS} *.o *.out
+	@rm -f ${TARGETS} *.o *.out *.strip
 

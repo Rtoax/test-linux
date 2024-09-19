@@ -28,6 +28,10 @@ int main(int argc, char *argv[])
 		goto close;
 	}
 
+	if (!(bfd_get_file_flags(abfd) & HAS_SYMS)) {
+		fprintf(stderr, "No syms in %s\n", bfd_get_filename(abfd));
+	}
+
 #if 0 /* segvfault */
 	for (i = 0; matching[i]; i++)
 		printf("matching[%d] = %s\n", i, matching[i]);
