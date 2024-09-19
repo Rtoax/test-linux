@@ -12,7 +12,14 @@ LDFLAGS :=
 
 CFLAGS += -DDEBUG -O0 -g
 
-BPF_LOAD_PROGRAM = $(shell grep -row bpf_load_program /usr/include/bpf/bpf.h || true)
+LIBBPF_HEADER := /usr/include/bpf/bpf.h
+
+ifeq ($(wildcard $(LIBBPF_HEADER)),)
+  TARGETS :=
+  $(warning "WARNING: You need to install libbpf headers")
+endif
+
+BPF_LOAD_PROGRAM = $(shell grep -row bpf_load_program ${LIBBPF_HEADER} || true)
 ifeq (${BPF_LOAD_PROGRAM}, bpf_load_program)
   CFLAGS += -DHAVE_BPF_LOAD_PROGRAM=1
 endif
