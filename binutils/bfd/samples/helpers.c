@@ -12,6 +12,22 @@ void tl_bfd_print_build_id(const struct bfd_build_id *bid)
 	printf("\n");
 }
 
+const char *tl_bfd_strbid(const struct bfd_build_id *bid, char *buf, int blen)
+{
+	int i;
+
+	/* 1 for '\0' */
+	if (bid->size * 2 + 1 > blen) {
+		return NULL;
+	}
+
+	for (i = 0; i < bid->size && i * 2 < blen; i++)
+		sprintf(buf + i * 2, "%02x", bid->data[i]);
+	buf[i * 2] = '\0';
+
+	return buf;
+}
+
 /* Swap puts@GLIBC_2.34 to puts */
 const char *tl_bfd_pure_name(asymbol *sym, char *buf, int blen)
 {

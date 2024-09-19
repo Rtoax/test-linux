@@ -44,8 +44,9 @@ int main(int argc, char *argv[])
 	printf("get_dynamic_symcount: %d\n", bfd_get_dynamic_symcount(abfd));
 
 	if (abfd->build_id != NULL) {
+		char buf[128];
 		build_id = abfd->build_id;
-		printf("BuildID ");
+		printf("BuildID %s vs ", tl_bfd_strbid(build_id, buf, 128));
 		tl_bfd_print_build_id(build_id);
 	}
 
