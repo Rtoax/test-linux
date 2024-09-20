@@ -23,6 +23,7 @@ static void sfunc1(void)
 {
 	/* This is not RELA item. */
 	kthread_run(NULL, NULL, NULL);
+	schedule();
 	printk("%d\n", global_int1);
 }
 
@@ -39,6 +40,7 @@ static int kernel_init(void)
 	P_int(s_local_i);
 	P_f(kernel_init);
 	P_f(print);
+	P_f(schedule);
 	P_long(vmalloc_base);
 
 	return -EINVAL;
