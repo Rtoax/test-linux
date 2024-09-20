@@ -1,8 +1,13 @@
 - ACPI: Advanced Configuration and Power Interface (高级配置与电源接口)
+- APM: Advanced Power Management (高级电源管理)
 - ASPM: Active-State Power Management () @PCIe
 - BIOS: Basic Input Ouput System (基础输入输出系统)
 - DMI: Desktop Management Interface
 - GRUB: GRand Unified Bootloader
 - PXE: Preboot Execute Environment (预启动执行环境)
+- SMBIOS: System Management BIOS (系统管理BIOS)
 - SMI: System Management Interrupt (系统管理中断)
+- SMM: System Management Mode (系统管理模式) @x86 @arm @SMI
+- SMM: Secure Monitor Mode (安全管理模式) @arm @SMI
+- SMRAM: SMM RAM ()
 - UEFI: Unified Extensible Firmware Interface (可扩展固件接口)

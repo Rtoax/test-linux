@@ -8,8 +8,8 @@
 
 static struct resource res = {
 	.name	= "PCI mem Rong Tao",
-	.start	= 0x8000000000,
-	.end	= 0xffffffffff,
+	.start	= 0xf000000000,
+	.end	= 0xf00000ffff,
 	.flags	= IORESOURCE_MEM,
 };
 
