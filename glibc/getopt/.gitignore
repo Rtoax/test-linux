@@ -1,5 +1,6 @@
 /getopt
 /getopt_long
+/getopt_long-in
 /getsubopt
 /demo-wls
 /demo-clr

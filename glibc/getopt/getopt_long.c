@@ -5,17 +5,23 @@
 #include <getopt.h>
 
 
-int main(int argc, char *argv[])
+int command(int argc, char *argv[])
 {
 	int c;
 
+	/**
+	 * This is needed if call getopt() serial times.
+	 */
+	optarg = NULL;
+	optind = opterr = optopt = 0;
+
 	/* Flag set by '--verbose'. */
-	static int verbose_flag;
-	static struct option options[] = {
-		/* These options set a ﬂag. */
-		{"verbose", no_argument, &verbose_flag, 1},
+	int verbose_flag;
+	struct option options[] = {
+		/* These options set a flag. */
+		{"verbose", no_argument, &verbose_flag, 'V'},
 		{"brief", no_argument, &verbose_flag, 0},
-		/* These options don't set a ﬂag.
+		/* These options don't set a flag.
 		 * We distinguish them by their indices.
 		 */
 		{"add", no_argument, 0, 'a'},
@@ -31,15 +37,17 @@ int main(int argc, char *argv[])
 		/* getopt_long stores the option index here. */
 		int option_index = 0;
 
-		c = getopt_long(argc, argv, "a:b:c:d:f:h", options, &option_index);
+		c = getopt_long(argc, argv, "a:b:c:d:f:hV", options, &option_index);
 
 		/* Detect the end of the options. */
 		if (c == -1)
 			break;
 
+		printf("c = %c, %d, idx %d\n", c, c, option_index);
+
 		switch (c) {
 		case 0:
-			/* If this option set a ﬂag, do nothing else now. */
+			/* If this option set a flag, do nothing else now. */
 			if (options[option_index].flag != 0)
 				break;
 			printf("0 option %s", options[option_index].name);
@@ -71,7 +79,8 @@ int main(int argc, char *argv[])
 			exit(1);
 			break;
 		default:
-			abort();
+			printf("default '%s'\n", optarg);
+			break;
 		}
 	}
 
@@ -92,3 +101,19 @@ int main(int argc, char *argv[])
 	return 0;
 }
 
+int command2(int argc, char *argv[])
+{
+	return command(argc, argv);
+}
+
+int main(int argc, char *argv[], char *envs[])
+{
+#if defined(INNER_CALL)
+	int _argc = 5;
+	char *___argv[] = {"cmd", "-c", "ccc", "-d", "ddd"};
+	command2(_argc, ___argv);
+	return command(argc, argv);
+#else
+	return command(argc, argv);
+#endif
+}

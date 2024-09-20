@@ -2,7 +2,7 @@ SHELL = bash
 
 TARGETS :=
 TARGETS += getopt
-TARGETS += getopt_long
+TARGETS += getopt_long getopt_long-in
 TARGETS += getsubopt
 TARGETS += demo-wls
 TARGETS += demo-clr
@@ -20,9 +20,12 @@ build: ${TARGETS}
 # Add more object.o file
 getopt: getopt.o
 getopt_long: getopt_long.o
+getopt_long-in: getopt_long-in.o
 getsubopt: getsubopt.o
 demo-wls: demo-wls.o
 demo-clr: demo-clr.o
+
+CFLAGS_getopt_long-in := -DINNER_CALL=1
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
@@ -37,4 +40,4 @@ test: ${TARGETS}
 
 clean:
 	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
-	@rm -f ${TARGETS} *.o *.d
+	@rm -f ${TARGETS} *.o *.d core.*
