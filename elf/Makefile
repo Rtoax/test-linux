@@ -1,7 +1,7 @@
 SHELL = bash
 
 sub-dir := got
-sub-dir += dynamic-link
+sub-dir += library
 sub-dir += pie
 
 TARGETS :=
