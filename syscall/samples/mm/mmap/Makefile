@@ -16,6 +16,7 @@ TARGETS += mmap-file
 TARGETS += remap_file_pages
 TARGETS += get_unmapped_page
 TARGETS += mmap-multi-thread-copy
+TARGETS += mmap-exec
 
 ifeq ($(shell uname -m),x86_64)
 endif
@@ -48,6 +49,7 @@ mmap-file: mmap-file.o
 remap_file_pages: remap_file_pages.o
 get_unmapped_page: get_unmapped_page.o helpers.o
 mmap-multi-thread-copy: mmap-multi-thread-copy.o
+mmap-exec: mmap-exec.o
 
 ifeq ($(CONFIG_ANON_VMA_NAME),y)
 CFLAGS_mmap-anon := -DCONFIG_ANON_VMA_NAME=1
