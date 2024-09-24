@@ -1,6 +1,9 @@
 #include <stdio.h>
 
 #if __GNUC_PREREQ(2, 96)
+/*
+ * gcc: https://gcc.gnu.org/onlinedocs/gcc/Common-Function-Attributes.html#index-pure-function-attribute
+ */
 # define __pure __attribute__((__pure__))
 #else
 # define __pure
