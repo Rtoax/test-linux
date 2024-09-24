@@ -12,6 +12,35 @@
 
 static int static_asm_putchar(int c)
 {
+#if defined(__x86_64__)
+	int ret;
+	int fd = 1;
+	char msg[] = {"Hello\n"};
+	size_t len = 6;
+
+	__asm__("mov %[fd], %%edi \n\t"
+		"movq %[msg], %%rsi \n\t"
+		"movq %[len], %%rdx \n\t"
+		"movq $1, %%rax \n\t"
+		"syscall \n\t"
+		: "=r"(ret)
+		: [fd] "r"(fd), [msg] "r"(msg), [len] "r"(len));
+#elif defined(__aarch64__)
+	int ret;
+	int fd = 1;
+	char msg[] = {"Hello\n"};
+	size_t len = 6;
+
+	__asm__("stp x0, x1, [sp, #-32]! \n\t"
+		"mov x0, %[fd] \n\t"
+		"mov x1, %[msg] \n\t"
+		"mov x2, %[len] \n\t"
+		"mov x8, #64 \n\t"
+		"svc #0 \n\t"
+		"ldp x0, x1, [sp], #32 \n\t"
+		: "=g"(ret)
+		: [fd] "r"(fd), [msg] "r"(msg), [len] "r"(len));
+#endif
 	return 0xdead;
 }
 
