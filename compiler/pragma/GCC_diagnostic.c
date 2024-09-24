@@ -1,6 +1,16 @@
 #include <stdio.h>
 
 
+#pragma GCC diagnostic push
+/* Couldn't ignore -pg,
+ * error: ‘-pg’ is not an option that controls warnings */
+#pragma GCC diagnostic ignored "-pg"
+void foo(void)
+{
+	return;
+}
+#pragma GCC diagnostic pop
+
 int main(void)
 {
 	int i;
