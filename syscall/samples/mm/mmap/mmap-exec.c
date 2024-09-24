@@ -26,6 +26,7 @@ static int static_asm_putchar(int c)
 		: "=r"(ret)
 		: [fd] "r"(fd), [msg] "r"(msg), [len] "r"(len));
 #elif defined(__aarch64__)
+# if 0 /* FIXME: Print nothing?! */
 	int ret;
 	int fd = 1;
 	char msg[] = {"Hello\n"};
@@ -40,6 +41,34 @@ static int static_asm_putchar(int c)
 		"ldp x0, x1, [sp], #32 \n\t"
 		: "=g"(ret)
 		: [fd] "r"(fd), [msg] "r"(msg), [len] "r"(len));
+# endif
+# define ASM_WRITE_HELLO_AARCH64() ({		\
+	__asm__("stp x29, x30, [sp, #-32]!\n"	\
+		"mov x29, sp\n"			\
+		"str xzr, [sp, #16]\n"		\
+		"mov w0, #0x48\n"		\
+		"strb w0, [sp, #16]\n"		\
+		"mov w0, #0x65\n"		\
+		"strb w0, [sp, #17]\n"		\
+		"mov w0, #0x6c\n"		\
+		"strb w0, [sp, #18]\n"		\
+		"mov w0, #0x6c\n"		\
+		"strb w0, [sp, #19]\n"		\
+		"mov w0, #0x6f\n"		\
+		"strb w0, [sp, #20]\n"		\
+		"mov w0, #0xa\n"		\
+		"strb w0, [sp, #21]\n"		\
+		"add x0, sp, #0x10\n"		\
+		"str x0, [sp, #24]\n"		\
+		"\n"				\
+		"mov x0, #1\n"			\
+		"ldr x1, [sp, #24]\n"		\
+		"mov x2, #0x8\n"		\
+		"mov w8, #64\n"			\
+		"svc #0\n"			\
+		"ldp x29, x30, [sp], #32\n");	\
+})
+	ASM_WRITE_HELLO_AARCH64();
 #endif
 	return 0xdead;
 }
