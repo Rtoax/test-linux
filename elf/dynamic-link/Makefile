@@ -1,8 +1,10 @@
 SHELL = bash
 
 TARGETS := main
+TARGETS += main-a
 
 TARGETS_SO := libfoo.so
+TARGETS_A := libfoo.a
 
 CC := gcc
 
@@ -13,12 +15,14 @@ CFLAGS_main := -lfoo
 LDFLAGS_main := libfoo.so
 
 .PHONY: build
-build: ${TARGETS_SO} ${TARGETS}
+build: ${TARGETS_SO} ${TARGETS_A} ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
 # Add more object.o file
 main: main.o
+main-a: main-a.o libfoo.a
 libfoo.so: foo.oso
+libfoo.a: foo.oso
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
@@ -34,7 +38,11 @@ $(TARGETS): %:
 
 $(TARGETS_SO): %:
 	@echo -e "  SO  \033[1;32m$(@)\033[m"
-	@$(CC) -o $(@) $(^) -shared -fPIC $(LDFLAGS) $(LDFLAGS_$(*)) $(CFLAGS) $(CFLAGS_$(*))
+	@$(CC) -o $(@) $(^) -shared -fPIC $(LDFLAGS) $(LDFLAGS_$(*))
+
+$(TARGETS_A): %:
+	@echo -e "  A  \033[1;32m$(@)\033[m"
+	@ar rcs $(@) $(^)
 
 test: ${TARGETS}
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
@@ -42,5 +50,5 @@ test: ${TARGETS}
 
 .PHONY: clean
 clean:
-	@echo -e "  CLEAN  \033[1;32m$(TARGETS) $(TARGETS_SO)\033[m"
-	@rm -f ${TARGETS} ${TARGETS_SO} *.o *.oso
+	@echo -e "  CLEAN  \033[1;32m$(TARGETS) $(TARGETS_SO) $(TARGETS_A)\033[m"
+	@rm -f ${TARGETS} ${TARGETS_SO} ${TARGETS_A} *.o *.oso
