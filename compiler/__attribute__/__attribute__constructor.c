@@ -2,6 +2,10 @@
 #include <stdlib.h>
 #include <signal.h>
 
+/**
+ * Note: attribute constructor and destructor is works in both dynamic and
+ * static libraries.
+ */
 
 #define debug() do { \
 		printf("[%s:%s %d]\n", __FILE__, __func__, __LINE__); \
