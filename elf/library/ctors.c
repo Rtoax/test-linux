@@ -9,13 +9,22 @@ static void __attribute__((constructor(101))) before1(void)
 	debug();
 }
 
+static void __attribute__((constructor(109))) before2(void)
+{
+	debug();
+}
+
 static void __attribute__((destructor(101))) after1(void)
 {
 	debug();
 }
 
-int foo(void)
+static void __attribute__((destructor(109))) after2(void)
 {
-	printf("call foo.\n");
-	return 314;
+	debug();
+}
+
+int foo_ctor(void)
+{
+	printf("call foo_ctor.\n");
 }

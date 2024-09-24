@@ -2,6 +2,7 @@ SHELL = bash
 
 TARGETS := main
 TARGETS += main-a
+TARGETS += main-a-ctors
 
 TARGETS_SO := libfoo.so
 TARGETS_A := libfoo.a
@@ -11,8 +12,11 @@ CC := gcc
 CFLAGS :=
 LDFLAGS :=
 
+
 CFLAGS_main := -lfoo
 LDFLAGS_main := libfoo.so
+
+CFLAGS_main-a-ctors += -DCALL_FUNC_IN_OBJ=1
 
 .PHONY: build
 build: ${TARGETS_SO} ${TARGETS_A} ${TARGETS}
@@ -21,14 +25,15 @@ build: ${TARGETS_SO} ${TARGETS_A} ${TARGETS}
 # Add more object.o file
 main: main.o
 main-a: main-a.o libfoo.a
-libfoo.so: foo.oso
-libfoo.a: foo.oso
+main-a-ctors: main-a-ctors.o libfoo.a
+libfoo.so: foo.obj ctors.obj
+libfoo.a: foo.obj ctors.obj
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	@LD_LIBRARY_PATH=$(shell pwd) $(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
 
-%.oso: %.c
+%.obj: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	@LD_LIBRARY_PATH=$(shell pwd) $(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*)) -fPIC
 
@@ -41,7 +46,7 @@ $(TARGETS_SO): %:
 	@$(CC) -o $(@) $(^) -shared -fPIC $(LDFLAGS) $(LDFLAGS_$(*))
 
 $(TARGETS_A): %:
-	@echo -e "  A  \033[1;32m$(@)\033[m"
+	@echo -e "  AR  \033[1;32m$(^) to $(@)\033[m"
 	@ar rcs $(@) $(^)
 
 test: ${TARGETS}
@@ -51,4 +56,4 @@ test: ${TARGETS}
 .PHONY: clean
 clean:
 	@echo -e "  CLEAN  \033[1;32m$(TARGETS) $(TARGETS_SO) $(TARGETS_A)\033[m"
-	@rm -f ${TARGETS} ${TARGETS_SO} ${TARGETS_A} *.o *.oso
+	@rm -f ${TARGETS} ${TARGETS_SO} ${TARGETS_A} *.o *.obj
