@@ -10,6 +10,10 @@
 #include <errno.h>
 
 
+/**
+ * never should compile with -pg cflag, because copy text to exec-mem will
+ * change the address.
+ */
 static int static_asm_putchar(int c)
 {
 #if defined(__x86_64__)

@@ -35,7 +35,7 @@ CFLAGS += -pthread
 CFLAGS += -lrt
 
 ifdef DEBUG
-CFLAGS += -DDEBUG -O0 -g
+  CFLAGS += -DDEBUG -O0 -g
 endif
 
 build: ${TARGETS}
@@ -52,8 +52,11 @@ mmap-multi-thread-copy: mmap-multi-thread-copy.o
 mmap-exec: mmap-exec.o
 
 ifeq ($(CONFIG_ANON_VMA_NAME),y)
-CFLAGS_mmap-anon := -DCONFIG_ANON_VMA_NAME=1
+  CFLAGS_mmap-anon := -DCONFIG_ANON_VMA_NAME=1
 endif
+# mmap-exec never should has -pg cflag, because copy text to exec-mem will
+# change the address.
+# CFLAGS_mmap-exec := -pg
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
