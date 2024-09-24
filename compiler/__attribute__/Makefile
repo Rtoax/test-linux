@@ -30,7 +30,7 @@ __attribute__always_inline: __attribute__always_inline.o
 __attribute__noinline: __attribute__noinline.o
 __attribute__cleanup: __attribute__cleanup.o
 __attribute__const: __attribute__const.o
-__attribute__constructor: __attribute__constructor.o
+__attribute__constructor: __attribute__constructor.o __attribute__constructor-obj.o
 __attribute__deprecated: __attribute__deprecated.o
 __attribute__error: __attribute__error.o
 __attribute__format: __attribute__format.o
