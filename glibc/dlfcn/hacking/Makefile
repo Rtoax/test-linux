@@ -40,9 +40,9 @@ dev: dev.o
 	@LD_LIBRARY_PATH=$(shell pwd) $(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) $(<) -shared -fpic
 
 %.so.1: %.so
-	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	mv $(<) $(@)
-	ln -s $(@) $(<)
+	@echo -e "  MV  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
+	@mv $(<) $(@)
+	@ln -s $(@) $(<)
 
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"

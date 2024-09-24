@@ -3,13 +3,14 @@ SHELL = bash
 TARGETS := hello
 TARGETS += hello-pie
 
+CC := gcc
+
 CFLAGS :=
 LDFLAGS :=
 LDLIBS :=
 
 .PHONY: build
 build: ${TARGETS}
-	@echo
 	@echo -e " \033[1;33m Done \033[m"
 	@diff -up hello.s hello-pie.s || true
 
