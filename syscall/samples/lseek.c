@@ -15,8 +15,14 @@ int main(int argc, char *argv[])
 
 	lseek(d1, 64, SEEK_SET);
 
+	read(d1, buf, sizeof(buf));
+	printf("buf = %s\n", buf);
+
 	read(d2, buf, sizeof(buf));
 	printf("buf = %s\n", buf);
+
+	close(d1);
+	close(d2);
 
 	return 0;
 }
