@@ -26,7 +26,7 @@ func pi(n int) float64 {
 }
 
 func term(ch chan float64, k float64) {
-	ch <- 4 * math.Pow(-1, k) / (2*k + 1)
+	ch <- 4 * math.Pow(-1, k) / (2 * k + 1)
 }
 
 func main() {
