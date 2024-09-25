@@ -4,6 +4,7 @@ SHELL = bash
 GO = $(shell which go 2>/dev/null)
 
 TARGETS :=
+TARGETS += hello
 TARGETS += add
 TARGETS += loop
 TARGETS += mutex
