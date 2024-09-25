@@ -11,6 +11,7 @@ TARGETS += fibonacci
 TARGETS += pi
 #TARGETS += ignition
 TARGETS += write
+TARGETS += sleep
 
 ifeq ($(wildcard $(GO)),)
   TARGETS :=

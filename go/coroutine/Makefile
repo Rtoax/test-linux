@@ -5,6 +5,7 @@ GO = $(shell which go 2>/dev/null)
 
 TARGETS :=
 TARGETS += add
+TARGETS += loop
 TARGETS += mutex
 
 ifeq ($(wildcard $(GO)),)
@@ -22,4 +23,4 @@ ${TARGETS}:
 .PHONY: clean
 clean:
 	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
-	@rm -f ${TARGETS} *.txt
+	@rm -f ${TARGETS}
