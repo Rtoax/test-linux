@@ -3,6 +3,7 @@
 #include <linux/kernel.h>
 #include <linux/printk.h>
 #include <linux/kthread.h>
+#include <linux/sched.h>
 
 int local_i = 123;
 int local_i_no;
@@ -41,6 +42,7 @@ static int kernel_init(void)
 	P_f(kernel_init);
 	P_f(print);
 	P_f(schedule);
+	P_f(wake_up_process);
 	P_long(vmalloc_base);
 
 	return -EINVAL;
