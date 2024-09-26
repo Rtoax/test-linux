@@ -2,12 +2,15 @@
 - APM: Advanced Power Management (高级电源管理)
 - ASPM: Active-State Power Management () @PCIe
 - BIOS: Basic Input Ouput System (基础输入输出系统)
+- BMC: Baseboard Management Controller ()
 - DMI: Desktop Management Interface
 - GRUB: GRand Unified Bootloader
+- IPMI: Intelligent Platform Management Interface () @BMC
 - PXE: Preboot Execute Environment (预启动执行环境)
 - SMBIOS: System Management BIOS (系统管理BIOS)
 - SMI: System Management Interrupt (系统管理中断)
 - SMM: System Management Mode (系统管理模式) @x86 @arm @SMI
 - SMM: Secure Monitor Mode (安全管理模式) @arm @SMI
 - SMRAM: SMM RAM ()
+- SOL: Serial Over LAN () @BMC
 - UEFI: Unified Extensible Firmware Interface (可扩展固件接口)
