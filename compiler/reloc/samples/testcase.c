@@ -7,7 +7,14 @@
 
 int main(int argc, char *argv[])
 {
-	size_t *p = (size_t *)strtol(argv[1], NULL, 16);
+	size_t *p;
+
+	if (argc < 2) {
+		fprintf(stderr, "%s [addr]\n", argv[0]);
+		exit(1);
+	}
+
+	p = (size_t *)strtol(argv[1], NULL, 16);
 
 	p[0] = 0xDEADBEEF;
 

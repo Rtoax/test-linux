@@ -1,7 +1,7 @@
 SHELL = bash
 
-
-TARGETS := relocation-truncated-to-fit
+TARGETS :=
+TARGETS += relocation-truncated-to-fit
 TARGETS += nostdlib
 TARGETS += reloc-types
 TARGETS += testcase
@@ -12,15 +12,14 @@ CC = gcc
 CFLAGS := -Werror -Wall
 CFLAGS += -O0
 
-ifdef ULP
-	CFLAGS += -fpic
+ifdef PIC
+  CFLAGS += -fpic
 endif
 ifdef DEBUG
-	CFLAGS += -g -ggdb
+  CFLAGS += -g -ggdb
 endif
 
 build: ${TARGETS}
-	@echo
 	@echo -e " \033[1;33m Done \033[m"
 
 # Add more object.o file
@@ -47,12 +46,12 @@ endef
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
+	@$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
 	$(call print_elf,$(@))
 
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) $(^) $(LDLIBS)
+	@$(CC) -o $(@) $(^) $(LDLIBS) $(CFLAGS) $(CFLAGS_$(*))
 	$(call print_elf,$(@))
 
 test: ${TARGETS}
