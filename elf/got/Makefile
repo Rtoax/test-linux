@@ -7,7 +7,7 @@ TARGETS += _GLOBAL_OFFSET_TABLE_-32
 CFLAGS :=
 LDFLAGS :=
 
-CFLAGS += -g -ggdb
+CFLAGS += -O0 -g -ggdb
 
 ifdef PIE
   # If only -fpic in CFLAGS, 'Illegal instruction (core dumped)' on x86
