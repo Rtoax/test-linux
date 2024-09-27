@@ -80,13 +80,13 @@ fzero-initialized-in-bss: fzero-initialized-in-bss.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
-	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -S $(<) -o $(<:.c=.s)
-	@$(CC) $(CFLAGS) -S $(<) -o $(<:.c=-nof.s) -Wno-error
+	@$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
+	@$(CC) -S $(<) -o $(<:.c=.s) $(CFLAGS) $(CFLAGS_$(*))
+	@$(CC) -S $(<) -o $(<:.c=-nof.s) $(CFLAGS) -Wno-error
 
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	@$(CC) $(LDFLAGS) -o $(@) $(^)
+	@$(CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*))
 
 test: ${TARGETS}
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
