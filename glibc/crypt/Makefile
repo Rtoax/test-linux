@@ -11,6 +11,12 @@ CFLAGS += -lcrypt
 CFLAGS += -D_XOPEN_SOURCE -D_GNU_SOURCE
 CFLAGS += -Wno-error=implicit-function-declaration
 
+ifdef M32
+  CFLAGS += -m32 -DM32=1
+  LDFLAGS += -m32
+  $(info Compile 32bit ELF)
+endif
+
 LDFLAGS := -lcrypt
 
 build: ${TARGETS}

@@ -3,11 +3,7 @@ SHELL = bash
 TARGETS :=
 TARGETS += getauxval
 
-ifeq ($(shell uname -m),x86_64)
-endif
-
 DEBUG = yes
-SRC_PATH := $(shell pwd)
 CC = gcc
 
 CFLAGS := -Werror -Wall
@@ -15,7 +11,13 @@ CFLAGS += -I../../../
 CFLAGS += -lm
 
 ifdef DEBUG
-CFLAGS += -DDEBUG -O0 -g
+  CFLAGS += -DDEBUG -O0 -g
+endif
+
+ifdef M32
+  CFLAGS += -m32 -DM32=1
+  LDFLAGS += -m32
+  $(info Compile 32bit ELF)
 endif
 
 build: ${TARGETS}
@@ -31,7 +33,7 @@ getauxval: getauxval.o
 
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	@$(CC) -o $(@) $(^) $(LDLIBS) $(LDFLAGS) $(LDFLAGS_$(*)) $(CFLAGS) $(CFLAGS_$(*))
+	@$(CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*)) $(CFLAGS) $(CFLAGS_$(*))
 
 test: ${TARGETS}
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"

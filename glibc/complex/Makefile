@@ -16,6 +16,12 @@ CFLAGS += -DDEBUG -O0 -g
 # FIXME
 CFLAGS += -Wno-unused-variable
 
+ifdef M32
+  CFLAGS += -m32 -DM32=1
+  LDFLAGS += -m32
+  $(info Compile 32bit ELF)
+endif
+
 LDFLAGS := -lm
 
 .PHONY: build

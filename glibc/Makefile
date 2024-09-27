@@ -62,6 +62,8 @@ sub-dir += unistd
 sub-dir += wctype
 sub-dir += wordexp
 
+MAKE_SUB_ARGS :=
+
 TARGETS := environ
 TARGETS += gnu_get_libc_version
 TARGETS += lib-names
@@ -74,10 +76,17 @@ endif
 
 CC = gcc
 
-CFLAGS := -Werror -Wall -D_GNU_SOURCE
-CFLAGS += -I../../
+CFLAGS :=
+CFLAGS += -Werror -Wall -D_GNU_SOURCE
 CFLAGS += -pthread
 CFLAGS += -DDEBUG -O0 -g
+
+ifdef M32
+  CFLAGS += -m32 -DM32=1
+  LDFLAGS += -m32
+  MAKE_SUB_ARGS += M32=1
+  $(info Compile 32bit ELF)
+endif
 
 sub-dir-build := $(sub-dir:=.build)
 sub-dir-clean := $(sub-dir:=.clean)
@@ -110,13 +119,11 @@ test: ${TARGETS}
 .PHONY: clean
 clean: $(sub-dir-clean)
 	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
-	@rm -f ${TARGETS} \
-		*.o *.d *.out
+	@rm -f ${TARGETS} *.o *.d *.out
 
-# Need CFLAGS="${CFLAGS}" LDFLAGS="${LDFLAGS}"?
 $(sub-dir-build):
 	@echo -e "\033[1;32m [sub-dir] build $(@)\033[m"
-	make -C $(@:.build=)
+	make -C $(@:.build=) ${MAKE_SUB_ARGS}
 $(sub-dir-clean):
 	@echo -e "\033[1;32m [sub-dir] clean $(@)\033[m"
 	make -C $(@:.clean=) clean

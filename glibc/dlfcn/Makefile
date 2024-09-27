@@ -26,9 +26,16 @@ LDFLAGS :=
 LDLIBS :=
 
 ifdef DEBUG
-CFLAGS += -DDEBUG -O0 -g
+  CFLAGS += -DDEBUG -O0 -g
 endif
+
 CFLAGS += -I../../
+
+ifdef M32
+  CFLAGS += -m32 -DM32=1
+  LDFLAGS += -m32
+  $(info Compile 32bit ELF)
+endif
 
 sub-dir-build := $(sub-dir:=.build)
 sub-dir-clean := $(sub-dir:=.clean)

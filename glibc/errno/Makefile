@@ -10,7 +10,6 @@ ifeq ($(shell uname -m),aarch64)
 endif
 
 DEBUG = yes
-SRC_PATH := $(shell pwd)
 CC = gcc
 
 CFLAGS := -Werror -Wall -D_GNU_SOURCE
@@ -18,7 +17,13 @@ CFLAGS += -I../../
 CFLAGS += -pthread
 
 ifdef DEBUG
-CFLAGS += -DDEBUG -O0 -g
+  CFLAGS += -DDEBUG -O0 -g
+endif
+
+ifdef M32
+  CFLAGS += -m32 -DM32=1
+  LDFLAGS += -m32
+  $(info Compile 32bit ELF)
 endif
 
 build: nr_errno.h ${TARGETS}
@@ -36,7 +41,7 @@ EDOM: EDOM.o
 
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	@$(CC) -o $(@) $(^) $(CFLAGS) $(STATIC_OPTS) $(LDLIBS) $(LDFLAGS) $(LDFLAGS_$(*))
+	@$(CC) -o $(@) $(^) $(CFLAGS) $(LDFLAGS) $(LDFLAGS_$(*))
 
 test: ${TARGETS}
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"

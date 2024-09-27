@@ -13,15 +13,19 @@ TARGETS += inet_addr
 TARGETS += inet_network
 
 DEBUG = yes
-SRC_PATH := $(shell pwd)
 CC = gcc
 
 CFLAGS := -Werror -Wall -D_GNU_SOURCE
-CFLAGS += -I../../
 CFLAGS += -pthread
 
 ifdef DEBUG
-CFLAGS += -DDEBUG -O0 -g
+  CFLAGS += -DDEBUG -O0 -g
+endif
+
+ifdef M32
+  CFLAGS += -m32 -DM32=1
+  LDFLAGS += -m32
+  $(info Compile 32bit ELF)
 endif
 
 build: ${TARGETS}
@@ -44,7 +48,7 @@ inet_network: inet_network.o
 
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	@$(CC) -o $(@) $(^) $(LDLIBS) $(LDFLAGS) $(LDFLAGS_$(*)) $(CFLAGS) $(CFLAGS_$(*))
+	@$(CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*)) $(CFLAGS) $(CFLAGS_$(*))
 
 test: ${TARGETS}
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"

@@ -7,6 +7,15 @@ TARGETS += error_at_line
 
 CC = gcc
 
+CFLAGS :=
+LDFLAGS :=
+
+ifdef M32
+  CFLAGS += -m32 -DM32=1
+  LDFLAGS += -m32
+  $(info Compile 32bit ELF)
+endif
+
 all: ${TARGETS}
 
 error: error.o

@@ -3,6 +3,15 @@ SHELL = bash
 TARGETS :=
 TARGETS += warn
 
+CFLAGS :=
+LDFLAGS :=
+
+ifdef M32
+  CFLAGS += -m32 -DM32=1
+  LDFLAGS += -m32
+  $(info Compile 32bit ELF)
+endif
+
 all: ${TARGETS}
 
 warn: warn.o

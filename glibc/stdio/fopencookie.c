@@ -95,7 +95,7 @@ int main(int argc, char *argv[])
 	cookie_io_functions_t  memfile_func = {
 		.read  = memfile_read,
 		.write = memfile_write,
-		.seek  = memfile_seek,
+		.seek  = (void *)memfile_seek,
 		.close = memfile_close
 	};
 	FILE *stream;

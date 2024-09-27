@@ -7,10 +7,16 @@
 #include <string.h>
 #include <stdbool.h>
 #include <stdlib.h>
+#include <inttypes.h>
 
 #include <libs/proc.h>
 #include "common.h"
 
+#if defined(M32)
+# define PRI   PRIx32
+#else
+# define PRI   PRIx64
+#endif
 
 static void test(const char *lib)
 {
@@ -25,7 +31,7 @@ static void test(const char *lib)
 
 	/* Obtain a pointer to the link_map structure corresponding to handle. */
 	dlinfo(handle, RTLD_DI_LINKMAP, &linkmap);
-	printf("%16s : addr : %lx\n", lib, linkmap->l_addr);
+	printf("%16s : addr : %" PRI "\n", lib, linkmap->l_addr);
 	printf("%16s : name : %s\n", lib, linkmap->l_name);
 
 	dlclose(handle);

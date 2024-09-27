@@ -1,5 +1,12 @@
 #include <stdio.h>
 #include <string.h>
+#include <inttypes.h>
+
+#if defined(M32)
+# define PRId   PRId32
+#else
+# define PRId   PRId64
+#endif
 
 #define STR	"hello world"
 
@@ -7,10 +14,10 @@ int main(void)
 {
 	int i;
 
-	printf("printf addr 0x%lx\n", (unsigned long)&printf);
+	printf("printf addr %p\n", &printf);
 
 	for (i = 0; i <= strlen(STR); i++)
-		printf("%3d/%ld  [%.*s]\n", i, strlen(STR), i, STR);
+		printf("%3d/%" PRId "  [%.*s]\n", i, strlen(STR), i, STR);
 
 	printf("KB/s \n");
 

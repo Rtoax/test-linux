@@ -41,6 +41,12 @@ ifdef NOPIE
   endif
 endif
 
+ifdef M32
+  CFLAGS += -m32 -DM32=1
+  LDFLAGS += -m32
+  $(info Compile 32bit ELF)
+endif
+
 build: ${TARGETS}
 	@echo
 	@echo -e " \033[1;33m Done \033[m"

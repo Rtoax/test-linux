@@ -91,7 +91,7 @@ endif
 ifdef M32
   CFLAGS += -m32 -DM32=1
   LDFLAGS += -m32
-  $(info Compiel 32bit ELF)
+  $(info Compile 32bit ELF)
 endif
 
 ifdef DEBUG
