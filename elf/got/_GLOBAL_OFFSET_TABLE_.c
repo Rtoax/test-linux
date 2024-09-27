@@ -3,7 +3,10 @@
 #define Addr	unsigned long
 
 /**
- * _GLOBAL_OFFSET_TABLE_ is in libc.so.6.
+ * _GLOBAL_OFFSET_TABLE_
+ *
+ * - define in libc.so.6;
+ * - GOT[plt] in .got.plt section;
  */
 extern const Addr _GLOBAL_OFFSET_TABLE_[];
 
