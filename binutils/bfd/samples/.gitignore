@@ -9,6 +9,7 @@
 /symbol-value
 /breakpoint_tst
 /breakpoint_bfd
+/reloc
 /reloc-name
 /*.s
 /bfd_print_symbol_vandf

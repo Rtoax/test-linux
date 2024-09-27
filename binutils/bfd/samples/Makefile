@@ -11,16 +11,18 @@ TARGETS += phdr
 TARGETS += sections
 TARGETS += symbol symbol-value
 TARGETS += breakpoint_tst breakpoint_bfd
+TARGETS += reloc
 TARGETS += reloc-name
 TARGETS += bfd_print_symbol_vandf
 
 CC = gcc
 
 CFLAGS := -Werror -Wall -D_GNU_SOURCE
-CFLAGS += -DDEBUG -O0 -g
+CFLAGS += -DDEBUG -O0
 CFLAGS += -Wno-unused-label
 CFLAGS += -Wno-unused-variable
 CFLAGS += -lbfd
+
 # FIXME: /usr/include/bfd.h may include these lines. There must be a better way
 # to fix this.
 #  /* PR 14072: Ensure that config.h is included first.  */
@@ -76,6 +78,7 @@ symbol: symbol.o proc.o helpers.o
 symbol-value: symbol-value.o proc.o helpers.o
 breakpoint_tst: breakpoint_tst.o
 breakpoint_bfd: breakpoint_bfd.o
+reloc: reloc.o
 reloc-name: reloc-name.o
 bfd_print_symbol_vandf: bfd_print_symbol_vandf.o proc.o
 
