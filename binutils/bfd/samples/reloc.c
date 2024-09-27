@@ -112,7 +112,6 @@ int main(int argc, char *argv[])
 			continue;
 		}
 
-#if 0
 		p = relpp;
 		pend = p + relcount;
 
@@ -121,10 +120,12 @@ int main(int argc, char *argv[])
 
 			if (q->sym_ptr_ptr != NULL &&
 			    *q->sym_ptr_ptr != NULL) {
-				printf("rel %s\n", bfd_asymbol_name(*q->sym_ptr_ptr));
+				printf("rel %s, addr %lx, addend %lx\n",
+					bfd_asymbol_name(*q->sym_ptr_ptr),
+					q->address,
+					q->addend);
 			}
 		}
-#endif
 		free(relpp);
 	}
 
