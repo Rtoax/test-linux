@@ -2,6 +2,7 @@ SHELL = bash
 
 TARGETS :=
 TARGETS += _GLOBAL_OFFSET_TABLE_
+TARGETS += _GLOBAL_OFFSET_TABLE_-32
 
 CFLAGS :=
 LDFLAGS :=
@@ -14,12 +15,16 @@ ifdef PIE
   LDFLAGS += -pie -fPIE
 endif
 
+CFLAGS__GLOBAL_OFFSET_TABLE_-32 := -m32 -DM32=1
+LDFLAGS__GLOBAL_OFFSET_TABLE_-32 := -m32
+
 .PHONY: build
 build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
 # Add more object.o file
 _GLOBAL_OFFSET_TABLE_: _GLOBAL_OFFSET_TABLE_.o
+_GLOBAL_OFFSET_TABLE_-32: _GLOBAL_OFFSET_TABLE_-32.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

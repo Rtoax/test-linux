@@ -22,7 +22,6 @@
 # 			w	字（四个字节）
 # 			g	双字（八个字节）
 x /16ag main
-
 break main
 run
 x /10cb argv[0]
