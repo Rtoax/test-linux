@@ -19,21 +19,21 @@ endif
 # Include '_start' function
 TARGETS :=
 ifneq ($(NASM),)
-TARGETS += call-func call-func-ret
-TARGETS += jmp jg jl
-TARGETS += write write-2 write-3
+  TARGETS += call-func call-func-ret
+  TARGETS += jmp jg jl
+  TARGETS += write write-2 write-3
 endif
 
 # Include 'main' function
 TARGETS_MAIN :=
 ifeq ($(feature-m32),1)
-TARGETS_MAIN += average
-TARGETS_MAIN += echo
-TARGETS_MAIN += power
-TARGETS_MAIN += factorial_call
-TARGETS_MAIN += maxofthree_call
+  TARGETS_MAIN += average
+  TARGETS_MAIN += echo
+  TARGETS_MAIN += power
+  TARGETS_MAIN += factorial_call
+  TARGETS_MAIN += maxofthree_call
 else
-$(warning "WARNING: Not support 32bit")
+  $(warning "WARNING: Not support 32bit")
 endif
 
 CFLAGS := -Werror -Wall
