@@ -1,4 +1,11 @@
 #include <stdio.h>
+#include <inttypes.h>
+
+#if defined(M32)
+# define PRI	PRId32
+#else
+# define PRI	PRId64
+#endif
 
 struct a {
 	int a;
@@ -12,7 +19,7 @@ struct b {
 
 int main(void)
 {
-	printf("%ld\n", __alignof__(struct a));
-	printf("%ld\n", __alignof__(struct b));
+	printf("%" PRI "\n", __alignof__(struct a));
+	printf("%" PRI "\n", __alignof__(struct b));
 	return 0;
 }

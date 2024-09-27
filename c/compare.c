@@ -1,5 +1,12 @@
 #include <stdio.h>
+#include <inttypes.h>
 #include <sys/types.h>
+
+#if defined(M32)
+# define PRI	PRId32
+#else
+# define PRI	PRId64
+#endif
 
 int main(void)
 {
@@ -7,8 +14,8 @@ int main(void)
 	int n = -1;
 
 #define PRINT()	\
-	printf("%d %s %ld\n", n, n < sz ? "<" : ">=", sz);	\
-	printf("%d %s %ld\n", n, n < (int)sz ? "<" : ">=", sz);
+	printf("%d %s %" PRI "\n", n, n < sz ? "<" : ">=", sz);	\
+	printf("%d %s %" PRI "\n", n, n < (int)sz ? "<" : ">=", sz);
 
 	PRINT();
 

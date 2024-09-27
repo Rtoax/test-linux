@@ -88,6 +88,12 @@ ifdef STATIC
   $(info Defined STATIC)
 endif
 
+ifdef M32
+  CFLAGS += -m32 -DM32=1
+  LDFLAGS += -m32
+  $(info Compiel 32bit ELF)
+endif
+
 ifdef DEBUG
   CFLAGS += -DDEBUG -O0 -g -ggdb
 endif
