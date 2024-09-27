@@ -9,6 +9,10 @@ NAME = Apple
 
 SHELL = bash
 
+ifdef M32
+  SUB_MAKE_USER_ARGS += M32=1
+endif
+
 MAKEFLAGS = --silent --no-print-directory
 MKFILE_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))
 
@@ -54,6 +58,10 @@ all:
 	@echo >&2 -e "***"
 	@echo >&2 -e "*** make version"
 	@echo >&2 -e "***"
+	@echo >&2 -e "*** Arguments:"
+	@echo >&2 -e "***"
+	@echo >&2 -e "***  M32=1  compile with -m32 if possible"
+	@echo >&2 -e "***"
 
 define cleanuserlog
 	@rm -f $(USER_FAILED_LOG)
@@ -72,11 +80,11 @@ define printkernellog
 	fi
 endef
 
-# make_ [U|K] [dir]
-define make_
+# make_and_log [U|K] [dir]
+define make_and_log
 	@echo -e "[$(1)] \033[1;34mMake [$(2)] starting\033[m"
 	@pushd $(2) >/dev/null ; \
-		make ; \
+		make ${SUB_MAKE_USER_ARGS}; \
 		if [ $$? -ne 0 ]; then \
 			if [ $(1) == U ]; then \
 				echo "Failed $(1) $(2)" >>$(USER_FAILED_LOG); \
@@ -109,17 +117,19 @@ endef
 
 
 default: user kernel
+
 user: cleanuserlog $(SUB_user_DIR)
 	@echo "=========== User done ==========="
 	$(call printuserlog)
 $(SUB_user_DIR):
-	$(call make_,U,$@)
+	$(call make_and_log,U,$@)
+
 kernel: cleankernellog $(SUB_kernel_DIR)
 	@echo "=========== Kernel done ==========="
 	$(call printkernellog)
 $(SUB_user_DIR):
 $(SUB_kernel_DIR):
-	$(call make_,K,$@)
+	$(call make_and_log,K,$@)
 
 # Make test
 test: testuser testkernel
@@ -160,6 +170,7 @@ check:
 define git_clean
 	bash scripts/git-clean
 endef
+
 # Make clean
 clean:
 	$(call git_clean)

@@ -116,7 +116,15 @@ Install depends with `make installdeps`.
 
 ## Compile User
 
-Compile all userspace code with `make user`.
+```
+make user
+```
+
+Compile with `-m32`:
+
+```
+make user M32=1
+```
 
 
 # Links
