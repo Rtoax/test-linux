@@ -10,7 +10,7 @@ extern GElf_Addr _GLOBAL_OFFSET_TABLE_[];
 
 int main(void)
 {
-	printf("%p\n", _GLOBAL_OFFSET_TABLE_[0]);
+	printf("0x%lx\n", _GLOBAL_OFFSET_TABLE_[0]);
 	return 0;
 }
 
