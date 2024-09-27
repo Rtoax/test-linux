@@ -102,7 +102,7 @@ CFLAGS__XOPEN_SOURCE := -D_XOPEN_SOURCE=1
 
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	@$(CC) -o $(@) $(^) $(LDLIBS) $(LDFLAGS) $(LDFLAGS_$(*)) $(CFLAGS) $(CFLAGS_$(*))
+	@$(CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*)) $(CFLAGS) $(CFLAGS_$(*))
 
 test: ${TARGETS}
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
@@ -113,6 +113,7 @@ clean: $(sub-dir-clean)
 	@rm -f ${TARGETS} \
 		*.o *.d *.out
 
+# Need CFLAGS="${CFLAGS}" LDFLAGS="${LDFLAGS}"?
 $(sub-dir-build):
 	@echo -e "\033[1;32m [sub-dir] build $(@)\033[m"
 	make -C $(@:.build=)
