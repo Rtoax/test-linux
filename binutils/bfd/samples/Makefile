@@ -11,7 +11,7 @@ TARGETS += phdr
 TARGETS += sections
 TARGETS += symbol symbol-value
 TARGETS += breakpoint_tst breakpoint_bfd
-TARGETS += reloc
+TARGETS += reloc-name
 TARGETS += bfd_print_symbol_vandf
 
 CC = gcc
@@ -76,7 +76,7 @@ symbol: symbol.o proc.o helpers.o
 symbol-value: symbol-value.o proc.o helpers.o
 breakpoint_tst: breakpoint_tst.o
 breakpoint_bfd: breakpoint_bfd.o
-reloc: reloc.o
+reloc-name: reloc-name.o
 bfd_print_symbol_vandf: bfd_print_symbol_vandf.o proc.o
 
 CFLAGS_bfd_print_symbol_vandf := -DTEST_bfd_print_symbol_vandf=1
