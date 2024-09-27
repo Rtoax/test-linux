@@ -22,11 +22,7 @@ Addr addr_link_map(void)
 /**
  * (gdb) disassemble /s _GLOBAL_OFFSET_TABLE_[2],+0x16
  */
-#if defined(M32)
 Addr addr_dl_runtime_resolve(void)
-#else
-Addr addr_dl_runtime_resolve_xsavec(void)
-#endif
 {
 	return _GLOBAL_OFFSET_TABLE_[2];
 }
@@ -42,7 +38,7 @@ int main(void)
 #if !defined(M32)
 	printf("link_map = 0x%lx\n", addr_link_map());
 	printf("elf_machine_dynamic = 0x%lx\n", elf_machine_dynamic());
-	printf("addr_dl_runtime_resolve = 0x%lx\n", addr_dl_runtime_resolve_xsavec());
+	printf("addr_dl_runtime_resolve = 0x%lx\n", addr_dl_runtime_resolve());
 #endif
 	return 0;
 }
