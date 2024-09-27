@@ -1,6 +1,4 @@
 #include <stdio.h>
-#include <libelf.h>
-#include <gelf.h>
 
 #define Addr	unsigned long
 
@@ -40,6 +38,13 @@ int main(void)
 	printf("elf_machine_dynamic = 0x%lx\n", elf_machine_dynamic());
 	printf("addr_dl_runtime_resolve = 0x%lx\n", addr_dl_runtime_resolve());
 #endif
+	/**
+	 * More @plt
+	 */
+	/* fwrite@plt */
+	fprintf(stderr, "Hello\n");
+	dprintf(1, "Hello\n");
+	puts("Hello");
 	return 0;
 }
 
