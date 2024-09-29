@@ -1,6 +1,17 @@
 #include <stdio.h>
+#include <link.h>
 
 #define Addr	unsigned long
+
+static struct link_map *lm = NULL;
+
+void dump_link_map(struct link_map *l)
+{
+	printf("link_map: l_addr %lx\n", l->l_addr);
+	printf("link_map: l_name %s\n", l->l_name);
+	if (l->l_next)
+		dump_link_map(l->l_next);
+}
 
 /**
  * _GLOBAL_OFFSET_TABLE_
@@ -38,6 +49,8 @@ int main(void)
  */
 #if !defined(M32)
 	printf("link_map = 0x%lx\n", addr_link_map());
+	lm = (void *)addr_link_map();
+	dump_link_map(lm);
 	printf("elf_machine_dynamic = 0x%lx\n", elf_machine_dynamic());
 	printf("addr_dl_runtime_resolve = 0x%lx\n", addr_dl_runtime_resolve());
 #endif
