@@ -154,6 +154,7 @@ os-release
 vmlinux.h
 .bash_history
 .bashrc
+~*
 
 # Crypt. like gnupg, ssl, etc.
 *.asc
@@ -166,3 +167,6 @@ vmlinux.h
 # Debug
 *.debug
 *.dbg
+
+# Draw
+*.drawio.bkp

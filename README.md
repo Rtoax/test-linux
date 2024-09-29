@@ -63,6 +63,8 @@ You can use the following macro
 * Each `abbreviation.md` is current directory's relative abbreviation.
 	- format: **abbreviation: full name (中文全称) @relate1 @relate2**
 	- scripts: `./abbreviation.sh` to check all abbreviations.
+* Each **drawio** contains relate directory diagrams.
+
 
 ## abbreviation.md example
 
@@ -144,3 +146,7 @@ make user M32=1
 - [https://elixir.bootlin.com/linux/latest/source](https://elixir.bootlin.com/linux/latest/source)
 - [https://lore.kernel.org/lkml/](https://lore.kernel.org/lkml/)
 - [https://www.kernel.org/doc/html/latest/](https://www.kernel.org/doc/html/latest/)
+
+## Tools
+
+- [drawio](https://github.com/jgraph/drawio-desktop)
