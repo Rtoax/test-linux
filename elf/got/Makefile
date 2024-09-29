@@ -2,7 +2,9 @@ SHELL = bash
 
 TARGETS :=
 TARGETS += _GLOBAL_OFFSET_TABLE_
-TARGETS += _GLOBAL_OFFSET_TABLE_-32
+ifeq ($(shell uname -m),x86_64)
+  TARGETS += _GLOBAL_OFFSET_TABLE_-32
+endif
 
 CFLAGS :=
 LDFLAGS :=
