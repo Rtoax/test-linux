@@ -85,7 +85,7 @@ ifeq ($(shell uname -m),sw_64)
 endif
 
 ifdef STATIC
-  CFLAGS += -static
+  LDFLAGS += -static
   $(info Defined STATIC)
 endif
 

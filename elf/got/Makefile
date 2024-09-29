@@ -11,6 +11,10 @@ LDFLAGS :=
 
 CFLAGS += -O0 -g -ggdb
 
+ifdef STATIC
+  LDFLAGS += -static
+endif
+
 ifdef PIE
   # If only -fpic in CFLAGS, 'Illegal instruction (core dumped)' on x86
   CFLAGS += -pie -fPIE

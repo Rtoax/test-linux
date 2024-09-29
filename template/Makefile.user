@@ -44,7 +44,6 @@ ifdef DEBUG
   CFLAGS += -DDEBUG -O0 -g
 endif
 ifdef STATIC
-  CFLAGS += -static
   LDFLAGS += -static
   $(info Defined STATIC)
 endif
