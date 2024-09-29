@@ -1,7 +1,11 @@
 #include <stdio.h>
 
 #if defined(__x86_64__)
-# pragma GCC target("no-avx")
+# if defined(__clang__)
+#  pragma message "clang not support target"
+# elif defined(__GNUC__)
+#  pragma GCC target("no-avx")
+# endif
 #endif
 int fun(void)
 {

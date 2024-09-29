@@ -45,7 +45,7 @@ CFLAGS_GCC_system_header := -I./
 CFLAGS_GCC_dependency := -Wno-error
 CFLAGS__Pragma := -Wno-error
 
-CFLAGS_GCC_diagnostic := -pg -Wno-error=pragmas
+CFLAGS_GCC_diagnostic := -pg -Wno-error=pragmas -Wno-error=uninitialized
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
