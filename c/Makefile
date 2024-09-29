@@ -35,6 +35,7 @@ TARGETS += enum
 TARGETS += __STDC__
 TARGETS += include_next
 TARGETS += unsigned
+TARGETS += restrict
 
 ifeq ($(shell uname -m),x86_64)
 endif
@@ -165,6 +166,7 @@ enum: enum.o
 __STDC__: __STDC__.o
 include_next: include_next.o
 unsigned: unsigned.o
+restrict: restrict.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
