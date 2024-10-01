@@ -179,7 +179,7 @@ while true; do
 		;;
 	--allowerasing)
 		shift
-		dnf_args+=( --allowerasing )
+		dnf_args+=( --allowerasing --nobest )
 		;;
 	--)
 		shift
