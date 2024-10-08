@@ -1,3 +1,4 @@
+- ELF: Executable and Linkable Format (可执行和可链接格式)
 - GOT: Global Offset Table (全局偏移表)
 - LSB: Linux Standard Base (Linux 标准)
 - PLT: Procedure Linkage Table (过程链接表)
