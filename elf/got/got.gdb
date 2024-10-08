@@ -1,5 +1,6 @@
 break main
 run
+info proc mapping
 printf "GOT[0]"
 print /x _GLOBAL_OFFSET_TABLE_[0]
 printf "GOT[1]"

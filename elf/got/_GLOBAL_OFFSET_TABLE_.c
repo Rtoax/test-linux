@@ -28,7 +28,11 @@ Addr elf_machine_dynamic(void)
 
 Addr addr_link_map(void)
 {
+#if defined(__x86_64__) || defined(__i386__)
 	return _GLOBAL_OFFSET_TABLE_[1];
+#elif defined(__aarch64__)
+	return _GLOBAL_OFFSET_TABLE_[5];
+#endif
 }
 
 /**
@@ -36,7 +40,11 @@ Addr addr_link_map(void)
  */
 Addr addr_dl_runtime_resolve(void)
 {
+#if defined(__x86_64__) || defined(__i386__)
 	return _GLOBAL_OFFSET_TABLE_[2];
+#elif defined(__aarch64__)
+	return _GLOBAL_OFFSET_TABLE_[6];
+#endif
 }
 
 int main(void)
