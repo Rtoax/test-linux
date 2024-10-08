@@ -50,7 +50,7 @@ arm64_push_idx()
 			}
 		' | tr -d '<>:#' \
 		| xargs printf "%s %d\n" \
-		| awk '{printf "%s %d\n", $1, $2 / 8}'
+		| awk '{printf "%s %d\n", $1, $2 / 8 + 7}'
 }
 
 
