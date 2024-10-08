@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-x86_push_idx()
+__x86_push_val()
 {
 	local exe=$1
 
@@ -23,8 +23,32 @@ x86_push_idx()
 				for (f in push_idxs)
 					print(f, " ", push_idxs[f])
 			}
-		' | tr -d '<>:$' | xargs printf "%s %d\n" \
-		| awk '{printf "%s %d\n", $1, $2 + 3}'
+		' | tr -d '<>:$' | xargs printf "%s %d\n"
+}
+
+x86_64_push_idx()
+{
+	local exe=$1
+	__x86_push_val ${exe} | awk '{printf "%s %d\n", $1, $2 + 3}'
+}
+
+i386_push_idx()
+{
+	local exe=$1
+	__x86_push_val ${exe} | awk '{printf "%s %d\n", $1, $2 / 8 + 3}'
+}
+
+x86_push_idx()
+{
+	local exe=$1
+	if [[ "$(file ${exe} | grep -o 64-bit)" == "64-bit" ]]; then
+		x86_64_push_idx ${exe}
+	elif [[ "$(file ${exe} | grep -o 32-bit)" == "32-bit" ]]; then
+		i386_push_idx ${exe}
+	else
+		echo "ERROR: Not support ${exe}: $(file ${exe})" >&2
+		exit 1
+	fi
 }
 
 arm64_push_idx()
