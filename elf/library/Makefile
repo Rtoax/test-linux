@@ -3,6 +3,8 @@ SHELL = bash
 TARGETS := main
 TARGETS += main-a
 TARGETS += main-a-ctors
+TARGETS += latency
+TARGETS += latency-a
 
 TARGETS_SO := libfoo.so
 TARGETS_SO += libadd.so
@@ -21,6 +23,9 @@ LDFLAGS :=
 CFLAGS_main := -lfoo
 LDFLAGS_main := libfoo.so
 
+CFLAGS_latency := -lcall
+LDFLAGS_latency := libcall.so
+
 CFLAGS_main-a-ctors += -DCALL_FUNC_IN_OBJ=1
 
 .PHONY: build
@@ -31,6 +36,9 @@ build: ${TARGETS_SO} ${TARGETS_A} ${TARGETS}
 main: main.o
 main-a: main-a.o libfoo.a
 main-a-ctors: main-a-ctors.o libfoo.a
+latency: latency.o
+latency-a: latency-a.o libcall.a
+
 libfoo.so: foo.obj ctors.obj
 libfoo.a: foo.obj ctors.obj
 libadd.so: add.obj
