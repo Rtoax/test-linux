@@ -110,6 +110,7 @@ __common_llvm_bolt_heatmap()
 		-o ${elf}.heatmap \
 	2>&1 >>${log_file}
 
+	# Convert terminal output to HTML
 	aha -b -f ${elf}.heatmap > ${elf}.heatmap.html
 }
 

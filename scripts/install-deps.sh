@@ -199,6 +199,7 @@ fedora)
 	;;
 esac
 
+pkgs_base+=( aha )
 pkgs_base+=( autoconf-archive )
 pkgs_base+=( bash-completion )
 pkgs_base+=( bc )
