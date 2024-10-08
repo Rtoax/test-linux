@@ -1,0 +1,24 @@
+#include "call.h"
+
+#define DEFINE_CALL0(func) void func(void) { return; }
+
+DEFINE_CALL0(call1);
+DEFINE_CALL0(call2);
+DEFINE_CALL0(call3);
+DEFINE_CALL0(call4);
+DEFINE_CALL0(call5);
+DEFINE_CALL0(call6);
+DEFINE_CALL0(call7);
+DEFINE_CALL0(call8);
+DEFINE_CALL0(call9);
+DEFINE_CALL0(call10);
+DEFINE_CALL0(call11);
+DEFINE_CALL0(call12);
+DEFINE_CALL0(call13);
+DEFINE_CALL0(call14);
+DEFINE_CALL0(call15);
+DEFINE_CALL0(call16);
+DEFINE_CALL0(call17);
+DEFINE_CALL0(call18);
+DEFINE_CALL0(call19);
+DEFINE_CALL0(call20);

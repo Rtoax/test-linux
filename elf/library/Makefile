@@ -6,9 +6,11 @@ TARGETS += main-a-ctors
 
 TARGETS_SO := libfoo.so
 TARGETS_SO += libadd.so
+TARGETS_SO += libcall.so
 
 TARGETS_A := libfoo.a
 TARGETS_A += libadd.a
+TARGETS_A += libcall.a
 
 CC := gcc
 
@@ -33,6 +35,8 @@ libfoo.so: foo.obj ctors.obj
 libfoo.a: foo.obj ctors.obj
 libadd.so: add.obj
 libadd.a: add.obj
+libcall.so: call.obj
+libcall.a: call.obj
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

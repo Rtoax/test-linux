@@ -1,0 +1,22 @@
+#pragma once
+
+void call1(void);
+void call2(void);
+void call3(void);
+void call4(void);
+void call5(void);
+void call6(void);
+void call7(void);
+void call8(void);
+void call9(void);
+void call10(void);
+void call11(void);
+void call12(void);
+void call13(void);
+void call14(void);
+void call15(void);
+void call16(void);
+void call17(void);
+void call18(void);
+void call19(void);
+void call20(void);
