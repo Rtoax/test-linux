@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 x86_push_idx()
 {
@@ -73,4 +74,17 @@ plt_got_idx()
 	esac
 }
 
-plt_got_idx _GLOBAL_OFFSET_TABLE_
+got_idx()
+{
+	local exe=$1
+	plt_got_idx ${exe} \
+		| sed 's/@plt//g' \
+		| tr [:lower:] [:upper:] \
+		| awk '{printf "GOT_IDX_%s %s\n", $1, $2}'
+}
+
+if [[ $# -ge 1 ]]; then
+	got_idx $1
+else
+	got_idx _GLOBAL_OFFSET_TABLE_
+fi
