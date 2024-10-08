@@ -1,36 +1,22 @@
 SHELL = bash
 
-include ../../scripts/check_compiler_option.mk
-
 TARGETS :=
 
 CC = gcc
-ANNOBIN = $(shell pwd)/annobin-cc1
 
-ifneq ($(wildcard /usr/lib/rpm/redhat/redhat-annobin-cc1),)
-  $(info Found /usr/lib/rpm/redhat/redhat-annobin-cc1)
-  ANNOBIN = /usr/lib/rpm/redhat/redhat-annobin-cc1
-endif
-
-feature-annobin := $(findstring 1,$(call check_compiler_option,$(CC),-specs=${ANNOBIN}))
-
-$(info feature-annobin ${feature-annobin})
-ifeq (${feature-annobin},1)
-  $(info Support ANNOBIN)
-  TARGETS += hello
-endif
+TARGETS += hello
 
 
 CFLAGS := -Werror -Wall
 CFLAGS += -Wstrict-prototypes
-CFLAGS += -specs=$(ANNOBIN)
+CFLAGS += -specs=$(shell pwd)/definitions
+CFLAGS += -specs=$(shell pwd)/definitions2
 
 LDFLAGS :=
 LDLIBS :=
 
 .PHONY: build
 build: ${TARGETS}
-	@echo
 	@echo -e " \033[1;33m Done \033[m"
 
 hello: hello.o
@@ -46,6 +32,7 @@ $(TARGETS): %:
 
 test: ${TARGETS}
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
+	@gcc $(CFLAGS) -dumpspecs
 
 .PHONY: clean
 clean:

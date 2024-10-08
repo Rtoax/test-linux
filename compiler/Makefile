@@ -15,6 +15,7 @@ sub-dir += openmp
 sub-dir += optimize
 sub-dir += pragma
 sub-dir += reloc
+sub-dir += specs
 sub-dir += __sync
 sub-dir += Wwarn
 

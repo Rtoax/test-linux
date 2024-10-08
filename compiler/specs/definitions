@@ -1,0 +1,5 @@
+*cc1_options:
++ -DTEST_LINUX=1 -DTEST_LINUX2=1
+
+*cc1_options:
++ -DTEST_LINUX3=1

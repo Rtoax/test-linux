@@ -1,0 +1,2 @@
+*cc1_options:
++ -DTEST_LINUX10=1
