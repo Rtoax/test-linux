@@ -8,11 +8,11 @@ TARGETS += latency-a
 
 TARGETS_SO := libfoo.so
 TARGETS_SO += libadd.so
-TARGETS_SO += libcall.so
+TARGETS_SO += libcall0.so
 
 TARGETS_A := libfoo.a
 TARGETS_A += libadd.a
-TARGETS_A += libcall.a
+TARGETS_A += libcall0.a
 
 CC := gcc
 
@@ -23,8 +23,8 @@ LDFLAGS :=
 CFLAGS_main := -lfoo
 LDFLAGS_main := libfoo.so
 
-CFLAGS_latency := -lcall
-LDFLAGS_latency := libcall.so
+CFLAGS_latency := -lcall0
+LDFLAGS_latency := libcall0.so
 
 CFLAGS_main-a-ctors += -DCALL_FUNC_IN_OBJ=1
 
@@ -37,14 +37,14 @@ main: main.o
 main-a: main-a.o libfoo.a
 main-a-ctors: main-a-ctors.o libfoo.a
 latency: latency.o
-latency-a: latency-a.o libcall.a
+latency-a: latency-a.o libcall0.a
 
 libfoo.so: foo.obj ctors.obj
 libfoo.a: foo.obj ctors.obj
 libadd.so: add.obj
 libadd.a: add.obj
-libcall.so: call.obj
-libcall.a: call.obj
+libcall0.so: call0.obj
+libcall0.a: call0.obj
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

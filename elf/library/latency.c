@@ -9,26 +9,26 @@ int main(void)
 	uint64_t n = 1000000000UL;
 
 	for (i = 0; i < n; i++) {
-		call1();
-		call2();
-		call3();
-		call4();
-		call5();
-		call6();
-		call7();
-		call8();
-		call9();
-		call10();
-		call11();
-		call12();
-		call13();
-		call14();
-		call15();
-		call16();
-		call17();
-		call18();
-		call19();
-		call20();
+		call01();
+		call02();
+		call03();
+		call04();
+		call05();
+		call06();
+		call07();
+		call08();
+		call09();
+		call010();
+		call011();
+		call012();
+		call013();
+		call014();
+		call015();
+		call016();
+		call017();
+		call018();
+		call019();
+		call020();
 	}
 
 	return 0;

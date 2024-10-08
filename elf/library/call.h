@@ -1,24 +1,25 @@
 #pragma once
 
 typedef void (fn0_t)(void);
+#define DEFINE_CALL0(func) void func(void) { return; }
 
-fn0_t call1;
-fn0_t call2;
-fn0_t call3;
-fn0_t call4;
-fn0_t call5;
-fn0_t call6;
-fn0_t call7;
-fn0_t call8;
-fn0_t call9;
-fn0_t call10;
-fn0_t call11;
-fn0_t call12;
-fn0_t call13;
-fn0_t call14;
-fn0_t call15;
-fn0_t call16;
-fn0_t call17;
-fn0_t call18;
-fn0_t call19;
-fn0_t call20;
+fn0_t call01;
+fn0_t call02;
+fn0_t call03;
+fn0_t call04;
+fn0_t call05;
+fn0_t call06;
+fn0_t call07;
+fn0_t call08;
+fn0_t call09;
+fn0_t call010;
+fn0_t call011;
+fn0_t call012;
+fn0_t call013;
+fn0_t call014;
+fn0_t call015;
+fn0_t call016;
+fn0_t call017;
+fn0_t call018;
+fn0_t call019;
+fn0_t call020;
