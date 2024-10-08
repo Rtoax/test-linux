@@ -110,9 +110,19 @@ int main(void)
 #endif
 
 #define NLOOP	1000000000UL
+
 	for (i = 0; i < NLOOP; i++)
+#if defined(ONLY_TEST_ONE_LLC_LINESIZE)
+		/**
+		 * Generally, LLC LINESIZE is 64 bytes, corresponding to 8
+		 * items in GOT, and 5 callback functions can be called.
+		 */
+		#pragma GCC unroll 5
+		for (j = 0; j < 5; j++)
+#else
 		#pragma GCC unroll 20
 		for (j = 0; j < 20; j++)
+#endif
 			fns[j]();
 
 	return 0;

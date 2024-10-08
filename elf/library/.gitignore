@@ -5,4 +5,6 @@
 /main-a-ctors
 /latency
 /latency-got
+/latency-got-llc
 /latency-a
+/latency-a-llc
