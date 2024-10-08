@@ -22,7 +22,8 @@ x86_push_idx()
 				for (f in push_idxs)
 					print(f, " ", push_idxs[f])
 			}
-		' | tr -d '<>:$' | xargs printf "%s %d\n"
+		' | tr -d '<>:$' | xargs printf "%s %d\n" \
+		| awk '{printf "%s %d\n", $1, $2 + 3}'
 }
 
 arm64_push_idx()
