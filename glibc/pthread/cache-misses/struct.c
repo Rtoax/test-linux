@@ -6,9 +6,12 @@
  *
  * 2023-04-15	Rong Tao	Create this.
  * 2023-08-02	Rong Tao	Test read/write
+ * 2024-10-08	Rong Tao	Support arguments
  */
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
+#include <string.h>
 #include <pthread.h>
 #include <sys/time.h>
 
@@ -222,17 +225,43 @@ void demo_bad(void)
 	}
 }
 
+void usage(char *prog)
+{
+	fprintf(stderr, "Usage: %s [nloop=%ld] [good|bad]\n", prog, LOOP);
+}
+
 int main(int argc, char *argv[])
 {
+	int i;
+	bool good, bad;
+
 	if (argc < 2)
-		fprintf(stderr, "Usage: %s [nloop], default: %ld\n", argv[0], LOOP);
-	else
-		nloop = strtoul(argv[1], NULL, 10);
+		usage(argv[0]);
+
+	good = bad = true;
+
+	for (i = 1; i < argc; i++) {
+		if (!strncmp("nloop=", argv[i], 6)) {
+			nloop = strtoul(argv[i] + 6, NULL, 10);
+		} else if (!strcmp(argv[i], "good")) {
+			good = true;
+			bad = false;
+		} else if (!strcmp(argv[i], "bad")) {
+			good = false;
+			bad = true;
+		} else {
+			fprintf(stderr, "Unknown arg %s\n", argv[i]);
+			usage(argv[0]);
+			exit(1);
+		}
+	}
 
 	printf("nloop = %ld\n", nloop);
 
-	demo_good();
-	demo_bad();
+	if (good)
+		demo_good();
+	if (bad)
+		demo_bad();
 
 	printf("Done.\n");
 }
