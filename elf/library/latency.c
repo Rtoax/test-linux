@@ -8,7 +8,6 @@ extern const unsigned long _GLOBAL_OFFSET_TABLE_[];
 
 #define GOT(idx) fn0_t *got##idx(void) { return (fn0_t *)_GLOBAL_OFFSET_TABLE_[idx]; }
 
-/* GOT[3] is one of call, start from index 3 */
 GOT(3);
 GOT(4);
 GOT(5);
@@ -33,8 +32,8 @@ GOT(22);
 
 int main(void)
 {
-	uint64_t i;
-	uint64_t n = 1000000000UL;
+	uint64_t i, j;
+	fn0_t *fns[20];
 
 #if defined(DIRECT_USE_GOT)
 	/* Make sure dynamic linker/loader finish resolve GOT */
@@ -59,8 +58,11 @@ int main(void)
 	call019();
 	call020();
 
-	fn0_t *fns[20];
-
+	/**
+	 * Using GOT directly can ensure the spatial continuity of memory.
+	 * GOT[3] is one of callxx(), why start from index 3, you need to check
+	 * how GOT works.
+	 */
 	fns[0] = got3();
 	fns[1] = got4();
 	fns[2] = got5();
@@ -81,53 +83,37 @@ int main(void)
 	fns[17] = got20();
 	fns[18] = got21();
 	fns[19] = got22();
+#else
+	/**
+	 * call01 maybe is not got[3]
+	 */
+	fns[0] = call01;
+	fns[1] = call02;
+	fns[2] = call03;
+	fns[3] = call04;
+	fns[4] = call05;
+	fns[5] = call06;
+	fns[6] = call07;
+	fns[7] = call08;
+	fns[8] = call09;
+	fns[9] = call010;
+	fns[10] = call011;
+	fns[11] = call012;
+	fns[12] = call013;
+	fns[13] = call014;
+	fns[14] = call015;
+	fns[15] = call016;
+	fns[16] = call017;
+	fns[17] = call018;
+	fns[18] = call019;
+	fns[19] = call020;
 #endif
 
-	for (i = 0; i < n; i++) {
-#if defined(DIRECT_USE_GOT)
-		fns[0]();
-		fns[1]();
-		fns[2]();
-		fns[3]();
-		fns[4]();
-		fns[5]();
-		fns[6]();
-		fns[7]();
-		fns[8]();
-		fns[9]();
-		fns[10]();
-		fns[11]();
-		fns[12]();
-		fns[13]();
-		fns[14]();
-		fns[15]();
-		fns[16]();
-		fns[17]();
-		fns[18]();
-		fns[19]();
-#else
-		call01();
-		call02();
-		call03();
-		call04();
-		call05();
-		call06();
-		call07();
-		call08();
-		call09();
-		call010();
-		call011();
-		call012();
-		call013();
-		call014();
-		call015();
-		call016();
-		call017();
-		call018();
-		call019();
-		call020();
-#endif
-	}
+#define NLOOP	1000000000UL
+	for (i = 0; i < NLOOP; i++)
+		#pragma GCC unroll 20
+		for (j = 0; j < 20; j++)
+			fns[j]();
 
 	return 0;
 }
