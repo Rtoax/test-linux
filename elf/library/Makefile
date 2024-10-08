@@ -4,6 +4,7 @@ TARGETS := main
 TARGETS += main-a
 TARGETS += main-a-ctors
 TARGETS += latency
+TARGETS += latency-got
 TARGETS += latency-a
 
 TARGETS_SO := libfoo.so
@@ -26,6 +27,9 @@ LDFLAGS_main := libfoo.so
 CFLAGS_latency := -lcall0
 LDFLAGS_latency := libcall0.so
 
+CFLAGS_latency-got := -DDIRECT_USE_GOT=1 -lcall0
+LDFLAGS_latency-got := libcall0.so
+
 CFLAGS_main-a-ctors += -DCALL_FUNC_IN_OBJ=1
 
 .PHONY: build
@@ -37,6 +41,7 @@ main: main.o
 main-a: main-a.o libfoo.a
 main-a-ctors: main-a-ctors.o libfoo.a
 latency: latency.o
+latency-got: latency-got.o
 latency-a: latency-a.o libcall0.a
 
 libfoo.so: foo.obj ctors.obj
