@@ -5,6 +5,9 @@
 /GCC_error
 /GCC_dependency
 /GCC_system_header
+/GCC_unroll
+/GCC_ivdep
+/GCC_novector
 /_Pragma
 /pragma-message
 /push_macro
