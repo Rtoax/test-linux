@@ -7,14 +7,12 @@ CC := gcc
 
 CFLAGS :=
 LDFLAGS :=
-LDLIBS :=
 
 .PHONY: build
 build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 	@diff -up hello.s hello-pie.s || true
 
-# Add more object.o file
 hello: hello.o proc.o
 hello-pie: hello-pie.o proc.o
 
@@ -31,7 +29,7 @@ CFLAGS_proc := -fpie
 
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	@$(CC) -o $(@) $(^) $(LDLIBS) $(LDFLAGS) $(LDFLAGS_$(*)) $(CFLAGS) $(CFLAGS_$(*))
+	@$(CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*)) $(CFLAGS) $(CFLAGS_$(*))
 	size --format=sysv $(@)
 
 test: ${TARGETS}
