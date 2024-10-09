@@ -20,9 +20,7 @@ CC := gcc
 CFLAGS :=
 LDFLAGS :=
 
-ifdef DEBUG
-  CFLAGS += -DDEBUG=1 -O0 -g -ggdb
-endif
+CFLAGS += -DDEBUG=1 -O0 -g -ggdb
 
 CFLAGS_main := -lfoo
 LDFLAGS_main := libfoo.so
