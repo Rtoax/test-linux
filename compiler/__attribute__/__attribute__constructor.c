@@ -5,6 +5,8 @@
 /**
  * Note: attribute constructor and destructor is works in both dynamic and
  * static libraries.
+ *
+ * Execute procedure: _start() -> ctors -> main() -> dtors
  */
 
 #define debug() do { \
