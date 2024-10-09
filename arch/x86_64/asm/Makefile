@@ -74,6 +74,8 @@ else
   LDFLAGS += -no-pie
 endif
 
+LDFLAGS += -z noexecstack
+
 .PHONY: build
 build: ${TARGETS} ${TARGETS_S} ${TARGETS_ASM}
 	@echo
