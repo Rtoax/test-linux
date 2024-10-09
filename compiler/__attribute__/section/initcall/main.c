@@ -3,7 +3,7 @@
 #include "init.h"
 
 
-void do_initcalls(void)
+void __attribute__((constructor)) do_initcalls(void)
 {
 	init_call *call_ptr = &init_start;
 	while (call_ptr && call_ptr < &init_end) {
@@ -26,6 +26,5 @@ INIT(init_2);
 
 int main(void)
 {
-	do_initcalls();
 	return 0;
 }
