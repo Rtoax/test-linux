@@ -2,6 +2,7 @@
 USER_LIST :=
 USER_LIST += aio
 USER_LIST += algorithm
+USER_LIST += alternative
 USER_LIST += arch
 USER_LIST += audit
 USER_LIST += binutils
