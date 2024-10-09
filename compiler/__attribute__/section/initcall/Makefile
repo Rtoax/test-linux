@@ -12,6 +12,7 @@ LDFLAGS :=
 
 # FIXME: PIE not implement, because _start address in lds
 CFLAGS += -Wl,-T${LDS_INSERT}
+CFLAGS += -Wl,--no-warn-rwx-segments
 
 .PHONY: build
 build: ${TARGETS} ${LDS_INSERT}
