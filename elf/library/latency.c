@@ -68,8 +68,8 @@ int main(int argc, char *argv[])
 
 	/**
 	 * Using GOT directly can ensure the spatial continuity of memory.
-	 * GOT[3] is one of callxx(), why start from index 3, you need to check
-	 * how GOT works.
+	 * GOT[] is one of callxx(), x86_64 start from index 3, and aarch64
+	 * start from 7.
 	 */
 # if defined(__x86_64__)
 	fns[0] = got3();
