@@ -1,9 +1,9 @@
 SECTIONS
 {
-	.rongtao.init.func : {
+	.test-linux.init.func : {
 		/* . = ALIGN(4);*/
 		init_start = .;
-		*(.rongtao.init.func*)
+		*(.test-linux.init.func*)
 		init_end = .;
 	}
 }

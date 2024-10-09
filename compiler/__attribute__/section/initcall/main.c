@@ -3,34 +3,29 @@
 #include "init.h"
 
 
-extern init_call init_start;
-extern init_call init_end;
-
 void do_initcalls(void)
 {
 	init_call *call_ptr = &init_start;
 	while (call_ptr && call_ptr < &init_end) {
-		fprintf (stderr, "call_ptr: %p\n", call_ptr);
 		(*call_ptr)();
 		++call_ptr;
-	};
+	}
 }
 
-int init_main1()
+int init_1(void)
 {
-	log("rongtao1\n");
+	log("\n");
 }
+INIT(init_1);
 
-int init_main2()
+int init_2(void)
 {
-	log("rongtao2\n");
+	log("\n");
 }
-
-INIT(init_main1);
-INIT(init_main2);
+INIT(init_2);
 
 int main(void)
 {
-	printf("boot = %d\n", 0);
 	do_initcalls();
+	return 0;
 }
