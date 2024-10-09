@@ -1,0 +1,1 @@
+../got/plt_got_idx.sh

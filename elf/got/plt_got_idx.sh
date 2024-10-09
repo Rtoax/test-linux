@@ -4,7 +4,8 @@ set -e
 prog_name=plt_got_idx
 
 elf_file=
-
+# Output gcc -specs format
+flag_gcc_spec=
 
 __x86_push_val()
 {
@@ -118,6 +119,8 @@ __usage__()
 $prog_name [options]
 
 -i, --file         specify elf file
+-s, --spec         display gcc spec file format
+
 -h, --help         show this help information
 " | more
 
@@ -125,8 +128,9 @@ $prog_name [options]
 }
 
 TEMP=$(getopt \
-	--options i:h \
+	--options i:sh \
 	--long file: \
+	--long spec \
 	--long help \
 	-n ${prog_name} -- "$@")
 
@@ -141,6 +145,10 @@ while true; do
 		elf_file=$1
 		shift
 		;;
+	-s|--spec)
+		shift
+		flag_gcc_spec=YES
+		;;
 	-h|--help)
 		shift
 		__usage__
@@ -153,7 +161,15 @@ while true; do
 done
 
 if [[ ${elf_file} ]]; then
-	got_idx ${elf_file}
+	if [[ ${flag_gcc_spec} ]]; then
+		macros=( $(got_idx ${elf_file} | awk '{printf"-D%s=%s ", $1, $2}') )
+		cat <<-EOF
+		*cc1_options:
+		+ ${macros[@]}
+		EOF
+	else
+		got_idx ${elf_file}
+	fi
 else
 	echo "ERROR: Need input elf file with -i"
 	__usage__ 1
