@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <stdint.h>
+#include <stdlib.h>
+#include <string.h>
 
 #include "call.h"
 
@@ -33,6 +35,31 @@ fn0_t *gotidx(int idx)
 {
 	return (fn0_t *)_GLOBAL_OFFSET_TABLE_[idx];
 }
+
+/**
+ * This function is only needed on aarch64, because the GOT on x86_64 is
+ * sequential. In order to eliminate the GOT entries of the string class,
+ * this function is only implemented on aarch64.
+ */
+# if defined(__aarch64__)
+int get_call_got_idx(int argc, char *argv[], int idx[])
+{
+	int i;
+	for (i = 0; i < argc; i++) {
+		if (!strncmp("GOT_IDX_CALL0", argv[i], 13)) {
+			/**
+			 * GOT_IDX_CALL06=27
+			 *              ^^^^
+			 */
+			char *s = argv[i] + 13;
+			int a = atoi(s);
+			char *s2 = strstr(s, "=") + 1;
+			idx[a - 1] = atoi(s2);
+			fprintf(stderr, "idx[%d] = %d\n", a - 1, idx[a - 1]);
+		}
+	}
+}
+# endif
 #endif
 
 int main(int argc, char *argv[])
@@ -63,9 +90,6 @@ int main(int argc, char *argv[])
 	call019();
 	call020();
 
-	int idx[20];
-	get_call_got_idx(argc, argv, idx);
-
 	/**
 	 * Using GOT directly can ensure the spatial continuity of memory.
 	 * GOT[] is one of callxx(), x86_64 start from index 3, and aarch64
@@ -93,6 +117,9 @@ int main(int argc, char *argv[])
 	fns[18] = got21();
 	fns[19] = got22();
 # elif defined(__aarch64__)
+	int idx[20];
+	get_call_got_idx(argc, argv, idx);
+
 	for (i = 0; i < 20; i++)
 		fns[i] = gotidx(idx[i]);
 # endif
