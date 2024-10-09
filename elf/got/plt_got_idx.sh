@@ -6,6 +6,7 @@ prog_name=plt_got_idx
 elf_file=
 # Output gcc -specs format
 flag_gcc_spec=
+flag_arg=
 
 __x86_push_val()
 {
@@ -120,6 +121,7 @@ $prog_name [options]
 
 -i, --file         specify elf file
 -s, --spec         display gcc spec file format
+-a, --arg          display arg format like A=1
 
 -h, --help         show this help information
 " | more
@@ -128,9 +130,10 @@ $prog_name [options]
 }
 
 TEMP=$(getopt \
-	--options i:sh \
+	--options i:sah \
 	--long file: \
 	--long spec \
+	--long arg \
 	--long help \
 	-n ${prog_name} -- "$@")
 
@@ -149,6 +152,10 @@ while true; do
 		shift
 		flag_gcc_spec=YES
 		;;
+	-a|--arg)
+		shift
+		flag_arg=YES
+		;;
 	-h|--help)
 		shift
 		__usage__
@@ -166,6 +173,11 @@ if [[ ${elf_file} ]]; then
 		cat <<-EOF
 		*cc1_options:
 		+ ${macros[@]}
+		EOF
+	elif [[ ${flag_arg} ]]; then
+		macros=( $(got_idx ${elf_file} | awk '{printf"%s=%s ", $1, $2}') )
+		cat <<-EOF
+		${macros[@]}
 		EOF
 	else
 		got_idx ${elf_file}

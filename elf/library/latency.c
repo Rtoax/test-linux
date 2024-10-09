@@ -28,9 +28,14 @@ GOT(19);
 GOT(20);
 GOT(21);
 GOT(22);
+
+fn0_t *gotidx(int idx)
+{
+	return (fn0_t *)_GLOBAL_OFFSET_TABLE_[idx];
+}
 #endif
 
-int main(void)
+int main(int argc, char *argv[])
 {
 	uint64_t i, j;
 	fn0_t *fns[20];
@@ -58,11 +63,15 @@ int main(void)
 	call019();
 	call020();
 
+	int idx[20];
+	get_call_got_idx(argc, argv, idx);
+
 	/**
 	 * Using GOT directly can ensure the spatial continuity of memory.
 	 * GOT[3] is one of callxx(), why start from index 3, you need to check
 	 * how GOT works.
 	 */
+# if defined(__x86_64__)
 	fns[0] = got3();
 	fns[1] = got4();
 	fns[2] = got5();
@@ -83,6 +92,10 @@ int main(void)
 	fns[17] = got20();
 	fns[18] = got21();
 	fns[19] = got22();
+# elif defined(__aarch64__)
+	for (i = 0; i < 20; i++)
+		fns[i] = gotidx(idx[i]);
+# endif
 #else
 	/**
 	 * call01 maybe is not got[3]

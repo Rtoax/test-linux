@@ -22,6 +22,7 @@ TARGETS += strtok
 TARGETS += strtol
 TARGETS += strsignal
 TARGETS += strerror strerror_r
+TARGETS += strstr
 
 CC = gcc
 
@@ -68,14 +69,15 @@ strtol: strtol.o
 strsignal: strsignal.o
 strerror: strerror.o
 strerror_r: strerror_r.o
+strstr: strstr.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
+	@$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
 
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	@$(CC) $(CFLAGS) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
+	@$(CC) -o $(@) $(^) $(CFLAGS) $(CFLAGS_$(*))
 
 test: ${TARGETS}
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"

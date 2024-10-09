@@ -25,4 +25,4 @@ if [[ "${exe:0:2}" != "./" ]]; then
 	exe=./${exe}
 fi
 
-sudo LD_LIBRARY_PATH=$(pwd) perf stat -e ${stat_args} -- ${exe} $@
+sudo LD_LIBRARY_PATH=$(pwd) perf stat -e ${stat_args} -- ${exe} $@ $(./plt_got_idx.sh -i ${exe} --arg)

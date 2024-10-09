@@ -23,3 +23,5 @@ fn0_t call017;
 fn0_t call018;
 fn0_t call019;
 fn0_t call020;
+
+int get_call_got_idx(int argc, char *argv[], int idx[]);
