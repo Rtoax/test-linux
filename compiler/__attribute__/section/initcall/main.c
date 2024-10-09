@@ -16,9 +16,6 @@ void do_initcalls(void)
 	};
 }
 
-int _initdata boot = 0;
-
-
 int init_main1()
 {
 	log("rongtao1\n");

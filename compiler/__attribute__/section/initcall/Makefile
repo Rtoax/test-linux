@@ -1,5 +1,7 @@
 SHELL = bash
 
+LDS_INSERT := ld-insert.lds
+
 TARGETS := main
 TARGETS += main-pie
 
@@ -8,11 +10,11 @@ CC := gcc
 CFLAGS :=
 LDFLAGS :=
 
-# FIXME: PIE not implement, because _start address in ld.lds
-CFLAGS += -Wl,-Tld.lds
+# FIXME: PIE not implement, because _start address in lds
+CFLAGS += -Wl,-T${LDS_INSERT}
 
 .PHONY: build
-build: ${TARGETS} ld.lds
+build: ${TARGETS} ${LDS_INSERT}
 	@echo -e " \033[1;33m Done \033[m"
 
 main: main.o
