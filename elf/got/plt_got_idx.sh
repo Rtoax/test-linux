@@ -1,6 +1,11 @@
 #!/bin/bash
 set -e
 
+prog_name=plt_got_idx
+
+elf_file=
+
+
 __x86_push_val()
 {
 	local exe=$1
@@ -107,8 +112,49 @@ got_idx()
 		| awk '{printf "GOT_IDX_%s %s\n", $1, $2}'
 }
 
-if [[ $# -ge 1 ]]; then
-	got_idx $1
+__usage__()
+{
+	echo -e "
+$prog_name [options]
+
+-i, --file         specify elf file
+-h, --help         show this help information
+" | more
+
+	exit ${1-0}
+}
+
+TEMP=$(getopt \
+	--options i:h \
+	--long file: \
+	--long help \
+	-n ${prog_name} -- "$@")
+
+test $? != 0 && __usage__ 1
+
+eval set -- "$TEMP"
+
+while true; do
+	case $1 in
+	-i|--file)
+		shift
+		elf_file=$1
+		shift
+		;;
+	-h|--help)
+		shift
+		__usage__
+		;;
+	--)
+		shift
+		break
+		;;
+	esac
+done
+
+if [[ ${elf_file} ]]; then
+	got_idx ${elf_file}
 else
-	got_idx _GLOBAL_OFFSET_TABLE_
+	echo "ERROR: Need input elf file with -i"
+	__usage__ 1
 fi
