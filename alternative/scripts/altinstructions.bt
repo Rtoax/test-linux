@@ -1,0 +1,39 @@
+#!/bin/env bpftrace
+/**
+ * altinstructions.bt - Display all altinstructions
+ *
+ * Copyright (C) Rong Tao 2024
+ *
+ * 2024-10-09	Rong Tao	Create this.
+ */
+#ifndef BPFTRACE_HAVE_BTF
+#include <linux/init.h>
+#include <linux/module.h>
+#include <linux/kernel.h>
+#endif
+
+BEGIN
+{
+	$begin = (struct alt_instr *)kaddr("__alt_instructions");
+	$end = (struct alt_instr *)kaddr("__alt_instructions_end");
+
+	$i = 0;
+
+	//printf("Total alt_instr %lx\n", ($end - $begin) / sizeof(struct alt_instr));
+
+	printf("%-16s %-16s %-16s %-16s %-16s\n", "INSTR_OFF", "REPL_OFF",
+		"CPUID", "INSTR_LEN", "REPL_LEN");
+
+	unroll(20) {
+		$alt = $begin + $i;
+
+		printf("%-16x %-16x %-16x %-16x %-16x\n",
+			$alt->instr_offset, $alt->repl_offset, $alt->cpuid,
+			$alt->instrlen, $alt->replacementlen);
+
+		$i++;
+	}
+
+	exit();
+}
+
