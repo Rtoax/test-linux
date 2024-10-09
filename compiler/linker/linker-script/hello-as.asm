@@ -5,7 +5,7 @@ section .text
 	global _start
 
 _start:
-	; write(1, msg, 13)
+	; write(1, msg, 14)
 	mov    rax, 1
 	mov    rdi, 1
 	mov    rsi, msg
