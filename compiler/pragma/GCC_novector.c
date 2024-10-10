@@ -7,6 +7,8 @@ void foo(int n, int *a, int *b, int *c)
  */
 #if defined(__GNUC__) && (__GNUC__ >= 14)
 	#pragma GCC novector
+#else
+# pragma message ("GCC version not support novector pragma yet")
 #endif
 	for (i = 0; i < n; ++i)
 		a[i] = b[i] + c[i];
