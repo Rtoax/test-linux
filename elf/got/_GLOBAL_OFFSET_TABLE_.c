@@ -18,6 +18,7 @@ void dump_link_map(struct link_map *l)
  *
  * - define in libc.so.6;
  * - GOT[plt] in .got.plt section;
+ * - var _GLOBAL_OFFSET_TABLE_ start from .got.plt section;
  */
 extern const Addr _GLOBAL_OFFSET_TABLE_[];
 

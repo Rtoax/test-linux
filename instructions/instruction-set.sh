@@ -2,6 +2,7 @@
 set -e
 
 version() {
+	# Or no need to -march parameter
 	gcc -march=native -Q --help=target | grep -e '^  -march=' | awk '{print $2}'
 }
 
