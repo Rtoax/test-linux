@@ -2,8 +2,10 @@
 
 int main(void)
 {
-#if #machine(__linux__)
+#if !defined(__clang__)
+# if #machine(__linux__)
 	printf("Linux");
+# endif
 #endif
 	return 0;
 }
