@@ -19,6 +19,7 @@ TARGETS += _Pragma
 CC = gcc
 
 CFLAGS := -Werror -Wall -D_GNU_SOURCE
+CFLAGS += -Werror=unknown-pragmas
 CFLAGS += -I../../
 CFLAGS += -pthread
 CFLAGS += -DDEBUG -O0 -g
