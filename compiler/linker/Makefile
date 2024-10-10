@@ -1,6 +1,6 @@
 SHELL = bash
 
-sub-dir := hello
+sub-dir := linker-script
 
 TARGETS := pushsection
 TARGETS += attribute
