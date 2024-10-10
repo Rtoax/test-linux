@@ -68,7 +68,6 @@ int main(int argc, char *argv[])
 	uint64_t i, j;
 	fn0_t *fns[20];
 
-#if defined(DIRECT_USE_GOT)
 	/* Make sure dynamic linker/loader finish resolve GOT */
 	call01();
 	call02();
@@ -90,6 +89,8 @@ int main(int argc, char *argv[])
 	call018();
 	call019();
 	call020();
+
+#if defined(DIRECT_USE_GOT)
 
 	/**
 	 * Using GOT directly can ensure the spatial continuity of memory.
