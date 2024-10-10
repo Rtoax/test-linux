@@ -53,6 +53,7 @@ You can use the following macro
 * Each `scripts` directory contain scriptions(bpftrace, bcc, shell).
 * Each `modules` directory contain Linux Modules(KO) source code.
 * Each `selftests` directory from linux source code.
+	- Normally there is no need to sync from Linux upstream.
 * Each `samples` directory contain source userspace code.
 * Each `commands` directory contain relative command lines.
 

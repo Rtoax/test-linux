@@ -75,3 +75,4 @@ void *vdso = (uintptr_t) getauxval(AT_SYSINFO_EHDR);
 * [LWN: On vsyscalls and the vDSO](https://lwn.net/Articles/446528/)
 * [LWN: Implementing virtual system calls](https://lwn.net/Articles/615809/)
 * [LWN: vDSO, 32-bit time, and seccomp](https://lwn.net/Articles/795128/)
+* selftests in linux:tools/testing/selftests/vDSO
