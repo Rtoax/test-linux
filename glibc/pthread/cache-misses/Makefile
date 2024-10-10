@@ -4,17 +4,23 @@ CC = gcc
 CFLAGS := -Werror -Wall -pthread
 LDFLAGS := -pthread
 
-L3_CACHELINE_SIZE=$(shell cat /sys/devices/system/cpu/cpu1/cache/index3/coherency_line_size 2>/dev/null)
-ifeq ($(L3_CACHELINE_SIZE),)
-L3_CACHELINE_SIZE=64
+PROC_L3_CACHELINE_SIZE=$(shell cat /sys/devices/system/cpu/cpu1/cache/index3/coherency_line_size 2>/dev/null)
+CONF_L3_CACHELINE_SIZE=$(shell getconf LEVEL3_CACHE_LINESIZE)
+
+ifneq ($(PROC_L3_CACHELINE_SIZE),$(CONF_L3_CACHELINE_SIZE))
+  $(error Bad L3 cache linesize)
 endif
+
+L3_CACHELINE_SIZE=${CONF_L3_CACHELINE_SIZE}
+
+$(info L3_CACHELINE_SIZE=$(L3_CACHELINE_SIZE))
 
 CFLAGS += -DL3_CACHELINE_SIZE=$(L3_CACHELINE_SIZE)
 
 TARGETS := struct
 
 build: ${TARGETS}
-	@echo "  INFO  struct, L3_CACHELINE_SIZE=$(L3_CACHELINE_SIZE)"
+	@echo -e "  \033[1;32mDone\033[m"
 
 struct: struct.o
 
@@ -27,4 +33,5 @@ $(TARGETS): %:
 	@$(CC) -o $(@) $(^) $(LDLIBS) $(LDFLAGS) $(LDFLAGS_$(*)) $(CFLAGS) $(CFLAGS_$(*))
 
 clean:
+	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
 	@rm -f *.o *.d ${TARGETS}
