@@ -434,6 +434,7 @@ debian|ubuntu)
 	pkgs_base+=( bpfcc-tools )
 	pkgs_base+=( build-essential )
 	pkgs_base+=( clang-format )
+	pkgs_base+=( dwarfdump )
 	pkgs_base+=( libaio-dev )           # aio
 	pkgs_base+=( libbpf-dev )           # libbpf
 	pkgs_base+=( libbpfcc )
