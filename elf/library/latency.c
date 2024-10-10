@@ -5,7 +5,6 @@
 
 #include "call.h"
 
-#if defined(DIRECT_USE_GOT)
 extern const unsigned long _GLOBAL_OFFSET_TABLE_[];
 
 #define GOT(idx) fn0_t *got##idx(void) { return (fn0_t *)_GLOBAL_OFFSET_TABLE_[idx]; }
@@ -35,6 +34,8 @@ fn0_t *gotidx(int idx)
 {
 	return (fn0_t *)_GLOBAL_OFFSET_TABLE_[idx];
 }
+
+#if defined(DIRECT_USE_GOT)
 
 /**
  * This function is only needed on aarch64, because the GOT on x86_64 is
