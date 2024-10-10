@@ -22,7 +22,6 @@ CFLAGS_mbranch-protection += -march=armv8.3-a
 endif
 
 build: ${TARGETS}
-	@echo
 	@echo -e " \033[1;33m Done \033[m"
 
 mbranch-protection: mbranch-protection.o
@@ -43,3 +42,6 @@ test: ${TARGETS}
 clean:
 	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
 	@rm -f ${TARGETS} *.o *.d *.s
+
+info:
+	@${SHELL} info.sh

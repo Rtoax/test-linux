@@ -35,6 +35,11 @@ else
   LDFLAGS_PIE += -no-pie
 endif
 
+ifdef VERBOSE
+  CFLAGS += -Q
+  LDFLAGS += -Q
+endif
+
 CFLAGS_main := -lfoo
 LDFLAGS_main := libfoo.so
 
