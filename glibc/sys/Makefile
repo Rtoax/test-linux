@@ -1,6 +1,7 @@
 SHELL = bash
 
-sub-dir := time
+sub-dir := auxv
+sub-dir += time
 sub-dir += timeb
 
 sub-dir-build := $(sub-dir:=.build)

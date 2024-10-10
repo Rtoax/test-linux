@@ -1,7 +1,6 @@
 SHELL = bash
 
 sub-dir := arpa
-sub-dir += auxv
 sub-dir += alloca
 sub-dir += byteswap
 sub-dir += crypt

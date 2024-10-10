@@ -100,5 +100,9 @@ int main(void)
 	sprintf(buffer, "cat /proc/%d/maps", pid);
 	system(buffer);
 
+	/* Return VMA [vdso] vm_start */
+	void *vdso = (void *)getauxval(AT_SYSINFO_EHDR);
+	printf("vdso = %p\n", vdso);
+
 	return 0;
 }
