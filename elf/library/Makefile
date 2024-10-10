@@ -22,6 +22,19 @@ LDFLAGS :=
 
 CFLAGS += -DDEBUG=1 -O0 -g -ggdb
 
+CFLAGS_PIE :=
+LDFLAGS_PIE :=
+
+# Debian 12 default compile PIE EXEC, Fedora40 default compile no-PIE EXEC.
+# Default no-PIE in my case.
+ifdef PIE
+  CFLAGS_PIE += -fpie
+  LDFLAGS_PIE += -pie
+else
+  CFLAGS_PIE += -no-pie
+  LDFLAGS_PIE += -no-pie
+endif
+
 CFLAGS_main := -lfoo
 LDFLAGS_main := libfoo.so
 
@@ -60,7 +73,7 @@ libcall0.a: call0.obj
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	@LD_LIBRARY_PATH=$(shell pwd) $(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
+	@LD_LIBRARY_PATH=$(shell pwd) $(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_PIE) $(CFLAGS_$(*))
 
 %.obj: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
@@ -68,7 +81,7 @@ libcall0.a: call0.obj
 
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	@LD_LIBRARY_PATH=$(shell pwd) $(CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*))
+	@LD_LIBRARY_PATH=$(shell pwd) $(CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_PIE) $(LDFLAGS_$(*))
 
 $(TARGETS_SO): %:
 	@echo -e "  SO  \033[1;32m$(@)\033[m"
