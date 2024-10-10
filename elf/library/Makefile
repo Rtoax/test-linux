@@ -63,9 +63,9 @@ build: ${TARGETS_SO} ${TARGETS_A} ${TARGETS}
 main: main.o
 main-a: main-a.o libfoo.a
 main-a-ctors: main-a-ctors.o libfoo.a
-latency: latency.o
-latency-got: latency-got.o
-latency-got-llc: latency-got-llc.o
+latency: latency.o libcall0.so
+latency-got: latency-got.o libcall0.so
+latency-got-llc: latency-got-llc.o libcall0.so
 latency-a: latency-a.o libcall0.a
 latency-a-llc: latency-a-llc.o libcall0.a
 
