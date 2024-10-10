@@ -1,1 +1,1 @@
-../../glibc/auxv/getauxval.c
+../../glibc/sys/auxv/getauxval.c
