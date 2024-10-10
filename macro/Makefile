@@ -58,10 +58,8 @@ CFLAGS := -Werror -Wall
 CFLAGS += -O0
 CFLAGS += -DDEBUG -g
 
-build: ${TARGETS} ${TARGETS_CXX}
-	@echo
+build: $(CC)-macros.h ${TARGETS} ${TARGETS_CXX}
 	@echo -e " \033[1;33m Done \033[m"
-	@$(CC) -E -dM - </dev/null > $(CC)-macros.log
 
 arch: arch.o
 align: align.o
@@ -97,6 +95,10 @@ CFLAGS___WORDSIZE-32 := -m32
 CFLAGS_machine := -Wno-error=deprecated -Wno-deprecated
 CFLAGS___user := -Wno-error=attributes
 
+%-macros.h:
+	@echo -e "  CC MARCOS  \033[1m$(CC)-macros.h\033[m"
+	@$(CC) -march=native -E -dM - </dev/null | tee $(@)
+
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
@@ -115,4 +117,4 @@ $(TARGETS_CXX): %:
 
 clean:
 	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
-	@rm -f ${TARGETS} ${TARGETS_CXX} *.o *.opp $(CC)-macros.log
+	@rm -f ${TARGETS} ${TARGETS_CXX} *.o *.opp $(CC)-macros.h
