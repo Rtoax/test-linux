@@ -58,6 +58,30 @@ define probe_bfd_has_bfd_section_lma
       && echo 1)
 endef
 
+BFD_HAS_BFD_SET_SECTION_VMA := ${BFD_HDR}
+BFD_HAS_BFD_SET_SECTION_VMA += 'int main(void) {\n'
+BFD_HAS_BFD_SET_SECTION_VMA += '	bfd_set_section_vma(NULL, 0);\n'
+BFD_HAS_BFD_SET_SECTION_VMA += '	return 0;\n'
+BFD_HAS_BFD_SET_SECTION_VMA += '}'
+
+define probe_bfd_has_bfd_set_section_vma
+  $(shell printf '%b\n' $(BFD_HAS_BFD_SET_SECTION_VMA) | \
+    $(CC) -x c -Wall -Werror -lbfd - $(1) -S -o - >/dev/null 2>&1 \
+      && echo 1)
+endef
+
+BFD_HAS_BFD_SET_SECTION_VMA2 := ${BFD_HDR}
+BFD_HAS_BFD_SET_SECTION_VMA2 += 'int main(void) {\n'
+BFD_HAS_BFD_SET_SECTION_VMA2 += '	bfd_set_section_vma(NULL, NULL, 0);\n'
+BFD_HAS_BFD_SET_SECTION_VMA2 += '	return 0;\n'
+BFD_HAS_BFD_SET_SECTION_VMA2 += '}'
+
+define probe_bfd_has_bfd_set_section_vma2
+  $(shell printf '%b\n' $(BFD_HAS_BFD_SET_SECTION_VMA2) | \
+    $(CC) -x c -Wall -Werror -lbfd - $(1) -S -o - >/dev/null 2>&1 \
+      && echo 1)
+endef
+
 BFD_HAS_BFD_ASYMBOL_SECTION := ${BFD_HDR}
 BFD_HAS_BFD_ASYMBOL_SECTION += 'int main(void) {\n'
 BFD_HAS_BFD_ASYMBOL_SECTION += '	bfd_asymbol_section(NULL);\n'

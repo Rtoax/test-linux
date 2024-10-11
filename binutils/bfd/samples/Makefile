@@ -58,6 +58,14 @@ has-bfd_section_vma-2 := $(findstring 1,$(call probe_bfd_has_bfd_section_vma2))
 ifeq ($(has-bfd_section_vma-2),1)
   CFLAGS += -DBFD_HAS_BFD_SECTION_VMA2=1
 endif
+has-bfd_set_section_vma := $(findstring 1,$(call probe_bfd_has_bfd_set_section_vma))
+ifeq ($(has-bfd_set_section_vma),1)
+  CFLAGS += -DBFD_HAS_BFD_SET_SECTION_VMA=1
+endif
+has-bfd_set_section_vma2 := $(findstring 1,$(call probe_bfd_has_bfd_set_section_vma2))
+ifeq ($(has-bfd_set_section_vma2),1)
+  CFLAGS += -DBFD_HAS_BFD_SET_SECTION_VMA2=1
+endif
 has-bfd_section_lma := $(findstring 1,$(call probe_bfd_has_bfd_section_lma))
 ifeq ($(has-bfd_section_lma),1)
   CFLAGS += -DBFD_HAS_BFD_SECTION_LMA=1

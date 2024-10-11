@@ -241,7 +241,11 @@ int main(int argc, char *argv[])
 			/**
 			 * FIXME: set vma, but symbol value not changed
 			 */
+#if defined(BFD_HAS_BFD_SET_SECTION_VMA)
 			bfd_set_section_vma(asect, base_vma);
+#elif defined(BFD_HAS_BFD_SET_SECTION_VMA2)
+			bfd_set_section_vma(abfd, asect, base_vma);
+#endif
 	}
 
 	if (!(bfd_get_file_flags(abfd) & HAS_SYMS)) {
