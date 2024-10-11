@@ -5,7 +5,7 @@
 - ATF: ARM Trusted Firmware (ARM信任固件)
 - CC: Confidential Compute (机密计算)
 - DAC: Discretionary Access Control (自主访问控制) @ACL
-- GPG: GNU Privacy Guard (GNU PG)
+- GPG: GNU Privacy Guard (GNU PG, GnuPG) @PGP
 - KMS: Key Management Services
 - LSM: Linux Security Modules (统一访问安全框架)
 - MAC: Mandatory Access Control (强制访问控制) @SELinux
@@ -13,7 +13,7 @@
 - OP-TEE:
 - PAM: Pluggable Authentication Modules (可插入验证模块)
 - PC: Privacy Computing (隐私计算) @AI
-- PGP: Pretty Good Privacy ()
+- PGP: Pretty Good Privacy () @GPG
 - PL: Privilege Level (特权等级)
 - PSCI: Power State Coordination Interface (电源状态协调接口) @ATF
 - RBAC: Role Based Access Control (基于角色的访问控制)

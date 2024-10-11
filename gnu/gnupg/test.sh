@@ -3,7 +3,7 @@ set -e
 
 FILE=os-release.txt
 
-cp /etc/os-release os-release.txt
+cp /etc/os-release ${FILE}
 
 # Sign
 gpg --sign ${FILE}
@@ -19,4 +19,6 @@ gpg --output ${FILE}.sig --clearsign ${FILE}
 gpg --armor --detach-sig ${FILE}
 gpg --verify ${FILE}.asc ${FILE}
 
-
+gpg --list-keys
+#uid           [ revoked] Joshua Strot <joshua@manjaro.org>
+gpg --delete-keys        'Joshua Strot'
