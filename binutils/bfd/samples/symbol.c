@@ -142,6 +142,8 @@ void handle_sym(const char *prefix, asymbol *sym, bool firstline)
 #endif
 #if defined(BFD_HAS_BFD_SECTION_LMA)
 		bfd_section_lma(asect),
+#elif defined(BFD_HAS_BFD_SECTION_LMA2)
+		bfd_section_lma(abfd, asect),
 #else
 		asect->lma,
 #endif
