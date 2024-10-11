@@ -13,6 +13,15 @@ void dump_link_map(struct link_map *l)
 		dump_link_map(l->l_next);
 }
 
+static Elf64_Dyn *dynamic = NULL;
+
+void dump_dynamic64(Elf64_Dyn *dynamic)
+{
+	if (!dynamic)
+		return;
+	/* TODO */
+}
+
 /**
  * _GLOBAL_OFFSET_TABLE_
  *
@@ -24,6 +33,9 @@ extern const Addr _GLOBAL_OFFSET_TABLE_[];
 
 Addr elf_machine_dynamic(void)
 {
+	/**
+	 * .dynamic section, check with: 'readelf -dW'
+	 */
 	return _GLOBAL_OFFSET_TABLE_[0];
 }
 
@@ -61,6 +73,8 @@ int main(void)
 	lm = (void *)addr_link_map();
 	dump_link_map(lm);
 	printf("elf_machine_dynamic = 0x%lx\n", elf_machine_dynamic());
+	dynamic = (void *)elf_machine_dynamic();
+	dump_dynamic64(dynamic);
 	printf("addr_dl_runtime_resolve = 0x%lx\n", addr_dl_runtime_resolve());
 #endif
 	/**
