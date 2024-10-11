@@ -68,9 +68,11 @@ void dump_dynamic(Elf_Dyn *dynamic)
 # endif
 		CASE(PREINIT_ARRAYSZ);
 		CASE(SYMTAB_SHNDX);
+# if defined(__x86_64__) || defined(__i386__)
 		CASE(RELRSZ);
 		CASE(RELR);
 		CASE(RELRENT);
+# endif
 		CASE(NUM);
 		CASE(LOOS);
 		CASE(HIOS);
