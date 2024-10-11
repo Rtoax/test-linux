@@ -60,7 +60,7 @@ endef
 
 BFD_HAS_BFD_GET_SYMBOL_VERSION_STRING := ${BFD_HDR}
 BFD_HAS_BFD_GET_SYMBOL_VERSION_STRING += 'int main(void) {\n'
-BFD_HAS_BFD_GET_SYMBOL_VERSION_STRING += '	bfd_get_symbol_version_string(NULL, NULL, 1, NULL);\n'
+BFD_HAS_BFD_GET_SYMBOL_VERSION_STRING += '	bfd_get_symbol_version_string((bfd *)NULL, NULL, 1, NULL);\n'
 BFD_HAS_BFD_GET_SYMBOL_VERSION_STRING += '	return 0;\n'
 BFD_HAS_BFD_GET_SYMBOL_VERSION_STRING += '}'
 

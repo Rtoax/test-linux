@@ -84,6 +84,9 @@ define bfd_strip
   @strip $(1) -o $(1).strip
 endef
 
+$(info CFLAGS=${CFLAGS})
+$(info LDFLAGS=${LDFLAGS})
+
 build: ${TARGETS}
 	@echo -e "  CFLAGS=${CFLAGS}"
 	@echo -e "  LDFLAGS=${LDFLAGS}"

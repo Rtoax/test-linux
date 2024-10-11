@@ -2,6 +2,8 @@
 
 #include <bfd.h>
 
+#define __unused __attribute((unused))
+
 void tl_bfd_init(void);
 void tl_bfd_print_build_id(const struct bfd_build_id *bid);
 const char *tl_bfd_strbid(const struct bfd_build_id *bid, char *buf, int blen);
