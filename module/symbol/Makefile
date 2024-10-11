@@ -1,6 +1,6 @@
 SHELL = bash
 
-obj-m += data_breakpoint.o
+obj-m += symbol_getput.o
 
 all:
 	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
