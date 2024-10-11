@@ -14,13 +14,19 @@ void dump_link_map(struct link_map *l)
 		dump_link_map(l->l_next);
 }
 
-static GElf_Dyn *dynamic = NULL;
+#if defined(M32)
+# define Elf_Dyn	Elf32_Dyn
+#else
+# define Elf_Dyn	Elf64_Dyn
+#endif
 
-void dump_dynamic(GElf_Dyn *dynamic)
+static Elf_Dyn *dynamic = NULL;
+
+void dump_dynamic(Elf_Dyn *dynamic)
 {
 	if (!dynamic)
 		return;
-	GElf_Dyn *dyn = dynamic;
+	Elf_Dyn *dyn = dynamic;
 
 	while (dyn) {
 		switch (dyn->d_tag) {
@@ -126,6 +132,9 @@ Addr addr_dl_runtime_resolve(void)
 int main(void)
 {
 	printf("size of Addr = %ld\n", sizeof(Addr));
+	printf("size of Elf64_Dyn = %ld\n", sizeof(Elf64_Dyn));
+	printf("size of Elf32_Dyn = %ld\n", sizeof(Elf32_Dyn));
+	printf("size of Elf_Dyn = %ld\n", sizeof(Elf_Dyn));
 
 	printf("_GLOBAL_OFFSET_TABLE_ addr = 0x%lx\n", _GLOBAL_OFFSET_TABLE_);
 /**
@@ -140,6 +149,7 @@ int main(void)
 	dump_dynamic(dynamic);
 	printf("addr_dl_runtime_resolve = 0x%lx\n", addr_dl_runtime_resolve());
 #endif
+
 	/**
 	 * More @plt
 	 */
