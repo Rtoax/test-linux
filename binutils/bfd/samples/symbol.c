@@ -70,6 +70,7 @@ void handle_sym(const char *prefix, asymbol *sym, bool firstline)
 #else
 	{
 		version_string = "";
+		(void)hidden;
 		fprintf(stderr, "WARNING: Not define bfd_get_symbol_version_string().\n");
 	}
 #endif
