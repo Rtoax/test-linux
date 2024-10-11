@@ -46,6 +46,18 @@ define probe_bfd_has_bfd_section_vma2
       && echo 1)
 endef
 
+BFD_HAS_BFD_SECTION_LMA := ${BFD_HDR}
+BFD_HAS_BFD_SECTION_LMA += 'int main(void) {\n'
+BFD_HAS_BFD_SECTION_LMA += '	bfd_section_lma(NULL);\n'
+BFD_HAS_BFD_SECTION_LMA += '	return 0;\n'
+BFD_HAS_BFD_SECTION_LMA += '}'
+
+define probe_bfd_has_bfd_section_lma
+  $(shell printf '%b\n' $(BFD_HAS_BFD_SECTION_LMA) | \
+    $(CC) -x c -Wall -Werror -lbfd - $(1) -S -o - >/dev/null 2>&1 \
+      && echo 1)
+endef
+
 BFD_HAS_BFD_ASYMBOL_SECTION := ${BFD_HDR}
 BFD_HAS_BFD_ASYMBOL_SECTION += 'int main(void) {\n'
 BFD_HAS_BFD_ASYMBOL_SECTION += '	bfd_asymbol_section(NULL);\n'
