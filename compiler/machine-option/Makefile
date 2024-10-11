@@ -1,7 +1,12 @@
 SHELL = bash
 
 TARGETS :=
+TARGETS += march-native
 TARGETS += mbranch-protection
+
+ifeq ($(shell uname -m),aarch64)
+  TARGETS += march-armv8.3-a
+endif
 
 CC = gcc
 
@@ -18,16 +23,15 @@ else
   $(warning "$(CC) not support -mbranch-protection=pac-ret")
 endif
 
-ifeq ($(shell uname -m),aarch64)
-  CFLAGS_mbranch-protection += -march=armv8.3-a
-endif
-ifeq ($(shell uname -m),x86_64)
-  CFLAGS_mbranch-protection += -march=native
-endif
+
+CFLAGS_march-native := -march=native
+CFLAGS_march-armv8.3-a := -march=armv8.3-a
 
 build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
+march-native: march-native.o
+march-armv8.3-a: march-armv8.3-a.o
 mbranch-protection: mbranch-protection.o
 
 %.o: %.c

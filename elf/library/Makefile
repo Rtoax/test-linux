@@ -21,6 +21,7 @@ CFLAGS :=
 LDFLAGS :=
 
 CFLAGS += -DDEBUG=1 -O0 -g -ggdb
+CFLAGS += -march=native
 
 CFLAGS_PIE :=
 LDFLAGS_PIE :=
