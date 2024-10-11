@@ -6,7 +6,7 @@ int main(void)
 {
 	bfd *templ, *abfd;
 
-	tl_bfd_init();
+	bfd_init();
 
 	templ = bfd_openr("/bin/bash", NULL);
 

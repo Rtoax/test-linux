@@ -18,7 +18,7 @@ int main(int argc, char *argv[])
 
 	filepath = argv[0];
 
-	tl_bfd_init();
+	bfd_init();
 
 	abfd = bfd_openr(filepath, NULL);
 	if (!abfd) {

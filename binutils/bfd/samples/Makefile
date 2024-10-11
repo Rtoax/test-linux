@@ -95,7 +95,7 @@ breakpoint_tst: breakpoint_tst.o
 breakpoint_bfd: breakpoint_bfd.o
 reloc: reloc.o
 reloc-name: reloc-name.o
-bfd_print_symbol_vandf: bfd_print_symbol_vandf.o proc.o
+bfd_print_symbol_vandf: bfd_print_symbol_vandf.o proc.o helpers.o
 
 CFLAGS_bfd_print_symbol_vandf := -DTEST_bfd_print_symbol_vandf=1
 CFLAGS_symbol-value := -DTEST_SYMBOL_VALUE=1

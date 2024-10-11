@@ -67,7 +67,7 @@ int main(int argc, char *argv[])
 		}
 	}
 
-	tl_bfd_init();
+	bfd_init();
 
 	abfd = bfd_openr(filepath, NULL);
 	if (!abfd) {
