@@ -68,8 +68,10 @@ void handle_sym(const char *prefix, asymbol *sym, bool firstline)
 						sym, true,
 						(bfd_boolean *)&hidden);
 #else
+	{
 		version_string = "";
 		fprintf(stderr, "WARNING: Not define bfd_get_symbol_version_string().\n");
+	}
 #endif
 
 	if (bfd_is_und_section(asect))
