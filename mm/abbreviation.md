@@ -6,6 +6,7 @@
 - GDT: Global Descriptor Table (全局描述符表)
 - ISB: Instruction Synchronization Barrier (指令同步屏障) @arm @DMB @DSB
 - LDT: Local Descriptor Table (局部描述符表)
+- LMA: Load Memory Address (加载内存地址) @VMA
 - MCE: Machine Check Exceptions
 - MGLRU: Multi-Gen LRU (多代 LRU) @LRU
 - MM: Memory Managment (内存管理) @MMU
@@ -15,6 +16,7 @@
 - PSS: Proportional Set Size (实际使用的物理内存 比例分配共享库占用的内存)
 - RSS: Resident Set Size (常驻内存集合大小 包含共享库占用的内存)
 - TLB: Translation Lookaside Buffer (旁路转换缓冲, 地址转换后备缓冲)
-= UMA: Uniform Memory Architecture (一致性内存架构)
+- UMA: Uniform Memory Architecture (一致性内存架构)
 - USS: Unique Set Size (进程独占使用的物理内存 不包含共享库占用的内存)
+- VMA: Virtual Memory Address (虚拟内存地址) @LMA
 - VSS: Virtual Set Size (虚拟耗用内存 包含共享库占用的内存)
