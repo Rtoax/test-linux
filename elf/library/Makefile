@@ -1,6 +1,8 @@
 SHELL = bash
 
-TARGETS := main
+TARGETS :=
+TARGETS += libc
+TARGETS += main
 TARGETS += main-a
 TARGETS += main-a-ctors
 TARGETS += latency
@@ -60,7 +62,7 @@ CFLAGS_main-a-ctors += -DCALL_FUNC_IN_OBJ=1
 build: ${TARGETS_SO} ${TARGETS_A} ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
-# Add more object.o file
+libc: libc.o
 main: main.o
 main-a: main-a.o libfoo.a
 main-a-ctors: main-a-ctors.o libfoo.a
