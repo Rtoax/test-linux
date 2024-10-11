@@ -92,7 +92,7 @@ void handle_sym(const char *prefix, asymbol *sym, bool firstline)
 	char buff[512];
 	bool synthetic = false;
 
-	if (!strcmp(bfd_section_name(asect), ".plt"))
+	if (!strcmp(tl_bfd_section_name(asect), ".plt"))
 		synthetic = true;
 
 # define TEST_SYM(s)	\
@@ -102,7 +102,7 @@ void handle_sym(const char *prefix, asymbol *sym, bool firstline)
 		unsigned long v2 = symbolinfo.value + base_vma;	\
 		printf("%s: " #s ": %lx %lx %s in %s\n", prefix, v1, v2,	\
 			v1 == v2 ? "\033[32mOK\033[m" : "\033[31mNot OK\033[m",	\
-			bfd_section_name(asect));	\
+			tl_bfd_section_name(asect));	\
 	}
 
 	/**
@@ -148,7 +148,7 @@ void handle_sym(const char *prefix, asymbol *sym, bool firstline)
 #else
 		asect->lma,
 #endif
-		bfd_section_name(asect),
+		tl_bfd_section_name(asect),
 		symbolinfo.name,
 		version_string ?: "-");
 #endif

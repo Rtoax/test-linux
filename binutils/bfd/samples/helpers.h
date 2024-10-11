@@ -3,6 +3,11 @@
 #include <bfd.h>
 
 #define __unused __attribute((unused))
+#if defined(BFD_HAS_BFD_SECTION_NAME)
+# define tl_bfd_section_name(asect)	bfd_section_name(asect)
+#elif defined(BFD_HAS_BFD_SECTION_NAME2)
+# define tl_bfd_section_name(asect)	bfd_section_name(abfd, asect)
+#endif
 
 void tl_bfd_init(void);
 void tl_bfd_print_build_id(const struct bfd_build_id *bid);

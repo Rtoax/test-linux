@@ -23,7 +23,7 @@ endef
 
 BFD_HAS_BFD_SECTION_VMA := ${BFD_HDR}
 BFD_HAS_BFD_SECTION_VMA += 'int main(void) {\n'
-BFD_HAS_BFD_SECTION_VMA += '	bfd_section_vma(NULL);\n'
+BFD_HAS_BFD_SECTION_VMA += '	bfd_section_vma((asection *)NULL);\n'
 BFD_HAS_BFD_SECTION_VMA += '	return 0;\n'
 BFD_HAS_BFD_SECTION_VMA += '}'
 
@@ -36,7 +36,7 @@ endef
 
 BFD_HAS_BFD_SECTION_VMA2 := ${BFD_HDR}
 BFD_HAS_BFD_SECTION_VMA2 += 'int main(void) {\n'
-BFD_HAS_BFD_SECTION_VMA2 += '	bfd_section_vma(NULL, NULL);\n'
+BFD_HAS_BFD_SECTION_VMA2 += '	bfd_section_vma(NULL, (asection *)NULL);\n'
 BFD_HAS_BFD_SECTION_VMA2 += '	return 0;\n'
 BFD_HAS_BFD_SECTION_VMA2 += '}'
 
@@ -48,7 +48,7 @@ endef
 
 BFD_HAS_BFD_SECTION_LMA := ${BFD_HDR}
 BFD_HAS_BFD_SECTION_LMA += 'int main(void) {\n'
-BFD_HAS_BFD_SECTION_LMA += '	bfd_section_lma(NULL);\n'
+BFD_HAS_BFD_SECTION_LMA += '	bfd_section_lma((asection *)NULL);\n'
 BFD_HAS_BFD_SECTION_LMA += '	return 0;\n'
 BFD_HAS_BFD_SECTION_LMA += '}'
 
@@ -66,6 +66,30 @@ BFD_HAS_BFD_SECTION_LMA2 += '}'
 
 define probe_bfd_has_bfd_section_lma2
   $(shell printf '%b\n' $(BFD_HAS_BFD_SECTION_LMA2) | \
+    $(CC) -x c -Wall -Werror -lbfd - $(1) -S -o - >/dev/null 2>&1 \
+      && echo 1)
+endef
+
+BFD_HAS_BFD_SECTION_NAME := ${BFD_HDR}
+BFD_HAS_BFD_SECTION_NAME += 'int main(void) {\n'
+BFD_HAS_BFD_SECTION_NAME += '	bfd_section_name((asection *)NULL);\n'
+BFD_HAS_BFD_SECTION_NAME += '	return 0;\n'
+BFD_HAS_BFD_SECTION_NAME += '}'
+
+define probe_bfd_has_bfd_section_name
+  $(shell printf '%b\n' $(BFD_HAS_BFD_SECTION_NAME) | \
+    $(CC) -x c -Wall -Werror -lbfd - $(1) -S -o - >/dev/null 2>&1 \
+      && echo 1)
+endef
+
+BFD_HAS_BFD_SECTION_NAME2 := ${BFD_HDR}
+BFD_HAS_BFD_SECTION_NAME2 += 'int main(void) {\n'
+BFD_HAS_BFD_SECTION_NAME2 += '	bfd_section_name(NULL, (asection *)NULL);\n'
+BFD_HAS_BFD_SECTION_NAME2 += '	return 0;\n'
+BFD_HAS_BFD_SECTION_NAME2 += '}'
+
+define probe_bfd_has_bfd_section_name2
+  $(shell printf '%b\n' $(BFD_HAS_BFD_SECTION_NAME2) | \
     $(CC) -x c -Wall -Werror -lbfd - $(1) -S -o - >/dev/null 2>&1 \
       && echo 1)
 endef
