@@ -1,6 +1,7 @@
 SHELL = bash
 
 sub-dir := linker-script
+sub-dir += LD_PRELOAD
 
 TARGETS := pushsection
 TARGETS += attribute

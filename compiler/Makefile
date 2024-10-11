@@ -9,7 +9,6 @@ sub-dir += __attribute__
 sub-dir += __builtin_
 sub-dir += dwarf
 sub-dir += foption option
-sub-dir += LD_PRELOAD
 sub-dir += machine-option
 sub-dir += openmp
 sub-dir += optimize
