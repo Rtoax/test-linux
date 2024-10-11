@@ -15,10 +15,15 @@ ifdef STATIC
   LDFLAGS += -static
 endif
 
+# Debian 12 default compile PIE EXEC, Fedora40 default compile no-PIE EXEC.
+# Default no-PIE in my case.
 ifdef PIE
   # If only -fpic in CFLAGS, 'Illegal instruction (core dumped)' on x86
   CFLAGS += -pie -fPIE
   LDFLAGS += -pie -fPIE
+else
+  CFLAGS += -no-pie
+  LDFLAGS += -no-pie
 endif
 
 CFLAGS__GLOBAL_OFFSET_TABLE_-32 := -m32 -DM32=1
