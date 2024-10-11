@@ -462,6 +462,7 @@ debian|ubuntu)
 	fi
 
 	pkgs_compiler+=( build-essential )
+	pkgs_compiler+=( gcc-doc )
 	pkgs_compiler+=( gcc-multilib )
 	pkgs_compiler+=( rust-all )
 
