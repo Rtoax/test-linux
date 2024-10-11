@@ -3,6 +3,8 @@
 #include <stdlib.h>
 #include <getopt.h>
 
+#include "helpers.h"
+
 #define BFD_ERR	bfd_errmsg(bfd_get_error())
 
 static unsigned long vma_addr = 0;
@@ -92,7 +94,7 @@ int main(int argc, char *argv[])
 		"SIZE",	"ALIGN", "VMA", "LMA", "ALLOC/DATA/TEXT/UDF/COM");
 
 	for (asect = abfd->sections; asect != NULL; asect = asect->next) {
-		flagword flags = bfd_section_flags(asect);
+		flagword flags = tl_bfd_section_flags(asect);
 		bfd_vma align = (bfd_vma) 1UL << bfd_section_alignment(asect);
 		unsigned long addr = bfd_section_vma(asect);
 

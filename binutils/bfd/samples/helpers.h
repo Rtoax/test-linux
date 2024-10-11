@@ -9,6 +9,12 @@
 # define tl_bfd_section_name(asect)	bfd_section_name(abfd, asect)
 #endif
 
+#if defined(BFD_HAS_BFD_SECTION_FLAGS)
+# define tl_bfd_section_flags(asect) bfd_section_flags(asect)
+#else
+# define tl_bfd_section_flags(asect) asect->flags
+#endif
+
 void tl_bfd_init(void);
 void tl_bfd_print_build_id(const struct bfd_build_id *bid);
 const char *tl_bfd_strbid(const struct bfd_build_id *bid, char *buf, int blen);
