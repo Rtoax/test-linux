@@ -1,3 +1,4 @@
+#include <gelf.h>
 #include <stdio.h>
 #include <link.h>
 
@@ -13,13 +14,75 @@ void dump_link_map(struct link_map *l)
 		dump_link_map(l->l_next);
 }
 
-static Elf64_Dyn *dynamic = NULL;
+static GElf_Dyn *dynamic = NULL;
 
-void dump_dynamic64(Elf64_Dyn *dynamic)
+void dump_dynamic(GElf_Dyn *dynamic)
 {
 	if (!dynamic)
 		return;
-	/* TODO */
+	GElf_Dyn *dyn = dynamic;
+
+	while (dyn) {
+		switch (dyn->d_tag) {
+#define CASE(V)	case DT_##V: printf("0x%016lx %-16s\n", dyn->d_tag, #V); break;
+		CASE(NEEDED);
+		CASE(PLTRELSZ);
+		CASE(PLTGOT);
+		CASE(HASH);
+		CASE(STRTAB);
+		CASE(SYMTAB);
+		CASE(RELA);
+		CASE(RELASZ);
+		CASE(RELAENT);
+		CASE(STRSZ);
+		CASE(SYMENT);
+		CASE(INIT);
+		CASE(FINI);
+		CASE(SONAME);
+		CASE(RPATH);
+		CASE(SYMBOLIC);
+		CASE(REL);
+		CASE(RELSZ);
+		CASE(RELENT);
+		CASE(PLTREL);
+		CASE(DEBUG);
+		CASE(TEXTREL);
+		CASE(JMPREL);
+		CASE(BIND_NOW);
+		CASE(INIT_ARRAY);
+		CASE(FINI_ARRAY);
+		CASE(INIT_ARRAYSZ);
+		CASE(FINI_ARRAYSZ);
+		CASE(RUNPATH);
+		CASE(FLAGS);
+		CASE(ENCODING);
+# if ENCODING != PREINIT_ARRAY
+		CASE(PREINIT_ARRAY);
+# endif
+		CASE(PREINIT_ARRAYSZ);
+		CASE(SYMTAB_SHNDX);
+		CASE(RELRSZ);
+		CASE(RELR);
+		CASE(RELRENT);
+		CASE(NUM);
+		CASE(LOOS);
+		CASE(HIOS);
+		CASE(LOPROC);
+		CASE(HIPROC);
+		CASE(GNU_HASH);
+		CASE(VERNEED);
+		CASE(VERNEEDNUM);
+		CASE(VERSYM);
+		CASE(NULL);
+		default:
+			break;
+#undef CASE
+		}
+		if (dyn->d_tag == DT_NULL)
+			break;
+		dyn++;
+	}
+done:
 }
 
 /**
@@ -74,7 +137,7 @@ int main(void)
 	dump_link_map(lm);
 	printf("elf_machine_dynamic = 0x%lx\n", elf_machine_dynamic());
 	dynamic = (void *)elf_machine_dynamic();
-	dump_dynamic64(dynamic);
+	dump_dynamic(dynamic);
 	printf("addr_dl_runtime_resolve = 0x%lx\n", addr_dl_runtime_resolve());
 #endif
 	/**
