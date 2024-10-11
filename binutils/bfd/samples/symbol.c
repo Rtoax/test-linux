@@ -63,9 +63,13 @@ void handle_sym(const char *prefix, asymbol *sym, bool firstline)
 #endif
 
 	if ((sym->flags & (BSF_SECTION_SYM | BSF_SYNTHETIC)) == 0)
+#if defined(BFD_HAS_BFD_GET_SYMBOL_VERSION_STRING)
 		version_string = bfd_get_symbol_version_string(abfd,
 						sym, true,
 						(bfd_boolean *)&hidden);
+#else
+		version_string = "";
+#endif
 
 	if (bfd_is_und_section(asect))
 		hidden = true;

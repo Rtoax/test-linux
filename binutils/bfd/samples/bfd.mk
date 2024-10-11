@@ -57,3 +57,15 @@ define probe_bfd_has_bfd_asymbol_section
     $(CC) -x c -Wall -Werror -lbfd - $(1) -S -o - >/dev/null 2>&1 \
       && echo 1)
 endef
+
+BFD_HAS_BFD_GET_SYMBOL_VERSION_STRING := ${BFD_HDR}
+BFD_HAS_BFD_GET_SYMBOL_VERSION_STRING += 'int main(void) {\n'
+BFD_HAS_BFD_GET_SYMBOL_VERSION_STRING += '	bfd_get_symbol_version_string(NULL, NULL, 1, NULL);\n'
+BFD_HAS_BFD_GET_SYMBOL_VERSION_STRING += '	return 0;\n'
+BFD_HAS_BFD_GET_SYMBOL_VERSION_STRING += '}'
+
+define probe_bfd_has_bfd_get_symbol_version_string
+  $(shell printf '%b\n' $(BFD_HAS_BFD_GET_SYMBOL_VERSION_STRING) | \
+    $(CC) -x c -Wall -Werror -lbfd - $(1) -S -o - >/dev/null 2>&1 \
+      && echo 1)
+endef
