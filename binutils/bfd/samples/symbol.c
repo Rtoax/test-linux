@@ -56,7 +56,11 @@ void handle_sym(const char *prefix, asymbol *sym, bool firstline)
 			"SYM");
 #endif
 
+#if defined(BFD_HAS_BFD_ASYMBOL_SECTION)
 	asect = bfd_asymbol_section(sym);
+#else
+	asect = sym->section;
+#endif
 
 	if ((sym->flags & (BSF_SECTION_SYM | BSF_SYNTHETIC)) == 0)
 		version_string = bfd_get_symbol_version_string(abfd,

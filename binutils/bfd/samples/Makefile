@@ -58,6 +58,10 @@ has-bfd_section_vma-2 := $(findstring 1,$(call probe_bfd_has_bfd_section_vma2))
 ifeq ($(has-bfd_section_vma-2),1)
   CFLAGS += -DBFD_HAS_BFD_SECTION_VMA2=1
 endif
+has-bfd_asymbol_section := $(findstring 1,$(call probe_bfd_has_bfd_asymbol_section))
+ifeq ($(has-bfd_asymbol_section),1)
+  CFLAGS += -DBFD_HAS_BFD_ASYMBOL_SECTION=1
+endif
 
 # Get binutils version
 BINUTILS_VERSION = $(shell ld -v | grep -o [0-9].[0-9]\. | sed -n '1p')

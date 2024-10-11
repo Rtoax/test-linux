@@ -16,7 +16,7 @@ BFD_INIT_PROBE_INIT_MAGIC += '}'
 
 define probe_bfd_init_ret_magic
   $(shell printf '%b\n' $(BFD_INIT_PROBE_INIT_MAGIC) | \
-    $(CC) -x c -Wall -lbfd - $(1) -S -o - >/dev/null 2>&1 \
+    $(CC) -x c -Wall -Werror -lbfd - $(1) -S -o - >/dev/null 2>&1 \
       && echo 1)
 endef
 
@@ -29,7 +29,7 @@ BFD_HAS_BFD_SECTION_VMA += '}'
 
 define probe_bfd_has_bfd_section_vma
   $(shell printf '%b\n' $(BFD_HAS_BFD_SECTION_VMA) | \
-    $(CC) -x c -Wall -lbfd - $(1) -S -o - >/dev/null 2>&1 \
+    $(CC) -x c -Wall -Werror -lbfd - $(1) -S -o - >/dev/null 2>&1 \
       && echo 1)
 endef
 
@@ -42,7 +42,18 @@ BFD_HAS_BFD_SECTION_VMA2 += '}'
 
 define probe_bfd_has_bfd_section_vma2
   $(shell printf '%b\n' $(BFD_HAS_BFD_SECTION_VMA2) | \
-    $(CC) -x c -Wall -lbfd - $(1) -S -o - >/dev/null 2>&1 \
+    $(CC) -x c -Wall -Werror -lbfd - $(1) -S -o - >/dev/null 2>&1 \
       && echo 1)
 endef
 
+BFD_HAS_BFD_ASYMBOL_SECTION := ${BFD_HDR}
+BFD_HAS_BFD_ASYMBOL_SECTION += 'int main(void) {\n'
+BFD_HAS_BFD_ASYMBOL_SECTION += '	bfd_asymbol_section(NULL);\n'
+BFD_HAS_BFD_ASYMBOL_SECTION += '	return 0;\n'
+BFD_HAS_BFD_ASYMBOL_SECTION += '}'
+
+define probe_bfd_has_bfd_asymbol_section
+  $(shell printf '%b\n' $(BFD_HAS_BFD_ASYMBOL_SECTION) | \
+    $(CC) -x c -Wall -Werror -lbfd - $(1) -S -o - >/dev/null 2>&1 \
+      && echo 1)
+endef
