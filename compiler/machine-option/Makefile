@@ -17,8 +17,12 @@ ifeq (${pac-ret},1)
 else
   $(warning "$(CC) not support -mbranch-protection=pac-ret")
 endif
+
 ifeq ($(shell uname -m),aarch64)
-CFLAGS_mbranch-protection += -march=armv8.3-a
+  CFLAGS_mbranch-protection += -march=armv8.3-a
+endif
+ifeq ($(shell uname -m),x86_64)
+  CFLAGS_mbranch-protection += -march=native
 endif
 
 build: ${TARGETS}
