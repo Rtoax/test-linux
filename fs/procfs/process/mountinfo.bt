@@ -16,6 +16,9 @@ BEGIN
 	printf("%-8s %-8s %-16s %-16s\n", "TIME", "PID", "COMM", "MNT_ROOT");
 }
 
+/**
+ * cat /proc/self/mountinfo will call show_mountinfo().
+ */
 kprobe:show_mountinfo
 {
 	$mnt = (struct vfsmount *)arg1;
