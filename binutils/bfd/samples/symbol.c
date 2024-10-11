@@ -236,7 +236,11 @@ int main(int argc, char *argv[])
 	 * for PIE process.
 	 */
 	for (asect = abfd->sections; asect != NULL; asect = asect->next) {
+#if defined(BFD_HAS_BFD_SECTION_FLAGS)
 		flagword flags = bfd_section_flags(asect);
+#else
+		flagword flags = asect->flags;
+#endif
 		if ((flags & SEC_CODE) && base_vma)
 			/**
 			 * FIXME: set vma, but symbol value not changed

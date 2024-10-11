@@ -70,6 +70,10 @@ has-bfd_section_lma := $(findstring 1,$(call probe_bfd_has_bfd_section_lma))
 ifeq ($(has-bfd_section_lma),1)
   CFLAGS += -DBFD_HAS_BFD_SECTION_LMA=1
 endif
+has-bfd_section_flags := $(findstring 1,$(call probe_bfd_has_bfd_section_flags))
+ifeq ($(has-bfd_section_flags),1)
+  CFLAGS += -DBFD_HAS_BFD_SECTION_FLAGS=1
+endif
 has-bfd_asymbol_section := $(findstring 1,$(call probe_bfd_has_bfd_asymbol_section))
 ifeq ($(has-bfd_asymbol_section),1)
   CFLAGS += -DBFD_HAS_BFD_ASYMBOL_SECTION=1
