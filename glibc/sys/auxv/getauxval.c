@@ -81,6 +81,16 @@ int main(void)
 	unsigned long val;
 	char buffer[256];
 	pid_t pid = getpid();
+	size_t ehdr_size;
+
+	if (sizeof(void *) == 4) {
+		ehdr_size = sizeof(Elf32_Ehdr);
+	} else if (sizeof(void *) == 8) {
+		ehdr_size = sizeof(Elf64_Ehdr);
+	} else {
+		fprintf(stderr, "ERROR: machine is not 32bit and 64bit.\n");
+		exit(1);
+	}
 
 	val = tl_getauxval(AT_PLATFORM);
 	printf("%-12s: %s\n", "AT_PLATFORM", (const char *)val);
@@ -96,13 +106,19 @@ int main(void)
 	print_hwcap(val);
 
 	val = tl_getauxval(AT_PHDR);
-	printf("AT_PHDR = %lx\n", val);
+	printf("AT_PHDR = %lx, start vma = %lx\n", val, val - ehdr_size);
 	sprintf(buffer, "cat /proc/%d/maps", pid);
 	system(buffer);
 
+	val = tl_getauxval(AT_ENTRY);
+	printf("AT_ENTRY = %lx\n", val);
+
+	val = tl_getauxval(AT_SYSINFO);
+	printf("AT_SYSINFO = %lx\n", val);
+
 	/* Return VMA [vdso] vm_start */
 	void *vdso = (void *)getauxval(AT_SYSINFO_EHDR);
-	printf("vdso = %p\n", vdso);
+	printf("AT_SYSINFO_EHDR(vdso) = %p\n", vdso);
 
 	return 0;
 }

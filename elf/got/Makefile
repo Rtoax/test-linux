@@ -19,7 +19,7 @@ endif
 # Default no-PIE in my case.
 ifdef PIE
   # If only -fpic in CFLAGS, 'Illegal instruction (core dumped)' on x86
-  CFLAGS += -pie -fPIE
+  CFLAGS += -pie -fPIE -DPIE=1
   LDFLAGS += -pie -fPIE
 else
   CFLAGS += -no-pie

@@ -1,6 +1,7 @@
 #include <gelf.h>
 #include <stdio.h>
 #include <link.h>
+#include <sys/auxv.h>
 
 #define Addr	unsigned long
 
@@ -100,12 +101,36 @@ done:
  */
 extern const Addr _GLOBAL_OFFSET_TABLE_[];
 
+off_t pie_off(void)
+{
+	size_t ehdr_size;
+	unsigned long phdr_start;
+
+#if !defined(PIE)
+	return 0;
+#endif
+
+	if (sizeof(void *) == 4) {
+		ehdr_size = sizeof(Elf32_Ehdr);
+	} else if (sizeof(void *) == 8) {
+		ehdr_size = sizeof(Elf64_Ehdr);
+	}
+
+	phdr_start = getauxval(AT_PHDR);
+	return phdr_start - ehdr_size;
+}
+
 Addr elf_machine_dynamic(void)
 {
 	/**
-	 * .dynamic section, check with: 'readelf -dW'
+	 * .dynamic section, check with: 'readelf -dW'.
+	 *
+	 * If program is PIE, GOT[0] need append the offset of load address.
+	 *
+	 * FIXME: link_map(GOT[1] or GOT[5]) is zero before program running,
+	 * .dynamic(GOT[0]) is not zero.
 	 */
-	return _GLOBAL_OFFSET_TABLE_[0];
+	return _GLOBAL_OFFSET_TABLE_[0] + pie_off();
 }
 
 Addr addr_link_map(void)
