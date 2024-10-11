@@ -67,11 +67,7 @@ int main(int argc, char *argv[])
 		}
 	}
 
-	ret = bfd_init();
-	if (ret != BFD_INIT_MAGIC) {
-		fprintf(stderr, "bfd_init failed.\n");
-		exit(1);
-	}
+	tl_bfd_init();
 
 	abfd = bfd_openr(filepath, NULL);
 	if (!abfd) {

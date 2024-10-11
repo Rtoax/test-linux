@@ -11,11 +11,7 @@ int main(int argc, char *argv[])
 	char **matching;
 	const struct bfd_build_id *build_id;
 
-	ret = bfd_init();
-	if (ret != BFD_INIT_MAGIC) {
-		fprintf(stderr, "bfd_init failed.\n");
-		exit(1);
-	}
+	tl_bfd_init();
 
 	abfd = bfd_openr(argv[0], NULL);
 

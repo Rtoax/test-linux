@@ -1,5 +1,7 @@
 SHELL = bash
 
+include bfd.mk
+
 TARGETS :=
 TARGETS += bfd_init
 TARGETS += build_id
@@ -42,6 +44,19 @@ ifdef NOPIE
   ifdef PIE
     $(error "Could no specify PIE and NOPIE at the same time")
   endif
+endif
+
+bfd_init-ret-magic := $(findstring 1,$(call probe_bfd_init_ret_magic))
+ifeq ($(bfd_init-ret-magic),1)
+  CFLAGS += -DBFD_INIT_RET_INIT_MAGIC=1
+endif
+has-bfd_section_vma := $(findstring 1,$(call probe_bfd_has_bfd_section_vma))
+ifeq ($(has-bfd_section_vma),1)
+  CFLAGS += -DBFD_HAS_BFD_SECTION_VMA=1
+endif
+has-bfd_section_vma-2 := $(findstring 1,$(call probe_bfd_has_bfd_section_vma2))
+ifeq ($(has-bfd_section_vma-2),1)
+  CFLAGS += -DBFD_HAS_BFD_SECTION_VMA2=1
 endif
 
 # Get binutils version

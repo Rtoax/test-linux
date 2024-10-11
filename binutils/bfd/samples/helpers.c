@@ -4,6 +4,20 @@
 
 #include "helpers.h"
 
+void tl_bfd_init(void)
+{
+#if defined(BFD_INIT_RET_INIT_MAGIC)
+	int ret;
+	ret = bfd_init();
+	if (ret != BFD_INIT_MAGIC) {
+		fprintf(stderr, "bfd_init failed.\n");
+		exit(1);
+	}
+#else
+	bfd_init();
+#endif
+}
+
 void tl_bfd_print_build_id(const struct bfd_build_id *bid)
 {
 	int i;

@@ -124,7 +124,11 @@ void handle_sym(const char *prefix, asymbol *sym, bool firstline)
 		symbolinfo.value,
 		symbolinfo.type,
 		bfd_is_local_label(abfd, sym) ? "YES" : "-",
+#if defined(BFD_HAS_BFD_SECTION_VMA)
 		bfd_section_vma(asect),
+#elif defined(BFD_HAS_BFD_SECTION_VMA2)
+		bfd_section_vma(abfd, asect),
+#endif
 		bfd_section_lma(asect),
 		bfd_section_name(asect),
 		symbolinfo.name,
@@ -194,11 +198,7 @@ int main(int argc, char *argv[])
 		}
 	}
 
-	ret = bfd_init();
-	if (ret != BFD_INIT_MAGIC) {
-		fprintf(stderr, "bfd_init failed.\n");
-		exit(1);
-	}
+	tl_bfd_init();
 
 	abfd = bfd_openr(filepath, NULL);
 	if (!abfd) {
