@@ -8,13 +8,13 @@ L3_CACHELINE_SIZE :=
 SYS_DEV_L3_CACHELINE_SIZE=$(shell cat /sys/devices/system/cpu/cpu1/cache/index3/coherency_line_size 2>/dev/null)
 CONF_L3_CACHELINE_SIZE=$(shell getconf LEVEL3_CACHE_LINESIZE)
 
-ifneq ($(SYS_DEV_L3_CACHELINE_SIZE),0)
+ifeq ($(SYS_DEV_L3_CACHELINE_SIZE),0)
   $(warning Not found L3 cache in /sys/devices/system/cpu)
 else
   L3_CACHELINE_SIZE=${SYS_DEV_L3_CACHELINE_SIZE}
 endif
 
-ifneq ($(CONF_L3_CACHELINE_SIZE),0)
+ifeq ($(CONF_L3_CACHELINE_SIZE),0)
   $(warning Not found L3 cache with getconf command)
 else
   L3_CACHELINE_SIZE=${CONF_L3_CACHELINE_SIZE}
