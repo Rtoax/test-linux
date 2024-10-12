@@ -14,6 +14,8 @@ LDFLAGS_PIE :=
 TARGETS += R_X86_64_PC32
 TARGETS += R_X86_64_PLT32
 TARGETS += R_X86_64_JUMP_SLOT
+TARGETS += R_X86_64_GOTPCRELX
+TARGETS += R_X86_64_GLOB_DAT
 
 CFLAGS += -march=native
 
@@ -32,6 +34,10 @@ ifdef VERBOSE
   LDFLAGS += -Q
 endif
 
+CFLAGS_R_X86_64_JUMP_SLOT := -fplt
+CFLAGS_R_X86_64_GOTPCRELX := -fno-plt
+CFLAGS_R_X86_64_GLOB_DAT := -fno-plt
+
 define print_elf_reloc
 	@echo -e "# $(1)" > ${1}.reloc
 	@readelf --relocs --wide $(1) >> ${1}.reloc
@@ -44,6 +50,8 @@ build: ${TARGETS_SO} ${TARGETS_A} ${TARGETS}
 R_X86_64_PC32: R_X86_64_PC32.o
 R_X86_64_PLT32: R_X86_64_PLT32.o
 R_X86_64_JUMP_SLOT: R_X86_64_JUMP_SLOT.o
+R_X86_64_GOTPCRELX: R_X86_64_GOTPCRELX.o
+R_X86_64_GLOB_DAT: R_X86_64_GLOB_DAT.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
