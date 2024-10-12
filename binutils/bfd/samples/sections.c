@@ -96,18 +96,31 @@ int main(int argc, char *argv[])
 	for (asect = abfd->sections; asect != NULL; asect = asect->next) {
 		flagword flags = tl_bfd_section_flags(asect);
 		bfd_vma align = (bfd_vma) 1UL << bfd_section_alignment(asect);
-		unsigned long addr = bfd_section_vma(asect);
+		unsigned long addr;
+#if defined(BFD_HAS_BFD_SECTION_VMA)
+		addr = bfd_section_vma(asect),
+#elif defined(BFD_HAS_BFD_SECTION_VMA2)
+		addr = bfd_section_vma(abfd, asect),
+#endif
 
 		if (vma_addr)
 			addr += vma_addr;
 
 		printf("%-32s %-16lx %-8lx %-8lx %-16lx %-16lx %c%c%c%c%c\n",
-			bfd_section_name(asect),
+			tl_bfd_section_name(asect),
 			addr,
 			bfd_section_size(asect),
 			align,
+#if defined(BFD_HAS_BFD_SECTION_VMA)
 			bfd_section_vma(asect),
+#elif defined(BFD_HAS_BFD_SECTION_VMA2)
+			bfd_section_vma(abfd, asect),
+#endif
+#if defined(BFD_HAS_BFD_SECTION_LMA)
 			bfd_section_lma(asect),
+#elif defined(BFD_HAS_BFD_SECTION_LMA2)
+			bfd_section_lma(abfd, asect),
+#endif
 			flags & SEC_ALLOC ? 'a' : '-',
 			flags & SEC_DATA ? 'd' : '-',
 			flags & SEC_CODE ? 't' : '-',
