@@ -112,7 +112,13 @@ int main(int argc, char *argv[])
 		printf("%-32s %-16lx %-8lx %-8lx %-16lx %-16lx %c%c%c%c%c\n",
 			tl_bfd_section_name(asect),
 			addr,
+#if defined(BFD_HAS_BFD_SECTION_SIZE)
 			bfd_section_size(asect),
+#elif defined(BFD_HAS_BFD_SECTION_SIZE2)
+			bfd_section_size(abfd, asect),
+#else
+# error "bfd_section_size fatal."
+#endif
 			align,
 #if defined(BFD_HAS_BFD_SECTION_VMA)
 			bfd_section_vma(asect),

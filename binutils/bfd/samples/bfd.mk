@@ -94,6 +94,30 @@ define probe_bfd_has_bfd_section_name2
       && echo 1)
 endef
 
+BFD_HAS_BFD_SECTION_SIZE := ${BFD_HDR}
+BFD_HAS_BFD_SECTION_SIZE += 'int main(void) {\n'
+BFD_HAS_BFD_SECTION_SIZE += '	bfd_section_size((asection *)NULL);\n'
+BFD_HAS_BFD_SECTION_SIZE += '	return 0;\n'
+BFD_HAS_BFD_SECTION_SIZE += '}'
+
+define probe_bfd_has_bfd_section_size
+  $(shell printf '%b\n' $(BFD_HAS_BFD_SECTION_SIZE) | \
+    $(CC) -x c -Wall -Werror -lbfd - $(1) -S -o - >/dev/null 2>&1 \
+      && echo 1)
+endef
+
+BFD_HAS_BFD_SECTION_SIZE2 := ${BFD_HDR}
+BFD_HAS_BFD_SECTION_SIZE2 += 'int main(void) {\n'
+BFD_HAS_BFD_SECTION_SIZE2 += '	bfd_section_size(NULL, (asection *)NULL);\n'
+BFD_HAS_BFD_SECTION_SIZE2 += '	return 0;\n'
+BFD_HAS_BFD_SECTION_SIZE2 += '}'
+
+define probe_bfd_has_bfd_section_size2
+  $(shell printf '%b\n' $(BFD_HAS_BFD_SECTION_SIZE2) | \
+    $(CC) -x c -Wall -Werror -lbfd - $(1) -S -o - >/dev/null 2>&1 \
+      && echo 1)
+endef
+
 BFD_HAS_BFD_SET_SECTION_VMA := ${BFD_HDR}
 BFD_HAS_BFD_SET_SECTION_VMA += 'int main(void) {\n'
 BFD_HAS_BFD_SET_SECTION_VMA += '	bfd_set_section_vma(NULL, 0);\n'

@@ -82,6 +82,14 @@ has-bfd_section_name2 := $(findstring 1,$(call probe_bfd_has_bfd_section_name2))
 ifeq ($(has-bfd_section_name2),1)
   CFLAGS += -DBFD_HAS_BFD_SECTION_NAME2=1
 endif
+has-bfd_section_size := $(findstring 1,$(call probe_bfd_has_bfd_section_size))
+ifeq ($(has-bfd_section_size),1)
+  CFLAGS += -DBFD_HAS_BFD_SECTION_SIZE=1
+endif
+has-bfd_section_size2 := $(findstring 1,$(call probe_bfd_has_bfd_section_size2))
+ifeq ($(has-bfd_section_size2),1)
+  CFLAGS += -DBFD_HAS_BFD_SECTION_SIZE2=1
+endif
 has-bfd_section_flags := $(findstring 1,$(call probe_bfd_has_bfd_section_flags))
 ifeq ($(has-bfd_section_flags),1)
   CFLAGS += -DBFD_HAS_BFD_SECTION_FLAGS=1
