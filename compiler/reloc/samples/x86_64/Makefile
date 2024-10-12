@@ -13,6 +13,7 @@ LDFLAGS_PIE :=
 
 TARGETS += R_X86_64_PC32
 TARGETS += R_X86_64_PLT32
+TARGETS += R_X86_64_JUMP_SLOT
 
 CFLAGS += -march=native
 
@@ -42,6 +43,7 @@ build: ${TARGETS_SO} ${TARGETS_A} ${TARGETS}
 
 R_X86_64_PC32: R_X86_64_PC32.o
 R_X86_64_PLT32: R_X86_64_PLT32.o
+R_X86_64_JUMP_SLOT: R_X86_64_JUMP_SLOT.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
@@ -55,6 +57,7 @@ R_X86_64_PLT32: R_X86_64_PLT32.o
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
 	@LD_LIBRARY_PATH=$(shell pwd) $(CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_PIE) $(LDFLAGS_$(*))
+	@$(call print_elf_reloc,$(@))
 
 $(TARGETS_SO): %:
 	@echo -e "  SO  \033[1;32m$(@)\033[m"
