@@ -6,12 +6,16 @@ GOT: Global Offset Table
 当一个共享库被加载进一个进程的地址空间中时，一定有指向此共享库的重定位。动态链接器会修改可执行文件中的`GOT`。`GOT`位于数据段`.got.plt`节中。
 
 
-# Sections 详细介绍
+# GOT 相关 Sections 详细介绍
 
 - `.plt` 保存了一小段代码，外加`foo@plt`代码;
-	- 也有的ELF用独立的`.plt.got`节保存`foo@plt`代码;
+	- 或用独立的`.plt.got`节保存`foo@plt`代码;
 - `.got`
+	- `.got` entries are never resolved lazily;
+	- `.rela.dyn` are `R_X86_64_GLOB_DAT`
 - `.got.plt` 保存了 `_GLOBAL_OFFSET_TABLE_`;
+	- `.got.plt` entries can be resolved lazily;
+	- `.rela.plt` are `R_X86_64_JUMP_SLOT`
 
 
 # Dynamic Link Procedure

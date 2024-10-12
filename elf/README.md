@@ -1,6 +1,13 @@
 ELF (Executable and Linkable Format)
 ======================================
 
+
+- `.rel.plt` are `R_386_JUMP_SLOT`
+- `.rela.plt` are `R_X86_64_JUMP_SLOT`
+- `.rel.dyn` are `R_386_GLOB_DAT`
+- `.rela.dyn` are `R_X86_64_GLOB_DAT`
+
+
 # Links
 
 - [https://github.com/ARM-software/abi-aa/blob/main/aaelf64/aaelf64.rst](https://github.com/ARM-software/abi-aa/blob/main/aaelf64/aaelf64.rst)

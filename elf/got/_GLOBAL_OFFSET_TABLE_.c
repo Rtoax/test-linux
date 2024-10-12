@@ -101,6 +101,9 @@ done:
  * - define in libc.so.6;
  * - GOT[plt] in .got.plt section;
  * - var _GLOBAL_OFFSET_TABLE_ start from .got.plt section;
+ *
+ * .got entries are never resolved lazily.
+ * .got.plt entries can be resolved lazily.
  */
 extern const Addr _GLOBAL_OFFSET_TABLE_[];
 
