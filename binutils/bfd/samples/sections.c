@@ -97,10 +97,13 @@ int main(int argc, char *argv[])
 		flagword flags = tl_bfd_section_flags(asect);
 		bfd_vma align = (bfd_vma) 1UL << bfd_section_alignment(asect);
 		unsigned long addr;
+
 #if defined(BFD_HAS_BFD_SECTION_VMA)
-		addr = bfd_section_vma(asect),
+		addr = bfd_section_vma(asect);
 #elif defined(BFD_HAS_BFD_SECTION_VMA2)
-		addr = bfd_section_vma(abfd, asect),
+		addr = bfd_section_vma(abfd, asect);
+#else
+# error "bfd_section_vma fatal."
 #endif
 
 		if (vma_addr)
@@ -115,11 +118,15 @@ int main(int argc, char *argv[])
 			bfd_section_vma(asect),
 #elif defined(BFD_HAS_BFD_SECTION_VMA2)
 			bfd_section_vma(abfd, asect),
+#else
+# error "bfd_section_vma fatal."
 #endif
 #if defined(BFD_HAS_BFD_SECTION_LMA)
 			bfd_section_lma(asect),
 #elif defined(BFD_HAS_BFD_SECTION_LMA2)
 			bfd_section_lma(abfd, asect),
+#else
+# error "bfd_section_lma fatal."
 #endif
 			flags & SEC_ALLOC ? 'a' : '-',
 			flags & SEC_DATA ? 'd' : '-',
