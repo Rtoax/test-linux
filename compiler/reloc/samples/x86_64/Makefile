@@ -12,6 +12,7 @@ CFLAGS_PIE :=
 LDFLAGS_PIE :=
 
 TARGETS += R_X86_64_PC32
+TARGETS += R_X86_64_PLT32
 
 CFLAGS += -march=native
 
@@ -32,7 +33,7 @@ endif
 
 define print_elf_reloc
 	@echo -e "# $(1)" > ${1}.reloc
-	@readelf --relocs --syms --wide $(1) >> ${1}.reloc
+	@readelf --relocs --wide $(1) >> ${1}.reloc
 endef
 
 .PHONY: build
@@ -40,6 +41,7 @@ build: ${TARGETS_SO} ${TARGETS_A} ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
 R_X86_64_PC32: R_X86_64_PC32.o
+R_X86_64_PLT32: R_X86_64_PLT32.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

@@ -1,6 +1,11 @@
 SHELL = bash
 
-sub-dir := x86_64
+sub-dir :=
+ifeq ($(shell uname -m),x86_64)
+  sub-dir += x86_64
+endif
+ifeq ($(shell uname -m),aarch64)
+endif
 
 sub-dir-build := $(sub-dir:=.build)
 sub-dir-clean := $(sub-dir:=.clean)
