@@ -1,6 +1,7 @@
 SHELL = bash
 
 sub-dir := bfd
+sub-dir += objdump
 
 sub-dir-build := $(sub-dir:=.build)
 sub-dir-clean := $(sub-dir:=.clean)

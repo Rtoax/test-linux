@@ -89,6 +89,6 @@ ${SCRIPTS_OUT}: %:
 
 .PHONY: clean
 clean:
-	@echo -e "  CLEAN  \033[1;32m$(TARGETS) $(TARGETS_STRIP) ${TARGETS_CPP}\033[m"
-	@rm -f ${TARGETS} ${TARGETS_STRIP} ${TARGETS_CPP} \
-		*.o *.opp *.log *.debug *.strip
+	@echo -e "  CLEAN  \033[1;32m$(TARGETS) $(TARGETS_STRIP) ${TARGETS_CPP} ${SCRIPTS_OUT}\033[m"
+	@rm -f ${TARGETS} ${TARGETS_STRIP} ${TARGETS_CPP} ${SCRIPTS_OUT}
+	@rm -f *.o *.opp *.log *.debug *.strip
