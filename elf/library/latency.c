@@ -125,7 +125,7 @@ int main(int argc, char *argv[])
 	for (i = 0; i < 20; i++)
 		fns[i] = gotidx(idx[i]);
 # endif
-#else
+#else /* DIRECT_USE_GOT */
 	/**
 	 * call01 maybe is not got[3]
 	 */
@@ -149,7 +149,7 @@ int main(int argc, char *argv[])
 	fns[17] = call018;
 	fns[18] = call019;
 	fns[19] = call020;
-#endif
+#endif /* DIRECT_USE_GOT */
 
 #define NLOOP	1000000000UL
 
