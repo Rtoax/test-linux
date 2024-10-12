@@ -284,7 +284,6 @@ pkgs_storage+=( iotop )
 pkgs_storage+=( mdadm ) # manage MD devices aka Linux Software RAID
 
 pkgs_net+=( rsync )
-pkgs_net+=( httpd )
 pkgs_net+=( net-tools ) # netstat
 
 whls+=( numpy pyyaml )
@@ -405,6 +404,8 @@ cclinux|fedora|centos|rhel|openEuler|almalinux|opencloudos)
 	pkgs_virt+=( libvirt )
 	pkgs_virt+=( qemu-kvm )
 
+	pkgs_net+=( httpd )
+
 	args=( --skip-broken )
 	args+=( --nogpgcheck )
 
@@ -461,6 +462,8 @@ debian|ubuntu)
 	if [[ ${OS} == ubuntu ]]; then
 		pkgs_base+=( linux-tools-common )
 	fi
+
+	pkgs_net+=( apache2 )
 
 	pkgs_compiler+=( build-essential )
 	pkgs_compiler+=( gcc-doc )
