@@ -43,6 +43,8 @@ void handle_sym(const char *prefix, asymbol *sym, bool firstline)
 
 	abfd = sym->the_bfd;
 
+	(void)abfd;
+
 	if (sym->section == NULL)
 		return;
 

@@ -24,6 +24,7 @@ CFLAGS += -DDEBUG -O0
 CFLAGS += -Wno-unused-label
 CFLAGS += -Wno-unused-variable
 CFLAGS += -lbfd
+CFLAGS += -lpthread
 
 # FIXME: /usr/include/bfd.h may include these lines. There must be a better way
 # to fix this.

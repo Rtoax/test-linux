@@ -9,6 +9,8 @@
 #include <stdbool.h>
 #include <string.h>
 
+#include "helpers.h"
+
 #define BFD_ERR	bfd_errmsg(bfd_get_error())
 
 
@@ -95,7 +97,7 @@ int main(int argc, char *argv[])
 			continue;
 
 		fprintf(stderr, "section %s relsize %ld\n",
-			bfd_section_name(asect), relsize);
+			tl_bfd_section_name(asect), relsize);
 
 		relpp = (arelent **)malloc(relsize);
 
