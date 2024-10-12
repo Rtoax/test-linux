@@ -4,14 +4,29 @@ CC = gcc
 CFLAGS := -Werror -Wall -pthread
 LDFLAGS := -pthread
 
-PROC_L3_CACHELINE_SIZE=$(shell cat /sys/devices/system/cpu/cpu1/cache/index3/coherency_line_size 2>/dev/null)
+L3_CACHELINE_SIZE :=
+SYS_DEV_L3_CACHELINE_SIZE=$(shell cat /sys/devices/system/cpu/cpu1/cache/index3/coherency_line_size 2>/dev/null)
 CONF_L3_CACHELINE_SIZE=$(shell getconf LEVEL3_CACHE_LINESIZE)
 
-ifneq ($(PROC_L3_CACHELINE_SIZE),$(CONF_L3_CACHELINE_SIZE))
-  $(error Bad L3 cache linesize)
+ifneq ($(SYS_DEV_L3_CACHELINE_SIZE),0)
+  $(warning Not found L3 cache in /sys/devices/system/cpu)
+else
+  L3_CACHELINE_SIZE=${SYS_DEV_L3_CACHELINE_SIZE}
 endif
 
-L3_CACHELINE_SIZE=${CONF_L3_CACHELINE_SIZE}
+ifneq ($(CONF_L3_CACHELINE_SIZE),0)
+  $(warning Not found L3 cache with getconf command)
+else
+  L3_CACHELINE_SIZE=${CONF_L3_CACHELINE_SIZE}
+endif
+
+ifneq ($(SYS_DEV_L3_CACHELINE_SIZE),$(CONF_L3_CACHELINE_SIZE))
+  $(warning Bad L3 cache linesize)
+endif
+
+ifeq ($(L3_CACHELINE_SIZE),)
+  $(error Bad L3 cache linesize)
+endif
 
 $(info L3_CACHELINE_SIZE=$(L3_CACHELINE_SIZE))
 
