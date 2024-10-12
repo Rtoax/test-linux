@@ -30,6 +30,9 @@ int func1(void)
 	puts("Hello");
 	puts0("Hello");
 
+	gin = 10;
+	printf("gin = %d\n", gin);
+
 	p = malloc(1024);
 	free(p);
 
