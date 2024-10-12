@@ -1,6 +1,7 @@
 SHELL = bash
 
 TARGETS :=
+TARGETS_O :=
 TARGETS_SO :=
 TARGETS_A :=
 
@@ -14,8 +15,9 @@ LDFLAGS_PIE :=
 TARGETS += R_X86_64_PC32
 TARGETS += R_X86_64_PLT32
 TARGETS += R_X86_64_JUMP_SLOT
-TARGETS += R_X86_64_GOTPCRELX
 TARGETS += R_X86_64_GLOB_DAT
+
+TARGETS_O += R_X86_64_GOTPCRELX.o
 
 CFLAGS += -march=native
 
@@ -46,14 +48,15 @@ define print_elf_reloc
 endef
 
 .PHONY: build
-build: ${TARGETS_SO} ${TARGETS_A} ${TARGETS}
+build: ${TARGETS_SO} ${TARGETS_A} ${TARGETS} ${TARGETS_O}
 	@echo -e " \033[1;33m Done \033[m"
 
 R_X86_64_PC32: R_X86_64_PC32.o
 R_X86_64_PLT32: R_X86_64_PLT32.o
 R_X86_64_JUMP_SLOT: R_X86_64_JUMP_SLOT.o
-R_X86_64_GOTPCRELX: R_X86_64_GOTPCRELX.o
 R_X86_64_GLOB_DAT: R_X86_64_GLOB_DAT.o
+
+R_X86_64_GOTPCRELX.o: R_X86_64_GOTPCRELX.c
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
@@ -83,4 +86,4 @@ test: ${TARGETS}
 .PHONY: clean
 clean:
 	@echo -e "  CLEAN  \033[1;32m$(TARGETS) $(TARGETS_SO) $(TARGETS_A)\033[m"
-	@rm -f ${TARGETS} ${TARGETS_SO} ${TARGETS_A} *.o *.obj *.reloc
+	@rm -f ${TARGETS} ${TARGETS_SO} ${TARGETS_A} ${TARGETS_O} *.o *.obj *.reloc
