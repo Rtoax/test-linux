@@ -35,8 +35,10 @@ ifdef VERBOSE
 endif
 
 CFLAGS_R_X86_64_JUMP_SLOT := -fplt
-CFLAGS_R_X86_64_GOTPCRELX := -fno-plt
-CFLAGS_R_X86_64_GLOB_DAT := -fno-plt
+# or use libc.so like:
+# int getchar(void) __attribute__ ((noplt));
+CFLAGS_R_X86_64_GOTPCRELX := -fpic -fno-plt
+CFLAGS_R_X86_64_GLOB_DAT := -fpic -fno-plt
 
 define print_elf_reloc
 	@echo -e "# $(1)" > ${1}.reloc

@@ -1,3 +1,4 @@
+/*.s
 /__attribute__alias
 /__attribute__always_inline
 /__attribute__noinline
@@ -19,4 +20,5 @@
 /__attribute__section-readmostly
 /__attribute__vector_size
 /__attribute__weak
-/*.s
+/__attribute__noplt
+/__attribute__noplt-plt

@@ -22,6 +22,7 @@ TARGETS += __attribute__section-initcall
 TARGETS += __attribute__section-readmostly
 TARGETS += __attribute__vector_size
 TARGETS += __attribute__weak
+TARGETS += __attribute__noplt __attribute__noplt-plt
 
 all: ${TARGETS}
 
@@ -46,12 +47,16 @@ __attribute__section-initcall: __attribute__section-initcall.o
 __attribute__section-readmostly: __attribute__section-readmostly.o
 __attribute__vector_size: __attribute__vector_size.o
 __attribute__weak: __attribute__weak.o
+__attribute__noplt: __attribute__noplt.o
+__attribute__noplt-plt: __attribute__noplt-plt.o
 
 ifeq ($(shell uname -m),x86_64)
-CFLAGS___attribute__nocf_check := -fcf-protection
+  CFLAGS___attribute__nocf_check := -fcf-protection
 else
-$(warning FXIME: Arch may not support -fcf-protection=full)
+  $(warning FXIME: Arch may not support -fcf-protection=full)
 endif
+
+CFLAGS___attribute__noplt := -DNOPLT=1
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
