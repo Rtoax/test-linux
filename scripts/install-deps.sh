@@ -283,6 +283,7 @@ pkgs_storage+=( device-mapper-multipath )
 pkgs_storage+=( iotop )
 pkgs_storage+=( mdadm ) # manage MD devices aka Linux Software RAID
 
+pkgs_net+=( rsync )
 pkgs_net+=( httpd )
 pkgs_net+=( net-tools ) # netstat
 
