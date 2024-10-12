@@ -9,6 +9,14 @@ int sys_close_range(unsigned int fd, unsigned int max_fd, unsigned int flags)
 	return syscall(__NR_close_range, fd, max_fd, flags);
 }
 
+/**
+ * since linux 5.9, glibc 2.34 support close_range() wrapper
+ */
+#if defined(__GLIBC__) && __GLIBC__ >= 2 && __GLIBC_MINOR__ >= 34
+#else
+# define close_range sys_close_range
+#endif
+
 int main(void)
 {
 	int ret;
