@@ -92,6 +92,7 @@ void dump_dynamic(Elf_Dyn *dynamic)
 		dyn++;
 	}
 done:
+	return;
 }
 
 /**
