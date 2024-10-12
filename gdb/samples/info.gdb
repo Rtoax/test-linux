@@ -5,6 +5,8 @@ break hello
 r
 info registers
 info proc all
+info proc mappings
+info files
 # Check process info
 info inferiors
 # Check thread info

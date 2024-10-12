@@ -12,9 +12,11 @@ GOT: Global Offset Table
 	- 或用独立的`.plt.got`节保存`foo@plt`代码;
 - `.got`
 	- `.got` entries are never resolved lazily;
+	- `.got` 用于存放全局变量的地址和不需要延迟绑定的函数的地址;
 	- `.rela.dyn` are `R_X86_64_GLOB_DAT`
 - `.got.plt` 保存了 `_GLOBAL_OFFSET_TABLE_`;
 	- `.got.plt` entries can be resolved lazily;
+	- `.got.plt` 用于存放需要延迟绑定的函数的地址;
 	- `.rela.plt` are `R_X86_64_JUMP_SLOT`
 
 
