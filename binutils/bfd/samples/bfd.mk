@@ -118,6 +118,30 @@ define probe_bfd_has_bfd_section_size2
       && echo 1)
 endef
 
+BFD_HAS_BFD_SECTION_ALIGNMENT := ${BFD_HDR}
+BFD_HAS_BFD_SECTION_ALIGNMENT += 'int main(void) {\n'
+BFD_HAS_BFD_SECTION_ALIGNMENT += '	bfd_section_alignment((asection *)NULL);\n'
+BFD_HAS_BFD_SECTION_ALIGNMENT += '	return 0;\n'
+BFD_HAS_BFD_SECTION_ALIGNMENT += '}'
+
+define probe_bfd_has_bfd_section_alignment
+  $(shell printf '%b\n' $(BFD_HAS_BFD_SECTION_ALIGNMENT) | \
+    $(CC) -x c -Wall -Werror -lbfd - $(1) -S -o - >/dev/null 2>&1 \
+      && echo 1)
+endef
+
+BFD_HAS_BFD_SECTION_ALIGNMENT2 := ${BFD_HDR}
+BFD_HAS_BFD_SECTION_ALIGNMENT2 += 'int main(void) {\n'
+BFD_HAS_BFD_SECTION_ALIGNMENT2 += '	bfd_section_alignment(NULL, (asection *)NULL);\n'
+BFD_HAS_BFD_SECTION_ALIGNMENT2 += '	return 0;\n'
+BFD_HAS_BFD_SECTION_ALIGNMENT2 += '}'
+
+define probe_bfd_has_bfd_section_alignment2
+  $(shell printf '%b\n' $(BFD_HAS_BFD_SECTION_ALIGNMENT2) | \
+    $(CC) -x c -Wall -Werror -lbfd - $(1) -S -o - >/dev/null 2>&1 \
+      && echo 1)
+endef
+
 BFD_HAS_BFD_SET_SECTION_VMA := ${BFD_HDR}
 BFD_HAS_BFD_SET_SECTION_VMA += 'int main(void) {\n'
 BFD_HAS_BFD_SET_SECTION_VMA += '	bfd_set_section_vma(NULL, 0);\n'

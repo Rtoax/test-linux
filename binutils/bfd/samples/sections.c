@@ -95,9 +95,16 @@ int main(int argc, char *argv[])
 
 	for (asect = abfd->sections; asect != NULL; asect = asect->next) {
 		flagword flags = tl_bfd_section_flags(asect);
-		bfd_vma align = (bfd_vma) 1UL << bfd_section_alignment(asect);
+		bfd_vma align;
 		unsigned long addr;
 
+#if defined(BFD_HAS_BFD_SECTION_ALIGNMENT)
+		align = (bfd_vma) 1UL << bfd_section_alignment(asect);
+#elif defined(BFD_HAS_BFD_SECTION_ALIGNMENT2)
+		align = (bfd_vma) 1UL << bfd_section_alignment(abfd, asect);
+#else
+# error "bfd_section_alignment fatal."
+#endif
 #if defined(BFD_HAS_BFD_SECTION_VMA)
 		addr = bfd_section_vma(asect);
 #elif defined(BFD_HAS_BFD_SECTION_VMA2)
