@@ -26,7 +26,11 @@ int sys_memfd_secret(unsigned int flags)
 {
 	int fd;
 
-	fd = syscall(SYS_memfd_secret, flags);
+#ifndef __NR_memfd_secret
+#define __NR_memfd_secret 447
+#endif
+	/* Since Linux 5.14 support memfd_secret(2) */
+	fd = syscall(__NR_memfd_secret, flags);
 	if (fd == -1) {
 		fprintf(stderr, "memfd_secret: %m\n");
 		return -errno;

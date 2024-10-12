@@ -106,7 +106,7 @@ TARGETS += ioprio_get ioprio_set
 
 TARGETS_CPP :=
 ifndef NOCPP
-TARGETS_CPP += readlink2
+  TARGETS_CPP += readlink2
 endif
 
 ifeq ($(shell uname -m),x86_64)

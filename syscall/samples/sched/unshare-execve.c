@@ -21,7 +21,10 @@ static void usage(char *pname)
 	fprintf(stderr, "    -m   unshare mount namespace\n");
 	fprintf(stderr, "    -n   unshare network namespace\n");
 	fprintf(stderr, "    -p   unshare PID namespace\n");
+/* since Linux 5.6 */
+#if defined(CLONE_NEWTIME)
 	fprintf(stderr, "    -t   unshare time namespace\n");
+#endif
 	fprintf(stderr, "    -u   unshare UTS namespace\n");
 	fprintf(stderr, "    -U   unshare user namespace\n");
 	exit(EXIT_FAILURE);
@@ -40,7 +43,10 @@ int main(int argc, char *argv[])
 		case 'm': flags |= CLONE_NEWNS;         break;
 		case 'n': flags |= CLONE_NEWNET;        break;
 		case 'p': flags |= CLONE_NEWPID;        break;
+/* since Linux 5.6 */
+#if defined(CLONE_NEWTIME)
 		case 't': flags |= CLONE_NEWTIME;       break;
+#endif
 		case 'u': flags |= CLONE_NEWUTS;        break;
 		case 'U': flags |= CLONE_NEWUSER;       break;
 		default:  usage(argv[0]);
