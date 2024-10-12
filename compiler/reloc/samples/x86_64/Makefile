@@ -11,7 +11,8 @@ LDFLAGS :=
 CFLAGS_PIE :=
 LDFLAGS_PIE :=
 
-CFLAGS += -DDEBUG=1 -O0 -g -ggdb
+TARGETS += R_X86_64_PC32
+
 CFLAGS += -march=native
 
 # Debian 12 default compile PIE EXEC, Fedora40 default compile no-PIE EXEC.
@@ -29,13 +30,21 @@ ifdef VERBOSE
   LDFLAGS += -Q
 endif
 
+define print_elf_reloc
+	@echo -e "# $(1)" > ${1}.reloc
+	@readelf --relocs --syms --wide $(1) >> ${1}.reloc
+endef
+
 .PHONY: build
 build: ${TARGETS_SO} ${TARGETS_A} ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
+R_X86_64_PC32: R_X86_64_PC32.o
+
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	@LD_LIBRARY_PATH=$(shell pwd) $(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_PIE) $(CFLAGS_$(*))
+	@$(call print_elf_reloc,$(@))
 
 %.obj: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
@@ -59,4 +68,4 @@ test: ${TARGETS}
 .PHONY: clean
 clean:
 	@echo -e "  CLEAN  \033[1;32m$(TARGETS) $(TARGETS_SO) $(TARGETS_A)\033[m"
-	@rm -f ${TARGETS} ${TARGETS_SO} ${TARGETS_A} *.o *.obj
+	@rm -f ${TARGETS} ${TARGETS_SO} ${TARGETS_A} *.o *.obj *.reloc
