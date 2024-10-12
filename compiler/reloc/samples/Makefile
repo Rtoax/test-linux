@@ -39,9 +39,8 @@ CFLAGS_testcase := -Wl,-z,relro
 CFLAGS_testcase-now := -Wl,-z,relro,-z,now
 
 define print_elf
-	@echo -e "\033[1;33m------------- $(1) ------------\033[m"
-	@readelf --relocs $(1)
-	@readelf --syms $(1)
+	@echo -e "\033[1;33m------------- $(1) ------------\033[m" > ${1}.readelf.log
+	@readelf --relocs --syms --wide $(1) >> ${1}.readelf.log
 endef
 
 %.o: %.c
@@ -59,4 +58,4 @@ test: ${TARGETS}
 
 clean:
 	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
-	@rm -f ${TARGETS} *.o
+	@rm -f ${TARGETS} *.o *.readelf.log
