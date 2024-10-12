@@ -23,3 +23,5 @@
 /finput-charset
 /fno-zero-initialized-in-bss
 /fzero-initialized-in-bss
+/fplt
+/fno-plt
