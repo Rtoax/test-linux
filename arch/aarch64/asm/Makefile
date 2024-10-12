@@ -111,12 +111,15 @@ while: while.o
 ldr: ldr.o
 mov: mov.o
 
+ASFLAGS_paciasp := -march=armv8.3-a
+CFLAGS_paciasp-c := -march=armv8.3-a
+
 CFLAGS_hello-puts-infinite-loop := -DINFINITE_LOOP=1
 CFLAGS_write-c-loop := -DINFINITE_LOOP=1
 
 %.o: %.asm
 	@echo -e "  AS  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	@$(AS) $(<) -o $(@) $(AS_ARGS)
+	@$(AS) $(<) -o $(@) $(AS_ARGS) $(ASFLAGS_$(*))
 	@$(OBJDUMP) -Dr $(@) > $(@).obj
 
 %.co: %.c
