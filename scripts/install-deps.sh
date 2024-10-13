@@ -297,7 +297,9 @@ whls+=( "\"mkdocs-include-markdown-plugin>=6.0.1\"" )
 case ${OS} in
 cclinux|fedora|centos|rhel|openEuler|almalinux|opencloudos)
 	if [[ $(uname -m) == x86_64 ]]; then
+		pkgs_base+=( glibc.i686 )
 		pkgs_base+=( glibc-devel.i686 )
+		pkgs_base+=( glibc-static.i686 )
 		pkgs_bench+=( memtest86+ )
 	fi
 	pkgs_base+=( acpi acpica-tools )
