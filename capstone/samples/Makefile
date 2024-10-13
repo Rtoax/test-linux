@@ -3,6 +3,7 @@ SHELL = bash
 CS_HDR_CAPSTONE = /usr/include/capstone/capstone.h
 
 TARGETS :=
+TARGETS += version
 TARGETS += simple
 TARGETS += detail
 
@@ -24,6 +25,7 @@ build: ${TARGETS}
 	@echo
 	@echo -e " \033[1;33m Done \033[m"
 
+version: version.o
 detail: detail.o
 simple: simple.o
 
