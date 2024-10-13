@@ -17,8 +17,6 @@ $(info - INFO MPIRUN = ${MPIRUN})
 $(info - INFO MPIRUN = ${MPIRUN})
 
 TARGETS :=
-# If not install mpich
-ifneq ($(wildcard $(CC)),)
 TARGETS += MPI_Abort
 TARGETS += MPI_Init
 TARGETS += MPI_Initialized
@@ -26,6 +24,11 @@ TARGETS += MPI_Get_processor_name
 TARGETS += MPI_Send MPI_Send-2 MPI_Send-3
 TARGETS += MPI_Sendrecv MPI_Sendrecv_replace
 TARGETS += MPI_Wtime MPI_Wtick
+
+# If not install mpich
+ifeq ($(wildcard $(CC)),)
+  TARGETS :=
+  $(warning Not install mpich development software)
 endif
 
 CFLAGS := -Werror -Wall
@@ -34,7 +37,10 @@ CFLAGS += -Wstrict-prototypes
 LDFLAGS :=
 LDLIBS :=
 
-CFLAGS += -DDEBUG -O0 -g
+# -O3:
+#   glibc 2.28: /usr/include/features.h
+#   warning _FORTIFY_SOURCE requires compiling with optimization (-O)
+CFLAGS += -DDEBUG -O3 -g
 
 .PHONY: build
 build: ${TARGETS}
