@@ -69,7 +69,9 @@ void dump_dynamic(Elf_Dyn *dynamic)
 		CASE(PREINIT_ARRAYSZ);
 		CASE(SYMTAB_SHNDX);
 # if defined(__x86_64__) || defined(__i386__)
+#  if DT_NUM != DT_RELRSZ
 		CASE(RELRSZ);
+#  endif
 		CASE(RELR);
 		CASE(RELRENT);
 # endif
