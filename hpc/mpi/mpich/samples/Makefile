@@ -41,6 +41,7 @@ LDLIBS :=
 #   glibc 2.28: /usr/include/features.h
 #   warning _FORTIFY_SOURCE requires compiling with optimization (-O)
 CFLAGS += -DDEBUG -O3 -g
+CFLAGS += -Wno-error=unused-result
 
 .PHONY: build
 build: ${TARGETS}
