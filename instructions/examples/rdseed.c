@@ -3,6 +3,7 @@
 #include <stdint.h>
 #include <string.h>
 #include <immintrin.h>
+#include <x86intrin.h>
 
 
 unsigned int rdseed32(void)

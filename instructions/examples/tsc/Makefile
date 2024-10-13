@@ -18,10 +18,11 @@ rdtsc_evil: rdtsc_evil.o
 
 CFLAGS += -g -ggdb
 CFLAGS += -D_GNU_SOURCE
+CFLAGS += -pthread
 CFLAGS += -O3
 ifdef STATIC
-CFLAGS += -static
-$(info Defined STATIC)
+  CFLAGS += -static
+  $(info Defined STATIC)
 endif
 
 %.o: %.c
