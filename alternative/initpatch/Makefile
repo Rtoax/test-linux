@@ -16,7 +16,9 @@ CFLAGS :=
 LDFLAGS :=
 
 CFLAGS += -Wl,-T${LDS}
-CFLAGS += -Wl,--no-warn-rwx-segments
+ifneq ($(shell ld --help | grep -o no-warn-rwx-segments),)
+  CFLAGS += -Wl,--no-warn-rwx-segments
+endif
 
 .PHONY: build
 build: ${TARGETS} ${LDS}
