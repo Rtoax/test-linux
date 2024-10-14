@@ -30,7 +30,7 @@ enum vma_type {
 	VT_VDSO,
 };
 
-static unsigned long __proc_elf_base_addr(enum vma_type vma_type, char *name)
+static unsigned long __proc_maps_addr(enum vma_type vma_type, char *name)
 {
 	unsigned long addr = 0;
 	char maps[128], comm[128];
@@ -98,23 +98,23 @@ found:
 
 unsigned long proc_elf_base_addr(void)
 {
-	return __proc_elf_base_addr(VT_COMM, NULL);
+	return __proc_maps_addr(VT_COMM, NULL);
 }
 
 unsigned long proc_elf_base_libc_addr(void)
 {
-	return __proc_elf_base_addr(VT_LIBC, NULL);
+	return __proc_maps_addr(VT_LIBC, NULL);
 }
 
 char *proc_elf_base_libc_name(char *buf, size_t buf_len)
 {
-	__proc_elf_base_addr(VT_LIBC, buf);
+	__proc_maps_addr(VT_LIBC, buf);
 	return buf;
 }
 
 unsigned long proc_elf_base_vdso_addr(void)
 {
-	return __proc_elf_base_addr(VT_VDSO, NULL);
+	return __proc_maps_addr(VT_VDSO, NULL);
 }
 
 void print_proc_pid_maps(void)
