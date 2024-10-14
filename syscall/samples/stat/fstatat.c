@@ -1,0 +1,23 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <sys/stat.h>
+
+#include "helpers.h"
+
+
+int main(int argc, char *argv[])
+{
+	int dirfd;
+	struct stat buf;
+
+	dirfd = openat(AT_FDCWD, "./", O_RDONLY | O_CLOEXEC);
+
+	fstatat(dirfd, argv[0], &buf, AT_SYMLINK_NOFOLLOW);
+
+	print_stat(&buf);
+
+	close(dirfd);
+	return 0;
+}

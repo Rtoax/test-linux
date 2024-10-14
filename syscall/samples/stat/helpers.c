@@ -12,6 +12,7 @@ void print_stat(struct stat *stat)
 
 	printf("mode: %x\n", stat->st_mode);
 	printf("ino: %ld\n", stat->st_ino);
+	printf("size: %ld\n", stat->st_size);
 
 	if (stat->st_mode & S_IWUSR)
 		printf("Owning user can write.\n");

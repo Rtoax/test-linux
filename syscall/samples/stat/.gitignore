@@ -2,6 +2,7 @@
 /stat
 /statx
 /fstat
+/fstatat
 /listdir
 /chmod
 /fchmod

@@ -10,6 +10,7 @@ TARGETS += fchmod
 TARGETS += mkdir
 TARGETS += mknod
 TARGETS += st_mode
+TARGETS += fstatat
 
 CC = gcc
 
@@ -33,6 +34,7 @@ chmod: chmod.o
 fchmod: fchmod.o
 mkdir: mkdir.o
 mknod: mknod.o
+fstatat: fstatat.o helpers.o
 st_mode: st_mode.o helpers.o
 
 %.o: %.c
@@ -41,7 +43,7 @@ st_mode: st_mode.o helpers.o
 
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	@$(CC) -o $(@) $(^) $(LDLIBS) $(LDFLAGS) $(LDFLAGS_$(*)) $(CFLAGS) $(CFLAGS_$(*))
+	@$(CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*)) $(CFLAGS) $(CFLAGS_$(*))
 
 test: ${TARGETS}
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
