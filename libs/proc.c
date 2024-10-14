@@ -5,6 +5,7 @@
 #include <errno.h>
 #include <unistd.h>
 #include <limits.h>
+#include <fcntl.h>
 
 #include "proc.h"
 
@@ -156,3 +157,35 @@ int proc_for_each_mnt_point(void (*callback)(const char *mnt_point))
 	return 0;
 }
 
+/* close with close(2) */
+int open_proc_pid_mem(pid_t pid)
+{
+	char proc_mem[64];
+	int mem_fd;
+
+	sprintf(proc_mem, "/proc/%d/mem", pid);
+	mem_fd = open(proc_mem, O_RDWR);
+	if (mem_fd <= 0) {
+		fprintf(stderr, "ERROR: Open %s failed.\n", proc_mem);
+		return -1;
+	}
+	return mem_fd;
+}
+
+int proc_pid_mem_read(int mem_fd, off_t paddr, void *buf, size_t len)
+{
+	int ret;
+	ret = pread(mem_fd, buf, len, paddr);
+	if (ret <= 0)
+		fprintf(stderr, "ERROR: pread: %m.\n");
+	return ret;
+}
+
+int proc_pid_mem_write(int mem_fd, off_t paddr, void *src, size_t len)
+{
+	int ret;
+	ret = pwrite(mem_fd, src, len, paddr);
+	if (ret <= 0)
+		fprintf(stderr, "ERROR: pwrite: %m.\n");
+	return ret;
+}
