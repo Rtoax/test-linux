@@ -1,3 +1,6 @@
+/**
+ * R_X86_64_JUMP_SLOT: Create PLT entry
+ */
 #include <stdio.h>
 
 int main(void)
