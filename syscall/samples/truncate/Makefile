@@ -1,27 +1,20 @@
 SHELL = bash
 
-
-TARGETS := statfs
-TARGETS += fstatfs
+TARGETS := truncate
+TARGETS += ftruncate
 
 CC = gcc
 
 CFLAGS := -Werror -Wall -D_GNU_SOURCE
 CFLAGS += -pthread
 CFLAGS += -DDEBUG -O0 -g
-CFLAGS += -I../../../libs/
 
 build: ${TARGETS}
-	@echo
 	@echo -e " \033[1;33m Done \033[m"
 
 # Add more object.o file
-statfs: statfs.o proc.o
-fstatfs: fstatfs.o
-
-proc.o: ../../../libs/proc.o
-	$(info We are in $(shell pwd))
-	mv $(<) $(@)
+truncate: truncate.o helpers.o
+ftruncate: ftruncate.o helpers.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
@@ -36,4 +29,4 @@ test: ${TARGETS}
 
 clean:
 	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
-	@rm -f ${TARGETS} *.o *.d *.txt
+	@rm -f ${TARGETS} *.o *.dat

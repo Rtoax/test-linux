@@ -19,3 +19,14 @@ int create_file(const char *filename, char ch, size_t bytes)
 	return 0;
 }
 
+off_t file_seek_end(const char *filename)
+{
+	int fd;
+	off_t off;
+
+	fd = open(filename, O_RDONLY);
+	off = lseek(fd, 0, SEEK_END);
+
+	close(fd);
+	return off;
+}

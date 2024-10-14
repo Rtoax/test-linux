@@ -50,8 +50,6 @@
 /[sg]ethostname
 /[sg]ethostid
 /vhangup
-/truncate
-/ftruncate
 /sync
 /syncfs
 /setsid

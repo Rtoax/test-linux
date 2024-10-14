@@ -17,6 +17,8 @@ int main(int argc, char *argv[])
 
 	read(d1, buf, sizeof(buf));
 	printf("buf = %s\n", buf);
+	printf("cur = %ld\n", lseek(d1, 64, SEEK_CUR));
+	printf("end = %ld\n", lseek(d1, 0, SEEK_END));
 
 	read(d2, buf, sizeof(buf));
 	printf("buf = %s\n", buf);

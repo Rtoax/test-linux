@@ -51,6 +51,7 @@ sub-dir += module
 sub-dir += random
 sub-dir += ldt
 sub-dir += xattr
+sub-dir += truncate
 
 TARGETS :=
 TARGETS += acct
@@ -91,7 +92,6 @@ TARGETS += getgroups
 TARGETS += gethostname sethostname
 TARGETS += gethostid sethostid
 TARGETS += vhangup
-TARGETS += truncate ftruncate
 TARGETS += syscall
 TARGETS += sync syncfs
 TARGETS += getsid
@@ -199,8 +199,6 @@ sethostname: sethostname.o
 gethostid: gethostid.o
 sethostid: sethostid.o
 vhangup: vhangup.o
-truncate: truncate.o helpers.o
-ftruncate: ftruncate.o helpers.o
 syscall: syscall.o
 sync: sync.o
 syncfs: syncfs.o
