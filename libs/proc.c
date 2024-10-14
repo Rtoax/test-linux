@@ -72,7 +72,8 @@ static unsigned long __proc_elf_base_addr(enum vma_type vma_type, char *name)
 			}
 			break;
 		case VT_LIBC:
-			if (!strcmp(basename(name_), "libc.so.6")) {
+			if (!strcmp(basename(name_), "libc.so.6") ||
+			    !strncmp(basename(name_), "libc-", 5)) {
 				addr = start;
 				if (name)
 					strcpy(name, name_);
