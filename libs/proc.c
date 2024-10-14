@@ -28,20 +28,35 @@ enum vma_type {
 	VT_COMM,
 	VT_LIBC,
 	VT_VDSO,
+	VT_HOLE,	/* Not used in memory space */
 };
 
-static unsigned long __proc_maps_addr(enum vma_type vma_type, char *name)
+union addr_args {
+	/* VT_HOLE */
+	struct {
+		/* start could be 0 */
+		unsigned long start, len;
+	} vt_hole_arg;
+};
+
+static unsigned long __proc_maps_addr(enum vma_type vma_type, char *name,
+				      union addr_args *arg)
 {
 	unsigned long addr = 0;
 	char maps[128], comm[128];
 	FILE *fp;
+	unsigned long prev_start, prev_end;
+	int vma_count = 0;
 
 	snprintf(maps, sizeof(maps) - 1, "/proc/%d/maps", getpid());
 	fp = fopen(maps, "r");
 	fseek(fp, 0, SEEK_SET);
 
+	prev_start = prev_end = 0;
+
 	do {
-		unsigned long start, end, pgoff;
+		unsigned long start, end;
+		unsigned long pgoff;
 		unsigned int major, minor;
 		unsigned long inode;
 		char perms[5], name_[256];
@@ -88,7 +103,34 @@ static unsigned long __proc_maps_addr(enum vma_type vma_type, char *name)
 				goto found;
 			}
 			break;
+		case VT_HOLE:
+			if (!arg) {
+				fprintf(stderr, "VT_HOLE need arg.\n");
+				abort();
+			}
+
+			unsigned long len = arg->vt_hole_arg.len;
+
+			if (arg->vt_hole_arg.start && !prev_start) {
+				prev_start = arg->vt_hole_arg.start;
+				prev_end = prev_start + len;
+			}
+
+			/* Found vma hole */
+			if (prev_end && prev_end + len <= start) {
+				addr = vma_count == 0 ? prev_start : prev_end;
+				goto found;
+			}
+
+			/**
+			 * FIXME: Hope never found after the last vma
+			 */
+			break;
 		}
+
+		prev_start = start;
+		prev_end = end;
+		vma_count++;
 	} while (1);
 
 found:
@@ -98,23 +140,32 @@ found:
 
 unsigned long proc_elf_base_addr(void)
 {
-	return __proc_maps_addr(VT_COMM, NULL);
+	return __proc_maps_addr(VT_COMM, NULL, NULL);
 }
 
 unsigned long proc_elf_base_libc_addr(void)
 {
-	return __proc_maps_addr(VT_LIBC, NULL);
+	return __proc_maps_addr(VT_LIBC, NULL, NULL);
 }
 
 char *proc_elf_base_libc_name(char *buf, size_t buf_len)
 {
-	__proc_maps_addr(VT_LIBC, buf);
+	__proc_maps_addr(VT_LIBC, buf, NULL);
 	return buf;
 }
 
 unsigned long proc_elf_base_vdso_addr(void)
 {
-	return __proc_maps_addr(VT_VDSO, NULL);
+	return __proc_maps_addr(VT_VDSO, NULL, NULL);
+}
+
+unsigned long proc_find_vma_hole(unsigned long start, unsigned long len)
+{
+	union addr_args arg = {
+		.vt_hole_arg.start = start,
+		.vt_hole_arg.len = len,
+	};
+	return __proc_maps_addr(VT_HOLE, NULL, &arg);
 }
 
 void print_proc_pid_maps(void)

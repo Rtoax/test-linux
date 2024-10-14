@@ -45,6 +45,26 @@ void test_mem_fd(void)
 	close(mem_fd);
 }
 
+void test_find_vma_hole(void)
+{
+	unsigned long addr, len;
+
+	addr = 0;
+	len = 1024;
+	addr = proc_find_vma_hole(addr, len);
+	printf("vma hole = 0x%016lx ~ 0x%016lx\n", addr, addr + len);
+
+	addr = proc_elf_base_addr();
+	len = 1024;
+	addr = proc_find_vma_hole(addr, len);
+	printf("vma hole = 0x%016lx ~ 0x%016lx\n", addr, addr + len);
+
+	addr = 0x1000;
+	len = 1024;
+	addr = proc_find_vma_hole(addr, len);
+	printf("vma hole = 0x%016lx ~ 0x%016lx\n", addr, addr + len);
+}
+
 int main(void)
 {
 	char comm[128], name[512];
@@ -59,6 +79,7 @@ int main(void)
 	printf("vdso addr : %lx\n", proc_elf_base_vdso_addr());
 
 	test_mem_fd();
+	test_find_vma_hole();
 
 	return 0;
 }
