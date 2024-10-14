@@ -9,7 +9,7 @@
 int main(int argc, char *argv[])
 {
 	int ret;
-	size_t len;
+	size_t len, blk;
 	struct stat statbuf;
 	const char *file = "tmp.dat";
 
@@ -19,8 +19,9 @@ int main(int argc, char *argv[])
 	create_file(file, 'a', len);
 
 	stat(file, &statbuf);
-	printf("size %ld (created %ld, end %ld)\n", statbuf.st_size, len,
-		file_seek_end(file));
+	blk = statbuf.st_blksize * statbuf.st_blocks;
+	printf("size %ld (created %ld, end %ld, blk %ld)\n", statbuf.st_size,
+		len, file_seek_end(file), blk);
 
 	ret = truncate(file, len / 2);
 	if (ret == -1) {
@@ -29,14 +30,16 @@ int main(int argc, char *argv[])
 	}
 
 	stat(file, &statbuf);
-	printf("size %ld (truncate %ld, end %ld)\n", statbuf.st_size, len / 2,
-		file_seek_end(file));
+	blk = statbuf.st_blksize * statbuf.st_blocks;
+	printf("size %ld (truncate %ld, end %ld, blk %ld)\n", statbuf.st_size,
+		len / 2, file_seek_end(file), blk);
 
 	truncate(file, len * 2);
 
 	stat(file, &statbuf);
-	printf("size %ld (truncate %ld, end %ld)\n", statbuf.st_size, len * 2,
-		file_seek_end(file));
+	blk = statbuf.st_blksize * statbuf.st_blocks;
+	printf("size %ld (truncate %ld, end %ld, blk %ld)\n", statbuf.st_size,
+		len * 2, file_seek_end(file), blk);
 
 	return 0;
 }
