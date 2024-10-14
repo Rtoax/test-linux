@@ -1,3 +1,6 @@
+/**
+ * R_X86_64_PLT32: 32 bit PLT address
+ */
 #include <stdio.h>
 
 int foo(void)
