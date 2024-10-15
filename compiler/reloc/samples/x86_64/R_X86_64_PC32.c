@@ -19,3 +19,9 @@ int bar(void)
 	sii = 20;	/* R_X86_64_PC32 */
 	return 0;
 }
+
+/* R_X86_64_PC32 */
+int main(void)
+{
+	return 0;
+}
