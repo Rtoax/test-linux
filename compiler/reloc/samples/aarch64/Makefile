@@ -12,12 +12,9 @@ LDFLAGS :=
 CFLAGS_PIE :=
 LDFLAGS_PIE :=
 
-TARGETS += R_X86_64_PC32
-TARGETS += R_X86_64_JUMP_SLOT
-TARGETS += R_X86_64_GLOB_DAT
+TARGETS += R_AARCH64_JUMP_SLOT
 
-TARGETS_O += R_X86_64_PLT32.o
-TARGETS_O += R_X86_64_GOTPCRELX.o
+TARGETS_O += R_AARCH64_CALL26.o
 
 CFLAGS += -march=native
 
@@ -36,12 +33,6 @@ ifdef VERBOSE
   LDFLAGS += -Q
 endif
 
-CFLAGS_R_X86_64_JUMP_SLOT := -fplt
-# or use libc.so like:
-# int getchar(void) __attribute__ ((noplt));
-CFLAGS_R_X86_64_GOTPCRELX := -fpic -fno-plt
-CFLAGS_R_X86_64_GLOB_DAT := -fpic -fno-plt
-
 define print_elf_reloc
 	@echo -e "# $(1)" > ${1}.reloc
 	@readelf --relocs --wide $(1) >> ${1}.reloc
@@ -51,12 +42,9 @@ endef
 build: ${TARGETS_SO} ${TARGETS_A} ${TARGETS} ${TARGETS_O}
 	@echo -e " \033[1;33m Done \033[m"
 
-R_X86_64_JUMP_SLOT: R_X86_64_JUMP_SLOT.o
-R_X86_64_GLOB_DAT: R_X86_64_GLOB_DAT.o
+R_AARCH64_JUMP_SLOT: R_AARCH64_JUMP_SLOT.o
 
-R_X86_64_PC32: R_X86_64_PC32.o
-R_X86_64_PLT32.o: R_X86_64_PLT32.c
-R_X86_64_GOTPCRELX.o: R_X86_64_GOTPCRELX.c
+R_AARCH64_CALL26.o: R_AARCH64_CALL26.c
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
@@ -85,5 +73,5 @@ test: ${TARGETS}
 
 .PHONY: clean
 clean:
-	@echo -e "  CLEAN  \033[1;32m$(TARGETS) $(TARGETS_SO) $(TARGETS_A) ${TARGETS_O}\033[m"
+	@echo -e "  CLEAN  \033[1;32m$(TARGETS) $(TARGETS_SO) $(TARGETS_A) $(TARGETS_O)\033[m"
 	@rm -f ${TARGETS} ${TARGETS_SO} ${TARGETS_A} ${TARGETS_O} *.o *.obj *.reloc
