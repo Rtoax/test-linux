@@ -217,6 +217,7 @@ pkgs_base+=( gnupg2 )               # gpg
 pkgs_base+=( gperf )
 pkgs_base+=( hwloc )                # lstopo
 pkgs_base+=( inotify-tools )        # inotifywatch, ...
+pkgs_base+=( jq )
 pkgs_base+=( lshw )                 # lshw
 pkgs_base+=( make cmake )
 pkgs_base+=( nasm )                 # nasm
@@ -240,6 +241,7 @@ pkgs_base+=( tree )
 pkgs_base+=( util-linux )           # wipefs, etc.
 pkgs_base+=( vim )
 pkgs_base+=( which )
+pkgs_base+=( yq )
 
 pkgs_compiler+=( bison )
 pkgs_compiler+=( byacc )
