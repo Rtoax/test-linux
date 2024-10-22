@@ -2,33 +2,30 @@ SHELL = bash
 
 TARGETS :=
 TARGETS += syslog
+TARGETS += syslog-benchmark
 
 DEBUG = yes
-SRC_PATH := $(shell pwd)
 CC = gcc
 
 CFLAGS := -Werror -Wall
-CFLAGS += -I../../../
-CFLAGS += -lm
 
 ifdef DEBUG
-CFLAGS += -DDEBUG -O0 -g
+  CFLAGS += -DDEBUG -O0 -g
 endif
 
 build: ${TARGETS}
-	@echo
 	@echo -e " \033[1;33m Done \033[m"
 
-# Add more object.o file
 syslog: syslog.o
+syslog-benchmark: syslog-benchmark.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
+	@$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
 
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	@$(CC) $(CFLAGS) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
+	@$(CC) -o $(@) $(^) $(CFLAGS) $(CFLAGS_$(*))
 
 test: ${TARGETS}
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"

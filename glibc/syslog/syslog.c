@@ -28,6 +28,7 @@ int main(void)
 	setlogmask(LOG_UPTO(LOG_NOTICE));
 	openlog("log3", LOG_CONS | LOG_PID | LOG_NDELAY, LOG_LOCAL1);
 	mysyslog(LOG_NOTICE, "notice: uid = %d", getuid());
+	syslog(LOG_NOTICE, "notice: %s", __FILE__);
 	mysyslog(LOG_INFO, "info");
 	closelog();
 
