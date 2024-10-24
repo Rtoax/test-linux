@@ -19,8 +19,8 @@ int main(int argc, char *argv[])
 	size_t n, sendcnt, sendbytes, total;
 	char sendline[MAXLINE];
 
-	if (argc != 2) {
-		perror("Usage: udpcli <IPAddress>");
+	if (argc < 2) {
+		fprintf(stderr, "Usage: %s <IPAddress> <N pkts>\n", argv[0]);
 		exit(1);
 	}
 
@@ -33,6 +33,13 @@ int main(int argc, char *argv[])
 		exit(1);
 	}
 
+	/* default send 10000 packets */
+	total = 10000;
+
+	if (argc >= 3) {
+		total = strtoul(argv[2], NULL, 10);
+	}
+
 	if ((sockfd = socket(AF_INET, SOCK_DGRAM, 0)) < 0) {
 		perror("socket error");
 		exit(1);
@@ -40,9 +47,9 @@ int main(int argc, char *argv[])
 
 	pservaddr = (struct sockaddr *)&servaddr;
 
-	total = 100000;
-
 	sendcnt = sendbytes = 0;
+
+	printf("Try send %ld packets to %s\n", total, argv[1]);
 
 	while (1) {
 		n = sendto(sockfd, sendline, MAXLINE, 0, pservaddr, sizeof(servaddr));
