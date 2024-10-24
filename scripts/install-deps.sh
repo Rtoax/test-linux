@@ -206,6 +206,7 @@ pkgs_base+=( bc )
 pkgs_base+=( blktrace )
 pkgs_base+=( bpftrace bcc )         # eBPF
 pkgs_base+=( cargo )                # The Rust package manager
+pkgs_base+=( cloc )
 pkgs_base+=( dialog kdialog )
 pkgs_base+=( dwz )                  # DWARF optimization and duplicate removal tool
 pkgs_base+=( dwarves )              # pahole
