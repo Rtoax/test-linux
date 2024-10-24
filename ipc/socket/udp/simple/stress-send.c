@@ -64,6 +64,8 @@ int main(int argc, char *argv[])
 			break;
 	}
 
+	printf("Total send %ld packets, %ld bytes\n", sendcnt, sendbytes);
+
 	close(sockfd);
 	return 0;
 }
