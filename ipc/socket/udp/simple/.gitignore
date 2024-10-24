@@ -1,3 +1,5 @@
 /server
 /client
 /client_cc
+/stress-recv
+/stress-send
