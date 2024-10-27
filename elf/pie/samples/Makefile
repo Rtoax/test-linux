@@ -2,6 +2,7 @@ SHELL = bash
 
 TARGETS := hello
 TARGETS += hello-pie
+TARGETS += is_pie
 
 CC := gcc
 
@@ -15,6 +16,7 @@ build: ${TARGETS}
 
 hello: hello.o proc.o
 hello-pie: hello-pie.o proc.o
+is_pie: is_pie.o
 
 CFLAGS_hello += -no-pie
 LDFLAGS_hello += -no-pie
