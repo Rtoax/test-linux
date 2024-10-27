@@ -7,7 +7,6 @@ DEBUG = yes
 CC = gcc
 
 CFLAGS := -Werror -Wall
-CFLAGS += -I../../../
 CFLAGS += -lm
 
 ifdef DEBUG
@@ -20,11 +19,23 @@ ifdef M32
   $(info Compile 32bit ELF)
 endif
 
+ifdef PIE
+  CFLAGS += -pie -fPIE
+  LDFLAGS += -pie -fPIE
+endif
+
+ifdef NOPIE
+  CFLAGS += -no-pie
+  LDFLAGS += -no-pie
+  ifdef PIE
+    $(error "Could no specify PIE and NOPIE at the same time")
+  endif
+endif
+
+
 build: ${TARGETS}
-	@echo
 	@echo -e " \033[1;33m Done \033[m"
 
-# Add more object.o file
 getauxval: getauxval.o
 
 %.o: %.c
