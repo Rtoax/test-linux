@@ -23,6 +23,7 @@ LDFLAGS_hello += -no-pie
 CFLAGS_hello-pie := -fpie
 LDFLAGS_hello-pie := -pie
 CFLAGS_proc := -fpie
+LDFLAGS_is_pie := -lelf
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
