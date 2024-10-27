@@ -62,6 +62,7 @@ void dump_dynamic(Elf_Dyn *dynamic)
 		CASE(FINI_ARRAYSZ);
 		CASE(RUNPATH);
 		CASE(FLAGS);
+		CASE(FLAGS_1);
 		CASE(ENCODING);
 # if ENCODING != PREINIT_ARRAY
 		CASE(PREINIT_ARRAY);
@@ -88,6 +89,11 @@ void dump_dynamic(Elf_Dyn *dynamic)
 		default:
 			break;
 #undef CASE
+		}
+		if (dyn->d_tag == DT_FLAGS_1) {
+			if (dyn->d_un.d_val & DF_1_PIE) {
+				printf("%18s   is PIE\n", "");
+			}
 		}
 		if (dyn->d_tag == DT_NULL)
 			break;
