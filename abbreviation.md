@@ -1,3 +1,5 @@
+- ABI: Application Binary Interface (应用程序二进制接口) @API
+- API: Application Programming Interface (应用程序接口) @ABI
 - DSO: Dynamic Shared Object (动态共享目标)
 - EEMBC: EDN Embedded Microprocessor Benchmark Consortium (嵌入式微处理器基准协会)
 - LXC: Linux Containers (Linux容器)
