@@ -3,6 +3,7 @@ SHELL = bash
 sub-dir :=
 ifeq ($(shell uname -m),x86_64)
   sub-dir += x86_64
+  sub-dir += i386
 endif
 ifeq ($(shell uname -m),aarch64)
   sub-dir += aarch64
