@@ -1,16 +1,26 @@
-int gi = 0;	/* .bss, GLOBAL */
-int gii = 1;	/* .data, GLOBAL */
+/**
+ * R_X86_64_PC64: value = 24, field = word64, calculation = S + A - P
+ * R_X86_64_PC32: value = 2,  field = word32, calculation = S + A - P
+ * R_X86_64_PC16: value = 13, field = word16, calculation = S + A - P
+ * R_X86_64_PC8:  value = 15, field = word8,  calculation = S + A - P
+ */
 
-long gl = 0;	/* .bss, GLOBAL */
+#include <stdint.h>
 
-static int si1 = 0;	/* .bss, LOCAL */
-static int si2 = 0;	/* .bss, LOCAL */
-static int sii = 1;	/* .data, LOCAL */
 
-static int sl = 0;	/* .bss, LOCAL */
+int32_t gi = 0;	/* .bss, GLOBAL */
+int32_t gii = 1;	/* .data, GLOBAL */
+
+int64_t gl = 0;	/* .bss, GLOBAL */
+
+static int32_t si1 = 0;	/* .bss, LOCAL */
+static int32_t si2 = 0;	/* .bss, LOCAL */
+static int32_t sii = 1;	/* .data, LOCAL */
+
+static int32_t sl = 0;	/* .bss, LOCAL */
 
 /* R_X86_64_PC32 */
-int foo(void)
+void foo(void)
 {
 	gi = 10;	/* R_X86_64_PC32 */
 	si1 = 10;	/* R_X86_64_PC32 */
@@ -18,15 +28,13 @@ int foo(void)
 
 	gl = 10;	/* R_X86_64_PC32 */
 	sl = 10;	/* R_X86_64_PC32 */
-	return 0;
 }
 
 /* R_X86_64_PC32 */
-int bar(void)
+void bar(void)
 {
 	gii = 20;	/* R_X86_64_PC32 */
 	sii = 20;	/* R_X86_64_PC32 */
-	return 0;
 }
 
 /* R_X86_64_PC32 */
