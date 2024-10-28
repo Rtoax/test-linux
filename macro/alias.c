@@ -3,19 +3,20 @@
 #include "alias.h"
 
 
-void __func1(void)
+void foo(void)
 {
 	printf("%s\n", __func__);
 }
-weak_alias(__func1, alias1_func1);
 
-void alias2_func1(void) f_weak_alias("__func1");
+weak_alias(foo, alias1_foo);
+
+void alias2_foo(void) f_weak_alias("foo");
 
 
 int main(void)
 {
-	alias1_func1();
-	alias2_func1();
+	alias1_foo();
+	alias2_foo();
 
 	return 0;
 }

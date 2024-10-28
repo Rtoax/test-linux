@@ -14,6 +14,12 @@ static long *psl;
 int main(void)
 {
 	/**
+	 * s1 and s2 are R_X86_64_32S in ELF 64-bit LSB relocatable
+	 */
+	const char *s1 = "Hello";
+	const char *s2 = "Hello";
+
+	/**
 	 * psl is R_X86_64_PC32
 	 * &sil is R_X86_64_32S in ELF 64-bit LSB relocatable
 	 */
