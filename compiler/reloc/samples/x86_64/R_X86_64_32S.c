@@ -11,6 +11,8 @@
 static long sil = 1;
 static long *psl;
 
+const long gcl = 0xFFFFFFFF;
+
 int main(void)
 {
 	/**
@@ -25,6 +27,11 @@ int main(void)
 	 */
 	psl = NULL;
 	psl = &sil;
+
+	/**
+	 * gcl is R_X86_64_32S in ELF 64-bit LSB relocatable
+	 */
+	const long *pl = &gcl;
 
 	return 0;
 }
