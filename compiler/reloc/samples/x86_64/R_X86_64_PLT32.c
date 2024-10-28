@@ -3,6 +3,8 @@
  */
 #include <stdio.h>
 
+extern void bar(void);
+
 int foo(void)
 {
 	char buf[32];
@@ -21,5 +23,11 @@ int foo(void)
 	 * executable if has PLT.
 	 */
 	puts(buf);
+
+	/**
+	 * bar is R_X86_64_PLT32 in ELF 64-bit LSB relocatable
+	 */
+	bar();
+
 	return 0;
 }
