@@ -5,6 +5,7 @@ BCC_SYMS_HDR := /usr/include/bcc/bcc_syms.h
 CC = gcc
 
 TARGETS := symcache
+TARGETS += bcc_elf_is_shared_obj
 
 CFLAGS := -lbcc
 LDFLAGS := -lbcc
@@ -17,6 +18,7 @@ endif
 all: $(TARGETS)
 
 symcache: symcache.o
+bcc_elf_is_shared_obj: bcc_elf_is_shared_obj.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
