@@ -4,8 +4,10 @@ TARGETS :=
 TARGETS_O :=
 TARGETS_SO :=
 TARGETS_A :=
+TARGETS_ASMO :=
 
 CC := gcc
+AS := as
 
 CFLAGS :=
 LDFLAGS :=
@@ -20,6 +22,9 @@ TARGETS += R_X86_64_GLOB_DAT
 TARGETS_O += R_X86_64_64.o
 TARGETS_O += R_X86_64_PLT32.o
 TARGETS_O += R_X86_64_GOTPCRELX.o
+
+TARGETS_ASMO += R_X86_64_32.So
+TARGETS_ASMO += R_X86_64_64.So
 
 CFLAGS += -march=native
 
@@ -50,7 +55,7 @@ define print_elf_reloc
 endef
 
 .PHONY: build
-build: ${TARGETS_SO} ${TARGETS_A} ${TARGETS} ${TARGETS_O}
+build: ${TARGETS_SO} ${TARGETS_A} ${TARGETS} ${TARGETS_O} ${TARGETS_ASMO}
 	@echo -e " \033[1;33m Done \033[m"
 
 R_X86_64_JUMP_SLOT: R_X86_64_JUMP_SLOT.o
@@ -64,6 +69,11 @@ R_X86_64_GOTPCRELX.o: R_X86_64_GOTPCRELX.c
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	@LD_LIBRARY_PATH=$(shell pwd) $(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_PIE) $(CFLAGS_$(*))
+	@$(call print_elf_reloc,$(@))
+
+%.So: %.S
+	@echo -e "  AS  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
+	@${AS} --64 -o $(@) $(<)
 	@$(call print_elf_reloc,$(@))
 
 %.obj: %.c
@@ -88,5 +98,5 @@ test: ${TARGETS}
 
 .PHONY: clean
 clean:
-	@echo -e "  CLEAN  \033[1;32m$(TARGETS) $(TARGETS_SO) $(TARGETS_A) ${TARGETS_O}\033[m"
-	@rm -f ${TARGETS} ${TARGETS_SO} ${TARGETS_A} ${TARGETS_O} *.o *.obj *.reloc
+	@echo -e "  CLEAN  \033[1;32m$(TARGETS) $(TARGETS_SO) $(TARGETS_A) ${TARGETS_O} ${TARGETS_ASMO}\033[m"
+	@rm -f ${TARGETS} ${TARGETS_SO} ${TARGETS_A} ${TARGETS_O} *.o *.obj *.reloc *.So

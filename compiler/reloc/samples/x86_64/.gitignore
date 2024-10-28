@@ -1,4 +1,5 @@
 /*.reloc
+/*.So
 /R_X86_64_PC32
 /R_X86_64_JUMP_SLOT
 /R_X86_64_GLOB_DAT
