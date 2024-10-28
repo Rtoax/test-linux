@@ -8,6 +8,7 @@
 #include <stddef.h>
 #include <stdint.h>
 
+int8_t gi8 = 0;	/* .bss, GLOBAL */
 
 int32_t gi = 0;	/* .bss, GLOBAL */
 int32_t gii = 1;	/* .data, GLOBAL */
@@ -24,6 +25,8 @@ static int32_t sl = 0;	/* .bss, LOCAL */
 /* R_X86_64_PC32 */
 void foo(void)
 {
+	gi8 = 10;	/* R_X86_64_PC32 */
+
 	gi = 10;	/* R_X86_64_PC32 */
 	si1 = 10;	/* R_X86_64_PC32 */
 	si2 = 10;	/* R_X86_64_PC32 */
