@@ -4,7 +4,7 @@ TARGETS :=
 TARGETS_O :=
 TARGETS_SO :=
 TARGETS_A :=
-TARGETS_ASMO :=
+TARGETS_S_O :=
 
 CC := gcc
 AS := as
@@ -40,7 +40,7 @@ define print_elf_reloc
 endef
 
 .PHONY: build
-build: ${TARGETS_SO} ${TARGETS_A} ${TARGETS} ${TARGETS_O} ${TARGETS_ASMO}
+build: ${TARGETS_SO} ${TARGETS_A} ${TARGETS} ${TARGETS_O} ${TARGETS_S_O}
 	@echo -e " \033[1;33m Done \033[m"
 
 R_386_32: R_386_32.o
@@ -78,6 +78,6 @@ test: ${TARGETS}
 
 .PHONY: clean
 clean:
-	@echo -e "  CLEAN  \033[1;32m$(TARGETS) $(TARGETS_SO) $(TARGETS_A) ${TARGETS_O} ${TARGETS_ASMO}\033[m"
-	@rm -f ${TARGETS} ${TARGETS_SO} ${TARGETS_A} ${TARGETS_O} ${TARGETS_ASMO} \
+	@echo -e "  CLEAN  \033[1;32m$(TARGETS) $(TARGETS_SO) $(TARGETS_A) ${TARGETS_O} ${TARGETS_S_O}\033[m"
+	@rm -f ${TARGETS} ${TARGETS_SO} ${TARGETS_A} ${TARGETS_O} ${TARGETS_S_O} \
 		*.o *.obj *.reloc *.So *.c.s
