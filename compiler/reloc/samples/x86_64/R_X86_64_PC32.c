@@ -5,6 +5,7 @@
  * R_X86_64_PC8:  value = 15, field = word8,  calculation = S + A - P
  */
 
+#include <stddef.h>
 #include <stdint.h>
 
 
@@ -12,6 +13,7 @@ int32_t gi = 0;	/* .bss, GLOBAL */
 int32_t gii = 1;	/* .data, GLOBAL */
 
 int64_t gl = 0;	/* .bss, GLOBAL */
+int64_t *pgl = NULL;	/* .bss, GLOBAL */
 
 static int32_t si1 = 0;	/* .bss, LOCAL */
 static int32_t si2 = 0;	/* .bss, LOCAL */
@@ -27,6 +29,8 @@ void foo(void)
 	si2 = 10;	/* R_X86_64_PC32 */
 
 	gl = 10;	/* R_X86_64_PC32 */
+	pgl = NULL;	/* R_X86_64_PC32 */
+
 	sl = 10;	/* R_X86_64_PC32 */
 }
 
