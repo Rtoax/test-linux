@@ -22,7 +22,7 @@ static int32_t sii = 1;	/* .data, LOCAL */
 
 static int32_t sl = 0;	/* .bss, LOCAL */
 
-/* R_X86_64_PC32 */
+/* foo is R_X86_64_PC32 */
 void foo(void)
 {
 	gi8 = 10;	/* R_X86_64_PC32 */
@@ -36,15 +36,19 @@ void foo(void)
 
 	sl = 10;	/* R_X86_64_PC32 */
 }
+/**
+ * alias_foo is R_X86_64_PC32
+ */
+void alias_foo(void) __attribute__((alias("foo")));
 
-/* R_X86_64_PC32 */
+/* bar is R_X86_64_PC32 */
 void bar(void)
 {
 	gii = 20;	/* R_X86_64_PC32 */
 	sii = 20;	/* R_X86_64_PC32 */
 }
 
-/* R_X86_64_PC32 */
+/* main is R_X86_64_PC32 */
 int main(void)
 {
 	return 0;
