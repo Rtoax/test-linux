@@ -11,19 +11,33 @@ no_cover_letter=
 dumpcmd=
 output_dir=tmp.patch
 
+readonly ANSI_RED="\033[31m"
+readonly ANSI_GREEN="\033[32m"
+readonly ANSI_YELLOW="\033[33m"
+readonly ANSI_BLUE="\033[34m"
+readonly ANSI_PURPLE="\033[35m"
+
+readonly ANSI_BOLD="\033[1m"
+readonly ANSI_GRAY="\033[2m"
+readonly ANSI_ITALIC="\033[3m"
+readonly ANSI_UL="\033[4m" # Underline
+readonly ANSI_REVERSE="\033[7m"
+
+readonly ANSI_RESET="\033[m"
+
 __usage__()
 {
 	echo -e "
-NAME
+${ANSI_BOLD}NAME${ANSI_RESET}
 	patchset - Generate patchset
 
-SYNOPSIS
+${ANSI_BOLD}SYNOPSIS${ANSI_RESET}
 	patchset [options]
 
-DESCRIPTION
+${ANSI_BOLD}DESCRIPTION${ANSI_RESET}
 	Generate patchset to send email.
 
-ARGUMENT
+${ANSI_BOLD}ARGUMENT${ANSI_RESET}
 	--subject-prefix [STR]   specify Subject prefix
 	--from [COMMIT]          specify downer/older commit, see git log --oneline
 	--to   [COMMIT]          specify upper/newer commit, see git log --oneline
@@ -35,21 +49,31 @@ ARGUMENT
 	-h, --help               show this help information
 	-v, --verbose            show detail during running
 
-AUTHOR
-	Rong Tao <rongtao@cestc.cn>
+${ANSI_BOLD}BARE GIT EXAMPLES${ANSI_RESET}
+	${ANSI_GRAY}# Generate single one pretty patch${ANSI_RESET}
+	$ git format-patch ${ANSI_UL}-1${ANSI_RESET} --pretty=fuller HEAD
+	${ANSI_GRAY}# Generate single one patch with e-mail${ANSI_RESET}
+	$ git format-patch ${ANSI_UL}-1${ANSI_RESET} HEAD --to=${ANSI_UL}rtoax@foxmail.com${ANSI_RESET} \\
+				 --cc=${ANSI_UL}linux-kernel@vger.kernel.org${ANSI_RESET}
+	${ANSI_GRAY}# Generate 2 patches patchset with cover letter${ANSI_RESET}
+	$ git format-patch ${ANSI_UL}-2${ANSI_RESET} -s --cover-letter --thread \\
+			--subject-prefix=\"${ANSI_UL}PATCH v3${ANSI_RESET}\"
 
-SEE ALSO
+${ANSI_BOLD}EXAMPLES${ANSI_RESET}
+	${ANSI_GRAY}# Submit a patchset:${ANSI_RESET}
+	$ patchset --from [commit1] --to [commit2]
+	${ANSI_GRAY}# Then, modify 0000-cover-letter.patch${ANSI_RESET}
+	$ git send-email ${dumpcmd:+--dry-run} ${output_dir}/*.patch
+
+${ANSI_BOLD}SEE ALSO${ANSI_RESET}
 	git(1), git‐format‐patch(1), git‐send‐email(1)
 
-EXAMPLES
-	# Submit a patchset:
-	$ patchset --from [commit1] --to [commit2]
-	# Then, modify 0000-cover-letter.patch
-	$ git send-email ${dry_run:+--dry-run} ${output_dir}/*.patch
+${ANSI_BOLD}AUTHOR${ANSI_RESET}
+	Rong Tao <rongtao@cestc.cn>
 
-LINKS
+${ANSI_BOLD}LINKS${ANSI_RESET}
 	https://kernelnewbies.org/FirstKernelPatch
-"
+" | more
 	exit ${1-0}
 }
 
@@ -151,8 +175,6 @@ patchset()
 		args+=( --cover-letter )
 	fi
 
-	# Generate single one pretty patch:
-	# $ git format-patch -1 --pretty=fuller HEAD
 	my_eval git format-patch \
 		--numbered \
 		--thread=shallow \
@@ -164,7 +186,7 @@ patchset()
 	echo "
 	1. modify 0000-cover-letter.patch
 	2. check patches (scripts/checkpatch.pl if linux)
-	3. git send-email ${dry_run:+--dry-run} [--to|--cc|--to-cmd=] ${output_dir}/*.patch
+	3. git send-email ${dumpcmd:+--dry-run} [--to|--cc|--to-cmd=] ${output_dir}/*.patch
 	"
 }
 
