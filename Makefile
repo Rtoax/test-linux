@@ -39,7 +39,8 @@ export VERSION PATCHLEVEL SUBLEVEL TEST_LINUX_VERSION
 
 include $(ABS_SRCTREE)/scripts/TLbuild.include
 
-all:
+# Default make help
+help:
 	@echo >&2 -e "***"
 	@echo >&2 -e "*** ABS_SRCTREE ${ABS_SRCTREE}"
 	@echo >&2 -e "*** USER_FAILED_LOG ${USER_FAILED_LOG}"
@@ -115,7 +116,7 @@ define make_clean
 	@echo -e "[$(1)] Clean [$(2)] done"
 endef
 
-
+all: default
 default: user kernel
 
 user: cleanuserlog $(SUB_user_DIR)
