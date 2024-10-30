@@ -3,6 +3,7 @@
 - CI: Continuous Integration (持续集成)
 - DSO: Dynamic Shared Object (动态共享目标)
 - EEMBC: EDN Embedded Microprocessor Benchmark Consortium (嵌入式微处理器基准协会)
+- FSF: Free Software Foundation (自由软件基金会)
 - LKFT: Linux Kernel Functional Testing (Linux 内核功能测试)
 - LKM: Linux Kernel Module (内核模块)
 - LKML: Linux Kernel Mail List (Linux邮件列表)

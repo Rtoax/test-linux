@@ -7,6 +7,7 @@ I'd rather name the repository test-gnu-linux, but it's too late to regret it, b
 
 You must clone this repo under **Linux(UNIX like)** system. Because there are lots of symbol links, some file system not support in Windows OS.
 
+> 1969: UNIX born at Bell Labs (AT&T).
 > You'd better don't rename any of folder and file's name, because of symlinks. If you rename/move/update/remove path/directory, you need to run **make check** under top-dir and fix the invalid-symlinks.
 
 It may be that the repository will contain **desktop-related** test code, such as **GNOME**, but that is not the main purpose of the repository. Perhaps researching the **GUI** is also the purpose of this repository, such as **GTK**.
