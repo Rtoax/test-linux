@@ -168,6 +168,9 @@ make user M32=1
 - [https://lore.kernel.org/lkml/](https://lore.kernel.org/lkml/)
 - [https://www.kernel.org/doc/html/latest/](https://www.kernel.org/doc/html/latest/)
 - [Contributors to the Linux Kernel](https://cregit.linuxsources.org/)
+- [KernelCI](https://kernelci.org/)
+- [linaro LKFT](https://qa-reports.linaro.org/lkft/)
+- [kerneltests](https://kerneltests.org/)
 
 
 ## Relative Projects
