@@ -31,7 +31,7 @@ pre_check() {
 	fi
 
 	if [[ "${no_commit_files[@]}" ]]; then
-		echo "Files not commited will be removed:"
+		echo "Files not committed will be removed:"
 		print_list ${no_commit_files[@]}
 	fi
 

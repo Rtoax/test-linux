@@ -18,7 +18,7 @@ int main(int argc,char *argv[])
 	sleep(1);
 	endtime = MPI_Wtime();
 
-	fprintf(stderr,"That tooks %f seconds\n", endtime-starttime);
+	fprintf(stderr,"That took %f seconds\n", endtime-starttime);
 
 	tick = MPI_Wtick();
 	if (tick > 1.0 || tick < 0.0) {

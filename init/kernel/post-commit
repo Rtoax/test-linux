@@ -1,0 +1,6 @@
+#!/bin/bash
+# Copy this to .git/hooks/post-commit
+
+exec git show --format=email HEAD | ./scripts/checkpatch.pl --strict --codespell
+# Make sure the file is executable:
+chmod a+x .git/hooks/post-commit

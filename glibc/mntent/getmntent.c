@@ -5,18 +5,20 @@
 int main(void)
 {
 	struct mntent *ent;
-	FILE *aFile;
+	FILE *fp;
 
-	aFile = setmntent("/proc/mounts", "r");
-	if (aFile == NULL) {
+	fp = setmntent("/proc/mounts", "r");
+	if (fp == NULL) {
 		perror("setmntent");
 		exit(1);
 	}
-	while (NULL != (ent = getmntent(aFile))) {
+	while (NULL != (ent = getmntent(fp))) {
 		printf("mnt_fsname:%s mnt_dir: %s mnt_type:%s mnt_opts: %s\n",
 			ent->mnt_fsname, ent->mnt_dir,
 			ent->mnt_type, ent->mnt_opts);
 	}
-	endmntent(aFile);
+	endmntent(fp);
+
+	return 0;
 }
 

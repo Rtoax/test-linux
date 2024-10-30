@@ -207,6 +207,7 @@ pkgs_base+=( blktrace )
 pkgs_base+=( bpftrace bcc )         # eBPF
 pkgs_base+=( cargo )                # The Rust package manager
 pkgs_base+=( cloc )
+pkgs_base+=( codespell )
 pkgs_base+=( cscope )
 pkgs_base+=( dialog kdialog )
 pkgs_base+=( dwz )                  # DWARF optimization and duplicate removal tool
@@ -432,7 +433,7 @@ cclinux|fedora|centos|rhel|openEuler|almalinux|opencloudos)
 
 	if [[ ${have_upgrade} ]]; then
 		inst_eval sudo dnf up ${dnf_args[@]} -y --allowerasing --skip-broken --nobest || {
-			echo "WARNING: Failed to upgrade, skiping"
+			echo "WARNING: Failed to upgrade, skipping"
 			true
 		}
 	fi
