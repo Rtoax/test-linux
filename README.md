@@ -50,6 +50,22 @@ You can use the following macro
 ```
 
 
+## Linux Debug Options
+
+```
+CONFIG_KASAN
+CONFIG_KMSAN
+CONFIG_UBSAN
+CONFIG_LOCKDEP
+CONFIG_PROVE_LOCKING
+CONFIG_LOCKUP_DETECTOR
+```
+
+- [Bug hunting](https://www.kernel.org/doc/html/latest/admin-guide/bug-hunting.html)
+- [Bisecting a regression(二分回归)](https://www.kernel.org/doc/html/latest/admin-guide/bug-bisect.html)
+- [Dynamic debug](https://www.kernel.org/doc/html/latest/admin-guide/dynamic-debug-howto.html)
+
+
 ## Linux Licenses
 
 See [Linux kernel licensing rules](https://www.kernel.org/doc/html/latest/process/license-rules.html).
