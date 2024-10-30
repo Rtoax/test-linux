@@ -19,22 +19,22 @@ It may be that the repository will contain **desktop-related** test code, such a
 * [git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git](git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git)
 
 
-# Relative Architecture
+# Linux Kernel Development
 
-- [x] `x86_64`
-- [x] `aarch64`
-- [x] `sw_64`
-- [ ] `riscv64`
-- [ ] `loongarch64`
+Linus Torvalds releases a new kernel and opens a **2-week merge window**.
+
+## Tags
+
+- `Signed-off-by`: Using sign-off, developers certify the patch to be their original work or have the right to pass it on as an open source patch. In our example, the author signed off and then, as the usb maintainer, Greg KH signed-off on the patch. Please refer to Sign your work - the Developer's Certificate of Origin for detailed information on this tag, as it is a very important part of the kernel development process.
+- `Acked-by`: This tag is often used by the maintainer of the affected code when that maintainer neither contributed to, nor forwarded the patch. As an example, I maintain the usbip driver and I use the Acked-by tag to ask the USB maintainer to pick patches sent by other developers.
+- `Reviewed-by`: This tag indicates that the patch has been reviewed by the person named in the tag.
+- `Reported-by`: This tag gives credit to people who find bugs and report them.
+- `Tested-by`: This tag indicates that the patch has been tested by the person named in the tag.
+- `Suggested-by`: This tag indicates that the patch has been tested by the person named in the tag.
+- `Fixes`: This tag indicates that the patch fixes an issue in a previous commit referenced by its Commit ID. This tag allows us to track where the bug originated.
 
 
-# Relate Repos
-
-* [GitHub test-linux(Me)](https://github.com/Rtoax/test-linux)
-* [Gitee test-linux(Me)](https://gitee.com/rtoax/test-linux)
-
-
-# Linux Version
+## Linux Version
 
 `linux >= 5.0`, some time 5.14 will successful.
 You can use the following macro
@@ -50,7 +50,25 @@ You can use the following macro
 ```
 
 
-# Directories
+# test-linux
+
+## Relative Architecture
+
+- [x] `x86_64`
+- [x] `aarch64`
+- [x] `sw_64`
+- [ ] `riscv64`
+- [ ] `loongarch64`
+
+
+## Relate Repos
+
+* [GitHub test-linux(Me)](https://github.com/Rtoax/test-linux)
+* [Gitee test-linux(Me)](https://gitee.com/rtoax/test-linux)
+
+
+
+## sub-Directories
 
 * Each `scripts` directory contain scriptions(bpftrace, bcc, shell).
 * Each `modules` directory contain Linux Modules(KO) source code.
@@ -60,7 +78,7 @@ You can use the following macro
 * Each `commands` directory contain relative command lines.
 
 
-# Files
+## Files
 
 * Each `README.md` is current directory's description.
 * Each `abbreviation.md` is current directory's relative abbreviation.
@@ -77,7 +95,7 @@ You can use the following macro
 ```
 
 
-# Defaults
+## Defaults
 
 - `SHELL`: `bash`
 

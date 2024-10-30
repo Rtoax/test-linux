@@ -151,8 +151,9 @@ patchset()
 		args+=( --cover-letter )
 	fi
 
-	my_eval \
-	git format-patch \
+	# Generate single one pretty patch:
+	# $ git format-patch -1 --pretty=fuller HEAD
+	my_eval git format-patch \
 		--numbered \
 		--thread=shallow \
 		${args[@]} \

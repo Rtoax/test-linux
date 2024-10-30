@@ -4,6 +4,7 @@
 - EEMBC: EDN Embedded Microprocessor Benchmark Consortium (嵌入式微处理器基准协会)
 - LXC: Linux Containers (Linux容器)
 - POSIX: Portable Operating System Interface of UNIX (可移植操作系统接口)
+- RC: Release Candidate (候选版本,例如rc1)
 - RTLA: Real-time Linux Analysis tool (实时分析工具)
 - SVR4: System V Release 4
 - SysV: Unix System V 'System Five' ()

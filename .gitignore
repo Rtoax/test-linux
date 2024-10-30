@@ -170,3 +170,6 @@ vmlinux.h
 
 # Draw
 *.drawio.bkp
+
+# Patches
+*.patch
