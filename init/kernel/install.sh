@@ -13,6 +13,12 @@ cross_compile_env()
 
 config_kernel()
 {
+	# to see a list of new configuration symbols
+	cp /boot/config-$(uname -r) .config
+	make listnewconfig
+
+	# Start to config
+
 	make oldconfig
 
 	# Or trim down the kernel and tailor it to your system
@@ -31,14 +37,17 @@ install_from_source()
 	sudo make headers_install
 	sudo make install
 
+	# If RHEL like OS:
 	# Update grub
 	sudo grub2-mkconfig -o /boot/grub2/grub.cfg
 	sudo grubby --set-default /boot/vmlinuz-6.0.0-rc4+
-
 	# Confirm
 	sudo grubby --info=ALL | more
 	sudo grubby --default-index
 	sudo grubby --default-kernel
+
+	# If Debian like OS:
+	sudo update-grub
 }
 
 uninstall_kernel()
