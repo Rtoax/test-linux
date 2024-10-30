@@ -11,6 +11,18 @@ cross_compile_env()
 	export INSTALL_HDR_PATH=$PWD/headers
 }
 
+config_kernel()
+{
+	make oldconfig
+
+	# Or trim down the kernel and tailor it to your system
+	lsmod > /tmp/my-lsmod
+	make LSMOD=/tmp/my-lsmod localmodconfig
+
+	# Or use TUI
+	make menuconfig
+}
+
 install_from_source()
 {
 	# Compile and install
