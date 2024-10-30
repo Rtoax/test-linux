@@ -5,6 +5,7 @@
 - EEMBC: EDN Embedded Microprocessor Benchmark Consortium (嵌入式微处理器基准协会)
 - LKFT: Linux Kernel Functional Testing (Linux 内核功能测试)
 - LKM: Linux Kernel Module (内核模块)
+- LKML: Linux Kernel Mail List (Linux邮件列表)
 - LXC: Linux Containers (Linux容器)
 - POSIX: Portable Operating System Interface of UNIX (可移植操作系统接口)
 - RC: Release Candidate (候选版本,例如rc1)

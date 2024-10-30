@@ -180,6 +180,8 @@ make user M32=1
 ## Linux
 
 - [The Linux Kernel Archives](https://www.kernel.org/)
+- [vger.kernel.org](https://subspace.kernel.org/vger.kernel.org.html)
+	- [https://lore.kernel.org/lkml/](https://lore.kernel.org/lkml/)
 - [https://elixir.bootlin.com/linux/latest/source](https://elixir.bootlin.com/linux/latest/source)
 - [https://lore.kernel.org/lkml/](https://lore.kernel.org/lkml/)
 - [https://www.kernel.org/doc/html/latest/](https://www.kernel.org/doc/html/latest/)
