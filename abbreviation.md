@@ -2,6 +2,7 @@
 - API: Application Programming Interface (应用程序接口) @ABI
 - DSO: Dynamic Shared Object (动态共享目标)
 - EEMBC: EDN Embedded Microprocessor Benchmark Consortium (嵌入式微处理器基准协会)
+- LKM: Linux Kernel Module (内核模块)
 - LXC: Linux Containers (Linux容器)
 - POSIX: Portable Operating System Interface of UNIX (可移植操作系统接口)
 - RC: Release Candidate (候选版本,例如rc1)
