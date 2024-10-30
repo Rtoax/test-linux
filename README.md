@@ -23,7 +23,7 @@ It may be that the repository will contain **desktop-related** test code, such a
 
 Linus Torvalds releases a new kernel and opens a **2-week merge window**.
 
-## Tags
+## Commit Tags
 
 - `Signed-off-by`: Using sign-off, developers certify the patch to be their original work or have the right to pass it on as an open source patch. In our example, the author signed off and then, as the usb maintainer, Greg KH signed-off on the patch. Please refer to Sign your work - the Developer's Certificate of Origin for detailed information on this tag, as it is a very important part of the kernel development process.
 - `Acked-by`: This tag is often used by the maintainer of the affected code when that maintainer neither contributed to, nor forwarded the patch. As an example, I maintain the usbip driver and I use the Acked-by tag to ask the USB maintainer to pick patches sent by other developers.
@@ -50,6 +50,11 @@ You can use the following macro
 ```
 
 
+## Linux Licenses
+
+See [Linux kernel licensing rules](https://www.kernel.org/doc/html/latest/process/license-rules.html).
+
+
 # test-linux
 
 ## Relative Architecture
@@ -65,7 +70,6 @@ You can use the following macro
 
 * [GitHub test-linux(Me)](https://github.com/Rtoax/test-linux)
 * [Gitee test-linux(Me)](https://gitee.com/rtoax/test-linux)
-
 
 
 ## sub-Directories
