@@ -7,6 +7,8 @@
 - LKM: Linux Kernel Module (内核模块)
 - LKML: Linux Kernel Mail List (Linux邮件列表)
 - LXC: Linux Containers (Linux容器)
+- NDAs: Non-Disclosure Agreements (保密协议)
+- OSS: Open Source Software (开源软件)
 - POSIX: Portable Operating System Interface of UNIX (可移植操作系统接口)
 - RC: Release Candidate (候选版本,例如rc1)
 - RTLA: Real-time Linux Analysis tool (实时分析工具)
