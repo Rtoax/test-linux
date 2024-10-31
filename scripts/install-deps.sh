@@ -258,6 +258,7 @@ pkgs_compiler+=( llvm )                   # llvm-as llvm-dis llc
 
 pkgs_container+=( buildah )
 pkgs_container+=( conmon )
+pkgs_container+=( containerd )
 pkgs_container+=( crun )
 pkgs_container+=( debootstrap )
 pkgs_container+=( lxc )
