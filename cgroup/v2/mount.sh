@@ -7,5 +7,7 @@ MNT_POINT=$PWD/cgroup-v2.dir
 mkdir -p ${MNT_POINT}
 
 sudo mount --type cgroup2 ${NAME} ${MNT_POINT}
-mount | grep ${NAME}
 
+# Show some information
+mount | grep ${NAME}
+findmnt
