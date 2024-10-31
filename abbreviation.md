@@ -19,7 +19,6 @@
 - POSIX: Portable Operating System Interface of UNIX (可移植操作系统接口)
 - RC: Release Candidate (候选版本,例如rc1)
 - RTLA: Real-time Linux Analysis tool (实时分析工具)
-- SPDX: Software Package Data Exchange (软件包数据交换)
 - SVR4: System V Release 4
 - SysV: Unix System V 'System Five' ()
 - Tex: () @LaTeX

@@ -67,11 +67,6 @@ CONFIG_LOCKUP_DETECTOR
 - [Dynamic debug](https://www.kernel.org/doc/html/latest/admin-guide/dynamic-debug-howto.html)
 
 
-## Linux Licenses
-
-See [Linux kernel licensing rules](https://www.kernel.org/doc/html/latest/process/license-rules.html).
-
-
 # test-linux
 
 ## Relative Architecture
@@ -172,11 +167,6 @@ make user M32=1
 
 
 # Links
-
-## Licenses
-
-- [https://spdx.org/licenses/](https://spdx.org/licenses/)
-
 
 ## Linux
 
