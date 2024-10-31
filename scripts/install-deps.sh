@@ -383,6 +383,7 @@ cclinux|fedora|centos|rhel|openEuler|almalinux|opencloudos)
 	pkgs_fs+=( ocfs2-tools )
 	pkgs_fs+=( overlayfs-tools )
 	pkgs_fs+=( xfsprogs-devel )         # xfs
+	pkgs_fs+=( funionfs )
 
 	# Cross compile packages
 	pkgs_compiler+=( binutils-aarch64-linux-gnu )
@@ -481,6 +482,8 @@ debian|ubuntu)
 	pkgs_compiler+=( gcc-doc )
 	pkgs_compiler+=( gcc-multilib )
 	pkgs_compiler+=( rust-all )
+
+	pkgs_fs+=( unionfs-fuse )
 
 	pkgs_math+=( fftw-dev )
 
