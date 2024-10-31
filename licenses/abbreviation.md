@@ -1,1 +1,6 @@
+- AGPL: GNU Affero General Public License (GNU Affero 通用公共许可证) @copyleft
+- FDL: GNU Free Documentation License (GNU自由文档版权)
+- FUD: Fear, Uncertainty and Doubt (恐惧、不确定性和质疑)
 - GPL: General Public License ()
+- LGPL: GNU Lesser General Public License (GNU 宽通用公共许可证)
+- OIN: Open Invention Network (开放发明网络)
