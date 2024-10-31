@@ -12,6 +12,7 @@
 - MM: Memory Managment (内存管理) @MMU
 - MMU: Memory Management Unit (内存管理单元) @IOMMU @SMMU
 - NUMA: Non-Uniform Memory Architecture (非一致性内存架构)
+- OOM: Out Of Memory (内存耗尽)
 - PAE: Physical Address Extension (物理地址扩展)
 - PSS: Proportional Set Size (实际使用的物理内存 比例分配共享库占用的内存)
 - RSS: Resident Set Size (常驻内存集合大小 包含共享库占用的内存)

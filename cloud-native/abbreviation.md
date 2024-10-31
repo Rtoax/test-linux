@@ -1,3 +1,8 @@
+- ACI: Application Container Image (应用容器镜像)
+- APPC: Application Container (应用容器)
 - CNCF: Cloud Native Computing Foundation (云原生计算基金会)
+- CNI: Container Network Interface (容器网络接口)
+- CRI: Container Runtime Interface (容器运行时接口)
 - HPA: Horizontal Pod Autoscaling (水平 Pod 自动扩展)
 - KEDA: Kubernetes Event-Driven Autoscaling (K8s时间驱动自动伸缩)
+- OCI: Open Container Initiative (开放容器计划)
