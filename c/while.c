@@ -15,7 +15,8 @@ int main(void)
 	while (1)
 #ifdef WHILE_SLEEP
 	{
-		printf("count %ld, %ld, %ld\n", bss_count++, data_count++, rodata_count);
+		printf("count %ld, %ld, %ld\n", bss_count++, data_count++,
+		       rodata_count);
 		sleep(1);
 	}
 #endif
