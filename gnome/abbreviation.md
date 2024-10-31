@@ -1,1 +1,1 @@
-- GDM: The GNOME Display Manager
+- GDM: The GNOME Display Manager ()
