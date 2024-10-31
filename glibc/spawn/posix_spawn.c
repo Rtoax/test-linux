@@ -20,4 +20,6 @@ int main(int argc ,char *argv[])
 
 	wait(&wait_val);
 	printf("wait value = %d\n", wait_val);
+
+	return 0;
 }

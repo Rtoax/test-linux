@@ -259,9 +259,12 @@ pkgs_compiler+=( llvm )                   # llvm-as llvm-dis llc
 pkgs_container+=( buildah )
 pkgs_container+=( conmon )
 pkgs_container+=( crun )
+pkgs_container+=( debootstrap )
+pkgs_container+=( lxc )
 pkgs_container+=( podman )
 pkgs_container+=( runc )
 pkgs_container+=( skopeo )
+pkgs_container+=( systemd-container )
 
 pkgs_virt+=( qemu-user )
 pkgs_virt+=( virt-manager )

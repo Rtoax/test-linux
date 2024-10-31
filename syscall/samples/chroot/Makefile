@@ -1,22 +1,18 @@
 SHELL = bash
 
-TARGETS += posix_spawn
+TARGETS :=
+TARGETS += clone
 
-DEBUG = yes
 CC = gcc
 
-CFLAGS := -Werror -Wall -pthread
-CFLAGS += -lm
-
-ifdef DEBUG
-  CFLAGS += -DDEBUG -O0 -g
-endif
+CFLAGS := -Werror -Wall -D_GNU_SOURCE
+CFLAGS += -pthread
+CFLAGS += -DDEBUG -O0 -g
 
 build: ${TARGETS}
-	@echo
 	@echo -e " \033[1;33m Done \033[m"
 
-posix_spawn: posix_spawn.o
+clone: clone.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

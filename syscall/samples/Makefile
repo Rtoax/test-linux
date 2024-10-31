@@ -16,6 +16,7 @@ sub-dir += ioctl
 sub-dir += poll
 sub-dir += dup
 sub-dir += cache
+sub-dir += chroot
 sub-dir += epoll
 sub-dir += msgqueue
 sub-dir += resource
