@@ -1,0 +1,3 @@
+- CNCF: Cloud Native Computing Foundation (云原生计算基金会)
+- HPA: Horizontal Pod Autoscaling (水平 Pod 自动扩展)
+- KEDA: Kubernetes Event-Driven Autoscaling (K8s时间驱动自动伸缩)
