@@ -4,6 +4,7 @@
 - DSO: Dynamic Shared Object (动态共享目标)
 - EEMBC: EDN Embedded Microprocessor Benchmark Consortium (嵌入式微处理器基准协会)
 - FSF: Free Software Foundation (自由软件基金会)
+- LaTeX: Lamport TeX (一种文档准备系统，广泛应用于学术界) @TeX
 - LKFT: Linux Kernel Functional Testing (Linux 内核功能测试)
 - LKM: Linux Kernel Module (内核模块)
 - LKML: Linux Kernel Mail List (Linux邮件列表)
@@ -16,4 +17,5 @@
 - SPDX: Software Package Data Exchange (软件包数据交换)
 - SVR4: System V Release 4
 - SysV: Unix System V 'System Five' ()
+- Tex: () @LaTeX
 - vDSO: Virtual Dynamic Shared Object (虚拟动态共享目标)
