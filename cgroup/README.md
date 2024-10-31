@@ -2,28 +2,29 @@ cgroup
 ===============
 
 * `Namespace` 资源的隔离，名字隔离
-* `CGroups` 资源的限制
-* `cgroup-v1`
-* `cgroup-v2` Cgroup v2 brings exciting new features in areas such as eBPF and rootless containers.
+* `cgroup` 资源的限制 (首字母永远不大写, never capitalized)
+	* `cgroup-v1`
+	* `cgroup-v2` Cgroup v2 brings exciting new features in areas such as eBPF and rootless containers.
+
 
 # Mount
 
 ```bash
-# 在使用LXC 之前，必须启用cgroup 文件系统。使用下列命令挂载cgroup 文件系统。
-mount -t cgroup cgroup /cgroup
-
-# 向/etc/fstab 添加下列语句，就可以在系统启动时自动挂载cgroup 文件系统
-echo "cgroup /cgroup cgroup defaults 0 0" >> /etc/fstab
+$ sudo mount -t cgroup cgroup /cgroup
+$ echo "cgroup /cgroup cgroup defaults 0 0" | sudo tee --append /etc/fstab
 ```
 
-# 查看当前版本
+
+# Check Current cgroup Version
 
 ```
 grep -w cgroup /proc/filesystems
 grep -w cgroup2 /proc/filesystems
 ```
 
-# Enable CGroup V1
+# Enable cgroup V1
+
+## Fedora Like OS
 
 ```
 dnf install -y grubby
@@ -31,7 +32,9 @@ sudo grubby --update-kernel=ALL --args="systemd.unified_cgroup_hierarchy=0 syste
 sudo systemctl reboot
 ```
 
-# Enable CGroup V2
+# Enable cgroup V2
+
+## Fedora Like OS
 
 ```
 dnf install -y grubby
@@ -42,5 +45,6 @@ sudo systemctl reboot
 
 # Links
 
+- [[译] Control Group v2（cgroupv2 权威指南）（KernelDoc, 2021）](https://arthurchiao.art/blog/cgroupv2-zh/)
 - https://www.kernel.org/doc/html/latest/admin-guide/cgroup-v1/devices.html
 

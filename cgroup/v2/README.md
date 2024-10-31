@@ -1,4 +1,4 @@
-CGroup V2
+cgroup V2
 ==============
 
 Cgroup v2 是 cgroup Linux API 的下一个版本。与 cgroup v1 不同的是， Cgroup v2 只有一个层次结构，而不是每个控制器有一个不同的层次结构。

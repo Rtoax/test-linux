@@ -1,2 +1,2 @@
-- CGroups: Control Groups (控制组)
-- CSS: CGroup SubSystem (CGroup 子系统)
+- cgroup: Control Groups (控制组)
+- CSS: cgroup SubSystem (cgroup 子系统)

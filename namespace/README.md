@@ -1,13 +1,13 @@
 Namespace
 =========
 
-* `Namespace` 资源的隔离
-* `CGroups` 资源的限制
+* `namespace` 资源的隔离
+* `cgroup` 资源的限制
 
 
 | Namespace | enum            | 隔离内容 |
 | --------- | --------------- | ------- |
-| Cgroup    | CLONE_NEWCGROUP | Cgroup root directory |
+| cgroup    | CLONE_NEWCGROUP | Cgroup root directory |
 | IPC       | CLONE_NEWIPC    | System V IPC, POSIX消息队列 |
 | Network   | CLONE_NEWNET    | 网络设备、栈、端口等 |
 | Mount     | CLONE_NEWNS     | 挂载点 |

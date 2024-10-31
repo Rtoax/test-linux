@@ -1,3 +1,3 @@
-CGroup V1
+cgroup V1
 =========
 
