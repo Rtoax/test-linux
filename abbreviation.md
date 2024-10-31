@@ -1,7 +1,8 @@
 - ABI: Application Binary Interface (应用程序二进制接口) @API
 - API: Application Programming Interface (应用程序接口) @ABI
 - CLA: Contributor License Agreement () @DCO
-- CD: Continuous Delivery (持续交付)
+- CD: Continuous Delivery (持续交付) @CDF
+- CDF: Continuous Delivery Foundation (持续交付基金会) @CD
 - CI: Continuous Integration (持续集成)
 - DCO: Developer Certificate of Origin () @CLA
 - DSO: Dynamic Shared Object (动态共享目标)
@@ -22,4 +23,5 @@
 - SVR4: System V Release 4
 - SysV: Unix System V 'System Five' ()
 - Tex: () @LaTeX
+- TOC: The Technical Oversight Committee (技术监督委员会)
 - vDSO: Virtual Dynamic Shared Object (虚拟动态共享目标)
