@@ -1,7 +1,6 @@
 #!/bin/bash
 set -e
 
-
 NAME=test-cgroupv2
 MNT_POINT=$PWD/cgroup-v2.dir
 

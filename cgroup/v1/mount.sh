@@ -1,4 +1,10 @@
 #!/bin/bash
+set -e
 
-mkdir cgroup-v1.dir
-sudo mount -t cgroup -o none,name=cgroup cgroup $PWD/cgroup-v1.dir
+NAME=test-cgroupv1
+MNT_POINT=$PWD/cgroup-v1.dir
+
+mkdir -p ${MNT_POINT}
+
+sudo mount -t cgroup -o none,name=${NAME} ${NAME} ${MNT_POINT}
+mount | grep ${NAME}
