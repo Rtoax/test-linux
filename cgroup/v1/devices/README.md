@@ -1,4 +1,4 @@
-CGroup V1 Devices
+cgroup V1 Devices
 =================
 
 

@@ -1,4 +1,4 @@
-Memory CGroup
+Memory cgroup
 =============
 
 
