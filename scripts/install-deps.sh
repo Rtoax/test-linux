@@ -484,6 +484,8 @@ debian|ubuntu)
 
 	pkgs_math+=( fftw-dev )
 
+	pkgs_container+=( cgroup-tools )
+
 	pkgs_virt+=( libvirt0 )
 	pkgs_virt+=( qemu-system )
 
