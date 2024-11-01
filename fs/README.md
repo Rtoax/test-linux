@@ -41,3 +41,10 @@ kernel space                         write(), etc.\
 # 这会擦出块，谨慎执行
 $ sudo wipefs -af /dev/sdxxx
 ```
+
+
+# Container Storage Drivers
+
+- xfs,ext4 support overlay, overlay2 and aufs;
+- devicemapper driver is backed by direct-lvm;
+
