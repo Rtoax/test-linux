@@ -4,13 +4,14 @@ set -e
 prog=inst-deps
 
 declare -a dnf_args apt_args
-declare -a pkgs pkgs_compiler pkgs_desktop whls pkgs_bench pkgs_math pkgs_db
+declare -a pkgs pkgs_compiler pkgs_desktop pkgs_bench pkgs_math pkgs_db
 declare -a pkgs_storage pkgs_net pkgs_container pkgs_virt pkgs_base pkgs_fs
+declare -a pip_whls
 
 have_base=YES
 have_upgrade=YES
 have_fs=
-have_whls=
+have_pip=
 have_compiler=
 have_container=
 have_virt=
@@ -124,7 +125,6 @@ ARGUMENT
 
 	--compilers        install extra compilers, such as rust java
 	--container        install container relate packages, such as podman
-	--whls             install python pip wheel packages
 	--desktop          install desktop relate packages
 	--math             install math relate packages
 	--bench            install benchmark relate packages
@@ -136,6 +136,8 @@ ARGUMENT
 
 	--nobase           skip basic packages
 	--noup             skip upgrade
+
+	--pip              install python pip wheel packages
 
 	--dry-run          only show commands
 
@@ -156,7 +158,7 @@ TEMP=$(getopt --options h \
 	--long compilers \
 	--long container \
 	--long virt \
-	--long whls \
+	--long pip \
 	--long desktop \
 	--long math \
 	--long bench \
@@ -183,7 +185,7 @@ while true; do
 		have_compiler=YES
 		have_container=YES
 		have_virt=YES
-		have_whls=YES
+		have_pip=YES
 		have_desktop=YES
 		have_math=YES
 		have_bench=YES
@@ -237,9 +239,9 @@ while true; do
 		shift
 		have_net=YES
 		;;
-	--whls)
+	--pip)
 		shift
-		have_whls=YES
+		have_pip=YES
 		;;
 	--dry-run)
 		shift
@@ -367,13 +369,13 @@ pkgs_storage+=( mdadm ) # manage MD devices aka Linux Software RAID
 pkgs_net+=( rsync )
 pkgs_net+=( net-tools ) # netstat
 
-whls+=( numpy pyyaml )
-whls+=( tqdm )
-whls+=( "\"mkdocs>=1.5.2\"" )
-whls+=( "\"mkdocs-material>=9.2.6\"" )
-whls+=( "\"mkdocstrings[python]>=0.22.0\"" )
-whls+=( "\"mkdocs-static-i18n>=1.0.2\"" )
-whls+=( "\"mkdocs-include-markdown-plugin>=6.0.1\"" )
+pip_whls+=( numpy pyyaml )
+pip_whls+=( tqdm )
+pip_whls+=( "\"mkdocs>=1.5.2\"" )
+pip_whls+=( "\"mkdocs-material>=9.2.6\"" )
+pip_whls+=( "\"mkdocstrings[python]>=0.22.0\"" )
+pip_whls+=( "\"mkdocs-static-i18n>=1.0.2\"" )
+pip_whls+=( "\"mkdocs-include-markdown-plugin>=6.0.1\"" )
 
 
 if [[ ${have_upgrade} ]]; then
@@ -580,6 +582,6 @@ if [[ ! -z "${pkgs[@]}" ]]; then
 fi
 
 # Install python3 pip wheels
-if [[ ${have_whls} ]] && [[ -e /usr/bin/pip3 ]]; then
-	inst_eval pip3 install "${whls[@]}"
+if [[ ${have_pip} ]] && [[ -e /usr/bin/pip3 ]]; then
+	inst_eval pip3 install "${pip_whls[@]}"
 fi
