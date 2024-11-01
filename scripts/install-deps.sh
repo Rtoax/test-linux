@@ -3,7 +3,7 @@ set -e
 
 prog=inst-deps
 
-declare -a dnf_args
+declare -a dnf_args apt_args
 declare -a pkgs pkgs_compiler pkgs_desktop whls pkgs_bench pkgs_math pkgs_db
 declare -a pkgs_storage pkgs_net pkgs_container pkgs_virt pkgs_base pkgs_fs
 
@@ -72,7 +72,7 @@ os_install()
 		inst_eval sudo dnf install -y ${dnf_args[@]} ${@}
 		;;
 	debian|ubuntu)
-		inst_eval sudo apt install -y ${@}
+		inst_eval sudo apt install -y ${apt_args[@]} ${@}
 		;;
 	*)
 		echo "ERROR: Unknown OS ${OS}"
@@ -475,24 +475,9 @@ cclinux|fedora|centos|rhel|openEuler|almalinux|opencloudos)
 
 	pkgs_net+=( httpd )
 
-	args=( --skip-broken )
-	args+=( --nogpgcheck )
+	dnf_args+=( --skip-broken )
+	dnf_args+=( --nogpgcheck )
 
-	[[ ${have_base} ]] && pkgs+=( ${pkgs_base[@]} )
-	[[ ${have_fs} ]] && pkgs+=( ${pkgs_fs[@]} )
-	[[ ${have_compiler} ]] && pkgs+=( ${pkgs_compiler[@]} )
-	[[ ${have_container} ]] && pkgs+=( ${pkgs_container[@]} )
-	[[ ${have_virt} ]] && pkgs+=( ${pkgs_virt[@]} )
-	[[ ${have_desktop} ]] && pkgs+=( ${pkgs_desktop[@]} )
-	[[ ${have_math} ]] && pkgs+=( ${pkgs_math[@]} )
-	[[ ${have_bench} ]] && pkgs+=( ${pkgs_bench[@]} )
-	[[ ${have_db} ]] && pkgs+=( ${pkgs_db[@]} )
-	[[ ${have_storage} ]] && pkgs+=( ${pkgs_storage[@]} )
-	[[ ${have_net} ]] && pkgs+=( ${pkgs_net[@]} )
-
-	if [[ ! -z "${pkgs[@]}" ]]; then
-		os_install ${args[@]} ${pkgs[@]}
-	fi
 	;;
 debian|ubuntu)
 	pkgs_base+=( binutils-dev )
@@ -549,28 +534,30 @@ debian|ubuntu)
 	pkgs_desktop+=( tigervnc-standalone-server )
 	pkgs_desktop+=( tigervnc-viewer )
 
-	[[ ${have_base} ]] && pkgs+=( ${pkgs_base[@]} )
-	[[ ${have_fs} ]] && pkgs+=( ${pkgs_fs[@]} )
-	[[ ${have_compiler} ]] && pkgs+=( ${pkgs_compiler[@]} )
-	[[ ${have_container} ]] && pkgs+=( ${pkgs_container[@]} )
-	[[ ${have_virt} ]] && pkgs+=( ${pkgs_virt[@]} )
-	[[ ${have_desktop} ]] && pkgs+=( ${pkgs_desktop[@]} )
-	[[ ${have_math} ]] && pkgs+=( ${pkgs_math[@]} )
-	[[ ${have_bench} ]] && pkgs+=( ${pkgs_bench[@]} )
-	[[ ${have_db} ]] && pkgs+=( ${pkgs_db[@]} )
-	[[ ${have_storage} ]] && pkgs+=( ${pkgs_storage[@]} )
-	[[ ${have_net} ]] && pkgs+=( ${pkgs_net[@]} )
+	apt_args+=( --fix-missing )
+	apt_args+=( -f )
 
-	args=( --fix-missing )
-
-	if [[ ! -z "${pkgs[@]}" ]]; then
-		os_install ${args[@]} ${pkgs[@]} -f -y
-	fi
 	;;
 *)
 	echo "ERROR: Unknown OS ${OS}"
 	;;
 esac
+
+[[ ${have_base} ]] && pkgs+=( ${pkgs_base[@]} )
+[[ ${have_fs} ]] && pkgs+=( ${pkgs_fs[@]} )
+[[ ${have_compiler} ]] && pkgs+=( ${pkgs_compiler[@]} )
+[[ ${have_container} ]] && pkgs+=( ${pkgs_container[@]} )
+[[ ${have_virt} ]] && pkgs+=( ${pkgs_virt[@]} )
+[[ ${have_desktop} ]] && pkgs+=( ${pkgs_desktop[@]} )
+[[ ${have_math} ]] && pkgs+=( ${pkgs_math[@]} )
+[[ ${have_bench} ]] && pkgs+=( ${pkgs_bench[@]} )
+[[ ${have_db} ]] && pkgs+=( ${pkgs_db[@]} )
+[[ ${have_storage} ]] && pkgs+=( ${pkgs_storage[@]} )
+[[ ${have_net} ]] && pkgs+=( ${pkgs_net[@]} )
+
+if [[ ! -z "${pkgs[@]}" ]]; then
+	os_install ${pkgs[@]}
+fi
 
 # Install python3 pip wheels
 if [[ ${have_whls} ]] && [[ -e /usr/bin/pip3 ]]; then
