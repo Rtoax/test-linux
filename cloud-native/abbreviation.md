@@ -20,4 +20,5 @@
 - OCI: Open Container Initiative (开放容器计划)
 - PaaS: Platform as a Service (平台即服务)
 - SaaS: Software as a Service (软件即服务)
+- VPC: Virtual Private Cloud (虚拟私有云)
 - XaaS: Anything as a Service (XaaS)

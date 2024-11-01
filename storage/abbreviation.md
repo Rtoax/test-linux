@@ -18,6 +18,7 @@
 - RAID: Redundant Arrays of Independent Disks (独立磁盘冗余阵列)
 - RDMA: Remote Direct Memory Access (远程直接内存访问)
 - RoCE: RDMA over Converged Ethernet (聚合以太网上的 RDMA)
+- SSD: Solid-State Drive (固态驱动)
 - SCSI: Small Computer Systems Interface
 - SPDK: Storage Performance Development Kit (存储性能开发套件) @bdev
 - SRP: SCSI RDMA Protocol

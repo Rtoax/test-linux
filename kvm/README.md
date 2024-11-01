@@ -7,6 +7,8 @@ KVM (for Kernel-based Virtual Machine) is a full virtualization solution for Lin
 
 Using KVM, one can run multiple virtual machines running unmodified Linux or Windows images. Each virtual machine has private virtualized hardware: a network card, disk, graphics adapter, etc.
 
+> KVM type-1 hypervisor.
+
 
 # Memory Virtualization
 
