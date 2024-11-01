@@ -70,12 +70,14 @@ os_operator()
 		case ${operator} in
 		upgrade) dnf_upgrade ;;
 		install) dnf_install "${@}" ;;
+		packages) apt_add_packages "${@}" ;;
 		esac
 		;;
 	debian|ubuntu)
 		case ${operator} in
 		upgrade) apt_upgrade ;;
 		install) apt_install "${@}" ;;
+		packages) apt_add_packages "${@}" ;;
 		esac
 		;;
 	*)
@@ -92,6 +94,11 @@ os_upgrade()
 os_install()
 {
 	os_operator install "${@}"
+}
+
+os_packages()
+{
+	os_operator packages "${@}"
 }
 
 [[ ! -e /etc/os-release ]] && echo "ERROR: No /etc/os-release found" && exit 1
@@ -373,8 +380,8 @@ if [[ ${have_upgrade} ]]; then
 	os_upgrade
 fi
 
-case ${OS} in
-cclinux|fedora|centos|rhel|openEuler|almalinux|opencloudos)
+dnf_add_packages()
+{
 	if [[ $(uname -m) == x86_64 ]]; then
 		pkgs_base+=( glibc.i686 )
 		pkgs_base+=( glibc-devel.i686 )
@@ -491,9 +498,10 @@ cclinux|fedora|centos|rhel|openEuler|almalinux|opencloudos)
 
 	dnf_args+=( --skip-broken )
 	dnf_args+=( --nogpgcheck )
+}
 
-	;;
-debian|ubuntu)
+apt_add_packages()
+{
 	pkgs_base+=( binutils-dev )
 	pkgs_base+=( bpfcc-tools )
 	pkgs_base+=( build-essential )
@@ -550,12 +558,9 @@ debian|ubuntu)
 
 	apt_args+=( --fix-missing )
 	apt_args+=( -f )
+}
 
-	;;
-*)
-	echo "ERROR: Unknown OS ${OS}"
-	;;
-esac
+os_packages
 
 [[ ${have_base} ]] && pkgs+=( ${pkgs_base[@]} )
 [[ ${have_fs} ]] && pkgs+=( ${pkgs_fs[@]} )
@@ -568,6 +573,7 @@ esac
 [[ ${have_db} ]] && pkgs+=( ${pkgs_db[@]} )
 [[ ${have_storage} ]] && pkgs+=( ${pkgs_storage[@]} )
 [[ ${have_net} ]] && pkgs+=( ${pkgs_net[@]} )
+
 
 if [[ ! -z "${pkgs[@]}" ]]; then
 	os_install ${pkgs[@]}
