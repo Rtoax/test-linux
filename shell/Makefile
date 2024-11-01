@@ -1,12 +1,20 @@
 SHELL = bash
 
-sub-dir := string
+sub-dir :=
+sub-dir += alias
+sub-dir += awk
+sub-dir += string
 
 sub-dir-build := $(sub-dir:=.build)
 sub-dir-clean := $(sub-dir:=.clean)
 
 .PHONY: build
-build: $(sub-dir-build)
+build: $(sub-dir-build) test
+	@echo -e "  \033[1;33mDone\033[m"
+
+.PHONY: test
+test:
+	@echo -e "  \033[1;33mTEST\033[m"
 	./args.sh
 	./array_culling.sh
 	./array_elem_replace.sh
@@ -39,7 +47,6 @@ build: $(sub-dir-build)
 	./cmdline.sh ignition.firstboot=off
 	./cmdline.sh ignition.firstboot
 
-test:
 .PHONY: clean
 clean: $(sub-dir-clean)
 	@echo -e "  CLEAN  \033[1;32m$(@)\033[m"
