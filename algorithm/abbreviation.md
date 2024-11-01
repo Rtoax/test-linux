@@ -1,1 +1,3 @@
+- AI: Artificial Intelligence (人工智能)
 - LRU: Least Recently Used ()
+- ML: Machine Learning (机器学习)

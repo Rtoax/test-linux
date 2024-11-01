@@ -1,8 +1,10 @@
 Cloud Native
 ============
 
+# Cloud Infrastructure Technologies
 
 - `IaaS`: IaaS uses hypervisors, such as Xen, KVM, VMware ESXi, Hyper-V, or Nitro.
+- `PaaS`: PaaS can be deployed on top of IaaS or independently on VMs, bare-metal servers, and containers.
 
 
 # Links
