@@ -340,6 +340,7 @@ pkgs_container+=( skopeo )
 pkgs_container+=( systemd-container )
 
 pkgs_virt+=( qemu-user )
+pkgs_virt+=( vagrant )
 pkgs_virt+=( virt-manager )
 
 # Benchmark
