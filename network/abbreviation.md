@@ -9,7 +9,7 @@
 - NAPI: New API (新API)
 - NIC: Network Interface Card (网卡)
 - OOB: Out-Of-Band (带外)
-- OVN: Open Virtual Network (开放虚拟网络)
+- OVN: Open Virtual Network (开放虚拟网络) @CNM
 - PLB: Protect Load Balance (保护性负载平衡) @IPv6
 - QUIC: Quick UDP Internet Connections (快速 UDP 网络连接)
 - RPC: Remove Procedure Call (远端过程调用)
