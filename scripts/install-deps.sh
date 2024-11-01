@@ -35,6 +35,36 @@ inst_eval() {
 	fi
 }
 
+dnf_upgrade()
+{
+	inst_eval sudo dnf up ${dnf_args[@]} -y --allowerasing --skip-broken --nobest || {
+		echo "WARNING: Failed to upgrade, skipping"
+		true
+	}
+}
+
+apt_upgrade()
+{
+	inst_eval sudo apt update -y
+	inst_eval sudo apt list --upgradable
+	inst_eval sudo apt upgrade --fix-missing -y
+}
+
+os_upgrade()
+{
+	case ${OS} in
+	cclinux|fedora|centos|rhel|openEuler|almalinux|opencloudos)
+		dnf_upgrade
+		;;
+	debian|ubuntu)
+		apt_upgrade
+		;;
+	*)
+		echo "ERROR: Unknown OS ${OS}"
+		;;
+	esac
+}
+
 os_install()
 {
 	case ${OS} in
@@ -324,6 +354,11 @@ whls+=( "\"mkdocstrings[python]>=0.22.0\"" )
 whls+=( "\"mkdocs-static-i18n>=1.0.2\"" )
 whls+=( "\"mkdocs-include-markdown-plugin>=6.0.1\"" )
 
+
+if [[ ${have_upgrade} ]]; then
+	os_upgrade
+fi
+
 case ${OS} in
 cclinux|fedora|centos|rhel|openEuler|almalinux|opencloudos)
 	if [[ $(uname -m) == x86_64 ]]; then
@@ -455,12 +490,6 @@ cclinux|fedora|centos|rhel|openEuler|almalinux|opencloudos)
 	[[ ${have_storage} ]] && pkgs+=( ${pkgs_storage[@]} )
 	[[ ${have_net} ]] && pkgs+=( ${pkgs_net[@]} )
 
-	if [[ ${have_upgrade} ]]; then
-		inst_eval sudo dnf up ${dnf_args[@]} -y --allowerasing --skip-broken --nobest || {
-			echo "WARNING: Failed to upgrade, skipping"
-			true
-		}
-	fi
 	if [[ ! -z "${pkgs[@]}" ]]; then
 		os_install ${args[@]} ${pkgs[@]}
 	fi
@@ -534,11 +563,6 @@ debian|ubuntu)
 
 	args=( --fix-missing )
 
-	if [[ ${have_upgrade} ]]; then
-		inst_eval sudo apt update -y
-		inst_eval sudo apt list --upgradable
-		inst_eval sudo apt upgrade --fix-missing -y
-	fi
 	if [[ ! -z "${pkgs[@]}" ]]; then
 		os_install ${args[@]} ${pkgs[@]} -f -y
 	fi
