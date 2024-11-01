@@ -70,7 +70,7 @@ os_operator()
 		case ${operator} in
 		upgrade) dnf_upgrade ;;
 		install) dnf_install "${@}" ;;
-		packages) apt_add_packages "${@}" ;;
+		packages) dnf_add_packages "${@}" ;;
 		esac
 		;;
 	debian|ubuntu)
