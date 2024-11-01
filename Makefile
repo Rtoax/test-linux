@@ -4,7 +4,7 @@
 VERSION = 2
 PATCHLEVEL = 2
 SUBLEVEL = 4
-EXTRAVERSION = -rc6
+EXTRAVERSION = -rc7
 NAME = Apple
 
 SHELL = bash
@@ -56,6 +56,7 @@ help:
 	@echo >&2 -e "*** make archive"
 	@echo >&2 -e "*** make check"
 	@echo >&2 -e "*** make installdeps"
+	@echo >&2 -e "*** make docker"
 	@echo >&2 -e "***"
 	@echo >&2 -e "*** make version"
 	@echo >&2 -e "***"
@@ -145,8 +146,15 @@ define installdeps
 	bash scripts/install-deps.sh --all --allowerasing
 endef
 
+define builddocker
+	bash scripts/build-docker.sh
+endef
+
 installdeps:
 	$(call installdeps)
+
+docker:
+	$(call builddocker)
 
 version:
 	@echo "v${VERSION}.${PATCHLEVEL}.${SUBLEVEL}${EXTRAVERSION} (${NAME})"

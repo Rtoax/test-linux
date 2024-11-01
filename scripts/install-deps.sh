@@ -23,10 +23,6 @@ have_net=
 
 dry_run=
 
-[[ ! -e /etc/os-release ]] && echo "ERROR: No /etc/os-release found" && exit 1
-[[ ! -e /usr/bin/sudo ]] && echo "ERROR: Not found sudo, please install sudo first" && exit 1
-[[ ! -e /usr/bin/getopt ]] && echo "ERROR: Not found getopt, please install util-linux first" && exit 1
-
 . /etc/os-release
 
 OS=${ID}
@@ -37,6 +33,27 @@ inst_eval() {
 	else
 		echo "$@"
 	fi
+}
+
+os_install()
+{
+	case ${OS} in
+	cclinux|fedora|centos|rhel|openEuler|almalinux|opencloudos)
+		inst_eval sudo dnf install -y ${dnf_args[@]} ${@}
+		;;
+	debian|ubuntu)
+		inst_eval sudo apt install -y ${@}
+		;;
+	*)
+		echo "ERROR: Unknown OS ${OS}"
+		;;
+	esac
+}
+
+[[ ! -e /etc/os-release ]] && echo "ERROR: No /etc/os-release found" && exit 1
+[[ ! -e /usr/bin/sudo ]] && echo "ERROR: Not found sudo, please install sudo first" && exit 1
+[[ ! -e /usr/bin/getopt ]] && echo "WARNING: Not found getopt, try install util-linux first" && {
+	os_install util-linux
 }
 
 __usage__()
@@ -193,7 +210,7 @@ echo "OS: ${OS}"
 # Install extra software package repo
 case ${OS} in
 centos|rhel|almalinux)
-	inst_eval sudo dnf install ${dnf_args[@]} -y epel-release
+	os_install epel-release
 	;;
 fedora)
 	;;
@@ -445,7 +462,7 @@ cclinux|fedora|centos|rhel|openEuler|almalinux|opencloudos)
 		}
 	fi
 	if [[ ! -z "${pkgs[@]}" ]]; then
-		inst_eval sudo dnf install ${dnf_args[@]} ${args[@]} -y ${pkgs[@]}
+		os_install ${args[@]} ${pkgs[@]}
 	fi
 	;;
 debian|ubuntu)
@@ -523,7 +540,7 @@ debian|ubuntu)
 		inst_eval sudo apt upgrade --fix-missing -y
 	fi
 	if [[ ! -z "${pkgs[@]}" ]]; then
-		inst_eval sudo apt install ${args[@]} ${pkgs[@]} -f -y
+		os_install ${args[@]} ${pkgs[@]} -f -y
 	fi
 	;;
 *)
