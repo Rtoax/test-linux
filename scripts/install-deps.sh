@@ -38,7 +38,7 @@ inst_eval() {
 dnf_upgrade()
 {
 	inst_eval sudo dnf up ${dnf_args[@]} -y --allowerasing --skip-broken --nobest || {
-		echo "WARNING: Failed to upgrade, skipping"
+		echo "WARNING: Failed to upgrade"
 		true
 	}
 }
@@ -50,14 +50,33 @@ apt_upgrade()
 	inst_eval sudo apt upgrade --fix-missing -y
 }
 
-os_upgrade()
+dnf_install()
 {
+	inst_eval sudo dnf install -y ${dnf_args[@]} ${@}
+}
+
+apt_install()
+{
+	inst_eval sudo apt install -y ${apt_args[@]} ${@}
+}
+
+os_operator()
+{
+	local operator=$1
+	shift
+
 	case ${OS} in
 	cclinux|fedora|centos|rhel|openEuler|almalinux|opencloudos)
-		dnf_upgrade
+		case ${operator} in
+		upgrade) dnf_upgrade ;;
+		install) dnf_install "${@}" ;;
+		esac
 		;;
 	debian|ubuntu)
-		apt_upgrade
+		case ${operator} in
+		upgrade) apt_upgrade ;;
+		install) apt_install "${@}" ;;
+		esac
 		;;
 	*)
 		echo "ERROR: Unknown OS ${OS}"
@@ -65,19 +84,14 @@ os_upgrade()
 	esac
 }
 
+os_upgrade()
+{
+	os_operator upgrade "${@}"
+}
+
 os_install()
 {
-	case ${OS} in
-	cclinux|fedora|centos|rhel|openEuler|almalinux|opencloudos)
-		inst_eval sudo dnf install -y ${dnf_args[@]} ${@}
-		;;
-	debian|ubuntu)
-		inst_eval sudo apt install -y ${apt_args[@]} ${@}
-		;;
-	*)
-		echo "ERROR: Unknown OS ${OS}"
-		;;
-	esac
+	os_operator install "${@}"
 }
 
 [[ ! -e /etc/os-release ]] && echo "ERROR: No /etc/os-release found" && exit 1
