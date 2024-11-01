@@ -1,7 +1,12 @@
 SHELL = bash
 
+sub-dir := string
 
-all:
+sub-dir-build := $(sub-dir:=.build)
+sub-dir-clean := $(sub-dir:=.clean)
+
+.PHONY: build
+build: $(sub-dir-build)
 	./args.sh
 	./array_culling.sh
 	./array_elem_replace.sh
@@ -20,7 +25,6 @@ all:
 	./open-fd.sh
 	./parallel.sh
 	./pi.sh
-	./prefix.sh
 	./replace.sh
 	./ret.sh
 	sudo ./root-chk.sh
@@ -36,6 +40,15 @@ all:
 	./cmdline.sh ignition.firstboot
 
 test:
-clean:
+.PHONY: clean
+clean: $(sub-dir-clean)
 	@echo -e "  CLEAN  \033[1;32m$(@)\033[m"
 	@rm -f a.txt *.log tmp.sh
+
+$(sub-dir-build):
+	@echo -e "\033[1;32m [sub-dir] build $(@)\033[m"
+	@make -C $(@:.build=)
+$(sub-dir-clean):
+	@echo -e "\033[1;32m [sub-dir] clean $(@)\033[m"
+	@make -C $(@:.clean=) clean
+
