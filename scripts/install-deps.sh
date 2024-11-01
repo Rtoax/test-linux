@@ -221,6 +221,7 @@ pkgs_base+=( git-email )
 pkgs_base+=( gnupg2 )               # gpg
 pkgs_base+=( gperf )
 pkgs_base+=( hwloc )                # lstopo
+pkgs_base+=( indent )
 pkgs_base+=( inotify-tools )        # inotifywatch, ...
 pkgs_base+=( jq )
 pkgs_base+=( lshw )                 # lshw
