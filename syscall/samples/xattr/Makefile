@@ -31,4 +31,4 @@ test: ${TARGETS}
 
 clean:
 	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
-	@rm -f ${TARGETS} *.o
+	@rm -f ${TARGETS} *.o *.txt
