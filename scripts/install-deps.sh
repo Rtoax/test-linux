@@ -38,7 +38,7 @@ inst_eval() {
 
 dnf_upgrade()
 {
-	inst_eval sudo dnf up ${dnf_args[@]} -y --allowerasing --skip-broken --nobest || {
+	inst_eval sudo dnf up -y --allowerasing --nobest || {
 		echo "WARNING: Failed to upgrade"
 		true
 	}
