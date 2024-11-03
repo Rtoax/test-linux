@@ -103,7 +103,11 @@ done:
 
 int main(int argc, char *argv[])
 {
-	char *path = (argc <= 1) ? argv[0] : argv[1];
+	char *path;
+
+	fprintf(stderr, "Usage: %s [FILE=%s]\n", argv[0], argv[0]);
+
+	path = (argc <= 1) ? argv[0] : argv[1];
 
 	is_pie_raw(path);
 	is_pie_libelf(path);
