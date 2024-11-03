@@ -10,6 +10,16 @@
 static int static_i_bss;
 static int static_i_data = 2;
 
+/**
+ * Test bash readline and bpftrace demo, see uprobe.bt
+ */
+static char *ps1_prompt = "[rongtao@rtoax]$ ";
+int readline(const char *ps1, const char *line)
+{
+	/* Do nothing */
+	return 0;
+}
+
 void print_addresses(void)
 {
 	unsigned long base_addr = proc_elf_base_addr();
@@ -26,6 +36,8 @@ int main(void)
 {
 	printf("Hello\n");
 	print_proc_pid_maps();
+
+	readline(ps1_prompt, "echo Hello.\n");
 
 	print_addresses();
 

@@ -20,6 +20,12 @@ uprobe:./hello-pie:*,
 	printf("%-8d %-16s %-016lx %s\n", pid, comm, reg("ip"), probe);
 }
 
+uprobe:./hello:readline,
+uprobe:./hello-pie:readline
+{
+	printf("PS1: %s\n", str(*uaddr("ps1_prompt")));
+}
+
 END
 {
 	printf("Bye.\n");
