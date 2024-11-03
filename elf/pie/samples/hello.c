@@ -1,4 +1,8 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+
 #include "proc.h"
 
 /**
@@ -32,14 +36,28 @@ void print_addresses(void)
 	P(static_i_data);
 }
 
-int main(void)
+int main(int argc, char *argv[])
 {
+	int i, secs = 0;
+
+	fprintf(stderr, "Usage: %s [sleep=SEC]\n", argv[0]);
+
+	for (i = 1; i < argc; i++) {
+		if (strstr(argv[i], "sleep="))
+			secs = atoi(argv[i] + strlen("sleep="));
+	}
+
 	printf("Hello\n");
 	print_proc_pid_maps();
 
 	readline(ps1_prompt, "echo Hello.\n");
 
 	print_addresses();
+
+	if (secs) {
+		printf("Sleeping %d seconds ...\n", secs);
+		sleep(secs);
+	}
 
 	return 0;
 }
