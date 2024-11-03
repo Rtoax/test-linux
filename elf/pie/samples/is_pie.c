@@ -7,12 +7,12 @@
 #include <libelf.h>
 #include <sys/stat.h>
 
-
 /**
  * ref https://sourceware.org/git/binutils-gdb.git
  * binutils/readelf.c:is_pie()
  */
-int is_pie(const char *path)
+
+int is_pie_raw(const char *path)
 {
 	int i, j, fd;
 	void *mem = NULL;
@@ -33,18 +33,21 @@ int is_pie(const char *path)
 
 	for (i = 0; i < ehdr->e_shnum; i++) {
 		Elf64_Shdr *shdr = &shdrs[i];
-		if (shdr->sh_type == SHT_DYNAMIC) {
-			fprintf(stderr, "%s found SHT_DYNAMIC.\n", path);
-			Elf64_Dyn *dyns = mem + shdr->sh_offset;
-			for (j = 0; j * shdr->sh_entsize < shdr->sh_size; j++) {
-				Elf64_Dyn *dyn = &dyns[j];
 
-				if (dyn->d_tag == DT_FLAGS_1) {
-					if (dyn->d_un.d_val & DF_1_PIE) {
-						fprintf(stderr, "%s is PIE\n", path);
-						res = true;
-						goto done;
-					}
+		if (shdr->sh_type != SHT_DYNAMIC)
+			continue;
+
+		fprintf(stderr, "%s found SHT_DYNAMIC.\n", path);
+		Elf64_Dyn *dyns = mem + shdr->sh_offset;
+
+		for (j = 0; j * shdr->sh_entsize < shdr->sh_size; j++) {
+			Elf64_Dyn *dyn = &dyns[j];
+
+			if (dyn->d_tag == DT_FLAGS_1) {
+				if (dyn->d_un.d_val & DF_1_PIE) {
+					fprintf(stderr, "%s is PIE\n", path);
+					res = true;
+					goto done;
 				}
 			}
 		}
@@ -73,17 +76,19 @@ int is_pie_libelf(const char *path)
 		Elf_Scn *scn = elf_getscn(elf, i);
 		Elf64_Shdr *shdr = elf64_getshdr(scn);
 		Elf_Data *data = elf_getdata(scn, NULL);
-		if (shdr->sh_type == SHT_DYNAMIC) {
-			fprintf(stderr, "%s found SHT_DYNAMIC.\n", path);
-			Elf64_Dyn *dyns = data->d_buf;
-			for (j = 0; j * shdr->sh_entsize < shdr->sh_size; j++) {
-				Elf64_Dyn *dyn = &dyns[j];
-				if (dyn->d_tag == DT_FLAGS_1) {
-					if (dyn->d_un.d_val & DF_1_PIE) {
-						fprintf(stderr, "%s is PIE\n", path);
-						res = true;
-						goto done;
-					}
+
+		if (shdr->sh_type != SHT_DYNAMIC)
+			continue;
+
+		fprintf(stderr, "%s found SHT_DYNAMIC.\n", path);
+		Elf64_Dyn *dyns = data->d_buf;
+		for (j = 0; j * shdr->sh_entsize < shdr->sh_size; j++) {
+			Elf64_Dyn *dyn = &dyns[j];
+			if (dyn->d_tag == DT_FLAGS_1) {
+				if (dyn->d_un.d_val & DF_1_PIE) {
+					fprintf(stderr, "%s is PIE\n", path);
+					res = true;
+					goto done;
 				}
 			}
 		}
@@ -99,7 +104,9 @@ done:
 int main(int argc, char *argv[])
 {
 	char *path = (argc <= 1) ? argv[0] : argv[1];
-	is_pie(path);
+
+	is_pie_raw(path);
 	is_pie_libelf(path);
+
 	return 0;
 }
