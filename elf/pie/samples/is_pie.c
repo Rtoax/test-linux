@@ -60,6 +60,9 @@ done:
 	return res;
 }
 
+/**
+ * See also https://github.com/iovisor/bcc/pull/5126
+ */
 int is_pie_libelf(const char *path)
 {
 	int res = false;
