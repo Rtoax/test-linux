@@ -4,7 +4,8 @@ BEGIN
 	printf("Tracing hello, hit ctrl-c to end.\n");
 }
 
-uprobe:./hello:print_hello
+uprobe:./hello:print_hello,
+uprobe:./hello-pie:print_hello
 {
 	$a = arg0;
 	printf("%s %d\n", comm, $a);

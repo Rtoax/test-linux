@@ -12,21 +12,25 @@ if [[ $(id -u) != 0 ]]; then
 fi
 
 binary=$( realpath ${binary} )
+# This address is in binary address, not PIE real address.
 addr=$( objdump -T ${binary} | grep -w ${func} 2>/dev/null | awk '{print $1}' )
 
 [[ ! -e ${binary} ]] && echo "ERROR: ${binary} is not exist" && exit 1
 [[ -z ${addr} ]] && echo "ERROR: Not found ${func} in ${binary}" && exit 1
 
-echo "p:uprobes/${func} ${binary}:0x${addr} %ip %ax" > ${TRACEFS}/uprobe_events
+readelf -h ${binary} | grep 'Type:'
+
+echo "p:uprobes/${func} ${binary}:0x${addr} %ip %ax" | sudo tee ${TRACEFS}/uprobe_events
+
 cat ${TRACEFS}/events/uprobes/${func}/format
 cat ${TRACEFS}/events/uprobes/${func}/enable
 
-echo 1 > ${TRACEFS}/events/uprobes/enable
+echo 1 | sudo tee ${TRACEFS}/events/uprobes/enable
 
 clean() {
 	local ret=$?
-	echo 0 > ${TRACEFS}/events/uprobes/enable
-	echo > ${TRACEFS}/uprobe_events
+	echo 0 | sudo tee ${TRACEFS}/events/uprobes/enable
+	echo 0 | sudo tee ${TRACEFS}/uprobe_events
 	exit ${ret}
 }
 trap clean EXIT
