@@ -5,6 +5,7 @@
 - QEMU: Quick Emulator (快速模拟)
 - QMP: Qemu Machine Protocol (Qemu 机器协议) @QEMU
 - QMP: Qemu Monitor Protocol (Qemu 监控协议) @QEMU
+- QOM: Qemu Object Module (Qemu 对象模型) @QEMU
 - SBT: Static Binary Translation (静态二进制转译) @BT @DBT
 - TB: Translation Block (转译块)
 - TCG: Tiny Code Generator () @DBT @SBT @MTTCG
