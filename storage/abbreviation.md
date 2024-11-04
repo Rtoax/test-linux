@@ -1,6 +1,7 @@
 - AFA: (全闪存阵列)
 - BB: Bad Block
 - BDEV: Block Device Abstraction (bdev, 跨设备抽象层) @SPDK
+- CRUSH: Controlled Replication Under Scalable Hashing (可扩展哈希下的受控复制) @Ceph
 - DM-MPIO: Device Mapper Multipath Input Output / DM-Multipathing
 - FCP: Fibre Channel Protocol (光纤通道)
 - iSCSI: Internet Small Computer Systems Interface
@@ -18,8 +19,8 @@
 - RAID: Redundant Arrays of Independent Disks (独立磁盘冗余阵列)
 - RDMA: Remote Direct Memory Access (远程直接内存访问)
 - RoCE: RDMA over Converged Ethernet (聚合以太网上的 RDMA)
+- SDS: Software Defined Storage (软件定义存储)
 - SSD: Solid-State Drive (固态驱动)
 - SCSI: Small Computer Systems Interface
 - SPDK: Storage Performance Development Kit (存储性能开发套件) @bdev
 - SRP: SCSI RDMA Protocol
-

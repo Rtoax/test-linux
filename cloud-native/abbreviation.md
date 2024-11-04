@@ -11,6 +11,7 @@
 - CNM: Container Network Model (容器网络模型) @OVN
 - CPaaS: Communications Platform as a Service (CPaaS)
 - CRI: Container Runtime Interface (容器运行时接口)
+- CSI: Container Storage Interface (容器存储接口)
 - DaaS: Desktop as a Service (DaaS)
 - DBaaS: Database as a Service (DBaaS)
 - EC2: Elastic Compute Cloud (弹性计算云)
@@ -24,6 +25,7 @@
 - MaaS: Monitoring as a Service (MaaS)
 - OCI: Open Container Initiative (开放容器计划)
 - PaaS: Platform as a Service (平台即服务)
+- PVC: Persistent Volumes Claim (持久卷声明)
 - SaaS: Software as a Service (软件即服务)
 - VPC: Virtual Private Cloud (虚拟私有云)
 - XaaS: Anything as a Service (XaaS)
