@@ -8,7 +8,6 @@ CFLAGS := -Werror -Wall
 CFLAGS += -Wstrict-prototypes
 
 LDFLAGS :=
-LDLIBS :=
 
 
 .PHONY: build
