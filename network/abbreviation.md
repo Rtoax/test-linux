@@ -14,3 +14,4 @@
 - QUIC: Quick UDP Internet Connections (快速 UDP 网络连接)
 - RPC: Remove Procedure Call (远端过程调用)
 - SCTP: Stream Control Transmission Protocol (流控制传输协议)
+- SDN: Software-defined networking (软件定义网络)

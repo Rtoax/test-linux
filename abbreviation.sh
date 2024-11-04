@@ -47,7 +47,7 @@ list_all() {
 }
 
 find_name() {
-	list_all | grep ${name}
+	list_all | grep -i ${name}
 }
 
 if [[ ${name} ]]; then

@@ -1,4 +1,5 @@
 #!/bin/bash
+set -ex
 
 sudo ip netns add namespace1
 sudo ip netns add namespace2
@@ -18,6 +19,7 @@ sudo ip netns exec namespace1 ip addr add 192.168.1.1/24 dev veth1
 sudo ip netns exec namespace2 ip addr add 192.168.1.2/24 dev veth2
 
 sudo ip netns exec namespace1 ip addr
+sudo ip netns exec namespace2 ip addr
 # Or multi-cmd
 multi_cmd() {
 	sudo ip netns exec namespace1 bash

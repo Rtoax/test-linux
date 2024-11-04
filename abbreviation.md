@@ -19,6 +19,7 @@
 - NIST: National Institute of Standard and Technology (美国国家标准与技术研究所)
 - OSS: Open Source Software (开源软件)
 - POSIX: Portable Operating System Interface of UNIX (可移植操作系统接口)
+- QoS: Quality of Service (服务质量)
 - RC: Release Candidate (候选版本,例如rc1)
 - RTLA: Real-time Linux Analysis tool (实时分析工具)
 - SVR4: System V Release 4
