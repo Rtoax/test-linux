@@ -3,6 +3,7 @@ info files
 info sources
 break hello
 r
+info args
 info registers
 info proc all
 info proc mappings

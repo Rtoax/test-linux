@@ -3,6 +3,7 @@ SHELL = bash
 include ../scripts/check_compiler_option.mk
 
 TARGETS :=
+TARGETS += arg
 TARGETS += auto
 TARGETS += array
 TARGETS += ascii
@@ -117,6 +118,7 @@ ifdef SYSROOT
   CFLAGS += --sysroot=$(SYSROOT)
 endif
 
+CFLAGS_param-pass := -O0
 CFLAGS_auto := -Wno-error=implicit-int
 CFLAGS_param-pass := -O0 -I../macro/
 ifeq (${feature-gnu17},1)
@@ -132,7 +134,7 @@ build: ${TARGETS}
 	@echo
 	@echo -e " \033[1;33m Done \033[m"
 
-# Add more object.o file
+arg: arg.o
 auto: auto.o
 ascii: ascii.o
 alignas: alignas.o
