@@ -5,6 +5,7 @@
 - CPE: Common Platform Enumeration (通用平台枚举)
 - CVE: Common Vulnerabilities and Exposures (通用漏洞与披露)
 - CVSS: Common Vulnerability Scoring System (通用漏洞评分系统)
+- NVD: National Vulnerability Database (国际漏洞数据库)
 - OCIL: Open Checklist Interactive Language ()
 - OVAL: Open Vulnerability and Assessment Language (开放脆弱性评估描述语言)
 - SWID: Software Identification (软件标识符)
