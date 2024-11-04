@@ -34,6 +34,7 @@ void print_addresses(void)
 	P(print_proc_pid_maps);
 	P(static_i_bss);
 	P(static_i_data);
+	P(readline);
 }
 
 int main(int argc, char *argv[])
@@ -48,6 +49,7 @@ int main(int argc, char *argv[])
 	}
 
 	printf("Hello\n");
+	printf("Pid %d\n", getpid());
 	print_proc_pid_maps();
 
 	readline(ps1_prompt, "echo Hello.\n");
