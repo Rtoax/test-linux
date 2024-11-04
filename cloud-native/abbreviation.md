@@ -21,6 +21,7 @@
 - HPA: Horizontal Pod Autoscaling (水平 Pod 自动扩展)
 - IaaS: Infrastructure as a Service (基础设施即服务)
 - IAM: Identity and Access Management (身份和访问管理)
+- IoT: Internet of Things (物联网)
 - KEDA: Kubernetes Event-Driven Autoscaling (K8s时间驱动自动伸缩)
 - MaaS: Monitoring as a Service (MaaS)
 - OCI: Open Container Initiative (开放容器计划)
