@@ -9,6 +9,8 @@ CC = gcc
 
 CFLAGS :=
 
+CFLAGS += -Wall -Werror -O0
+
 CFLAGS_duplicate-decl-specifier := -Wall -Wduplicate-decl-specifier
 CFLAGS_no-warn := -Wno-warn -Wno-warning
 CFLAGS_no-error := -Wno-error
