@@ -1,6 +1,5 @@
 SHELL = bash
 
-
 KDIR = /lib/modules/`uname -r`/build
 
 kbuild:
