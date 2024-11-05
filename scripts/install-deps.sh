@@ -485,6 +485,7 @@ dnf_add_packages()
 	pkgs_container+=( libcgroup-tools )
 	pkgs_container+=( udica )
 
+	pkgs_desktop+=( glib2-devel )
 	pkgs_desktop+=( gtk3 )
 	pkgs_desktop+=( gtk3-devel )
 	pkgs_desktop+=( tigervnc )
