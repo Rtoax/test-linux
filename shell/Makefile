@@ -3,6 +3,7 @@ SHELL = bash
 sub-dir :=
 sub-dir += alias
 sub-dir += commands
+sub-dir += math
 sub-dir += string
 
 sub-dir-build := $(sub-dir:=.build)
@@ -23,7 +24,6 @@ test:
 	./call.sh
 	./digit.sh
 	./dmesg-tail.sh
-	./fact.sh
 	./ipswap.sh
 	./ipv4_check.sh
 	./mac.sh
@@ -31,7 +31,6 @@ test:
 	./num.sh
 	./open-fd.sh
 	./parallel.sh
-	./pi.sh
 	./replace.sh
 	./ret.sh
 	sudo ./root-chk.sh
