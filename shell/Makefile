@@ -2,7 +2,7 @@ SHELL = bash
 
 sub-dir :=
 sub-dir += alias
-sub-dir += awk
+sub-dir += commands
 sub-dir += string
 
 sub-dir-build := $(sub-dir:=.build)
@@ -20,7 +20,6 @@ test:
 	./array_elem_replace.sh
 	./array_pair.sh
 	./array.sh
-	./bc.sh
 	./call.sh
 	./digit.sh
 	./dmesg-tail.sh
@@ -38,7 +37,6 @@ test:
 	sudo ./root-chk.sh
 	echo 3 | ./select.sh
 	./stat.sh /etc/os-release /etc/fstab /etc/hosts
-	./tr.sh
 	./tracing.sh
 	./trap.sh
 	./while.sh
