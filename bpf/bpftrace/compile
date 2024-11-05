@@ -1,5 +1,5 @@
 #!/bin/bash
-#
+set -ex
 
 deb() {
 	sudo apt-get install -y \
@@ -35,4 +35,4 @@ cmake \
 	..
 
 make -j$(nproc)
-# sudo make install
+sudo make install

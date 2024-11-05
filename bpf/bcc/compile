@@ -1,4 +1,6 @@
 #!/bin/bash
+set -ex
+
 # 1. [#1855] -DENABLE_LLVM_SHARED=1
 # 2. MUST care about bpf_prog_load(),
 #    replace bpf_prog_load to bpf_prog_load_v0_6_0.
@@ -9,4 +11,4 @@ cmake \
 	..
 
 make -j$(nproc)
-# sudo make install
+sudo make install
