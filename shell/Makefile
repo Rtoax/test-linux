@@ -4,6 +4,7 @@ sub-dir :=
 sub-dir += alias
 sub-dir += commands
 sub-dir += math
+sub-dir += network
 sub-dir += string
 
 sub-dir-build := $(sub-dir:=.build)
@@ -24,9 +25,6 @@ test:
 	./call.sh
 	./digit.sh
 	./dmesg-tail.sh
-	./ipswap.sh
-	./ipv4_check.sh
-	./mac.sh
 	./nested-func.sh
 	./num.sh
 	./open-fd.sh
