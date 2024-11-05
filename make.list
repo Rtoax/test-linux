@@ -31,6 +31,7 @@ USER_LIST += io_uring/samples
 USER_LIST += java
 USER_LIST += kvm
 USER_LIST += libs
+USER_LIST += lua
 USER_LIST += macro
 USER_LIST += mm
 USER_LIST += namespace
