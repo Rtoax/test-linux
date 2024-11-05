@@ -86,10 +86,10 @@ static const struct kernel_param_ops param_ops = {
 static int num = 100;
 module_param_cb(num, &param_ops, &num, 0664);
 
-static int debug=0;
+static int debug = 0;
 module_param(debug, int, 0660);
 
-static int irq=10;
+static int irq = 10;
 module_param(irq, int, 0660);
 
 static char *devname = "simpdev";
