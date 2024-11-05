@@ -7,12 +7,13 @@
 
 
 struct task_struct *task;
-char *THREAD_MESSAGE = "Hello from MyThread!";
+
+char *g_message = "Hello from MyThread!";
 
 int thread_function(void *data)
 {
 	u64 count = 0;
-	printk(KERN_INFO "KThread entry %s\n", (char*) data);
+	printk(KERN_INFO "KThread entry %s\n", (char *)data);
 
 	while (!kthread_should_stop()) {
 		msleep_interruptible(1000);
@@ -27,8 +28,8 @@ int thread_function(void *data)
 static int kernel_init(void)
 {
 	printk(KERN_INFO "mykthread init.\n");
-	task = kthread_run(&thread_function, (void *)THREAD_MESSAGE, "rtoax");
-	return 0;
+	task = kthread_run(&thread_function, (void *)g_message, "rtoax");
+	return task ? 0 : -EINVAL;
 }
 
 static void kernel_exit(void)

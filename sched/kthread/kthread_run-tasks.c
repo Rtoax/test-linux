@@ -10,10 +10,10 @@
 static int bind = 1;
 
 module_param(bind, int, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
-MODULE_PARM_DESC(bind, "Bind cpu with when creating kthread");
+MODULE_PARM_DESC(bind, "Bind kthread with cpu when creating kthread");
 
 struct task_struct *task[NR_KTHREAD];
-char *THREAD_MESSAGE = "Hello from MyThread!";
+char *g_message = "Hello from MyThread!";
 
 static atomic_t my_count = ATOMIC_INIT(0);
 
@@ -45,8 +45,8 @@ int thread_function(void *data)
 struct task_struct *create_task(int cpu)
 {
 	struct task_struct *task;
-	task = kthread_run(&thread_function, (void *)THREAD_MESSAGE,
-			"rtoax-%d", cpu);
+	task = kthread_run(&thread_function, (void *)g_message,
+			   "rtoax-%d", cpu);
 	if (IS_ERR(task)) {
 		printk(KERN_ERR "Create task failed\n");
 		return NULL;
@@ -62,8 +62,8 @@ struct task_struct *create_task_on_cpu(int cpu)
 	char name[TASK_COMM_LEN];
 
 	sprintf(name, "rtoax-%d", cpu);
-	task = kthread_create_on_cpu(&thread_function, (void *)THREAD_MESSAGE,
-			cpu, name);
+	task = kthread_create_on_cpu(&thread_function, (void *)g_message,
+				     cpu, name);
 	if (IS_ERR(task)) {
 		printk(KERN_ERR "Create task failed\n");
 		return NULL;
@@ -103,5 +103,6 @@ static void kernel_exit(void)
 
 module_init(kernel_init);
 module_exit(kernel_exit);
+
 MODULE_AUTHOR("Rong Tao");
 MODULE_LICENSE("GPL");

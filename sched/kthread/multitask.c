@@ -18,6 +18,7 @@ struct my_struct {
 	int id;
 	int pid;
 };
+
 static struct work_struct work_queue;
 static struct timer_list mytimer;
 static LIST_HEAD(tasks_list);
@@ -39,31 +40,40 @@ static int sharelist_fn(void *data);
 static void start_kthread(void);
 static void kthread_launcher(struct work_struct *q);
 
+
 static int sharelist_fn(void *data)
 {
+	int err = 0;
 	struct my_struct *p;
 
 	if (count++ % 4 == 0)
 		printk("\n");
 
 	spin_lock(&my_lock);
+
 	if (list_len < 50) {
-		if ((p = kmalloc(sizeof(struct my_struct), GFP_KERNEL)) == NULL)
-			return -ENOMEM;
+		p = kmalloc(sizeof(struct my_struct), GFP_KERNEL);
+		if (p  == NULL) {
+			err = -ENOMEM;
+			goto unlock;
+		}
 		p->id = atomic_read(&my_count);
-		atomic_inc(&my_count);
 		p->pid = current->pid;
 		list_add(&p->list, &tasks_list);
+		atomic_inc(&my_count);
 		list_len++;
 		printk("THREAD ADD:%-5d\t", p->id);
 	} else {
-		struct my_struct *my = NULL;
+		struct my_struct *my;
 		my = list_entry(tasks_list.prev, struct my_struct, list);
 		list_del(tasks_list.prev);
+		atomic_dec(&my_count);
 		list_len--;
 		printk("THREAD DEL:%-5d\t", my->id);
 		kfree(my);
 	}
+
+unlock:
 	spin_unlock(&my_lock);
 	return 0;
 }
@@ -97,26 +107,32 @@ void timer_callback(struct timer_list *timer)
 	mod_timer(timer, jiffies + msecs_to_jiffies(1000));
 }
 
-
-static int share_init(void)
+static __init int share_init(void)
 {
 	int i;
 	printk(KERN_INFO"share list enter\n");
 
 	INIT_WORK(&work_queue, kthread_launcher);
+
 	timer_setup(&mytimer, timer_callback, 0);
 	add_timer(&mytimer);
+
 	for (i = 0; i < NTHREADS; i++)
 		start_kthread();
 	return 0;
 }
-static void share_exit(void)
+
+static __exit void share_exit(void)
 {
 	struct list_head *n, *p = NULL;
 	struct my_struct *my = NULL;
+
 	printk("\nshare list exit\n");
+
 	del_timer(&mytimer);
+
 	spin_lock(&my_lock);
+
 	list_for_each_safe(p, n, &tasks_list) {
 		if (count++ % 4 == 0)
 			printk("\n");
@@ -125,7 +141,9 @@ static void share_exit(void)
 		printk("SYSCALL DEL: %d\t", my->id);
 		kfree(my);
 	}
+
 	spin_unlock(&my_lock);
+
 	printk(KERN_INFO"Over \n");
 }
 
