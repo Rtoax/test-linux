@@ -1,5 +1,6 @@
 SHELL = bash
 
+obj-m += array.o
 obj-m += params-test0.o
 obj-m += params-test1.o
 
