@@ -10,7 +10,7 @@ CC = gcc
 CFLAGS :=
 
 CFLAGS_duplicate-decl-specifier := -Wall -Wduplicate-decl-specifier
-CFLAGS_no-warn := -Wno-warn
+CFLAGS_no-warn := -Wno-warn -Wno-warning
 CFLAGS_no-error := -Wno-error
 
 build: ${TARGETS}
