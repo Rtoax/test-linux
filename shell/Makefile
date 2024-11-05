@@ -38,6 +38,7 @@ test:
 	sudo ./root-chk.sh
 	echo 3 | ./select.sh
 	./stat.sh /etc/os-release /etc/fstab /etc/hosts
+	./tr.sh
 	./tracing.sh
 	./trap.sh
 	./while.sh
