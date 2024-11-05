@@ -26,7 +26,7 @@ TARGETS += __func__
 TARGETS += __linux__
 TARGETS += __WORDSIZE
 ifeq ($(feature-m32),1)
-TARGETS += __WORDSIZE-32
+  TARGETS += __WORDSIZE-32
 endif
 TARGETS += __TIME__
 TARGETS += __VERSION__
@@ -60,7 +60,7 @@ CFLAGS += -O0
 CFLAGS += -DDEBUG -g
 
 .PHONY: build
-build: $(CC)-macros.h ${TARGETS} ${TARGETS_CXX}
+build: $(CC)-macros.h compiler-macros.h ${TARGETS} ${TARGETS_CXX}
 	@echo -e " \033[1;33m Done \033[m"
 
 arch: arch.o
@@ -99,9 +99,15 @@ CFLAGS_machine := -Wno-error=deprecated -Wno-deprecated
 CFLAGS___user := -Wno-error=attributes
 
 %-macros.h:
-	@echo -e "  CC MARCOS  \033[1m$(CC)-macros.h\033[m"
+	@echo -e "  ${CC} MARCOS  \033[1m$(CC)-macros.h\033[m"
+	@rm -f compiler-macros.h
 	@echo '#pragma once' | tee $(@)
 	@$(CC) -march=native -E -dM - </dev/null | tee --append $(@)
+
+compiler-macros.h: $(CC)-macros.h
+	@echo -e "  CC MARCOS  \033[1mcompiler-macros.h\033[m"
+	@rm -f $(@)
+	@ln -s $(<) $(@)
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
@@ -122,4 +128,5 @@ $(TARGETS_CXX): %:
 .PHONY: clean
 clean:
 	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
-	@rm -f ${TARGETS} ${TARGETS_CXX} *.o *.opp $(CC)-macros.h
+	@rm -f ${TARGETS} ${TARGETS_CXX} *.o *.opp
+	@rm -f $(CC)-macros.h compiler-macros.h
