@@ -2,18 +2,23 @@ SHELL = bash
 
 TARGETS :=
 TARGETS += duplicate-decl-specifier
+TARGETS += no-warn
+TARGETS += no-error
 
 CC = gcc
 
 CFLAGS :=
 
 CFLAGS_duplicate-decl-specifier := -Wall -Wduplicate-decl-specifier
+CFLAGS_no-warn := -Wno-warn
+CFLAGS_no-error := -Wno-error
 
 build: ${TARGETS}
-	@echo
 	@echo -e " \033[1;33m Done \033[m"
 
 duplicate-decl-specifier: duplicate-decl-specifier.o
+no-warn: no-warn.o
+no-error: no-error.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

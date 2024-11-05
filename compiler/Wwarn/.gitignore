@@ -1,2 +1,4 @@
 /*.s
 /duplicate-decl-specifier
+/no-warn
+/no-error
