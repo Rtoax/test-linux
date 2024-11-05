@@ -25,7 +25,23 @@ tracepoint:syscalls:sys_enter_init_module
 	printf("%-8d %-16s %-8d %-16s %s\n", pid, comm, $ppid, $pcomm, $uargs);
 }
 
+kprobe:load_module
+{
+	$info = (struct load_info *)arg0;
+	@infos[tid] = $info;
+}
+
+kretprobe:load_module
+/ @infos[tid] /
+{
+	$info = @infos[tid];
+	// printf("name = %s\n", str($info->name));
+	// TODO
+	delete(@infos[tid]);
+}
+
 END
 {
+	clear(@infos);
 	printf("Bye.\n");
 }
