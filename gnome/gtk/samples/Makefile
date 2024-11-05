@@ -32,8 +32,8 @@ CFLAGS :=
 LDFLAGS :=
 
 GTK_VERSION := gtk+-3.0
-GTK_LIBS := $(shell pkg-config --libs gtk+-3.0)
-GTK_CFLAGS := $(shell pkg-config --cflags gtk+-3.0)
+GTK_LIBS := $(shell pkg-config --libs ${GTK_VERSION})
+GTK_CFLAGS := $(shell pkg-config --cflags ${GTK_VERSION})
 
 $(info GTK_CFLAGS=$(GTK_CFLAGS))
 $(info GTK_LIBS=$(GTK_LIBS))
@@ -53,10 +53,8 @@ CFLAGS += -Wno-error=deprecated-declarations
 
 .PHONY: build
 build: ${TARGETS}
-	@echo
 	@echo -e " \033[1;33m Done \033[m"
 
-# Add more object.o file
 builder: builder.o
 builder-menu: builder-menu.o
 arrow_button: arrow_button.o
@@ -94,7 +92,7 @@ dialog: dialog.o
 
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	@$(CC) -o $(@) $(^) $(CFLAGS) $(CFLAGS_$(*)) $(LDFLAGS)
+	@$(CC) -o $(@) $(^) $(CFLAGS) $(CFLAGS_$(*)) $(LDFLAGS) $(LDFLAGS_$(*))
 
 test: ${TARGETS}
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
@@ -102,4 +100,4 @@ test: ${TARGETS}
 .PHONY: clean
 clean:
 	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
-	@rm -f ${TARGETS} *.o *.d
+	@rm -f ${TARGETS} *.o

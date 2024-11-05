@@ -1,9 +1,6 @@
 SHELL = bash
 
-sub-dir :=
-sub-dir += glib
-sub-dir += gtk
-sub-dir += libxml2/samples/
+sub-dir := samples
 
 sub-dir-build := $(sub-dir:=.build)
 sub-dir-clean := $(sub-dir:=.clean)
