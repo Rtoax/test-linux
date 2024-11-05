@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: GPL-3.0
+#
 # test-linux Makefile
 # Wrote by Rong Tao <rtoax@foxmail.com>
 #
@@ -15,7 +17,7 @@ endif
 
 MAKEFLAGS = --silent --no-print-directory
 MKFILE_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))
-GIT_TOPLEVEL += $(shell git rev-parse --show-toplevel)
+GIT_TOPLEVEL := $(shell git rev-parse --show-toplevel || :)
 
 USER_FAILED_LOG := $(shell pwd)/failed-user.log
 KERNEL_FAILED_LOG := $(shell pwd)/failed-kernel.log
