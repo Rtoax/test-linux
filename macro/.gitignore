@@ -27,3 +27,4 @@
 /__user
 /__stringify
 /*-macros.h
+/__STDC__

@@ -38,18 +38,19 @@ TARGETS += __GNUC__
 TARGETS += __has_include
 TARGETS += __user
 TARGETS += __stringify
+TARGETS += __STDC__
 
 TARGETS_CXX :=
 TARGETS_CXX += __cplusplus
 
 ifeq ($(shell uname -m),x86_64)
-TARGETS += __x86_64__
+  TARGETS += __x86_64__
 ifeq ($(feature-m32),1)
-TARGETS += __i386__
+  TARGETS += __i386__
 endif
 endif
 ifeq ($(shell uname -m),aarch64)
-TARGETS += __aarch64__
+  TARGETS += __aarch64__
 endif
 ifeq ($(shell uname -m),sw_64)
 endif
@@ -58,6 +59,7 @@ CFLAGS := -Werror -Wall
 CFLAGS += -O0
 CFLAGS += -DDEBUG -g
 
+.PHONY: build
 build: $(CC)-macros.h ${TARGETS} ${TARGETS_CXX}
 	@echo -e " \033[1;33m Done \033[m"
 
@@ -88,6 +90,7 @@ __GNUC__: __GNUC__.o
 __has_include: __has_include.o
 __user: __user.o
 __stringify: __stringify.o
+__STDC__: __STDC__.o
 
 CFLAGS___i386__ := -m32
 CFLAGS___x86_64__ := -m64
@@ -97,7 +100,8 @@ CFLAGS___user := -Wno-error=attributes
 
 %-macros.h:
 	@echo -e "  CC MARCOS  \033[1m$(CC)-macros.h\033[m"
-	@$(CC) -march=native -E -dM - </dev/null | tee $(@)
+	@echo '#pragma once' | tee $(@)
+	@$(CC) -march=native -E -dM - </dev/null | tee --append $(@)
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
@@ -115,6 +119,7 @@ $(TARGETS_CXX): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
 	@$(CXX) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) $(^)
 
+.PHONY: clean
 clean:
 	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
 	@rm -f ${TARGETS} ${TARGETS_CXX} *.o *.opp $(CC)-macros.h
