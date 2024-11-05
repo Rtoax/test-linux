@@ -132,7 +132,8 @@ This repo ignore file(check `.gitignore`). If you want to write a text `Note`, u
 
 * linux-5.10.13
 * linux-5.14.0
-* linux-5.15.0 ~ ?
+* linux-5.15.0
+* linux-6.11.5 (fedora40,fedora41)
 
 
 # APIs
@@ -155,14 +156,16 @@ Install depends with `make installdeps`.
 
 ## Compile User
 
-```
-make user
+> You'd better compiled under git-repo, because some Makefile use 'git rev-parse --show-toplevel' get top-dir.
+
+```bash
+$ make user
 ```
 
 Compile with `-m32`:
 
-```
-make user M32=1
+```bash
+$ make user M32=1
 ```
 
 
