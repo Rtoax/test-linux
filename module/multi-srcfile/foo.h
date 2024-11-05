@@ -1,6 +1,2 @@
-#ifndef _MULTIFOO_
-#define _MULTIFOO_
-
+#pragma once
 void foo(void);
-
-#endif // _MULTIFOO_

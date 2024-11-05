@@ -1,16 +1,11 @@
-/**
- *	File main.c
- *	Author Rong Tao
- */
 #include <linux/kernel.h>
 #include <linux/module.h>
 #include <linux/init.h>
+
 #include "foo.h"
 
-MODULE_LICENSE("GPL");
-MODULE_AUTHOR("Rong Tao");
 
-static int __init main_init(void)
+static __init int main_init(void)
 {
 	printk(KERN_INFO "Hi from init\n");
 	foo();
@@ -24,3 +19,6 @@ static __exit void main_exit(void)
 
 module_init(main_init)
 module_exit(main_exit)
+
+MODULE_LICENSE("GPL");
+MODULE_AUTHOR("Rong Tao");

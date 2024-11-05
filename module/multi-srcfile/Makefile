@@ -1,6 +1,5 @@
 SHELL = bash
 
-
 obj-m := multifile.o
 multifile-objs := main.o foo.o
 
