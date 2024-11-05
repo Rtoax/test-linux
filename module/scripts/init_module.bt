@@ -5,12 +5,13 @@
  * Copyright (C) Rong Tao 2022-2024
  *
  * 2024-02-04	Rong Tao	Create this.
+ * 2024-11-05	Rong Tao	Display uargs.
  */
 BEGIN
 {
 	printf("Tracing (f)init_module(2), hit ctrl-c to end.\n");
-	printf("%-8s %-8s %-16s %-8s %-16s\n",
-		"TIME", "PID", "COMM", "PPID", "PCOMM");
+	printf("%-8s %-8s %-16s %-8s %-16s %s\n",
+		"TIME", "PID", "COMM", "PPID", "PCOMM", "UARGS");
 }
 
 tracepoint:syscalls:sys_enter_finit_module,
@@ -19,8 +20,9 @@ tracepoint:syscalls:sys_enter_init_module
 	$parent = (struct task_struct *)curtask->real_parent;
 	$ppid = $parent->tgid;
 	$pcomm = $parent->comm;
+	$uargs = str(args->uargs);
 	time("%H:%M:%S ");
-	printf("%-8d %-16s %-8d %-16s\n", pid, comm, $ppid, $pcomm);
+	printf("%-8d %-16s %-8d %-16s %s\n", pid, comm, $ppid, $pcomm, $uargs);
 }
 
 END

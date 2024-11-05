@@ -7,7 +7,7 @@ static int kernel_init(void)
 {
 	printk(KERN_INFO "my init.\n");
 	/**
-	 *	linux_banner undefined
+	 * linux_banner undefined
 	 */
 	//printk(KERN_INFO "linux_banner = %s\n", linux_banner);
 	return 0;

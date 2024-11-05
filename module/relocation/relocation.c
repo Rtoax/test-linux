@@ -15,9 +15,9 @@ int global_int2;
 int global_int3 = 0xabcdffff;
 static int sglobal_int1;
 
-#define P_int(i)	printk(KERN_INFO "I: %-16s  %-8d %016p.\n", #i, i, (void *)&i);
-#define P_long(l)	printk(KERN_INFO "L: %-16s  %-8lx %016p.\n", #l, l, (void *)&l);
-#define P_f(f)		printk(KERN_INFO "F: %-16s           %016p.\n", #f, (void *)f);
+#define P_int(i)	printk(KERN_INFO "I: %-16s  %-8d %016lx.\n", #i, i, (unsigned long)&i);
+#define P_long(l)	printk(KERN_INFO "L: %-16s  %-8lx %016lx.\n", #l, l, (unsigned long)&l);
+#define P_f(f)		printk(KERN_INFO "F: %-16s           %016lx.\n", #f, (unsigned long)f);
 
 void func1(void) {}
 static void sfunc1(void)
@@ -49,5 +49,7 @@ static int kernel_init(void)
 }
 
 module_init(kernel_init);
+
 MODULE_AUTHOR("Rong Tao");
 MODULE_LICENSE("GPL");
+MODULE_DESCRIPTION("Test ko ELF relocations");
