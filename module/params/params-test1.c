@@ -4,9 +4,6 @@
 #include <linux/init.h>
 #include <linux/stat.h>
 
-MODULE_LICENSE("GPL");
-MODULE_AUTHOR("Rong Tao");
-
 static short int myshort = 1;
 static int myint = 420;
 static long int mylong = 9999;
@@ -41,8 +38,7 @@ MODULE_PARM_DESC(mystring, "A character string");
 module_param_array(myintArray, int, &arr_argc, 0000);
 MODULE_PARM_DESC(myintArray, "An array of integers");
 
-static int
-__init hello_5_init(void)
+static int __init hello_5_init(void)
 {
     int i;
     printk(KERN_INFO "Hello, world 5\n=============\n");
@@ -58,11 +54,12 @@ __init hello_5_init(void)
     return 0;
 }
 
-static void
-__exit hello_5_exit(void)
+static void __exit hello_5_exit(void)
 {
     printk(KERN_INFO "Goodbye, world 5\n");
 }
 
 module_init(hello_5_init);
 module_exit(hello_5_exit);
+MODULE_LICENSE("GPL");
+MODULE_AUTHOR("Rong Tao");

@@ -5,9 +5,6 @@
 
 #define SIZE 8
 
-MODULE_LICENSE("GPL");
-MODULE_AUTHOR("Rong Tao");
-
 static int addr[SIZE];
 static int count;
 module_param_array(addr, int, &count, 0660);
@@ -82,8 +79,8 @@ static int my_set(const char *val, const struct kernel_param *kp)
 }
 
 static const struct kernel_param_ops param_ops = {
-	.set	= my_set,
-	.get	= param_get_int,
+	.set = my_set,
+	.get = param_get_int,
 };
 
 static int num = 100;
@@ -100,15 +97,15 @@ module_param(devname, charp, 0660);
 
 static int simple_init(void)
 {
-	printk(KERN_WARNING "irq=%d num=%d name=%s debug=%d\n",
-			irq, num, devname, debug);
-	return 0;
-}
+	int i;
 
-static void simple_cleanup(void)
-{
-	printk(KERN_WARNING "Bye.");
+	printk(KERN_WARNING "irq=%d num=%d name=%s debug=%d\n",
+	       irq, num, devname, debug);
+	for (i = 0; i < count; i++)
+		printk(KERN_WARNING "addr[%d]=%d\n", i, addr[i]);
+	return -EINVAL;
 }
 
 module_init(simple_init);
-module_exit(simple_cleanup);
+MODULE_AUTHOR("Rong Tao");
+MODULE_LICENSE("GPL");
