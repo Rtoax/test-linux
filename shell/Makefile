@@ -2,6 +2,7 @@ SHELL = bash
 
 sub-dir :=
 sub-dir += alias
+sub-dir += array
 sub-dir += commands
 sub-dir += math
 sub-dir += network
@@ -18,10 +19,6 @@ build: $(sub-dir-build) test
 test:
 	@echo -e "  \033[1;33mTEST\033[m"
 	./args.sh
-	./array_culling.sh
-	./array_elem_replace.sh
-	./array_pair.sh
-	./array.sh
 	./call.sh
 	./digit.sh
 	./dmesg-tail.sh
