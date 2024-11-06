@@ -14,8 +14,13 @@ remove_arg() {
 	sudo grubby --update-kernel=/boot/vmlinuz-$(uname -r) --remove-args=intel_iommu=on
 }
 
+set_default() {
+	sudo grubby --set-default /boot/vmlinuz-$(uname -r)
+}
+
 info() {
 	sudo grubby --info=/boot/vmlinuz-$(uname -r)
+	sudo grubby --info=ALL
 }
 
 info

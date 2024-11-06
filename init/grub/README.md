@@ -29,6 +29,10 @@ intiramfs-xxx vmlinuz-xxx
 (grub)> boot
 ```
 
+# Default Entry
+
+/boot/grub2/grubenv
+
 
 # Links
 
