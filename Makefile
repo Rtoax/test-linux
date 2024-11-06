@@ -40,6 +40,9 @@ export ABS_SRCTREE
 TEST_LINUX_VERSION = $(VERSION)$(if $(PATCHLEVEL),.$(PATCHLEVEL)$(if $(SUBLEVEL),.$(SUBLEVEL)))$(EXTRAVERSION)
 export VERSION PATCHLEVEL SUBLEVEL TEST_LINUX_VERSION
 
+TLCONFIG_CONFIG ?= .config
+export TLCONFIG_CONFIG
+
 include $(ABS_SRCTREE)/scripts/TLbuild.include
 
 # Default make help
@@ -68,6 +71,14 @@ help:
 	@echo >&2 -e "***"
 	@echo >&2 -e "***  M32=1  compile with -m32 if possible"
 	@echo >&2 -e "***"
+
+$(TLCONFIG_CONFIG):
+	@echo >&2 -e "***"
+	@echo >&2 -e "*** Configuration file "$@" not found!"
+	@echo >&2 -e "***"
+	@echo >&2 -e "*** Please run some configurator"
+	@echo >&2 -e "***"
+	@/bin/false
 
 define cleanuserlog
 	@rm -f $(USER_FAILED_LOG)
@@ -121,7 +132,7 @@ define make_clean
 	@echo -e "[$(1)] Clean [$(2)] done"
 endef
 
-all: default
+all: default ${TLCONFIG_CONFIG}
 default: user kernel
 
 user: cleanuserlog $(SUB_user_DIR)
