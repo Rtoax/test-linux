@@ -46,6 +46,10 @@ unsigned long do_something(void)
 	return sum;
 }
 
+static inline void run_on_cpu(int cpu)
+{
+}
+
 void *routinue(void *arg)
 {
 	int err;
@@ -74,14 +78,19 @@ void *routinue(void *arg)
 
 void usage(char *prog)
 {
-	fprintf(stderr, "Usage: %s [nloop=%ld]\n", prog, NLOOP);
+	fprintf(stderr, "Usage: %s [nloop=%ld] [cpu=?]\n", prog, NLOOP);
+	fprintf(stderr, "       %s nloop=10000\n", prog);
+	fprintf(stderr, "       %s nloop=10000 cpu=1\n", prog);
 }
 
 int main(int argc, char *argv[])
 {
-	int i;
+	int i, err, cpu;
 	pthread_t threads[NR_THREAD];
 	struct thread_arg targs[NR_THREAD];
+	cpu_set_t cpuset;
+
+	cpu = -1;
 
 	if (argc < 2)
 		usage(argv[0]);
@@ -89,10 +98,23 @@ int main(int argc, char *argv[])
 	for (i = 1; i < argc; i++) {
 		if (!strncmp("nloop=", argv[i], 6)) {
 			NLOOP = strtoul(argv[i] + 6, NULL, 10);
+		} else if (!strncmp("cpu=", argv[i], 4)) {
+			cpu = atoi(argv[i] + 4);
 		} else {
 			fprintf(stderr, "Unknown arg %s\n", argv[i]);
 			usage(argv[0]);
 			exit(1);
+		}
+	}
+
+	/* For all threads */
+	if (cpu >= 0) {
+		CPU_ZERO(&cpuset);
+		CPU_SET(cpu, &cpuset);
+		err = sched_setaffinity(getpid(), sizeof(cpu_set_t), &cpuset);
+		if (err) {
+			perror("sched_setaffinity");
+			return err;
 		}
 	}
 
