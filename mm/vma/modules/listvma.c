@@ -6,7 +6,8 @@
 #include <linux/version.h>
 #include <asm/uaccess.h>
 
-static void list_myvma(void)
+
+static void list_current_vma(void)
 {
 	struct mm_struct *mm = current->mm;
 	struct vm_area_struct *vma;
@@ -48,16 +49,11 @@ static void list_myvma(void)
 static int __init mymem_init(void)
 {
 	printk("mymem module is working..\n");
-	list_myvma();
+	list_current_vma();
 	/* insmod failed on purpose */
-	return -1;
+	return -EINVAL;
 }
 
-static void __exit mymem_exit(void)
-{
-	printk("mymem module is leaving..\n");
-}
-
-MODULE_LICENSE("GPL");
 module_init(mymem_init);
-module_exit(mymem_exit);
+MODULE_LICENSE("GPL");
+MODULE_AUTHOR("Rong Tao");

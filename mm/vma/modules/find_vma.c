@@ -19,16 +19,16 @@ static struct task_struct* this_task(pid_t PID)
 	if(pid <= 0) {
 		return current;
 	}
-    _pid = find_get_pid(PID);
-    if(!_pid) {
-        printk("Not exist PID %d\n", PID);
-        return current;
-    }
+	_pid = find_get_pid(PID);
+	if(!_pid) {
+		printk("Not exist PID %d\n", PID);
+		return current;
+	}
 
 	task = pid_task(_pid, PIDTYPE_TGID);
-    if(!task) {
+	if(!task) {
 		return current;
-    }
+	}
 	return task;
 }
 
@@ -90,14 +90,10 @@ static int __init mymem_init(void)
 	printk("mymem module is working..\n");
 
 	list_myvma();
-	return 0;
+	/* insmod failed on purpose */
+	return -EINVAL;
 }
 
-static void __exit mymem_exit(void)
-{
-	printk("mymem module is leaving..\n");
-}
-
-MODULE_LICENSE("GPL");
 module_init(mymem_init);
-module_exit(mymem_exit);
+MODULE_LICENSE("GPL");
+MODULE_AUTHOR("Rong Tao");

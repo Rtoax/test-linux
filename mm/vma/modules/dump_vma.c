@@ -68,5 +68,6 @@ static int __init mymem_init(void)
 	return -EINVAL;
 }
 
-MODULE_LICENSE("GPL");
 module_init(mymem_init);
+MODULE_LICENSE("GPL");
+MODULE_LICENSE("GPL");

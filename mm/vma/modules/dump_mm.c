@@ -6,6 +6,7 @@
 #include <linux/version.h>
 #include <asm/uaccess.h>
 
+
 void dump_mm(const struct mm_struct *mm)
 {
 #if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 10, 0)
@@ -109,14 +110,10 @@ static int __init mymem_init(void)
 
 	dump_current_mm();
 
-	return 0;
+	/* insmod failed on purpose */
+	return -EINVAL;
 }
 
-static void __exit mymem_exit(void)
-{
-	printk("mymem module is leaving..\n");
-}
-
-MODULE_LICENSE("GPL");
 module_init(mymem_init);
-module_exit(mymem_exit);
+MODULE_LICENSE("GPL");
+MODULE_AUTHOR("Rong Tao");
