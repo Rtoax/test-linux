@@ -12,6 +12,7 @@
 #include <unistd.h>
 #include <sys/time.h>
 #include <sys/resource.h>
+#include <string.h>
 
 
 struct thread_arg {
@@ -20,6 +21,11 @@ struct thread_arg {
 	unsigned long spent;
 };
 
+
+/* nice value: +19 (low priority) to -20 (high priority) */
+#define NR_THREAD	(19 - (-20) + 1)
+
+static unsigned long NLOOP = 2000000000UL;
 
 static inline unsigned long usecs(void)
 {
@@ -31,9 +37,11 @@ static inline unsigned long usecs(void)
 static inline __attribute__((optimize("-O0")))
 unsigned long do_something(void)
 {
-#define NLOOP	2000000000UL
-	unsigned long i, sum = 0;
-	for (i = 0; i < NLOOP; i++)
+	unsigned long i, sum = 0, nloop;
+
+	nloop = NLOOP;
+
+	for (i = 0; i < nloop; i++)
 		sum += i;
 	return sum;
 }
@@ -64,15 +72,31 @@ void *routinue(void *arg)
 	return NULL;
 }
 
-/* nice value: +19 (low priority) to -20 (high priority) */
-#define NR_THREAD	(19 - (-20) + 1)
+void usage(char *prog)
+{
+	fprintf(stderr, "Usage: %s [nloop=%ld]\n", prog, NLOOP);
+}
 
-int main(void)
+int main(int argc, char *argv[])
 {
 	int i;
 	pthread_t threads[NR_THREAD];
 	struct thread_arg targs[NR_THREAD];
 
+	if (argc < 2)
+		usage(argv[0]);
+
+	for (i = 1; i < argc; i++) {
+		if (!strncmp("nloop=", argv[i], 6)) {
+			NLOOP = strtoul(argv[i] + 6, NULL, 10);
+		} else {
+			fprintf(stderr, "Unknown arg %s\n", argv[i]);
+			usage(argv[0]);
+			exit(1);
+		}
+	}
+
+	printf("nloop = %ld\n", NLOOP);
 
 	pthread_setname_np(pthread_self(), "MAIN");
 
