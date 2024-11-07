@@ -70,4 +70,4 @@ static int __init mymem_init(void)
 
 module_init(mymem_init);
 MODULE_LICENSE("GPL");
-MODULE_LICENSE("GPL");
+MODULE_AUTHOR("Rong Tao");
