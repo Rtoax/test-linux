@@ -27,6 +27,7 @@ TARGETS += pthread_cleanup_push-deadlock
 TARGETS += pthread_cleanup_push_defer_np
 TARGETS += pthread_equal
 TARGETS += pthread_exit
+TARGETS += pthread_getschedparam
 TARGETS += pthread_key_create pthread_setspecific pthread_getspecific
 TARGETS += pthread_join-coredump
 TARGETS += pthread_join pthread_tryjoin_np pthread_timedjoin_np pthread_detach
@@ -110,6 +111,7 @@ pthread_attr_getdetachstate: pthread_attr_getdetachstate.o
 pthread_attr_getinheritsched: pthread_attr_getinheritsched.o
 pthread_attr_getschedpolicy: pthread_attr_getschedpolicy.o
 pthread_attr_init: pthread_attr_init.o
+pthread_getschedparam: pthread_getschedparam.o
 pthread_barrier_init: pthread_barrier_init.o
 pthread_cancel: pthread_cancel.o
 pthread_testcancel: pthread_testcancel.o

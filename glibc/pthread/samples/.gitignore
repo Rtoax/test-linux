@@ -72,3 +72,4 @@
 /cond-demo1
 /cond-demo2
 /cond-demo3-latency
+/pthread_getschedparam
