@@ -5,6 +5,7 @@
 
 #include "helpers.h"
 
+
 int main(void)
 {
 	int ret, policy;
@@ -14,11 +15,15 @@ int main(void)
 	policy = SCHED_FIFO;
 	sp.sched_priority = 1;
 
+	/**
+	 * sched_setscheduler(pid, policy, NULL) is Invalid argument
+	 */
 	ret = sched_setscheduler(pid, policy, &sp);
 	if (ret) {
 		perror("sched_setscheduler");
 		return ret;
 	}
+
 	ret = sched_getscheduler(pid);
 	if (ret != policy) {
 		perror("sched_getscheduler");

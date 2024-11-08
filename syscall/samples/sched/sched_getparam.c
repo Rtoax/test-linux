@@ -1,3 +1,6 @@
+/**
+ * $ sudo chrt --rr 10 ./sched_setparam
+ */
 #include <sched.h>
 #include <stdio.h>
 #include <unistd.h>
