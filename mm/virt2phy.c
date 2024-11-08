@@ -55,17 +55,41 @@ failed:
 	return 0;
 }
 
+int open_dev_mem(void)
+{
+	int memfd;
+	memfd = open("/dev/mem", O_RDWR);
+	if (memfd == -1) {
+		fprintf(stderr, "open /dev/mem: %m\n");
+		exit(1);
+	}
+	return memfd;
+}
+
+int dev_mem_write(int memfd, unsigned long phyaddr, void *buf, size_t buf_len)
+{
+	int ret = 0;
+	ret = lseek(memfd, phyaddr, SEEK_SET);
+	if (ret == -1) {
+		fprintf(stderr, "lseek /dev/mem: %m\n");
+		exit(1);
+	}
+	ret = write(memfd, buf, buf_len);
+	if (ret == -1) {
+		fprintf(stderr, "write /dev/mem: %m\n");
+		exit(1);
+	}
+
+	return ret;
+}
+
 int main(void)
 {
 	int i, memfd, ret;
 	char *buf;
 	unsigned long phy;
 
-	memfd = open("/dev/mem", O_RDWR);
-	if (memfd == -1) {
-		fprintf(stderr, "open /dev/mem: %m\n");
-		exit(1);
-	}
+	memfd = open_dev_mem();
 
 #ifdef PAGE_ALIGN
 	posix_memalign((void **)&buf, 4096, 1024);
@@ -81,18 +105,8 @@ int main(void)
 	phy = virt_to_phy((unsigned long)buf);
 	printf("%#016lx %#016lx\n", (unsigned long)buf, phy);
 
-	ret = lseek(memfd, phy, SEEK_SET);
-	if (ret == -1) {
-		fprintf(stderr, "lseek /dev/mem: %m\n");
-		goto exit;
-	}
-
 #define BUF_STRING	"Hello, Memory!"
-	ret = write(memfd, BUF_STRING, strlen(BUF_STRING));
-	if (ret == -1) {
-		fprintf(stderr, "write /dev/mem: %m\n");
-		goto exit;
-	}
+	dev_mem_write(memfd, phy, BUF_STRING, strlen(BUF_STRING));
 
 	printf("buf = %s\n", buf);
 
