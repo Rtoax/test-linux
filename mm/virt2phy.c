@@ -83,30 +83,59 @@ int dev_mem_write(int memfd, unsigned long phyaddr, void *buf, size_t buf_len)
 	return ret;
 }
 
+int dev_mem_read(int memfd, unsigned long phyaddr, void *to_buf, size_t len)
+{
+	int ret = 0;
+	ret = lseek(memfd, phyaddr, SEEK_SET);
+	if (ret == -1) {
+		fprintf(stderr, "lseek /dev/mem: %m\n");
+		exit(1);
+	}
+	ret = read(memfd, to_buf, len);
+	if (ret == -1) {
+		fprintf(stderr, "read /dev/mem: %m\n");
+		exit(1);
+	}
+
+	return ret;
+}
+
+#if defined(HAVE_MAIN)
 int main(void)
 {
 	int i, memfd, ret;
 	char *buf;
+	size_t buf_len;
 	unsigned long phy;
+	char buffer[1024];
 
 	memfd = open_dev_mem();
 
+	buf_len = 1024;
+
+#define BUF_STRING0	"Hello, Original!"
+#define BUF_STRING1	"Hello, Memory!"
+
 #ifdef PAGE_ALIGN
-	posix_memalign((void **)&buf, 4096, 1024);
+	posix_memalign((void **)&buf, 4096, buf_len);
 #else
-	buf = malloc(1024);
+	buf = malloc(buf_len);
 #endif
 	assert(buf && "malloc failed");
 
-	mlock(buf, 1024);
+	mlock(buf, buf_len);
 
-	memset(buf, 0x00, 1024);
+	memset(buf, 0x00, buf_len);
+	strcpy(buf, BUF_STRING0);
 
 	phy = virt_to_phy((unsigned long)buf);
 	printf("%#016lx %#016lx\n", (unsigned long)buf, phy);
 
-#define BUF_STRING	"Hello, Memory!"
-	dev_mem_write(memfd, phy, BUF_STRING, strlen(BUF_STRING));
+#if 0
+	dev_mem_read(memfd, phy, buffer, strlen(BUF_STRING0));
+	printf("buffer %s\n", buffer);
+#endif
+	dev_mem_write(memfd, phy, BUF_STRING1, strlen(BUF_STRING1));
 
 	printf("buf = %s\n", buf);
 
@@ -116,3 +145,4 @@ exit:
 
 	return 0;
 }
+#endif /* HAVE_MAIN */

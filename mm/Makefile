@@ -14,6 +14,8 @@ CC = gcc
 
 CFLAGS :=
 
+CFLAGS_virt2phy := -DHAVE_MAIN=1
+
 sub-dir-build := $(sub-dir:=.build)
 sub-dir-clean := $(sub-dir:=.clean)
 
