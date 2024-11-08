@@ -5,7 +5,7 @@ sub-dir += clone
 
 TARGETS += cpuset CPU_SETSIZE CPU_ALLOC str2cpuset
 TARGETS += getcpu sched_getcpu
-TARGETS += nice
+TARGETS += nice nice-latency
 TARGETS += sched_setattr
 TARGETS += sched_setscheduler sched_getscheduler policy
 TARGETS += sched_getparam sched_setparam
@@ -40,6 +40,7 @@ CPU_SETSIZE: CPU_SETSIZE.o
 CPU_ALLOC: CPU_ALLOC.o
 str2cpuset: str2cpuset.o helpers.o
 nice: nice.o
+nice-latency: nice-latency.o
 getcpu: getcpu.o helpers.o
 sched_setattr: sched_setattr.o helpers.o
 sched_getparam: sched_getparam.o

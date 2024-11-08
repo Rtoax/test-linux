@@ -24,5 +24,8 @@ int main(void)
 	getrlimit(RLIMIT_NPROC, &rlimit);
 	print_rlimit("RLIMIT_NPROC", &rlimit);
 
+	getrlimit(RLIMIT_NICE, &rlimit);
+	print_rlimit("RLIMIT_NICE", &rlimit);
+
 	return 0;
 }

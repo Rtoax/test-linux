@@ -5,7 +5,7 @@
 #include <signal.h>
 #include <unistd.h>
 
-bool loop = true;
+sig_atomic_t loop = true;
 const int us = 100000;
 
 void sig_handler(int signum)
