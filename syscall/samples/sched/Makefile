@@ -32,7 +32,6 @@ sub-dir-clean := $(sub-dir:=.clean)
 
 .PHONY: build
 build: ${TARGETS} $(sub-dir-build)
-	make -C clone
 	@echo -e " \033[1;33m Done \033[m"
 
 cpuset: cpuset.o
