@@ -14,8 +14,7 @@ int main(int argc, char *argv[])
 #endif
 
 #ifdef _POSIX_C_SOURCE
-	printf("_POSIX_C_SOURCE defined: %jdL\n",
-			(intmax_t) _POSIX_C_SOURCE);
+	printf("_POSIX_C_SOURCE defined: %jdL\n", (intmax_t)_POSIX_C_SOURCE);
 #endif
 
 #ifdef _ISOC99_SOURCE

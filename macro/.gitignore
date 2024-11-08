@@ -28,3 +28,5 @@
 /__stringify
 /*-macros.h
 /__STDC__
+/_XOPEN_SOURCE
+/_POSIX*_SOURCE

@@ -39,6 +39,8 @@ TARGETS += __has_include
 TARGETS += __user
 TARGETS += __stringify
 TARGETS += __STDC__
+TARGETS += _XOPEN_SOURCE
+TARGETS += _POSIX_SOURCE _POSIX_C_SOURCE
 
 TARGETS_CXX :=
 TARGETS_CXX += __cplusplus
@@ -91,6 +93,9 @@ __has_include: __has_include.o
 __user: __user.o
 __stringify: __stringify.o
 __STDC__: __STDC__.o
+_XOPEN_SOURCE: _XOPEN_SOURCE.o
+_POSIX_SOURCE: _POSIX_SOURCE.o
+_POSIX_C_SOURCE: _POSIX_C_SOURCE.o
 
 CFLAGS___i386__ := -m32
 CFLAGS___x86_64__ := -m64
