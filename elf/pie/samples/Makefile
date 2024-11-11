@@ -13,7 +13,6 @@ CFLAGS :=
 LDFLAGS :=
 
 CFLAGS += -I${LIBS_TOPDIR}
-LDFLAGS += ${LIBS_TOPDIR}/libtest-linux-c.a
 
 CFLAGS_hello += -no-pie
 LDFLAGS_hello += -no-pie
@@ -23,12 +22,12 @@ CFLAGS_proc := -fpie
 LDFLAGS_is_pie := -lelf
 
 .PHONY: build
-build: libtest-linux-c.a ${TARGETS}
+build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 	@$(shell diff -up hello.s hello-pie.s >> build.log)
 
-hello: hello.o
-hello-pie: hello-pie.o
+hello: hello.o libtest-linux-c.a
+hello-pie: hello-pie.o libtest-linux-c.a
 is_pie: is_pie.o
 
 libtest-linux-c.a:

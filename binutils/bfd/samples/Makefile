@@ -30,7 +30,6 @@ CFLAGS += -lbfd
 CFLAGS += -lpthread
 
 CFLAGS += -I${LIBS_TOPDIR}
-LDFLAGS += ${LIBS_TOPDIR}/libtest-linux-c.a
 
 # FIXME: /usr/include/bfd.h may include these lines. There must be a better way
 # to fix this.
@@ -141,26 +140,26 @@ endef
 $(info CFLAGS=${CFLAGS})
 $(info LDFLAGS=${LDFLAGS})
 
-build: libtest-linux-c.a ${TARGETS}
+build: ${TARGETS}
 	@echo -e "  CFLAGS=${CFLAGS}"
 	@echo -e "  LDFLAGS=${LDFLAGS}"
 	@echo -e " \033[1;33m Done \033[m"
 
 bfd_init: bfd_init.o helpers.o
 build_id: build_id.o helpers.o
-bfd_symbol_info: bfd_symbol_info.o helpers.o
+bfd_symbol_info: bfd_symbol_info.o helpers.o libtest-linux-c.a
 bfd_get_start_address: bfd_get_start_address.o
 bfd_get_flavour: bfd_get_flavour.o
 bfd_elf_bfd_from_remote_memory: bfd_elf_bfd_from_remote_memory.o
 phdr: phdr.o
 sections: sections.o
-symbol: symbol.o helpers.o
-symbol-value: symbol-value.o helpers.o
+symbol: symbol.o helpers.o libtest-linux-c.a
+symbol-value: symbol-value.o helpers.o libtest-linux-c.a
 breakpoint_tst: breakpoint_tst.o
 breakpoint_bfd: breakpoint_bfd.o
 reloc: reloc.o
 reloc-name: reloc-name.o
-bfd_print_symbol_vandf: bfd_print_symbol_vandf.o helpers.o
+bfd_print_symbol_vandf: bfd_print_symbol_vandf.o helpers.o libtest-linux-c.a
 
 libtest-linux-c.a:
 	@make -C ${LIBS_TOPDIR}

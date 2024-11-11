@@ -14,18 +14,17 @@ CFLAGS += -Wstrict-prototypes
 CFLAGS += -I${LIBS_TOPDIR}
 
 LDFLAGS :=
-LDFLAGS += ${LIBS_TOPDIR}/libtest-linux-c.a
 
 CFLAGS_dl_iterate_phdr := -no-pie
 CFLAGS_dl_iterate_phdr-pie := -fpie
 LDFLAGS_dl_iterate_phdr-pie := -pie
 
 .PHONY: build
-build: libtest-linux-c.a ${TARGETS}
+build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
-dl_iterate_phdr: dl_iterate_phdr.o
-dl_iterate_phdr-pie: dl_iterate_phdr-pie.o
+dl_iterate_phdr: dl_iterate_phdr.o libtest-linux-c.a
+dl_iterate_phdr-pie: dl_iterate_phdr-pie.o libtest-linux-c.a
 has_shared_object: has_shared_object.o
 
 libtest-linux-c.a:

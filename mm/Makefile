@@ -19,7 +19,6 @@ CFLAGS :=
 LDFLAGS :=
 
 CFLAGS += -I${LIBS_TOPDIR}
-LDFLAGS += ${LIBS_TOPDIR}/libtest-linux-c.a
 
 CFLAGS_virt2phy := -DHAVE_MAIN=1 -DHAVE_LIB_TEST_LINUX_C=1
 
@@ -27,10 +26,10 @@ sub-dir-build := $(sub-dir:=.build)
 sub-dir-clean := $(sub-dir:=.clean)
 
 .PHONY: all
-all: libtest-linux-c.a ${TARGETS} $(sub-dir-build)
+all: ${TARGETS} $(sub-dir-build)
 	@echo -e " \033[1;33m Done \033[m"
 
-virt2phy: virt2phy.o
+virt2phy: virt2phy.o libtest-linux-c.a
 
 libtest-linux-c.a:
 	@make -C ${LIBS_TOPDIR}
