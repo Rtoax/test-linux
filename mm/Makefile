@@ -38,7 +38,8 @@ test: ${TARGETS}
 
 .PHONY: clean
 clean: $(sub-dir-clean)
-	rm -f ${TARGETS} *.o
+	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
+	@rm -f ${TARGETS} *.o
 
 $(sub-dir-build):
 	@echo -e "\033[1;32m [sub-dir] build $(@)\033[m"
