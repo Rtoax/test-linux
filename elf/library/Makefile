@@ -101,6 +101,7 @@ $(TARGETS_A): %:
 	@echo -e "  AR  \033[1;32m$(^) to $(@)\033[m"
 	@ar rcs $(@) $(^)
 
+.PHONY: test
 test: ${TARGETS}
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
 	@LD_LIBRARY_PATH=$(shell pwd) ./main
