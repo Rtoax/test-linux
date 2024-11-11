@@ -115,7 +115,7 @@ int main(void)
 	char buffer[1024];
 
 #if defined(HAVE_LIB_TEST_LINUX_C)
-	unsigned long libc_text_addr = proc_elf_base_libc_x_addr();
+	unsigned long libc_text_addr = proc_maps_libc_text_addr();
 	printf("libc text addr : %lx (phy %lx)\n", libc_text_addr, virt_to_phy(libc_text_addr));
 #endif
 

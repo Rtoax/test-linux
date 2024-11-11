@@ -173,17 +173,17 @@ found:
 	return addr;
 }
 
-unsigned long proc_elf_base_addr(void)
+unsigned long proc_maps_exec_base_addr(void)
 {
 	return __proc_maps_addr(VT_COMM, NULL, NULL);
 }
 
-unsigned long proc_elf_base_libc_addr(void)
+unsigned long proc_maps_libc_base_addr(void)
 {
 	return __proc_maps_addr(VT_LIBC, NULL, NULL);
 }
 
-unsigned long proc_elf_base_libc_x_addr(void)
+unsigned long proc_maps_libc_text_addr(void)
 {
 	union addr_args arg = {
 		.need_prot = PROT_EXEC,
@@ -191,13 +191,13 @@ unsigned long proc_elf_base_libc_x_addr(void)
 	return __proc_maps_addr(VT_LIBC, NULL, &arg);
 }
 
-char *proc_elf_base_libc_name(char *buf, size_t buf_len)
+char *proc_maps_libc_base_name(char *buf, size_t buf_len)
 {
 	__proc_maps_addr(VT_LIBC, buf, NULL);
 	return buf;
 }
 
-unsigned long proc_elf_base_vdso_addr(void)
+unsigned long proc_maps_vdso_addr(void)
 {
 	return __proc_maps_addr(VT_VDSO, NULL, NULL);
 }
