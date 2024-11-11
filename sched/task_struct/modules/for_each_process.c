@@ -1,8 +1,10 @@
+// SPDX-License-Identifier: GPL-3.0
 #include <linux/kernel.h>
 #include <linux/module.h>
 #include <linux/sched.h>
 #include <linux/init_task.h>
 #include <linux/version.h>
+
 
 static void print_task(struct task_struct *task)
 {
@@ -10,7 +12,7 @@ static void print_task(struct task_struct *task)
 		task->comm, task->pid, task->parent->comm);
 }
 
-int init_test(void)
+static int init_test(void)
 {
 	struct task_struct *task, *thread;
 
@@ -30,13 +32,6 @@ int init_test(void)
 	return -1;
 }
 
-void cleanup_test(void)
-{
-	return;
-}
-
 module_init(init_test);
-module_exit(cleanup_test);
-
 MODULE_AUTHOR("Rong Tao");
 MODULE_LICENSE("GPL");
