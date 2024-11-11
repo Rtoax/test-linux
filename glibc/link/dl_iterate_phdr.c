@@ -7,7 +7,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "proc.c"
+#include "proc.h"
+
 
 static int callback(struct dl_phdr_info *info, size_t size, void *data)
 {

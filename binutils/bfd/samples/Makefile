@@ -1,6 +1,9 @@
+# SPDX-License-Identifier: GPL-3.0
 SHELL = bash
 
 include bfd.mk
+
+LIBS_TOPDIR := $(shell git rev-parse --show-toplevel || :)/libs/
 
 TARGETS :=
 TARGETS += bfd_init
@@ -25,6 +28,9 @@ CFLAGS += -Wno-unused-label
 CFLAGS += -Wno-unused-variable
 CFLAGS += -lbfd
 CFLAGS += -lpthread
+
+CFLAGS += -I${LIBS_TOPDIR}
+LDFLAGS += ${LIBS_TOPDIR}/libtest-linux-c.a
 
 # FIXME: /usr/include/bfd.h may include these lines. There must be a better way
 # to fix this.
@@ -125,6 +131,9 @@ endif
 CFLAGS += -DBINUTILS_VERSION_MAJOR=${BINUTILS_VERSION_MAJOR}
 CFLAGS += -DBINUTILS_VERSION_MINOR=${BINUTILS_VERSION_MINOR}
 
+CFLAGS_bfd_print_symbol_vandf := -DTEST_bfd_print_symbol_vandf=1
+CFLAGS_symbol-value := -DTEST_SYMBOL_VALUE=1
+
 define bfd_strip
   @strip $(1) -o $(1).strip
 endef
@@ -132,29 +141,30 @@ endef
 $(info CFLAGS=${CFLAGS})
 $(info LDFLAGS=${LDFLAGS})
 
-build: ${TARGETS}
+build: libtest-linux-c.a ${TARGETS}
 	@echo -e "  CFLAGS=${CFLAGS}"
 	@echo -e "  LDFLAGS=${LDFLAGS}"
 	@echo -e " \033[1;33m Done \033[m"
 
 bfd_init: bfd_init.o helpers.o
 build_id: build_id.o helpers.o
-bfd_symbol_info: bfd_symbol_info.o proc.o helpers.o
+bfd_symbol_info: bfd_symbol_info.o helpers.o
 bfd_get_start_address: bfd_get_start_address.o
 bfd_get_flavour: bfd_get_flavour.o
 bfd_elf_bfd_from_remote_memory: bfd_elf_bfd_from_remote_memory.o
 phdr: phdr.o
 sections: sections.o
-symbol: symbol.o proc.o helpers.o
-symbol-value: symbol-value.o proc.o helpers.o
+symbol: symbol.o helpers.o
+symbol-value: symbol-value.o helpers.o
 breakpoint_tst: breakpoint_tst.o
 breakpoint_bfd: breakpoint_bfd.o
 reloc: reloc.o
 reloc-name: reloc-name.o
-bfd_print_symbol_vandf: bfd_print_symbol_vandf.o proc.o helpers.o
+bfd_print_symbol_vandf: bfd_print_symbol_vandf.o helpers.o
 
-CFLAGS_bfd_print_symbol_vandf := -DTEST_bfd_print_symbol_vandf=1
-CFLAGS_symbol-value := -DTEST_SYMBOL_VALUE=1
+libtest-linux-c.a:
+	@make -C ${LIBS_TOPDIR}
+	@cp ${LIBS_TOPDIR}/libtest-linux-c.a $(shell pwd)
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

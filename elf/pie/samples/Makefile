@@ -1,4 +1,7 @@
+# SPDX-License-Identifier: GPL-3.0
 SHELL = bash
+
+LIBS_TOPDIR := $(shell git rev-parse --show-toplevel || :)/libs/
 
 TARGETS := hello
 TARGETS += hello-pie
@@ -9,14 +12,8 @@ CC := gcc
 CFLAGS :=
 LDFLAGS :=
 
-.PHONY: build
-build: ${TARGETS}
-	@echo -e " \033[1;33m Done \033[m"
-	@diff -up hello.s hello-pie.s || true
-
-hello: hello.o proc.o
-hello-pie: hello-pie.o proc.o
-is_pie: is_pie.o
+CFLAGS += -I${LIBS_TOPDIR}
+LDFLAGS += ${LIBS_TOPDIR}/libtest-linux-c.a
 
 CFLAGS_hello += -no-pie
 LDFLAGS_hello += -no-pie
@@ -24,6 +21,19 @@ CFLAGS_hello-pie := -fpie
 LDFLAGS_hello-pie := -pie
 CFLAGS_proc := -fpie
 LDFLAGS_is_pie := -lelf
+
+.PHONY: build
+build: libtest-linux-c.a ${TARGETS}
+	@echo -e " \033[1;33m Done \033[m"
+	@$(shell diff -up hello.s hello-pie.s >> build.log)
+
+hello: hello.o
+hello-pie: hello-pie.o
+is_pie: is_pie.o
+
+libtest-linux-c.a:
+	@make -C ${LIBS_TOPDIR}
+	@cp ${LIBS_TOPDIR}/libtest-linux-c.a $(shell pwd)
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
@@ -33,7 +43,7 @@ LDFLAGS_is_pie := -lelf
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
 	@$(CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*)) $(CFLAGS) $(CFLAGS_$(*))
-	size --format=sysv $(@)
+	@size --format=sysv $(@) >> build.log
 
 test: ${TARGETS}
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
