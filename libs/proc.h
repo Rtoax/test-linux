@@ -7,6 +7,7 @@ const char *proc_comm(char *buf, size_t buf_len);
 
 /* /proc/PID/maps */
 unsigned long proc_maps_exec_base_addr(void);
+unsigned long proc_maps_exec_text_addr(void);
 unsigned long proc_maps_libc_base_addr(void);
 char *proc_maps_libc_base_name(char *buf, size_t buf_len);
 unsigned long proc_maps_libc_text_addr(void);
