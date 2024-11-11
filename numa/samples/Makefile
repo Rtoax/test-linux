@@ -1,4 +1,7 @@
+# SPDX-License-Identifier: GPL-3.0
 SHELL = bash
+
+LIBNUMA_HDR = /usr/include/numa.h
 
 TARGETS :=
 TARGETS += numa_alloc
@@ -13,21 +16,19 @@ TARGETS += migrate_pages
 
 CC = gcc
 
-LIBNUMA_HDR = /usr/include/numa.h
-
 ifeq ($(wildcard $(LIBNUMA_HDR)),)
-$(error "ERROR: Must install numactl development header")
+  TARGETS :=
+  $(warning "ERROR: Must install numactl development header")
 endif
 
 CFLAGS := -Werror -Wall
 CFLAGS += -DDEBUG -O0 -g
 CFLAGS += -lnuma
 
+.PHONY: build
 build: ${TARGETS}
-	@echo
 	@echo -e " \033[1;33m Done \033[m"
 
-# Add more object.o file
 numa_alloc: numa_alloc.o
 numa_available: numa_available.o
 numa_max_node: numa_max_node.o
@@ -52,6 +53,7 @@ $(TARGETS): %:
 test: ${TARGETS}
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
 
+.PHONY: clean
 clean:
 	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
 	@rm -f ${TARGETS} *.o
