@@ -544,6 +544,7 @@ apt_add_packages()
 	pkgs_compiler+=( build-essential )
 	pkgs_compiler+=( gcc-doc )
 	pkgs_compiler+=( gcc-multilib )
+	pkgs_compiler+=( lua5.4 )
 	pkgs_compiler+=( rust-all )
 
 	pkgs_fs+=( unionfs-fuse )
