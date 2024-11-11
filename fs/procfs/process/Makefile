@@ -1,5 +1,7 @@
 SHELL = bash
 
+CFLAGS :=
+
 TARGETS :=
 TARGETS += cmdline
 TARGETS += environ
@@ -10,6 +12,8 @@ TARGETS += mem
 TARGETS += maps
 
 all: $(TARGETS)
+
+CFLAGS_pagemap := -DHAVE_MAIN=1
 
 cmdline: cmdline.o
 environ: environ.o
@@ -25,7 +29,7 @@ maps: maps.o
 
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	@$(CC) -o $(@) $(^) $(LDLIBS) $(LDFLAGS) $(LDFLAGS_$(*)) $(CFLAGS) $(CFLAGS_$(*))
+	@$(CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*)) $(CFLAGS) $(CFLAGS_$(*))
 
 test: ${TARGETS}
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
