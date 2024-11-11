@@ -22,6 +22,24 @@ CFLAGS += -I${LIBS_TOPDIR}
 
 CFLAGS_virt2phy := -DHAVE_MAIN=1 -DHAVE_LIB_TEST_LINUX_C=1
 
+SUB_MAKE_ARG :=
+
+ifdef PIE
+  CFLAGS += -pie -fPIE
+  LDFLAGS += -pie -fPIE
+  SUB_MAKE_ARG += PIE=1
+endif
+
+ifdef NOPIE
+  CFLAGS += -no-pie
+  LDFLAGS += -no-pie
+  SUB_MAKE_ARG += NOPIE=1
+  ifdef PIE
+    $(error "Could no specify PIE and NOPIE at the same time")
+  endif
+endif
+
+
 sub-dir-build := $(sub-dir:=.build)
 sub-dir-clean := $(sub-dir:=.clean)
 
@@ -53,7 +71,7 @@ clean: $(sub-dir-clean)
 
 $(sub-dir-build):
 	@echo -e "\033[1;32m [sub-dir] build $(@)\033[m"
-	make -C $(@:.build=)
+	make -C $(@:.build=) ${SUB_MAKE_ARG}
 $(sub-dir-clean):
 	@echo -e "\033[1;32m [sub-dir] clean $(@)\033[m"
-	make -C $(@:.clean=) clean
+	make -C $(@:.clean=) clean ${SUB_MAKE_RG}

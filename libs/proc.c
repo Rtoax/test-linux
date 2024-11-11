@@ -186,6 +186,14 @@ unsigned long proc_maps_exec_text_addr(void)
 	return __proc_maps_addr(VT_COMM, NULL, &arg);
 }
 
+unsigned long proc_maps_exec_data_addr(void)
+{
+	union addr_args arg = {
+		.need_prot = PROT_READ | PROT_WRITE,
+	};
+	return __proc_maps_addr(VT_COMM, NULL, &arg);
+}
+
 unsigned long proc_maps_libc_base_addr(void)
 {
 	return __proc_maps_addr(VT_LIBC, NULL, NULL);

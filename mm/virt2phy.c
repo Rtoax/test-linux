@@ -115,11 +115,13 @@ int main(void)
 	char buffer[1024];
 
 #if defined(HAVE_LIB_TEST_LINUX_C)
-	unsigned long text_addr;
+	unsigned long text_addr, data_addr;
 	text_addr = proc_maps_libc_text_addr();
 	printf("libc text addr : %lx (phy %lx)\n", text_addr, virt_to_phy(text_addr));
 	text_addr = proc_maps_exec_text_addr();
 	printf("exec text addr : %lx (phy %lx)\n", text_addr, virt_to_phy(text_addr));
+	data_addr = proc_maps_exec_data_addr();
+	printf("exec data addr : %lx (phy %lx)\n", data_addr, virt_to_phy(data_addr));
 #endif
 
 	memfd = open_dev_mem();
