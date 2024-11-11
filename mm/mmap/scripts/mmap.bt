@@ -2,17 +2,32 @@
 /**
  * mmap.bt - Tracing mmap(2) syscall
  */
+#define PROT_READ	0x1		/* Page can be read.  */
+#define PROT_WRITE	0x2		/* Page can be written.  */
+#define PROT_EXEC	0x4		/* Page can be executed.  */
+#define PROT_NONE	0x0		/* Page can not be accessed.  */
+
+#define MAP_SHARED	0x01		/* Share changes.  */
+#define MAP_PRIVATE	0x02		/* Changes are private.  */
+
 BEGIN
 {
 	printf("Tracing mmap(2), hit ctrl-c to end.\n");
-	printf("%-8s %-8s %-16s %-8s %-16s\n",
-		"TIME", "PID", "COMM", "LEN(KB)", "RETURN");
+	printf("%-8s %-8s %-16s %-8s %-4s %-16s\n",
+		"TIME", "PID", "COMM", "LEN(KB)", "PROT", "RETURN");
 }
 
 tracepoint:syscalls:sys_enter_mmap
 {
+	$prot = args->prot;
+	$flags = args->flags;
+
 	time("%H:%M:%S ");
-	printf("%-8d %-16s %-8lx", pid, comm, args->len / 1024);
+	printf("%-8d %-16s %-8lx %s%s%s%s ", pid, comm, args->len / 1024,
+		$flags & MAP_PRIVATE ? "p" : ($flags & MAP_SHARED ? "s" : "-"),
+		$prot & PROT_READ ? "r" : "-",
+		$prot & PROT_WRITE ? "w" : "-",
+		$prot & PROT_EXEC ? "x" : "-");
 
 	@start[tid] = nsecs;
 }
