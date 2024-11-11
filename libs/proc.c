@@ -6,6 +6,7 @@
 #include <unistd.h>
 #include <limits.h>
 #include <fcntl.h>
+#include <sys/mman.h>
 
 #include "proc.h"
 
@@ -37,9 +38,25 @@ union addr_args {
 		/* start could be 0 */
 		unsigned long start, len;
 	} vt_hole_arg;
+	int need_prot;
 };
 
-static unsigned long __proc_maps_addr(enum vma_type vma_type, char *name,
+
+static unsigned int perms2prot(char *perms)
+{
+	unsigned int prot = PROT_NONE;
+
+	if (perms[0] == 'r')
+		prot |= PROT_READ;
+	if (perms[1] == 'w')
+		prot |= PROT_WRITE;
+	if (perms[2] == 'x')
+		prot |= PROT_EXEC;
+	/* Ignore 'p'/'s' flag, we don't need it */
+	return prot;
+}
+
+static unsigned long __proc_maps_addr(enum vma_type vma_type, char *get_name,
 				      union addr_args *arg)
 {
 	unsigned long addr = 0;
@@ -47,6 +64,7 @@ static unsigned long __proc_maps_addr(enum vma_type vma_type, char *name,
 	FILE *fp;
 	unsigned long prev_start, prev_end;
 	int vma_count = 0;
+	unsigned int prot = PROT_NONE;
 
 	snprintf(maps, sizeof(maps) - 1, "/proc/%d/maps", getpid());
 	fp = fopen(maps, "r");
@@ -78,28 +96,45 @@ static unsigned long __proc_maps_addr(enum vma_type vma_type, char *name,
 			fprintf(stderr, "ERROR: sscanf failed.\n");
 			break;
 		}
+
+		prot = perms2prot(perms);
+
 		switch (vma_type) {
 		case VT_COMM:
 			proc_comm(comm, sizeof(comm));
 			if (!strcmp(basename(name_), comm)) {
-				addr = start;
-				goto found;
+				if (arg && arg->need_prot != PROT_NONE) {
+					if ((arg->need_prot & prot) == arg->need_prot) {
+						addr = start;
+						goto found;
+					}
+				} else {
+					addr = start;
+					goto found;
+				}
 			}
 			break;
 		case VT_LIBC:
 			if (!strcmp(basename(name_), "libc.so.6") ||
 			    !strncmp(basename(name_), "libc-", 5)) {
-				addr = start;
-				if (name)
-					strcpy(name, name_);
-				goto found;
+				if (get_name)
+					strcpy(get_name, name_);
+				if (arg && arg->need_prot != PROT_NONE) {
+					if ((arg->need_prot & prot) == arg->need_prot) {
+						addr = start;
+						goto found;
+					}
+				} else {
+					addr = start;
+					goto found;
+				}
 			}
 			break;
 		case VT_VDSO:
 			if (!strcmp(basename(name_), "[vdso]")) {
 				addr = start;
-				if (name)
-					strcpy(name, name_);
+				if (get_name)
+					strcpy(get_name, name_);
 				goto found;
 			}
 			break;
@@ -146,6 +181,14 @@ unsigned long proc_elf_base_addr(void)
 unsigned long proc_elf_base_libc_addr(void)
 {
 	return __proc_maps_addr(VT_LIBC, NULL, NULL);
+}
+
+unsigned long proc_elf_base_libc_x_addr(void)
+{
+	union addr_args arg = {
+		.need_prot = PROT_EXEC,
+	};
+	return __proc_maps_addr(VT_LIBC, NULL, &arg);
 }
 
 char *proc_elf_base_libc_name(char *buf, size_t buf_len)

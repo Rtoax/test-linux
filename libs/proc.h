@@ -8,6 +8,7 @@ const char *proc_comm(char *buf, size_t buf_len);
 /* /proc/PID/maps */
 unsigned long proc_elf_base_addr(void);
 unsigned long proc_elf_base_libc_addr(void);
+unsigned long proc_elf_base_libc_x_addr(void);
 char *proc_elf_base_libc_name(char *buf, size_t buf_len);
 unsigned long proc_elf_base_vdso_addr(void);
 unsigned long proc_find_vma_hole(unsigned long start, unsigned long len);

@@ -17,11 +17,10 @@ CFLAGS := -Werror -Wall -D_GNU_SOURCE
 CFLAGS += -DDEBUG -O0 -g
 
 ifneq ($(wildcard $(READLINE_HDR)),)
-CFLAGS += -lreadline -lutil -ltermcap -lhistory
+  CFLAGS += -lreadline -lutil -ltermcap -lhistory
 endif
 
 build: ${TARGETS}
-	@echo
 	@echo -e " \033[1;33m Done \033[m"
 
 # Add more object.o file
