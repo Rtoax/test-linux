@@ -10,6 +10,10 @@
 #include <unistd.h>
 #include <sys/mman.h>
 
+#if defined(HAVE_LIB_TEST_LINUX_C)
+#include "proc.h"
+#endif
+
 /**
  * refs:
  * - https://www.kernel.org/doc/Documentation/vm/pagemap.txt
@@ -27,19 +31,19 @@ unsigned long virt_to_phy(unsigned long vaddr)
 	/* Get page frame number of address */
 	fd = open("/proc/self/pagemap", O_RDONLY);
 	if (fd == -1) {
-		fprintf(stderr, "open /proc/self/pagemap: %m\n");
+		fprintf(stderr, "ERROR: open /proc/self/pagemap: %m\n");
 		goto failed;
 	}
 
 	ret = lseek(fd, vaddr / pagesize * sizeof(unsigned long), SEEK_SET);
 	if (ret == -1) {
-		fprintf(stderr, "lseek: %m\n");
+		fprintf(stderr, "ERROR: lseek: %m\n");
 		goto failed;
 	}
 
 	rc = read(fd, &pfn, sizeof(pfn));
 	if (rc < sizeof(pfn) || pfn == 0) {
-		fprintf(stderr, "read: %m\n");
+		fprintf(stderr, "ERROR: read: %m\n");
 		goto failed;
 	}
 	pfn &= 0x7fffffffffffffULL;
@@ -61,7 +65,7 @@ int open_dev_mem(void)
 	int memfd;
 	memfd = open("/dev/mem", O_RDWR);
 	if (memfd == -1) {
-		fprintf(stderr, "open /dev/mem: %m\n");
+		fprintf(stderr, "ERROR: open /dev/mem: %m\n");
 		exit(1);
 	}
 	return memfd;
@@ -72,12 +76,12 @@ int dev_mem_write(int memfd, unsigned long phyaddr, void *buf, size_t buf_len)
 	int ret = 0;
 	ret = lseek(memfd, phyaddr, SEEK_SET);
 	if (ret == -1) {
-		fprintf(stderr, "lseek /dev/mem: %m\n");
+		fprintf(stderr, "ERROR: lseek /dev/mem: %m\n");
 		exit(1);
 	}
 	ret = write(memfd, buf, buf_len);
 	if (ret == -1) {
-		fprintf(stderr, "write /dev/mem: %m\n");
+		fprintf(stderr, "ERROR: write /dev/mem: %m\n");
 		exit(1);
 	}
 
@@ -89,12 +93,12 @@ int dev_mem_read(int memfd, unsigned long phyaddr, void *to_buf, size_t len)
 	int ret = 0;
 	ret = lseek(memfd, phyaddr, SEEK_SET);
 	if (ret == -1) {
-		fprintf(stderr, "lseek /dev/mem: %m\n");
+		fprintf(stderr, "ERROR: lseek /dev/mem: %m\n");
 		exit(1);
 	}
 	ret = read(memfd, to_buf, len);
 	if (ret == -1) {
-		fprintf(stderr, "read /dev/mem: %m\n");
+		fprintf(stderr, "ERROR: read /dev/mem: %m\n");
 		exit(1);
 	}
 
@@ -109,6 +113,11 @@ int main(void)
 	size_t buf_len;
 	unsigned long phy;
 	char buffer[1024];
+
+#if defined(HAVE_LIB_TEST_LINUX_C)
+	unsigned long libc_text_addr = proc_elf_base_libc_x_addr();
+	printf("libc text addr : %lx (phy %lx)\n", libc_text_addr, virt_to_phy(libc_text_addr));
+#endif
 
 	memfd = open_dev_mem();
 
