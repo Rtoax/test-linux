@@ -3,7 +3,6 @@
  * alloc_pid.bt
  *
  * Copyright (C) Rong Tao 2023
- *
  */
 #ifndef BPFTRACE_HAVE_BTF
 #include <linux/sched.h>
@@ -11,7 +10,7 @@
 
 BEGIN
 {
-	printf("Tracing xxx, hit ctrl-c to end.\n");
+	printf("Tracing alloc_pid(), hit ctrl-c to end.\n");
 	printf("%-8s %-8s %-8s\n", "TIME", "COMM", "NewPID");
 }
 
