@@ -79,6 +79,7 @@ int main(void)
 	printf("libc name : %s\n", proc_maps_libc_base_name(name, sizeof(name)));
 	printf("libc addr : %lx\n", proc_maps_libc_base_addr());
 	printf("libc text addr : %lx\n", proc_maps_libc_text_addr());
+	printf("libc data addr : %lx\n", proc_maps_libc_data_addr());
 	printf("vdso addr : %lx\n", proc_maps_vdso_addr());
 
 	test_mem_fd();
