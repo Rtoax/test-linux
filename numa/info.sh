@@ -24,7 +24,8 @@ dmesg_node_mem_c()
 			print("\tint nid;")
 			print("\tunsigned long mem_start, mem_end;")
 			print("};")
-			print("static struct numa_mem_info numa_mem_info[] = {")
+			print("")
+			print("static struct numa_mem_info __attribute__((unused)) numa_mem_info[] = {")
 		}
 		{
 			print("\t{")
