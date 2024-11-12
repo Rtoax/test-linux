@@ -1,7 +1,9 @@
+# SPDX-License-Identifier: GPL-3.0
 SHELL = bash
 
 sub-dir :=
 sub-dir += awk
+sub-dir += grep
 
 sub-dir-build := $(sub-dir:=.build)
 sub-dir-clean := $(sub-dir:=.clean)
