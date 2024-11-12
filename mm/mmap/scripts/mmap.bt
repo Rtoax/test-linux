@@ -2,19 +2,17 @@
 /**
  * mmap.bt - Tracing mmap(2) syscall
  */
-#define PROT_READ	0x1		/* Page can be read.  */
-#define PROT_WRITE	0x2		/* Page can be written.  */
-#define PROT_EXEC	0x4		/* Page can be executed.  */
-#define PROT_NONE	0x0		/* Page can not be accessed.  */
-
-#define MAP_SHARED	0x01		/* Share changes.  */
-#define MAP_PRIVATE	0x02		/* Changes are private.  */
+#include <linux/mman.h>
 
 BEGIN
 {
 	printf("Tracing mmap(2), hit ctrl-c to end.\n");
-	printf("%-8s %-8s %-16s %-8s %-4s %-16s\n",
-		"TIME", "PID", "COMM", "LEN(KB)", "PROT", "RETURN");
+
+	printf("flags: MAP_PRIVATE(P), MAP_SHARED(S), MAP_SHARED_VALIDATE(s)\n");
+	printf("       MAP_ANONYMOUS(A), MAP_TYPE(T), MAP_FILE(F), MAP_FIXED(X)\n");
+
+	printf("%-8s %-8s %-16s %-8s %-5s %-16s %-16s\n",
+		"TIME", "PID", "COMM", "LEN(KB)", "PROT", "FLAGS", "RETURN");
 }
 
 tracepoint:syscalls:sys_enter_mmap
@@ -28,6 +26,15 @@ tracepoint:syscalls:sys_enter_mmap
 		$prot & PROT_READ ? "r" : "-",
 		$prot & PROT_WRITE ? "w" : "-",
 		$prot & PROT_EXEC ? "x" : "-");
+	printf(" %s%s%s%s%s%s%s%9s",
+		$flags & MAP_PRIVATE ? "P" : "-",
+		$flags & MAP_SHARED ? "S" : "-",
+		$flags & MAP_SHARED_VALIDATE ? "s" : "-",
+		$flags & MAP_ANONYMOUS ? "A" : "-",
+		$flags & MAP_TYPE ? "T" : "-",
+		$flags & MAP_FILE ? "F" : "-",
+		$flags & MAP_FIXED ? "X" : "-",
+		"");
 
 	@start[tid] = nsecs;
 }
