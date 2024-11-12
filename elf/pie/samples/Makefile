@@ -31,7 +31,7 @@ hello-pie: hello-pie.o libtest-linux-c.a
 is_pie: is_pie.o
 
 libtest-linux-c.a:
-	@make -C ${LIBS_TOPDIR}
+	@make -C ${LIBS_TOPDIR} $(@)
 	@cp ${LIBS_TOPDIR}/libtest-linux-c.a $(shell pwd)
 
 %.o: %.c

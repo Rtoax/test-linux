@@ -28,7 +28,7 @@ dl_iterate_phdr-pie: dl_iterate_phdr-pie.o libtest-linux-c.a
 has_shared_object: has_shared_object.o
 
 libtest-linux-c.a:
-	@make -C ${LIBS_TOPDIR}
+	@make -C ${LIBS_TOPDIR} $(@)
 	@cp ${LIBS_TOPDIR}/libtest-linux-c.a $(shell pwd)
 
 %.o: %.c

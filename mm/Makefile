@@ -55,7 +55,7 @@ virt2phy: virt2phy.o libtest-linux-c.a
 libtest-linux-mm.a: virt2phy.obj
 
 libtest-linux-c.a:
-	@make -C ${LIBS_TOPDIR}
+	@make -C ${LIBS_TOPDIR} $(@)
 	@cp ${LIBS_TOPDIR}/libtest-linux-c.a $(shell pwd)
 
 %.o: %.c

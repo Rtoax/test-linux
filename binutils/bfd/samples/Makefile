@@ -162,7 +162,7 @@ reloc-name: reloc-name.o
 bfd_print_symbol_vandf: bfd_print_symbol_vandf.o helpers.o libtest-linux-c.a
 
 libtest-linux-c.a:
-	@make -C ${LIBS_TOPDIR}
+	@make -C ${LIBS_TOPDIR} $(@)
 	@cp ${LIBS_TOPDIR}/libtest-linux-c.a $(shell pwd)
 
 %.o: %.c
