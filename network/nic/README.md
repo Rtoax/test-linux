@@ -3,13 +3,15 @@ NIC
 
 # 网卡命名
 
-- en: Ethernet
-- wl: Wireless (WiFi)
-- ww: Wild Wireless
-- eno: o:Onboard (板载网卡)
-- ens: 可热插拔的网卡
-- enp: p:PCIe
-- enx/wlx: 使用MAC地址命名的网卡
+- `en`: Ethernet
+	- `o`: o:Onboard (板载网卡)
+	- `p`: p:PCIe
+	- `s`: s:Slot, 可热插拔的网卡
+	- `f`: f:Function
+	- `x`: 使用MAC地址命名的网卡
+- `wl`: Wireless Lan (WLAN, WiFi)
+	- wlx: 使用MAC地址命名的网卡
+- `ww`: Wild Wireless (WWAN)
 
 
 ## 示例
@@ -44,6 +46,18 @@ NIC
 ### Onboard
 
 - eno1
+
+
+## systemd-udev
+
+- `/usr/lib/systemd/network/99-default.link`
+- `/etc/udev/rules.d/`
+
+### udevadm
+
+```
+$ udevadm info /sys/class/net/eno1 | grep NAME
+```
 
 
 # ethtool

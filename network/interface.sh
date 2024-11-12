@@ -1,5 +1,4 @@
 #!/bin/bash
-
 set -e
 
 interfaces=( $(ls /sys/class/net/) )
@@ -24,7 +23,7 @@ do
 	carriers+=( ${carrier} )
 done
 
-# Print informations
+# Print interface informations
 printf "%-16s %-8s %-8s %-8s\n" INTERFACE STATE CARRIER SPEED
 for ((i = 0; i < ${#interfaces[@]}; i++))
 do
