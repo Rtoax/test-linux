@@ -3,6 +3,7 @@ NIC
 
 # 网卡命名
 
+- `eth`: Ethernet (old fasion)
 - `en`: Ethernet
 	- `o`: o:Onboard (板载网卡)
 	- `p`: p:PCIe
