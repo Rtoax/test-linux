@@ -3,13 +3,15 @@ NIC
 
 # 网卡命名
 
-- `eth`: Ethernet (old fasion)
+- `eth`: Original Simple Scheme
 - `en`: Ethernet
 	- `o`: o:Onboard (板载网卡)
 	- `p`: p:PCIe
 	- `s`: s:Slot, 可热插拔的网卡
 	- `f`: f:Function
 	- `x`: 使用MAC地址命名的网卡
+- `ib`: InfiniBand
+- `sl`: 串列线路互联网协议(slip：Serial line IP)
 - `wl`: Wireless Lan (WLAN, WiFi)
 	- wlx: 使用MAC地址命名的网卡
 - `ww`: Wild Wireless (WWAN)
@@ -59,6 +61,8 @@ NIC
 ```
 $ udevadm info /sys/class/net/eno1 | grep NAME
 ```
+
+## systemd.net-naming-scheme(7)
 
 
 # ethtool

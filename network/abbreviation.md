@@ -15,3 +15,6 @@
 - RPC: Remove Procedure Call (远端过程调用)
 - SCTP: Stream Control Transmission Protocol (流控制传输协议)
 - SDN: Software-defined networking (软件定义网络)
+- slip: Serial line IP (串列线路互联网协议)
+- WLAN: Wireless Local Area Network (无线局域网)
+- WWAN: Wireless Wide Area Network (无线广域网)
