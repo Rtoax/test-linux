@@ -1,8 +1,8 @@
 #!/usr/bin/env bpftrace
 /**
- * kernfs_mutex.bt
+ * kernfs_mutex.bt - Tracing kernfs_mutex lock
  *
- * Copyright (C) Rong Tao 2022-2023
+ * 2023-05-14	Rong Tao	Create this.
  */
 #include <linux/mutex.h>
 #include <linux/rwsem.h>
