@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: GPL-3.0
+
 # Check compiler support option or not
 # $(1) - compiler, for example: gcc, clang, etc.
 # $(2) - compile option, for example: -flto
