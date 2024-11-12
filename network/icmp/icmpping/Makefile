@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0
 SHELL = bash
 
 TARGETS :=
@@ -7,6 +8,7 @@ CC = gcc
 
 .PHONY: build
 build: ${TARGETS}
+	@echo -e " \033[1;33m Done \033[m"
 
 icmping: main.o icmpping.o
 

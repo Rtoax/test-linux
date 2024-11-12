@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0
 SHELL = bash
 
 sub-dir :=
@@ -14,6 +15,7 @@ sub-dir-clean := $(sub-dir:=.clean)
 
 .PHONY: build
 build: ${TARGETS} $(sub-dir-build)
+	@echo -e " \033[1;33m Done \033[m"
 
 ping: ping.o
 icmp_checksum: icmp_checksum.o
