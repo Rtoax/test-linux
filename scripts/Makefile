@@ -4,6 +4,7 @@ SHELL = bash
 include check_compiler_option.mk
 include success.mk
 include wow.mk
+include TLbuild.include
 
 CC := gcc
 
@@ -29,6 +30,8 @@ all:
 	$(call success)
 	$(call wow)
 	$(call wow,PREFIX)
+	$(call tl_ascii_logo1,===)
+	$(call tl_ascii_logo2)
 	@echo -e "  \033[1;33mDone\033[m"
 test:
 clean:
