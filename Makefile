@@ -45,8 +45,10 @@ export TLCONFIG_CONFIG
 
 include $(ABS_SRCTREE)/scripts/TLbuild.include
 
-# Default make help
+# Default to display help information
 help:
+	@echo >&2 -e "***"
+	$(call tl_ascii_logo1,*** )
 	@echo >&2 -e "***"
 	@echo >&2 -e "*** ABS_SRCTREE ${ABS_SRCTREE}"
 	@echo >&2 -e "*** GIT_TOPLEVEL ${GIT_TOPLEVEL}"

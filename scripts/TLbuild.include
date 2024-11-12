@@ -11,15 +11,29 @@ define newline
 
 endef
 
+ANSI_RED := \033[31m
+ANSI_GRE := \033[32m
+ANSI_YEL := \033[33m
+ANSI_BLU := \033[34m
+ANSI_PUR := \033[35m
+
+ANSI_BOLD := \033[1m
+ANSI_GRAY := \033[2m
+ANSI_ITAL := \033[3m
+ANSI_UNDL := \033[4m # Underline
+ANSI_REVE := \033[7m
+
+ANSI_REST := \033[m
+
 define tl_ascii_logo1
-	@echo >&2 -e "$(1)8888888888                             88 "
-	@echo >&2 -e "$(1)    88                         ,d      88         88 "
-	@echo >&2 -e "$(1)    88                         88      88 "
-	@echo >&2 -e "$(1)    88   ,adPYba,  ,adPYba,  MM88MM    88         88  8b,dPYba,   88      88  8b,    ,db "
-	@echo >&2 -e "$(1)    88  a8P____88  I8<   88    88      88         88  88P'  '*8a  88      88   'Y8,,8P' "
-	@echo >&2 -e "$(1)    88  8PP######   '*Yba,     88      88         88  88      88  88      88     )88( "
-	@echo >&2 -e "$(1)    88  '8b,  ,aa  aa   ]8I    88,     88         88  88      88  '8a,  ,a88   ,d8""8b, "
-	@echo >&2 -e "$(1)    88    *Ybd8*    *YbdP*     *Y88    888888888  88  88      88   \"YbdP:Y8  8P/     'Y8 "
+	@echo >&2 -e "$(1)${ANSI_GRE}88888888                        ${ANSI_REST}  88"
+	@echo >&2 -e "$(1)${ANSI_GRE}   88                      ,d   ${ANSI_REST}  88      88"
+	@echo >&2 -e "$(1)${ANSI_GRE}   88                      88   ${ANSI_REST}  88"
+	@echo >&2 -e "$(1)${ANSI_GRE}   88  ,adPYba, ,adPYba, MM88MM ${ANSI_REST}  88      88 8b,dYba,  88     88 8b,   db "
+	@echo >&2 -e "$(1)${ANSI_GRE}   88 a8P____88 I8<   88   88   ${ANSI_REST}  88      88 88P' '*8a 88     88  'Y,,8' "
+	@echo >&2 -e "$(1)${ANSI_GRE}   88 8PP######  '*Yba,    88   ${ANSI_REST}  88      88 88     88 88     88    88("
+	@echo >&2 -e "$(1)${ANSI_GRE}   88 '8b,  ,aa aa   ]8I   88,  ${ANSI_REST}  88      88 88     88 '8a, ,a88  ,d""8, "
+	@echo >&2 -e "$(1)${ANSI_GRE}   88   *Ybd8*   *YbdP*    *Y88 ${ANSI_REST}  8888888 88 88     88  \"YdP:Y8 8P/   'Y8 "
 endef
 
 define tl_ascii_logo2
