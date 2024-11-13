@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0
 SHELL = bash
 
 TARGETS :=
@@ -10,16 +11,13 @@ CFLAGS += -Wstrict-prototypes
 CFLAGS += -lpthread
 
 LDFLAGS :=
-LDLIBS :=
 
 CFLAGS += -DDEBUG -O0 -g
 
 .PHONY: build
 build: ${TARGETS}
-	@echo
 	@echo -e " \033[1;33m Done \033[m"
 
-# Add more object.o file
 atomic_fetch_add: atomic_fetch_add.o
 
 %.o: %.c
@@ -28,7 +26,7 @@ atomic_fetch_add: atomic_fetch_add.o
 
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	@$(CC) -o $(@) $(^) $(LDLIBS) $(LDFLAGS) $(LDFLAGS_$(*)) $(CFLAGS) $(CFLAGS_$(*))
+	@$(CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*)) $(CFLAGS) $(CFLAGS_$(*))
 
 test: ${TARGETS}
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"

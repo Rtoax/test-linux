@@ -1,9 +1,10 @@
+# SPDX-License-Identifier: GPL-3.0
 SHELL = bash
 
 TARGETS := atomic_test
 TARGETS += __sync_synchronize
 ifeq ($(shell uname -m),x86_64)
-TARGETS += spin-demo3 spin-demo3-nonlock
+  TARGETS += spin-demo3 spin-demo3-nonlock
 endif
 
 CFLAGS :=
@@ -28,4 +29,5 @@ $(TARGETS): %:
 	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) $(^) $(LDLIBS) $(LDFLAGS) $(LDFLAGS_$(*))
 
 clean:
-	rm -f ${TARGETS} *.o *.s
+	@echo -e "  CLEAN  \033[1;32m${TARGETS}\033[m"
+	@rm -f ${TARGETS} *.o *.s
