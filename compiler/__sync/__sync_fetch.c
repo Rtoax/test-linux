@@ -28,7 +28,11 @@
 #define NR_LOOP 1000
 #define NR_THREAD 10
 
+#if defined(__clang__)
+int acnt;
+#else
 atomic_int acnt;
+#endif
 int cnt;
 
 void *test__sync_add(void *thr_data)
@@ -97,12 +101,10 @@ void *test__sync_nand(void *thr_data)
 	for (n = 0; n < NR_LOOP; ++n) {
 
 #if defined(__GNUC__) && (__GNUC__ < 4 || (__GNUC__ == 4) && (__GNUC_MINOR__ >= 4))
-		__sync_fetch_and_nand(&acnt, 0xFF);
-		__sync_nand_and_fetch(&acnt, 0x00);
-#elif defined(__GNUC__) && (__GNUC__ >= 5)
-		__sync_fetch_and_nand(&acnt, 0xFF);
-		__sync_nand_and_fetch(&acnt, 0x00);
+		/* FIXME */
 #endif
+		__sync_fetch_and_nand(&acnt, 0xFF);
+		__sync_nand_and_fetch(&acnt, 0x00);
 		cnt = ~(cnt & 0xFF);
 		cnt = ~(cnt & 0x00);
 	}
