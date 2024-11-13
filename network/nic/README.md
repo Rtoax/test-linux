@@ -3,6 +3,8 @@ NIC
 
 # Naming Scheme
 
+## net.ifnames
+
 - `eth`: Original Simple Scheme
 - `en`: Ethernet
 	- `o`: o:Onboard (板载网卡)
@@ -15,6 +17,12 @@ NIC
 - `wl`: Wireless Lan (WLAN, WiFi)
 	- wlx: 使用MAC地址命名的网卡
 - `ww`: Wild Wireless (WWAN)
+
+## biosdevname
+
+- `em[1234]`: Embedded Network Interface
+- `p<slot><ethernet port>`: PCI card network Interface
+- `p<slot><ethernet port>_<virtual interface>`: Virtual Function
 
 
 ## 示例
