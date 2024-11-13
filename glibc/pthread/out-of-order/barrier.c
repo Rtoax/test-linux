@@ -41,7 +41,9 @@
 #define mrbarrier() __atomic_thread_fence(__ATOMIC_RELEASE)
 #define mwbarrier() __atomic_thread_fence(__ATOMIC_RELEASE)
 #elif defined(HAVE___atomic_thread_fence__ATOMIC_ACQ_REL)
-/* Could out-of-order */
+/**
+ * Could out-of-order on x86_64, but aarch64 it's OK.
+ */
 #define mrwbarrier() __atomic_thread_fence(__ATOMIC_ACQ_REL)
 #define mrbarrier() __atomic_thread_fence(__ATOMIC_ACQ_REL)
 #define mwbarrier() __atomic_thread_fence(__ATOMIC_ACQ_REL)

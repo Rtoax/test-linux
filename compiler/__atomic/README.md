@@ -22,6 +22,7 @@ These functions are intended to replace the legacy `__sync` builtins. The main d
 
 - `__ATOMIC_ACQ_REL`: Combines the effects of both `__ATOMIC_ACQUIRE` and `__ATOMIC_RELEASE`.
 	* `__ATOMIC_ACQUIRE`和`__ATOMIC_RELEASE`结合。
+	* 在`aarch64`上是**读写屏障**
 
 - `__ATOMIC_SEQ_CST`: Enforces total ordering with all other `__ATOMIC_SEQ_CST` operations.
 	* 强制对所有其他操作进行总排序`__ATOMIC_SEQ_CST`。
