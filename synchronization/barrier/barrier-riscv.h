@@ -1,3 +1,4 @@
+#pragma once
 #define RISCV_FENCE_ASM(p, s)		"\tfence " #p "," #s "\n"
 #define RISCV_FENCE(p, s) \
 	({ __asm__ __volatile__ (RISCV_FENCE_ASM(p, s) : : : "memory"); })
