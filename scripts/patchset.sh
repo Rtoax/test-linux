@@ -69,7 +69,7 @@ ${ANSI_BOLD}SEE ALSO${ANSI_RESET}
 	git(1), git‐format‐patch(1), git‐send‐email(1)
 
 ${ANSI_BOLD}AUTHOR${ANSI_RESET}
-	Rong Tao <rongtao@cestc.cn>
+	Rong Tao
 
 ${ANSI_BOLD}LINKS${ANSI_RESET}
 	https://kernelnewbies.org/FirstKernelPatch

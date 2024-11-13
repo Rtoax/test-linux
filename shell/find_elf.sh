@@ -1,6 +1,5 @@
 #!/bin/bash
-# Copyright (C) 2022-2024 CESTC, Co. All rights reserved.
-#
+set -e
 
 find ./ -type f -exec file {} \; | \
 	awk -F ':' '{print $1}' | \
