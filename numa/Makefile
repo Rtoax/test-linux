@@ -9,6 +9,8 @@ sub-dir-clean := $(sub-dir:=.clean)
 .PHONY: build
 build: $(sub-dir-build)
 	@./info.sh raw
+	@./info.sh pure
+	@./info.sh c
 	@echo -e " \033[1;33m Done \033[m"
 
 .PHONY: clean
