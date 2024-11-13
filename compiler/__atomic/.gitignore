@@ -3,3 +3,4 @@
 /load-store-atomic-relaxed
 /load-store-atomic-strict
 /exchange
+/compare_exchange
