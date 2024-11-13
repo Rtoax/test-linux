@@ -7,7 +7,8 @@
  * type __sync_fetch_and_nand (type *ptr, type value, ...)
  *
  *	{ tmp = *ptr; *ptr op= value; return tmp; }
- *	{ tmp = *ptr; *ptr = ~(tmp & value); return tmp; }   // nand
+ *	{ tmp = *ptr; *ptr = ~tmp & value; return tmp; }     // nand < GCC 4.4
+ *	{ tmp = *ptr; *ptr = ~(tmp & value); return tmp; }   // nand >= GCC 4.4
  *
  * type __sync_add_and_fetch (type *ptr, type value, ...)
  * type __sync_sub_and_fetch (type *ptr, type value, ...)
@@ -17,7 +18,8 @@
  * type __sync_nand_and_fetch (type *ptr, type value, ...)
  *
  *	{ *ptr op= value; return *ptr; }
- *	{ *ptr = ~(*ptr & value); return *ptr; }   // nand
+ *	{ *ptr = ~ *ptr & value; return *ptr; }   // nand < GCC 4.4
+ *	{ *ptr = ~(*ptr & value); return *ptr; }   // nand >= GCC 4.4
  */
 #include <stdio.h>
 #include <pthread.h>
@@ -93,8 +95,14 @@ void *test__sync_nand(void *thr_data)
 {
 	int n;
 	for (n = 0; n < NR_LOOP; ++n) {
+
+#if defined(__GNUC__) && (__GNUC__ < 4 || (__GNUC__ == 4) && (__GNUC_MINOR__ >= 4))
 		__sync_fetch_and_nand(&acnt, 0xFF);
 		__sync_nand_and_fetch(&acnt, 0x00);
+#elif defined(__GNUC__) && (__GNUC__ >= 5)
+		__sync_fetch_and_nand(&acnt, 0xFF);
+		__sync_nand_and_fetch(&acnt, 0x00);
+#endif
 		cnt = ~(cnt & 0xFF);
 		cnt = ~(cnt & 0x00);
 	}

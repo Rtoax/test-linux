@@ -1,6 +1,8 @@
 # SPDX-License-Identifier: GPL-3.0
 SHELL = bash
 
+CC := gcc
+
 TARGETS := atomic_test
 TARGETS += __sync_fetch_and_add
 TARGETS += __sync_fetch_and_sub
@@ -27,6 +29,9 @@ CFLAGS :=
 
 CFLAGS += -lpthread
 CFLAGS_spin-demo3-nonlock := -DNONLOCK=1
+# Warn when "__sync_fetch_and_nand" and "__sync_nand_and_fetch" built-in
+# functions are used.  These functions changed semantics in GCC 4.4.
+CFLAGS___sync_nand_and_fetch := -Wsync-nand
 
 .PHONY: build
 build: ${TARGETS}
