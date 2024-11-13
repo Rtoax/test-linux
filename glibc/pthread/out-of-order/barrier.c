@@ -53,7 +53,8 @@ int main(void)
 		pthread_join(tasks[1], NULL);
 
 		if (x == 0 && y == 0) {
-			printf("CPU Out of Order Exec Happend.\n");
+			fprintf(stderr, "WARNING: CPU Out of Order Exec.\n");
+			break;
 		}
 	}
 

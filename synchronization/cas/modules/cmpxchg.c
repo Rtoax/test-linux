@@ -1,3 +1,6 @@
+/**
+ * see also __sync_val_compare_and_swap()
+ */
 #include <linux/init.h>
 #include <linux/module.h>
 #include <linux/kernel.h>
@@ -10,7 +13,7 @@
 struct task_struct *task[NR_KTHREAD];
 struct task_struct *playtask;
 
-int thread_function(void *data)
+static int thread_function(void *data)
 {
 	while (!kthread_should_stop()) {
 		struct task_struct *task = current;
