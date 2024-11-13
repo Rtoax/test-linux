@@ -1,10 +1,10 @@
+# SPDX-License-Identifier: GPL-3.0
 SHELL = bash
 
 CC = gcc
 
 TARGETS :=
 TARGETS += test1
-
 
 .PHONY: build
 build: ${TARGETS}

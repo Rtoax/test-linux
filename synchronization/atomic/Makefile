@@ -1,6 +1,9 @@
+# SPDX-License-Identifier: GPL-3.0
 SHELL = bash
 
-sub-dir := samples
+sub-dir :=
+sub-dir += __atomic
+sub-dir += samples
 
 sub-dir-build := $(sub-dir:=.build)
 sub-dir-clean := $(sub-dir:=.clean)
