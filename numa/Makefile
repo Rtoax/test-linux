@@ -13,7 +13,8 @@ build: $(sub-dir-build)
 
 .PHONY: clean
 clean: $(sub-dir-clean)
-	@echo -e " \033[1;33m Done \033[m"
+	@echo -e " CLEAN \033[1;33m ${sub-dir} \033[m"
+	@rm -f numa_mem.h
 
 $(sub-dir-build):
 	@echo -e "\033[1;32m [sub-dir] build $(@)\033[m"
