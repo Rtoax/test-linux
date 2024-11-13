@@ -25,6 +25,7 @@ These functions are intended to replace the legacy `__sync` builtins. The main d
 
 - `__ATOMIC_SEQ_CST`: Enforces total ordering with all other `__ATOMIC_SEQ_CST` operations.
 	* 强制对所有其他操作进行总排序`__ATOMIC_SEQ_CST`。
+	* **读写屏障**
 
 
 # Links

@@ -1,7 +1,6 @@
 /**
- * 证明CPU乱序执行，并使用内存屏障消除乱序执行的影响
- *
- * 同时可以使用 __atomic 或 __sync 实现
+ * Prove that the CPU executes out of order and use memory barriers to
+ * eliminate the impact of out of order execution.
  *
  * 2021-05-26	Rong Tao	Create this.
  */
@@ -11,16 +10,53 @@
 
 #include "barrier.h"
 
-#define __unused __attribute__((unused))
-
 #if defined(HAVE_MBARRIER)
-static void __unused inline mrwbarrier() { smp_rwmb(); }
-static void __unused inline mrbarrier()  { smp_rmb(); }
-static void __unused inline mwbarrier()  { smp_wmb(); }
-#else
+/* Could avoid out-of-order */
+#define mrwbarrier() smp_rwmb()
+#define mrbarrier() smp_rmb()
+#define mwbarrier() smp_wmb()
+#elif defined(HAVE___sync_synchronize)
+/* Could avoid out-of-order */
+#define mrwbarrier() __sync_synchronize()
+#define mrbarrier() __sync_synchronize()
+#define mwbarrier() __sync_synchronize()
+#elif defined(HAVE___atomic_thread_fence__ATOMIC_RELAXED)
+/* Could out-of-order */
+#define mrwbarrier() __atomic_thread_fence(__ATOMIC_RELAXED)
+#define mrbarrier() __atomic_thread_fence(__ATOMIC_RELAXED)
+#define mwbarrier() __atomic_thread_fence(__ATOMIC_RELAXED)
+#elif defined(HAVE___atomic_thread_fence__ATOMIC_CONSUME)
+/* Could out-of-order */
+#define mrwbarrier() __atomic_thread_fence(__ATOMIC_CONSUME)
+#define mrbarrier() __atomic_thread_fence(__ATOMIC_CONSUME)
+#define mwbarrier() __atomic_thread_fence(__ATOMIC_CONSUME)
+#elif defined(HAVE___atomic_thread_fence__ATOMIC_ACQUIRE)
+/* Could out-of-order */
+#define mrwbarrier() __atomic_thread_fence(__ATOMIC_ACQUIRE)
+#define mrbarrier() __atomic_thread_fence(__ATOMIC_ACQUIRE)
+#define mwbarrier() __atomic_thread_fence(__ATOMIC_ACQUIRE)
+#elif defined(HAVE___atomic_thread_fence__ATOMIC_RELEASE)
+/* Could out-of-order */
+#define mrwbarrier() __atomic_thread_fence(__ATOMIC_RELEASE)
+#define mrbarrier() __atomic_thread_fence(__ATOMIC_RELEASE)
+#define mwbarrier() __atomic_thread_fence(__ATOMIC_RELEASE)
+#elif defined(HAVE___atomic_thread_fence__ATOMIC_ACQ_REL)
+/* Could out-of-order */
+#define mrwbarrier() __atomic_thread_fence(__ATOMIC_ACQ_REL)
+#define mrbarrier() __atomic_thread_fence(__ATOMIC_ACQ_REL)
+#define mwbarrier() __atomic_thread_fence(__ATOMIC_ACQ_REL)
+#elif defined(HAVE___atomic_thread_fence__ATOMIC_SEQ_CST)
+/* Could avoid out-of-order */
+#define mrwbarrier() __atomic_thread_fence(__ATOMIC_SEQ_CST)
+#define mrbarrier() __atomic_thread_fence(__ATOMIC_SEQ_CST)
+#define mwbarrier() __atomic_thread_fence(__ATOMIC_SEQ_CST)
+#elif defined(HAVE_NO_BARRIER)
+/* Could out-of-order */
 #define mrwbarrier()
 #define mrbarrier()
 #define mwbarrier()
+#else
+#error "Nothing to do."
 #endif
 
 volatile int x, y, a, b;

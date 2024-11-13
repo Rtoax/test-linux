@@ -3,6 +3,13 @@ SHELL = bash
 
 TARGETS :=
 TARGETS += barrier
+TARGETS += __sync_synchronize
+TARGETS += __atomic_thread_fence__ATOMIC_RELAXED
+TARGETS += __atomic_thread_fence__ATOMIC_CONSUME
+TARGETS += __atomic_thread_fence__ATOMIC_ACQUIRE
+TARGETS += __atomic_thread_fence__ATOMIC_RELEASE
+TARGETS += __atomic_thread_fence__ATOMIC_ACQ_REL
+TARGETS += __atomic_thread_fence__ATOMIC_SEQ_CST
 TARGETS += no-barrier
 
 CC = gcc
@@ -10,12 +17,27 @@ CC = gcc
 CFLAGS := -Werror -Wall -pthread
 CFLAGS += -I$(shell realpath .)/../../../synchronization/barrier/
 
-CFLAGS_barrier += -DHAVE_MBARRIER=1
+CFLAGS_barrier := -DHAVE_MBARRIER=1
+CFLAGS_no-barrier := -DHAVE_NO_BARRIER=1
+CFLAGS___sync_synchronize := -DHAVE___sync_synchronize=1
+CFLAGS___atomic_thread_fence__ATOMIC_RELAXED := -DHAVE___atomic_thread_fence__ATOMIC_RELAXED=1
+CFLAGS___atomic_thread_fence__ATOMIC_CONSUME := -DHAVE___atomic_thread_fence__ATOMIC_CONSUME=1
+CFLAGS___atomic_thread_fence__ATOMIC_ACQUIRE := -DHAVE___atomic_thread_fence__ATOMIC_ACQUIRE=1
+CFLAGS___atomic_thread_fence__ATOMIC_RELEASE := -DHAVE___atomic_thread_fence__ATOMIC_RELEASE=1
+CFLAGS___atomic_thread_fence__ATOMIC_ACQ_REL := -DHAVE___atomic_thread_fence__ATOMIC_ACQ_REL=1
+CFLAGS___atomic_thread_fence__ATOMIC_SEQ_CST := -DHAVE___atomic_thread_fence__ATOMIC_SEQ_CST=1
 
 build: ${TARGETS}
 
 barrier: barrier.o
 no-barrier: no-barrier.o
+__sync_synchronize: __sync_synchronize.o
+__atomic_thread_fence__ATOMIC_RELAXED: __atomic_thread_fence__ATOMIC_RELAXED.o
+__atomic_thread_fence__ATOMIC_CONSUME: __atomic_thread_fence__ATOMIC_CONSUME.o
+__atomic_thread_fence__ATOMIC_ACQUIRE: __atomic_thread_fence__ATOMIC_ACQUIRE.o
+__atomic_thread_fence__ATOMIC_RELEASE: __atomic_thread_fence__ATOMIC_RELEASE.o
+__atomic_thread_fence__ATOMIC_ACQ_REL: __atomic_thread_fence__ATOMIC_ACQ_REL.o
+__atomic_thread_fence__ATOMIC_SEQ_CST: __atomic_thread_fence__ATOMIC_SEQ_CST.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
@@ -23,7 +45,7 @@ no-barrier: no-barrier.o
 
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	@$(CC) -o $(@) $(^) $(LDLIBS) $(LDFLAGS) $(LDFLAGS_$(*)) $(CFLAGS) $(CFLAGS_$(*))
+	@$(CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*)) $(CFLAGS) $(CFLAGS_$(*))
 
 clean:
 	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"

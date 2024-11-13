@@ -55,19 +55,19 @@ void *task2(void *arg)
 }
 #elif defined(TEST_ATOMIC_STRICT)
 /**
- * This does not solve the out-of-order problem
+ * __ATOMIC_SEQ_CST like rw barrier
  */
 void *task1(void *arg)
 {
-	__atomic_store_n(&a, 1, __ATOMIC_RELEASE);
-	__atomic_store_n(&x, __atomic_load_n(&b, __ATOMIC_CONSUME), __ATOMIC_RELEASE);
+	__atomic_store_n(&a, 1, __ATOMIC_SEQ_CST);
+	__atomic_store_n(&x, __atomic_load_n(&b, __ATOMIC_SEQ_CST), __ATOMIC_SEQ_CST);
 	pthread_exit(NULL);
 }
 
 void *task2(void *arg)
 {
-	__atomic_store_n(&b, 1, __ATOMIC_RELEASE);
-	__atomic_store_n(&y, __atomic_load_n(&a, __ATOMIC_CONSUME), __ATOMIC_RELEASE);
+	__atomic_store_n(&b, 1, __ATOMIC_SEQ_CST);
+	__atomic_store_n(&y, __atomic_load_n(&a, __ATOMIC_SEQ_CST), __ATOMIC_SEQ_CST);
 	pthread_exit(NULL);
 }
 #endif

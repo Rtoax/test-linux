@@ -1,2 +1,4 @@
 /barrier
 /no-barrier
+/__sync_synchronize
+/__atomic_thread_fence*[A-Z]
