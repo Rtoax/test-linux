@@ -6,7 +6,7 @@ NIC
 - `eth`: Original Simple Scheme
 - `en`: Ethernet
 	- `o`: o:Onboard (板载网卡)
-	- `p`: p:PCIe
+	- `p`: p:PCIe Bus
 	- `s`: s:Slot, 可热插拔的网卡
 	- `f`: f:Function
 	- `x`: 使用MAC地址命名的网卡
@@ -25,18 +25,18 @@ NIC
 ```
 	81:00.0 Ethernet controller: xxx
 	        ^^^^^^^^   en
-	^^                 p129
-	   ^^              s0
-	      ^            f0
+	^^                 p129 (bus)
+	   ^^              s0   (slot)
+	      ^            f0   (function)
 ```
 
 - enp129s0f1np1
 ```
 	81:00.1 Ethernet controller: xxx
 	        ^^^^^^^^   en
-	^^                 p129
-	   ^^              s0
-	      ^            f1
+	^^                 p129 (bus)
+	   ^^              s0   (slot)
+	      ^            f1   (function)
 ```
 
 ### MAC
