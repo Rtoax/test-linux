@@ -138,7 +138,7 @@ int main(void)
 	exec_threads("  or", test__sync_or, 0, 0xFF);
 	exec_threads(" and", test__sync_and, 0, 0);
 	exec_threads(" xor", test__sync_xor, 0, 0);
-	exec_threads("nand", test__sync_nand, 0, 0);
+	exec_threads("nand", test__sync_nand, 0, 0xffffffff);
 	return 0;
 }
 
