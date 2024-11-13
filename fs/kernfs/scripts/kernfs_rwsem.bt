@@ -18,8 +18,11 @@ interval:s:1
 {
 	/**
 	 * per-fs lock: >= v5.16-rc2-1-g393c3714081a
-	 * kernfs_rwsem: v5.14-rc3-16-g7ba0273b2f34 <= V < v5.16-rc2-1-g393c3714081a
-	 * kernfs_mutex:                               V < v5.14-rc3-16-g7ba0273b2f34
+	 *
+	 * kernfs_rwsem: v5.14-rc3-16-g7ba0273b2f34 <= V  < v5.16-rc2-1-g393c3714081a
+	 *                                             V <= v4.18.0
+	 *
+	 * kernfs_mutex:                               V  < v5.14-rc3-16-g7ba0273b2f34
 	 */
 	$kernfs_lock = (struct rw_semaphore *)kaddr("kernfs_rwsem");
 	/* FIXME: Why need -1 */

@@ -17,17 +17,18 @@ BEGIN
 interval:s:1
 {
 	/**
-	 * FIXME:
-	 *
 	 * per-fs lock: >= v5.16-rc2-1-g393c3714081a
-	 * kernfs_rwsem: v5.14-rc3-16-g7ba0273b2f34 <= V < v5.16-rc2-1-g393c3714081a
-	 * kernfs_mutex:                               V < v5.14-rc3-16-g7ba0273b2f34
+	 *
+	 * kernfs_rwsem: v5.14-rc3-16-g7ba0273b2f34 <= V  < v5.16-rc2-1-g393c3714081a
+	 *                                             V <= v4.18.0
+	 *
+	 * kernfs_mutex:                               V  < v5.14-rc3-16-g7ba0273b2f34
 	 */
 	$kernfs_mutex = (struct mutex *)kaddr("kernfs_mutex");
 	$task = (struct task_struct *)$kernfs_mutex->owner.counter;
 
 	time("%H:%M:%S ");
-	printf("%-8d %-8s %-8ld\n", $task->pid, $task->comm, $kernfs_lock->count.counter);
+	printf("%-8d %-8s %-8ld\n", $task->pid, $task->comm, $kernfs_mutex->count.counter);
 }
 
 END
