@@ -1,7 +1,7 @@
 NIC
 ===
 
-# 网卡命名
+# Naming Scheme
 
 - `eth`: Original Simple Scheme
 - `en`: Ethernet
@@ -59,7 +59,8 @@ NIC
 ### udevadm
 
 ```
-$ udevadm info /sys/class/net/eno1 | grep NAME
+$ udevadm info /sys/class/net/${name}
+$ udevadm test /sys/class/net/${name}
 ```
 
 ## systemd.net-naming-scheme(7)
