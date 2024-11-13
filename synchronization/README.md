@@ -4,7 +4,7 @@ Synchronization
 - atomic: 原子操作
 - rcu: Read Copy Update
 
-# 常见错误
+# Q&A
 
 ## insmod 失败
 
