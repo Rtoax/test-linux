@@ -23,7 +23,6 @@
  */
 #include <stdio.h>
 #include <pthread.h>
-#include <stdatomic.h>
 
 #define NR_LOOP 1000
 #define NR_THREAD 10
@@ -31,6 +30,7 @@
 #if defined(__clang__)
 int acnt;
 #else
+#include <stdatomic.h>
 atomic_int acnt;
 #endif
 int cnt;

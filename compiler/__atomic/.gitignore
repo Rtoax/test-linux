@@ -1,1 +1,4 @@
 /test1
+/load-store
+/load-store-atomic-relaxed
+/load-store-atomic-strict

@@ -1,6 +1,8 @@
 /**
  * 证明CPU乱序执行，并使用内存屏障消除乱序执行的影响
  *
+ * 同时可以使用 __atomic 或 __sync 实现
+ *
  * 2021-05-26	Rong Tao	Create this.
  */
 #include <stdio.h>
@@ -41,10 +43,12 @@ void *task2(void *arg)
 
 int main(void)
 {
+	size_t count = 0;
 	pthread_t tasks[2];
 
 	while (true) {
 		x = y = a = b = 0;
+		count++;
 
 		pthread_create(&tasks[0], NULL, task1, NULL);
 		pthread_create(&tasks[1], NULL, task2, NULL);
@@ -56,7 +60,12 @@ int main(void)
 			fprintf(stderr, "WARNING: CPU Out of Order Exec.\n");
 			break;
 		}
+
+		if (count % 1000 == 0)
+			fprintf(stderr, "Test count %ld\n", count);
 	}
+
+	fprintf(stderr, "Total test count %ld\n", count);
 
 	return 0;
 }
