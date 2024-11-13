@@ -3,3 +3,4 @@
 /spin-demo3
 /spin-demo3-nonlock
 /__sync_synchronize
+/__sync_fetch_and_add
