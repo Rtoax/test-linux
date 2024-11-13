@@ -2,7 +2,7 @@ GRUB - GRand Unified Bootloader
 ===============================
 
 
-# 简介
+# Introduce
 
 ```
 $ lsblk  -o name,fstype,type,mountpoint
@@ -27,6 +27,12 @@ intiramfs-xxx vmlinuz-xxx
 (grub)> linux (hd1,gpt3)/boot/vmlinuz-xxx root=UUID=xxx
 (grub)> initrd (hd1,gpt3)/boot/initramfs-xxx.img
 (grub)> boot
+```
+
+# Re-Boot Linux
+
+```
+(grub)> reboot
 ```
 
 # Default Entry
