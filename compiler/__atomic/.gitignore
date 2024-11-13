@@ -4,3 +4,4 @@
 /load-store-atomic-strict
 /exchange
 /compare_exchange
+/fetch
