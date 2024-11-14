@@ -7,7 +7,9 @@
 #include <stdbool.h>
 #include <pthread.h>
 
+#if defined(HAVE_MRWBARRIER) || defined(HAVE_MRBARRIER) || defined(HAVE_MWBARRIER)
 #include "barrier.h"
+#endif
 
 #if defined(HAVE_MRWBARRIER)
 /* Could avoid out-of-order */

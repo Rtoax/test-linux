@@ -8,3 +8,4 @@
 /__ATOMIC_
 /__atomic_test_and_set
 /__atomic_clear
+/__atomic_thread_fence

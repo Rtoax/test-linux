@@ -17,10 +17,13 @@ TARGETS += fetch
 TARGETS += __ATOMIC_
 TARGETS += __atomic_test_and_set
 TARGETS += __atomic_clear
+TARGETS += __atomic_thread_fence
 
 CFLAGS_load-store := -DTEST_C_RAW=1
 CFLAGS_load-store-atomic-relaxed := -DTEST_ATOMIC_RELAXED=1
 CFLAGS_load-store-atomic-strict := -DTEST_ATOMIC_STRICT=1
+# Choice this macro
+CFLAGS___atomic_thread_fence := -DHAVE___atomic_thread_fence__ATOMIC_ACQ_REL=1
 
 .PHONY: build
 build: ${TARGETS}
@@ -36,6 +39,7 @@ fetch: fetch.o
 __ATOMIC_: __ATOMIC_.o
 __atomic_test_and_set: __atomic_test_and_set.o
 __atomic_clear: __atomic_clear.o
+__atomic_thread_fence: __atomic_thread_fence.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
