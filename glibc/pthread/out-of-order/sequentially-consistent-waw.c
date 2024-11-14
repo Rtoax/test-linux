@@ -1,5 +1,4 @@
 // SPDX-License-Identifier: GPL-3.0
-#include <assert.h>
 #include <stdio.h>
 #include <stdbool.h>
 #include <pthread.h>
@@ -9,6 +8,8 @@
  */
 int lock;
 int x, y;
+
+int should_end = false;
 
 /* waw: Write After Write */
 void *task1_waw(void *arg)
@@ -25,7 +26,10 @@ void *task2_waw(void *arg)
 	while (__atomic_load_n(&lock, __ATOMIC_RELAXED) != 1);
 
 	if (x == 2)
-		assert(y == 1 && "Nonsequentially Consistent happend!!");
+		if (y != 1) {
+			should_end = true;
+			fprintf(stderr, "ERROR: Nonsequentially Consistent happend!!\n");
+		}
 	return NULL;
 }
 
@@ -34,7 +38,7 @@ int main(void)
 	size_t count = 0;
 	pthread_t tasks[2];
 
-	while (true) {
+	while (!should_end) {
 		__atomic_store_n(&lock, 0, __ATOMIC_RELAXED);
 
 		x = y = 0;
