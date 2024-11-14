@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0
 SHELL = bash
 
 TARGETS :=
@@ -23,8 +24,21 @@ TARGETS += __attribute__section-readmostly
 TARGETS += __attribute__vector_size
 TARGETS += __attribute__weak
 TARGETS += __attribute__noplt __attribute__noplt-plt
+TARGETS += __attribute__kernel_helper
 
-all: ${TARGETS}
+CFLAGS :=
+
+ifeq ($(shell uname -m),x86_64)
+  CFLAGS___attribute__nocf_check := -fcf-protection
+else
+  $(warning FXIME: Arch may not support -fcf-protection=full)
+endif
+
+CFLAGS___attribute__noplt := -DNOPLT=1
+
+
+.PHONY: build
+build: ${TARGETS}
 
 __attribute__alias: __attribute__alias.o
 __attribute__always_inline: __attribute__always_inline.o
@@ -49,14 +63,7 @@ __attribute__vector_size: __attribute__vector_size.o
 __attribute__weak: __attribute__weak.o
 __attribute__noplt: __attribute__noplt.o
 __attribute__noplt-plt: __attribute__noplt-plt.o
-
-ifeq ($(shell uname -m),x86_64)
-  CFLAGS___attribute__nocf_check := -fcf-protection
-else
-  $(warning FXIME: Arch may not support -fcf-protection=full)
-endif
-
-CFLAGS___attribute__noplt := -DNOPLT=1
+__attribute__kernel_helper: __attribute__kernel_helper.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

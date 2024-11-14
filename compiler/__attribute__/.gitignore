@@ -22,3 +22,4 @@
 /__attribute__weak
 /__attribute__noplt
 /__attribute__noplt-plt
+/__attribute__kernel_helper
