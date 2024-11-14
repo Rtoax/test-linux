@@ -10,3 +10,4 @@
 /__atomic_clear
 /__atomic_thread_fence
 /__atomic_signal_fence
+/__atomic_always_lock_free
