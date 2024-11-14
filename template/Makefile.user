@@ -2,6 +2,8 @@
 # This Makefile is a template for test-linux userspace code. You can copy the
 # code blob to develope Makefile your own.
 
+SHELL = /bin/bash
+
 STDIO_HEADER = /usr/include/stdio.h
 KERN_CONFIG=/boot/config-$(shell uname -r)
 
@@ -33,7 +35,11 @@ OS := $(shell grep ^ID= /etc/os-release | sed 's/ID=//g' | sed 's/"//g')
 
 DEBUG = yes
 CC = gcc
-SHELL = /bin/bash
+
+CC_FULLVERSION := $(shell $(CC) -dumpfullversion -dumpversion)
+CC_VERSION := $(shell $(CC) -dumpversion)
+CC_MAJOR := $(shell echo ${CC_FULLVERSION} | awk -F '.' '{print $$1}')
+CC_MINOR := $(shell echo ${CC_FULLVERSION} | awk -F '.' '{print $$2}')
 
 CFLAGS := -Werror -Wall
 CFLAGS += -Wstrict-prototypes

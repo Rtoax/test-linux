@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0
 SHELL = bash
 
 sub-dir := annobin
@@ -25,11 +26,17 @@ TARGETS :=
 TARGETS += __GNUC__
 TARGETS += __VERSION__
 
-CC = gcc
+CC := gcc
+
+CC_FULLVERSION := $(shell $(CC) -dumpfullversion -dumpversion)
+CC_VERSION := $(shell $(CC) -dumpversion)
+CC_MAJOR := $(shell echo ${CC_FULLVERSION} | awk -F '.' '{print $$1}')
+CC_MINOR := $(shell echo ${CC_FULLVERSION} | awk -F '.' '{print $$2}')
 
 .PHONY: build
 build: $(TARGETS) $(sub-dir-build)
-	@$(CC) -dumpfullversion -dumpversion
+	@echo -e "CC(${CC}) VERSION ${CC_VERSION} = ${CC_MAJOR}.${CC_MINOR} (${CC_FULLVERSION})"
+	@echo -e " \033[1;33m Done \033[m"
 
 __VERSION__: __VERSION__.o
 __GNUC__: __GNUC__.o

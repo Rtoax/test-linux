@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0
 SHELL = bash
 
 include ../scripts/check_compiler_option.mk
@@ -129,6 +130,7 @@ CFLAGS_case := -Wno-error=unused-label -Wno-unused-label
 CFLAGS_include_next := -Dinclude/ -Wno-error
 CFLAGS_while-sleep := -DWHILE_SLEEP=1
 
+.PHONY: build
 build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
@@ -184,6 +186,7 @@ $(TARGETS): %:
 test: ${TARGETS}
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
 
+.PHONY: clean
 clean:
 	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
 	@rm -f ${TARGETS} *.o *.d *.s *.E.c *.strip
