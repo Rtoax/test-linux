@@ -2,7 +2,10 @@
 SHELL = bash
 
 TARGETS :=
-TARGETS += barrier
+TARGETS += r-barrier
+TARGETS += w-barrier
+TARGETS += rw-barrier
+TARGETS += no-barrier
 TARGETS += __sync_synchronize
 TARGETS += __atomic_thread_fence__ATOMIC_RELAXED
 TARGETS += __atomic_thread_fence__ATOMIC_CONSUME
@@ -10,14 +13,15 @@ TARGETS += __atomic_thread_fence__ATOMIC_ACQUIRE
 TARGETS += __atomic_thread_fence__ATOMIC_RELEASE
 TARGETS += __atomic_thread_fence__ATOMIC_ACQ_REL
 TARGETS += __atomic_thread_fence__ATOMIC_SEQ_CST
-TARGETS += no-barrier
 
 CC = gcc
 
 CFLAGS := -Werror -Wall -pthread
 CFLAGS += -I$(shell realpath .)/../../../synchronization/barrier/
 
-CFLAGS_barrier := -DHAVE_MBARRIER=1
+CFLAGS_r-barrier := -DHAVE_MRBARRIER=1
+CFLAGS_w-barrier := -DHAVE_MWBARRIER=1
+CFLAGS_rw-barrier := -DHAVE_MRWBARRIER=1
 CFLAGS_no-barrier := -DHAVE_NO_BARRIER=1
 CFLAGS___sync_synchronize := -DHAVE___sync_synchronize=1
 CFLAGS___atomic_thread_fence__ATOMIC_RELAXED := -DHAVE___atomic_thread_fence__ATOMIC_RELAXED=1
@@ -29,7 +33,9 @@ CFLAGS___atomic_thread_fence__ATOMIC_SEQ_CST := -DHAVE___atomic_thread_fence__AT
 
 build: ${TARGETS}
 
-barrier: barrier.o
+r-barrier: r-barrier.o
+w-barrier: w-barrier.o
+rw-barrier: rw-barrier.o
 no-barrier: no-barrier.o
 __sync_synchronize: __sync_synchronize.o
 __atomic_thread_fence__ATOMIC_RELAXED: __atomic_thread_fence__ATOMIC_RELAXED.o
