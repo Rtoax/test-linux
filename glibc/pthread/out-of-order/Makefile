@@ -14,6 +14,7 @@ TARGETS += __atomic_thread_fence__ATOMIC_RELEASE
 TARGETS += __atomic_thread_fence__ATOMIC_ACQ_REL
 TARGETS += __atomic_thread_fence__ATOMIC_SEQ_CST
 TARGETS += sequentially-consistent-waw
+TARGETS += sequentially-consistent-waw-2
 TARGETS += sequentially-consistent-raw
 
 CC := gcc
@@ -49,6 +50,7 @@ __atomic_thread_fence__ATOMIC_RELEASE: __atomic_thread_fence__ATOMIC_RELEASE.o
 __atomic_thread_fence__ATOMIC_ACQ_REL: __atomic_thread_fence__ATOMIC_ACQ_REL.o
 __atomic_thread_fence__ATOMIC_SEQ_CST: __atomic_thread_fence__ATOMIC_SEQ_CST.o
 sequentially-consistent-waw: sequentially-consistent-waw.o
+sequentially-consistent-waw-2: sequentially-consistent-waw-2.o
 sequentially-consistent-raw: sequentially-consistent-raw.o
 
 %.o: %.c

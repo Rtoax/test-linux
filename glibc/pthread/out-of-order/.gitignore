@@ -3,4 +3,5 @@
 /__sync_synchronize
 /__atomic_thread_fence*[A-Z]
 /sequentially-consistent-waw
+/sequentially-consistent-waw-2
 /sequentially-consistent-raw
