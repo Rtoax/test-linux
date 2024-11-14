@@ -6,3 +6,5 @@
 /compare_exchange
 /fetch
 /__ATOMIC_
+/__atomic_test_and_set
+/__atomic_clear
