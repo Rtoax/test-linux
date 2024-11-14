@@ -7,6 +7,10 @@
 #include <stdbool.h>
 #include <pthread.h>
 
+#if defined(__x86_64__)
+# warning "WAW not failed in x86-64"
+#endif
+
 /**
  * lock: Start two threads running at the same time
  */

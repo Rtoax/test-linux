@@ -34,6 +34,8 @@ CFLAGS___atomic_thread_fence__ATOMIC_RELEASE := -DHAVE___atomic_thread_fence__AT
 CFLAGS___atomic_thread_fence__ATOMIC_ACQ_REL := -DHAVE___atomic_thread_fence__ATOMIC_ACQ_REL=1
 CFLAGS___atomic_thread_fence__ATOMIC_SEQ_CST := -DHAVE___atomic_thread_fence__ATOMIC_SEQ_CST=1
 CFLAGS_sequentially-consistent-raw := ${CFLAGS_no-barrier}
+CFLAGS_sequentially-consistent-waw := -Wno-error=cpp
+CFLAGS_sequentially-consistent-waw-2 := ${CFLAGS_sequentially-consistent-waw}
 
 
 build: ${TARGETS}
