@@ -14,6 +14,7 @@ TARGETS += load-store-atomic-strict
 TARGETS += exchange
 TARGETS += compare_exchange
 TARGETS += fetch
+TARGETS += __ATOMIC_
 
 CFLAGS_load-store := -DTEST_C_RAW=1
 CFLAGS_load-store-atomic-relaxed := -DTEST_ATOMIC_RELAXED=1
@@ -30,6 +31,7 @@ load-store-atomic-strict: load-store-atomic-strict.o
 exchange: exchange.o
 compare_exchange: compare_exchange.o
 fetch: fetch.o
+__ATOMIC_: __ATOMIC_.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
