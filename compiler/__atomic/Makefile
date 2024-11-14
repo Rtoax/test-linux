@@ -18,6 +18,7 @@ TARGETS += __ATOMIC_
 TARGETS += __atomic_test_and_set
 TARGETS += __atomic_clear
 TARGETS += __atomic_thread_fence
+TARGETS += __atomic_signal_fence
 
 CFLAGS_load-store := -DTEST_C_RAW=1
 CFLAGS_load-store-atomic-relaxed := -DTEST_ATOMIC_RELAXED=1
@@ -40,6 +41,7 @@ __ATOMIC_: __ATOMIC_.o
 __atomic_test_and_set: __atomic_test_and_set.o
 __atomic_clear: __atomic_clear.o
 __atomic_thread_fence: __atomic_thread_fence.o
+__atomic_signal_fence: __atomic_signal_fence.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
