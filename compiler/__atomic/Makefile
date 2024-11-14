@@ -20,6 +20,7 @@ TARGETS += __atomic_clear
 TARGETS += __atomic_thread_fence
 TARGETS += __atomic_signal_fence
 TARGETS += __atomic_always_lock_free
+TARGETS += __atomic_is_lock_free
 
 ifdef M32
   CFLAGS += -m32
@@ -30,6 +31,8 @@ CFLAGS_load-store-atomic-relaxed := -DTEST_ATOMIC_RELAXED=1
 CFLAGS_load-store-atomic-strict := -DTEST_ATOMIC_STRICT=1
 # Choice this macro
 CFLAGS___atomic_thread_fence := -DHAVE___atomic_thread_fence__ATOMIC_ACQ_REL=1
+CFLAGS___atomic_always_lock_free := -latomic
+CFLAGS___atomic_is_lock_free := -latomic
 
 .PHONY: build
 build: ${TARGETS}
@@ -48,6 +51,7 @@ __atomic_clear: __atomic_clear.o
 __atomic_thread_fence: __atomic_thread_fence.o
 __atomic_signal_fence: __atomic_signal_fence.o
 __atomic_always_lock_free: __atomic_always_lock_free.o
+__atomic_is_lock_free: __atomic_is_lock_free.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
