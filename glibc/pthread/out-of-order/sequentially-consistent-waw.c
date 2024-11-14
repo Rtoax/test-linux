@@ -43,6 +43,7 @@ int main(void)
 		pthread_create(&tasks[0], NULL, task1_waw, NULL);
 		pthread_create(&tasks[1], NULL, task2_waw, NULL);
 
+		/* Start test */
 		__atomic_store_n(&lock, 1, __ATOMIC_RELAXED);
 
 		pthread_join(tasks[0], NULL);

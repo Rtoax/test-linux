@@ -48,6 +48,11 @@
 #error "Nothing to do."
 #endif
 
+/**
+ * lock: Start two threads running at the same time
+ */
+int lock;
+
 volatile int x, y, a, b;
 
 /**
@@ -63,6 +68,8 @@ volatile int x, y, a, b;
 /* raw: Read After Write */
 void *task1_raw(void *arg)
 {
+	while (__atomic_load_n(&lock, __ATOMIC_RELAXED) != 1);
+
 	a = 1;
 	__test_barrier();
 	x = b;
@@ -71,6 +78,8 @@ void *task1_raw(void *arg)
 
 void *task2_raw(void *arg)
 {
+	while (__atomic_load_n(&lock, __ATOMIC_RELAXED) != 1);
+
 	b = 1;
 	__test_barrier();
 	y = a;
@@ -83,11 +92,15 @@ int main(void)
 	pthread_t tasks[2];
 
 	while (true) {
+		__atomic_store_n(&lock, 0, __ATOMIC_RELAXED);
 		x = y = a = b = 0;
 		count++;
 
 		pthread_create(&tasks[0], NULL, task1_raw, NULL);
 		pthread_create(&tasks[1], NULL, task2_raw, NULL);
+
+		/* Start test */
+		__atomic_store_n(&lock, 1, __ATOMIC_RELAXED);
 
 		pthread_join(tasks[0], NULL);
 		pthread_join(tasks[1], NULL);
