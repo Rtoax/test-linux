@@ -126,9 +126,8 @@ void exec_threads(const char *pfx, void *(*fn)(void *), int init, int expect)
 		pthread_join(thr[n], NULL);
 
 	printf("%s: atomic counter is %10u, non-atomic %10u\n", pfx, acnt, cnt);
-	if (acnt != expect) {
+	if (acnt != expect)
 		fprintf(stderr, "ERROR: %u != %u\n", acnt, expect);
-	}
 }
 
 int main(void)
@@ -141,4 +140,3 @@ int main(void)
 	exec_threads("nand", test__sync_nand, 0, 0xffffffff);
 	return 0;
 }
-
