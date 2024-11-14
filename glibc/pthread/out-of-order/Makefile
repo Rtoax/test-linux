@@ -13,8 +13,9 @@ TARGETS += __atomic_thread_fence__ATOMIC_ACQUIRE
 TARGETS += __atomic_thread_fence__ATOMIC_RELEASE
 TARGETS += __atomic_thread_fence__ATOMIC_ACQ_REL
 TARGETS += __atomic_thread_fence__ATOMIC_SEQ_CST
+TARGETS += sequentially-consistent-waw
 
-CC = gcc
+CC := gcc
 
 CFLAGS := -Werror -Wall -pthread
 CFLAGS += -I$(shell realpath .)/../../../synchronization/barrier/
@@ -44,6 +45,7 @@ __atomic_thread_fence__ATOMIC_ACQUIRE: __atomic_thread_fence__ATOMIC_ACQUIRE.o
 __atomic_thread_fence__ATOMIC_RELEASE: __atomic_thread_fence__ATOMIC_RELEASE.o
 __atomic_thread_fence__ATOMIC_ACQ_REL: __atomic_thread_fence__ATOMIC_ACQ_REL.o
 __atomic_thread_fence__ATOMIC_SEQ_CST: __atomic_thread_fence__ATOMIC_SEQ_CST.o
+sequentially-consistent-waw: sequentially-consistent-waw.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

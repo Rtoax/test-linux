@@ -50,7 +50,18 @@
 
 volatile int x, y, a, b;
 
-void *task1(void *arg)
+/**
+ * Sequentially Consistent
+ *
+ * x = y = 0;
+ * -Thread 1-    -Thread 2-
+ * y = 1;         if (x == 2)
+ * x = 2;            assert(y == 1);
+ *
+ */
+
+/* raw: Read After Write */
+void *task1_raw(void *arg)
 {
 	a = 1;
 	__test_barrier();
@@ -58,7 +69,7 @@ void *task1(void *arg)
 	pthread_exit(NULL);
 }
 
-void *task2(void *arg)
+void *task2_raw(void *arg)
 {
 	b = 1;
 	__test_barrier();
@@ -75,8 +86,8 @@ int main(void)
 		x = y = a = b = 0;
 		count++;
 
-		pthread_create(&tasks[0], NULL, task1, NULL);
-		pthread_create(&tasks[1], NULL, task2, NULL);
+		pthread_create(&tasks[0], NULL, task1_raw, NULL);
+		pthread_create(&tasks[1], NULL, task2_raw, NULL);
 
 		pthread_join(tasks[0], NULL);
 		pthread_join(tasks[1], NULL);
