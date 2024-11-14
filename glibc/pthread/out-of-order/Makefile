@@ -14,6 +14,7 @@ TARGETS += __atomic_thread_fence__ATOMIC_RELEASE
 TARGETS += __atomic_thread_fence__ATOMIC_ACQ_REL
 TARGETS += __atomic_thread_fence__ATOMIC_SEQ_CST
 TARGETS += sequentially-consistent-waw
+TARGETS += sequentially-consistent-raw
 
 CC := gcc
 
@@ -31,6 +32,8 @@ CFLAGS___atomic_thread_fence__ATOMIC_ACQUIRE := -DHAVE___atomic_thread_fence__AT
 CFLAGS___atomic_thread_fence__ATOMIC_RELEASE := -DHAVE___atomic_thread_fence__ATOMIC_RELEASE=1
 CFLAGS___atomic_thread_fence__ATOMIC_ACQ_REL := -DHAVE___atomic_thread_fence__ATOMIC_ACQ_REL=1
 CFLAGS___atomic_thread_fence__ATOMIC_SEQ_CST := -DHAVE___atomic_thread_fence__ATOMIC_SEQ_CST=1
+CFLAGS_sequentially-consistent-raw := ${CFLAGS_no-barrier}
+
 
 build: ${TARGETS}
 
@@ -46,6 +49,7 @@ __atomic_thread_fence__ATOMIC_RELEASE: __atomic_thread_fence__ATOMIC_RELEASE.o
 __atomic_thread_fence__ATOMIC_ACQ_REL: __atomic_thread_fence__ATOMIC_ACQ_REL.o
 __atomic_thread_fence__ATOMIC_SEQ_CST: __atomic_thread_fence__ATOMIC_SEQ_CST.o
 sequentially-consistent-waw: sequentially-consistent-waw.o
+sequentially-consistent-raw: sequentially-consistent-raw.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
