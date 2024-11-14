@@ -16,6 +16,7 @@ TARGETS += __atomic_thread_fence__ATOMIC_SEQ_CST
 TARGETS += sequentially-consistent-waw
 TARGETS += sequentially-consistent-waw-2
 TARGETS += sequentially-consistent-raw
+TARGETS += sequentially-consistent-war
 
 CC := gcc
 
@@ -54,6 +55,7 @@ __atomic_thread_fence__ATOMIC_SEQ_CST: __atomic_thread_fence__ATOMIC_SEQ_CST.o
 sequentially-consistent-waw: sequentially-consistent-waw.o
 sequentially-consistent-waw-2: sequentially-consistent-waw-2.o
 sequentially-consistent-raw: sequentially-consistent-raw.o
+sequentially-consistent-war: sequentially-consistent-war.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
