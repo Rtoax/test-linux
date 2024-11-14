@@ -15,12 +15,17 @@ int x, y;
 
 int should_end = false;
 
+/**
+ * Since threads don't need to be synchronized across the system, either
+ * 'should_end = true' in this example can actually run.
+ */
+
 void *task1(void *arg)
 {
 	while (__atomic_load_n(&lock, __ATOMIC_RELAXED) != 1);
 
-	y = 20;
-	x = 10;
+	__atomic_store_n(&y, 20, __ATOMIC_RELAXED);
+	__atomic_store_n(&x, 10, __ATOMIC_RELAXED);
 
 	return NULL;
 }
@@ -29,13 +34,13 @@ void *task2(void *arg)
 {
 	while (__atomic_load_n(&lock, __ATOMIC_RELAXED) != 1);
 
-	if (x == 10) {
-		if (y != 20) {
+	if (__atomic_load_n(&x, __ATOMIC_RELAXED) == 10) {
+		if (__atomic_load_n(&y, __ATOMIC_RELAXED) != 20) {
 			should_end = true;
 			fprintf(stderr, "ERROR: Nonsequentially Consistent happend in task2!!\n");
 			return NULL;
 		}
-		y = 10;
+		__atomic_store_n(&y, 10, __ATOMIC_RELAXED);
 	}
 	return NULL;
 }
@@ -44,8 +49,8 @@ void *task3(void *arg)
 {
 	while (__atomic_load_n(&lock, __ATOMIC_RELAXED) != 1);
 
-	if (y == 10)
-		if (x != 10) {
+	if (__atomic_load_n(&y, __ATOMIC_RELAXED) == 10)
+		if (__atomic_load_n(&x, __ATOMIC_RELAXED) != 10) {
 			should_end = true;
 			fprintf(stderr, "ERROR: Nonsequentially Consistent happend in task3!!\n");
 			return NULL;

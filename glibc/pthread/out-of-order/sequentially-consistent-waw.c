@@ -1,4 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0
+/**
+ * https://gcc.gnu.org/wiki/Atomic/GCCMM/AtomicSync
+ */
 #include <stdio.h>
 #include <stdbool.h>
 #include <pthread.h>
