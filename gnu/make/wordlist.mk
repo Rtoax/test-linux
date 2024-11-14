@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: GPL-3.0
+SHELL = bash
 
 text := 1.txt
 text += 2.txt
@@ -10,7 +12,8 @@ src += 3.c
 
 obj = $(patsubst %.c,%.o,$(src))
 
-all:
+.PHONY: build
+build:
 	echo $(wordlist 1,3,$(text))
 	echo $(obj)
 
