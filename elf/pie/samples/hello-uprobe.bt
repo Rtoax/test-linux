@@ -24,6 +24,7 @@ uprobe:./hello:readline,
 uprobe:./hello-pie:readline
 {
 	printf("PS1: %s\n", str(*uaddr("ps1_prompt")));
+	printf("readline: 0x%lx\n", uaddr("readline"));
 }
 
 END
