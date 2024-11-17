@@ -8,6 +8,8 @@ declare -a pkgs pkgs_compiler pkgs_desktop pkgs_bench pkgs_math pkgs_db
 declare -a pkgs_storage pkgs_net pkgs_container pkgs_virt pkgs_base pkgs_fs
 declare -a pip_whls
 
+IS_DNF5="$(dnf --version | grep -woi dnf5 | uniq)"
+
 have_base=YES
 have_upgrade=YES
 have_fs=
@@ -501,6 +503,9 @@ dnf_add_packages()
 
 	pkgs_net+=( httpd )
 
+	if [[ ${IS_DNF5} ]]; then
+		dnf_args+=( --skip-unavailable )
+	fi
 	dnf_args+=( --skip-broken )
 	dnf_args+=( --nogpgcheck )
 }
