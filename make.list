@@ -45,6 +45,7 @@ USER_LIST += shell
 USER_LIST += storage
 USER_LIST += synchronization
 USER_LIST += syscall
+USER_LIST += sysctl
 USER_LIST += template
 USER_LIST += unwind
 USER_LIST += vhost
