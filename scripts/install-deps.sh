@@ -1,14 +1,14 @@
 #!/bin/bash
 set -e
 
-prog=inst-deps
+readonly prog=inst-deps
 
 declare -a dnf_args apt_args
 declare -a pkgs pkgs_compiler pkgs_desktop pkgs_bench pkgs_math pkgs_db
 declare -a pkgs_storage pkgs_net pkgs_container pkgs_virt pkgs_base pkgs_fs
 declare -a pip_whls
 
-IS_DNF5="$(dnf --version | grep -woi dnf5 | uniq)"
+readonly IS_DNF5="$(dnf --version | grep -woi dnf5 | uniq)"
 
 have_base=YES
 have_upgrade=YES
@@ -28,7 +28,7 @@ dry_run=
 
 . /etc/os-release
 
-OS=${ID}
+readonly OS=${ID}
 
 inst_eval() {
 	if [[ -z ${dry_run} ]]; then
