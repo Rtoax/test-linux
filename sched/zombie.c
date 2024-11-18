@@ -1,3 +1,6 @@
+/**
+ * zombie - process was exited, but nobody reclaim it.
+ */
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
