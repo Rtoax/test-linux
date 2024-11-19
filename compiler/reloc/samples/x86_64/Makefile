@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0
 SHELL = bash
 
 TARGETS :=
@@ -9,6 +10,7 @@ TARGETS_S_O :=
 CC := gcc
 AS := as
 
+AS_ARGS :=
 CFLAGS :=
 LDFLAGS :=
 CFLAGS_PIE :=
@@ -34,6 +36,11 @@ TARGETS_S_O += R_X86_64_REX_GOTPCRELX.So
 TARGETS_S_O += R_X86_64_PLT32.So
 TARGETS_S_O += R_X86_64_PLTOFF64.So
 
+ifneq ($(shell uname -m),x86_64)
+  $(error Try compile on $(shell uname -m))
+endif
+
+AS_ARGS += --64
 CFLAGS += -march=native
 
 # Debian 12 default compile PIE EXEC, Fedora40 default compile no-PIE EXEC.
@@ -85,7 +92,7 @@ R_X86_64_GOTPCRELX.o: R_X86_64_GOTPCRELX.c
 
 %.So: %.S
 	@echo -e "  AS  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	@${AS} --64 -o $(@) $(<)
+	@${AS} ${AS_ARGS} -o $(@) $(<)
 	@$(call print_elf_reloc,$(@))
 
 %.obj: %.c
