@@ -24,13 +24,13 @@ hello: hello.o
 
 %.o: %.c
 	@echo -e "  CC/CLANG  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
+	@$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
 	@$(CLANG) -Xclang -ast-dump -fsyntax-only $(<)
 	@$(CLANG) -S -emit-llvm $(<)
 
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) $(^) $(LDLIBS)
+	@$(CC) -o $(@) $(^) $(CFLAGS) $(CFLAGS_$(*))
 
 test: ${TARGETS}
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
