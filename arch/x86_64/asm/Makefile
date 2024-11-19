@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0
 SHELL = bash
 
 CC = gcc
@@ -78,10 +79,8 @@ LDFLAGS += -z noexecstack
 
 .PHONY: build
 build: ${TARGETS} ${TARGETS_S} ${TARGETS_ASM}
-	@echo
 	@echo -e " \033[1;33m Done \033[m"
 
-# Add more object.o file
 cr3: cr3.o
 echo: echo.o
 hello-puts: hello-puts.o
@@ -134,7 +133,7 @@ $(TARGETS) $(TARGETS_S): %:
 
 $(TARGETS_ASM): %:
 	@echo -e "  LD ASM \033[1;32m$(@)\033[m"
-	@$(LD) -o $(@) $(^) $(LDFLAGS)
+	@$(LD) -o $(@) $(^)
 
 test: ${TARGETS}
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
