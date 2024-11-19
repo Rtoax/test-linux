@@ -1,21 +1,27 @@
+# SPDX-License-Identifier: GPL-3.0
 SHELL = bash
 
 RUSTC = $(shell which rustc 2>/dev/null)
 
 TARGETS :=
-ifneq ($(RUSTC),)
 TARGETS += data-type
 TARGETS += hello
 TARGETS += threads
-else
-$(warning "Not found rustc compiler")
+TARGETS += if-let
+
+ifeq ($(RUSTC),)
+  $(warning "Not found rustc compiler")
+  TARGETS :=
 endif
 
-all: $(TARGETS)
+
+.PHONY: build
+build: $(TARGETS)
 
 data-type: data-type.rs
 hello: hello.rs
 threads: threads.rs
+if-let: if-let.rs
 
 $(TARGETS): %:
 	@echo -e "  RUSTC  \033[1;32m$(@)\033[m"
