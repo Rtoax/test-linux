@@ -70,11 +70,15 @@ void dump_dynamic(Elf_Dyn *dynamic)
 		CASE(PREINIT_ARRAYSZ);
 		CASE(SYMTAB_SHNDX);
 # if defined(__x86_64__) || defined(__i386__)
-#  if DT_NUM != DT_RELRSZ
+#  if defined(DT_RELRSZ) && DT_NUM != DT_RELRSZ
 		CASE(RELRSZ);
 #  endif
+#  if defined(DT_RELR)
 		CASE(RELR);
+#  endif
+#  if defined(DT_RELRENT)
 		CASE(RELRENT);
+#  endif
 # endif
 		CASE(NUM);
 		CASE(LOOS);
