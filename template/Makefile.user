@@ -36,10 +36,7 @@ OS := $(shell grep ^ID= /etc/os-release | sed 's/ID=//g' | sed 's/"//g')
 DEBUG = yes
 CC = gcc
 
-CC_FULLVERSION := $(shell $(CC) -dumpfullversion -dumpversion)
-CC_VERSION := $(shell $(CC) -dumpversion)
-CC_MAJOR := $(shell echo ${CC_FULLVERSION} | awk -F '.' '{print $$1}')
-CC_MINOR := $(shell echo ${CC_FULLVERSION} | awk -F '.' '{print $$2}')
+include ../compiler/compiler.mk
 
 CFLAGS := -Werror -Wall
 CFLAGS += -Wstrict-prototypes
