@@ -9,6 +9,12 @@ define check_compiler_option
       && echo 1)
 endef
 
+define check_compiler_option_noS
+  $(shell echo 'int main(void) { return 0; }' | \
+    $(1) -x c -Wall - $(2) -o /dev/null >/dev/null 2>&1 \
+      && echo 1)
+endef
+
 define check_clang_option
 	$(call check_compiler_option,clang,$(1))
 endef
