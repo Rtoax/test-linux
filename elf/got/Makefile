@@ -4,12 +4,11 @@ SHELL = bash
 CC := gcc
 
 include ../../scripts/check_compiler_option.mk
-feature-m32 := $(findstring 1,$(call check_compiler_option_noS,$(CC),-m32))
 
 TARGETS :=
 TARGETS += _GLOBAL_OFFSET_TABLE_
 ifeq ($(shell uname -m),x86_64)
-  ifeq (${feature-m32},1)
+  ifeq (${CC_M32},1)
     $(info ${CC} support -m32)
     TARGETS += _GLOBAL_OFFSET_TABLE_-32
   endif

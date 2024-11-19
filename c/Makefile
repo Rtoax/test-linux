@@ -73,11 +73,6 @@ LDFLAGS :=
 CFLAGS := -Werror -Wall
 CFLAGS += -I../macro/
 
-feature-gnu11 := $(findstring 1,$(call check_compiler_option,$(CC),-std=gnu11))
-feature-gnu17 := $(findstring 1,$(call check_compiler_option,$(CC),-std=gnu17))
-feature-m32 := $(findstring 1,$(call check_compiler_option_noS,$(CC),-m32))
-
-
 ifeq ($(shell uname -m),sw_64)
   ifeq ($(shell lscpu | grep -o WX-H8000 || true),WX-H8000)
     CFLAGS += -mcpu=sw8a
@@ -96,7 +91,7 @@ ifdef M32
   CFLAGS += -m32 -DM32=1
   LDFLAGS += -m32
   $(info Compile 32bit ELF)
-  ifneq (${feature-m32},1)
+  ifneq (${CC_M32},1)
     $(error ${CC} not support -m32)
   endif
 endif
@@ -126,7 +121,7 @@ endif
 CFLAGS_param-pass := -O0
 CFLAGS_auto := -Wno-error=implicit-int
 CFLAGS_param-pass := -O0 -I../macro/
-ifeq (${feature-gnu17},1)
+ifeq (${CC_STD_GNU17},1)
   CFLAGS_alignas := -std=gnu17
 endif
 CFLAGS_if := -Wno-error=unused-value -Wno-unused-value

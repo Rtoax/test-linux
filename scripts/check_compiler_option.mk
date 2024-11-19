@@ -22,3 +22,7 @@ endef
 define check_gcc_option
 	$(call check_compiler_option,gcc,$(1))
 endef
+
+CC_M32 := $(findstring 1,$(call check_compiler_option_noS,$(CC),-m32))
+CC_STD_GNU11 := $(findstring 1,$(call check_compiler_option,$(CC),-std=gnu11))
+CC_STD_GNU17 := $(findstring 1,$(call check_compiler_option,$(CC),-std=gnu17))
