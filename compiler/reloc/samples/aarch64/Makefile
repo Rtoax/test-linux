@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0
 SHELL = bash
 
 TARGETS :=
@@ -12,6 +13,7 @@ LDFLAGS :=
 CFLAGS_PIE :=
 LDFLAGS_PIE :=
 
+TARGETS += R_AARCH64
 TARGETS += R_AARCH64_JUMP_SLOT
 
 TARGETS_O += R_AARCH64_CALL26.o
@@ -34,14 +36,15 @@ ifdef VERBOSE
 endif
 
 define print_elf_reloc
-	@echo -e "# $(1)" > ${1}.reloc
-	@readelf --relocs --wide $(1) >> ${1}.reloc
+  @echo -e "# $(1)" > ${1}.reloc
+  @readelf --relocs --wide $(1) >> ${1}.reloc
 endef
 
 .PHONY: build
 build: ${TARGETS_SO} ${TARGETS_A} ${TARGETS} ${TARGETS_O}
 	@echo -e " \033[1;33m Done \033[m"
 
+R_AARCH64: R_AARCH64.o
 R_AARCH64_JUMP_SLOT: R_AARCH64_JUMP_SLOT.o
 
 R_AARCH64_CALL26.o: R_AARCH64_CALL26.c

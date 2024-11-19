@@ -1,2 +1,3 @@
 /*.reloc
+/R_AARCH64
 /R_AARCH64_JUMP_SLOT
