@@ -1,6 +1,8 @@
 # SPDX-License-Identifier: GPL-3.0
 SHELL = bash
 
+HAVE_LIBATOMIC := $(shell ldconfig -p | grep -w libatomic.so 2>/dev/null)
+
 CC := gcc
 
 CFLAGS :=
@@ -19,8 +21,12 @@ TARGETS += __atomic_test_and_set
 TARGETS += __atomic_clear
 TARGETS += __atomic_thread_fence
 TARGETS += __atomic_signal_fence
-TARGETS += __atomic_always_lock_free
-TARGETS += __atomic_is_lock_free
+
+ifneq (${HAVE_LIBATOMIC},)
+  $(info Found libatomic.so)
+  TARGETS += __atomic_always_lock_free
+  TARGETS += __atomic_is_lock_free
+endif
 
 ifdef M32
   CFLAGS += -m32
