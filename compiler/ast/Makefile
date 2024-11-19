@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0
 SHELL = bash
 
 CLANG = $(shell which clang 2>/dev/null)
@@ -5,15 +6,16 @@ CLANG = $(shell which clang 2>/dev/null)
 TARGETS :=
 
 ifneq ($(wildcard $(CLANG)),)
-TARGETS += hello
-CC = ${CLANG}
+  TARGETS += hello
+  CC = ${CLANG}
 else
-CC = gcc
+  CC = gcc
 endif
 
 CFLAGS := -Werror -Wall
 CFLAGS += -O0
 
+.PHONY: build
 build: ${TARGETS}
 	@echo
 	@echo -e " \033[1;33m Done \033[m"
@@ -33,6 +35,7 @@ $(TARGETS): %:
 test: ${TARGETS}
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
 
+.PHONY: clean
 clean:
 	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
 	@rm -f ${TARGETS} *.o *.ll
