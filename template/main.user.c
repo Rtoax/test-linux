@@ -1,11 +1,4 @@
-/**
- * File:
- * Author:
- * Date:
- *
- * Description:
- * Ref:
- */
+// SPDX-License-Identifier: GPL-3.0
 #include <stdio.h>
 
 int main(int argc, char *argv[])

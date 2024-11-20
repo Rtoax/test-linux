@@ -2,6 +2,7 @@
 SHELL = bash
 
 sub-dir := make
+sub-dir += glibc
 sub-dir += gnupg
 
 TARGETS := __GNUC__

@@ -1,11 +1,4 @@
-/**
- * File:
- * Author:
- * Date:
- *
- * Description:
- * Ref:
- */
+// SPDX-License-Identifier: GPL-3.0
 #include <linux/init.h>
 #include <linux/module.h>
 #include <linux/version.h>
