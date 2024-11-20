@@ -1,9 +1,3 @@
-/**
- *	File	bio_init.c
- *	Time	2021.12.21
- *	Author	Rong Tao <rtoax@foxmail.com>
- */
-
 #include <linux/init.h>
 #include <linux/module.h>
 #include <linux/kernel.h>
