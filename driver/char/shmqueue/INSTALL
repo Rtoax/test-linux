@@ -1,7 +1,5 @@
-Copyright(C) Sylincom 荣涛
-
 1.编译
-	$ make 
+	$ make
 
 2.加载
 	$ sudo insmod hellomodule
