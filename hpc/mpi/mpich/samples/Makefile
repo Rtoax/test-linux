@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0
 SHELL = bash
 
 MPICC = $(shell which mpicc 2>/dev/null)

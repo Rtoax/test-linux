@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0
 SHELL = bash
 
 CS_HDR_CAPSTONE = /usr/include/capstone/capstone.h
@@ -22,7 +23,6 @@ LDFLAGS := -lcapstone
 
 
 build: ${TARGETS}
-	@echo
 	@echo -e " \033[1;33m Done \033[m"
 
 version: version.o

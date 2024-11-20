@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0
 CMAKE_MINIMUM_REQUIRED(VERSION 3.5)
 
 SET(CMAKE_C_COMPILER /usr/bin/gcc)

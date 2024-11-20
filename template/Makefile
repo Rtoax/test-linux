@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0
 SHELL = /bin/bash
 
 $(info INFO: This is info)
