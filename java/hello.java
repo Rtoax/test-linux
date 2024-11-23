@@ -7,6 +7,13 @@
  */
 class hello {
 	public static void main(String args[]) {
-		System.out.println("Hello.");
+		while (true) {
+			System.out.println("Hello.");
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 }
