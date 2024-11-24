@@ -4,6 +4,8 @@
 
 #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof(arr[0]))
 
+#define GB (1024 * 1024 * 1024)
+
 int main(void)
 {
 	int i;
@@ -11,7 +13,9 @@ int main(void)
 
 	for (i = 0; i < ARRAY_SIZE(numa_mem_info); i++) {
 		info = &numa_mem_info[i];
-		printf("%-8d %016lx %016lx\n", info->nid, info->mem_start, info->mem_end);
+		printf("%-8d %016lx %016lx %4.2f GiB\n",
+			info->nid, info->mem_start, info->mem_end,
+			(info->mem_end - info->mem_start) * 1.0 / GB);
 	}
 	return 0;
 }
