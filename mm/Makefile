@@ -54,9 +54,7 @@ all: ${TARGETS_LIBA} ${TARGETS} $(sub-dir-build)
 virt2phy: virt2phy.o libtest-linux-c.a
 libtest-linux-mm.a: virt2phy.obj
 
-libtest-linux-c.a:
-	@make -C ${LIBS_TOPDIR} $(@)
-	@cp ${LIBS_TOPDIR}/libtest-linux-c.a $(shell pwd)
+include ../libs/libs.mk
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

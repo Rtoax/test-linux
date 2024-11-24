@@ -3,15 +3,12 @@ SHELL = bash
 
 CC = gcc
 
-LIBS_TOPDIR := $(shell git rev-parse --show-toplevel || :)/libs/
-
 TARGETS := dl_iterate_phdr
 TARGETS += dl_iterate_phdr-pie
 TARGETS += has_shared_object
 
 CFLAGS := -Werror -Wall
 CFLAGS += -Wstrict-prototypes
-CFLAGS += -I${LIBS_TOPDIR}
 
 LDFLAGS :=
 
@@ -27,9 +24,7 @@ dl_iterate_phdr: dl_iterate_phdr.o libtest-linux-c.a
 dl_iterate_phdr-pie: dl_iterate_phdr-pie.o libtest-linux-c.a
 has_shared_object: has_shared_object.o
 
-libtest-linux-c.a:
-	@make -C ${LIBS_TOPDIR} $(@)
-	@cp ${LIBS_TOPDIR}/libtest-linux-c.a $(shell pwd)
+include ../../libs/libs.mk
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

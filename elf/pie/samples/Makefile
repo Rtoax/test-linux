@@ -1,8 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
 SHELL = bash
 
-LIBS_TOPDIR := $(shell git rev-parse --show-toplevel || :)/libs/
-
 TARGETS := hello
 TARGETS += hello-pie
 TARGETS += is_pie
@@ -11,8 +9,6 @@ CC := gcc
 
 CFLAGS :=
 LDFLAGS :=
-
-CFLAGS += -I${LIBS_TOPDIR}
 
 CFLAGS_hello += -no-pie
 LDFLAGS_hello += -no-pie
@@ -30,9 +26,7 @@ hello: hello.o libtest-linux-c.a
 hello-pie: hello-pie.o libtest-linux-c.a
 is_pie: is_pie.o
 
-libtest-linux-c.a:
-	@make -C ${LIBS_TOPDIR} $(@)
-	@cp ${LIBS_TOPDIR}/libtest-linux-c.a $(shell pwd)
+include ../../../libs/libs.mk
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

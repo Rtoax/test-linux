@@ -3,8 +3,6 @@ SHELL = bash
 
 include bfd.mk
 
-LIBS_TOPDIR := $(shell git rev-parse --show-toplevel || :)/libs/
-
 TARGETS :=
 TARGETS += bfd_init
 TARGETS += build_id
@@ -28,8 +26,6 @@ CFLAGS += -Wno-unused-label
 CFLAGS += -Wno-unused-variable
 CFLAGS += -lbfd
 CFLAGS += -lpthread
-
-CFLAGS += -I${LIBS_TOPDIR}
 
 # FIXME: /usr/include/bfd.h may include these lines. There must be a better way
 # to fix this.
@@ -161,9 +157,7 @@ reloc: reloc.o
 reloc-name: reloc-name.o
 bfd_print_symbol_vandf: bfd_print_symbol_vandf.o helpers.o libtest-linux-c.a
 
-libtest-linux-c.a:
-	@make -C ${LIBS_TOPDIR} $(@)
-	@cp ${LIBS_TOPDIR}/libtest-linux-c.a $(shell pwd)
+include ../../../libs/libs.mk
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
@@ -171,7 +165,7 @@ libtest-linux-c.a:
 
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	@$(CC) -o $(@) $(^) $(LDLIBS) $(LDFLAGS) $(LDFLAGS_$(*)) $(CFLAGS) $(CFLAGS_$(*))
+	@$(CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*)) $(CFLAGS) $(CFLAGS_$(*))
 	$(call bfd_strip,$(@))
 
 test: ${TARGETS}
