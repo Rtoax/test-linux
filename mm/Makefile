@@ -1,8 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
 SHELL = bash
 
-LIBS_TOPDIR := $(shell git rev-parse --show-toplevel || :)/libs/
-
 sub-dir := rss
 sub-dir += cache
 sub-dir += hugepage
@@ -22,8 +20,6 @@ CC = gcc
 CFLAGS :=
 LDFLAGS :=
 
-CFLAGS += -I${LIBS_TOPDIR}
-
 CFLAGS_virt2phy := -DHAVE_MAIN=1 -DHAVE_LIB_TEST_LINUX_C=1
 
 SUB_MAKE_ARG :=
@@ -42,7 +38,6 @@ ifdef NOPIE
     $(error "Could no specify PIE and NOPIE at the same time")
   endif
 endif
-
 
 sub-dir-build := $(sub-dir:=.build)
 sub-dir-clean := $(sub-dir:=.clean)
