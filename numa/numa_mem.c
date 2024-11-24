@@ -13,7 +13,7 @@ int main(void)
 
 	for (i = 0; i < ARRAY_SIZE(numa_mem_info); i++) {
 		info = &numa_mem_info[i];
-		printf("%-8d %016lx %016lx %4.2f GiB\n",
+		printf("%-8d %016lx %016lx %4.4f GiB\n",
 			info->nid, info->mem_start, info->mem_end,
 			(info->mem_end - info->mem_start) * 1.0 / GB);
 	}
