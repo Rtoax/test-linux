@@ -6,7 +6,7 @@
 
 #define GB (1024 * 1024 * 1024)
 
-int main(void)
+int print_numa_mem(void)
 {
 	int i;
 	struct numa_mem_info *info;
@@ -20,3 +20,11 @@ int main(void)
 	}
 	return 0;
 }
+
+#if defined(TEST_MAIN)
+int main(void)
+{
+	print_numa_mem();
+	return 0;
+}
+#endif
