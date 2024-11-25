@@ -21,6 +21,22 @@ int print_numa_mem(void)
 	return 0;
 }
 
+int phy_addr_numa(unsigned long paddr)
+{
+	int i;
+	int nid = -1;
+	struct numa_mem_info *info;
+
+	for (i = 0; i < ARRAY_SIZE(numa_mem_info); i++) {
+		info = &numa_mem_info[i];
+		if (paddr >= info->mem_start && paddr < info->mem_end) {
+			nid = info->nid;
+			break;
+		}
+	}
+	return nid;
+}
+
 #if defined(TEST_MAIN)
 int main(void)
 {
