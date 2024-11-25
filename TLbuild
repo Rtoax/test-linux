@@ -1,1 +1,13 @@
 # SPDX-License-Identifier: GPL-3.0
+SHELL = bash
+
+GIT_TOPDIR := $(shell git rev-parse --show-toplevel || :)
+
+LIBS_TOPDIR := $(GIT_TOPDIR)/libs/
+
+CFLAGS += -I${LIBS_TOPDIR}
+
+libtest-linux-c.a:
+	@echo -e "  GEN  \033[1;32m$(@)\033[m"
+	@make -C ${LIBS_TOPDIR} $(@)
+	@cp ${LIBS_TOPDIR}/libtest-linux-c.a $(shell pwd)

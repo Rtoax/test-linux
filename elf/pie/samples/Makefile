@@ -26,7 +26,7 @@ hello: hello.o libtest-linux-c.a
 hello-pie: hello-pie.o libtest-linux-c.a
 is_pie: is_pie.o
 
-include ../../../libs/libs.mk
+include ../../../TLbuild
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

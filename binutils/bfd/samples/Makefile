@@ -157,7 +157,7 @@ reloc: reloc.o
 reloc-name: reloc-name.o
 bfd_print_symbol_vandf: bfd_print_symbol_vandf.o helpers.o libtest-linux-c.a
 
-include ../../../libs/libs.mk
+include ../../../TLbuild
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
