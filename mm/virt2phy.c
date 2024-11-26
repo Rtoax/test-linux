@@ -14,6 +14,14 @@
 #include "proc.h"
 #endif
 
+#if defined(HAVE_LIB_TEST_LINUX_NUMA)
+#include "libnuma.h"
+#endif
+
+#if !defined(HAVE_LIB_TEST_LINUX_NUMA)
+#define phy_addr_numa() (-1)
+#endif
+
 /**
  * refs:
  * - https://www.kernel.org/doc/Documentation/vm/pagemap.txt
@@ -117,13 +125,17 @@ int main(void)
 #if defined(HAVE_LIB_TEST_LINUX_C)
 	unsigned long text_addr, data_addr;
 	text_addr = proc_maps_libc_text_addr();
-	printf("libc text addr : %lx (phy %lx)\n", text_addr, virt_to_phy(text_addr));
+	printf("libc text addr : %lx (phy %lx, numa %d)\n",
+		text_addr, virt_to_phy(text_addr), phy_addr_numa(text_addr));
 	data_addr = proc_maps_libc_data_addr();
-	printf("libc data addr : %lx (phy %lx)\n", data_addr, virt_to_phy(data_addr));
+	printf("libc data addr : %lx (phy %lx, numa %d)\n",
+		data_addr, virt_to_phy(data_addr), phy_addr_numa(data_addr));
 	text_addr = proc_maps_exec_text_addr();
-	printf("exec text addr : %lx (phy %lx)\n", text_addr, virt_to_phy(text_addr));
+	printf("exec text addr : %lx (phy %lx, numa %d)\n",
+		text_addr, virt_to_phy(text_addr), phy_addr_numa(text_addr));
 	data_addr = proc_maps_exec_data_addr();
-	printf("exec data addr : %lx (phy %lx)\n", data_addr, virt_to_phy(data_addr));
+	printf("exec data addr : %lx (phy %lx, numa %d)\n",
+		data_addr, virt_to_phy(data_addr), phy_addr_numa(data_addr));
 #endif
 
 	memfd = open_dev_mem();

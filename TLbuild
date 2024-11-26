@@ -4,10 +4,17 @@ SHELL = bash
 GIT_TOPDIR := $(shell git rev-parse --show-toplevel || :)
 
 LIBS_TOPDIR := $(GIT_TOPDIR)/libs/
+NUMA_TOPDIR := $(GIT_TOPDIR)/numa/
 
 CFLAGS += -I${LIBS_TOPDIR}
+CFLAGS += -I${NUMA_TOPDIR}
 
 libtest-linux-c.a:
 	@echo -e "  GEN  \033[1;32m$(@)\033[m"
 	@make -C ${LIBS_TOPDIR} $(@)
 	@cp ${LIBS_TOPDIR}/libtest-linux-c.a $(shell pwd)
+
+libtest-linux-numa.a:
+	@echo -e "  GEN  \033[1;32m$(@)\033[m"
+	@make -C ${NUMA_TOPDIR} $(@)
+	@cp ${NUMA_TOPDIR}/libtest-linux-numa.a $(shell pwd)
