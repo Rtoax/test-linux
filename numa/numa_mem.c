@@ -1,5 +1,6 @@
 #include <stdio.h>
 
+#include "libnuma.h"
 #include "numa_mem.h"
 
 #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof(arr[0]))
@@ -21,6 +22,9 @@ int print_numa_mem(void)
 	return 0;
 }
 
+/**
+ * Return numa id, return -1 if failed
+ */
 int phy_addr_numa(unsigned long paddr)
 {
 	int i;
