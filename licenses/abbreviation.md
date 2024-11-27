@@ -2,7 +2,7 @@
 - CHAOSS: Community Health Analytics Open Source Software (社区健康分析开源软件)
 - FDL: GNU Free Documentation License (GNU自由文档版权)
 - FUD: Fear, Uncertainty and Doubt (恐惧、不确定性和质疑)
-- GPL: General Public License ()
+- GPL: General Public License (GNU 通用公共许可证)
 - LGPL: GNU Library or 'Lesser' General Public License (GNU 宽通用公共许可证)
 - OIN: Open Invention Network (开放发明网络)
 - SPDX: Software Package Data Exchange (软件包数据交换)
