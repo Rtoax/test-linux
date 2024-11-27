@@ -1,13 +1,16 @@
+# SPDX-License-Identifier: GPL-3.0
 SHELL = bash
 
 # Test vDSO linux-vdso.so.1
-# Rong Tao 2022.05.10
 #
 # See linux:/arch/x86/entry/vdso/Makefile
 #VDSO_LDFLAGS_vdso.lds = -m elf_x86_64 -soname linux-vdso.so.1 --no-undefined \
 #		-z max-page-size=4096 
 
-TARGET := main-custom.out main-kernel.out
+TARGET :=
+TARGET += main-custom
+TARGET += main-kernel
+
 
 all: ${TARGET}
 
@@ -30,11 +33,11 @@ libvdso64_1.so:
 	chmod +x libvdso64_1.so
 	ln -s libvdso64_1.so linux-vdso.so.2
 
-main-custom.out: libvdso_custom.so
-	gcc main.c -o main-custom.out -L. -lvdso_custom -DCUSTOM_VDSO
+main-custom: libvdso_custom.so
+	gcc main.c -o main-custom -L. -lvdso_custom -DCUSTOM_VDSO
 
-main-kernel.out: libvdso64_1.so
-	gcc main.c -o main-kernel.out -L. -lvdso64_1 -DKERNEL_VDSO64
+main-kernel: libvdso64_1.so
+	gcc main.c -o main-kernel -L. -lvdso64_1 -DKERNEL_VDSO64
 
 clean:
 	rm -f ${TARGET} *.so linux-vdso.so*
