@@ -12,6 +12,7 @@ int ping(struct xdp_md *ctx)
 	void *data = (void *)(long)ctx->data;
 	void *data_end = (void *)(long)ctx->data_end;
 	struct ethhdr *ethhdr = data;
+	static unsigned long icmp_count = 0;
 
 	if (data + sizeof(struct ethhdr) > data_end) {
 		bpf_printk("Not ether header");
@@ -25,14 +26,15 @@ int ping(struct xdp_md *ctx)
 	}
 
 	switch (protocol) {
-	case 1: /* icmp */
-		bpf_printk("Hello ping");
-		// return XDP_DROP;
+	case IPPROTO_ICMP: /* 1 */
+		bpf_printk("Hello icmp %ld", icmp_count++);
+		if (icmp_count % 2)
+			return XDP_DROP;
 		break;
-	case 6: /* tcp */
+	case IPPROTO_TCP: /* 6 */
 		bpf_printk("Hello tcp");
 		break;
-	case 17: /* udp */
+	case IPPROTO_UDP: /* 17 */
 		bpf_printk("Hello udp");
 		break;
 	}
