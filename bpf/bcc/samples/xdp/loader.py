@@ -30,6 +30,7 @@ packetcnt = b.get_table("packetcnt")
 
 prev = [0] * 256
 print("Printing packet counts per IP protocol-number, hit CTRL+C to stop")
+print("For detach: $ sudo bpftool net detach xdp dev %s" % device)
 while 1:
     try:
         for k in packetcnt.keys():

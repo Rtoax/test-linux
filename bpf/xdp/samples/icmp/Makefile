@@ -31,6 +31,7 @@ vmlinux.h:
 install: $(BPF_OBJ)
 	sudo bpftool prog load $(BPF_OBJ) /sys/fs/bpf/$(TARGET)
 	sudo bpftool net attach xdp pinned /sys/fs/bpf/$(TARGET) dev ${IF}
+	sudo bpftool net show
 
 uninstall:
 	sudo bpftool net detach xdp dev ${IF}
