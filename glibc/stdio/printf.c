@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <unistd.h>
 #include <inttypes.h>
 
 #if defined(M32)
@@ -14,6 +15,7 @@ int main(void)
 {
 	int i;
 
+	printf("pid %d\n", getpid());
 	printf("printf addr %p\n", &printf);
 
 	for (i = 0; i <= strlen(STR); i++)
