@@ -67,6 +67,7 @@ help:
 	@echo >&2 -e "*** make [clean|cleanuser|cleankernel|cleangit]"
 	@echo >&2 -e "***"
 	@echo >&2 -e "*** make archive"
+	@echo >&2 -e "*** make config"
 	@echo >&2 -e "*** make check"
 	@echo >&2 -e "*** make installdeps"
 	@echo >&2 -e "*** make docker"
@@ -164,11 +165,11 @@ $(SUB_kernel_DIR_TEST):
 	$(call make_test,K,$(@:%_test=%))
 
 define installdeps
-	bash scripts/install-deps.sh --all --allowerasing
+	${SHELL} scripts/install-deps.sh --all --allowerasing
 endef
 
 define builddocker
-	bash scripts/build-docker.sh
+	${SHELL} scripts/build-docker.sh
 endef
 
 installdeps:
@@ -180,13 +181,21 @@ docker:
 version:
 	@echo "v${VERSION}.${PATCHLEVEL}.${SUBLEVEL}${EXTRAVERSION} (${NAME})"
 
+define git_config
+	${SHELL} scripts/git/config.sh
+endef
+
 define git_archive
-	bash scripts/git-archive
+	${SHELL} scripts/git-archive
 endef
 
 archive:
 	@echo "=== archive"
 	$(call git_archive)
+
+config:
+	@echo "=== config"
+	$(call git_config)
 
 define check_links
 	@echo "Check invalid symbol link start"

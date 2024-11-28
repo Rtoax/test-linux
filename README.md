@@ -12,6 +12,12 @@ You must clone this repo under **Linux(UNIX like)** system. Because there are lo
 
 It may be that the repository will contain **desktop-related** test code, such as **GNOME**, but that is not the main purpose of the repository. Perhaps researching the **GUI** is also the purpose of this repository, such as **GTK**.
 
+# Configurate
+
+```
+$ make config
+```
+
 
 # Linux Kernel Git
 
