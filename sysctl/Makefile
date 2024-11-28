@@ -3,7 +3,7 @@ SHELL = bash
 
 sub-dir := sysctl.d
 
-SUB_MAKE_ARG :=
+MAKEFLAGS :=
 
 sub-dir-build := $(sub-dir:=.build)
 sub-dir-clean := $(sub-dir:=.clean)
@@ -18,7 +18,7 @@ clean: $(sub-dir-clean)
 
 $(sub-dir-build):
 	@echo -e "\033[1;32m [sub-dir] build $(@)\033[m"
-	@make -C $(@:.build=) ${SUB_MAKE_ARG} CC=$(CC) CXX=$(CXX)
+	@make -C $(@:.build=) ${MAKEFLAGS} CC=$(CC) CXX=$(CXX)
 $(sub-dir-clean):
 	@echo -e "\033[1;32m [sub-dir] clean $(@)\033[m"
-	@make -C $(@:.clean=) ${SUB_MAKE_ARG} clean
+	@make -C $(@:.clean=) ${MAKEFLAGS} clean
