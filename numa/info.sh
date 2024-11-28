@@ -5,7 +5,10 @@ set -e
 dmesg_node_mem_raw()
 {
 	sudo dmesg | \
-		grep -oe "node[[:space:]]\{1,\}[[:digit:]]\{1,2\}: \[mem 0x[0-9a-fA-F]\{16\}-0x[0-9a-fA-F]\{16\}\]"
+		grep -oe "node[[:space:]]\{1,\}[[:digit:]]\{1,2\}: \[mem 0x[0-9a-fA-F]\{16\}-0x[0-9a-fA-F]\{16\}\]" || {
+		echo >&2 "ERROR: Not found numa mem info in dmesg!!!"
+		exit 1
+	}
 }
 
 dmesg_node_mem_pure()
