@@ -1,14 +1,19 @@
 // SPDX-License-Identifier: GPL-3.0
+#ifndef _GNU_SOURCE
+#define _GNU_SOURCE
+#endif
 #include <stdio.h>
 #include <fcntl.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include <sched.h>
 #include <malloc.h>
 #include <string.h>
 #include <assert.h>
 #include <sys/types.h>
 #include <unistd.h>
 #include <sys/mman.h>
+#include <numa.h>
 
 #if defined(HAVE_LIB_TEST_LINUX_C)
 #include "proc.h"
@@ -124,28 +129,33 @@ int main(int argc, char *argv[])
 
 #if defined(HAVE_LIB_TEST_LINUX_C)
 	unsigned long va, pa;
+	int cpu = sched_getcpu();
+	int numa = numa_node_of_cpu(cpu);
 
-	fprintf(stderr, "\033[1;31mTest $ sudo numactl --membind=2 %s\033[m\n",
+	fprintf(stderr, "\033[1;31mTest\n");
+	fprintf(stderr, " $ sudo numactl --membind=2 --cpunodebind=2 %s\033[m\n",
 		argv[0]);
+
+	printf("Run on CPU %d, NUMA %d\n", cpu, numa);
 
 	va = proc_maps_libc_text_addr();
 	pa = virt_to_phy(va);
-	printf("libc text addr : %lx (phy %lx, numa %d)\n",
+	printf("libc text : %lx (phy %lx, numa %d)\n",
 		va, pa, phy_addr_numa(pa));
 
 	va = proc_maps_libc_data_addr();
 	pa = virt_to_phy(va);
-	printf("libc data addr : %lx (phy %lx, numa %d)\n",
+	printf("libc data : %lx (phy %lx, numa %d)\n",
 		va, pa, phy_addr_numa(pa));
 
 	va = proc_maps_exec_text_addr();
 	pa = virt_to_phy(va);
-	printf("exec text addr : %lx (phy %lx, numa %d)\n",
+	printf("exec text : %lx (phy %lx, numa %d)\n",
 		va, pa, phy_addr_numa(pa));
 
 	va = proc_maps_exec_data_addr();
 	pa = virt_to_phy(va);
-	printf("exec data addr : %lx (phy %lx, numa %d)\n",
+	printf("exec data : %lx (phy %lx, numa %d)\n",
 		va, pa, phy_addr_numa(pa));
 #endif
 
