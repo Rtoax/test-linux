@@ -114,7 +114,7 @@ int dev_mem_read(int memfd, unsigned long phyaddr, void *to_buf, size_t len)
 }
 
 #if defined(HAVE_MAIN)
-int main(void)
+int main(int argc, char *argv[])
 {
 	int i, memfd, ret;
 	char *buf;
@@ -124,6 +124,9 @@ int main(void)
 
 #if defined(HAVE_LIB_TEST_LINUX_C)
 	unsigned long va, pa;
+
+	fprintf(stderr, "\033[1;31mTest $ sudo numactl --membind=2 %s\033[m\n",
+		argv[0]);
 
 	va = proc_maps_libc_text_addr();
 	pa = virt_to_phy(va);
