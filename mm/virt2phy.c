@@ -119,24 +119,11 @@ int dev_mem_read(int memfd, unsigned long phyaddr, void *to_buf, size_t len)
 }
 
 #if defined(HAVE_MAIN)
-int main(int argc, char *argv[])
-{
-	int i, memfd, ret;
-	char *buf;
-	size_t buf_len;
-	unsigned long phy;
-	char buffer[1024];
-
 #if defined(HAVE_LIB_TEST_LINUX_C)
+void test_mapping_phy_addr(void)
+{
 	unsigned long va, pa;
-	int cpu = sched_getcpu();
-	int numa = numa_node_of_cpu(cpu);
 
-	fprintf(stderr, "\033[1;31mTest\n");
-	fprintf(stderr, " $ sudo numactl --membind=2 --cpunodebind=2 %s\033[m\n",
-		argv[0]);
-
-	printf("Run on CPU %d, NUMA %d\n", cpu, numa);
 
 	va = proc_maps_libc_text_addr();
 	pa = virt_to_phy(va);
@@ -157,7 +144,28 @@ int main(int argc, char *argv[])
 	pa = virt_to_phy(va);
 	printf("exec data : %lx (phy %lx, numa %d)\n",
 		va, pa, phy_addr_numa(pa));
+}
+#else
+#define test_mapping_phy_addr()
 #endif
+
+int main(int argc, char *argv[])
+{
+	int i, memfd, ret;
+	char *buf;
+	size_t buf_len;
+	unsigned long phy;
+	char buffer[1024];
+	int cpu = sched_getcpu();
+	int numa = numa_node_of_cpu(cpu);
+
+	fprintf(stderr, "\033[1;31mTest\n");
+	fprintf(stderr, " $ sudo numactl --membind=2 --cpunodebind=2 %s\033[m\n",
+		argv[0]);
+
+	printf("Run on CPU %d, NUMA %d\n", cpu, numa);
+
+	test_mapping_phy_addr();
 
 	memfd = open_dev_mem();
 
