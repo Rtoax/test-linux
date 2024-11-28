@@ -21,20 +21,20 @@ tracepoint:syscalls:sys_enter_mmap
 	$flags = args->flags;
 
 	time("%H:%M:%S ");
-	printf("%-8d %-16s %-8lx %s%s%s%s ", pid, comm, args->len / 1024,
+	printf("%-8d %-16s %-8lx ", pid, comm, args->len / 1024);
+	printf("%s%s%s%s ",
 		$flags & MAP_PRIVATE ? "p" : ($flags & MAP_SHARED ? "s" : "-"),
 		$prot & PROT_READ ? "r" : "-",
 		$prot & PROT_WRITE ? "w" : "-",
 		$prot & PROT_EXEC ? "x" : "-");
-	printf(" %s%s%s%s%s%s%s%9s",
-		$flags & MAP_PRIVATE ? "P" : "-",
-		$flags & MAP_SHARED ? "S" : "-",
-		$flags & MAP_SHARED_VALIDATE ? "s" : "-",
-		$flags & MAP_ANONYMOUS ? "A" : "-",
-		$flags & MAP_TYPE ? "T" : "-",
-		$flags & MAP_FILE ? "F" : "-",
-		$flags & MAP_FIXED ? "X" : "-",
-		"");
+	printf(" %s", $flags & MAP_PRIVATE ? "P" : "-");
+	printf("%s", $flags & MAP_SHARED ? "S" : "-");
+	printf("%s", $flags & MAP_SHARED_VALIDATE ? "s" : "-");
+	printf("%s", $flags & MAP_ANONYMOUS ? "A" : "-");
+	printf("%s", $flags & MAP_TYPE ? "T" : "-");
+	printf("%s", $flags & MAP_FILE ? "F" : "-");
+	printf("%s", $flags & MAP_FIXED ? "X" : "-");
+	printf("%9s", "");
 
 	@start[tid] = nsecs;
 }
