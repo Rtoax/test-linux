@@ -2,6 +2,7 @@
 SHELL = bash
 
 include compiler.mk
+include libc.mk
 include success.mk
 include wow.mk
 include tlbuild.mk
