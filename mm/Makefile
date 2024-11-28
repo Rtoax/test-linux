@@ -26,6 +26,9 @@ CFLAGS_virt2phy += -DHAVE_LIB_TEST_LINUX_NUMA=1
 
 SUB_MAKE_ARG :=
 
+CFLAGS += -g
+export CFLAGS
+
 ifdef PIE
   CFLAGS += -pie -fPIE
   LDFLAGS += -pie -fPIE
