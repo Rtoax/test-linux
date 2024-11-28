@@ -17,7 +17,7 @@ int print_numa_mem(void)
 		info = &numa_mem_info[i];
 		printf("%-8d %016lx %016lx %4.4f\n",
 			info->nid, info->mem_start, info->mem_end,
-			(info->mem_end - info->mem_start) * 1.0 / GB);
+			(info->mem_end + 1 - info->mem_start) * 1.0 / GB);
 	}
 	return 0;
 }
