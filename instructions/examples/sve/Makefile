@@ -1,5 +1,7 @@
+# SPDX-License-Identifier: GPL-3.0
 SHELL = bash
-CC = gcc
+
+CC := gcc
 CFLAGS :=
 RUN_PFX :=
 TARGETS :=
@@ -28,7 +30,7 @@ ifdef STATIC
 endif
 
 # All CC set done here
-include ../../../scripts/check_compiler_option.mk
+include ../../../scripts/compiler.mk
 feature-sve2 := $(findstring 1,$(call check_compiler_option,$(CC),-march=armv8-a+sve+sve2))
 
 ifeq (${feature-sve2},1)

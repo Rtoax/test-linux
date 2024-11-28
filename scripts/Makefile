@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
 SHELL = bash
 
-include check_compiler_option.mk
+include compiler.mk
 include success.mk
 include wow.mk
 include tlbuild.mk

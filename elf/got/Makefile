@@ -3,7 +3,7 @@ SHELL = bash
 
 CC := gcc
 
-include ../../scripts/check_compiler_option.mk
+include ../../scripts/compiler.mk
 
 TARGETS :=
 TARGETS += _GLOBAL_OFFSET_TABLE_

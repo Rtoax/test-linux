@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
 SHELL = bash
 
-include ../../../../scripts/check_compiler_option.mk
+include ../../../../scripts/compiler.mk
 
 TARGETS :=
 TARGETS_O :=

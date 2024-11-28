@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0
 SHELL = bash
 
 TARGETS :=
@@ -13,7 +14,7 @@ CC = gcc
 CFLAGS := -Werror -Wall
 CFLAGS += -Wstrict-prototypes
 
-include ../../scripts/check_compiler_option.mk
+include ../../scripts/compiler.mk
 
 pac-ret := $(findstring 1,$(call check_compiler_option,$(CC),-mbranch-protection=pac-ret))
 
