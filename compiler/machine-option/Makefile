@@ -29,7 +29,7 @@ CFLAGS_march-armv8.3-a := -march=armv8.3-a
 build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
-include ../../TLbuild
+include ../../tlbuild.mk
 
 # FIXME: HygonGenuine not support x86-64
 ifneq ($(CPU_VENDOR_ID),HygonGenuine)

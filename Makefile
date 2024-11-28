@@ -43,7 +43,7 @@ export VERSION PATCHLEVEL SUBLEVEL TEST_LINUX_VERSION
 TLCONFIG_CONFIG ?= .config
 export TLCONFIG_CONFIG
 
-include $(ABS_SRCTREE)/scripts/TLbuild.include
+include $(ABS_SRCTREE)/scripts/tlbuild.include
 
 # Default to display help information
 help:

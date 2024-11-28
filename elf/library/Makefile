@@ -64,7 +64,7 @@ CFLAGS_main-a-ctors += -DCALL_FUNC_IN_OBJ=1
 build: ${TARGETS_SO} ${TARGETS_A} ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
-include ../../TLbuild
+include ../../tlbuild.mk
 
 # FIXME: HygonGenuine not support x86-64
 ifneq ($(CPU_VENDOR_ID),HygonGenuine)

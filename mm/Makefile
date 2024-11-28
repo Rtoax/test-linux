@@ -55,7 +55,7 @@ all: ${TARGETS_LIBA} ${TARGETS} $(sub-dir-build)
 virt2phy: virt2phy.o libtest-linux-c.a libtest-linux-numa.a
 libtest-linux-mm.a: virt2phy.obj
 
-include ../TLbuild
+include ../tlbuild.mk
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
