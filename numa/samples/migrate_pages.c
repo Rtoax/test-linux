@@ -1,26 +1,50 @@
+#ifndef _GNU_SOURCE
+#define _GNU_SOURCE
+#endif
 #include <stdio.h>
 #include <numa.h>
 #include <numaif.h>
 #include <errno.h>
 #include <unistd.h>
+#include <sched.h>
 
 int main(void)
 {
-	int ret;
+	long ret, numa, cpu, size;
 	char *str;
-	unsigned long old_nodes = 0;
-	unsigned long new_nodes = 1;
+	int nr_nodes;
+	unsigned long old_nodes;
+	unsigned long new_nodes;
 
-	str = numa_alloc(numa_pagesize());
-	printf("numa_max_node = %d\n", numa_max_node());
+	cpu = sched_getcpu();
+	numa = numa_node_of_cpu(cpu);
+	nr_nodes = numa_max_node();
 
-	ret = migrate_pages(getpid(), numa_max_node(), &old_nodes, &new_nodes);
-	printf("migrate_pages ret %d\n", ret);
-	perror("migrate_pages: ");
-	printf("EPERM = %d\n", EPERM);
-	printf("ESRCH = %d\n", ESRCH);
+	size = numa_pagesize() * 64;
 
-	numa_free(str, numa_pagesize());
+	if (nr_nodes == 1) {
+		fprintf(stderr, "WARNING: Only one NUMA on this system.\n");
+		exit(0);
+	}
+
+	printf("NUMA number %d, run on cpu %ld (numa %ld)\n", nr_nodes, cpu,
+		numa);
+
+	str = numa_alloc(size);
+
+	/**
+	 * Migrate pages to that NUMA i run on.
+	 */
+	old_nodes = 0;
+	new_nodes = numa;
+
+	ret = migrate_pages(getpid(), nr_nodes, &old_nodes, &new_nodes);
+	if (ret > 0)
+		printf("%ld pages could not be moved.\n", ret);
+	else
+		perror("migrate_pages");
+
+	numa_free(str, size);
 
 	return 0;
 }
