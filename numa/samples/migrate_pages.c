@@ -10,7 +10,7 @@
 
 int main(void)
 {
-	long ret, numa, cpu, size;
+	long i, ret, numa, cpu, size;
 	char *str;
 	int nr_nodes;
 	unsigned long old_nodes;
@@ -20,7 +20,7 @@ int main(void)
 	numa = numa_node_of_cpu(cpu);
 	nr_nodes = numa_max_node();
 
-	size = numa_pagesize() * 64;
+	size = numa_pagesize() * 1024;
 
 	if (nr_nodes == 1) {
 		fprintf(stderr, "WARNING: Only one NUMA on this system.\n");
@@ -31,6 +31,10 @@ int main(void)
 		numa);
 
 	str = numa_alloc(size);
+
+	/* Page fault */
+	for (i = 0; i < size; i += numa_pagesize())
+		str[i] = 'a';
 
 	/**
 	 * Migrate pages to that NUMA i run on.
