@@ -1,4 +1,7 @@
+# SPDX-License-Identifier: GPL-3.0
 SHELL = bash
+
+include ../../../../scripts/check_compiler_option.mk
 
 TARGETS :=
 TARGETS_O :=
@@ -15,6 +18,11 @@ CFLAGS_PIE :=
 LDFLAGS_PIE :=
 
 TARGETS += R_386_32
+
+ifneq (${CC_M32},1)
+  $(warning ${CC} not support -m32)
+  TARGETS :=
+endif
 
 CFLAGS += -m32
 LDFLAGS += -m32
