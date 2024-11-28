@@ -17,7 +17,6 @@ endif
 
 MAKEFLAGS = --silent --no-print-directory
 MKFILE_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))
-GIT_TOPLEVEL := $(shell git rev-parse --show-toplevel || :)
 
 USER_FAILED_LOG := $(shell pwd)/failed-user.log
 KERNEL_FAILED_LOG := $(shell pwd)/failed-kernel.log
@@ -43,15 +42,20 @@ export VERSION PATCHLEVEL SUBLEVEL TEST_LINUX_VERSION
 TLCONFIG_CONFIG ?= .config
 export TLCONFIG_CONFIG
 
-include $(ABS_SRCTREE)/scripts/tlbuild.mk
 
+.PHONY: build
 # Default to display help information
+build: help
+
+include $(ABS_SRCTREE)/scripts/tlbuild.mk
+include tlbuild.mk
+
 help:
 	@echo >&2 -e "***"
 	$(call tl_ascii_logo1,*** )
 	@echo >&2 -e "***"
 	@echo >&2 -e "*** ABS_SRCTREE ${ABS_SRCTREE}"
-	@echo >&2 -e "*** GIT_TOPLEVEL ${GIT_TOPLEVEL}"
+	@echo >&2 -e "*** GIT_TOPDIR ${GIT_TOPDIR}"
 	@echo >&2 -e "*** USER_FAILED_LOG ${USER_FAILED_LOG}"
 	@echo >&2 -e "*** KERNEL_FAILED_LOG ${KERNEL_FAILED_LOG}"
 	@echo >&2 -e "*** TEST_LINUX_VERSION ${TEST_LINUX_VERSION}"

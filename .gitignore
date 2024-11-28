@@ -173,3 +173,6 @@ vmlinux.h
 
 # Patches
 *.patch
+
+# Config
+.config
