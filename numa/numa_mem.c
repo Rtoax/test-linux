@@ -33,7 +33,7 @@ int phy_addr_numa(unsigned long paddr)
 
 	for (i = 0; i < ARRAY_SIZE(numa_mem_info); i++) {
 		info = &numa_mem_info[i];
-		if (paddr >= info->mem_start && paddr < info->mem_end) {
+		if (paddr >= info->mem_start && paddr <= info->mem_end) {
 			nid = info->nid;
 			break;
 		}
