@@ -4,7 +4,7 @@ SHELL = bash
 include check_compiler_option.mk
 include success.mk
 include wow.mk
-include tlbuild.include
+include tlbuild.mk
 
 CC := gcc
 
