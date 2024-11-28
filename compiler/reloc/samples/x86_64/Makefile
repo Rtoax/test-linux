@@ -41,7 +41,6 @@ ifneq ($(shell uname -m),x86_64)
 endif
 
 AS_ARGS += --64
-CFLAGS += -march=native
 
 # Debian 12 default compile PIE EXEC, Fedora40 default compile no-PIE EXEC.
 # Default no-PIE in my case.

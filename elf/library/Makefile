@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0
 SHELL = bash
 
 TARGETS :=
@@ -25,7 +26,6 @@ CFLAGS :=
 LDFLAGS :=
 
 CFLAGS += -DDEBUG=1 -O0 -g -ggdb
-CFLAGS += -march=native
 
 CFLAGS_PIE :=
 LDFLAGS_PIE :=
@@ -63,6 +63,15 @@ CFLAGS_main-a-ctors += -DCALL_FUNC_IN_OBJ=1
 .PHONY: build
 build: ${TARGETS_SO} ${TARGETS_A} ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
+
+include ../../TLbuild
+
+# FIXME: HygonGenuine not support x86-64
+ifneq ($(CPU_VENDOR_ID),HygonGenuine)
+  CFLAGS += -march=native
+else
+  $(warning CPU Vendor ID: ${CPU_VENDOR_ID})
+endif
 
 libc: libc.o
 main: main.o libfoo.so

@@ -24,11 +24,19 @@ else
 endif
 
 
-CFLAGS_march-native := -march=native
 CFLAGS_march-armv8.3-a := -march=armv8.3-a
 
 build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
+
+include ../../TLbuild
+
+# FIXME: HygonGenuine not support x86-64
+ifneq ($(CPU_VENDOR_ID),HygonGenuine)
+  CFLAGS_march-native := -march=native
+else
+  $(warning CPU Vendor ID: ${CPU_VENDOR_ID})
+endif
 
 march-native: march-native.o
 march-armv8.3-a: march-armv8.3-a.o
