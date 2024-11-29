@@ -22,7 +22,7 @@
 /setregid
 /setpgid
 /setpgid-fork
-/setuid
+/[s|g]etuid
 /seteuid
 /setreuid
 /setpgrp

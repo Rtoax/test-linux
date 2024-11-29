@@ -72,7 +72,7 @@ TARGETS += gettid
 TARGETS += getpid getpgid
 TARGETS += setpgid setpgid-fork
 TARGETS += setgid setegid setregid
-TARGETS += setuid seteuid setreuid
+TARGETS += getuid setuid seteuid setreuid
 TARGETS += setpgrp
 TARGETS += tee tee2
 ifneq ($(wildcard /usr/include/linux/close_range.h),)
@@ -176,6 +176,7 @@ setegid: setegid.o
 setregid: setregid.o
 setpgid: setpgid.o
 setpgid-fork: setpgid-fork.o
+getuid: getuid.o
 setuid: setuid.o
 seteuid: seteuid.o
 setreuid: setreuid.o

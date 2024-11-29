@@ -132,8 +132,10 @@ void test_mapping_phy_addr(void)
 		"PHY_ADDR", "MEM_NUMA", "CPU", "CPU_NUMA");
 
 #define PR(name, va, pa, numa) do {					\
-		if (numa != virt_addr_numa(va)) {			\
-			printf("FATAL: get numa conflict\n");		\
+		int ____n = virt_addr_numa(va);				\
+		if (numa != ____n) {					\
+			printf("FATAL: get numa conflict(%d!=%d)\n",	\
+				numa, ____n);				\
 			abort();					\
 		}							\
 		printf("%-16s %-16lx %-16lx %-8d %-8d %-8d\n",		\
@@ -168,6 +170,10 @@ int main(int argc, char *argv[])
 	unsigned long phy;
 	char buffer[1024];
 
+	if (getuid() != 0) {
+		fprintf(stderr, "ERROR: must run with root (sudo).\n");
+		exit(1);
+	}
 
 	fprintf(stderr, "\033[1;32mTest\n");
 	fprintf(stderr, " $ sudo numactl --membind=2 --cpunodebind=2 %s\033[m\n",
