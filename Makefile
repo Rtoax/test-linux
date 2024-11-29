@@ -20,6 +20,8 @@ MAKEFLAGS += --no-print-directory
 export MAKEFLAGS
 MKFILE_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))
 
+GIT_CONFIG_CORE_HOOKSPATH := $(shell git config get core.hooksPath || true)
+
 USER_FAILED_LOG := $(shell pwd)/failed-user.log
 KERNEL_FAILED_LOG := $(shell pwd)/failed-kernel.log
 export USER_FAILED_LOG
@@ -52,12 +54,20 @@ build: help
 include $(ABS_SRCTREE)/scripts/tlbuild.mk
 include tlbuild.mk
 
+# If in git-tree, need check something already config.
+ifneq (${GIT_TOPDIR},)
+  ifneq (${GIT_CONFIG_CORE_HOOKSPATH},scripts/git/hooks/)
+    $(error You MUST run 'make config' first!!)
+  endif
+endif
+
 help:
 	@echo >&2 -e "***"
 	$(call tl_ascii_logo1,*** )
 	@echo >&2 -e "***"
 	@echo >&2 -e "*** ABS_SRCTREE ${ABS_SRCTREE}"
 	@echo >&2 -e "*** GIT_TOPDIR ${GIT_TOPDIR}"
+	@echo >&2 -e "***    core.hooksPath = ${GIT_CONFIG_CORE_HOOKSPATH}"
 	@echo >&2 -e "*** USER_FAILED_LOG ${USER_FAILED_LOG}"
 	@echo >&2 -e "*** KERNEL_FAILED_LOG ${KERNEL_FAILED_LOG}"
 	@echo >&2 -e "*** TEST_LINUX_VERSION ${TEST_LINUX_VERSION}"

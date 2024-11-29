@@ -3,7 +3,7 @@ SHELL = bash
 
 CPU_VENDOR_ID=$(shell lscpu | grep ^Vendor | awk '{print $$3}')
 
-GIT_TOPDIR := $(shell git rev-parse --show-toplevel || :)
+GIT_TOPDIR := $(shell git rev-parse --show-toplevel 2>/dev/null || :)
 
 LIBS_TOPDIR := $(GIT_TOPDIR)/libs/
 NUMA_TOPDIR := $(GIT_TOPDIR)/numa/
