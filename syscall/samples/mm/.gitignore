@@ -9,8 +9,5 @@
 /pkey_mprotect
 /pkey_alloc
 /pkey_free
-/mbind
-/migrate_pages
 /process_madvise
 /process_mrelease
-/get_mempolicy

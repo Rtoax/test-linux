@@ -1,1 +1,0 @@
-../../../numa/samples/migrate_pages.c
