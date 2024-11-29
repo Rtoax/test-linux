@@ -1,6 +1,7 @@
+# SPDX-License-Identifier: GPL-3.0
 SHELL = bash
 
-
+TARGETS :=
 TARGETS += madvise-MADV_MERGEABLE
 TARGETS += madvise-MADV_HUGEPAGE
 
@@ -9,14 +10,12 @@ CXX = g++
 
 CFLAGS := -Werror -Wall -D_GNU_SOURCE
 CFLAGS += -Wstrict-prototypes
-CFLAGS += -I../../
 CFLAGS += -pthread
 CFLAGS += -O0
 
 build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
-# Add more object.o file
 madvise-MADV_MERGEABLE: madvise-MADV_MERGEABLE.o
 madvise-MADV_HUGEPAGE: madvise-MADV_HUGEPAGE.o
 

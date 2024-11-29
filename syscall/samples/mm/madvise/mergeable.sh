@@ -4,7 +4,7 @@ make
 
 dd if=/dev/zero of=ksm.dat bs=1M count=100
 
-sudo sh -c 'echo 1 > /sys/kernel/mm/ksm/run'
+echo 1 | sudo tee /sys/kernel/mm/ksm/run
 
 ./madvise-MADV_MERGEABLE ksm.dat &
 
