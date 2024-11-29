@@ -13,3 +13,4 @@
 /migrate_pages
 /process_madvise
 /process_mrelease
+/get_mempolicy
