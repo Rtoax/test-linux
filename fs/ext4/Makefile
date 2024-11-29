@@ -1,6 +1,5 @@
 SHELL = bash
 
-
 .PHONY: build
 build:
 	bash mkfs.ext4.sh

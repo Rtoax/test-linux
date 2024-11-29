@@ -15,7 +15,9 @@ ifdef M32
   SUB_MAKE_USER_ARGS += M32=1
 endif
 
-MAKEFLAGS = --silent --no-print-directory
+MAKEFLAGS += --silent
+MAKEFLAGS += --no-print-directory
+export MAKEFLAGS
 MKFILE_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))
 
 USER_FAILED_LOG := $(shell pwd)/failed-user.log

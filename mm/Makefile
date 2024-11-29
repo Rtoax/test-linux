@@ -42,7 +42,6 @@ endif
 MAKEFLAGS :=
 
 CFLAGS += -g
-export CFLAGS
 
 ifdef DEBUG
   CFLAGS += -DDEBUG=1
@@ -103,7 +102,7 @@ clean: $(sub-dir-clean)
 
 $(sub-dir-build):
 	@echo -e "\033[1;32m [sub-dir] build $(@)\033[m"
-	make -C $(@:.build=) ${MAKEFLAGS}
+	make -C $(@:.build=) MAKEFLAGS=${MAKEFLAGS}
 $(sub-dir-clean):
 	@echo -e "\033[1;32m [sub-dir] clean $(@)\033[m"
-	make -C $(@:.clean=) clean ${SUB_MAKE_RG}
+	make -C $(@:.clean=) clean MAKEFLAGS=${MAKEFLAGS}
