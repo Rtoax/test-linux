@@ -28,7 +28,7 @@ build: ${TARGETS}
 
 mbind: mbind.o
 migrate_pages: migrate_pages.o
-get_mempolicy: get_mempolicy.o
+get_mempolicy: get_mempolicy.o helpers.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
