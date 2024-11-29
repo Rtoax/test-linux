@@ -28,13 +28,13 @@ export USER_FAILED_LOG
 export KERNEL_FAILED_LOG
 
 include make.list
-SUB_user_DIR = $(USER_LIST)
-SUB_user_DIR_TEST := $(SUB_user_DIR:%=%_test)
-SUB_user_DIR_CLEAN := $(SUB_user_DIR:%=%_clean)
+SUB_USER_DIR = $(USER_LIST)
+SUB_USER_DIR_TEST := $(SUB_USER_DIR:%=%_test)
+SUB_USER_DIR_CLEAN := $(SUB_USER_DIR:%=%_clean)
 
-SUB_kernel_DIR = $(KERNEL_LIST)
-SUB_kernel_DIR_TEST := $(SUB_kernel_DIR:%=%_test)
-SUB_kernel_DIR_CLEAN := $(SUB_kernel_DIR:%=%_clean)
+SUB_KERN_DIR = $(KERNEL_LIST)
+SUB_KERN_DIR_TEST := $(SUB_KERN_DIR:%=%_test)
+SUB_KERN_DIR_CLEAN := $(SUB_KERN_DIR:%=%_clean)
 
 this-makefile := $(lastword $(MAKEFILE_LIST))
 ABS_SRCTREE := $(realpath $(dir $(this-makefile)))
@@ -154,26 +154,26 @@ endef
 all: default ${TLCONFIG_CONFIG}
 default: user kernel
 
-user: cleanuserlog $(SUB_user_DIR)
+user: cleanuserlog $(SUB_USER_DIR)
 	@echo "=========== User done ==========="
 	$(call printuserlog)
-$(SUB_user_DIR):
+$(SUB_USER_DIR):
 	$(call make_and_log,U,$@)
 
-kernel: cleankernellog $(SUB_kernel_DIR)
+kernel: cleankernellog $(SUB_KERN_DIR)
 	@echo "=========== Kernel done ==========="
 	$(call printkernellog)
-$(SUB_user_DIR):
-$(SUB_kernel_DIR):
+$(SUB_USER_DIR):
+$(SUB_KERN_DIR):
 	$(call make_and_log,K,$@)
 
 # Make test
 test: testuser testkernel
-testuser:$(SUB_user_DIR_TEST)
-$(SUB_user_DIR_TEST):
+testuser:$(SUB_USER_DIR_TEST)
+$(SUB_USER_DIR_TEST):
 	$(call make_test,U,$(@:%_test=%))
-testkernel:$(SUB_kernel_DIR_TEST)
-$(SUB_kernel_DIR_TEST):
+testkernel:$(SUB_KERN_DIR_TEST)
+$(SUB_KERN_DIR_TEST):
 	$(call make_test,K,$(@:%_test=%))
 
 define installdeps
@@ -233,13 +233,13 @@ clean:
 	@echo "==="
 cleanall: cleanuser cleankernel cleangit
 	@echo "=== clean all"
-cleanuser: $(SUB_user_DIR_CLEAN)
+cleanuser: $(SUB_USER_DIR_CLEAN)
 	@echo "=== clean user"
-$(SUB_user_DIR_CLEAN):
+$(SUB_USER_DIR_CLEAN):
 	$(call make_clean,U,$(@:%_clean=%))
-cleankernel: $(SUB_kernel_DIR_CLEAN)
+cleankernel: $(SUB_KERN_DIR_CLEAN)
 	@echo "=== clean kernel"
-$(SUB_kernel_DIR_CLEAN):
+$(SUB_KERN_DIR_CLEAN):
 	$(call make_clean,K,$(@:%_clean=%))
 # Clean git repo useless file and directory
 cleangit:
@@ -252,9 +252,9 @@ cleankernellog:
 	$(call cleankernellog)
 
 .PHONY: all test clean \
-	$(SUB_user_DIR) \
-	$(SUB_user_DIR_TEST) \
-	$(SUB_user_DIR_CLEAN) \
-	$(SUB_kernel_DIR) \
-	$(SUB_kernel_DIR_TEST) \
-	$(SUB_kernel_DIR_CLEAN)
+	$(SUB_USER_DIR) \
+	$(SUB_USER_DIR_TEST) \
+	$(SUB_USER_DIR_CLEAN) \
+	$(SUB_KERN_DIR) \
+	$(SUB_KERN_DIR_TEST) \
+	$(SUB_KERN_DIR_CLEAN)
