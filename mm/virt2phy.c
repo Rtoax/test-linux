@@ -27,6 +27,9 @@
 #define phy_addr_numa() (-1)
 #endif
 
+int run_on_cpu;
+int cpu_numa;
+
 /**
  * refs:
  * - https://www.kernel.org/doc/Documentation/vm/pagemap.txt
@@ -61,7 +64,9 @@ unsigned long virt_to_phy(unsigned long vaddr)
 	}
 	pfn &= 0x7fffffffffffffULL;
 
+#if defined(DEBUG)
 	fprintf(stderr, "pgsize = %ld, pfn = %lx\n", pagesize, pfn);
+#endif
 
 	close(fd);
 
@@ -124,26 +129,27 @@ void test_mapping_phy_addr(void)
 {
 	unsigned long va, pa;
 
+	printf("%-16s %-16s %-16s %-8s %-8s %-8s\n", "NAME", "VIRT_ADDR",
+		"PHY_ADDR", "MEM_NUMA", "CPU", "CPU_NUMA");
+
+#define PR(name, va, pa, numa) \
+	printf("%-16s %-16lx %-16lx %-8d %-8d %-8d\n", name, va, pa, numa, run_on_cpu, cpu_numa)
 
 	va = proc_maps_libc_text_addr();
 	pa = virt_to_phy(va);
-	printf("libc text : %lx (phy %lx, numa %d)\n",
-		va, pa, phy_addr_numa(pa));
+	PR("libc text", va, pa, phy_addr_numa(pa));
 
 	va = proc_maps_libc_data_addr();
 	pa = virt_to_phy(va);
-	printf("libc data : %lx (phy %lx, numa %d)\n",
-		va, pa, phy_addr_numa(pa));
+	PR("libc data", va, pa, phy_addr_numa(pa));
 
 	va = proc_maps_exec_text_addr();
 	pa = virt_to_phy(va);
-	printf("exec text : %lx (phy %lx, numa %d)\n",
-		va, pa, phy_addr_numa(pa));
+	PR("exec text", va, pa, phy_addr_numa(pa));
 
 	va = proc_maps_exec_data_addr();
 	pa = virt_to_phy(va);
-	printf("exec data : %lx (phy %lx, numa %d)\n",
-		va, pa, phy_addr_numa(pa));
+	PR("exec data", va, pa, phy_addr_numa(pa));
 }
 #else
 #define test_mapping_phy_addr()
@@ -156,17 +162,24 @@ int main(int argc, char *argv[])
 	size_t buf_len;
 	unsigned long phy;
 	char buffer[1024];
-	int cpu = sched_getcpu();
-	int numa = numa_node_of_cpu(cpu);
+
 
 	fprintf(stderr, "\033[1;31mTest\n");
 	fprintf(stderr, " $ sudo numactl --membind=2 --cpunodebind=2 %s\033[m\n",
 		argv[0]);
 
-	printf("Run on CPU %d, NUMA %d\n", cpu, numa);
+	run_on_cpu = sched_getcpu();
+	cpu_numa = numa_node_of_cpu(run_on_cpu);
+	printf("Run on CPU %d, NUMA %d\n", run_on_cpu, cpu_numa);
 
 	test_mapping_phy_addr();
 
+/**
+ * CONFIG_STRICT_DEVMEM=y is the default kernel configuration in general,
+ * disallows to access RAM area via /dev/mem or only allows first 1MB size
+ * of RAM.
+ */
+#if !defined(CONFIG_STRICT_DEVMEM)
 	buf_len = 1024;
 
 #define BUF_STRING0	"Hello, Original!"
@@ -187,12 +200,6 @@ int main(int argc, char *argv[])
 	phy = virt_to_phy((unsigned long)buf);
 	printf("%#016lx %#016lx\n", (unsigned long)buf, phy);
 
-/**
- * CONFIG_STRICT_DEVMEM=y is the default kernel configuration in general,
- * disallows to access RAM area via /dev/mem or only allows first 1MB size
- * of RAM.
- */
-#if !defined(CONFIG_STRICT_DEVMEM)
 	memfd = open_dev_mem();
 
 	dev_mem_read(memfd, phy, buffer, strlen(BUF_STRING0));
@@ -200,10 +207,9 @@ int main(int argc, char *argv[])
 	dev_mem_write(memfd, phy, BUF_STRING1, strlen(BUF_STRING1));
 	printf("buf = %s\n", buf);
 	close(memfd);
-#endif
 
-exit:
 	free(buf);
+#endif
 
 	return 0;
 }

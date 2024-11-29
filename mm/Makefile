@@ -44,6 +44,12 @@ MAKEFLAGS :=
 CFLAGS += -g
 export CFLAGS
 
+ifdef DEBUG
+  CFLAGS += -DDEBUG=1
+  MAKEFLAGS := DEBUG=1
+endif
+
+
 ifdef PIE
   CFLAGS += -pie -fPIE
   LDFLAGS += -pie -fPIE
