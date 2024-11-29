@@ -167,8 +167,6 @@ int main(int argc, char *argv[])
 
 	test_mapping_phy_addr();
 
-	memfd = open_dev_mem();
-
 	buf_len = 1024;
 
 #define BUF_STRING0	"Hello, Original!"
@@ -189,17 +187,23 @@ int main(int argc, char *argv[])
 	phy = virt_to_phy((unsigned long)buf);
 	printf("%#016lx %#016lx\n", (unsigned long)buf, phy);
 
-#if 0
+/**
+ * CONFIG_STRICT_DEVMEM=y is the default kernel configuration in general,
+ * disallows to access RAM area via /dev/mem or only allows first 1MB size
+ * of RAM.
+ */
+#if !defined(CONFIG_STRICT_DEVMEM)
+	memfd = open_dev_mem();
+
 	dev_mem_read(memfd, phy, buffer, strlen(BUF_STRING0));
 	printf("buffer %s\n", buffer);
-#endif
 	dev_mem_write(memfd, phy, BUF_STRING1, strlen(BUF_STRING1));
-
 	printf("buf = %s\n", buf);
+	close(memfd);
+#endif
 
 exit:
 	free(buf);
-	close(memfd);
 
 	return 0;
 }

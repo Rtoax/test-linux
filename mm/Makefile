@@ -1,6 +1,8 @@
 # SPDX-License-Identifier: GPL-3.0
 SHELL = bash
 
+include /boot/config-$(shell uname -r)
+
 sub-dir := rss
 sub-dir += cache
 sub-dir += hugepage
@@ -24,6 +26,18 @@ CFLAGS_virt2phy := -DHAVE_MAIN=1
 CFLAGS_virt2phy += -DHAVE_LIB_TEST_LINUX_C=1
 CFLAGS_virt2phy += -DHAVE_LIB_TEST_LINUX_NUMA=1
 CFLAGS_virt2phy += -lnuma
+
+ifeq ($(CONFIG_DEVMEM),y)
+  $(info CONFIG_DEVMEM=y)
+  CFLAGS_virt2phy += -DCONFIG_DEVMEM=1
+endif
+# CONFIG_STRICT_DEVMEM=y is the default kernel configuration in general,
+# disallows to access RAM area via /dev/mem or only allows first 1MB size
+# of RAM.
+ifeq ($(CONFIG_STRICT_DEVMEM),y)
+  $(info CONFIG_STRICT_DEVMEM=y)
+  CFLAGS_virt2phy += -DCONFIG_STRICT_DEVMEM=1
+endif
 
 MAKEFLAGS :=
 
