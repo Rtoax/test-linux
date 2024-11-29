@@ -61,6 +61,7 @@ ifneq (${GIT_TOPDIR},)
   endif
 endif
 
+.PHONY: help
 help:
 	@echo >&2 -e "***"
 	$(call tl_ascii_logo1,*** )
@@ -151,15 +152,18 @@ define make_clean
 	@echo -e "[$(1)] Clean [$(2)] done"
 endef
 
+.PHONY: all
 all: default ${TLCONFIG_CONFIG}
 default: user kernel
 
+.PHONY: user
 user: cleanuserlog $(SUB_USER_DIR)
 	@echo "=========== User done ==========="
 	$(call printuserlog)
 $(SUB_USER_DIR):
 	$(call make_and_log,U,$@)
 
+.PHONY: kernel
 kernel: cleankernellog $(SUB_KERN_DIR)
 	@echo "=========== Kernel done ==========="
 	$(call printkernellog)
@@ -167,7 +171,7 @@ $(SUB_USER_DIR):
 $(SUB_KERN_DIR):
 	$(call make_and_log,K,$@)
 
-# Make test
+.PHONY: test
 test: testuser testkernel
 testuser:$(SUB_USER_DIR_TEST)
 $(SUB_USER_DIR_TEST):
@@ -184,12 +188,15 @@ define builddocker
 	${SHELL} scripts/build-docker.sh
 endef
 
+.PHONY: installdeps
 installdeps:
 	$(call installdeps)
 
+.PHONY: docker
 docker:
 	$(call builddocker)
 
+.PHONY: version
 version:
 	@echo "v${VERSION}.${PATCHLEVEL}.${SUBLEVEL}${EXTRAVERSION} (${NAME})"
 
@@ -201,10 +208,12 @@ define git_archive
 	${SHELL} scripts/git-archive
 endef
 
+.PHONY: archive
 archive:
 	@echo "=== archive"
 	$(call git_archive)
 
+.PHONY: config
 config:
 	@echo "=== config"
 	$(call git_config)
@@ -215,6 +224,7 @@ define check_links
 	@echo "Check invalid symbol link done"
 endef
 
+.PHONY: check
 check:
 	$(call check_links)
 
@@ -222,7 +232,7 @@ define git_clean
 	bash scripts/git-clean
 endef
 
-# Make clean
+.PHONY: clean
 clean:
 	$(call git_clean)
 	@echo "==="
