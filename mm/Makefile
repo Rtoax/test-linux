@@ -35,7 +35,7 @@ endif
 # disallows to access RAM area via /dev/mem or only allows first 1MB size
 # of RAM.
 ifeq ($(CONFIG_STRICT_DEVMEM),y)
-  $(info CONFIG_STRICT_DEVMEM=y)
+  $(warning CONFIG_STRICT_DEVMEM=y, you don't allow r/w from/to /dev/mem)
   CFLAGS_virt2phy += -DCONFIG_STRICT_DEVMEM=1
 endif
 
