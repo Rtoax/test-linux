@@ -179,7 +179,7 @@ int main(int argc, char *argv[])
  * disallows to access RAM area via /dev/mem or only allows first 1MB size
  * of RAM.
  */
-#if !defined(CONFIG_STRICT_DEVMEM)
+#if defined(CONFIG_DEVMEM) && !defined(CONFIG_STRICT_DEVMEM)
 	buf_len = 1024;
 
 #define BUF_STRING0	"Hello, Original!"
