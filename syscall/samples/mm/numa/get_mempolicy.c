@@ -12,12 +12,16 @@ int tl_numa_available(void)
 	return 0;
 }
 
-int main(void)
+int main(int argc, char *argv[])
 {
 	int ret, mode, flags;
 	unsigned long nodemask[4], maxnode;
 	char *mem;
 	size_t size;
+
+	fprintf(stderr, "\033[1;32mTest\n");
+	fprintf(stderr, " $ numactl --membind=2,3 %s\033[m\n",
+		argv[0]);
 
 	maxnode = sizeof(nodemask);
 

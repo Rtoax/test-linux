@@ -164,7 +164,7 @@ int main(int argc, char *argv[])
 	char buffer[1024];
 
 
-	fprintf(stderr, "\033[1;31mTest\n");
+	fprintf(stderr, "\033[1;32mTest\n");
 	fprintf(stderr, " $ sudo numactl --membind=2 --cpunodebind=2 %s\033[m\n",
 		argv[0]);
 

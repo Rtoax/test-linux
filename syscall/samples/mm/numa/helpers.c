@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <malloc.h>
 #include <string.h>
+#include <linux/mempolicy.h>
 #include <numaif.h>
 #include "helpers.h"
 
@@ -15,7 +16,9 @@ void print_mpol(int mpol)
 	CASE(MPOL_INTERLEAVE);
 	CASE(MPOL_LOCAL);
 	CASE(MPOL_PREFERRED_MANY);
+#if defined(MPOL_WEIGHTED_INTERLEAVE)
 	CASE(MPOL_WEIGHTED_INTERLEAVE);
+#endif
 #undef CASE
 	default: printf("Unknown\n"); break;
 	}
