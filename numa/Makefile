@@ -14,6 +14,7 @@ CFLAGS :=
 CFLAGS += -g
 
 CFLAGS_numa_mem := -DTEST_MAIN=1
+CFLAGS_numa_mem += -lnuma
 
 sub-dir-build := $(sub-dir:=.build)
 sub-dir-clean := $(sub-dir:=.clean)

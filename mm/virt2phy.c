@@ -21,10 +21,9 @@
 
 #if defined(HAVE_LIB_TEST_LINUX_NUMA)
 #include "libnuma.h"
-#endif
-
-#if !defined(HAVE_LIB_TEST_LINUX_NUMA)
+#else
 #define phy_addr_numa() (-1)
+#define virt_addr_numa() (-1)
 #endif
 
 int run_on_cpu;
@@ -132,8 +131,14 @@ void test_mapping_phy_addr(void)
 	printf("%-16s %-16s %-16s %-8s %-8s %-8s\n", "NAME", "VIRT_ADDR",
 		"PHY_ADDR", "MEM_NUMA", "CPU", "CPU_NUMA");
 
-#define PR(name, va, pa, numa) \
-	printf("%-16s %-16lx %-16lx %-8d %-8d %-8d\n", name, va, pa, numa, run_on_cpu, cpu_numa)
+#define PR(name, va, pa, numa) do {					\
+		if (numa != virt_addr_numa(va)) {			\
+			printf("FATAL: get numa conflict\n");		\
+			abort();					\
+		}							\
+		printf("%-16s %-16lx %-16lx %-8d %-8d %-8d\n",		\
+			name, va, pa, numa, run_on_cpu, cpu_numa);	\
+	} while (0)
 
 	va = proc_maps_libc_text_addr();
 	pa = virt_to_phy(va);
