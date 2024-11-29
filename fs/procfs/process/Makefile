@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0
 SHELL = bash
 
 CFLAGS :=
@@ -14,6 +15,7 @@ TARGETS += maps
 all: $(TARGETS)
 
 CFLAGS_pagemap := -DHAVE_MAIN=1
+CFLAGS_pagemap += -lnuma
 
 cmdline: cmdline.o
 environ: environ.o
