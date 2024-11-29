@@ -5,10 +5,11 @@
 #include <linux/init.h>
 #include <linux/pid.h>
 
+static int PID = 1;
+module_param(PID, int, 0660);
 
 static int __init find_pidtest_init(void)
 {
-	int PID = 1;
 	struct pid *pid;
 	struct task_struct *task;
 	bool has_task;
@@ -35,16 +36,11 @@ static int __init find_pidtest_init(void)
 	if (task) {
 		printk("PID %d task name %s\n", PID, task->comm);
 	}
-	return 0;
-}
 
-static void __exit find_pidtest_exit(void)
-{
-	printk("find_pidtest_exit.\n");
+	return -EINVAL;
 }
 
 module_init(find_pidtest_init);
-module_exit(find_pidtest_exit);
 
 MODULE_AUTHOR("Rong Tao");
 MODULE_LICENSE("GPL");
