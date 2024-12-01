@@ -1,4 +1,7 @@
+# SPDX-License-Identifier: GPL-3.0
 SHELL = bash
+
+include ../scripts/tlbuild.mk
 
 sub-dir := bcc
 sub-dir += bpftrace
@@ -12,6 +15,7 @@ sub-dir-clean := $(sub-dir:=.clean)
 
 .PHONY: build
 build: $(sub-dir-build)
+	$(call tl_ascii_logo_ebpf_bee)
 
 .PHONY: clean
 clean: $(sub-dir-clean)
