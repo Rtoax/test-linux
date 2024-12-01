@@ -15,7 +15,7 @@ sub-dir-clean := $(sub-dir:=.clean)
 
 .PHONY: build
 build: $(sub-dir-build)
-	$(call tl_ascii_logo_ebpf_bee)
+	$(call tl_ascii_logo_ebpf_bee_summit_2021)
 
 .PHONY: clean
 clean: $(sub-dir-clean)

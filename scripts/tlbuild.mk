@@ -103,7 +103,7 @@ G=${ANSI_GRAY}${ANSI_REVE}
 C=${ANSI_CYAN}${ANSI_REVE}
 R=${ANSI_REST}
 
-define tl_ascii_logo_ebpf_bee
+define tl_ascii_logo_ebpf_bee_summit_2021
 @echo -e "                     ${w}.####-${R}                ${b}.+@@@@-${R}"
 @echo -e "                     ${w}.####=${R}                ${b}.+@@@@-${R}"
 @echo -e "                ${w}:*####${R}${b}.....${R}            ${b}@@@@@+${R}...."
