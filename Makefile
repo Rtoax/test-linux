@@ -57,7 +57,9 @@ include tlbuild.mk
 # If in git-tree, need check something already config.
 ifneq (${GIT_TOPDIR},)
   ifneq (${GIT_CONFIG_CORE_HOOKSPATH},scripts/git/hooks/)
-    $(error You MUST run 'make config' first!!)
+    ifneq ($(firstword $(MAKECMDGOALS)),config)
+      $(error You MUST run 'make config' first!!)
+    endif
   endif
 endif
 
