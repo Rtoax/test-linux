@@ -35,6 +35,7 @@ all:
 	$(call wow,PREFIX)
 	$(call tl_ascii_logo1,===)
 	$(call tl_ascii_logo2)
+	$(call tl_ebpf_bee)
 	@echo -e "  \033[1;33mDone\033[m"
 test:
 clean:
