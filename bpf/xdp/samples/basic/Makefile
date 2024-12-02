@@ -5,13 +5,18 @@ CLANG := clang
 
 TARGETS :=
 TARGETS += vmlinux.h
-TARGETS += drop.o drop.g.o
+TARGETS += drop.o
 TARGETS += proto.o
+
+ifdef DEBUG
+  TARGETS += drop.g.o
+  TARGETS += proto.g.o
+endif
 
 IF := lo
 
-CFLAGS := -Wunknown-attributes
-
+CFLAGS := -Wno-unknown-attributes
+CFLAGS += -Wno-compare-distinct-pointer-types
 
 .PHONY: build
 build: $(TARGETS)
