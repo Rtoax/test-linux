@@ -13,4 +13,8 @@ do
 		echo "FATAL: You are trying to add <$f> ar file to git-tree, see git status."
 		exit 1
 	fi
+	if [[ $(basename $f) == vmlinux.h ]]; then
+		echo "FATAL: vmlinux.h is too big, generate it with bpftool command!!!"
+		exit 1
+	fi
 done
