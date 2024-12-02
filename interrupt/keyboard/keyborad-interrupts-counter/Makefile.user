@@ -6,4 +6,4 @@ all: @{TARGETS}
 
 .PHONY : clean
 clean:
-	@rm ${TARGETS} *.o
+	@rm -f ${TARGETS} *.o

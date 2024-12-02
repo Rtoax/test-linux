@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
 		exit(1);
 	}
 
-	fprintf(stderr, "Open %s\n", event);
+	fprintf(stderr, "Open %s read %d bytes event\n", event, sizeof(ev));
 	fprintf(stderr, "Press any keyboard to see what happen!!!\n");
 
 	while (1) {
