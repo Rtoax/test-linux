@@ -7,9 +7,40 @@
 #define ETH_P_IP	0x0800		/* Internet Protocol packet	*/
 #define ETH_P_IPV6	0x86DD		/* IPv6 over bluebook		*/
 
+static __always_inline int get_dport(void *trans_data, void *data_end,
+				     u8 protocol)
+{
+	struct tcphdr *th;
+	struct udphdr *uh;
+
+	switch (protocol) {
+	case IPPROTO_TCP:
+		th = (struct tcphdr *)trans_data;
+		if (th + 1 > data_end)
+			return -1;
+		return th->dest;
+	case IPPROTO_UDP:
+		uh = (struct udphdr *)trans_data;
+		if (uh + 1 > data_end)
+			return -1;
+		return uh->dest;
+	default:
+		return 0;
+	}
+}
 
 static __always_inline int handle_ipv4(struct xdp_md *xdp)
 {
+	int dport;
+	void *data_end = (void *)(long)xdp->data_end;
+	void *data = (void *)(long)xdp->data;
+	struct iphdr *iph = data + sizeof(struct ethhdr);
+
+	if (iph + 1 > data_end)
+		return XDP_DROP;
+
+	dport = get_dport(iph + 1, data_end, iph->protocol);
+
 	return XDP_DROP;
 }
 
