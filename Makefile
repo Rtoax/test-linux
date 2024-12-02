@@ -20,7 +20,7 @@ MAKEFLAGS += --no-print-directory
 export MAKEFLAGS
 MKFILE_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))
 
-GIT_CONFIG_CORE_HOOKSPATH := $(shell git config get core.hooksPath || true)
+GIT_CONFIG_CORE_HOOKSPATH := $(shell git config get core.hooksPath 2>/dev/null || echo "UnsupportGetHooks")
 
 USER_FAILED_LOG := $(shell pwd)/failed-user.log
 KERNEL_FAILED_LOG := $(shell pwd)/failed-kernel.log
@@ -57,8 +57,12 @@ include tlbuild.mk
 # If in git-tree, need check something already config.
 ifneq (${GIT_TOPDIR},)
   ifneq (${GIT_CONFIG_CORE_HOOKSPATH},scripts/git/hooks/)
-    ifneq ($(firstword $(MAKECMDGOALS)),config)
-      $(error You MUST run 'make config' first!!)
+    ifeq (${GIT_CONFIG_CORE_HOOKSPATH},UnsupportGetHooks)
+        $(warning Git not support 'git config [get|set]'!!!)
+    else
+      ifneq ($(firstword $(MAKECMDGOALS)),config)
+        $(error You MUST run 'make config' first!!)
+      endif
     endif
   endif
 endif
