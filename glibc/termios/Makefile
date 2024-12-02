@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0
 SHELL = bash
 
 TARGETS :=
@@ -17,10 +18,8 @@ CFLAGS += -lm
 CFLAGS += -DDEBUG -O0 -g
 
 build: ${TARGETS}
-	@echo
 	@echo -e " \033[1;33m Done \033[m"
 
-# Add more object.o file
 cfsetspeed: cfsetspeed.o
 cfsetospeed: cfsetospeed.o
 cfsetispeed: cfsetispeed.o
@@ -41,7 +40,7 @@ set_input_mode: set_input_mode.o
 
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	@$(CC) $(CFLAGS) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
+	@$(CC) $(CFLAGS) -o $(@) $(^)
 
 test: ${TARGETS}
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
