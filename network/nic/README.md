@@ -37,8 +37,8 @@ NIC
 	   ^^              s0   (slot)
 	      ^            f0   (function)
 ```
-
 - enp129s0f1np1
+
 ```
 	81:00.1 Ethernet controller: xxx
 	        ^^^^^^^^   en
@@ -46,6 +46,13 @@ NIC
 	   ^^              s0   (slot)
 	      ^            f1   (function)
 ```
+
+> Q: What is np0/np1?
+> A: Different net driver version support different feature, such as devlink.
+>    You need to check:
+>    $ lspci -k -s 21:00.1
+>    $ modinfo mlx5_core
+
 
 ### MAC
 
