@@ -94,7 +94,8 @@ static __always_inline int handle_ipv4(struct xdp_md *ctx, struct iphdr *iphdr)
     return XDP_PASS;
 }
 
-int xdp_handler(struct xdp_md *ctx) {
+int xdp_handler(struct xdp_md *ctx)
+{
     void *data_end = (void *)(long)ctx->data_end;
     void *data = (void *)(long)ctx->data;
     struct ethhdr *eth = data;
