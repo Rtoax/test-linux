@@ -23,7 +23,7 @@ if device == "-1":
     print("Must specify interface with -i")
     exit()
 
-b = BPF(src_file="program.c")
+b = BPF(src_file="loader.c")
 fn = b.load_func("myprogram", BPF.XDP)
 b.attach_xdp(device, fn, 0)
 packetcnt = b.get_table("packetcnt")
