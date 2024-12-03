@@ -26,12 +26,18 @@ ifidx = ip.link_lookup(ifname=ifname)[0]
 b = BPF(text = """
 #include <uapi/linux/bpf.h>
 #include <linux/in.h>
+#include <linux/ip.h>
 #include <linux/if_ether.h>
+
+#ifndef ETH_P_IP
+#define ETH_P_IP	0x0800		/* Internet Protocol packet	*/
+#endif
 
 BPF_ARRAY(port, uint32_t, 1);
 BPF_PERCPU_ARRAY(rxcnt, long, 1);
 
-int xdp_drop(struct xdp_md *ctx) {
+static __always_inline int handle_ipv4(struct xdp_md *ctx)
+{
     int ingress_ifindex;
     uint32_t key = 0;
     uint32_t *p_idx;
@@ -52,6 +58,24 @@ int xdp_drop(struct xdp_md *ctx) {
     }
 
     return XDP_PASS;
+}
+
+int xdp_drop(struct xdp_md *ctx) {
+    void *data_end = (void *)(long)ctx->data_end;
+    void *data = (void *)(long)ctx->data;
+    struct ethhdr *eth = data;
+    __u16 h_proto;
+
+    if (eth + 1 > data_end)
+        return XDP_DROP;
+
+    h_proto = eth->h_proto;
+
+    /* Only handle ipv4 */
+    if (h_proto == bpf_htons(ETH_P_IP))
+        return handle_ipv4(ctx);
+	else
+		return XDP_PASS;
 }
 """, cflags=["-w"])
 
