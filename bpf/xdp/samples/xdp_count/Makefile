@@ -8,3 +8,5 @@ all:
 	sudo bpftool prog load xdp_count.o /sys/fs/bpf/xdp_count type xdp
 	sudo bpftool prog list
 
+clean:
+	rm -f *.o
