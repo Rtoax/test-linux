@@ -56,22 +56,16 @@ BPF_ARRAY(port, uint32_t, 1);
 BPF_PERCPU_ARRAY(rxcnt, long, 1);
 BPF_HASH(ipv4_stat, struct ipv4_key_t, struct ipv4_stat_t);
 
-static __always_inline int handle_ipv4(struct xdp_md *ctx)
+static __always_inline int handle_ipv4(struct xdp_md *ctx, struct iphdr *iphdr)
 {
     int ingress_ifindex;
     uint32_t key = 0;
     uint32_t *p_idx;
     long *value;
-    void *data_end = (void *)(long)ctx->data_end;
-    void *data = (void *)(long)ctx->data;
-    struct ethhdr *eth = data;
-    struct iphdr *iphdr = data + sizeof(struct ethhdr);
     struct ipv4_stat_t *stat;
     struct ipv4_stat_t newstat = {
         .npkt = 1,
     };
-    if (iphdr + 1 > data_end)
-        return XDP_DROP;
 
     struct ipv4_key_t key2 = {
         .saddr = iphdr->saddr,
@@ -100,7 +94,7 @@ static __always_inline int handle_ipv4(struct xdp_md *ctx)
     return XDP_PASS;
 }
 
-int xdp_drop(struct xdp_md *ctx) {
+int xdp_handler(struct xdp_md *ctx) {
     void *data_end = (void *)(long)ctx->data_end;
     void *data = (void *)(long)ctx->data;
     struct ethhdr *eth = data;
@@ -112,9 +106,12 @@ int xdp_drop(struct xdp_md *ctx) {
     h_proto = eth->h_proto;
 
     /* Only handle ipv4 */
-    if (h_proto == bpf_htons(ETH_P_IP))
-        return handle_ipv4(ctx);
-    else
+    if (h_proto == bpf_htons(ETH_P_IP)) {
+        struct iphdr *iphdr = data + sizeof(struct ethhdr);
+        if (iphdr + 1 > data_end)
+            return XDP_DROP;
+        return handle_ipv4(ctx, iphdr);
+    } else
 		return XDP_PASS;
 }
 """, cflags=["-w"])
@@ -122,7 +119,7 @@ int xdp_drop(struct xdp_md *ctx) {
 port = b.get_table("port")
 port[0] = ct.c_int(ifidx)
 
-fn = b.load_func("xdp_drop", BPF.XDP)
+fn = b.load_func("xdp_handler", BPF.XDP)
 
 b.attach_xdp(ifname, fn, flags)
 
