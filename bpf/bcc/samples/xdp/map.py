@@ -7,17 +7,27 @@ import pyroute2
 import time
 import sys
 import ctypes as ct
+import argparse
+
+examples = """examples:
+    ./map.py -i eno1                 # Handle eno1 interface
+"""
+
+parser = argparse.ArgumentParser(
+    description="bcc XDP test",
+    formatter_class=argparse.RawDescriptionHelpFormatter,
+    epilog=examples)
+parser.add_argument("-i", "--interface", default="-1",
+    help="specify ether interface to track, check with ifconfig, ip, etc.")
+
+args = parser.parse_args()
+ifname = args.interface
+
+if ifname == "-1":
+    print("Must specify interface with -i")
+    exit()
 
 flags = 0
-def usage():
-    print("Usage: {0} <ifdev>".format(sys.argv[0]))
-    print("e.g.: {0} eth0\n".format(sys.argv[0]))
-    exit(1)
-
-if len(sys.argv) != 2:
-    usage()
-
-ifname = sys.argv[1]
 
 ip = pyroute2.IPRoute()
 ifidx = ip.link_lookup(ifname=ifname)[0]
