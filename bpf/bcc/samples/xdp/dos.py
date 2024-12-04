@@ -77,14 +77,12 @@ struct ipv4_stat_t {
     u32 flags;
 };
 
-BPF_PERCPU_ARRAY(rxcnt, long, 1);
 BPF_HASH(ipv4_stat, struct ipv4_key_t, struct ipv4_stat_t);
 
 static __always_inline int handle_ipv4(struct xdp_md *ctx, struct iphdr *iphdr)
 {
     uint32_t key = 0;
     uint32_t if_index = CONFIG_IF_INDEX;
-    long *value;
     struct ipv4_stat_t *stat;
     u64 sec = bpf_ktime_get_ns() / 1000000000UL;
 
@@ -101,10 +99,6 @@ static __always_inline int handle_ipv4(struct xdp_md *ctx, struct iphdr *iphdr)
     /* rxq->dev->ifindex */
     if (if_index != ctx->ingress_ifindex)
         return XDP_PASS;
-
-    value = rxcnt.lookup(&key);
-    if (value)
-        *value += 1;
 
     stat = ipv4_stat.lookup(&key_saddr);
     /**
@@ -190,28 +184,20 @@ fn = b.load_func("xdp_handler", BPF.XDP)
 
 b.attach_xdp(ifname, fn, flags)
 
-rxcnt = b.get_table("rxcnt");
 ipv4_stat = b.get_table("ipv4_stat");
-
-prev = 0
 
 print("Sampling interval %s seconds, threshold %s npkts" %
       (config_sample_secs, config_sample_threshold))
 print("DOS protection of %s, hit CTRL+C to stop" % ifname)
-print("%-16s %-16s %-16s %-16s %-16s %-8s" %
-      ("SADDR", "SADDR_PKTS", "SAMPLE_PKTS", "SAMPLE_TIME", "ALL_PKTS", "FLAGS"))
+print("%-16s %-16s %-16s %-16s %-8s" %
+      ("SADDR", "SADDR_PKTS", "SAMPLE_PKTS", "SAMPLE_TIME", "FLAGS"))
 
 while 1:
     try:
-        val = rxcnt.sum(0).value
-        if val:
-            delta = val - prev
-            prev = val
-            #print("{} pkt/s".format(delta))
         for k, v in sorted(ipv4_stat.items(), key=lambda ipv4_stat: ipv4_stat[0].saddr):
             saddr = inet_ntop(AF_INET, pack("I", k.saddr))
-            print("%-16s %-16ld %-16ld %-16ld %-16ld %-8x" %
-                  (saddr, v.npkt, v.sample_npkt, v.sample_start, val, v.flags))
+            print("%-16s %-16ld %-16ld %-16ld %-8x" %
+                  (saddr, v.npkt, v.sample_npkt, v.sample_start, v.flags))
         time.sleep(1)
     except KeyboardInterrupt:
         print("Removing filter from device")
