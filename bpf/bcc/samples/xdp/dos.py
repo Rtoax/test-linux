@@ -72,7 +72,12 @@ if ifname == "-1":
 flags = 0
 
 ip = pyroute2.IPRoute()
-ifidx = ip.link_lookup(ifname=ifname)[0]
+ifidx_a = ip.link_lookup(ifname=ifname)
+if not ifidx_a:
+    print("ERROR: Not exist nic interface %s!!" % ifname)
+    exit()
+
+ifidx = ifidx_a[0]
 
 # load BPF program
 bpf_text = """
