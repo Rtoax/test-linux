@@ -107,6 +107,9 @@ static __always_inline int handle_ipv4(struct xdp_md *ctx, struct iphdr *iphdr)
         .flags = 0,
     };
 
+    if (iphdr->saddr == 0)
+        return XDP_PASS;
+
     /* rxq->dev->ifindex */
     if (if_index != ctx->ingress_ifindex)
         return XDP_PASS;
