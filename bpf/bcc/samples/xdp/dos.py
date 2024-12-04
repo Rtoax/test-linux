@@ -34,7 +34,7 @@ parser = argparse.ArgumentParser(
     formatter_class=argparse.RawDescriptionHelpFormatter,
     epilog=examples)
 parser.add_argument("-i", "--interface", default="-1",
-    help="specify ether interface to track, check with ifconfig, ip, etc.")
+    help="specify ether interface to protection, check with ifconfig, ip addr, etc.")
 parser.add_argument("-s", "--sample-secs", default=3,
     help="specify sampling interval seconds.")
 parser.add_argument("-l", "--sample-threshold", default=100,
@@ -77,17 +77,20 @@ struct ipv4_stat_t {
     u32 flags;
 };
 
-BPF_ARRAY(port, uint32_t, 1);
 BPF_PERCPU_ARRAY(rxcnt, long, 1);
 BPF_HASH(ipv4_stat, struct ipv4_key_t, struct ipv4_stat_t);
 
 static __always_inline int handle_ipv4(struct xdp_md *ctx, struct iphdr *iphdr)
 {
-    int ingress_ifindex;
     uint32_t key = 0;
-    uint32_t *p_idx;
+    uint32_t if_index = CONFIG_IF_INDEX;
     long *value;
     struct ipv4_stat_t *stat;
+    u64 sec = bpf_ktime_get_ns() / 1000000000UL;
+
+    struct ipv4_key_t key_saddr = {
+        .saddr = iphdr->saddr,
+    };
 
     struct ipv4_stat_t newstat = {
         .npkt = 1,
@@ -95,61 +98,60 @@ static __always_inline int handle_ipv4(struct xdp_md *ctx, struct iphdr *iphdr)
         .flags = 0,
     };
 
-    struct ipv4_key_t key2 = {
-        .saddr = iphdr->saddr,
-    };
-
     /* rxq->dev->ifindex */
-    ingress_ifindex = ctx->ingress_ifindex;
-
-    p_idx = port.lookup(&key);
-    if (!p_idx)
+    if (if_index != ctx->ingress_ifindex)
         return XDP_PASS;
 
-    if (*p_idx == ingress_ifindex) {
-        value = rxcnt.lookup(&key);
-        if (value)
-            *value += 1;
-        u64 sec = bpf_ktime_get_ns() / 1000000000UL;
+    value = rxcnt.lookup(&key);
+    if (value)
+        *value += 1;
 
-        stat = ipv4_stat.lookup(&key2);
-        /**
-         * Brand new source ipv4 address
-         */
-        if (!stat) {
-            newstat.sample_start = sec;
-            ipv4_stat.update(&key2, &newstat);
-        /**
-         * Already exist source ipv4 address
-         */
-        } else {
-            /* In blacklist */
-            if (stat->flags & F_IN_BLACKLIST) {
-                stat->sample_npkt++;
-                if (sec - stat->sample_start >= CONFIG_SAMPLE_SECS) {
-                    if (stat->sample_npkt < CONFIG_SAMPLE_THRESHOLD) {
-                        stat->flags &= ~F_IN_BLACKLIST;
-                        stat->sample_npkt = 0;
-                        stat->sample_start = sec;
-                    }
-                }
-                return XDP_DROP;
-            }
+    stat = ipv4_stat.lookup(&key_saddr);
+    /**
+     * Brand new source ipv4 address
+     */
+    if (!stat) {
+        newstat.sample_start = sec;
+        ipv4_stat.update(&key_saddr, &newstat);
+        return XDP_PASS;
+    }
 
-            stat->npkt++;
-            stat->sample_npkt++;
-            /**
-             * One sampling, reset packets and start time.
-             * Check threshold and insert to blacklist.
-             */
-            if (sec - stat->sample_start >= CONFIG_SAMPLE_SECS ||
-                stat->sample_npkt >= CONFIG_SAMPLE_THRESHOLD) {
-                stat->flags |= F_IN_BLACKLIST;
-                stat->sample_npkt = 0;
-                stat->sample_start = sec;
-            }
+    /**
+     * Already exist source ipv4 address
+     */
+
+    /* In blacklist */
+    if (stat->flags & F_IN_BLACKLIST) {
+        stat->sample_npkt++;
+        if (sec - stat->sample_start >= CONFIG_SAMPLE_SECS &&
+            stat->sample_npkt < CONFIG_SAMPLE_THRESHOLD) {
+            /* Remove from blacklist */
+            stat->flags &= ~F_IN_BLACKLIST;
+            stat->sample_npkt = 0;
+            stat->sample_start = sec;
+        /**
+         * If it is greater than the threshold, the time and number of packets
+         * should be updated in real time.
+         */
+        } else if (stat->sample_npkt >= CONFIG_SAMPLE_THRESHOLD) {
+            stat->sample_npkt = 0;
+            stat->sample_start = sec;
         }
-        return XDP_PASS;
+        return XDP_DROP;
+    }
+
+    stat->npkt++;
+    stat->sample_npkt++;
+
+    /**
+     * One sampling, reset packets and start time.
+     * Check threshold and insert to blacklist.
+     */
+    if (sec - stat->sample_start >= CONFIG_SAMPLE_SECS ||
+        stat->sample_npkt >= CONFIG_SAMPLE_THRESHOLD) {
+        stat->flags |= F_IN_BLACKLIST;
+        stat->sample_npkt = 0;
+        stat->sample_start = sec;
     }
 
     return XDP_PASS;
@@ -178,13 +180,11 @@ int xdp_handler(struct xdp_md *ctx)
 }
 """
 
+bpf_text = bpf_text.replace('CONFIG_IF_INDEX', str(ifidx))
 bpf_text = bpf_text.replace('CONFIG_SAMPLE_SECS', config_sample_secs)
 bpf_text = bpf_text.replace('CONFIG_SAMPLE_THRESHOLD', config_sample_threshold)
 
 b = BPF(text=bpf_text, cflags=["-w"])
-
-port = b.get_table("port")
-port[0] = ct.c_int(ifidx)
 
 fn = b.load_func("xdp_handler", BPF.XDP)
 
