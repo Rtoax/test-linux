@@ -55,7 +55,7 @@ ip = pyroute2.IPRoute()
 ifidx = ip.link_lookup(ifname=ifname)[0]
 
 # load BPF program
-b = BPF(text = """
+bpf_text = """
 #include <uapi/linux/bpf.h>
 #include <linux/in.h>
 #include <linux/ip.h>
@@ -78,8 +78,6 @@ struct ipv4_stat_t {
 };
 
 BPF_ARRAY(port, uint32_t, 1);
-BPF_ARRAY(sample_interval_secs, uint32_t, 1);
-BPF_ARRAY(sample_threshold, uint32_t, 1);
 BPF_PERCPU_ARRAY(rxcnt, long, 1);
 BPF_HASH(ipv4_stat, struct ipv4_key_t, struct ipv4_stat_t);
 
@@ -87,7 +85,7 @@ static __always_inline int handle_ipv4(struct xdp_md *ctx, struct iphdr *iphdr)
 {
     int ingress_ifindex;
     uint32_t key = 0;
-    uint32_t *p_idx, *sample_i_sec, *sample_i_limit;
+    uint32_t *p_idx;
     long *value;
     struct ipv4_stat_t *stat;
 
@@ -106,14 +104,6 @@ static __always_inline int handle_ipv4(struct xdp_md *ctx, struct iphdr *iphdr)
 
     p_idx = port.lookup(&key);
     if (!p_idx)
-        return XDP_PASS;
-
-    sample_i_sec = sample_interval_secs.lookup(&key);
-    if (!sample_i_sec)
-        return XDP_PASS;
-
-    sample_i_limit = sample_threshold.lookup(&key);
-    if (!sample_i_limit)
         return XDP_PASS;
 
     if (*p_idx == ingress_ifindex) {
@@ -136,8 +126,8 @@ static __always_inline int handle_ipv4(struct xdp_md *ctx, struct iphdr *iphdr)
             /* In blacklist */
             if (stat->flags & F_IN_BLACKLIST) {
                 stat->sample_npkt++;
-                if (sec - stat->sample_start >= *sample_i_sec) {
-                    if (stat->sample_npkt < *sample_i_limit) {
+                if (sec - stat->sample_start >= CONFIG_SAMPLE_SECS) {
+                    if (stat->sample_npkt < CONFIG_SAMPLE_THRESHOLD) {
                         stat->flags &= ~F_IN_BLACKLIST;
                         stat->sample_npkt = 0;
                         stat->sample_start = sec;
@@ -152,8 +142,8 @@ static __always_inline int handle_ipv4(struct xdp_md *ctx, struct iphdr *iphdr)
              * One sampling, reset packets and start time.
              * Check threshold and insert to blacklist.
              */
-            if (sec - stat->sample_start >= *sample_i_sec ||
-                stat->sample_npkt >= *sample_i_limit) {
+            if (sec - stat->sample_start >= CONFIG_SAMPLE_SECS ||
+                stat->sample_npkt >= CONFIG_SAMPLE_THRESHOLD) {
                 stat->flags |= F_IN_BLACKLIST;
                 stat->sample_npkt = 0;
                 stat->sample_start = sec;
@@ -186,17 +176,15 @@ int xdp_handler(struct xdp_md *ctx)
     } else
 		return XDP_PASS;
 }
-""", cflags=["-w"])
+"""
+
+bpf_text = bpf_text.replace('CONFIG_SAMPLE_SECS', config_sample_secs)
+bpf_text = bpf_text.replace('CONFIG_SAMPLE_THRESHOLD', config_sample_threshold)
+
+b = BPF(text=bpf_text, cflags=["-w"])
 
 port = b.get_table("port")
 port[0] = ct.c_int(ifidx)
-
-sample_interval_secs = b.get_table("sample_interval_secs")
-sample_interval_secs[0] = ct.c_int(int(config_sample_secs))
-
-sample_threshold = b.get_table("sample_threshold")
-sample_threshold[0] = ct.c_int(int(config_sample_threshold))
-
 
 fn = b.load_func("xdp_handler", BPF.XDP)
 
