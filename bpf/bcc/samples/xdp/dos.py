@@ -70,9 +70,11 @@ struct ipv4_key_t {
 };
 struct ipv4_stat_t {
     u64 npkt;               /* total packets */
-    u64 npkt_drop;          /* total droped packets */
-    u64 sample_start_sec;   /* each sample interval start */
+    u64 sample_start;   /* each sample interval start */
     u64 sample_npkt;        /* each sample period packets */
+
+#define F_IN_BLACKLIST  (1 << 0)  /* this address is in blacklist */
+    u32 flags;
 };
 
 BPF_ARRAY(port, uint32_t, 1);
@@ -87,12 +89,12 @@ static __always_inline int handle_ipv4(struct xdp_md *ctx, struct iphdr *iphdr)
     uint32_t key = 0;
     uint32_t *p_idx, *sample_i_sec, *sample_i_limit;
     long *value;
-    int action = XDP_PASS;
     struct ipv4_stat_t *stat;
+
     struct ipv4_stat_t newstat = {
         .npkt = 1,
-        .npkt_drop = 0,
         .sample_npkt = 1,
+        .flags = 0,
     };
 
     struct ipv4_key_t key2 = {
@@ -119,35 +121,45 @@ static __always_inline int handle_ipv4(struct xdp_md *ctx, struct iphdr *iphdr)
         if (value)
             *value += 1;
         u64 sec = bpf_ktime_get_ns() / 1000000000UL;
+
         stat = ipv4_stat.lookup(&key2);
         /**
          * Brand new source ipv4 address
          */
         if (!stat) {
-            newstat.sample_start_sec = sec;
+            newstat.sample_start = sec;
             ipv4_stat.update(&key2, &newstat);
         /**
          * Already exist source ipv4 address
          */
         } else {
+            /* In blacklist */
+            if (stat->flags & F_IN_BLACKLIST) {
+                stat->sample_npkt++;
+                if (sec - stat->sample_start >= *sample_i_sec) {
+                    if (stat->sample_npkt < *sample_i_limit) {
+                        stat->flags &= ~F_IN_BLACKLIST;
+                        stat->sample_npkt = 0;
+                        stat->sample_start = sec;
+                    }
+                }
+                return XDP_DROP;
+            }
+
             stat->npkt++;
             stat->sample_npkt++;
             /**
              * One sampling, reset packets and start time.
+             * Check threshold and insert to blacklist.
              */
-            if (sec - stat->sample_start_sec >= *sample_i_sec) {
-                /**
-                 * TODO: Check threshold and insert to blacklist
-                 */
-                if (stat->sample_npkt >= *sample_i_limit) {
-                    action = XDP_DROP;
-                    stat->npkt_drop++;
-                }
+            if (sec - stat->sample_start >= *sample_i_sec ||
+                stat->sample_npkt >= *sample_i_limit) {
+                stat->flags |= F_IN_BLACKLIST;
                 stat->sample_npkt = 0;
-                stat->sample_start_sec = sec;
+                stat->sample_start = sec;
             }
         }
-        return action;
+        return XDP_PASS;
     }
 
     return XDP_PASS;
@@ -198,8 +210,8 @@ prev = 0
 print("Sampling interval %s seconds, threshold %s npkts" %
       (config_sample_secs, config_sample_threshold))
 print("DOS protection of %s, hit CTRL+C to stop" % ifname)
-print("%-16s %-16s %-16s %-16s %-16s %-16s" %
-      ("SADDR", "SADDR_PKTS", "SAMPLE_PKTS", "SAMPLE_TIME", "DROP", "ALL_PKTS"))
+print("%-16s %-16s %-16s %-16s %-16s %-8s" %
+      ("SADDR", "SADDR_PKTS", "SAMPLE_PKTS", "SAMPLE_TIME", "ALL_PKTS", "FLAGS"))
 
 while 1:
     try:
@@ -210,8 +222,8 @@ while 1:
             #print("{} pkt/s".format(delta))
         for k, v in sorted(ipv4_stat.items(), key=lambda ipv4_stat: ipv4_stat[0].saddr):
             saddr = inet_ntop(AF_INET, pack("I", k.saddr))
-            print("%-16s %-16ld %-16ld %-16ld %-16ld %-16ld" %
-                  (saddr, v.npkt, v.sample_npkt, v.sample_start_sec, v.npkt_drop, val))
+            print("%-16s %-16ld %-16ld %-16ld %-16ld %-8x" %
+                  (saddr, v.npkt, v.sample_npkt, v.sample_start, val, v.flags))
         time.sleep(1)
     except KeyboardInterrupt:
         print("Removing filter from device")
