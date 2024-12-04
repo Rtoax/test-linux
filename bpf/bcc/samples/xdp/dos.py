@@ -94,6 +94,7 @@ static __always_inline int handle_ipv4(struct xdp_md *ctx, struct iphdr *iphdr)
     uint32_t key = 0;
     uint32_t if_index = CONFIG_IF_INDEX;
     struct ipv4_stat_t *stat;
+    u64 delta_s;
     u64 sec = bpf_ktime_get_ns() / 1000000000UL;
 
     struct ipv4_key_t key_saddr = {
@@ -101,8 +102,8 @@ static __always_inline int handle_ipv4(struct xdp_md *ctx, struct iphdr *iphdr)
     };
 
     struct ipv4_stat_t newstat = {
-        .npkt = 1,
-        .sample_npkt = 1,
+        .npkt = 0,
+        .sample_npkt = 0,
         .flags = 0,
     };
 
@@ -116,9 +117,13 @@ static __always_inline int handle_ipv4(struct xdp_md *ctx, struct iphdr *iphdr)
      */
     if (!stat) {
         newstat.sample_start = sec;
+        newstat.npkt++;
         ipv4_stat.update(&key_saddr, &newstat);
         return XDP_PASS;
     }
+
+    stat->npkt++;
+    stat->sample_npkt++;
 
     /**
      * Already exist source ipv4 address
@@ -126,34 +131,35 @@ static __always_inline int handle_ipv4(struct xdp_md *ctx, struct iphdr *iphdr)
 
     /* In blacklist */
     if (stat->flags & F_IN_BLACKLIST) {
-        stat->sample_npkt++;
+        /**
+         * If it is greater than the threshold, the time and number of packets
+         * should be updated in real time.
+         */
+        if (stat->sample_npkt >= CONFIG_BLACKLIST_SAMPLE_THRESHOLD) {
+            stat->sample_npkt = 0;
+            stat->sample_start = sec;
+        }
+
         if (sec - stat->sample_start >= CONFIG_BLACKLIST_SAMPLE_SECS &&
             stat->sample_npkt < CONFIG_BLACKLIST_SAMPLE_THRESHOLD) {
             /* Remove from blacklist */
             stat->flags &= ~F_IN_BLACKLIST;
             stat->sample_npkt = 0;
             stat->sample_start = sec;
-        /**
-         * If it is greater than the threshold, the time and number of packets
-         * should be updated in real time.
-         */
-        } else if (stat->sample_npkt >= CONFIG_BLACKLIST_SAMPLE_THRESHOLD) {
-            stat->sample_npkt = 0;
-            stat->sample_start = sec;
         }
         return XDP_DROP;
     }
 
-    stat->npkt++;
-    stat->sample_npkt++;
-
     /**
-     * One sampling, reset packets and start time.
-     * Check threshold and insert to blacklist.
+     * One sampling, check threshold and insert to blacklist.
      */
-    if (sec - stat->sample_start >= CONFIG_SAMPLE_SECS ||
-        stat->sample_npkt >= CONFIG_SAMPLE_THRESHOLD) {
+    delta_s = sec - stat->sample_start;
+    if ((delta_s <= CONFIG_SAMPLE_SECS && stat->sample_npkt >= CONFIG_SAMPLE_THRESHOLD) ||
+        (delta_s > CONFIG_SAMPLE_SECS && stat->sample_npkt >= CONFIG_SAMPLE_THRESHOLD)) {
         stat->flags |= F_IN_BLACKLIST;
+        stat->sample_npkt = 0;
+        stat->sample_start = sec;
+    } else if (delta_s > CONFIG_SAMPLE_SECS && stat->sample_npkt < CONFIG_SAMPLE_THRESHOLD) {
         stat->sample_npkt = 0;
         stat->sample_start = sec;
     }
