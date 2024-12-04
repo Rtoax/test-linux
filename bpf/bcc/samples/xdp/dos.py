@@ -13,8 +13,8 @@ import time
 import sys
 import ctypes as ct
 import argparse
-from struct import pack
-from socket import inet_ntop, AF_INET, AF_INET6
+import struct
+from socket import inet_aton, inet_ntop, AF_INET, AF_INET6
 
 description = """eBPF adaptive packet filtering
 
@@ -85,13 +85,15 @@ struct ipv4_key_t {
 };
 struct ipv4_stat_t {
     u64 npkt;               /* total packets */
-    u64 sample_start;   /* each sample interval start */
+    u64 sample_start;       /* each sample interval start */
     u64 sample_npkt;        /* each sample period packets */
 
 #define F_IN_BLACKLIST  (1 << 0)  /* this address is in blacklist */
+#define F_IN_WHITELIST  (2 << 1)  /* this address is in whitelist */
     u32 flags;
 };
 
+BPF_HASH(ipv4_whitelist, u32, int);
 BPF_HASH(ipv4_stat, struct ipv4_key_t, struct ipv4_stat_t);
 
 static __always_inline int handle_ipv4(struct xdp_md *ctx, struct iphdr *iphdr)
@@ -124,6 +126,9 @@ static __always_inline int handle_ipv4(struct xdp_md *ctx, struct iphdr *iphdr)
      * Brand new source ipv4 address
      */
     if (!stat) {
+        int *white = ipv4_whitelist.lookup(&iphdr->saddr);
+        if (white)
+            newstat.flags |= F_IN_WHITELIST;
         newstat.sample_start = sec;
         newstat.npkt++;
         ipv4_stat.update(&key_saddr, &newstat);
@@ -137,8 +142,8 @@ static __always_inline int handle_ipv4(struct xdp_md *ctx, struct iphdr *iphdr)
      * Already exist source ipv4 address
      */
 
-    /* In blacklist */
-    if (stat->flags & F_IN_BLACKLIST) {
+    /* In blacklist and not in whitelist */
+    if (stat->flags & F_IN_BLACKLIST && !(stat->flags & F_IN_WHITELIST)) {
         /**
          * If it is greater than the threshold, the time and number of packets
          * should be updated in real time.
@@ -164,7 +169,8 @@ static __always_inline int handle_ipv4(struct xdp_md *ctx, struct iphdr *iphdr)
     delta_s = sec - stat->sample_start;
     if ((delta_s <= CONFIG_SAMPLE_SECS && stat->sample_npkt >= CONFIG_SAMPLE_THRESHOLD) ||
         (delta_s > CONFIG_SAMPLE_SECS && stat->sample_npkt >= CONFIG_SAMPLE_THRESHOLD)) {
-        stat->flags |= F_IN_BLACKLIST;
+        if (!(stat->flags & F_IN_WHITELIST))
+            stat->flags |= F_IN_BLACKLIST;
         stat->sample_npkt = 0;
         stat->sample_start = sec;
     } else if (delta_s > CONFIG_SAMPLE_SECS && stat->sample_npkt < CONFIG_SAMPLE_THRESHOLD) {
@@ -208,9 +214,14 @@ b = BPF(text=bpf_text, cflags=["-w"])
 
 fn = b.load_func("xdp_handler", BPF.XDP)
 
-b.attach_xdp(ifname, fn, flags)
-
+ipv4_whitelist = b.get_table("ipv4_whitelist");
 ipv4_stat = b.get_table("ipv4_stat");
+
+# FIXME: Support multiple set
+ipnum = struct.unpack("i", inet_aton("192.168.30.1"))[0]
+ipv4_whitelist.__setitem__(ct.c_uint32(ipnum), ct.c_int(1));
+
+b.attach_xdp(ifname, fn, flags)
 
 print("Protection sampling interval %s seconds, threshold %s npkts" %
       (config_sample_secs, config_sample_threshold))
@@ -223,7 +234,7 @@ print("%-16s %-16s %-16s %-16s %-8s" %
 while 1:
     try:
         for k, v in sorted(ipv4_stat.items(), key=lambda ipv4_stat: ipv4_stat[0].saddr):
-            saddr = inet_ntop(AF_INET, pack("I", k.saddr))
+            saddr = inet_ntop(AF_INET, struct.pack("I", k.saddr))
             print("%-16s %-16ld %-16ld %-16ld %-8x" %
                   (saddr, v.npkt, v.sample_npkt, v.sample_start, v.flags))
         time.sleep(1)
