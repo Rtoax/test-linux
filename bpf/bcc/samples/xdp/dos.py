@@ -31,11 +31,12 @@ description = """eBPF adaptive packet filtering
 """
 
 examples = """examples:
-  ./dos.py -i eno1                 # Handle eno1 interface
-  ./dos.py -i eno1 -t 5            # Sample interval seconds, see 't' above
-  ./dos.py -i eno1 -n 10           # Sample npkts threshold, see 'n' above
-  ./dos.py -i eno1 -T 5            # Sample interval seconds in blacklist, see 'T' above
-  ./dos.py -i eno1 -N 10           # Sample npkts threshold in blacklist, see 'N' above
+  ./dos.py -i eno1                      # Handle eno1 interface
+  ./dos.py -i eno1 -t 5                 # Sample interval seconds, see 't' above
+  ./dos.py -i eno1 -n 10                # Sample npkts threshold, see 'n' above
+  ./dos.py -i eno1 -T 5                 # Sample interval seconds in blacklist, see 'T' above
+  ./dos.py -i eno1 -N 10                # Sample npkts threshold in blacklist, see 'N' above
+  ./dos.py -i eno1 -W 192.168.30.179    # Specify white address
 """
 
 parser = argparse.ArgumentParser(
@@ -52,6 +53,8 @@ parser.add_argument("-T", "--blacklist-sample-secs", default=3,
     help="specify sampling interval seconds in blacklist, use to remove from blacklist, see 'T' in description.")
 parser.add_argument("-N", "--blacklist-sample-threshold", default=100,
     help="specify sampling threshold in blacklist, use to remove from blacklist, see 'N' in description.")
+parser.add_argument("-W", "--whitelist", nargs='*',
+    help="specify the address white list, (may be listed multiple times).")
 
 args = parser.parse_args()
 ifname = args.interface
@@ -59,6 +62,8 @@ config_sample_secs = args.sample_secs
 config_sample_threshold = args.sample_threshold
 config_blacklist_sample_secs = args.blacklist_sample_secs
 config_blacklist_sample_threshold = args.blacklist_sample_threshold
+config_whitelist = args.whitelist
+
 
 if ifname == "-1":
     print("Must specify interface with -i")
@@ -217,9 +222,11 @@ fn = b.load_func("xdp_handler", BPF.XDP)
 ipv4_whitelist = b.get_table("ipv4_whitelist");
 ipv4_stat = b.get_table("ipv4_stat");
 
-# FIXME: Support multiple set
-ipnum = struct.unpack("i", inet_aton("192.168.30.1"))[0]
-ipv4_whitelist.__setitem__(ct.c_uint32(ipnum), ct.c_int(1));
+if config_whitelist:
+    for white_ip_str in config_whitelist:
+        print(f"Add {white_ip_str} to whitelist")
+        ipnum = struct.unpack("i", inet_aton(white_ip_str))[0]
+        ipv4_whitelist.__setitem__(ct.c_uint32(ipnum), ct.c_int(1));
 
 b.attach_xdp(ifname, fn, flags)
 
