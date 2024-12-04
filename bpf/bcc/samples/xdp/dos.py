@@ -1,6 +1,18 @@
 #!/usr/bin/python
 #
-# map.py
+# dos.py
+#
+# eBPF adaptive packet filtering
+# 1. Implementation based on eBPF
+# 2. Implement kernel DOS protection, dynamically generate blacklists, and
+#    count messages.
+# 3. If the number of messages from the same source IP exceeds the threshold
+#    within the sampling time t seconds, it is considered a DOS attack and
+#    added to the blacklist.
+# 4. If the number of messages from the blacklist user is less than n within
+#    T minutes, remove the blacklist.
+# 5. Set a whitelist, and the source IP in the whitelist is not subject to the
+#    limit of 3.
 #
 from bcc import BPF
 import pyroute2
