@@ -1,18 +1,6 @@
 #!/usr/bin/python
 #
-# dos.py
-#
-# eBPF adaptive packet filtering
-# 1. Implementation based on eBPF
-# 2. Implement kernel DOS protection, dynamically generate blacklists, and
-#    count messages.
-# 3. If the number of messages from the same source IP exceeds the threshold
-#    within the sampling time t seconds, it is considered a DOS attack and
-#    added to the blacklist.
-# 4. If the number of messages from the blacklist user is less than n within
-#    T minutes, remove the blacklist.
-# 5. Set a whitelist, and the source IP in the whitelist is not subject to the
-#    limit of 3.
+# dos.py - eBPF adaptive packet filtering
 #
 from bcc import BPF
 import pyroute2
@@ -23,27 +11,49 @@ import argparse
 from struct import pack
 from socket import inet_ntop, AF_INET, AF_INET6
 
+description = """eBPF adaptive packet filtering
+
+  1. Implementation based on eBPF
+  2. Implement kernel DOS protection, dynamically generate blacklists, and
+     count messages.
+  3. If the number of messages from the same source IP exceeds the threshold '\033[1;32mn\033[m'
+     within the sampling time '\033[1;32mt\033[m' seconds, it is considered a DOS attack and
+     added to the blacklist.
+  4. If the number of messages from the blacklist user is less than '\033[1;32mN\033[m' within
+     '\033[1;32mT\033[m' minutes, remove the blacklist.
+  5. Set a whitelist, and the source IP in the whitelist is not subject to the
+     limit of 3.
+"""
+
 examples = """examples:
-    ./map.py -i eno1                 # Handle eno1 interface
-    ./map.py -i eno1 -s 5            # Sample internal seconds
-    ./map.py -i eno1 -l 10           # Sample npkts threshold
+  ./map.py -i eno1                 # Handle eno1 interface
+  ./map.py -i eno1 -t 5            # Sample interval seconds, see 't' above
+  ./map.py -i eno1 -n 10           # Sample npkts threshold, see 'n' above
+  ./map.py -i eno1 -T 5            # Sample interval seconds in blacklist, see 'T' above
+  ./map.py -i eno1 -N 10           # Sample npkts threshold in blacklist, see 'N' above
 """
 
 parser = argparse.ArgumentParser(
-    description="DOS protection",
+    description=description,
     formatter_class=argparse.RawDescriptionHelpFormatter,
     epilog=examples)
 parser.add_argument("-i", "--interface", default="-1",
     help="specify ether interface to protection, check with ifconfig, ip addr, etc.")
-parser.add_argument("-s", "--sample-secs", default=3,
-    help="specify sampling interval seconds.")
-parser.add_argument("-l", "--sample-threshold", default=100,
-    help="specify sampling threshold.")
+parser.add_argument("-t", "--sample-secs", default=3,
+    help="specify sampling interval seconds, use to insert to blacklist, see 't' in description.")
+parser.add_argument("-n", "--sample-threshold", default=100,
+    help="specify sampling threshold, use to insert to blacklist, see 'n' in description.")
+parser.add_argument("-T", "--blacklist-sample-secs", default=3,
+    help="specify sampling interval seconds in blacklist, use to remove from blacklist, see 'T' in description.")
+parser.add_argument("-N", "--blacklist-sample-threshold", default=100,
+    help="specify sampling threshold in blacklist, use to remove from blacklist, see 'N' in description.")
 
 args = parser.parse_args()
 ifname = args.interface
 config_sample_secs = args.sample_secs
 config_sample_threshold = args.sample_threshold
+config_blacklist_sample_secs = args.blacklist_sample_secs
+config_blacklist_sample_threshold = args.blacklist_sample_threshold
 
 if ifname == "-1":
     print("Must specify interface with -i")
@@ -117,8 +127,8 @@ static __always_inline int handle_ipv4(struct xdp_md *ctx, struct iphdr *iphdr)
     /* In blacklist */
     if (stat->flags & F_IN_BLACKLIST) {
         stat->sample_npkt++;
-        if (sec - stat->sample_start >= CONFIG_SAMPLE_SECS &&
-            stat->sample_npkt < CONFIG_SAMPLE_THRESHOLD) {
+        if (sec - stat->sample_start >= CONFIG_BLACKLIST_SAMPLE_SECS &&
+            stat->sample_npkt < CONFIG_BLACKLIST_SAMPLE_THRESHOLD) {
             /* Remove from blacklist */
             stat->flags &= ~F_IN_BLACKLIST;
             stat->sample_npkt = 0;
@@ -127,7 +137,7 @@ static __always_inline int handle_ipv4(struct xdp_md *ctx, struct iphdr *iphdr)
          * If it is greater than the threshold, the time and number of packets
          * should be updated in real time.
          */
-        } else if (stat->sample_npkt >= CONFIG_SAMPLE_THRESHOLD) {
+        } else if (stat->sample_npkt >= CONFIG_BLACKLIST_SAMPLE_THRESHOLD) {
             stat->sample_npkt = 0;
             stat->sample_start = sec;
         }
@@ -177,6 +187,8 @@ int xdp_handler(struct xdp_md *ctx)
 bpf_text = bpf_text.replace('CONFIG_IF_INDEX', str(ifidx))
 bpf_text = bpf_text.replace('CONFIG_SAMPLE_SECS', config_sample_secs)
 bpf_text = bpf_text.replace('CONFIG_SAMPLE_THRESHOLD', config_sample_threshold)
+bpf_text = bpf_text.replace('CONFIG_BLACKLIST_SAMPLE_SECS', config_blacklist_sample_secs)
+bpf_text = bpf_text.replace('CONFIG_BLACKLIST_SAMPLE_THRESHOLD', config_blacklist_sample_threshold)
 
 b = BPF(text=bpf_text, cflags=["-w"])
 
@@ -186,8 +198,10 @@ b.attach_xdp(ifname, fn, flags)
 
 ipv4_stat = b.get_table("ipv4_stat");
 
-print("Sampling interval %s seconds, threshold %s npkts" %
+print("Protection sampling interval %s seconds, threshold %s npkts" %
       (config_sample_secs, config_sample_threshold))
+print("Blacklist sampling interval %s seconds, threshold %s npkts" %
+      (config_blacklist_sample_secs, config_blacklist_sample_threshold))
 print("DOS protection of %s, hit CTRL+C to stop" % ifname)
 print("%-16s %-16s %-16s %-16s %-8s" %
       ("SADDR", "SADDR_PKTS", "SAMPLE_PKTS", "SAMPLE_TIME", "FLAGS"))
