@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # @lint-avoid-python-3-compatibility-imports
 #
-# dos.py - eBPF adaptive packet filtering for DOS
+# dos.py - eBPF adaptive packet filtering for DoS attack
 #
 # Licensed under the Apache License, Version 2.0 (the "License")
 #
@@ -199,10 +199,10 @@ int xdp_handler(struct xdp_md *ctx)
 """
 
 bpf_text = bpf_text.replace('CONFIG_IF_INDEX', str(ifidx))
-bpf_text = bpf_text.replace('CONFIG_SAMPLE_SECS', config_sample_secs)
-bpf_text = bpf_text.replace('CONFIG_SAMPLE_THRESHOLD', config_sample_threshold)
-bpf_text = bpf_text.replace('CONFIG_BLACKLIST_SAMPLE_SECS', config_blacklist_sample_secs)
-bpf_text = bpf_text.replace('CONFIG_BLACKLIST_SAMPLE_THRESHOLD', config_blacklist_sample_threshold)
+bpf_text = bpf_text.replace('CONFIG_SAMPLE_SECS', str(config_sample_secs))
+bpf_text = bpf_text.replace('CONFIG_SAMPLE_THRESHOLD', str(config_sample_threshold))
+bpf_text = bpf_text.replace('CONFIG_BLACKLIST_SAMPLE_SECS', str(config_blacklist_sample_secs))
+bpf_text = bpf_text.replace('CONFIG_BLACKLIST_SAMPLE_THRESHOLD', str(config_blacklist_sample_threshold))
 
 b = BPF(text=bpf_text, cflags=["-w"])
 
