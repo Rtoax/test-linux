@@ -49,11 +49,13 @@ struct ipv4_key_t {
     u32 saddr;
 };
 struct ipv4_stat_t {
-    u64 start_ns;
-    u64 npkt;   // statistic
+    u64 npkt;               /* total packets statistic */
+    u64 sample_start_sec;   /* each sample interval start */
+    u64 sample_npkt;        /* each sample period packets */
 };
 
 BPF_ARRAY(port, uint32_t, 1);
+BPF_ARRAY(sample_interval_secs, uint32_t, 1);
 BPF_PERCPU_ARRAY(rxcnt, long, 1);
 BPF_HASH(ipv4_stat, struct ipv4_key_t, struct ipv4_stat_t);
 
@@ -61,11 +63,12 @@ static __always_inline int handle_ipv4(struct xdp_md *ctx, struct iphdr *iphdr)
 {
     int ingress_ifindex;
     uint32_t key = 0;
-    uint32_t *p_idx;
+    uint32_t *p_idx, *sample_i_sec;
     long *value;
     struct ipv4_stat_t *stat;
     struct ipv4_stat_t newstat = {
         .npkt = 1,
+        .sample_npkt = 1,
     };
 
     struct ipv4_key_t key2 = {
@@ -79,16 +82,42 @@ static __always_inline int handle_ipv4(struct xdp_md *ctx, struct iphdr *iphdr)
     if (!p_idx)
         return XDP_PASS;
 
+    sample_i_sec = sample_interval_secs.lookup(&key);
+    if (!sample_i_sec)
+        return XDP_PASS;
+
     if (*p_idx == ingress_ifindex) {
         value = rxcnt.lookup(&key);
         if (value)
             *value += 1;
+        u64 sec = bpf_ktime_get_ns() / 1000000000UL;
         stat = ipv4_stat.lookup(&key2);
+        /**
+         * Brand new source ipv4 address
+         */
         if (!stat) {
-            newstat.start_ns = bpf_ktime_get_ns();
+            newstat.sample_start_sec = sec;
             ipv4_stat.update(&key2, &newstat);
+        /**
+         * Already exist source ipv4 address
+         */
         } else {
             stat->npkt++;
+            stat->sample_npkt++;
+            /**
+             * One sampling, reset packets and start time.
+             */
+            if (sec - stat->sample_start_sec >= *sample_i_sec) {
+                stat->sample_npkt = 0;
+                stat->sample_start_sec = sec;
+                #if 0
+                /**
+                 * TODO: Check and insert to blacklist
+                 */
+                if (stat->sample_npkt > ??) {
+                }
+                #endif
+            }
         }
         return XDP_DROP;
     }
@@ -122,6 +151,9 @@ int xdp_handler(struct xdp_md *ctx)
 port = b.get_table("port")
 port[0] = ct.c_int(ifidx)
 
+sample_interval_secs = b.get_table("sample_interval_secs")
+sample_interval_secs[0] = ct.c_int(3)
+
 fn = b.load_func("xdp_handler", BPF.XDP)
 
 b.attach_xdp(ifname, fn, flags)
@@ -139,7 +171,7 @@ while 1:
             print("{} pkt/s".format(delta))
         for k, v in sorted(ipv4_stat.items(), key=lambda ipv4_stat: ipv4_stat[0]):
             saddr = inet_ntop(AF_INET, pack("I", k.saddr))
-            print("%-16s %-16ld %-16ld" % (saddr, v.npkt, v.start_ns))
+            print("%-16s %-16ld %-16ld %-16ld" % (saddr, v.npkt, v.sample_npkt, v.sample_start_sec))
         time.sleep(1)
     except KeyboardInterrupt:
         print("Removing filter from device")
