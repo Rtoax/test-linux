@@ -1,6 +1,11 @@
 #!/usr/bin/python
+# @lint-avoid-python-3-compatibility-imports
 #
-# dos.py - eBPF adaptive packet filtering
+# dos.py - eBPF adaptive packet filtering for DOS
+#
+# Licensed under the Apache License, Version 2.0 (the "License")
+#
+# 04-Dec-2024   Rong Tao    Create this.
 #
 from bcc import BPF
 import pyroute2
@@ -26,11 +31,11 @@ description = """eBPF adaptive packet filtering
 """
 
 examples = """examples:
-  ./map.py -i eno1                 # Handle eno1 interface
-  ./map.py -i eno1 -t 5            # Sample interval seconds, see 't' above
-  ./map.py -i eno1 -n 10           # Sample npkts threshold, see 'n' above
-  ./map.py -i eno1 -T 5            # Sample interval seconds in blacklist, see 'T' above
-  ./map.py -i eno1 -N 10           # Sample npkts threshold in blacklist, see 'N' above
+  ./dos.py -i eno1                 # Handle eno1 interface
+  ./dos.py -i eno1 -t 5            # Sample interval seconds, see 't' above
+  ./dos.py -i eno1 -n 10           # Sample npkts threshold, see 'n' above
+  ./dos.py -i eno1 -T 5            # Sample interval seconds in blacklist, see 'T' above
+  ./dos.py -i eno1 -N 10           # Sample npkts threshold in blacklist, see 'N' above
 """
 
 parser = argparse.ArgumentParser(
