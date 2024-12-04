@@ -208,7 +208,7 @@ while 1:
             delta = val - prev
             prev = val
             #print("{} pkt/s".format(delta))
-        for k, v in sorted(ipv4_stat.items(), key=lambda ipv4_stat: ipv4_stat[0]):
+        for k, v in sorted(ipv4_stat.items(), key=lambda ipv4_stat: ipv4_stat[0].saddr):
             saddr = inet_ntop(AF_INET, pack("I", k.saddr))
             print("%-16s %-16ld %-16ld %-16ld %-16ld %-16ld" %
                   (saddr, v.npkt, v.sample_npkt, v.sample_start_sec, v.npkt_drop, val))
