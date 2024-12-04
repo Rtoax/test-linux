@@ -49,6 +49,7 @@ struct ipv4_key_t {
     u32 saddr;
 };
 struct ipv4_stat_t {
+    u64 start_ns;
     u64 npkt;   // statistic
 };
 
@@ -84,6 +85,7 @@ static __always_inline int handle_ipv4(struct xdp_md *ctx, struct iphdr *iphdr)
             *value += 1;
         stat = ipv4_stat.lookup(&key2);
         if (!stat) {
+            newstat.start_ns = bpf_ktime_get_ns();
             ipv4_stat.update(&key2, &newstat);
         } else {
             stat->npkt++;
@@ -137,7 +139,7 @@ while 1:
             print("{} pkt/s".format(delta))
         for k, v in sorted(ipv4_stat.items(), key=lambda ipv4_stat: ipv4_stat[0]):
             saddr = inet_ntop(AF_INET, pack("I", k.saddr))
-            print("%-16s %-16ld" % (saddr, v.npkt))
+            print("%-16s %-16ld %-16ld" % (saddr, v.npkt, v.start_ns))
         time.sleep(1)
     except KeyboardInterrupt:
         print("Removing filter from device")
