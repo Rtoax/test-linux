@@ -25,17 +25,21 @@ from socket import inet_ntop, AF_INET, AF_INET6
 
 examples = """examples:
     ./map.py -i eno1                 # Handle eno1 interface
+    ./map.py -i eno1 -s 5            # Sample internal seconds
 """
 
 parser = argparse.ArgumentParser(
-    description="bcc XDP test",
+    description="DOS protection",
     formatter_class=argparse.RawDescriptionHelpFormatter,
     epilog=examples)
 parser.add_argument("-i", "--interface", default="-1",
     help="specify ether interface to track, check with ifconfig, ip, etc.")
+parser.add_argument("-s", "--sample-secs", default=3,
+    help="specify sampling interval seconds.")
 
 args = parser.parse_args()
 ifname = args.interface
+config_sample_secs = args.sample_secs
 
 if ifname == "-1":
     print("Must specify interface with -i")
@@ -164,7 +168,7 @@ port = b.get_table("port")
 port[0] = ct.c_int(ifidx)
 
 sample_interval_secs = b.get_table("sample_interval_secs")
-sample_interval_secs[0] = ct.c_int(3)
+sample_interval_secs[0] = ct.c_int(int(config_sample_secs))
 
 fn = b.load_func("xdp_handler", BPF.XDP)
 
@@ -172,18 +176,25 @@ b.attach_xdp(ifname, fn, flags)
 
 rxcnt = b.get_table("rxcnt");
 ipv4_stat = b.get_table("ipv4_stat");
+
 prev = 0
-print("Drop packets of %s, hit CTRL+C to stop" % ifname)
+
+print("Sampling interval %s seconds" % config_sample_secs)
+print("DOS protection of %s, hit CTRL+C to stop" % ifname)
+print("%-16s %-16s %-16s %-16s %-16s" %
+      ("SADDR", "SADDR_TOTAL_PKTS", "SAMPLE_PKTS", "SAMPLE_TIME", "TOTAL_PKTS"))
+
 while 1:
     try:
         val = rxcnt.sum(0).value
         if val:
             delta = val - prev
             prev = val
-            print("{} pkt/s".format(delta))
+            #print("{} pkt/s".format(delta))
         for k, v in sorted(ipv4_stat.items(), key=lambda ipv4_stat: ipv4_stat[0]):
             saddr = inet_ntop(AF_INET, pack("I", k.saddr))
-            print("%-16s %-16ld %-16ld %-16ld" % (saddr, v.npkt, v.sample_npkt, v.sample_start_sec))
+            print("%-16s %-16ld %-16ld %-16ld %-16ld" %
+                  (saddr, v.npkt, v.sample_npkt, v.sample_start_sec, val))
         time.sleep(1)
     except KeyboardInterrupt:
         print("Removing filter from device")
