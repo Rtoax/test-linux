@@ -26,6 +26,7 @@ from socket import inet_ntop, AF_INET, AF_INET6
 examples = """examples:
     ./map.py -i eno1                 # Handle eno1 interface
     ./map.py -i eno1 -s 5            # Sample internal seconds
+    ./map.py -i eno1 -l 10           # Sample npkts threshold
 """
 
 parser = argparse.ArgumentParser(
@@ -36,10 +37,13 @@ parser.add_argument("-i", "--interface", default="-1",
     help="specify ether interface to track, check with ifconfig, ip, etc.")
 parser.add_argument("-s", "--sample-secs", default=3,
     help="specify sampling interval seconds.")
+parser.add_argument("-l", "--sample-threshold", default=100,
+    help="specify sampling threshold.")
 
 args = parser.parse_args()
 ifname = args.interface
 config_sample_secs = args.sample_secs
+config_sample_threshold = args.sample_threshold
 
 if ifname == "-1":
     print("Must specify interface with -i")
@@ -65,13 +69,15 @@ struct ipv4_key_t {
     u32 saddr;
 };
 struct ipv4_stat_t {
-    u64 npkt;               /* total packets statistic */
+    u64 npkt;               /* total packets */
+    u64 npkt_drop;          /* total droped packets */
     u64 sample_start_sec;   /* each sample interval start */
     u64 sample_npkt;        /* each sample period packets */
 };
 
 BPF_ARRAY(port, uint32_t, 1);
 BPF_ARRAY(sample_interval_secs, uint32_t, 1);
+BPF_ARRAY(sample_threshold, uint32_t, 1);
 BPF_PERCPU_ARRAY(rxcnt, long, 1);
 BPF_HASH(ipv4_stat, struct ipv4_key_t, struct ipv4_stat_t);
 
@@ -79,11 +85,13 @@ static __always_inline int handle_ipv4(struct xdp_md *ctx, struct iphdr *iphdr)
 {
     int ingress_ifindex;
     uint32_t key = 0;
-    uint32_t *p_idx, *sample_i_sec;
+    uint32_t *p_idx, *sample_i_sec, *sample_i_limit;
     long *value;
+    int action = XDP_PASS;
     struct ipv4_stat_t *stat;
     struct ipv4_stat_t newstat = {
         .npkt = 1,
+        .npkt_drop = 0,
         .sample_npkt = 1,
     };
 
@@ -100,6 +108,10 @@ static __always_inline int handle_ipv4(struct xdp_md *ctx, struct iphdr *iphdr)
 
     sample_i_sec = sample_interval_secs.lookup(&key);
     if (!sample_i_sec)
+        return XDP_PASS;
+
+    sample_i_limit = sample_threshold.lookup(&key);
+    if (!sample_i_limit)
         return XDP_PASS;
 
     if (*p_idx == ingress_ifindex) {
@@ -124,18 +136,18 @@ static __always_inline int handle_ipv4(struct xdp_md *ctx, struct iphdr *iphdr)
              * One sampling, reset packets and start time.
              */
             if (sec - stat->sample_start_sec >= *sample_i_sec) {
+                /**
+                 * TODO: Check threshold and insert to blacklist
+                 */
+                if (stat->sample_npkt >= *sample_i_limit) {
+                    action = XDP_DROP;
+                    stat->npkt_drop++;
+                }
                 stat->sample_npkt = 0;
                 stat->sample_start_sec = sec;
-                #if 0
-                /**
-                 * TODO: Check and insert to blacklist
-                 */
-                if (stat->sample_npkt > ??) {
-                }
-                #endif
             }
         }
-        return XDP_DROP;
+        return action;
     }
 
     return XDP_PASS;
@@ -170,6 +182,10 @@ port[0] = ct.c_int(ifidx)
 sample_interval_secs = b.get_table("sample_interval_secs")
 sample_interval_secs[0] = ct.c_int(int(config_sample_secs))
 
+sample_threshold = b.get_table("sample_threshold")
+sample_threshold[0] = ct.c_int(int(config_sample_threshold))
+
+
 fn = b.load_func("xdp_handler", BPF.XDP)
 
 b.attach_xdp(ifname, fn, flags)
@@ -179,10 +195,11 @@ ipv4_stat = b.get_table("ipv4_stat");
 
 prev = 0
 
-print("Sampling interval %s seconds" % config_sample_secs)
+print("Sampling interval %s seconds, threshold %s npkts" %
+      (config_sample_secs, config_sample_threshold))
 print("DOS protection of %s, hit CTRL+C to stop" % ifname)
-print("%-16s %-16s %-16s %-16s %-16s" %
-      ("SADDR", "SADDR_TOTAL_PKTS", "SAMPLE_PKTS", "SAMPLE_TIME", "TOTAL_PKTS"))
+print("%-16s %-16s %-16s %-16s %-16s %-16s" %
+      ("SADDR", "SADDR_PKTS", "SAMPLE_PKTS", "SAMPLE_TIME", "DROP", "ALL_PKTS"))
 
 while 1:
     try:
@@ -193,8 +210,8 @@ while 1:
             #print("{} pkt/s".format(delta))
         for k, v in sorted(ipv4_stat.items(), key=lambda ipv4_stat: ipv4_stat[0]):
             saddr = inet_ntop(AF_INET, pack("I", k.saddr))
-            print("%-16s %-16ld %-16ld %-16ld %-16ld" %
-                  (saddr, v.npkt, v.sample_npkt, v.sample_start_sec, val))
+            print("%-16s %-16ld %-16ld %-16ld %-16ld %-16ld" %
+                  (saddr, v.npkt, v.sample_npkt, v.sample_start_sec, v.npkt_drop, val))
         time.sleep(1)
     except KeyboardInterrupt:
         print("Removing filter from device")
