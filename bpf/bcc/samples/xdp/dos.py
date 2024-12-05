@@ -154,7 +154,7 @@ static __always_inline int handle_ipv4(struct xdp_md *ctx, struct iphdr *iphdr)
             newstat.flags |= F_IN_WHITELIST;
         int *black = ipv4_blacklist.lookup(&iphdr->saddr);
         if (black)
-            newstat.flags |= F_BLACK_FOREVER;
+            newstat.flags |= F_IN_BLACKLIST | F_BLACK_FOREVER;
         newstat.sample_start = sec;
         newstat.npkt++;
         ipv4_stat.update(&key_saddr, &newstat);
