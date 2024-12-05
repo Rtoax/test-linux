@@ -6,6 +6,7 @@
 - CC: Confidential Compute (机密计算)
 - DAC: Discretionary Access Control (自主访问控制) @ACL
 - GPG: GNU Privacy Guard (GNU PG, GnuPG) @PGP
+- IPE: Integrity Policy Enforcement (诚信政策执行) @LSM
 - KMS: Key Management Services
 - LSM: Linux Security Modules (统一访问安全框架)
 - MAC: Mandatory Access Control (强制访问控制) @SELinux
