@@ -12,7 +12,7 @@ endif
 user: $(TARGETS)
 
 kernel:
-	make -C ${KERNELDIR} M=$(PWD) modules
+	@make -C ${KERNELDIR} M=$(PWD) modules
 
 crc32b: crc32b.o
 crc32w: crc32w.o

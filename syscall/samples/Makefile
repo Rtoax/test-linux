@@ -145,7 +145,7 @@ build: nr.h ${TARGETS} ${TARGETS_CPP} $(sub-dir-build)
 
 $(sub-dir-build):
 	@echo -e "\033[1;32m [sub-dir] build $(@)\033[m"
-	make -C $(@:.build=) CC=$(CC) CXX=$(CXX)
+	@make -C $(@:.build=) CC=$(CC) CXX=$(CXX)
 
 nr.h: nr.sh
 	$(shell bash nr.sh)
@@ -253,4 +253,4 @@ clean: $(sub-dir-clean)
 
 $(sub-dir-clean):
 	@echo -e "\033[1;32m [sub-dir] clean $(@)\033[m"
-	make -C $(@:.clean=) clean
+	@make -C $(@:.clean=) clean

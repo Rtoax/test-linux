@@ -12,6 +12,6 @@ build: $(sub-dir-build)
 clean: $(sub-dir-clean)
 
 $(sub-dir-build):
-	make -C $(@:.build=)
+	@make -C $(@:.build=)
 $(sub-dir-clean):
-	make -C $(@:.clean=) clean
+	@make -C $(@:.clean=) clean

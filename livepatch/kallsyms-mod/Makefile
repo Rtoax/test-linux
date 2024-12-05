@@ -19,11 +19,11 @@ CC += ${MCFLAGS}
 KDIR := /lib/modules/$(shell uname -r)/build
 
 all:
-	make -C $(KDIR) M=$(PWD) modules
+	@make -C $(KDIR) M=$(PWD) modules
 
 
 test:
 	@echo >/dev/null
 
 clean:
-	make -C $(KDIR) M=$(PWD) clean
+	@make -C $(KDIR) M=$(PWD) clean

@@ -78,14 +78,14 @@ test: ${TARGETS}
 .PHONY: clean
 clean: $(sub-dir-clean)
 	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
-	make -C clone clean
+	@make -C clone clean
 	@rm -f ${TARGETS} *.o
 
 $(sub-dir-build):
 	@echo -e "\033[1;32m [sub-dir] build $(@)\033[m"
-	make -C $(@:.build=)
+	@make -C $(@:.build=)
 
 $(sub-dir-clean):
 	@echo -e "\033[1;32m [sub-dir] clean $(@)\033[m"
-	make -C $(@:.clean=) clean
+	@make -C $(@:.clean=) clean
 

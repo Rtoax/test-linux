@@ -5,10 +5,10 @@ obj-m += create-test1.o
 KERNELROOT=/lib/modules/`uname -r`/build
 
 all:
-	make -C $(KERNELROOT) M=$(PWD) modules
+	@make -C $(KERNELROOT) M=$(PWD) modules
 
 test:
 	@echo >/dev/null
 
 clean:
-	make -C $(KERNELROOT) M=$(PWD) clean
+	@make -C $(KERNELROOT) M=$(PWD) clean

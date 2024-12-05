@@ -33,12 +33,12 @@ $(NAME): $(OBJS)
 	$(LD) $(LDFLAGS) $(OBJS) -o $(NAME)
 
 $(TEST):
-	make -C tests
+	@make -C tests
 	cp tests/tests $(TEST)
 
 clean:
 	$(RM) $(OBJS) $(NAME) $(TEST)
-	make -C tests clean
+	@make -C tests clean
 
 re: all
 

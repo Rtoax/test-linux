@@ -21,9 +21,9 @@ ifeq ($(MODNAME),)
 endif
 
 all:
-		make CFLAGS_MODULE=-D$(OS_VER) -C /lib/modules/`uname -r`/build M=`pwd`  modules
+		@make CFLAGS_MODULE=-D$(OS_VER) -C /lib/modules/`uname -r`/build M=`pwd`  modules
 clean:
-		make -C $(KERNEL_BUILD_PATH) M=$(PWD) clean
+		@make -C $(KERNEL_BUILD_PATH) M=$(PWD) clean
 endif
 
 

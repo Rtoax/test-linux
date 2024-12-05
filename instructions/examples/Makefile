@@ -82,7 +82,7 @@ sub-dir-clean := $(sub-dir:=.clean)
 user: $(TARGETS) $(sub-dir-build)
 
 kernel:
-	make -C ${KERNELDIR} M=$(PWD) modules
+	@make -C ${KERNELDIR} M=$(PWD) modules
 
 
 add-x86: add-x86.o

@@ -8,10 +8,10 @@ KERNEL_DIR := ${MODULES_DIR}/build
 obj-m += xt_ipaddr.o
 
 all:
-	make -C ${KERNEL_DIR} M=$$PWD;
+	@make -C ${KERNEL_DIR} M=$$PWD;
 modules:
-	make -C ${KERNEL_DIR} M=$$PWD $@;
+	@make -C ${KERNEL_DIR} M=$$PWD $@;
 modules_install:
-	make -C ${KERNEL_DIR} M=$$PWD $@;
+	@make -C ${KERNEL_DIR} M=$$PWD $@;
 clean:
-	make -C ${KERNEL_DIR} M=$$PWD $@;
+	@make -C ${KERNEL_DIR} M=$$PWD $@;

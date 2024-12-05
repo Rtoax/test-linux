@@ -33,7 +33,7 @@ time: time.o
 evil-clock-test: evil-clock-test.o
 
 ./dpdk/tsc_freq.o:
-	make -C dpdk
+	@make -C dpdk
 
 CFLAGS_clock_gettime.sec := -DHAVE_DPDK_TSC_FREQ -DACCURATE_TO_SEC
 CFLAGS_clock_gettime.nsec := -DHAVE_DPDK_TSC_FREQ
@@ -47,5 +47,5 @@ $(TARGETS): %:
 	@$(CC) -o $(@) $(^) $(LDLIBS) $(LDFLAGS) $(LDFLAGS_$(*)) $(CFLAGS) $(CFLAGS_$(*))
 
 clean:
-	make -C dpdk clean
+	@make -C dpdk clean
 	rm -f $(TARGETS) *.o

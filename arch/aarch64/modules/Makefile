@@ -10,7 +10,7 @@ endif
 KERNELDIR ?= /lib/modules/$(shell uname -r)/build
 
 all: ${TARGETS}
-	make -C ${KERNELDIR} M=$(PWD) modules
+	@make -C ${KERNELDIR} M=$(PWD) modules
 
 currentel_user: currentel_user.o
 
@@ -18,5 +18,5 @@ test:
 	@echo "empty, [cd $(PWD)] to insmod"
 
 clean:
-	make -C ${KERNELDIR} M=$(PWD) clean
+	@make -C ${KERNELDIR} M=$(PWD) clean
 	rm -f ${TARGETS} *.o *.d
