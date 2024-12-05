@@ -99,10 +99,10 @@ struct ipv4_key_t {
 struct ipv4_stat_t {
     u64 npkt;               /* total packets */
     u64 sample_start;       /* each sample interval start */
-    u64 sample_npkt;        /* each sample period packets */
+    u64 sample_npkt;        /* each sample period packets count */
 
-#define F_IN_BLACKLIST  (1 << 0)  /* this address is in blacklist */
-#define F_IN_WHITELIST  (2 << 1)  /* this address is in whitelist */
+#define F_IN_BLACKLIST  (1 << 0)  /* address in blacklist */
+#define F_IN_WHITELIST  (1 << 1)  /* address in whitelist */
     u32 flags;
 };
 
@@ -222,9 +222,29 @@ int xdp_handler(struct xdp_md *ctx)
             return XDP_DROP;
         return handle_ipv4(ctx, iphdr);
     } else
-		return XDP_PASS;
+    return XDP_PASS;
 }
 """
+
+ADDR_FLAGS = [
+    ('\033[7;30mBLACK\033[m', (1 << 0)),
+    ('\033[7;37mWHITE\033[m', (1 << 1)),
+]
+
+def _decode_flags(flags, flag_list):
+    str_flags = []
+    for flag, bit in flag_list:
+        if flags & bit:
+            str_flags.append(flag)
+        flags &= ~bit
+    if flags or not str_flags:
+        str_flags.append('0x{:x}'.format(flags))
+    return str_flags
+
+def decode_addr_flags(flags):
+    str_flags = []
+    str_flags.extend(_decode_flags(flags, ADDR_FLAGS))
+    return '|'.join(str_flags)
 
 bpf_text = bpf_text.replace('CONFIG_IF_INDEX', str(ifidx))
 bpf_text = bpf_text.replace('CONFIG_SAMPLE_SECS', str(config_sample_secs))
@@ -259,8 +279,9 @@ while 1:
     try:
         for k, v in sorted(ipv4_stat.items(), key=lambda ipv4_stat: ipv4_stat[0].saddr):
             saddr = inet_ntop(AF_INET, struct.pack("I", k.saddr))
-            print("%-16s %-16ld %-16ld %-16ld %-8x" %
-                  (saddr, v.npkt, v.sample_npkt, v.sample_start, v.flags))
+            print("%-16s %-16ld %-16ld %-16ld %s" %
+                  (saddr, v.npkt, v.sample_npkt, v.sample_start,
+                   decode_addr_flags(v.flags)))
         time.sleep(1)
     except KeyboardInterrupt:
         print("Removing filter from device")
