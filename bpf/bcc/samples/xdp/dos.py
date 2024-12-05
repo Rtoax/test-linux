@@ -37,6 +37,9 @@ examples = """examples:
   ./dos.py -i eno1 -T 5                 # Sample interval seconds in blacklist, see 'T' above
   ./dos.py -i eno1 -N 10                # Sample npkts threshold in blacklist, see 'N' above
   ./dos.py -i eno1 -W 192.168.30.179    # Specify white address
+
+  ./dos.py -i enp11s0 -t 10 -n 20 -T 20 -N 30 -W 192.168.30.179 192.168.30.180
+
 """
 
 parser = argparse.ArgumentParser(
@@ -124,6 +127,9 @@ static __always_inline int handle_ipv4(struct xdp_md *ctx, struct iphdr *iphdr)
         .flags = 0,
     };
 
+    /**
+     * FIXME: Ignore loopback??
+     */
     if (iphdr->saddr == 0)
         return XDP_PASS;
 
@@ -173,16 +179,22 @@ static __always_inline int handle_ipv4(struct xdp_md *ctx, struct iphdr *iphdr)
         return XDP_DROP;
     }
 
+    delta_s = sec - stat->sample_start;
+
     /**
      * One sampling, check threshold and insert to blacklist.
      */
-    delta_s = sec - stat->sample_start;
     if ((delta_s <= CONFIG_SAMPLE_SECS && stat->sample_npkt >= CONFIG_SAMPLE_THRESHOLD) ||
         (delta_s > CONFIG_SAMPLE_SECS && stat->sample_npkt >= CONFIG_SAMPLE_THRESHOLD)) {
+
+        /* Never add address in whitelist to blacklist */
         if (!(stat->flags & F_IN_WHITELIST))
             stat->flags |= F_IN_BLACKLIST;
+
         stat->sample_npkt = 0;
         stat->sample_start = sec;
+
+    /* Packet rate is OK, reset sampling */
     } else if (delta_s > CONFIG_SAMPLE_SECS && stat->sample_npkt < CONFIG_SAMPLE_THRESHOLD) {
         stat->sample_npkt = 0;
         stat->sample_start = sec;
