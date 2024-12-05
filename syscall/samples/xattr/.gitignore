@@ -1,3 +1,5 @@
 /setxattr
+/getxattr
+/listxattr
 /demo-1
 /a.txt
