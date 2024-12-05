@@ -7,8 +7,13 @@ DEPROOT = $(shell pwd)/.deps
 SRCS := ${SRCROOT}/module1/a.c
 SRCS += ${SRCROOT}/module1/b.c
 
-DEPS := $(subst $(SRCROOT), $(DEPROOT), $(patsubst %.c,%.o,$(SRCS)))
+# $(patsubst <pattern>,<replacement>,<text>)
+OBJS := $(patsubst %.c,%.o,$(SRCS))
+
+# $(subst <from>,<to>,<text>)
+DEPS := $(subst $(SRCROOT), $(DEPROOT), $(OBJS))
 
 .PHONY: build
 build:
-	echo ${DEPS}
+	@echo OBJS=${OBJS}
+	@echo DEPS=${DEPS}
