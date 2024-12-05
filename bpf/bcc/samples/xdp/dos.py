@@ -87,7 +87,6 @@ if not ifidx_a:
 
 ifidx = ifidx_a[0]
 
-# load BPF program
 bpf_text = """
 #include <uapi/linux/bpf.h>
 #include <linux/in.h>
@@ -269,6 +268,7 @@ bpf_text = bpf_text.replace('CONFIG_SAMPLE_THRESHOLD', str(config_sample_thresho
 bpf_text = bpf_text.replace('CONFIG_BLACKLIST_SAMPLE_SECS', str(config_blacklist_sample_secs))
 bpf_text = bpf_text.replace('CONFIG_BLACKLIST_SAMPLE_THRESHOLD', str(config_blacklist_sample_threshold))
 
+# load BPF program
 b = BPF(text=bpf_text, cflags=["-w"])
 
 fn = b.load_func("xdp_handler", BPF.XDP)
