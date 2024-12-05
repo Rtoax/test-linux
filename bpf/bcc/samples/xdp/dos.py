@@ -238,7 +238,7 @@ int xdp_handler(struct xdp_md *ctx)
             return XDP_DROP;
         return handle_ipv4(ctx, iphdr);
     } else
-    return XDP_PASS;
+        return XDP_PASS;
 }
 """
 
