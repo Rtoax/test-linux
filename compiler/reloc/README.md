@@ -1,6 +1,13 @@
 ELF Relocation Sections
 =======================
 
+
+- `.rel.plt` are `R_386_JUMP_SLOT`
+- `.rela.plt` are `R_X86_64_JUMP_SLOT`
+- `.rel.dyn` are `R_386_GLOB_DAT`
+- `.rela.dyn` are `R_X86_64_GLOB_DAT`
+
+
 # Links
 
 - https://wiki.osdev.org/ELF_Tutorial
