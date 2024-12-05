@@ -1,5 +1,7 @@
+- CLS: classification () @TC
 - GRO: Generic Receive Offload (通用接收卸载) @TSO @TSS
 - GSO: Generic Segmentation Offload (通用 TSO)
 - LRO: Large Receive Offload ()
 - LSO: Large segment offload (TCP 分段卸载)
+- TC: Traffic Control (拥塞控制)
 - TSO: TCP Segmentation Offload (TCP 分段卸载) @LSO @GRO @TSS
