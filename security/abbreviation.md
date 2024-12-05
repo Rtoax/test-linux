@@ -4,6 +4,7 @@
 - ASN.1: Abstract Syntax Notation One (ISO/ITU-T 标准，数据编解码)
 - ATF: ARM Trusted Firmware (ARM信任固件)
 - CC: Confidential Compute (机密计算)
+- CIA: Confidentiality, Integrity, Availability (私密性,完整性,可用性)
 - DAC: Discretionary Access Control (自主访问控制) @ACL
 - GPG: GNU Privacy Guard (GNU PG, GnuPG) @PGP
 - IPE: Integrity Policy Enforcement (诚信政策执行) @LSM
