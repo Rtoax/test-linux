@@ -6,6 +6,7 @@
 # Licensed under the Apache License, Version 2.0 (the "License")
 #
 # 04-Dec-2024   Rong Tao    Create this.
+# 05-Dec-2024   Rong Tao    Support specify blacklist and whitelist.
 #
 from bcc import BPF
 import pyroute2
@@ -101,9 +102,11 @@ struct ipv4_key_t {
     u32 saddr;
 };
 struct ipv4_stat_t {
-    u64 npkt;               /* total packets */
-    u64 sample_start;       /* each sample interval start */
-    u64 sample_npkt;        /* each sample period packets count */
+    u64 npkt;               /* total packets of one source address */
+    u64 sample_start;       /* each sample interval start, both used in
+                               whitelist and blacklist */
+    u64 sample_npkt;        /* each sample period packets count, both used
+                               in whitelist and blacklist */
 
 #define F_IN_BLACKLIST  (1 << 0)  /* address in blacklist */
 #define F_IN_WHITELIST  (1 << 1)  /* address in whitelist */
@@ -117,7 +120,6 @@ BPF_HASH(ipv4_stat, struct ipv4_key_t, struct ipv4_stat_t);
 
 static __always_inline int handle_ipv4(struct xdp_md *ctx, struct iphdr *iphdr)
 {
-    uint32_t key = 0;
     uint32_t if_index = CONFIG_IF_INDEX;
     struct ipv4_stat_t *stat;
     u64 delta_s;
