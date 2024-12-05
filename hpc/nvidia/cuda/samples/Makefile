@@ -1,17 +1,19 @@
+# SPDX-License-Identifier: GPL-3.0
 SHELL = bash
+
 NVCC = $(shell which nvcc 2>/dev/null)
+CC = $(NVCC)
 
 TARGETS :=
+TARGETS += hello
 
 CFLAGS :=
 LDFLAGS :=
 LDLIBS :=
 
-ifneq ($(wildcard $(NVCC)),)
-  TARGETS += hello
-  CC = nvcc
-else
+ifeq ($(wildcard $(NVCC)),)
   $(warning Not found nvcc, install cuda first)
+  TARGETS :=
 endif
 
 CFLAGS += -DDEBUG -O0 -g
