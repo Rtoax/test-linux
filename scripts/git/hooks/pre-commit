@@ -4,6 +4,8 @@ try_add=( $(git status --short | grep ^A | awk '{print $2}') )
 
 for f in ${try_add[@]}
 do
+	[[ -d ${f} ]] && continue
+
 	read -r -N 8 bin < $f
 	if [[ $bin == $'\x7f'ELF* ]]; then
 		echo "FATAL: You are trying to add <$f> ELF file to git-tree, see git status."
