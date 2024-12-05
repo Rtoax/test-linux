@@ -31,6 +31,14 @@ if device == "-1":
     print("Must specify interface with -i")
     exit()
 
+global iproute
+iproute = IPRoute()
+links = iproute.link_lookup(ifname=device)
+if not links:
+    print("ERROR: Not exist nic interface %s!!" % device)
+    exit()
+idx = links[0]
+
 b = BPF(src_file="icmp.c")
 fn = b.load_func("xdp_icmp", BPF.XDP)
 b.attach_xdp(device, fn, 0)
@@ -38,12 +46,8 @@ b.attach_xdp(device, fn, 0)
 if tc == "-1":
     print("You can specify -t,--tc")
 elif tc == "tc" or tc == "tc_drop" or tc == "tc_pingpong":
-    global iproute
-    iproute = IPRoute()
     # BPF_PROG_TYPE_SCHED_CLS
     fi = b.load_func(tc, BPF.SCHED_CLS)
-    links = iproute.link_lookup(ifname=device)
-    idx = links[0]
 
     try:
         iproute.tc("add", "ingress", idx, "ffff:")
