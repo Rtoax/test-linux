@@ -20,7 +20,7 @@ MAKEFLAGS += --no-print-directory
 export MAKEFLAGS
 MKFILE_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))
 
-GIT_CONFIG_CORE_HOOKSPATH := $(shell git config get core.hooksPath 2>/dev/null || echo "UnsupportGetHooks")
+GIT_CONFIG_CORE_HOOKSPATH := $(shell ./scripts/git/config.sh 2>/dev/null || echo "UnsupportGetHooks")
 
 USER_FAILED_LOG := $(shell pwd)/failed-user.log
 KERNEL_FAILED_LOG := $(shell pwd)/failed-kernel.log
