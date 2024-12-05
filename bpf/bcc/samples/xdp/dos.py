@@ -37,8 +37,9 @@ examples = """examples:
   ./dos.py -i eno1 -T 5                 # Sample interval seconds in blacklist, see 'T' above
   ./dos.py -i eno1 -N 10                # Sample npkts threshold in blacklist, see 'N' above
   ./dos.py -i eno1 -W 192.168.30.179    # Specify white address
+  ./dos.py -i eno1 -B 192.168.30.179    # Specify black address
 
-  ./dos.py -i enp11s0 -t 10 -n 20 -T 20 -N 30 -W 192.168.30.179 192.168.30.180
+  ./dos.py -i enp11s0 -t 10 -n 20 -T 20 -N 30 -W 192.168.30.179 192.168.30.180 -B 192.168.30.1
 
 """
 
@@ -58,6 +59,8 @@ parser.add_argument("-N", "--blacklist-sample-threshold", default=100,
     help="specify sampling threshold in blacklist, use to remove from blacklist, see 'N' in description.")
 parser.add_argument("-W", "--whitelist", nargs='*',
     help="specify the address white list, (may be listed multiple times).")
+parser.add_argument("-B", "--blacklist", nargs='*',
+    help="specify the address black list, (may be listed multiple times).")
 
 args = parser.parse_args()
 ifname = args.interface
@@ -66,6 +69,7 @@ config_sample_threshold = args.sample_threshold
 config_blacklist_sample_secs = args.blacklist_sample_secs
 config_blacklist_sample_threshold = args.blacklist_sample_threshold
 config_whitelist = args.whitelist
+config_blacklist = args.blacklist
 
 
 if ifname == "-1":
@@ -103,10 +107,12 @@ struct ipv4_stat_t {
 
 #define F_IN_BLACKLIST  (1 << 0)  /* address in blacklist */
 #define F_IN_WHITELIST  (1 << 1)  /* address in whitelist */
+#define F_BLACK_FOREVER (1 << 2)  /* address in blacklist forever */
     u32 flags;
 };
 
 BPF_HASH(ipv4_whitelist, u32, int);
+BPF_HASH(ipv4_blacklist, u32, int);
 BPF_HASH(ipv4_stat, struct ipv4_key_t, struct ipv4_stat_t);
 
 static __always_inline int handle_ipv4(struct xdp_md *ctx, struct iphdr *iphdr)
@@ -145,14 +151,22 @@ static __always_inline int handle_ipv4(struct xdp_md *ctx, struct iphdr *iphdr)
         int *white = ipv4_whitelist.lookup(&iphdr->saddr);
         if (white)
             newstat.flags |= F_IN_WHITELIST;
+        int *black = ipv4_blacklist.lookup(&iphdr->saddr);
+        if (black)
+            newstat.flags |= F_BLACK_FOREVER;
         newstat.sample_start = sec;
         newstat.npkt++;
         ipv4_stat.update(&key_saddr, &newstat);
+        if (newstat.flags & F_BLACK_FOREVER)
+            return XDP_DROP;
         return XDP_PASS;
     }
 
     stat->npkt++;
     stat->sample_npkt++;
+
+    if (stat->flags & F_BLACK_FOREVER)
+        return XDP_DROP;
 
     /**
      * Already exist source ipv4 address
@@ -227,8 +241,9 @@ int xdp_handler(struct xdp_md *ctx)
 """
 
 ADDR_FLAGS = [
-    ('\033[7;30mBLACK\033[m', (1 << 0)),
-    ('\033[7;37mWHITE\033[m', (1 << 1)),
+    ('\033[1;31mBLACK\033[m', (1 << 0)),
+    ('\033[1;37mWHITE\033[m', (1 << 1)),
+    ('\033[1;31mBLACK_FOREVER\033[m', (1 << 2)),
 ]
 
 def _decode_flags(flags, flag_list):
@@ -257,6 +272,7 @@ b = BPF(text=bpf_text, cflags=["-w"])
 fn = b.load_func("xdp_handler", BPF.XDP)
 
 ipv4_whitelist = b.get_table("ipv4_whitelist");
+ipv4_blacklist = b.get_table("ipv4_blacklist");
 ipv4_stat = b.get_table("ipv4_stat");
 
 if config_whitelist:
@@ -264,6 +280,12 @@ if config_whitelist:
         print(f"Add {white_ip_str} to whitelist")
         ipnum = struct.unpack("i", inet_aton(white_ip_str))[0]
         ipv4_whitelist.__setitem__(ct.c_uint32(ipnum), ct.c_int(1));
+
+if config_blacklist:
+    for black_ip_str in config_blacklist:
+        print(f"Add {black_ip_str} to blacklist")
+        ipnum = struct.unpack("i", inet_aton(black_ip_str))[0]
+        ipv4_blacklist.__setitem__(ct.c_uint32(ipnum), ct.c_int(1));
 
 b.attach_xdp(ifname, fn, flags)
 
