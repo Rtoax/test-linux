@@ -137,6 +137,8 @@ CFLAGS += -DDEBUG -O0 -g
 
 sub-dir-build := $(sub-dir:=.build)
 
+MAKEFLAGS += --no-print-directory
+
 .PHONY: build
 build: nr.h ${TARGETS} ${TARGETS_CPP} $(sub-dir-build)
 	@echo -e " \033[1;33m Done \033[m"
