@@ -20,7 +20,7 @@ void test_mem_fd(void)
 	Elf64_Ehdr *pehdr;
 	unsigned long addr;
 
-	addr = proc_maps_exec_base_addr();
+	addr = proc_maps_exec_base_addr(NULL);
 
 	mem_fd = open_proc_pid_mem(getpid());
 	proc_pid_mem_read(mem_fd, addr, buf, sizeof(*pehdr));
@@ -54,7 +54,7 @@ void test_find_vma_hole(void)
 	addr = proc_find_vma_hole(addr, len);
 	printf("vma hole = 0x%016lx ~ 0x%016lx\n", addr, addr + len);
 
-	addr = proc_maps_exec_base_addr();
+	addr = proc_maps_exec_base_addr(NULL);
 	len = 1024;
 	addr = proc_find_vma_hole(addr, len);
 	printf("vma hole = 0x%016lx ~ 0x%016lx\n", addr, addr + len);
@@ -73,14 +73,14 @@ int main(void)
 
 	print_proc_pid_maps();
 	printf("comm : %s\n", proc_comm(comm, sizeof(comm)));
-	printf("base addr : %lx\n", proc_maps_exec_base_addr());
-	printf("base text addr : %lx\n", proc_maps_exec_text_addr());
-	printf("base data addr : %lx\n", proc_maps_exec_data_addr());
+	printf("base addr : %lx\n", proc_maps_exec_base_addr(NULL));
+	printf("base text addr : %lx\n", proc_maps_exec_text_addr(NULL));
+	printf("base data addr : %lx\n", proc_maps_exec_data_addr(NULL));
 	printf("libc name : %s\n", proc_maps_libc_base_name(name, sizeof(name)));
-	printf("libc addr : %lx\n", proc_maps_libc_base_addr());
-	printf("libc text addr : %lx\n", proc_maps_libc_text_addr());
-	printf("libc data addr : %lx\n", proc_maps_libc_data_addr());
-	printf("vdso addr : %lx\n", proc_maps_vdso_addr());
+	printf("libc addr : %lx\n", proc_maps_libc_base_addr(NULL));
+	printf("libc text addr : %lx\n", proc_maps_libc_text_addr(NULL));
+	printf("libc data addr : %lx\n", proc_maps_libc_data_addr(NULL));
+	printf("vdso addr : %lx\n", proc_maps_vdso_addr(NULL));
 
 	test_mem_fd();
 	test_find_vma_hole();

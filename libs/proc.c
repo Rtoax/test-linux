@@ -57,7 +57,8 @@ static unsigned int perms2prot(char *perms)
 }
 
 static unsigned long __proc_maps_addr(enum vma_type vma_type, char *get_name,
-				      union addr_args *arg)
+				      union addr_args *arg,
+				      unsigned long *size)
 {
 	unsigned long addr = 0;
 	char maps[128], comm[128];
@@ -106,10 +107,14 @@ static unsigned long __proc_maps_addr(enum vma_type vma_type, char *get_name,
 				if (arg && arg->need_prot != PROT_NONE) {
 					if ((arg->need_prot & prot) == arg->need_prot) {
 						addr = start;
+						if (size)
+							*size = end - start;
 						goto found;
 					}
 				} else {
 					addr = start;
+					if (size)
+						*size = end - start;
 					goto found;
 				}
 			}
@@ -122,10 +127,14 @@ static unsigned long __proc_maps_addr(enum vma_type vma_type, char *get_name,
 				if (arg && arg->need_prot != PROT_NONE) {
 					if ((arg->need_prot & prot) == arg->need_prot) {
 						addr = start;
+						if (size)
+							*size = end - start;
 						goto found;
 					}
 				} else {
 					addr = start;
+					if (size)
+						*size = end - start;
 					goto found;
 				}
 			}
@@ -133,6 +142,8 @@ static unsigned long __proc_maps_addr(enum vma_type vma_type, char *get_name,
 		case VT_VDSO:
 			if (!strcmp(basename(name_), "[vdso]")) {
 				addr = start;
+				if (size)
+					*size = end - start;
 				if (get_name)
 					strcpy(get_name, name_);
 				goto found;
@@ -154,6 +165,7 @@ static unsigned long __proc_maps_addr(enum vma_type vma_type, char *get_name,
 			/* Found vma hole */
 			if (prev_end && prev_end + len <= start) {
 				addr = vma_count == 0 ? prev_start : prev_end;
+				/* TODO: Get size */
 				goto found;
 			}
 
@@ -173,57 +185,57 @@ found:
 	return addr;
 }
 
-unsigned long proc_maps_exec_base_addr(void)
+unsigned long proc_maps_exec_base_addr(unsigned long *size)
 {
-	return __proc_maps_addr(VT_COMM, NULL, NULL);
+	return __proc_maps_addr(VT_COMM, NULL, NULL, size);
 }
 
-unsigned long proc_maps_exec_text_addr(void)
+unsigned long proc_maps_exec_text_addr(unsigned long *size)
 {
 	union addr_args arg = {
 		.need_prot = PROT_EXEC,
 	};
-	return __proc_maps_addr(VT_COMM, NULL, &arg);
+	return __proc_maps_addr(VT_COMM, NULL, &arg, size);
 }
 
-unsigned long proc_maps_exec_data_addr(void)
+unsigned long proc_maps_exec_data_addr(unsigned long *size)
 {
 	union addr_args arg = {
 		.need_prot = PROT_READ | PROT_WRITE,
 	};
-	return __proc_maps_addr(VT_COMM, NULL, &arg);
+	return __proc_maps_addr(VT_COMM, NULL, &arg, size);
 }
 
-unsigned long proc_maps_libc_base_addr(void)
+unsigned long proc_maps_libc_base_addr(unsigned long *size)
 {
-	return __proc_maps_addr(VT_LIBC, NULL, NULL);
+	return __proc_maps_addr(VT_LIBC, NULL, NULL, size);
 }
 
-unsigned long proc_maps_libc_data_addr(void)
+unsigned long proc_maps_libc_data_addr(unsigned long *size)
 {
 	union addr_args arg = {
 		.need_prot = PROT_READ | PROT_WRITE,
 	};
-	return __proc_maps_addr(VT_LIBC, NULL, &arg);
+	return __proc_maps_addr(VT_LIBC, NULL, &arg, size);
 }
 
-unsigned long proc_maps_libc_text_addr(void)
+unsigned long proc_maps_libc_text_addr(unsigned long *size)
 {
 	union addr_args arg = {
 		.need_prot = PROT_EXEC,
 	};
-	return __proc_maps_addr(VT_LIBC, NULL, &arg);
+	return __proc_maps_addr(VT_LIBC, NULL, &arg, size);
 }
 
 char *proc_maps_libc_base_name(char *buf, size_t buf_len)
 {
-	__proc_maps_addr(VT_LIBC, buf, NULL);
+	__proc_maps_addr(VT_LIBC, buf, NULL, NULL);
 	return buf;
 }
 
-unsigned long proc_maps_vdso_addr(void)
+unsigned long proc_maps_vdso_addr(unsigned long *size)
 {
-	return __proc_maps_addr(VT_VDSO, NULL, NULL);
+	return __proc_maps_addr(VT_VDSO, NULL, NULL, size);
 }
 
 unsigned long proc_find_vma_hole(unsigned long start, unsigned long len)
@@ -232,7 +244,7 @@ unsigned long proc_find_vma_hole(unsigned long start, unsigned long len)
 		.vt_hole_arg.start = start,
 		.vt_hole_arg.len = len,
 	};
-	return __proc_maps_addr(VT_HOLE, NULL, &arg);
+	return __proc_maps_addr(VT_HOLE, NULL, &arg, NULL);
 }
 
 void print_proc_pid_maps(void)

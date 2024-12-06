@@ -145,19 +145,19 @@ void test_mapping_phy_addr(void)
 			run_on_cpu, cpu_numa);				\
 	} while (0)
 
-	va = proc_maps_libc_text_addr();
+	va = proc_maps_libc_text_addr(NULL);
 	pa = virt_to_phy(va);
 	PR("libc text", va, pa, phy_addr_numa(pa));
 
-	va = proc_maps_libc_data_addr();
+	va = proc_maps_libc_data_addr(NULL);
 	pa = virt_to_phy(va);
 	PR("libc data", va, pa, phy_addr_numa(pa));
 
-	va = proc_maps_exec_text_addr();
+	va = proc_maps_exec_text_addr(NULL);
 	pa = virt_to_phy(va);
 	PR("exec text", va, pa, phy_addr_numa(pa));
 
-	va = proc_maps_exec_data_addr();
+	va = proc_maps_exec_data_addr(NULL);
 	pa = virt_to_phy(va);
 	PR("exec data", va, pa, phy_addr_numa(pa));
 }

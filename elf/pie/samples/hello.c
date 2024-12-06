@@ -26,7 +26,8 @@ int readline(const char *ps1, const char *line)
 
 void print_addresses(void)
 {
-	unsigned long base_addr = proc_maps_exec_base_addr();
+	unsigned long base_size;
+	unsigned long base_addr = proc_maps_exec_base_addr(&base_size);
 
 #define P(sym)	printf("%48s : 0x%016lx (0x%016lx)\n", #sym, \
 		      (unsigned long)&(sym), (unsigned long)&(sym) - base_addr);

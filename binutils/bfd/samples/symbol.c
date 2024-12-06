@@ -50,7 +50,7 @@ void handle_sym(const char *prefix, asymbol *sym, bool firstline)
 
 #if defined(TEST_SYMBOL_VALUE)
 	if (!base_vma)
-		base_vma = proc_maps_exec_base_addr();
+		base_vma = proc_maps_exec_base_addr(NULL);
 #else
 	if (firstline)
 		printf("%-4s %-16s %-4s %-8s %-16s %-16s %-16s %-8s\n", "PFX",
@@ -194,7 +194,7 @@ int main(int argc, char *argv[])
 			break;
 		case 'c':
 			filepath = proc_maps_libc_base_name(buffer, sizeof(buffer));
-			base_vma = proc_maps_libc_base_addr();
+			base_vma = proc_maps_libc_base_addr(NULL);
 			printf("Set libc %s\n", filepath);
 			break;
 		case 'b':
