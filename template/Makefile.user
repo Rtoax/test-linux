@@ -85,12 +85,12 @@ endef
 
 .PHONY: build
 build: ${TARGETS} $(sub-dir-build)
-	$(Q)echo
-	$(Q)echo -e "  CFLAGS=${CFLAGS}"
-	$(Q)echo -e "  LDFLAGS=${LDFLAGS}"
-	$(Q)echo -e "  PRINTF  ${feature-printf} "
-	$(Q)echo -e "  CFLAGS  $(CFLAGS)"
-	$(Q)echo -e "  \033[1;33mDone\033[m"
+	@echo
+	@echo -e "  CFLAGS=${CFLAGS}"
+	@echo -e "  LDFLAGS=${LDFLAGS}"
+	@echo -e "  PRINTF  ${feature-printf} "
+	@echo -e "  CFLAGS  $(CFLAGS)"
+	@echo -e "  \033[1;33mDone\033[m"
 
 $(sub-dir-build):
 	make -C $(@:.build=)
@@ -106,21 +106,21 @@ CFLAGS_main.user += -Wno-error=cpp
 LDFLAGS_main.user :=
 
 %.o: %.c
-	$(Q)echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
+	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	$(Q)$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
 	$(Q)$(CC) -S $(<) -o $(<:.c=.s) $(CFLAGS) $(CFLAGS_$(*))
 
 $(TARGETS): %:
-	$(Q)echo -e "  LD  \033[1;32m$(@)\033[m"
+	@echo -e "  LD  \033[1;32m$(@)\033[m"
 	$(Q)$(CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*)) $(CFLAGS) $(CFLAGS_$(*))
-	$(call user_strip,$(@))
+	$(Q)$(call user_strip,$(@))
 
 test: ${TARGETS}
-	$(Q)echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
+	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
 
 .PHONY: clean
 clean: $(sub-dir-clean)
-	$(Q)echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
+	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
 	$(Q)rm -f ${TARGETS} *.s *.o *.strip
 
 $(sub-dir-clean):
