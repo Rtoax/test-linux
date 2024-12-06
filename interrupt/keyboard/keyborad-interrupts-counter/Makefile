@@ -1,4 +1,12 @@
 SHELL = bash
+ifeq ($(V),1)
+  Q =
+else
+  Q = @
+  MAKEFLAGS += --no-print-directory
+endif
+export Q
+
 
 obj-m += key-handler-kernel.o
 ccflags-y := -std=gnu99 -Wno-declaration-after-statement
@@ -6,11 +14,11 @@ ccflags-y := -std=gnu99 -Wno-declaration-after-statement
 .PHONY : clean
 
 all:
-	@make -C /lib/modules/$(shell uname -r)/build M=$(CURDIR) modules
-	@make -f Makefile.user
+	${Q}make -C /lib/modules/$(shell uname -r)/build M=$(CURDIR) modules
+	${Q}make -f Makefile.user
 	sudo insmod key-handler-kernel.ko
 clean:
 	sudo rm -f /dev/key-handler
-	@make -C /lib/modules/$(shell uname -r)/build M=$(CURDIR) clean
-	@make -f Makefile.user clean
+	${Q}make -C /lib/modules/$(shell uname -r)/build M=$(CURDIR) clean
+	${Q}make -f Makefile.user clean
 	sudo rmmod key-handler-kernel

@@ -1,4 +1,12 @@
 SHELL = bash
+ifeq ($(V),1)
+  Q =
+else
+  Q = @
+  MAKEFLAGS += --no-print-directory
+endif
+export Q
+
 
 CC = gcc
 CXX = c++
@@ -105,33 +113,33 @@ CFLAGS___user := -Wno-error=attributes
 
 %-macros.h:
 	@echo -e "  ${CC} MARCOS  \033[1m$(CC)-macros.h\033[m"
-	@rm -f compiler-macros.h
+	${Q}rm -f compiler-macros.h
 	@echo '#pragma once' | tee $(@)
-	@$(CC) -march=native -E -dM - </dev/null | tee --append $(@)
+	${Q}$(CC) -march=native -E -dM - </dev/null | tee --append $(@)
 
 compiler-macros.h: $(CC)-macros.h
 	@echo -e "  CC MARCOS  \033[1mcompiler-macros.h\033[m"
-	@rm -f $(@)
+	${Q}rm -f $(@)
 	@ln -s $(<) $(@)
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
+	${Q}$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
 
 %.opp: %.cpp
 	@echo -e "  CXX  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	@$(CXX) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
+	${Q}$(CXX) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
 
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) $(^)
+	${Q}$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) $(^)
 
 $(TARGETS_CXX): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	@$(CXX) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) $(^)
+	${Q}$(CXX) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) $(^)
 
 .PHONY: clean
 clean:
 	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
-	@rm -f ${TARGETS} ${TARGETS_CXX} *.o *.opp
-	@rm -f $(CC)-macros.h compiler-macros.h
+	${Q}rm -f ${TARGETS} ${TARGETS_CXX} *.o *.opp
+	${Q}rm -f $(CC)-macros.h compiler-macros.h

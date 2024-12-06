@@ -1,4 +1,12 @@
 SHELL = bash
+ifeq ($(V),1)
+  Q =
+else
+  Q = @
+  MAKEFLAGS += --no-print-directory
+endif
+export Q
+
 
 CC = gcc
 LD = ld
@@ -39,12 +47,12 @@ ${TARGETS_AS}: %:
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	@$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
+	${Q}$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
 
 $(TARGETS_C): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	@$(CC) -o $(@) $(^) $(LDFLAGS_C) $(LDFLAGS_$(*)) $(CFLAGS) $(CFLAGS_$(*))
+	${Q}$(CC) -o $(@) $(^) $(LDFLAGS_C) $(LDFLAGS_$(*)) $(CFLAGS) $(CFLAGS_$(*))
 
 clean:
 	@echo -e "  CLEAN  \033[1;32m$(TARGETS_AS) $(TARGETS_C) $(TARGETS_LDS)\033[m"
-	@rm -f ${TARGETS_AS} ${TARGETS_C} ${TARGETS_LDS} *.o
+	${Q}rm -f ${TARGETS_AS} ${TARGETS_C} ${TARGETS_LDS} *.o

@@ -1,8 +1,16 @@
 SHELL = bash
+ifeq ($(V),1)
+  Q =
+else
+  Q = @
+  MAKEFLAGS += --no-print-directory
+endif
+export Q
+
 
 all:
-	@make -C posix
-	@make -C sysv
+	${Q}make -C posix
+	${Q}make -C sysv
 clean:
-	@make -C posix clean
-	@make -C sysv clean
+	${Q}make -C posix clean
+	${Q}make -C sysv clean

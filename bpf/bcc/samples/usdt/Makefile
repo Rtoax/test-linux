@@ -1,4 +1,12 @@
 SHELL = bash
+ifeq ($(V),1)
+  Q =
+else
+  Q = @
+  MAKEFLAGS += --no-print-directory
+endif
+export Q
+
 
 
 TARGETS := hello_usdt
@@ -24,4 +32,4 @@ test: ${TARGETS}
 	./hello_usdt
 
 clean:
-	@rm -f ${TARGETS} *.o *.d
+	${Q}rm -f ${TARGETS} *.o *.d

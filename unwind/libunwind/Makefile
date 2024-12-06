@@ -1,4 +1,12 @@
 SHELL = bash
+ifeq ($(V),1)
+  Q =
+else
+  Q = @
+  MAKEFLAGS += --no-print-directory
+endif
+export Q
+
 
 TARGETS :=
 TARGETS_CPP :=
@@ -65,20 +73,20 @@ unwind-backtrace: unwind-backtrace.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	@$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
+	${Q}$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
 
 %.oo: %.cc
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	@$(CXX) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
+	${Q}$(CXX) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
 
 ${TARGETS}: %:
 	@echo -e "  LD  \033[1m$(<)\033[m to \033[1;32m$(@)\033[m"
-	@$(CC) -o $(@) $(<) ${UNWIND_PTRACE} $(CFLAGS) $(CFLAGS_$(*))
+	${Q}$(CC) -o $(@) $(<) ${UNWIND_PTRACE} $(CFLAGS) $(CFLAGS_$(*))
 
 ${TARGETS_CPP}: %:
 	@echo -e "  LD  \033[1m$(<)\033[m to \033[1;32m$(@)\033[m"
-	@$(CXX) -o $(@) $(<) ${UNWIND_PTRACE} $(CFLAGS) $(CFLAGS_$(*))
+	${Q}$(CXX) -o $(@) $(<) ${UNWIND_PTRACE} $(CFLAGS) $(CFLAGS_$(*))
 
 clean:
 	@echo -e "  CLEAN  \033[1m$(TARGETS) ${TARGETS_CPP}\033[m"
-	@rm -f ${TARGETS} ${TARGETS_CPP} *.o *.oo
+	${Q}rm -f ${TARGETS} ${TARGETS_CPP} *.o *.oo

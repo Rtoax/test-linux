@@ -1,5 +1,13 @@
 # SPDX-License-Identifier: GPL-3.0
 SHELL = bash
+ifeq ($(V),1)
+  Q =
+else
+  Q = @
+  MAKEFLAGS += --no-print-directory
+endif
+export Q
+
 
 ARCH ?= $(shell uname -m | sed 's/x86_64/x86/' \
 			 | sed 's/arm.*/arm/' \
@@ -35,23 +43,24 @@ $(patsubst %,%.o,$(TARGETS_EXE)): %.o: %.skel.h
 
 %.bpf.o: %.bpf.c
 	@echo -e "  BPF  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	@$(CLANG) -c $(<) -o $(@) ${CFLAGS_BPF}
+	${Q}$(CLANG) -c $(<) -o $(@) ${CFLAGS_BPF}
 
 %.skel.h: %.bpf.o
 	@echo -e "  SKEL  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	@$(BPFTOOL) gen skeleton $< > $@
+	${Q}$(BPFTOOL) gen skeleton $< > $@
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	@$(CC) -o $(@) -c $(<) $(CFLAGS_EXE) $(CFLAGS_EXE_$(*))
+	${Q}$(CC) -o $(@) -c $(<) $(CFLAGS_EXE) $(CFLAGS_EXE_$(*))
 
 $(TARGETS_EXE): %: %.o
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	@$(CC) -o $(@) $(^) $(LDFLAGS_EXE) $(LDFLAGS_EXE_$(*))
+	${Q}$(CC) -o $(@) $(^) $(LDFLAGS_EXE) $(LDFLAGS_EXE_$(*))
 
 vmlinux.h:
 	@echo -e "  BPFTOOL  \033[1m$(@)\033[m"
-	@${BPFTOOL} btf dump file /sys/kernel/btf/vmlinux format c > vmlinux.h
+	${Q}${BPFTOOL} btf dump file /sys/kernel/btf/vmlinux format c > vmlinux.h
 
 clean:
-	@rm -f ${TARGETS_BPF} ${TARGETS_EXE} *.o *.skel.h vmlinux.h
+	@echo -e "  RM  \033[1;32m$(TARGETS_BPF) ${TARGETS_EXE}\033[m"
+	${Q}rm -f ${TARGETS_BPF} ${TARGETS_EXE} *.o *.skel.h vmlinux.h

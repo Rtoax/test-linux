@@ -1,4 +1,12 @@
 SHELL = bash
+ifeq ($(V),1)
+  Q =
+else
+  Q = @
+  MAKEFLAGS += --no-print-directory
+endif
+export Q
+
 
 CC = gcc
 AS = as
@@ -124,15 +132,15 @@ CFLAGS_write-c-loop := -DINFINITE_LOOP=1
 
 %.co: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	@$(CC) $(<) -c -o $(@) $(CFLAGS) $(CFLAGS_$(*))
+	${Q}$(CC) $(<) -c -o $(@) $(CFLAGS) $(CFLAGS_$(*))
 
 %.o: %.S
 	@echo -e "  CC(S)  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	@$(CC) $(<) -c -o $(@) $(CFLAGS) $(CFLAGS_$(*))
+	${Q}$(CC) $(<) -c -o $(@) $(CFLAGS) $(CFLAGS_$(*))
 
 %.o: %.c
 	@echo -e "  CC(C)  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	@$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
+	${Q}$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
 
 $(TARGETS_ASM): %:
 	@echo -e "  LD(ASM)  \033[1;32m$(@)\033[m"
@@ -140,7 +148,7 @@ $(TARGETS_ASM): %:
 
 $(TARGETS_S) $(TARGETS_C): %:
 	@echo -e "  LD(C,S)  \033[1;32m$(@)\033[m"
-	@$(CC) -o $(@) $(^) $(LDFLAGS) $(CFLAGS)
+	${Q}$(CC) -o $(@) $(^) $(LDFLAGS) $(CFLAGS)
 
 test: $(TARGETS_ASM)
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
@@ -149,4 +157,4 @@ test: $(TARGETS_ASM)
 .PHONY: clean
 clean:
 	@echo -e "  CLEAN  \033[1;32m$(TARGETS_C) $(TARGETS_ASM) $(TARGETS_S)\033[m"
-	@rm -f ${TARGETS_ASM} ${TARGETS_S} ${TARGETS_C} *.o *.d core.* *.co *.obj
+	${Q}rm -f ${TARGETS_ASM} ${TARGETS_S} ${TARGETS_C} *.o *.d core.* *.co *.obj

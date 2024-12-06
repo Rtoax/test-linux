@@ -1,4 +1,12 @@
 SHELL = bash
+ifeq ($(V),1)
+  Q =
+else
+  Q = @
+  MAKEFLAGS += --no-print-directory
+endif
+export Q
+
 
 
 obj-m += cn_test.o
@@ -6,12 +14,12 @@ obj-m += cn_test.o
 TARGETS := ucon
 
 all: ${TARGETS}
-	@make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
+	${Q}make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
 
 test:
 	@sudo insmod cn_test.ko
 	@sudo ./ucon
 
 clean:
-	@make -C /lib/modules/$(shell uname -r)/build M=$(PWD) clean
+	${Q}make -C /lib/modules/$(shell uname -r)/build M=$(PWD) clean
 	rm -f ${TARGETS}

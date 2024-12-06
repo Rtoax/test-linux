@@ -1,4 +1,12 @@
 SHELL = bash
+ifeq ($(V),1)
+  Q =
+else
+  Q = @
+  MAKEFLAGS += --no-print-directory
+endif
+export Q
+
 
 obj-m += netlink_kernel.o
 
@@ -9,8 +17,8 @@ LINUX_KERNEL_PATH:=/lib/modules/`uname -r`/build
 TARGETS := netlink_user
 
 all: ${TARGETS}
-	@make -C $(LINUX_KERNEL_PATH) M=$(CURRENT_PATH) modules
+	${Q}make -C $(LINUX_KERNEL_PATH) M=$(CURRENT_PATH) modules
 
 clean:
-	@make -C $(LINUX_KERNEL_PATH) M=$(CURRENT_PATH) clean
+	${Q}make -C $(LINUX_KERNEL_PATH) M=$(CURRENT_PATH) clean
 	rm  -rf ${TARGETS} *.d *.o

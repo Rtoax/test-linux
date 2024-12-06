@@ -1,4 +1,12 @@
 SHELL = bash
+ifeq ($(V),1)
+  Q =
+else
+  Q = @
+  MAKEFLAGS += --no-print-directory
+endif
+export Q
+
 
 sub-dir := demangle
 
@@ -43,12 +51,12 @@ CXXFLAGS_return := -Wno-error=return-type
 
 %.o: %.cpp
 	@echo -e "  CXX  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	@$(CXX) $(CXXFLAGS) $(CXXFLAGS_$(*)) -o $(@) -c $(<)
-	@$(CXX) $(CXXFLAGS) $(CXXFLAGS_$(*)) -S $(<) -o $(<:.cpp=.s)
+	${Q}$(CXX) $(CXXFLAGS) $(CXXFLAGS_$(*)) -o $(@) -c $(<)
+	${Q}$(CXX) $(CXXFLAGS) $(CXXFLAGS_$(*)) -S $(<) -o $(<:.cpp=.s)
 
 ${TARGETS}: %:
 	@echo -e "  LD   \033[1;32m$(@)\033[m"
-	@$(CXX) $(CXXFLAGS) $(CXXFLAGS_$(*)) -o $(@) $(^)
+	${Q}$(CXX) $(CXXFLAGS) $(CXXFLAGS_$(*)) -o $(@) $(^)
 
 test: ${TARGETS}
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
@@ -56,11 +64,11 @@ test: ${TARGETS}
 .PHONY: clean
 clean: $(sub-dir-clean)
 	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
-	@rm -f ${TARGETS} *.o *.d *.s
+	${Q}rm -f ${TARGETS} *.o *.d *.s
 
 $(sub-dir-build):
 	@echo -e "\033[1;32m [sub-dir] build $(@)\033[m"
-	@make -C $(@:.build=) CXX=$(CXX)
+	${Q}make -C $(@:.build=) CXX=$(CXX)
 $(sub-dir-clean):
 	@echo -e "\033[1;32m [sub-dir] clean $(@)\033[m"
-	@make -C $(@:.clean=) clean CXX=$(CXX)
+	${Q}make -C $(@:.clean=) clean CXX=$(CXX)

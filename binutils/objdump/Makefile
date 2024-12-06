@@ -1,5 +1,13 @@
 # SPDX-License-Identifier: GPL-3.0
 SHELL = bash
+ifeq ($(V),1)
+  Q =
+else
+  Q = @
+  MAKEFLAGS += --no-print-directory
+endif
+export Q
+
 
 # Get all .sh suffix scripts
 SCRIPTS := $(shell ls *.sh)
@@ -23,4 +31,4 @@ ${SCRIPTS_OUT}: %:
 .PHONY: clean
 clean:
 	@echo -e "  CLEAN  \033[1;32m${SCRIPTS_OUT}\033[m"
-	@rm -f ${SCRIPTS_OUT}
+	${Q}rm -f ${SCRIPTS_OUT}

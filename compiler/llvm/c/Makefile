@@ -1,4 +1,13 @@
+# SPDX-License-Identifier: GPL-3.0
 SHELL = bash
+ifeq ($(V),1)
+  Q =
+else
+  Q = @
+  MAKEFLAGS += --no-print-directory
+endif
+export Q
+
 
 TARGETS :=
 
@@ -42,17 +51,17 @@ CFLAGS_hello +=
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
-	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -S -emit-llvm $(<) -o $(<:.c=.ll)
-	$(LLVM_AS) $(<:.c=.ll) -o $(<:.c=.bc)
-	$(LLVM_DIS) $(<:.c=.bc) -o $(<:.c=.dis.ll)
-	$(LLC) $(<:.c=.ll) -o $(<:.c=.s)
+	${Q}$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
+	${Q}$(CC) $(CFLAGS) $(CFLAGS_$(*)) -S -emit-llvm $(<) -o $(<:.c=.ll)
+	${Q}$(LLVM_AS) $(<:.c=.ll) -o $(<:.c=.bc)
+	${Q}$(LLVM_DIS) $(<:.c=.bc) -o $(<:.c=.dis.ll)
+	${Q}$(LLC) $(<:.c=.ll) -o $(<:.c=.s)
 	# TODO: fatal error: 'stdio.h' file not found
-	@$(CC) -cc1 -ast-print $(<) || true
+	${Q}$(CC) -cc1 -ast-print $(<) || true
 
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	@$(CC) $(CFLAGS) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
+	${Q}$(CC) $(CFLAGS) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
 
 test: ${TARGETS}
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
@@ -60,4 +69,4 @@ test: ${TARGETS}
 .PHONY: clean
 clean:
 	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
-	@rm -f ${TARGETS} *.o *.d *.ll *.s *.bc
+	${Q}rm -f ${TARGETS} *.o *.d *.ll *.s *.bc

@@ -1,4 +1,12 @@
 SHELL = bash
+ifeq ($(V),1)
+  Q =
+else
+  Q = @
+  MAKEFLAGS += --no-print-directory
+endif
+export Q
+
 
 
 GO = $(shell which go 2>/dev/null)
@@ -24,4 +32,4 @@ ${TARGETS}:
 .PHONY: clean
 clean:
 	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
-	@rm -f ${TARGETS}
+	${Q}rm -f ${TARGETS}

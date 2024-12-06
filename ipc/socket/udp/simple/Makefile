@@ -1,4 +1,12 @@
 SHELL = bash
+ifeq ($(V),1)
+  Q =
+else
+  Q = @
+  MAKEFLAGS += --no-print-directory
+endif
+export Q
+
 
 CC := gcc
 CXX := g++
@@ -20,21 +28,21 @@ stress-recv: stress-recv.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	@$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
+	${Q}$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
 
 %.oc: %.cc
 	@echo -e "  CXX  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	@$(CXX) -o $(@) -c $(<) $(CXXFLAGS) $(CXXFLAGS_$(*))
+	${Q}$(CXX) -o $(@) -c $(<) $(CXXFLAGS) $(CXXFLAGS_$(*))
 
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	@$(CC) -o $(@) $(^) $(CFLAGS) $(CFLAGS_$(*))
+	${Q}$(CC) -o $(@) $(^) $(CFLAGS) $(CFLAGS_$(*))
 
 $(TARGETS_CPP): %:
 	@echo -e "  LD(cxx)  \033[1;32m$(@)\033[m"
-	@$(CXX) -o $(@) $(^) $(CXXFLAGS) $(CXXFLAGS_$(*))
+	${Q}$(CXX) -o $(@) $(^) $(CXXFLAGS) $(CXXFLAGS_$(*))
 
 clean:
 	@echo -e "  CLEAN  \033[1;32m$(TARGETS) ${TARGETS_CPP}\033[m"
-	@rm -f ${TARGETS} ${TARGETS_CPP} *.o *.oc
+	${Q}rm -f ${TARGETS} ${TARGETS_CPP} *.o *.oc
 

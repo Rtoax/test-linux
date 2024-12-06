@@ -1,5 +1,13 @@
 # SPDX-License-Identifier: GPL-3.0
 SHELL = bash
+ifeq ($(V),1)
+  Q =
+else
+  Q = @
+  MAKEFLAGS += --no-print-directory
+endif
+export Q
+
 
 MAKE := make
 
@@ -26,4 +34,4 @@ build: ${LOGS}
 .PHONY: clean
 clean:
 	@echo -e "  RM  \033[1;32m$(LOGS)\033[m"
-	@rm -f ${LOGS}
+	${Q}rm -f ${LOGS}

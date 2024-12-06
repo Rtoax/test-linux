@@ -1,4 +1,12 @@
 SHELL = bash
+ifeq ($(V),1)
+  Q =
+else
+  Q = @
+  MAKEFLAGS += --no-print-directory
+endif
+export Q
+
 
 
 TARGETS := dev
@@ -55,5 +63,5 @@ test: ${TARGETS} ${TARGETS_LIBS}
 .PHONY: clean
 clean:
 	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
-	@rm -f ${TARGETS} ${TARGETS_LIBS} *.o *.so
-	@rm -rf rootfs.out
+	${Q}rm -f ${TARGETS} ${TARGETS_LIBS} *.o *.so
+	${Q}rm -rf rootfs.out

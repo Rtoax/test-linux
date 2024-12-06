@@ -1,4 +1,12 @@
 SHELL = bash
+ifeq ($(V),1)
+  Q =
+else
+  Q = @
+  MAKEFLAGS += --no-print-directory
+endif
+export Q
+
 
 sub-dir := tcg/samples/
 
@@ -16,12 +24,12 @@ test:
 
 .PHONY: clean
 clean: $(sub-dir-clean)
-	@rm -f *.qcow2 *.raw
+	${Q}rm -f *.qcow2 *.raw
 
 $(sub-dir-build):
 	@echo -e "\033[1;32m [sub-dir] build $(@)\033[m"
-	@make -C $(@:.build=)
+	${Q}make -C $(@:.build=)
 $(sub-dir-clean):
 	@echo -e "\033[1;32m [sub-dir] clean $(@)\033[m"
-	@make -C $(@:.clean=) clean
+	${Q}make -C $(@:.clean=) clean
 

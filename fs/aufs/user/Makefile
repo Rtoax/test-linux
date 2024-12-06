@@ -1,4 +1,12 @@
 SHELL = bash
+ifeq ($(V),1)
+  Q =
+else
+  Q = @
+  MAKEFLAGS += --no-print-directory
+endif
+export Q
+
 
 CXX ?= g++
 CPPFLAGS += -Wall -Werror -pedantic -std=c++11

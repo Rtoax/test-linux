@@ -1,4 +1,12 @@
 SHELL = bash
+ifeq ($(V),1)
+  Q =
+else
+  Q = @
+  MAKEFLAGS += --no-print-directory
+endif
+export Q
+
 
 SRCS            =       memcpy.S         \
                         memset.S         \
@@ -33,12 +41,12 @@ $(NAME): $(OBJS)
 	$(LD) $(LDFLAGS) $(OBJS) -o $(NAME)
 
 $(TEST):
-	@make -C tests
+	${Q}make -C tests
 	cp tests/tests $(TEST)
 
 clean:
 	$(RM) $(OBJS) $(NAME) $(TEST)
-	@make -C tests clean
+	${Q}make -C tests clean
 
 re: all
 

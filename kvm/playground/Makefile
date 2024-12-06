@@ -1,4 +1,12 @@
 SHELL = bash
+ifeq ($(V),1)
+  Q =
+else
+  Q = @
+  MAKEFLAGS += --no-print-directory
+endif
+export Q
+
 
 ARCH=$(shell uname -m)
 
@@ -40,30 +48,30 @@ all: ${TARGETS}
 
 hello: hello.c common.o
 	@echo -e "\033[1;33m$(@)\033[m"
-	@$(CC) $(CFLAGS) -o $(@) $(<) $(LIBS)
+	${Q}$(CC) $(CFLAGS) -o $(@) $(<) $(LIBS)
 	$(AS) hello.asm -o hello.o
 	$(OBJCOPY) -O binary hello.o hello.bin
 
 basic-vm: basic-vm.c common.o
 	@echo -e "\033[1;33m$(@)\033[m"
-	@$(CC) $(CFLAGS) -o $(@) $(<) $(LIBS)
+	${Q}$(CC) $(CFLAGS) -o $(@) $(<) $(LIBS)
 
 load-payload01: load-payload01.c common.o
 	@echo -e "\033[1;33m$(@)\033[m"
 	$(NASM) load-payload01-program.asm -o load-payload01-program.bin
 	$(NASM) -felf64 -o load-payload01-payload.o load-payload01-payload.asm
-	@$(CC) $(CFLAGS) -o $(@) load-payload01-payload.o $(<) $(LIBS)
+	${Q}$(CC) $(CFLAGS) -o $(@) load-payload01-payload.o $(<) $(LIBS)
 
 load-payload02: load-payload02.c common.o
 	@echo -e "\033[1;33m$(@)\033[m"
 	$(NASM) load-payload02-program.asm -o load-payload02-program.bin
-	@$(CC) $(CFLAGS) -o $(@) load-payload01-payload.o $(<) $(LIBS)
+	${Q}$(CC) $(CFLAGS) -o $(@) load-payload01-payload.o $(<) $(LIBS)
 
 cpuid: cpuid.c common.o
 	@echo -e "\033[1;33m$(@)\033[m"
 	$(NASM) cpuid-program.asm -o cpuid-program.bin
 	$(NASM) -felf64 -o cpuid-payload.o cpuid-payload.asm
-	@$(CC) $(CFLAGS) -o $(@) cpuid-payload.o $(<) $(LIBS)
+	${Q}$(CC) $(CFLAGS) -o $(@) cpuid-payload.o $(<) $(LIBS)
 
 assemly-compiling:
 	@echo -e "\033[1;33m$(@)\033[m"
@@ -75,21 +83,21 @@ ia32e-paging: ia32e-paging.c common.o
 	@echo -e "\033[1;33m$(@)\033[m"
 	$(NASM) -O0 ia32e-paging-a.asm -o ia32e-paging-a.bin
 	$(NASM) -O0 ia32e-paging-b.asm -o ia32e-paging-b.bin
-	@$(CC) $(CFLAGS) -o $(@) $(<) $(LIBS)
+	${Q}$(CC) $(CFLAGS) -o $(@) $(<) $(LIBS)
 
 protected-mode-with-paging: protected-mode-with-paging.c common.o
 	@echo -e "\033[1;33m$(@)\033[m"
 	$(NASM) protected-mode-with-paging-a.asm -o protected-mode-with-paging-a.bin
 	$(NASM) protected-mode-with-paging-b.asm -o protected-mode-with-paging-b.bin
 	$(NASM) protected-mode-with-paging-c.asm -o protected-mode-with-paging-c.bin
-	@$(CC) $(CFLAGS) -o $(@) $(<) $(LIBS)
+	${Q}$(CC) $(CFLAGS) -o $(@) $(<) $(LIBS)
 
 exceptions: exceptions.c common.o
 	@echo -e "\033[1;33m$(@)\033[m"
 	$(NASM) exceptions-a.asm -o exceptions-a.bin
 	$(NASM) exceptions-handler.asm -o exceptions-handler.bin
-	@$(CC) $(CFLAGS) -o $(@) $(<) $(LIBS)
+	${Q}$(CC) $(CFLAGS) -o $(@) $(<) $(LIBS)
 
 clean:
 	@echo -e "\033[1;32m$(@)\033[m"
-	@rm -f ${TARGETS} *.o *.d *.bin
+	${Q}rm -f ${TARGETS} *.o *.d *.bin

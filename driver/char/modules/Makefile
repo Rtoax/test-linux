@@ -1,4 +1,12 @@
 SHELL = bash
+ifeq ($(V),1)
+  Q =
+else
+  Q = @
+  MAKEFLAGS += --no-print-directory
+endif
+export Q
+
 
 obj-m += hello.o
 obj-m += chardev0.o
@@ -11,9 +19,9 @@ KERNEL_DIR=/lib/modules/`uname -r`/build
 MODULE_DIR := $(shell pwd)
 
 all:
-	@make -C $(KERNEL_DIR) M=$(MODULE_DIR) modules
+	${Q}make -C $(KERNEL_DIR) M=$(MODULE_DIR) modules
 clean:
-	@make -C $(KERNEL_DIR) M=$(MODULE_DIR) clean
+	${Q}make -C $(KERNEL_DIR) M=$(MODULE_DIR) clean
 	rm -f \
 		hello_user \
 		chardev1_user \

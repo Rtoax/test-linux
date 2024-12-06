@@ -1,5 +1,13 @@
 # SPDX-License-Identifier: GPL-3.0
 SHELL = bash
+ifeq ($(V),1)
+  Q =
+else
+  Q = @
+  MAKEFLAGS += --no-print-directory
+endif
+export Q
+
 
 sub-dir := readline
 
@@ -80,7 +88,7 @@ libtest-linux-c.a: ${LIB_OBJS}
 
 %.obj: %.c
 	@echo -e "  CC OBJ  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	@$(CC) -o $(@) -c $(<) $(CFLAGS_SO) $(CFLAGS_SO_$(*)) -fPIC
+	${Q}$(CC) -o $(@) -c $(<) $(CFLAGS_SO) $(CFLAGS_SO_$(*)) -fPIC
 
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
@@ -88,7 +96,7 @@ $(TARGETS): %:
 
 $(TARGETS_LIBSO): %:
 	@echo -e "  SO  \033[1;32m$(@)\033[m"
-	@$(CC) -o $(@) $(^) -shared -fPIC $(LDFLAGS_SO) $(LDFLAGS_SO_$(*))
+	${Q}$(CC) -o $(@) $(^) -shared -fPIC $(LDFLAGS_SO) $(LDFLAGS_SO_$(*))
 
 $(TARGETS_LIBA): %:
 	@echo -e "  AR  \033[1;32m$(^) to $(@)\033[m"
@@ -102,12 +110,12 @@ test: ${TARGETS}
 .PHONY: clean
 clean: $(sub-dir-clean)
 	@echo -e "  CLEAN  \033[1;32m$(TARGETS) ${TARGETS_LIBSO} ${TARGETS_LIBA}\033[m"
-	@rm -f ${TARGETS} ${TARGETS_LIBSO} ${TARGETS_LIBA} *.o *.obj
+	${Q}rm -f ${TARGETS} ${TARGETS_LIBSO} ${TARGETS_LIBA} *.o *.obj
 
 $(sub-dir-build):
 	@echo -e "\033[1;32m [sub-dir] build $(@)\033[m"
-	@make -C $(@:.build=)
+	${Q}make -C $(@:.build=)
 $(sub-dir-clean):
 	@echo -e "\033[1;32m [sub-dir] clean $(@)\033[m"
-	@make -C $(@:.clean=) clean
+	${Q}make -C $(@:.clean=) clean
 

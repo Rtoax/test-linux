@@ -174,6 +174,12 @@ Compile with `-m32`:
 $ make user M32=1
 ```
 
+Compile with verbose:
+
+```
+$ make user V=1
+```
+
 
 # Links
 

@@ -1,5 +1,13 @@
 # SPDX-License-Identifier: GPL-3.0
 SHELL = bash
+ifeq ($(V),1)
+  Q =
+else
+  Q = @
+  MAKEFLAGS += --no-print-directory
+endif
+export Q
+
 
 CC = gcc
 NASM = $(shell which nasm 2>/dev/null)
@@ -120,16 +128,16 @@ CFLAGS_puts-c-loop := -DINFINITE_LOOP=1
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	@$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
-	@$(CC) -S $(<) -o $(<:.c=.s) $(CFLAGS) $(CFLAGS_$(*))
+	${Q}$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
+	${Q}$(CC) -S $(<) -o $(<:.c=.s) $(CFLAGS) $(CFLAGS_$(*))
 
 %.o: %.S
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	@$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
+	${Q}$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
 
 $(TARGETS) $(TARGETS_S): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	@$(CC) -o $(@) $(^) $(LDFLAGS) $(CFLAGS)
+	${Q}$(CC) -o $(@) $(^) $(LDFLAGS) $(CFLAGS)
 
 $(TARGETS_ASM): %:
 	@echo -e "  LD ASM \033[1;32m$(@)\033[m"
@@ -142,4 +150,4 @@ test: ${TARGETS}
 .PHONY: clean
 clean:
 	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
-	@rm -f ${TARGETS} ${TARGETS_ASM} ${TARGETS_S} *.o *.d core.* *.s
+	${Q}rm -f ${TARGETS} ${TARGETS_ASM} ${TARGETS_S} *.o *.d core.* *.s

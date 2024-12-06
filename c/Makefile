@@ -1,5 +1,13 @@
 # SPDX-License-Identifier: GPL-3.0
 SHELL = bash
+ifeq ($(V),1)
+  Q =
+else
+  Q = @
+  MAKEFLAGS += --no-print-directory
+endif
+export Q
+
 
 include ../scripts/compiler.mk
 
@@ -172,16 +180,16 @@ restrict: restrict.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	@$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
-	@$(CC) -o $(@:.o=.pic.o) -c $(<) -fpic $(CFLAGS) $(CFLAGS_$(*))
-	@$(CC) -S $(<) -o $(<:.c=.s) $(CFLAGS) $(CFLAGS_$(*))
-	@$(CC) -S $(<) -o $(<:.c=.pic.s) -fpic $(CFLAGS) $(CFLAGS_$(*))
-	@$(CC) -E $(<) -o $(<:.c=.E.c) $(CFLAGS) $(CFLAGS_$(*))
+	${Q}$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
+	${Q}$(CC) -o $(@:.o=.pic.o) -c $(<) -fpic $(CFLAGS) $(CFLAGS_$(*))
+	${Q}$(CC) -S $(<) -o $(<:.c=.s) $(CFLAGS) $(CFLAGS_$(*))
+	${Q}$(CC) -S $(<) -o $(<:.c=.pic.s) -fpic $(CFLAGS) $(CFLAGS_$(*))
+	${Q}$(CC) -E $(<) -o $(<:.c=.E.c) $(CFLAGS) $(CFLAGS_$(*))
 
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	@$(CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*))
-	$(call arch_strip,$(@))
+	${Q}$(CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*))
+	${Q}$(call arch_strip,$(@))
 
 test: ${TARGETS}
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
@@ -189,4 +197,4 @@ test: ${TARGETS}
 .PHONY: clean
 clean:
 	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
-	@rm -f ${TARGETS} *.o *.d *.s *.E.c *.strip
+	${Q}rm -f ${TARGETS} *.o *.d *.s *.E.c *.strip

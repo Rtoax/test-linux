@@ -1,4 +1,12 @@
 SHELL = bash
+ifeq ($(V),1)
+  Q =
+else
+  Q = @
+  MAKEFLAGS += --no-print-directory
+endif
+export Q
+
 
 sub-dir := posix
 
@@ -12,6 +20,6 @@ build: $(sub-dir-build)
 clean: $(sub-dir-clean)
 
 $(sub-dir-build):
-	@make -C $(@:.build=)
+	${Q}make -C $(@:.build=)
 $(sub-dir-clean):
-	@make -C $(@:.clean=) clean
+	${Q}make -C $(@:.clean=) clean

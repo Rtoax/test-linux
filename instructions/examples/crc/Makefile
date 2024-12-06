@@ -1,4 +1,12 @@
 SHELL = bash
+ifeq ($(V),1)
+  Q =
+else
+  Q = @
+  MAKEFLAGS += --no-print-directory
+endif
+export Q
+
 
 TARGETS := crc32b
 TARGETS += crc32w
@@ -12,7 +20,7 @@ endif
 user: $(TARGETS)
 
 kernel:
-	@make -C ${KERNELDIR} M=$(PWD) modules
+	${Q}make -C ${KERNELDIR} M=$(PWD) modules
 
 crc32b: crc32b.o
 crc32w: crc32w.o
@@ -25,7 +33,7 @@ CFLAGS += -march=armv8.1-a
 
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	@$(CC) $(CFLAGS) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
+	${Q}$(CC) $(CFLAGS) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
 
 test:
 	@echo "empty, [cd $(PWD)] to insmod"

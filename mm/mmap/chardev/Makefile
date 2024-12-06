@@ -1,4 +1,12 @@
 SHELL = bash
+ifeq ($(V),1)
+  Q =
+else
+  Q = @
+  MAKEFLAGS += --no-print-directory
+endif
+export Q
+
 
 obj-m += map_driver.o
 
@@ -20,5 +28,5 @@ mknod:
 
 clean:
 	$(MAKE) -C $(KERNELDIR)  M=$(PWD) clean
-	@rm -f read.out write.out
+	${Q}rm -f read.out write.out
 	sudo rm -f /dev/$(MYDEVICE)

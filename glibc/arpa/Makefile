@@ -1,4 +1,12 @@
 SHELL = bash
+ifeq ($(V),1)
+  Q =
+else
+  Q = @
+  MAKEFLAGS += --no-print-directory
+endif
+export Q
+
 
 MAKE_SUB_ARGS :=
 
@@ -19,7 +27,7 @@ clean: $(sub-dir-clean)
 
 $(sub-dir-build):
 	@echo -e "\033[1;32m [sub-dir] build $(@)\033[m"
-	@make -C $(@:.build=) ${MAKE_SUB_ARGS}
+	${Q}make -C $(@:.build=) ${MAKE_SUB_ARGS}
 $(sub-dir-clean):
 	@echo -e "\033[1;32m [sub-dir] clean $(@)\033[m"
-	@make -C $(@:.clean=) clean
+	${Q}make -C $(@:.clean=) clean

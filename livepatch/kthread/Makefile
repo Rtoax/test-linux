@@ -1,4 +1,12 @@
 SHELL = bash
+ifeq ($(V),1)
+  Q =
+else
+  Q = @
+  MAKEFLAGS += --no-print-directory
+endif
+export Q
+
 
 # Copyright (C) Rong Tao
 include /boot/config-$(shell uname -r)
@@ -12,10 +20,10 @@ obj-$(LIVEPATCH) += kthread.o
 obj-$(LIVEPATCH) += patchkthread.o
 
 all:
-	@make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
+	${Q}make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
 
 test:
 	@echo >/dev/null
 
 clean:
-	@make -C /lib/modules/$(shell uname -r)/build M=$(PWD) clean
+	${Q}make -C /lib/modules/$(shell uname -r)/build M=$(PWD) clean

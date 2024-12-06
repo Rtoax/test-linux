@@ -1,4 +1,12 @@
 SHELL = bash
+ifeq ($(V),1)
+  Q =
+else
+  Q = @
+  MAKEFLAGS += --no-print-directory
+endif
+export Q
+
 
 #ifneq ($(KERNELRELEASE),)
 MODULE_NAME = shmqueue
@@ -15,7 +23,7 @@ MODULEDIR := $(shell pwd)
 default:modules
 
 modules:
-	@make -C $(KERNEL_DIR) M=$(MODULEDIR) modules
+	${Q}make -C $(KERNEL_DIR) M=$(MODULEDIR) modules
 
 insmod:
 	@echo "insert load module"
@@ -27,18 +35,18 @@ mknod:
 
 rmmod:
 	@echo "remove module"
-	@rmmod $(MODULE_NAME)
+	${Q}rmmod $(MODULE_NAME)
 
 rmnod:
 	@echo "remove node"
-	@rm /dev/$(MODULE_NAME)
+	${Q}rm /dev/$(MODULE_NAME)
 
 test:
-	@make rmmod
-	@make rmnod
-	@make 
-	@make mknod
-	@make insmod
+	${Q}make rmmod
+	${Q}make rmnod
+	${Q}make 
+	${Q}make mknod
+	${Q}make insmod
 	@echo "Test------------"
 	gcc test.c -pthread -lrt
 	@./a.out
@@ -49,9 +57,9 @@ test:
 	
 clean distclean:
 	@echo "clean"
-	@make -C $(KERNEL_DIR) M=$(MODULEDIR) clean
-	@rm -rf *.o *.mod.c .*.*.cmd *.ko *.out
-	@rm -rf .tmp_versions *.symvers *.order
+	${Q}make -C $(KERNEL_DIR) M=$(MODULEDIR) clean
+	${Q}rm -rf *.o *.mod.c .*.*.cmd *.ko *.out
+	${Q}rm -rf .tmp_versions *.symvers *.order
 #endif
 
 #MODULE_NAME=hellomodule

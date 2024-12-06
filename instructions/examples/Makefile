@@ -1,4 +1,13 @@
+# SPDX-License-Identifier: GPL-3.0
 SHELL = bash
+ifeq ($(V),1)
+  Q =
+else
+  Q = @
+  MAKEFLAGS += --no-print-directory
+endif
+export Q
+
 
 ###############################################################################
 # Kernel
@@ -82,7 +91,7 @@ sub-dir-clean := $(sub-dir:=.clean)
 user: $(TARGETS) $(sub-dir-build)
 
 kernel:
-	@make -C ${KERNELDIR} M=$(PWD) modules
+	${Q}make -C ${KERNELDIR} M=$(PWD) modules
 
 
 add-x86: add-x86.o
@@ -135,11 +144,11 @@ endif
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	@$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
+	${Q}$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
 
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	@$(CC) -o $(@) $(^) $(CFLAGS) $(CFLAGS_$(*))
+	${Q}$(CC) -o $(@) $(^) $(CFLAGS) $(CFLAGS_$(*))
 
 help:
 	@echo "make [kernel|user|help]"
@@ -152,12 +161,12 @@ test:
 .PHONY: clean
 clean: $(sub-dir-clean)
 	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
-	@rm -f $(TARGETS) *.o
-	@make -C ${KERNELDIR} M=$(PWD) clean
+	${Q}rm -f $(TARGETS) *.o
+	${Q}make -C ${KERNELDIR} M=$(PWD) clean
 
 $(sub-dir-build):
 	@echo -e "\033[1;32m [sub-dir] build $(@)\033[m"
-	@make -C $(@:.build=)
+	${Q}make -C $(@:.build=)
 $(sub-dir-clean):
 	@echo -e "\033[1;32m [sub-dir] clean $(@)\033[m"
-	@make -C $(@:.clean=) clean
+	${Q}make -C $(@:.clean=) clean

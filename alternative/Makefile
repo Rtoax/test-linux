@@ -1,4 +1,12 @@
 SHELL = bash
+ifeq ($(V),1)
+  Q =
+else
+  Q = @
+  MAKEFLAGS += --no-print-directory
+endif
+export Q
+
 
 sub-dir := samples
 sub-dir += initpatch
@@ -14,7 +22,7 @@ clean: $(sub-dir-clean)
 
 $(sub-dir-build):
 	@echo -e "\033[1;32m [sub-dir] build $(@)\033[m"
-	@make -C $(@:.build=) CC=$(CC) CXX=$(CXX)
+	${Q}make -C $(@:.build=) CC=$(CC) CXX=$(CXX)
 $(sub-dir-clean):
 	@echo -e "\033[1;32m [sub-dir] clean $(@)\033[m"
-	@make -C $(@:.clean=) clean
+	${Q}make -C $(@:.clean=) clean

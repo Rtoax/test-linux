@@ -1,14 +1,22 @@
 SHELL = bash
+ifeq ($(V),1)
+  Q =
+else
+  Q = @
+  MAKEFLAGS += --no-print-directory
+endif
+export Q
+
 
 obj-m += create-test1.o
 
 KERNELROOT=/lib/modules/`uname -r`/build
 
 all:
-	@make -C $(KERNELROOT) M=$(PWD) modules
+	${Q}make -C $(KERNELROOT) M=$(PWD) modules
 
 test:
 	@echo >/dev/null
 
 clean:
-	@make -C $(KERNELROOT) M=$(PWD) clean
+	${Q}make -C $(KERNELROOT) M=$(PWD) clean

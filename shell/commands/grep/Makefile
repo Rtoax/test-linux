@@ -1,5 +1,13 @@
 # SPDX-License-Identifier: GPL-3.0
 SHELL = bash
+ifeq ($(V),1)
+  Q =
+else
+  Q = @
+  MAKEFLAGS += --no-print-directory
+endif
+export Q
+
 
 .PHONY: test
 test:
@@ -9,4 +17,4 @@ test:
 
 clean:
 	@echo -e "  CLEAN  \033[1;32m$(@)\033[m"
-	@rm -f *.log
+	${Q}rm -f *.log

@@ -1,4 +1,12 @@
 SHELL = bash
+ifeq ($(V),1)
+  Q =
+else
+  Q = @
+  MAKEFLAGS += --no-print-directory
+endif
+export Q
+
 
 .PHONY: all
 all:
@@ -9,4 +17,4 @@ test:
 
 .PHONY: clean
 clean:
-	@rm -f tmpfile-*.out
+	${Q}rm -f tmpfile-*.out

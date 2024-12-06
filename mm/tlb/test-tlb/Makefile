@@ -1,4 +1,12 @@
 SHELL = bash
+ifeq ($(V),1)
+  Q =
+else
+  Q = @
+  MAKEFLAGS += --no-print-directory
+endif
+export Q
+
 
 test-tlb: test-tlb.c
 	gcc -g -Wall -O test-tlb.c -o test-tlb -lm

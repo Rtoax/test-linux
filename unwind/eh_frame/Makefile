@@ -1,4 +1,12 @@
 SHELL = bash
+ifeq ($(V),1)
+  Q =
+else
+  Q = @
+  MAKEFLAGS += --no-print-directory
+endif
+export Q
+
 
 TARGETS :=
 TARGETS += test
@@ -27,11 +35,11 @@ test: test.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	@$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
+	${Q}$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
 
 ${TARGETS}: %:
 	@echo -e "  LD  \033[1m$(<)\033[m to \033[1;32m$(@)\033[m"
-	@$(CC) $(CFLAGS) -o $(@) $(<)
+	${Q}$(CC) $(CFLAGS) -o $(@) $(<)
 	@echo -e "  \033[1;32m---- show .eh_frame ----\033[m"
 	@readelf -wF $(@)
 	@echo -e "  \033[1;32m---- show raw .eh_frame ----\033[m"
@@ -39,4 +47,4 @@ ${TARGETS}: %:
 
 clean:
 	@echo -e "  CLEAN  \033[1m$(TARGETS) ${TARGETS_CPP}\033[m"
-	@rm -f ${TARGETS} ${TARGETS_CPP} *.o
+	${Q}rm -f ${TARGETS} ${TARGETS_CPP} *.o

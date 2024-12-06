@@ -1,4 +1,12 @@
 SHELL = bash
+ifeq ($(V),1)
+  Q =
+else
+  Q = @
+  MAKEFLAGS += --no-print-directory
+endif
+export Q
+
 
 CC = gcc
 LD = ld
@@ -66,7 +74,7 @@ maxofthree_call: maxofthree_call.oc maxofthree.o
 
 %.oc: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	@$(CC) -m32 -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
+	${Q}$(CC) -m32 -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
 
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
@@ -74,7 +82,7 @@ $(TARGETS): %:
 
 $(TARGETS_MAIN): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	@$(CC) -m32 -o $(@) $(^)
+	${Q}$(CC) -m32 -o $(@) $(^)
 
 test: ${TARGETS}
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
@@ -84,4 +92,4 @@ test: ${TARGETS}
 .PHONY: clean
 clean:
 	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
-	@rm -f ${TARGETS} ${TARGETS_MAIN} *.o *.d *.oc
+	${Q}rm -f ${TARGETS} ${TARGETS_MAIN} *.o *.d *.oc

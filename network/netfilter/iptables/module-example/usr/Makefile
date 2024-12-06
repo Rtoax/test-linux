@@ -1,10 +1,18 @@
 SHELL = bash
+ifeq ($(V),1)
+  Q =
+else
+  Q = @
+  MAKEFLAGS += --no-print-directory
+endif
+export Q
+
 
 CFLAGS = -O2 -Wall -I../include
 XTABLES_SO_DIR = $(shell pkg-config xtables --variable xtlibdir)
 
 all:
-	@make libxt_ipaddr.so;
+	${Q}make libxt_ipaddr.so;
 
 install:
 	sudo cp *.so ${XTABLES_SO_DIR}

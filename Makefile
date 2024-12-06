@@ -10,13 +10,20 @@ EXTRAVERSION =
 NAME = Apple
 
 SHELL = bash
+ifeq ($(V),1)
+  Q =
+  MAKEFLAGS += V=1
+else
+  Q = @
+  MAKEFLAGS += --silent
+  MAKEFLAGS += --no-print-directory
+endif
+export Q
 
 ifdef M32
-  SUB_MAKE_USER_ARGS += M32=1
+  MAKEFLAGS += M32=1
 endif
 
-MAKEFLAGS += --silent
-MAKEFLAGS += --no-print-directory
 export MAKEFLAGS
 MKFILE_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))
 
@@ -107,10 +114,10 @@ $(TLCONFIG_CONFIG):
 	@/bin/false
 
 define cleanuserlog
-	@rm -f $(USER_FAILED_LOG)
+	${Q}rm -f $(USER_FAILED_LOG)
 endef
 define cleankernellog
-	@rm -f $(KERNEL_FAILED_LOG)
+	${Q}rm -f $(KERNEL_FAILED_LOG)
 endef
 define printuserlog
 	@if [[ -e $(USER_FAILED_LOG) ]]; then \

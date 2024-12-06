@@ -1,6 +1,14 @@
 # SPDX-License-Identifier: GPL-3.0
 SHELL = bash
 
+ifeq ($(V),1)
+  Q =
+else
+  Q = @
+  MAKEFLAGS += --no-print-directory
+endif
+export Q
+
 CPU_VENDOR_ID=$(shell lscpu | grep ^Vendor | awk '{print $$3}')
 
 GIT_TOPDIR := $(shell git rev-parse --show-toplevel 2>/dev/null || :)
@@ -13,10 +21,10 @@ CFLAGS += -I${NUMA_TOPDIR}
 
 libtest-linux-c.a:
 	@echo -e "  GEN  \033[1;32m$(@)\033[m"
-	@make -C ${LIBS_TOPDIR} $(@)
-	@cp ${LIBS_TOPDIR}/libtest-linux-c.a $(shell pwd)
+	${Q}make -C ${LIBS_TOPDIR} $(@)
+	${Q}cp ${LIBS_TOPDIR}/libtest-linux-c.a $(shell pwd)
 
 libtest-linux-numa.a:
 	@echo -e "  GEN  \033[1;32m$(@)\033[m"
-	@make -C ${NUMA_TOPDIR} $(@)
-	@cp ${NUMA_TOPDIR}/libtest-linux-numa.a $(shell pwd)
+	${Q}make -C ${NUMA_TOPDIR} $(@)
+	${Q}cp ${NUMA_TOPDIR}/libtest-linux-numa.a $(shell pwd)

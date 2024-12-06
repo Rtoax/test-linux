@@ -1,4 +1,12 @@
 SHELL = bash
+ifeq ($(V),1)
+  Q =
+else
+  Q = @
+  MAKEFLAGS += --no-print-directory
+endif
+export Q
+
 
 JAVA = $(shell which java 2>/dev/null)
 JAVAC = $(shell which javac 2>/dev/null)
@@ -30,4 +38,4 @@ test: ${TARGETS}
 .PHONY: clean
 clean:
 	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
-	@rm -f ${TARGETS} *.class
+	${Q}rm -f ${TARGETS} *.class

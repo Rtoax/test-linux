@@ -1,4 +1,12 @@
 SHELL = bash
+ifeq ($(V),1)
+  Q =
+else
+  Q = @
+  MAKEFLAGS += --no-print-directory
+endif
+export Q
+
 
 # -*- Makefile -*-
 ccflags-y := -I$(src)/../include
@@ -8,10 +16,10 @@ KERNEL_DIR := ${MODULES_DIR}/build
 obj-m += xt_ipaddr.o
 
 all:
-	@make -C ${KERNEL_DIR} M=$$PWD;
+	${Q}make -C ${KERNEL_DIR} M=$$PWD;
 modules:
-	@make -C ${KERNEL_DIR} M=$$PWD $@;
+	${Q}make -C ${KERNEL_DIR} M=$$PWD $@;
 modules_install:
-	@make -C ${KERNEL_DIR} M=$$PWD $@;
+	${Q}make -C ${KERNEL_DIR} M=$$PWD $@;
 clean:
-	@make -C ${KERNEL_DIR} M=$$PWD $@;
+	${Q}make -C ${KERNEL_DIR} M=$$PWD $@;

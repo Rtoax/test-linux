@@ -1,4 +1,12 @@
 SHELL = bash
+ifeq ($(V),1)
+  Q =
+else
+  Q = @
+  MAKEFLAGS += --no-print-directory
+endif
+export Q
+
 
 obj-m += alloc_page.o
 obj-m += dump_page.o
@@ -12,7 +20,7 @@ obj-m += pagetable.o
 endif
 
 all:
-	@make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
+	${Q}make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
 
 clean:
-	@make -C /lib/modules/$(shell uname -r)/build M=$(PWD) clean
+	${Q}make -C /lib/modules/$(shell uname -r)/build M=$(PWD) clean
