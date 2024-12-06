@@ -1,5 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
 SHELL = bash
+
 ifeq ($(V),1)
   Q =
 else
@@ -7,7 +8,6 @@ else
   MAKEFLAGS += --no-print-directory
 endif
 export Q
-
 
 NUMAIF_HDR = /usr/include/numaif.h
 
@@ -30,7 +30,9 @@ CFLAGS += -O0
 
 CFLAGS_get_mempolicy := -lnuma
 CFLAGS_migrate_pages := -lnuma
+CFLAGS_mbind := -lnuma -DALLOC_WITH_MMAP=1
 
+.PHONY: build
 build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
@@ -49,6 +51,7 @@ $(TARGETS): %:
 test: ${TARGETS}
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
 
+.PHONY: clean
 clean:
 	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
 	${Q}rm -f ${TARGETS} *.o
