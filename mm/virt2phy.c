@@ -14,6 +14,7 @@
 #include <unistd.h>
 #include <sys/mman.h>
 #include <numa.h>
+#include <numaif.h>
 
 #if defined(HAVE_LIB_TEST_LINUX_C)
 #include "proc.h"
@@ -161,8 +162,64 @@ void test_mapping_phy_addr(void)
 	pa = virt_to_phy(va);
 	PR("exec data", va, pa, phy_addr_numa(pa));
 }
+
+void mem_bind_to_numa(void *mem, size_t size, int dst_numa)
+{
+	int ret, mode, flags;
+	int maxnode;
+	struct bitmask *nodemask;
+
+	maxnode = numa_max_node() + 1;
+	nodemask = numa_bitmask_alloc(maxnode);
+
+	numa_bitmask_clearall(nodemask);
+	numa_bitmask_setbit(nodemask, dst_numa);
+
+	mode = MPOL_BIND;
+	flags = MPOL_MF_MOVE | MPOL_MF_STRICT;
+
+	printf("Moving pages via mbind to node %d ...\n", dst_numa);
+	ret = mbind(mem, size, mode, nodemask->maskp, nodemask->size, flags);
+	if (ret != 0)
+		perror("mbind");
+}
+
+void mbind_numa(void)
+{
+	unsigned long va, pa, size, node;
+
+	va = proc_maps_exec_text_addr(&size);
+	pa = virt_to_phy(va);
+	node = phy_addr_numa(pa);
+	fprintf(stderr, "Try bind exec text from numa %d to %d with mbind(2)\n",
+		node, cpu_numa);
+	mem_bind_to_numa((void *)va, size, cpu_numa);
+
+	va = proc_maps_exec_data_addr(&size);
+	pa = virt_to_phy(va);
+	node = phy_addr_numa(pa);
+	fprintf(stderr, "Try bind exec data from numa %d to %d with mbind(2)\n",
+		node, cpu_numa);
+	mem_bind_to_numa((void *)va, size, cpu_numa);
+
+	va = proc_maps_libc_text_addr(&size);
+	pa = virt_to_phy(va);
+	node = phy_addr_numa(pa);
+	fprintf(stderr, "Try bind libc text from numa %d to %d with mbind(2)\n",
+		node, cpu_numa);
+	mem_bind_to_numa((void *)va, size, cpu_numa);
+
+	va = proc_maps_libc_data_addr(&size);
+	pa = virt_to_phy(va);
+	node = phy_addr_numa(pa);
+	fprintf(stderr, "Try bind libc data from numa %d to %d with mbind(2)\n",
+		node, cpu_numa);
+	mem_bind_to_numa((void *)va, size, cpu_numa);
+}
+
 #else
 #define test_mapping_phy_addr()
+#define mbind_numa()
 #endif
 
 int main(int argc, char *argv[])
@@ -186,6 +243,8 @@ int main(int argc, char *argv[])
 	cpu_numa = numa_node_of_cpu(run_on_cpu);
 	printf("Run on CPU %d, NUMA %d\n", run_on_cpu, cpu_numa);
 
+	test_mapping_phy_addr();
+	mbind_numa();
 	test_mapping_phy_addr();
 
 /**
