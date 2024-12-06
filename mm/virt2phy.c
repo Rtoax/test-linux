@@ -132,14 +132,16 @@ void test_mapping_phy_addr(void)
 		"PHY_ADDR", "MEM_NUMA", "CPU", "CPU_NUMA");
 
 #define PR(name, va, pa, numa) do {					\
+		int _numa = numa;					\
 		int ____n = virt_addr_numa(va);				\
-		if (numa != ____n) {					\
+		if (_numa != DMESG_NUMA_MEM_INVALID && _numa != ____n) {\
 			printf("FATAL: get numa conflict(%d!=%d)\n",	\
-				numa, ____n);				\
+				_numa, ____n);				\
 			abort();					\
 		}							\
 		printf("%-16s %-16lx %-16lx %-8d %-8d %-8d\n",		\
-			name, va, pa, numa, run_on_cpu, cpu_numa);	\
+			name, va, pa, _numa != DMESG_NUMA_MEM_INVALID ?: -1,\
+			run_on_cpu, cpu_numa);				\
 	} while (0)
 
 	va = proc_maps_libc_text_addr();

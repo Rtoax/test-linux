@@ -13,6 +13,9 @@ int print_numa_mem(void)
 	int i;
 	struct numa_mem_info *info;
 
+	if (ARRAY_SIZE(numa_mem_info) == 0)
+		return DMESG_NUMA_MEM_INVALID;
+
 	printf("%-8s %-16s %-16s %-8s\n", "NUMA", "START_ADDR", "END_ADDR", "SIZE(GiB)");
 	for (i = 0; i < ARRAY_SIZE(numa_mem_info); i++) {
 		info = &numa_mem_info[i];
@@ -20,7 +23,7 @@ int print_numa_mem(void)
 			info->nid, info->mem_start, info->mem_end,
 			(info->mem_end + 1 - info->mem_start) * 1.0 / GB);
 	}
-	return 0;
+	return ARRAY_SIZE(numa_mem_info);
 }
 
 /**
@@ -31,6 +34,9 @@ int phy_addr_numa(unsigned long paddr)
 	int i;
 	int nid = -1;
 	struct numa_mem_info *info;
+
+	if (ARRAY_SIZE(numa_mem_info) == 0)
+		return DMESG_NUMA_MEM_INVALID;
 
 	for (i = 0; i < ARRAY_SIZE(numa_mem_info); i++) {
 		info = &numa_mem_info[i];
