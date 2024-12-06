@@ -125,6 +125,19 @@ int dev_mem_read(int memfd, unsigned long phyaddr, void *to_buf, size_t len)
 
 #if defined(HAVE_MAIN)
 #if defined(HAVE_LIB_TEST_LINUX_C)
+int addr_numa(unsigned long pa, unsigned long va)
+{
+	int numa;
+	numa = phy_addr_numa(pa);
+	if (numa == DMESG_NUMA_MEM_INVALID)
+		numa = virt_addr_numa(va);
+	else if (numa != virt_addr_numa(va)) {
+		fprintf(stderr, "virt numa != phy numa\n");
+		abort();
+	}
+	return numa;
+}
+
 void test_mapping_phy_addr(void)
 {
 	unsigned long va, pa;
@@ -133,34 +146,25 @@ void test_mapping_phy_addr(void)
 		"PHY_ADDR", "MEM_NUMA", "CPU", "CPU_NUMA");
 
 #define PR(name, va, pa, numa) do {					\
-		int _numa = numa;					\
-		int ____n = virt_addr_numa(va);				\
-		if (_numa != DMESG_NUMA_MEM_INVALID && _numa != ____n) {\
-			printf("FATAL: get numa conflict(%d!=%d)\n",	\
-				_numa, ____n);				\
-			abort();					\
-		}							\
 		printf("%-16s %-16lx %-16lx %-8d %-8d %-8d\n",		\
-			name, va, pa,					\
-			_numa != DMESG_NUMA_MEM_INVALID ? _numa : -1,	\
-			run_on_cpu, cpu_numa);				\
+			name, va, pa, numa, run_on_cpu, cpu_numa);	\
 	} while (0)
 
 	va = proc_maps_libc_text_addr(NULL);
 	pa = virt_to_phy(va);
-	PR("libc text", va, pa, phy_addr_numa(pa));
+	PR("libc text", va, pa, addr_numa(pa, va));
 
 	va = proc_maps_libc_data_addr(NULL);
 	pa = virt_to_phy(va);
-	PR("libc data", va, pa, phy_addr_numa(pa));
+	PR("libc data", va, pa, addr_numa(pa, va));
 
 	va = proc_maps_exec_text_addr(NULL);
 	pa = virt_to_phy(va);
-	PR("exec text", va, pa, phy_addr_numa(pa));
+	PR("exec text", va, pa, addr_numa(pa, va));
 
 	va = proc_maps_exec_data_addr(NULL);
 	pa = virt_to_phy(va);
-	PR("exec data", va, pa, phy_addr_numa(pa));
+	PR("exec data", va, pa, addr_numa(pa, va));
 }
 
 void mem_bind_to_numa(void *mem, size_t size, int dst_numa)
@@ -190,28 +194,28 @@ void mbind_numa(void)
 
 	va = proc_maps_exec_text_addr(&size);
 	pa = virt_to_phy(va);
-	node = phy_addr_numa(pa);
+	node = addr_numa(pa, va);
 	fprintf(stderr, "Try bind exec text from numa %d to %d with mbind(2)\n",
 		node, cpu_numa);
 	mem_bind_to_numa((void *)va, size, cpu_numa);
 
 	va = proc_maps_exec_data_addr(&size);
 	pa = virt_to_phy(va);
-	node = phy_addr_numa(pa);
+	node = addr_numa(pa, va);
 	fprintf(stderr, "Try bind exec data from numa %d to %d with mbind(2)\n",
 		node, cpu_numa);
 	mem_bind_to_numa((void *)va, size, cpu_numa);
 
 	va = proc_maps_libc_text_addr(&size);
 	pa = virt_to_phy(va);
-	node = phy_addr_numa(pa);
+	node = addr_numa(pa, va);
 	fprintf(stderr, "Try bind libc text from numa %d to %d with mbind(2)\n",
 		node, cpu_numa);
 	mem_bind_to_numa((void *)va, size, cpu_numa);
 
 	va = proc_maps_libc_data_addr(&size);
 	pa = virt_to_phy(va);
-	node = phy_addr_numa(pa);
+	node = addr_numa(pa, va);
 	fprintf(stderr, "Try bind libc data from numa %d to %d with mbind(2)\n",
 		node, cpu_numa);
 	mem_bind_to_numa((void *)va, size, cpu_numa);
