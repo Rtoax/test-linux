@@ -3,18 +3,24 @@
 
 int main(void)
 {
-	FILE *stream;
+	FILE *fpw, *fpr;
 	int i = 10;
 	double fp = 1.5;
 	char s[] = "this is a string";
 	char c = '\n';
+	char buff[123] = {0};
 
-	stream = fopen("libcare-cc.log", "w");
+	fpr = fopen("os-release", "r");
+	fpw = fopen("os-release", "w");
 
-	fprintf(stream, "%s%c", s, c);
-	fprintf(stream, "%d\n", i);
-	fprintf(stream, "%f\n", fp);
+	while (fgets(buff, sizeof(buff), fpr))
+		printf("%s", buff);
 
-	fclose(stream);
+	fprintf(fpw, "%s%c", s, c);
+	fprintf(fpw, "%d\n", i);
+	fprintf(fpw, "%f\n", fp);
+
+	fclose(fpr);
+	fclose(fpw);
 	return 0;
 }
