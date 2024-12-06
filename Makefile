@@ -27,8 +27,6 @@ endif
 export MAKEFLAGS
 MKFILE_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))
 
-GIT_CONFIG_CORE_HOOKSPATH := $(shell ./scripts/git/config.sh 2>/dev/null || echo "UnsupportGetHooks")
-
 USER_FAILED_LOG := $(shell pwd)/failed-user.log
 KERNEL_FAILED_LOG := $(shell pwd)/failed-kernel.log
 export USER_FAILED_LOG
@@ -61,15 +59,15 @@ build: help
 include $(ABS_SRCTREE)/scripts/tlbuild.mk
 include tlbuild.mk
 
+GIT_CONFIG_CORE_HOOKSPATH := $(shell git config get core.hooksPath 2>/dev/null \
+	|| git config core.hooksPath 2>/dev/null \
+	|| echo "UnsupportGetHooks")
+
 # If in git-tree, need check something already config.
 ifneq (${GIT_TOPDIR},)
   ifneq (${GIT_CONFIG_CORE_HOOKSPATH},scripts/git/hooks/)
-    ifeq (${GIT_CONFIG_CORE_HOOKSPATH},UnsupportGetHooks)
-        $(warning Git not support 'git config [get|set]'!!!)
-    else
-      ifneq ($(firstword $(MAKECMDGOALS)),config)
-        $(error You MUST run 'make config' first!!)
-      endif
+    ifneq ($(firstword $(MAKECMDGOALS)),config)
+      $(error You MUST run 'make config' first!!)
     endif
   endif
 endif
