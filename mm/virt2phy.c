@@ -140,7 +140,8 @@ void test_mapping_phy_addr(void)
 			abort();					\
 		}							\
 		printf("%-16s %-16lx %-16lx %-8d %-8d %-8d\n",		\
-			name, va, pa, _numa != DMESG_NUMA_MEM_INVALID ?: -1,\
+			name, va, pa,					\
+			_numa != DMESG_NUMA_MEM_INVALID ? _numa : -1,	\
 			run_on_cpu, cpu_numa);				\
 	} while (0)
 
