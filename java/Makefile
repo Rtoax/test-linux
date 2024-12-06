@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0
 SHELL = bash
 ifeq ($(V),1)
   Q =
@@ -29,11 +30,11 @@ url_GET.class: url_GET.java
 
 $(TARGETS): %:
 	@echo -e "  JAVAC  \033[1;32m$(@)\033[m"
-	@$(JAVAC) $(^)
+	${Q}$(JAVAC) $(^)
 
 test: ${TARGETS}
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
-	@$(JAVA) hello
+	${Q}$(JAVA) hello
 
 .PHONY: clean
 clean:

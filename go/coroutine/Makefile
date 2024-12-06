@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0
 SHELL = bash
 ifeq ($(V),1)
   Q =
@@ -27,7 +28,7 @@ all: ${TARGETS}
 
 ${TARGETS}:
 	@echo -e "  GO  \033[1;32m$(@)\033[m"
-	@$(GO) build $(@).go
+	${Q}$(GO) build $(@).go
 
 .PHONY: clean
 clean:

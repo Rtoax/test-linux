@@ -33,7 +33,7 @@ if-let: if-let.rs
 
 $(TARGETS): %:
 	@echo -e "  RUSTC  \033[1;32m$(@)\033[m"
-	@$(RUSTC) -o $(@) $(^)
+	${Q}$(RUSTC) -o $(@) $(^)
 
 test: ${TARGETS}
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"

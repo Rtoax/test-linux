@@ -7,7 +7,6 @@ else
 endif
 export Q
 
-
 sub-dir := demangle
 
 TARGETS :=
