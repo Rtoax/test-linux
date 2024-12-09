@@ -16,13 +16,17 @@ int get_addr_node(void *vaddr)
 	return mode;
 }
 
-int main(void)
+int main(int argc, char *argv[])
 {
 	int i, ret, mode, flags;
 	void *mem;
 	size_t msize;
 	int maxnode;
 	struct bitmask *nodemask;
+
+	fprintf(stderr, "\033[1;32mTest\n");
+	fprintf(stderr, " $ sudo numactl --membind=2 %s\033[m\n",
+		argv[0]);
 
 	msize = getpagesize() * 10;
 
