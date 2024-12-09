@@ -36,7 +36,7 @@ CFLAGS_mbind := -lnuma -DALLOC_WITH_MMAP=1
 build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
-mbind: mbind.o
+mbind: mbind.o helpers.o
 migrate_pages: migrate_pages.o
 get_mempolicy: get_mempolicy.o helpers.o
 

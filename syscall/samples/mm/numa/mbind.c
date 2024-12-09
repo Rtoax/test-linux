@@ -9,19 +9,10 @@
 #include <sys/mman.h>
 #include <sched.h>
 
+#include "helpers.h"
 
 static int run_on_cpu;
 static int cpu_numa;
-
-int get_addr_node(void *vaddr)
-{
-	int ret, flags, mode;
-	flags = MPOL_F_NODE | MPOL_F_ADDR;
-	ret = get_mempolicy(&mode, NULL, 0, (void *)vaddr, flags);
-	if (ret != 0)
-		perror("get_mempolicy");
-	return mode;
-}
 
 int main(int argc, char *argv[])
 {
