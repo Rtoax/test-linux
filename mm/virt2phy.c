@@ -27,8 +27,8 @@
 #define virt_addr_numa() (-1)
 #endif
 
-int run_on_cpu;
-int cpu_numa;
+static int run_on_cpu;
+static int cpu_numa;
 
 /**
  * refs:

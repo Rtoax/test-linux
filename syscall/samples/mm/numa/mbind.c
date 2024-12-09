@@ -1,10 +1,17 @@
+#ifndef _GNU_SOURCE
+#define _GNU_SOURCE
+#endif
 #include <stdio.h>
 #include <malloc.h>
 #include <numa.h>
 #include <numaif.h>
 #include <unistd.h>
 #include <sys/mman.h>
+#include <sched.h>
 
+
+static int run_on_cpu;
+static int cpu_numa;
 
 int get_addr_node(void *vaddr)
 {
@@ -27,6 +34,10 @@ int main(int argc, char *argv[])
 	fprintf(stderr, "\033[1;32mTest\n");
 	fprintf(stderr, " $ sudo numactl --membind=2 %s\033[m\n",
 		argv[0]);
+
+	run_on_cpu = sched_getcpu();
+	cpu_numa = numa_node_of_cpu(run_on_cpu);
+	printf("Run on CPU %d, NUMA %d\n", run_on_cpu, cpu_numa);
 
 	msize = getpagesize() * 10;
 
@@ -54,14 +65,14 @@ int main(int argc, char *argv[])
 	printf("Number of node %d\n", maxnode);
 
 	numa_bitmask_clearall(nodemask);
-	numa_bitmask_setbit(nodemask, 0);
+	numa_bitmask_setbit(nodemask, cpu_numa);
 
 	mode = MPOL_BIND;
 	flags = MPOL_MF_MOVE | MPOL_MF_STRICT;
 
 	printf("Pages now on node %d\n", get_addr_node(mem));
 
-	printf("Moving pages via mbind to node 0 ...\n");
+	printf("Moving pages via mbind to node %d ...\n", cpu_numa);
 	ret = mbind(mem, msize, mode, nodemask->maskp, nodemask->size, flags);
 	if (ret != 0)
 		perror("mbind");
