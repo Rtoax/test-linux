@@ -30,6 +30,16 @@ int main(int argc, char *argv[])
 	cpu_numa = numa_node_of_cpu(run_on_cpu);
 	printf("Run on CPU %d, NUMA %d\n", run_on_cpu, cpu_numa);
 
+	/**
+	 * This mode specifies "local allocation"; the memory is allocated on
+	 * the node of the CPU that triggered the allocation (the "local node").
+	 * The nodemask and maxnode arguments must specify the empty set.
+	 */
+	mode = MPOL_LOCAL;
+	ret = mbind(NULL, 0, mode, NULL, 0, 0);
+	if (ret != 0)
+		perror("mbind");
+
 	msize = getpagesize() * 10;
 
 	/**
@@ -49,6 +59,7 @@ int main(int argc, char *argv[])
 	/* _need_ pagefault */
 	for (i = 0; i < msize; i += getpagesize())
 		*((char *)mem + i) = 'a';
+
 
 	maxnode = numa_max_node() + 1;
 	nodemask = numa_bitmask_alloc(maxnode);
