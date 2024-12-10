@@ -156,6 +156,8 @@ If glibc/posix/syscall already have name `a`, The function test-linux implemente
 
 # Compile
 
+The purpose of compilation is to compile the code of this directory and subdirectories directly in each level of directory.
+
 ## Install depends
 
 Install depends with `make installdeps`.
