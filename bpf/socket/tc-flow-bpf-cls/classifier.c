@@ -1,3 +1,7 @@
+/**
+ * /linux-observability-with-bpf/code/chapter-6/tc-flow-bpf-cls
+ */
+
 #pragma clang diagnostic ignored "-Wcompare-distinct-pointer-types"
 
 //#include <sys/types.h>
@@ -25,10 +29,10 @@
 
 static int (*bpf_trace_printk)(const char *fmt, int fmt_size, ...) = (void *)BPF_FUNC_trace_printk;
 
-#define trace_printk(fmt, ...)                                                 \
-	do {                                                                         \
-		char _fmt[] = fmt;                                                         \
-		bpf_trace_printk(_fmt, sizeof(_fmt), ##__VA_ARGS__);                       \
+#define trace_printk(fmt, ...)						\
+	do {								\
+		char _fmt[] = fmt;					\
+		bpf_trace_printk(_fmt, sizeof(_fmt), ##__VA_ARGS__);	\
 	} while (0)
 
 unsigned long long load_byte(void *skb, unsigned long long off) asm("llvm.bpf.load.byte");
@@ -47,7 +51,7 @@ typedef __uint64_t uint64_t;
 #endif
 
 SEC("classifier")
-inline int classification(struct __sk_buff *skb)
+int classification(struct __sk_buff *skb)
 {
 	void *data_end = (void *)(long)skb->data_end;
 	void *data = (void *)(long)skb->data;
@@ -114,7 +118,6 @@ static inline int is_http(struct __sk_buff *skb, __u64 nh_off)
 
 			p[i] = load_byte(skb, poffset + i);
 		}
-		int *value;
 		if ((p[0] == 'H') && (p[1] == 'T') && (p[2] == 'T') && (p[3] == 'P')) {
 			return 1;
 		}

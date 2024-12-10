@@ -20,8 +20,8 @@
  * -1: KEEP the packet and return it to user space (userspace can read it
  *     from the socket_fd)
  */
-#define KEEP	(-1)
 #define DROP	(0)
+#define KEEP	(-1)
 
 int socket_filter(struct __sk_buff *skb)
 {
@@ -36,6 +36,7 @@ int socket_filter(struct __sk_buff *skb)
 	struct ip_t *ip = cursor_advance(cursor, sizeof(*ip));
 	if (ip->nextp == IPPROTO_ICMP) {
 		bpf_trace_printk("[socket_filter] icmp %s\n", ip->dst);
+		return DROP;
 	} else if (ip->nextp == IPPROTO_TCP) {
 		bpf_trace_printk("[socket_filter] tcp %s\n", ip->dst);
 		/* -1: Send TCP Packets to userspace */
