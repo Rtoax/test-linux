@@ -276,6 +276,7 @@ pkgs_base+=( autoconf-archive )
 pkgs_base+=( bash-completion )
 pkgs_base+=( bc )
 pkgs_base+=( blktrace )
+pkgs_base+=( bpftool )
 pkgs_base+=( bpftrace bcc )         # eBPF
 pkgs_base+=( cargo )                # The Rust package manager
 pkgs_base+=( cloc )
@@ -396,7 +397,6 @@ dnf_add_packages()
 	pkgs_base+=( acpi acpica-tools )
 	pkgs_base+=( bcc-devel )
 	pkgs_base+=( binutils-devel )
-	pkgs_base+=( bpftool )
 	pkgs_base+=( capstone-devel )       # Capstone is a disassembly framework
 	pkgs_base+=( cereal-devel )
 	pkgs_base+=( clang-devel )
