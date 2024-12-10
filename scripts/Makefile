@@ -14,6 +14,7 @@ include libc.mk
 include success.mk
 include wow.mk
 include tlbuild.mk
+include logos.mk
 
 CC := gcc
 
