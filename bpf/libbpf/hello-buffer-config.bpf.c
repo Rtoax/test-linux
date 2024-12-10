@@ -29,7 +29,7 @@ int BPF_KPROBE_SYSCALL(hello, const char *pathname)
 {
 #else
 SEC("tracepoint/syscalls/sys_enter_execve")
-int tracepoint__syscalls__sys_exit_execve(struct syscall_trace_enter* ctx)
+int tracepoint__syscalls__sys_enter_execve(struct syscall_trace_enter* ctx)
 {
 	const char *pathname = (void *)ctx->args[0];
 #endif
