@@ -56,7 +56,7 @@ export TLCONFIG_CONFIG
 # Default to display help information
 build: help
 
-include $(ABS_SRCTREE)/scripts/tlbuild.mk
+include $(ABS_SRCTREE)/scripts/logos.mk
 include tlbuild.mk
 
 GIT_CONFIG_CORE_HOOKSPATH := $(shell git config get core.hooksPath 2>/dev/null \

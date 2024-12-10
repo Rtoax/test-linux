@@ -8,8 +8,7 @@ else
 endif
 export Q
 
-
-include ../scripts/tlbuild.mk
+include ../scripts/logos.mk
 
 sub-dir := bcc
 sub-dir += bpftrace
