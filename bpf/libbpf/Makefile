@@ -25,6 +25,7 @@ TARGETS :=
 TARGETS += hello-buffer-config
 TARGETS += hello-verifier
 TARGETS += socket_filter
+TARGETS += kprobe
 TARGETS += tc
 
 TARGETS_BPF := ${TARGETS:=.bpf.o}
