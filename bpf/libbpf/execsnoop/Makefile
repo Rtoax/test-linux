@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0
 SHELL = bash
 ifeq ($(V),1)
   Q =
@@ -8,33 +9,58 @@ endif
 export Q
 
 
-TARGET = hello-buffer-config
-ARCH = $(shell uname -m | sed 's/x86_64/x86/' | sed 's/aarch64/arm64/')
+ARCH ?= $(shell uname -m | sed 's/x86_64/x86/' \
+			 | sed 's/arm.*/arm/' \
+			 | sed 's/aarch64/arm64/' \
+			 | sed 's/ppc64le/powerpc/' \
+			 | sed 's/mips.*/mips/' \
+			 | sed 's/riscv64/riscv/' \
+			 | sed 's/loongarch64/loongarch/')
 
-BPF_OBJ = ${TARGET:=.bpf.o}
-USER_C = ${TARGET:=.c}
-USER_SKEL = ${TARGET:=.skel.h}
+CC := gcc
+CLANG := clang
+BPFTOOL := bpftool
 
-all: $(TARGET) $(BPF_OBJ)
-.PHONY: all
+TARGETS :=
+TARGETS += hello-buffer-config
 
-$(TARGET): $(USER_C) $(USER_SKEL)
-	gcc -Wall -o $(TARGET) $(USER_C) -lbpf -lelf -lz
+TARGETS_BPF := ${TARGETS:=.bpf.o}
+TARGETS_SKEL := ${TARGETS:=.skel.h}
 
-%.bpf.o: %.bpf.c vmlinux.h
-	clang \
-		-target bpf \
-		-D __TARGET_ARCH_$(ARCH) \
-		-Wall \
-		-O2 -g -o $@ -c $<
-	llvm-strip -g $@
+CFLAGS_BPF := -I.
+CFLAGS_BPF += -O2 -Wall -g
+CFLAGS_BPF += -target bpf
+CFLAGS_BPF += -D__TARGET_ARCH_$(ARCH)
 
-$(USER_SKEL): $(BPF_OBJ)
-	bpftool gen skeleton $< > $@
+CFLAGS := -lbpf
+LDFLAGS := -lbpf
+
+
+.PHONY: build
+build: vmlinux.h ${TARGETS_BPF} ${TARGETS_SKEL} ${TARGETS}
+
+$(patsubst %,%.o,$(TARGETS)): %.o: %.skel.h
+
+%.bpf.o: %.bpf.c
+	@echo -e "  BPF  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
+	${Q}$(CLANG) -c $(<) -o $(@) ${CFLAGS_BPF}
+
+%.skel.h: %.bpf.o
+	@echo -e "  SKEL  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
+	${Q}$(BPFTOOL) gen skeleton $< > $@
+
+%.o: %.c
+	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
+	${Q}$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
+
+$(TARGETS): %: %.o
+	@echo -e "  LD  \033[1;32m$(@)\033[m"
+	${Q}$(CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*))
 
 vmlinux.h:
-	bpftool btf dump file /sys/kernel/btf/vmlinux format c > vmlinux.h
+	@echo -e "  BPFTOOL  \033[1m$(@)\033[m"
+	${Q}${BPFTOOL} btf dump file /sys/kernel/btf/vmlinux format c > vmlinux.h
 
 clean:
-	- rm -f $(BPF_OBJ) $(TARGET) vmlinux.h *.skel.h
-
+	@echo -e "  RM  \033[1;32m$(TARGETS_BPF) ${TARGETS}\033[m"
+	${Q}rm -f ${TARGETS_BPF} ${TARGETS} *.o *.skel.h vmlinux.h

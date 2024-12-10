@@ -27,7 +27,7 @@ TARGETS += tc
 TARGETS_BPF := ${TARGETS:=.bpf.o}
 
 CFLAGS_BPF := -I.
-CFLAGS_BPF += -O2 -Wall
+CFLAGS_BPF += -O2 -Wall -g
 CFLAGS_BPF += -target bpf
 CFLAGS_BPF += -D__TARGET_ARCH_$(ARCH)
 
