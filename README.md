@@ -183,6 +183,11 @@ $ make user V=1
 ```
 
 
+# License
+
+If the source code file has a copyright information at the beginning, the copyright of the source code is the description content, otherwise, it is the copyright of the test-linux repository.
+
+
 # Links
 
 ## Linux
