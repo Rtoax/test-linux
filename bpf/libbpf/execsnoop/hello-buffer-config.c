@@ -25,7 +25,7 @@ void lost_event(void *ctx, int cpu, long long unsigned int data_sz)
 	printf("lost event\n");
 }
 
-int main()
+int main(void)
 {
 	struct hello_buffer_config_bpf *skel;
 	int err;
@@ -46,7 +46,15 @@ int main()
 		return 1;
 	}
 
-	pb = perf_buffer__new(bpf_map__fd(skel->maps.output), 8, handle_event, lost_event, NULL, NULL);
+#if LIBBPF_MAJOR_VERSION >= 1
+	pb = perf_buffer__new(bpf_map__fd(skel->maps.output), 8, handle_event,
+				lost_event, NULL, NULL);
+#else
+	struct perf_buffer_opts pb_opts;
+	pb_opts.sample_cb = handle_event;
+	pb_opts.lost_cb = lost_event;
+	pb = perf_buffer__new(bpf_map__fd(skel->maps.output), 8, &pb_opts);
+#endif
 	if (!pb) {
 		err = -1;
 		fprintf(stderr, "Failed to create ring buffer\n");

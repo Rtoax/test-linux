@@ -23,9 +23,16 @@ struct {
 	__type(value, struct user_msg_t);
 } my_config SEC(".maps");
 
+#if defined(BPF_KPROBE_SYSCALL)
 SEC("ksyscall/execve")
 int BPF_KPROBE_SYSCALL(hello, const char *pathname)
 {
+#else
+SEC("tracepoint/syscalls/sys_enter_execve")
+int tracepoint__syscalls__sys_exit_execve(struct syscall_trace_enter* ctx)
+{
+	const char *pathname = (void *)ctx->args[0];
+#endif
 	struct data_t data = {};
 	struct user_msg_t *p;
 
