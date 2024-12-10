@@ -6,7 +6,8 @@
 #include "hello-verifier.h"
 #include "hello-verifier.skel.h"
 
-static int libbpf_print_fn(enum libbpf_print_level level, const char *format, va_list args)
+static int libbpf_print_fn(enum libbpf_print_level level, const char *format,
+			   va_list args)
 {
 	if (level >= LIBBPF_DEBUG)
 		return 0;
