@@ -1,4 +1,4 @@
-- CLS: classification () @TC
+- CLS: classification (包分类) @TC
 - GRO: Generic Receive Offload (通用接收卸载) @TSO @TSS
 - GSO: Generic Segmentation Offload (通用 TSO)
 - LRO: Large Receive Offload ()
