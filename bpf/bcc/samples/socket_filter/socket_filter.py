@@ -20,6 +20,10 @@ parser.add_argument("-i", "--interface", default="-1",
 args = parser.parse_args()
 interface = args.interface
 
+if interface == "-1":
+    print("Must specify interface with -i")
+    exit()
+
 b = BPF(src_file = "socket_filter.c")
 
 f = b.load_func("socket_filter", BPF.SOCKET_FILTER)
@@ -35,7 +39,7 @@ try:
     while True:
         packet_str = os.read(fd, 4096)
         print("Userspace got data: {}".format(packet_str))
-except KeyboardInterrypt:
-    print("\n unloading")
+except KeyboardInterrupt:
+    print("\nunloading")
 
 exit()
