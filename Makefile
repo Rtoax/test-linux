@@ -219,6 +219,13 @@ define git_archive
 	${SHELL} scripts/git-archive
 endef
 
+define git_clean
+	@if [[ ! -z $(GIT_TOPDIR) ]]; then \
+		${SHELL} scripts/git-clean; \
+	fi
+endef
+
+
 .PHONY: archive
 archive:
 	@echo "=== archive"
@@ -231,17 +238,13 @@ config:
 
 define check_links
 	@echo "Check invalid symbol link start"
-	bash scripts/invalid-link.sh
+	${SHELL} scripts/invalid-link.sh
 	@echo "Check invalid symbol link done"
 endef
 
 .PHONY: check
 check:
 	$(call check_links)
-
-define git_clean
-	bash scripts/git-clean
-endef
 
 .PHONY: clean
 clean:
