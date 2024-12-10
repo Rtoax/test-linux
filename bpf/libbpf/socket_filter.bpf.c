@@ -12,6 +12,13 @@ struct {
 	__uint(max_entries, 256 * 1024);
 } ring_buf SEC(".maps");
 
+struct {
+	__uint(type, BPF_MAP_TYPE_ARRAY);
+	__type(key, u32);
+	__type(value, long);
+	__uint(max_entries, 256);
+} proto_cnt SEC(".maps");
+
 /**
  * SEC("socketxxxx") will be parse as BPF_PROG_TYPE_SOCKET_FILTER
  *
@@ -28,6 +35,8 @@ int bpf_prog1(struct __sk_buff *skb)
 	__u8 verlen;
 	__u16 proto;
 	__u32 nhoff = ETH_HLEN;
+	long *value;
+	int index;
 
 	bpf_skb_load_bytes(skb, 12, &proto, 2);
 	proto = __bpf_ntohs(proto);
@@ -43,6 +52,11 @@ int bpf_prog1(struct __sk_buff *skb)
 		bpf_skb_load_bytes(skb, nhoff + offsetof(struct iphdr, saddr), &(e->src_addr), 4);
 		bpf_skb_load_bytes(skb, nhoff + offsetof(struct iphdr, daddr), &(e->dst_addr), 4);
 	}
+
+	index = e->ip_proto;
+	value = bpf_map_lookup_elem(&proto_cnt, &index);
+	if (value)
+		__sync_fetch_and_add(value, 1);
 
 	bpf_skb_load_bytes(skb, nhoff + 0, &verlen, 1);
 	bpf_skb_load_bytes(skb, nhoff + ((verlen & 0xF) << 2), &(e->ports), 4);

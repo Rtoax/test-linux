@@ -1,6 +1,7 @@
 #include <argp.h>
 #include <arpa/inet.h>
 #include <assert.h>
+#include <bpf/bpf.h>
 #include <bpf/libbpf.h>
 #include <linux/if_packet.h>
 #include <linux/if_ether.h>
@@ -15,6 +16,7 @@
 #include "socket_filter.skel.h"
 
 static volatile bool exiting = false;
+static int map_fd = -1;
 
 static const char *ipproto_mapping[IPPROTO_MAX] = {
 	[IPPROTO_IP] = "IP",	   [IPPROTO_ICMP] = "ICMP",	  [IPPROTO_IGMP] = "IGMP",
@@ -90,6 +92,22 @@ static int handle_event(void *ctx, void *data, size_t data_sz)
 	ltoa(ntohl(e->src_addr), sstr);
 	ltoa(ntohl(e->dst_addr), dstr);
 
+	if (map_fd != -1) {
+		long long tcp_cnt, udp_cnt, icmp_cnt;
+		int key;
+
+		key = IPPROTO_TCP;
+		assert(bpf_map_lookup_elem(map_fd, &key, &tcp_cnt) == 0);
+
+		key = IPPROTO_UDP;
+		assert(bpf_map_lookup_elem(map_fd, &key, &udp_cnt) == 0);
+
+		key = IPPROTO_ICMP;
+		assert(bpf_map_lookup_elem(map_fd, &key, &icmp_cnt) == 0);
+
+		printf("TCP: %ld, UDP: %ld, ICMP: %d, ", tcp_cnt, udp_cnt, icmp_cnt);
+	}
+
 	printf("interface: %s\tprotocol: %s\t%s:%d(src) -> %s:%d(dst)\n", ifname,
 	       ipproto_mapping[e->ip_proto], sstr, ntohs(e->port16[0]), dstr, ntohs(e->port16[1]));
 
@@ -128,6 +146,8 @@ int main(void)
 		socket_filter_bpf__destroy(skel);
 		return 1;
 	}
+
+	map_fd = bpf_map__fd(skel->maps.proto_cnt);
 
 	rb = ring_buffer__new(bpf_map__fd(skel->maps.ring_buf), handle_event, NULL, NULL);
 	if (!rb) {
