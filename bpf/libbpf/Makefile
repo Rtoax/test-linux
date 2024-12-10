@@ -38,6 +38,9 @@ CFLAGS_BPF += -D__TARGET_ARCH_$(ARCH)
 CFLAGS := -lbpf
 LDFLAGS := -lbpf
 
+CFLAGS_socket_filter := -DSTRICT_SEC_NAME=1
+CFLAGS_BPF_socket_filter := -DSTRICT_SEC_NAME=1
+
 
 .PHONY: build
 build: vmlinux.h ${TARGETS_BPF} ${TARGETS_SKEL} ${TARGETS}
@@ -46,7 +49,7 @@ $(patsubst %,%.o,$(TARGETS)): %.o: %.skel.h
 
 %.bpf.o: %.bpf.c
 	@echo -e "  BPF  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	${Q}$(CLANG) -c $(<) -o $(@) ${CFLAGS_BPF}
+	${Q}$(CLANG) -c $(<) -o $(@) ${CFLAGS_BPF} $(CFLAGS_BPF_$(*))
 
 %.skel.h: %.bpf.o
 	@echo -e "  SKEL  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
