@@ -1,5 +1,5 @@
-eBPF
-====
+eBPF: extended Berkeley Packet Filter
+=====================================
 
 # Projects
 
