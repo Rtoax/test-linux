@@ -7,7 +7,6 @@ else
 endif
 export Q
 
-
 sub-dir := usdt
 
 sub-dir-build := $(sub-dir:=.build)
