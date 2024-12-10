@@ -31,11 +31,12 @@ int main(void)
 	struct hello_verifier_bpf *skel;
 	int err;
 	struct perf_buffer *pb = NULL;
+	char log_buf[64 * 1024];
 
 	libbpf_set_strict_mode(LIBBPF_STRICT_ALL);
 	libbpf_set_print(libbpf_print_fn);
 
-	char log_buf[64 * 1024];
+#if defined(LIBBPF_OPTS)
 	LIBBPF_OPTS(bpf_object_open_opts, opts,
 		.kernel_log_buf = log_buf,
 		.kernel_log_size = sizeof(log_buf),
@@ -43,12 +44,20 @@ int main(void)
 	);
 
 	skel = hello_verifier_bpf__open_opts(&opts);
+	err = hello_verifier_bpf__load(skel);
+	if (err) {
+		printf("Failed to load BPF object\n");
+		hello_verifier_bpf__destroy(skel);
+		return 1;
+	}
+#else
+	skel = hello_verifier_bpf__open_and_load();
+#endif
 	if (!skel) {
 		printf("Failed to open BPF object\n");
 		return 1;
 	}
 
-	err = hello_verifier_bpf__load(skel);
 	// Print the verifier log
 	for (int i=0; i < sizeof(log_buf); i++) {
 		if (log_buf[i] == 0 && log_buf[i+1] == 0) {
@@ -56,18 +65,21 @@ int main(void)
 		}
 		printf("%c", log_buf[i]);
 	}
-	if (err) {
-		printf("Failed to load BPF object\n");
-		hello_verifier_bpf__destroy(skel);
-		return 1;
-	}
 
+/**
+ * libbpf commit 650adc5118f1 ("libbpf: Add safer high-level wrappers for map
+ * operations") support bpf_map__update_elem()
+ */
+#if LIBBPF_MAJOR_VERSION >= 1 || (LIBBPF_MAJOR_VERSION == 0 && LIBBPF_MINOR_VERSION > 8)
 	// Configure a message to use only if the UID for the event is 501
 	uint32_t key = 501;
 	struct msg_t msg;
 	const char *m = "hello Liz";
 	strncpy((char *)&msg.message, m, strlen(m));
-	bpf_map__update_elem(skel->maps.my_config, &key, sizeof(key), &msg, sizeof(msg), 0);
+
+	bpf_map__update_elem(skel->maps.my_config, &key, sizeof(key), &msg,
+				sizeof(msg), 0);
+#endif
 
 	// Attach the progam to the event
 	err = hello_verifier_bpf__attach(skel);
@@ -77,7 +89,15 @@ int main(void)
 		return 1;
 	}
 
-	pb = perf_buffer__new(bpf_map__fd(skel->maps.output), 8, handle_event, lost_event, NULL, NULL);
+#if LIBBPF_MAJOR_VERSION >= 1
+	pb = perf_buffer__new(bpf_map__fd(skel->maps.output), 8, handle_event,
+				lost_event, NULL, NULL);
+#else
+	struct perf_buffer_opts pb_opts;
+	pb_opts.sample_cb = handle_event;
+	pb_opts.lost_cb = lost_event;
+	pb = perf_buffer__new(bpf_map__fd(skel->maps.output), 8, &pb_opts);
+#endif
 	if (!pb) {
 		err = -1;
 		fprintf(stderr, "Failed to create ring buffer\n");

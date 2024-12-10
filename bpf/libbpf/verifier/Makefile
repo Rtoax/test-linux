@@ -42,6 +42,6 @@ vmlinux.h:
 	bpftool btf dump file /sys/kernel/btf/vmlinux format c > vmlinux.h
 
 clean:
-	- rm $(BPF_OBJ)
+	- rm -f $(BPF_OBJ)
 	- rm -f $(TARGET) *.skel.h vmlinux.h
 
