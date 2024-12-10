@@ -8,8 +8,7 @@ else
 endif
 export Q
 
-
-sub-dir := skel
+sub-dir :=
 
 TARGETS := hello
 
