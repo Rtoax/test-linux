@@ -211,20 +211,6 @@ docker:
 version:
 	@echo "v${VERSION}.${PATCHLEVEL}.${SUBLEVEL}${EXTRAVERSION} (${NAME})"
 
-define git_config
-	${SHELL} scripts/git/config.sh
-endef
-
-define git_archive
-	${SHELL} scripts/git-archive
-endef
-
-define git_clean
-	@if [[ ! -z $(GIT_TOPDIR) ]]; then \
-		${SHELL} scripts/git-clean; \
-	fi
-endef
-
 
 .PHONY: archive
 archive:
