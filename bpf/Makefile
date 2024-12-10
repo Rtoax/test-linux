@@ -13,6 +13,7 @@ include ../scripts/tlbuild.mk
 
 sub-dir := bcc
 sub-dir += bpftrace
+sub-dir += bpftool
 sub-dir += btf
 sub-dir += c
 sub-dir += samples
