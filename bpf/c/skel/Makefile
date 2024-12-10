@@ -21,25 +21,24 @@ CC := gcc
 CLANG := clang
 BPFTOOL := bpftool
 
-TARGETS_BPF :=
-TARGETS_BPF += tc.bpf.o
+TARGETS :=
+TARGETS += tc
 
-TARGETS_EXE :=
-TARGETS_EXE += tc
+TARGETS_BPF := ${TARGETS:=.bpf.o}
 
 CFLAGS_BPF := -I.
 CFLAGS_BPF += -O2 -Wall
 CFLAGS_BPF += -target bpf
 CFLAGS_BPF += -D__TARGET_ARCH_$(ARCH)
 
-CFLAGS_EXE := -lbpf
-LDFLAGS_EXE := -lbpf
+CFLAGS := -lbpf
+LDFLAGS := -lbpf
 
 
 .PHONY: build
-build: vmlinux.h ${TARGETS_BPF} ${TARGETS_EXE}
+build: vmlinux.h ${TARGETS_BPF} ${TARGETS}
 
-$(patsubst %,%.o,$(TARGETS_EXE)): %.o: %.skel.h
+$(patsubst %,%.o,$(TARGETS)): %.o: %.skel.h
 
 %.bpf.o: %.bpf.c
 	@echo -e "  BPF  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
@@ -51,16 +50,16 @@ $(patsubst %,%.o,$(TARGETS_EXE)): %.o: %.skel.h
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	${Q}$(CC) -o $(@) -c $(<) $(CFLAGS_EXE) $(CFLAGS_EXE_$(*))
+	${Q}$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
 
-$(TARGETS_EXE): %: %.o
+$(TARGETS): %: %.o
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	${Q}$(CC) -o $(@) $(^) $(LDFLAGS_EXE) $(LDFLAGS_EXE_$(*))
+	${Q}$(CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*))
 
 vmlinux.h:
 	@echo -e "  BPFTOOL  \033[1m$(@)\033[m"
 	${Q}${BPFTOOL} btf dump file /sys/kernel/btf/vmlinux format c > vmlinux.h
 
 clean:
-	@echo -e "  RM  \033[1;32m$(TARGETS_BPF) ${TARGETS_EXE}\033[m"
-	${Q}rm -f ${TARGETS_BPF} ${TARGETS_EXE} *.o *.skel.h vmlinux.h
+	@echo -e "  RM  \033[1;32m$(TARGETS_BPF) ${TARGETS}\033[m"
+	${Q}rm -f ${TARGETS_BPF} ${TARGETS} *.o *.skel.h vmlinux.h
