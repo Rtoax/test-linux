@@ -152,6 +152,7 @@ os-release
 
 # Temp File
 vmlinux.h
+*.skel.h
 .bash_history
 .bashrc
 ~*

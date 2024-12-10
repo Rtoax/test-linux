@@ -23,6 +23,7 @@ BPFTOOL := bpftool
 
 TARGETS :=
 TARGETS += hello-buffer-config
+TARGETS += hello-verifier
 
 TARGETS_BPF := ${TARGETS:=.bpf.o}
 TARGETS_SKEL := ${TARGETS:=.skel.h}
