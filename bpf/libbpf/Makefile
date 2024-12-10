@@ -8,6 +8,13 @@ else
 endif
 export Q
 
+CONFIG_KERNEL ?= /boot/config-$(shell uname -r)
+
+ifeq ($(wildcard $(CONFIG_KERNEL)),)
+  $(error "ERROR: Not found ${CONFIG_KERNEL}")
+endif
+
+include $(CONFIG_KERNEL)
 
 ARCH ?= $(shell uname -m | sed 's/x86_64/x86/' \
 			 | sed 's/arm.*/arm/' \
@@ -25,7 +32,11 @@ TARGETS :=
 TARGETS += hello-buffer-config
 TARGETS += hello-verifier
 TARGETS += socket_filter
-TARGETS += kprobe
+ifeq ($(CONFIG_KPROBES),y)
+  TARGETS += kprobe
+else
+  $(warning Kernel not support kprobes, CONFIG_KPROBES=$(CONFIG_KPROBES))
+endif
 TARGETS += tc
 
 TARGETS_BPF := ${TARGETS:=.bpf.o}

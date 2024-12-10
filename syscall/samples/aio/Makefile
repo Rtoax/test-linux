@@ -7,15 +7,14 @@ else
 endif
 export Q
 
-
 LIBAIO_HDR = /usr/include/libaio.h
 
 TARGETS :=
-ifneq ($(wildcard $(LIBAIO_HDR)),)
 TARGETS += libaio
 TARGETS += epoll
-else
-$(error "ERROR: Must install libaio development header")
+
+ifeq ($(wildcard $(LIBAIO_HDR)),)
+  $(error "ERROR: Must install libaio development header")
 endif
 
 CC = gcc
@@ -30,10 +29,8 @@ ifneq ($(wildcard $(LIBAIO_HDR)),)
 endif
 
 build: ${TARGETS}
-	@echo
 	@echo -e " \033[1;33m Done \033[m"
 
-# Add more object.o file
 libaio: libaio.o helpers.o
 epoll: epoll.o
 
