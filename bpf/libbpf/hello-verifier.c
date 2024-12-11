@@ -2,6 +2,7 @@
 #include <unistd.h>
 #include <errno.h>
 #include <string.h>
+#include <linux/bpf.h>
 #include <bpf/libbpf.h>
 #include "hello-verifier.h"
 #include "hello-verifier.skel.h"
@@ -29,8 +30,8 @@ void lost_event(void *ctx, int cpu, long long unsigned int data_sz)
 
 int main(void)
 {
+	int i, err;
 	struct hello_verifier_bpf *skel;
-	int err;
 	struct perf_buffer *pb = NULL;
 	char log_buf[64 * 1024];
 
@@ -59,30 +60,36 @@ int main(void)
 		return 1;
 	}
 
-	// Print the verifier log
-	for (int i=0; i < sizeof(log_buf); i++) {
+	/* Print the verifier log */
+	for (i = 0; i < sizeof(log_buf); i++) {
 		if (log_buf[i] == 0 && log_buf[i+1] == 0) {
 			break;
 		}
 		printf("%c", log_buf[i]);
 	}
 
+	/**
+	 * Configure a message to use only if the UID for the event is current
+	 * user.
+	 */
+	uint32_t key = getuid();
+	struct msg_t msg;
+	const char *m = "hello Liz";
+	strncpy((char *)&msg.message, m, strlen(m));
+
+	printf("Config message for uid = %d\n", key);
 /**
  * libbpf commit 650adc5118f1 ("libbpf: Add safer high-level wrappers for map
  * operations") support bpf_map__update_elem()
  */
 #if LIBBPF_MAJOR_VERSION >= 1 || (LIBBPF_MAJOR_VERSION == 0 && LIBBPF_MINOR_VERSION > 8)
-	// Configure a message to use only if the UID for the event is 501
-	uint32_t key = 501;
-	struct msg_t msg;
-	const char *m = "hello Liz";
-	strncpy((char *)&msg.message, m, strlen(m));
-
 	bpf_map__update_elem(skel->maps.my_config, &key, sizeof(key), &msg,
 				sizeof(msg), 0);
+#else
+	fprintf(stderr, "Not support bpf_map__update_elem() yet.\n");
 #endif
 
-	// Attach the progam to the event
+	/* Attach the progam to the event */
 	err = hello_verifier_bpf__attach(skel);
 	if (err) {
 		fprintf(stderr, "Failed to attach BPF skeleton: %d\n", err);
@@ -108,7 +115,7 @@ int main(void)
 
 	while (true) {
 		err = perf_buffer__poll(pb, 100 /* timeout, ms */);
-		// Ctrl-C gives -EINTR
+		/* Ctrl-C gives -EINTR */
 		if (err == -EINTR) {
 			err = 0;
 			break;
