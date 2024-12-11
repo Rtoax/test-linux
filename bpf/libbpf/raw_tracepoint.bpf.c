@@ -10,7 +10,13 @@ struct {
 	__uint(value_size, sizeof(u32));
 } event SEC(".maps");
 
+#if defined(SEC_DEF_RAW_TRACEPOINT)
 SEC("raw_tracepoint/sys_enter")
+#elif defined(SEC_DEF_RAW_TP)
+SEC("raw_tp/sys_enter")
+#else
+# error "Not define SEC_DEF_RAW_TRACEPOINT or SEC_DEF_RAW_TP"
+#endif
 int raw_tp_sys_enter(void *ctx)
 {
 	struct data_t data = {};
