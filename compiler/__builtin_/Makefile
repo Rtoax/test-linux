@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0
 SHELL = bash
 ifeq ($(V),1)
   Q =
@@ -7,8 +8,8 @@ else
 endif
 export Q
 
-
 TARGETS :=
+TARGETS += __has_builtin
 TARGETS += __builtin_apply_args
 TARGETS += __builtin_apply
 TARGETS += __builtin_bswap16
@@ -35,6 +36,7 @@ TARGETS += __builtin_clzl
 TARGETS_todo += __builtin_preserve_field_info
 TARGETS_todo += __builtin_read8
 TARGETS_todo += __builtin_va_arg_pack
+TARGETS_todo += __builtin_preserve_enum_value
 
 CC = gcc
 
@@ -42,8 +44,11 @@ CC = gcc
 CFLAGS___builtin_apply_args := -Wno-incompatible-pointer-types
 CFLAGS___builtin_popcount := -Wno-int-conversion
 
-build: ${TARGETS}
+.PHONY: build
+build: $(TARGETS)
+	@echo -e " \033[1;33m Done \033[m"
 
+__has_builtin: __has_builtin.o
 __builtin_apply_args: __builtin_apply_args.o
 __builtin_apply: __builtin_apply.o
 __builtin_bswap16: __builtin_bswap16.o
@@ -69,6 +74,7 @@ __builtin_va_arg_pack: __builtin_va_arg_pack.o
 __builtin___clear_cache: __builtin___clear_cache.o
 __builtin_types_compatible_p: __builtin_types_compatible_p.o
 __builtin_clzl: __builtin_clzl.o
+__builtin_preserve_enum_value: __builtin_preserve_enum_value.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

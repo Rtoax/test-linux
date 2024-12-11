@@ -1,3 +1,4 @@
+/__has_builtin
 /__builtin_apply_args
 /__builtin_apply
 /__builtin_bswap16
@@ -23,3 +24,4 @@
 /__builtin___clear_cache
 /__builtin_types_compatible_p
 /__builtin_clzl
+/__builtin_preserve_enum_value
