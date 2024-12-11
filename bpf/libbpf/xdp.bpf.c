@@ -1,12 +1,12 @@
-#include "vmlinux.h"
-#include <bpf/bpf_endian.h>
+#include <vmlinux.h>
 #include <bpf/bpf_helpers.h>
-
+#include <bpf/bpf_endian.h>
+#include <bpf/bpf_tracing.h>
 
 #define ETH_P_IP	0x0800
 
 SEC("xdp")
-int ping(struct xdp_md *ctx)
+int xdp_pass(struct xdp_md *ctx)
 {
 	int proto = 0;
 	void *data = (void *)(long)ctx->data;
@@ -41,4 +41,4 @@ int ping(struct xdp_md *ctx)
 	return XDP_PASS;
 }
 
-char LICENSE[] SEC("license") = "Dual BSD/GPL";
+char __license[] SEC("license") = "GPL";

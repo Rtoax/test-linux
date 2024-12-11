@@ -38,6 +38,7 @@ else
   $(warning Kernel not support kprobes, CONFIG_KPROBES=$(CONFIG_KPROBES))
 endif
 TARGETS += tc
+TARGETS += xdp
 
 TARGETS_BPF := ${TARGETS:=.bpf.o}
 TARGETS_SKEL := ${TARGETS:=.skel.h}

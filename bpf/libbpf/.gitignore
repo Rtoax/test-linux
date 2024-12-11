@@ -3,3 +3,4 @@
 /socket_filter
 /kprobe
 /tc
+/xdp
