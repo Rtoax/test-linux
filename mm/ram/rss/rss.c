@@ -65,5 +65,6 @@ size_t hpmalloc_get_rss(pid_t pid)
 int main(void)
 {
 	printf("%ld\n", hpmalloc_get_rss(getpid()));
+	return 0;
 }
 

@@ -1,9 +1,10 @@
 #!/bin/bash
+set -e
 
 ps -eo user,comm,pid,vsz,rss
 
 comm_rss() {
-	ps --no-headers -e -ocomm,rss | awk '
+	ps --no-headers -e -o comm,rss | awk '
 		{
 			name = $1;
 			score = $2;
@@ -21,6 +22,5 @@ comm_rss_total() {
 }
 
 comm_rss
-
 comm_rss_total
 
