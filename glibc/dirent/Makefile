@@ -32,7 +32,6 @@ ifdef M32
 endif
 
 build: ${TARGETS}
-	@echo
 	@echo -e " \033[1;33m Done \033[m"
 	@mkdir -p a.dir/a/b/c/d/e
 	@touch a.dir/{a,b,c,d,e}.txt

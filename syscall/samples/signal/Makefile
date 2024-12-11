@@ -39,7 +39,6 @@ sub-dir-clean := $(sub-dir:=.clean)
 
 .PHONY: build
 build: sig.h ${TARGETS} $(sub-dir-build)
-	@echo
 	@echo -e " \033[1;33m Done \033[m"
 
 sig.h:

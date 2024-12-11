@@ -20,7 +20,6 @@ endif
 
 build: ${TARGETS}
 	@./filt.sh
-	@echo
 	@echo -e " \033[1;33m Done \033[m"
 
 %.o: %.cpp

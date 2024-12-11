@@ -85,7 +85,6 @@ endef
 
 .PHONY: build
 build: ${TARGETS} $(sub-dir-build)
-	@echo
 	@echo -e "  CFLAGS=${CFLAGS}"
 	@echo -e "  LDFLAGS=${LDFLAGS}"
 	@echo -e "  PRINTF  ${feature-printf} "

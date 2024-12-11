@@ -18,7 +18,6 @@ CFLAGS += -lrt
 CFLAGS += -lpthread
 
 build: ${TARGETS}
-	@echo
 	@echo -e " \033[1;33m Done \033[m"
 
 # Add more object.o file

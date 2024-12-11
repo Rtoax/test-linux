@@ -20,7 +20,6 @@ CFLAGS += -DDEBUG -O0 -g
 CFLAGS += -lrt
 
 build: ${TARGETS}
-	@echo
 	@echo -e " \033[1;33m Done \033[m"
 	@echo -e "  SRCTREE  ${ABS_SRCTREE}"
 

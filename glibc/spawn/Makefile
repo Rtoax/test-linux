@@ -21,7 +21,6 @@ ifdef DEBUG
 endif
 
 build: ${TARGETS}
-	@echo
 	@echo -e " \033[1;33m Done \033[m"
 
 posix_spawn: posix_spawn.o

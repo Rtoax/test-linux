@@ -24,7 +24,6 @@ CFLAGS +=$(shell pkg-config --libs --cflags openssl)
 
 build: ${TARGETS}
 	$(shell bash gen-key.sh)
-	@echo
 	@echo -e " \033[1;33m Done \033[m"
 
 # Add more object.o file

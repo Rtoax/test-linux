@@ -20,7 +20,6 @@ build: ${SCRIPTS_OUT}
 
 .PHONY: test
 test: ${SCRIPTS_OUT}
-	@echo
 	@echo "Test Done"
 
 ${SCRIPTS_OUT}: %:

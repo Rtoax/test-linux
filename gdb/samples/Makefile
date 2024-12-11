@@ -87,7 +87,6 @@ $(TARGETS_CPP): %:
 
 .PHONY: test
 test: ${SCRIPTS_OUT}
-	@echo
 	@echo "Test Done"
 
 ${SCRIPTS_OUT}: %:

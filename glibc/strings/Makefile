@@ -17,7 +17,6 @@ CFLAGS := -Werror -Wall
 CFLAGS += -O0 -g -ggdb
 
 build: ${TARGETS}
-	@echo
 	@echo -e " \033[1;33m Done \033[m"
 
 index: index.o

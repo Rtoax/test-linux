@@ -31,7 +31,6 @@ LDFLAGS_dev := libdev.so
 
 .PHONY: build
 build: ${TARGETS_LIBS} ${TARGETS}
-	@echo
 	@echo -e " \033[1;33m Done \033[m"
 	@echo -e "Running ./run.sh to testing."
 

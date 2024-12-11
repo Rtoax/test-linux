@@ -35,7 +35,6 @@ endif
 
 .PHONY: build
 build: confs_def.h ${TARGETS}
-	@echo
 	@echo -e " \033[1;33m Done \033[m"
 
 confs_def.h: sysconf.sh

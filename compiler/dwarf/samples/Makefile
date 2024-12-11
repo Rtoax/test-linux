@@ -22,7 +22,6 @@ ifdef DWARF4
 endif
 
 build: ${TARGETS}
-	@echo
 	@echo -e " \033[1;33m Done \033[m"
 
 hello: hello.o

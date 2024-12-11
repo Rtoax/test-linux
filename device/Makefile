@@ -24,7 +24,6 @@ sub-dir-clean := $(sub-dir:=.clean)
 
 .PHONY: build
 build: $(sub-dir-build) ${TARGETS}
-	@echo
 	@echo -e " \033[1;33m Done \033[m"
 
 cpu_dma_latency: cpu_dma_latency.o

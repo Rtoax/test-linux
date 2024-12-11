@@ -28,7 +28,6 @@ CFLAGS := -Werror -Wall
 CFLAGS += -DDEBUG -O0 -g
 
 build: ${TARGETS}
-	@echo
 	@echo -e " \033[1;33m Done \033[m"
 
 CFLAGS_mallinfo := -Wno-error=deprecated-declarations

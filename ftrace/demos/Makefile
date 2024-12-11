@@ -16,7 +16,6 @@ CC = gcc
 CFLAGS := -Werror -Wall -O0
 
 build: ${TARGETS}
-	@echo
 	@echo -e " \033[1;33m Done \033[m"
 
 

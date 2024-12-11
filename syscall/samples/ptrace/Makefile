@@ -36,7 +36,6 @@ CFLAGS += -pthread
 CFLAGS += -DDEBUG -O0 -g
 
 build: nr.h ${TARGETS}
-	@echo
 	@echo -e " \033[1;33m Done \033[m"
 
 nr.h: ../nr.sh

@@ -8,10 +8,10 @@ else
 endif
 export Q
 
-
 sub-dir :=
 sub-dir += awk
 sub-dir += grep
+sub-dir += sed
 
 sub-dir-build := $(sub-dir:=.build)
 sub-dir-clean := $(sub-dir:=.clean)

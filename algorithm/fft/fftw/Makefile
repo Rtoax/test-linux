@@ -31,7 +31,6 @@ $(warning "Not found header ${FFTW_HDR}, please install fftw")
 endif
 
 build: ${TARGETS}
-	@echo
 	@echo -e " \033[1;33m Done \033[m"
 
 # Add more object.o file

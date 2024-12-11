@@ -36,7 +36,6 @@ CFLAGS += -DCL_TARGET_OPENCL_VERSION=100
 
 .PHONY: build
 build: ${TARGETS}
-	@echo
 	@echo -e " \033[1;33m Done \033[m"
 
 clGetPlatformIDs: clGetPlatformIDs.o

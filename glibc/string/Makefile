@@ -47,7 +47,6 @@ CFLAGS_memcpy-stress := -DSTRESS=1
 CFLAGS_memset-stress := -DSTRESS=1
 
 build: sig.h ${TARGETS}
-	@echo
 	@echo -e " \033[1;33m Done \033[m"
 
 sig.h:
