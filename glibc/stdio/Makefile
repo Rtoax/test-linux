@@ -107,4 +107,4 @@ test: ${TARGETS}
 
 clean:
 	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
-	${Q}rm -f ${TARGETS} *.o *.d *.log *.out *.bin
+	${Q}rm -f ${TARGETS} *.o *.d *.log *.out *.bin os-release
