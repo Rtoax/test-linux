@@ -10,7 +10,13 @@ struct {
 	__uint(value_size, sizeof(u32));
 } event SEC(".maps");
 
+#if defined(SEC_DEF_TRACEPOINT)
 SEC("tracepoint/syscalls/sys_enter_execve")
+#elif defined(SEC_DEF_TP)
+SEC("tp/syscalls/sys_enter_execve")
+#else
+# error "Not define SEC_DEF_TRACEPOINT or SEC_DEF_TP"
+#endif
 int tracepoint__syscalls__sys_enter_execve(struct syscall_trace_enter* ctx)
 {
 	struct data_t data = {};
