@@ -2,5 +2,6 @@
 /socket_filter
 /kprobe
 /tracepoint
+/raw_tracepoint
 /tc
 /xdp
