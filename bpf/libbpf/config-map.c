@@ -30,7 +30,7 @@ void lost_event(void *ctx, int cpu, long long unsigned int data_sz)
 
 int main(void)
 {
-	int i, err;
+	int i, err, event_map_fd;
 	struct config_map_bpf *skel;
 	struct perf_buffer *pb = NULL;
 	char log_buf[64 * 1024];
@@ -78,6 +78,8 @@ int main(void)
 	strncpy((char *)&msg.message, m, strlen(m));
 
 	printf("Config message for uid = %d\n", key);
+	printf("event max entries %d\n", skel->maps.event);
+	printf("config_hash max entries %d\n", skel->maps.config_hash);
 /**
  * libbpf commit 650adc5118f1 ("libbpf: Add safer high-level wrappers for map
  * operations") support bpf_map__update_elem()
@@ -97,14 +99,16 @@ int main(void)
 		return 1;
 	}
 
+	event_map_fd = bpf_map__fd(skel->maps.event);
+
 #if LIBBPF_MAJOR_VERSION >= 1
-	pb = perf_buffer__new(bpf_map__fd(skel->maps.event), 8, handle_event,
-				lost_event, NULL, NULL);
+	pb = perf_buffer__new(event_map_fd, 8, handle_event, lost_event, NULL,
+				 NULL);
 #else
 	struct perf_buffer_opts pb_opts;
 	pb_opts.sample_cb = handle_event;
 	pb_opts.lost_cb = lost_event;
-	pb = perf_buffer__new(bpf_map__fd(skel->maps.event), 8, &pb_opts);
+	pb = perf_buffer__new(event_map_fd, 8, &pb_opts);
 #endif
 	if (!pb) {
 		err = -1;
