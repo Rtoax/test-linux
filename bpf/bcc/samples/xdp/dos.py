@@ -126,7 +126,6 @@ BPF_HASH(ipv4_stat, struct ipv4_key_t, struct ipv4_stat_t);
 
 static __always_inline int handle_ipv4(struct xdp_md *ctx, struct iphdr *iphdr)
 {
-    uint32_t if_index = CONFIG_IF_INDEX;
     struct ipv4_stat_t *stat;
     u64 delta_s;
     u64 sec = bpf_ktime_get_ns() / 1000000000UL;
@@ -145,10 +144,6 @@ static __always_inline int handle_ipv4(struct xdp_md *ctx, struct iphdr *iphdr)
      * FIXME: Ignore loopback??
      */
     if (iphdr->saddr == 0)
-        return XDP_PASS;
-
-    /* rxq->dev->ifindex */
-    if (if_index != ctx->ingress_ifindex)
         return XDP_PASS;
 
     stat = ipv4_stat.lookup(&key_saddr);
@@ -269,7 +264,6 @@ def decode_addr_flags(flags):
     str_flags.extend(_decode_flags(flags, ADDR_FLAGS))
     return '|'.join(str_flags)
 
-bpf_text = bpf_text.replace('CONFIG_IF_INDEX', str(ifidx))
 bpf_text = bpf_text.replace('CONFIG_SAMPLE_SECS', str(config_sample_secs))
 bpf_text = bpf_text.replace('CONFIG_SAMPLE_THRESHOLD', str(config_sample_threshold))
 bpf_text = bpf_text.replace('CONFIG_BLACKLIST_SAMPLE_SECS', str(config_blacklist_sample_secs))
@@ -302,7 +296,7 @@ print("Protection sampling interval %s seconds, threshold %s npkts" %
       (config_sample_secs, config_sample_threshold))
 print("Blacklist sampling interval %s seconds, threshold %s npkts" %
       (config_blacklist_sample_secs, config_blacklist_sample_threshold))
-print("DOS protection of %s, hit CTRL+C to stop" % ifname)
+print("DOS protection of %s (index %d), hit CTRL+C to stop" % (ifname, ifidx))
 print("%-16s %-16s %-16s %-16s %-8s" %
       ("SADDR", "SADDR_PKTS", "SAMPLE_PKTS", "SAMPLE_TIME", "FLAGS"))
 
