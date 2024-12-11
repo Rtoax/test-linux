@@ -2,10 +2,14 @@
 answer=N
 [[ ! -z $1 ]] && answer=$1
 
-declare -a no_commit_files ignore_files
+declare -a no_add_files no_commit_files ignore_files
+
+get_no_add_files() {
+	no_add_files=( $(git status --porcelain | grep '^??' | cut -c4- | tr -d ' ') )
+}
 
 get_no_commit_files() {
-	no_commit_files=( $(git status --porcelain | grep '^??' | cut -c4- | tr -d ' ') )
+	no_commit_files=( $(git status --porcelain | grep '^A' | cut -c4- | tr -d ' ') )
 }
 
 get_ignore_files() {
@@ -22,8 +26,16 @@ print_list() {
 }
 
 pre_check() {
+	get_no_add_files
 	get_no_commit_files
 	get_ignore_files
+
+	if [[ "${no_add_files[@]}" ]]; then
+		echo "ERROR: There are no-add new files in git repo!!"
+		echo "       Handle them manually!!"
+		print_list ${no_add_files[@]}
+		exit 1
+	fi
 
 	if [[ -z "${no_commit_files[@]}" ]] && [[ -z "${ignore_files[@]}" ]]; then
 		echo "Nothing to clean"
@@ -31,7 +43,7 @@ pre_check() {
 	fi
 
 	if [[ "${no_commit_files[@]}" ]]; then
-		echo "Files not committed will be removed:"
+		echo "Files not committed will not be removed:"
 		print_list ${no_commit_files[@]}
 	fi
 
