@@ -6,12 +6,13 @@ bpf_source = """
 
 BPF_PERF_OUTPUT(events);
 
-int do_sys_execve(struct pt_regs *ctx, void *filename, void *argv, void *envp) {
-  char comm[16];
-  bpf_get_current_comm(&comm, sizeof(comm));
+int do_sys_execve(struct pt_regs *ctx, void *filename, void *argv, void *envp)
+{
+    char comm[16];
+    bpf_get_current_comm(&comm, sizeof(comm));
 
-  events.perf_submit(ctx, &comm, sizeof(comm));
-  return 0;
+    events.perf_submit(ctx, &comm, sizeof(comm));
+    return 0;
 }
 """
 
@@ -23,15 +24,15 @@ from collections import Counter
 aggregates = Counter()
 
 def aggregate_programs(cpu, data, size):
-  comm = bpf["events"].event(data)
-  aggregates[comm] += 1
+    comm = bpf["events"].event(data)
+    aggregates[comm] += 1
 
 bpf["events"].open_perf_buffer(aggregate_programs)
 while True:
     try:
-      bpf.perf_buffer_poll()
+        bpf.perf_buffer_poll()
     except KeyboardInterrupt:
-      break
+        break
 
 for (comm, times) in aggregates.most_common():
-  print("Program {} executed {} times".format(comm, times))
+    print("Program {} executed {} times".format(comm, times))
