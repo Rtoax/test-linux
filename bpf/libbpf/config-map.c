@@ -4,8 +4,8 @@
 #include <string.h>
 #include <linux/bpf.h>
 #include <bpf/libbpf.h>
-#include "hello-verifier.h"
-#include "hello-verifier.skel.h"
+#include "config-map.h"
+#include "config-map.skel.h"
 
 static int libbpf_print_fn(enum libbpf_print_level level, const char *format,
 			   va_list args)
@@ -31,7 +31,7 @@ void lost_event(void *ctx, int cpu, long long unsigned int data_sz)
 int main(void)
 {
 	int i, err;
-	struct hello_verifier_bpf *skel;
+	struct config_map_bpf *skel;
 	struct perf_buffer *pb = NULL;
 	char log_buf[64 * 1024];
 
@@ -45,15 +45,15 @@ int main(void)
 		.kernel_log_level = 1,
 	);
 
-	skel = hello_verifier_bpf__open_opts(&opts);
-	err = hello_verifier_bpf__load(skel);
+	skel = config_map_bpf__open_opts(&opts);
+	err = config_map_bpf__load(skel);
 	if (err) {
 		printf("Failed to load BPF object\n");
-		hello_verifier_bpf__destroy(skel);
+		config_map_bpf__destroy(skel);
 		return 1;
 	}
 #else
-	skel = hello_verifier_bpf__open_and_load();
+	skel = config_map_bpf__open_and_load();
 #endif
 	if (!skel) {
 		printf("Failed to open BPF object\n");
@@ -74,7 +74,7 @@ int main(void)
 	 */
 	uint32_t key = getuid();
 	struct msg_t msg;
-	const char *m = "hello Liz";
+	const char *m = "Hello RT";
 	strncpy((char *)&msg.message, m, strlen(m));
 
 	printf("Config message for uid = %d\n", key);
@@ -90,10 +90,10 @@ int main(void)
 #endif
 
 	/* Attach the progam to the event */
-	err = hello_verifier_bpf__attach(skel);
+	err = config_map_bpf__attach(skel);
 	if (err) {
 		fprintf(stderr, "Failed to attach BPF skeleton: %d\n", err);
-		hello_verifier_bpf__destroy(skel);
+		config_map_bpf__destroy(skel);
 		return 1;
 	}
 
@@ -109,7 +109,7 @@ int main(void)
 	if (!pb) {
 		err = -1;
 		fprintf(stderr, "Failed to create ring buffer\n");
-		hello_verifier_bpf__destroy(skel);
+		config_map_bpf__destroy(skel);
 		return 1;
 	}
 
@@ -127,6 +127,6 @@ int main(void)
 	}
 
 	perf_buffer__free(pb);
-	hello_verifier_bpf__destroy(skel);
+	config_map_bpf__destroy(skel);
 	return -err;
 }
