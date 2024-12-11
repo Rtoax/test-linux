@@ -44,6 +44,11 @@ examples = """examples:
   # blacklist: 192.168.30.1
   ./dos.py -i enp11s0 -t 10 -n 20 -T 20 -N 30 -W 192.168.30.179 192.168.30.180 -B 192.168.30.1
 
+    # Server peer
+    iperf3 --server --bind 192.168.1.8
+    # Client peer
+    iperf3 --client 192.168.1.8
+
 """
 
 parser = argparse.ArgumentParser(
