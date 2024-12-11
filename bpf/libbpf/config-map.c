@@ -83,7 +83,7 @@ int main(void)
  * operations") support bpf_map__update_elem()
  */
 #if LIBBPF_MAJOR_VERSION >= 1 || (LIBBPF_MAJOR_VERSION == 0 && LIBBPF_MINOR_VERSION > 8)
-	bpf_map__update_elem(skel->maps.my_config, &key, sizeof(key), &msg,
+	bpf_map__update_elem(skel->maps.config_hash, &key, sizeof(key), &msg,
 				sizeof(msg), 0);
 #else
 	fprintf(stderr, "Not support bpf_map__update_elem() yet.\n");
@@ -98,13 +98,13 @@ int main(void)
 	}
 
 #if LIBBPF_MAJOR_VERSION >= 1
-	pb = perf_buffer__new(bpf_map__fd(skel->maps.output), 8, handle_event,
+	pb = perf_buffer__new(bpf_map__fd(skel->maps.event), 8, handle_event,
 				lost_event, NULL, NULL);
 #else
 	struct perf_buffer_opts pb_opts;
 	pb_opts.sample_cb = handle_event;
 	pb_opts.lost_cb = lost_event;
-	pb = perf_buffer__new(bpf_map__fd(skel->maps.output), 8, &pb_opts);
+	pb = perf_buffer__new(bpf_map__fd(skel->maps.event), 8, &pb_opts);
 #endif
 	if (!pb) {
 		err = -1;

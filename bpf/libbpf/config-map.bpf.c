@@ -11,14 +11,14 @@ struct {
 	__uint(type, BPF_MAP_TYPE_PERF_EVENT_ARRAY);
 	__uint(key_size, sizeof(u32));
 	__uint(value_size, sizeof(u32));
-} output SEC(".maps");
+} event SEC(".maps");
 
 struct {
 	__uint(type, BPF_MAP_TYPE_HASH);
 	__uint(max_entries, 10240);
 	__type(key, u32);
 	__type(value, struct msg_t);
-} my_config SEC(".maps");
+} config_hash SEC(".maps");
 
 #if defined(BPF_KPROBE_SYSCALL)
 SEC("ksyscall/execve")
@@ -39,7 +39,7 @@ int tracepoint__syscalls__sys_enter_execve(struct syscall_trace_enter* ctx)
 	uid = bpf_get_current_uid_gid() & 0xFFFFFFFF;
 	data.uid = uid;
 
-	p = bpf_map_lookup_elem(&my_config, &uid);
+	p = bpf_map_lookup_elem(&config_hash, &uid);
 
 	/* Attempt to dereference a potentially null pointer */
 	if (p != 0) {
@@ -72,7 +72,7 @@ int tracepoint__syscalls__sys_enter_execve(struct syscall_trace_enter* ctx)
 	}
 
 	bpf_get_current_comm(&data.command, sizeof(data.command));
-	bpf_perf_event_output(ctx, &output, BPF_F_CURRENT_CPU,  &data, sizeof(data));
+	bpf_perf_event_output(ctx, &event, BPF_F_CURRENT_CPU,  &data, sizeof(data));
 
 	return 0;
 }
