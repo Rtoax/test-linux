@@ -40,6 +40,8 @@ examples = """examples:
   ./dos.py -i eno1 -W 192.168.30.179    # Specify white address
   ./dos.py -i eno1 -B 192.168.30.179    # Specify black address
 
+  # whitelist: 192.168.30.179 192.168.30.180
+  # blacklist: 192.168.30.1
   ./dos.py -i enp11s0 -t 10 -n 20 -T 20 -N 30 -W 192.168.30.179 192.168.30.180 -B 192.168.30.1
 
 """
