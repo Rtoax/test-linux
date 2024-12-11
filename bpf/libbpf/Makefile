@@ -48,7 +48,7 @@ TARGETS += $(kernel-config-y)
 
 
 TARGETS_BPF := ${TARGETS:=.bpf.o}
-TARGETS_SKEL := ${TARGETS:=.skel.h}
+TARGETS_SKEL := $(patsubst %.bpf.o,%.skel.h,$(TARGETS_BPF))
 
 CFLAGS_BPF := -I.
 CFLAGS_BPF += -O2 -Wall -g
