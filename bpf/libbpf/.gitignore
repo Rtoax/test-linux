@@ -1,5 +1,6 @@
 /config-map
 /socket_filter
 /kprobe
+/tracepoint
 /tc
 /xdp

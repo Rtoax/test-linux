@@ -36,6 +36,7 @@ ifeq ($(CONFIG_KPROBES),y)
 else
   $(warning Kernel not support kprobes, CONFIG_KPROBES=$(CONFIG_KPROBES))
 endif
+TARGETS += tracepoint
 TARGETS += tc
 TARGETS += xdp
 
