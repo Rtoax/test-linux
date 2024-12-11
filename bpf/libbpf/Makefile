@@ -28,18 +28,23 @@ CC := gcc
 CLANG := clang
 BPFTOOL := bpftool
 
+kernel-config-y :=
+kernel-config-$(CONFIG_KPROBES) += kprobe
+kernel-config-$(CONFIG_TRACEPOINTS) += tracepoint raw_tracepoint
+
+$(info kernel-config-y : $(kernel-config-y))
+
+ifneq ($(kernel-config-),)
+  $(warning Not support ${kernel-config-})
+endif
+
 TARGETS :=
 TARGETS += config-map
 TARGETS += socket_filter
-ifeq ($(CONFIG_KPROBES),y)
-  TARGETS += kprobe
-else
-  $(warning Kernel not support kprobes, CONFIG_KPROBES=$(CONFIG_KPROBES))
-endif
-TARGETS += tracepoint
-TARGETS += raw_tracepoint
 TARGETS += tc
 TARGETS += xdp
+TARGETS += $(kernel-config-y)
+
 
 TARGETS_BPF := ${TARGETS:=.bpf.o}
 TARGETS_SKEL := ${TARGETS:=.skel.h}
