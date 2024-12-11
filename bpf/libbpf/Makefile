@@ -53,6 +53,8 @@ LDFLAGS := -lbpf
 
 CFLAGS_socket_filter := -DSTRICT_SEC_NAME=1
 CFLAGS_BPF_socket_filter := -DSTRICT_SEC_NAME=1
+CFLAGS_xdp := -DSTRICT_SEC_NAME=1
+CFLAGS_BPF_xdp := -DSTRICT_SEC_NAME=1
 
 
 .PHONY: build

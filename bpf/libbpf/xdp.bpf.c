@@ -5,7 +5,9 @@
 
 #define ETH_P_IP	0x0800
 
+#if defined(STRICT_SEC_NAME)
 SEC("xdp")
+#endif
 int xdp_pass(struct xdp_md *ctx)
 {
 	int proto = 0;
