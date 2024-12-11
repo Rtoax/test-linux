@@ -78,8 +78,8 @@ int main(void)
 	strncpy((char *)&msg.message, m, strlen(m));
 
 	printf("Config message for uid = %d\n", key);
-	printf("event max entries %d\n", skel->maps.event);
-	printf("config_hash max entries %d\n", skel->maps.config_hash);
+	printf("event max entries %d\n", bpf_map__max_entries(skel->maps.event));
+	printf("config_hash max entries %d\n", bpf_map__max_entries(skel->maps.config_hash));
 /**
  * libbpf commit 650adc5118f1 ("libbpf: Add safer high-level wrappers for map
  * operations") support bpf_map__update_elem()

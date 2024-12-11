@@ -137,7 +137,7 @@ static int handle_event(void *ctx, void *data, size_t data_sz)
 		key = IPPROTO_ICMP;
 		assert(bpf_map_lookup_elem(map_fd, &key, &icmp_cnt) == 0);
 
-		printf("TCP: %ld, UDP: %ld, ICMP: %d, ", tcp_cnt, udp_cnt, icmp_cnt);
+		printf("TCP: %lld, UDP: %lld, ICMP: %lld, ", tcp_cnt, udp_cnt, icmp_cnt);
 	}
 
 	printf("interface: %s\tprotocol: %s\t%s:%d(src) -> %s:%d(dst)\n", ifname,
@@ -148,7 +148,7 @@ static int handle_event(void *ctx, void *data, size_t data_sz)
 
 int main(int argc, char *argv[])
 {
-	int i, err, sock, prog_fd;
+	int err, sock, prog_fd;
 	struct socket_filter_bpf *skel;
 	struct ring_buffer *rb = NULL;
 

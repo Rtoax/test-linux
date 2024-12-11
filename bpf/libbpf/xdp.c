@@ -68,7 +68,7 @@ static int libbpf_print_fn(enum libbpf_print_level level, const char *format,
 
 int main(int argc, char *argv[])
 {
-	int i, err, prog_fd;
+	int err, prog_fd;
 	struct xdp_bpf *skel;
 	int xdp_flags = XDP_FLAGS_UPDATE_IF_NOEXIST;
 
