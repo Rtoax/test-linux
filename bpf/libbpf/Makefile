@@ -29,7 +29,6 @@ CLANG := clang
 BPFTOOL := bpftool
 
 TARGETS :=
-TARGETS += hello-buffer-config
 TARGETS += hello-verifier
 TARGETS += socket_filter
 ifeq ($(CONFIG_KPROBES),y)
