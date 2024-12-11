@@ -110,7 +110,15 @@ int main(int argc, char *argv[])
 	/* Attach BPF program to raw socket */
 	prog_fd = bpf_program__fd(skel->progs.xdp_pass);
 
+/**
+ * libbpf commit e8802d6319ab ("libbpf: remove deprecated XDP APIs") remove
+ * bpf_set_link_xdp_fd(), libbpf version v1.0.0
+ */
+#if LIBBPF_MAJOR_VERSION >= 1
+	err = bpf_xdp_attach(ifindex, prog_fd, xdp_flags, NULL);
+#else
 	err = bpf_set_link_xdp_fd(ifindex, prog_fd, xdp_flags);
+#endif
 	if (err < 0) {
 		printf("link set xdp fd failed\n");
 		goto cleanup;
@@ -126,7 +134,15 @@ cleanup:
 	/**
 	 * Like: sudo bpftool net detach xdp dev $interface
 	 */
+/**
+ * libbpf commit e8802d6319ab ("libbpf: remove deprecated XDP APIs") remove
+ * bpf_set_link_xdp_fd(), libbpf version v1.0.0
+ */
+#if LIBBPF_MAJOR_VERSION >= 1
+	bpf_xdp_detach(ifindex, xdp_flags, NULL);
+#else
 	bpf_set_link_xdp_fd(ifindex, -1, xdp_flags);
+#endif
 	xdp_bpf__destroy(skel);
 	return 0;
 }
