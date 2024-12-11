@@ -8,6 +8,7 @@ else
 endif
 export Q
 
+include ../scripts/logos.mk
 
 sub-dir := annobin
 sub-dir += ast
@@ -42,6 +43,7 @@ include compiler.mk
 build: $(TARGETS) $(sub-dir-build)
 	@echo -e "CC(${CC}) VERSION ${CC_VERSION} = ${CC_MAJOR}.${CC_MINOR} (${CC_FULLVERSION})"
 	@echo -e " \033[1;33m Done \033[m"
+	@$(call tl_ascii_logo_gnu)
 
 __VERSION__: __VERSION__.o
 __GNUC__: __GNUC__.o

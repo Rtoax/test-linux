@@ -45,6 +45,7 @@ all:
 	$(call tl_ascii_logo1,===)
 	$(call tl_ascii_logo2)
 	$(call tl_ascii_logo_ebpf_bee_summit_2021)
+	$(call tl_ascii_logo_gnu)
 	@echo -e "  \033[1;33mDone\033[m"
 test:
 clean:

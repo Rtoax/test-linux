@@ -8,6 +8,7 @@ else
 endif
 export Q
 
+include ../scripts/logos.mk
 
 sub-dir := arpa
 sub-dir += alloca
@@ -117,6 +118,7 @@ MAKEFLAGS += --no-print-directory
 
 .PHONY: build
 build: ${TARGETS} $(sub-dir-build)
+	@$(call tl_ascii_logo_gnu)
 	@echo -e " \033[1;33m Done \033[m"
 
 gnu_get_libc_version: gnu_get_libc_version.o
