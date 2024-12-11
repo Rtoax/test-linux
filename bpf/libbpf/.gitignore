@@ -5,3 +5,4 @@
 /raw_tracepoint
 /tc
 /xdp
+/perf_event

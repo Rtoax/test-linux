@@ -31,6 +31,7 @@ BPFTOOL := bpftool
 kernel-config-y :=
 kernel-config-$(CONFIG_KPROBES) += kprobe
 kernel-config-$(CONFIG_TRACEPOINTS) += tracepoint raw_tracepoint
+kernel-config-$(CONFIG_PERF_EVENTS) += perf_event
 
 $(info kernel-config-y : $(kernel-config-y))
 
@@ -55,7 +56,9 @@ CFLAGS_BPF += -target bpf
 CFLAGS_BPF += -D__TARGET_ARCH_$(ARCH)
 
 CFLAGS := -lbpf
+CFLAGS += -O0 -Wall -g
 LDFLAGS := -lbpf
+LDFLAGS += -O0 -Wall -g
 
 CFLAGS_socket_filter := -DSTRICT_SEC_NAME=1
 CFLAGS_BPF_socket_filter := -DSTRICT_SEC_NAME=1
