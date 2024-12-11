@@ -41,5 +41,10 @@ int main(int argc, char **argv)
 		return -err;
 	}
 
+	if (!interface) {
+		fprintf(stderr, "Speicfy interface with -i.\n");
+		return -ENOENT;
+	}
+
 	return 0;
 }
