@@ -485,6 +485,7 @@ dnf_add_packages()
 	pkgs_container+=( cri-tools )
 	pkgs_container+=( cri-o )
 	pkgs_container+=( criu )
+	pkgs_container+=( libcgroup-devel )
 	pkgs_container+=( libcgroup-tools )
 	pkgs_container+=( udica )
 
@@ -559,6 +560,7 @@ apt_add_packages()
 	pkgs_math+=( fftw-dev )
 
 	pkgs_container+=( cgroup-tools )
+	pkgs_container+=( libcgroup-dev )
 
 	pkgs_virt+=( libvirt0 )
 	pkgs_virt+=( qemu-system )
