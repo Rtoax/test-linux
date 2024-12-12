@@ -7,3 +7,4 @@
 /xdp
 /perf_event
 /sockops
+/cgroupv2
