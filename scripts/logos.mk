@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
-ANSI_BLACK := \033[30m
+ANSI_BLK := \033[30m # Black
 ANSI_RED := \033[31m
 ANSI_GRE := \033[32m
 ANSI_YEL := \033[33m
@@ -17,12 +17,12 @@ ANSI_ITAL := \033[3m
 ANSI_UNDL := \033[4m # Underline
 ANSI_REVE := \033[7m
 
-ANSI_REST := \033[m
+ANSI_RST := \033[m
+RST := ${ANSI_RST}
 
 GB := ${ANSI_GRE}${ANSI_BOLD}
-RGB := ${ANSI_REST}${ANSI_GRE}${ANSI_BOLD}
-RG := ${ANSI_REST}${ANSI_GRE}${ANSI_GRAY}
-RST := ${ANSI_REST}
+RGB := ${ANSI_RST}${ANSI_GRE}${ANSI_BOLD}
+RG := ${ANSI_RST}${ANSI_GRE}${ANSI_GRAY}
 
 define tl_ascii_logo1
 	@echo >&2 -e "$(1)${GB}88888888${RG}                        ${RGB}  88${RG}${RST}"
@@ -82,14 +82,14 @@ define tl_ascii_logo2
 endef
 
 
-b=${ANSI_BLACK}${ANSI_REVE}
+b=${ANSI_BLK}${ANSI_REVE}
 w=${ANSI_BRIGHT_BLACK}${ANSI_REVE}
 W=${ANSI_DARK_WHITE}${ANSI_REVE}
 Y=${ANSI_YEL}${ANSI_REVE}
 B=${ANSI_BLU}${ANSI_REVE}
 G=${ANSI_GRAY}${ANSI_REVE}
 C=${ANSI_CYAN}${ANSI_REVE}
-R=${ANSI_REST}
+R=${ANSI_RST}
 
 define tl_ascii_logo_ebpf_bee_summit_2021
 @echo -e "                     ${w}.${R}${b}####-${R}                ${b}.+@@@@-${R}"
@@ -126,22 +126,22 @@ define tl_ascii_logo_ebpf_bee_summit_2021
 endef
 
 define tl_ascii_logo_gnu
-	@echo -e '    _-`````-,           ,- `- .'
-	@echo -e '  .`   .- - |          | - -.  `.'
-	@echo -e ' /.`  /                     `.   \'
-	@echo -e ':/   :      _...   ..._      ``   :'
-	@echo -e '::   :     /._ .`:`_.._\.    ||   :'
-	@echo -e '::    `._ ./  ,`  :    \ . _.``   .'
-	@echo -e '`:.      /   |  -.  \-. \\_      /'
-	@echo -e '  \:._ _/  .`   .@)  \@) ` `\ ,.`'
-	@echo -e '     _/,--`       .- .\,-.`--`.'
-	@echo -e '       ,`/``     (( \ `  )'
-	@echo -e '        /`/`  \    `-`  ('
-	@echo -e '         `/``  `._,-----`'
-	@echo -e '          ``/`    .,---`'
-	@echo -e '           ``/`      ;:'
-	@echo -e '             ``/``  ``/'
-	@echo -e '               ``/``/``'
-	@echo -e '                 `/`/`'
-	@echo -e '                  `;'
+	@echo -e '${ANSI_BOLD}${ANSI_GRE}    _-`````-,           ,- `- .${ANSI_RST}'
+	@echo -e '${ANSI_BOLD}${ANSI_GRE}  .`   .- - |          | - -.  `.${ANSI_RST}'
+	@echo -e '${ANSI_BOLD}${ANSI_GRE} /.`  /                     `.   \ ${ANSI_RST}'
+	@echo -e '${ANSI_BOLD}${ANSI_GRE}:/   :      _...   ..._      ``   :${ANSI_RST}'
+	@echo -e '${ANSI_BOLD}${ANSI_GRE}::   :     /._ .`:`_.._\.    ||   :${ANSI_RST}'
+	@echo -e '${ANSI_BOLD}${ANSI_GRE}::    `._ ./  ,`  :    \ . _.``   .${ANSI_RST}'
+	@echo -e '${ANSI_BOLD}${ANSI_GRE}`:.      /   |  -.  \-. \\_      /${ANSI_RST}'
+	@echo -e '${ANSI_BOLD}${ANSI_GRE}  \:._ _/  .`   .@)  \@) ` `\ ,.`${ANSI_RST}'
+	@echo -e '${ANSI_BOLD}${ANSI_GRE}     _/,--`       .- .\,-.`--`.${ANSI_RST}'
+	@echo -e '${ANSI_BOLD}${ANSI_GRE}       ,`/``     (( \ `  )${ANSI_RST}'
+	@echo -e '${ANSI_BOLD}${ANSI_GRE}        /`/`  \    `-`  (${ANSI_RST}'
+	@echo -e '${ANSI_BOLD}${ANSI_GRE}         `/``  `._,-----`${ANSI_RST}'
+	@echo -e '${ANSI_BOLD}${ANSI_GRE}          ``/`    .,---`${ANSI_RST}'
+	@echo -e '${ANSI_BOLD}${ANSI_GRE}           ``/`      ;:${ANSI_RST}'
+	@echo -e '${ANSI_BOLD}${ANSI_GRE}             ``/``  ``/${ANSI_RST}'
+	@echo -e '${ANSI_BOLD}${ANSI_GRE}               ``/``/``${ANSI_RST}'
+	@echo -e '${ANSI_BOLD}${ANSI_GRE}                 `/`/`${ANSI_RST}'
+	@echo -e '${ANSI_BOLD}${ANSI_GRE}                  `;${ANSI_RST}'
 endef
