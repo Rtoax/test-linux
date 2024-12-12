@@ -11,7 +11,11 @@
 #include <sys/resource.h>
 #include <bpf/bpf.h>
 #include <bpf/libbpf.h>
+#include <setjmp.h>
 #include "sockops.skel.h"
+#include "trace_helpers.h"
+
+static sigjmp_buf jmp;
 
 const char *cgroup_path;
 
@@ -71,6 +75,7 @@ static volatile sig_atomic_t stop;
 static void sig_int(int signo)
 {
 	stop = 1;
+	siglongjmp(jmp, 1);
 }
 
 int main(int argc, char **argv)
@@ -97,6 +102,10 @@ int main(int argc, char **argv)
 		return 1;
 	}
 
+	sigsetjmp(jmp, 1);
+	if (stop)
+		goto cleanup;
+
 	skel = sockops_bpf__open_and_load();
 	if (!skel) {
 		fprintf(stderr, "Failed to open BPF skeleton\n");
@@ -122,15 +131,12 @@ int main(int argc, char **argv)
 		goto cleanup;
 	}
 
-	printf("Successfully started! Please run `sudo cat /sys/kernel/debug/tracing/trace_pipe` "
-	       "to see output of the BPF programs.\n");
+	printf("Successfully started!\n");
 
-	while (!stop) {
-		fprintf(stderr, ".");
-		sleep(1);
-	}
+	read_trace_pipe();
 
 cleanup:
+	printf("Goodbye!!\n");
 	sockops_bpf__destroy(skel);
 	close(cgroup_fd);
 	return -err;

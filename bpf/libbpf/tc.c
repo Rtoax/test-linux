@@ -2,13 +2,17 @@
 #include <signal.h>
 #include <unistd.h>
 #include <net/if.h>
+#include <setjmp.h>
 #include "tc.skel.h"
+#include "trace_helpers.h"
 
 static volatile sig_atomic_t exiting = 0;
+static sigjmp_buf jmp;
 
 static void sig_int(int signo)
 {
 	exiting = 1;
+	siglongjmp(jmp, 1);
 }
 
 static int libbpf_print_fn(enum libbpf_print_level level, const char *format,
@@ -29,6 +33,18 @@ int main(int argc, char **argv)
 	bool hook_created = false;
 	struct tc_bpf *skel;
 	int err;
+
+	if (signal(SIGINT, sig_int) == SIG_ERR) {
+		err = errno;
+		fprintf(stderr, "Can't set signal handler: %s\n", strerror(errno));
+		goto cleanup;
+	}
+
+	sigsetjmp(jmp, 1);
+	if (exiting) {
+		printf("Go to detach\n");
+		goto detach;
+	}
 
 	libbpf_set_print(libbpf_print_fn);
 
@@ -59,20 +75,14 @@ int main(int argc, char **argv)
 		goto cleanup;
 	}
 
-	if (signal(SIGINT, sig_int) == SIG_ERR) {
-		err = errno;
-		fprintf(stderr, "Can't set signal handler: %s\n", strerror(errno));
-		goto cleanup;
-	}
+	printf("Successfully started!\n");
 
-	printf("Successfully started! Please run `sudo cat /sys/kernel/debug/tracing/trace_pipe` "
-	       "to see output of the BPF program.\n");
+	read_trace_pipe();
 
-	while (!exiting) {
-		fprintf(stderr, ".");
-		sleep(1);
-	}
-
+detach:
+	/**
+	 * like: sudo tc filter delete dev [lo] ingress
+	 */
 	tc_opts.flags = tc_opts.prog_fd = tc_opts.prog_id = 0;
 	err = bpf_tc_detach(&tc_hook, &tc_opts);
 	if (err) {
@@ -81,6 +91,7 @@ int main(int argc, char **argv)
 	}
 
 cleanup:
+	printf("Goodbye!!\n");
 	if (hook_created)
 		bpf_tc_hook_destroy(&tc_hook);
 	tc_bpf__destroy(skel);

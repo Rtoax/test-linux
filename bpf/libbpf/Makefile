@@ -83,11 +83,21 @@ CFLAGS_BPF_raw_tracepoint := -DSEC_DEF_RAW_TRACEPOINT=1
 CFLAGS_xdp := -DSTRICT_SEC_NAME=1
 CFLAGS_BPF_xdp := -DSTRICT_SEC_NAME=1
 
+TRACE_HELPERS := trace_helpers.o
+
 
 .PHONY: build
 build: vmlinux.h ${TARGETS_BPF} ${TARGETS_SKEL} ${TARGETS}
 
-$(patsubst %,%.o,$(TARGETS)): %.o: %.skel.h
+config-map: config-map.o
+socket_filter: socket_filter.o
+tc: tc.o ${TRACE_HELPERS}
+xdp: xdp.o
+sockops: sockops.o ${TRACE_HELPERS}
+kprobe: kprobe.o ${TRACE_HELPERS}
+tracepoint: tracepoint.o
+raw_tracepoint: raw_tracepoint.o
+perf_event: perf_event.o
 
 %.bpf.o: %.bpf.c vmlinux.h
 	@echo -e "  BPF  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
@@ -99,6 +109,10 @@ $(patsubst %,%.o,$(TARGETS)): %.o: %.skel.h
 
 %.o: %.c %.skel.h
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
+	${Q}$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
+
+%.o: %.c
+	@echo -e "  CC(LIB)  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	${Q}$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
 
 $(TARGETS): %: %.o

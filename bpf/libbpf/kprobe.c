@@ -1,13 +1,24 @@
 // SPDX-License-Identifier: GPL-3.0
-
 #include <stdio.h>
 #include <unistd.h>
+#include <setjmp.h>
 #include <signal.h>
 #include <string.h>
 #include <errno.h>
 #include <sys/resource.h>
 #include <bpf/libbpf.h>
 #include "kprobe.skel.h"
+#include "trace_helpers.h"
+
+static volatile sig_atomic_t stop = 0;
+static sigjmp_buf jmp;
+
+void sig_handler(int sig)
+{
+	fprintf(stderr, "get sig...\n");
+	stop = 1;
+	siglongjmp(jmp, 1);
+}
 
 static int libbpf_print_fn(enum libbpf_print_level level, const char *format,
 			   va_list args)
@@ -15,17 +26,15 @@ static int libbpf_print_fn(enum libbpf_print_level level, const char *format,
 	return vfprintf(stderr, format, args);
 }
 
-static volatile sig_atomic_t stop;
-
-static void sig_int(int signo)
-{
-	stop = 1;
-}
-
 int main(int argc, char **argv)
 {
 	struct kprobe_bpf *skel;
 	int err;
+
+	signal(SIGINT, sig_handler);
+	sigsetjmp(jmp, 1);
+	if (stop)
+		goto cleanup;
 
 	libbpf_set_print(libbpf_print_fn);
 
@@ -41,20 +50,12 @@ int main(int argc, char **argv)
 		goto cleanup;
 	}
 
-	if (signal(SIGINT, sig_int) == SIG_ERR) {
-		fprintf(stderr, "can't set signal handler: %m\n");
-		goto cleanup;
-	}
+	printf("Successfully started!\n");
 
-	printf("Successfully started! Please run `sudo cat /sys/kernel/debug/tracing/trace_pipe` "
-	       "to see output of the BPF programs.\n");
-
-	while (!stop) {
-		fprintf(stderr, ".");
-		sleep(1);
-	}
+	read_trace_pipe();
 
 cleanup:
+	printf("Goodbye!!\n");
 	kprobe_bpf__destroy(skel);
 	return -err;
 }

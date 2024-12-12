@@ -24,6 +24,7 @@ TARGETS += remove
 TARGETS += popen
 TARGETS += fwrite
 TARGETS += getchar
+TARGETS += getline
 TARGETS += scanf sscanf
 TARGETS += perror
 TARGETS += tmpfile tmpnam tempnam
@@ -75,6 +76,7 @@ remove: remove.o
 popen: popen.o
 fwrite: fwrite.o
 getchar: getchar.o
+getline: getline.o
 puts: puts.o
 scanf: scanf.o
 sscanf: sscanf.o

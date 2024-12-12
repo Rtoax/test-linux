@@ -22,6 +22,7 @@ int main(void)
 		puts("Back at main loop....");
 	else
 		do_command();
+
 	return 0;
 }
 
