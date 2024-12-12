@@ -6,7 +6,7 @@
 
 char LICENSE[] SEC("license") = "Dual BSD/GPL";
 
-SEC("kprobe/do_execveat_common.isra.0")
+SEC("kprobe/"KSYM_DO_EXECVEAT_COMMON)
 int BPF_KPROBE(do_execveat_common, int fd, struct filename *name)
 {
 	pid_t pid;
