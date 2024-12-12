@@ -39,7 +39,7 @@ CFLAGS :=
 ifeq ($(shell uname -m),x86_64)
   CFLAGS___attribute__nocf_check := -fcf-protection
 else
-  $(warning FXIME: Arch may not support -fcf-protection=full)
+  $(warning FIXME: Arch may not support -fcf-protection=full)
 endif
 
 CFLAGS___attribute__noplt := -DNOPLT=1
@@ -47,6 +47,7 @@ CFLAGS___attribute__noplt := -DNOPLT=1
 
 .PHONY: build
 build: ${TARGETS}
+	@echo -e " \033[1;33m Done \033[m"
 
 __attribute__alias: __attribute__alias.o
 __attribute__always_inline: __attribute__always_inline.o

@@ -50,6 +50,7 @@ TARGETS += $(kernel-config-y)
 TARGETS_BPF := ${TARGETS:=.bpf.o}
 TARGETS_BPF += cgroup_skb.bpf.o
 TARGETS_BPF += cgroup_sock.bpf.o
+TARGETS_BPF += lwt_in.bpf.o
 
 # Never append to skel target, always generate by bpf target
 TARGETS_SKEL := $(patsubst %.bpf.o,%.skel.h,$(TARGETS_BPF))
