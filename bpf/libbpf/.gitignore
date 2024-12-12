@@ -10,3 +10,4 @@
 /cgroupv2
 /sk_skb
 /sk_msg
+/cgroup_device
