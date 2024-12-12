@@ -49,6 +49,7 @@ TARGETS += $(kernel-config-y)
 # _if_ there are no user mode code, append to bpf target only
 TARGETS_BPF := ${TARGETS:=.bpf.o}
 TARGETS_BPF += cgroup_skb.bpf.o
+TARGETS_BPF += cgroup_sock.bpf.o
 
 # Never append to skel target, always generate by bpf target
 TARGETS_SKEL := $(patsubst %.bpf.o,%.skel.h,$(TARGETS_BPF))
