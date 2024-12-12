@@ -28,15 +28,15 @@ CC := gcc
 CLANG := clang
 BPFTOOL := bpftool
 
-kernel-config-y :=
-kernel-config-$(CONFIG_KPROBES) += kprobe
-kernel-config-$(CONFIG_TRACEPOINTS) += tracepoint raw_tracepoint
-kernel-config-$(CONFIG_PERF_EVENTS) += perf_event
+kconfig-obj-y :=
+kconfig-obj-$(CONFIG_KPROBES) += kprobe
+kconfig-obj-$(CONFIG_TRACEPOINTS) += tracepoint raw_tracepoint
+kconfig-obj-$(CONFIG_PERF_EVENTS) += perf_event
 
-$(info kernel-config-y : $(kernel-config-y))
+$(info kconfig-obj-y : $(kconfig-obj-y))
 
-ifneq ($(kernel-config-),)
-  $(warning Not support ${kernel-config-})
+ifneq ($(kconfig-obj-),)
+  $(warning Not support ${kconfig-obj-})
 endif
 
 TARGETS :=
@@ -44,14 +44,14 @@ TARGETS += config-map
 TARGETS += socket_filter
 TARGETS += tc
 TARGETS += xdp
-TARGETS += $(kernel-config-y)
+TARGETS += sockops
+TARGETS += $(kconfig-obj-y)
 
 # _if_ there are no user mode code, append to bpf target only
 TARGETS_BPF := ${TARGETS:=.bpf.o}
 TARGETS_BPF += cgroup_skb.bpf.o
 TARGETS_BPF += cgroup_sock.bpf.o
 TARGETS_BPF += lwt_in.bpf.o
-TARGETS_BPF += sockopt.bpf.o
 
 # Never append to skel target, always generate by bpf target
 TARGETS_SKEL := $(patsubst %.bpf.o,%.skel.h,$(TARGETS_BPF))

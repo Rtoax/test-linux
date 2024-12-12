@@ -1,0 +1,44 @@
+/**
+ * BPF_PROG_TYPE_SOCK_OPS
+ *
+ * see linux/tools/testing/selftests/bpf/progs/test_tcp_hdr_options.c
+ */
+#include <vmlinux.h>
+#include <bpf/bpf_endian.h>
+#include <bpf/bpf_helpers.h>
+#include <bpf/bpf_tracing.h>
+
+#define CG_OK	1
+#define CG_ERR	0
+
+SEC("sockops")
+int _sockops(struct bpf_sock_ops *skops)
+{
+	switch (skops->op) {
+	case BPF_SOCK_OPS_TCP_LISTEN_CB:
+		bpf_printk("BPF_SOCK_OPS_TCP_LISTEN_CB");
+		break;
+	case BPF_SOCK_OPS_TCP_CONNECT_CB:
+		bpf_printk("BPF_SOCK_OPS_TCP_CONNECT_CB");
+		break;
+	case BPF_SOCK_OPS_PARSE_HDR_OPT_CB:
+		bpf_printk("BPF_SOCK_OPS_PARSE_HDR_OPT_CB");
+		break;
+	case BPF_SOCK_OPS_HDR_OPT_LEN_CB:
+		bpf_printk("BPF_SOCK_OPS_HDR_OPT_LEN_CB");
+		break;
+	case BPF_SOCK_OPS_WRITE_HDR_OPT_CB:
+		bpf_printk("BPF_SOCK_OPS_WRITE_HDR_OPT_CB");
+		break;
+	case BPF_SOCK_OPS_PASSIVE_ESTABLISHED_CB:
+		bpf_printk("BPF_SOCK_OPS_PASSIVE_ESTABLISHED_CB");
+		break;
+	case BPF_SOCK_OPS_ACTIVE_ESTABLISHED_CB:
+		bpf_printk("BPF_SOCK_OPS_ACTIVE_ESTABLISHED_CB");
+		break;
+	}
+
+	return CG_OK;
+}
+
+char __license[] SEC("license") = "GPL";
