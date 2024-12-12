@@ -5,6 +5,10 @@
 #include <signal.h>
 #include <unistd.h>
 
+#ifndef NR_THREADS
+#define NR_THREADS	1
+#endif
+
 sig_atomic_t loop = true;
 const int us = 100000;
 
@@ -24,27 +28,30 @@ void *print_xs(void *unused)
 {
 	pthread_setname_np(pthread_self(), "pthread-child");
 
-	while (loop) {
+	while (loop)
 		print_ansi();
-	}
-
 	return NULL;
 }
 
 int main(void)
 {
-	pthread_t thread_id;
+	int i;
+	pthread_t threads[NR_THREADS];
 
 	signal(SIGINT, sig_handler);
-	pthread_create(&thread_id, NULL, &print_xs, NULL);
+
+	for (i = 0; i < NR_THREADS; i++)
+		pthread_create(&threads[i], NULL, &print_xs, NULL);
 
 	pthread_setname_np(pthread_self(), "pthread-parent");
+
 	while (loop) {
 		fputc('o', stderr);
 		usleep(us);
 	}
 
-	pthread_join(thread_id, NULL);
+	for (i = 0; i < NR_THREADS; i++)
+		pthread_join(threads[i], NULL);
 
 	return 0;
 }

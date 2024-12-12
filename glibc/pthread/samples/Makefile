@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0
 SHELL = bash
 ifeq ($(V),1)
   Q =
@@ -6,7 +7,6 @@ else
   MAKEFLAGS += --no-print-directory
 endif
 export Q
-
 
 TARGETS :=
 TARGETS += foobar
@@ -96,11 +96,11 @@ CFLAGS += -DDEBUG -O0 -g
 CFLAGS_create_thread := -DMAIN_TEST=1
 CFLAGS_pthread_cond_broadcast := -DCOND_ATTR=1
 CFLAGS_pthread_cond_signal := -DCOND_ATTR=1
+CFLAGS_pthread_create := -DNR_THREADS=5
 
 build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
-# Add more object.o file
 foobar: foobar.o
 create_thread: create_thread.o sys_affinity_bind.o
 multi_thread_stress: multi_thread_stress.o
@@ -185,7 +185,7 @@ cond-demo3-latency: cond-demo3-latency.o
 
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	${Q}$(CC) -o $(@) $(^) $(CFLAGS) $(STATIC_OPTS) $(LDLIBS) $(LDFLAGS) $(LDFLAGS_$(*))
+	${Q}$(CC) -o $(@) $(^) $(CFLAGS) $(LDFLAGS) $(LDFLAGS_$(*))
 
 test: ${TARGETS}
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
