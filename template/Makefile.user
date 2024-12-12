@@ -4,6 +4,14 @@
 
 SHELL = /bin/bash
 
+ifeq ($(V),1)
+  Q =
+else
+  Q = @
+  MAKEFLAGS += --no-print-directory
+endif
+export Q
+
 STDIO_HEADER = /usr/include/stdio.h
 KERN_CONFIG=/boot/config-$(shell uname -r)
 
@@ -70,13 +78,6 @@ include ../scripts/libc.mk
 feature-printf := $(findstring 1,$(call probe_libc_printf))
 ifeq ($(feature-printf),1)
   CFLAGS += -DHAVE_PRINTF=1
-endif
-
-ifeq ($(V),1)
-  Q =
-else
-  Q = @
-  MAKEFLAGS += --no-print-directory
 endif
 
 define user_strip
