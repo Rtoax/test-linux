@@ -78,7 +78,7 @@ build: vmlinux.h ${TARGETS_BPF} ${TARGETS_SKEL} ${TARGETS}
 
 $(patsubst %,%.o,$(TARGETS)): %.o: %.skel.h
 
-%.bpf.o: %.bpf.c
+%.bpf.o: %.bpf.c vmlinux.h
 	@echo -e "  BPF  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	${Q}$(CLANG) -c $(<) -o $(@) ${CFLAGS_BPF} $(CFLAGS_BPF_$(*))
 
@@ -86,7 +86,7 @@ $(patsubst %,%.o,$(TARGETS)): %.o: %.skel.h
 	@echo -e "  SKEL  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	${Q}$(BPFTOOL) gen skeleton $< > $@
 
-%.o: %.c
+%.o: %.c %.skel.h
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	${Q}$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
 
@@ -98,6 +98,7 @@ vmlinux.h:
 	@echo -e "  BPFTOOL  \033[1m$(@)\033[m"
 	${Q}${BPFTOOL} btf dump file /sys/kernel/btf/vmlinux format c > vmlinux.h
 
+.PHONY: clean
 clean:
 	@echo -e "  RM  \033[1;32m$(TARGETS_BPF) ${TARGETS}\033[m"
 	${Q}rm -f ${TARGETS_BPF} ${TARGETS} *.o *.skel.h vmlinux.h
