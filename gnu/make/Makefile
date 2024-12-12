@@ -12,6 +12,7 @@ export Q
 MAKE := make
 
 TARGETS :=
+TARGETS += awk.mk
 TARGETS += firstword.mk
 TARGETS += patsubst.mk
 TARGETS += shell.mk

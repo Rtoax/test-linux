@@ -17,7 +17,7 @@ int BPF_KPROBE(do_execveat_common, int fd, struct filename *name)
 	return 0;
 }
 
-SEC("kretprobe/do_execveat_common.isra.0")
+SEC("kretprobe/"KSYM_DO_EXECVEAT_COMMON)
 int BPF_KRETPROBE(do_execveat_common_exit, long ret)
 {
 	pid_t pid;

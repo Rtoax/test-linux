@@ -24,6 +24,12 @@ ARCH ?= $(shell uname -m | sed 's/x86_64/x86/' \
 			 | sed 's/riscv64/riscv/' \
 			 | sed 's/loongarch64/loongarch/')
 
+KSYM_DO_EXECVEAT_COMMON := $(shell grep 't do_execveat_common' /proc/kallsyms \
+			| head -1 \
+			| awk '{print $$3}')
+
+$(info KSYM_DO_EXECVEAT_COMMON = ${KSYM_DO_EXECVEAT_COMMON})
+
 CC := gcc
 CLANG := clang
 BPFTOOL := bpftool
@@ -66,6 +72,8 @@ CFLAGS += -O0 -Wall -g
 LDFLAGS := -lbpf
 LDFLAGS += -O0 -Wall -g
 
+CFLAGS_kprobe := -D'KSYM_DO_EXECVEAT_COMMON="${KSYM_DO_EXECVEAT_COMMON}"'
+CFLAGS_BPF_kprobe := -D'KSYM_DO_EXECVEAT_COMMON="${KSYM_DO_EXECVEAT_COMMON}"'
 CFLAGS_socket_filter := -DSTRICT_SEC_NAME=1
 CFLAGS_BPF_socket_filter := -DSTRICT_SEC_NAME=1
 CFLAGS_tracepoint := -DSEC_DEF_TRACEPOINT=1
