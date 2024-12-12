@@ -48,9 +48,13 @@ dnf_upgrade()
 
 apt_upgrade()
 {
-	inst_eval sudo apt update -y
-	inst_eval sudo apt list --upgradable
-	inst_eval sudo apt upgrade --fix-missing -y
+	inst_eval sudo apt update -y || :
+	inst_eval sudo apt list --upgradable || :
+	inst_eval sudo apt upgrade --fix-missing -y || {
+		echo "WARNING: Failed to upgrade"
+		true
+	}
+	inst_eval sudo apt autoremove || :
 }
 
 dnf_install()
