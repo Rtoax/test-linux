@@ -1,1 +1,0 @@
-../../../libbpf/hello-buffer-config.bpf.c
