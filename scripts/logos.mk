@@ -1,5 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
-ANSI_BLK := \033[30m # Black
+# Black
+ANSI_BLK := \033[30m
 ANSI_RED := \033[31m
 ANSI_GRE := \033[32m
 ANSI_YEL := \033[33m
@@ -14,7 +15,8 @@ ANSI_BRIGHT_RED := \033[91m
 ANSI_BOLD := \033[1m
 ANSI_GRAY := \033[2m
 ANSI_ITAL := \033[3m
-ANSI_UNDL := \033[4m # Underline
+# Underline
+ANSI_UNDL := \033[4m
 ANSI_REVE := \033[7m
 
 ANSI_RST := \033[m
