@@ -9,3 +9,4 @@
 /sockops
 /cgroupv2
 /sk_skb
+/sk_msg
