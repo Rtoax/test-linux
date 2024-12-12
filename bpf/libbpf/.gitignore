@@ -8,3 +8,4 @@
 /perf_event
 /sockops
 /cgroupv2
+/sk_skb

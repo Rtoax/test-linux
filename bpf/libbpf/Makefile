@@ -51,6 +51,7 @@ TARGETS += socket_filter
 TARGETS += tc
 TARGETS += xdp
 TARGETS += sockops
+TARGETS += sk_skb
 TARGETS += $(kconfig-obj-y)
 
 # _if_ there are no user mode code, append to bpf target only
@@ -98,6 +99,7 @@ kprobe: kprobe.o ${TRACE_HELPERS}
 tracepoint: tracepoint.o
 raw_tracepoint: raw_tracepoint.o
 perf_event: perf_event.o
+sk_skb: sk_skb.o
 
 %.bpf.o: %.bpf.c vmlinux.h
 	@echo -e "  BPF  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
