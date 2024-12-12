@@ -1,4 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0
+/**
+ * BPF_PROG_TYPE_SCHED_CLS
+ */
 #include <signal.h>
 #include <unistd.h>
 #include <net/if.h>

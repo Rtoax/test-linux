@@ -1,4 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0
+/**
+ * BPF_PROG_TYPE_KPROBE
+ */
 #include "vmlinux.h"
 #include <bpf/bpf_helpers.h>
 #include <bpf/bpf_tracing.h>
