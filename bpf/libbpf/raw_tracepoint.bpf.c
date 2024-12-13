@@ -41,6 +41,10 @@ int bpf_sched_process_fork(struct bpf_raw_tracepoint_args *ctx)
 
 	/**
 	 * TP_PROTO(struct task_struct *parent, struct task_struct *child)
+	 *
+	 * _MUST_ use (void *) cast here, see commit be1a4c916ac7 ("libbpf:
+	 * raw_tracepoint.bpf.c: Fix clang frontend command failed with exit
+	 * code 132")
 	 */
 	bpf_core_read(&data.parent_comm, sizeof(data.parent_comm), (void *)parent->comm);
 	bpf_core_read(&data.child_comm, sizeof(data.child_comm), (void *)child->comm);
