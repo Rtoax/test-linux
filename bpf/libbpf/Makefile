@@ -59,6 +59,7 @@ TARGETS += sk_skb
 TARGETS += sk_msg
 TARGETS += cgroup_device
 TARGETS += cgroup_sysctl
+TARGETS += fmod_ret
 TARGETS += $(kconfig-obj-y)
 
 # _if_ there are no user mode code, append to bpf target only
@@ -97,6 +98,8 @@ CFLAGS_kprobe := -D'KSYM_DO_EXECVEAT_COMMON="${KSYM_DO_EXECVEAT_COMMON}"' -DKPRO
 CFLAGS_BPF_kprobe := -D'KSYM_DO_EXECVEAT_COMMON="${KSYM_DO_EXECVEAT_COMMON}"' -DKPROBE=1
 CFLAGS_fentry := -DFENTRY=1
 CFLAGS_BPF_fentry := -DFENTRY=1
+CFLAGS_fmod_ret := -DFMOD_RET=1
+CFLAGS_BPF_fmod_ret := -DFMOD_RET=1
 CFLAGS_socket_filter := -DSTRICT_SEC_NAME=1
 CFLAGS_BPF_socket_filter := -DSTRICT_SEC_NAME=1
 CFLAGS_tracepoint := -DSEC_DEF_TRACEPOINT=1
@@ -128,6 +131,7 @@ sk_msg: sk_msg.o
 cgroup_device: cgroup_device.o ${TRACE_HELPERS}
 cgroup_sysctl: cgroup_sysctl.o ${TRACE_HELPERS}
 fentry: fentry.o ${TRACE_HELPERS}
+fmod_ret: fmod_ret.o ${TRACE_HELPERS}
 
 %.bpf.o: %.bpf.c vmlinux.h
 	@echo -e "  BPF  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

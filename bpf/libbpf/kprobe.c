@@ -21,6 +21,14 @@
 #define _bpf__open_and_load	fentry_bpf__open_and_load
 #define _bpf__attach	fentry_bpf__attach
 #define _bpf__destroy	fentry_bpf__destroy
+#elif defined(FMOD_RET)
+#include "fmod_ret.skel.h"
+#define struct_bpf	fmod_ret_bpf
+#define _bpf__open_and_load	fmod_ret_bpf__open_and_load
+#define _bpf__attach	fmod_ret_bpf__attach
+#define _bpf__destroy	fmod_ret_bpf__destroy
+#else
+#error "Not support skel"
 #endif
 
 static volatile sig_atomic_t stop = 0;
