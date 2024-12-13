@@ -42,12 +42,14 @@ SEC("raw_tracepoint/sched_process_fork")
 SEC("raw_tp/sched_process_fork")
 #elif defined(SEC_DEF_TP_BTF)
 /**
+ * BPF_PROG_TYPE_TRACING
+ *
  * When loading as a BPF_PROG_TYPE_TRACING program, the raw tracepoint is
  * typically located in a section prefixed with 'tp_btf/'.
  */
 SEC("tp_btf/sched_process_fork")
 #else
-# error "Not define SEC_DEF_RAW_TRACEPOINT or SEC_DEF_RAW_TP"
+# error "Not define SEC_DEF_RAW_TRACEPOINT, SEC_DEF_RAW_TP or SEC_DEF_TP_BTF"
 #endif
 int bpf_sched_process_fork(struct bpf_raw_tracepoint_args *ctx)
 {

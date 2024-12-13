@@ -37,7 +37,7 @@ BPFTOOL := bpftool
 
 kconfig-obj-y :=
 kconfig-obj-$(CONFIG_KPROBES) += kprobe
-kconfig-obj-$(CONFIG_TRACEPOINTS) += tracepoint raw_tracepoint
+kconfig-obj-$(CONFIG_TRACEPOINTS) += tracepoint raw_tracepoint tp_btf
 kconfig-obj-$(CONFIG_PERF_EVENTS) += perf_event
 
 $(info kconfig-obj-y : $(kconfig-obj-y))
@@ -98,6 +98,8 @@ CFLAGS_tracepoint := -DSEC_DEF_TRACEPOINT=1
 CFLAGS_BPF_tracepoint := -DSEC_DEF_TRACEPOINT=1
 CFLAGS_raw_tracepoint := -DSEC_DEF_RAW_TRACEPOINT=1
 CFLAGS_BPF_raw_tracepoint := -DSEC_DEF_RAW_TRACEPOINT=1
+CFLAGS_tp_btf := -DSEC_DEF_TP_BTF=1
+CFLAGS_BPF_tp_btf := -DSEC_DEF_TP_BTF=1
 CFLAGS_xdp := -DSTRICT_SEC_NAME=1
 CFLAGS_BPF_xdp := -DSTRICT_SEC_NAME=1
 

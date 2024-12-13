@@ -3,6 +3,7 @@
 /kprobe
 /tracepoint
 /raw_tracepoint
+/tp_btf
 /tc
 /xdp
 /perf_event
