@@ -97,8 +97,11 @@ int main(int argc, char **argv)
 	while (true) {
 #if defined(ITER_TASK)
 		struct task_info buf;
-
 		ret = read(iter_fd, &buf, sizeof(struct task_info));
+#elif defined(ITER_TASK_FILE)
+		struct task_file_info buf;
+		ret = read(iter_fd, &buf, sizeof(struct task_file_info));
+#endif
 		if (ret < 0) {
 			if (errno == EAGAIN)
 				continue;
@@ -107,6 +110,7 @@ int main(int argc, char **argv)
 		}
 		if (ret == 0)
 			break;
+#if defined(ITER_TASK)
 		if (buf.kstack_len <= 0) {
 			printf("Error getting kernel stack for task. Task Info. Pid: %d. Process Name: %s. Kernel Stack Error: %d. State: %s\n",
 			       buf.pid, buf.comm, buf.kstack_len, get_task_state(buf.state));
@@ -115,17 +119,6 @@ int main(int argc, char **argv)
 			       buf.pid, buf.comm, buf.kstack_len, get_task_state(buf.state));
 		}
 #elif defined(ITER_TASK_FILE)
-		struct task_file_info buf;
-
-		ret = read(iter_fd, &buf, sizeof(struct task_file_info));
-		if (ret < 0) {
-			if (errno == EAGAIN)
-				continue;
-			err = -errno;
-			break;
-		}
-		if (ret == 0)
-			break;
 		printf("Task File Info, Pid: %d. Process Name: %s. Fd %d.\n",
 			buf.pid, buf.comm, buf.fd);
 #endif
