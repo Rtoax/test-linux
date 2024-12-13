@@ -141,7 +141,7 @@ fentry: fentry.o ${TRACE_HELPERS}
 fmod_ret: fmod_ret.o ${TRACE_HELPERS}
 iter_task: iter_task.o
 iter_task_file: iter_task_file.o
-lsm: lsm.o
+lsm: lsm.o ${TRACE_HELPERS}
 
 %.bpf.o: %.bpf.c vmlinux.h
 	@echo -e "  BPF  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
