@@ -38,10 +38,9 @@ void lost_event(void *ctx, int cpu, long long unsigned int data_sz)
 
 int main(void)
 {
-	int i, err, event_map_fd;
+	int err, event_map_fd;
 	struct raw_tracepoint_bpf *skel;
 	struct perf_buffer *pb = NULL;
-	char log_buf[64 * 1024];
 
 	signal(SIGINT, sig_handler);
 
@@ -49,6 +48,9 @@ int main(void)
 	libbpf_set_print(libbpf_print_fn);
 
 #if defined(LIBBPF_OPTS)
+	int i;
+	char log_buf[64 * 1024];
+
 	LIBBPF_OPTS(bpf_object_open_opts, opts,
 		.kernel_log_buf = log_buf,
 		.kernel_log_size = sizeof(log_buf),
