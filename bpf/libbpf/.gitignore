@@ -11,3 +11,4 @@
 /sk_skb
 /sk_msg
 /cgroup_device
+/cgroup_sysctl

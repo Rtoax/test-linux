@@ -12,7 +12,7 @@
 #include <bpf/bpf.h>
 #include <bpf/libbpf.h>
 #include <setjmp.h>
-#include "sockops.skel.h"
+#include "cgroup_sysctl.skel.h"
 #include "trace_helpers.h"
 
 static sigjmp_buf jmp;
@@ -28,14 +28,11 @@ const char argp_prog_doc[] =
 	"	sudo mkdir a.mnt/foo\n"
 	"	\n"
 	"	# run script\n"
-	"	sudo ./sockops -c a.mnt/foo\n"
+	"	sudo ./cgroup_sysctl -c a.mnt/foo\n"
 	"	\n"
 	"	# start a new bash, attach pid to cgroup foo, and run test\n"
 	"	echo $$ | sudo tee .../a.mnt/foo/cgroup.procs\n"
-	"	nc -l localhost\n"
-	"	\n"
-	"	# then, run client\n"
-	"	nc localhost\n"
+	"	sysctl -a\n"
 	"\n";
 
 static const struct argp_option opts[] = {
@@ -80,7 +77,7 @@ static void sig_int(int signo)
 
 int main(int argc, char **argv)
 {
-	struct sockops_bpf *skel;
+	struct cgroup_sysctl_bpf *skel;
 	int err;
 	int cgroup_fd, prog_fd;
 
@@ -106,13 +103,13 @@ int main(int argc, char **argv)
 	if (stop)
 		goto cleanup;
 
-	skel = sockops_bpf__open_and_load();
+	skel = cgroup_sysctl_bpf__open_and_load();
 	if (!skel) {
 		fprintf(stderr, "Failed to open BPF skeleton\n");
 		return 1;
 	}
 
-	err = sockops_bpf__attach(skel);
+	err = cgroup_sysctl_bpf__attach(skel);
 	if (err) {
 		fprintf(stderr, "Failed to attach BPF skeleton\n");
 		goto cleanup;
@@ -124,8 +121,8 @@ int main(int argc, char **argv)
 		goto cleanup;
 	}
 
-	prog_fd = bpf_program__fd(skel->progs._sockops);
-	err = bpf_prog_attach(prog_fd, cgroup_fd, BPF_CGROUP_SOCK_OPS, 0);
+	prog_fd = bpf_program__fd(skel->progs.sysctl_printk_display);
+	err = bpf_prog_attach(prog_fd, cgroup_fd, BPF_CGROUP_SYSCTL, 0);
 	if (err) {
 		fprintf(stderr, "Attach cgroup to prog failed: %m.\n");
 		goto cleanup;
@@ -137,8 +134,8 @@ int main(int argc, char **argv)
 
 cleanup:
 	printf("Goodbye!!\n");
-	bpf_prog_detach(cgroup_fd, BPF_CGROUP_SOCK_OPS);
-	sockops_bpf__destroy(skel);
+	bpf_prog_detach(cgroup_fd, BPF_CGROUP_SYSCTL);
+	cgroup_sysctl_bpf__destroy(skel);
 	close(cgroup_fd);
 	return -err;
 }

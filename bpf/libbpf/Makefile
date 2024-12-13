@@ -54,6 +54,7 @@ TARGETS += sockops
 TARGETS += sk_skb
 TARGETS += sk_msg
 TARGETS += cgroup_device
+TARGETS += cgroup_sysctl
 TARGETS += $(kconfig-obj-y)
 
 # _if_ there are no user mode code, append to bpf target only
@@ -109,6 +110,7 @@ perf_event: perf_event.o
 sk_skb: sk_skb.o
 sk_msg: sk_msg.o
 cgroup_device: cgroup_device.o ${TRACE_HELPERS}
+cgroup_sysctl: cgroup_sysctl.o ${TRACE_HELPERS}
 
 %.bpf.o: %.bpf.c vmlinux.h
 	@echo -e "  BPF  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

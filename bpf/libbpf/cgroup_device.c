@@ -30,7 +30,7 @@ const char argp_prog_doc[] =
 	"	# run script\n"
 	"	sudo ./cgroup_device -c a.mnt/foo\n"
 	"	\n"
-	"	# start a new bash, attach pid to cgroup foo, and run a tcp server\n"
+	"	# start a new bash, attach pid to cgroup foo, and run test\n"
 	"	echo $$ | sudo tee .../a.mnt/foo/cgroup.procs\n"
 	"	echo 123 >/dev/null\n"
 	"\n";
