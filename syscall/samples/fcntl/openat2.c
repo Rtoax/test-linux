@@ -14,7 +14,11 @@
 
 bool openat2_supported = false;
 
-#if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 11, 0)
+/**
+ * linux commit fddb5d430ad9 ("open: introduce openat2(2) syscall") is
+ * v5.5-rc1-11-gfddb5d430ad9.
+ */
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 5, 0)
 #include <linux/openat2.h>
 
 bool needs_openat2(const struct open_how *how)
@@ -55,8 +59,15 @@ void __attribute__((constructor)) init(void)
 
 int main(void)
 {
-	printf("openat2(2) %s\n",
-	       openat2_supported ? "supported" : "unsupported");
+	int fd1, fd2;
+	struct open_how how = { };
 
+	printf("openat2(2) %s\n", openat2_supported ? "supported" : "unsupported");
+
+	fd1 = sys_openat2(AT_FDCWD, ".", &how);
+	fd2 = sys_openat2(AT_FDCWD, "..", &how);
+
+	close(fd1);
+	close(fd2);
 	return 0;
 }
