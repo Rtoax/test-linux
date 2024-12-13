@@ -16,6 +16,8 @@
 #include <bpf/bpf_helpers.h>
 #include <bpf/bpf_core_read.h>
 
+extern u32 LINUX_KERNEL_VERSION __kconfig;
+
 SEC("sk_lookup")
 int lookup_pass(struct bpf_sk_lookup *ctx)
 {
@@ -65,8 +67,9 @@ int check_ifindex(struct bpf_sk_lookup *ctx)
 {
 	__u32 ingress_ifindex = load_ingress_ifindex(ctx);
 
-	if (ingress_ifindex != 0xFFFF && ingress_ifindex == 1)
-		return SK_DROP;
+	if (LINUX_KERNEL_VERSION >= KERNEL_VERSION(5, 15, 0))
+		if (ingress_ifindex != 0xFFFF && ingress_ifindex == 1)
+			return SK_DROP;
 	return SK_PASS;
 }
 
