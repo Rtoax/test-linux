@@ -1,6 +1,7 @@
 /config-map
 /socket_filter
 /kprobe
+/fentry
 /tracepoint
 /raw_tracepoint
 /tp_btf

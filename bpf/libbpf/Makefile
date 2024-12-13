@@ -39,6 +39,9 @@ kconfig-obj-y :=
 kconfig-obj-$(CONFIG_KPROBES) += kprobe
 kconfig-obj-$(CONFIG_TRACEPOINTS) += tracepoint raw_tracepoint tp_btf
 kconfig-obj-$(CONFIG_PERF_EVENTS) += perf_event
+# fentry: -pg -mfentry
+#  fentry + BPF trampoline ~= kprobe hook
+kconfig-obj-$(CONFIG_HAVE_FENTRY) += fentry
 
 $(info kconfig-obj-y : $(kconfig-obj-y))
 
@@ -90,8 +93,10 @@ ifdef DEBUG
   CFLAGS_BPF += -DDEBUG=1
 endif
 
-CFLAGS_kprobe := -D'KSYM_DO_EXECVEAT_COMMON="${KSYM_DO_EXECVEAT_COMMON}"'
-CFLAGS_BPF_kprobe := -D'KSYM_DO_EXECVEAT_COMMON="${KSYM_DO_EXECVEAT_COMMON}"'
+CFLAGS_kprobe := -D'KSYM_DO_EXECVEAT_COMMON="${KSYM_DO_EXECVEAT_COMMON}"' -DKPROBE=1
+CFLAGS_BPF_kprobe := -D'KSYM_DO_EXECVEAT_COMMON="${KSYM_DO_EXECVEAT_COMMON}"' -DKPROBE=1
+CFLAGS_fentry := -DFENTRY=1
+CFLAGS_BPF_fentry := -DFENTRY=1
 CFLAGS_socket_filter := -DSTRICT_SEC_NAME=1
 CFLAGS_BPF_socket_filter := -DSTRICT_SEC_NAME=1
 CFLAGS_tracepoint := -DSEC_DEF_TRACEPOINT=1
@@ -122,6 +127,7 @@ sk_skb: sk_skb.o
 sk_msg: sk_msg.o
 cgroup_device: cgroup_device.o ${TRACE_HELPERS}
 cgroup_sysctl: cgroup_sysctl.o ${TRACE_HELPERS}
+fentry: fentry.o ${TRACE_HELPERS}
 
 %.bpf.o: %.bpf.c vmlinux.h
 	@echo -e "  BPF  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

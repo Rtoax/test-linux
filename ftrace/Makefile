@@ -7,7 +7,6 @@ else
 endif
 export Q
 
-
 sub-dir := demos
 
 sub-dir-build := $(sub-dir:=.build)
@@ -15,6 +14,7 @@ sub-dir-clean := $(sub-dir:=.clean)
 
 .PHONY: build
 build: $(sub-dir-build)
+	${Q}$(SHELL) ./README.sh
 
 .PHONY: clean
 clean: $(sub-dir-clean)

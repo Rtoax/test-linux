@@ -7,8 +7,21 @@
 #include <errno.h>
 #include <sys/resource.h>
 #include <bpf/libbpf.h>
-#include "kprobe.skel.h"
 #include "trace_helpers.h"
+
+#if defined(KPROBE)
+#include "kprobe.skel.h"
+#define struct_bpf	kprobe_bpf
+#define _bpf__open_and_load	kprobe_bpf__open_and_load
+#define _bpf__attach	kprobe_bpf__attach
+#define _bpf__destroy	kprobe_bpf__destroy
+#elif defined(FENTRY)
+#include "fentry.skel.h"
+#define struct_bpf	fentry_bpf
+#define _bpf__open_and_load	fentry_bpf__open_and_load
+#define _bpf__attach	fentry_bpf__attach
+#define _bpf__destroy	fentry_bpf__destroy
+#endif
 
 static volatile sig_atomic_t stop = 0;
 static sigjmp_buf jmp;
@@ -28,7 +41,7 @@ static int libbpf_print_fn(enum libbpf_print_level level, const char *format,
 
 int main(int argc, char **argv)
 {
-	struct kprobe_bpf *skel;
+	struct struct_bpf *skel;
 	int err;
 
 	signal(SIGINT, sig_handler);
@@ -38,13 +51,13 @@ int main(int argc, char **argv)
 
 	libbpf_set_print(libbpf_print_fn);
 
-	skel = kprobe_bpf__open_and_load();
+	skel = _bpf__open_and_load();
 	if (!skel) {
 		fprintf(stderr, "Failed to open BPF skeleton\n");
 		return 1;
 	}
 
-	err = kprobe_bpf__attach(skel);
+	err = _bpf__attach(skel);
 	if (err) {
 		fprintf(stderr, "Failed to attach BPF skeleton\n");
 		goto cleanup;
@@ -56,6 +69,6 @@ int main(int argc, char **argv)
 
 cleanup:
 	printf("Goodbye!!\n");
-	kprobe_bpf__destroy(skel);
+	_bpf__destroy(skel);
 	return -err;
 }

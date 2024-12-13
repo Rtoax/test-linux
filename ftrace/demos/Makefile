@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0
 SHELL = bash
 ifeq ($(V),1)
   Q =
@@ -15,9 +16,9 @@ CC = gcc
 
 CFLAGS := -Werror -Wall -O0
 
+.PHONY: build
 build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
-
 
 main: main.o-no-pg foo.o-pg
 main-pg: main-pg.o-pg foo.o-no-pg

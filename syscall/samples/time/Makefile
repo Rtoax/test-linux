@@ -35,7 +35,7 @@ clock_gettime: clock_gettime.o helpers.o
 clock_gettime-CLOCK_BOOTTIME: clock_gettime-CLOCK_BOOTTIME.o helpers.o
 clock_nanosleep: clock_nanosleep.o helpers.o
 stime: stime.o
-nanosleep: nanosleep.o
+nanosleep: nanosleep.o helpers.o
 timeval: timeval.o
 getitimer: getitimer.o
 setitimer: setitimer.o

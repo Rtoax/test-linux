@@ -1,2 +1,3 @@
 #!/bin/bash
-sudo more /sys/kernel/tracing/README
+set -e
+sudo cat /sys/kernel/tracing/README
