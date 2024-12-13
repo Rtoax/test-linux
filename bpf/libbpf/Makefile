@@ -42,6 +42,7 @@ kconfig-obj-$(CONFIG_PERF_EVENTS) += perf_event
 # fentry: -pg -mfentry
 #  fentry + BPF trampoline ~= kprobe hook
 kconfig-obj-$(CONFIG_HAVE_FENTRY) += fentry
+kconfig-obj-$(CONFIG_BPF_LSM) += lsm
 
 $(info kconfig-obj-y : $(kconfig-obj-y))
 
@@ -140,6 +141,7 @@ fentry: fentry.o ${TRACE_HELPERS}
 fmod_ret: fmod_ret.o ${TRACE_HELPERS}
 iter_task: iter_task.o
 iter_task_file: iter_task_file.o
+lsm: lsm.o
 
 %.bpf.o: %.bpf.c vmlinux.h
 	@echo -e "  BPF  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
