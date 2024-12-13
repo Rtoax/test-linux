@@ -42,8 +42,8 @@ int bpf_sched_process_fork(struct bpf_raw_tracepoint_args *ctx)
 	/**
 	 * TP_PROTO(struct task_struct *parent, struct task_struct *child)
 	 */
-	bpf_core_read(&data.parent_comm, sizeof(data.parent_comm), parent->comm);
-	bpf_core_read(&data.child_comm, sizeof(data.child_comm), child->comm);
+	bpf_core_read(&data.parent_comm, sizeof(data.parent_comm), (void *)parent->comm);
+	bpf_core_read(&data.child_comm, sizeof(data.child_comm), (void *)child->comm);
 	bpf_get_current_comm(&data.comm, sizeof(data.comm));
 
 	bpf_perf_event_output(ctx, &event, BPF_F_CURRENT_CPU,  &data, sizeof(data));
