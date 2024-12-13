@@ -14,6 +14,7 @@
  */
 #include "vmlinux.h"
 #include <bpf/bpf_helpers.h>
+#include <bpf/bpf_core_read.h>
 
 SEC("sk_lookup")
 int lookup_pass(struct bpf_sk_lookup *ctx)
@@ -27,10 +28,44 @@ int lookup_drop(struct bpf_sk_lookup *ctx)
 	return SK_DROP;
 }
 
+/**
+ * linux commit f89315650ba3 ("bpf: Add ingress_ifindex to bpf_sk_lookup") add
+ * field ingress_ifindex in v5.15-4621-gf89315650ba3.
+ */
+struct bpf_sk_lookup___x {
+	__u32 ingress_ifindex;
+} __attribute__((preserve_access_index));
+
+static __always_inline bool bpf_sk_lookup_has_ingress_ifindex_field(void)
+{
+	if (bpf_core_field_exists(((struct bpf_sk_lookup___x *)0)->ingress_ifindex))
+		return true;
+	return false;
+}
+
+static __always_inline __u32 load_ingress_ifindex(struct bpf_sk_lookup *ctx)
+{
+	__u32 index;
+	void *p = ctx;
+	int sz;
+	off_t off;
+
+	if (bpf_sk_lookup_has_ingress_ifindex_field()) {
+		sz = bpf_core_field_size(((struct bpf_sk_lookup *)0)->local_port);
+		off = (off_t)(((struct bpf_sk_lookup *)0)->local_port);
+		index = *(__u32 *)(p + off + sz);
+	} else
+		index = 0xFFFF;
+
+	return index;
+}
+
 SEC("sk_lookup")
 int check_ifindex(struct bpf_sk_lookup *ctx)
 {
-	if (ctx->ingress_ifindex == 1)
+	__u32 ingress_ifindex = load_ingress_ifindex(ctx);
+
+	if (ingress_ifindex != 0xFFFF && ingress_ifindex == 1)
 		return SK_DROP;
 	return SK_PASS;
 }
