@@ -2,6 +2,7 @@
 SHELL = bash
 ifeq ($(V),1)
   Q =
+  CLANG_V = -v
 else
   Q = @
   MAKEFLAGS += --no-print-directory
@@ -114,7 +115,7 @@ cgroup_sysctl: cgroup_sysctl.o ${TRACE_HELPERS}
 
 %.bpf.o: %.bpf.c vmlinux.h
 	@echo -e "  BPF  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	${Q}$(CLANG) -c $(<) -o $(@) ${CFLAGS_BPF} $(CFLAGS_BPF_$(*))
+	${Q}$(CLANG) -c $(<) -o $(@) ${CFLAGS_BPF} $(CFLAGS_BPF_$(*)) $(CLANG_V)
 
 %.skel.h: %.bpf.o
 	@echo -e "  SKEL  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

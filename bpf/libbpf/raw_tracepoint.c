@@ -28,7 +28,8 @@ void sig_handler(int sig)
 void handle_event(void *ctx, int cpu, void *data, unsigned int data_sz)
 {
 	struct data_t *m = data;
-	printf("%-6d %-6d %-16s %-16s\n", m->pid, m->uid, m->comm, m->child_comm);
+	printf("%-6d %-6d %-16s %-16s %-16s\n", m->pid, m->uid, m->comm,
+		m->parent_comm, m->child_comm);
 }
 
 void lost_event(void *ctx, int cpu, long long unsigned int data_sz)

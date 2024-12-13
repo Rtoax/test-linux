@@ -19,7 +19,7 @@ void handle_event(void *ctx, int cpu, void *data, unsigned int data_sz)
 {
 	struct data_t *m = data;
 
-	printf("%-6d %-6d %-16s\n", m->pid, m->uid, m->command);
+	printf("%-6d %-6d %-16s %s\n", m->pid, m->uid, m->command, m->filename);
 }
 
 void lost_event(void *ctx, int cpu, long long unsigned int data_sz)
