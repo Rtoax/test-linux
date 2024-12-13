@@ -2,10 +2,14 @@
 #include <unistd.h>
 #include <errno.h>
 #include <string.h>
+#include <signal.h>
 #include <linux/bpf.h>
 #include <bpf/libbpf.h>
 #include "raw_tracepoint.h"
 #include "raw_tracepoint.skel.h"
+
+
+static volatile sig_atomic_t stop = 0;
 
 static int libbpf_print_fn(enum libbpf_print_level level, const char *format,
 			   va_list args)
@@ -15,11 +19,16 @@ static int libbpf_print_fn(enum libbpf_print_level level, const char *format,
 	return vfprintf(stderr, format, args);
 }
 
+void sig_handler(int sig)
+{
+	fprintf(stderr, "get sig...\n");
+	stop = 1;
+}
+
 void handle_event(void *ctx, int cpu, void *data, unsigned int data_sz)
 {
 	struct data_t *m = data;
-
-	printf("%-6d %-6d %-16s\n", m->pid, m->uid, m->command);
+	printf("%-6d %-6d %-16s %-16s\n", m->pid, m->uid, m->comm, m->child_comm);
 }
 
 void lost_event(void *ctx, int cpu, long long unsigned int data_sz)
@@ -33,6 +42,8 @@ int main(void)
 	struct raw_tracepoint_bpf *skel;
 	struct perf_buffer *pb = NULL;
 	char log_buf[64 * 1024];
+
+	signal(SIGINT, sig_handler);
 
 	libbpf_set_strict_mode(LIBBPF_STRICT_ALL);
 	libbpf_set_print(libbpf_print_fn);
@@ -51,13 +62,6 @@ int main(void)
 		raw_tracepoint_bpf__destroy(skel);
 		return 1;
 	}
-#else
-	skel = raw_tracepoint_bpf__open_and_load();
-#endif
-	if (!skel) {
-		printf("Failed to open BPF object\n");
-		return 1;
-	}
 
 	/* Print the verifier log */
 	for (i = 0; i < sizeof(log_buf); i++) {
@@ -65,6 +69,13 @@ int main(void)
 			break;
 		}
 		printf("%c", log_buf[i]);
+	}
+#else
+	skel = raw_tracepoint_bpf__open_and_load();
+#endif
+	if (!skel) {
+		printf("Failed to open BPF object\n");
+		return 1;
 	}
 
 	err = raw_tracepoint_bpf__attach(skel);
@@ -92,7 +103,7 @@ int main(void)
 		return 1;
 	}
 
-	while (true) {
+	while (!stop) {
 		err = perf_buffer__poll(pb, 100 /* timeout, ms */);
 		/* Ctrl-C gives -EINTR */
 		if (err == -EINTR) {

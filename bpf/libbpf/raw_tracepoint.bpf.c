@@ -13,14 +13,20 @@ struct {
 	__uint(value_size, sizeof(u32));
 } event SEC(".maps");
 
+/**
+ * struct bpf_raw_tracepoint_args {
+ *	__u64 args[0];
+ * };
+ */
+
 #if defined(SEC_DEF_RAW_TRACEPOINT)
-SEC("raw_tracepoint/sys_enter")
+SEC("raw_tracepoint/sched_process_fork")
 #elif defined(SEC_DEF_RAW_TP)
-SEC("raw_tp/sys_enter")
+SEC("raw_tp/sched_process_fork")
 #else
 # error "Not define SEC_DEF_RAW_TRACEPOINT or SEC_DEF_RAW_TP"
 #endif
-int raw_tp_sys_enter(void *ctx)
+int bpf_sched_process_fork(struct bpf_raw_tracepoint_args *ctx)
 {
 	struct data_t data = {};
 	u64 uid;
@@ -29,7 +35,12 @@ int raw_tp_sys_enter(void *ctx)
 	uid = bpf_get_current_uid_gid() & 0xFFFFFFFF;
 	data.uid = uid;
 
-	bpf_get_current_comm(&data.command, sizeof(data.command));
+	/**
+	 * FIXME: child_comm get nothing!?
+	 */
+	bpf_core_read(&data.child_comm, sizeof(data.child_comm), (void *)ctx->args[0]);
+	bpf_get_current_comm(&data.comm, sizeof(data.comm));
+
 	bpf_perf_event_output(ctx, &event, BPF_F_CURRENT_CPU,  &data, sizeof(data));
 	return 0;
 }
