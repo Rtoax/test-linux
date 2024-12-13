@@ -61,6 +61,7 @@ TARGETS += cgroup_device
 TARGETS += cgroup_sysctl
 TARGETS += fmod_ret
 TARGETS += iter_task
+TARGETS += iter_task_file
 TARGETS += $(kconfig-obj-y)
 
 # _if_ there are no user mode code, append to bpf target only
@@ -111,6 +112,10 @@ CFLAGS_tp_btf := -DSEC_DEF_TP_BTF=1
 CFLAGS_BPF_tp_btf := -DSEC_DEF_TP_BTF=1
 CFLAGS_xdp := -DSTRICT_SEC_NAME=1
 CFLAGS_BPF_xdp := -DSTRICT_SEC_NAME=1
+CFLAGS_iter_task := -DITER_TASK=1
+CFLAGS_BPF_iter_task := -DITER_TASK=1
+CFLAGS_iter_task_file := -DITER_TASK_FILE=1
+CFLAGS_BPF_iter_task_file := -DITER_TASK_FILE=1
 
 TRACE_HELPERS := trace_helpers.o
 
@@ -134,6 +139,7 @@ cgroup_sysctl: cgroup_sysctl.o ${TRACE_HELPERS}
 fentry: fentry.o ${TRACE_HELPERS}
 fmod_ret: fmod_ret.o ${TRACE_HELPERS}
 iter_task: iter_task.o
+iter_task_file: iter_task_file.o
 
 %.bpf.o: %.bpf.c vmlinux.h
 	@echo -e "  BPF  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

@@ -1,4 +1,5 @@
 /* SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause) */
+/* Copyright (c) 2024 Rong Tao */
 /* Copyright (c) 2023 Meta */
 
 #define TASK_COMM_LEN 16
@@ -13,4 +14,11 @@ struct task_info {
 	int kstack_len;
 
 	__u64 kstack[MAX_STACK_LEN];
+};
+
+struct task_file_info {
+	pid_t pid;
+	pid_t tid;
+	int fd;
+	char comm[TASK_COMM_LEN];
 };
