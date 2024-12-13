@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0
 SHELL = bash
 ifeq ($(V),1)
   Q =
@@ -7,18 +8,10 @@ else
 endif
 export Q
 
-
 CC = gcc
 CXX = c++
 
-# Check compiler support -m32 or not
-define m32_build
-  $(shell $(CC) -x c -Wall -m32 __WORDSIZE-32.c -o /dev/null >/dev/null 2>&1 \
-      && echo 1)
-endef
-
-feature-m32 := $(findstring 1,$(call m32_build,-pthread))
-#$(info FEATURE m32: ${feature-m32})
+include ../scripts/compiler.mk
 
 TARGETS :=
 TARGETS += align
@@ -33,7 +26,7 @@ TARGETS += __restrict__
 TARGETS += __func__
 TARGETS += __linux__
 TARGETS += __WORDSIZE
-ifeq ($(feature-m32),1)
+ifeq ($(CC_M32),1)
   TARGETS += __WORDSIZE-32
 endif
 TARGETS += __TIME__
@@ -49,13 +42,14 @@ TARGETS += __stringify
 TARGETS += __STDC__
 TARGETS += _XOPEN_SOURCE
 TARGETS += _POSIX_SOURCE _POSIX_C_SOURCE
+TARGETS += LINUX_VERSION_CODE
 
 TARGETS_CXX :=
 TARGETS_CXX += __cplusplus
 
 ifeq ($(shell uname -m),x86_64)
   TARGETS += __x86_64__
-ifeq ($(feature-m32),1)
+ifeq ($(CC_M32),1)
   TARGETS += __i386__
 endif
 endif
@@ -104,6 +98,7 @@ __STDC__: __STDC__.o
 _XOPEN_SOURCE: _XOPEN_SOURCE.o
 _POSIX_SOURCE: _POSIX_SOURCE.o
 _POSIX_C_SOURCE: _POSIX_C_SOURCE.o
+LINUX_VERSION_CODE: LINUX_VERSION_CODE.o
 
 CFLAGS___i386__ := -m32
 CFLAGS___x86_64__ := -m64

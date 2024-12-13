@@ -11,6 +11,7 @@
  * netfilter framework") v6.3-rc6-1646-gfd9c663b9ad6 support.
  */
 #include "vmlinux.h"
+#include <linux/version.h>
 #include <bpf/bpf_helpers.h>
 #include <bpf/bpf_endian.h>
 
@@ -18,6 +19,10 @@
 #define NF_ACCEPT       1
 #define ETH_P_IP        0x0800
 #define ETH_P_IPV6      0x86DD
+
+#ifndef LINUX_VERSION_CODE
+#error "Not found LINUX_VERSION_CODE in linux/version.h"
+#endif
 
 #if LINUX_VERSION_CODE > KERNEL_VERSION(6, 3, 0)
 SEC("netfilter")
