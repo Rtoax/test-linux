@@ -1,6 +1,21 @@
 // SPDX-License-Identifier: GPL-3.0
 /**
  * BPF_PROG_TYPE_CGROUP_SYSCTL
+ *
+ * cGroup sysctl programs are called when a process in the cGroup to which the
+ * program is attached attempts to read or write a sysctl option in the proc
+ * file system.
+ *
+ * cGroup sysctl programs are typically located in the cgroup/sysctl ELF
+ * section. These programs can be used to inspect and filter sysctl usage.
+ *
+ * These programs must return one of the following return codes:
+ *
+ *  0 means "reject access to sysctl"
+ *  1 means "proceed with access"
+ *
+ * If program returns 0 user space will get -1 from read(2) or write(2) and
+ * errno will be set to EPERM.
  */
 #include "vmlinux.h"
 #include <bpf/bpf_helpers.h>

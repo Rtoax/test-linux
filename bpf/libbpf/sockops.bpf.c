@@ -1,6 +1,10 @@
 /**
  * BPF_PROG_TYPE_SOCK_OPS
  *
+ * Socket ops programs are attached to cGroups and get called for multiple
+ * lifecycle events of a socket, giving the program the opportunity to changes
+ * settings per connection or to record the existence of a socket.
+ *
  * see linux/tools/testing/selftests/bpf/progs/test_tcp_hdr_options.c
  */
 #include <vmlinux.h>

@@ -1,6 +1,10 @@
 // SPDX-License-Identifier: GPL-3.0
 /**
  * BPF_PROG_TYPE_SK_MSG
+ *
+ * Socket message programs are called for every sendmsg or sendfile syscall.
+ * This program type can pass verdict on individual packets or larger L7
+ * messages chunked over multiple syscalls.
  */
 #include "vmlinux.h"
 #include <bpf/bpf_helpers.h>

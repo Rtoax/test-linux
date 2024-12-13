@@ -1,6 +1,15 @@
 // SPDX-License-Identifier: GPL-3.0
 /**
  * BPF_PROG_TYPE_PERF_EVENT
+ *
+ * Perf event programs that can be attached to hardware and software perf
+ * events. Once attached the BPF program is executed each time the perf event
+ * is triggered.
+ *
+ * Perf event programs are typically used for profiling and tracing. These
+ * programs are called with the CPU register state at the time of the event.
+ * This allows the programs to collect information for each event and aggregate
+ * it in a customized way.
  */
 #include "vmlinux.h"
 #include <bpf/bpf_helpers.h>

@@ -1,5 +1,14 @@
 /**
  * BPF_PROG_TYPE_SOCKET_FILTER
+ *
+ * Socket filter programs can hook into network sockets and are designed to
+ * filter or modify packets received by that socket (the program isn't called
+ * for egress/outgoing packets).
+ *
+ * A noticeable use-case for this program type is tcpdump which uses a raw
+ * sockets in combination with a socket filter generated from the filter
+ * query to efficiently filter packets and only pay the kernel-userspace
+ * barrier cost for packets of interest.
  */
 #include <vmlinux.h>
 #include <bpf/bpf_helpers.h>

@@ -1,6 +1,15 @@
 // SPDX-License-Identifier: GPL-3.0
 /**
  * BPF_PROG_TYPE_CGROUP_DEVICE
+ *
+ * cGroup device programs are executed when a process in the cGroup to which
+ * the program is attached wishes to utilize a device. The program can then
+ * decide whether or not to allow the process to allow that operation.
+ *
+ * This program type is the cGroup v2 variant of the device whitelist
+ * controller. This program type is typically located in a cgroup/dev ELF
+ * section. It is called with a context describing the access attempt, if the
+ * program returns 0, the attempt fails with -EPERM, otherwise it succeeds.
  */
 #include "vmlinux.h"
 #include <bpf/bpf_helpers.h>

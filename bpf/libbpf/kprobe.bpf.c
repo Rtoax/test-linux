@@ -1,6 +1,12 @@
 // SPDX-License-Identifier: GPL-3.0
 /**
  * BPF_PROG_TYPE_KPROBE
+ *
+ * This program are eBPF programs that can attach to kprobes. KProbes are not
+ * a eBPF specific feature, but they do work very well together. Traditionally,
+ * one would have to write a custom kernel module which could be invoked from
+ * a kprobe or be content with just the trace log output. eBPF makes this
+ * process easier.
  */
 #include "vmlinux.h"
 #include <bpf/bpf_helpers.h>

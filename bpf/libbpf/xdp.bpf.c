@@ -1,5 +1,20 @@
 /**
  * BPF_PROG_TYPE_XDP
+ *
+ * XDP (Express Data Path) programs can attach to network devices and are
+ * called for every incoming (ingress) packet received by that network device.
+ * XDP programs can take quite a large number of actions, most prominent of
+ * which are manipulation of the packet, dropping the packet, redirecting it
+ * and letting it pass to the network stack.
+ *
+ * Notable use cases for XDP programs are for DDoS protection, Load Balancing,
+ * and high-throughput packet filtering. If loaded with native driver support,
+ * XDP programs will be called just after receiving the packet but before
+ * allocating memory for a socket buffer. This call site makes XDP programs
+ * extremely performant, especially in use cases where traffic is forwarded or
+ * dropped a lot in comparison to other eBPF program types or techniques which
+ * run after the relatively expensive socket buffer allocation process has
+ * taken place, only to discard it.
  */
 #include <vmlinux.h>
 #include <bpf/bpf_helpers.h>

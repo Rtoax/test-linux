@@ -1,5 +1,9 @@
 /**
  * BPF_PROG_TYPE_TRACEPOINT
+ *
+ * This programs are eBPF programs that attach to pre-defined trace points in
+ * the linux kernel. These tracepoint are often placed in locations which are
+ * interesting or common locations to measure performance.
  */
 #include "vmlinux.h"
 #include <bpf/bpf_helpers.h>

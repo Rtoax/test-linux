@@ -1,5 +1,22 @@
 /**
  * BPF_PROG_TYPE_RAW_TRACEPOINT
+ *
+ * Raw tracepoint programs are similar to tracepoint programs, but the kernel
+ * does no pre-processing on the arguments and passes the raw arguments
+ * directly to the tracepoint program.
+ *
+ * Raw tracepoint programs are typically put into an ELF section prefixed with
+ * 'raw_tp/' or in a raw_tracepoint section. When loading as a
+ * BPF_PROG_TYPE_TRACING program, the raw tracepoint is typically located in a
+ * section prefixed with 'tp_btf/'.
+ *
+ * Raw tracepoints are attached to the same tracepoints as normal tracepoint
+ * programs. The reason why you might want to use raw tracepoints over normal
+ * tracepoints is due to the performance improvement. For normal tracepoints,
+ * the kernel will cast or transform arguments even if the arguments are never
+ * used. By taking the raw arguments, the BPF program can do the casting or
+ * transformation only if the arguments are used, thereby making a more
+ * efficient tracepoint program.
  */
 #include "vmlinux.h"
 #include <bpf/bpf_helpers.h>
@@ -23,6 +40,12 @@ struct {
 SEC("raw_tracepoint/sched_process_fork")
 #elif defined(SEC_DEF_RAW_TP)
 SEC("raw_tp/sched_process_fork")
+#elif defined(SEC_DEF_TP_BTF)
+/**
+ * When loading as a BPF_PROG_TYPE_TRACING program, the raw tracepoint is
+ * typically located in a section prefixed with 'tp_btf/'.
+ */
+SEC("tp_btf/sched_process_fork")
 #else
 # error "Not define SEC_DEF_RAW_TRACEPOINT or SEC_DEF_RAW_TP"
 #endif

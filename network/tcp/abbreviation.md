@@ -3,5 +3,5 @@
 - GSO: Generic Segmentation Offload (通用 TSO)
 - LRO: Large Receive Offload ()
 - LSO: Large segment offload (TCP 分段卸载)
-- TC: Traffic Control (拥塞控制)
+- TC: Traffic Control (拥塞控制) @qdiscs
 - TSO: TCP Segmentation Offload (TCP 分段卸载) @LSO @GRO @TSS

@@ -1,6 +1,9 @@
 /**
  * BPF_PROG_TYPE_LWT_IN
  *
+ * LWT (Light Weight Tunnel) Input programs attach to the ingress path of a
+ * light weight tunnel.
+ *
  * see linux/tools/testing/selftests/bpf/progs/verifier_lwt.c
  */
 #include <vmlinux.h>
