@@ -8,11 +8,12 @@
 #include <linux/version.h>
 
 #define MAX_LEN 4096
+
 static struct proc_dir_entry *proc_entry;
 static char *info;
 static int len, temp;
 
-static ssize_t read_proc(struct file *f, char *user_buf, size_t count,
+static ssize_t myproc_read(struct file *f, char *user_buf, size_t count,
 			 loff_t *off)
 {
 	int ret;
@@ -32,7 +33,7 @@ static ssize_t read_proc(struct file *f, char *user_buf, size_t count,
 	return count;
 }
 
-static ssize_t write_proc(struct file *f, const char *user_buf, size_t count,
+static ssize_t myproc_write(struct file *f, const char *user_buf, size_t count,
 			  loff_t *off)
 {
 	int ret;
@@ -49,13 +50,13 @@ static ssize_t write_proc(struct file *f, const char *user_buf, size_t count,
 
 #if LINUX_VERSION_CODE < KERNEL_VERSION(5, 6, 0)
 struct file_operations proc_fops = {
-	read: read_proc,
-	write: write_proc,
+	.read = myproc_read,
+	.write = myproc_write,
 };
 #else
 static const struct proc_ops proc_fops = {
-	proc_read: read_proc,
-	proc_write: write_proc,
+	.proc_read = myproc_read,
+	.proc_write = myproc_write,
 };
 #endif
 

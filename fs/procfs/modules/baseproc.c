@@ -6,11 +6,11 @@
 #include <linux/version.h>
 
 /**
- * /proc/rtoax is a Dir
+ * /proc/rtoax is a directory
  * /pric/rtoax/enable is a trigger
  */
 
-static struct proc_dir_entry *rtoax = NULL;
+static struct proc_dir_entry *rtoax_dir = NULL;
 static bool enable_trigger = false;
 
 static int enable_show(struct seq_file *m, void *ptr)
@@ -67,9 +67,9 @@ static const struct proc_ops rtoax_enable_fops = {
 
 static int __init proctest_init(void)
 {
-	rtoax = proc_mkdir("rtoax", NULL);
+	rtoax_dir = proc_mkdir("rtoax", NULL);
 	proc_create("enable", S_IRUSR | S_IWUSR | S_IROTH | S_IWOTH | S_IRGRP | S_IWGRP,
-		    rtoax, &rtoax_enable_fops);
+		    rtoax_dir, &rtoax_enable_fops);
 	return 0;
 }
 
