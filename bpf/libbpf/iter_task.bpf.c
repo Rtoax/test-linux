@@ -25,13 +25,11 @@ struct task_struct___pre514 {
 
 static __u32 get_task_state(void *arg)
 {
-	if (bpf_core_field_exists(struct task_struct___pre514, state)) {
+	if (bpf_core_field_exists(((struct task_struct___pre514 *)0)->state)) {
 		struct task_struct___pre514 *task = arg;
-
 		return task->state;
 	} else {
 		struct task_struct___post514 *task = arg;
-
 		return task->__state;
 	}
 }
