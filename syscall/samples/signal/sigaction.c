@@ -5,10 +5,10 @@
 
 void timeout(int signo)
 {
-	if (signo == SIGALRM)
+	if (signo == SIGALRM) {
 		printf("time out! \n");
-
-	alarm(1);
+		alarm(1);
+	}
 }
 
 int main(void)
