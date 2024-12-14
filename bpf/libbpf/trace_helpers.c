@@ -4,6 +4,7 @@
 #include <errno.h>
 #include <sys/types.h>
 #include <unistd.h>
+#include <fcntl.h>
 
 #define TRACEFS_PIPE    "/sys/kernel/tracing/trace_pipe"
 #define DEBUGFS_PIPE    "/sys/kernel/debug/tracing/trace_pipe"
@@ -30,6 +31,11 @@ int read_trace_pipe_cb(int (*cb)(const char *str, void *arg), void *arg)
 	}
 
 	buf = NULL;
+
+	/**
+	 * If nonblock, this code will occupy 100% of CPU.
+	 */
+	//fcntl(fileno(fp), F_SETFL, O_NONBLOCK);
 
 	/**
 	 * If signal(2) does not process the signal, the process will exit
