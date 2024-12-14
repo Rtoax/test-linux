@@ -19,6 +19,9 @@ CFLAGS := -Werror -Wall
 CFLAGS += -D_GNU_SOURCE
 CFLAGS += -DDEBUG -O0 -g
 
+CFLAGS_sigsetjmp := -DSIGJMP=1
+CFLAGS_setjmp := -DJMP=1
+
 build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 

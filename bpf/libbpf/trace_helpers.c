@@ -31,6 +31,10 @@ int read_trace_pipe_cb(int (*cb)(const char *str, void *arg), void *arg)
 
 	buf = NULL;
 
+	/**
+	 * If signal(2) does not process the signal, the process will exit
+	 * directly from the loop, and the return code will not be executed.
+	 */
 	while ((n = getline(&buf, &buflen, fp) >= 0) || errno == EAGAIN) {
 		if (n > 0) {
 			err = cb(buf, arg);
@@ -43,7 +47,7 @@ int read_trace_pipe_cb(int (*cb)(const char *str, void *arg), void *arg)
 	return 0;
 }
 
-static int trace_pipe_cb(const char *str, void *arg)
+static int trace_pipe_printf(const char *str, void *arg)
 {
 	printf("%s", str);
 	return 0;
@@ -51,5 +55,5 @@ static int trace_pipe_cb(const char *str, void *arg)
 
 int read_trace_pipe(void)
 {
-	return read_trace_pipe_cb(trace_pipe_cb, NULL);
+	return read_trace_pipe_cb(trace_pipe_printf, NULL);
 }

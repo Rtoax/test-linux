@@ -36,7 +36,7 @@ int main(void)
 	 * directly from the loop, and the return code will not be executed.
 	 */
 	while ((n = getline(&buf, &buflen, stdin) >= 0) || errno == EAGAIN) {
-		puts(buf);
+		printf("%s", buf);
 	}
 
 	return 0;
