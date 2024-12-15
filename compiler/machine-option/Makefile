@@ -13,10 +13,14 @@ TARGETS :=
 TARGETS += helloworld
 TARGETS += march-native
 TARGETS += mbranch-protection
-TARGETS += mfentry
 
 ifeq ($(shell uname -m),aarch64)
   TARGETS += march-armv8.3-a
+endif
+
+# FIXME: aarch64 seems like don't support -mfentry
+ifeq ($(shell uname -m),x86_64)
+  TARGETS += mfentry
 endif
 
 CC = gcc
