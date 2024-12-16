@@ -2,7 +2,6 @@
 SHELL = bash
 ifeq ($(V),1)
   Q =
-  CLANG_V = -v
 else
   Q = @
   MAKEFLAGS += --no-print-directory
@@ -31,6 +30,8 @@ KSYM_DO_EXECVEAT_COMMON := $(shell grep 't do_execveat_common' /proc/kallsyms \
 
 $(info KSYM_DO_EXECVEAT_COMMON = ${KSYM_DO_EXECVEAT_COMMON})
 
+UID=$(shell id -u)
+
 CC := gcc
 CLANG := clang
 BPFTOOL := bpftool
@@ -42,7 +43,8 @@ kconfig-obj-$(CONFIG_PERF_EVENTS) += perf_event
 # fentry: -pg -mfentry
 #  fentry + BPF trampoline ~= kprobe hook
 kconfig-obj-$(CONFIG_HAVE_FENTRY) += fentry
-kconfig-obj-$(CONFIG_BPF_LSM) += lsm
+kconfig-obj-$(CONFIG_BPF_LSM) += lsm_bpf
+kconfig-obj-$(CONFIG_BPF_LSM) += lsm_socket_create
 
 $(info kconfig-obj-y : $(kconfig-obj-y))
 
@@ -92,9 +94,14 @@ CFLAGS += -O0 -Wall -g
 LDFLAGS := -lbpf
 LDFLAGS += -O0 -Wall -g
 
+CFLAGS += -DCONFIG_BPF_SYSCALL=$(CONFIG_BPF_SYSCALL)
+CFLAGS += -DUID=$(UID)
+CFLAGS_BPF += -DUID=$(UID)
+
 ifdef DEBUG
   CFLAGS += -DDEBUG=1
   CFLAGS_BPF += -DDEBUG=1
+  CLANG_V = -v
 endif
 
 CFLAGS_kprobe := -D'KSYM_DO_EXECVEAT_COMMON="${KSYM_DO_EXECVEAT_COMMON}"' -DKPROBE=1
@@ -117,6 +124,10 @@ CFLAGS_iter_task := -DITER_TASK=1
 CFLAGS_BPF_iter_task := -DITER_TASK=1
 CFLAGS_iter_task_file := -DITER_TASK_FILE=1
 CFLAGS_BPF_iter_task_file := -DITER_TASK_FILE=1
+CFLAGS_lsm_bpf := -DLSM_BPF=1
+CFLAGS_BPF_lsm_bpf := -DLSM_BPF=1
+CFLAGS_lsm_socket_create := -DLSM_SOCKET_CREATE=1
+CFLAGS_BPF_lsm_socket_create := -DLSM_SOCKET_CREATE=1
 
 TRACE_HELPERS := trace_helpers.o
 
@@ -141,7 +152,8 @@ fentry: fentry.o ${TRACE_HELPERS}
 fmod_ret: fmod_ret.o ${TRACE_HELPERS}
 iter_task: iter_task.o
 iter_task_file: iter_task_file.o
-lsm: lsm.o ${TRACE_HELPERS}
+lsm_bpf: lsm_bpf.o ${TRACE_HELPERS}
+lsm_socket_create: lsm_socket_create.o ${TRACE_HELPERS}
 
 %.bpf.o: %.bpf.c vmlinux.h
 	@echo -e "  BPF  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

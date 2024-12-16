@@ -16,6 +16,10 @@ void print_show(void) { }
 
 static __unused ATTR_RO(print);
 
+#if CONFIG_MMU == y
+#pragma message "Defined CONFIG_MMU=y"
+#endif
+
 int main(void)
 {
 	return 0;

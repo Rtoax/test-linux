@@ -7,8 +7,22 @@
 #include <unistd.h>
 #include <sys/resource.h>
 #include <bpf/libbpf.h>
-#include "lsm.skel.h"
 #include "trace_helpers.h"
+#if defined(LSM_BPF)
+#include "lsm_bpf.skel.h"
+#define struct_bpf	lsm_bpf_bpf
+#define _bpf__open_and_load	lsm_bpf_bpf__open_and_load
+#define _bpf__attach	lsm_bpf_bpf__attach
+#define _bpf__destroy	lsm_bpf_bpf__destroy
+#elif defined(LSM_SOCKET_CREATE)
+#include "lsm_socket_create.skel.h"
+#define struct_bpf	lsm_socket_create_bpf
+#define _bpf__open_and_load	lsm_socket_create_bpf__open_and_load
+#define _bpf__attach	lsm_socket_create_bpf__attach
+#define _bpf__destroy	lsm_socket_create_bpf__destroy
+#else
+#error "Not defined LSM_BPF"
+#endif
 
 static volatile sig_atomic_t stop = 0;
 static sigjmp_buf jmp;
@@ -32,7 +46,7 @@ static int libbpf_print_fn(enum libbpf_print_level level, const char *format,
 
 int main(int argc, char **argv)
 {
-	struct lsm_bpf *skel;
+	struct struct_bpf *skel;
 	int err;
 
 	signal(SIGINT, sig_handler);
@@ -44,14 +58,14 @@ int main(int argc, char **argv)
 	libbpf_set_print(libbpf_print_fn);
 
 	/* Open, load, and verify BPF application */
-	skel = lsm_bpf__open_and_load();
+	skel = _bpf__open_and_load();
 	if (!skel) {
 		fprintf(stderr, "Failed to open and load BPF skeleton\n");
 		goto cleanup;
 	}
 
 	/* Attach lsm handler */
-	err = lsm_bpf__attach(skel);
+	err = _bpf__attach(skel);
 	if (err) {
 		fprintf(stderr, "Failed to attach BPF skeleton\n");
 		goto cleanup;
@@ -63,6 +77,6 @@ int main(int argc, char **argv)
 
 cleanup:
 	printf("Goodbye!!\n");
-	lsm_bpf__destroy(skel);
+	_bpf__destroy(skel);
 	return -err;
 }

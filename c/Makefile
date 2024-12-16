@@ -8,7 +8,12 @@ else
 endif
 export Q
 
+CONFIG_KERNEL ?= /boot/config-$(shell uname -r)
+ifeq ($(wildcard $(CONFIG_KERNEL)),)
+  $(error "ERROR: Not found ${CONFIG_KERNEL}")
+endif
 
+include $(CONFIG_KERNEL)
 include ../scripts/compiler.mk
 
 TARGETS :=
@@ -138,6 +143,7 @@ CFLAGS__Generic := -Wno-all
 CFLAGS_case := -Wno-error=unused-label -Wno-unused-label
 CFLAGS_include_next := -Dinclude/ -Wno-error
 CFLAGS_while-sleep := -DWHILE_SLEEP=1
+CFLAGS_macro := -DCONFIG_MMU=$(CONFIG_MMU)
 
 .PHONY: build
 build: ${TARGETS}
