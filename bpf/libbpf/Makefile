@@ -133,6 +133,7 @@ CFLAGS_lsm_socket_create := -DLSM_SOCKET_CREATE=1
 CFLAGS_BPF_lsm_socket_create := -DLSM_SOCKET_CREATE=1
 
 TRACE_HELPERS := trace_helpers.o
+TASK_HELPERS := task_helpers.o
 
 
 .PHONY: build
@@ -153,7 +154,7 @@ cgroup_device: cgroup_device.o ${TRACE_HELPERS}
 cgroup_sysctl: cgroup_sysctl.o ${TRACE_HELPERS}
 fentry: fentry.o ${TRACE_HELPERS}
 fmod_ret: fmod_ret.o ${TRACE_HELPERS}
-iter_task: iter_task.o
+iter_task: iter_task.o ${TASK_HELPERS}
 iter_task_file: iter_task_file.o
 iter_task_vma: iter_task_vma.o
 iter_bpf_map: iter_bpf_map.o
