@@ -26,6 +26,7 @@
  * See lsm_hook_defs.h
  */
 #if CONFIG_BPF_SYSCALL == y && defined(LSM_BPF)
+# pragma message "Compile lsm/bpf"
 /**
  * LSM_HOOK(int, 0, bpf, int cmd, union bpf_attr *attr, unsigned int size)
  */
@@ -43,6 +44,7 @@ int BPF_PROG(lsm_bpf, int cmd, union bpf_attr *attr, unsigned int size, int ret)
 	return -EPERM;
 }
 #elif defined(LSM_SOCKET_CREATE)
+# pragma message "Compile lsm/socket_create"
 /**
  * LSM_HOOK(int, 0, socket_create, int family, int type, int protocol, int kern)
  */

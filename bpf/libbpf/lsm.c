@@ -9,12 +9,14 @@
 #include <bpf/libbpf.h>
 #include "trace_helpers.h"
 #if defined(LSM_BPF)
+# pragma message "Compile lsm/bpf"
 #include "lsm_bpf.skel.h"
 #define struct_bpf	lsm_bpf_bpf
 #define _bpf__open_and_load	lsm_bpf_bpf__open_and_load
 #define _bpf__attach	lsm_bpf_bpf__attach
 #define _bpf__destroy	lsm_bpf_bpf__destroy
 #elif defined(LSM_SOCKET_CREATE)
+# pragma message "Compile lsm/socket_create"
 #include "lsm_socket_create.skel.h"
 #define struct_bpf	lsm_socket_create_bpf
 #define _bpf__open_and_load	lsm_socket_create_bpf__open_and_load
