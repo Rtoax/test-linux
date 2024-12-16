@@ -65,6 +65,7 @@ TARGETS += cgroup_sysctl
 TARGETS += fmod_ret
 TARGETS += iter_task
 TARGETS += iter_task_file
+TARGETS += iter_task_vma
 TARGETS += $(kconfig-obj-y)
 
 # _if_ there are no user mode code, append to bpf target only
@@ -124,6 +125,8 @@ CFLAGS_iter_task := -DITER_TASK=1
 CFLAGS_BPF_iter_task := -DITER_TASK=1
 CFLAGS_iter_task_file := -DITER_TASK_FILE=1
 CFLAGS_BPF_iter_task_file := -DITER_TASK_FILE=1
+CFLAGS_iter_task_vma := -DITER_TASK_VMA=1
+CFLAGS_BPF_iter_task_vma := -DITER_TASK_VMA=1
 CFLAGS_lsm_bpf := -DLSM_BPF=1
 CFLAGS_BPF_lsm_bpf := -DLSM_BPF=1
 CFLAGS_lsm_socket_create := -DLSM_SOCKET_CREATE=1
@@ -152,6 +155,7 @@ fentry: fentry.o ${TRACE_HELPERS}
 fmod_ret: fmod_ret.o ${TRACE_HELPERS}
 iter_task: iter_task.o
 iter_task_file: iter_task_file.o
+iter_task_vma: iter_task_vma.o
 lsm_bpf: lsm_bpf.o ${TRACE_HELPERS}
 lsm_socket_create: lsm_socket_create.o ${TRACE_HELPERS}
 

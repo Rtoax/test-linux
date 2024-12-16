@@ -17,5 +17,6 @@
 /fmod_ret
 /iter_task
 /iter_task_file
+/iter_task_vma
 /lsm_bpf
 /lsm_socket_create

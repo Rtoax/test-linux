@@ -23,6 +23,13 @@
 #define _bpf__attach	iter_task_file_bpf__attach
 #define _bpf__destroy	iter_task_file_bpf__destroy
 #define _bpf_link	dump_task_file
+#elif defined(ITER_TASK_VMA)
+#include "iter_task_vma.skel.h"
+#define struct_bpf	iter_task_vma_bpf
+#define _bpf__open_and_load	iter_task_vma_bpf__open_and_load
+#define _bpf__attach	iter_task_vma_bpf__attach
+#define _bpf__destroy	iter_task_vma_bpf__destroy
+#define _bpf_link	dump_task_vma
 #endif
 
 
@@ -101,6 +108,9 @@ int main(int argc, char **argv)
 #elif defined(ITER_TASK_FILE)
 		struct task_file_info buf;
 		ret = read(iter_fd, &buf, sizeof(struct task_file_info));
+#elif defined(ITER_TASK_VMA)
+		struct task_vma_info buf;
+		ret = read(iter_fd, &buf, sizeof(struct task_vma_info));
 #endif
 		if (ret < 0) {
 			if (errno == EAGAIN)
@@ -121,6 +131,9 @@ int main(int argc, char **argv)
 #elif defined(ITER_TASK_FILE)
 		printf("Task File Info, Pid: %d. Process Name: %s. Fd %d.\n",
 			buf.pid, buf.comm, buf.fd);
+#elif defined(ITER_TASK_VMA)
+		printf("Task VMA Info, Pid: %d. Process Name: %s. vm %lx~%lx.\n",
+			buf.pid, buf.comm, buf.vm_start, buf.vm_end);
 #endif
 	}
 

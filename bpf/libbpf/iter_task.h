@@ -22,3 +22,10 @@ struct task_file_info {
 	int fd;
 	char comm[TASK_COMM_LEN];
 };
+
+struct task_vma_info {
+	pid_t pid;
+	pid_t tid;
+	char comm[TASK_COMM_LEN];
+	unsigned long vm_start, vm_end;
+};
