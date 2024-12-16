@@ -79,7 +79,7 @@ TARGETS_SKEL := $(patsubst %.bpf.o,%.skel.h,$(TARGETS_BPF))
 CFLAGS_BPF := -I.
 CFLAGS_BPF += -O2 -Wall -g
 CFLAGS_BPF += -target bpf
-CFLAGS_BPF += -D__TARGET_ARCH_$(BPF_TARGET_ARCH)
+CFLAGS_BPF += $(CFLAG_BPF_TARGET_ARCH)
 
 CFLAGS := -lbpf
 CFLAGS += -O0 -Wall -g
