@@ -1,1 +1,1 @@
-../__attribute__/__attribute__nocf_check.c
+../__attribute__/nocf_check.c
