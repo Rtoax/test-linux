@@ -47,10 +47,7 @@ kconfig-obj-$(CONFIG_BPF_LSM) += lsm_bpf
 kconfig-obj-$(CONFIG_BPF_LSM) += lsm_socket_create
 
 $(info kconfig-obj-y : $(kconfig-obj-y))
-
-ifneq ($(kconfig-obj-),)
-  $(warning Not support ${kconfig-obj-})
-endif
+$(info kconfig-obj-n : $(kconfig-obj-))
 
 TARGETS :=
 TARGETS += config-map
