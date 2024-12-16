@@ -15,7 +15,7 @@ ifeq ($(wildcard $(CONFIG_KERNEL)),)
 endif
 
 include $(CONFIG_KERNEL)
-include ../tlbuild.mk
+include ../bpf.mk
 
 KSYM_DO_EXECVEAT_COMMON := $(shell grep 't do_execveat_common' /proc/kallsyms \
 			| head -1 \
