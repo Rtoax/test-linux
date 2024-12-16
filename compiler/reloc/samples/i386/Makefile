@@ -9,7 +9,7 @@ endif
 export Q
 
 
-include ../../../../scripts/compiler.mk
+include ../../../../compiler/compiler.mk
 
 TARGETS :=
 TARGETS_O :=

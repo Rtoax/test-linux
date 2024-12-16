@@ -38,7 +38,7 @@ ifdef STATIC
 endif
 
 # All CC set done here
-include ../../../scripts/compiler.mk
+include ../../../compiler/compiler.mk
 feature-sve2 := $(findstring 1,$(call check_compiler_option,$(CC),-march=armv8-a+sve+sve2))
 
 ifeq (${feature-sve2},1)

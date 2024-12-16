@@ -14,7 +14,7 @@ ifeq ($(wildcard $(CONFIG_KERNEL)),)
 endif
 
 include $(CONFIG_KERNEL)
-include ../scripts/compiler.mk
+include ../compiler/compiler.mk
 
 TARGETS :=
 TARGETS += arg

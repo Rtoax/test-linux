@@ -11,7 +11,7 @@ export Q
 
 CC := gcc
 
-include ../../scripts/compiler.mk
+include ../../compiler/compiler.mk
 
 TARGETS :=
 TARGETS += _GLOBAL_OFFSET_TABLE_

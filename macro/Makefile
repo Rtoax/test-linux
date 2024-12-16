@@ -11,7 +11,7 @@ export Q
 CC = gcc
 CXX = c++
 
-include ../scripts/compiler.mk
+include ../compiler/compiler.mk
 
 TARGETS :=
 TARGETS += align
