@@ -1,3 +1,7 @@
+/*.s
 /attribute
 /pushsection
-/*.s
+/bfd
+/gold
+/lld
+/mold

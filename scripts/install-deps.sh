@@ -332,7 +332,9 @@ pkgs_compiler+=( clang )
 pkgs_compiler+=( flex )
 pkgs_compiler+=( gcc )
 pkgs_compiler+=( golang )
+pkgs_compiler+=( lld )                    # ELF linker from the LLVM project
 pkgs_compiler+=( llvm )                   # llvm-as llvm-dis llc
+pkgs_compiler+=( mold )                   # a modern linker
 
 pkgs_container+=( buildah )
 pkgs_container+=( conmon )

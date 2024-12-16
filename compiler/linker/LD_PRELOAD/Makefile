@@ -8,13 +8,14 @@ endif
 export Q
 
 
-
 all:
-	gcc -fPIC -shared mcount-nop.c -o libmcount-nop.so
-	gcc main.c -pg -o main
+	$(Q)gcc -fPIC -shared mcount-nop.c -o libmcount-nop.so
+	$(Q)gcc main.c -pg -o main
+	@echo -e " \033[1;33m Done \033[m"
 
 run: main libmcount-nop.so
-	LD_PRELOAD=./libmcount-nop.so ./main
+	$(Q)LD_PRELOAD=./libmcount-nop.so ./main
 
 clean:
-	rm -f main libmcount-nop.so
+	@echo -e "  CLEAN"
+	$(Q)rm -f main libmcount-nop.so

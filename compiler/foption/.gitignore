@@ -25,3 +25,4 @@
 /fzero-initialized-in-bss
 /fplt
 /fno-plt
+/fuse-ld

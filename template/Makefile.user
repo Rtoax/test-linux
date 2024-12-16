@@ -12,8 +12,8 @@ else
 endif
 export Q
 
-STDIO_HEADER = /usr/include/stdio.h
-KERN_CONFIG=/boot/config-$(shell uname -r)
+STDIO_H = /usr/include/stdio.h
+KERN_CONFIG = /boot/config-$(shell uname -r)
 
 ifneq ($(wildcard $(KERN_CONFIG)),)
   include ${KERN_CONFIG}
@@ -28,7 +28,7 @@ sub-dir-clean := $(sub-dir:=.clean)
 
 TARGETS :=
 
-ifneq ($(wildcard $(STDIO_HEADER)),)
+ifneq ($(wildcard $(STDIO_H)),)
   TARGETS += main.user
 else
   $(warning "WARNING: You need to install glibc-headers")

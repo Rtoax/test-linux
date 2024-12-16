@@ -20,6 +20,7 @@ TARGETS += fdump-tree-all-raw fdump-tree-all
 TARGETS += finput-charset
 TARGETS += fno-zero-initialized-in-bss fzero-initialized-in-bss
 TARGETS += fplt fno-plt
+TARGETS += fuse-ld
 
 ifeq ($(shell uname -m),x86_64)
   TARGETS += fcf-protection
@@ -63,6 +64,9 @@ CFLAGS_fno-zero-initialized-in-bss := -fno-zero-initialized-in-bss -DUNINITIALIZ
 CFLAGS_fzero-initialized-in-bss := -fzero-initialized-in-bss -DUNINITIALIZED_VALUES=1
 CFLAGS_fplt := -fplt
 CFLAGS_fno-plt := -fno-plt
+# Use the bfd linker instead of the default linker. There are bfd, gold, lld,
+# mold, etc. optional linkers.
+LDFLAGS_fuse-ld := -fuse-ld=bfd
 
 build: ${TARGETS}
 	@echo -e "  CC = ${CC}"
@@ -90,6 +94,7 @@ fno-zero-initialized-in-bss: fno-zero-initialized-in-bss.o
 fzero-initialized-in-bss: fzero-initialized-in-bss.o
 fplt: fplt.o
 fno-plt: fno-plt.o
+fuse-ld: fuse-ld.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
