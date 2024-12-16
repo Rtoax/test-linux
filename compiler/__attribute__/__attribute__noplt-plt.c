@@ -1,1 +1,0 @@
-__attribute__noplt.c

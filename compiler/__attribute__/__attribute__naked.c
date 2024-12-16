@@ -1,1 +1,0 @@
-__attribute____naked__.c
