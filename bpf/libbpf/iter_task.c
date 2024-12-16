@@ -8,7 +8,9 @@
 #include <bpf/bpf.h>
 #include <bpf/libbpf.h>
 #include <unistd.h>
-#include "iter_task.h"
+
+#include "iter.h"
+
 #if defined(ITER_TASK)
 #include "iter_task.skel.h"
 #define struct_bpf	iter_task_bpf
