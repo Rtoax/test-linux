@@ -18,5 +18,6 @@
 /iter_task
 /iter_task_file
 /iter_task_vma
+/iter_bpf_map
 /lsm_bpf
 /lsm_socket_create

@@ -32,6 +32,15 @@
 #define _bpf__attach	iter_task_vma_bpf__attach
 #define _bpf__destroy	iter_task_vma_bpf__destroy
 #define _bpf_link	dump_task_vma
+#elif defined(ITER_BPF_MAP)
+#include "iter_bpf_map.skel.h"
+#define struct_bpf	iter_bpf_map_bpf
+#define _bpf__open_and_load	iter_bpf_map_bpf__open_and_load
+#define _bpf__attach	iter_bpf_map_bpf__attach
+#define _bpf__destroy	iter_bpf_map_bpf__destroy
+#define _bpf_link	dump_bpf_map
+#else
+# error Must define iter type!!!!
 #endif
 
 
@@ -113,6 +122,9 @@ int main(int argc, char **argv)
 #elif defined(ITER_TASK_VMA)
 		struct task_vma_info buf;
 		ret = read(iter_fd, &buf, sizeof(struct task_vma_info));
+#elif defined(ITER_BPF_MAP)
+		struct iter_bpf_map_info buf;
+		ret = read(iter_fd, &buf, sizeof(struct iter_bpf_map_info));
 #endif
 		if (ret < 0) {
 			if (errno == EAGAIN)
@@ -136,6 +148,9 @@ int main(int argc, char **argv)
 #elif defined(ITER_TASK_VMA)
 		printf("Task VMA Info, Pid: %d. Process Name: %s. vm %lx~%lx.\n",
 			buf.pid, buf.comm, buf.vm_start, buf.vm_end);
+#elif defined(ITER_BPF_MAP)
+		printf("Task VMA Info, Pid: %d. Process Name: %s. map type:%d id:%d.\n",
+			buf.pid, buf.comm, buf.map_type, buf.map_id);
 #endif
 	}
 
