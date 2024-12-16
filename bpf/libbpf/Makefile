@@ -15,14 +15,7 @@ ifeq ($(wildcard $(CONFIG_KERNEL)),)
 endif
 
 include $(CONFIG_KERNEL)
-
-ARCH ?= $(shell uname -m | sed 's/x86_64/x86/' \
-			 | sed 's/arm.*/arm/' \
-			 | sed 's/aarch64/arm64/' \
-			 | sed 's/ppc64le/powerpc/' \
-			 | sed 's/mips.*/mips/' \
-			 | sed 's/riscv64/riscv/' \
-			 | sed 's/loongarch64/loongarch/')
+include ../tlbuild.mk
 
 KSYM_DO_EXECVEAT_COMMON := $(shell grep 't do_execveat_common' /proc/kallsyms \
 			| head -1 \
@@ -86,7 +79,7 @@ TARGETS_SKEL := $(patsubst %.bpf.o,%.skel.h,$(TARGETS_BPF))
 CFLAGS_BPF := -I.
 CFLAGS_BPF += -O2 -Wall -g
 CFLAGS_BPF += -target bpf
-CFLAGS_BPF += -D__TARGET_ARCH_$(ARCH)
+CFLAGS_BPF += -D__TARGET_ARCH_$(BPF_TARGET_ARCH)
 
 CFLAGS := -lbpf
 CFLAGS += -O0 -Wall -g
