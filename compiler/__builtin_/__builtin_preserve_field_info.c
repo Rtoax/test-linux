@@ -16,6 +16,7 @@
  *
  * [1] https://gcc.gnu.org/onlinedocs/gcc/BPF-Built-in-Functions.html
  * [2] see libbpf bpf_core_field_exists()
+ * [3] https://www.ebpf.top/post/ebpf_struct_ops/
  */
 #include <stdio.h>
 
