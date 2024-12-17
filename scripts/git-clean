@@ -2,6 +2,8 @@
 answer=N
 [[ ! -z $1 ]] && answer=$1
 
+readonly git_root=$(git rev-parse --show-toplevel 2>/dev/null)
+
 declare -a no_add_files no_commit_files ignore_files
 
 get_no_add_files() {
@@ -26,14 +28,28 @@ print_list() {
 }
 
 pre_check() {
+	declare -a no_add_valid_files
+
 	get_no_add_files
 	get_no_commit_files
 	get_ignore_files
 
-	if [[ "${no_add_files[@]}" ]]; then
+	# Filter no-add files
+	for f in ${no_add_files}
+	do
+		read -r -N 8 bin < $f
+		case $bin in
+		$'\x7f'ELF* | $'!<arch>\n')
+			;;
+		*)
+			no_add_valid_files+=( $f )
+		esac
+	done
+
+	if [[ "${no_add_valid_files[@]}" ]]; then
 		echo "ERROR: There are no-add new files in git repo!!"
 		echo "       Handle them manually!!"
-		print_list ${no_add_files[@]}
+		print_list ${no_add_valid_files[@]}
 		exit 1
 	fi
 
