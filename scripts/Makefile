@@ -9,7 +9,7 @@ endif
 export Q
 
 
-include compiler.mk
+include ../compiler/compiler.mk
 include libc.mk
 include success.mk
 include wow.mk

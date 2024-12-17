@@ -28,7 +28,7 @@ CC = gcc
 CFLAGS := -Werror -Wall
 CFLAGS += -Wstrict-prototypes
 
-include ../../scripts/compiler.mk
+include ../../compiler/compiler.mk
 
 pac-ret := $(findstring 1,$(call check_compiler_option,$(CC),-mbranch-protection=pac-ret))
 
