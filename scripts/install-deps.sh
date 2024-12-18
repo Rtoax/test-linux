@@ -368,6 +368,7 @@ pkgs_desktop+=( python3-matplotlib )
 pkgs_db+=( postgresql )
 
 # Filesystem
+pkgs_fs+=( attr )
 pkgs_fs+=( xfsprogs )
 
 # Storage

@@ -30,6 +30,9 @@ int main(int argc, char *argv[])
 		printf("%c", list[i]);
 
 		if ('\0' == list[i]) {
+			/**
+			 * like $ getfattr [FILE]
+			 */
 			size = getxattr(ch1, ch2, value, 1024);
 			printf("    %s %ld\n", value, size);
 			memset(ch2, 0, 100);
