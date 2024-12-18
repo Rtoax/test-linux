@@ -18,7 +18,6 @@
  * [2] see libbpf bpf_core_field_exists()
  * [3] https://www.ebpf.top/post/ebpf_struct_ops/
  */
-#include <stdio.h>
 
 struct task_struct {
 	int state;
@@ -62,7 +61,7 @@ int kprobe__foo(void)
 	char buffer[256] = {};
 	struct task_struct___x *t = (struct task_struct___x *)buffer;
 
-	printf("%d\n", bpf_core_field_exists(t->__state));
+	(void)t;
 
 	return 0;
 }
