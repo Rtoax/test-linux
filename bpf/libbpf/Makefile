@@ -28,6 +28,8 @@ UID=$(shell id -u)
 CC := gcc
 CLANG := clang
 BPFTOOL := bpftool
+# bpftool gen skeleton
+GEN_SKEL_ARGS :=
 
 kconfig-obj-y :=
 kconfig-obj-$(CONFIG_KPROBES) += kprobe
@@ -72,6 +74,7 @@ TARGETS_BPF += sk_lookup.bpf.o
 TARGETS_BPF += flow_dissector.bpf.o
 TARGETS_BPF += sk_reuseport.bpf.o
 TARGETS_BPF += netfilter.bpf.o
+TARGETS_BPF += syscall.bpf.o
 
 # Never append to skel target, always generate by bpf target
 TARGETS_SKEL := $(patsubst %.bpf.o,%.skel.h,$(TARGETS_BPF))
@@ -125,6 +128,8 @@ CFLAGS_BPF_lsm_bpf := -DLSM_BPF=1
 CFLAGS_lsm_socket_create := -DLSM_SOCKET_CREATE=1
 CFLAGS_BPF_lsm_socket_create := -DLSM_SOCKET_CREATE=1
 
+GEN_SKEL_ARGS_syscall := -L
+
 TRACE_HELPERS := trace_helpers.o
 TASK_HELPERS := task_helpers.o
 
@@ -160,7 +165,7 @@ lsm_socket_create: lsm_socket_create.o ${TRACE_HELPERS}
 
 %.skel.h: %.bpf.o
 	@echo -e "  SKEL  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	${Q}$(BPFTOOL) gen skeleton $< > $@
+	${Q}$(BPFTOOL) gen skeleton $(GEN_SKEL_ARGS_$(*)) $< > $@
 
 %.o: %.c %.skel.h
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
