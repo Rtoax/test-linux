@@ -6,6 +6,9 @@
 ARG IMAGE
 FROM ${IMAGE}
 
+MAINTAINER rongtao
+ENV TZ=Asia/Shanghai
+
 WORKDIR /root/tlbuild/
 COPY ./scripts/install-deps.sh /root/tlbuild/
 RUN ./install-deps.sh --all --allowerasing
