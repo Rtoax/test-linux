@@ -8,8 +8,6 @@ else
 endif
 export Q
 
-sub-dir :=
-
 TARGETS := hello
 
 CC = gcc
@@ -29,14 +27,11 @@ ifeq ($(wildcard $(LIBBPF_HEADER)),)
   $(warning "WARNING: You need to install libbpf headers")
 endif
 
-sub-dir-build := $(sub-dir:=.build)
-sub-dir-clean := $(sub-dir:=.clean)
-
 .PHONY: build
-build: ${TARGETS} $(sub-dir-build)
+build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
-hello: hello.o
+hello: hello.o bpf.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
@@ -50,13 +45,6 @@ test: ${TARGETS}
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
 
 .PHONY: clean
-clean: $(sub-dir-clean)
+clean:
 	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
 	${Q}rm -f ${TARGETS} *.o
-
-$(sub-dir-build):
-	@echo -e "\033[1;32m [sub-dir] build $(@)\033[m"
-	${Q}make -C $(@:.build=)
-$(sub-dir-clean):
-	@echo -e "\033[1;32m [sub-dir] clean $(@)\033[m"
-	${Q}make -C $(@:.clean=) clean

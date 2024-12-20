@@ -1,22 +1,10 @@
-#include <linux/bpf.h>
-#include <bpf/libbpf.h>
+#include <syscall.h>
+#include <sys/syscall.h>
+#include <unistd.h>
+#include "bpf.h"
 
-#ifndef SEC
-# define SEC(x)  __attribute__((section(x), used))
-#endif
-
-/**
- * See libbpf commit bb5d7c1be835 ("libbpf: Add opts-based attach/detach/query
- * API for tcx")
- */
-#if LIBBPF_MAJOR_VERSION == 1 && LIBBPF_MINOR_VERSION >= 3
-SEC("tcx/ingress")
-#else
-SEC("classifier")
-#endif
-int cls_main(struct __sk_buff *skb)
+int sys_bpf(int cmd, union bpf_attr *attr, unsigned int size)
 {
-	return -1;
+	return syscall(__NR_bpf, cmd, attr, size);
 }
 
-char __license[] SEC("license") = "GPL";

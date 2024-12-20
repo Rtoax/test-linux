@@ -7,15 +7,10 @@
 #include <bcc/libbpf.h>
 #include <linux/bpf.h>
 #include <linux/version.h>
-#include <sys/syscall.h>
+
+#include "bpf.h"
 
 #define DEBUGFS	"/sys/kernel/debug/tracing"
-
-int sys_bpf(int cmd, union bpf_attr *attr, unsigned int size)
-{
-	return syscall(__NR_bpf, cmd, attr, size);
-}
-#define bpf(cmd, attr, size) sys_bpf(cmd, attr, size)
 
 char bpf_log_buf[BPF_LOG_BUF_SIZE];
 
