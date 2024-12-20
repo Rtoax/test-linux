@@ -12,11 +12,16 @@
 
 #define DEBUGFS	"/sys/kernel/debug/tracing"
 
+#ifndef offsetofend
+#define offsetofend(TYPE, MEMBER) \
+	(offsetof(TYPE, MEMBER)	+ sizeof((((TYPE *)0)->MEMBER)))
+#endif
+
 char bpf_log_buf[BPF_LOG_BUF_SIZE];
 
 int main(void)
 {
-	int i, prog_fd, probe_fd;
+	int i, prog_fd;
 
 	char license[] = "GPL";
 	struct bpf_insn insns[] = {
@@ -60,6 +65,8 @@ int main(void)
 		printf("%c", bpf_log_buf[i]);
 	}
 
+#if 1
+	int probe_fd;
 	/**
 	 * bcc function bpf_attach_kprobe()
 	 */
@@ -73,6 +80,24 @@ int main(void)
 	system("cat " DEBUGFS "/trace_pipe");
 	close(probe_fd);
 	bpf_detach_kprobe("hello_world");
+#else
+	// TODO
+	union bpf_attr prog_run_attr;
+	size_t attr_sz = offsetofend(union bpf_attr, test);
+
+	memset(&prog_run_attr, 0x0, sizeof(prog_run_attr));
+	prog_run_attr.test.prog_fd = prog_fd;
+	prog_run_attr.test.ctx_in = 0;
+
+	int err = bpf(BPF_PROG_TEST_RUN, &prog_run_attr, attr_sz);
+	if (err < 0 || (int)prog_run_attr.test.retval < 0) {
+		if (err < 0)
+			fprintf(stderr, "failed to execute loader prog, err = %d\n", err);
+		else
+			fprintf(stderr, "error returned by loader prog, retval = %d\n",
+				prog_run_attr.test.retval);
+	}
+#endif
 	close(prog_fd);
 	return 0;
 }
