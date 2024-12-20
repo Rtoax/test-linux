@@ -8,7 +8,7 @@ declare -a pkgs pkgs_compiler pkgs_desktop pkgs_bench pkgs_math pkgs_db
 declare -a pkgs_storage pkgs_net pkgs_container pkgs_virt pkgs_base pkgs_fs
 declare -a pip_whls
 
-readonly IS_DNF5="$(dnf --version | grep -woi dnf5 | uniq)"
+readonly IS_DNF5="$(dnf --version 2>/dev/null | grep -woi dnf5 | uniq)"
 
 have_base=YES
 have_upgrade=YES
@@ -297,6 +297,7 @@ pkgs_base+=( git )
 pkgs_base+=( git-email )
 pkgs_base+=( gnupg2 )               # gpg
 pkgs_base+=( gperf )
+pkgs_base+=( hostname )
 pkgs_base+=( hwloc )                # lstopo
 pkgs_base+=( indent )
 pkgs_base+=( inotify-tools )        # inotifywatch, ...
