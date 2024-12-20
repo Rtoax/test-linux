@@ -29,11 +29,6 @@ ifeq ($(wildcard $(LIBBPF_HEADER)),)
   $(warning "WARNING: You need to install libbpf headers")
 endif
 
-BPF_LOAD_PROGRAM = $(shell grep -row bpf_load_program ${LIBBPF_HEADER} || true)
-ifeq (${BPF_LOAD_PROGRAM}, bpf_load_program)
-  CFLAGS += -DHAVE_BPF_LOAD_PROGRAM=1
-endif
-
 sub-dir-build := $(sub-dir:=.build)
 sub-dir-clean := $(sub-dir:=.clean)
 

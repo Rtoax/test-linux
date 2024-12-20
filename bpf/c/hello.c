@@ -3,11 +3,19 @@
 #include <string.h>
 #include <errno.h>
 #include <unistd.h>
-#include <linux/version.h>
 #include <bpf/bpf.h>
 #include <bcc/libbpf.h>
+#include <linux/bpf.h>
+#include <linux/version.h>
+#include <sys/syscall.h>
 
 #define DEBUGFS	"/sys/kernel/debug/tracing"
+
+int sys_bpf(int cmd, union bpf_attr *attr, unsigned int size)
+{
+	return syscall(__NR_bpf, cmd, attr, size);
+}
+#define bpf(cmd, attr, size) sys_bpf(cmd, attr, size)
 
 char bpf_log_buf[BPF_LOG_BUF_SIZE];
 
@@ -15,7 +23,8 @@ int main(void)
 {
 	int prog_fd, probe_fd;
 
-	struct bpf_insn prog[] = {
+	char license[] = "GPL";
+	struct bpf_insn insns[] = {
 		BPF_MOV64_IMM(BPF_REG_1, 0xa21),        /* '!\n' */
 		BPF_STX_MEM(BPF_H, BPF_REG_10, BPF_REG_1, -4),
 		BPF_MOV64_IMM(BPF_REG_1, 0x646c726f),   /* 'orld' */
@@ -33,29 +42,23 @@ int main(void)
 		BPF_MOV64_IMM(BPF_REG_0, 0),
 		BPF_EXIT_INSN(),
 	};
-	size_t insns_cnt = sizeof(prog) / sizeof(struct bpf_insn);
+	size_t insns_cnt = sizeof(insns) / sizeof(struct bpf_insn);
+	union bpf_attr prog_load_attr = {
+		.prog_type = BPF_PROG_TYPE_KPROBE,
+		.insns = (long)insns,
+		.insn_cnt = insns_cnt,
+		.license = (long)license,
+	};
 
-#if defined(HAVE_BPF_LOAD_PROGRAM)
-	prog_fd = bpf_load_program(BPF_PROG_TYPE_KPROBE,
-				   prog,
-				   insns_cnt,
-				   "GPL",
-				   LINUX_VERSION_CODE,
-				   bpf_log_buf,
-				   BPF_LOG_BUF_SIZE);
-#else
-	prog_fd = bpf_prog_load(BPF_PROG_TYPE_KPROBE,
-				"TEST",
-				"GPL",
-				prog,
-				insns_cnt,
-				NULL);
-#endif
+	prog_fd = bpf(BPF_PROG_LOAD, &prog_load_attr, sizeof(prog_load_attr));
 	if (prog_fd < 0) {
 		printf("ERROR: failed to load prog '%s'\n", strerror(errno));
 		return 1;
 	}
 
+	/**
+	 * bcc function bpf_attach_kprobe()
+	 */
 	probe_fd = bpf_attach_kprobe(prog_fd, BPF_PROBE_ENTRY, "hello_world", "do_nanosleep", 0, 0);
 	if (prog_fd < 0) {
 		printf("ERROR: failed to attach kprobe to do_nanosleep.\n");
