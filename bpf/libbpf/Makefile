@@ -10,11 +10,20 @@ export Q
 
 CONFIG_KERNEL ?= /boot/config-$(shell uname -r)
 
+# If don't have kernel config, enable all CONFIG_=y, otherwise, include config
+# file.
 ifeq ($(wildcard $(CONFIG_KERNEL)),)
-  $(error "ERROR: Not found ${CONFIG_KERNEL}")
+  $(warning "WARNING: Not found ${CONFIG_KERNEL}, config all to =y")
+  CONFIG_KPROBES=y
+  CONFIG_TRACEPOINTS=y
+  CONFIG_PERF_EVENTS=y
+  CONFIG_HAVE_FENTRY=y
+  CONFIG_BPF_LSM=y
+  CONFIG_BPF_SYSCALL=y
+else
+  include $(CONFIG_KERNEL)
 endif
 
-include $(CONFIG_KERNEL)
 include ../bpf.mk
 
 KSYM_DO_EXECVEAT_COMMON := $(shell grep 't do_execveat_common' /proc/kallsyms \
