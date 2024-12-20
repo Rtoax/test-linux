@@ -6,6 +6,8 @@
 #include <bpf/libbpf.h>
 #include "config-map.h"
 #include "config-map.skel.h"
+#include "trace_helpers.h"
+
 
 static int libbpf_print_fn(enum libbpf_print_level level, const char *format,
 			   va_list args)
@@ -30,7 +32,7 @@ void lost_event(void *ctx, int cpu, long long unsigned int data_sz)
 
 int main(void)
 {
-	int i, err, event_map_fd;
+	int err, event_map_fd;
 	struct config_map_bpf *skel;
 	struct perf_buffer *pb = NULL;
 	char log_buf[64 * 1024];
@@ -60,13 +62,7 @@ int main(void)
 		return 1;
 	}
 
-	/* Print the verifier log */
-	for (i = 0; i < sizeof(log_buf); i++) {
-		if (log_buf[i] == 0 && log_buf[i+1] == 0) {
-			break;
-		}
-		printf("%c", log_buf[i]);
-	}
+	print_bpf_log_buf(log_buf, sizeof(log_buf));
 
 	/**
 	 * Configure a message to use only if the UID for the event is current

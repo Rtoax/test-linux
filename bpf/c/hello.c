@@ -16,7 +16,7 @@ char bpf_log_buf[BPF_LOG_BUF_SIZE];
 
 int main(void)
 {
-	int prog_fd, probe_fd;
+	int i, prog_fd, probe_fd;
 
 	char license[] = "GPL";
 	struct bpf_insn insns[] = {
@@ -43,12 +43,21 @@ int main(void)
 		.insns = (long)insns,
 		.insn_cnt = insns_cnt,
 		.license = (long)license,
+		.log_buf = (long)bpf_log_buf,
+		.log_size = sizeof(bpf_log_buf),
+		.log_level = 1,
 	};
 
 	prog_fd = bpf(BPF_PROG_LOAD, &prog_load_attr, sizeof(prog_load_attr));
 	if (prog_fd < 0) {
 		printf("ERROR: failed to load prog '%s'\n", strerror(errno));
 		return 1;
+	}
+
+	for (i = 0; i < sizeof(bpf_log_buf); i++) {
+		if (bpf_log_buf[i] == 0 && bpf_log_buf[i+1] == 0)
+			break;
+		printf("%c", bpf_log_buf[i]);
 	}
 
 	/**

@@ -63,3 +63,14 @@ int read_trace_pipe(void)
 {
 	return read_trace_pipe_cb(trace_pipe_printf, NULL);
 }
+
+int print_bpf_log_buf(char *buf, size_t size)
+{
+	int i;
+
+	for (i = 0; i < size; i++) {
+		if (buf[i] == 0 && buf[i + 1] == 0)
+			break;
+		printf("%c", buf[i]);
+	}
+}

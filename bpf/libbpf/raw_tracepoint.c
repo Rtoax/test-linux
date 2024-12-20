@@ -6,6 +6,7 @@
 #include <linux/bpf.h>
 #include <bpf/libbpf.h>
 #include "raw_tracepoint.h"
+#include "trace_helpers.h"
 
 #if defined(SEC_DEF_RAW_TRACEPOINT)
 #include "raw_tracepoint.skel.h"
@@ -66,7 +67,6 @@ int main(void)
 	libbpf_set_print(libbpf_print_fn);
 
 #if defined(LIBBPF_OPTS)
-	int i;
 	char log_buf[64 * 1024];
 
 	LIBBPF_OPTS(bpf_object_open_opts, opts,
@@ -83,13 +83,7 @@ int main(void)
 		return 1;
 	}
 
-	/* Print the verifier log */
-	for (i = 0; i < sizeof(log_buf); i++) {
-		if (log_buf[i] == 0 && log_buf[i+1] == 0) {
-			break;
-		}
-		printf("%c", log_buf[i]);
-	}
+	print_bpf_log_buf(log_buf, sizeof(log_buf));
 #else
 	skel = _bpf__open_and_load();
 #endif

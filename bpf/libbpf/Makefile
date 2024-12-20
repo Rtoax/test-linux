@@ -88,6 +88,7 @@ TARGETS_BPF += syscall.bpf.o
 # Never append to skel target, always generate by bpf target
 TARGETS_SKEL := $(patsubst %.bpf.o,%.skel.h,$(TARGETS_BPF))
 
+
 CFLAGS_BPF := -I.
 CFLAGS_BPF += -O2 -Wall -g
 CFLAGS_BPF += -target bpf
@@ -139,21 +140,22 @@ CFLAGS_BPF_lsm_socket_create := -DLSM_SOCKET_CREATE=1
 
 GEN_SKEL_ARGS_syscall := -L
 
-TRACE_HELPERS := trace_helpers.o
 TASK_HELPERS := task_helpers.o
+TRACE_HELPERS := trace_helpers.o
 
 
 .PHONY: build
 build: vmlinux.h ${TARGETS_BPF} ${TARGETS_SKEL} ${TARGETS}
 
-config-map: config-map.o
+config-map: config-map.o ${TRACE_HELPERS}
 socket_filter: socket_filter.o
 tc: tc.o ${TRACE_HELPERS}
 xdp: xdp.o
 sockops: sockops.o ${TRACE_HELPERS}
 kprobe: kprobe.o ${TRACE_HELPERS}
-tracepoint: tracepoint.o
-raw_tracepoint: raw_tracepoint.o
+tracepoint: tracepoint.o ${TRACE_HELPERS}
+raw_tracepoint: raw_tracepoint.o ${TRACE_HELPERS}
+tp_btf: tp_btf.o ${TRACE_HELPERS}
 perf_event: perf_event.o
 sk_skb: sk_skb.o
 sk_msg: sk_msg.o
