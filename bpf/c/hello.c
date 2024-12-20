@@ -69,6 +69,7 @@ int main(void)
 		return 2;
 	}
 
+	fprintf(stdout, "Kprobe do_nanosleep(), test with 'sleep 0.1'.\n");
 	system("cat " DEBUGFS "/trace_pipe");
 	close(probe_fd);
 	bpf_detach_kprobe("hello_world");
