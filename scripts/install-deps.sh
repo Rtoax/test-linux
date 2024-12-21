@@ -272,6 +272,7 @@ centos|rhel|almalinux)
 	os_install epel-release
 	;;
 fedora)
+	os_install apt
 	;;
 esac
 
