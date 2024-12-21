@@ -8,8 +8,14 @@ else
 endif
 export Q
 
-
-include /boot/config-$(shell uname -r)
+CONFIG_KERNEL ?= /boot/config-$(shell uname -r)
+ifeq ($(wildcard $(CONFIG_KERNEL)),)
+  $(warning "WARNING: Not found ${CONFIG_KERNEL}")
+  CONFIG_DEVMEM=y
+  CONFIG_STRICT_DEVMEM=y
+else
+  include $(CONFIG_KERNEL)
+endif
 
 sub-dir := rss
 sub-dir += cache

@@ -9,7 +9,7 @@ export Q
 
 
 all:
-	@sudo ./console_printk.bt
+	$(Q)sudo ./console_printk.bt
 
 test:
 clean:

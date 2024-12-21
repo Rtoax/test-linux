@@ -10,8 +10,8 @@ export Q
 
 .PHONY: build
 build:
-	bash mkfs.ext4.sh
+	$(Q)bash mkfs.ext4.sh
 
 .PHONY: clean
 clean:
-	rm -rf tmp-mnt fs.ext4
+	$(Q)rm -rf tmp-mnt fs.ext4

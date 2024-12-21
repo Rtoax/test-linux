@@ -405,6 +405,7 @@ dnf_add_packages()
 	pkgs_base+=( acpi acpica-tools )
 	pkgs_base+=( bcc-devel )
 	pkgs_base+=( binutils-devel )
+	pkgs_base+=( binutils-gold )
 	pkgs_base+=( capstone-devel )       # Capstone is a disassembly framework
 	pkgs_base+=( cereal-devel )
 	pkgs_base+=( clang-devel )
