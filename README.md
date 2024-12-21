@@ -12,6 +12,9 @@ You must clone this repo under **Linux(UNIX like)** system. Because there are lo
 
 It may be that the repository will contain **desktop-related** test code, such as **GNOME**, but that is not the main purpose of the repository. Perhaps researching the **GUI** is also the purpose of this repository, such as **GTK**.
 
+You could always use [man-pages](https://git.kernel.org/pub/scm/docs/man-pages/man-pages.git/) to check what you want to know.
+
+
 # Configurate
 
 ```
