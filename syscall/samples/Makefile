@@ -96,6 +96,7 @@ TARGETS += userfaultfd
 TARGETS += symlink
 TARGETS += readdir
 TARGETS += write
+TARGETS += read
 TARGETS += getdents
 TARGETS += getgroups
 TARGETS += gethostname sethostname
@@ -203,6 +204,7 @@ sysctl: sysctl.o
 symlink: symlink.o
 readdir: readdir.o
 write: write.o
+read: read.o
 getdents: getdents.o
 getgroups: getgroups.o
 gethostname: gethostname.o

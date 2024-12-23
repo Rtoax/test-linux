@@ -43,6 +43,7 @@
 /kcmp
 /readdir
 /write
+/read
 /getdents
 /*.txt
 /tmp-*
