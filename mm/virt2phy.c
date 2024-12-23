@@ -286,6 +286,8 @@ int main(int argc, char *argv[])
 	close(memfd);
 
 	free(buf);
+#elif defined(CONFIG_STRICT_DEVMEM)
+	fprintf(stderr, "CONFIG_STRICT_DEVMEM=y, deny write to /dev/mem!\n");
 #endif
 
 	return 0;
