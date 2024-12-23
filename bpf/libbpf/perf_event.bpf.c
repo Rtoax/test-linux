@@ -23,7 +23,7 @@ struct {
 	__type(key, u64);
 	__type(value, u32);
 	__uint(max_entries, MAX_IPS);
-} ip_map SEC(".maps");
+} vaddr_map SEC(".maps");
 
 SEC("perf_event")
 int do_sample(struct bpf_perf_event_data *ctx)
@@ -32,12 +32,12 @@ int do_sample(struct bpf_perf_event_data *ctx)
 	u32 *value, init_val = 1;
 
 	ip = PT_REGS_IP(&ctx->regs);
-	value = bpf_map_lookup_elem(&ip_map, &ip);
+	value = bpf_map_lookup_elem(&vaddr_map, &ip);
 	if (value)
 		*value += 1;
 	else
 		/* E2BIG not tested for this example only */
-		bpf_map_update_elem(&ip_map, &ip, &init_val, BPF_NOEXIST);
+		bpf_map_update_elem(&vaddr_map, &ip, &init_val, BPF_NOEXIST);
 
 	return 0;
 }

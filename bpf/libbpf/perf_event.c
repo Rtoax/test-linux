@@ -111,7 +111,7 @@ int main(void)
 
 cleanup:
 	if (!err) {
-		event_map_fd = bpf_map__fd(skel->maps.ip_map);
+		event_map_fd = bpf_map__fd(skel->maps.vaddr_map);
 		print_ip_map(event_map_fd);
 	}
 	close(pmu_fd);
