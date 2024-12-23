@@ -38,7 +38,11 @@ multi_cmd() {
 sudo ip netns exec ns1 ping -c5 ${ns2_veth2_ipv4}
 sudo ip netns exec ns2 ping -c5 ${ns1_veth1_ipv4}
 
-sudo ip netns delete ns1
-sudo ip netns delete ns2
-
-sudo ip netns list
+cleanup()
+{
+	echo "Cleanup!!!"
+	sudo ip netns delete ns1
+	sudo ip netns delete ns2
+	sudo ip netns list
+}
+trap "cleanup" EXIT
