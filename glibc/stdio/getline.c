@@ -1,8 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include <signal.h>
 #include <setjmp.h>
 #include <errno.h>
+#include <string.h>
 
 static volatile sig_atomic_t stop = 0;
 static sigjmp_buf jmp;
@@ -14,10 +16,18 @@ void sig_handler(int sig)
 	siglongjmp(jmp, 1);
 }
 
-int main(void)
+int main(int argc, char *argv[])
 {
+	int i, nosignal = false;
 	char *buf = NULL;
 	size_t buflen, n;
+
+	for (i = 1; i < argc; i++)
+		if (!strcmp(argv[i], "nosignal"))
+			nosignal = true;
+
+	if (nosignal)
+		goto start;
 
 	signal(SIGINT, sig_handler);
 	sigsetjmp(jmp, 1);
@@ -29,6 +39,8 @@ int main(void)
 		return 0;
 	}
 
+start:
+	fprintf(stderr, "Usage: %s [nosignal]\n", argv[0]);
 	fprintf(stderr, "Start loop!!\n");
 
 	/**
