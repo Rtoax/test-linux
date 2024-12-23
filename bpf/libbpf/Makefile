@@ -69,6 +69,7 @@ TARGETS += iter_task_file
 TARGETS += iter_task_vma
 TARGETS += iter_bpf_map
 TARGETS += $(kconfig-obj-y)
+TARGETS += map_array map_percpu_array
 
 # _if_ there are no user mode code, append to bpf target only
 TARGETS_BPF := ${TARGETS:=.bpf.o}
@@ -115,8 +116,8 @@ CFLAGS_fentry := -DFENTRY=1
 CFLAGS_BPF_fentry := -DFENTRY=1
 CFLAGS_fmod_ret := -DFMOD_RET=1
 CFLAGS_BPF_fmod_ret := -DFMOD_RET=1
-CFLAGS_socket_filter := -DSTRICT_SEC_NAME=1
-CFLAGS_BPF_socket_filter := -DSTRICT_SEC_NAME=1
+CFLAGS_socket_filter := -DSOCKET_FILTER=1 -DSTRICT_SEC_NAME=1 -DMAP_ARRAY=1
+CFLAGS_BPF_socket_filter := -DSOCKET_FILTER=1 -DSTRICT_SEC_NAME=1 -DMAP_ARRAY=1
 CFLAGS_tracepoint := -DMAP_HASH -DTRACEPOINT=1 -DSEC_DEF_TRACEPOINT=1
 CFLAGS_BPF_tracepoint := -DMAP_HASH -DTRACEPOINT=1 -DSEC_DEF_TRACEPOINT=1
 CFLAGS_raw_tracepoint := -DSEC_DEF_RAW_TRACEPOINT=1
@@ -142,6 +143,10 @@ CFLAGS_map_hash := ${CFLAGS_tracepoint}
 CFLAGS_BPF_map_hash := ${CFLAGS_BPF_tracepoint}
 CFLAGS_map_percpu_hash := -DTRACEPOINT=1 -DMAP_PERCPU_HASH=1 -DSEC_DEF_TRACEPOINT=1
 CFLAGS_BPF_map_percpu_hash := -DTRACEPOINT=1 -DMAP_PERCPU_HASH=1 -DSEC_DEF_TRACEPOINT=1
+CFLAGS_map_array := -DSOCKET_FILTER=1 -DSTRICT_SEC_NAME=1 -DMAP_ARRAY=1
+CFLAGS_BPF_map_array := -DSOCKET_FILTER=1 -DSTRICT_SEC_NAME=1 -DMAP_ARRAY=1
+CFLAGS_map_percpu_array := -DSOCKET_FILTER=1 -DSTRICT_SEC_NAME=1 -DMAP_PERCPU_ARRAY=1
+CFLAGS_BPF_map_percpu_array := -DSOCKET_FILTER=1 -DSTRICT_SEC_NAME=1 -DMAP_PERCPU_ARRAY=1
 
 GEN_SKEL_ARGS_syscall := -L
 
@@ -176,6 +181,8 @@ lsm_bpf: lsm_bpf.o ${TRACE_HELPERS}
 lsm_socket_create: lsm_socket_create.o ${TRACE_HELPERS}
 
 map_hash: map_hash.o ${TRACE_HELPERS}
+map_percpu_hash: map_percpu_hash.o ${TRACE_HELPERS}
+map_array: map_array.o
 
 %.bpf.o: %.bpf.c vmlinux.h
 	@echo -e "  BPF  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

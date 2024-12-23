@@ -13,7 +13,26 @@
 #include <sys/socket.h>
 #include <unistd.h>
 #include "socket_filter.h"
+
+#if defined(SOCKET_FILTER) && !defined(MAP_ARRAY) && !defined(MAP_PERCPU_ARRAY)
 #include "socket_filter.skel.h"
+#define struct_bpf	socket_filter_bpf
+#define _bpf__open	socket_filter_bpf__open
+#define _bpf__load	socket_filter_bpf__load
+#define _bpf__destroy	socket_filter_bpf__destroy
+#elif defined(SOCKET_FILTER) && defined(MAP_ARRAY)
+#include "map_array.skel.h"
+#define struct_bpf	map_array_bpf
+#define _bpf__open	map_array_bpf__open
+#define _bpf__load	map_array_bpf__load
+#define _bpf__destroy	map_array_bpf__destroy
+#elif defined(SOCKET_FILTER) && defined(MAP_PERCPU_ARRAY)
+#include "map_percpu_array.skel.h"
+#define struct_bpf	map_percpu_array_bpf
+#define _bpf__open	map_percpu_array_bpf__open
+#define _bpf__load	map_percpu_array_bpf__load
+#define _bpf__destroy	map_percpu_array_bpf__destroy
+#endif
 
 static volatile bool exiting = false;
 static int map_fd = -1;
@@ -149,7 +168,7 @@ static int handle_event(void *ctx, void *data, size_t data_sz)
 int main(int argc, char *argv[])
 {
 	int err, sock, prog_fd;
-	struct socket_filter_bpf *skel;
+	struct struct_bpf *skel;
 	struct ring_buffer *rb = NULL;
 
 	interface = "lo";
@@ -167,7 +186,7 @@ int main(int argc, char *argv[])
 		return -err;
 	}
 
-	skel = socket_filter_bpf__open();
+	skel = _bpf__open();
 	if (!skel) {
 		printf("Failed to open BPF object\n");
 		return 1;
@@ -179,9 +198,9 @@ int main(int argc, char *argv[])
 	bpf_program__set_type(skel->progs.bpf_prog1, BPF_PROG_TYPE_SOCKET_FILTER);
 #endif
 
-	err = socket_filter_bpf__load(skel);
+	err = _bpf__load(skel);
 	if (err) {
-		socket_filter_bpf__destroy(skel);
+		_bpf__destroy(skel);
 		return 1;
 	}
 
@@ -228,6 +247,6 @@ int main(int argc, char *argv[])
 
 cleanup:
 	ring_buffer__free(rb);
-	socket_filter_bpf__destroy(skel);
+	_bpf__destroy(skel);
 	return 0;
 }

@@ -25,7 +25,11 @@ struct {
 } ring_buf SEC(".maps");
 
 struct {
+#if defined(MAP_PERCPU_ARRAY)
+	__uint(type, BPF_MAP_TYPE_PERCPU_ARRAY);
+#elif defined(MAP_ARRAY)
 	__uint(type, BPF_MAP_TYPE_ARRAY);
+#endif
 	__type(key, u32);
 	__type(value, long);
 	__uint(max_entries, 256);

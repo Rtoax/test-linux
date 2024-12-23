@@ -23,3 +23,5 @@
 /lsm_socket_create
 /map_hash
 /map_percpu_hash
+/map_array
+/map_percpu_array
