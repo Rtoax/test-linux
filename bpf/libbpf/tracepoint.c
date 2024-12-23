@@ -4,8 +4,25 @@
 #include <string.h>
 #include <linux/bpf.h>
 #include <bpf/libbpf.h>
-#include "tracepoint.h"
+
+#if defined(TRACEPOINT)
 #include "tracepoint.skel.h"
+#define struct_bpf	tracepoint_bpf
+#define _bpf__open_opts	tracepoint_bpf__open_opts
+#define _bpf__load	tracepoint_bpf__load
+#define _bpf__destroy	tracepoint_bpf__destroy
+#define _bpf__open_and_load	tracepoint_bpf__open_and_load
+#define _bpf__attach	tracepoint_bpf__attach
+#elif defined(MAP_HASH)
+#include "map_hash.skel.h"
+#define struct_bpf	map_hash_bpf
+#define _bpf__open_opts	map_hash_bpf__open_opts
+#define _bpf__load	map_hash_bpf__load
+#define _bpf__destroy	map_hash_bpf__destroy
+#define _bpf__open_and_load	map_hash_bpf__open_and_load
+#define _bpf__attach	map_hash_bpf__attach
+#endif
+#include "tracepoint.h"
 #include "trace_helpers.h"
 
 
@@ -33,7 +50,7 @@ void lost_event(void *ctx, int cpu, long long unsigned int event_sz)
 int main(void)
 {
 	int err, events_map_fd;
-	struct tracepoint_bpf *skel;
+	struct struct_bpf *skel;
 	struct perf_buffer *pb = NULL;
 
 	libbpf_set_strict_mode(LIBBPF_STRICT_ALL);
@@ -48,27 +65,27 @@ int main(void)
 		.kernel_log_level = LIBBPF_DEBUG,
 	);
 
-	skel = tracepoint_bpf__open_opts(&opts);
-	err = tracepoint_bpf__load(skel);
+	skel = _bpf__open_opts(&opts);
+	err = _bpf__load(skel);
 	if (err) {
 		printf("Failed to load BPF object\n");
-		tracepoint_bpf__destroy(skel);
+		_bpf__destroy(skel);
 		return 1;
 	}
 
 	print_bpf_log_buf(log_buf, sizeof(log_buf));
 #else
-	skel = tracepoint_bpf__open_and_load();
+	skel = _bpf__open_and_load();
 #endif
 	if (!skel) {
 		printf("Failed to open BPF object\n");
 		return 1;
 	}
 
-	err = tracepoint_bpf__attach(skel);
+	err = _bpf__attach(skel);
 	if (err) {
 		fprintf(stderr, "Failed to attach BPF skeleton: %d\n", err);
-		tracepoint_bpf__destroy(skel);
+		_bpf__destroy(skel);
 		return 1;
 	}
 
@@ -86,7 +103,7 @@ int main(void)
 	if (!pb) {
 		err = -1;
 		fprintf(stderr, "Failed to create ring buffer\n");
-		tracepoint_bpf__destroy(skel);
+		_bpf__destroy(skel);
 		return 1;
 	}
 
@@ -104,6 +121,6 @@ int main(void)
 	}
 
 	perf_buffer__free(pb);
-	tracepoint_bpf__destroy(skel);
+	_bpf__destroy(skel);
 	return -err;
 }

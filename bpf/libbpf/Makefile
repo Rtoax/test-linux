@@ -42,7 +42,7 @@ GEN_SKEL_ARGS :=
 
 kconfig-obj-y :=
 kconfig-obj-$(CONFIG_KPROBES) += kprobe
-kconfig-obj-$(CONFIG_TRACEPOINTS) += tracepoint raw_tracepoint tp_btf
+kconfig-obj-$(CONFIG_TRACEPOINTS) += tracepoint raw_tracepoint tp_btf map_hash
 kconfig-obj-$(CONFIG_PERF_EVENTS) += perf_event
 # fentry: -pg -mfentry
 #  fentry + BPF trampoline ~= kprobe hook
@@ -117,8 +117,8 @@ CFLAGS_fmod_ret := -DFMOD_RET=1
 CFLAGS_BPF_fmod_ret := -DFMOD_RET=1
 CFLAGS_socket_filter := -DSTRICT_SEC_NAME=1
 CFLAGS_BPF_socket_filter := -DSTRICT_SEC_NAME=1
-CFLAGS_tracepoint := -DSEC_DEF_TRACEPOINT=1
-CFLAGS_BPF_tracepoint := -DSEC_DEF_TRACEPOINT=1
+CFLAGS_tracepoint := -DTRACEPOINT=1 -DSEC_DEF_TRACEPOINT=1
+CFLAGS_BPF_tracepoint := -DTRACEPOINT=1 -DSEC_DEF_TRACEPOINT=1
 CFLAGS_raw_tracepoint := -DSEC_DEF_RAW_TRACEPOINT=1
 CFLAGS_BPF_raw_tracepoint := -DSEC_DEF_RAW_TRACEPOINT=1
 CFLAGS_tp_btf := -DSEC_DEF_TP_BTF=1
@@ -137,6 +137,9 @@ CFLAGS_lsm_bpf := -DLSM_BPF=1
 CFLAGS_BPF_lsm_bpf := -DLSM_BPF=1
 CFLAGS_lsm_socket_create := -DLSM_SOCKET_CREATE=1
 CFLAGS_BPF_lsm_socket_create := -DLSM_SOCKET_CREATE=1
+
+CFLAGS_map_hash := -DMAP_HASH=1 -DSEC_DEF_TRACEPOINT=1
+CFLAGS_BPF_map_hash := -DMAP_HASH=1 -DSEC_DEF_TRACEPOINT=1
 
 GEN_SKEL_ARGS_syscall := -L
 
@@ -169,6 +172,8 @@ iter_task_vma: iter_task_vma.o
 iter_bpf_map: iter_bpf_map.o
 lsm_bpf: lsm_bpf.o ${TRACE_HELPERS}
 lsm_socket_create: lsm_socket_create.o ${TRACE_HELPERS}
+
+map_hash: map_hash.o ${TRACE_HELPERS}
 
 %.bpf.o: %.bpf.c vmlinux.h
 	@echo -e "  BPF  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

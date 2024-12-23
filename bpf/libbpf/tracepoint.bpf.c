@@ -12,7 +12,11 @@
 #include "tracepoint.h"
 
 struct {
+#if defined(PERCPU_HASH)
+	__uint(type, BPF_MAP_TYPE_PERCPU_HASH);
+#else
 	__uint(type, BPF_MAP_TYPE_HASH);
+#endif
 	__type(key, pid_t);
 	__type(value, struct event_t);
 	__uint(max_entries, MAX_ENTRIES);
