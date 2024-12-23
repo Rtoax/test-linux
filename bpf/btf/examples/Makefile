@@ -14,17 +14,20 @@ export Q
 all: t1 t2 t2.s
 
 t1:
-	gcc -c -O2 -g t.c
-	pahole -JV t.o
+	@echo -e "  T1  \033[1;32m$(@)\033[m"
+	$(Q)gcc -c -O2 -g t.c
+	$(Q)pahole -JV t.o
 
 t2:
-	clang -c -g -O2 -target bpf t2.c
-	readelf -S t2.o
+	@echo -e "  T2  \033[1;32m$(@)\033[m"
+	$(Q)clang -c -g -O2 -target bpf t2.c
+	$(Q)readelf -S t2.o > t2.o.readelf
 
 t2.s:
-	clang -S -g -O2 -target bpf t2.c
-	cat t2.s
+	@echo -e "  T2.s  \033[1;32m$(@)\033[m"
+	$(Q)clang -S -g -O2 -target bpf t2.c
 
 clean:
-	rm -f *.o *.s *.S
+	@echo -e "  CLEAN  \033[1;32m$(@)\033[m"
+	$(Q)rm -f *.o *.s *.S *.readelf
 

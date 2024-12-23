@@ -17,6 +17,7 @@ build/
 *.d
 *.dpp
 *.strip
+*.readelf
 
 # Precompiled Headers
 *.gch
