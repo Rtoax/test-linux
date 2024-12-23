@@ -35,8 +35,8 @@ multi_cmd() {
 # by the veth pair tunnel.From the first namespace we should be able to ping
 # the second one, and from the second namespace weshould be able to ping the
 # first one:
-sudo ip netns exec ns1 ping -c5 ${ns2_veth2_ipv4}
-sudo ip netns exec ns2 ping -c5 ${ns1_veth1_ipv4}
+sudo ip netns exec ns1 ping -c2 ${ns2_veth2_ipv4}
+sudo ip netns exec ns2 ping -c2 ${ns1_veth1_ipv4}
 
 cleanup()
 {

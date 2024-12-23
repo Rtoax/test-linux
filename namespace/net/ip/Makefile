@@ -1,0 +1,5 @@
+
+all:
+	./ping.sh
+
+clean:
