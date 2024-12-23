@@ -12,10 +12,25 @@
 #include "tracepoint.h"
 
 struct {
-#if defined(PERCPU_HASH)
+/**
+ * BPF_MAP_TYPE_PERCPU_HASH
+ *
+ * This is the per-CPU variant of the BPF_MAP_TYPE_HASH map type.
+ *
+ * This map type is a generic map type with no restrictions on the structure
+ * of the key and value. Hash-maps are implemented using a hash table, allowing
+ * for lookups with arbitrary keys.
+ *
+ * This per-CPU version has a separate hash map for each logical CPU. When
+ * accessing the map using most helper function, the hash map assigned to the
+ * CPU the eBPF program is currently running on is accessed implicitly.
+ */
+#if defined(MAP_PERCPU_HASH)
 	__uint(type, BPF_MAP_TYPE_PERCPU_HASH);
-#else
+#elif defined(MAP_HASH)
 	__uint(type, BPF_MAP_TYPE_HASH);
+#else
+# error "Must define MAP_PERCPU_HASH or MAP_HASH"
 #endif
 	__type(key, pid_t);
 	__type(value, struct event_t);

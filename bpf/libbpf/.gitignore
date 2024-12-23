@@ -22,3 +22,4 @@
 /lsm_bpf
 /lsm_socket_create
 /map_hash
+/map_percpu_hash

@@ -5,7 +5,7 @@
 #include <linux/bpf.h>
 #include <bpf/libbpf.h>
 
-#if defined(TRACEPOINT)
+#if defined(TRACEPOINT) && (!defined(MAP_HASH) && !defined(MAP_PERCPU_HASH))
 #include "tracepoint.skel.h"
 #define struct_bpf	tracepoint_bpf
 #define _bpf__open_opts	tracepoint_bpf__open_opts
@@ -13,7 +13,7 @@
 #define _bpf__destroy	tracepoint_bpf__destroy
 #define _bpf__open_and_load	tracepoint_bpf__open_and_load
 #define _bpf__attach	tracepoint_bpf__attach
-#elif defined(MAP_HASH)
+#elif defined(TRACEPOINT) && defined(MAP_HASH)
 #include "map_hash.skel.h"
 #define struct_bpf	map_hash_bpf
 #define _bpf__open_opts	map_hash_bpf__open_opts
@@ -21,6 +21,16 @@
 #define _bpf__destroy	map_hash_bpf__destroy
 #define _bpf__open_and_load	map_hash_bpf__open_and_load
 #define _bpf__attach	map_hash_bpf__attach
+#elif defined(TRACEPOINT) && defined(MAP_PERCPU_HASH)
+#include "map_percpu_hash.skel.h"
+#define struct_bpf	map_percpu_hash_bpf
+#define _bpf__open_opts	map_percpu_hash_bpf__open_opts
+#define _bpf__load	map_percpu_hash_bpf__load
+#define _bpf__destroy	map_percpu_hash_bpf__destroy
+#define _bpf__open_and_load	map_percpu_hash_bpf__open_and_load
+#define _bpf__attach	map_percpu_hash_bpf__attach
+#else
+#error "Must define TRACEPOINT and one of MAP_HASH MAP_PERCPU_HASH"
 #endif
 #include "tracepoint.h"
 #include "trace_helpers.h"
