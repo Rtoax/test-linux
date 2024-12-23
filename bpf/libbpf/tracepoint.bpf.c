@@ -12,10 +12,19 @@
 #include "tracepoint.h"
 
 struct {
+	__uint(type, BPF_MAP_TYPE_HASH);
+	__type(key, pid_t);
+	__type(value, struct event_t);
+	__uint(max_entries, MAX_ENTRIES);
+} execs SEC(".maps");
+
+struct {
 	__uint(type, BPF_MAP_TYPE_PERF_EVENT_ARRAY);
 	__uint(key_size, sizeof(u32));
 	__uint(value_size, sizeof(u32));
-} event SEC(".maps");
+} events SEC(".maps");
+
+static const struct event_t zero_event = {};
 
 /**
  * struct syscall_trace_enter {
@@ -34,19 +43,60 @@ SEC("tp/syscalls/sys_enter_execve")
 #endif
 int tracepoint__syscalls__sys_enter_execve(struct syscall_trace_enter *ctx)
 {
-	struct data_t data = {};
-	u64 uid;
+	uid_t uid;
+	pid_t pid;
+	struct event_t *pevent = NULL;
 	const char *filename = (void *)ctx->args[0];
 
-	data.pid = bpf_get_current_pid_tgid();
-	uid = bpf_get_current_uid_gid() & 0xFFFFFFFF;
-	data.uid = uid;
+	uid = (u32)bpf_get_current_uid_gid();
+	pid = (pid_t)(bpf_get_current_pid_tgid() >> 32);
 
-	bpf_get_current_comm(&data.command, sizeof(data.command));
-	bpf_core_read_user(&data.filename, sizeof(data.filename), filename);
+	if (bpf_map_update_elem(&execs, &pid, &zero_event, BPF_NOEXIST))
+		return 0;
 
-	bpf_perf_event_output(ctx, &event, BPF_F_CURRENT_CPU,  &data, sizeof(data));
+	pevent = bpf_map_lookup_elem(&execs, &pid);
+	if (!pevent)
+		return 0;
 
+	pevent->pid = pid;
+	pevent->uid = uid;
+
+	bpf_core_read_user(&pevent->filename, sizeof(pevent->filename), filename);
+
+	return 0;
+}
+
+/**
+ * struct syscall_trace_exit {
+ * 	struct trace_entry ent;
+ * 	int nr;
+ * 	long int ret;
+ * };
+ */
+
+#if defined(SEC_DEF_TRACEPOINT)
+SEC("tracepoint/syscalls/sys_exit_execve")
+#elif defined(SEC_DEF_TP)
+SEC("tp/syscalls/sys_exit_execve")
+#endif
+int tracepoint__syscalls__sys_exit_execve(struct syscall_trace_exit *ctx)
+{
+	pid_t pid;
+	struct event_t *pevent = NULL;
+
+	pid = (pid_t)(bpf_get_current_pid_tgid() >> 32);
+
+	pevent = bpf_map_lookup_elem(&execs, &pid);
+	if (!pevent)
+		return 0;
+
+	bpf_get_current_comm(&pevent->comm, sizeof(pevent->comm));
+
+	pevent->ret = ctx->ret;
+
+	bpf_perf_event_output(ctx, &events, BPF_F_CURRENT_CPU, pevent, sizeof(*pevent));
+
+	bpf_map_delete_elem(&execs, &pid);
 	return 0;
 }
 

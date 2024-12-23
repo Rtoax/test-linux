@@ -17,29 +17,31 @@ static int libbpf_print_fn(enum libbpf_print_level level, const char *format,
 	return vfprintf(stderr, format, args);
 }
 
-void handle_event(void *ctx, int cpu, void *data, unsigned int data_sz)
+void handle_event(void *ctx, int cpu, void *event, unsigned int event_sz)
 {
-	struct data_t *m = data;
+	struct event_t *m = event;
 
-	printf("%-6d %-6d %-16s %s\n", m->pid, m->uid, m->command, m->filename);
+	printf("%-6d %-6d %-16s %s ret = %d\n", m->pid, m->uid, m->comm,
+		m->filename, m->ret);
 }
 
-void lost_event(void *ctx, int cpu, long long unsigned int data_sz)
+void lost_event(void *ctx, int cpu, long long unsigned int event_sz)
 {
 	printf("lost event\n");
 }
 
 int main(void)
 {
-	int err, event_map_fd;
+	int err, events_map_fd;
 	struct tracepoint_bpf *skel;
 	struct perf_buffer *pb = NULL;
-	char log_buf[64 * 1024];
 
 	libbpf_set_strict_mode(LIBBPF_STRICT_ALL);
 	libbpf_set_print(libbpf_print_fn);
 
 #if defined(LIBBPF_OPTS)
+	char log_buf[64 * 1024];
+
 	LIBBPF_OPTS(bpf_object_open_opts, opts,
 		.kernel_log_buf = log_buf,
 		.kernel_log_size = sizeof(log_buf),
@@ -53,6 +55,8 @@ int main(void)
 		tracepoint_bpf__destroy(skel);
 		return 1;
 	}
+
+	print_bpf_log_buf(log_buf, sizeof(log_buf));
 #else
 	skel = tracepoint_bpf__open_and_load();
 #endif
@@ -61,8 +65,6 @@ int main(void)
 		return 1;
 	}
 
-	print_bpf_log_buf(log_buf, sizeof(log_buf));
-
 	err = tracepoint_bpf__attach(skel);
 	if (err) {
 		fprintf(stderr, "Failed to attach BPF skeleton: %d\n", err);
@@ -70,16 +72,16 @@ int main(void)
 		return 1;
 	}
 
-	event_map_fd = bpf_map__fd(skel->maps.event);
+	events_map_fd = bpf_map__fd(skel->maps.events);
 
 #if LIBBPF_MAJOR_VERSION >= 1
-	pb = perf_buffer__new(event_map_fd, 8, handle_event, lost_event, NULL,
-				 NULL);
+	pb = perf_buffer__new(events_map_fd, 8, handle_event, lost_event, NULL,
+			      NULL);
 #else
 	struct perf_buffer_opts pb_opts;
 	pb_opts.sample_cb = handle_event;
 	pb_opts.lost_cb = lost_event;
-	pb = perf_buffer__new(event_map_fd, 8, &pb_opts);
+	pb = perf_buffer__new(events_map_fd, 8, &pb_opts);
 #endif
 	if (!pb) {
 		err = -1;
