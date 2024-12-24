@@ -14,7 +14,9 @@
 #include <sys/resource.h>
 #include <sys/socket.h>
 #include <unistd.h>
+
 #include "trace_helpers.h"
+#include "libbpf_wrapper.h"
 
 #if defined(XDP_BASIC)
 #include "xdp.skel.h"
@@ -166,15 +168,7 @@ int main(int argc, char *argv[])
 	/* Attach BPF program to raw socket */
 	prog_fd = bpf_program__fd(skel->progs.xdp_printk);
 
-/**
- * libbpf commit e8802d6319ab ("libbpf: remove deprecated XDP APIs") remove
- * bpf_set_link_xdp_fd(), libbpf version v1.0.0
- */
-#if LIBBPF_MAJOR_VERSION >= 1
-	err = bpf_xdp_attach(ifindex, prog_fd, xdp_flags, NULL);
-#else
-	err = bpf_set_link_xdp_fd(ifindex, prog_fd, xdp_flags);
-#endif
+	err = tl_bpf_xdp_attach(ifindex, prog_fd, xdp_flags);
 	if (err < 0) {
 		printf("link set xdp fd failed\n");
 		goto cleanup;
@@ -186,11 +180,7 @@ int main(int argc, char *argv[])
 	struct bpf_devmap_val val;
 
 	prog_fd = bpf_program__fd(skel->progs.xdp_redir_prog);
-#if LIBBPF_MAJOR_VERSION >= 1
-	err = bpf_xdp_attach(ifindex, prog_fd, XDP_FLAGS_SKB_MODE, NULL);
-#else
-	err = bpf_set_link_xdp_fd(ifindex, prog_fd, XDP_FLAGS_SKB_MODE);
-#endif
+	err = tl_bpf_xdp_attach(ifindex, prog_fd, XDP_FLAGS_SKB_MODE);
 	if (err < 0) {
 		printf("link set xdp fd failed\n");
 		goto cleanup;
