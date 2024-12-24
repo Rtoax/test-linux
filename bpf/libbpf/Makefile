@@ -158,6 +158,7 @@ TRACE_HELPERS := trace_helpers.o
 
 .PHONY: build
 build: libbpf_version vmlinux.h ${TARGETS_BPF} ${TARGETS_SKEL} ${TARGETS}
+	${Q}./libbpf_version | sed 's/^/  /g'
 	@echo -e "  \033[1;33mDone\033[m"
 
 CFLAGS += $(shell ./libbpf_version cflags)

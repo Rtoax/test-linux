@@ -104,7 +104,19 @@ int xdp_redir_prog(struct xdp_md *ctx)
  * has access to egress and ingress ifindex
  */
 #if defined(STRICT_SEC_NAME)
+#if (LIBBPF_MAJOR_VERSION == 0 && LIBBPF_MINOR_VERSION > 7) || (LIBBPF_MAJOR_VERSION >= 1)
+/**
+ * libbpf commit c245b0eeafcf ("libbpf: Deprecate xdp_cpumap, xdp_devmap and
+ * classifier sec definitions") libbpf-0.7 introduce "xdp/devmap".
+ */
 SEC("xdp/devmap")
+#else
+/**
+ * libbpf commit fcd1b668c6d2 ("libbpf: clean up SEC() handling") libbpf-1.0
+ * remove "xdp_devmap" support.
+ */
+SEC("xdp_devmap/printk")
+#endif
 #endif
 int xdp_devmap_printk(struct xdp_md *ctx)
 {
