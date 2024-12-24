@@ -160,7 +160,7 @@ build: vmlinux.h ${TARGETS_BPF} ${TARGETS_SKEL} ${TARGETS}
 config-map: config-map.o ${TRACE_HELPERS}
 socket_filter: socket_filter.o
 tc: tc.o ${TRACE_HELPERS}
-xdp: xdp.o
+xdp: xdp.o ${TRACE_HELPERS}
 sockops: sockops.o ${TRACE_HELPERS}
 kprobe: kprobe.o ${TRACE_HELPERS}
 tracepoint: tracepoint.o ${TRACE_HELPERS}

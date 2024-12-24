@@ -1,6 +1,7 @@
 #include <argp.h>
 #include <arpa/inet.h>
 #include <assert.h>
+#include <setjmp.h>
 #include <bpf/bpf.h>
 #include <bpf/libbpf.h>
 #include <linux/if_ether.h>
@@ -14,8 +15,10 @@
 #include <sys/socket.h>
 #include <unistd.h>
 #include "xdp.skel.h"
+#include "trace_helpers.h"
 
 static volatile bool exiting = false;
+static sigjmp_buf jmp;
 
 int ifindex = -1;
 const char *interface;
@@ -55,6 +58,7 @@ static const struct argp argp = {
 static void sig_handler(int sig)
 {
 	exiting = true;
+	siglongjmp(jmp, 1);
 }
 
 static int libbpf_print_fn(enum libbpf_print_level level, const char *format,
@@ -77,6 +81,9 @@ int main(int argc, char *argv[])
 
 	signal(SIGINT, sig_handler);
 	signal(SIGTERM, sig_handler);
+	sigsetjmp(jmp, 1);
+	if (exiting)
+		goto cleanup;
 
 	err = argp_parse(&argp, argc, argv, 0, NULL, NULL);
 	if (err) {
@@ -125,9 +132,7 @@ int main(int argc, char *argv[])
 	}
 
 	/* Process events */
-	while (!exiting) {
-		sleep(1);
-	}
+	read_trace_pipe();
 
 cleanup:
 	printf("Detach xdp from interface %s\n", interface);

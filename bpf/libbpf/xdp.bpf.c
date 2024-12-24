@@ -45,6 +45,12 @@ int xdp_pass(struct xdp_md *ctx)
 			proto = iphdr->protocol;
 	}
 
+	/**
+	 * Only access to ingress_ifindex, egress_ifindex access deny, see
+	 * 'xdp/devmap'.
+	 */
+	bpf_printk("xdp ingress %d", ctx->ingress_ifindex);
+
 	switch (proto) {
 	case IPPROTO_ICMP: /* 1 */
 		bpf_printk("Hello icmp %ld", icmp_count++);
