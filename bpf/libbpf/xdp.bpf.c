@@ -90,13 +90,13 @@ struct {
 	__uint(type, BPF_MAP_TYPE_DEVMAP);
 	__uint(key_size, sizeof(__u32));
 	__uint(value_size, sizeof(struct bpf_devmap_val));
-	__uint(max_entries, 4);
+	__uint(max_entries, 1);
 } devmap_ports SEC(".maps");
 
 SEC("xdp")
 int xdp_redir_prog(struct xdp_md *ctx)
 {
-	return bpf_redirect_map(&devmap_ports, 1, 0);
+	return bpf_redirect_map(&devmap_ports, 0, 0);
 }
 
 /**

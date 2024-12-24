@@ -35,12 +35,23 @@ static sigjmp_buf jmp;
 
 int ifindex = -1;
 const char *interface;
+#if defined(XDP_DEVMAP)
+int o_ifindex = -1;
+const char *out_interface;
+#endif
 
 const char argp_prog_doc[] =
+#if defined(XDP_BASIC)
 	"USAGE: [-i <interface>]\n";
+#elif defined(XDP_DEVMAP)
+	"USAGE: [-i <interface>] [-o <interface>]\n";
+#endif
 
 static const struct argp_option opts[] = {
 	{ "interface", 'i', "INTERFACE", 0, "Network interface to attach" },
+#if defined(XDP_DEVMAP)
+	{ "outinterface", 'o', "OUT-INTERFACE", 0, "Network interface to redirect" },
+#endif
 	{},
 };
 
@@ -53,6 +64,14 @@ static error_t parse_arg(int key, char *arg, struct argp_state *state)
 		if (!ifindex)
 			ifindex = atoi(interface);
 		break;
+#if defined(XDP_DEVMAP)
+	case 'o':
+		out_interface = arg;
+		o_ifindex = if_nametoindex(out_interface);
+		if (!o_ifindex)
+			o_ifindex = atoi(out_interface);
+		break;
+#endif
 	case ARGP_KEY_ARG:
 		argp_usage(state);
 		break;
@@ -108,6 +127,12 @@ int main(int argc, char *argv[])
 		fprintf(stderr, "Need specify interface with -i\n");
 		return -EINVAL;
 	}
+#if defined(XDP_DEVMAP)
+	if (o_ifindex == -1) {
+		fprintf(stderr, "Need specify out interface with -o\n");
+		return -EINVAL;
+	}
+#endif
 
 	skel = _bpf__open();
 	if (!skel) {
@@ -115,7 +140,12 @@ int main(int argc, char *argv[])
 		return 1;
 	}
 
+#if defined(XDP_BASIC)
 	fprintf(stderr, "Track interface %s, index %d\n", interface, ifindex);
+#elif defined(XDP_DEVMAP)
+	fprintf(stderr, "Redirect %s(%d) to %s(%d)\n", interface, ifindex,
+		out_interface, o_ifindex);
+#endif
 	fprintf(stderr, "Prog count %d\n", skel->skeleton->prog_cnt);
 
 #if !defined(STRICT_SEC_NAME) && defined(XDP_BASIC)
@@ -151,8 +181,9 @@ int main(int argc, char *argv[])
 	}
 
 #elif defined(XDP_DEVMAP) /* Test devmap */
-	int map_fd;
+	int map_fd, o_prog_fd;
 	__u32 idx = 0;
+	struct bpf_devmap_val val;
 
 	prog_fd = bpf_program__fd(skel->progs.xdp_redir_prog);
 #if LIBBPF_MAJOR_VERSION >= 1
@@ -164,34 +195,17 @@ int main(int argc, char *argv[])
 		printf("link set xdp fd failed\n");
 		goto cleanup;
 	}
-#if LIBBPF_MAJOR_VERSION >= 1
-	bpf_xdp_detach(ifindex, XDP_FLAGS_SKB_MODE, NULL);
-#else
-	bpf_set_link_xdp_fd(ifindex, -1, XDP_FLAGS_SKB_MODE);
-#endif
 
-	prog_fd = bpf_program__fd(skel->progs.xdp_devmap_printk);
+	o_prog_fd = bpf_program__fd(skel->progs.xdp_devmap_printk);
 	map_fd = bpf_map__fd(skel->maps.devmap_ports);
 
-	struct bpf_devmap_val val;
-
-	val.ifindex = ifindex;
-	val.bpf_prog.fd = prog_fd;
+	val.ifindex = o_ifindex;
+	val.bpf_prog.fd = o_prog_fd;
 
 	err = bpf_map_update_elem(map_fd, &idx, &val, 0);
 	if (err < 0) {
 		printf("failed to update elem, err = %d, mapfd %d, progfd %d.\n",
-			err, map_fd, prog_fd);
-		goto cleanup;
-	}
-
-#if LIBBPF_MAJOR_VERSION >= 1
-	err = bpf_xdp_attach(ifindex, prog_fd, XDP_FLAGS_SKB_MODE, NULL);
-#else
-	err = bpf_set_link_xdp_fd(ifindex, prog_fd, XDP_FLAGS_SKB_MODE);
-#endif
-	if (err < 0) {
-		printf("link set xdp fd failed\n");
+			err, map_fd, o_prog_fd);
 		goto cleanup;
 	}
 #else
@@ -203,6 +217,9 @@ int main(int argc, char *argv[])
 
 cleanup:
 	printf("Detach xdp from interface %s\n", interface);
+#if defined(XDP_DEVMAP)
+	printf("Detach xdp from out interface %s\n", out_interface);
+#endif
 	/**
 	 * Like: sudo bpftool net detach xdp dev $interface
 	 */
@@ -212,8 +229,14 @@ cleanup:
  */
 #if LIBBPF_MAJOR_VERSION >= 1
 	bpf_xdp_detach(ifindex, xdp_flags, NULL);
+#if defined(XDP_DEVMAP)
+	bpf_xdp_detach(o_ifindex, xdp_flags, NULL);
+#endif
 #else
 	bpf_set_link_xdp_fd(ifindex, -1, xdp_flags);
+#if defined(XDP_DEVMAP)
+	bpf_set_link_xdp_fd(o_ifindex, -1, xdp_flags);
+#endif
 #endif
 	_bpf__destroy(skel);
 	return 0;
