@@ -161,9 +161,6 @@ build: libbpf_version vmlinux.h ${TARGETS_BPF} ${TARGETS_SKEL} ${TARGETS}
 	${Q}./libbpf_version | sed 's/^/  /g'
 	@echo -e "  \033[1;33mDone\033[m"
 
-CFLAGS += $(shell ./libbpf_version cflags)
-CFLAGS_BPF += $(shell ./libbpf_version cflags)
-
 libbpf_version: libbpf_version.o
 
 config-map: config-map.o ${TRACE_HELPERS}
@@ -196,7 +193,7 @@ map_array: map_array.o
 
 %.bpf.o: %.bpf.c vmlinux.h
 	@echo -e "  BPF  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	${Q}$(CLANG) -c $(<) -o $(@) ${CFLAGS_BPF} $(CFLAGS_BPF_$(*)) $(CLANG_V)
+	${Q}$(CLANG) -c $(<) -o $(@) ${CFLAGS_BPF} $(CFLAGS_BPF_$(*)) $(CLANG_V) $(shell ./libbpf_version cflags)
 
 %.skel.h: %.bpf.o
 	@echo -e "  SKEL  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
@@ -221,4 +218,4 @@ vmlinux.h:
 .PHONY: clean
 clean:
 	@echo -e "  RM  \033[1;32m$(TARGETS_BPF) ${TARGETS}\033[m"
-	${Q}rm -f ${TARGETS_BPF} ${TARGETS} *.o *.skel.h vmlinux.h
+	${Q}rm -f ${TARGETS_BPF} ${TARGETS} *.o *.skel.h vmlinux.h libbpf_version
