@@ -8,6 +8,7 @@
  * Copyright (C) Rong Tao 2022-2023
  *
  * 2023-10-20	Rong Tao	Create this.
+ * 2024-12-24	Rong Tao	Remove interval print and display CPU.
  */
 #ifndef BPFTRACE_HAVE_BTF
 #include <linux/sched.h>
@@ -16,11 +17,14 @@
 BEGIN
 {
 	printf("Tracing icmp_echo, hit ctrl-c to end.\n");
+	printf("%-8s %-8s\n", "TIME", "CPU");
 }
 
 kprobe:icmp_echo
 {
 	@start[tid] = nsecs;
+	time("%H:%M:%S ");
+	printf("%-8d\n", cpu);
 }
 
 kretprobe:icmp_echo
@@ -29,11 +33,6 @@ kretprobe:icmp_echo
 	$latency_us = (nsecs - @start[tid]) / 1000;
 	delete(@start[tid]);
 	@hist_latency_us = hist($latency_us);
-}
-
-interval:s:1
-{
-	print(@hist_latency_us);
 }
 
 END
