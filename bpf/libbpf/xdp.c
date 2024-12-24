@@ -152,10 +152,9 @@ int main(int argc, char *argv[])
 
 #if !defined(STRICT_SEC_NAME) && defined(XDP_BASIC)
 	bpf_program__set_type(skel->progs.xdp_printk, BPF_PROG_TYPE_XDP);
-#endif
-
-#if defined(XDP_DEVMAP)
+# if defined(XDP_DEVMAP)
 	bpf_program__set_type(skel->progs.xdp_devmap_printk, BPF_PROG_TYPE_XDP);
+# endif
 #endif
 
 	err = _bpf__load(skel);
@@ -207,26 +206,10 @@ int main(int argc, char *argv[])
 
 cleanup:
 	printf("Detach xdp from interface %s\n", interface);
+	tl_bpf_xdp_detach(ifindex, xdp_flags);
 #if defined(XDP_DEVMAP)
 	printf("Detach xdp from out interface %s\n", out_interface);
-#endif
-	/**
-	 * Like: sudo bpftool net detach xdp dev $interface
-	 */
-/**
- * libbpf commit e8802d6319ab ("libbpf: remove deprecated XDP APIs") remove
- * bpf_set_link_xdp_fd(), libbpf version v1.0.0
- */
-#if LIBBPF_MAJOR_VERSION >= 1
-	bpf_xdp_detach(ifindex, xdp_flags, NULL);
-#if defined(XDP_DEVMAP)
-	bpf_xdp_detach(o_ifindex, xdp_flags, NULL);
-#endif
-#else
-	bpf_set_link_xdp_fd(ifindex, -1, xdp_flags);
-#if defined(XDP_DEVMAP)
-	bpf_set_link_xdp_fd(o_ifindex, -1, xdp_flags);
-#endif
+	tl_bpf_xdp_detach(o_ifindex, xdp_flags);
 #endif
 	_bpf__destroy(skel);
 	return 0;
