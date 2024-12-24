@@ -5,6 +5,7 @@
  * Copyright (C) Rong Tao.
  *
  * 2023-04-06	Rong Tao	Create this.
+ * 2024-12-24	Rong Tao	Track gettimeofday().
  */
 
 BEGIN
@@ -12,23 +13,23 @@ BEGIN
 	printf("Tracing clock_gettime latency, hit ctrl-C to exit.\n");
 }
 
+uprobe:libc:gettimeofday,
 uprobe:libc:clock_gettime
 {
 	@start[tid] = nsecs;
-	@cnt[comm] = count();
 }
 
+uretprobe:libc:gettimeofday,
 uretprobe:libc:clock_gettime
 / @start[tid] /
 {
 	$latency_us = (nsecs - @start[tid]) / 1000;
-	@graph_latency_us = hist($latency_us);
+	@graph_latency_us[probe] = hist($latency_us);
 	delete(@start[tid]);
 }
 
 END
 {
-	clear(@cnt);
 	clear(@start);
 }
 
