@@ -20,7 +20,7 @@ all:
 	@echo -e " \033[1;33m Building User \033[m"
 	${Q}make -f Makefile.user
 	${Q}make -f Makefile.subdir
-	@mkdir -p build && pushd build && cmake .. && make && popd
+	${Q}mkdir -p build && pushd build && cmake .. && make && popd
 	@echo -e " \033[1;33m Building Kernel \033[m"
 	${Q}make -f Makefile.kernel
 
