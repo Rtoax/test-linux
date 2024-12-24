@@ -226,11 +226,13 @@ int main(int argc, char *argv[])
 
 #elif defined(XDP_CPUMAP) /* Test cpumap */
 
-	int map_fd, run_map_fd;
+	int map_fd, run_map_fd, dummy_prog_fd;
 	__u32 idx = 0;
 	struct bpf_cpumap_val val;
 
 	prog_fd = bpf_program__fd(skel->progs.xdp_redir_prog);
+	dummy_prog_fd = bpf_program__fd(skel->progs.xdp_dummy_cpumap);
+
 	map_fd = bpf_map__fd(skel->maps.cpu_map);
 	run_map_fd = bpf_map__fd(skel->maps.run_on_cpu);
 
@@ -242,7 +244,7 @@ int main(int argc, char *argv[])
 	}
 
 	val.qsize = 192;
-	val.bpf_prog.fd = prog_fd;
+	val.bpf_prog.fd = dummy_prog_fd;
 
 	err = bpf_map_update_elem(map_fd, &cpu, &val, 0);
 	if (err < 0) {

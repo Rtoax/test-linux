@@ -175,13 +175,7 @@ struct {
 	__uint(max_entries, 1);
 } run_on_cpu SEC(".maps");
 
-#if defined(STRICT_SEC_NAME)
-#if (LIBBPF_MAJOR_VERSION == 0 && LIBBPF_MINOR_VERSION > 7) || (LIBBPF_MAJOR_VERSION >= 1)
-SEC("xdp/cpumap")
-#else
-SEC("xdp_cpumap/prog1")
-#endif
-#endif
+SEC("xdp")
 int xdp_redir_prog(struct xdp_md *ctx)
 {
 	void *data_end = (void *)(long)ctx->data_end;
@@ -201,6 +195,18 @@ int xdp_redir_prog(struct xdp_md *ctx)
 		   ctx->ingress_ifindex, *cpu, len);
 
 	return bpf_redirect_map(&cpu_map, *cpu, 0);
+}
+
+#if defined(STRICT_SEC_NAME)
+#if (LIBBPF_MAJOR_VERSION == 0 && LIBBPF_MINOR_VERSION > 7) || (LIBBPF_MAJOR_VERSION >= 1)
+SEC("xdp/cpumap")
+#else
+SEC("xdp_cpumap/prog1")
+#endif
+#endif
+int xdp_dummy_cpumap(struct xdp_md *ctx)
+{
+	return XDP_PASS;
 }
 #else
 # error "Must define XDP_BASIC, XDP_DEVMAP or XDP_CPUMAP"
