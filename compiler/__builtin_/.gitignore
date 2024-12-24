@@ -25,3 +25,4 @@
 /__builtin_types_compatible_p
 /__builtin_clzl
 /__builtin_preserve_enum_value
+/__builtin_memcpy

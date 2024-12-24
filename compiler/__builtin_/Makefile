@@ -40,6 +40,7 @@ TARGETS += __builtin_thread_pointer
 TARGETS += __builtin___clear_cache
 TARGETS += __builtin_types_compatible_p
 TARGETS += __builtin_clzl
+TARGETS += __builtin_memcpy
 
 TARGETS_BPF += __builtin_preserve_field_info.bpf.o
 
@@ -89,6 +90,7 @@ __builtin___clear_cache: __builtin___clear_cache.o
 __builtin_types_compatible_p: __builtin_types_compatible_p.o
 __builtin_clzl: __builtin_clzl.o
 __builtin_preserve_enum_value: __builtin_preserve_enum_value.o
+__builtin_memcpy: __builtin_memcpy.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

@@ -4,7 +4,7 @@ typedef void* (*fptr)(void);
 
 fptr p0 = NULL, p1 = NULL;
 
-void* f1(void)
+void *f1(void)
 {
 	p0 = __builtin_return_address(0);
 	p1 = __builtin_return_address(1);
