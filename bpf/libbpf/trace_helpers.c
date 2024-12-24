@@ -73,4 +73,5 @@ int print_bpf_log_buf(char *buf, size_t size)
 			break;
 		printf("%c", buf[i]);
 	}
+	return 0;
 }
