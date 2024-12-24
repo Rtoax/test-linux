@@ -173,10 +173,9 @@ int main(int argc, char *argv[])
 	prog_fd = bpf_program__fd(skel->progs.xdp_devmap_printk);
 	map_fd = bpf_map__fd(skel->maps.devmap_ports);
 
-	struct bpf_devmap_val val = {
-		.ifindex = ifindex,
-	};
+	struct bpf_devmap_val val;
 
+	val.ifindex = ifindex;
 	val.bpf_prog.fd = prog_fd;
 
 	err = bpf_map_update_elem(map_fd, &idx, &val, 0);

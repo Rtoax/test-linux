@@ -84,7 +84,13 @@ int main(void)
 	bpf_map__update_elem(skel->maps.config_hash, &key, sizeof(key), &msg,
 				sizeof(msg), 0);
 #else
-	fprintf(stderr, "Not support bpf_map__update_elem() yet.\n");
+	int msg_map_fd = bpf_map__fd(skel->maps.config_hash);
+	err = bpf_map_update_elem(msg_map_fd, &key, &msg, 0);
+	if (err < 0) {
+		printf("failed to update elem.\n");
+		config_map_bpf__destroy(skel);
+		return 1;
+	}
 #endif
 
 	/* Attach the progam to the event */
