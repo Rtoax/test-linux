@@ -105,7 +105,7 @@ int main(int argc, char *argv[])
 	fprintf(stderr, "Track interface %s, index %d\n", interface, ifindex);
 	fprintf(stderr, "Prog count %d\n", skel->skeleton->prog_cnt);
 #if !defined(STRICT_SEC_NAME)
-	bpf_program__set_type(skel->progs.xdp_pass, BPF_PROG_TYPE_XDP);
+	bpf_program__set_type(skel->progs.xdp_printk, BPF_PROG_TYPE_XDP);
 #endif
 
 	err = xdp_bpf__load(skel);
@@ -115,7 +115,7 @@ int main(int argc, char *argv[])
 	}
 
 	/* Attach BPF program to raw socket */
-	prog_fd = bpf_program__fd(skel->progs.xdp_pass);
+	prog_fd = bpf_program__fd(skel->progs.xdp_printk);
 
 /**
  * libbpf commit e8802d6319ab ("libbpf: remove deprecated XDP APIs") remove

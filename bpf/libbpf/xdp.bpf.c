@@ -34,7 +34,7 @@ int xdp_dummy_prog(struct xdp_md *ctx)
 #if defined(STRICT_SEC_NAME)
 SEC("xdp")
 #endif
-int xdp_pass(struct xdp_md *ctx)
+int xdp_printk(struct xdp_md *ctx)
 {
 	int proto = 0;
 	void *data = (void *)(long)ctx->data;
