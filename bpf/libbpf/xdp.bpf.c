@@ -80,6 +80,24 @@ int xdp_printk(struct xdp_md *ctx)
 #elif defined(XDP_DEVMAP) /* Test devmap */
 
 /**
+ * see bcc examples/networking/xdp/xdp_redirect_map.py
+ */
+static inline void swap_src_dst_mac(void *data)
+{
+	unsigned short *p = data;
+	unsigned short dst[3];
+	dst[0] = p[0];
+	dst[1] = p[1];
+	dst[2] = p[2];
+	p[0] = p[3];
+	p[1] = p[4];
+	p[2] = p[5];
+	p[3] = dst[0];
+	p[4] = dst[1];
+	p[5] = dst[2];
+}
+
+/**
  * The packet can be redirected to egress on a different interface than where
  * it entered (like XDP_TX but for a different interface). This can be done
  * using the bpf_redirect helper (not recommended) or the bpf_redirect_map
@@ -96,6 +114,14 @@ struct {
 SEC("xdp")
 int xdp_redir_prog(struct xdp_md *ctx)
 {
+	void *data_end = (void *)(long)ctx->data_end;
+	void *data = (void *)(long)ctx->data;
+
+	if (data + sizeof(struct ethhdr) > data_end)
+		return XDP_DROP;
+
+	swap_src_dst_mac(data);
+
 	return bpf_redirect_map(&devmap_ports, 0, 0);
 }
 
