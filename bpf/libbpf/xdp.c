@@ -174,9 +174,11 @@ int main(int argc, char *argv[])
 #endif
 	fprintf(stderr, "Prog count %d\n", skel->skeleton->prog_cnt);
 
-#if !defined(STRICT_SEC_NAME) && defined(XDP_BASIC)
+#if !defined(STRICT_SEC_NAME)
+# if defined(XDP_BASIC)
 	bpf_program__set_type(skel->progs.xdp_printk, BPF_PROG_TYPE_XDP);
-# if defined(XDP_DEVMAP)
+# elif defined(XDP_DEVMAP)
+	bpf_program__set_type(skel->progs.xdp_redir_prog, BPF_PROG_TYPE_XDP);
 	bpf_program__set_type(skel->progs.xdp_devmap_printk, BPF_PROG_TYPE_XDP);
 # endif
 #endif
@@ -203,12 +205,6 @@ int main(int argc, char *argv[])
 	struct bpf_devmap_val val;
 
 	prog_fd = bpf_program__fd(skel->progs.xdp_redir_prog);
-	err = tl_bpf_xdp_attach(ifindex, prog_fd, XDP_FLAGS_SKB_MODE);
-	if (err < 0) {
-		printf("link set xdp fd failed\n");
-		goto cleanup;
-	}
-
 	o_prog_fd = bpf_program__fd(skel->progs.xdp_devmap_printk);
 	map_fd = bpf_map__fd(skel->maps.devmap_ports);
 
@@ -219,6 +215,12 @@ int main(int argc, char *argv[])
 	if (err < 0) {
 		printf("failed to update elem, err = %d, mapfd %d, progfd %d.\n",
 			err, map_fd, o_prog_fd);
+		goto cleanup;
+	}
+
+	err = tl_bpf_xdp_attach(ifindex, prog_fd, XDP_FLAGS_SKB_MODE);
+	if (err < 0) {
+		printf("link set xdp fd failed\n");
 		goto cleanup;
 	}
 
