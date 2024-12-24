@@ -7,6 +7,7 @@
 #include "config-map.h"
 #include "config-map.skel.h"
 #include "trace_helpers.h"
+#include "libbpf_wrapper.h"
 
 
 static int libbpf_print_fn(enum libbpf_print_level level, const char *format,
@@ -103,15 +104,7 @@ int main(void)
 
 	event_map_fd = bpf_map__fd(skel->maps.event);
 
-#if LIBBPF_MAJOR_VERSION >= 1
-	pb = perf_buffer__new(event_map_fd, 8, handle_event, lost_event, NULL,
-				 NULL);
-#else
-	struct perf_buffer_opts pb_opts;
-	pb_opts.sample_cb = handle_event;
-	pb_opts.lost_cb = lost_event;
-	pb = perf_buffer__new(event_map_fd, 8, &pb_opts);
-#endif
+	pb = tl_perf_buffer__new(event_map_fd, 8, handle_event, lost_event);
 	if (!pb) {
 		err = -1;
 		fprintf(stderr, "Failed to create ring buffer\n");

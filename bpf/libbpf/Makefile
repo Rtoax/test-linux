@@ -164,16 +164,16 @@ build: libbpf_version vmlinux.h ${TARGETS_BPF} ${TARGETS_SKEL} ${TARGETS}
 
 libbpf_version: libbpf_version.o
 
-config-map: config-map.o ${TRACE_HELPERS}
+config-map: config-map.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER}
 socket_filter: socket_filter.o
 tc: tc.o ${TRACE_HELPERS}
 xdp: xdp.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER}
 xdp_devmap: xdp_devmap.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER}
 sockops: sockops.o ${TRACE_HELPERS}
 kprobe: kprobe.o ${TRACE_HELPERS}
-tracepoint: tracepoint.o ${TRACE_HELPERS}
-raw_tracepoint: raw_tracepoint.o ${TRACE_HELPERS}
-tp_btf: tp_btf.o ${TRACE_HELPERS}
+tracepoint: tracepoint.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER}
+raw_tracepoint: raw_tracepoint.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER}
+tp_btf: tp_btf.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER}
 perf_event: perf_event.o
 sk_skb: sk_skb.o
 sk_msg: sk_msg.o
@@ -188,8 +188,8 @@ iter_bpf_map: iter_bpf_map.o
 lsm_bpf: lsm_bpf.o ${TRACE_HELPERS}
 lsm_socket_create: lsm_socket_create.o ${TRACE_HELPERS}
 
-map_hash: map_hash.o ${TRACE_HELPERS}
-map_percpu_hash: map_percpu_hash.o ${TRACE_HELPERS}
+map_hash: map_hash.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER}
+map_percpu_hash: map_percpu_hash.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER}
 map_array: map_array.o
 
 %.bpf.o: %.bpf.c vmlinux.h

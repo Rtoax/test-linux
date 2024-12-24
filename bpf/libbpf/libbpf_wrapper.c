@@ -4,8 +4,6 @@
 #include <errno.h>
 #include <sys/types.h>
 #include <unistd.h>
-#include <bpf/bpf.h>
-#include <bpf/libbpf.h>
 
 #include "libbpf_wrapper.h"
 
@@ -46,4 +44,22 @@ int tl_bpf_xdp_detach(int ifindex, int xdp_flags)
 	err = bpf_set_link_xdp_fd(ifindex, -1, xdp_flags);
 #endif
 	return err;
+}
+
+struct perf_buffer *tl_perf_buffer__new(int map_fd,
+					size_t page_cnt,
+					perf_buffer_sample_fn sample_cb,
+					perf_buffer_lost_fn lost_cb)
+{
+	struct perf_buffer *pb = NULL;
+#if LIBBPF_MAJOR_VERSION >= 1
+	pb = perf_buffer__new(map_fd, 8, sample_cb, lost_cb, NULL,
+			      NULL);
+#else
+	struct perf_buffer_opts pb_opts;
+	pb_opts.sample_cb = sample_cb;
+	pb_opts.lost_cb = lost_cb;
+	pb = perf_buffer__new(map_fd, 8, &pb_opts);
+#endif
+	return pb;
 }
