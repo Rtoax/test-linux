@@ -157,7 +157,13 @@ TRACE_HELPERS := trace_helpers.o
 
 
 .PHONY: build
-build: vmlinux.h ${TARGETS_BPF} ${TARGETS_SKEL} ${TARGETS}
+build: libbpf_version vmlinux.h ${TARGETS_BPF} ${TARGETS_SKEL} ${TARGETS}
+	@echo -e "  \033[1;33mDone\033[m"
+
+CFLAGS += $(shell ./libbpf_version cflags)
+CFLAGS_BPF += $(shell ./libbpf_version cflags)
+
+libbpf_version: libbpf_version.o
 
 config-map: config-map.o ${TRACE_HELPERS}
 socket_filter: socket_filter.o
@@ -203,7 +209,7 @@ map_array: map_array.o
 	@echo -e "  CC(LIB)  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	${Q}$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
 
-$(TARGETS): %: %.o
+$(TARGETS) libbpf_version: %: %.o
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
 	${Q}$(CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*))
 

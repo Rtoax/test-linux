@@ -23,7 +23,6 @@
 
 #define ETH_P_IP	0x0800
 
-
 #if defined(XDP_BASIC) /* Test basic */
 
 #if defined(STRICT_SEC_NAME)
