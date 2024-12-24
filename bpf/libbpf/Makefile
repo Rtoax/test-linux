@@ -57,7 +57,7 @@ TARGETS :=
 TARGETS += config-map
 TARGETS += socket_filter
 TARGETS += tc
-TARGETS += xdp xdp_devmap
+TARGETS += xdp xdp_devmap xdp_cpumap
 TARGETS += sockops
 TARGETS += sk_skb
 TARGETS += sk_msg
@@ -128,6 +128,8 @@ CFLAGS_xdp := -DSTRICT_SEC_NAME=1 -DXDP_BASIC=1
 CFLAGS_BPF_xdp := -DSTRICT_SEC_NAME=1 -DXDP_BASIC=1
 CFLAGS_xdp_devmap := -DSTRICT_SEC_NAME=1 -DXDP_DEVMAP=1
 CFLAGS_BPF_xdp_devmap := -DSTRICT_SEC_NAME=1 -DXDP_DEVMAP=1
+CFLAGS_xdp_cpumap := -DSTRICT_SEC_NAME=1 -DXDP_CPUMAP=1
+CFLAGS_BPF_xdp_cpumap := -DSTRICT_SEC_NAME=1 -DXDP_CPUMAP=1
 CFLAGS_iter_task := -DITER_TASK=1
 CFLAGS_BPF_iter_task := -DITER_TASK=1
 CFLAGS_iter_task_file := -DITER_TASK_FILE=1
@@ -169,6 +171,7 @@ socket_filter: socket_filter.o
 tc: tc.o ${TRACE_HELPERS}
 xdp: xdp.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER}
 xdp_devmap: xdp_devmap.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER}
+xdp_cpumap: xdp_cpumap.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER}
 sockops: sockops.o ${TRACE_HELPERS}
 kprobe: kprobe.o ${TRACE_HELPERS}
 tracepoint: tracepoint.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER}

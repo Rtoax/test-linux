@@ -30,6 +30,12 @@
 #define _bpf__open	xdp_devmap_bpf__open
 #define _bpf__load	xdp_devmap_bpf__load
 #define _bpf__destroy	xdp_devmap_bpf__destroy
+#elif defined(XDP_CPUMAP)
+#include "xdp_cpumap.skel.h"
+#define struct_bpf	xdp_cpumap_bpf
+#define _bpf__open	xdp_cpumap_bpf__open
+#define _bpf__load	xdp_cpumap_bpf__load
+#define _bpf__destroy	xdp_cpumap_bpf__destroy
 #endif
 
 static volatile bool exiting = false;
@@ -40,6 +46,8 @@ const char *interface;
 #if defined(XDP_DEVMAP)
 int o_ifindex = -1;
 const char *out_interface;
+#elif defined(XDP_CPUMAP)
+int cpu = -1;
 #endif
 
 const char argp_prog_doc[] =
@@ -47,12 +55,16 @@ const char argp_prog_doc[] =
 	"USAGE: [-i <interface>]\n";
 #elif defined(XDP_DEVMAP)
 	"USAGE: [-i <interface>] [-o <interface>]\n";
+#elif defined(XDP_CPUMAP)
+	"USAGE: [-i <interface>] [-c <cpu>]\n";
 #endif
 
 static const struct argp_option opts[] = {
 	{ "interface", 'i', "INTERFACE", 0, "Network interface to attach" },
 #if defined(XDP_DEVMAP)
 	{ "outinterface", 'o', "OUT-INTERFACE", 0, "Network interface to redirect" },
+#elif defined(XDP_CPUMAP)
+	{ "cpu", 'c', "CPU", 0, "Redirect to cpu" },
 #endif
 	{},
 };
@@ -72,6 +84,10 @@ static error_t parse_arg(int key, char *arg, struct argp_state *state)
 		o_ifindex = if_nametoindex(out_interface);
 		if (!o_ifindex)
 			o_ifindex = atoi(out_interface);
+		break;
+#elif defined(XDP_CPUMAP)
+	case 'c':
+		cpu = atoi(arg);
 		break;
 #endif
 	case ARGP_KEY_ARG:
@@ -134,6 +150,11 @@ int main(int argc, char *argv[])
 		fprintf(stderr, "Need specify out interface with -o\n");
 		return -EINVAL;
 	}
+#elif defined(XDP_CPUMAP)
+	if (cpu == -1) {
+		fprintf(stderr, "Need specify redirect cpu with -c\n");
+		return -EINVAL;
+	}
 #endif
 
 	skel = _bpf__open();
@@ -147,6 +168,9 @@ int main(int argc, char *argv[])
 #elif defined(XDP_DEVMAP)
 	fprintf(stderr, "Redirect %s(%d) to %s(%d)\n", interface, ifindex,
 		out_interface, o_ifindex);
+#elif defined(XDP_CPUMAP)
+	fprintf(stderr, "Redirect %s(%d) to cpu %d\n", interface, ifindex,
+		cpu);
 #endif
 	fprintf(stderr, "Prog count %d\n", skel->skeleton->prog_cnt);
 
@@ -195,6 +219,39 @@ int main(int argc, char *argv[])
 	if (err < 0) {
 		printf("failed to update elem, err = %d, mapfd %d, progfd %d.\n",
 			err, map_fd, o_prog_fd);
+		goto cleanup;
+	}
+
+#elif defined(XDP_CPUMAP) /* Test cpumap */
+
+	int map_fd, run_map_fd;
+	__u32 idx = 0;
+	struct bpf_cpumap_val val;
+
+	prog_fd = bpf_program__fd(skel->progs.xdp_redir_prog);
+	map_fd = bpf_map__fd(skel->maps.cpu_map);
+	run_map_fd = bpf_map__fd(skel->maps.run_on_cpu);
+
+	err = bpf_map_update_elem(run_map_fd, &idx, &cpu, 0);
+	if (err < 0) {
+		printf("failed to update run elem, err = %d, mapfd %d.\n",
+			err, run_map_fd);
+		goto cleanup;
+	}
+
+	val.qsize = 192;
+	val.bpf_prog.fd = prog_fd;
+
+	err = bpf_map_update_elem(map_fd, &cpu, &val, 0);
+	if (err < 0) {
+		printf("failed to update cpu elem, err = %d, mapfd %d.\n",
+			err, map_fd);
+		goto cleanup;
+	}
+
+	err = tl_bpf_xdp_attach(ifindex, prog_fd, XDP_FLAGS_SKB_MODE);
+	if (err < 0) {
+		printf("link set xdp fd failed\n");
 		goto cleanup;
 	}
 #else

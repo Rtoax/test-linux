@@ -8,6 +8,7 @@
 /tc
 /xdp
 /xdp_devmap
+/xdp_cpumap
 /perf_event
 /sockops
 /cgroupv2

@@ -129,8 +129,55 @@ int xdp_devmap_printk(struct xdp_md *ctx)
 
 	return XDP_PASS;
 }
+
+#elif defined(XDP_CPUMAP) /* Test cpumap */
+/**
+ * The packet can be redirected to another CPU for further processing using the
+ * bpf_redirect_map helper in combination with a BPF_MAP_TYPE_CPUMAP map.
+ */
+struct {
+	__uint(type, BPF_MAP_TYPE_CPUMAP);
+	__uint(key_size, sizeof(__u32));
+	__uint(value_size, sizeof(struct bpf_cpumap_val));
+	__uint(max_entries, 256);
+} cpu_map SEC(".maps");
+
+struct {
+	__uint(type, BPF_MAP_TYPE_ARRAY);
+	__type(key, u32);
+	__type(value, u32);
+	__uint(max_entries, 1);
+} run_on_cpu SEC(".maps");
+
+#if defined(STRICT_SEC_NAME)
+#if (LIBBPF_MAJOR_VERSION == 0 && LIBBPF_MINOR_VERSION > 7) || (LIBBPF_MAJOR_VERSION >= 1)
+SEC("xdp/cpumap")
 #else
-# error "Must define XDP_BASIC or XDP_DEVMAP"
+SEC("xdp_cpumap/prog1")
+#endif
+#endif
+int xdp_redir_prog(struct xdp_md *ctx)
+{
+	void *data_end = (void *)(long)ctx->data_end;
+	void *data = (void *)(long)ctx->data;
+	unsigned int len = data_end - data;
+	u32 key = 0;
+	u32 *cpu;
+
+	if (data + sizeof(struct ethhdr) > data_end)
+		return XDP_DROP;
+
+	cpu = bpf_map_lookup_elem(&run_on_cpu, &key);
+	if (!cpu)
+		return XDP_PASS;
+
+	bpf_printk("cpumap redirect: dev %u -> cpu %u len %u",
+		   ctx->ingress_ifindex, *cpu, len);
+
+	return bpf_redirect_map(&cpu_map, *cpu, 0);
+}
+#else
+# error "Must define XDP_BASIC, XDP_DEVMAP or XDP_CPUMAP"
 #endif
 
 char __license[] SEC("license") = "GPL";
