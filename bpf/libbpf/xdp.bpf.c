@@ -23,6 +23,9 @@
 
 #define ETH_P_IP	0x0800
 
+
+#if defined(XDP_BASIC) /* Test basic */
+
 #if defined(STRICT_SEC_NAME)
 SEC("xdp")
 #endif
@@ -74,5 +77,49 @@ int xdp_printk(struct xdp_md *ctx)
 	}
 	return XDP_PASS;
 }
+
+#elif defined(XDP_DEVMAP) /* Test devmap */
+
+/**
+ * The packet can be redirected to egress on a different interface than where
+ * it entered (like XDP_TX but for a different interface). This can be done
+ * using the bpf_redirect helper (not recommended) or the bpf_redirect_map
+ * helper in combination with a BPF_MAP_TYPE_DEVMAP or BPF_MAP_TYPE_DEVMAP_HASH
+ * map.
+ */
+struct {
+	__uint(type, BPF_MAP_TYPE_DEVMAP);
+	__uint(key_size, sizeof(__u32));
+	__uint(value_size, sizeof(struct bpf_devmap_val));
+	__uint(max_entries, 4);
+} devmap_ports SEC(".maps");
+
+SEC("xdp")
+int xdp_redir_prog(struct xdp_md *ctx)
+{
+	return bpf_redirect_map(&devmap_ports, 1, 0);
+}
+
+/**
+ * valid program on DEVMAP entry via SEC name;
+ * has access to egress and ingress ifindex
+ */
+#if defined(STRICT_SEC_NAME)
+SEC("xdp/devmap")
+#endif
+int xdp_devmap_printk(struct xdp_md *ctx)
+{
+	void *data_end = (void *)(long)ctx->data_end;
+	void *data = (void *)(long)ctx->data;
+	unsigned int len = data_end - data;
+
+	bpf_printk("devmap redirect: dev %u -> dev %u len %u",
+		   ctx->ingress_ifindex, ctx->egress_ifindex, len);
+
+	return XDP_PASS;
+}
+#else
+# error "Must define XDP_BASIC or XDP_DEVMAP"
+#endif
 
 char __license[] SEC("license") = "GPL";

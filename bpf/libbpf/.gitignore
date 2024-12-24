@@ -7,6 +7,7 @@
 /tp_btf
 /tc
 /xdp
+/xdp_devmap
 /perf_event
 /sockops
 /cgroupv2
