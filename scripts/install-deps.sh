@@ -379,8 +379,9 @@ pkgs_storage+=( device-mapper-multipath )
 pkgs_storage+=( iotop )
 pkgs_storage+=( mdadm ) # manage MD devices aka Linux Software RAID
 
-pkgs_net+=( rsync )
 pkgs_net+=( net-tools ) # netstat
+pkgs_net+=( rsync )
+pkgs_net+=( tcpdump )
 
 pip_whls+=( numpy pyyaml )
 pip_whls+=( tqdm )

@@ -25,6 +25,7 @@ sub-dir-clean := $(sub-dir:=.clean)
 
 .PHONY: build
 build: $(sub-dir-build)
+	$(Q)./tcpdump.sh
 	$(call tl_ascii_logo_ebpf_bee_summit_2021)
 
 .PHONY: clean
