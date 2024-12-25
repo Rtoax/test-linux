@@ -1,3 +1,4 @@
 - AI: Artificial Intelligence (人工智能)
+- LPM: Largest Prefix Match (最大前缀匹配)
 - LRU: Least Recently Used ()
 - ML: Machine Learning (机器学习)

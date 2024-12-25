@@ -88,6 +88,7 @@ TARGETS_BPF += netfilter.bpf.o
 TARGETS_BPF += syscall.bpf.o
 TARGETS_BPF += map_queue.bpf.o
 TARGETS_BPF += map_stack.bpf.o
+TARGETS_BPF += map_lpm_trie.bpf.o
 
 # Never append to skel target, always generate by bpf target
 TARGETS_SKEL := $(patsubst %.bpf.o,%.skel.h,$(TARGETS_BPF))
