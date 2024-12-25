@@ -13,7 +13,6 @@
 #include <bpf/bpf_tracing.h>
 #include <bpf/bpf_core_read.h>
 
-char LICENSE[] SEC("license") = "Dual BSD/GPL";
 
 SEC("kprobe/"KSYM_DO_EXECVEAT_COMMON)
 int BPF_KPROBE(do_execveat_common, int fd, struct filename *name)
@@ -34,3 +33,5 @@ int BPF_KRETPROBE(do_execveat_common_exit, long ret)
 	bpf_printk("KPROBE EXIT: pid = %d, ret = %ld", pid, ret);
 	return 0;
 }
+
+char LICENSE[] SEC("license") = "Dual BSD/GPL";
