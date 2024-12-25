@@ -27,4 +27,5 @@
 /map_percpu_hash
 /map_array
 /map_percpu_array
+/map_lru_hash
 /libbpf_version

@@ -27,6 +27,15 @@ struct {
  */
 #if defined(MAP_PERCPU_HASH)
 	__uint(type, BPF_MAP_TYPE_PERCPU_HASH);
+#elif defined(MAP_LRU_HASH)
+	/**
+	 * This map is the LRU (Least Recently Used) variant of the
+	 * BPF_MAP_TYPE_HASH. It is a generic map type that stores a fixed
+	 * maximum number of key/value pairs. When the map starts to get at
+	 * capacity, the approximately least recently used elements is removed
+	 * to make room for new elements.
+	 */
+	__uint(type, BPF_MAP_TYPE_LRU_HASH);
 #elif defined(MAP_HASH)
 	__uint(type, BPF_MAP_TYPE_HASH);
 #else
