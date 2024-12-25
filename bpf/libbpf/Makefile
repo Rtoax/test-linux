@@ -91,6 +91,7 @@ TARGETS_BPF += map_stack.bpf.o
 TARGETS_BPF += map_lpm_trie.bpf.o
 TARGETS_BPF += map_array_of_maps.bpf.o
 TARGETS_BPF += map_hash_of_maps.bpf.o
+TARGETS_BPF += map_ringbuf.bpf.o
 
 # Never append to skel target, always generate by bpf target
 TARGETS_SKEL := $(patsubst %.bpf.o,%.skel.h,$(TARGETS_BPF))
@@ -165,6 +166,7 @@ CFLAGS_map_array_of_maps := -DMAP_ARRAY_OF_MAPS=1
 CFLAGS_BPF_map_array_of_maps := -DMAP_ARRAY_OF_MAPS=1
 CFLAGS_map_hash_of_maps := -DMAP_HASH_OF_MAPS=1
 CFLAGS_BPF_map_hash_of_maps := -DMAP_HASH_OF_MAPS=1
+CFLAGS_BPF_map_ringbuf := -DMAP_ARRAY=1
 
 GEN_SKEL_ARGS_syscall := -L
 

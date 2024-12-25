@@ -20,6 +20,21 @@
 #define ETH_P_IP	0x0800	/* Internet Protocol packet	*/
 
 struct {
+	/**
+	 * BPF_MAP_TYPE_RINGBUF
+	 *
+	 * The ring-buffer map can be used to efficiently send large amounts
+	 * of data from eBPF programs to userspace. Data is sent in a queue
+	 * / first-in-first-out (FIFO) manner.
+	 *
+	 * Since this map type does not have key-value pairs, and the
+	 * communicated samples can be of any size, the key_size and value_size
+	 * attributes have to both be set to 0.
+	 *
+	 * The max_entries attribute is used to specify the size of the
+	 * ring-buffer in bytes. It must be a power of 2 and a multiple of the
+	 * page size (typically 4096), so 4096, 8192, 16384, 32768, ect.
+	 */
 	__uint(type, BPF_MAP_TYPE_RINGBUF);
 	__uint(max_entries, 256 * 1024);
 } ring_buf SEC(".maps");
@@ -29,6 +44,8 @@ struct {
 	__uint(type, BPF_MAP_TYPE_PERCPU_ARRAY);
 #elif defined(MAP_ARRAY)
 	__uint(type, BPF_MAP_TYPE_ARRAY);
+#else
+# error "Must define MAP_PERCPU_ARRAY or MAP_ARRAY"
 #endif
 	__type(key, u32);
 	__type(value, long);
@@ -59,9 +76,16 @@ int bpf_prog1(struct __sk_buff *skb)
 	if (proto != ETH_P_IP)
 		return 0;
 
+#define RESERVE_SUBMIT 1
+
+#if defined(RESERVE_SUBMIT)
 	e = bpf_ringbuf_reserve(&ring_buf, sizeof(*e), 0);
 	if (!e)
 		return 0;
+#else
+	static struct so_event event = {};
+	e = &event;
+#endif
 
 	bpf_skb_load_bytes(skb, nhoff + offsetof(struct iphdr, protocol), &e->ip_proto, 1);
 	if (e->ip_proto != IPPROTO_GRE) {
@@ -78,7 +102,24 @@ int bpf_prog1(struct __sk_buff *skb)
 	bpf_skb_load_bytes(skb, nhoff + ((verlen & 0xF) << 2), &(e->ports), 4);
 	e->pkt_type = skb->pkt_type;
 	e->ifindex = skb->ifindex;
+
+#if defined(RESERVE_SUBMIT)
 	bpf_ringbuf_submit(e, 0);
+	/**
+	 * void bpf_ringbuf_discard(void *data, __u64 flags);
+	 *
+	 * Discard reserved ring buffer sample, pointed to by data.
+	 *
+	 * - If BPF_RB_NO_WAKEUP is specified in flags, no notification of new
+	 *   data availability is sent.
+	 * - If BPF_RB_FORCE_WAKEUP is specified in flags, notification of new
+	 *   data availability is sent unconditionally.
+	 * - If 0 is specified in flags, an adaptive notification of new data
+	 *   availability is sent.
+	 */
+#else
+	bpf_ringbuf_output(&ring_buf, e, sizeof(*e), 0);
+#endif
 
 	return skb->len;
 }
