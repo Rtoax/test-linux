@@ -168,6 +168,7 @@ CFLAGS_BPF_map_hash_of_maps := -DMAP_HASH_OF_MAPS=1
 
 GEN_SKEL_ARGS_syscall := -L
 
+SOCKET_HELPERS := socket_helpers.o
 TASK_HELPERS := task_helpers.o
 TRACE_HELPERS := trace_helpers.o
 LIBBPF_WRAPPER := libbpf_wrapper.o
@@ -181,7 +182,7 @@ build: libbpf_version vmlinux.h ${TARGETS_BPF} ${TARGETS_SKEL} ${TARGETS}
 libbpf_version: libbpf_version.o
 
 config-map: config-map.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER}
-socket_filter: socket_filter.o
+socket_filter: socket_filter.o ${SOCKET_HELPERS}
 tc: tc.o ${TRACE_HELPERS}
 xdp: xdp.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER}
 xdp_devmap: xdp_devmap.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER}
@@ -209,7 +210,8 @@ map_hash: map_hash.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER}
 map_percpu_hash: map_percpu_hash.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER}
 map_lru_hash: map_lru_hash.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER}
 map_lru_percpu_hash: map_lru_percpu_hash.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER}
-map_array: map_array.o
+map_array: map_array.o ${SOCKET_HELPERS}
+map_percpu_array: map_percpu_array.o ${SOCKET_HELPERS}
 
 %.bpf.o: %.bpf.c vmlinux.h
 	@echo -e "  BPF  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

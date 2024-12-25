@@ -12,6 +12,7 @@
 #include <sys/resource.h>
 #include <sys/socket.h>
 #include <unistd.h>
+#include "socket_helpers.h"
 #include "socket_filter.h"
 
 #if defined(SOCKET_FILTER) && !defined(MAP_ARRAY) && !defined(MAP_PERCPU_ARRAY)
@@ -84,30 +85,6 @@ static const char *ipproto_mapping[IPPROTO_MAX] = {
 static void sig_handler(int sig)
 {
 	exiting = true;
-}
-
-static int open_raw_sock(const char *name)
-{
-	struct sockaddr_ll sll;
-	int sock;
-
-	sock = socket(PF_PACKET, SOCK_RAW | SOCK_NONBLOCK | SOCK_CLOEXEC, htons(ETH_P_ALL));
-	if (sock < 0) {
-		fprintf(stderr, "Failed to create raw socket\n");
-		return -1;
-	}
-
-	memset(&sll, 0, sizeof(sll));
-	sll.sll_family = AF_PACKET;
-	sll.sll_ifindex = if_nametoindex(name);
-	sll.sll_protocol = htons(ETH_P_ALL);
-	if (bind(sock, (struct sockaddr *)&sll, sizeof(sll)) < 0) {
-		fprintf(stderr, "Failed to bind to %s: %s\n", name, strerror(errno));
-		close(sock);
-		return -1;
-	}
-
-	return sock;
 }
 
 static int libbpf_print_fn(enum libbpf_print_level level, const char *format,

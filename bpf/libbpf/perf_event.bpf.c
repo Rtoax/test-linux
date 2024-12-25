@@ -41,4 +41,5 @@ int do_sample(struct bpf_perf_event_data *ctx)
 
 	return 0;
 }
+
 char _license[] SEC("license") = "GPL";
