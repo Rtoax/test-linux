@@ -198,6 +198,7 @@ while true; do
 		have_pip=YES
 		have_desktop=YES
 		have_math=YES
+		have_media=YES
 		have_bench=YES
 		have_fs=YES
 		;;
