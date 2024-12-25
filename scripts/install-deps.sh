@@ -6,6 +6,7 @@ readonly prog=inst-deps
 declare -a dnf_args apt_args
 declare -a pkgs pkgs_compiler pkgs_desktop pkgs_bench pkgs_math pkgs_db
 declare -a pkgs_storage pkgs_net pkgs_container pkgs_virt pkgs_base pkgs_fs
+declare -a pkgs_media
 declare -a pip_whls
 
 readonly IS_DNF5="$(dnf --version 2>/dev/null | grep -woi dnf5 | uniq)"
@@ -19,6 +20,7 @@ have_container=
 have_virt=
 have_desktop=
 have_math=
+have_media=
 have_bench=
 have_db=
 have_storage=
@@ -133,6 +135,7 @@ ARGUMENT
 	--container        install container relate packages, such as podman
 	--desktop          install desktop relate packages
 	--math             install math relate packages
+	--media            install media relate packages
 	--bench            install benchmark relate packages
 	--db               install database relate packages
 	--storage          install storage relate packages
@@ -167,6 +170,7 @@ TEMP=$(getopt --options h \
 	--long pip \
 	--long desktop \
 	--long math \
+	--long media \
 	--long bench \
 	--long db \
 	--long storage \
@@ -228,6 +232,10 @@ while true; do
 	--math)
 		shift
 		have_math=YES
+		;;
+	--media)
+		shift
+		have_media=YES
 		;;
 	--bench)
 		shift
@@ -357,6 +365,8 @@ pkgs_virt+=( virt-manager )
 # Benchmark
 pkgs_bench+=( iperf iperf3 )
 pkgs_bench+=( fio )
+
+pkgs_media+=( vlc )
 
 # Desktop Packages
 pkgs_desktop+=( terminator )
@@ -507,6 +517,8 @@ dnf_add_packages()
 
 	pkgs_math+=( fftw-devel )
 
+	pkgs_media+=( ffmpeg-free )
+
 	pkgs_db+=( libpq-devel )
 
 	pkgs_virt+=( edk2-ovmf )
@@ -570,6 +582,8 @@ apt_add_packages()
 
 	pkgs_math+=( fftw-dev )
 
+	pkgs_media+=( ffmpeg )
+
 	pkgs_container+=( cgroup-tools )
 	pkgs_container+=( libcgroup-dev )
 
@@ -594,6 +608,7 @@ os_packages
 [[ ${have_virt} ]] && pkgs+=( ${pkgs_virt[@]} )
 [[ ${have_desktop} ]] && pkgs+=( ${pkgs_desktop[@]} )
 [[ ${have_math} ]] && pkgs+=( ${pkgs_math[@]} )
+[[ ${have_media} ]] && pkgs+=( ${pkgs_media[@]} )
 [[ ${have_bench} ]] && pkgs+=( ${pkgs_bench[@]} )
 [[ ${have_db} ]] && pkgs+=( ${pkgs_db[@]} )
 [[ ${have_storage} ]] && pkgs+=( ${pkgs_storage[@]} )
