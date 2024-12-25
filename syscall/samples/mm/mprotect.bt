@@ -11,8 +11,8 @@
 BEGIN
 {
 	printf("Tracing mprotect(2), hit ctrl-c to end.\n");
-	printf("%-8s %-8s %-16s %-16s %-8s %-4s\n",
-		"TIME", "PID", "COMM", "ADDR", "LEN", "PROT");
+	printf("%-8s %-8s %-16s %-16s %-8s %-4s %-4s\n",
+		"TIME", "PID", "COMM", "ADDR", "LEN", "PROT", "RET");
 }
 
 tracepoint:syscalls:sys_enter_mprotect
@@ -21,15 +21,25 @@ tracepoint:syscalls:sys_enter_mprotect
 	$len = args->len;
 	$prot = args->prot;
 
+	@start[tid] = nsecs;
+
 	time("%H:%M:%S ");
-	printf("%-8d %-16s %-16lx %-8ld %s%s%s-\n", pid, comm,
+	printf("%-8d %-16s %-16lx %-8ld %s%s%s-", pid, comm,
 		$start, $len,
 		$prot & PROT_READ ? "r" : "-",
 		$prot & PROT_WRITE ? "w" : "-",
 		$prot & PROT_EXEC ? "x" : "-");
 }
 
+tracepoint:syscalls:sys_exit_mprotect
+/ @start[tid] /
+{
+	printf(" %-4d\n", args->ret);
+	delete(@start[tid]);
+}
+
 END
 {
+	clear(@start);
 	printf("Bye.\n");
 }
