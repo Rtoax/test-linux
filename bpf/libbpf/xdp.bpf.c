@@ -17,6 +17,7 @@
  * taken place, only to discard it.
  */
 #include <vmlinux.h>
+#include <linux/version.h>
 #include <bpf/bpf_helpers.h>
 #include <bpf/bpf_endian.h>
 #include <bpf/bpf_tracing.h>
@@ -105,7 +106,26 @@ static inline void swap_src_dst_mac(void *data)
  * map.
  */
 struct {
+	/**
+	 * BPF_MAP_TYPE_DEVMAP
+	 *
+	 * The device map is a specialized map type which holds references to
+	 * network devices.
+	 *
+	 * This map type is used in combination with the bpf_redirect_map
+	 * helper to redirect traffic to egress out of a different device. It
+	 * is an array style map, where the indices go from 0 to max_entries-1.
+	 * In a later kernel version a hash version of this map was added:
+	 * BPF_MAP_TYPE_DEVMAP_HASH.
+	 *
+	 * see linux commit 6f9d451ab1a3 ("xdp: Add devmap_hash map type for
+	 * looking up devices by hashed index") v5.3-rc1-119-g6f9d451ab1a3
+	 */
+#if LINUX_VERSION_CODE > KERNEL_VERSION(5, 3, 0)
+	__uint(type, BPF_MAP_TYPE_DEVMAP_HASH);
+#else
 	__uint(type, BPF_MAP_TYPE_DEVMAP);
+#endif
 	__uint(key_size, sizeof(__u32));
 	__uint(value_size, sizeof(struct bpf_devmap_val));
 	__uint(max_entries, 1);
