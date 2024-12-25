@@ -26,6 +26,8 @@ have_db=
 have_storage=
 have_net=
 
+have_3rd_party=
+
 dry_run=
 
 . /etc/os-release
@@ -143,6 +145,8 @@ ARGUMENT
 	--virt             install virtualization relate packages
 	--fs               install filesystem relate packages
 
+	--3rd              get third party software packages above
+
 	--nobase           skip basic packages
 	--noup             skip upgrade
 
@@ -201,6 +205,7 @@ while true; do
 		have_media=YES
 		have_bench=YES
 		have_fs=YES
+		have_3rd_party=YES
 		;;
 	--noup)
 		shift
@@ -253,6 +258,10 @@ while true; do
 	--net)
 		shift
 		have_net=YES
+		;;
+	--3rd)
+		shift
+		have_3rd_party=YES
 		;;
 	--pip)
 		shift
@@ -368,6 +377,8 @@ pkgs_bench+=( iperf iperf3 )
 pkgs_bench+=( fio )
 
 pkgs_media+=( vlc )
+# https://motrix.app/download
+pkgs_media_3rd+=()
 
 # Desktop Packages
 pkgs_desktop+=( terminator )
@@ -519,6 +530,7 @@ dnf_add_packages()
 	pkgs_math+=( fftw-devel )
 
 	pkgs_media+=( ffmpeg-free )
+	[[ ${have_3rd_party} ]] && pkgs_media+=( ${pkgs_media_3rd[@]} )
 
 	pkgs_db+=( libpq-devel )
 
