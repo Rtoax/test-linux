@@ -36,6 +36,11 @@ struct {
 	 * to make room for new elements.
 	 */
 	__uint(type, BPF_MAP_TYPE_LRU_HASH);
+#elif defined(MAP_LRU_PERCPU_HASH)
+	/**
+	 *
+	 */
+	__uint(type, BPF_MAP_TYPE_LRU_PERCPU_HASH);
 #elif defined(MAP_HASH)
 	__uint(type, BPF_MAP_TYPE_HASH);
 #else

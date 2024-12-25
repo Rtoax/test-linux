@@ -43,7 +43,7 @@ GEN_SKEL_ARGS :=
 kconfig-obj-y :=
 kconfig-obj-$(CONFIG_KPROBES) += kprobe
 kconfig-obj-$(CONFIG_TRACEPOINTS) += tracepoint raw_tracepoint tp_btf
-kconfig-obj-$(CONFIG_TRACEPOINTS) += map_hash map_lru_hash map_percpu_hash
+kconfig-obj-$(CONFIG_TRACEPOINTS) += map_hash map_lru_hash map_percpu_hash map_lru_percpu_hash
 kconfig-obj-$(CONFIG_PERF_EVENTS) += perf_event
 # fentry: -pg -mfentry
 #  fentry + BPF trampoline ~= kprobe hook
@@ -152,6 +152,8 @@ CFLAGS_map_percpu_hash := -DTRACEPOINT=1 -DMAP_PERCPU_HASH=1 -DSEC_DEF_TRACEPOIN
 CFLAGS_BPF_map_percpu_hash := -DTRACEPOINT=1 -DMAP_PERCPU_HASH=1 -DSEC_DEF_TRACEPOINT=1
 CFLAGS_map_lru_hash := -DTRACEPOINT=1 -DMAP_LRU_HASH=1 -DSEC_DEF_TRACEPOINT=1
 CFLAGS_BPF_map_lru_hash := -DTRACEPOINT=1 -DMAP_LRU_HASH=1 -DSEC_DEF_TRACEPOINT=1
+CFLAGS_map_lru_percpu_hash := -DTRACEPOINT=1 -DMAP_LRU_PERCPU_HASH=1 -DSEC_DEF_TRACEPOINT=1
+CFLAGS_BPF_map_lru_percpu_hash := -DTRACEPOINT=1 -DMAP_LRU_PERCPU_HASH=1 -DSEC_DEF_TRACEPOINT=1
 CFLAGS_map_array := -DSOCKET_FILTER=1 -DSTRICT_SEC_NAME=1 -DMAP_ARRAY=1
 CFLAGS_BPF_map_array := -DSOCKET_FILTER=1 -DSTRICT_SEC_NAME=1 -DMAP_ARRAY=1
 CFLAGS_map_percpu_array := -DSOCKET_FILTER=1 -DSTRICT_SEC_NAME=1 -DMAP_PERCPU_ARRAY=1
@@ -199,6 +201,7 @@ lsm_socket_create: lsm_socket_create.o ${TRACE_HELPERS}
 map_hash: map_hash.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER}
 map_percpu_hash: map_percpu_hash.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER}
 map_lru_hash: map_lru_hash.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER}
+map_lru_percpu_hash: map_lru_percpu_hash.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER}
 map_array: map_array.o
 
 %.bpf.o: %.bpf.c vmlinux.h

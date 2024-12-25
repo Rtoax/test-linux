@@ -37,6 +37,14 @@
 #define _bpf__destroy	map_lru_hash_bpf__destroy
 #define _bpf__open_and_load	map_lru_hash_bpf__open_and_load
 #define _bpf__attach	map_lru_hash_bpf__attach
+#elif defined(TRACEPOINT) && defined(MAP_LRU_PERCPU_HASH)
+#include "map_lru_percpu_hash.skel.h"
+#define struct_bpf	map_lru_percpu_hash_bpf
+#define _bpf__open_opts	map_lru_percpu_hash_bpf__open_opts
+#define _bpf__load	map_lru_percpu_hash_bpf__load
+#define _bpf__destroy	map_lru_percpu_hash_bpf__destroy
+#define _bpf__open_and_load	map_lru_percpu_hash_bpf__open_and_load
+#define _bpf__attach	map_lru_percpu_hash_bpf__attach
 #else
 #error "Must define TRACEPOINT and one of MAP_HASH MAP_PERCPU_HASH"
 #endif
