@@ -7,16 +7,14 @@
 #define ___deprecated_overload(NAME, ...) \
 		___deprecated_select(NAME, ___deprecated_cnt(__VA_ARGS__))(__VA_ARGS__)
 
-int prog_load_deprecated(int a, int b, int c, int d);
-int prog_load(int a, int b, int c, int d, int e, int f);
+int foo_v1(int a, int b, int c, int d);
+int foo_v2(int a, int b, int c, int d, int e, int f);
 
-#ifndef prog_load
-#define prog_load(...) ___deprecated_overload(___prog_load, __VA_ARGS__)
-#define ___prog_load4(file, type, pobj, prog_fd) \
-		prog_load_deprecated(file, type, pobj, prog_fd)
-#define ___prog_load6(prog_type, prog_name, license, insns, insn_cnt, opts) \
-		prog_load(prog_type, prog_name, license, insns, insn_cnt, opts)
-#endif				/* prog_load */
+#ifndef foo
+#define foo(...) ___deprecated_overload(___foo, __VA_ARGS__)
+#define ___foo4(a, b, c, d) foo_v1(a, b, c, d)
+#define ___foo6(a, b, c, d, e, f) foo_v2(a, b, c, d, e, f)
+#endif
 
 #define SHARED
 
