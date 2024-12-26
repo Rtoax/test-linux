@@ -15,6 +15,8 @@ sub-dir-clean := $(sub-dir:=.clean)
 
 .PHONY: build
 build: $(sub-dir-build)
+	${Q}./check.sh
+	@echo -e " \033[1;33m Done \033[m"
 
 .PHONY: clean
 clean: $(sub-dir-clean)
