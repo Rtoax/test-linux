@@ -573,6 +573,7 @@ dnf_add_packages()
 	pkgs_devel+=( libseccomp-devel )
 	pkgs_devel+=( libslirp-devel )
 	pkgs_devel+=( libssh-devel )
+	pkgs_devel+=( libxdp-devel )
 	pkgs_devel+=( lzo-devel )
 	pkgs_devel+=( numactl-devel )        # numaif.h
 	pkgs_devel+=( pixman-devel )
@@ -598,6 +599,7 @@ dnf_add_packages()
 	pkgs_virt+=( qemu-kvm )
 
 	pkgs_net+=( httpd )
+	pkgs_net+=( libxdp libxdp-static )
 
 	if [[ ${IS_DNF5} ]]; then
 		dnf_args+=( --skip-unavailable )
@@ -640,6 +642,7 @@ apt_add_packages()
 	fi
 
 	pkgs_net+=( apache2 )
+	pkgs_net+=( libxdp1 )
 
 	pkgs_compiler+=( build-essential )
 	pkgs_compiler+=( gcc-doc )
@@ -670,6 +673,7 @@ apt_add_packages()
 	pkgs_devel+=( libpmem-dev )
 	pkgs_devel+=( libpixman-1-dev )
 	pkgs_devel+=( librdmacm-dev )
+	pkgs_devel+=( libxdp-dev )
 	pkgs_devel+=( python3-dev )
 	#pkgs_devel+=( systemd-dev )
 	pkgs_devel+=( systemtap-sdt-dev )
