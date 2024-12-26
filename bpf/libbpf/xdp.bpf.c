@@ -178,8 +178,17 @@ int xdp_devmap_printk(struct xdp_md *ctx)
 
 #elif defined(XDP_CPUMAP) /* Test cpumap */
 /**
+ * BPF_MAP_TYPE_CPUMAP
+ *
  * The packet can be redirected to another CPU for further processing using the
  * bpf_redirect_map helper in combination with a BPF_MAP_TYPE_CPUMAP map.
+ *
+ * This feature can for example be used to implement a form of Receive Side
+ * Scaling (RSS).
+ *
+ * The value_size can be 4 or 8 depending on kernel version and optional
+ * secondary program support. The key_size must always be 4. The max_entries
+ * must be smaller or equal to the amount of logical CPUs on the host.
  */
 struct {
 	__uint(type, BPF_MAP_TYPE_CPUMAP);
