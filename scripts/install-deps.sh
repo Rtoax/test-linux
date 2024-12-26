@@ -6,7 +6,7 @@ readonly prog=inst-deps
 declare -a dnf_args apt_args
 declare -a pkgs pkgs_compiler pkgs_desktop pkgs_bench pkgs_math pkgs_db
 declare -a pkgs_storage pkgs_net pkgs_container pkgs_virt pkgs_base pkgs_fs
-declare -a pkgs_media
+declare -a pkgs_media pkgs_build
 declare -a pip_whls
 
 readonly IS_DNF5="$(dnf --version 2>/dev/null | grep -woi dnf5 | uniq)"
@@ -16,6 +16,7 @@ have_upgrade=YES
 have_fs=
 have_pip=
 have_compiler=
+have_build=
 have_container=
 have_virt=
 have_desktop=
@@ -133,7 +134,8 @@ DESCRIPTION
 ARGUMENT
 	--all
 
-	--compilers        install extra compilers, such as rust java
+	--compilers        install compilers, such as rust java
+	--build            install package builders, such as meson ninja
 	--container        install container relate packages, such as podman
 	--desktop          install desktop relate packages
 	--math             install math relate packages
@@ -159,6 +161,7 @@ ARGUMENT
 	-h, --help         show this help information
 
 SEE ALSO
+	gcc(1), etc.
 "
 	exit ${1-0}
 }
@@ -169,6 +172,7 @@ TEMP=$(getopt --options uh \
 	--long noup \
 	--long fs \
 	--long compilers \
+	--long build \
 	--long container \
 	--long virt \
 	--long pip \
@@ -197,6 +201,7 @@ while true; do
 	--all)
 		shift
 		have_compiler=YES
+		have_build=YES
 		have_container=YES
 		have_virt=YES
 		have_pip=YES
@@ -222,6 +227,10 @@ while true; do
 	--compilers)
 		shift
 		have_compiler=YES
+		;;
+	--build)
+		shift
+		have_build=YES
 		;;
 	--container)
 		shift
@@ -355,6 +364,9 @@ pkgs_compiler+=( golang )
 pkgs_compiler+=( lld )                    # ELF linker from the LLVM project
 pkgs_compiler+=( llvm )                   # llvm-as llvm-dis llc
 pkgs_compiler+=( mold )                   # a modern linker
+
+pkgs_build+=( meson )
+pkgs_build+=( ninja-build )
 
 pkgs_container+=( buildah )
 pkgs_container+=( conmon )
@@ -617,6 +629,7 @@ os_packages
 [[ ${have_base} ]] && pkgs+=( ${pkgs_base[@]} )
 [[ ${have_fs} ]] && pkgs+=( ${pkgs_fs[@]} )
 [[ ${have_compiler} ]] && pkgs+=( ${pkgs_compiler[@]} )
+[[ ${have_build} ]] && pkgs+=( ${pkgs_build[@]} )
 [[ ${have_container} ]] && pkgs+=( ${pkgs_container[@]} )
 [[ ${have_virt} ]] && pkgs+=( ${pkgs_virt[@]} )
 [[ ${have_desktop} ]] && pkgs+=( ${pkgs_desktop[@]} )
