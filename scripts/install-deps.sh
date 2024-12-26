@@ -6,7 +6,7 @@ readonly prog=inst-deps
 declare -a dnf_args apt_args
 declare -a pkgs pkgs_compiler pkgs_desktop pkgs_bench pkgs_math pkgs_db
 declare -a pkgs_storage pkgs_net pkgs_container pkgs_virt pkgs_base pkgs_fs
-declare -a pkgs_media pkgs_build
+declare -a pkgs_media pkgs_build pkgs_devel
 declare -a pip_whls
 
 readonly IS_DNF5="$(dnf --version 2>/dev/null | grep -woi dnf5 | uniq)"
@@ -17,6 +17,7 @@ have_fs=
 have_pip=
 have_compiler=
 have_build=
+have_devel=
 have_container=
 have_virt=
 have_desktop=
@@ -136,6 +137,7 @@ ARGUMENT
 
 	--compilers        install compilers, such as rust java
 	--build            install package builders, such as meson ninja
+	--devel            install development packages, such as zlib-devel
 	--container        install container relate packages, such as podman
 	--desktop          install desktop relate packages
 	--math             install math relate packages
@@ -173,6 +175,7 @@ TEMP=$(getopt --options uh \
 	--long fs \
 	--long compilers \
 	--long build \
+	--long devel \
 	--long container \
 	--long virt \
 	--long pip \
@@ -202,6 +205,7 @@ while true; do
 		shift
 		have_compiler=YES
 		have_build=YES
+		have_devel=YES
 		have_container=YES
 		have_virt=YES
 		have_pip=YES
@@ -231,6 +235,10 @@ while true; do
 	--build)
 		shift
 		have_build=YES
+		;;
+	--devel)
+		shift
+		have_devel=YES
 		;;
 	--container)
 		shift
@@ -527,6 +535,8 @@ dnf_add_packages()
 	pkgs_compiler+=( libgccjit-devel )
 	pkgs_compiler+=( rust )
 
+	pkgs_build+=( rpm-build )
+
 	pkgs_container+=( cri-tools )
 	pkgs_container+=( cri-o )
 	pkgs_container+=( criu )
@@ -534,10 +544,14 @@ dnf_add_packages()
 	pkgs_container+=( libcgroup-tools )
 	pkgs_container+=( udica )
 
-	pkgs_desktop+=( glib2-devel )
 	pkgs_desktop+=( gtk3 )
 	pkgs_desktop+=( gtk3-devel )
 	pkgs_desktop+=( tigervnc )
+
+	pkgs_devel+=( glib2-devel )
+	pkgs_devel+=( gnutls-devel )
+	pkgs_devel+=( libselinux1-dev )
+	pkgs_devel+=( zlib-devel )
 
 	pkgs_math+=( fftw-devel )
 
@@ -603,6 +617,9 @@ apt_add_packages()
 	pkgs_compiler+=( lua5.4 )
 	pkgs_compiler+=( rust-all )
 
+	pkgs_devel+=( libglib2.0-dev )
+	pkgs_devel+=( zlib1g-dev )
+
 	pkgs_fs+=( unionfs-fuse )
 
 	pkgs_math+=( fftw-dev )
@@ -630,6 +647,7 @@ os_packages
 [[ ${have_fs} ]] && pkgs+=( ${pkgs_fs[@]} )
 [[ ${have_compiler} ]] && pkgs+=( ${pkgs_compiler[@]} )
 [[ ${have_build} ]] && pkgs+=( ${pkgs_build[@]} )
+[[ ${have_devel} ]] && pkgs+=( ${pkgs_devel[@]} )
 [[ ${have_container} ]] && pkgs+=( ${pkgs_container[@]} )
 [[ ${have_virt} ]] && pkgs+=( ${pkgs_virt[@]} )
 [[ ${have_desktop} ]] && pkgs+=( ${pkgs_desktop[@]} )
