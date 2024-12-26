@@ -6,7 +6,7 @@ readonly prog=inst-deps
 declare -a dnf_args apt_args
 declare -a pkgs pkgs_compiler pkgs_desktop pkgs_bench pkgs_math pkgs_db
 declare -a pkgs_storage pkgs_net pkgs_container pkgs_virt pkgs_base pkgs_fs
-declare -a pkgs_media pkgs_build pkgs_devel
+declare -a pkgs_media pkgs_build pkgs_devel pkgs_docs
 declare -a pip_whls
 
 readonly IS_DNF5="$(dnf --version 2>/dev/null | grep -woi dnf5 | uniq)"
@@ -17,6 +17,7 @@ have_fs=
 have_pip=
 have_compiler=
 have_build=
+have_docs=
 have_devel=
 have_container=
 have_virt=
@@ -137,6 +138,7 @@ ARGUMENT
 
 	--compilers        install compilers, such as rust java
 	--build            install package builders, such as meson ninja
+	--docs             install document packages, such as python3-sphinx
 	--devel            install development packages, such as zlib-devel
 	--container        install container relate packages, such as podman
 	--desktop          install desktop relate packages
@@ -175,6 +177,7 @@ TEMP=$(getopt --options uh \
 	--long fs \
 	--long compilers \
 	--long build \
+	--long docs \
 	--long devel \
 	--long container \
 	--long virt \
@@ -205,6 +208,7 @@ while true; do
 		shift
 		have_compiler=YES
 		have_build=YES
+		have_docs=YES
 		have_devel=YES
 		have_container=YES
 		have_virt=YES
@@ -235,6 +239,10 @@ while true; do
 	--build)
 		shift
 		have_build=YES
+		;;
+	--docs)
+		shift
+		have_docs=YES
 		;;
 	--devel)
 		shift
@@ -376,6 +384,8 @@ pkgs_compiler+=( mold )                   # a modern linker
 pkgs_build+=( meson )
 pkgs_build+=( ninja-build )
 
+pkgs_docs+=( python3-sphinx )
+
 pkgs_container+=( buildah )
 pkgs_container+=( conmon )
 pkgs_container+=( containerd )
@@ -475,9 +485,7 @@ dnf_add_packages()
 	pkgs_base+=( kernel-headers )       # kernel
 	pkgs_base+=( kernel-modules )       # modules
 	pkgs_base+=( kernel-modules-extra ) # modules, ocfs2, etc.
-	pkgs_base+=( libaio-devel )         # aio
 	pkgs_base+=( libattr-devel )
-	pkgs_base+=( libbpf-devel )         # libbpf
 	pkgs_base+=( libcap-ng-devel )
 	pkgs_base+=( libcap-ng-utils )
 	pkgs_base+=( libdwarf-tools )       # dwarfdump
@@ -497,7 +505,6 @@ dnf_add_packages()
 	pkgs_base+=( mpich mpich-devel )    # mpi
 	pkgs_base+=( mpfr-devel )
 	pkgs_base+=( ncurses-devel )
-	pkgs_base+=( numactl-devel )        # numaif.h
 	pkgs_base+=( nvme-cli )             # nvme
 	pkgs_base+=( openssl-devel )
 	pkgs_base+=( pam )                  # /etc/security/limits.conf
@@ -548,10 +555,36 @@ dnf_add_packages()
 	pkgs_desktop+=( gtk3-devel )
 	pkgs_desktop+=( tigervnc )
 
+	pkgs_devel+=( cyrus-sasl-devel )
+	pkgs_devel+=( device-mapper-multipath-devel )
 	pkgs_devel+=( glib2-devel )
 	pkgs_devel+=( gnutls-devel )
-	pkgs_devel+=( libselinux1-dev )
+	pkgs_devel+=( libaio-devel )
+	pkgs_devel+=( libattr-devel )
+	pkgs_devel+=( libblkio-devel )
+	pkgs_devel+=( libbpf-devel )         # libbpf
+	pkgs_devel+=( libcap-ng-devel )
+	pkgs_devel+=( libcurl-devel )
+	pkgs_devel+=( libfdt-devel )
+	pkgs_devel+=( libiscsi-devel )
+	pkgs_devel+=( libpmem-devel )
+	pkgs_devel+=( libpng-devel )
+	pkgs_devel+=( librbd-devel )
+	pkgs_devel+=( libseccomp-devel )
+	pkgs_devel+=( libslirp-devel )
+	pkgs_devel+=( libssh-devel )
+	pkgs_devel+=( lzo-devel )
+	pkgs_devel+=( numactl-devel )        # numaif.h
+	pkgs_devel+=( pixman-devel )
+	pkgs_devel+=( python3-devel )
+	pkgs_devel+=( rdma-core-devel )
+	pkgs_devel+=( snappy-devel )
+	pkgs_devel+=( systemd-devel )
+	pkgs_devel+=( systemtap-sdt-devel )
+	pkgs_devel+=( usbredir-devel )
 	pkgs_devel+=( zlib-devel )
+
+	pkgs_docs+=( python3-sphinx_rtd_theme )
 
 	pkgs_math+=( fftw-devel )
 
@@ -581,7 +614,6 @@ apt_add_packages()
 	pkgs_base+=( clang-format )
 	pkgs_base+=( dwarfdump )
 	pkgs_base+=( libaio-dev )           # aio
-	pkgs_base+=( libbpf-dev )           # libbpf
 	pkgs_base+=( libbpfcc )
 	pkgs_base+=( libbpfcc-dev )
 	pkgs_base+=( libcapstone-dev )
@@ -591,7 +623,6 @@ apt_add_packages()
 	pkgs_base+=( libmpfr-dev )
 	pkgs_base+=( libmpich-dev )         # MPI
 	pkgs_base+=( libncurses-dev )
-	pkgs_base+=( libnuma-dev )
 	pkgs_base+=( libpam0g )
 	pkgs_base+=( libpam0g-dev )
 	pkgs_base+=( libssl-dev )
@@ -617,8 +648,34 @@ apt_add_packages()
 	pkgs_compiler+=( lua5.4 )
 	pkgs_compiler+=( rust-all )
 
+	pkgs_devel+=( cyrus-dev )
+	pkgs_devel+=( libaio-dev )
+	pkgs_devel+=( libattr1-dev )
+	pkgs_devel+=( libblockdev-mpath-dev )
+	pkgs_devel+=( libbpf-dev )           # libbpf
+	pkgs_devel+=( libcap-ng-dev )
+	pkgs_devel+=( libfdt-dev )
 	pkgs_devel+=( libglib2.0-dev )
+	pkgs_devel+=( libiscsi-dev )
+	pkgs_devel+=( liblzo2-dev )
+	pkgs_devel+=( libnuma-dev )
+	pkgs_devel+=( libpng-dev )
+	pkgs_devel+=( librbd-dev )
+	pkgs_devel+=( libseccomp-dev )
+	pkgs_devel+=( libselinux1-dev )
+	pkgs_devel+=( libslirp-dev )
+	pkgs_devel+=( libsnappy-dev )
+	pkgs_devel+=( libssh-dev )
+	pkgs_devel+=( libusbredirhost-dev )
+	pkgs_devel+=( libpmem-devel )
+	pkgs_devel+=( libpixman-1-dev )
+	pkgs_devel+=( librdmacm-dev )
+	pkgs_devel+=( python3-dev )
+	pkgs_devel+=( systemd-dev )
+	pkgs_devel+=( systemtap-sdt-dev )
 	pkgs_devel+=( zlib1g-dev )
+
+	pkgs_docs+=( python3-sphinx-rtd-theme )
 
 	pkgs_fs+=( unionfs-fuse )
 
@@ -647,6 +704,7 @@ os_packages
 [[ ${have_fs} ]] && pkgs+=( ${pkgs_fs[@]} )
 [[ ${have_compiler} ]] && pkgs+=( ${pkgs_compiler[@]} )
 [[ ${have_build} ]] && pkgs+=( ${pkgs_build[@]} )
+[[ ${have_docs} ]] && pkgs+=( ${pkgs_docs[@]} )
 [[ ${have_devel} ]] && pkgs+=( ${pkgs_devel[@]} )
 [[ ${have_container} ]] && pkgs+=( ${pkgs_container[@]} )
 [[ ${have_virt} ]] && pkgs+=( ${pkgs_virt[@]} )
@@ -660,7 +718,7 @@ os_packages
 
 
 if [[ ! -z "${pkgs[@]}" ]]; then
-	os_install ${pkgs[@]}
+	os_install $(echo ${pkgs[@]} | sort | uniq)
 fi
 
 # Install python3 pip wheels
