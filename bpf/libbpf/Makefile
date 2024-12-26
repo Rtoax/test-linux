@@ -93,6 +93,7 @@ TARGETS_BPF += map_array_of_maps.bpf.o
 TARGETS_BPF += map_hash_of_maps.bpf.o
 TARGETS_BPF += map_ringbuf.bpf.o
 TARGETS_BPF += map_devmap.bpf.o
+TARGETS_BPF += xdp_xskmap.bpf.o
 
 # Never append to skel target, always generate by bpf target
 TARGETS_SKEL := $(patsubst %.bpf.o,%.skel.h,$(TARGETS_BPF))
@@ -138,6 +139,8 @@ CFLAGS_xdp_devmap := -DSTRICT_SEC_NAME=1 -DXDP_DEVMAP=1
 CFLAGS_BPF_xdp_devmap := -DSTRICT_SEC_NAME=1 -DXDP_DEVMAP=1
 CFLAGS_xdp_cpumap := -DSTRICT_SEC_NAME=1 -DXDP_CPUMAP=1
 CFLAGS_BPF_xdp_cpumap := -DSTRICT_SEC_NAME=1 -DXDP_CPUMAP=1
+CFLAGS_xdp_xskmap := -DSTRICT_SEC_NAME=1 -DXDP_XSKMAP=1
+CFLAGS_BPF_xdp_xskmap := -DSTRICT_SEC_NAME=1 -DXDP_XSKMAP=1
 CFLAGS_iter_task := -DITER_TASK=1
 CFLAGS_BPF_iter_task := -DITER_TASK=1
 CFLAGS_iter_task_file := -DITER_TASK_FILE=1

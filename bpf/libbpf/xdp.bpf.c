@@ -237,6 +237,37 @@ int xdp_dummy_cpumap(struct xdp_md *ctx)
 {
 	return XDP_PASS;
 }
+
+#elif defined(XDP_XSKMAP) /* Test XSKMAP */
+
+/**
+ * BPF_MAP_TYPE_XSKMAP
+ *
+ * This XDP Socket map is a specialized map which references XDP Sockets.
+ *
+ * This map type is used in combination with the bpf_redirect_map helper to
+ * redirect traffic to userspace, bypassing the kernel network stack. It is
+ * an array style map, where the indices go from 0 to max_entries-1. The
+ * values of this map are the file descriptor of specially prepared network
+ * sockets.
+ */
+struct {
+	__uint(type, BPF_MAP_TYPE_XSKMAP);
+	__type(key, __u32);
+	__type(value, __u32);
+	__uint(max_entries, 64);
+} xsks_map SEC(".maps");
+
+SEC("xdp")
+int xsk_redir_prog(struct xdp_md *ctx)
+{
+	__u32 index = ctx->rx_queue_index;
+
+	if (bpf_map_lookup_elem(&xsks_map, &index))
+		return bpf_redirect_map(&xsks_map, index, 0);
+	return XDP_PASS;
+}
+
 #else
 # error "Must define XDP_BASIC, XDP_DEVMAP or XDP_CPUMAP"
 #endif

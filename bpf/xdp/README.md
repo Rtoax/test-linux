@@ -45,6 +45,14 @@ enum xdp_action {
 ```
 
 
+# AF_XDP
+
+Examples of such use cases are:
+
+- Custom protocol implementations
+- DDoS protection
+- Application specific optimization
+
 
 # XDP front end 'ip'
 
@@ -60,3 +68,5 @@ ip link set dev eth0 xdp obj program.o sec mysection
   - [Bilibili](https://www.bilibili.com/video/BV1vg4y1X7jP/)
 - https://en.wikipedia.org/wiki/Express_Data_Path
 - https://upload.wikimedia.org/wikipedia/commons/3/37/Netfilter-packet-flow.svg
+- [AF_XDP](https://docs.ebpf.io/linux/concepts/af_xdp/)
+
