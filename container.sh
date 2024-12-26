@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e
 
+IMG=fedora:41
+
 darch=${DARCH}
 
 if [[ -z ${darch} ]]; then
@@ -10,5 +12,5 @@ fi
 # Install depends
 ./scripts/install-deps.sh --noup --nobase --container
 
-podman pull ${darch:+--arch ${darch}} fedora:40
-podman run --rm -ti --volume $PWD:/root/tst-linux ${darch:+--arch ${darch}} fedora:40 bash
+podman pull ${darch:+--arch ${darch}} ${IMG}
+podman run --rm -ti --volume $PWD:/root/tst-linux ${darch:+--arch ${darch}} ${IMG} bash
