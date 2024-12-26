@@ -152,7 +152,7 @@ ARGUMENT
 
 	--pip              install python pip wheel packages
 
-	--dry-run          only show commands
+	-u, --dry-run      only show commands
 
 	--allowerasing     allow erasing of installed packages to resolve dependencies
 
@@ -163,7 +163,7 @@ SEE ALSO
 	exit ${1-0}
 }
 
-TEMP=$(getopt --options h \
+TEMP=$(getopt --options uh \
 	--long all \
 	--long nobase \
 	--long noup \
@@ -267,7 +267,7 @@ while true; do
 		shift
 		have_pip=YES
 		;;
-	--dry-run)
+	-u | --dry-run)
 		shift
 		dry_run=YES
 		;;
