@@ -217,6 +217,7 @@ while true; do
 		have_math=YES
 		have_media=YES
 		have_bench=YES
+		have_net=YES
 		have_fs=YES
 		have_3rd_party=YES
 		;;
