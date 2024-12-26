@@ -8,6 +8,7 @@ else
 endif
 export Q
 
+VIRT_TYPE ?= $(shell systemd-detect-virt)
 CONFIG_KERNEL ?= /boot/config-$(shell uname -r)
 
 # If don't have kernel config, enable all CONFIG_=y, otherwise, include config
@@ -98,6 +99,12 @@ TARGETS_BPF += xdp_xskmap.bpf.o
 # Never append to skel target, always generate by bpf target
 TARGETS_SKEL := $(patsubst %.bpf.o,%.skel.h,$(TARGETS_BPF))
 
+ifeq (${VIRT_TYPE},systemd-nspawn)
+  $(warning "Could not support vmlinux.h in systemd-nspawn")
+  TARGETS :=
+  TARGETS_BPF :=
+  TARGETS_SKEL :=
+endif
 
 CFLAGS_BPF := -I.
 CFLAGS_BPF += -O2 -Wall -g
