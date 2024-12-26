@@ -10,6 +10,10 @@
 #define TEST_FILE	"falloc.dat"
 #define TEST_FILE_LSEEK	"falloc.lseek.dat"
 
+#ifdef POSIX
+#define fallocate posix_fallocate
+#endif
+
 int openfile(char *file)
 {
 	unlink(file);

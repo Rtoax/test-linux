@@ -7,6 +7,10 @@
 #include <sys/mman.h>
 #include <sys/types.h>
 
+#ifdef POSIX
+#define madvise posix_madvise
+#endif
+
 typedef struct {
 	char name[32];
 	int age;
