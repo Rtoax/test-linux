@@ -8,8 +8,7 @@ endif
 export Q
 
 
-
-obj-m += my_audit.o myaudit.o
+obj-m += my_audit.o sys-define.o
 
 all:
 	${Q}make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
