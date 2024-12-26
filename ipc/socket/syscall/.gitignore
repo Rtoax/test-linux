@@ -12,3 +12,4 @@
 /tcp-clt-1
 /fd.c
 /recv
+/AF_XDP

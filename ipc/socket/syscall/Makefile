@@ -21,15 +21,9 @@ TARGETS += connect
 TARGETS += shutdown
 TARGETS += recv
 TARGETS += tcp-srv-1 tcp-clt-1
-
-ifeq ($(shell uname -m),x86_64)
-endif
-ifeq ($(shell uname -m),aarch64)
-# TODO: Remove openat2 from TARGETS
-endif
+TARGETS += AF_XDP
 
 DEBUG = yes
-SRC_PATH := $(shell pwd)
 CC = gcc
 
 CFLAGS := -Werror -Wall -D_GNU_SOURCE
@@ -37,13 +31,13 @@ CFLAGS += -I../../
 CFLAGS += -I../../../libs/
 
 ifdef DEBUG
-CFLAGS += -DDEBUG -O0 -g
+  CFLAGS += -DDEBUG -O0 -g
 endif
 
+.PHONY: build
 build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
-# Add more object.o file
 socketpair: socketpair.o
 getsockopt: getsockopt.o
 setsockopt: setsockopt.o
@@ -58,18 +52,19 @@ shutdown: shutdown.o
 recv: recv.o
 tcp-srv-1: tcp-srv-1.o
 tcp-clt-1: tcp-clt-1.o
+AF_XDP: AF_XDP.o
 
 fd.c:
 	@echo -e "  COPY  \033[1m$(@)\033[m"
-	@cp ../../../libs/fd.c fd.c
+	${Q}cp ../../../libs/fd.c fd.c
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	${Q}$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
+	${Q}$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
 
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	${Q}$(CC) $(CFLAGS) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
+	${Q}$(CC) -o $(@) $(^) $(CFLAGS) $(CFLAGS_$(*))
 
 test: ${TARGETS}
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"

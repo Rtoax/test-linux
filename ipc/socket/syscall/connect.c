@@ -1,14 +1,14 @@
+#include <arpa/inet.h>
 #include <assert.h>
+#include <errno.h>
+#include <fcntl.h>
+#include <netinet/in.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <unistd.h>
-#include <sys/types.h>
 #include <sys/socket.h>
-#include <arpa/inet.h>
-#include <netinet/in.h>
-#include <fcntl.h>
-#include <errno.h>
+#include <sys/types.h>
+#include <unistd.h>
 
 #include "fd.h"
 
@@ -31,13 +31,13 @@ int main(int argc, char **argv)
 	char *ipaddr = "10.12.1.214"; /* non exist */
 	unsigned int port = 80;
 	int fd = 0;
-	struct sockaddr_in  addr;
+	struct sockaddr_in addr;
 	fd_set fdr, fdw;
 	struct timeval timeout;
 	int err = 0;
 	int errlen = sizeof(err);
 
-	fd = socket(AF_INET,SOCK_STREAM,0);
+	fd = socket(AF_INET, SOCK_STREAM, 0);
 	if (fd < 0) {
 		fprintf(stderr, "create socket failed,error: %m.\n");
 		return -1;
