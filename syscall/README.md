@@ -6,3 +6,8 @@ directory.
 
 see `man syscalls`.
 
+
+# Links
+
+- [Adding a New System Call](https://docs.kernel.org/process/adding-syscalls.html)
+
