@@ -25,6 +25,7 @@ sub-dir-clean := $(sub-dir:=.clean)
 
 .PHONY: build
 build: ${TARGETS} $(sub-dir-build)
+	${Q}./interface.sh
 	@echo -e " \033[1;33m Done \033[m"
 
 ethtool: ethtool.o
