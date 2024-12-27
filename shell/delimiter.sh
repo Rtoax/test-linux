@@ -1,4 +1,6 @@
 #!/bin/bash
+# EOF - End of File
+set -e
 
 wc -l << EOF
     This is a simple lookup program
@@ -18,3 +20,10 @@ cat << EOF
     in Cape Town.
 EOF
 
+_foo()
+{
+  cat >&2<< EOF
+    Print to stderr
+EOF
+}
+_foo
