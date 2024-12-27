@@ -27,3 +27,7 @@ _foo()
 EOF
 }
 _foo
+
+	cat <<-EOF
+	#!/bin/bash
+	EOF
