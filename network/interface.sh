@@ -16,8 +16,8 @@ for i in ${interfaces[@]}
 do
 	operstate=$(cat /sys/class/net/${i}/operstate 2>/dev/null || true)
 	carrier=$(cat /sys/class/net/${i}/carrier 2>/dev/null || true)
-	nr_rx_queues=$(echo "/sys/class/net/${i}/queues/rx-[0-9]*" 2>/dev/null | wc -l || true)
-	nr_tx_queues=$(echo "/sys/class/net/${i}/queues/tx-[0-9]*" 2>/dev/null | wc -l || true)
+	nr_rx_queues=$(echo /sys/class/net/${i}/queues/rx-* 2>/dev/null | wc -w || true)
+	nr_tx_queues=$(echo /sys/class/net/${i}/queues/tx-* 2>/dev/null | wc -w || true)
 
 	[[ -z $operstate ]] && operstate=Unknown
 	[[ -z $carrier ]] && carrier=Unknown
