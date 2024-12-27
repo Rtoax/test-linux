@@ -409,6 +409,7 @@ pkgs_bench+=( fio )
 
 pkgs_media+=( vlc )
 # https://motrix.app/download
+# https://code.visualstudio.com/docs/setup/linux
 pkgs_media_3rd+=()
 
 # Desktop Packages
