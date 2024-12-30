@@ -410,6 +410,7 @@ pkgs_bench+=( fio )
 pkgs_media+=( vlc )
 # https://motrix.app/download
 # https://code.visualstudio.com/docs/setup/linux
+# https://www.drawio.com/, https://github.com/jgraph/drawio-desktop/releases/
 pkgs_media_3rd+=()
 
 # Desktop Packages
