@@ -31,6 +31,7 @@ have_net=
 
 have_3rd_party=
 
+verbose=
 dry_run=
 
 . /etc/os-release
@@ -162,6 +163,7 @@ ARGUMENT
 
 	--allowerasing     allow erasing of installed packages to resolve dependencies
 
+	-v, --verbose      show verbose information
 	-h, --help         show this help information
 
 SEE ALSO
@@ -170,7 +172,7 @@ SEE ALSO
 	exit ${1-0}
 }
 
-TEMP=$(getopt --options uh \
+TEMP=$(getopt --options uvh \
 	--long all \
 	--long nobase \
 	--long noup \
@@ -191,6 +193,7 @@ TEMP=$(getopt --options uh \
 	--long net \
 	--long dry-run \
 	--long allowerasing \
+	--long verbose \
 	--long help \
 	--name $prog -- "$@")
 
@@ -301,6 +304,10 @@ while true; do
 		shift
 		dnf_args+=( --allowerasing --nobest )
 		;;
+	-v | --verbose)
+		shift
+		verbose=YES
+		;;
 	--)
 		shift
 		break
@@ -309,6 +316,11 @@ while true; do
 done
 
 echo "OS: ${OS}"
+
+if [[ ${verbose} ]]; then
+	export PS4='+${BASH_SOURCE}:${LINENO}:${FUNCNAME[0]}: '
+	set -x
+fi
 
 # Install extra software package repo
 case ${OS} in
