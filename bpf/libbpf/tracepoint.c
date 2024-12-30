@@ -126,6 +126,8 @@ int main(void)
 		return 1;
 	}
 
+	printf("Tracing execve(2) syscall, and kill 'ls' command.\n");
+
 	while (true) {
 		err = perf_buffer__poll(pb, 100 /* timeout, ms */);
 		/* Ctrl-C gives -EINTR */

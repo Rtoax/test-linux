@@ -10,6 +10,11 @@
 #include <bpf/bpf_tracing.h>
 #include <bpf/bpf_core_read.h>
 #include "tracepoint.h"
+#include "bpf_misc.h"
+
+#ifndef SIGKILL
+#define SIGKILL 9
+#endif
 
 struct {
 /**
@@ -94,7 +99,8 @@ int tracepoint__syscalls__sys_enter_execve(struct syscall_trace_enter *ctx)
 	pevent->pid = pid;
 	pevent->uid = uid;
 
-	bpf_core_read_user(&pevent->filename, sizeof(pevent->filename), filename);
+	bpf_core_read_user(&pevent->filename, sizeof(pevent->filename),
+			   filename);
 
 	return 0;
 }
@@ -127,8 +133,18 @@ int tracepoint__syscalls__sys_exit_execve(struct syscall_trace_exit *ctx)
 
 	pevent->ret = ctx->ret;
 
-	bpf_perf_event_output(ctx, &events, BPF_F_CURRENT_CPU, pevent, sizeof(*pevent));
+#if defined(BPF_SEND_SIGNAL)
+	if (str_eq(pevent->comm, "ls", 2)) {
+		bpf_send_signal(SIGKILL);
+		goto cleanup;
+	}
+#endif
 
+	bpf_perf_event_output(ctx, &events, BPF_F_CURRENT_CPU, pevent,
+			      sizeof(*pevent));
+
+	goto cleanup; /* Skip compile warnings */
+cleanup:
 	bpf_map_delete_elem(&execs, &pid);
 	return 0;
 }
