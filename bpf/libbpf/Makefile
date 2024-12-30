@@ -21,6 +21,7 @@ ifeq ($(wildcard $(CONFIG_KERNEL)),)
   CONFIG_HAVE_FENTRY=y
   CONFIG_BPF_LSM=y
   CONFIG_BPF_SYSCALL=y
+  CONFIG_BPF_KPROBE_OVERRIDE=
 else
   include $(CONFIG_KERNEL)
 endif
@@ -128,6 +129,11 @@ endif
 
 CFLAGS_kprobe := -D'KSYM_DO_EXECVEAT_COMMON="${KSYM_DO_EXECVEAT_COMMON}"' -DKPROBE=1
 CFLAGS_BPF_kprobe := -D'KSYM_DO_EXECVEAT_COMMON="${KSYM_DO_EXECVEAT_COMMON}"' -DKPROBE=1
+ifeq ($(CONFIG_BPF_KPROBE_OVERRIDE),y)
+  CFLAGS_BPF_kprobe += -DBPF_OVERRIDE_RETURN=1
+else
+  $(warning "Not config CONFIG_BPF_KPROBE_OVERRIDE=y, skip test bpf_override_return()")
+endif
 CFLAGS_fentry := -DFENTRY=1
 CFLAGS_BPF_fentry := -DFENTRY=1
 CFLAGS_fmod_ret := -DFMOD_RET=1
