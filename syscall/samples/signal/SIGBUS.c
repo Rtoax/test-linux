@@ -44,6 +44,6 @@ int main(int argc, char *argv[])
 	signal(SIGBUS, sig_handler);
 	demo1();
 	demo2();
-	return(EXIT_SUCCESS);
+	return EXIT_SUCCESS;
 }
 

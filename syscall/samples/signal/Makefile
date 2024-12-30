@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: GPL-3.0
+
 sub-dir := SIGURG
 
 TARGETS := signal
@@ -10,7 +12,8 @@ TARGETS += kill kill-fork killpg
 TARGETS += raise
 TARGETS += strsignal
 TARGETS += alarm alarm-sleep alarm-sleep-2
-TARGETS += SIGFPE SIGHUP SIGALRM SIGUSR1 SIGUSR1-1 SIGUSR2 NSIG SIGCHLD SIGRTMAX SIGPIPE SIGBUS
+TARGETS += SIGFPE SIGHUP SIGALRM SIGUSR1 SIGUSR1-1 SIGUSR2 NSIG SIGCHLD SIGRTMAX
+TARGETS += SIGPIPE SIGBUS SIGILL
 TARGETS += sigaltstack
 TARGETS += sigpending
 TARGETS += sigsuspend
@@ -66,6 +69,7 @@ SIGUSR2: SIGUSR2.o
 SIGCHLD: SIGCHLD.o
 SIGRTMAX: SIGRTMAX.o
 SIGPIPE: SIGPIPE.o
+SIGILL: SIGILL.o
 NSIG: NSIG.o
 strsignal: strsignal.o
 alarm: alarm.o
