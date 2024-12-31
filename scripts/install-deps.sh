@@ -626,6 +626,9 @@ dnf_add_packages()
 
 apt_add_packages()
 {
+	if [[ $(uname -m) == x86_64 ]]; then
+		pkgs_base+=( libc6-dev-i386 )
+	fi
 	pkgs_base+=( binutils-dev )
 	pkgs_base+=( bpfcc-tools )
 	pkgs_base+=( build-essential )
