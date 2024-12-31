@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0
 SHELL = bash
 ifeq ($(V),1)
   Q =
@@ -7,8 +8,8 @@ else
 endif
 export Q
 
-
 sub-dir := samples
+sub-dir += libxdp
 
 sub-dir-build := $(sub-dir:=.build)
 sub-dir-clean := $(sub-dir:=.clean)
