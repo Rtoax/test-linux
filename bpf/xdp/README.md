@@ -1,6 +1,10 @@
 XDP - eXpress Data Path
 =======================
 
+- `Native XDP`: Runs directly on the network driver, providing higher performance.
+- `Generic XDP`: Runs on the kernel's network stack, providing compatibility with all network drivers but with lower performance.
+
+
 # XDP action
 
 ```c
@@ -58,7 +62,13 @@ Examples of such use cases are:
 
 ```bash
 # Command 'ip' as XDP front end.
-ip link set dev eth0 xdp obj program.o sec mysection
+sudo ip link set dev eth0 xdp obj program.o sec mysection
+
+# Check Current XDP Programs:
+sudo ip -details link show dev eth0
+
+# Unload xdp:
+sudo ip -details link set eth0 xdp off
 ```
 
 

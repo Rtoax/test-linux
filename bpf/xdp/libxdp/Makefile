@@ -15,7 +15,10 @@ include ../../bpf.mk
 TARGETS :=
 TARGETS_BPF :=
 
+TARGETS += xsk_user
+
 TARGETS_BPF += xdp_drop.bpf.o
+TARGETS_BPF += xdp_xsk.bpf.o
 
 CC := gcc
 CLANG := clang
@@ -23,21 +26,21 @@ BPFTOOL := bpftool
 
 CFLAGS := -Werror -Wall
 CFLAGS += -Wstrict-prototypes
-CFLAGS += -lxdp
+CFLAGS += -lxdp -lbpf
 
 CFLAGS_BPF := -I.
 CFLAGS_BPF += -O2 -Wall -g -target bpf
 CFLAGS_BPF += $(CFLAG_BPF_TARGET_ARCH)
 
 LDFLAGS :=
-LDFLAGS += -lxdp
+LDFLAGS += -lxdp -lbpf
 
 .PHONY: build
 .PHONY: build
 build: vmlinux.h ${TARGETS_BPF} ${TARGETS}
 	@echo -e "  \033[1;33mDone\033[m"
 
-# Add more object.o file
+xsk_user: xsk_user.o
 
 %.bpf.o: %.bpf.c vmlinux.h
 	@echo -e "  BPF  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
