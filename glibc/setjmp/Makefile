@@ -12,6 +12,7 @@ TARGETS :=
 TARGETS += setjmp
 TARGETS += sigsetjmp
 TARGETS += getline
+TARGETS += signal
 
 CC = gcc
 
@@ -22,12 +23,14 @@ CFLAGS += -DDEBUG -O0 -g
 CFLAGS_sigsetjmp := -DSIGJMP=1
 CFLAGS_setjmp := -DJMP=1
 
+.PHONY: build
 build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
 setjmp: setjmp.o
 sigsetjmp: sigsetjmp.o
 getline: getline.o
+signal: signal.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
