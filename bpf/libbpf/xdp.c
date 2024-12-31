@@ -346,22 +346,22 @@ int main(int argc, char *argv[])
 		goto cleanup;
 	}
 
-	struct xdp_mmap_offsets off = {0};
-	socklen_t optlen = sizeof(off);
+	struct xdp_mmap_offsets offs = {0};
+	socklen_t optlen = sizeof(offs);
 
-	if (getsockopt(sock_fd, SOL_XDP, XDP_MMAP_OFFSETS, &off, &optlen) < 0) {
+	if (getsockopt(sock_fd, SOL_XDP, XDP_MMAP_OFFSETS, &offs, &optlen) < 0) {
 		perror("getsockopt XDP_MMAP_OFFSETS");
 		goto cleanup;
 	}
 
-	display_xdp_ring_offset("RX", &off.rx);
-	display_xdp_ring_offset("TX", &off.tx);
-	display_xdp_ring_offset("FR", &off.fr);
-	display_xdp_ring_offset("CR", &off.cr);
+	display_xdp_ring_offset("RX", &offs.rx);
+	display_xdp_ring_offset("TX", &offs.tx);
+	display_xdp_ring_offset("FR", &offs.fr);
+	display_xdp_ring_offset("CR", &offs.cr);
 
 	void *rx_mem, *tx_mem, *fi_mem, *co_mem;
 
-	rx_mem = mmap(NULL, off.rx.desc + ring_size * sizeof(struct xdp_desc),
+	rx_mem = mmap(NULL, offs.rx.desc + ring_size * sizeof(struct xdp_desc),
 		      PROT_READ | PROT_WRITE, MAP_SHARED | MAP_POPULATE,
 		      sock_fd, XDP_PGOFF_RX_RING);
 	if (rx_mem == MAP_FAILED) {
@@ -369,7 +369,7 @@ int main(int argc, char *argv[])
 		goto cleanup;
 	}
 
-	tx_mem = mmap(NULL, off.tx.desc + ring_size * sizeof(struct xdp_desc),
+	tx_mem = mmap(NULL, offs.tx.desc + ring_size * sizeof(struct xdp_desc),
 		      PROT_READ | PROT_WRITE, MAP_SHARED | MAP_POPULATE,
 		      sock_fd, XDP_PGOFF_TX_RING);
 	if (tx_mem == MAP_FAILED) {
@@ -377,7 +377,7 @@ int main(int argc, char *argv[])
 		goto cleanup;
 	}
 
-	fi_mem = mmap(NULL, off.fr.desc + ring_size * sizeof(__u64),
+	fi_mem = mmap(NULL, offs.fr.desc + ring_size * sizeof(__u64),
 		      PROT_READ | PROT_WRITE, MAP_SHARED | MAP_POPULATE,
 		      sock_fd, XDP_UMEM_PGOFF_FILL_RING);
 	if (fi_mem == MAP_FAILED) {
@@ -385,7 +385,7 @@ int main(int argc, char *argv[])
 		goto cleanup;
 	}
 
-	co_mem = mmap(NULL, off.cr.desc + ring_size * sizeof(__u64),
+	co_mem = mmap(NULL, offs.cr.desc + ring_size * sizeof(__u64),
 		      PROT_READ | PROT_WRITE, MAP_SHARED | MAP_POPULATE,
 		      sock_fd, XDP_UMEM_PGOFF_COMPLETION_RING);
 	if (co_mem == MAP_FAILED) {
@@ -394,19 +394,19 @@ int main(int argc, char *argv[])
 	}
 
 #if 0
-	__u32 *rx_ring_consumer = rx_mem + off.rx.consumer;
-	__u32 *tx_ring_consumer = tx_mem + off.tx.consumer;
-	__u32 *fr_ring_consumer = fi_mem + off.fr.consumer;
-	__u32 *cr_ring_consumer = co_mem + off.cr.consumer;
-	__u32 *rx_ring_producer = rx_mem + off.rx.producer;
-	__u32 *tx_ring_producer = tx_mem + off.tx.producer;
-	__u32 *fr_ring_producer = fi_mem + off.fr.producer;
-	__u32 *cr_ring_producer = co_mem + off.cr.producer;
+	__u32 *rx_ring_consumer = rx_mem + offs.rx.consumer;
+	__u32 *tx_ring_consumer = tx_mem + offs.tx.consumer;
+	__u32 *fr_ring_consumer = fi_mem + offs.fr.consumer;
+	__u32 *cr_ring_consumer = co_mem + offs.cr.consumer;
+	__u32 *rx_ring_producer = rx_mem + offs.rx.producer;
+	__u32 *tx_ring_producer = tx_mem + offs.tx.producer;
+	__u32 *fr_ring_producer = fi_mem + offs.fr.producer;
+	__u32 *cr_ring_producer = co_mem + offs.cr.producer;
 
-	struct xdp_desc *rx_ring = rx_mem + off.rx.desc;
-	struct xdp_desc *tx_ring = tx_mem + off.tx.desc;
-	struct xdp_desc *fr_ring = fi_mem + off.fr.desc;
-	struct xdp_desc *cr_ring = co_mem + off.cr.desc;
+	struct xdp_desc *rx_ring = rx_mem + offs.rx.desc;
+	struct xdp_desc *tx_ring = tx_mem + offs.tx.desc;
+	struct xdp_desc *fr_ring = fi_mem + offs.fr.desc;
+	struct xdp_desc *cr_ring = co_mem + offs.cr.desc;
 #endif
 #if 1
 	struct sockaddr_xdp sxdp;
@@ -474,7 +474,7 @@ int main(int argc, char *argv[])
 	struct xdp_desc desc;
 	struct msghdr msg = {};
 
-	iov.iov_base = ((char *)umem) + off.rx.desc;
+	iov.iov_base = ((char *)umem) + offs.rx.desc;
 	iov.iov_len = sizeof(desc);
 
 	msg.msg_iov = &iov;
