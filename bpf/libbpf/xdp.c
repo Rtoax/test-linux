@@ -143,6 +143,12 @@ static int libbpf_print_fn(enum libbpf_print_level level, const char *format,
 	return vfprintf(stderr, format, args);
 }
 
+void display_xdp_ring_offset(const char *pfx, struct xdp_ring_offset *off)
+{
+	printf("%s : producer=%lld, consumer=%lld, desc=%lld, flags=%llx\n",
+		pfx ?: "", off->producer, off->consumer, off->desc, off->flags);
+};
+
 int main(int argc, char *argv[])
 {
 	int err, prog_fd;
@@ -347,6 +353,11 @@ int main(int argc, char *argv[])
 		perror("getsockopt XDP_MMAP_OFFSETS");
 		goto cleanup;
 	}
+
+	display_xdp_ring_offset("RX", &off.rx);
+	display_xdp_ring_offset("TX", &off.tx);
+	display_xdp_ring_offset("FR", &off.fr);
+	display_xdp_ring_offset("CR", &off.cr);
 
 	void *rx_mem, *tx_mem, *fi_mem, *co_mem;
 
