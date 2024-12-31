@@ -339,54 +339,54 @@ int main(int argc, char *argv[])
 		goto cleanup;
 	}
 
-	void *rx_map, *tx_map, *fill_map, *comp_map;
+	void *rx_mem, *tx_mem, *fi_mem, *co_mem;
 
-	rx_map = mmap(NULL, off.rx.desc + ring_size * sizeof(struct xdp_desc),
+	rx_mem = mmap(NULL, off.rx.desc + ring_size * sizeof(struct xdp_desc),
 		      PROT_READ | PROT_WRITE, MAP_SHARED | MAP_POPULATE,
 		      sock_fd, XDP_PGOFF_RX_RING);
-	if (rx_map == MAP_FAILED) {
-		perror("mmap rx_map");
+	if (rx_mem == MAP_FAILED) {
+		perror("mmap rx_mem");
 		goto cleanup;
 	}
 
-	tx_map = mmap(NULL, off.tx.desc + ring_size * sizeof(struct xdp_desc),
+	tx_mem = mmap(NULL, off.tx.desc + ring_size * sizeof(struct xdp_desc),
 		      PROT_READ | PROT_WRITE, MAP_SHARED | MAP_POPULATE,
 		      sock_fd, XDP_PGOFF_TX_RING);
-	if (tx_map == MAP_FAILED) {
-		perror("mmap tx_map");
+	if (tx_mem == MAP_FAILED) {
+		perror("mmap tx_mem");
 		goto cleanup;
 	}
 
-	fill_map = mmap(NULL, off.fr.desc + ring_size * sizeof(struct xdp_desc),
+	fi_mem = mmap(NULL, off.fr.desc + ring_size * sizeof(struct xdp_desc),
 		      PROT_READ | PROT_WRITE, MAP_SHARED | MAP_POPULATE,
 		      sock_fd, XDP_UMEM_PGOFF_FILL_RING);
-	if (fill_map == MAP_FAILED) {
-		perror("mmap fill_map");
+	if (fi_mem == MAP_FAILED) {
+		perror("mmap fi_mem");
 		goto cleanup;
 	}
 
-	comp_map = mmap(NULL, off.cr.desc + ring_size * sizeof(struct xdp_desc),
+	co_mem = mmap(NULL, off.cr.desc + ring_size * sizeof(struct xdp_desc),
 		      PROT_READ | PROT_WRITE, MAP_SHARED | MAP_POPULATE,
 		      sock_fd, XDP_UMEM_PGOFF_COMPLETION_RING);
-	if (comp_map == MAP_FAILED) {
-		perror("mmap comp_map");
+	if (co_mem == MAP_FAILED) {
+		perror("mmap co_mem");
 		goto cleanup;
 	}
 
 #if 0
-	__u32 *rx_ring_consumer = rx_map + off.rx.consumer;
-	__u32 *tx_ring_consumer = tx_map + off.tx.consumer;
-	__u32 *fr_ring_consumer = fill_map + off.fr.consumer;
-	__u32 *cr_ring_consumer = comp_map + off.cr.consumer;
-	__u32 *rx_ring_producer = rx_map + off.rx.producer;
-	__u32 *tx_ring_producer = tx_map + off.tx.producer;
-	__u32 *fr_ring_producer = fill_map + off.fr.producer;
-	__u32 *cr_ring_producer = comp_map + off.cr.producer;
+	__u32 *rx_ring_consumer = rx_mem + off.rx.consumer;
+	__u32 *tx_ring_consumer = tx_mem + off.tx.consumer;
+	__u32 *fr_ring_consumer = fi_mem + off.fr.consumer;
+	__u32 *cr_ring_consumer = co_mem + off.cr.consumer;
+	__u32 *rx_ring_producer = rx_mem + off.rx.producer;
+	__u32 *tx_ring_producer = tx_mem + off.tx.producer;
+	__u32 *fr_ring_producer = fi_mem + off.fr.producer;
+	__u32 *cr_ring_producer = co_mem + off.cr.producer;
 
-	struct xdp_desc *rx_ring = rx_map + off.rx.desc;
-	struct xdp_desc *tx_ring = tx_map + off.tx.desc;
-	struct xdp_desc *fr_ring = fill_map + off.fr.desc;
-	struct xdp_desc *cr_ring = comp_map + off.cr.desc;
+	struct xdp_desc *rx_ring = rx_mem + off.rx.desc;
+	struct xdp_desc *tx_ring = tx_mem + off.tx.desc;
+	struct xdp_desc *fr_ring = fi_mem + off.fr.desc;
+	struct xdp_desc *cr_ring = co_mem + off.cr.desc;
 #endif
 #if 1
 	struct sockaddr_xdp sxdp;
@@ -449,7 +449,7 @@ cleanup:
 	tl_bpf_xdp_detach(o_ifindex, xdp_flags);
 #elif defined(XDP_XSKMAP)
 	printf("Close AF_XDP %d\n", sock_fd);
-	//munmap(rx_map, off.fr.desc + rx_size * sizeof(struct xdp_desc));
+	// TODO: munmap
 	close(sock_fd);
 #endif
 	_bpf__destroy(skel);
