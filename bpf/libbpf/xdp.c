@@ -444,7 +444,7 @@ int main(int argc, char *argv[])
 	struct pollfd fds[1] = {};
 
 	fds[0].fd = sock_fd;
-	fds[0].events = POLLIN;
+	fds[0].events = POLLIN; /* POLLOUT ? */
 
 	while (1) {
 		int ret = poll(fds, 1, -1);
@@ -453,6 +453,9 @@ int main(int argc, char *argv[])
 			continue;
 		}
 		printf("Received packet, ret = %d, %m\n", ret);
+		/**
+		 * TODO: Drop/l2fwd
+		 */
 	}
 /* xsk could not use recvmsg(2) */
 # elif 0
