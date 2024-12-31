@@ -287,6 +287,12 @@ int main(int argc, char *argv[])
 	prog_fd = bpf_program__fd(skel->progs.xsk_redir_prog);
 	xsk_map_fd = bpf_map__fd(skel->maps.xsks_map);
 
+	sock_fd = socket(AF_XDP, SOCK_RAW | SOCK_CLOEXEC, 0);
+	if (sock_fd < 0) {
+		perror("socket");
+		goto cleanup;
+	}
+
 #ifdef UMEM_WITHOUT_MMAP
 	/**
 	 * Never use memalign()/malloc(), use mmap(2) instead, otherwise, cause
@@ -299,12 +305,6 @@ int main(int argc, char *argv[])
 		    MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
 #endif
 	printf("umem = %p\n", umem);
-
-	sock_fd = socket(AF_XDP, SOCK_RAW | SOCK_CLOEXEC, 0);
-	if (sock_fd < 0) {
-		perror("socket");
-		goto cleanup;
-	}
 
 	struct xdp_umem_reg umem_reg = {};
 
@@ -399,6 +399,14 @@ int main(int argc, char *argv[])
 	sxdp.sxdp_ifindex = ifindex;
 	sxdp.sxdp_queue_id = queue_id;
 	sxdp.sxdp_shared_umem_fd = sock_fd;
+	/**
+	 * XDP_USE_NEED_WAKEUP
+	 *
+	 * When this flag is set, the application using the AF_XDP socket will
+	 * only be woken up by the kernel when there are new packets to process
+	 * or when there are empty slots available in the transmit (TX) ring.
+	 */
+	sxdp.sxdp_flags = XDP_USE_NEED_WAKEUP;
 
 	if (bind(sock_fd, (struct sockaddr *)&sxdp, sizeof(sxdp)) < 0) {
 		perror("bind");
