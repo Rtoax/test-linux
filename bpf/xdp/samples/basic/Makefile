@@ -8,7 +8,6 @@ else
 endif
 export Q
 
-
 CC := gcc
 CLANG := clang
 
@@ -19,7 +18,6 @@ TARGETS_KERN += vmlinux.h
 TARGETS_KERN += drop.o
 TARGETS_KERN += proto.o
 TARGETS_KERN += config_map.kern.o
-TARGETS_USER += config_map
 
 ifdef DEBUG
   TARGETS_KERN += drop.g.o
@@ -36,8 +34,6 @@ LDFLAGS_USER := -lbpf
 
 .PHONY: build
 build: $(TARGETS_KERN) ${TARGETS_USER}
-
-config_map: config_map.user.uo
 
 %.o: %.c
 	@echo -e "  CLANG-K  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
