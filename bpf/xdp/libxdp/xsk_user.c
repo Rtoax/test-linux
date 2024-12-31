@@ -1,3 +1,4 @@
+#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -5,8 +6,16 @@
 #include <net/if.h>
 #include <unistd.h>
 #include <bpf/bpf.h>
+#include <bpf/libbpf.h>
+/**
+ * libbpf commit b78c75fcb347 ("Makefile: remove xsk.c and xsk.h") v1.0 remove
+ * xsk.{c,h}, use libxdp instead.
+ */
+#if LIBBPF_MAJOR_VERSION < 1
 #include <bpf/xsk.h>
+#else
 #include <xdp/xsk.h>
+#endif
 #include <sys/mman.h>
 #include <sys/resource.h>
 #include <linux/if_link.h>
@@ -27,6 +36,10 @@ struct xsk_socket_info {
 
 static void setup_xdp_program(int ifindex, const char *filename)
 {
+/**
+ * libbpf commit 9476dce6fe90 ("libbpf: remove deprecated low-level APIs") v1.0
+ */
+#if LIBBPF_MAJOR_VERSION < 1
 	struct bpf_prog_load_attr prog_load_attr = {
 		.prog_type = BPF_PROG_TYPE_XDP,
 		.file = filename,
@@ -43,6 +56,10 @@ static void setup_xdp_program(int ifindex, const char *filename)
 		fprintf(stderr, "Error attaching XDP program: %s\n", strerror(errno));
 		exit(EXIT_FAILURE);
 	}
+#else
+	// TODO
+	assert(0 && "Adapt to libbpf > v1.0");
+#endif
 }
 
 static void setup_xsk_socket(struct xsk_socket_info *xsk, char *ifname,

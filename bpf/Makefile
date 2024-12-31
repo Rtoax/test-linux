@@ -19,6 +19,7 @@ sub-dir += libbpf
 sub-dir += samples
 sub-dir += seccomp
 sub-dir += usdt
+sub-dir += xdp
 
 sub-dir-build := $(sub-dir:=.build)
 sub-dir-clean := $(sub-dir:=.clean)
