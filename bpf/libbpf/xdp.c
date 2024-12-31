@@ -377,7 +377,7 @@ int main(int argc, char *argv[])
 		goto cleanup;
 	}
 
-	fi_mem = mmap(NULL, off.fr.desc + ring_size * sizeof(struct xdp_desc),
+	fi_mem = mmap(NULL, off.fr.desc + ring_size * sizeof(__u64),
 		      PROT_READ | PROT_WRITE, MAP_SHARED | MAP_POPULATE,
 		      sock_fd, XDP_UMEM_PGOFF_FILL_RING);
 	if (fi_mem == MAP_FAILED) {
@@ -385,7 +385,7 @@ int main(int argc, char *argv[])
 		goto cleanup;
 	}
 
-	co_mem = mmap(NULL, off.cr.desc + ring_size * sizeof(struct xdp_desc),
+	co_mem = mmap(NULL, off.cr.desc + ring_size * sizeof(__u64),
 		      PROT_READ | PROT_WRITE, MAP_SHARED | MAP_POPULATE,
 		      sock_fd, XDP_UMEM_PGOFF_COMPLETION_RING);
 	if (co_mem == MAP_FAILED) {
