@@ -255,7 +255,7 @@ struct {
 	__uint(type, BPF_MAP_TYPE_XSKMAP);
 	__type(key, __u32);
 	__type(value, __u32);
-	__uint(max_entries, 64);
+	__uint(max_entries, 4);
 } xsks_map SEC(".maps");
 
 SEC("xdp")
@@ -263,6 +263,12 @@ int xsk_redir_prog(struct xdp_md *ctx)
 {
 	__u32 index = ctx->rx_queue_index;
 
+	bpf_printk("rx queue idx = %d", index);
+
+	/**
+	 * A set entry here means that the corresponding queue_id has an
+	 * active AF_XDP socket bound to it.
+	 */
 	if (bpf_map_lookup_elem(&xsks_map, &index))
 		return bpf_redirect_map(&xsks_map, index, 0);
 	return XDP_PASS;

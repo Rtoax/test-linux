@@ -73,6 +73,7 @@ TARGETS += iter_task_vma
 TARGETS += iter_bpf_map
 TARGETS += $(kconfig-obj-y)
 TARGETS += map_array map_percpu_array
+TARGETS += xdp_xskmap
 
 # _if_ there are no user mode code, append to bpf target only
 TARGETS_BPF := ${TARGETS:=.bpf.o}
@@ -95,7 +96,6 @@ TARGETS_BPF += map_array_of_maps.bpf.o
 TARGETS_BPF += map_hash_of_maps.bpf.o
 TARGETS_BPF += map_ringbuf.bpf.o
 TARGETS_BPF += map_devmap.bpf.o
-TARGETS_BPF += xdp_xskmap.bpf.o
 
 # Never append to skel target, always generate by bpf target
 TARGETS_SKEL := $(patsubst %.bpf.o,%.skel.h,$(TARGETS_BPF))
@@ -209,6 +209,7 @@ tc: tc.o ${TRACE_HELPERS}
 xdp: xdp.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER}
 xdp_devmap: xdp_devmap.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER}
 xdp_cpumap: xdp_cpumap.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER}
+xdp_xskmap: xdp_xskmap.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER}
 sockops: sockops.o ${TRACE_HELPERS}
 kprobe: kprobe.o ${TRACE_HELPERS}
 tracepoint: tracepoint.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER}

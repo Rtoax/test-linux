@@ -1,16 +1,24 @@
 #include <argp.h>
 #include <arpa/inet.h>
 #include <assert.h>
-#include <setjmp.h>
 #include <bpf/bpf.h>
 #include <bpf/libbpf.h>
+#include <bpf/xsk.h>
+#include <errno.h>
 #include <linux/if_ether.h>
 #include <linux/if_link.h>
 #include <linux/if_packet.h>
+#include <linux/if_xdp.h>
 #include <linux/in.h>
+#include <malloc.h>
 #include <net/if.h>
+#include <poll.h>
+#include <setjmp.h>
 #include <signal.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/mman.h>
 #include <sys/resource.h>
 #include <sys/socket.h>
 #include <unistd.h>
@@ -36,6 +44,12 @@
 #define _bpf__open	xdp_cpumap_bpf__open
 #define _bpf__load	xdp_cpumap_bpf__load
 #define _bpf__destroy	xdp_cpumap_bpf__destroy
+#elif defined(XDP_XSKMAP)
+#include "xdp_xskmap.skel.h"
+#define struct_bpf	xdp_xskmap_bpf
+#define _bpf__open	xdp_xskmap_bpf__open
+#define _bpf__load	xdp_xskmap_bpf__load
+#define _bpf__destroy	xdp_xskmap_bpf__destroy
 #endif
 
 static volatile bool exiting = false;
@@ -51,7 +65,7 @@ int cpu = -1;
 #endif
 
 const char argp_prog_doc[] =
-#if defined(XDP_BASIC)
+#if defined(XDP_BASIC) || defined(XDP_XSKMAP)
 	"USAGE: [-i <interface>]\n";
 #elif defined(XDP_DEVMAP)
 	"USAGE: [-i <interface>] [-o <interface>]\n";
@@ -131,6 +145,7 @@ int main(int argc, char *argv[])
 
 	signal(SIGINT, sig_handler);
 	signal(SIGTERM, sig_handler);
+	signal(SIGABRT, sig_handler);
 	sigsetjmp(jmp, 1);
 	if (exiting)
 		goto cleanup;
@@ -163,7 +178,7 @@ int main(int argc, char *argv[])
 		return 1;
 	}
 
-#if defined(XDP_BASIC)
+#if defined(XDP_BASIC) || defined(XDP_XSKMAP)
 	fprintf(stderr, "Track interface %s, index %d\n", interface, ifindex);
 #elif defined(XDP_DEVMAP)
 	fprintf(stderr, "Redirect %s(%d) to %s(%d)\n", interface, ifindex,
@@ -258,12 +273,173 @@ int main(int argc, char *argv[])
 		printf("link set xdp fd failed\n");
 		goto cleanup;
 	}
+
+#elif defined(XDP_XSKMAP)
+
+	int sock_fd;
+	static const int chunk_size = 4096;
+	static const int chunk_count = 4096;
+	static const int umem_len = chunk_size * chunk_count;
+	unsigned char *umem;
+	int xsk_map_fd;
+
+	prog_fd = bpf_program__fd(skel->progs.xsk_redir_prog);
+	xsk_map_fd = bpf_map__fd(skel->maps.xsks_map);
+
+#ifdef UMEM_WITHOUT_MMAP
+	/**
+	 * Never use memalign()/malloc(), use mmap(2) instead, otherwise, cause
+	 *
+	 * setsockopt XDP_UMEM_REG: Invalid argument
+	 */
+	umem = memalign(4096, umem_len);
 #else
-# error "Must define XDP_BASIC or XDP_DEVMAP"
+	umem = mmap(NULL, umem_len, PROT_READ | PROT_WRITE,
+		    MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
+#endif
+	printf("umem = %p\n", umem);
+
+	sock_fd = socket(AF_XDP, SOCK_RAW | SOCK_CLOEXEC, 0);
+	if (sock_fd < 0) {
+		perror("socket");
+		goto cleanup;
+	}
+
+	struct xdp_umem_reg umem_reg = {};
+
+	umem_reg.addr = (__u64)(void *)umem;
+	umem_reg.len = umem_len;
+	umem_reg.chunk_size = chunk_size;
+	umem_reg.headroom = 0;
+	umem_reg.flags = 0;
+
+	err = setsockopt(sock_fd, SOL_XDP, XDP_UMEM_REG, &umem_reg, sizeof(umem_reg));
+	if (err < 0) {
+		perror("setsockopt XDP_UMEM_REG");
+		goto cleanup;
+	}
+
+	static const int ring_size = 512;
+
+	err = 0;
+	err += setsockopt(sock_fd, SOL_XDP, XDP_RX_RING, &ring_size, sizeof(ring_size));
+	err += setsockopt(sock_fd, SOL_XDP, XDP_TX_RING, &ring_size, sizeof(ring_size));
+	err += setsockopt(sock_fd, SOL_XDP, XDP_UMEM_FILL_RING, &ring_size, sizeof(ring_size));
+	err += setsockopt(sock_fd, SOL_XDP, XDP_UMEM_COMPLETION_RING, &ring_size, sizeof(ring_size));
+	if (err < 0) {
+		perror("setsockopt RINGs");
+		goto cleanup;
+	}
+
+	struct xdp_mmap_offsets off = {0};
+	socklen_t optlen = sizeof(off);
+
+	if (getsockopt(sock_fd, SOL_XDP, XDP_MMAP_OFFSETS, &off, &optlen) < 0) {
+		perror("getsockopt XDP_MMAP_OFFSETS");
+		goto cleanup;
+	}
+
+	void *rx_map, *tx_map, *fill_map, *comp_map;
+
+	rx_map = mmap(NULL, off.rx.desc + ring_size * sizeof(struct xdp_desc),
+		      PROT_READ | PROT_WRITE, MAP_SHARED | MAP_POPULATE,
+		      sock_fd, XDP_PGOFF_RX_RING);
+	if (rx_map == MAP_FAILED) {
+		perror("mmap rx_map");
+		goto cleanup;
+	}
+
+	tx_map = mmap(NULL, off.tx.desc + ring_size * sizeof(struct xdp_desc),
+		      PROT_READ | PROT_WRITE, MAP_SHARED | MAP_POPULATE,
+		      sock_fd, XDP_PGOFF_TX_RING);
+	if (tx_map == MAP_FAILED) {
+		perror("mmap tx_map");
+		goto cleanup;
+	}
+
+	fill_map = mmap(NULL, off.fr.desc + ring_size * sizeof(struct xdp_desc),
+		      PROT_READ | PROT_WRITE, MAP_SHARED | MAP_POPULATE,
+		      sock_fd, XDP_UMEM_PGOFF_FILL_RING);
+	if (fill_map == MAP_FAILED) {
+		perror("mmap fill_map");
+		goto cleanup;
+	}
+
+	comp_map = mmap(NULL, off.cr.desc + ring_size * sizeof(struct xdp_desc),
+		      PROT_READ | PROT_WRITE, MAP_SHARED | MAP_POPULATE,
+		      sock_fd, XDP_UMEM_PGOFF_COMPLETION_RING);
+	if (comp_map == MAP_FAILED) {
+		perror("mmap comp_map");
+		goto cleanup;
+	}
+
+#if 0
+	__u32 *rx_ring_consumer = rx_map + off.rx.consumer;
+	__u32 *tx_ring_consumer = tx_map + off.tx.consumer;
+	__u32 *fr_ring_consumer = fill_map + off.fr.consumer;
+	__u32 *cr_ring_consumer = comp_map + off.cr.consumer;
+	__u32 *rx_ring_producer = rx_map + off.rx.producer;
+	__u32 *tx_ring_producer = tx_map + off.tx.producer;
+	__u32 *fr_ring_producer = fill_map + off.fr.producer;
+	__u32 *cr_ring_producer = comp_map + off.cr.producer;
+
+	struct xdp_desc *rx_ring = rx_map + off.rx.desc;
+	struct xdp_desc *tx_ring = tx_map + off.tx.desc;
+	struct xdp_desc *fr_ring = fill_map + off.fr.desc;
+	struct xdp_desc *cr_ring = comp_map + off.cr.desc;
+#endif
+#if 1
+	struct sockaddr_xdp sxdp;
+	__u32 queue_id = 0;
+
+	memset(&sxdp, 0, sizeof(sxdp));
+
+	sxdp.sxdp_family = AF_XDP;
+	sxdp.sxdp_ifindex = ifindex;
+	sxdp.sxdp_queue_id = queue_id;
+	sxdp.sxdp_shared_umem_fd = sock_fd;
+
+	if (bind(sock_fd, (struct sockaddr *)&sxdp, sizeof(sxdp)) < 0) {
+		perror("bind");
+		goto cleanup;
+	}
+
+	err = bpf_map_update_elem(xsk_map_fd, &queue_id, &sock_fd, 0);
+	if (err < 0) {
+		printf("failed to update run elem, err = %d, xsk map fd %d.\n",
+			err, xsk_map_fd);
+		goto cleanup;
+	}
 #endif
 
+	err = tl_bpf_xdp_attach(ifindex, prog_fd, XDP_FLAGS_SKB_MODE);
+	if (err < 0) {
+		printf("link set xdp fd failed\n");
+		goto cleanup;
+	}
+
+#else
+# error "Must define XDP_BASIC, XDP_DEVMAP, XDP_CPUMAP, XDP_XSKMAP"
+#endif
+
+#if defined(XDP_XSKMAP) && 1
+	struct pollfd fds[1] = {};
+
+	fds[0].fd = sock_fd;
+	fds[0].events = POLLIN;
+
+	while (1) {
+		int ret = poll(fds, 1, -1);
+		if (ret <= 0) {
+			fprintf(stderr, "Failed poll xsk fd.\n");
+			continue;
+		}
+		printf("Received packet, ret = %d, %m\n", ret);
+	}
+#else
 	/* Process events */
 	read_trace_pipe();
+#endif
 
 cleanup:
 	printf("Detach xdp from interface %s\n", interface);
@@ -271,6 +447,10 @@ cleanup:
 #if defined(XDP_DEVMAP)
 	printf("Detach xdp from out interface %s\n", out_interface);
 	tl_bpf_xdp_detach(o_ifindex, xdp_flags);
+#elif defined(XDP_XSKMAP)
+	printf("Close AF_XDP %d\n", sock_fd);
+	//munmap(rx_map, off.fr.desc + rx_size * sizeof(struct xdp_desc));
+	close(sock_fd);
 #endif
 	_bpf__destroy(skel);
 	return 0;
