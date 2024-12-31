@@ -10,6 +10,7 @@
 #include <linux/if_packet.h>
 #include <linux/if_xdp.h>
 #include <linux/in.h>
+#include <linux/ip.h>
 #include <malloc.h>
 #include <net/if.h>
 #include <poll.h>
@@ -423,6 +424,7 @@ int main(int argc, char *argv[])
 #endif
 
 #if defined(XDP_XSKMAP) && 1
+# if 1
 	struct pollfd fds[1] = {};
 
 	fds[0].fd = sock_fd;
@@ -436,6 +438,36 @@ int main(int argc, char *argv[])
 		}
 		printf("Received packet, ret = %d, %m\n", ret);
 	}
+/* xsk could not use recvmsg(2) */
+# elif 0
+	struct iovec iov;
+	struct xdp_desc desc;
+	struct msghdr msg = {};
+
+	iov.iov_base = ((char *)umem) + off.rx.desc;
+	iov.iov_len = sizeof(desc);
+
+	msg.msg_iov = &iov;
+	msg.msg_iovlen = 1;
+
+	while (1) {
+		/**
+		 * Operation not supported
+		 * see xsk_proto_ops.sendmsg = xsk_sendmsg()
+		 */
+		int ret = recvmsg(sock_fd, &msg, 0);
+		if (ret < 0) {
+			fprintf(stderr, "recvmsg: %s\n", strerror(errno));
+			continue;
+		}
+
+		struct ethhdr *eth = (struct ethhdr *)((char *)umem + desc.addr);
+		struct iphdr *ip = (struct iphdr *)(eth + 1);
+		struct udphdr *udp = (struct udphdr *)(ip + 1);
+
+		printf("Received packet: src_ip=%d, dst_ip=%d\n", ip->saddr, ip->daddr);
+	}
+# endif
 #else
 	/* Process events */
 	read_trace_pipe();
