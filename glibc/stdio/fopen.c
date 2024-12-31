@@ -1,7 +1,19 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <assert.h>
+#include <errno.h>
 
-int main(void)
+
+void test0(void)
+{
+	FILE *fp;
+	fp = fopen("/etc/os-release ", "r");
+	if (fp || errno != ENOENT) {
+		assert(!fp && "Forbidden space char in filename");
+	}
+}
+
+void test1(void)
 {
 	FILE *fpw, *fpr;
 	int i = 10;
@@ -10,11 +22,13 @@ int main(void)
 	char c = '\n';
 	char buff[123] = {0};
 
-	fpr = fopen("os-release", "r");
+	fpr = fopen("/etc/os-release", "r");
 	fpw = fopen("os-release", "w");
 
-	while (fgets(buff, sizeof(buff), fpr))
+	while (fgets(buff, sizeof(buff), fpr)) {
 		printf("%s", buff);
+		fprintf(fpw, "%s", buff);
+	}
 
 	fprintf(fpw, "%s%c", s, c);
 	fprintf(fpw, "%d\n", i);
@@ -22,5 +36,11 @@ int main(void)
 
 	fclose(fpr);
 	fclose(fpw);
+}
+
+int main(void)
+{
+	test0();
+	test1();
 	return 0;
 }
