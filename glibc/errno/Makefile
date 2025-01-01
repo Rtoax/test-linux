@@ -7,10 +7,9 @@ else
 endif
 export Q
 
-
-
 TARGETS := nr_errno
 TARGETS += EDOM
+TARGETS += ENOENT
 
 ifeq ($(shell uname -m),x86_64)
 endif
@@ -42,6 +41,7 @@ nr_errno.h:
 
 nr_errno: nr_errno.o
 EDOM: EDOM.o
+ENOENT: ENOENT.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
