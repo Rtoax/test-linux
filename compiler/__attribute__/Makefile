@@ -8,6 +8,7 @@ else
 endif
 export Q
 
+CC := gcc
 
 TARGETS :=
 TARGETS += alias
@@ -24,6 +25,7 @@ TARGETS += __naked__
 TARGETS += nocf_check
 TARGETS += nonnull
 TARGETS += noreturn
+TARGETS += optimize
 TARGETS += optimize_omit-frame-pointer
 TARGETS += __pure__
 TARGETS += randomize_layout
@@ -66,6 +68,7 @@ __naked__: __naked__.o
 nocf_check: nocf_check.o
 nonnull: nonnull.o
 noreturn: noreturn.o
+optimize: optimize.o
 optimize_omit-frame-pointer: optimize_omit-frame-pointer.o
 __pure__: __pure__.o
 randomize_layout: randomize_layout.o

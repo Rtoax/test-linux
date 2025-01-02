@@ -1,6 +1,6 @@
 #include "optimize.h"
 
-_frame_pointer int foo(void)
+_OPTIMIZE_O0 int foo(void)
 {
 	int i = 0;
 	return i + 1;
