@@ -140,8 +140,6 @@ int main(int argc, char **argv)
 
 	printf("map fd %d\n", map_fd);
 
-	tl_bpf_xdp_attach(ifindex, prog_fd, 0);
-
 	umem_info = calloc(1, sizeof(*umem_info));
 	setup_umem(umem_info);
 
@@ -156,6 +154,10 @@ int main(int argc, char **argv)
 		fprintf(stderr, "Error updating XSKMAP: %s\n", strerror(errno));
 		exit(EXIT_FAILURE);
 	}
+
+	err = tl_bpf_xdp_attach(ifindex, prog_fd, 0);
+	if (err)
+		goto cleanup;
 
 	printf("XDP and XSK setup complete.\n");
 
