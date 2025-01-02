@@ -20,9 +20,12 @@
 #include <sys/resource.h>
 #include <linux/if_link.h>
 
-#define MAX_SOCKS 1
+#include "libbpf_wrapper.h"
+#include "xdp_xsk.skel.h"
 
 struct xsk_umem_info {
+	struct xsk_ring_prod fq;
+	struct xsk_ring_cons cq;
 	struct xsk_umem *umem;
 	void *buffer;
 };
@@ -34,33 +37,6 @@ struct xsk_socket_info {
 	struct xsk_umem_info *umem;
 };
 
-static void setup_xdp_program(int ifindex, const char *filename)
-{
-/**
- * libbpf commit 9476dce6fe90 ("libbpf: remove deprecated low-level APIs") v1.0
- */
-#if LIBBPF_MAJOR_VERSION < 1
-	struct bpf_prog_load_attr prog_load_attr = {
-		.prog_type = BPF_PROG_TYPE_XDP,
-		.file = filename,
-	};
-	struct bpf_object *obj;
-	int prog_fd;
-
-	if (bpf_prog_load_xattr(&prog_load_attr, &obj, &prog_fd)) {
-		fprintf(stderr, "Error loading XDP program: %s\n", strerror(errno));
-		exit(EXIT_FAILURE);
-	}
-
-	if (bpf_set_link_xdp_fd(ifindex, prog_fd, 0) < 0) {
-		fprintf(stderr, "Error attaching XDP program: %s\n", strerror(errno));
-		exit(EXIT_FAILURE);
-	}
-#else
-	// TODO
-	assert(0 && "Adapt to libbpf > v1.0");
-#endif
-}
 
 static void setup_xsk_socket(struct xsk_socket_info *xsk, char *ifname,
 			     int queue_id)
@@ -68,12 +44,13 @@ static void setup_xsk_socket(struct xsk_socket_info *xsk, char *ifname,
 	struct xsk_socket_config xsk_cfg = {
 		.rx_size = XSK_RING_CONS__DEFAULT_NUM_DESCS,
 		.tx_size = XSK_RING_PROD__DEFAULT_NUM_DESCS,
-		.libbpf_flags = 0,
+		.libbpf_flags = XSK_LIBBPF_FLAGS__INHIBIT_PROG_LOAD,
 		.xdp_flags = XDP_FLAGS_UPDATE_IF_NOEXIST,
 		.bind_flags = XDP_USE_NEED_WAKEUP,
 	};
 
-	if (xsk_socket__create(&xsk->xsk, ifname, queue_id, xsk->umem->umem, &xsk->rx, &xsk->tx, &xsk_cfg)) {
+	if (xsk_socket__create(&xsk->xsk, ifname, queue_id, xsk->umem->umem,
+			       &xsk->rx, &xsk->tx, &xsk_cfg)) {
 		fprintf(stderr, "Error creating XSK socket: %s\n", strerror(errno));
 		exit(EXIT_FAILURE);
 	}
@@ -95,10 +72,11 @@ static void setup_umem(struct xsk_umem_info *umem)
 		.comp_size = XSK_RING_CONS__DEFAULT_NUM_DESCS,
 		.frame_size = XSK_UMEM__DEFAULT_FRAME_SIZE,
 		.frame_headroom = XSK_UMEM__DEFAULT_FRAME_HEADROOM,
-		.flags = 0,
+		.flags = XSK_UMEM__DEFAULT_FLAGS,
 	};
 
-	if (xsk_umem__create(&umem->umem, umem->buffer, buffer_size, NULL, NULL, &umem_cfg)) {
+	if (xsk_umem__create(&umem->umem, umem->buffer, buffer_size, &umem->fq,
+			     &umem->cq, &umem_cfg)) {
 		fprintf(stderr, "Error creating UMEM: %s\n", strerror(errno));
 		exit(EXIT_FAILURE);
 	}
@@ -106,38 +84,49 @@ static void setup_umem(struct xsk_umem_info *umem)
 
 int main(int argc, char **argv)
 {
+	int err, ifindex, prog_fd, map_fd;
+	struct xdp_xsk_bpf *skel;
+	char *ifname;
 	struct rlimit rlim = {RLIM_INFINITY, RLIM_INFINITY};
+	struct xsk_umem_info *umem_info;
+	struct xsk_socket_info *sock_info;
+
 	if (setrlimit(RLIMIT_MEMLOCK, &rlim)) {
 		fprintf(stderr, "Error setting rlimit: %s\n", strerror(errno));
 		exit(EXIT_FAILURE);
 	}
 
-	if (argc != 3) {
-		fprintf(stderr, "Usage: %s <interface> <xdp_prog.o>\n", argv[0]);
+	if (argc != 2) {
+		fprintf(stderr, "Usage: %s <interface>\n", argv[0]);
 		exit(EXIT_FAILURE);
 	}
 
-	char *ifname = argv[1];
-	int ifindex = if_nametoindex(ifname);
+	ifname = argv[1];
+	ifindex = if_nametoindex(ifname);
 	if (ifindex == 0) {
 		fprintf(stderr, "Error getting ifindex: %s\n", strerror(errno));
 		exit(EXIT_FAILURE);
 	}
 
-	setup_xdp_program(ifindex, argv[2]);
 
-	struct xsk_umem_info *umem_info = calloc(1, sizeof(*umem_info));
+	skel = xdp_xsk_bpf__open();
+	err = xdp_xsk_bpf__load(skel);
+	if (err) {
+		fprintf(stderr, "failed to load skel.\n");
+		goto cleanup;
+	}
+
+	prog_fd = bpf_program__fd(skel->progs.xdp_sock_prog);
+	map_fd = bpf_map__fd(skel->maps.xsk_map);
+
+	tl_bpf_xdp_attach(ifindex, prog_fd, 0);
+
+	umem_info = calloc(1, sizeof(*umem_info));
 	setup_umem(umem_info);
 
-	struct xsk_socket_info *sock_info = calloc(1, sizeof(*sock_info));
+	sock_info = calloc(1, sizeof(*sock_info));
 	sock_info->umem = umem_info;
 	setup_xsk_socket(sock_info, ifname, 0);
-
-	int map_fd = bpf_obj_get("/sys/fs/bpf/xsk_map");
-	if (map_fd < 0) {
-		fprintf(stderr, "Error getting XSKMAP: %s\n", strerror(errno));
-		exit(EXIT_FAILURE);
-	}
 
 	int key = 0;
 	int fd = xsk_socket__fd(sock_info->xsk);
@@ -149,6 +138,12 @@ int main(int argc, char **argv)
 	printf("XDP and XSK setup complete.\n");
 
 	// Add your packet processing logic here
+	//
 
+cleanup:
+	xsk_umem__delete(umem_info->umem);
+	xsk_socket__delete(sock_info->xsk);
+	tl_bpf_xdp_detach(ifindex, 0);
+	xdp_xsk_bpf__destroy(skel);
 	return 0;
 }
