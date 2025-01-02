@@ -3,6 +3,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
+#include <poll.h>
+#include <signal.h>
+#include <setjmp.h>
 #include <net/if.h>
 #include <unistd.h>
 #include <bpf/bpf.h>
@@ -37,6 +40,15 @@ struct xsk_socket_info {
 	struct xsk_umem_info *umem;
 };
 
+static int exiting = false;
+static sigjmp_buf jmp;
+
+static void sig_handler(int sig)
+{
+	printf("Catch signal!!\n");
+	exiting = true;
+	siglongjmp(jmp, 1);
+}
 
 static void setup_xsk_socket(struct xsk_socket_info *xsk, char *ifname,
 			     int queue_id)
@@ -84,22 +96,30 @@ static void setup_umem(struct xsk_umem_info *umem)
 
 int main(int argc, char **argv)
 {
-	int err, ifindex, prog_fd, map_fd;
+	int err, ifindex, prog_fd, map_fd, map_key, sock_fd;
 	struct xdp_xsk_bpf *skel;
 	char *ifname;
 	struct rlimit rlim = {RLIM_INFINITY, RLIM_INFINITY};
-	struct xsk_umem_info *umem_info;
-	struct xsk_socket_info *sock_info;
+	struct xsk_umem_info *umem_info = NULL;
+	struct xsk_socket_info *sock_info = NULL;
+
+
+	if (argc != 2) {
+		fprintf(stderr, "Usage: %s <interface>\n", argv[0]);
+		exit(EXIT_FAILURE);
+	}
 
 	if (setrlimit(RLIMIT_MEMLOCK, &rlim)) {
 		fprintf(stderr, "Error setting rlimit: %s\n", strerror(errno));
 		exit(EXIT_FAILURE);
 	}
 
-	if (argc != 2) {
-		fprintf(stderr, "Usage: %s <interface>\n", argv[0]);
-		exit(EXIT_FAILURE);
-	}
+	signal(SIGINT, sig_handler);
+	signal(SIGTERM, sig_handler);
+	signal(SIGABRT, sig_handler);
+	sigsetjmp(jmp, 1);
+	if (exiting)
+		goto cleanup;
 
 	ifname = argv[1];
 	ifindex = if_nametoindex(ifname);
@@ -107,7 +127,6 @@ int main(int argc, char **argv)
 		fprintf(stderr, "Error getting ifindex: %s\n", strerror(errno));
 		exit(EXIT_FAILURE);
 	}
-
 
 	skel = xdp_xsk_bpf__open();
 	err = xdp_xsk_bpf__load(skel);
@@ -119,6 +138,8 @@ int main(int argc, char **argv)
 	prog_fd = bpf_program__fd(skel->progs.xdp_sock_prog);
 	map_fd = bpf_map__fd(skel->maps.xsk_map);
 
+	printf("map fd %d\n", map_fd);
+
 	tl_bpf_xdp_attach(ifindex, prog_fd, 0);
 
 	umem_info = calloc(1, sizeof(*umem_info));
@@ -128,21 +149,38 @@ int main(int argc, char **argv)
 	sock_info->umem = umem_info;
 	setup_xsk_socket(sock_info, ifname, 0);
 
-	int key = 0;
-	int fd = xsk_socket__fd(sock_info->xsk);
-	if (bpf_map_update_elem(map_fd, &key, &fd, 0) < 0) {
+	map_key = 0;
+	sock_fd = xsk_socket__fd(sock_info->xsk);
+	err = bpf_map_update_elem(map_fd, &map_key, &sock_fd, 0);
+	if (err < 0) {
 		fprintf(stderr, "Error updating XSKMAP: %s\n", strerror(errno));
 		exit(EXIT_FAILURE);
 	}
 
 	printf("XDP and XSK setup complete.\n");
 
-	// Add your packet processing logic here
-	//
+	struct pollfd fds = {};
+
+	fds.fd = sock_fd;
+	fds.events = POLLIN;
+
+	while (!exiting) {
+		int ret = poll(&fds, 1, -1);
+		if (ret <= 0) {
+			fprintf(stderr, "Failed poll xsk fd.\n");
+			continue;
+		}
+		printf("Received packet, ret = %d, %m\n", ret);
+
+		// Add your packet processing logic here
+	}
 
 cleanup:
-	xsk_umem__delete(umem_info->umem);
-	xsk_socket__delete(sock_info->xsk);
+	printf("Byebye!!\n");
+	if (umem_info)
+		xsk_umem__delete(umem_info->umem);
+	if (sock_info)
+		xsk_socket__delete(sock_info->xsk);
 	tl_bpf_xdp_detach(ifindex, 0);
 	xdp_xsk_bpf__destroy(skel);
 	return 0;
