@@ -325,6 +325,13 @@ int main(int argc, char *argv[])
 	umem_reg.addr = (__u64)(void *)umem;
 	umem_reg.len = umem_len;
 	umem_reg.chunk_size = chunk_size;
+	/**
+	 * headroom, if set, the packet data will not be stored from the start
+	 * address of each chunk, but the memory of the headroom size will be
+	 * reserved before the packet data is stored. Headroom is very common
+	 * in tunnel networks to facilitate the encapsulation of the outer
+	 * header;
+	 */
 	umem_reg.headroom = 0;
 	umem_reg.flags = 0;
 
@@ -337,6 +344,11 @@ int main(int argc, char *argv[])
 	static const int ring_size = 512;
 
 	err = 0;
+	/**
+	 * FILL RING and COMPLETION RING are required for UMEM, while RX and TX
+	 * are optional for AF_XDP socket. For example, if AF_XDP socket only
+	 * receives packets, you only need to set the size of RX RING.
+	 */
 	err += setsockopt(sock_fd, SOL_XDP, XDP_RX_RING, &ring_size, sizeof(ring_size));
 	err += setsockopt(sock_fd, SOL_XDP, XDP_TX_RING, &ring_size, sizeof(ring_size));
 	err += setsockopt(sock_fd, SOL_XDP, XDP_UMEM_FILL_RING, &ring_size, sizeof(ring_size));
