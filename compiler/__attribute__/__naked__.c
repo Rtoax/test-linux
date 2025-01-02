@@ -4,8 +4,14 @@
  * The 'naked' attribute prevents the compiler from generating any
  * function entry or exit code
  */
-#define __naked __attribute__((naked))
-#define __naked2 __attribute__((__naked__))
+#if !defined(__clang__)
+# define __naked __attribute__((naked))
+# define __naked2 __attribute__((__naked__))
+#else
+// FIXME: clang??
+# define __naked
+# define __naked2
+#endif
 
 __naked int func1(void)
 {
