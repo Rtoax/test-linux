@@ -1,0 +1,18 @@
+# Test-Linux CI on github
+name: CI
+
+on: [push, pull_request]
+
+permissions:
+  contents: write
+
+jobs:
+  test_linux:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Install dependencies
+      run: |
+        sudo apt install -y make
+    - name: Test-Linux info
+      run: make version
