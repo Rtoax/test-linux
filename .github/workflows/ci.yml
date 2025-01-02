@@ -17,4 +17,5 @@ jobs:
     - name: Test-Linux info
       run: |
         make config
+        make help
         make version
