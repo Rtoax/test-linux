@@ -265,7 +265,7 @@ int main(int argc, char **argv)
 			*xsk_ring_prod__fill_addr(&umem_info->fq, idx_fq++) = orig;
 
 			//printf("Handle packet, 0x%llx 0x%llx\n", orig, desc->addr);
-			handle_pkt((void *)(umem_info->buffer + desc->addr), desc->len);
+			handle_pkt(xsk_umem__get_data(umem_info->buffer, addr), desc->len);
 		}
 
 		xsk_ring_prod__submit(&umem_info->fq, rcvd);
