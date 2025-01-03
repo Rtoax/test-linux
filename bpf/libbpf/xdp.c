@@ -1,17 +1,6 @@
 #include <argp.h>
 #include <arpa/inet.h>
 #include <assert.h>
-#include <bpf/bpf.h>
-#include <bpf/libbpf.h>
-/**
- * libbpf commit b78c75fcb347 ("Makefile: remove xsk.c and xsk.h") v1.0 remove
- * xsk.{c,h}, use libxdp instead.
- */
-#if LIBBPF_MAJOR_VERSION < 1
-#include <bpf/xsk.h>
-#else
-#include <xdp/xsk.h>
-#endif
 #include <errno.h>
 #include <linux/if_ether.h>
 #include <linux/if_link.h>
@@ -34,6 +23,7 @@
 
 #include "trace_helpers.h"
 #include "libbpf_wrapper.h"
+#include "libxdp_helpers.h"
 
 #if defined(XDP_BASIC)
 #include "xdp.skel.h"
@@ -148,21 +138,6 @@ void display_xdp_ring_offset(const char *pfx, struct xdp_ring_offset *off)
 	printf("%s : producer=%lld, consumer=%lld, desc=%lld, flags=%llx\n",
 		pfx ?: "", off->producer, off->consumer, off->desc, off->flags);
 };
-
-/**
- * When XDP_USE_NEED_WAKEUP is set, the consuming of the FILL ring buffer must
- * be triggered by a recvfrom syscall.
- */
-int kick_rx(int fd)
-{
-	int err;
-	err = recvfrom(fd, NULL, 0, MSG_DONTWAIT, NULL, NULL);
-	if (err < 0) {
-		fprintf(stderr, "Trigger FILL ring buffer failed.\n");
-		return err;
-	}
-	return 0;
-}
 
 int main(int argc, char *argv[])
 {

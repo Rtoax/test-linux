@@ -10,20 +10,12 @@
 #include <unistd.h>
 #include <bpf/bpf.h>
 #include <bpf/libbpf.h>
-/**
- * libbpf commit b78c75fcb347 ("Makefile: remove xsk.c and xsk.h") v1.0 remove
- * xsk.{c,h}, use libxdp instead.
- */
-#if LIBBPF_MAJOR_VERSION < 1
-#include <bpf/xsk.h>
-#else
-#include <xdp/xsk.h>
-#endif
 #include <sys/mman.h>
 #include <sys/resource.h>
 #include <linux/if_link.h>
 
 #include "libbpf_wrapper.h"
+#include "libxdp_helpers.h"
 #include "xdp_xsk.skel.h"
 
 struct xsk_umem_info {
@@ -48,21 +40,6 @@ static void sig_handler(int sig)
 	printf("Catch signal!!\n");
 	exiting = true;
 	siglongjmp(jmp, 1);
-}
-
-/**
- * When XDP_USE_NEED_WAKEUP is set, the consuming of the FILL ring buffer must
- * be triggered by a recvfrom syscall.
- */
-int kick_rx(int sock_fd)
-{
-	int err;
-	err = recvfrom(sock_fd, NULL, 0, MSG_DONTWAIT, NULL, NULL);
-	if (err < 0) {
-		fprintf(stderr, "Trigger FILL ring buffer failed.\n");
-		return err;
-	}
-	return 0;
 }
 
 static void setup_xsk_socket(struct xsk_socket_info *xsk, char *ifname,

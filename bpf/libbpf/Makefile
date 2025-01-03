@@ -194,6 +194,7 @@ SOCKET_HELPERS := socket_helpers.o
 TASK_HELPERS := task_helpers.o
 TRACE_HELPERS := trace_helpers.o
 LIBBPF_WRAPPER := libbpf_wrapper.o
+LIBXDP_HELPERS := libxdp_helpers.o
 
 
 .PHONY: build
@@ -209,7 +210,7 @@ tc: tc.o ${TRACE_HELPERS}
 xdp: xdp.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER}
 xdp_devmap: xdp_devmap.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER}
 xdp_cpumap: xdp_cpumap.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER}
-xdp_xskmap: xdp_xskmap.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER}
+xdp_xskmap: xdp_xskmap.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER} ${LIBXDP_HELPERS}
 sockops: sockops.o ${TRACE_HELPERS}
 kprobe: kprobe.o ${TRACE_HELPERS}
 tracepoint: tracepoint.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER}
