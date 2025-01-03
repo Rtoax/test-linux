@@ -67,7 +67,9 @@ enable_all()
 
 inst_eval() {
 	if [[ -z ${dry_run} ]]; then
+		echo >&2 -e "\033[1;32mStartup: $@\033[m"
 		eval "$@"
+		echo >&2 -e "\033[1;33mDone: $@\033[m"
 	else
 		echo "$@"
 	fi
