@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e
 
+. /etc/os-release
+
 readonly prog=inst-deps
 
 declare -a dnf_args apt_args
@@ -13,7 +15,13 @@ verbose=
 dry_run=
 force=
 
+readonly OS=${ID}
+readonly VIRT_TYPE=$(systemd-detect-virt 2>/dev/null || :)
+readonly IS_PHY=$( [[ ${VIRT_TYPE} == none ]] && echo YES || :)
 readonly IS_DNF5="$(dnf --version 2>/dev/null | grep -woi dnf5 | uniq)"
+
+echo "OS: ${OS}"
+echo "VIRT: ${VIRT_TYPE} (IS_PHY: ${IS_PHY})"
 
 have_base=YES
 have_upgrade=YES
@@ -54,10 +62,6 @@ enable_all()
 	have_storage=YES
 	have_3rd_party=YES
 }
-
-. /etc/os-release
-
-readonly OS=${ID}
 
 inst_eval() {
 	if [[ -z ${dry_run} ]]; then
@@ -324,8 +328,6 @@ while true; do
 		;;
 	esac
 done
-
-echo "OS: ${OS}"
 
 if [[ ${verbose} ]]; then
 	export PS4='+${BASH_SOURCE}:${LINENO}:${FUNCNAME[0]}: '
@@ -633,6 +635,8 @@ dnf_add_packages()
 	fi
 	[[ ${force} ]] && dnf_args+=( --skip-broken )
 	[[ ${force} ]] && dnf_args+=( --nogpgcheck )
+
+	return 0
 }
 
 apt_add_packages()
@@ -730,6 +734,8 @@ apt_add_packages()
 
 	[[ ${force} ]] && apt_args+=( --fix-missing )
 	[[ ${force} ]] && apt_args+=( -f )
+
+	return 0
 }
 
 os_packages
@@ -742,7 +748,7 @@ os_packages
 [[ ${have_devel} ]] && pkgs+=( ${pkgs_devel[@]} )
 [[ ${have_container} ]] && pkgs+=( ${pkgs_container[@]} )
 [[ ${have_virt} ]] && pkgs+=( ${pkgs_virt[@]} )
-[[ ${have_desktop} ]] && pkgs+=( ${pkgs_desktop[@]} )
+[[ ${IS_PHY} ]] && [[ ${have_desktop} ]] && pkgs+=( ${pkgs_desktop[@]} )
 [[ ${have_math} ]] && pkgs+=( ${pkgs_math[@]} )
 [[ ${have_media} ]] && pkgs+=( ${pkgs_media[@]} )
 [[ ${have_bench} ]] && pkgs+=( ${pkgs_bench[@]} )
