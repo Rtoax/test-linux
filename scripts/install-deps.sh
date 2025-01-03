@@ -1,4 +1,11 @@
 #!/bin/bash
+# This script use to install packages on Debian/RHEL like operate system.
+#
+# This script is part of test-linux [1], of course, you could run this script
+# anywhere, not only in test-linux.
+#
+# [1] https://github.com/rtoax/test-linux.git
+#
 set -e
 
 . /etc/os-release
@@ -71,6 +78,9 @@ goodbye()
 	if [[ ${ret} != 0 ]]; then
 		echo >&2 -e "\033[1;31mRunning ${prog} failed!\033[m"
 		exit ${ret}
+	else
+		echo >&2 -e "\033[1;32mRunning ${prog} success!\033[m"
+		exit 0
 	fi
 }
 trap goodbye EXIT
@@ -197,7 +207,7 @@ ARGUMENT
 	--nobase           skip basic packages
 	--noup             skip upgrade
 
-	--pip              install python pip wheel packages
+	--pip, --nopip     install python pip wheel packages or skip even --all
 
 	-k, --skip-pkg     skip package (maybe list mutiple)
 	-u, --dry-run      only show commands
@@ -223,7 +233,7 @@ TEMP=$(getopt --options uvhfk: \
 	--long devel \
 	--long container \
 	--long virt \
-	--long pip \
+	--long pip --long nopip \
 	--long desktop \
 	--long math \
 	--long media \
@@ -323,6 +333,10 @@ while true; do
 	--pip)
 		shift
 		have_pip=YES
+		;;
+	--nopip)
+		shift
+		have_pip=
 		;;
 	-k | --skip-pkg)
 		shift
