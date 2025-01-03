@@ -149,6 +149,21 @@ void display_xdp_ring_offset(const char *pfx, struct xdp_ring_offset *off)
 		pfx ?: "", off->producer, off->consumer, off->desc, off->flags);
 };
 
+/**
+ * When XDP_USE_NEED_WAKEUP is set, the consuming of the FILL ring buffer must
+ * be triggered by a recvfrom syscall.
+ */
+int kick_rx(int fd)
+{
+	int err;
+	err = recvfrom(fd, NULL, 0, MSG_DONTWAIT, NULL, NULL);
+	if (err < 0) {
+		fprintf(stderr, "Trigger FILL ring buffer failed.\n");
+		return err;
+	}
+	return 0;
+}
+
 int main(int argc, char *argv[])
 {
 	int err, prog_fd;
@@ -470,12 +485,13 @@ int main(int argc, char *argv[])
 	fds[0].events = POLLIN; /* POLLOUT ? */
 
 	while (1) {
-		int ret = poll(fds, 1, -1);
-		if (ret <= 0) {
+		kick_rx(sock_fd);
+		err = poll(fds, 1, -1);
+		if (err <= 0) {
 			fprintf(stderr, "Failed poll xsk fd.\n");
 			continue;
 		}
-		printf("Received packet, ret = %d, %m\n", ret);
+		printf("Received packet, ret = %d, %m\n", err);
 		/**
 		 * TODO: Drop/l2fwd
 		 */

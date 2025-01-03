@@ -50,6 +50,21 @@ static void sig_handler(int sig)
 	siglongjmp(jmp, 1);
 }
 
+/**
+ * When XDP_USE_NEED_WAKEUP is set, the consuming of the FILL ring buffer must
+ * be triggered by a recvfrom syscall.
+ */
+int kick_rx(int sock_fd)
+{
+	int err;
+	err = recvfrom(sock_fd, NULL, 0, MSG_DONTWAIT, NULL, NULL);
+	if (err < 0) {
+		fprintf(stderr, "Trigger FILL ring buffer failed.\n");
+		return err;
+	}
+	return 0;
+}
+
 static void setup_xsk_socket(struct xsk_socket_info *xsk, char *ifname,
 			     int queue_id)
 {
@@ -87,8 +102,8 @@ static void setup_umem(struct xsk_umem_info *umem)
 		.flags = XSK_UMEM__DEFAULT_FLAGS,
 	};
 
-	if (xsk_umem__create(&umem->umem, umem->buffer, buffer_size, &umem->fq,
-			     &umem->cq, &umem_cfg)) {
+	if (xsk_umem__create(&umem->umem, umem->buffer, buffer_size,
+			     &umem->fq, &umem->cq, &umem_cfg)) {
 		fprintf(stderr, "Error creating UMEM: %s\n", strerror(errno));
 		exit(EXIT_FAILURE);
 	}
@@ -96,7 +111,7 @@ static void setup_umem(struct xsk_umem_info *umem)
 
 int main(int argc, char **argv)
 {
-	int err, ifindex, prog_fd, map_fd, map_key, sock_fd;
+	int err, ret, ifindex, prog_fd, map_fd, map_key, sock_fd;
 	struct xdp_xsk_bpf *skel;
 	char *ifname;
 	struct rlimit rlim = {RLIM_INFINITY, RLIM_INFINITY};
@@ -167,7 +182,8 @@ int main(int argc, char **argv)
 	fds.events = POLLIN;
 
 	while (!exiting) {
-		int ret = poll(&fds, 1, -1);
+		kick_rx(sock_fd);
+		ret = poll(&fds, 1, -1);
 		if (ret <= 0) {
 			fprintf(stderr, "Failed poll xsk fd.\n");
 			continue;
