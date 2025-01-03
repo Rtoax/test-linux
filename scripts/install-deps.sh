@@ -372,6 +372,7 @@ pkgs_base+=( jq )
 pkgs_base+=( lshw )                 # lshw
 pkgs_base+=( make cmake )
 pkgs_base+=( nasm )                 # nasm
+pkgs_base+=( neofetch )
 pkgs_base+=( numactl )              # numastat
 pkgs_base+=( opencl-headers )
 pkgs_base+=( openssl )
