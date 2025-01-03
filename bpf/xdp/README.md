@@ -68,6 +68,7 @@ sudo ip link set dev eth0 xdp obj program.o sec mysection
 sudo ip -details link show dev eth0
 
 # Unload xdp:
+sudo ip -details link set eth0 xdpgeneric off
 sudo ip -details link set eth0 xdp off
 ```
 
