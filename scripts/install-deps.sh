@@ -11,6 +11,8 @@ declare -a pkgs_storage pkgs_net pkgs_container pkgs_virt pkgs_base pkgs_fs
 declare -a pkgs_media pkgs_build pkgs_devel pkgs_docs
 declare -a pip_whls
 
+declare -a pkgs_skip
+
 verbose=
 dry_run=
 force=
@@ -184,6 +186,7 @@ ARGUMENT
 
 	--pip              install python pip wheel packages
 
+	-k, --skip-pkg     skip package (maybe list mutiple)
 	-u, --dry-run      only show commands
 
 	-v, --verbose      show verbose information
@@ -196,7 +199,7 @@ SEE ALSO
 	exit ${1-0}
 }
 
-TEMP=$(getopt --options uvhf \
+TEMP=$(getopt --options uvhfk: \
 	--long all \
 	--long nobase \
 	--long noup \
@@ -215,6 +218,7 @@ TEMP=$(getopt --options uvhf \
 	--long db \
 	--long storage \
 	--long net \
+	--long skip-pkg: \
 	--long dry-run \
 	--long verbose \
 	--long help \
@@ -306,6 +310,11 @@ while true; do
 	--pip)
 		shift
 		have_pip=YES
+		;;
+	-k | --skip-pkg)
+		shift
+		pkgs_skip+=( $1 )
+		shift
 		;;
 	-u | --dry-run)
 		shift
@@ -756,6 +765,16 @@ os_packages
 [[ ${have_storage} ]] && pkgs+=( ${pkgs_storage[@]} )
 [[ ${have_net} ]] && pkgs+=( ${pkgs_net[@]} )
 
+# Filter out skip packages
+for p in ${pkgs_skip[@]}
+do
+	for ((i = 0; i < ${#pkgs[@]}; i++))
+	do
+		if [[ ${p} == ${pkgs[i]} ]]; then
+			unset pkgs[i] 2>&1 >/dev/null
+		fi
+	done
+done
 
 if [[ ! -z "${pkgs[@]}" ]]; then
 	os_install $(echo ${pkgs[@]} | sort | uniq)
