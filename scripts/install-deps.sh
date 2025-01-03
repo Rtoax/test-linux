@@ -65,7 +65,18 @@ enable_all()
 	have_3rd_party=YES
 }
 
-inst_eval() {
+goodbye()
+{
+	local ret=$?
+	if [[ ${ret} != 0 ]]; then
+		echo >&2 -e "\033[1;31mRunning ${prog} failed!\033[m"
+		exit ${ret}
+	fi
+}
+trap goodbye EXIT
+
+inst_eval()
+{
 	if [[ -z ${dry_run} ]]; then
 		echo >&2 -e "\033[1;32mStartup: $@\033[m"
 		eval "$@"
