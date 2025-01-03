@@ -118,6 +118,7 @@ void handle_pkt(void *data, size_t len)
 	void *data_end = data + len;
 	struct ethhdr *eth = data;
 	struct iphdr *iph;
+	static __u64 pkt_cnt = 0;
 
 	if ((void *)(eth + 1) > data_end) {
 		fprintf(stderr, "Bad pkt.\n");
@@ -133,15 +134,17 @@ void handle_pkt(void *data, size_t len)
 		return;
 	}
 
+	pkt_cnt++;
+
 	switch (iph->protocol) {
 	case IPPROTO_ICMP: /* 1 */
-		printf("Get ICMP.\n");
+		printf("Get ICMP. %lld\n", pkt_cnt);
 		break;
 	case IPPROTO_TCP: /* 6 */
-		printf("Get TCP.\n");
+		printf("Get TCP. %lld\n", pkt_cnt);
 		break;
 	case IPPROTO_UDP: /* 17 */
-		printf("Get UDP.\n");
+		printf("Get UDP. %lld\n", pkt_cnt);
 		break;
 	}
 	return;
