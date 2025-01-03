@@ -16,6 +16,8 @@ GIT_TOPDIR := $(shell git rev-parse --show-toplevel 2>/dev/null || :)
 LIBS_TOPDIR := $(GIT_TOPDIR)/libs/
 NUMA_TOPDIR := $(GIT_TOPDIR)/numa/
 
+export GIT_TOPDIR LIBS_TOPDIR NUMA_TOPDIR
+
 CFLAGS += -I${LIBS_TOPDIR}
 CFLAGS += -I${NUMA_TOPDIR}
 
