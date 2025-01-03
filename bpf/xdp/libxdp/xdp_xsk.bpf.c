@@ -8,7 +8,7 @@ struct {
 	__type(value, __u32);
 } xsk_map SEC(".maps");
 
-SEC("xdp_sock")
+SEC("xdp")
 int xdp_sock_prog(struct xdp_md *ctx)
 {
 	__u32 key = 0;

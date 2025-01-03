@@ -189,6 +189,10 @@ int main(int argc, char **argv)
 		goto cleanup;
 	}
 
+#if !defined(STRICT_SEC_NAME)
+	bpf_program__set_type(skel->progs.xdp_sock_prog, BPF_PROG_TYPE_XDP);
+#endif
+
 	prog_fd = bpf_program__fd(skel->progs.xdp_sock_prog);
 	map_fd = bpf_map__fd(skel->maps.xsk_map);
 
