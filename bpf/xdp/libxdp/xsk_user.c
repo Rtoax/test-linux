@@ -5,6 +5,7 @@
 #include <string.h>
 #include <errno.h>
 #include <poll.h>
+#include <pthread.h>
 #include <signal.h>
 #include <setjmp.h>
 #include <net/if.h>
@@ -38,11 +39,31 @@ struct xsk_socket_info {
 static int exiting = false;
 static sigjmp_buf jmp;
 
+static pthread_t display_thread;
+
+struct xsk_umem_info *umem_info = NULL;
+struct xsk_socket_info *sock_info = NULL;
+
+
 static void sig_handler(int sig)
 {
 	printf("Catch signal %d!!\n", sig);
 	exiting = true;
 	siglongjmp(jmp, 1);
+}
+
+void *display_info(void *arg)
+{
+	while (!exiting) {
+		printf("info: avail ");
+		printf("rx %d,", xsk_cons_nb_avail(&sock_info->rx, 64));
+		printf("\n");
+		printf("info: free ");
+		printf("fq %d,", xsk_prod_nb_free(&umem_info->fq, 64));
+		printf("\n");
+		sleep(2);
+	}
+	return NULL;
 }
 
 static void setup_xsk_socket(struct xsk_socket_info *xsk, char *ifname,
@@ -156,8 +177,6 @@ int main(int argc, char **argv)
 	struct xdp_xsk_bpf *skel;
 	char *ifname;
 	struct rlimit rlim = {RLIM_INFINITY, RLIM_INFINITY};
-	struct xsk_umem_info *umem_info = NULL;
-	struct xsk_socket_info *sock_info = NULL;
 
 
 	if (argc != 2) {
@@ -226,6 +245,8 @@ int main(int argc, char **argv)
 
 	printf("XDP and XSK setup complete.\n");
 
+	pthread_create(&display_thread, NULL, display_info, NULL);
+
 	struct pollfd fds = {};
 
 	fds.fd = sock_fd;
@@ -281,6 +302,7 @@ int main(int argc, char **argv)
 
 cleanup:
 	printf("Byebye!!\n");
+	pthread_join(display_thread, NULL);
 	if (umem_info)
 		xsk_umem__delete(umem_info->umem);
 	if (sock_info)
