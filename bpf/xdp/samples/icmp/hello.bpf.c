@@ -14,14 +14,14 @@ int ping(struct xdp_md *ctx)
 	struct ethhdr *ethhdr = data;
 	static unsigned long icmp_count = 0;
 
-	if (data + sizeof(struct ethhdr) > data_end) {
+	if ((void *)(ethhdr + 1) > data_end) {
 		bpf_printk("Not ether header");
 		return XDP_PASS;
 	}
 
 	if (bpf_ntohs(ethhdr->h_proto) == ETH_P_IP) {
 		struct iphdr *iphdr = data + sizeof(struct ethhdr);
-		if (data + sizeof(struct ethhdr) + sizeof(struct iphdr) <= data_end)
+		if ((void *)(iphdr + 1) <= data_end)
 			proto = iphdr->protocol;
 	}
 

@@ -26,6 +26,7 @@ BPFTOOL := bpftool
 CFLAGS := -Werror -Wall
 CFLAGS += -Wstrict-prototypes
 CFLAGS += -lxdp -lbpf
+CFLAGS += -O0 -g -ggdb
 
 CFLAGS_BPF := -I.
 CFLAGS_BPF += -O2 -Wall -g -target bpf

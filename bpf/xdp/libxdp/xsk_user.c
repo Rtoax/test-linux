@@ -1,3 +1,4 @@
+#include <arpa/inet.h>
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -12,7 +13,9 @@
 #include <bpf/libbpf.h>
 #include <sys/mman.h>
 #include <sys/resource.h>
+#include <linux/if_ether.h>
 #include <linux/if_link.h>
+#include <linux/ip.h>
 
 #include "libbpf_wrapper.h"
 #include "libxdp_helpers.h"
@@ -37,7 +40,7 @@ static sigjmp_buf jmp;
 
 static void sig_handler(int sig)
 {
-	printf("Catch signal!!\n");
+	printf("Catch signal %d!!\n", sig);
 	exiting = true;
 	siglongjmp(jmp, 1);
 }
@@ -71,6 +74,8 @@ static void setup_umem(struct xsk_umem_info *umem)
 		exit(EXIT_FAILURE);
 	}
 
+	printf("umem buffer %p\n", umem->buffer);
+
 	struct xsk_umem_config umem_cfg = {
 		.fill_size = XSK_RING_PROD__DEFAULT_NUM_DESCS,
 		.comp_size = XSK_RING_CONS__DEFAULT_NUM_DESCS,
@@ -84,6 +89,62 @@ static void setup_umem(struct xsk_umem_info *umem)
 		fprintf(stderr, "Error creating UMEM: %s\n", strerror(errno));
 		exit(EXIT_FAILURE);
 	}
+
+	printf("umem frame_size %d\n", XSK_UMEM__DEFAULT_FRAME_SIZE);
+}
+
+int xsk_populate_fill_ring(struct xsk_umem_info *umem_info)
+{
+	int i, ret;
+	__u32 idx;
+	/**
+	 * Fill ring, see linux:xsk_populate_fill_ring()
+	 */
+	ret = xsk_ring_prod__reserve(&umem_info->fq, XSK_RING_PROD__DEFAULT_NUM_DESCS, &idx);
+	if (ret != XSK_RING_PROD__DEFAULT_NUM_DESCS) {
+		fprintf(stderr, "reserve fill ring failed.\n");
+		return -1;
+	}
+	for (i = 0; i < XSK_RING_PROD__DEFAULT_NUM_DESCS; i++) {
+		__u64 addr = i * XSK_UMEM__DEFAULT_FRAME_SIZE;
+		*xsk_ring_prod__fill_addr(&umem_info->fq, idx++) = addr;
+	}
+	xsk_ring_prod__submit(&umem_info->fq, XSK_RING_PROD__DEFAULT_NUM_DESCS);
+	return 0;
+}
+
+void handle_pkt(void *data, size_t len)
+{
+	void *data_end = data + len;
+	struct ethhdr *eth = data;
+	struct iphdr *iph;
+
+	if ((void *)(eth + 1) > data_end) {
+		fprintf(stderr, "Bad pkt.\n");
+		return;
+	}
+
+	if (eth->h_proto != htons(ETH_P_IP))
+		return;
+
+	iph = data + sizeof(struct ethhdr);
+	if ((void *)(iph + 1) > data_end) {
+		fprintf(stderr, "Bad ip pkt.\n");
+		return;
+	}
+
+	switch (iph->protocol) {
+	case IPPROTO_ICMP: /* 1 */
+		printf("Get ICMP.\n");
+		break;
+	case IPPROTO_TCP: /* 6 */
+		printf("Get TCP.\n");
+		break;
+	case IPPROTO_UDP: /* 17 */
+		printf("Get UDP.\n");
+		break;
+	}
+	return;
 }
 
 int main(int argc, char **argv)
@@ -107,6 +168,7 @@ int main(int argc, char **argv)
 	}
 
 	signal(SIGINT, sig_handler);
+	signal(SIGSEGV, sig_handler);
 	signal(SIGTERM, sig_handler);
 	signal(SIGABRT, sig_handler);
 	sigsetjmp(jmp, 1);
@@ -135,6 +197,10 @@ int main(int argc, char **argv)
 	umem_info = calloc(1, sizeof(*umem_info));
 	setup_umem(umem_info);
 
+	err = xsk_populate_fill_ring(umem_info);
+	if (err)
+		goto cleanup;
+
 	sock_info = calloc(1, sizeof(*sock_info));
 	sock_info->umem = umem_info;
 	setup_xsk_socket(sock_info, ifname, 0);
@@ -159,15 +225,51 @@ int main(int argc, char **argv)
 	fds.events = POLLIN;
 
 	while (!exiting) {
+		__u32 i, rcvd, idx_rx, idx_fq;
+
 		kick_rx(sock_fd);
 		ret = poll(&fds, 1, -1);
 		if (ret <= 0) {
 			fprintf(stderr, "Failed poll xsk fd.\n");
 			continue;
 		}
-		printf("Received packet, ret = %d, %m\n", ret);
+		// printf("Received packet, ret = %d\n", ret);
 
-		// Add your packet processing logic here
+		rcvd = xsk_ring_cons__peek(&sock_info->rx, 64, &idx_rx);
+		if (!rcvd)
+			continue;
+
+		ret = xsk_ring_prod__reserve(&umem_info->fq, rcvd, &idx_fq);
+		while (ret != rcvd) {
+			if (ret < 0) {
+				fprintf(stderr, "fill ring reserve failed.\n");
+				goto cleanup;
+			}
+			if (xsk_ring_prod__needs_wakeup(&umem_info->fq)) {
+				ret = poll(&fds, 1, 1000);
+				if (ret < 0) {
+					fprintf(stderr, "poll failed.\n");
+					goto cleanup;
+				}
+			}
+			ret = xsk_ring_prod__reserve(&umem_info->fq, rcvd, &idx_fq);
+		}
+
+		for (i = 0; i < rcvd; i++) {
+			const struct xdp_desc *desc = xsk_ring_cons__rx_desc(&sock_info->rx, idx_rx++);
+			__u64 addr = desc->addr, orig;
+
+			orig = xsk_umem__extract_addr(addr);
+			addr = xsk_umem__add_offset_to_addr(addr);
+
+			*xsk_ring_prod__fill_addr(&umem_info->fq, idx_fq++) = orig;
+
+			//printf("Handle packet, 0x%llx 0x%llx\n", orig, desc->addr);
+			handle_pkt((void *)(umem_info->buffer + desc->addr), desc->len);
+		}
+
+		xsk_ring_prod__submit(&umem_info->fq, rcvd);
+		xsk_ring_cons__release(&sock_info->rx, rcvd);
 	}
 
 cleanup:
