@@ -10,5 +10,5 @@ cmake \
 	-DCMAKE_BUILD_TYPE=Debug \
 	..
 
-make -j$(nproc)
+make -j$(($(nproc) / 2))
 sudo make install
