@@ -59,6 +59,7 @@ build: help
 
 include $(ABS_SRCTREE)/scripts/logos.mk
 include tlbuild.mk
+include scripts/git.mk
 
 GIT_CONFIG_CORE_HOOKSPATH := $(shell git config get core.hooksPath 2>/dev/null \
 	|| git config core.hooksPath 2>/dev/null \

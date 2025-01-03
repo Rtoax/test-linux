@@ -8,13 +8,15 @@ else
 endif
 export Q
 
+all: test_call
 
 include ../compiler/compiler.mk
+include ../tlbuild.mk
 include libc.mk
 include success.mk
 include wow.mk
-include tlbuild.mk
 include logos.mk
+include git.mk
 
 CC := gcc
 
@@ -38,7 +40,7 @@ ifeq (${feature-sve2},1)
   $(info CPU support SVE2)
 endif
 
-all:
+test_call:
 	$(call success)
 	$(call wow)
 	$(call wow,PREFIX)
@@ -46,6 +48,8 @@ all:
 	$(call tl_ascii_logo2)
 	$(call tl_ascii_logo_ebpf_bee_summit_2021)
 	$(call tl_ascii_logo_gnu)
+	$(call git_config)
+	$(call git_archive)
 	@echo -e "  \033[1;33mDone\033[m"
 test:
 clean:

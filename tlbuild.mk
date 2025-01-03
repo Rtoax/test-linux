@@ -1,6 +1,18 @@
 # SPDX-License-Identifier: GPL-3.0
 SHELL = bash
 
+comma	:= ,
+quota	:= "
+squote	:= '
+empty   :=
+space   := $(empty) $(empty)
+space_escape := _-_SPACE_-_
+pound	:= \#
+define newline
+
+endef
+
+
 ifeq ($(V),1)
   Q =
 else
@@ -30,25 +42,3 @@ libtest-linux-numa.a:
 	@echo -e "  GEN  \033[1;32m$(@)\033[m"
 	${Q}make -C ${NUMA_TOPDIR} $(@)
 	${Q}cp ${NUMA_TOPDIR}/libtest-linux-numa.a $(shell pwd)
-
-
-# Store some common function
-
-define git_config
-	@if [[ ! -z $(GIT_TOPDIR) ]]; then \
-		${SHELL} ${GIT_TOPDIR}/scripts/git/config.sh; \
-	fi
-endef
-
-define git_archive
-	@if [[ ! -z $(GIT_TOPDIR) ]]; then \
-		${SHELL} ${GIT_TOPDIR}/scripts/git-archive; \
-	fi
-endef
-
-define git_clean
-	@if [[ ! -z $(GIT_TOPDIR) ]]; then \
-		${SHELL} ${GIT_TOPDIR}/scripts/git-clean; \
-	fi
-endef
-
