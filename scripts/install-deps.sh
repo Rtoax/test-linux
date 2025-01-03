@@ -9,6 +9,10 @@ declare -a pkgs_storage pkgs_net pkgs_container pkgs_virt pkgs_base pkgs_fs
 declare -a pkgs_media pkgs_build pkgs_devel pkgs_docs
 declare -a pip_whls
 
+verbose=
+dry_run=
+force=
+
 readonly IS_DNF5="$(dnf --version 2>/dev/null | grep -woi dnf5 | uniq)"
 
 have_base=YES
@@ -31,8 +35,25 @@ have_net=
 
 have_3rd_party=
 
-verbose=
-dry_run=
+enable_all()
+{
+	have_compiler=YES
+	have_build=YES
+	have_docs=YES
+	have_devel=YES
+	have_container=YES
+	have_virt=YES
+	have_pip=YES
+	have_desktop=YES
+	have_math=YES
+	have_media=YES
+	have_bench=YES
+	have_net=YES
+	have_fs=YES
+	have_db=YES
+	have_storage=YES
+	have_3rd_party=YES
+}
 
 . /etc/os-release
 
@@ -161,10 +182,9 @@ ARGUMENT
 
 	-u, --dry-run      only show commands
 
-	--allowerasing     allow erasing of installed packages to resolve dependencies
-
 	-v, --verbose      show verbose information
 	-h, --help         show this help information
+	-f, --force        force install
 
 SEE ALSO
 	gcc(1), etc.
@@ -172,7 +192,7 @@ SEE ALSO
 	exit ${1-0}
 }
 
-TEMP=$(getopt --options uvh \
+TEMP=$(getopt --options uvhf \
 	--long all \
 	--long nobase \
 	--long noup \
@@ -192,9 +212,9 @@ TEMP=$(getopt --options uvh \
 	--long storage \
 	--long net \
 	--long dry-run \
-	--long allowerasing \
 	--long verbose \
 	--long help \
+	--long force \
 	--name $prog -- "$@")
 
 test $? != 0 && __usage__ 1
@@ -209,20 +229,7 @@ while true; do
 		;;
 	--all)
 		shift
-		have_compiler=YES
-		have_build=YES
-		have_docs=YES
-		have_devel=YES
-		have_container=YES
-		have_virt=YES
-		have_pip=YES
-		have_desktop=YES
-		have_math=YES
-		have_media=YES
-		have_bench=YES
-		have_net=YES
-		have_fs=YES
-		have_3rd_party=YES
+		enable_all
 		;;
 	--noup)
 		shift
@@ -300,9 +307,12 @@ while true; do
 		shift
 		dry_run=YES
 		;;
-	--allowerasing)
+	-f | --force)
 		shift
-		dnf_args+=( --allowerasing --nobest )
+		force=YES
+		dnf_args+=( --allowerasing )
+		dnf_args+=( --nobest )
+		dnf_args+=( --skip-broken )
 		;;
 	-v | --verbose)
 		shift
@@ -617,11 +627,11 @@ dnf_add_packages()
 	pkgs_net+=( httpd )
 	pkgs_net+=( libxdp libxdp-static )
 
-	if [[ ${IS_DNF5} ]]; then
+	if [[ ${IS_DNF5} ]] && [[ ${force} ]]; then
 		dnf_args+=( --skip-unavailable )
 	fi
-	dnf_args+=( --skip-broken )
-	dnf_args+=( --nogpgcheck )
+	[[ ${force} ]] && dnf_args+=( --skip-broken )
+	[[ ${force} ]] && dnf_args+=( --nogpgcheck )
 }
 
 apt_add_packages()
@@ -717,8 +727,8 @@ apt_add_packages()
 	pkgs_desktop+=( tigervnc-standalone-server )
 	pkgs_desktop+=( tigervnc-viewer )
 
-	apt_args+=( --fix-missing )
-	apt_args+=( -f )
+	[[ ${force} ]] && apt_args+=( --fix-missing )
+	[[ ${force} ]] && apt_args+=( -f )
 }
 
 os_packages

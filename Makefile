@@ -192,7 +192,7 @@ $(SUB_KERN_DIR_TEST):
 	$(call make_test,K,$(@:%_test=%))
 
 define installdeps
-	${SHELL} scripts/install-deps.sh --all --allowerasing
+	${SHELL} scripts/install-deps.sh --all --force
 endef
 
 define builddocker
