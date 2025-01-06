@@ -1,28 +1,35 @@
+#include <string.h>
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <errno.h>
 #include <signal.h>
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <linux/if_ether.h>
+#include <linux/if_packet.h>
 #include <linux/ip.h>
 #include <arpa/inet.h>
+#include <net/if.h>
+#include <linux/in.h>
 
 #define BUFFER_MAX 2048
 
+static const char *ifname = NULL;
 static volatile sig_atomic_t exiting = 0;
 
 void sig_handler(int sig)
 {
 	psignal(sig, "tcpdump");
 	exiting = 1;
+	exit(EXIT_SUCCESS);
 }
 
 int main(int argc, char *argv[])
 {
-	int  sock;
+	int sock, len;
 	char buffer[BUFFER_MAX];
-	int len;
+	struct sockaddr_ll sll;
 
 	struct ethhdr *ethhdr;
 	struct iphdr *iphdr;
@@ -30,11 +37,23 @@ int main(int argc, char *argv[])
 
 	signal(SIGINT, sig_handler);
 
+	ifname = "lo";
+
 	/* Data Link Layer */
 	sock = socket(PF_PACKET, SOCK_RAW, htons(ETH_P_ALL));
 	if (sock < 0 ) {
 		perror("Create socket error");
 		exit(0);
+	}
+
+	memset(&sll, 0, sizeof(sll));
+	sll.sll_family = PF_PACKET;
+	sll.sll_ifindex = if_nametoindex(ifname);
+	sll.sll_protocol = htons(ETH_P_ALL);
+	if (bind(sock, (struct sockaddr *)&sll, sizeof(sll)) < 0) {
+		fprintf(stderr, "Failed to bind to %s: %s\n", ifname, strerror(errno));
+		close(sock);
+		return -1;
 	}
 
 	printf("Tcpdump, hit ctrl-c to end.\n");

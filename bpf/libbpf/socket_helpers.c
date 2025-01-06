@@ -13,8 +13,8 @@
 
 int open_raw_sock(const char *ifname)
 {
-	struct sockaddr_ll sll;
 	int sock;
+	struct sockaddr_ll sll;
 
 	sock = socket(PF_PACKET, SOCK_RAW | SOCK_NONBLOCK | SOCK_CLOEXEC, htons(ETH_P_ALL));
 	if (sock < 0) {
