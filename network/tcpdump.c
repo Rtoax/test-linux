@@ -60,6 +60,8 @@ void sig_handler(int sig)
 {
 	psignal(sig, "tcpdump");
 	exiting = 1;
+	fflush(stdout);
+	fflush(stderr);
 	exit(EXIT_SUCCESS);
 }
 
@@ -182,6 +184,7 @@ int main(int argc, char *argv[])
 			break;
 		}
 		printf("\n");
+		fflush(stdout);
 	}
 
 cleanup:
