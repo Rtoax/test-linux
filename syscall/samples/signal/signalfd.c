@@ -33,14 +33,22 @@ int main(int argc, char *argv[])
 		if (s != sizeof(struct signalfd_siginfo))
 			handle_error("read");
 
-		if (fdsi.ssi_signo == SIGINT) {
+		switch (fdsi.ssi_signo) {
+		case SIGINT:
 			printf("Got SIGINT\n");
-		} else if (fdsi.ssi_signo == SIGQUIT) {
+			goto exit;
+			break;
+		case SIGQUIT:
 			printf("Got SIGQUIT\n");
-			exit(EXIT_SUCCESS);
-		} else {
+			goto exit;
+			break;
+		default:
 			printf("Read unexpected signal\n");
+			break;
 		}
 	}
-}
 
+exit:
+	close(sfd);
+	return 0;
+}
