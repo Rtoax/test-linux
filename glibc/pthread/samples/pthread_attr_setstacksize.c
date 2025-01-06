@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <assert.h>
 
-#define MY_STACK_SIZE 1024*1024
+#define MY_STACK_SIZE 1024 * 1024
 
 /* old glibc version don't have this macro
  * see also /usr/include/bits/pthread_stack_min.h */
@@ -10,7 +10,7 @@
 #define PTHREAD_STACK_MIN      131072
 #endif
 
-static void create_rt_thread(void *(*rt_func)(void *))
+static void test_rt_thread(void *(*rt_func)(void *))
 {
 	pthread_t thread;
 	pthread_attr_t attr;
@@ -26,16 +26,24 @@ static void create_rt_thread(void *(*rt_func)(void *))
 		return;
 	}
 	pthread_create(&thread, &attr, rt_func, NULL);
+	pthread_join(thread, NULL);
 }
 
 void *routine(void *unused)
 {
+	size_t stacksize;
+	pthread_attr_t attr;
+
+	pthread_attr_init(&attr);
+	pthread_attr_getstacksize(&attr, &stacksize);
+	printf("stacksize: %ld MB\n", stacksize / 1024 / 1024);
+
 	return NULL;
 }
 
 int main(void)
 {
-	create_rt_thread(routine);
+	test_rt_thread(routine);
 
 	return 0;
 }
