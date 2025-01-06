@@ -11,10 +11,17 @@
 		exit(EXIT_FAILURE);	\
 	} while (0);
 
+void child_sig_handler(int sig)
+{
+	psignal(sig, "---");
+}
+
 static void *sig_thread(void *arg)
 {
 	sigset_t *set = (sigset_t *)arg;
 	int s, sig;
+
+	signal(SIGUSR1, child_sig_handler);
 
 	for (;;) {
 		/* Waiting signal. */
@@ -39,8 +46,8 @@ int main(int argc, const char *argv[])
 	sigemptyset(&set);
 	sigaddset(&set, SIGINT);
 	sigaddset(&set, SIGQUIT);
-	sigaddset(&set, SIGUSR1);
 
+	/* mask signals */
 	s = pthread_sigmask(SIG_BLOCK, &set, NULL);
 	if (s != 0)
 		err_exit(s, "pthread_sigmask");
@@ -50,7 +57,9 @@ int main(int argc, const char *argv[])
 		err_exit(s, "pthread_create");
 
 	sleep(1);
-	pthread_kill(thread, SIGINT);
+
+	printf("Send SIGUSR1 to thread.\n");
+	pthread_kill(thread, SIGUSR1);
 
 	pthread_join(thread, NULL);
 
