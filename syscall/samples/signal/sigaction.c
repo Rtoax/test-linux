@@ -1,9 +1,10 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <signal.h>
+#include <stdlib.h>
 
 
-void timeout(int signo)
+void sig_alarm_timeout(int signo)
 {
 	if (signo == SIGALRM) {
 		printf("time out! \n");
@@ -11,12 +12,32 @@ void timeout(int signo)
 	}
 }
 
-int main(void)
+void sig_handler_exit(int signum)
+{
+	printf("%d\n", signum);
+	psignal(signum, "RongTao");
+	exit(0);
+}
+
+void tst_getaction(void)
+{
+	struct sigaction temp;
+
+	sigaction(SIGHUP, NULL, &temp);
+
+	if (temp.sa_handler != SIG_IGN) {
+		temp.sa_handler = sig_handler_exit;
+		sigemptyset(&temp.sa_mask);
+		sigaction(SIGHUP, &temp, NULL);
+	}
+}
+
+void tst_alarm(void)
 {
 	int i;
 	struct sigaction act;
 
-	act.sa_handler = timeout;
+	act.sa_handler = sig_alarm_timeout;
 	sigemptyset(&act.sa_mask);
 	act.sa_flags = 0;
 
@@ -26,6 +47,11 @@ int main(void)
 
 	for (i = 0; i < 3; i++)
 		sleep(100);
+}
 
+int main(void)
+{
+	tst_getaction();
+	tst_alarm();
 	return 0;
 }

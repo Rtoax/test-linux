@@ -3,7 +3,7 @@
 #include <stdlib.h>
 
 
-void handler(int signum)
+void sig_handler_exit(int signum)
 {
 	printf("%d\n", signum);
 	psignal(signum, "RongTao");
@@ -13,8 +13,8 @@ void handler(int signum)
 void demo1(void)
 {
 	struct sigaction new, old;
-	new.sa_handler = handler,
-	new.sa_flags = SA_RESTART,
+	new.sa_handler = sig_handler_exit;
+	new.sa_flags = SA_RESTART;
 	sigaction(SIGINT, &new, &old);
 }
 
@@ -23,7 +23,7 @@ void demo2(void)
 	struct sigaction new, old;
 
 	/* Set up the structure to specify the new action. */
-	new.sa_handler = handler;
+	new.sa_handler = sig_handler_exit;
 	sigemptyset(&new.sa_mask);
 	new.sa_flags = 0;
 
@@ -41,24 +41,13 @@ void demo2(void)
 		sigaction(SIGTERM, &new, NULL);
 }
 
-void demo3(void)
-{
-	struct sigaction temp;
-
-	sigaction(SIGHUP, NULL, &temp);
-
-	if (temp.sa_handler != SIG_IGN) {
-		temp.sa_handler = handler;
-		sigemptyset(&temp.sa_mask);
-		sigaction(SIGHUP, &temp, NULL);
-	}
-}
-
 int main(void)
 {
 	demo2();
-	demo3();
-	while(1);
+
+	while(1)
+		sleep(1);
+
 	return 0;
 }
 
