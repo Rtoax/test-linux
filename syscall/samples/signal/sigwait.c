@@ -26,8 +26,10 @@ int main(void)
 	sigaddset(&sigset, SIGINT);
 
 	printf("Waiting signal...\n");
+
 	/* Click ctrl-c once */
 	sigwait(&sigset, &signum);
+
 	psignal(signum, "Get signal");
 
 	sleep(1);

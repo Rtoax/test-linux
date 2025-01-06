@@ -46,6 +46,7 @@ TARGETS += pthread_spin_lock
 TARGETS += pthread_spin-latency pthread_spin-latency-loop
 TARGETS += pthread_setaffinity_np
 TARGETS += pthread_sigmask
+TARGETS += pthread_kill
 TARGETS += pthread_once
 TARGETS += pthread_yield
 TARGETS += pthread_mutexattr_setprioceiling
@@ -146,6 +147,7 @@ pthread_setspecific: pthread_setspecific.o
 pthread_getspecific: pthread_getspecific.o
 pthread_setaffinity_np: pthread_setaffinity_np.o
 pthread_sigmask: pthread_sigmask.o
+pthread_kill: pthread_kill.o
 pthread_spin_lock: pthread_spin_lock.o
 pthread_spin-latency: pthread_spin-latency.o
 pthread_spin-latency-loop: pthread_spin-latency-loop.o

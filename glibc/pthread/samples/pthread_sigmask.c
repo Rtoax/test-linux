@@ -5,7 +5,7 @@
 #include <pthread.h>
 #include <errno.h>
 
-#define handle_error_en(en, msg) do {	\
+#define err_exit(en, msg) do {	\
 		errno = en;	\
 		perror(msg);	\
 		exit(EXIT_FAILURE);	\
@@ -20,7 +20,7 @@ static void *sig_thread(void *arg)
 		/* Waiting signal. */
 		s = sigwait(set, &sig);
 		if (s != 0)
-			handle_error_en(s, "sigwait");
+			err_exit(s, "sigwait");
 
 		printf("signal handling thread got signal %d\n", sig);
 		if (sig == SIGINT)
@@ -43,11 +43,11 @@ int main(int argc, const char *argv[])
 
 	s = pthread_sigmask(SIG_BLOCK, &set, NULL);
 	if (s != 0)
-		handle_error_en(s, "pthread_sigmask");
+		err_exit(s, "pthread_sigmask");
 
 	s = pthread_create(&thread, NULL, &sig_thread, (void *)&set);
 	if (s != 0)
-		handle_error_en(s, "pthread_create");
+		err_exit(s, "pthread_create");
 
 	sleep(1);
 	pthread_kill(thread, SIGINT);
