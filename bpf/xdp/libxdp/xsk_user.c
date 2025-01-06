@@ -134,7 +134,19 @@ int xsk_populate_fill_ring(struct xsk_umem_info *umem_info)
 	return 0;
 }
 
-void handle_pkt(void *data, size_t len)
+#define pr_pkt(fmt...) do { \
+		fprintf(stdout, "\033[1;32m"); \
+		fprintf(stdout, fmt); \
+		fprintf(stdout, "\033[m"); \
+	} while (0)
+
+#define pr_pkt_err(fmt...) do { \
+		fprintf(stderr, "\033[1;31m"); \
+		fprintf(stderr, fmt); \
+		fprintf(stderr, "\033[m"); \
+	} while (0)
+
+void handle_desc(void *data, size_t len)
 {
 	void *data_end = data + len;
 	struct ethhdr *eth = data;
@@ -142,7 +154,7 @@ void handle_pkt(void *data, size_t len)
 	static __u64 pkt_cnt = 0;
 
 	if ((void *)(eth + 1) > data_end) {
-		fprintf(stderr, "Bad pkt.\n");
+		pr_pkt_err("Bad pkt.\n");
 		return;
 	}
 
@@ -151,7 +163,7 @@ void handle_pkt(void *data, size_t len)
 
 	iph = data + sizeof(struct ethhdr);
 	if ((void *)(iph + 1) > data_end) {
-		fprintf(stderr, "Bad ip pkt.\n");
+		pr_pkt_err("Bad ip pkt.\n");
 		return;
 	}
 
@@ -159,13 +171,16 @@ void handle_pkt(void *data, size_t len)
 
 	switch (iph->protocol) {
 	case IPPROTO_ICMP: /* 1 */
-		printf("Get ICMP. %lld\n", pkt_cnt);
+		pr_pkt("Get ICMP. %lld\n", pkt_cnt);
 		break;
 	case IPPROTO_TCP: /* 6 */
-		printf("Get TCP. %lld\n", pkt_cnt);
+		pr_pkt("Get TCP. %lld\n", pkt_cnt);
 		break;
 	case IPPROTO_UDP: /* 17 */
-		printf("Get UDP. %lld\n", pkt_cnt);
+		pr_pkt("Get UDP. %lld\n", pkt_cnt);
+		break;
+	default:
+		pr_pkt_err("Unknown pkt.\n");
 		break;
 	}
 	return;
@@ -248,12 +263,13 @@ int main(int argc, char **argv)
 	pthread_create(&display_thread, NULL, display_info, NULL);
 
 	struct pollfd fds = {};
+	__u32 idx_rx = 0, idx_fq = 0;
 
 	fds.fd = sock_fd;
 	fds.events = POLLIN;
 
 	while (!exiting) {
-		__u32 i, rcvd, idx_rx, idx_fq;
+		__u32 i, rcvd;
 
 		kick_rx(sock_fd);
 		ret = poll(&fds, 1, -1);
@@ -261,7 +277,6 @@ int main(int argc, char **argv)
 			fprintf(stderr, "Failed poll xsk fd.\n");
 			continue;
 		}
-		// printf("Received packet, ret = %d\n", ret);
 
 		rcvd = xsk_ring_cons__peek(&sock_info->rx, 64, &idx_rx);
 		if (!rcvd)
@@ -292,8 +307,9 @@ int main(int argc, char **argv)
 
 			*xsk_ring_prod__fill_addr(&umem_info->fq, idx_fq++) = orig;
 
-			//printf("Handle packet, 0x%llx 0x%llx\n", orig, desc->addr);
-			handle_pkt(xsk_umem__get_data(umem_info->buffer, addr), desc->len);
+			printf("Handle desc: addr: 0x%llx, len: %d(0x%x), idx: %d, rcvd: %d\n",
+				desc->addr, desc->len, desc->len, idx_rx, rcvd);
+			handle_desc(xsk_umem__get_data(umem_info->buffer, addr), desc->len);
 		}
 
 		xsk_ring_prod__submit(&umem_info->fq, rcvd);
