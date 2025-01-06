@@ -19,6 +19,7 @@
 #define BUFFER_MAX 2048
 
 static const char *interface = NULL;
+static int ifindex = 0;
 static volatile sig_atomic_t exiting = 0;
 int verbose = false;
 
@@ -78,11 +79,6 @@ int main(int argc, char *argv[])
 		return -err;
 	}
 
-	if (!interface) {
-		fprintf(stderr, "Speicfy interface with -i.\n");
-		return -ENOENT;
-	}
-
 	signal(SIGINT, sig_handler);
 
 	/* Data Link Layer */
@@ -92,14 +88,25 @@ int main(int argc, char *argv[])
 		exit(0);
 	}
 
-	memset(&sll, 0, sizeof(sll));
-	sll.sll_family = PF_PACKET;
-	sll.sll_ifindex = if_nametoindex(interface);
-	sll.sll_protocol = htons(ETH_P_ALL);
-	if (bind(sock, (struct sockaddr *)&sll, sizeof(sll)) < 0) {
-		fprintf(stderr, "Failed to bind to %s: %s\n", interface, strerror(errno));
-		close(sock);
-		return -1;
+	if (interface) {
+		ifindex = if_nametoindex(interface);
+		if (ifindex == 0) {
+			fprintf(stderr, "Unknown interface %s\n", interface);
+			exit(EXIT_FAILURE);
+		}
+	}
+
+	if (ifindex > 0) {
+		memset(&sll, 0, sizeof(sll));
+		sll.sll_family = PF_PACKET;
+		sll.sll_ifindex = if_nametoindex(interface);
+		sll.sll_protocol = htons(ETH_P_ALL);
+		err = bind(sock, (struct sockaddr *)&sll, sizeof(sll));
+		if (err < 0) {
+			fprintf(stderr, "bind %s: %m\n", interface);
+			err = -errno;
+			goto cleanup;
+		}
 	}
 
 	printf("Tcpdump, hit ctrl-c to end.\n");
@@ -177,6 +184,7 @@ int main(int argc, char *argv[])
 		printf("\n");
 	}
 
+cleanup:
 	close(sock);
-	return 0;
+	return err;
 }
