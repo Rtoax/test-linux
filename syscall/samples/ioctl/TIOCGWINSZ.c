@@ -12,7 +12,7 @@ int main(void)
 #else
 	printf("TIOCGWINSZ = %#08x\n", TIOCGWINSZ);
 #endif
-	printf("%i, %i, %i, %i\n",
+	printf("col: %i, row: %i, xpixel: %i, ypixel: %i\n",
 	       sz.ws_col, sz.ws_row, sz.ws_xpixel, sz.ws_ypixel);
 
 	return 0;
