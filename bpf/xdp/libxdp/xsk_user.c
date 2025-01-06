@@ -40,6 +40,7 @@ struct xsk_socket_info {
 static int ifindex = 0;
 static const char *ifname;
 
+static int verbose = false;
 static int exiting = false;
 
 static pthread_t display_thread, read_trace_pipe_thread;
@@ -48,10 +49,11 @@ struct xsk_umem_info *umem_info = NULL;
 struct xsk_socket_info *sock_info = NULL;
 
 static const char argp_prog_doc[] =
-	"USAGE: [-i <interface>]\n";
+	"USAGE: [-i <interface>] [-v|--verbose]\n";
 
 static const struct argp_option opts[] = {
 	{ "interface", 'i', "INTERFACE", 0, "Network interface to attach" },
+	{ "verbose", 'v', "VERBOSE", 1, "Display detail during running" },
 	{},
 };
 
@@ -63,6 +65,9 @@ static error_t parse_arg(int key, char *arg, struct argp_state *state)
 		ifindex = if_nametoindex(ifname);
 		if (!ifindex)
 			ifindex = atoi(ifname);
+		break;
+	case 'v':
+		verbose = true;
 		break;
 	case ARGP_KEY_ARG:
 		argp_usage(state);
@@ -302,7 +307,8 @@ int main(int argc, char **argv)
 
 	printf("XDP and XSK setup complete.\n");
 
-	pthread_create(&display_thread, NULL, display_info, NULL);
+	if (verbose)
+		pthread_create(&display_thread, NULL, display_info, NULL);
 	pthread_create(&read_trace_pipe_thread, NULL, display_trace_pipe, NULL);
 
 	struct pollfd fds = {};
@@ -350,8 +356,9 @@ int main(int argc, char **argv)
 
 			*xsk_ring_prod__fill_addr(&umem_info->fq, idx_fq++) = orig;
 
-			printf("Handle desc: addr: 0x%llx, len: %d(0x%x), idx: %d, rcvd: %d\n",
-				desc->addr, desc->len, desc->len, idx_rx, rcvd);
+			if (verbose)
+				printf("Handle desc: addr: 0x%llx, len: %d(0x%x), idx: %d, rcvd: %d\n",
+					desc->addr, desc->len, desc->len, idx_rx, rcvd);
 			handle_desc(xsk_umem__get_data(umem_info->buffer, addr), desc->len);
 		}
 
@@ -362,7 +369,8 @@ int main(int argc, char **argv)
 cleanup:
 	printf("Byebye!!\n");
 
-	pthread_join(display_thread, NULL);
+	if (verbose)
+		pthread_join(display_thread, NULL);
 	pthread_join(read_trace_pipe_thread, NULL);
 
 	if (umem_info)
