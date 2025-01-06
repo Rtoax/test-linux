@@ -13,20 +13,18 @@
 int main(void)
 {
 	int x, y, bnd;
-	struct winsize sz;
-
-	ioctl(fileno(stdin), TIOCGWINSZ, &sz);
-	printf("col: %i, row: %i, xpixel: %i, ypixel: %i\n",
-	       sz.ws_col, sz.ws_row, sz.ws_xpixel, sz.ws_ypixel);
+	unsigned short row, col;
 
 	bnd = 5;
 
-	for (y = bnd; y < sz.ws_row - bnd; y++) {
+	getwinsz(&row, &col);
+
+	for (y = bnd; y < row - bnd; y++) {
 		gotoxy(bnd, y);
 		P();
 	}
 
-	for (x = bnd; x < sz.ws_col - bnd; x++) {
+	for (x = bnd; x < col - bnd; x++) {
 		gotoxy(x, y);
 		P();
 	}
