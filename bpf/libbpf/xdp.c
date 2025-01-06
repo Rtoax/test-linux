@@ -120,6 +120,7 @@ static const struct argp argp = {
 
 static void sig_handler(int sig)
 {
+	stop_read_trace_pipe();
 	exiting = true;
 	siglongjmp(jmp, 1);
 }

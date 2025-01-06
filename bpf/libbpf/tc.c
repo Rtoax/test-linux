@@ -14,6 +14,7 @@ static sigjmp_buf jmp;
 
 static void sig_int(int signo)
 {
+	stop_read_trace_pipe();
 	exiting = 1;
 	siglongjmp(jmp, 1);
 }

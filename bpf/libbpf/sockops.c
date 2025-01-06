@@ -74,6 +74,7 @@ static volatile sig_atomic_t stop;
 
 static void sig_int(int signo)
 {
+	stop_read_trace_pipe();
 	stop = 1;
 	siglongjmp(jmp, 1);
 }

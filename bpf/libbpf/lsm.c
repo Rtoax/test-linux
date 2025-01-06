@@ -32,6 +32,7 @@ static sigjmp_buf jmp;
 void sig_handler(int sig)
 {
 	fprintf(stderr, "get sig...\n");
+	stop_read_trace_pipe();
 	stop = 1;
 	siglongjmp(jmp, 1);
 }
