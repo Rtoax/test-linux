@@ -118,6 +118,8 @@ int read_trace_pipe(void)
 	}
 	pthread_create(&thread, NULL, thread_read_trace_pipe, NULL);
 	pthread_join(thread, NULL);
+
+	return 0;
 }
 
 int stop_read_trace_pipe(void)
