@@ -40,7 +40,6 @@ ifeq ($(shell uname -m),x86_64)
   endif
   TARGETS += add-x86
   TARGETS += bts
-  TARGETS += invalid_opcode_user
   TARGETS += fsin
   TARGETS += bswapl
   TARGETS += _mm_clflush
@@ -83,6 +82,7 @@ endif
 TARGETS += udiv div
 TARGETS += simd
 TARGETS += cpuid_user
+TARGETS += invalid_opcode_user
 
 sub-dir-build := $(sub-dir:=.build)
 sub-dir-clean := $(sub-dir:=.clean)
