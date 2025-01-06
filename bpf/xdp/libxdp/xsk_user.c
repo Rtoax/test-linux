@@ -7,7 +7,6 @@
 #include <poll.h>
 #include <pthread.h>
 #include <signal.h>
-#include <setjmp.h>
 #include <net/if.h>
 #include <unistd.h>
 #include <bpf/bpf.h>
@@ -20,6 +19,7 @@
 
 #include "libbpf_wrapper.h"
 #include "libxdp_helpers.h"
+#include "trace_helpers.h"
 #include "xdp_xsk.skel.h"
 
 struct xsk_umem_info {
@@ -37,9 +37,8 @@ struct xsk_socket_info {
 };
 
 static int exiting = false;
-static sigjmp_buf jmp;
 
-static pthread_t display_thread;
+static pthread_t display_thread, read_trace_pipe_thread;
 
 struct xsk_umem_info *umem_info = NULL;
 struct xsk_socket_info *sock_info = NULL;
@@ -48,8 +47,8 @@ struct xsk_socket_info *sock_info = NULL;
 static void sig_handler(int sig)
 {
 	printf("Catch signal %d!!\n", sig);
+	stop_read_trace_pipe();
 	exiting = true;
-	siglongjmp(jmp, 1);
 }
 
 void *display_info(void *arg)
@@ -63,6 +62,12 @@ void *display_info(void *arg)
 		printf("\n");
 		sleep(2);
 	}
+	return NULL;
+}
+
+void *display_trace_pipe(void *arg)
+{
+	read_trace_pipe();
 	return NULL;
 }
 
@@ -208,9 +213,6 @@ int main(int argc, char **argv)
 	signal(SIGSEGV, sig_handler);
 	signal(SIGTERM, sig_handler);
 	signal(SIGABRT, sig_handler);
-	sigsetjmp(jmp, 1);
-	if (exiting)
-		goto cleanup;
 
 	ifname = argv[1];
 	ifindex = if_nametoindex(ifname);
@@ -261,6 +263,7 @@ int main(int argc, char **argv)
 	printf("XDP and XSK setup complete.\n");
 
 	pthread_create(&display_thread, NULL, display_info, NULL);
+	pthread_create(&read_trace_pipe_thread, NULL, display_trace_pipe, NULL);
 
 	struct pollfd fds = {};
 	__u32 idx_rx = 0, idx_fq = 0;
@@ -318,7 +321,10 @@ int main(int argc, char **argv)
 
 cleanup:
 	printf("Byebye!!\n");
+
 	pthread_join(display_thread, NULL);
+	pthread_join(read_trace_pipe_thread, NULL);
+
 	if (umem_info)
 		xsk_umem__delete(umem_info->umem);
 	if (sock_info)

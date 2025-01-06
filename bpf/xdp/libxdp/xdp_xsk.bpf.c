@@ -11,13 +11,15 @@ struct {
 SEC("xdp")
 int xdp_sock_prog(struct xdp_md *ctx)
 {
-	__u32 key = 0;
 	void *sock;
+	__u32 index = ctx->rx_queue_index;
+
+	bpf_printk("rx queue idx = %d", index);
 
 	/* Redirect the packet to the XSK socket */
-	sock = bpf_map_lookup_elem(&xsk_map, &key);
+	sock = bpf_map_lookup_elem(&xsk_map, &index);
 	if (sock) {
-		return bpf_redirect_map(&xsk_map, key, XDP_PASS);
+		return bpf_redirect_map(&xsk_map, index, XDP_PASS);
 	}
 
 	return XDP_PASS;
