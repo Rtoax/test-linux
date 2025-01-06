@@ -50,16 +50,16 @@
 #define _bpf__destroy	xdp_xskmap_bpf__destroy
 #endif
 
-int ifindex = -1;
-const char *interface;
+static int ifindex = -1;
+static const char *interface;
 #if defined(XDP_DEVMAP)
-int o_ifindex = -1;
-const char *out_interface;
+static int o_ifindex = -1;
+static const char *out_interface;
 #elif defined(XDP_CPUMAP)
-int cpu = -1;
+static int cpu = -1;
 #endif
 
-const char argp_prog_doc[] =
+static const char argp_prog_doc[] =
 #if defined(XDP_BASIC) || defined(XDP_XSKMAP)
 	"USAGE: [-i <interface>]\n";
 #elif defined(XDP_DEVMAP)

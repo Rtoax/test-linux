@@ -1,3 +1,4 @@
+#include <argp.h>
 #include <arpa/inet.h>
 #include <assert.h>
 #include <stdio.h>
@@ -36,6 +37,9 @@ struct xsk_socket_info {
 	struct xsk_umem_info *umem;
 };
 
+static int ifindex = 0;
+static const char *ifname;
+
 static int exiting = false;
 
 static pthread_t display_thread, read_trace_pipe_thread;
@@ -43,6 +47,37 @@ static pthread_t display_thread, read_trace_pipe_thread;
 struct xsk_umem_info *umem_info = NULL;
 struct xsk_socket_info *sock_info = NULL;
 
+static const char argp_prog_doc[] =
+	"USAGE: [-i <interface>]\n";
+
+static const struct argp_option opts[] = {
+	{ "interface", 'i', "INTERFACE", 0, "Network interface to attach" },
+	{},
+};
+
+static error_t parse_arg(int key, char *arg, struct argp_state *state)
+{
+	switch (key) {
+	case 'i':
+		ifname = arg;
+		ifindex = if_nametoindex(ifname);
+		if (!ifindex)
+			ifindex = atoi(ifname);
+		break;
+	case ARGP_KEY_ARG:
+		argp_usage(state);
+		break;
+	default:
+		return ARGP_ERR_UNKNOWN;
+	}
+	return 0;
+}
+
+static const struct argp argp = {
+	.options = opts,
+	.parser = parse_arg,
+	.doc = argp_prog_doc,
+};
 
 static void sig_handler(int sig)
 {
@@ -71,7 +106,7 @@ void *display_trace_pipe(void *arg)
 	return NULL;
 }
 
-static void setup_xsk_socket(struct xsk_socket_info *xsk, char *ifname,
+static void setup_xsk_socket(struct xsk_socket_info *xsk, const char *ifname,
 			     int queue_id)
 {
 	struct xsk_socket_config xsk_cfg = {
@@ -201,14 +236,18 @@ void handle_desc(void *data, size_t len)
 
 int main(int argc, char **argv)
 {
-	int err, ret, ifindex, prog_fd, map_fd, map_key, sock_fd;
+	int err, ret, prog_fd, map_fd, map_key, sock_fd;
 	struct xdp_xsk_bpf *skel;
-	char *ifname;
 	struct rlimit rlim = {RLIM_INFINITY, RLIM_INFINITY};
 
+	err = argp_parse(&argp, argc, argv, 0, NULL, NULL);
+	if (err) {
+		fprintf(stderr, "argp_parse return %d\n", err);
+		return -err;
+	}
 
-	if (argc != 2) {
-		fprintf(stderr, "Usage: %s <interface>\n", argv[0]);
+	if (ifindex == 0) {
+		fprintf(stderr, "Error getting ifindex: %s\n", strerror(errno));
 		exit(EXIT_FAILURE);
 	}
 
@@ -221,13 +260,6 @@ int main(int argc, char **argv)
 	signal(SIGSEGV, sig_handler);
 	signal(SIGTERM, sig_handler);
 	signal(SIGABRT, sig_handler);
-
-	ifname = argv[1];
-	ifindex = if_nametoindex(ifname);
-	if (ifindex == 0) {
-		fprintf(stderr, "Error getting ifindex: %s\n", strerror(errno));
-		exit(EXIT_FAILURE);
-	}
 
 	skel = xdp_xsk_bpf__open();
 	err = xdp_xsk_bpf__load(skel);

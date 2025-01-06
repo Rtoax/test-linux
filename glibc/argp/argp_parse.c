@@ -46,5 +46,7 @@ int main(int argc, char **argv)
 		return -ENOENT;
 	}
 
+	printf("handle interface %s\n", interface);
+
 	return 0;
 }
