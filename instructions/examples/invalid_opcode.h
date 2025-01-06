@@ -27,7 +27,7 @@
  * you can also do .inst 0x0000dead if you want.
  */
 #define INVALID_OP_BUG()	\
-	__asm__ __volatile__("udf #0");
+	__asm__ __volatile__("udf #0\n");
 #endif
 
 static inline __attribute__((unused)) int invalid_op_init(void)
