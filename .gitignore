@@ -1,8 +1,12 @@
 # Folder
 build/
+squashfs-root
+*.dir
+*.mnt
 
 # Compressed File
 *.zip
+*.tar
 *.tar.*
 *.xz
 *.gz
@@ -110,6 +114,10 @@ __pycache__
 *.iso
 *.img
 *.disk
+vmlinux
+vmlinuz
+vmlinuz-*
+bzImage
 
 # Coredump and gcore generate
 core-*
@@ -128,10 +136,6 @@ coredump.*
 CMakeCache.txt
 CMakeFiles
 cmake_install.cmake
-
-# Custom
-*.dir
-*.mnt
 
 # LVM, Filesystem File
 *.ext4
