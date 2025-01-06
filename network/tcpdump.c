@@ -10,6 +10,14 @@
 
 #define BUFFER_MAX 2048
 
+static volatile sig_atomic_t exiting = 0;
+
+void sig_handler(int sig)
+{
+	psignal(sig, "tcpdump");
+	exiting = 1;
+}
+
 int main(int argc, char *argv[])
 {
 	int  sock;
@@ -19,6 +27,8 @@ int main(int argc, char *argv[])
 	struct ethhdr *ethhdr;
 	struct iphdr *iphdr;
 	char* p;
+
+	signal(SIGINT, sig_handler);
 
 	/* Data Link Layer */
 	sock = socket(PF_PACKET, SOCK_RAW, htons(ETH_P_ALL));
@@ -31,7 +41,7 @@ int main(int argc, char *argv[])
 	printf("%-8s %-17s %-17s %-16s %-16s %-8s\n",
 		"LEN", "SRC MAC", "DST MAC", "SRC IP", "DST IP", "PROTO");
 
-	while (1) {
+	while (!exiting) {
 		len = recvfrom(sock, buffer, BUFFER_MAX, 0, NULL, NULL);
 		if (len < 46) {
 			printf("packet length error: %m.\n" );
