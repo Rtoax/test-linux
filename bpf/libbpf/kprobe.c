@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0
 #include <stdio.h>
 #include <unistd.h>
-#include <setjmp.h>
 #include <signal.h>
 #include <string.h>
 #include <errno.h>
@@ -31,15 +30,9 @@
 #error "Not support skel"
 #endif
 
-static volatile sig_atomic_t stop = 0;
-static sigjmp_buf jmp;
-
 void sig_handler(int sig)
 {
-	fprintf(stderr, "get sig...\n");
 	stop_read_trace_pipe();
-	stop = 1;
-	siglongjmp(jmp, 1);
 }
 
 static int libbpf_print_fn(enum libbpf_print_level level, const char *format,
@@ -54,9 +47,6 @@ int main(int argc, char **argv)
 	int err;
 
 	signal(SIGINT, sig_handler);
-	sigsetjmp(jmp, 1);
-	if (stop)
-		goto cleanup;
 
 	libbpf_set_print(libbpf_print_fn);
 

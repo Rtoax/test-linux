@@ -11,11 +11,9 @@
 #include <sys/resource.h>
 #include <bpf/bpf.h>
 #include <bpf/libbpf.h>
-#include <setjmp.h>
 #include "sockops.skel.h"
 #include "trace_helpers.h"
 
-static sigjmp_buf jmp;
 
 const char *cgroup_path;
 
@@ -70,13 +68,9 @@ static int libbpf_print_fn(enum libbpf_print_level level, const char *format,
 	return vfprintf(stderr, format, args);
 }
 
-static volatile sig_atomic_t stop;
-
 static void sig_int(int signo)
 {
 	stop_read_trace_pipe();
-	stop = 1;
-	siglongjmp(jmp, 1);
 }
 
 int main(int argc, char **argv)
@@ -102,10 +96,6 @@ int main(int argc, char **argv)
 		fprintf(stderr, "can't set signal handler: %m\n");
 		return 1;
 	}
-
-	sigsetjmp(jmp, 1);
-	if (stop)
-		goto cleanup;
 
 	skel = sockops_bpf__open_and_load();
 	if (!skel) {

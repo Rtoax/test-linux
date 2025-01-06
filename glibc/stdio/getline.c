@@ -46,6 +46,12 @@ start:
 	/**
 	 * If signal(2) does not process the signal, the process will exit
 	 * directly from the loop, and the return code will not be executed.
+	 *
+	 * Except setjmp(), we could use
+	 *
+	 *   poll({getlinefd, signalfd(SIGUSR1)}, ...)
+	 *
+	 * to handle the infinite-loop exit problem.
 	 */
 	while ((n = getline(&buf, &buflen, stdin) >= 0) || errno == EAGAIN) {
 		printf("%s", buf);

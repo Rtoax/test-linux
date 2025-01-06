@@ -11,7 +11,6 @@
 #include <malloc.h>
 #include <net/if.h>
 #include <poll.h>
-#include <setjmp.h>
 #include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -50,9 +49,6 @@
 #define _bpf__load	xdp_xskmap_bpf__load
 #define _bpf__destroy	xdp_xskmap_bpf__destroy
 #endif
-
-static volatile bool exiting = false;
-static sigjmp_buf jmp;
 
 int ifindex = -1;
 const char *interface;
@@ -121,8 +117,6 @@ static const struct argp argp = {
 static void sig_handler(int sig)
 {
 	stop_read_trace_pipe();
-	exiting = true;
-	siglongjmp(jmp, 1);
 }
 
 static int libbpf_print_fn(enum libbpf_print_level level, const char *format,
@@ -152,9 +146,6 @@ int main(int argc, char *argv[])
 	signal(SIGINT, sig_handler);
 	signal(SIGTERM, sig_handler);
 	signal(SIGABRT, sig_handler);
-	sigsetjmp(jmp, 1);
-	if (exiting)
-		goto cleanup;
 
 	err = argp_parse(&argp, argc, argv, 0, NULL, NULL);
 	if (err) {

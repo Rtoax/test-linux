@@ -5,18 +5,12 @@
 #include <signal.h>
 #include <unistd.h>
 #include <net/if.h>
-#include <setjmp.h>
 #include "tc.skel.h"
 #include "trace_helpers.h"
-
-static volatile sig_atomic_t exiting = 0;
-static sigjmp_buf jmp;
 
 static void sig_int(int signo)
 {
 	stop_read_trace_pipe();
-	exiting = 1;
-	siglongjmp(jmp, 1);
 }
 
 static int libbpf_print_fn(enum libbpf_print_level level, const char *format,
@@ -42,12 +36,6 @@ int main(int argc, char **argv)
 		err = errno;
 		fprintf(stderr, "Can't set signal handler: %s\n", strerror(errno));
 		goto cleanup;
-	}
-
-	sigsetjmp(jmp, 1);
-	if (exiting) {
-		printf("Go to detach\n");
-		goto detach;
 	}
 
 	libbpf_set_print(libbpf_print_fn);

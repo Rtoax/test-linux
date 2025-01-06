@@ -2,7 +2,6 @@
 /* Copyright (c) 2024 Rong Tao */
 /* Copyright (c) 2024 David Di */
 #include <stdio.h>
-#include <setjmp.h>
 #include <signal.h>
 #include <unistd.h>
 #include <sys/resource.h>
@@ -26,15 +25,10 @@
 #error "Not defined LSM_BPF"
 #endif
 
-static volatile sig_atomic_t stop = 0;
-static sigjmp_buf jmp;
-
 void sig_handler(int sig)
 {
 	fprintf(stderr, "get sig...\n");
 	stop_read_trace_pipe();
-	stop = 1;
-	siglongjmp(jmp, 1);
 }
 
 /**
@@ -53,9 +47,6 @@ int main(int argc, char **argv)
 	int err;
 
 	signal(SIGINT, sig_handler);
-	sigsetjmp(jmp, 1);
-	if (stop)
-		goto cleanup;
 
 	/* Set up libbpf errors and debug info callback */
 	libbpf_set_print(libbpf_print_fn);

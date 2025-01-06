@@ -3,6 +3,7 @@
 #include <signal.h>
 #include <setjmp.h>
 
+#define JMP_RET	1
 sigjmp_buf jmpbuf;
 
 void sig_handler(int sig)
@@ -10,7 +11,7 @@ void sig_handler(int sig)
 	switch (sig) {
 	case SIGILL:
 		printf("Catch SIGILL.\n");
-		siglongjmp(jmpbuf, 1);
+		siglongjmp(jmpbuf, JMP_RET);
 	default:
 		break;
 	}
@@ -31,13 +32,16 @@ int main(int argc, char *argv[])
 	 */
 	savesigs = 1;
 	ret = sigsetjmp(jmpbuf, savesigs);
-	(void)ret;
+	if (ret == JMP_RET)
+		return EXIT_FAILURE;
 
 	/* Emulate Illegal instruction (core dumped) */
-#if 0
-	raise(SIGILL);
-#else
+#if defined(__x86_64__)
 	__asm__ __volatile__("ud2\n");
+#elif defined(__aarch64__)
+	__asm__ __volatile__("udf #0\n");
+#else
+	raise(SIGILL);
 #endif
 
 	return EXIT_SUCCESS;
