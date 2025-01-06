@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e
 
+word=
+
 __usage__() {
 	echo -e "
 Usage:
@@ -11,7 +13,8 @@ Usage:
 }
 
 ARG_TEMP=$(getopt \
-	--options h \
+	--options wh \
+	--long word \
 	--long help \
 	-n ${0} -- "$@")
 
@@ -24,6 +27,10 @@ while true; do
 	-h|--help)
 		shift
 		__usage__
+		;;
+	-w|--word)
+		shift
+		word=YES
 		;;
 	--)
 		shift
@@ -47,7 +54,7 @@ list_all() {
 }
 
 find_name() {
-	list_all | grep -i ${name}
+	list_all | grep -i ${name} ${word:+-w}
 }
 
 if [[ ${name} ]]; then

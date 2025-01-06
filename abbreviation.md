@@ -10,6 +10,7 @@
 - FOSS: Free and Open Source Software (自由开源软件)
 - FSF: Free Software Foundation (自由软件基金会)
 - IMA: Integrity Measurement Architecture (完整性测量架构)
+- ISO: International Organization for Standardization (国际标准化组织)
 - KSPP: Kernel Self-Protection Project ()
 - LaTeX: Lamport TeX (一种文档准备系统，广泛应用于学术界) @TeX
 - LKFT: Linux Kernel Functional Testing (Linux 内核功能测试)
