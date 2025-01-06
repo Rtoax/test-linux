@@ -15,7 +15,7 @@ Network
              +--------------------+  +-------------------+
     Layer 3: | Network layer      |  | Network layer     | Layer 2
              +--------------------+  +-------------------+
-    Layer 2: | Data link layber   |  |   Network         |
+    Layer 2: | Data link layer    |  |   Network         |
              +--------------------+  |  Access Layer     | Layer 1
     Layer 1: | Physical layer     |  |                   |
              +--------------------+  +-------------------+
