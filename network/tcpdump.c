@@ -1,22 +1,59 @@
-#include <string.h>
-#include <unistd.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include <argp.h>
+#include <arpa/inet.h>
 #include <errno.h>
-#include <signal.h>
-#include <sys/socket.h>
-#include <sys/types.h>
 #include <linux/if_ether.h>
 #include <linux/if_packet.h>
-#include <linux/ip.h>
-#include <arpa/inet.h>
-#include <net/if.h>
 #include <linux/in.h>
+#include <linux/ip.h>
+#include <net/if.h>
+#include <signal.h>
+#include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/socket.h>
+#include <sys/types.h>
+#include <unistd.h>
+
 
 #define BUFFER_MAX 2048
 
-static const char *ifname = NULL;
+static const char *interface = NULL;
 static volatile sig_atomic_t exiting = 0;
+int verbose = false;
+
+const char argp_prog_doc[] =
+	"USAGE: [-i <interface>] [-v|--verbose]\n";
+
+static const struct argp_option opts[] = {
+	{ "interface", 'i', "INTERFACE", 0, "Network interface to attach" },
+	{ "verbose", 'v', "VERBOSE", 1, "Display detail" },
+	{},
+};
+
+static error_t parse_arg(int key, char *arg, struct argp_state *state)
+{
+	switch (key) {
+	case 'i':
+		interface = arg;
+		break;
+	case 'v':
+		verbose = true;
+		break;
+	case ARGP_KEY_ARG:
+		argp_usage(state);
+		break;
+	default:
+		return ARGP_ERR_UNKNOWN;
+	}
+	return 0;
+}
+
+static const struct argp argp = {
+	.options = opts,
+	.parser = parse_arg,
+	.doc = argp_prog_doc,
+};
 
 void sig_handler(int sig)
 {
@@ -27,17 +64,26 @@ void sig_handler(int sig)
 
 int main(int argc, char *argv[])
 {
-	int sock, len;
+	int err, sock, len;
 	char buffer[BUFFER_MAX];
 	struct sockaddr_ll sll;
 
 	struct ethhdr *ethhdr;
 	struct iphdr *iphdr;
-	char* p;
+	char *p;
+
+	err = argp_parse(&argp, argc, argv, 0, NULL, NULL);
+	if (err) {
+		fprintf(stderr, "argp_parse return %d\n", err);
+		return -err;
+	}
+
+	if (!interface) {
+		fprintf(stderr, "Speicfy interface with -i.\n");
+		return -ENOENT;
+	}
 
 	signal(SIGINT, sig_handler);
-
-	ifname = "lo";
 
 	/* Data Link Layer */
 	sock = socket(PF_PACKET, SOCK_RAW, htons(ETH_P_ALL));
@@ -48,10 +94,10 @@ int main(int argc, char *argv[])
 
 	memset(&sll, 0, sizeof(sll));
 	sll.sll_family = PF_PACKET;
-	sll.sll_ifindex = if_nametoindex(ifname);
+	sll.sll_ifindex = if_nametoindex(interface);
 	sll.sll_protocol = htons(ETH_P_ALL);
 	if (bind(sock, (struct sockaddr *)&sll, sizeof(sll)) < 0) {
-		fprintf(stderr, "Failed to bind to %s: %s\n", ifname, strerror(errno));
+		fprintf(stderr, "Failed to bind to %s: %s\n", interface, strerror(errno));
 		close(sock);
 		return -1;
 	}
@@ -62,10 +108,9 @@ int main(int argc, char *argv[])
 
 	while (!exiting) {
 		len = recvfrom(sock, buffer, BUFFER_MAX, 0, NULL, NULL);
-		if (len < 46) {
-			printf("packet length error: %m.\n" );
-			close(sock);
-			exit(0);
+		if (len < sizeof(struct ethhdr)) {
+			fprintf(stderr, "packet length error: %m.\n" );
+			continue;
 		}
 
 		printf("%-8d ", len);
