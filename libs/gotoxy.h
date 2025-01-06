@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <sys/ioctl.h>
 
 static void __attribute__((unused))
 gotoxy(int x, int y)
