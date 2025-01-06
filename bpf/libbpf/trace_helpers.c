@@ -1,7 +1,9 @@
 // SPDX-License-Identifier: GPL-3.0
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>
+#include <poll.h>
 #include <sys/types.h>
 #include <unistd.h>
 #include <fcntl.h>
@@ -18,6 +20,7 @@ int read_trace_pipe_cb(int (*cb)(const char *str, void *arg), void *arg)
 	char *pipefile, *buf;
 	FILE *fp;
 	int err;
+	struct pollfd pfd;
 
 	if (access(TRACEFS_PIPE, F_OK) == 0)
 		pipefile = TRACEFS_PIPE;
@@ -32,6 +35,9 @@ int read_trace_pipe_cb(int (*cb)(const char *str, void *arg), void *arg)
 
 	buf = NULL;
 
+	pfd.fd = fileno(fp);
+	pfd.events = POLLIN;
+
 	/**
 	 * If nonblock, this code will occupy 100% of CPU.
 	 */
@@ -41,12 +47,18 @@ int read_trace_pipe_cb(int (*cb)(const char *str, void *arg), void *arg)
 	 * If signal(2) does not process the signal, the process will exit
 	 * directly from the loop, and the return code will not be executed.
 	 */
-	while ((n = getline(&buf, &buflen, fp) >= 0) || errno == EAGAIN) {
-		if (n > 0) {
-			err = cb(buf, arg);
-			if (err)
-				break;
-		}
+	while (true) {
+		n = poll(&pfd, 1, -1);
+		if (n <= 0)
+			continue;
+
+		n = getline(&buf, &buflen, fp);
+		if (n < 0 && errno != EAGAIN)
+			break;
+
+		err = cb(buf, arg);
+		if (err)
+			break;
 	}
 	free(buf);
 	fclose(fp);
