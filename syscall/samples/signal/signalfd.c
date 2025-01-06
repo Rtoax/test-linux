@@ -1,8 +1,9 @@
+#include <poll.h>
 #include <signal.h>
-#include <unistd.h>
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <sys/signalfd.h>
+#include <unistd.h>
 
 
 #define handle_error(msg) \
@@ -10,10 +11,9 @@
 
 int main(int argc, char *argv[])
 {
-	sigset_t mask;
 	int sfd;
-	struct signalfd_siginfo fdsi;
-	ssize_t s;
+	sigset_t mask;
+	struct pollfd pfd;
 
 	sigemptyset(&mask);
 	sigaddset(&mask, SIGINT);
@@ -28,9 +28,21 @@ int main(int argc, char *argv[])
 	if (sfd == -1)
 		handle_error("signalfd");
 
+	pfd.fd = sfd;
+	pfd.events = POLLIN;
+
 	for (;;) {
-		s = read(sfd, &fdsi, sizeof(struct signalfd_siginfo));
-		if (s != sizeof(struct signalfd_siginfo))
+		struct signalfd_siginfo fdsi;
+		int n, fd;
+
+		n = poll(&pfd, 1, -1);
+		if (n <= 0)
+			continue;
+
+		fd = pfd.fd;
+
+		n = read(fd, &fdsi, sizeof(struct signalfd_siginfo));
+		if (n != sizeof(struct signalfd_siginfo))
 			handle_error("read");
 
 		switch (fdsi.ssi_signo) {
