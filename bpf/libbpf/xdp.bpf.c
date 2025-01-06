@@ -60,7 +60,9 @@ int xdp_printk(struct xdp_md *ctx)
 	 * Only access to ingress_ifindex, egress_ifindex access deny, see
 	 * 'xdp/devmap'.
 	 */
-	bpf_printk("xdp ingress %d", ctx->ingress_ifindex);
+	bpf_printk("xdp ingress %d, rx queue %d, len %ld",
+		   ctx->ingress_ifindex, ctx->rx_queue_index,
+		   (u64)(ctx->data_end - ctx->data));
 
 	switch (proto) {
 	case IPPROTO_ICMP: /* 1 */
@@ -73,6 +75,9 @@ int xdp_printk(struct xdp_md *ctx)
 		break;
 	case IPPROTO_UDP: /* 17 */
 		bpf_printk("Hello udp");
+		break;
+	default:
+		bpf_printk("Hello %d??", proto);
 		break;
 	}
 	return XDP_PASS;

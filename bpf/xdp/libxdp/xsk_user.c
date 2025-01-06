@@ -151,6 +151,12 @@ int xsk_populate_fill_ring(struct xsk_umem_info *umem_info)
 		fprintf(stderr, "\033[m"); \
 	} while (0)
 
+#define pr_pkt_dbg(fmt...) do { \
+		fprintf(stderr, "\033[2m"); \
+		fprintf(stderr, fmt); \
+		fprintf(stderr, "\033[m"); \
+	} while (0)
+
 void handle_desc(void *data, size_t len)
 {
 	void *data_end = data + len;
@@ -163,8 +169,10 @@ void handle_desc(void *data, size_t len)
 		return;
 	}
 
-	if (eth->h_proto != htons(ETH_P_IP))
+	if (eth->h_proto != htons(ETH_P_IP)) {
+		pr_pkt_dbg("Not ip pkt, ether proto 0x%x.\n", eth->h_proto);
 		return;
+	}
 
 	iph = data + sizeof(struct ethhdr);
 	if ((void *)(iph + 1) > data_end) {
@@ -185,7 +193,7 @@ void handle_desc(void *data, size_t len)
 		pr_pkt("Get UDP. %lld\n", pkt_cnt);
 		break;
 	default:
-		pr_pkt_err("Unknown pkt.\n");
+		pr_pkt_err("Unknown pkt %d.\n", iph->protocol);
 		break;
 	}
 	return;

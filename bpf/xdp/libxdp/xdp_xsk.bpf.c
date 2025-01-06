@@ -14,7 +14,9 @@ int xdp_sock_prog(struct xdp_md *ctx)
 	void *sock;
 	__u32 index = ctx->rx_queue_index;
 
-	bpf_printk("rx queue idx = %d", index);
+	bpf_printk("xdp ingress %d, rx queue %d, len %ld",
+		   ctx->ingress_ifindex, index,
+		   (u64)(ctx->data_end - ctx->data));
 
 	/* Redirect the packet to the XSK socket */
 	sock = bpf_map_lookup_elem(&xsk_map, &index);

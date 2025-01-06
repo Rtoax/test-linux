@@ -19,5 +19,6 @@
 - SCTP: Stream Control Transmission Protocol (流控制传输协议)
 - SDN: Software-defined networking (软件定义网络)
 - slip: Serial line IP (串列线路互联网协议)
+- STP: Spanning Tree Protocol (生成树协议)
 - WLAN: Wireless Local Area Network (无线局域网)
 - WWAN: Wireless Wide Area Network (无线广域网)
