@@ -64,7 +64,7 @@ static int icmp_ping_destroy(icmp_ping_t* ping);
 
 static int icmp_socket();
 static int icmp_dst_addr(const char *addrHost, struct sockaddr_in * dst_addr);
-static unsigned short icmp_gen_chksum(unsigned short * data, int len);
+static unsigned short icmp_gen_chksum(unsigned short *data, int len);
 static int icmp_pkg_pack(void *buffer, int pack_no, const void *data,
 			 int data_size);
 static int icmp_send_pkg(icmp_ping_t *ping, const void *data, int size);
@@ -132,7 +132,7 @@ static int icmp_socket(void)
 }
 
 /* get dst address */
-static int icmp_dst_addr(const char *addrHost, struct sockaddr_in * dst_addr)
+static int icmp_dst_addr(const char *addrHost, struct sockaddr_in *dst_addr)
 {
 	struct hostent *host = NULL;
 	unsigned long inaddr = 0;
@@ -158,20 +158,20 @@ static int icmp_pkg_pack(void *buffer, int pack_no, const void *data, int data_s
 {
 	int i, packsize = 0;
 
-	struct icmp * icmp  = malloc(sizeof(struct icmp));
-	icmp->icmp_type	 = ICMP_ECHO;
-	icmp->icmp_code	 = 0;
-	icmp->icmp_cksum	= 0;
-	icmp->icmp_seq	  = htons(pack_no);
-	icmp->icmp_id	   = htons(ICMP_MAGIC_ID);
+	struct icmp *icmp = malloc(sizeof(struct icmp));
+	icmp->icmp_type = ICMP_ECHO;
+	icmp->icmp_code = 0;
+	icmp->icmp_cksum = 0;
+	icmp->icmp_seq = htons(pack_no);
+	icmp->icmp_id = htons(ICMP_MAGIC_ID);
 
-	gettimeofday((struct timeval *) &icmp->icmp_data, NULL);
+	gettimeofday((struct timeval *)&icmp->icmp_data, NULL);
 
 	memcpy(buffer, icmp, sizeof(struct icmp));
 	packsize += sizeof(struct icmp);
 
 	if (data && data_size) {
-		memcpy(buffer+packsize, data, data_size);
+		memcpy(buffer + packsize, data, data_size);
 		packsize += data_size;
 	}
 

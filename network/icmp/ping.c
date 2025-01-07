@@ -10,7 +10,6 @@
 #include <netdb.h>
 #include <setjmp.h>
 #include <errno.h>
-#include <malloc.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/time.h>
@@ -40,14 +39,11 @@ void recv_packet(void);
 int unpack(char *buf, int len);
 void tv_sub(struct timeval *out, struct timeval *in);
 
-/**
- * signal callback
- */
 void statistics(int signo)
 {
 	printf("\n-----------------PING statistics------------\n");
 	printf("%d packets transmitted, %d received, %d%% lost\n",
-			nsend, nreceived, (nsend-nreceived)/nsend*100);
+		nsend, nreceived, (nsend-nreceived)/nsend*100);
 	close(sockfd);
 	exit(1);
 }
@@ -76,13 +72,10 @@ unsigned short cal_chksum(unsigned short *addr, int len)
 	return answer;
 }
 
-/**
- * 设置icmp报头
- */
 int pack(int pack_no)
 {
 	int i, packsize;
-	struct icmp *icmp = malloc(sizeof(struct icmp));
+	struct icmp *icmp = (void *)sendpacket;
 	struct timeval *tval;
 
 	icmp->icmp_type = ICMP_ECHO;
@@ -91,19 +84,19 @@ int pack(int pack_no)
 	icmp->icmp_seq = pack_no;
 	icmp->icmp_id = pid;
 
-	packsize = 8 + datalen;
+	packsize = sizeof(struct icmp) + datalen;
 	tval = (struct timeval *)icmp->icmp_data;
 	gettimeofday(tval, NULL);
+
 	icmp->icmp_cksum = cal_chksum((unsigned short *)icmp, packsize);
+
 	return packsize;
 }
 
-/**
- * 发送三个icmp报文
- */
 void send_packet(void)
 {
 	int packetsize;
+
 	while (nsend < MAX_NO_PACKETS) {
 		nsend++;
 		packetsize = pack(nsend);
@@ -117,15 +110,13 @@ void send_packet(void)
 	}
 }
 
-/**
- * 接收icmp报文
- */
 void recv_packet(void)
 {
 	int n, fromlen;
-	extern int errno;
+
 	signal(SIGALRM, statistics);
 	fromlen = sizeof(from);
+
 	while (nreceived < nsend) {
 		alarm(MAX_WAIT_TIME);
 		if ((n = recvfrom(sockfd, recvpacket, sizeof(recvpacket), 0,
@@ -142,9 +133,6 @@ void recv_packet(void)
 	}
 }
 
-/**
- * 剥去icmp报头
- */
 int unpack(char *buf, int len)
 {
 	int i, iphdrlen;
@@ -165,7 +153,6 @@ int unpack(char *buf, int len)
 		return -1;
 	}
 
-	/* 确保所接收的是我所发的ICMP回应 */
 	if ((icmp->icmp_type == ICMP_ECHOREPLY) && (icmp->icmp_id = pid)) {
 		tvsend = (struct timeval *)icmp->icmp_data;
 		tv_sub(&tvrecv, tvsend);
@@ -227,9 +214,11 @@ int main(int argc, char *argv[])
 		perror("inet_addr.");
 		printf(IPFMT"\n", ipfmt(inaddr));
 		printf("%x\n", dest_addr);
-		memcpy((char*)&dest_addr.sin_addr, (char*)&inaddr, sizeof(dest_addr.sin_addr));
+		memcpy((char*)&dest_addr.sin_addr, (char *)&inaddr, sizeof(dest_addr.sin_addr));
 	}
+
 	pid = getpid();
+
 	printf("PING %s(%s): %d bytes data in ICMP packets.\n",
 		argv[1], inet_ntoa(dest_addr.sin_addr), datalen);
 	perror("inet_ntoa.");

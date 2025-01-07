@@ -80,8 +80,8 @@ char *dns_lookup(char *addr_host, struct sockaddr_in *addr_conn)
 	strcpy(ip, inet_ntoa(*(struct in_addr *)host_entity->h_addr));
 
 	(*addr_conn).sin_family = host_entity->h_addrtype;
-	(*addr_conn).sin_port = htons (PORT_NO);
-	(*addr_conn).sin_addr.s_addr = *(long*)host_entity->h_addr;
+	(*addr_conn).sin_port = htons(PORT_NO);
+	(*addr_conn).sin_addr.s_addr = *(long *)host_entity->h_addr;
 
 	return ip;
 
@@ -112,8 +112,8 @@ char *reverse_dns_lookup(char *ip_addr)
 void send_ping(int ping_sockfd, struct sockaddr_in *ping_addr, char *ping_dom,
 	       char *ping_ip, char *rev_host)
 {
-	int ttl_val = 64, msg_count = 0, i, addr_len, flag = 1,
-		msg_received_count = 0;
+	int ttl_val = 64, msg_count = 0, i, addr_len, flag = 1;
+	int msg_received_count = 0;
 	struct ping_pkt pckt;
 	struct sockaddr_in r_addr;
 	struct timespec time_start, time_end, tfs, tfe;
@@ -158,9 +158,10 @@ void send_ping(int ping_sockfd, struct sockaddr_in *ping_addr, char *ping_dom,
 
 		/* send packet */
 		clock_gettime(CLOCK_MONOTONIC, &time_start);
+
 		if (sendto(ping_sockfd, &pckt, sizeof(pckt), 0,
 			   (struct sockaddr*)ping_addr,sizeof(*ping_addr)) <= 0) {
-			printf("\nPacket Sending Failed!\n");
+			printf("\nPacket Sending Failed! %m\n");
 			flag = 0;
 		}
 
@@ -169,7 +170,7 @@ void send_ping(int ping_sockfd, struct sockaddr_in *ping_addr, char *ping_dom,
 
 		if (recvfrom(ping_sockfd, &pckt, sizeof(pckt), 0,
 			     (struct sockaddr*)&r_addr, &addr_len) <= 0 && msg_count>1) {
-			printf("\nPacket receive failed!\n");
+			printf("\nPacket receive failed! %m\n");
 		} else {
 			clock_gettime(CLOCK_MONOTONIC, &time_end);
 			double timeElapsed = ((double)(time_end.tv_nsec - time_start.tv_nsec)) / 1000000.0;
@@ -190,6 +191,7 @@ void send_ping(int ping_sockfd, struct sockaddr_in *ping_addr, char *ping_dom,
 				}
 			}
 		}
+		sleep(1);
 	}
 	clock_gettime(CLOCK_MONOTONIC, &tfe);
 	double timeElapsed = ((double)(tfe.tv_nsec - tfs.tv_nsec)) / 1000000.0;
@@ -220,15 +222,25 @@ int main(int argc, char *argv[])
 
 	if (!isdigit(argv[1][0]))
 		ip_addr = dns_lookup(argv[1], &addr_conn);
-	else
+	else {
 		ip_addr = argv[1];
+
+		addr_conn.sin_family = AF_INET;
+		addr_conn.sin_port = htons(PORT_NO);
+		inet_pton(AF_INET, ip_addr, &addr_conn.sin_addr);
+	}
 
 	if (ip_addr == NULL) {
 		printf("\nDNS lookup failed! Could not resolve hostname!\n");
 		return 0;
 	}
 
+#if 0
+	/* Stuck here if no DNS, just skip */
 	reverse_hostname = reverse_dns_lookup(ip_addr);
+#else
+	reverse_hostname = "";
+#endif
 	printf("\nTrying to connect to '%s' IP: %s\n", argv[1], ip_addr);
 	printf("\nReverse Lookup domain: %s", reverse_hostname);
 
@@ -241,5 +253,6 @@ int main(int argc, char *argv[])
 
 	send_ping(sockfd, &addr_conn, reverse_hostname, ip_addr, argv[1]);
 
+	close(sockfd);
 	return 0;
 }
