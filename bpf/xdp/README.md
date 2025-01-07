@@ -75,7 +75,7 @@ sudo ip -details link set eth0 xdp off
 
 # Links
 
-- [A Beginners Guide to eBPF Programming for Networking](https://www.youtube.com/watch?v=l5l2EckwWME)
+- [A Beginners Guide to eBPF Programming for Networking](https://www.youtube.com/watch?v=0p987hCplbk)
   - [Bilibili](https://www.bilibili.com/video/BV1vg4y1X7jP/)
 - https://en.wikipedia.org/wiki/Express_Data_Path
 - https://upload.wikimedia.org/wikipedia/commons/3/37/Netfilter-packet-flow.svg

@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0
 #include <argp.h>
 #include <arpa/inet.h>
 #include <assert.h>
