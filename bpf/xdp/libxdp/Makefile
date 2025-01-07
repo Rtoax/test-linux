@@ -42,7 +42,7 @@ TARGETS_SKEL := $(patsubst %.bpf.o,%.skel.h,$(TARGETS_BPF))
 build: vmlinux.h ${TARGETS_BPF} ${TARGETS_SKEL} ${TARGETS}
 	@echo -e "  \033[1;33mDone\033[m"
 
-xsk_user: xsk_user.o libbpf_wrapper.o libxdp_helpers.o trace_helpers.o
+xsk_user: xsk_user.o libbpf_wrapper.o libxdp_helpers.o trace_helpers.o icmp_helpers.o
 
 %.bpf.o: %.bpf.c vmlinux.h
 	@echo -e "  BPF  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

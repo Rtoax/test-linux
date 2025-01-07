@@ -18,11 +18,14 @@
 #include <linux/if_ether.h>
 #include <linux/if_link.h>
 #include <linux/ip.h>
+#include <linux/icmp.h>
 
 #include "libbpf_wrapper.h"
 #include "libxdp_helpers.h"
 #include "trace_helpers.h"
 #include "xdp_xsk.skel.h"
+#include "icmp_helpers.h"
+
 
 struct xsk_umem_info {
 	struct xsk_ring_prod fq;
@@ -192,6 +195,20 @@ int xsk_populate_fill_ring(struct xsk_umem_info *umem_info)
 		fprintf(stderr, "\033[m"); \
 	} while (0)
 
+
+void dump_icmp(struct icmphdr *hdr, size_t len)
+{
+	pr_pkt("type %s, code %d, cksum 0x%04x",
+		stricmptype(hdr->type), hdr->code, hdr->checksum);
+	if (hdr->type == ICMP_ECHO)
+		pr_pkt(", id %d, seq %d", htons(hdr->un.echo.id),
+			htons(hdr->un.echo.sequence));
+	/* Payload, test with 'ping -s [size]' */
+	if (len > sizeof(struct icmphdr))
+		pr_pkt(", payload(len %ld)", len - sizeof(struct icmphdr));
+	pr_pkt("\n");
+}
+
 void handle_desc(void *data, size_t len)
 {
 	void *data_end = data + len;
@@ -219,7 +236,8 @@ void handle_desc(void *data, size_t len)
 
 	switch (iph->protocol) {
 	case IPPROTO_ICMP: /* 1 */
-		pr_pkt("Get ICMP. %lld\n", pkt_cnt);
+		pr_pkt("Get ICMP(%8lld): ", pkt_cnt);
+		dump_icmp((void *)(iph + 1), len - sizeof(struct ethhdr) - sizeof(struct iphdr));
 		break;
 	case IPPROTO_TCP: /* 6 */
 		pr_pkt("Get TCP. %lld\n", pkt_cnt);
