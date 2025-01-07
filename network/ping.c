@@ -13,6 +13,10 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <netinet/ip_icmp.h>
+#include <ctype.h>
+#include <sys/utsname.h>
+#include <unistd.h>
+
 
 /* Define the Packet Constants ping packet size */
 #define PING_PKT_S 64
@@ -53,13 +57,13 @@ unsigned short checksum(void *b, int len)
 	return result;
 }
 
-void intHandler(int dummy)
+void sig_handler(int dummy)
 {
 	pingloop = 0;
 }
 
 /* Performs a DNS lookup */
-char *dns_lookup(char *addr_host, struct sockaddr_in *addr_con)
+char *dns_lookup(char *addr_host, struct sockaddr_in *addr_conn)
 {
 	struct hostent *host_entity;
 	int i;
@@ -75,16 +79,16 @@ char *dns_lookup(char *addr_host, struct sockaddr_in *addr_con)
 	/* filling up address structure */
 	strcpy(ip, inet_ntoa(*(struct in_addr *)host_entity->h_addr));
 
-	(*addr_con).sin_family = host_entity->h_addrtype;
-	(*addr_con).sin_port = htons (PORT_NO);
-	(*addr_con).sin_addr.s_addr = *(long*)host_entity->h_addr;
+	(*addr_conn).sin_family = host_entity->h_addrtype;
+	(*addr_conn).sin_port = htons (PORT_NO);
+	(*addr_conn).sin_addr.s_addr = *(long*)host_entity->h_addr;
 
 	return ip;
 
 }
 
 /* Resolves the reverse lookup of the hostname */
-char* reverse_dns_lookup(char *ip_addr)
+char *reverse_dns_lookup(char *ip_addr)
 {
 	struct sockaddr_in temp_addr;
 	socklen_t len;
@@ -203,8 +207,8 @@ int main(int argc, char *argv[])
 {
 	int sockfd;
 	char *ip_addr, *reverse_hostname;
-	struct sockaddr_in addr_con;
-	int addrlen = sizeof(addr_con);
+	struct sockaddr_in addr_conn;
+	int addrlen = sizeof(addr_conn);
 	char net_buf[NI_MAXHOST];
 
 	if (argc != 2) {
@@ -212,9 +216,13 @@ int main(int argc, char *argv[])
 		return 0;
 	}
 
-	signal(SIGINT, intHandler);
+	signal(SIGINT, sig_handler);
 
-	ip_addr = dns_lookup(argv[1], &addr_con);
+	if (!isdigit(argv[1][0]))
+		ip_addr = dns_lookup(argv[1], &addr_conn);
+	else
+		ip_addr = argv[1];
+
 	if (ip_addr == NULL) {
 		printf("\nDNS lookup failed! Could not resolve hostname!\n");
 		return 0;
@@ -231,7 +239,7 @@ int main(int argc, char *argv[])
 	} else
 		printf("\nSocket file descriptor %d received\n", sockfd);
 
-	send_ping(sockfd, &addr_con, reverse_hostname, ip_addr, argv[1]);
+	send_ping(sockfd, &addr_conn, reverse_hostname, ip_addr, argv[1]);
 
 	return 0;
 }
