@@ -44,7 +44,7 @@ static const char *ifname;
 static int verbose = false;
 static int exiting = false;
 
-static pthread_t display_thread, read_trace_pipe_thread;
+static pthread_t rx_thread, display_thread, read_trace_pipe_thread;
 
 struct xsk_umem_info *umem_info = NULL;
 struct xsk_socket_info *sock_info = NULL;
@@ -240,9 +240,73 @@ void handle_desc(void *data, size_t len)
 	return;
 }
 
+static void *rx_thread_callback(void *arg)
+{
+	int ret, sock_fd;
+	struct pollfd fds = {};
+	__u32 idx_rx = 0, idx_fq = 0;
+
+	sock_fd = xsk_socket__fd(sock_info->xsk);
+
+	fds.fd = sock_fd;
+	fds.events = POLLIN;
+
+	while (!exiting) {
+		__u32 i, rcvd;
+
+		kick_rx(sock_fd);
+		ret = poll(&fds, 1, -1);
+		if (ret <= 0) {
+			fprintf(stderr, "Failed poll xsk fd.\n");
+			continue;
+		}
+
+		rcvd = xsk_ring_cons__peek(&sock_info->rx, 64, &idx_rx);
+		if (!rcvd)
+			continue;
+
+		ret = xsk_ring_prod__reserve(&umem_info->fq, rcvd, &idx_fq);
+		while (ret != rcvd) {
+			if (ret < 0) {
+				fprintf(stderr, "fill ring reserve failed.\n");
+				goto exit;
+			}
+			if (xsk_ring_prod__needs_wakeup(&umem_info->fq)) {
+				ret = poll(&fds, 1, 1000);
+				if (ret < 0) {
+					fprintf(stderr, "poll failed.\n");
+					goto exit;
+				}
+			}
+			ret = xsk_ring_prod__reserve(&umem_info->fq, rcvd, &idx_fq);
+		}
+
+		for (i = 0; i < rcvd; i++) {
+			const struct xdp_desc *desc = xsk_ring_cons__rx_desc(&sock_info->rx, idx_rx++);
+			__u64 addr = desc->addr, orig;
+
+			orig = xsk_umem__extract_addr(addr);
+			addr = xsk_umem__add_offset_to_addr(addr);
+
+			*xsk_ring_prod__fill_addr(&umem_info->fq, idx_fq++) = orig;
+
+			if (verbose)
+				printf("Handle desc: addr: 0x%llx, len: %d(0x%x), idx: %d, rcvd: %d\n",
+					desc->addr, desc->len, desc->len, idx_rx, rcvd);
+			handle_desc(xsk_umem__get_data(umem_info->buffer, addr), desc->len);
+		}
+
+		xsk_ring_prod__submit(&umem_info->fq, rcvd);
+		xsk_ring_cons__release(&sock_info->rx, rcvd);
+	}
+
+exit:
+	return NULL;
+}
+
 int main(int argc, char **argv)
 {
-	int err, ret, prog_fd, map_fd, map_key, sock_fd;
+	int err, prog_fd, map_fd, map_key, sock_fd;
 	struct xdp_xsk_bpf *skel;
 	struct rlimit rlim = {RLIM_INFINITY, RLIM_INFINITY};
 
@@ -312,60 +376,10 @@ int main(int argc, char **argv)
 		pthread_create(&display_thread, NULL, display_info, NULL);
 	pthread_create(&read_trace_pipe_thread, NULL, display_trace_pipe, NULL);
 
-	struct pollfd fds = {};
-	__u32 idx_rx = 0, idx_fq = 0;
+	pthread_create(&rx_thread, NULL, rx_thread_callback, NULL);
 
-	fds.fd = sock_fd;
-	fds.events = POLLIN;
-
-	while (!exiting) {
-		__u32 i, rcvd;
-
-		kick_rx(sock_fd);
-		ret = poll(&fds, 1, -1);
-		if (ret <= 0) {
-			fprintf(stderr, "Failed poll xsk fd.\n");
-			continue;
-		}
-
-		rcvd = xsk_ring_cons__peek(&sock_info->rx, 64, &idx_rx);
-		if (!rcvd)
-			continue;
-
-		ret = xsk_ring_prod__reserve(&umem_info->fq, rcvd, &idx_fq);
-		while (ret != rcvd) {
-			if (ret < 0) {
-				fprintf(stderr, "fill ring reserve failed.\n");
-				goto cleanup;
-			}
-			if (xsk_ring_prod__needs_wakeup(&umem_info->fq)) {
-				ret = poll(&fds, 1, 1000);
-				if (ret < 0) {
-					fprintf(stderr, "poll failed.\n");
-					goto cleanup;
-				}
-			}
-			ret = xsk_ring_prod__reserve(&umem_info->fq, rcvd, &idx_fq);
-		}
-
-		for (i = 0; i < rcvd; i++) {
-			const struct xdp_desc *desc = xsk_ring_cons__rx_desc(&sock_info->rx, idx_rx++);
-			__u64 addr = desc->addr, orig;
-
-			orig = xsk_umem__extract_addr(addr);
-			addr = xsk_umem__add_offset_to_addr(addr);
-
-			*xsk_ring_prod__fill_addr(&umem_info->fq, idx_fq++) = orig;
-
-			if (verbose)
-				printf("Handle desc: addr: 0x%llx, len: %d(0x%x), idx: %d, rcvd: %d\n",
-					desc->addr, desc->len, desc->len, idx_rx, rcvd);
-			handle_desc(xsk_umem__get_data(umem_info->buffer, addr), desc->len);
-		}
-
-		xsk_ring_prod__submit(&umem_info->fq, rcvd);
-		xsk_ring_cons__release(&sock_info->rx, rcvd);
-	}
+	/* Main thread waiting in here */
+	pthread_join(rx_thread, NULL);
 
 cleanup:
 	printf("Byebye!!\n");
