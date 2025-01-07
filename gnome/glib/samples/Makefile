@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0
 SHELL = bash
 ifeq ($(V),1)
   Q =
@@ -7,9 +8,11 @@ else
 endif
 export Q
 
+include ../../../compiler/compiler.mk
 
 TARGETS :=
 TARGETS += gthread
+TARGETS += size
 
 CC = gcc
 
@@ -33,11 +36,21 @@ ifdef DEBUG
   CFLAGS += -DDEBUG -O0 -g
 endif
 
+ifdef M32
+  CFLAGS += -m32 -DM32=1
+  LDFLAGS += -m32
+  $(info Compile 32bit ELF)
+  ifneq (${CC_M32},1)
+    $(error ${CC} not support -m32)
+  endif
+endif
+
 .PHONY: build
 build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
 gthread: gthread.o
+size: size.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
