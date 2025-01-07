@@ -234,10 +234,10 @@ int main(int argc, char *argv[])
 
 	sockfd = socket(AF_INET, SOCK_RAW, IPPROTO_ICMP);
 	if (sockfd < 0) {
-		printf("\nSocket file descriptor not received!! %m\n");
+		printf("\nSocket file descriptor not created!! %m\n");
 		return 0;
 	} else
-		printf("\nSocket file descriptor %d received\n", sockfd);
+		printf("\nSocket file descriptor %d was created\n", sockfd);
 
 	send_ping(sockfd, &addr_conn, reverse_hostname, ip_addr, argv[1]);
 
