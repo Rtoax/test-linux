@@ -20,6 +20,7 @@ int xdp_sock_prog(struct xdp_md *ctx)
 	__u32 index = ctx->rx_queue_index;
 
 	struct ethhdr *ethhdr = data;
+	struct iphdr *iph;
 
 	if ((void *)(ethhdr + 1) > data_end)
 		return XDP_PASS;
@@ -28,6 +29,18 @@ int xdp_sock_prog(struct xdp_md *ctx)
 	 * Only handle IP packets.
 	 */
 	if (bpf_ntohs(ethhdr->h_proto) != ETH_P_IP)
+		return XDP_PASS;
+
+	iph = data + sizeof(struct ethhdr);
+	if ((void *)(iph + 1) > data_end)
+		return XDP_PASS;
+
+	/**
+	 * FIXME: Only ICMP messages are processed here, because it is easier
+	 * to test. If we want to customize the network protocol, we can
+	 * filter it here.
+	 */
+	if (iph->protocol != IPPROTO_ICMP)
 		return XDP_PASS;
 
 	bpf_printk("(ip) xdp ingress %d, rx queue %d, len %ld",
