@@ -12,6 +12,11 @@ cpu
 - `sysconf(_SC_NPROCESSORS_ONLN)`, `get_nprocs()`
 
 
+# Commands
+
+- `chcpu`: configure CPUs
+
+
 # lscpu
 
 - /proc/cpuinfo
