@@ -13,3 +13,4 @@
 #endif
 
 int kick_rx(int xdp_fd);
+void kick_tx(int xdp_fd);
