@@ -677,8 +677,8 @@ dnf_add_packages()
 	pkgs_virt+=( qemu-kvm )
 	# Add more
 	if [[ $(is_os fedora) ]]; then
-		pkgs_virt+=( qemu-system-loongarch64 )
-		pkgs_virt+=( qemu-system-riscv )
+		pkgs_virt+=( qemu-system-loongarch64 edk2-loongarch64 )
+		pkgs_virt+=( qemu-system-riscv edk2-riscv64 )
 	fi
 
 	pkgs_net+=( httpd )
