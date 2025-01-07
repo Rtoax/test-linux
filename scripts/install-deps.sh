@@ -151,6 +151,19 @@ os_operator()
 	esac
 }
 
+is_os()
+{
+	local oss=( $@ )
+	for os in ${oss[@]}
+	do
+		if [[ ${OS} = ${os} ]]; then
+			echo YES
+			break
+		fi
+	done
+	return 0
+}
+
 os_upgrade()
 {
 	os_operator upgrade "${@}"
@@ -662,6 +675,11 @@ dnf_add_packages()
 	pkgs_virt+=( edk2-ovmf )
 	pkgs_virt+=( libvirt )
 	pkgs_virt+=( qemu-kvm )
+	# Add more
+	if [[ $(is_os fedora) ]]; then
+		pkgs_virt+=( qemu-system-loongarch64 )
+		pkgs_virt+=( qemu-system-riscv )
+	fi
 
 	pkgs_net+=( httpd )
 	pkgs_net+=( libxdp libxdp-static )
@@ -762,6 +780,7 @@ apt_add_packages()
 
 	pkgs_virt+=( libvirt0 )
 	pkgs_virt+=( qemu-system )
+	pkgs_virt+=( qemu-system-misc )
 
 	pkgs_desktop+=( libgtk-3-dev )
 	pkgs_desktop+=( tigervnc-common )
