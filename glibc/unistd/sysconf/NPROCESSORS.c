@@ -6,10 +6,12 @@ int main(void)
 {
 	int ncpu;
 
+	/* processors configured */
 	ncpu = sysconf(_SC_NPROCESSORS_CONF);
-	printf("ncpu = %d\n", ncpu);
+	printf("_SC_NPROCESSORS_CONF: ncpu = %d\n", ncpu);
 
+	/* processors available */
 	ncpu = sysconf(_SC_NPROCESSORS_ONLN);
-	printf("ncpu = %d\n", ncpu);
+	printf("_SC_NPROCESSORS_ONLN: ncpu = %d\n", ncpu);
 	return 0;
 }

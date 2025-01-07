@@ -7,12 +7,14 @@ int main(void)
 {
 	long int ret;
 
+	/* processors available */
 	ret = sysconf(_SC_NPROCESSORS_ONLN);
 	printf("sysconf(_SC_NPROCESSORS_ONLN) = %ld\n", ret);
 
 	ret = get_nprocs();
 	printf("get_nprocs() = %ld\n", ret);
 
+	/* processors configured */
 	ret = sysconf(_SC_NPROCESSORS_CONF);
 	printf("sysconf(_SC_NPROCESSORS_CONF) = %ld\n", ret);
 
