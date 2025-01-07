@@ -4,6 +4,7 @@
 - DoS: Denial of Service (拒绝服务)
 - DPDK: Data Plane Development Kit (数据面开发工具)
 - IB: InfiniBand
+- ICMP: Internet Control Message Protocol (网络控制消息协议)
 - KNI: Kernel Network Interface (内核网络接口) @DPDK
 - LWT: Light Weight Tunnel (轻量级隧道)
 - MPLS: Multi-Protocol Label Switching (多协议标签交换)
@@ -21,5 +22,7 @@
 - SDN: Software-defined networking (软件定义网络)
 - slip: Serial line IP (串列线路互联网协议)
 - STP: Spanning Tree Protocol (生成树协议)
+- TCP: Transmission Control Protocol (传输控制协议)
+- UDP: User Datagram Protocol (用户数据报协议)
 - WLAN: Wireless Local Area Network (无线局域网)
 - WWAN: Wireless Wide Area Network (无线广域网)
