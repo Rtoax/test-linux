@@ -111,7 +111,7 @@ void *display_info(void *arg)
 	return NULL;
 }
 
-void handle_desc(void *data, size_t len);
+void handle_rx_desc(void *data, size_t len);
 
 static void setup_xsk_socket(struct xsk_socket_info *xsk, const char *ifname,
 			     int queue_id)
@@ -219,7 +219,7 @@ int receive_pkts(struct pollfd *pfds, size_t nr_pfds)
 		if (verbose)
 			printf("Handle desc: addr: 0x%llx, len: %d(0x%x), idx: %d, rcvd: %d\n",
 				desc->addr, desc->len, desc->len, idx_rx, rcvd);
-		handle_desc(xsk_umem__get_data(umem_info->buffer, addr), desc->len);
+		handle_rx_desc(xsk_umem__get_data(umem_info->buffer, addr), desc->len);
 	}
 
 	xsk_ring_prod__submit(&umem_info->fq, rcvd);
@@ -261,7 +261,7 @@ void dump_icmp(struct icmphdr *hdr, size_t len)
 	pr_pkt("\n");
 }
 
-void handle_desc(void *data, size_t len)
+void handle_rx_desc(void *data, size_t len)
 {
 	void *data_end = data + len;
 	struct ethhdr *eth = data;
