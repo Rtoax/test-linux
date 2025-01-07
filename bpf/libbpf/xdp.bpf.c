@@ -283,7 +283,7 @@ int xsk_redir_prog(struct xdp_md *ctx)
 }
 
 #else
-# error "Must define XDP_BASIC, XDP_DEVMAP or XDP_CPUMAP"
+# error "Must define XDP_BASIC, XDP_DEVMAP, XDP_CPUMAP, XDP_XSKMAP"
 #endif
 
 char __license[] SEC("license") = "GPL";
