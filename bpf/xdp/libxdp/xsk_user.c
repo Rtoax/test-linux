@@ -44,7 +44,7 @@ static const char *ifname;
 static int verbose = false;
 static int exiting = false;
 
-static pthread_t rx_thread, display_thread, read_trace_pipe_thread;
+static pthread_t rx_thread, display_thread;
 
 struct xsk_umem_info *umem_info = NULL;
 struct xsk_socket_info *sock_info = NULL;
@@ -103,12 +103,6 @@ void *display_info(void *arg)
 		printf("\n");
 		sleep(2);
 	}
-	return NULL;
-}
-
-void *display_trace_pipe(void *arg)
-{
-	read_trace_pipe();
 	return NULL;
 }
 
@@ -374,11 +368,11 @@ int main(int argc, char **argv)
 
 	if (verbose)
 		pthread_create(&display_thread, NULL, display_info, NULL);
-	pthread_create(&read_trace_pipe_thread, NULL, display_trace_pipe, NULL);
 
 	pthread_create(&rx_thread, NULL, rx_thread_callback, NULL);
 
 	/* Main thread waiting in here */
+	read_trace_pipe();
 	pthread_join(rx_thread, NULL);
 
 cleanup:
@@ -386,7 +380,6 @@ cleanup:
 
 	if (verbose)
 		pthread_join(display_thread, NULL);
-	pthread_join(read_trace_pipe_thread, NULL);
 
 	if (umem_info)
 		xsk_umem__delete(umem_info->umem);
