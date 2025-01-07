@@ -15,6 +15,7 @@
 #include <bpf/libbpf.h>
 #include <sys/mman.h>
 #include <sys/resource.h>
+#include <sys/signalfd.h>
 #include <linux/if_ether.h>
 #include <linux/if_link.h>
 #include <linux/ip.h>
@@ -92,6 +93,7 @@ static void sig_handler(int sig)
 {
 	printf("Catch signal %d!!\n", sig);
 	stop_read_trace_pipe();
+	pthread_kill(rx_thread, SIGUSR1);
 	exiting = true;
 }
 
@@ -108,6 +110,8 @@ void *display_info(void *arg)
 	}
 	return NULL;
 }
+
+void handle_desc(void *data, size_t len);
 
 static void setup_xsk_socket(struct xsk_socket_info *xsk, const char *ifname,
 			     int queue_id)
@@ -174,6 +178,54 @@ int xsk_populate_fill_ring(struct xsk_umem_info *umem_info)
 		*xsk_ring_prod__fill_addr(&umem_info->fq, idx++) = addr;
 	}
 	xsk_ring_prod__submit(&umem_info->fq, XSK_RING_PROD__DEFAULT_NUM_DESCS);
+	return 0;
+}
+
+int receive_pkts(struct pollfd *pfds, size_t nr_pfds)
+{
+	int ret;
+	__u32 i, rcvd;
+	__u32 idx_rx = 0, idx_fq = 0;
+
+	rcvd = xsk_ring_cons__peek(&sock_info->rx, 64, &idx_rx);
+	if (!rcvd)
+		return -ENOENT;
+
+	ret = xsk_ring_prod__reserve(&umem_info->fq, rcvd, &idx_fq);
+	while (ret != rcvd) {
+		if (ret < 0) {
+			fprintf(stderr, "fill ring reserve failed.\n");
+			goto exit;
+		}
+		if (xsk_ring_prod__needs_wakeup(&umem_info->fq)) {
+			ret = poll(pfds, nr_pfds, 1000);
+			if (ret < 0) {
+				fprintf(stderr, "poll failed.\n");
+				goto exit;
+			}
+		}
+		ret = xsk_ring_prod__reserve(&umem_info->fq, rcvd, &idx_fq);
+	}
+
+	for (i = 0; i < rcvd; i++) {
+		const struct xdp_desc *desc = xsk_ring_cons__rx_desc(&sock_info->rx, idx_rx++);
+		__u64 addr = desc->addr, orig;
+
+		orig = xsk_umem__extract_addr(addr);
+		addr = xsk_umem__add_offset_to_addr(addr);
+
+		*xsk_ring_prod__fill_addr(&umem_info->fq, idx_fq++) = orig;
+
+		if (verbose)
+			printf("Handle desc: addr: 0x%llx, len: %d(0x%x), idx: %d, rcvd: %d\n",
+				desc->addr, desc->len, desc->len, idx_rx, rcvd);
+		handle_desc(xsk_umem__get_data(umem_info->buffer, addr), desc->len);
+	}
+
+	xsk_ring_prod__submit(&umem_info->fq, rcvd);
+	xsk_ring_cons__release(&sock_info->rx, rcvd);
+
+exit:
 	return 0;
 }
 
@@ -254,65 +306,51 @@ void handle_desc(void *data, size_t len)
 
 static void *rx_thread_callback(void *arg)
 {
-	int ret, sock_fd;
-	struct pollfd fds = {};
-	__u32 idx_rx = 0, idx_fq = 0;
+	int ret, sock_fd, sigfd;
+	struct pollfd pfds[2] = {};
+	sigset_t sigmask;
 
 	sock_fd = xsk_socket__fd(sock_info->xsk);
 
-	fds.fd = sock_fd;
-	fds.events = POLLIN;
+	sigemptyset(&sigmask);
+	sigaddset(&sigmask, SIGUSR1);
+	pthread_sigmask(SIG_BLOCK, &sigmask, NULL);
+	sigfd = signalfd(-1, &sigmask, 0);
+
+	pfds[0].fd = sock_fd;
+	pfds[0].events = POLLIN;
+	pfds[1].fd = sigfd;
+	pfds[1].events = POLLIN;
 
 	while (!exiting) {
-		__u32 i, rcvd;
+		__u32 i;
 
 		kick_rx(sock_fd);
-		ret = poll(&fds, 1, -1);
+
+		ret = poll(pfds, 2, -1);
 		if (ret <= 0) {
 			fprintf(stderr, "Failed poll xsk fd.\n");
 			continue;
 		}
 
-		rcvd = xsk_ring_cons__peek(&sock_info->rx, 64, &idx_rx);
-		if (!rcvd)
-			continue;
+		for (i = 0; i < 2; i++) {
+			if (pfds[i].revents == 0)
+				continue;
+			if (pfds[i].fd == sock_fd) {
+				if (receive_pkts(pfds, 2))
+					continue;
+			} else if (pfds[i].fd == sigfd) {
+				struct signalfd_siginfo fdsi;
 
-		ret = xsk_ring_prod__reserve(&umem_info->fq, rcvd, &idx_fq);
-		while (ret != rcvd) {
-			if (ret < 0) {
-				fprintf(stderr, "fill ring reserve failed.\n");
+				read(sigfd, &fdsi, sizeof(fdsi));
+				psignal(fdsi.ssi_signo, "rx_thread terminate");
 				goto exit;
 			}
-			if (xsk_ring_prod__needs_wakeup(&umem_info->fq)) {
-				ret = poll(&fds, 1, 1000);
-				if (ret < 0) {
-					fprintf(stderr, "poll failed.\n");
-					goto exit;
-				}
-			}
-			ret = xsk_ring_prod__reserve(&umem_info->fq, rcvd, &idx_fq);
 		}
-
-		for (i = 0; i < rcvd; i++) {
-			const struct xdp_desc *desc = xsk_ring_cons__rx_desc(&sock_info->rx, idx_rx++);
-			__u64 addr = desc->addr, orig;
-
-			orig = xsk_umem__extract_addr(addr);
-			addr = xsk_umem__add_offset_to_addr(addr);
-
-			*xsk_ring_prod__fill_addr(&umem_info->fq, idx_fq++) = orig;
-
-			if (verbose)
-				printf("Handle desc: addr: 0x%llx, len: %d(0x%x), idx: %d, rcvd: %d\n",
-					desc->addr, desc->len, desc->len, idx_rx, rcvd);
-			handle_desc(xsk_umem__get_data(umem_info->buffer, addr), desc->len);
-		}
-
-		xsk_ring_prod__submit(&umem_info->fq, rcvd);
-		xsk_ring_cons__release(&sock_info->rx, rcvd);
 	}
 
 exit:
+	close(sigfd);
 	return NULL;
 }
 

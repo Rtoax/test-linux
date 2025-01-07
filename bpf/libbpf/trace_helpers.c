@@ -43,7 +43,7 @@ static int read_trace_pipe_cb(int (*cb)(const char *str, void *arg), void *arg)
 
 	sigemptyset(&sigmask);
 	sigaddset(&sigmask, SIGUSR1);
-	sigprocmask(SIG_BLOCK, &sigmask, NULL);
+	pthread_sigmask(SIG_BLOCK, &sigmask, NULL);
 
 	sfd = signalfd(-1, &sigmask, 0);
 
