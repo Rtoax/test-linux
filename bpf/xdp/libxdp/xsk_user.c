@@ -111,7 +111,7 @@ void *display_info(void *arg)
 	return NULL;
 }
 
-void handle_rx_desc(void *data, size_t len);
+void handle_rx_pkt(void *data, size_t len);
 
 static void setup_xsk_socket(struct xsk_socket_info *xsk, const char *ifname,
 			     int queue_id)
@@ -129,6 +129,14 @@ static void setup_xsk_socket(struct xsk_socket_info *xsk, const char *ifname,
 		fprintf(stderr, "Error creating XSK socket: %s\n", strerror(errno));
 		exit(EXIT_FAILURE);
 	}
+
+	xsk->rx_size = xsk_cfg.rx_size;
+	xsk->tx_size = xsk_cfg.tx_size;
+	xsk->queue_id = queue_id;
+
+	printf("xsk rx_size %d\n", xsk->rx_size);
+	printf("xsk tx_size %d\n", xsk->tx_size);
+	printf("xsk queue_id %d\n", xsk->queue_id);
 }
 
 static void setup_umem(struct xsk_umem_info *umem)
@@ -142,7 +150,7 @@ static void setup_umem(struct xsk_umem_info *umem)
 		exit(EXIT_FAILURE);
 	}
 
-	printf("umem buffer %p\n", umem->buffer);
+	printf("umem buffer size 0x%x, vaddr %p\n", buffer_size, umem->buffer);
 
 	struct xsk_umem_config umem_cfg = {
 		.fill_size = XSK_RING_PROD__DEFAULT_NUM_DESCS,
@@ -158,31 +166,39 @@ static void setup_umem(struct xsk_umem_info *umem)
 		exit(EXIT_FAILURE);
 	}
 
+	umem->fill_size = umem_cfg.fill_size;
+	umem->comp_size = umem_cfg.comp_size;
 	umem->num_frames = DEFAULT_UMEM_BUFFERS;
 	umem->frame_size = umem_cfg.frame_size;
 	umem->frame_headroom = umem_cfg.frame_headroom;
 	umem->base_addr = DEFAULT_UMEM_BUFFERS * XSK_UMEM__DEFAULT_FRAME_SIZE;
 
-	printf("umem frame_size %d\n", XSK_UMEM__DEFAULT_FRAME_SIZE);
+	printf("umem fill_size %d\n", umem_cfg.fill_size);
+	printf("umem comp_size %d\n", umem_cfg.comp_size);
+	printf("umem num_frames %d\n", umem->num_frames);
+	printf("umem frame_size %d\n", umem->frame_size);
+	printf("umem frame_headroom %d\n", umem->frame_headroom);
+	printf("umem base_addr %d\n", umem->base_addr);
 }
 
+/**
+ * Fill ring, see linux:xsk_populate_fill_ring()
+ */
 int xsk_populate_fill_ring(struct xsk_umem_info *umem_info)
 {
 	int i, ret;
 	__u32 idx;
-	/**
-	 * Fill ring, see linux:xsk_populate_fill_ring()
-	 */
-	ret = xsk_ring_prod__reserve(&umem_info->fq, XSK_RING_PROD__DEFAULT_NUM_DESCS, &idx);
-	if (ret != XSK_RING_PROD__DEFAULT_NUM_DESCS) {
+
+	ret = xsk_ring_prod__reserve(&umem_info->fq, umem_info->fill_size, &idx);
+	if (ret != umem_info->fill_size) {
 		fprintf(stderr, "reserve fill ring failed.\n");
 		return -1;
 	}
-	for (i = 0; i < XSK_RING_PROD__DEFAULT_NUM_DESCS; i++) {
-		__u64 addr = i * XSK_UMEM__DEFAULT_FRAME_SIZE;
+	for (i = 0; i < umem_info->fill_size; i++) {
+		__u64 addr = i * umem_info->frame_size;
 		*xsk_ring_prod__fill_addr(&umem_info->fq, idx++) = addr;
 	}
-	xsk_ring_prod__submit(&umem_info->fq, XSK_RING_PROD__DEFAULT_NUM_DESCS);
+	xsk_ring_prod__submit(&umem_info->fq, umem_info->fill_size);
 	return 0;
 }
 
@@ -224,7 +240,8 @@ int receive_pkts(struct pollfd *pfds, size_t nr_pfds)
 		if (verbose)
 			printf("Handle desc: addr: 0x%llx, len: %d(0x%x), idx: %d, rcvd: %d\n",
 				desc->addr, desc->len, desc->len, idx_rx, rcvd);
-		handle_rx_desc(xsk_umem__get_data(umem_info->buffer, addr), desc->len);
+
+		handle_rx_pkt(xsk_umem__get_data(umem_info->buffer, addr), desc->len);
 	}
 
 	xsk_ring_prod__submit(&umem_info->fq, rcvd);
@@ -344,7 +361,7 @@ void dump_icmp(struct icmphdr *hdr, size_t len)
 	pr_pkt("\n");
 }
 
-void handle_rx_desc(void *data, size_t len)
+void handle_rx_pkt(void *data, size_t len)
 {
 	void *data_end = data + len;
 	struct ethhdr *eth = data;

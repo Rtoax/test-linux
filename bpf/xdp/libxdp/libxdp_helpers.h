@@ -24,6 +24,8 @@ struct xsk_umem_info {
 	struct xsk_ring_prod fq;
 	struct xsk_ring_cons cq;
 	struct xsk_umem *umem;
+	__u32 fill_size;
+	__u32 comp_size;
 	void *buffer;
 	__u32 num_frames;
 	__u32 frame_size;
@@ -35,6 +37,9 @@ struct xsk_socket_info {
 	struct xsk_socket *xsk;
 	struct xsk_ring_cons rx;
 	struct xsk_ring_prod tx;
+	__u32 rx_size;
+	__u32 tx_size;
+	int queue_id;
 	struct xsk_umem_info *umem;
 };
 
