@@ -27,6 +27,7 @@
 #include "xdp_xsk.skel.h"
 #include "icmp_helpers.h"
 
+#define BATCH_SIZE	64
 
 struct xsk_umem_info {
 	struct xsk_ring_prod fq;
@@ -48,7 +49,7 @@ static const char *ifname;
 static int verbose = false;
 static int exiting = false;
 
-static pthread_t rx_thread, display_thread;
+static pthread_t rx_thread, tx_thread, display_thread;
 
 struct xsk_umem_info *umem_info = NULL;
 struct xsk_socket_info *sock_info = NULL;
@@ -94,6 +95,7 @@ static void sig_handler(int sig)
 	printf("Catch signal %d!!\n", sig);
 	stop_read_trace_pipe();
 	pthread_kill(rx_thread, SIGUSR1);
+	pthread_kill(tx_thread, SIGUSR1);
 	exiting = true;
 }
 
@@ -101,10 +103,10 @@ void *display_info(void *arg)
 {
 	while (!exiting) {
 		printf("info: avail ");
-		printf("rx %d,", xsk_cons_nb_avail(&sock_info->rx, 64));
+		printf("rx %d,", xsk_cons_nb_avail(&sock_info->rx, BATCH_SIZE));
 		printf("\n");
 		printf("info: free ");
-		printf("fq %d,", xsk_prod_nb_free(&umem_info->fq, 64));
+		printf("fq %d,", xsk_prod_nb_free(&umem_info->fq, BATCH_SIZE));
 		printf("\n");
 		sleep(2);
 	}
@@ -187,7 +189,7 @@ int receive_pkts(struct pollfd *pfds, size_t nr_pfds)
 	__u32 i, rcvd;
 	__u32 idx_rx = 0, idx_fq = 0;
 
-	rcvd = xsk_ring_cons__peek(&sock_info->rx, 64, &idx_rx);
+	rcvd = xsk_ring_cons__peek(&sock_info->rx, BATCH_SIZE, &idx_rx);
 	if (!rcvd)
 		return -ENOENT;
 
@@ -226,6 +228,52 @@ int receive_pkts(struct pollfd *pfds, size_t nr_pfds)
 	xsk_ring_cons__release(&sock_info->rx, rcvd);
 
 exit:
+	return 0;
+}
+
+int send_pkts(struct pollfd *pfds, size_t nr_pfds)
+{
+#if 0
+	int ret, sock_fd;
+	__u32 i, idx = 0;
+
+	sock_fd = xsk_socket__fd(sock_info->xsk);
+
+	while (xsk_ring_prod__reserve(&sock_info->tx, BATCH_SIZE, &idx) < BATCH_SIZE) {
+		ret = poll(pfds, nr_pfds, -1);
+		if (ret <= 0) {
+			fprintf(stderr, "Poll error %d\n", ret);
+			pthread_exit(NULL);
+		}
+
+		if (xsk_ring_prod__needs_wakeup(&sock_info->tx))
+			kick_tx(sock_fd);
+
+		unsigned int rcvd;
+
+		rcvd = xsk_ring_cons__peek(&umem_info->cq, BATCH_SIZE, &idx);
+		if (rcvd)
+			xsk_ring_cons__release(&umem_info->cq, rcvd);
+	}
+
+	for (i = 0; i < BATCH_SIZE; i++) {
+		struct xdp_desc *tx_desc = xsk_ring_prod__tx_desc(&sock_info->tx, idx + i);
+
+		/* TODO: set tx_desc addr and len */
+		(void)tx_desc;
+	}
+
+	/* TODO: Waiting for rx_thread */
+
+	xsk_ring_prod__submit(&sock_info->tx, i);
+
+	ret = poll(pfds, 1, -1);
+	if (ret <= 0) {
+		fprintf(stderr, "poll tx failed, %m\n");
+		return -errno;
+	}
+#endif
+
 	return 0;
 }
 
@@ -354,6 +402,56 @@ exit:
 	return NULL;
 }
 
+static void *tx_thread_callback(void *arg)
+{
+	int ret, sock_fd, sigfd;
+	struct pollfd pfds[2] = {};
+	sigset_t sigmask;
+
+	sock_fd = xsk_socket__fd(sock_info->xsk);
+
+	sigemptyset(&sigmask);
+	sigaddset(&sigmask, SIGUSR1);
+	pthread_sigmask(SIG_BLOCK, &sigmask, NULL);
+	sigfd = signalfd(-1, &sigmask, 0);
+
+	pfds[0].fd = sock_fd;
+	pfds[0].events = POLLOUT;
+	pfds[1].fd = sigfd;
+	pfds[1].events = POLLIN;
+
+	while (!exiting) {
+		__u32 i;
+
+		ret = poll(pfds, 2, -1);
+		if (ret <= 0) {
+			fprintf(stderr, "Failed poll xsk fd.\n");
+			continue;
+		}
+
+		for (i = 0; i < 2; i++) {
+			if (pfds[i].revents == 0)
+				continue;
+
+			if (pfds[i].fd == sock_fd) {
+				/* Only poll socket fd, skip signal fd */
+				if (send_pkts(pfds, 1))
+					continue;
+			} else if (pfds[i].fd == sigfd) {
+				struct signalfd_siginfo fdsi;
+
+				read(sigfd, &fdsi, sizeof(fdsi));
+				psignal(fdsi.ssi_signo, "tx_thread terminate");
+				goto exit;
+			}
+		}
+	}
+
+exit:
+	close(sigfd);
+	return NULL;
+}
+
 int main(int argc, char **argv)
 {
 	int err, prog_fd, map_fd, map_key, sock_fd;
@@ -426,10 +524,12 @@ int main(int argc, char **argv)
 		pthread_create(&display_thread, NULL, display_info, NULL);
 
 	pthread_create(&rx_thread, NULL, rx_thread_callback, NULL);
+	pthread_create(&tx_thread, NULL, tx_thread_callback, NULL);
 
 	/* Main thread waiting in here */
 	read_trace_pipe();
 	pthread_join(rx_thread, NULL);
+	pthread_join(tx_thread, NULL);
 
 cleanup:
 	printf("Byebye!!\n");
