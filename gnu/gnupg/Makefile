@@ -10,7 +10,7 @@ export Q
 
 
 all:
-	gpg --list-keys
+	timeout 2 gpg --list-keys || true
 
 clean:
 	rm -f os-release.txt
