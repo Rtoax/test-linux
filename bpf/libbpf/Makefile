@@ -27,20 +27,7 @@ else
 endif
 
 include ../bpf.mk
-
-LIBBPF_PATHS := $(shell ldconfig -p | grep libbpf.so | awk '{print $$NF}' || true)
-LIB_PATH := $(shell dirname $(LIBBPF_PATHS) | uniq || true)
-# Like /usr/lib64/libbpf.so.0.4.0
-LIBBPF_V_PATH := $(shell ls ${LIB_PATH}/libbpf.so.[0-9].[0-9].[0-9])
-
-LIBBPF_MAJOR_VERSION := $(shell echo ${LIBBPF_V_PATH} | awk -F '.' '{print $$3}')
-LIBBPF_MINOR_VERSION := $(shell echo ${LIBBPF_V_PATH} | awk -F '.' '{print $$4}')
-
-$(info LIBBPF_PATHS = ${LIBBPF_PATHS})
-$(info LIB_PATH = ${LIB_PATH})
-$(info LIBBPF_V_PATH = ${LIBBPF_V_PATH})
-$(info LIBBPF_MAJOR_VERSION = ${LIBBPF_MAJOR_VERSION})
-$(info LIBBPF_MINOR_VERSION = ${LIBBPF_MINOR_VERSION})
+include ./libbpf.mk
 
 KSYM_DO_EXECVEAT_COMMON := $(shell grep 't do_execveat_common' /proc/kallsyms \
 			| head -1 \
