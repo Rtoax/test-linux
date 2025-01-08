@@ -33,4 +33,8 @@ CC_VERSION := $(shell $(CC) -dumpversion)
 CC_MAJOR := $(shell echo ${CC_FULLVERSION} | awk -F '.' '{print $$1}')
 CC_MINOR := $(shell echo ${CC_FULLVERSION} | awk -F '.' '{print $$2}')
 
+CC_-fcf-protection := $(findstring 1,$(call check_compiler_option,$(CC),-fcf-protection))
+CC_-fpatchable-function-entry := $(findstring 1,$(call check_compiler_option,$(CC),-fpatchable-function-entry=5,2))
+
 $(info CC: $(CC) ${CC_MAJOR}.${CC_MINOR} ${CC_FULLVERSION} ${CC_VERSION})
+

@@ -36,6 +36,8 @@ ifneq (${HAVE_LIBATOMIC},)
   TARGETS += __atomic_is_lock_free
 endif
 
+CFLAGS += -pthread
+
 ifdef M32
   CFLAGS += -m32
 endif

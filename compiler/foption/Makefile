@@ -7,10 +7,12 @@ else
 endif
 export Q
 
+CC := gcc
+
+include ../compiler.mk
 
 TARGETS :=
 TARGETS += ffat-lto-objects
-TARGETS += fpatchable-function-entry
 TARGETS += flto
 TARGETS += fwhole-program
 TARGETS += fstack-protector fstack-protector-all fstack-protector-strong fstack-protector-explicit
@@ -22,7 +24,7 @@ TARGETS += fno-zero-initialized-in-bss fzero-initialized-in-bss
 TARGETS += fplt fno-plt
 TARGETS += fuse-ld
 
-ifeq ($(shell uname -m),x86_64)
+ifeq ($(CC_-fcf-protection),1)
   TARGETS += fcf-protection
 endif
 
@@ -30,7 +32,9 @@ endif
 # TARGETS += fwpa
 # TARGETS += fltrans
 
-CC = gcc
+ifeq ($(CC_-fpatchable-function-entry),1)
+  TARGETS += fpatchable-function-entry
+endif
 
 CFLAGS := -Werror -Wall
 CFLAGS += -Wstrict-prototypes

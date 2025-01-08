@@ -39,12 +39,14 @@ TARGETS += kernel_helper
 TARGETS_todo :=
 TARGETS_todo += preserve_access_index
 
+include ../compiler.mk
+
 CFLAGS :=
 
-ifeq ($(shell uname -m),x86_64)
+ifeq ($(CC_-fcf-protection),1)
   CFLAGS_nocf_check := -fcf-protection
 else
-  $(warning FIXME: Arch may not support -fcf-protection=full)
+  $(warning WARNING: ${CC} not support -fcf-protection=full)
 endif
 
 CFLAGS_noplt := -DNOPLT=1
