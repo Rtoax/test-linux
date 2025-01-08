@@ -8,7 +8,6 @@ else
 endif
 export Q
 
-
 MAKE := make
 
 TARGETS :=
@@ -30,7 +29,7 @@ build: ${LOGS}
 
 %.log: %.mk
 	@echo -e "  MK  \033[1;32m$(@)\033[m"
-	@$(MAKE) -f $(<) $(ARGS_$(*)) | tee $(@)
+	$(Q)$(MAKE) -f $(<) $(ARGS_$(*)) | tee $(@)
 
 .PHONY: clean
 clean:
