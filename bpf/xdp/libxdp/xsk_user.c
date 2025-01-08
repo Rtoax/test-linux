@@ -329,38 +329,6 @@ poll_2:
 	return 0;
 }
 
-#define pr_pkt(fmt...) do { \
-		fprintf(stdout, "\033[1;32m"); \
-		fprintf(stdout, fmt); \
-		fprintf(stdout, "\033[m"); \
-	} while (0)
-
-#define pr_pkt_err(fmt...) do { \
-		fprintf(stderr, "\033[1;31m"); \
-		fprintf(stderr, fmt); \
-		fprintf(stderr, "\033[m"); \
-	} while (0)
-
-#define pr_pkt_dbg(fmt...) do { \
-		fprintf(stderr, "\033[2m"); \
-		fprintf(stderr, fmt); \
-		fprintf(stderr, "\033[m"); \
-	} while (0)
-
-
-void dump_icmp(struct icmphdr *hdr, size_t len)
-{
-	pr_pkt("type %s, code %d, cksum 0x%04x",
-		stricmptype(hdr->type), hdr->code, hdr->checksum);
-	if (hdr->type == ICMP_ECHO)
-		pr_pkt(", id %d, seq %d", htons(hdr->un.echo.id),
-			htons(hdr->un.echo.sequence));
-	/* Payload, test with 'ping -s [size]' */
-	if (len > sizeof(struct icmphdr))
-		pr_pkt(", payload(len %ld)", len - sizeof(struct icmphdr));
-	pr_pkt("\n");
-}
-
 void handle_rx_pkt(void *data, size_t len)
 {
 	void *data_end = data + len;
