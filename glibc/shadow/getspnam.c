@@ -8,11 +8,9 @@
 
 int main(int argc, char *argv[])
 {
-	struct spwd *spwd = getspent();
+	struct spwd *spwd = getspnam("root");
 	if (!spwd) {
-		/* FIXME: getspent should set errno??? */
-		errno = EPERM;
-		fprintf(stderr, "getspent: %m\n");
+		fprintf(stderr, "getspnam: %m\n");
 		exit(EXIT_FAILURE);
 	}
 
