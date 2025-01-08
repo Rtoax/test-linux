@@ -25,6 +25,7 @@ dry_run=
 force=
 
 readonly OS=${ID}
+readonly OS_VERSION=${VERSION_ID}
 readonly VIRT_TYPE=$(systemd-detect-virt 2>/dev/null || :)
 readonly IS_PHY=$( [[ ${VIRT_TYPE} == none ]] && echo YES || :)
 readonly IS_DNF5="$(dnf --version 2>/dev/null | grep -woi dnf5 | uniq)"
@@ -130,8 +131,10 @@ os_operator()
 	local operator=$1
 	shift
 
-	case ${OS} in
-	cclinux|fedora|centos|rhel|openEuler|almalinux|opencloudos)
+	local _os_=${OS}
+
+	case ${_os_} in
+	cclinux|fedora|centos|rhel|openEuler|almalinux|opencloudos|kylin)
 		case ${operator} in
 		upgrade) dnf_upgrade ;;
 		install) dnf_install "${@}" ;;
@@ -147,6 +150,7 @@ os_operator()
 		;;
 	*)
 		echo "ERROR: Unknown OS ${OS}"
+		exit 1
 		;;
 	esac
 }
