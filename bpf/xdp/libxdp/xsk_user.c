@@ -37,7 +37,10 @@ static const char *ifname;
 static int verbose = false;
 static int exiting = false;
 
-static pthread_t rx_thread, tx_thread, display_thread;
+static pthread_t rx_thread, display_thread;
+#if defined(TX_THREAD)
+static pthread_t tx_thread;
+#endif
 
 //static pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 //static pthread_cond_t cond = PTHREAD_COND_INITIALIZER;
@@ -86,7 +89,9 @@ static void sig_handler(int sig)
 	printf("Catch signal %d!!\n", sig);
 	stop_read_trace_pipe();
 	pthread_kill(rx_thread, SIGUSR1);
+#if defined(TX_THREAD)
 	pthread_kill(tx_thread, SIGUSR1);
+#endif
 	exiting = true;
 }
 
@@ -133,6 +138,7 @@ static void setup_xsk_socket(struct xsk_socket_info *xsk, const char *ifname,
 	xsk->rx_size = xsk_cfg.rx_size;
 	xsk->tx_size = xsk_cfg.tx_size;
 	xsk->queue_id = queue_id;
+	xsk->bind_flags = xsk_cfg.bind_flags;
 
 	printf("xsk rx_size %d\n", xsk->rx_size);
 	printf("xsk tx_size %d\n", xsk->tx_size);
@@ -419,6 +425,7 @@ exit:
 	return NULL;
 }
 
+#if defined(TX_THREAD)
 static void *tx_thread_callback(void *arg)
 {
 	int ret, sock_fd, sigfd;
@@ -470,6 +477,7 @@ exit:
 	close(sigfd);
 	return NULL;
 }
+#endif
 
 int main(int argc, char **argv)
 {
@@ -543,12 +551,16 @@ int main(int argc, char **argv)
 		pthread_create(&display_thread, NULL, display_info, NULL);
 
 	pthread_create(&rx_thread, NULL, rx_thread_callback, NULL);
+#if defined(TX_THREAD)
 	pthread_create(&tx_thread, NULL, tx_thread_callback, NULL);
+#endif
 
 	/* Main thread waiting in here */
 	read_trace_pipe();
 	pthread_join(rx_thread, NULL);
+#if defined(TX_THREAD)
 	pthread_join(tx_thread, NULL);
+#endif
 
 cleanup:
 	printf("Byebye!!\n");

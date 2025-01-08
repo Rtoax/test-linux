@@ -40,6 +40,7 @@ struct xsk_socket_info {
 	__u32 rx_size;
 	__u32 tx_size;
 	int queue_id;
+	int bind_flags;
 	struct xsk_umem_info *umem;
 };
 
