@@ -26,22 +26,10 @@
 #include "trace_helpers.h"
 #include "xdp_xsk.skel.h"
 #include "icmp_helpers.h"
+#include "pkt_stream.h"
+
 
 #define BATCH_SIZE	64
-
-struct xsk_umem_info {
-	struct xsk_ring_prod fq;
-	struct xsk_ring_cons cq;
-	struct xsk_umem *umem;
-	void *buffer;
-};
-
-struct xsk_socket_info {
-	struct xsk_socket *xsk;
-	struct xsk_ring_cons rx;
-	struct xsk_ring_prod tx;
-	struct xsk_umem_info *umem;
-};
 
 static int ifindex = 0;
 static const char *ifname;
@@ -145,7 +133,7 @@ static void setup_xsk_socket(struct xsk_socket_info *xsk, const char *ifname,
 
 static void setup_umem(struct xsk_umem_info *umem)
 {
-	const int buffer_size = 2 * 1024 * 4096;
+	const int buffer_size = DEFAULT_UMEM_BUFFERS * XSK_UMEM__DEFAULT_FRAME_SIZE;
 
 	umem->buffer = mmap(NULL, buffer_size, PROT_READ | PROT_WRITE,
 			    MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
@@ -169,6 +157,11 @@ static void setup_umem(struct xsk_umem_info *umem)
 		fprintf(stderr, "Error creating UMEM: %s\n", strerror(errno));
 		exit(EXIT_FAILURE);
 	}
+
+	umem->num_frames = DEFAULT_UMEM_BUFFERS;
+	umem->frame_size = umem_cfg.frame_size;
+	umem->frame_headroom = umem_cfg.frame_headroom;
+	umem->base_addr = DEFAULT_UMEM_BUFFERS * XSK_UMEM__DEFAULT_FRAME_SIZE;
 
 	printf("umem frame_size %d\n", XSK_UMEM__DEFAULT_FRAME_SIZE);
 }
