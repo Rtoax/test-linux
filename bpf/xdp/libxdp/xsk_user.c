@@ -51,8 +51,11 @@ static int exiting = false;
 
 static pthread_t rx_thread, tx_thread, display_thread;
 
-struct xsk_umem_info *umem_info = NULL;
-struct xsk_socket_info *sock_info = NULL;
+//static pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
+//static pthread_cond_t cond = PTHREAD_COND_INITIALIZER;
+
+static struct xsk_umem_info *umem_info = NULL;
+static struct xsk_socket_info *sock_info = NULL;
 
 static const char argp_prog_doc[] =
 	"USAGE: [-i <interface>] [-v|--verbose]\n";
@@ -97,6 +100,13 @@ static void sig_handler(int sig)
 	pthread_kill(rx_thread, SIGUSR1);
 	pthread_kill(tx_thread, SIGUSR1);
 	exiting = true;
+}
+
+static void read_sigfd(int sigfd, const char *msg)
+{
+	struct signalfd_siginfo fdsi;
+	read(sigfd, &fdsi, sizeof(fdsi));
+	psignal(fdsi.ssi_signo, msg);
 }
 
 void *display_info(void *arg)
@@ -231,20 +241,37 @@ exit:
 	return 0;
 }
 
-int send_pkts(struct pollfd *pfds, size_t nr_pfds)
+int send_pkts(struct pollfd *pfds, size_t nr_pfds, int sigfd)
 {
-#if 0
+/* Handle SIGINT */
+#define TX_EXIT_WITH_SIG	0xf1f1
 	int ret, sock_fd;
 	__u32 i, idx = 0;
+	int re_poll;
 
 	sock_fd = xsk_socket__fd(sock_info->xsk);
 
 	while (xsk_ring_prod__reserve(&sock_info->tx, BATCH_SIZE, &idx) < BATCH_SIZE) {
+poll_1:
+		re_poll = true;
 		ret = poll(pfds, nr_pfds, -1);
 		if (ret <= 0) {
 			fprintf(stderr, "Poll error %d\n", ret);
 			pthread_exit(NULL);
 		}
+		for (i = 0; i < nr_pfds; i++) {
+			if (pfds[i].revents == 0)
+				continue;
+			if (pfds[i].fd == sock_fd) {
+				re_poll = false;
+			} else if (pfds[i].fd == sigfd) {
+				read_sigfd(sigfd, "send_pkts interrupt");
+				return TX_EXIT_WITH_SIG;
+			}
+		}
+		/* above poll() not return for sock_fd, re-poll */
+		if (re_poll)
+			goto poll_1;
 
 		if (xsk_ring_prod__needs_wakeup(&sock_info->tx))
 			kick_tx(sock_fd);
@@ -267,12 +294,27 @@ int send_pkts(struct pollfd *pfds, size_t nr_pfds)
 
 	xsk_ring_prod__submit(&sock_info->tx, i);
 
-	ret = poll(pfds, 1, -1);
+poll_2:
+	re_poll = true;
+	ret = poll(pfds, nr_pfds, -1);
 	if (ret <= 0) {
 		fprintf(stderr, "poll tx failed, %m\n");
 		return -errno;
 	}
-#endif
+	for (i = 0; i < nr_pfds; i++) {
+		if (pfds[i].revents == 0)
+			continue;
+		if (pfds[i].fd == sock_fd) {
+			re_poll = false;
+		} else if (pfds[i].fd == sigfd) {
+			read_sigfd(sigfd, "send_pkts interrupt");
+			return TX_EXIT_WITH_SIG;
+		}
+	}
+
+	/* above poll() not return for sock_fd, re-poll */
+	if (re_poll)
+		goto poll_2;
 
 	return 0;
 }
@@ -388,10 +430,7 @@ static void *rx_thread_callback(void *arg)
 				if (receive_pkts(pfds, 2))
 					continue;
 			} else if (pfds[i].fd == sigfd) {
-				struct signalfd_siginfo fdsi;
-
-				read(sigfd, &fdsi, sizeof(fdsi));
-				psignal(fdsi.ssi_signo, "rx_thread terminate");
+				read_sigfd(sigfd, "rx_thread terminate");
 				goto exit;
 			}
 		}
@@ -435,13 +474,15 @@ static void *tx_thread_callback(void *arg)
 
 			if (pfds[i].fd == sock_fd) {
 				/* Only poll socket fd, skip signal fd */
-				if (send_pkts(pfds, 1))
-					continue;
+				ret = send_pkts(pfds, 2, sigfd);
+				if (ret) {
+					if (ret == TX_EXIT_WITH_SIG)
+						goto exit;
+					else
+						continue;
+				}
 			} else if (pfds[i].fd == sigfd) {
-				struct signalfd_siginfo fdsi;
-
-				read(sigfd, &fdsi, sizeof(fdsi));
-				psignal(fdsi.ssi_signo, "tx_thread terminate");
+				read_sigfd(sigfd, "tx_thread terminate");
 				goto exit;
 			}
 		}

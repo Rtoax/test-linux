@@ -17,11 +17,13 @@ static void cleanup_handler(void *arg)
 static void *thread_func(void *arg)
 {
 	pthread_cleanup_push(cleanup_handler, NULL);
+
 	pthread_mutex_lock(&mutex);
 	printf("Waiting... flag = %d\n", flag);
 	pthread_cond_wait(&cond, &mutex);
 	printf("Got flag = %d\n", flag);
 	pthread_mutex_unlock(&mutex);
+
 	pthread_cleanup_pop(0);
 	return 0;
 }
@@ -41,6 +43,7 @@ int main(void)
 	pthread_mutex_unlock(&mutex);
 
 	pthread_join(tid, NULL);
+
 	printf("All done\n");
 	return 0;
 }
