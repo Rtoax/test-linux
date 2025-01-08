@@ -17,7 +17,7 @@ build: ${LOGS}
 
 %.log: %.sh
 	@echo -e "  MK  \033[1;32m$(@)\033[m"
-	$(Q)./$(<) $(ARGS_$(*)) | tee $(@)
+	$(Q)${SHELL} $(<) $(ARGS_$(*)) | tee $(@)
 
 .PHONY: test
 test:

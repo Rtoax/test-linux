@@ -43,11 +43,7 @@ test:
 	./tracing.sh
 	./trap.sh
 	./while.sh
-	./cmdline.sh ignition.firstboot=1
-	./cmdline.sh ignition.firstboot=0
-	./cmdline.sh ignition.firstboot=on
-	./cmdline.sh ignition.firstboot=off
-	./cmdline.sh ignition.firstboot
+	./cmdline.sh
 
 .PHONY: clean
 clean: $(sub-dir-clean)

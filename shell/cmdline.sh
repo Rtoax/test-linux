@@ -25,8 +25,17 @@ cmdline_bool() {
 	esac
 }
 
-if $(cmdline_bool ignition.firstboot 0); then
-	echo "ignition.firstboot on"
-else
-	echo "ignition.firstboot off"
-fi
+__main__()
+{
+	if $(cmdline_bool ignition.firstboot 0); then
+		echo "ignition.firstboot on"
+	else
+		echo "ignition.firstboot off"
+	fi
+}
+
+__main__ ignition.firstboot=1
+__main__ ignition.firstboot=0
+__main__ ignition.firstboot=on
+__main__ ignition.firstboot=off
+__main__ ignition.firstboot
