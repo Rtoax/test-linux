@@ -50,6 +50,7 @@ sub-dir += scripts
 sub-dir += search
 sub-dir += semaphore
 sub-dir += setjmp
+sub-dir += shadow
 sub-dir += signal
 sub-dir += spawn
 sub-dir += stat
