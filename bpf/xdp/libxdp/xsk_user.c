@@ -25,7 +25,7 @@
 #include "libxdp_helpers.h"
 #include "trace_helpers.h"
 #include "xdp_xsk.skel.h"
-#include "icmp_helpers.h"
+#include "net_helpers.h"
 #include "pkt_stream.h"
 
 

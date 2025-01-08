@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <linux/icmp.h>
 
-#include "icmp_helpers.h"
+#include "net_helpers.h"
 
 const char *stricmptype(uint8_t type)
 {
