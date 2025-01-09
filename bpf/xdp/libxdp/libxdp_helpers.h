@@ -54,3 +54,4 @@ struct xsk_socket_info {
 
 int kick_rx(int xdp_fd);
 void kick_tx(int xdp_fd);
+void display_xsk_ring(const char *pfx, void *ring);

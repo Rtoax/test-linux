@@ -49,3 +49,27 @@ void kick_tx(int xdp_fd)
 	}
 	fprintf(stderr, "kick_tx %m\n");
 }
+
+/**
+ * See structure xsk_ring_prod and xsk_ring_cons
+ */
+struct xsk_ring {
+	__u32 cached_prod;
+	__u32 cached_cons;
+	__u32 mask;
+	__u32 size;
+	__u32 *producer;
+	__u32 *consumer;
+	void *ring;
+	__u32 *flags;
+};
+
+void display_xsk_ring(const char *pfx, void *ring)
+{
+	struct xsk_ring *r = ring;
+
+	printf("%s: cached_prod:%d, cached_cons:%d, mask:0x%x, size:%d, producer:%d, consumer:%d\n",
+		pfx,
+		r->cached_prod, r->cached_cons,
+		r->mask, r->size, *r->producer, *r->consumer);
+}

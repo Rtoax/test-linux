@@ -146,6 +146,9 @@ static void setup_xsk_socket(struct xsk_socket_info *xsk, const char *ifname,
 	printf("xsk rx_size %d\n", xsk->rx_size);
 	printf("xsk tx_size %d\n", xsk->tx_size);
 	printf("xsk queue_id %d\n", xsk->queue_id);
+
+	display_xsk_ring("rx", &xsk->rx);
+	display_xsk_ring("tx", &xsk->tx);
 }
 
 static void setup_umem(struct xsk_umem_info *umem)
@@ -187,6 +190,9 @@ static void setup_umem(struct xsk_umem_info *umem)
 	printf("umem frame_size %d\n", umem->frame_size);
 	printf("umem frame_headroom %d\n", umem->frame_headroom);
 	printf("umem base_addr %d\n", umem->base_addr);
+
+	display_xsk_ring("fq", &umem->fq);
+	display_xsk_ring("cq", &umem->cq);
 }
 
 /**
@@ -259,6 +265,7 @@ exit:
 	return 0;
 }
 
+#if defined(TX_THREAD)
 int send_pkts(struct pollfd *pfds, size_t nr_pfds, int sigfd)
 {
 /* Handle SIGINT */
@@ -336,6 +343,7 @@ poll_2:
 
 	return 0;
 }
+#endif
 
 /**
  * see linux: tools/testing/selftests/bpf/xskxceiver.c:complete_pkts()
@@ -395,6 +403,13 @@ void icmp_reply(void *rx_pkt, struct icmphdr *request)
 		   idx, addr, tx_pkt_buf, tx_desc->len);
 
 	xsk_ring_prod__submit(&sock_info->tx, 1);
+
+	if (verbose) {
+		display_xsk_ring("fq", &umem_info->fq);
+		display_xsk_ring("cq", &umem_info->cq);
+		display_xsk_ring("rx", &sock_info->rx);
+		display_xsk_ring("tx", &sock_info->tx);
+	}
 
 	ret = poll(&fd, 1, -1);
 	if (ret <= 0) {
