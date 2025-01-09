@@ -93,6 +93,9 @@ static void sig_handler(int sig)
 	pthread_kill(tx_thread, SIGUSR1);
 #endif
 	exiting = true;
+
+	if (sig == SIGSEGV)
+		exit(EXIT_FAILURE);
 }
 
 static void read_sigfd(int sigfd, const char *msg)
@@ -245,7 +248,7 @@ int receive_pkts(struct pollfd *pfds, size_t nr_pfds)
 		*xsk_ring_prod__fill_addr(&umem_info->fq, idx_fq++) = orig;
 
 		if (verbose)
-			printf("Handle desc: addr: 0x%llx, len: %d(0x%x), idx: %d, rcvd: %d\n",
+			printf("Handle rx desc: addr: 0x%llx, len: %d(0x%x), idx: %d, rcvd: %d\n",
 				desc->addr, desc->len, desc->len, idx_rx, rcvd);
 
 		handle_rx_pkt(xsk_umem__get_data(umem_info->buffer, addr), desc->len);
@@ -336,12 +339,32 @@ poll_2:
 	return 0;
 }
 
+/**
+ * see linux: tools/testing/selftests/bpf/xskxceiver.c:complete_pkts()
+ */
+void complete_tx_pkts(int batch_size)
+{
+	__u32 idx = 0;
+	unsigned int rcvd;
+
+	if (xsk_ring_prod__needs_wakeup(&sock_info->tx))
+		kick_tx(xsk_socket__fd(sock_info->xsk));
+
+	rcvd = xsk_ring_cons__peek(&umem_info->cq, batch_size, &idx);
+	if (rcvd) {
+#if 1 // SIGSEGV here
+		__u64 addr = *xsk_ring_cons__comp_addr(&umem_info->cq, idx + rcvd - 1);
+		pr_pkt_dbg("complete addr 0x%llx\n", addr);
+#endif
+		xsk_ring_cons__release(&umem_info->cq, rcvd);
+	}
+}
+
 void icmp_reply(void *rx_pkt, struct icmphdr *request)
 {
 	int ret, sock_fd;
 	__u32 idx = 0;
 	struct pollfd fd;
-	unsigned int rcvd;
 
 	sock_fd = xsk_socket__fd(sock_info->xsk);
 
@@ -355,26 +378,20 @@ void icmp_reply(void *rx_pkt, struct icmphdr *request)
 			pthread_exit(NULL);
 		}
 
-		if (xsk_ring_prod__needs_wakeup(&sock_info->tx))
-			kick_tx(sock_fd);
-
-		rcvd = xsk_ring_cons__peek(&umem_info->cq, 1, &idx);
-		if (rcvd)
-			xsk_ring_cons__release(&umem_info->cq, rcvd);
+		complete_tx_pkts(1);
 	}
+
+	pr_pkt_dbg("tx cached_prod %d, cached_cons %d\n", sock_info->tx.cached_prod, sock_info->tx.cached_cons);
 
 	struct xdp_desc *tx_desc = xsk_ring_prod__tx_desc(&sock_info->tx, idx);
 
-	__u64 addr = idx * umem_info->frame_size + umem_info->fill_size * umem_info->frame_size;
+	__u64 addr = idx * umem_info->frame_size;
 
 	tx_desc->addr = addr;
-#if 1
 	void *tx_pkt_buf = xsk_umem__get_data(umem_info->buffer, addr);
 	tx_desc->len = gen_pkt_icmp_reply(rx_pkt, request, tx_pkt_buf)
 				+ sizeof(struct ethhdr) + sizeof(struct iphdr);
-#else
-	(void)tx_desc;
-#endif
+
 	pr_pkt_dbg("tx icmp echo replay, idx = %d, addr 0x%llx, len %d.\n",
 		   idx, addr, tx_desc->len);
 
@@ -386,12 +403,7 @@ void icmp_reply(void *rx_pkt, struct icmphdr *request)
 		pthread_exit(NULL);
 	}
 
-	if (xsk_ring_prod__needs_wakeup(&sock_info->tx))
-		kick_tx(sock_fd);
-
-	rcvd = xsk_ring_cons__peek(&umem_info->cq, 1, &idx);
-	if (rcvd)
-		xsk_ring_cons__release(&umem_info->cq, rcvd);
+	complete_tx_pkts(1);
 
 	return;
 }
