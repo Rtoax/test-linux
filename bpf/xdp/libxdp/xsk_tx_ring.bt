@@ -72,7 +72,22 @@ kprobe:__dev_direct_xmit
 	printf("\033[2mtx: queue_id %d, data_len %d, len %d, mac_len %d\033[m\n",
 		$queue_id, $skb->data_len, $skb->len, $skb->mac_len);
 
-	@stack[kstack] = count();
+	@xmit_stack[kstack] = count();
+}
+
+kprobe:sock_alloc_send_skb
+/ @start[tid] /
+{
+	if (@npkt[tid] == 0) {
+		return;
+	}
+
+	$len = arg1;
+
+	time("%H:%M:%S ");
+	printf("\033[2malloc_skb: len %d\033[m\n", $len);
+
+	@alloc_skb_stack[kstack] = count();
 }
 
 END
