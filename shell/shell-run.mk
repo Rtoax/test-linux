@@ -8,15 +8,15 @@ else
 endif
 export Q
 
-SCRIPTS := $(shell ls *.sh)
+SCRIPTS := $(shell find -perm /110 -name '*.sh')
 LOGS := $(patsubst %.sh,%.log,$(SCRIPTS))
 
 .PHONY: build
 build: ${LOGS}
-	@echo -e " \033[1;33m Done \033[m"
+	@echo -e " \033[1;32m Done\033[m: ${SCRIPTS}"
 
 %.log: %.sh
-	@echo -e "  MK  \033[1;32m$(@)\033[m"
+	@echo -e "  RUN  \033[1;32m$(@)\033[m"
 	$(Q)${SHELL} $(<) $(ARGS_$(*)) | tee $(@)
 
 .PHONY: test
