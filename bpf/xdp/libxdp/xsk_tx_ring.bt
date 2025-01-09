@@ -1,0 +1,52 @@
+#!/bin/env bpftrace
+/**
+ * Tracking XSK TX Ring
+ *
+ * Copyright (C) Rong Tao 2024
+ *
+ * 2025-01-09	Rong Tao	Create this.
+ */
+#ifndef BPFTRACE_HAVE_BTF
+#include <linux/sched.h>
+#endif
+
+BEGIN
+{
+	printf("Tracing xsk tx, hit ctrl-c to end.\n");
+	printf("%-8s %-8s %-16s %-8s %-9s %-9s\n",
+		"TIME", "PID", "COMM", "N_ENT", "CONS/-", "PROD/-");
+}
+
+kprobe:xsk_generic_xmit
+{
+	$sx = (struct xdp_sock *)arg0;
+	$tx = (struct xsk_queue *)$sx->tx;
+	$tx_ring = (struct xdp_ring *)$tx->ring;
+
+	time("%H:%M:%S ");
+	printf("%-8d %-16s ", pid, comm);
+	printf("%-8d %-4d/%-4d %-4d/%-4d\n", $tx->nentries,
+		$tx_ring->producer, $tx->cached_prod,
+		$tx_ring->consumer, $tx->cached_cons);
+
+	@start[tid] = nsecs;
+}
+
+kprobe:__dev_direct_xmit
+/ @start[tid] /
+{
+	$skb = (struct sk_buff *)arg0;
+	$queue_id = arg1;
+
+	printf("\033[2mtx: queue_id %d, data_len %d, len %d, mac_len %d\033[m\n",
+		$queue_id, $skb->data_len, $skb->len, $skb->mac_len);
+
+	@stack[kstack] = count();
+	delete(@start[tid]);
+}
+
+END
+{
+	clear(@start);
+	printf("Bye.\n");
+}

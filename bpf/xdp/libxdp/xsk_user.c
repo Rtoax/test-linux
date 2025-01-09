@@ -147,7 +147,9 @@ static void setup_xsk_socket(struct xsk_socket_info *xsk, const char *ifname,
 
 static void setup_umem(struct xsk_umem_info *umem)
 {
-	const int buffer_size = DEFAULT_UMEM_BUFFERS * XSK_UMEM__DEFAULT_FRAME_SIZE;
+	size_t buffer_size;
+
+	buffer_size = UMEM_SIZE;
 
 	umem->buffer = mmap(NULL, buffer_size, PROT_READ | PROT_WRITE,
 			    MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
@@ -177,7 +179,7 @@ static void setup_umem(struct xsk_umem_info *umem)
 	umem->frame_headroom = umem_cfg.frame_headroom;
 	umem->base_addr = DEFAULT_UMEM_BUFFERS * XSK_UMEM__DEFAULT_FRAME_SIZE;
 
-	printf("umem buffer size 0x%x, vaddr %p\n", buffer_size, umem->buffer);
+	printf("umem buffer size 0x%lx, vaddr %p\n", buffer_size, umem->buffer);
 	printf("umem fill_size %d\n", umem_cfg.fill_size);
 	printf("umem comp_size %d\n", umem_cfg.comp_size);
 	printf("umem num_frames %d\n", umem->num_frames);
@@ -336,6 +338,62 @@ poll_2:
 
 void icmp_reply(void *rx_pkt, struct icmphdr *request)
 {
+	int ret, sock_fd;
+	__u32 idx = 0;
+	struct pollfd fd;
+	unsigned int rcvd;
+
+	sock_fd = xsk_socket__fd(sock_info->xsk);
+
+	fd.fd = sock_fd;
+	fd.events = POLLOUT;
+
+	while (xsk_ring_prod__reserve(&sock_info->tx, 1, &idx)) {
+		ret = poll(&fd, 1, -1);
+		if (ret <= 0) {
+			fprintf(stderr, "Poll error %d\n", ret);
+			pthread_exit(NULL);
+		}
+
+		if (xsk_ring_prod__needs_wakeup(&sock_info->tx))
+			kick_tx(sock_fd);
+
+		rcvd = xsk_ring_cons__peek(&umem_info->cq, 1, &idx);
+		if (rcvd)
+			xsk_ring_cons__release(&umem_info->cq, rcvd);
+	}
+
+	struct xdp_desc *tx_desc = xsk_ring_prod__tx_desc(&sock_info->tx, idx);
+
+	__u64 addr = idx * umem_info->frame_size + umem_info->fill_size * umem_info->frame_size;
+
+	tx_desc->addr = addr;
+#if 1
+	void *tx_pkt_buf = xsk_umem__get_data(umem_info->buffer, addr);
+	tx_desc->len = gen_pkt_icmp_reply(rx_pkt, request, tx_pkt_buf)
+				+ sizeof(struct ethhdr) + sizeof(struct iphdr);
+#else
+	(void)tx_desc;
+#endif
+	pr_pkt_dbg("tx icmp echo replay, idx = %d, addr 0x%llx, len %d.\n",
+		   idx, addr, tx_desc->len);
+
+	xsk_ring_prod__submit(&sock_info->tx, 1);
+
+	ret = poll(&fd, 1, -1);
+	if (ret <= 0) {
+		fprintf(stderr, "Poll error %d\n", ret);
+		pthread_exit(NULL);
+	}
+
+	if (xsk_ring_prod__needs_wakeup(&sock_info->tx))
+		kick_tx(sock_fd);
+
+	rcvd = xsk_ring_cons__peek(&umem_info->cq, 1, &idx);
+	if (rcvd)
+		xsk_ring_cons__release(&umem_info->cq, rcvd);
+
+	return;
 }
 
 void handle_rx_pkt(void *data, size_t len)

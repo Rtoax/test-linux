@@ -16,8 +16,15 @@
 #define ETH_FCS_SIZE 4
 #define MIN_PKT_SIZE (MIN_ETH_PKT_SIZE - ETH_FCS_SIZE)
 
-#define DEFAULT_PKT_CNT (4 * 1024)
-#define DEFAULT_UMEM_BUFFERS (DEFAULT_PKT_CNT / 4)
+#ifndef MAX
+#define MAX(a, b) ((a > b) ? a : b)
+#endif
+
+#define DEFAULT_PKT_CNT MAX(XSK_RING_CONS__DEFAULT_NUM_DESCS, XSK_RING_PROD__DEFAULT_NUM_DESCS)
+/**
+ * rx+fill and tx+complete have buffer_size buffer.
+ */
+#define DEFAULT_UMEM_BUFFERS (DEFAULT_PKT_CNT * 2)
 #define UMEM_SIZE (DEFAULT_UMEM_BUFFERS * XSK_UMEM__DEFAULT_FRAME_SIZE)
 
 struct xsk_umem_info {

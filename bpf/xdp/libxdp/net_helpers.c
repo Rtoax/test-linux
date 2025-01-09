@@ -108,7 +108,7 @@ int gen_pkt_icmp_reply(void *rx_pkt, struct icmphdr *request, void *tx_pkt_buf)
 	tx_icmphdr->code = rx_icmphdr->code;
 	tx_icmphdr->checksum = 0;
 	tx_icmphdr->un.echo.id = rx_icmphdr->un.echo.id;
-	tx_icmphdr->un.echo.sequence = rx_icmphdr->un.echo.sequence + 1;
+	tx_icmphdr->un.echo.sequence = ntohs(htons(rx_icmphdr->un.echo.sequence) + 1);
 
 	tx_icmphdr->checksum = icmp_chksum(tx_icmphdr, packetsize);
 
