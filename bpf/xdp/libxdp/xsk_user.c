@@ -156,8 +156,6 @@ static void setup_umem(struct xsk_umem_info *umem)
 		exit(EXIT_FAILURE);
 	}
 
-	printf("umem buffer size 0x%x, vaddr %p\n", buffer_size, umem->buffer);
-
 	struct xsk_umem_config umem_cfg = {
 		.fill_size = XSK_RING_PROD__DEFAULT_NUM_DESCS,
 		.comp_size = XSK_RING_CONS__DEFAULT_NUM_DESCS,
@@ -179,6 +177,7 @@ static void setup_umem(struct xsk_umem_info *umem)
 	umem->frame_headroom = umem_cfg.frame_headroom;
 	umem->base_addr = DEFAULT_UMEM_BUFFERS * XSK_UMEM__DEFAULT_FRAME_SIZE;
 
+	printf("umem buffer size 0x%x, vaddr %p\n", buffer_size, umem->buffer);
 	printf("umem fill_size %d\n", umem_cfg.fill_size);
 	printf("umem comp_size %d\n", umem_cfg.comp_size);
 	printf("umem num_frames %d\n", umem->num_frames);
@@ -335,11 +334,16 @@ poll_2:
 	return 0;
 }
 
+void icmp_reply(void *rx_pkt, struct icmphdr *request)
+{
+}
+
 void handle_rx_pkt(void *data, size_t len)
 {
 	void *data_end = data + len;
 	struct ethhdr *eth = data;
 	struct iphdr *iph;
+	struct icmphdr *icmph;
 	static __u64 pkt_cnt = 0;
 
 	if ((void *)(eth + 1) > data_end) {
@@ -363,7 +367,9 @@ void handle_rx_pkt(void *data, size_t len)
 	switch (iph->protocol) {
 	case IPPROTO_ICMP: /* 1 */
 		pr_pkt("Get ICMP(%8lld): ", pkt_cnt);
-		dump_icmp((void *)(iph + 1), len - sizeof(struct ethhdr) - sizeof(struct iphdr));
+		icmph = (void *)(iph + 1);
+		dump_icmp(icmph, len - sizeof(struct ethhdr) - sizeof(struct iphdr));
+		icmp_reply(data, icmph);
 		break;
 	case IPPROTO_TCP: /* 6 */
 		pr_pkt("Get TCP. %lld\n", pkt_cnt);
