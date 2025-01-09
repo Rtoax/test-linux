@@ -69,7 +69,7 @@ kprobe:__dev_direct_xmit
 	$queue_id = arg1;
 
 	time("%H:%M:%S ");
-	printf("\033[2mtx: queue_id %d, data_len %d, len %d, mac_len %d\033[m\n",
+	printf("\033[2mxmit skb: queue_id %d, data_len %d, len %d, mac_len %d\033[m\n",
 		$queue_id, $skb->data_len, $skb->len, $skb->mac_len);
 
 	@xmit_stack[kstack] = count();
@@ -119,7 +119,24 @@ kprobe:skb_store_bits
 	$len = arg3;
 
 	time("%H:%M:%S ");
-	printf("\033[2skb store: buffer 0x%lx, len %d\033[m\n", $buffer, $len);
+	printf("\033[2mskb store: buffer 0x%lx, len %d\033[m\n", $buffer, $len);
+}
+
+/**
+ * linux v5.15.y
+ */
+kprobe:xsk_build_skb_zerocopy
+/ @start[tid] /
+{
+	if (@npkt[tid] == 0) {
+		return;
+	}
+
+	$desc = (struct xdp_desc *)arg2;
+
+	time("%H:%M:%S ");
+	printf("\033[2mskb build zerocopy: desc addr 0x%lx, len %d\033[m\n",
+		$desc->addr, $desc->len);
 }
 
 END
