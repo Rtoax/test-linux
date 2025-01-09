@@ -13,23 +13,38 @@
 BEGIN
 {
 	printf("Tracing xsk tx, hit ctrl-c to end.\n");
-	printf("%-8s %-8s %-16s %-8s %-9s %-9s\n",
-		"TIME", "PID", "COMM", "N_ENT", "CONS/-", "PROD/-");
+	printf("%-8s %-8s %-16s %-8s %-9s %-9s %-4s\n",
+		"TIME", "PID", "COMM", "N_ENT", "CONS/-", "PROD/-", "ERR");
 }
 
 kprobe:xsk_generic_xmit
 {
-	$sx = (struct xdp_sock *)arg0;
-	$tx = (struct xsk_queue *)$sx->tx;
+	@xs[tid] = (struct xdp_sock *)arg0;
+	@start[tid] = nsecs;
+}
+
+kretprobe:xsk_generic_xmit
+/ @xs[tid] && @start[tid] /
+{
+	$xs = @xs[tid];
+	$tx = (struct xsk_queue *)$xs->tx;
 	$tx_ring = (struct xdp_ring *)$tx->ring;
+	$umem = (struct xdp_umem *)$xs->umem;
 
 	time("%H:%M:%S ");
 	printf("%-8d %-16s ", pid, comm);
-	printf("%-8d %-4d/%-4d %-4d/%-4d\n", $tx->nentries,
+	printf("%-8d %-4d/%-4d %-4d/%-4d", $tx->nentries,
 		$tx_ring->producer, $tx->cached_prod,
 		$tx_ring->consumer, $tx->cached_cons);
 
-	@start[tid] = nsecs;
+	printf(" %-4d\n", retval);
+
+	time("%H:%M:%S ");
+	printf("\033[2mumem: size 0x%lx, chunk_size %d, chunks %d\033[m\n",
+		$umem->size, $umem->chunk_size, $umem->chunks);
+
+	delete(@xs[tid]);
+	delete(@start[tid]);
 }
 
 kprobe:__dev_direct_xmit
@@ -38,15 +53,16 @@ kprobe:__dev_direct_xmit
 	$skb = (struct sk_buff *)arg0;
 	$queue_id = arg1;
 
+	time("%H:%M:%S ");
 	printf("\033[2mtx: queue_id %d, data_len %d, len %d, mac_len %d\033[m\n",
 		$queue_id, $skb->data_len, $skb->len, $skb->mac_len);
 
 	@stack[kstack] = count();
-	delete(@start[tid]);
 }
 
 END
 {
+	clear(@xs);
 	clear(@start);
 	printf("Bye.\n");
 }

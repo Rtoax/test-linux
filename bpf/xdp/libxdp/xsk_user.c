@@ -381,7 +381,8 @@ void icmp_reply(void *rx_pkt, struct icmphdr *request)
 		complete_tx_pkts(1);
 	}
 
-	pr_pkt_dbg("tx cached_prod %d, cached_cons %d\n", sock_info->tx.cached_prod, sock_info->tx.cached_cons);
+	pr_pkt_dbg("tx queue: cached_prod %d, cached_cons %d\n",
+		   sock_info->tx.cached_prod, sock_info->tx.cached_cons);
 
 	struct xdp_desc *tx_desc = xsk_ring_prod__tx_desc(&sock_info->tx, idx);
 
@@ -392,8 +393,8 @@ void icmp_reply(void *rx_pkt, struct icmphdr *request)
 	tx_desc->len = gen_pkt_icmp_reply(rx_pkt, request, tx_pkt_buf)
 				+ sizeof(struct ethhdr) + sizeof(struct iphdr);
 
-	pr_pkt_dbg("tx icmp echo reply, idx = %d, addr 0x%llx, len %d.\n",
-		   idx, addr, tx_desc->len);
+	pr_pkt_dbg("tx icmp echo reply, idx = %d, addr 0x%llx(%p), len %d.\n",
+		   idx, addr, tx_pkt_buf, tx_desc->len);
 
 	xsk_ring_prod__submit(&sock_info->tx, 1);
 
