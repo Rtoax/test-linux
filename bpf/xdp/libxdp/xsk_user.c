@@ -150,11 +150,9 @@ static void setup_xsk_socket(struct xsk_socket_info *xsk, const char *ifname,
 
 static void setup_umem(struct xsk_umem_info *umem)
 {
-	size_t buffer_size;
+	umem->buffer_size = UMEM_SIZE;
 
-	buffer_size = UMEM_SIZE;
-
-	umem->buffer = mmap(NULL, buffer_size, PROT_READ | PROT_WRITE,
+	umem->buffer = mmap(NULL, umem->buffer_size, PROT_READ | PROT_WRITE,
 			    MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
 	if (umem->buffer == MAP_FAILED) {
 		fprintf(stderr, "Error allocating UMEM buffer: %s\n", strerror(errno));
@@ -169,7 +167,7 @@ static void setup_umem(struct xsk_umem_info *umem)
 		.flags = XSK_UMEM__DEFAULT_FLAGS,
 	};
 
-	if (xsk_umem__create(&umem->umem, umem->buffer, buffer_size,
+	if (xsk_umem__create(&umem->umem, umem->buffer, umem->buffer_size,
 			     &umem->fq, &umem->cq, &umem_cfg)) {
 		fprintf(stderr, "Error creating UMEM: %s\n", strerror(errno));
 		exit(EXIT_FAILURE);
@@ -182,7 +180,7 @@ static void setup_umem(struct xsk_umem_info *umem)
 	umem->frame_headroom = umem_cfg.frame_headroom;
 	umem->base_addr = DEFAULT_UMEM_BUFFERS * XSK_UMEM__DEFAULT_FRAME_SIZE;
 
-	printf("umem buffer size 0x%lx, vaddr %p\n", buffer_size, umem->buffer);
+	printf("umem buffer size 0x%lx, vaddr %p\n", umem->buffer_size, umem->buffer);
 	printf("umem fill_size %d\n", umem_cfg.fill_size);
 	printf("umem comp_size %d\n", umem_cfg.comp_size);
 	printf("umem num_frames %d\n", umem->num_frames);
@@ -645,10 +643,12 @@ cleanup:
 	if (verbose)
 		pthread_join(display_thread, NULL);
 
-	if (umem_info)
-		xsk_umem__delete(umem_info->umem);
 	if (sock_info)
 		xsk_socket__delete(sock_info->xsk);
+	if (umem_info) {
+		xsk_umem__delete(umem_info->umem);
+		munmap(umem_info->buffer, umem_info->buffer_size);
+	}
 	tl_bpf_xdp_detach(ifindex, 0);
 	xdp_xsk_bpf__destroy(skel);
 	return 0;

@@ -34,6 +34,7 @@ struct xsk_umem_info {
 	__u32 fill_size;
 	__u32 comp_size;
 	void *buffer;
+	size_t buffer_size;
 	__u32 num_frames;
 	__u32 frame_size;
 	__u32 frame_headroom;
