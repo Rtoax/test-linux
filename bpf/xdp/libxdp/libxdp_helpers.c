@@ -68,8 +68,11 @@ void display_xsk_ring(const char *pfx, void *ring)
 {
 	struct xsk_ring *r = ring;
 
-	printf("%s: cached_prod:%d, cached_cons:%d, mask:0x%x, size:%d, producer:%d, consumer:%d\n",
+	printf("%s: cached_prod:%d, cached_cons:%d, mask:0x%x, size:%d,"
+	       " producer:%d(%p), consumer:%d(%p)\n",
 		pfx,
 		r->cached_prod, r->cached_cons,
-		r->mask, r->size, *r->producer, *r->consumer);
+		r->mask, r->size,
+		*r->producer, r->producer,
+		*r->consumer, r->consumer);
 }
