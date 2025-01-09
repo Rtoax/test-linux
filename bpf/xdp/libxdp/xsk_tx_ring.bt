@@ -88,6 +88,38 @@ kprobe:sock_alloc_send_skb
 	printf("\033[2malloc_skb: len %d\033[m\n", $len);
 
 	@alloc_skb_stack[kstack] = count();
+
+	@alloc_skb_start[tid] = nsecs;
+}
+
+kretprobe:sock_alloc_send_skb
+/ @alloc_skb_start[tid] /
+{
+	if (@npkt[tid] == 0) {
+		return;
+	}
+
+	time("%H:%M:%S ");
+	printf("\033[2malloc_skb: retval %lx\033[m\n", retval);
+
+	delete(@alloc_skb_start[tid]);
+}
+
+/**
+ * linux v5.10.13
+ */
+kprobe:skb_store_bits
+/ @start[tid] /
+{
+	if (@npkt[tid] == 0) {
+		return;
+	}
+
+	$buffer = arg2;
+	$len = arg3;
+
+	time("%H:%M:%S ");
+	printf("\033[2skb store: buffer 0x%lx, len %d\033[m\n", $buffer, $len);
 }
 
 END
@@ -95,5 +127,6 @@ END
 	clear(@xs);
 	clear(@start);
 	clear(@npkt);
+	clear(@alloc_skb_start);
 	printf("Bye.\n");
 }
