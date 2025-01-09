@@ -392,7 +392,7 @@ void icmp_reply(void *rx_pkt, struct icmphdr *request)
 	tx_desc->len = gen_pkt_icmp_reply(rx_pkt, request, tx_pkt_buf)
 				+ sizeof(struct ethhdr) + sizeof(struct iphdr);
 
-	pr_pkt_dbg("tx icmp echo replay, idx = %d, addr 0x%llx, len %d.\n",
+	pr_pkt_dbg("tx icmp echo reply, idx = %d, addr 0x%llx, len %d.\n",
 		   idx, addr, tx_desc->len);
 
 	xsk_ring_prod__submit(&sock_info->tx, 1);

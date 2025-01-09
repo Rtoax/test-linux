@@ -8,6 +8,7 @@
 		fprintf(stdout, "\033[1;32m"); \
 		fprintf(stdout, fmt); \
 		fprintf(stdout, "\033[m"); \
+		fflush(stdout); \
 	} while (0)
 
 #define pr_pkt_err(fmt...) do { \
@@ -17,9 +18,10 @@
 	} while (0)
 
 #define pr_pkt_dbg(fmt...) do { \
-		fprintf(stderr, "\033[2m"); \
-		fprintf(stderr, fmt); \
-		fprintf(stderr, "\033[m"); \
+		fprintf(stdout, "\033[2m"); \
+		fprintf(stdout, fmt); \
+		fprintf(stdout, "\033[m"); \
+		fflush(stdout); \
 	} while (0)
 
 
