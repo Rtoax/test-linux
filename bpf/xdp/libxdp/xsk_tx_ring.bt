@@ -75,6 +75,16 @@ kprobe:__dev_direct_xmit
 	@xmit_stack[kstack] = count();
 }
 
+kretprobe:__dev_direct_xmit
+/ @start[tid] /
+{
+	if (@npkt[tid] == 0) {
+		return;
+	}
+	time("%H:%M:%S ");
+	printf("\033[2mxmit skb: retval %d\033[m\n", retval);
+}
+
 kprobe:sock_alloc_send_skb
 / @start[tid] /
 {
