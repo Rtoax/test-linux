@@ -120,3 +120,42 @@ void display_xsk_umem(const char *pfx, struct xsk_umem *umem)
 	printf("%s: fd %d\n", pfx, umem->fd);
 	printf("%s: refcount %d\n", pfx, umem->refcount);
 }
+
+int xsk_get_mmap_offsets(int fd, struct xdp_mmap_offsets *off)
+{
+	socklen_t optlen;
+	int err;
+
+	optlen = sizeof(*off);
+	err = getsockopt(fd, SOL_XDP, XDP_MMAP_OFFSETS, off, &optlen);
+	if (err)
+		return err;
+
+	if (optlen == sizeof(*off))
+		return 0;
+
+	return -EINVAL;
+}
+
+void display_xdp_ring_offset(const char *pfx, struct xdp_ring_offset *off)
+{
+	printf("%s: producer:0x%llx, consumer:0x%llx, desc:0x%llx, flags:0x%llx\n",
+		pfx, off->producer, off->consumer, off->desc, off->flags);
+}
+
+void display_xdp_mmap_offsets(const char *pfx, struct xdp_mmap_offsets *offs)
+{
+	char pfx2[128];
+
+	sprintf(pfx2, "%s: rx", pfx);
+	display_xdp_ring_offset(pfx2, &offs->rx);
+
+	sprintf(pfx2, "%s: tx", pfx);
+	display_xdp_ring_offset(pfx2, &offs->tx);
+
+	sprintf(pfx2, "%s: fr", pfx);
+	display_xdp_ring_offset(pfx2, &offs->fr);
+
+	sprintf(pfx2, "%s: cr", pfx);
+	display_xdp_ring_offset(pfx2, &offs->cr);
+}

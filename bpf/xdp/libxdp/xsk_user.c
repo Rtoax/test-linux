@@ -125,6 +125,8 @@ void handle_rx_pkt(void *data, size_t len);
 static void setup_xsk_socket(struct xsk_socket_info *xsk, const char *ifname,
 			     int queue_id)
 {
+	struct xdp_mmap_offsets off = {};
+
 	struct xsk_socket_config xsk_cfg = {
 		.rx_size = XSK_RING_CONS__DEFAULT_NUM_DESCS,
 		.tx_size = XSK_RING_PROD__DEFAULT_NUM_DESCS,
@@ -150,10 +152,15 @@ static void setup_xsk_socket(struct xsk_socket_info *xsk, const char *ifname,
 
 	display_xsk_ring("rx", &xsk->rx);
 	display_xsk_ring("tx", &xsk->tx);
+
+	xsk_get_mmap_offsets(xsk_socket__fd(xsk->xsk), &off);
+	display_xdp_mmap_offsets("sock-fd-off", &off);
 }
 
 static void setup_umem(struct xsk_umem_info *umem)
 {
+	struct xdp_mmap_offsets off = {};
+
 	umem->buffer_size = UMEM_SIZE;
 
 	umem->buffer = mmap(NULL, umem->buffer_size, PROT_READ | PROT_WRITE,
@@ -191,6 +198,9 @@ static void setup_umem(struct xsk_umem_info *umem)
 	printf("umem base_addr %d(0x%x)\n", umem->base_addr, umem->base_addr);
 
 	display_xsk_umem("umem", umem->umem);
+
+	xsk_get_mmap_offsets(xsk_umem__fd(umem->umem), &off);
+	display_xdp_mmap_offsets("umem-fd-offs", &off);
 }
 
 /**

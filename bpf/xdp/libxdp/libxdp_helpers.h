@@ -57,3 +57,6 @@ void kick_tx(int xdp_fd);
 void display_xsk_ring(const char *pfx, void *ring);
 void display_xsk_umem_config(const char *pfx, struct xsk_umem_config *uc);
 void display_xsk_umem(const char *pfx, struct xsk_umem *umem);
+void display_xdp_ring_offset(const char *pfx, struct xdp_ring_offset *off);
+void display_xdp_mmap_offsets(const char *pfx, struct xdp_mmap_offsets *offs);
+int xsk_get_mmap_offsets(int fd, struct xdp_mmap_offsets *off);
