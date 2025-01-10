@@ -76,3 +76,36 @@ void display_xsk_ring(const char *pfx, void *ring)
 		*r->producer, r->producer,
 		*r->consumer, r->consumer);
 }
+
+struct list_head {
+	struct list_head *next, *prev;
+};
+
+/**
+ * Only in kernel, user space just use 'struct xsk_umem *'.
+ */
+struct xsk_umem {
+	struct xsk_ring_prod *fill_save;
+	struct xsk_ring_cons *comp_save;
+	char *umem_area;
+	struct xsk_umem_config config;
+	int fd;
+	int refcount;
+	struct list_head ctx_list;
+};
+
+void display_xsk_umem(const char *pfx, struct xsk_umem *umem)
+{
+	char pfx_ring[128];
+	if (umem->fill_save) {
+		sprintf(pfx_ring, "%s: fill", pfx);
+		display_xsk_ring(pfx_ring, umem->fill_save);
+	}
+	if (umem->comp_save) {
+		sprintf(pfx_ring, "%s: comp", pfx);
+		display_xsk_ring(pfx_ring, umem->comp_save);
+	}
+	printf("%s: umem_area %p\n", pfx, umem->umem_area);
+	printf("%s: fd %d\n", pfx, umem->fd);
+	printf("%s: refcount %d\n", pfx, umem->refcount);
+}

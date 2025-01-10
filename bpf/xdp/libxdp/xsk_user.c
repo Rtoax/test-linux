@@ -191,8 +191,7 @@ static void setup_umem(struct xsk_umem_info *umem)
 	printf("umem frame_headroom %d\n", umem->frame_headroom);
 	printf("umem base_addr %d\n", umem->base_addr);
 
-	display_xsk_ring("fq", &umem->fq);
-	display_xsk_ring("cq", &umem->cq);
+	display_xsk_umem("umem", umem->umem);
 }
 
 /**
