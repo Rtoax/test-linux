@@ -27,6 +27,7 @@
 #include "xdp_xsk.skel.h"
 #include "net_helpers.h"
 #include "pkt_stream.h"
+#include "log.h"
 
 
 #define BATCH_SIZE	64
@@ -184,12 +185,10 @@ static void setup_umem(struct xsk_umem_info *umem)
 	umem->base_addr = DEFAULT_UMEM_BUFFERS * XSK_UMEM__DEFAULT_FRAME_SIZE;
 
 	printf("umem buffer size 0x%lx, vaddr %p\n", umem->buffer_size, umem->buffer);
-	printf("umem fill_size %d\n", umem_cfg.fill_size);
-	printf("umem comp_size %d\n", umem_cfg.comp_size);
-	printf("umem num_frames %d\n", umem->num_frames);
-	printf("umem frame_size %d\n", umem->frame_size);
-	printf("umem frame_headroom %d\n", umem->frame_headroom);
-	printf("umem base_addr %d\n", umem->base_addr);
+	printf("umem num_frames %d(0x%x)\n", umem->num_frames, umem->num_frames);
+	printf("umem frame_size %d(0x%x)\n", umem->frame_size, umem->frame_size);
+	printf("umem frame_headroom %d(0x%x)\n", umem->frame_headroom, umem->frame_headroom);
+	printf("umem base_addr %d(0x%x)\n", umem->base_addr, umem->base_addr);
 
 	display_xsk_umem("umem", umem->umem);
 }
@@ -251,7 +250,7 @@ int receive_pkts(struct pollfd *pfds, size_t nr_pfds)
 		*xsk_ring_prod__fill_addr(&umem_info->fq, idx_fq++) = orig;
 
 		if (verbose)
-			printf("Handle rx desc: addr: 0x%llx, len: %d(0x%x), idx: %d, rcvd: %d\n",
+			pr_dbg("Handle rx desc: addr: 0x%llx, len: %d(0x%x), idx: %d, rcvd: %d\n",
 				desc->addr, desc->len, desc->len, idx_rx, rcvd);
 
 		handle_rx_pkt(xsk_umem__get_data(umem_info->buffer, addr), desc->len);
@@ -359,7 +358,7 @@ void complete_tx_pkts(int batch_size)
 	if (rcvd) {
 #if 1 // SIGSEGV here
 		__u64 addr = *xsk_ring_cons__comp_addr(&umem_info->cq, idx + rcvd - 1);
-		pr_pkt_dbg("complete addr 0x%llx\n", addr);
+		pr_dbg("complete addr 0x%llx\n", addr);
 #endif
 		xsk_ring_cons__release(&umem_info->cq, rcvd);
 	}
@@ -386,7 +385,7 @@ void icmp_reply(void *rx_pkt, struct icmphdr *request)
 		complete_tx_pkts(1);
 	}
 
-	pr_pkt_dbg("tx queue: cached_prod %d, cached_cons %d\n",
+	pr_dbg("tx queue: cached_prod %d, cached_cons %d\n",
 		   sock_info->tx.cached_prod, sock_info->tx.cached_cons);
 
 	struct xdp_desc *tx_desc = xsk_ring_prod__tx_desc(&sock_info->tx, idx);
@@ -398,8 +397,8 @@ void icmp_reply(void *rx_pkt, struct icmphdr *request)
 	tx_desc->len = gen_pkt_icmp_reply(rx_pkt, request, tx_pkt_buf)
 				+ sizeof(struct ethhdr) + sizeof(struct iphdr);
 
-	pr_pkt_dbg("tx icmp echo reply, idx = %d, addr 0x%llx(%p), len %d.\n",
-		   idx, addr, tx_pkt_buf, tx_desc->len);
+	pr_dbg("tx icmp echo reply, idx = %d, addr 0x%llx(rx: %p, tx: %p), len %d.\n",
+		   idx, addr, rx_pkt, tx_pkt_buf, tx_desc->len);
 
 	xsk_ring_prod__submit(&sock_info->tx, 1);
 
@@ -430,18 +429,18 @@ void handle_rx_pkt(void *data, size_t len)
 	static __u64 pkt_cnt = 0;
 
 	if ((void *)(eth + 1) > data_end) {
-		pr_pkt_err("Bad pkt.\n");
+		pr_err("Bad pkt.\n");
 		return;
 	}
 
 	if (eth->h_proto != htons(ETH_P_IP)) {
-		pr_pkt_dbg("Not ip pkt, ether proto 0x%x.\n", eth->h_proto);
+		pr_dbg("Not ip pkt, ether proto 0x%x.\n", eth->h_proto);
 		return;
 	}
 
 	iph = data + sizeof(struct ethhdr);
 	if ((void *)(iph + 1) > data_end) {
-		pr_pkt_err("Bad ip pkt.\n");
+		pr_err("Bad ip pkt.\n");
 		return;
 	}
 
@@ -449,19 +448,19 @@ void handle_rx_pkt(void *data, size_t len)
 
 	switch (iph->protocol) {
 	case IPPROTO_ICMP: /* 1 */
-		pr_pkt("Get ICMP(%8lld): ", pkt_cnt);
+		pr_inf("Get ICMP(%8lld): ", pkt_cnt);
 		icmph = (void *)(iph + 1);
 		dump_icmp(icmph, len - sizeof(struct ethhdr) - sizeof(struct iphdr));
 		icmp_reply(data, icmph);
 		break;
 	case IPPROTO_TCP: /* 6 */
-		pr_pkt("Get TCP. %lld\n", pkt_cnt);
+		pr_inf("Get TCP. %lld\n", pkt_cnt);
 		break;
 	case IPPROTO_UDP: /* 17 */
-		pr_pkt("Get UDP. %lld\n", pkt_cnt);
+		pr_inf("Get UDP. %lld\n", pkt_cnt);
 		break;
 	default:
-		pr_pkt_err("Unknown pkt %d.\n", iph->protocol);
+		pr_err("Unknown pkt %d.\n", iph->protocol);
 		break;
 	}
 	return;

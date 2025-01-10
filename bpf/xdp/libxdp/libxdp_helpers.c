@@ -94,17 +94,28 @@ struct xsk_umem {
 	struct list_head ctx_list;
 };
 
+void display_xsk_umem_config(const char *pfx, struct xsk_umem_config *uc)
+{
+	printf("%s: fill_size      %d(0x%x)\n", pfx, uc->fill_size, uc->fill_size);
+	printf("%s: comp_size      %d(0x%x)\n", pfx, uc->comp_size, uc->comp_size);
+	printf("%s: frame_size     %d(0x%x)\n", pfx, uc->frame_size, uc->frame_size);
+	printf("%s: frame_headroom %d(0x%x)\n", pfx, uc->frame_headroom, uc->frame_headroom);
+	printf("%s: flags          %d(0x%x)\n", pfx, uc->flags, uc->flags);
+}
+
 void display_xsk_umem(const char *pfx, struct xsk_umem *umem)
 {
-	char pfx_ring[128];
+	char pfx2[128];
 	if (umem->fill_save) {
-		sprintf(pfx_ring, "%s: fill", pfx);
-		display_xsk_ring(pfx_ring, umem->fill_save);
+		sprintf(pfx2, "%s: fill", pfx);
+		display_xsk_ring(pfx2, umem->fill_save);
 	}
 	if (umem->comp_save) {
-		sprintf(pfx_ring, "%s: comp", pfx);
-		display_xsk_ring(pfx_ring, umem->comp_save);
+		sprintf(pfx2, "%s: comp", pfx);
+		display_xsk_ring(pfx2, umem->comp_save);
 	}
+	sprintf(pfx2, "%s: config", pfx);
+	display_xsk_umem_config(pfx2, &umem->config);
 	printf("%s: umem_area %p\n", pfx, umem->umem_area);
 	printf("%s: fd %d\n", pfx, umem->fd);
 	printf("%s: refcount %d\n", pfx, umem->refcount);
