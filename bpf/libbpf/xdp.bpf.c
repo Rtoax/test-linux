@@ -21,6 +21,7 @@
 #include <bpf/bpf_helpers.h>
 #include <bpf/bpf_endian.h>
 #include <bpf/bpf_tracing.h>
+#include "xdp_helpers.h"
 
 #define ETH_P_IP	0x0800
 
@@ -32,6 +33,24 @@ SEC("xdp")
 int xdp_dummy_prog(struct xdp_md *ctx)
 {
 	return XDP_PASS;
+}
+
+#if defined(STRICT_SEC_NAME)
+SEC("xdp")
+#endif
+int xdp_tx_prog(struct xdp_md *ctx)
+{
+	void *data = (void *)(long)ctx->data;
+	void *data_end = (void *)(long)ctx->data_end;
+	struct ethhdr *ethhdr = data;
+
+	if ((void *)(ethhdr + 1) > data_end) {
+		bpf_printk("Not ether header");
+		return XDP_PASS;
+	}
+	/* XDP_TX requires changing MAC-addrs, else HW may drop */
+	swap_src_dst_mac(ethhdr);
+	return XDP_TX;
 }
 
 #if defined(STRICT_SEC_NAME)
@@ -87,24 +106,6 @@ int xdp_printk(struct xdp_md *ctx)
 }
 
 #elif defined(XDP_DEVMAP) /* Test devmap */
-
-/**
- * see bcc examples/networking/xdp/xdp_redirect_map.py
- */
-static inline void swap_src_dst_mac(void *data)
-{
-	unsigned short *p = data;
-	unsigned short dst[3];
-	dst[0] = p[0];
-	dst[1] = p[1];
-	dst[2] = p[2];
-	p[0] = p[3];
-	p[1] = p[4];
-	p[2] = p[5];
-	p[3] = dst[0];
-	p[4] = dst[1];
-	p[5] = dst[2];
-}
 
 /**
  * The packet can be redirected to egress on a different interface than where
