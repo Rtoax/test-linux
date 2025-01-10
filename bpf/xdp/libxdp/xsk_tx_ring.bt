@@ -50,8 +50,8 @@ kretprobe:xsk_generic_xmit
 	printf(" \033[1;31m%-4d\033[m %-4d\n", @npkt[tid], retval);
 
 	time("%H:%M:%S ");
-	printf("\033[2mumem: size 0x%lx, chunk_size %d, chunks %d\033[m\n",
-		$umem->size, $umem->chunk_size, $umem->chunks);
+	printf("\033[2mumem: size 0x%lx, chunk_size %d, chunks %d, zerocopy %d\033[m\n",
+		$umem->size, $umem->chunk_size, $umem->chunks, $xs->zc);
 
 	delete(@xs[tid]);
 	delete(@npkt[tid]);
@@ -147,6 +147,8 @@ kprobe:xsk_build_skb_zerocopy
 	time("%H:%M:%S ");
 	printf("\033[2mskb build zerocopy: desc addr 0x%lx, len %d\033[m\n",
 		$desc->addr, $desc->len);
+
+	@xsk_build_skb_zerocopy[kstack] = count();
 }
 
 END
