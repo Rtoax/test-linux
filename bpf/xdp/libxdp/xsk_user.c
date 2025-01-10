@@ -209,6 +209,8 @@ int xsk_populate_fill_ring(struct xsk_umem_info *umem_info)
 	for (i = 0; i < umem_info->fill_size; i++) {
 		__u64 addr = i * umem_info->frame_size;
 		*xsk_ring_prod__fill_addr(&umem_info->fq, idx++) = addr;
+		if (verbose && i % 100 == 0)
+			pr_dbg("fill_addr: 0x%llx\n", addr);
 	}
 	xsk_ring_prod__submit(&umem_info->fq, umem_info->fill_size);
 	return 0;
@@ -250,8 +252,9 @@ int receive_pkts(struct pollfd *pfds, size_t nr_pfds)
 		*xsk_ring_prod__fill_addr(&umem_info->fq, idx_fq++) = orig;
 
 		if (verbose)
-			pr_dbg("Handle rx desc: addr: 0x%llx, len: %d(0x%x), idx: %d, rcvd: %d\n",
-				desc->addr, desc->len, desc->len, idx_rx, rcvd);
+			pr_dbg("Handle rx desc: addr: 0x%llx(orig: 0x%llx), "
+			       "len: %d(0x%x), idx: %d, rcvd: %d\n",
+			       desc->addr, orig, desc->len, desc->len, idx_rx, rcvd);
 
 		handle_rx_pkt(xsk_umem__get_data(umem_info->buffer, addr), desc->len);
 	}
@@ -358,7 +361,7 @@ void complete_tx_pkts(int batch_size)
 	if (rcvd) {
 #if 1 // SIGSEGV here
 		__u64 addr = *xsk_ring_cons__comp_addr(&umem_info->cq, idx + rcvd - 1);
-		pr_dbg("complete addr 0x%llx\n", addr);
+		pr_dbg("complete addr 0x%llx(%p)\n", addr, xsk_umem__get_data(umem_info->buffer, addr));
 #endif
 		xsk_ring_cons__release(&umem_info->cq, rcvd);
 	}
@@ -391,9 +394,10 @@ void icmp_reply(void *rx_pkt, struct icmphdr *request)
 	struct xdp_desc *tx_desc = xsk_ring_prod__tx_desc(&sock_info->tx, idx);
 
 	__u64 addr = idx * umem_info->frame_size;
+	addr = xsk_umem__add_offset_to_addr(addr);
+	void *tx_pkt_buf = xsk_umem__get_data(umem_info->buffer, addr);
 
 	tx_desc->addr = addr;
-	void *tx_pkt_buf = xsk_umem__get_data(umem_info->buffer, addr);
 	tx_desc->len = gen_pkt_icmp_reply(rx_pkt, request, tx_pkt_buf)
 				+ sizeof(struct ethhdr) + sizeof(struct iphdr);
 
