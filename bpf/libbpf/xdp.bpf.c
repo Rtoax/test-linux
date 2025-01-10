@@ -148,6 +148,7 @@ int xdp_redir_prog(struct xdp_md *ctx)
 	if (data + sizeof(struct ethhdr) > data_end)
 		return XDP_DROP;
 
+	/* XDP_TX requires changing MAC-addrs, else HW may drop */
 	swap_src_dst_mac(data);
 
 	return bpf_redirect_map(&devmap_ports, 0, 0);
@@ -177,8 +178,20 @@ int xdp_devmap_printk(struct xdp_md *ctx)
 	void *data_end = (void *)(long)ctx->data_end;
 	void *data = (void *)(long)ctx->data;
 	unsigned int len = data_end - data;
+	struct ethhdr *ethhdr = data;
+	struct iphdr *iphdr;
 
-	bpf_printk("devmap redirect: dev %u -> dev %u len %u",
+	if ((void *)(ethhdr + 1) > data_end)
+		return XDP_PASS;
+
+	if (bpf_ntohs(ethhdr->h_proto) != ETH_P_IP)
+		return XDP_PASS;
+
+	iphdr = data + sizeof(struct ethhdr);
+	if ((void *)(iphdr + 1) > data_end)
+		return XDP_PASS;
+
+	bpf_printk("devmap redirect: dev %u -> dev %u, len %u",
 		   ctx->ingress_ifindex, ctx->egress_ifindex, len);
 
 	return XDP_PASS;
