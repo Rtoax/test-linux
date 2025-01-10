@@ -140,7 +140,7 @@ int xsk_get_mmap_offsets(int fd, struct xdp_mmap_offsets *off)
 void display_xdp_ring_offset(const char *pfx, struct xdp_ring_offset *off)
 {
 	printf("%s: producer:0x%llx, consumer:0x%llx, desc:0x%llx, flags:0x%llx\n",
-		pfx, off->producer, off->consumer, off->desc, off->flags);
+		pfx ?: "", off->producer, off->consumer, off->desc, off->flags);
 }
 
 void display_xdp_mmap_offsets(const char *pfx, struct xdp_mmap_offsets *offs)

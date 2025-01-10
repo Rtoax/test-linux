@@ -128,12 +128,6 @@ static int libbpf_print_fn(enum libbpf_print_level level, const char *format,
 	return vfprintf(stderr, format, args);
 }
 
-void display_xdp_ring_offset(const char *pfx, struct xdp_ring_offset *off)
-{
-	printf("%s : producer=%lld, consumer=%lld, desc=%lld, flags=%llx\n",
-		pfx ?: "", off->producer, off->consumer, off->desc, off->flags);
-};
-
 int main(int argc, char *argv[])
 {
 	int err, prog_fd;
