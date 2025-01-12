@@ -141,7 +141,7 @@ struct {
 #endif
 	__uint(key_size, sizeof(__u32));
 	__uint(value_size, sizeof(struct bpf_devmap_val));
-	__uint(max_entries, 1);
+	__uint(max_entries, 4);
 } devmap_ports SEC(".maps");
 
 SEC("xdp")
@@ -153,10 +153,12 @@ int xdp_redir_prog(struct xdp_md *ctx)
 	if (data + sizeof(struct ethhdr) > data_end)
 		return XDP_DROP;
 
+#if 0
 	/* XDP_TX requires changing MAC-addrs, else HW may drop */
 	swap_src_dst_mac(data);
+#endif
 
-	return bpf_redirect_map(&devmap_ports, 0, 0);
+	return bpf_redirect_map(&devmap_ports, 1, 0);
 }
 
 /**

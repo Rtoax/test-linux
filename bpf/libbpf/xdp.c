@@ -242,7 +242,7 @@ int main(int argc, char *argv[])
 
 #elif defined(XDP_DEVMAP) /* Test devmap */
 	int map_fd, o_prog_fd;
-	__u32 idx = 0;
+	__u32 idx = 1;
 	struct bpf_devmap_val val;
 
 	prog_fd = bpf_program__fd(skel->progs.xdp_redir_prog);
