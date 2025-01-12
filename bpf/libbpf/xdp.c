@@ -52,7 +52,12 @@
 
 static int ifindex = -1;
 static const char *interface;
-#if defined(XDP_DEVMAP)
+#if defined(XDP_BASIC)
+static enum {
+	ACTION_PRINT,
+	ACTION_TX,
+} action = ACTION_PRINT;
+#elif defined(XDP_DEVMAP)
 static int o_ifindex = -1;
 static const char *out_interface;
 #elif defined(XDP_CPUMAP)
@@ -60,7 +65,9 @@ static int cpu = -1;
 #endif
 
 static const char argp_prog_doc[] =
-#if defined(XDP_BASIC) || defined(XDP_XSKMAP)
+#if defined(XDP_BASIC)
+	"USAGE: [-i <interface>] [-a print|tx]\n";
+#elif defined(XDP_XSKMAP)
 	"USAGE: [-i <interface>]\n";
 #elif defined(XDP_DEVMAP)
 	"USAGE: [-i <interface>] [-o <interface>]\n";
@@ -70,7 +77,9 @@ static const char argp_prog_doc[] =
 
 static const struct argp_option opts[] = {
 	{ "interface", 'i', "INTERFACE", 0, "Network interface to attach" },
-#if defined(XDP_DEVMAP)
+#if defined(XDP_BASIC)
+	{ "action", 'a', "ACTION", 0, "Optional actions: print , tx" },
+#elif defined(XDP_DEVMAP)
 	{ "outinterface", 'o', "OUT-INTERFACE", 0, "Network interface to redirect" },
 #elif defined(XDP_CPUMAP)
 	{ "cpu", 'c', "CPU", 0, "Redirect to cpu" },
@@ -87,7 +96,17 @@ static error_t parse_arg(int key, char *arg, struct argp_state *state)
 		if (!ifindex)
 			ifindex = atoi(interface);
 		break;
-#if defined(XDP_DEVMAP)
+#if defined(XDP_BASIC)
+	case 'a':
+		if (!strcmp(arg, "print"))
+			action = ACTION_PRINT;
+		else if (!strcmp(arg, "tx"))
+			action = ACTION_TX;
+		else {
+			fprintf(stderr, "--action must be 'print', or 'tx'\n");
+		}
+		break;
+#elif defined(XDP_DEVMAP)
 	case 'o':
 		out_interface = arg;
 		o_ifindex = if_nametoindex(out_interface);
@@ -180,9 +199,25 @@ int main(int argc, char *argv[])
 #endif
 	fprintf(stderr, "Prog count %d\n", skel->skeleton->prog_cnt);
 
+#if defined(XDP_BASIC)
+	struct bpf_program *basic_action_prog;
+	switch (action) {
+	case ACTION_PRINT:
+		basic_action_prog = skel->progs.xdp_printk;
+		break;
+	case ACTION_TX:
+		basic_action_prog = skel->progs.xdp_tx_prog;
+		break;
+	default:
+		fprintf(stderr, "Unknown action.\n");
+		goto cleanup;
+		break;
+	}
+#endif
+
 #if !defined(STRICT_SEC_NAME)
 # if defined(XDP_BASIC)
-	bpf_program__set_type(skel->progs.xdp_printk, BPF_PROG_TYPE_XDP);
+	bpf_program__set_type(basic_action_prog, BPF_PROG_TYPE_XDP);
 # elif defined(XDP_DEVMAP)
 	bpf_program__set_type(skel->progs.xdp_redir_prog, BPF_PROG_TYPE_XDP);
 	bpf_program__set_type(skel->progs.xdp_devmap_printk, BPF_PROG_TYPE_XDP);
@@ -197,7 +232,7 @@ int main(int argc, char *argv[])
 
 #if defined(XDP_BASIC)
 	/* Attach BPF program to raw socket */
-	prog_fd = bpf_program__fd(skel->progs.xdp_printk);
+	prog_fd = bpf_program__fd(basic_action_prog);
 
 	err = tl_bpf_xdp_attach(ifindex, prog_fd, xdp_flags);
 	if (err < 0) {

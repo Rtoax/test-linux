@@ -50,6 +50,10 @@ int xdp_tx_prog(struct xdp_md *ctx)
 	}
 	/* XDP_TX requires changing MAC-addrs, else HW may drop */
 	swap_src_dst_mac(ethhdr);
+
+	bpf_printk("xdp tx ingress %d, rx queue %d, len %ld",
+		   ctx->ingress_ifindex, ctx->rx_queue_index,
+		   (u64)(ctx->data_end - ctx->data));
 	return XDP_TX;
 }
 
