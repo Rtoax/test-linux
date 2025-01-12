@@ -12,6 +12,14 @@
 /**
  * BPF_MAP_TYPE_SOCKMAP
  *
+ * The message redirect map helper is used to redirect a message to a socket
+ * referenced by a map.
+ *
+ *    static long (* const bpf_sk_redirect_map)(struct __sk_buff *skb, void *map,
+ *                                              __u32 key, __u64 flags) = (void *) 52;
+ *
+ *    Returns SK_PASS on success, or SK_DROP on error.
+ *
  * The socket map is a specialized map type which hold network sockets as
  * value.
  *
