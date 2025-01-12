@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0
 SHELL = bash
 ifeq ($(V),1)
   Q =
@@ -7,10 +8,10 @@ else
 endif
 export Q
 
-
 sub-dir := procfs
 sub-dir += ext4
 sub-dir += xfs
+sub-dir += debugfs tracefs
 
 sub-dir-build := $(sub-dir:=.build)
 sub-dir-clean := $(sub-dir:=.clean)

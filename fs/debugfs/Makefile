@@ -9,8 +9,7 @@ export Q
 
 .PHONY: build
 build:
-	$(Q)bash mkfs.xfs.sh
+	$(Q)bash info.sh
 
 .PHONY: clean
 clean:
-	$(Q)rm -rf tmp-mnt fs.xfs
