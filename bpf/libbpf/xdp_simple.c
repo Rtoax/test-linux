@@ -122,8 +122,11 @@ static int libbpf_print_fn(enum libbpf_print_level level, const char *format,
 void handle_event(void *ctx, int cpu, void *data, unsigned int data_sz)
 {
 	struct event_t *e = data;
+	char buf[128], *ifname;
 
-	printf("%-6d %-16s\n", e->rx_ifindex, strxdpaction(e->xdp_action));
+	ifname = if_indextoname(e->rx_ifindex, buf);
+
+	printf("%-10s %-16s\n", ifname, strxdpaction(e->xdp_action));
 }
 
 void lost_event(void *ctx, int cpu, long long unsigned int data_sz)
