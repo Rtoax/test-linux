@@ -26,6 +26,15 @@ Network
 - /proc/net/dev
 
 
+# Ether
+
+- `tcpdump -i eth0 -e`
+
+    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+    |  Dst_Mac  |  Src_Mac  |  Type |  Data(46-15000) |
+    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+
+
 # IPv4
 
 Ranges for the five different classes of IPv4 addresses.
