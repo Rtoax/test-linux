@@ -8,6 +8,7 @@
 /tp_btf
 /tc
 /xdp
+/xdp_simple
 /xdp_devmap
 /xdp_cpumap
 /xdp_xskmap

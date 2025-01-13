@@ -53,11 +53,6 @@ static int read_trace_pipe_cb(int (*cb)(const char *str, void *arg), void *arg)
 	pfds[1].events = POLLIN;
 
 	/**
-	 * If nonblock, this code will occupy 100% of CPU.
-	 */
-	//fcntl(fileno(fp), F_SETFL, O_NONBLOCK);
-
-	/**
 	 * If signal(2) does not process the signal, the process will exit
 	 * directly from the loop, and the return code will not be executed.
 	 */
