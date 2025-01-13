@@ -24,31 +24,67 @@
 #include "libbpf_wrapper.h"
 
 #include "xdp_simple.skel.h"
+#include "xdp_simple.h"
 
 #define struct_bpf	xdp_simple_bpf
 #define _bpf__open	xdp_simple_bpf__open
 #define _bpf__load	xdp_simple_bpf__load
 #define _bpf__destroy	xdp_simple_bpf__destroy
 
+
 static int ifindex = -1;
-static const char *interface;
+static const char *ifname;
+
+static int ipv4_black_count = 0;
+static struct ipv4_addr_t *ipv4_black_list = NULL;
+
+static int verbose = 0;
 
 static const char argp_prog_doc[] =
-	"USAGE: [-i <interface>]\n";
+	"USAGE: [-i <ifname>] [-b <address>] [-v]\n";
 
 static const struct argp_option opts[] = {
-	{ "interface", 'i', "INTERFACE", 0, "Network interface to attach" },
+	{ "ifname", 'i', "INTERFACE", 0, "Network ifname to attach" },
+	{ "black", 'b', "BLACK", 0, "Add address to black list" },
+	{ "verbose", 'v', "VERBOSE", 1, "Display the detail, for debug maybe" },
 	{},
 };
+
+static void add_black(const char *p)
+{
+	int err;
+	struct sockaddr_in addr;
+
+	err = inet_pton(AF_INET, p, &addr.sin_addr);
+	if (err < 0) {
+		fprintf(stderr, "Bad address %s\n", p);
+		abort();
+	}
+
+	if (verbose)
+		fprintf(stderr, "Add address %s(0x%x) to blacklist.\n", p,
+			addr.sin_addr.s_addr);
+
+	ipv4_black_list = realloc(ipv4_black_list, ++ipv4_black_count);
+
+	ipv4_black_list[ipv4_black_count - 1].addr = addr.sin_addr.s_addr;
+	ipv4_black_list[ipv4_black_count - 1].op = OP_BLACK;
+}
 
 static error_t parse_arg(int key, char *arg, struct argp_state *state)
 {
 	switch (key) {
 	case 'i':
-		interface = arg;
-		ifindex = if_nametoindex(interface);
+		ifname = arg;
+		ifindex = if_nametoindex(ifname);
 		if (!ifindex)
-			ifindex = atoi(interface);
+			ifindex = atoi(ifname);
+		break;
+	case 'b':
+		add_black(arg);
+		break;
+	case 'v':
+		verbose = 1;
 		break;
 	case ARGP_KEY_ARG:
 		argp_usage(state);
@@ -81,7 +117,7 @@ static int libbpf_print_fn(enum libbpf_print_level level, const char *format,
 
 int main(int argc, char *argv[])
 {
-	int err, prog_fd;
+	int err, i, prog_fd, map_fd;
 	struct struct_bpf *skel;
 	int xdp_flags = XDP_FLAGS_UPDATE_IF_NOEXIST;
 
@@ -99,7 +135,7 @@ int main(int argc, char *argv[])
 	}
 
 	if (ifindex == -1) {
-		fprintf(stderr, "Need specify interface with -i\n");
+		fprintf(stderr, "Need specify ifname with -i\n");
 		return -EINVAL;
 	}
 
@@ -108,8 +144,6 @@ int main(int argc, char *argv[])
 		printf("Failed to open BPF object\n");
 		return 1;
 	}
-
-	fprintf(stderr, "Prog count %d\n", skel->skeleton->prog_cnt);
 
 	bpf_program__set_type(skel->progs.xdp_dummy_prog, BPF_PROG_TYPE_XDP);
 
@@ -120,6 +154,16 @@ int main(int argc, char *argv[])
 	}
 
 	prog_fd = bpf_program__fd(skel->progs.xdp_dummy_prog);
+	map_fd = bpf_map__fd(skel->maps.map_blacklist);
+
+	for (i = 0; i < ipv4_black_count; i++) {
+		int key = ipv4_black_list[i].addr;
+		err = bpf_map_update_elem(map_fd, &key, &ipv4_black_list[i], 0);
+		if (err < 0) {
+			printf("failed to update elem.\n");
+			goto cleanup;
+		}
+	}
 
 	err = tl_bpf_xdp_attach(ifindex, prog_fd, xdp_flags);
 	if (err < 0) {
@@ -131,7 +175,7 @@ int main(int argc, char *argv[])
 	read_trace_pipe();
 
 cleanup:
-	printf("Detach xdp from interface %s\n", interface);
+	printf("Detach xdp from ifname %s\n", ifname);
 	tl_bpf_xdp_detach(ifindex, xdp_flags);
 	_bpf__destroy(skel);
 	return 0;
