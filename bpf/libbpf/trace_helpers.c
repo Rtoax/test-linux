@@ -111,19 +111,20 @@ int read_trace_pipe_start(void)
 		fprintf(stderr, "read_trace_pipe is non-reentrant function.\n");
 		return -1;
 	}
-	pthread_create(&thread, NULL, thread_read_trace_pipe, NULL);
-	return 0;
+	return pthread_create(&thread, NULL, thread_read_trace_pipe, NULL);
 }
 
 int read_trace_pipe_wait(void)
 {
-	pthread_join(thread, NULL);
+	return pthread_join(thread, NULL);
 }
 
 int read_trace_pipe(void)
 {
-	read_trace_pipe_start();
-	read_trace_pipe_wait();
+	int err = 0;
+	err += read_trace_pipe_start();
+	err += read_trace_pipe_wait();
+	return err;
 }
 
 int stop_read_trace_pipe(void)
