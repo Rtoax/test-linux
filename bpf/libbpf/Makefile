@@ -214,7 +214,7 @@ config-map: config-map.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER}
 socket_filter: socket_filter.o ${SOCKET_HELPERS}
 tc: tc.o ${TRACE_HELPERS}
 xdp: xdp.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER}
-xdp_simple: xdp_simple.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER}
+xdp_simple: xdp_simple.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER} ${LIBXDP_HELPERS}
 xdp_devmap: xdp_devmap.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER}
 xdp_cpumap: xdp_cpumap.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER}
 xdp_xskmap: xdp_xskmap.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER} ${LIBXDP_HELPERS}

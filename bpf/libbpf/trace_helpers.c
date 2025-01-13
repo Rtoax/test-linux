@@ -104,7 +104,7 @@ static void *thread_read_trace_pipe(void *arg)
 	return NULL;
 }
 
-int read_trace_pipe(void)
+int read_trace_pipe_start(void)
 {
 	static int init = 0;
 	if (++init > 1) {
@@ -112,9 +112,18 @@ int read_trace_pipe(void)
 		return -1;
 	}
 	pthread_create(&thread, NULL, thread_read_trace_pipe, NULL);
-	pthread_join(thread, NULL);
-
 	return 0;
+}
+
+int read_trace_pipe_wait(void)
+{
+	pthread_join(thread, NULL);
+}
+
+int read_trace_pipe(void)
+{
+	read_trace_pipe_start();
+	read_trace_pipe_wait();
 }
 
 int stop_read_trace_pipe(void)

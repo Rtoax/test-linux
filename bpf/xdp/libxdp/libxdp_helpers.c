@@ -12,6 +12,18 @@
 #include "libxdp_helpers.h"
 
 
+const char *strxdpaction(int action)
+{
+	switch (action) {
+	case XDP_ABORTED: return "XDP_ABORTED";
+	case XDP_DROP: return "XDP_DROP";
+	case XDP_PASS: return "XDP_PASS";
+	case XDP_TX: return "XDP_TX";
+	case XDP_REDIRECT: return "XDP_REDIRECT";
+	default: return "??";
+	}
+}
+
 /**
  * When XDP_USE_NEED_WAKEUP is set, the consuming of the FILL ring buffer must
  * be triggered by a recvfrom syscall.

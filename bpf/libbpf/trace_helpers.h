@@ -2,6 +2,8 @@
 #pragma once
 
 int read_trace_pipe(void);
+int read_trace_pipe_start(void);
+int read_trace_pipe_wait(void);
 int stop_read_trace_pipe(void);
 
 int print_bpf_log_buf(char *buf, size_t size);

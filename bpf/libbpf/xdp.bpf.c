@@ -15,6 +15,10 @@
  * dropped a lot in comparison to other eBPF program types or techniques which
  * run after the relatively expensive socket buffer allocation process has
  * taken place, only to discard it.
+ *
+ * Support:
+ *
+ *  __u64 bpf_get_current_pid_tgid(void) >= v6.10
  */
 #include <vmlinux.h>
 #include <linux/version.h>
