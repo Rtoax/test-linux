@@ -105,7 +105,7 @@ bpf_text = """
 #endif
 
 struct ipv4_key_t {
-    u32 saddr;
+    u32 saddr; /* net endian */
 };
 struct ipv4_stat_t {
     u64 npkt;               /* total packets of one source address */
