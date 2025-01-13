@@ -95,3 +95,13 @@ Ranges for the five different classes of IPv4 addresses.
     |(Note that the original Ethernet Frame's FCS is not included)  |
     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
+
+# Checksum
+
+```
+# check supportted features
+sudo ethtool -k eth0
+
+# Turn off Checksum
+sudo ethtool -K eth0 rx off tx off
+```

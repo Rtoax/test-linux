@@ -26,6 +26,7 @@ int kick_rx(int xdp_fd)
 		fprintf(stderr, "Trigger FILL ring buffer failed.\n");
 		return err;
 	}
+	fprintf(stderr, "kick_rx %m\n");
 	return 0;
 }
 
@@ -41,13 +42,14 @@ void kick_tx(int xdp_fd)
 	int ret;
 
 	ret = sendto(xdp_fd, NULL, 0, MSG_DONTWAIT, NULL, 0);
-	if (ret >= 0)
+	if (ret >= 0) {
+		fprintf(stderr, "kick_tx %m\n");
 		return;
+	}
 	if (errno == ENOBUFS || errno == EAGAIN || errno == EBUSY || errno == ENETDOWN) {
 		usleep(100);
 		return;
 	}
-	fprintf(stderr, "kick_tx %m\n");
 }
 
 /**
