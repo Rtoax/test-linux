@@ -24,6 +24,7 @@
 #include "libbpf_wrapper.h"
 #include "libxdp_helpers.h"
 #include "trace_helpers.h"
+#include "xdp_helpers.h"
 #include "xdp_xsk.skel.h"
 #include "net_helpers.h"
 #include "pkt_stream.h"
@@ -48,6 +49,8 @@ static pthread_t tx_thread;
 
 static struct xsk_umem_info *umem_info = NULL;
 static struct xsk_socket_info *sock_info = NULL;
+
+void complete_tx_pkts(int batch_size);
 
 static const char argp_prog_doc[] =
 	"USAGE: [-i <interface>] [-v|--verbose]\n";
@@ -120,7 +123,7 @@ void *display_info(void *arg)
 	return NULL;
 }
 
-void handle_rx_pkt(void *data, size_t len);
+void handle_rx_pkt(void *data, __u64 addr, size_t len);
 
 static void setup_xsk_socket(struct xsk_socket_info *xsk, const char *ifname,
 			     int queue_id)
@@ -228,7 +231,6 @@ int xsk_populate_fill_ring(struct xsk_umem_info *umem_info)
 
 int receive_pkts(struct pollfd *pfds, size_t nr_pfds)
 {
-	int ret;
 	__u32 i, rcvd;
 	__u32 idx_rx = 0, idx_fq = 0;
 
@@ -236,43 +238,26 @@ int receive_pkts(struct pollfd *pfds, size_t nr_pfds)
 	if (!rcvd)
 		return -ENOENT;
 
-	ret = xsk_ring_prod__reserve(&umem_info->fq, rcvd, &idx_fq);
-	while (ret != rcvd) {
-		if (ret < 0) {
-			fprintf(stderr, "fill ring reserve failed.\n");
-			goto exit;
-		}
-		if (xsk_ring_prod__needs_wakeup(&umem_info->fq)) {
-			ret = poll(pfds, nr_pfds, 1000);
-			if (ret < 0) {
-				fprintf(stderr, "poll failed.\n");
-				goto exit;
-			}
-		}
-		ret = xsk_ring_prod__reserve(&umem_info->fq, rcvd, &idx_fq);
-	}
-
 	for (i = 0; i < rcvd; i++) {
 		const struct xdp_desc *desc = xsk_ring_cons__rx_desc(&sock_info->rx, idx_rx++);
-		__u64 addr = desc->addr, orig;
-
-		orig = xsk_umem__extract_addr(addr);
-		addr = xsk_umem__add_offset_to_addr(addr);
-
-		*xsk_ring_prod__fill_addr(&umem_info->fq, idx_fq++) = orig;
+		void *data = xsk_umem__get_data(umem_info->buffer, desc->addr);
 
 		if (verbose)
-			pr_dbg("Handle rx desc: addr: 0x%llx(orig: 0x%llx), "
+			pr_dbg("Handle rx desc: addr: 0x%llx, "
 			       "len: %d(0x%x), idx: %d, rcvd: %d\n",
-			       desc->addr, orig, desc->len, desc->len, idx_rx, rcvd);
+			       desc->addr, desc->len, desc->len, idx_rx, rcvd);
 
-		handle_rx_pkt(xsk_umem__get_data(umem_info->buffer, addr), desc->len);
+		handle_rx_pkt(data, desc->addr, desc->len);
+
+		xsk_ring_prod__reserve(&umem_info->fq, 1, &idx_fq);
+		*xsk_ring_prod__fill_addr(&umem_info->fq, idx_fq++) = desc->addr;
+		xsk_ring_prod__submit(&umem_info->fq, rcvd);
 	}
 
-	xsk_ring_prod__submit(&umem_info->fq, rcvd);
 	xsk_ring_cons__release(&sock_info->rx, rcvd);
 
-exit:
+	complete_tx_pkts(1);
+
 	return 0;
 }
 
@@ -377,10 +362,14 @@ void complete_tx_pkts(int batch_size)
 	}
 }
 
-void icmp_reply(void *rx_pkt, struct icmphdr *request)
+/**
+ * Handle IPv4 ICMP ECHO parse to sedn responses
+ */
+void icmp_reply(void *data, __u64 addr, size_t len)
 {
+	void *rx_pkt = data;
 	int ret, sock_fd;
-	__u32 idx = 0;
+	__u32 tx_idx = 0;
 	struct pollfd fd;
 
 	sock_fd = xsk_socket__fd(sock_info->xsk);
@@ -388,7 +377,7 @@ void icmp_reply(void *rx_pkt, struct icmphdr *request)
 	fd.fd = sock_fd;
 	fd.events = POLLOUT;
 
-	while (xsk_ring_prod__reserve(&sock_info->tx, 1, &idx)) {
+	while (xsk_ring_prod__reserve(&sock_info->tx, 1, &tx_idx)) {
 		ret = poll(&fd, 1, -1);
 		if (ret <= 0) {
 			fprintf(stderr, "Poll error %d\n", ret);
@@ -401,18 +390,48 @@ void icmp_reply(void *rx_pkt, struct icmphdr *request)
 	pr_dbg("tx queue: cached_prod %d, cached_cons %d\n",
 		   sock_info->tx.cached_prod, sock_info->tx.cached_cons);
 
-	struct xdp_desc *tx_desc = xsk_ring_prod__tx_desc(&sock_info->tx, idx);
+	struct xdp_desc *tx_desc = xsk_ring_prod__tx_desc(&sock_info->tx, tx_idx);
 
-	__u64 addr = idx * umem_info->frame_size;
-	addr = xsk_umem__add_offset_to_addr(addr);
-	void *tx_pkt_buf = xsk_umem__get_data(umem_info->buffer, addr);
+#if 0
+	__u64 tx_addr = tx_idx * umem_info->frame_size;
+	tx_addr = xsk_umem__add_offset_to_addr(tx_addr);
+	void *tx_pkt_buf = xsk_umem__get_data(umem_info->buffer, tx_addr);
 
 	tx_desc->addr = addr;
-	tx_desc->len = gen_pkt_icmp_reply(rx_pkt, request, tx_pkt_buf)
+	tx_desc->len = gen_pkt_icmp_reply(rx_pkt, rx_pkt + sizeof(struct ethhdr) + sizeof(struct iphdr),
+						tx_pkt_buf)
 				+ sizeof(struct ethhdr) + sizeof(struct iphdr);
+#elif 0
+	char tx_pkt_buf[XSK_UMEM__DEFAULT_FRAME_SIZE];
 
-	pr_dbg("tx icmp echo reply, idx = %d, addr 0x%llx(rx: %p, tx: %p), len %d.\n",
-		   idx, addr, rx_pkt, tx_pkt_buf, tx_desc->len);
+	gen_pkt_icmp_reply(rx_pkt, rx_pkt + sizeof(struct ethhdr) + sizeof(struct iphdr),
+			   tx_pkt_buf);
+	memcpy(rx_pkt, tx_pkt_buf, len);
+
+	tx_desc->addr = addr;
+	tx_desc->len = len;
+#else
+	const char *tx_pkt_buf = rx_pkt;
+	struct ethhdr *eth = (struct ethhdr *)data;
+	struct iphdr *ip = (struct iphdr *)(eth + 1);
+	struct icmphdr *icmp = (struct icmphdr *)(ip + 1);
+
+	swap_src_dst_mac(rx_pkt);
+
+	uint32_t tmp_ip = ip->saddr;
+	ip->saddr = ip->daddr;
+	ip->daddr = tmp_ip;
+
+	icmp->type = ICMP_ECHOREPLY;
+	icmp->checksum = 0;
+	icmp->checksum = htons(~(ICMP_ECHOREPLY << 8));
+
+	tx_desc->addr = addr;
+	tx_desc->len = len;
+#endif
+
+	pr_dbg("tx icmp echo reply, tx_idx = %d, addr 0x%llx(rx: %p, tx: %p), len %d.\n",
+		tx_idx, addr, rx_pkt, tx_pkt_buf, tx_desc->len);
 
 	xsk_ring_prod__submit(&sock_info->tx, 1);
 
@@ -434,7 +453,7 @@ void icmp_reply(void *rx_pkt, struct icmphdr *request)
 	return;
 }
 
-void handle_rx_pkt(void *data, size_t len)
+void handle_rx_pkt(void *data, __u64 addr, size_t len)
 {
 	void *data_end = data + len;
 	struct ethhdr *eth = data;
@@ -465,7 +484,7 @@ void handle_rx_pkt(void *data, size_t len)
 		pr_inf("Get ICMP(%8lld): ", pkt_cnt);
 		icmph = (void *)(iph + 1);
 		dump_icmp(icmph, len - sizeof(struct ethhdr) - sizeof(struct iphdr));
-		icmp_reply(data, icmph);
+		icmp_reply(data, addr, len);
 		break;
 	case IPPROTO_TCP: /* 6 */
 		pr_inf("Get TCP. %lld\n", pkt_cnt);

@@ -91,6 +91,7 @@ int gen_pkt_icmp_reply(void *rx_pkt, struct icmphdr *request, void *tx_pkt_buf)
 	memcpy(tx_ethhdr->h_source, tx_ethhdr->h_dest, ETH_ALEN);
 	tx_ethhdr->h_proto = htons(ETH_P_IP);
 
+#if 0
 	tx_iphdr->version = 0x4;
 	tx_iphdr->ihl = 0x5;
 	tx_iphdr->tos = 0x9;
@@ -102,6 +103,11 @@ int gen_pkt_icmp_reply(void *rx_pkt, struct icmphdr *request, void *tx_pkt_buf)
 	tx_iphdr->saddr = rx_iphdr->daddr;
 	tx_iphdr->daddr = rx_iphdr->saddr;
 	tx_iphdr->check = 0;
+#else
+	memcpy(tx_iphdr, rx_iphdr, sizeof(struct iphdr));
+	tx_iphdr->saddr = rx_iphdr->daddr;
+	tx_iphdr->daddr = rx_iphdr->saddr;
+#endif
 
 	packetsize = sizeof(struct icmphdr) + 1;
 	memset(tx_icmphdr, 0x00, packetsize);
