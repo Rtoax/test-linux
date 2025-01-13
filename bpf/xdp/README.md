@@ -1,6 +1,8 @@
 XDP - eXpress Data Path
 =======================
 
+# XDP Type
+
 - `Native XDP`: Runs directly on the network driver, providing higher performance.
 - `Generic XDP`: Runs on the kernel's network stack, providing compatibility with all network drivers but with lower performance.
 
@@ -52,7 +54,7 @@ enum xdp_action {
 ```
 
 
-# AF_XDP
+## AF_XDP
 
 Examples of such use cases are:
 
