@@ -41,7 +41,10 @@ static struct ipv4_addr_t *ipv4_black_list = NULL;
 static int verbose = 0;
 
 static const char argp_prog_doc[] =
-	"USAGE: [-i <ifname>] [-b <address>] [-v]\n";
+	"USAGE: [-i <ifname>] [-b <address>] [-v]\n"
+	"\n"
+	"Examples:\n"
+	"\n";
 
 static const struct argp_option opts[] = {
 	{ "ifname", 'i', "INTERFACE", 0, "Network ifname to attach" },
