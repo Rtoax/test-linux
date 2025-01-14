@@ -61,7 +61,7 @@ TARGETS :=
 TARGETS += config-map
 TARGETS += socket_filter
 TARGETS += tc
-TARGETS += xdp xdp_devmap xdp_cpumap xdp_simple
+TARGETS += xdp xdp_devmap xdp_cpumap xdp_simple xdp_dos
 TARGETS += sockops
 TARGETS += sk_skb
 TARGETS += sk_msg
@@ -215,6 +215,7 @@ socket_filter: socket_filter.o ${SOCKET_HELPERS}
 tc: tc.o ${TRACE_HELPERS}
 xdp: xdp.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER}
 xdp_simple: xdp_simple.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER} ${LIBXDP_HELPERS}
+xdp_dos: xdp_dos.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER} ${LIBXDP_HELPERS}
 xdp_devmap: xdp_devmap.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER}
 xdp_cpumap: xdp_cpumap.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER}
 xdp_xskmap: xdp_xskmap.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER} ${LIBXDP_HELPERS}

@@ -12,6 +12,7 @@
 /xdp_devmap
 /xdp_cpumap
 /xdp_xskmap
+/xdp_dos
 /perf_event
 /sockops
 /cgroupv2
