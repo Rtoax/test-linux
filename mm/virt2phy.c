@@ -165,6 +165,10 @@ void test_mapping_phy_addr(void)
 	va = proc_maps_exec_data_addr(NULL);
 	pa = virt_to_phy(va);
 	PR("exec data", va, pa, addr_numa(pa, va));
+
+	va = proc_maps_vdso_addr(NULL);
+	pa = virt_to_phy(va);
+	PR("vdso text", va, pa, addr_numa(pa, va));
 }
 
 void mem_bind_to_numa(void *mem, size_t size, int dst_numa)
