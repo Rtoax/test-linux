@@ -58,6 +58,15 @@ int main(void)
 
 	ftruncate(fdout, size);
 
+	/**
+	 * mmap(2): MAP_PRIVATE
+	 *
+	 * Create a private copy-on-write mapping. Updates to the mapping are
+	 * not visible to other processes mapping the same file, and are not
+	 * carried through to the underlying file. It is unspecified whether
+	 * changes made to the file after the mmap() call are visible in the
+	 * mapped region.
+	 */
 	pin = mmap(NULL, size, PROT_READ, MAP_PRIVATE, fdin, 0);
 	if (pin == MAP_FAILED) {
 		perror("mmap\n");
