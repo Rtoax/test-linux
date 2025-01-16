@@ -1,9 +1,6 @@
 #!/usr/bin/env bpftrace
 /**
- * File xfs_filemap_fault.bt
- * 
- * Author Rong Tao <rtoax@foxmail.com>
- * Date 2022-04-25
+ * filemap_fault.bt
  */
 #include <linux/fs.h>
 
