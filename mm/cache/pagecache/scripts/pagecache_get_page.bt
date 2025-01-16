@@ -1,9 +1,7 @@
 #!/usr/bin/env bpftrace
 /**
- * File: pagecache_get_page.bt
- * Author: Rong Tao (rtoax@foxmail.com)
+ * pagecache_get_page.bt
  */
-
 #include <linux/fs.h>
 
 BEGIN
@@ -21,6 +19,12 @@ kprobe:pagecache_get_page
 	@ino_count[$i_ino] = count();
 	@comm_count[comm] = count();
 	@kstack_count[kstack] = count();
+}
+
+kretprobe:pagecache_get_page
+{
+	$page = (struct page *)retval;
+	/* TODO */
 }
 
 interval:s:3
