@@ -127,12 +127,13 @@ int dev_mem_read(int memfd, unsigned long phyaddr, void *to_buf, size_t len)
 #if defined(HAVE_LIB_TEST_LINUX_C)
 int addr_numa(unsigned long pa, unsigned long va)
 {
-	int numa;
+	int numa, vaddr_numa;
 	numa = phy_addr_numa(pa);
+	vaddr_numa = virt_addr_numa(va);
 	if (numa == DMESG_NUMA_MEM_INVALID)
-		numa = virt_addr_numa(va);
-	else if (numa != virt_addr_numa(va)) {
-		fprintf(stderr, "virt numa != phy numa\n");
+		numa = vaddr_numa;
+	else if (numa != vaddr_numa) {
+		fprintf(stderr, "virt numa(%d) != phy numa(%d)\n", numa, vaddr_numa);
 		abort();
 	}
 	return numa;
