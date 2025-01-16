@@ -12,7 +12,6 @@ define newline
 
 endef
 
-
 ifeq ($(V),1)
   Q =
 else
@@ -30,15 +29,3 @@ NUMA_TOPDIR := $(GIT_TOPDIR)/numa/
 
 export GIT_TOPDIR LIBS_TOPDIR NUMA_TOPDIR
 
-CFLAGS += -I${LIBS_TOPDIR}
-CFLAGS += -I${NUMA_TOPDIR}
-
-libtest-linux-c.a:
-	@echo -e "  GEN  \033[1;32m$(@)\033[m"
-	${Q}make -C ${LIBS_TOPDIR} $(@)
-	${Q}cp ${LIBS_TOPDIR}/libtest-linux-c.a $(shell pwd)
-
-libtest-linux-numa.a:
-	@echo -e "  GEN  \033[1;32m$(@)\033[m"
-	${Q}make -C ${NUMA_TOPDIR} $(@)
-	${Q}cp ${NUMA_TOPDIR}/libtest-linux-numa.a $(shell pwd)

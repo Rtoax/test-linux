@@ -26,7 +26,8 @@ TARGETS += reloc
 TARGETS += reloc-name
 TARGETS += bfd_print_symbol_vandf
 
-CC = gcc
+CC := gcc
+LIBS_DIR := ../../../libs/
 
 CFLAGS := -Werror -Wall -D_GNU_SOURCE
 CFLAGS += -DDEBUG -O0
@@ -34,6 +35,7 @@ CFLAGS += -Wno-unused-label
 CFLAGS += -Wno-unused-variable
 CFLAGS += -lbfd
 CFLAGS += -lpthread
+CFLAGS += -I${LIBS_DIR}
 
 # FIXME: /usr/include/bfd.h may include these lines. There must be a better way
 # to fix this.
@@ -165,7 +167,7 @@ reloc: reloc.o
 reloc-name: reloc-name.o
 bfd_print_symbol_vandf: bfd_print_symbol_vandf.o helpers.o libtest-linux-c.a
 
-include ../../../tlbuild.mk
+include ${LIBS_DIR}/libs.mk
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

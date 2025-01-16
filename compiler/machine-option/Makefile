@@ -8,6 +8,7 @@ else
 endif
 export Q
 
+include ../../tlbuild.mk
 
 TARGETS :=
 TARGETS += helloworld
@@ -45,8 +46,6 @@ CFLAGS_mfentry := -pg -mfentry
 .PHONY: build
 build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
-
-include ../../tlbuild.mk
 
 # FIXME: HygonGenuine not support x86-64
 ifneq ($(CPU_VENDOR_ID),HygonGenuine)

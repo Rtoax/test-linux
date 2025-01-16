@@ -14,9 +14,12 @@ TARGETS += hello-pie
 TARGETS += is_pie
 
 CC := gcc
+LIBS_DIR := ../../../libs/
 
 CFLAGS :=
 LDFLAGS :=
+
+CFLAGS += -I${LIBS_DIR}
 
 CFLAGS_hello += -no-pie
 LDFLAGS_hello += -no-pie
@@ -34,7 +37,7 @@ hello: hello.o libtest-linux-c.a
 hello-pie: hello-pie.o libtest-linux-c.a
 is_pie: is_pie.o
 
-include ../../../tlbuild.mk
+include ${LIBS_DIR}/libs.mk
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

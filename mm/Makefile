@@ -54,8 +54,12 @@ ifeq ($(CONFIG_STRICT_DEVMEM),y)
 endif
 
 MAKEFLAGS :=
+LIBS_DIR := ../libs/
+NUMA_DIR := ../numa/
 
 CFLAGS += -g
+CFLAGS += -I${LIBS_DIR}
+CFLAGS += -I${NUMA_DIR}
 
 ifdef DEBUG
   CFLAGS += -DDEBUG=1
@@ -88,7 +92,8 @@ all: ${TARGETS_LIBA} ${TARGETS} $(sub-dir-build)
 virt2phy: virt2phy.o libtest-linux-c.a libtest-linux-numa.a
 libtest-linux-mm.a: virt2phy.obj
 
-include ../tlbuild.mk
+include ${LIBS_DIR}/libs.mk
+include ${NUMA_DIR}/numa.mk
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
