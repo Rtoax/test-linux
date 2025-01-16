@@ -11,13 +11,7 @@ export Q
 MAKE := make
 
 TARGETS :=
-TARGETS += awk.mk
-TARGETS += firstword.mk
-TARGETS += patsubst.mk
-TARGETS += shell.mk
-TARGETS += subst.mk
-TARGETS += wildcard.mk
-TARGETS += wordlist.mk
+TARGETS += $(shell ls *.mk)
 
 LOGS := $(patsubst %.mk,%.log,$(TARGETS))
 
