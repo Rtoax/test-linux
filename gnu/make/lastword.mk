@@ -2,6 +2,7 @@
 
 $(info lastword = $(lastword /a/b/c))
 $(info lastword MAKEFILE_LIST = $(lastword ${MAKEFILE_LIST}))
+$(info abspath lastword MAKEFILE_LIST = $(abspath $(lastword ${MAKEFILE_LIST})))
 
 .PHONY: build
 build:

@@ -7,20 +7,20 @@ ifneq ($(wildcard ../tlbuild.mk),)
 endif
 
 define git_config
-	@if [[ ! -z $(GIT_TOPDIR) ]]; then \
-		${SHELL} ${GIT_TOPDIR}/scripts/git/config.sh; \
+	@if [[ ! -z $(TL_TOPDIR) ]]; then \
+		${SHELL} ${TL_TOPDIR}/scripts/git/config.sh; \
 	fi
 endef
 
 define git_archive
-	@if [[ ! -z $(GIT_TOPDIR) ]]; then \
-		${SHELL} ${GIT_TOPDIR}/scripts/git-archive; \
+	@if [[ ! -z $(TL_TOPDIR) ]]; then \
+		${SHELL} ${TL_TOPDIR}/scripts/git-archive; \
 	fi
 endef
 
 define git_clean
-	@if [[ ! -z $(GIT_TOPDIR) ]]; then \
-		${SHELL} ${GIT_TOPDIR}/scripts/git-clean; \
+	@if [[ ! -z $(TL_TOPDIR) ]]; then \
+		${SHELL} ${TL_TOPDIR}/scripts/git-clean; \
 	fi
 endef
 

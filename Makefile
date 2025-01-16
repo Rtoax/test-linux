@@ -24,14 +24,7 @@ export Q
 ifdef M32
   MAKEFLAGS += M32=1
 endif
-
 export MAKEFLAGS
-MKFILE_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))
-
-USER_FAILED_LOG := $(shell pwd)/failed-user.log
-KERNEL_FAILED_LOG := $(shell pwd)/failed-kernel.log
-export USER_FAILED_LOG
-export KERNEL_FAILED_LOG
 
 include make.list
 SUB_USER_DIR = $(USER_LIST)
@@ -41,10 +34,6 @@ SUB_USER_DIR_CLEAN := $(SUB_USER_DIR:%=%_clean)
 SUB_KERN_DIR = $(KERNEL_LIST)
 SUB_KERN_DIR_TEST := $(SUB_KERN_DIR:%=%_test)
 SUB_KERN_DIR_CLEAN := $(SUB_KERN_DIR:%=%_clean)
-
-this-makefile := $(lastword $(MAKEFILE_LIST))
-ABS_SRCTREE := $(realpath $(dir $(this-makefile)))
-export ABS_SRCTREE
 
 TEST_LINUX_VERSION = $(VERSION)$(if $(PATCHLEVEL),.$(PATCHLEVEL)$(if $(SUBLEVEL),.$(SUBLEVEL)))$(EXTRAVERSION)
 export VERSION PATCHLEVEL SUBLEVEL TEST_LINUX_VERSION
@@ -57,9 +46,9 @@ export TLCONFIG_CONFIG
 # Default to display help information
 build: help
 
-include $(ABS_SRCTREE)/scripts/logos.mk
 include tlbuild.mk
-include scripts/git.mk
+include $(TL_TOPDIR)/scripts/git.mk
+include $(TL_TOPDIR)/scripts/logos.mk
 
 GIT_CONFIG_CORE_HOOKSPATH := $(shell git config get core.hooksPath 2>/dev/null \
 	|| git config core.hooksPath 2>/dev/null \
@@ -79,7 +68,7 @@ help:
 	@echo >&2 -e "***"
 	$(call tl_ascii_logo1,*** )
 	@echo >&2 -e "***"
-	@echo >&2 -e "*** ABS_SRCTREE ${ABS_SRCTREE}"
+	@echo >&2 -e "*** TL_TOPDIR ${TL_TOPDIR}"
 	@echo >&2 -e "*** GIT_TOPDIR ${GIT_TOPDIR}"
 	@echo >&2 -e "***    core.hooksPath = ${GIT_CONFIG_CORE_HOOKSPATH}"
 	@echo >&2 -e "*** USER_FAILED_LOG ${USER_FAILED_LOG}"
