@@ -1,3 +1,6 @@
+/**
+ * Get SVE width
+ */
 #include <stdio.h>
 #include <stdint.h>
 #include <arm_sve.h>
