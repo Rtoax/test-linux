@@ -26,6 +26,11 @@ void *sys_mmap(void *addr, size_t length, int prot, int flags, int fd,
 	return (void *)syscall(__NR_mmap, addr, length, prot, flags, fd, offset);
 }
 
+void *sys_munmap(void *addr, size_t length)
+{
+	return (void *)syscall(__NR_munmap, addr);
+}
+
 /*
  * Uses mmap to create a shared memory area for storage of data
  * Used in this file to store the hugepage file map on disk
