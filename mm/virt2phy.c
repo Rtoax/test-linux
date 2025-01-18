@@ -11,6 +11,7 @@
 #include <string.h>
 #include <assert.h>
 #include <sys/types.h>
+#include <sys/stat.h>
 #include <unistd.h>
 #include <sys/mman.h>
 #include <numa.h>
@@ -29,6 +30,55 @@
 
 static int run_on_cpu;
 static int cpu_numa;
+
+static struct {
+	void *mem;
+	size_t sz;
+} mem_ro, mem_rw;
+
+void *map_file(const char *file, int ro, size_t *sz)
+{
+	void *mem = NULL;
+	int i, err, fd, prot;
+	struct stat st;
+
+	fd = open(file, ro ? O_RDONLY : O_RDWR);
+	if (fd == -1) {
+		fprintf(stderr, "ERROR: open(%s) %m\n", file);
+		return NULL;
+	}
+
+	err = stat(file, &st);
+	if (err == -1) {
+		perror("stat");
+		goto done;
+	}
+
+	prot = PROT_READ;
+	if (!ro)
+		prot |= PROT_WRITE;
+
+	/* Only test MAP_PRIVATE */
+	mem = mmap(NULL, st.st_size, prot, MAP_PRIVATE, fd, 0);
+	if (mem == MAP_FAILED) {
+		perror("mmap");
+		mem == NULL;
+		goto done;
+	}
+
+	for (i = 0; i < st.st_size; i += getpagesize()) {
+		char c = *(char *)(mem + i);
+#if 1
+		if (!ro)
+			*(char *)(mem + i) = 'a';
+#endif
+	}
+
+	*sz = st.st_size;
+done:
+	close(fd);
+	return mem;
+}
 
 /**
  * refs:
@@ -170,6 +220,14 @@ void test_mapping_phy_addr(void)
 	va = proc_maps_vdso_addr(NULL);
 	pa = virt_to_phy(va);
 	PR("vdso text", va, pa, addr_numa(pa, va));
+
+	va = (unsigned long)mem_ro.mem;
+	pa = virt_to_phy(va);
+	PR("mem_ro", va, pa, addr_numa(pa, va));
+
+	va = (unsigned long)mem_rw.mem;
+	pa = virt_to_phy(va);
+	PR("mem_rw", va, pa, addr_numa(pa, va));
 }
 
 void mem_bind_to_numa(void *mem, size_t size, int dst_numa)
@@ -252,6 +310,9 @@ int main(int argc, char *argv[])
 	cpu_numa = numa_node_of_cpu(run_on_cpu);
 	printf("Run on CPU %d, NUMA %d\n", run_on_cpu, cpu_numa);
 
+	mem_ro.mem = map_file("/usr/bin/ls", 1, &mem_ro.sz);
+	mem_rw.mem = map_file("/usr/bin/ls", 0, &mem_rw.sz);
+
 	test_mapping_phy_addr();
 	mbind_numa();
 	test_mapping_phy_addr();
@@ -295,6 +356,8 @@ int main(int argc, char *argv[])
 	fprintf(stderr, "CONFIG_STRICT_DEVMEM=y, deny write to /dev/mem!\n");
 #endif
 
+	munmap(mem_ro.mem, mem_ro.sz);
+	munmap(mem_rw.mem, mem_rw.sz);
 	return 0;
 }
 #endif /* HAVE_MAIN */
