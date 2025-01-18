@@ -2,6 +2,7 @@
 #include <unistd.h>
 #include <errno.h>
 #include <string.h>
+#include <signal.h>
 #include <linux/bpf.h>
 #include <bpf/bpf.h>
 #include <bpf/libbpf.h>
@@ -12,11 +13,19 @@
 
 #define DEFAULT_FREQ	99
 
-static inline int sys_perf_event_open(struct perf_event_attr *attr,
-				      pid_t pid, int cpu, int group_fd,
+static volatile sig_atomic_t stop = 0;
+
+static inline int sys_perf_event_open(struct perf_event_attr *attr, pid_t pid,
+				      int cpu, int group_fd,
 				      unsigned long flags)
 {
 	return syscall(__NR_perf_event_open, attr, pid, cpu, group_fd, flags);
+}
+
+void sig_handler(int sig)
+{
+	fprintf(stderr, "get sig...\n");
+	stop = 1;
 }
 
 static int libbpf_print_fn(enum libbpf_print_level level, const char *format,
@@ -56,6 +65,8 @@ int main(void)
 
 	libbpf_set_strict_mode(LIBBPF_STRICT_ALL);
 	libbpf_set_print(libbpf_print_fn);
+
+	signal(SIGINT, sig_handler);
 
 #if defined(LIBBPF_OPTS)
 	LIBBPF_OPTS(bpf_object_open_opts, opts,
@@ -99,6 +110,8 @@ int main(void)
 		err = -1;
 		goto cleanup;
 	}
+	fprintf(stderr, "PMU fd %d\n", pmu_fd);
+
 	skel->links.do_sample = bpf_program__attach_perf_event(skel->progs.do_sample, pmu_fd);
 	if (libbpf_get_error(skel->links.do_sample)) {
 		fprintf(stderr, "ERROR: Attach perf event\n");
@@ -107,9 +120,11 @@ int main(void)
 	}
 
 	printf("Start sampling for 10 seconds ...\n");
-	sleep(10);
+	while (!stop)
+		sleep(1);
 
 cleanup:
+	printf("Exiting...\n");
 	if (!err) {
 		event_map_fd = bpf_map__fd(skel->maps.vaddr_map);
 		print_ip_map(event_map_fd);

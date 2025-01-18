@@ -1,0 +1,28 @@
+#!/bin/env bpftrace
+
+BEGIN
+{
+	printf("Tracing close(2), hit ctrl-c to end.\n");
+	printf("%-8s %-8s %-16s %-8s %-8s\n", "TIME", "PID", "COMM", "FD", "RET");
+}
+
+tracepoint:syscalls:sys_enter_close
+{
+	@fds[tid] = args->fd;
+}
+
+tracepoint:syscalls:sys_exit_close
+/ @fds[tid] /
+{
+
+	time("%H:%M:%S ");
+	printf("%-8d %-16s %-8d %-8d\n", pid, comm, @fds[tid], args->ret);
+
+	delete(@fds[tid]);
+}
+
+END
+{
+	clear(@fds);
+	printf("Bye.\n");
+}
