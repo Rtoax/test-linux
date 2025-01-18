@@ -14,16 +14,23 @@
 #include <sys/mman.h>
 #include <sys/queue.h>
 #include <sys/stat.h>
+#include <sys/syscall.h>
 
 #include <linux/mman.h> /* for hugetlb-related flags */
 
 #include "helpers.h"
 
+void *sys_mmap(void *addr, size_t length, int prot, int flags, int fd,
+	       off_t offset)
+{
+	return (void *)syscall(__NR_mmap, addr, length, prot, flags, fd, offset);
+}
+
 /*
  * Uses mmap to create a shared memory area for storage of data
  * Used in this file to store the hugepage file map on disk
  */
-void* map_shared_memory(const char *filename, const size_t mem_size, int flags)
+void *map_shared_memory(const char *filename, const size_t mem_size, int flags)
 {
 	void *retval;
 	int fd = open(filename, flags, 0600);
@@ -39,12 +46,12 @@ void* map_shared_memory(const char *filename, const size_t mem_size, int flags)
 	return retval;
 }
 
-void* open_shared_memory(const char *filename, const size_t mem_size)
+void *open_shared_memory(const char *filename, const size_t mem_size)
 {
 	return map_shared_memory(filename, mem_size, O_RDWR);
 }
 
-void* create_shared_memory(const char *filename, const size_t mem_size)
+void *create_shared_memory(const char *filename, const size_t mem_size)
 {
 	return map_shared_memory(filename, mem_size, O_RDWR | O_CREAT);
 }
