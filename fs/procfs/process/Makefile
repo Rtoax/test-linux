@@ -8,6 +8,7 @@ else
 endif
 export Q
 
+CC := gcc
 
 CFLAGS :=
 

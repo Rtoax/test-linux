@@ -41,6 +41,7 @@ CFLAGS += -DMMAP_HELPERS_HDR=mmap_helpers.h
 CFLAGS_virt2phy := -DHAVE_MAIN=1
 CFLAGS_virt2phy += -DHAVE_LIB_TEST_LINUX_C=1
 CFLAGS_virt2phy += -DHAVE_LIB_TEST_LINUX_NUMA=1
+CFLAGS_virt2phy += -DHAVE_MMAP_HELPERS=1
 CFLAGS_virt2phy += -lnuma
 
 ifeq ($(CONFIG_DEVMEM),y)
