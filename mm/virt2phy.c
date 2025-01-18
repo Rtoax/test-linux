@@ -17,6 +17,8 @@
 #include <numa.h>
 #include <numaif.h>
 
+#include "mmap_helpers.h"
+
 #if defined(HAVE_LIB_TEST_LINUX_C)
 #include "proc.h"
 #endif
@@ -59,7 +61,7 @@ void *map_file(const char *file, int ro, size_t *sz)
 		prot |= PROT_WRITE;
 
 	/* Only test MAP_PRIVATE */
-	mem = mmap(NULL, st.st_size, prot, MAP_PRIVATE, fd, 0);
+	mem = sys_mmap(NULL, st.st_size, prot, MAP_PRIVATE, fd, 0);
 	if (mem == MAP_FAILED) {
 		perror("mmap");
 		mem == NULL;
@@ -356,8 +358,8 @@ int main(int argc, char *argv[])
 	fprintf(stderr, "CONFIG_STRICT_DEVMEM=y, deny write to /dev/mem!\n");
 #endif
 
-	munmap(mem_ro.mem, mem_ro.sz);
-	munmap(mem_rw.mem, mem_rw.sz);
+	sys_munmap(mem_ro.mem, mem_ro.sz);
+	sys_munmap(mem_rw.mem, mem_rw.sz);
 	return 0;
 }
 #endif /* HAVE_MAIN */

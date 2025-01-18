@@ -36,6 +36,8 @@ CC = gcc
 CFLAGS :=
 LDFLAGS :=
 
+CFLAGS += -DMMAP_HELPERS_HDR=mmap_helpers.h
+
 CFLAGS_virt2phy := -DHAVE_MAIN=1
 CFLAGS_virt2phy += -DHAVE_LIB_TEST_LINUX_C=1
 CFLAGS_virt2phy += -DHAVE_LIB_TEST_LINUX_NUMA=1
@@ -89,7 +91,7 @@ sub-dir-clean := $(sub-dir:=.clean)
 all: ${TARGETS_LIBA} ${TARGETS} $(sub-dir-build)
 	@echo -e " \033[1;33m Done \033[m"
 
-virt2phy: virt2phy.o libtest-linux-c.a libtest-linux-numa.a
+virt2phy: virt2phy.o libtest-linux-c.a libtest-linux-numa.a mmap_helpers.o
 libtest-linux-mm.a: virt2phy.obj
 
 include ${LIBS_DIR}/libs.mk

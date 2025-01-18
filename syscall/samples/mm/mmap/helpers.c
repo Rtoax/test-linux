@@ -18,7 +18,14 @@
 
 #include <linux/mman.h> /* for hugetlb-related flags */
 
-#include "helpers.h"
+/* symlink of helpers.h may be renamed */
+#if defined(MMAP_HELPERS_HDR)
+# define __stringify_1(x...)     #x
+# define __stringify(x...)       __stringify_1(x)
+# include __stringify(MMAP_HELPERS_HDR)
+#else
+# include "helpers.h"
+#endif
 
 void *sys_mmap(void *addr, size_t length, int prot, int flags, int fd,
 	       off_t offset)
