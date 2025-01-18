@@ -32,6 +32,12 @@ sudo grubby --update-kernel=ALL --args="systemd.unified_cgroup_hierarchy=0 syste
 sudo systemctl reboot
 ```
 
+- `systemd` refuses to boot with `cgroups v1` enabled in [v256](https://github.com/systemd/systemd/commit/5b0addafabc9f0077d1daf2a291d9d298053ea3b):
+
+	# In fedora 42 beta, journalctl -b 0 shows:
+	systemd[1]: Legacy cgroup v1 configured. This will stop being supported soon.
+
+
 # Enable cgroup V2
 
 ## Fedora Like OS
@@ -41,6 +47,8 @@ dnf install -y grubby
 sudo grubby --update-kernel=ALL --args="systemd.unified_cgroup_hierarchy=1"
 sudo systemctl reboot
 ```
+
+> Or add args to **/etc/default/grub**'s GRUB_CMDLINE_LINUX.
 
 
 # Links
