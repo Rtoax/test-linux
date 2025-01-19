@@ -22,21 +22,24 @@ int sys_open_f(const char *pathname, int flags)
 
 int main(void)
 {
-	int fd;
+	int fd, flags;
 	mode_t mode;
 	char *path;
 
 	path = "tmp.txt";
 
 	unlink(path);
+
+	flags = O_WRONLY | O_EXCL | O_CREAT;
 	/**
 	 * flag make file could not exist.
 	 */
 	mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH;
 
-	printf("%04o\n", mode);
+	printf("flags = %08o\n", flags);
+	printf("mode  = %04o\n", mode);
 
-	fd = open(path, O_WRONLY | O_EXCL | O_CREAT, mode);
+	fd = open(path, flags, mode);
 	if (fd == -1) {
 		perror("open");
 		return 1;
