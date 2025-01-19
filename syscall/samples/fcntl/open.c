@@ -33,6 +33,9 @@ int main(void)
 	 * flag make file could not exist.
 	 */
 	mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH;
+
+	printf("%04o\n", mode);
+
 	fd = open(path, O_WRONLY | O_EXCL | O_CREAT, mode);
 	if (fd == -1) {
 		perror("open");
