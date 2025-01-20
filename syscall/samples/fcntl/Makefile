@@ -37,8 +37,8 @@ build: ${TARGETS}
 
 # Add more object.o file
 fallocate: fallocate.o
-open: open.o
-openat2: openat2.o
+open: open.o helpers.o
+openat2: openat2.o helpers.o
 splice: splice.o
 splice-read: splice-read.o
 

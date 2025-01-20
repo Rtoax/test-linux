@@ -7,18 +7,7 @@
 #include <sys/syscall.h>
 #include <sys/types.h>
 
-#if !defined(__aarch64__) && !defined(__riscv)
-/* FIXME: stdarg??? */
-int sys_open_fm(const char *pathname, int flags, mode_t mode)
-{
-	return syscall(__NR_open, pathname, flags, mode);
-}
-
-int sys_open_f(const char *pathname, int flags)
-{
-	return syscall(SYS_open, pathname, flags);
-}
-#endif
+#include "helpers.h"
 
 int main(void)
 {
