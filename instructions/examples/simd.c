@@ -790,16 +790,21 @@ int main(int argc, char *argv[])
 #endif
 
 	for (j = 0; j < nloop; j++) {
-#if 0
+#ifdef DEBUG
 		if (j % 1000 == 0)
 			printf("Testing %d/%d\n", j, nloop);
 #endif
+		if (j % 1000 == 0)
+			fprintf(stderr, ".");
+
 		for (i = 0; i < ARRAY_SIZE(tests); i++) {
 			unsigned long start;
 			struct test *t = &tests[i];
 			struct test *t_cmp = t->cmp_with;
 
-			//printf("Testing %s\n", t->name);
+#ifdef DEBUG
+			printf("Testing %s\n", t->name);
+#endif
 
 			t->x = malloc(t->elem_size * n);
 			t->y = malloc(t->elem_size * n);
@@ -817,6 +822,7 @@ int main(int argc, char *argv[])
 				t->cmp_rslt += 0;
 		}
 	}
+	fprintf(stderr, "\n");
 
 	printf("Length of array %ld\n", n);
 	printf("%-50s %-16s %-16s %-16s %-8s\n", "TEST_NAME", "FLAGS",
