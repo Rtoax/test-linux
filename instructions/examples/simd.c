@@ -777,10 +777,14 @@ int main(int argc, char *argv[])
 	size_t n = 8192;
 	size_t nloop = 10000;
 
-	fprintf(stderr, "USAGE: %s [NLOOP=%ld]\n", argv[0], nloop);
+	fprintf(stderr, "USAGE: %s [NLOOP, default %ld]\n", argv[0], nloop);
 
 	if (argc > 1) {
 		nloop = strtol(argv[1], NULL, 10);
+		if (!nloop) {
+			fprintf(stderr, "ERROR: invalid argument %s\n", argv[1]);
+			exit(EXIT_FAILURE);
+		}
 	}
 
 	fprintf(stderr, "Test nloop = %ld\n", nloop);
