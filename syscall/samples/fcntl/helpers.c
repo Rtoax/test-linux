@@ -22,6 +22,16 @@ int sys_open_f(const char *pathname, int flags)
 {
 	return syscall(__NR_open, pathname, flags);
 }
+#else
+int sys_open_fm(const char *pathname, int flags, mode_t mode)
+{
+	return -ENOSYS;
+}
+
+int sys_open_f(const char *pathname, int flags)
+{
+	return -ENOSYS;
+}
 #endif
 
 int sys_openat(int dfd, const char *path, int flags, mode_t mode)
