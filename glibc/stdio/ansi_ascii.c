@@ -11,11 +11,20 @@
 #define FAILURE_CHECK "\xe2\x9c\x98"
 
 static char mem[] = "\033";
+static char *ansi[] = {
+	RED, GREEN
+};
 
 int main(void)
 {
 	printf("size of \033 = %ld\n", sizeof(mem));
+
+	/* Success */
 	if (!memcmp(mem, "\033", 2))
+		printf("==\n");
+
+	/* Failed */
+	if (!memcmp(ansi[0], "\033", 2))
 		printf("==\n");
 
 	fprintf(stderr, "%s\n", DEBUG_CHECK);
