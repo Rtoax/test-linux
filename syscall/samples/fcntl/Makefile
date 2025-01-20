@@ -7,10 +7,9 @@ else
 endif
 export Q
 
-
 TARGETS :=
 TARGETS += fallocate
-TARGETS += open openat2
+TARGETS += open openat openat2
 TARGETS += splice splice-read
 # F_ flags
 TARGETS += F_GET_SEALS
@@ -38,6 +37,7 @@ build: ${TARGETS}
 # Add more object.o file
 fallocate: fallocate.o
 open: open.o helpers.o
+openat: openat.o helpers.o
 openat2: openat2.o helpers.o
 splice: splice.o
 splice-read: splice-read.o

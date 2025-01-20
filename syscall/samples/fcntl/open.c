@@ -28,7 +28,11 @@ int main(void)
 	printf("flags = %08o\n", flags);
 	printf("mode  = %04o\n", mode);
 
-	fd = open(path, flags, mode);
+#if defined(SYS_OPENAT)
+	fd = sys_openat(AT_FDCWD, ".", flags, mode);
+#else
+	fd = sys_open_fm(path, flags, mode);
+#endif
 	if (fd == -1) {
 		perror("open");
 		return 1;
