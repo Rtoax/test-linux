@@ -1,5 +1,15 @@
 /**
- * BPF_PROG_TYPE_TRACING fentry
+ * BPF_PROG_TYPE_TRACING
+ *
+ * Tracing programs are a newer alternative to kprobes and tracepoints. Tracing
+ * programs utilize BPF trampolines, a new mechanism which provides practically
+ * zero overhead. In addition, tracing programs can be attached to BPF programs
+ * to provide troubleshooting and debugging capabilities, something that is not
+ * possible with kprobes.
+ *
+ * v5.8: Iterator
+ * v5.7: Modify return
+ * v5.5: Raw tracepoint, Fentry, Fexit
  */
 #include <vmlinux.h>
 #include <bpf/bpf_tracing.h>
