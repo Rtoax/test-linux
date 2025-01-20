@@ -7,12 +7,14 @@
 - CR: Control Register (控制寄存器)
 - DBT: Dynamic Binary Translator (动态二进制翻译) @BT @HBT @SBT @JIT
 - GNI: Gesher New Instructions () @AVX
+- HCR: Hypervisor Configuration Register () @ARM @MRC
 - HNI: Haswell New Instructions () @AVX2
 - HBT: Hybrid Binary Translator (混合二进制翻译) @SBT @DBT
 - ISA: Instruction Set Architecture (指令集架构)
 - ISS: Instruction Set Simulator (指令集模拟)
 - MMX: Matrix Math eXtension (or MultiMedia eXtension) @SIMD
 - MNI: Merom New Instructions () @SSSE3
+- MRC: Move to Register from Coprocessor () @ARM @HCR
 - MSR: Module Specific Register ()
 - MTRRs: Memory Type Range Registers () @MSR
 - NEON: ? () @ARM @SIMD

@@ -68,5 +68,8 @@ int main(void)
 	val = GET_REG("TTBR0_EL1");
 	val = GET_REG("TTBR1_EL1");
 
+	val = GET_REG("HCR_EL2");
+	printf("HCR_EL2:\t0x%" PRIX64 "\n", val);
+
 	return 0;
 }
