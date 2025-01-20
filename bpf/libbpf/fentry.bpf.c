@@ -45,10 +45,21 @@ int test_sys_nanosleep_ret(void *ctx)
 	return 0;
 }
 
-SEC("fexit/" SYS_PREFIX "sys_openat2")
-int BPF_PROG(test_sys_openat2_ret, struct pt_regs *regs, int ret)
+/* See bcc tools/opensnoop.py */
+SEC("fentry/" SYS_PREFIX "sys_openat")
+#if defined(CONFIG_ARCH_HAS_SYSCALL_WRAPPER)
+int BPF_PROG(test_sys_openat, struct pt_regs *regs)
 {
-	bpf_printk("openat2(?) ret = %d", ret);
+	int dfd = PT_REGS_PARM1(regs);
+	const char *filename = (const char *)PT_REGS_PARM2(regs);
+	int flags = PT_REGS_PARM3(regs);
+	umode_t mode = PT_REGS_PARM4(regs);
+#else
+int BPF_PROG(test_sys_openat, int dfd, const char *filename, int flags,
+	     unsigned short mode)
+{
+#endif
+	bpf_printk("openat(%d, %s, %08o, %04o)", dfd, filename, flags, mode);
 	return 0;
 }
 
