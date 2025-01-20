@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #define RED   "\033[31m"
 #define GREEN "\x1b[32m"
@@ -9,8 +10,14 @@
 #define SUCCESS_CHECK "\xe2\x9c\x94"
 #define FAILURE_CHECK "\xe2\x9c\x98"
 
+static char mem[] = "\033";
+
 int main(void)
 {
+	printf("size of \033 = %ld\n", sizeof(mem));
+	if (!memcmp(mem, "\033", 2))
+		printf("==\n");
+
 	fprintf(stderr, "%s\n", DEBUG_CHECK);
 	fprintf(stderr, "\xe2\x9c\x92\n");
 	fprintf(stderr, "\xe2\x9c\x93\n");
