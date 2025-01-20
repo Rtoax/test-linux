@@ -69,7 +69,8 @@ int BPF_PROG(test_sys_openat, int dfd, const char *filename, int flags,
 	     unsigned short mode)
 {
 #endif
-	bpf_printk("openat(%d, %s, %08o, %04o)", dfd, filename, flags, mode);
+	bpf_printk("openat(%d, %s, %08o, ", dfd, filename, flags);
+	bpf_printk("%04o)", mode);
 	return 0;
 }
 
