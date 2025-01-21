@@ -42,7 +42,7 @@ static struct {
 	size_t sz;
 } mem_ro, mem_rw;
 
-void *map_file(const char *file, int ro, size_t *sz)
+void *map_file(const char *file, int ro, int cow, size_t *sz)
 {
 	void *mem = NULL;
 	int i, err, fd, prot;
@@ -74,10 +74,10 @@ void *map_file(const char *file, int ro, size_t *sz)
 
 	for (i = 0; i < st.st_size; i += getpagesize()) {
 		char c = *(char *)(mem + i);
-#if 1
-		if (!ro)
+
+		/* Write */
+		if (!ro && cow)
 			*(char *)(mem + i) = 'a';
-#endif
 	}
 
 	*sz = st.st_size;
@@ -316,8 +316,8 @@ int main(int argc, char *argv[])
 	cpu_numa = numa_node_of_cpu(run_on_cpu);
 	printf("Run on CPU %d, NUMA %d\n", run_on_cpu, cpu_numa);
 
-	mem_ro.mem = map_file("/usr/bin/ls", 1, &mem_ro.sz);
-	mem_rw.mem = map_file("/usr/bin/ls", 0, &mem_rw.sz);
+	mem_ro.mem = map_file("/usr/bin/ls", 1, 1, &mem_ro.sz);
+	mem_rw.mem = map_file("/usr/bin/ls", 0, 1, &mem_rw.sz);
 
 	test_mapping_phy_addr();
 	mbind_numa();
