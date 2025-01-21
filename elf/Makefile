@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0
 SHELL = bash
 ifeq ($(V),1)
   Q =
@@ -7,6 +8,7 @@ else
 endif
 export Q
 
+include ./elf.mk
 
 sub-dir := got
 sub-dir += library
