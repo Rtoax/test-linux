@@ -10,7 +10,11 @@ int main(void)
 
 #ifdef LIBC___ERRNO_LOCATION_SYMADDR
 	printf("LIBC___ERRNO_LOCATION_SYMADDR = 0x%x\n", LIBC___ERRNO_LOCATION_SYMADDR);
-	/* We could use this to get libc.so.6 load virtual address */
+	/**
+	 * We could use this to get libc.so.6 load virtual address, however,
+	 * it's only works for PIE ELF such as Debian 12 default ELF format,
+	 * because "__errno_location" equal to UND st_value in ET_EXEC.
+	 */
 	printf("libc.so.6 load address 0x%lx\n",
 		(unsigned long)__errno_location - LIBC___ERRNO_LOCATION_SYMADDR);
 #endif
