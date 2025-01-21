@@ -8,6 +8,7 @@ else
 endif
 export Q
 
+include ../../elf.mk
 
 TARGETS := hello
 TARGETS += hello-pie
@@ -48,6 +49,7 @@ $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
 	${Q}$(CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*)) $(CFLAGS) $(CFLAGS_$(*))
 	@size --format=sysv $(@) >> build.log
+	$(Q)echo "  $(@) : $(call elf_is_pie,${@})"
 
 test: ${TARGETS}
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
