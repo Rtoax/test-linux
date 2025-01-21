@@ -17,6 +17,9 @@
 #define GB	(1024 * MB)
 #define DEFAULT_ALLOC_MSIZE (1 * GB)
 
+/* FIXME: Add other test here. */
+#define memcpy_stub memcpy
+
 static size_t block_size = 256;
 static size_t msize = DEFAULT_ALLOC_MSIZE;
 static size_t alloc_msize = DEFAULT_ALLOC_MSIZE;
@@ -109,7 +112,8 @@ int main(int argc, char *argv[])
 
 	while (1) {
 		for (i = 0; i < alloc_msize - block_size; i += block_size) {
-			memcpy(buf2 + i, buf1 + i, block_size);
+			/* Replace memcpy_stub here */
+			memcpy_stub(buf2 + i, buf1 + i, block_size);
 			bytes_cnt += block_size;
 			test_cnt++;
 
