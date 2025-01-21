@@ -8,6 +8,7 @@ else
 endif
 export Q
 
+include glibc.mk
 include ../scripts/logos.mk
 
 sub-dir := arpa
@@ -115,8 +116,6 @@ endif
 
 sub-dir-build := $(sub-dir:=.build)
 sub-dir-clean := $(sub-dir:=.clean)
-
-MAKEFLAGS += --no-print-directory
 
 .PHONY: build
 build: ${TARGETS} $(sub-dir-build)

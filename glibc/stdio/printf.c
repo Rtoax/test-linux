@@ -18,6 +18,10 @@ int main(void)
 	printf("pid %d\n", getpid());
 	printf("printf addr %p\n", &printf);
 
+#ifdef LIBC_PRINTF_SYMADDR
+	printf("LIBC_PRINTF_SYMADDR = 0x%x\n", LIBC_PRINTF_SYMADDR);
+#endif
+
 	for (i = 0; i <= strlen(STR); i++)
 		printf("%3d/%" PRId "  [%.*s]\n", i, strlen(STR), i, STR);
 

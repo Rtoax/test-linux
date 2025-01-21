@@ -8,6 +8,7 @@ else
 endif
 export Q
 
+include ../glibc.mk
 
 TARGETS :=
 TARGETS += ansi_ascii
@@ -37,6 +38,8 @@ CC = gcc
 
 CFLAGS := -Werror -Wall
 CFLAGS += -DDEBUG -O0 -g
+
+CFLAGS += -DLIBC_PRINTF_SYMADDR=${LIBC_PRINTF_SYMADDR}
 
 ifdef PIE
   CFLAGS += -pie -fPIE
