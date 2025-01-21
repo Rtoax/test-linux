@@ -12,17 +12,21 @@
 #include <unistd.h>
 #include <sys/time.h>
 
+#define KB	(1024)
+#define MB	(1024 * KB)
+#define GB	(1024 * MB)
+#define ALLOC_MSIZE (1 * GB)
 
 static size_t block_size = 256;
-static size_t nloop = 10000000;
+static size_t msize = ALLOC_MSIZE;
 static int verbose = false;
 
 const char argp_prog_doc[] =
-	"USAGE: [-b <block_size>] [-n <nloop>] [-v|--verbose]\n";
+	"USAGE: [-b <block_size>] [-s <bytes>] [-v|--verbose]\n";
 
 static const struct argp_option opts[] = {
 	{ "block-size", 'b', "BLOCK_SIZE", 0, "block size for each memory copy" },
-	{ "nloop", 'n', "NLLOOP", 0, "memory copy times" },
+	{ "msize", 's', "MSIZE", 0, "total size of memory copy" },
 	{ "verbose", 'v', "VERBOSE", 1, "Display detail" },
 	{},
 };
@@ -33,8 +37,8 @@ static error_t parse_arg(int key, char *arg, struct argp_state *state)
 	case 'b':
 		block_size = strtoull(arg, NULL, 10);
 		break;
-	case 'n':
-		nloop = strtoull(arg, NULL, 10);
+	case 's':
+		msize = strtoull(arg, NULL, 10);
 		break;
 	case 'v':
 		verbose = true;
@@ -54,18 +58,18 @@ static const struct argp argp = {
 	.doc = argp_prog_doc,
 };
 
-static void *map(size_t msize)
+static void *map(size_t size)
 {
 	int i;
 	/* Testing memory allocate */
-	char *mem = mmap(NULL, msize, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANON, -1, 0);
+	char *mem = mmap(NULL, size, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANON, -1, 0);
 	if (mem == MAP_FAILED) {
 		fprintf(stderr, "memory allocate fatal. %s\n", strerror(errno));
 		exit(1);
 	}
 
 	/* page fault */
-	for (i = 0; i < msize; i += getpagesize())
+	for (i = 0; i < size; i += getpagesize())
 		mem[i] = '9';
 
 	return mem;
@@ -80,8 +84,8 @@ static inline unsigned long usecs(void)
 
 int main(int argc, char *argv[])
 {
-	int i, err;
-	size_t test_nloop, msize;
+	int err;
+	size_t i, test_cnt, bytes_cnt;
 	char *buf1, *buf2;
 	unsigned long start, end;
 
@@ -91,33 +95,38 @@ int main(int argc, char *argv[])
 		return -err;
 	}
 
-	test_nloop = nloop;
+	buf1 = map(ALLOC_MSIZE);
+	buf2 = map(ALLOC_MSIZE);
 
-	if (block_size < getpagesize() * 10)
-		msize = getpagesize() * 10;
-	else {
-		for (i = 0; (2UL << i) < block_size; i++);
-		msize = 2UL << i;
-	}
-
-	buf1 = map(msize);
-	buf2 = map(msize);
+	test_cnt = bytes_cnt = 0;
 
 	start = usecs();
 
-	while (test_nloop--)
-		memcpy(buf2, buf1, block_size);
+	while (1) {
+		for (i = 0; i < ALLOC_MSIZE - block_size; i += block_size) {
+			memcpy(buf2 + i, buf1 + i, block_size);
+			bytes_cnt += block_size;
+			test_cnt++;
+			if (bytes_cnt >= msize)
+				goto test_done;
+		}
+	}
 
+test_done:
 	end = usecs();
 
 	if (verbose) {
-		printf("%-16s %-16s %-16s\n", "BLOCK_SIZE(B)", "SPENT(us)", "NLOOP");
-		printf("%-16s %-16s %-16s\n", "-------------", "---------", "-----");
+		printf("%-16s %-16s %-16s %-16s %-16s\n",
+			"BLOCK_SIZE(B)", "SPENT(us)", "COUNT", "SIZE(MB)", "RATE(MB/s)");
+		printf("%-16s %-16s %-16s %-16s %-16s\n",
+			"-------------", "---------", "-----", "--------", "---------");
 	}
-	printf("%-16ld %-16ld %-16ld\n", block_size, end - start, nloop);
+	printf("%-16ld %-16ld %-16ld %-16ld %-13.2f\n", block_size, end - start, test_cnt,
+		bytes_cnt / MB,
+		bytes_cnt * 1.0f / MB * 1000000UL / (end - start));
 
-	munmap(buf1, msize);
-	munmap(buf2, msize);
+	munmap(buf1, ALLOC_MSIZE);
+	munmap(buf2, ALLOC_MSIZE);
 
 	return 0;
 }
