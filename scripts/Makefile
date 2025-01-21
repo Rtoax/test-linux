@@ -12,7 +12,7 @@ all: test_call
 
 include ../compiler/compiler.mk
 include ../tlbuild.mk
-include libc.mk
+include ../glibc/glibc.mk
 include success.mk
 include wow.mk
 include logos.mk

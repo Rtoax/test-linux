@@ -81,7 +81,7 @@ ifdef M32
   endif
 endif
 
-include ../scripts/libc.mk
+include ../glibc/glibc.mk
 # The following demostration is probe printf(3) function, and add macro to
 # CFLAGS.
 feature-printf := $(findstring 1,$(call probe_libc_printf))
