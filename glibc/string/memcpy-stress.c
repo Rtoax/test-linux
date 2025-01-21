@@ -9,6 +9,7 @@
 #include <sys/types.h>
 #include <sys/mman.h>
 #include <stdbool.h>
+#include <unistd.h>
 #include <sys/time.h>
 
 
@@ -55,12 +56,18 @@ static const struct argp argp = {
 
 static void *map(size_t msize)
 {
+	int i;
 	/* Testing memory allocate */
-	void *mem = mmap(NULL, msize, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANON, -1, 0);
+	char *mem = mmap(NULL, msize, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANON, -1, 0);
 	if (mem == MAP_FAILED) {
 		fprintf(stderr, "memory allocate fatal. %s\n", strerror(errno));
 		exit(1);
 	}
+
+	/* page fault */
+	for (i = 0; i < msize; i += getpagesize())
+		mem[i] = '9';
+
 	return mem;
 }
 
@@ -86,8 +93,12 @@ int main(int argc, char *argv[])
 
 	test_nloop = nloop;
 
-	for (i = 0; (2UL << i) < block_size; i++);
-	msize = 2UL << i;
+	if (block_size < getpagesize() * 10)
+		msize = getpagesize() * 10;
+	else {
+		for (i = 0; (2UL << i) < block_size; i++);
+		msize = 2UL << i;
+	}
 
 	buf1 = map(msize);
 	buf2 = map(msize);
