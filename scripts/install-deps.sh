@@ -99,7 +99,7 @@ inst_eval()
 
 dnf_upgrade()
 {
-	inst_eval sudo dnf up -y --allowerasing --nobest || {
+	inst_eval sudo dnf up ${dnf_args[@]} -y --allowerasing --nobest || {
 		echo "WARNING: Failed to upgrade"
 		true
 	}
@@ -797,6 +797,12 @@ apt_add_packages()
 
 	return 0
 }
+
+# __main__
+
+if [[ $(is_os centos) ]]; then
+	dnf_args+=( --enablerepo=crb,powertools )
+fi
 
 os_packages
 
