@@ -21,6 +21,19 @@ CC = gcc
 
 CFLAGS := -Werror -Wall
 
+ifdef PIE
+  CFLAGS += -pie -fPIE
+  LDFLAGS += -pie -fPIE
+endif
+
+ifdef NOPIE
+  CFLAGS += -no-pie
+  LDFLAGS += -no-pie
+  ifdef PIE
+    $(error "Could no specify PIE and NOPIE at the same time")
+  endif
+endif
+
 sub-dir-build := $(sub-dir:=.build)
 sub-dir-clean := $(sub-dir:=.clean)
 
@@ -28,8 +41,15 @@ sub-dir-clean := $(sub-dir:=.clean)
 build: ${TARGETS} $(sub-dir-build)
 	@echo -e " \033[1;33m Done \033[m"
 
-# Add more object.o file
 macro: macro.o
+
+%.o: %.c
+	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
+	$(Q)$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
+
+$(TARGETS): %:
+	@echo -e "  LD  \033[1;32m$(@)\033[m"
+	$(Q)$(CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*)) $(CFLAGS) $(CFLAGS_$(*))
 
 test: ${TARGETS}
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
