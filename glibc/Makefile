@@ -20,6 +20,7 @@ sub-dir += ctype
 sub-dir += dirent
 sub-dir += dlfcn
 sub-dir += err
+sub-dir += errno
 sub-dir += error
 sub-dir += execinfo
 sub-dir += fcntl
