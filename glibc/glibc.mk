@@ -2,7 +2,7 @@
 
 pound := \#
 
-LIBC_SO_PATH=$(shell ldconfig -p | grep libc.so.6 | grep 64 | awk '{printf $$4}')
+LIBC_SO_PATH=$(shell ldconfig -p | grep libc.so.6 | grep 64 | awk '{printf $$NF}')
 $(info LIBC_SO_PATH = ${LIBC_SO_PATH})
 
 LIBC_PRINTF_SYMADDR=0x$(shell readelf --syms --wide ${LIBC_SO_PATH} \
