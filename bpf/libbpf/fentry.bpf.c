@@ -19,17 +19,19 @@
 #define WITH_PARAMS 1
 
 SEC("fentry/" SYS_PREFIX "sys_nanosleep")
-#if defined(CONFIG_ARCH_HAS_SYSCALL_WRAPPER)
-int BPF_PROG(test_sys_nanosleep, struct pt_regs *regs)
-{
-	struct timespec64 *duration = (struct timespec64 *)PT_REGS_PARM1(regs);
-#else
+#if WITH_PARAMS == 1
 int BPF_PROG(test_sys_nanosleep, const struct timespec64 *duration,
 	     struct timespec64 *rem)
-{
+#else
+int test_sys_nanosleep(void *ctx)
 #endif
+{
+#if WITH_PARAMS == 1
 	bpf_printk("nanosleep({.tv_sec = %ld, .tv_nsec = %ld})",
 		   duration->tv_sec, duration->tv_nsec);
+#else
+	bpf_printk("nanosleep(?)");
+#endif
 	return 0;
 }
 
