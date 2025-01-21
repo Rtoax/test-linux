@@ -115,7 +115,7 @@ $(TARGETS_SO): %:
 
 $(TARGETS_A): %:
 	@echo -e "  AR  \033[1;32m$(^) to $(@)\033[m"
-	@ar rcs $(@) $(^)
+	${Q}ar rcs $(@) $(^)
 
 .PHONY: test
 test: ${TARGETS}
