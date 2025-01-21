@@ -96,8 +96,9 @@ int main(int argc, char *argv[])
 
 	end = usecs();
 
-	printf("Spent %ld us, block_size %ld B, nloop %ld\n", end - start,
-		block_size, nloop);
+	if (verbose)
+		printf("%-16s %-16s %-16s\n", "BLOCK_SIZE(B)", "SPENT(us)", "NLOOP");
+	printf("%-16ld %-16ld %-16ld\n", block_size, end - start, nloop);
 
 	munmap(buf1, 8192);
 	munmap(buf2, 8192);
