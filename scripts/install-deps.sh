@@ -647,6 +647,7 @@ dnf_add_packages()
 	pkgs_devel+=( libbpf-devel )         # libbpf
 	pkgs_devel+=( libcap-ng-devel )
 	pkgs_devel+=( libcurl-devel )
+	pkgs_devel+=( libdwarf-devel )
 	pkgs_devel+=( libfdt-devel )
 	pkgs_devel+=( libiscsi-devel )
 	pkgs_devel+=( libpmem-devel )
