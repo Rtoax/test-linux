@@ -219,6 +219,27 @@ unsigned long proc_maps_libc_data_addr(unsigned long *size)
 	return __proc_maps_addr(VT_LIBC, NULL, &arg, size);
 }
 
+unsigned long proc_maps_libc_base_addr_2(void)
+{
+	unsigned long addr = 0;
+	char maps[256];
+	char line[256] = {0};
+	FILE *fp;
+
+	snprintf(maps, 256,
+		"grep libc.so.6 /proc/%d/maps | head -1 | grep -o '^[0-9a-z]*'",
+		getpid());
+
+	fp = popen(maps, "r");
+
+	fgets(line, 256, fp);
+
+	addr = strtoull(line, NULL, 16);
+
+	pclose(fp);
+	return addr;
+}
+
 unsigned long proc_maps_libc_text_addr(unsigned long *size)
 {
 	union addr_args arg = {

@@ -77,7 +77,7 @@ int main(void)
 	printf("base text addr : %lx\n", proc_maps_exec_text_addr(NULL));
 	printf("base data addr : %lx\n", proc_maps_exec_data_addr(NULL));
 	printf("libc name : %s\n", proc_maps_libc_base_name(name, sizeof(name)));
-	printf("libc addr : %lx\n", proc_maps_libc_base_addr(NULL));
+	printf("libc addr : %lx(%lx)\n", proc_maps_libc_base_addr(NULL), proc_maps_libc_base_addr_2());
 	printf("libc text addr : %lx\n", proc_maps_libc_text_addr(NULL));
 	printf("libc data addr : %lx\n", proc_maps_libc_data_addr(NULL));
 	printf("vdso addr : %lx\n", proc_maps_vdso_addr(NULL));
