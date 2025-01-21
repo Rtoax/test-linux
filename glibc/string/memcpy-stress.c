@@ -73,8 +73,8 @@ static inline unsigned long usecs(void)
 
 int main(int argc, char *argv[])
 {
-	int err;
-	size_t test_nloop;
+	int i, err;
+	size_t test_nloop, msize;
 	char *buf1, *buf2;
 	unsigned long start, end;
 
@@ -86,8 +86,11 @@ int main(int argc, char *argv[])
 
 	test_nloop = nloop;
 
-	buf1 = map(8192);
-	buf2 = map(8192);
+	for (i = 0; (2UL << i) < block_size; i++);
+	msize = 2UL << i;
+
+	buf1 = map(msize);
+	buf2 = map(msize);
 
 	start = usecs();
 
@@ -102,8 +105,8 @@ int main(int argc, char *argv[])
 	}
 	printf("%-16ld %-16ld %-16ld\n", block_size, end - start, nloop);
 
-	munmap(buf1, 8192);
-	munmap(buf2, 8192);
+	munmap(buf1, msize);
+	munmap(buf2, msize);
 
 	return 0;
 }
