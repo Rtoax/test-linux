@@ -15,18 +15,20 @@
 #define KB	(1024)
 #define MB	(1024 * KB)
 #define GB	(1024 * MB)
-#define ALLOC_MSIZE (1 * GB)
+#define DEFAULT_ALLOC_MSIZE (1 * GB)
 
 static size_t block_size = 256;
-static size_t msize = ALLOC_MSIZE;
+static size_t msize = DEFAULT_ALLOC_MSIZE;
+static size_t alloc_msize = DEFAULT_ALLOC_MSIZE;
 static int verbose = false;
 
 const char argp_prog_doc[] =
-	"USAGE: [-b <block_size>] [-s <bytes>] [-v|--verbose]\n";
+	"USAGE: [-b <block_size>] [-s <bytes>] [-a <bytes>] [-v|--verbose]\n";
 
 static const struct argp_option opts[] = {
 	{ "block-size", 'b', "BLOCK_SIZE", 0, "block size for each memory copy" },
 	{ "msize", 's', "MSIZE", 0, "total size of memory copy" },
+	{ "alloc", 'a', "ALLOC", 0, "size of memory allocated use to test" },
 	{ "verbose", 'v', "VERBOSE", 1, "Display detail" },
 	{},
 };
@@ -39,6 +41,9 @@ static error_t parse_arg(int key, char *arg, struct argp_state *state)
 		break;
 	case 's':
 		msize = strtoull(arg, NULL, 10);
+		break;
+	case 'a':
+		alloc_msize = strtoull(arg, NULL, 10);
 		break;
 	case 'v':
 		verbose = true;
@@ -95,18 +100,20 @@ int main(int argc, char *argv[])
 		return -err;
 	}
 
-	buf1 = map(ALLOC_MSIZE);
-	buf2 = map(ALLOC_MSIZE);
+	buf1 = map(alloc_msize);
+	buf2 = map(alloc_msize);
 
 	test_cnt = bytes_cnt = 0;
 
 	start = usecs();
 
 	while (1) {
-		for (i = 0; i < ALLOC_MSIZE - block_size; i += block_size) {
+		for (i = 0; i < alloc_msize - block_size; i += block_size) {
 			memcpy(buf2 + i, buf1 + i, block_size);
 			bytes_cnt += block_size;
 			test_cnt++;
+
+			/* All test copy same memory size */
 			if (bytes_cnt >= msize)
 				goto test_done;
 		}
@@ -116,17 +123,18 @@ test_done:
 	end = usecs();
 
 	if (verbose) {
-		printf("%-16s %-16s %-16s %-16s %-16s\n",
-			"BLOCK_SIZE(B)", "SPENT(us)", "COUNT", "SIZE(MB)", "RATE(MB/s)");
-		printf("%-16s %-16s %-16s %-16s %-16s\n",
-			"-------------", "---------", "-----", "--------", "---------");
+		printf("%-16s %-16s %-16s %-16s %-16s %-16s\n",
+			"BLOCK_SIZE(B)", "SPENT(us)", "COUNT", "ALLOC(MB)", "SIZE(MB)", "RATE(MB/s)");
+		printf("%-16s %-16s %-16s %-16s %-16s %-16s\n",
+			"-------------", "---------", "-----", "---------", "--------", "---------");
 	}
-	printf("%-16ld %-16ld %-16ld %-16ld %-13.2f\n", block_size, end - start, test_cnt,
+	printf("%-16ld %-16ld %-16ld %-16ld %-16ld %-13.2f\n", block_size, end - start, test_cnt,
+		alloc_msize / MB,
 		bytes_cnt / MB,
 		bytes_cnt * 1.0f / MB * 1000000UL / (end - start));
 
-	munmap(buf1, ALLOC_MSIZE);
-	munmap(buf2, ALLOC_MSIZE);
+	munmap(buf1, alloc_msize);
+	munmap(buf2, alloc_msize);
 
 	return 0;
 }
