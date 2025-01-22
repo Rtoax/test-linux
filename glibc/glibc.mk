@@ -34,9 +34,9 @@ endef
 #
 # $1 - symbol
 define libc_sym_addr
-	$(shell readelf --syms --wide ${LIBC_SO_PATH} \
-		| grep -w $(1) | grep GLOBAL | head -1 \
+$(shell readelf --syms --wide ${LIBC_SO_PATH} \
+		| grep -w $(1) | grep -e GLOBAL -e LOCAL | head -1 \
 		| awk '{printf "0x"$$2}')
 endef
 
-$(info printf = $(call libc_sym_addr,printf))
+$(info printf = <$(call libc_sym_addr,printf)>)

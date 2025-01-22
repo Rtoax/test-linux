@@ -12,13 +12,24 @@
 #include <unistd.h>
 #include <sys/time.h>
 
+#include "proc.h"
+
 #define KB	(1024)
 #define MB	(1024 * KB)
 #define GB	(1024 * MB)
 #define DEFAULT_ALLOC_MSIZE (1 * GB)
 
-/* FIXME: Add other test here. */
+typedef void *(*memcpy_fn)(void *, const void *, size_t n);
+
+#ifdef SYMADDR___memcpy_ssse3
+static memcpy_fn __memcpy_ssse3;
+#define memcpy_stub __memcpy_ssse3
+#define memcpy_name "__memcpy_ssse3"
+#else
+/* fallback to glibc's memcpy */
 #define memcpy_stub memcpy
+#define memcpy_name "memcpy"
+#endif
 
 static size_t block_size = 256;
 static size_t msize = DEFAULT_ALLOC_MSIZE;
@@ -66,6 +77,15 @@ static const struct argp argp = {
 	.doc = argp_prog_doc,
 };
 
+static void reloc_addr(void)
+{
+	unsigned long libc = proc_maps_libc_base_addr_2();
+	(void)libc;
+#ifdef SYMADDR___memcpy_ssse3
+	__memcpy_ssse3 = (memcpy_fn)(libc + SYMADDR___memcpy_ssse3);
+#endif
+}
+
 static void *map(size_t size)
 {
 	int i;
@@ -103,6 +123,8 @@ int main(int argc, char *argv[])
 		return -err;
 	}
 
+	reloc_addr();
+
 	buf1 = map(alloc_msize);
 	buf2 = map(alloc_msize);
 
@@ -127,6 +149,7 @@ test_done:
 	end = usecs();
 
 	if (verbose) {
+		printf("Test %s\n", memcpy_name);
 		printf("%-16s %-16s %-16s %-16s %-16s %-16s\n",
 			"BLOCK_SIZE(B)", "SPENT(us)", "COUNT", "ALLOC(MB)", "SIZE(MB)", "RATE(MB/s)");
 		printf("%-16s %-16s %-16s %-16s %-16s %-16s\n",

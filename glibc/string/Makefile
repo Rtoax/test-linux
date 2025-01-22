@@ -7,12 +7,18 @@ else
 endif
 export Q
 
+include ../glibc.mk
+
+SYMADDR___memcpy_ssse3 := $(call libc_sym_addr,__memcpy_ssse3)
 
 TARGETS :=
 TARGETS += bcopy
 TARGETS += index
 TARGETS += memchr
 TARGETS += memcpy memcpy-stress
+ifneq ($(SYMADDR___memcpy_ssse3),)
+  TARGETS += __memcpy_ssse3-stress
+endif
 TARGETS += memset memset-stress
 TARGETS += memmove
 TARGETS += stpcpy
@@ -32,7 +38,7 @@ TARGETS += strsignal
 TARGETS += strerror strerror_r
 TARGETS += strstr
 
-CC = gcc
+CC := gcc
 
 CFLAGS := -Werror -Wall
 CFLAGS += -I../../../
@@ -45,7 +51,9 @@ endif
 
 CFLAGS_memcpy-stress := -DSTRESS=1
 CFLAGS_memset-stress := -DSTRESS=1
+CFLAGS___memcpy_ssse3-stress := -DSYMADDR___memcpy_ssse3=$(SYMADDR___memcpy_ssse3)
 
+.PHONY: build
 build: sig.h ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
@@ -56,7 +64,8 @@ bcopy: bcopy.o
 index: index.o
 memchr: memchr.o
 memcpy: memcpy.o
-memcpy-stress: memcpy-stress.o
+memcpy-stress: memcpy-stress.o proc.o
+__memcpy_ssse3-stress: __memcpy_ssse3-stress.o proc.o
 memset: memset.o
 memset-stress: memset-stress.o
 memmove: memmove.o

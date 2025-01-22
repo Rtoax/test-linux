@@ -3,6 +3,7 @@
 /memchr
 /memcpy
 /memcpy-stress
+/__memcpy_ssse3-stress
 /memset
 /memset-stress
 /memmove
