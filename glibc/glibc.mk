@@ -2,6 +2,7 @@
 
 pound := \#
 
+# Get libc.so.6 abs-path
 LIBC_SO_PATH=$(shell ldconfig -p | grep libc.so.6 | grep 64 | awk '{printf $$NF}')
 $(info LIBC_SO_PATH = ${LIBC_SO_PATH})
 
@@ -26,3 +27,16 @@ define probe_libc_printf
     $(CC) -x c -Wall - $(1) -S -o - >/dev/null 2>&1 \
       && echo 1)
 endef
+
+# Get symbol address from libc.so.6, readelf output format
+#
+# 2611: 0000000000035a80   204 FUNC    GLOBAL DEFAULT    3 printf@@GLIBC_2.2.5
+#
+# $1 - symbol
+define libc_sym_addr
+	$(shell readelf --syms --wide ${LIBC_SO_PATH} \
+		| grep -w $(1) | grep GLOBAL | head -1 \
+		| awk '{printf "0x"$$2}')
+endef
+
+$(info printf = $(call libc_sym_addr,printf))
