@@ -11,6 +11,7 @@ include ../glibc.mk
 
 SYMADDR___memcpy_ssse3 := $(call libc_sym_addr,__memcpy_ssse3)
 SYMADDR___memcpy_generic := $(call libc_sym_addr,__memcpy_generic)
+SYMADDR___memcpy_simd := $(call libc_sym_addr,__memcpy_simd)
 
 TARGETS :=
 TARGETS += bcopy
@@ -22,6 +23,9 @@ ifneq ($(SYMADDR___memcpy_ssse3),)
 endif
 ifneq ($(SYMADDR___memcpy_generic),)
   TARGETS += __memcpy_generic-stress
+endif
+ifneq ($(SYMADDR___memcpy_simd),)
+  TARGETS += __memcpy_simd-stress
 endif
 TARGETS += memset memset-stress
 TARGETS += memmove
@@ -57,6 +61,7 @@ CFLAGS_memcpy-stress := -DSTRESS=1
 CFLAGS_memset-stress := -DSTRESS=1
 CFLAGS___memcpy_ssse3-stress := -DSYMADDR___memcpy_ssse3=$(SYMADDR___memcpy_ssse3)
 CFLAGS___memcpy_generic-stress := -DSYMADDR___memcpy_generic=$(SYMADDR___memcpy_generic)
+CFLAGS___memcpy_simd-stress := -DSYMADDR___memcpy_simd=$(SYMADDR___memcpy_simd)
 
 .PHONY: build
 build: sig.h ${TARGETS}
@@ -72,6 +77,7 @@ memcpy: memcpy.o
 memcpy-stress: memcpy-stress.o proc.o
 __memcpy_ssse3-stress: __memcpy_ssse3-stress.o proc.o
 __memcpy_generic-stress: __memcpy_generic-stress.o proc.o
+__memcpy_simd-stress: __memcpy_simd-stress.o proc.o
 memset: memset.o
 memset-stress: memset-stress.o
 memmove: memmove.o
