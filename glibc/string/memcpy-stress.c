@@ -25,6 +25,10 @@ typedef void *(*memcpy_fn)(void *, const void *, size_t n);
 static memcpy_fn __memcpy_ssse3;
 #define memcpy_stub __memcpy_ssse3
 #define memcpy_name "__memcpy_ssse3"
+#elif defined(SYMADDR___memcpy_generic)
+static memcpy_fn __memcpy_generic;
+#define memcpy_stub __memcpy_generic
+#define memcpy_name "__memcpy_generic"
 #else
 /* fallback to glibc's memcpy */
 #define memcpy_stub memcpy
@@ -83,6 +87,8 @@ static void reloc_addr(void)
 	(void)libc;
 #ifdef SYMADDR___memcpy_ssse3
 	__memcpy_ssse3 = (memcpy_fn)(libc + SYMADDR___memcpy_ssse3);
+#elif defined(SYMADDR___memcpy_generic)
+	__memcpy_generic = (memcpy_fn)(libc + SYMADDR___memcpy_generic);
 #endif
 }
 

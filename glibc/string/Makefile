@@ -10,6 +10,7 @@ export Q
 include ../glibc.mk
 
 SYMADDR___memcpy_ssse3 := $(call libc_sym_addr,__memcpy_ssse3)
+SYMADDR___memcpy_generic := $(call libc_sym_addr,__memcpy_generic)
 
 TARGETS :=
 TARGETS += bcopy
@@ -18,6 +19,9 @@ TARGETS += memchr
 TARGETS += memcpy memcpy-stress
 ifneq ($(SYMADDR___memcpy_ssse3),)
   TARGETS += __memcpy_ssse3-stress
+endif
+ifneq ($(SYMADDR___memcpy_generic),)
+  TARGETS += __memcpy_generic-stress
 endif
 TARGETS += memset memset-stress
 TARGETS += memmove
@@ -52,6 +56,7 @@ endif
 CFLAGS_memcpy-stress := -DSTRESS=1
 CFLAGS_memset-stress := -DSTRESS=1
 CFLAGS___memcpy_ssse3-stress := -DSYMADDR___memcpy_ssse3=$(SYMADDR___memcpy_ssse3)
+CFLAGS___memcpy_generic-stress := -DSYMADDR___memcpy_generic=$(SYMADDR___memcpy_generic)
 
 .PHONY: build
 build: sig.h ${TARGETS}
@@ -66,6 +71,7 @@ memchr: memchr.o
 memcpy: memcpy.o
 memcpy-stress: memcpy-stress.o proc.o
 __memcpy_ssse3-stress: __memcpy_ssse3-stress.o proc.o
+__memcpy_generic-stress: __memcpy_generic-stress.o proc.o
 memset: memset.o
 memset-stress: memset-stress.o
 memmove: memmove.o
