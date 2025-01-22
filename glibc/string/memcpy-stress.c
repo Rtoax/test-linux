@@ -41,6 +41,10 @@ static memcpy_fn __memcpy_a64fx;
 extern void *__memcpy_aarch64(void *, const void *, size_t);
 #define memcpy_stub __memcpy_aarch64
 #define memcpy_name "__memcpy_aarch64"
+#elif defined(ARM_SOFTWARE___memcpy_aarch64_sve)
+extern void *__memcpy_aarch64_sve(void *, const void *, size_t);
+#define memcpy_stub __memcpy_aarch64_sve
+#define memcpy_name "__memcpy_aarch64_sve"
 #else
 /* fallback to glibc's memcpy */
 #define memcpy_stub memcpy

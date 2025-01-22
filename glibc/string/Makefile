@@ -71,14 +71,15 @@ LDFLAGS :=
 #
 # libstringlib.a provides:
 # memcpy()
+#  __memcpy_aarch64()
 #  __memcpy_aarch64_simd()
 #  __memcpy_aarch64_mops()
-#  __memcpy_aarch64()
 #  __memcpy_aarch64_sve()
 ARM_SOFTWARE_OPTIMIZED_ROUTINES_LIBSTRINGLIB_A ?= /usr/lib/libstringlib.a
 ifneq ($(wildcard $(ARM_SOFTWARE_OPTIMIZED_ROUTINES_LIBSTRINGLIB_A)),)
   LDFLAGS += /usr/lib/libstringlib.a
   TARGETS += __memcpy_aarch64-stress
+  TARGETS += __memcpy_aarch64_sve-stress
 else
   $(warning "WARNING: Not found ARM-software/optimized-routines in your system")
   $(warning "         Need https://github.com/ARM-software/optimized-routines")
@@ -95,6 +96,7 @@ CFLAGS___memcpy_generic-stress := -DSYMADDR___memcpy_generic=$(SYMADDR___memcpy_
 CFLAGS___memcpy_simd-stress := -DSYMADDR___memcpy_simd=$(SYMADDR___memcpy_simd)
 CFLAGS___memcpy_a64fx-stress := -DSYMADDR___memcpy_a64fx=$(SYMADDR___memcpy_a64fx)
 CFLAGS___memcpy_aarch64-stress := -DARM_SOFTWARE___memcpy_aarch64=1
+CFLAGS___memcpy_aarch64_sve-stress := -DARM_SOFTWARE___memcpy_aarch64_sve=1
 
 .PHONY: build
 build: sig.h ${TARGETS}
@@ -113,6 +115,7 @@ __memcpy_generic-stress: __memcpy_generic-stress.o proc.o
 __memcpy_simd-stress: __memcpy_simd-stress.o proc.o
 __memcpy_a64fx-stress: __memcpy_a64fx-stress.o proc.o
 __memcpy_aarch64-stress: __memcpy_aarch64-stress.o proc.o
+__memcpy_aarch64_sve-stress: __memcpy_aarch64_sve-stress.o proc.o
 memset: memset.o
 memset-stress: memset-stress.o
 memmove: memmove.o

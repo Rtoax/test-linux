@@ -8,6 +8,7 @@
 /__memcpy_simd-stress
 /__memcpy_a64fx-stress
 /__memcpy_aarch64-stress
+/__memcpy_aarch64_sve-stress
 /memset
 /memset-stress
 /memmove
