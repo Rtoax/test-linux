@@ -19,7 +19,7 @@
 #define GB	(1024 * MB)
 #define DEFAULT_ALLOC_MSIZE (1 * GB)
 
-typedef void *(*memcpy_fn)(void *, const void *, size_t n);
+typedef void *(*memcpy_fn)(void *, const void *, size_t);
 
 #ifdef SYMADDR___memcpy_ssse3
 static memcpy_fn __memcpy_ssse3;
@@ -37,6 +37,10 @@ static memcpy_fn __memcpy_simd;
 static memcpy_fn __memcpy_a64fx;
 #define memcpy_stub __memcpy_a64fx
 #define memcpy_name "__memcpy_a64fx"
+#elif defined(ARM_SOFTWARE___memcpy_aarch64) /* https://github.com/ARM-software/optimized-routines */
+extern void *__memcpy_aarch64(void *, const void *, size_t);
+#define memcpy_stub __memcpy_aarch64
+#define memcpy_name "__memcpy_aarch64"
 #else
 /* fallback to glibc's memcpy */
 #define memcpy_stub memcpy
