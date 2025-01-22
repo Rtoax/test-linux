@@ -20,12 +20,18 @@ TARGETS += memchr
 TARGETS += memcpy memcpy-stress
 ifneq ($(SYMADDR___memcpy_ssse3),)
   TARGETS += __memcpy_ssse3-stress
+else
+  $(warning Not found __memcpy_ssse3())
 endif
 ifneq ($(SYMADDR___memcpy_generic),)
   TARGETS += __memcpy_generic-stress
+else
+  $(warning Not found __memcpy_generic)
 endif
 ifneq ($(SYMADDR___memcpy_simd),)
   TARGETS += __memcpy_simd-stress
+else
+  $(warning Not found __memcpy_simd)
 endif
 TARGETS += memset memset-stress
 TARGETS += memmove
