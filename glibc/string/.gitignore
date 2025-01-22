@@ -6,6 +6,7 @@
 /__memcpy_ssse3-stress
 /__memcpy_generic-stress
 /__memcpy_simd-stress
+/__memcpy_a64fx-stress
 /memset
 /memset-stress
 /memmove

@@ -33,6 +33,10 @@ static memcpy_fn __memcpy_generic;
 static memcpy_fn __memcpy_simd;
 #define memcpy_stub __memcpy_simd
 #define memcpy_name "__memcpy_simd"
+#elif defined(SYMADDR___memcpy_a64fx) /* arm SVE/SVE2 */
+static memcpy_fn __memcpy_a64fx;
+#define memcpy_stub __memcpy_a64fx
+#define memcpy_name "__memcpy_a64fx"
 #else
 /* fallback to glibc's memcpy */
 #define memcpy_stub memcpy
@@ -95,6 +99,8 @@ static void reloc_addr(void)
 	__memcpy_generic = (memcpy_fn)(libc + SYMADDR___memcpy_generic);
 #elif defined(SYMADDR___memcpy_simd)
 	__memcpy_simd = (memcpy_fn)(libc + SYMADDR___memcpy_simd);
+#elif defined(SYMADDR___memcpy_a64fx)
+	__memcpy_a64fx = (memcpy_fn)(libc + SYMADDR___memcpy_a64fx);
 #endif
 }
 
