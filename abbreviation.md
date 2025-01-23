@@ -26,6 +26,7 @@
 - RAS: Reliability, Availability, Serviceability (可靠性、可用性、可维护性) @CPU
 - RC: Release Candidate (候选版本,例如rc1)
 - RTLA: Real-time Linux Analysis tool (实时分析工具)
+- SMT: Satisfiability Modulo Theories (基于模理论的可满足性)
 - SVR4: System V Release 4
 - SysV: Unix System V 'System Five' ()
 - Tex: () @LaTeX
