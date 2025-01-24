@@ -18,40 +18,59 @@
 
 #define WITH_PARAMS 1
 
+struct nanosleep_args {
+	struct timespec64 duration;
+	struct timespec64 rem;
+};
+
 SEC("fentry/" SYS_PREFIX "sys_nanosleep")
-#if WITH_PARAMS == 1
+#if defined(CONFIG_ARCH_HAS_SYSCALL_WRAPPER)
+int BPF_PROG(test_sys_nanosleep, struct pt_regs *regs)
+{
+#if 0
+	/**
+	 * ; bpf_printk("nanosleep({.tv_sec = %ld, .tv_nsec = %ld})",
+	 * 2: (79) r4 = *(u64 *)(r1 +8)
+	 * R1 invalid mem access 'inv'
+	 */
+	struct timespec64 *duration = (void *)PT_REGS_PARM1(regs);
+#else
+	struct nanosleep_args args = {};
+	struct timespec64 *duration = (void *)PT_REGS_PARM1(regs);
+
+	if (bpf_probe_read(&args.duration, sizeof(struct timespec64), duration))
+		return 0;
+
+	duration = &args.duration;
+#endif
+#else
 int BPF_PROG(test_sys_nanosleep, const struct timespec64 *duration,
 	     struct timespec64 *rem)
-#else
-int test_sys_nanosleep(void *ctx)
-#endif
 {
-#if WITH_PARAMS == 1
+#endif
 	bpf_printk("nanosleep({.tv_sec = %ld, .tv_nsec = %ld})",
 		   duration->tv_sec, duration->tv_nsec);
-#else
-	bpf_printk("nanosleep(?)");
-#endif
 	return 0;
 }
 
 SEC("fexit/" SYS_PREFIX "sys_nanosleep")
-#if WITH_PARAMS == 1
-/**
- * FIXME: Why not the following!!
- * int BPF_PROG(test_sys_nanosleep_ret, const struct timespec64 *duration,
- *		struct timespec64 *rem, int ret)
- */
+#if defined(CONFIG_ARCH_HAS_SYSCALL_WRAPPER)
 int BPF_PROG(test_sys_nanosleep_ret, struct pt_regs *regs, int ret)
-#else
-int test_sys_nanosleep_ret(void *ctx)
-#endif
 {
-#if WITH_PARAMS == 1
-	bpf_printk("nanosleep(?) ret = %d", ret);
+	struct nanosleep_args args = {};
+	struct timespec64 *duration = (void *)PT_REGS_PARM1(regs);
+
+	if (bpf_probe_read(&args.duration, sizeof(struct timespec64), duration))
+		return 0;
+
+	duration = &args.duration;
 #else
-	bpf_printk("nanosleep(?) ret");
+int BPF_PROG(test_sys_nanosleep_ret, const struct timespec64 *duration,
+	     struct timespec64 *rem, int ret)
+{
 #endif
+	bpf_printk("nanosleep({.tv_sec = %ld, .tv_nsec = %ld}) = %d",
+		   duration->tv_sec, duration->tv_nsec, ret);
 	return 0;
 }
 

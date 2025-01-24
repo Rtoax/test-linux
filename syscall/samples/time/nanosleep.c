@@ -30,9 +30,11 @@ int better_sleep(double s)
 int main(void)
 {
 	struct timespec ts = {1, 0};
+
 	nanosleep(&ts, NULL);
 	better_sleep(1.001);
 	sys_nanosleep(&ts, NULL);
+
 	return 0;
 }
 
