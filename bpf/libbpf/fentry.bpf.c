@@ -88,7 +88,7 @@ struct openat_args {
 #ifdef OPENAT
 /* See bcc tools/opensnoop.py */
 SEC("fentry/" SYS_PREFIX "sys_openat")
-#if defined(CONFIG_ARCH_HAS_SYSCALL_WRAPPER)
+# if defined(CONFIG_ARCH_HAS_SYSCALL_WRAPPER)
 int BPF_PROG(test_sys_openat, struct pt_regs *regs)
 {
 	int dfd = (int)PT_REGS_PARM1(regs);
@@ -99,13 +99,20 @@ int BPF_PROG(test_sys_openat, struct pt_regs *regs)
 #ifndef O_CREAT
 #define O_CREAT		00000100
 #endif
+#ifndef O_TMPFILE
+#define O_TMPFILE	020200000
+#endif
 	/**
 	 * The mode parameter is only present when the flags parameter includes
 	 * the O_CREAT flag. This means that the mode parameter is the fourth
 	 * argument, but you should only access it if the third parameter
 	 * flags includes O_CREAT.
+	 *
+	 * The mode argument must be supplied if O_CREAT or O_TMPFILE is
+	 * specified in flags; if it is not supplied, some arbitrary bytes from
+	 * the stack will be applied as the file mode.
 	 */
-	if (flags & O_CREAT) {
+	if (flags & (O_CREAT | O_TMPFILE)) {
 		mode = (umode_t)PT_REGS_PARM4(regs);
 		BPF_DEBUG("O_CREAT %s mode = 0x%x", filename, mode);
 	}
@@ -113,7 +120,7 @@ int BPF_PROG(test_sys_openat, struct pt_regs *regs)
 /**
  * Actually, no need to use bpf_probe_read() here.
  */
-#ifdef use_bpf_probe_read
+#  ifdef use_bpf_probe_read
 	struct openat_args args = {};
 
 	if (bpf_probe_read_str(args.filename, sizeof(args.filename), filename) <= 0)
@@ -130,14 +137,14 @@ int BPF_PROG(test_sys_openat, struct pt_regs *regs)
 		return 0;
 	mode = args.mode;
 	BPF_DEBUG("mode = %04o", mode);
-#endif
+#  endif
 
-#else /* CONFIG_ARCH_HAS_SYSCALL_WRAPPER */
+# else /* CONFIG_ARCH_HAS_SYSCALL_WRAPPER */
 
 int BPF_PROG(test_sys_openat, int dfd, const char *filename, int flags,
 	     unsigned short mode)
 {
-#endif
+# endif /* CONFIG_ARCH_HAS_SYSCALL_WRAPPER */
 	bpf_printk("openat(%d, %s, %08x, ", dfd, filename, flags);
 	/**
 	 * FIXME: bpf_printk() could not print octal with %o, print nothing if

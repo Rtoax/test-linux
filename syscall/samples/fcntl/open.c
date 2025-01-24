@@ -25,6 +25,7 @@ int main(void)
 	flags = O_WRONLY | O_EXCL | O_CREAT;
 	mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH;
 
+	printf("file = %s\n", path);
 	printf("flags = %08o\n", flags);
 	printf("mode  = %04o\n", mode);
 
