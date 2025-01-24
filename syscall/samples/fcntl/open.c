@@ -29,7 +29,7 @@ int main(void)
 	printf("mode  = %04o\n", mode);
 
 #if defined(SYS_OPENAT)
-	fd = sys_openat(AT_FDCWD, ".", flags, mode);
+	fd = sys_openat(AT_FDCWD, path, flags, mode);
 #else
 	fd = sys_open_fm(path, flags, mode);
 #endif
