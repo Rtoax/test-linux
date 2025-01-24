@@ -19,10 +19,10 @@ int main(void)
 
 	unlink(path);
 
-	flags = O_WRONLY | O_EXCL | O_CREAT;
 	/**
-	 * flag make file could not exist.
+	 * flags make file could not exist.
 	 */
+	flags = O_WRONLY | O_EXCL | O_CREAT;
 	mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH;
 
 	printf("flags = %08o\n", flags);
