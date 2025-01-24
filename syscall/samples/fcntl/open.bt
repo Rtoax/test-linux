@@ -25,6 +25,24 @@ tracepoint:syscalls:sys_exit_openat
 	delete(@files[tid]);
 }
 
+/**
+ * Only tracing for openat.c
+ */
+fexit:vmlinux:__x64_sys_openat
+/ comm == "openat" /
+{
+	$pt_regs = (struct pt_regs *)args->regs;
+
+	/* x86_64 */
+	$dfd = $pt_regs->di;
+	$filename = str($pt_regs->si);
+	$flags = $pt_regs->dx;
+	$mode = $pt_regs->cx;
+
+	time("%H:%M:%S ");
+	printf("%-8d %-16s %-04o %-s (fentry)\n", pid, comm, $mode, $filename);
+}
+
 END
 {
 	clear(@files);
