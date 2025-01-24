@@ -5,6 +5,7 @@
 /likely
 /likely.[1-9]
 /offsetof
+/container_of
 /__clang__
 /__i386__
 /__x86_64__

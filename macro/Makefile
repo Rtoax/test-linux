@@ -20,6 +20,7 @@ TARGETS += arch
 TARGETS += bit
 TARGETS += likely
 TARGETS += offsetof
+TARGETS += container_of
 TARGETS += __clang__
 TARGETS += __nonnull
 TARGETS += __restrict__
@@ -75,6 +76,7 @@ alias: alias.o
 bit: bit.o
 likely: likely.o
 offsetof: offsetof.o
+container_of: container_of.o
 __clang__: __clang__.o
 __i386__: __i386__.o
 __x86_64__: __x86_64__.o
