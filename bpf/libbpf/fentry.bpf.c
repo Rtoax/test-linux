@@ -15,9 +15,12 @@
 #include <bpf/bpf_tracing.h>
 #include <bpf/bpf_helpers.h>
 #include "bpf_misc.h"
+#include "bpf_debug.h"
 
-#define WITH_PARAMS 1
+#define NANOSLEEP	1
+#define OPENAT		1
 
+#ifdef NANOSLEEP
 struct nanosleep_args {
 	struct timespec64 duration;
 	struct timespec64 rem;
@@ -73,24 +76,62 @@ int BPF_PROG(test_sys_nanosleep_ret, const struct timespec64 *duration,
 		   duration->tv_sec, duration->tv_nsec, ret);
 	return 0;
 }
+#endif // NANOSLEEP
 
+struct openat_args {
+	int dfd;
+	char filename[256];
+	int flags;
+	umode_t mode;
+};
+
+#ifdef OPENAT
 /* See bcc tools/opensnoop.py */
 SEC("fentry/" SYS_PREFIX "sys_openat")
 #if defined(CONFIG_ARCH_HAS_SYSCALL_WRAPPER)
 int BPF_PROG(test_sys_openat, struct pt_regs *regs)
 {
-	int dfd = PT_REGS_PARM1(regs);
+	int dfd = (int)PT_REGS_PARM1(regs);
 	const char *filename = (const char *)PT_REGS_PARM2(regs);
-	int flags = PT_REGS_PARM3(regs);
-	umode_t mode = PT_REGS_PARM4(regs);
-#else
+	int flags = (int)PT_REGS_PARM3(regs);
+	umode_t mode = (umode_t)PT_REGS_PARM4(regs);
+
+/**
+ * Actually, no need to use bpf_probe_read() here.
+ */
+#ifdef use_bpf_probe_read
+	struct openat_args args = {};
+
+	if (bpf_probe_read_str(args.filename, sizeof(args.filename), filename) <= 0)
+		return 0;
+	filename = args.filename;
+	BPF_DEBUG("filename = %s", filename);
+
+	if (bpf_probe_read(&args.flags, sizeof(args.flags), &flags))
+		return 0;
+	flags = args.flags;
+	BPF_DEBUG("flags = %x", flags);
+
+	if (bpf_probe_read(&args.mode, sizeof(args.mode), &mode))
+		return 0;
+	mode = args.mode;
+	BPF_DEBUG("mode = %04o", mode);
+#endif
+
+#else /* CONFIG_ARCH_HAS_SYSCALL_WRAPPER */
+
 int BPF_PROG(test_sys_openat, int dfd, const char *filename, int flags,
 	     unsigned short mode)
 {
 #endif
-	bpf_printk("openat(%d, %s, %08o, ", dfd, filename, flags);
-	bpf_printk("openat(..., mode = %04o)", mode);
+	bpf_printk("openat(%d, %s, %08x, ", dfd, filename, flags);
+	/**
+	 * FIXME: bpf_printk() could not print octal with %o, print nothing if
+	 * use %o instead of %x.
+	 */
+	bpf_printk("                     mode = 0x%x)", mode);
 	return 0;
 }
+#endif
 
 char _license[] SEC("license") = "GPL";

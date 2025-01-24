@@ -4,14 +4,9 @@
 #include <bpf/bpf_tracing.h>
 #include <bpf/bpf_core_read.h>
 #include "xdp_dos.h"
-
+#include "bpf_debug.h"
 
 #define ETH_P_IP	0x0800
-#if defined(DEBUG)
-#define BPF_DEBUG(fmt...) bpf_printk(fmt)
-#else
-#define BPF_DEBUG(fmt...)
-#endif
 
 typedef struct {
 	uint8_t type; // Type of message (e.g. echo request)
