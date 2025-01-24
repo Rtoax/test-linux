@@ -94,7 +94,21 @@ int BPF_PROG(test_sys_openat, struct pt_regs *regs)
 	int dfd = (int)PT_REGS_PARM1(regs);
 	const char *filename = (const char *)PT_REGS_PARM2(regs);
 	int flags = (int)PT_REGS_PARM3(regs);
-	umode_t mode = (umode_t)PT_REGS_PARM4(regs);
+	umode_t mode = 0;
+
+#ifndef O_CREAT
+#define O_CREAT		00000100
+#endif
+	/**
+	 * The mode parameter is only present when the flags parameter includes
+	 * the O_CREAT flag. This means that the mode parameter is the fourth
+	 * argument, but you should only access it if the third parameter
+	 * flags includes O_CREAT.
+	 */
+	if (flags & O_CREAT) {
+		mode = (umode_t)PT_REGS_PARM4(regs);
+		BPF_DEBUG("O_CREAT %s mode = 0x%x", filename, mode);
+	}
 
 /**
  * Actually, no need to use bpf_probe_read() here.
