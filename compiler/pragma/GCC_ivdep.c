@@ -19,7 +19,10 @@
 void foo(int n, int *a, int *b, int *c)
 {
 	int i;
+#if defined(__clang__)
+#elif defined(__GNUC__)
 	#pragma GCC ivdep
+#endif
 	for (i = 0; i < n; ++i)
 		a[i] = b[i] + c[i];
 }
@@ -29,7 +32,10 @@ void foo(int n, int *a, int *b, int *c)
  */
 void ignore_vec_dep(int *a, int k, int c, int m)
 {
+#if defined(__clang__)
+#elif defined(__GNUC__)
 	#pragma GCC ivdep
+#endif
 	for (int i = 0; i < m; i++)
 		a[i] = a[i + k] * c;
 }
