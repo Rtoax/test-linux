@@ -497,7 +497,8 @@ pkgs_desktop+=( thunderbird )
 pkgs_desktop+=( gimp )
 pkgs_desktop+=( gnome-tweaks )
 pkgs_desktop+=( gnuplot )
-pkgs_desktop+=( openshot )
+# openshot: Crashed at first time
+#pkgs_desktop+=( openshot )
 pkgs_desktop+=( python3-matplotlib )
 
 # Database
