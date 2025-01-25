@@ -35,6 +35,18 @@ struct son {
 	char lastname[STRLEN];
 } __packed;
 
+#ifdef ERROR
+union son {
+	int a, b, c;
+};
+#endif
+
+union person {
+	struct mother mother;
+	struct father father;
+	struct son son;
+};
+
 int main(int argc, char *argv[])
 {
 	struct son *son;
@@ -72,6 +84,8 @@ int main(int argc, char *argv[])
 
 	son = container_of(&sons[1].father, struct son, father);
 	printf("son age: %d\n", son->age);
+
+	printf("offsetof: %ld union\n", offsetof(union person, father.firstname));
 
 	return 0;
 }
