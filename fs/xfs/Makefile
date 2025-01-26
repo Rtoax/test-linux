@@ -13,4 +13,5 @@ build:
 
 .PHONY: clean
 clean:
-	$(Q)rm -rf tmp-mnt fs.xfs
+	$(Q)sudo umount tmp-mnt || true
+	$(Q)sudo rm -rf tmp-mnt fs.xfs
