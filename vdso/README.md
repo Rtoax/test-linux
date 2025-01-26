@@ -28,6 +28,28 @@ $ ldd `which bash` | grep vdso
 
 这利用了内核的ASLR特性，以解决vsyscall page固定映射地址的安全问题。为了方便地利用ASLR特性，vDSO mapping的本体是一个ELF共享目标文件（x86-64下的文件名称叫做vdso64.so，位于内核源码arch/x86/entry/vdso/下）。
 
+
+##  vDSO names
+
+参见 `man vdso`:
+
+       user ABI   vDSO name
+       ─────────────────────────────
+       aarch64    linux-vdso.so.1
+       arm        linux-vdso.so.1
+       ia64       linux-gate.so.1
+       mips       linux-vdso.so.1
+       ppc/32     linux-vdso32.so.1
+       ppc/64     linux-vdso64.so.1
+       riscv      linux-vdso.so.1
+       s390       linux-vdso32.so.1
+       s390x      linux-vdso64.so.1
+       sh         linux-gate.so.1
+       i386       linux-gate.so.1
+       x86-64     linux-vdso.so.1
+       x86/x32    linux-vdso.so.1
+
+
 # vDSO image的构建过程
 
 DSO image的构建过程比较复杂，下面是一个简要的过程描述：
@@ -48,6 +70,7 @@ getcpu()
 * 使用vdso2c工具将vdso64.so转换为vdso-image-64.c。vdso-image-64.c定义的是有关vdso64.so的各种blob信息，其中最重要一部分就是将vdso64.so的全部内容以C字节数组的形式放到了vdso-image-64.c中。
 * 将vdso-image-64.c编译为vdso-image-64.o，并与内核中vDSO初始化相关的代码一起编译进内核。
 
+
 # 应用程序如何使用vDSO mapping
 
 在内核加载ELF binary时，内核中的ELF loader会通过辅助向量来向用户态传递一些信息；而getauxval()就是用来通过辅助向量来获取这些信息的函数：
@@ -62,13 +85,16 @@ void *vdso = (uintptr_t) getauxval(AT_SYSINFO_EHDR);
 
 当然，识别vDSO mapping只是第一步，伴随而来的是繁复的解析工作；这些工作通常由glibc来承担，应用程序只要还是按照传统方式直接调用C库即可。这就意味着如果真遇到应用程序开发人员非要深入到vDSO如此细节的程度，要么是遇到了非常严重的问题，要么就是彻底搞错了方向。
 
+
 # vDSO mapping支持重映射
 
 其实这个也没什么神秘的。既然内核能够在加载ELF可执行文件的时候偷偷建立vDSO mapping，那应用程序在运行时也可以自己unmap掉它；还可以再重新映射到其他地址上。
 
+
 # vvar mapping
 
 与vDSO mapping相伴的是一个叫vvar mapping的。vvar mapping的大小是8-12K，内容是vDSO mapping中的代码要访问的内核与用户进程之间要共享的数据。
+
 
 # Links
 
