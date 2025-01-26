@@ -8,7 +8,6 @@ else
 endif
 export Q
 
-
 # Test vDSO linux-vdso.so.1
 #
 # See linux:/arch/x86/entry/vdso/Makefile
@@ -18,7 +17,6 @@ export Q
 TARGET :=
 TARGET += main-custom
 TARGET += main-kernel
-
 
 all: ${TARGET}
 
