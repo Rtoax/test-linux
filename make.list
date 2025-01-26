@@ -48,6 +48,7 @@ USER_LIST += syscall
 USER_LIST += sysctl
 USER_LIST += template
 USER_LIST += unwind
+USER_LIST += vdso
 USER_LIST += vhost
 
 KERNEL_LIST :=
