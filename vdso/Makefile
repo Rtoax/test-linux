@@ -8,7 +8,8 @@ else
 endif
 export Q
 
-sub-dir := scripts
+sub-dir := linux-vdso.so.1
+sub-dir += scripts
 sub-dir += test
 sub-dir += vvar/scripts/
 
