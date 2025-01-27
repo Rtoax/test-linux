@@ -5,6 +5,8 @@ pid=$$
 vdso_so=vdso64.so
 vdso_sz=
 
+exec >&2
+
 readonly addr_range=( $(cat /proc/${pid}/maps | grep -w '\[vdso\]' | grep -o ^'[0-9a-f]*-[0-9a-f]*' | tr '-' ' '))
 readonly vdso_sz=$(printf "%ld" $(( 0x${addr_range[1]} - 0x${addr_range[0]} )))
 
