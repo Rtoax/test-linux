@@ -8,9 +8,12 @@ else
 endif
 export Q
 
-
 TARGETS := main
 TARGETS += main-pg
+# FIXME: aarch64 seems like don't support -mfentry
+ifeq ($(shell uname -m),x86_64)
+  TARGETS += main-pg-fentry
+endif
 
 CC = gcc
 
@@ -22,6 +25,7 @@ build: ${TARGETS}
 
 main: main.o-no-pg foo.o-pg
 main-pg: main-pg.o-pg foo.o-no-pg
+main-pg-fentry: main-pg-fentry.o-pg-fentry foo.o-pg-fentry
 
 %.o-no-pg: %.c
 	@echo -e "  CC NO-PG \033[1m$(<)\033[m to \033[1m$(@)\033[m"
@@ -30,6 +34,10 @@ main-pg: main-pg.o-pg foo.o-no-pg
 %.o-pg: %.c
 	@echo -e "  CC PG  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	${Q}$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*)) -pg
+
+%.o-pg-fentry: %.c
+	@echo -e "  CC PG FENTRY  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
+	${Q}$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*)) -pg -mfentry
 
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
@@ -40,4 +48,4 @@ test: ${TARGETS}
 
 clean:
 	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
-	${Q}rm -f ${TARGETS} *.o *.o-pg *.o-no-pg
+	${Q}rm -f ${TARGETS} *.o *.o-pg *.o-no-pg *.o-pg-fentry
