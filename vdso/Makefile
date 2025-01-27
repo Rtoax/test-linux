@@ -18,9 +18,11 @@ sub-dir-clean := $(sub-dir:=.clean)
 
 .PHONY: build
 build: $(sub-dir-build)
+	@${SHELL} ./dump.sh
 
 .PHONY: clean
 clean: $(sub-dir-clean)
+	${Q}rm -rf *.so
 
 $(sub-dir-build):
 	@echo -e "\033[1;32m [sub-dir] build $(@)\033[m"
