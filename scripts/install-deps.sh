@@ -770,7 +770,7 @@ apt_add_packages()
 	pkgs_devel+=( librdmacm-dev )
 	pkgs_devel+=( libxdp-dev )
 	pkgs_devel+=( python3-dev )
-	#pkgs_devel+=( systemd-dev )
+	pkgs_devel+=( python3-systemd )
 	pkgs_devel+=( systemtap-sdt-dev )
 	pkgs_devel+=( zlib1g-dev )
 
