@@ -339,11 +339,11 @@ int main(int argc, char *argv[])
 #define BUF_STRING0	"Hello, Original!"
 #define BUF_STRING1	"Hello, Memory!"
 
-#ifdef PAGE_ALIGN
+# ifdef PAGE_ALIGN
 	posix_memalign((void **)&buf, 4096, buf_len);
-#else
+# else
 	buf = malloc(buf_len);
-#endif
+# endif
 	assert(buf && "malloc failed");
 
 	mlock(buf, buf_len);
@@ -357,9 +357,9 @@ int main(int argc, char *argv[])
 	memfd = open_dev_mem();
 
 	dev_mem_read(memfd, phy, buffer, strlen(BUF_STRING0));
-	printf("buffer %s\n", buffer);
+	printf("read from /dev/mem buffer %s\n", buffer);
 	dev_mem_write(memfd, phy, BUF_STRING1, strlen(BUF_STRING1));
-	printf("buf = %s\n", buf);
+	printf("write to /dev/mem buf %s\n", buf);
 	close(memfd);
 
 	free(buf);
