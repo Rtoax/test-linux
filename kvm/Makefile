@@ -10,7 +10,6 @@ endif
 export Q
 
 sub-dir := playground
-sub-dir += virtio/tools/virtio-trace
 
 $(info INFO: USER_FAILED_LOG = ${USER_FAILED_LOG})
 
