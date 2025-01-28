@@ -494,6 +494,7 @@ pkgs_media_3rd+=()
 pkgs_desktop+=( terminator )
 pkgs_desktop+=( thunderbird )
 pkgs_desktop+=( gimp )
+pkgs_desktop+=( gitk )
 pkgs_desktop+=( gnome-tweaks )
 pkgs_desktop+=( gnuplot )
 # openshot: Crashed at first time
