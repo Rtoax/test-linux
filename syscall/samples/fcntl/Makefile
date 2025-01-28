@@ -11,7 +11,7 @@ TARGETS :=
 TARGETS += fallocate
 TARGETS += open openat openat2
 TARGETS += splice splice-read
-TARGETS += O_
+TARGETS += O_ flags S_ mode
 
 # F_ flags
 TARGETS += F_GET_SEALS
@@ -44,6 +44,9 @@ openat2: openat2.o helpers.o
 splice: splice.o
 splice-read: splice-read.o
 O_: O_.o
+flags: flags.o
+S_: S_.o
+mode: mode.o
 
 F_GET_SEALS: F_GET_SEALS.o
 F_ADD_SEALS: F_ADD_SEALS.o
