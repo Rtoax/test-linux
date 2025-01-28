@@ -20,6 +20,8 @@ int main(void)
 	int fd;
 	char path[PATH_MAX];
 
+	printf("O_TMPFILE : %0o\n", O_TMPFILE);
+
 	/* O_TMPFILE: Create  an  unnamed  temporary regular file. */
 	fd = open("./", O_TMPFILE | O_RDWR, S_IRUSR | S_IWUSR);
 	perror("open");

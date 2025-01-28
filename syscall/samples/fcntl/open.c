@@ -19,6 +19,8 @@ int main(void)
 
 	unlink(path);
 
+	printf("O_CREAT : %0o\n", O_CREAT);
+
 	/**
 	 * flags make file could not exist.
 	 */
