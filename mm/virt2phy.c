@@ -40,7 +40,7 @@ static int cpu_numa;
 static struct {
 	void *mem;
 	size_t sz;
-} mem_ro, mem_rw;
+} mem_ro, mem_rw, mem_rw_cow;
 
 void *map_file(const char *file, int ro, int cow, size_t *sz)
 {
@@ -234,6 +234,10 @@ void test_mapping_phy_addr(void)
 	va = (unsigned long)mem_rw.mem;
 	pa = virt_to_phy(va);
 	PR("mem_rw", va, pa, addr_numa(pa, va));
+
+	va = (unsigned long)mem_rw_cow.mem;
+	pa = virt_to_phy(va);
+	PR("mem_rw_cow", va, pa, addr_numa(pa, va));
 }
 
 void mem_bind_to_numa(void *mem, size_t size, int dst_numa)
@@ -316,8 +320,9 @@ int main(int argc, char *argv[])
 	cpu_numa = numa_node_of_cpu(run_on_cpu);
 	printf("Run on CPU %d, NUMA %d\n", run_on_cpu, cpu_numa);
 
-	mem_ro.mem = map_file("/usr/bin/ls", 1, 1, &mem_ro.sz);
-	mem_rw.mem = map_file("/usr/bin/ls", 0, 1, &mem_rw.sz);
+	mem_ro.mem = map_file("/usr/bin/ls", 1, 0, &mem_ro.sz);
+	mem_rw.mem = map_file("/usr/bin/ls", 0, 0, &mem_rw.sz);
+	mem_rw_cow.mem = map_file("/usr/bin/ls", 0, 1, &mem_rw_cow.sz);
 
 	test_mapping_phy_addr();
 	mbind_numa();
