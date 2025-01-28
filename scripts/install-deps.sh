@@ -508,8 +508,6 @@ pkgs_fs+=( attr )
 pkgs_fs+=( xfsprogs )
 
 # Storage
-pkgs_storage+=( device-mapper )
-pkgs_storage+=( device-mapper-multipath )
 pkgs_storage+=( iotop )
 pkgs_storage+=( mdadm ) # manage MD devices aka Linux Software RAID
 
@@ -679,6 +677,9 @@ dnf_add_packages()
 
 	pkgs_db+=( libpq-devel )
 
+	pkgs_storage+=( device-mapper )
+	pkgs_storage+=( device-mapper-multipath )
+
 	pkgs_virt+=( edk2-ovmf )
 	pkgs_virt+=( libvirt )
 	pkgs_virt+=( qemu-kvm )
@@ -785,6 +786,8 @@ apt_add_packages()
 
 	pkgs_container+=( cgroup-tools )
 	pkgs_container+=( libcgroup-dev )
+
+	pkgs_storage+=( libdevmapper-dev )
 
 	pkgs_virt+=( libvirt0 )
 	pkgs_virt+=( qemu-system )
