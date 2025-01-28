@@ -11,4 +11,4 @@ ENV TZ=Asia/Shanghai
 
 WORKDIR /root/tlbuild/
 COPY ./scripts/install-deps.sh /root/tlbuild/
-RUN ./install-deps.sh --all --allowerasing
+RUN ./install-deps.sh --all --force
