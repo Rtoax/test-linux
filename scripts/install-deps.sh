@@ -447,7 +447,6 @@ pkgs_base+=( trace-cmd )
 pkgs_base+=( tree )
 pkgs_base+=( util-linux )           # wipefs, etc.
 pkgs_base+=( vim )
-pkgs_base+=( which )
 pkgs_base+=( yq )
 
 pkgs_compiler+=( bison )
@@ -601,6 +600,7 @@ dnf_add_packages()
 	pkgs_base+=( systemd-udev )         # coredumpctl
 	pkgs_base+=( systemtap-sdt-devel )  # sdt.h
 	pkgs_base+=( vim-default-editor )
+	pkgs_base+=( which )
 	pkgs_base+=( xz-devel )
 
 	pkgs_bench+=( rtla )
@@ -735,6 +735,7 @@ apt_add_packages()
 	if [[ ${OS} == ubuntu ]]; then
 		pkgs_base+=( linux-tools-common )
 	fi
+	pkgs_base+=( gnu-which )
 
 	pkgs_net+=( apache2 )
 	pkgs_net+=( libxdp1 )
