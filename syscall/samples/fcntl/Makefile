@@ -63,7 +63,7 @@ $(TARGETS): %:
 
 test: ${TARGETS}
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
-	./fallocate.test.sh
+	${Q}./fallocate.test.sh
 clean:
 	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
 	${Q}rm -f ${TARGETS} *.o *.d *.txt *.dat
