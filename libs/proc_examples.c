@@ -4,10 +4,22 @@
 #include <libgen.h>
 #include <errno.h>
 #include <unistd.h>
+#include <signal.h>
 #include <elf.h>
 #include <sys/mman.h>
+#include <sys/time.h>
+#include <setjmp.h>
 
 #include "proc.h"
+
+#define JMP_SKIP	12
+
+jmp_buf vdso_segv_jmp;
+
+void sig_handler(int sig)
+{
+	longjmp(vdso_segv_jmp, JMP_SKIP);
+}
 
 static void mnt_point_callback(const char *mnt_point)
 {
@@ -72,6 +84,8 @@ int main(void)
 	unsigned long addr;
 	size_t size;
 
+	signal(SIGSEGV, sig_handler);
+
 	proc_for_each_mnt_point(mnt_point_callback);
 
 	proc_pid_maps_display();
@@ -88,7 +102,7 @@ int main(void)
 
 	/* Test [vdso] */
 	{
-		int mem_fd;
+		int mem_fd, ret;
 		FILE *fp;
 		void *mem;
 
@@ -109,6 +123,17 @@ int main(void)
 
 		/* Test unmap vdso, it's works */
 		munmap((void *)addr, size);
+
+		ret = setjmp(vdso_segv_jmp);
+		if (ret == JMP_SKIP) {
+			printf("Get sigfault when call gettimeofday()\n");
+			goto skip_call_vdso;
+		}
+
+		/* After unmap vdso, gettimeofday will be sigfault */
+		struct timeval tv;
+		gettimeofday(&tv, NULL);
+skip_call_vdso:
 	}
 
 	proc_pid_maps_display();
