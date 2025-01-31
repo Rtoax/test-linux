@@ -105,7 +105,7 @@ int main(void)
 		int ret;
 		struct timeval tv;
 
-		proc_vdso_dump("vdso.elf");
+		proc_vdso_dump("vdso.elf", NULL, NULL);
 
 		/* Test unmap vdso, it's works */
 		munmap((void *)addr, size);

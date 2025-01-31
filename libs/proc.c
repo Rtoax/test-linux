@@ -291,7 +291,8 @@ void proc_pid_maps_display(void)
 	system(cmd);
 }
 
-int proc_vdso_dump(const char *filename)
+int proc_vdso_dump(const char *filename, unsigned long *vdso_addr,
+		   size_t *vdso_size)
 {
 	int mem_fd;
 	FILE *fp;
@@ -315,6 +316,11 @@ int proc_vdso_dump(const char *filename)
 	free(mem);
 	close(mem_fd);
 	fclose(fp);
+
+	if (vdso_addr)
+		*vdso_addr = addr;
+	if (vdso_size)
+		*vdso_size = size;
 
 	return 0;
 }
