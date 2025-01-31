@@ -1,3 +1,4 @@
+# Rong Tao, 2022-03-11
 SHELL = bash
 ifeq ($(V),1)
   Q =
@@ -6,9 +7,6 @@ else
   MAKEFLAGS += --no-print-directory
 endif
 export Q
-
-
-# Rong Tao, 2022-03-11
 
 TARGETS :=
 TARGETS += accuracy
@@ -29,9 +27,9 @@ CFLAGS += -pthread
 CXXFLAGS := $(CFLAGS)
 
 ifeq (${ARCH},x86_64)
-TARGETS += evil-clock-test
-TARGETS += time
-DPDK_TSC_FREQ = ./dpdk/tsc_freq.o
+  TARGETS += evil-clock-test
+  TARGETS += time
+  DPDK_TSC_FREQ = ./dpdk/tsc_freq.o
 endif
 
 accuracy: accuracy.o
@@ -52,8 +50,8 @@ CFLAGS_clock_gettime.nsec := -DHAVE_DPDK_TSC_FREQ
 
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	${Q}$(CC) -o $(@) $(^) $(LDLIBS) $(LDFLAGS) $(LDFLAGS_$(*)) $(CFLAGS) $(CFLAGS_$(*))
+	${Q}$(CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*)) $(CFLAGS) $(CFLAGS_$(*))
 
 clean:
 	${Q}make -C dpdk clean
-	rm -f $(TARGETS) *.o
+	${Q}rm -f $(TARGETS) *.o
