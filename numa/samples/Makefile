@@ -8,7 +8,6 @@ else
 endif
 export Q
 
-
 LIBNUMA_HDR = /usr/include/numa.h
 
 TARGETS :=
@@ -22,7 +21,7 @@ TARGETS += numa_pagesize
 TARGETS += numa_preferred
 TARGETS += migrate_pages
 
-CC = gcc
+CC := gcc
 
 ifeq ($(wildcard $(LIBNUMA_HDR)),)
   TARGETS :=
