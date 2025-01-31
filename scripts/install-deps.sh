@@ -126,6 +126,16 @@ apt_install()
 	inst_eval sudo apt install -y ${apt_args[@]} ${@}
 }
 
+dnf_remove()
+{
+	inst_eval sudo dnf remove -y ${dnf_args[@]} ${@}
+}
+
+apt_remove()
+{
+	inst_eval sudo apt remove -y ${apt_args[@]} ${@}
+}
+
 os_operator()
 {
 	local operator=$1
@@ -138,6 +148,7 @@ os_operator()
 		case ${operator} in
 		upgrade) dnf_upgrade ;;
 		install) dnf_install "${@}" ;;
+		remove) dnf_remove "${@}" ;;
 		packages) dnf_add_packages "${@}" ;;
 		esac
 		;;
@@ -145,6 +156,7 @@ os_operator()
 		case ${operator} in
 		upgrade) apt_upgrade ;;
 		install) apt_install "${@}" ;;
+		remove) apt_remove "${@}" ;;
 		packages) apt_add_packages "${@}" ;;
 		esac
 		;;
@@ -176,6 +188,11 @@ os_upgrade()
 os_install()
 {
 	os_operator install "${@}"
+}
+
+os_remove()
+{
+	os_operator remove "${@}"
 }
 
 os_packages()
@@ -394,6 +411,8 @@ centos|rhel|almalinux)
 	;;
 fedora)
 	os_install apt
+	# I don't like use nano editor
+	os_remove nano-default-editor
 	;;
 esac
 
