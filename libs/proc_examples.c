@@ -5,6 +5,7 @@
 #include <errno.h>
 #include <unistd.h>
 #include <elf.h>
+#include <sys/mman.h>
 
 #include "proc.h"
 
@@ -82,10 +83,15 @@ int main(void)
 	printf("libc addr : %lx(%lx)\n", proc_maps_libc_base_addr(NULL), proc_maps_libc_base_addr_2());
 	printf("libc text addr : %lx\n", proc_maps_libc_text_addr(NULL));
 	printf("libc data addr : %lx\n", proc_maps_libc_data_addr(NULL));
-	addr = proc_maps_vdso_addr(&size);
-	printf("vdso addr : %lx, size %lx\n", addr, size);
 	addr = proc_maps_vvar_addr(&size);
 	printf("vvar addr : %lx, size %lx\n", addr, size);
+
+	addr = proc_maps_vdso_addr(&size);
+	printf("vdso addr : %lx, size %lx\n", addr, size);
+	/* Test unmap vdso, it's works */
+	munmap((void *)addr, size);
+
+	proc_pid_maps_display();
 
 	test_mem_fd();
 	test_find_vma_hole();
