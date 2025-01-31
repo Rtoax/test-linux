@@ -28,7 +28,8 @@ const char *proc_comm(char *buf, size_t buf_len)
 enum vma_type {
 	VT_COMM,
 	VT_LIBC,
-	VT_VDSO,
+	VT_VDSO,	/* [vdso] */
+	VT_VVAR,	/* [vvar] */
 	VT_HOLE,	/* Not used in memory space */
 };
 
@@ -149,6 +150,16 @@ static unsigned long __proc_maps_addr(enum vma_type vma_type, char *get_name,
 				goto found;
 			}
 			break;
+		case VT_VVAR:
+			if (!strcmp(basename(name_), "[vvar]")) {
+				addr = start;
+				if (size)
+					*size = end - start;
+				if (get_name)
+					strcpy(get_name, name_);
+				goto found;
+			}
+			break;
 		case VT_HOLE:
 			if (!arg) {
 				fprintf(stderr, "VT_HOLE need arg.\n");
@@ -257,6 +268,11 @@ char *proc_maps_libc_base_name(char *buf, size_t buf_len)
 unsigned long proc_maps_vdso_addr(unsigned long *size)
 {
 	return __proc_maps_addr(VT_VDSO, NULL, NULL, size);
+}
+
+unsigned long proc_maps_vvar_addr(unsigned long *size)
+{
+	return __proc_maps_addr(VT_VVAR, NULL, NULL, size);
 }
 
 unsigned long proc_find_vma_hole(unsigned long start, unsigned long len)
