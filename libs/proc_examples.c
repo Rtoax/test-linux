@@ -68,6 +68,8 @@ void test_find_vma_hole(void)
 int main(void)
 {
 	char comm[128], name[512];
+	unsigned long addr;
+	size_t size;
 
 	proc_for_each_mnt_point(mnt_point_callback);
 
@@ -80,7 +82,10 @@ int main(void)
 	printf("libc addr : %lx(%lx)\n", proc_maps_libc_base_addr(NULL), proc_maps_libc_base_addr_2());
 	printf("libc text addr : %lx\n", proc_maps_libc_text_addr(NULL));
 	printf("libc data addr : %lx\n", proc_maps_libc_data_addr(NULL));
-	printf("vdso addr : %lx\n", proc_maps_vdso_addr(NULL));
+	addr = proc_maps_vdso_addr(&size);
+	printf("vdso addr : %lx, size %lx\n", addr, size);
+	addr = proc_maps_vvar_addr(&size);
+	printf("vvar addr : %lx, size %lx\n", addr, size);
 
 	test_mem_fd();
 	test_find_vma_hole();

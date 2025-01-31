@@ -20,9 +20,9 @@ TARGETS_LIBA += libtest-linux-numa.a
 
 CFLAGS :=
 CFLAGS += -g
+CFLAGS += -lnuma
 
 CFLAGS_numa_mem := -DTEST_MAIN=1
-CFLAGS_numa_mem += -lnuma
 
 sub-dir-build := $(sub-dir:=.build)
 sub-dir-clean := $(sub-dir:=.clean)
