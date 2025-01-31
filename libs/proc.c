@@ -6,6 +6,7 @@
 #include <unistd.h>
 #include <limits.h>
 #include <fcntl.h>
+#include <elf.h>
 #include <sys/mman.h>
 
 #include "proc.h"
@@ -323,6 +324,37 @@ int proc_vdso_dump(const char *filename, unsigned long *vdso_addr,
 		*vdso_size = size;
 
 	return 0;
+}
+
+int map_new_vdso(const char *vdsoelf, void *addr, size_t size)
+{
+	int fd, ret = 0;
+	void *mem;
+	Elf64_Ehdr *ehdr;
+
+	fd = open(vdsoelf, O_RDONLY);
+	if (fd == -1) {
+		perror("open\n");
+		return -errno;
+	}
+
+	mem = mmap((void *)addr, size, PROT_READ | PROT_EXEC, MAP_PRIVATE, fd, 0);
+	if (mem == MAP_FAILED) {
+		perror("mmap\n");
+		close(fd);
+		return -errno;
+	}
+
+	ehdr = (void *)mem;
+
+	if (ehdr->e_ident[EI_MAG1] != 'E' || ehdr->e_ident[EI_MAG2] != 'L' ||
+	    ehdr->e_ident[EI_MAG3] != 'F') {
+		fprintf(stderr, "ERROR: %s is not ELF.\n", vdsoelf);
+		ret = -EINVAL;
+	}
+
+	close(fd);
+	return ret;
 }
 
 int proc_for_each_mnt_point(void (*callback)(const char *mnt_point))

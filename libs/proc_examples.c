@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include <string.h>
 #include <libgen.h>
 #include <errno.h>
@@ -103,22 +104,37 @@ int main(void)
 	/* Test [vdso] */
 	{
 		int ret;
+		size_t size;
+		unsigned long addr;
 		struct timeval tv;
+		const char *vdso = "vdso.elf";
+		bool sigfault_1 = false;
 
-		proc_vdso_dump("vdso.elf", NULL, NULL);
+		proc_vdso_dump(vdso, &addr, &size);
 
 		/* Test unmap vdso, it's works */
 		munmap((void *)addr, size);
 
 		ret = setjmp(vdso_segv_jmp);
 		if (ret == JMP_SKIP) {
-			printf("Get sigfault when call gettimeofday()\n");
+			printf("INFO: Get sigfault when call gettimeofday()\n");
+			sigfault_1 = true;
 			goto skip_call_vdso;
 		}
 
 		/* After unmap vdso, gettimeofday will be sigfault */
 		gettimeofday(&tv, NULL);
+
 skip_call_vdso:
+		if (!sigfault_1) {
+			fprintf(stderr, "ERROR: gettimeofday() should sigfault after unmap vdso.\n");
+			abort();
+		}
+		map_new_vdso(vdso, (void *)addr, size);
+
+		/* Call vdso function again, works fine */
+		gettimeofday(&tv, NULL);
+		printf("tv_sec = %ld\n", tv.tv_sec);
 	}
 
 	proc_pid_maps_display();

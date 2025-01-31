@@ -20,6 +20,7 @@ unsigned long proc_find_vma_hole(unsigned long start, unsigned long len);
 void proc_pid_maps_display(void);
 int proc_vdso_dump(const char *filename, unsigned long *vdso_addr,
 		   size_t *vdso_size);
+int map_new_vdso(const char *vdsoelf, void *addr, size_t size);
 
 /* /proc/PID/mem */
 int open_proc_pid_mem(pid_t pid);
