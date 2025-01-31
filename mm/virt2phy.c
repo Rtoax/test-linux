@@ -183,16 +183,22 @@ int dev_mem_read(int memfd, unsigned long phyaddr, void *to_buf, size_t len)
 #if defined(HAVE_LIB_TEST_LINUX_C)
 int addr_numa(unsigned long pa, unsigned long va)
 {
-	int numa, vaddr_numa;
-	numa = phy_addr_numa(pa);
+	int paddr_numa, vaddr_numa;
+
+	paddr_numa = phy_addr_numa(pa);
 	vaddr_numa = virt_addr_numa(va);
-	if (numa == DMESG_NUMA_MEM_INVALID)
-		numa = vaddr_numa;
-	else if (numa != vaddr_numa) {
-		fprintf(stderr, "virt numa(%d) != phy numa(%d)\n", numa, vaddr_numa);
+
+	if (paddr_numa == INVALID_NUMA_ID || vaddr_numa == INVALID_NUMA_ID)
+		return -1;
+
+	if (paddr_numa == DMESG_NUMA_MEM_INVALID)
+		paddr_numa = vaddr_numa;
+	else if (paddr_numa != vaddr_numa) {
+		fprintf(stderr, "paddr numa(%d) != vaddr numa(%d)\n", paddr_numa, vaddr_numa);
 		abort();
 	}
-	return numa;
+	/* Return any of paddr_numa or vaddr_numa */
+	return paddr_numa;
 }
 
 void test_mapping_phy_addr(void)
@@ -226,6 +232,10 @@ void test_mapping_phy_addr(void)
 	va = proc_maps_vdso_addr(NULL);
 	pa = virt_to_phy(va);
 	PR("vdso text", va, pa, addr_numa(pa, va));
+
+	va = proc_maps_vvar_addr(NULL);
+	pa = virt_to_phy(va);
+	PR("vvar data", va, pa, addr_numa(pa, va));
 
 	va = (unsigned long)mem_ro.mem;
 	pa = virt_to_phy(va);
