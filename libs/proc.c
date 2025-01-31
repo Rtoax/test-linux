@@ -284,7 +284,7 @@ unsigned long proc_find_vma_hole(unsigned long start, unsigned long len)
 	return __proc_maps_addr(VT_HOLE, NULL, &arg, NULL);
 }
 
-void print_proc_pid_maps(void)
+void proc_pid_maps_display(void)
 {
 	char cmd[128];
 	snprintf(cmd, sizeof(cmd) - 1, "cat /proc/%d/maps", getpid());

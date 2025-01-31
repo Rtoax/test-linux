@@ -32,7 +32,7 @@ void print_addresses(void)
 #define P(sym)	printf("%48s : 0x%016lx (0x%016lx)\n", #sym, \
 		      (unsigned long)&(sym), (unsigned long)&(sym) - base_addr);
 	P(print_addresses);
-	P(print_proc_pid_maps);
+	P(proc_pid_maps_display);
 	P(static_i_bss);
 	P(static_i_data);
 	P(readline);
@@ -51,7 +51,7 @@ int main(int argc, char *argv[])
 
 	printf("Hello\n");
 	printf("Pid %d\n", getpid());
-	print_proc_pid_maps();
+	proc_pid_maps_display();
 
 	readline(ps1_prompt, "echo Hello.\n");
 

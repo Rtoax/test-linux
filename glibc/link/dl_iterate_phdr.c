@@ -46,7 +46,7 @@ static int callback(struct dl_phdr_info *info, size_t size, void *data)
 
 int main(void)
 {
-	print_proc_pid_maps();
+	proc_pid_maps_display();
 
 	dl_iterate_phdr(callback, NULL);
 

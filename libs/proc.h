@@ -17,7 +17,7 @@ char *proc_maps_libc_base_name(char *buf, size_t buf_len);
 unsigned long proc_maps_vdso_addr(unsigned long *size);
 unsigned long proc_maps_vvar_addr(unsigned long *size);
 unsigned long proc_find_vma_hole(unsigned long start, unsigned long len);
-void print_proc_pid_maps(void);
+void proc_pid_maps_display(void);
 
 /* /proc/PID/mem */
 int open_proc_pid_mem(pid_t pid);

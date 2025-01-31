@@ -73,7 +73,7 @@ int main(void)
 
 	proc_for_each_mnt_point(mnt_point_callback);
 
-	print_proc_pid_maps();
+	proc_pid_maps_display();
 	printf("comm : %s\n", proc_comm(comm, sizeof(comm)));
 	printf("base addr : %lx\n", proc_maps_exec_base_addr(NULL));
 	printf("base text addr : %lx\n", proc_maps_exec_text_addr(NULL));

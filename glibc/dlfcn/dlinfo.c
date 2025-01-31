@@ -39,10 +39,10 @@ static void test(const char *lib)
 
 int main(int argc, char *argv[])
 {
-	print_proc_pid_maps();
+	proc_pid_maps_display();
 	test("libc.so.6");
 	test("ld-linux-x86-64.so.2");
-	print_proc_pid_maps();
+	proc_pid_maps_display();
 	return 0;
 }
 
