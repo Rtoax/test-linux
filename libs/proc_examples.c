@@ -102,24 +102,10 @@ int main(void)
 
 	/* Test [vdso] */
 	{
-		int mem_fd, ret;
-		FILE *fp;
-		void *mem;
+		int ret;
+		struct timeval tv;
 
-		addr = proc_maps_vdso_addr(&size);
-		printf("vdso addr : %lx, size %lx\n", addr, size);
-
-		mem_fd = open_proc_pid_mem(getpid());
-		mem = malloc(size);
-		proc_pid_mem_read(mem_fd, addr, mem, size);
-
-		/* Dump [vdso] to vdso.elf */
-		fp = fopen("vdso.elf", "w");
-		fwrite(mem, size, 1, fp);
-
-		free(mem);
-		close(mem_fd);
-		fclose(fp);
+		proc_vdso_dump("vdso.elf");
 
 		/* Test unmap vdso, it's works */
 		munmap((void *)addr, size);
@@ -131,7 +117,6 @@ int main(void)
 		}
 
 		/* After unmap vdso, gettimeofday will be sigfault */
-		struct timeval tv;
 		gettimeofday(&tv, NULL);
 skip_call_vdso:
 	}

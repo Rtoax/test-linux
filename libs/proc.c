@@ -291,6 +291,34 @@ void proc_pid_maps_display(void)
 	system(cmd);
 }
 
+int proc_vdso_dump(const char *filename)
+{
+	int mem_fd;
+	FILE *fp;
+	void *mem;
+	size_t size;
+	unsigned long addr;
+
+	addr = proc_maps_vdso_addr(&size);
+#ifdef DEBUG
+	fprintf(stderr, "vdso addr : %lx, size %lx\n", addr, size);
+#endif
+
+	mem_fd = open_proc_pid_mem(getpid());
+	mem = malloc(size);
+	proc_pid_mem_read(mem_fd, addr, mem, size);
+
+	/* Dump [vdso] to vdso.elf */
+	fp = fopen(filename, "w");
+	fwrite(mem, size, 1, fp);
+
+	free(mem);
+	close(mem_fd);
+	fclose(fp);
+
+	return 0;
+}
+
 int proc_for_each_mnt_point(void (*callback)(const char *mnt_point))
 {
 	char s[2000];
