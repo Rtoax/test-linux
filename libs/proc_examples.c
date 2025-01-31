@@ -86,10 +86,30 @@ int main(void)
 	addr = proc_maps_vvar_addr(&size);
 	printf("vvar addr : %lx, size %lx\n", addr, size);
 
-	addr = proc_maps_vdso_addr(&size);
-	printf("vdso addr : %lx, size %lx\n", addr, size);
-	/* Test unmap vdso, it's works */
-	munmap((void *)addr, size);
+	/* Test [vdso] */
+	{
+		int mem_fd;
+		FILE *fp;
+		void *mem;
+
+		addr = proc_maps_vdso_addr(&size);
+		printf("vdso addr : %lx, size %lx\n", addr, size);
+
+		mem_fd = open_proc_pid_mem(getpid());
+		mem = malloc(size);
+		proc_pid_mem_read(mem_fd, addr, mem, size);
+
+		/* Dump [vdso] to vdso.elf */
+		fp = fopen("vdso.elf", "w");
+		fwrite(mem, size, 1, fp);
+
+		free(mem);
+		close(mem_fd);
+		fclose(fp);
+
+		/* Test unmap vdso, it's works */
+		munmap((void *)addr, size);
+	}
 
 	proc_pid_maps_display();
 
