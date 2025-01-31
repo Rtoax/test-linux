@@ -110,7 +110,7 @@ test: ${TARGETS}
 .PHONY: clean
 clean: $(sub-dir-clean)
 	@echo -e "  CLEAN  \033[1;32m$(TARGETS) ${TARGETS_LIBSO} ${TARGETS_LIBA}\033[m"
-	${Q}rm -f ${TARGETS} ${TARGETS_LIBSO} ${TARGETS_LIBA} *.o *.obj
+	${Q}rm -f ${TARGETS} ${TARGETS_LIBSO} ${TARGETS_LIBA} *.o *.obj vdso.elf*
 
 $(sub-dir-build):
 	@echo -e "\033[1;32m [sub-dir] build $(@)\033[m"
