@@ -8,6 +8,8 @@ else
 endif
 export Q
 
+include vdso.mk
+
 sub-dir := linux-vdso.so.1
 sub-dir += scripts
 sub-dir += test
@@ -15,6 +17,8 @@ sub-dir += vvar/scripts/
 
 sub-dir-build := $(sub-dir:=.build)
 sub-dir-clean := $(sub-dir:=.clean)
+
+$(info CMDLINE_VDSO=${CMDLINE_VDSO})
 
 .PHONY: build
 build: $(sub-dir-build)
