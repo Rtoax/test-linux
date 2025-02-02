@@ -72,6 +72,16 @@ int main(void)
 		perror("mmap\n");
 		exit(1);
 	}
+	printf("mmap %p\n", pin);
+
+#ifdef MREMAP
+	pin = mremap(pin, size, size, MREMAP_MAYMOVE);
+	if (pin == MAP_FAILED) {
+		perror("mremap\n");
+		exit(1);
+	}
+	printf("mremap %p\n", pin);
+#endif
 
 	/* Can't write in child if MAP_PRIVATE */
 	pout = mmap(NULL, size, PROT_WRITE | PROT_READ, MAP_SHARED, fdout, 0);

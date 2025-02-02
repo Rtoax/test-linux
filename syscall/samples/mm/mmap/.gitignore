@@ -2,6 +2,7 @@
 /fexecve
 /mmap-anon
 /mmap-file
+/mremap-file
 /remap_file_pages
 /get_unmapped_page
 /mmap-multi-thread-copy
