@@ -128,7 +128,9 @@ apt_install()
 
 dnf_remove()
 {
-	inst_eval sudo dnf remove -y ${dnf_args[@]} ${@}
+	local ARGS=$(echo ${dnf_args[@]} | sed 's/--allowerasing//g' \
+			| sed 's/--skip-broken//g')
+	inst_eval sudo dnf remove -y ${ARGS} ${@}
 }
 
 apt_remove()
