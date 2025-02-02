@@ -31,4 +31,5 @@
 - SysV: Unix System V 'System Five' ()
 - Tex: () @LaTeX
 - TOC: The Technical Oversight Committee (技术监督委员会)
-- vDSO: Virtual Dynamic Shared Object (虚拟动态共享目标)
+- UML: User Mode Linux (用户模式Linux) @vDSO
+- vDSO: Virtual Dynamic Shared Object (虚拟动态共享目标) @UML
