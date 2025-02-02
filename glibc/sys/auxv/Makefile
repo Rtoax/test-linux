@@ -7,9 +7,16 @@ else
 endif
 export Q
 
-
 TARGETS :=
 TARGETS += getauxval
+TARGETS += AT_ENTRY
+TARGETS += AT_EXECFN
+TARGETS += AT_HWCAP
+TARGETS += AT_PAGESZ
+TARGETS += AT_PHDR
+TARGETS += AT_PLATFORM
+TARGETS += AT_SYSINFO
+TARGETS += AT_SYSINFO_EHDR
 
 DEBUG = yes
 CC = gcc
@@ -40,11 +47,18 @@ ifdef NOPIE
   endif
 endif
 
-
 build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
 getauxval: getauxval.o
+AT_ENTRY: AT_ENTRY.o
+AT_EXECFN: AT_EXECFN.o
+AT_HWCAP: AT_HWCAP.o
+AT_PAGESZ: AT_PAGESZ.o
+AT_PHDR: AT_PHDR.o
+AT_PLATFORM: AT_PLATFORM.o
+AT_SYSINFO: AT_SYSINFO.o
+AT_SYSINFO_EHDR: AT_SYSINFO_EHDR.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
