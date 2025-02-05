@@ -8,6 +8,8 @@ firstline=YES
 
 [[ $1 ]] && exe=$1
 
+echo "${exe} $(./${exe} --version)"
+
 # To avoid some memory boundary issues, it is not a power of 2, so choose "31".
 for b in $(seq 16 31 8192)
 do

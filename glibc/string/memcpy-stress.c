@@ -55,6 +55,7 @@ static size_t block_size = 256;
 static size_t msize = DEFAULT_ALLOC_MSIZE;
 static size_t alloc_msize = DEFAULT_ALLOC_MSIZE;
 static int verbose = false;
+static const char *const version = "v0.0.1";
 
 const char argp_prog_doc[] =
 	"USAGE: [-b <block_size>] [-s <bytes>] [-a <bytes>] [-v|--verbose]\n";
@@ -64,6 +65,7 @@ static const struct argp_option opts[] = {
 	{ "msize", 's', "MSIZE", 0, "total size of memory copy" },
 	{ "alloc", 'a', "ALLOC", 0, "size of memory allocated use to test" },
 	{ "verbose", 'v', "VERBOSE", 1, "Display detail" },
+	{ "version", 'V', "VERSION", 1, "Display version" },
 	{},
 };
 
@@ -81,6 +83,10 @@ static error_t parse_arg(int key, char *arg, struct argp_state *state)
 		break;
 	case 'v':
 		verbose = true;
+		break;
+	case 'V':
+		printf("version %s\n", version);
+		exit(EXIT_SUCCESS);
 		break;
 	case ARGP_KEY_ARG:
 		argp_usage(state);
