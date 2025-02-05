@@ -19,6 +19,12 @@ int main(void)
 
 	printf("openat2(2) %s\n", support_openat2() ? "supported" : "unsupported");
 
+	/**
+	 * TODO: Test flags and mode
+	 */
+	how.flags = O_RDWR;
+	how.mode = 0600;
+
 	fd1 = sys_openat2(AT_FDCWD, ".", &how, sizeof(how));
 	fd2 = sys_openat2(AT_FDCWD, "..", &how, sizeof(how));
 
