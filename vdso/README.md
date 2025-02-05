@@ -93,7 +93,7 @@ void *vdso = (uintptr_t) getauxval(AT_SYSINFO_EHDR);
 
 # vvar mapping
 
-与vDSO mapping相伴的是一个叫vvar mapping的。vvar mapping的大小是8-12K，内容是vDSO mapping中的代码要访问的内核与用户进程之间要共享的数据。
+与vDSO mapping相伴的是vvar mapping，大小8-12K，包含vDSO mapping中的代码要访问的内核与用户进程之间要共享的数据。
 
 
 # Links

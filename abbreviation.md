@@ -32,4 +32,5 @@
 - Tex: () @LaTeX
 - TOC: The Technical Oversight Committee (技术监督委员会)
 - UML: User Mode Linux (用户模式Linux) @vDSO
-- vDSO: Virtual Dynamic Shared Object (虚拟动态共享目标) @UML
+- vDSO: Virtual Dynamic Shared Object (虚拟动态共享目标) @UML @vvar
+- vvar: Virtual Variable (虚拟变量) @vDSO
