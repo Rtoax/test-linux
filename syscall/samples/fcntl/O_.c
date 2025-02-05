@@ -3,7 +3,7 @@
 
 int main(void)
 {
-#define O_FLAG(f) printf("%-32s : %08o (%08x)\n", #f, f, f);
+#define O_FLAG(f) printf("%-32s : %08o (0x%08x)\n", #f, f, f);
 #include "O_.h"
 	return 0;
 }
