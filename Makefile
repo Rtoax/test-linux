@@ -5,9 +5,9 @@
 #
 VERSION = 2
 PATCHLEVEL = 2
-SUBLEVEL = 7
+SUBLEVEL = 8
 EXTRAVERSION =
-NAME = Crash
+NAME = Dentry
 
 SHELL = bash
 ifeq ($(V),1)
