@@ -23,6 +23,7 @@ $(info CMDLINE_VDSO=${CMDLINE_VDSO})
 .PHONY: build
 build: $(sub-dir-build)
 	@${SHELL} ./dump.sh
+	@${SHELL} ./layout.sh
 
 .PHONY: clean
 clean: $(sub-dir-clean)
