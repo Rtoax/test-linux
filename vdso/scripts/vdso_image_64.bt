@@ -1,0 +1,15 @@
+#!/usr/bin/env bpftrace
+/**
+ * Display vdso_image_64
+ */
+BEGIN
+{
+	$vi = (struct vdso_image *)kaddr("vdso_image_64");
+	printf("vdso_image_64.data = %p\n", $vi->data);
+	printf("vdso_image_64.size = %ld\n", $vi->size);
+	printf("vdso_image_64.alt = %ld, alt_len = %ld\n", $vi->alt, $vi->alt_len);
+	printf("vdso_image_64.sym_vvar_start = %ld\n", $vi->sym_vvar_start);
+	printf("vdso_image_64.sym_vvar_page = %ld\n", $vi->sym_vvar_page);
+	exit(0);
+}
+

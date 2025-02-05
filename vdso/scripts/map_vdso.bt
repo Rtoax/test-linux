@@ -1,7 +1,5 @@
 #!/usr/bin/env bpftrace
 /**
- * Rong Tao <rtoax@foxmail.com>
- * 2022.02.20
  * Tracing kprobe:map_vdso
  *
  * Every process create will call 'map_vdso' function
@@ -40,7 +38,7 @@ BEGIN
 
 kprobe:map_vdso
 {
-	$vdso_image = (struct vdso_image*)arg0;
+	$vdso_image = (struct vdso_image *)arg0;
 	$addr = arg1;
 	printf("%-8d %-16s %-6d %-16lx\n", tid, comm, $vdso_image->size, $addr);
 	printf("\t\033[2m%-16lx %-8d %-16lx %-16lx %-16lx %-16lx\033[m\n",

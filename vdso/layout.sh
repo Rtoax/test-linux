@@ -14,8 +14,10 @@ layout_x86()
 		printf("_vdso_data.clock_mode = %d\n", $_vdso_data->clock_mode);
 		printf("_vdso_data.cycle_last = %ld\n", $_vdso_data->cycle_last);
 
-		exit(1);
-	}' || :
+		exit();
+	}'
+
+	sudo bpftrace scripts/vdso_image_64.bt
 }
 
 case $(uname -m) in
