@@ -8,6 +8,7 @@ else
 endif
 export Q
 
+include binutils.mk
 
 sub-dir := bfd
 sub-dir += objdump

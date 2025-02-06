@@ -123,15 +123,7 @@ ifeq ($(has-bfd_get_symbol_version_string),1)
   CFLAGS += -DBFD_HAS_BFD_GET_SYMBOL_VERSION_STRING=1
 endif
 
-# Get binutils version
-BINUTILS_VERSION = $(shell ld.bfd -v | grep -o [0-9].[0-9]\. | sed -n '1p')
-BINUTILS_VERSION_MAJOR = $(shell echo ${BINUTILS_VERSION} | awk -F '.' '{print $$1}')
-BINUTILS_VERSION_MINOR = $(shell echo ${BINUTILS_VERSION} | awk -F '.' '{print $$2}')
-
-$(info Binutils version ${BINUTILS_VERSION_MAJOR}.${BINUTILS_VERSION_MINOR})
-ifneq (${BINUTILS_VERSION_MAJOR},2)
-  $(error Not support binutils ${BINUTILS_VERSION})
-endif
+include ../../binutils.mk
 
 CFLAGS += -DBINUTILS_VERSION_MAJOR=${BINUTILS_VERSION_MAJOR}
 CFLAGS += -DBINUTILS_VERSION_MINOR=${BINUTILS_VERSION_MINOR}
