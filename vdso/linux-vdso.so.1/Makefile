@@ -28,17 +28,23 @@ endif
 .PHONY: all
 all: ${TARGETS}
 
+VDSO_CFLAGS :=
+
+ifeq ($(shell uname -m),x86_64)
+  VDSO_CFLAGS += -P -C -fpic --share -Wl,-melf_x86_64 \
+                 -Wl,-soname=linux-vdso.so.custom \
+                 -Wl,--no-undefined -Wl,-zmax-page-size=4096
+endif
+ifeq ($(shell uname -m),aarch64)
+  # TODO: Update to upstream linux
+  VDSO_CFLAGS += -P -C -fpic --share
+endif
+
+
 #-Wl,-soname=linux-vdso.so.custom
 libvdso_custom.so:
 	@echo -e "  CC  \033[1m$(@)\033[m"
-	$(Q)gcc vdso.c \
-		-P -C \
-		-fpic --share \
-		-Wl,-melf_x86_64 \
-		-Wl,-soname=linux-vdso.so.custom \
-		-Wl,--no-undefined \
-		-Wl,-zmax-page-size=4096 \
-		-o libvdso_custom.so
+	$(Q)gcc vdso.c ${VDSO_CFLAGS} -o libvdso_custom.so
 	$(Q)ln -s libvdso_custom.so linux-vdso.so.custom
 
 vdso64.so:
