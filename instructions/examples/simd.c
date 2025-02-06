@@ -1,7 +1,7 @@
 /**
  * Test: SIMD
  *
- * x86: SSE, AVX
+ * x86: MMX, SSE, AVX
  * arm: NEON(multimedia, signal processing), SVE/SVE2(HPC, machine learning)
  *
  * Better test see ISA-L (https://github.com/intel/isa-l)
