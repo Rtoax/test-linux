@@ -26,8 +26,17 @@
  * mark different parts of your code, for easy spotting in a memory dump. So
  * you can also do .inst 0x0000dead if you want.
  */
+# ifndef BINUTILS_VERSION_MAJOR
+#  define BINUTILS_VERSION_MAJOR 2
+#  define BINUTILS_VERSION_MINOR 30
+# endif
+# if BINUTILS_VERSION_MAJOR == 2 && BINUTILS_VERSION_MINOR >= 35
 #define INVALID_OP_BUG()	\
 	__asm__ __volatile__("udf #0\n");
+# else
+#define INVALID_OP_BUG()	\
+	__asm__ __volatile__(".word 0xdeadbeef\n");
+# endif
 #endif
 
 static inline __attribute__((unused)) int invalid_op_init(void)

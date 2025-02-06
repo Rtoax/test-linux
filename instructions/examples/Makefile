@@ -8,7 +8,6 @@ else
 endif
 export Q
 
-
 ###############################################################################
 # Kernel
 obj-m += invalid_opcode_kern.o
@@ -83,6 +82,11 @@ TARGETS += udiv div
 TARGETS += simd
 TARGETS += cpuid_user
 TARGETS += invalid_opcode_user
+
+# Get GNU assembler version
+include $(shell pwd)/../../binutils/binutils.mk
+CFLAGS += -DBINUTILS_VERSION_MAJOR=${BINUTILS_VERSION_MAJOR}
+CFLAGS += -DBINUTILS_VERSION_MINOR=${BINUTILS_VERSION_MINOR}
 
 sub-dir-build := $(sub-dir:=.build)
 sub-dir-clean := $(sub-dir:=.clean)
@@ -162,6 +166,9 @@ test:
 clean: $(sub-dir-clean)
 	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
 	${Q}rm -f $(TARGETS) *.o
+
+clean-kern:
+	@echo -e "  CLEAN  \033[1;32m$(KERNELDIR)\033[m"
 	${Q}make -C ${KERNELDIR} M=$(PWD) clean
 
 $(sub-dir-build):
