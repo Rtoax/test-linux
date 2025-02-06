@@ -5,8 +5,6 @@
 
 int main(void)
 {
-	RAND_MAX;
-
 #ifdef SRAND
 	srand((int)time(0));
 #endif
@@ -18,6 +16,8 @@ int main(void)
 		if (i % 30 == 0)
 			printf("\n");
 	}
+
+	printf("RAND_MAX = %d\n", RAND_MAX);
 
 	return 0;
 }
