@@ -1,2 +1,4 @@
 #!/bin/bash
-od -t x1 /dev/random
+set -e
+
+od -N 1024 -t x1 /dev/random
