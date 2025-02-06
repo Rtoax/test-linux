@@ -15,6 +15,7 @@
 /random
 /random-dev
 /srand
+/srandom
 /bsearch
 /qsort
 /getloadavg

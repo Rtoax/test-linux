@@ -7,7 +7,9 @@ int main(void)
 {
 	int i, j;
 
+#ifdef SRANDOM
 	srandom((int)time(0));
+#endif
 
 	for (i = 1; i <= 3000; i++) {
 		j = 1 + (int)(10.0 * random() / RAND_MAX + 1.0);

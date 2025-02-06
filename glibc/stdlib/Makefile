@@ -13,7 +13,7 @@ TARGETS += abort
 TARGETS += atof
 TARGETS += mkdtemp mktemp mkstemp mkostemp
 TARGETS += env setenv getenv clearenv putenv unsetenv
-TARGETS += rand random random-dev srand
+TARGETS += rand random random-dev srand srandom
 TARGETS += bsearch
 TARGETS += qsort
 TARGETS += getloadavg
@@ -65,6 +65,7 @@ rand: rand.o
 random: random.o
 random-dev: random-dev.o
 srand: srand.o
+srandom: srandom.o
 getloadavg: getloadavg.o
 system: system.o
 posix_memalign: posix_memalign.o
@@ -98,6 +99,7 @@ CFLAGS_unlockpt := -D_XOPEN_SOURCE
 CFLAGS_unlockpt += -Wno-implicit-function-declaration
 
 CFLAGS_srand := -DSRAND=1
+CFLAGS_srandom := -DSRANDOM=1
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
