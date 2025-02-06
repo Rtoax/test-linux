@@ -23,6 +23,8 @@ int rename_vma(unsigned long addr, unsigned long size, char *name)
 
 /**
  * TODO: I want to add PR_GET_VMA and PR_GET_VMA_ANON_NAME to kernel
+ *
+ * https://lore.kernel.org/lkml/tencent_77E0BC1E8E9A21CA1B9009DD66555C72A90A@qq.com/
  */
 const char *get_vma_name(unsigned long addr)
 {
