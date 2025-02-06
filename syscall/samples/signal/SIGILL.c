@@ -39,7 +39,11 @@ int main(int argc, char *argv[])
 #if defined(__x86_64__)
 	__asm__ __volatile__("ud2\n");
 #elif defined(__aarch64__)
-	__asm__ __volatile__("udf #0\n");
+	/**
+	 * See test-linux/instructions/examples/invalid_opcode.h
+	 */
+	//__asm__ __volatile__("udf #0\n");
+	__asm__ __volatile__(".word 0xdeadbeef\n");
 #else
 	raise(SIGILL);
 #endif
