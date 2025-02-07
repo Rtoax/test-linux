@@ -10,6 +10,7 @@
 #include <sys/mman.h>
 #include <stdbool.h>
 #include <unistd.h>
+#include <time.h>
 #include <sys/time.h>
 
 #include "proc.h"
@@ -55,7 +56,7 @@ static size_t block_size = 256;
 static size_t msize = DEFAULT_ALLOC_MSIZE;
 static size_t alloc_msize = DEFAULT_ALLOC_MSIZE;
 static int verbose = false;
-static const char *const version = "v0.0.1";
+static const char *const version = "v0.0.2";
 
 const char argp_prog_doc[] =
 	"USAGE: [-b <block_size>] [-s <bytes>] [-a <bytes>] [-v|--verbose]\n";
@@ -142,12 +143,24 @@ static inline unsigned long usecs(void)
 	return tv.tv_sec * 1000000UL + tv.tv_usec;
 }
 
+static inline unsigned long nsecs(void)
+{
+	struct timespec ts;
+	clock_gettime(CLOCK_REALTIME, &ts);
+	return ts.tv_sec * 1000000000UL + ts.tv_nsec;
+}
+
+static inline unsigned long getrand(unsigned long max)
+{
+	return (unsigned long)(max * 1.0 * rand() / RAND_MAX);
+}
+
 int main(int argc, char *argv[])
 {
 	int err;
-	size_t i, test_cnt, bytes_cnt;
+	size_t i, test_cnt, bytes_cnt, pos;
 	char *buf1, *buf2;
-	unsigned long start, end;
+	unsigned long start, end, rand_cost = 0;
 
 	err = argp_parse(&argp, argc, argv, 0, NULL, NULL);
 	if (err) {
@@ -160,14 +173,52 @@ int main(int argc, char *argv[])
 	buf1 = map(alloc_msize);
 	buf2 = map(alloc_msize);
 
+#ifdef RAND_MEM_POS
+	unsigned long rand_idx;
+
+	srand(nsecs());
+
+	/**
+	 * Get random spent time first
+	 */
+	test_cnt = bytes_cnt = 0;
+	start = usecs();
+	while (1) {
+		for (i = 0; i < alloc_msize - block_size; i += block_size) {
+			rand_idx = getrand(alloc_msize / block_size);
+			pos = rand_idx * block_size;
+			bytes_cnt += block_size;
+			if (bytes_cnt >= msize)
+				goto rand_cost_done;
+		}
+	}
+rand_cost_done:
+	end = usecs();
+	rand_cost = end - start;
+	if (verbose) {
+		printf("Random cost %ld us\n", rand_cost);
+	}
+#endif /* RAND_MEM_POS */
+
 	test_cnt = bytes_cnt = 0;
 
 	start = usecs();
 
 	while (1) {
 		for (i = 0; i < alloc_msize - block_size; i += block_size) {
+
+#ifdef RAND_MEM_POS
+			/* Get random value */
+			rand_idx = getrand(alloc_msize / block_size);
+			pos = rand_idx * block_size;
+#else
+			pos = i;
+#endif
+#ifdef DEBUG
+			printf("i = %ld/%ld, pos = %ld\n", i, alloc_msize, pos);
+#endif
 			/* Replace memcpy_stub here */
-			memcpy_stub(buf2 + i, buf1 + i, block_size);
+			memcpy_stub(buf2 + pos, buf1 + pos, block_size);
 			bytes_cnt += block_size;
 			test_cnt++;
 
@@ -187,10 +238,11 @@ test_done:
 		printf("%-16s %-16s %-16s %-16s %-16s %-16s\n",
 			"-------------", "---------", "-----", "---------", "--------", "---------");
 	}
-	printf("%-16ld %-16ld %-16ld %-16ld %-16ld %-13.2f\n", block_size, end - start, test_cnt,
+	printf("%-16ld %-16ld %-16ld %-16ld %-16ld %-13.2f\n", block_size,
+		end - start - rand_cost, test_cnt,
 		alloc_msize / MB,
 		bytes_cnt / MB,
-		bytes_cnt * 1.0f / MB * 1000000UL / (end - start));
+		bytes_cnt * 1.0f / MB * 1000000UL / (end - start - rand_cost));
 
 	munmap(buf1, alloc_msize);
 	munmap(buf2, alloc_msize);

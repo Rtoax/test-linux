@@ -64,7 +64,12 @@ CFLAGS := -Werror -Wall
 CFLAGS += -I../../../
 CFLAGS += -lm
 CFLAGS += -O0 -g -ggdb
-
+ifdef DEBUG
+  CFLAGS += -DDEBUG
+endif
+ifdef RAND
+  CFLAGS += -DRAND_MEM_POS=1
+endif
 LDFLAGS :=
 
 # https://github.com/ARM-software/optimized-routines
