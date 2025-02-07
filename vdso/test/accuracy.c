@@ -58,6 +58,8 @@ int main(int argc, char *argv[])
 		fprintf(stderr, "change ns to %ld\n", diff_ns);
 	}
 
+	printf("%-48s %-16s %-16s\n", "NAME", "DIFF(ns)", "COUNT");
+	printf("%-48s %-16s %-16s\n", "----", "--------", "-----");
 	test("syscall REALTIME", sys_nsecs, CLOCK_REALTIME);
 #if defined(__x86_64__) /* aarch64 run this clockid is too slow. */
 	test("syscall REALTIME_ALARM", sys_nsecs, CLOCK_REALTIME_ALARM);
