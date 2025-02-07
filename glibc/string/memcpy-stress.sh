@@ -8,7 +8,7 @@ firstline=YES
 msize_MB=1024*4
 
 [[ $1 ]] && exe=$1
-[[ ${RAND} ]] && msize_MB=400
+[[ ${MB} ]] && msize_MB=${MB}
 
 echo "${exe} $(./${exe} --version)"
 
