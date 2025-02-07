@@ -21,7 +21,7 @@
 #include <string.h>
 #include <sys/syscall.h>
 
-#define MAX	(1000 * 1000 * 100)
+#define LOOP_MAX	(1000 * 1000 * 100)
 #define longtime(ts)	((ts).tv_sec * 1000000000ULL + (ts).tv_nsec)
 
 typedef enum {
@@ -154,7 +154,7 @@ int main(int argc, char *argv[])
 {
 	struct timespec start, end;
 	unsigned long long diff_ns;
-	unsigned long long nloop = MAX;
+	unsigned long long nloop = LOOP_MAX;
 	test_enum te = TEST_SYSCALL;
 
 	if (argc < 2) {
