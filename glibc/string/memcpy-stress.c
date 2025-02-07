@@ -152,7 +152,7 @@ static inline unsigned long nsecs(void)
 
 static inline unsigned long getrand(unsigned long max)
 {
-	return (unsigned long)(max * 1.0 * rand() / RAND_MAX);
+	return (unsigned long)(max * 1.0 * rand() / RAND_MAX + 1.0);
 }
 
 int main(int argc, char *argv[])
