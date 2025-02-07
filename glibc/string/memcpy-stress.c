@@ -217,8 +217,30 @@ rand_cost_done:
 #ifdef DEBUG
 			printf("i = %ld/%ld, pos = %ld\n", i, alloc_msize, pos);
 #endif
+			/**
+			 * |-------------------------------------| buf1
+			 * |-------------------------------------| buf2
+			 *
+			 * If sequential copy
+			 * |---|
+			 * |---|
+			 *     |---|
+			 *     |---|
+			 *         |---|
+			 *         |---|
+			 *
+			 * If random copy, it may be possible to eliminate the
+			 * effects of CPU prefetching
+			 *        |---|
+			 *        |---|
+			 *   |---|
+			 *   |---|
+			 *                 |---|
+			 *                 |---|
+			 */
 			/* Replace memcpy_stub here */
 			memcpy_stub(buf2 + pos, buf1 + pos, block_size);
+
 			bytes_cnt += block_size;
 			test_cnt++;
 

@@ -69,6 +69,8 @@ ifdef DEBUG
 endif
 ifdef RAND
   CFLAGS += -DRAND_MEM_POS=1
+else
+  $(warning WARNING: Enable random memory test with $$ make RAND=1)
 endif
 LDFLAGS :=
 
