@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0
 SHELL = bash
 ifeq ($(V),1)
   Q =
@@ -7,15 +8,45 @@ else
 endif
 export Q
 
+CC := gcc
+CFLAGS :=
+LDFLAGS :=
 
-all:
-	$(Q)gcc -fPIC -shared mcount-nop.c -o libmcount-nop.so
-	$(Q)gcc main.c -pg -o main
+TARGETS :=
+TARGETS_SO :=
+
+TARGETS += main
+
+TARGETS_SO += libmcount-nop.so
+
+CFLAGS_main := -pg
+CFLAGS_mcount-nop := -fPIC
+
+.PHONY: all
+all: ${TARGETS} ${TARGETS_SO}
 	@echo -e " \033[1;33m Done \033[m"
 
-run: main libmcount-nop.so
+main: main.o
+libmcount-nop.so: mcount-nop.o
+
+%.o: %.c
+	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
+	${Q}$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
+
+$(TARGETS): %:
+	@echo -e "  LD  \033[1;32m$(@)\033[m"
+	${Q}$(CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*))
+
+$(TARGETS_SO): %:
+	@echo -e "  SO  \033[1;32m$(@)\033[m"
+	${Q}$(CC) -o $(@) $(^) -shared -fPIC $(LDFLAGS) $(LDFLAGS_$(*))
+
+.PHONY: test
+test: ${TARGETS} ${TARGETS_SO}
 	$(Q)LD_PRELOAD=./libmcount-nop.so ./main
 
+.PHONY: clean
 clean:
+	@echo -e "  CLEAN  \033[1;32m$(TARGETS) $(TARGETS_SO)\033[m"
 	@echo -e "  CLEAN"
-	$(Q)rm -f main libmcount-nop.so
+	$(Q)rm -f ${TARGETS} ${TARGETS_SO} *.o *.out
