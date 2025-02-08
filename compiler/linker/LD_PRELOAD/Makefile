@@ -62,5 +62,4 @@ test: ${TARGETS} ${TARGETS_SO}
 .PHONY: clean
 clean:
 	@echo -e "  CLEAN  \033[1;32m$(TARGETS) $(TARGETS_SO)\033[m"
-	@echo -e "  CLEAN"
 	$(Q)rm -f ${TARGETS} ${TARGETS_SO} *.o *.out
