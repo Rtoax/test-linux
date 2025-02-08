@@ -8,14 +8,16 @@ else
 endif
 export Q
 
+include ../../compiler/compiler.mk
+
+CC := gcc
+
 TARGETS := main
 TARGETS += main-pg
 # FIXME: aarch64 seems like don't support -mfentry
-ifeq ($(shell uname -m),x86_64)
+ifeq ($(CC_-mfentry),1)
   TARGETS += main-pg-fentry
 endif
-
-CC = gcc
 
 CFLAGS := -Werror -Wall -O0
 
@@ -46,6 +48,7 @@ $(TARGETS): %:
 test: ${TARGETS}
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
 
+.PHONY: clean
 clean:
 	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
 	${Q}rm -f ${TARGETS} *.o *.o-pg *.o-no-pg *.o-pg-fentry

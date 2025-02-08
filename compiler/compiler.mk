@@ -1,4 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
+SHELL := bash
+
 CC ?= gcc
 
 # Check compiler support option or not
@@ -35,6 +37,9 @@ CC_MINOR := $(shell echo ${CC_FULLVERSION} | awk -F '.' '{print $$2}')
 
 CC_-fcf-protection := $(findstring 1,$(call check_compiler_option,$(CC),-fcf-protection))
 CC_-fpatchable-function-entry := $(findstring 1,$(call check_compiler_option,$(CC),-fpatchable-function-entry=5,2))
+CC_-mfentry := $(findstring 1,$(call check_compiler_option,$(CC),-mfentry))
+
+$(info fcf-protection: ${CC_-fcf-protection})
+$(info fentry: $(CC_-mfentry))
 
 $(info CC: $(CC) ${CC_MAJOR}.${CC_MINOR} ${CC_FULLVERSION} ${CC_VERSION})
-

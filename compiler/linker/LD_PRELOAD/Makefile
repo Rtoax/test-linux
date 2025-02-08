@@ -8,6 +8,8 @@ else
 endif
 export Q
 
+include ../../compiler.mk
+
 CC := gcc
 CFLAGS :=
 LDFLAGS :=
@@ -16,10 +18,14 @@ TARGETS :=
 TARGETS_SO :=
 
 TARGETS += main
+ifeq ($(CC_-mfentry),1)
+  TARGETS += fentry
+endif
 
 TARGETS_SO += libmcount-nop.so
 
 CFLAGS_main := -pg
+CFLAGS_fentry := -pg -mfentry
 CFLAGS_mcount-nop := -fPIC
 
 .PHONY: all
@@ -27,6 +33,7 @@ all: ${TARGETS} ${TARGETS_SO}
 	@echo -e " \033[1;33m Done \033[m"
 
 main: main.o
+fentry: fentry.o
 libmcount-nop.so: mcount-nop.o
 
 %.o: %.c
@@ -44,6 +51,7 @@ $(TARGETS_SO): %:
 .PHONY: test
 test: ${TARGETS} ${TARGETS_SO}
 	$(Q)LD_PRELOAD=./libmcount-nop.so ./main
+	$(Q)LD_PRELOAD=./libmcount-nop.so ./fentry
 
 .PHONY: clean
 clean:
