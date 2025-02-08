@@ -7,14 +7,7 @@ else
 endif
 export Q
 
-
-KERN_CONFIG=/boot/config-$(shell uname -r)
-
-ifneq ($(wildcard $(KERN_CONFIG)),)
-include ${KERN_CONFIG}
-else
-$(warning "WARNING: not found ${KERN_CONFIG}")
-endif
+include ../../../../kconfig.mk
 
 TARGETS :=
 TARGETS += msync
@@ -32,7 +25,6 @@ ifeq ($(shell uname -m),aarch64)
 endif
 
 DEBUG = yes
-SRC_PATH := $(shell pwd)
 CC = gcc
 CXX = g++
 
@@ -48,11 +40,18 @@ endif
 
 CFLAGS_mremap-file := -DMREMAP=1
 
+ifeq ($(CONFIG_ANON_VMA_NAME),y)
+  CFLAGS += -DCONFIG_ANON_VMA_NAME=1
+endif
+
+# mmap-exec never should has -pg cflag, because copy text to exec-mem will
+# change the address.
+# CFLAGS_mmap-exec := -pg
+
 .PHONY: build
 build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
-# Add more object.o file
 msync: msync.o
 fexecve: fexecve.o
 mmap-anon: mmap-anon.o
@@ -62,13 +61,6 @@ remap_file_pages: remap_file_pages.o
 get_unmapped_page: get_unmapped_page.o helpers.o
 mmap-multi-thread-copy: mmap-multi-thread-copy.o
 mmap-exec: mmap-exec.o
-
-ifeq ($(CONFIG_ANON_VMA_NAME),y)
-  CFLAGS_mmap-anon := -DCONFIG_ANON_VMA_NAME=1
-endif
-# mmap-exec never should has -pg cflag, because copy text to exec-mem will
-# change the address.
-# CFLAGS_mmap-exec := -pg
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
