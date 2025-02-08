@@ -1,0 +1,1 @@
+../../__attribute__/constructor-obj.c
