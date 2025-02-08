@@ -2,7 +2,7 @@
 /**
  * khugepaged_scan.bt
  *
- * Copyright (C) Rong Tao 2022-2023
+ * Copyright (C) Rong Tao 2022-2025
  */
 #include <linux/mm.h>
 

@@ -2,7 +2,7 @@
 /**
  * madvise.bt
  *
- * Copyright (C) Rong Tao 2022-2024
+ * Copyright (C) Rong Tao 2022-2025
  */
 #define MADV_NORMAL	0
 #define MADV_RANDOM	1

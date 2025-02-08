@@ -4,7 +4,7 @@
  *
  * sudo bpftrace -e 'iter:task_vma {$p = ctx->vma->vm_file->f_path; printf("%s\n", path($p));}'
  *
- * Copyright (C) Rong Tao 2022-2023
+ * Copyright (C) Rong Tao 2022-2025
  *
  * 2023-08-25	Rong Tao	Create this.
  */

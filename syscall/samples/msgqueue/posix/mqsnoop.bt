@@ -2,7 +2,7 @@
 /**
  * mqsnoop.bt - Tracing and dump POSIX message queue.
  *
- * Copyright (C) Rong Tao 2022-2024
+ * Copyright (C) Rong Tao 2022-2025
  *
  * 2024-06-12	Rong Tao	Create this.
  */

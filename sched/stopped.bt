@@ -2,7 +2,7 @@
 /**
  * stopped.bt - Tracing SIGSTOP
  *
- * Copyright (C) Rong Tao 2022-2023
+ * Copyright (C) Rong Tao 2022-2025
  *
  * 2023-10-10	Rong Tao	Create this.
  */

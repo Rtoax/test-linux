@@ -2,7 +2,7 @@
 /**
  * msgqsnoop.bt - Tracing and dump System V msgq
  *
- * Copyright (C) Rong Tao 2022-2024
+ * Copyright (C) Rong Tao 2022-2025
  *
  * 2024-06-12	Rong Tao	Create this.
  */

@@ -58,7 +58,7 @@ Example write:
 
 ##License##
 Copyright (C) 2012-2014  Andre Richter
-Copyright (C) 2022-2023  Rong Tao
+Copyright (C) 2022-2025  Rong Tao
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

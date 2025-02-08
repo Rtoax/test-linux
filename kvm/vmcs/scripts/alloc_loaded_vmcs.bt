@@ -2,7 +2,7 @@
 /**
  * alloc_loaded_vmcs.bt
  *
- * Copyright (C) Rong Tao 2022-2024
+ * Copyright (C) Rong Tao 2022-2025
  */
 struct vmcs_hdr {
 	u32 revision_id:31;

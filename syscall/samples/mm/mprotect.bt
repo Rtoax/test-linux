@@ -2,7 +2,7 @@
 /**
  * mprotect.bt
  *
- * Copyright (C) Rong Tao 2022-2024
+ * Copyright (C) Rong Tao 2022-2025
  */
 #define PROT_READ      0x1             /* page can be read */
 #define PROT_WRITE     0x2             /* page can be written */

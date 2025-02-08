@@ -1,7 +1,7 @@
 #!/bin/bash
 # see ps(1)
 #
-# Copyright (C) 2023-2024, Co.
+# Copyright (C) Rong Tao 2023-2025.
 #
 # 2023-05-06	Rong Tao	Create this.
 

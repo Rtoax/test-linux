@@ -2,7 +2,7 @@
 /**
  * _dl_map_object.bt - Tracing ld linker _dl_map_object()
  *
- * Copyright (C) Rong Tao 2022-2024
+ * Copyright (C) Rong Tao 2022-2025
  *
  * 2024-04-16	Rong Tao	Create this.
  */

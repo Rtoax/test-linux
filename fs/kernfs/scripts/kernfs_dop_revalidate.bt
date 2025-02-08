@@ -5,7 +5,7 @@
  * prometheus node-exporter may hold kernfs_{rwsem,mutex} lock (kernel < 5.16),
  * this scription could get the task who hold the lock (maybe).
  *
- * Copyright (C) Rong Tao, 2022-2023
+ * Copyright (C) Rong Tao, 2022-2025
  *
  * 2023-03-20	Rong Tao	Create this.
  * 2023-03-21	Rong Tao	Add latency hist.

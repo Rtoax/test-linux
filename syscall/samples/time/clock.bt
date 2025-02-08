@@ -2,7 +2,7 @@
 /**
  * clock.bt - Tracing clock relate syscall
  *
- * Copyright (C) Rong Tao 2022-2023
+ * Copyright (C) Rong Tao 2022-2025
  *
  * 2023-11-15	Rong Tao	Create this.
  */

@@ -2,7 +2,7 @@
 /**
  * dflcn.bt - Tracing dlopen/dlsym, etc.
  *
- * Copyright (C) Rong Tao 2022-2024
+ * Copyright (C) Rong Tao 2022-2025
  *
  * 2024-01-17	Rong Tao	Create this.
  */

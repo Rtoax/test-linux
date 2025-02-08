@@ -2,7 +2,7 @@
 /*
  * Empty device tree for qemu_arm64-custom
  *
- * Copyright 2023-2024 Rong Tao
+ * Copyright 2023-2025 Rong Tao
  *
  * 2023-09-08	Rong Tao	Create this.
  */
