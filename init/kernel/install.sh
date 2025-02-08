@@ -40,7 +40,7 @@ install_from_source()
 	# If RHEL like OS:
 	# Update grub
 	sudo grub2-mkconfig -o /boot/grub2/grub.cfg
-	sudo grubby --set-default /boot/vmlinuz-6.0.0-rc4+
+	sudo grubby --set-default /boot/vmlinuz-6.14.0-rc1+
 	# Confirm
 	sudo grubby --info=ALL | more
 	sudo grubby --default-index
