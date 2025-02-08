@@ -153,7 +153,11 @@ static unsigned long __proc_maps_addr(enum vma_type vma_type, char *get_name,
 			}
 			break;
 		case VT_VDSO:
-			if (!strcmp(basename(name_), "[vdso]")) {
+			if (!strcmp(basename(name_), "[vdso]") ||
+			    !strcmp(basename(name_), "[anon:vdso]") ||
+			    !strcmp(basename(name_), "[anon:vdso.new]") ||
+			    strstr(name_, "vdso.elf") ||
+			    strstr(name_, "vdso64.elf")) {
 				addr = start;
 				if (size)
 					*size = end - start;
