@@ -55,7 +55,7 @@ int main(int argc, char *argv[])
 
 	/* Output vDSO VMA to File */
 	fp = fopen(VDSO_FILE_NAME, "w");
-	fwrite((void*)vdso, 4096, 1, fp);
+	fwrite((void *)vdso, getpagesize() * 4, 1, fp);
 	fclose(fp);
 
 	return 0;

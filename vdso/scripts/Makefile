@@ -7,8 +7,7 @@ else
 endif
 export Q
 
-
 all:
-	gcc getauxval.c -o getauxval
+	${Q}gcc getauxval.c -o getauxval
 clean:
-	rm -f getauxval vDSO-VMA.out
+	${Q}rm -f getauxval vDSO-VMA.out
