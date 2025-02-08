@@ -106,7 +106,7 @@ static const struct argp argp = {
 
 static void reloc_addr(void)
 {
-	unsigned long libc = proc_maps_libc_base_addr_2();
+	unsigned long libc = proc_maps_libc_base_addr_2(NULL);
 	(void)libc;
 #ifdef SYMADDR___memcpy_ssse3
 	__memcpy_ssse3 = (memcpy_fn)(libc + SYMADDR___memcpy_ssse3);

@@ -8,6 +8,7 @@ int main(void)
 	char *s;
 	char name[] = {"abcdefg"};
 
+	/* return 'cdefg' */
 	printf("%s\n", strstr(name, "cd"));
 	printf("%s\n", strstr(name, "cd"));
 

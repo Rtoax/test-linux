@@ -11,7 +11,7 @@ unsigned long proc_maps_exec_base_addr(unsigned long *size);
 unsigned long proc_maps_exec_text_addr(unsigned long *size);
 unsigned long proc_maps_exec_data_addr(unsigned long *size);
 unsigned long proc_maps_libc_base_addr(unsigned long *size);
-unsigned long proc_maps_libc_base_addr_2(void);
+unsigned long proc_maps_libc_base_addr_2(size_t *size);
 unsigned long proc_maps_libc_data_addr(unsigned long *size);
 unsigned long proc_maps_libc_text_addr(unsigned long *size);
 char *proc_maps_libc_base_name(char *buf, size_t buf_len);
