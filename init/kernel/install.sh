@@ -31,6 +31,9 @@ config_kernel()
 
 install_from_source()
 {
+	# see https://github.com/torvalds/linux
+	local kver=6.14.0-rc1+
+
 	# Compile and install
 	sudo make -j$(nproc)
 	sudo make modules_install
@@ -40,7 +43,9 @@ install_from_source()
 	# If RHEL like OS:
 	# Update grub
 	sudo grub2-mkconfig -o /boot/grub2/grub.cfg
-	sudo grubby --set-default /boot/vmlinuz-6.14.0-rc1+
+	sudo grubby --set-default /boot/vmlinuz-${kver}
+	sudo cp .config /boot/config-${kver}
+
 	# Confirm
 	sudo grubby --info=ALL | more
 	sudo grubby --default-index

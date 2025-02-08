@@ -8,6 +8,7 @@ else
 endif
 export Q
 
+include ../kconfig.mk
 
 sub-dir := readline
 
@@ -41,6 +42,10 @@ ifdef DEBUG
   CFLAGS += -DDEBUG -O0 -g -ggdb
 endif
 CFLAGS += -DTEST=1
+ifeq (${CONFIG_ANON_VMA_NAME},y)
+  $(info INFO: Support CONFIG_ANON_VMA_NAME)
+  CFLAGS += -DCONFIG_ANON_VMA_NAME=1
+endif
 
 ifdef LINK_LIB
   CFLAGS += -ltest-linux-c

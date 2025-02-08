@@ -13,6 +13,10 @@
 int rename_vma(unsigned long addr, unsigned long size, char *name)
 {
 	int res;
+	/**
+	 * The name can contain only printable ascii characters (isprint(3)),
+	 * except '[', ']', '\', '$', and '`'. see R_SET_VMA(2const).
+	 */
 	res = prctl(PR_SET_VMA, PR_SET_VMA_ANON_NAME, addr, size, name);
 	if (res < 0) {
 		perror("[!] prctl");

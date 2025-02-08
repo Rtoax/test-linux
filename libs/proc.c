@@ -8,6 +8,8 @@
 #include <fcntl.h>
 #include <elf.h>
 #include <sys/mman.h>
+#include <linux/prctl.h>  /* Definition of PR_* constants */
+#include <sys/prctl.h>
 
 #include "proc.h"
 
@@ -379,6 +381,21 @@ int map_new_vdso(const char *vdsoelf, void *addr, size_t size, bool anon)
 		mprotect(mem, size, PROT_READ | PROT_EXEC);
 		LOG_DEBUG("memcpy(%p, %p, %ld)\n", mem, buf, size);
 		free(buf);
+#ifdef CONFIG_ANON_VMA_NAME
+		/**
+		 * see manual R_SET_VMA(2const)
+		 *
+		 * The name can contain only printable ascii characters
+		 * (isprint(3)), except '[', ']', '\', '$', and '`'.
+		 */
+		char *vma_name = "vdso.new";
+		LOG_DEBUG("set vdso name to %s", vma_name);
+		if (prctl(PR_SET_VMA, PR_SET_VMA_ANON_NAME, addr, size, vma_name) != 0) {
+			perror("prctl: PR_SET_VMA_ANON_NAME");
+		}
+#else
+# pragma message("Kernel is not support CONFIG_ANON_VMA_NAME!!!")
+#endif
 	}
 
 	ehdr = (void *)mem;
