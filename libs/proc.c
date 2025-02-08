@@ -11,6 +11,15 @@
 
 #include "proc.h"
 
+#ifdef DEBUG
+# define LOG_DEBUG(fmt...) do {	\
+		fprintf(stderr, "[%s:%d] ", __func__, __LINE__);	\
+		fprintf(stderr, fmt);	\
+	} while (0)
+#else
+# define LOG_DEBUG(fmt...)
+#endif
+
 const char *proc_comm(char *buf, size_t buf_len)
 {
 	char comm[128], content[256];
@@ -302,9 +311,7 @@ int proc_vdso_dump(const char *filename, unsigned long *vdso_addr,
 	unsigned long addr;
 
 	addr = proc_maps_vdso_addr(&size);
-#ifdef DEBUG
-	fprintf(stderr, "vdso addr : %lx, size %lx\n", addr, size);
-#endif
+	LOG_DEBUG("vdso addr : %lx, size %lx\n", addr, size);
 
 	mem_fd = open_proc_pid_mem(getpid());
 	mem = malloc(size);
@@ -326,11 +333,13 @@ int proc_vdso_dump(const char *filename, unsigned long *vdso_addr,
 	return 0;
 }
 
-int map_new_vdso(const char *vdsoelf, void *addr, size_t size)
+int map_new_vdso(const char *vdsoelf, void *addr, size_t size, bool anon)
 {
-	int fd, ret = 0;
-	void *mem;
+	int fd, mmap_fd, ret = 0;
+	void *mem, *buf;
 	Elf64_Ehdr *ehdr;
+	int flags = MAP_PRIVATE;
+	int prot = PROT_READ | PROT_EXEC;
 
 	fd = open(vdsoelf, O_RDONLY);
 	if (fd == -1) {
@@ -338,11 +347,38 @@ int map_new_vdso(const char *vdsoelf, void *addr, size_t size)
 		return -errno;
 	}
 
-	mem = mmap((void *)addr, size, PROT_READ | PROT_EXEC, MAP_PRIVATE, fd, 0);
+	LOG_DEBUG("open(%s) = %d\n", vdsoelf, fd);
+
+	mmap_fd = fd;
+
+	if (anon) {
+		flags |= MAP_ANONYMOUS;
+		/**
+		 * If anonymous new vdso, need write permission, see memcpy(3)
+		 * below.
+		 */
+		prot |= PROT_WRITE;
+
+		buf = malloc(size);
+		ssize_t n = read(fd, buf, size);
+		if (n <= 0) {
+			perror("read");
+		}
+		mmap_fd = -1;
+	}
+
+	mem = mmap((void *)addr, size, prot, flags, mmap_fd, 0);
 	if (mem == MAP_FAILED) {
-		perror("mmap\n");
+		perror("mmap");
 		close(fd);
 		return -errno;
+	}
+
+	if (anon) {
+		memcpy(mem, buf, size);
+		mprotect(mem, size, PROT_READ | PROT_EXEC);
+		LOG_DEBUG("memcpy(%p, %p, %ld)\n", mem, buf, size);
+		free(buf);
 	}
 
 	ehdr = (void *)mem;

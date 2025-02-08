@@ -3,6 +3,15 @@
 #include <string.h>
 #include <sys/types.h>
 
+void *memcpy_c(void *dest, const void *src, size_t n)
+{
+	char *d = (char *)dest;
+	const char *s = (const char *)src;
+	while (n--)
+		*d++ = *s++;
+	return dest;
+}
+
 char *strcaseswap(char *str, ssize_t len)
 {
 	char *c = str;

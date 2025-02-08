@@ -130,7 +130,7 @@ skip_call_vdso:
 			fprintf(stderr, "ERROR: gettimeofday() should sigfault after unmap vdso.\n");
 			abort();
 		}
-		map_new_vdso(vdso, (void *)addr, size);
+		map_new_vdso(vdso, (void *)addr, size, true);
 
 		/* Call vdso function again, works fine */
 		gettimeofday(&tv, NULL);

@@ -37,7 +37,9 @@ TARGETS_LIBA += libtest-linux-c.a
 CC = gcc
 
 CFLAGS += -Werror -Wall
-CFLAGS += -DDEBUG -O0 -g
+ifdef DEBUG
+  CFLAGS += -DDEBUG -O0 -g -ggdb
+endif
 CFLAGS += -DTEST=1
 
 ifdef LINK_LIB
@@ -88,7 +90,7 @@ libtest-linux-c.a: ${LIB_OBJS}
 
 %.obj: %.c
 	@echo -e "  CC OBJ  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	${Q}$(CC) -o $(@) -c $(<) $(CFLAGS_SO) $(CFLAGS_SO_$(*)) -fPIC
+	${Q}$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*)) -fPIC
 
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
