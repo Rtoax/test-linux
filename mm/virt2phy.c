@@ -2,7 +2,9 @@
 #ifndef _GNU_SOURCE
 #define _GNU_SOURCE
 #endif
+#include <argp.h>
 #include <stdio.h>
+#include <stdbool.h>
 #include <fcntl.h>
 #include <stdlib.h>
 #include <stdint.h>
@@ -41,6 +43,43 @@ static struct {
 	void *mem;
 	size_t sz;
 } mem_ro, mem_rw, mem_rw_cow;
+
+int mbind_to_numa = false;
+int verbose = false;
+
+const char argp_prog_doc[] =
+	"USAGE: [-b <mbind>] [-v|--verbose]\n";
+
+static const struct argp_option opts[] = {
+	{ "mbind", 'b', "MBIND", 1, "Test mbind" },
+	{ "verbose", 'v', "VERBOSE", 1, "Display detail" },
+	{},
+};
+
+static error_t parse_arg(int key, char *arg, struct argp_state *state)
+{
+	switch (key) {
+	case 'b':
+		mbind_to_numa = true;
+		break;
+	case 'v':
+		verbose = true;
+		break;
+	case ARGP_KEY_ARG:
+		argp_usage(state);
+		break;
+	default:
+		return ARGP_ERR_UNKNOWN;
+	}
+	return 0;
+}
+
+static const struct argp argp = {
+	.options = opts,
+	.parser = parse_arg,
+	.doc = argp_prog_doc,
+};
+
 
 void *map_file(const char *file, int ro, int cow, size_t *sz)
 {
@@ -317,6 +356,12 @@ int main(int argc, char *argv[])
 	unsigned long phy;
 	char buffer[1024];
 
+	ret = argp_parse(&argp, argc, argv, 0, NULL, NULL);
+	if (ret) {
+		fprintf(stderr, "argp_parse return %d\n", ret);
+		return -ret;
+	}
+
 	if (getuid() != 0) {
 		fprintf(stderr, "ERROR: must run with root (sudo).\n");
 		exit(1);
@@ -335,8 +380,12 @@ int main(int argc, char *argv[])
 	mem_rw_cow.mem = map_file("/usr/bin/ls", 0, 1, &mem_rw_cow.sz);
 
 	test_mapping_phy_addr();
-	mbind_numa();
-	test_mapping_phy_addr();
+	if (mbind_to_numa) {
+		mbind_numa();
+		test_mapping_phy_addr();
+	} else {
+		fprintf(stderr, "WARNING: speicy -b,--mbind to test mbind()\n");
+	}
 
 /**
  * CONFIG_STRICT_DEVMEM=y is the default kernel configuration in general,

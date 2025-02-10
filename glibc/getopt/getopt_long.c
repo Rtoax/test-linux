@@ -8,6 +8,8 @@
 int command(int argc, char *argv[])
 {
 	int c;
+	/* Flag set by '--verbose'. */
+	int verbose_flag;
 
 	/**
 	 * This is needed if call getopt() serial times.
@@ -15,8 +17,6 @@ int command(int argc, char *argv[])
 	optarg = NULL;
 	optind = opterr = optopt = 0;
 
-	/* Flag set by '--verbose'. */
-	int verbose_flag;
 	struct option options[] = {
 		/* These options set a flag. */
 		{"verbose", no_argument, &verbose_flag, 'V'},
