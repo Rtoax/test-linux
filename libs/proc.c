@@ -317,6 +317,29 @@ void proc_pid_maps_display(void)
 	system(cmd);
 }
 
+void proc_pid_maps_display_2(FILE *out, char *pfx)
+{
+	char *line = NULL;
+	size_t len = 0;
+	FILE *fp;
+
+	if (!out)
+		out = stdout;
+
+	if (!pfx)
+		pfx = "";
+
+	fp = fopen("/proc/self/maps", "r");
+	if (!fp) {
+		perror("fopen");
+		return;
+	}
+
+	while (getline(&line, &len, fp) != -1)
+		fprintf(out, "%s%s", pfx, line);
+	free(line);
+}
+
 int proc_vdso_dump(const char *filename, unsigned long *vdso_addr,
 		   size_t *vdso_size)
 {

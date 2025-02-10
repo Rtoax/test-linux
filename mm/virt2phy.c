@@ -427,7 +427,7 @@ int main(int argc, char *argv[])
 #endif
 
 	if (verbose)
-		proc_pid_maps_display();
+		proc_pid_maps_display_2(stdout, "virt2phy: ");
 
 	munmap(mem_ro.mem, mem_ro.sz);
 	munmap(mem_rw.mem, mem_rw.sz);

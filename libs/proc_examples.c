@@ -138,7 +138,7 @@ skip_call_vdso:
 		printf("tv_sec = %ld\n", tv.tv_sec);
 	}
 
-	proc_pid_maps_display();
+	proc_pid_maps_display_2(stdout, "");
 
 	test_mem_fd();
 	test_find_vma_hole();
