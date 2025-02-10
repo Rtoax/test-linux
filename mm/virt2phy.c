@@ -426,8 +426,11 @@ int main(int argc, char *argv[])
 	fprintf(stderr, "CONFIG_STRICT_DEVMEM=y, deny write to /dev/mem!\n");
 #endif
 
-	if (verbose)
+	if (verbose) {
+#if defined(HAVE_LIB_TEST_LINUX_C)
 		proc_pid_maps_display_2(stdout, "virt2phy: ");
+#endif
+	}
 
 	munmap(mem_ro.mem, mem_ro.sz);
 	munmap(mem_rw.mem, mem_rw.sz);
