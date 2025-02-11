@@ -8,10 +8,9 @@ else
 endif
 export Q
 
+include go.mk
 
 sub-dir := coroutine
-
-GO = $(shell which go 2>/dev/null)
 
 TARGETS :=
 TARGETS += hello
@@ -22,14 +21,8 @@ TARGETS += pi
 TARGETS += write
 TARGETS += sleep
 
-ifeq ($(wildcard $(GO)),)
-  TARGETS :=
-  $(warning Please install golang)
-endif
-
 sub-dir-build := $(sub-dir:=.build)
 sub-dir-clean := $(sub-dir:=.clean)
-
 
 .PHONY: build
 all: ${TARGETS} $(sub-dir-build)

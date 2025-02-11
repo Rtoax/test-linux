@@ -8,20 +8,13 @@ else
 endif
 export Q
 
-
-
-GO = $(shell which go 2>/dev/null)
+include ../go.mk
 
 TARGETS :=
 TARGETS += hello
 TARGETS += add
 TARGETS += loop
 TARGETS += mutex
-
-ifeq ($(wildcard $(GO)),)
-  TARGETS :=
-  $(warning Please install golang)
-endif
 
 .PHONY: build
 all: ${TARGETS}
