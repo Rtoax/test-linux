@@ -8,29 +8,16 @@ else
 endif
 export Q
 
-include rust.mk
-
-sub-dir :=
-sub-dir += types
-sub-dir += thread
+include ../rust.mk
 
 TARGETS :=
-TARGETS += hello
-TARGETS += if-let
-
-sub-dir-build := $(sub-dir:=.build)
-sub-dir-clean := $(sub-dir:=.clean)
+TARGETS += data-type
 
 .PHONY: build
-build: $(TARGETS) $(sub-dir-build)
+build: $(TARGETS)
 	@echo -e "  \033[1;34mDone\033[m"
 
-hello: hello.rs
-if-let: if-let.rs
-
-$(sub-dir-build):
-	@echo -e "  SUB-DIR  \033[1;35m$(@)\033[m"
-	${Q}make -C $(@:.build=)
+data-type: data-type.rs
 
 $(TARGETS): %:
 	@echo -e "  RUSTC  \033[1;32m$(@)\033[m"
@@ -40,9 +27,6 @@ test: ${TARGETS}
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
 
 .PHONY: clean
-clean: $(sub-dir-clean)
+clean:
 	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
 	${Q}rm -f ${TARGETS}
-
-$(sub-dir-clean):
-	$(Q)make -C $(@:.clean=) clean
