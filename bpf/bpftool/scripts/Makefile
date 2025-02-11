@@ -17,8 +17,8 @@ build: ${SCRIPTS_LOG} $(sub-dir-build)
 	@echo -e " \033[1;33m Done \033[m"
 
 %.log: %.sh
-	@echo -e "  TEST \033[1;32m$(<) log to ${@}\033[m"
-	@$(shell ${SHELL} $(<) > $(@))
+	@echo -e "  TEST \033[1;32m$(<)\033[m"
+	@${SHELL} $(<) 2>&1 | tee $(@)
 
 .PHONY: clean
 clean: $(sub-dir-clean)

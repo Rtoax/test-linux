@@ -16,5 +16,8 @@ sudo ${BPFTOOL} map create /sys/fs/bpf/${map_name} \
 sudo ${BPFTOOL} map show name ${map_name}
 sudo ${BPFTOOL} map dump name ${map_name}
 
+sudo ${BPFTOOL} map update name ${map_name} key 1 0 0 0 value 1 0 0 0
+sudo ${BPFTOOL} map dump name ${map_name}
+
 # Remove map from system
 sudo unlink /sys/fs/bpf/${map_name}
