@@ -8,7 +8,6 @@ else
 endif
 export Q
 
-
 sub-dir :=
 sub-dir += alias
 sub-dir += array
