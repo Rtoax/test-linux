@@ -8,8 +8,7 @@ else
 endif
 export Q
 
-
-RUSTC = $(shell which rustc 2>/dev/null)
+include rust.mk
 
 TARGETS :=
 TARGETS += data-type
@@ -17,14 +16,9 @@ TARGETS += hello
 TARGETS += threads
 TARGETS += if-let
 
-ifeq ($(RUSTC),)
-  $(warning "Not found rustc compiler")
-  TARGETS :=
-endif
-
-
 .PHONY: build
 build: $(TARGETS)
+	@echo -e "  \033[1;34mDone\033[m"
 
 data-type: data-type.rs
 hello: hello.rs
