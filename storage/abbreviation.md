@@ -4,6 +4,7 @@
 - CRUSH: Controlled Replication Under Scalable Hashing (可扩展哈希下的受控复制) @Ceph
 - DM-MPIO: Device Mapper Multipath Input Output / DM-Multipathing
 - FCP: Fibre Channel Protocol (光纤通道)
+- HDD: Hard Disk Drives (硬盘驱动)
 - iSCSI: Internet Small Computer Systems Interface (互联网小型计算机系统接口) @SCSI
 - iSER: iSCSI Extensions for RDMA (RDMA 的 iSCSI 扩展) @iSCSI
 - iWARP: RDMA over TCP
@@ -15,8 +16,8 @@
 - NVMe: Non-Volatile Memory Express (非易失性内存表达)
 - NVMe-oF: NVMe over Fabrics (NoF)
 - NVMe/FC: NVMe over Fibre Channel (FC-NVMe, NVMe over FC)
-- NVMe/RoCE: NVMe over RoCE
-- NVMe/TCP: NVMe over TCP
+- NVMe/RoCE: NVMe over RoCE ()
+- NVMe/TCP: NVMe over TCP ()
 - RAID: Redundant Arrays of Independent Disks (独立磁盘冗余阵列)
 - RDMA: Remote Direct Memory Access (远程直接内存访问)
 - RoCE: RDMA over Converged Ethernet (聚合以太网上的 RDMA)
