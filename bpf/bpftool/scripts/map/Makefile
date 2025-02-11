@@ -3,6 +3,8 @@ SHELL = bash
 
 include ../../bpftool.mk
 
+$(info BPFTOOL = ${BPFTOOL})
+
 SCRIPTS := $(shell find -type f -name '*.sh' -perm -001)
 # Output .log suffix file list
 SCRIPTS_LOG = $(patsubst %.sh,%.log,$(SCRIPTS))
