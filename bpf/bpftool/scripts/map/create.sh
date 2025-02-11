@@ -11,3 +11,6 @@ sudo bpftool map create /sys/fs/bpf/${map_name} \
 
 sudo bpftool map show name ${map_name}
 sudo bpftool map dump name ${map_name}
+
+# Remove map from system
+sudo unlink /sys/fs/bpf/${map_name}
