@@ -7,3 +7,5 @@ feature list_builtins map_types
 EOF
 
 sudo bpftool batch file batch_example.txt
+
+rm batch_example.txt
