@@ -1,8 +1,10 @@
 #!/bin/bash
+set -e
+
 answer=N
 [[ ! -z $1 ]] && answer=$1
 
-readonly git_root=$(git rev-parse --show-toplevel 2>/dev/null)
+readonly git_root=$(git rev-parse --show-toplevel 2>/dev/null || true)
 
 declare -a no_add_files no_commit_files ignore_files
 
@@ -68,6 +70,11 @@ pre_check() {
 		print_list ${ignore_files[@]}
 	fi
 }
+
+if [[ -z ${git_root} ]]; then
+	echo >&2 "ERROR: Your not in git-repo!!!!"
+	exit 1
+fi
 
 if [[ ${answer} != y ]] && [[ -z ${FORCE} ]]; then
 	while pre_check && read -p "Are you sure? [N/y] " answer
