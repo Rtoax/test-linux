@@ -1,4 +1,9 @@
 #!/bin/bash
+set -ex
 
-# 批量加载 bpftool 命令
-sudo bpftool batch file ./batch_example.txt
+cat>batch_example.txt<<-EOF
+feature list_builtins prog_types
+feature list_builtins map_types
+EOF
+
+sudo bpftool batch file batch_example.txt
