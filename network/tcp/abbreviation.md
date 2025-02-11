@@ -4,4 +4,5 @@
 - LRO: Large Receive Offload ()
 - LSO: Large segment offload (TCP 分段卸载)
 - TC: Traffic Control (拥塞控制) @qdiscs
+- TOE: TCP Offload Engine (TCP 卸载引擎)
 - TSO: TCP Segmentation Offload (TCP 分段卸载) @LSO @GRO @TSS
