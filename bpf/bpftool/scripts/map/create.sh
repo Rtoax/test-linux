@@ -1,7 +1,7 @@
 #!/bin/bash
 set -ex
 
-map_name=map_tst1
+map_name=$(mktemp -u tstmap_XXX)
 map_type=array
 
 sudo bpftool map create /sys/fs/bpf/${map_name} \
@@ -10,3 +10,4 @@ sudo bpftool map create /sys/fs/bpf/${map_name} \
 	name ${map_name}
 
 sudo bpftool map show name ${map_name}
+sudo bpftool map dump name ${map_name}
