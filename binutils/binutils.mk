@@ -1,7 +1,10 @@
 # SPDX-License-Identifier: GPL-3.0
 SHELL = bash
 
-LD_BFD := ld.bfd
+LD_BFD := $(shell which ld.bfd 2>/dev/null)
+ifeq ($(LD_BFD),)
+  $(error "Not found linker ld.bfd, install binutils first")
+endif
 
 # Get binutils version
 BINUTILS_VERSION = $(shell ${LD_BFD} --version | grep -o [0-9].[0-9]\. | sed -n '1p')

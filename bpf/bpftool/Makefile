@@ -1,6 +1,8 @@
 # SPDX-License-Identifier: GPL-3.0
 SHELL = bash
 
+include bpftool.mk
+
 sub-dir := scripts
 
 sub-dir-build := $(sub-dir:=.build)
