@@ -1,3 +1,3 @@
 #!/bin/bash
-./create.sh --type hash
-./create.sh --type hash --dry-run
+./create.sh --name map_hash --type hash
+./create.sh --name map_hash --type hash --dry-run

@@ -5,6 +5,8 @@ readonly prog=bpftool-test
 
 verbose=
 dry_run=
+
+NAME=
 TYPE=array
 
 SUPPORT_TYPES=(
@@ -27,6 +29,7 @@ DESCRIPTION
 	Test bpftool.
 
 ARGUMENT
+	-n, --name [NAME]  specify map name
 	-t, --type [TYPE]  specify map type, default: ${TYPE}
 
 	-u, --dry-run      only show commands
@@ -40,7 +43,19 @@ SEE ALSO
 	exit ${1-0}
 }
 
-ARGS=$(getopt --options t:uvh \
+# BPF_OBJ_NAME_LEN=16U, map name length need smaller than 15
+# refs:
+# - https://lore.kernel.org/lkml/tencent_26592A2BAF08A3A688A50600421559929708@qq.com/
+check_map_name()
+{
+	local name=$1
+	if [[ ${#name} -gt 15 ]]; then
+		echo >&2 "WARNING: map name should be no longer than 15 chars"
+	fi
+}
+
+ARGS=$(getopt --options n:t:uvh \
+	--long name: \
 	--long type: \
 	--long dry-run \
 	--long verbose \
@@ -53,6 +68,11 @@ eval set -- "${ARGS}"
 
 while true; do
 	case $1 in
+	-n | --name)
+		shift
+		NAME=$1
+		shift
+		;;
 	-t | --type)
 		shift
 		if [[ " ${SUPPORT_TYPES[*]} " =~ " ${1} " ]]; then
@@ -94,10 +114,10 @@ _eval()
 	fi
 }
 
-# BPF_OBJ_NAME_LEN=16U, map name length need smaller than 15
-# refs:
-# - https://lore.kernel.org/lkml/tencent_26592A2BAF08A3A688A50600421559929708@qq.com/
-NAME=$(mktemp -u t_${TYPE}_XXXXXXXXXXXXXX)
+[[ -z ${NAME} ]] && NAME=$(mktemp -u t_${TYPE}_XXXXXXXXXXXXXX)
+
+check_map_name ${NAME}
+
 NAME_truncate=${NAME:0:15}
 
 _eval sudo ${BPFTOOL} map create /sys/fs/bpf/${NAME} \

@@ -1,3 +1,3 @@
 #!/bin/bash
-./create.sh --type percpu_hash
-./create.sh --type percpu_hash --dry-run
+./create.sh --name pc_map_hash --type percpu_hash
+./create.sh --name pc_map_hash --type percpu_hash --dry-run
