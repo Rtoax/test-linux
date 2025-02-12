@@ -212,10 +212,10 @@ __usage__()
 {
 	echo -e "
 NAME
-	$prog - Install depends
+	${prog} - Install depends for test-linux or deploy
 
 SYNOPSIS
-	$prog [--dry-run] [--all]
+	${prog} [--dry-run] [--all]
 
 DESCRIPTION
 	Install various dependencies.
@@ -282,7 +282,7 @@ TEMP=$(getopt --options uvhfk: \
 	--long verbose \
 	--long help \
 	--long force \
-	--name $prog -- "$@")
+	--name ${prog} -- "$@")
 
 test $? != 0 && __usage__ 1
 
@@ -290,7 +290,7 @@ eval set -- "$TEMP"
 
 while true; do
 	case $1 in
-	-h|--help)
+	-h | --help)
 		shift
 		__usage__
 		;;
