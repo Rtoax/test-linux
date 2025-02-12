@@ -18,7 +18,7 @@ declare -a INNER_MAP_NAMES
 
 SUPPORT_TYPES=(
 	array percpu_array array_of_maps
-	hash percpu_hash
+	hash percpu_hash hash_of_maps
 )
 
 [[ -z ${BPFTOOL} ]] && BPFTOOL=bpftool
@@ -170,7 +170,7 @@ NAME_truncate=${NAME:0:15}
 declare -a create_args
 
 case ${TYPE} in
-array_of_maps)
+array_of_maps | hash_of_maps)
 	create_args+=( inner_map name ${INNER_MAP_NAMES[0]} )
 	;;
 esac
@@ -192,7 +192,7 @@ array | percpu_array | hash | percpu_hash)
 	_eval sudo ${BPFTOOL} map update name ${NAME_truncate} key 3 0 0 0 value 3 0 0 0
 	_eval sudo ${BPFTOOL} map update name ${NAME_truncate} key 4 0 0 0 value 4 0 0 0
 	;;
-array_of_maps)
+array_of_maps | hash_of_maps)
 	for ((i = 0; i < ${#INNER_MAP_NAMES[@]}; i++))
 	do
 		# Same command
