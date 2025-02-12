@@ -3,7 +3,9 @@ SHELL = bash
 
 include ../bpftool.mk
 
-SCRIPTS := $(shell find -type f -name '*.sh' -perm -001)
+SCRIPTS := $(shell find -maxdepth 1 -type f -name '*.sh' -perm -001)
+# Remove './' prefix
+SCRIPTS := $(subst ./,,$(SCRIPTS))
 # Output .log suffix file list
 SCRIPTS_LOG = $(patsubst %.sh,%.log,$(SCRIPTS))
 

@@ -11,7 +11,7 @@ SRCS += ${SRCROOT}/module1/b.c
 OBJS := $(patsubst %.c,%.o,$(SRCS))
 
 # $(subst <from>,<to>,<text>)
-DEPS := $(subst $(SRCROOT), $(DEPROOT), $(OBJS))
+DEPS := $(subst $(SRCROOT),$(DEPROOT),$(OBJS))
 
 .PHONY: build
 build:
