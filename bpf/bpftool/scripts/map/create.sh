@@ -7,7 +7,10 @@ verbose=
 dry_run=
 TYPE=array
 
-SUPPORT_TYPES=( array hash )
+SUPPORT_TYPES=(
+	array percpu_array
+	hash percpu_hash
+)
 
 [[ -z ${BPFTOOL} ]] && BPFTOOL=bpftool
 
@@ -106,7 +109,7 @@ _eval sudo ${BPFTOOL} map show name ${NAME_truncate}
 _eval sudo ${BPFTOOL} map dump name ${NAME_truncate}
 
 case ${TYPE} in
-array | hash)
+array | percpu_array | hash | percpu_hash)
 	_eval sudo ${BPFTOOL} map update name ${NAME_truncate} key 0 0 0 0 value 0 0 0 0
 	_eval sudo ${BPFTOOL} map update name ${NAME_truncate} key 1 0 0 0 value 1 0 0 0
 	_eval sudo ${BPFTOOL} map update name ${NAME_truncate} key 2 0 0 0 value 2 0 0 0
