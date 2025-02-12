@@ -37,7 +37,6 @@ SEE ALSO
 	exit ${1-0}
 }
 
-
 ARGS=$(getopt --options t:uvh \
 	--long type: \
 	--long dry-run \
@@ -53,7 +52,12 @@ while true; do
 	case $1 in
 	-t | --type)
 		shift
-		TYPE=$1
+		if [[ " ${SUPPORT_TYPES[*]} " =~ " ${1} " ]]; then
+			TYPE=$1
+		else
+			echo >&2 "ERROR: Not support type=${1}, support: ${SUPPORT_TYPES[@]}"
+			exit 1
+		fi
 		shift
 		;;
 	-h | --help)
