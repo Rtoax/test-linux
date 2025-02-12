@@ -246,6 +246,8 @@ void test_mapping_phy_addr(void)
 
 	printf("%-16s %-16s %-16s %-8s %-8s %-8s\n", "NAME", "VIRT_ADDR",
 		"PHY_ADDR", "MEM_NUMA", "CPU", "CPU_NUMA");
+	printf("%-16s %-16s %-16s %-8s %-8s %-8s\n", "----", "---------",
+		"--------", "--------", "---", "--------");
 
 #define PR(name, va, pa, numa) do {					\
 		printf("%-16s %-16lx %-16lx %-8d %-8d %-8d\n",		\
