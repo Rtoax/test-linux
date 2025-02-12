@@ -2,6 +2,7 @@
 set -e
 
 readonly prog=bpftool-test
+readonly BPFFS=/sys/fs/bpf/
 
 no_unlink=
 verbose=
@@ -174,7 +175,7 @@ array_of_maps)
 	;;
 esac
 
-_eval sudo ${BPFTOOL} map create /sys/fs/bpf/${NAME} \
+_eval sudo ${BPFTOOL} map create ${BPFFS}/${NAME} \
 	type ${TYPE} \
 	name ${NAME_truncate} \
 	key ${KEY} value ${VALUE} entries ${ENTRIES} \
@@ -195,8 +196,8 @@ array_of_maps)
 	for ((i = 0; i < ${#INNER_MAP_NAMES[@]}; i++))
 	do
 		# Same command
-		# sudo ${BPFTOOL} map update pinned /sys/fs/bpf/${NAME_truncate} \
-		#	key $i 0 0 0 value pinned /sys/fs/bpf/${INNER_MAP_NAMES[$i]}
+		# sudo ${BPFTOOL} map update pinned ${BPFFS}/${NAME_truncate} \
+		#	key $i 0 0 0 value pinned ${BPFFS}/${INNER_MAP_NAMES[$i]}
 		_eval sudo ${BPFTOOL} map update name ${NAME_truncate} \
 			key $i 0 0 0 value name ${INNER_MAP_NAMES[$i]}
 	done
@@ -206,4 +207,4 @@ esac
 _eval sudo ${BPFTOOL} map dump name ${NAME_truncate}
 
 # Remove map from system
-[[ ! ${no_unlink} ]] && _eval sudo unlink /sys/fs/bpf/${NAME}
+[[ ! ${no_unlink} ]] && _eval sudo unlink ${BPFFS}/${NAME}
