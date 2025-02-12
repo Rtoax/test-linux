@@ -208,7 +208,14 @@ array_of_maps | hash_of_maps)
 	done
 	;;
 queue)
-	# TODO
+	for ((i = 0; i < ${ENTRIES}; i++))
+	do
+		_eval sudo ${BPFTOOL} map enqueue name ${NAME_truncate} value hex $i 0 0 0
+	done
+	for ((i = 0; i < ${ENTRIES}; i++))
+	do
+		_eval sudo ${BPFTOOL} map dequeue name ${NAME_truncate}
+	done
 	;;
 esac
 
