@@ -43,6 +43,7 @@ test:
 	./trap.sh
 	./while.sh
 	./cmdline.sh
+	./sudo.sh
 
 .PHONY: clean
 clean: $(sub-dir-clean)
