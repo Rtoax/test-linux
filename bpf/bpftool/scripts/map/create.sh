@@ -8,6 +8,9 @@ dry_run=
 
 NAME=
 TYPE=array
+KEY=4
+VALUE=4
+ENTRIES=5
 
 SUPPORT_TYPES=(
 	array percpu_array
@@ -32,9 +35,13 @@ ARGUMENT
 	-n, --name [NAME]  specify map name
 	-t, --type [TYPE]  specify map type, default: ${TYPE}
 
+	-k, --key [NUM]    specify key size (B), default: ${KEY}
+	-v, --value [NUM]  specify value size (B), default: ${VALUE}
+	-e, --entries [NUM] specify number of entries, default: ${ENTRIES}
+
 	-u, --dry-run      only show commands
 
-	-v, --verbose      show verbose information
+	-V, --verbose      show verbose information
 	-h, --help         show this help information
 
 SEE ALSO
@@ -54,9 +61,12 @@ check_map_name()
 	fi
 }
 
-ARGS=$(getopt --options n:t:uvh \
+ARGS=$(getopt --options n:t:k:v:e:uVh \
 	--long name: \
 	--long type: \
+	--long key: \
+	--long value: \
+	--long entries: \
 	--long dry-run \
 	--long verbose \
 	--long help \
@@ -83,11 +93,26 @@ while true; do
 		fi
 		shift
 		;;
+	-k | --key)
+		shift
+		KEY=$1
+		shift
+		;;
+	-v | --value)
+		shift
+		VALUE=$1
+		shift
+		;;
+	-e | --entries)
+		shift
+		ENTRIES=$1
+		shift
+		;;
 	-h | --help)
 		shift
 		__usage__
 		;;
-	-v | --verbose)
+	-V | --verbose)
 		shift
 		verbose=YES
 		export PS4='+${BASH_SOURCE}:${LINENO}:${FUNCNAME[0]}: '
@@ -123,7 +148,7 @@ NAME_truncate=${NAME:0:15}
 _eval sudo ${BPFTOOL} map create /sys/fs/bpf/${NAME} \
 	type ${TYPE} \
 	name ${NAME_truncate} \
-	key 4 value 4 entries 5
+	key ${KEY} value ${VALUE} entries ${ENTRIES}
 
 _eval sudo ${BPFTOOL} map show name ${NAME_truncate}
 _eval sudo ${BPFTOOL} map dump name ${NAME_truncate}
