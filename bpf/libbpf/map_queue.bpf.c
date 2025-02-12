@@ -16,9 +16,10 @@
 #define MAX_ENTRIES	1024
 
 struct {
+	/* bpf_attr::key_size must be 0 */
 	__uint(type, BPF_MAP_TYPE_QUEUE);
 	__uint(max_entries, MAX_ENTRIES);
 	__type(value, __u32);
-} m_queue SEC(".maps");
+} map_queue SEC(".maps");
 
 char LICENSE[] SEC("license") = "Dual BSD/GPL";

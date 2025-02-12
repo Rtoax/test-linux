@@ -19,6 +19,7 @@ declare -a INNER_MAP_NAMES
 SUPPORT_TYPES=(
 	array percpu_array array_of_maps
 	hash percpu_hash hash_of_maps
+	queue
 )
 
 [[ -z ${BPFTOOL} ]] && BPFTOOL=bpftool
@@ -173,6 +174,10 @@ case ${TYPE} in
 array_of_maps | hash_of_maps)
 	create_args+=( inner_map name ${INNER_MAP_NAMES[0]} )
 	;;
+queue)
+	# queue bpf_attr::key_size must be 0
+	KEY=0
+	;;
 esac
 
 _eval sudo ${BPFTOOL} map create ${BPFFS}/${NAME} \
@@ -182,7 +187,7 @@ _eval sudo ${BPFTOOL} map create ${BPFFS}/${NAME} \
 	${create_args[@]}
 
 _eval sudo ${BPFTOOL} map show name ${NAME_truncate}
-_eval sudo ${BPFTOOL} map dump name ${NAME_truncate}
+_eval sudo ${BPFTOOL} map dump name ${NAME_truncate} || true
 
 case ${TYPE} in
 array | percpu_array | hash | percpu_hash)
@@ -202,9 +207,12 @@ array_of_maps | hash_of_maps)
 			key $i 0 0 0 value name ${INNER_MAP_NAMES[$i]}
 	done
 	;;
+queue)
+	# TODO
+	;;
 esac
 
-_eval sudo ${BPFTOOL} map dump name ${NAME_truncate}
+_eval sudo ${BPFTOOL} map dump name ${NAME_truncate} || true
 
 # Remove map from system
 [[ ! ${no_unlink} ]] && _eval sudo unlink ${BPFFS}/${NAME}

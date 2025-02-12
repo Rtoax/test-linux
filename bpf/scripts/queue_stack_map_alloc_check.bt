@@ -1,0 +1,23 @@
+#!/usr/bin/env bpftrace
+
+BEGIN
+{
+	printf("Tracing bpf map queue create, press ctrl-C to end.\n");
+}
+
+kprobe:queue_stack_map_alloc_check
+{
+	$attr = (union bpf_attr *)arg0;
+	printf("max_entries %d, key_size %d, value_size %d, map_flags %d, ",
+		$attr->max_entries, $attr->key_size, $attr->value_size, $attr->map_flags);
+}
+
+kretprobe:queue_stack_map_alloc_check
+{
+	printf("ret %d\n", retval);
+}
+
+END
+{
+	printf("Bye.\n");
+}
