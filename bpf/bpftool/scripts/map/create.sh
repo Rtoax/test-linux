@@ -20,6 +20,7 @@ SUPPORT_TYPES=(
 	array percpu_array array_of_maps
 	hash percpu_hash hash_of_maps
 	queue
+	stack
 )
 
 [[ -z ${BPFTOOL} ]] && BPFTOOL=bpftool
@@ -174,7 +175,7 @@ case ${TYPE} in
 array_of_maps | hash_of_maps)
 	create_args+=( inner_map name ${INNER_MAP_NAMES[0]} )
 	;;
-queue)
+queue | stack)
 	# queue bpf_attr::key_size must be 0
 	KEY=0
 	;;
@@ -215,6 +216,16 @@ queue)
 	for ((i = 0; i < ${ENTRIES}; i++))
 	do
 		_eval sudo ${BPFTOOL} map dequeue name ${NAME_truncate}
+	done
+	;;
+stack)
+	for ((i = 0; i < ${ENTRIES}; i++))
+	do
+		_eval sudo ${BPFTOOL} map push name ${NAME_truncate} value hex $i 0 0 0
+	done
+	for ((i = 0; i < ${ENTRIES}; i++))
+	do
+		_eval sudo ${BPFTOOL} map pop name ${NAME_truncate}
 	done
 	;;
 esac
