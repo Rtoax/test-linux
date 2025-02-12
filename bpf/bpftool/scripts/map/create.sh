@@ -3,6 +3,7 @@ set -e
 
 readonly prog=bpftool-test
 
+no_unlink=
 verbose=
 dry_run=
 
@@ -12,8 +13,10 @@ KEY=4
 VALUE=4
 ENTRIES=5
 
+INNER_MAP_NAME=
+
 SUPPORT_TYPES=(
-	array percpu_array
+	array percpu_array array_of_maps
 	hash percpu_hash
 )
 
@@ -32,13 +35,16 @@ DESCRIPTION
 	Test bpftool.
 
 ARGUMENT
-	-n, --name [NAME]  specify map name
+	-n, --name [STR]   specify map name
 	-t, --type [TYPE]  specify map type, default: ${TYPE}
 
 	-k, --key [NUM]    specify key size (B), default: ${KEY}
 	-v, --value [NUM]  specify value size (B), default: ${VALUE}
 	-e, --entries [NUM] specify number of entries, default: ${ENTRIES}
 
+	--inner_map_name [STR] specify inner_map_name for array_of_maps or hash_of_maps
+
+	--no-unlink        do not unlink map in the end.
 	-u, --dry-run      only show commands
 
 	-V, --verbose      show verbose information
@@ -67,6 +73,8 @@ ARGS=$(getopt --options n:t:k:v:e:uVh \
 	--long key: \
 	--long value: \
 	--long entries: \
+	--long inner_map_name: \
+	--long no-unlink \
 	--long dry-run \
 	--long verbose \
 	--long help \
@@ -108,6 +116,19 @@ while true; do
 		ENTRIES=$1
 		shift
 		;;
+	--inner_map_name)
+		shift
+		INNER_MAP_NAME=$1
+		if ! [[ " array_of_maps hash_of_maps " =~ " ${TYPE} " ]]; then
+			echo >&2 "ERROR: need type=[array_of_maps|hash_of_maps], ${TYPE}"
+			exit 1
+		fi
+		shift
+		;;
+	--no-unlink)
+		shift
+		no_unlink=YES
+		;;
 	-h | --help)
 		shift
 		__usage__
@@ -145,10 +166,19 @@ check_map_name ${NAME}
 
 NAME_truncate=${NAME:0:15}
 
+declare -a create_args
+
+case ${TYPE} in
+array_of_maps)
+	create_args+=( inner_map name ${INNER_MAP_NAME} )
+	;;
+esac
+
 _eval sudo ${BPFTOOL} map create /sys/fs/bpf/${NAME} \
 	type ${TYPE} \
 	name ${NAME_truncate} \
-	key ${KEY} value ${VALUE} entries ${ENTRIES}
+	key ${KEY} value ${VALUE} entries ${ENTRIES} \
+	${create_args[@]}
 
 _eval sudo ${BPFTOOL} map show name ${NAME_truncate}
 _eval sudo ${BPFTOOL} map dump name ${NAME_truncate}
@@ -161,9 +191,15 @@ array | percpu_array | hash | percpu_hash)
 	_eval sudo ${BPFTOOL} map update name ${NAME_truncate} key 3 0 0 0 value 3 0 0 0
 	_eval sudo ${BPFTOOL} map update name ${NAME_truncate} key 4 0 0 0 value 4 0 0 0
 	;;
+array_of_maps)
+	_eval sudo ${BPFTOOL} map update pinned /sys/fs/bpf/${NAME_truncate} \
+		key 0 0 0 0 value pinned /sys/fs/bpf/${INNER_MAP_NAME}
+	_eval sudo ${BPFTOOL} map update name ${NAME_truncate} \
+		key 1 0 0 0 value name ${INNER_MAP_NAME}
+	;;
 esac
 
 _eval sudo ${BPFTOOL} map dump name ${NAME_truncate}
 
 # Remove map from system
-_eval sudo unlink /sys/fs/bpf/${NAME}
+[[ ! ${no_unlink} ]] && _eval sudo unlink /sys/fs/bpf/${NAME}
