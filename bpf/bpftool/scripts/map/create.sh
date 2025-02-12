@@ -4,7 +4,8 @@ set -ex
 [[ -z ${BPFTOOL} ]] && BPFTOOL=bpftool
 
 # BPF_OBJ_NAME_LEN=16U, map name length need smaller than 15
-# ref https://github.com/Rtoax/linux/commit/f4f16d527f7551d00ab9cb8bfe55b652f03b341a
+# refs:
+# - https://lore.kernel.org/lkml/tencent_26592A2BAF08A3A688A50600421559929708@qq.com/
 map_name=$(mktemp -u tstmap______XXX)
 map_type=array
 
