@@ -13,7 +13,7 @@ KEY=4
 VALUE=4
 ENTRIES=5
 
-INNER_MAP_NAME=
+declare -a INNER_MAP_NAMES
 
 SUPPORT_TYPES=(
 	array percpu_array array_of_maps
@@ -118,7 +118,7 @@ while true; do
 		;;
 	--inner_map_name)
 		shift
-		INNER_MAP_NAME=$1
+		INNER_MAP_NAMES+=( $1 )
 		if ! [[ " array_of_maps hash_of_maps " =~ " ${TYPE} " ]]; then
 			echo >&2 "ERROR: need type=[array_of_maps|hash_of_maps], ${TYPE}"
 			exit 1
@@ -170,7 +170,7 @@ declare -a create_args
 
 case ${TYPE} in
 array_of_maps)
-	create_args+=( inner_map name ${INNER_MAP_NAME} )
+	create_args+=( inner_map name ${INNER_MAP_NAMES[0]} )
 	;;
 esac
 
@@ -192,10 +192,14 @@ array | percpu_array | hash | percpu_hash)
 	_eval sudo ${BPFTOOL} map update name ${NAME_truncate} key 4 0 0 0 value 4 0 0 0
 	;;
 array_of_maps)
-	_eval sudo ${BPFTOOL} map update pinned /sys/fs/bpf/${NAME_truncate} \
-		key 0 0 0 0 value pinned /sys/fs/bpf/${INNER_MAP_NAME}
-	_eval sudo ${BPFTOOL} map update name ${NAME_truncate} \
-		key 1 0 0 0 value name ${INNER_MAP_NAME}
+	for ((i = 0; i < ${#INNER_MAP_NAMES[@]}; i++))
+	do
+		# Same command
+		# sudo ${BPFTOOL} map update pinned /sys/fs/bpf/${NAME_truncate} \
+		#	key $i 0 0 0 value pinned /sys/fs/bpf/${INNER_MAP_NAMES[$i]}
+		_eval sudo ${BPFTOOL} map update name ${NAME_truncate} \
+			key $i 0 0 0 value name ${INNER_MAP_NAMES[$i]}
+	done
 	;;
 esac
 
