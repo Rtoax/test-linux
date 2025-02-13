@@ -195,6 +195,13 @@ _eval sudo ${BPFTOOL} map create ${BPFFS}/${NAME} \
 	key ${KEY} value ${VALUE} entries ${ENTRIES} \
 	${create_args[@]}
 
+# Remove map from system
+cleanup()
+{
+	[[ ! ${no_unlink} ]] && _eval sudo unlink ${BPFFS}/${NAME}
+}
+trap cleanup EXIT
+
 _eval sudo ${BPFTOOL} map show name ${NAME_truncate}
 _eval sudo ${BPFTOOL} map dump name ${NAME_truncate} || true
 
@@ -240,9 +247,4 @@ esac
 
 _eval sudo ${BPFTOOL} map dump name ${NAME_truncate} || true
 
-# Remove map from system
-cleanup()
-{
-	[[ ! ${no_unlink} ]] && _eval sudo unlink ${BPFFS}/${NAME}
-}
-trap cleanup EXIT
+# Unlink pinned file use trap EXIT above.
