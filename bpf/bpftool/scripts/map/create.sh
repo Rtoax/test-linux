@@ -217,7 +217,7 @@ array | percpu_array | hash | percpu_hash)
 
 	# TODO: array not support delete??
 	# array_map_delete_elem() return -EINVAL directly.
-	if [[ ${TYPE} == hash ]]; then
+	if [[ " hash percpu_hash " =~ " ${TYPE} " ]]; then
 		_eval sudo ${BPFTOOL} map delete name ${NAME_truncate} key 0 0 0 0
 		_eval sudo ${BPFTOOL} map delete name ${NAME_truncate} key 1 0 0 0
 		_eval sudo ${BPFTOOL} map delete name ${NAME_truncate} key 2 0 0 0
