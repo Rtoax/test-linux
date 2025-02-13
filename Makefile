@@ -10,16 +10,8 @@ EXTRAVERSION =
 NAME = Dentry
 
 SHELL = bash
-ifeq ($(V),1)
-  Q =
-  MAKEFLAGS += V=1
-  VERBOSE_ARG := --verbose
-else
-  Q = @
-  MAKEFLAGS += --silent
-  MAKEFLAGS += --no-print-directory
-endif
-export Q
+
+include tlbuild.mk
 
 ifdef M32
   MAKEFLAGS += M32=1

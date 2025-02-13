@@ -1,13 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
 SHELL = /bin/bash
-ifeq ($(V),1)
-  Q =
-else
-  Q = @
-  MAKEFLAGS += --no-print-directory
-endif
-export Q
-
 
 $(info INFO: This is info)
 $(info INFO: USER_FAILED_LOG = ${USER_FAILED_LOG})

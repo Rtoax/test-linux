@@ -1,11 +1,5 @@
 SHELL = bash
-ifeq ($(V),1)
-  Q =
-else
-  Q = @
-  MAKEFLAGS += --no-print-directory
-endif
-export Q
+include ../../../tlbuild.mk
 
 LLVM_CONFIG = $(shell which llvm-config 2>/dev/null)
 CLANG_CXX = $(shell which clang++ 2>/dev/null)

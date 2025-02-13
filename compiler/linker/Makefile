@@ -1,12 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
 SHELL = bash
-ifeq ($(V),1)
-  Q =
-else
-  Q = @
-  MAKEFLAGS += --no-print-directory
-endif
-export Q
+include ../../tlbuild.mk
 
 LD_LLD := $(shell which lld 2>/dev/null)
 LD_MOLD := $(shell which mold 2>/dev/null)

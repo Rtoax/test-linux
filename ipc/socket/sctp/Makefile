@@ -1,11 +1,5 @@
 SHELL = bash
-ifeq ($(V),1)
-  Q =
-else
-  Q = @
-  MAKEFLAGS += --no-print-directory
-endif
-export Q
+include ../../../tlbuild.mk
 
 
 LKSCTP_TOOLS_DEVEL=/usr/include/netinet/sctp.h

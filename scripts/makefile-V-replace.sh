@@ -32,3 +32,25 @@ do
 	sed -i 's/@make/${Q}make/g' $m
 done
 }
+
+Q3() {
+for m in $(find -name 'Makefile*')
+do
+	echo === $m
+	start=$(sed -n '/ifeq ($(V),1)/=' $m)
+
+	dir_level=$(echo $m | grep -o '/' | wc -l)
+	dir_level=$(( ${dir_level} - 1 ))
+
+	tlbuild_path=
+
+	for ((i = 0; i < ${dir_level}; i++))
+	do
+		tlbuild_path=${tlbuild_path}../
+	done
+	tlbuild_path=${tlbuild_path}tlbuild.mk
+
+	sed -i "${start},$(($start + 5))d" $m
+	sed -i "s|export Q|include ${tlbuild_path}|g" $m
+done
+}

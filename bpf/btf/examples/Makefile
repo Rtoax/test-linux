@@ -1,11 +1,5 @@
 SHELL = bash
-ifeq ($(V),1)
-  Q =
-else
-  Q = @
-  MAKEFLAGS += --no-print-directory
-endif
-export Q
+include ../../../tlbuild.mk
 
 
 # ref: https://www.kernel.org/doc/html/latest/bpf/btf.html

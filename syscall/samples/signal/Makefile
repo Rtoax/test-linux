@@ -22,13 +22,7 @@ TARGETS += signalfd
 
 CC = gcc
 SHELL = /bin/bash
-ifeq ($(V),1)
-  Q =
-else
-  Q = @
-  MAKEFLAGS += --no-print-directory
-endif
-export Q
+include ../../../tlbuild.mk
 
 
 CFLAGS := -Werror -Wall -D_GNU_SOURCE

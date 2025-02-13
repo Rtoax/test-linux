@@ -1,12 +1,6 @@
 # Rong Tao, 2022.05.09
 SHELL = bash
-ifeq ($(V),1)
-  Q =
-else
-  Q = @
-  MAKEFLAGS += --no-print-directory
-endif
-export Q
+include ../../../tlbuild.mk
 
 ARCH := $(shell uname -m)
 

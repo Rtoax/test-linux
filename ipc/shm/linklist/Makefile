@@ -1,13 +1,7 @@
 #
 # 2021-08-02	Rong Tao	Create this.
 SHELL = bash
-ifeq ($(V),1)
-  Q =
-else
-  Q = @
-  MAKEFLAGS += --no-print-directory
-endif
-export Q
+include ../../../tlbuild.mk
 
 
 TARGETS :=

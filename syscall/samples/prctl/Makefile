@@ -1,12 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
 SHELL = /bin/bash
-ifeq ($(V),1)
-  Q =
-else
-  Q = @
-  MAKEFLAGS += --no-print-directory
-endif
-export Q
+include ../../../tlbuild.mk
 
 include ../../../kconfig.mk
 

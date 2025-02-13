@@ -1,11 +1,5 @@
 SHELL = bash
-ifeq ($(V),1)
-  Q =
-else
-  Q = @
-  MAKEFLAGS += --no-print-directory
-endif
-export Q
+include ../../tlbuild.mk
 
 
 obj-m += for_each_mem_pfn_range.o

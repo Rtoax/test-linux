@@ -1,11 +1,5 @@
 SHELL = bash
-ifeq ($(V),1)
-  Q =
-else
-  Q = @
-  MAKEFLAGS += --no-print-directory
-endif
-export Q
+include ../../../tlbuild.mk
 
 
 BCC_SYMS_HDR := /usr/include/bcc/bcc_syms.h

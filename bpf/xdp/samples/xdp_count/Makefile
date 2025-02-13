@@ -1,11 +1,5 @@
 SHELL = bash
-ifeq ($(V),1)
-  Q =
-else
-  Q = @
-  MAKEFLAGS += --no-print-directory
-endif
-export Q
+include ../../../../tlbuild.mk
 
 
 # ref: https://www.containiq.com/post/btf-bpf-type-format
