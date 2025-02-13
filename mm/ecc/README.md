@@ -5,6 +5,7 @@ DRAM（Dynamic Random Access Memory），即动态随机存取存储器，最为
 ECC是“Error Checking and Correcting”的简写，中文名称是“错误检查和纠正”。
 ECC内存，即应用了能够实现错误检查和纠正技术（ECC）的内存条。
 
+
 EDAC - Error Detection And Correction
 =====================================
 

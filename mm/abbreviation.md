@@ -1,7 +1,8 @@
+- CE: Correctable Error () @ECC
 - DMB: Data Memory Barrier (数据内存屏障) @arm @DSB @ISB
 - DRAM: Dynamic Random Access Memory (动态随机存取存储器)
 - DSB: Data Synchronization Barrier (数据同步屏障) @arm @DMB @ISB
-- ECC: Error Checking and Correcting
+- ECC: Error Checking and Correcting () @UE @CE
 - EDAC: Error Detection And Correction
 - GDT: Global Descriptor Table (全局描述符表)
 - ISB: Instruction Synchronization Barrier (指令同步屏障) @arm @DMB @DSB
@@ -17,6 +18,7 @@
 - PSS: Proportional Set Size (实际使用的物理内存 比例分配共享库占用的内存)
 - RSS: Resident Set Size (常驻内存集合大小 包含共享库占用的内存)
 - TLB: Translation Lookaside Buffer (旁路转换缓冲, 地址转换后备缓冲)
+- UE: Uncorrectable Error () @ECC
 - UMA: Uniform Memory Architecture (一致性内存架构)
 - USS: Unique Set Size (进程独占使用的物理内存 不包含共享库占用的内存)
 - VMA: Virtual Memory Address (虚拟内存地址) @LMA
