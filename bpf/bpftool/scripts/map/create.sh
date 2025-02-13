@@ -241,4 +241,8 @@ esac
 _eval sudo ${BPFTOOL} map dump name ${NAME_truncate} || true
 
 # Remove map from system
-[[ ! ${no_unlink} ]] && _eval sudo unlink ${BPFFS}/${NAME}
+cleanup()
+{
+	[[ ! ${no_unlink} ]] && _eval sudo unlink ${BPFFS}/${NAME}
+}
+trap cleanup EXIT
