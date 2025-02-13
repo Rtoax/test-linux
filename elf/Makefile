@@ -1,6 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
 include ../tlbuild.mk
-
 include ./elf.mk
 
 sub-dir := got
@@ -14,18 +13,7 @@ CC = gcc
 
 CFLAGS := -Werror -Wall
 
-ifdef PIE
-  CFLAGS += -pie -fPIE
-  LDFLAGS += -pie -fPIE
-endif
-
-ifdef NOPIE
-  CFLAGS += -no-pie
-  LDFLAGS += -no-pie
-  ifdef PIE
-    $(error "Could no specify PIE and NOPIE at the same time")
-  endif
-endif
+include pie.mk
 
 sub-dir-build := $(addprefix $(shell pwd)/,$(sub-dir:=.build))
 sub-dir-clean := $(addprefix $(shell pwd)/,$(sub-dir:=.clean))

@@ -23,13 +23,8 @@ CFLAGS += -march=native
 
 # Debian 12 default compile PIE EXEC, Fedora40 default compile no-PIE EXEC.
 # Default no-PIE in my case.
-ifdef PIE
-  CFLAGS_PIE += -fpie
-  LDFLAGS_PIE += -pie
-else
-  CFLAGS_PIE += -no-pie
-  LDFLAGS_PIE += -no-pie
-endif
+NOPIE ?= 1
+include ../../../../elf/pie.mk
 
 ifdef VERBOSE
   CFLAGS += -Q

@@ -68,13 +68,7 @@ ifdef DEBUG
   CFLAGS += -DDEBUG -O0 -g
 endif
 
-ifdef PIE
-  CFLAGS += -fPIE
-  LDFLAGS += -fPIE
-else
-  CFLAGS += -no-pie
-  LDFLAGS += -no-pie
-endif
+include ../../../elf/pie.mk
 
 LDFLAGS += -z noexecstack
 

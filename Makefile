@@ -9,9 +9,6 @@ SUBLEVEL = 8
 EXTRAVERSION =
 NAME = Dentry
 
-
-include tlbuild.mk
-
 ifdef M32
   MAKEFLAGS += M32=1
 endif

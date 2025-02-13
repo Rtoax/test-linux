@@ -27,18 +27,7 @@ ifdef M32
   $(info Compile 32bit ELF)
 endif
 
-ifdef PIE
-  CFLAGS += -pie -fPIE
-  LDFLAGS += -pie -fPIE
-endif
-
-ifdef NOPIE
-  CFLAGS += -no-pie
-  LDFLAGS += -no-pie
-  ifdef PIE
-    $(error "Could no specify PIE and NOPIE at the same time")
-  endif
-endif
+include ../../../elf/pie.mk
 
 build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"

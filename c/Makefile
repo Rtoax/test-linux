@@ -110,18 +110,7 @@ ifdef DEBUG
   CFLAGS += -DDEBUG -O0 -g -ggdb
 endif
 
-ifdef PIE
-  CFLAGS += -pie -fPIE
-  LDFLAGS += -pie -fPIE
-endif
-
-ifdef NOPIE
-  CFLAGS += -no-pie
-  LDFLAGS += -no-pie
-  ifdef PIE
-    $(error "Could no specify PIE and NOPIE at the same time")
-  endif
-endif
+include ../elf/pie.mk
 
 # For CROSS_COMPILE
 ifdef SYSROOT

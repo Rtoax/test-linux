@@ -36,18 +36,7 @@ ifneq ($(LIBC_PRINTF_SYMADDR),)
   CFLAGS += -DLIBC_PRINTF_SYMADDR=${LIBC_PRINTF_SYMADDR}
 endif
 
-ifdef PIE
-  CFLAGS += -pie -fPIE
-  LDFLAGS += -pie -fPIE
-endif
-
-ifdef NOPIE
-  CFLAGS += -no-pie
-  LDFLAGS += -no-pie
-  ifdef PIE
-    $(error "Could no specify PIE and NOPIE at the same time")
-  endif
-endif
+include ../../elf/pie.mk
 
 ifdef M32
   CFLAGS += -m32 -DM32=1

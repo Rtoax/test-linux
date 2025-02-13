@@ -45,18 +45,7 @@ ifdef LINK_LIB
   LDFLAGS += libtest-linux-c.so
 endif
 
-ifdef PIE
-  CFLAGS += -pie -fPIE
-  LDFLAGS += -pie -fPIE
-endif
-
-ifdef NOPIE
-  CFLAGS += -no-pie
-  LDFLAGS += -no-pie
-  ifdef PIE
-    $(error "Could no specify PIE and NOPIE at the same time")
-  endif
-endif
+include ../elf/pie.mk
 
 sub-dir-build := $(addprefix $(shell pwd)/,$(sub-dir:=.build))
 sub-dir-clean := $(addprefix $(shell pwd)/,$(sub-dir:=.clean))

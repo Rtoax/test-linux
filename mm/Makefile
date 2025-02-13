@@ -62,21 +62,7 @@ ifdef DEBUG
   MAKEFLAGS := DEBUG=1
 endif
 
-
-ifdef PIE
-  CFLAGS += -pie -fPIE
-  LDFLAGS += -pie -fPIE
-  MAKEFLAGS += PIE=1
-endif
-
-ifdef NOPIE
-  CFLAGS += -no-pie
-  LDFLAGS += -no-pie
-  MAKEFLAGS += NOPIE=1
-  ifdef PIE
-    $(error "Could no specify PIE and NOPIE at the same time")
-  endif
-endif
+include ../elf/pie.mk
 
 sub-dir-build := $(addprefix $(shell pwd)/,$(sub-dir:=.build))
 sub-dir-clean := $(addprefix $(shell pwd)/,$(sub-dir:=.clean))
