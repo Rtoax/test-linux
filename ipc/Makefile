@@ -14,8 +14,8 @@ sub-dir += shm
 sub-dir += pipe
 sub-dir += dbus
 
-sub-dir-build := $(sub-dir:=.build)
-sub-dir-clean := $(sub-dir:=.clean)
+sub-dir-build := $(addprefix $(shell pwd)/,$(sub-dir:=.build))
+sub-dir-clean := $(addprefix $(shell pwd)/,$(sub-dir:=.clean))
 
 .PHONY: build
 build: $(sub-dir-build)

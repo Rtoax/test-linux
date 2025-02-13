@@ -88,8 +88,8 @@ include $(shell pwd)/../../binutils/binutils.mk
 CFLAGS += -DBINUTILS_VERSION_MAJOR=${BINUTILS_VERSION_MAJOR}
 CFLAGS += -DBINUTILS_VERSION_MINOR=${BINUTILS_VERSION_MINOR}
 
-sub-dir-build := $(sub-dir:=.build)
-sub-dir-clean := $(sub-dir:=.clean)
+sub-dir-build := $(addprefix $(shell pwd)/,$(sub-dir:=.build))
+sub-dir-clean := $(addprefix $(shell pwd)/,$(sub-dir:=.clean))
 
 .PHONY: user
 user: $(TARGETS) $(sub-dir-build)

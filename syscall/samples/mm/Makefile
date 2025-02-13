@@ -35,8 +35,8 @@ CFLAGS += -pthread
 CFLAGS += -lrt
 CFLAGS += -DDEBUG -O0 -g
 
-sub-dir-build := $(sub-dir:=.build)
-sub-dir-clean := $(sub-dir:=.clean)
+sub-dir-build := $(addprefix $(shell pwd)/,$(sub-dir:=.build))
+sub-dir-clean := $(addprefix $(shell pwd)/,$(sub-dir:=.clean))
 
 .PHONY: build
 build: ${TARGETS} $(sub-dir-build)

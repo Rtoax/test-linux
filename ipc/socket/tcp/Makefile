@@ -18,8 +18,8 @@ sub-dir += ipv6
 
 TARGETS += tcp-syn-flood
 
-sub-dir-build := $(sub-dir:=.build)
-sub-dir-clean := $(sub-dir:=.clean)
+sub-dir-build := $(addprefix $(shell pwd)/,$(sub-dir:=.build))
+sub-dir-clean := $(addprefix $(shell pwd)/,$(sub-dir:=.clean))
 
 .PHONY: build
 all: $(TARGETS) $(sub-dir-build)

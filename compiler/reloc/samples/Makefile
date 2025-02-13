@@ -17,8 +17,8 @@ ifeq ($(shell uname -m),aarch64)
   sub-dir += aarch64
 endif
 
-sub-dir-build := $(sub-dir:=.build)
-sub-dir-clean := $(sub-dir:=.clean)
+sub-dir-build := $(addprefix $(shell pwd)/,$(sub-dir:=.build))
+sub-dir-clean := $(addprefix $(shell pwd)/,$(sub-dir:=.clean))
 
 TARGETS :=
 TARGETS += relocation-truncated-to-fit

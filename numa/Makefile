@@ -24,8 +24,8 @@ CFLAGS += -lnuma
 
 CFLAGS_numa_mem := -DTEST_MAIN=1
 
-sub-dir-build := $(sub-dir:=.build)
-sub-dir-clean := $(sub-dir:=.clean)
+sub-dir-build := $(addprefix $(shell pwd)/,$(sub-dir:=.build))
+sub-dir-clean := $(addprefix $(shell pwd)/,$(sub-dir:=.clean))
 
 .PHONY: build
 build: numa_mem.h ${TARGETS_LIBA} ${TARGETS} $(sub-dir-build)

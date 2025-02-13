@@ -17,8 +17,8 @@ ifeq ($(shell uname -m),x86_64)
 sub-dir += pthread_self
 endif
 
-sub-dir-build := $(sub-dir:=.build)
-sub-dir-clean := $(sub-dir:=.clean)
+sub-dir-build := $(addprefix $(shell pwd)/,$(sub-dir:=.build))
+sub-dir-clean := $(addprefix $(shell pwd)/,$(sub-dir:=.clean))
 
 .PHONY: build
 build: $(sub-dir-build)

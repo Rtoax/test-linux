@@ -14,8 +14,8 @@ sub-dir += cuda/samples/
 sub-dir += mpi
 sub-dir += openmp
 
-sub-dir-build := $(sub-dir:=.build)
-sub-dir-clean := $(sub-dir:=.clean)
+sub-dir-build := $(addprefix $(shell pwd)/,$(sub-dir:=.build))
+sub-dir-clean := $(addprefix $(shell pwd)/,$(sub-dir:=.clean))
 
 .PHONY: build
 build: $(sub-dir-build)

@@ -65,8 +65,8 @@ ifdef NOPIE
   endif
 endif
 
-sub-dir-build := $(sub-dir:=.build)
-sub-dir-clean := $(sub-dir:=.clean)
+sub-dir-build := $(addprefix $(shell pwd)/,$(sub-dir:=.build))
+sub-dir-clean := $(addprefix $(shell pwd)/,$(sub-dir:=.clean))
 
 .PHONY: build
 build: ${TARGETS_LIBSO} ${TARGETS_LIBA} ${TARGETS} $(sub-dir-build)

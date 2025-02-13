@@ -12,8 +12,8 @@ sub-dir := tcg/samples/
 
 $(info INFO: USER_FAILED_LOG = ${USER_FAILED_LOG})
 
-sub-dir-build := $(sub-dir:=.build)
-sub-dir-clean := $(sub-dir:=.clean)
+sub-dir-build := $(addprefix $(shell pwd)/,$(sub-dir:=.build))
+sub-dir-clean := $(addprefix $(shell pwd)/,$(sub-dir:=.clean))
 
 .PHONY: build
 build: $(sub-dir-build)

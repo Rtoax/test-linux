@@ -12,8 +12,8 @@ MAKE_SUB_ARGS :=
 
 sub-dir := inet
 
-sub-dir-build := $(sub-dir:=.build)
-sub-dir-clean := $(sub-dir:=.clean)
+sub-dir-build := $(addprefix $(shell pwd)/,$(sub-dir:=.build))
+sub-dir-clean := $(addprefix $(shell pwd)/,$(sub-dir:=.clean))
 
 ifdef M32
   MAKE_SUB_ARGS += M32=1

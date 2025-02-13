@@ -11,8 +11,8 @@ SCRIPTS_LOG = $(patsubst %.sh,%.log,$(SCRIPTS))
 
 sub-dir := map
 
-sub-dir-build := $(sub-dir:=.build)
-sub-dir-clean := $(sub-dir:=.clean)
+sub-dir-build := $(addprefix $(shell pwd)/,$(sub-dir:=.build))
+sub-dir-clean := $(addprefix $(shell pwd)/,$(sub-dir:=.clean))
 
 .PHONY: build
 build: ${SCRIPTS_LOG} $(sub-dir-build)

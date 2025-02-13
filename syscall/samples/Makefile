@@ -144,7 +144,7 @@ CFLAGS += -I../../
 CFLAGS += -pthread
 CFLAGS += -DDEBUG -O0 -g
 
-sub-dir-build := $(sub-dir:=.build)
+sub-dir-build := $(addprefix $(shell pwd)/,$(sub-dir:=.build))
 
 MAKEFLAGS += --no-print-directory
 
@@ -252,7 +252,7 @@ $(TARGETS_CPP): %:
 test: ${TARGETS}
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
 
-sub-dir-clean := $(sub-dir:=.clean)
+sub-dir-clean := $(addprefix $(shell pwd)/,$(sub-dir:=.clean))
 
 .PHONY: clean
 clean: $(sub-dir-clean)
