@@ -207,22 +207,20 @@ _eval sudo ${BPFTOOL} map dump name ${NAME_truncate} || true
 
 case ${TYPE} in
 array | percpu_array | hash | percpu_hash)
-	_eval sudo ${BPFTOOL} map update name ${NAME_truncate} key 0 0 0 0 value 0 0 0 0
-	_eval sudo ${BPFTOOL} map update name ${NAME_truncate} key 1 0 0 0 value 1 0 0 0
-	_eval sudo ${BPFTOOL} map update name ${NAME_truncate} key 2 0 0 0 value 2 0 0 0
-	_eval sudo ${BPFTOOL} map update name ${NAME_truncate} key 3 0 0 0 value 3 0 0 0
-	_eval sudo ${BPFTOOL} map update name ${NAME_truncate} key 4 0 0 0 value 4 0 0 0
+	for ((i = 0; i < ${ENTRIES}; i++))
+	do
+		_eval sudo ${BPFTOOL} map update name ${NAME_truncate} key $i 0 0 0 value $i 0 0 0
+	done
 
 	_eval sudo ${BPFTOOL} map dump name ${NAME_truncate}
 
 	# TODO: array not support delete??
 	# array_map_delete_elem() return -EINVAL directly.
 	if [[ " hash percpu_hash " =~ " ${TYPE} " ]]; then
-		_eval sudo ${BPFTOOL} map delete name ${NAME_truncate} key 0 0 0 0
-		_eval sudo ${BPFTOOL} map delete name ${NAME_truncate} key 1 0 0 0
-		_eval sudo ${BPFTOOL} map delete name ${NAME_truncate} key 2 0 0 0
-		_eval sudo ${BPFTOOL} map delete name ${NAME_truncate} key 3 0 0 0
-		_eval sudo ${BPFTOOL} map delete name ${NAME_truncate} key 4 0 0 0
+		for ((i = 0; i < ${ENTRIES}; i++))
+		do
+			_eval sudo ${BPFTOOL} map delete name ${NAME_truncate} key $i 0 0 0
+		done
 	fi
 	;;
 array_of_maps | hash_of_maps)
