@@ -1,4 +1,3 @@
-SHELL = bash
 include ../../tlbuild.mk
 
 TARGETS := getspent

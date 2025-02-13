@@ -1,5 +1,4 @@
 # Rong Tao, 2022-03-11
-SHELL = bash
 include ../../tlbuild.mk
 
 TARGETS :=

@@ -1,5 +1,4 @@
 # SPDX-License-Identifier: GPL-3.0
-SHELL = bash
 include ../tlbuild.mk
 
 CONFIG_KERNEL ?= /boot/config-$(shell uname -r)

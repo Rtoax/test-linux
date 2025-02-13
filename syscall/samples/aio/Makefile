@@ -1,4 +1,3 @@
-SHELL = bash
 include ../../../tlbuild.mk
 
 LIBAIO_HDR = /usr/include/libaio.h

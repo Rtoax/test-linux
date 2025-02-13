@@ -1,5 +1,4 @@
 # SPDX-License-Identifier: GPL-3.0
-SHELL = bash
 include ../../tlbuild.mk
 
 LIBNUMA_HDR = /usr/include/numa.h

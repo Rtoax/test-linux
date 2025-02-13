@@ -1,6 +1,5 @@
 #
 # 2021-08-02	Rong Tao	Create this.
-SHELL = bash
 include ../../../tlbuild.mk
 
 

@@ -1,5 +1,4 @@
 # SPDX-License-Identifier: GPL-3.0
-SHELL = /bin/bash
 
 $(info INFO: This is info)
 $(info INFO: USER_FAILED_LOG = ${USER_FAILED_LOG})

@@ -9,7 +9,6 @@ SUBLEVEL = 8
 EXTRAVERSION =
 NAME = Dentry
 
-SHELL = bash
 
 include tlbuild.mk
 

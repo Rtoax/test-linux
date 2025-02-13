@@ -1,5 +1,4 @@
 # SPDX-License-Identifier: GPL-3.0
-SHELL = /bin/bash
 include ../../tlbuild.mk
 
 

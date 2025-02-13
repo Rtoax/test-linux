@@ -1,5 +1,4 @@
 # SPDX-License-Identifier: GPL-3.0
-SHELL = bash
 include ../../tlbuild.mk
 
 KVDSO64 := /lib/modules/$(shell uname -r)/vdso/vdso64.so

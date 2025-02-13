@@ -1,4 +1,3 @@
-SHELL = bash
 include ../../../tlbuild.mk
 
 LLVM_CONFIG = $(shell which llvm-config 2>/dev/null)

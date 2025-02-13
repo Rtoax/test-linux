@@ -21,7 +21,6 @@ TARGETS += sigprocmask
 TARGETS += signalfd
 
 CC = gcc
-SHELL = /bin/bash
 include ../../../tlbuild.mk
 
 

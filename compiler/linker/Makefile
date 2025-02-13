@@ -1,5 +1,4 @@
 # SPDX-License-Identifier: GPL-3.0
-SHELL = bash
 include ../../tlbuild.mk
 
 LD_LLD := $(shell which lld 2>/dev/null)

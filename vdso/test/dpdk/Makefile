@@ -1,5 +1,4 @@
 # Rong Tao, 2022.05.09
-SHELL = bash
 include ../../../tlbuild.mk
 
 ARCH := $(shell uname -m)

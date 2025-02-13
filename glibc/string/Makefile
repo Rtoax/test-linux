@@ -1,4 +1,3 @@
-SHELL = bash
 include ../../tlbuild.mk
 
 include ../glibc.mk

@@ -1,5 +1,4 @@
 # SPDX-License-Identifier: GPL-3.0
-SHELL = bash
 include ../../tlbuild.mk
 
 VIRT_TYPE ?= $(shell systemd-detect-virt)
