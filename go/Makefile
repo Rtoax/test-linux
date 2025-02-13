@@ -11,6 +11,7 @@ export Q
 include go.mk
 
 sub-dir := coroutine
+sub-dir += os
 
 TARGETS :=
 TARGETS += hello
