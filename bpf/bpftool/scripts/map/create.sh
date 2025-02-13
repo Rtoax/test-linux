@@ -50,6 +50,8 @@ ARGUMENT
 	--no-unlink        do not unlink map in the end.
 	-u, --dry-run      only show commands
 
+	-b, --bpftool [ELF] specify bpftool execution
+
 	-V, --verbose      show verbose information
 	-h, --help         show this help information
 
@@ -70,7 +72,7 @@ check_map_name()
 	fi
 }
 
-ARGS=$(getopt --options n:t:k:v:e:uVh \
+ARGS=$(getopt --options n:t:k:v:e:ub:Vh \
 	--long name: \
 	--long type: \
 	--long key: \
@@ -79,6 +81,7 @@ ARGS=$(getopt --options n:t:k:v:e:uVh \
 	--long inner_map_name: \
 	--long no-unlink \
 	--long dry-run \
+	--long bpftool: \
 	--long verbose \
 	--long help \
 	--name ${prog} -- "$@")
@@ -135,6 +138,11 @@ while true; do
 	-h | --help)
 		shift
 		__usage__
+		;;
+	-b | --bpftool)
+		shift
+		BPFTOOL=$1
+		shift
 		;;
 	-V | --verbose)
 		shift
