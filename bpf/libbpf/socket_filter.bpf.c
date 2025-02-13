@@ -43,6 +43,13 @@ struct {
 #if defined(MAP_PERCPU_ARRAY)
 	__uint(type, BPF_MAP_TYPE_PERCPU_ARRAY);
 #elif defined(MAP_ARRAY)
+	/**
+	 * BPF_MAP_TYPE_ARRAY
+	 *
+	 * The array map type is a generic map type with no restrictions on the
+	 * structure of the value. Like a normal array, the array map has a
+	 * numeric key starting at 0 and incrementing.
+	 */
 	__uint(type, BPF_MAP_TYPE_ARRAY);
 #else
 # error "Must define MAP_PERCPU_ARRAY or MAP_ARRAY"

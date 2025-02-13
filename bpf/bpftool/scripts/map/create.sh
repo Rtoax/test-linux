@@ -212,6 +212,18 @@ array | percpu_array | hash | percpu_hash)
 	_eval sudo ${BPFTOOL} map update name ${NAME_truncate} key 2 0 0 0 value 2 0 0 0
 	_eval sudo ${BPFTOOL} map update name ${NAME_truncate} key 3 0 0 0 value 3 0 0 0
 	_eval sudo ${BPFTOOL} map update name ${NAME_truncate} key 4 0 0 0 value 4 0 0 0
+
+	_eval sudo ${BPFTOOL} map dump name ${NAME_truncate}
+
+	# TODO: array not support delete??
+	# array_map_delete_elem() return -EINVAL directly.
+	if [[ ${TYPE} == hash ]]; then
+		_eval sudo ${BPFTOOL} map delete name ${NAME_truncate} key 0 0 0 0
+		_eval sudo ${BPFTOOL} map delete name ${NAME_truncate} key 1 0 0 0
+		_eval sudo ${BPFTOOL} map delete name ${NAME_truncate} key 2 0 0 0
+		_eval sudo ${BPFTOOL} map delete name ${NAME_truncate} key 3 0 0 0
+		_eval sudo ${BPFTOOL} map delete name ${NAME_truncate} key 4 0 0 0
+	fi
 	;;
 array_of_maps | hash_of_maps)
 	for ((i = 0; i < ${#INNER_MAP_NAMES[@]}; i++))
@@ -228,6 +240,9 @@ queue)
 	do
 		_eval sudo ${BPFTOOL} map enqueue name ${NAME_truncate} value hex $i 0 0 0
 	done
+
+	_eval sudo ${BPFTOOL} map dump name ${NAME_truncate}
+
 	for ((i = 0; i < ${ENTRIES}; i++))
 	do
 		_eval sudo ${BPFTOOL} map dequeue name ${NAME_truncate}
@@ -238,6 +253,9 @@ stack)
 	do
 		_eval sudo ${BPFTOOL} map push name ${NAME_truncate} value hex $i 0 0 0
 	done
+
+	_eval sudo ${BPFTOOL} map dump name ${NAME_truncate}
+
 	for ((i = 0; i < ${ENTRIES}; i++))
 	do
 		_eval sudo ${BPFTOOL} map pop name ${NAME_truncate}
