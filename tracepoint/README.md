@@ -4,6 +4,7 @@ Tracepoint
 # Static Trace Point
 
 - `/sys/kernel/tracing/available_events`
+- `/sys/kernel/debug/tracing/events/`
 
 
 # raw_tracepoint

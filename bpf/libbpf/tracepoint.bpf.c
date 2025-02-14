@@ -4,6 +4,10 @@
  * This programs are eBPF programs that attach to pre-defined trace points in
  * the linux kernel. These tracepoint are often placed in locations which are
  * interesting or common locations to measure performance.
+ *
+ * Refs:
+ * - /sys/kernel/debug/tracing/events/
+ * - /sys/kernel/tracing/available_events
  */
 #include "vmlinux.h"
 #include <bpf/bpf_helpers.h>
@@ -113,6 +117,7 @@ int tracepoint__syscalls__sys_enter_execve(struct syscall_trace_enter *ctx)
  * };
  */
 
+/* see /sys/kernel/debug/tracing/events/syscalls/sys_enter_execve/ */
 #if defined(SEC_DEF_TRACEPOINT)
 SEC("tracepoint/syscalls/sys_exit_execve")
 #elif defined(SEC_DEF_TP)
