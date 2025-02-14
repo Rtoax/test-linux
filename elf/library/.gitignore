@@ -1,5 +1,5 @@
 /*.so
-/*.obj
+/*.so.o
 /main
 /main-a
 /main-a-ctors

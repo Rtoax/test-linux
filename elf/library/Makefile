@@ -25,20 +25,14 @@ CC := gcc
 CFLAGS :=
 LDFLAGS :=
 
-CFLAGS += -DDEBUG=1 -O0 -g -ggdb
+CFLAGS_SO := -shared -fPIC
+LDFLAGS_SO := -shared -fPIC
 
-CFLAGS_PIE :=
-LDFLAGS_PIE :=
+CFLAGS += -DDEBUG=1 -O0 -g -ggdb
 
 # Debian 12 default compile PIE EXEC, Fedora40 default compile no-PIE EXEC.
 # Default no-PIE in my case.
-ifdef PIE
-  CFLAGS_PIE += -fpie
-  LDFLAGS_PIE += -pie
-else
-  CFLAGS_PIE += -no-pie
-  LDFLAGS_PIE += -no-pie
-endif
+include ../pie.mk
 
 ifdef VERBOSE
   CFLAGS += -Q
@@ -81,28 +75,28 @@ latency-got-llc: latency-got-llc.o libcall0.so
 latency-a: latency-a.o libcall0.a
 latency-a-llc: latency-a-llc.o libcall0.a
 
-libfoo.so: foo.obj ctors.obj
-libfoo.a: foo.obj ctors.obj
-libadd.so: add.obj
-libadd.a: add.obj
-libcall0.so: call0.obj
-libcall0.a: call0.obj
+libfoo.so: foo.so.o ctors.so.o
+libfoo.a: foo.so.o ctors.so.o
+libadd.so: add.so.o
+libadd.a: add.so.o
+libcall0.so: call0.so.o
+libcall0.a: call0.so.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	${Q}LD_LIBRARY_PATH=$(shell pwd) $(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_PIE) $(CFLAGS_$(*))
+	${Q}LD_LIBRARY_PATH=$(shell pwd) $(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
 
-%.obj: %.c
+%.so.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	${Q}LD_LIBRARY_PATH=$(shell pwd) $(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*)) -fPIC
+	${Q}LD_LIBRARY_PATH=$(shell pwd) $(CC) -o $(@) -c $(<) $(CFLAGS_$(*)) $(CFLAGS_SO)
 
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	${Q}LD_LIBRARY_PATH=$(shell pwd) $(CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_PIE) $(LDFLAGS_$(*))
+	${Q}LD_LIBRARY_PATH=$(shell pwd) $(CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*))
 
 $(TARGETS_SO): %:
 	@echo -e "  SO  \033[1;32m$(@)\033[m"
-	${Q}$(CC) -o $(@) $(^) -shared -fPIC $(LDFLAGS) $(LDFLAGS_$(*))
+	${Q}$(CC) -o $(@) $(^) $(LDFLAGS_SO) $(LDFLAGS_$(*))
 
 $(TARGETS_A): %:
 	@echo -e "  AR  \033[1;32m$(^) to $(@)\033[m"
@@ -116,4 +110,4 @@ test: ${TARGETS}
 .PHONY: clean
 clean:
 	@echo -e "  CLEAN  \033[1;32m$(TARGETS) $(TARGETS_SO) $(TARGETS_A)\033[m"
-	${Q}rm -f ${TARGETS} ${TARGETS_SO} ${TARGETS_A} *.o *.obj
+	${Q}rm -f ${TARGETS} ${TARGETS_SO} ${TARGETS_A} *.o *.so.o
