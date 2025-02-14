@@ -1,14 +1,11 @@
-include ../../../tlbuild.mk
-
-
-# Copyright (C) Rong Tao
 include /boot/config-$(shell uname -r)
 
 LIVEPATCH:=
 
 ifeq ($(CONFIG_LIVEPATCH),y)
-LIVEPATCH=m
+  LIVEPATCH := m
 endif
+
 obj-$(LIVEPATCH) += buffer_IO_error.o
 
 all:

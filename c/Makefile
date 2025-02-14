@@ -1,14 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
 include ../tlbuild.mk
-
-CONFIG_KERNEL ?= /boot/config-$(shell uname -r)
-ifeq ($(wildcard $(CONFIG_KERNEL)),)
-  $(warning "WARNING: Not found ${CONFIG_KERNEL}")
-  CONFIG_MMU=y
-else
-  include $(CONFIG_KERNEL)
-endif
-
+include ../kconfig.mk
 include ../compiler/compiler.mk
 
 TARGETS :=

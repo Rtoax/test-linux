@@ -1,12 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
 include ../tlbuild.mk
-
-KERN_CONFIG = /boot/config-$(shell uname -r)
-ifneq ($(wildcard $(KERN_CONFIG)),)
-  include ${KERN_CONFIG}
-else
-  $(warning "WARNING: not found ${KERN_CONFIG}")
-endif
+include ../kconfig.mk
 
 $(info CONFIG_CHECKPOINT_RESTORE=$(CONFIG_CHECKPOINT_RESTORE))
 
