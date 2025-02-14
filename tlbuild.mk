@@ -56,14 +56,14 @@ define cleankernellog
 endef
 
 define printuserlog
-	@if [[ -e $(USER_FAILED_LOG) ]]; then \
-		${Q}cat $(USER_FAILED_LOG) ; \
+	${Q}if [[ -e $(USER_FAILED_LOG) ]]; then \
+		cat $(USER_FAILED_LOG) ; \
 	fi
 endef
 
 define printkernellog
-	@if [[ -e $(KERNEL_FAILED_LOG) ]]; then \
-		${Q}cat $(KERNEL_FAILED_LOG) ; \
+	${Q}if [[ -e $(KERNEL_FAILED_LOG) ]]; then \
+		cat $(KERNEL_FAILED_LOG) ; \
 	fi
 endef
 
