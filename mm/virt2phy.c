@@ -44,7 +44,7 @@ static struct mem {
 	int fd; /* file or memfd */
 	void *mem;
 	size_t sz;
-} mem_ro, mem_rw, mem_rw_cow
+} map_file_ro, map_file_rw, map_file_rw_cow
 #ifdef CONFIG_MEMFD_CREATE
 , memfd_ro
 #endif
@@ -323,23 +323,23 @@ void test_mapping_phy_addr(void)
 	pa = virt_to_phy(va);
 	PR("vvar data", va, pa, addr_numa(pa, va));
 
-	va = (unsigned long)mem_ro.mem;
+	va = (unsigned long)map_file_ro.mem;
 	pa = virt_to_phy(va);
-	PR("mem_ro", va, pa, addr_numa(pa, va));
+	PR("map_file_ro", va, pa, addr_numa(pa, va));
 
-	va = (unsigned long)mem_rw.mem;
+	va = (unsigned long)map_file_rw.mem;
 	pa = virt_to_phy(va);
-	PR("mem_rw", va, pa, addr_numa(pa, va));
+	PR("map_file_rw", va, pa, addr_numa(pa, va));
 
-	mem_range_rw(mem_rw.mem, mem_rw.sz, 0, 1);
+	mem_range_rw(map_file_rw.mem, map_file_rw.sz, 0, 1);
 
-	va = (unsigned long)mem_rw.mem;
+	va = (unsigned long)map_file_rw.mem;
 	pa = virt_to_phy(va);
-	PR("mem_rw(w)", va, pa, addr_numa(pa, va));
+	PR("map_file_rw(w)", va, pa, addr_numa(pa, va));
 
-	va = (unsigned long)mem_rw_cow.mem;
+	va = (unsigned long)map_file_rw_cow.mem;
 	pa = virt_to_phy(va);
-	PR("mem_rw_cow", va, pa, addr_numa(pa, va));
+	PR("map_file_rw_cow", va, pa, addr_numa(pa, va));
 
 #ifdef CONFIG_MEMFD_CREATE
 	va = (unsigned long)memfd_ro.mem;
@@ -434,9 +434,10 @@ int main(int argc, char *argv[])
 	cpu_numa = numa_node_of_cpu(run_on_cpu);
 	printf("Run on CPU %d, NUMA %d\n", run_on_cpu, cpu_numa);
 
-	mem_ro.mem = map_file_or_anon("/usr/bin/ls", 1, 0, &mem_ro);
-	mem_rw.mem = map_file_or_anon("/usr/bin/ls", 0, 0, &mem_rw);
-	mem_rw_cow.mem = map_file_or_anon("/usr/bin/ls", 0, 1, &mem_rw_cow);
+#define TEST_MAP_FILE	"/usr/bin/ls"
+	map_file_ro.mem = map_file_or_anon(TEST_MAP_FILE, 1, 0, &map_file_ro);
+	map_file_rw.mem = map_file_or_anon(TEST_MAP_FILE, 0, 0, &map_file_rw);
+	map_file_rw_cow.mem = map_file_or_anon(TEST_MAP_FILE, 0, 1, &map_file_rw_cow);
 #ifdef CONFIG_MEMFD_CREATE
 	memfd_ro.mem = map_file_or_anon(NULL, 1, 0, &memfd_ro);
 #endif
@@ -494,9 +495,9 @@ int main(int argc, char *argv[])
 #endif
 	}
 
-	unmap_file_or_anon(&mem_ro);
-	unmap_file_or_anon(&mem_rw);
-	unmap_file_or_anon(&mem_rw_cow);
+	unmap_file_or_anon(&map_file_ro);
+	unmap_file_or_anon(&map_file_rw);
+	unmap_file_or_anon(&map_file_rw_cow);
 #ifdef CONFIG_MEMFD_CREATE
 	unmap_file_or_anon(&memfd_ro);
 #endif
