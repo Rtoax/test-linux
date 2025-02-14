@@ -86,7 +86,22 @@ static const struct argp argp = {
 };
 
 
-void *map_file(const char *file, int ro, int cow, struct mem *m)
+void mem_range_rw(void *mem, size_t sz, bool r, bool w)
+{
+	size_t i;
+	for (i = 0; i < sz; i += getpagesize()) {
+		/* Read */
+		if (r) {
+			volatile char c = *(volatile char *)(mem + i);
+			(void)c;
+		}
+		/* Write */
+		if (w)
+			*(char *)(mem + i) = 'a';
+	}
+}
+
+void *map_file_or_anon(const char *file, int ro, int cow, struct mem *m)
 {
 	void *mem = NULL;
 	int i, err, fd, prot;
@@ -135,19 +150,18 @@ void *map_file(const char *file, int ro, int cow, struct mem *m)
 		goto done;
 	}
 
-	for (i = 0; i < m->sz; i += getpagesize()) {
-		char c = *(char *)(mem + i);
+	m->mem = mem;
 
-		/* Write */
-		if (!ro && cow)
-			*(char *)(mem + i) = 'a';
-	}
+	mem_range_rw(mem, m->sz, 1, 0);
+
+	if (!ro && cow)
+		mem_range_rw(mem, m->sz, 0, 1);
 
 done:
 	return mem;
 }
 
-void *unmap_file(struct mem *m)
+void *unmap_file_or_anon(struct mem *m)
 {
 	munmap(m->mem, m->sz);
 	close(m->fd);
@@ -411,11 +425,11 @@ int main(int argc, char *argv[])
 	cpu_numa = numa_node_of_cpu(run_on_cpu);
 	printf("Run on CPU %d, NUMA %d\n", run_on_cpu, cpu_numa);
 
-	mem_ro.mem = map_file("/usr/bin/ls", 1, 0, &mem_ro);
-	mem_rw.mem = map_file("/usr/bin/ls", 0, 0, &mem_rw);
-	mem_rw_cow.mem = map_file("/usr/bin/ls", 0, 1, &mem_rw_cow);
+	mem_ro.mem = map_file_or_anon("/usr/bin/ls", 1, 0, &mem_ro);
+	mem_rw.mem = map_file_or_anon("/usr/bin/ls", 0, 0, &mem_rw);
+	mem_rw_cow.mem = map_file_or_anon("/usr/bin/ls", 0, 1, &mem_rw_cow);
 #ifdef CONFIG_MEMFD_CREATE
-	memfd_ro.mem = map_file(NULL, 1, 0, &memfd_ro);
+	memfd_ro.mem = map_file_or_anon(NULL, 1, 0, &memfd_ro);
 #endif
 
 	test_mapping_phy_addr();
@@ -471,11 +485,11 @@ int main(int argc, char *argv[])
 #endif
 	}
 
-	unmap_file(&mem_ro);
-	unmap_file(&mem_rw);
-	unmap_file(&mem_rw_cow);
+	unmap_file_or_anon(&mem_ro);
+	unmap_file_or_anon(&mem_rw);
+	unmap_file_or_anon(&mem_rw_cow);
 #ifdef CONFIG_MEMFD_CREATE
-	unmap_file(&memfd_ro);
+	unmap_file_or_anon(&memfd_ro);
 #endif
 	return 0;
 }
