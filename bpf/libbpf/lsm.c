@@ -21,8 +21,15 @@
 #define _bpf__open_and_load	lsm_socket_create_bpf__open_and_load
 #define _bpf__attach	lsm_socket_create_bpf__attach
 #define _bpf__destroy	lsm_socket_create_bpf__destroy
+#elif defined(LSM_SOCKET_SENDMSG)
+# pragma message "Compile lsm/socket_sendmsg"
+#include "lsm_socket_sendmsg.skel.h"
+#define struct_bpf	lsm_socket_sendmsg_bpf
+#define _bpf__open_and_load	lsm_socket_sendmsg_bpf__open_and_load
+#define _bpf__attach	lsm_socket_sendmsg_bpf__attach
+#define _bpf__destroy	lsm_socket_sendmsg_bpf__destroy
 #else
-#error "Not defined LSM_BPF"
+#error "Not defined LSM_BPF, LSM_SOCKET_CREATE or LSM_SOCKET_SENDMSG"
 #endif
 
 void sig_handler(int sig)

@@ -70,6 +70,23 @@ int BPF_PROG(socket_create, int family, int type, int protocol, int kern,
 	bpf_printk("LSM: block socket_create() worked");
 	return -EPERM;
 }
+#elif defined(LSM_SOCKET_SENDMSG)
+# pragma message "Compile lsm/socket_sendmsg"
+/**
+ * LSM_HOOK(int, 0, socket_sendmsg, struct socket *sock, struct msghdr *msg,
+ *	    int size);
+ */
+SEC("lsm/socket_sendmsg")
+int BPF_PROG(socket_sendmsg, struct socket *sock, struct msghdr *msg, int size,
+	     int ret)
+{
+	bpf_printk("LSM: socket_sendmsg() worked, ret %d", ret);
+	/**
+	 * If return -EPERM, all process use TCP will running failed, thus,
+	 * just return 0 here.
+	 */
+	return 0;
+}
 #endif
 
 char LICENSE[] SEC("license") = "GPL";

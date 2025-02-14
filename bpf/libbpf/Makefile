@@ -31,6 +31,7 @@ kconfig-obj-$(CONFIG_PERF_EVENTS) += perf_event
 kconfig-obj-$(CONFIG_HAVE_FENTRY) += fentry
 kconfig-obj-$(CONFIG_BPF_LSM) += lsm_bpf
 kconfig-obj-$(CONFIG_BPF_LSM) += lsm_socket_create
+kconfig-obj-$(CONFIG_BPF_LSM) += lsm_socket_sendmsg
 
 $(info kconfig-obj-y : $(kconfig-obj-y))
 $(info kconfig-obj-n : $(kconfig-obj-))
@@ -156,6 +157,8 @@ CFLAGS_lsm_bpf := -DLSM_BPF=1
 CFLAGS_BPF_lsm_bpf := -DLSM_BPF=1
 CFLAGS_lsm_socket_create := -DLSM_SOCKET_CREATE=1
 CFLAGS_BPF_lsm_socket_create := -DLSM_SOCKET_CREATE=1
+CFLAGS_lsm_socket_sendmsg := -DLSM_SOCKET_SENDMSG=1
+CFLAGS_BPF_lsm_socket_sendmsg := -DLSM_SOCKET_SENDMSG=1
 
 CFLAGS_map_hash := ${CFLAGS_tracepoint}
 CFLAGS_BPF_map_hash := ${CFLAGS_BPF_tracepoint}
@@ -219,6 +222,7 @@ iter_task_vma: iter_task_vma.o
 iter_bpf_map: iter_bpf_map.o
 lsm_bpf: lsm_bpf.o ${TRACE_HELPERS}
 lsm_socket_create: lsm_socket_create.o ${TRACE_HELPERS}
+lsm_socket_sendmsg: lsm_socket_sendmsg.o ${TRACE_HELPERS}
 
 map_hash: map_hash.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER}
 map_percpu_hash: map_percpu_hash.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER}

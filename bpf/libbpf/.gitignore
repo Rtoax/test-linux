@@ -27,6 +27,7 @@
 /iter_bpf_map
 /lsm_bpf
 /lsm_socket_create
+/lsm_socket_sendmsg
 /map_hash
 /map_percpu_hash
 /map_array
