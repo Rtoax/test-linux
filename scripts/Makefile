@@ -45,4 +45,6 @@ test_call:
 	$(call git_archive)
 	@echo -e "  \033[1;33mDone\033[m"
 test:
+
 clean:
+	@rm -f test-linux-*.tar.gz
