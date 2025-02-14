@@ -3,7 +3,7 @@ include ../../../tlbuild.mk
 
 include ../bpftool.mk
 
-SCRIPTS := $(shell find -maxdepth 1 -type f -name '*.sh' -perm -001)
+SCRIPTS := $(shell find -maxdepth 1 -type f -name '*.sh' -executable)
 # Remove './' prefix
 SCRIPTS := $(subst ./,,$(SCRIPTS))
 # Output .log suffix file list

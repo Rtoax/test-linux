@@ -5,7 +5,7 @@ include ../../bpftool.mk
 
 $(info BPFTOOL = ${BPFTOOL})
 
-SCRIPTS := $(shell find -maxdepth 1 -type f -name '*.sh' -perm -001)
+SCRIPTS := $(shell find -maxdepth 1 -type f -name '*.sh' -executable)
 
 # Remove './' prefix
 SCRIPTS := $(subst ./,,$(SCRIPTS))

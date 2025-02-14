@@ -1,14 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
-SHELL = bash
-ifeq ($(V),1)
-  Q =
-else
-  Q = @
-  MAKEFLAGS += --no-print-directory
-endif
-export Q
+Q ?= @
 
-SCRIPTS := $(shell find -perm /110 -name '*.sh')
+SCRIPTS := $(shell find -name '*.sh' -executable)
 LOGS := $(patsubst %.sh,%.log,$(SCRIPTS))
 
 .PHONY: build
