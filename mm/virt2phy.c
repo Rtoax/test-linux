@@ -328,6 +328,12 @@ void test_mapping_phy_addr(void)
 	pa = virt_to_phy(va);
 	PR("mem_rw", va, pa, addr_numa(pa, va));
 
+	mem_range_rw(mem_rw.mem, mem_rw.sz, 0, 1);
+
+	va = (unsigned long)mem_rw.mem;
+	pa = virt_to_phy(va);
+	PR("mem_rw(w)", va, pa, addr_numa(pa, va));
+
 	va = (unsigned long)mem_rw_cow.mem;
 	pa = virt_to_phy(va);
 	PR("mem_rw_cow", va, pa, addr_numa(pa, va));
