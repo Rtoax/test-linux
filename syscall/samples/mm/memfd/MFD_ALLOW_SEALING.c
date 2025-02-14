@@ -47,7 +47,7 @@ int main(int argc, char *argv[])
 	 * file
 	 */
 
-	fd = sys_memfd_create(name, MFD_ALLOW_SEALING);
+	fd = memfd_create(name, MFD_ALLOW_SEALING);
 	if (fd == -1)
 		errExit("memfd_create");
 
