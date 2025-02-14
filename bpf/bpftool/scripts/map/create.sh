@@ -203,7 +203,7 @@ cleanup()
 trap cleanup EXIT
 
 _eval sudo ${BPFTOOL} map show name ${NAME_truncate}
-_eval sudo ${BPFTOOL} map dump name ${NAME_truncate} || true
+_eval sudo ${BPFTOOL} map dump name ${NAME_truncate}
 
 case ${TYPE} in
 array | percpu_array | hash | percpu_hash)
@@ -261,6 +261,6 @@ stack)
 	;;
 esac
 
-_eval sudo ${BPFTOOL} map dump name ${NAME_truncate} || true
+_eval sudo ${BPFTOOL} map dump name ${NAME_truncate}
 
 # Unlink pinned file use trap EXIT above.
