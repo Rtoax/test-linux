@@ -110,6 +110,7 @@ CONFIG_LOCKUP_DETECTOR
 	- format: **abbreviation: full name (中文全称) @relate1 @relate2**
 	- scripts: `./abbreviation.sh` to check all abbreviations.
 * Each **drawio** contains relate directory diagrams.
+* Never call `include` in `*.mk` file, only call `include` in Makefile.
 
 
 ## abbreviation.md example
