@@ -40,6 +40,7 @@ static int run_on_cpu;
 static int cpu_numa;
 
 static struct mem {
+	int prot;
 	int fd; /* file or memfd */
 	void *mem;
 	size_t sz;
@@ -104,8 +105,9 @@ void mem_range_rw(void *mem, size_t sz, bool r, bool w)
 void *map_file_or_anon(const char *file, int ro, int cow, struct mem *m)
 {
 	void *mem = NULL;
-	int i, err, fd, prot;
+	int i, err, fd = -1, prot;
 	struct stat st;
+	size_t size;
 
 	if (file) {
 		fd = open(file, ro ? O_RDONLY : O_RDWR);
@@ -119,7 +121,7 @@ void *map_file_or_anon(const char *file, int ro, int cow, struct mem *m)
 			perror("stat");
 			goto done;
 		}
-		m->sz = st.st_size;
+		size = st.st_size;
 		m->fd = fd;
 	} else {
 #ifdef CONFIG_MEMFD_CREATE
@@ -129,9 +131,9 @@ void *map_file_or_anon(const char *file, int ro, int cow, struct mem *m)
 			return NULL;
 		}
 		/* Give a size */
-		m->sz = getpagesize() * 10;
+		size = getpagesize() * 10;
 		m->fd = fd;
-		if (ftruncate(fd, m->sz) == -1) {
+		if (ftruncate(fd, size) == -1) {
 			perror("ftruncate");
 			goto done;
 		}
@@ -143,21 +145,22 @@ void *map_file_or_anon(const char *file, int ro, int cow, struct mem *m)
 		prot |= PROT_WRITE;
 
 	/* Only test MAP_PRIVATE */
-	mem = mmap(NULL, m->sz, prot, MAP_PRIVATE, fd, 0);
+	mem = mmap(NULL, size, prot, MAP_PRIVATE, m->fd, 0);
 	if (mem == MAP_FAILED) {
 		perror("mmap");
 		mem == NULL;
 		goto done;
 	}
 
-	m->mem = mem;
-
-	mem_range_rw(mem, m->sz, 1, 0);
+	mem_range_rw(mem, size, 1, 0);
 
 	if (!ro && cow)
-		mem_range_rw(mem, m->sz, 0, 1);
+		mem_range_rw(mem, size, 0, 1);
 
 done:
+	m->mem = mem;
+	m->sz = size;
+	m->prot = prot;
 	return mem;
 }
 
