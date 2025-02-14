@@ -9,11 +9,6 @@ SUBLEVEL = 8
 EXTRAVERSION =
 NAME = Dentry
 
-ifdef M32
-  MAKEFLAGS += M32=1
-endif
-export MAKEFLAGS
-
 include make.list
 SUB_USER_DIR = $(USER_LIST)
 SUB_USER_DIR_TEST := $(SUB_USER_DIR:%=%_test)
@@ -28,7 +23,6 @@ export VERSION PATCHLEVEL SUBLEVEL TEST_LINUX_VERSION
 
 TLCONFIG_CONFIG ?= .config
 export TLCONFIG_CONFIG
-
 
 .PHONY: build
 # Default to display help information

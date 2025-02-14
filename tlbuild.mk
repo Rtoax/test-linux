@@ -22,6 +22,11 @@ else
 endif
 export Q
 
+ifdef M32
+  MAKEFLAGS += M32=1
+endif
+export MAKEFLAGS
+
 CPU_VENDOR_ID=$(shell lscpu | grep ^Vendor | awk '{print $$3}')
 
 # GIT_TOPDIR is empty if not in git-repo.
