@@ -39,10 +39,15 @@
 static int run_on_cpu;
 static int cpu_numa;
 
-static struct {
+static struct mem {
+	int fd; /* file or memfd */
 	void *mem;
 	size_t sz;
-} mem_ro, mem_rw, mem_rw_cow;
+} mem_ro, mem_rw, mem_rw_cow
+#ifdef CONFIG_MEMFD_CREATE
+, memfd_ro
+#endif
+;
 
 int mbind_to_numa = false;
 int verbose = false;
@@ -81,22 +86,41 @@ static const struct argp argp = {
 };
 
 
-void *map_file(const char *file, int ro, int cow, size_t *sz)
+void *map_file(const char *file, int ro, int cow, struct mem *m)
 {
 	void *mem = NULL;
 	int i, err, fd, prot;
 	struct stat st;
 
-	fd = open(file, ro ? O_RDONLY : O_RDWR);
-	if (fd == -1) {
-		fprintf(stderr, "ERROR: open(%s) %m\n", file);
-		return NULL;
-	}
+	if (file) {
+		fd = open(file, ro ? O_RDONLY : O_RDWR);
+		if (fd == -1) {
+			fprintf(stderr, "ERROR: open(%s) %m\n", file);
+			return NULL;
+		}
 
-	err = stat(file, &st);
-	if (err == -1) {
-		perror("stat");
-		goto done;
+		err = stat(file, &st);
+		if (err == -1) {
+			perror("stat");
+			goto done;
+		}
+		m->sz = st.st_size;
+		m->fd = fd;
+	} else {
+#ifdef CONFIG_MEMFD_CREATE
+		fd = memfd_create("anonfile", MFD_CLOEXEC);
+		if (fd == -1) {
+			fprintf(stderr, "ERROR: memfd_create() %m\n");
+			return NULL;
+		}
+		/* Give a size */
+		m->sz = getpagesize() * 10;
+		m->fd = fd;
+		if (ftruncate(fd, m->sz) == -1) {
+			perror("ftruncate");
+			goto done;
+		}
+#endif
 	}
 
 	prot = PROT_READ;
@@ -104,14 +128,14 @@ void *map_file(const char *file, int ro, int cow, size_t *sz)
 		prot |= PROT_WRITE;
 
 	/* Only test MAP_PRIVATE */
-	mem = mmap(NULL, st.st_size, prot, MAP_PRIVATE, fd, 0);
+	mem = mmap(NULL, m->sz, prot, MAP_PRIVATE, fd, 0);
 	if (mem == MAP_FAILED) {
 		perror("mmap");
 		mem == NULL;
 		goto done;
 	}
 
-	for (i = 0; i < st.st_size; i += getpagesize()) {
+	for (i = 0; i < m->sz; i += getpagesize()) {
 		char c = *(char *)(mem + i);
 
 		/* Write */
@@ -119,10 +143,14 @@ void *map_file(const char *file, int ro, int cow, size_t *sz)
 			*(char *)(mem + i) = 'a';
 	}
 
-	*sz = st.st_size;
 done:
-	close(fd);
 	return mem;
+}
+
+void *unmap_file(struct mem *m)
+{
+	munmap(m->mem, m->sz);
+	close(m->fd);
 }
 
 /**
@@ -289,6 +317,12 @@ void test_mapping_phy_addr(void)
 	va = (unsigned long)mem_rw_cow.mem;
 	pa = virt_to_phy(va);
 	PR("mem_rw_cow", va, pa, addr_numa(pa, va));
+
+#ifdef CONFIG_MEMFD_CREATE
+	va = (unsigned long)memfd_ro.mem;
+	pa = virt_to_phy(va);
+	PR("memfd_ro", va, pa, addr_numa(pa, va));
+#endif
 }
 
 void mem_bind_to_numa(void *mem, size_t size, int dst_numa)
@@ -377,9 +411,12 @@ int main(int argc, char *argv[])
 	cpu_numa = numa_node_of_cpu(run_on_cpu);
 	printf("Run on CPU %d, NUMA %d\n", run_on_cpu, cpu_numa);
 
-	mem_ro.mem = map_file("/usr/bin/ls", 1, 0, &mem_ro.sz);
-	mem_rw.mem = map_file("/usr/bin/ls", 0, 0, &mem_rw.sz);
-	mem_rw_cow.mem = map_file("/usr/bin/ls", 0, 1, &mem_rw_cow.sz);
+	mem_ro.mem = map_file("/usr/bin/ls", 1, 0, &mem_ro);
+	mem_rw.mem = map_file("/usr/bin/ls", 0, 0, &mem_rw);
+	mem_rw_cow.mem = map_file("/usr/bin/ls", 0, 1, &mem_rw_cow);
+#ifdef CONFIG_MEMFD_CREATE
+	memfd_ro.mem = map_file(NULL, 1, 0, &memfd_ro);
+#endif
 
 	test_mapping_phy_addr();
 	if (mbind_to_numa) {
@@ -434,8 +471,12 @@ int main(int argc, char *argv[])
 #endif
 	}
 
-	munmap(mem_ro.mem, mem_ro.sz);
-	munmap(mem_rw.mem, mem_rw.sz);
+	unmap_file(&mem_ro);
+	unmap_file(&mem_rw);
+	unmap_file(&mem_rw_cow);
+#ifdef CONFIG_MEMFD_CREATE
+	unmap_file(&memfd_ro);
+#endif
 	return 0;
 }
 #endif /* HAVE_MAIN */

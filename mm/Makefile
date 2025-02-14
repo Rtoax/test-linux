@@ -40,6 +40,10 @@ ifeq ($(CONFIG_STRICT_DEVMEM),y)
   $(warning CONFIG_STRICT_DEVMEM=y, you don't allow r/w from/to /dev/mem)
   CFLAGS_virt2phy += -DCONFIG_STRICT_DEVMEM=1
 endif
+ifeq ($(CONFIG_MEMFD_CREATE),y)
+  $(info CONFIG_MEMFD_CREATE=y)
+  CFLAGS_virt2phy += -DCONFIG_MEMFD_CREATE=1
+endif
 
 MAKEFLAGS :=
 LIBS_DIR := ../libs/
