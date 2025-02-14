@@ -1,3 +1,6 @@
+/**
+ * seals: 密封件
+ */
 #ifndef _GNU_SOURCE
 #define _GNU_SOURCE
 #endif
@@ -39,10 +42,12 @@ int main(int argc, char *argv[])
 	len = 1024;
 	seals_arg = argv[1];
 
-	/* Create an anonymous file in tmpfs; allow seals to be
-	 * placed on the file */
+	/**
+	 * Create an anonymous file in tmpfs; allow seals to be placed on the
+	 * file
+	 */
 
-	fd = memfd_create(name, MFD_ALLOW_SEALING);
+	fd = sys_memfd_create(name, MFD_ALLOW_SEALING);
 	if (fd == -1)
 		errExit("memfd_create");
 
@@ -54,11 +59,12 @@ int main(int argc, char *argv[])
 	printf("PID: %jd; fd: %d; /proc/%jd/fd/%d\n",
 	       (intmax_t) getpid(), fd, (intmax_t) getpid(), fd);
 
-	/* Code to map the file and populate the mapping with data
-	   omitted */
+	/* Code to map the file and populate the mapping with data omitted */
 
-	/* If a 'seals' command-line argument was supplied, set some
-	   seals on the file */
+	/**
+	 * If a 'seals' command-line argument was supplied, set some seals on
+	 * the file
+	 */
 
 	if (seals_arg != NULL) {
 		seals = 0;
@@ -80,8 +86,10 @@ int main(int argc, char *argv[])
 			errExit("fcntl");
 	}
 
-	/* Keep running, so that the file created by memfd_create()
-	   continues to exist */
+	/**
+	 * Keep running, so that the file created by memfd_create() continues
+	 * to exist
+	 */
 
 	exit(EXIT_SUCCESS);
 }

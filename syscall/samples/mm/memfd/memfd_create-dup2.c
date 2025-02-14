@@ -21,7 +21,7 @@ int main(void)
 	child = fork();
 	if (child == 0) {
 		/* Duplicate memfd to stdout */
-		dup2(fd, 1);
+		dup2(fd, STDOUT_FILENO);
 		close(fd);
 		execlp("/bin/date", "", NULL);
 		perror("execlp date");

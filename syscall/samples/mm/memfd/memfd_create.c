@@ -19,6 +19,7 @@ int anonyexec(const char *path, char *argv[])
 	fd = open(path, O_RDONLY);
 	filesize = lseek(fd, SEEK_SET, SEEK_END);
 	lseek(fd, SEEK_SET, SEEK_SET);
+
 	elfbuf = malloc(filesize);
 	read(fd, elfbuf, filesize);
 	close(fd);
