@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
-SHELL := bash
+SHELL ?= bash
 
 CONFIG_TOPDIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 CONFIG_KERNEL ?= /boot/config-$(shell uname -r)
@@ -11,3 +11,4 @@ ifeq ($(wildcard $(CONFIG_KERNEL)),)
 endif
 
 include $(CONFIG_KERNEL)
+export CONFIG_KERNEL
