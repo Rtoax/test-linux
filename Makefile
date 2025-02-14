@@ -53,6 +53,7 @@ endif
 
 .PHONY: help
 help:
+	$(call tl_log,top-makefile help)
 	@echo >&2 -e "***"
 	$(call tl_ascii_logo1,*** )
 	@echo >&2 -e "***"
@@ -127,10 +128,14 @@ endef
 
 .PHONY: all
 all: default ${TLCONFIG_CONFIG}
+	$(call tl_log,top-makefile all)
+
+.PHONY: default
 default: user kernel
 
 .PHONY: user
 user: cleanuserlog $(SUB_USER_DIR)
+	$(call tl_log,top-makefile user)
 	@echo "=========== User done ==========="
 	$(call printuserlog)
 $(SUB_USER_DIR):
@@ -172,7 +177,6 @@ docker:
 .PHONY: version
 version:
 	@echo "v${VERSION}.${PATCHLEVEL}.${SUBLEVEL}${EXTRAVERSION} (${NAME})"
-
 
 .PHONY: archive
 archive:

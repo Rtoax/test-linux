@@ -33,24 +33,32 @@ NUMA_TOPDIR := $(TL_TOPDIR)/numa/
 
 export GIT_TOPDIR TL_TOPDIR LIBS_TOPDIR NUMA_TOPDIR
 
+TL_LOG := $(TL_TOPDIR)/log.log
 USER_FAILED_LOG := $(TL_TOPDIR)/failed-user.log
 KERNEL_FAILED_LOG := $(TL_TOPDIR)/failed-kernel.log
-export USER_FAILED_LOG KERNEL_FAILED_LOG
+export TL_LOG USER_FAILED_LOG KERNEL_FAILED_LOG
+
+define tl_log
+	${Q}echo $(shell date '+%Y-%m-%d_%H:%M:%S') $(shell hostname) $1 >> ${TL_LOG}
+endef
 
 define cleanuserlog
 	${Q}rm -f $(USER_FAILED_LOG)
 endef
+
 define cleankernellog
 	${Q}rm -f $(KERNEL_FAILED_LOG)
 endef
+
 define printuserlog
 	@if [[ -e $(USER_FAILED_LOG) ]]; then \
-		cat $(USER_FAILED_LOG) ; \
+		${Q}cat $(USER_FAILED_LOG) ; \
 	fi
 endef
+
 define printkernellog
 	@if [[ -e $(KERNEL_FAILED_LOG) ]]; then \
-		cat $(KERNEL_FAILED_LOG) ; \
+		${Q}cat $(KERNEL_FAILED_LOG) ; \
 	fi
 endef
 
