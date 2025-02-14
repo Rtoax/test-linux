@@ -90,23 +90,6 @@ $(TLCONFIG_CONFIG):
 	@echo >&2 -e "***"
 	@/bin/false
 
-define cleanuserlog
-	${Q}rm -f $(USER_FAILED_LOG)
-endef
-define cleankernellog
-	${Q}rm -f $(KERNEL_FAILED_LOG)
-endef
-define printuserlog
-	@if [[ -e $(USER_FAILED_LOG) ]]; then \
-		cat $(USER_FAILED_LOG) ; \
-	fi
-endef
-define printkernellog
-	@if [[ -e $(KERNEL_FAILED_LOG) ]]; then \
-		cat $(KERNEL_FAILED_LOG) ; \
-	fi
-endef
-
 # make_and_log [U|K] [dir]
 define make_and_log
 	@echo -e "[$(1)] \033[1;34mMake [$(2)] starting\033[m"

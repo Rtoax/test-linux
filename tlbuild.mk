@@ -37,3 +37,20 @@ USER_FAILED_LOG := $(TL_TOPDIR)/failed-user.log
 KERNEL_FAILED_LOG := $(TL_TOPDIR)/failed-kernel.log
 export USER_FAILED_LOG KERNEL_FAILED_LOG
 
+define cleanuserlog
+	${Q}rm -f $(USER_FAILED_LOG)
+endef
+define cleankernellog
+	${Q}rm -f $(KERNEL_FAILED_LOG)
+endef
+define printuserlog
+	@if [[ -e $(USER_FAILED_LOG) ]]; then \
+		cat $(USER_FAILED_LOG) ; \
+	fi
+endef
+define printkernellog
+	@if [[ -e $(KERNEL_FAILED_LOG) ]]; then \
+		cat $(KERNEL_FAILED_LOG) ; \
+	fi
+endef
+
