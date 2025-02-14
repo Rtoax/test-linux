@@ -1,7 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
 include ../../../tlbuild.mk
 
-
 CC = gcc
 NASM = $(shell which nasm 2>/dev/null)
 LD = ld
@@ -68,6 +67,7 @@ ifdef DEBUG
   CFLAGS += -DDEBUG -O0 -g
 endif
 
+NOPIE ?= 1
 include ../../../elf/pie.mk
 
 LDFLAGS += -z noexecstack
@@ -111,7 +111,7 @@ CFLAGS_puts-c-loop := -DINFINITE_LOOP=1
 
 %.o: %.asm
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	@$(NASM) -felf64 $(<) -o $(@)
+	${Q}$(NASM) -felf64 $(<) -o $(@)
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
@@ -128,7 +128,7 @@ $(TARGETS) $(TARGETS_S): %:
 
 $(TARGETS_ASM): %:
 	@echo -e "  LD ASM \033[1;32m$(@)\033[m"
-	@$(LD) -o $(@) $(^)
+	${Q}$(LD) -o $(@) $(^)
 
 test: ${TARGETS}
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
