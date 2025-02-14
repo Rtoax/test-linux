@@ -10,9 +10,7 @@ sub-dir-clean := $(addprefix $(shell pwd)/,$(sub-dir:=.clean))
 build: $(sub-dir-build) vmlinux.h
 	@echo -e "  \033[1;33mDone\033[m"
 
-vmlinux.h:
-	@echo -e "  BPFTOOL  \033[1m$(@)\033[m"
-	$(Q)bpftool btf dump file /sys/kernel/btf/vmlinux format c > vmlinux.h
+include ../bpftool/vmlinux.h.mk
 
 .PHONY: clean
 clean: $(sub-dir-clean)

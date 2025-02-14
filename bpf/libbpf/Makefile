@@ -247,9 +247,7 @@ $(TARGETS) libbpf_version: %: %.o
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
 	${Q}$(CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*))
 
-vmlinux.h:
-	@echo -e "  BPFTOOL  \033[1m$(@)\033[m"
-	${Q}${BPFTOOL} btf dump file /sys/kernel/btf/vmlinux format c > vmlinux.h
+include ../bpftool/vmlinux.h.mk
 
 .PHONY: clean
 clean:

@@ -1,7 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
 include ../../../../tlbuild.mk
 
-
 IF := lo
 $(warning "Specify IF=[Interface] like IF=lo")
 
@@ -26,8 +25,7 @@ all: $(BPF_OBJ)
 $(BPF_OBJ): %.o: %.c vmlinux.h
 	clang ${CLANG_CFLAGS} -o $@ -c $<
 
-vmlinux.h:
-	bpftool btf dump file /sys/kernel/btf/vmlinux format c > vmlinux.h
+include ../../../bpftool/vmlinux.h.mk
 
 install: $(BPF_OBJ)
 	sudo bpftool prog load $(BPF_OBJ) /sys/fs/bpf/$(TARGET)
