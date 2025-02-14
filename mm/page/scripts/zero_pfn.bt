@@ -1,10 +1,1 @@
-#!/usr/bin/env bpftrace
-
-#include <linux/mm.h>
-#include <linux/gfp.h>
-
-BEGIN
-{
-	$zero = kaddr("zero_pfn");
-	printf("%lx\n", *$zero);
-}
+empty_zero_page.bt

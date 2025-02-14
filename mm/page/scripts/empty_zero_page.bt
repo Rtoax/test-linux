@@ -1,0 +1,14 @@
+#!/usr/bin/bpftrace --unsafe
+
+BEGIN
+{
+	system("grep -w empty_zero_page /proc/kallsyms");
+
+	$zero = kaddr("empty_zero_page");
+	printf("%lx %lx\n", $zero, *$zero);
+
+	$zero_pfn = kaddr("zero_pfn");
+	printf("%lx\n", *$zero_pfn);
+
+	exit();
+}
