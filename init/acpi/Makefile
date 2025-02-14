@@ -1,6 +1,5 @@
 include ../../tlbuild.mk
 
-
 sub-dir := dmidecode
 
 sub-dir-build := $(addprefix $(shell pwd)/,$(sub-dir:=.build))

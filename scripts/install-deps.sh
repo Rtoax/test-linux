@@ -418,6 +418,8 @@ fedora)
 	;;
 esac
 
+pkgs_base+=( acpi )
+pkgs_base+=( acpica-tools )
 pkgs_base+=( aha )
 pkgs_base+=( autoconf-archive )
 pkgs_base+=( bash-completion )
@@ -458,6 +460,7 @@ pkgs_base+=( numactl )              # numastat
 pkgs_base+=( opencl-headers )
 pkgs_base+=( openssl )
 pkgs_base+=( parallel )
+pkgs_base+=( powertop ) # power consumption and power management diagnosis tool
 pkgs_base+=( python3-pip )          # pip wheel
 pkgs_base+=( python3-pyroute2 )     # pyroute2
 pkgs_base+=( python3-scapy )
@@ -564,7 +567,6 @@ dnf_add_packages()
 		pkgs_base+=( glibc-static.i686 )
 		pkgs_bench+=( memtest86+ )
 	fi
-	pkgs_base+=( acpi acpica-tools )
 	pkgs_base+=( bcc-devel )
 	pkgs_base+=( binutils-devel )
 	pkgs_base+=( binutils-gold )
