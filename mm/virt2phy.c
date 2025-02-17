@@ -36,6 +36,15 @@
 #define virt_addr_numa() (-1)
 #endif
 
+#ifdef DEBUG
+#define LOG_DEBUG(fmt...) do {	\
+		fprintf(stderr, "[%s:%d] ", __func__, __LINE__);	\
+		fprintf(stderr, fmt);	\
+	} while (0)
+#else
+#define LOG_DEBUG(fmt...) do {} while (0)
+#endif
+
 static int run_on_cpu;
 static int cpu_numa;
 
@@ -44,7 +53,7 @@ static struct mem {
 	int fd; /* file or memfd */
 	void *mem;
 	size_t sz;
-} map_file_ro, map_file_rw, map_file_rw_cow
+} map_file_ro, map_file_rw, map_file_rw_cow, map_anon_ro, map_anon_rw
 #ifdef CONFIG_MEMFD_CREATE
 , memfd_ro
 #endif
@@ -104,12 +113,15 @@ void mem_range_rw(void *mem, size_t sz, bool r, bool w)
 
 void *map_file_or_anon(const char *file, int ro, int cow, struct mem *m)
 {
+#define MAP_FILE_ANON	((void *)-2)	/* arg file */
 	void *mem = NULL;
-	int i, err, fd = -1, prot;
+	int i, err, fd = -1, prot, flags;
 	struct stat st;
 	size_t size;
 
-	if (file) {
+	flags = MAP_PRIVATE;
+
+	if (file && file != MAP_FILE_ANON) {
 		fd = open(file, ro ? O_RDONLY : O_RDWR);
 		if (fd == -1) {
 			fprintf(stderr, "ERROR: open(%s) %m\n", file);
@@ -123,6 +135,11 @@ void *map_file_or_anon(const char *file, int ro, int cow, struct mem *m)
 		}
 		size = st.st_size;
 		m->fd = fd;
+	} else if (file == MAP_FILE_ANON) {
+		LOG_DEBUG("map anon.\n");
+		size = getpagesize() * 10;
+		m->fd = -1;
+		flags |= MAP_ANONYMOUS;
 	} else {
 #ifdef CONFIG_MEMFD_CREATE
 		fd = memfd_create("anonfile", MFD_CLOEXEC);
@@ -145,12 +162,15 @@ void *map_file_or_anon(const char *file, int ro, int cow, struct mem *m)
 		prot |= PROT_WRITE;
 
 	/* Only test MAP_PRIVATE */
-	mem = mmap(NULL, size, prot, MAP_PRIVATE, m->fd, 0);
+	mem = mmap(NULL, size, prot, flags, m->fd, 0);
 	if (mem == MAP_FAILED) {
 		perror("mmap");
+		size = 0;
 		mem == NULL;
 		goto done;
 	}
+
+	LOG_DEBUG("map addr %p\n", mem);
 
 	mem_range_rw(mem, size, 1, 0);
 
@@ -341,6 +361,20 @@ void test_mapping_phy_addr(void)
 	pa = virt_to_phy(va);
 	PR("map_file_rw_cow", va, pa, addr_numa(pa, va));
 
+	va = (unsigned long)map_anon_ro.mem;
+	pa = virt_to_phy(va);
+	PR("map_anon_ro", va, pa, addr_numa(pa, va));
+
+	va = (unsigned long)map_anon_rw.mem;
+	pa = virt_to_phy(va);
+	PR("map_anon_rw", va, pa, addr_numa(pa, va));
+
+	mem_range_rw(map_anon_rw.mem, map_anon_rw.sz, 0, 1);
+
+	va = (unsigned long)map_anon_rw.mem;
+	pa = virt_to_phy(va);
+	PR("map_anon_rw(w)", va, pa, addr_numa(pa, va));
+
 #ifdef CONFIG_MEMFD_CREATE
 	va = (unsigned long)memfd_ro.mem;
 	pa = virt_to_phy(va);
@@ -438,6 +472,8 @@ int main(int argc, char *argv[])
 	map_file_ro.mem = map_file_or_anon(TEST_MAP_FILE, 1, 0, &map_file_ro);
 	map_file_rw.mem = map_file_or_anon(TEST_MAP_FILE, 0, 0, &map_file_rw);
 	map_file_rw_cow.mem = map_file_or_anon(TEST_MAP_FILE, 0, 1, &map_file_rw_cow);
+	map_anon_ro.mem = map_file_or_anon(MAP_FILE_ANON, 1, 0, &map_anon_ro);
+	map_anon_rw.mem = map_file_or_anon(MAP_FILE_ANON, 0, 0, &map_anon_rw);
 #ifdef CONFIG_MEMFD_CREATE
 	memfd_ro.mem = map_file_or_anon(NULL, 1, 0, &memfd_ro);
 #endif
@@ -498,6 +534,8 @@ int main(int argc, char *argv[])
 	unmap_file_or_anon(&map_file_ro);
 	unmap_file_or_anon(&map_file_rw);
 	unmap_file_or_anon(&map_file_rw_cow);
+	unmap_file_or_anon(&map_anon_ro);
+	unmap_file_or_anon(&map_anon_rw);
 #ifdef CONFIG_MEMFD_CREATE
 	unmap_file_or_anon(&memfd_ro);
 #endif
