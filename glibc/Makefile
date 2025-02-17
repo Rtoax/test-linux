@@ -1,8 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
 include ../tlbuild.mk
-
-include glibc.mk
 include ../scripts/logos.mk
+include glibc.mk
 
 sub-dir := arpa
 sub-dir += alloca
@@ -75,12 +74,7 @@ TARGETS += gnu_get_libc_version
 TARGETS += lib-names
 TARGETS += ftm _GNU_SOURCE _XOPEN_SOURCE
 
-ifeq ($(shell uname -m),x86_64)
-endif
-ifeq ($(shell uname -m),aarch64)
-endif
-
-CC = gcc
+CC := gcc
 
 CFLAGS :=
 CFLAGS += -Werror -Wall -D_GNU_SOURCE

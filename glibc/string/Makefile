@@ -1,5 +1,5 @@
+# SPDX-License-Identifier: GPL-3.0
 include ../../tlbuild.mk
-
 include ../glibc.mk
 
 SYMADDR___memcpy_ssse3 := $(call libc_sym_addr,__memcpy_ssse3)
@@ -59,6 +59,12 @@ CFLAGS += -lm
 CFLAGS += -O0 -g -ggdb
 ifdef DEBUG
   CFLAGS += -DDEBUG
+endif
+ifdef STATIC
+  CFLAGS += -static
+  LDFLAGS += -static
+  MAKEFLAGS += STATIC=1
+  $(info Defined STATIC)
 endif
 ifdef RAND
   CFLAGS += -DRAND_MEM_POS=1

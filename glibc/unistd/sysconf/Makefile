@@ -1,7 +1,5 @@
 include ../../../tlbuild.mk
 
-
-
 TARGETS := NPROCESSORS
 TARGETS += PAGESIZE
 TARGETS += sysconf
@@ -16,14 +14,15 @@ CFLAGS := -Werror -Wall
 CFLAGS += -Wstrict-prototypes
 
 LDFLAGS :=
-LDLIBS :=
 
 ifdef DEBUG
-CFLAGS += -DDEBUG -O0 -g
+  CFLAGS += -DDEBUG -O0 -g
 endif
+
 ifdef STATIC
-CFLAGS += -static
-$(info Defined STATIC)
+  CFLAGS += -static
+  MAKEFLAGS += STATIC=1
+  $(info Defined STATIC)
 endif
 
 .PHONY: build
@@ -33,7 +32,6 @@ build: confs_def.h ${TARGETS}
 confs_def.h: sysconf.sh
 	$(shell bash sysconf.sh)
 
-# Add more object.o file
 NPROCESSORS: NPROCESSORS.o
 PAGESIZE: PAGESIZE.o
 sysconf: sysconf.o
@@ -48,7 +46,7 @@ CFLAGS_sysconf := -Wno-error
 
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	${Q}$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) $(^) $(LDLIBS) $(LDFLAGS) $(LDFLAGS_$(*))
+	${Q}$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*))
 
 test: ${TARGETS}
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
