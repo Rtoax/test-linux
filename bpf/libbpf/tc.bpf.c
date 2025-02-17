@@ -15,6 +15,29 @@
  * certain actions. This qdisc can also have child qdiscs which will be used
  * over the root if their filter matches the traffic. This program type allows
  * us to implement such a filter in eBPF.
+ *
+ * Direct action:
+ *
+ * TC_ACT_UNSPEC (-1) - Signals that the default configured action should be
+ *                      taken.
+ * TC_ACT_OK (0) - Signals that the packet should proceed.
+ * TC_ACT_RECLASSIFY (1) - Signals that the packet has to re-start
+ *                         classification from the root qdisc. This is
+ *                         typically used after modifying the packet so its
+ *                         classification might have different results.
+ * TC_ACT_SHOT (2) - Signals that the packet should be dropped, no other TC
+ *                   processing should happen.
+ * TC_ACT_PIPE (3) - While defined, this action should not be used and holds
+ *                   no particular meaning for eBPF classifiers.
+ * TC_ACT_STOLEN (4) - While defined, this action should not be used and holds
+ *                     no particular meaning for eBPF classifiers.
+ * TC_ACT_QUEUED (5) - While defined, this action should not be used and holds
+ *                     no particular meaning for eBPF classifiers.
+ * TC_ACT_REPEAT (6) - While defined, this action should not be used and holds
+ *                     no particular meaning for eBPF classifiers.
+ * TC_ACT_REDIRECT (7) - Signals that the packet should be redirected, the
+ *                       details of how and where to are set as side effects
+ *                       by helpers functions.
  */
 #include <vmlinux.h>
 #include <bpf/bpf_endian.h>
@@ -22,7 +45,7 @@
 #include <bpf/bpf_tracing.h>
 
 #define TC_ACT_OK 0
-#define ETH_P_IP  0x0800 /* Internet Protocol packet	*/
+#define ETH_P_IP  0x0800 /* Internet Protocol packet */
 
 /**
  * Same as SEC("classifier")

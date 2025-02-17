@@ -1,6 +1,13 @@
 // SPDX-License-Identifier: GPL-3.0
 /**
  * BPF_PROG_TYPE_SCHED_CLS
+ *
+ * As of kernel version v6.2 the only way to attach eBPF programs to TC is via
+ * a netlink socket the details of which are complex. The usage of a netlink
+ * library is recommended if you wish to manage attachment via an API.
+ * However, the most common way to go about this is via the iproute2 tc CLI
+ * tool which is the standard implementation for network utilities using the
+ * netlink protocol.
  */
 #include <argp.h>
 #include <signal.h>

@@ -740,6 +740,7 @@ apt_add_packages()
 	pkgs_base+=( build-essential )
 	pkgs_base+=( clang-format )
 	pkgs_base+=( dwarfdump )
+	pkgs_base+=( iproute2 )             # ss, tc
 	pkgs_base+=( libaio-dev )           # aio
 	pkgs_base+=( libbpfcc )
 	pkgs_base+=( libbpfcc-dev )
