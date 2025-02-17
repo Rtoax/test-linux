@@ -77,6 +77,7 @@ TARGETS_BPF += map_hash_of_maps.bpf.o
 TARGETS_BPF += map_ringbuf.bpf.o
 TARGETS_BPF += map_devmap.bpf.o
 TARGETS_BPF += map_arena.bpf.o
+TARGETS_BPF += map_bloom_filter.bpf.o
 
 # Never append to skel target, always generate by bpf target
 TARGETS_SKEL := $(patsubst %.bpf.o,%.skel.h,$(TARGETS_BPF))
