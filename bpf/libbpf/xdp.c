@@ -56,6 +56,7 @@ static const char *interface;
 static enum {
 	ACTION_PRINT,
 	ACTION_TX,
+	ACTION_DUMMY,
 } action = ACTION_PRINT;
 #elif defined(XDP_DEVMAP)
 static int o_ifindex = -1;
@@ -78,7 +79,7 @@ static const char argp_prog_doc[] =
 static const struct argp_option opts[] = {
 	{ "interface", 'i', "INTERFACE", 0, "Network interface to attach" },
 #if defined(XDP_BASIC)
-	{ "action", 'a', "ACTION", 0, "Optional actions: print , tx" },
+	{ "action", 'a', "ACTION", 0, "Optional actions: dummy, print, tx" },
 #elif defined(XDP_DEVMAP)
 	{ "outinterface", 'o', "OUT-INTERFACE", 0, "Network interface to redirect" },
 #elif defined(XDP_CPUMAP)
@@ -102,8 +103,11 @@ static error_t parse_arg(int key, char *arg, struct argp_state *state)
 			action = ACTION_PRINT;
 		else if (!strcmp(arg, "tx"))
 			action = ACTION_TX;
+		else if (!strcmp(arg, "dummy"))
+			action = ACTION_DUMMY;
 		else {
-			fprintf(stderr, "--action must be 'print', or 'tx'\n");
+			fprintf(stderr, "--action must be 'dummy', 'print', or 'tx'\n");
+			exit(EXIT_FAILURE);
 		}
 		break;
 #elif defined(XDP_DEVMAP)
@@ -207,6 +211,9 @@ int main(int argc, char *argv[])
 		break;
 	case ACTION_TX:
 		basic_action_prog = skel->progs.xdp_tx_prog;
+		break;
+	case ACTION_DUMMY:
+		basic_action_prog = skel->progs.xdp_dummy_prog;
 		break;
 	default:
 		fprintf(stderr, "Unknown action.\n");

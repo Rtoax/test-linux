@@ -31,17 +31,20 @@
 
 #if defined(XDP_BASIC) /* Test basic */
 
-#if defined(STRICT_SEC_NAME)
+# ifdef XDP_BASIC_DUMMY
+#  if defined(STRICT_SEC_NAME)
 SEC("xdp")
-#endif
+#  endif
 int xdp_dummy_prog(struct xdp_md *ctx)
 {
 	return XDP_PASS;
 }
+# endif
 
-#if defined(STRICT_SEC_NAME)
+# ifdef XDP_BASIC_TX
+#  if defined(STRICT_SEC_NAME)
 SEC("xdp")
-#endif
+#  endif
 int xdp_tx_prog(struct xdp_md *ctx)
 {
 	void *data = (void *)(long)ctx->data;
@@ -60,10 +63,12 @@ int xdp_tx_prog(struct xdp_md *ctx)
 		   (u64)(ctx->data_end - ctx->data));
 	return XDP_TX;
 }
+# endif
 
-#if defined(STRICT_SEC_NAME)
+# ifdef XDP_BASIC_PRINTK
+#  if defined(STRICT_SEC_NAME)
 SEC("xdp")
-#endif
+#  endif
 int xdp_printk(struct xdp_md *ctx)
 {
 	int proto = 0;
@@ -112,6 +117,7 @@ int xdp_printk(struct xdp_md *ctx)
 	}
 	return XDP_PASS;
 }
+# endif
 
 #elif defined(XDP_DEVMAP) /* Test devmap */
 
