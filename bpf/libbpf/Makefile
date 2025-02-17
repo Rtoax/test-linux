@@ -128,59 +128,59 @@ else
   $(warning "Not config CONFIG_BPF_KPROBE_OVERRIDE=y, skip test bpf_override_return()")
 endif
 CFLAGS_fentry := -DFENTRY=1
-CFLAGS_BPF_fentry := -DFENTRY=1
+CFLAGS_BPF_fentry := ${CFLAGS_fentry}
 CFLAGS_fmod_ret := -DFMOD_RET=1
-CFLAGS_BPF_fmod_ret := -DFMOD_RET=1
+CFLAGS_BPF_fmod_ret := ${CFLAGS_fmod_ret}
 CFLAGS_socket_filter := -DSOCKET_FILTER=1 -DSTRICT_SEC_NAME=1 -DMAP_ARRAY=1
-CFLAGS_BPF_socket_filter := -DSOCKET_FILTER=1 -DSTRICT_SEC_NAME=1 -DMAP_ARRAY=1
+CFLAGS_BPF_socket_filter := ${CFLAGS_socket_filter}
 CFLAGS_tracepoint := -DMAP_HASH -DTRACEPOINT=1 -DSEC_DEF_TRACEPOINT=1
-CFLAGS_BPF_tracepoint := -DMAP_HASH -DTRACEPOINT=1 -DSEC_DEF_TRACEPOINT=1
+CFLAGS_BPF_tracepoint := ${CFLAGS_tracepoint}
 # Kill process with signal.
 CFLAGS_BPF_tracepoint += -DBPF_SEND_SIGNAL=1
 CFLAGS_raw_tracepoint := -DSEC_DEF_RAW_TRACEPOINT=1
-CFLAGS_BPF_raw_tracepoint := -DSEC_DEF_RAW_TRACEPOINT=1
+CFLAGS_BPF_raw_tracepoint := ${CFLAGS_raw_tracepoint}
 CFLAGS_tp_btf := -DSEC_DEF_TP_BTF=1
-CFLAGS_BPF_tp_btf := -DSEC_DEF_TP_BTF=1
+CFLAGS_BPF_tp_btf := ${CFLAGS_tp_btf}
 CFLAGS_xdp := -DSTRICT_SEC_NAME=1 -DXDP_BASIC=1
-CFLAGS_BPF_xdp := -DSTRICT_SEC_NAME=1 -DXDP_BASIC=1
+CFLAGS_BPF_xdp := ${CFLAGS_xdp}
 CFLAGS_xdp_devmap := -DSTRICT_SEC_NAME=1 -DXDP_DEVMAP=1
-CFLAGS_BPF_xdp_devmap := -DSTRICT_SEC_NAME=1 -DXDP_DEVMAP=1
+CFLAGS_BPF_xdp_devmap := ${CFLAGS_xdp_devmap}
 CFLAGS_xdp_cpumap := -DSTRICT_SEC_NAME=1 -DXDP_CPUMAP=1
-CFLAGS_BPF_xdp_cpumap := -DSTRICT_SEC_NAME=1 -DXDP_CPUMAP=1
+CFLAGS_BPF_xdp_cpumap := ${CFLAGS_xdp_cpumap}
 CFLAGS_xdp_xskmap := -DSTRICT_SEC_NAME=1 -DXDP_XSKMAP=1
-CFLAGS_BPF_xdp_xskmap := -DSTRICT_SEC_NAME=1 -DXDP_XSKMAP=1
+CFLAGS_BPF_xdp_xskmap := ${CFLAGS_xdp_xskmap}
 CFLAGS_iter_task := -DITER_TASK=1
-CFLAGS_BPF_iter_task := -DITER_TASK=1
+CFLAGS_BPF_iter_task := ${CFLAGS_iter_task}
 CFLAGS_iter_task_file := -DITER_TASK_FILE=1
-CFLAGS_BPF_iter_task_file := -DITER_TASK_FILE=1
+CFLAGS_BPF_iter_task_file := ${CFLAGS_iter_task_file}
 CFLAGS_iter_task_vma := -DITER_TASK_VMA=1
-CFLAGS_BPF_iter_task_vma := -DITER_TASK_VMA=1
+CFLAGS_BPF_iter_task_vma := ${CFLAGS_iter_task_vma}
 CFLAGS_iter_bpf_map := -DITER_BPF_MAP=1
-CFLAGS_BPF_iter_bpf_map := -DITER_BPF_MAP=1
+CFLAGS_BPF_iter_bpf_map := ${CFLAGS_iter_bpf_map}
 CFLAGS_lsm_bpf := -DLSM_BPF=1
-CFLAGS_BPF_lsm_bpf := -DLSM_BPF=1
+CFLAGS_BPF_lsm_bpf := ${CFLAGS_lsm_bpf}
 CFLAGS_lsm_socket_create := -DLSM_SOCKET_CREATE=1
-CFLAGS_BPF_lsm_socket_create := -DLSM_SOCKET_CREATE=1
+CFLAGS_BPF_lsm_socket_create := ${CFLAGS_lsm_socket_create}
 CFLAGS_lsm_socket_sendmsg := -DLSM_SOCKET_SENDMSG=1
-CFLAGS_BPF_lsm_socket_sendmsg := -DLSM_SOCKET_SENDMSG=1
+CFLAGS_BPF_lsm_socket_sendmsg := ${CFLAGS_BPF_lsm_socket_sendmsg}
 CFLAGS_BPF_sched_act := -DTEST_SCHED_ACT=1
 
 CFLAGS_map_hash := ${CFLAGS_tracepoint}
 CFLAGS_BPF_map_hash := ${CFLAGS_BPF_tracepoint}
 CFLAGS_map_percpu_hash := -DTRACEPOINT=1 -DMAP_PERCPU_HASH=1 -DSEC_DEF_TRACEPOINT=1
-CFLAGS_BPF_map_percpu_hash := -DTRACEPOINT=1 -DMAP_PERCPU_HASH=1 -DSEC_DEF_TRACEPOINT=1
+CFLAGS_BPF_map_percpu_hash := ${CFLAGS_map_percpu_hash}
 CFLAGS_map_lru_hash := -DTRACEPOINT=1 -DMAP_LRU_HASH=1 -DSEC_DEF_TRACEPOINT=1
-CFLAGS_BPF_map_lru_hash := -DTRACEPOINT=1 -DMAP_LRU_HASH=1 -DSEC_DEF_TRACEPOINT=1
+CFLAGS_BPF_map_lru_hash := ${CFLAGS_map_lru_hash}
 CFLAGS_map_lru_percpu_hash := -DTRACEPOINT=1 -DMAP_LRU_PERCPU_HASH=1 -DSEC_DEF_TRACEPOINT=1
-CFLAGS_BPF_map_lru_percpu_hash := -DTRACEPOINT=1 -DMAP_LRU_PERCPU_HASH=1 -DSEC_DEF_TRACEPOINT=1
+CFLAGS_BPF_map_lru_percpu_hash := ${CFLAGS_map_lru_percpu_hash}
 CFLAGS_map_array := -DSOCKET_FILTER=1 -DSTRICT_SEC_NAME=1 -DMAP_ARRAY=1
-CFLAGS_BPF_map_array := -DSOCKET_FILTER=1 -DSTRICT_SEC_NAME=1 -DMAP_ARRAY=1
+CFLAGS_BPF_map_array := ${CFLAGS_map_array}
 CFLAGS_map_percpu_array := -DSOCKET_FILTER=1 -DSTRICT_SEC_NAME=1 -DMAP_PERCPU_ARRAY=1
-CFLAGS_BPF_map_percpu_array := -DSOCKET_FILTER=1 -DSTRICT_SEC_NAME=1 -DMAP_PERCPU_ARRAY=1
+CFLAGS_BPF_map_percpu_array := ${CFLAGS_map_percpu_array}
 CFLAGS_map_array_of_maps := -DMAP_ARRAY_OF_MAPS=1
-CFLAGS_BPF_map_array_of_maps := -DMAP_ARRAY_OF_MAPS=1
+CFLAGS_BPF_map_array_of_maps := ${CFLAGS_map_array_of_maps}
 CFLAGS_map_hash_of_maps := -DMAP_HASH_OF_MAPS=1
-CFLAGS_BPF_map_hash_of_maps := -DMAP_HASH_OF_MAPS=1
+CFLAGS_BPF_map_hash_of_maps := ${CFLAGS_map_hash_of_maps}
 CFLAGS_BPF_map_ringbuf := -DMAP_ARRAY=1
 CFLAGS_BPF_map_devmap := ${CFLAGS_BPF_xdp_devmap}
 
