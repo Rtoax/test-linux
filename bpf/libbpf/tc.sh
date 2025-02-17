@@ -2,9 +2,8 @@
 set -ex
 
 [[ -z ${IF} ]] && IF=lo
-
-OBJ=tc.bpf.o
-SEC="tc"
+[[ -z ${OBJ} ]] && OBJ=tc.bpf.o
+[[ -z ${SEC} ]] && SEC="tcx/ingress"
 
 cleanup() {
 	sudo tc qdisc delete dev ${IF} clsact || true

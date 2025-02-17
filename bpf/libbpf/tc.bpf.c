@@ -47,10 +47,20 @@
 #define TC_ACT_OK 0
 #define ETH_P_IP  0x0800 /* Internet Protocol packet */
 
+#if LIBBPF_MAJOR_VERSION == 1 && LIBBPF_MINOR_VERSION < 3
 /**
- * Same as SEC("classifier")
+ * same: SEC("classifier"), SEC("action"), SEC("tc") deprecated
+ * see libbpf commit bb5d7c1be835 ("libbpf: Add opts-based attach/detach/query API for tcx")
+ * https://github.com/libbpf/libbpf
  */
 SEC("tc")
+#else
+/**
+ * SEC("tc/ingress"), SEC("tc/egress") alias
+ * SEC("tcx/ingress"), SEC("tcx/egress")
+ */
+SEC("tcx/ingress")
+#endif
 int tc_ingress(struct __sk_buff *ctx)
 {
 	void *data_end = (void *)(__u64)ctx->data_end;
