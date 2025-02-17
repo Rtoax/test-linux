@@ -5,10 +5,19 @@
  * filter or modify packets received by that socket (the program isn't called
  * for egress/outgoing packets).
  *
- * A noticeable use-case for this program type is tcpdump which uses a raw
+ * A noticeable use-case for this program type is "tcpdump" which uses a raw
  * sockets in combination with a socket filter generated from the filter
  * query to efficiently filter packets and only pay the kernel-userspace
  * barrier cost for packets of interest.
+ *
+ * Socket filters pre-date eBPF itself, socket filters were the first ever
+ * prototype in the original BPF implementation, now referred to as cBPF
+ * (classic BPF). In fact, usage of this program type was the reason for
+ * inventing the whole system.
+ *
+ * Refs:
+ * - https://www.tcpdump.org/papers/bpf-usenix93.pdf
+ * - https://docs.ebpf.io/linux/program-type/BPF_PROG_TYPE_SOCKET_FILTER/
  */
 #include <vmlinux.h>
 #include <bpf/bpf_helpers.h>
