@@ -58,7 +58,7 @@ help:
 	@echo >&2 -e "*** USER_FAILED_LOG ${USER_FAILED_LOG}"
 	@echo >&2 -e "*** KERNEL_FAILED_LOG ${KERNEL_FAILED_LOG}"
 	@echo >&2 -e "*** TEST_LINUX_VERSION ${TEST_LINUX_VERSION}"
-	@echo >&2 -e "*** KERNEL_VERSION ${KERNEL_VERSION}.${KERNEL_PATCHLEVEL}.${KERNEL_SUBLEVEL}"
+	@echo >&2 -e "*** KERNEL_VERSION ${KERN_VERSION}.${KERN_PATCHLEVEL}.${KERN_SUBLEVEL}"
 	@echo >&2 -e "***"
 	@echo >&2 -e "*** make default: show this information"
 	@echo >&2 -e "***"
