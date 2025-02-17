@@ -319,68 +319,41 @@ void test_mapping_phy_addr(void)
 		printf("%-16s %-16lx %-16lx %-8d %-8d %-8d\n",		\
 			name, va, pa, numa, run_on_cpu, cpu_numa);	\
 	} while (0)
+#define DISPLAY_VA_PA(va, description) do {	\
+		unsigned long __pa = virt_to_phy(va);	\
+		PR(description, va, __pa, addr_numa(__pa, va));	\
+	} while (0)
 
-	va = proc_maps_libc_text_addr(NULL);
-	pa = virt_to_phy(va);
-	PR("libc text", va, pa, addr_numa(pa, va));
+	DISPLAY_VA_PA(proc_maps_libc_text_addr(NULL), "libc text");
+	DISPLAY_VA_PA(proc_maps_libc_data_addr(NULL), "libc data");
 
-	va = proc_maps_libc_data_addr(NULL);
-	pa = virt_to_phy(va);
-	PR("libc data", va, pa, addr_numa(pa, va));
+	DISPLAY_VA_PA(proc_maps_exec_text_addr(NULL), "exec text");
+	DISPLAY_VA_PA(proc_maps_exec_data_addr(NULL), "exec data");
 
-	va = proc_maps_exec_text_addr(NULL);
-	pa = virt_to_phy(va);
-	PR("exec text", va, pa, addr_numa(pa, va));
+	DISPLAY_VA_PA(proc_maps_vdso_addr(NULL), "vdso text");
 
-	va = proc_maps_exec_data_addr(NULL);
-	pa = virt_to_phy(va);
-	PR("exec data", va, pa, addr_numa(pa, va));
+	DISPLAY_VA_PA(proc_maps_vvar_addr(NULL), "vvar data");
 
-	va = proc_maps_vdso_addr(NULL);
-	pa = virt_to_phy(va);
-	PR("vdso text", va, pa, addr_numa(pa, va));
+	DISPLAY_VA_PA((unsigned long)map_file_ro.mem, "map_file_ro");
 
-	va = proc_maps_vvar_addr(NULL);
-	pa = virt_to_phy(va);
-	PR("vvar data", va, pa, addr_numa(pa, va));
-
-	va = (unsigned long)map_file_ro.mem;
-	pa = virt_to_phy(va);
-	PR("map_file_ro", va, pa, addr_numa(pa, va));
-
-	va = (unsigned long)map_file_rw.mem;
-	pa = virt_to_phy(va);
-	PR("map_file_rw", va, pa, addr_numa(pa, va));
-
+	DISPLAY_VA_PA((unsigned long)map_file_rw.mem, "map_file_rw");
 	mem_range_rw(map_file_rw.mem, map_file_rw.sz, 0, 1);
+	DISPLAY_VA_PA((unsigned long)map_file_rw.mem, "map_file_rw(w)");
 
-	va = (unsigned long)map_file_rw.mem;
-	pa = virt_to_phy(va);
-	PR("map_file_rw(w)", va, pa, addr_numa(pa, va));
+	DISPLAY_VA_PA((unsigned long)map_file_rw_cow.mem, "map_file_rw_cow");
 
-	va = (unsigned long)map_file_rw_cow.mem;
-	pa = virt_to_phy(va);
-	PR("map_file_rw_cow", va, pa, addr_numa(pa, va));
+	DISPLAY_VA_PA((unsigned long)map_anon_ro.mem, "map_anon_ro");
 
-	va = (unsigned long)map_anon_ro.mem;
-	pa = virt_to_phy(va);
-	PR("map_anon_ro", va, pa, addr_numa(pa, va));
-
-	va = (unsigned long)map_anon_rw.mem;
-	pa = virt_to_phy(va);
-	PR("map_anon_rw", va, pa, addr_numa(pa, va));
-
+	DISPLAY_VA_PA((unsigned long)map_anon_rw.mem, "map_anon_rw");
 	mem_range_rw(map_anon_rw.mem, map_anon_rw.sz, 0, 1);
-
-	va = (unsigned long)map_anon_rw.mem;
-	pa = virt_to_phy(va);
-	PR("map_anon_rw(w)", va, pa, addr_numa(pa, va));
+	DISPLAY_VA_PA((unsigned long)map_anon_rw.mem, "map_anon_rw");
 
 #ifdef CONFIG_MEMFD_CREATE
-	va = (unsigned long)memfd_ro.mem;
-	pa = virt_to_phy(va);
-	PR("memfd_ro", va, pa, addr_numa(pa, va));
+	DISPLAY_VA_PA((unsigned long)memfd_ro.mem, "memfd_ro");
 #endif
+
+#undef PR
+#undef DISPLAY_VA_PA
 }
 
 void mem_bind_to_numa(void *mem, size_t size, int dst_numa)
