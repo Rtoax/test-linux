@@ -2,11 +2,54 @@
 /**
  * BPF_PROG_TYPE_SCHED_CLS
  */
+#include <argp.h>
 #include <signal.h>
 #include <unistd.h>
 #include <net/if.h>
 #include "tc.skel.h"
 #include "trace_helpers.h"
+
+
+static int ifindex = -1;
+static const char *interface;
+
+static const char argp_prog_doc[] =
+	"USAGE: [-i <interface>]\n";
+
+static const struct argp_option opts[] = {
+	{ "interface", 'i', "INTERFACE", 0, "Network interface to attach" },
+	{},
+};
+
+static error_t parse_arg(int key, char *arg, struct argp_state *state)
+{
+	switch (key) {
+	case 'i':
+		interface = arg;
+		ifindex = if_nametoindex(interface);
+		/* Try if not string. */
+		if (!ifindex)
+			ifindex = atoi(interface);
+
+		if (ifindex == 0) {
+			fprintf(stderr, "ERROR: not found interface %s.\n", interface);
+			exit(EXIT_FAILURE);
+		}
+		break;
+	case ARGP_KEY_ARG:
+		argp_usage(state);
+		break;
+	default:
+		return ARGP_ERR_UNKNOWN;
+	}
+	return 0;
+}
+
+static const struct argp argp = {
+	.options = opts,
+	.parser = parse_arg,
+	.doc = argp_prog_doc,
+};
 
 static void sig_int(int signo)
 {
@@ -21,16 +64,25 @@ static int libbpf_print_fn(enum libbpf_print_level level, const char *format,
 
 int main(int argc, char **argv)
 {
-	int ifindex = if_nametoindex("lo");
+	int err;
+	bool hook_created = false;
+	struct tc_bpf *skel;
+
+	err = argp_parse(&argp, argc, argv, 0, NULL, NULL);
+	if (err) {
+		fprintf(stderr, "argp_parse return %d\n", err);
+		return -err;
+	}
+
+	if (ifindex == -1) {
+		fprintf(stderr, "Need specify interface with -i\n");
+		return -EINVAL;
+	}
 
 	DECLARE_LIBBPF_OPTS(bpf_tc_hook, tc_hook,
 			.ifindex = ifindex,
 			.attach_point = BPF_TC_INGRESS);
 	DECLARE_LIBBPF_OPTS(bpf_tc_opts, tc_opts, .handle = 1, .priority = 1);
-
-	bool hook_created = false;
-	struct tc_bpf *skel;
-	int err;
 
 	if (signal(SIGINT, sig_int) == SIG_ERR) {
 		err = errno;
@@ -46,11 +98,12 @@ int main(int argc, char **argv)
 		return 1;
 	}
 
-	/* The hook (i.e. qdisc) may already exists because:
-	 *   1. it is created by other processes or users
-	 *   2. or since we are attaching to the TC ingress ONLY,
-	 *      bpf_tc_hook_destroy does NOT really remove the qdisc,
-	 *      there may be an egress filter on the qdisc
+	/**
+	 * The hook (i.e. qdisc) may already exists because:
+	 * 1. it is created by other processes or users
+	 * 2. or since we are attaching to the TC ingress ONLY,
+	 *    bpf_tc_hook_destroy does NOT really remove the qdisc,
+	 *    there may be an egress filter on the qdisc
 	 */
 	err = bpf_tc_hook_create(&tc_hook);
 	if (!err)

@@ -47,6 +47,7 @@ int tc_ingress(struct __sk_buff *ctx)
 		return TC_ACT_OK;
 
 	bpf_printk("Got IP packet: tot_len: %d, ttl: %d", bpf_ntohs(iphdr->tot_len), iphdr->ttl);
+
 	return TC_ACT_OK;
 }
 
