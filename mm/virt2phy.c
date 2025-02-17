@@ -187,7 +187,8 @@ done:
 void *unmap_file_or_anon(struct mem *m)
 {
 	munmap(m->mem, m->sz);
-	close(m->fd);
+	if (m->fd != -1)
+		close(m->fd);
 }
 
 /**
@@ -469,13 +470,13 @@ int main(int argc, char *argv[])
 	printf("Run on CPU %d, NUMA %d\n", run_on_cpu, cpu_numa);
 
 #define TEST_MAP_FILE	"/usr/bin/ls"
-	map_file_ro.mem = map_file_or_anon(TEST_MAP_FILE, 1, 0, &map_file_ro);
-	map_file_rw.mem = map_file_or_anon(TEST_MAP_FILE, 0, 0, &map_file_rw);
-	map_file_rw_cow.mem = map_file_or_anon(TEST_MAP_FILE, 0, 1, &map_file_rw_cow);
-	map_anon_ro.mem = map_file_or_anon(MAP_FILE_ANON, 1, 0, &map_anon_ro);
-	map_anon_rw.mem = map_file_or_anon(MAP_FILE_ANON, 0, 0, &map_anon_rw);
+	map_file_or_anon(TEST_MAP_FILE, 1, 0, &map_file_ro);
+	map_file_or_anon(TEST_MAP_FILE, 0, 0, &map_file_rw);
+	map_file_or_anon(TEST_MAP_FILE, 0, 1, &map_file_rw_cow);
+	map_file_or_anon(MAP_FILE_ANON, 1, 0, &map_anon_ro);
+	map_file_or_anon(MAP_FILE_ANON, 0, 0, &map_anon_rw);
 #ifdef CONFIG_MEMFD_CREATE
-	memfd_ro.mem = map_file_or_anon(NULL, 1, 0, &memfd_ro);
+	map_file_or_anon(NULL, 1, 0, &memfd_ro);
 #endif
 
 	test_mapping_phy_addr();
