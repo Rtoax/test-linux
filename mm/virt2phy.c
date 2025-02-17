@@ -61,13 +61,15 @@ static struct mem {
 
 int mbind_to_numa = false;
 int verbose = false;
+int force = false;
 
 const char argp_prog_doc[] =
-	"USAGE: [-b <mbind>] [-v|--verbose]\n";
+	"USAGE: [-b <mbind>] [-v|--verbose] [-f|--force]\n";
 
 static const struct argp_option opts[] = {
 	{ "mbind", 'b', "MBIND", 1, "Test mbind" },
 	{ "verbose", 'v', "VERBOSE", 1, "Display detail" },
+	{ "force", 'f', "FORCE", 1, "Execute force" },
 	{},
 };
 
@@ -79,6 +81,9 @@ static error_t parse_arg(int key, char *arg, struct argp_state *state)
 		break;
 	case 'v':
 		verbose = true;
+		break;
+	case 'f':
+		force = true;
 		break;
 	case ARGP_KEY_ARG:
 		argp_usage(state);
@@ -448,9 +453,29 @@ int main(int argc, char *argv[])
 	map_file_or_anon(TEST_MAP_FILE, 0, 1, &map_file_rw_cow);
 	map_file_or_anon(MAP_FILE_ANON, 1, 0, &map_anon_ro);
 	map_file_or_anon(MAP_FILE_ANON, 0, 0, &map_anon_rw);
+
 #ifdef CONFIG_MEMFD_CREATE
 	map_file_or_anon(NULL, 1, 0, &memfd_ro);
 #endif
+
+	/* Do some checks */
+
+	if (virt_to_phy((unsigned long)map_file_ro.mem) != virt_to_phy((unsigned long)map_file_rw.mem)) {
+		fprintf(stderr, "ERROR: File map should use same physical memory before write!\n");
+		fprintf(stderr, "       -f or --force skip abort.\n");
+		if (!force)
+			abort();
+	}
+	/**
+	 * For read-only mapping, the Linux system will use the zero page, so,
+	 * before writing, their physical addresses should be the same.
+	 */
+	if (virt_to_phy((unsigned long)map_anon_ro.mem) != virt_to_phy((unsigned long)map_anon_rw.mem)) {
+		fprintf(stderr, "ERROR: Anonymous page not use zero page?!\n");
+		fprintf(stderr, "       -f or --force skip abort.\n");
+		if (!force)
+			abort();
+	}
 
 	test_mapping_phy_addr();
 	if (mbind_to_numa) {
