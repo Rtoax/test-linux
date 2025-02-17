@@ -79,6 +79,8 @@ TARGETS_BPF += map_ringbuf.bpf.o
 TARGETS_BPF += map_devmap.bpf.o
 TARGETS_BPF += map_arena.bpf.o
 TARGETS_BPF += map_bloom_filter.bpf.o
+TARGETS_BPF += sched_cls.bpf.o
+TARGETS_BPF += sched_act.bpf.o
 
 # Never append to skel target, always generate by bpf target
 TARGETS_SKEL := $(patsubst %.bpf.o,%.skel.h,$(TARGETS_BPF))
@@ -161,6 +163,7 @@ CFLAGS_lsm_socket_create := -DLSM_SOCKET_CREATE=1
 CFLAGS_BPF_lsm_socket_create := -DLSM_SOCKET_CREATE=1
 CFLAGS_lsm_socket_sendmsg := -DLSM_SOCKET_SENDMSG=1
 CFLAGS_BPF_lsm_socket_sendmsg := -DLSM_SOCKET_SENDMSG=1
+CFLAGS_BPF_sched_act := -DTEST_SCHED_ACT=1
 
 CFLAGS_map_hash := ${CFLAGS_tracepoint}
 CFLAGS_BPF_map_hash := ${CFLAGS_BPF_tracepoint}

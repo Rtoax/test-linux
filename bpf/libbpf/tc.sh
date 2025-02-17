@@ -1,6 +1,11 @@
 #!/bin/bash
 set -ex
 
+if [[ $(basename $0) == sched_act.sh ]]; then
+	OBJ=sched_act.bpf.o
+	SEC=action
+fi
+
 [[ -z ${IF} ]] && IF=lo
 [[ -z ${OBJ} ]] && OBJ=tc.bpf.o
 [[ -z ${SEC} ]] && SEC="tcx/ingress"

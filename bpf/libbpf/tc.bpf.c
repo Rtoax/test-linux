@@ -1,4 +1,6 @@
 /**
+ * BPF_PROG_TYPE_SCHED_CLS, BPF_PROG_TYPE_SCHED_ACT
+ *
  * BPF_PROG_TYPE_SCHED_CLS
  *
  * This program type allows for the implementation of a Traffic Control (TC)
@@ -38,6 +40,13 @@
  * TC_ACT_REDIRECT (7) - Signals that the packet should be redirected, the
  *                       details of how and where to are set as side effects
  *                       by helpers functions.
+ *
+ * BPF_PROG_TYPE_SCHED_ACT
+ *
+ * BPF_PROG_TYPE_SCHED_CLS can be used to classify packets in various ways,
+ * such as filtering or marking packets for specific handling.
+ * BPF_PROG_TYPE_SCHED_ACT can perform actions on packets, such as modifying
+ * packet contents, redirecting packets, or dropping packets altogether.
  */
 #include <vmlinux.h>
 #include <bpf/bpf_endian.h>
@@ -47,19 +56,23 @@
 #define TC_ACT_OK 0
 #define ETH_P_IP  0x0800 /* Internet Protocol packet */
 
-#if LIBBPF_MAJOR_VERSION == 1 && LIBBPF_MINOR_VERSION < 3
+#ifdef TEST_SCHED_ACT
+SEC("action")
+#else
+# if LIBBPF_MAJOR_VERSION == 1 && LIBBPF_MINOR_VERSION < 3
 /**
  * same: SEC("classifier"), SEC("action"), SEC("tc") deprecated
  * see libbpf commit bb5d7c1be835 ("libbpf: Add opts-based attach/detach/query API for tcx")
  * https://github.com/libbpf/libbpf
  */
 SEC("tc")
-#else
+# else
 /**
  * SEC("tc/ingress"), SEC("tc/egress") alias
  * SEC("tcx/ingress"), SEC("tcx/egress")
  */
 SEC("tcx/ingress")
+# endif
 #endif
 int tc_ingress(struct __sk_buff *ctx)
 {
