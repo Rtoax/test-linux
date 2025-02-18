@@ -6,37 +6,34 @@
 
 int main(void)
 {
-	pid_t pid = fork();
+	int status = 0;
+	pid_t pid;
 
-	if (pid == 0) {
+	pid = fork();
+	if (pid == 0)
 		exit(3);
-	} else {
-		printf("child pid: %d \n", pid);
 
-		pid_t pid = fork();
+	printf("son pid: %d \n", pid);
 
-		if (pid == 0) {
-			exit(7);
-		} else {
-			printf("child pid: %d \n", pid);
+	pid = fork();
+	if (pid == 0)
+		exit(7);
 
-			int status = 0;
+	printf("grand-son pid: %d \n", pid);
 
-			wait(&status);
+	wait(&status);
 
-			if (WIFEXITED(status)) {
-				printf("child send1: %d \n", WEXITSTATUS(status));
-			}
-
-			wait(&status);
-
-			if (WIFEXITED(status)) {
-				printf("child send2: %d \n", WEXITSTATUS(status));
-			}
-
-			sleep(2);
-		}
+	if (WIFEXITED(status)) {
+		printf("child send1: %d \n", WEXITSTATUS(status));
 	}
+
+	wait(&status);
+
+	if (WIFEXITED(status)) {
+		printf("child send2: %d \n", WEXITSTATUS(status));
+	}
+
+	sleep(2);
 
 	return 0;
 }

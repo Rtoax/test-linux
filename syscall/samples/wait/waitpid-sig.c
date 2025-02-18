@@ -21,6 +21,7 @@ void child_handler(int signo)
 int main(void)
 {
 	struct sigaction act;
+	pid_t pid;
 
 	act.sa_handler = child_handler;
 	sigemptyset(&act.sa_mask);
@@ -28,7 +29,7 @@ int main(void)
 
 	sigaction(SIGCHLD, &act, 0);
 
-	pid_t pid = fork();
+	pid = fork();
 
 	if (pid == 0) {
 		puts("I'm child process");
