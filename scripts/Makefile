@@ -44,6 +44,7 @@ test_call:
 	$(call git_config)
 	$(call git_archive)
 	$(Q)./moonlight.sh
+	$(Q)./gotoxy.sh
 	@echo -e "  \033[1;33mDone\033[m"
 test:
 
