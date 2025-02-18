@@ -18,6 +18,7 @@ int sysctl(struct __sysctl_args *args)
 		perror("_sysctl");
 		exit(EXIT_FAILURE);
 	}
+	return 0;
 }
 #else
 # define sysctl(arg)
