@@ -104,6 +104,10 @@ static const struct argp argp = {
 	.doc = argp_prog_doc,
 };
 
+#if defined(SYMADDR___memcpy_ssse3) || \
+    defined(SYMADDR___memcpy_generic) || \
+    defined(SYMADDR___memcpy_simd) || \
+    defined(SYMADDR___memcpy_a64fx)
 static void reloc_addr(void)
 {
 	unsigned long libc = proc_maps_libc_base_addr_2(NULL);
@@ -118,6 +122,9 @@ static void reloc_addr(void)
 	__memcpy_a64fx = (memcpy_fn)(libc + SYMADDR___memcpy_a64fx);
 #endif
 }
+#else
+# define reloc_addr()
+#endif
 
 static void *map(size_t size)
 {

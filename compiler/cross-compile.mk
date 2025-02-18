@@ -16,18 +16,23 @@ ifdef CROSS_COMPILE
     CC := aarch64-linux-gnu-gcc
     AS := aarch64-linux-gnu-as
     LD := aarch64-linux-gnu-ld
-    # This root could be created by Docker Image Tar Archive, debootstrap, etc.
-    # see: aarch64-linux-gnu-gcc -print-sysroot
-    CFLAGS += --sysroot=${SYSROOT}
     RUN_PFX := qemu-aarch64 --sysroot=${SYSROOT}
   endif
 
   # TODO: Add more architecture
 
+  # This root could be created by Docker Image Tar Archive, debootstrap, etc.
+  # see: aarch64-linux-gnu-gcc -print-sysroot
+  CFLAGS += --sysroot=${SYSROOT}
+  CFLAGS += -DCROSS_COMPILE=1
+
   # Check
   ifeq (${CC},)
     $(error "$(shell uname -m) is not support CROSS_COMPILE")
   endif
+
+  $(info INFO: Enable CROSS_COMPILE)
+else
+  $(info INFO: Define CROSS_COMPILE=1 when make)
 endif
 
-$(info Define CROSS_COMPILE=1 when make)
