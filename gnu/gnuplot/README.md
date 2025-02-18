@@ -1,6 +1,12 @@
 gnuplot
 ========
 
+# Run script
+
+```
+$ gnuplot -p tuli.txt
+```
+
 
 # Links
 
