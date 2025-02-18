@@ -1,8 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
 include ../tlbuild.mk
 
-all: test_call
-
 include ../compiler/compiler.mk
 include ../tlbuild.mk
 include ../glibc/glibc.mk
@@ -33,6 +31,8 @@ ifeq (${feature-sve2},1)
   $(info CPU support SVE2)
 endif
 
+all: test_call
+
 test_call:
 	$(call success)
 	$(call wow)
@@ -43,6 +43,7 @@ test_call:
 	$(call tl_ascii_logo_gnu)
 	$(call git_config)
 	$(call git_archive)
+	$(Q)./moonlight.sh
 	@echo -e "  \033[1;33mDone\033[m"
 test:
 

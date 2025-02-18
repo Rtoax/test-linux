@@ -15,4 +15,4 @@ sleep_sec()
 	done
 }
 
-sleep_sec 10
+sleep_sec 1
