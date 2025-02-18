@@ -444,6 +444,7 @@ pkgs_base+=( git-email )
 pkgs_base+=( gnupg2 )               # gpg
 pkgs_base+=( gperf )
 pkgs_base+=( hostname )
+pkgs_base+=( htop )
 pkgs_base+=( hwloc )                # lstopo
 pkgs_base+=( indent )
 pkgs_base+=( inotify-tools )        # inotifywatch, ...
