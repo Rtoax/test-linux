@@ -1,7 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
 include ../../../tlbuild.mk
 
-
 CC := gcc
 CFLAGS :=
 RUN_PFX :=
@@ -9,22 +8,7 @@ TARGETS :=
 TARGETS += neon-sve
 
 # Cross compile
-ifdef CROSS_COMPILE
-  ifndef SYSROOT
-    $(error "Must define SYSROOT if CROSS_COMPILE")
-  endif
-  ifneq ($(shell uname -m),aarch64)
-    CC = aarch64-linux-gnu-gcc
-    AS = aarch64-linux-gnu-as
-    LD = aarch64-linux-gnu-ld
-    # This root could be created by Docker Image Tar Archive
-    # see: aarch64-linux-gnu-gcc -print-sysroot
-    CFLAGS += --sysroot=${SYSROOT}
-    RUN_PFX = qemu-aarch64 --sysroot=${SYSROOT}
-  else
-    $(error "$(shell uname -m) is not support CROSS_COMPILE")
-  endif
-endif
+include ../../../compiler/cross-compile.mk
 
 ifdef STATIC
   CFLAGS += -static

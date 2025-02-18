@@ -67,6 +67,8 @@ else
 endif
 LDFLAGS :=
 
+include ../../compiler/cross-compile.mk
+
 # https://github.com/ARM-software/optimized-routines
 #
 # libstringlib.a provides:

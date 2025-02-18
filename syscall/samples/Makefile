@@ -1,16 +1,15 @@
 # SPDX-License-Identifier: GPL-3.0
 include ../../tlbuild.mk
 
-
 sub-dir :=
 sub-dir += access
 ifneq ($(wildcard /usr/include/libaio.h),)
-$(info Already install libaio development)
-sub-dir += aio
+  $(info Already install libaio development)
+  sub-dir += aio
 endif
 ifneq ($(wildcard /usr/include/sys/capability.h),)
-$(info Already install capability development)
-sub-dir += capability
+  $(info Already install capability development)
+  sub-dir += capability
 endif
 sub-dir += io
 sub-dir += ioctl
@@ -77,9 +76,9 @@ TARGETS += getuid setuid seteuid setreuid
 TARGETS += setpgrp
 TARGETS += tee tee2
 ifneq ($(wildcard /usr/include/linux/close_range.h),)
-TARGETS += close_range
+  TARGETS += close_range
 else
-$(warning "WARNING: not found /usr/include/linux/close_range.h")
+  $(warning "WARNING: not found /usr/include/linux/close_range.h")
 endif
 TARGETS += setitimer
 TARGETS += unlink
@@ -117,15 +116,15 @@ TARGETS += sysctl
 endif
 ifeq ($(shell uname -m),aarch64)
 # TODO: Remove openat2 from TARGETS
-	TARGETS := $(filter-out pause, $(TARGETS))
+  TARGETS := $(filter-out pause, $(TARGETS))
 endif
 ifeq ($(shell uname -m),sw_64)
-	TARGETS := $(filter-out pause, $(TARGETS))
+  TARGETS := $(filter-out pause, $(TARGETS))
 endif
 ifeq ($(shell uname -m),riscv64)
-	TARGETS := $(filter-out pause, $(TARGETS))
-	TARGETS := $(filter-out chmod, $(TARGETS))
-	TARGETS := $(filter-out getdents, $(TARGETS))
+  TARGETS := $(filter-out pause, $(TARGETS))
+  TARGETS := $(filter-out chmod, $(TARGETS))
+  TARGETS := $(filter-out getdents, $(TARGETS))
 endif
 
 CC = gcc

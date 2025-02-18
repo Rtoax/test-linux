@@ -487,6 +487,14 @@ pkgs_compiler+=( golang )
 pkgs_compiler+=( lld )                    # ELF linker from the LLVM project
 pkgs_compiler+=( llvm )                   # llvm-as llvm-dis llc
 pkgs_compiler+=( mold )                   # a modern linker
+if [[ $(uname -m) != aarch64 ]]; then
+	pkgs_compiler+=( binutils-aarch64-linux-gnu )
+	pkgs_compiler+=( gcc-aarch64-linux-gnu )
+fi
+if [[ $(uname -m) != x86_64 ]]; then
+	pkgs_compiler+=( binutils-x86_64-linux-gnu )
+	pkgs_compiler+=( gcc-x86_64-linux-gnu )
+fi
 
 pkgs_build+=( meson )
 pkgs_build+=( ninja-build )
@@ -497,7 +505,7 @@ pkgs_container+=( buildah )
 pkgs_container+=( conmon )
 pkgs_container+=( containerd )
 pkgs_container+=( crun )
-pkgs_container+=( debootstrap )
+pkgs_container+=( debootstrap ) # make rootfs
 pkgs_container+=( lxc )
 pkgs_container+=( podman )
 pkgs_container+=( podman-docker )
@@ -506,6 +514,7 @@ pkgs_container+=( skopeo )
 pkgs_container+=( systemd-container )
 
 pkgs_virt+=( qemu-user )
+pkgs_virt+=( qemu-user-static )
 pkgs_virt+=( vagrant )
 pkgs_virt+=( virt-manager )
 
@@ -641,11 +650,7 @@ dnf_add_packages()
 	pkgs_fs+=( funionfs )
 
 	# Cross compile packages
-	pkgs_compiler+=( binutils-aarch64-linux-gnu )
-	pkgs_compiler+=( binutils-x86_64-linux-gnu )
-	pkgs_compiler+=( gcc-aarch64-linux-gnu )
 	pkgs_compiler+=( gcc-c++ )
-	pkgs_compiler+=( gcc-x86_64-linux-gnu )
 	pkgs_compiler+=( libatomic )
 	pkgs_compiler+=( lua )
 
@@ -819,6 +824,7 @@ apt_add_packages()
 
 	pkgs_storage+=( libdevmapper-dev )
 
+	pkgs_virt+=( binfmt-support )
 	pkgs_virt+=( libvirt0 )
 	pkgs_virt+=( qemu-system )
 	pkgs_virt+=( qemu-system-misc )
