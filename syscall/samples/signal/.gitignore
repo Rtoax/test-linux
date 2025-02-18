@@ -21,6 +21,8 @@
 /SIGRTMAX
 /SIGPIPE
 /SIGBUS
+/SIGTERM
+/SIGKILL
 /strsignal
 /alarm
 /alarm-sleep

@@ -1,4 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
+include ../../../tlbuild.mk
 
 sub-dir := SIGURG
 
@@ -14,17 +15,16 @@ TARGETS += strsignal
 TARGETS += alarm alarm-sleep alarm-sleep-2
 TARGETS += SIGFPE SIGHUP SIGALRM SIGUSR1 SIGUSR1-1 SIGUSR2 NSIG SIGCHLD SIGRTMAX
 TARGETS += SIGPIPE SIGBUS SIGILL
+TARGETS += SIGTERM SIGKILL
 TARGETS += sigaltstack
 TARGETS += sigpending
 TARGETS += sigsuspend
 TARGETS += sigprocmask
 TARGETS += signalfd
 
-CC = gcc
-include ../../../tlbuild.mk
+CC := gcc
 
-
-CFLAGS := -Werror -Wall -D_GNU_SOURCE
+CFLAGS += -Werror -Wall -D_GNU_SOURCE
 CFLAGS += -I../../../
 CFLAGS += -I../
 CFLAGS += -DDEBUG -O0 -g
@@ -63,6 +63,8 @@ SIGCHLD: SIGCHLD.o
 SIGRTMAX: SIGRTMAX.o
 SIGPIPE: SIGPIPE.o
 SIGILL: SIGILL.o
+SIGTERM: SIGTERM.o
+SIGKILL: SIGKILL.o
 NSIG: NSIG.o
 strsignal: strsignal.o
 alarm: alarm.o
