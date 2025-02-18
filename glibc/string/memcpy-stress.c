@@ -12,6 +12,7 @@
 #include <unistd.h>
 #include <time.h>
 #include <sys/time.h>
+#include <sys/utsname.h>
 
 #include "proc.h"
 
@@ -56,7 +57,7 @@ static size_t block_size = 256;
 static size_t msize = DEFAULT_ALLOC_MSIZE;
 static size_t alloc_msize = DEFAULT_ALLOC_MSIZE;
 static int verbose = false;
-static const char *const version = "v0.0.2";
+static const char *const version = "v0.0.3";
 
 const char argp_prog_doc[] =
 	"USAGE: [-b <block_size>] [-s <bytes>] [-a <bytes>] [-v|--verbose]\n";
@@ -67,6 +68,7 @@ static const struct argp_option opts[] = {
 	{ "alloc", 'a', "ALLOC", 0, "size of memory allocated use to test" },
 	{ "verbose", 'v', "VERBOSE", 1, "Display detail" },
 	{ "version", 'V', "VERSION", 1, "Display version" },
+	{ "uname", 'U', "UNAME", 1, "Display uname" },
 	{},
 };
 
@@ -89,6 +91,14 @@ static error_t parse_arg(int key, char *arg, struct argp_state *state)
 		printf("version %s\n", version);
 		exit(EXIT_SUCCESS);
 		break;
+	case 'U': {
+		struct utsname name;
+		uname(&name);
+		printf("%s %s %s %s %s\n", name.sysname, name.release,
+			name.version, name.machine, name.nodename);
+		exit(EXIT_SUCCESS);
+		break;
+	}
 	case ARGP_KEY_ARG:
 		argp_usage(state);
 		break;
