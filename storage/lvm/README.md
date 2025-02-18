@@ -24,7 +24,7 @@ snapshots.
 - LV: Logical Volumes
 	- sudo lvs
 	- sudo lvscan --all
-	- sudo lvchange -ay /dev/XXX/xxx (active)
+	- sudo lvchange -ay *VG NAME* (active)
 - FS: Filesystem
 - MP: Mounting Point
 
