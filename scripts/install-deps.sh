@@ -478,6 +478,7 @@ pkgs_base+=( util-linux )           # wipefs, etc.
 pkgs_base+=( vim )
 pkgs_base+=( yq )
 
+pkgs_compiler+=( automake )
 pkgs_compiler+=( bison )
 pkgs_compiler+=( byacc )
 pkgs_compiler+=( clang )
