@@ -52,6 +52,7 @@ help:
 	@echo >&2 -e "***"
 	$(call tl_ascii_logo1,*** )
 	@echo >&2 -e "***"
+	@echo >&2 -e "*** ${MOONLIGHT} ${MOONLIGHT}"
 	@echo >&2 -e "*** TL_TOPDIR ${TL_TOPDIR}"
 	@echo >&2 -e "*** GIT_TOPDIR ${GIT_TOPDIR}"
 	@echo >&2 -e "***    core.hooksPath = ${GIT_CONFIG_CORE_HOOKSPATH}"
