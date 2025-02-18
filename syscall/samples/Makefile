@@ -1,6 +1,17 @@
 # SPDX-License-Identifier: GPL-3.0
 include ../../tlbuild.mk
 
+CC := gcc
+CXX := g++
+
+CFLAGS := -Werror -Wall -D_GNU_SOURCE
+CFLAGS += -Wstrict-prototypes
+CFLAGS += -I../../
+CFLAGS += -pthread
+CFLAGS += -DDEBUG -O0 -g
+
+include ../../compiler/cross-compile.mk
+
 sub-dir :=
 sub-dir += access
 ifneq ($(wildcard /usr/include/libaio.h),)
@@ -112,7 +123,7 @@ ifndef NOCPP
 endif
 
 ifeq ($(shell uname -m),x86_64)
-TARGETS += sysctl
+  TARGETS += sysctl
 endif
 ifeq ($(shell uname -m),aarch64)
 # TODO: Remove openat2 from TARGETS
@@ -126,15 +137,6 @@ ifeq ($(shell uname -m),riscv64)
   TARGETS := $(filter-out chmod, $(TARGETS))
   TARGETS := $(filter-out getdents, $(TARGETS))
 endif
-
-CC = gcc
-CXX = g++
-
-CFLAGS := -Werror -Wall -D_GNU_SOURCE
-CFLAGS += -Wstrict-prototypes
-CFLAGS += -I../../
-CFLAGS += -pthread
-CFLAGS += -DDEBUG -O0 -g
 
 sub-dir-build := $(addprefix $(shell pwd)/,$(sub-dir:=.build))
 

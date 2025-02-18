@@ -1,6 +1,5 @@
 include ../../../tlbuild.mk
 
-
 SYS_IO_HEADER = /usr/include/sys/io.h
 
 TARGETS :=
@@ -21,6 +20,8 @@ CFLAGS := -Werror -Wall -D_GNU_SOURCE
 CFLAGS += -pthread
 CFLAGS += -DDEBUG -O0 -g
 CFLAGS += -Wall -Wpedantic -O
+
+include ../../../compiler/cross-compile.mk
 
 build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"

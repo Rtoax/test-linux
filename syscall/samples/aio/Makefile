@@ -10,11 +10,13 @@ ifeq ($(wildcard $(LIBAIO_HDR)),)
   $(error "ERROR: Must install libaio development header")
 endif
 
-CC = gcc
+CC := gcc
 
 LDFLAGS :=
-CFLAGS := -Werror -Wall -D_GNU_SOURCE
+CFLAGS += -Werror -Wall -D_GNU_SOURCE
 CFLAGS += -DDEBUG -O0 -g
+
+include ../../../compiler/cross-compile.mk
 
 ifneq ($(wildcard $(LIBAIO_HDR)),)
   CFLAGS += -laio

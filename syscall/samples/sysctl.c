@@ -11,6 +11,18 @@
 /* Removed in Linux 5.5, glibc 2.32 */
 int _sysctl(struct __sysctl_args *args);
 
+#if !defined(__aarch64__)
+int sysctl(struct __sysctl_args *args)
+{
+	if (syscall(SYS__sysctl, args) == -1) {
+		perror("_sysctl");
+		exit(EXIT_FAILURE);
+	}
+}
+#else
+# define sysctl(arg)
+#endif
+
 #define OSNAMESZ 100
 
 int main(void)
@@ -28,10 +40,8 @@ int main(void)
 
 	osnamelth = sizeof(osname);
 
-	if (syscall(SYS__sysctl, &args) == -1) {
-		perror("_sysctl");
-		exit(EXIT_FAILURE);
-	}
+	sysctl(&args);
+
 	printf("This machine is running %*s\n", (int)osnamelth, osname);
 	exit(EXIT_SUCCESS);
 }

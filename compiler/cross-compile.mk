@@ -1,6 +1,10 @@
 # SPDX-License-Identifier: GPL-3.0
 # This file need included after CC, LD, AS, etc. in Makefile
 
+CC ?= gcc
+AS ?= as
+LD ?= ld
+CFLAGS ?=
 SYSROOT ?= /home/rongtao/rootfs-aarch64
 
 # Cross compile
@@ -25,6 +29,8 @@ ifdef CROSS_COMPILE
   # see: aarch64-linux-gnu-gcc -print-sysroot
   CFLAGS += --sysroot=${SYSROOT}
   CFLAGS += -DCROSS_COMPILE=1
+
+  MAKEFLAGS += CROSS_COMPILE=1
 
   # Check
   ifeq (${CC},)

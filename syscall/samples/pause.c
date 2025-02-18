@@ -5,7 +5,7 @@
 #include <sys/stat.h>
 #include <sys/syscall.h>
 
-#if !defined(__riscv)
+#if !defined(__riscv) && !defined(__aarch64__)
 int sys_pause(void)
 {
 	return syscall(SYS_pause);
