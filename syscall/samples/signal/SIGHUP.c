@@ -7,7 +7,7 @@
  *
  * - 子进程中注册 SIGHUP 信号处理函数，给自己发送 SIGTSTP 信号，让自己变为停止状态。
  *
- * - 父进程在打印完后休眠5s，然后退出，从而导致fork出的子进程变为“孤儿进程组”中处
+ * - 父进程在打印完后休眠1s，然后退出，从而导致fork出的子进程变为“孤儿进程组”中处
  *   于停止状态的进程，从而导致收到 SIGHUP 信号。由于我们在子进程中注册了 SIGHUP
  *   信号的处理函数，从而避免了子进程直接退出终止，还是会再执行打印函数后再退出。
  *
@@ -39,13 +39,17 @@ void signal_handle(int signum)
 
 int main(void)
 {
+	int ret;
 	pid_t pid;
 	int status = 0;
 
 	pid = fork();
 	if (pid < 0) {
 		printf("fork error\n");
-	} else if (pid == 0) {
+	}
+
+	/* Child */
+	if (pid == 0) {
 		int i;
 
 		printf("child, pid is %d\n", getpid());
@@ -56,20 +60,20 @@ int main(void)
 			usleep(100000);
 		}
 
-		/* send SIGTSTP to self */
+		/* send SIGTSTP to self, make self stop */
 		kill(getpid(), SIGTSTP);
 		printf("child\n");
 
 		exit(0);
-	} else if (pid > 0) {
-		int ret;
-		printf("parent, pid is %d\n", getpid());
-		sleep(1);
-		ret = waitpid(pid, &status, WNOHANG);
-		print_wstatus(status);
-		printf("Parent exit, waitpid %d status %d.\n", ret, status);
-		exit(0);
 	}
+
+	/* Parent */
+	printf("parent, pid is %d\n", getpid());
+	sleep(1);
+	ret = waitpid(pid, &status, WNOHANG);
+	print_wstatus(status);
+	printf("Parent exit, waitpid %d status %d.\n", ret, status);
+	exit(0);
 
 	return 0;
 }
