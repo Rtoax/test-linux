@@ -7,17 +7,29 @@
  * resources, before exiting.
  */
 #include <signal.h>
+#include <stdlib.h>
+#include <stdio.h>
 
 void sig_handler(int signum)
 {
 	psignal(signum, "Signal");
+	exit(1);
 }
 
 int main(void)
 {
+	pid_t pid;
+
 	signal(SIGTERM, sig_handler);
 
-	sleep(100);
+	pid = fork();
+	if (pid == 0) {
+		printf("child %d\n", getpid());
+		sleep(100);
+	}
+
+	printf("parent %d kill %d\n", getpid(), pid);
+	kill(pid, SIGTERM);
 
 	return 0;
 }
