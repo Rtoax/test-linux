@@ -11,3 +11,4 @@
 /password
 /set_istrip
 /set_input_mode
+/get_cursor_position

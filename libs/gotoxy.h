@@ -1,10 +1,11 @@
 #include <stdio.h>
 #include <sys/ioctl.h>
 
+/* row: 行; col: 列; */
 static void __attribute__((unused))
-gotoxy(int x, int y)
+gotoxy(int col, int row)
 {
-	printf("%c[%d;%df", 0x1B, y, x);
+	printf("%c[%d;%df", 0x1B, row, col);
 }
 
 static int __attribute__((unused))

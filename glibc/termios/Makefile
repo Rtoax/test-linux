@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
-include ../../tlbuild.mk
 
+CC ?= gcc
 
 TARGETS :=
 TARGETS += cfsetspeed cfsetospeed cfsetispeed cfgetispeed cfgetospeed
@@ -10,13 +10,16 @@ TARGETS += tcsetattr tcgetattr
 TARGETS += tcgetsid
 TARGETS += password
 TARGETS += set_istrip set_input_mode
+TARGETS += get_cursor_position
 
-CC = gcc
-
-CFLAGS := -Werror -Wall
+CFLAGS += -Werror -Wall
 CFLAGS += -I../../../
 CFLAGS += -lm
-CFLAGS += -DDEBUG -O0 -g
+ifdef DEBUG
+  CFLAGS += -DDEBUG -O0 -g
+endif
+
+include ../../tlbuild.mk
 
 build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
@@ -34,6 +37,7 @@ tcgetattr: tcgetattr.o helpers.o
 password: password.o
 set_istrip: set_istrip.o
 set_input_mode: set_input_mode.o
+get_cursor_position: get_cursor_position.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
