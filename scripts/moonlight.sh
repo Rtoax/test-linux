@@ -15,4 +15,6 @@ sleep_sec()
 	done
 }
 
-sleep_sec 1
+if [[ $(basename $0) == moonlight.sh ]]; then
+	sleep_sec 1
+fi
