@@ -7,12 +7,22 @@ LD ?= ld
 STRIP ?= strip
 
 CFLAGS ?=
-SYSROOT ?= /home/rongtao/rootfs-aarch64
+SYSROOT ?=
 
 MK_ARCH ?= ${shell uname -m}
 
 # Cross compile
 ifdef CROSS_COMPILE
+  # TODO: Add more architecture
+  ifneq ($(shell uname -m),aarch64)
+    SYSROOT ?= /home/rongtao/rootfs-aarch64
+    RUN_PFX := qemu-aarch64 --sysroot=${SYSROOT}
+  endif
+  ifneq ($(shell uname -m),x86_64)
+    SYSROOT ?= /home/rongtao/rootfs-x86_64
+    RUN_PFX := qemu-x86_64 --sysroot=${SYSROOT}
+  endif
+
   ifndef SYSROOT
     $(error "Must define SYSROOT if CROSS_COMPILE")
   endif
@@ -35,11 +45,6 @@ ifdef CROSS_COMPILE
 
   STRIP := ${CROSS_COMPILE}strip
 
-  # TODO: Add more architecture
-  ifneq ($(shell uname -m),aarch64)
-    RUN_PFX := qemu-aarch64 --sysroot=${SYSROOT}
-  endif
-
   # This root could be created by Docker Image Tar Archive, debootstrap, etc.
   # see: aarch64-linux-gnu-gcc -print-sysroot
   CFLAGS += --sysroot=${SYSROOT}
@@ -53,6 +58,7 @@ ifdef CROSS_COMPILE
   endif
 
   $(info INFO: Enable CROSS_COMPILE=${CROSS_COMPILE})
+  $(info INFO: SYSROOT=${SYSROOT})
 else
   $(info INFO: Define CROSS_COMPILE=[Cross-build [GNU] C compiler] when make)
 endif
