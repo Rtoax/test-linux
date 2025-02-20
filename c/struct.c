@@ -20,6 +20,8 @@ struct test tests2[] = {
 	[0] = {.a = 1,},
 	[1] = {.a = 2,},
 	[2] = {.a = 3,},
+	/* Could duplicate define */
+	[2] = {.a = 10,},
 	[4] = {.a = 5,},
 };
 
