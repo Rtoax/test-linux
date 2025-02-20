@@ -41,38 +41,16 @@ TARGETS += unsigned
 TARGETS += restrict
 TARGETS += ternary
 
-ifeq ($(shell uname -m),x86_64)
-endif
-ifeq ($(shell uname -m),aarch64)
-endif
+define arch_strip
+  ${Q}${STRIP} $(1) -o $(1).strip
+endef
 
-ifeq ("", "$(CROSS_COMPILE)")
-  MK_ARCH="${shell uname -m}"
-
-  define arch_strip
-    @strip $(1) -o $(1).strip
-  endef
-else
-  MK_ARCH="${shell echo $(CROSS_COMPILE) | sed -n 's/^[[:space:]]*\([^\/]*\/\)*\([^-]*\)-[^[:space:]]*/\2/p'}"
-
-  # Could not strip other arch ELF file
-  define arch_strip
-    @echo "  Skip strip"
-  endef
-endif
-
-AS = $(CROSS_COMPILE)as
-AR = $(CROSS_COMPILE)ar
-CC = $(CROSS_COMPILE)gcc
-ifneq ($(shell $(CROSS_COMPILE)ld.bfd -v 2> /dev/null),)
-  LD = $(CROSS_COMPILE)ld.bfd
-else
-  LD = $(CROSS_COMPILE)ld
-endif
-
+CFLAGS :=
 LDFLAGS :=
 
-CFLAGS := -Werror -Wall
+include ../compiler/cross-compile.mk
+
+CFLAGS += -Werror -Wall
 CFLAGS += -I../macro/
 
 ifeq ($(shell uname -m),sw_64)
@@ -103,11 +81,6 @@ ifdef DEBUG
 endif
 
 include ../elf/pie.mk
-
-# For CROSS_COMPILE
-ifdef SYSROOT
-  CFLAGS += --sysroot=$(SYSROOT)
-endif
 
 CFLAGS_param-pass := -O0
 CFLAGS_auto := -Wno-error=implicit-int
@@ -174,7 +147,7 @@ ternary: ternary.o
 
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	${Q}$(CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*))
+	${Q}$(CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*)) $(CFLAGS) $(CFLAGS_$(*))
 	${Q}$(call arch_strip,$(@))
 
 test: ${TARGETS}
