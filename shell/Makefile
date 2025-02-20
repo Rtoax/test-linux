@@ -37,6 +37,7 @@ test:
 	./while.sh
 	./cmdline.sh
 	./sudo.sh
+	./c_code.sh
 
 .PHONY: clean
 clean: $(sub-dir-clean)

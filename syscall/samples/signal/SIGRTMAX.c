@@ -19,6 +19,12 @@ int main(int argc, char *argv[])
 
 	printf("SIGRTMIN = %d, LIBC_SIGRTMIN = %d\n", SIGRTMIN, LIBC_SIGRTMIN);
 	printf("SIGRTMAX = %d, LIBC_SIGRTMAX = %d\n", SIGRTMAX, LIBC_SIGRTMAX);
+#ifdef CONST_SIGRTMIN
+	printf("CONST_SIGRTMIN = %d\n", CONST_SIGRTMIN);
+#endif
+#ifdef CONST_SIGRTMAX
+	printf("CONST_SIGRTMAX = %d\n", CONST_SIGRTMAX);
+#endif
 
 	/* Set up signal handler */
 	sa.sa_flags = SA_SIGINFO;

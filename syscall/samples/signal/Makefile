@@ -1,5 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
 include ../../../tlbuild.mk
+include signal.mk
 
 sub-dir := SIGURG
 
@@ -28,7 +29,7 @@ CFLAGS += -Werror -Wall -D_GNU_SOURCE
 CFLAGS += -I../../../
 CFLAGS += -I../
 CFLAGS += -DDEBUG -O0 -g
-
+CFLAGS += ${SIGNAL_CFLAGS}
 
 sub-dir-build := $(addprefix $(shell pwd)/,$(sub-dir:=.build))
 sub-dir-clean := $(addprefix $(shell pwd)/,$(sub-dir:=.clean))
