@@ -6,7 +6,7 @@ TARGETS += access
 TARGETS += faccessat2
 TARGETS += eaccess
 
-CC = gcc
+CC ?= gcc
 
 CFLAGS += -Werror -Wall -D_GNU_SOURCE
 CFLAGS += -pthread

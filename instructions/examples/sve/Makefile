@@ -52,7 +52,7 @@ help:
 	@echo ""
 	@echo "Options:"
 	@echo "       STATIC=1"
-	@echo "       CROSS_COMPILE=1"
+	@echo "       CROSS_COMPILE=[Cross-build GNU C compiler]"
 	@echo "       SYSROOT=/path/to/rootfs"
 	@echo ""
 

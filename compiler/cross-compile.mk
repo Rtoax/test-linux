@@ -16,10 +16,12 @@ ifdef CROSS_COMPILE
     $(error "SYSROOT=${SYSROOT} is not exist")
   endif
 
+  CC := ${CROSS_COMPILE}gcc
+  CXX := ${CROSS_COMPILE}g++
+  AS := ${CROSS_COMPILE}as
+  LD := ${CROSS_COMPILE}ld
+
   ifneq ($(shell uname -m),aarch64)
-    CC := aarch64-linux-gnu-gcc
-    AS := aarch64-linux-gnu-as
-    LD := aarch64-linux-gnu-ld
     RUN_PFX := qemu-aarch64 --sysroot=${SYSROOT}
   endif
 
@@ -30,15 +32,15 @@ ifdef CROSS_COMPILE
   CFLAGS += --sysroot=${SYSROOT}
   CFLAGS += -DCROSS_COMPILE=1
 
-  MAKEFLAGS += CROSS_COMPILE=1
+  MAKEFLAGS += CROSS_COMPILE=${CROSS_COMPILE}
 
   # Check
   ifeq (${CC},)
     $(error "$(shell uname -m) is not support CROSS_COMPILE")
   endif
 
-  $(info INFO: Enable CROSS_COMPILE)
+  $(info INFO: Enable CROSS_COMPILE=${CROSS_COMPILE})
 else
-  $(info INFO: Define CROSS_COMPILE=1 when make)
+  $(info INFO: Define CROSS_COMPILE=[Cross-build [GNU] C compiler] when make)
 endif
 

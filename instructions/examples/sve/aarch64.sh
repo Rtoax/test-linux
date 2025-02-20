@@ -6,4 +6,4 @@ if [[ $(uname -m) == aarch64 ]]; then
 fi
 
 make clean
-make STATIC=1 CROSS_COMPILE=1 "$@"
+make STATIC=1 CROSS_COMPILE=aarch64-linux-gnu- "$@"
