@@ -1,6 +1,3 @@
-include ../../../../tlbuild.mk
-
-
 
 obj-m += bio_init.o
 

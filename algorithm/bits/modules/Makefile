@@ -1,6 +1,3 @@
-include ../../../tlbuild.mk
-
-
 
 obj-m += test_bits.o
 

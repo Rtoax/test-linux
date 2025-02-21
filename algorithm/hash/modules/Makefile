@@ -1,6 +1,3 @@
-include ../../../tlbuild.mk
-
-
 
 obj-m += hash_64.o
 obj-m += hash_long.o

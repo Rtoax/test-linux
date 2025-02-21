@@ -1,5 +1,3 @@
-include ../../../tlbuild.mk
-
 
 obj-m += list_static.o
 obj-m += list_dynamic.o
