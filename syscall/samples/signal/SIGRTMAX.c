@@ -6,7 +6,7 @@
 /**
  * - linux kernel SIGRTMIN is 32.
  * - POSIX SIGRTMIN is 34 or 35, see signal(7)
- *   - glibc is 32: sysdeps/unix/sysv/linux/internal-signals.h:#define RESERVED_SIGRT  2
+ *   - glibc is 34: sysdeps/unix/sysv/linux/internal-signals.h:#define RESERVED_SIGRT  2
  *   - musl-libc is 35: https://git.musl-libc.org/cgit/musl/tree/src/signal/sigrtmin.c
  */
 #define LIBC_SIGRTMIN		(__libc_current_sigrtmin())
