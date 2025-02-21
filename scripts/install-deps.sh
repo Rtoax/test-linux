@@ -452,11 +452,10 @@ pkgs_base+=( jq )
 pkgs_base+=( lshw )                 # lshw
 pkgs_base+=( make cmake )
 pkgs_base+=( nasm )                 # nasm
-if [[ ${OS} == fedora ]] && [[ ${OS_VERSION} -ge 41 ]]; then
+if [[ ${OS} == fedora ]] && [[ ${OS_VERSION} -ge 40 ]]; then
 	pkgs_base+=( fastfetch )
-else
-	pkgs_base+=( neofetch )
 fi
+pkgs_base+=( neofetch )
 pkgs_base+=( numactl )              # numastat
 pkgs_base+=( opencl-headers )
 pkgs_base+=( openssl )
