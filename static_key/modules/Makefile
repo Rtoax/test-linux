@@ -1,6 +1,3 @@
-include ../../tlbuild.mk
-
-
 
 obj-m += static_key.o
 
