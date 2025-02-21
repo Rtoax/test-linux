@@ -94,6 +94,7 @@ CFLAGS_case := -Wno-error=unused-label -Wno-unused-label
 CFLAGS_include_next := -Dinclude/ -Wno-error
 CFLAGS_while-sleep := -DWHILE_SLEEP=1
 CFLAGS_macro := -DCONFIG_MMU=$(CONFIG_MMU)
+CFLAGS_struct := -Wno-gnu-designator -Wno-initializer-overrides
 
 .PHONY: build
 build: ${TARGETS}

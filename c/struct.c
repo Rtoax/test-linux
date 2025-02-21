@@ -7,6 +7,7 @@ struct test {
 };
 
 struct test test1 = {
+	/* -Wgnu-designator: use of GNU old-style field designator extension */
 	a: 1,
 };
 
@@ -20,7 +21,9 @@ struct test tests2[] = {
 	[0] = {.a = 1,},
 	[1] = {.a = 2,},
 	[2] = {.a = 3,},
-	/* Could duplicate define */
+	/**
+	 * Could duplicate define, warning -Winitializer-overrides
+	 */
 	[2] = {.a = 10,},
 	[4] = {.a = 5,},
 };
