@@ -6,10 +6,13 @@
 - DPDK: Data Plane Development Kit (数据面开发工具)
 - IB: InfiniBand
 - ICMP: Internet Control Message Protocol (网络控制消息协议)
+- IEEE-802.3: @MAC
+- IEEE-802.11: @WLAN @Wi-Fi
 - IETF: Internet Engineering Task Force (互联网工程任务组)
 - KNI: Kernel Network Interface (内核网络接口) @DPDK
 - LAN: Local Area Network (局域网)
 - LWT: Light Weight Tunnel (轻量级隧道)
+- MAC: Media Access Control (媒体访问控制) @IEEE-802.3
 - MPLS: Multi-Protocol Label Switching (多协议标签交换)
 - MQTT: Message Queuing Telemetry Transport (消息队列遥测传输协议)
 - NAPI: New API (新API)
@@ -29,5 +32,6 @@
 - UDP: User Datagram Protocol (用户数据报协议)
 - VoIP: Voice over IP ()
 - WAN: Wide Area Network (广域网)
-- WLAN: Wireless Local Area Network (无线局域网)
+- WLAN: Wireless Local Area Network (无线局域网) @Wi-Fi
+- Wi-Fi: @WLAN @IEEE-802.11
 - WWAN: Wireless Wide Area Network (无线广域网)
