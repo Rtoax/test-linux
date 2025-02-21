@@ -31,7 +31,11 @@
 - RC: Release Candidate (候选版本,例如rc1)
 - RTLA: Real-time Linux Analysis tool (实时分析工具)
 - SMT: Satisfiability Modulo Theories (基于模理论的可满足性)
+- SVR1: System V Release 1
+- SVR2: System V Release 2
+- SVR3: System V Release 3
 - SVR4: System V Release 4
+- SVR5: System V Release 5
 - SysV: Unix System V 'System Five' ()
 - Tex: () @LaTeX
 - TOC: The Technical Oversight Committee (技术监督委员会)
