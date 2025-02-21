@@ -1,8 +1,8 @@
 # SPDX-License-Identifier: GPL-3.0
 include ../tlbuild.mk
 
-CC = gcc
-CXX = c++
+CC := gcc
+CXX := c++
 
 include ../compiler/compiler.mk
 
