@@ -12,6 +12,11 @@
 #define LIBC_SIGRTMIN		(__libc_current_sigrtmin())
 #define LIBC_SIGRTMAX		(__libc_current_sigrtmax())
 
+/* glibc: sysdeps/unix/sysv/linux/internal-signals.h */
+#define SIGCANCEL	32
+#define SIGTIMER	SIGCANCEL
+#define SIGSETXID	33
+
 void handler(int sig, siginfo_t *si, void *context)
 {
 	printf("Received signal %d with value %d\n", sig, si->si_value.sival_int);
