@@ -1,8 +1,9 @@
 #!/bin/bash
+set -e
 
 . ./utils.sh
 
-make
+make likely
 
 objdump_func likely reta
 objdump_func likely reta_likely

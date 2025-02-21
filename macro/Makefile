@@ -61,6 +61,7 @@ CFLAGS___stringify := -DSTDBOOL_HDR=stdbool.h
 
 .PHONY: build
 build: $(CC)-macros.h compiler-macros.h ${TARGETS} ${TARGETS_CXX}
+	${Q}./likely.sh
 	@echo -e " \033[1;33m Done \033[m"
 
 arch: arch.o
