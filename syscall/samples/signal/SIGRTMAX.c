@@ -13,9 +13,18 @@
 #define LIBC_SIGRTMAX		(__libc_current_sigrtmax())
 
 /* glibc: sysdeps/unix/sysv/linux/internal-signals.h */
-#define SIGCANCEL	32
+#if defined(__GLIBC__)
+#define SIGCANCEL	__SIGRTMIN
 #define SIGTIMER	SIGCANCEL
 #define SIGSETXID	33
+#endif
+
+/* musl-libc: src/internal/pthread_impl.h */
+#if defined(__MUSL__)
+#define SIGTIMER 32
+#define SIGCANCEL 33
+#define SIGSYNCCALL 34
+#endif
 
 void handler(int sig, siginfo_t *si, void *context)
 {
