@@ -135,6 +135,7 @@ user: cleanuserlog $(SUB_USER_DIR)
 	$(call tl_log,top-makefile user)
 	@echo "=========== User done ==========="
 	$(call printuserlog)
+	@echo "${MOONLIGHT}"
 $(SUB_USER_DIR):
 	$(call make_and_log,U,$@)
 
@@ -142,7 +143,7 @@ $(SUB_USER_DIR):
 kernel: cleankernellog $(SUB_KERN_DIR)
 	@echo "=========== Kernel done ==========="
 	$(call printkernellog)
-$(SUB_USER_DIR):
+	@echo "${MOONLIGHT}"
 $(SUB_KERN_DIR):
 	$(call make_and_log,K,$@)
 

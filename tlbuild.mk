@@ -70,4 +70,4 @@ define printkernellog
 	fi
 endef
 
-MOONLIGHT = 🌑 🌒 🌓 🌔 🌕 🌖 🌗 🌘 🌑
+MOONLIGHT := 🌑 🌒 🌓 🌔 🌕 🌖 🌗 🌘 🌑
