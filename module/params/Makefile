@@ -1,5 +1,3 @@
-include ../../tlbuild.mk
-
 
 obj-m += array.o
 obj-m += charp.o

@@ -1,4 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
+# WARNING: Could not include this mk in kernel module Makefile, only for user
+# space.
+#
 SHELL := bash
 
 comma	:= ,

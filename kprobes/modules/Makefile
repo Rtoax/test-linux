@@ -1,6 +1,3 @@
-include ../../tlbuild.mk
-
-
 
 obj-m += kprobe_icmp_echo.o
 obj-m += kprobe_example.o

@@ -1,5 +1,3 @@
-include ../../../tlbuild.mk
-
 
 obj-m += workqueue-template.o
 obj-m += workqueue1.o

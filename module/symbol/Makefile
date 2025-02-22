@@ -1,5 +1,3 @@
-include ../../tlbuild.mk
-
 
 obj-m += symbol_getput.o
 

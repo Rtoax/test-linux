@@ -1,5 +1,3 @@
-include ../../../tlbuild.mk
-
 
 obj-m := myfs.o
 CURRENT_PATH := $(shell pwd)

@@ -1,5 +1,3 @@
-include ../../tlbuild.mk
-
 
 obj-m += request-irq.o
 obj-m += tasklet-bh.o

@@ -1,5 +1,3 @@
-include ../../../tlbuild.mk
-
 
 obj-m += tasklet_init.o
 obj-m += tasklet-template.o

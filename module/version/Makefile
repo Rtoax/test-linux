@@ -1,5 +1,6 @@
-include ../../tlbuild.mk
 
+# KERNELVERSION is defined in kernel's top-level Makefile, but empty here.
+$(info KERNELVERSION=${KERNELVERSION})
 
 obj-m += linux_banner.o
 obj-m += KERNEL_VERSION.o

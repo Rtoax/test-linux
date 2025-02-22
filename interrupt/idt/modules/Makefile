@@ -1,8 +1,6 @@
-include ../../../tlbuild.mk
-
 
 ifeq ($(shell uname -m),x86_64)
-obj-m += proc-idt.o
+  obj-m += proc-idt.o
 endif
 ifeq ($(shell uname -m),aarch64)
 endif

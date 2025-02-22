@@ -1,5 +1,3 @@
-include ../../../tlbuild.mk
-
 
 obj-m += init_mm.o
 obj-m += listvma.o

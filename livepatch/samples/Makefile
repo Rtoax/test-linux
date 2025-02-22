@@ -1,6 +1,3 @@
-include ../../tlbuild.mk
-
-
 # Copyright (C) Rong Tao
 include /boot/config-$(shell uname -r)
 

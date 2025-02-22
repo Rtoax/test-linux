@@ -1,5 +1,3 @@
-include ../../tlbuild.mk
-
 
 obj-m += trace_irqoff.o
 obj-m += trigger_irqoff.o

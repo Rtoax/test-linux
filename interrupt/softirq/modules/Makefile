@@ -1,6 +1,3 @@
-include ../../../tlbuild.mk
-
-
 
 obj-m += nr_softirqs.o
 obj-m += show_softirqs.o

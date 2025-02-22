@@ -1,5 +1,3 @@
-include ../../../tlbuild.mk
-
 
 obj-m += proc-ioapic.o
 
