@@ -15,7 +15,7 @@ readonly prog=inst-deps
 declare -a dnf_args apt_args
 declare -a pkgs pkgs_compiler pkgs_desktop pkgs_bench pkgs_math pkgs_db
 declare -a pkgs_storage pkgs_net pkgs_container pkgs_virt pkgs_base pkgs_fs
-declare -a pkgs_media pkgs_build pkgs_devel pkgs_docs
+declare -a pkgs_media pkgs_build pkgs_devel pkgs_docs pkgs_video
 declare -a pip_whls
 
 declare -a pkgs_skip
@@ -50,6 +50,7 @@ have_bench=
 have_db=
 have_storage=
 have_net=
+have_video=
 
 have_3rd_party=
 
@@ -71,6 +72,8 @@ enable_all()
 	have_db=YES
 	have_storage=YES
 	have_3rd_party=YES
+	#not set video for --all
+	#have_video=YES
 }
 
 goodbye()
@@ -237,6 +240,7 @@ ARGUMENT
 	--net              install network relate packages
 	--virt             install virtualization relate packages
 	--fs               install filesystem relate packages
+	--video            install video relate software, such as video editor
 
 	--3rd              get third party software packages above
 
@@ -276,6 +280,7 @@ TEMP=$(getopt --options uvhfk: \
 	--long bench \
 	--long db \
 	--long storage \
+	--long video \
 	--long net \
 	--long skip-pkg: \
 	--long dry-run \
@@ -357,6 +362,10 @@ while true; do
 	--storage)
 		shift
 		have_storage=YES
+		;;
+	--video)
+		shift
+		have_video=YES
 		;;
 	--net)
 		shift
@@ -536,8 +545,6 @@ pkgs_desktop+=( gimp )
 pkgs_desktop+=( gitk )
 pkgs_desktop+=( gnome-tweaks )
 pkgs_desktop+=( gnuplot )
-# openshot: Crashed at first time
-#pkgs_desktop+=( openshot )
 pkgs_desktop+=( python3-matplotlib )
 
 # Database
@@ -555,6 +562,10 @@ pkgs_net+=( ethtool )
 pkgs_net+=( net-tools ) # netstat
 pkgs_net+=( rsync )
 pkgs_net+=( tcpdump )
+
+# openshot: Crashed at first time
+#pkgs_video+=( openshot )
+#pkgs_video+=( pitivi )
 
 pip_whls+=( numpy pyyaml )
 pip_whls+=( tqdm )
@@ -866,6 +877,7 @@ os_packages
 [[ ${have_db} ]] && pkgs+=( ${pkgs_db[@]} )
 [[ ${have_storage} ]] && pkgs+=( ${pkgs_storage[@]} )
 [[ ${have_net} ]] && pkgs+=( ${pkgs_net[@]} )
+[[ ${have_video} ]] && pkgs+=( ${pkgs_video[@]} )
 
 # Filter out skip packages
 for p in ${pkgs_skip[@]}
