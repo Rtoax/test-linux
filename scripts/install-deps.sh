@@ -175,13 +175,18 @@ os_operator()
 is_os()
 {
 	local oss=( $@ )
-	for os in ${oss[@]}
-	do
-		if [[ ${OS} = ${os} ]]; then
-			echo YES
-			break
-		fi
-	done
+	if [[ " ${oss[@]} " =~ " ${OS} " ]]; then
+		echo YES
+	fi
+	return 0
+}
+
+is_arch()
+{
+	local arches=( $@ )
+	if [[ " ${arches[@]} " =~ " $(uname -m) " ]]; then
+		echo YES
+	fi
 	return 0
 }
 
@@ -497,11 +502,11 @@ pkgs_compiler+=( golang )
 pkgs_compiler+=( lld )                    # ELF linker from the LLVM project
 pkgs_compiler+=( llvm )                   # llvm-as llvm-dis llc
 pkgs_compiler+=( mold )                   # a modern linker
-if [[ $(uname -m) != aarch64 ]]; then
+if [[ $(is_arch aarch64) ]]; then
 	pkgs_compiler+=( binutils-aarch64-linux-gnu )
 	pkgs_compiler+=( gcc-aarch64-linux-gnu )
 fi
-if [[ $(uname -m) != x86_64 ]]; then
+if [[ $(is_arch x86_64) ]]; then
 	pkgs_compiler+=( binutils-x86_64-linux-gnu )
 	pkgs_compiler+=( gcc-x86_64-linux-gnu )
 fi
@@ -582,7 +587,7 @@ fi
 
 dnf_add_packages()
 {
-	if [[ $(uname -m) == x86_64 ]]; then
+	if [[ $(is_arch x86_64) ]]; then
 		pkgs_base+=( glibc.i686 )
 		pkgs_base+=( glibc-devel.i686 )
 		pkgs_base+=( glibc-static.i686 )
@@ -732,6 +737,7 @@ dnf_add_packages()
 	pkgs_virt+=( qemu-kvm )
 	# Add more
 	if [[ $(is_os fedora) ]]; then
+		pkgs_virt+=( box64 ) # Linux Userspace x86_64 Emulator with a twist
 		pkgs_virt+=( qemu-system-loongarch64 edk2-loongarch64 )
 		pkgs_virt+=( qemu-system-riscv edk2-riscv64 )
 	fi
@@ -750,7 +756,7 @@ dnf_add_packages()
 
 apt_add_packages()
 {
-	if [[ $(uname -m) == x86_64 ]]; then
+	if [[ $(is_arch x86_64) ]]; then
 		pkgs_base+=( libc6-dev-i386 )
 	fi
 	pkgs_base+=( binutils-dev )
