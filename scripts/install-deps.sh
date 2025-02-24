@@ -13,7 +13,7 @@ set -e
 readonly prog=inst-deps
 
 declare -a dnf_args apt_args
-declare -a pkgs pkgs_compiler pkgs_desktop pkgs_bench pkgs_math pkgs_db
+declare -a pkgs_inst pkgs_compiler pkgs_desktop pkgs_bench pkgs_math pkgs_db
 declare -a pkgs_storage pkgs_net pkgs_container pkgs_virt pkgs_base pkgs_fs
 declare -a pkgs_media pkgs_build pkgs_devel pkgs_docs pkgs_video
 declare -a pip_whls
@@ -868,36 +868,40 @@ fi
 
 os_packages
 
-[[ ${have_base} ]] && pkgs+=( ${pkgs_base[@]} )
-[[ ${have_fs} ]] && pkgs+=( ${pkgs_fs[@]} )
-[[ ${have_compiler} ]] && pkgs+=( ${pkgs_compiler[@]} )
-[[ ${have_build} ]] && pkgs+=( ${pkgs_build[@]} )
-[[ ${have_docs} ]] && pkgs+=( ${pkgs_docs[@]} )
-[[ ${have_devel} ]] && pkgs+=( ${pkgs_devel[@]} )
-[[ ${have_container} ]] && pkgs+=( ${pkgs_container[@]} )
-[[ ${have_virt} ]] && pkgs+=( ${pkgs_virt[@]} )
-[[ ${IS_PHY} ]] && [[ ${have_desktop} ]] && pkgs+=( ${pkgs_desktop[@]} )
-[[ ${have_math} ]] && pkgs+=( ${pkgs_math[@]} )
-[[ ${have_media} ]] && pkgs+=( ${pkgs_media[@]} )
-[[ ${have_bench} ]] && pkgs+=( ${pkgs_bench[@]} )
-[[ ${have_db} ]] && pkgs+=( ${pkgs_db[@]} )
-[[ ${have_storage} ]] && pkgs+=( ${pkgs_storage[@]} )
-[[ ${have_net} ]] && pkgs+=( ${pkgs_net[@]} )
-[[ ${have_video} ]] && pkgs+=( ${pkgs_video[@]} )
+[[ ${have_base} ]] && pkgs_inst+=( ${pkgs_base[@]} )
+[[ ${have_fs} ]] && pkgs_inst+=( ${pkgs_fs[@]} )
+[[ ${have_compiler} ]] && pkgs_inst+=( ${pkgs_compiler[@]} )
+[[ ${have_build} ]] && pkgs_inst+=( ${pkgs_build[@]} )
+[[ ${have_docs} ]] && pkgs_inst+=( ${pkgs_docs[@]} )
+[[ ${have_devel} ]] && pkgs_inst+=( ${pkgs_devel[@]} )
+[[ ${have_container} ]] && pkgs_inst+=( ${pkgs_container[@]} )
+[[ ${have_virt} ]] && pkgs_inst+=( ${pkgs_virt[@]} )
+[[ ${IS_PHY} ]] && [[ ${have_desktop} ]] && pkgs_inst+=( ${pkgs_desktop[@]} )
+[[ ${have_math} ]] && pkgs_inst+=( ${pkgs_math[@]} )
+[[ ${have_media} ]] && pkgs_inst+=( ${pkgs_media[@]} )
+[[ ${have_bench} ]] && pkgs_inst+=( ${pkgs_bench[@]} )
+[[ ${have_db} ]] && pkgs_inst+=( ${pkgs_db[@]} )
+[[ ${have_storage} ]] && pkgs_inst+=( ${pkgs_storage[@]} )
+[[ ${have_net} ]] && pkgs_inst+=( ${pkgs_net[@]} )
+[[ ${have_video} ]] && pkgs_inst+=( ${pkgs_video[@]} )
+
+# Sort and remove duplicate items
+pkgs_inst=( $(for i in "${pkgs_inst[@]}"; do echo $i; done | sort | uniq) )
 
 # Filter out skip packages
 for p in ${pkgs_skip[@]}
 do
-	for ((i = 0; i < ${#pkgs[@]}; i++))
+	for ((i = 0; i < ${#pkgs_inst[@]}; i++))
 	do
-		if [[ ${p} == ${pkgs[i]} ]]; then
-			unset pkgs[i] 2>&1 >/dev/null
+		if [[ ${p} == ${pkgs_inst[i]} ]]; then
+			unset pkgs_inst[i] 2>&1 >/dev/null
 		fi
 	done
 done
 
-if [[ ! -z "${pkgs[@]}" ]]; then
-	os_install $(echo ${pkgs[@]} | sort | uniq)
+# Install packages
+if [[ ! -z "${pkgs_inst[@]}" ]]; then
+	os_install ${pkgs_inst[@]}
 fi
 
 # Install python3 pip wheels
