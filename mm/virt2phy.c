@@ -225,7 +225,7 @@ unsigned long virt_to_phy(unsigned long vaddr)
 
 	rc = read(fd, &pfn, sizeof(pfn));
 	if (rc < sizeof(pfn) || pfn == 0) {
-		fprintf(stderr, "ERROR: read: %m\n");
+		fprintf(stderr, "ERROR: read vaddr 0x%lx pfn failed: %m\n", vaddr);
 		goto failed;
 	}
 	pfn &= 0x7fffffffffffffULL;
