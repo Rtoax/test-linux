@@ -9,6 +9,19 @@ host insns (the processor executing QEMU itself) via the TCG backend.
 - [backend-ops](https://wiki.qemu.org/Documentation/TCG/backend-ops)
 
 
+# Qemu thread
+
+`CPU x/TCG` like:
+
+```
+    PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND
+ 195836 root      20   0   10.0g 755456  20864 S  48.8   0.2   0:06.18 CPU 1/TCG
+ 195837 root      20   0   10.0g 755456  20864 R  30.6   0.2   0:05.51 CPU 2/TCG
+ 195838 root      20   0   10.0g 755456  20864 S  20.6   0.2   0:10.34 CPU 3/TCG
+ 195835 root      20   0   10.0g 755456  20864 S   7.3   0.2   0:16.83 CPU 0/TCG
+```
+
+
 # TCG IR 大致分为以下几类
 
 > IR: Intermediate Representation (中间表示)
