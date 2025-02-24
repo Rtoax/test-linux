@@ -351,7 +351,7 @@ void test_mapping_phy_addr(void)
 
 	DISPLAY_VA_PA((unsigned long)map_anon_rw.mem, "map_anon_rw");
 	mem_range_rw(map_anon_rw.mem, map_anon_rw.sz, 0, 1);
-	DISPLAY_VA_PA((unsigned long)map_anon_rw.mem, "map_anon_rw");
+	DISPLAY_VA_PA((unsigned long)map_anon_rw.mem, "map_anon_rw(w)");
 
 #ifdef CONFIG_MEMFD_CREATE
 	DISPLAY_VA_PA((unsigned long)memfd_ro.mem, "memfd_ro");
