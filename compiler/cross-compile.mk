@@ -15,11 +15,11 @@ MK_ARCH ?= ${shell uname -m}
 ifdef CROSS_COMPILE
   # TODO: Add more architecture
   ifneq ($(shell uname -m),aarch64)
-    SYSROOT ?= /home/rongtao/rootfs-aarch64
+    SYSROOT := /home/rongtao/rootfs-aarch64
     RUN_PFX := qemu-aarch64 --sysroot=${SYSROOT}
   endif
   ifneq ($(shell uname -m),x86_64)
-    SYSROOT ?= /home/rongtao/rootfs-x86_64
+    SYSROOT := /home/rongtao/rootfs-x86_64
     RUN_PFX := qemu-x86_64 --sysroot=${SYSROOT}
   endif
 
