@@ -475,6 +475,7 @@ pkgs_base+=( opencl-headers )
 pkgs_base+=( openssl )
 pkgs_base+=( parallel )
 pkgs_base+=( powertop ) # power consumption and power management diagnosis tool
+pkgs_base+=( python3-dbus ) # D-Bus
 pkgs_base+=( python3-pip )          # pip wheel
 pkgs_base+=( python3-pyroute2 )     # pyroute2
 pkgs_base+=( python3-scapy )
