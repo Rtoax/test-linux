@@ -1,0 +1,5 @@
+[Unit]
+Description=Clean Remote Journal
+
+[Service]
+ExecStart=/usr/sbin/clean-legacy-journal.sh

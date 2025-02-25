@@ -1,0 +1,21 @@
+[Unit]
+Description=Test C
+Documentation=man:systemd(1)
+Before=a.service
+
+[Service]
+# simple - a.service will success
+# exec - a.service will success
+# oneshot - a.service will failed
+# dbus - a.service will failed, c.service is bad-setting
+# idle - a.service will success
+# notify - a.service will failed
+# notify-reload - a.service will failed
+# forking - a.service will failed
+Type=simple
+PIDFile=/run/c.pid
+ExecStart=/usr/bin/false
+ExecReload=/bin/kill -HUP $MAINPID
+
+[Install]
+WantedBy=multi-user.target

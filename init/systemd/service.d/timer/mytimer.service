@@ -1,0 +1,5 @@
+[Unit]
+Description=mytimer service
+
+[Service]
+ExecStart=/home/rongtao/Git/test/systemd/timer/demo/msg.sh

@@ -1,0 +1,15 @@
+#!/bin/bash
+# Logger Useful Information
+
+log_info()
+{
+	logger -t "logrotate[$$]" -p "notice" -- "$@"
+	echo "$@"
+}
+
+log_info "$(lsblk -f)"
+
+for ((i = 0; i < 100; i++))
+do
+	log_info "I=$i $(lsblk -o +fstype,uuid)"
+done

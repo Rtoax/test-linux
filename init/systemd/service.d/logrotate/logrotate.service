@@ -1,0 +1,13 @@
+# Test Logrotate
+#
+[Unit]
+Description=Logrotate Useful Information of System
+Documentation=man:logger(1)
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/logrotate
+ExecReload=/bin/kill -HUP $MAINPID
+
+[Install]
+WantedBy=multi-user.target

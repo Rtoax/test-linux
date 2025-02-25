@@ -1,0 +1,18 @@
+[Unit]
+Description=Test A
+Documentation=man:systemd(1)
+Requires=b.service
+Requires=c.service
+# Wants= is not necessary
+Wants=b.service
+# After= is not necessary
+After=b.service
+
+[Service]
+Type=simple
+PIDFile=/run/a.pid
+ExecStart=/usr/bin/a.sh
+ExecReload=/bin/kill -HUP $MAINPID
+
+[Install]
+WantedBy=multi-user.target

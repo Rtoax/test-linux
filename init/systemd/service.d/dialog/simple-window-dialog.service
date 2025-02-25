@@ -1,0 +1,14 @@
+[Unit]
+Description=Simple interactive dialog window
+After=getty@tty2.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/dialog-hello.sh
+StandardInput=tty
+TTYPath=/dev/tty2
+TTYReset=yes
+TTYVHangup=yes
+
+[Install]
+WantedBy=default.target
