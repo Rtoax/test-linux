@@ -73,6 +73,11 @@ else
 endif
 LDFLAGS :=
 
+ifdef LD_BFD
+  LDFLAGS += -fuse-ld=bfd
+  $(info User linker bfd)
+endif
+
 include ../../compiler/cross-compile.mk
 
 # https://github.com/ARM-software/optimized-routines
