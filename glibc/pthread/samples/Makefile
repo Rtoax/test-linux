@@ -65,7 +65,7 @@ TARGETS += rt_thread
 TARGETS += cond-demo1 cond-demo2 cond-demo3-latency
 
 ifeq ($(shell uname -m),x86_64)
-TARGETS += pthread_mutex_latency
+  TARGETS += pthread_mutex_latency
 endif
 
 TARGETS += taskset_example
@@ -80,9 +80,9 @@ CFLAGS := -Werror -Wall -pthread
 CFLAGS += -Wstrict-prototypes
 CFLAGS += -I$(shell realpath .)/../../../
 ifeq (${Q}$(CC),clang)
-LDFLAGS += -Wl,-lm
+  LDFLAGS += -Wl,-lm
 else
-CFLAGS += -lm
+  CFLAGS += -lm
 endif
 
 CFLAGS += -DDEBUG -O0 -g
@@ -93,6 +93,7 @@ CFLAGS_pthread_cond_signal := -DCOND_ATTR=1
 CFLAGS_pthread_create := -DNR_THREADS=5
 
 build: ${TARGETS}
+	${Q}ld.so --list-tunables | grep -i pthread
 	@echo -e " \033[1;33m Done \033[m"
 
 foobar: foobar.o

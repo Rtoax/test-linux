@@ -1,5 +1,5 @@
+# SPDX-License-Identifier: GPL-3.0
 include ../../tlbuild.mk
-
 
 TARGETS :=
 TARGETS += malloc
@@ -15,18 +15,19 @@ TARGETS += malloc_usable_size
 TARGETS += memalign
 TARGETS += pvalloc
 
-CC = gcc
+CC := gcc
 
 CFLAGS := -Werror -Wall
 CFLAGS += -DDEBUG -O0 -g
 
+
 build: ${TARGETS}
+	${Q}ld.so --list-tunables | grep -i malloc
 	@echo -e " \033[1;33m Done \033[m"
 
 CFLAGS_mallinfo := -Wno-error=deprecated-declarations
 CFLAGS_helpers := -Wno-error=deprecated-declarations
 
-# Add more object.o file
 malloc: malloc.o
 mallinfo: mallinfo.o helpers.o
 mallopt: mallopt.o

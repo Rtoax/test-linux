@@ -1,5 +1,5 @@
-LD
-===
+LD - dynamic linker/loader
+==========================
 
 # rtld
 
