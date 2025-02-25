@@ -809,6 +809,7 @@ apt_add_packages()
 	pkgs_devel+=( libbpf-dev )           # libbpf
 	pkgs_devel+=( libcap-dev )
 	pkgs_devel+=( libcap-ng-dev )
+	pkgs_devel+=( libdbus-1-dev ) # D-Bus
 	pkgs_devel+=( libfdt-dev )
 	pkgs_devel+=( libglib2.0-dev )
 	pkgs_devel+=( libiscsi-dev )

@@ -1,6 +1,5 @@
 include ../../../tlbuild.mk
 
-
 TARGETS := hello
 
 CC = gcc
