@@ -8,13 +8,18 @@
  * (布隆过滤器是一种节省空间的概率数据结构，用于快速测试集合中是否存在某个元素。
  * 在布隆过滤器中，可能会出现误报，但不会出现漏报。)
  *
- * - linux >= v5.15 commit 9330986c0300 ("bpf: Add bloom filter map implementation")
+ * - linux >= v5.16 commit 9330986c0300 ("bpf: Add bloom filter map implementation")
+ *   https://github.com/isovalent/ebpf-docs
  */
 #include "vmlinux.h"
 #include <linux/version.h>
 #include <bpf/bpf_helpers.h>
 
-#if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 15, 0)
+/**
+ * Git/linux$ git describe 9330986c0300
+ * v5.15-rc3-1130-g9330986c0300
+ */
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 16, 0)
 struct map_bloom_type {
 	__uint(type, BPF_MAP_TYPE_BLOOM_FILTER);
 	__type(value, __u32);
