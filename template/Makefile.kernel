@@ -7,6 +7,7 @@ endif
 obj-m :=
 
 KERNELDIR ?= /lib/modules/$(shell uname -r)/build
+KERNELDIR := $(shell readlink ${KERNELDIR})
 
 ifneq ($(wildcard $(KERNELDIR)),)
   obj-m += main.kernel.o
@@ -15,7 +16,9 @@ else
 endif
 
 .PHONY: build
-build:
+build: ${obj-m}
+
+${obj-m}:
 	make -C ${KERNELDIR} M=$(PWD) modules
 
 test:
