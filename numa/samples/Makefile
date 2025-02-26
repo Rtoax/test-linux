@@ -1,5 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
 include ../../tlbuild.mk
+include ../numactl.mk
 
 LIBNUMA_HDR = /usr/include/numa.h
 
@@ -25,6 +26,14 @@ CFLAGS := -Werror -Wall
 CFLAGS += -DDEBUG -O0 -g
 CFLAGS += -lnuma
 
+CFLAGS += -DNUMACTL_VERSION_MAJOR=${NUMACTL_VERSION_MAJOR}
+CFLAGS += -DNUMACTL_VERSION_MINOR=${NUMACTL_VERSION_MINOR}
+CFLAGS += -DNUMACTL_VERSION_PATCH=${NUMACTL_VERSION_PATCH}
+
+# FIXME:
+CFLAGS_numa_node_size := -Wno-incompatible-pointer-types
+CFLAGS_numa_node_size64 := -Wno-incompatible-pointer-types
+
 .PHONY: build
 build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
@@ -38,9 +47,6 @@ numa_node_size: numa_node_size.o
 numa_pagesize: numa_pagesize.o
 numa_preferred: numa_preferred.o
 migrate_pages: migrate_pages.o
-
-# FIXME:
-CFLAGS_numa_node_size := -Wno-incompatible-pointer-types
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
