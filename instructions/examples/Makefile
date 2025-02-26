@@ -12,7 +12,9 @@ KERNELDIR ?= /lib/modules/$(shell uname -r)/build
 sub-dir :=
 
 TARGETS :=
+CC := gcc
 CFLAGS :=
+LDFLAGS :=
 ARCH_LIB_CPUID :=
 
 # User
@@ -69,6 +71,11 @@ ifeq ($(shell uname -m),aarch64)
   TARGETS += mrs
 
   ARCH_LIB_CPUID += cpuid-arm64.o
+endif
+
+ifdef BFD
+  LDFLAGS += -fuse-ld=bfd
+  $(info User linker bfd)
 endif
 
 TARGETS += udiv div
@@ -145,7 +152,7 @@ endif
 
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	${Q}$(CC) -o $(@) $(^) $(CFLAGS) $(CFLAGS_$(*))
+	${Q}$(CC) -o $(@) $(^) $(CFLAGS) $(CFLAGS_$(*)) ${LDFLAGS}
 
 help:
 	@echo "make [kernel|user|help]"
