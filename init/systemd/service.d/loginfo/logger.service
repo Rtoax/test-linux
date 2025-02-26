@@ -1,0 +1,16 @@
+# Test Logger
+# ref: http://www.jinbuguo.com/systemd/systemd.service.html
+#
+[Unit]
+Description=Log Useful Information of System
+Documentation=man:logger(1)
+
+[Service]
+Type=oneshot
+ExecStartPre=/usr/bin/logger -t "ostools[$$]" -p "debug" -- "Test Logger Pre"
+ExecStart=/usr/bin/loginfo.sh
+ExecStartPost=/usr/bin/logger -t "ostools[$$]" -p "debug" -- "Test Logger Post"
+ExecReload=/bin/kill -HUP $MAINPID
+
+[Install]
+WantedBy=multi-user.target

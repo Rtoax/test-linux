@@ -475,6 +475,7 @@ pkgs_base+=( opencl-headers )
 pkgs_base+=( openssl )
 pkgs_base+=( parallel )
 pkgs_base+=( powertop ) # power consumption and power management diagnosis tool
+pkgs_base+=( python3-dbus ) # D-Bus
 pkgs_base+=( python3-pip )          # pip wheel
 pkgs_base+=( python3-pyroute2 )     # pyroute2
 pkgs_base+=( python3-scapy )
@@ -809,6 +810,7 @@ apt_add_packages()
 	pkgs_devel+=( libbpf-dev )           # libbpf
 	pkgs_devel+=( libcap-dev )
 	pkgs_devel+=( libcap-ng-dev )
+	pkgs_devel+=( libdbus-1-dev ) # D-Bus
 	pkgs_devel+=( libfdt-dev )
 	pkgs_devel+=( libglib2.0-dev )
 	pkgs_devel+=( libiscsi-dev )

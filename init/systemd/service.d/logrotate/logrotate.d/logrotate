@@ -1,0 +1,7 @@
+/var/log/logrotate/*.log {
+    rotate 3
+    size 50M
+    missingok
+    compress
+    copytruncate
+}

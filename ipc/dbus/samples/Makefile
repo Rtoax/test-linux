@@ -1,9 +1,9 @@
 include ../../../tlbuild.mk
 
-
 TARGETS := hello
+TARGETS += dbus_malloc
 
-CC = gcc
+CC := gcc
 
 CFLAGS := -Werror -Wall
 
@@ -18,8 +18,8 @@ LDFLAGS += $(shell pkg-config --libs dbus-1)
 build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
-# Add more object.o file
 hello: hello.o
+dbus_malloc: dbus_malloc.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

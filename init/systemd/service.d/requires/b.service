@@ -1,0 +1,13 @@
+[Unit]
+Description=Test B
+Documentation=man:systemd(1)
+Before=a.service
+
+[Service]
+Type=simple
+PIDFile=/run/b.pid
+ExecStart=/usr/bin/b.sh
+ExecReload=/bin/kill -HUP $MAINPID
+
+[Install]
+WantedBy=multi-user.target

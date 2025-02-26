@@ -1,7 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
 
-pound := \#
-
 # Get libc.so.6 abs-path
 LIBC_SO_PATH=$(shell ldconfig -p | grep libc.so.6 | grep 64 | awk '{printf $$NF}')
 $(info LIBC_SO_PATH = ${LIBC_SO_PATH})
@@ -18,7 +16,7 @@ $(info LIBC___ERRNO_LOCATION_SYMADDR = ${LIBC___ERRNO_LOCATION_SYMADDR})
 
 
 # Probe printf(3) with non-output gcc command
-PRINTF_PROBE := '$(pound)include <stdio.h>\n'
+PRINTF_PROBE := '\#include <stdio.h>\n'
 PRINTF_PROBE += 'int main(void) {\n'
 PRINTF_PROBE += '	printf("hello\\n");\n'
 PRINTF_PROBE += '}'

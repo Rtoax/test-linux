@@ -1,0 +1,9 @@
+[Unit]
+Description=run msg.sh every 10s
+
+[Timer]
+OnUnitActiveSec=10s
+Unit=mytimer.service
+
+[Install]
+WantedBy=multi-user.target

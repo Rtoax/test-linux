@@ -1,0 +1,11 @@
+[Unit]
+Description=Repo sync
+
+[Timer]
+#OnUnitActiveSec=*-*-* 01:00:00
+#OnCalendar=*-*-* 01:00:00
+OnUnitActiveSec=1h
+Unit=clean-legacy-journal.service
+
+[Install]
+WantedBy=multi-user.target
