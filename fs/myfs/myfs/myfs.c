@@ -10,18 +10,6 @@
 #include <linux/version.h>
 
 
-/**
- * kernel commit 12cd44023651 ("fs: rename inode i_atime and i_mtime fields")
- */
-#if LINUX_VERSION_CODE >= KERNEL_VERSION(6, 6, 0)
-#define I_ATIME __i_atime
-#define I_MTIME	__i_mtime
-#else
-#define I_ATIME i_atime
-#define I_MTIME	i_mtime
-#endif
-
-
 //每个文件系统需要一个MAGIC number
 #define MYFS_MAGIC 0X64668735
 #define MYFS "myfs"
@@ -44,7 +32,7 @@ int g_val;
 //*****************************************************************************
 static struct inode * myfs_get_inode(struct super_block * sb, int mode, dev_t dev)
 {
-	struct inode * inode = new_inode(sb);
+	struct inode *inode = new_inode(sb);
 
 	if (inode) {
 		inode->i_mode = mode;
@@ -60,7 +48,22 @@ static struct inode * myfs_get_inode(struct super_block * sb, int mode, dev_t de
 		//@i_mtime：最后修改时间
 		//@i_ctime：最后修改inode时间
 		struct timespec64 curtime = current_time(inode);
-		inode->I_ATIME = inode->I_MTIME = curtime;
+/**
+ * kernel commit 3aa63a569c64 ("fs: switch timespec64 fields in inode to discrete integers")
+ * v6.10-rc1-2-g3aa63a569c64
+ */
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(6, 10, 0)
+		inode->i_atime_sec = inode->i_mtime_sec = curtime.tv_sec;
+		inode->i_atime_nsec = inode->i_mtime_nsec = curtime.tv_nsec;
+/**
+ * kernel commit 12cd44023651 ("fs: rename inode i_atime and i_mtime fields")
+ * v6.6-rc5-86-g12cd44023651
+ */
+#elif LINUX_VERSION_CODE >= KERNEL_VERSION(6, 6, 0)
+		inode->__i_atime = inode->__i_mtime = curtime;
+#else
+		inode->i_atime = inode->i_mtime = curtime;
+#endif
 		inode_set_ctime_to_ts(inode, curtime);
 
 		switch (mode & S_IFMT) {
