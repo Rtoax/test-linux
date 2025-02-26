@@ -1,8 +1,5 @@
 /**
- *	Trigger a irqoff with latency
- *
- *	Author	Rong Tao <rtoax@foxmail.com>
- *	Time	2021.11.05
+ * Trigger a irqoff with latency
  */
 #include <linux/irqflags.h>
 #include <linux/kernel.h>

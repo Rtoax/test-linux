@@ -249,8 +249,16 @@ static bool save_trace(struct pt_regs *regs, bool hardirq, u64 latency)
 	if (unlikely(nr_entries >= MAX_TRACE_ENTRIES - 1))
 		return false;
 
+/**
+ * kernel commit d26270061ae6 ("string: Remove strlcpy()") v6.7-11707-gd26270061ae6
+ */
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(6, 7, 0)
+	strncpy(stack_trace->comms[nr_irqoff_trace], current->comm,
+		TASK_COMM_LEN);
+#else
 	strlcpy(stack_trace->comms[nr_irqoff_trace], current->comm,
 		TASK_COMM_LEN);
+#endif
 	stack_trace->pids[nr_irqoff_trace] = current->pid;
 	stack_trace->latency[nr_irqoff_trace].nsecs = latency;
 	stack_trace->latency[nr_irqoff_trace].more = !hardirq && regs;
