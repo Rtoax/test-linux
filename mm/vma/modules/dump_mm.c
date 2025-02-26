@@ -12,7 +12,13 @@ void dump_mm(const struct mm_struct *mm)
 #if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 10, 0)
 	pr_emerg("mm %px mmap %px seqnum %llu task_size %lu\n"
 #ifdef CONFIG_MMU
+/**
+ * kernel commit 529ce23a764f ("mm: switch mm->get_unmapped_area() to a flag")
+ * v6.9-rc4-205-g529ce23a764f
+ */
+# if LINUX_VERSION_CODE < KERNEL_VERSION(6, 9, 0)
 		"get_unmapped_area %px\n"
+# endif
 #endif
 		"mmap_base %lu mmap_legacy_base %lu highest_vm_end %lu\n"
 		"pgd %px mm_users %d mm_count %d pgtables_bytes %lu map_count %d\n"
@@ -58,7 +64,9 @@ void dump_mm(const struct mm_struct *mm)
 #endif
 		mm->task_size,
 #ifdef CONFIG_MMU
+# if LINUX_VERSION_CODE < KERNEL_VERSION(6, 9, 0)
 		mm->get_unmapped_area,
+# endif
 #endif
 		mm->mmap_base, mm->mmap_legacy_base,
 /* commit 763ecb035029 ("mm: remove the vma linked list") remove linked list */
