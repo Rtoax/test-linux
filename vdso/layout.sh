@@ -25,6 +25,7 @@ x86_64)
 	layout_x86
 	;;
 *)
-	echo >&2 "ERROR: Not support $(uname -m) yet"
+	echo >&2 "WARNING: Not support $(uname -m) yet"
+	exit 0
 	;;
 esac

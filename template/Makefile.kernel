@@ -4,9 +4,15 @@ endif
 ifeq ($(shell uname -m),aarch64)
 endif
 
-obj-m := main.kernel.o
+obj-m :=
 
 KERNELDIR ?= /lib/modules/$(shell uname -r)/build
+
+ifneq ($(wildcard $(KERNELDIR)),)
+  obj-m += main.kernel.o
+else
+  $(warning "WARNING: You need to install kernel devel")
+endif
 
 .PHONY: build
 build:
