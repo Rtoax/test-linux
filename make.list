@@ -68,7 +68,6 @@ KERNEL_LIST += fs/configfs/samples/
 KERNEL_LIST += fs/debugfs/modules
 KERNEL_LIST += fs/myfs/myfs
 KERNEL_LIST += fs/procfs/modules
-KERNEL_LIST += ftrace/samples
 KERNEL_LIST += interrupt/idt/modules
 KERNEL_LIST += interrupt/ioapic/modules
 KERNEL_LIST += interrupt/request_irq
