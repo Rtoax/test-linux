@@ -13,6 +13,7 @@ TARGETS += loginuid
 TARGETS += pagemap
 TARGETS += mem
 TARGETS += maps
+TARGETS += stat
 
 all: $(TARGETS)
 
@@ -26,6 +27,7 @@ loginuid: loginuid.o
 pagemap: pagemap.o
 mem: mem.o
 maps: maps.o
+stat: stat.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

@@ -2,6 +2,7 @@
 /environ
 /exe
 /loginuid
-/pagemap
-/mem
 /maps
+/mem
+/pagemap
+/stat
