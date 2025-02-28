@@ -15,6 +15,6 @@ if __name__ == "__main__":
     mtime_str = datetime.fromtimestamp(int(mtime))
     atime_str = datetime.fromtimestamp(int(atime))
 
-    print("ctime %s" % ctime_str)
-    print("mtime %s" % mtime_str)
-    print("atime %s" % atime_str)
+    print("ctime %s, %d" % (ctime_str, ctime))
+    print("mtime %s, %d" % (mtime_str, mtime))
+    print("atime %s, %d" % (atime_str, atime))
