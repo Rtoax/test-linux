@@ -5,6 +5,7 @@
 /mktemp
 /mkstemp
 /env
+/environ
 /setenv
 /getenv
 /clearenv

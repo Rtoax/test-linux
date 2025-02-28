@@ -1,11 +1,10 @@
 include ../../tlbuild.mk
 
-
 TARGETS :=
 TARGETS += abort
 TARGETS += atof
 TARGETS += mkdtemp mktemp mkstemp mkostemp
-TARGETS += env setenv getenv clearenv putenv unsetenv
+TARGETS += env environ setenv getenv clearenv putenv unsetenv
 TARGETS += rand random random-dev srand srandom
 TARGETS += bsearch
 TARGETS += qsort
@@ -49,6 +48,7 @@ mktemp: mktemp.o
 mkstemp: mkstemp.o
 mkostemp: mkostemp.o
 env: env.o
+environ: environ.o
 setenv: setenv.o
 getenv: getenv.o
 putenv: putenv.o
