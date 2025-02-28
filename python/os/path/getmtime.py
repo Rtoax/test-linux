@@ -28,11 +28,16 @@ if __name__ == "__main__":
 
     time.sleep(1)
 
+    print("Open")
+    fd = os.open(file, os.O_CREAT | os.O_RDWR, 0o644)
+    os.close(fd)
     get_file_time(file)
 
     time.sleep(1)
 
-    # this will change mtime
+    print("Write")
+
+    # this will change ctime and mtime
     fd = os.open(file, os.O_CREAT | os.O_RDWR, 0o644)
     os.lseek(fd, 0, os.SEEK_SET)
     os.ftruncate(fd, 0)
