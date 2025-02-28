@@ -12,9 +12,11 @@
 - LSM: Linux Security Modules (统一访问安全框架)
 - MAC: Mandatory Access Control (强制访问控制) @SELinux
 - MB: Measure Boot () @TB
+- MOK: Machine Owner Key ()
 - OP-TEE:
 - PAM: Pluggable Authentication Modules (可插入验证模块)
 - PC: Privacy Computing (隐私计算) @AI
+- PCR/PCRs: Platform Configuration Registers ()
 - PGP: Pretty Good Privacy () @GPG
 - PL: Privilege Level (特权等级)
 - PSCI: Power State Coordination Interface (电源状态协调接口) @ATF
@@ -28,6 +30,7 @@
 - TB: Trusted Boot (可信启动) @MB
 - TC: Trusted Computing (可信计算)
 - TCG: Trusted Computing Group (可信计算组织)
+- TCPM: Trusted Computing Group's Trusted Platform Module () @TPM
 - TEE: The Trusted Execution Environment (可信运行环境) @OP-TEE @REE @SGX @TrustZone
 - TPM: Trusted Platform Module (可信平台模块)
 - TTP: Trusted Third Party (可信第三方)
