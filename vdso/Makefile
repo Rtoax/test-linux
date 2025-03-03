@@ -21,7 +21,7 @@ build: $(sub-dir-build)
 
 .PHONY: clean
 clean: $(sub-dir-clean)
-	${Q}rm -rf *.so
+	${Q}rm -rf *.so *.bt.out
 
 $(sub-dir-build):
 	@echo -e "\033[1;32m [sub-dir] build $(@)\033[m"

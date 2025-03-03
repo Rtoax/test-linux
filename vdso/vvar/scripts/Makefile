@@ -1,7 +1,5 @@
 include ../../../tlbuild.mk
 
-
-
 TARGET=clock_gettime.out
 
 all: ${TARGET}

@@ -2,6 +2,8 @@
 # EOF - End of File
 set -e
 
+var1="Hello, World!"
+
 wc -l << EOF
     This is a simple lookup program
     for good (and bad) restaurants
@@ -31,3 +33,10 @@ _foo
 	cat <<-EOF
 	#!/bin/bash
 	EOF
+
+
+cat <<-EOF
+#!/bin/bash
+"\$var1=1"
+echo ${var1}
+EOF
