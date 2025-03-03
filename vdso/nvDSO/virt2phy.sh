@@ -1,7 +1,7 @@
 #!/bin/bash
 set -ex
 
-PROG_DIR=../test-linux/mm/
+PROG_DIR=../../mm/
 
 if [[ ! -e ${PROG_DIR} ]]; then
 	echo "WARNING: sync git submodule first!!!"

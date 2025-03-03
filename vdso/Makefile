@@ -6,6 +6,7 @@ include vdso.mk
 sub-dir := linux-vdso.so.1
 sub-dir += scripts
 sub-dir += test
+sub-dir += nvDSO
 sub-dir += vvar/scripts/
 
 sub-dir-build := $(addprefix $(shell pwd)/,$(sub-dir:=.build))
