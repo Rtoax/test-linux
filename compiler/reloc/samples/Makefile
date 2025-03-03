@@ -1,6 +1,5 @@
 include ../../../tlbuild.mk
 
-
 sub-dir :=
 ifeq ($(shell uname -m),x86_64)
   sub-dir += x86_64
@@ -20,7 +19,7 @@ TARGETS += reloc-types
 TARGETS += testcase
 TARGETS += testcase-now
 
-CC = gcc
+CC := gcc
 
 CFLAGS := -Werror -Wall
 CFLAGS += -O0
