@@ -1,3 +1,6 @@
+/**
+ * see also touch(1)
+ */
 #ifndef _GNU_SOURCE
 #define _GNU_SOURCE
 #endif
@@ -12,11 +15,19 @@ int main(int argc, char *argv[])
 	const char *filename = argv[0];
 	struct timespec times[2];
 
-	/* access time */
+	/**
+	 * access time
+	 *
+	 * $ sudo touch -a -d '2025-03-21 15:32:16' [FILE]
+	 */
 	times[0].tv_sec = time(NULL) - 3600 * 24;
 	times[0].tv_nsec = 0;
 
-	/* modify time */
+	/**
+	 * modify time
+	 *
+	 * $ sudo touch -m -d '2025-03-31 15:32:16' [FILE]
+	 */
 	times[1].tv_sec = time(NULL) - 3600 * 24;
 	times[1].tv_nsec = 0;
 
