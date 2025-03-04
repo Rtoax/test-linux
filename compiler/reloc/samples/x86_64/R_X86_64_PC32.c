@@ -9,43 +9,38 @@
 #include <stdint.h>
 
 int8_t gi8 = 0;	/* .bss, GLOBAL */
+int32_t gi32 = 0;	/* .bss, GLOBAL */
+int64_t gi64 = 0;	/* .bss, GLOBAL */
+int64_t *pgi64 = NULL;	/* .bss, GLOBAL */
 
-int32_t gi = 0;	/* .bss, GLOBAL */
-int32_t gii = 1;	/* .data, GLOBAL */
+int32_t gi32i = 1;	/* .data, GLOBAL */
 
-int64_t gl = 0;	/* .bss, GLOBAL */
-int64_t *pgl = NULL;	/* .bss, GLOBAL */
+static int32_t si32 = 0;	/* .bss, LOCAL */
+static int64_t si64 = 0;	/* .bss, LOCAL */
 
-static int32_t si1 = 0;	/* .bss, LOCAL */
-static int32_t si2 = 0;	/* .bss, LOCAL */
-static int32_t sii = 1;	/* .data, LOCAL */
-
-static int32_t sl = 0;	/* .bss, LOCAL */
+static int32_t si32i = 1;	/* .data, LOCAL */
 
 /* foo is R_X86_64_PC32 */
 void foo(void)
 {
 	gi8 = 10;	/* R_X86_64_PC32 */
+	gi32 = 10;	/* R_X86_64_PC32 */
+	gi64 = 10;	/* R_X86_64_PC32 */
 
-	gi = 10;	/* R_X86_64_PC32 */
-	si1 = 10;	/* R_X86_64_PC32 */
-	si2 = 10;	/* R_X86_64_PC32 */
+	si32 = 10;	/* R_X86_64_PC32 */
 
-	gl = 10;	/* R_X86_64_PC32 */
-	pgl = NULL;	/* R_X86_64_PC32 */
+	pgi64 = NULL;	/* R_X86_64_PC32 */
 
-	sl = 10;	/* R_X86_64_PC32 */
+	si64 = 10;	/* R_X86_64_PC32 */
 }
-/**
- * alias_foo is R_X86_64_PC32
- */
-void alias_foo(void) __attribute__((alias("foo")));
+void foo_alias1(void) __attribute__((alias("foo")));
+void foo_alias2(void) __attribute__((alias("foo")));
 
 /* bar is R_X86_64_PC32 */
 void bar(void)
 {
-	gii = 20;	/* R_X86_64_PC32 */
-	sii = 20;	/* R_X86_64_PC32 */
+	gi32i = 20;	/* R_X86_64_PC32 */
+	si32i = 20;	/* R_X86_64_PC32 */
 }
 
 /* main is R_X86_64_PC32 */
