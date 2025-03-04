@@ -24,6 +24,7 @@
 - NDAs: Non-Disclosure Agreements (保密协议)
 - NIST: National Institute of Standard and Technology (美国国家标准与技术研究所)
 - NPTL: Native POSIX Threads Library (原生 POSIX 线程库) @POSIX
+- OSI: Open Source Initiative (开源倡议)
 - OSS: Open Source Software (开源软件)
 - POSIX: Portable Operating System Interface of UNIX (可移植操作系统接口)
 - QoS: Quality of Service (服务质量)
