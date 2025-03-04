@@ -18,6 +18,7 @@ TARGETS += nostdlib
 TARGETS += reloc-types
 TARGETS += testcase
 TARGETS += testcase-now
+TARGETS += relocs
 
 CC := gcc
 
@@ -32,10 +33,14 @@ ifdef DEBUG
 endif
 
 .PHONY: build
-build: ${TARGETS} $(sub-dir-build)
+build: relocs-gen.h ${TARGETS} $(sub-dir-build)
 	@echo -e " \033[1;33m Done \033[m"
 
-# Add more object.o file
+relocs-gen.h:
+	@echo -e "  GEN  \033[1;32m$(@)\033[m"
+	${Q}./relocs.h.sh
+
+relocs: relocs.o
 relocation-truncated-to-fit: relocation-truncated-to-fit.o relocation-truncated-to-fit-obj.o
 reloc-types: reloc-types.o reloc-types-libs.o reloc-types-vars.o
 nostdlib: nostdlib.o nostdlib-libs.o
@@ -72,7 +77,7 @@ test: ${TARGETS}
 .PHONY: clean
 clean: $(sub-dir-clean)
 	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
-	${Q}rm -f ${TARGETS} *.o *.readelf.log
+	${Q}rm -f ${TARGETS} *.o *.readelf.log relocs-gen.h
 
 $(sub-dir-build):
 	@echo -e "\033[1;32m [sub-dir] build $(@)\033[m"

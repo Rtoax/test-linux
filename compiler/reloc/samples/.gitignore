@@ -3,3 +3,5 @@
 /nostdlib
 /testcase
 /testcase-now
+/relocs-gen.h
+/relocs
