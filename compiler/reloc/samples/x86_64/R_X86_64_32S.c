@@ -8,30 +8,34 @@
 
 #include <stddef.h>
 
-static long sil = 1;
+#define RODATA_1	"Hello"
+
+static long sli = 1;
 static long *psl;
 
-const long gcl = 0xFFFFFFFF;
+const long gcl1 = 0xFFFFFFFF;
+const long gcl2 = 0x11111111;
 
 int main(void)
 {
 	/**
 	 * s1 and s2 are R_X86_64_32S in ELF 64-bit LSB relocatable
 	 */
-	const char *s1 = "Hello";
-	const char *s2 = "Hello";
+	const char *s1 = RODATA_1;
+	const char *s2 = RODATA_1;
 
 	/**
 	 * psl is R_X86_64_PC32
-	 * &sil is R_X86_64_32S in ELF 64-bit LSB relocatable
+	 * &sli is R_X86_64_32S in ELF 64-bit LSB relocatable
 	 */
 	psl = NULL;
-	psl = &sil;
+	psl = &sli;
 
 	/**
-	 * gcl is R_X86_64_32S in ELF 64-bit LSB relocatable
+	 * gcl1 and gcl2 are R_X86_64_32S in ELF 64-bit LSB relocatable
 	 */
-	const long *pl = &gcl;
+	const long *pl1 = &gcl1;
+	const long *pl2 = &gcl2;
 
 	return 0;
 }
