@@ -1,7 +1,5 @@
 include ../../tlbuild.mk
 
-
-
 obj-m += relocation.o
 
 # If KBUILD_CFLAGS is empty, insmod error happen:
@@ -13,6 +11,7 @@ endif
 
 KBUILD_CFLAGS += -Wno-unused-function
 KBUILD_CFLAGS += -Wno-unused-variable
+KBUILD_CFLAGS += -Wno-missing-prototypes
 
 all:
 	${Q}make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules

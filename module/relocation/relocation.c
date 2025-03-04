@@ -35,6 +35,8 @@ static int kernel_init(void)
 {
 	local_i++;
 	local_i_no += 1;
+	s_local_i = 1234;
+
 	printk("\n");
 	P_int(local_i);
 	P_int(local_i_no);
