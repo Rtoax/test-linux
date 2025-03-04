@@ -12,12 +12,15 @@ TARGETS += mknod
 TARGETS += st_mode
 TARGETS += fstatat
 TARGETS += utimensat
+TARGETS += futimens
 
 CC := gcc
 
 CFLAGS := -Werror -Wall -D_GNU_SOURCE
 CFLAGS += -pthread
 CFLAGS += -DDEBUG -O0 -g
+
+CFLAGS_futimens := -DFUTIMENS=1
 
 build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
@@ -34,6 +37,7 @@ mknod: mknod.o
 fstatat: fstatat.o helpers.o
 st_mode: st_mode.o helpers.o
 utimensat: utimensat.o
+futimens: futimens.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
