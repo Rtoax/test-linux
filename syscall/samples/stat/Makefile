@@ -1,6 +1,5 @@
 include ../../../tlbuild.mk
 
-
 TARGETS := lstat
 TARGETS += stat
 TARGETS += statx
@@ -12,19 +11,17 @@ TARGETS += mkdir
 TARGETS += mknod
 TARGETS += st_mode
 TARGETS += fstatat
+TARGETS += utimensat
 
-CC = gcc
+CC := gcc
 
 CFLAGS := -Werror -Wall -D_GNU_SOURCE
 CFLAGS += -pthread
-CFLAGS += -I../../../
-CFLAGS += -I../
 CFLAGS += -DDEBUG -O0 -g
 
 build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
-# Add more object.o file
 stat: stat.o helpers.o
 statx: statx.o
 fstat: fstat.o helpers.o
@@ -36,6 +33,7 @@ mkdir: mkdir.o
 mknod: mknod.o
 fstatat: fstatat.o helpers.o
 st_mode: st_mode.o helpers.o
+utimensat: utimensat.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

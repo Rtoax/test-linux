@@ -1,0 +1,30 @@
+#ifndef _GNU_SOURCE
+#define _GNU_SOURCE
+#endif
+#include <fcntl.h>
+#include <sys/stat.h>
+#include <time.h>
+#include <unistd.h>
+#include <stdio.h>
+
+int main(int argc, char *argv[])
+{
+	const char *filename = argv[0];
+	struct timespec times[2];
+
+	/* access time */
+	times[0].tv_sec = time(NULL) - 3600 * 24;
+	times[0].tv_nsec = 0;
+
+	/* modify time */
+	times[1].tv_sec = time(NULL) - 3600 * 24;
+	times[1].tv_nsec = 0;
+
+	if (utimensat(AT_FDCWD, filename, times, 0) == -1) {
+		perror("utimensat");
+		return 1;
+	}
+
+	printf("Success modify %s's atime and mtime\n", filename);
+	return 0;
+}
