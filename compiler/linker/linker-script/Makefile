@@ -28,15 +28,15 @@ hello-as: hello-as.o
 
 default.lds:
 	@echo -e "  LDS  generate \033[1;32m$(@)\033[m"
-	@./default.lds.sh
+	${Q}./default.lds.sh
 
 %.o: %.asm
 	@echo -e "  AS  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	@$(NASM) $(<) -felf64 -o $(@) $(CFLAGS) $(CFLAGS_$(*))
+	${Q}$(NASM) $(<) -felf64 -o $(@) $(CFLAGS) $(CFLAGS_$(*))
 
 ${TARGETS_AS}: %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	@$(LD) -T $(@).ld -o $(@) $(LDFLAGS) $(LDFLAGS_$(*))
+	${Q}$(LD) -T $(@).ld -o $(@) $(LDFLAGS) $(LDFLAGS_$(*))
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
