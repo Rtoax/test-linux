@@ -10,23 +10,29 @@
  * s1 ~ s8 are R_X86_64_64
  */
 
+/* section ".rodata" */
+#define RODATA_1	"Hello1"
+#define RODATA_2	"Hello2"
+#define RODATA_3	"Hello3"
+
 /**
  * in ELF 64-bit LSB relocatable:
  * s1 ~ s7 in ".rela.data" for non-pie, ".rela.data.rel.local" for pie
  */
-const char *s1 = "Hello";	/* .data, GLOBAL */
-const char *s2 = "Hello";	/* .data, GLOBAL */
-const char *s3 = "Hello2";	/* .data, GLOBAL */
-const char *s4 = "Hello2";	/* .data, GLOBAL */
-const char *s5 = "Hello2";	/* .data, GLOBAL */
-char *s6 = "Hello2";		/* .data, GLOBAL */
-static char *s7 = "Hello2";	/* .data, LOCAL */
+const char *s1 = RODATA_1;	/* .data, GLOBAL */
+const char *s2 = RODATA_1;	/* .data, GLOBAL */
+const char *s3 = RODATA_2;	/* .data, GLOBAL */
+const char *s4 = RODATA_2;	/* .data, GLOBAL */
+const char *s5 = RODATA_2;	/* .data, GLOBAL */
+char *s6 = RODATA_2;		/* .data, GLOBAL */
+static char *s7 = RODATA_2;	/* .data, LOCAL */
 
 /**
  * in ELF 64-bit LSB relocatable:
- * s8 in ".rela.redata" for non-pie, ".rela.data.rel.ro.local" for pie
+ * s8 ~ s9 in ".rela.redata" for non-pie, ".rela.data.rel.ro.local" for pie
  */
-char *const s8 = "Hello2";	/* .rodata, GLOBAL */
+char *const s8 = RODATA_2;	/* .rodata, GLOBAL */
+char *const s9 = RODATA_3;	/* .rodata, GLOBAL */
 
 /**
  * in ELF 64-bit LSB relocatable:
