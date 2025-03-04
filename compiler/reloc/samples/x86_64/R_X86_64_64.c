@@ -7,13 +7,16 @@
 
 /**
  * in ELF 64-bit LSB relocatable:
- * s1 ~ s8 are R_X86_64_64
+ * s1 ~ s8 and pi1 ~ pi2 are R_X86_64_64
  */
 
 /* section ".rodata" */
 #define RODATA_1	"Hello1"
 #define RODATA_2	"Hello2"
 #define RODATA_3	"Hello3"
+
+/* section ".data" */
+static int arr_i[] = { 1, 2, 3, 4 };
 
 /**
  * in ELF 64-bit LSB relocatable:
@@ -33,6 +36,13 @@ static char *s7 = RODATA_2;	/* .data, LOCAL */
  */
 char *const s8 = RODATA_2;	/* .rodata, GLOBAL */
 char *const s9 = RODATA_3;	/* .rodata, GLOBAL */
+
+/**
+ * in ELF 64-bit LSB relocatable:
+ * pi1 ~ pi2 in ".rela.redata" for non-pie, ".rela.data.rel.ro.local" for pie
+ */
+int *pi1 = arr_i;
+int *pi2 = arr_i + 1;
 
 /**
  * in ELF 64-bit LSB relocatable:
