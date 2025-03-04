@@ -23,7 +23,7 @@ LDFLAGS_C := -Wl,-Tdefault.lds
 
 all: ${TARGETS_LDS} ${TARGETS_AS} ${TARGETS_C}
 
-main-c: main-c.o
+main-c: main-c.o foo.o
 hello-as: hello-as.o
 
 default.lds:
