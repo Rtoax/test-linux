@@ -82,6 +82,7 @@ elf_foreachreloc() {
 	elf=$1
 	shift
 
+	# Relocation section '.rela.text' at offset 0x400 contains 12 entries:
 	#     Offset             Info             Type      Symbol's Value  Symbol's Name + Addend
 	# 0000000000000006  0000000800000002 R_X86_64_PC32  0000000000000000 gi8 - 5
 	while read offset info type svalue sname operator addend
@@ -89,6 +90,33 @@ elf_foreachreloc() {
 		printf "0x%lx 0x%016lx %s 0x%lx %s %s%s\n" \
 			0x${offset} 0x${info} ${type} 0x${svalue} ${sname} ${operator} ${addend}
 	done <<< $(readelf --relocs --wide ${elf} | grep -e R_X86_64 -e R_AARCH64)
+}
+
+elf_foreachreloc_sec() {
+	local elf offset info type svalue sname operator addend section
+
+	elf=$1
+	shift
+
+	while read offset info type svalue sname operator addend section
+	do
+		printf "0x%lx 0x%016lx %s 0x%lx %s %s%s %s\n" \
+			0x${offset} 0x${info} ${type} 0x${svalue} ${sname} ${operator} ${addend} ${section}
+	done <<< $(readelf --relocs --wide ${elf} | awk '
+		BEGIN {
+			section_name = "NULL"
+		}
+		{
+			if ($1 == "Relocation") {
+				section_name=$3
+			}
+			if (match($3, "R_X86_64_") || match($3, "R_AARCH64_")) {
+				for (i=1; i<=NF; i++) {
+					printf $(i)" "
+				}
+				printf section_name"\n"
+			}
+		}')
 }
 
 elf_rela_secnames() {
@@ -119,4 +147,5 @@ if [[ $# -ge 1 ]]; then
 	test_section_info
 
 	elf_foreachreloc R_X86_64_PC32.o
+	elf_foreachreloc_sec R_X86_64_PC32.o
 fi
