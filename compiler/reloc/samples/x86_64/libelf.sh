@@ -49,3 +49,25 @@ sec2addr() {
 	readelf --sections --wide ${elf} | grep "\[[[:space:]]*${sec}\]" \
 		| awk '{print "0x"$(NF-7)}'
 }
+
+__off2sym_bias() {
+	local elf=$1
+	local off=$2
+	local type=$3
+	readelf --syms --wide ${elf} | awk -v off=${off} -v type=${type} '
+		{
+			if ($4 == type) {
+				if (strtonum(0x$2) <= strtonum(off) && strtonum(0x$2) + $3 > strtonum(off)) {
+					print $(NF)" +"(strtonum(off) - strtonum(0x$2))
+				}
+			}
+		}' | head -1
+}
+
+off2func() {
+	__off2sym_bias $1 $2 FUNC | awk '{print $1}'
+}
+
+if [[ $# -ge 1 ]]; then
+	off2func R_X86_64_PC32.o 0x6
+fi
