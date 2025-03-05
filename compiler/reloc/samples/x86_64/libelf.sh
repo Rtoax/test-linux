@@ -68,6 +68,21 @@ off2func() {
 	__off2sym_bias $1 $2 FUNC | awk '{print $1}'
 }
 
+foreachreloc() {
+	local elf offset info type svalue sname operator addend
+
+	elf=$1
+	shift
+
+	#     Offset             Info             Type      Symbol's Value  Symbol's Name + Addend
+	# 0000000000000006  0000000800000002 R_X86_64_PC32  0000000000000000 gi8 - 5
+	while read offset info type svalue sname operator addend
+	do
+		printf "0x%lx 0x%016lx %s 0x%lx %s %s%s\n" \
+			0x${offset} 0x${info} ${type} 0x${svalue} ${sname} ${operator} ${addend}
+	done <<< $(readelf --relocs --wide ${elf} | grep -e R_X86_64 -e R_AARCH64)
+}
+
 if [[ $# -ge 1 ]]; then
-	off2func R_X86_64_PC32.o 0x6
+	foreachreloc R_X86_64_PC32.o
 fi
