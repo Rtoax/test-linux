@@ -18,6 +18,22 @@ sym2value() {
 	readelf --syms --wide ${elf} | grep -w ${fun} | awk '{print "0x"$2}'
 }
 
+name2sec() {
+	local elf=$1
+	local name=$2
+	readelf --sections --wide ${elf} | awk -v name=${name} '
+		{
+			# [ 1] .text
+			if ($3==name) {
+				print $2
+			}
+			# [1] .text
+			if ($2==name) {
+				print $1
+			}
+		}' | grep -o [0-9]*
+}
+
 sec2name() {
 	local elf=$1
 	local sec=$2
@@ -45,6 +61,10 @@ r_off_add=( $(readelf --relocs --wide ${OBJ} \
 r_offset=${r_off_add[0]}
 r_addend=${r_off_add[1]}
 printf "obj: %s : r_offset %s, r_addend %s\n" ${SYM} ${r_offset} ${r_addend}
+
+obj_text_sec=$(name2sec ${OBJ} .text)
+exe_text_sec=$(name2sec ${EXE} .text)
+printf ".text: obj sec %d, exe sec %d\n" ${obj_text_sec} ${exe_text_sec}
 
 obj_func_sec=$(sym2sec ${OBJ} ${FUNC})
 obj_func_sh_name=$(sec2name ${OBJ} ${obj_func_sec})
