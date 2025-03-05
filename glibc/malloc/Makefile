@@ -27,8 +27,8 @@ CFLAGS_helpers := -Wno-error=deprecated-declarations
 CFLAGS_aligned_alloc := -DALIGNED_ALLOC=1
 CFLAGS_valloc := -DVALLOC=1
 CFLAGS_overflow := -DOVERFLOW=1
-CFLAGS_use-after-free := -DUSE_AFTER_FREE=1
-CFLAGS_double-free := -DDOUBLE_FREE=1
+CFLAGS_use-after-free := -DUSE_AFTER_FREE=1 -Wno-error=use-after-free
+CFLAGS_double-free := -DDOUBLE_FREE=1 -Wno-error=use-after-free
 CFLAGS_corrupted-size-vs.prev_size := -DCORRUPTED_SIZE_VS_PREV_SIZE=1
 
 .PHONY: build
