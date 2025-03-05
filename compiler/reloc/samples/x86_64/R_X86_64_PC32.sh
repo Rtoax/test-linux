@@ -12,7 +12,8 @@ r_off_add=( $(readelf --relocs --wide ${OBJ} \
 		| awk '{print "0x"$1" "$(NF-1)$(NF)}') )
 r_offset=${r_off_add[0]}
 r_addend=${r_off_add[1]}
-printf "obj: %s : r_offset %s, r_addend %s\n" ${SYM} ${r_offset} ${r_addend}
+r_func=$(off2func ${OBJ} ${r_offset})
+printf "obj: %s : r_offset %s, r_addend %s, near func %s\n" ${SYM} ${r_offset} ${r_addend} ${r_func}
 
 obj_text_sec=$(name2sec ${OBJ} .text)
 obj_text_sec_off=$(sec2offset ${OBJ} ${obj_text_sec})
@@ -23,7 +24,6 @@ exe_text_sec_addr=$(sec2addr ${EXE} ${exe_text_sec})
 printf "obj: .text: sec %d, addr 0x%lx, off 0x%lx\n" ${obj_text_sec} ${obj_text_sec_addr} ${obj_text_sec_off}
 printf "exe: .text: sec %d, addr 0x%lx, off 0x%lx\n" ${exe_text_sec} ${exe_text_sec_addr} ${exe_text_sec_off}
 
-r_func=$(off2func ${OBJ} ${r_offset})
 
 obj_func_sec=$(sym2sec ${OBJ} ${r_func})
 obj_func_sh_addr=$(sec2addr ${OBJ} ${obj_func_sec})
