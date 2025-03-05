@@ -6,7 +6,6 @@ set -e
 OBJ=R_X86_64_PC32.o
 EXE=R_X86_64_PC32
 SYM=gi8
-FUNC=foo
 
 r_off_add=( $(readelf --relocs --wide ${OBJ} \
 		| grep -w R_X86_64_PC32 | grep -w ${SYM} \
@@ -24,17 +23,19 @@ exe_text_sec_addr=$(sec2addr ${EXE} ${exe_text_sec})
 printf "obj: .text: sec %d, addr 0x%lx, off 0x%lx\n" ${obj_text_sec} ${obj_text_sec_addr} ${obj_text_sec_off}
 printf "exe: .text: sec %d, addr 0x%lx, off 0x%lx\n" ${exe_text_sec} ${exe_text_sec_addr} ${exe_text_sec_off}
 
-obj_func_sec=$(sym2sec ${OBJ} ${FUNC})
+r_func=$(off2func ${OBJ} ${r_offset})
+
+obj_func_sec=$(sym2sec ${OBJ} ${r_func})
 obj_func_sh_name=$(sec2name ${OBJ} ${obj_func_sec})
 obj_func_sh_addr=$(sec2addr ${OBJ} ${obj_func_sec})
 obj_func_sh_offset=$(sec2offset ${OBJ} ${obj_func_sec})
-obj_func_st_value=$(sym2value ${OBJ} ${FUNC})
+obj_func_st_value=$(sym2value ${OBJ} ${r_func})
 
-exe_func_sec=$(sym2sec ${EXE} ${FUNC})
+exe_func_sec=$(sym2sec ${EXE} ${r_func})
 exe_func_sh_name=$(sec2name ${EXE} ${exe_func_sec})
 exe_func_sh_addr=$(sec2addr ${EXE} ${exe_func_sec})
 exe_func_sh_offset=$(sec2offset ${EXE} ${exe_func_sec})
-exe_func_st_value=$(sym2value ${EXE} ${FUNC})
+exe_func_st_value=$(sym2value ${EXE} ${r_func})
 
 obj_sym_st_value=$(sym2value ${OBJ} ${SYM})
 obj_sym_sec=$(sym2sec ${OBJ} ${SYM})
@@ -49,9 +50,9 @@ exe_sym_sh_addr=$(sec2addr ${EXE} ${exe_sym_sec})
 exe_sym_sh_offset=$(sec2offset ${EXE} ${exe_sym_sec})
 
 printf "obj: %s : section %-2d, sh_addr %s, sh_offset %s, st_value %s (%s)\n" \
-	${FUNC} ${obj_func_sec} ${obj_func_sh_addr} ${obj_func_sh_offset} ${obj_func_st_value} ${obj_func_sh_name}
+	${r_func} ${obj_func_sec} ${obj_func_sh_addr} ${obj_func_sh_offset} ${obj_func_st_value} ${obj_func_sh_name}
 printf "exe: %s : section %-2d, sh_addr %s, sh_offset %s, st_value %s (%s)\n" \
-	${FUNC} ${exe_func_sec} ${exe_func_sh_addr} ${exe_func_sh_offset} ${exe_func_st_value} ${exe_func_sh_name}
+	${r_func} ${exe_func_sec} ${exe_func_sh_addr} ${exe_func_sh_offset} ${exe_func_st_value} ${exe_func_sh_name}
 
 printf "obj: %s : section %-2d, sh_addr %s, sh_offset %s, st_value %s (%s)\n" \
 	${SYM} ${obj_sym_sec} ${obj_sym_sh_addr} ${obj_sym_sh_offset} ${obj_sym_st_value} ${obj_sym_sh_name}
@@ -68,7 +69,8 @@ hexdump -C exe.bin
 sym_offset=$( printf 0x%lx $(( ${exe_sym_st_value} - (${exe_sym_sh_addr} - ${exe_sym_sh_offset}) )) )
 printf "exe: %s : sym_offset %s\n" ${SYM} ${sym_offset}
 
-printf "%s : S + A - P = %s + %s + %s = %s\n" ${SYM} \
-	${exe_sym_st_value} ${r_addend} ?? \
-	??
+pos=$(( ${exe_func_st_value} + ${r_offset} ))
+val=$(( ${exe_sym_st_value} + ${r_addend} - ${pos} ))
+printf "R_X86_64_PC32: %s : S + A - P = 0x%lx + %s + 0x%lx = 0x%lx\n" ${SYM} \
+	${exe_sym_st_value} ${r_addend} ${pos} ${val}
 
