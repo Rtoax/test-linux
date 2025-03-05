@@ -8,28 +8,32 @@
  */
 #include <stdio.h>
 #include <malloc.h>
+#include <unistd.h>
 
 #include "helpers.h"
 
 int main(void)
 {
 	char *p1, *p2;
+	size_t size = getpagesize();
 
-	p1 = malloc(1024);
+	p1 = malloc(size);
 	printf("p1 %p\n", p1);
 
 	print_mallinfo();
 
-	p2 = malloc(2048);
+	p2 = malloc(size);
 	printf("p2 %p\n", p2);
 
 	print_mallinfo();
 
 	printf("release free memory from the heap\n");
-	malloc_trim(2048);
+	malloc_trim(size * 2);
 
 	print_mallinfo();
 
+	free(p1);
+	free(p2);
 	return 0;
 }
 
