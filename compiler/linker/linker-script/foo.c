@@ -1,7 +1,13 @@
-int foo1 = 1;
+int foo_i1 = 1;
 
-int foo(void)
+int foo1(void)
 {
-	foo1 = 2;
+	foo_i1 = 2;
+	return 0;
+}
+
+int foo2(void)
+{
+	foo_i1 = 3;
 	return 0;
 }
