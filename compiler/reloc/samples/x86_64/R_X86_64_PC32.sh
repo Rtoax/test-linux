@@ -5,7 +5,7 @@ set -e
 
 OBJ=R_X86_64_PC32.o
 EXE=R_X86_64_PC32
-SYM=gi8
+SYM=gi32
 
 r_off_add=( $(readelf --relocs --wide ${OBJ} \
 		| grep -w R_X86_64_PC32 | grep -w ${SYM} \
@@ -71,6 +71,6 @@ printf "exe: %s : sym_offset %s\n" ${SYM} ${sym_offset}
 
 pos=$(( ${exe_func_st_value} + ${r_offset} ))
 val=$(( ${exe_sym_st_value} + ${r_addend} - ${pos} ))
-printf "R_X86_64_PC32: %s : S + A - P = 0x%lx + %s + 0x%lx = 0x%lx\n" ${SYM} \
+printf "R_X86_64_PC32: %s : S + A - P = 0x%lx + %s - 0x%lx = 0x%lx\n" ${SYM} \
 	${exe_sym_st_value} ${r_addend} ${pos} ${val}
 
