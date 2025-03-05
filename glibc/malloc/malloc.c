@@ -2,11 +2,24 @@
 #include <stdlib.h>
 #include <malloc.h>
 #include <mcheck.h>
+#include <unistd.h>
 
 int main(void)
 {
-	int *a = malloc(12);
+	char *str;
+	size_t size = getpagesize();
+
+	str = malloc(size);
 	mtrace();
-	free(a);
+
+#ifdef OVERFLOW
+#pragma message("test overflow")
+	/**
+	 * $ valgrind --tool=memcheck ./overflow
+	 */
+	str[size] = 'a';
+#endif
+
+	free(str);
 	return 0;
 }

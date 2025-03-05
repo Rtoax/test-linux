@@ -491,6 +491,7 @@ pkgs_base+=( tmux )
 pkgs_base+=( trace-cmd )
 pkgs_base+=( tree )
 pkgs_base+=( util-linux )           # wipefs, etc.
+pkgs_base+=( valgrind )
 pkgs_base+=( vim )
 pkgs_base+=( yq )
 

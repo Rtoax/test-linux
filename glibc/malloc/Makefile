@@ -2,7 +2,7 @@
 include ../../tlbuild.mk
 
 TARGETS :=
-TARGETS += malloc
+TARGETS += malloc overflow
 TARGETS += mallinfo
 TARGETS += mallopt
 TARGETS += malloc_get_state
@@ -22,17 +22,19 @@ CC := gcc
 CFLAGS := -Werror -Wall
 CFLAGS += -DDEBUG -O0 -g
 
-
-build: ${TARGETS}
-	${Q}ld.so --list-tunables | grep -i malloc
-	@echo -e " \033[1;33m Done \033[m"
-
 CFLAGS_mallinfo := -Wno-error=deprecated-declarations
 CFLAGS_helpers := -Wno-error=deprecated-declarations
 CFLAGS_aligned_alloc := -DALIGNED_ALLOC=1
 CFLAGS_valloc := -DVALLOC=1
+CFLAGS_overflow := -DOVERFLOW=1
+
+.PHONY: build
+build: ${TARGETS}
+	${Q}ld.so --list-tunables | grep -i malloc
+	@echo -e " \033[1;33m Done \033[m"
 
 malloc: malloc.o
+overflow: overflow.o
 mallinfo: mallinfo.o helpers.o
 mallopt: mallopt.o
 malloc_get_state: malloc_get_state.o
