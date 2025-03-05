@@ -1,6 +1,8 @@
 /mallopt
 /mallinfo
 /posix_memalign
+/aligned_alloc
+/valloc
 /malloc
 /malloc_get_state
 /malloc_info

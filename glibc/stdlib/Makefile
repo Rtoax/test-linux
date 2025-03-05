@@ -34,6 +34,15 @@ CC = gcc
 CFLAGS := -Werror -Wall
 CFLAGS += -DDEBUG -O0 -g -ggdb
 
+CFLAGS_unlockpt := -D_XOPEN_SOURCE
+# TODO
+CFLAGS_unlockpt += -Wno-implicit-function-declaration
+
+CFLAGS_srand := -DSRAND=1
+CFLAGS_srandom := -DSRANDOM=1
+CFLAGS_aligned_alloc := -DALIGNED_ALLOC=1
+CFLAGS_valloc := -DVALLOC=1
+
 build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
@@ -86,13 +95,6 @@ _Exit: _Exit.o
 open_pty_pair: open_pty_pair.o
 div: div.o
 demo-qsort-bsearch: demo-qsort-bsearch.o
-
-CFLAGS_unlockpt := -D_XOPEN_SOURCE
-# TODO
-CFLAGS_unlockpt += -Wno-implicit-function-declaration
-
-CFLAGS_srand := -DSRAND=1
-CFLAGS_srandom := -DSRANDOM=1
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
