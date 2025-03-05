@@ -1,0 +1,13 @@
+#!/bin/env bpftrace
+
+uprobe:/lib64/libc.so.6:malloc_trim
+{
+	printf("malloc_trim: pad = %ld\n", arg0);
+}
+
+/**
+ * TODO: corrupted size vs. prev_size in fastbins
+ */
+uprobe:/lib64/libc.so.6:malloc_consolidate
+{
+}

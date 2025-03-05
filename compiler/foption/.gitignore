@@ -26,3 +26,4 @@
 /fplt
 /fno-plt
 /fuse-ld
+/fsanitize

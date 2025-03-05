@@ -16,6 +16,7 @@ TARGETS += finput-charset
 TARGETS += fno-zero-initialized-in-bss fzero-initialized-in-bss
 TARGETS += fplt fno-plt
 TARGETS += fuse-ld
+TARGETS += fsanitize
 
 ifeq ($(CC_-fcf-protection),1)
   TARGETS += fcf-protection
@@ -64,6 +65,8 @@ CFLAGS_fno-plt := -fno-plt
 # Use the bfd linker instead of the default linker. There are bfd, gold, lld,
 # mold, etc. optional linkers.
 LDFLAGS_fuse-ld := -fuse-ld=bfd
+CFLAGS_fsanitize := -fsanitize=address
+LDFLAGS_fsanitize := ${CFLAGS_fsanitize}
 
 build: ${TARGETS}
 	@echo -e "  CC = ${CC}"
@@ -92,6 +95,7 @@ fzero-initialized-in-bss: fzero-initialized-in-bss.o
 fplt: fplt.o
 fno-plt: fno-plt.o
 fuse-ld: fuse-ld.o
+fsanitize: fsanitize.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
