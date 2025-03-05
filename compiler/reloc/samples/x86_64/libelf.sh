@@ -108,10 +108,15 @@ elf_rela_secnames() {
 }
 
 if [[ $# -ge 1 ]]; then
-	names=( $(elf_rela_secnames R_X86_64_PC32.o) )
-	for n in ${names[@]}; do
-		sec=$(elf_name2sec R_X86_64_PC32.o ${n})
-		sh_info=$(elf_sec2info R_X86_64_PC32.o ${sec})
-		printf "%-16s : %-2d %-2d\n" ${n} ${sec} ${sh_info}
-	done
+	test_section_info() {
+		names=( $(elf_rela_secnames R_X86_64_PC32.o) )
+		for n in ${names[@]}; do
+			sec=$(elf_name2sec R_X86_64_PC32.o ${n})
+			sh_info=$(elf_sec2info R_X86_64_PC32.o ${sec})
+			printf "%-16s : %-2d %-2d\n" ${n} ${sec} ${sh_info}
+		done
+	}
+	test_section_info
+
+	elf_foreachreloc R_X86_64_PC32.o
 fi
