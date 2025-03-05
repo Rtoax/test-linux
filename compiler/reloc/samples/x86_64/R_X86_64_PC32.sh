@@ -63,8 +63,13 @@ r_addend=${r_off_add[1]}
 printf "obj: %s : r_offset %s, r_addend %s\n" ${SYM} ${r_offset} ${r_addend}
 
 obj_text_sec=$(name2sec ${OBJ} .text)
+obj_text_sec_off=$(sec2offset ${OBJ} ${obj_text_sec})
+obj_text_sec_addr=$(sec2addr ${OBJ} ${obj_text_sec})
 exe_text_sec=$(name2sec ${EXE} .text)
-printf ".text: obj sec %d, exe sec %d\n" ${obj_text_sec} ${exe_text_sec}
+exe_text_sec_off=$(sec2offset ${EXE} ${exe_text_sec})
+exe_text_sec_addr=$(sec2addr ${EXE} ${exe_text_sec})
+printf "obj: .text: sec %d, addr 0x%lx, off 0x%lx\n" ${obj_text_sec} ${obj_text_sec_addr} ${obj_text_sec_off}
+printf "exe: .text: sec %d, addr 0x%lx, off 0x%lx\n" ${exe_text_sec} ${exe_text_sec_addr} ${exe_text_sec_off}
 
 obj_func_sec=$(sym2sec ${OBJ} ${FUNC})
 obj_func_sh_name=$(sec2name ${OBJ} ${obj_func_sec})
