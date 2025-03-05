@@ -83,6 +83,13 @@ foreachreloc() {
 	done <<< $(readelf --relocs --wide ${elf} | grep -e R_X86_64 -e R_AARCH64)
 }
 
+rela_secnames() {
+	local elf=$1
+	local relas=( $(readelf --sections --wide ${elf} | grep RELA | awk '{print $(NF-9)}') )
+	echo ${relas[@]}
+}
+
 if [[ $# -ge 1 ]]; then
-	foreachreloc R_X86_64_PC32.o
+	rela_secnames R_X86_64_PC32.o
+	rela_secnames R_X86_64_PC32
 fi
