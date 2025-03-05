@@ -13,6 +13,7 @@
 /malloc_stats
 /realloc
 /malloc_trim
+/corrupted-size-vs.prev_size
 /malloc_usable_size
 /memalign
 /pvalloc

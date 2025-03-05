@@ -12,7 +12,7 @@ TARGETS += posix_memalign
 TARGETS += aligned_alloc
 TARGETS += valloc
 TARGETS += realloc
-TARGETS += malloc_trim
+TARGETS += malloc_trim corrupted-size-vs.prev_size
 TARGETS += malloc_usable_size
 TARGETS += memalign
 TARGETS += pvalloc
@@ -29,6 +29,7 @@ CFLAGS_valloc := -DVALLOC=1
 CFLAGS_overflow := -DOVERFLOW=1
 CFLAGS_use-after-free := -DUSE_AFTER_FREE=1
 CFLAGS_double-free := -DDOUBLE_FREE=1
+CFLAGS_corrupted-size-vs.prev_size := -DCORRUPTED_SIZE_VS_PREV_SIZE=1
 
 .PHONY: build
 build: ${TARGETS}
@@ -49,6 +50,7 @@ aligned_alloc: aligned_alloc.o
 valloc: valloc.o
 realloc: realloc.o
 malloc_trim: malloc_trim.o helpers.o
+corrupted-size-vs.prev_size: corrupted-size-vs.prev_size.o helpers.o
 malloc_usable_size: malloc_usable_size.o
 memalign: memalign.o
 pvalloc: pvalloc.o
