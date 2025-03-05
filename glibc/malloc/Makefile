@@ -2,7 +2,7 @@
 include ../../tlbuild.mk
 
 TARGETS :=
-TARGETS += malloc overflow
+TARGETS += malloc overflow use-after-free double-free
 TARGETS += mallinfo
 TARGETS += mallopt
 TARGETS += malloc_get_state
@@ -27,6 +27,8 @@ CFLAGS_helpers := -Wno-error=deprecated-declarations
 CFLAGS_aligned_alloc := -DALIGNED_ALLOC=1
 CFLAGS_valloc := -DVALLOC=1
 CFLAGS_overflow := -DOVERFLOW=1
+CFLAGS_use-after-free := -DUSE_AFTER_FREE=1
+CFLAGS_double-free := -DDOUBLE_FREE=1
 
 .PHONY: build
 build: ${TARGETS}
@@ -35,6 +37,8 @@ build: ${TARGETS}
 
 malloc: malloc.o
 overflow: overflow.o
+use-after-free: use-after-free.o
+double-free: double-free.o
 mallinfo: mallinfo.o helpers.o
 mallopt: mallopt.o
 malloc_get_state: malloc_get_state.o

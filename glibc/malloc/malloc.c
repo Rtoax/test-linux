@@ -21,5 +21,21 @@ int main(void)
 #endif
 
 	free(str);
+#ifdef DOUBLE_FREE
+#pragma message("test double-free")
+	/**
+	 * $ valgrind --tool=memcheck ./double-free
+	 */
+	free(str);
+#endif
+
+#ifdef USE_AFTER_FREE
+#pragma message("test use-after-free")
+	/**
+	 * $ valgrind --leak-check=full ./use-after-free
+	 */
+	str[1] = 'c';
+#endif
+
 	return 0;
 }

@@ -5,6 +5,8 @@
 /valloc
 /malloc
 /overflow
+/use-after-free
+/double-free
 /malloc_get_state
 /malloc_info
 /malloc_info.xml
