@@ -85,7 +85,17 @@ foreachreloc() {
 
 rela_secnames() {
 	local elf=$1
-	local relas=( $(readelf --sections --wide ${elf} | grep RELA | awk '{print $(NF-9)}') )
+	local relas=( $(readelf --sections --wide ${elf} \
+			| awk '
+			{
+				# [ 2] .rela.text        RELA
+				# or:
+				#  [2] .rela.text        RELA
+				if ($4 == "RELA" || $3 == "RELA") {
+					print $(NF-9)
+				}
+			}'
+			) )
 	echo ${relas[@]}
 }
 
