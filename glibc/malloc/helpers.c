@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <malloc.h>
 
+#include "helpers.h"
+
 void print_mallinfo(void)
 {
 	struct mallinfo mf1 = mallinfo();
