@@ -50,6 +50,14 @@ sec2addr() {
 		| awk '{print "0x"$(NF-7)}'
 }
 
+# section sh_info: Additional section information
+sec2info() {
+	local elf=$1
+	local sec=$2
+	readelf --sections --wide ${elf} | grep "\[[[:space:]]*${sec}\]" \
+		| awk '{print $(NF-1)}'
+}
+
 __off2sym_bias() {
 	local elf=$1
 	local off=$2
@@ -100,6 +108,10 @@ rela_secnames() {
 }
 
 if [[ $# -ge 1 ]]; then
-	rela_secnames R_X86_64_PC32.o
-	rela_secnames R_X86_64_PC32
+	names=( $(rela_secnames R_X86_64_PC32.o) )
+	for n in ${names[@]}; do
+		sec=$(name2sec R_X86_64_PC32.o ${n})
+		sh_info=$(sec2info R_X86_64_PC32.o ${sec})
+		printf "%-16s : %-2d %-2d\n" ${n} ${sec} ${sh_info}
+	done
 fi
