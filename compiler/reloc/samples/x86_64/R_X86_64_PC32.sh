@@ -26,13 +26,11 @@ printf "exe: .text: sec %d, addr 0x%lx, off 0x%lx\n" ${exe_text_sec} ${exe_text_
 r_func=$(off2func ${OBJ} ${r_offset})
 
 obj_func_sec=$(sym2sec ${OBJ} ${r_func})
-obj_func_sh_name=$(sec2name ${OBJ} ${obj_func_sec})
 obj_func_sh_addr=$(sec2addr ${OBJ} ${obj_func_sec})
 obj_func_sh_offset=$(sec2offset ${OBJ} ${obj_func_sec})
 obj_func_st_value=$(sym2value ${OBJ} ${r_func})
 
 exe_func_sec=$(sym2sec ${EXE} ${r_func})
-exe_func_sh_name=$(sec2name ${EXE} ${exe_func_sec})
 exe_func_sh_addr=$(sec2addr ${EXE} ${exe_func_sec})
 exe_func_sh_offset=$(sec2offset ${EXE} ${exe_func_sec})
 exe_func_st_value=$(sym2value ${EXE} ${r_func})
@@ -49,25 +47,23 @@ exe_sym_sh_name=$(sec2name ${EXE} ${exe_sym_sec})
 exe_sym_sh_addr=$(sec2addr ${EXE} ${exe_sym_sec})
 exe_sym_sh_offset=$(sec2offset ${EXE} ${exe_sym_sec})
 
-printf "obj: %s : section %-2d, sh_addr %s, sh_offset %s, st_value %s (%s)\n" \
-	${r_func} ${obj_func_sec} ${obj_func_sh_addr} ${obj_func_sh_offset} ${obj_func_st_value} ${obj_func_sh_name}
-printf "exe: %s : section %-2d, sh_addr %s, sh_offset %s, st_value %s (%s)\n" \
-	${r_func} ${exe_func_sec} ${exe_func_sh_addr} ${exe_func_sh_offset} ${exe_func_st_value} ${exe_func_sh_name}
+printf "obj: %s : section %-2d, sh_addr %s, sh_offset %s, st_value %s\n" \
+	${r_func} ${obj_func_sec} ${obj_func_sh_addr} ${obj_func_sh_offset} ${obj_func_st_value}
+printf "exe: %s : section %-2d, sh_addr %s, sh_offset %s, st_value %s\n" \
+	${r_func} ${exe_func_sec} ${exe_func_sh_addr} ${exe_func_sh_offset} ${exe_func_st_value}
 
 printf "obj: %s : section %-2d, sh_addr %s, sh_offset %s, st_value %s (%s)\n" \
 	${SYM} ${obj_sym_sec} ${obj_sym_sh_addr} ${obj_sym_sh_offset} ${obj_sym_st_value} ${obj_sym_sh_name}
 printf "exe: %s : section %-2d, sh_addr %s, sh_offset %s, st_value %s (%s)\n" \
 	${SYM} ${exe_sym_sec} ${exe_sym_sh_addr} ${exe_sym_sh_offset} ${exe_sym_st_value} ${exe_sym_sh_name}
 
+obj_func_sec_off=$(( ${obj_func_st_value} - (${obj_func_sh_addr} - ${obj_func_sh_offset}) ))
 exe_func_sec_off=$(( ${exe_func_st_value} - (${exe_func_sh_addr} - ${exe_func_sh_offset}) ))
 
-dd if=${OBJ} skip=$(printf %ld $(( ${obj_func_sh_offset} + ${r_offset} ))) ibs=1 of=obj.bin count=4 2>/dev/null
+dd if=${OBJ} skip=$(printf %ld $(( ${obj_func_sec_off} + ${r_offset} ))) ibs=1 of=obj.bin count=4 2>/dev/null
 dd if=${EXE} skip=$(printf %ld $(( ${exe_func_sec_off} + ${r_offset} ))) ibs=1 of=exe.bin count=4 2>/dev/null
 hexdump -C obj.bin
 hexdump -C exe.bin
-
-sym_offset=$( printf 0x%lx $(( ${exe_sym_st_value} - (${exe_sym_sh_addr} - ${exe_sym_sh_offset}) )) )
-printf "exe: %s : sym_offset %s\n" ${SYM} ${sym_offset}
 
 pos=$(( ${exe_func_st_value} + ${r_offset} ))
 val=$(( ${exe_sym_st_value} + ${r_addend} - ${pos} ))
