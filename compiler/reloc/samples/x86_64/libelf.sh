@@ -1,19 +1,19 @@
 #!/bin/bash
 set -e
 
-sym2sec() {
+elf_sym2sec() {
 	local elf=$1
 	local fun=$2
 	readelf --syms --wide ${elf} | grep -w ${fun} | awk '{print $(NF-1)}'
 }
 
-sym2value() {
+elf_sym2value() {
 	local elf=$1
 	local fun=$2
 	readelf --syms --wide ${elf} | grep -w ${fun} | awk '{print "0x"$2}'
 }
 
-name2sec() {
+elf_name2sec() {
 	local elf=$1
 	local name=$2
 	readelf --sections --wide ${elf} | awk -v name=${name} '
@@ -29,21 +29,21 @@ name2sec() {
 		}' | grep -o [0-9]*
 }
 
-sec2name() {
+elf_sec2name() {
 	local elf=$1
 	local sec=$2
 	readelf --sections --wide ${elf} | grep "\[[[:space:]]*${sec}\]" \
 		| awk '{print $(NF-9)}'
 }
 
-sec2offset() {
+elf_sec2offset() {
 	local elf=$1
 	local sec=$2
 	readelf --sections --wide ${elf} | grep "\[[[:space:]]*${sec}\]" \
 		| awk '{print "0x"$(NF-6)}'
 }
 
-sec2addr() {
+elf_sec2addr() {
 	local elf=$1
 	local sec=$2
 	readelf --sections --wide ${elf} | grep "\[[[:space:]]*${sec}\]" \
@@ -51,7 +51,7 @@ sec2addr() {
 }
 
 # section sh_info: Additional section information
-sec2info() {
+elf_sec2info() {
 	local elf=$1
 	local sec=$2
 	readelf --sections --wide ${elf} | grep "\[[[:space:]]*${sec}\]" \
@@ -72,11 +72,11 @@ __off2sym_bias() {
 		}' | head -1
 }
 
-off2func() {
+elf_off2func() {
 	__off2sym_bias $1 $2 FUNC | awk '{print $1}'
 }
 
-foreachreloc() {
+elf_foreachreloc() {
 	local elf offset info type svalue sname operator addend
 
 	elf=$1
@@ -91,7 +91,7 @@ foreachreloc() {
 	done <<< $(readelf --relocs --wide ${elf} | grep -e R_X86_64 -e R_AARCH64)
 }
 
-rela_secnames() {
+elf_rela_secnames() {
 	local elf=$1
 	local relas=( $(readelf --sections --wide ${elf} \
 			| awk '
@@ -108,10 +108,10 @@ rela_secnames() {
 }
 
 if [[ $# -ge 1 ]]; then
-	names=( $(rela_secnames R_X86_64_PC32.o) )
+	names=( $(elf_rela_secnames R_X86_64_PC32.o) )
 	for n in ${names[@]}; do
-		sec=$(name2sec R_X86_64_PC32.o ${n})
-		sh_info=$(sec2info R_X86_64_PC32.o ${sec})
+		sec=$(elf_name2sec R_X86_64_PC32.o ${n})
+		sh_info=$(elf_sec2info R_X86_64_PC32.o ${sec})
 		printf "%-16s : %-2d %-2d\n" ${n} ${sec} ${sh_info}
 	done
 fi
