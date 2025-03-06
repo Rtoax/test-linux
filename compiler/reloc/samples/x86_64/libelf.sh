@@ -62,11 +62,16 @@ __off2sym_bias() {
 	local elf=$1
 	local off=$2
 	local type=$3
+	# 14: 0000000000000000    67 FUNC    GLOBAL DEFAULT    1 foo
+	# 15: 0000000000000000    67 FUNC    GLOBAL DEFAULT    1 foo_alias2
+	# 16: 0000000000000000    67 FUNC    GLOBAL DEFAULT    1 foo_alias1
+	# 17: 0000000000000043    67 FUNC    GLOBAL DEFAULT    1 bar
+	# 18: 0000000000000086    11 FUNC    GLOBAL DEFAULT    1 main
 	readelf --syms --wide ${elf} | awk -v off=${off} -v type=${type} '
 		{
 			if ($4 == type) {
-				if (strtonum(0x$2) <= strtonum(off) && strtonum(0x$2) + $3 > strtonum(off)) {
-					print $(NF)" +"(strtonum(off) - strtonum(0x$2))
+				if (strtonum("0x"$2) <= strtonum(off) && strtonum("0x"$2) + strtonum($3) > strtonum(off)) {
+					print $(NF)" +"(strtonum(off) - strtonum("0x"$2))
 				}
 			}
 		}' | head -1
@@ -137,16 +142,37 @@ elf_rela_secnames() {
 }
 
 if [[ $# -ge 1 ]]; then
+	ELF=R_X86_64_PC32.o
+
 	test_section_info() {
-		names=( $(elf_rela_secnames R_X86_64_PC32.o) )
+		names=( $(elf_rela_secnames ${ELF}) )
 		for n in ${names[@]}; do
-			sec=$(elf_name2sec R_X86_64_PC32.o ${n})
-			sh_info=$(elf_sec2info R_X86_64_PC32.o ${sec})
+			sec=$(elf_name2sec ${ELF} ${n})
+			sh_info=$(elf_sec2info ${ELF} ${sec})
 			printf "%-16s : %-2d %-2d\n" ${n} ${sec} ${sh_info}
 		done
 	}
 	test_section_info
 
-	elf_foreachreloc R_X86_64_PC32.o
-	elf_foreachreloc_sec R_X86_64_PC32.o
+	elf_foreachreloc ${ELF}
+
+	test_rela() {
+		while read r_offset r_info r_type svalue sname r_addend r_secname
+		do
+			sec=$(elf_name2sec ${ELF} ${r_secname})
+			sec2=$(elf_sec2info ${ELF} ${sec})
+			sec2name=$(elf_sec2name ${ELF} ${sec2})
+			sec2off=$(elf_sec2offset ${ELF} ${sec2})
+			func=$(elf_off2func ${ELF} ${r_offset} )
+
+			if [[ ${sec2name} != .text ]]; then
+				continue
+			fi
+
+			printf ">>0x%lx 0x%016lx %s 0x%lx %s %s %s : " \
+				${r_offset} ${r_info} ${r_type} ${svalue} ${sname} ${r_addend} ${r_secname}
+			printf "%s %d, %s %d secoff 0x%lx, func %s\n" ${r_secname} ${sec} ${sec2name} ${sec2} ${sec2off} ${func}
+		done <<< $(elf_foreachreloc_sec ${ELF})
+	}
+	test_rela
 fi
