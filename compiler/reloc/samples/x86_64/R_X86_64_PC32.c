@@ -21,6 +21,7 @@ static int32_t si32 = 0;	/* .bss, LOCAL */
 static int64_t si64 = 0;	/* .bss, LOCAL */
 
 static int32_t si32i = 1;	/* .data, LOCAL */
+static int64_t si64i = 1;	/* .data, LOCAL */
 
 int arr_i[] = {1, 2, 3, 4};
 
@@ -47,6 +48,7 @@ void bar(void)
 	gi8i = 20;	/* R_X86_64_PC32 */
 	gi32i = 20;	/* R_X86_64_PC32 */
 	si32i = 20;	/* R_X86_64_PC32 */
+	si64i = 20;	/* R_X86_64_PC32 */
 
 	arr_i[0] = 1;	/* R_X86_64_PC32 */
 	arr_i[1] = 1;	/* R_X86_64_PC32 */
