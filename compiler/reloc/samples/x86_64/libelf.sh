@@ -1,4 +1,7 @@
 #!/bin/bash
+# Use binutils's readelf, objdump to parsing ELF file. binutils is different
+# from elfutils, elfutils's eu-readelf, eu-objdump have totally different
+# output format, it's not compatiable with each other.
 set -e
 
 elf_sym2sec() {
