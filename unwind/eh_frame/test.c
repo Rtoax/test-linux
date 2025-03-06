@@ -1,10 +1,3 @@
-/**
- * 显示 .eh_frame 信息
- * readelf -wF a.out
- *
- * 显示 .eh_frame 原始信息
- * readelf -wf a.out
- */
 #include <stdio.h>
 
 int test(int x)

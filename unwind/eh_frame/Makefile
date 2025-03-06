@@ -1,28 +1,21 @@
 include ../../tlbuild.mk
 
-
 TARGETS :=
 TARGETS += test
 
 DEBUG :=
-CC = gcc
+CC := gcc
 
 CFLAGS :=
-CFLAGS += -lunwind
-ifeq ($(shell uname -m),x86_64)
-  CFLAGS += -lunwind-x86_64
-endif
-ifeq ($(shell uname -m),aarch64)
-  CFLAGS += -lunwind-aarch64
-endif
 
 ifdef DEBUG
   CFLAGS += -DDEBUG -O0 -g
 endif
 
+CFLAGS += -funwind-tables
+
 build: ${TARGETS} ${TARGETS_CPP}
 	@echo -e " \033[1;33m Done \033[m"
-
 
 test: test.o
 
