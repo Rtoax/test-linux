@@ -18,6 +18,18 @@ do
 		continue
 	fi
 
+	# FIXME: how to parse rela of .bss and .data
+	# $ readelf --relocs --wide R_X86_64_PC32.o
+	# Relocation section '.rela.text' at offset 0x478 contains 15 entries:
+	#    Offset             Info             Type               Symbol's Value  Symbol's Name + Addend
+	# 000000000000002b  0000000400000002 R_X86_64_PC32          0000000000000000 .bss + 10
+	# 0000000000000041  0000000400000002 R_X86_64_PC32          0000000000000000 .bss + 18
+	# 0000000000000063  0000000300000002 R_X86_64_PC32          0000000000000000 .data + 0
+	# 000000000000006e  0000000300000002 R_X86_64_PC32          0000000000000000 .data + 8
+	if [[ ${sname} == .bss ]] || [[ ${sname} == .data ]]; then
+		continue
+	fi
+
 	sec=$(elf_name2sec ${ELF_OBJ} ${r_secname})
 	sectext=$(elf_sec2info ${ELF_OBJ} ${sec})
 	sectextname=$(elf_sec2name ${ELF_OBJ} ${sectext})

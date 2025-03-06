@@ -6,14 +6,36 @@ set -e
 
 elf_sym2sec() {
 	local elf=$1
-	local fun=$2
-	readelf --syms --wide ${elf} | grep -w ${fun} | awk '{print $(NF-1)}'
+	local sym=$2
+	local sec=$(readelf --syms --wide ${elf} | awk -v sym=${sym} '
+		{
+			if ($NF == sym) {
+				print $(NF-1)
+			}
+		}')
+	if [[ -z ${sec} ]]; then
+		echo >&2 "ERROR: not found sym '${sym}' in ${elf}"
+		exit 1
+	else
+		echo -n ${sec}
+	fi
 }
 
 elf_sym2value() {
 	local elf=$1
-	local fun=$2
-	readelf --syms --wide ${elf} | grep -w ${fun} | awk '{print "0x"$2}'
+	local sym=$2
+	local val=$(readelf --syms --wide ${elf} | awk -v sym=${sym} '
+		{
+			if ($NF == sym) {
+				print "0x"$2
+			}
+		}')
+	if [[ -z ${val} ]]; then
+		echo >&2 "ERROR: not found sym '${sym}' in ${elf}"
+		exit 1
+	else
+		echo -n ${val}
+	fi
 }
 
 elf_name2sec() {
