@@ -1,5 +1,10 @@
 # SPDX-License-Identifier: GPL-3.0
 # This file need included after CC, LD, AS, etc. in Makefile
+#
+# Examples:
+#
+# Cross compile aarch64
+# $ make CROSS_COMPILE=aarch64-linux-gnu-
 
 CC ?= gcc
 AS ?= as
@@ -27,7 +32,10 @@ ifdef CROSS_COMPILE
     $(error "Must define SYSROOT if CROSS_COMPILE")
   endif
   ifeq (${SYSROOT},)
-    $(error "SYSROOT=${SYSROOT} is not exist")
+    $(error "SYSROOT=${SYSROOT} is not set")
+  endif
+  ifeq ($(wildcard $(SYSROOT)),)
+    $(error "SYSROOT ${SYSROOT} is not exist")
   endif
 
   MK_ARCH := ${shell echo $(CROSS_COMPILE) | sed -n 's/^[[:space:]]*\([^\/]*\/\)*\([^-]*\)-[^[:space:]]*/\2/p'}
