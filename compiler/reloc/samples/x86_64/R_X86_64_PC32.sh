@@ -3,68 +3,62 @@ set -e
 
 . libelf.sh
 
-OBJ=R_X86_64_PC32.o
-EXE=R_X86_64_PC32
-SYM=gi32
+ELF_OBJ=R_X86_64_PC32.o
+ELF_EXE=R_X86_64_PC32
 
-r_off_add=( $(readelf --relocs --wide ${OBJ} \
-		| grep -w R_X86_64_PC32 | grep -w ${SYM} \
-		| awk '{print "0x"$1" "$(NF-1)$(NF)}') )
-r_offset=${r_off_add[0]}
-r_addend=${r_off_add[1]}
-r_func=$(elf_off2func ${OBJ} ${r_offset})
-printf "obj: %s : r_offset %s, r_addend %s, near func %s\n" ${SYM} ${r_offset} ${r_addend} ${r_func}
+while read r_offset r_info r_type svalue sname r_addend r_secname
+do
+	# Skip unwind sections
+	if [[ ${r_secname} =~ eh_frame ]]; then
+		continue
+	fi
 
-obj_text_sec=$(elf_name2sec ${OBJ} .text)
-obj_text_sec_off=$(elf_sec2offset ${OBJ} ${obj_text_sec})
-obj_text_sec_addr=$(elf_sec2addr ${OBJ} ${obj_text_sec})
-exe_text_sec=$(elf_name2sec ${EXE} .text)
-exe_text_sec_off=$(elf_sec2offset ${EXE} ${exe_text_sec})
-exe_text_sec_addr=$(elf_sec2addr ${EXE} ${exe_text_sec})
-printf "obj: .text: sec %d, addr 0x%lx, off 0x%lx\n" ${obj_text_sec} ${obj_text_sec_addr} ${obj_text_sec_off}
-printf "exe: .text: sec %d, addr 0x%lx, off 0x%lx\n" ${exe_text_sec} ${exe_text_sec_addr} ${exe_text_sec_off}
+	# Only handle R_X86_64_PC32
+	if [[ ${r_type} != R_X86_64_PC32 ]]; then
+		continue
+	fi
 
+	sec=$(elf_name2sec ${ELF_OBJ} ${r_secname})
+	sectext=$(elf_sec2info ${ELF_OBJ} ${sec})
+	sectextname=$(elf_sec2name ${ELF_OBJ} ${sectext})
+	sectextaddr=$(elf_sec2addr ${ELF_OBJ} ${sectext})
+	sectextoff=$(elf_sec2offset ${ELF_OBJ} ${sectext})
+	func=$(elf_off2func ${ELF_OBJ} $(( ${sectextaddr} + ${r_offset})) )
+	funcaddr=$(elf_sym2value ${ELF_OBJ} ${func})
 
-obj_func_sec=$(elf_sym2sec ${OBJ} ${r_func})
-obj_func_sh_addr=$(elf_sec2addr ${OBJ} ${obj_func_sec})
-obj_func_sh_offset=$(elf_sec2offset ${OBJ} ${obj_func_sec})
-obj_func_st_value=$(elf_sym2value ${OBJ} ${r_func})
+	exec_sectext=$(elf_name2sec ${ELF_EXE} ${sectextname})
+	exec_sectextaddr=$(elf_sec2addr ${ELF_EXE} ${exec_sectext})
+	exec_sectextoff=$(elf_sec2offset ${ELF_EXE} ${exec_sectext})
 
-exe_func_sec=$(elf_sym2sec ${EXE} ${r_func})
-exe_func_sh_addr=$(elf_sec2addr ${EXE} ${exe_func_sec})
-exe_func_sh_offset=$(elf_sec2offset ${EXE} ${exe_func_sec})
-exe_func_st_value=$(elf_sym2value ${EXE} ${r_func})
+	exec_funcaddr=$(elf_sym2value ${ELF_EXE} ${func})
+	exec_symaddr=$(elf_sym2value ${ELF_EXE} ${sname})
+	rela_func_off=$(( ${r_offset} - (${funcaddr} - ${sectextaddr}) ))
 
-obj_sym_st_value=$(elf_sym2value ${OBJ} ${SYM})
-obj_sym_sec=$(elf_sym2sec ${OBJ} ${SYM})
-obj_sym_sh_name=$(elf_sec2name ${OBJ} ${obj_sym_sec})
-obj_sym_sh_addr=$(elf_sec2addr ${OBJ} ${obj_sym_sec})
-obj_sym_sh_offset=$(elf_sec2offset ${OBJ} ${obj_sym_sec})
+	# R_X86_64_PC32: S + A - P
+	pos=$(( ${exec_funcaddr} + ${rela_func_off} ))
+	rela=$(( ${exec_symaddr} + ${r_addend} - ${pos} ))
 
-exe_sym_st_value=$(elf_sym2value ${EXE} ${SYM})
-exe_sym_sec=$(elf_sym2sec ${EXE} ${SYM})
-exe_sym_sh_name=$(elf_sec2name ${EXE} ${exe_sym_sec})
-exe_sym_sh_addr=$(elf_sec2addr ${EXE} ${exe_sym_sec})
-exe_sym_sh_offset=$(elf_sec2offset ${EXE} ${exe_sym_sec})
+	exec_rela_file_off=$(( ${exec_funcaddr} - (${exec_sectextaddr} - ${exec_sectextoff}) + ${rela_func_off} ))
+	exec_rela_file_val=$(elf_hexfile ${ELF_EXE} ${exec_rela_file_off} 4)
 
-printf "obj: %s : section %-2d, sh_addr %s, sh_offset %s, st_value %s\n" \
-	${r_func} ${obj_func_sec} ${obj_func_sh_addr} ${obj_func_sh_offset} ${obj_func_st_value}
-printf "exe: %s : section %-2d, sh_addr %s, sh_offset %s, st_value %s\n" \
-	${r_func} ${exe_func_sec} ${exe_func_sh_addr} ${exe_func_sh_offset} ${exe_func_st_value}
+	# FIXME: .bss and .data rela failed.
 
-printf "obj: %s : section %-2d, sh_addr %s, sh_offset %s, st_value %s (%s)\n" \
-	${SYM} ${obj_sym_sec} ${obj_sym_sh_addr} ${obj_sym_sh_offset} ${obj_sym_st_value} ${obj_sym_sh_name}
-printf "exe: %s : section %-2d, sh_addr %s, sh_offset %s, st_value %s (%s)\n" \
-	${SYM} ${exe_sym_sec} ${exe_sym_sh_addr} ${exe_sym_sh_offset} ${exe_sym_st_value} ${exe_sym_sh_name}
-
-obj_func_sec_off=$(( ${obj_func_st_value} - (${obj_func_sh_addr} - ${obj_func_sh_offset}) ))
-exe_func_sec_off=$(( ${exe_func_st_value} - (${exe_func_sh_addr} - ${exe_func_sh_offset}) ))
-
-elf_hexfile ${OBJ} $(( ${obj_func_sec_off} + ${r_offset} )) 4
-elf_hexfile ${EXE} $(( ${exe_func_sec_off} + ${r_offset} )) 4
-
-pos=$(( ${exe_func_st_value} + ${r_offset} ))
-val=$(( ${exe_sym_st_value} + ${r_addend} - ${pos} ))
-printf "R_X86_64_PC32: %s : S + A - P = 0x%lx + %s - 0x%lx = 0x%lx\n" ${SYM} \
-	${exe_sym_st_value} ${r_addend} ${pos} ${val}
-
+	printf ">>0x%lx 0x%016lx %s 0x%lx %s %s %s : " \
+		${r_offset} ${r_info} ${r_type} ${svalue} ${sname} ${r_addend} ${r_secname}
+	printf "sec %s %d %s addr:0x%lx sec:%d secoff 0x%lx, " \
+		${r_secname} ${sec} ${sectextname} ${sectextaddr} ${sectext} ${sectextoff}
+	printf "exe-sec addr:0x%lx off:0x%lx, " \
+		${exec_sectextaddr} ${exec_sectextoff}
+	printf "func %s obj:0x%lx exe:0x%lx, " \
+		${func} ${funcaddr} ${exec_funcaddr}
+	printf "rela: R_X86_64_PC32: S + A - P = 0x%lx + 0x%lx - 0x%lx = 0x%lx " \
+		${exec_symaddr} ${r_addend} ${pos} ${rela}
+	if [[ $(printf "%lx" ${rela}) == $(printf "%lx" ${exec_rela_file_val}) ]]; then
+		printf " \033[1;32mSUCCESS "
+	else
+		printf " \033[1;31mERROR "
+	fi
+	printf "(0x%lx, fileoff:0x%lx, func:%s, funcoff:0x%lx)" \
+		${exec_rela_file_val} ${exec_rela_file_off} ${func} ${rela_func_off}
+	printf " \033[m\n"
+done <<< $(elf_foreachreloc_sec ${ELF_OBJ})
