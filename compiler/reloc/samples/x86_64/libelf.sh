@@ -168,7 +168,8 @@ if [[ $# -ge 1 ]]; then
 			sec2off=$(elf_sec2offset ${ELF} ${sec2})
 			func=$(elf_off2func ${ELF} ${r_offset} )
 
-			if [[ ${sec2name} != .text ]]; then
+			# Skip unwind sections
+			if [[ ${sec2name} =~ eh_frame ]]; then
 				continue
 			fi
 
