@@ -9,10 +9,12 @@
 #include <stdint.h>
 
 int8_t gi8 = 0;	/* .bss, GLOBAL */
+int16_t gi16 = 0;	/* .bss, GLOBAL */
 int32_t gi32 = 0;	/* .bss, GLOBAL */
 int64_t gi64 = 0;	/* .bss, GLOBAL */
 int64_t *pgi64 = NULL;	/* .bss, GLOBAL */
 
+int8_t gi8i = 1;	/* .data, GLOBAL */
 int32_t gi32i = 1;	/* .data, GLOBAL */
 
 static int32_t si32 = 0;	/* .bss, LOCAL */
@@ -26,6 +28,7 @@ int arr_i[] = {1, 2, 3, 4};
 void foo(void)
 {
 	gi8 = 10;	/* R_X86_64_PC32 */
+	gi16 = 10;	/* R_X86_64_PC32 */
 	gi32 = 10;	/* R_X86_64_PC32 */
 	gi64 = 10;	/* R_X86_64_PC32 */
 
@@ -41,6 +44,7 @@ void foo_alias2(void) __attribute__((alias("foo")));
 /* bar is R_X86_64_PC32 */
 void bar(void)
 {
+	gi8i = 20;	/* R_X86_64_PC32 */
 	gi32i = 20;	/* R_X86_64_PC32 */
 	si32i = 20;	/* R_X86_64_PC32 */
 

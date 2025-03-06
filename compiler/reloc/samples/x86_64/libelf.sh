@@ -208,16 +208,29 @@ if [[ $# -ge 1 ]]; then
 			pos=$(( ${exec_funcaddr} + ${rela_func_off} ))
 			rela=$(( ${exec_symaddr} + ${r_addend} - ${pos} ))
 
+			exec_rela_file_off=$(( ${exec_funcaddr} - (${exec_sectextaddr} - ${exec_sectextoff}) + ${rela_func_off} ))
+			exec_rela_file_val=$(elf_hexfile ${ELF_EXE} ${exec_rela_file_off} 4)
+
 			# FIXME: .bss and .data rela failed.
 
 			printf ">>0x%lx 0x%016lx %s 0x%lx %s %s %s : " \
 				${r_offset} ${r_info} ${r_type} ${svalue} ${sname} ${r_addend} ${r_secname}
-			printf "%s %d, %s addr:0x%lx sec:%d secoff 0x%lx, " \
+			printf "sec %s %d %s addr:0x%lx sec:%d secoff 0x%lx, " \
 				${r_secname} ${sec} ${sectextname} ${sectextaddr} ${sectext} ${sectextoff}
+			printf "exe-sec addr:0x%lx off:0x%lx, " \
+				${exec_sectextaddr} ${exec_sectextoff}
 			printf "func %s obj:0x%lx exe:0x%lx, " \
 				${func} ${funcaddr} ${exec_funcaddr}
-			printf "rela: R_X86_64_PC32: S + A - P = 0x%lx + 0x%lx - 0x%lx = 0x%lx\n" \
+			printf "rela: R_X86_64_PC32: S + A - P = 0x%lx + 0x%lx - 0x%lx = 0x%lx " \
 				${exec_symaddr} ${r_addend} ${pos} ${rela}
+			if [[ $(printf "%lx" ${rela}) == $(printf "%lx" ${exec_rela_file_val}) ]]; then
+				printf " \033[1;32mSUCCESS "
+			else
+				printf " \033[1;31mERROR "
+			fi
+			printf "(0x%lx, fileoff:0x%lx, func:%s, funcoff:0x%lx)" \
+				${exec_rela_file_val} ${exec_rela_file_off} ${func} ${rela_func_off}
+			printf " \033[m\n"
 		done <<< $(elf_foreachreloc_sec ${ELF_OBJ})
 	}
 	test_rela
