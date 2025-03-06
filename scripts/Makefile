@@ -38,7 +38,6 @@ test_call:
 	$(call wow)
 	$(call wow,PREFIX)
 	$(call tl_ascii_logo1,===)
-	$(call tl_ascii_logo2)
 	$(call tl_ascii_logo_ebpf_bee_summit_2021)
 	$(call tl_ascii_logo_gnu)
 	$(call git_config)
