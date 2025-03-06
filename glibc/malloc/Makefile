@@ -1,5 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
 include ../../tlbuild.mk
+include ../../compiler/compiler.mk
 
 TARGETS :=
 TARGETS += malloc overflow use-after-free double-free
@@ -27,9 +28,16 @@ CFLAGS_helpers := -Wno-error=deprecated-declarations
 CFLAGS_aligned_alloc := -DALIGNED_ALLOC=1
 CFLAGS_valloc := -DVALLOC=1
 CFLAGS_overflow := -DOVERFLOW=1
-CFLAGS_use-after-free := -DUSE_AFTER_FREE=1 -Wno-error=use-after-free
-CFLAGS_double-free := -DDOUBLE_FREE=1 -Wno-error=use-after-free
+CFLAGS_use-after-free := -DUSE_AFTER_FREE=1
+CFLAGS_double-free := -DDOUBLE_FREE=1
 CFLAGS_corrupted-size-vs.prev_size := -DCORRUPTED_SIZE_VS_PREV_SIZE=1
+
+CC_-use-after-free := $(findstring 1,$(call check_compiler_option,$(CC),-Werror=use-after-free))
+$(info CC_-use-after-free: ${CC_-use-after-free})
+ifeq (${CC_-use-after-free},1)
+  CFLAGS_use-after-free += -Wno-error=use-after-free
+  CFLAGS_double-free += -Wno-error=use-after-free
+endif
 
 .PHONY: build
 build: ${TARGETS}
