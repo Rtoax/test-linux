@@ -60,10 +60,20 @@ printf "exe: %s : section %-2d, sh_addr %s, sh_offset %s, st_value %s (%s)\n" \
 obj_func_sec_off=$(( ${obj_func_st_value} - (${obj_func_sh_addr} - ${obj_func_sh_offset}) ))
 exe_func_sec_off=$(( ${exe_func_st_value} - (${exe_func_sh_addr} - ${exe_func_sh_offset}) ))
 
-dd if=${OBJ} skip=$(printf %ld $(( ${obj_func_sec_off} + ${r_offset} ))) ibs=1 of=obj.bin count=4 2>/dev/null
-dd if=${EXE} skip=$(printf %ld $(( ${exe_func_sec_off} + ${r_offset} ))) ibs=1 of=exe.bin count=4 2>/dev/null
-hexdump -C obj.bin
-hexdump -C exe.bin
+hexfile() {
+	local file=$1
+	local off=$2
+	local bytes=$3
+
+	local tmp=$(mktemp -u tmp-XXX.bin)
+	dd if=${file} skip=$(printf %ld ${off}) ibs=1 of=${tmp} count=${bytes} 2>/dev/null
+	# Remove prefix $1
+	local vals=( $(od -tx${bytes} ${tmp} | awk '{print $2}') )
+	echo 0x${vals[0]}
+}
+
+hexfile ${OBJ} $(( ${obj_func_sec_off} + ${r_offset} )) 4
+hexfile ${EXE} $(( ${exe_func_sec_off} + ${r_offset} )) 4
 
 pos=$(( ${exe_func_st_value} + ${r_offset} ))
 val=$(( ${exe_sym_st_value} + ${r_addend} - ${pos} ))
