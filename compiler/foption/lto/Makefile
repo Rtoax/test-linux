@@ -12,11 +12,8 @@ CFLAGS := -Werror -Wall
 CFLAGS += -Wstrict-prototypes
 
 CFLAGS_ffat-lto-objects := -flto -ffat-lto-objects
-ifneq ($(CC),clang)
-  # FIXME: On fedora 40 aarch64 has an error
-  # clang: error: linker command failed with exit code 1 (use -v to see invocation)
-  CFLAGS_flto := -flto=auto
-endif
+CFLAGS_flto := -flto=auto
+LDFLAGS_flto := -flto=auto
 
 .PHONY: build
 build: ${TARGETS}
