@@ -3,7 +3,9 @@
  */
 #include <stdio.h>
 
-extern void bar(void);
+void bar(void)
+{
+}
 
 int foo(void)
 {
@@ -29,5 +31,10 @@ int foo(void)
 	 */
 	bar();
 
+	return 0;
+}
+
+int main(void)
+{
 	return 0;
 }

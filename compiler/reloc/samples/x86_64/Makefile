@@ -19,6 +19,7 @@ LDFLAGS_PIE :=
 TARGETS += R_X86_64_64
 TARGETS += R_X86_64_32S
 TARGETS += R_X86_64_PC32
+TARGETS += R_X86_64_PLT32
 TARGETS += R_X86_64_COPY
 TARGETS += R_X86_64_JUMP_SLOT
 TARGETS += R_X86_64_GLOB_DAT
@@ -78,28 +79,29 @@ R_X86_64_64: R_X86_64_64.o
 R_X86_64_32S: R_X86_64_32S.o
 R_X86_64_PC32: R_X86_64_PC32.o
 R_X86_64_COPY: R_X86_64_COPY.o
+R_X86_64_PLT32: R_X86_64_PLT32.o
 
 R_X86_64_PLT32.o: R_X86_64_PLT32.c
 R_X86_64_GOTPCRELX.o: R_X86_64_GOTPCRELX.c
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	@LD_LIBRARY_PATH=$(shell pwd) $(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_PIE) $(CFLAGS_$(*))
-	@LD_LIBRARY_PATH=$(shell pwd) $(CC) -S $(<) -o $(<:.c=.c.s) $(CFLAGS) $(CFLAGS_PIE) $(CFLAGS_$(*))
+	${Q}LD_LIBRARY_PATH=$(shell pwd) $(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_PIE) $(CFLAGS_$(*))
+	${Q}LD_LIBRARY_PATH=$(shell pwd) $(CC) -S $(<) -o $(<:.c=.c.s) $(CFLAGS) $(CFLAGS_PIE) $(CFLAGS_$(*))
 	@$(call print_elf_reloc,$(@))
 
 %.So: %.S
 	@echo -e "  AS  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	@${AS} ${AS_ARGS} -o $(@) $(<)
+	${Q}${AS} ${AS_ARGS} -o $(@) $(<)
 	@$(call print_elf_reloc,$(@))
 
 %.obj: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	@LD_LIBRARY_PATH=$(shell pwd) $(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*)) -fPIC
+	${Q}LD_LIBRARY_PATH=$(shell pwd) $(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*)) -fPIC
 
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	@LD_LIBRARY_PATH=$(shell pwd) $(CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_PIE) $(LDFLAGS_$(*))
+	${Q}LD_LIBRARY_PATH=$(shell pwd) $(CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_PIE) $(LDFLAGS_$(*))
 	@$(call print_elf_reloc,$(@))
 
 $(TARGETS_SO): %:
@@ -108,7 +110,7 @@ $(TARGETS_SO): %:
 
 $(TARGETS_A): %:
 	@echo -e "  AR  \033[1;32m$(^) to $(@)\033[m"
-	@ar rcs $(@) $(^)
+	${Q}ar rcs $(@) $(^)
 
 test: ${TARGETS}
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
