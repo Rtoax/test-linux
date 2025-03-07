@@ -69,7 +69,6 @@ endef
 
 .PHONY: build
 build: ${TARGETS_SO} ${TARGETS_A} ${TARGETS} ${TARGETS_O} ${TARGETS_S_O}
-	${Q}./R_X86_64_PC32.sh
 	@echo -e " \033[1;33m Done \033[m"
 
 R_X86_64_JUMP_SLOT: R_X86_64_JUMP_SLOT.o
@@ -113,6 +112,7 @@ $(TARGETS_A): %:
 
 test: ${TARGETS}
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
+	${Q}./R_X86_64_PC32.sh
 
 .PHONY: clean
 clean:
