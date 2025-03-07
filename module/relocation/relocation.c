@@ -7,8 +7,8 @@
 
 int local_i = 123;
 int local_i_no;
-/* No rela entry */
 static int s_local_i = 123;
+static int s_local_i_no;
 
 int global_int1;
 int global_int2;
@@ -35,12 +35,14 @@ static int kernel_init(void)
 {
 	local_i++;
 	local_i_no += 1;
-	s_local_i = 1234;
+	s_local_i = 12;
+	s_local_i_no = 13;
 
 	printk("\n");
 	P_int(local_i);
 	P_int(local_i_no);
 	P_int(s_local_i);
+	P_int(s_local_i_no);
 	P_f(kernel_init);
 	P_f(print);
 	P_f(schedule);
