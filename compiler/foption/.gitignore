@@ -2,10 +2,8 @@
 /*.gimple
 /*.s
 /fcf-protection
-/ffat-lto-objects
 /fpatchable-function-entry
 /fwpa
-/flto
 /fltrans
 /fwhole-program
 /fstack-protector

@@ -1,0 +1,5 @@
+/*.ipa-clones
+/*.gimple
+/*.s
+/ffat-lto-objects
+/flto

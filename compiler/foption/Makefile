@@ -4,9 +4,12 @@ CC := gcc
 
 include ../compiler.mk
 
+sub-dir := lto
+
+sub-dir-build := $(addprefix $(shell pwd)/,$(sub-dir:=.build))
+sub-dir-clean := $(addprefix $(shell pwd)/,$(sub-dir:=.clean))
+
 TARGETS :=
-TARGETS += ffat-lto-objects
-TARGETS += flto
 TARGETS += fwhole-program
 TARGETS += fstack-protector fstack-protector-all fstack-protector-strong fstack-protector-explicit
 TARGETS += fdump-ipa-all fdump-ipa-clones
@@ -35,14 +38,10 @@ CFLAGS += -Wstrict-prototypes
 
 # gcc: -fcf-protection=[full|branch|return|none|check]
 CFLAGS_fcf-protection := -fcf-protection
-CFLAGS_ffat-lto-objects := -flto -ffat-lto-objects
 # N,M M=0 by default
 CFLAGS_fpatchable-function-entry := -fpatchable-function-entry=5,2
 CFLAGS_fwpa := -flto -fwpa
 ifneq ($(CC),clang)
-  # FIXME: On fedora 40 aarch64 has an error
-  # clang: error: linker command failed with exit code 1 (use -v to see invocation)
-  CFLAGS_flto := -flto=auto
   # FIXME: clang: error: optimization flag '-fwhole-program' is not supported
   # The following foptions is the same situation.
   CFLAGS_fwhole-program := -fwhole-program
@@ -69,16 +68,15 @@ CFLAGS_fsanitize := -fsanitize=address
 CFLAGS_fsanitize += -Wno-error=stringop-overflow
 LDFLAGS_fsanitize := ${CFLAGS_fsanitize}
 
-build: ${TARGETS}
+.PHONY: build
+build: ${TARGETS} ${sub-dir-build}
 	@echo -e "  CC = ${CC}"
 	@echo -e "  CFLAGS = ${CFLAGS}"
 	@echo -e " \033[1;33m Done \033[m"
 
 fcf-protection: fcf-protection.o
-ffat-lto-objects: ffat-lto-objects.o
 fpatchable-function-entry: fpatchable-function-entry.o
 fwpa: fwpa.o
-flto: flto.o
 fwhole-program: fwhole-program.o
 fltrans: fltrans.o
 fstack-protector: fstack-protector.o
@@ -111,9 +109,17 @@ $(TARGETS): %:
 test: ${TARGETS}
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
 
-clean:
+.PHONY: clean
+clean: $(sub-dir-clean)
 	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
 	${Q}rm -f ${TARGETS} *.o *.d *.s \
 		fdump-ipa-all.c.* fdump-ipa-clones.c.* \
 		fdump-tree-gimple.c.* \
 		fdump-tree-all-raw.c.* fdump-tree-all.c.*
+
+$(sub-dir-build):
+	@echo -e "\033[1;32m [sub-dir] build $(@)\033[m"
+	${Q}make -C $(@:.build=)
+$(sub-dir-clean):
+	@echo -e "\033[1;32m [sub-dir] clean $(@)\033[m"
+	${Q}make -C $(@:.clean=) clean
