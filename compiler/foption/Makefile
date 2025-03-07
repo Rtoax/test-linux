@@ -41,10 +41,8 @@ CFLAGS_fcf-protection := -fcf-protection
 # N,M M=0 by default
 CFLAGS_fpatchable-function-entry := -fpatchable-function-entry=5,2
 CFLAGS_fwpa := -flto -fwpa
+LDFLAGS_fwhole-program := -fwhole-program
 ifneq ($(CC),clang)
-  # FIXME: clang: error: optimization flag '-fwhole-program' is not supported
-  # The following foptions is the same situation.
-  CFLAGS_fwhole-program := -fwhole-program
   CFLAGS_fstack-protector-explicit := -fstack-protector-explicit
   CFLAGS_fdump-ipa-all := -fdump-ipa-all
   CFLAGS_fdump-ipa-clones := -fdump-ipa-clones
