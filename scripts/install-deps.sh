@@ -670,6 +670,7 @@ dnf_add_packages()
 	pkgs_fs+=( funionfs )
 
 	# Cross compile packages
+	pkgs_compiler+=( compiler-rt )
 	pkgs_compiler+=( gcc-c++ )
 	pkgs_compiler+=( libasan )
 	pkgs_compiler+=( libasan-static )

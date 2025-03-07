@@ -65,7 +65,9 @@ CFLAGS_fno-plt := -fno-plt
 # mold, etc. optional linkers.
 LDFLAGS_fuse-ld := -fuse-ld=bfd
 CFLAGS_fsanitize := -fsanitize=address
-CFLAGS_fsanitize += -Wno-error=stringop-overflow
+ifneq ($(CC),clang)
+  CFLAGS_fsanitize += -Wno-error=stringop-overflow
+endif
 LDFLAGS_fsanitize := ${CFLAGS_fsanitize}
 
 .PHONY: build
