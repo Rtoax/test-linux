@@ -180,7 +180,7 @@ elf_hexfile() {
 }
 
 if [[ $# -ge 1 ]]; then
-	ELF=R_X86_64_PC32.o
+	ELF=/usr/bin/ls
 
 	test_section_info() {
 		names=( $(elf_rela_secnames ${ELF}) )
