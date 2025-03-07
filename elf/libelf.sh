@@ -4,38 +4,36 @@
 # output format, it's not compatiable with each other.
 set -e
 
-elf_sym2sec() {
+__elf_sym_key2val() {
 	local elf=$1
 	local sym=$2
-	local sec=$(readelf --syms --wide ${elf} | awk -v sym=${sym} '
+	local key=$3
+	local value=$(readelf --syms --wide ${elf} \
+		| awk -v sym=${sym} -v key=${key} '
 		{
 			if ($NF == sym) {
-				print $(NF-1)
+				if (key == "section") {
+					print $(NF-1)
+				}
+				if (key == "st_value") {
+					print "0x"$2
+				}
 			}
 		}')
-	if [[ -z ${sec} ]]; then
+	if [[ -z ${value} ]]; then
 		echo >&2 "ERROR: not found sym '${sym}' in ${elf}"
 		exit 1
 	else
-		echo -n ${sec}
+		echo -n ${value}
 	fi
 }
 
+elf_sym2sec() {
+	__elf_sym_key2val $1 $2 section
+}
+
 elf_sym2value() {
-	local elf=$1
-	local sym=$2
-	local val=$(readelf --syms --wide ${elf} | awk -v sym=${sym} '
-		{
-			if ($NF == sym) {
-				print "0x"$2
-			}
-		}')
-	if [[ -z ${val} ]]; then
-		echo >&2 "ERROR: not found sym '${sym}' in ${elf}"
-		exit 1
-	else
-		echo -n ${val}
-	fi
+	__elf_sym_key2val $1 $2 st_value
 }
 
 elf_name2sec() {
