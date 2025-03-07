@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-. libelf.sh
+. ../../../../elf/libelf.sh
 
 ELF_OBJ=R_X86_64_PC32.o
 ELF_EXE=R_X86_64_PC32
