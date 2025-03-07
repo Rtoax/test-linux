@@ -1,10 +1,11 @@
+# SPDX-License-Identifier: GPL-3.0
 include ../tlbuild.mk
-
 
 sub-dir := bitmask
 sub-dir += bitops
 sub-dir += fft
 sub-dir += hashmap
+sub-dir += hweight
 sub-dir += linklist
 sub-dir += rbtree
 sub-dir += md5
@@ -16,24 +17,24 @@ sub-dir += search
 sub-dir-build := $(addprefix $(shell pwd)/,$(sub-dir:=.build))
 sub-dir-clean := $(addprefix $(shell pwd)/,$(sub-dir:=.clean))
 
+TARGETS :=
 TARGETS += pi
 
-DEBUG = yes
+DEBUG ?= yes
 SRC_PATH := $(shell pwd)
-CC = gcc
+CC := gcc
 
 CFLAGS := -Werror -Wall
 CFLAGS += -I../macro/
 
 ifdef DEBUG
-CFLAGS += -DDEBUG -O0 -g -ggdb
+  CFLAGS += -DDEBUG -O0 -g -ggdb
 endif
 
 .PHONY: build
 build: ${TARGETS} $(sub-dir-build)
 	@echo -e " \033[1;33m Done \033[m"
 
-# Add more object.o file
 pi: pi.o
 
 %.o: %.c
