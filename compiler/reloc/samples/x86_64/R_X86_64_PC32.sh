@@ -35,6 +35,12 @@ do
 	sectextname=$(elf_sec2name ${ELF_OBJ} ${sectext})
 	sectextaddr=$(elf_sec2addr ${ELF_OBJ} ${sectext})
 	sectextoff=$(elf_sec2offset ${ELF_OBJ} ${sectext})
+
+	# Only text could get function with offset.
+	if [[ ${sectextname} != .text ]]; then
+		continue
+	fi
+
 	func=$(elf_off2func ${ELF_OBJ} $(( ${sectextaddr} + ${r_offset})) )
 	funcaddr=$(elf_sym2value ${ELF_OBJ} ${func})
 
