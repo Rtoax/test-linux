@@ -7,8 +7,7 @@
 #include "common.h"
 
 
-void
-bubble_sort(int *a, int n)
+void bubble_sort(int *a, int n)
 {
 	int i, s = 1;
 	while (s) {
@@ -22,8 +21,7 @@ bubble_sort(int *a, int n)
 	}
 }
 
-void
-sort_array(int arr_len)
+void sort_array(int arr_len)
 {
 	printf("Bubble sorting array of %d elements\n", arr_len);
 	int *data = malloc(sizeof(int) * arr_len);
@@ -34,12 +32,11 @@ sort_array(int arr_len)
 	free(data);
 }
 
-int main()
+int main(void)
 {
 	start();
 	sort_array(30000);
 	stop();
-
 	return 0;
 }
 

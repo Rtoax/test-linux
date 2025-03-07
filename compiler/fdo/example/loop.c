@@ -63,8 +63,7 @@ l_A(unsigned long a)
 	return ret;
 }
 
-unsigned long
-test_loop(void)
+unsigned long test_loop(void)
 {
 	return l_A(0xffffff);
 }
@@ -81,4 +80,3 @@ int main(int argc, char *argv[])
 
 	return 0;
 }
-

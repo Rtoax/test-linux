@@ -1,5 +1,4 @@
 #!/bin/bash
-
 set -e
 
 prog_name=test
@@ -9,8 +8,7 @@ profdata=${prog_name}.profdata
 
 compiler=
 
-gcc cachelinesize.c -o cachelinesize
-CACHE_LINE_SIZE=$(./cachelinesize)
+CACHE_LINE_SIZE=$(getconf LEVEL3_CACHE_LINESIZE)
 cflags_orig="-DCACHE_LINE_SIZE=${CACHE_LINE_SIZE} -g"
 cflags_opt="-O3"
 cflags+="${cflags_opt} ${cflags_orig}"
@@ -299,7 +297,6 @@ clean()
 		*perf.data* \
 		*perf.fdata* \
 		*.gcov  \
-		cachelinesize \
 		*.heatmap*
 }
 

@@ -11,8 +11,6 @@ $ ./compile.sh -c clang -t branch
 ```
 
 > gcc 编译过程需要执行 create_gcov 来获取代码覆盖信息，需要安装 AutoFDO.
-> [AutoFDO git仓库](https://github.com/google/autofdo.git)
-> [clang BOLT](https://github.com/llvm/llvm-project)
 
 
 ## 运行测试
@@ -30,3 +28,5 @@ $ ./stat.sh ./sort.out
 # 参考链接
 
 - [https://gcc.gnu.org/wiki/AutoFDO/Tutorial](https://gcc.gnu.org/wiki/AutoFDO/Tutorial)
+- [AutoFDO git仓库](https://github.com/google/autofdo.git)
+- [clang BOLT](https://github.com/llvm/llvm-project)

@@ -111,15 +111,14 @@ branch_B(unsigned long a)
 	return ret;
 }
 
-unsigned long
-test_branch(void)
+unsigned long test_branch(void)
 {
 	unsigned long nloop = 200000000;
 
 	return branch_A(nloop) + branch_B(nloop);
 }
 
-int main()
+int main(void)
 {
 	unsigned long ret;
 
@@ -131,4 +130,3 @@ int main()
 
 	return 0;
 }
-
