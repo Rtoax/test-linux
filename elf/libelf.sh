@@ -4,6 +4,8 @@
 # output format, it's not compatiable with each other.
 set -e
 
+readonly ELF_LIBC64=$(ldconfig -p | grep libc.so.6 | grep 64 | awk '{print $NF}')
+
 __elf_sym_key2val() {
 	local elf=$1
 	local sym=$2
@@ -39,7 +41,7 @@ elf_sym2value() {
 elf_name2sec() {
 	local elf=$1
 	local name=$2
-	readelf --sections --wide ${elf} | awk -v name=${name} '
+	local value=$(readelf --sections --wide ${elf} | awk -v name=${name} '
 		{
 			# [ 1] .text
 			if ($3==name) {
@@ -49,7 +51,14 @@ elf_name2sec() {
 			if ($2==name) {
 				print $1
 			}
-		}' | grep -o [0-9]*
+		}' | grep -o [0-9]*)
+
+	if [[ -z ${value} ]]; then
+		echo >&2 "ERROR: not found section '${name}' in ${elf}"
+		exit 1
+	else
+		echo -n ${value}
+	fi
 }
 
 elf_sec2name() {
@@ -164,6 +173,21 @@ elf_rela_secnames() {
 	echo ${relas[@]}
 }
 
+elf_bss_syms() {
+	local elf=$1
+	local bss_secidx=$(elf_name2sec ${elf} .bss)
+	local syms=( $(readelf --syms --wide ${elf} \
+		| grep -w -e LOCAL -e GLOBAL \
+		| awk -v secidx=${bss_secidx} '
+		{
+			if ($(NF-1) == secidx) {
+				printf $NF" "
+			}
+		}')
+		)
+	echo ${syms[@]}
+}
+
 elf_hexfile() {
 	local file=$1
 	local off=$2
@@ -192,4 +216,5 @@ if [[ $# -ge 1 ]]; then
 
 	elf_foreachreloc ${ELF}
 	elf_foreachreloc_sec ${ELF}
+	elf_bss_syms ${ELF_LIBC64}
 fi
