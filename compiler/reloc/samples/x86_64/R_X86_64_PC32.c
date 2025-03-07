@@ -34,10 +34,9 @@ void foo(void)
 	gi64 = 10;	/* R_X86_64_PC32 */
 
 	si32 = 10;	/* R_X86_64_PC32 */
+	si64 = 10;	/* R_X86_64_PC32 */
 
 	pgi64 = NULL;	/* R_X86_64_PC32 */
-
-	si64 = 10;	/* R_X86_64_PC32 */
 }
 void foo_alias1(void) __attribute__((alias("foo")));
 void foo_alias2(void) __attribute__((alias("foo")));
@@ -47,6 +46,7 @@ void bar(void)
 {
 	gi8i = 20;	/* R_X86_64_PC32 */
 	gi32i = 20;	/* R_X86_64_PC32 */
+
 	si32i = 20;	/* R_X86_64_PC32 */
 	si64i = 20;	/* R_X86_64_PC32 */
 
