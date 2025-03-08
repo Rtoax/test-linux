@@ -93,3 +93,6 @@ DECL_COMMON
 例如，表示`DECL_INIT_PRIORITY`的正确方法可能是该字段的`DWARF`属性，但表示`DECL_HAS_INIT_PRIORITY`的正确方法可能是由于`DECL_INIT_PRIORITY`的`DWARF`属性不存在而不是单独的位。作为另一个例子，可以计算 `DECL_SECTION_NAME`通过查看`ELF`符号表。
 
 
+# Links
+
+- [DWARF Debugging Standard Website](https://dwarfstd.org/)

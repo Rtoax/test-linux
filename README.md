@@ -222,6 +222,8 @@ If the source code file has a copyright information at the beginning, the copyri
 ## Linux
 
 - [The Linux Kernel Archives](https://www.kernel.org/)
+- [Linux Foundation: Referenced Specifications](https://refspecs.linuxfoundation.org/)
+- [LSB: Linux Standard Base](https://refspecs.linuxfoundation.org/lsb.shtml)
 - [vger.kernel.org](https://subspace.kernel.org/vger.kernel.org.html)
 	- [https://lore.kernel.org/lkml/](https://lore.kernel.org/lkml/)
 - [https://elixir.bootlin.com/linux/latest/source](https://elixir.bootlin.com/linux/latest/source)
