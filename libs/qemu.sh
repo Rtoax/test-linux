@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 find_qemu_emulator()
 {

@@ -1,6 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
 include ../tlbuild.mk
-
 include ../kconfig.mk
 
 sub-dir := readline
@@ -28,7 +27,7 @@ LIB_OBJS := ipaddr.obj proc.obj readline.obj
 TARGETS_LIBSO += libtest-linux-c.so
 TARGETS_LIBA += libtest-linux-c.a
 
-CC = gcc
+CC := gcc
 
 CFLAGS += -Werror -Wall
 ifdef DEBUG
@@ -98,7 +97,8 @@ test: ${TARGETS}
 	${Q}clear
 	${Q}./gotoxy
 	${Q}clear
-
+	${Q}./qemu_examples.sh
+	${Q}./proc_examples
 
 .PHONY: clean
 clean: $(sub-dir-clean)
