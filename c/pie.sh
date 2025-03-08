@@ -1,3 +1,3 @@
 #!/bin/bash
 make clean
-make PIE=1
+make PIE=1 "$@"

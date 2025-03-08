@@ -1,7 +1,13 @@
 # SPDX-License-Identifier: GPL-3.0
 
+CC ?= gcc
+
 ifdef PIE
-  CFLAGS += -pie -fPIE
+  # clang: not support -pie in cflags
+  ifeq ($(CC),gcc)
+    CFLAGS += -pie
+  endif
+  CFLAGS += -fPIE
   LDFLAGS += -pie -fPIE
   MAKEFLAGS += PIE=1
 endif
