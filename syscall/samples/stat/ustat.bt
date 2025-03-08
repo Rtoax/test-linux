@@ -1,0 +1,6 @@
+#!/bin/env bpftrace
+tracepoint:syscalls:sys_enter_ustat
+{
+	time("%H:%M:%S ");
+	printf("%-8d %-16s\n", pid, comm);
+}

@@ -2,6 +2,9 @@
 #include <stdlib.h>
 #include <sys/stat.h>
 #include <sys/sysmacros.h>
+#include <sys/syscall.h>
+#include <sys/types.h>
+#include <unistd.h>
 
 #include "helpers.h"
 
@@ -36,3 +39,15 @@ void print_stat(struct stat *stat)
 	printf("major:%d, minor:%d\n", maj, min);
 }
 
+int sys_ustat(dev_t dev, struct tl_ustat *ubuf)
+{
+	return syscall(__NR_ustat, dev, ubuf);
+}
+
+void print_ustat(struct tl_ustat *us)
+{
+	printf("f_tfree: %d\n", us->f_tfree);
+	printf("f_tinode: %ld\n", us->f_tinode);
+	printf("f_fname: %s\n", us->f_fname);
+	printf("f_fpack: %s\n", us->f_fpack);
+}

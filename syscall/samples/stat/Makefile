@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0
 include ../../../tlbuild.mk
 
 TARGETS := lstat
@@ -13,6 +14,7 @@ TARGETS += st_mode
 TARGETS += fstatat
 TARGETS += utimensat
 TARGETS += futimens
+TARGETS += ustat
 
 CC := gcc
 
@@ -38,6 +40,7 @@ fstatat: fstatat.o helpers.o
 st_mode: st_mode.o helpers.o
 utimensat: utimensat.o
 futimens: futimens.o
+ustat: ustat.o helpers.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

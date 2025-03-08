@@ -1,4 +1,13 @@
 #pragma once
 #include <sys/stat.h>
 
+struct tl_ustat {
+	int f_tfree;
+	unsigned long f_tinode;
+	char f_fname[6];
+	char f_fpack[6];
+};
+
 void print_stat(struct stat *stat);
+int sys_ustat(dev_t dev, struct tl_ustat *ubuf);
+void print_ustat(struct tl_ustat *us);
