@@ -39,6 +39,11 @@ void print_stat(struct stat *stat)
 	printf("major:%d, minor:%d\n", maj, min);
 }
 
+int sys_lstat(const char *pathname, struct stat *statbuf)
+{
+	return syscall(__NR_stat, pathname, statbuf);
+}
+
 int sys_ustat(dev_t dev, struct tl_ustat *ubuf)
 {
 	return syscall(__NR_ustat, dev, ubuf);

@@ -9,7 +9,8 @@ int main(void)
 	struct stat buf;
 
 	lstat("/etc/os-release", &buf);
-
+	print_stat(&buf);
+	sys_lstat("/etc/os-release", &buf);
 	print_stat(&buf);
 
 	return 0;
