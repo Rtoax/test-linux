@@ -1,8 +1,8 @@
 include ../../tlbuild.mk
 
-sub-dir := ip
+sub-dir :=
 
-TARGETS :=
+TARGETS := dummy_init
 
 CC = gcc
 
@@ -12,6 +12,7 @@ CFLAGS += -Wstrict-prototypes
 LDFLAGS :=
 
 CFLAGS += -DDEBUG -O0 -g
+LDFLAGS += -static
 
 sub-dir-build := $(addprefix $(shell pwd)/,$(sub-dir:=.build))
 sub-dir-clean := $(addprefix $(shell pwd)/,$(sub-dir:=.clean))
@@ -20,7 +21,7 @@ sub-dir-clean := $(addprefix $(shell pwd)/,$(sub-dir:=.clean))
 build: ${TARGETS} $(sub-dir-build)
 	@echo -e " \033[1;33m Done \033[m"
 
-# add objects here
+dummy_init: dummy_init.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
