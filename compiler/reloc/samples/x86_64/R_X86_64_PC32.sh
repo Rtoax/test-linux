@@ -2,6 +2,7 @@
 set -e
 
 . ../../../../elf/libelf.sh
+. ../../../../libs/file.sh
 
 ELF_OBJ=R_X86_64_PC32.o
 ELF_EXE=R_X86_64_PC32
@@ -57,7 +58,7 @@ do
 	rela=$(( ${exec_symaddr} + ${r_addend} - ${pos} ))
 
 	exec_rela_file_off=$(( ${exec_funcaddr} - (${exec_sectextaddr} - ${exec_sectextoff}) + ${rela_func_off} ))
-	exec_rela_file_val=$(elf_hexfile ${ELF_EXE} ${exec_rela_file_off} 4)
+	exec_rela_file_val=$(read_hex_from_file ${ELF_EXE} ${exec_rela_file_off} 4)
 
 	# FIXME: .bss and .data rela failed.
 
