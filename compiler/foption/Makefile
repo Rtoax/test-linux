@@ -4,7 +4,8 @@ CC := gcc
 
 include ../compiler.mk
 
-sub-dir := lto
+sub-dir := bss
+sub-dir += lto
 
 sub-dir-build := $(addprefix $(shell pwd)/,$(sub-dir:=.build))
 sub-dir-clean := $(addprefix $(shell pwd)/,$(sub-dir:=.clean))

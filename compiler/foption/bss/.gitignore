@@ -1,0 +1,3 @@
+/*.s
+/fno-zero-initialized-in-bss
+/fzero-initialized-in-bss
