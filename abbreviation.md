@@ -1,10 +1,13 @@
 - ABI: Application Binary Interface (应用程序二进制接口) @API
 - API: Application Programming Interface (应用程序接口) @ABI
+- BSD: Berkeley Software Distribution (伯克利软件分发)
 - CLA: Contributor License Agreement () @DCO
 - CD: Continuous Delivery (持续交付) @CDF
 - CDF: Continuous Delivery Foundation (持续交付基金会) @CD
 - CI: Continuous Integration (持续集成)
 - DCO: Developer Certificate of Origin () @CLA
+- COSE: Common Open Software Environment (通用开源软件环境)
+- CRG: Computer Research Group (计算机研究组)
 - DSO: Dynamic Shared Object (动态共享目标)
 - EEMBC: EDN Embedded Microprocessor Benchmark Consortium (嵌入式微处理器基准协会)
 - FOSS: Free and Open Source Software (自由开源软件)
@@ -25,6 +28,7 @@
 - NDAs: Non-Disclosure Agreements (保密协议)
 - NIST: National Institute of Standard and Technology (美国国家标准与技术研究所)
 - NPTL: Native POSIX Threads Library (原生 POSIX 线程库) @POSIX
+- OSF: Open Software Foundation (开源基金会)
 - OSI: Open Source Initiative (开源倡议)
 - OSS: Open Source Software (开源软件)
 - POSIX: Portable Operating System Interface of UNIX (可移植操作系统接口)
@@ -41,6 +45,8 @@
 - SysV: Unix System V 'System Five' ()
 - Tex: () @LaTeX
 - TOC: The Technical Oversight Committee (技术监督委员会)
+- UI: UNIX International (UNIX国际)
 - UML: User Mode Linux (用户模式Linux) @vDSO
+- USG: UNIX System Group (Unix系统组)
 - vDSO: Virtual Dynamic Shared Object (虚拟动态共享目标) @UML @vvar
 - vvar: Virtual Variable (虚拟变量) @vDSO
