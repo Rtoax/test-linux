@@ -30,6 +30,6 @@ do
 
 	printf "rela: %#lx %#lx %s ${sname} ${r_addend} ${r_secname}, " ${r_offset} ${r_info} ${r_type}
 	printf "data: ${secdata} ${secdataname}, "
-	printf "sym: %s sec %d %s %#lx val %#lx" ${sym} ${symsec} ${symsecname} ${symvalue} ${sym_file_val}
+	printf "sym: %s sec %d %s %#lx (fileoff %#lx) val %#lx" ${sym} ${symsec} ${symsecname} ${symvalue} ${sym_file_off} ${sym_file_val}
 	printf "\n"
 done <<< $(elf_foreachreloc_sec ${ELF_OBJ})
