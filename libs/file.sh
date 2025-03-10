@@ -19,5 +19,11 @@ if [[ $# -ge 1 ]]; then
 	FILE=/usr/bin/ls
 
 	# Get '\x7f'ELF
-	read_hex_from_file ${FILE} 0x0 4
+	hex=$(read_hex_from_file ${FILE} 0x0 4)
+	if [[ ${hex} != 0x464c457f ]]; then
+		echo "ERROR: read_hex_from_file failed."
+		exit 1
+	else
+		echo "ELF magic hex ${hex}"
+	fi
 fi

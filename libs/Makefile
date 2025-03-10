@@ -99,6 +99,7 @@ test: ${TARGETS}
 	${Q}clear
 	${Q}./qemu_examples.sh
 	${Q}./proc_examples
+	${Q}./file.sh test
 
 .PHONY: clean
 clean: $(sub-dir-clean)
