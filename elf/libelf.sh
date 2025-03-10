@@ -160,8 +160,8 @@ elf_foreachreloc_sec() {
 	while read offset info type svalue sname operator addend section
 	do
 		section=$(echo ${section} | tr -d "'")
-		printf "0x%lx 0x%016lx %s 0x%lx %s %s%s %s\n" \
-			0x${offset} 0x${info} ${type} 0x${svalue} ${sname} ${operator} ${addend} ${section}
+		printf "0x%lx 0x%016lx %s 0x%lx %s %s%#lx %s\n" \
+			0x${offset} 0x${info} ${type} 0x${svalue} ${sname} ${operator} 0x${addend} ${section}
 	done <<< $(readelf --relocs --wide ${elf} | awk '
 		BEGIN {
 			section_name = "NULL"
