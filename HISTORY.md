@@ -13,3 +13,10 @@
   - Linux 第一个发行版 Slackware 发布，由 Patrick Volkerding 创建;
 - 1991
   - 1991-10-05: 林纳斯·托瓦兹在comp.os.minix新闻组上发布 linux
+- 1985
+  - Free Software Foundation was founded
+  - GNU Manifesto was published in March 1985
+- 1983
+  - GNU Project by Richard Stallman
+- 1971
+  - Richard Stallman started his career at MIT
