@@ -12,7 +12,9 @@ int main(void)
 	int fp = open("/etc/os-release", O_RDONLY);
 
 	fstat(fp, &buf);
+	print_stat(&buf);
 
+	sys_fstat(fp, &buf);
 	print_stat(&buf);
 
 	return 0;
