@@ -30,9 +30,27 @@ int sort(void)
 	return pclose(stream);
 }
 
+/**
+ * - /usr/lib/rpm/macros: %make_build
+ * - https://github.com/rpm-software-management/rpm: rpmio/macro.cc doShellEscape()
+ */
+int rpm_make_build(void)
+{
+	char buf[128] = "! /usr/bin/make --version -O >/dev/null || echo -O";
+	char line[256] = {0};
+	FILE *fp = popen(buf, "r");
+	if (fp == NULL) {
+		fprintf(stderr, "popen(%s)\n", buf);
+	}
+	while (fgets(line, 256, fp))
+		printf("%s\n", line);
+	return pclose(fp);
+}
+
 int main(void)
 {
 	ps(0, NULL);
 	sort();
+	rpm_make_build();
 	return 0;
 }
