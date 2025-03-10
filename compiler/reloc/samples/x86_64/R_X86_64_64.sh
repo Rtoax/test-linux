@@ -2,6 +2,7 @@
 set -e
 
 . ../../../../elf/libelf.sh
+. ../../../../libs/file.sh
 
 ELF_OBJ=R_X86_64_64.o
 ELF_EXE=R_X86_64_64
@@ -19,7 +20,7 @@ do
 
 	sym=$(elf_off2object ${ELF_OBJ} ${r_offset} ${secdata})
 
-	printf "%#lx %#lx %s ${sname} ${r_addend} ${r_secname}, " ${r_offset} ${r_info} ${r_type}
+	printf "rela: %#lx %#lx %s ${sname} ${r_addend} ${r_secname}, " ${r_offset} ${r_info} ${r_type}
 	printf "data: ${secdata} ${secdataname}, "
 	printf "sym: %s" ${sym}
 	printf "\n"

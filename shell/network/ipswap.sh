@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 function ip2num() {
 	local ip=$1

@@ -14,6 +14,14 @@ read_hex_from_file() {
 	rm -f ${tmp}
 }
 
+read_str_from_file() {
+	local file=$1
+	local off=$2
+	local tmp=$(mktemp -u tmp-XXX.bin)
+	# TODO
+	rm -f ${tmp}
+}
+
 # Test
 if [[ $# -ge 1 ]]; then
 	FILE=/usr/bin/ls
