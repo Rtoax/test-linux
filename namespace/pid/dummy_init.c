@@ -7,7 +7,7 @@ void sig_handler(int signo)
 	psignal(signo, "Ignore ");
 }
 
-int main(void) 
+int main(void)
 {
 	signal(SIGTERM, sig_handler);
 	signal(SIGINT, sig_handler);

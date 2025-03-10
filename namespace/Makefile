@@ -1,9 +1,10 @@
+# SPDX-License-Identifier: GPL-3.0
 include ../tlbuild.mk
-
 
 sub-dir := uts
 sub-dir += net
 sub-dir += nsfs
+sub-dir += pid
 
 TARGETS := unshare
 
