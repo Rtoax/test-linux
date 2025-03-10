@@ -114,6 +114,7 @@ $(TARGETS_A): %:
 
 test: ${TARGETS}
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
+	${Q}./R_X86_64_64.sh
 	${Q}./R_X86_64_PC32.sh
 
 .PHONY: clean

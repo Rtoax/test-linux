@@ -91,17 +91,35 @@ elf_sec2info() {
 }
 
 __off2sym_bias() {
-	local elf=$1
-	local off=$2
-	local type=$3
+	local elf off type secidx
+
+	elf=$1
+	shift
+	off=$1
+	shift
+
+	while true; do
+		if [[ "${1:0:5}" == "type=" ]]; then
+			type=${1:5}
+			shift
+		elif [[ "${1:0:7}" == "secidx=" ]]; then
+			secidx=${1:7}
+			shift
+		else
+			break
+		fi
+	done
+	# 14: 0000000000000020     8 OBJECT  GLOBAL DEFAULT    5 s9
+	# 15: 0000000000000000     8 OBJECT  GLOBAL DEFAULT    4 s10
+	# 16: 0000000000000048     8 OBJECT  GLOBAL DEFAULT    2 pi1
 	# 14: 0000000000000000    67 FUNC    GLOBAL DEFAULT    1 foo
 	# 15: 0000000000000000    67 FUNC    GLOBAL DEFAULT    1 foo_alias2
 	# 16: 0000000000000000    67 FUNC    GLOBAL DEFAULT    1 foo_alias1
 	# 17: 0000000000000043    67 FUNC    GLOBAL DEFAULT    1 bar
 	# 18: 0000000000000086    11 FUNC    GLOBAL DEFAULT    1 main
-	readelf --syms --wide ${elf} | awk -v off=${off} -v type=${type} '
+	readelf --syms --wide ${elf} | awk -v off=${off} -v type=${type} -v secidx=${secidx} '
 		{
-			if ($4 == type) {
+			if ($4 == type && $7 == secidx) {
 				if (strtonum("0x"$2) <= strtonum(off) && strtonum("0x"$2) + strtonum($3) > strtonum(off)) {
 					print $(NF)" +"(strtonum(off) - strtonum("0x"$2))
 				}
@@ -110,7 +128,11 @@ __off2sym_bias() {
 }
 
 elf_off2func() {
-	__off2sym_bias $1 $2 FUNC | awk '{print $1}'
+	__off2sym_bias $1 $2 secidx=$3 type=FUNC | awk '{print $1}'
+}
+
+elf_off2object() {
+	__off2sym_bias $1 $2 secidx=$3 type=OBJECT | awk '{print $1}'
 }
 
 elf_foreachreloc() {

@@ -41,7 +41,7 @@ do
 		continue
 	fi
 
-	func=$(elf_off2func ${ELF_OBJ} $(( ${sectextaddr} + ${r_offset})) )
+	func=$(elf_off2func ${ELF_OBJ} $(( ${sectextaddr} + ${r_offset})) ${sectext} )
 	funcaddr=$(elf_sym2value ${ELF_OBJ} ${func})
 
 	exec_sectext=$(elf_name2sec ${ELF_EXE} ${sectextname})
