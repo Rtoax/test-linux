@@ -1,7 +1,8 @@
 include ../../../../tlbuild.mk
 
 TARGETS :=
-TARGETS += fork vfork fork-share
+TARGETS += setns
+TARGETS += unshare unshare-execve
 
 CC = gcc
 
@@ -13,9 +14,9 @@ CFLAGS += -DDEBUG -O0 -g
 build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
-fork: fork.o
-vfork: vfork.o
-fork-share: fork-share.o
+setns: setns.o
+unshare: unshare.o
+unshare-execve: unshare-execve.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

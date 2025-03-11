@@ -1,0 +1,3 @@
+/setns
+/unshare
+/unshare-execve

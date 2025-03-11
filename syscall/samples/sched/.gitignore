@@ -14,10 +14,7 @@
 /sched_setparam
 /sched_yield
 /nice
-/setns
 /taskset
 /sched_rr_get_interval
-/unshare
-/unshare-execve
 /policy
 /nice-latency

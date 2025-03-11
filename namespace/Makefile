@@ -5,6 +5,7 @@ sub-dir := uts
 sub-dir += net
 sub-dir += nsfs
 sub-dir += pid
+sub-dir += syscalls
 
 TARGETS := unshare
 

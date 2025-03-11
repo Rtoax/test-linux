@@ -1,10 +1,10 @@
 # SPDX-License-Identifier: GPL-3.0
 include ../../../tlbuild.mk
 
-
 sub-dir :=
 sub-dir += clone
 sub-dir += fork
+sub-dir += namespace
 
 TARGETS += cpuset CPU_SETSIZE CPU_ALLOC str2cpuset
 TARGETS += getcpu sched_getcpu
@@ -16,8 +16,6 @@ TARGETS += sched_getaffinity
 TARGETS += sched_get_priority_max sched_get_priority_min
 TARGETS += sched_rr_get_interval
 TARGETS += sched_yield
-TARGETS += setns
-TARGETS += unshare unshare-execve
 TARGETS += taskset
 
 CC = gcc
@@ -56,8 +54,6 @@ sched_rr_get_interval: sched_rr_get_interval.o
 sched_getcpu: sched_getcpu.o helpers.o
 sched_yield: sched_yield.o
 setns: setns.o
-unshare: unshare.o
-unshare-execve: unshare-execve.o
 taskset: taskset.o
 
 %.o: %.c
