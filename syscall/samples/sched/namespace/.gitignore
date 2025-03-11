@@ -1,5 +1,6 @@
 /dummy
 /dummy-fork
+/dummy-vfork
 /setns
 /unshare
 /unshare-execve

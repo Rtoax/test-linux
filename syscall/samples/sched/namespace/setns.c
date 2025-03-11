@@ -122,6 +122,7 @@ int main(int argc, char *argv[])
 		close(fd);
 		exit(1);
 	}
+	close(fd);
 
 	printf("EXEC: ");
 	for (i = 0; i < extra_args.argc; i++) {

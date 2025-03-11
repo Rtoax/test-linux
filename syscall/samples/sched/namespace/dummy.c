@@ -2,10 +2,14 @@
 #include <unistd.h>
 #include <sys/wait.h>
 
-#ifdef TRY_FORK
+#if defined(TRY_FORK) || defined(TRY_VFORK)
 void try_fork(void)
 {
+#ifdef TRY_VFORK
+	pid_t pid = vfork();
+#else
 	pid_t pid = fork();
+#endif
 	if (pid == -1) {
 		perror("fork");
 		return;
