@@ -56,7 +56,7 @@ execve-fork: execve-fork.o
 execve: execve.o
 execvp-fork: execvp-fork.o
 execvp-timedrun: execvp-timedrun.o
-execvp: execvp.o
+execvp: execvp.o helpers.o
 execve-spawn: execve-spawn.o
 getcwd: getcwd.o
 getpagesize: getpagesize.o

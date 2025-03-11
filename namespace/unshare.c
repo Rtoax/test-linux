@@ -4,11 +4,14 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#define errExit(msg) do { perror(msg); exit(EXIT_FAILURE); } while (0)
+#define err_exit(msg) do { \
+		perror(msg); \
+		exit(EXIT_FAILURE); \
+	} while (0)
 
 static void usage(char *pname)
 {
-	fprintf(stderr, "Usage: %s [options] program [arg...]\n", pname);
+	fprintf(stderr, "Usage: %s [options] -- program [arg...]\n", pname);
 	fprintf(stderr, "Options can be:\n");
 	fprintf(stderr, "	-i   unshare IPC namespace\n");
 	fprintf(stderr, "	-m   unshare mount namespace\n");
@@ -40,8 +43,8 @@ int main(int argc, char *argv[])
 		usage(argv[0]);
 
 	if (unshare(flags) == -1)
-		errExit("unshare");
+		err_exit("unshare");
 
 	execvp(argv[optind], &argv[optind]);
-	errExit("execvp");
+	err_exit("execvp");
 }
