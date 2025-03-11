@@ -14,9 +14,6 @@
 /sched_setparam
 /sched_yield
 /nice
-/fork
-/fork-share
-/vfork
 /setns
 /taskset
 /sched_rr_get_interval
