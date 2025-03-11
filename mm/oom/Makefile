@@ -1,6 +1,7 @@
 include ../../tlbuild.mk
 
 TARGETS := oom
+TARGETS += popen
 
 CC := gcc
 
@@ -10,10 +11,13 @@ ifdef DEBUG
   CFLAGS += -DDEBUG -O0 -g
 endif
 
+CFLAGS_popen = -DPOPEN=1
+
 build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
 oom: oom.o
+popen: popen.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
@@ -21,7 +25,7 @@ oom: oom.o
 
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	${Q}$(CC) -o $(@) $(^) $(LDLIBS) $(LDFLAGS) $(LDFLAGS_$(*)) $(CFLAGS) $(CFLAGS_$(*))
+	${Q}$(CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*)) $(CFLAGS) $(CFLAGS_$(*))
 
 test: ${TARGETS}
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"

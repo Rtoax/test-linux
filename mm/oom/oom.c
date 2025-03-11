@@ -8,7 +8,14 @@
 
 
 size_t mem_size = 0;
-bool flag_popen = false;
+bool flag_popen =
+#if !defined(POPEN)
+	false;
+#pragma message("without popen(3)")
+#else
+	true;
+#pragma message("with popen(3)")
+#endif
 int verbose = false;
 
 const char argp_prog_doc[] =
