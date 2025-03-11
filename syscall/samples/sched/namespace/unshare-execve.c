@@ -4,8 +4,10 @@
 #include <err.h>
 #include <sched.h>
 #include <stdio.h>
+#include <stdbool.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <sys/wait.h>
 
 
 static void usage(char *pname)
@@ -23,16 +25,26 @@ static void usage(char *pname)
 #endif
 	fprintf(stderr, "    -u   unshare UTS namespace\n");
 	fprintf(stderr, "    -U   unshare user namespace\n");
+	fprintf(stderr, "    -F   fork the specified program as a child process\n");
 	exit(EXIT_FAILURE);
+}
+
+int unshare_execv(int flags, char *argv[])
+{
+	printf("EXEC: %s\n", argv[0]);
+	execvp(argv[0], argv);
+	err(EXIT_FAILURE, "execvp");
 }
 
 int main(int argc, char *argv[])
 {
+	pid_t pid;
 	int flags, opt;
+	bool flag_fork = false;
 
 	flags = 0;
 
-	while ((opt = getopt(argc, argv, "CimnptuU")) != -1) {
+	while ((opt = getopt(argc, argv, "CimnptuUF")) != -1) {
 		switch (opt) {
 		case 'C': flags |= CLONE_NEWCGROUP;     break;
 		case 'i': flags |= CLONE_NEWIPC;        break;
@@ -45,6 +57,7 @@ int main(int argc, char *argv[])
 #endif
 		case 'u': flags |= CLONE_NEWUTS;        break;
 		case 'U': flags |= CLONE_NEWUSER;       break;
+		case 'F': flag_fork = true;             break;
 		default:  usage(argv[0]);
 		}
 	}
@@ -52,9 +65,21 @@ int main(int argc, char *argv[])
 	if (optind >= argc)
 		usage(argv[0]);
 
+	/**
+	 * CLONE_NEWPID - Unshare the PID namespace, so that the calling process
+	 *                has a new PID namespace for its children which is not
+	 *                shared with any previously existing  process.
+	 */
 	if (unshare(flags) == -1)
 		err(EXIT_FAILURE, "unshare");
 
-	execvp(argv[optind], &argv[optind]);
-	err(EXIT_FAILURE, "execvp");
+	if (flag_fork) {
+		pid = fork();
+		if (pid == 0)
+			unshare_execv(flags, &argv[optind]);
+		waitpid(pid, NULL, 0);
+	} else
+		unshare_execv(flags, &argv[optind]);
+
+	return 0;
 }
