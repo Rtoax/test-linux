@@ -1,6 +1,5 @@
 include ../../tlbuild.mk
 
-
 TARGETS :=
 TARGETS += GCC_error
 TARGETS += GCC_poison
@@ -17,7 +16,9 @@ TARGETS += push_macro
 TARGETS += message
 TARGETS += _Pragma
 
-CC = gcc
+CC := gcc
+
+include ../compiler.mk
 
 CFLAGS := -Werror -Wall -D_GNU_SOURCE
 CFLAGS += -Werror=unknown-pragmas
