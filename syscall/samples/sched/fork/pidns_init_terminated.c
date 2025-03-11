@@ -35,6 +35,20 @@ void try_fork(void)
 	wait(NULL);
 }
 
+void try_popen(void)
+{
+	char buf[128] = "uname -rm";
+	char line[256] = {0};
+	FILE *fp = popen(buf, "r");
+	if (fp == NULL) {
+		fprintf(stderr, "popen(%s) %m\n", buf);
+		return;
+	}
+	while (fgets(line, 256, fp))
+		printf("%s\n", line);
+	pclose(fp);
+}
+
 void save_pid(const char *filename, pid_t pid)
 {
 	FILE *fp = fopen(filename, "w");
@@ -78,12 +92,13 @@ void pidns_process_2(void)
 	close(fd);
 
 	try_fork();
-	try_fork();
+	try_popen();
 	sleep(2);
 	/**
 	 * after pid namespace init process terminated, fork will return ENOMEM.
 	 */
 	try_fork();
+	try_popen();
 }
 
 int main(int argc, char *argv[])

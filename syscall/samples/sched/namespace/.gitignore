@@ -1,6 +1,7 @@
 /dummy
 /dummy-fork
 /dummy-vfork
+/dummy-popen
 /setns
 /unshare
 /unshare-execve

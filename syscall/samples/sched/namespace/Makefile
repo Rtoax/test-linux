@@ -1,7 +1,7 @@
 include ../../../../tlbuild.mk
 
 TARGETS :=
-TARGETS += dummy dummy-fork dummy-vfork
+TARGETS += dummy dummy-fork dummy-vfork dummy-popen
 TARGETS += setns
 TARGETS += unshare unshare-execve
 
@@ -15,6 +15,7 @@ CFLAGS += -DDEBUG -O0 -g
 CFLAGS_dummy := -static
 CFLAGS_dummy-fork := -static -DTRY_FORK=1
 CFLAGS_dummy-vfork := -static -DTRY_VFORK=1
+CFLAGS_dummy-popen := -static -DTRY_POPEN=1
 
 build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
@@ -22,6 +23,7 @@ build: ${TARGETS}
 dummy: dummy.o
 dummy-fork: dummy-fork.o
 dummy-vfork: dummy-vfork.o
+dummy-popen: dummy-popen.o
 setns: setns.o
 unshare: unshare.o
 unshare-execve: unshare-execve.o

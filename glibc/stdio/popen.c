@@ -41,6 +41,7 @@ int rpm_make_build(void)
 	FILE *fp = popen(buf, "r");
 	if (fp == NULL) {
 		fprintf(stderr, "popen(%s) %m\n", buf);
+		return;
 	}
 	while (fgets(line, 256, fp))
 		printf("%s\n", line);

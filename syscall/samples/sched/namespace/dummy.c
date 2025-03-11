@@ -25,6 +25,24 @@ void try_fork(void)
 #define try_fork()
 #endif
 
+#if defined(TRY_POPEN)
+void try_popen(void)
+{
+	char buf[128] = "uname -rm";
+	char line[256] = {0};
+	FILE *fp = popen(buf, "r");
+	if (fp == NULL) {
+		fprintf(stderr, "popen(%s) %m\n", buf);
+		return;
+	}
+	while (fgets(line, 256, fp))
+		printf("%s\n", line);
+	pclose(fp);
+}
+#else
+#define try_popen()
+#endif
+
 int main(int argc, char *argv[])
 {
 	unsigned long count = 0;
@@ -32,6 +50,7 @@ int main(int argc, char *argv[])
 		printf("Sleeping %ld s\n", count++);
 		sleep(1);
 		try_fork();
+		try_popen();
 	}
 	return 0;
 }
