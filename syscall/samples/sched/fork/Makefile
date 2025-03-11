@@ -1,9 +1,11 @@
+# SPDX-License-Identifier: GPL-3.0
 include ../../../../tlbuild.mk
 
 TARGETS :=
 TARGETS += fork vfork fork-share
+TARGETS += fork-ENOMEM
 
-CC = gcc
+CC := gcc
 
 CFLAGS := -Werror -Wall -D_GNU_SOURCE -D__USE_GNU
 CFLAGS += -Wstrict-prototypes
@@ -16,6 +18,7 @@ build: ${TARGETS}
 fork: fork.o
 vfork: vfork.o
 fork-share: fork-share.o
+fork-ENOMEM: fork-ENOMEM.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
@@ -30,5 +33,5 @@ test: ${TARGETS}
 
 clean:
 	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
-	${Q}rm -f ${TARGETS} *.o *.d
+	${Q}rm -f ${TARGETS} *.o *.d *.pid
 

@@ -5,7 +5,7 @@
 
 int main(int argc, char *argv[])
 {
-	int pid;
+	pid_t pid;
 
 	if ((pid = fork()) == 0) {
 		printf("Child %d.\n", getpid());
