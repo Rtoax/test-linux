@@ -1,8 +1,14 @@
 #include <argp.h>
 #include <stdbool.h>
+#include <stdlib.h>
 
 const char *interface;
 int verbose = false;
+
+struct extra_args {
+	int argc;
+	char **argv;
+};
 
 const char argp_prog_doc[] =
 	"USAGE: [-i <interface>] [-v|--verbose]\n";
@@ -15,6 +21,8 @@ static const struct argp_option opts[] = {
 
 static error_t parse_arg(int key, char *arg, struct argp_state *state)
 {
+	struct extra_args *extra_args = state->input;
+
 	switch (key) {
 	case 'i':
 		interface = arg;
@@ -23,7 +31,10 @@ static error_t parse_arg(int key, char *arg, struct argp_state *state)
 		verbose = true;
 		break;
 	case ARGP_KEY_ARG:
-		argp_usage(state);
+		extra_args->argv = realloc(extra_args->argv, (extra_args->argc + 1) * sizeof(char *));
+		extra_args->argv[extra_args->argc++] = arg;
+		break;
+	case ARGP_KEY_END:
 		break;
 	default:
 		return ARGP_ERR_UNKNOWN;
@@ -39,9 +50,10 @@ static const struct argp argp = {
 
 int main(int argc, char **argv)
 {
-	int err;
+	int i, err;
+	struct extra_args extra_args = {0};
 
-	err = argp_parse(&argp, argc, argv, 0, NULL, NULL);
+	err = argp_parse(&argp, argc, argv, 0, NULL, &extra_args);
 	if (err) {
 		fprintf(stderr, "argp_parse return %d\n", err);
 		return -err;
@@ -53,6 +65,12 @@ int main(int argc, char **argv)
 	}
 
 	printf("handle interface %s, verbose %d\n", interface, verbose);
+
+	for (i = 0; i < extra_args.argc; i++) {
+		printf("extra_args.argv[%d] = %s\n", extra_args.argc, extra_args.argv[i]);
+	}
+	if (extra_args.argc > 0)
+		free(extra_args.argv);
 
 	return 0;
 }
