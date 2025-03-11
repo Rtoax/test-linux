@@ -3,6 +3,7 @@
 #include <malloc.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <sys/mman.h>
 
 
 size_t mem_size = 0;
@@ -62,10 +63,11 @@ void hold_mem(size_t size)
 
 void oom(void)
 {
-	int i;
-	const int pagesize = getpagesize();
-	const int blk = pagesize * 10;
+	int i, n;
+	const size_t pagesize = getpagesize();
+	const size_t blk = pagesize * 100;
 	char *mem;
+	size_t total_size = 0;
 
 	if (verbose)
 		fprintf(stderr, "OOMing...\n");
@@ -74,7 +76,15 @@ void oom(void)
 		mem = malloc(blk);
 		for (i = 0; i < blk; i += pagesize)
 			mem[i] = 'a';
+		total_size += blk;
 		/* No need to free(), just leak it. */
+		if (verbose) {
+			n = fprintf(stderr, "allocated %ld B (%ld MiB)",
+				    total_size, total_size / 1024 / 1024);
+			(void)n;
+			while (n--)
+				fprintf(stderr, "\b");
+		}
 	}
 }
 
@@ -87,6 +97,8 @@ int main(int argc, char *argv[])
 		fprintf(stderr, "argp_parse return %d\n", err);
 		return -err;
 	}
+
+	mlockall(MCL_CURRENT);
 
 	if (mem_size)
 		hold_mem(mem_size);
