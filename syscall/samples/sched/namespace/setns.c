@@ -28,7 +28,7 @@ int main(int argc, char *argv[])
 		exit(1);
 	}
 
-	if (setns(fd, CLONE_NEWIPC) == -1){
+	if (setns(fd, CLONE_NEWPID) == -1){
 		fprintf(stderr, "setns: %m\n");
 		close(fd);
 		exit(1);

@@ -1,6 +1,7 @@
 include ../../../../tlbuild.mk
 
 TARGETS :=
+TARGETS += dummy
 TARGETS += setns
 TARGETS += unshare unshare-execve
 
@@ -11,9 +12,12 @@ CFLAGS += -Wstrict-prototypes
 CFLAGS += -pthread
 CFLAGS += -DDEBUG -O0 -g
 
+CFLAGS_dummy := -static
+
 build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
+dummy: dummy.o
 setns: setns.o
 unshare: unshare.o
 unshare-execve: unshare-execve.o

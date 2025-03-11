@@ -1,8 +1,3 @@
-/* unshare.c - see end of man unshare(2)
-
-   A simple implementation of the unshare(1) command: unshare
-   namespaces and execute a command.
-*/
 #ifndef _GNU_SOURCE
 #define _GNU_SOURCE
 #endif
@@ -12,9 +7,10 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+
 static void usage(char *pname)
 {
-	fprintf(stderr, "Usage: %s [options] program [arg...]\n", pname);
+	fprintf(stderr, "Usage: %s [options] -- program [arg...]\n", pname);
 	fprintf(stderr, "Options can be:\n");
 	fprintf(stderr, "    -C   unshare cgroup namespace\n");
 	fprintf(stderr, "    -i   unshare IPC namespace\n");
