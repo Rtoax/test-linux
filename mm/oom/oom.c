@@ -1,4 +1,5 @@
 #include <argp.h>
+#include <stdio.h>
 #include <stdbool.h>
 #include <malloc.h>
 #include <unistd.h>
@@ -7,13 +8,15 @@
 
 
 size_t mem_size = 0;
+bool flag_popen = false;
 int verbose = false;
 
 const char argp_prog_doc[] =
-	"USAGE: [-s <size>] [-v|--verbose]\n";
+	"USAGE: [-p] [-s <size>] [-v|--verbose]\n";
 
 static const struct argp_option opts[] = {
 	{ "size", 's', "INTERFACE", 0, "only allocate size of memory, instead of oom" },
+	{ "popen", 'p', "POPEN", 1, "test popen(3) after memory" },
 	{ "verbose", 'v', "VERBOSE", 1, "display detail" },
 	{},
 };
@@ -23,6 +26,9 @@ static error_t parse_arg(int key, char *arg, struct argp_state *state)
 	switch (key) {
 	case 's':
 		mem_size = strtoul(arg, NULL, 10);
+		break;
+	case 'p':
+		flag_popen = true;
 		break;
 	case 'v':
 		verbose = true;
@@ -42,6 +48,23 @@ static const struct argp argp = {
 	.doc = argp_prog_doc,
 };
 
+int test_popen(void)
+{
+	char buf[128] = "uname -rm";
+	FILE *fp = popen(buf, "r");
+
+	if (fp == NULL) {
+		fprintf(stderr, "popen(%s) %m\n", buf);
+	}
+#ifdef DEBUG
+	char line[256] = {0};
+	while (fgets(line, 256, fp))
+		fprintf(stderr, "%s", line);
+#endif
+	pclose(fp);
+	return 0;
+}
+
 void hold_mem(size_t size)
 {
 	size_t i;
@@ -57,6 +80,8 @@ void hold_mem(size_t size)
 	while (1) {
 		for (i = 0; i < size; i += pagesize)
 			mem[i] = 'a';
+		if (flag_popen)
+			test_popen();
 		sleep(1);
 	}
 }
@@ -77,11 +102,12 @@ void oom(void)
 		for (i = 0; i < blk; i += pagesize)
 			mem[i] = 'a';
 		total_size += blk;
+		if (flag_popen)
+			test_popen();
 		/* No need to free(), just leak it. */
 		if (verbose) {
 			n = fprintf(stderr, "allocated %ld B (%ld MiB)",
 				    total_size, total_size / 1024 / 1024);
-			(void)n;
 			while (n--)
 				fprintf(stderr, "\b");
 		}

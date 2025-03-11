@@ -40,7 +40,7 @@ int rpm_make_build(void)
 	char line[256] = {0};
 	FILE *fp = popen(buf, "r");
 	if (fp == NULL) {
-		fprintf(stderr, "popen(%s)\n", buf);
+		fprintf(stderr, "popen(%s) %m\n", buf);
 	}
 	while (fgets(line, 256, fp))
 		printf("%s\n", line);
