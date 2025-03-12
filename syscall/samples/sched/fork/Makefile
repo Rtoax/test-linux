@@ -4,6 +4,7 @@ include ../../../../tlbuild.mk
 TARGETS :=
 TARGETS += fork vfork fork-share
 TARGETS += fork-ENOMEM fork-ENOMEM-2
+TARGETS += fork_twice
 
 CC := gcc
 
@@ -19,6 +20,7 @@ build: ${TARGETS}
 
 fork: fork.o
 vfork: vfork.o
+fork_twice: fork_twice.o
 fork-share: fork-share.o
 fork-ENOMEM: fork-ENOMEM.o helpers.o
 fork-ENOMEM-2: fork-ENOMEM-2.o helpers.o
