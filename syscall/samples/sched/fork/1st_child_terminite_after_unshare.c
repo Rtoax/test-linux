@@ -8,6 +8,7 @@
 #ifndef _GNU_SOURCE
 #define _GNU_SOURCE
 #endif
+#include <assert.h>
 #include <fcntl.h>
 #include <sched.h>
 #include <stdio.h>
@@ -30,6 +31,7 @@ int main(int argc, char *argv[])
 {
 	int err;
 	pid_t parent, pid_1, pid_2;
+	int secs = 5;
 
 	/**
 	 * TODO: emulate fork failed with ENOMEM, see pid_namespaces(7)
@@ -52,12 +54,10 @@ int main(int argc, char *argv[])
 		if (pid_2 == 0) {
 			daemon(1, 1);
 			print_pidns();
+			printf("PID %d(%d) sleeping...\n", getpid(), getppid());
+			sleep(secs * 2);
+			printf("PID %d(%d) calling fork(2).\n", getpid(), getppid());
 			try_fork();
-			printf("PID %d sleeping...\n", getpid());
-			sleep(1);
-			printf("PID %d calling fork(2).\n", getpid());
-			try_fork();
-			sleep(1);
 			try_fork();
 			try_fork();
 			exit(0);
@@ -66,13 +66,15 @@ int main(int argc, char *argv[])
 		/* PID1 running from here */
 
 		print_pidns();
-		printf("PID %d sleeping...\n", getpid());
-		sleep(1);
-		printf("PID %d exit.\n", getpid());
+		printf("PID %d(%d) sleeping...\n", getpid(), getppid());
+		sleep(secs * 1);
+		printf("PID %d(%d) exit.\n", getpid(), getppid());
+		//*(int *)0 = 1;
+		//assert(0);
 		exit(0);
 	}
-	printf("PARENT sleeping 2 s\n");
-	sleep(3);
+	printf("PARENT sleeping\n");
+	sleep(secs * 3);
 
 	if (pid_1 > 0) {
 		printf("PARENT waiting PID1\n");
