@@ -25,7 +25,10 @@ void daemonize(int nochdir, int noclose)
 	 */
 	signal(SIGHUP, SIG_IGN);
 
-	/* parent exits */
+	/**
+	 * parent exits, fork() twice to detach the child from the original
+	 * parent.
+	 */
 	if (fork() != 0)
 		exit(0);
 

@@ -19,19 +19,25 @@
 
 #include "helpers.h"
 
+#define LOG(fmt...) do {	\
+		printf("%16s():%-3d pid %-8d, ppid %-8d: ",	\
+			__func__, __LINE__, getpid(), getppid());	\
+		printf(fmt);	\
+		fflush(stdout);	\
+	} while (0)
 
 void print_pidns(void)
 {
-	char buf[128];
+	char buf[128] = {0};
 	readlink("/proc/self/ns/pid", buf, sizeof(buf));
-	printf("PID %-8d PIDNS %s\n", getpid(), buf);
+	LOG("PIDNS %s\n", buf);
 }
 
 int main(int argc, char *argv[])
 {
 	int err;
 	pid_t parent, pid_1, pid_2;
-	int secs = 5;
+	int secs = 1;
 
 	/**
 	 * TODO: emulate fork failed with ENOMEM, see pid_namespaces(7)
@@ -53,10 +59,11 @@ int main(int argc, char *argv[])
 		pid_2 = fork();
 		if (pid_2 == 0) {
 			daemon(1, 1);
+
 			print_pidns();
-			printf("PID %d(%d) sleeping...\n", getpid(), getppid());
+			LOG("sleeping...\n");
 			sleep(secs * 2);
-			printf("PID %d(%d) calling fork(2).\n", getpid(), getppid());
+			LOG("calling fork(2).\n");
 			try_fork();
 			try_fork();
 			try_fork();
@@ -66,21 +73,21 @@ int main(int argc, char *argv[])
 		/* PID1 running from here */
 
 		print_pidns();
-		printf("PID %d(%d) sleeping...\n", getpid(), getppid());
+		LOG("sleeping...\n");
 		sleep(secs * 1);
-		printf("PID %d(%d) exit.\n", getpid(), getppid());
+		LOG("exit.\n");
 		//*(int *)0 = 1;
 		//assert(0);
 		exit(0);
 	}
-	printf("PARENT sleeping\n");
+	LOG("PARENT sleeping\n");
 	sleep(secs * 3);
 
 	if (pid_1 > 0) {
-		printf("PARENT waiting PID1\n");
+		LOG("PARENT waiting PID1\n");
 		waitpid(pid_1, NULL, 0);
 	}
-	printf("PARENT finish.\n");
+	LOG("PARENT finish.\n");
 
 	return 0;
 }
