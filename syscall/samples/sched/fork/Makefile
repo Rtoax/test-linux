@@ -3,7 +3,7 @@ include ../../../../tlbuild.mk
 
 TARGETS :=
 TARGETS += fork vfork fork-share
-TARGETS += fork-ENOMEM
+TARGETS += fork-ENOMEM fork-ENOMEM-2
 
 CC := gcc
 
@@ -19,6 +19,7 @@ fork: fork.o
 vfork: vfork.o
 fork-share: fork-share.o
 fork-ENOMEM: fork-ENOMEM.o helpers.o
+fork-ENOMEM-2: fork-ENOMEM-2.o helpers.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

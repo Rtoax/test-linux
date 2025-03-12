@@ -4,12 +4,15 @@
 
 int main(void)
 {
+	int cnt = 3;
+
 	daemon(1, 1);
 
-	while (1) {
+	while (cnt--) {
 		printf("--->\n");
 		sleep(1);
 	}
+	printf("daemon exit\n");
 	return 0;
 }
 

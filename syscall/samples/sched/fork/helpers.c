@@ -10,6 +10,7 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
+
 void try_fork(void)
 {
 	pid_t pid = fork();
@@ -22,7 +23,7 @@ void try_fork(void)
 		char *argv[] = {"echo", "child", NULL};
 		execvp(argv[0], argv);
 	}
-	wait(NULL);
+	waitpid(pid, NULL, 0);
 }
 
 void try_popen(void)

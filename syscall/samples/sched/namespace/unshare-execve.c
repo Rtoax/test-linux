@@ -1,3 +1,11 @@
+/**
+ * CLONE_NEWPID
+ *
+ * - Unshare the PID namespace, so that the calling process has a new PID
+ *   namespace for its children which is not shared with any previously
+ *   existing process. The calling process remains in its original namespace.
+ */
+
 #ifndef _GNU_SOURCE
 #define _GNU_SOURCE
 #endif
@@ -78,11 +86,6 @@ int main(int argc, char *argv[])
 
 	signal(SIGINT, sig_handler);
 
-	/**
-	 * CLONE_NEWPID - Unshare the PID namespace, so that the calling process
-	 *                has a new PID namespace for its children which is not
-	 *                shared with any previously existing  process.
-	 */
 	if (unshare(flags) == -1)
 		err(EXIT_FAILURE, "unshare");
 

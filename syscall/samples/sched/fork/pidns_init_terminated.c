@@ -64,12 +64,17 @@ void pidns_process_2(void)
 
 int main(int argc, char *argv[])
 {
+	int err;
 	pid_t pid_init, pid_2;
 
 	pid_2 = fork();
 	if (pid_2 > 0) {
 		save_pid(FILE_PID_PROC, pid_2);
-		unshare(CLONE_NEWPID);
+		err = unshare(CLONE_NEWPID);
+		if (err) {
+			perror("unshare");
+			abort();
+		}
 		pid_init = fork();
 		if (pid_init > 0)
 			save_pid(FILE_PID_INIT, pid_init);
