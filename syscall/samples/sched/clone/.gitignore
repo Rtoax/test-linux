@@ -4,3 +4,4 @@
 /ns_net
 /uts_hostname
 /glibc
+/parent_tid

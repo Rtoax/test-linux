@@ -13,7 +13,7 @@
 
 static char stack[STACK_SIZE];
 
-int child(void *arg)
+int child_fn(void *arg)
 {
 	int ret;
 
@@ -45,13 +45,23 @@ int main(void)
 	pid_t pid;
 
 	flags = CLONE_NEWUTS | CLONE_NEWIPC | CLONE_NEWPID | CLONE_NEWNS | SIGCHLD;
-	pid = clone(child, stack + STACK_SIZE, flags, NULL);
+
+#if defined(PARENT_TID)
+	pid_t parent_tid, child_tid;
+	pid = clone(child_fn, stack + STACK_SIZE, flags, NULL,
+		    &parent_tid, NULL, &child_tid);
+#else
+	pid = clone(child_fn, stack + STACK_SIZE, flags, NULL);
+#endif
 	if (pid == -1) {
 		perror("clone");
 		return -1;
 	}
 
 	waitpid(pid, &status, 0);
+#if defined(PARENT_TID)
+	printf("parent_tid = %d, child_tid = %d\n", parent_tid, child_tid);
+#endif
 	printf("Child exit %d.\n", status);
 	return 0;
 }

@@ -1,9 +1,9 @@
 include ../../../../tlbuild.mk
 
-
 TARGETS :=
 TARGETS += glibc
 TARGETS += clone
+TARGETS += parent_tid
 TARGETS += ns_pid
 TARGETS += ns_net
 TARGETS += container
@@ -16,17 +16,19 @@ CFLAGS += -Wstrict-prototypes
 CFLAGS += -pthread
 CFLAGS += -DDEBUG -O0 -g
 
+CFLAGS_ns_pid := -Wno-error=int-to-pointer-cast
+CFLAGS_parent_tid := -DPARENT_TID=1
+
 build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
 glibc: glibc.o
 clone: clone.o
+parent_tid: parent_tid.o
 ns_pid: ns_pid.o
 ns_net: ns_net.o
 container: container.o
 uts_hostname: uts_hostname.o
-
-CFLAGS_ns_pid := -Wno-error=int-to-pointer-cast
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
