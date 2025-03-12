@@ -12,6 +12,8 @@ CFLAGS += -Wstrict-prototypes
 CFLAGS += -pthread
 CFLAGS += -DDEBUG -O0 -g
 
+CFLAGS_vfork := -DVFORK=1
+
 build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
