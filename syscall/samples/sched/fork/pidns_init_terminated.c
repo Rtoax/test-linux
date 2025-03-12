@@ -9,6 +9,7 @@
  * ----+------------o-------------+--------------------->
  *    fork()      unshare()      fork()
  */
+#include <assert.h>
 #include <fcntl.h>
 #include <sched.h>
 #include <stdio.h>
@@ -52,6 +53,11 @@ void try_popen(void)
 void save_pid(const char *filename, pid_t pid)
 {
 	FILE *fp = fopen(filename, "w");
+	if (!fp) {
+		fprintf(stderr, "ERROR: could't open %s, %m", filename);
+		kill(pid, SIGKILL);
+		assert(fp && "fopen()");
+	}
 	fprintf(fp, "%d", pid);
 	fclose(fp);
 }
@@ -87,8 +93,11 @@ void pidns_process_2(void)
 	snprintf(buf, 127, "/proc/%d/ns/pid", init_pid);
 	fd = open(buf, O_RDONLY);
 	err = setns(fd, CLONE_NEWPID);
-	if (err)
+	if (err) {
 		fprintf(stderr, "ERROR: setns %m\n");
+		kill(init_pid, SIGKILL);
+		abort();
+	}
 	close(fd);
 
 	try_fork();
@@ -113,6 +122,8 @@ int main(int argc, char *argv[])
 		if (pid_init > 0)
 			save_pid(FILE_PID_INIT, pid_init);
 	}
+
+	sleep(1);
 
 	if (pid_2 == 0)
 		pidns_process_2();
