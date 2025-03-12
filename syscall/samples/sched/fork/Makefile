@@ -18,7 +18,7 @@ build: ${TARGETS}
 fork: fork.o
 vfork: vfork.o
 fork-share: fork-share.o
-fork-ENOMEM: fork-ENOMEM.o
+fork-ENOMEM: fork-ENOMEM.o helpers.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

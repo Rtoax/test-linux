@@ -1,5 +1,5 @@
 /**
- * fork(2) error ENOMEM
+ * fork(2) failed with ENOMEM
  *
  * An attempt was made to create a child process in a PID namespace whose
  * "init" process has terminated. See pid_namespaces(7).
@@ -18,58 +18,10 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
+#include "helpers.h"
+
 #define FILE_PID_INIT	"pidns_init.pid"
 #define FILE_PID_PROC	"pidns_proc.pid"
-
-void try_fork(void)
-{
-	pid_t pid = fork();
-	if (pid == -1) {
-		perror("fork");
-		return;
-	}
-
-	if (pid == 0) {
-		char *argv[] = {"echo", "child", NULL};
-		execvp(argv[0], argv);
-	}
-	wait(NULL);
-}
-
-void try_popen(void)
-{
-	char buf[128] = "uname -rm";
-	char line[256] = {0};
-	FILE *fp = popen(buf, "r");
-	if (fp == NULL) {
-		fprintf(stderr, "popen(%s) %m\n", buf);
-		return;
-	}
-	while (fgets(line, 256, fp))
-		printf("%s\n", line);
-	pclose(fp);
-}
-
-void save_pid(const char *filename, pid_t pid)
-{
-	FILE *fp = fopen(filename, "w");
-	if (!fp) {
-		fprintf(stderr, "ERROR: could't open %s, %m", filename);
-		kill(pid, SIGKILL);
-		assert(fp && "fopen()");
-	}
-	fprintf(fp, "%d", pid);
-	fclose(fp);
-}
-
-int load_pid(const char *filename)
-{
-	int pid;
-	FILE *fp = fopen(filename, "r");
-	fscanf(fp, "%d", &pid);
-	fclose(fp);
-	return pid;
-}
 
 void pidns_process_init(void)
 {
