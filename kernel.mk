@@ -6,7 +6,7 @@ KPATCHLEVEL := $(shell echo ${KVERSION_RAW} | awk -F '.' '{print $$2}')
 KSUBLEVEL := $(shell echo ${KVERSION_RAW} | awk -F '.' '{print $$3}')
 
 KFLAGS :=
-KFLAGS += -DKVERSION=$(KPATCHLEVEL)
+KFLAGS += -DKVERSION=$(KVERSION)
 KFLAGS += -DKPATCHLEVEL=$(KPATCHLEVEL)
 KFLAGS += -DKSUBLEVEL=$(KSUBLEVEL)
 
