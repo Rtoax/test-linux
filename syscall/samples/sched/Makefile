@@ -6,6 +6,7 @@ sub-dir += clone
 sub-dir += fork
 sub-dir += namespace
 
+TARGETS :=
 TARGETS += cpuset CPU_SETSIZE CPU_ALLOC str2cpuset
 TARGETS += getcpu sched_getcpu
 TARGETS += nice nice-latency
@@ -17,9 +18,10 @@ TARGETS += sched_get_priority_max sched_get_priority_min
 TARGETS += sched_rr_get_interval
 TARGETS += sched_yield
 TARGETS += taskset
+TARGETS += daemon
 
-CC = gcc
-CXX = g++
+CC := gcc
+CXX := g++
 
 CFLAGS := -Werror -Wall -D_GNU_SOURCE -D__USE_GNU
 CFLAGS += -Wstrict-prototypes
@@ -55,6 +57,7 @@ sched_getcpu: sched_getcpu.o helpers.o
 sched_yield: sched_yield.o
 setns: setns.o
 taskset: taskset.o
+daemon: daemon.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

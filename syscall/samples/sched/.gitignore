@@ -18,3 +18,4 @@
 /sched_rr_get_interval
 /policy
 /nice-latency
+/daemon
