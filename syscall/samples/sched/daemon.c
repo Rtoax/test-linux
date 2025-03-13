@@ -1,7 +1,5 @@
 #include <stdio.h>
-#include <errno.h>
 #include <signal.h>
-#include <syslog.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <fcntl.h>
@@ -10,7 +8,7 @@
 
 
 /**
- * daemon(3) implementation for systems lacking one.
+ * daemon(3) implementation for systems lacking one. see glibc/misc/daemon.c
  */
 void daemonize(int nochdir, int noclose)
 {
@@ -35,34 +33,29 @@ void daemonize(int nochdir, int noclose)
 	/* create a new session */
 	setsid();
 
-	while(1) {
-		printf("[daemon:%d] is running.\n", getpid());
-		sleep(1);
-	}
-
 	if (!nochdir)
 		chdir("/");
 
-	if (!noclose && (fd = open("/dev/null", O_RDWR, 0)) != -1) {
-		dup2(fd, STDIN_FILENO);
-		dup2(fd, STDOUT_FILENO);
-		dup2(fd, STDERR_FILENO);
-		if (fd > STDERR_FILENO)
+	if (!noclose) {
+		fd = open("/dev/null", O_RDWR, 0);
+		if (fd > STDERR_FILENO) {
+			dup2(fd, STDIN_FILENO);
+			dup2(fd, STDOUT_FILENO);
+			dup2(fd, STDERR_FILENO);
 			close(fd);
+		}
 	}
 }
 
 int main(void)
 {
+	int cnt = 3;
 	daemonize(1, 1);
-
-	/**
-	 * This will not be printed.
-	 */
-	while (1) {
-		printf("[%d] is running.\n", getpid());
+	while (cnt--) {
+		printf("[daemon:%d] is running.\n", getpid());
 		sleep(1);
 	}
+	printf("exit.\n");
 	return 0;
 }
 

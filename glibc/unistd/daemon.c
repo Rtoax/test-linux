@@ -9,7 +9,7 @@ int main(void)
 	daemon(1, 1);
 
 	while (cnt--) {
-		printf("--->\n");
+		printf("daemon running...\n");
 		sleep(1);
 	}
 	printf("daemon exit\n");
