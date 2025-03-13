@@ -6,7 +6,7 @@
 #define SYSCALL_WRAPPER 1
 #define SYS_PREFIX "__arm64_"
 #else
-#error Not support arch
+#error Not support arch or not define __TARGET_ARCH_
 #endif
 
 /**

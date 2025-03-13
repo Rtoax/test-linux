@@ -95,7 +95,6 @@ endif
 CFLAGS_BPF := -I.
 CFLAGS_BPF += -O2 -Wall -g
 CFLAGS_BPF += -target bpf
-CFLAGS_BPF += $(CFLAG_BPF_TARGET_ARCH)
 ifeq ($(CONFIG_ARCH_HAS_SYSCALL_WRAPPER),y)
   CFLAGS_BPF += -DCONFIG_ARCH_HAS_SYSCALL_WRAPPER=1
 endif
@@ -108,6 +107,11 @@ LDFLAGS += -O0 -Wall -g
 CFLAGS += -DCONFIG_BPF_SYSCALL=$(CONFIG_BPF_SYSCALL)
 CFLAGS += -DUID=$(UID)
 CFLAGS_BPF += -DUID=$(UID)
+
+CFLAGS += $(KFLAGS)
+CFLAGS_BPF += $(KFLAGS)
+CFLAGS += $(CFLAG_BPF_TARGET_ARCH)
+CFLAGS_BPF += $(CFLAG_BPF_TARGET_ARCH)
 
 # libbpf commit 8ade99a6f84d ("libbpf: Make libbpf_version.h non-auto-generated")
 # v0.6.0 add macro LIBBPF_MAJOR_VERSION and LIBBPF_MINOR_VERSION in libbpf_version.h
