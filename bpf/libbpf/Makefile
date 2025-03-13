@@ -48,9 +48,15 @@ TARGETS += sk_msg
 TARGETS += cgroup_device
 TARGETS += cgroup_sysctl
 TARGETS += fmod_ret
+# linux v5.7-rc2-1180-geaaacd23910f
+# commit eaaacd23910f ("bpf: Add task and task/file iterator targets")
 TARGETS += iter_task
 TARGETS += iter_task_file
+# linux v5.11-rc4-606-g3a7b35b899de
+# commit 3a7b35b899de ("bpf: Introduce task_vma bpf_iter")
 TARGETS += iter_task_vma
+# linux v5.7-rc2-1178-g6086d29def80
+# commit 6086d29def80 ("bpf: Add bpf_map iterator")
 TARGETS += iter_bpf_map
 TARGETS += $(kconfig-obj-y)
 TARGETS += map_array map_percpu_array
