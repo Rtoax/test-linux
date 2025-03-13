@@ -51,14 +51,20 @@ static error_t parse_arg(int key, char *arg, struct argp_state *state)
 			nstype = CLONE_NEWNET;
 		else if (!strcmp(ns_str, "pid"))
 			nstype = CLONE_NEWPID;
+#ifdef CLONE_NEWTIME
 		else if (!strcmp(ns_str, "time"))
 			nstype = CLONE_NEWTIME;
+#endif
 		else if (!strcmp(ns_str, "user"))
 			nstype = CLONE_NEWUSER;
 		else if (!strcmp(ns_str, "uts"))
 			nstype = CLONE_NEWUTS;
 		else {
-			fprintf(stderr, "ERROR: nstype only support cgroup,ipc,mnt,net,pid,time,user,uts\n");
+			fprintf(stderr, "ERROR: nstype only support cgroup,ipc,mnt,net,pid,"
+#ifdef CLONE_NEWTIME
+				"time,"
+#endif
+				"user,uts\n");
 			exit(EXIT_FAILURE);
 		}
 		break;
