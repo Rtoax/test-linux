@@ -23,6 +23,7 @@
 #include "trace_helpers.h"
 #include "libbpf_wrapper.h"
 #include "libxdp_helpers.h"
+#include "bpf_misc.h"
 
 #if defined(XDP_BASIC)
 #include "xdp.skel.h"

@@ -4,6 +4,7 @@
 #include <bpf/bpf_tracing.h>
 #include <bpf/bpf_core_read.h>
 #include "xdp_dos.h"
+#include "bpf_misc.h"
 #include "bpf_debug.h"
 
 #define ETH_P_IP	0x0800

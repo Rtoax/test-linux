@@ -24,6 +24,8 @@
 #include <bpf/bpf_tracing.h>
 #include <bpf/bpf_endian.h>
 #include "socket_filter.h"
+#include "bpf_misc.h"
+
 
 #define ETH_HLEN	14	/* Total octets in header. */
 #define ETH_P_IP	0x0800	/* Internet Protocol packet	*/
@@ -43,6 +45,10 @@ struct {
 	 * The max_entries attribute is used to specify the size of the
 	 * ring-buffer in bytes. It must be a power of 2 and a multiple of the
 	 * page size (typically 4096), so 4096, 8192, 16384, 32768, ect.
+	 *
+	 * v5.7-rc7-2894-g457f44363a88
+	 * kernel commit 457f44363a88 ("bpf: Implement BPF ring buffer and
+	 * verifier support for it")
 	 */
 	__uint(type, BPF_MAP_TYPE_RINGBUF);
 	__uint(max_entries, 256 * 1024);

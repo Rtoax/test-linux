@@ -10,6 +10,65 @@
 #endif
 
 /**
+ * Kernel commit 1e33759c788c ("bpf, trace: add BPF_F_CURRENT_CPU flag for
+ * bpf_perf_event_output") introduce definitions. v4.6-rc2-1065-g1e33759c788c
+ */
+#ifndef BPF_F_INDEX_MASK
+#define BPF_F_INDEX_MASK	0xffffffffULL
+#endif
+#ifndef BPF_F_CURRENT_CPU
+#define BPF_F_CURRENT_CPU	BPF_F_INDEX_MASK
+#endif
+
+/**
+ * Kernel commit 457f44363a88 ("bpf: Implement BPF ring buffer and verifier
+ * support for it") v5.7-rc7-2894-g457f44363a88
+ */
+#ifndef BPF_MAP_TYPE_RINGBUF
+#define BPF_MAP_TYPE_RINGBUF	0x1b
+#endif
+
+/**
+ * kernel commit 3274f52073d8 (bpf: add 'flags' attribute to BPF_MAP_UPDATE_ELEM
+ * command") v3.18-rc4-938-g3274f52073d8
+ */
+#ifndef BPF_NOEXIST
+#define BPF_NOEXIST	1 /* create new element if it didn't exist */
+#endif
+
+/**
+ * kernel commit 281920b7e0b3 ("bpf: Devmap adjust uapi for attach bpf program")
+ * v5.7-7182-g281920b7e0b3 move struct bpf_devmap_val {} to uapi.
+ */
+#if KERN_VERSION < 5 || (KERN_VERSION == 5 && KERN_PATCHLEVEL < 7)
+struct bpf_devmap_val {
+	__u32 ifindex;   /* device index */
+	union {
+		int   fd;  /* prog fd on map write */
+		__u32 id;  /* prog id on map read */
+	} bpf_prog;
+};
+#endif
+
+/**
+ * kernel commit 644bfe51fa49 ("cpumap: Formalize map value as a named struct")
+ * v5.8-rc4-1448-g644bfe51fa49 introduce struct bpf_cpumap_val {} to uapi.
+ */
+#if KERN_VERSION < 5 || (KERN_VERSION == 5 && KERN_PATCHLEVEL < 8)
+struct bpf_cpumap_val {
+	__u32 qsize;    /* queue size to remote target CPU */
+	/**
+	 * kernel commit 9216477449f3 ("bpf: cpumap: Add the possibility to
+	 * attach an eBPF program to cpumap") v5.8-rc4-1449-g9216477449f3
+	 */
+	union {
+		int   fd;       /* prog fd on map write */
+		__u32 id;       /* prog id on map read */
+	};
+};
+#endif
+
+/**
  * FIXME: Why couldn't use __builtin_strcmp/__builtin_strlen ?
  */
 static __always_inline bool str_eq(const char *a, const char *b, int len)

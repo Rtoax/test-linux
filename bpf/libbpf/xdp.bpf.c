@@ -26,6 +26,7 @@
 #include <bpf/bpf_endian.h>
 #include <bpf/bpf_tracing.h>
 #include "xdp_helpers.h"
+#include "bpf_misc.h"
 
 #define ETH_P_IP	0x0800
 
@@ -208,8 +209,17 @@ int xdp_devmap_printk(struct xdp_md *ctx)
 	if ((void *)(iphdr + 1) > data_end)
 		return XDP_PASS;
 
+	/**
+	 * kernel commit 64b59025c15b ("xdp: Add xdp_txq_info to xdp_buff") add
+	 * xdp_md::egress_ifindex field, v5.7-rc7-2904-g64b59025c15b
+	 */
+#if LINUX_VERSION_CODE > KERNEL_VERSION(5, 7, 0)
 	bpf_printk("devmap redirect: dev %u -> dev %u, len %u",
 		   ctx->ingress_ifindex, ctx->egress_ifindex, len);
+#else
+	bpf_printk("devmap redirect: dev %u -> dev ?, len %u",
+		   ctx->ingress_ifindex, len);
+#endif
 
 	return XDP_PASS;
 }
