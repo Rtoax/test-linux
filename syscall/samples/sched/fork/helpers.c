@@ -11,28 +11,33 @@
 #include <unistd.h>
 
 
-void try_fork(void)
+void try_fork(int vf, char *argv[])
 {
-	pid_t pid = fork();
+	pid_t pid;
+
+	pid = vf ? vfork() : fork();
 	if (pid == -1) {
 		perror("fork");
 		return;
 	}
 
 	if (pid == 0) {
-		char *argv[] = {"echo", "child", NULL};
-		execvp(argv[0], argv);
+		char *_argv[] = {"echo", "child", NULL};
+		if (argv)
+			execvp(argv[0], argv);
+		else
+			execvp(_argv[0], _argv);
 	}
 	waitpid(pid, NULL, 0);
 }
 
-void try_popen(void)
+void try_popen(char *cmd_buf)
 {
 	char buf[128] = "uname -rm";
 	char line[256] = {0};
-	FILE *fp = popen(buf, "r");
+	FILE *fp = popen(cmd_buf ?: buf, "r");
 	if (fp == NULL) {
-		fprintf(stderr, "popen(%s) %m\n", buf);
+		fprintf(stderr, "popen(%s) %m\n", cmd_buf ?: buf);
 		return;
 	}
 	while (fgets(line, 256, fp))

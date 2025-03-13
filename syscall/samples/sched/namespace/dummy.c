@@ -2,45 +2,28 @@
 #include <unistd.h>
 #include <sys/wait.h>
 
+#include "helpers_fork.h"
+
 #if defined(TRY_FORK) || defined(TRY_VFORK)
-void try_fork(void)
+void test_try_fork(void)
 {
 #ifdef TRY_VFORK
-	pid_t pid = vfork();
+	try_fork(1, NULL);
 #else
-	pid_t pid = fork();
+	try_fork(0, NULL);
 #endif
-	if (pid == -1) {
-		perror("fork");
-		return;
-	}
-
-	if (pid == 0) {
-		char *argv[] = {"echo", "child", NULL};
-		execvp(argv[0], argv);
-	}
-	wait(NULL);
 }
 #else
-#define try_fork()
+#define test_try_fork()
 #endif
 
 #if defined(TRY_POPEN)
-void try_popen(void)
+void test_try_popen(void)
 {
-	char buf[128] = "uname -rm";
-	char line[256] = {0};
-	FILE *fp = popen(buf, "r");
-	if (fp == NULL) {
-		fprintf(stderr, "popen(%s) %m\n", buf);
-		return;
-	}
-	while (fgets(line, 256, fp))
-		printf("%s\n", line);
-	pclose(fp);
+	try_popen(NULL);
 }
 #else
-#define try_popen()
+#define test_try_popen()
 #endif
 
 int main(int argc, char *argv[])
@@ -49,8 +32,8 @@ int main(int argc, char *argv[])
 	while (1) {
 		printf("Sleeping %ld s\n", count++);
 		sleep(1);
-		try_fork();
-		try_popen();
+		test_try_fork();
+		test_try_popen();
 	}
 	return 0;
 }

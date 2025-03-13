@@ -21,9 +21,9 @@ build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
 dummy: dummy.o
-dummy-fork: dummy-fork.o
-dummy-vfork: dummy-vfork.o
-dummy-popen: dummy-popen.o
+dummy-fork: dummy-fork.o helpers_fork.o
+dummy-vfork: dummy-vfork.o helpers_fork.o
+dummy-popen: dummy-popen.o helpers_fork.o
 setns: setns.o
 unshare: unshare.o
 unshare-execve: unshare-execve.o

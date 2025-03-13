@@ -52,14 +52,14 @@ void pidns_process_2(void)
 	}
 	close(fd);
 
-	try_fork();
-	try_popen();
+	try_fork(0, NULL);
+	try_popen(NULL);
 	sleep(2);
 	/**
 	 * after pid namespace init process terminated, fork will return ENOMEM.
 	 */
-	try_fork();
-	try_popen();
+	try_fork(0, NULL);
+	try_popen(NULL);
 }
 
 int main(int argc, char *argv[])

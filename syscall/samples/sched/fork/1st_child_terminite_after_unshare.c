@@ -42,9 +42,9 @@ void *test_fork(void *arg)
 	LOG("sleeping...\n");
 	sleep(secs * 2);
 	LOG("calling fork(2).\n");
-	try_fork();
-	try_fork();
-	try_fork();
+	try_fork(0, NULL);
+	try_fork(0, NULL);
+	try_fork(0, NULL);
 	exit(0);
 	return NULL;
 }
