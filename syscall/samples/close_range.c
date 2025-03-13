@@ -30,5 +30,13 @@ int main(void)
 		exit(1);
 	}
 
+	ret = close_range(0, 3, CLOSE_RANGE_CLOEXEC);
+	if (ret) {
+		fprintf(stderr, "close_range: %m\n");
+		exit(1);
+	}
+	/* FIXME: Still print fine */
+	fprintf(stdout, "hello.\n");
+
 	return 0;
 }
