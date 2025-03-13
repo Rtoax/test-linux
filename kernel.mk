@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
 
-KERN_VERSION_RAW=$(shell uname -r | grep -o '[0-9]\.[0-9]*\.[0-9]*')
+KERN_VERSION_RAW=$(shell uname -r | grep -o '^[0-9]\.[0-9]*\.[0-9]*')
 KERN_VERSION = $(shell echo ${KERN_VERSION_RAW} | awk -F '.' '{print $$1}')
 KERN_PATCHLEVEL = $(shell echo ${KERN_VERSION_RAW} | awk -F '.' '{print $$2}')
 KERN_SUBLEVEL = $(shell echo ${KERN_VERSION_RAW} | awk -F '.' '{print $$3}')
