@@ -40,7 +40,7 @@
  * kernel commit 281920b7e0b3 ("bpf: Devmap adjust uapi for attach bpf program")
  * v5.7-7182-g281920b7e0b3 move struct bpf_devmap_val {} to uapi.
  */
-#if KERN_VERSION < 5 || (KERN_VERSION == 5 && KERN_PATCHLEVEL < 7)
+#if KVERSION < 5 || (KVERSION == 5 && KPATCHLEVEL < 7)
 struct bpf_devmap_val {
 	__u32 ifindex;   /* device index */
 	union {
@@ -54,7 +54,7 @@ struct bpf_devmap_val {
  * kernel commit 644bfe51fa49 ("cpumap: Formalize map value as a named struct")
  * v5.8-rc4-1448-g644bfe51fa49 introduce struct bpf_cpumap_val {} to uapi.
  */
-#if KERN_VERSION < 5 || (KERN_VERSION == 5 && KERN_PATCHLEVEL < 8)
+#if KVERSION < 5 || (KVERSION == 5 && KPATCHLEVEL < 8)
 struct bpf_cpumap_val {
 	__u32 qsize;    /* queue size to remote target CPU */
 	/**
