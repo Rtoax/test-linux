@@ -5,3 +5,5 @@
 /uts_hostname
 /glibc
 /parent_tid
+/CLONE_
+/CLONE_.h

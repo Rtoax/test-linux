@@ -8,6 +8,7 @@ TARGETS += ns_pid
 TARGETS += ns_net
 TARGETS += container
 TARGETS += uts_hostname
+TARGETS += CLONE_
 
 CC := gcc
 
@@ -23,8 +24,11 @@ endif
 CFLAGS_ns_pid := -Wno-error=int-to-pointer-cast
 CFLAGS_parent_tid := -DPARENT_TID=1
 
-build: ${TARGETS}
+build: CLONE_.h ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
+
+CLONE_.h:
+	${Q}./CLONE_.sh
 
 glibc: glibc.o
 clone: clone.o
@@ -33,6 +37,7 @@ ns_pid: ns_pid.o
 ns_net: ns_net.o
 container: container.o
 uts_hostname: uts_hostname.o
+CLONE_: CLONE_.o CLONE_.h
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
@@ -47,5 +52,5 @@ test: ${TARGETS}
 
 clean:
 	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
-	${Q}rm -f ${TARGETS} *.o *.d
+	${Q}rm -f ${TARGETS} *.o *.d CLONE_.h
 
