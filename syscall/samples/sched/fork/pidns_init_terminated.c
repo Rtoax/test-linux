@@ -4,10 +4,12 @@
  * An attempt was made to create a child process in a PID namespace whose
  * "init" process has terminated. See pid_namespaces(7).
  *
- *       _____ pid2 setns()         _____ init
- *      /                          /
- * ----+------------o-------------+--------------------->
- *    fork()      unshare()      fork()
+ *
+ *           +----> pid2 setns(pid=1)         +-----> init
+ *          /                                /
+ *         /                                /
+ * -------*---------------o----------------*---------------------> parent
+ *       fork()       unshare(pidns)   fork()
  */
 #include <assert.h>
 #include <fcntl.h>
@@ -21,8 +23,12 @@
 
 #include "helpers.h"
 
-#define FILE_PID_INIT	"pidns_init.pid"
-#define FILE_PID_PROC	"pidns_proc.pid"
+
+/**
+ * Save all PIDs to file, because process could see others PID.
+ */
+#define FILE_PID_INIT	"init.pid"
+#define FILE_PID_PROC	"proc.pid"
 
 static char *nsproc_str = "pid";
 static int nstype = CLONE_NEWPID;
@@ -50,17 +56,15 @@ void parse_args(int argc, char *argv[])
 	}
 }
 
-
-void pidns_process_init(void)
+void proc_init(void)
 {
 	sleep(1);
-
 	printf("NS INIT %d.\n", getpid());
 	sleep(1);
 	exit(0);
 }
 
-void pidns_process_2(void)
+void proc_2(void)
 {
 	int fd, err;
 	char buf[128];
@@ -81,13 +85,19 @@ void pidns_process_2(void)
 	close(fd);
 
 	try_fork(0, NULL);
+	try_fork(1, NULL);
 	try_popen(NULL);
+	try_popen("uname -a");
+
 	sleep(2);
+
 	/**
 	 * after pid namespace init process terminated, fork will return ENOMEM.
 	 */
 	try_fork(0, NULL);
+	try_fork(1, NULL);
 	try_popen(NULL);
+	try_popen("uname -a");
 }
 
 int main(int argc, char *argv[])
@@ -114,10 +124,10 @@ int main(int argc, char *argv[])
 	sleep(1);
 
 	if (pid_2 == 0)
-		pidns_process_2();
+		proc_2();
 
 	if (pid_init == 0)
-		pidns_process_init();
+		proc_init();
 
 	if (pid_init > 0 && pid_2 > 0) {
 		waitpid(pid_init, NULL, 0);

@@ -41,7 +41,7 @@ void try_popen(char *cmd_buf)
 		return;
 	}
 	while (fgets(line, 256, fp))
-		printf("%s\n", line);
+		printf("%s", line);
 	pclose(fp);
 }
 
