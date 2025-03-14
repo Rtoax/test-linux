@@ -15,7 +15,9 @@ void print_mpol(int mpol)
 	CASE(MPOL_BIND);
 	CASE(MPOL_INTERLEAVE);
 	CASE(MPOL_LOCAL);
+#if defined(MPOL_PREFERRED_MANY)
 	CASE(MPOL_PREFERRED_MANY);
+#endif
 #if defined(MPOL_WEIGHTED_INTERLEAVE)
 	CASE(MPOL_WEIGHTED_INTERLEAVE);
 #endif
@@ -31,7 +33,9 @@ void print_mpol_f(int mpol_f)
 	/* Flags for set_mempolicy */
 	CASE(MPOL_F_STATIC_NODES);
 	CASE(MPOL_F_RELATIVE_NODES);
+#if defined(MPOL_F_NUMA_BALANCING)
 	CASE(MPOL_F_NUMA_BALANCING);
+#endif
 	/* Flags for get_mempolicy */
 	CASE(MPOL_F_NODE);
 	CASE(MPOL_F_ADDR);

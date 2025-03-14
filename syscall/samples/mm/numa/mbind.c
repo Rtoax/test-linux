@@ -31,6 +31,8 @@ int main(int argc, char *argv[])
 	printf("Run on CPU %d, NUMA %d\n", run_on_cpu, cpu_numa);
 
 	/**
+	 * MPOL_LOCAL since linux v3.8
+	 *
 	 * This mode specifies "local allocation"; the memory is allocated on
 	 * the node of the CPU that triggered the allocation (the "local node").
 	 * The nodemask and maxnode arguments must specify the empty set.
