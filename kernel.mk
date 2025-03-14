@@ -16,6 +16,13 @@ define kernel_version
 $(shell echo "$$(( (${1}<<16) + (${2}<<8) + (${3}>255?255:${3}) ))")
 endef
 
+define kernel_newer_than
+$(shell if [[ ${KVERSION_CODE} -gt $(call kernel_version,${1},${2},${3}) ]]; then \
+		echo 1; \
+	else echo 0; \
+	fi)
+endef
+
 ifneq (${KVERSION_CODE},$(call kernel_version,${KVERSION},${KPATCHLEVEL},${KSUBLEVEL}))
   $(error "Bad KVERSION_CODE ${KVERSION_CODE}")
 endif
@@ -24,4 +31,8 @@ ifdef DEBUG
   $(info KVERSION = ${KVERSION}.${KPATCHLEVEL}.${KSUBLEVEL}, CODE ${KVERSION_CODE})
   $(info kernel_version(${KVERSION},${KPATCHLEVEL},${KSUBLEVEL}) = \
 	  $(call kernel_version,${KVERSION},${KPATCHLEVEL},${KSUBLEVEL}))
+  # we'll not running kernel v1.1.1 anywhere
+  $(info kernel_newer_than(1,1,1) = $(call kernel_newer_than,1,1,1))
+  # newest kernel is v6.14
+  $(info kernel_newer_than(7,0,0) = $(call kernel_newer_than,7,0,0))
 endif
