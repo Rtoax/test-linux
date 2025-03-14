@@ -45,6 +45,9 @@ void parse_args(int argc, char *argv[])
 			} else if (!strcmp(ns, "cgroup")) {
 				nstype = CLONE_NEWCGROUP;
 				nsproc_str = "cgroup";
+			} else if (!strcmp(ns, "user")) {
+				nstype = CLONE_NEWUSER;
+				nsproc_str = "user";
 			} else {
 				fprintf(stderr, "ERROR: not support nstype %s\n", ns);
 				exit(1);
@@ -105,7 +108,7 @@ int main(int argc, char *argv[])
 	int err;
 	pid_t pid_init, pid_2;
 
-	fprintf(stderr, "Usage: %s nstype=[pid|cgroup]\n", argv[0]);
+	fprintf(stderr, "Usage: %s nstype=[pid|cgroup|user]\n", argv[0]);
 	parse_args(argc - 1, &argv[1]);
 
 	pid_2 = fork();
