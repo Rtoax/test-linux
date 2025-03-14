@@ -16,6 +16,7 @@
 #include <bpf/bpf_tracing.h>
 #include <bpf/bpf_core_read.h>
 #include "perf_event.h"
+#include "bpf_misc.h"
 
 
 struct {

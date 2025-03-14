@@ -37,6 +37,14 @@
 #endif
 
 /**
+ * kernel commit 6c9059817432 ("bpf: pre-allocate hash map elements")
+ * v4.5-rc7-1214-g6c9059817432
+ */
+#ifndef BPF_F_NO_PREALLOC
+#define BPF_F_NO_PREALLOC	(1U << 0)
+#endif
+
+/**
  * kernel commit 281920b7e0b3 ("bpf: Devmap adjust uapi for attach bpf program")
  * v5.7-7182-g281920b7e0b3 move struct bpf_devmap_val {} to uapi.
  */

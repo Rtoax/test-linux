@@ -16,11 +16,15 @@
  * because the /24 key is more specific than the /8 key. A lookup for
  * 10.12.0.1 would return 1. And a lookup for 12.0.0.1 will not return any
  * entry.
+ *
+ * kernel commit b95a5c4db09b ("bpf: add a longest prefix match trie map implementation")
+ * v4.10-rc4-728-gb95a5c4db09b introduce BPF_MAP_TYPE_LPM_TRIE.
  */
 #include "vmlinux.h"
 #include <bpf/bpf_helpers.h>
 #include <bpf/bpf_tracing.h>
 #include <bpf/bpf_core_read.h>
+#include "bpf_misc.h"
 
 struct {
 	__uint(type, BPF_MAP_TYPE_LPM_TRIE);
