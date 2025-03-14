@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
 include ../../../tlbuild.mk
 
-CC = gcc
+CC := gcc
 NASM = $(shell which nasm 2>/dev/null)
 LD = ld
 OBJDUMP = objdump
@@ -57,8 +57,8 @@ else
   endif
 endif
 
-DEBUG = yes
-CC = gcc
+DEBUG := yes
+CC := gcc
 
 CFLAGS := -Werror -Wall
 LDFLAGS :=

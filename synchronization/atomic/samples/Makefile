@@ -5,7 +5,7 @@ include ../../../tlbuild.mk
 TARGETS :=
 TARGETS += atomic_fetch_add
 
-CC = gcc
+CC := gcc
 
 CFLAGS := -Werror -Wall
 CFLAGS += -Wstrict-prototypes

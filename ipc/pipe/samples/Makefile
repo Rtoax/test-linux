@@ -6,7 +6,7 @@ TARGETS += pipe
 TARGETS += pipe-fork
 TARGETS += pipe-broken-pipe shutdown-broken-pipe
 
-CC = gcc
+CC := gcc
 
 CFLAGS := -Werror -Wall
 CFLAGS += -DDEBUG -O0 -g
@@ -28,7 +28,7 @@ shutdown-broken-pipe: shutdown-broken-pipe.o
 
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	${Q}$(CC) $(CFLAGS) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
+	${Q}$(CC) $(CFLAGS) -o $(@) $(^)
 
 test: ${TARGETS}
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"

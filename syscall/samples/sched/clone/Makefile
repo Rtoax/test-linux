@@ -9,7 +9,7 @@ TARGETS += ns_net
 TARGETS += container
 TARGETS += uts_hostname
 
-CC = gcc
+CC := gcc
 
 CFLAGS := -Werror -Wall -D_GNU_SOURCE -D__USE_GNU
 CFLAGS += -Wstrict-prototypes

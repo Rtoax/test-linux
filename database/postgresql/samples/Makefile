@@ -17,7 +17,7 @@ TARGETS += PQserverVersion
 TARGETS += PQuser
 TARGETS += transaction
 
-CC = gcc
+CC := gcc
 
 CFLAGS :=
 LDFLAGS :=

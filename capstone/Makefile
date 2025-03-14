@@ -6,7 +6,7 @@ sub-dir := samples
 
 TARGETS :=
 
-CC = gcc
+CC := gcc
 
 include ../template/subdir-header.mk
 

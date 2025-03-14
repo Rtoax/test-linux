@@ -7,7 +7,7 @@ TARGETS :=
 TARGETS += gthread
 TARGETS += size
 
-CC = gcc
+CC := gcc
 
 CFLAGS :=
 LDFLAGS :=

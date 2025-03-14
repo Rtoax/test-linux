@@ -6,7 +6,7 @@ include ../../compiler/compiler.mk
 
 TARGETS :=
 
-CC = gcc
+CC := gcc
 ANNOBIN = $(shell pwd)/annobin-cc1
 
 ifneq ($(wildcard /usr/lib/rpm/redhat/redhat-annobin-cc1),)
@@ -28,7 +28,6 @@ CFLAGS += -Wstrict-prototypes
 CFLAGS += -specs=$(ANNOBIN)
 
 LDFLAGS :=
-LDLIBS :=
 
 .PHONY: build
 build: ${TARGETS}

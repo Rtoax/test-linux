@@ -6,7 +6,7 @@ TARGETS += mtrace
 TARGETS += mprobe
 TARGETS += mcheck_check_all
 
-CC = gcc
+CC := gcc
 
 CFLAGS := -Werror -Wall
 CFLAGS += -DDEBUG -O0 -g
@@ -29,7 +29,7 @@ CFLAGS_mprobe := -Wno-error=use-after-free
 
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	${Q}$(CC) -o $(@) $(^) $(LDLIBS) $(LDFLAGS) $(LDFLAGS_$(*)) $(CFLAGS) $(CFLAGS_$(*))
+	${Q}$(CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*)) $(CFLAGS) $(CFLAGS_$(*))
 
 test: ${TARGETS}
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"

@@ -13,7 +13,7 @@ ifeq ($(wildcard $(NUMAIF_HDR)),)
   $(error Not found ${NUMAIF_HDR})
 endif
 
-CC = gcc
+CC := gcc
 CXX = g++
 
 CFLAGS := -Werror -Wall -D_GNU_SOURCE

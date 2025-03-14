@@ -6,9 +6,8 @@ ifeq ($(shell uname -m),x86_64)
 TARGETS := ioctl_values
 endif
 
-DEBUG = yes
-SRC_PATH := $(shell pwd)
-CC = clang
+DEBUG := yes
+CC := clang
 
 ifdef DEBUG
 CFLAGS += -DDEBUG -O0 -g
@@ -26,7 +25,7 @@ build: ${TARGETS}
 
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	${Q}$(CC) -o $(@) $(^) $(LDLIBS) $(LDFLAGS) $(LDFLAGS_$(*)) $(CFLAGS) $(CFLAGS_$(*))
+	${Q}$(CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*)) $(CFLAGS) $(CFLAGS_$(*))
 
 test: ${TARGETS}
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"

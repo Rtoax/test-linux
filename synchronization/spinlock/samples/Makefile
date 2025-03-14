@@ -6,8 +6,8 @@ TARGETS := pthread_none
 TARGETS += pthread_orig
 TARGETS += pthread_pthread
 
-DEBUG = yes
-CC = gcc
+DEBUG := yes
+CC := gcc
 
 CFLAGS := -Werror -Wall
 CFLAGS += -I$(shell realpath ../../../)
@@ -35,7 +35,7 @@ CFLAGS_pthread_pthread := -DSPIN_PTHREAD
 
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	${Q}$(CC) $(CFLAGS) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
+	${Q}$(CC) $(CFLAGS) -o $(@) $(^)
 
 test: ${TARGETS}
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"

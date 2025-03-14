@@ -12,7 +12,7 @@ ifeq ($(wildcard $(READLINE_HDR)),)
   TARGETS :=
 endif
 
-CC = gcc
+CC := gcc
 
 CFLAGS := -Werror -Wall -D_GNU_SOURCE
 CFLAGS += -DDEBUG -O0 -g
@@ -34,7 +34,7 @@ rltest: rltest.o
 
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	${Q}$(CC) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS) $(CFLAGS) $(CFLAGS_$(*))
+	${Q}$(CC) -o $(@) $(^) $(CFLAGS) $(CFLAGS_$(*))
 
 test: ${TARGETS}
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"

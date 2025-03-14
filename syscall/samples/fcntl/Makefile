@@ -18,7 +18,7 @@ TARGETS += O_CLOEXEC
 TARGETS += O_PATH
 TARGETS += O_TMPFILE
 
-CC = gcc
+CC := gcc
 
 CFLAGS := -Werror -Wall -D_GNU_SOURCE
 CFLAGS += -pthread
@@ -58,7 +58,7 @@ O_TMPFILE: O_TMPFILE.o
 
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	${Q}$(CC) $(CFLAGS) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
+	${Q}$(CC) $(CFLAGS) -o $(@) $(^)
 
 test: ${TARGETS}
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"

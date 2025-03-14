@@ -4,7 +4,7 @@ include ../../tlbuild.mk
 TARGETS :=
 TARGETS += nostartfiles
 
-CC = gcc
+CC := gcc
 
 CFLAGS := -Werror -Wall
 CFLAGS += -Wstrict-prototypes

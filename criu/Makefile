@@ -8,7 +8,7 @@ sub-dir :=
 
 TARGETS :=
 
-CC = gcc
+CC := gcc
 
 CFLAGS :=
 CFLAGS += -Werror -Wall -D_GNU_SOURCE

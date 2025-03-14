@@ -1,7 +1,7 @@
 include ../../../tlbuild.mk
 
 
-CC = gcc
+CC := gcc
 obj-m += pci-char.o
 
 pci_char:

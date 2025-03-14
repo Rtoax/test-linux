@@ -6,7 +6,7 @@ TARGETS += parse_printf_format
 TARGETS += register_printf_function
 TARGETS += register_printf_specifier
 
-CC = gcc
+CC := gcc
 
 CFLAGS := -Werror -Wall -D_GNU_SOURCE
 CFLAGS += -DDEBUG -O0 -g
@@ -26,7 +26,7 @@ CFLAGS_register_printf_function := -Wno-error=deprecated-declarations
 
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	${Q}$(CC) -o $(@) $(^) $(LDLIBS) $(LDFLAGS) $(LDFLAGS_$(*)) $(CFLAGS) $(CFLAGS_$(*))
+	${Q}$(CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*)) $(CFLAGS) $(CFLAGS_$(*))
 
 test: ${TARGETS}
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"

@@ -10,7 +10,7 @@ ifneq ($(wildcard $(CLANG)),)
   TARGETS += hello
   CC = ${CLANG}
 else
-  CC = gcc
+  CC := gcc
 endif
 
 CFLAGS := -Werror -Wall

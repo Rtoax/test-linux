@@ -19,7 +19,7 @@ SCRIPTS := $(shell ls *.sh)
 # Output .sh.log suffix file list
 SCRIPTS_OUT = $(foreach s,${SCRIPTS},${s}.log)
 
-CC = gcc
+CC := gcc
 CXX = g++
 
 CFLAGS := -Werror -Wall
@@ -59,7 +59,7 @@ hello.strip: hello
 
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	${Q}$(CC) -o $(@) $(^) $(LDLIBS) $(LDFLAGS) $(LDFLAGS_$(*)) $(CFLAGS) $(CFLAGS_$(*))
+	${Q}$(CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*)) $(CFLAGS) $(CFLAGS_$(*))
 
 # The following two commands same as
 #  @eu-strip hello -f hello.debug -o hello.strip

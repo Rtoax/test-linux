@@ -7,9 +7,8 @@ TARGETS := main
 # Add more object.o file
 main: main.o
 
-DEBUG = yes
-SRC_PATH := $(shell pwd)
-CC = gcc
+DEBUG := yes
+CC := gcc
 
 CFLAGS :=
 
@@ -30,7 +29,7 @@ build: ${TARGETS}
 
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	${Q}$(CC) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
+	${Q}$(CC) -o $(@) $(^)
 
 test: ${TARGETS}
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"

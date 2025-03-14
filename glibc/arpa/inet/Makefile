@@ -13,8 +13,8 @@ TARGETS += inet_aton
 TARGETS += inet_addr
 TARGETS += inet_network
 
-DEBUG = yes
-CC = gcc
+DEBUG := yes
+CC := gcc
 
 CFLAGS := -Werror -Wall -D_GNU_SOURCE
 CFLAGS += -pthread

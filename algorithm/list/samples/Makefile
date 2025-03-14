@@ -6,7 +6,7 @@ TARGETS := list_test
 
 list_test: list_test.o list.o llist.o
 
-CC = gcc
+CC := gcc
 
 CFLAGS :=
 CFLAGS += -DDEBUG -O0 -g

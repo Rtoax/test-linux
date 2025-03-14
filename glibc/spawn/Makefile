@@ -3,8 +3,8 @@ include ../../tlbuild.mk
 
 TARGETS += posix_spawn
 
-DEBUG = yes
-CC = gcc
+DEBUG := yes
+CC := gcc
 
 CFLAGS := -Werror -Wall -pthread
 CFLAGS += -lm

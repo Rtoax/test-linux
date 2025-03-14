@@ -6,9 +6,8 @@ TARGETS += mq_getattr
 TARGETS += mq_notify
 TARGETS += multi-thread-minimal multi-thread
 
-DEBUG = yes
-SRC_PATH := $(shell pwd)
-CC = gcc
+DEBUG := yes
+CC := gcc
 
 CFLAGS := -Werror -Wall -D_GNU_SOURCE
 CFLAGS += -DDEBUG -O0 -g
@@ -33,7 +32,7 @@ CFLAGS_multi-thread := -pthread
 
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	${Q}$(CC) $(CFLAGS) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
+	${Q}$(CC) $(CFLAGS) -o $(@) $(^)
 
 
 test: ${TARGETS}

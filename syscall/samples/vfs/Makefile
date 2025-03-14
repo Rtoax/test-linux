@@ -5,7 +5,7 @@ include ../../../tlbuild.mk
 TARGETS := statfs
 TARGETS += fstatfs
 
-CC = gcc
+CC := gcc
 
 CFLAGS := -Werror -Wall -D_GNU_SOURCE
 CFLAGS += -pthread

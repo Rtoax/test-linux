@@ -9,7 +9,7 @@ sub-dir += pie
 TARGETS :=
 TARGETS += macro
 
-CC = gcc
+CC := gcc
 
 CFLAGS := -Werror -Wall
 

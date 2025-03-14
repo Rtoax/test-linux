@@ -70,7 +70,7 @@ endif
 
 TARGETS += taskset_example
 
-CC = gcc
+CC := gcc
 
 LDFLAGS :=
 

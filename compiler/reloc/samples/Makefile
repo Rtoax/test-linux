@@ -67,7 +67,7 @@ endef
 
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	${Q}$(CC) -o $(@) $(^) $(LDLIBS) $(CFLAGS) $(CFLAGS_$(*))
+	${Q}$(CC) -o $(@) $(^) $(CFLAGS) $(CFLAGS_$(*))
 	$(call print_elf,$(@))
 
 test: ${TARGETS} $(sub-dir-test)

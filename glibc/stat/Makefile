@@ -1,7 +1,7 @@
 include ../../tlbuild.mk
 
 
-CC = gcc
+CC := gcc
 
 TARGETS := mkfifo
 

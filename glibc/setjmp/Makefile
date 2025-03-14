@@ -7,7 +7,7 @@ TARGETS += sigsetjmp
 TARGETS += getline
 TARGETS += signal
 
-CC = gcc
+CC := gcc
 
 CFLAGS := -Werror -Wall
 CFLAGS += -D_GNU_SOURCE

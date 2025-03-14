@@ -8,7 +8,7 @@ TARGETS += server-pthread
 TARGETS += client
 TARGETS += client-pthread
 
-CC = gcc
+CC := gcc
 
 CFLAGS := -O0 -g -ggdb -pthread
 

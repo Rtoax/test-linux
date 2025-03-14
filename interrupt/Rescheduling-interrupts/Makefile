@@ -10,9 +10,8 @@ endif
 ifeq ($(shell uname -m),aarch64)
 endif
 
-DEBUG = yes
-SRC_PATH := $(shell pwd)
-CC = gcc
+DEBUG := yes
+CC := gcc
 
 CFLAGS := -Werror -Wall -pthread
 
@@ -38,7 +37,7 @@ demo-epoll_eventfd: demo-epoll_eventfd.o common.o
 
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	${Q}$(CC) $(CFLAGS) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
+	${Q}$(CC) $(CFLAGS) -o $(@) $(^)
 
 test: ${TARGETS}
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"

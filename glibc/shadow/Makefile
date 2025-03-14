@@ -3,7 +3,7 @@ include ../../tlbuild.mk
 TARGETS := getspent
 TARGETS += getspnam
 
-CC = gcc
+CC := gcc
 
 CFLAGS := -Werror -Wall -D_GNU_SOURCE
 CFLAGS += -I../../

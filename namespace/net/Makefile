@@ -4,7 +4,7 @@ sub-dir := ip
 
 TARGETS :=
 
-CC = gcc
+CC := gcc
 
 CFLAGS := -Werror -Wall
 CFLAGS += -Wstrict-prototypes

@@ -4,7 +4,7 @@ include ../../tlbuild.mk
 TARGETS :=
 TARGETS += argp_parse
 
-CC = gcc
+CC := gcc
 
 CFLAGS := -Werror -Wall
 CFLAGS += -D_GNU_SOURCE

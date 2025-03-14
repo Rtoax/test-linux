@@ -5,7 +5,7 @@ include ../../tlbuild.mk
 TARGETS :=
 TARGETS += mount
 
-CC = gcc
+CC := gcc
 
 CFLAGS := -Werror -Wall
 CFLAGS += -Wstrict-prototypes

@@ -6,14 +6,13 @@ TARGETS += obstack
 TARGETS += alloc-performance-cmp
 TARGETS += multithread
 
-CC = gcc
+CC := gcc
 
 CFLAGS := -Werror -Wall
 CFLAGS += -Wstrict-prototypes
 CFLAGS += -lpthread
 
 LDFLAGS :=
-LDLIBS :=
 
 LDFLAGS := -pthread
 
@@ -44,7 +43,7 @@ multithread:  multithread.o
 
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	${Q}$(CC) $(CFLAGS) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
+	${Q}$(CC) $(CFLAGS) -o $(@) $(^)
 
 .PHONY: clean
 clean:

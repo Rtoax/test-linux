@@ -25,7 +25,7 @@ TARGETS += timeval
 TARGETS += show_systime
 TARGETS += process-runtime
 
-CC = gcc
+CC := gcc
 
 CFLAGS := -Werror -Wall
 CFLAGS += -D_GNU_SOURCE

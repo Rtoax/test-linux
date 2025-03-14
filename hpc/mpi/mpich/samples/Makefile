@@ -37,7 +37,6 @@ CFLAGS := -Werror -Wall
 CFLAGS += -Wstrict-prototypes
 
 LDFLAGS :=
-LDLIBS :=
 
 # -O3:
 #   glibc 2.28: /usr/include/features.h
@@ -72,7 +71,7 @@ CFLAGS_MPI_Sendrecv_replace := -DCONFIG_MPI_Sendrecv_replace=1
 
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	${Q}$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) $(^) $(LDLIBS) $(LDFLAGS) $(LDFLAGS_$(*))
+	${Q}$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*))
 
 test: ${TARGETS}
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"

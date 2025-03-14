@@ -7,7 +7,7 @@ TARGETS += parsexml
 TARGETS += newformatxml
 TARGETS += modifyxml
 
-CC = gcc
+CC := gcc
 
 LIBXML2_VERSION := libxml-2.0
 LIBXML2_LIBS := $(shell pkg-config --libs libxml-2.0)

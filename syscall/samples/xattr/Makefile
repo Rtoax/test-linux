@@ -8,7 +8,7 @@ TARGETS += getxattr
 TARGETS += listxattr
 TARGETS += demo-1
 
-CC = gcc
+CC := gcc
 
 CFLAGS := -Werror -Wall -D_GNU_SOURCE
 CFLAGS += -pthread

@@ -7,9 +7,8 @@ TARGETS := rbtree_test
 # Add more object.o file
 rbtree_test: rbtree_test.o rbtree.o
 
-DEBUG = yes
-SRC_PATH := $(shell pwd)
-CC = gcc
+DEBUG := yes
+CC := gcc
 
 CFLAGS :=
 
@@ -30,7 +29,7 @@ build: ${TARGETS}
 
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	${Q}$(CC) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
+	${Q}$(CC) -o $(@) $(^)
 
 test: ${TARGETS}
 	./rbtree_test >/dev/null

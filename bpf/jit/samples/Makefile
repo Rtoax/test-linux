@@ -2,7 +2,7 @@ include ../../../tlbuild.mk
 
 TARGETS := add
 
-CC = gcc
+CC := gcc
 
 CFLAGS := -Werror -Wall
 CFLAGS += -DDEBUG -O0 -g

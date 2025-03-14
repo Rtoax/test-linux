@@ -4,7 +4,7 @@ sub-dir :=
 
 TARGETS := dummy_init
 
-CC = gcc
+CC := gcc
 
 CFLAGS := -Werror -Wall
 CFLAGS += -Wstrict-prototypes

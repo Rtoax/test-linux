@@ -26,7 +26,7 @@ CFLAGS += -march=armv8.1-a
 
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	${Q}$(CC) $(CFLAGS) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
+	${Q}$(CC) $(CFLAGS) -o $(@) $(^)
 
 test:
 	@echo "empty, [cd $(PWD)] to insmod"

@@ -6,7 +6,7 @@ TARGETS :=
 TARGETS += madvise-MADV_MERGEABLE
 TARGETS += madvise-MADV_HUGEPAGE
 
-CC = gcc
+CC := gcc
 CXX = g++
 
 CFLAGS := -Werror -Wall -D_GNU_SOURCE

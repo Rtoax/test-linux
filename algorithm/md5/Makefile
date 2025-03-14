@@ -5,9 +5,8 @@ include ../../tlbuild.mk
 TARGETS := test_file
 TARGETS += test_string
 
-DEBUG = yes
-SRC_PATH := $(shell pwd)
-CC = gcc
+DEBUG := yes
+CC := gcc
 
 CFLAGS := -Werror -Wall
 
@@ -29,7 +28,7 @@ test_string: test_string.o md5.o
 
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	${Q}$(CC) $(CFLAGS) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
+	${Q}$(CC) $(CFLAGS) -o $(@) $(^)
 
 test: ${TARGETS}
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"

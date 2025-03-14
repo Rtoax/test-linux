@@ -5,7 +5,7 @@ TARGETS += dummy dummy-fork dummy-vfork dummy-popen
 TARGETS += setns
 TARGETS += unshare unshare-execve
 
-CC = gcc
+CC := gcc
 
 CFLAGS := -Werror -Wall -D_GNU_SOURCE -D__USE_GNU
 CFLAGS += -Wstrict-prototypes

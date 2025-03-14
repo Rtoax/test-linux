@@ -12,8 +12,8 @@ endif
 ifeq ($(shell uname -m),aarch64)
 endif
 
-DEBUG = yes
-CC = gcc
+DEBUG := yes
+CC := gcc
 
 CFLAGS := -Werror -Wall -D_GNU_SOURCE
 CFLAGS += -I../../

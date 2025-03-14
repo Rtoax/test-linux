@@ -3,7 +3,7 @@ include ../../tlbuild.mk
 
 TARGETS :=
 
-CC = gcc
+CC := gcc
 
 TARGETS += hello
 
@@ -14,7 +14,6 @@ CFLAGS += -specs=$(shell pwd)/definitions
 CFLAGS += -specs=$(shell pwd)/definitions2
 
 LDFLAGS :=
-LDLIBS :=
 
 .PHONY: build
 build: ${TARGETS}

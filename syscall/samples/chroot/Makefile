@@ -4,7 +4,7 @@ include ../../../tlbuild.mk
 TARGETS :=
 TARGETS += clone
 
-CC = gcc
+CC := gcc
 
 CFLAGS := -Werror -Wall -D_GNU_SOURCE
 CFLAGS += -pthread

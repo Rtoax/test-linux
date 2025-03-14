@@ -21,9 +21,9 @@ endif
 ifeq (${ARCH},aarch64)
 endif
 
-DEBUG = yes
+DEBUG := yes
 
-CC = gcc
+CC := gcc
 AS = as
 NASM = nasm
 OBJCOPY = objcopy

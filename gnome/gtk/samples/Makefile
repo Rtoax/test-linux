@@ -27,7 +27,7 @@ TARGETS += dialog
 TARGETS += sunny
 TARGETS += entry_get_text
 
-CC = gcc
+CC := gcc
 
 CFLAGS :=
 LDFLAGS :=

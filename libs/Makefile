@@ -79,7 +79,7 @@ libtest-linux-c.a: ${LIB_OBJS}
 
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	@LD_LIBRARY_PATH=$(shell pwd) $(CC) -o $(@) $(^) $(LDLIBS) $(LDFLAGS) $(LDFLAGS_$(*))
+	@LD_LIBRARY_PATH=$(shell pwd) $(CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*))
 
 $(TARGETS_LIBSO): %:
 	@echo -e "  SO  \033[1;32m$(@)\033[m"

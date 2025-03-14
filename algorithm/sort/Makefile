@@ -7,7 +7,7 @@ TARGETS += insert
 TARGETS += merge
 TARGETS += quick-1 quick-2
 
-CC = gcc
+CC := gcc
 
 all: ${TARGETS}
 

@@ -4,7 +4,7 @@ include ../../tlbuild.mk
 TARGETS :=
 TARGETS += bsearch
 
-CC = gcc
+CC := gcc
 
 all: ${TARGETS}
 

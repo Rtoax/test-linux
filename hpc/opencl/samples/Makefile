@@ -8,12 +8,11 @@ TARGETS :=
 
 TARGETS_CL := clGetPlatformIDs
 
-CC = gcc
+CC := gcc
 
 CFLAGS :=
 
 LDFLAGS :=
-LDLIBS :=
 
 have_libopencl := $(findstring 1,$(call check_compiler_option,$(CC),-lOpenCL))
 

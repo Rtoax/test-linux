@@ -7,7 +7,7 @@ sub-dir += unix
 TARGETS :=
 TARGETS += fd_set
 
-CC = gcc
+CC := gcc
 
 CFLAGS := -Werror -Wall
 CFLAGS += -DDEBUG -O0 -g
@@ -26,7 +26,7 @@ fd_set: fd_set.o
 
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	${Q}$(CC) $(CFLAGS) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
+	${Q}$(CC) $(CFLAGS) -o $(@) $(^)
 
 test: ${TARGETS} $(sub-dir-test)
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"

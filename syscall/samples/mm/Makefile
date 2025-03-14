@@ -20,7 +20,7 @@ TARGETS += mprotect-ld
 TARGETS += process_madvise
 TARGETS += process_mrelease
 
-CC = gcc
+CC := gcc
 
 CFLAGS := -Werror -Wall -D_GNU_SOURCE
 CFLAGS += -Wstrict-prototypes

@@ -10,8 +10,8 @@ TARGETS += ordinary-cat
 TARGETS += link-cp
 TARGETS += io_uring-test
 
-DEBUG = yes
-CC = gcc
+DEBUG := yes
+CC := gcc
 
 CFLAGS := -Werror -Wall -luring
 

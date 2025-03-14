@@ -4,7 +4,7 @@ include ../../tlbuild.mk
 TARGETS :=
 TARGETS += inv_sqrt
 
-CC = gcc
+CC := gcc
 
 all: ${TARGETS}
 

@@ -6,7 +6,7 @@ TARGETS += accuracy
 TARGETS += clock_gettime.sec
 TARGETS += clock_gettime.nsec
 
-CC = gcc
+CC := gcc
 
 all: ${TARGETS}
 

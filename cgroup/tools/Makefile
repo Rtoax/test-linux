@@ -3,8 +3,8 @@ include ../../tlbuild.mk
 TARGETS :=
 TARGETS += cgroup_event_listener
 
-DEBUG = yes
-CC = gcc
+DEBUG := yes
+CC := gcc
 
 CFLAGS := -Werror -Wall
 

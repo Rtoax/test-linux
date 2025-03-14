@@ -63,7 +63,7 @@ CFLAGS_GCC_diagnostic := -pg -Wno-error=pragmas -Wno-error=uninitialized
 
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	${Q}$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) $(^) $(LDLIBS)
+	${Q}$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) $(^)
 	$(call print_elf,$(@))
 
 test: ${TARGETS}

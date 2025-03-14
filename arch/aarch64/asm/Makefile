@@ -1,7 +1,7 @@
 include ../../../tlbuild.mk
 
 
-CC = gcc
+CC := gcc
 AS = as
 LD = ld
 OBJDUMP = objdump

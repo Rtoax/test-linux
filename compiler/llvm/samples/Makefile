@@ -47,7 +47,7 @@ CXXFLAGS_ParseCommandLineOptions-2 := -Wno-unused-command-line-argument
 
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	${Q}$(CXX) $(CXXFLAGS) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
+	${Q}$(CXX) $(CXXFLAGS) -o $(@) $(^)
 
 test: ${TARGETS}
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"

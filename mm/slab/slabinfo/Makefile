@@ -9,9 +9,8 @@ ifeq ($(OS),)
 	OS=linux
 endif
 
-DEBUG = yes
-SRC_PATH := $(shell pwd)
-CC = gcc
+DEBUG := yes
+CC := gcc
 
 CFLAGS := -Werror -Wall
 

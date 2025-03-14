@@ -17,7 +17,7 @@ ifeq ($(shell uname -m),x86_64)
   TARGETS += mfentry
 endif
 
-CC = gcc
+CC := gcc
 
 CFLAGS := -Werror -Wall
 CFLAGS += -Wstrict-prototypes

@@ -13,7 +13,7 @@ endif
 ifeq ($(shell uname -m),aarch64)
 endif
 
-CC = gcc
+CC := gcc
 
 CFLAGS := -Werror -Wall
 CFLAGS += -DDEBUG -O0 -g

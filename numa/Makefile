@@ -39,7 +39,7 @@ libtest-linux-numa.a: numa_mem.h numa_mem.obj
 
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	${Q}$(CC) -o $(@) $(^) $(LDLIBS) $(LDFLAGS) $(LDFLAGS_$(*)) $(CFLAGS) $(CFLAGS_$(*))
+	${Q}$(CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*)) $(CFLAGS) $(CFLAGS_$(*))
 
 $(TARGETS_LIBA): %:
 	@echo -e "  AR  \033[1;32m$(^) to $(@)\033[m"

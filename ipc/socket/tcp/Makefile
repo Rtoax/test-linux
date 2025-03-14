@@ -24,7 +24,7 @@ tcp-syn-flood: tcp-syn-flood.o
 
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	${Q}$(CC) $(CFLAGS) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
+	${Q}$(CC) $(CFLAGS) -o $(@) $(^)
 
 .PHONY: clean
 clean: $(sub-dir-clean)

@@ -3,7 +3,7 @@ include ../../../tlbuild.mk
 
 BCC_SYMS_HDR := /usr/include/bcc/bcc_syms.h
 
-CC = gcc
+CC := gcc
 
 TARGETS := symcache
 TARGETS += bcc_elf_is_shared_obj

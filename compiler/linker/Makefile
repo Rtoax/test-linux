@@ -23,7 +23,7 @@ else
   $(warning "WARNING: not found mold linker")
 endif
 
-CC = gcc
+CC := gcc
 LD = ld
 
 CFLAGS := -Werror -Wall

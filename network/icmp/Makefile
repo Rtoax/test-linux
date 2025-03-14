@@ -9,7 +9,7 @@ TARGETS :=
 TARGETS += ping
 TARGETS += icmp_checksum
 
-CC = gcc
+CC := gcc
 
 include ../../template/subdir-header.mk
 
@@ -26,7 +26,7 @@ icmp_checksum: icmp_checksum.o
 
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	${Q}$(CC) -o $(@) $(^) $(LDLIBS) $(LDFLAGS) $(LDFLAGS_$(*)) $(CFLAGS) $(CFLAGS_$(*))
+	${Q}$(CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*)) $(CFLAGS) $(CFLAGS_$(*))
 
 test: ${TARGETS} $(sub-dir-test)
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"

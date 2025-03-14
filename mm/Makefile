@@ -16,7 +16,7 @@ TARGETS_LIBA :=
 TARGETS += virt2phy
 TARGETS_LIBA += libtest-linux-mm.a
 
-CC = gcc
+CC := gcc
 
 CFLAGS :=
 LDFLAGS :=

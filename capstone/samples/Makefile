@@ -14,7 +14,7 @@ ifeq ($(wildcard $(CS_HDR_CAPSTONE)),)
   $(warning "WARNING: You need to install capstone development")
 endif
 
-CC = gcc
+CC := gcc
 
 CFLAGS := -Werror -Wall
 CFLAGS += -DDEBUG -O0 -g

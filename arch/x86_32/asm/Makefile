@@ -1,7 +1,7 @@
 include ../../../tlbuild.mk
 
 
-CC = gcc
+CC := gcc
 LD = ld
 NASM = $(shell which nasm 2>/dev/null)
 

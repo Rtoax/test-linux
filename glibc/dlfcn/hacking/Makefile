@@ -8,13 +8,12 @@ TARGETS_LIBS := libdev.so
 TARGETS_LIBS += libdev.so.1
 TARGETS_LIBS += libdev_hack.so
 
-CC = gcc
+CC := gcc
 
 CFLAGS := -Werror -Wall
 CFLAGS += -Wstrict-prototypes
 
 LDFLAGS :=
-LDLIBS :=
 
 CFLAGS += -DDEBUG -O0 -g
 
@@ -46,7 +45,7 @@ dev: dev.o
 
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	@LD_LIBRARY_PATH=$(shell pwd) $(CC) $(CFLAGS) -o $(@) $(^) $(LDLIBS) $(LDFLAGS) $(LDFLAGS_$(*))
+	@LD_LIBRARY_PATH=$(shell pwd) $(CC) $(CFLAGS) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*))
 
 test: ${TARGETS} ${TARGETS_LIBS}
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"

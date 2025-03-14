@@ -6,9 +6,8 @@ TARGETS += sysconf
 
 OS := $(shell grep ^ID= /etc/os-release | sed 's/ID=//g' | sed 's/"//g')
 
-DEBUG = yes
-SRC_PATH := $(shell pwd)
-CC = gcc
+DEBUG := yes
+CC := gcc
 
 CFLAGS := -Werror -Wall
 CFLAGS += -Wstrict-prototypes

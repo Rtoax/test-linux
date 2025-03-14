@@ -5,8 +5,8 @@ TARGETS :=
 TARGETS += syslog
 TARGETS += syslog-benchmark
 
-DEBUG = yes
-CC = gcc
+DEBUG := yes
+CC := gcc
 
 CFLAGS := -Werror -Wall
 

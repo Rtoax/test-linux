@@ -11,8 +11,8 @@ TARGETS += AT_PLATFORM
 TARGETS += AT_SYSINFO
 TARGETS += AT_SYSINFO_EHDR
 
-DEBUG = yes
-CC = gcc
+DEBUG := yes
+CC := gcc
 
 CFLAGS := -Werror -Wall
 CFLAGS += -lm

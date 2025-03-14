@@ -4,7 +4,7 @@ include ../../../../../../tlbuild.mk
 TARGETS :=
 TARGETS += getpidcon
 
-CC = gcc
+CC := gcc
 CFLAGS := -lselinux
 
 build: $(TARGETS)

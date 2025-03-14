@@ -6,7 +6,7 @@ ifeq ($(shell uname -m),x86_64)
   TARGETS += main
 endif
 
-CC = gcc
+CC := gcc
 
 CFLAGS := -Werror -Wall
 CFLAGS += -DDEBUG -O0 -g

@@ -65,7 +65,7 @@ spin-demo3-nonlock: spin-demo3-nonlock.o
 
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	${Q}$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) $(^) $(LDLIBS) $(LDFLAGS) $(LDFLAGS_$(*))
+	${Q}$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*))
 
 .PHONY: clean
 clean:

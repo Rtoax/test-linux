@@ -7,7 +7,7 @@ TARGETS += if_indextoname
 TARGETS += if_nametoindex
 TARGETS += if_nameindex
 
-CC = gcc
+CC := gcc
 
 CFLAGS := -Werror -Wall
 CFLAGS += -Wstrict-prototypes

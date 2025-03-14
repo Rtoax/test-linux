@@ -5,7 +5,7 @@ TARGETS :=
 TARGETS += hello
 TARGETS += hello-pie
 
-CC = gcc
+CC := gcc
 
 CFLAGS := -Werror -Wall -O0
 

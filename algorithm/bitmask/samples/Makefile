@@ -6,9 +6,8 @@ TARGETS := test-1
 
 test-1: test-1.o bitmask.o
 
-DEBUG = yes
-SRC_PATH := $(shell pwd)
-CC = gcc
+DEBUG := yes
+CC := gcc
 
 CFLAGS :=
 

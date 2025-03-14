@@ -5,7 +5,7 @@ TARGETS :=
 TARGETS += adjtime
 TARGETS += TIMEVAL_TO_TIMESPEC
 
-CC = gcc
+CC := gcc
 
 CFLAGS := -Werror -Wall
 CFLAGS += -D_GNU_SOURCE
@@ -24,7 +24,7 @@ TIMEVAL_TO_TIMESPEC: TIMEVAL_TO_TIMESPEC.o
 
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	${Q}$(CC) $(CFLAGS) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
+	${Q}$(CC) $(CFLAGS) -o $(@) $(^)
 
 test: ${TARGETS}
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"

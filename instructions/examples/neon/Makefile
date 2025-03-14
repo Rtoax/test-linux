@@ -1,7 +1,7 @@
 include ../../../tlbuild.mk
 
 
-CC = gcc
+CC := gcc
 CFLAGS := -O0 -g -ggdb
 TARGETS :=
 
@@ -37,7 +37,7 @@ neon-sve: neon-sve.o
 
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	${Q}$(CC) $(CFLAGS) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
+	${Q}$(CC) $(CFLAGS) -o $(@) $(^)
 
 test:
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"

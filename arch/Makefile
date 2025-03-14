@@ -15,8 +15,8 @@ ifeq ($(shell uname -m),sw_64)
 sub-dir += sw_64
 endif
 
-DEBUG = yes
-CC = gcc
+DEBUG := yes
+CC := gcc
 
 CFLAGS := -Werror -Wall
 
@@ -43,7 +43,7 @@ CFLAGS_cpu_relax :=
 
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	${Q}$(CC) $(CFLAGS) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
+	${Q}$(CC) $(CFLAGS) -o $(@) $(^)
 
 test: ${TARGETS} $(sub-dir-test)
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"

@@ -6,7 +6,7 @@ sub-dir += translations
 
 TARGETS :=
 
-CC = gcc
+CC := gcc
 
 CFLAGS := -Werror -Wall -D_GNU_SOURCE
 CFLAGS += -pthread

@@ -16,8 +16,8 @@ TARGETS += recv
 TARGETS += tcp-srv-1 tcp-clt-1
 TARGETS += AF_XDP
 
-DEBUG = yes
-CC = gcc
+DEBUG := yes
+CC := gcc
 
 CFLAGS := -Werror -Wall -D_GNU_SOURCE
 CFLAGS += -I../../

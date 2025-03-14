@@ -6,7 +6,7 @@ TARGETS += memfd_create-dup2
 TARGETS += MFD_ALLOW_SEALING
 TARGETS += memfd_secret
 
-CC = gcc
+CC := gcc
 CXX = g++
 
 CFLAGS := -Werror -Wall -D_GNU_SOURCE
@@ -29,7 +29,7 @@ memfd_secret: memfd_secret.o helpers.o
 
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	${Q}$(CC) $(CFLAGS) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
+	${Q}$(CC) $(CFLAGS) -o $(@) $(^)
 
 test: ${TARGETS}
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"

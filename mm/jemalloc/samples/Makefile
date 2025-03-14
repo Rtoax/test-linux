@@ -21,7 +21,7 @@ ifeq ($(wildcard $(JEMALLOC_HEADER)),)
   $(warning "WARNING: Maybe install jemalloc development package")
 endif
 
-CC = gcc
+CC := gcc
 
 CFLAGS := -Werror -Wall
 CFLAGS += -Wstrict-prototypes

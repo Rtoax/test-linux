@@ -3,7 +3,7 @@ include ../../tlbuild.mk
 
 TARGETS := hello
 
-CC = gcc
+CC := gcc
 
 CFLAGS := -Werror -Wall
 CFLAGS += -Wstrict-prototypes

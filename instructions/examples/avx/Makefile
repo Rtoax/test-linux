@@ -6,7 +6,7 @@ LLVM_AS = $(shell which llvm-as 2>/dev/null)
 LLVM_DIS = $(shell which llvm-dis 2>/dev/null)
 LLC = $(shell which llc 2>/dev/null)
 
-CC = gcc
+CC := gcc
 
 TARGETS :=
 TARGETS += sum
@@ -105,7 +105,7 @@ endif
 
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	${Q}$(CC) $(CFLAGS) -o $(@) $(^) $(LDLIBS)
+	${Q}$(CC) $(CFLAGS) -o $(@) $(^)
 
 $(TARGETS_asm): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"

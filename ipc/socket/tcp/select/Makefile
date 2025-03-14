@@ -18,7 +18,7 @@ client: client.o
 
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	${Q}$(CC) $(CFLAGS) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
+	${Q}$(CC) $(CFLAGS) -o $(@) $(^)
 
 clean:
 	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"

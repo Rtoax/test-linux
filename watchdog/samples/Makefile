@@ -4,9 +4,8 @@ include ../../tlbuild.mk
 
 TARGETS := watchdog-simple
 
-DEBUG = yes
-SRC_PATH := $(shell pwd)
-CC = gcc
+DEBUG := yes
+CC := gcc
 
 CFLAGS :=
 
