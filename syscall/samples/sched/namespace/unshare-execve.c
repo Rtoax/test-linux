@@ -1,9 +1,14 @@
 /**
+ * unshare(1)
+ *
  * CLONE_NEWPID
  *
  * - Unshare the PID namespace, so that the calling process has a new PID
  *   namespace for its children which is not shared with any previously
  *   existing process. The calling process remains in its original namespace.
+ *
+ * Refs:
+ * - https://github.com/util-linux/util-linux
  */
 
 #ifndef _GNU_SOURCE
