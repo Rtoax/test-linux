@@ -16,6 +16,10 @@ CFLAGS += -Wstrict-prototypes
 CFLAGS += -pthread
 CFLAGS += -DDEBUG -O0 -g
 
+ifdef STATIC
+  CFLAGS += -static
+endif
+
 CFLAGS_ns_pid := -Wno-error=int-to-pointer-cast
 CFLAGS_parent_tid := -DPARENT_TID=1
 
