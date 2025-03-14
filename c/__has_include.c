@@ -1,10 +1,10 @@
 #include <stdio.h>
 
-#if defined __has_include
-#  if __has_include (<stdatomic.h>)
-#    include <stdatomic.h>
-#    pragma message "Include stdatomic.h"
-#  endif
+#ifdef __has_include
+# if __has_include (<stdatomic.h>)
+#  include <stdatomic.h>
+#  pragma message "Include stdatomic.h"
+# endif
 #endif
 
 int main(void)

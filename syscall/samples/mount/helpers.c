@@ -7,7 +7,6 @@
 #include <sys/prctl.h>
 #include <sys/wait.h>
 #include <sys/ioctl.h>
-#include <linux/mount.h>
 #include <linux/loop.h>
 #include <linux/unistd.h>
 
@@ -26,23 +25,38 @@
 #define __NR_move_mount -1
 #endif
 
-
+/**
+ * kernel commit 24dcb3d90a1f ("vfs: syscall: Add fsopen() to prepare for
+ * superblock creation") v5.1-rc1-5-g24dcb3d90a1f
+ */
 int sys_fsopen(const char *fs_name, unsigned int flags)
 {
 	return syscall(__NR_fsopen, fs_name, flags);
 }
 
+/**
+ * kernel commit 93766fbd2696 ("vfs: syscall: Add fsmount() to create a mount
+ * for a superblock") v5.1-rc1-8-g93766fbd2696
+ */
 int sys_fsmount(int fsfd, unsigned int flags, unsigned int ms_flags)
 {
 	return syscall(__NR_fsmount, fsfd, flags, ms_flags);
 }
 
+/**
+ * kernel commit ecdab150fddb ("vfs: syscall: Add fsconfig() for configuring
+ * and managing a context") v5.1-rc1-7-gecdab150fddb
+ */
 int sys_fsconfig(int fsfd, unsigned int cmd, const char *key, const void *val,
 		 int aux)
 {
 	return syscall(__NR_fsconfig, fsfd, cmd, key, val, aux);
 }
 
+/**
+ * kernel commit 2db154b3ea8e ("vfs: syscall: Add move_mount(2) to move mounts
+ * around") v5.1-rc1-2-g2db154b3ea8e
+ */
 int sys_move_mount(int from_dfd, const char *from_pathname, int to_dfd,
 		   const char *to_pathname, unsigned int flags)
 {

@@ -12,6 +12,13 @@
 #include <bpf/bpf.h>
 #include <bpf/libbpf.h>
 
+#ifndef AF_XDP
+#define AF_XDP         44
+#endif
+#ifndef SOL_XDP
+#define SOL_XDP		283
+#endif
+
 #define XDP_FLAGS XDP_FLAGS_DRV_MODE
 #define IFACE "eth0"
 

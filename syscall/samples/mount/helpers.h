@@ -1,5 +1,11 @@
 #pragma once
 
+#ifdef __has_include
+# if __has_include(<linux/mount.h>)
+#  include <linux/mount.h>
+# endif
+#endif
+
 int sys_fsopen(const char *fs_name, unsigned int flags);
 
 int sys_fsmount(int fsfd, unsigned int flags, unsigned int ms_flags);

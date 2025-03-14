@@ -1,15 +1,17 @@
 include ../../../tlbuild.mk
-
+include ../../../kernel.mk
 
 TARGETS :=
 TARGETS += mount
 TARGETS += mount-tmpfs
-TARGETS += fsmount
+ifeq ($(call kernel_newer_than,5,1,0),1)
+  TARGETS += fsmount
+endif
 TARGETS += ramdisk
 
 TARGETS_FS := fs.ext4
 
-CC = gcc
+CC := gcc
 
 CFLAGS := -Werror -Wall -D_GNU_SOURCE
 CFLAGS += -pthread
@@ -19,7 +21,6 @@ CFLAGS += -I../../libs/
 build: ${TARGETS} ${TARGETS_FS}
 	@echo -e " \033[1;33m Done \033[m"
 
-# Add more object.o file
 mount: mount.o helpers.o
 mount-tmpfs: mount-tmpfs.o
 fsmount: fsmount.o helpers.o
@@ -27,8 +28,8 @@ ramdisk: ramdisk.o
 
 fs.ext4:
 	@echo -e "  MKFS  \033[1;32m$(@)\033[m"
-	@./mkfs.sh
-	@mkdir tmp-dir
+	${Q}./mkfs.sh
+	${Q}mkdir tmp-dir
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
@@ -44,5 +45,5 @@ test: ${TARGETS}
 clean:
 	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
 	${Q}rm -f ${TARGETS} *.o *.d *.txt fs.ext4
-	@sudo umount tmp-dir || true
+	${Q}sudo umount tmp-dir || true
 	${Q}rmdir tmp-dir || true

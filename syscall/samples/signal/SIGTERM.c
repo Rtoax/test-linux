@@ -9,6 +9,8 @@
 #include <signal.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <unistd.h>
+
 
 void sig_handler(int signum)
 {

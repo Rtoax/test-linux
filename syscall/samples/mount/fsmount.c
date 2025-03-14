@@ -18,7 +18,6 @@
 #include <sys/mount.h>
 #include <sys/ioctl.h>
 #include <sys/stat.h>
-#include <linux/mount.h>
 #include <linux/unistd.h>
 #include <linux/loop.h>
 

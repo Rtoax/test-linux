@@ -17,12 +17,15 @@
 #include <sys/wait.h>
 #include <unistd.h>
 #include <pthread.h>
+#include <sys/syscall.h>
 
 #include "helpers.h"
 
+#define sys_gettid()	(pid_t)syscall(__NR_gettid)
+
 #define LOG(fmt...) do {	\
 		printf("%16s():%-3d pid %-8d, ppid %-8d, tid %-8d: ",	\
-			__func__, __LINE__, getpid(), getppid(), gettid());	\
+			__func__, __LINE__, getpid(), getppid(), sys_gettid());	\
 		printf(fmt);	\
 		fflush(stdout);	\
 	} while (0)
