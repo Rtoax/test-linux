@@ -41,7 +41,7 @@ endif
 
 .PHONY: build
 build: ${TARGETS}
-	${Q}ld.so --list-tunables | grep -i malloc
+	${Q}ld.so --list-tunables 2>/dev/null | grep -i malloc || true
 	@echo -e " \033[1;33m Done \033[m"
 
 malloc: malloc.o
