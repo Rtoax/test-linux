@@ -1,6 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
 include ../../../tlbuild.mk
-
 include ../../compiler.mk
 
 CC := gcc
@@ -40,7 +39,7 @@ libconstructor-obj.so: constructor-obj.o
 
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	${Q}$(CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*))
+	${Q}$(CC) -o $(@) $(^) $(CFLAGS) $(CFLAGS_$(*)) $(LDFLAGS) $(LDFLAGS_$(*))
 
 $(TARGETS_SO): %:
 	@echo -e "  SO  \033[1;32m$(@)\033[m"
