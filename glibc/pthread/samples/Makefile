@@ -93,7 +93,7 @@ CFLAGS_pthread_cond_signal := -DCOND_ATTR=1
 CFLAGS_pthread_create := -DNR_THREADS=5
 
 build: ${TARGETS}
-	${Q}ld.so --list-tunables | grep -i pthread
+	${Q}ld.so --list-tunables 2>/dev/null | grep -i pthread || true
 	@echo -e " \033[1;33m Done \033[m"
 
 foobar: foobar.o
