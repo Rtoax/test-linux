@@ -46,8 +46,7 @@ endif
 
 include ../elf/pie.mk
 
-sub-dir-build := $(addprefix $(shell pwd)/,$(sub-dir:=.build))
-sub-dir-clean := $(addprefix $(shell pwd)/,$(sub-dir:=.clean))
+include ../template/subdir-header.mk
 
 .PHONY: build
 build: ${TARGETS_LIBSO} ${TARGETS_LIBA} ${TARGETS} $(sub-dir-build)
@@ -91,7 +90,7 @@ $(TARGETS_LIBA): %:
 	@ar rcs $(@) $(^)
 
 .PHONY: test
-test: ${TARGETS}
+test: ${TARGETS} $(sub-dir-test)
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
 	${Q}LD_LIBRARY_PATH=$(shell pwd) ./byteswap
 	${Q}clear
@@ -106,10 +105,5 @@ clean: $(sub-dir-clean)
 	@echo -e "  CLEAN  \033[1;32m$(TARGETS) ${TARGETS_LIBSO} ${TARGETS_LIBA}\033[m"
 	${Q}rm -f ${TARGETS} ${TARGETS_LIBSO} ${TARGETS_LIBA} *.o *.obj vdso.elf*
 
-$(sub-dir-build):
-	@echo -e "\033[1;32m [sub-dir] build $(@)\033[m"
-	${Q}make -C $(@:.build=)
-$(sub-dir-clean):
-	@echo -e "\033[1;32m [sub-dir] clean $(@)\033[m"
-	${Q}make -C $(@:.clean=) clean
+include ../template/subdir-footer.mk
 

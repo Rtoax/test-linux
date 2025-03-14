@@ -9,8 +9,7 @@ sub-dir += test
 sub-dir += nvDSO
 sub-dir += vvar/scripts/
 
-sub-dir-build := $(addprefix $(shell pwd)/,$(sub-dir:=.build))
-sub-dir-clean := $(addprefix $(shell pwd)/,$(sub-dir:=.clean))
+include ../template/subdir-header.mk
 
 $(info CMDLINE_VDSO=${CMDLINE_VDSO})
 
@@ -23,9 +22,4 @@ build: $(sub-dir-build)
 clean: $(sub-dir-clean)
 	${Q}rm -rf *.so *.bt.out
 
-$(sub-dir-build):
-	@echo -e "\033[1;32m [sub-dir] build $(@)\033[m"
-	${Q}make -C $(@:.build=)
-$(sub-dir-clean):
-	@echo -e "\033[1;32m [sub-dir] clean $(@)\033[m"
-	${Q}make -C $(@:.clean=) clean
+include ../template/subdir-footer.mk

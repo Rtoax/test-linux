@@ -7,8 +7,7 @@ include ../compiler.mk
 sub-dir := bss
 sub-dir += lto
 
-sub-dir-build := $(addprefix $(shell pwd)/,$(sub-dir:=.build))
-sub-dir-clean := $(addprefix $(shell pwd)/,$(sub-dir:=.clean))
+include ../../template/subdir-header.mk
 
 TARGETS :=
 TARGETS += fwhole-program
@@ -107,7 +106,7 @@ $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
 	${Q}$(CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*))
 
-test: ${TARGETS}
+test: ${TARGETS} $(sub-dir-test)
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
 
 .PHONY: clean
@@ -118,9 +117,4 @@ clean: $(sub-dir-clean)
 		fdump-tree-gimple.c.* \
 		fdump-tree-all-raw.c.* fdump-tree-all.c.*
 
-$(sub-dir-build):
-	@echo -e "\033[1;32m [sub-dir] build $(@)\033[m"
-	${Q}make -C $(@:.build=)
-$(sub-dir-clean):
-	@echo -e "\033[1;32m [sub-dir] clean $(@)\033[m"
-	${Q}make -C $(@:.clean=) clean
+include ../../template/subdir-footer.mk

@@ -8,8 +8,7 @@ ifeq ($(shell uname -m),x86_64)
   sub-dir += pthread_self
 endif
 
-sub-dir-build := $(addprefix $(shell pwd)/,$(sub-dir:=.build))
-sub-dir-clean := $(addprefix $(shell pwd)/,$(sub-dir:=.clean))
+include ../../template/subdir-header.mk
 
 .PHONY: build
 build: $(sub-dir-build)
@@ -17,9 +16,4 @@ build: $(sub-dir-build)
 .PHONY: clean
 clean: $(sub-dir-clean)
 
-$(sub-dir-build):
-	@echo -e "\033[1;32m [sub-dir] build $(@)\033[m"
-	${Q}make -C $(@:.build=)
-$(sub-dir-clean):
-	@echo -e "\033[1;32m [sub-dir] clean $(@)\033[m"
-	${Q}make -C $(@:.clean=) clean
+include ../../template/subdir-footer.mk

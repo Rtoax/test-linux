@@ -9,8 +9,7 @@ ifeq ($(shell uname -m),aarch64)
   sub-dir += aarch64
 endif
 
-sub-dir-build := $(addprefix $(shell pwd)/,$(sub-dir:=.build))
-sub-dir-clean := $(addprefix $(shell pwd)/,$(sub-dir:=.clean))
+include ../../../template/subdir-header.mk
 
 TARGETS :=
 TARGETS += relocation-truncated-to-fit
@@ -71,7 +70,7 @@ $(TARGETS): %:
 	${Q}$(CC) -o $(@) $(^) $(LDLIBS) $(CFLAGS) $(CFLAGS_$(*))
 	$(call print_elf,$(@))
 
-test: ${TARGETS}
+test: ${TARGETS} $(sub-dir-test)
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
 
 .PHONY: clean
@@ -79,9 +78,4 @@ clean: $(sub-dir-clean)
 	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
 	${Q}rm -f ${TARGETS} *.o *.readelf.log relocs-gen.h
 
-$(sub-dir-build):
-	@echo -e "\033[1;32m [sub-dir] build $(@)\033[m"
-	${Q}make -C $(@:.build=) CC=$(CC) CXX=$(CXX)
-$(sub-dir-clean):
-	@echo -e "\033[1;32m [sub-dir] clean $(@)\033[m"
-	${Q}make -C $(@:.clean=) clean
+include ../../../template/subdir-footer.mk

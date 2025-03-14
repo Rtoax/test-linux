@@ -11,8 +11,7 @@ SCRIPTS_LOG = $(patsubst %.sh,%.log,$(SCRIPTS))
 
 sub-dir := map
 
-sub-dir-build := $(addprefix $(shell pwd)/,$(sub-dir:=.build))
-sub-dir-clean := $(addprefix $(shell pwd)/,$(sub-dir:=.clean))
+include ../../../template/subdir-header.mk
 
 .PHONY: build
 build: ${SCRIPTS_LOG} $(sub-dir-build)
@@ -27,9 +26,4 @@ clean: $(sub-dir-clean)
 	@echo -e "  RM \033[32m$(SCRIPTS_LOG)\033[m"
 	@rm -f ${SCRIPTS_LOG} batch_example.txt
 
-$(sub-dir-build):
-	@echo -e "\033[1;32m [sub-dir] build $(@)\033[m"
-	@make -C $(@:.build=)
-$(sub-dir-clean):
-	@echo -e "\033[1;32m [sub-dir] clean $(@)\033[m"
-	@make -C $(@:.clean=) clean
+include ../../../template/subdir-footer.mk

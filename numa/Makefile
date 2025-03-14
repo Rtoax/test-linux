@@ -17,8 +17,7 @@ CFLAGS += -lnuma
 
 CFLAGS_numa_mem := -DTEST_MAIN=1
 
-sub-dir-build := $(addprefix $(shell pwd)/,$(sub-dir:=.build))
-sub-dir-clean := $(addprefix $(shell pwd)/,$(sub-dir:=.clean))
+include ../template/subdir-header.mk
 
 .PHONY: build
 build: numa_mem.h ${TARGETS_LIBA} ${TARGETS} $(sub-dir-build)
@@ -51,9 +50,4 @@ clean: $(sub-dir-clean)
 	@echo -e " CLEAN \033[1;33m ${TARGETS} ${sub-dir} ${TARGETS_LIBA} \033[m"
 	${Q}rm -f numa_mem.h ${TARGETS} ${TARGETS_LIBA} *.o *.obj
 
-$(sub-dir-build):
-	@echo -e "\033[1;32m [sub-dir] build $(@)\033[m"
-	${Q}make -C $(@:.build=)
-$(sub-dir-clean):
-	@echo -e "\033[1;32m [sub-dir] clean $(@)\033[m"
-	${Q}make -C $(@:.clean=) clean
+include ../template/subdir-footer.mk

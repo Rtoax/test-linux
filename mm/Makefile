@@ -60,8 +60,7 @@ endif
 
 include ../elf/pie.mk
 
-sub-dir-build := $(addprefix $(shell pwd)/,$(sub-dir:=.build))
-sub-dir-clean := $(addprefix $(shell pwd)/,$(sub-dir:=.clean))
+include ../template/subdir-header.mk
 
 .PHONY: all
 all: ${TARGETS_LIBA} ${TARGETS} $(sub-dir-build)
@@ -89,7 +88,7 @@ $(TARGETS_LIBA): %:
 	@echo -e "  AR  \033[1;32m$(^) to $(@)\033[m"
 	@ar rcs $(@) $(^)
 
-test: ${TARGETS}
+test: ${TARGETS} $(sub-dir-test)
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
 
 .PHONY: clean
@@ -97,9 +96,4 @@ clean: $(sub-dir-clean)
 	@echo -e "  CLEAN  \033[1;32m$(TARGETS) $(TARGETS_LIBA)\033[m"
 	${Q}rm -f ${TARGETS} *.o *.a *.obj
 
-$(sub-dir-build):
-	@echo -e "\033[1;32m [sub-dir] build $(@)\033[m"
-	${Q}make -C $(@:.build=) MAKEFLAGS=${MAKEFLAGS}
-$(sub-dir-clean):
-	@echo -e "\033[1;32m [sub-dir] clean $(@)\033[m"
-	${Q}make -C $(@:.clean=) clean MAKEFLAGS=${MAKEFLAGS}
+include ../template/subdir-footer.mk

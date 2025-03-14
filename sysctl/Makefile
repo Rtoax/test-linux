@@ -6,8 +6,7 @@ sub-dir := sysctl.d
 
 MAKEFLAGS :=
 
-sub-dir-build := $(addprefix $(shell pwd)/,$(sub-dir:=.build))
-sub-dir-clean := $(addprefix $(shell pwd)/,$(sub-dir:=.clean))
+include ../template/subdir-header.mk
 
 .PHONY: build
 build: $(sub-dir-build)
@@ -17,9 +16,4 @@ build: $(sub-dir-build)
 clean: $(sub-dir-clean)
 	@echo -e " \033[1;33m Done \033[m"
 
-$(sub-dir-build):
-	@echo -e "\033[1;32m [sub-dir] build $(@)\033[m"
-	${Q}make -C $(@:.build=) MAKEFLAGS=${MAKEFLAGS} CC=$(CC) CXX=$(CXX)
-$(sub-dir-clean):
-	@echo -e "\033[1;32m [sub-dir] clean $(@)\033[m"
-	${Q}make -C $(@:.clean=) MAKEFLAGS=${MAKEFLAGS} clean
+include ../template/subdir-footer.mk

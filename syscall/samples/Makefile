@@ -65,6 +65,8 @@ sub-dir += ldt
 sub-dir += xattr
 sub-dir += truncate
 
+include ../../template/subdir-header.mk
+
 TARGETS :=
 TARGETS += acct
 TARGETS += chdir fchdir
@@ -137,15 +139,11 @@ ifeq ($(shell uname -m),riscv64)
   TARGETS := $(filter-out getdents, $(TARGETS))
 endif
 
-sub-dir-build := $(addprefix $(shell pwd)/,$(sub-dir:=.build))
 
 .PHONY: build
 build: nr.h ${TARGETS} ${TARGETS_CPP} $(sub-dir-build)
 	@echo -e " \033[1;33m Done \033[m"
 
-$(sub-dir-build):
-	@echo -e "\033[1;32m [sub-dir] build $(@)\033[m"
-	${Q}make -C $(@:.build=) CC=$(CC) CXX=$(CXX)
 
 nr.h: nr.sh
 	$(shell bash nr.sh)
@@ -244,10 +242,8 @@ $(TARGETS_CPP): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
 	${Q}$(CXX) $(CFLAGS) -o $(@) $(^)
 
-test: ${TARGETS}
+test: ${TARGETS} $(sub-dir-test)
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
-
-sub-dir-clean := $(addprefix $(shell pwd)/,$(sub-dir:=.clean))
 
 .PHONY: clean
 clean: $(sub-dir-clean)
@@ -256,6 +252,4 @@ clean: $(sub-dir-clean)
 		*.o *.opp nr.h *.out *.dat \
 		*.txt testfile
 
-$(sub-dir-clean):
-	@echo -e "\033[1;32m [sub-dir] clean $(@)\033[m"
-	${Q}make -C $(@:.clean=) clean
+include ../../template/subdir-footer.mk

@@ -29,8 +29,7 @@ CFLAGS += -I../../../
 CFLAGS += -pthread
 CFLAGS += -DDEBUG -O0 -g
 
-sub-dir-build := $(addprefix $(shell pwd)/,$(sub-dir:=.build))
-sub-dir-clean := $(addprefix $(shell pwd)/,$(sub-dir:=.clean))
+include ../../../template/subdir-header.mk
 
 .PHONY: build
 build: ${TARGETS} $(sub-dir-build)
@@ -67,7 +66,7 @@ $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
 	${Q}$(CC) -o $(@) $(^) $(CFLAGS) $(CFLAGS_$(*))
 
-test: ${TARGETS}
+test: ${TARGETS} $(sub-dir-test)
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
 	sudo chrt -r 10 ./sched_rr_get_interval
 	sudo chrt -f 10 ./sched_rr_get_interval
@@ -77,11 +76,5 @@ clean: $(sub-dir-clean)
 	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
 	${Q}rm -f ${TARGETS} *.o
 
-$(sub-dir-build):
-	@echo -e "\033[1;32m [sub-dir] build $(@)\033[m"
-	${Q}make -C $(@:.build=)
-
-$(sub-dir-clean):
-	@echo -e "\033[1;32m [sub-dir] clean $(@)\033[m"
-	${Q}make -C $(@:.clean=) clean
+include ../../../template/subdir-footer.mk
 

@@ -88,8 +88,7 @@ include $(shell pwd)/../../binutils/binutils.mk
 CFLAGS += -DBINUTILS_VERSION_MAJOR=${BINUTILS_VERSION_MAJOR}
 CFLAGS += -DBINUTILS_VERSION_MINOR=${BINUTILS_VERSION_MINOR}
 
-sub-dir-build := $(addprefix $(shell pwd)/,$(sub-dir:=.build))
-sub-dir-clean := $(addprefix $(shell pwd)/,$(sub-dir:=.clean))
+include ../../template/subdir-header.mk
 
 .PHONY: user
 user: $(TARGETS) $(sub-dir-build)
@@ -158,7 +157,7 @@ help:
 	@echo "make [kernel|user|help]"
 	@echo " default: user"
 
-test:
+test: $(sub-dir-test)
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
 	@echo "empty, [cd $(PWD)] to insmod"
 
@@ -171,9 +170,4 @@ clean-kern:
 	@echo -e "  CLEAN  \033[1;32m$(KERNELDIR)\033[m"
 	${Q}make -C ${KERNELDIR} M=$(PWD) clean
 
-$(sub-dir-build):
-	@echo -e "\033[1;32m [sub-dir] build $(@)\033[m"
-	${Q}make -C $(@:.build=)
-$(sub-dir-clean):
-	@echo -e "\033[1;32m [sub-dir] clean $(@)\033[m"
-	${Q}make -C $(@:.clean=) clean
+include ../../template/subdir-footer.mk

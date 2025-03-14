@@ -31,8 +31,7 @@ CFLAGS += -I../
 CFLAGS += -DDEBUG -O0 -g
 CFLAGS += ${SIGNAL_CFLAGS}
 
-sub-dir-build := $(addprefix $(shell pwd)/,$(sub-dir:=.build))
-sub-dir-clean := $(addprefix $(shell pwd)/,$(sub-dir:=.clean))
+include ../../../template/subdir-header.mk
 
 .PHONY: build
 build: sig.h ${TARGETS} $(sub-dir-build)
@@ -85,7 +84,7 @@ $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(<)\033[m"
 	${Q}$(CC) $(CFLAGS) -o $(@) $(^) $(STATIC_OPTS) $(LDLIBS)
 
-test: ${TARGETS}
+test: ${TARGETS} $(sub-dir-test)
 	@echo -e "  TEST  \033[1;32msigpending\033[m"
 	./sigpending &
 	sleep 1
@@ -100,10 +99,5 @@ clean: $(sub-dir-clean)
 	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
 	${Q}rm -f ${TARGETS} *.o sig.h
 
-$(sub-dir-build):
-	@echo -e "\033[1;32m [sub-dir] build $(@)\033[m"
-	${Q}make -C $(@:.build=)
-$(sub-dir-clean):
-	@echo -e "\033[1;32m [sub-dir] clean $(@)\033[m"
-	${Q}make -C $(@:.clean=) clean
+include ../../../template/subdir-footer.mk
 
