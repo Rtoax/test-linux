@@ -16,6 +16,7 @@ int main(int argc, char *argv[])
 	dirfd = openat(AT_FDCWD, "./", O_RDONLY | O_CLOEXEC);
 
 	fstatat(dirfd, argv[0], &buf, AT_SYMLINK_NOFOLLOW);
+	fstatat(dirfd, "/etc/os-release", &buf, AT_SYMLINK_NOFOLLOW);
 
 	proc_pid_fds_display(getpid());
 	print_stat(&buf);
