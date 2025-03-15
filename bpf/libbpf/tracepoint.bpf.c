@@ -15,6 +15,7 @@
 #include <bpf/bpf_core_read.h>
 #include "tracepoint.h"
 #include "bpf_misc.h"
+#include "bpf_helpers.h"
 
 #ifndef SIGKILL
 #define SIGKILL 9
@@ -134,6 +135,10 @@ int tracepoint__syscalls__sys_exit_execve(struct syscall_trace_exit *ctx)
 	if (!pevent)
 		return 0;
 
+	/**
+	 * TODO: Get cwd
+	 */
+	//bpf_getcwd(pevent->cwd, sizeof(pevent->cwd));
 	bpf_get_current_comm(&pevent->comm, sizeof(pevent->comm));
 
 	pevent->ret = ctx->ret;
