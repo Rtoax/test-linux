@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <unistd.h>
 #include <errno.h>
 #include <string.h>
@@ -18,10 +19,12 @@ int main(int argc, char *argv[])
 	}
 
 	ret = readlink(filename, buffer, BUF_LEN);
-	if (ret > 0)
-		printf("readlink: %s\n", buffer);
-	else
-		fprintf(stderr, "readlink: %s\n", strerror(errno));
+	if (ret == -1) {
+		fprintf(stderr, "readlink: %m %d:%d\n", errno, ENOENT);
+		exit(1);
+	}
+
+	printf("readlink: %s\n", buffer);
 
 	return 0;
 }
