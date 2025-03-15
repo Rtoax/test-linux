@@ -1,0 +1,19 @@
+#!/bin/env bpftrace
+// ref: https://github.com/bpftrace/bpftrace/issues/3314
+
+tracepoint:syscalls:sys_enter_open,
+tracepoint:syscalls:sys_enter_openat
+{
+	$task = (struct task_struct *)curtask;
+	$dentry = (struct dentry *)$task->fs->pwd.dentry;
+	$i = 0;
+	while ($i < 10) {
+		printf("%s/", (str($dentry->d_name.name)));
+		if ($dentry == $dentry->d_parent) {
+			break;
+		}
+		$dentry = $dentry->d_parent;
+		$i++;
+	}
+	printf("%s\n", str(args.filename));
+}
