@@ -10,6 +10,9 @@ int main(int argc, char *argv[])
 	struct stat buf;
 	const char *filename = "/etc/os-release";
 
+	if (argc > 1)
+		filename = argv[1];
+
 	stat(filename, &buf);
 
 	print_stat(&buf);

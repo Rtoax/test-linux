@@ -2,17 +2,29 @@
 #include <stdlib.h>
 #include <fcntl.h>
 #include <unistd.h>
+#include <strings.h>
 #include <sys/stat.h>
 
 #include "helpers.h"
 #include "proc.h"
 
 
-int main(void)
+int main(int argc, char *argv[])
 {
+	int fd;
 	struct stat buf;
+	char *filename = "/etc/os-release";
 
-	int fd = open("/etc/os-release", O_RDONLY);
+	if (argc > 1)
+		filename = argv[1];
+
+	if (!strcasecmp(filename, "cwd"))
+		filename = NULL;
+
+	if (filename)
+		fd = open(filename, O_RDONLY);
+	else
+		fd = AT_FDCWD;
 
 	fstat(fd, &buf);
 	print_stat(&buf);
@@ -21,6 +33,8 @@ int main(void)
 	print_stat(&buf);
 
 	proc_pid_fds_display(getpid());
+
+	close(fd);
 
 	return 0;
 }
