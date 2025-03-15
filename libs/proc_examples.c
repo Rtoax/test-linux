@@ -139,6 +139,7 @@ skip_call_vdso:
 	}
 
 	proc_pid_maps_display_2(stdout, "");
+	proc_pid_fds_display(getpid());
 
 	test_mem_fd();
 	test_find_vma_hole();

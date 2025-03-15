@@ -5,6 +5,7 @@
 #include <sys/stat.h>
 
 #include "helpers.h"
+#include "proc.h"
 
 
 int main(int argc, char *argv[])
@@ -16,6 +17,7 @@ int main(int argc, char *argv[])
 
 	fstatat(dirfd, argv[0], &buf, AT_SYMLINK_NOFOLLOW);
 
+	proc_pid_fds_display(getpid());
 	print_stat(&buf);
 
 	close(dirfd);

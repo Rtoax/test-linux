@@ -29,14 +29,14 @@ build: ${TARGETS}
 
 stat: stat.o helpers.o
 statx: statx.o
-fstat: fstat.o helpers.o
+fstat: fstat.o helpers.o proc.o
 lstat: lstat.o helpers.o
 listdir: listdir.o
 chmod: chmod.o
 fchmod: fchmod.o
 mkdir: mkdir.o
 mknod: mknod.o
-fstatat: fstatat.o helpers.o
+fstatat: fstatat.o helpers.o proc.o
 st_mode: st_mode.o helpers.o
 utimensat: utimensat.o
 futimens: futimens.o

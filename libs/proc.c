@@ -513,3 +513,10 @@ int proc_pid_mem_write(int mem_fd, off_t paddr, void *src, size_t len)
 		fprintf(stderr, "ERROR: pwrite: %m.\n");
 	return ret;
 }
+
+void proc_pid_fds_display(int pid)
+{
+	char buf[256];
+	sprintf(buf, "ls -l /proc/%d/fd/", pid);
+	system(buf);
+}

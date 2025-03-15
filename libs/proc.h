@@ -29,5 +29,8 @@ int open_proc_pid_mem(pid_t pid);
 int proc_pid_mem_read(int mem_fd, off_t paddr, void *buf, size_t len);
 int proc_pid_mem_write(int mem_fd, off_t paddr, void *src, size_t len);
 
+/* /proc/PID/fd/ */
+void proc_pid_fds_display(pid_t pid);
+
 /* /proc/mounts */
 int proc_for_each_mnt_point(void (*callback)(const char *mnt_point));
