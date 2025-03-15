@@ -6,14 +6,24 @@ tracepoint:syscalls:sys_enter_openat
 {
 	$task = (struct task_struct *)curtask;
 	$dentry = (struct dentry *)$task->fs->pwd.dentry;
+
+	printf("%-32s %-8d", comm, pid);
+
 	$i = 0;
-	while ($i < 10) {
-		printf("%s/", (str($dentry->d_name.name)));
+	while ($i < 10 && $dentry) {
+		@dentry[$i] = $dentry->d_name.name;
 		if ($dentry == $dentry->d_parent) {
 			break;
 		}
 		$dentry = $dentry->d_parent;
 		$i++;
 	}
+	while ($i >= 0) {
+		if (@dentry[$i]) {
+			printf("%s/", str(@dentry[$i]));
+		}
+		$i--;
+	}
 	printf("%s\n", str(args.filename));
+	clear(@dentry);
 }
