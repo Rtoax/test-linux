@@ -47,3 +47,10 @@ struct iter_bpf_map_info {
 	enum bpf_map_type map_type;
 	__u32 map_id;
 };
+
+/**
+ * struct bpf_iter__kmem_cache {}
+ */
+struct iter_kmem_cache_info {
+	unsigned int size;
+};

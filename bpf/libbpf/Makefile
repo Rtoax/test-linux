@@ -61,6 +61,7 @@ ifeq ($(call kernel_newer_than,5,11,0),1)
   # commit 3a7b35b899de ("bpf: Introduce task_vma bpf_iter")
   TARGETS += iter_task_vma
 endif
+TARGETS += iter_kmem_cache
 TARGETS += $(kconfig-obj-y)
 TARGETS += map_array map_percpu_array
 TARGETS += xdp_xskmap
@@ -170,6 +171,8 @@ CFLAGS_iter_task_vma := -DITER_TASK_VMA=1
 CFLAGS_BPF_iter_task_vma := ${CFLAGS_iter_task_vma}
 CFLAGS_iter_bpf_map := -DITER_BPF_MAP=1
 CFLAGS_BPF_iter_bpf_map := ${CFLAGS_iter_bpf_map}
+CFLAGS_iter_kmem_cache := -DITER_KMEM_CACHE=1
+CFLAGS_BPF_iter_kmem_cache := ${CFLAGS_iter_kmem_cache}
 CFLAGS_lsm_bpf := -DLSM_BPF=1
 CFLAGS_BPF_lsm_bpf := ${CFLAGS_lsm_bpf}
 CFLAGS_lsm_socket_create := -DLSM_SOCKET_CREATE=1
@@ -238,6 +241,7 @@ iter_task: iter_task.o ${TASK_HELPERS}
 iter_task_file: iter_task_file.o
 iter_task_vma: iter_task_vma.o
 iter_bpf_map: iter_bpf_map.o
+iter_kmem_cache: iter_kmem_cache.o
 lsm_bpf: lsm_bpf.o ${TRACE_HELPERS}
 lsm_socket_create: lsm_socket_create.o ${TRACE_HELPERS}
 lsm_socket_sendmsg: lsm_socket_sendmsg.o ${TRACE_HELPERS}

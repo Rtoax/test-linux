@@ -25,6 +25,7 @@
 /iter_task_file
 /iter_task_vma
 /iter_bpf_map
+/iter_kmem_cache
 /lsm_bpf
 /lsm_socket_create
 /lsm_socket_sendmsg
