@@ -2,6 +2,7 @@
 - BB: Bad Block
 - BDEV: Block Device Abstraction (bdev, 跨设备抽象层) @SPDK
 - CRUSH: Controlled Replication Under Scalable Hashing (可扩展哈希下的受控复制) @Ceph
+- DM: Device Mapper (设备映射)
 - DM-MPIO: Device Mapper Multipath Input Output / DM-Multipathing
 - FCP: Fibre Channel Protocol (光纤通道)
 - HDD: Hard Disk Drives (硬盘驱动)
