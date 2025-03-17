@@ -201,6 +201,17 @@ void print_mixed_endian_guid(uint8_t i_guid[16])
 	}
 }
 
+void usage(char *prog)
+{
+	printf("%s\n", prog);
+	printf("\n");
+	printf(" -d, --disk   specify disk to check, for example: /dev/vda\n");
+	printf("\n");
+	printf(" -h, --help   show this information.\n");
+	printf("\n");
+}
+
+
 int main(int argc, char *argv[])
 {
 	char *path = NULL;
@@ -221,15 +232,6 @@ int main(int argc, char *argv[])
 		{0, 0, 0, 0}
 	};
 
-	void usage(void) {
-		printf("%s\n", argv[0]);
-		printf("\n");
-		printf(" -d, --disk   specify disk to check, for example: /dev/vda\n");
-		printf("\n");
-		printf(" -h, --help   show this information.\n");
-		printf("\n");
-	}
-
 	while (1) {
 		int option_index = 0;
 		int c = getopt_long(argc, argv, "d:h", options, &option_index);
@@ -240,7 +242,7 @@ int main(int argc, char *argv[])
 			path = strdup(optarg);
 			break;
 		case 'h':
-			usage();
+			usage(argv[0]);
 			return 0;
 		case '?':
 			fprintf(stderr, "Unknown option or requires an argument.\n");
@@ -252,7 +254,7 @@ int main(int argc, char *argv[])
 	}
 
 	if (!path) {
-		usage();
+		usage(argv[0]);
 		fprintf(stderr, "No disk input(-d).\n");
 		exit(1);
 	}
