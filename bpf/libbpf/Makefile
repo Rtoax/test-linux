@@ -61,7 +61,11 @@ ifeq ($(call kernel_newer_than,5,11,0),1)
   # commit 3a7b35b899de ("bpf: Introduce task_vma bpf_iter")
   TARGETS += iter_task_vma
 endif
-TARGETS += iter_kmem_cache
+ifeq ($(call kernel_newer_than,6,11,0),1)
+  # linux v6.12-rc1-177-g4971266e1595
+  # commit 4971266e1595 ("bpf: Add kmem_cache iterator")
+  TARGETS += iter_kmem_cache
+endif
 TARGETS += $(kconfig-obj-y)
 TARGETS += map_array map_percpu_array
 TARGETS += xdp_xskmap
