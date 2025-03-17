@@ -1,18 +1,22 @@
 Software RAID
 ================
 
+# fstype
+
+- `lsblk -o +fstype`: FSTYPE field shows `linux_raid_member`;
+
 
 # Software RAID
 
 见`mdadm`(manage MD devices aka Linux Software RAID).
 
-- 创建软RAID1
+- Create Software RAID1
 
 ```
 $ sudo mdadm -C /dev/md0 -ayes -l1 -n2 /dev/xvd[b,c]1
 ```
 
-- 查看状态
+- show stat
 
 ```
 $ cat /proc/mdstat
@@ -20,31 +24,31 @@ $ cat /proc/mdstat
 $ mdadm -D /dev/md0
 ```
 
-- 分区
+- Part
 
 ```
 $ sudo mkfs.ext4 /dev/md0
 ```
 
-- 模拟损坏盘
+- Emulate bad disk
 
 ```
 $ sudo mdadm /dev/md1 -f /dev/sdb5
 ```
 
-- 移除故障盘
+- Remove disk
 
 ```
 $ sudo mdadm /dev/md1 -r /dev/sdb5
 ```
 
-- 添加新硬盘
+- Add new disk
 
 ```
 $ sudo mdadm /dev/md1 -a /dev/sdb7
 ```
 
-- 停止阵列
+- Stop RAID
 
 ```
 $ sudo mdadm -S /dev/md1
