@@ -56,8 +56,7 @@ help:
 	@echo >&2 -e "*** TL_TOPDIR ${TL_TOPDIR}"
 	@echo >&2 -e "*** GIT_TOPDIR ${GIT_TOPDIR}"
 	@echo >&2 -e "***    core.hooksPath = ${GIT_CONFIG_CORE_HOOKSPATH}"
-	@echo >&2 -e "*** USER_FAILED_LOG ${USER_FAILED_LOG}"
-	@echo >&2 -e "*** KERNEL_FAILED_LOG ${KERNEL_FAILED_LOG}"
+	@echo >&2 -e "*** FAILED_LOG ${FAILED_LOG}"
 	@echo >&2 -e "*** TEST_LINUX_VERSION ${TEST_LINUX_VERSION}"
 	@echo >&2 -e "*** KERNEL_VERSION ${KVERSION}.${KPATCHLEVEL}.${KSUBLEVEL}, CODE ${KVERSION_CODE}"
 	@echo >&2 -e "***"
@@ -88,16 +87,16 @@ $(TLCONFIG_CONFIG):
 	@echo >&2 -e "***"
 	@/bin/false
 
-# make_and_log [U|K] [dir]
-define make_and_log
+# make_build [U|K] [dir]
+define make_build
 	@echo -e "[$(1)] \033[1;34mMake [$(2)] starting\033[m"
 	@pushd $(2) >/dev/null ; \
-		make ${SUB_MAKE_USER_ARGS}; \
+		make; \
 		if [ $$? -ne 0 ]; then \
 			if [ $(1) == U ]; then \
-				echo "Failed $(1) $(2)" >>$(USER_FAILED_LOG); \
+				echo "Failed $(1) $(2)" | tee --append $(FAILED_LOG); \
 			elif [ $(1) == K ]; then \
-				echo "Failed $(1) $(2)" >>$(KERNEL_FAILED_LOG); \
+				echo "Failed $(1) $(2)" | tee --append $(FAILED_LOG); \
 			fi ; \
 			false; \
 		fi ; \
@@ -131,21 +130,21 @@ all: default ${TLCONFIG_CONFIG}
 default: user kernel
 
 .PHONY: user
-user: cleanuserlog $(SUB_USER_DIR)
+user: cleanfailedlog $(SUB_USER_DIR)
 	$(call tl_log,top-makefile user)
 	@echo "=========== User done ==========="
-	$(call printuserlog)
+	$(call printfailedlog)
 	@echo "${MOONLIGHT}"
 $(SUB_USER_DIR):
-	$(call make_and_log,U,$@)
+	$(call make_build,U,$@)
 
 .PHONY: kernel
-kernel: cleankernellog $(SUB_KERN_DIR)
+kernel: cleanfailedlog $(SUB_KERN_DIR)
 	@echo "=========== Kernel done ==========="
-	$(call printkernellog)
+	$(call printfailedlog)
 	@echo "${MOONLIGHT}"
 $(SUB_KERN_DIR):
-	$(call make_and_log,K,$@)
+	$(call make_build,K,$@)
 
 .PHONY: test
 test: testuser testkernel
@@ -220,10 +219,8 @@ cleangit:
 	@echo "=== clean git repo"
 	$(call git_clean)
 
-cleanuserlog:
-	$(call cleanuserlog)
-cleankernellog:
-	$(call cleankernellog)
+cleanfailedlog:
+	$(call cleanfailedlog)
 
 .PHONY: all test clean \
 	$(SUB_USER_DIR) \
