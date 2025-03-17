@@ -53,7 +53,7 @@ define cleanfailedlog
 	${Q}rm -f $(FAILED_LOG)
 endef
 
-define printuserlog
+define printfailedlog
 	${Q}if [[ -e $(FAILED_LOG) ]]; then \
 		cat $(FAILED_LOG) ; \
 	fi
