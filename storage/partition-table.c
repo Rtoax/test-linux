@@ -376,5 +376,9 @@ parse_mbr:
 
 all_done:
 	close(fd);
+	free(primary_gpt_hdr);
+	free(mbr);
+	if (part_entries)
+		free(part_entries);
 	return 0;
 }
