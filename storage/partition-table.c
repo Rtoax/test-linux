@@ -1,6 +1,10 @@
 /**
  * Read and parse block information
  *
+ * table:
+ * - MBR: master boot record
+ * - gpt: GUID partition table
+ *
  * refs:
  * - https://en.wikipedia.org/wiki/GUID_Partition_Table
  * - https://en.wikipedia.org/wiki/Master_boot_record
@@ -202,6 +206,70 @@ void print_mixed_endian_guid(uint8_t i_guid[16])
 	}
 }
 
+void parse_gpt(int blkfd, struct gpt_hdr *hdr)
+{
+	int i;
+	size_t size;
+	struct gpt_partition_entry *part_entries = NULL;
+
+	printf("Signature: 0x%-16lx\n", hdr->signature);
+	/**
+	 * 00h 00h 01h 00h
+	 */
+	if (hdr->revision_number == 0x00010000U)
+		printf("Revision 1.0 for UEFI 2.0\n");
+
+	printf("Header Size: %d bytes\n", hdr->size);
+	printf("Header CRC32: %#08x\n", hdr->hdr_crc32);
+
+	printf("GUID: ");
+	print_mixed_endian_guid(hdr->guid);
+	printf("\n");
+
+	printf("Starting LBA: %ld\n", hdr->start_lba);
+	printf("Number of partition entries: %d\n", hdr->nr_partition_entries);
+	printf("Size of partition entry: %d\n", hdr->sz_partition_entry);
+	printf("Partition entries CRC32: %#08x\n", hdr->part_entries_crc32);
+
+	size = sizeof(struct gpt_partition_entry) * hdr->nr_partition_entries;
+	part_entries = malloc(size);
+	read(blkfd, part_entries, size);
+	printf("%-8s %-16s %-16s %-16s\n", "ENTRY", "FIRST_LBA", "LAST_LBA", "ATTR_FLAGS");
+	for (i = 0; i < hdr->nr_partition_entries; i++) {
+		struct gpt_partition_entry *e = &part_entries[i];
+		if (e->first_lba == 0 || e->last_lba == 0)
+			continue;
+
+		printf("%-8d %16lx %16lx %16lx\n", i, e->first_lba, e->last_lba, e->attr_flags);
+		/**
+		 * TODO: print entries
+		 */
+	}
+	free(part_entries);
+}
+
+void parse_mbr(struct classical_generic_mbr *cg_mbr)
+{
+	int i;
+	struct mbr_entry *me[4];
+
+	printf("MBR Signature: %x %x\n", cg_mbr->boot_signature[0], cg_mbr->boot_signature[1]);
+
+	me[0] = (void *)cg_mbr->part_entry1;
+	me[1] = (void *)cg_mbr->part_entry2;
+	me[2] = (void *)cg_mbr->part_entry3;
+	me[3] = (void *)cg_mbr->part_entry4;
+
+	printf("%-8s %-16s %-16s %-8s\n", "ENTRY", "ABS_SECTOR", "NR_SECTOR", "TYPE");
+	for (i = 0; i < 4; i++) {
+		struct mbr_entry *e = me[i];
+		if (e->nr_sectors <= 0)
+			continue;
+		printf("%-8d %-16d %-16d %-16s\n", i + 1, e->first_abs_sector,
+			e->nr_sectors, mbr_partition_type_str(e->partition_type));
+	}
+}
+
 void usage(char *prog)
 {
 	printf("%s\n", prog);
@@ -216,7 +284,6 @@ void usage(char *prog)
 int main(int argc, char *argv[])
 {
 	char *path = NULL;
-	size_t size;
 	int err, i, fd = -1;
 	unsigned char *mbr;
 	unsigned char *primary_gpt_hdr;
@@ -225,7 +292,6 @@ int main(int argc, char *argv[])
 	struct modern_standard_mbr *ms_mbr;
 	struct aap_mbr *aap_mbr;
 	struct gpt_hdr *hdr;
-	struct gpt_partition_entry *part_entries = NULL;
 	enum part_table_type tab_type = TYPE_UNKNOWN;
 
 	struct option options[] = {
@@ -284,24 +350,24 @@ int main(int argc, char *argv[])
 		return 1;
 	}
 
+	printf("Disk: %s\n", path);
+
 	/* MBR: 512 bytes */
 	mbr = malloc(512);
-	primary_gpt_hdr = malloc(0x5c);
-
 	read(fd, mbr, 512);
-	read(fd, primary_gpt_hdr, 0x5c);
 
 	cg_mbr = (void *)mbr;
 	ms_mbr = (void *)mbr;
 	aap_mbr = (void *)mbr;
 
+	/* GPT */
+	primary_gpt_hdr = malloc(0x5c);
+	read(fd, primary_gpt_hdr, 0x5c);
 	hdr = (struct gpt_hdr *)primary_gpt_hdr;
 
 	if (cg_mbr->boot_signature[0] == 0x55 && cg_mbr->boot_signature[1] == 0xAA) {
 		tab_type = TYPE_MBR;
 	}
-
-	printf("Disk: %s\n", path);
 
 	/**
 	 * "EFI PART" = 45h 46h 49h 20h 50h 41h 52h 54h
@@ -312,73 +378,23 @@ int main(int argc, char *argv[])
 		tab_type = TYPE_GPT;
 	} else {
 		printf("No GPT found in %s.\n", path);
-		goto parse_mbr;
 	}
 
-	printf("Signature: 0x%-16lx\n", hdr->signature);
-	/**
-	 * 00h 00h 01h 00h
-	 */
-	if (hdr->revision_number == 0x00010000U)
-		printf("Revision 1.0 for UEFI 2.0\n");
-
-	printf("Header Size: %d bytes\n", hdr->size);
-	printf("Header CRC32: %#08x\n", hdr->hdr_crc32);
-
-	printf("GUID: ");
-	print_mixed_endian_guid(hdr->guid);
-	printf("\n");
-
-	printf("Starting LBA: %ld\n", hdr->start_lba);
-	printf("Number of partition entries: %d\n", hdr->nr_partition_entries);
-	printf("Size of partition entry: %d\n", hdr->sz_partition_entry);
-	printf("Partition entries CRC32: %#08x\n", hdr->part_entries_crc32);
-
-	size = sizeof(struct gpt_partition_entry) * hdr->nr_partition_entries;
-	part_entries = malloc(size);
-	read(fd, part_entries, size);
-	printf("%-8s %-16s %-16s %-16s\n", "ENTRY", "FIRST_LBA", "LAST_LBA", "ATTR_FLAGS");
-	for (i = 0; i < hdr->nr_partition_entries; i++) {
-		struct gpt_partition_entry *e = &part_entries[i];
-		if (e->first_lba == 0 || e->last_lba == 0)
-			continue;
-
-		printf("%-8d %16lx %16lx %16lx\n", i, e->first_lba, e->last_lba, e->attr_flags);
-		/**
-		 * TODO: print entries
-		 */
-	}
-
-parse_mbr:
-	/**
-	 * MBR maybe
-	 */
-	if (tab_type != TYPE_MBR && tab_type != TYPE_GPT) {
-		printf("No MBR found in %s.\n", path);
+	switch (tab_type) {
+	case TYPE_GPT:
+		parse_gpt(fd, hdr);
+		break;
+	case TYPE_MBR:
+		parse_mbr(cg_mbr);
+		break;
+	default:
+		printf("No MBR and GPT found in %s.\n", path);
 		goto all_done;
-	}
-	printf("MBR Signature: %x %x\n", cg_mbr->boot_signature[0], cg_mbr->boot_signature[1]);
-
-	struct mbr_entry *me[4];
-	me[0] = (void *)cg_mbr->part_entry1;
-	me[1] = (void *)cg_mbr->part_entry2;
-	me[2] = (void *)cg_mbr->part_entry3;
-	me[3] = (void *)cg_mbr->part_entry4;
-
-	printf("%-8s %-16s %-16s %-8s\n", "ENTRY", "ABS_SECTOR", "NR_SECTOR", "TYPE");
-	for (i = 0; i < 4; i++) {
-		struct mbr_entry *e = me[i];
-		if (e->nr_sectors <= 0)
-			continue;
-		printf("%-8d %-16d %-16d %-16s\n", i + 1, e->first_abs_sector,
-			e->nr_sectors, mbr_partition_type_str(e->partition_type));
 	}
 
 all_done:
 	close(fd);
 	free(primary_gpt_hdr);
 	free(mbr);
-	if (part_entries)
-		free(part_entries);
 	return 0;
 }
