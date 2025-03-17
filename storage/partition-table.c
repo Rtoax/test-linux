@@ -1,4 +1,6 @@
 /**
+ * Read and parse block information
+ *
  * refs:
  * - https://en.wikipedia.org/wiki/GUID_Partition_Table
  * - https://en.wikipedia.org/wiki/Master_boot_record
@@ -255,6 +257,7 @@ int main(int argc, char *argv[])
 		exit(1);
 	}
 
+	/* Open with read only permission, never O_WR */
 	fd = open(path, O_RDONLY);
 	if (fd == -1) {
 		printf("open(%s) %s\n", path, strerror(errno));
