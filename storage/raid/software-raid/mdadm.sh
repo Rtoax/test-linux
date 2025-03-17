@@ -12,10 +12,10 @@ mdadm -D /dev/md0
 # Part
 sudo mkfs.ext4 /dev/md0
 
-# Emulate bad disk
+# Se sd faulty in md (Emulate bad disk)
 sudo mdadm /dev/md1 -f /dev/sdb5
 
-# Remove disk
+# Remove disk (after -f)
 sudo mdadm /dev/md1 -r /dev/sdb5
 
 # Add new disk
