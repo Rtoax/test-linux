@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 dev_raid_metadata() {
 	local dev=$1

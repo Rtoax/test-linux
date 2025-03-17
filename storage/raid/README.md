@@ -82,7 +82,8 @@ Disk1   Disk2   Disk3     Disk4
 Disk1   Disk2   Disk3   Disk4
 ```
 
-- 解决 RAID 4 校验码磁盘频繁写入，容易损坏的问题;
+- RAID5 至少 3 块盘;
+- 解决 RAID4 校验码磁盘频繁写入，容易损坏的问题;
 
 
 # Software RAID
