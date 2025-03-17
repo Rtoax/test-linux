@@ -56,6 +56,7 @@ help:
 	@echo >&2 -e "*** TL_TOPDIR ${TL_TOPDIR}"
 	@echo >&2 -e "*** GIT_TOPDIR ${GIT_TOPDIR}"
 	@echo >&2 -e "***    core.hooksPath = ${GIT_CONFIG_CORE_HOOKSPATH}"
+	@echo >&2 -e "*** TL_LOG ${TL_LOG}"
 	@echo >&2 -e "*** FAILED_LOG ${FAILED_LOG}"
 	@echo >&2 -e "*** TEST_LINUX_VERSION ${TEST_LINUX_VERSION}"
 	@echo >&2 -e "*** KERNEL_VERSION ${KVERSION}.${KPATCHLEVEL}.${KSUBLEVEL}, CODE ${KVERSION_CODE}"
