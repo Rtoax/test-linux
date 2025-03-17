@@ -5,7 +5,6 @@ file="CLONE_.h"
 
 clones=( $(grep -ow CLONE_[A-Z]* /usr/include/linux/sched.h) )
 
-printf "#pragma once\n" > ${file}
 for c in ${clones[@]}
 do
 	printf "#ifdef %s\n" ${c} >> ${file}
