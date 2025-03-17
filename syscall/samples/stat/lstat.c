@@ -7,11 +7,12 @@
 int main(void)
 {
 	struct stat buf;
+	const char *file = "/etc/os-release";
 
-	lstat("/etc/os-release", &buf);
-	print_stat(&buf);
-	sys_lstat("/etc/os-release", &buf);
-	print_stat(&buf);
+	lstat(file, &buf);
+	print_stat(file, &buf);
+	sys_lstat(file, &buf);
+	print_stat(file, &buf);
 
 	return 0;
 }

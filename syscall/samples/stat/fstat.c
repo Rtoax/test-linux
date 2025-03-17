@@ -27,10 +27,10 @@ int main(int argc, char *argv[])
 		fd = AT_FDCWD;
 
 	fstat(fd, &buf);
-	print_stat(&buf);
+	print_stat(filename, &buf);
 
 	sys_fstat(fd, &buf);
-	print_stat(&buf);
+	print_stat(filename, &buf);
 
 	proc_pid_fds_display(getpid());
 

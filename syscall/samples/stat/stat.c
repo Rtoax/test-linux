@@ -15,7 +15,7 @@ int main(int argc, char *argv[])
 
 	stat(filename, &buf);
 
-	print_stat(&buf);
+	print_stat(filename, &buf);
 
 	return 0;
 }

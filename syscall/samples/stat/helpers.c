@@ -9,10 +9,11 @@
 #include "helpers.h"
 
 
-void print_stat(struct stat *stat)
+void print_stat(const char *file, struct stat *stat)
 {
 	unsigned int maj, min;
 
+	printf("----- %s -----\n", file);
 	printf("mode: %x\n", stat->st_mode);
 	printf("ino: %ld\n", stat->st_ino);
 	printf("size: %ld\n", stat->st_size);
