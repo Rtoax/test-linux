@@ -27,9 +27,9 @@
  */
 
 enum part_table_type {
-	TYPE_UNKNOWN,
-	TYPE_MBR,
-	TYPE_GPT,
+	PTAB_TYPE_UNKNOWN,
+	PTAB_TYPE_MBR,
+	PTAB_TYPE_GPT,
 };
 
 struct classical_generic_mbr {
@@ -292,7 +292,7 @@ int main(int argc, char *argv[])
 	struct modern_standard_mbr *ms_mbr;
 	struct aap_mbr *aap_mbr;
 	struct gpt_hdr *hdr;
-	enum part_table_type tab_type = TYPE_UNKNOWN;
+	enum part_table_type tab_type = PTAB_TYPE_UNKNOWN;
 
 	struct option options[] = {
 		{"disk",    required_argument, 0, 'd'},
@@ -366,7 +366,7 @@ int main(int argc, char *argv[])
 	hdr = (struct gpt_hdr *)primary_gpt_hdr;
 
 	if (cg_mbr->boot_signature[0] == 0x55 && cg_mbr->boot_signature[1] == 0xAA) {
-		tab_type = TYPE_MBR;
+		tab_type = PTAB_TYPE_MBR;
 	}
 
 	/**
@@ -375,16 +375,16 @@ int main(int argc, char *argv[])
 	 */
 	if (hdr->signature == 0x5452415020494645ULL) {
 		printf("Partition Table: GPT\n");
-		tab_type = TYPE_GPT;
+		tab_type = PTAB_TYPE_GPT;
 	} else {
 		printf("No GPT found in %s.\n", path);
 	}
 
 	switch (tab_type) {
-	case TYPE_GPT:
+	case PTAB_TYPE_GPT:
 		parse_gpt(fd, hdr);
 		break;
-	case TYPE_MBR:
+	case PTAB_TYPE_MBR:
 		parse_mbr(cg_mbr);
 		break;
 	default:
