@@ -3,7 +3,7 @@ include ../../tlbuild.mk
 # =============================================================================
 
 ifdef TLBUILD_TLCONFIG
-TLconfig := ${TLBUILD_TLCONFIG}
+  TLCONFIG := ${TLBUILD_TLCONFIG}
 else
-TLconfig := TLconfig
+  TLCONFIG := tlconfig
 endif
