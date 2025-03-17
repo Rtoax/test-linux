@@ -41,8 +41,8 @@ NUMA_TOPDIR := $(TL_TOPDIR)/numa/
 
 export GIT_TOPDIR TL_TOPDIR LIBS_TOPDIR NUMA_TOPDIR
 
-TL_LOG := $(TL_TOPDIR)/log.log
-FAILED_LOG := $(TL_TOPDIR)/failed-user.log
+TL_LOG := $(TL_TOPDIR)/test-linux.log
+FAILED_LOG := $(TL_TOPDIR)/failed.log
 export TL_LOG FAILED_LOG
 
 define tl_log
