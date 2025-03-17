@@ -15,6 +15,7 @@
 #include <stdint.h>
 #include <getopt.h>
 #include <byteswap.h>
+#include <sys/stat.h>
 #include <sys/types.h>
 
 /**
@@ -216,9 +217,10 @@ int main(int argc, char *argv[])
 {
 	char *path = NULL;
 	size_t size;
-	int i, fd = -1;
+	int err, i, fd = -1;
 	unsigned char *mbr;
 	unsigned char *primary_gpt_hdr;
+	struct stat statbuf;
 	struct classical_generic_mbr *cg_mbr;
 	struct modern_standard_mbr *ms_mbr;
 	struct aap_mbr *aap_mbr;
@@ -256,6 +258,17 @@ int main(int argc, char *argv[])
 	if (!path) {
 		usage(argv[0]);
 		fprintf(stderr, "No disk input(-d).\n");
+		exit(1);
+	}
+
+	err = stat(path, &statbuf);
+	if (err) {
+		fprintf(stderr, "can't stat %s.\n", path);
+		exit(1);
+	}
+
+	if (!S_ISBLK(statbuf.st_mode)) {
+		fprintf(stderr, "%s is not a block device.\n", path);
 		exit(1);
 	}
 
