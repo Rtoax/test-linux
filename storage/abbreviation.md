@@ -1,10 +1,14 @@
+- AAP: Advanced Active Partitions (扩展激活分区)
 - AFA: All-Flash Array (全闪存阵列)
-- BB: Bad Block
+- BB: Bad Block (坏块)
 - BDEV: Block Device Abstraction (bdev, 跨设备抽象层) @SPDK
+- CHS: Cylinder Head Sector (柱面磁头扇区)
 - CRUSH: Controlled Replication Under Scalable Hashing (可扩展哈希下的受控复制) @Ceph
 - DM: Device Mapper (设备映射)
 - DM-MPIO: Device Mapper Multipath Input Output / DM-Multipathing
+- EBR: Extended Boot Record (扩展启动记录) @VBR
 - FCP: Fibre Channel Protocol (光纤通道)
+- GPT: GUID Partition Table (GUID 分区表) @MBR
 - HDD: Hard Disk Drives (硬盘驱动)
 - iSCSI: Internet Small Computer Systems Interface (互联网小型计算机系统接口) @SCSI
 - iSER: iSCSI Extensions for RDMA (RDMA 的 iSCSI 扩展) @iSCSI
@@ -13,6 +17,7 @@
 - JBOD: Just a Bunch Of Disks / Just a Bunch Of Drives ("简单磁盘捆绑"或者“磁盘簇”，通常又称为Span)
 - LSM: Live Storage Migration (存储热迁移) @LVM
 - LVM: Logical Volume Manager (逻辑卷管理)
+- MBR: Master Boot Record (主引导记录) @GPT
 - NAS: Network Attached Storage (网络附加存储)
 - NVMe: Non-Volatile Memory Express (非易失性内存表达)
 - NVMe-oF: NVMe over Fabrics (NoF)
@@ -28,3 +33,4 @@
 - SCSI: Small Computer Systems Interface (小型计算机系统接口) @iSCSI
 - SPDK: Storage Performance Development Kit (存储性能开发套件) @bdev
 - SRP: SCSI RDMA Protocol
+- VBR: Volume Boot Record (卷启动记录) @EBR

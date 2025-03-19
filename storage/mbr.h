@@ -71,24 +71,55 @@ struct modern_standard_mbr {
 } __attribute__((packed));
 
 /**
- * Structure of AAP MBR
+ * Structure of AAP(Advanced Active Partitions) MBR
  */
 struct aap_mbr {
 	uint8_t bootstrap_code_area[428];
 	/* 0x78, 0x56 */
 	uint8_t aap_signature[2];
+	/**
+	 * AAP physical drive (0x80–0xFE; 0x00: not used; 0x01–0x7F, 0xFF: reserved)
+	 */
 	uint8_t aap_phy_drv;
-	/* CHS (start) address of AAP partition/image file or VBR/EBR */
+	/**
+	 * CHS(Cylinder-head-sector) (start) address of AAP partition/image
+	 * file or VBR/EBR
+	 */
 	uint8_t chs_addr[3];
+	/**
+	 * Reserved for AAP partition type (0x00 if not used) (optional)
+	 */
 	uint8_t reserved1;
+	/**
+	 * Reserved for CHS end address in AAP (optional; byte at offset 0x01B5
+	 * is also used for MBR checksum (PTS DE, BootWizard); 0x000000 if not
+	 * used)
+	 */
 	uint8_t reserved2[3];
 	union {
+		/* Start LBA of AAP image file */
 		uint32_t start_lba;
+		/**
+		 * VBR: Volume boot record
+		 * EBR: Extended boot record
+		 */
 		uint32_t vbr_ebr;
+		/**
+		 * relative sectors of AAP partition (copied to offset +01Chex
+		 * in the loaded sector over the "hidden sectors" entry of a
+		 * DOS 3.31 BPB (or emulation thereof) to also support EBR
+		 * booting)
+		 */
 		uint32_t relative_sectors;
 		uint32_t aap_partition;
 	};
+	/**
+	 * Reserved for sectors in AAP (optional; 0x00000000 if not used)
+	 */
 	uint32_t reserved3;
+	/**
+	 * Partition table (for primary partitions)
+	 */
 	uint8_t part_entry1[16];
 	uint8_t part_entry2[16];
 	uint8_t part_entry3[16];

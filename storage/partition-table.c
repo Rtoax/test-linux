@@ -27,7 +27,8 @@
 
 enum part_table_type {
 	PTAB_TYPE_UNKNOWN,
-	PTAB_TYPE_MBR,
+	PTAB_TYPE_MBR_CLASSIC,
+	PTAB_TYPE_MBR_AAP,
 	PTAB_TYPE_GPT,
 };
 
@@ -122,7 +123,7 @@ void parse_gpt(int blkfd, struct gpt_hdr *hdr)
 	free(part_entries);
 }
 
-void parse_mbr(struct classical_generic_mbr *cg_mbr)
+void parse_mbr_classic(struct classical_generic_mbr *cg_mbr)
 {
 	int i;
 	struct mbr_entry *me[4];
@@ -240,7 +241,12 @@ int main(int argc, char *argv[])
 	hdr = (struct gpt_hdr *)primary_gpt_hdr;
 
 	if (cg_mbr->boot_signature[0] == 0x55 && cg_mbr->boot_signature[1] == 0xAA) {
-		tab_type = PTAB_TYPE_MBR;
+		tab_type = PTAB_TYPE_MBR_CLASSIC;
+	}
+
+	if (aap_mbr->boot_signature[0] == 0x55 && aap_mbr->boot_signature[1] == 0xAA &&
+	    aap_mbr->aap_signature[0] == 0x78 && aap_mbr->aap_signature[1] == 0x56) {
+		tab_type = PTAB_TYPE_MBR_AAP;
 	}
 
 	/**
@@ -258,8 +264,11 @@ int main(int argc, char *argv[])
 	case PTAB_TYPE_GPT:
 		parse_gpt(fd, hdr);
 		break;
-	case PTAB_TYPE_MBR:
-		parse_mbr(cg_mbr);
+	case PTAB_TYPE_MBR_CLASSIC:
+		parse_mbr_classic(cg_mbr);
+		break;
+	case PTAB_TYPE_MBR_AAP:
+		printf("Not support AAP MBR yet in %s.\n", path);
 		break;
 	default:
 		printf("No MBR and GPT found in %s.\n", path);
