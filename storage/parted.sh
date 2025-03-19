@@ -15,9 +15,9 @@ mkgpt() {
 	if [[ ${disk:0:9} == /dev/loop ]]; then
 		P=p
 	fi
-	sudo mkfs.fat -n TL-TEST ${disk}${P}1
-	sudo mkfs.ext4 -T largefile ${disk}${P}2
-	sudo mkfs.ext4 -T largefile ${disk}${P}3
+	sudo mkfs.fat -n TL-FAT ${disk}${P}1
+	sudo mkfs.ext4 -L TL-EXT4 -T largefile ${disk}${P}2
+	sudo mkfs.ext4 -L TL-EXT4 -T largefile ${disk}${P}3
 
 	sleep 1
 	lsblk -o +fstype,label,uuid
