@@ -1,15 +1,14 @@
 include ../tlbuild.mk
 
-
 sub-dir := scsi
 
 TARGETS := partition-table
 
 include ../template/subdir-header.mk
 
-
 .PHONY: build
 build: $(sub-dir-build) ${TARGETS}
+	@echo -e " \033[1;33m Done \033[m"
 
 partition-table: partition-table.o
 

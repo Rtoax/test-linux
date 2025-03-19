@@ -106,16 +106,22 @@ void parse_gpt(int blkfd, struct gpt_hdr *hdr)
 	printf("Size of partition entry: %d\n", hdr->sz_partition_entry);
 	printf("Partition entries CRC32: %#08x\n", hdr->part_entries_crc32);
 
+	if (hdr->reserved1 != 0)
+		fprintf(stderr, "ERROR: reserved must be zero.\n");
+
 	size = sizeof(struct gpt_partition_entry) * hdr->nr_partition_entries;
 	part_entries = malloc(size);
 	read(blkfd, part_entries, size);
-	printf("%-8s %-16s %-16s %-16s\n", "ENTRY", "FIRST_LBA", "LAST_LBA", "ATTR_FLAGS");
+
+	printf("%-8s %-16s %-16s %-16s %s\n",
+		"ENTRY", "FIRST_LBA", "LAST_LBA", "ATTR_FLAGS", "NAME");
 	for (i = 0; i < hdr->nr_partition_entries; i++) {
 		struct gpt_partition_entry *e = &part_entries[i];
 		if (e->first_lba == 0 || e->last_lba == 0)
 			continue;
 
-		printf("%-8d %16lx %16lx %16lx\n", i, e->first_lba, e->last_lba, e->attr_flags);
+		printf("%-8d %16lx %16lx %16lx %-8s\n",
+			i, e->first_lba, e->last_lba, e->attr_flags, e->name);
 		/**
 		 * TODO: print entries
 		 */
