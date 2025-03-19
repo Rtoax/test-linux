@@ -10,6 +10,7 @@
 #include <stdint.h>
 
 struct gpt_hdr {
+#define MAGIC_EFI_PART	0x5452415020494645ULL
 	/**
 	 * Signature ("EFI PART", 45h 46h 49h 20h 50h 41h 52h 54h or
 	 * 0x5452415020494645ULL[a] on little-endian machines)

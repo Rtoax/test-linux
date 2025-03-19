@@ -6,6 +6,10 @@ TARGETS := partition-table
 
 include ../template/subdir-header.mk
 
+ifdef DEBUG
+  CFLAGS += -DDEBUG=1
+endif
+
 .PHONY: build
 build: $(sub-dir-build) ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"

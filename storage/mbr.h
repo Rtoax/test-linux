@@ -163,6 +163,10 @@ struct mbr_entry {
 		uint8_t first_chs_addr[3];
 		struct chs_addr first_chs_addr_struct;
 	};
+	/**
+	 * partition type (or partition ID)
+	 * https://en.wikipedia.org/wiki/Partition_type
+	 */
 	uint8_t partition_type;
 	union {
 		uint8_t last_chs_addr[3];
@@ -171,5 +175,4 @@ struct mbr_entry {
 	uint32_t first_abs_sector;
 	uint32_t nr_sectors;
 } __attribute__((packed));
-
 

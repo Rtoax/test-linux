@@ -173,6 +173,7 @@ int main(int argc, char *argv[])
 	struct modern_standard_mbr *ms_mbr;
 	struct aap_mbr *aap_mbr;
 	struct gpt_hdr *hdr;
+	struct mbr_entry *mbr_entry;
 	enum part_table_type tab_type = PTAB_TYPE_UNKNOWN;
 
 	struct option options[] = {
@@ -231,6 +232,10 @@ int main(int argc, char *argv[])
 		return 1;
 	}
 
+#ifdef DEBUG
+	printf("size of struct mbr_entry %d\n", sizeof(struct mbr_entry));
+#endif
+
 	printf("Disk: %s\n", path);
 
 	/* MBR: 512 bytes */
@@ -256,10 +261,30 @@ int main(int argc, char *argv[])
 	}
 
 	/**
+	 * Protective MBR (LBA 0)
+	 *
+	 * For limited backward compatibility, the space of the legacy Master
+	 * Boot Record (MBR) is still reserved in the GPT specification, but
+	 * it is now used in a way that prevents MBR-based disk utilities from
+	 * misrecognizing and possibly overwriting GPT disks. This is referred
+	 * to as a protective MBR.
+	 *
+	 * A single partition of type "EEh", encompassing the entire GPT drive
+	 * (where "entire" actually means as much of the drive as can be
+	 * represented in an MBR), is indicated and identifies it as GPT.
+	 *
+	 * https://en.wikipedia.org/wiki/GUID_Partition_Table
+	 */
+	mbr_entry = (void *)cg_mbr->part_entry1;
+	if (mbr_entry->partition_type == 0xEE) {
+		tab_type = PTAB_TYPE_GPT;
+	}
+
+	/**
 	 * "EFI PART" = 45h 46h 49h 20h 50h 41h 52h 54h
 	 *            = 0x5452415020494645ULL
 	 */
-	if (hdr->signature == 0x5452415020494645ULL) {
+	if (hdr->signature == MAGIC_EFI_PART) {
 		printf("Partition Table: GPT\n");
 		tab_type = PTAB_TYPE_GPT;
 	} else {
