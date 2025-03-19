@@ -1,4 +1,6 @@
 - CIFS: Common Internet File System (通用互联网文件系统)
+- FAT: File Allocation Table (文件分配表)
 - NFS: Network File System (网络文件系统)
+- NTFS: NT File System / New Technology File System (新技术文件系统)
 - OCFS2: Oracle Cluster File System Version 2 ()
 - SMB: Server Message Block (服务器消息块)

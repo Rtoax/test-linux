@@ -6,6 +6,7 @@
 - CDF: Continuous Delivery Foundation (持续交付基金会) @CD
 - CI: Continuous Integration (持续集成)
 - DCO: Developer Certificate of Origin () @CLA
+- DOS: Disk Operating System (磁盘操作系统)
 - COSE: Common Open Software Environment (通用开源软件环境)
 - CRG: Computer Research Group (计算机研究组)
 - DSO: Dynamic Shared Object (动态共享目标)

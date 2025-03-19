@@ -4,6 +4,7 @@ include ../tlbuild.mk
 sub-dir := procfs
 sub-dir += ext4
 sub-dir += xfs
+sub-dir += fat
 sub-dir += debugfs tracefs
 
 include ../template/subdir-header.mk

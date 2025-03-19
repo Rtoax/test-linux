@@ -143,6 +143,9 @@ cmake_install.cmake
 *.ext2
 *.vg
 *.xfs
+*.fat
+*.vfat
+*.fs
 
 # Grub/EFI/BIOS/EDK2/OVMF
 *.efi
