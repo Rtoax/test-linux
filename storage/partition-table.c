@@ -274,9 +274,9 @@ void usage(char *prog)
 {
 	printf("%s\n", prog);
 	printf("\n");
-	printf(" -d, --disk   specify disk to check, for example: /dev/vda\n");
+	printf(" -b, --blk [BLK|FILE]  specify lock or file to check, for example: /dev/vda\n");
 	printf("\n");
-	printf(" -h, --help   show this information.\n");
+	printf(" -h, --help            show this information.\n");
 	printf("\n");
 }
 
@@ -295,18 +295,18 @@ int main(int argc, char *argv[])
 	enum part_table_type tab_type = PTAB_TYPE_UNKNOWN;
 
 	struct option options[] = {
-		{"disk",    required_argument, 0, 'd'},
+		{"blk",     required_argument, 0, 'b'},
 		{"help",    no_argument,       0, 'h'},
 		{0, 0, 0, 0}
 	};
 
 	while (1) {
 		int option_index = 0;
-		int c = getopt_long(argc, argv, "d:h", options, &option_index);
+		int c = getopt_long(argc, argv, "b:h", options, &option_index);
 		if (c == -1)
 			break;
 		switch (c) {
-		case 'd':
+		case 'b':
 			path = strdup(optarg);
 			break;
 		case 'h':
@@ -333,8 +333,8 @@ int main(int argc, char *argv[])
 		exit(1);
 	}
 
-	if (!S_ISBLK(statbuf.st_mode)) {
-		fprintf(stderr, "%s is not a block device.\n", path);
+	if (!S_ISREG(statbuf.st_mode) && !S_ISBLK(statbuf.st_mode)) {
+		fprintf(stderr, "%s is neithor block device nor regular file.\n", path);
 		exit(1);
 	}
 
