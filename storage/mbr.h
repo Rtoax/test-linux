@@ -1,5 +1,7 @@
 #pragma once
 /**
+ * MBR: master boot record
+ *
  * refs:
  * - https://en.wikipedia.org/wiki/GUID_Partition_Table
  * - https://en.wikipedia.org/wiki/Master_boot_record
