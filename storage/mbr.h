@@ -40,13 +40,23 @@ struct classical_generic_mbr {
  */
 struct modern_standard_mbr {
 	uint8_t bootstrap_code_area[218];
+	/**
+	 * Disk timestamp[2][b] (optional; Windows 95B/98/98SE/ME (MS-DOS 7.1–8.0).
+	 * Alternatively, can serve as OEM loader signature with NEWLDR)
+	 */
 	struct {
 		uint8_t zero[2];
+		/**
+		 * Original physical drive (0x80–0xFF)
+		 */
 		uint8_t orig_phy_drv;
-		uint8_t secs;
-		uint8_t mins;
-		uint8_t hours;
+		uint8_t secs;	/* Seconds (0–59) */
+		uint8_t mins;	/* Minutes (0–59) */
+		uint8_t hours;	/* Hours (0–23) */
 	} timestamp;
+	/**
+	 * Bootstrap code area (part 2, code entry at 0x0000)
+	 */
 	uint8_t bootstrap_code_area2[216]; /* 216 or 222 */
 	/**
 	 * Disk signature
