@@ -68,6 +68,34 @@ struct gpt_partition_entry {
 	uint64_t first_lba;
 	/* inclusive, usually odd */
 	uint64_t last_lba;
+/**
+ * Platform required (required by the computer to function properly, OEM
+ * partition for example, disk partitioning utilities must preserve the
+ * partition as is)
+ */
+#define GPT_PART_ATTR_BIT_PLATFORM_REQ	0
+/**
+ * EFI firmware should ignore the content of the partition and not try to
+ * read from it.
+ */
+#define GPT_PART_ATTR_BIT_EFI_FW	1
+/**
+ * Legacy BIOS bootable (equivalent to active flag (typically bit 7 set)
+ * at offset +0h in partition entries of the MBR partition table)
+ */
+#define GPT_PART_ATTR_BIT_LEGACY_BIOS	2
+/* Reserved for future use, bits 3-47 */
+#define GPT_PART_ATTR_BITMASK_RSVD	0x00fffffffffffff8UL
+/**
+ * Defined and used by the individual partition type, bits 48–63
+ */
+#define GPT_PART_ATTR_BITMASK_PART_TYPE	0xff00000000000000UL
+#define GPT_PART_ATTR_BIT_PART_RO	60
+/* Shadow copy (of another partition) */
+#define GPT_PART_ATTR_BIT_PART_SHADOW_COPY	61
+#define GPT_PART_ATTR_BIT_PART_HIDDEN	62
+/* No drive letter (i.e. do not automount) */
+#define GPT_PART_ATTR_BIT_PART_NO_DRIVE_LETTER	63
 	/* Attribute flags (e.g. bit 60 denotes read-only) */
 	uint64_t attr_flags;
 	/* Partition name (36 UTF-16LE code units) */
