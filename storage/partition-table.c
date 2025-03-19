@@ -32,8 +32,25 @@ enum part_table_type {
 	PTAB_TYPE_GPT,
 };
 
+/**
+ * Structure of a classical generic MBR
+ *
+ * Address	Description			Size(bytes)
+ * 0x0000 (0)	Bootstrap code area		446
+ * 0x01BE (446)	Partition entry No.1		16
+ * 0x01CE (462)	Partition entry No.2		16
+ * 0x01DE (478)	Partition entry No.3		16
+ * 0x01EE (494)	Partition entry No.4		16
+ * 0x01FE (510)	0x55	Boot signature[0]	2
+ * 0x01FF (511)	0xAA	Boot signature[1]	2
+ *
+ * ref: https://en.wikipedia.org/wiki/Master_boot_record
+ */
 struct classical_generic_mbr {
 	uint8_t bootstrap_code_area[446];
+	/**
+	 * Partition table (for primary partitions)
+	 */
 	uint8_t part_entry1[16];
 	uint8_t part_entry2[16];
 	uint8_t part_entry3[16];
@@ -42,6 +59,9 @@ struct classical_generic_mbr {
 	uint8_t boot_signature[2];
 } __attribute__((packed));
 
+/**
+ * Structure of a modern standard MBR
+ */
 struct modern_standard_mbr {
 	uint8_t bootstrap_code_area[218];
 	struct {
@@ -53,6 +73,7 @@ struct modern_standard_mbr {
 	} timestamp;
 	uint8_t bootstrap_code_area2[216]; /* 216 or 222 */
 	/**
+	 * Disk signature
 	 * optional; UEFI, Linux, Windows NT family and other OSes
 	 */
 	struct {
@@ -61,14 +82,21 @@ struct modern_standard_mbr {
 		uint16_t copy_protected;
 	} disk_signature;
 
+	/**
+	 * Partition table (for primary partitions)
+	 */
 	uint8_t part_entry1[16];
 	uint8_t part_entry2[16];
 	uint8_t part_entry3[16];
 	uint8_t part_entry4[16];
+
 	/* 0x55, 0xAA */
 	uint8_t boot_signature[2];
 } __attribute__((packed));
 
+/**
+ * Structure of AAP MBR
+ */
 struct aap_mbr {
 	uint8_t bootstrap_code_area[428];
 	/* 0x78, 0x56 */
