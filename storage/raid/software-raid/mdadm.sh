@@ -1,8 +1,10 @@
 #!/bin/bash
 set -e
 
-# Create Software RAID1
-sudo mdadm -C /dev/md0 -ayes -l1 -n2 /dev/xvd[b,c]1
+# Create Software RAID
+# RAID1: --level 1
+# RAID2: --level 2
+sudo mdadm --create /dev/md0 -ayes --level 1 --raid-devices 2 /dev/xvd[b,c]1
 
 # show stat
 cat /proc/mdstat
