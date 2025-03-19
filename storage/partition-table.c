@@ -172,7 +172,7 @@ int main(int argc, char *argv[])
 	struct classical_generic_mbr *cg_mbr;
 	struct modern_standard_mbr *ms_mbr;
 	struct aap_mbr *aap_mbr;
-	struct gpt_hdr *hdr;
+	struct gpt_hdr *gpt_hdr;
 	struct mbr_entry *mbr_entry;
 	enum part_table_type tab_type = PTAB_TYPE_UNKNOWN;
 
@@ -249,7 +249,7 @@ int main(int argc, char *argv[])
 	/* GPT */
 	primary_gpt_hdr = malloc(0x5c);
 	read(fd, primary_gpt_hdr, 0x5c);
-	hdr = (struct gpt_hdr *)primary_gpt_hdr;
+	gpt_hdr = (struct gpt_hdr *)primary_gpt_hdr;
 
 	if (cg_mbr->boot_signature[0] == 0x55 && cg_mbr->boot_signature[1] == 0xAA) {
 		tab_type = PTAB_TYPE_MBR_CLASSIC;
@@ -284,7 +284,7 @@ int main(int argc, char *argv[])
 	 * "EFI PART" = 45h 46h 49h 20h 50h 41h 52h 54h
 	 *            = 0x5452415020494645ULL
 	 */
-	if (hdr->signature == MAGIC_EFI_PART) {
+	if (gpt_hdr->signature == MAGIC_EFI_PART) {
 		printf("Partition Table: GPT\n");
 		tab_type = PTAB_TYPE_GPT;
 	} else {
@@ -293,7 +293,7 @@ int main(int argc, char *argv[])
 
 	switch (tab_type) {
 	case PTAB_TYPE_GPT:
-		parse_gpt(fd, hdr);
+		parse_gpt(fd, gpt_hdr);
 		break;
 	case PTAB_TYPE_MBR_CLASSIC:
 		parse_mbr_classic(cg_mbr);
