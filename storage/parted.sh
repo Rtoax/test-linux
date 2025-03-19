@@ -10,9 +10,14 @@ mkgpt() {
 	sudo parted ${disk} mkpart logical ext4 10M 20M
 	sudo parted ${disk} mkpart extended ext4 20M 30M
 
-	#sudo mkfs.ext4 -T largefile ${disk}1
-	#sudo mkfs.ext4 -T largefile ${disk}2
-	#sudo mkfs.ext4 -T largefile ${disk}3
+	# if use /dev/loop, partition with 'p' suffix
+	P=
+	if [[ ${disk:0:9} == /dev/loop ]]; then
+		P=p
+	fi
+	sudo mkfs.ext4 -T largefile ${disk}${P}1
+	sudo mkfs.ext4 -T largefile ${disk}${P}2
+	sudo mkfs.ext4 -T largefile ${disk}${P}3
 
 	sleep 1
 	lsblk -o +fstype,uuid
