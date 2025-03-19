@@ -67,8 +67,6 @@ sub-dir += unistd
 sub-dir += wctype
 sub-dir += wordexp
 
-MAKE_SUB_ARGS :=
-
 TARGETS := environ
 TARGETS += gnu_get_libc_version
 TARGETS += lib-names
@@ -84,7 +82,7 @@ CFLAGS += -DDEBUG -O0 -g
 ifdef M32
   CFLAGS += -m32 -DM32=1
   LDFLAGS += -m32
-  MAKE_SUB_ARGS += M32=1
+  MAKEFLAGS += M32=1
   $(info Compile 32bit ELF)
 endif
 
