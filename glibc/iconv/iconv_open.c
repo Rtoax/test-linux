@@ -6,7 +6,31 @@
 
 int main(void)
 {
-	iconv_t icv = iconv_open("utf-8", "gb2312");
+	int err;
+	iconv_t icv;
+	char inbuff[] = { 't', '\0', 'e', '\0', 's', '\0', 't', '\0' };
+	char outbuff[64];
+	char *in, *out;
+	size_t inbytes, outbytes = sizeof(outbuff);
+
+	icv = iconv_open("UTF-8", "UTF-16LE");
+	if (icv == (iconv_t)-1) {
+		perror("iconv_open");
+		return errno;
+	}
+
+	in = inbuff;
+	out = outbuff;
+	inbytes = sizeof(inbuff);
+
+	err = iconv(icv, &in, &inbytes, &out, &outbytes);
+	if (err)
+		perror("iconv");
+
+	printf("in  %s\n", in);
+	printf("out %s\n", out);
+
 	iconv_close(icv);
+
 	return 0;
 }
