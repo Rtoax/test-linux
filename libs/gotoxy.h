@@ -1,7 +1,14 @@
 #include <stdio.h>
 #include <sys/ioctl.h>
 
-/* row: 行; col: 列; */
+/**
+ * row: 行; col: 列;
+ *
+ * $ tput cup [row] [col]
+ * or
+ * $ tput sc # save curse
+ * $ tput rc # resume curse
+ */
 static void __attribute__((unused))
 gotoxy(int col, int row)
 {
