@@ -88,7 +88,7 @@ void parse_gpt(int blkfd, struct classical_generic_mbr *protective_mbr,
 	size_t size;
 	struct gpt_partition_entry *part_entries = NULL;
 
-	printf("Signature: 0x%-16lx\n", hdr->signature);
+	printf("Signature: 0x%-16lx '%s'\n", hdr->signature, (char *)&hdr->signature);
 	/**
 	 * 00h 00h 01h 00h
 	 */
