@@ -18,3 +18,4 @@ sudo mount fs.ext4 tmp-mnt -o loop,rw
 sudo cp /etc/os-release tmp-mnt/
 which tree && sudo tree tmp-mnt/
 sudo umount tmp-mnt
+sudo rmdir tmp-mnt
