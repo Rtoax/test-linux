@@ -335,7 +335,7 @@ int main(int argc, char *argv[])
 	 * https://en.wikipedia.org/wiki/GUID_Partition_Table
 	 */
 	mbr_entry = (void *)cg_mbr->part_entry1;
-	if (mbr_entry->partition_type == 0xEE) {
+	if (mbr_entry->partition_type == MBR_PT_GPT_PROTECTIVE_MBR) {
 		tab_type = PTAB_TYPE_GPT;
 	}
 

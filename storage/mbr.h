@@ -9,6 +9,14 @@
 #include <stdint.h>
 
 /**
+ * Partition type or Partition ID
+ * https://en.wikipedia.org/wiki/Partition_type
+ */
+#define MBR_PT_FAT32_LBA	0x0C
+#define MBR_PT_FAT16B_LBA	0x0E
+#define MBR_PT_GPT_PROTECTIVE_MBR	0xEE
+
+/**
  * Structure of a classical generic MBR
  *
  * Address	Description			Size(bytes)
