@@ -44,6 +44,7 @@ const char *mbr_partition_type_str(uint8_t type)
 	sprintf(hex, "%02x", type);
 	switch (type) {
 #define T(v, s)	case v: return s;
+	T(0x0c, "W95 FAT32 (LBA)")
 	T(0x43, "Linux File system(old)")
 	T(0x83, "Linux File system")
 	T(0x85, "Linux extended")
@@ -196,12 +197,13 @@ void parse_mbr_classic(struct classical_generic_mbr *cg_mbr)
 	me[2] = (void *)cg_mbr->part_entry3;
 	me[3] = (void *)cg_mbr->part_entry4;
 
-	printf("%-8s %-16s %-16s %-8s\n", "ENTRY", "ABS_SECTOR", "NR_SECTOR", "TYPE");
+	printf("\033[7m%-8s %-16s %-16s %-32s\033[m\n",
+		"ENTRY", "ABS_SECTOR", "NR_SECTOR", "TYPE");
 	for (i = 0; i < 4; i++) {
 		struct mbr_entry *e = me[i];
 		if (e->nr_sectors <= 0)
 			continue;
-		printf("%-8d %-16d %-16d %-16s\n", i + 1, e->first_abs_sector,
+		printf("%-8d %-16d %-16d %-32s\n", i + 1, e->first_abs_sector,
 			e->nr_sectors, mbr_partition_type_str(e->partition_type));
 	}
 }

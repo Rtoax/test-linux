@@ -33,7 +33,9 @@ mkpartitions() {
 		_eval sudo parted ${disk} mkpart extended ext4 96M 128M --align minimal
 		_eval sudo parted ${disk} mkpart extended xfs 128M 512M --align minimal
 	else
-		_eval sudo parted ${disk} mkpart extended ext4 64M 128M --align minimal
+		_eval sudo parted ${disk} mkpart primary ext4 64M 96M --align minimal
+		_eval sudo parted ${disk} mkpart primary ext4 96M 128M --align minimal
+		_eval sudo parted ${disk} mkpart primary xfs 128M 512M --align minimal
 	fi
 
 	# if use /dev/loop, partition with 'p' suffix
