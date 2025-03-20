@@ -1,11 +1,16 @@
 # SPDX-License-Identifier: GPL-3.0
-SHELL = bash
+SHELL := bash
 
 NUMACTL := numactl
 
 # Get numactl version
 NUMACTL_VERSION := $(shell ${NUMACTL} --version 2>/dev/null \
 		| grep -o [0-9]*\.[0-9]*\.[0-9]* | sed -n '1p' || true)
+# only numactl v2.0.16-47-gf117290fd85c support --version argument
+# https://github.com/numactl/numactl
+ifeq (${NUMACTL_VERSION},)
+  NUMACTL_VERSION := 2.0.16
+endif
 
 # numactl <= 2.0.14 don't has --version argument.
 ifeq (${NUMACTL_VERSION},)
