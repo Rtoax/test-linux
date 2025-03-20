@@ -36,8 +36,10 @@
 - 1983
   - `GNU` Project by Richard Stallman;
   - Computer Research Group (CRG), UNIX System Group (USG) and a third group merge to become UNIX System Development Lab. `AT&T` announces UNIX `System V`, the first supported release. Installed base 45,000l;
+  - `MBR`s was publicly introduced in 1983 with PC DOS 2.0;
 - 1982
   - `AT&T`'s UNIX System Group (USG) release `System III`, the first public release outside Bell Laboratories. `SunOS 1.0` ships. HP-UX introduced. `Ultrix-11` Introduced;
+  - The original version of the `MBR` was written by David Litton of IBM in June 1982;
 - 1980s
   - `AT&T` released `System V`;
 - 1980

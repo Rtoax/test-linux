@@ -2,6 +2,14 @@
 /**
  * MBR: master boot record
  *
+ * The organization of the partition table in the MBR limits the maximum
+ * addressable storage space of a partitioned disk to 2 TiB (232 × 512 bytes).
+ *
+ * DOS 3.0: support four primary partitions;
+ * DOS 3.2: support extended partition;
+ * DOS 3.30: support nested logical drives inside an extended partition;
+ * MS-DOS 7.10: support for logical block addressing (LBA)
+ *
  * refs:
  * - https://en.wikipedia.org/wiki/GUID_Partition_Table
  * - https://en.wikipedia.org/wiki/Master_boot_record
