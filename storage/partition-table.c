@@ -81,7 +81,8 @@ void print_mixed_endian_guid(uint8_t i_guid[16])
 	}
 }
 
-void parse_gpt(int blkfd, struct gpt_hdr *hdr)
+void parse_gpt(int blkfd, struct classical_generic_mbr *protective_mbr,
+	       struct gpt_hdr *hdr)
 {
 	int i;
 	size_t size;
@@ -293,7 +294,7 @@ int main(int argc, char *argv[])
 
 	switch (tab_type) {
 	case PTAB_TYPE_GPT:
-		parse_gpt(fd, gpt_hdr);
+		parse_gpt(fd, cg_mbr, gpt_hdr);
 		break;
 	case PTAB_TYPE_MBR_CLASSIC:
 		parse_mbr_classic(cg_mbr);
