@@ -4,6 +4,8 @@ set -e
 readonly prog=$0
 
 BLK=blk.bin
+# see parted(8)
+PARTITION_TYPE=gpt
 LOOP=
 
 verbose=
@@ -19,15 +21,20 @@ _eval()
 	fi
 }
 
-mkgpt() {
+mkpartitions() {
 	local disk=${1}
 
-	_eval sudo parted ${disk} mklabel gpt
+	_eval sudo parted ${disk} mklabel ${PARTITION_TYPE}
 
 	_eval sudo parted ${disk} mkpart primary fat32 0 64M --align minimal
-	_eval sudo parted ${disk} mkpart logical ext4 64M 96M --align minimal
-	_eval sudo parted ${disk} mkpart extended ext4 96M 128M --align minimal
-	_eval sudo parted ${disk} mkpart extended xfs 128M 512M --align minimal
+	# mbr/msdos only support primary/extended
+	if [[ ${PARTITION_TYPE} != msdos ]]; then
+		_eval sudo parted ${disk} mkpart logical ext4 64M 96M --align minimal
+		_eval sudo parted ${disk} mkpart extended ext4 96M 128M --align minimal
+		_eval sudo parted ${disk} mkpart extended xfs 128M 512M --align minimal
+	else
+		_eval sudo parted ${disk} mkpart extended ext4 64M 128M --align minimal
+	fi
 
 	# if use /dev/loop, partition with 'p' suffix
 	P=
@@ -46,9 +53,11 @@ mkgpt() {
 __usage__()
 {
 	echo -e "
-${prog} [options] [--dry-run]
+${prog} --type=[gpt|mbr] [--dry-run]
 
 -n, --name [STR]   specify blk name, default: ${BLK}
+-t, --type [gpt|mbr]
+                   specify partition type, support: \"gpt\", \"mbr\", default: \"${PARTITION_TYPE}\"
 
 -h, --help         show this help information
 -u, --dry-run      only show commands
@@ -59,8 +68,9 @@ ${prog} [options] [--dry-run]
 
 # __main__
 GETOPT_ARGS=$(getopt \
-	--options n:hvu \
+	--options n:t:hvu \
 	--long name: \
+	--long type: \
 	--long help \
 	--long verbose \
 	--long dry-run \
@@ -75,6 +85,16 @@ while true; do
 	-n|--name)
 		shift
 		BLK=$1
+		shift
+		;;
+	-t|--type)
+		shift
+		PARTITION_TYPE=$1
+		if ! [[ " msdos gpt mbr " =~ " $PARTITION_TYPE " ]]; then
+			echo >&2 "ERROR: not support partition type $PARTITION_TYPE"
+			exit 1
+		fi
+		[[ ${PARTITION_TYPE} == mbr ]] && PARTITION_TYPE=msdos
 		shift
 		;;
 	-h|--help)
@@ -111,5 +131,5 @@ goodbye() {
 }
 trap goodbye EXIT
 
-mkgpt ${LOOP}
+mkpartitions ${LOOP}
 
