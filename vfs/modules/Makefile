@@ -1,8 +1,3 @@
-include ../../tlbuild.mk
-
-
-
-obj-m += super_block.o
 
 all:
 	${Q}make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
