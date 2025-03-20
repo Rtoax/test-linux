@@ -48,6 +48,8 @@ __usage__()
 	echo -e "
 ${prog} [options] [--dry-run]
 
+-n, --name [STR]   specify blk name, default: ${BLK}
+
 -h, --help         show this help information
 -u, --dry-run      only show commands
 " | more
@@ -57,7 +59,8 @@ ${prog} [options] [--dry-run]
 
 # __main__
 GETOPT_ARGS=$(getopt \
-	--options hvu \
+	--options n:hvu \
+	--long name: \
 	--long help \
 	--long verbose \
 	--long dry-run \
@@ -69,6 +72,11 @@ eval set -- "$GETOPT_ARGS"
 
 while true; do
 	case $1 in
+	-n|--name)
+		shift
+		BLK=$1
+		shift
+		;;
 	-h|--help)
 		shift
 		__usage__
