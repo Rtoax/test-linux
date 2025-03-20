@@ -78,4 +78,6 @@ snapshots.
 
 - https://en.wikipedia.org/wiki/Logical_Volume_Manager_(Linux)
 - https://askubuntu.com/questions/76095/what-is-the-use-of-boot-lvm-based-in-partitioning
+- https://github.com/lvmteam/lvm2
+	- https://github.com/lvmteam/lvm2 mirror
 
