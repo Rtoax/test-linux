@@ -1,7 +1,5 @@
 
-obj-m += super_block.o
-obj-m += register_filesystem.o
-obj-m += d_path.o
+obj-m += gendisk.o
 
 CURRENT_PATH := $(shell pwd)
 LINUX_KERNEL_PATH := /lib/modules/`uname -r`/build
