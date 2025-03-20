@@ -81,6 +81,7 @@ $(sub-dir-build):
 
 # Add more object.o file
 main.user: main.user.o
+main.user.o: main.h
 
 CFLAGS_main.user := -D_MAIN_USER=1
 ifeq ($(CONFIG_MMU),y)

@@ -52,19 +52,31 @@ include ../template/subdir-header.mk
 build: ${TARGETS_LIBSO} ${TARGETS_LIBA} ${TARGETS} $(sub-dir-build)
 	@echo -e " \033[1;33m Done \033[m"
 
+*.obj: *.h
+
 byteswap: byteswap.o
+byteswap.o: byteswap.h
 endian: endian.o
+endian.o: endian.h
 gotoxy: gotoxy.o
 goprint: goprint.o
 file: file.o
+file.o: file.h
 fd: fd.o
+fd.o: fd.h
 log: log.o
+log.o: log.h
 memshow: memshow.o
 mac: mac.o
+mac.o: mac.h
 progress: progress.o
+progress.o: progress.h
 proc_examples: proc_examples.o proc.o
+proc_examples.o: proc.h
+proc.o: proc.h
 str: str.o
 ipaddr: ipaddr.o
+ipaddr.o: ipaddr.h
 
 libtest-linux-c.so: ${LIB_OBJS}
 libtest-linux-c.a: ${LIB_OBJS}

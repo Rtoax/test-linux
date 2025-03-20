@@ -15,6 +15,7 @@ build: $(sub-dir-build) ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
 partition-table: partition-table.o
+partition-table.o: mbr.h gpt.h
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

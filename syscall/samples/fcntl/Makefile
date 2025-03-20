@@ -37,6 +37,7 @@ openat2: openat2.o helpers.o
 splice: splice.o
 splice-read: splice-read.o
 O_: O_.o
+O_.o: O_.h
 flags: flags.o
 S_: S_.o
 mode: mode.o

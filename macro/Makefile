@@ -67,9 +67,11 @@ build: $(CC)-macros.h compiler-macros.h ${TARGETS} ${TARGETS_CXX}
 arch: arch.o
 align: align.o
 alias: alias.o
+alias.o: alias.h
 bit: bit.o
 likely: likely.o
 offsetof: offsetof.o
+offsetof.o: offsetof.h
 container_of: container_of.o
 __clang__: __clang__.o
 __i386__: __i386__.o

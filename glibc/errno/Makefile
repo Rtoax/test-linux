@@ -37,10 +37,11 @@ include ../../elf/pie.mk
 build: nr_errno.h ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
-nr_errno.h:
+nr_errno.h: errno.sh
 	$(shell bash errno.sh)
 
 nr_errno: nr_errno.o
+nr_errno.o: nr_errno.h
 __errno_location: __errno_location.o
 EDOM: EDOM.o
 ENOENT: ENOENT.o

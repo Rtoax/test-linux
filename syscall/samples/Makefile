@@ -160,6 +160,7 @@ fdopen: fdopen.o
 execve: execve.o
 execve-fork: execve-fork.o
 nr: nr.o
+nr.o: nr2s.h nr.h
 opendir: opendir.o
 pause: pause.o
 personality: personality.o

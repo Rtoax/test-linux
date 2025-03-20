@@ -218,6 +218,11 @@ build: libbpf_version vmlinux.h ${TARGETS_BPF} ${TARGETS_SKEL} ${TARGETS}
 	${Q}./libbpf_version | sed 's/^/  /g'
 	@echo -e "  \033[1;33mDone\033[m"
 
+socket_helpers.o: socket_helpers.h
+trace_helpers.o: trace_helpers.h
+task_helpers.o: task_helpers.h
+libbpf_wrapper.o: libbpf_wrapper.h
+libxdp_helpers.o: libxdp_helpers.h
 libbpf_version: libbpf_version.o
 
 config-map: config-map.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER}
