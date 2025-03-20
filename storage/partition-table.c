@@ -54,9 +54,19 @@ const char *mbr_partition_type_str(uint8_t type)
 	}
 }
 
-void print_mixed_endian_guid(uint8_t i_guid[16])
+void print_guid(uint8_t guid[16], size_t size)
 {
 	int i;
+	for (i = 0; i < size; i++) {
+		unsigned char ch = guid[i];
+		printf("%02X", ch);
+		if (i == 3 || i == 5 || i == 7 || i == 9)
+			printf("-");
+	}
+}
+
+void print_mixed_endian_guid(uint8_t i_guid[16])
+{
 	uint8_t guid[16];
 
 	memcpy(guid, i_guid, sizeof(guid));
@@ -74,12 +84,7 @@ void print_mixed_endian_guid(uint8_t i_guid[16])
 	*guid_hi_32 = bswap_32(*guid_hi_32);
 	*guid_hi_16 = bswap_16(*guid_hi_16);
 	*guid_mid_16 = bswap_16(*guid_mid_16);
-	for (i = 0; i < sizeof(guid); i++) {
-		unsigned char ch = guid[i];
-		printf("%02X", ch);
-		if (i == 3 || i == 5 || i == 7 || i == 9)
-			printf("-");
-	}
+	print_guid(guid, sizeof(guid));
 }
 
 const char* utf16le_to_utf8(char *inbuff, size_t inbytes, char *outbuff,
@@ -145,8 +150,9 @@ void parse_gpt(int blkfd, struct classical_generic_mbr *protective_mbr,
 	part_entries = malloc(size);
 	read(blkfd, part_entries, size);
 
-	printf("\033[7m%-6s %-16s %-16s %-16s %-36s\033[m\n",
-		"ENTRY", "FIRST_LBA", "LAST_LBA", "ATTR_FLAGS", "NAME");
+	printf("\033[7m%-6s %-16s %-16s %-16s %-36s %-36s %-36s\033[m\n",
+		"ENTRY", "FIRST_LBA", "LAST_LBA", "ATTR_FLAGS", "NAME",
+		"Partition_type_GUID", "Unique_partition_GUID");
 
 	for (i = 0; i < hdr->nr_partition_entries; i++) {
 		struct gpt_partition_entry *e = &part_entries[i];
@@ -155,10 +161,14 @@ void parse_gpt(int blkfd, struct classical_generic_mbr *protective_mbr,
 		if (e->first_lba == 0 || e->last_lba == 0)
 			continue;
 
-		printf("%-6d %#016lx %#016lx %#016lx %-36s\n",
+		printf("%-6d %#016lx %#016lx %#016lx %-36s ",
 			i, e->first_lba, e->last_lba, e->attr_flags,
 			utf16le_to_utf8(e->utf16le_name, sizeof(e->utf16le_name),
 					utf8buf, sizeof(utf8buf)));
+		print_guid(e->partition_type_guid, sizeof(e->partition_type_guid));
+		printf(" ");
+		print_guid(e->unique_partition_guid, sizeof(e->unique_partition_guid));
+		printf("\n");
 		/**
 		 * TODO: print entries
 		 */
