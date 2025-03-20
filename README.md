@@ -225,14 +225,15 @@ If the source code file has a copyright information at the beginning, the copyri
 - [Linux Foundation: Referenced Specifications](https://refspecs.linuxfoundation.org/)
 - [LSB: Linux Standard Base](https://refspecs.linuxfoundation.org/lsb.shtml)
 - [vger.kernel.org](https://subspace.kernel.org/vger.kernel.org.html)
-	- [https://lore.kernel.org/lkml/](https://lore.kernel.org/lkml/)
-- [https://elixir.bootlin.com/linux/latest/source](https://elixir.bootlin.com/linux/latest/source)
-- [https://lore.kernel.org/lkml/](https://lore.kernel.org/lkml/)
-- [https://www.kernel.org/doc/html/latest/](https://www.kernel.org/doc/html/latest/)
+	- [lore.kernel.org/lkml](https://lore.kernel.org/lkml/)
+- [elixir.bootlin.com](https://elixir.bootlin.com/linux/latest/source)
+- [www.kernel.org/doc/html/latest](https://www.kernel.org/doc/html/latest/)
 - [Contributors to the Linux Kernel](https://cregit.linuxsources.org/)
 - [KernelCI](https://kernelci.org/)
 - [linaro LKFT](https://qa-reports.linaro.org/lkft/)
 - [kerneltests](https://kerneltests.org/)
+- [kernel/map](https://makelinux.github.io/kernel/map/)
+	- [github.com/makelinux](https://github.com/makelinux/linux_kernel_map)
 
 
 ## Relative Projects
