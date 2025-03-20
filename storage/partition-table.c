@@ -33,6 +33,8 @@ enum part_table_type {
 	PTAB_TYPE_GPT,
 };
 
+static int verbose = 0;
+
 /**
  * https://en.wikipedia.org/wiki/Partition_type
  */
@@ -150,9 +152,11 @@ void parse_gpt(int blkfd, struct classical_generic_mbr *protective_mbr,
 	part_entries = malloc(size);
 	read(blkfd, part_entries, size);
 
-	printf("\033[7m%-6s %-16s %-16s %-16s %-36s %-36s %-36s\033[m\n",
-		"ENTRY", "FIRST_LBA", "LAST_LBA", "ATTR_FLAGS", "NAME",
-		"Partition_type_GUID", "Unique_partition_GUID");
+	printf("\033[7m%-6s %-16s %-16s %-16s %-36s",
+		"ENTRY", "FIRST_LBA", "LAST_LBA", "ATTR_FLAGS", "NAME");
+	if (verbose)
+		printf(" %-36s %-36s", "Partition_type_GUID", "Unique_partition_GUID");
+	printf("\033[m\n");
 
 	for (i = 0; i < hdr->nr_partition_entries; i++) {
 		struct gpt_partition_entry *e = &part_entries[i];
@@ -161,13 +165,17 @@ void parse_gpt(int blkfd, struct classical_generic_mbr *protective_mbr,
 		if (e->first_lba == 0 || e->last_lba == 0)
 			continue;
 
-		printf("%-6d %#016lx %#016lx %#016lx %-36s ",
+		printf("%-6d %#016lx %#016lx %#016lx %-36s",
 			i, e->first_lba, e->last_lba, e->attr_flags,
 			utf16le_to_utf8(e->utf16le_name, sizeof(e->utf16le_name),
 					utf8buf, sizeof(utf8buf)));
-		print_guid(e->partition_type_guid, sizeof(e->partition_type_guid));
-		printf(" ");
-		print_guid(e->unique_partition_guid, sizeof(e->unique_partition_guid));
+
+		if (verbose) {
+			printf(" ");
+			print_guid(e->partition_type_guid, sizeof(e->partition_type_guid));
+			printf(" ");
+			print_guid(e->unique_partition_guid, sizeof(e->unique_partition_guid));
+		}
 		printf("\n");
 		/**
 		 * TODO: print entries
@@ -203,8 +211,8 @@ void usage(char *prog)
 	printf("%s\n", prog);
 	printf("\n");
 	printf(" -b, --blk [BLK|FILE]  specify lock or file to check, for example: /dev/vda\n");
-	printf("\n");
 	printf(" -h, --help            show this information.\n");
+	printf(" -v, --verbose         show verbose information.\n");
 	printf("\n");
 }
 
@@ -226,12 +234,13 @@ int main(int argc, char *argv[])
 	struct option options[] = {
 		{"blk",     required_argument, 0, 'b'},
 		{"help",    no_argument,       0, 'h'},
+		{"verbose", no_argument,       0, 'v'},
 		{0, 0, 0, 0}
 	};
 
 	while (1) {
 		int option_index = 0;
-		int c = getopt_long(argc, argv, "b:h", options, &option_index);
+		int c = getopt_long(argc, argv, "b:hv", options, &option_index);
 		if (c == -1)
 			break;
 		switch (c) {
@@ -241,6 +250,9 @@ int main(int argc, char *argv[])
 		case 'h':
 			usage(argv[0]);
 			return 0;
+		case 'v':
+			verbose = 1;
+			break;
 		case '?':
 			fprintf(stderr, "Unknown option or requires an argument.\n");
 			exit(1);
