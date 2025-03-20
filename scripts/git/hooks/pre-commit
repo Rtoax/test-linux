@@ -2,6 +2,9 @@
 
 try_add=( $(git status --short | grep ^A | awk '{print $2}') )
 
+# Redirect output to stderr.
+exec 1>&2
+
 for f in ${try_add[@]}
 do
 	[[ -d ${f} ]] && continue
