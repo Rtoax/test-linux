@@ -9,6 +9,8 @@
  */
 #include <stdint.h>
 
+#define GPT_SECTOR_SIZE	512
+
 struct gpt_hdr {
 #define MAGIC_EFI_PART	0x5452415020494645ULL
 	/**

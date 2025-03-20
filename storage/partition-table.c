@@ -9,6 +9,7 @@
  * - https://en.wikipedia.org/wiki/GUID_Partition_Table
  * - https://en.wikipedia.org/wiki/Master_boot_record
  */
+#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>
@@ -265,6 +266,14 @@ int main(int argc, char *argv[])
 			abort();
 		}
 	}
+#ifdef DEBUG
+	printf("sizeof struct modern_standard_mbr %ld\n", sizeof(struct modern_standard_mbr));
+#endif
+
+	assert(sizeof(struct gpt_hdr) == GPT_SECTOR_SIZE && "GPT hdr != 512");
+	assert(sizeof(struct classical_generic_mbr) == MBR_SECTOR_SIZE && "MBR classical generic hdr != 512");
+	assert(sizeof(struct modern_standard_mbr) == MBR_SECTOR_SIZE && "MBR modern standard hdr != 512");
+	assert(sizeof(struct aap_mbr) == MBR_SECTOR_SIZE && "MBR aap hdr != 512");
 
 	if (!path) {
 		usage(argv[0]);

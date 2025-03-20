@@ -16,6 +16,8 @@
  */
 #include <stdint.h>
 
+#define MBR_SECTOR_SIZE	512
+
 /**
  * Partition type or Partition ID
  * https://en.wikipedia.org/wiki/Partition_type
@@ -69,7 +71,7 @@ struct modern_standard_mbr {
 		uint8_t secs;	/* Seconds (0–59) */
 		uint8_t mins;	/* Minutes (0–59) */
 		uint8_t hours;	/* Hours (0–23) */
-	} timestamp;
+	} __attribute__((packed)) timestamp;
 	/**
 	 * Bootstrap code area (part 2, code entry at 0x0000)
 	 */
@@ -82,7 +84,7 @@ struct modern_standard_mbr {
 		uint32_t signature;
 		/* 0x0000 (0x5A5A if copy-protected) */
 		uint16_t copy_protected;
-	} disk_signature;
+	} __attribute__((packed)) disk_signature;
 
 	/**
 	 * Partition table (for primary partitions)
