@@ -1,22 +1,26 @@
 #include <stdio.h>
 #include <iconv.h>
-#include <wchar.h>
 #include <errno.h>
 #include <string.h>
 
-int main(void)
+void utf16le_to_utf8(void)
 {
 	int err;
 	iconv_t icv;
-	char inbuff[] = { 't', '\0', 'e', '\0', 's', '\0', 't', '\0' };
-	char outbuff[64];
+	/* Hello, world! */
+	char inbuff[] = {
+		0x48, 0x00, 0x65, 0x00, 0x6C, 0x00, 0x6C, 0x00, 0x6F, 0x00,
+		0x2C, 0x00, 0x20, 0x00, 0x77, 0x00, 0x6F, 0x00, 0x72, 0x00,
+		0x6C, 0x00, 0x64, 0x00, 0x21, 0x00, 0x00, 0x00
+	};
+	char outbuff[sizeof(inbuff) / 2 + 1];
 	char *in, *out;
 	size_t inbytes, outbytes = sizeof(outbuff);
 
 	icv = iconv_open("UTF-8", "UTF-16LE");
 	if (icv == (iconv_t)-1) {
 		perror("iconv_open");
-		return errno;
+		return;
 	}
 
 	in = inbuff;
@@ -27,10 +31,15 @@ int main(void)
 	if (err)
 		perror("iconv");
 
-	printf("in  %s\n", in);
-	printf("out %s\n", out);
+	*out = '\0';
+
+	printf("out %s\n", outbuff);
 
 	iconv_close(icv);
+}
 
+int main(void)
+{
+	utf16le_to_utf8();
 	return 0;
 }

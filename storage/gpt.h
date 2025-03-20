@@ -100,6 +100,6 @@ struct gpt_partition_entry {
 	/* Attribute flags (e.g. bit 60 denotes read-only) */
 	uint64_t attr_flags;
 	/* Partition name (36 UTF-16LE code units) */
-	uint8_t name[72];
+	uint8_t utf16le_name[72];
 } __attribute__((packed));
 

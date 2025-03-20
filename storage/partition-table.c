@@ -21,6 +21,7 @@
 #include <byteswap.h>
 #include <sys/stat.h>
 #include <sys/types.h>
+#include <iconv.h>
 
 #include "mbr.h"
 #include "gpt.h"
@@ -81,6 +82,36 @@ void print_mixed_endian_guid(uint8_t i_guid[16])
 	}
 }
 
+const char* utf16le_to_utf8(char *inbuff, size_t inbytes, char *outbuff,
+			    size_t outbytes)
+{
+	int err;
+	iconv_t icv;
+	char *in, *out;
+
+	icv = iconv_open("UTF-8", "UTF-16LE");
+	if (icv == (iconv_t)-1) {
+		perror("iconv_open");
+		return NULL;
+	}
+
+	in = inbuff;
+	out = outbuff;
+
+	err = iconv(icv, &in, &inbytes, &out, &outbytes);
+	if (err) {
+		perror("iconv");
+		iconv_close(icv);
+		return NULL;
+	}
+	*out = '\0';
+#ifdef DEBUG
+	printf("out %s\n", outbuff);
+#endif
+	iconv_close(icv);
+	return outbuff;
+}
+
 void parse_gpt(int blkfd, struct classical_generic_mbr *protective_mbr,
 	       struct gpt_hdr *hdr)
 {
@@ -114,15 +145,20 @@ void parse_gpt(int blkfd, struct classical_generic_mbr *protective_mbr,
 	part_entries = malloc(size);
 	read(blkfd, part_entries, size);
 
-	printf("\033[7m%-6s %-16s %-16s %-16s %s\033[m\n",
+	printf("\033[7m%-6s %-16s %-16s %-16s %-36s\033[m\n",
 		"ENTRY", "FIRST_LBA", "LAST_LBA", "ATTR_FLAGS", "NAME");
+
 	for (i = 0; i < hdr->nr_partition_entries; i++) {
 		struct gpt_partition_entry *e = &part_entries[i];
+		char utf8buf[sizeof(e->utf16le_name) / 2 + 1];
+
 		if (e->first_lba == 0 || e->last_lba == 0)
 			continue;
 
-		printf("%-6d %#016lx %#016lx %#016lx %-8s\n",
-			i, e->first_lba, e->last_lba, e->attr_flags, e->name);
+		printf("%-6d %#016lx %#016lx %#016lx %-36s\n",
+			i, e->first_lba, e->last_lba, e->attr_flags,
+			utf16le_to_utf8(e->utf16le_name, sizeof(e->utf16le_name),
+					utf8buf, sizeof(utf8buf)));
 		/**
 		 * TODO: print entries
 		 */
