@@ -158,6 +158,13 @@ struct aap_mbr {
  * TODO: More MBR type, see https://en.wikipedia.org/wiki/Master_boot_record
  */
 
+/**
+ * Cylinder-head-sector (CHS) is an early method for giving addresses to each
+ * physical block of data on a hard disk drive.
+ *
+ * https://en.wikipedia.org/wiki/Cylinder-head-sector
+ * https://en.wikipedia.org/wiki/Master_boot_record
+ */
 struct chs_addr {
 	uint8_t head;
 	union {
@@ -168,8 +175,13 @@ struct chs_addr {
 		uint8_t cylinder_sector;
 	};
 	uint8_t cylinder_7_0;
-};
+} __attribute__((packed));
 
+/**
+ * Layout of one 16-byte partition entry (all multi-byte fields are little-endian)
+ *
+ * https://en.wikipedia.org/wiki/Master_boot_record
+ */
 struct mbr_entry {
 	union {
 		uint8_t status;

@@ -216,6 +216,8 @@ void usage(char *prog)
 	printf(" -h, --help            show this information.\n");
 	printf(" -v, --verbose         show verbose information.\n");
 	printf("\n");
+	printf(" like:\n");
+	printf("  $ fdisk -l blk.bin\n");
 }
 
 
