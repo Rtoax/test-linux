@@ -54,7 +54,7 @@ struct gpt_hdr {
 	 * Reserved; must be zeroes for the rest of the block (420 bytes for a
 	 * sector size of 512 bytes; but can be more with larger sector sizes)
 	 */
-	uint8_t reserved2[];
+	uint8_t reserved2[420];
 } __attribute__((packed));
 
 /**

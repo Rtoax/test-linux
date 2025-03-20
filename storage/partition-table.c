@@ -248,8 +248,8 @@ int main(int argc, char *argv[])
 	aap_mbr = (void *)mbr;
 
 	/* GPT */
-	primary_gpt_hdr = malloc(0x5c);
-	read(fd, primary_gpt_hdr, 0x5c);
+	primary_gpt_hdr = malloc(sizeof(struct gpt_hdr));
+	read(fd, primary_gpt_hdr, sizeof(struct gpt_hdr));
 	gpt_hdr = (struct gpt_hdr *)primary_gpt_hdr;
 
 	if (cg_mbr->boot_signature[0] == 0x55 && cg_mbr->boot_signature[1] == 0xAA) {
