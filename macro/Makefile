@@ -1,5 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
 include ../tlbuild.mk
+include ../kernel.mk
 
 CC := gcc
 CXX := c++
@@ -56,6 +57,7 @@ endif
 CFLAGS := -Werror -Wall
 CFLAGS += -O0
 CFLAGS += -DDEBUG -g
+CFLAGS += ${KFLAGS}
 
 CFLAGS___stringify := -DSTDBOOL_HDR=stdbool.h
 
