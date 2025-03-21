@@ -4,6 +4,9 @@
 #include <string.h>
 #include <linux/bpf.h>
 #include <bpf/libbpf.h>
+#include "tracepoint.h"
+#include "trace_helpers.h"
+#include "libbpf_wrapper.h"
 
 #if defined(TRACEPOINT) && (!defined(MAP_HASH) && !defined(MAP_PERCPU_HASH))
 #include "tracepoint.skel.h"
@@ -48,9 +51,6 @@
 #else
 #error "Must define TRACEPOINT and one of MAP_HASH MAP_PERCPU_HASH"
 #endif
-#include "tracepoint.h"
-#include "trace_helpers.h"
-#include "libbpf_wrapper.h"
 
 
 static int libbpf_print_fn(enum libbpf_print_level level, const char *format,
