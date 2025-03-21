@@ -206,11 +206,11 @@ void parse_gpt(int blkfd, struct classical_generic_mbr *protective_mbr,
 	       struct gpt_hdr *hdr)
 {
 	struct gpt_hdr secondary_gpt_hdr;
-	printf("\033[1;32mPrimary GPT\033[m\n");
+	printf("\033[1;32m----- Primary GPT -----\033[m\n");
 	parse_gpt_hdr(blkfd, protective_mbr, hdr);
 	read_off(blkfd, GPT_SECTOR_SIZE * hdr->backup_lba, &secondary_gpt_hdr,
 		 sizeof(struct gpt_hdr));
-	printf("\033[1;32mSecondary GPT\033[m\n");
+	printf("\n\033[1;32m----- Secondary GPT -----\033[m\n");
 	parse_gpt_hdr(blkfd, protective_mbr, &secondary_gpt_hdr);
 }
 
