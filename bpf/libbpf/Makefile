@@ -214,8 +214,6 @@ CFLAGS_BPF_map_hash_of_maps := ${CFLAGS_map_hash_of_maps}
 CFLAGS_BPF_map_ringbuf := -DMAP_ARRAY=1
 CFLAGS_BPF_map_devmap := ${CFLAGS_BPF_xdp_devmap}
 
-GEN_SKEL_ARGS_syscall := -L
-
 SOCKET_HELPERS := socket_helpers.o
 TASK_HELPERS := task_helpers.o
 TRACE_HELPERS := trace_helpers.o
@@ -278,7 +276,7 @@ map_percpu_array: map_percpu_array.o ${SOCKET_HELPERS}
 
 %.skel.h: %.bpf.o
 	@echo -e "  SKEL  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	${Q}$(BPFTOOL) gen skeleton $(GEN_SKEL_ARGS_$(*)) $< > $@
+	${Q}$(BPFTOOL) gen skeleton $(GEN_SKEL_ARGS) $(GEN_SKEL_ARGS_$(*)) $< > $@
 
 %.o: %.c %.skel.h
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
