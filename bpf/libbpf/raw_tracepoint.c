@@ -110,6 +110,8 @@ int main(void)
 		return 1;
 	}
 
+	printf("Tracing sched_process_fork...\n");
+
 	while (!stop) {
 		err = perf_buffer__poll(pb, 100 /* timeout, ms */);
 		/* Ctrl-C gives -EINTR */
