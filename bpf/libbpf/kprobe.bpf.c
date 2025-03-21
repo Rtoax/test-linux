@@ -22,7 +22,7 @@ SEC("kprobe/"KSYM_DO_EXECVEAT_COMMON)
 int BPF_KPROBE(do_execveat_common, int fd, struct filename *name)
 {
 	pid_t pid;
-	const char *filename;
+	const char *filename = NULL;
 	pid = bpf_get_current_pid_tgid() >> 32;
 	filename = BPF_CORE_READ(name, name);
 
@@ -44,7 +44,8 @@ int BPF_KPROBE(do_execveat_common, int fd, struct filename *name)
  * works on functions tagged with ALLOW_ERROR_INJECTION in the kernel code.
  */
 #if defined(BPF_OVERRIDE_RETURN)
-	if (str_eq(filename, "ls", 2)) {
+#pragma message "Support bpf_override_return()"
+	if (filename && str_eq(filename, "ls", 2)) {
 		u64 err = EINVAL;
 		bpf_override_return(ctx, err);
 		bpf_printk("KPROBE ENTRY pid = %d, filename = %s override return",
