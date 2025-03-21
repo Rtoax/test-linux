@@ -20,6 +20,7 @@
 #include <sys/stat.h>
 #include <linux/unistd.h>
 #include <linux/loop.h>
+#include <linux/mount.h>
 
 #include "helpers.h"
 
