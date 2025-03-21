@@ -41,7 +41,16 @@ TARGETS :=
 TARGETS += config-map
 TARGETS += socket_filter
 TARGETS += tc
-TARGETS += xdp xdp_devmap xdp_cpumap xdp_simple xdp_dos
+TARGETS += xdp xdp_devmap xdp_simple xdp_dos
+# kernel v5.8-rc4-1449-g9216477449f3
+# commit 9216477449f3 ("bpf: cpumap: Add the possibility to attach an eBPF program to cpumap")
+# struct bpf_cpumap_val support bpf_prog field
+# kernel v5.8-rc4-1448-g644bfe51fa49
+# commit 644bfe51fa49 ("cpumap: Formalize map value as a named struct")
+# introduce struct bpf_cpumap_val
+ifeq ($(call kernel_newer_than,5,8,0),1)
+  TARGETS += xdp_cpumap
+endif
 TARGETS += sockops
 TARGETS += sk_skb
 TARGETS += sk_msg
