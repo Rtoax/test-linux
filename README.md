@@ -109,6 +109,7 @@ CONFIG_LOCKUP_DETECTOR
 * Each `abbreviation.md` is current directory's relative abbreviation.
 	- format: **abbreviation: full name (中文全称) @relate1 @relate2**
 	- scripts: `./abbreviation.sh` to check all abbreviations.
+* Each `history.md` is store history of some technology.
 * Each **drawio** contains relate directory diagrams.
 * Never call `include` in `*.mk` file, only call `include` in Makefile.
 
