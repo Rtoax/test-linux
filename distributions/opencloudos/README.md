@@ -30,4 +30,6 @@
 - https://mirrors.tencent.com/opencloudos/
 	- [9.0](https://mirrors.tencent.com/opencloudos/9.0/)
 	- [9.2](https://mirrors.tencent.com/opencloudos/9.2/)
+- https://gitee.com/OpenCloudOS/
+	- [Kernel](https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel)
 
