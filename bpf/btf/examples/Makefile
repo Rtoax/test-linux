@@ -1,10 +1,19 @@
-include ../../../tlbuild.mk
-
-
 # ref: https://www.kernel.org/doc/html/latest/bpf/btf.html
 # 6. BTF Generation
 
-all: t1 t2 t2.s
+include ../../../tlbuild.mk
+
+PAHOLE := $(shell which pahole 2>/dev/null || true)
+
+TARGETS :=
+
+ifneq ($(PAHOLE),)
+  TARGETS += t1 t2 t2.s
+else
+  $(warning Not support pahole, install dwarves)
+endif
+
+all: ${TARGETS}
 
 t1:
 	@echo -e "  T1  \033[1;32m$(@)\033[m"
