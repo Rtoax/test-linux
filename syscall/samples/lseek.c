@@ -6,6 +6,7 @@
 
 int main(int argc, char *argv[])
 {
+	off_t pos;
 	int d1, d2;
 	char buf[32];
 	char *file = "/etc/os-release";
@@ -13,7 +14,12 @@ int main(int argc, char *argv[])
 	d1 = open(file, O_RDONLY);
 	d2 = open(file, O_RDONLY);
 
+	/* Get current position of fd */
+	pos = lseek(d1, 0, SEEK_CUR);
+	printf("current position %ld\n", pos);
 	lseek(d1, 64, SEEK_SET);
+	pos = lseek(d1, 0, SEEK_CUR);
+	printf("current position %ld\n", pos);
 
 	read(d1, buf, sizeof(buf));
 	printf("buf = %s\n", buf);

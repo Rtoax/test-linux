@@ -91,6 +91,17 @@ void print_mixed_endian_guid(uint8_t i_guid[16])
 	print_guid(guid, sizeof(guid));
 }
 
+int read_off(int fd, off_t off, void *buf, size_t size)
+{
+	int err;
+	err = lseek(fd, off, SEEK_SET);
+	if (err == (off_t)-1) {
+		perror("lseek");
+		return -errno;
+	}
+	return read(fd, buf, size);
+}
+
 const char* utf16le_to_utf8(char *inbuff, size_t inbytes, char *outbuff,
 			    size_t outbytes)
 {
@@ -121,8 +132,8 @@ const char* utf16le_to_utf8(char *inbuff, size_t inbytes, char *outbuff,
 	return outbuff;
 }
 
-void parse_gpt(int blkfd, struct classical_generic_mbr *protective_mbr,
-	       struct gpt_hdr *hdr)
+void parse_gpt_hdr(int blkfd, struct classical_generic_mbr *protective_mbr,
+		   struct gpt_hdr *hdr)
 {
 	int i;
 	size_t size;
@@ -142,6 +153,10 @@ void parse_gpt(int blkfd, struct classical_generic_mbr *protective_mbr,
 	print_mixed_endian_guid(hdr->guid);
 	printf("\n");
 
+	printf("Current LBA: %ld\n", hdr->current_lba);
+	printf("Backup LBA: %ld\n", hdr->backup_lba);
+	printf("Primary partition LBA: %ld\n", hdr->first_usable_lba);
+	printf("Secondary partition LBA: %ld\n", hdr->last_usable_lba);
 	printf("Starting LBA: %ld\n", hdr->start_lba);
 	printf("Number of partition entries: %d\n", hdr->nr_partition_entries);
 	printf("Size of partition entry: %d\n", hdr->sz_partition_entry);
@@ -152,7 +167,8 @@ void parse_gpt(int blkfd, struct classical_generic_mbr *protective_mbr,
 
 	size = sizeof(struct gpt_partition_entry) * hdr->nr_partition_entries;
 	part_entries = malloc(size);
-	read(blkfd, part_entries, size);
+	/* protective mbr + primary gpt header */
+	read_off(blkfd, GPT_SECTOR_SIZE * hdr->start_lba, part_entries, size);
 
 	printf("\033[7m%-6s %-16s %-16s %-16s %-36s",
 		"ENTRY", "FIRST_LBA", "LAST_LBA", "ATTR_FLAGS", "NAME");
@@ -184,6 +200,18 @@ void parse_gpt(int blkfd, struct classical_generic_mbr *protective_mbr,
 		 */
 	}
 	free(part_entries);
+}
+
+void parse_gpt(int blkfd, struct classical_generic_mbr *protective_mbr,
+	       struct gpt_hdr *hdr)
+{
+	struct gpt_hdr secondary_gpt_hdr;
+	printf("\033[1;32mPrimary GPT\033[m\n");
+	parse_gpt_hdr(blkfd, protective_mbr, hdr);
+	read_off(blkfd, GPT_SECTOR_SIZE * hdr->backup_lba, &secondary_gpt_hdr,
+		 sizeof(struct gpt_hdr));
+	printf("\033[1;32mSecondary GPT\033[m\n");
+	parse_gpt_hdr(blkfd, protective_mbr, &secondary_gpt_hdr);
 }
 
 void parse_mbr_classic(struct classical_generic_mbr *cg_mbr)
@@ -311,8 +339,8 @@ int main(int argc, char *argv[])
 	printf("Disk: %s\n", path);
 
 	/* MBR: 512 bytes */
-	mbr = malloc(512);
-	read(fd, mbr, 512);
+	mbr = malloc(sizeof(*mbr));
+	read_off(fd, 0, mbr, sizeof(*mbr));
 
 	cg_mbr = (void *)mbr;
 	ms_mbr = (void *)mbr;
@@ -320,7 +348,7 @@ int main(int argc, char *argv[])
 
 	/* GPT */
 	primary_gpt_hdr = malloc(sizeof(struct gpt_hdr));
-	read(fd, primary_gpt_hdr, sizeof(struct gpt_hdr));
+	read_off(fd, MBR_SECTOR_SIZE, primary_gpt_hdr, sizeof(struct gpt_hdr));
 	gpt_hdr = (struct gpt_hdr *)primary_gpt_hdr;
 
 	if (cg_mbr->boot_signature[0] == 0x55 && cg_mbr->boot_signature[1] == 0xAA) {
