@@ -117,6 +117,7 @@ CFLAGS := -lbpf
 CFLAGS += -O0 -Wall -g
 LDFLAGS := -lbpf
 LDFLAGS += -O0 -Wall -g
+LDFLAGS += -pthread
 
 CFLAGS += -DCONFIG_BPF_SYSCALL=$(CONFIG_BPF_SYSCALL)
 CFLAGS += -DUID=$(UID)
