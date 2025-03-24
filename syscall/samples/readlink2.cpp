@@ -36,12 +36,11 @@ int main(void)
 	std::string path = "/etc/system-release";
 	std::string link = do_readlink(path);
 
-	std::cout << path << ": " << link << std::endl;
+	std::cout << path << "link is " << link << std::endl;
 
 	std::string path2 = "/bin/ls";
-	std_filesystem::path absolutePath = std_filesystem::canonical(path2);
-
-	std::cout << path2 << ": " << absolutePath << std::endl;
+	std_filesystem::path abs_path = std_filesystem::canonical(path2);
+	std::cout << path2 << "absolute path is " << abs_path << std::endl;
 
 	return 0;
 }
