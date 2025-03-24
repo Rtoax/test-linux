@@ -891,7 +891,7 @@ os_packages
 [[ ${have_devel} ]] && pkgs_inst+=( ${pkgs_devel[@]} )
 [[ ${have_container} ]] && pkgs_inst+=( ${pkgs_container[@]} )
 [[ ${have_virt} ]] && pkgs_inst+=( ${pkgs_virt[@]} )
-[[ ${IS_PHY} ]] && [[ ${have_desktop} ]] && pkgs_inst+=( ${pkgs_desktop[@]} )
+[[ ${IS_PHY} || ${force} ]] && [[ ${have_desktop} ]] && pkgs_inst+=( ${pkgs_desktop[@]} )
 [[ ${have_math} ]] && pkgs_inst+=( ${pkgs_math[@]} )
 [[ ${have_media} ]] && pkgs_inst+=( ${pkgs_media[@]} )
 [[ ${have_bench} ]] && pkgs_inst+=( ${pkgs_bench[@]} )
