@@ -139,16 +139,26 @@ ifeq ($(shell uname -m),riscv64)
   TARGETS := $(filter-out getdents, $(TARGETS))
 endif
 
+PFX_CC := CC
+ifeq ($(CC),clang)
+  PFX_CC := CLANG
+endif
+
+ifdef STATIC
+  CFLAGS += -static
+endif
+
+CFLAGS_write := -Wno-error=unused-variable
+CXXFLAGS_readlink2 := -std=c++17 -lstdc++
+
 
 .PHONY: build
 build: nr.h ${TARGETS} ${TARGETS_CPP} $(sub-dir-build)
 	@echo -e " \033[1;33m Done \033[m"
 
-
 nr.h: nr.sh
 	$(shell bash nr.sh)
 
-# Add more object.o file
 acct: acct.o
 chown: chown.o
 fchown: fchown.o
@@ -216,17 +226,6 @@ getpagesize: getpagesize.o
 ioprio_get: ioprio_get.o
 ioprio_set: ioprio_set.o
 
-CFLAGS_write := -Wno-error=unused-variable
-
-PFX_CC := CC
-ifeq ($(CC),clang)
-  PFX_CC := CLANG
-endif
-
-ifdef STATIC
-  CFLAGS += -static
-endif
-
 %.o: %.c
 	@echo -e "  ${PFX_CC}  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	${Q}$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
@@ -237,11 +236,11 @@ endif
 
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	${Q}$(CC) $(CFLAGS) -o $(@) $(^)
+	${Q}$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) $(^)
 
 $(TARGETS_CPP): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	${Q}$(CXX) $(CFLAGS) -o $(@) $(^)
+	${Q}$(CXX) $(CXXFLAGS) $(CXXFLAGS_$(*)) -o $(@) $(^)
 
 test: ${TARGETS} $(sub-dir-test)
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
