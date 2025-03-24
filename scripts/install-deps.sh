@@ -223,7 +223,7 @@ NAME
 	${prog} - Install depends for test-linux or deploy
 
 SYNOPSIS
-	${prog} [--dry-run] [--all]
+	${prog} [--dry-run] [--all] -- [extra-args]
 
 DESCRIPTION
 	Install various dependencies.
@@ -261,13 +261,20 @@ ARGUMENT
 	-h, --help         show this help information
 	-f, --force        force install
 
+EXAMPLES
+	# force install all
+	${prog} --all --force
+
+	# skip perf and dry-run and force-run
+	${prog} -k perf -u -f
+
 SEE ALSO
 	gcc(1), etc.
 "
 	exit ${1-0}
 }
 
-TEMP=$(getopt --options uvhfk: \
+TEMP_ARGS=$(getopt --options uvhfk: \
 	--long all \
 	--long nobase \
 	--long noup \
@@ -296,7 +303,7 @@ TEMP=$(getopt --options uvhfk: \
 
 test $? != 0 && __usage__ 1
 
-eval set -- "$TEMP"
+eval set -- "$TEMP_ARGS"
 
 while true; do
 	case $1 in
