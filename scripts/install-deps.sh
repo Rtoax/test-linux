@@ -149,7 +149,7 @@ os_operator()
 	local _os_=${OS}
 
 	case ${_os_} in
-	cclinux|fedora|centos|rhel|openEuler|almalinux|opencloudos|kylin)
+	cclinux|fedora|centos|rhel|openEuler|almalinux|opencloudos|kylin|tencentos)
 		case ${operator} in
 		upgrade) dnf_upgrade ;;
 		install) dnf_install "${@}" ;;
