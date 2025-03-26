@@ -58,4 +58,5 @@ sysfs 中使用entries来维护EFI variables的缺点。旧的 sysfs EFI variabl
 # Links
 
 - https://uefi.org/specifications
+- https://en.wikipedia.org/wiki/UEFI
 
