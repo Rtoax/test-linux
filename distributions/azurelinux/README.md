@@ -3,5 +3,5 @@ MicroSoft azurelinux
 
 # Links
 
-- https://github.com/microsoft/azurelinux
+- [MicroSoft azurelinux GitHub](https://github.com/microsoft/azurelinux)
 

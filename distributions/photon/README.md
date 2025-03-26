@@ -6,6 +6,5 @@ Photon OS™ is a minimal Linux container host provided by VMware, optimized for
 
 # Links
 
-- https://github.com/vmware/photon
-- https://vmware.github.io/photon
-
+- [VMWare photon](https://vmware.github.io/photon)
+	- [github](https://github.com/vmware/photon)

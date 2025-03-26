@@ -1,11 +1,5 @@
-OS Distro
-=========
-
-# Distro
-
-- [VMWare photon](https://vmware.github.io/photon)
-	- [github](https://github.com/vmware/photon)
-- [MicroSoft azurelinux](https://github.com/microsoft/azurelinux)
+OS Distrobutions
+=================
 
 
 # Links
