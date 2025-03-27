@@ -7,6 +7,9 @@ IMG_NAME=boot.img
 
 EFI_ARCH=
 IMG_BOOTEFI=
+# The file name is not case sensitive.
+readonly IMG_BOOTEFI_AA64=BOOTAA64.EFI
+readonly IMG_BOOTEFI_X64=BOOTX64.EFI
 
 DEV_LOOP=
 
@@ -16,11 +19,11 @@ MNT_BOOT_EFI=mnt.boot.efi
 case $(uname -m) in
 aarch64)
 	EFI_ARCH=aa64
-	IMG_BOOTEFI=BOOTAA64.EFI
+	IMG_BOOTEFI=${IMG_BOOTEFI_AA64}
 	;;
 x86_64)
 	EFI_ARCH=x64
-	IMG_BOOTEFI=BOOTX64.EFI
+	IMG_BOOTEFI=${IMG_BOOTEFI_X64}
 	;;
 *)
 	echo "ERROR: Unknown arch $(uname -m)"
@@ -102,7 +105,8 @@ grub_1() {
 	sudo cp /boot/efi/EFI/${ID}/grub${EFI_ARCH}.efi ${MNT_BOOT_EFI}/EFI/BOOT/grub${EFI_ARCH}.efi
 }
 grub_2() {
-	sudo cp /boot/efi/EFI/${ID}/grub${EFI_ARCH}.efi ${MNT_BOOT_EFI}/EFI/BOOT/boot${EFI_ARCH}.efi
+	# UEFI load grub2 directly
+	sudo cp /boot/efi/EFI/${ID}/grub${EFI_ARCH}.efi ${MNT_BOOT_EFI}/EFI/BOOT/${IMG_BOOTEFI}
 }
 grub_1
 
