@@ -4,7 +4,7 @@ set -ex
 source /etc/os-release
 
 EFI_ARCH=
-EFI_ARCH_U=
+BOOTEFI=
 # efi/boot is also works fine.
 EFI_BOOT_DIR=EFI/BOOT
 
@@ -14,11 +14,11 @@ loop=
 case $(uname -m) in
 aarch64)
 	EFI_ARCH=aa64
-	EFI_ARCH_U=AA64
+	BOOTEFI=BOOTAA64.EFI
 	;;
 x86_64)
 	EFI_ARCH=x64
-	EFI_ARCH_U=X64
+	BOOTEFI=BOOTX64.EFI
 	;;
 *)
 	echo "ERROR: Unknown arch $(uname -m)"
@@ -80,7 +80,7 @@ sudo mkdir -p boot.boot.mnt/grub2/
 
 # The following methods work fine, choise one.
 grub_1() {
-	sudo cp /boot/efi/EFI/BOOT/BOOT${EFI_ARCH_U}.EFI boot.efi.mnt/${EFI_BOOT_DIR}/BOOT${EFI_ARCH_U}.EFI
+	sudo cp /boot/efi/EFI/BOOT/${BOOTEFI} boot.efi.mnt/${EFI_BOOT_DIR}/${BOOTEFI}
 	sudo cp /boot/efi/EFI/${ID}/grub${EFI_ARCH}.efi boot.efi.mnt/${EFI_BOOT_DIR}/grub${EFI_ARCH}.efi
 }
 grub_2() {
