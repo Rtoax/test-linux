@@ -3,6 +3,8 @@ set -ex
 
 source /etc/os-release
 
+IMG_NAME=boot.img
+
 EFI_ARCH=
 IMG_BOOTEFI=
 
@@ -27,10 +29,22 @@ x86_64)
 esac
 
 
-dd if=/dev/zero of=boot.img bs=1M count=512
+dd if=/dev/zero of=${IMG_NAME} bs=1M count=512
 
-# Pass -drive file=./boot.img,format=raw to qemu
-multi_partitions() {
+# Pass -drive file=./${IMG_NAME},format=raw to qemu
+mk_multi_partitions_with_fdisk() {
+	# g: Created a new GPT disklabel
+	# n: add a new partition
+	# 1: partition number 1
+	# 2048: First sector
+	# +100M: Last sector
+	# t: change a partition type
+	# 1: Changed type of partition 'Linux filesystem' to 'EFI System'
+	# n: add a new partition
+	# 2: partition number 2
+	# ' ': use default First sector
+	# ' ': use default Last sector
+	# w: write table to disk and exit
 	cat>fdiskpart.txt<<-EOF
 	g
 	n
@@ -45,7 +59,7 @@ multi_partitions() {
 
 	w
 	EOF
-	DEV_LOOP=$( sudo losetup --find --show boot.img )
+	DEV_LOOP=$( sudo losetup --find --show ${IMG_NAME} )
 
 	# FIXME: fdisk return 1, the error/warning:
 	# Re-reading the partition table failed.: Invalid argument
@@ -55,7 +69,7 @@ multi_partitions() {
 
 	sudo losetup --detach ${DEV_LOOP}
 
-	DEV_LOOP=$( sudo losetup --find --partscan --show boot.img )
+	DEV_LOOP=$( sudo losetup --find --partscan --show ${IMG_NAME} )
 
 	sudo mkfs.vfat ${DEV_LOOP}p1
 	sudo mkfs.xfs ${DEV_LOOP}p2
@@ -65,15 +79,15 @@ multi_partitions() {
 	sudo mount ${DEV_LOOP}p2 ${MNT_BOOT}
 }
 
-# Pass -cdrom boot.img to qemu
+# Pass -cdrom ${IMG_NAME} to qemu
 single_partition() {
-	sudo mkfs.vfat boot.img
+	sudo mkfs.vfat ${IMG_NAME}
 	mkdir -p ${MNT_BOOT_EFI}
-	sudo mount boot.img ${MNT_BOOT_EFI}
+	sudo mount ${IMG_NAME} ${MNT_BOOT_EFI}
 }
 
 #single_partition
-multi_partitions
+mk_multi_partitions_with_fdisk
 
 sudo mkdir -p ${MNT_BOOT_EFI}/EFI/BOOT/
 sudo mkdir -p ${MNT_BOOT}/grub2/
@@ -102,7 +116,7 @@ sudo cp /boot/vmlinuz-$(uname -r) ${MNT_BOOT}/vmlinuz
 sudo cp /boot/initramfs-$(uname -r).img ${MNT_BOOT}/initrd.img
 
 [[ ${DEV_LOOP} ]] && sudo fdisk -l ${DEV_LOOP}
-sudo fdisk -l boot.img
+sudo fdisk -l ${IMG_NAME}
 
 # Do some clean
 sudo umount ${MNT_BOOT_EFI}
