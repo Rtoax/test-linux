@@ -220,6 +220,9 @@ case ${BOOTFLOW} in
 esac
 
 sudo cp grub.cfg ${MNT_BOOT}/grub2/grub.cfg
+sudo sed -i "s|@BOOTFLOW@|${BOOTFLOW}|g" ${MNT_BOOT}/grub2/grub.cfg
+sudo sed -i "s|@VENDOR@|${ID}|g" ${MNT_BOOT}/grub2/grub.cfg
+
 sudo cp /boot/vmlinuz-$(uname -r) ${MNT_BOOT}/vmlinuz
 sudo cp /boot/initramfs-$(uname -r).img ${MNT_BOOT}/initrd.img
 sudo tree ${MNT_BOOT}
