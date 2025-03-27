@@ -5,6 +5,8 @@ readonly prog=uefi-mkimg
 
 source /etc/os-release
 
+BOOTFLOW=3
+readonly BOOTFLOW_NUM="1 2 3"
 IMG_NAME=boot.img
 
 EFI_ARCH=
@@ -42,9 +44,14 @@ esac
 __usage__()
 {
 	echo -e "
-${prog} [-n=name] [-h|--help]
+${prog} [-n=name] [-b=NUM] [-h|--help]
 
 -n, --name [IMG]   specify boot image name, default: ${IMG_NAME}
+
+-b, --bootflow [N] specify bootflow of uefi/shim/grub, support: ${BOOTFLOW_NUM}
+                   1: UEFI load grub2 directly
+                   2: UEFI load ${IMG_BOOTEFI} -> grub2
+                   3: UEFI load ${IMG_BOOTEFI} -> fb${EFI_ARCH}.efi(${IMG_BOOTCSV}) -> shim${EFI_ARCH}.efi -> grub2
 
 -h, --help         show this help information
 -v, --verbose      show detail during running
@@ -55,8 +62,9 @@ ${prog} [-n=name] [-h|--help]
 
 # __main__
 GETOPT_ARGS=$(getopt \
-	--options n:hv \
+	--options n:b:hv \
 	--long name: \
+	--long bootflow: \
 	--long help \
 	--long verbose \
 	-n ${prog} -- "$@")
@@ -70,6 +78,15 @@ while true; do
 	-n|--name)
 		shift
 		IMG_NAME=$1
+		shift
+		;;
+	-b|--bootflow)
+		shift
+		BOOTFLOW=$1
+		if ! [[ " ${BOOTFLOW_NUM} " =~ " ${BOOTFLOW} " ]]; then
+			echo >&2 "ERROR: bootflow only support ${BOOTFLOW_NUM}"
+			exit 1
+		fi
 		shift
 		;;
 	-h|--help)
@@ -194,7 +211,13 @@ grub_3() {
 	gen_efi_grub_cfg ${MNT_BOOT_EFI}/EFI/${ID}/grub.cfg
 	sudo tree ${MNT_BOOT_EFI}/EFI
 }
-grub_3
+
+case ${BOOTFLOW} in
+1) grub_1 ;;
+2) grub_2 ;;
+3) grub_3 ;;
+*) echo >&2 "ERROR: unsupport bootflow ${BOOTFLOW}"; exit 1; ;;
+esac
 
 sudo cp grub.cfg ${MNT_BOOT}/grub2/grub.cfg
 sudo cp /boot/vmlinuz-$(uname -r) ${MNT_BOOT}/vmlinuz
