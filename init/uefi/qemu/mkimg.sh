@@ -205,7 +205,10 @@ bootflow_2() {
 bootflow_3() {
 	sudo cp /boot/efi/EFI/BOOT/${IMG_BOOTEFI} ${MNT_BOOT_EFI}/EFI/BOOT/${IMG_BOOTEFI}
 	sudo cp /boot/efi/EFI/BOOT/fb${EFI_ARCH}.efi ${MNT_BOOT_EFI}/EFI/BOOT/fb${EFI_ARCH}.efi
-	sudo cp /boot/efi/EFI/${ID}/${IMG_BOOTCSV} ${MNT_BOOT_EFI}/EFI/${ID}/${IMG_BOOTCSV}
+	#sudo cp /boot/efi/EFI/${ID}/${IMG_BOOTCSV} ${MNT_BOOT_EFI}/EFI/${ID}/${IMG_BOOTCSV}
+	# see https://github.com/rhboot/shim Makefile
+	echo "shim${EFI_ARCH}.efi,${ID},,This is the boot entry for ${ID}" | \
+		sudo iconv -t UCS-2LE -o ${MNT_BOOT_EFI}/EFI/${ID}/${IMG_BOOTCSV}
 	sudo cp /boot/efi/EFI/${ID}/shim${EFI_ARCH}.efi ${MNT_BOOT_EFI}/EFI/${ID}/shim${EFI_ARCH}.efi
 	sudo cp /boot/efi/EFI/${ID}/grub${EFI_ARCH}.efi ${MNT_BOOT_EFI}/EFI/${ID}/grub${EFI_ARCH}.efi
 	gen_efi_grub_cfg ${MNT_BOOT_EFI}/EFI/${ID}/grub.cfg
