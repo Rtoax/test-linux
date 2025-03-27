@@ -513,10 +513,12 @@ pkgs_compiler+=( lld )                    # ELF linker from the LLVM project
 pkgs_compiler+=( llvm )                   # llvm-as llvm-dis llc
 pkgs_compiler+=( mold )                   # a modern linker
 if [[ ! $(is_arch aarch64) ]]; then
+	pkgs_base+=( shim-aa64 )
 	pkgs_compiler+=( binutils-aarch64-linux-gnu )
 	pkgs_compiler+=( gcc-aarch64-linux-gnu )
 fi
 if [[ ! $(is_arch x86_64) ]]; then
+	pkgs_base+=( shim-x64 shim-ia32 )
 	pkgs_compiler+=( binutils-x86_64-linux-gnu )
 	pkgs_compiler+=( gcc-x86_64-linux-gnu )
 fi
