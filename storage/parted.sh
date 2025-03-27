@@ -62,6 +62,7 @@ ${prog} --type=[gpt|mbr] [--dry-run]
                    specify partition type, support: \"gpt\", \"mbr\", default: \"${PARTITION_TYPE}\"
 
 -h, --help         show this help information
+-v, --verbose      show detail during running
 -u, --dry-run      only show commands
 " | more
 

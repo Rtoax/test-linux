@@ -1,5 +1,7 @@
 #!/bin/bash
-set -ex
+set -e
+
+readonly prog=uefi-mkimg
 
 source /etc/os-release
 
@@ -37,6 +39,46 @@ x86_64)
 	;;
 esac
 
+__usage__()
+{
+	echo -e "
+${prog} [-h|--help]
+
+-h, --help         show this help information
+-v, --verbose      show detail during running
+" | more
+
+	exit ${1-0}
+}
+
+# __main__
+GETOPT_ARGS=$(getopt \
+	--options hv \
+	--long help \
+	--long verbose \
+	-n ${prog} -- "$@")
+
+test $? != 0 && __usage__ 1
+
+eval set -- "$GETOPT_ARGS"
+
+while true; do
+	case $1 in
+	-h|--help)
+		shift
+		__usage__
+		;;
+	-v|--verbose)
+		shift
+		verbose=YES
+		set -x
+		;;
+	--)
+		shift
+		break
+		;;
+	esac
+done
 
 dd if=/dev/zero of=${IMG_NAME} bs=1M count=512
 
