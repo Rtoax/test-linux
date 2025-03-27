@@ -32,7 +32,9 @@ esac
 dd if=/dev/zero of=${IMG_NAME} bs=1M count=512
 
 # Pass -drive file=./${IMG_NAME},format=raw to qemu
-mk_multi_partitions_with_fdisk() {
+mk_multi_partitions_with_fdisk()
+{
+	local fdisk_script=fdisk.txt
 	# g: Created a new GPT disklabel
 	# n: add a new partition
 	# 1: partition number 1
@@ -45,7 +47,7 @@ mk_multi_partitions_with_fdisk() {
 	# ' ': use default First sector
 	# ' ': use default Last sector
 	# w: write table to disk and exit
-	cat>fdiskpart.txt<<-EOF
+	cat>${fdisk_script}<<-EOF
 	g
 	n
 	1
@@ -65,7 +67,7 @@ mk_multi_partitions_with_fdisk() {
 	# Re-reading the partition table failed.: Invalid argument
 	# The kernel still uses the old table. The new table will be used at
 	# the next reboot or after you run partprobe(8) or partx(8).
-	sudo fdisk ${DEV_LOOP} < fdiskpart.txt || true
+	sudo fdisk ${DEV_LOOP} < ${fdisk_script} || true
 
 	sudo losetup --detach ${DEV_LOOP}
 
@@ -77,6 +79,8 @@ mk_multi_partitions_with_fdisk() {
 	mkdir -p ${MNT_BOOT_EFI} ${MNT_BOOT}
 	sudo mount ${DEV_LOOP}p1 ${MNT_BOOT_EFI}
 	sudo mount ${DEV_LOOP}p2 ${MNT_BOOT}
+
+	rm -f ${fdisk_script}
 }
 
 # Pass -cdrom ${IMG_NAME} to qemu
@@ -123,5 +127,4 @@ sudo umount ${MNT_BOOT_EFI}
 sudo umount ${MNT_BOOT}
 [[ ${DEV_LOOP} ]] && sudo losetup --detach ${DEV_LOOP}
 rmdir ${MNT_BOOT_EFI} ${MNT_BOOT}
-rm -f fdiskpart.txt
 
