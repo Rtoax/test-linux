@@ -19,6 +19,7 @@ IMG_BOOTCSV=
 readonly IMG_BOOTCSV_AA64=BOOTAA64.CSV
 readonly IMG_BOOTCSV_X64=BOOTX64.CSV
 
+VENDOR_ID=
 DEV_LOOP=
 
 MNT_BOOT=mnt.boot
@@ -44,9 +45,11 @@ esac
 __usage__()
 {
 	echo -e "
-${prog} [-n=name] [-b=NUM] [-h|--help]
+${prog} [-n=name] [-b=NUM] [-V=vendor] [-h|--help]
 
 -n, --name [IMG]   specify boot image name, default: ${IMG_NAME}
+
+-V, --vendor [NAME] specify verdor, like fedora, ubuntu, default: ${ID}
 
 -b, --bootflow [N] specify bootflow of uefi/shim/grub, support: ${BOOTFLOW_NUM}
                    1: UEFI load grub2 directly
@@ -62,8 +65,9 @@ ${prog} [-n=name] [-b=NUM] [-h|--help]
 
 # __main__
 GETOPT_ARGS=$(getopt \
-	--options n:b:hv \
+	--options n:b:V:hv \
 	--long name: \
+	--long vendor: \
 	--long bootflow: \
 	--long help \
 	--long verbose \
@@ -78,6 +82,11 @@ while true; do
 	-n|--name)
 		shift
 		IMG_NAME=$1
+		shift
+		;;
+	-V|--vendor)
+		shift
+		VENDOR_ID=$1
 		shift
 		;;
 	-b|--bootflow)
@@ -104,6 +113,8 @@ while true; do
 		;;
 	esac
 done
+
+[[ -z ${VENDOR_ID} ]] && VENDOR_ID=${ID}
 
 dd if=/dev/zero of=${IMG_NAME} bs=1M count=512
 
@@ -170,7 +181,7 @@ single_partition() {
 mk_multi_partitions_with_fdisk
 
 sudo mkdir -p ${MNT_BOOT_EFI}/EFI/BOOT/
-sudo mkdir -p ${MNT_BOOT_EFI}/EFI/${ID}/
+sudo mkdir -p ${MNT_BOOT_EFI}/EFI/${VENDOR_ID}/
 sudo mkdir -p ${MNT_BOOT}/grub2/
 
 gen_efi_grub_cfg() {
@@ -205,13 +216,13 @@ bootflow_2() {
 bootflow_3() {
 	sudo cp /boot/efi/EFI/BOOT/${IMG_BOOTEFI} ${MNT_BOOT_EFI}/EFI/BOOT/${IMG_BOOTEFI}
 	sudo cp /boot/efi/EFI/BOOT/fb${EFI_ARCH}.efi ${MNT_BOOT_EFI}/EFI/BOOT/fb${EFI_ARCH}.efi
-	#sudo cp /boot/efi/EFI/${ID}/${IMG_BOOTCSV} ${MNT_BOOT_EFI}/EFI/${ID}/${IMG_BOOTCSV}
+	#sudo cp /boot/efi/EFI/${ID}/${IMG_BOOTCSV} ${MNT_BOOT_EFI}/EFI/${VENDOR_ID}/${IMG_BOOTCSV}
 	# see https://github.com/rhboot/shim Makefile
-	echo "shim${EFI_ARCH}.efi,${ID},,This is the boot entry for ${ID}" | \
-		sudo iconv -t UCS-2LE -o ${MNT_BOOT_EFI}/EFI/${ID}/${IMG_BOOTCSV}
-	sudo cp /boot/efi/EFI/${ID}/shim${EFI_ARCH}.efi ${MNT_BOOT_EFI}/EFI/${ID}/shim${EFI_ARCH}.efi
-	sudo cp /boot/efi/EFI/${ID}/grub${EFI_ARCH}.efi ${MNT_BOOT_EFI}/EFI/${ID}/grub${EFI_ARCH}.efi
-	gen_efi_grub_cfg ${MNT_BOOT_EFI}/EFI/${ID}/grub.cfg
+	echo "shim${EFI_ARCH}.efi,${VENDOR_ID},,This is the boot entry for ${VENDOR_ID}" | \
+		sudo iconv -t UCS-2LE -o ${MNT_BOOT_EFI}/EFI/${VENDOR_ID}/${IMG_BOOTCSV}
+	sudo cp /boot/efi/EFI/${ID}/shim${EFI_ARCH}.efi ${MNT_BOOT_EFI}/EFI/${VENDOR_ID}/shim${EFI_ARCH}.efi
+	sudo cp /boot/efi/EFI/${ID}/grub${EFI_ARCH}.efi ${MNT_BOOT_EFI}/EFI/${VENDOR_ID}/grub${EFI_ARCH}.efi
+	gen_efi_grub_cfg ${MNT_BOOT_EFI}/EFI/${VENDOR_ID}/grub.cfg
 	sudo tree ${MNT_BOOT_EFI}/EFI
 }
 
@@ -224,7 +235,7 @@ esac
 
 sudo cp grub.cfg ${MNT_BOOT}/grub2/grub.cfg
 sudo sed -i "s|@BOOTFLOW@|${BOOTFLOW}|g" ${MNT_BOOT}/grub2/grub.cfg
-sudo sed -i "s|@VENDOR@|${ID}|g" ${MNT_BOOT}/grub2/grub.cfg
+sudo sed -i "s|@VENDOR@|${VENDOR_ID}|g" ${MNT_BOOT}/grub2/grub.cfg
 
 sudo cp /boot/vmlinuz-$(uname -r) ${MNT_BOOT}/vmlinuz
 sudo cp /boot/initramfs-$(uname -r).img ${MNT_BOOT}/initrd.img
