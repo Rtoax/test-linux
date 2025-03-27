@@ -11,6 +11,10 @@ IMG_BOOTEFI=
 readonly IMG_BOOTEFI_AA64=BOOTAA64.EFI
 readonly IMG_BOOTEFI_X64=BOOTX64.EFI
 
+IMG_BOOTCSV=
+readonly IMG_BOOTCSV_AA64=BOOTAA64.CSV
+readonly IMG_BOOTCSV_X64=BOOTX64.CSV
+
 DEV_LOOP=
 
 MNT_BOOT=mnt.boot
@@ -20,10 +24,12 @@ case $(uname -m) in
 aarch64)
 	EFI_ARCH=aa64
 	IMG_BOOTEFI=${IMG_BOOTEFI_AA64}
+	IMG_BOOTCSV=${IMG_BOOTCSV_AA64}
 	;;
 x86_64)
 	EFI_ARCH=x64
 	IMG_BOOTEFI=${IMG_BOOTEFI_X64}
+	IMG_BOOTCSV=${IMG_BOOTCSV_X64}
 	;;
 *)
 	echo "ERROR: Unknown arch $(uname -m)"
@@ -97,18 +103,38 @@ single_partition() {
 mk_multi_partitions_with_fdisk
 
 sudo mkdir -p ${MNT_BOOT_EFI}/EFI/BOOT/
+sudo mkdir -p ${MNT_BOOT_EFI}/EFI/${ID}/
 sudo mkdir -p ${MNT_BOOT}/grub2/
 
+GRUB_CFG_PATH=
+
 # The following methods work fine, choise one.
+# UEFI load grub2 directly
 grub_1() {
+	GRUB_CFG_PATH=${MNT_BOOT_EFI}/EFI/BOOT/grub.cfg
+	sudo cp /boot/efi/EFI/${ID}/grub${EFI_ARCH}.efi ${MNT_BOOT_EFI}/EFI/BOOT/${IMG_BOOTEFI}
+	sudo tree ${MNT_BOOT_EFI}/EFI
+}
+
+# shim BOOT.EFI load grub2 directly
+grub_2() {
+	GRUB_CFG_PATH=${MNT_BOOT_EFI}/EFI/BOOT/grub.cfg
 	sudo cp /boot/efi/EFI/BOOT/${IMG_BOOTEFI} ${MNT_BOOT_EFI}/EFI/BOOT/${IMG_BOOTEFI}
 	sudo cp /boot/efi/EFI/${ID}/grub${EFI_ARCH}.efi ${MNT_BOOT_EFI}/EFI/BOOT/grub${EFI_ARCH}.efi
+	sudo tree ${MNT_BOOT_EFI}/EFI
 }
-grub_2() {
-	# UEFI load grub2 directly
-	sudo cp /boot/efi/EFI/${ID}/grub${EFI_ARCH}.efi ${MNT_BOOT_EFI}/EFI/BOOT/${IMG_BOOTEFI}
+
+# shim fallback bootflow
+grub_3() {
+	GRUB_CFG_PATH=${MNT_BOOT_EFI}/EFI/${ID}/grub.cfg
+	sudo cp /boot/efi/EFI/BOOT/${IMG_BOOTEFI} ${MNT_BOOT_EFI}/EFI/BOOT/${IMG_BOOTEFI}
+	sudo cp /boot/efi/EFI/BOOT/fb${EFI_ARCH}.efi ${MNT_BOOT_EFI}/EFI/BOOT/fb${EFI_ARCH}.efi
+	sudo cp /boot/efi/EFI/${ID}/${IMG_BOOTCSV} ${MNT_BOOT_EFI}/EFI/${ID}/${IMG_BOOTCSV}
+	sudo cp /boot/efi/EFI/${ID}/shim${EFI_ARCH}.efi ${MNT_BOOT_EFI}/EFI/${ID}/shim${EFI_ARCH}.efi
+	sudo cp /boot/efi/EFI/${ID}/grub${EFI_ARCH}.efi ${MNT_BOOT_EFI}/EFI/${ID}/grub${EFI_ARCH}.efi
+	sudo tree ${MNT_BOOT_EFI}/EFI
 }
-grub_1
+grub_3
 
 # Get boot partition UUID
 boot_uuid=$( lsblk -o uuid ${DEV_LOOP}p2 | sed 1d )
@@ -117,11 +143,12 @@ set prefix=(\$boot)/grub2
 
 export \$prefix
 configfile \$prefix/grub.cfg
-" | sudo tee ${MNT_BOOT_EFI}/EFI/BOOT/grub.cfg
+" | sudo tee ${GRUB_CFG_PATH}
 
 sudo cp grub.cfg ${MNT_BOOT}/grub2/grub.cfg
 sudo cp /boot/vmlinuz-$(uname -r) ${MNT_BOOT}/vmlinuz
 sudo cp /boot/initramfs-$(uname -r).img ${MNT_BOOT}/initrd.img
+sudo tree ${MNT_BOOT}
 
 [[ ${DEV_LOOP} ]] && sudo fdisk -l ${DEV_LOOP}
 sudo fdisk -l ${IMG_NAME}

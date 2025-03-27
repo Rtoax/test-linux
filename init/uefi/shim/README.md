@@ -4,7 +4,7 @@ shim (垫片)
 # BootFlow
 
 - Normal BootFlow:
-- Fallback BootFlow:
+- Fallback BootFlow: see `../qemu/`
 - MOK Manager:
 
 ```
