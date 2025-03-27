@@ -43,6 +43,22 @@ UEFI (可扩展固件接口) ，也称为 UEFI BIOS，是两种不同类型的�
 	- 重启
 
 
+# UEFI Image Types
+
+```
+Architecture	File Name Convention	PE Executable Machine Type
+-------------------------------------------------------------------
+32-bit		BOOTIA32.EFI		0x14c
+x64		BOOTx64.EFI		0x8664
+AArch32		BOOTARM.EFI		0x01c2
+AArch64		BOOTAA64.EFI		0xAA64
+RISC-V 32-bit	BOOTRISCV32.EFI		0x5032
+RISC-V 64-bit	BOOTRISCV64.EFI		0x5064
+RISC-V 128-bit	BOOTRISCV128.EFI	0x5128
+LoongArch32	BOOTLOONGARCH32.EFI	0x6232
+LoongArch64	BOOTLOONGARCH64.EFI	0x6264
+```
+
 # efivars `/sys/firmware/efi/vars/`
 
 通过sysfs接口来实现对 EFI variables的管理。
@@ -59,4 +75,4 @@ sysfs 中使用entries来维护EFI variables的缺点。旧的 sysfs EFI variabl
 
 - https://uefi.org/specifications
 - https://en.wikipedia.org/wiki/UEFI
-
+- 'Unified Extensible Firmware Interface (UEFI) Specification Release 2.10'
