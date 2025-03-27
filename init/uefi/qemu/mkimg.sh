@@ -187,14 +187,14 @@ configfile \$prefix/grub.cfg
 
 # The following methods work fine, choise one.
 # UEFI load grub2 directly
-grub_1() {
+bootflow_1() {
 	sudo cp /boot/efi/EFI/${ID}/grub${EFI_ARCH}.efi ${MNT_BOOT_EFI}/EFI/BOOT/${IMG_BOOTEFI}
 	gen_efi_grub_cfg ${MNT_BOOT_EFI}/EFI/BOOT/grub.cfg
 	sudo tree ${MNT_BOOT_EFI}/EFI
 }
 
 # shim BOOT.EFI load grub2 directly
-grub_2() {
+bootflow_2() {
 	sudo cp /boot/efi/EFI/BOOT/${IMG_BOOTEFI} ${MNT_BOOT_EFI}/EFI/BOOT/${IMG_BOOTEFI}
 	sudo cp /boot/efi/EFI/${ID}/grub${EFI_ARCH}.efi ${MNT_BOOT_EFI}/EFI/BOOT/grub${EFI_ARCH}.efi
 	gen_efi_grub_cfg ${MNT_BOOT_EFI}/EFI/BOOT/grub.cfg
@@ -202,7 +202,7 @@ grub_2() {
 }
 
 # shim fallback bootflow
-grub_3() {
+bootflow_3() {
 	sudo cp /boot/efi/EFI/BOOT/${IMG_BOOTEFI} ${MNT_BOOT_EFI}/EFI/BOOT/${IMG_BOOTEFI}
 	sudo cp /boot/efi/EFI/BOOT/fb${EFI_ARCH}.efi ${MNT_BOOT_EFI}/EFI/BOOT/fb${EFI_ARCH}.efi
 	sudo cp /boot/efi/EFI/${ID}/${IMG_BOOTCSV} ${MNT_BOOT_EFI}/EFI/${ID}/${IMG_BOOTCSV}
@@ -213,9 +213,9 @@ grub_3() {
 }
 
 case ${BOOTFLOW} in
-1) grub_1 ;;
-2) grub_2 ;;
-3) grub_3 ;;
+1) bootflow_1 ;;
+2) bootflow_2 ;;
+3) bootflow_3 ;;
 *) echo >&2 "ERROR: unsupport bootflow ${BOOTFLOW}"; exit 1; ;;
 esac
 
