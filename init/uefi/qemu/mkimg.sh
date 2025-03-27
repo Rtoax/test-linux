@@ -10,6 +10,8 @@ EFI_BOOT_DIR=EFI/BOOT
 
 loop=
 
+MNT_BOOT=mnt.boot
+MNT_BOOT_EFI=mnt.boot.efi
 
 case $(uname -m) in
 aarch64)
@@ -60,31 +62,31 @@ multi_partitions() {
 	sudo mkfs.vfat ${loop}p1
 	sudo mkfs.xfs ${loop}p2
 
-	mkdir -p boot.efi.mnt boot.boot.mnt
-	sudo mount ${loop}p1 boot.efi.mnt
-	sudo mount ${loop}p2 boot.boot.mnt
+	mkdir -p ${MNT_BOOT_EFI} ${MNT_BOOT}
+	sudo mount ${loop}p1 ${MNT_BOOT_EFI}
+	sudo mount ${loop}p2 ${MNT_BOOT}
 }
 
 # Pass -cdrom boot.img to qemu
 single_partition() {
 	sudo mkfs.vfat boot.img
-	mkdir -p boot.efi.mnt
-	sudo mount boot.img boot.efi.mnt
+	mkdir -p ${MNT_BOOT_EFI}
+	sudo mount boot.img ${MNT_BOOT_EFI}
 }
 
 #single_partition
 multi_partitions
 
-sudo mkdir -p boot.efi.mnt/${EFI_BOOT_DIR}/
-sudo mkdir -p boot.boot.mnt/grub2/
+sudo mkdir -p ${MNT_BOOT_EFI}/${EFI_BOOT_DIR}/
+sudo mkdir -p ${MNT_BOOT}/grub2/
 
 # The following methods work fine, choise one.
 grub_1() {
-	sudo cp /boot/efi/EFI/BOOT/${BOOTEFI} boot.efi.mnt/${EFI_BOOT_DIR}/${BOOTEFI}
-	sudo cp /boot/efi/EFI/${ID}/grub${EFI_ARCH}.efi boot.efi.mnt/${EFI_BOOT_DIR}/grub${EFI_ARCH}.efi
+	sudo cp /boot/efi/EFI/BOOT/${BOOTEFI} ${MNT_BOOT_EFI}/${EFI_BOOT_DIR}/${BOOTEFI}
+	sudo cp /boot/efi/EFI/${ID}/grub${EFI_ARCH}.efi ${MNT_BOOT_EFI}/${EFI_BOOT_DIR}/grub${EFI_ARCH}.efi
 }
 grub_2() {
-	sudo cp /boot/efi/EFI/${ID}/grub${EFI_ARCH}.efi boot.efi.mnt/${EFI_BOOT_DIR}/boot${EFI_ARCH}.efi
+	sudo cp /boot/efi/EFI/${ID}/grub${EFI_ARCH}.efi ${MNT_BOOT_EFI}/${EFI_BOOT_DIR}/boot${EFI_ARCH}.efi
 }
 grub_1
 
@@ -95,19 +97,19 @@ set prefix=(\$boot)/grub2
 
 export \$prefix
 configfile \$prefix/grub.cfg
-" | sudo tee boot.efi.mnt/${EFI_BOOT_DIR}/grub.cfg
+" | sudo tee ${MNT_BOOT_EFI}/${EFI_BOOT_DIR}/grub.cfg
 
-sudo cp grub.cfg boot.boot.mnt/grub2/grub.cfg
-sudo cp /boot/vmlinuz-$(uname -r) boot.boot.mnt/vmlinuz
-sudo cp /boot/initramfs-$(uname -r).img boot.boot.mnt/initrd.img
+sudo cp grub.cfg ${MNT_BOOT}/grub2/grub.cfg
+sudo cp /boot/vmlinuz-$(uname -r) ${MNT_BOOT}/vmlinuz
+sudo cp /boot/initramfs-$(uname -r).img ${MNT_BOOT}/initrd.img
 
 [[ ${loop} ]] && sudo fdisk -l ${loop}
 sudo fdisk -l boot.img
 
 # Do some clean
-sudo umount boot.efi.mnt
-sudo umount boot.boot.mnt
+sudo umount ${MNT_BOOT_EFI}
+sudo umount ${MNT_BOOT}
 [[ ${loop} ]] && sudo losetup --detach ${loop}
-rmdir boot.efi.mnt boot.boot.mnt
+rmdir ${MNT_BOOT_EFI} ${MNT_BOOT}
 rm -f fdiskpart.txt
 
