@@ -42,7 +42,9 @@ esac
 __usage__()
 {
 	echo -e "
-${prog} [-h|--help]
+${prog} [-n=name] [-h|--help]
+
+-n, --name [IMG]   specify boot image name, default: ${IMG_NAME}
 
 -h, --help         show this help information
 -v, --verbose      show detail during running
@@ -53,7 +55,8 @@ ${prog} [-h|--help]
 
 # __main__
 GETOPT_ARGS=$(getopt \
-	--options hv \
+	--options n:hv \
+	--long name: \
 	--long help \
 	--long verbose \
 	-n ${prog} -- "$@")
@@ -64,6 +67,11 @@ eval set -- "$GETOPT_ARGS"
 
 while true; do
 	case $1 in
+	-n|--name)
+		shift
+		IMG_NAME=$1
+		shift
+		;;
 	-h|--help)
 		shift
 		__usage__
