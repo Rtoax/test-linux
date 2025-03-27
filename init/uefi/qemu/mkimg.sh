@@ -106,44 +106,45 @@ sudo mkdir -p ${MNT_BOOT_EFI}/EFI/BOOT/
 sudo mkdir -p ${MNT_BOOT_EFI}/EFI/${ID}/
 sudo mkdir -p ${MNT_BOOT}/grub2/
 
-GRUB_CFG_PATH=
+gen_efi_grub_cfg() {
+	# Get boot partition UUID
+	local boot_uuid=$( lsblk -o uuid ${DEV_LOOP}p2 | sed 1d )
+	echo "search --no-floppy --fs-uuid --set=boot ${boot_uuid}
+set prefix=(\$boot)/grub2
+
+export \$prefix
+configfile \$prefix/grub.cfg
+" | sudo tee ${1}
+	sudo cat ${1}
+}
 
 # The following methods work fine, choise one.
 # UEFI load grub2 directly
 grub_1() {
-	GRUB_CFG_PATH=${MNT_BOOT_EFI}/EFI/BOOT/grub.cfg
 	sudo cp /boot/efi/EFI/${ID}/grub${EFI_ARCH}.efi ${MNT_BOOT_EFI}/EFI/BOOT/${IMG_BOOTEFI}
+	gen_efi_grub_cfg ${MNT_BOOT_EFI}/EFI/BOOT/grub.cfg
 	sudo tree ${MNT_BOOT_EFI}/EFI
 }
 
 # shim BOOT.EFI load grub2 directly
 grub_2() {
-	GRUB_CFG_PATH=${MNT_BOOT_EFI}/EFI/BOOT/grub.cfg
 	sudo cp /boot/efi/EFI/BOOT/${IMG_BOOTEFI} ${MNT_BOOT_EFI}/EFI/BOOT/${IMG_BOOTEFI}
 	sudo cp /boot/efi/EFI/${ID}/grub${EFI_ARCH}.efi ${MNT_BOOT_EFI}/EFI/BOOT/grub${EFI_ARCH}.efi
+	gen_efi_grub_cfg ${MNT_BOOT_EFI}/EFI/BOOT/grub.cfg
 	sudo tree ${MNT_BOOT_EFI}/EFI
 }
 
 # shim fallback bootflow
 grub_3() {
-	GRUB_CFG_PATH=${MNT_BOOT_EFI}/EFI/${ID}/grub.cfg
 	sudo cp /boot/efi/EFI/BOOT/${IMG_BOOTEFI} ${MNT_BOOT_EFI}/EFI/BOOT/${IMG_BOOTEFI}
 	sudo cp /boot/efi/EFI/BOOT/fb${EFI_ARCH}.efi ${MNT_BOOT_EFI}/EFI/BOOT/fb${EFI_ARCH}.efi
 	sudo cp /boot/efi/EFI/${ID}/${IMG_BOOTCSV} ${MNT_BOOT_EFI}/EFI/${ID}/${IMG_BOOTCSV}
 	sudo cp /boot/efi/EFI/${ID}/shim${EFI_ARCH}.efi ${MNT_BOOT_EFI}/EFI/${ID}/shim${EFI_ARCH}.efi
 	sudo cp /boot/efi/EFI/${ID}/grub${EFI_ARCH}.efi ${MNT_BOOT_EFI}/EFI/${ID}/grub${EFI_ARCH}.efi
+	gen_efi_grub_cfg ${MNT_BOOT_EFI}/EFI/${ID}/grub.cfg
 	sudo tree ${MNT_BOOT_EFI}/EFI
 }
 grub_3
-
-# Get boot partition UUID
-boot_uuid=$( lsblk -o uuid ${DEV_LOOP}p2 | sed 1d )
-echo "search --no-floppy --fs-uuid --set=boot ${boot_uuid}
-set prefix=(\$boot)/grub2
-
-export \$prefix
-configfile \$prefix/grub.cfg
-" | sudo tee ${GRUB_CFG_PATH}
 
 sudo cp grub.cfg ${MNT_BOOT}/grub2/grub.cfg
 sudo cp /boot/vmlinuz-$(uname -r) ${MNT_BOOT}/vmlinuz
