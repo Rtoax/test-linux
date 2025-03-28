@@ -14,6 +14,8 @@ volatile sig_atomic_t keep_going = 1;
 size_t mem_size = 0;
 bool flag_oom_adj = false;
 int oom_adj;
+bool flag_oom_score_adj = false;
+int oom_score_adj;
 bool flag_popen =
 #if !defined(POPEN)
 	false;
@@ -25,13 +27,14 @@ bool flag_popen =
 int verbose = false;
 
 const char argp_prog_doc[] =
-	"USAGE: [-p] [-s <size>] [-a <oom_adj>] [-v|--verbose]\n";
+	"USAGE: [-p] [-s <size>] [-a <oom_adj>] [-c <oom_score_adj>] [-v|--verbose]\n";
 
 static const struct argp_option opts[] = {
 	{ "size", 's', "INTERFACE", 0, "only allocate size of memory, instead of oom" },
 	{ "popen", 'p', "POPEN", 1, "test popen(3) after memory" },
 	{ "verbose", 'v', "VERBOSE", 1, "display detail" },
 	{ "oom_adj", 'a', "OOM_ADJ", 0, "set oom_adj" },
+	{ "oom_score_adj", 'c', "OOM_SCORE_ADJ", 0, "set oom_score_adj" },
 	{},
 };
 
@@ -44,6 +47,10 @@ static error_t parse_arg(int key, char *arg, struct argp_state *state)
 	case 'a':
 		flag_oom_adj = true;
 		oom_adj = atoi(arg);
+		break;
+	case 'c':
+		flag_oom_score_adj = true;
+		oom_score_adj = atoi(arg);
 		break;
 	case 'p':
 		flag_popen = true;
@@ -164,8 +171,17 @@ int main(int argc, char *argv[])
 		if (err != 0)
 			return err;
 	}
+
+	if (flag_oom_score_adj) {
+		printf("set oom_score_adj to %d\n", oom_score_adj);
+		err = set_oom_score_adj(getpid(), oom_score_adj);
+		if (err != 0)
+			return err;
+	}
+
 	if (verbose) {
 		printf("get oom_adj %d\n", get_oom_adj(getpid()));
+		printf("get oom_score_adj %d\n", get_oom_score_adj(getpid()));
 		printf("get oom_score %d\n", get_oom_score(getpid()));
 	}
 
