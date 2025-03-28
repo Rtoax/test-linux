@@ -1,4 +1,4 @@
-#!/bin/bash 
+#!/bin/bash
 # https://tthtlc.wordpress.com/2020/01/28/how-to-create-rootfs-filesystem-for-ubuntu-18-04/
 
 IMG_NAME=myimg.test
