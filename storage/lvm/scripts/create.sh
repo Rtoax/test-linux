@@ -8,10 +8,6 @@ VG_NAME="vg_data"
 LV_NAME="lv_data"
 MOUNT_POINT="/mnt/data"
 
-# Install LVM package
-sudo apt-get install -y lvm2 || :
-sudo dnf install -y lvm2 || :
-
 # Create Physical Volumes
 sudo pvcreate $DISK1 $DISK2
 
