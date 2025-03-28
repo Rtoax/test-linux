@@ -15,7 +15,7 @@ readonly prog=inst-deps
 declare -a dnf_args apt_args
 declare -a pkgs_inst pkgs_compiler pkgs_desktop pkgs_bench pkgs_math pkgs_db
 declare -a pkgs_storage pkgs_net pkgs_container pkgs_virt pkgs_base pkgs_fs
-declare -a pkgs_media pkgs_build pkgs_devel pkgs_docs pkgs_video
+declare -a pkgs_media pkgs_build pkgs_devel pkgs_docs pkgs_video pkgs_boot
 declare -a pip_whls
 
 declare -a pkgs_skip
@@ -51,6 +51,7 @@ have_db=
 have_storage=
 have_net=
 have_video=
+have_boot=
 
 have_3rd_party=
 
@@ -74,6 +75,7 @@ enable_all()
 	have_3rd_party=YES
 	#not set video for --all
 	#have_video=YES
+	have_boot=YES
 }
 
 goodbye()
@@ -246,6 +248,7 @@ ARGUMENT
 	--virt             install virtualization relate packages
 	--fs               install filesystem relate packages
 	--video            install video relate software, such as video editor
+	--boot             install boot/bootloader relate software
 
 	--3rd              get third party software packages above
 
@@ -293,6 +296,7 @@ TEMP_ARGS=$(getopt --options uvhfk: \
 	--long db \
 	--long storage \
 	--long video \
+	--long boot \
 	--long net \
 	--long skip-pkg: \
 	--long dry-run \
@@ -379,6 +383,10 @@ while true; do
 		shift
 		have_video=YES
 		;;
+	--boot)
+		shift
+		have_boot=YES
+		;;
 	--net)
 		shift
 		have_net=YES
@@ -456,7 +464,6 @@ pkgs_base+=( cscope )
 pkgs_base+=( dialog kdialog )
 pkgs_base+=( dwz )                  # DWARF optimization and duplicate removal tool
 pkgs_base+=( dwarves )              # pahole
-pkgs_base+=( efibootmgr )           # UEFI
 pkgs_base+=( efivar mokutil )       # UEFI
 pkgs_base+=( elfutils )             # eu- prefix tools
 pkgs_base+=( gdb cgdb )
@@ -502,6 +509,8 @@ pkgs_base+=( valgrind )
 pkgs_base+=( vim )
 pkgs_base+=( yq )
 
+pkgs_boot+=( efibootmgr )           # UEFI
+
 pkgs_compiler+=( automake )
 pkgs_compiler+=( bison )
 pkgs_compiler+=( byacc )
@@ -513,14 +522,28 @@ pkgs_compiler+=( lld )                    # ELF linker from the LLVM project
 pkgs_compiler+=( llvm )                   # llvm-as llvm-dis llc
 pkgs_compiler+=( mold )                   # a modern linker
 if [[ ! $(is_arch aarch64) ]]; then
-	pkgs_base+=( shim-aa64 )
+	if [[ $(is_os fedora) ]]; then
+		pkgs_boot+=( shim-aa64 )
+		pkgs_boot+=( shim-unsigned-aarch64 )
+	fi
 	pkgs_compiler+=( binutils-aarch64-linux-gnu )
 	pkgs_compiler+=( gcc-aarch64-linux-gnu )
 fi
 if [[ ! $(is_arch x86_64) ]]; then
-	pkgs_base+=( shim-x64 shim-ia32 )
+	if [[ $(is_os fedora) ]]; then
+		pkgs_boot+=( shim-x64 )
+		pkgs_boot+=( shim-unsigned-x64 )
+		pkgs_boot+=( shim-ia32 )
+		pkgs_boot+=( shim-unsigned-ia32 )
+	fi
 	pkgs_compiler+=( binutils-x86_64-linux-gnu )
 	pkgs_compiler+=( gcc-x86_64-linux-gnu )
+fi
+
+if [[ $(is_os debian ubuntu) ]]; then
+	pkgs_boot+=( shim-signed )
+	pkgs_boot+=( shim-signed-common )
+	pkgs_boot+=( shim-unsigned )
 fi
 
 pkgs_build+=( meson )
@@ -901,6 +924,7 @@ os_packages
 [[ ${have_storage} ]] && pkgs_inst+=( ${pkgs_storage[@]} )
 [[ ${have_net} ]] && pkgs_inst+=( ${pkgs_net[@]} )
 [[ ${have_video} ]] && pkgs_inst+=( ${pkgs_video[@]} )
+[[ ${have_boot} ]] && pkgs_inst+=( ${pkgs_boot[@]} )
 
 # Sort and remove duplicate items
 pkgs_inst=( $(for i in "${pkgs_inst[@]}"; do echo $i; done | sort | uniq) )
