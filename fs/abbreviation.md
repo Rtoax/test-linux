@@ -1,4 +1,5 @@
 - CIFS: Common Internet File System (通用互联网文件系统)
+- EROFS: Enhanced ROM File System (增强 ROM 文件系统)
 - FAT: File Allocation Table (文件分配表)
 - NFS: Network File System (网络文件系统)
 - NTFS: NT File System / New Technology File System (新技术文件系统)
