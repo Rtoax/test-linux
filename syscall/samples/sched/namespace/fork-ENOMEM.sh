@@ -20,6 +20,8 @@ test2() {
 }
 
 test3() {
+	# same as $ sudo unshare --pid ./dummy-popen
+	# if add --fork argument to unshare, ENOMEM solved.
 	sudo ./unshare-execve -p -- ./dummy-popen
 }
 
