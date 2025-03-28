@@ -522,28 +522,12 @@ pkgs_compiler+=( lld )                    # ELF linker from the LLVM project
 pkgs_compiler+=( llvm )                   # llvm-as llvm-dis llc
 pkgs_compiler+=( mold )                   # a modern linker
 if [[ ! $(is_arch aarch64) ]]; then
-	if [[ $(is_os fedora) ]]; then
-		pkgs_boot+=( shim-aa64 )
-		pkgs_boot+=( shim-unsigned-aarch64 )
-	fi
 	pkgs_compiler+=( binutils-aarch64-linux-gnu )
 	pkgs_compiler+=( gcc-aarch64-linux-gnu )
 fi
 if [[ ! $(is_arch x86_64) ]]; then
-	if [[ $(is_os fedora) ]]; then
-		pkgs_boot+=( shim-x64 )
-		pkgs_boot+=( shim-unsigned-x64 )
-		pkgs_boot+=( shim-ia32 )
-		pkgs_boot+=( shim-unsigned-ia32 )
-	fi
 	pkgs_compiler+=( binutils-x86_64-linux-gnu )
 	pkgs_compiler+=( gcc-x86_64-linux-gnu )
-fi
-
-if [[ $(is_os debian ubuntu) ]]; then
-	pkgs_boot+=( shim-signed )
-	pkgs_boot+=( shim-signed-common )
-	pkgs_boot+=( shim-unsigned )
 fi
 
 pkgs_build+=( meson )
@@ -624,7 +608,15 @@ fi
 
 dnf_add_packages()
 {
-	if [[ $(is_arch x86_64) ]]; then
+	if [[ ! $(is_arch aarch64) ]]; then
+		pkgs_boot+=( shim-aa64 )
+		pkgs_boot+=( shim-unsigned-aarch64 )
+	elif [[ $(is_arch x86_64) ]]; then
+		pkgs_boot+=( shim-x64 )
+		pkgs_boot+=( shim-unsigned-x64 )
+		pkgs_boot+=( shim-ia32 )
+		pkgs_boot+=( shim-unsigned-ia32 )
+
 		pkgs_base+=( glibc.i686 )
 		pkgs_base+=( glibc-devel.i686 )
 		pkgs_base+=( glibc-static.i686 )
@@ -830,6 +822,10 @@ apt_add_packages()
 		pkgs_base+=( linux-tools-common )
 	fi
 	pkgs_base+=( gnu-which )
+
+	pkgs_boot+=( shim-signed )
+	pkgs_boot+=( shim-signed-common )
+	pkgs_boot+=( shim-unsigned )
 
 	pkgs_net+=( apache2 )
 	pkgs_net+=( libxdp1 )
