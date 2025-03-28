@@ -35,6 +35,8 @@ include ../../../template/subdir-header.mk
 build: ${TARGETS} $(sub-dir-build)
 	@echo -e " \033[1;33m Done \033[m"
 
+helpers.o: helpers.h
+
 cpuset: cpuset.o
 CPU_SETSIZE: CPU_SETSIZE.o
 CPU_ALLOC: CPU_ALLOC.o

@@ -18,6 +18,8 @@ CFLAGS_vfork := -DVFORK=1
 build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
+helpers.o: helpers.h
+
 fork: fork.o
 vfork: vfork.o
 fork_twice: fork_twice.o

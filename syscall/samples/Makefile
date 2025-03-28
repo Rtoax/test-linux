@@ -159,6 +159,8 @@ build: nr.h ${TARGETS} ${TARGETS_CPP} $(sub-dir-build)
 nr.h: nr.sh
 	$(shell bash nr.sh)
 
+helpers.o: helpers.h
+
 acct: acct.o
 chown: chown.o
 fchown: fchown.o
