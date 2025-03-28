@@ -595,6 +595,7 @@ pkgs_fs+=( attr )
 pkgs_fs+=( xfsprogs )
 
 # Storage
+pkgs_storage+=( gdisk )
 pkgs_storage+=( iotop )
 pkgs_storage+=( mdadm ) # manage MD devices aka Linux Software RAID
 
