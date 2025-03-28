@@ -4,8 +4,10 @@
 #include <malloc.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <signal.h>
 #include <sys/mman.h>
 
+volatile sig_atomic_t keep_going = 1;
 
 size_t mem_size = 0;
 bool flag_popen =
@@ -55,6 +57,17 @@ static const struct argp argp = {
 	.doc = argp_prog_doc,
 };
 
+void sig_handler(int signum)
+{
+	psignal(signum, "\nGet signal");
+
+	switch (signum) {
+	case SIGINT:
+		keep_going = 0;
+		break;
+	}
+}
+
 int test_popen(void)
 {
 	char buf[128] = "uname -rm";
@@ -84,7 +97,7 @@ void hold_mem(size_t size)
 
 	mem = malloc(size);
 
-	while (1) {
+	while (keep_going) {
 		for (i = 0; i < size; i += pagesize)
 			mem[i] = 'a';
 		if (flag_popen)
@@ -93,7 +106,7 @@ void hold_mem(size_t size)
 	}
 }
 
-void oom(void)
+void try_oom(void)
 {
 	int i, n;
 	const size_t pagesize = getpagesize();
@@ -104,7 +117,7 @@ void oom(void)
 	if (verbose)
 		fprintf(stderr, "OOMing...\n");
 
-	while (1) {
+	while (keep_going) {
 		mem = malloc(blk);
 		for (i = 0; i < blk; i += pagesize)
 			mem[i] = 'a';
@@ -113,8 +126,9 @@ void oom(void)
 			test_popen();
 		/* No need to free(), just leak it. */
 		if (verbose) {
-			n = fprintf(stderr, "allocated %ld B (%ld MiB)",
-				    total_size, total_size / 1024 / 1024);
+			n = fprintf(stderr, "allocated %ld B (%ld MiB, %ld GiB)",
+				    total_size, total_size / 1024 / 1024,
+				    total_size / 1024 / 1024 / 1024);
 			while (n--)
 				fprintf(stderr, "\b");
 		}
@@ -131,12 +145,14 @@ int main(int argc, char *argv[])
 		return -err;
 	}
 
+	signal(SIGINT, sig_handler);
+
 	mlockall(MCL_CURRENT);
 
 	if (mem_size)
 		hold_mem(mem_size);
 	else
-		oom();
+		try_oom();
 
 	return 0;
 }
