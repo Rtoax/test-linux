@@ -163,8 +163,10 @@ int main(int argc, char *argv[])
 		err = set_oom_adj(getpid(), oom_adj);
 		if (err != 0)
 			return err;
-		if (verbose)
-			printf("get oom_adj %d\n", get_oom_adj(getpid()));
+	}
+	if (verbose) {
+		printf("get oom_adj %d\n", get_oom_adj(getpid()));
+		printf("get oom_score %d\n", get_oom_score(getpid()));
 	}
 
 	if (mem_size)

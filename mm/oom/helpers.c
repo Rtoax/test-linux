@@ -48,22 +48,39 @@ int disable_oom(pid_t pid)
 	return set_oom_adj(pid, OOM_DISABLE);
 }
 
-int get_oom_adj(pid_t pid)
+static int get_int_from_file(char *file)
 {
 	int val, ret;
 	FILE *fp;
-	char buf[128];
 
-	snprintf(buf, 128, "/proc/%d/oom_adj", pid);
-	fp = fopen(buf, "r");
+	fp = fopen(file, "r");
 	if (!fp) {
-		fprintf(stderr, "fopen(%s) %m\n", buf);
+		fprintf(stderr, "fopen(%s) %m\n", file);
 		return -1;
 	}
 	ret = fscanf(fp, "%d", &val);
 	if (ret == EOF) {
-		fprintf(stderr, "fscanf(%s) %m\n", buf);
+		fprintf(stderr, "fscanf(%s) %m\n", file);
 	}
 	fclose(fp);
 	return val;
+}
+
+int get_oom_adj(pid_t pid)
+{
+	char buf[128];
+	snprintf(buf, 128, "/proc/%d/oom_adj", pid);
+	return get_int_from_file(buf);
+}
+
+/**
+ * oom_score: This read-only parameter shows the current OOM score for a
+ * process. It ranges from 0 to 1000, where a higher score indicates a
+ * higher likelihood of being killed by the OOM killer.
+ */
+int get_oom_score(pid_t pid)
+{
+	char buf[128];
+	snprintf(buf, 128, "/proc/%d/oom_score", pid);
+	return get_int_from_file(buf);
 }
