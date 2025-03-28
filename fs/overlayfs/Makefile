@@ -6,4 +6,4 @@ build:
 
 .PHONY: clean
 clean:
-	$(Q)sudo rm -rf tmp-mnt fs.xfs
+	$(Q)sudo rm -rf upper upper.ext4 lower lower.ext4 overlay
