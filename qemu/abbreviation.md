@@ -2,6 +2,9 @@
 - DBT: Dynamic Binary Translation (动态二进制转译) @BT @SBT @JIT
 - HMP: Human Monitor Protocol
 - MTTCG: Multi-Thread Tiny Code Generator () @TCG
+- QCOW: QEMU Copy On Write (Qemu 写时复制) @QCOW2 @QCOW3
+- QCOW2: QEMU Copy On Write 2 (Qemu 写时复制 2) @QCOW3 @QCOW
+- QCOW3: QEMU Copy On Write 3 (Qemu 写时复制 3) @QCOW2 @QCOW
 - QEMU: Quick Emulator (快速模拟)
 - QMP: Qemu Machine Protocol (Qemu 机器协议) @QEMU
 - QMP: Qemu Monitor Protocol (Qemu 监控协议) @QEMU
