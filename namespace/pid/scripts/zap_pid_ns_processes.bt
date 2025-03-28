@@ -10,5 +10,5 @@ BEGIN
 kprobe:zap_pid_ns_processes
 {
 	$pid_ns = (struct pid_namespace*)arg0;
-    printf("comm = %s, pid = %d, pid_allocated = %u\n", comm, pid, $pid_ns->pid_allocated);
+	printf("comm = %s, pid = %d, pid_allocated = %u\n", comm, pid, $pid_ns->pid_allocated);
 }
