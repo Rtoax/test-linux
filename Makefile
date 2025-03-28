@@ -6,7 +6,7 @@
 VERSION = 2
 PATCHLEVEL = 2
 SUBLEVEL = 9
-EXTRAVERSION = -rc5
+EXTRAVERSION = -rc6
 NAME = ET
 
 include make.list
