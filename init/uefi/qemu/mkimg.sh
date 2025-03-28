@@ -5,8 +5,8 @@ readonly prog=uefi-mkimg
 
 source /etc/os-release
 
-BOOTFLOW=3
-readonly BOOTFLOW_NUM="1 2 3"
+BOOTFLOW=3.1
+readonly BOOTFLOW_NUM="1 2 3.1 3.2"
 IMG_NAME=boot.img
 
 EFI_ARCH=
@@ -54,7 +54,8 @@ ${prog} [-n=name] [-b=NUM] [-V=vendor] [-h|--help]
 -b, --bootflow [N] specify bootflow of uefi/shim/grub, support: ${BOOTFLOW_NUM}
                    1: UEFI load grub2 directly
                    2: UEFI load ${IMG_BOOTEFI} -> grub2
-                   3: UEFI load ${IMG_BOOTEFI} -> fb${EFI_ARCH}.efi(${IMG_BOOTCSV}) -> shim${EFI_ARCH}.efi -> grub2
+                   3.1: UEFI load ${IMG_BOOTEFI} -> fb${EFI_ARCH}.efi(${IMG_BOOTCSV}) -> shim${EFI_ARCH}.efi -> grub2
+                   3.2: UEFI load ${IMG_BOOTEFI} -> fb${EFI_ARCH}.efi(${IMG_BOOTCSV}) -> grub2
 
 -h, --help         show this help information
 -v, --verbose      show detail during running
@@ -213,15 +214,34 @@ bootflow_2() {
 }
 
 # shim fallback bootflow
+# 3.1. UEFI -> BOOTX64.EFI -> fbx64.efi -> BOOTX64.CSV -> shimx64.efi -> grubx64.efi
+# 3.2. UEFI -> BOOTX64.EFI -> fbx64.efi -> BOOTX64.CSV -> grubx64.efi
 bootflow_3() {
 	sudo cp /boot/efi/EFI/BOOT/${IMG_BOOTEFI} ${MNT_BOOT_EFI}/EFI/BOOT/${IMG_BOOTEFI}
 	sudo cp /boot/efi/EFI/BOOT/fb${EFI_ARCH}.efi ${MNT_BOOT_EFI}/EFI/BOOT/fb${EFI_ARCH}.efi
-	#sudo cp /boot/efi/EFI/${ID}/${IMG_BOOTCSV} ${MNT_BOOT_EFI}/EFI/${VENDOR_ID}/${IMG_BOOTCSV}
-	# see https://github.com/rhboot/shim Makefile
-	echo "shim${EFI_ARCH}.efi,${VENDOR_ID},,This is the boot entry for ${VENDOR_ID}" | \
-		sudo iconv -t UCS-2LE -o ${MNT_BOOT_EFI}/EFI/${VENDOR_ID}/${IMG_BOOTCSV}
-	sudo cp /boot/efi/EFI/${ID}/shim${EFI_ARCH}.efi ${MNT_BOOT_EFI}/EFI/${VENDOR_ID}/shim${EFI_ARCH}.efi
-	sudo cp /boot/efi/EFI/${ID}/grub${EFI_ARCH}.efi ${MNT_BOOT_EFI}/EFI/${VENDOR_ID}/grub${EFI_ARCH}.efi
+
+	# Standard bootflow of fallback
+	func_3_1() {
+		#sudo cp /boot/efi/EFI/${ID}/${IMG_BOOTCSV} ${MNT_BOOT_EFI}/EFI/${VENDOR_ID}/${IMG_BOOTCSV}
+		# see https://github.com/rhboot/shim Makefile
+		echo "shim${EFI_ARCH}.efi,${VENDOR_ID},,This is the boot entry for ${VENDOR_ID}" | \
+			sudo iconv -t UCS-2LE -o ${MNT_BOOT_EFI}/EFI/${VENDOR_ID}/${IMG_BOOTCSV}
+		sudo cp /boot/efi/EFI/${ID}/shim${EFI_ARCH}.efi ${MNT_BOOT_EFI}/EFI/${VENDOR_ID}/shim${EFI_ARCH}.efi
+		sudo cp /boot/efi/EFI/${ID}/grub${EFI_ARCH}.efi ${MNT_BOOT_EFI}/EFI/${VENDOR_ID}/grub${EFI_ARCH}.efi
+	}
+
+	# Could skip shimx64.efi, fallback to grubx64.efi
+	func_3_2() {
+		echo "grub${EFI_ARCH}.efi,${VENDOR_ID},,This is the boot entry for ${VENDOR_ID}" | \
+			sudo iconv -t UCS-2LE -o ${MNT_BOOT_EFI}/EFI/${VENDOR_ID}/${IMG_BOOTCSV}
+		sudo cp /boot/efi/EFI/${ID}/grub${EFI_ARCH}.efi ${MNT_BOOT_EFI}/EFI/${VENDOR_ID}/grub${EFI_ARCH}.efi
+	}
+
+	case ${BOOTFLOW} in
+	3.1) func_3_1 ;;
+	3.2) func_3_2 ;;
+	esac
+
 	gen_efi_grub_cfg ${MNT_BOOT_EFI}/EFI/${VENDOR_ID}/grub.cfg
 	sudo tree ${MNT_BOOT_EFI}/EFI
 }
@@ -229,7 +249,7 @@ bootflow_3() {
 case ${BOOTFLOW} in
 1) bootflow_1 ;;
 2) bootflow_2 ;;
-3) bootflow_3 ;;
+3.1 | 3.2) bootflow_3 ${BOOTFLOW} ;;
 *) echo >&2 "ERROR: unsupport bootflow ${BOOTFLOW}"; exit 1; ;;
 esac
 
