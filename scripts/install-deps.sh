@@ -30,6 +30,10 @@ readonly VIRT_TYPE=$(systemd-detect-virt 2>/dev/null || :)
 readonly IS_PHY=$( [[ ${VIRT_TYPE} == none ]] && echo YES || :)
 readonly IS_DNF5="$(dnf --version 2>/dev/null | grep -woi dnf5 | uniq)"
 
+readonly DISTS_WITH_DNF=( fedora centos rhel almalinux openEuler cclinux
+			opencloudos kylin tencentos )
+readonly DISTS_WITH_APT=( debian ubuntu )
+
 echo "OS: ${OS}"
 echo "VIRT: ${VIRT_TYPE} (IS_PHY: ${IS_PHY})"
 
@@ -150,28 +154,24 @@ os_operator()
 
 	local _os_=${OS}
 
-	case ${_os_} in
-	cclinux|fedora|centos|rhel|openEuler|almalinux|opencloudos|kylin|tencentos)
+	if [[ " ${DISTS_WITH_DNF[@]} " =~ " ${_os_} " ]]; then
 		case ${operator} in
 		upgrade) dnf_upgrade ;;
 		install) dnf_install "${@}" ;;
 		remove) dnf_remove "${@}" ;;
 		packages) dnf_add_packages "${@}" ;;
 		esac
-		;;
-	debian|ubuntu)
+	elif [[ " ${DISTS_WITH_APT[@]} " =~ " ${_os_} " ]]; then
 		case ${operator} in
 		upgrade) apt_upgrade ;;
 		install) apt_install "${@}" ;;
 		remove) apt_remove "${@}" ;;
 		packages) apt_add_packages "${@}" ;;
 		esac
-		;;
-	*)
+	else
 		echo "ERROR: Unknown OS ${OS}"
 		exit 1
-		;;
-	esac
+	fi
 }
 
 is_os()
