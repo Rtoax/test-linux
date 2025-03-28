@@ -1,12 +1,12 @@
 Name:		initramfs
-Version:	5.10.0
-Release:	1
+Version:	0.0.1
+Release:	1%{?dist}
 Summary:	Linux initramfs
 License:	GPLv2
-URL:		http://cclinux.org
+URL:		https://github.com/rtoax/test-linux
 
 %global InitramfsVersion	%{version}-%{release}.%{_target_cpu}
-%global RootDir				/home/rongtao/
+%global RootDir			/home/rongtao/
 
 
 %description
@@ -22,7 +22,7 @@ echo "Build..."
 
 %install
 mkdir -p $RPM_BUILD_ROOT/%{RootDir}
-dd if=/dev/zero of=$RPM_BUILD_ROOT/%{RootDir}/initramfs-%{InitramfsVersion}.img bs=1M count=20
+touch $RPM_BUILD_ROOT/%{RootDir}/initramfs-%{InitramfsVersion}.img
 
 
 %post
@@ -49,11 +49,12 @@ popd
 %files
 # ghost: not included in rpm package, but in rpm record metadata.
 %ghost %{RootDir}/initramfs-%{InitramfsVersion}.img
+%ghost %{RootDir}/initramfs.img
 
 
 %changelog
-* Wed Jul 05 2023 Rong Tao <rtoax@foxmail.com> - 5.10.0-1
+* Wed Jul 05 2023 Rong Tao <rtoax@foxmail.com> - 0.0.0-1
 - Make a initramfs.img link.
 
-* Thu Jun 29 2023 Rong Tao <rtoax@foxmail.com> - 5.10.0-0
+* Thu Jun 29 2023 Rong Tao <rtoax@foxmail.com> - 0.0.1-0
 - First version.
