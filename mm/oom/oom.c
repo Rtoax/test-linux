@@ -142,9 +142,10 @@ void try_oom(void)
 			test_popen();
 		/* No need to free(), just leak it. */
 		if (verbose) {
-			n = fprintf(stderr, "allocated %ld B (%ld MiB, %ld GiB)",
+			n = fprintf(stderr, "allocated %ld B (%ld MiB, %ld GiB), oom_score %d",
 				    total_size, total_size / 1024 / 1024,
-				    total_size / 1024 / 1024 / 1024);
+				    total_size / 1024 / 1024 / 1024,
+				    get_oom_score(getpid()));
 			while (n--)
 				fprintf(stderr, "\b");
 		}
