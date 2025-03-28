@@ -16,8 +16,12 @@ CFLAGS_popen = -DPOPEN=1
 build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
-oom: oom.o
-popen: popen.o
+oom.o: helpers.h
+popen.o: helpers.h
+helpers.o: helpers.h
+
+oom: oom.o helpers.o
+popen: popen.o helpers.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
