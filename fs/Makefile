@@ -6,6 +6,7 @@ sub-dir += ext4
 sub-dir += xfs
 sub-dir += fat
 sub-dir += debugfs tracefs
+sub-dir += overlayfs
 
 include ../template/subdir-header.mk
 
