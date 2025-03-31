@@ -1,3 +1,4 @@
+/.output
 /libbpf_version
 /config-map
 /socket_filter

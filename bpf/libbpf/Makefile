@@ -105,6 +105,8 @@ TARGETS_BPF += map_arena.bpf.o
 TARGETS_BPF += map_bloom_filter.bpf.o
 TARGETS_BPF += sched_cls.bpf.o
 TARGETS_BPF += sched_act.bpf.o
+# Must be the last one
+TARGETS_BPF := $(addprefix ${OUTPUT}/,${TARGETS_BPF})
 
 # Never append to skel target, always generate by bpf target
 TARGETS_SKEL := $(patsubst %.bpf.o,%.skel.h,$(TARGETS_BPF))
@@ -235,66 +237,66 @@ ${OUTPUT}/trace_helpers.o: trace_helpers.h
 ${OUTPUT}/task_helpers.o: task_helpers.h
 ${OUTPUT}/libbpf_wrapper.o: libbpf_wrapper.h
 ${OUTPUT}/libxdp_helpers.o: libxdp_helpers.h
-${OUTPUT}/libbpf_version: libbpf_version.o
+${OUTPUT}/libbpf_version: ${OUTPUT}/libbpf_version.o
 
-config-map: config-map.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER}
-socket_filter: socket_filter.o ${SOCKET_HELPERS}
-tc: tc.o ${TRACE_HELPERS}
-xdp: xdp.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER}
-xdp_simple: xdp_simple.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER} ${LIBXDP_HELPERS}
-xdp_dos: xdp_dos.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER} ${LIBXDP_HELPERS}
-xdp_devmap: xdp_devmap.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER}
-xdp_cpumap: xdp_cpumap.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER}
-xdp_xskmap: xdp_xskmap.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER} ${LIBXDP_HELPERS}
-sockops: sockops.o ${TRACE_HELPERS}
-kprobe: kprobe.o ${TRACE_HELPERS}
-tracepoint: tracepoint.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER}
-raw_tracepoint: raw_tracepoint.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER}
-tp_btf: tp_btf.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER}
-perf_event: perf_event.o
-sk_skb: sk_skb.o
-sk_msg: sk_msg.o
-cgroup_device: cgroup_device.o ${TRACE_HELPERS}
-cgroup_sysctl: cgroup_sysctl.o ${TRACE_HELPERS}
-fentry: fentry.o ${TRACE_HELPERS}
-fmod_ret: fmod_ret.o ${TRACE_HELPERS}
-iter_task: iter_task.o ${TASK_HELPERS}
-iter_task_file: iter_task_file.o
-iter_task_vma: iter_task_vma.o
-iter_bpf_map: iter_bpf_map.o
-iter_kmem_cache: iter_kmem_cache.o
-lsm_bpf: lsm_bpf.o ${TRACE_HELPERS}
-lsm_socket_create: lsm_socket_create.o ${TRACE_HELPERS}
-lsm_socket_sendmsg: lsm_socket_sendmsg.o ${TRACE_HELPERS}
+config-map: ${OUTPUT}/config-map.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER}
+socket_filter: ${OUTPUT}/socket_filter.o ${SOCKET_HELPERS}
+tc: ${OUTPUT}/tc.o ${TRACE_HELPERS}
+xdp: ${OUTPUT}/xdp.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER}
+xdp_simple: ${OUTPUT}/xdp_simple.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER} ${LIBXDP_HELPERS}
+xdp_dos: ${OUTPUT}/xdp_dos.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER} ${LIBXDP_HELPERS}
+xdp_devmap: ${OUTPUT}/xdp_devmap.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER}
+xdp_cpumap: ${OUTPUT}/xdp_cpumap.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER}
+xdp_xskmap: ${OUTPUT}/xdp_xskmap.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER} ${LIBXDP_HELPERS}
+sockops: ${OUTPUT}/sockops.o ${TRACE_HELPERS}
+kprobe: ${OUTPUT}/kprobe.o ${TRACE_HELPERS}
+tracepoint: ${OUTPUT}/tracepoint.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER}
+raw_tracepoint: ${OUTPUT}/raw_tracepoint.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER}
+tp_btf: ${OUTPUT}/tp_btf.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER}
+perf_event: ${OUTPUT}/perf_event.o
+sk_skb: ${OUTPUT}/sk_skb.o
+sk_msg: ${OUTPUT}/sk_msg.o
+cgroup_device: ${OUTPUT}/cgroup_device.o ${TRACE_HELPERS}
+cgroup_sysctl: ${OUTPUT}/cgroup_sysctl.o ${TRACE_HELPERS}
+fentry: ${OUTPUT}/fentry.o ${TRACE_HELPERS}
+fmod_ret: ${OUTPUT}/fmod_ret.o ${TRACE_HELPERS}
+iter_task: ${OUTPUT}/iter_task.o ${TASK_HELPERS}
+iter_task_file: ${OUTPUT}/iter_task_file.o
+iter_task_vma: ${OUTPUT}/iter_task_vma.o
+iter_bpf_map: ${OUTPUT}/iter_bpf_map.o
+iter_kmem_cache: ${OUTPUT}/iter_kmem_cache.o
+lsm_bpf: ${OUTPUT}/lsm_bpf.o ${TRACE_HELPERS}
+lsm_socket_create: ${OUTPUT}/lsm_socket_create.o ${TRACE_HELPERS}
+lsm_socket_sendmsg: ${OUTPUT}/lsm_socket_sendmsg.o ${TRACE_HELPERS}
 
-map_hash: map_hash.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER}
-map_percpu_hash: map_percpu_hash.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER}
-map_lru_hash: map_lru_hash.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER}
-map_lru_percpu_hash: map_lru_percpu_hash.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER}
-map_array: map_array.o ${SOCKET_HELPERS}
-map_percpu_array: map_percpu_array.o ${SOCKET_HELPERS}
+map_hash: ${OUTPUT}/map_hash.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER}
+map_percpu_hash: ${OUTPUT}/map_percpu_hash.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER}
+map_lru_hash: ${OUTPUT}/map_lru_hash.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER}
+map_lru_percpu_hash: ${OUTPUT}/map_lru_percpu_hash.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER}
+map_array: ${OUTPUT}/map_array.o ${SOCKET_HELPERS}
+map_percpu_array: ${OUTPUT}/map_percpu_array.o ${SOCKET_HELPERS}
 
 ${OUTPUT}:
 	@echo -e "  MKDIR  \033[1m$(@)\033[m"
 	${Q}mkdir -p $(@)
 
-%.bpf.o: %.bpf.c vmlinux.h
-	@echo -e "  BPF  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
+${OUTPUT}/%.bpf.o: %.bpf.c vmlinux.h | ${OUTPUT}
+	@echo -e "  BPF  \033[1m$(@)\033[m"
 	${Q}$(CLANG) -c $(<) -o $(@) ${CFLAGS_BPF} $(CFLAGS_BPF_$(*)) $(CLANG_V) $(shell ./libbpf_version cflags)
 
-%.skel.h: %.bpf.o
-	@echo -e "  SKEL  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
+${OUTPUT}/%.skel.h: ${OUTPUT}/%.bpf.o
+	@echo -e "  SKEL  \033[1m$(@)\033[m"
 	${Q}$(BPFTOOL) gen skeleton $(GEN_SKEL_ARGS) $(GEN_SKEL_ARGS_$(*)) $< > $@
 
-%.o: %.c %.skel.h
-	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
+${OUTPUT}/%.o: %.c ${OUTPUT}/%.skel.h
+	@echo -e "  CC  \033[1m$(@)\033[m"
 	${Q}$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
 
 ${OUTPUT}/%.o: %.c | ${OUTPUT}
-	@echo -e "  CC(LIB)  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
+	@echo -e "  CC(LIB)  \033[1m$(@)\033[m"
 	${Q}$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
 
-$(TARGETS) libbpf_version: %: %.o
+$(TARGETS) libbpf_version: %: ${OUTPUT}/%.o
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
 	${Q}$(CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*))
 
