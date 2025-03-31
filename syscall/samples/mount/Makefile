@@ -25,11 +25,13 @@ helpers.o: helpers.h
 mount.o: helpers.h
 fsmount.o: helpers.h
 
+tmpfs_helpers.o: tmpfs_helpers.h
+
 mount: mount.o helpers.o
 mount-tmpfs: mount-tmpfs.o
 fsmount: fsmount.o helpers.o
-ramdisk: ramdisk.o
-tmpfs: tmpfs.o
+ramdisk: ramdisk.o tmpfs_helpers.o
+tmpfs: tmpfs.o tmpfs_helpers.o
 
 fs.ext4:
 	@echo -e "  MKFS  \033[1;32m$(@)\033[m"
