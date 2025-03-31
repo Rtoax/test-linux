@@ -6,44 +6,36 @@
 #include <sys/mount.h>
 
 
-char *ramdisk(const char *ns, const char *sz)
+const char *create_tmpfs(const char *mountpoint, const char *sz)
 {
-	int rc;
-	char *mountpoint = NULL, *options = NULL;
-	char path[PATH_MAX];
-
-	memset(path, 0, sizeof(path));
-
-	const char *tmpdir = getenv("TMPDIR");
-	if (!tmpdir){
-		tmpdir = "/tmp/";
-	}
-
-	snprintf(path, sizeof(path) - 1, "%s%s_XXXXXX", tmpdir, ns);
-
-	mountpoint = mkdtemp(path);
-	if (!mountpoint){
-		return NULL;
-	}
+	int err;
+	char options[128];
 
 	/* root */
-	asprintf(&options, "size=%s,uid=0,gid=0,mode=700", sz);
-	rc = mount("tmpfs", mountpoint, "tmpfs", 0, options);
-	free(options);
-
-	if (rc != 0) {
+	sprintf(options, "size=%s,uid=0,gid=0,mode=700", sz);
+	err = mount("tmpfs", mountpoint, "tmpfs", 0, options);
+	if (err != 0) {
 		perror("tmpfs creation failed");
 		rmdir(mountpoint);
 		return NULL;
 	}
-	return strdup(mountpoint);
+	return mountpoint;
 }
 
 int main(void)
 {
-	char *tmpfs;
+	const char *tmpfs;
+	char *mountpoint = NULL;
+	char path[PATH_MAX];
 
-	tmpfs = ramdisk("ramdisk", "1M");
+	snprintf(path, sizeof(path) - 1, "tmpfs_XXXXXX");
+
+	mountpoint = mkdtemp(path);
+	if (!mountpoint){
+		return -1;
+	}
+
+	tmpfs = create_tmpfs(mountpoint, "1M");
 	if (!tmpfs)
 		return -1;
 
@@ -52,9 +44,7 @@ int main(void)
 	getchar();
 
 	umount(tmpfs);
-
 	rmdir(tmpfs);
-	free(tmpfs);
 	return 0;
 }
 
