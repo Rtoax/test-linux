@@ -2,8 +2,9 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <unistd.h>
 
-#define CGRP_NAME "empty_cgrp"
+#define CGRP_NAME "test_cgroup"
 
 int main(int argc, char **argv)
 {
@@ -38,6 +39,13 @@ int main(int argc, char **argv)
 	ret = cgroup_set_value_uint64(cgroup_controller, "memory.limit_in_bytes", 100 * 1024 * 1024);
 	if (ret) {
 		fprintf(stderr, "Error setting memory limit: %d\n", ret);
+		ret = 1;
+		goto free;
+	}
+
+	ret = cgroup_attach_task_pid(cgrp, getpid());
+	if (ret) {
+		fprintf(stderr, "Error attaching task to cgroup: %d\n", ret);
 		ret = 1;
 		goto free;
 	}
