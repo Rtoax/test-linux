@@ -22,6 +22,9 @@ int main(void)
 # else
 	printf("riscv32\n");
 # endif
+#elif defined(__loongarch64)
+	printf("loongarch64\n");
+	printf("sizeof(*) = %ld\n", sizeof(p));
 #endif
 	return 0;
 }

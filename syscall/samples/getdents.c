@@ -32,7 +32,7 @@ int main(int argc, char *argv[])
 		err(EXIT_FAILURE, "open");
 
 	for (;;) {
-#if defined(__aarch64__)
+#if defined(__aarch64__) || defined(__loongarch64)
 		nread = syscall(SYS_getdents64, fd, buf, BUF_SIZE);
 #else
 		nread = syscall(SYS_getdents, fd, buf, BUF_SIZE);

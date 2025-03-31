@@ -11,7 +11,7 @@
 
 #include "helpers.h"
 
-#if !defined(__aarch64__) && !defined(__riscv)
+#if !defined(__aarch64__) && !defined(__riscv) && !defined(__loongarch64)
 /* FIXME: stdarg??? */
 int sys_open_fm(const char *pathname, int flags, mode_t mode)
 {

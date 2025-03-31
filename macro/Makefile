@@ -53,6 +53,9 @@ ifeq ($(shell uname -m),aarch64)
 endif
 ifeq ($(shell uname -m),sw_64)
 endif
+ifeq ($(shell uname -m),loongarch64)
+  TARGETS += __loongarch64
+endif
 
 CFLAGS := -Werror -Wall
 CFLAGS += -O0
@@ -79,6 +82,7 @@ __clang__: __clang__.o
 __i386__: __i386__.o
 __x86_64__: __x86_64__.o
 __aarch64__: __aarch64__.o
+__loongarch64: __loongarch64.o
 __nonnull: __nonnull.o
 __cplusplus: __cplusplus.opp
 __restrict__: __restrict__.o
