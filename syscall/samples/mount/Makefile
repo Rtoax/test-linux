@@ -7,7 +7,7 @@ TARGETS += mount-tmpfs
 ifeq ($(call kernel_newer_than,5,1,0),1)
   TARGETS += fsmount
 endif
-TARGETS += ramdisk
+TARGETS += ramdisk tmpfs
 
 TARGETS_FS := fs.ext4
 
@@ -21,10 +21,15 @@ CFLAGS += -I../../libs/
 build: ${TARGETS} ${TARGETS_FS}
 	@echo -e " \033[1;33m Done \033[m"
 
+helpers.o: helpers.h
+mount.o: helpers.h
+fsmount.o: helpers.h
+
 mount: mount.o helpers.o
 mount-tmpfs: mount-tmpfs.o
 fsmount: fsmount.o helpers.o
 ramdisk: ramdisk.o
+tmpfs: tmpfs.o
 
 fs.ext4:
 	@echo -e "  MKFS  \033[1;32m$(@)\033[m"

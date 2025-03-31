@@ -5,6 +5,7 @@
 #include <limits.h>
 #include <sys/mount.h>
 
+
 char *ramdisk(const char *ns, const char *sz)
 {
 	int rc;
@@ -40,10 +41,11 @@ char *ramdisk(const char *ns, const char *sz)
 
 int main(void)
 {
-	char *tmpfs = ramdisk("ramdisk", "1M");
-	if (!tmpfs){
+	char *tmpfs;
+
+	tmpfs = ramdisk("ramdisk", "1M");
+	if (!tmpfs)
 		return -1;
-	}
 
 	printf("Mount created at %s...\n", tmpfs);
 	printf("Press <return> to unmount the volume: ");

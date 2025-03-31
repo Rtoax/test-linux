@@ -2,3 +2,4 @@
 /mount-tmpfs
 /fsmount
 /ramdisk
+/tmpfs
