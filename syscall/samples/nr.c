@@ -27,7 +27,7 @@ static __attribute__((unused)) void sort_syscall_n_str(void)
 	qsort(syscall_str, ARRAY_SIZE(syscall_str), sizeof(struct syscall_n_str), compar_sys);
 }
 
-void display_sort_syscalls(void)
+void __display_sort_syscalls(int c_array_format)
 {
 	int i;
 
@@ -38,8 +38,20 @@ void display_sort_syscalls(void)
 		/* array syscall_str has hole */
 		if (!syscall_str[i].name)
 			continue;
-		printf("%4d(%#04x) %s\n", nr, nr, syscall_str[i].name);
+		if (c_array_format)
+			printf("\t[%d] = \"%s\",\n", nr, syscall_str[i].name);
+		else
+			printf("%4d(%#04x) %s\n", nr, nr, syscall_str[i].name);
 	}
+}
+void display_sort_syscalls(void)
+{
+	__display_sort_syscalls(0);
+}
+
+void display_sort_syscalls_c(void)
+{
+	__display_sort_syscalls(1);
 }
 
 void display_raw_syscalls(void)
@@ -54,6 +66,7 @@ int main(int argc, char *argv[])
 	int i;
 	enum {
 		DISPLAY_SORT,
+		DISPLAY_SORT_C,
 		DISPLAY_RAW,
 	} display = DISPLAY_SORT;
 
@@ -62,11 +75,16 @@ int main(int argc, char *argv[])
 			display = DISPLAY_RAW;
 		else if (!strcmp(argv[i], "sort"))
 			display = DISPLAY_SORT;
+		else if (!strcmp(argv[i], "sort_c"))
+			display = DISPLAY_SORT_C;
 	}
 
 	switch (display) {
 	case DISPLAY_RAW:
 		display_raw_syscalls();
+		break;
+	case DISPLAY_SORT_C:
+		display_sort_syscalls_c();
 		break;
 	case DISPLAY_SORT:
 	default:
