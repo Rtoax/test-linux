@@ -53,5 +53,5 @@ clean:
 	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
 	${Q}rm -f ${TARGETS} *.o *.d *.txt fs.ext4
 	${Q}sudo umount tmp-dir || true
-	${Q}sudo umount tmpfs* || true
-	${Q}rmdir tmp-dir || true
+	${Q}sudo umount tmpfs-* || true
+	${Q}rmdir tmp-dir tmpfs-* || true

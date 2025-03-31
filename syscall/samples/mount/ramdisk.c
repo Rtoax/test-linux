@@ -14,7 +14,7 @@ int main(void)
 	char *mountpoint = NULL;
 	char path[PATH_MAX];
 
-	snprintf(path, sizeof(path) - 1, "tmpfs_XXXXXX");
+	snprintf(path, sizeof(path) - 1, "tmpfs-XXXXXX");
 
 	mountpoint = mkdtemp(path);
 	if (!mountpoint){
