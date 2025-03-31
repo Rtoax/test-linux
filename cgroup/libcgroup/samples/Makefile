@@ -1,6 +1,7 @@
 include ../../../tlbuild.mk
 
 TARGETS :=
+TARGETS += cgroup_version
 TARGETS += cgroup_new_cgroup
 
 CC := gcc
@@ -13,6 +14,7 @@ CFLAGS += -lcgroup
 build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
+cgroup_version: cgroup_version.o
 cgroup_new_cgroup: cgroup_new_cgroup.o
 
 %.o: %.c
