@@ -27,7 +27,8 @@ int main(int argc, char **argv)
 
 	ret = cgroup_create_cgroup(cgrp, 0);
 	if (ret) {
-		fprintf(stderr, "Failed to create cgroup %s\n", CGRP_NAME);
+		fprintf(stderr, "Failed to create cgroup %s, %s\n", CGRP_NAME,
+			cgroup_strerror(cgroup_get_last_errno()));
 		ret = 1;
 		goto free;
 	}
@@ -46,7 +47,11 @@ int main(int argc, char **argv)
 		goto delete;
 	}
 
+#ifdef cgroup_attach_task
+	ret = cgroup_attach_task(cgrp);
+#else
 	ret = cgroup_attach_task_pid(cgrp, getpid());
+#endif
 	if (ret) {
 		fprintf(stderr, "Error attaching task to cgroup: %d\n", ret);
 		ret = 1;
