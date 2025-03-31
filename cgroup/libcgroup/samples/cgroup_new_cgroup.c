@@ -3,6 +3,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
+#include <sys/mman.h>
+
 
 #define CGRP_NAME "test_cgroup"
 
@@ -40,11 +42,21 @@ int main(int argc, char **argv)
 		goto delete;
 	}
 
-	ret = cgroup_set_value_uint64(cgroup_controller, "memory.limit_in_bytes", 100 * 1024 * 1024);
+	size_t limit_in_bytes = 100 * 1024 * 1024;
+	ret = cgroup_set_value_uint64(cgroup_controller, "memory.limit_in_bytes", limit_in_bytes);
 	if (ret) {
 		fprintf(stderr, "Error setting memory limit: %d\n", ret);
 		ret = 1;
 		goto delete;
+	}
+
+	/* TODO: cgroup OOM test */
+	{
+		size_t i;
+		mlockall(MCL_CURRENT | MCL_FUTURE);
+		char *mem = malloc(limit_in_bytes * 10);
+		for (i = 0; i < limit_in_bytes * 10; i += getpagesize())
+			mem[i] = 'a';
 	}
 
 #ifdef cgroup_attach_task
