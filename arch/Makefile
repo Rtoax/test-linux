@@ -1,27 +1,31 @@
 include ../tlbuild.mk
 
-
 sub-dir :=
 
 TARGETS := cpu_relax
 ifeq ($(shell uname -m),x86_64)
-sub-dir += x86_32
-sub-dir += x86_64
+  sub-dir += x86_32
+  sub-dir += x86_64
 endif
 ifeq ($(shell uname -m),aarch64)
-sub-dir += aarch64
+  sub-dir += aarch64
 endif
 ifeq ($(shell uname -m),sw_64)
-sub-dir += sw_64
+  sub-dir += sw_64
+endif
+ifeq ($(shell uname -m),loongarch64)
+  sub-dir += loongarch64
+endif
+ifeq ($(shell uname -m),riscv64)
+  sub-dir += riscv64
 endif
 
 DEBUG := yes
 CC := gcc
 
 CFLAGS := -Werror -Wall
-
 ifdef DEBUG
-CFLAGS += -DDEBUG -O0 -g
+  CFLAGS += -DDEBUG -O0 -g
 endif
 
 include ../template/subdir-header.mk
