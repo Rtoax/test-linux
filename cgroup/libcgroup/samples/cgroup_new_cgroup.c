@@ -73,6 +73,7 @@ int main(int argc, char **argv)
 delete:
 	cgroup_delete_cgroup(cgrp, 0);
 free:
+	cgroup_free_controllers(cgrp);
 	cgroup_free(&cgrp);
 	return ret;
 }
