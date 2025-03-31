@@ -1,4 +1,3 @@
-/* Copyright (C) 2025 CESTC, Co. All rights reserved. */
 /* 2025-02-08	Rong Tao	Create this */
 #include <stdio.h>
 #include <stdlib.h>

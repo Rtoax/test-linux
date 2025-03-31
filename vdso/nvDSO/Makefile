@@ -1,4 +1,3 @@
-# Copyright (C) 2025 CESTC, Co. All rights reserved.
 SHELL = bash
 ifeq ($(V),1)
   Q =

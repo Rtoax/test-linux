@@ -1,5 +1,4 @@
 #!/bin/bash
-# Copyright (C) CESTC, Co.
 #
 
 ip=10.32.161.216
