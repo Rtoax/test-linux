@@ -21,7 +21,7 @@ int main(void)
 		return -1;
 	}
 
-	tmpfs = create_tmpfs(mountpoint, "1M");
+	tmpfs = create_tmpfs(mountpoint, "64G");
 	if (!tmpfs)
 		return -1;
 

@@ -11,12 +11,21 @@ const char *create_tmpfs(const char *mountpoint, const char *sz)
 	int err;
 	char options[128];
 
-	/* root */
-	sprintf(options, "size=%s,uid=0,gid=0,mode=700", sz);
+	/* if size is NULL, skip size option */
+	if (sz) {
+		/* root */
+		sprintf(options, "size=%s,uid=0,gid=0,mode=700", sz);
+	} else {
+		sprintf(options, "uid=0,gid=0,mode=700");
+	}
+
+#ifdef DEBUG
+	fprintf(stderr, "mount(tmpfs, %s, ..., %s) %m\n", mountpoint, options);
+#endif
+
 	err = mount("tmpfs", mountpoint, "tmpfs", 0, options);
 	if (err != 0) {
-		perror("tmpfs creation failed");
-		rmdir(mountpoint);
+		fprintf(stderr, "mount(tmpfs, %s, ..., %s) %m\n", mountpoint, options);
 		return NULL;
 	}
 	return mountpoint;
