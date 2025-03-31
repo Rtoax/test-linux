@@ -1,4 +1,4 @@
-struct {
+struct syscall_n_str {
 	int num;
 	char *name;
 } syscall_str[] = {

@@ -8,7 +8,9 @@ CFLAGS := -Werror -Wall -D_GNU_SOURCE
 CFLAGS += -Wstrict-prototypes
 CFLAGS += -I../../
 CFLAGS += -pthread
-CFLAGS += -DDEBUG -O0 -g
+ifdef DEBUG
+  CFLAGS += -DDEBUG -O0 -g
+endif
 
 include ../../compiler/cross-compile.mk
 
