@@ -1,7 +1,7 @@
 #!/bin/bash
-set -e
+set -ex
 
-NAME=test-cgroupv1-$(mktemp -u XXXX)
+NAME=tst-cgrp1-$(mktemp -u XXXX)
 MNT_POINT=$PWD/cgroup-v1.dir
 
 sudo mkdir -p ${MNT_POINT}
@@ -14,6 +14,16 @@ mount_freezer()
 }
 mount_freezer
 
+mount_cpuacct()
+{
+	sudo mkdir -p ${MNT_POINT}/cpuacct
+	sudo mount -t cgroup -o cpuacct none ${MNT_POINT}/cpuacct
+}
+mount_cpuacct
+
 # Show some information
 mount | grep ${NAME}
 findmnt
+
+sudo umount ${MNT_POINT}/cpuacct ${MNT_POINT}/freezer ${MNT_POINT}
+sudo rm -rf ${MNT_POINT}

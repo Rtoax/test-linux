@@ -12,6 +12,7 @@ int main(int argc, char **argv)
 	char *mntpoint;
 	char *subsys[] = {
 		"cpu",
+		/* mount -t cgroup -ocpuacct none /sys/fs/cgroup */
 		"cpuacct",
 		"cpuset",
 		"memory",
