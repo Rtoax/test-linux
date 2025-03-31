@@ -26,32 +26,36 @@ int main(int argc, char **argv)
 	}
 
 	ret = cgroup_create_cgroup(cgrp, 0);
-	if (ret)
+	if (ret) {
 		fprintf(stderr, "Failed to create cgroup %s\n", CGRP_NAME);
+		ret = 1;
+		goto free;
+	}
 
 	cgroup_controller = cgroup_add_controller(cgrp, "memory");
 	if (!cgroup_controller) {
 		fprintf(stderr, "Error adding memory controller to cgroup\n");
 		ret = 1;
-		goto free;
+		goto delete;
 	}
 
 	ret = cgroup_set_value_uint64(cgroup_controller, "memory.limit_in_bytes", 100 * 1024 * 1024);
 	if (ret) {
 		fprintf(stderr, "Error setting memory limit: %d\n", ret);
 		ret = 1;
-		goto free;
+		goto delete;
 	}
 
 	ret = cgroup_attach_task_pid(cgrp, getpid());
 	if (ret) {
 		fprintf(stderr, "Error attaching task to cgroup: %d\n", ret);
 		ret = 1;
-		goto free;
+		goto delete;
 	}
 
-free:
+delete:
 	cgroup_delete_cgroup(cgrp, 0);
+free:
 	cgroup_free(&cgrp);
 	return ret;
 }
