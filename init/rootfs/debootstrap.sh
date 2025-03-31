@@ -1,11 +1,18 @@
 #!/bin/bash
+# debootstrap bootstraps a basic Debian system of suite into target from
+# mirror by running script.
 set -e
 
-mkdir rootfs-arm64
+# amd64, arm64, loong64, etc.
+darch=
+[[ ${DARCH} ]] && darch=${DARCH}
+[[ -z ${darch} ]] && darch=arm64
+
+mkdir rootfs-${darch}
 
 sudo debootstrap \
-	--arch=arm64 \
+	--arch=${darch} \
 	--foreign \
 	bookworm \
-	./rootfs-arm64 \
+	./rootfs-${darch} \
 	http://deb.debian.org/debian/
