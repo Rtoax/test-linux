@@ -1,2 +1,3 @@
 /cgroup_version
+/cgroup_get_subsys_mount_point
 /cgroup_new_cgroup
