@@ -2,6 +2,7 @@
 include ../../tlbuild.mk
 include ../../kernel.mk
 
+OUTPUT := $(abspath .output)
 VIRT_TYPE ?= $(shell systemd-detect-virt)
 
 include ../../kconfig.mk
@@ -148,6 +149,9 @@ ifdef DEBUG
   CLANG_V = -v
 endif
 
+CFLAGS += -I${OUTPUT}
+CFLAGS_BPF += -I${OUTPUT}
+
 CFLAGS_kprobe := -D'KSYM_DO_EXECVEAT_COMMON="${KSYM_DO_EXECVEAT_COMMON}"' -DKPROBE=1
 CFLAGS_BPF_kprobe := -D'KSYM_DO_EXECVEAT_COMMON="${KSYM_DO_EXECVEAT_COMMON}"' -DKPROBE=1
 ifeq ($(CONFIG_BPF_KPROBE_OVERRIDE),y)
@@ -214,11 +218,11 @@ CFLAGS_BPF_map_hash_of_maps := ${CFLAGS_map_hash_of_maps}
 CFLAGS_BPF_map_ringbuf := -DMAP_ARRAY=1
 CFLAGS_BPF_map_devmap := ${CFLAGS_BPF_xdp_devmap}
 
-SOCKET_HELPERS := socket_helpers.o
-TASK_HELPERS := task_helpers.o
-TRACE_HELPERS := trace_helpers.o
-LIBBPF_WRAPPER := libbpf_wrapper.o
-LIBXDP_HELPERS := libxdp_helpers.o
+SOCKET_HELPERS := ${OUTPUT}/socket_helpers.o
+TASK_HELPERS := ${OUTPUT}/task_helpers.o
+TRACE_HELPERS := ${OUTPUT}/trace_helpers.o
+LIBBPF_WRAPPER := ${OUTPUT}/libbpf_wrapper.o
+LIBXDP_HELPERS := ${OUTPUT}/libxdp_helpers.o
 
 
 .PHONY: build
@@ -226,12 +230,12 @@ build: libbpf_version vmlinux.h ${TARGETS_BPF} ${TARGETS_SKEL} ${TARGETS}
 	${Q}./libbpf_version | sed 's/^/  /g'
 	@echo -e "  \033[1;33mDone\033[m"
 
-socket_helpers.o: socket_helpers.h
-trace_helpers.o: trace_helpers.h
-task_helpers.o: task_helpers.h
-libbpf_wrapper.o: libbpf_wrapper.h
-libxdp_helpers.o: libxdp_helpers.h
-libbpf_version: libbpf_version.o
+${OUTPUT}/socket_helpers.o: socket_helpers.h
+${OUTPUT}/trace_helpers.o: trace_helpers.h
+${OUTPUT}/task_helpers.o: task_helpers.h
+${OUTPUT}/libbpf_wrapper.o: libbpf_wrapper.h
+${OUTPUT}/libxdp_helpers.o: libxdp_helpers.h
+${OUTPUT}/libbpf_version: libbpf_version.o
 
 config-map: config-map.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER}
 socket_filter: socket_filter.o ${SOCKET_HELPERS}
@@ -270,6 +274,10 @@ map_lru_percpu_hash: map_lru_percpu_hash.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER}
 map_array: map_array.o ${SOCKET_HELPERS}
 map_percpu_array: map_percpu_array.o ${SOCKET_HELPERS}
 
+${OUTPUT}:
+	@echo -e "  MKDIR  \033[1m$(@)\033[m"
+	${Q}mkdir -p $(@)
+
 %.bpf.o: %.bpf.c vmlinux.h
 	@echo -e "  BPF  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	${Q}$(CLANG) -c $(<) -o $(@) ${CFLAGS_BPF} $(CFLAGS_BPF_$(*)) $(CLANG_V) $(shell ./libbpf_version cflags)
@@ -282,7 +290,7 @@ map_percpu_array: map_percpu_array.o ${SOCKET_HELPERS}
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	${Q}$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
 
-%.o: %.c
+${OUTPUT}/%.o: %.c | ${OUTPUT}
 	@echo -e "  CC(LIB)  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	${Q}$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
 
@@ -296,3 +304,4 @@ include ../bpftool/vmlinux.h.mk
 clean:
 	@echo -e "  RM  \033[1;32m$(TARGETS_BPF) ${TARGETS}\033[m"
 	${Q}rm -f ${TARGETS_BPF} ${TARGETS} *.o *.skel.h vmlinux.h libbpf_version
+	${Q}rm -rf ${OUTPUT}
