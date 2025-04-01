@@ -1,5 +1,6 @@
 /eventfd
 /eventfd-epoll_pwait
+/eventfd-epoll_pwait2
 /level-triggered
 /edge-triggered
 /tcp-echo

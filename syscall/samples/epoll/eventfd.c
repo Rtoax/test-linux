@@ -103,6 +103,16 @@ void *read_task(void *arg)
 		 */
 		sigset_t sigmask;
 		nfds = epoll_pwait(ectx->epollfd, ectx->events, MAX_EVENTS, -1, &sigmask);
+#elif defined(EPOLL_PWAIT2)
+# pragma message("Test epoll_pwait2")
+		/**
+		 * The epoll_pwait2() system call is equivalent to epoll_pwait()
+		 * except for the timeout argument. It takes an argument of
+		 * type timespec to be able to specify nanosecond resolution
+		 * timeout.
+		 */
+		sigset_t sigmask;
+		nfds = epoll_pwait2(ectx->epollfd, ectx->events, MAX_EVENTS, NULL, &sigmask);
 #else
 # pragma message("Fallback to epoll_wait")
 		nfds = epoll_wait(ectx->epollfd, ectx->events, MAX_EVENTS, -1);

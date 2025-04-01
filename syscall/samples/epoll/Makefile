@@ -2,6 +2,7 @@ include ../../../tlbuild.mk
 
 TARGETS := eventfd
 TARGETS += eventfd-epoll_pwait
+TARGETS += eventfd-epoll_pwait2
 TARGETS += level-triggered edge-triggered
 TARGETS += tcp-echo
 
@@ -16,6 +17,7 @@ CFLAGS += -pthread
 LDFLAGS := -pthread
 
 CFLAGS_eventfd-epoll_pwait := -DEPOLL_PWAIT=1
+CFLAGS_eventfd-epoll_pwait2 := -DEPOLL_PWAIT2=1
 
 .PHONY: build
 build: ${TARGETS}
@@ -23,6 +25,7 @@ build: ${TARGETS}
 
 eventfd: eventfd.o
 eventfd-epoll_pwait: eventfd-epoll_pwait.o
+eventfd-epoll_pwait2: eventfd-epoll_pwait2.o
 level-triggered: level-triggered.o
 edge-triggered: edge-triggered.o
 tcp-echo: tcp-echo.o
