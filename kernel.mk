@@ -1,4 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
+# WARNING: If you are inside a container, the kernel version queried by uame -r
+# may not match the environment inside the container, so it is normal if
+# compilation errors occur.
 
 KVERSION_RAW := $(shell uname -r | grep -o '^[0-9]\.[0-9]*\.[0-9]*')
 KVERSION := $(shell echo ${KVERSION_RAW} | awk -F '.' '{print $$1}')
