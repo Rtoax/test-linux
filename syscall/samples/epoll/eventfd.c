@@ -74,13 +74,39 @@ int eventfd_create(void)
 
 void *read_task(void *arg)
 {
-	struct epoll_context *ectx = (struct epoll_context *)arg;
+	struct epoll_context *ectx;
+	int i, imsg, ret, nfds;
+	eventfd_t count;
 
-	int i = 0, imsg = 0, ret, nfds;
-	eventfd_t count = 1;
+	ectx = (struct epoll_context *)arg;
+	count = 1;
+	i = imsg = 0;
 
 	for (;;) {
+#if defined(EPOLL_PWAIT)
+# pragma message("Test epoll_pwait")
+		/**
+		 * epoll_pwait() allows an application to safely wait until
+		 * either a file descriptor becomes ready or until a signal
+		 * is caught.
+		 *
+		 * The following epoll_pwait() call:
+		 *
+		 *  ready = epoll_pwait(epfd, &events, maxevents, timeout, &sigmask);
+		 *
+		 * is equivalent to atomically executing the following calls:
+		 *
+		 *  sigset_t origmask;
+		 *  pthread_sigmask(SIG_SETMASK, &sigmask, &origmask);
+		 *  ready = epoll_wait(epfd, &events, maxevents, timeout);
+		 *  pthread_sigmask(SIG_SETMASK, &origmask, NULL);
+		 */
+		sigset_t sigmask;
+		nfds = epoll_pwait(ectx->epollfd, ectx->events, MAX_EVENTS, -1, &sigmask);
+#else
+# pragma message("Fallback to epoll_wait")
 		nfds = epoll_wait(ectx->epollfd, ectx->events, MAX_EVENTS, -1);
+#endif
 		if (nfds == -1) {
 			perror("epoll_pwait");
 			exit(EXIT_FAILURE);

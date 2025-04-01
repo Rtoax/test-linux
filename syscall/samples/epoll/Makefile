@@ -1,7 +1,7 @@
 include ../../../tlbuild.mk
 
-
 TARGETS := eventfd
+TARGETS += eventfd-epoll_pwait
 TARGETS += level-triggered edge-triggered
 TARGETS += tcp-echo
 
@@ -15,11 +15,14 @@ CFLAGS += -pthread
 
 LDFLAGS := -pthread
 
+CFLAGS_eventfd-epoll_pwait := -DEPOLL_PWAIT=1
+
+.PHONY: build
 build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
-# Add more object.o file
 eventfd: eventfd.o
+eventfd-epoll_pwait: eventfd-epoll_pwait.o
 level-triggered: level-triggered.o
 edge-triggered: edge-triggered.o
 tcp-echo: tcp-echo.o
@@ -32,9 +35,11 @@ $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
 	${Q}$(CC) $(CFLAGS) -o $(@) $(^)
 
+.PHONY: test
 test: ${TARGETS}
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
 
+.PHONY: clean
 clean:
 	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
 	${Q}rm -f ${TARGETS} *.o *.d *.txt
