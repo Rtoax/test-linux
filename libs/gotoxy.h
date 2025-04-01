@@ -4,10 +4,9 @@
 /**
  * row: 行; col: 列;
  *
- * $ tput cup [row] [col]
- * or
- * $ tput sc # save curse
- * $ tput rc # resume curse
+ * $ tput sc                # save curse
+ * $ tput cup [row] [col]   # jump to curse
+ * $ tput rc                # resume curse
  */
 static void __attribute__((unused))
 gotoxy(int col, int row)
