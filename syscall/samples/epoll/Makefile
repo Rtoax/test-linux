@@ -21,6 +21,10 @@ CFLAGS += -pthread
 
 LDFLAGS := -pthread
 
+ifdef SYSCALL
+  CFLAGS += -DSYSCALL=1
+endif
+
 CFLAGS_eventfd-epoll_pwait := -DEPOLL_PWAIT=1
 CFLAGS_eventfd-epoll_pwait2 := -DEPOLL_PWAIT2=1
 
@@ -28,9 +32,11 @@ CFLAGS_eventfd-epoll_pwait2 := -DEPOLL_PWAIT2=1
 build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
-eventfd: eventfd.o
-eventfd-epoll_pwait: eventfd-epoll_pwait.o
-eventfd-epoll_pwait2: eventfd-epoll_pwait2.o
+epoll_helpers.o: epoll_helpers.h
+
+eventfd: eventfd.o epoll_helpers.o
+eventfd-epoll_pwait: eventfd-epoll_pwait.o epoll_helpers.o
+eventfd-epoll_pwait2: eventfd-epoll_pwait2.o epoll_helpers.o
 level-triggered: level-triggered.o
 edge-triggered: edge-triggered.o
 tcp-echo: tcp-echo.o

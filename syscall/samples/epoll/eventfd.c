@@ -34,6 +34,16 @@ int sys_gettid(void)
 }
 #define gettid() sys_gettid()
 
+#ifdef SYSCALL
+#include "epoll_helpers.h"
+#pragma message("Use syscall directly")
+#if !defined(__aarch64__) && !defined(__riscv) && !defined(__loongarch64)
+#define epoll_wait	sys_epoll_wait
+#endif
+#define epoll_pwait	sys_epoll_pwait
+#define epoll_pwait2	sys_epoll_pwait2
+#endif
+
 static int epoll_context_init(struct epoll_context *ctx)
 {
 	int epollfd = epoll_create(10);
