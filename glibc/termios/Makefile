@@ -24,6 +24,8 @@ include ../../tlbuild.mk
 build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
+helpers.o: helpers.h
+
 cfsetspeed: cfsetspeed.o
 cfsetospeed: cfsetospeed.o
 cfsetispeed: cfsetispeed.o

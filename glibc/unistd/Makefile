@@ -45,7 +45,8 @@ CFLAGS += -lrt
 build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
-# Add more object.o file
+helpers.o: helpers.h
+
 daemon: daemon.o
 eaccess: eaccess.o
 execl: execl.o

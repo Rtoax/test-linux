@@ -37,7 +37,8 @@ LDFLAGS := -pthread -lrt
 build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
-# Add more object.o file
+helpers.o: helpers.h
+
 asctime: asctime.o
 asctime_r: asctime_r.o
 ctime: ctime.o

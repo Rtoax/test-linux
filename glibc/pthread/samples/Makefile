@@ -96,6 +96,8 @@ build: ${TARGETS}
 	${Q}ld.so --list-tunables 2>/dev/null | grep -i pthread || true
 	@echo -e " \033[1;33m Done \033[m"
 
+helpers.o: helpers.h
+
 foobar: foobar.o
 create_thread: create_thread.o sys_affinity_bind.o
 multi_thread_stress: multi_thread_stress.o

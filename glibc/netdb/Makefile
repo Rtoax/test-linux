@@ -30,6 +30,8 @@ LDFLAGS :=
 build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
+helpers.o: helpers.h
+
 gai_strerror: gai_strerror.o
 getaddrinfo: getaddrinfo.o
 gethostbyaddr: gethostbyaddr.o helpers.o

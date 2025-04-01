@@ -44,6 +44,8 @@ build: ${TARGETS}
 	${Q}ld.so --list-tunables 2>/dev/null | grep -i malloc || true
 	@echo -e " \033[1;33m Done \033[m"
 
+helpers.o: helpers.h
+
 malloc: malloc.o
 overflow: overflow.o
 use-after-free: use-after-free.o

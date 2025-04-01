@@ -1,6 +1,5 @@
 include ../../tlbuild.mk
 
-
 TARGETS :=
 TARGETS += getutent getutid
 TARGETS += getutline pututline
@@ -23,6 +22,8 @@ LDFLAGS += -lutil
 .PHONY: build
 build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
+
+helpers.o: helpers.h
 
 getutent: getutent.o helpers.o
 getutid: getutid.o helpers.o
