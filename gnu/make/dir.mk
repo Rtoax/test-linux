@@ -1,10 +1,11 @@
 # SPDX-License-Identifier: GPL-3.0
-path := /a/b/c
+path := /a/b/c.c
 
 $(info path = ${path})
 $(info dir = $(dir ${path}))
 $(info notdir = $(notdir ${path}))
 $(info basename = $(basename ${path}))
+$(info suffix = $(suffix ${path}))
 
 .PHONY: build
 build:
