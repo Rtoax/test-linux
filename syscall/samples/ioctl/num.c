@@ -36,6 +36,11 @@ int main(void)
 
 	seperator();
 
+	V32(TCGETS);
+	V32(TCSETS);
+
+	seperator();
+
 	V32(CDROMPAUSE);
 	V32(CDROMRESUME);
 	V32(CDROMPLAYMSF);
