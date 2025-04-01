@@ -1,3 +1,8 @@
 #!/bin/bash
 set -e
-sudo cat /sys/kernel/tracing/README
+
+sudo mount -t tracefs
+
+sudo cat /sys/kernel/tracing/README || {
+	sudo cat /sys/kernel/debug/tracing/README
+}

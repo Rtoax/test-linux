@@ -1,3 +1,3 @@
 #!/bin/bash
-
-mount -t tracefs
+set -e
+sudo mount -t tracefs
