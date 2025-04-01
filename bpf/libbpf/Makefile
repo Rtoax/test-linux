@@ -277,27 +277,27 @@ map_array: ${OUTPUT}/map_array.o ${SOCKET_HELPERS}
 map_percpu_array: ${OUTPUT}/map_percpu_array.o ${SOCKET_HELPERS}
 
 ${OUTPUT}:
-	@echo -e "  MKDIR  \033[1m$(@)\033[m"
+	@echo -e "  MKDIR  \033[1m$(notdir ${@})\033[m"
 	${Q}mkdir -p $(@)
 
 ${OUTPUT}/%.bpf.o: %.bpf.c vmlinux.h | ${OUTPUT}
-	@echo -e "  BPF  \033[1m$(@)\033[m"
+	@echo -e "  BPF  \033[1m$(notdir ${@})\033[m"
 	${Q}$(CLANG) -c $(<) -o $(@) ${CFLAGS_BPF} $(CFLAGS_BPF_$(*)) $(CLANG_V) $(shell ./libbpf_version cflags)
 
 ${OUTPUT}/%.skel.h: ${OUTPUT}/%.bpf.o
-	@echo -e "  SKEL  \033[1m$(@)\033[m"
+	@echo -e "  SKEL  \033[1m$(notdir ${@})\033[m"
 	${Q}$(BPFTOOL) gen skeleton $(GEN_SKEL_ARGS) $(GEN_SKEL_ARGS_$(*)) $< > $@
 
 ${OUTPUT}/%.o: %.c ${OUTPUT}/%.skel.h
-	@echo -e "  CC  \033[1m$(@)\033[m"
+	@echo -e "  CC  \033[1m$(notdir ${@})\033[m"
 	${Q}$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
 
 ${OUTPUT}/%.o: %.c | ${OUTPUT}
-	@echo -e "  CC(LIB)  \033[1m$(@)\033[m"
+	@echo -e "  CC(LIB)  \033[1m$(notdir ${@})\033[m"
 	${Q}$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
 
 $(TARGETS) libbpf_version: %: ${OUTPUT}/%.o
-	@echo -e "  LD  \033[1;32m$(@)\033[m"
+	@echo -e "  LD  \033[1;32m$(notdir ${@})\033[m"
 	${Q}$(CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*))
 
 include ../bpftool/vmlinux.h.mk
