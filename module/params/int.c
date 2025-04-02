@@ -25,10 +25,12 @@ static const struct kernel_param_ops param_ops = {
 static int num1 = 100;
 module_param_cb(num1, &param_ops, &num1, 0664);
 
+static long num3 = 0;
+module_param(num3, long, 0660);
 
 static int simple_init(void)
 {
-	printk(KERN_WARNING "num0=%d num1=%d\n", num0, num1);
+	printk(KERN_WARNING "num0=%d num1=%d, num3=%ld\n", num0, num1, num3);
 	return -EINVAL;
 }
 

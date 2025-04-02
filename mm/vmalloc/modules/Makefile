@@ -1,7 +1,5 @@
-include ../../../tlbuild.mk
 
-
-
+obj-m += vmalloc.o
 obj-m += VMALLOC_START.o
 obj-m += is_vmalloc_addr.o
 

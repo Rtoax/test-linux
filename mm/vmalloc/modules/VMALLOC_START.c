@@ -42,7 +42,6 @@ static int __init mod_init(void)
 
 	kfree(foo);
 
-
 	foo = vmalloc(sizeof(*foo));
 	if (!foo)
 		return -ENOMEM;
@@ -55,8 +54,7 @@ static int __init mod_init(void)
 
 	return -EINVAL;
 }
-module_init(mod_init);
 
+module_init(mod_init);
 MODULE_LICENSE("GPL");
 MODULE_DESCRIPTION("Test module for CONFIG_DEBUG_VIRTUAL");
-
