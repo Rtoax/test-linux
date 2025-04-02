@@ -1,0 +1,15 @@
+#!/bin/bpftrace --unsafe
+/**
+ * see also /proc/meminfo VmallocUsed field
+ * The VmallocUsed value in /proc/meminfo indicates the total amount of memory
+ * that has been allocated using vmalloc.
+ */
+
+BEGIN {
+	$nr_vmalloc_pages = *kaddr("nr_vmalloc_pages");
+	printf("nr_vmalloc_pages = %ld\n", $nr_vmalloc_pages);
+	printf("nr_vmalloc_pages * 4 = %ld\n", $nr_vmalloc_pages * 4);
+
+	system("grep ^VmallocUsed: /proc/meminfo");
+	exit();
+}
