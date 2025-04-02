@@ -30,6 +30,7 @@ build: help
 
 include tlbuild.mk
 include kernel.mk
+include $(TL_TOPDIR)/scripts/emoji.mk
 include $(TL_TOPDIR)/scripts/git.mk
 include $(TL_TOPDIR)/scripts/logos.mk
 

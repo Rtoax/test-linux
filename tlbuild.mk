@@ -59,4 +59,3 @@ define printfailedlog
 	fi
 endef
 
-MOONLIGHT := 🌑 🌒 🌓 🌔 🌕 🌖 🌗 🌘 🌑
