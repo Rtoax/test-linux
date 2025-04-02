@@ -1,11 +1,11 @@
 #!/bin/env bpftrace
 
-kprobe:__vmalloc_node_range
+kprobe:vmalloc
 {
 	@alloc_size[tid] = arg0;
 }
 
-kretprobe:__vmalloc_node_range
+kretprobe:vmalloc
 / @alloc_size[tid] && retval /
 {
 	@vmalloc_total[comm] += @alloc_size[tid];
@@ -13,7 +13,7 @@ kretprobe:__vmalloc_node_range
 	delete(@alloc_size[tid]);
 }
 
-kprobe:__vunmap
+kprobe:vfree
 / @vmalloc_addrs[comm, arg0] /
 {
 	printf("%s freed %ld\n", comm, @vmalloc_addrs[comm, arg0]);
