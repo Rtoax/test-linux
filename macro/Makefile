@@ -30,7 +30,7 @@ TARGETS += __FILE__
 TARGETS += machine
 TARGETS += __ASSEMBLER__
 TARGETS += ident
-TARGETS += __GNUC__
+TARGETS += __GNUC__ __GNUC_PREREQ
 TARGETS += __has_include
 TARGETS += __user
 TARGETS += __stringify
@@ -98,6 +98,7 @@ machine: machine.o
 __ASSEMBLER__: __ASSEMBLER__.o
 ident: ident.o
 __GNUC__: __GNUC__.o
+__GNUC_PREREQ: __GNUC_PREREQ.o
 __has_include: __has_include.o
 __user: __user.o
 __stringify: __stringify.o

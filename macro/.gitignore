@@ -24,6 +24,7 @@
 /__ASSEMBLER__
 /ident
 /__GNUC__
+/__GNUC_PREREQ
 /__has_include
 /__user
 /__stringify

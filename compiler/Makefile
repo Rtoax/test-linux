@@ -25,6 +25,7 @@ include ../template/subdir-header.mk
 
 TARGETS :=
 TARGETS += __GNUC__
+TARGETS += __GNUC_PREREQ
 TARGETS += __VERSION__
 
 CC := gcc
@@ -39,6 +40,7 @@ build: $(TARGETS) $(sub-dir-build)
 
 __VERSION__: __VERSION__.o
 __GNUC__: __GNUC__.o
+__GNUC_PREREQ: __GNUC_PREREQ.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

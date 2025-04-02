@@ -11,6 +11,11 @@
 /* do some check */
 #endif
 
+#if !__GNUC_PREREQ(__GNUC__, __GNUC_MINOR__)
+# error "__GNUC_PREREQ() failed"
+#endif
+
+
 int main(void)
 {
 	const char *pfx = "gcc";
@@ -45,5 +50,6 @@ int main(void)
 	 * any particular form, but it can be counted on to contain at least
 	 * the release number. */
 	printf("%s: __VERSION__ = %s\n", pfx, __VERSION__);
+
 	return 0;
 }
