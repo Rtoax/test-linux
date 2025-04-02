@@ -1,4 +1,4 @@
-#!/bin/env bpftrace
+#!/bin/bpftrace --unsafe
 BEGIN
 {
 	printf("Tracing vmalloc() memory leak, end with ctrl-c\n");
@@ -32,6 +32,8 @@ kprobe:vfree
 
 i:s:5
 {
+	printf("\033[32m");
+	system("grep ^VmallocUsed: /proc/meminfo");
 	printf("\033[31m");
 	print(@vmalloc_total, 10);
 	printf("\033[m");
