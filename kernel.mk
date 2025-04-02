@@ -40,16 +40,24 @@ endef
 ifneq (${KVERSION_CODE},$(call kernel_version,${KVERSION},${KPATCHLEVEL},${KSUBLEVEL}))
   $(error "Bad KVERSION_CODE ${KVERSION_CODE}")
 endif
+# no body use linux-1.1.1 i think
+ifneq ($(call kernel_newer_than,1,1,1),y)
+  $(error "call kernel_newer_than failed")
+endif
 ifneq ($(call kernel_equal_to,${KVERSION},${KPATCHLEVEL},${KSUBLEVEL}),y)
   $(error "call kernel_equal_to failed")
+endif
+# newest kernel is v6.14 right now
+ifneq ($(call kernel_lower_than,7,0,0),y)
+  $(error "call kernel_lower_than failed")
 endif
 
 ifdef DEBUG
   $(info KVERSION = ${KVERSION}.${KPATCHLEVEL}.${KSUBLEVEL}, CODE ${KVERSION_CODE})
   $(info kernel_version(${KVERSION},${KPATCHLEVEL},${KSUBLEVEL}) = \
 	  $(call kernel_version,${KVERSION},${KPATCHLEVEL},${KSUBLEVEL}))
-  # we'll not running kernel v1.1.1 anywhere
   $(info kernel_newer_than(1,1,1) = $(call kernel_newer_than,1,1,1))
-  # newest kernel is v6.14
-  $(info kernel_newer_than(7,0,0) = $(call kernel_newer_than,7,0,0))
+  $(info kernel_equal_to(${KVERSION},${KPATCHLEVEL},${KSUBLEVEL}) = \
+	  $(call kernel_equal_to,${KVERSION},${KPATCHLEVEL},${KSUBLEVEL}))
+  $(info kernel_lower_than(7,0,0) = $(call kernel_lower_than,7,0,0))
 endif
