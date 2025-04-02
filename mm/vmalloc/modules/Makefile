@@ -1,4 +1,4 @@
-include ../../../kconfig.mk
+include /boot/config-$(shell uname -r)
 
 obj-m += vmalloc.o
 ifeq ($(CONFIG_DYNAMIC_MEMORY_LAYOUT),y)

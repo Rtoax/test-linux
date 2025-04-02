@@ -1,4 +1,8 @@
 #!/bin/env bpftrace
+BEGIN
+{
+	printf("Tracing vmalloc() memory leak, end with ctrl-c\n");
+}
 
 kprobe:vmalloc
 {
@@ -8,27 +12,32 @@ kprobe:vmalloc
 kretprobe:vmalloc
 / @alloc_size[tid] && retval /
 {
-	@vmalloc_total[comm] += @alloc_size[tid];
-	@vmalloc_addrs[comm, retval] = @alloc_size[tid];
+	@vmalloc_total[tid, comm] += @alloc_size[tid];
+	@addr_size[retval] = @alloc_size[tid];
+	@addr_comm[retval] = comm;
+	@addr_tid[retval] = tid;
+	printf("%s alloc %ld\n", comm, @addr_size[retval]);
 	delete(@alloc_size[tid]);
 }
 
 kprobe:vfree
-/ @vmalloc_addrs[comm, arg0] /
+/ @addr_size[arg0] /
 {
-	printf("%s freed %ld\n", comm, @vmalloc_addrs[comm, arg0]);
-	@vmalloc_total[comm] -= @vmalloc_addrs[comm, arg0];
-	delete(@vmalloc_addrs[comm, arg0]);
+	printf("%s(%s) freed %ld\n", comm, @addr_comm[arg0], @addr_size[arg0]);
+	@vmalloc_total[@addr_tid[arg0], @addr_comm[arg0]] -= @addr_size[arg0];
+	delete(@addr_size[arg0]);
+	delete(@addr_comm[arg0]);
+	delete(@addr_tid[arg0]);
 }
 
 i:s:5
 {
-	print(@vmalloc_total);
+	print(@vmalloc_total, 10);
 }
 
 END
 {
 	clear(@vmalloc_total);
-	clear(@vmalloc_addrs);
+	clear(@addr_size);
 	clear(@alloc_size);
 }
