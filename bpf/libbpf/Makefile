@@ -49,7 +49,7 @@ TARGETS += xdp xdp_devmap xdp_simple xdp_dos
 # kernel v5.8-rc4-1448-g644bfe51fa49
 # commit 644bfe51fa49 ("cpumap: Formalize map value as a named struct")
 # introduce struct bpf_cpumap_val
-ifeq ($(call kernel_newer_than,5,8,0),1)
+ifeq ($(call kernel_newer_than,5,8,0),y)
   TARGETS += xdp_cpumap
 endif
 TARGETS += sockops
@@ -58,7 +58,7 @@ TARGETS += sk_msg
 TARGETS += cgroup_device
 TARGETS += cgroup_sysctl
 TARGETS += fmod_ret
-ifeq ($(call kernel_newer_than,5,7,0),1)
+ifeq ($(call kernel_newer_than,5,7,0),y)
   # linux v5.7-rc2-1180-geaaacd23910f
   # commit eaaacd23910f ("bpf: Add task and task/file iterator targets")
   TARGETS += iter_task iter_task_file
@@ -66,12 +66,12 @@ ifeq ($(call kernel_newer_than,5,7,0),1)
   # commit 6086d29def80 ("bpf: Add bpf_map iterator")
   TARGETS += iter_bpf_map
 endif
-ifeq ($(call kernel_newer_than,5,11,0),1)
+ifeq ($(call kernel_newer_than,5,11,0),y)
   # linux v5.11-rc4-606-g3a7b35b899de
   # commit 3a7b35b899de ("bpf: Introduce task_vma bpf_iter")
   TARGETS += iter_task_vma
 endif
-ifeq ($(call kernel_newer_than,6,11,0),1)
+ifeq ($(call kernel_newer_than,6,11,0),y)
   # linux v6.12-rc1-177-g4971266e1595
   # commit 4971266e1595 ("bpf: Add kmem_cache iterator")
   TARGETS += iter_kmem_cache

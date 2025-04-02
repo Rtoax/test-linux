@@ -21,8 +21,8 @@ endef
 
 define kernel_newer_than
 $(shell if [[ ${KVERSION_CODE} -gt $(call kernel_version,${1},${2},${3}) ]]; then \
-		echo 1; \
-	else echo 0; \
+		echo y; \
+	else echo n; \
 	fi)
 endef
 
