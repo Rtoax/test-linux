@@ -284,11 +284,11 @@ ${OUTPUT}/%.bpf.o: %.bpf.c vmlinux.h | ${OUTPUT}
 	@echo -e "  BPF  \033[1m$(notdir ${@})\033[m"
 	${Q}$(CLANG) -c $(<) -o $(@) ${CFLAGS_BPF} $(CFLAGS_BPF_$(*)) $(CLANG_V) $(shell ./libbpf_version cflags)
 
-${OUTPUT}/%.skel.h: ${OUTPUT}/%.bpf.o
+${OUTPUT}/%.skel.h: ${OUTPUT}/%.bpf.o | ${OUTPUT}
 	@echo -e "  SKEL  \033[1m$(notdir ${@})\033[m"
 	${Q}$(BPFTOOL) gen skeleton $(GEN_SKEL_ARGS) $(GEN_SKEL_ARGS_$(*)) $< > $@
 
-${OUTPUT}/%.o: %.c ${OUTPUT}/%.skel.h
+${OUTPUT}/%.o: %.c ${OUTPUT}/%.skel.h | ${OUTPUT}
 	@echo -e "  CC  \033[1m$(notdir ${@})\033[m"
 	${Q}$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
 

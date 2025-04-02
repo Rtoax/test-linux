@@ -16,7 +16,8 @@ static __always_inline int bpf_getcwd(char *buf, u32 buf_len)
 
 	#pragma unroll
 	for (i = 0; i < 10 && dentry; i++) {
-		const char *name = dentry->d_name.name;
+		const unsigned char *name = dentry->d_name.name;
+		(void)name;
 		if (dentry == dentry->d_parent)
 			break;
 		dentry = dentry->d_parent;
