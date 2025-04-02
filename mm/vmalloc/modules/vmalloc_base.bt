@@ -1,6 +1,7 @@
 #!/bin/env bpftrace
 
 BEGIN {
+	/* only CONFIG_DYNAMIC_MEMORY_LAYOUT=y */
 	$p = kaddr("vmalloc_base");
 	printf("vmalloc_base = %lx\n", *$p);
 	exit();
