@@ -9,7 +9,14 @@ kprobe:vmalloc
 	@alloc_size[tid] = arg0;
 }
 
-kretprobe:vmalloc
+kprobe:vmap
+{
+	$count = arg1;
+	@alloc_size[tid] = $count << 12;
+}
+
+kretprobe:vmalloc,
+kretprobe:vmap
 / @alloc_size[tid] && retval /
 {
 	@vmalloc_total[tid, comm] += @alloc_size[tid];
