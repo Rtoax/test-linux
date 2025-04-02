@@ -63,6 +63,9 @@ kprobe:vfree
 {
 	//printf("%s(%s) freed %ld\n", comm, @addr_comm[arg0], @addr_size[arg0]);
 	@vmalloc_total[@addr_tid[arg0], @addr_comm[arg0]] -= @addr_size[arg0];
+	if (@vmalloc_total[@addr_tid[arg0], @addr_comm[arg0]] == 0) {
+		delete(@vmalloc_total[@addr_tid[arg0], @addr_comm[arg0]]);
+	}
 	delete(@addr_size[arg0]);
 	delete(@addr_comm[arg0]);
 	delete(@addr_tid[arg0]);
