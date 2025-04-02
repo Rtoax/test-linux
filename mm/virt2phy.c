@@ -47,6 +47,7 @@
 
 static int run_on_cpu;
 static int cpu_numa;
+int mbind_to_numa = -1;
 
 static struct mem {
 	int prot;
@@ -59,15 +60,14 @@ static struct mem {
 #endif
 ;
 
-int mbind_to_numa = false;
 int verbose = false;
 int force = false;
 
 const char argp_prog_doc[] =
-	"USAGE: [-b <mbind>] [-v|--verbose] [-f|--force]\n";
+	"USAGE: [-b <NUMA>] [-v|--verbose] [-f|--force]\n";
 
 static const struct argp_option opts[] = {
-	{ "mbind", 'b', "MBIND", 1, "Test mbind" },
+	{ "mbind", 'b', "NUMA", 0, "Test mbind" },
 	{ "verbose", 'v', "VERBOSE", 1, "Display detail" },
 	{ "force", 'f', "FORCE", 1, "Execute force" },
 	{},
@@ -77,7 +77,11 @@ static error_t parse_arg(int key, char *arg, struct argp_state *state)
 {
 	switch (key) {
 	case 'b':
-		mbind_to_numa = true;
+		mbind_to_numa = atoi(arg);
+		if (mbind_to_numa > numa_max_node() || mbind_to_numa < 0) {
+			fprintf(stderr, "bad -b value, need 0 - %d\n", numa_max_node());
+			exit(1);
+		}
 		break;
 	case 'v':
 		verbose = true;
@@ -382,42 +386,42 @@ void mem_bind_to_numa(void *mem, size_t size, int dst_numa)
 		perror("mbind");
 }
 
-void mbind_numa(void)
+void mbind_numa(int numa)
 {
 	unsigned long va, pa, size, node;
 
 	va = proc_maps_exec_text_addr(&size);
 	pa = virt_to_phy(va);
 	node = addr_numa(pa, va);
-	fprintf(stderr, "Try bind exec text from numa %d to %d with mbind(2)\n",
-		node, cpu_numa);
-	mem_bind_to_numa((void *)va, size, cpu_numa);
+	fprintf(stderr, "Try bind exec text from numa %d to %d\n",
+		node, numa);
+	mem_bind_to_numa((void *)va, size, numa);
 
 	va = proc_maps_exec_data_addr(&size);
 	pa = virt_to_phy(va);
 	node = addr_numa(pa, va);
-	fprintf(stderr, "Try bind exec data from numa %d to %d with mbind(2)\n",
-		node, cpu_numa);
-	mem_bind_to_numa((void *)va, size, cpu_numa);
+	fprintf(stderr, "Try bind exec data from numa %d to %d\n",
+		node, numa);
+	mem_bind_to_numa((void *)va, size, numa);
 
 	va = proc_maps_libc_text_addr(&size);
 	pa = virt_to_phy(va);
 	node = addr_numa(pa, va);
-	fprintf(stderr, "Try bind libc text from numa %d to %d with mbind(2)\n",
-		node, cpu_numa);
-	mem_bind_to_numa((void *)va, size, cpu_numa);
+	fprintf(stderr, "Try bind libc text from numa %d to %d\n",
+		node, numa);
+	mem_bind_to_numa((void *)va, size, numa);
 
 	va = proc_maps_libc_data_addr(&size);
 	pa = virt_to_phy(va);
 	node = addr_numa(pa, va);
-	fprintf(stderr, "Try bind libc data from numa %d to %d with mbind(2)\n",
-		node, cpu_numa);
-	mem_bind_to_numa((void *)va, size, cpu_numa);
+	fprintf(stderr, "Try bind libc data from numa %d to %d\n",
+		node, numa);
+	mem_bind_to_numa((void *)va, size, numa);
 }
 
 #else
 #define test_mapping_phy_addr()
-#define mbind_numa()
+#define mbind_numa(numa)
 #endif
 
 int main(int argc, char *argv[])
@@ -427,6 +431,9 @@ int main(int argc, char *argv[])
 	size_t buf_len;
 	unsigned long phy;
 	char buffer[1024];
+
+	run_on_cpu = sched_getcpu();
+	cpu_numa = numa_node_of_cpu(run_on_cpu);
 
 	ret = argp_parse(&argp, argc, argv, 0, NULL, NULL);
 	if (ret) {
@@ -443,8 +450,6 @@ int main(int argc, char *argv[])
 	fprintf(stderr, " $ sudo numactl --membind=2 --cpunodebind=2 %s\033[m\n",
 		argv[0]);
 
-	run_on_cpu = sched_getcpu();
-	cpu_numa = numa_node_of_cpu(run_on_cpu);
 	printf("Run on CPU %d, NUMA %d\n", run_on_cpu, cpu_numa);
 
 #define TEST_MAP_FILE	"/usr/bin/ls"
@@ -478,8 +483,8 @@ int main(int argc, char *argv[])
 	}
 
 	test_mapping_phy_addr();
-	if (mbind_to_numa) {
-		mbind_numa();
+	if (mbind_to_numa != -1) {
+		mbind_numa(mbind_to_numa);
 		test_mapping_phy_addr();
 	} else {
 		fprintf(stderr, "WARNING: speicy -b,--mbind to test mbind()\n");
