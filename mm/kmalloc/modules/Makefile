@@ -1,5 +1,5 @@
 
-obj-m += kmemeleak-test.o
+obj-m += kmalloc.o
 
 all:
 	${Q}make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules

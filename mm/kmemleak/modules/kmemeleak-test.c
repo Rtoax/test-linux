@@ -83,7 +83,6 @@ static int __init kmemleak_test_init(void)
 
 	return 0;
 }
-module_init(kmemleak_test_init);
 
 static void __exit kmemleak_test_exit(void)
 {
@@ -97,7 +96,8 @@ static void __exit kmemleak_test_exit(void)
 		list_del(&elem->list);
 	}
 }
-module_exit(kmemleak_test_exit);
 
+module_init(kmemleak_test_init);
+module_exit(kmemleak_test_exit);
 MODULE_LICENSE("GPL");
 
