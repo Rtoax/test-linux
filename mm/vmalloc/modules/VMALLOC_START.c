@@ -19,8 +19,12 @@ static struct foo *foo;
 
 static int __init mod_init(void)
 {
+	unsigned long area_size = VMALLOC_END - VMALLOC_START;
 	phys_addr_t pa;
 	void *va;
+
+	pr_info("vmalloc area size %ldB, %ldMB, %ldGB\n", area_size,
+		area_size / 1024 / 1024, area_size / 1024 / 1024 / 1024);
 
 	va = (void *)VMALLOC_START;
 	pa = virt_to_phys(va);
