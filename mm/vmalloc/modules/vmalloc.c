@@ -16,6 +16,7 @@ static int __init mod_init(void)
 		printk(KERN_INFO "Allocated vmalloc area of size: %zu\n", size);
 	} else {
 		printk(KERN_ERR "Failed to allocate vmalloc area\n");
+		return -ENOMEM;
 	}
 
 	if (mem) {
