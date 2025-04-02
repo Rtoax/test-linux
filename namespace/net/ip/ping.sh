@@ -4,6 +4,15 @@ set -ex
 ns1_veth1_ipv4=192.168.1.1
 ns2_veth2_ipv4=192.168.1.2
 
+cleanup()
+{
+	echo "Cleanup!!!"
+	sudo ip netns delete ns1 || true
+	sudo ip netns delete ns2 || true
+	sudo ip netns list
+}
+trap "cleanup" EXIT
+
 sudo ip netns add ns1
 sudo ip netns add ns2
 sudo ip netns list
@@ -38,11 +47,3 @@ multi_cmd() {
 sudo ip netns exec ns1 ping -c2 ${ns2_veth2_ipv4}
 sudo ip netns exec ns2 ping -c2 ${ns1_veth1_ipv4}
 
-cleanup()
-{
-	echo "Cleanup!!!"
-	sudo ip netns delete ns1
-	sudo ip netns delete ns2
-	sudo ip netns list
-}
-trap "cleanup" EXIT
