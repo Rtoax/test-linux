@@ -3,11 +3,11 @@ include ../tlbuild.mk
 include ../scripts/logos.mk
 include glibc.mk
 
-sub-dir := arpa
-sub-dir += alloca
+sub-dir := alloca
+sub-dir += arpa
 sub-dir += byteswap
-sub-dir += crypt
 sub-dir += complex
+sub-dir += crypt
 sub-dir += ctype
 sub-dir += dirent
 sub-dir += dlfcn
@@ -18,8 +18,8 @@ sub-dir += execinfo
 sub-dir += fcntl
 sub-dir += fenv
 sub-dir += fnmatch
-sub-dir += ftw
 sub-dir += fstab
+sub-dir += ftw
 sub-dir += getopt
 sub-dir += glob
 sub-dir += grp
@@ -31,8 +31,8 @@ sub-dir += locale
 sub-dir += malloc
 sub-dir += math
 sub-dir += mntent
-sub-dir += netdb
 sub-dir += net
+sub-dir += netdb
 sub-dir += netinet
 sub-dir += nl_types
 sub-dir += obstack
@@ -54,16 +54,16 @@ sub-dir += stdlib
 sub-dir += string
 sub-dir += strings
 sub-dir += sys
-sub-dir += syslog
 sub-dir += sysinfo
+sub-dir += syslog
 sub-dir += sysmacros
 sub-dir += termios
 sub-dir += time
 sub-dir += times
 sub-dir += timex
 sub-dir += ucontext
-sub-dir += utmp
 sub-dir += unistd
+sub-dir += utmp
 sub-dir += wctype
 sub-dir += wordexp
 
