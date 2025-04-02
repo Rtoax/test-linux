@@ -9,6 +9,7 @@ sub-dir += oom
 sub-dir += tcmalloc
 sub-dir += tlb
 sub-dir += jemalloc
+sub-dir += vmalloc
 
 TARGETS :=
 TARGETS_LIBA :=
