@@ -32,12 +32,13 @@ kprobe:vfree
 
 i:s:5
 {
+	printf("\033[31m");
 	print(@vmalloc_total, 10);
+	printf("\033[m");
 }
 
 END
 {
-	clear(@vmalloc_total);
 	clear(@addr_size);
 	clear(@alloc_size);
 }
