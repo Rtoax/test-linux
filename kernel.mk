@@ -19,15 +19,29 @@ define kernel_version
 $(shell echo "$$(( (${1}<<16) + (${2}<<8) + (${3}>255?255:${3}) ))")
 endef
 
-define kernel_newer_than
-$(shell if [[ ${KVERSION_CODE} -gt $(call kernel_version,${1},${2},${3}) ]]; then \
+# argument: [-gt|-eq|-lt],x,y,z
+define kernel_compare
+$(shell if [[ ${KVERSION_CODE} ${1} $(call kernel_version,${2},${3},${4}) ]]; then \
 		echo y; \
 	else echo n; \
 	fi)
 endef
 
+define kernel_newer_than
+$(call kernel_compare,-gt,${1},${2},${3})
+endef
+define kernel_equal_to
+$(call kernel_compare,-eq,${1},${2},${3})
+endef
+define kernel_lower_than
+$(call kernel_compare,-lt,${1},${2},${3})
+endef
+
 ifneq (${KVERSION_CODE},$(call kernel_version,${KVERSION},${KPATCHLEVEL},${KSUBLEVEL}))
   $(error "Bad KVERSION_CODE ${KVERSION_CODE}")
+endif
+ifneq ($(call kernel_equal_to,${KVERSION},${KPATCHLEVEL},${KSUBLEVEL}),y)
+  $(error "call kernel_equal_to failed")
 endif
 
 ifdef DEBUG
