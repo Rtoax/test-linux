@@ -1,0 +1,11 @@
+
+obj-m += pr_info.o
+
+KERNEL_DIR = /lib/modules/`uname -r`/build
+MODULE_DIR := $(shell pwd)
+
+modules:
+	${Q}make -C $(KERNEL_DIR) M=$(MODULE_DIR) modules
+
+clean:
+	${Q}make -C $(KERNEL_DIR) M=$(MODULE_DIR) clean
