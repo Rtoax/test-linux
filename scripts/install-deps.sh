@@ -122,7 +122,7 @@ apt_upgrade()
 		echo "WARNING: Failed to upgrade"
 		true
 	}
-	inst_eval sudo apt autoremove || :
+	inst_eval sudo apt autoremove -y || :
 }
 
 dnf_install()
