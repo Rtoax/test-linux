@@ -3,6 +3,7 @@
 #include <linux/export.h>
 #include <linux/mm.h>
 #include <linux/vmalloc.h>
+#include <linux/slab.h>
 
 static long size = 1024 * 1024;
 module_param(size, long, 0660);
@@ -13,13 +14,18 @@ static int __init mod_init(void)
 {
 	int i;
 
+#ifdef TEST_KMALLOC
+#pragma message("test kmalloc()")
+	mem = kmalloc(size, GFP_KERNEL);
+#else
 	mem = vmalloc(size);
+#endif
 	if (!mem) {
-		printk(KERN_ERR "Failed to allocate vmalloc area\n");
+		printk(KERN_ERR "Failed to allocate malloc area\n");
 		return -ENOMEM;
 	}
 
-	printk(KERN_INFO "Allocated vmalloc area of size: %zu\n", size);
+	printk(KERN_INFO "Allocated malloc area of size: %zu\n", size);
 
 	/**
 	 * Page fault
@@ -46,8 +52,12 @@ static int __init mod_init(void)
 	for (i = 0; i < size; i += 1UL << PAGE_SHIFT)
 		mem[i] = 'a';
 
+#ifdef TEST_KMALLOC
+	kfree(mem);
+#else
 	vfree(mem);
-	printk(KERN_INFO "Freed vmalloc area\n");
+#endif
+	printk(KERN_INFO "Freed malloc area\n");
 
 	return -EINVAL;
 }

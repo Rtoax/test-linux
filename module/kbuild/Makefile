@@ -1,5 +1,3 @@
-include ../../tlbuild.mk
-
 
 KDIR = /lib/modules/`uname -r`/build
 
