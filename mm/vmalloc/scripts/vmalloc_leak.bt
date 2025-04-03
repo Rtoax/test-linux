@@ -35,10 +35,6 @@ kprobe:vmap
 	@alloc_size[tid] = $count << 12;
 }
 
-/**
- * void vfree(const void *addr);
- * void vunmap(const void *addr);
- */
 kretprobe:__vmalloc,
 kretprobe:vmalloc,
 kretprobe:vzalloc,
@@ -58,7 +54,12 @@ kretprobe:vmap
 	delete(@alloc_size[tid]);
 }
 
-kprobe:vfree
+/**
+ * void vfree(const void *addr);
+ * void vunmap(const void *addr);
+ */
+kprobe:vfree,
+kprobe:vunmap
 / @addr_size[arg0] /
 {
 	//printf("%s(%s) freed %ld\n", comm, @addr_comm[arg0], @addr_size[arg0]);
