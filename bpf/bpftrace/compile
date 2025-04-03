@@ -18,6 +18,7 @@ deb() {
 		libbpf-dev \
 		libbpfcc-dev \
 		libcereal-dev \
+		libdw-dev \
 		libelf-dev \
 		libiberty-dev \
 		libpcap-dev \
