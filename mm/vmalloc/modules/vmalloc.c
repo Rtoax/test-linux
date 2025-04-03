@@ -29,3 +29,4 @@ static int __init mod_init(void)
 
 module_init(mod_init);
 MODULE_LICENSE("GPL");
+MODULE_AUTHOR("Rong Tao");
