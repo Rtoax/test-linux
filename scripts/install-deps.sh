@@ -837,6 +837,10 @@ apt_add_packages()
 	pkgs_compiler+=( libatomic1 )
 	pkgs_compiler+=( lua5.4 )
 	pkgs_compiler+=( rust-all )
+	if [[ $(is_os debian) ]]; then
+		pkgs_compiler+=( clang-19 clang-tools-19 )
+		pkgs_compiler+=( llvm-19 llvm-19-dev )
+	fi
 
 	pkgs_devel+=( cyrus-dev )
 	pkgs_devel+=( libaio-dev )
