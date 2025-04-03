@@ -30,7 +30,7 @@ ifdef M32
 endif
 export MAKEFLAGS
 
-CPU_VENDOR_ID=$(shell lscpu | grep ^Vendor | awk '{print $$3}')
+CPU_VENDOR_ID := $(shell lscpu | grep ^Vendor | awk '{print $$3}')
 
 # GIT_TOPDIR is empty if not in git-repo.
 GIT_TOPDIR := $(shell git rev-parse --show-toplevel 2>/dev/null || :)
