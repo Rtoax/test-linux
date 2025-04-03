@@ -8,6 +8,15 @@ static int hello_init(void)
 #ifndef CURRENT_PATH
 #error Not define CURRENT_PATH
 #endif
+#ifdef CCFLAGS_Y
+#pragma message("CCFLAGS_Y")
+#endif
+#ifdef HELLO1
+#pragma message("hello1")
+#endif
+#ifdef HELLO2
+#pragma message("hello2")
+#endif
 	printk("CURRENT_PATH = %s\n", CURRENT_PATH);
 	return -EINVAL;
 }
