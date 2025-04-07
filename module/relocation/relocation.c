@@ -47,7 +47,9 @@ static int kernel_init(void)
 	P_f(print);
 	P_f(schedule);
 	P_f(wake_up_process);
+#if defined(__x86_64__)
 	P_long(vmalloc_base);
+#endif
 
 	return -EINVAL;
 }

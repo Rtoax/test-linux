@@ -9,6 +9,10 @@ rand_0xffff_1() {
 	echo 0x$(od -An -N2 -t x2 ${DEV} | awk '{print $1}')
 }
 
+rand_0xffffffff_1() {
+	echo 0x$(od -An -N4 -t x4 ${DEV} | awk '{print $1}')
+}
+
 rand_0xffff_2() {
 	echo $RANDOM
 }
