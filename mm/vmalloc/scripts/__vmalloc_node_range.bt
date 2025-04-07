@@ -4,24 +4,39 @@ BEGIN
 	printf("Tracing __vmalloc_node_range(), end with ctrl-c\n");
 }
 
+/**
+ * void *__vmalloc_node_range(unsigned long size, unsigned long align,
+ * 			unsigned long start, unsigned long end, gfp_t gfp_mask,
+ *			pgprot_t prot, unsigned long vm_flags, int node,
+ *			const void *caller)
+ */
 kprobe:__vmalloc_node_range
 / comm == "insmod" /
 {
 	@size[tid] = arg0;
 	@start[tid] = arg2;
 	@end[tid] = arg3;
+	@gfp_mask[tid] = arg4;
+	@prot[tid] = arg5;
+	@vm_flags[tid] = arg6;
+	@node[tid] = arg6;
 }
 
 kretprobe:__vmalloc_node_range
 / @size[tid] && @start[tid] && @end[tid] /
 {
-	printf("%09lx (%8ldKB,%8ldMB) : %016lx - %016lx (%ldM) ret %lx\n",
+	printf("%lx (%ldKB,%ldMB) : 0x%lx - 0x%lx (%ldM), gfp %lx, prot %lx, vm_flags %lx, node %d, ret %lx\n",
 		@size[tid], @size[tid] / 1024, @size[tid] / 1024 / 1024,
 		@start[tid], @end[tid], (@end[tid] - @start[tid]) / 1024 / 1024,
+		@gfp_mask[tid], @prot[tid], @vm_flags[tid], @node[tid],
 		retval);
 	delete(@size[tid]);
 	delete(@start[tid]);
 	delete(@end[tid]);
+	delete(@prot[tid]);
+	delete(@gfp_mask[tid]);
+	delete(@vm_flags[tid]);
+	delete(@node[tid]);
 }
 
 END
@@ -29,4 +44,8 @@ END
 	clear(@size);
 	clear(@start);
 	clear(@end);
+	clear(@gfp_mask);
+	clear(@vm_flags);
+	clear(@node);
+	clear(@prot);
 }
