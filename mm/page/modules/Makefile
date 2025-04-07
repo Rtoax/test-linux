@@ -1,5 +1,3 @@
-include ../../../tlbuild.mk
-
 
 obj-m += alloc_page.o
 obj-m += dump_page.o
@@ -8,8 +6,8 @@ obj-m += test_free_pages.o
 #obj-m += walk_page_range.o
 #obj-m += dump_pagetables.o # from arch/x86/mm/dump_pagetables.c
 ifeq ($(shell uname -m),x86_64)
-obj-m += dumptab-x86.o
-obj-m += pagetable.o
+  obj-m += dumptab-x86.o
+  obj-m += pagetable.o
 endif
 
 all:
