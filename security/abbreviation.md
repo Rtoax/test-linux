@@ -1,6 +1,7 @@
 - ABAC: Attribute Based Access Control (基于属性的访问控制)
 - ACL: Access Control List (访问控制表) @DAC
 - ACM: Access Control Matrix (权限控制矩阵)
+- ASLR: Address Space Layout Randomization (地址空间随机化) @KASLR
 - ASN.1: Abstract Syntax Notation One (ISO/ITU-T 标准，数据编解码)
 - ATF: ARM Trusted Firmware (ARM信任固件)
 - CC: Confidential Compute (机密计算)
