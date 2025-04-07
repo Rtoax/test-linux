@@ -24,6 +24,7 @@ with open(file, "w") as f:
     f.write(f"static unsigned long __attribute__((optimize(\"-O0\"))) \n\
         call_big_text2(void) {{ \n\
         unsigned long volatile count = 0; \n\
+        return 0; \n\
     ")
     for i in range(num):
         f.write(f"count += func_{i}(); \n")

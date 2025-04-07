@@ -7,7 +7,7 @@
 /* .data */
 #ifdef BIG_DATA
 #pragma message("test bit data")
-static char buff[SZ_128M] = {1};
+static const char buff[SZ_128M] = {1};
 #endif
 
 #ifdef BIG_TEXT

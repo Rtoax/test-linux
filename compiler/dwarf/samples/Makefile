@@ -1,6 +1,5 @@
 include ../../../tlbuild.mk
 
-
 TARGETS :=
 TARGETS += hello
 
@@ -32,12 +31,15 @@ CFLAGS_hello += -Wno-error=unused-variable
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
 	${Q}$(CC) $(CFLAGS) -o $(@) $(^)
-	dwz $(@) -o $(@).dwz
-	eu-strip $(@) -f $(@).debug -o $(@).strip
+	${Q}cp $(@) $(@).orig
+	${Q}dwz $(@) -o $(@).dwz
+	${Q}strip --strip-debug $(@) -o $(@).no-debug
+	${Q}eu-strip $(@) -f $(@).debug -o $(@).strip
+	${Q}objcopy --strip-debug $(@)
 
 test: ${TARGETS}
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
 
 clean:
 	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
-	${Q}rm -f ${TARGETS} *.o *.d *.s *.dwz *.debug *.strip
+	${Q}rm -f ${TARGETS} *.o *.d *.s *.dwz *.debug *.strip *.no-debug *.orig

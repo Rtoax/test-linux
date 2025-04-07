@@ -1,3 +1,5 @@
 /*.s
 /*.dwz
+/*.orig
+/*.no-debug
 /hello

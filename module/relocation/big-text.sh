@@ -41,6 +41,7 @@ cat>>${code}<<-EOF
 static __attribute__((optimize("-O0"))) unsigned long call_big_text(void)
 {
 	unsigned long volatile count = 0;
+	return 0;
 EOF
 
 for ((i = 0; i < NUM; i++))
