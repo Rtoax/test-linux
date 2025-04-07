@@ -27,8 +27,14 @@ kretprobe:module_alloc
 	$addr = retval;
 
 	time("%H:%M:%S ");
-	printf("%-8d %-16s %-8d %-16s %-16lx 0x%08lx\n",
-		pid, comm, $ppid, $pcomm, $addr, @sizes[tid]);
+	printf("%-8d %-16s %-8d %-16s", pid, comm, $ppid, $pcomm);
+
+	if ($addr == 0) {
+		printf(" %-16s", "NULL");
+	} else {
+		printf(" %-16lx", $addr);
+	}
+	printf(" 0x%08lx\n", @sizes[tid]);
 
 	delete(@sizes[tid]);
 }
