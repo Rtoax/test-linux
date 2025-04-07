@@ -1,6 +1,6 @@
 #!/bin/env bpftrace
 /**
- * module_alloc.bt
+ * module_alloc.bt - Tracing module_alloc() on aarch64
  *
  * Copyright (C) Rong Tao 2022-2025
  *
@@ -8,7 +8,7 @@
  */
 BEGIN
 {
-	printf("Tracing module_alloc, hit ctrl-c to end.\n");
+	printf("Tracing module_alloc() on aarch64, hit ctrl-c to end.\n");
 	printf("%-8s %-8s %-16s %-8s %-16s %-16s %-10s\n",
 		"TIME", "PID", "COMM", "PPID", "PCOMM", "ADDRESS", "SIZE");
 }
