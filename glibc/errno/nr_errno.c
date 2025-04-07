@@ -5,7 +5,7 @@
 
 int main(void)
 {
-#define NR_ERRNO(no) printf("%30s (%4d) : %s\n", #no, no, strerror(no));
+#define NR_ERRNO(no) printf("%30s (%4d)(-0x%x) : %s\n", #no, no, -no, strerror(no));
 #include "nr_errno.h"
 #undef NR_ERRNO
 
