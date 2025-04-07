@@ -33,3 +33,7 @@ $ smem
 - jemalloc
 - tcmalloc
 
+
+# Links
+
+- v5.8 [Memory Layout on AArch64 Linux](https://www.kernel.org/doc/html/v5.8/arm64/memory.html)
