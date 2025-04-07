@@ -1,7 +1,7 @@
 #!/bin/bpftrace
 BEGIN
 {
-	printf("Tracing __vmalloc_node_range() memory leak, end with ctrl-c\n");
+	printf("Tracing __vmalloc_node_range(), end with ctrl-c\n");
 }
 
 kprobe:__vmalloc_node_range
