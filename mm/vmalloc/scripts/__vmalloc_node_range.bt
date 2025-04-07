@@ -1,0 +1,29 @@
+#!/bin/bpftrace
+BEGIN
+{
+	printf("Tracing __vmalloc_node_range() memory leak, end with ctrl-c\n");
+}
+
+kprobe:__vmalloc_node_range
+/ comm == "insmod" /
+{
+	@size[tid] = arg0;
+	@start[tid] = arg2;
+	@end[tid] = arg3;
+}
+
+kretprobe:__vmalloc_node_range
+/ @size[tid] && @start[tid] && @end[tid] /
+{
+	printf("%lx : %lx - %lx\n", @size[tid], @start[tid], @end[tid]);
+	delete(@size[tid]);
+	delete(@start[tid]);
+	delete(@end[tid]);
+}
+
+END
+{
+	clear(@size);
+	clear(@start);
+	clear(@end);
+}
