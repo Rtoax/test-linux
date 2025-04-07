@@ -5,12 +5,13 @@
  * Copyright (C) Rong Tao 2022-2025
  *
  * 2024-04-17	Rong Tao	Create this.
+ * 2025-04-07	Rong Tao	Display size.
  */
 BEGIN
 {
 	printf("Tracing module_alloc() on aarch64, hit ctrl-c to end.\n");
-	printf("%-8s %-8s %-16s %-8s %-16s %-16s %-10s\n",
-		"TIME", "PID", "COMM", "PPID", "PCOMM", "ADDRESS", "SIZE");
+	printf("%-8s %-8s %-16s %-8s %-16s %-16s %-16s\n",
+		"TIME", "PID", "COMM", "PPID", "PCOMM", "ADDRESS", "SIZE(B,MB)");
 }
 
 kprobe:module_alloc
@@ -34,7 +35,7 @@ kretprobe:module_alloc
 	} else {
 		printf(" %-16lx", $addr);
 	}
-	printf(" 0x%08lx\n", @sizes[tid]);
+	printf(" 0x%08lx,%-4ldMB\n", @sizes[tid], @sizes[tid] / 1024 / 1024);
 
 	delete(@sizes[tid]);
 }

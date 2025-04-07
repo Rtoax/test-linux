@@ -1,7 +1,7 @@
 #!/bin/env python
 
 file = "generated_functions.h"
-num = 80000
+num = 200000
 
 # generate_code.py
 with open(file, "w") as f:
