@@ -9,22 +9,32 @@
 BEGIN
 {
 	printf("Tracing module_alloc, hit ctrl-c to end.\n");
-	printf("%-8s %-8s %-16s %-8s %-16s %-16s\n",
-		"TIME", "PID", "COMM", "PPID", "PCOMM", "ADDRESS");
+	printf("%-8s %-8s %-16s %-8s %-16s %-16s %-10s\n",
+		"TIME", "PID", "COMM", "PPID", "PCOMM", "ADDRESS", "SIZE");
+}
+
+kprobe:module_alloc
+{
+	@sizes[tid] = arg0;
 }
 
 kretprobe:module_alloc
+/ @sizes[tid] /
 {
 	$parent = (struct task_struct *)curtask->real_parent;
 	$ppid = $parent->tgid;
 	$pcomm = $parent->comm;
 	$addr = retval;
+
 	time("%H:%M:%S ");
-	printf("%-8d %-16s %-8d %-16s %-16lx\n",
-		pid, comm, $ppid, $pcomm, $addr);
+	printf("%-8d %-16s %-8d %-16s %-16lx 0x%08lx\n",
+		pid, comm, $ppid, $pcomm, $addr, @sizes[tid]);
+
+	delete(@sizes[tid]);
 }
 
 END
 {
+	clear(@sizes);
 	printf("Bye.\n");
 }
