@@ -15,7 +15,8 @@ kprobe:__vmalloc_node_range
 kretprobe:__vmalloc_node_range
 / @size[tid] && @start[tid] && @end[tid] /
 {
-	printf("%016lx : %016lx - %016lx (%ldM) ret %lx\n", @size[tid],
+	printf("%09lx (%8ldKB,%8ldMB) : %016lx - %016lx (%ldM) ret %lx\n",
+		@size[tid], @size[tid] / 1024, @size[tid] / 1024 / 1024,
 		@start[tid], @end[tid], (@end[tid] - @start[tid]) / 1024 / 1024,
 		retval);
 	delete(@size[tid]);
