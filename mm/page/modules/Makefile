@@ -9,6 +9,7 @@ ifeq ($(shell uname -m),x86_64)
   obj-m += dumptab-x86.o
   obj-m += pagetable.o
 endif
+obj-m += PAGE_KERNEL.o
 
 all:
 	${Q}make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
