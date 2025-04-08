@@ -1,3 +1,6 @@
+/**
+ * arm64 MODULES_VSIZE=SZ_128M or SZ_2G
+ */
 #include <linux/init.h>
 #include <linux/module.h>
 #include <linux/kernel.h>
@@ -28,4 +31,4 @@ static int kernel_init(void)
 module_init(kernel_init);
 MODULE_AUTHOR("Rong Tao");
 MODULE_LICENSE("GPL");
-MODULE_DESCRIPTION("Test MODULES_VSIZE");
+MODULE_DESCRIPTION("Test insmod big module");

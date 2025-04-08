@@ -2,13 +2,13 @@
 
 obj-m += relocation.o
 ifeq ($(shell uname -m),aarch64)
-  obj-m += MODULES_VSIZE.o
-  obj-m += MODULES_VSIZE-data.o
-  obj-m += MODULES_VSIZE-text.o
+  obj-m += big-module.o
+  obj-m += big-module-data.o
+  obj-m += big-module-text.o
 endif
 
-CFLAGS_MODULES_VSIZE-data.o := -DBIG_DATA=1
-CFLAGS_MODULES_VSIZE-text.o := -DBIG_TEXT=1
+CFLAGS_big-module-data.o := -DBIG_DATA=1
+CFLAGS_big-module-text.o := -DBIG_TEXT=1
 
 # If KBUILD_CFLAGS is empty, insmod error happen:
 #  [ 1108.381641] module: overflow in relocation type 10 val ffffffffc0860068
