@@ -1,6 +1,8 @@
 #!/bin/env python
 
 file = "generated_functions.h"
+# if num = 200000, need vmalloc 130MB+
+# if num = 600000, need vmalloc 390MB+
 num = 200000
 
 # generate_code.py
