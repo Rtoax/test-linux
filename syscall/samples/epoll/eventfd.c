@@ -122,7 +122,17 @@ void *read_task(void *arg)
 		 * timeout.
 		 */
 		sigset_t sigmask;
+# if defined(__GLIBC__) && defined(__GLIBC_PREREQ)
+/**
+ * glibc commit 5f3a7ebc358f ("Linux: Add epoll_pwait2 (BZ #27359)")
+ * glibc-2.34.9000-554-g5f3a7ebc358f
+ */
+#  if __GLIBC_PREREQ(2, 35)
 		nfds = epoll_pwait2(ectx->epollfd, ectx->events, MAX_EVENTS, NULL, &sigmask);
+#  else
+		nfds = epoll_pwait(ectx->epollfd, ectx->events, MAX_EVENTS, -1, &sigmask);
+#  endif
+# endif
 #else
 # pragma message("Fallback to epoll_wait")
 		nfds = epoll_wait(ectx->epollfd, ectx->events, MAX_EVENTS, -1);
