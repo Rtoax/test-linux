@@ -28,8 +28,21 @@ do
 	sym_file_off=$(( ${symvalue} - (${symsecaddr} - ${symsecoffset}) ))
 	sym_file_val=$(read_hex_from_file ${ELF_EXE} ${sym_file_off} 8)
 
+	# TODO: calculate relocation
+	# R_X86_64_64: S + A
+	rela=$(( ${symvalue} + ${r_addend} ))
+
 	printf "rela: %#lx %#lx %s ${sname} ${r_addend} ${r_secname}, " ${r_offset} ${r_info} ${r_type}
 	printf "data: ${secdata} ${secdataname}, "
-	printf "sym: %s sec %d %s %#lx (fileoff %#lx) val %#lx" ${sym} ${symsec} ${symsecname} ${symvalue} ${sym_file_off} ${sym_file_val}
-	printf "\n"
+	printf "sym: %s sec %d %s %#lx (fileoff %#lx), " ${sym} ${symsec} ${symsecname} ${symvalue} ${sym_file_off}
+
+	printf "rela: R_X86_64_64: S + A = 0x%lx + 0x%lx = 0x%lx " \
+		${symvalue} ${r_addend} ${rela}
+	if [[ $(printf "%lx" ${rela}) == $(printf "%lx" ${sym_file_val}) ]]; then
+		printf " \033[1;32mSUCCESS "
+	else
+		printf " \033[1;31mERROR "
+	fi
+	printf " val %#lx rela %#lx" ${sym_file_val} ${rela}
+	printf " \033[m\n"
 done <<< $(elf_foreachreloc_sec ${ELF_OBJ})
