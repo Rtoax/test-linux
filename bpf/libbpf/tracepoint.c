@@ -65,8 +65,8 @@ void handle_event(void *ctx, int cpu, void *event, unsigned int event_sz)
 {
 	struct event_t *m = event;
 
-	printf("%-6d %-6d %-16s %s ret = %d\n", m->pid, m->uid, m->comm,
-		m->filename, m->ret);
+	printf("%-6d %-6d %-16s(%-16s) %s ret = %d\n", m->pid, m->uid, m->comm,
+		m->comm2, m->filename, m->ret);
 }
 
 void lost_event(void *ctx, int cpu, long long unsigned int event_sz)
