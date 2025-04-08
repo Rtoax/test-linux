@@ -32,6 +32,9 @@ endif
 
 all: ${TARGETS_LDS} ${TARGETS_AS} ${TARGETS_C}
 
+foo.o: foo.h bar.h
+bar.o: foo.h bar.h
+main-c.o: foo.h bar.h
 main-c: main-c.o foo.o bar.o
 hello-as: hello-as.o
 

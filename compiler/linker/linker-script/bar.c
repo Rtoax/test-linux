@@ -9,8 +9,8 @@ static int bar_local_data2 = 1;
 
 int bar_global_bss1;
 int bar_global_bss2;
-int bar_global_data1 = 1;
-int bar_global_data2 = 1;
+int bar_global_data1 = 0xba1;
+int bar_global_data2 = 0xba2;
 
 int bar(void)
 {
