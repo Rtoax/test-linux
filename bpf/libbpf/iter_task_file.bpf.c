@@ -36,6 +36,23 @@ int dump_task_file(struct bpf_iter__task_file *ctx)
 	t->pid = task->tgid;
 	t->tid = task->pid;
 	t->fd = fd;
+
+#if 0 // TODO
+	/**
+	 * BPF_TASK_FD_QUERY
+	 *
+	 * int bpf_task_fd_query(int pid, int fd, __u32 flags, char *buf, __u32 *buf_len, __u32 *prog_id, __u32 *fd_type, __u64 *probe_offset, __u64 *probe_addr);
+	 */
+	char filename[256];
+	__u32 buf_len = sizeof(filename);
+	__u32 prog_id, fd_type;
+	__u64 probe_offset, probe_addr;
+	if (bpf_task_fd_query(t->pid, fd, 0, filename, &buf_len, &prog_id,
+			      &fd_type, &probe_offset, &probe_addr) == 0) {
+		bpf_printk("Opened file: %s\n", filename);
+	}
+#endif
+
 	bpf_probe_read_kernel_str(t->comm, TASK_COMM_LEN, task->comm);
 
 	bpf_seq_write(seq, t, sizeof(struct task_file_info));
