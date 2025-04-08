@@ -128,11 +128,15 @@ __off2sym_bias() {
 }
 
 elf_off2func() {
-	__off2sym_bias $1 $2 secidx=$3 type=FUNC | awk '{print $1}'
+	local v=$(__off2sym_bias $1 $2 secidx=$3 type=FUNC | awk '{print $1}')
+	[[ -z ${v} ]] && echo >&2 "ERROR: $1: offset $2 secidx $3 no function found" && exit 1
+	echo ${v}
 }
 
 elf_off2object() {
-	__off2sym_bias $1 $2 secidx=$3 type=OBJECT | awk '{print $1}'
+	local v=$(__off2sym_bias $1 $2 secidx=$3 type=OBJECT | awk '{print $1}')
+	[[ -z ${v} ]] && echo >&2 "ERROR: $1: offset $2 secidx $3 no object found" && exit 1
+	echo ${v}
 }
 
 elf_foreachreloc() {
