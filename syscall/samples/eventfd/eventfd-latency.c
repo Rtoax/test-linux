@@ -66,9 +66,8 @@ void demo_flags(int inival, int flags)
 	close(efd);
 }
 
-int main()
+int main(void)
 {
 	demo_flags(0, EFD_CLOEXEC | EFD_SEMAPHORE);
-
 	return EXIT_SUCCESS;
 }

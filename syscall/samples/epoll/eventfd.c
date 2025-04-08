@@ -95,6 +95,7 @@ void *read_task(void *arg)
 	for (;;) {
 #if defined(EPOLL_PWAIT)
 # pragma message("Test epoll_pwait")
+		const char *sys = "epoll_pwait";
 		/**
 		 * epoll_pwait() allows an application to safely wait until
 		 * either a file descriptor becomes ready or until a signal
@@ -128,17 +129,20 @@ void *read_task(void *arg)
  * glibc-2.34.9000-554-g5f3a7ebc358f
  */
 #  if __GLIBC_PREREQ(2, 35)
+		const char *sys = "epoll_pwait2";
 		nfds = epoll_pwait2(ectx->epollfd, ectx->events, MAX_EVENTS, NULL, &sigmask);
 #  else
+		const char *sys = "epoll_pwait";
 		nfds = epoll_pwait(ectx->epollfd, ectx->events, MAX_EVENTS, -1, &sigmask);
 #  endif
 # endif
 #else
 # pragma message("Fallback to epoll_wait")
+		const char *sys = "epoll_wait";
 		nfds = epoll_wait(ectx->epollfd, ectx->events, MAX_EVENTS, -1);
 #endif
 		if (nfds == -1) {
-			perror("epoll_pwait");
+			perror(sys);
 			exit(EXIT_FAILURE);
 		}
 
