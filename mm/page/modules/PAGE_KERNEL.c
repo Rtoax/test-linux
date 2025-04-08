@@ -16,6 +16,12 @@ static int kernel_init(void)
 #ifdef PROT_DEFAULT
 	printk("PROT_DEFAULT = 0x%llx\n", PROT_DEFAULT);
 #endif
+#ifdef _PROT_DEFAULT
+	printk("_PROT_DEFAULT = 0x%llx\n", _PROT_DEFAULT);
+#endif
+#ifdef PTE_MAYBE_NG
+	printk("PTE_MAYBE_NG = 0x%llx\n", PTE_MAYBE_NG);
+#endif
 #ifdef PROT_NORMAL
 	printk("PROT_NORMAL = 0x%llx\n", PROT_NORMAL);
 #endif
