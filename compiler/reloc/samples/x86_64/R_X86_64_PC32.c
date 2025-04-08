@@ -25,7 +25,7 @@ static int64_t si64i = 1;	/* .data, LOCAL */
 
 int arr_i[] = {1, 2, 3, 4};
 
-/* foo is R_X86_64_PC32 */
+/* foo is R_X86_64_PC32, .text */
 void foo(void)
 {
 	gi8 = 10;	/* R_X86_64_PC32 */
@@ -33,22 +33,22 @@ void foo(void)
 	gi32 = 10;	/* R_X86_64_PC32 */
 	gi64 = 10;	/* R_X86_64_PC32 */
 
-	si32 = 10;	/* R_X86_64_PC32 */
-	si64 = 10;	/* R_X86_64_PC32 */
+	si32 = 10;	/* R_X86_64_PC32, .bss */
+	si64 = 10;	/* R_X86_64_PC32, .bss */
 
 	pgi64 = NULL;	/* R_X86_64_PC32 */
 }
 void foo_alias1(void) __attribute__((alias("foo")));
 void foo_alias2(void) __attribute__((alias("foo")));
 
-/* bar is R_X86_64_PC32 */
+/* bar is R_X86_64_PC32, .text */
 void bar(void)
 {
 	gi8i = 20;	/* R_X86_64_PC32 */
 	gi32i = 20;	/* R_X86_64_PC32 */
 
-	si32i = 20;	/* R_X86_64_PC32 */
-	si64i = 20;	/* R_X86_64_PC32 */
+	si32i = 20;	/* R_X86_64_PC32, .data */
+	si64i = 20;	/* R_X86_64_PC32, .data */
 
 	arr_i[0] = 1;	/* R_X86_64_PC32 */
 	arr_i[1] = 1;	/* R_X86_64_PC32 */
@@ -56,7 +56,7 @@ void bar(void)
 	arr_i[3] = 1;	/* R_X86_64_PC32 */
 }
 
-/* main is R_X86_64_PC32 */
+/* main is R_X86_64_PC32, .text */
 int main(void)
 {
 	return 0;
