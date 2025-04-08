@@ -131,6 +131,14 @@ int tracepoint__syscalls__sys_exit_execve(struct syscall_trace_exit *ctx)
 
 	pid = (pid_t)(bpf_get_current_pid_tgid() >> 32);
 
+#if 1
+	struct task_struct *task;
+	task = bpf_task_from_pid(pid);
+	if (task) {
+		bpf_task_release(task);
+	}
+#endif
+
 	pevent = bpf_map_lookup_elem(&execs, &pid);
 	if (!pevent)
 		return 0;
