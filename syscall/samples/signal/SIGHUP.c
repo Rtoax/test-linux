@@ -25,7 +25,8 @@
 #include <unistd.h>
 #include <string.h>
 
-#include "../wait/waitpid-status.c"
+#include "../wait/wait_helpers.c"
+
 
 void sig_printer(int signum)
 {

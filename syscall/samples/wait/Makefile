@@ -1,6 +1,5 @@
 include ../../../tlbuild.mk
 
-
 TARGETS :=
 TARGETS += waitpid
 TARGETS += waitpid-sig
@@ -17,11 +16,11 @@ CFLAGS += -DDEBUG -O0 -g
 build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
-# Add more object.o file
+wait_helpers.o: wait_helpers.h
 waitpid: waitpid.o
 waitpid-sig: waitpid-sig.o
 waitpid-kill: waitpid-kill.o
-waitpid-status: waitpid-status.o
+waitpid-status: waitpid-status.o wait_helpers.o
 wait: wait.o
 
 CFLAGS_waitpid-status := -DTEST_MAIN_WAITPID_STATUS=1

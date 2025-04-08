@@ -15,7 +15,8 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 
-#include "../wait/waitpid-status.c"
+#include "../wait/wait_helpers.c"
+
 
 sig_atomic_t child_exit_status = 0;
 
