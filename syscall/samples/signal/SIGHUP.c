@@ -23,15 +23,16 @@
 #include <errno.h>
 #include <signal.h>
 #include <unistd.h>
+#include <string.h>
 
 #include "../wait/waitpid-status.c"
 
 void sig_printer(int signum)
 {
-	psignal(signum, "SIG");
+	printf("pid %d get %s\n", getpid(), strsignal(signum));
 }
 
-int main(void)
+void test1(void)
 {
 	int ret;
 	pid_t pid;
@@ -56,8 +57,7 @@ int main(void)
 
 		/* send SIGTSTP to self, make self stop */
 		kill(getpid(), SIGTSTP);
-		printf("child\n");
-
+		printf("child exit\n");
 		exit(0);
 	}
 
@@ -67,7 +67,16 @@ int main(void)
 	ret = waitpid(pid, &status, WNOHANG);
 	print_wstatus(status);
 	printf("Parent exit, waitpid %d status %d.\n", ret, status);
-	exit(0);
+	/**
+	 * parent exit, send SIGHUP to child
+	 */
+	exit(1);
+}
+
+int main(int argc, char *argv[])
+{
+	printf("---- test1 ----\n");
+	test1();
 
 	return 0;
 }
