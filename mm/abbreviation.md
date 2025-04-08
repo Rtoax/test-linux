@@ -6,6 +6,7 @@
 - EDAC: Error Detection And Correction
 - GDT: Global Descriptor Table (全局描述符表)
 - ISB: Instruction Synchronization Barrier (指令同步屏障) @arm @DMB @DSB
+- KPTI: Kernel Page Table Isolation (内核页表隔离) @PTI
 - LDT: Local Descriptor Table (局部描述符表)
 - LMA: Load Memory Address (加载内存地址) @VMA
 - MCE: Machine Check Exceptions
@@ -16,6 +17,7 @@
 - OOM: Out Of Memory (内存耗尽)
 - PAE: Physical Address Extension (物理地址扩展)
 - PSS: Proportional Set Size (实际使用的物理内存 比例分配共享库占用的内存)
+- PTI: Page Table Isolation (页表隔离) @KPTI
 - RSS: Resident Set Size (常驻内存集合大小 包含共享库占用的内存)
 - TLB: Translation Lookaside Buffer (旁路转换缓冲, 地址转换后备缓冲)
 - UE: Uncorrectable Error () @ECC
