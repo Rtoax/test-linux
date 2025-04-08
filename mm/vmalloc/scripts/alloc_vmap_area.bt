@@ -1,0 +1,34 @@
+#!/bin/bpftrace
+BEGIN
+{
+	printf("Tracing alloc_vmap_area(), end with ctrl-c\n");
+}
+
+/**
+ */
+kprobe:alloc_vmap_area
+/ comm == "insmod" /
+{
+	@size[tid] = arg0;
+	@start[tid] = arg2;
+	@end[tid] = arg3;
+}
+
+kretprobe:__vmalloc_node_range
+/ @size[tid] /
+{
+	printf("%lx (%ldKB,%ldMB) : 0x%lx - 0x%lx (%ldM), ret %lx\n",
+		@size[tid], @size[tid] / 1024, @size[tid] / 1024 / 1024,
+		@start[tid], @end[tid], (@end[tid] - @start[tid]) / 1024 / 1024,
+		retval);
+	delete(@size[tid]);
+	delete(@start[tid]);
+	delete(@end[tid]);
+}
+
+END
+{
+	clear(@size);
+	clear(@start);
+	clear(@end);
+}
