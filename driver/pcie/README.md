@@ -11,7 +11,10 @@ PCI - Peripheral Component Interconnect
 
 # PCI 总线结构
 
-`00:00:0` = `总线号(Bus Number)` + `设备号(Device Number)` + `功能号(Function Number)`
+`0006:02:00.1` = `域号(Domain)`:`总线号(Bus Number)`:`设备号(Device Number)`.`功能号(Function Number)`
+
+- 对于大多数系统，只有一个域，因此通常是`0000`。
+- 在包含多个 PCIe 根总线的大型系统（例如多处理器服务器）中，域号用于区分不同的PCIe根总线。
 
 
 # PCI 配置空间

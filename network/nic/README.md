@@ -8,6 +8,7 @@ NIC
 - `eth`: Original Simple Scheme
 - `en`: Ethernet
 	- `o`: o:Onboard (板载网卡)
+	- `P`: P:Domain
 	- `p`: p:PCIe Bus
 	- `s`: s:Slot, 可热插拔的网卡
 	- `f`: f:Function
@@ -51,14 +52,24 @@ NIC
 	   ^^              s0   (slot)
 	      ^            f0   (function)
 ```
-- enp129s0f1np1
 
+- enp129s0f1np1
 ```
 	81:00.1 Ethernet controller: xxx
 	        ^^^^^^^^   en
 	^^                 p129 (bus)
 	   ^^              s0   (slot)
 	      ^            f1   (function)
+```
+
+- enP6p9s93f0
+```
+	0006:09:5d.0 Ethernet controller: xxx
+	             ^^^^^^^^  en
+	^^^^                   P6  (Domain)
+	     ^^                p9  (Bus)
+	        ^^             s93 (Slot)
+	           ^           f0  (Function)
 ```
 
 > Q: What is np0/np1?
