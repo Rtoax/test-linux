@@ -14,8 +14,14 @@ int main(int argc, char **argv)
 		return 1;
 	}
 
+	int result;
 	const char *ksym_name = argv[1];
-	int result = btf_check_ksym_existence(ksym_name);
+
+#ifdef TEST_BTF_KIND_FUNC
+	result = btf_check_kfunc_existence(ksym_name);
+#else
+	result = btf_check_ksym_existence(ksym_name);
+#endif
 
 	if (result > 0) {
 		printf("Kernel symbol '%s' exists.\n", ksym_name);

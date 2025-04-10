@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-int btf_check_ksym_existence(const char *ksym_name)
+static int __btf_check_ksym_existence(const char *ksym_name, int kind)
 {
 	struct btf *btf;
 	int btf_id;
@@ -27,7 +27,13 @@ int btf_check_ksym_existence(const char *ksym_name)
 		return -1;
 	}
 
-	btf_id = btf__find_by_name(btf, ksym_name);
+	switch (kind) {
+	case BTF_KIND_FUNC:
+		btf_id = btf__find_by_name_kind(btf, ksym_name, BTF_KIND_FUNC);
+	case BTF_KIND_UNKN:
+	default:
+		btf_id = btf__find_by_name(btf, ksym_name);
+	}
 	if (btf_id < 0) {
 #ifdef DEBUG
 		fprintf(stderr, "ksym '%s' does not exist\n", ksym_name);
@@ -44,4 +50,14 @@ int btf_check_ksym_existence(const char *ksym_name)
 
 	btf__free(btf);
 	return 1;
+}
+
+int btf_check_ksym_existence(const char *ksym_name)
+{
+	return __btf_check_ksym_existence(ksym_name, BTF_KIND_UNKN);
+}
+
+int btf_check_kfunc_existence(const char *kfunc_name)
+{
+	return __btf_check_ksym_existence(kfunc_name, BTF_KIND_FUNC);
 }

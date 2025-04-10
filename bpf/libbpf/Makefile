@@ -119,6 +119,7 @@ ifeq (${VIRT_TYPE},systemd-nspawn)
 endif
 
 TARGETS_BTF := btf_ksym
+TARGETS_BTF += btf_kfunc
 
 CFLAGS_BPF := -I.
 CFLAGS_BPF += -O2 -Wall -g
@@ -243,6 +244,7 @@ ${OUTPUT}/libxdp_helpers.o: libxdp_helpers.h
 ${OUTPUT}/btf_helpers.o: btf_helpers.h
 
 btf_ksym: ${OUTPUT}/btf_ksym.o ${BTF_HELPERS}
+btf_kfunc: ${OUTPUT}/btf_kfunc.o ${BTF_HELPERS}
 libbpf_version: ${OUTPUT}/libbpf_version.o
 
 config-map: ${OUTPUT}/config-map.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER}
