@@ -138,6 +138,8 @@ int tracepoint__syscalls__sys_exit_execve(struct syscall_trace_exit *ctx)
 /**
  * linux commit 3f0e6f2b41d3 ("bpf: Add bpf_task_from_pid() kfunc")
  * v6.1-rc4-1163-g3f0e6f2b41d3
+ *
+ * or use CO-RE method https://github.com/iovisor/bcc/pull/5272
  */
 #if LINUX_VERSION_CODE > KERNEL_VERSION(6, 1, 0)
 	struct task_struct *task;
