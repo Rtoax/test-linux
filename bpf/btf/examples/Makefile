@@ -18,7 +18,7 @@ all: ${TARGETS}
 t1:
 	@echo -e "  T1  \033[1;32m$(@)\033[m"
 	$(Q)gcc -c -O2 -g t.c
-	$(Q)pahole -JV t.o
+	$(Q)${PAHOLE} -JV t.o
 
 t2:
 	@echo -e "  T2  \033[1;32m$(@)\033[m"
