@@ -5,6 +5,9 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+#include "btf_helpers.h"
+
+
 static int __btf_check_ksym_existence(const char *ksym_name, int kind)
 {
 	struct btf *btf;
