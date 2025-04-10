@@ -227,6 +227,7 @@ TASK_HELPERS := ${OUTPUT}/task_helpers.o
 TRACE_HELPERS := ${OUTPUT}/trace_helpers.o
 LIBBPF_WRAPPER := ${OUTPUT}/libbpf_wrapper.o
 LIBXDP_HELPERS := ${OUTPUT}/libxdp_helpers.o
+BTF_HELPERS := ${OUTPUT}/btf_helpers.o
 
 
 .PHONY: build
@@ -239,8 +240,9 @@ ${OUTPUT}/trace_helpers.o: trace_helpers.h
 ${OUTPUT}/task_helpers.o: task_helpers.h
 ${OUTPUT}/libbpf_wrapper.o: libbpf_wrapper.h
 ${OUTPUT}/libxdp_helpers.o: libxdp_helpers.h
+${OUTPUT}/btf_helpers.o: btf_helpers.h
 
-btf_ksym: ${OUTPUT}/btf_ksym.o
+btf_ksym: ${OUTPUT}/btf_ksym.o ${BTF_HELPERS}
 libbpf_version: ${OUTPUT}/libbpf_version.o
 
 config-map: ${OUTPUT}/config-map.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER}
