@@ -253,7 +253,7 @@ ARGUMENT
 	--3rd              get third party software packages above
 
 	--nobase           skip basic packages
-	--noup             skip upgrade
+	--noup,--noupgrade skip upgrade
 
 	--pip, --nopip     install python pip wheel packages or skip even --all
 
@@ -280,7 +280,7 @@ SEE ALSO
 TEMP_ARGS=$(getopt --options uvhfk: \
 	--long all \
 	--long nobase \
-	--long noup \
+	--long noup --long noupgrade \
 	--long fs \
 	--long compilers \
 	--long build \
@@ -319,7 +319,7 @@ while true; do
 		shift
 		enable_all
 		;;
-	--noup)
+	--noup | --noupgrade)
 		shift
 		have_upgrade=""
 		;;
