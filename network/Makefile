@@ -1,9 +1,9 @@
 # SPDX-License-Identifier: GPL-3.0
 include ../tlbuild.mk
 
-
 sub-dir :=
 sub-dir += icmp
+sub-dir += nic
 
 TARGETS :=
 TARGETS += ethtool
