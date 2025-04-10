@@ -118,6 +118,8 @@ ifeq (${VIRT_TYPE},systemd-nspawn)
   TARGETS_SKEL :=
 endif
 
+TARGETS_BTF := btf_ksym
+
 CFLAGS_BPF := -I.
 CFLAGS_BPF += -O2 -Wall -g
 CFLAGS_BPF += -target bpf
@@ -228,7 +230,7 @@ LIBXDP_HELPERS := ${OUTPUT}/libxdp_helpers.o
 
 
 .PHONY: build
-build: libbpf_version vmlinux.h ${TARGETS_BPF} ${TARGETS_SKEL} ${TARGETS}
+build: libbpf_version vmlinux.h ${TARGETS_BPF} ${TARGETS_SKEL} ${TARGETS} ${TARGETS_BTF}
 	${Q}./libbpf_version | sed 's/^/  /g'
 	@echo -e "  \033[1;33mDone\033[m"
 
@@ -237,7 +239,9 @@ ${OUTPUT}/trace_helpers.o: trace_helpers.h
 ${OUTPUT}/task_helpers.o: task_helpers.h
 ${OUTPUT}/libbpf_wrapper.o: libbpf_wrapper.h
 ${OUTPUT}/libxdp_helpers.o: libxdp_helpers.h
-${OUTPUT}/libbpf_version: ${OUTPUT}/libbpf_version.o
+
+btf_ksym: ${OUTPUT}/btf_ksym.o
+libbpf_version: ${OUTPUT}/libbpf_version.o
 
 config-map: ${OUTPUT}/config-map.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER}
 socket_filter: ${OUTPUT}/socket_filter.o ${SOCKET_HELPERS}
@@ -296,7 +300,7 @@ ${OUTPUT}/%.o: %.c | ${OUTPUT}
 	@echo -e "  CC(LIB)  \033[1m$(notdir ${@})\033[m"
 	${Q}$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
 
-$(TARGETS) libbpf_version: %: ${OUTPUT}/%.o
+$(TARGETS) libbpf_version ${TARGETS_BTF}: %: ${OUTPUT}/%.o
 	@echo -e "  LD  \033[1;32m$(notdir ${@})\033[m"
 	${Q}$(CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*))
 

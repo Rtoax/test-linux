@@ -36,3 +36,4 @@
 /map_percpu_array
 /map_lru_hash
 /map_lru_percpu_hash
+/btf_ksym
