@@ -15,7 +15,7 @@ int main(int argc, char **argv)
 	}
 
 	const char *ksym_name = argv[1];
-	int result = check_ksym_existence(ksym_name);
+	int result = btf_check_ksym_existence(ksym_name);
 
 	if (result > 0) {
 		printf("Kernel symbol '%s' exists.\n", ksym_name);
