@@ -39,7 +39,7 @@ CFLAGS += -O0
 CFLAGS_sum := -DTYPE_FLOAT
 CFLAGS_sum-avx := -DTYPE_FLOAT -mavx
 CFLAGS_sum-avx2 := -DTYPE_FLOAT -mavx2
-CFLAGS_test-asm := -std=gnu17
+CFLAGS_test-asm := -std=gnu11
 CFLAGS_avx512_aux := -mavx512f
 # Why -mfma?
 # - https://www.cnblogs.com/hellowooorld/p/11529078.html
