@@ -3,7 +3,7 @@ NIC
 
 # Naming Scheme
 
-## net.ifnames
+## net.ifnames cmdline
 
 - `eth`: Original Simple Scheme
 - `en`: Ethernet
@@ -11,18 +11,32 @@ NIC
 	- `p`: p:PCIe Bus
 	- `s`: s:Slot, 可热插拔的网卡
 	- `f`: f:Function
-	- `x`: 使用MAC地址命名的网卡
+	- `x`: x:MAC address
 - `ib`: InfiniBand
 - `sl`: 串列线路互联网协议(slip：Serial line IP)
 - `wl`: Wireless Lan (WLAN, WiFi)
 	- wlx: 使用MAC地址命名的网卡
 - `ww`: Wild Wireless (WWAN)
 
-## biosdevname
+## biosdevname cmdline
 
-- `em[1234]`: Embedded Network Interface
+- `em[1234...]`: Embedded Network Interface (LOM)
 - `p<slot><ethernet port>`: PCI card network Interface
+  - `p3p4`
 - `p<slot><ethernet port>_<virtual interface>`: Virtual Function
+  - `p3p4_1`
+
+> sudo dnf install biosdevname
+> sudo apt install biosdevname
+
+## net.ifnames .vs. biosdevname
+
+|  net.ifnames | biosdevname | example |
+| ------------ | ----------- | ------- |
+|   default    |   default   |  enp5s2 |
+|   default    |      0      |  enp5s2 |
+|      0       |   default   |  em1    |
+|      0       |      0      |  eth1   |
 
 
 ## 示例
