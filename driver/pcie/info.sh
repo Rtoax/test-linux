@@ -1,9 +1,10 @@
 #!/bin/bash
+set -e
 
 slot_vendor() {
 	slots=( $(lspci -n | awk '{print $1}') )
 
-	declare -a n_vendors s_vendors
+	local -a n_vendors s_vendors
 
 	for slot in ${slots[@]}
 	do

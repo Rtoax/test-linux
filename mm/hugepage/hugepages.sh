@@ -31,8 +31,8 @@ umount_hugetlbfs()
 # /sys/devices/system/node/node1/hugepages/hugepages-2048kB/nr_hugepages
 get_hugepage_info()
 {
-	declare -a hugepage_dirs
-	declare -a nr_hugepages
+	local -a hugepage_dirs
+	local -a nr_hugepages
 
 	hugepage_dirs=( $(ls /sys/kernel/mm/hugepages/) )
 

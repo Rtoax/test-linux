@@ -6,7 +6,7 @@
 check_ipv4_address()
 {
 	local addr=$1
-	declare -a arr
+	local -a arr
 
 
 	# '0.0.0.0.' is ill, only three '.' needed here.

@@ -30,7 +30,7 @@ print_list() {
 }
 
 pre_check() {
-	declare -a no_add_valid_files
+	local -a no_add_valid_files
 
 	get_no_add_files
 	get_no_commit_files
