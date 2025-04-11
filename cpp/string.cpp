@@ -12,9 +12,12 @@ using namespace std;
 int replace(void)
 {
 	std::string str1("1234567890");
+	std::string str2("abc");
 
 	std::cout << "str1 " << str1 << std::endl;
-	str1.replace(2, 3, "abc");
+	str1.replace(2, 3, "---");
+	std::cout << "str1 " << str1 << std::endl;
+	str1.replace(2, 3, str2);
 	std::cout << "str1 " << str1 << std::endl;
 
 	return 0;
