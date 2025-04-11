@@ -1,10 +1,17 @@
 Linux Kernel Module
 ===================
 
+# ELF
+
 ```
 $ strip --strip-debug input.ko -o output-no-debug.ko
 ```
 
+# cmdline
+
+```
+rd.driver.blacklist=nouveau modprobe.blacklist=nouveau
+```
 
 # Links
 
