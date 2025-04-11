@@ -5,7 +5,6 @@ sub-dir := bitmask
 sub-dir += bitops
 sub-dir += fft
 sub-dir += hashmap
-sub-dir += hweight
 sub-dir += linklist
 sub-dir += rbtree
 sub-dir += md5

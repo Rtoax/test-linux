@@ -58,6 +58,7 @@ KERNEL_LIST += algorithm/bitops/modules
 KERNEL_LIST += algorithm/bits/modules
 KERNEL_LIST += algorithm/crypto/crc32/modules
 KERNEL_LIST += algorithm/hash/modules
+KERNEL_LIST += algorithm/hweight/modules
 KERNEL_LIST += algorithm/ida/modules
 KERNEL_LIST += algorithm/list/modules
 KERNEL_LIST += algorithm/rbtree/modules
