@@ -1,20 +1,23 @@
 #!/bin/bash
+set -e
 
 cpu_freq()
 {
 	cat /proc/cpuinfo | grep cpu | grep  MHz | sed -e 's/.*:[^0-9]//'
 }
 
-
 cpu_stat()
 {
 	local i item
 	local proc="/proc/stat"
-	declare -a _cpus
-	declare -a users nices systems idles iowaits irqs softirqs steals guests guest_nices
 
+	local -a _cpus
+	local -a users nices systems idles iowaits irqs softirqs steals guests guest_nices
+
+	printf "%-8s %-10s %-10s %-10s %-10s %-10s %-10s %-10s %-10s %-10s %-10s %-10s\n" \
+		CPU USER NICE SYSTEM IDLE IOWAIT IRQ SOFTIRQ STEAL GUEST GUEST_NICE
 	i=0
-	cat /proc/stat | grep ^cpu | while read line
+	cat ${proc} | grep ^cpu | while read line
 	do
 		items=( $line )
 		_cpus+=( ${items[0]} )
@@ -41,7 +44,7 @@ cpu_stat()
 			${steals[$i]} \
 			${guests[$i]} \
 			${guest_nices[$i]}
-		(( i++ ))
+		i=$( expr $i + 1 )
 	done
 }
 
