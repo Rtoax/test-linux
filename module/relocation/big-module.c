@@ -15,6 +15,7 @@ static const char buff[SZ_128M] = {1};
 
 #ifdef BIG_TEXT
 #pragma message("test bit text")
+const char __attribute__((section(".text"))) buff_in_text_section[SZ_128M] = {1};
 #include "big-text.h"
 #include "generated_functions.h"
 #endif
