@@ -9,6 +9,7 @@ TARGETS += extern_C
 TARGETS += pass-arg
 TARGETS += return
 TARGETS += this
+TARGETS += string
 
 CXX = g++
 
@@ -36,6 +37,7 @@ extern_C: extern_C.o
 pass-arg: pass-arg.o
 return: return.o
 this: this.o
+string: string.o
 
 CXXFLAGS_return := -Wno-error=return-type
 
