@@ -8,6 +8,7 @@ VIRT_TYPE ?= $(shell systemd-detect-virt)
 include ../../kconfig.mk
 include ../bpf.mk
 include ./libbpf.mk
+include ../btf/btf.mk
 
 KSYM_DO_EXECVEAT_COMMON := $(shell grep 't do_execveat_common' /proc/kallsyms \
 			| head -1 \
@@ -42,7 +43,12 @@ TARGETS :=
 TARGETS += config-map
 TARGETS += socket_filter
 TARGETS += tc
-TARGETS += xdp xdp_devmap xdp_simple xdp_dos
+TARGETS += xdp xdp_simple xdp_dos
+# kernel v4.12-11037-g546ac1ffb70d
+# commit 546ac1ffb70d ("bpf: add devmap, a map for storing net device references")
+ifeq ($(call kernel_newer_than,4,12,0),y)
+  TARGETS += xdp_devmap
+endif
 # kernel v5.8-rc4-1449-g9216477449f3
 # commit 9216477449f3 ("bpf: cpumap: Add the possibility to attach an eBPF program to cpumap")
 # struct bpf_cpumap_val support bpf_prog field
@@ -181,6 +187,9 @@ CFLAGS_BPF_tp_btf := ${CFLAGS_tp_btf}
 CFLAGS_xdp := -DSTRICT_SEC_NAME=1 -DXDP_BASIC=1 -DXDP_BASIC_DUMMY=1 -DXDP_BASIC_TX=1 -DXDP_BASIC_PRINTK=1
 CFLAGS_BPF_xdp := ${CFLAGS_xdp}
 CFLAGS_xdp_devmap := -DSTRICT_SEC_NAME=1 -DXDP_DEVMAP=1
+ifeq ($(call vmlinux_has_sym,bpf_devmap_val),y)
+  CFLAGS_xdp_devmap += -DHAVE_STRUCT_BPF_DEVMAP_VAL=1
+endif
 CFLAGS_BPF_xdp_devmap := ${CFLAGS_xdp_devmap}
 CFLAGS_xdp_cpumap := -DSTRICT_SEC_NAME=1 -DXDP_CPUMAP=1
 CFLAGS_BPF_xdp_cpumap := ${CFLAGS_xdp_cpumap}
