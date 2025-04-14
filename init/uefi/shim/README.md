@@ -49,6 +49,14 @@ EFI
     └── shimx64.efi
 ```
 
+> ISO: UEFI → /EFI/BOOT/BOOT*.efi → /EFI/BOOT/grub*.efi
+>	Example:
+>	EFI/BOOT/
+>	├── BOOTAA64.EFI
+>	├── grubaa64.efi
+>	├── grub.cfg
+>	└── TRANS.TBL
+
 
 # Links
 
