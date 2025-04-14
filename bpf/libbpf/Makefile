@@ -187,7 +187,7 @@ CFLAGS_BPF_tp_btf := ${CFLAGS_tp_btf}
 CFLAGS_xdp := -DSTRICT_SEC_NAME=1 -DXDP_BASIC=1 -DXDP_BASIC_DUMMY=1 -DXDP_BASIC_TX=1 -DXDP_BASIC_PRINTK=1
 CFLAGS_BPF_xdp := ${CFLAGS_xdp}
 CFLAGS_xdp_devmap := -DSTRICT_SEC_NAME=1 -DXDP_DEVMAP=1
-ifeq ($(call vmlinux_has_sym,bpf_devmap_val),y)
+ifeq ($(call vmlinux_has_struct,bpf_devmap_val),y)
   CFLAGS_xdp_devmap += -DHAVE_STRUCT_BPF_DEVMAP_VAL=1
 endif
 CFLAGS_BPF_xdp_devmap := ${CFLAGS_xdp_devmap}
