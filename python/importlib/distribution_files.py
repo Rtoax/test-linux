@@ -1,5 +1,6 @@
 #!/bin/env python
 
+import sys
 from importlib.metadata import distribution
 
 package_name = "bcc"
@@ -11,6 +12,6 @@ try:
     print(f"The location of the package '{package_name}' is: {location}")
     for f in files:
         print(f"{location}/{f}")
-except AttributeError:
-    print(f"Error '{package_name}'")
+except:
+    print(f"Error get manifest of '{package_name}'", file=sys.stderr)
 
