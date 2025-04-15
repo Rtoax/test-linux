@@ -1,6 +1,21 @@
 #!/bin/bash
 set -ex
 
+. /etc/os-release
+
+pkgs_deb+=(
+	libclang-cpp-dev libclang-dev
+	libclang-cpp19-dev libclang-19-dev
+)
+
+case ${ID} in
+debian)
+	sudo apt install -y ${pkgs_deb[@]}
+	;;
+*)
+	;;
+esac
+
 # 1. [#1855] -DENABLE_LLVM_SHARED=1
 # 2. MUST care about bpf_prog_load(),
 #    replace bpf_prog_load to bpf_prog_load_v0_6_0.
