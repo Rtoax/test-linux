@@ -571,6 +571,9 @@ pkgs_desktop+=( gnome-tweaks )
 pkgs_desktop+=( gnuplot )
 pkgs_desktop+=( python3-matplotlib )
 
+pkgs_devel+=( python3-build )
+pkgs_devel+=( python3-installer )
+
 # Database
 pkgs_db+=( postgresql )
 
