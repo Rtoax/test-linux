@@ -22,6 +22,11 @@ done
 
 readonly temp_file=$(mktemp -u tmp-lds-XXXXXX)
 
+clean() {
+	rm -f ${temp_file}
+}
+trap clean EXIT
+
 ${LD} --verbose ${PIE:+--pic-executable} > ${temp_file}
 
 # Seek two "======" line numbers
@@ -33,5 +38,3 @@ end=$(( ${start_end[1]} - 1 ))
 
 # Print
 sed -n "${start}, ${end}p" ${temp_file} > default.lds
-
-rm -f ${temp_file}
