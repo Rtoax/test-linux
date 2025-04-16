@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0
 include ../../../tlbuild.mk
 
 CC := gcc
@@ -30,7 +31,9 @@ ifdef PIE
   LDS_PIE := PIE
 endif
 
+.PHONY: all
 all: ${TARGETS_LDS} ${TARGETS_AS} ${TARGETS_C}
+	@echo -e " \033[1;33m Done \033[m"
 
 foo.o: foo.h bar.h
 bar.o: foo.h bar.h
@@ -40,7 +43,7 @@ hello-as: hello-as.o
 
 default.lds:
 	@echo -e "  LDS  generate \033[1;32m$(@)\033[m"
-	${Q}./default.lds.sh ${LDS_PIE}
+	${Q}LD=${LD} ./default.lds.sh ${LDS_PIE}
 
 %.o: %.asm
 	@echo -e "  AS  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
@@ -58,6 +61,7 @@ $(TARGETS_C): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
 	${Q}$(CC) -o $(@) $(^) $(LDFLAGS_C) $(LDFLAGS_$(*)) $(CFLAGS) $(CFLAGS_$(*))
 
+.PHONY: clean
 clean:
 	@echo -e "  CLEAN  \033[1;32m$(TARGETS_AS) $(TARGETS_C) $(TARGETS_LDS)\033[m"
 	${Q}rm -f ${TARGETS_AS} ${TARGETS_C} ${TARGETS_LDS} *.o

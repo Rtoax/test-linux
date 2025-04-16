@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e
 
+readonly LD_DEFAULT=ld
+
 LD=${LD}
 PIE=
 
@@ -16,9 +18,9 @@ while true; do
 	esac
 done
 
-[[ -z ${LD} ]] && LD=ld
+[[ -z ${LD} ]] && LD=${LD_DEFAULT}
 
-temp_file=$(mktemp -u tmp-lds-XXXXXX)
+readonly temp_file=$(mktemp -u tmp-lds-XXXXXX)
 
 ${LD} --verbose ${PIE:+--pic-executable} > ${temp_file}
 
