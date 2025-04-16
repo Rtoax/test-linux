@@ -974,5 +974,8 @@ fi
 
 # Install python3 pip wheels
 if [[ ${have_pip} ]] && [[ -e /usr/bin/pip3 ]]; then
-	inst_eval pip3 install "${pip_whls[@]}"
+	if [[ $(is_os debian ubuntu) ]]; then
+		PIP_EXTRA_ARGS=( --break-system-packages )
+	fi
+	inst_eval sudo pip3 install -y ${PIP_EXTRA_ARGS[@]} "${pip_whls[@]}"
 fi
