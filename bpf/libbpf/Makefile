@@ -7,8 +7,10 @@ VIRT_TYPE ?= $(shell systemd-detect-virt)
 
 include ../../kconfig.mk
 include ../bpf.mk
+include ../../glibc/ldconfig.mk
 include ./libbpf.mk
 include ../btf/btf.mk
+include ../bpftool/bpftool.mk
 
 KSYM_DO_EXECVEAT_COMMON := $(shell grep 't do_execveat_common' /proc/kallsyms \
 			| head -1 \
@@ -20,7 +22,6 @@ UID=$(shell id -u)
 
 CC := gcc
 CLANG := clang
-BPFTOOL := bpftool
 # bpftool gen skeleton
 GEN_SKEL_ARGS :=
 

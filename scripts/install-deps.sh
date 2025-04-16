@@ -651,7 +651,6 @@ dnf_add_packages()
 	fi
 	pkgs_base+=( acpica-tools )
 	pkgs_base+=( bcc )
-	pkgs_base+=( bcc-devel )
 	pkgs_base+=( binutils-devel )
 	pkgs_base+=( binutils-gold )
 	pkgs_base+=( capstone-devel )       # Capstone is a disassembly framework
@@ -715,7 +714,6 @@ dnf_add_packages()
 	pkgs_base+=( scl-utils )
 	pkgs_base+=( sg3_utils )            # sg_inq, etc.
 	pkgs_base+=( systemd-udev )         # coredumpctl
-	pkgs_base+=( systemtap-sdt-devel )  # sdt.h
 	pkgs_base+=( vim-default-editor )
 	pkgs_base+=( which )
 	pkgs_base+=( xz-devel )
@@ -760,6 +758,7 @@ dnf_add_packages()
 	pkgs_desktop+=( gtk3-devel )
 	pkgs_desktop+=( tigervnc )
 
+	pkgs_devel+=( bcc-devel )
 	pkgs_devel+=( cyrus-sasl-devel )
 	pkgs_devel+=( device-mapper-multipath-devel )
 	pkgs_devel+=( glib2-devel )
@@ -985,12 +984,22 @@ apt_add_packages()
 zypper_add_packages()
 {
 	pkgs_base+=( acpica )
+	pkgs_base+=( binutils-devel )
+
 	pkgs_build+=( ninja )
+
 	pkgs_compiler+=( go )
+
+	pkgs_devel+=( bcc-devel )
+	pkgs_devel+=( libbpf libbpf-devel libbpf-devel-static )
 	pkgs_devel+=( python311-build )
 	pkgs_devel+=( python311-installer )
+	pkgs_devel+=( systemtap-sdt-devel )
+
 	pkgs_docs+=( python3-sphinx_rtd_theme )
+
 	pkgs_storage+=( gptfdisk )
+
 	pkgs_virt+=( qemu-linux-user )
 	return 0
 }

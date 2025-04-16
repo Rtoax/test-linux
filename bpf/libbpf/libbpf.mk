@@ -1,7 +1,9 @@
 # SPDX-License-Identifier: GPL-3.0
 SHELL := bash
 
-LIBBPF_PATHS := $(shell ldconfig -p | grep libbpf.so | awk '{print $$NF}' || true)
+LDCONFIG ?= ldconfig
+
+LIBBPF_PATHS := $(shell ${LDCONFIG} -p | grep libbpf.so | awk '{print $$NF}' || true)
 LIB_PATH := $(shell dirname $(LIBBPF_PATHS) | sort | uniq || true)
 # Like /usr/lib64/libbpf.so.0.4.0
 LIBBPF_V_PATH := $(shell realpath ${LIB_PATH}/libbpf.so)
@@ -11,6 +13,12 @@ LIBBPF_MINOR_VERSION := $(shell echo ${LIBBPF_V_PATH} | awk -F '.' '{print $$4}'
 
 export LIBBPF_MAJOR_VERSION LIBBPF_MINOR_VERSION
 
+ifeq (${LIBBPF_MAJOR_VERSION},)
+  $(error "Could not get libbpf LIBBPF_MAJOR_VERSION")
+endif
+ifeq (${LIBBPF_MINOR_VERSION},)
+  $(error "Could not get libbpf LIBBPF_MINOR_VERSION")
+endif
 $(info LIBBPF_PATHS = ${LIBBPF_PATHS})
 $(info LIB_PATH = ${LIB_PATH})
 $(info LIBBPF_V_PATH = ${LIBBPF_V_PATH})

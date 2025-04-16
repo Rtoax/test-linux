@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
 #define LIBBPF_MINOR_VERSION LIB_LIBBPF_MINOR_VERSION
 #endif
 
-#if LIBBPF_MAJOR_VERSION != LIB_LIBBPF_MAJOR_VERSION || LIBBPF_MINOR_VERSION != LIB_LIBBPF_MINOR_VERSION
+#if (LIBBPF_MAJOR_VERSION != LIB_LIBBPF_MAJOR_VERSION) || (LIBBPF_MINOR_VERSION != LIB_LIBBPF_MINOR_VERSION)
 #error "libbpf version fatal, 'ldconfig -p | grep libbpf' != /usr/include/bpf/libbpf_version.h"
 #endif
 	int i;
