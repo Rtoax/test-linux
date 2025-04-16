@@ -989,6 +989,7 @@ zypper_add_packages()
 	pkgs_build+=( ninja )
 
 	pkgs_compiler+=( binutils-gold )
+	pkgs_compiler+=( gcc-c++ )
 	pkgs_compiler+=( go )
 
 	pkgs_devel+=( bcc-devel )
