@@ -1005,6 +1005,10 @@ if [[ $(is_os opencloudos) ]]; then
 	pkgs_skip+=( perf )
 fi
 
+if [[ $(is_os debian) ]]; then
+	pkgs_skip+=( gcc-multilib libdevmapper-dev )
+fi
+
 os_packages
 
 [[ ${have_base} ]] && pkgs_inst+=( ${pkgs_base[@]} )
