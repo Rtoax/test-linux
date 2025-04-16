@@ -933,6 +933,10 @@ if [[ $(is_os centos) ]]; then
 	dnf_args+=( --enablerepo=crb,powertools )
 fi
 
+if [[ $(is_os opencloudos) ]]; then
+	pkgs_skip+=( perf )
+fi
+
 os_packages
 
 [[ ${have_base} ]] && pkgs_inst+=( ${pkgs_base[@]} )
