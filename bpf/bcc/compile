@@ -6,10 +6,11 @@ set -ex
 pkgs_deb+=(
 	libclang-cpp-dev libclang-dev
 	libclang-cpp19-dev libclang-19-dev
+	libdebuginfod-dev
 )
 
 case ${ID} in
-debian)
+debian | ubuntu)
 	sudo apt install -y ${pkgs_deb[@]}
 	;;
 *)

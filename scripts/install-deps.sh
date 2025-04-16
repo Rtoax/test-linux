@@ -455,7 +455,9 @@ pkgs_base+=( bash-completion )
 pkgs_base+=( bat )                  # highlight cat(1)
 pkgs_base+=( bc )
 pkgs_base+=( blktrace )
-pkgs_base+=( bpftool )
+if ! [[ $(is_os ubuntu) ]]; then
+	pkgs_base+=( bpftool )
+fi
 pkgs_base+=( bpftrace bcc )         # eBPF
 pkgs_base+=( cargo )                # The Rust package manager
 pkgs_base+=( cloc )
@@ -549,7 +551,6 @@ pkgs_container+=( systemd-container )
 
 pkgs_virt+=( qemu-user )
 pkgs_virt+=( qemu-user-static )
-pkgs_virt+=( vagrant )
 pkgs_virt+=( virt-manager )
 
 # Benchmark
@@ -769,6 +770,7 @@ dnf_add_packages()
 	pkgs_virt+=( edk2-ovmf )
 	pkgs_virt+=( libvirt )
 	pkgs_virt+=( qemu-kvm )
+	pkgs_virt+=( vagrant )
 	# Add more
 	if [[ $(is_os fedora) ]]; then
 		pkgs_virt+=( box64 ) # Linux Userspace x86_64 Emulator with a twist
@@ -816,19 +818,23 @@ apt_add_packages()
 	pkgs_base+=( liburing-dev )
 	pkgs_base+=( linux-headers-$(uname -r) )
 	pkgs_base+=( linux-libc-dev )
-	pkgs_base+=( linux-perf )
+	if ! [[ $(is_os ubuntu) ]]; then
+		pkgs_base+=( linux-perf )
+	fi
 	pkgs_base+=( lsb-release )
 	pkgs_base+=( procps )
 	pkgs_base+=( sg3-utils )            # sg_inq, etc.
 	pkgs_base+=( systemtap-sdt-dev )    # sdt.h
-	if [[ ${OS} == ubuntu ]]; then
+	if [[ $(is_os ubuntu) ]]; then
 		pkgs_base+=( linux-tools-common )
 	fi
 	pkgs_base+=( gnu-which )
 
 	pkgs_boot+=( shim-signed )
-	pkgs_boot+=( shim-signed-common )
-	pkgs_boot+=( shim-unsigned )
+	if ! [[ $(is_os ubuntu) ]]; then
+		pkgs_boot+=( shim-signed-common )
+		pkgs_boot+=( shim-unsigned )
+	fi
 
 	pkgs_net+=( apache2 )
 	pkgs_net+=( libxdp1 )
