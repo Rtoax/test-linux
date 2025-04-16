@@ -12,7 +12,7 @@ set -e
 
 readonly prog=inst-deps
 
-declare -a dnf_args apt_args
+declare -a dnf_args apt_args zypper_args
 declare -a pkgs_inst pkgs_compiler pkgs_desktop pkgs_bench pkgs_math pkgs_db
 declare -a pkgs_storage pkgs_net pkgs_container pkgs_virt pkgs_base pkgs_fs
 declare -a pkgs_media pkgs_build pkgs_devel pkgs_docs pkgs_video pkgs_boot
@@ -33,6 +33,7 @@ readonly IS_DNF5="$(dnf --version 2>/dev/null | grep -woi dnf5 | uniq)"
 readonly DISTS_WITH_DNF=( fedora centos rhel almalinux openEuler cclinux
 			opencloudos kylin tencentos )
 readonly DISTS_WITH_APT=( debian ubuntu )
+readonly DISTS_WITH_ZYPPER=( suse opensuse opensuse-leap )
 
 echo "OS: ${OS}"
 echo "VIRT: ${VIRT_TYPE} (IS_PHY: ${IS_PHY})"
@@ -133,6 +134,14 @@ apt_upgrade()
 	inst_eval sudo apt autoremove -y || :
 }
 
+zypper_upgrade()
+{
+	inst_eval sudo zypper update -y || {
+		echo "WARNING: Failed to upgrade"
+		true
+	}
+}
+
 dnf_install()
 {
 	inst_eval sudo dnf install -y ${dnf_args[@]} ${@}
@@ -141,6 +150,11 @@ dnf_install()
 apt_install()
 {
 	inst_eval sudo apt install -y ${apt_args[@]} ${@}
+}
+
+zypper_install()
+{
+	inst_eval sudo zypper install -y ${zypper_args[@]} ${@}
 }
 
 dnf_remove()
@@ -153,6 +167,11 @@ dnf_remove()
 apt_remove()
 {
 	inst_eval sudo apt remove -y ${apt_args[@]} ${@}
+}
+
+zypper_remove()
+{
+	inst_eval sudo zypper remove -y ${zypper_args[@]} ${@}
 }
 
 os_operator()
@@ -175,6 +194,13 @@ os_operator()
 		install) apt_install "${@}" ;;
 		remove) apt_remove "${@}" ;;
 		packages) apt_add_packages "${@}" ;;
+		esac
+	elif [[ " ${DISTS_WITH_ZYPPER[@]} " =~ " ${_os_} " ]]; then
+		case ${operator} in
+		upgrade) zypper_upgrade ;;
+		install) zypper_install "${@}" ;;
+		remove) zypper_remove "${@}" ;;
+		packages) zypper_add_packages "${@}" ;;
 		esac
 	else
 		echo "ERROR: Unknown OS ${OS}"
@@ -458,7 +484,6 @@ fedora)
 esac
 
 pkgs_base+=( acpi )
-pkgs_base+=( acpica-tools )
 pkgs_base+=( aha )
 pkgs_base+=( autoconf-archive )
 pkgs_base+=( bash-completion )
@@ -468,9 +493,8 @@ pkgs_base+=( blktrace )
 if ! [[ $(is_os ubuntu) ]]; then
 	pkgs_base+=( bpftool )
 fi
-pkgs_base+=( bpftrace bcc )         # eBPF
+pkgs_base+=( bpftrace )
 pkgs_base+=( cargo )                # The Rust package manager
-pkgs_base+=( cloc )
 pkgs_base+=( codespell )
 pkgs_base+=( cscope )
 pkgs_base+=( dialog kdialog )
@@ -481,7 +505,6 @@ pkgs_base+=( elfutils )             # eu- prefix tools
 pkgs_base+=( gdb cgdb )
 pkgs_base+=( git )
 pkgs_base+=( git-email )
-pkgs_base+=( gnupg2 )               # gpg
 pkgs_base+=( gperf )
 pkgs_base+=( hostname )
 pkgs_base+=( htop )
@@ -499,13 +522,10 @@ pkgs_base+=( neofetch )
 pkgs_base+=( numactl )              # numastat
 pkgs_base+=( opencl-headers )
 pkgs_base+=( openssl )
-pkgs_base+=( parallel )
 pkgs_base+=( powertop ) # power consumption and power management diagnosis tool
-pkgs_base+=( python3-dbus ) # D-Bus
 pkgs_base+=( python3-pip )          # pip wheel
 pkgs_base+=( python3-psutil )
 pkgs_base+=( python3-pyroute2 )     # pyroute2
-pkgs_base+=( python3-scapy )
 pkgs_base+=( smem )
 pkgs_base+=( socat )
 pkgs_base+=( sparse )               # sparse
@@ -529,23 +549,22 @@ pkgs_compiler+=( byacc )
 pkgs_compiler+=( clang )
 pkgs_compiler+=( flex )
 pkgs_compiler+=( gcc )
-pkgs_compiler+=( golang )
 pkgs_compiler+=( lld )                    # ELF linker from the LLVM project
 pkgs_compiler+=( llvm )                   # llvm-as llvm-dis llc
-pkgs_compiler+=( mold )                   # a modern linker
-if [[ ! $(is_arch aarch64) ]]; then
-	pkgs_compiler+=( binutils-aarch64-linux-gnu )
-	pkgs_compiler+=( gcc-aarch64-linux-gnu )
-fi
-if [[ ! $(is_arch x86_64) ]]; then
-	pkgs_compiler+=( binutils-x86_64-linux-gnu )
-	pkgs_compiler+=( gcc-x86_64-linux-gnu )
-fi
+
+add_cross_compiler()
+{
+	if [[ ! $(is_arch aarch64) ]]; then
+		pkgs_compiler+=( binutils-aarch64-linux-gnu )
+		pkgs_compiler+=( gcc-aarch64-linux-gnu )
+	fi
+	if [[ ! $(is_arch x86_64) ]]; then
+		pkgs_compiler+=( binutils-x86_64-linux-gnu )
+		pkgs_compiler+=( gcc-x86_64-linux-gnu )
+	fi
+}
 
 pkgs_build+=( meson )
-pkgs_build+=( ninja-build )
-
-pkgs_docs+=( python3-sphinx )
 
 pkgs_container+=( buildah )
 pkgs_container+=( conmon )
@@ -559,12 +578,10 @@ pkgs_container+=( runc )
 pkgs_container+=( skopeo )
 pkgs_container+=( systemd-container )
 
-pkgs_virt+=( qemu-user )
-pkgs_virt+=( qemu-user-static )
 pkgs_virt+=( virt-manager )
 
 # Benchmark
-pkgs_bench+=( iperf iperf3 )
+pkgs_bench+=( iperf )
 pkgs_bench+=( fio )
 
 pkgs_media+=( vlc )
@@ -582,9 +599,6 @@ pkgs_desktop+=( gnome-tweaks )
 pkgs_desktop+=( gnuplot )
 pkgs_desktop+=( python3-matplotlib )
 
-pkgs_devel+=( python3-build )
-pkgs_devel+=( python3-installer )
-
 # Database
 pkgs_db+=( postgresql )
 
@@ -593,7 +607,6 @@ pkgs_fs+=( attr )
 pkgs_fs+=( xfsprogs )
 
 # Storage
-pkgs_storage+=( gdisk )
 pkgs_storage+=( lvm2 )
 pkgs_storage+=( iotop )
 pkgs_storage+=( mdadm ) # manage MD devices aka Linux Software RAID
@@ -636,12 +649,15 @@ dnf_add_packages()
 		pkgs_base+=( glibc-static.i686 )
 		pkgs_bench+=( memtest86+ )
 	fi
+	pkgs_base+=( acpica-tools )
+	pkgs_base+=( bcc )
 	pkgs_base+=( bcc-devel )
 	pkgs_base+=( binutils-devel )
 	pkgs_base+=( binutils-gold )
 	pkgs_base+=( capstone-devel )       # Capstone is a disassembly framework
 	pkgs_base+=( cereal-devel )
 	pkgs_base+=( clang-devel )
+	pkgs_base+=( cloc )
 	pkgs_base+=( crash )
 	pkgs_base+=( dbus-devel )           # D-Bus
 	pkgs_base+=( dtc )                  # device tree
@@ -652,6 +668,7 @@ dnf_add_packages()
 	pkgs_base+=( glibc-static )
 	pkgs_base+=( glibc-utils )
 	pkgs_base+=( gmp-devel )
+	pkgs_base+=( gnupg2 )
 	pkgs_base+=( golang-github-cilium-ebpf )
 	pkgs_base+=( gperftools-devel )
 	pkgs_base+=( grub2-tools-minimal grub2-tools-extra )
@@ -686,10 +703,13 @@ dnf_add_packages()
 	pkgs_base+=( ncurses-devel )
 	pkgs_base+=( nvme-cli )             # nvme
 	pkgs_base+=( openssl-devel )
+	pkgs_base+=( parallel )
 	pkgs_base+=( pam )                  # /etc/security/limits.conf
 	pkgs_base+=( pam-devel )
 	pkgs_base+=( perf )
 	pkgs_base+=( procps-ng )            # pidof, top, etc.
+	pkgs_base+=( python3-dbus ) # D-Bus
+	pkgs_base+=( python3-scapy )
 	pkgs_base+=( readline-devel )
 	pkgs_base+=( scl-utils )
 	pkgs_base+=( sg3_utils )            # sg_inq, etc.
@@ -699,6 +719,7 @@ dnf_add_packages()
 	pkgs_base+=( which )
 	pkgs_base+=( xz-devel )
 
+	pkgs_bench+=( iperf3 )
 	pkgs_bench+=( rtla )
 	pkgs_bench+=( sysbench )
 
@@ -712,15 +733,20 @@ dnf_add_packages()
 	# Cross compile packages
 	pkgs_compiler+=( compiler-rt )
 	pkgs_compiler+=( gcc-c++ )
+	pkgs_compiler+=( golang )
 	pkgs_compiler+=( libasan )
 	pkgs_compiler+=( libasan-static )
 	pkgs_compiler+=( libatomic )
 	pkgs_compiler+=( lua )
+	pkgs_compiler+=( mold )                   # a modern linker
 	pkgs_compiler+=( java-1.8.0-openjdk-devel )
 	pkgs_compiler+=( libgccjit-devel )
 	pkgs_compiler+=( rust )
 
+	add_cross_compiler
+
 	pkgs_build+=( rpm-build )
+	pkgs_build+=( ninja-build )
 
 	pkgs_container+=( cri-tools )
 	pkgs_container+=( cri-o )
@@ -757,7 +783,9 @@ dnf_add_packages()
 	pkgs_devel+=( lzo-devel )
 	pkgs_devel+=( numactl-devel )        # numaif.h
 	pkgs_devel+=( pixman-devel )
+	pkgs_devel+=( python3-build )
 	pkgs_devel+=( python3-devel )
+	pkgs_devel+=( python3-installer )
 	pkgs_devel+=( rdma-core-devel )
 	pkgs_devel+=( snappy-devel )
 	pkgs_devel+=( systemd-devel )
@@ -765,6 +793,7 @@ dnf_add_packages()
 	pkgs_devel+=( usbredir-devel )
 	pkgs_devel+=( zlib-devel )
 
+	pkgs_docs+=( python3-sphinx )
 	pkgs_docs+=( python3-sphinx_rtd_theme )
 
 	pkgs_math+=( fftw-devel )
@@ -774,12 +803,15 @@ dnf_add_packages()
 
 	pkgs_db+=( libpq-devel )
 
+	pkgs_storage+=( gdisk )
 	pkgs_storage+=( device-mapper )
 	pkgs_storage+=( device-mapper-multipath )
 
 	pkgs_virt+=( edk2-ovmf )
 	pkgs_virt+=( libvirt )
 	pkgs_virt+=( qemu-kvm )
+	pkgs_virt+=( qemu-user )
+	pkgs_virt+=( qemu-user-static )
 	pkgs_virt+=( vagrant )
 	# Add more
 	if [[ $(is_os fedora) ]]; then
@@ -805,11 +837,15 @@ apt_add_packages()
 	if [[ $(is_arch x86_64) ]]; then
 		pkgs_base+=( libc6-dev-i386 )
 	fi
+	pkgs_base+=( acpica-tools )
+	pkgs_base+=( bcc )
 	pkgs_base+=( binutils-dev )
 	pkgs_base+=( bpfcc-tools )
 	pkgs_base+=( build-essential )
 	pkgs_base+=( clang-format )
+	pkgs_base+=( cloc )
 	pkgs_base+=( dwarfdump )
+	pkgs_base+=( gnupg2 )
 	pkgs_base+=( iproute2 )             # ss, tc
 	pkgs_base+=( libaio-dev )           # aio
 	pkgs_base+=( libbpfcc )
@@ -832,7 +868,10 @@ apt_add_packages()
 		pkgs_base+=( linux-perf )
 	fi
 	pkgs_base+=( lsb-release )
+	pkgs_base+=( parallel )
 	pkgs_base+=( procps )
+	pkgs_base+=( python3-dbus ) # D-Bus
+	pkgs_base+=( python3-scapy )
 	pkgs_base+=( sg3-utils )            # sg_inq, etc.
 	pkgs_base+=( systemtap-sdt-dev )    # sdt.h
 	if [[ $(is_os ubuntu) ]]; then
@@ -840,11 +879,15 @@ apt_add_packages()
 	fi
 	pkgs_base+=( gnu-which )
 
+	pkgs_bench+=( iperf3 )
+
 	pkgs_boot+=( shim-signed )
 	if ! [[ $(is_os ubuntu) ]]; then
 		pkgs_boot+=( shim-signed-common )
 		pkgs_boot+=( shim-unsigned )
 	fi
+
+	pkgs_build+=( ninja-build )
 
 	pkgs_net+=( apache2 )
 	pkgs_net+=( libxdp1 )
@@ -852,11 +895,13 @@ apt_add_packages()
 	pkgs_compiler+=( build-essential )
 	pkgs_compiler+=( gcc-doc )
 	pkgs_compiler+=( gcc-multilib )
+	pkgs_compiler+=( golang )
 	pkgs_compiler+=( libasan6 )
 	pkgs_compiler+=( libatomic1 )
 	pkgs_compiler+=( libclang-cpp-dev )
 	pkgs_compiler+=( libclang-dev )
 	pkgs_compiler+=( lua5.4 )
+	pkgs_compiler+=( mold )                   # a modern linker
 	pkgs_compiler+=( rust-all )
 	if [[ $(is_os debian) ]]; then
 		pkgs_compiler+=( clang-19 clang-tools-19 )
@@ -864,6 +909,7 @@ apt_add_packages()
 		pkgs_compiler+=( libclang-19-dev )
 		pkgs_compiler+=( llvm-19 llvm-19-dev )
 	fi
+	add_cross_compiler
 
 	pkgs_devel+=( cyrus-dev )
 	pkgs_devel+=( libaio-dev )
@@ -893,11 +939,14 @@ apt_add_packages()
 	pkgs_devel+=( libpixman-1-dev )
 	pkgs_devel+=( librdmacm-dev )
 	pkgs_devel+=( libxdp-dev )
+	pkgs_devel+=( python3-build )
 	pkgs_devel+=( python3-dev )
+	pkgs_devel+=( python3-installer )
 	pkgs_devel+=( python3-systemd )
 	pkgs_devel+=( systemtap-sdt-dev )
 	pkgs_devel+=( zlib1g-dev )
 
+	pkgs_docs+=( python3-sphinx )
 	pkgs_docs+=( python3-sphinx-rtd-theme )
 
 	pkgs_fs+=( unionfs-fuse )
@@ -909,12 +958,15 @@ apt_add_packages()
 	pkgs_container+=( cgroup-tools )
 	pkgs_container+=( libcgroup-dev )
 
+	pkgs_storage+=( gdisk )
 	pkgs_storage+=( libdevmapper-dev )
 
 	pkgs_virt+=( binfmt-support )
 	pkgs_virt+=( libvirt0 )
 	pkgs_virt+=( qemu-system )
 	pkgs_virt+=( qemu-system-misc )
+	pkgs_virt+=( qemu-user )
+	pkgs_virt+=( qemu-user-static )
 
 	pkgs_desktop+=( libgtk-3-dev )
 	pkgs_desktop+=( tigervnc-common )
@@ -924,6 +976,19 @@ apt_add_packages()
 	[[ ${force} ]] && apt_args+=( --fix-missing --fix-broken )
 	[[ ${force} ]] && apt_args+=( -f )
 
+	return 0
+}
+
+zypper_add_packages()
+{
+	pkgs_base+=( acpica )
+	pkgs_build+=( ninja )
+	pkgs_compiler+=( go )
+	pkgs_devel+=( python311-build )
+	pkgs_devel+=( python311-installer )
+	pkgs_docs+=( python3-sphinx_rtd_theme )
+	pkgs_storage+=( gptfdisk )
+	pkgs_virt+=( qemu-linux-user )
 	return 0
 }
 
