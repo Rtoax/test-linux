@@ -652,7 +652,6 @@ dnf_add_packages()
 	pkgs_base+=( acpica-tools )
 	pkgs_base+=( bcc )
 	pkgs_base+=( binutils-devel )
-	pkgs_base+=( binutils-gold )
 	pkgs_base+=( capstone-devel )       # Capstone is a disassembly framework
 	pkgs_base+=( cereal-devel )
 	pkgs_base+=( clang-devel )
@@ -730,6 +729,7 @@ dnf_add_packages()
 	pkgs_fs+=( funionfs )
 
 	# Cross compile packages
+	pkgs_compiler+=( binutils-gold )
 	pkgs_compiler+=( compiler-rt )
 	pkgs_compiler+=( gcc-c++ )
 	pkgs_compiler+=( golang )
@@ -988,6 +988,7 @@ zypper_add_packages()
 
 	pkgs_build+=( ninja )
 
+	pkgs_compiler+=( binutils-gold )
 	pkgs_compiler+=( go )
 
 	pkgs_devel+=( bcc-devel )
