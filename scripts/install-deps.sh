@@ -82,6 +82,14 @@ enable_all()
 	have_boot=YES
 }
 
+enable_auto()
+{
+	if [[ $(systemctl get-default || :) == graphical.target ]]; then
+		have_desktop=YES
+		have_media=YES
+	fi
+}
+
 goodbye()
 {
 	local ret=$?
@@ -434,6 +442,8 @@ if [[ ${verbose} ]]; then
 	export PS4='+${BASH_SOURCE}:${LINENO}:${FUNCNAME[0]}: '
 	set -x
 fi
+
+enable_auto
 
 # Install extra software package repo
 case ${OS} in
