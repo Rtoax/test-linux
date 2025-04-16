@@ -635,7 +635,7 @@ fi
 
 dnf_add_packages()
 {
-	if [[ ! $(is_arch aarch64) ]]; then
+	if [[ $(is_arch aarch64) ]]; then
 		pkgs_boot+=( shim-aa64 )
 		pkgs_boot+=( shim-unsigned-aarch64 )
 	elif [[ $(is_arch x86_64) ]]; then
@@ -702,6 +702,7 @@ dnf_add_packages()
 	pkgs_base+=( mpfr-devel )
 	pkgs_base+=( ncurses-devel )
 	pkgs_base+=( nvme-cli )             # nvme
+	pkgs_base+=( openmpi openmpi-devel )
 	pkgs_base+=( openssl-devel )
 	pkgs_base+=( parallel )
 	pkgs_base+=( pam )                  # /etc/security/limits.conf
@@ -857,6 +858,7 @@ apt_add_packages()
 	pkgs_base+=( libmpfr-dev )
 	pkgs_base+=( libmpich-dev )         # MPI
 	pkgs_base+=( libncurses-dev )
+	pkgs_base+=( libopenmpi-dev )
 	pkgs_base+=( libpam0g )
 	pkgs_base+=( libpam0g-dev )
 	pkgs_base+=( libssl-dev )
@@ -902,6 +904,7 @@ apt_add_packages()
 	pkgs_compiler+=( libclang-dev )
 	pkgs_compiler+=( lua5.4 )
 	pkgs_compiler+=( mold )                   # a modern linker
+	pkgs_compiler+=( openmpi-bin )
 	pkgs_compiler+=( rust-all )
 	if [[ $(is_os debian) ]]; then
 		pkgs_compiler+=( clang-19 clang-tools-19 )
