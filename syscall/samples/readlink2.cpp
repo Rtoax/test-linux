@@ -38,9 +38,11 @@ int main(void)
 
 	std::cout << path << " link is " << link << std::endl;
 
+#if __GNUC_PREREQ(8, 6)
 	std::string path2 = "/bin/ls";
 	std_filesystem::path abs_path = std_filesystem::canonical(path2);
 	std::cout << path2 << " absolute path is " << abs_path << std::endl;
+#endif
 
 	return 0;
 }
