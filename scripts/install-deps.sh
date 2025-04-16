@@ -921,7 +921,7 @@ apt_add_packages()
 	pkgs_desktop+=( tigervnc-standalone-server )
 	pkgs_desktop+=( tigervnc-viewer )
 
-	[[ ${force} ]] && apt_args+=( --fix-missing )
+	[[ ${force} ]] && apt_args+=( --fix-missing --fix-broken )
 	[[ ${force} ]] && apt_args+=( -f )
 
 	return 0
@@ -977,5 +977,5 @@ if [[ ${have_pip} ]] && [[ -e /usr/bin/pip3 ]]; then
 	if [[ $(is_os debian ubuntu) ]]; then
 		PIP_EXTRA_ARGS=( --break-system-packages )
 	fi
-	inst_eval sudo pip3 install -y ${PIP_EXTRA_ARGS[@]} "${pip_whls[@]}"
+	inst_eval sudo pip3 install ${PIP_EXTRA_ARGS[@]} "${pip_whls[@]}"
 fi
