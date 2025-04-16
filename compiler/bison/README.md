@@ -9,4 +9,5 @@ If your system will be used for C development, you should install Bison.
 # Links
 
 - https://www.gnu.org/software/bison/
+- https://git.savannah.gnu.org/git/bison.git
 - https://github.com/akimd/bison
