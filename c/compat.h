@@ -32,7 +32,7 @@ int foo_v2(int a, int b, int c, int d, int e, int f);
 #define DEFAULT_VERSION(internal_name, api_name, version) \
 		asm(".symver " #internal_name "," #api_name "@@" #version);
 
-#else				/* !SHARED */
+#else /* !SHARED */
 
 #define COMPAT_VERSION(internal_name, api_name, version)
 #define DEFAULT_VERSION(internal_name, api_name, version) \

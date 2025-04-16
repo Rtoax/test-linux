@@ -8,7 +8,9 @@ int foo_v1(int a, int b, int c, int d)
 }
 
 #if !defined(__clang__)
+# if __GNUC_PREREQ(7, 6)
 DEFAULT_VERSION(prog_load_v0_6_0, prog_load, LIB0.6.0)
+# endif
 #endif
 int foo_v2(int a, int b, int c, int d, int e, int f)
 {

@@ -3,6 +3,7 @@ include ../tlbuild.mk
 include ../kconfig.mk
 include ../compiler/compiler.mk
 
+CC := gcc
 TARGETS :=
 EXTRA_TARGETS :=
 
