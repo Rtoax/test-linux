@@ -18,7 +18,7 @@ SUB_KERN_DIR = $(KERNEL_LIST)
 SUB_KERN_DIR_TEST := $(SUB_KERN_DIR:%=%_test)
 SUB_KERN_DIR_CLEAN := $(SUB_KERN_DIR:%=%_clean)
 
-TEST_LINUX_VERSION = $(VERSION)$(if $(PATCHLEVEL),.$(PATCHLEVEL)$(if $(SUBLEVEL),.$(SUBLEVEL)))$(EXTRAVERSION)
+TEST_LINUX_VERSION := $(VERSION)$(if $(PATCHLEVEL),.$(PATCHLEVEL)$(if $(SUBLEVEL),.$(SUBLEVEL)))$(EXTRAVERSION)
 export VERSION PATCHLEVEL SUBLEVEL TEST_LINUX_VERSION
 
 TLCONFIG_CONFIG ?= .config
@@ -59,7 +59,7 @@ help:
 	@echo >&2 -e "***    core.hooksPath = ${GIT_CONFIG_CORE_HOOKSPATH}"
 	@echo >&2 -e "*** TL_LOG ${TL_LOG}"
 	@echo >&2 -e "*** FAILED_LOG ${FAILED_LOG}"
-	@echo >&2 -e "*** TEST_LINUX_VERSION ${TEST_LINUX_VERSION}"
+	@echo >&2 -e "*** TEST_LINUX_VERSION v${TEST_LINUX_VERSION} (${NAME})"
 	@echo >&2 -e "*** KERNEL_VERSION ${KVERSION}.${KPATCHLEVEL}.${KSUBLEVEL}, CODE ${KVERSION_CODE}"
 	@echo >&2 -e "***"
 	@echo >&2 -e "*** make default: show this information"
@@ -175,7 +175,7 @@ docker:
 
 .PHONY: version
 version:
-	@echo "v${VERSION}.${PATCHLEVEL}.${SUBLEVEL}${EXTRAVERSION} (${NAME})"
+	@echo "v${TEST_LINUX_VERSION} (${NAME})"
 
 .PHONY: archive
 archive:
