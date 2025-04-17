@@ -11,6 +11,13 @@ layout_x86()
 	# v6.12-rc2-27-g7175126a6d45, rename _vdso_data to vdso_data.
 	elif [[ $(grep 'D vdso_data' /proc/kallsyms) ]]; then
 		VDSO_DATA="vdso_data"
+	else
+		# linux v6.14 is 'T vdso_data' (fedora 42)
+		if [[ $(grep 'T vdso_data' /proc/kallsyms) ]]; then
+			VDSO_DATA="vdso_data"
+		else
+			return 0
+		fi
 	fi
 
 	echo "Display vDSO/vvar layout!!!!!!!"
