@@ -85,3 +85,14 @@ int taskset(int pid, char *cpu_list)
 	return 0;
 }
 
+int sys_sched_setattr(pid_t pid, const struct __sched_attr *attr, unsigned int flags)
+{
+	return syscall(__NR_sched_setattr, pid, attr, flags);
+}
+
+int sys_sched_getattr(pid_t pid, struct __sched_attr *attr, unsigned int size,
+		      unsigned int flags)
+{
+	return syscall(__NR_sched_getattr, pid, attr, size, flags);
+}
+

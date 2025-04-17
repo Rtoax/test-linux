@@ -99,6 +99,7 @@ build: ${TARGETS}
 helpers.o: helpers.h
 
 foobar: foobar.o
+create_thread.o: create_thread.h
 create_thread: create_thread.o sys_affinity_bind.o
 multi_thread_stress: multi_thread_stress.o
 dead_lock-1: dead_lock-1.o
@@ -124,7 +125,7 @@ pthread_cleanup_push: pthread_cleanup_push.o
 pthread_cleanup_push-deadlock: pthread_cleanup_push-deadlock.o
 pthread_cleanup_push_defer_np: pthread_cleanup_push_defer_np.o
 pthread_create: pthread_create.o
-pthread_create-deadline: pthread_create-deadline.o
+pthread_create-deadline: pthread_create-deadline.o helpers.o
 pthread_equal: pthread_equal.o
 pthread_exit: pthread_exit.o
 pthread_key_create: pthread_key_create.o
