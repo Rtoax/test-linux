@@ -66,8 +66,6 @@
 #define BROKEN_PIPE_ERROR -9
 #define SYNTAX_ERROR -10
 
-typedef enum {TRUE = 1, FALSE = 0} bool;
-
 int check_ipversion(char * address);
 int create_socket(int port);
 void sigchld_handler(int signal);
@@ -83,8 +81,8 @@ void plog(int priority, const char *format, ...);
 int server_sock, client_sock, remote_sock, remote_port = 0;
 int connections_processed = 0;
 char *bind_addr, *remote_host, *cmd_in, *cmd_out;
-bool foreground = FALSE;
-bool use_syslog = FALSE;
+bool foreground = false;
+bool use_syslog = false;
 
 #define BACKLOG 20 // how many pending connections queue will hold
 
@@ -161,10 +159,10 @@ int parse_options(int argc, char *argv[])
 				cmd_out = optarg;
 				break;
 			case 'f':
-				foreground = TRUE;
+				foreground = true;
 				break;
 			case 's':
-				use_syslog = TRUE;
+				use_syslog = true;
 				break;
 		}
 	}
@@ -300,7 +298,7 @@ void proxy_server_loop(void)
 	sd_notify(0, "READY=1\n");
 #endif
 
-	while (TRUE) {
+	while (true) {
 		update_connection_count();
 		client_sock = accept(server_sock, (struct sockaddr*)&client_addr, &addrlen);
 		if (fork() == 0) { // handle client connection in a separate process
