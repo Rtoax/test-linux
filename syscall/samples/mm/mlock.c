@@ -49,7 +49,10 @@ void demo2(void)
 
 	printf("a[10] = %d\n", a[10]);
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wstringop-overread"
 	munlock(a + 10, 10);
+#pragma GCC diagnostic pop
 
 	free(a);
 }
