@@ -1,7 +1,7 @@
 /**
  * Test parameters pass
  */
-#ifdef __clang__
+#if defined(__clang__) || __GNUC__ >= 15
 int func1(int a, int b, int c)
 #else
 int func1(a, b, c)
@@ -11,7 +11,7 @@ int a, b, c;
 	return a + b + c;
 }
 
-#ifdef __clang__
+#if defined(__clang__) || __GNUC__ >= 15
 int func2(int a, int b, int c, int d, int e, int f)
 #else
 int func2(a, b, c, d, e, f)
@@ -21,7 +21,7 @@ int a, b, c, d, e, f;
 	return a + b + c + d + e + f;
 }
 
-#ifdef __clang__
+#if defined(__clang__) || __GNUC__ >= 15
 int func3(int a, int b, int c, int d, int e, int f, int g, int h)
 #else
 int func3(a, b, c, d, e, f, g, h)
