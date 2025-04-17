@@ -39,7 +39,8 @@ CC_-fcf-protection := $(findstring 1,$(call check_compiler_option,$(CC),-fcf-pro
 CC_-fpatchable-function-entry := $(findstring 1,$(call check_compiler_option,$(CC),-fpatchable-function-entry=5,2))
 CC_-mfentry := $(findstring 1,$(call check_compiler_option,$(CC),-mfentry))
 
-$(info fcf-protection: ${CC_-fcf-protection})
-$(info fentry: $(CC_-mfentry))
-
-$(info CC: $(CC) ${CC_MAJOR}.${CC_MINOR} ${CC_FULLVERSION} ${CC_VERSION})
+ifdef DEBUG
+  $(info fcf-protection: ${CC_-fcf-protection})
+  $(info fentry: $(CC_-mfentry))
+  $(info CC: $(CC) ${CC_MAJOR}.${CC_MINOR} ${CC_FULLVERSION} ${CC_VERSION})
+endif
