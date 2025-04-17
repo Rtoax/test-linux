@@ -13,6 +13,7 @@
 #include <bpf/bpf_helpers.h>
 #include <bpf/bpf_tracing.h>
 #include <bpf/bpf_core_read.h>
+#include <linux/version.h>
 #include "tracepoint.h"
 #include "bpf_misc.h"
 #include "bpf_helpers.h"
@@ -142,18 +143,22 @@ int tracepoint__syscalls__sys_exit_execve(struct syscall_trace_exit *ctx)
  * or use CO-RE method https://github.com/iovisor/bcc/pull/5272
  */
 #if LINUX_VERSION_CODE > KERNEL_VERSION(6, 1, 0)
-	struct task_struct *task;
-	task = bpf_task_from_pid(pid);
-	if (task) {
-		bpf_probe_read_kernel(pevent->comm2, sizeof(pevent->comm2),
-				      task->comm);
-		bpf_task_release(task);
+	if (bpf_ksym_exists(bpf_task_from_pid)) {
+		struct task_struct *task = bpf_task_from_pid(pid);
+		if (task) {
+			bpf_probe_read_kernel(pevent->comm2,
+					      sizeof(pevent->comm2),
+					      task->comm);
+			bpf_task_release(task);
+		}
 	}
 #else
 	pevent->comm2[0] = 'N';
 	pevent->comm2[1] = '/';
 	pevent->comm2[2] = 'A';
-	pevent->comm2[3] = '\0';
+	pevent->comm2[3] = '?';
+	pevent->comm2[4] = '0' + LINUX_VERSION_MAJOR;
+	pevent->comm2[5] = '\0';
 #endif
 
 	/**

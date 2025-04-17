@@ -18,6 +18,11 @@ int main(void)
 	printf("%s: LINUX_VERSION_PATCHLEVEL = %d.\n", pfx, LINUX_VERSION_PATCHLEVEL);
 	printf("%s: LINUX_VERSION_SUBLEVEL = %d.\n", pfx, LINUX_VERSION_SUBLEVEL);
 #endif
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(6, 1, 0)
+	printf("%s >= 6.1.0\n", pfx);
+#else
+	printf("%s < 6.1.0\n", pfx);
+#endif
 
 /* from ../kernel.mk */
 #ifdef KVERSION
