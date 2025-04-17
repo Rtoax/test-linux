@@ -49,5 +49,6 @@
 - UI: UNIX International (UNIX国际)
 - UML: User Mode Linux (用户模式Linux) @vDSO
 - USG: UNIX System Group (Unix系统组)
+- VFIO: Virtual Function I/O (虚拟功能 I/O)
 - vDSO: Virtual Dynamic Shared Object (虚拟动态共享目标) @UML @vvar
 - vvar: Virtual Variable (虚拟变量) @vDSO
