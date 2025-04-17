@@ -10,6 +10,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- Support Fedora Linux 42
 #### Changed
 #### Deprecated
 #### Removed
