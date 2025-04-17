@@ -11,7 +11,7 @@
 #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof(arr[0]))
 
 /* Could use linux/sched/types.h instead */
-struct sched_attr {
+struct __sched_attr {
 	uint32_t size;
 
 	uint32_t sched_policy;
@@ -41,7 +41,7 @@ void print_cpuset(cpu_set_t * cpuset);
 int str2cpuset(const char *cpulist, cpu_set_t * cpuset);
 const char *sched_policy_string(int policy);
 
-int sched_getattr(pid_t pid, struct sched_attr *attr, unsigned int size,
-		  unsigned int flags);
-int sched_setattr(pid_t pid, const struct sched_attr *attr, unsigned int flags);
+int sys_sched_getattr(pid_t pid, struct __sched_attr *attr, unsigned int size,
+		      unsigned int flags);
+int sys_sched_setattr(pid_t pid, const struct __sched_attr *attr, unsigned int flags);
 
