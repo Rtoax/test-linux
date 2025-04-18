@@ -24,7 +24,7 @@ build: numa_mem.h ${TARGETS_LIBA} ${TARGETS} $(sub-dir-build)
 	@echo -e " \033[1;33m Done \033[m"
 
 numa_mem.h:
-	@./info.sh c
+	${Q}./info.sh c
 
 numa_mem: numa_mem.o
 libtest-linux-numa.a: numa_mem.h numa_mem.obj
@@ -43,7 +43,7 @@ $(TARGETS): %:
 
 $(TARGETS_LIBA): %:
 	@echo -e "  AR  \033[1;32m$(^) to $(@)\033[m"
-	@ar rcs $(@) $(^)
+	${Q}ar rcs $(@) $(^)
 
 .PHONY: clean
 clean: $(sub-dir-clean)

@@ -96,7 +96,7 @@ $(TARGETS): %:
 
 $(TARGETS_SO): %:
 	@echo -e "  SO  \033[1;32m$(@)\033[m"
-	${Q}$(CC) -o $(@) $(^) $(LDFLAGS_SO) $(LDFLAGS_$(*))
+	${Q}$(CC) -o $(@) $(^) $(LDFLAGS_SO) $(LDFLAGS_$(*)) -Wl,-soname=$(@)
 
 $(TARGETS_A): %:
 	@echo -e "  AR  \033[1;32m$(^) to $(@)\033[m"
