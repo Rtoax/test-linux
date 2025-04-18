@@ -17,6 +17,14 @@ aarch64) vdso_so=${vdso_aarch64} ;;
 arm) vdso_so=${vdso_arm} ;;
 esac
 
+while getopts :sn: opt
+do
+	case "$opt" in
+	s) silence=YES ;;
+	n) vdso_so="$OPTARG" ;;
+	esac
+done
+
 rm -f ${vdso_so}
 
 readonly addr_range=( $(cat /proc/${pid}/maps \
@@ -26,13 +34,19 @@ readonly addr_range=( $(cat /proc/${pid}/maps \
 			)
 readonly vdso_sz=$(printf "%ld" $(( 0x${addr_range[1]} - 0x${addr_range[0]} )))
 
-echo "pid ${pid} [vdso] 0x${addr_range[0]}-0x${addr_range[1]}, size = ${vdso_sz}"
+if [[ -z ${silence} ]]; then
+	echo "pid ${pid} [vdso] 0x${addr_range[0]}-0x${addr_range[1]}, size = ${vdso_sz}"
+fi
 
 dd if=/proc/${pid}/mem of=${vdso_so} \
 	ibs=1 skip=$(printf %ld 0x${addr_range[0]}) \
-	count=${vdso_sz}
+	count=${vdso_sz} 2>/dev/null
 
-readelf --syms --wide ${vdso_so}
-# 'criu check' will check this
-readelf --dynamic --wide ${vdso_so}
-md5sum ${vdso_so}
+echo ${vdso_so}
+
+if [[ -z ${silence} ]]; then
+	readelf --syms --wide ${vdso_so}
+	# 'criu check' will check this
+	readelf --dynamic --wide ${vdso_so}
+	md5sum ${vdso_so}
+fi

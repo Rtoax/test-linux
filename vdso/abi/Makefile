@@ -35,7 +35,8 @@ lib${VDSO_NAME}.custom.so:
 	$(Q)ln -s lib${VDSO_NAME}.custom.so ${VDSO_NAME}.custom
 
 ${VDSO_NAME}:
-	$(Q)../dump.sh
+	@echo -e "  GEN  \033[1m$(@)\033[m"
+	$(call gen_vdso_elf)
 
 lib${VDSO_NAME}.copy.so: ${KVDSO64}
 	@echo -e "  GEN  \033[1m$(@)\033[m"

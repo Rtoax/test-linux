@@ -1,5 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
 
+VDSO_ROOT := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
+
 # kernel command line 'vdso=0' could disable vDSO
 CMDLINE_VDSO := $(shell grep -o vdso=0 /proc/cmdline)
 
@@ -17,8 +19,17 @@ ifeq ($(shell uname -m),aarch64)
   VDSO_NAME := ${VDSO_NAME_AARCH64}
 endif
 
+define gen_vdso_elf
+@$(VDSO_ROOT)/dump.sh -s
+endef
+
 KVDSO64 := /lib/modules/$(shell uname -r)/vdso/vdso64.so
 ifeq ($(wildcard $(KVDSO64)),)
   $(warning "WARNING: Not found ${KVDSO64}, use dump")
   KVDSO64 := ${VDSO_NAME}
+endif
+
+ifdef DEBUG
+  $(info VDSO_ROOT ${VDSO_ROOT})
+  $(info VDSO_NAME ${VDSO_NAME})
 endif
