@@ -3,7 +3,7 @@ include ../tlbuild.mk
 
 include vdso.mk
 
-sub-dir := linux-vdso.so.1
+sub-dir := abi
 sub-dir += scripts
 sub-dir += test
 sub-dir += nvDSO
@@ -20,6 +20,6 @@ build: $(sub-dir-build)
 
 .PHONY: clean
 clean: $(sub-dir-clean)
-	${Q}rm -rf *.so.1-* *.bt.out
+	${Q}rm -rf *.so.1 *.bt.out
 
 include ../template/subdir-footer.mk

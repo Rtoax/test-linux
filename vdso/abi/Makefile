@@ -1,5 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
 include ../../tlbuild.mk
+include ../vdso.mk
 
 KVDSO64 := /lib/modules/$(shell uname -r)/vdso/vdso64.so
 
