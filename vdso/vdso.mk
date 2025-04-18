@@ -16,3 +16,9 @@ endif
 ifeq ($(shell uname -m),aarch64)
   VDSO_NAME := ${VDSO_NAME_AARCH64}
 endif
+
+KVDSO64 := /lib/modules/$(shell uname -r)/vdso/vdso64.so
+ifeq ($(wildcard $(KVDSO64)),)
+  $(warning "WARNING: Not found ${KVDSO64}, use dump")
+  KVDSO64 := ${VDSO_NAME}
+endif
