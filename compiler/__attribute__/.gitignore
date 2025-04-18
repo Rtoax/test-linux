@@ -25,3 +25,4 @@
 /kernel_helper
 /optimize
 /__has_attribute
+/preserve_access_index

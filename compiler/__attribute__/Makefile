@@ -30,8 +30,7 @@ TARGETS += noplt noplt-plt
 TARGETS += kernel_helper
 TARGETS += __has_attribute
 
-TARGETS_todo :=
-TARGETS_todo += preserve_access_index
+TARGETS += preserve_access_index
 
 include ../compiler.mk
 
@@ -44,6 +43,7 @@ else
 endif
 
 CFLAGS_noplt := -DNOPLT=1
+CFLAGS_cleanup := -Werror=attributes
 
 
 .PHONY: build

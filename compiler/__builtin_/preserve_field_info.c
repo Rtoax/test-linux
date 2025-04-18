@@ -65,3 +65,7 @@ int kprobe__foo(void)
 
 	return 0;
 }
+
+int main(void)
+{
+}
