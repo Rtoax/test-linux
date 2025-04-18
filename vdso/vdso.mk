@@ -30,6 +30,7 @@ ifeq ($(wildcard $(KVDSO64)),)
 endif
 
 ifdef DEBUG
+  $(info CMDLINE_VDSO=${CMDLINE_VDSO})
   $(info VDSO_ROOT ${VDSO_ROOT})
   $(info VDSO_NAME ${VDSO_NAME})
 endif

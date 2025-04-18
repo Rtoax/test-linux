@@ -10,8 +10,6 @@ sub-dir += vvar/scripts/
 
 include ../template/subdir-header.mk
 
-$(info CMDLINE_VDSO=${CMDLINE_VDSO})
-
 .PHONY: build
 build: ${VDSO_NAME} $(sub-dir-build)
 	@${SHELL} ./layout.sh

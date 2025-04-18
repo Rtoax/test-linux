@@ -17,11 +17,25 @@ aarch64) vdso_so=${vdso_aarch64} ;;
 arm) vdso_so=${vdso_arm} ;;
 esac
 
-while getopts :sn: opt
+usage()
+{
+	echo "
+vdso-dump [-s] [-n <name>] [-h] [-v]
+
+-s          silence running
+-n [NAME]   specify output file name, default: ${vdso_so}
+-h          show help information
+-v          show shell detail
+"
+}
+
+while getopts :sn:hv opt
 do
 	case "$opt" in
 	s) silence=YES ;;
 	n) vdso_so="$OPTARG" ;;
+	h) usage; exit 0 ;;
+	v) set -x ;;
 	esac
 done
 
