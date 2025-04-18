@@ -10,6 +10,7 @@ TARGETS += main-kernel
 all: ${TARGETS}
 
 VDSO_CFLAGS :=
+VDSO_CFLAGS += -nolibc
 
 ifeq ($(shell uname -m),x86_64)
   # See linux:/arch/x86/entry/vdso/Makefile

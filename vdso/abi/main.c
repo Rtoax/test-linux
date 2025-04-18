@@ -9,7 +9,7 @@ int main(int argc, char *argv[])
 
 	while (1) {
 #ifdef CUSTOM_VDSO
-		my_clock_gettime(CLOCK_REALTIME, &tp);
+		vdso_clock_gettime(CLOCK_REALTIME, &tp);
 #elif defined(KERNEL_VDSO64)
 		clock_gettime(CLOCK_REALTIME, &tp);
 		printf("Call clock_gettime from kernel vdso64.so.\n");
