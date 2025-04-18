@@ -15,15 +15,20 @@ VDSO_CFLAGS += -nolibc
 
 ifeq ($(shell uname -m),x86_64)
   # See linux:/arch/x86/entry/vdso/Makefile
-  VDSO_CFLAGS += -P -C -fpic --share -Wl,-melf_x86_64
+  VDSO_CFLAGS += -P -C -Wl,-melf_x86_64
   VDSO_CFLAGS += -Wl,-soname=${VDSO_NAME}.custom
+  VDSO_CFLAGS += -Wl,-shared -Wl,--hash-style=both -Wl,--build-id=sha1 -Wl,--no-undefined
+  VDSO_CFLAGS += -Wl,-Bsymbolic -Wl,-znoexecstack
   VDSO_CFLAGS += -Wl,--no-undefined -Wl,-zmax-page-size=4096
+  VDSO_CFLAGS += -mcmodel=small -fPIC -O2 -fasynchronous-unwind-tables -m64
+  VDSO_CFLAGS += -fno-stack-protector -fno-omit-frame-pointer -foptimize-sibling-calls
 else ifeq ($(shell uname -m),aarch64)
   # See linux:/arch/arm64/kernel/vdso/Makefile
   VDSO_CFLAGS += -shared
   VDSO_CFLAGS += -Wl,-soname=${VDSO_NAME}.custom
   VDSO_CFLAGS += -Wl,-Bsymbolic -Wl,--build-id=sha1
   VDSO_CFLAGS += -fno-common -fno-builtin -fno-stack-protector -ffixed-x18
+  VDSO_CFLAGS += -O2 -mcmodel=tiny -fasynchronous-unwind-tables
 endif
 
 
