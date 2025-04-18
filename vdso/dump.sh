@@ -1,8 +1,19 @@
 #!/bin/bash
 set -e
 
-pid=$$
-vdso_so=vdso64.so
+readonly vdso_aarch64=linux-vdso.so.1
+readonly vdso_arm=linux-vdso.so.1
+readonly vdso_x86_64=linux-vdso.so.1
+readonly vdso_x86_32=linux-vdso.so.1
+
+readonly pid=$$
+
+case $(uname -m) in
+x86_64) vdso_so=${vdso_x86_64}-x86_64 ;;
+x86_32) vdso_so=${vdso_x86_32}-x86_32 ;;
+aarch64) vdso_so=${vdso_aarch64}-aarch64 ;;
+arm) vdso_so=${vdso_arm}-arm ;;
+esac
 vdso_sz=
 
 exec >&2

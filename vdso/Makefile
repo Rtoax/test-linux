@@ -20,6 +20,6 @@ build: $(sub-dir-build)
 
 .PHONY: clean
 clean: $(sub-dir-clean)
-	${Q}rm -rf *.so *.bt.out
+	${Q}rm -rf *.so.1-* *.bt.out
 
 include ../template/subdir-footer.mk
