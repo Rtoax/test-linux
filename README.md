@@ -180,6 +180,7 @@ If the source code file has a copyright information at the beginning, the copyri
 
 - [asciiflow](https://asciiflow.com/#/)
 - [drawio](https://github.com/jgraph/drawio-desktop)
+	- [releases](https://github.com/jgraph/drawio-desktop/releases)
 
 ## Standard
 
