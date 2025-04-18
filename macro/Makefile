@@ -64,6 +64,12 @@ CFLAGS += -DDEBUG -g
 CFLAGS += ${KFLAGS}
 
 CFLAGS___stringify := -DSTDBOOL_HDR=stdbool.h
+CFLAGS___i386__ := -m32
+CFLAGS___x86_64__ := -m64
+CFLAGS___WORDSIZE-32 := -m32
+CFLAGS_machine := -Wno-error=deprecated -Wno-deprecated
+CFLAGS___user := -Wno-error=attributes
+
 
 .PHONY: build
 build: $(CC)-macros.h compiler-macros.h ${TARGETS} ${TARGETS_CXX}
@@ -111,22 +117,14 @@ __GLIBC__: __GLIBC__.o
 __GLIBC_MINOR__: __GLIBC_MINOR__.o
 __GLIBC_PREREQ: __GLIBC_PREREQ.o
 
-CFLAGS___i386__ := -m32
-CFLAGS___x86_64__ := -m64
-CFLAGS___WORDSIZE-32 := -m32
-CFLAGS_machine := -Wno-error=deprecated -Wno-deprecated
-CFLAGS___user := -Wno-error=attributes
-
-%-macros.h:
-	@echo -e "  ${CC} MARCOS  \033[1m$(CC)-macros.h\033[m"
-	${Q}rm -f compiler-macros.h
-	@echo '#pragma once' | tee $(@)
-	${Q}$(CC) -march=native -E -dM - </dev/null | tee --append $(@)
+$(CC)-macros.h:
+	@echo -e "  GEN ${CC} MACRO HDR \033[1m$(@)\033[m"
+	$(call gen_compiler_macro_hdr,$(@))
 
 compiler-macros.h: $(CC)-macros.h
-	@echo -e "  CC MARCOS  \033[1mcompiler-macros.h\033[m"
+	@echo -e "  GEN COMPILER MARCOS  \033[1m${@}\033[m"
 	${Q}rm -f $(@)
-	@ln -s $(<) $(@)
+	${Q}ln -s $(<) $(@)
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

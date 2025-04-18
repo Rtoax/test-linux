@@ -32,10 +32,14 @@ CC := gcc
 include compiler.mk
 
 .PHONY: build
-build: $(TARGETS) $(sub-dir-build)
+build: $(CC)-macros.h $(TARGETS) $(sub-dir-build)
 	@echo -e "CC(${CC}) VERSION ${CC_VERSION} = ${CC_MAJOR}.${CC_MINOR} (${CC_FULLVERSION})"
 	@echo -e " \033[1;33m Done \033[m"
 	@$(call tl_ascii_logo_gnu)
+
+$(CC)-macros.h:
+	@echo -e "  GEN  \033[1m$(@)\033[m"
+	$(call gen_compiler_macro_hdr,$(@))
 
 __VERSION__: __VERSION__.o
 __GNUC__: __GNUC__.o
@@ -55,6 +59,6 @@ test: ${TARGETS} $(sub-dir-test)
 .PHONY: clean
 clean: $(sub-dir-clean)
 	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
-	${Q}rm -rf $(TARGETS) *.o
+	${Q}rm -rf $(TARGETS) *.o *-macros.h
 
 include ../template/subdir-footer.mk

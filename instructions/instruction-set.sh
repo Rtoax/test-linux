@@ -1,13 +1,17 @@
 #!/bin/bash
 set -e
 
+readonly GCC=gcc
+
+[[ -z ${CC} ]] && CC=${GCC}
+
 version() {
-	# Or no need to -march parameter
-	gcc -march=native -Q --help=target | grep -e '^  -march=' | awk '{print $2}'
+	${GCC} -march=native -Q --help=target | grep -e '^  -march=' | awk '{print $2}'
 }
 
 macros() {
-	gcc -march=native -dM -E - < /dev/null
+	# or $ echo | gcc -march=native -dM -E -
+	${CC} -march=native -dM -E - < /dev/null
 }
 
 version
