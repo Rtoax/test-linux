@@ -1,3 +1,5 @@
+#pragma once
+
 /* DPDK */
 #ifndef ALLOW_EXPERIMENTAL_API
 #define __rte_experimental \
