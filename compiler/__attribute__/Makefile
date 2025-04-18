@@ -44,6 +44,7 @@ endif
 
 CFLAGS_noplt := -DNOPLT=1
 CFLAGS_cleanup := -Werror=attributes
+CFLAGS_noreturn := -Werror=attributes -Werror
 CFLAGS_deprecated := -Wno-error=deprecated-declarations
 
 .PHONY: build

@@ -1,12 +1,21 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 
 __attribute__((noreturn)) void fun(char *str)
 {
 	if (str != NULL)
 		printf("%s\n", str);
-	/* Could not call return */
-	// return;
+#ifdef ERROR
+	/* Could not call return statement if noreturn */
+	return;
+#endif
+
+#ifndef ERROR
+	exit(0);
+#endif
+
+	/* noreturn function does return */
 }
 
 int main(void)
