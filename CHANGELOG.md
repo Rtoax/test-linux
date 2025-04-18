@@ -15,6 +15,7 @@ and this project adheres to
 #### Deprecated
 #### Removed
 #### Fixed
+- Fix lots of `__attribute__` warnings
 #### Security
 #### Docs
 - Add COMPILE.md and modify README.md
