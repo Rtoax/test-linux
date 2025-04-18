@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
 include ../../tlbuild.mk
 include ../vdso.mk
+include ../../kconfig
 
 TARGETS :=
 TARGETS += main-custom
@@ -18,8 +19,11 @@ ifeq ($(shell uname -m),x86_64)
   VDSO_CFLAGS += -Wl,-soname=${VDSO_NAME}.custom
   VDSO_CFLAGS += -Wl,--no-undefined -Wl,-zmax-page-size=4096
 else ifeq ($(shell uname -m),aarch64)
-  # TODO: Update to upstream linux
-  VDSO_CFLAGS += -P -C -fpic --share
+  # See linux:/arch/arm64/kernel/vdso/Makefile
+  VDSO_CFLAGS += -shared
+  VDSO_CFLAGS += -Wl,-soname=${VDSO_NAME}.custom
+  VDSO_CFLAGS += -Wl,-Bsymbolic -Wl,--build-id=sha1
+  VDSO_CFLAGS += -fno-common -fno-builtin -fno-stack-protector -ffixed-x18
 endif
 
 
