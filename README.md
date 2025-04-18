@@ -1,32 +1,17 @@
-test-linux
-==========
+test-linux README
+=================
 
 This code repository contains **GNU/Linux** related test case codes, scripts and knowledge points, as well as operating system related content.
 
-I'd rather name the repository test-gnu-linux, but it's too late to regret it, because I should have referenced the name test-linux somewhere else, like **ostools**.
+I'd rather name the repository **test-gnu-linux**, but it's too late to regret it, because I should have referenced the name test-linux somewhere else, like **ostools**.
 
 You must clone this repo under **Linux(UNIX like)** system. Because there are lots of symbol links, some file system not support in Windows OS.
 
-> 1969: UNIX born at Bell Labs (AT&T).
-> You'd better don't rename any of folder and file's name, because of symlinks. If you rename/move/update/remove path/directory, you need to run **make check** under top-dir and fix the invalid-symlinks.
+You'd better don't rename any of folder and file's name, because of symlinks. If you rename/move/update/remove path/directory, you need to run **make check** under top-dir and fix the invalid-symlinks.
 
 It may be that the repository will contain **desktop-related** test code, such as **GNOME**, but that is not the main purpose of the repository. Perhaps researching the **GUI** is also the purpose of this repository, such as **GTK**.
 
 You could always use [man-pages](https://git.kernel.org/pub/scm/docs/man-pages/man-pages.git/) to check what you want to know.
-
-
-# Configurate
-
-```
-$ make config
-```
-
-
-# Linux Kernel Git
-
-* [https://github.com/torvalds/linux](https://github.com/torvalds/linux)
-* [git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git](git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git)
-* [git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git](git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git)
 
 
 # Linux Kernel Development
@@ -42,22 +27,6 @@ Linus Torvalds releases a new kernel and opens a **2-week merge window**.
 - `Tested-by`: This tag indicates that the patch has been tested by the person named in the tag.
 - `Suggested-by`: This tag indicates that the patch has been tested by the person named in the tag.
 - `Fixes`: This tag indicates that the patch fixes an issue in a previous commit referenced by its Commit ID. This tag allows us to track where the bug originated.
-
-
-## Linux Version
-
-`linux >= 5.0`, some time 5.14 will successful.
-You can use the following macro
-
-```c
-#include <linux/version.h>
-
-#if LINUX_VERSION_CODE < KERNEL_VERSION(4, 15, 0)
-	[...]
-#else
-	[...]
-#endif
-```
 
 
 ## Linux Debug Options
@@ -86,14 +55,7 @@ CONFIG_LOCKUP_DETECTOR
 - [ ] `riscv64`
 - [ ] `loongarch64`
 
-
-## Relate Repos
-
-* [GitHub test-linux(Me)](https://github.com/Rtoax/test-linux)
-* [Gitee test-linux(Me)](https://gitee.com/rtoax/test-linux)
-
-
-## sub-Directories
+## Sub-Directories
 
 * Each `scripts` directory contain scriptions(bpftrace, bcc, shell).
 * Each `modules` directory contain Linux Modules(KO) source code.
@@ -101,7 +63,6 @@ CONFIG_LOCKUP_DETECTOR
 	- Normally there is no need to sync from Linux upstream.
 * Each `samples` directory contain source userspace code.
 * Each `commands` directory contain relative command lines.
-
 
 ## Files
 
@@ -114,17 +75,12 @@ CONFIG_LOCKUP_DETECTOR
 * Never call `include` in `*.mk` file, only call `include` in Makefile.
 
 
-## abbreviation.md example
+## abbreviation.md Example
 
 ```
 - AB: A Ball (一个球)
 - ABC: A Ball Circle (一个球圈) @AB
 ```
-
-
-## Defaults
-
-- `SHELL`: `bash`
 
 
 # About
@@ -133,18 +89,16 @@ CONFIG_LOCKUP_DETECTOR
 
 There are so many **symlinks** in this repo, so you better clone this repo in linux system, if windows, oops. You'd better use `make check`(or `./scripts/invalid-link.sh`) check invalid links and modify them.
 
-
 ## Ignore
 
 This repo ignore file(check `.gitignore`). If you want to write a text `Note`, use `.md`(`markdown`).
 
-
 ## Reference
 
-* linux-5.10.13
-* linux-5.14.0
+* linux-6.14.2 (fedora40,fedora41,fedora42)
 * linux-5.15.0
-* linux-6.11.5 (fedora40,fedora41)
+* linux-5.14.0
+* linux-5.10.13
 
 
 # APIs
@@ -184,35 +138,6 @@ System V has evolved through multiple standard versions, each adding significant
 If glibc/posix/syscall already have name `a`, The function test-linux implemented is name `tl_a`(the `tl_` prefix).
 
 
-# Compile
-
-The purpose of compilation is to compile the code of this directory and subdirectories directly in each level of directory.
-
-## Install depends
-
-Install depends with `make installdeps`.
-
-## Compile User
-
-> You'd better compiled under git-repo, because some Makefile use 'git rev-parse --show-toplevel' get top-dir.
-
-```bash
-$ make user
-```
-
-Compile with `-m32`:
-
-```bash
-$ make user M32=1
-```
-
-Compile with verbose:
-
-```
-$ make user V=1
-```
-
-
 # License
 
 If the source code file has a copyright information at the beginning, the copyright of the source code is the description content, otherwise, it is the copyright of the test-linux repository.
@@ -235,16 +160,25 @@ If the source code file has a copyright information at the beginning, the copyri
 - [kerneltests](https://kerneltests.org/)
 - [kernel/map](https://makelinux.github.io/kernel/map/)
 	- [github.com/makelinux](https://github.com/makelinux/linux_kernel_map)
+- linux git
+	- [github torvalds](https://github.com/torvalds/linux)
+	- [git.kernel.org stable](git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git)
+	- [git.kernel.org torvalds](git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git)
 
 
 ## Relative Projects
 
-- [https://github.com/linux-test-project/ltp](https://github.com/linux-test-project/ltp)
-- [https://github.com/unpbook/unpv13e](https://github.com/unpbook/unpv13e)
+- [linux-test-project](https://github.com/linux-test-project/ltp)
+- [unpbook/unpv13e](https://github.com/unpbook/unpv13e)
 
+## Relate Repos
+
+* [GitHub test-linux(Me)](https://github.com/Rtoax/test-linux)
+* [Gitee test-linux(Me)](https://gitee.com/rtoax/test-linux)
 
 ## Tools
 
+- [asciiflow](https://asciiflow.com/#/)
 - [drawio](https://github.com/jgraph/drawio-desktop)
 
 ## Standard

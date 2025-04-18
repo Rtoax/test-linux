@@ -17,6 +17,7 @@ and this project adheres to
 #### Fixed
 #### Security
 #### Docs
+- Add COMPILE.md and modify README.md
 #### Tools
 
 ## [v2.2.10-rc1] 2025-04-17
