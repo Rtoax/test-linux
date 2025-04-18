@@ -1,7 +1,8 @@
 /**
  * https://llvm.org/docs/CommandLine.html
  */
-#include "llvm/Support/CommandLine.h"
+#include <llvm/Config/llvm-config.h>
+#include <llvm/Support/CommandLine.h>
 
 using namespace llvm;
 

@@ -2,7 +2,8 @@
  * https://llvm.org/docs/CommandLine.html
  */
 #include <iostream>
-#include "llvm/Support/CommandLine.h"
+#include <llvm/Config/llvm-config.h>
+#include <llvm/Support/CommandLine.h>
 
 using namespace llvm;
 using namespace std;
@@ -17,4 +18,5 @@ int main(int argc, char **argv)
 	cl::opt<bool> Quiet2("q", cl::desc("Don't print informational messages"), cl::Hidden);
 
 	//...
+	return 0;
 }

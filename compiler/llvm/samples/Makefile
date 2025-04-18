@@ -16,19 +16,20 @@ ifeq ($(CXX),)
 endif
 
 TARGETS :=
+TARGETS += ParseCommandLineOptions
+TARGETS += ParseCommandLineOptions-2
+TARGETS += LLVM_VERSION_MAJOR
+
+ifeq ($(LLVM_CONFIG),)
+  $(warning Not found llvm-config, please install llvm first)
+  TARGETS :=
+endif
 
 CXXFLAGS :=
 CXXFLAGS += -Werror -Wall
 CXXFLAGS += -DDEBUG -O0 -g
-
-ifeq ($(LLVM_CONFIG),)
-  $(warning Not found llvm-config, please install llvm first)
-else
-  TARGETS += ParseCommandLineOptions
-  TARGETS += ParseCommandLineOptions-2
-
-  CXXFLAGS += $(shell llvm-config --cxxflags --ldflags --system-libs --libs core mc mcjit ExecutionEngine)
-endif
+CXXFLAGS += $(shell llvm-config --cxxflags --ldflags --system-libs --libs core mc mcjit ExecutionEngine)
+CXXFLAGS += -Wno-error=unused-command-line-argument
 
 CXXFLAGS_ParseCommandLineOptions := -Wno-unused-command-line-argument
 CXXFLAGS_ParseCommandLineOptions-2 := -Wno-unused-command-line-argument
@@ -40,6 +41,7 @@ build: ${TARGETS}
 
 ParseCommandLineOptions: ParseCommandLineOptions.o
 ParseCommandLineOptions-2: ParseCommandLineOptions-2.o
+LLVM_VERSION_MAJOR: LLVM_VERSION_MAJOR.o
 
 %.o: %.cpp
 	@echo -e "  CXX  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
