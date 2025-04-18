@@ -11,6 +11,7 @@ and this project adheres to
 #### Breaking Changes
 #### Added
 - Support Fedora Linux 42
+- Add depends screenshot software shutter
 #### Changed
 #### Deprecated
 #### Removed

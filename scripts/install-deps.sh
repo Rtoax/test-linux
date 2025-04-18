@@ -598,6 +598,7 @@ pkgs_desktop+=( gitk )
 pkgs_desktop+=( gnome-tweaks )
 pkgs_desktop+=( gnuplot )
 pkgs_desktop+=( python3-matplotlib )
+pkgs_desktop+=( shutter )
 
 # Database
 pkgs_db+=( postgresql )
