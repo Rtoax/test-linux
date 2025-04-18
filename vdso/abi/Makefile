@@ -15,7 +15,7 @@ VDSO_CFLAGS += -nolibc
 
 ifeq ($(shell uname -m),x86_64)
   # See linux:/arch/x86/entry/vdso/Makefile
-  VDSO_CFLAGS += -P -C -Wl,-melf_x86_64
+  VDSO_CFLAGS += -P -C --shared -Wl,-melf_x86_64
   VDSO_CFLAGS += -Wl,-soname=${VDSO_NAME}.custom
   VDSO_CFLAGS += -Wl,-shared -Wl,--hash-style=both -Wl,--build-id=sha1 -Wl,--no-undefined
   VDSO_CFLAGS += -Wl,-Bsymbolic -Wl,-znoexecstack
