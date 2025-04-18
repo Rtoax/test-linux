@@ -35,5 +35,6 @@
 /include_next
 /unsigned
 /__has_include
+/__has_feature
 /restrict
 /ternary

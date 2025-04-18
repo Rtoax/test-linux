@@ -28,6 +28,7 @@ TARGETS += vector_size
 TARGETS += weak
 TARGETS += noplt noplt-plt
 TARGETS += kernel_helper
+TARGETS += __has_attribute
 
 TARGETS_todo :=
 TARGETS_todo += preserve_access_index
@@ -75,6 +76,7 @@ noplt: noplt.o
 noplt-plt: noplt-plt.o
 kernel_helper: kernel_helper.o
 preserve_access_index: preserve_access_index.o
+__has_attribute: __has_attribute.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

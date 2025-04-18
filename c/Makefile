@@ -26,7 +26,7 @@ TARGETS += struct
 TARGETS += union
 TARGETS += xor
 TARGETS += __alignof__
-TARGETS += __has_include
+TARGETS += __has_include __has_feature
 TARGETS += __label__
 TARGETS += __typeof__
 TARGETS += NULL
@@ -133,6 +133,7 @@ union: union.o
 xor: xor.o
 __alignof__: __alignof__.o
 __has_include: __has_include.o
+__has_feature: __has_feature.o
 __label__: __label__.o
 __typeof__: __typeof__.o
 NULL: NULL.o
