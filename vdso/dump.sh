@@ -55,6 +55,7 @@ fi
 dd if=/proc/${pid}/mem of=${vdso_so} \
 	ibs=1 skip=$(printf %ld 0x${addr_range[0]}) \
 	count=${vdso_sz} 2>/dev/null
+chmod +x ${vdso_so}
 
 echo ${vdso_so}
 
