@@ -3,6 +3,7 @@
 # test-linux Makefile
 # Wrote by Rong Tao <rtoax@foxmail.com>
 #
+# Change the CHANGELOG.md at the same time
 VERSION = 2
 PATCHLEVEL = 2
 SUBLEVEL = 10
