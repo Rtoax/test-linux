@@ -1,6 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
 include ../tlbuild.mk
-
 include ../scripts/logos.mk
 
 sub-dir := annobin

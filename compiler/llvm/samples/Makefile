@@ -1,13 +1,14 @@
+# SPDX-License-Identifier: GPL-3.0
 include ../../../tlbuild.mk
+include ../llvm.mk
 
-LLVM_CONFIG = $(shell which llvm-config 2>/dev/null)
-CLANG_CXX = $(shell which clang++ 2>/dev/null)
+CLANG_CXX := $(shell which clang++ 2>/dev/null)
 
 ifneq ($(wildcard $(CLANG_CXX)),)
-CXX = ${CLANG_CXX}
+  CXX := ${CLANG_CXX}
 else
-$(warning "WARNING: not found clang++")
-CXX = c++
+  $(warning "WARNING: not found clang++")
+  CXX := c++
 endif
 
 ifeq ($(CXX),)
@@ -29,17 +30,16 @@ else
   CXXFLAGS += $(shell llvm-config --cxxflags --ldflags --system-libs --libs core mc mcjit ExecutionEngine)
 endif
 
+CXXFLAGS_ParseCommandLineOptions := -Wno-unused-command-line-argument
+CXXFLAGS_ParseCommandLineOptions-2 := -Wno-unused-command-line-argument
+
 
 .PHONY: build
 build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
-# Add more object.o file
 ParseCommandLineOptions: ParseCommandLineOptions.o
 ParseCommandLineOptions-2: ParseCommandLineOptions-2.o
-
-CXXFLAGS_ParseCommandLineOptions := -Wno-unused-command-line-argument
-CXXFLAGS_ParseCommandLineOptions-2 := -Wno-unused-command-line-argument
 
 %.o: %.cpp
 	@echo -e "  CXX  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
