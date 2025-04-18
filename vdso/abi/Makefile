@@ -2,13 +2,6 @@
 include ../../tlbuild.mk
 include ../vdso.mk
 
-
-# Test vDSO linux-vdso.so.1
-#
-# See linux:/arch/x86/entry/vdso/Makefile
-#VDSO_LDFLAGS_vdso.lds = -m elf_x86_64 -soname linux-vdso.so.1 --no-undefined \
-#		-z max-page-size=4096 
-
 TARGETS :=
 TARGETS += main-custom
 TARGETS += main-kernel
@@ -19,9 +12,10 @@ all: ${TARGETS}
 VDSO_CFLAGS :=
 
 ifeq ($(shell uname -m),x86_64)
-  VDSO_CFLAGS += -P -C -fpic --share -Wl,-melf_x86_64 \
-                 -Wl,-soname=${VDSO_NAME}.custom \
-                 -Wl,--no-undefined -Wl,-zmax-page-size=4096
+  # See linux:/arch/x86/entry/vdso/Makefile
+  VDSO_CFLAGS += -P -C -fpic --share -Wl,-melf_x86_64
+  VDSO_CFLAGS += -Wl,-soname=${VDSO_NAME}.custom
+  VDSO_CFLAGS += -Wl,--no-undefined -Wl,-zmax-page-size=4096
 endif
 ifeq ($(shell uname -m),aarch64)
   # TODO: Update to upstream linux
