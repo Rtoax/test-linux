@@ -46,6 +46,7 @@ CFLAGS_noplt := -DNOPLT=1
 CFLAGS_cleanup := -Werror=attributes
 CFLAGS_noreturn := -Werror=attributes -Werror
 CFLAGS_deprecated := -Wno-error=deprecated-declarations
+CFLAGS_format := -Werror=varargs -Werror=attributes
 
 .PHONY: build
 build: ${TARGETS}
