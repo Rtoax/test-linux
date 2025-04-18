@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <malloc.h>
 
-#include "__builtin_prefetch.h"
+#include "prefetch.h"
 
 int main(void)
 {
