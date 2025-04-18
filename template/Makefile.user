@@ -5,7 +5,7 @@
 include ../tlbuild.mk
 include ../kconfig.mk
 
-STDIO_H = /usr/include/stdio.h
+STDIO_H := /usr/include/stdio.h
 
 sub-dir := SUBDIR
 
@@ -21,14 +21,13 @@ else
 endif
 
 ifeq ($(shell uname -m),x86_64)
-endif
-ifeq ($(shell uname -m),aarch64)
+else ifeq ($(shell uname -m),aarch64)
 endif
 
 OS := $(shell grep ^ID= /etc/os-release | sed 's/ID=//g' | sed 's/"//g')
 
-DEBUG = yes
-CC = gcc
+DEBUG := yes
+CC := gcc
 
 include ../compiler/compiler.mk
 
