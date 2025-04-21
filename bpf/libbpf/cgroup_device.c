@@ -66,7 +66,7 @@ static int libbpf_print_fn(enum libbpf_print_level level, const char *format,
 
 static void sig_int(int signo)
 {
-	stop_read_trace_pipe();
+	read_trace_pipe_stop();
 }
 
 int main(int argc, char **argv)

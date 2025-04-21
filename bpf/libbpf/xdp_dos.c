@@ -174,7 +174,7 @@ static const struct argp argp = {
 static void sig_handler(int sig)
 {
 	if (verbose)
-		stop_read_trace_pipe();
+		read_trace_pipe_stop();
 }
 
 static int libbpf_print_fn(enum libbpf_print_level level, const char *format,

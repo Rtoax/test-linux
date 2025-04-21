@@ -127,7 +127,7 @@ int read_trace_pipe(void)
 	return err;
 }
 
-int stop_read_trace_pipe(void)
+int read_trace_pipe_stop(void)
 {
 	return pthread_kill(thread, SIGUSR1);
 }

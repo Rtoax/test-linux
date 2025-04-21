@@ -35,7 +35,7 @@
 void sig_handler(int sig)
 {
 	fprintf(stderr, "get sig...\n");
-	stop_read_trace_pipe();
+	read_trace_pipe_stop();
 }
 
 /**
