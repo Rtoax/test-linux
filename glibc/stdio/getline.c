@@ -23,8 +23,10 @@ int main(int argc, char *argv[])
 	size_t buflen, n;
 
 	for (i = 1; i < argc; i++)
-		if (!strcmp(argv[i], "nosignal"))
+		if (!strcmp(argv[i], "nosig") || !strcmp(argv[i], "nosignal")) {
+			fprintf(stderr, "Running without signal!!\n");
 			nosignal = true;
+		}
 
 	if (nosignal)
 		goto start;
@@ -33,14 +35,13 @@ int main(int argc, char *argv[])
 	sigsetjmp(jmp, 1);
 
 	if (stop) {
-		fprintf(stderr, "Goodbye!!\n");
 		if (buf)
 			free(buf);
-		return 0;
+		goto goodbye;
 	}
 
 start:
-	fprintf(stderr, "Usage: %s [nosignal]\n", argv[0]);
+	fprintf(stderr, "Usage: %s [nosig|nosignal]\n", argv[0]);
 	fprintf(stderr, "Start loop!!\n");
 
 	/**
@@ -57,5 +58,7 @@ start:
 		printf("%s", buf);
 	}
 
+goodbye:
+	fprintf(stderr, "Goodbye!!\n");
 	return 0;
 }
