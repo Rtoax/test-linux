@@ -9,6 +9,7 @@ include wow.mk
 include logos.mk
 include ../gnu/gnu.mk
 include git.mk
+include ../bpf/bpf.mk
 
 CC := gcc
 
