@@ -13,6 +13,7 @@
 /fwrite
 /getchar
 /getline
+/getdelim
 /scanf
 /sscanf
 /perror

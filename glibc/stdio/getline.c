@@ -54,7 +54,12 @@ start:
 	 *
 	 * to handle the infinite-loop exit problem.
 	 */
+#if defined(TEST_getdelim)
+#pragma message "Test getdelim"
+	while ((n = getdelim(&buf, &buflen, '\n', stdin) >= 0) || errno == EAGAIN) {
+#else
 	while ((n = getline(&buf, &buflen, stdin) >= 0) || errno == EAGAIN) {
+#endif
 		printf("%s", buf);
 	}
 
