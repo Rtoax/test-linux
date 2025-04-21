@@ -5,6 +5,8 @@ include ../../kernel.mk
 OUTPUT := $(abspath .output)
 VIRT_TYPE ?= $(shell systemd-detect-virt)
 
+VMLINUX_H := ${OUTPUT}/vmlinux.h
+
 include ../../kconfig.mk
 include ../bpf.mk
 include ../../glibc/ldconfig.mk
@@ -119,7 +121,7 @@ TARGETS_BPF := $(addprefix ${OUTPUT}/,${TARGETS_BPF})
 TARGETS_SKEL := $(patsubst %.bpf.o,%.skel.h,$(TARGETS_BPF))
 
 ifeq (${VIRT_TYPE},systemd-nspawn)
-  $(warning "Could not support vmlinux.h in systemd-nspawn")
+  $(warning "Could not support virt type ${VIRT_TYPE} in systemd-nspawn")
   TARGETS :=
   TARGETS_BPF :=
   TARGETS_SKEL :=
@@ -242,7 +244,7 @@ BTF_HELPERS := ${OUTPUT}/btf_helpers.o
 
 
 .PHONY: build
-build: libbpf_version vmlinux.h ${TARGETS_BPF} ${TARGETS_SKEL} ${TARGETS} ${TARGETS_BTF}
+build: libbpf_version ${VMLINUX_H} ${TARGETS_BPF} ${TARGETS_SKEL} ${TARGETS} ${TARGETS_BTF}
 	${Q}./libbpf_version | sed 's/^/  /g'
 	@echo -e "  \033[1;33mDone\033[m"
 
@@ -298,7 +300,7 @@ ${OUTPUT}:
 	@echo -e "  MKDIR  \033[1m$(notdir ${@})\033[m"
 	${Q}mkdir -p $(@)
 
-${OUTPUT}/%.bpf.o: %.bpf.c vmlinux.h | ${OUTPUT}
+${OUTPUT}/%.bpf.o: %.bpf.c ${VMLINUX_H} | ${OUTPUT}
 	@echo -e "  BPF  \033[1m$(notdir ${@})\033[m"
 	${Q}$(CLANG) -c $(<) -o $(@) ${CFLAGS_BPF} $(CFLAGS_BPF_$(*)) $(CLANG_V) $(shell ./libbpf_version cflags)
 
@@ -323,5 +325,5 @@ include ../bpftool/vmlinux.h.mk
 .PHONY: clean
 clean:
 	@echo -e "  RM  \033[1;32m$(TARGETS_BPF) ${TARGETS}\033[m"
-	${Q}rm -f ${TARGETS_BPF} ${TARGETS} *.o *.skel.h vmlinux.h libbpf_version
+	${Q}rm -f ${TARGETS_BPF} ${TARGETS} *.o ${VMLINUX_H} libbpf_version
 	${Q}rm -rf ${OUTPUT}
