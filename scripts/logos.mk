@@ -79,24 +79,3 @@ define tl_ascii_logo_ebpf_bee_summit_2021
 @echo -e "${W}........-=============...................-==============.............${R}"
 @echo -e "${W}:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::${R}"
 endef
-
-define tl_ascii_logo_gnu
-	@echo -e '${ANSI_BOLD}${ANSI_GRE}    _-`````-,           ,- `- .${ANSI_RST}'
-	@echo -e '${ANSI_BOLD}${ANSI_GRE}  .`   .- - |          | - -.  `.${ANSI_RST}'
-	@echo -e '${ANSI_BOLD}${ANSI_GRE} /.`  /                     `.   \ ${ANSI_RST}'
-	@echo -e '${ANSI_BOLD}${ANSI_GRE}:/   :      _...   ..._      ``   :${ANSI_RST}'
-	@echo -e '${ANSI_BOLD}${ANSI_GRE}::   :     /._ .`:`_.._\.    ||   :${ANSI_RST}'
-	@echo -e '${ANSI_BOLD}${ANSI_GRE}::    `._ ./  ,`  :    \ . _.``   .${ANSI_RST}'
-	@echo -e '${ANSI_BOLD}${ANSI_GRE}`:.      /   |  -.  \-. \\_      /${ANSI_RST}'
-	@echo -e '${ANSI_BOLD}${ANSI_GRE}  \:._ _/  .`   .@)  \@) ` `\ ,.`${ANSI_RST}'
-	@echo -e '${ANSI_BOLD}${ANSI_GRE}     _/,--`       .- .\,-.`--`.${ANSI_RST}'
-	@echo -e '${ANSI_BOLD}${ANSI_GRE}       ,`/``     (( \ `  )${ANSI_RST}'
-	@echo -e '${ANSI_BOLD}${ANSI_GRE}        /`/`  \    `-`  (${ANSI_RST}'
-	@echo -e '${ANSI_BOLD}${ANSI_GRE}         `/``  `._,-----`${ANSI_RST}'
-	@echo -e '${ANSI_BOLD}${ANSI_GRE}          ``/`    .,---`${ANSI_RST}'
-	@echo -e '${ANSI_BOLD}${ANSI_GRE}           ``/`      ;:${ANSI_RST}'
-	@echo -e '${ANSI_BOLD}${ANSI_GRE}             ``/``  ``/${ANSI_RST}'
-	@echo -e '${ANSI_BOLD}${ANSI_GRE}               ``/``/``${ANSI_RST}'
-	@echo -e '${ANSI_BOLD}${ANSI_GRE}                 `/`/`${ANSI_RST}'
-	@echo -e '${ANSI_BOLD}${ANSI_GRE}                  `;${ANSI_RST}'
-endef

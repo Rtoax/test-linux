@@ -7,6 +7,7 @@ include ../glibc/glibc.mk
 include success.mk
 include wow.mk
 include logos.mk
+include ../gnu/gnu.mk
 include git.mk
 
 CC := gcc
