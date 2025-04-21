@@ -33,7 +33,8 @@ include tlbuild.mk
 include kernel.mk
 include $(TL_TOPDIR)/scripts/emoji.mk
 include $(TL_TOPDIR)/scripts/git.mk
-include $(TL_TOPDIR)/scripts/logos.mk
+include $(TL_TOPDIR)/scripts/ansi.mk
+include $(TL_TOPDIR)/scripts/logo.mk
 
 GIT_CONFIG_CORE_HOOKSPATH := $(shell git config get core.hooksPath 2>/dev/null \
 	|| git config core.hooksPath 2>/dev/null \

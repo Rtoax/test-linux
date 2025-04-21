@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
 include ../tlbuild.mk
-include ../scripts/logos.mk
+include ../scripts/ansi.mk
 include ../gnu/gnu.mk
 include glibc.mk
 

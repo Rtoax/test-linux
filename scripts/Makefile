@@ -6,7 +6,8 @@ include ../tlbuild.mk
 include ../glibc/glibc.mk
 include success.mk
 include wow.mk
-include logos.mk
+include ansi.mk
+include logo.mk
 include ../gnu/gnu.mk
 include git.mk
 include ../bpf/bpf.mk
