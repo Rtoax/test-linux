@@ -1,5 +1,6 @@
 - CE: Correctable Error () @ECC
 - DMB: Data Memory Barrier (数据内存屏障) @arm @DSB @ISB
+- DIMM: Dual-Inline-Memory-Modules (双列直插式内存模块) @UDIMM @RDIMM @LRDIMM
 - DRAM: Dynamic Random Access Memory (动态随机存取存储器)
 - DSB: Data Synchronization Barrier (数据同步屏障) @arm @DMB @ISB
 - ECC: Error Checking and Correcting () @UE @CE
@@ -9,6 +10,7 @@
 - KPTI: Kernel Page Table Isolation (内核页表隔离) @PTI
 - LDT: Local Descriptor Table (局部描述符表)
 - LMA: Load Memory Address (加载内存地址) @VMA
+- LRDIMM: Load-Reduces DIMM (成本高) @DIMM
 - MCE: Machine Check Exceptions
 - MGLRU: Multi-Gen LRU (多代 LRU) @LRU
 - MM: Memory Managment (内存管理) @MMU
@@ -18,8 +20,10 @@
 - PAE: Physical Address Extension (物理地址扩展)
 - PSS: Proportional Set Size (实际使用的物理内存 比例分配共享库占用的内存)
 - PTI: Page Table Isolation (页表隔离) @KPTI
+- RDIMM: Registered DIMM (服务器使用，适用于主流) @DIMM
 - RSS: Resident Set Size (常驻内存集合大小 包含共享库占用的内存)
 - TLB: Translation Lookaside Buffer (旁路转换缓冲, 地址转换后备缓冲)
+- UDIMM: Unbuffered DIMM (适用于低端CPU平台) @DIMM
 - UE: Uncorrectable Error () @ECC
 - UMA: Uniform Memory Architecture (一致性内存架构)
 - USS: Unique Set Size (进程独占使用的物理内存 不包含共享库占用的内存)
