@@ -68,6 +68,8 @@ ifdef CROSS_COMPILE
   $(info INFO: Enable CROSS_COMPILE=${CROSS_COMPILE})
   $(info INFO: SYSROOT=${SYSROOT})
 else
-  $(info INFO: Define CROSS_COMPILE=[Cross-build [GNU] C compiler] when make)
+  ifdef DEBUG
+    $(info INFO: Define CROSS_COMPILE=[Cross-build [GNU] C compiler] when make)
+  endif
 endif
 
