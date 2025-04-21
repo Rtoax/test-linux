@@ -1,6 +1,7 @@
 - CE: Correctable Error () @ECC
+- DDR: Doubld Date Rate SDRAM (双倍速率 SDRAM) @DIMM
 - DMB: Data Memory Barrier (数据内存屏障) @arm @DSB @ISB
-- DIMM: Dual-Inline-Memory-Modules (双列直插式内存模块) @UDIMM @RDIMM @LRDIMM
+- DIMM: Dual-Inline-Memory-Modules (双列直插式内存模块) @UDIMM @RDIMM @LRDIMM @DDR
 - DRAM: Dynamic Random Access Memory (动态随机存取存储器)
 - DSB: Data Synchronization Barrier (数据同步屏障) @arm @DMB @ISB
 - ECC: Error Checking and Correcting () @UE @CE
