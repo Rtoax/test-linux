@@ -91,7 +91,7 @@ static const struct argp argp = {
 static void sig_handler(int sig)
 {
 	printf("Catch signal %d!!\n", sig);
-	stop_read_trace_pipe();
+	read_trace_pipe_stop();
 	pthread_kill(rx_thread, SIGUSR1);
 #if defined(TX_THREAD)
 	pthread_kill(tx_thread, SIGUSR1);
