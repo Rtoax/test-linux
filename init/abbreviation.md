@@ -5,6 +5,7 @@
 - BMC: Baseboard Management Controller (基板管理控制器)
 - DMI: Desktop Management Interface (桌面管理接口)
 - GRUB: GRand Unified Bootloader (统一引导加载程序)
+- iBMC: Intelligent Baseboard Management System (智能 BMC) @BMC @Huawei
 - IPMI: Intelligent Platform Management Interface (智能平台管理接口) @BMC
 - PXE: Preboot Execute Environment (预启动执行环境)
 - SMBIOS: System Management BIOS (系统管理BIOS)
