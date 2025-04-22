@@ -1,5 +1,5 @@
 /**
- * R_X86_64_64 (aarch64 is R_AARCH64_ABS64)
+ * R_X86_64_64 (like aarch64's R_AARCH64_ABS64)
  *
  * value = 1, field = word64, calculation = S + A
  */
