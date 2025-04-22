@@ -3,7 +3,7 @@
  */
 #include <stdio.h>
 
-int foo(void)
+int main(void)
 {
 	char buf[32];
 
@@ -14,6 +14,10 @@ int foo(void)
 	buf[4] = 'o';
 	buf[5] = '\0';
 
+	/**
+	 * puts is R_AARCH64_CALL26 in relocation elf file
+	 * puts is R_AARCH64_JUMP_SLOT in execute elf file.
+	 */
 	puts(buf);
 	return 0;
 }
