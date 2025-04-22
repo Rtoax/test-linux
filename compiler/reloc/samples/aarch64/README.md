@@ -1,13 +1,14 @@
 aarch64 Relocation
 ==================
 
-# ELF64
+# ELF64 aarch64
 
 ```
-Name				Value	Field		Calculation
+Name				Value		Calculation	Comment
 -------------------------------------------------------------------------------
-R_AARCH64_ABS64			257			S + A
-R_AARCH64_ABS32			258			S + A
+R_AARCH64_ABS64			257		S + A		No overflow check
+R_AARCH64_ABS32			258		S + A
+R_AARCH64_ABS16			259		S + A
 ```
 
 
