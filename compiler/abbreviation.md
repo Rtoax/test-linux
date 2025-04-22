@@ -1,4 +1,5 @@
 - AST: Abstract Syntax Trees (抽象语法树)
+- CFGO: Control Flow Graph Optimization (控制流图优化,一种编译优化)
 - DWARF: Debugging With Attributed Record Formats (调试信息标准)
 - FDO: Feedback Directed Optimization
 - IPA: Inter-Procedural Analysis (过程间分析)
