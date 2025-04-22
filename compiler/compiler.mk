@@ -48,4 +48,7 @@ ifdef DEBUG
   $(info fcf-protection: ${CC_-fcf-protection})
   $(info fentry: $(CC_-mfentry))
   $(info CC: $(CC) ${CC_MAJOR}.${CC_MINOR} ${CC_FULLVERSION} ${CC_VERSION})
+  $(info CC_M32: ${CC_M32})
+  $(info CC_STD_GNU11: ${CC_STD_GNU11})
+  $(info CC_STD_GNU17: ${CC_STD_GNU17})
 endif
