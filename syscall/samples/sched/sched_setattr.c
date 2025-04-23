@@ -18,7 +18,7 @@ static volatile int done;
 
 void *run_deadline(void *data)
 {
-	struct sched_attr attr;
+	struct __sched_attr attr;
 	unsigned long x = 0;
 	int ret;
 	unsigned int flags = 0;
@@ -35,7 +35,7 @@ void *run_deadline(void *data)
 	attr.sched_runtime = 10 * 1000 * 1000;
 	attr.sched_period = attr.sched_deadline = 30 * 1000 * 1000;
 
-	ret = sched_setattr(0, &attr, flags);
+	ret = sys_sched_setattr(0, &attr, flags);
 	if (ret < 0) {
 		done = 0;
 		perror("sched_setattr");
