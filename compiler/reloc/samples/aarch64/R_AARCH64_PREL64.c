@@ -1,14 +1,16 @@
 /**
  * R_AARCH64_PREL64
+ * R_AARCH64_PREL32
+ * R_AARCH64_PREL16
  */
 #include <stdio.h>
+#include <stdint.h>
 
 /**
- * foo is R_AARCH64_PREL32
+ * foo, bar is R_AARCH64_PREL32 in ELF 64-bit LSB relocatable
  */
-void foo(void)
-{
-}
+void foo(void) {}
+void bar(void) {}
 
 /**
  * main is R_AARCH64_PREL32
