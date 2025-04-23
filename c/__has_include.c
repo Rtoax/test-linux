@@ -6,7 +6,7 @@
 #  pragma message "found and include stdatomic.h"
 # endif
 #else
-# pragma warning "compiler not support __has_include"
+# pragma message "compiler not support __has_include"
 #endif
 
 #ifdef __has_feature
@@ -14,7 +14,7 @@
 #  pragma message "compiler support gnu_inline feature"
 # endif
 #else
-# pragma warning "compiler not support __has_feature"
+# pragma message "compiler not support __has_feature"
 #endif
 
 #ifdef __has_extension
@@ -22,7 +22,7 @@
 #  pragma message "compiler support blocks extension"
 # endif
 #else
-# pragma warning "compiler not support __has_extension"
+# pragma message "compiler not support __has_extension"
 #endif
 
 int main(void)
