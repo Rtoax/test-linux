@@ -34,6 +34,9 @@ int sys_epoll_pwait(int epfd, struct epoll_event *events, int maxevents,
 int sys_epoll_pwait2(int epfd, struct epoll_event *events, int maxevents,
 		     const struct timespec *timeout, const sigset_t *sigmask)
 {
+#ifndef __NR_epoll_pwait2
+#define __NR_epoll_pwait2	441
+#endif
 	return syscall(__NR_epoll_pwait2, epfd, events, maxevents, timeout, sigmask);
 }
 #endif
