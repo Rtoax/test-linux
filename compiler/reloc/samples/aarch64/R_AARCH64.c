@@ -137,6 +137,6 @@ int main(void)
 	P(R_AARCH64_TLS_TPREL);
 	P(R_AARCH64_TLSDESC);
 	P(R_AARCH64_IRELATIVE);
-
+#undef P
 	return 0;
 }

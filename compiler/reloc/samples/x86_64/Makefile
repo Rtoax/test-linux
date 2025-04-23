@@ -16,6 +16,7 @@ LDFLAGS :=
 CFLAGS_PIE :=
 LDFLAGS_PIE :=
 
+TARGETS += R_X86_64
 TARGETS += R_X86_64_64
 TARGETS += R_X86_64_32S
 TARGETS += R_X86_64_PC32
@@ -37,13 +38,15 @@ TARGETS_S_O += R_X86_64_REX_GOTPCRELX.So
 TARGETS_S_O += R_X86_64_PLT32.So
 TARGETS_S_O += R_X86_64_PLTOFF64.So
 
+AS_ARGS += --64
+CFLAGS += -O0
+
 ifneq ($(shell uname -m),x86_64)
-  $(error Try compile on $(shell uname -m))
+  $(warning Try compile on $(shell uname -m))
+  AS_ARGS :=
+  TARGETS_S_O :=
 endif
 
-AS_ARGS += --64
-
-CFLAGS += -O0
 
 # Debian 12 default compile PIE EXEC, Fedora40 default compile no-PIE EXEC.
 # Default no-PIE in my case.
@@ -71,6 +74,8 @@ endef
 .PHONY: build
 build: ${TARGETS_SO} ${TARGETS_A} ${TARGETS} ${TARGETS_O} ${TARGETS_S_O}
 	@echo -e " \033[1;33m Done \033[m"
+
+R_X86_64: R_X86_64.o
 
 R_X86_64_JUMP_SLOT: R_X86_64_JUMP_SLOT.o
 R_X86_64_GLOB_DAT: R_X86_64_GLOB_DAT.o
