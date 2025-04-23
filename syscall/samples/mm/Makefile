@@ -27,6 +27,7 @@ CFLAGS += -Wstrict-prototypes
 CFLAGS += -pthread
 CFLAGS += -lrt
 CFLAGS += -DDEBUG -O0 -g
+include ../../../compiler/force-cflags.mk
 
 include ../../../template/subdir-header.mk
 

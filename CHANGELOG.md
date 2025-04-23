@@ -13,6 +13,7 @@ and this project adheres to
 - Support Fedora Linux 42
 - Add depends screenshot software shutter
 - Add more aarch64 elf/rela tests
+- Add compiler/force-cflags.mk
 #### Changed
 #### Deprecated
 #### Removed
