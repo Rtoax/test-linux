@@ -29,7 +29,7 @@ static const struct argp_option opts[] = {
 	{ "force-modversion", 'M', NULL, 1, "Skip modversion check" },
 	{ "force", 'f', NULL, 1, "Skip version magic and modversion check" },
 #endif
-	{ "verbose", 'v', "VERBOSE", 1, "Display detail" },
+	{ "verbose", 'v', NULL, 1, "Display detail" },
 	{},
 };
 

@@ -68,8 +68,8 @@ const char argp_prog_doc[] =
 
 static const struct argp_option opts[] = {
 	{ "mbind", 'b', "NUMA", 0, "Test mbind" },
-	{ "verbose", 'v', "VERBOSE", 1, "Display detail" },
-	{ "force", 'f', "FORCE", 1, "Execute force" },
+	{ "verbose", 'v', NULL, 1, "Display detail" },
+	{ "force", 'f', NULL, 1, "Execute force" },
 	{},
 };
 

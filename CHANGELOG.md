@@ -25,6 +25,7 @@ and this project adheres to
 #### Removed
 #### Fixed
 - Fix lots of `__attribute__` warnings
+- argp.h: Remove VERBOSE from `struct argp_option`
 #### Security
 #### Docs
 - Add COMPILE.md and modify README.md

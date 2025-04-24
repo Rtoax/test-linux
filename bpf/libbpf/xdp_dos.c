@@ -82,7 +82,7 @@ static const struct argp_option opts[] = {
 	{ "blacklist-sample-threshold", 'N', "BLACKLIST_SAMPLE_THRESHOLD", 0, "Blacklist sample threshold" },
 	{ "white", 'W', "WHITE", 0, "Add address to white list" },
 	{ "rand", 'R', "RAND", 0, "Use to IPRandom" },
-	{ "verbose", 'v', "VERBOSE", 1, "Display the detail, for debug maybe" },
+	{ "verbose", 'v', NULL, 1, "Display the detail, for debug maybe" },
 	{},
 };
 

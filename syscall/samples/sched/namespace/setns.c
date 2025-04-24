@@ -27,7 +27,7 @@ const char argp_prog_doc[] =
 static const struct argp_option opts[] = {
 	{ "pid", 'p', "PID", 0, "specify target pid, use to locate /proc/PID" },
 	{ "ns", 'n', "NAMESPACE", 0, "specify namespace, use to locate /proc/PID/ns/<ns>" },
-	{ "verbose", 'v', "VERBOSE", 1, "display detail" },
+	{ "verbose", 'v', NULL, 1, "display detail" },
 	{},
 };
 

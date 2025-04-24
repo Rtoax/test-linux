@@ -35,8 +35,8 @@ const char argp_prog_doc[] =
 
 static const struct argp_option opts[] = {
 	{ "size", 's', "INTERFACE", 0, "only allocate size of memory, instead of oom" },
-	{ "popen", 'p', "POPEN", 1, "test popen(3) after memory" },
-	{ "verbose", 'v', "VERBOSE", 1, "display detail" },
+	{ "popen", 'p', NULL, 1, "test popen(3) after memory" },
+	{ "verbose", 'v', NULL, 1, "display detail" },
 	{ "oom_adj", 'a', "OOM_ADJ", 0, "set oom_adj" },
 	{ "oom_score_adj", 'c', "OOM_SCORE_ADJ", 0, "set oom_score_adj" },
 	{},

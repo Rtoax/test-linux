@@ -57,7 +57,7 @@ static const char argp_prog_doc[] =
 
 static const struct argp_option opts[] = {
 	{ "interface", 'i', "INTERFACE", 0, "Network interface to attach" },
-	{ "verbose", 'v', "VERBOSE", 1, "Display detail during running" },
+	{ "verbose", 'v', NULL, 1, "Display detail during running" },
 	{},
 };
 

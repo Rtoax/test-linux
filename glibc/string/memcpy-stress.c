@@ -66,8 +66,8 @@ static const struct argp_option opts[] = {
 	{ "block-size", 'b', "BLOCK_SIZE", 0, "block size for each memory copy" },
 	{ "msize", 's', "MSIZE", 0, "total size of memory copy" },
 	{ "alloc", 'a', "ALLOC", 0, "size of memory allocated use to test" },
-	{ "verbose", 'v', "VERBOSE", 1, "Display detail" },
-	{ "version", 'V', "VERSION", 1, "Display version" },
+	{ "verbose", 'v', NULL, 1, "Display detail" },
+	{ "version", 'V', NULL, 1, "Display version" },
 	{ "uname", 'U', "UNAME", 1, "Display uname" },
 	{},
 };

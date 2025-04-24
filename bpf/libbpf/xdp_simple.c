@@ -50,7 +50,7 @@ static const char argp_prog_doc[] =
 static const struct argp_option opts[] = {
 	{ "ifname", 'i', "INTERFACE", 0, "Network ifname to attach" },
 	{ "black", 'b', "BLACK", 0, "Add address to black list" },
-	{ "verbose", 'v', "VERBOSE", 1, "Display the detail, for debug maybe" },
+	{ "verbose", 'v', NULL, 1, "Display the detail, for debug maybe" },
 	{},
 };
 
