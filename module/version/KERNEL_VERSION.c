@@ -4,6 +4,10 @@
 #include <linux/printk.h>
 #include <linux/utsname.h>
 #include <linux/version.h>
+#ifndef INCLUDE_VERMAGIC
+#define INCLUDE_VERMAGIC
+#endif
+#include <linux/vermagic.h>
 
 
 static int kernel_init(void)
@@ -30,6 +34,12 @@ static int kernel_init(void)
 #ifdef LINUX_VERSION_MAJOR
 	printk("Version: %d.%d.%d\n", LINUX_VERSION_MAJOR,
 		LINUX_VERSION_PATCHLEVEL, LINUX_VERSION_SUBLEVEL);
+#endif
+
+#ifdef VERMAGIC_STRING
+	printk("Vermagic %s\n", VERMAGIC_STRING);
+#else
+#pragma message "Not found macro VERMAGIC_STRING"
 #endif
 
 	return -EINVAL;

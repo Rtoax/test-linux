@@ -1,6 +1,4 @@
-
-# KERNELVERSION is defined in kernel's top-level Makefile, but empty here.
-$(info KERNELVERSION=${KERNELVERSION})
+# SPDX-License-Identifier: GPL-3.0
 
 obj-m += linux_banner.o
 obj-m += KERNEL_VERSION.o
