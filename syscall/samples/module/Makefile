@@ -1,5 +1,5 @@
+# SPDX-License-Identifier: GPL-3.0
 include ../../../tlbuild.mk
-
 
 TARGETS :=
 TARGETS += delete_module
@@ -13,8 +13,9 @@ CFLAGS += -DDEBUG -O0 -g
 build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
-# Add more object.o file
-delete_module: delete_module.o
+mod_helpers.o: mod_helpers.h
+delete_module.o: mod_helpers.h
+delete_module: delete_module.o mod_helpers.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

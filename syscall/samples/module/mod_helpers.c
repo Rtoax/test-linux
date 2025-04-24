@@ -7,9 +7,8 @@
 
 #include "mod_helpers.h"
 
-int main(void)
-{
-	sys_delete_module("mymod", O_NONBLOCK);
-	return 0;
-}
 
+int sys_delete_module(const char *name, unsigned int flags)
+{
+	return syscall(SYS_delete_module, name, flags);
+}

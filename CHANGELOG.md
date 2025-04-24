@@ -10,6 +10,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- syscall/module: Add `mod_helpers.c`
 - module: Test linux/vermagic.h `VERMAGIC_STRING`
 - Add openssl.mk
 - Add distributions UOS
