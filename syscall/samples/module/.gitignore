@@ -1,3 +1,4 @@
 /create_module
 /init_module
+/finit_module
 /delete_module

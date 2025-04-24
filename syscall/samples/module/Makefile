@@ -8,6 +8,7 @@ ifeq ($(call kernel_lower_than,2,7,0),y)
   TARGETS += create_module
 endif
 TARGETS += init_module
+TARGETS += finit_module
 TARGETS += delete_module
 
 CC := gcc
@@ -17,6 +18,7 @@ CFLAGS += -pthread
 CFLAGS += -DDEBUG -O0 -g
 
 CFLAGS_init_module := -DUSE_MMAP=1
+CFLAGS_finit_module := -DTEST_FINIT_MODULE=1
 
 .PHONY: build
 build: ${TARGETS}
@@ -27,6 +29,8 @@ mod_helpers.o: mod_helpers.h
 create_module: create_module.o
 init_module.o: mod_helpers.h
 init_module: init_module.o mod_helpers.o
+finit_module.o: mod_helpers.h
+finit_module: finit_module.o mod_helpers.o
 delete_module.o: mod_helpers.h
 delete_module: delete_module.o mod_helpers.o
 

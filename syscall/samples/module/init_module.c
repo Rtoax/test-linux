@@ -12,9 +12,6 @@ int main(int argc, char *argv[])
 {
 	int err, fd;
 	char *module_file = NULL;
-	void *module_image;
-	size_t len;
-	struct stat statbuf;
 
 	if (argc > 1)
 		module_file = argv[1];
@@ -30,6 +27,18 @@ int main(int argc, char *argv[])
 		exit(EXIT_FAILURE);
 	}
 
+#ifdef TEST_FINIT_MODULE /* finit_module(2) */
+	err = sys_finit_module(fd, NULL, 0);
+	if (err) {
+		fprintf(stderr, "failed insmod %s, %m\n", module_file);
+	}
+
+#else /* init_module(2) */
+
+	struct stat statbuf;
+	void *module_image;
+	size_t len;
+
 	err = fstat(fd, &statbuf);
 	if (err == -1) {
 		fprintf(stderr, "fstat %s failed, %m\n", module_file);
@@ -37,11 +46,11 @@ int main(int argc, char *argv[])
 	}
 
 	len = statbuf.st_size;
-#ifdef USE_MMAP
+# ifdef USE_MMAP
 	module_image = mmap(NULL, len, PROT_READ, MAP_PRIVATE, fd, 0);
-#else
+# else
 	module_image = aligned_alloc(getpagesize(), len);
-#endif
+# endif
 
 	printf("Ready %s size %ld, image %p\n", module_file, len, module_image);
 
@@ -53,12 +62,13 @@ int main(int argc, char *argv[])
 		fprintf(stderr, "failed insmod %s, %m\n", module_file);
 	}
 
-#ifdef USE_MMAP
+# ifdef USE_MMAP
 	munmap(module_image, len);
-#else
+# else
 	free(module_image);
-#endif
+# endif
 close_exit:
+#endif
 	close(fd);
 	return err;
 }
