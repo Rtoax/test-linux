@@ -9,7 +9,7 @@
 
 int main(int argc, char *argv[])
 {
-	int err;
+	int err, fd;
 	char *module_file = NULL;
 	void *module_image;
 	size_t len;
@@ -23,23 +23,25 @@ int main(int argc, char *argv[])
 		exit(EXIT_FAILURE);
 	}
 
-	if (access(module_file, F_OK | R_OK) != 0) {
-		fprintf(stderr, "file %s access failed %m\n", module_file);
+	fd = open(module_file, O_RDONLY);
+	if (fd == -1) {
+		fprintf(stderr, "Open %s failed. %m\n", module_file);
 		exit(EXIT_FAILURE);
 	}
 
-	stat(module_file, &statbuf);
+	err = fstat(fd, &statbuf);
+	if (err == -1) {
+		fprintf(stderr, "fstat %s failed, %m\n", module_file);
+		goto close_exit;
+	}
 
 	len = statbuf.st_size;
-
 	module_image = aligned_alloc(getpagesize(), len);
 
+	printf("Ready %s size %ld, image %p\n", module_file, len, module_image);
+
 	/* load file to memory */
-	{
-		FILE *fp = fopen(module_file, "r");
-		fread(module_image, len, 1, fp);
-		fclose(fp);
-	}
+	read(fd, module_image, len);
 
 	err = sys_init_module(module_image, len, NULL);
 	if (err) {
@@ -47,5 +49,7 @@ int main(int argc, char *argv[])
 	}
 
 	free(module_image);
+close_exit:
+	close(fd);
 	return err;
 }
