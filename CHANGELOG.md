@@ -10,6 +10,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- Add distributions UOS
 - OpenSSL add md5 samples
 - Support Fedora Linux 42
 - Add depends screenshot software shutter

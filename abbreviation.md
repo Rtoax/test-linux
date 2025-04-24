@@ -48,6 +48,7 @@
 - TOC: The Technical Oversight Committee (技术监督委员会)
 - UI: UNIX International (UNIX国际)
 - UML: User Mode Linux (用户模式Linux) @vDSO
+- UOS: Unity Operating System (统一操作系统)
 - USG: UNIX System Group (Unix系统组)
 - VFIO: Virtual Function I/O (虚拟功能 I/O)
 - vDSO: Virtual Dynamic Shared Object (虚拟动态共享目标) @UML @vvar
