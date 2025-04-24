@@ -10,6 +10,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- Add openssl.mk
 - Add distributions UOS
 - OpenSSL add md5 samples
 - Support Fedora Linux 42

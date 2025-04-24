@@ -1,5 +1,6 @@
+# SPDX-License-Identifier: GPL-3.0
 include ../../tlbuild.mk
-
+include openssl.mk
 
 sub-dir := asn.1
 sub-dir += commands

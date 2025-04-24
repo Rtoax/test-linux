@@ -1,7 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
 include ../tlbuild.mk
 
-
 sub-dir := openssl
 sub-dir += pam
 sub-dir += access
