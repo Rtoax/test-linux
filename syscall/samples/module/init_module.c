@@ -28,7 +28,7 @@ int main(int argc, char *argv[])
 	}
 
 #ifdef TEST_FINIT_MODULE /* finit_module(2) */
-	err = sys_finit_module(fd, NULL, 0);
+	err = sys_finit_module(fd, "", 0);
 	if (err) {
 		fprintf(stderr, "failed insmod %s, %m\n", module_file);
 	}
@@ -57,7 +57,7 @@ int main(int argc, char *argv[])
 	/* load file to memory */
 	read(fd, module_image, len);
 
-	err = sys_init_module(module_image, len, NULL);
+	err = sys_init_module(module_image, len, "");
 	if (err) {
 		fprintf(stderr, "failed insmod %s, %m\n", module_file);
 	}
