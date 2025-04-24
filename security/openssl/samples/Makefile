@@ -1,8 +1,8 @@
 include ../../../tlbuild.mk
 
-
 TARGETS :=
 TARGETS += bignum
+TARGETS += md5
 
 CC := gcc
 
@@ -13,11 +13,13 @@ CFLAGS += -I../macro/
 CFLAGS += -DDEBUG -O0 -g -ggdb
 CFLAGS +=$(shell pkg-config --libs --cflags openssl)
 
+CFLAGS_md5 :=  -Wno-error=deprecated-declarations
+
 build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
-# Add more object.o file
 bignum: bignum.o
+md5: md5.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
