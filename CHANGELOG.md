@@ -10,6 +10,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- OpenSSL add md5 samples
 - Support Fedora Linux 42
 - Add depends screenshot software shutter
 - Add more aarch64 elf/rela tests
