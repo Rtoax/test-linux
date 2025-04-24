@@ -1,7 +1,12 @@
 # SPDX-License-Identifier: GPL-3.0
 include ../../../tlbuild.mk
+include ../../../kernel.mk
 
 TARGETS :=
+# This system call is present only before Linux 2.6. see create_module(2)
+ifeq ($(call kernel_lower_than,2,7,0),y)
+  TARGETS += create_module
+endif
 TARGETS += delete_module
 
 CC := gcc
@@ -14,6 +19,8 @@ build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
 mod_helpers.o: mod_helpers.h
+
+create_module: create_module.o
 delete_module.o: mod_helpers.h
 delete_module: delete_module.o mod_helpers.o
 
