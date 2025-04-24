@@ -4,6 +4,7 @@
 #include <fcntl.h>
 #include <errno.h>
 #include <sys/stat.h>
+#include <sys/mman.h>
 
 #include "mod_helpers.h"
 
@@ -36,7 +37,11 @@ int main(int argc, char *argv[])
 	}
 
 	len = statbuf.st_size;
+#ifdef USE_MMAP
+	module_image = mmap(NULL, len, PROT_READ, MAP_PRIVATE, fd, 0);
+#else
 	module_image = aligned_alloc(getpagesize(), len);
+#endif
 
 	printf("Ready %s size %ld, image %p\n", module_file, len, module_image);
 
@@ -48,7 +53,11 @@ int main(int argc, char *argv[])
 		fprintf(stderr, "failed insmod %s, %m\n", module_file);
 	}
 
+#ifdef USE_MMAP
+	munmap(module_image, len);
+#else
 	free(module_image);
+#endif
 close_exit:
 	close(fd);
 	return err;
