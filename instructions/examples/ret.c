@@ -16,12 +16,16 @@
 	})
 #endif
 
-#define ret_aarch64(__val)	__asm__("mov x0, #"#__val"; ret");
+#define ret_aarch64_v1(__val)	__asm__("mov x0, #"#__val"; ret");
+#define ret_aarch64_v2(val) ({				\
+	register unsigned long __ret asm("x0") = val;	\
+	__asm__ volatile("ret" : : "r"(__ret));		\
+	})
 
 #if defined(__x86_64__)
 #define RETURN(v) ret_x86_64_v2(v)
 #elif defined(__aarch64__)
-#define RETURN(v) ret_aarch64(v)
+#define RETURN(v) ret_aarch64_v2(v)
 #else
 #define RETURN(v) return v
 #endif
