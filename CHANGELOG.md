@@ -10,6 +10,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- module: Add info.sh
 - instructions: Add asm 'ret' test.
 - gdb: Add info-address.gdb
 - c: Add return.c
