@@ -87,7 +87,7 @@ CONFIG_LOCKUP_DETECTOR
 
 ## Symbol Links
 
-There are so many **symlinks** in this repo, so you better clone this repo in linux system, if windows, oops. You'd better use `make check`(or `./scripts/invalid-link.sh`) check invalid links and modify them.
+There are so many **symlinks** in this repo, so you better clone this repo in linux system, if windows, oops. You'd better use `make check`(or `./scripts/broken-symlinks.sh`) check invalid links and modify them.
 
 ## Ignore
 

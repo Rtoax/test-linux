@@ -191,7 +191,7 @@ config:
 
 define check_links
 	@echo "Check invalid symbol link start"
-	${SHELL} scripts/invalid-link.sh
+	${SHELL} scripts/broken-symlinks.sh
 	@echo "Check invalid symbol link done"
 endef
 
