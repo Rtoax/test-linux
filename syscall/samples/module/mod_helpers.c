@@ -4,9 +4,15 @@
 #include <fcntl.h>
 #include <sys/syscall.h>
 #include <errno.h>
+#include <linux/version.h>
 
 #include "mod_helpers.h"
 
+/* see init_module(2) */
+#if LINUX_VERSION_CODE <= KERNEL_VERSION(2, 4, 0)
+int init_module(const char *name, struct module *image);
+# error "Not support linux <= v2.4"
+#endif
 
 int sys_init_module(void *module_image, unsigned long len,
 		    const char *param_values)
