@@ -784,6 +784,7 @@ dnf_add_packages()
 	pkgs_devel+=( lzo-devel )
 	pkgs_devel+=( numactl-devel )        # numaif.h
 	pkgs_devel+=( openblas-devel )
+	pkgs_devel+=( pandoc )
 	pkgs_devel+=( pixman-devel )
 	pkgs_devel+=( python3-build )
 	pkgs_devel+=( python3-devel )
