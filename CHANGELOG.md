@@ -10,6 +10,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- instructions: Add asm 'ret' test.
 - gdb: Add info-address.gdb
 - c: Add return.c
 - syscall/module: Add `init_module(2)` and `finit_module(2)` tests

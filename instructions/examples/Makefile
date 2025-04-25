@@ -78,6 +78,7 @@ ifdef BFD
   $(info User linker bfd)
 endif
 
+TARGETS += ret
 TARGETS += udiv div
 TARGETS += simd
 TARGETS += cpuid_user
@@ -114,6 +115,7 @@ memset: memset.o
 nop: nop.o
 rdmsr: rdmsr.o
 mrs: mrs.o
+ret: ret.o
 simd: simd.o
 rdrand: rdrand.o
 rdseed: rdseed.o
@@ -121,7 +123,7 @@ rdseed: rdseed.o
 #CFLAGS += -Werror -Wall
 CFLAGS += -g -ggdb
 CFLAGS += -D_GNU_SOURCE
-CFLAGS += -O3
+CFLAGS += -O0
 CFLAGS += -pthread
 
 CFLAGS += -no-pie
