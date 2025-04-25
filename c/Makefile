@@ -99,6 +99,10 @@ CFLAGS_while-sleep := -DWHILE_SLEEP=1
 CFLAGS_macro := -DCONFIG_MMU=$(CONFIG_MMU)
 CFLAGS_struct := -Wno-gnu-designator -Wno-initializer-overrides
 
+ifdef RETURN_VALUE
+  CFLAGS_return := -DRETURN_VALUE=${RETURN_VALUE}
+endif
+
 CLANG_TARGET := clang.already.test.out
 
 ifneq (${CC},clang)

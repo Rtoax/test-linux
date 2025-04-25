@@ -3,6 +3,9 @@
 #include <stdbool.h>
 #include <unistd.h>
 
+#ifndef RETURN_VALUE
+#define RETURN_VALUE	-1011
+#endif
 
 void func1(void)
 {
@@ -35,12 +38,12 @@ unsigned long func6(void)
 
 int func7(void)
 {
-	return -1011;
+	return RETURN_VALUE;
 }
 
 unsigned long func8(void)
 {
-	return -1011;
+	return RETURN_VALUE;
 }
 
 int main(void)
