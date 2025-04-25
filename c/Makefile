@@ -43,6 +43,7 @@ TARGETS += include_next
 TARGETS += unsigned
 TARGETS += restrict
 TARGETS += ternary
+TARGETS += return
 
 define arch_strip
   ${Q}${STRIP} $(1) -o $(1).strip
@@ -150,6 +151,7 @@ include_next: include_next.o
 unsigned: unsigned.o
 restrict: restrict.o
 ternary: ternary.o
+return: return.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
