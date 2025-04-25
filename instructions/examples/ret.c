@@ -13,8 +13,12 @@
 	__rslt;				\
 	})
 
+#define ret_aarch64(__val)	__asm__("mov x0, #"#__val"; ret");
+
 #if defined(__x86_64__)
 #define RETURN(v) ret_x86_64(v)
+#elif defined(__aarch64__)
+#define RETURN(v) ret_aarch64(v)
 #else
 #define RETURN(v) return v
 #endif
