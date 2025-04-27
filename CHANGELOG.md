@@ -10,6 +10,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- libbpf: Test `BTF_KIND_DECL_TAG` (17).
 - glibc/ucontext: Add setcontext.c
 - pthread: samples: Rename `helpers.c` to `pthread_helpers.c`
 - syscall: fork: Rename `helpers.c` to `fork_helpers.c`

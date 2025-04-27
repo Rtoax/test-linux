@@ -129,6 +129,7 @@ endif
 
 TARGETS_BTF := btf_ksym
 TARGETS_BTF += btf_kfunc
+TARGETS_BTF += btf_decl_tag
 
 CFLAGS_BPF := -I.
 CFLAGS_BPF += -O2 -Wall -g
@@ -240,6 +241,9 @@ CFLAGS_BPF_map_hash_of_maps := ${CFLAGS_map_hash_of_maps}
 CFLAGS_BPF_map_ringbuf := -DMAP_ARRAY=1
 CFLAGS_BPF_map_devmap := ${CFLAGS_BPF_xdp_devmap}
 
+CFLAGS_btf_kfunc := -DTEST_BTF_KIND_FUNC=1
+CFLAGS_btf_decl_tag := -DTEST_BTF_KIND_DECL_TAG=1
+
 SOCKET_HELPERS := ${OUTPUT}/socket_helpers.o
 TASK_HELPERS := ${OUTPUT}/task_helpers.o
 TRACE_HELPERS := ${OUTPUT}/trace_helpers.o
@@ -262,6 +266,7 @@ ${OUTPUT}/btf_helpers.o: btf_helpers.h
 
 btf_ksym: ${OUTPUT}/btf_ksym.o ${BTF_HELPERS}
 btf_kfunc: ${OUTPUT}/btf_kfunc.o ${BTF_HELPERS}
+btf_decl_tag: ${OUTPUT}/btf_decl_tag.o ${BTF_HELPERS}
 libbpf_version: ${OUTPUT}/libbpf_version.o
 
 config-map: ${OUTPUT}/config-map.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER}

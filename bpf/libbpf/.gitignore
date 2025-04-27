@@ -38,3 +38,4 @@
 /map_lru_percpu_hash
 /btf_ksym
 /btf_kfunc
+/btf_decl_tag

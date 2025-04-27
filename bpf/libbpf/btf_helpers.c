@@ -33,6 +33,8 @@ static int __btf_check_ksym_existence(const char *ksym_name, int kind)
 	switch (kind) {
 	case BTF_KIND_FUNC:
 		btf_id = btf__find_by_name_kind(btf, ksym_name, BTF_KIND_FUNC);
+	case BTF_KIND_DECL_TAG:
+		btf_id = btf__find_by_name_kind(btf, ksym_name, BTF_KIND_DECL_TAG);
 	case BTF_KIND_UNKN:
 	default:
 		btf_id = btf__find_by_name(btf, ksym_name);
@@ -63,4 +65,9 @@ int btf_check_ksym_existence(const char *ksym_name)
 int btf_check_kfunc_existence(const char *kfunc_name)
 {
 	return __btf_check_ksym_existence(kfunc_name, BTF_KIND_FUNC);
+}
+
+int btf_check_decl_tag_existence(const char *ksym)
+{
+	return __btf_check_ksym_existence(ksym, BTF_KIND_DECL_TAG);
 }

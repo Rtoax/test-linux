@@ -11,3 +11,4 @@ extern void bpf_task_release(struct task_struct *p) __weak __ksym;
 
 int btf_check_ksym_existence(const char *ksym_name);
 int btf_check_kfunc_existence(const char *kfunc_name);
+int btf_check_decl_tag_existence(const char *ksym);

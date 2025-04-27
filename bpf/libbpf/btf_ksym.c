@@ -18,7 +18,11 @@ int main(int argc, char **argv)
 	const char *ksym_name = argv[1];
 
 #ifdef TEST_BTF_KIND_FUNC
+#pragma message "defined TEST_BTF_KIND_FUNC"
 	result = btf_check_kfunc_existence(ksym_name);
+#elif defined(TEST_BTF_KIND_DECL_TAG)
+#pragma message "defined TEST_BTF_KIND_DECL_TAG"
+	result = btf_check_decl_tag_existence(ksym_name);
 #else
 	result = btf_check_ksym_existence(ksym_name);
 #endif
