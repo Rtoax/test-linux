@@ -10,6 +10,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- instructions/examples: Add compiler.h
 - module: Add info.sh and kmod/ directory.
 - instructions: Add asm 'ret' test.
 - gdb: Add info-address.gdb

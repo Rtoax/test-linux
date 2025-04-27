@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include "compiler.h"
+
 
 #define ret_x86_64_v1(__val)	__asm__("mov $"#__val", %rax; ret");
 #define ret_x86_64_v2(val) ({				\
@@ -29,8 +31,6 @@
 #else
 #define RETURN(v) return v
 #endif
-
-#define _omit_frame_pointer  __attribute__((optimize("omit-frame-pointer")))
 
 int _omit_frame_pointer func1(void)
 {
