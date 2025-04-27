@@ -1,6 +1,10 @@
 BPF Type Format
 ===============
 
+# BTF Types
+
+- `BTF_KIND_DECL_TAG`: Declaration Tag
+
 
 # vmlinux
 
