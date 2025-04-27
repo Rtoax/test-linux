@@ -1,6 +1,5 @@
 include ../../../tlbuild.mk
 
-
 TARGETS :=
 TARGETS += mode_strict
 TARGETS += mode_filter mode_filter-no-scmp
@@ -11,7 +10,9 @@ CFLAGS :=
 
 all: ${TARGETS}
 
-mode_strict: mode_strict.o seccomp.o
+seccomp_helpers.o: seccomp_helpers.h
+
+mode_strict: mode_strict.o seccomp_helpers.o
 mode_filter: mode_filter.o
 mode_filter-no-scmp: mode_filter-no-scmp.o
 filter-write: filter-write.o

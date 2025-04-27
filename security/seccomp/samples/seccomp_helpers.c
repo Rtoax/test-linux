@@ -7,6 +7,7 @@
 #include <signal.h>
 #include <unistd.h>
 
+#include "seccomp_helpers.h"
 
 int sys_seccomp(unsigned int operation, unsigned int flags, void *args)
 {

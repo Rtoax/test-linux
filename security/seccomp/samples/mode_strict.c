@@ -6,7 +6,7 @@
 #include <sys/socket.h>
 #include <linux/seccomp.h>
 
-#include "seccomp.h"
+#include "seccomp_helpers.h"
 
 /* SIGKILL not in here. */
 void sig_handler(int signum)
