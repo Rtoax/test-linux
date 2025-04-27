@@ -17,6 +17,7 @@
 #include "tracepoint.h"
 #include "bpf_misc.h"
 #include "bpf_helpers.h"
+#include "btf_helpers.h"
 
 #ifndef SIGKILL
 #define SIGKILL 9

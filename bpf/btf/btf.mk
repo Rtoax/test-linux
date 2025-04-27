@@ -9,3 +9,11 @@ $(shell if [[ "$$(grep -wo '^struct ${1} {' ${VMLINUX_H})" ]]; then \
 	else echo n; \
 	fi)
 endef
+
+# $1 - symbol name, like bpf_task_from_pid, task_struct.
+define vmlinux_has_sym
+$(shell if [[ "$$(grep -wo '${1}' ${VMLINUX_H})" ]]; then \
+		echo y; \
+	else echo n; \
+	fi)
+endef
