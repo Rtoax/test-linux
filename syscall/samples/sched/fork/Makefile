@@ -18,14 +18,14 @@ CFLAGS_vfork := -DVFORK=1
 build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
-helpers.o: helpers.h
+fork_helpers.o: fork_helpers.h
 
 fork: fork.o
 vfork: vfork.o
 fork_twice: fork_twice.o
 fork-share: fork-share.o
-fork-ENOMEM: fork-ENOMEM.o helpers.o
-fork-ENOMEM-2: fork-ENOMEM-2.o helpers.o
+fork-ENOMEM: fork-ENOMEM.o fork_helpers.o
+fork-ENOMEM-2: fork-ENOMEM-2.o fork_helpers.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

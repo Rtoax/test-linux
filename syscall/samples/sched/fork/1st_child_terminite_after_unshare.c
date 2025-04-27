@@ -19,7 +19,7 @@
 #include <pthread.h>
 #include <sys/syscall.h>
 
-#include "helpers.h"
+#include "fork_helpers.h"
 
 #define sys_gettid()	(pid_t)syscall(__NR_gettid)
 

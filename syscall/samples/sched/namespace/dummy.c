@@ -2,7 +2,7 @@
 #include <unistd.h>
 #include <sys/wait.h>
 
-#include "helpers_fork.h"
+#include "fork_helpers.h"
 
 #if defined(TRY_FORK) || defined(TRY_VFORK)
 void test_try_fork(void)

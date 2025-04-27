@@ -10,6 +10,8 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
+#include "fork_helpers.h"
+
 
 void try_fork(int vf, char *argv[])
 {

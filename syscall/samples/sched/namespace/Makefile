@@ -21,12 +21,12 @@ CFLAGS_dummy-popen := -static -DTRY_POPEN=1
 build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
-helpers_fork.o: helpers_fork.h
+fork_helpers.o: fork_helpers.h
 
 dummy: dummy.o
-dummy-fork: dummy-fork.o helpers_fork.o
-dummy-vfork: dummy-vfork.o helpers_fork.o
-dummy-popen: dummy-popen.o helpers_fork.o
+dummy-fork: dummy-fork.o fork_helpers.o
+dummy-vfork: dummy-vfork.o fork_helpers.o
+dummy-popen: dummy-popen.o fork_helpers.o
 setns: setns.o
 unshare: unshare.o
 unshare-execve: unshare-execve.o
