@@ -10,6 +10,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- glibc/ucontext: Add setcontext.c
 - pthread: samples: Rename `helpers.c` to `pthread_helpers.c`
 - syscall: fork: Rename `helpers.c` to `fork_helpers.c`
 - syscall: sched: Rename `helpers.c` to `sched_helpers.c`

@@ -1,33 +1,31 @@
+# SPDX-License-Identifier: GPL-3.0
 include ../../tlbuild.mk
 
-
-
-TARGETS := swapcontext
+TARGETS :=
+TARGETS += swapcontext
 TARGETS += getcontext
+TARGETS += setcontext
 TARGETS += ucontext_t
 TARGETS += makecontext
 TARGETS += demo1
 
-ifeq ($(shell uname -m),x86_64)
-endif
-
-DEBUG := yes
 CC := gcc
 
 CFLAGS := -Werror -Wall
-CFLAGS += -I../../../
-CFLAGS += -lm
 
 ifdef DEBUG
-CFLAGS += -DDEBUG -O0 -g
+  CFLAGS += -DDEBUG -O0 -g
 endif
 
+CFLAGS_setcontext := -DTEST_SETCONTEXT=1
+
+.PHONY: build
 build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
-# Add more object.o file
 swapcontext: swapcontext.o
 getcontext: getcontext.o
+setcontext: setcontext.o
 ucontext_t: ucontext_t.o
 makecontext: makecontext.o
 demo1: demo1.o
@@ -40,9 +38,11 @@ $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
 	${Q}$(CC) $(CFLAGS) -o $(@) $(^)
 
+.PHONY: test
 test: ${TARGETS}
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
 
+.PHONY: clean
 clean:
 	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
 	${Q}rm -f ${TARGETS} *.o *.d *.log
