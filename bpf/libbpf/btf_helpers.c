@@ -8,7 +8,7 @@
 #include "btf_helpers.h"
 
 
-static int __btf_check_ksym_existence(const char *ksym_name, int kind)
+static int __btf_has_ksym(const char *ksym, int kind)
 {
 	struct btf *btf;
 	int btf_id;
@@ -32,16 +32,16 @@ static int __btf_check_ksym_existence(const char *ksym_name, int kind)
 
 	switch (kind) {
 	case BTF_KIND_FUNC:
-		btf_id = btf__find_by_name_kind(btf, ksym_name, BTF_KIND_FUNC);
+		btf_id = btf__find_by_name_kind(btf, ksym, BTF_KIND_FUNC);
 	case BTF_KIND_DECL_TAG:
-		btf_id = btf__find_by_name_kind(btf, ksym_name, BTF_KIND_DECL_TAG);
+		btf_id = btf__find_by_name_kind(btf, ksym, BTF_KIND_DECL_TAG);
 	case BTF_KIND_UNKN:
 	default:
-		btf_id = btf__find_by_name(btf, ksym_name);
+		btf_id = btf__find_by_name(btf, ksym);
 	}
 	if (btf_id < 0) {
 #ifdef DEBUG
-		fprintf(stderr, "ksym '%s' does not exist\n", ksym_name);
+		fprintf(stderr, "ksym '%s' does not exist\n", ksym);
 #endif
 		btf__free(btf);
 		return 0;
@@ -50,24 +50,24 @@ static int __btf_check_ksym_existence(const char *ksym_name, int kind)
 #ifdef DEBUG
 	const struct btf_type *type;
 	type = btf__type_by_id(btf, btf_id);
-	printf("ksym '%s' exists with ID %d, KIND %d\n", ksym_name, btf_id, btf_kind(type));
+	printf("ksym '%s' exists with ID %d, KIND %d\n", ksym, btf_id, btf_kind(type));
 #endif
 
 	btf__free(btf);
 	return 1;
 }
 
-int btf_check_ksym_existence(const char *ksym_name)
+int btf_has_ksym(const char *ksym)
 {
-	return __btf_check_ksym_existence(ksym_name, BTF_KIND_UNKN);
+	return __btf_has_ksym(ksym, BTF_KIND_UNKN);
 }
 
-int btf_check_kfunc_existence(const char *kfunc_name)
+int btf_has_kfunc(const char *kfunc)
 {
-	return __btf_check_ksym_existence(kfunc_name, BTF_KIND_FUNC);
+	return __btf_has_ksym(kfunc, BTF_KIND_FUNC);
 }
 
-int btf_check_decl_tag_existence(const char *ksym)
+int btf_has_decl_tag(const char *ksym)
 {
-	return __btf_check_ksym_existence(ksym, BTF_KIND_DECL_TAG);
+	return __btf_has_ksym(ksym, BTF_KIND_DECL_TAG);
 }

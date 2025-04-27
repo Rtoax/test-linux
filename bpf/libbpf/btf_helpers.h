@@ -9,6 +9,6 @@ extern struct task_struct *bpf_task_from_pid(s32 pid) __weak __ksym;
 extern void bpf_task_release(struct task_struct *p) __weak __ksym;
 #endif
 
-int btf_check_ksym_existence(const char *ksym_name);
-int btf_check_kfunc_existence(const char *kfunc_name);
-int btf_check_decl_tag_existence(const char *ksym);
+int btf_has_ksym(const char *ksym);
+int btf_has_kfunc(const char *kfunc);
+int btf_has_decl_tag(const char *ksym);
