@@ -3,6 +3,7 @@
 
 #include "rdtsc.h"
 #include "utils.h"
+#include "pthread_helpers.h"
 
 
 struct clock_test {

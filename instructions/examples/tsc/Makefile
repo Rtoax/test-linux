@@ -1,6 +1,5 @@
 include ../../../tlbuild.mk
 
-
 TARGETS :=
 CFLAGS :=
 ARCH_LIB_CPUID :=
@@ -12,10 +11,12 @@ TARGETS += rdtsc_evil
 
 user: $(TARGETS)
 
+pthread_helpers.o: pthread_helpers.h
+
 rdtsc_user: rdtsc_user.o
 rdtscp_user: rdtscp_user.o
 rdtsc_cmp: rdtsc_cmp.o
-rdtsc_evil: rdtsc_evil.o
+rdtsc_evil: rdtsc_evil.o pthread_helpers.o
 
 CFLAGS += -g -ggdb
 CFLAGS += -D_GNU_SOURCE

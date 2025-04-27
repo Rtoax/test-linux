@@ -30,6 +30,7 @@ and this project adheres to
 - Add compiler/force-cflags.mk
 #### Changed
 - Move helpers from `pthread_helpers.c` to `sched_helpers.c`
+- Move helpers from `instructions` to `pthread_helpers.c`
 #### Deprecated
 #### Removed
 #### Fixed
