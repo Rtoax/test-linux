@@ -4,7 +4,7 @@
 #include <sys/types.h>
 #include <time.h>
 #include <unistd.h>
-#include "helpers.h"
+#include "time_helpers.h"
 
 
 char *get_timestamp(void)

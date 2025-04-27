@@ -13,7 +13,9 @@
 #include <stdio.h>
 #include <linux/memfd.h>
 
+#ifdef TEST_MEMFD
 #include "memfd_helpers.h"
+#endif
 
 #define errExit(msg)	do { perror(msg); exit(EXIT_FAILURE); } while (0)
 

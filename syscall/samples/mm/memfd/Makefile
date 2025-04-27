@@ -13,6 +13,7 @@ CFLAGS := -Werror -Wall -D_GNU_SOURCE
 CFLAGS += -Wstrict-prototypes
 CFLAGS += -pthread
 CFLAGS += -DDEBUG -O0 -g
+CFLAGS += -DTEST_MEMFD=1
 
 build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
