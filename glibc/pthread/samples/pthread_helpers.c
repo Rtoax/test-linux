@@ -13,7 +13,7 @@
 #include <pthread.h>
 #include <syscall.h>
 
-#include "helpers.h"
+#include "pthread_helpers.h"
 
 /* Both Process and CPU ids should be positive numbers. */
 static int convert_str_to_int(char* begin)

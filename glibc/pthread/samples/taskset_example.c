@@ -13,7 +13,7 @@
 #include <pthread.h>
 #include <syscall.h>
 
-#include "helpers.h"
+#include "pthread_helpers.h"
 
 #define gettid() syscall(__NR_gettid)
 
