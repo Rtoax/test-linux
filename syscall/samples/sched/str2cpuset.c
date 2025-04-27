@@ -5,7 +5,7 @@
 #include <ctype.h>
 #include <sched.h>
 
-#include "helpers.h"
+#include "sched_helpers.h"
 
 int main(int argc, char *argv[])
 {

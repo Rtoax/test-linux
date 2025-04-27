@@ -11,7 +11,7 @@
 #include <stdbool.h>
 #include <linux/sched.h>
 
-#include "helpers.h"
+#include "sched_helpers.h"
 
 long int sys_getcpu(unsigned *cpu, unsigned *node)
 {
@@ -135,4 +135,3 @@ int sys_sched_getattr(pid_t pid, struct __sched_attr *attr, unsigned int size,
 {
 	return syscall(__NR_sched_getattr, pid, attr, size, flags);
 }
-

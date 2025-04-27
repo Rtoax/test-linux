@@ -10,6 +10,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- syscall: sched: Rename helpers.c to `sched_helpers.c`
 - instructions/examples: Add compiler.h
 - module: Add info.sh and kmod/ directory.
 - instructions: Add asm 'ret' test.

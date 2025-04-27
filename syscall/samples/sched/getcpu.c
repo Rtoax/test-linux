@@ -10,7 +10,7 @@
 /* FIXME: opencloudos 8.8 man shows getcpu() need this header */
 //#include <linux/getcpu.h>
 
-#include "helpers.h"
+#include "sched_helpers.h"
 
 #define getcpu(c, n) sys_getcpu(c, n)
 

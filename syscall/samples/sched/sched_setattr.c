@@ -12,7 +12,7 @@
 #include <sys/syscall.h>
 #include <pthread.h>
 
-#include "helpers.h"
+#include "sched_helpers.h"
 
 static volatile int done;
 

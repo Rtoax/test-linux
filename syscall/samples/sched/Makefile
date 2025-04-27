@@ -35,26 +35,26 @@ include ../../../template/subdir-header.mk
 build: ${TARGETS} $(sub-dir-build)
 	@echo -e " \033[1;33m Done \033[m"
 
-helpers.o: helpers.h
+sched_helpers.o: sched_helpers.h
 
 cpuset: cpuset.o
 CPU_SETSIZE: CPU_SETSIZE.o
 CPU_ALLOC: CPU_ALLOC.o
-str2cpuset: str2cpuset.o helpers.o
+str2cpuset: str2cpuset.o sched_helpers.o
 nice: nice.o
 nice-latency: nice-latency.o
-getcpu: getcpu.o helpers.o
-sched_setattr: sched_setattr.o helpers.o
+getcpu: getcpu.o sched_helpers.o
+sched_setattr: sched_setattr.o sched_helpers.o
 sched_getparam: sched_getparam.o
 sched_setparam: sched_setparam.o
-sched_setscheduler: sched_setscheduler.o helpers.o
-sched_getscheduler: sched_getscheduler.o helpers.o
+sched_setscheduler: sched_setscheduler.o sched_helpers.o
+sched_getscheduler: sched_getscheduler.o sched_helpers.o
 policy: policy.o
 sched_get_priority_max: sched_get_priority_max.o
 sched_get_priority_min: sched_get_priority_min.o
 sched_getaffinity: sched_getaffinity.o
 sched_rr_get_interval: sched_rr_get_interval.o
-sched_getcpu: sched_getcpu.o helpers.o
+sched_getcpu: sched_getcpu.o sched_helpers.o
 sched_yield: sched_yield.o
 setns: setns.o
 taskset: taskset.o
