@@ -15,22 +15,24 @@ int main(int argc, char **argv)
 	}
 
 	int result;
+	char *s_type = "";
 	const char *ksym_name = argv[1];
 
 #ifdef TEST_BTF_KIND_FUNC
 #pragma message "defined TEST_BTF_KIND_FUNC"
 	result = btf_check_kfunc_existence(ksym_name);
+	s_type = "FUNC";
 #elif defined(TEST_BTF_KIND_DECL_TAG)
 #pragma message "defined TEST_BTF_KIND_DECL_TAG"
 	result = btf_check_decl_tag_existence(ksym_name);
+	s_type = "DECL_TAG";
 #else
 	result = btf_check_ksym_existence(ksym_name);
 #endif
-
 	if (result > 0) {
-		printf("Kernel symbol '%s' exists.\n", ksym_name);
+		printf("Kernel symbol '%s' %s exists.\n", ksym_name, s_type);
 	} else if (result == 0) {
-		printf("Kernel symbol '%s' does not exist.\n", ksym_name);
+		printf("Kernel symbol '%s' %s does not exist.\n", ksym_name, s_type);
 	}
 
 	return 0;
