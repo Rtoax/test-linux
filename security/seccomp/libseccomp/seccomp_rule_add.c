@@ -23,5 +23,6 @@ int main(void)
 	/* Killed: SCMP_ACT_KILL */
 	syscall(__NR_execve, str, NULL, NULL);
 
+	seccomp_release(ctx);
 	return 0;
 }
