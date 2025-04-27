@@ -125,21 +125,23 @@ build: ${TARGETS}
 	@echo -e "  LDFLAGS=${LDFLAGS}"
 	@echo -e " \033[1;33m Done \033[m"
 
-bfd_init: bfd_init.o helpers.o
-build_id: build_id.o helpers.o
-bfd_symbol_info: bfd_symbol_info.o helpers.o libtest-linux-c.a
+bfd_helpers.o: bfd_helpers.h
+
+bfd_init: bfd_init.o bfd_helpers.o
+build_id: build_id.o bfd_helpers.o
+bfd_symbol_info: bfd_symbol_info.o bfd_helpers.o libtest-linux-c.a
 bfd_get_start_address: bfd_get_start_address.o
 bfd_get_flavour: bfd_get_flavour.o
 bfd_elf_bfd_from_remote_memory: bfd_elf_bfd_from_remote_memory.o
 phdr: phdr.o
 sections: sections.o
-symbol: symbol.o helpers.o libtest-linux-c.a
-symbol-value: symbol-value.o helpers.o libtest-linux-c.a
+symbol: symbol.o bfd_helpers.o libtest-linux-c.a
+symbol-value: symbol-value.o bfd_helpers.o libtest-linux-c.a
 breakpoint_tst: breakpoint_tst.o
 breakpoint_bfd: breakpoint_bfd.o
 reloc: reloc.o
 reloc-name: reloc-name.o
-bfd_print_symbol_vandf: bfd_print_symbol_vandf.o helpers.o libtest-linux-c.a
+bfd_print_symbol_vandf: bfd_print_symbol_vandf.o bfd_helpers.o libtest-linux-c.a
 
 include ${LIBS_DIR}/libs.mk
 

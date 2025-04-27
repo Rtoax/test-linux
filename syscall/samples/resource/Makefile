@@ -16,12 +16,12 @@ CFLAGS += -pthread
 build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
-getrlimit: getrlimit.o helpers.o
-setrlimit: setrlimit.o helpers.o
-prlimit: prlimit.o helpers.o
+getrlimit: getrlimit.o resource_helpers.o
+setrlimit: setrlimit.o resource_helpers.o
+prlimit: prlimit.o resource_helpers.o
 ulimit: ulimit.o
-fork-inherit: fork-inherit.o helpers.o
-getrusage: getrusage.o helpers.o
+fork-inherit: fork-inherit.o resource_helpers.o
+getrusage: getrusage.o resource_helpers.o
 vlimit: vlimit.o
 
 %.o: %.c

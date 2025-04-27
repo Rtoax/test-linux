@@ -1,6 +1,5 @@
 include ../../../../tlbuild.mk
 
-
 TARGETS :=
 TARGETS += server
 TARGETS += server-fork-pipe
@@ -14,10 +13,10 @@ CFLAGS := -O0 -g -ggdb -pthread
 
 ALL: $(TARGETS)
 
-server: server.o helpers.o
+server: server.o tcp_helpers.o
 server-pthread: server-pthread.o
 server-fork-pipe: server-fork-pipe.o
-client: client.o helpers.o
+client: client.o tcp_helpers.o
 client-pthread: client-pthread.o
 
 %.o: %.c

@@ -21,15 +21,15 @@ CFLAGS += -I../../libs/
 build: ${TARGETS} ${TARGETS_FS}
 	@echo -e " \033[1;33m Done \033[m"
 
-helpers.o: helpers.h
-mount.o: helpers.h
-fsmount.o: helpers.h
+mnt_helpers.o: mnt_helpers.h
+mount.o: mnt_helpers.h
+fsmount.o: mnt_helpers.h
 
 tmpfs_helpers.o: tmpfs_helpers.h
 
-mount: mount.o helpers.o
+mount: mount.o mnt_helpers.o
 mount-tmpfs: mount-tmpfs.o
-fsmount: fsmount.o helpers.o
+fsmount: fsmount.o mnt_helpers.o
 ramdisk: ramdisk.o tmpfs_helpers.o
 tmpfs: tmpfs.o tmpfs_helpers.o
 

@@ -17,7 +17,8 @@
 #include <inttypes.h>
 #include <sys/mman.h>
 
-#include "helpers.h"
+#include "perf_helpers.h"
+
 
 struct read_format {
 	uint64_t nr;

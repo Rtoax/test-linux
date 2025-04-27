@@ -3,7 +3,7 @@
 #include <shadow.h>
 #include <errno.h>
 
-#include "helpers.h"
+#include "shadow_helpers.h"
 
 
 int main(int argc, char *argv[])

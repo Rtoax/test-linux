@@ -10,7 +10,7 @@
 #include <sys/mount.h>
 #include <sys/stat.h>
 
-#include "helpers.h"
+#include "mnt_helpers.h"
 
 
 int main(int argc, char *argv[])

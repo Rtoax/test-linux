@@ -23,14 +23,14 @@ LDFLAGS += -lutil
 build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
-helpers.o: helpers.h
+utmp_helpers.o: utmp_helpers.h
 
-getutent: getutent.o helpers.o
-getutid: getutid.o helpers.o
-getutline: getutline.o helpers.o
-pututline: pututline.o helpers.o
+getutent: getutent.o utmp_helpers.o
+getutid: getutid.o utmp_helpers.o
+getutline: getutline.o utmp_helpers.o
+pututline: pututline.o utmp_helpers.o
 utmpname: utmpname.o
-updwtmp: updwtmp.o helpers.o
+updwtmp: updwtmp.o utmp_helpers.o
 setutent: setutent.o
 endutent: endutent.o
 login: login.o

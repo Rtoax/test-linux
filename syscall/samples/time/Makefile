@@ -1,6 +1,5 @@
 include ../../../tlbuild.mk
 
-
 TARGETS :=
 TARGETS += alarm
 TARGETS += stime
@@ -21,14 +20,13 @@ CFLAGS += -DDEBUG -O0 -g
 build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
-# Add more object.o file
 alarm: alarm.o
-clock_getres: clock_getres.o helpers.o
-clock_gettime: clock_gettime.o helpers.o
-clock_gettime-CLOCK_BOOTTIME: clock_gettime-CLOCK_BOOTTIME.o helpers.o
-clock_nanosleep: clock_nanosleep.o helpers.o
+clock_getres: clock_getres.o time_helpers.o
+clock_gettime: clock_gettime.o time_helpers.o
+clock_gettime-CLOCK_BOOTTIME: clock_gettime-CLOCK_BOOTTIME.o time_helpers.o
+clock_nanosleep: clock_nanosleep.o time_helpers.o
 stime: stime.o
-nanosleep: nanosleep.o helpers.o
+nanosleep: nanosleep.o time_helpers.o
 timeval: timeval.o
 getitimer: getitimer.o
 setitimer: setitimer.o

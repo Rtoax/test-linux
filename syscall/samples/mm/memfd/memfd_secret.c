@@ -8,7 +8,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 
-#include "helpers.h"
+#include "memfd_helpers.h"
 
 int main(void)
 {

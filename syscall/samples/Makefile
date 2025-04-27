@@ -161,7 +161,7 @@ build: nr.h ${TARGETS} ${TARGETS_CPP} $(sub-dir-build)
 nr.h: nr.sh
 	$(shell bash nr.sh)
 
-helpers.o: helpers.h
+syscall_helpers.o: syscall_helpers.h
 
 acct: acct.o
 chown: chown.o
@@ -222,7 +222,7 @@ syncfs: syncfs.o
 setsid: setsid.o
 getsid: getsid.o
 getdomainname: getdomainname.o
-link: link.o helpers.o
+link: link.o syscall_helpers.o
 fsync: fsync.o
 fdatasync: fdatasync.o
 sync_file_range: sync_file_range.o

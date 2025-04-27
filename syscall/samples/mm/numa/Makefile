@@ -1,8 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
-
 include ../../../../tlbuild.mk
 
-NUMAIF_HDR = /usr/include/numaif.h
+NUMAIF_HDR := /usr/include/numaif.h
 
 TARGETS :=
 TARGETS += mbind
@@ -29,9 +28,11 @@ CFLAGS_mbind := -lnuma -DALLOC_WITH_MMAP=1
 build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
-mbind: mbind.o helpers.o
+numa_helpers.o: numa_helpers.h
+
+mbind: mbind.o numa_helpers.o
 migrate_pages: migrate_pages.o
-get_mempolicy: get_mempolicy.o helpers.o
+get_mempolicy: get_mempolicy.o numa_helpers.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

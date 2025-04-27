@@ -9,7 +9,8 @@
 #include <sys/uio.h>
 #include <sys/wait.h>
 
-#include "helpers.h"
+#include "ptrace_helpers.h"
+
 
 int main(int argc, char *argv[])
 {

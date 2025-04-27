@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <sys/resource.h>
-#include "helpers.h"
+#include "resource_helpers.h"
 
 void print_rlimit(const char *prefix, struct rlimit *rlimit)
 {

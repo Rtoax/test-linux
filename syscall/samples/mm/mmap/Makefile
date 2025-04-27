@@ -51,7 +51,7 @@ mmap-anon: mmap-anon.o
 mmap-file: mmap-file.o
 mremap-file: mremap-file.o
 remap_file_pages: remap_file_pages.o
-get_unmapped_page: get_unmapped_page.o helpers.o
+get_unmapped_page: get_unmapped_page.o mmap_helpers.o
 mmap-multi-thread-copy: mmap-multi-thread-copy.o
 mmap-exec: mmap-exec.o
 

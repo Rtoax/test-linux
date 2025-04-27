@@ -1,6 +1,5 @@
 include ../../../tlbuild.mk
 
-
 TARGETS := truncate
 TARGETS += ftruncate
 
@@ -14,8 +13,8 @@ build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
 # Add more object.o file
-truncate: truncate.o helpers.o
-ftruncate: ftruncate.o helpers.o
+truncate: truncate.o syscall_helpers.o
+ftruncate: ftruncate.o syscall_helpers.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

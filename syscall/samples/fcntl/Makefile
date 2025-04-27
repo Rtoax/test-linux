@@ -29,11 +29,10 @@ CFLAGS += -DDEBUG -O0 -g
 build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
-# Add more object.o file
 fallocate: fallocate.o
-open: open.o helpers.o
-openat: openat.o helpers.o
-openat2: openat2.o helpers.o
+open: open.o fcntl_helpers.o
+openat: openat.o fcntl_helpers.o
+openat2: openat2.o fcntl_helpers.o
 splice: splice.o
 splice-read: splice-read.o
 O_: O_.o

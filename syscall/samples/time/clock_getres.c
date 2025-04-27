@@ -1,7 +1,7 @@
 #include <signal.h>
 #include <time.h>
 #include <stdio.h>
-#include "helpers.h"
+#include "time_helpers.h"
 
 #define test(clk_id) {\
 	struct timespec tp;\

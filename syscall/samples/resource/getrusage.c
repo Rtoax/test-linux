@@ -3,7 +3,7 @@
 #include <malloc.h>
 #include <unistd.h>
 
-#include "helpers.h"
+#include "resource_helpers.h"
 
 void user_sys(void)
 {

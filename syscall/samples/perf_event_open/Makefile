@@ -1,14 +1,13 @@
 include ../../../tlbuild.mk
 
-
 TARGETS :=
 TARGETS += perf_event_open
 TARGETS += perf_event_open-2
 
 all: ${TARGETS}
 
-perf_event_open: perf_event_open.o helpers.o
-perf_event_open-2: perf_event_open-2.o helpers.o
+perf_event_open: perf_event_open.o perf_helpers.o
+perf_event_open-2: perf_event_open-2.o perf_helpers.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

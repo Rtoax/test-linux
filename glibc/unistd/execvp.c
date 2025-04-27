@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <sys/wait.h>
 
-#include "helpers.h"
+#include "unistd_helpers.h"
 
 #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof(arr[0]))
 

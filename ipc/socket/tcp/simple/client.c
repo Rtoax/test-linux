@@ -10,7 +10,7 @@
 #include <arpa/inet.h>
 
 #include "config.h"
-#include "helpers.h"
+#include "tcp_helpers.h"
 
 
 ssize_t readline(int fd, char *vptr, size_t maxlen)

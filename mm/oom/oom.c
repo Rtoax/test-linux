@@ -1,7 +1,6 @@
 /**
  * TODO: cgroup oom, tmpfs oom.
  */
-
 #include <argp.h>
 #include <stdio.h>
 #include <stdbool.h>
@@ -11,7 +10,7 @@
 #include <signal.h>
 #include <sys/mman.h>
 
-#include "helpers.h"
+#include "oom_helpers.h"
 
 volatile sig_atomic_t keep_going = 1;
 

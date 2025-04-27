@@ -6,7 +6,7 @@
 #include <sys/types.h>
 #include <unistd.h>
 
-#include "helpers.h"
+#include "stat_helpers.h"
 
 
 void print_stat(const char *file, struct stat *stat)

@@ -6,7 +6,7 @@
 #include <linux/perf_event.h>
 #include <asm/unistd.h>
 
-#include "helpers.h"
+#include "perf_helpers.h"
 
 int main(int argc, char **argv)
 {

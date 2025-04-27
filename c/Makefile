@@ -131,7 +131,7 @@ compare: compare.o
 dummy: dummy.o
 _Generic: _Generic.o
 goto: goto.o
-ptr-dim: ptr-dim.o helpers.o
+ptr-dim: ptr-dim.o c_helpers.o
 struct: struct.o
 union: union.o
 xor: xor.o

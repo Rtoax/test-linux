@@ -3,7 +3,9 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <unistd.h>
-#include "helpers.h"
+
+#include "memfd_helpers.h"
+
 
 int main(void)
 {

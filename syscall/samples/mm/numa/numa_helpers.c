@@ -4,7 +4,7 @@
 #include <string.h>
 #include <linux/mempolicy.h>
 #include <numaif.h>
-#include "helpers.h"
+#include "numa_helpers.h"
 
 void print_mpol(int mpol)
 {

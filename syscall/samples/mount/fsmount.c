@@ -22,7 +22,7 @@
 #include <linux/loop.h>
 #include <linux/mount.h>
 
-#include "helpers.h"
+#include "mnt_helpers.h"
 
 #if __GLIBC__ != 2
 # error Not support glibc < 2

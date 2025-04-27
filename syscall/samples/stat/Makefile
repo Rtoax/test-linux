@@ -27,20 +27,20 @@ CFLAGS_futimens := -DFUTIMENS=1
 build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
-stat: stat.o helpers.o
+stat: stat.o stat_helpers.o
 statx: statx.o
-fstat: fstat.o helpers.o proc.o
-lstat: lstat.o helpers.o
+fstat: fstat.o stat_helpers.o proc.o
+lstat: lstat.o stat_helpers.o
 listdir: listdir.o
 chmod: chmod.o
 fchmod: fchmod.o
 mkdir: mkdir.o
 mknod: mknod.o
-fstatat: fstatat.o helpers.o proc.o
-st_mode: st_mode.o helpers.o
+fstatat: fstatat.o stat_helpers.o proc.o
+st_mode: st_mode.o stat_helpers.o
 utimensat: utimensat.o
 futimens: futimens.o
-ustat: ustat.o helpers.o
+ustat: ustat.o stat_helpers.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

@@ -5,7 +5,7 @@
 #include <strings.h>
 #include <sys/stat.h>
 
-#include "helpers.h"
+#include "stat_helpers.h"
 #include "proc.h"
 
 

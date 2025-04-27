@@ -7,7 +7,7 @@
 #include <sys/socket.h>
 #include <sys/resource.h>
 
-#include "helpers.h"
+#include "resource_helpers.h"
 
 
 void sig_handler(int sig)

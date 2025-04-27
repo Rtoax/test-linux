@@ -16,3 +16,5 @@ int sys_clock_gettime(clockid_t clockid, struct timespec *tp);
 int sys_nanosleep(const struct timespec *duration, struct timespec *rem);
 
 int nsec_to_ts(nsec_t ns, struct timespec *ts);
+
+int print_tm(struct tm *tm);

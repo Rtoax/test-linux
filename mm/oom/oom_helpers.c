@@ -3,7 +3,7 @@
 #include <string.h>
 #include <errno.h>
 
-#include "helpers.h"
+#include "oom_helpers.h"
 
 /*
  * /proc/<pid>/oom_score_adj set to OOM_SCORE_ADJ_MIN disables oom killing for

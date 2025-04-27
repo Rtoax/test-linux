@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "helpers.h"
+#include "bfd_helpers.h"
 
 void tl_bfd_init(void)
 {

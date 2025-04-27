@@ -8,7 +8,7 @@
 #include <assert.h>
 #include <linux/ptrace.h>
 
-#include "helpers.h"
+#include "ptrace_helpers.h"
 
 #define TRUE	1
 #define FALSE   0

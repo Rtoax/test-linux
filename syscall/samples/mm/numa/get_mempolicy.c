@@ -3,7 +3,7 @@
 #include <numa.h>
 #include <numaif.h>
 
-#include "helpers.h"
+#include "numa_helpers.h"
 
 int tl_numa_available(void)
 {

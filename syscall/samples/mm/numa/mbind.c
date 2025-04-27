@@ -9,7 +9,7 @@
 #include <sys/mman.h>
 #include <sched.h>
 
-#include "helpers.h"
+#include "numa_helpers.h"
 
 static int run_on_cpu;
 static int cpu_numa;

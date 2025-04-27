@@ -1,6 +1,6 @@
 #include <netdb.h>
 #include <stdio.h>
-#include "helpers.h"
+#include "netdb_helpers.h"
 
 int main(void)
 {

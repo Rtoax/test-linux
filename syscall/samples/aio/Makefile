@@ -26,7 +26,7 @@ endif
 build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
-libaio: libaio.o helpers.o
+libaio: libaio.o aio_helpers.o
 epoll: epoll.o
 
 PFX_CC := CC

@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "helpers.h"
+#include "shadow_helpers.h"
 
 void display_spwd(struct spwd *spwd)
 {

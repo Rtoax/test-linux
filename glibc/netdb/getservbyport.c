@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <netdb.h>
-#include "helpers.h"
+#include "netdb_helpers.h"
 
 static void __port(int port, char *proto)
 {

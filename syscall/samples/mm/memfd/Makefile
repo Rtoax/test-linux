@@ -17,11 +17,10 @@ CFLAGS += -DDEBUG -O0 -g
 build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
-# Add more object.o file
-memfd_create: memfd_create.o helpers.o
-memfd_create-dup2: memfd_create-dup2.o helpers.o
-MFD_ALLOW_SEALING: MFD_ALLOW_SEALING.o helpers.o
-memfd_secret: memfd_secret.o helpers.o
+memfd_create: memfd_create.o memfd_helpers.o
+memfd_create-dup2: memfd_create-dup2.o memfd_helpers.o
+MFD_ALLOW_SEALING: MFD_ALLOW_SEALING.o memfd_helpers.o
+memfd_secret: memfd_secret.o memfd_helpers.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

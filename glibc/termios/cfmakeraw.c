@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <termios.h>
-
-#include "helpers.h"
+#include "termios_helpers.h"
 
 int main(void)
 {

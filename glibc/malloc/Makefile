@@ -24,7 +24,7 @@ CFLAGS := -Werror -Wall
 CFLAGS += -DDEBUG -O0 -g
 
 CFLAGS_mallinfo := -Wno-error=deprecated-declarations
-CFLAGS_helpers := -Wno-error=deprecated-declarations
+CFLAGS_malloc_helpers := -Wno-error=deprecated-declarations
 CFLAGS_aligned_alloc := -DALIGNED_ALLOC=1
 CFLAGS_valloc := -DVALLOC=1
 CFLAGS_overflow := -DOVERFLOW=1
@@ -44,13 +44,13 @@ build: ${TARGETS}
 	${Q}ld.so --list-tunables 2>/dev/null | grep -i malloc || true
 	@echo -e " \033[1;33m Done \033[m"
 
-helpers.o: helpers.h
+malloc_helpers.o: malloc_helpers.h
 
 malloc: malloc.o
 overflow: overflow.o
 use-after-free: use-after-free.o
 double-free: double-free.o
-mallinfo: mallinfo.o helpers.o
+mallinfo: mallinfo.o malloc_helpers.o
 mallopt: mallopt.o
 malloc_get_state: malloc_get_state.o
 malloc_info: malloc_info.o
@@ -59,8 +59,8 @@ posix_memalign: posix_memalign.o
 aligned_alloc: aligned_alloc.o
 valloc: valloc.o
 realloc: realloc.o
-malloc_trim: malloc_trim.o helpers.o
-corrupted-size-vs.prev_size: corrupted-size-vs.prev_size.o helpers.o
+malloc_trim: malloc_trim.o malloc_helpers.o
+corrupted-size-vs.prev_size: corrupted-size-vs.prev_size.o malloc_helpers.o
 malloc_usable_size: malloc_usable_size.o
 memalign: memalign.o
 pvalloc: pvalloc.o

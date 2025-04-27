@@ -5,7 +5,7 @@
 #include <errno.h>
 #include <malloc.h>
 
-#include "helpers.h"
+#include "netdb_helpers.h"
 
 int main(void)
 {

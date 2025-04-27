@@ -2,7 +2,7 @@
 #include <sys/user.h>
 #include <syscall.h>
 
-#include "helpers.h"
+#include "ptrace_helpers.h"
 
 #define debug(fmt...) do { \
 		fprintf(stderr, "[%s:%s %d]", __FILE__, __func__, __LINE__); \

@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <utmp.h>
-#include "helpers.h"
+#include "utmp_helpers.h"
 
 int main(void)
 {

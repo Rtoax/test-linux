@@ -13,8 +13,8 @@ CFLAGS += -DDEBUG -O0 -g
 build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
-getspent: getspent.o helpers.o
-getspnam: getspnam.o helpers.o
+getspent: getspent.o shadow_helpers.o
+getspnam: getspnam.o shadow_helpers.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

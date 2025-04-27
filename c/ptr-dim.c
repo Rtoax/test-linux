@@ -7,7 +7,7 @@
 #include <string.h>
 #include <sys/types.h>
 
-#include "helpers.h"
+#include "c_helpers.h"
 
 struct test_struct {
 	int i;

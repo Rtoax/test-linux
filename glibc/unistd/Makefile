@@ -1,6 +1,5 @@
 include ../../tlbuild.mk
 
-
 TARGETS :=
 TARGETS += daemon
 TARGETS += eaccess
@@ -45,7 +44,7 @@ CFLAGS += -lrt
 build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
-helpers.o: helpers.h
+unistd_helpers.o: unistd_helpers.h
 
 daemon: daemon.o
 eaccess: eaccess.o
@@ -57,7 +56,7 @@ execve-fork: execve-fork.o
 execve: execve.o
 execvp-fork: execvp-fork.o
 execvp-timedrun: execvp-timedrun.o
-execvp: execvp.o helpers.o
+execvp: execvp.o unistd_helpers.o
 execve-spawn: execve-spawn.o
 getcwd: getcwd.o
 getpagesize: getpagesize.o

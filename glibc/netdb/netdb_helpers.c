@@ -6,6 +6,8 @@
 #include <arpa/inet.h>
 #include <netdb.h>
 #include <string.h>
+#include "netdb_helpers.h"
+
 
 int print_netent(struct netent *net)
 {

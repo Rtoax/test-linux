@@ -7,7 +7,7 @@
 #include <netdb.h>
 #include <string.h>
 
-#include "helpers.h"
+#include "netdb_helpers.h"
 
 
 int main(int argc, char* argv[])

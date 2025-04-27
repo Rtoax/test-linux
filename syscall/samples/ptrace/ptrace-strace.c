@@ -9,7 +9,7 @@
 #include <sys/ptrace.h>
 #include <sys/uio.h>
 
-#include "helpers.h"
+#include "ptrace_helpers.h"
 
 #ifndef NT_PRSTATUS
 #define NT_PRSTATUS 1

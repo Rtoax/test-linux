@@ -13,7 +13,7 @@
 #include <stdio.h>
 #include <linux/memfd.h>
 
-#include "helpers.h"
+#include "memfd_helpers.h"
 
 #define errExit(msg)	do { perror(msg); exit(EXIT_FAILURE); } while (0)
 
