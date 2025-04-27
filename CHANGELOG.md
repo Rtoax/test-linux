@@ -29,6 +29,7 @@ and this project adheres to
 - Add more aarch64 elf/rela tests
 - Add compiler/force-cflags.mk
 #### Changed
+- Move helpers from `pthread_helpers.c` to `sched_helpers.c`
 #### Deprecated
 #### Removed
 #### Fixed

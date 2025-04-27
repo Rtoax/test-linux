@@ -1,3 +1,6 @@
+#ifndef _GNU_SOURCE
+#define _GNU_SOURCE
+#endif
 #include <stdio.h>
 #include <stdlib.h>
 #include <syscall.h>
@@ -13,10 +16,6 @@
 
 #include "sched_helpers.h"
 
-long int sys_getcpu(unsigned *cpu, unsigned *node)
-{
-	return syscall(__NR_getcpu, cpu, node);
-}
 
 void print_cpuset(cpu_set_t *cpuset)
 {
@@ -113,15 +112,32 @@ int str2cpuset(const char *cpulist, cpu_set_t *cpuset)
 	return 0;
 }
 
+/**
+ * @cpu_list: The cpu list should like 1-3,6
+ */
+int taskset(int pid, char *cpu_list)
+{
+	cpu_set_t cpu_set;
+	CPU_ZERO(&cpu_set);
+	str2cpuset(cpu_list, &cpu_set);
+	sched_setaffinity(pid, sizeof(cpu_set_t), &cpu_set);
+	return 0;
+}
+
 const char *sched_policy_string(int policy)
 {
 	switch (policy) {
 #define CASE(P)	case P: return #P; break
-# include "policy.h"
+# include "sched_policy.h"
 	default:
 		return "Unknown";
 #undef CASE
 	}
+}
+
+long int sys_getcpu(unsigned *cpu, unsigned *node)
+{
+	return syscall(__NR_getcpu, cpu, node);
 }
 
 int sys_sched_setattr(pid_t pid, const struct __sched_attr *attr,

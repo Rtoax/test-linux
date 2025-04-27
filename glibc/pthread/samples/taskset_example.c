@@ -14,8 +14,7 @@
 #include <syscall.h>
 
 #include "pthread_helpers.h"
-
-#define gettid() syscall(__NR_gettid)
+#include "sched_helpers.h"
 
 
 struct task_arg {
@@ -34,7 +33,7 @@ void *task_routine(void*arg)
 		if (sched_getaffinity(gettid(), sizeof(cpu_set_t), &cpu_set)) {
 			err(1, "sched_getaffinity");
 		}
-		printf("Process (%ld) bonds to CPU:", gettid());
+		printf("Process (%d) bonds to CPU:", gettid());
 		for (i = 0; i < CPU_SETSIZE; i++) {
 			if (CPU_ISSET(i, &cpu_set)) {
 				printf(" %d", i);

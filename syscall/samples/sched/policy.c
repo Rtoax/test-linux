@@ -8,7 +8,7 @@
 int main(void)
 {
 #define CASE(P)	printf("%-32s %d\n", #P, P);
-# include "policy.h"
+# include "sched_policy.h"
 #undef CASE
 	return 0;
 }

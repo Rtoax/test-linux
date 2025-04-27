@@ -97,6 +97,7 @@ build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
 pthread_helpers.o: pthread_helpers.h
+sched_helpers.o: sched_helpers.h
 
 foobar: foobar.o
 create_thread.o: create_thread.h
@@ -125,7 +126,7 @@ pthread_cleanup_push: pthread_cleanup_push.o
 pthread_cleanup_push-deadlock: pthread_cleanup_push-deadlock.o
 pthread_cleanup_push_defer_np: pthread_cleanup_push_defer_np.o
 pthread_create: pthread_create.o
-pthread_create-deadline: pthread_create-deadline.o pthread_helpers.o
+pthread_create-deadline: pthread_create-deadline.o pthread_helpers.o sched_helpers.o
 pthread_equal: pthread_equal.o
 pthread_exit: pthread_exit.o
 pthread_key_create: pthread_key_create.o
@@ -169,7 +170,7 @@ pthread_condattr_init: pthread_condattr_init.o
 pthread_condattr_getclock: pthread_condattr_getclock.o
 pthread_condattr_setpshared: pthread_condattr_setpshared.o
 pthread_getcpuclockid: pthread_getcpuclockid.o
-taskset_example: taskset_example.o pthread_helpers.o
+taskset_example: taskset_example.o sched_helpers.o
 tls: tls.o
 taskset: taskset.o
 rt_thread: rt_thread.o
