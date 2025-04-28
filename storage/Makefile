@@ -1,6 +1,8 @@
+# SPDX-License-Identifier: GPL-3.0
 include ../tlbuild.mk
 
 sub-dir := scsi
+sub-dir += lvm
 
 TARGETS := partition-table
 

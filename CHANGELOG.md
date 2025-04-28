@@ -32,6 +32,7 @@ and this project adheres to
 - Add more aarch64 elf/rela tests
 - Add compiler/force-cflags.mk
 #### Changed
+- lvm: create.sh: Test with loop device and add to sub-dir.
 - Change AUTHORS text format.
 - Add the prefix of the corresponding project to the `helpers.c` file name.
 - Move helpers from `pthread_helpers.c` to `sched_helpers.c`
