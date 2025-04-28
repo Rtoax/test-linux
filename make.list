@@ -38,6 +38,7 @@ USER_LIST += mm
 USER_LIST += namespace
 USER_LIST += network
 USER_LIST += numa
+USER_LIST += pahole
 USER_LIST += qemu
 USER_LIST += rust
 USER_LIST += scripts

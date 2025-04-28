@@ -32,6 +32,7 @@
 - OSF: Open Software Foundation (开源基金会)
 - OSI: Open Source Initiative (开源倡议)
 - OSS: Open Source Software (开源软件)
+- PAHOLE: padding holes (结构体中的空洞) @BTF @CTF @DWARF
 - POSIX: Portable Operating System Interface of UNIX (可移植操作系统接口)
 - QoS: Quality of Service (服务质量)
 - RAS: Reliability, Availability, Serviceability (可靠性、可用性、可维护性) @CPU

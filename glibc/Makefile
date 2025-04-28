@@ -87,6 +87,9 @@ ifdef M32
   $(info Compile 32bit ELF)
 endif
 
+CFLAGS__GNU_SOURCE := -D_GNU_SOURCE=1
+CFLAGS__XOPEN_SOURCE := -D_XOPEN_SOURCE=1
+
 include ../elf/pie.mk
 
 include ../template/subdir-header.mk
@@ -102,9 +105,6 @@ lib-names: lib-names.o
 ftm: ftm.o
 _GNU_SOURCE: _GNU_SOURCE.o
 _XOPEN_SOURCE: _XOPEN_SOURCE.o
-
-CFLAGS__GNU_SOURCE := -D_GNU_SOURCE=1
-CFLAGS__XOPEN_SOURCE := -D_XOPEN_SOURCE=1
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

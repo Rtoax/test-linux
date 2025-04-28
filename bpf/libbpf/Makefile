@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
 include ../../tlbuild.mk
 include ../../kernel.mk
+include ../../pahole/pahole.mk
 
 OUTPUT := $(abspath .output)
 VIRT_TYPE ?= $(shell systemd-detect-virt)
@@ -167,8 +168,14 @@ endif
 CFLAGS += -I${OUTPUT}
 CFLAGS_BPF += -I${OUTPUT}
 
+CFLAGS_PAHOLE := -DPAHOLE_VERSION_MAJOR=${PAHOLE_VERSION_MAJOR}
+CFLAGS_PAHOLE += -DPAHOLE_VERSION_MINOR=${PAHOLE_VERSION_MINOR}
+
+CFLAGS += ${CFLAGS_PAHOLE}
+CFLAGS_BPF += ${CFLAGS_PAHOLE}
 
 ifneq ($(call vmlinux_has_sym,bpf_task_from_pid),y)
+  # FIXME: some day use CFLAGS_PAHOLE replace this macro
   CFLAGS_BPF += -DBPF_NO_KFUNC_PROTOTYPES=1
 endif
 

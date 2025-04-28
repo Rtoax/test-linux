@@ -1,6 +1,7 @@
 - AST: Abstract Syntax Trees (抽象语法树)
 - CFGO: Control Flow Graph Optimization (控制流图优化,一种编译优化)
-- DWARF: Debugging With Attributed Record Formats (调试信息标准)
+- CTF: Compact Type Format (一种紧凑的调试数据格式，最初用于Solaris，后引入Linux) @PAHOLE
+- DWARF: Debugging With Attributed Record Formats (调试信息标准) @PAHOLE
 - FDO: Feedback Directed Optimization
 - IPA: Inter-Procedural Analysis (过程间分析)
 - IPO: Inter-Procedural Optimization (过程间优化)
