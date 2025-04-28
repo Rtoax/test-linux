@@ -1,9 +1,17 @@
 #!/bin/bash
 set -ex
 
+get_uuid() {
+	if [[ -e /usr/bin/uuid ]]; then
+		uuid
+	else
+		mktemp -u XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
+	fi
+}
+
 VG_NAME=$(mktemp -u vg_XXX)
 # WARNING: If LV name is too long, df -hT will shows '/dev/dm-N'
-LV_NAME=$(uuid)
+LV_NAME=$(get_uuid)
 #LV_NAME=$(mktemp -u lv_XXX)
 
 BIN=$(mktemp -u bin_XXX.dat)
