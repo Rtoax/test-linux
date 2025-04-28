@@ -33,6 +33,7 @@ and this project adheres to
 - Add more aarch64 elf/rela tests
 - Add compiler/force-cflags.mk
 #### Changed
+- libbpf: Move `libbpf_print_fn()` to `trace_helpers.c`.
 - lvm: create.sh: Test with loop device and add to sub-dir.
 - Change AUTHORS text format.
 - Add the prefix of the corresponding project to the `helpers.c` file name.

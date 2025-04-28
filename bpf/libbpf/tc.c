@@ -63,12 +63,6 @@ static void sig_int(int signo)
 	read_trace_pipe_stop();
 }
 
-static int libbpf_print_fn(enum libbpf_print_level level, const char *format,
-			   va_list args)
-{
-	return vfprintf(stderr, format, args);
-}
-
 int main(int argc, char **argv)
 {
 	int err;

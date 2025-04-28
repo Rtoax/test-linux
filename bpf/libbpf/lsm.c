@@ -42,11 +42,6 @@ void sig_handler(int sig)
  * Notice: Ensure your kernel version is 5.7 or higher, BTF (BPF Type Format)
  * is enabled, and the file '/sys/kernel/security/lsm' includes 'bpf'.
  */
-static int libbpf_print_fn(enum libbpf_print_level level, const char *format,
-			   va_list args)
-{
-	return vfprintf(stderr, format, args);
-}
 
 int main(int argc, char **argv)
 {

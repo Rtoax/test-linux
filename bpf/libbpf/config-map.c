@@ -10,15 +10,6 @@
 #include "libbpf_wrapper.h"
 
 
-static int libbpf_print_fn(enum libbpf_print_level level, const char *format,
-			   va_list args)
-{
-	if (level >= LIBBPF_DEBUG)
-		return 0;
-
-	return vfprintf(stderr, format, args);
-}
-
 void handle_event(void *ctx, int cpu, void *data, unsigned int data_sz)
 {
 	struct data_t *m = data;

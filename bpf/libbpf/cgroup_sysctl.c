@@ -58,12 +58,6 @@ static const struct argp argp = {
 	.doc = argp_prog_doc,
 };
 
-static int libbpf_print_fn(enum libbpf_print_level level, const char *format,
-			   va_list args)
-{
-	return vfprintf(stderr, format, args);
-}
-
 static void sig_int(int signo)
 {
 	read_trace_pipe_stop();

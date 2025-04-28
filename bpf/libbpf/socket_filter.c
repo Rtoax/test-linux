@@ -14,6 +14,7 @@
 #include <unistd.h>
 #include "socket_helpers.h"
 #include "socket_filter.h"
+#include "trace_helpers.h"
 
 #if defined(SOCKET_FILTER) && !defined(MAP_ARRAY) && !defined(MAP_PERCPU_ARRAY)
 #include "socket_filter.skel.h"
@@ -85,15 +86,6 @@ static const char *ipproto_mapping[IPPROTO_MAX] = {
 static void sig_handler(int sig)
 {
 	exiting = true;
-}
-
-static int libbpf_print_fn(enum libbpf_print_level level, const char *format,
-			   va_list args)
-{
-	if (level >= LIBBPF_DEBUG)
-		return 0;
-
-	return vfprintf(stderr, format, args);
 }
 
 static inline void ltoa(uint32_t addr, char *dst)

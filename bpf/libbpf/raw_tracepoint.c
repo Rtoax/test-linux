@@ -30,14 +30,6 @@
 
 static volatile sig_atomic_t stop = 0;
 
-static int libbpf_print_fn(enum libbpf_print_level level, const char *format,
-			   va_list args)
-{
-	if (level >= LIBBPF_DEBUG)
-		return 0;
-	return vfprintf(stderr, format, args);
-}
-
 void sig_handler(int sig)
 {
 	fprintf(stderr, "get sig...\n");

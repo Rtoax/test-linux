@@ -11,6 +11,9 @@
 #include <unistd.h>
 #include <fcntl.h>
 
+#include "trace_helpers.h"
+
+
 #define TRACEFS_PIPE    "/sys/kernel/tracing/trace_pipe"
 #define DEBUGFS_PIPE    "/sys/kernel/debug/tracing/trace_pipe"
 
@@ -142,4 +145,12 @@ int print_bpf_log_buf(char *buf, size_t size)
 		printf("%c", buf[i]);
 	}
 	return 0;
+}
+
+int libbpf_print_fn(enum libbpf_print_level level, const char *format,
+		    va_list args)
+{
+	if (level >= LIBBPF_DEBUG)
+		return 0;
+	return vfprintf(stderr, format, args);
 }

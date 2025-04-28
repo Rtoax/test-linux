@@ -258,7 +258,6 @@ LIBBPF_WRAPPER := ${OUTPUT}/libbpf_wrapper.o
 LIBXDP_HELPERS := ${OUTPUT}/libxdp_helpers.o
 BTF_HELPERS := ${OUTPUT}/btf_helpers.o
 
-
 .PHONY: build
 build: libbpf_version ${VMLINUX_H} ${TARGETS_BPF} ${TARGETS_SKEL} ${TARGETS} ${TARGETS_BTF}
 	${Q}./libbpf_version | sed 's/^/  /g'
@@ -277,7 +276,7 @@ btf_decl_tag: ${OUTPUT}/btf_decl_tag.o ${BTF_HELPERS}
 libbpf_version: ${OUTPUT}/libbpf_version.o
 
 config-map: ${OUTPUT}/config-map.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER}
-socket_filter: ${OUTPUT}/socket_filter.o ${SOCKET_HELPERS}
+socket_filter: ${OUTPUT}/socket_filter.o ${SOCKET_HELPERS} ${TRACE_HELPERS}
 tc: ${OUTPUT}/tc.o ${TRACE_HELPERS}
 xdp: ${OUTPUT}/xdp.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER}
 xdp_simple: ${OUTPUT}/xdp_simple.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER} ${LIBXDP_HELPERS}
@@ -290,18 +289,18 @@ kprobe: ${OUTPUT}/kprobe.o ${TRACE_HELPERS}
 tracepoint: ${OUTPUT}/tracepoint.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER}
 raw_tracepoint: ${OUTPUT}/raw_tracepoint.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER}
 tp_btf: ${OUTPUT}/tp_btf.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER}
-perf_event: ${OUTPUT}/perf_event.o
-sk_skb: ${OUTPUT}/sk_skb.o
-sk_msg: ${OUTPUT}/sk_msg.o
+perf_event: ${OUTPUT}/perf_event.o ${TRACE_HELPERS}
+sk_skb: ${OUTPUT}/sk_skb.o ${TRACE_HELPERS}
+sk_msg: ${OUTPUT}/sk_msg.o ${TRACE_HELPERS}
 cgroup_device: ${OUTPUT}/cgroup_device.o ${TRACE_HELPERS}
 cgroup_sysctl: ${OUTPUT}/cgroup_sysctl.o ${TRACE_HELPERS}
 fentry: ${OUTPUT}/fentry.o ${TRACE_HELPERS}
 fmod_ret: ${OUTPUT}/fmod_ret.o ${TRACE_HELPERS}
-iter_task: ${OUTPUT}/iter_task.o ${TASK_HELPERS}
-iter_task_file: ${OUTPUT}/iter_task_file.o
-iter_task_vma: ${OUTPUT}/iter_task_vma.o
-iter_bpf_map: ${OUTPUT}/iter_bpf_map.o
-iter_kmem_cache: ${OUTPUT}/iter_kmem_cache.o
+iter_task: ${OUTPUT}/iter_task.o ${TASK_HELPERS} ${TRACE_HELPERS}
+iter_task_file: ${OUTPUT}/iter_task_file.o ${TRACE_HELPERS}
+iter_task_vma: ${OUTPUT}/iter_task_vma.o ${TRACE_HELPERS}
+iter_bpf_map: ${OUTPUT}/iter_bpf_map.o ${TRACE_HELPERS}
+iter_kmem_cache: ${OUTPUT}/iter_kmem_cache.o ${TRACE_HELPERS}
 lsm_bpf: ${OUTPUT}/lsm_bpf.o ${TRACE_HELPERS}
 lsm_socket_create: ${OUTPUT}/lsm_socket_create.o ${TRACE_HELPERS}
 lsm_socket_sendmsg: ${OUTPUT}/lsm_socket_sendmsg.o ${TRACE_HELPERS}
@@ -310,8 +309,8 @@ map_hash: ${OUTPUT}/map_hash.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER}
 map_percpu_hash: ${OUTPUT}/map_percpu_hash.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER}
 map_lru_hash: ${OUTPUT}/map_lru_hash.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER}
 map_lru_percpu_hash: ${OUTPUT}/map_lru_percpu_hash.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER}
-map_array: ${OUTPUT}/map_array.o ${SOCKET_HELPERS}
-map_percpu_array: ${OUTPUT}/map_percpu_array.o ${SOCKET_HELPERS}
+map_array: ${OUTPUT}/map_array.o ${SOCKET_HELPERS} ${TRACE_HELPERS}
+map_percpu_array: ${OUTPUT}/map_percpu_array.o ${SOCKET_HELPERS} ${TRACE_HELPERS}
 
 ${OUTPUT}:
 	@echo -e "  MKDIR  \033[1m$(notdir ${@})\033[m"

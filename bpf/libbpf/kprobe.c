@@ -35,12 +35,6 @@ void sig_handler(int sig)
 	read_trace_pipe_stop();
 }
 
-static int libbpf_print_fn(enum libbpf_print_level level, const char *format,
-			   va_list args)
-{
-	return vfprintf(stderr, format, args);
-}
-
 int main(int argc, char **argv)
 {
 	struct struct_bpf *skel;

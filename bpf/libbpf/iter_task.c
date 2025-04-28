@@ -11,6 +11,7 @@
 
 #include "iter.h"
 #include "task_helpers.h"
+#include "trace_helpers.h"
 
 #if defined(ITER_TASK)
 #include "iter_task.skel.h"
@@ -51,14 +52,6 @@
 # error Must define iter type!!!!
 #endif
 
-
-static int libbpf_print_fn(enum libbpf_print_level level, const char *format,
-			   va_list args)
-{
-	if (level == LIBBPF_DEBUG)
-		return 0;
-	return vfprintf(stderr, format, args);
-}
 
 static volatile bool exiting = false;
 

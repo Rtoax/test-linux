@@ -10,6 +10,7 @@
 #include <linux/perf_event.h>
 #include "perf_event.h"
 #include "perf_event.skel.h"
+#include "trace_helpers.h"
 
 #define DEFAULT_FREQ	99
 
@@ -26,14 +27,6 @@ void sig_handler(int sig)
 {
 	fprintf(stderr, "get sig...\n");
 	stop = 1;
-}
-
-static int libbpf_print_fn(enum libbpf_print_level level, const char *format,
-			   va_list args)
-{
-	if (level >= LIBBPF_DEBUG)
-		return 0;
-	return vfprintf(stderr, format, args);
 }
 
 static void print_ip_map(int fd)
