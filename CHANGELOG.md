@@ -46,5 +46,6 @@ and this project adheres to
 - Add COMPILE.md and modify README.md
 #### Tools
 
+## [v2.2.10-rc3] 2025-04-28
 ## [v2.2.10-rc2] 2025-04-23
 ## [v2.2.10-rc1] 2025-04-17
