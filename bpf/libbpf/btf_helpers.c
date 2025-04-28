@@ -89,6 +89,8 @@ static int __btf_has_ksym(const char *ksym, int kind)
 	/**
 	 * LIBBPF_0.5.0
 	 * libbpf commit e65d12890333 ("libbpf: Add btf__load_vmlinux_btf/btf__load_module_btf")
+	 *
+	 * struct btf *libbpf_find_kernel_btf(void) __attribute__((alias("btf__load_vmlinux_btf")));
 	 */
 	btf = btf__load_vmlinux_btf();
 #else
