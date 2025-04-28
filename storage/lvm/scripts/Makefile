@@ -4,6 +4,7 @@ include ../../../tlbuild.mk
 .PHONY: build
 build:
 	${Q}./create.sh
+	${Q}./create2.sh
 	@echo -e " \033[1;33m Done \033[m"
 
 test:

@@ -47,6 +47,7 @@ sudo lvs
 sudo vgs
 sudo pvs
 sudo lsblk -o +fstype
+sudo df -hT
 
 # Update /etc/fstab to mount on boot
 # echo "/dev/$VG_NAME/$LV_NAME $MOUNT_POINT ext4 defaults 0 0" | sudo tee -a /etc/fstab
