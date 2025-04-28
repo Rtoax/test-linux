@@ -8,6 +8,35 @@
 #include "btf_helpers.h"
 
 
+const char *btf_kind_name(int kind)
+{
+#define KIND(v) case v: return #v;
+	switch (kind) {
+	KIND(BTF_KIND_UNKN);
+	KIND(BTF_KIND_INT);
+	KIND(BTF_KIND_PTR);
+	KIND(BTF_KIND_ARRAY);
+	KIND(BTF_KIND_STRUCT);
+	KIND(BTF_KIND_UNION);
+	KIND(BTF_KIND_ENUM);
+	KIND(BTF_KIND_FWD);
+	KIND(BTF_KIND_TYPEDEF);
+	KIND(BTF_KIND_VOLATILE);
+	KIND(BTF_KIND_CONST);
+	KIND(BTF_KIND_RESTRICT);
+	KIND(BTF_KIND_FUNC);
+	KIND(BTF_KIND_FUNC_PROTO);
+	KIND(BTF_KIND_VAR);
+	KIND(BTF_KIND_DATASEC);
+	KIND(BTF_KIND_FLOAT);
+	KIND(BTF_KIND_DECL_TAG);
+	KIND(BTF_KIND_TYPE_TAG);
+	KIND(BTF_KIND_ENUM64);
+	}
+#undef KIND
+	abort();
+}
+
 static int __btf_has_ksym(const char *ksym, int kind)
 {
 	struct btf *btf;
@@ -50,7 +79,8 @@ static int __btf_has_ksym(const char *ksym, int kind)
 #ifdef DEBUG
 	const struct btf_type *type;
 	type = btf__type_by_id(btf, btf_id);
-	printf("ksym '%s' exists with ID %d, KIND %d\n", ksym, btf_id, btf_kind(type));
+	printf("ksym '%s' exists with ID %d, KIND %s\n", ksym, btf_id,
+		btf_kind_name(btf_kind(type)));
 #endif
 
 	btf__free(btf);
