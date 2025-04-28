@@ -32,5 +32,6 @@ __bpf_kfunc_end_defs();
 
 # Links
 
+- https://www.kernel.org/doc/html/latest/bpf/kfuncs.html
 - https://docs.kernel.org/bpf/kfuncs.html
 
