@@ -63,6 +63,13 @@ ifeq ($(feature-printf),1)
   CFLAGS += -DHAVE_PRINTF=1
 endif
 
+CFLAGS_main.user := -D_MAIN_USER=1
+ifeq ($(CONFIG_MMU),y)
+  CFLAGS_main.user += -DCONFIG_MMU=1
+endif
+CFLAGS_main.user += -Wno-error=cpp
+LDFLAGS_main.user :=
+
 define user_strip
   $(Q)strip $(1) -o $(1).strip
 endef
@@ -78,21 +85,17 @@ build: ${TARGETS} $(sub-dir-build)
 $(sub-dir-build):
 	make -C $(@:.build=)
 
-# Add more object.o file
 main.user: main.user.o
-main.user.o: main.h
+main.user.o: main.h main.user.d
 
-CFLAGS_main.user := -D_MAIN_USER=1
-ifeq ($(CONFIG_MMU),y)
-  CFLAGS_main.user += -DCONFIG_MMU=1
-endif
-CFLAGS_main.user += -Wno-error=cpp
-LDFLAGS_main.user :=
+%.d: %.c
+	@echo -e "  CC.d  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
+	$(Q)$(CC) -MMD -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
 
-%.o: %.c
-	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	$(Q)$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
-	$(Q)$(CC) -S $(<) -o $(<:.c=.s) $(CFLAGS) $(CFLAGS_$(*))
+%.o: %.c %.d
+	@echo -e "  CC.o  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
+	$(Q)$(CC) -MMD -MF $(@:.o=.d) -MP -S $(<) -o $(<:.c=.s) $(CFLAGS) $(CFLAGS_$(*))
+	$(Q)$(CC) -MMD -MF $(@:.o=.d) -MP -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
 
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
@@ -105,7 +108,7 @@ test: ${TARGETS}
 .PHONY: clean
 clean: $(sub-dir-clean)
 	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
-	$(Q)rm -f ${TARGETS} *.s *.o *.strip
+	$(Q)rm -f ${TARGETS} *.s *.o *.strip *.d
 
 $(sub-dir-clean):
 	$(Q)make -C $(@:.clean=) clean
