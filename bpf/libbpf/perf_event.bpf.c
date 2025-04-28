@@ -34,9 +34,11 @@ int do_sample(struct bpf_perf_event_data *ctx)
 
 	ip = PT_REGS_IP(&ctx->regs);
 	value = bpf_map_lookup_elem(&vaddr_map, &ip);
-	if (value)
+	if (value) {
 		*value += 1;
-	else
+		if (*value % 100 == 0)
+			bpf_printk("IP %#016lx sample %ld\n", ip, *value);
+	} else
 		/* E2BIG not tested for this example only */
 		bpf_map_update_elem(&vaddr_map, &ip, &init_val, BPF_NOEXIST);
 

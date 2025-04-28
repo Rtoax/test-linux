@@ -26,6 +26,7 @@ static inline int sys_perf_event_open(struct perf_event_attr *attr, pid_t pid,
 void sig_handler(int sig)
 {
 	fprintf(stderr, "get sig...\n");
+	read_trace_pipe_stop();
 	stop = 1;
 }
 
@@ -112,9 +113,8 @@ int main(void)
 		goto cleanup;
 	}
 
-	printf("Start sampling for 10 seconds ...\n");
-	while (!stop)
-		sleep(1);
+	printf("Start sampling...\n");
+	read_trace_pipe();
 
 cleanup:
 	printf("Exiting...\n");
