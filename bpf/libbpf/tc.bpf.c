@@ -62,6 +62,7 @@
  */
 #define private(name) SEC(".data." #name) __hidden __attribute__((aligned(8)))
 #define __contains(name, node) __attribute__((btf_decl_tag("contains:" #name ":" #node)))
+#define bpf_rbtree_add(head, node, less) bpf_rbtree_add_impl(head, node, less, NULL, 0)
 struct node_data {
 	long key;
 	long data;
@@ -69,7 +70,7 @@ struct node_data {
 };
 
 private(A) struct bpf_spin_lock glock;
-private(B) struct bpf_rb_root groot __contains(node_data, node);
+private(A) struct bpf_rb_root groot __contains(node_data, node);
 
 long less_callback_ran = -1;
 
@@ -132,8 +133,8 @@ int tc_ingress(struct __sk_buff *ctx)
 	n2.key = 2;
 
 	bpf_spin_lock(&glock);
-	bpf_rbtree_add_impl(&groot, &n1.node, less, NULL, 0);
-	bpf_rbtree_add_impl(&groot, &n2.node, less, NULL, 0);
+	bpf_rbtree_add(&groot, &n1.node, less);
+	bpf_rbtree_add(&groot, &n2.node, less);
 
 	res = bpf_rbtree_first(&groot);
 	if (!res) {
