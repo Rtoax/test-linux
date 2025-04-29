@@ -13,4 +13,5 @@ info inferiors
 # Check thread info
 info thread
 info threads
+info stack
 c
