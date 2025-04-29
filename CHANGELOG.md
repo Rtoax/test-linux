@@ -10,6 +10,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- synchronization: Add abbreviation.md
 - shell: Add commands/dmesg directory.
 - kernel.mk: add kuapi functions and macros `KUAPIVERSION`,`KUAPIPATCHLEVEL`,`KUAPISUBLEVEL`,`KUAPIVERSION_CODE`.
 - libbpf: Test `bpf_rbtree_{add_impl,first,remove}` kfuncs helpers.
