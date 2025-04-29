@@ -10,9 +10,12 @@
  * netlink protocol.
  */
 #include <argp.h>
+#include <stdlib.h>
 #include <signal.h>
 #include <unistd.h>
 #include <net/if.h>
+#include <linux/bpf.h>
+#include "btf_helpers.h"
 #include "trace_helpers.h"
 #if defined(TEST_RBTREE)
 #include "rbtree.skel.h"

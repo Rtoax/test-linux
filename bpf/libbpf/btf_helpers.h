@@ -2,6 +2,16 @@
 
 #define SYSFS_VMLINUX	"/sys/kernel/btf/vmlinux"
 
+#ifdef KAPI_NO_BPF_RB_ROOT
+struct bpf_rb_root {
+	__u64 __opaque[2];
+};
+
+struct bpf_rb_node {
+	__u64 __opaque[4];
+};
+#endif
+
 /**
  * bpftool btf dump generated vmlinux.h will not contains kfuncs if pahole
  * version less than v1.26 and kernel must newer than v6.10.
@@ -20,6 +30,9 @@
 #pragma message "Defined BPF_NO_KFUNC_PROTOTYPES"
 extern struct task_struct *bpf_task_from_pid(s32 pid) __weak __ksym;
 extern void bpf_task_release(struct task_struct *p) __weak __ksym;
+extern int bpf_rbtree_add_impl(struct bpf_rb_root *root, struct bpf_rb_node *node, bool (*less)(struct bpf_rb_node *, const struct bpf_rb_node *), void *meta__ign, u64 off) __weak __ksym;
+extern struct bpf_rb_node *bpf_rbtree_first(struct bpf_rb_root *root) __weak __ksym;
+extern struct bpf_rb_node *bpf_rbtree_remove(struct bpf_rb_root *root, struct bpf_rb_node *node) __weak __ksym;
 /* Add more kfuncs here */
 #endif
 

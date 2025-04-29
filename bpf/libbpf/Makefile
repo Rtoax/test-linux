@@ -25,6 +25,9 @@ UID=$(shell id -u)
 
 CC := gcc
 CLANG := clang
+
+CFLAGS :=
+CFLAGS_BPF :=
 # bpftool gen skeleton
 GEN_SKEL_ARGS :=
 
@@ -90,9 +93,15 @@ TARGETS += $(kconfig-obj-y)
 TARGETS += map_array map_percpu_array
 TARGETS += xdp_xskmap
 
+# linux commit bd1279ae8a69 ("bpf: Add bpf_rbtree_{add,remove,first} kfuncs")
+# v6.2-rc7-1572-gbd1279ae8a69
 ifeq ($(call kernel_newer_than,6,2,0),y)
-  # linux commit bd1279ae8a69 ("bpf: Add bpf_rbtree_{add,remove,first} kfuncs")
-  # v6.2-rc7-1572-gbd1279ae8a69
+  # linux commit 9c395c1b99bd ("bpf: Add basic bpf_rb_{root,node} support")
+  # v6.2-rc7-1571-g9c395c1b99bd add bpf_rb_root to uapi/linux/bpf.h
+  ifeq ($(call kuapi_lower_than,6,2,0),y)
+    $(warning "kuapi not support bpf_rb_root")
+    CFLAGS += -DKAPI_NO_BPF_RB_ROOT=1
+  endif
   TARGETS += rbtree
 endif
 
@@ -138,14 +147,14 @@ TARGETS_BTF := btf_ksym
 TARGETS_BTF += btf_kfunc
 TARGETS_BTF += btf_decl_tag
 
-CFLAGS_BPF := -I.
+CFLAGS_BPF += -I.
 CFLAGS_BPF += -O2 -Wall -g
 CFLAGS_BPF += -target bpf
 ifeq ($(CONFIG_ARCH_HAS_SYSCALL_WRAPPER),y)
   CFLAGS_BPF += -DCONFIG_ARCH_HAS_SYSCALL_WRAPPER=1
 endif
 
-CFLAGS := -lbpf
+CFLAGS += -lbpf
 CFLAGS += -O0 -Wall -g
 LDFLAGS := -lbpf
 LDFLAGS += -O0 -Wall -g

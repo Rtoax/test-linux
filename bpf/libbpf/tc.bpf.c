@@ -57,6 +57,7 @@
 #define ETH_P_IP  0x0800 /* Internet Protocol packet */
 
 #if defined(TEST_RBTREE)
+#include "btf_helpers.h"
 /**
  * see linux:tools/testing/selftests/bpf/progs/rbtree.c
  */
@@ -70,6 +71,10 @@ struct node_data {
 };
 
 private(A) struct bpf_spin_lock glock;
+/**
+ * linux commit 9c395c1b99bd ("bpf: Add basic bpf_rb_{root,node} support")
+ * v6.2-rc7-1571-g9c395c1b99bd add bpf_rb_root to uapi/linux/bpf.h
+ */
 private(A) struct bpf_rb_root groot __contains(node_data, node);
 
 long less_callback_ran = -1;
