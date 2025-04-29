@@ -30,7 +30,7 @@ DEFINE_SPINLOCK(foo_mutex);
 struct foo __rcu *gbl_foo;
 
 
-void foo_cleanup(int a) {}
+static void foo_cleanup(int a) {}
 
 /**
  * If the callback for call_rcu() is not doing anything more than calling
@@ -42,7 +42,7 @@ void foo_cleanup(int a) {}
  *
  *	kfree_rcu_mightsleep(old_fp);
  */
-void foo_reclaim(struct rcu_head *rp)
+static void foo_reclaim(struct rcu_head *rp)
 {
 	struct foo *fp = container_of(rp, struct foo, rcu);
 	foo_cleanup(fp->a);
@@ -66,7 +66,7 @@ void foo_reclaim(struct rcu_head *rp)
  * references to the old structure complete before freeing the
  * old structure.
  */
-void foo_update_a(int new_a)
+static void foo_update_a(int new_a)
 {
 	struct foo *new_fp;
 	struct foo *old_fp;
@@ -101,7 +101,7 @@ void foo_update_a(int new_a)
  * we see the initialized version of the structure (important
  * for DEC Alpha and for people reading the code).
  */
-int foo_get_a(void)
+static int foo_get_a(void)
 {
 	int retval;
 
