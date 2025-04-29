@@ -1,3 +1,4 @@
+#include <argp.h>
 #include <stdio.h>
 #include <unistd.h>
 #include <errno.h>
@@ -15,6 +16,42 @@
 #define DEFAULT_FREQ	99
 
 static volatile sig_atomic_t stop = 0;
+static int verbose = 0;
+static int cpu = 0;
+
+static const char argp_prog_doc[] =
+	"USAGE: [-c <cpu>] [-v]\n"
+	"\n";
+
+static const struct argp_option opts[] = {
+	{ "cpu", 'c', "CPU", 0, "CPU to sampling" },
+	{ "verbose", 'v', NULL, 1, "Display the detail, for debug maybe" },
+	{},
+};
+
+static error_t parse_arg(int key, char *arg, struct argp_state *state)
+{
+	switch (key) {
+	case 'c':
+		cpu = atoi(arg);
+		break;
+	case 'v':
+		verbose = 1;
+		break;
+	case ARGP_KEY_ARG:
+		argp_usage(state);
+		break;
+	default:
+		return ARGP_ERR_UNKNOWN;
+	}
+	return 0;
+}
+
+static const struct argp argp = {
+	.options = opts,
+	.parser = parse_arg,
+	.doc = argp_prog_doc,
+};
 
 static inline int sys_perf_event_open(struct perf_event_attr *attr, pid_t pid,
 				      int cpu, int group_fd,
@@ -52,10 +89,16 @@ static void print_ip_map(int fd)
 	}
 }
 
-int main(void)
+int main(int argc, char *argv[])
 {
 	int err, event_map_fd, pmu_fd;
 	struct perf_event_bpf *skel;
+
+	err = argp_parse(&argp, argc, argv, 0, NULL, NULL);
+	if (err) {
+		fprintf(stderr, "argp_parse return %d\n", err);
+		return -err;
+	}
 
 	libbpf_set_strict_mode(LIBBPF_STRICT_ALL);
 	libbpf_set_print(libbpf_print_fn);
@@ -97,13 +140,14 @@ int main(void)
 		.inherit = 1,
 	};
 
-	pmu_fd = sys_perf_event_open(&pe_sample_attr, -1 /* pid */, 0 /* cpu */,
+	pmu_fd = sys_perf_event_open(&pe_sample_attr, -1 /* pid */, cpu,
 				    -1 /* group_fd */, 0 /* flags */);
 	if (pmu_fd < 0) {
 		fprintf(stderr, "ERROR: Initializing perf sampling\n");
 		err = -1;
 		goto cleanup;
 	}
+	fprintf(stderr, "CPU %d\n", cpu);
 	fprintf(stderr, "PMU fd %d\n", pmu_fd);
 
 	skel->links.do_sample = bpf_program__attach_perf_event(skel->progs.do_sample, pmu_fd);
