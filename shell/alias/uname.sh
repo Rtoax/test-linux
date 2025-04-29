@@ -1,4 +1,5 @@
-#!/bin/bash -i
+#!/bin/bash
+set -e
 
 export OSTOOLS_ARCH=$(uname -m)
 
