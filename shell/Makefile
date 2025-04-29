@@ -21,7 +21,6 @@ test: $(sub-dir-test)
 	./args.sh
 	./call.sh
 	./digit.sh
-	./dmesg-tail.sh || true
 	./nested-func.sh
 	./num.sh
 	./open-fd.sh

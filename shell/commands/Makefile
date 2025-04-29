@@ -3,6 +3,7 @@ include ../../tlbuild.mk
 
 sub-dir :=
 sub-dir += awk
+sub-dir += dmesg
 sub-dir += grep
 sub-dir += sed
 
