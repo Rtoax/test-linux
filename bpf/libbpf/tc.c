@@ -13,8 +13,18 @@
 #include <signal.h>
 #include <unistd.h>
 #include <net/if.h>
-#include "tc.skel.h"
 #include "trace_helpers.h"
+#if defined(TEST_RBTREE)
+#include "rbtree.skel.h"
+#define struct_bpf	rbtree_bpf
+#define _bpf__open_and_load	rbtree_bpf__open_and_load
+#define _bpf__destroy	rbtree_bpf__destroy
+#else
+#include "tc.skel.h"
+#define struct_bpf	tc_bpf
+#define _bpf__open_and_load	tc_bpf__open_and_load
+#define _bpf__destroy	tc_bpf__destroy
+#endif
 
 
 static int ifindex = -1;
@@ -67,7 +77,7 @@ int main(int argc, char **argv)
 {
 	int err;
 	bool hook_created = false;
-	struct tc_bpf *skel;
+	struct struct_bpf *skel;
 
 	err = argp_parse(&argp, argc, argv, 0, NULL, NULL);
 	if (err) {
@@ -93,7 +103,7 @@ int main(int argc, char **argv)
 
 	libbpf_set_print(libbpf_print_fn);
 
-	skel = tc_bpf__open_and_load();
+	skel = _bpf__open_and_load();
 	if (!skel) {
 		fprintf(stderr, "Failed to open BPF skeleton\n");
 		return 1;
@@ -140,6 +150,6 @@ cleanup:
 	printf("Goodbye!!\n");
 	if (hook_created)
 		bpf_tc_hook_destroy(&tc_hook);
-	tc_bpf__destroy(skel);
+	_bpf__destroy(skel);
 	return -err;
 }

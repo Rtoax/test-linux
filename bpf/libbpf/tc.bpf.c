@@ -56,6 +56,36 @@
 #define TC_ACT_OK 0
 #define ETH_P_IP  0x0800 /* Internet Protocol packet */
 
+#if defined(TEST_RBTREE)
+/**
+ * see linux:tools/testing/selftests/bpf/progs/rbtree.c
+ */
+#define private(name) SEC(".data." #name) __hidden __attribute__((aligned(8)))
+#define __contains(name, node) __attribute__((btf_decl_tag("contains:" #name ":" #node)))
+struct node_data {
+	long key;
+	long data;
+	struct bpf_rb_node node;
+};
+
+private(A) struct bpf_spin_lock glock;
+private(B) struct bpf_rb_root groot __contains(node_data, node);
+
+long less_callback_ran = -1;
+
+static bool less(struct bpf_rb_node *a, const struct bpf_rb_node *b)
+{
+	struct node_data *node_a;
+	struct node_data *node_b;
+
+	node_a = container_of(a, struct node_data, node);
+	node_b = container_of(b, struct node_data, node);
+	less_callback_ran = 1;
+
+	return node_a->key < node_b->key;
+}
+#endif /* TEST_RBTREE */
+
 #ifdef TEST_SCHED_ACT
 SEC("action")
 #else
@@ -93,6 +123,33 @@ int tc_ingress(struct __sk_buff *ctx)
 		return TC_ACT_OK;
 
 	bpf_printk("Got IP packet: tot_len: %d, ttl: %d", bpf_ntohs(iphdr->tot_len), iphdr->ttl);
+
+#if defined(TEST_RBTREE)
+	struct node_data n1, n2, *o;
+	struct bpf_rb_node *res = NULL;
+
+	n1.key = 1;
+	n2.key = 2;
+
+	bpf_spin_lock(&glock);
+	bpf_rbtree_add_impl(&groot, &n1.node, less, NULL, 0);
+	bpf_rbtree_add_impl(&groot, &n2.node, less, NULL, 0);
+
+	res = bpf_rbtree_first(&groot);
+	if (!res) {
+		bpf_printk("Failed to call bpf_rbtree_first.");
+		bpf_spin_unlock(&glock);
+		return 2;
+	}
+
+	o = container_of(res, struct node_data, node);
+	bpf_printk("First rbtree key is %d", o->key);
+
+	res = bpf_rbtree_remove(&groot, &o->node);
+
+	bpf_spin_unlock(&glock);
+
+#endif /* TEST_RBTREE */
 
 	return TC_ACT_OK;
 }

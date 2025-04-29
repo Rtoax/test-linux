@@ -10,6 +10,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- libbpf: Test `bpf_rbtree_{add_impl,first,remove}` kfuncs helpers.
 - lvm: Add create2.sh to test lv name length of df -hT.
 - pahole: First commit (add Makefile, pahole.mk).
 - libbpf: Test `BTF_KIND_DECL_TAG` (17).

@@ -90,6 +90,12 @@ TARGETS += $(kconfig-obj-y)
 TARGETS += map_array map_percpu_array
 TARGETS += xdp_xskmap
 
+ifeq ($(call kernel_newer_than,6,2,0),y)
+  # linux commit bd1279ae8a69 ("bpf: Add bpf_rbtree_{add,remove,first} kfuncs")
+  # v6.2-rc7-1572-gbd1279ae8a69
+  TARGETS += rbtree
+endif
+
 # _if_ there are no user mode code, append to bpf target only
 TARGETS_BPF := ${TARGETS:=.bpf.o}
 TARGETS_BPF += cgroup_skb.bpf.o
@@ -251,6 +257,9 @@ CFLAGS_BPF_map_devmap := ${CFLAGS_BPF_xdp_devmap}
 CFLAGS_btf_kfunc := -DTEST_BTF_KIND_FUNC=1
 CFLAGS_btf_decl_tag := -DTEST_BTF_KIND_DECL_TAG=1
 
+CFLAGS_rbtree := -DTEST_RBTREE=1
+CFLAGS_BPF_rbtree := -DTEST_RBTREE=1
+
 SOCKET_HELPERS := ${OUTPUT}/socket_helpers.o
 TASK_HELPERS := ${OUTPUT}/task_helpers.o
 TRACE_HELPERS := ${OUTPUT}/trace_helpers.o
@@ -278,6 +287,7 @@ libbpf_version: ${OUTPUT}/libbpf_version.o
 config-map: ${OUTPUT}/config-map.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER}
 socket_filter: ${OUTPUT}/socket_filter.o ${SOCKET_HELPERS} ${TRACE_HELPERS}
 tc: ${OUTPUT}/tc.o ${TRACE_HELPERS}
+rbtree: ${OUTPUT}/rbtree.o ${TRACE_HELPERS}
 xdp: ${OUTPUT}/xdp.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER}
 xdp_simple: ${OUTPUT}/xdp_simple.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER} ${LIBXDP_HELPERS}
 xdp_dos: ${OUTPUT}/xdp_dos.o ${TRACE_HELPERS} ${LIBBPF_WRAPPER} ${LIBXDP_HELPERS}

@@ -39,3 +39,4 @@
 /btf_ksym
 /btf_kfunc
 /btf_decl_tag
+/rbtree
