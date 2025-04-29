@@ -14,6 +14,12 @@ RCU - Read Copy Update
 - `gp_cleanup_delay`: 宽限期结束后的延迟时间（用于调试）
 
 
+# debud
+
+- `/sys/kernel/tracing/events/rcu`
+- `/sys/kernel/debug/tracing/events/rcu`
+
+
 # Links
 
 - https://en.wikipedia.org/wiki/Read-copy-update
