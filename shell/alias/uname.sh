@@ -1,13 +1,13 @@
 #!/bin/bash
 set -e
 
-export OSTOOLS_ARCH=$(uname -m)
+export MY_ARCH=$(uname -m)
 
 my_uname()
 {
 	case $1 in
 	-m)
-		echo $OSTOOLS_ARCH
+		echo $MY_ARCH
 		;;
 	*)
 		echo "No arg"
@@ -18,14 +18,14 @@ my_uname()
 uname -m
 
 source ./config.sh
-echo $OSTOOLS_ARCH
+echo $MY_ARCH
 uname -m
 
-unset OSTOOLS_ARCH
-export OSTOOLS_ARCH=myarch
+unset MY_ARCH
+export MY_ARCH=myarch
 shopt -s expand_aliases
 alias uname=my_uname
 uname -m
 
 source ./config.sh
-echo $OSTOOLS_ARCH
+echo $MY_ARCH

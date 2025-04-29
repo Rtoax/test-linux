@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [[ $(uname -m) == myarch ]]; then
-	OSTOOLS_ARCH=myarch
+	MY_ARCH=myarch
 else
-	OSTOOLS_ARCH=$(arch)
+	MY_ARCH=$(arch)
 fi
