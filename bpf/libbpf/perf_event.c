@@ -16,15 +16,17 @@
 #define DEFAULT_FREQ	99
 
 static volatile sig_atomic_t stop = 0;
-static int verbose = 0;
 static int cpu = 0;
+static int pid = -1;
+static int verbose = 0;
 
 static const char argp_prog_doc[] =
-	"USAGE: [-c <cpu>] [-v]\n"
+	"USAGE: [-c <cpu>] [-p <pid>] [-v]\n"
 	"\n";
 
 static const struct argp_option opts[] = {
-	{ "cpu", 'c', "CPU", 0, "CPU to sampling" },
+	{ "cpu", 'c', "CPU", 0, "CPU to sample" },
+	{ "pid", 'p', "PID", 0, "PID to sample" },
 	{ "verbose", 'v', NULL, 1, "Display the detail, for debug maybe" },
 	{},
 };
@@ -34,6 +36,9 @@ static error_t parse_arg(int key, char *arg, struct argp_state *state)
 	switch (key) {
 	case 'c':
 		cpu = atoi(arg);
+		break;
+	case 'p':
+		pid = atoi(arg);
 		break;
 	case 'v':
 		verbose = 1;
@@ -140,15 +145,15 @@ int main(int argc, char *argv[])
 		.inherit = 1,
 	};
 
-	pmu_fd = sys_perf_event_open(&pe_sample_attr, -1 /* pid */, cpu,
-				    -1 /* group_fd */, 0 /* flags */);
+	pmu_fd = sys_perf_event_open(&pe_sample_attr, pid, cpu,
+				     -1 /* group_fd */, 0 /* flags */);
 	if (pmu_fd < 0) {
 		fprintf(stderr, "ERROR: Initializing perf sampling\n");
 		err = -1;
 		goto cleanup;
 	}
-	fprintf(stderr, "CPU %d\n", cpu);
-	fprintf(stderr, "PMU fd %d\n", pmu_fd);
+
+	fprintf(stderr, "CPU %d, PID %d, PMU fd %d\n", cpu, pid, pmu_fd);
 
 	skel->links.do_sample = bpf_program__attach_perf_event(skel->progs.do_sample, pmu_fd);
 	if (libbpf_get_error(skel->links.do_sample)) {
@@ -158,6 +163,7 @@ int main(int argc, char *argv[])
 	}
 
 	printf("Start sampling...\n");
+
 	read_trace_pipe();
 
 cleanup:
