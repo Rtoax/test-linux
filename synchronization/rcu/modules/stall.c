@@ -45,6 +45,9 @@ static void stall_1_looping_in_read_side(void)
 	rcu_read_unlock();
 }
 
+/**
+ * commit 80af9853c093 ("rcu/modules: stall.c: looping with preemption disabled")
+ */
 static void stall_3_looping_with_preemption_disabled(void)
 {
 	if (sleep)
