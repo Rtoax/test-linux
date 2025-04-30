@@ -9,8 +9,14 @@ static struct task_struct *task;
 
 static int test_thread(void *data)
 {
+#ifdef TEST_MSLEEP
+#pragma message "Test msleep"
+	msleep(20000);
+#else
+#pragma message "Test mdelay"
 	/* Busy wait 20 seconds */
 	mdelay(20000);
+#endif
 	return 0;
 }
 
