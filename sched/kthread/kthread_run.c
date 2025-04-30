@@ -6,18 +6,18 @@
 #include <linux/delay.h>
 
 
-struct task_struct *task;
+static struct task_struct *task;
 
-char *g_message = "Hello from MyThread!";
+static char *g_message = "Hello from MyThread!";
 
-int thread_function(void *data)
+static int thread_function(void *data)
 {
 	u64 count = 0;
 	printk(KERN_INFO "KThread entry %s\n", (char *)data);
 
 	while (!kthread_should_stop()) {
 		msleep_interruptible(1000);
-		printk(KERN_INFO "MyKthread count %lld\n", count++);
+		printk(KERN_INFO "%s count %lld\n", current->comm, count++);
 		schedule();
 	}
 
@@ -28,7 +28,7 @@ int thread_function(void *data)
 static int kernel_init(void)
 {
 	printk(KERN_INFO "mykthread init.\n");
-	task = kthread_run(&thread_function, (void *)g_message, "rtoax");
+	task = kthread_run(&thread_function, (void *)g_message, "rong%s", "tao");
 	return task ? 0 : -EINVAL;
 }
 

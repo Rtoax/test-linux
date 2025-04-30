@@ -10,15 +10,6 @@
 #include <linux/mm.h>
 #include <linux/completion.h>
 
-
-static int async = 1;
-
-module_param(async, int, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
-MODULE_PARM_DESC(async, "Use synchronize_rcu() if 0, use call_rcu if 1");
-
-
-struct task_struct *tasks[4];
-
 struct foo {
 	int a;
 	char b;
@@ -27,7 +18,22 @@ struct foo {
 };
 DEFINE_SPINLOCK(foo_mutex);
 
+static int async = 1;
+#define MAX_THREADS	100
+static int nr_writer = 1;
+static int nr_reader = 3;
+
+module_param(async, int, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+MODULE_PARM_DESC(async, "Use synchronize_rcu() if 0, use call_rcu if 1");
+
+module_param(nr_writer, int, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+MODULE_PARM_DESC(nr_writer, "Number of writer");
+
+module_param(nr_reader, int, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+MODULE_PARM_DESC(nr_reader, "Number of writer");
+
 struct foo __rcu *gbl_foo;
+struct task_struct *tasks[MAX_THREADS];
 
 
 static void foo_cleanup(int a) {}
@@ -117,11 +123,11 @@ static int writer(void *data)
 
 	while (!kthread_should_stop()) {
 		foo_update_a(val++);
-
+		printk(KERN_INFO "%s set %d\n", current->comm, val - 1);
 		msleep(400);
 		schedule();
 	}
-	printk(KERN_INFO "Thread1: exit.\n");
+	printk(KERN_INFO "writer %s: exit.\n", current->comm);
 	return 0;
 }
 
@@ -135,24 +141,34 @@ static int reader(void *data)
 		old_val = foo_get_a();
 		if (val != old_val) {
 			val = old_val;
-			printk(KERN_INFO "RCU get %d\n", val);
+			printk(KERN_INFO "%s get %d\n", current->comm, val);
 		}
 		msleep(400);
 		schedule();
 	}
-	printk(KERN_INFO "Thread2: exit.\n");
+	printk(KERN_INFO "reader %s: exit.\n", current->comm);
 	return 0;
 }
 
 static int kernel_init(void)
 {
+	int i;
+
+	if (nr_writer + nr_reader > MAX_THREADS) {
+		printk(KERN_ERR "Number of reader + writer > %d\n", MAX_THREADS);
+		return -EINVAL;
+	}
+
+	printk(KERN_INFO "Start %d reader, %d writer\n", nr_reader, nr_writer);
+
 	gbl_foo = kmalloc(sizeof(*gbl_foo), GFP_KERNEL);
 	gbl_foo->a = 1;
 
-	tasks[0] = kthread_run(&writer, NULL, "rtoax-writer");
-	tasks[1] = kthread_run(&reader, NULL, "rtoax-reader1");
-	tasks[2] = kthread_run(&reader, NULL, "rtoax-reader2");
-	tasks[3] = kthread_run(&reader, NULL, "rtoax-reader3");
+	for (i = 0; i < nr_writer; i++)
+		tasks[i] = kthread_run(&writer, NULL, "rcu-writer%d", i);
+	for (; i < nr_writer + nr_reader; i++)
+		tasks[i] = kthread_run(&reader, NULL, "rcu-reader%d", i - nr_writer);
+
 	return 0;
 }
 
@@ -160,7 +176,7 @@ static void kernel_exit(void)
 {
 	int i;
 
-	for (i = 0; i < 4; i++)
+	for (i = 0; i < nr_writer + nr_reader; i++)
 		kthread_stop(tasks[i]);
 
 	if (gbl_foo)
