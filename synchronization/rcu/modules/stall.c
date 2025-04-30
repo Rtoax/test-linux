@@ -1,3 +1,14 @@
+/**
+ * What Causes RCU CPU Stall Warnings?
+ *
+ * - A CPU looping in an RCU read-side critical section.
+ * - A CPU looping with interrupts disabled.
+ * - A CPU looping with preemption disabled.
+ * - A CPU looping with bottom halves disabled.
+ *
+ * Refs:
+ * - https://www.kernel.org/doc/html/latest/RCU/stallwarn.html
+ */
 #include <linux/module.h>
 #include <linux/printk.h>
 #include <linux/delay.h>
@@ -13,7 +24,7 @@ static int rcu_cpu_stall_timeout = CONFIG_RCU_CPU_STALL_TIMEOUT + 1;
 /**
  * commit 2f53652af601 ("rcu/modules: stall.c: test on 6.12.0-77.el10.x86_64")
  */
-static void stall_1(void)
+static void stall_1_looping_in_read_side(void)
 {
 	printk(KERN_INFO "rcu_cpu_stall_timeout %d s\n", rcu_cpu_stall_timeout);
 	rcu_read_lock();
@@ -26,7 +37,7 @@ static int __init test_init(void)
 {
 	switch (stall_type) {
 	case 1:
-		stall_1();
+		stall_1_looping_in_read_side();
 		break;
 	default:
 		return -EINVAL;
@@ -36,4 +47,5 @@ static int __init test_init(void)
 }
 
 module_init(test_init);
+MODULE_AUTHOR("Rong Tao");
 MODULE_LICENSE("GPL");
