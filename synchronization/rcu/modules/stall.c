@@ -51,10 +51,19 @@ static void stall_1_looping_in_read_side(void)
 static void stall_3_looping_with_preemption_disabled(void)
 {
 	if (sleep)
-		printk(KERN_ERR "Sleeping in preemption disabled will not cause RCU stall.\n");
+		printk(KERN_ERR "Sleeping with preemption disabled will not cause RCU stall.\n");
 	preempt_disable();
 	timeout();
 	preempt_enable();
+}
+
+static void stall_4_looping_with_bh_disabled(void)
+{
+	if (sleep)
+		printk(KERN_ERR "Sleeping with bottom halves disabled will not cause RCU stall.\n");
+	local_bh_disable();
+	timeout();
+	local_bh_enable();
 }
 
 static int __init test_init(void)
@@ -68,6 +77,9 @@ static int __init test_init(void)
 		break;
 	case 3:
 		stall_3_looping_with_preemption_disabled();
+		break;
+	case 4:
+		stall_4_looping_with_bh_disabled();
 		break;
 	default:
 		return -EINVAL;
