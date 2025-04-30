@@ -57,6 +57,9 @@ static void stall_3_looping_with_preemption_disabled(void)
 	preempt_enable();
 }
 
+/**
+ * commit 2d43a8a43327 ("rcu/modules: stall.c: looping with bottom halves disabled")
+ */
 static void stall_4_looping_with_bh_disabled(void)
 {
 	if (sleep)
