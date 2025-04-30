@@ -10,7 +10,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
-- time: add modules/mdelay.c test.
+- time: add modules/{msleep.c,mdelay.c} test.
 - rcu: Add info.sh, `{urcu,liburcu}` and scripts/`check_cpu_stall.bt`.
 - synchronization: Add abbreviation.md
 - shell: Add commands/dmesg directory.
