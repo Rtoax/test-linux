@@ -16,4 +16,11 @@ CONFIG_MEMFD_CREATE=y
 CONFIG_MMU=y
 # CONFIG_MODULE_FORCE_LOAD is not set
 CONFIG_PERF_EVENTS=y
+CONFIG_PREEMPT_RCU=y
+# linux commit e035e8876e6c ("rcu: Remove CONFIG_SRCU") v6.3-rc1-1-ge035e8876e6c
+CONFIG_SRCU=y # the sleepable version of RCU
+# CONFIG_TINY_RCU is not set
+# CONFIG_TINY_SRCU is not set
 CONFIG_TRACEPOINTS=y
+CONFIG_TREE_RCU=y # for very large SMP
+CONFIG_TREE_SRCU=y # the sleepable version of TREE RCU
