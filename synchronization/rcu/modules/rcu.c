@@ -110,7 +110,6 @@ static void foo_update_a(int new_a)
 static int foo_get_a(void)
 {
 	int retval;
-
 	rcu_read_lock();
 	retval = rcu_dereference(gbl_foo)->a;
 	rcu_read_unlock();

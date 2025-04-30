@@ -10,14 +10,20 @@ RCU - Read Copy Update
 
 # kthread: rcu_sched
 
+# parameters
+
 ## /sys/module/rcutree/parameters/
 
 - `jiffies_till_sched_qs`: 控制**宽限期GP**的检测频率（单位：jiffies）
 - `blimit`: 单次处理的最大回调函数数量
 - `gp_cleanup_delay`: 宽限期结束后的延迟时间（用于调试）
 
+## /sys/module/rcupdate/parameters/
 
-# debud
+- `rcu_cpu_stall_timeout`
+
+
+# debug
 
 - `/sys/kernel/tracing/events/rcu`
 - `/sys/kernel/debug/tracing/events/rcu`
@@ -28,4 +34,5 @@ RCU - Read Copy Update
 - https://en.wikipedia.org/wiki/Read-copy-update
 - https://www.kernel.org/doc/html/latest/RCU/whatisRCU.html
 - LWN: [What is RCU, Fundamentally?](https://lwn.net/Articles/262464/)
-
+- https://www.kernel.org/doc/html/latest/RCU/stallwarn.html
+	- [v5.10](https://www.kernel.org/doc/html/v5.10/RCU/stallwarn.html)

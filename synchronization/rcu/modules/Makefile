@@ -1,5 +1,7 @@
+# SPDX-License-Identifier: GPL-3.0
 
 obj-m += rcu.o
+obj-m += stall.o
 
 KERNELDIR ?= /lib/modules/$(shell uname -r)/build
 

@@ -12,7 +12,7 @@ and this project adheres to
 #### Added
 - Add LTTng.
 - time: add modules/{msleep.c,mdelay.c} test.
-- rcu: Add info.sh, `{urcu,liburcu}` and scripts/`check_cpu_stall.bt`.
+- rcu: Add info.sh, `{urcu,liburcu}`, modules/stall.c and scripts/`check_cpu_stall.bt`.
 - synchronization: Add abbreviation.md
 - shell: Add commands/dmesg directory.
 - kernel.mk: add kuapi functions and macros `KUAPIVERSION`,`KUAPIPATCHLEVEL`,`KUAPISUBLEVEL`,`KUAPIVERSION_CODE`.
