@@ -21,6 +21,7 @@ TARGETS += _Generic
 TARGETS += goto
 TARGETS += ptr-dim
 TARGETS += struct
+TARGETS += string
 TARGETS += union
 TARGETS += xor
 TARGETS += __alignof__
@@ -117,6 +118,7 @@ _Generic: _Generic.o
 goto: goto.o
 ptr-dim: ptr-dim.o c_helpers.o
 struct: struct.o
+string: string.o
 union: union.o
 xor: xor.o
 __alignof__: __alignof__.o

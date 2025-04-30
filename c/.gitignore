@@ -13,6 +13,7 @@
 /goto
 /ptr-dim
 /struct
+/string
 /union
 /xor
 /__alignof__
