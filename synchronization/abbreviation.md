@@ -1,3 +1,4 @@
 - GP: Grace period (宽限期) @RCU
 - QP: Quiescent period (静默期) @RCU
+- QS: Quiescent Status (静止状态) @RCU
 - RCU: Read Copy Update (读拷贝更新)
