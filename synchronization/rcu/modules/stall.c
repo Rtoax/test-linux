@@ -24,6 +24,15 @@ MODULE_PARM_DESC(sleep, "RCU stall type");
 
 static int rcu_cpu_stall_timeout = CONFIG_RCU_CPU_STALL_TIMEOUT + 1;
 
+static inline void timeout(void)
+{
+	if (sleep)
+		msleep(rcu_cpu_stall_timeout * 1000);
+	else
+		/* busy delay */
+		mdelay(rcu_cpu_stall_timeout * 1000);
+}
+
 /**
  * commit 2f53652af601 ("rcu/modules: stall.c: test on 6.12.0-77.el10.x86_64")
  * commit 7474b72b5caf ("rcu/modules: stall.c: could use msleep instead of mdelay")
@@ -32,12 +41,17 @@ static void stall_1_looping_in_read_side(void)
 {
 	printk(KERN_INFO "rcu_cpu_stall_timeout %d s\n", rcu_cpu_stall_timeout);
 	rcu_read_lock();
-	if (sleep)
-		msleep(rcu_cpu_stall_timeout * 1000);
-	else
-		/* busy delay */
-		mdelay(rcu_cpu_stall_timeout * 1000);
+	timeout();
 	rcu_read_unlock();
+}
+
+static void stall_3_looping_with_preemption_disabled(void)
+{
+	if (sleep)
+		printk(KERN_ERR "Sleeping in preemption disabled will not cause RCU stall.\n");
+	preempt_disable();
+	timeout();
+	preempt_enable();
 }
 
 static int __init test_init(void)
@@ -48,6 +62,9 @@ static int __init test_init(void)
 	switch (stall_type) {
 	case 1:
 		stall_1_looping_in_read_side();
+		break;
+	case 3:
+		stall_3_looping_with_preemption_disabled();
 		break;
 	default:
 		return -EINVAL;
