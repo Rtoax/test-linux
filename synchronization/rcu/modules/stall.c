@@ -39,10 +39,19 @@ static inline void timeout(void)
  */
 static void stall_1_looping_in_read_side(void)
 {
-	printk(KERN_INFO "rcu_cpu_stall_timeout %d s\n", rcu_cpu_stall_timeout);
 	rcu_read_lock();
 	timeout();
 	rcu_read_unlock();
+}
+
+static void stall_2_looping_with_irq_disabled(void)
+{
+	if (sleep)
+		printk(KERN_ERR "Sleeping with interrupts disabled will not cause RCU stall.\n");
+	/* or use spin_lock_irq() */
+	local_irq_disable();
+	timeout();
+	local_irq_enable();
 }
 
 /**
@@ -64,6 +73,7 @@ static void stall_4_looping_with_bh_disabled(void)
 {
 	if (sleep)
 		printk(KERN_ERR "Sleeping with bottom halves disabled will not cause RCU stall.\n");
+	/* or use spin_lock_bh() */
 	local_bh_disable();
 	timeout();
 	local_bh_enable();
@@ -71,12 +81,16 @@ static void stall_4_looping_with_bh_disabled(void)
 
 static int __init test_init(void)
 {
+	printk(KERN_INFO "rcu_cpu_stall_timeout %d s\n", rcu_cpu_stall_timeout);
 	printk(KERN_INFO "Test RCU stall type %d with sleep %d\n", stall_type,
 		sleep);
 
 	switch (stall_type) {
 	case 1:
 		stall_1_looping_in_read_side();
+		break;
+	case 2:
+		stall_2_looping_with_irq_disabled();
 		break;
 	case 3:
 		stall_3_looping_with_preemption_disabled();
