@@ -5,8 +5,6 @@ include ../compiler/compiler.mk
 
 CC := gcc
 TARGETS :=
-EXTRA_TARGETS :=
-
 TARGETS += arg
 TARGETS += auto
 TARGETS += array
@@ -99,23 +97,9 @@ CFLAGS_while-sleep := -DWHILE_SLEEP=1
 CFLAGS_macro := -DCONFIG_MMU=$(CONFIG_MMU)
 CFLAGS_struct := -Wno-gnu-designator -Wno-initializer-overrides
 
-ifdef RETURN_VALUE
-  CFLAGS_return := -DRETURN_VALUE=${RETURN_VALUE}
-endif
-
-CLANG_TARGET := clang.already.test.out
-
-ifneq (${CC},clang)
-  EXTRA_TARGETS += ${CLANG_TARGET}
-endif
-
 .PHONY: build
-build: ${TARGETS} ${EXTRA_TARGETS}
+build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
-
-${CLANG_TARGET}:
-	${Q}./clang.sh
-	${Q}touch ${CLANG_TARGET}
 
 arg: arg.o
 auto: auto.o
@@ -175,5 +159,5 @@ test: ${TARGETS}
 
 .PHONY: clean
 clean:
-	@echo -e "  CLEAN  \033[1;32m$(TARGETS) ${EXTRA_TARGETS}\033[m"
-	${Q}rm -f ${TARGETS} ${EXTRA_TARGETS} *.o *.d *.s *.E.c *.strip
+	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
+	${Q}rm -f ${TARGETS} *.o *.d *.s *.E.c *.strip
