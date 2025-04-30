@@ -44,6 +44,9 @@ static void stall_1_looping_in_read_side(void)
 	rcu_read_unlock();
 }
 
+/**
+ * commit e65e77ad1577 ("rcu/modules: stall.c: looping with interrupts disabled")
+ */
 static void stall_2_looping_with_irq_disabled(void)
 {
 	if (sleep)
