@@ -1,5 +1,7 @@
 # 2007
 - Google 发布 `Android` 操作系统;
+# 2002
+- 2002-10 RCU 添加到Linux 内核中;
 # 1998
 - Open Source Initiative (`OSI`) 成立，发布了开放源代码的定义和认证标准;
 # 1995
