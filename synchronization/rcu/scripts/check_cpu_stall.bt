@@ -1,0 +1,31 @@
+#!/bin/env bpftrace
+/**
+ * check_cpu_stall.bt
+ *
+ * Copyright (C) Rong Tao 2025
+ */
+#ifndef BPFTRACE_HAVE_BTF
+#endif
+
+BEGIN
+{
+	printf("Tracing check_cpu_stall(), hit ctrl-c to end.\n");
+}
+
+kprobe:check_cpu_stall
+{
+	$rcu_data = (struct rcu_data *)arg0;
+	@cpu_count[$rcu_data->cpu] = count();
+}
+
+i:s:2
+{
+	printf("-----------------\n");
+	print(@cpu_count);
+}
+
+END
+{
+	clear(@cpu_count);
+	printf("Bye.\n");
+}
