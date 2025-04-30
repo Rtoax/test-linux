@@ -10,6 +10,9 @@ MODULE_PARM_DESC(stall_type, "RCU stall type");
 
 static int rcu_cpu_stall_timeout = CONFIG_RCU_CPU_STALL_TIMEOUT + 1;
 
+/**
+ * commit 2f53652af601 ("rcu/modules: stall.c: test on 6.12.0-77.el10.x86_64")
+ */
 static void stall_1(void)
 {
 	printk(KERN_INFO "rcu_cpu_stall_timeout %d s\n", rcu_cpu_stall_timeout);
