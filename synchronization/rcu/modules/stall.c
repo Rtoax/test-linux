@@ -26,6 +26,7 @@ static int rcu_cpu_stall_timeout = CONFIG_RCU_CPU_STALL_TIMEOUT + 1;
 
 /**
  * commit 2f53652af601 ("rcu/modules: stall.c: test on 6.12.0-77.el10.x86_64")
+ * commit 7474b72b5caf ("rcu/modules: stall.c: could use msleep instead of mdelay")
  */
 static void stall_1_looping_in_read_side(void)
 {
