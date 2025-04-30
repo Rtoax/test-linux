@@ -8,6 +8,7 @@ endif
 
 obj-m += loop.o
 obj-m += timer_list.o
+obj-m += rcu_stall.o
 
 KERNELDIR ?= /lib/modules/$(shell uname -r)/build
 
