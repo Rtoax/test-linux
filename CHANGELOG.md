@@ -10,7 +10,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
-- rcu: Add info.sh and scripts/`check_cpu_stall.bt`.
+- rcu: Add info.sh, `{urcu,liburcu}` and scripts/`check_cpu_stall.bt`.
 - synchronization: Add abbreviation.md
 - shell: Add commands/dmesg directory.
 - kernel.mk: add kuapi functions and macros `KUAPIVERSION`,`KUAPIPATCHLEVEL`,`KUAPISUBLEVEL`,`KUAPIVERSION_CODE`.
