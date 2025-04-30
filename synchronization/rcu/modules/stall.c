@@ -15,9 +15,12 @@
 #include <linux/rcupdate.h>
 
 static int stall_type = 1;
+static int sleep = 0;
 
 module_param(stall_type, int, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 MODULE_PARM_DESC(stall_type, "RCU stall type");
+module_param(sleep, int, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+MODULE_PARM_DESC(sleep, "RCU stall type");
 
 static int rcu_cpu_stall_timeout = CONFIG_RCU_CPU_STALL_TIMEOUT + 1;
 
@@ -28,13 +31,19 @@ static void stall_1_looping_in_read_side(void)
 {
 	printk(KERN_INFO "rcu_cpu_stall_timeout %d s\n", rcu_cpu_stall_timeout);
 	rcu_read_lock();
-	/* busy delay */
-	mdelay(rcu_cpu_stall_timeout * 1000);
+	if (sleep)
+		msleep(rcu_cpu_stall_timeout * 1000);
+	else
+		/* busy delay */
+		mdelay(rcu_cpu_stall_timeout * 1000);
 	rcu_read_unlock();
 }
 
 static int __init test_init(void)
 {
+	printk(KERN_INFO "Test RCU stall type %d with sleep %d\n", stall_type,
+		sleep);
+
 	switch (stall_type) {
 	case 1:
 		stall_1_looping_in_read_side();
