@@ -24,6 +24,7 @@
 - LKFT: Linux Kernel Functional Testing (Linux 内核功能测试)
 - LKM: Linux Kernel Module (内核模块)
 - LKML: Linux Kernel Mail List (Linux邮件列表)
+- LTTng: Linux Trace Toolkit Next Generation (Linux跟踪工具集ng)
 - LWN: Linux Weekly News (Linux 每日新闻)
 - LXC: Linux Containers (Linux容器)
 - NDAs: Non-Disclosure Agreements (保密协议)
