@@ -1,8 +1,3 @@
-/**
- *	File workqueue-template.c
- *	Time 2022.01.12
- *	Author Rong Tao <rtoax@foxmail.com>
- */
 #include <linux/module.h>    // included for all kernel modules
 #include <linux/kernel.h>    // included for KERN_INFO
 #include <linux/init.h>      // included for __init and __exit macros
@@ -27,7 +22,10 @@ MODULE_PARM_DESC(name, "irq name");
 struct myirq {
 	int devid;
 };
-struct myirq mydev = {1119};
+
+struct myirq mydev = {
+	.devid = 1119,
+};
 
 struct work_struct myworkqueue;
 
@@ -64,10 +62,9 @@ irqreturn_t no_action(int cpl, void *dev_id)
 
 static int __init rtoax_irq_init(void)
 {
-    
 	printk(KERN_INFO "request irq %s!\n", name);
-    if (request_irq(irqnum, no_action, IRQF_SHARED, name, &mydev) != 0) {
-	    printk(KERN_ERR "%s: request_irq() failed\n", name);
+	if (request_irq(irqnum, no_action, IRQF_SHARED, name, &mydev) != 0) {
+		printk(KERN_ERR "%s: request_irq() failed\n", name);
 		return -1;
 	}
 	INIT_WORK(&myworkqueue, my_do_work);
@@ -77,7 +74,7 @@ static int __init rtoax_irq_init(void)
 static void __exit rtoax_irq_cleanup(void)
 {
 	printk(KERN_INFO "free irq.\n");
-    free_irq(irqnum, &mydev);
+	free_irq(irqnum, &mydev);
 }
 
 module_init(rtoax_irq_init);
