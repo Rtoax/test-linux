@@ -1,4 +1,5 @@
-#include <linux/bpf.h>
+#include "vmlinux.h"
+
 #define SEC(NAME) __attribute__((section(NAME), used))
 
 static int (*bpf_trace_printk)(const char *fmt, int fmt_size, ...) = (void *)BPF_FUNC_trace_printk;
