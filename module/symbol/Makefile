@@ -1,4 +1,3 @@
-
 obj-m += symbol_getput.o
 
 all:

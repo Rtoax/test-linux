@@ -1,6 +1,3 @@
-
-
-
 obj-m += completion.o
 
 all:

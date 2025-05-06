@@ -42,7 +42,6 @@ and this project adheres to
 - Add more aarch64 elf/rela tests
 - Add compiler/force-cflags.mk
 #### Changed
-- modules/Makefile: Don't include tlbuild.mk.
 - libbpf: Move `libbpf_print_fn()` to `trace_helpers.c`.
 - lvm: create.sh: Test with loop device and add to sub-dir.
 - Change AUTHORS text format.
@@ -51,6 +50,8 @@ and this project adheres to
 - Move helpers from `instructions` to `pthread_helpers.c`
 #### Deprecated
 #### Removed
+- modules/Makefile: Remove include tlbuild.mk.
+- Makefile: Remove white lines in front of Makefile.
 #### Fixed
 - Fix lots of `__attribute__` warnings
 - argp.h: Remove VERBOSE from `struct argp_option`

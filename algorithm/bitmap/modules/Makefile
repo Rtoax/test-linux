@@ -1,4 +1,3 @@
-
 obj-m += test_bitmap.o
 
 all:

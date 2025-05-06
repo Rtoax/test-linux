@@ -1,5 +1,3 @@
-
-
 obj-m += export-syms.o
 obj-m += extern-syms.o
 

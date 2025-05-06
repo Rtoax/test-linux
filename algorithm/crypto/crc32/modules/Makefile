@@ -1,4 +1,3 @@
-
 obj-m += crc32c.o
 ifeq ($(shell uname -m),x86_64)
   obj-m += crc32c-intel.o

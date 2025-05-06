@@ -1,5 +1,3 @@
-
-
 obj-m += register_keyboard_notifier.o
 
 all:

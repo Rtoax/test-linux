@@ -1,5 +1,3 @@
-
-
 obj-m += for_each_mem_pfn_range.o
 obj-m += numa_node_id.o
 

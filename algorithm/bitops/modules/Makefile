@@ -1,4 +1,3 @@
-
 obj-m += test_bitops.o
 
 all:

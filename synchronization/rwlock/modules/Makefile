@@ -1,6 +1,3 @@
-
-
-
 obj-m += rwlock_init.o
 obj-m += write_lock.o
 

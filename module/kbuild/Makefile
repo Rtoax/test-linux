@@ -1,4 +1,3 @@
-
 KDIR = /lib/modules/`uname -r`/build
 
 ccflags-y := -std=gnu99 -Wno-declaration-after-statement

@@ -1,4 +1,3 @@
-
 SERVICE_EXEC=dialog-hello.sh
 SERVICE_NAME=simple-window-dialog.service
 

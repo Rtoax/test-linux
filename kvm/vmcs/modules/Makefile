@@ -1,5 +1,3 @@
-
-
 obj-m += dump_vmcs.o
 
 all:

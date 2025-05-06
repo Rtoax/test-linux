@@ -1,6 +1,3 @@
-
-
-
 obj-m += mutex_lock.o
 
 all:

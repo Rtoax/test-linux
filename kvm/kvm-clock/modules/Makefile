@@ -1,6 +1,3 @@
-
-
-
 #obj-m += clocksource_resigter_hz.o
 
 all:

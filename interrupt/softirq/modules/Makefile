@@ -1,4 +1,3 @@
-
 obj-m += nr_softirqs.o
 obj-m += show_softirqs.o
 obj-m += softirq_count.o

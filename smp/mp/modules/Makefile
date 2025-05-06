@@ -1,5 +1,3 @@
-
-
 obj-m += proc-mp.o
 
 all:

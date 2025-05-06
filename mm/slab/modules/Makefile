@@ -1,6 +1,3 @@
-
-
-
 obj-m += slab_def.o
 obj-m += kmem_cache_create.o
 

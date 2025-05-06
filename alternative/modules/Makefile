@@ -1,5 +1,3 @@
-
-
 obj-m += altinstructions.o
 
 all:

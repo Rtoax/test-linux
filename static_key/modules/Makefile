@@ -1,4 +1,3 @@
-
 obj-m += static_key.o
 
 all:

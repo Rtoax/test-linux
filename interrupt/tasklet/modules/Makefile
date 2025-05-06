@@ -1,4 +1,3 @@
-
 obj-m += tasklet_init.o
 obj-m += tasklet-template.o
 obj-m += red_tasklet.o

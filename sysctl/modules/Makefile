@@ -1,6 +1,3 @@
-
-
-
 obj-m += register_sysctl.o
 obj-m += register_sysctl_paths.o
 obj-m += register_sysctl_table.o

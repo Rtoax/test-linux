@@ -1,6 +1,3 @@
-
-
-
 obj-m += nr_swap_pages.o
 
 all:

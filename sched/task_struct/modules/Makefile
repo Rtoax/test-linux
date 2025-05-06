@@ -1,5 +1,3 @@
-
-
 obj-m += task_struct.o
 obj-m += init_task.o
 obj-m += rculisttask.o

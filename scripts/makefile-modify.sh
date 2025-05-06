@@ -140,4 +140,10 @@ SUBDIR() {
 		fi
 	done
 }
-SUBDIR
+
+remove_first_white_line() {
+	for ((i = 0; i < 5; i++)); do
+		for m in `find -name Makefile*`; do sed -i '1{/^$/d}' $m; done
+	done
+}
+remove_first_white_line

@@ -1,4 +1,3 @@
-
 obj-m += __sw_hweight32.o
 
 all:

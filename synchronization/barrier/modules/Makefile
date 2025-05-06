@@ -1,6 +1,3 @@
-
-
-
 obj-m += smp.o
 
 all:

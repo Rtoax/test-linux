@@ -1,6 +1,3 @@
-
-
-
 obj-m += rwonce.o
 
 all:

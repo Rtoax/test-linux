@@ -1,6 +1,3 @@
-
-
-
 obj-m += osq_lock.o
 
 all:

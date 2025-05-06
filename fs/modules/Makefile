@@ -1,4 +1,3 @@
-
 obj-m += super_block.o
 obj-m += register_filesystem.o
 obj-m += d_path.o

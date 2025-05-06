@@ -1,5 +1,3 @@
-
-
 CFLAGS = -O2 -Wall -I../include
 XTABLES_SO_DIR = $(shell pkg-config xtables --variable xtlibdir)
 

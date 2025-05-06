@@ -1,4 +1,3 @@
-
 obj-m += proc-ioapic.o
 
 all:

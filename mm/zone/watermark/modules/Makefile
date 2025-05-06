@@ -1,6 +1,3 @@
-
-
-
 obj-m += nr_free_buffer_pages.o
 
 all:

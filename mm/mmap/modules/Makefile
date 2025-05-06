@@ -1,5 +1,3 @@
-
-
 obj-m += get_unmapped_area.o
 obj-m += address.o
 

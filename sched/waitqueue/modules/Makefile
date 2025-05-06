@@ -1,4 +1,3 @@
-
 obj-m += wait_event_interruptible.o
 obj-m += waitqueue.o
 

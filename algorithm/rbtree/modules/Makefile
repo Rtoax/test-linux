@@ -1,4 +1,3 @@
-
 obj-m += rbtree_test.o
 
 all:

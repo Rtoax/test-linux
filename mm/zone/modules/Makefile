@@ -1,6 +1,3 @@
-
-
-
 obj-m += zone.o
 obj-m += first_online_node.o
 obj-m += first_memory_node.o

@@ -1,6 +1,3 @@
-
-
-
 obj-m := iomem_resource.o
 
 all:

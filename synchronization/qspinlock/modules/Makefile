@@ -1,6 +1,3 @@
-
-
-
 obj-m += mask.o
 obj-m += qspinlock.o
 

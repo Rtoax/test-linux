@@ -1,5 +1,3 @@
-
-
 obj-m += netlink_kernel.o
 
 CURRENT_PATH:=$(shell pwd)

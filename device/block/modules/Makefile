@@ -1,4 +1,3 @@
-
 obj-m += gendisk.o
 
 CURRENT_PATH := $(shell pwd)

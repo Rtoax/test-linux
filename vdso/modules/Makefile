@@ -1,4 +1,3 @@
-
 obj-m += clock-accuracy.o
 
 all:

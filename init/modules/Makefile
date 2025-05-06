@@ -1,4 +1,3 @@
-
 obj-m += sections.o
 
 all:

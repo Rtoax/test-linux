@@ -1,6 +1,3 @@
-
-
-
 obj-m += init_uts_ns.o
 
 all:

@@ -1,4 +1,3 @@
-
 obj-m += nothing.o
 
 KERNEL_DIR = /lib/modules/`uname -r`/build

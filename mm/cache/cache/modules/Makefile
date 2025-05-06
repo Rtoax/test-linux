@@ -1,5 +1,3 @@
-
-
 obj-m += flush.o
 
 PWD := $(shell pwd)

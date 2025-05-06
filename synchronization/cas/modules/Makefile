@@ -1,4 +1,3 @@
-
 obj-m += cmpxchg.o
 
 all:

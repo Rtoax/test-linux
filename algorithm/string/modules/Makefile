@@ -1,4 +1,3 @@
-
 obj-m += test_hexdump.o
 obj-m += test_kstrtox.o
 

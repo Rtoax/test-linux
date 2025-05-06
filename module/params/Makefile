@@ -1,4 +1,3 @@
-
 obj-m += array.o
 obj-m += charp.o
 obj-m += int.o

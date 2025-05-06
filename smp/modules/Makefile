@@ -1,5 +1,3 @@
-
-
 obj-m += on_each_cpu.o
 
 KERNELDIR ?= /lib/modules/$(shell uname -r)/build

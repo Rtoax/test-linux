@@ -1,4 +1,3 @@
-
 obj-m += kmemeleak-test.o
 
 all:

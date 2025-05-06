@@ -1,5 +1,3 @@
-
-
 obj-m += hello.o
 obj-m += chardev0.o
 obj-m += chardev1.o

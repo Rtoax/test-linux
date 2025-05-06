@@ -1,4 +1,3 @@
-
 obj-m += pr_info.o
 
 KERNEL_DIR = /lib/modules/`uname -r`/build
