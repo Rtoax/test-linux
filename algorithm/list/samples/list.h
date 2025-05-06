@@ -758,11 +758,10 @@ static _unused inline void list_splice_tail_init(struct list_head *list, struct 
 	n = list_next_entry(pos, member)
 
 
-
 void list_sort(void *priv, struct list_head *head, int (*cmp)(void *priv, struct list_head *a, struct list_head *b));
 
 
-/* Double linked lists 散列表 *****************************************************************************************/
+/* HASH Double linked lists */
 /*
  * Double linked lists with a single pointer list head.
  * Mostly useful for hash tables where the two pointer list head is
@@ -773,15 +772,13 @@ void list_sort(void *priv, struct list_head *head, int (*cmp)(void *priv, struct
 #define HLIST_HEAD(name) struct hlist_head name = {  .first = NULL }
 #define INIT_HLIST_HEAD(ptr) ((ptr)->first = NULL)
 
-struct hlist_head {//散列表
+struct hlist_head {
 	struct hlist_node *first;
 };
 
-struct hlist_node {//散列表
+struct hlist_node {
 	struct hlist_node *next, **pprev;
 };
-
-
 
 static _unused inline void INIT_HLIST_NODE(struct hlist_node *h)
 {

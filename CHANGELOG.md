@@ -10,6 +10,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- algorithm: Symlink hlist,llist to list.
 - compiler/attribute: Add `patchable_function_entry` and `hotpatch`.
 - interrypt: Add `tracing_irq.sh`.
 - Add LTTng.
