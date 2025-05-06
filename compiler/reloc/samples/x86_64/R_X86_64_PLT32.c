@@ -1,12 +1,14 @@
 /**
- * R_X86_64_PLT32: 32 bit PLT address
+ * R_X86_64_PLT32: 32 bit PLT address (like R_AARCH64_CALL26)
  */
 #include <stdio.h>
 
+/* R_X86_64_PC32 in ELF 64-bit LSB relocatable */
 void bar(void)
 {
 }
 
+/* R_X86_64_PC32 in ELF 64-bit LSB relocatable */
 int foo(void)
 {
 	char buf[32];
@@ -34,6 +36,7 @@ int foo(void)
 	return 0;
 }
 
+/* R_X86_64_PC32 in ELF 64-bit LSB relocatable */
 int main(void)
 {
 	return 0;

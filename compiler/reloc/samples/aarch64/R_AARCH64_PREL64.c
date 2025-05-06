@@ -1,6 +1,6 @@
 /**
  * R_AARCH64_PREL64
- * R_AARCH64_PREL32
+ * R_AARCH64_PREL32 (like R_X86_64_PC32)
  * R_AARCH64_PREL16
  */
 #include <stdio.h>
