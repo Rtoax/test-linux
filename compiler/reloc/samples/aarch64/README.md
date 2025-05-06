@@ -4,6 +4,7 @@ aarch64 Relocation
 # ELF64 aarch64
 
 > ts=8
+> Page(expr) is the page address of the expression expr, defined as (expr & ~0xFFF).
 
 ```
 Name				Value	Calculation		Comment
