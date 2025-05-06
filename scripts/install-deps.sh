@@ -580,6 +580,7 @@ pkgs_container+=( skopeo )
 pkgs_container+=( systemd-container )
 
 pkgs_virt+=( virt-manager )
+pkgs_virt+=( wine )
 
 # Benchmark
 pkgs_bench+=( iperf )
