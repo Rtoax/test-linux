@@ -1,4 +1,3 @@
-include ../../tlbuild.mk
 
 
 obj-m += sched_debug.o

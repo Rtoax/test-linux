@@ -1,4 +1,3 @@
-include ../../../tlbuild.mk
 
 
 obj-m += netlink_kernel.o

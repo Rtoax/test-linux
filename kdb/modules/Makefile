@@ -1,4 +1,3 @@
-include ../../tlbuild.mk
 
 
 ifeq ($(shell uname -m),x86_64)

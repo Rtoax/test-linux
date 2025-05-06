@@ -1,5 +1,4 @@
 # SPDX-License-Identifier: GPL-3.0
-include ../../../tlbuild.mk
 include ../../../kernel.mk
 include ../../../kconfig.mk
 

@@ -1,4 +1,3 @@
-include ../../../tlbuild.mk
 
 
 obj-m += vhost_test.o

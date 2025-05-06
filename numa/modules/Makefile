@@ -1,4 +1,3 @@
-include ../../tlbuild.mk
 
 
 obj-m += for_each_mem_pfn_range.o

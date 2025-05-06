@@ -1,4 +1,3 @@
-include ../../../../tlbuild.mk
 
 
 MODULE_NAME = shmqueue

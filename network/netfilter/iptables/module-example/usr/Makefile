@@ -1,4 +1,3 @@
-include ../../../../../tlbuild.mk
 
 
 CFLAGS = -O2 -Wall -I../include

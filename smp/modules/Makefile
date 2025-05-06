@@ -1,4 +1,3 @@
-include ../../tlbuild.mk
 
 
 obj-m += on_each_cpu.o

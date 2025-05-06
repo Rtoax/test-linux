@@ -1,4 +1,3 @@
-include ../../../tlbuild.mk
 
 
 obj-m += task_active_pid_ns.o
