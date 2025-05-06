@@ -1,3 +1,4 @@
+# CONFIG_PREEMPT_RCU can preempt RCU read-side critical sections
 CONFIG_PREEMPT_RCU=y
 CONFIG_PREEMPTION=y
 # CONFIG_RCU_CPU_STALL_CPUTIME is not set
