@@ -1,0 +1,10 @@
+CONFIG_PREEMPT_RCU=y
+# CONFIG_RCU_CPU_STALL_CPUTIME is not set
+CONFIG_RCU_CPU_STALL_TIMEOUT=60
+CONFIG_RCU_EXP_CPU_STALL_TIMEOUT=0
+# linux commit e035e8876e6c ("rcu: Remove CONFIG_SRCU") v6.3-rc1-1-ge035e8876e6c
+CONFIG_SRCU=y # the sleepable version of RCU
+# CONFIG_TINY_RCU is not set
+# CONFIG_TINY_SRCU is not set
+CONFIG_TREE_RCU=y # for very large SMP
+CONFIG_TREE_SRCU=y # the sleepable version of TREE RCU

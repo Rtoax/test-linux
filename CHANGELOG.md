@@ -14,7 +14,7 @@ and this project adheres to
 - interrypt: Add `tracing_irq.sh`.
 - Add LTTng.
 - time: add modules/{msleep.c,mdelay.c} test.
-- rcu: Add info.sh, `{urcu,liburcu}`, modules/stall.c(symlink to sched/softlockup/modules) and scripts/`check_cpu_stall.bt`.
+- rcu: Add info.sh, `{urcu,liburcu}`, modules/stall.c(symlink to sched/softlockup/modules), kconfig and scripts/`check_cpu_stall.bt`.
 - synchronization: Add abbreviation.md
 - shell: Add commands/dmesg directory.
 - kernel.mk: add kuapi functions and macros `KUAPIVERSION`,`KUAPIPATCHLEVEL`,`KUAPISUBLEVEL`,`KUAPIVERSION_CODE`.

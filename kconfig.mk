@@ -9,6 +9,13 @@ ifeq ($(wildcard $(CONFIG_KERNEL)),)
   $(warning "WARNING: Not found ${CONFIG_KERNEL}, use ${CONFIG_TOPDIR}/kconfig")
   CONFIG_KERNEL := ${CONFIG_TOPDIR}/kconfig
 endif
-
 include $(CONFIG_KERNEL)
-export CONFIG_KERNEL
+
+# If current directory has kconfig, include it.
+CONFIG_CURDIR_KCONFIG ?= kconfig
+ifneq ($(wildcard ${CONFIG_CURDIR_KCONFIG}),)
+  $(info "INFO: current directory include ${CONFIG_CURDIR_KCONFIG} file")
+  include ${CONFIG_CURDIR_KCONFIG}
+endif
+
+export CONFIG_KERNEL CONFIG_CURDIR_KCONFIG
