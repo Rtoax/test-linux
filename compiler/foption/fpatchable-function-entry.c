@@ -1,7 +1,6 @@
 #include <stdio.h>
-
-/* Override -fpatchable-function-entry=N,M */
-#define __patchable(N,M) __attribute__ ((patchable_function_entry (N,M)))
+#include "../attribute/patchable_function_entry.h"
+#include "../attribute/hotpatch.h"
 
 /**
  *    nop <------------------------------------------------
@@ -17,11 +16,22 @@
  *    nop
  *    nop <------------------------------------------------
  */
-int __patchable(8,3) function_patchable_1(void)
+int __patchable(8, 3) function_patchable_1(void)
 {
 	int a = 10, b = 20;
 	return printf("Hello World! %d %d\n", a, b);
 }
+
+#ifdef __s390__ /* see linux:scripts/recordmcount.pl CC_USING_HOTPATCH */
+int function_hotpatch_1(void) __hotpatch(8, 3);
+int function_hotpatch_1(void)
+{
+	int a = 30, b = 40;
+	return printf("Hello World! %d %d\n", a, b);
+}
+#else
+#define function_hotpatch_1()
+#endif
 
 int hello(void)
 {
@@ -31,6 +41,7 @@ int hello(void)
 int main(void)
 {
 	function_patchable_1();
+	function_hotpatch_1();
 	hello();
 	return 0;
 }

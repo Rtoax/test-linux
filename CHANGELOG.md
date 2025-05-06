@@ -10,6 +10,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- compiler/attribute: Add `patchable_function_entry` and `hotpatch`.
 - interrypt: Add `tracing_irq.sh`.
 - Add LTTng.
 - time: add modules/{msleep.c,mdelay.c} test.
