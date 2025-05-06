@@ -17,6 +17,8 @@ int64_t *pgi64 = NULL;	/* .bss, GLOBAL */
 int8_t gi8i = 1;	/* .data, GLOBAL */
 int32_t gi32i = 1;	/* .data, GLOBAL */
 
+static int16_t si16 = 0;	/* .bss, LOCAL */
+static int16_t si16_2 = 0;	/* .bss, LOCAL */
 static int32_t si32 = 0;	/* .bss, LOCAL */
 static int64_t si64 = 0;	/* .bss, LOCAL */
 
@@ -33,6 +35,8 @@ void foo(void)
 	gi32 = 10;	/* R_X86_64_PC32 */
 	gi64 = 10;	/* R_X86_64_PC32 */
 
+	si16 = 15;	/* R_X86_64_PC32, .bss */
+	si16_2 = 152;	/* R_X86_64_PC32, .bss */
 	si32 = 10;	/* R_X86_64_PC32, .bss */
 	si64 = 10;	/* R_X86_64_PC32, .bss */
 
