@@ -24,13 +24,13 @@ static int nr_writer = 1;
 static int nr_reader = 3;
 
 module_param(async, int, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
-MODULE_PARM_DESC(async, "Use synchronize_rcu() if 0, use call_rcu if 1");
+MODULE_PARM_DESC(async, "Use synchronize_rcu() if 0, use call_rcu() if 1");
 
 module_param(nr_writer, int, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
-MODULE_PARM_DESC(nr_writer, "Number of writer");
+MODULE_PARM_DESC(nr_writer, "Number of writers");
 
 module_param(nr_reader, int, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
-MODULE_PARM_DESC(nr_reader, "Number of writer");
+MODULE_PARM_DESC(nr_reader, "Number of readers");
 
 struct foo __rcu *gbl_foo;
 struct task_struct *tasks[MAX_THREADS];
@@ -90,7 +90,8 @@ static void foo_update_a(int new_a)
 		synchronize_rcu();
 		kfree(old_fp);
 	} else {
-		/* If it is not permitted to block, or only kfree_rcu() instead
+		/**
+		 * If it is not permitted to block, or only kfree_rcu() instead
 		 * of call_rcu()
 		 *
 		 *	kfree_rcu(old_fp, rcu);
