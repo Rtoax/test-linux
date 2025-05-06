@@ -55,6 +55,7 @@ and this project adheres to
 - modules/Makefile: Remove include tlbuild.mk.
 - Makefile: Remove white lines in front of Makefile.
 #### Fixed
+- elf/reloc: Fix typos
 - Fix lots of `__attribute__` warnings
 - argp.h: Remove VERBOSE from `struct argp_option`
 #### Security

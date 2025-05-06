@@ -31,7 +31,7 @@ static char *s7 = RODATA_2;	/* .data, LOCAL */
 
 /**
  * in ELF 64-bit LSB relocatable:
- * s8 ~ s9 in ".rela.redata" for non-pie, ".rela.data.rel.ro.local" for pie
+ * s8 ~ s9 in ".rela.rodata" for non-pie, ".rela.data.rel.ro.local" for pie
  */
 char *const s8 = RODATA_3;	/* .rodata, GLOBAL */
 char *const s9 = RODATA_4;	/* .rodata, GLOBAL */
@@ -40,7 +40,7 @@ const char *s10 = NULL;
 
 /**
  * in ELF 64-bit LSB relocatable:
- * pi1 ~ pi3 in ".rela.redata" for non-pie, ".rela.data.rel.ro.local" for pie
+ * pi1 ~ pi3 in ".rela.rodata" for non-pie, ".rela.data.rel.ro.local" for pie
  */
 int *pi1 = arr_i;
 int *pi2 = arr_i + 1;
