@@ -3,17 +3,9 @@
 #include <linux/init.h>
 #include <linux/list.h>
 #include <linux/slab.h>
+#include "os.h"
 
-const char* RELEASE[] = {"CentOS", "Ubuntu", "Fedora", "OpenEuler"};
-const char* VENDERS[] = {"RedHat", "Canonical", "Redhat", "HuaWei"};
-
-LIST_HEAD(os_release_list);
-
-struct os_release {
-	struct list_head list;
-	char release[20];
-	char vender[20];
-};
+static LIST_HEAD(os_release_list);
 
 static void fill_list(void)
 {
@@ -68,4 +60,4 @@ module_exit(lkm_cleanup);
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Rong Tao");
 MODULE_DESCRIPTION("A dynamic linux linked list example");
-MODULE_VERSION("0.1");
+MODULE_VERSION("0.2");

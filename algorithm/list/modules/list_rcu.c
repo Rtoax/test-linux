@@ -5,19 +5,11 @@
 #include <linux/rculist.h>
 #include <linux/slab.h>
 #include <linux/spinlock.h>
+#include "os.h"
 
 
-struct os_release {
-	struct list_head list;
-	char release[20];
-	char vender[20];
-};
-
-spinlock_t list_lock;
-LIST_HEAD(os_release_list);
-
-const char* RELEASE[] = {"CentOS", "Ubuntu", "Fedora", "OpenEuler"};
-const char* VENDERS[] = {"RedHat", "Canonical", "Redhat", "HuaWei"};
+static spinlock_t list_lock;
+static LIST_HEAD(os_release_list);
 
 static struct os_release *alloc_os(const char *release, const char *vender)
 {
@@ -96,9 +88,7 @@ static int __init lkm_init(void)
 	print_list();
 
 	delete_entry(RELEASE[1]);
-
 	print_list();
-
 	return 0;
 }
 
@@ -106,7 +96,6 @@ static void __exit lkm_cleanup(void)
 {
 	printk(KERN_INFO "Cleaning up rcu list module.\n\n");
 	clean_list();
-
 	print_list();
 }
 
@@ -114,5 +103,5 @@ module_init(lkm_init);
 module_exit(lkm_cleanup);
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Rong Tao");
-MODULE_DESCRIPTION("A dynamic linux linked list example");
-MODULE_VERSION("0.1");
+MODULE_DESCRIPTION("A dynamic linux rcu linked list example");
+MODULE_VERSION("0.2");

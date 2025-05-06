@@ -10,6 +10,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- algorithm/list/modules: Add os.h
 - algorithm: Symlink hlist,llist to list, add symlink md5/openssl.
 - compiler/attribute: Add `patchable_function_entry` and `hotpatch`.
 - interrypt: Add `tracing_irq.sh`.
