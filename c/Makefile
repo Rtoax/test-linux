@@ -6,6 +6,7 @@ include ../compiler/compiler.mk
 CC := gcc
 TARGETS :=
 TARGETS += arg
+TARGETS += argv
 TARGETS += auto
 TARGETS += array
 TARGETS += ascii
@@ -103,6 +104,7 @@ build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
 arg: arg.o
+argv: argv.o
 auto: auto.o
 ascii: ascii.o
 alignas: alignas.o

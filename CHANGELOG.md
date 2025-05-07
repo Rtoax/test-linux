@@ -33,7 +33,7 @@ and this project adheres to
 - module: Add info.sh and kmod/ directory.
 - instructions: Add asm 'ret' test.
 - gdb: Add info-address.gdb
-- c: Add return.c, string.c.
+- c: Add return.c, string.c, argv.c
 - syscall/module: Add `init_module(2)` and `finit_module(2)` tests
 - syscall/module: Add `mod_helpers.c` and test `create_module(2)` for linux v2.6
 - module: Test linux/vermagic.h `VERMAGIC_STRING`
