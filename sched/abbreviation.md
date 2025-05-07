@@ -7,5 +7,5 @@
 - PELT: Per-Entity Load Tracking
 - PMCG：Performance Monitor Counter Groups (性能监控计数器组)
 - SCX: Sched-ext
-- SMT: Simultaneous Multi-Threading (模拟多线程) @BIOS @HT
-- TSS: Task State Segment ()
+- SMT: Simultaneous Multi-Threading (同步多线程) @BIOS @HT
+- TSS: Task State Segment (任务状态段)

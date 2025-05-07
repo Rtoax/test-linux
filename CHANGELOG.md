@@ -45,6 +45,7 @@ and this project adheres to
 - Add more aarch64 elf/rela tests
 - Add compiler/force-cflags.mk
 #### Changed
+- Move smt/ into sched/.
 - libbpf: Move `libbpf_print_fn()` to `trace_helpers.c`.
 - lvm: create.sh: Test with loop device and add to sub-dir.
 - Change AUTHORS text format.
