@@ -1,5 +1,11 @@
 #include <stdio.h>
 
+/**
+ * Pass parameters.
+ *
+ * $ opts=( --define "a b c" )
+ * $ ./argv "${opts[@]}"
+ */
 int main(int argc, char *argv[])
 {
 	int i;
