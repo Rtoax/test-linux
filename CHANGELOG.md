@@ -10,6 +10,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- storage: add info.sh
 - algorithm/list/modules: Add os.h
 - algorithm: Symlink hlist,llist to list, add symlink md5/openssl.
 - compiler/attribute: Add `patchable_function_entry` and `hotpatch`.
