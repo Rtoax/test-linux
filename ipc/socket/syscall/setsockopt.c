@@ -36,25 +36,33 @@ int main(int argc, const char *argv[])
 	optlen = sizeof(option);
 	setsockopt(sock, SOL_SOCKET, SO_REUSEADDR, &option, optlen);
 
+	/**
+	 * see linux kernel:
+	 * WRITE_ONCE(sk->sk_rcvbuf, max_t(int, val * 2, SOCK_MIN_RCVBUF));
+	 */
 	recvbuf_sz = 20000;
 	optlen = sizeof(recvbuf_sz);
 	getsockopt(sock, SOL_SOCKET, SO_RCVBUF, &len, &optlen);
-	printf("receive buffer size before setting is %d, %d\n", len, optlen);
+	printf("rcvbuf size before setting is %d, %d\n", len, optlen);
 	err = setsockopt(sock, SOL_SOCKET, SO_RCVBUF, &recvbuf_sz, optlen);
 	if (err)
 		perror("setsockopt SO_RCVBUF");
 	getsockopt(sock, SOL_SOCKET, SO_RCVBUF, &len, &optlen);
-	printf("receive buffer size after setting is %d, %d\n", len, optlen);
+	printf("rcvbuf size after setting is %d, %d\n", len, optlen);
 
+	/**
+	 * see linux kernel:
+	 * WRITE_ONCE(sk->sk_sndbuf, max_t(int, val * 2, SOCK_MIN_SNDBUF));
+	 */
 	sendbuf_sz = 20000;
 	optlen = sizeof(recvbuf_sz);
 	getsockopt(sock, SOL_SOCKET, SO_SNDBUF, &len, &optlen);
-	printf("send buffer size before setting is %d, %d\n", len, optlen);
+	printf("sndbuf size before setting is %d, %d\n", len, optlen);
 	err = setsockopt(sock, SOL_SOCKET, SO_SNDBUF, &sendbuf_sz, optlen);
 	if (err)
 		perror("setsockopt SO_SNDBUF");
 	getsockopt(sock, SOL_SOCKET, SO_SNDBUF, &len, &optlen);
-	printf("send buffer size after setting is %d, %d\n", len, optlen);
+	printf("sndbuf size after setting is %d, %d\n", len, optlen);
 
 	ret = bind(sock, (struct sockaddr *)&address, sizeof(address));
 	assert(ret != -1);
