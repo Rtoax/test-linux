@@ -21,7 +21,8 @@
 - OSI: Open System Interconnection Model (开放式系统互联模型)
 - OVN: Open Virtual Network (开放虚拟网络) @CNM
 - PLB: Protect Load Balance (保护性负载平衡) @IPv6
-- qdisc/qdiscs: Queuing DISCipline (排队规则) @TC
+- qdisc: Queuing DISCipline (排队规则) @TC
+- qdiscs: Queuing DISCiplines (排队规则) @TC
 - QUIC: Quick UDP Internet Connections (快速 UDP 网络连接)
 - RPC: Remove Procedure Call (远端过程调用)
 - SCTP: Stream Control Transmission Protocol (流控制传输协议)
