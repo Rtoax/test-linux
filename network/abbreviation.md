@@ -8,9 +8,11 @@
 - ICMP: Internet Control Message Protocol (网络控制消息协议)
 - IEEE-802.3: @MAC
 - IEEE-802.11: @WLAN @Wi-Fi
+- IEEE-802.15.4: @LR-WPAN @IoT
 - IETF: Internet Engineering Task Force (互联网工程任务组)
 - KNI: Kernel Network Interface (内核网络接口) @DPDK
 - LAN: Local Area Network (局域网)
+- LR-WPAN: Low-Rate Wireless Personal Area Network (无线个人网) @IEEE-802.15.4
 - LWT: Light Weight Tunnel (轻量级隧道)
 - MAC: Media Access Control (媒体访问控制) @IEEE-802.3
 - MPLS: Multi-Protocol Label Switching (多协议标签交换)
