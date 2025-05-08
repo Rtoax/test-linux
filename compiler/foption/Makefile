@@ -62,6 +62,7 @@ CFLAGS_fno-plt := -fno-plt
 # Use the bfd linker instead of the default linker. There are bfd, gold, lld,
 # mold, etc. optional linkers.
 LDFLAGS_fuse-ld := -fuse-ld=bfd
+# Depends on libasan
 CFLAGS_fsanitize := -fsanitize=address
 ifneq ($(CC),clang)
   CFLAGS_fsanitize += -Wno-error=stringop-overflow
