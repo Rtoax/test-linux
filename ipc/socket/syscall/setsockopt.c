@@ -37,10 +37,12 @@ int main(int argc, const char *argv[])
 	setsockopt(sock, SOL_SOCKET, SO_REUSEADDR, &option, optlen);
 
 	setsockopt(sock, SOL_SOCKET, SO_RCVBUF, &recvbuf, sizeof(recvbuf));
+	printf("the tcp receive buffer set to %p\n", &recvbuf);
 	getsockopt(sock, SOL_SOCKET, SO_RCVBUF, &recvbuf, (socklen_t *)&len);
 	printf("the tcp receive buffer size after setting is %d\n", len);
 
 	setsockopt(sock, SOL_SOCKET, SO_SNDBUF, &sendbuf, sizeof(sendbuf));
+	printf("the tcp send buffer set to %p\n", &sendbuf);
 	getsockopt(sock, SOL_SOCKET, SO_SNDBUF, &sendbuf, (socklen_t *)&len);
 	printf("the tcp send buffer size after setting is %d\n", len);
 
