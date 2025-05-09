@@ -10,6 +10,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- Top Makefile add kconfig target to display all kconfig.
 - network: add symlink qdisc to qdiscs.
 - compiler: add libasan directory.
 - storage: add info.sh

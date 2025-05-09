@@ -30,6 +30,7 @@ export TLCONFIG_CONFIG
 build: help
 
 include tlbuild.mk
+include kconfig.mk
 include kernel.mk
 include $(TL_TOPDIR)/scripts/emoji.mk
 include $(TL_TOPDIR)/scripts/git.mk
@@ -72,6 +73,7 @@ help:
 	@echo >&2 -e "***"
 	@echo >&2 -e "*** make archive"
 	@echo >&2 -e "*** make config"
+	@echo >&2 -e "*** make kconfig"
 	@echo >&2 -e "*** make check"
 	@echo >&2 -e "*** make installdeps"
 	@echo >&2 -e "*** make docker"
@@ -188,6 +190,11 @@ archive:
 config:
 	@echo "=== config"
 	$(call git_config)
+
+.PHONY: kconfig
+kconfig:
+	@echo "# display kconfig"
+	$(call display_all_kconfig)
 
 define check_links
 	@echo "Check invalid symbol link start"
