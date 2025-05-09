@@ -17,7 +17,7 @@ and this project adheres to
 - algorithm/list/modules: Add os.h
 - algorithm: Symlink hlist,llist to list, add symlink md5/openssl.
 - compiler/attribute: Add `patchable_function_entry` and `hotpatch`.
-- interrypt: Add `tracing_irq.sh`.
+- interrupt: Add `tracing_irq.sh` and msi directory.
 - Add LTTng.
 - time: add modules/{msleep.c,mdelay.c} test.
 - rcu: Add info.sh, `{urcu,liburcu}`, modules/stall.c(symlink to sched/softlockup/modules), kconfig and scripts/`check_cpu_stall.bt`.
