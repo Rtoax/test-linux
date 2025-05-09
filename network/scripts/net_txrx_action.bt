@@ -1,13 +1,4 @@
-#!/usr/bin/env bpftrace.numaid
-/**
- * File: net_txrx_action.bt
- * Author: Rong Tao <rtoax@foxmail.com>
- * Time: 2022.03.30
- *
- * TODO:
- * If https://github.com/iovisor/bpftrace/pull/2177 is merge to master
- * it's will support `numaid` builtin, then /usr/bin/env bpftrace, not now.
- */
+#!/usr/bin/env bpftrace
 BEGIN
 {
 	printf("Tracing Net TX/RX action, hit ctrl-c to end.\n");
