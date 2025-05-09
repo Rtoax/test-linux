@@ -30,6 +30,11 @@ deb() {
 		zlib1g-dev
 }
 
+rpm_pgs() {
+	sudo dnf install -y \
+		rubygem-asciidoctor
+}
+
 if [[ " debian ubuntu " =~ " ${ID} " ]]; then
 	deb
 	cmake_args+=( -DLLVM_REQUESTED_VERSION=19 )
