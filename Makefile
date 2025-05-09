@@ -193,7 +193,6 @@ config:
 
 .PHONY: kconfig
 kconfig:
-	@echo "# display kconfig"
 	$(call display_all_kconfig)
 
 define check_links
