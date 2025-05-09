@@ -32,7 +32,7 @@ and this project adheres to
 - syscall: fork: Rename `helpers.c` to `fork_helpers.c`
 - syscall: sched: Rename `helpers.c` to `sched_helpers.c`
 - instructions/examples: Add compiler.h
-- module: Add info.sh and kmod/ directory.
+- module: Add info.sh, kconfig and kmod/ directory.
 - instructions: Add asm 'ret' test.
 - gdb: Add info-address.gdb
 - c: Add return.c, string.c, argv.c
