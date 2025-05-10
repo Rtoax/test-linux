@@ -30,7 +30,7 @@ deb() {
 		zlib1g-dev
 }
 
-rpm_pgs() {
+rpm_pkgs() {
 	sudo dnf install -y \
 		rubygem-asciidoctor
 }
@@ -38,6 +38,8 @@ rpm_pgs() {
 if [[ " debian ubuntu " =~ " ${ID} " ]]; then
 	deb
 	cmake_args+=( -DLLVM_REQUESTED_VERSION=19 )
+elif [[ " rhel centos fedora " =~ " ${ID} " ]]; then
+	rpm_pkgs
 fi
 
 cmake \
