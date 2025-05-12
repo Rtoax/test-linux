@@ -30,10 +30,10 @@ readonly VIRT_TYPE=$(systemd-detect-virt 2>/dev/null || :)
 readonly IS_PHY=$( [[ ${VIRT_TYPE} == none ]] && echo YES || :)
 readonly IS_DNF5="$(dnf --version 2>/dev/null | grep -woi dnf5 | uniq)"
 
-readonly DISTS_WITH_DNF=( fedora centos rhel almalinux openEuler cclinux
+readonly DISTS_RHEL_LIKE=( fedora centos rhel almalinux openEuler cclinux
 			opencloudos kylin tencentos )
-readonly DISTS_WITH_APT=( debian ubuntu )
-readonly DISTS_WITH_ZYPPER=( suse opensuse opensuse-leap )
+readonly DISTS_DEBIAN_LIKE=( debian ubuntu )
+readonly DISTS_SUSE_LIKE=( suse opensuse opensuse-leap )
 
 echo "OS: ${OS}"
 echo "VIRT: ${VIRT_TYPE} (IS_PHY: ${IS_PHY})"
@@ -181,21 +181,21 @@ os_operator()
 
 	local _os_=${OS}
 
-	if [[ " ${DISTS_WITH_DNF[@]} " =~ " ${_os_} " ]]; then
+	if [[ " ${DISTS_RHEL_LIKE[@]} " =~ " ${_os_} " ]]; then
 		case ${operator} in
 		upgrade) dnf_upgrade ;;
 		install) dnf_install "${@}" ;;
 		remove) dnf_remove "${@}" ;;
 		packages) dnf_add_packages "${@}" ;;
 		esac
-	elif [[ " ${DISTS_WITH_APT[@]} " =~ " ${_os_} " ]]; then
+	elif [[ " ${DISTS_DEBIAN_LIKE[@]} " =~ " ${_os_} " ]]; then
 		case ${operator} in
 		upgrade) apt_upgrade ;;
 		install) apt_install "${@}" ;;
 		remove) apt_remove "${@}" ;;
 		packages) apt_add_packages "${@}" ;;
 		esac
-	elif [[ " ${DISTS_WITH_ZYPPER[@]} " =~ " ${_os_} " ]]; then
+	elif [[ " ${DISTS_SUSE_LIKE[@]} " =~ " ${_os_} " ]]; then
 		case ${operator} in
 		upgrade) zypper_upgrade ;;
 		install) zypper_install "${@}" ;;
@@ -214,6 +214,18 @@ is_os()
 	if [[ " ${oss[@]} " =~ " ${OS} " ]]; then
 		echo YES
 	fi
+	return 0
+}
+
+is_rhel_like()
+{
+	is_os ${DISTS_RHEL_LIKE[@]}
+	return 0
+}
+
+is_debian_like()
+{
+	is_os ${DISTS_DEBIAN_LIKE[@]}
 	return 0
 }
 
