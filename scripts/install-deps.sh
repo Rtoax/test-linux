@@ -553,7 +553,7 @@ pkgs_compiler+=( gcc )
 pkgs_compiler+=( lld )                    # ELF linker from the LLVM project
 pkgs_compiler+=( llvm )                   # llvm-as llvm-dis llc
 
-pkgs_devel+=( patchelf )
+pkgs_devel+=( patchelf ) # https://github.com/NixOS/patchelf
 
 add_cross_compiler()
 {
