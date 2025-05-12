@@ -619,6 +619,44 @@ pkgs_desktop+=( shutter )
 pkgs_desktop+=( terminator )
 pkgs_desktop+=( thunderbird )
 
+if [[ $(is_rhel_like) ]]; then
+	if [[ ! -e /etc/yum.repos.d/scootersoftware.repo ]]; then
+		cat >>/etc/yum.repos.d/scootersoftware.repo<<-EOF
+		[scootersoftware]
+		name=Scooter Software
+		baseurl=https://www.scootersoftware.com/bcompare4
+		enabled=1
+		gpgcheck=1
+		gpgkey=https://www.scootersoftware.com/RPM-GPG-KEY-scootersoftware
+		EOF
+	fi
+	pkgs_desktop+=( bcompare )
+
+	if [[ ! -e /etc/yum.repos.d/vscode.repo ]]; then
+		cat >>/etc/yum.repos.d/vscode.repo<<-EOF
+		[vscode]
+		name=Visual Studio Code
+		baseurl=https://packages.microsoft.com/yumrepos/vscode
+		enabled=1
+		gpgcheck=1
+		gpgkey=https://packages.microsoft.com/keys/microsoft.asc
+		EOF
+	fi
+	pkgs_desktop+=( code )
+
+	if [[ ! -e /etc/yum.repos.d/google-chrome.repo ]]; then
+		cat >>/etc/yum.repos.d/google-chrome.repo<<-EOF
+		[google-chrome]
+		name=google-chrome
+		baseurl=https://dl.google.com/linux/chrome/rpm/stable/\$basearch/
+		enabled=1
+		gpgcheck=1
+		gpgkey=https://dl.google.com/linux/linux_signing_key.pub
+		EOF
+	fi
+	pkgs_desktop+=( google-chrome-stable )
+fi
+
 # Database
 pkgs_db+=( postgresql )
 
