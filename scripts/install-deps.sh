@@ -553,6 +553,8 @@ pkgs_compiler+=( gcc )
 pkgs_compiler+=( lld )                    # ELF linker from the LLVM project
 pkgs_compiler+=( llvm )                   # llvm-as llvm-dis llc
 
+pkgs_devel+=( patchelf )
+
 add_cross_compiler()
 {
 	if [[ ! $(is_arch aarch64) ]]; then
