@@ -4,7 +4,7 @@
 # compilation errors occur.
 SHELL := /bin/bash
 
-KVER_GREP_CMD := grep -Eo '[0-9]+\.[0-9]+\.[0-9]+'
+KVER_GREP_CMD := grep -Eo '^[0-9]+\.[0-9]+\.[0-9]+'
 
 KVERSION_RAW := $(shell uname -r | ${KVER_GREP_CMD})
 KVERSION := $(shell echo ${KVERSION_RAW} | awk -F '.' '{print $$1}')
