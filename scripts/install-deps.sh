@@ -597,14 +597,15 @@ pkgs_media+=( vlc )
 pkgs_media_3rd+=()
 
 # Desktop Packages
-pkgs_desktop+=( terminator )
-pkgs_desktop+=( thunderbird )
 pkgs_desktop+=( gimp )
 pkgs_desktop+=( gitk )
 pkgs_desktop+=( gnome-tweaks )
 pkgs_desktop+=( gnuplot )
+pkgs_desktop+=( ksnip )
 pkgs_desktop+=( python3-matplotlib )
 pkgs_desktop+=( shutter )
+pkgs_desktop+=( terminator )
+pkgs_desktop+=( thunderbird )
 
 # Database
 pkgs_db+=( postgresql )
