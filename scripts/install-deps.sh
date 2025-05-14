@@ -623,6 +623,7 @@ pkgs_desktop+=( python3-matplotlib )
 pkgs_desktop+=( shutter )
 pkgs_desktop+=( terminator )
 pkgs_desktop+=( thunderbird )
+pkgs_desktop+=( wireshark )
 
 if [[ $(is_rhel_like) ]]; then
 	if [[ ! -e /etc/yum.repos.d/scootersoftware.repo ]]; then
