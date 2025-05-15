@@ -20,8 +20,27 @@ int main(void)
 	 * revision of the C standard. Support for the 1999 revision is not yet
 	 * complete.
 	 * This macro is not defned if the ‘-traditional-cpp’ option is used,
-	 * nor when compiling C++ or Objective-C. */
+	 * nor when compiling C++ or Objective-C.
+	 *
+	 * C++98: 199711L
+	 * C++03: 199711L (same as C++98)
+	 * C++11: 201103L
+	 * C++14: 201402L
+	 * C++17: 201703L
+	 * C++20: 202002L
+	 * C++23: 202302L
+	 * C++23: 202302L (not exist yet)
+	 *
+	 * Example: -std=c++98
+	 */
 	printf("__STDC_VERSION__ %ld\n", __STDC_VERSION__);
+
+#ifdef __cplusplus
+# if __cplusplus != __STDC_VERSION__
+#  pragma message "__cplusplus != __STDC_VERSION__"
+# endif
+#endif
+
 
 #ifdef __OBJC__
 	/* This macro is defned, with value 1, when the Objective-C compiler is

@@ -2,6 +2,9 @@
 SHELL := bash
 
 CC ?= gcc
+CXX ?= c++
+CLANG ?= clang
+GCC ?= gcc
 
 # Check compiler support option or not
 # $(1) - compiler, for example: gcc, clang, etc.
@@ -26,9 +29,15 @@ define check_gcc_option
 	$(call check_compiler_option,gcc,$(1))
 endef
 
+# $(1) - compiler, CC or CXX
+# $(2) - output file name
+define __gen_compiler_macro_hdr
+	$(1) -march=native -E -dM - </dev/null -o $(2)
+endef
+
 # $(1) - output file name
 define gen_compiler_macro_hdr
-	$(CC) -march=native -E -dM - </dev/null -o $(1)
+$(call __gen_compiler_macro_hdr,$(CC),$(1))
 endef
 
 CC_M32 := $(findstring 1,$(call check_compiler_option_noS,$(CC),-m32))

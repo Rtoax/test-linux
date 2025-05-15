@@ -12,6 +12,7 @@
 std::string format(void)
 {
 	return std::format("$${}_{}", "Hello", "World");
+	return std::string("$$") + std::string("Hello") + std::string("_") + std::string("World");
 }
 
 int main(void)
