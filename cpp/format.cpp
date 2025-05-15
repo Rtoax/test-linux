@@ -1,4 +1,8 @@
+#ifdef __has_include
+# if __has_include (<format>)
 #include <format>
+# endif
+#endif
 #include <iostream>
 
 #if __cplusplus < 202002L
