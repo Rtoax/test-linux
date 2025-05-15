@@ -41,7 +41,7 @@ TARGETS += LINUX_VERSION_CODE
 TARGETS += __GLIBC__ __GLIBC_MINOR__ __GLIBC_PREREQ
 
 TARGETS_CXX :=
-TARGETS_CXX += __cplusplus
+TARGETS_CXX += __cplusplus __cplusplus-std98
 
 ifeq ($(shell uname -m),x86_64)
   TARGETS += __x86_64__
@@ -69,7 +69,7 @@ CFLAGS___x86_64__ := -m64
 CFLAGS___WORDSIZE-32 := -m32
 CFLAGS_machine := -Wno-error=deprecated -Wno-deprecated
 CFLAGS___user := -Wno-error=attributes
-
+CFLAGS___cplusplus-std98 := -std=c++98
 
 .PHONY: build
 build: $(CC)-macros.h compiler-macros.h ${TARGETS} ${TARGETS_CXX}
@@ -92,6 +92,7 @@ __aarch64__: __aarch64__.o
 __loongarch64: __loongarch64.o
 __nonnull: __nonnull.o
 __cplusplus: __cplusplus.opp
+__cplusplus-std98: __cplusplus-std98.opp
 __restrict__: __restrict__.o
 __func__: __func__.o
 __linux__: __linux__.o

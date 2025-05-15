@@ -10,6 +10,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- macros: Test **-std=c++20** for `__cplusplus`.
 - distributions: add abbreviation.md.
 - Top Makefile add kconfig target to display all kconfig.
 - network: add symlink qdisc to qdiscs.

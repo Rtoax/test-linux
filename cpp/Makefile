@@ -10,6 +10,7 @@ TARGETS += pass-arg
 TARGETS += return
 TARGETS += this
 TARGETS += string
+TARGETS += __cplusplus
 
 CXX = g++
 
@@ -38,6 +39,7 @@ pass-arg: pass-arg.o
 return: return.o
 this: this.o
 string: string.o
+__cplusplus: __cplusplus.o
 
 CXXFLAGS_return := -Wno-error=return-type
 
