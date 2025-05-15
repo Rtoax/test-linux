@@ -34,6 +34,8 @@ endef
 CC_M32 := $(findstring 1,$(call check_compiler_option_noS,$(CC),-m32))
 CC_STD_GNU11 := $(findstring 1,$(call check_compiler_option,$(CC),-std=gnu11))
 CC_STD_GNU17 := $(findstring 1,$(call check_compiler_option,$(CC),-std=gnu17))
+CC_STD_GNU++20 := $(findstring 1,$(call check_compiler_option,$(CC),-std=gnu++20))
+CC_STD_C++20 := $(findstring 1,$(call check_compiler_option,$(CC),-std=c++20))
 
 CC_FULLVERSION := $(shell $(CC) -dumpfullversion -dumpversion)
 CC_VERSION := $(shell $(CC) -dumpversion)
@@ -51,4 +53,6 @@ ifdef DEBUG
   $(info CC_M32: ${CC_M32})
   $(info CC_STD_GNU11: ${CC_STD_GNU11})
   $(info CC_STD_GNU17: ${CC_STD_GNU17})
+  $(info CC_STD_GNU++20: ${CC_STD_GNU++20})
+  $(info CC_STD_C++20: ${CC_STD_C++20})
 endif

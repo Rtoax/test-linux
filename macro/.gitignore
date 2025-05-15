@@ -12,6 +12,7 @@
 /__aarch64__
 /__nonnull
 /__cplusplus
+/__cplusplus-std98
 /__restrict__
 /__func__
 /__linux__

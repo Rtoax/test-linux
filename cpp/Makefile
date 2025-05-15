@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: GPL-3.0
+include ../compiler/compiler.mk
 include ../tlbuild.mk
 
 sub-dir := demangle
@@ -10,6 +12,10 @@ TARGETS += pass-arg
 TARGETS += return
 TARGETS += this
 TARGETS += string
+TARGETS += __cplusplus
+ifeq (${CC_STD_C++20},1)
+  TARGETS += format
+endif
 
 CXX = g++
 
@@ -25,6 +31,9 @@ ifdef M32
   $(info Compile 32bit ELF)
 endif
 
+CXXFLAGS_return := -Wno-error=return-type
+CXXFLAGS_format += -std=c++20
+
 include ../template/subdir-header.mk
 
 .PHONY: build
@@ -38,8 +47,9 @@ pass-arg: pass-arg.o
 return: return.o
 this: this.o
 string: string.o
+__cplusplus: __cplusplus.o
+format: format.o
 
-CXXFLAGS_return := -Wno-error=return-type
 
 %.o: %.cpp
 	@echo -e "  CXX  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

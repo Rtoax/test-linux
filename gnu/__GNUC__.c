@@ -27,7 +27,6 @@ int main(void)
 	printf("clang: __clang_patchlevel__ = %d\n", __clang_patchlevel__);
 	printf("clang: __clang_version__ = %s\n", __clang_version__);
 #endif
-
 	printf("%s: __GNUC__ = %d.\n", pfx, __GNUC__);
 	printf("%s: __GNUC_MINOR__ = %d.\n", pfx, __GNUC_MINOR__);
 	printf("%s: __GNUC_PATCHLEVEL__ = %d.\n", pfx, __GNUC_PATCHLEVEL__);
