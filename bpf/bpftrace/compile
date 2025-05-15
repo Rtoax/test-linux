@@ -3,7 +3,7 @@ set -ex
 
 . /etc/os-release
 
-deb() {
+deb_pkgs() {
 	sudo apt-get install -y \
 		ament-cmake-googletest \
 		asciidoctor \
@@ -35,9 +35,13 @@ rpm_pkgs() {
 		rubygem-asciidoctor
 }
 
+declare -a cmake_args
+
 if [[ " debian ubuntu " =~ " ${ID} " ]]; then
-	deb
-	cmake_args+=( -DLLVM_REQUESTED_VERSION=19 )
+	deb_pkgs
+	# FIXME: update Debian 12 llvm version here
+	cmake_args+=( -DLLVM_REQUESTED_VERSION=19.1.14 )
+	cmake_args+=( -DLLVM_DIR=/usr/lib/llvm-19/cmake/ )
 elif [[ " rhel centos fedora " =~ " ${ID} " ]]; then
 	rpm_pkgs
 fi
