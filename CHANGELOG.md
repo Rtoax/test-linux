@@ -9,6 +9,7 @@ and this project adheres to
 ## Unreleased
 #### Breaking Changes
 #### Added
+- libbpf: parse auxv in bpf prog.
 #### Changed
 #### Deprecated
 #### Removed

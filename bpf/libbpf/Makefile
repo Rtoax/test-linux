@@ -209,7 +209,7 @@ CFLAGS_fmod_ret := -DFMOD_RET=1
 CFLAGS_BPF_fmod_ret := ${CFLAGS_fmod_ret}
 CFLAGS_socket_filter := -DSOCKET_FILTER=1 -DSTRICT_SEC_NAME=1 -DMAP_ARRAY=1
 CFLAGS_BPF_socket_filter := ${CFLAGS_socket_filter}
-CFLAGS_tracepoint := -DMAP_HASH -DTRACEPOINT=1 -DSEC_DEF_TRACEPOINT=1
+CFLAGS_tracepoint := -DMAP_HASH -DTRACEPOINT=1 -DSEC_DEF_TRACEPOINT=1 -DPARSE_AUXV=1
 CFLAGS_BPF_tracepoint := ${CFLAGS_tracepoint}
 # Kill process with signal.
 CFLAGS_BPF_tracepoint += -DBPF_SEND_SIGNAL=1
@@ -308,6 +308,7 @@ xdp_xskmap: ${OUTPUT}/xdp_xskmap.o ${LIBBPF_WRAPPER} ${LIBXDP_HELPERS}
 sockops: ${OUTPUT}/sockops.o
 kprobe: ${OUTPUT}/kprobe.o
 tracepoint: ${OUTPUT}/tracepoint.o ${LIBBPF_WRAPPER}
+${OUTPUT}/tracepoint.bpf.o: tracepoint.h
 raw_tracepoint: ${OUTPUT}/raw_tracepoint.o ${LIBBPF_WRAPPER}
 tp_btf: ${OUTPUT}/tp_btf.o ${LIBBPF_WRAPPER}
 perf_event: ${OUTPUT}/perf_event.o

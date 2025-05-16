@@ -137,6 +137,19 @@ int tracepoint__syscalls__sys_exit_execve(struct syscall_trace_exit *ctx)
 	if (!pevent)
 		return 0;
 
+#ifdef PARSE_AUXV
+	struct task_struct *task = (struct task_struct *)bpf_get_current_task();
+	struct mm_struct *mm = BPF_CORE_READ(task, mm);
+	if (mm) {
+		unsigned long *saved_auxv = BPF_CORE_READ(mm, saved_auxv);
+		struct auxv_entry entry;
+		bpf_probe_read_kernel(&entry, sizeof(entry), (void *)(saved_auxv + 6));
+		pevent->auxv.type = entry.type;
+		pevent->auxv.val = entry.val;
+		/* FIXME: how to parse all auxv */
+	}
+#endif
+
 /**
  * linux commit 3f0e6f2b41d3 ("bpf: Add bpf_task_from_pid() kfunc")
  * v6.1-rc4-1163-g3f0e6f2b41d3
