@@ -11,8 +11,12 @@
 
 std::string format(void)
 {
+#ifdef STD_FORMAT
+#pragma message "Support std::format()"
 	return std::format("$${}_{}", "Hello", "World");
+#else
 	return std::string("$$") + std::string("Hello") + std::string("_") + std::string("World");
+#endif
 }
 
 int main(void)

@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
-include ../compiler/compiler.mk
 include ../tlbuild.mk
+CXX := g++
+include ../compiler/compiler.mk
 
 sub-dir := demangle
 
@@ -17,8 +18,6 @@ ifeq (${CC_STD_C++20},1)
   TARGETS += format
 endif
 
-CXX = g++
-
 CXXFLAGS := -Werror -Wall
 CXXFLAGS += -DCPP
 ifdef DEBUG
@@ -32,7 +31,22 @@ ifdef M32
 endif
 
 CXXFLAGS_return := -Wno-error=return-type
-CXXFLAGS_format += -std=c++20
+CXXFLAGS_format := -std=c++20
+STD_FORMAT := '\#include <format>\n'
+STD_FORMAT += '\#include <iostream>\n'
+STD_FORMAT += 'int main(void) {\n'
+STD_FORMAT += '	std::cout << std::format("{}_{}", "Hello", "World");\n'
+STD_FORMAT += '	return 0;\n'
+STD_FORMAT += '}'
+define probe_std_format
+  $(shell printf '%b\n' $(STD_FORMAT) | \
+    $(CXX) -x c++ -Wall -Werror ${CXXFLAGS_format} - $(1) -S -o - >/dev/null 2>&1 \
+      && echo y)
+endef
+has-std_format := $(findstring y,$(call probe_std_format))
+ifeq ($(has-std_format),y)
+  CXXFLAGS_format += -DSTD_FORMAT=1
+endif
 
 include ../template/subdir-header.mk
 

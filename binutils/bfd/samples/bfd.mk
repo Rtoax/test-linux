@@ -1,4 +1,4 @@
-
+# SPDX-License-Identifier: GPL-3.0
 pound := \#
 
 # Probe bfd_init() with non-output gcc command
