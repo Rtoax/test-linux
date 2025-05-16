@@ -73,7 +73,7 @@ help:
 	@echo >&2 -e "***"
 	@echo >&2 -e "*** make archive"
 	@echo >&2 -e "*** make config"
-	@echo >&2 -e "*** make kconfig"
+	@echo >&2 -e "*** make kconfig-display"
 	@echo >&2 -e "*** make check"
 	@echo >&2 -e "*** make installdeps"
 	@echo >&2 -e "*** make docker"
@@ -191,8 +191,8 @@ config:
 	@echo "=== config"
 	$(call git_config)
 
-.PHONY: kconfig
-kconfig:
+.PHONY: kconfig-display
+kconfig-display:
 	$(call display_all_kconfig)
 
 define check_links
