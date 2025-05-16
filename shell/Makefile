@@ -40,7 +40,7 @@ test: $(sub-dir-test)
 .PHONY: clean
 clean: $(sub-dir-clean)
 	@echo -e "  CLEAN  \033[1;32m$(@)\033[m"
-	${Q}rm -f a.txt *.log tmp.sh
+	${Q}rm -f a.txt *.log tmp.sh *.out
 
 include ../template/subdir-footer.mk
 

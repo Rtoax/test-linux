@@ -627,7 +627,7 @@ pkgs_desktop+=( wireshark )
 
 if [[ $(is_rhel_like) ]]; then
 	if [[ ! -e /etc/yum.repos.d/scootersoftware.repo ]]; then
-		cat >>/etc/yum.repos.d/scootersoftware.repo<<-EOF
+		cat <<-EOF | sudo tee /etc/yum.repos.d/scootersoftware.repo
 		[scootersoftware]
 		name=Scooter Software
 		baseurl=https://www.scootersoftware.com/bcompare4
@@ -639,7 +639,7 @@ if [[ $(is_rhel_like) ]]; then
 	pkgs_desktop+=( bcompare )
 
 	if [[ ! -e /etc/yum.repos.d/vscode.repo ]]; then
-		cat >>/etc/yum.repos.d/vscode.repo<<-EOF
+		cat <<-EOF | sudo tee /etc/yum.repos.d/vscode.repo
 		[vscode]
 		name=Visual Studio Code
 		baseurl=https://packages.microsoft.com/yumrepos/vscode
@@ -651,7 +651,7 @@ if [[ $(is_rhel_like) ]]; then
 	pkgs_desktop+=( code )
 
 	if [[ ! -e /etc/yum.repos.d/google-chrome.repo ]]; then
-		cat >>/etc/yum.repos.d/google-chrome.repo<<-EOF
+		cat <<-EOF | sudo tee /etc/yum.repos.d/google-chrome.repo
 		[google-chrome]
 		name=google-chrome
 		baseurl=https://dl.google.com/linux/chrome/rpm/stable/\$basearch/

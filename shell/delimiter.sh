@@ -40,3 +40,7 @@ cat <<-EOF
 "\$var1=1"
 echo ${var1}
 EOF
+
+cat <<-EOF | sudo tee a.out
+Wrote by sudo tee
+EOF
