@@ -32,9 +32,10 @@ endif
 
 CXXFLAGS_return := -Wno-error=return-type
 CXXFLAGS_format := -std=c++20
-STD_FORMAT := '\#include <format>'
+STD_FORMAT := '\#include <format>\n'
+STD_FORMAT += '\#include <iostream>\n'
 STD_FORMAT += 'int main(void) {\n'
-STD_FORMAT += '	std::format("{}_{}", "Hello", "World");\n'
+STD_FORMAT += '	std::cout << std::format("{}_{}", "Hello", "World");\n'
 STD_FORMAT += '	return 0;\n'
 STD_FORMAT += '}'
 define probe_std_format
@@ -42,7 +43,7 @@ define probe_std_format
     $(CXX) -x c++ -Wall -Werror ${CXXFLAGS_format} - $(1) -S -o - >/dev/null 2>&1 \
       && echo y)
 endef
-has-std_format := $(findstring 1,$(call probe_std_format))
+has-std_format := $(findstring y,$(call probe_std_format))
 ifeq ($(has-std_format),y)
   CXXFLAGS_format += -DSTD_FORMAT=1
 endif
