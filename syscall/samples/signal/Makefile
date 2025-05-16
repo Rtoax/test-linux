@@ -27,9 +27,11 @@ CC := gcc
 
 CFLAGS += -Werror -Wall -D_GNU_SOURCE
 CFLAGS += -I../../../
-CFLAGS += -I../
-CFLAGS += -DDEBUG -O0 -g
-CFLAGS += ${SIGNAL_CFLAGS}
+ifdef DEBUG
+  CFLAGS += -DDEBUG -O0 -g
+endif
+
+CFLAGS_SIGRTMAX := ${SIGRT_CFLAGS}
 
 include ../../../template/subdir-header.mk
 
@@ -82,7 +84,7 @@ signalfd: signalfd.o
 
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(<)\033[m"
-	${Q}$(CC) $(CFLAGS) -o $(@) $(^)
+	${Q}$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) $(^)
 
 test: ${TARGETS} $(sub-dir-test)
 	@echo -e "  TEST  \033[1;32msigpending\033[m"

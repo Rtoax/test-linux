@@ -7,7 +7,7 @@
 VERSION = 2
 PATCHLEVEL = 2
 SUBLEVEL = 10
-EXTRAVERSION = -rc4
+EXTRAVERSION =
 NAME = Fedora
 
 include make.list

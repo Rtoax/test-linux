@@ -2,7 +2,7 @@
 include ../tlbuild.mk
 include ../kconfig.mk
 
-$(info CONFIG_CHECKPOINT_RESTORE=$(CONFIG_CHECKPOINT_RESTORE))
+$(info CONFIG_CHECKPOINT_RESTORE = $(CONFIG_CHECKPOINT_RESTORE))
 
 sub-dir :=
 
@@ -15,15 +15,15 @@ CFLAGS += -Werror -Wall -D_GNU_SOURCE
 CFLAGS += -pthread
 CFLAGS += -DDEBUG -O0 -g
 
+CFLAGS__GNU_SOURCE := -D_GNU_SOURCE=1
+CFLAGS__XOPEN_SOURCE := -D_XOPEN_SOURCE=1
+
 include ../template/subdir-header.mk
 
 .PHONY: build
 build: ${TARGETS} $(sub-dir-build)
-	./check.sh
+	$(Q)./check.sh
 	@echo -e " \033[1;33m Done \033[m"
-
-CFLAGS__GNU_SOURCE := -D_GNU_SOURCE=1
-CFLAGS__XOPEN_SOURCE := -D_XOPEN_SOURCE=1
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

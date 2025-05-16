@@ -5,7 +5,8 @@
 - AWS: Amazon Web Services ()
 - BDaaS: Big Data as a Service (BDaaS)
 - BPaaS: Business Process as a Service (BPaaS)
-- CaaS: Code as a Service (CaaS)
+- CaaS: Code as a Service (代码即服务)
+- CaaS: Container as a Service (容器即服务)
 - CNCF: Cloud Native Computing Foundation (云原生计算基金会)
 - CNI: Container Network Interface (容器网络接口)
 - CNM: Container Network Model (容器网络模型) @OVN
