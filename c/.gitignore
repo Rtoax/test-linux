@@ -34,7 +34,9 @@
 /*.E.c
 /enum
 /__STDC__
+/__STDC__c98
 /__STDC__gnu98
+/__STDC__c17
 /include_next
 /unsigned
 /__has_include

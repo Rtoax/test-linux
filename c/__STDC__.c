@@ -18,9 +18,9 @@
  *
  * C++ Standard
  * ============================================================================
- * Name		Year	GCC	CFLAGS
- * C++98	1998		-std=c++98
- * GNU C++98	1998		-std=gnu++98
+ * Name		Year	GCC	CFLAGS		__cplusplus
+ * C++98	1998		-std=c++98	199711L
+ * GNU C++98	1998		-std=gnu++98	199711L
  * C++03	2003		-std=c++03
  * GNU C++03	2003		-std=gnu++03
  * C++11(C++0x)	2011	4.8+	-std=c++11
@@ -60,7 +60,9 @@ int main(void)
 	 * complete.
 	 * This macro is not defned if the ‘-traditional-cpp’ option is used,
 	 * nor when compiling C++ or Objective-C.
-	 *
+	 */
+#ifdef __cplusplus
+	/**
 	 * C++98: 199711L
 	 * C++03: 199711L (same as C++98)
 	 * C++11: 201103L
@@ -72,7 +74,13 @@ int main(void)
 	 *
 	 * Example: -std=c++98
 	 */
-#if !defined(__cplusplus) && !defined(STD_GNU98)
+	printf("__cplusplus %ld\n", __cplusplus);
+#endif
+	/**
+	 * FIXME: Why __STDC_VERSION__ not defined
+	 */
+#if !defined(__cplusplus) && !defined(STD_C98) && !defined(STD_GNU98) && \
+	!defined(STD_C17)
 	printf("__STDC_VERSION__ %ld\n", __STDC_VERSION__);
 #endif
 

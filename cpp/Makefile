@@ -17,7 +17,7 @@ TARGETS += __cplusplus
 ifeq (${CC_STD_C++20},1)
   TARGETS += format
 endif
-TARGETS += __STDC__
+TARGETS += __STDC__ __STDC__c++98 __STDC__gnu++98
 
 CXXFLAGS := -Werror -Wall
 CXXFLAGS += -DCPP
@@ -48,6 +48,8 @@ has-std_format := $(findstring y,$(call probe_std_format))
 ifeq ($(has-std_format),y)
   CXXFLAGS_format += -DSTD_FORMAT=1
 endif
+CXXFLAGS___STDC__c++98 := -std=c++98
+CXXFLAGS___STDC__gnu++98 := -std=gnu++98
 
 include ../template/subdir-header.mk
 
@@ -64,6 +66,8 @@ this: this.o
 string: string.o
 __cplusplus: __cplusplus.o
 __STDC__: __STDC__.o
+__STDC__c++98: __STDC__c++98.o
+__STDC__gnu++98: __STDC__gnu++98.o
 format: format.o
 
 

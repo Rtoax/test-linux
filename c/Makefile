@@ -38,7 +38,7 @@ TARGETS += while while-sleep
 TARGETS += stub
 TARGETS += if
 TARGETS += enum
-TARGETS += __STDC__ __STDC__gnu98
+TARGETS += __STDC__ __STDC__gnu98 __STDC__c98 __STDC__c17
 TARGETS += include_next
 TARGETS += unsigned
 TARGETS += restrict
@@ -98,7 +98,9 @@ CFLAGS_include_next := -Dinclude/ -Wno-error
 CFLAGS_while-sleep := -DWHILE_SLEEP=1
 CFLAGS_macro := -DCONFIG_MMU=$(CONFIG_MMU)
 CFLAGS_struct := -Wno-gnu-designator -Wno-initializer-overrides
+CFLAGS___STDC__c98 := -std=c89 -DSTD_C98=1
 CFLAGS___STDC__gnu98 := -std=gnu89 -DSTD_GNU98=1
+CFLAGS___STDC__c17 := -std=c89 -DSTD_C17=1
 
 
 .PHONY: build
@@ -141,7 +143,9 @@ stub: stub.o
 if: if.o
 enum: enum.o
 __STDC__: __STDC__.o
+__STDC__c98: __STDC__c98.o
 __STDC__gnu98: __STDC__gnu98.o
+__STDC__c17: __STDC__c17.o
 include_next: include_next.o
 unsigned: unsigned.o
 restrict: restrict.o

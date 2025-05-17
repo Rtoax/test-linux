@@ -8,4 +8,6 @@
 /string
 /__cplusplus
 /__STDC__
+/__STDC__c++98
+/__STDC__gnu++98
 /format
