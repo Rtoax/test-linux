@@ -17,6 +17,7 @@ TARGETS += __cplusplus
 ifeq (${CC_STD_C++20},1)
   TARGETS += format
 endif
+TARGETS += __STDC__
 
 CXXFLAGS := -Werror -Wall
 CXXFLAGS += -DCPP
@@ -62,6 +63,7 @@ return: return.o
 this: this.o
 string: string.o
 __cplusplus: __cplusplus.o
+__STDC__: __STDC__.o
 format: format.o
 
 

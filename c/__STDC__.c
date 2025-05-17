@@ -1,3 +1,42 @@
+/**
+ * C Standard
+ * ============================================================================
+ * Name		Year	GCC	CFLAGS
+ * C89(ANSI C)	1989		-std=c89
+ * GNU C89	1989		-std=gnu89	(linux)
+ * C90(ISO C)	1990		-std=c90
+ * C90(ISO C)	1990		-std=iso9899:1990
+ * GNU C90	1990		-std=gnu90
+ * C99		1999		-std=c99
+ * GNU C99	1999		-std=gnu99
+ * C11		2011	4.7+	-std=c11
+ * GNU C11	2011		-std=gnu11
+ * C17(C18)	2018	8+	-std=c17
+ * GNU C17	2018		-std=gnu17
+ * C23(C2x)	2024		-std=c23
+ * GNU C23	2024	13+	-std=gnu23
+ *
+ * C++ Standard
+ * ============================================================================
+ * Name		Year	GCC	CFLAGS
+ * C++98	1998		-std=c++98
+ * GNU C++98	1998		-std=gnu++98
+ * C++03	2003		-std=c++03
+ * GNU C++03	2003		-std=gnu++03
+ * C++11(C++0x)	2011	4.8+	-std=c++11
+ * GNU C++11	2011		-std=gnu++11
+ * C++14(C++1y)	2014	5+	-std=c++14
+ * GNU C++14	2014		-std=gnu++14
+ * C++17(C++1z)	2017	7+	-std=c++17
+ * GNU C++17	2017		-std=gnu++17
+ * C++20(C++2a)	2020	11+	-std=c++20
+ * GNU C++20	2020		-std=gnu++20
+ * C++23(C++2b)	2023		-std=c++23
+ * GNU C++23	2023		-std=gnu++23
+ * C++26	2026*		-std=c++26	dev
+ *
+ * vim:ts=8
+ */
 #include <stdio.h>
 
 int main(void)
@@ -33,14 +72,9 @@ int main(void)
 	 *
 	 * Example: -std=c++98
 	 */
+#if !defined(__cplusplus) && !defined(STD_GNU98)
 	printf("__STDC_VERSION__ %ld\n", __STDC_VERSION__);
-
-#ifdef __cplusplus
-# if __cplusplus != __STDC_VERSION__
-#  pragma message "__cplusplus != __STDC_VERSION__"
-# endif
 #endif
-
 
 #ifdef __OBJC__
 	/* This macro is defned, with value 1, when the Objective-C compiler is

@@ -15,6 +15,7 @@
 
 int main(void)
 {
+	printf("__STDC__: %d\n", __STDC__);
 	std::cout << "__cplusplus: " << __cplusplus << std::endl;
 	printf("__cplusplus: %ld\n", __cplusplus);
 	return 0;
