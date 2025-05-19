@@ -5,11 +5,7 @@ TARGETS := nr_errno
 TARGETS += __errno_location
 TARGETS += EDOM
 TARGETS += ENOENT
-
-ifeq ($(shell uname -m),x86_64)
-endif
-ifeq ($(shell uname -m),aarch64)
-endif
+TARGETS += EAFNOSUPPORT
 
 DEBUG := yes
 CC := gcc
@@ -44,6 +40,7 @@ nr_errno.o: nr_errno.h
 __errno_location: __errno_location.o
 EDOM: EDOM.o
 ENOENT: ENOENT.o
+EAFNOSUPPORT: EAFNOSUPPORT.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

@@ -3,3 +3,4 @@
 /__errno_location
 /EDOM
 /ENOENT
+/EAFNOSUPPORT
