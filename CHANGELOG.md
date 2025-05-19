@@ -9,6 +9,7 @@ and this project adheres to
 ## Unreleased
 #### Breaking Changes
 #### Added
+- rootfs: add qemu.sh
 - c: add C standard comment, and test c17,c98,c++98,gnu++98.
 - libbpf: parse auxv in bpf prog.
 #### Changed
