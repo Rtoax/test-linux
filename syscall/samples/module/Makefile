@@ -1,4 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
+include ../../../tlbuild.mk
 include ../../../kernel.mk
 include ../../../kconfig.mk
 
@@ -23,6 +24,10 @@ endif
 
 CFLAGS_init_module := -DUSE_MMAP=1
 CFLAGS_finit_module := -DTEST_FINIT_MODULE=1
+
+ifdef STATIC
+  LDFLAGS += -static
+endif
 
 .PHONY: build
 build: ${TARGETS}
