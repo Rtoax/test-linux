@@ -8,6 +8,8 @@ readonly qemu=$(get_qemu_kvm_emulator)
 
 kernel=
 rootfs=
+init=
+
 is_initrd=
 is_nvdimm=
 dry_run=
@@ -28,6 +30,8 @@ DESCRIPTION
 	    --initrd            the rootfs used as initrd
 	    --nvdimm            the rootfs used as nvdimm
 
+	--init [/path/to/init]  specify initrd.
+
 	--stdio                 input/output from/to stdio
 
 	-u, --dry-run           only show commands
@@ -36,7 +40,7 @@ DESCRIPTION
 	-h, --help              show this help information
 
 EXAMPLES
-	$ sudo ./qemu.sh -k /boot/vmlinuz-$(uname -r) -r /boot/initramfs-$(uname -r).img --initrd
+	$ sudo ./qemu.sh -k /boot/vmlinuz-$(uname -r) -r /boot/initramfs-$(uname -r).img --initrd [--init=/usr/bin/bash]
 
 SEE ALSO
 	qemu(1), qemu-kvm(1), etc.
@@ -49,6 +53,7 @@ declare -a qemu_args kernel_args
 TEMP_ARGS=$(getopt --options k:r:huv \
 	--long kernel: \
 	--long rootfs: \
+	--long init: \
 	--long initrd \
 	--long nvdimm \
 	--long stdio \
@@ -71,6 +76,11 @@ while true; do
 	-r | --rootfs)
 		shift
 		rootfs=$1
+		shift
+		;;
+	--init)
+		shift
+		init=$1
 		shift
 		;;
 	--initrd)
@@ -132,6 +142,10 @@ fi
 if [[ ${stdio} ]]; then
 	qemu_args+=( -serial mon:stdio -nographic )
 	kernel_args+=( rw console=ttyS0 )
+fi
+
+if [[ ${init} ]]; then
+	kernel_args+=( rdinit=${init} )
 fi
 
 _eval()

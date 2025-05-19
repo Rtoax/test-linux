@@ -53,3 +53,9 @@ BOOT
 | ON/OFF Button |
 +---------------+
 ```
+
+# init
+
+- `rdinit=`
+- `init=`
+
