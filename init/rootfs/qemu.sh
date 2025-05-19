@@ -8,16 +8,23 @@ readonly qemu=$(get_qemu_kvm_emulator)
 
 kernel=
 rootfs=
+initrd=
 dry_run=
 verbose=
 stdio=
 
 __usage__() {
 	echo -e "
-${prog} -k=<kernel> -r=<rootfs> [--stdio]
+NAME
+	${prog} - test rootfs/initrd with qemu
 
+SYNOPSIS
+	${prog} -k=<kernel> -r=<rootfs> [--stdio]
+
+DESCRIPTION
 	-k, --kernel [KERNEL]   specify vmlinuz
 	-r, --rootfs [ROOTFS]   specify rootfs image
+	    --initrd            the rootfs used as initrd
 
 	--stdio                 input/output from/to stdio
 
@@ -25,6 +32,9 @@ ${prog} -k=<kernel> -r=<rootfs> [--stdio]
 
 	-v, --verbose           show verbose information
 	-h, --help              show this help information
+
+EXAMPLES
+	$ sudo ./qemu.sh -k /boot/vmlinuz-$(uname -r) -r /boot/initramfs-$(uname -r).img --initrd
 
 SEE ALSO
 	qemu(1), qemu-kvm(1), etc.
@@ -37,6 +47,7 @@ declare -a qemu_args kernel_args
 TEMP_ARGS=$(getopt --options k:r:huv \
 	--long kernel: \
 	--long rootfs: \
+	--long initrd \
 	--long stdio \
 	--long dry-run \
 	--long verbose \
@@ -58,6 +69,10 @@ while true; do
 		shift
 		rootfs=$1
 		shift
+		;;
+	--initrd)
+		shift
+		initrd=YES
 		;;
 	--stdio)
 		shift
@@ -91,8 +106,13 @@ if [[ ${verbose} ]]; then
 	set -x
 fi
 
-qemu_args+=( -drive file=${rootfs},format=raw,if=virtio )
-kernel_args+=( root=/dev/vda )
+if [[ ${initrd} ]]; then
+	qemu_args+=( -initrd ${rootfs} )
+	kernel_args+=( rd.break ) # dracut.cmdline(7)
+else
+	qemu_args+=( -drive file=${rootfs},format=raw,if=virtio )
+	kernel_args+=( root=/dev/vda )
+fi
 
 if [[ ${stdio} ]]; then
 	qemu_args+=( -serial mon:stdio -nographic )

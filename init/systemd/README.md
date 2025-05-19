@@ -8,7 +8,7 @@ systemd supports **SysV** and **LSB** init scripts and works as a replacement fo
 
 # Q&A
 
-## 怎么进入 shell
+## Enter Shell
 
 1. Reboot
 2. 按 'e' 修改内核参数，添加`systemd.debug-shell=1`，同时可以添加`systemd.log_level=debug`，有时候添加`console=ttyS0,115200`是好的选择。
@@ -17,12 +17,12 @@ systemd supports **SysV** and **LSB** init scripts and works as a replacement fo
 5. 按`Alt+Ctrl+F9`进入 `tty9`，即可进入 `sh# `
 
 
-## 怎么主动进入 initramfs shell
+## Enter initramfs Shell
 
-1. 添加 rd.break
+1. cmdline: `rd.break` (see dracut.cmdline(7))
 
 
-## 修改 /etc/fstab
+## Modify /etc/fstab
 
 如果报只读，需要重新挂载
 
