@@ -8,7 +8,8 @@ readonly qemu=$(get_qemu_kvm_emulator)
 
 kernel=
 rootfs=
-initrd=
+is_initrd=
+is_nvdimm=
 dry_run=
 verbose=
 stdio=
@@ -25,6 +26,7 @@ DESCRIPTION
 	-k, --kernel [KERNEL]   specify vmlinuz
 	-r, --rootfs [ROOTFS]   specify rootfs image
 	    --initrd            the rootfs used as initrd
+	    --nvdimm            the rootfs used as nvdimm
 
 	--stdio                 input/output from/to stdio
 
@@ -48,6 +50,7 @@ TEMP_ARGS=$(getopt --options k:r:huv \
 	--long kernel: \
 	--long rootfs: \
 	--long initrd \
+	--long nvdimm \
 	--long stdio \
 	--long dry-run \
 	--long verbose \
@@ -72,7 +75,11 @@ while true; do
 		;;
 	--initrd)
 		shift
-		initrd=YES
+		is_initrd=YES
+		;;
+	--nvdimm)
+		shift
+		is_nvdimm=YES
 		;;
 	--stdio)
 		shift
@@ -106,12 +113,20 @@ if [[ ${verbose} ]]; then
 	set -x
 fi
 
-if [[ ${initrd} ]]; then
+
+if [[ ${is_initrd} ]]; then
 	qemu_args+=( -initrd ${rootfs} )
 	kernel_args+=( rd.break ) # dracut.cmdline(7)
 else
-	qemu_args+=( -drive file=${rootfs},format=raw,if=virtio )
-	kernel_args+=( root=/dev/vda )
+	if [[ ${is_nvdimm} ]]; then
+		size=$(stat --format=%s ${rootfs})
+		qemu_args+=( -device nvdimm,id=nv0,memdev=mem0,unarmed=on )
+		qemu_args+=( -object memory-backend-file,id=mem0,mem-path=${rootfs},size=${size},readonly=on )
+		kernel_args+=( root=/dev/pmem0p1 )
+	else
+		qemu_args+=( -drive file=${rootfs},format=raw,if=virtio )
+		kernel_args+=( root=/dev/vda )
+	fi
 fi
 
 if [[ ${stdio} ]]; then
