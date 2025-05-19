@@ -91,6 +91,9 @@ if [[ ${verbose} ]]; then
 	set -x
 fi
 
+qemu_args+=( -drive file=${rootfs},format=raw,if=virtio )
+kernel_args+=( root=/dev/vda )
+
 if [[ ${stdio} ]]; then
 	qemu_args+=( -serial mon:stdio -nographic )
 	kernel_args+=( rw console=ttyS0 )
@@ -110,6 +113,5 @@ _eval()
 _eval ${qemu} -name vm-test-rootfs -uuid $(uuid) \
 	-qmp unix:$PWD/qmp.sock,server=on,wait=off \
 	-m 2048M,slots=10,maxmem=129139M \
-	-drive file=${rootfs},format=raw,if=virtio \
 	${qemu_args[@]} \
-	-kernel ${kernel} -append \"root=/dev/vda ${kernel_args[@]}\"
+	-kernel ${kernel} -append \"${kernel_args[@]}\"
