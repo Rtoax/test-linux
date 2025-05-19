@@ -16,9 +16,17 @@ usage() {
 kernel=$(realpath ${kernel})
 rootfs=$(realpath ${rootfs})
 
+declare -a qemu_args kernel_args
+
+if [[ ${STDIO} ]]; then
+	qemu_args+=( -serial mon:stdio -nographic )
+	kernel_args+=( rw console=ttyS0 )
+fi
+
 set -x
 ${qemu} -name vm-test-rootfs -uuid $(uuid) \
 	-qmp unix:$PWD/qmp.sock,server=on,wait=off \
 	-m 2048M,slots=10,maxmem=129139M \
-	-initrd ${rootfs} \
-	-kernel ${kernel} -append root=${rootfs}
+	-drive file=${rootfs},format=raw,if=virtio \
+	${qemu_args[@]} \
+	-kernel ${kernel} -append "root=/dev/vda ${kernel_args[@]}"
