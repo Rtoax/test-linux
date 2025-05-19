@@ -2,18 +2,20 @@
 
 # Get libc.so.6 abs-path
 LIBC_SO_PATH=$(shell ldconfig -p | grep libc.so.6 | grep 64 | awk '{printf $$NF}')
-$(info LIBC_SO_PATH = ${LIBC_SO_PATH})
 
 LIBC_PRINTF_SYMADDR=0x$(shell readelf --syms --wide ${LIBC_SO_PATH} \
 				| grep -w printf | head -1 \
 				| awk '{printf $$2}')
-$(info LIBC_PRINTF_SYMADDR = ${LIBC_PRINTF_SYMADDR})
 
 LIBC___ERRNO_LOCATION_SYMADDR=0x$(shell readelf --syms --wide ${LIBC_SO_PATH} \
 				| grep -w __errno_location | head -1 \
 				| awk '{printf $$2}')
-$(info LIBC___ERRNO_LOCATION_SYMADDR = ${LIBC___ERRNO_LOCATION_SYMADDR})
 
+ifdef DEBUG
+  $(info LIBC_PRINTF_SYMADDR = ${LIBC_PRINTF_SYMADDR})
+  $(info LIBC_SO_PATH = ${LIBC_SO_PATH})
+  $(info LIBC___ERRNO_LOCATION_SYMADDR = ${LIBC___ERRNO_LOCATION_SYMADDR})
+endif
 
 # Probe printf(3) with non-output gcc command
 PRINTF_PROBE := '\#include <stdio.h>\n'
@@ -36,5 +38,6 @@ $(shell readelf --syms --wide ${LIBC_SO_PATH} \
 		| grep -w $(1) | grep -e GLOBAL -e LOCAL | head -1 \
 		| awk '{printf "0x"$$2}')
 endef
-
-$(info printf = <$(call libc_sym_addr,printf)>)
+ifdef DEBUG
+  $(info printf = <$(call libc_sym_addr,printf)>)
+endif

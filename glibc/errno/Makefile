@@ -1,5 +1,4 @@
 include ../../tlbuild.mk
-
 include ../glibc.mk
 
 TARGETS := nr_errno
