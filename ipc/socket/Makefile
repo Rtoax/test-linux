@@ -1,6 +1,5 @@
 include ../../tlbuild.mk
 
-
 sub-dir := poll
 sub-dir += epoll
 sub-dir += iovec
@@ -10,6 +9,7 @@ sub-dir += unix
 sub-dir += tcp
 sub-dir += sctp
 sub-dir += udp
+sub-dir += vsock
 sub-dir += ipv6
 
 TARGETS :=
