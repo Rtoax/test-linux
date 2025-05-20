@@ -14,7 +14,7 @@ int main(void)
 		exit(1);
 	}
 
-	printf("netlink: create socket %d\n", socket);
+	printf("netlink: create socket %d\n", fd);
 
 	close(fd);
 	return 0;
