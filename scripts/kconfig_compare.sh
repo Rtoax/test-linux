@@ -8,6 +8,8 @@ readonly NOT_DEF=x
 config_file_base=
 config_file_cmp=
 
+verbose=
+
 __usage__()
 {
 	echo -e "
@@ -22,6 +24,7 @@ DESCRIPTION
 	-c, --config [CONFIG]  specify compared config
 
 	-h, --help             show help
+	-v, --verbose          display verbose
 
 EXAMPLES
 	${prog} -b /boot/config-$(uname -r) -c /boot/config-$(uname -r)
@@ -32,9 +35,10 @@ SEE ALSO
 	exit ${1-0}
 }
 
-TEMP_ARGS=$(getopt --options hb:c: \
+TEMP_ARGS=$(getopt --options hvb:c: \
 	--long base: \
 	--long config: \
+	--long verbose \
 	--long help \
 	--name ${prog} -- "$@")
 test $? != 0 && __usage__ 1
@@ -56,6 +60,10 @@ while true; do
 	-h | --help)
 		shift
 		__usage__
+		;;
+	-v | --verbose)
+		shift
+		verbose=YES
 		;;
 	--)
 		shift
@@ -84,6 +92,10 @@ for config in ${config_line_base[@]}
 do
 	name=${config%%=*}
 	val=${config##*=}
+
+	if [[ ${verbose} ]]; then
+		echo >&2 "${name}=${val}"
+	fi
 
 	for file in ${config_file_cmp[@]}
 	do
