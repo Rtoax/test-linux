@@ -13,7 +13,7 @@
 int vsock_get_local_cid(void)
 {
 	unsigned int cid;
-	int fd;
+	int fd, err;
 
 	fd = open(DEV_VSOCK, O_RDONLY);
 	if (fd == -1) {
@@ -21,7 +21,11 @@ int vsock_get_local_cid(void)
 		return -1;
 	}
 
-	ioctl(fd, IOCTL_VM_SOCKETS_GET_LOCAL_CID, &cid);
+	err = ioctl(fd, IOCTL_VM_SOCKETS_GET_LOCAL_CID, &cid);
+	if (err == -1) {
+		fprintf(stderr, "ioctl(%s) failed, %m\n", DEV_VSOCK);
+		return -1;
+	}
 
 	close(fd);
 	return cid;
