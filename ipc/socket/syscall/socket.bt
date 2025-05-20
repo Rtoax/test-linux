@@ -1,0 +1,70 @@
+#!/bin/env bpftrace
+
+#define AF_INET         2
+#define AF_NETLINK      16
+#define AF_VSOCK        40
+
+#define SOCK_STREAM	1
+#define SOCK_DGRAM	2
+#define SOCK_RAW	3
+#define SOCK_RDM	4
+#define SOCK_SEQPACKET	5
+#define SOCK_DCCP	6
+#define SOCK_PACKET	10
+#define SOCK_TYPE_MASK	0xf
+
+#define SOCK_CLOEXEC	02000000
+
+#define NETLINK_KOBJECT_UEVENT	15
+
+BEGIN
+{
+	@family[AF_INET] = "INET";
+	@family[AF_NETLINK] = "NETLINK";
+	@family[AF_VSOCK] = "VSOCK";
+
+	@type[SOCK_STREAM] = "STREAM";
+	@type[SOCK_DGRAM] = "DGRAM";
+	@type[SOCK_RAW] = "RAW";
+	@type[SOCK_RDM] = "RDM";
+	@type[SOCK_SEQPACKET] = "SEQPACKET";
+	@type[SOCK_DCCP] = "DCCP";
+	@type[SOCK_PACKET] = "PACKET";
+
+	@protocol[0] = "0";
+	@protocol[NETLINK_KOBJECT_UEVENT] = "NETLINK_KOBJECT_UEVENT";
+
+	printf("Tracing socket(2), hit ctrl-c to end.\n");
+	printf("%-8s %-8s %-16s %-16s %-16s %-16s\n", "TIME", "PID", "COMM",
+		"FAMILY", "TYPE", "PROTOCOL");
+}
+
+tracepoint:syscalls:sys_enter_socket
+{
+	time("%H:%M:%S ");
+	printf("%-8d %-16s", pid, comm);
+	if (@family[args->family] != "") {
+		printf(" %-16s", @family[args->family])
+	} else {
+		printf(" %-16ld", args->family)
+	}
+	if (@type[args->type & SOCK_TYPE_MASK] != "") {
+		printf(" %-16s", @type[args->type & SOCK_TYPE_MASK])
+	} else {
+		printf(" %-16ld", args->type)
+	}
+	if (@protocol[args->protocol] != "") {
+		printf(" %-16s", @protocol[args->protocol])
+	} else {
+		printf(" %-16ld", args->protocol)
+	}
+	printf("\n");
+}
+
+END
+{
+	clear(@family);
+	clear(@type);
+	clear(@protocol);
+	printf("Bye.\n");
+}

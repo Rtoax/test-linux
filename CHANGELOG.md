@@ -9,6 +9,7 @@ and this project adheres to
 ## Unreleased
 #### Breaking Changes
 #### Added
+- ipc/socket/syscall: add socket.bt
 - netlink: Add samples/NETLINK_KOBJECT_UEVENT.c
 - syscall/samples: Add close(2) test.
 - errno: Add test EAFNOSUPPORT.c
