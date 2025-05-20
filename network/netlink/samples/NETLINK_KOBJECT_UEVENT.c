@@ -13,7 +13,9 @@ int main(void)
 		perror("socket");
 		exit(1);
 	}
-	close(fd);
 
+	printf("netlink: create socket %d\n", socket);
+
+	close(fd);
 	return 0;
 }
