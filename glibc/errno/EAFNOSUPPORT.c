@@ -10,7 +10,7 @@ int main(int argc, char *argv[])
 {
 	int sockfd;
 	sockfd = socket(0xffffffff/* not exist */, SOCK_STREAM, 0);
-	assert(errno == EAFNOSUPPORT);
+	assert(sockfd == -1 && errno == EAFNOSUPPORT);
 	perror("socket");
 	return 0;
 }
