@@ -12,6 +12,8 @@ readonly DISPLAYERS=( all diff missing )
 display=diff
 verbose=
 
+name_len_max=0
+
 __usage__()
 {
 	echo -e "
@@ -128,6 +130,10 @@ do
 			continue
 		fi
 
+		if [[ ${#name} -gt ${name_len_max} ]]; then
+			name_len_max=${#name}
+		fi
+
 		configs+=( ${name} )
 		values+=( ${val} )
 		values1+=( ${cmp_config_line##*=} )
@@ -146,6 +152,7 @@ do
 		color="\033[2m" # gray
 		reset="\033[m"
 	fi
-	printf "${color}%-4d %-64s %-4s %-4s${reset}\n" \
-		$i ${configs[$i]} ${values[$i]} ${values1[$i]}
+	printf "${color}%-4d %-*.*s %-4s %-4s${reset}\n" \
+		$i ${name_len_max} ${name_len_max} \
+		${configs[$i]} ${values[$i]} ${values1[$i]}
 done
