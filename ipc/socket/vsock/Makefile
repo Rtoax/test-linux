@@ -1,4 +1,5 @@
 include ../../../tlbuild.mk
+include ../../../kconfig.mk
 
 sub-dir := samples
 

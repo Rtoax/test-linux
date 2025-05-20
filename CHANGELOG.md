@@ -10,7 +10,7 @@ and this project adheres to
 #### Breaking Changes
 #### Added
 - vsock: add kernel CONFIG.
-- vsock: Test ioctl(fd, IOCTL_VM_SOCKETS_GET_LOCAL_CID, &cid)
+- vsock: Test ioctl(fd, IOCTL_VM_SOCKETS_GET_LOCAL_CID, &cid).
 - ipc/socket: Test vsock and add link to qemu/virtio/vhost.
 - scripts: Add kconfig_compare.sh to compare kernel config file.
 - ipc/socket/syscall: add socket.bt
