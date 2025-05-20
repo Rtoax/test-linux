@@ -1,30 +1,22 @@
 # SPDX-License-Identifier: GPL-3.0
-include ../tlbuild.mk
-
-sub-dir :=
-sub-dir += icmp
-sub-dir += netlink
-sub-dir += nic
+include ../../../tlbuild.mk
 
 TARGETS :=
-TARGETS += ethtool
-TARGETS += tcpdump
-TARGETS += ifconfig
-TARGETS += ping
-
 CC := gcc
+CFLAGS :=
+LDFLAGS :=
 
-include ../template/subdir-header.mk
+TARGETS += NETLINK_KOBJECT_UEVENT
+
+ifdef STATIC
+  LDFLAGS += -static
+endif
 
 .PHONY: build
-build: ${TARGETS} $(sub-dir-build)
-	${Q}./interface.sh
+build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
-ethtool: ethtool.o
-tcpdump: tcpdump.o
-ifconfig: ifconfig.o
-ping: ping.o
+NETLINK_KOBJECT_UEVENT: NETLINK_KOBJECT_UEVENT.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
@@ -34,12 +26,10 @@ $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
 	${Q}$(CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*)) $(CFLAGS) $(CFLAGS_$(*))
 
-test: ${TARGETS} $(sub-dir-test)
+test: ${TARGETS}
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
 
 .PHONY: clean
-clean: $(sub-dir-clean)
+clean:
 	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
 	${Q}rm -f ${TARGETS} *.o
-
-include ../template/subdir-footer.mk

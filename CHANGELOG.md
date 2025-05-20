@@ -9,6 +9,7 @@ and this project adheres to
 ## Unreleased
 #### Breaking Changes
 #### Added
+- netlink: Add samples/NETLINK_KOBJECT_UEVENT.c
 - syscall/samples: Add close(2) test.
 - errno: Add test EAFNOSUPPORT.c
 - rootfs,initrd: add qemu.sh
