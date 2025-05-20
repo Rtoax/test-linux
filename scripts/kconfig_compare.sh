@@ -2,13 +2,74 @@
 # Wrote by Rong Tao, 2025
 set -e
 
+readonly prog=$0
 readonly NOT_DEF=x
 
-config_file_base=$1
-config_file_cmp=$2
+config_file_base=
+config_file_cmp=
+
+__usage__()
+{
+	echo -e "
+NAME
+	${prog} - Compare linux kernel configs
+
+SYNOPSIS
+	${prog} -b=<base config> -c=<compared config>
+
+DESCRIPTION
+	-b, --base [CONFIG]    specify base config
+	-c, --config [CONFIG]  specify compared config
+
+	-h, --help             show help
+
+EXAMPLES
+	${prog} -b /boot/config-$(uname -r) -c /boot/config-$(uname -r)
+
+SEE ALSO
+	bash(1), etc.
+"
+	exit ${1-0}
+}
+
+TEMP_ARGS=$(getopt --options hb:c: \
+	--long base: \
+	--long config: \
+	--long help \
+	--name ${prog} -- "$@")
+test $? != 0 && __usage__ 1
+
+eval set -- "$TEMP_ARGS"
+
+while true; do
+	case $1 in
+	-b | --base)
+		shift
+		config_file_base=$1
+		shift
+		;;
+	-c | --config)
+		shift
+		config_file_cmp=$1
+		shift
+		;;
+	-h | --help)
+		shift
+		__usage__
+		;;
+	--)
+		shift
+		break
+		;;
+	*)
+		echo >&2 "ERROR: unknown $1"
+		exit 1
+		;;
+	esac
+done
 
 if [[ -z ${config_file_base} ]] || [[ -z ${config_file_cmp} ]]; then
-	echo >&2 "Usage: $0 [configbase] [configcmp]"
+	echo >&2 "ERROR: must specify config file"
 	exit 1
 fi
 

@@ -26,7 +26,7 @@ test_call:
 	$(call git_archive)
 	$(Q)./moonlight.sh
 	$(Q)./gotoxy.sh
-	$(Q)./kconfig_compare.sh ../kconfig ../kconfig
+	$(Q)./kconfig_compare.sh --base ../kconfig --config ../kconfig
 	@echo -e "  \033[1;33mDone\033[m"
 test:
 
