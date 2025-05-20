@@ -16,8 +16,11 @@ initrd_img_xz()
 # RHEL 5.0
 initrd_img_gunzip()
 {
+	# decompress
 	mv initrd.img initrd.img.gz
 	gunzip initrd.img.gz
-	file initrd.img
-	# initrd.img: ASCII cpio archive (SVR4 with no CRC)
+	cat initrd.img.gz | cpio -id
+
+	# compress
+	find . | cpio -H newc -o | gzip -9 > initrd.img
 }
