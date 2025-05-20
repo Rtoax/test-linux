@@ -3,11 +3,15 @@ include ../../../tlbuild.mk
 sub-dir := samples
 
 TARGETS :=
+TARGETS += vsock
 
 include ../../../template/subdir-header.mk
 
 .PHONY: build
 all: $(TARGETS) $(sub-dir-build)
+
+vsock_helpers.o: vsock_helpers.h
+vsock: vsock.o vsock_helpers.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
