@@ -9,6 +9,7 @@ and this project adheres to
 ## Unreleased
 #### Breaking Changes
 #### Added
+- scripts: Add kconfig_compare.sh to compare kernel config file.
 - ipc/socket/syscall: add socket.bt
 - netlink: Add samples/NETLINK_KOBJECT_UEVENT.c
 - syscall/samples: Add close(2) test.
