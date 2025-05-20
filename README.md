@@ -117,7 +117,8 @@ This repo ignore file(check `.gitignore`). If you want to write a text `Note`, u
 - `POSIX.1-2001 (2001)` - Unified standard, including `POSIX.1`, `POSIX.2`, `POSIX.1b`, `POSIX.1c`, and others.
 - `POSIX.1-2004 (2004)` - Revision, including previous versions with updates and corrections.
 - `POSIX.1-2008 (2008)` - Also known as `IEEE Std 1003.1-2008`, includes many fixes and new feature extensions.
-- `POSIX.1-2017 (2017)` - The latest revision, which includes further updates and corrections.
+- `POSIX.1-2017 (2017)` - Updates and corrections.
+- `POSIX.1-2024 (2024)` - The latest revision, which includes further updates and corrections.
 
 
 ## System V
