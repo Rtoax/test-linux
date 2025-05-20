@@ -6,9 +6,11 @@
 #include <linux/vm_sockets.h>
 
 #include "config.h"
+#include "../vsock_helpers.h"
 
 int main(void)
 {
+	unsigned int cid;
 	int sockfd;
 	struct sockaddr_vm addr = {0};
 	const char *msg = "Hello from VSOCK client!";
@@ -17,6 +19,10 @@ int main(void)
 		perror("socket");
 		exit(EXIT_FAILURE);
 	}
+
+	cid = vsock_get_local_cid();
+
+	printf("CID %d\n", cid);
 
 	addr.svm_family = AF_VSOCK;
 	addr.svm_cid = CID_HOST;
