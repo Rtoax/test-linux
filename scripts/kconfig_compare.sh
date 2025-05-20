@@ -8,6 +8,8 @@ readonly NOT_DEF=x
 config_file_base=
 config_file_cmp=
 
+readonly DISPLAYERS=( all diff missing )
+display=diff
 verbose=
 
 __usage__()
@@ -23,11 +25,14 @@ DESCRIPTION
 	-b, --base [CONFIG]    specify base config
 	-c, --config [CONFIG]  specify compared config
 
+	-d, --display [ITEM]   specify what to display, default: ${display}
+	                       support: ${DISPLAYERS[@]}
+
 	-h, --help             show help
 	-v, --verbose          display verbose
 
 EXAMPLES
-	${prog} -b /boot/config-$(uname -r) -c /boot/config-$(uname -r)
+	${prog} -b /boot/config-$(uname -r) -c /boot/config-$(uname -r) --display missing
 
 SEE ALSO
 	bash(1), etc.
@@ -35,9 +40,10 @@ SEE ALSO
 	exit ${1-0}
 }
 
-TEMP_ARGS=$(getopt --options hvb:c: \
+TEMP_ARGS=$(getopt --options hvb:c:d: \
 	--long base: \
 	--long config: \
+	--long display: \
 	--long verbose \
 	--long help \
 	--name ${prog} -- "$@")
@@ -55,6 +61,15 @@ while true; do
 	-c | --config)
 		shift
 		config_file_cmp=$1
+		shift
+		;;
+	-d | --display)
+		shift
+		display=$1
+		if ! [[ " ${DISPLAYERS[@]} " =~ " ${display} " ]]; then
+			echo >&2 "ERROR: display only support '${DISPLAYERS[@]}'"
+			exit 1
+		fi
 		shift
 		;;
 	-h | --help)
@@ -100,9 +115,16 @@ do
 	for file in ${config_file_cmp[@]}
 	do
 		cmp_config_line=$( grep ^"${name}=" ${file} || : )
-		[[ -z ${cmp_config_line} ]] && cmp_config_line="${name}=${NOT_DEF}"
 
-		if [[ ${val} == ${cmp_config_line##*=} ]]; then
+		if [[ ${display} == missing ]] && [[ ${cmp_config_line##*=} ]]; then
+			continue
+		fi
+
+		if [[ -z ${cmp_config_line##*=} ]]; then
+			cmp_config_line="${name}=${NOT_DEF}"
+		fi
+
+		if [[ ${display} != all ]] && [[ ${val} == ${cmp_config_line##*=} ]]; then
 			continue
 		fi
 
@@ -118,7 +140,10 @@ do
 	color=
 	reset=
 	if [[ ${values1[$i]} == ${NOT_DEF} ]]; then
-		color="\033[1;31m"
+		color="\033[1;31m" # red
+		reset="\033[m"
+	elif [[ ${values[$i]} == ${values1[$i]} ]]; then
+		color="\033[2m" # gray
 		reset="\033[m"
 	fi
 	printf "${color}%-4d %-64s %-4s %-4s${reset}\n" \
