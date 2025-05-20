@@ -29,6 +29,7 @@
 /tee
 /tee2
 /os-release
+/close
 /close_range
 /setitimer
 /rmdir

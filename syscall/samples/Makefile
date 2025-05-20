@@ -90,6 +90,7 @@ TARGETS += setgid setegid setregid
 TARGETS += getuid setuid seteuid setreuid
 TARGETS += setpgrp
 TARGETS += tee tee2
+TARGETS += close
 ifneq ($(wildcard /usr/include/linux/close_range.h),)
   TARGETS += close_range
 else
@@ -198,6 +199,7 @@ setreuid: setreuid.o
 setpgrp: setpgrp.o
 tee: tee.o
 tee2: tee2.o
+close: close.o
 close_range: close_range.o
 setitimer: setitimer.o
 unlink: unlink.o

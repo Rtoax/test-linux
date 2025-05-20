@@ -9,6 +9,7 @@ and this project adheres to
 ## Unreleased
 #### Breaking Changes
 #### Added
+- syscall/samples: Add close(2) test.
 - errno: Add test EAFNOSUPPORT.c
 - rootfs,initrd: add qemu.sh
 - c: add C standard comment, and test c17,c98,c++98,gnu++98.
