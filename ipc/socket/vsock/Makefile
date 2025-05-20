@@ -10,7 +10,9 @@ CFLAGS := -O0 -g -ggdb -pthread
 
 ALL: $(TARGETS)
 
+server.o: config.h
 server: server.o
+client.o: config.h
 client: client.o
 
 %.o: %.c
