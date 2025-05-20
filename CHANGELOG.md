@@ -9,7 +9,7 @@ and this project adheres to
 ## Unreleased
 #### Breaking Changes
 #### Added
-- ipc: Test vsock.
+- ipc/socket: Test vsock.
 - scripts: Add kconfig_compare.sh to compare kernel config file.
 - ipc/socket/syscall: add socket.bt
 - netlink: Add samples/NETLINK_KOBJECT_UEVENT.c
