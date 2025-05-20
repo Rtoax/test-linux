@@ -8,7 +8,8 @@ readonly NOT_DEF=x
 config_file_base=
 config_file_cmp=
 
-readonly DISPLAYERS=( all diff missing )
+# ym: 'y' -> 'm'
+readonly DISPLAYERS=( all diff missing ym )
 display=diff
 verbose=
 
@@ -124,6 +125,10 @@ do
 
 		if [[ -z ${cmp_config_line##*=} ]]; then
 			cmp_config_line="${name}=${NOT_DEF}"
+		fi
+
+		if [[ ${display} == ym ]] && [[ ${val}${cmp_config_line##*=} != ym ]]; then
+			continue
 		fi
 
 		if [[ ${display} != all ]] && [[ ${val} == ${cmp_config_line##*=} ]]; then
