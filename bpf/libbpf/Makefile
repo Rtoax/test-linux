@@ -21,7 +21,9 @@ KSYM_DO_EXECVEAT_COMMON := $(shell grep 't do_execveat_common' /proc/kallsyms \
 			| head -1 \
 			| awk '{print $$3}')
 
-$(info KSYM_DO_EXECVEAT_COMMON = ${KSYM_DO_EXECVEAT_COMMON})
+ifdef DEBUG
+  $(info KSYM_DO_EXECVEAT_COMMON = ${KSYM_DO_EXECVEAT_COMMON})
+endif
 
 UID=$(shell id -u)
 
@@ -45,8 +47,10 @@ kconfig-obj-$(CONFIG_BPF_LSM) += lsm_bpf
 kconfig-obj-$(CONFIG_BPF_LSM) += lsm_socket_create
 kconfig-obj-$(CONFIG_BPF_LSM) += lsm_socket_sendmsg
 
-$(info kconfig-obj-y : $(kconfig-obj-y))
-$(info kconfig-obj-n : $(kconfig-obj-))
+ifdef DEBUG
+  $(info kconfig-obj-y : $(kconfig-obj-y))
+  $(info kconfig-obj-n : $(kconfig-obj-))
+endif
 
 TARGETS :=
 TARGETS += config-map

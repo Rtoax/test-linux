@@ -14,5 +14,7 @@ BPFTOOL_VERSION := $(shell ${BPFTOOL} --version | grep -w bpftool | grep -o [0-9
 BPFTOOL_VERSION_MAJOR := $(shell echo ${BPFTOOL_VERSION} | awk -F '.' '{print $$1}')
 BPFTOOL_VERSION_MINOR := $(shell echo ${BPFTOOL_VERSION} | awk -F '.' '{print $$2}')
 
-$(info ${BPFTOOL} version ${BPFTOOL_VERSION_MAJOR}.${BPFTOOL_VERSION_MINOR})
+ifdef DEBUG
+  $(info ${BPFTOOL} version ${BPFTOOL_VERSION_MAJOR}.${BPFTOOL_VERSION_MINOR})
+endif
 export BPFTOOL BPFTOOL_VERSION_MAJOR BPFTOOL_VERSION_MINOR
