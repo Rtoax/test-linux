@@ -2,9 +2,12 @@
  * Test https://github.com/fmtlib/fmt
  */
 #include <fmt/core.h>
+#include <fmt/format.h>
+#include <fmt/printf.h>
 
 int main(void)
 {
-	//fmt::print("Hello, world!\n");
+	std::string str = fmt::format("Hello {}", "World");
+	fmt::print("Hello, world! {}\n", str);
 	return 0;
 }
