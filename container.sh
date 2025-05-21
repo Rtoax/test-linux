@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-IMG=fedora:41
+IMG=fedora:42
 
 darch=${DARCH}
 
