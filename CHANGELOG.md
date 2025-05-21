@@ -9,6 +9,17 @@ and this project adheres to
 ## Unreleased
 #### Breaking Changes
 #### Added
+#### Changed
+#### Deprecated
+#### Removed
+#### Fixed
+#### Security
+#### Docs
+#### Tools
+
+## [v2.2.11] 2025-05-21
+#### Breaking Changes
+#### Added
 - kata-containers: First commit.
 - procfs: add mounts.sh.
 - cpp: try test fmtlib.

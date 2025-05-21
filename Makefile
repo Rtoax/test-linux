@@ -6,7 +6,7 @@
 # Change the CHANGELOG.md at the same time
 VERSION = 2
 PATCHLEVEL = 2
-SUBLEVEL = 10
+SUBLEVEL = 11
 EXTRAVERSION =
 NAME = Fedora
 
