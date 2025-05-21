@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <errno.h>
 #include <fcntl.h>
 #include <unistd.h>
 #include <sys/ioctl.h>
@@ -29,4 +30,34 @@ int vsock_get_local_cid(void)
 
 	close(fd);
 	return cid;
+}
+
+unsigned int vsock_get_cid_from_args(int argc, char *argv[])
+{
+	unsigned int cid = 0, i;
+
+	for (i = 0; i < argc; i++) {
+		if (!strncmp(argv[i], "cid=", 4)) {
+			char *s_cid = argv[i] + 4;
+			if (!strcasecmp(s_cid, "any"))
+				cid = VMADDR_CID_ANY;
+			else if (!strcasecmp(s_cid, "host"))
+				cid = VMADDR_CID_HOST;
+			else if (!strcasecmp(s_cid, "local"))
+				cid = VMADDR_CID_LOCAL;
+			else
+				cid = atoi(s_cid);
+		}
+	}
+
+	if (cid) {
+#ifdef DEBUG
+		fprintf(stderr, "cid=%d\n", cid);
+#endif
+		return cid;
+	}
+
+	/* not found cid= */
+	errno = -ENOENT;
+	return 0;
 }
