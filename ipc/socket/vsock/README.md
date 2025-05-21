@@ -51,6 +51,20 @@ VM Sockets can be used in a lot of situation such as the VMware Tools inside the
 └──────────────────────────────────────┘
 ```
 
+- vhost+virtio
+
+```
+┌──────────────┐
+│     Guest    │
+│ virtio-vsock │
+└───────▲──────┘
+        │
+┌───────▼──────────────────────────────┐
+│                 Host                 │
+│             vhost-vsock.ko           │
+└──────────────────────────────────────┘
+```
+
 - loopback: need module `vsock_loopback`
 
 ```
@@ -92,6 +106,18 @@ VM Sockets can be used in a lot of situation such as the VMware Tools inside the
 # Device
 
 - /dev/vsock: vsock.ko
+
+
+# Drivers
+
+- vsock.ko
+- vhost-vsock.ko
+
+
+# Common use case is guest agents
+
+- qemu-guest-agent
+- kata-agent
 
 
 # Links
