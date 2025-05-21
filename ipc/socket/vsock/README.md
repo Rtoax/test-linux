@@ -16,6 +16,8 @@ VM Sockets(vsock)
 └──────────────────────────────────────┘
 ```
 
+- loopback: need module `vsock_loopback`
+
 ```
 ┌──────────┐                ┌──────────┐
 │  Server  │                │  Client  │
@@ -24,7 +26,7 @@ VM Sockets(vsock)
       │     VMADDR_CID_LOCAL     │
       │                          │
 ┌─────▼──────────────────────────▼─────┐
-│            vsock_loopback            │
+│           vsock_loopback.ko          │
 └──────────────────────────────────────┘
 ```
 
