@@ -25,7 +25,7 @@
 - IoT: Internet of Things (物联网) @IEEE-802.15.4
 - KEDA: Kubernetes Event-Driven Autoscaling (K8s时间驱动自动伸缩)
 - MaaS: Monitoring as a Service (MaaS)
-- OCI: Open Container Initiative (开放容器计划)
+- OCI: Open Container Initiative (开放容器计划/倡议)
 - PaaS: Platform as a Service (平台即服务)
 - PVC: Persistent Volumes Claim (持久卷声明)
 - SaaS: Software as a Service (软件即服务)
