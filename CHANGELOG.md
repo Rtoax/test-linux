@@ -9,6 +9,7 @@ and this project adheres to
 ## Unreleased
 #### Breaking Changes
 #### Added
+- scripts: add ascii.mk.
 - vsock: add kernel CONFIG.
 - vsock: Test ioctl(fd, IOCTL_VM_SOCKETS_GET_LOCAL_CID, &cid).
 - ipc/socket: Test vsock and add link to qemu/virtio/vhost.

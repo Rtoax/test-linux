@@ -12,6 +12,7 @@ include logo.mk
 include ../gnu/gnu.mk
 include git.mk
 include ../bpf/bpf.mk
+include ascii.mk
 
 all: test_call
 
