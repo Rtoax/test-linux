@@ -26,7 +26,7 @@ int main(void)
 	printf("CID %d\n", cid);
 
 	addr.svm_family = AF_VSOCK;
-	addr.svm_cid = CID_HOST;
+	addr.svm_cid = VMADDR_CID_ANY;
 	addr.svm_port = PORT;
 
 	if (bind(sockfd, (struct sockaddr*)&addr, sizeof(addr)) < 0) {
