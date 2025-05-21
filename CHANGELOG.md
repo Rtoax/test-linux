@@ -12,9 +12,7 @@ and this project adheres to
 - cgroup: Support sub-dir.
 - add posix sub-directory.
 - scripts: add ascii.mk.
-- vsock: add kernel CONFIG.
-- vsock: Test ioctl(fd, IOCTL_VM_SOCKETS_GET_LOCAL_CID, &cid).
-- ipc/socket: Test vsock and add link to qemu/virtio/vhost.
+- vsock: samples,kconfig and add link to qemu/virtio/vhost.
 - scripts: Add kconfig_compare.sh to compare kernel config file.
 - ipc/socket/syscall: add socket.bt
 - netlink: Add samples/NETLINK_KOBJECT_UEVENT.c
