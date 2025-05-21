@@ -17,8 +17,7 @@ TARGETS += __cplusplus
 ifeq (${CC_STD_C++20},1)
   TARGETS += format
 endif
-# TODO:
-# TARGETS += fmt
+TARGETS += fmt
 TARGETS += __STDC__ __STDC__c++98 __STDC__gnu++98
 
 CXXFLAGS := -Werror -Wall
@@ -52,6 +51,7 @@ ifeq ($(has-std_format),y)
 endif
 CXXFLAGS___STDC__c++98 := -std=c++98
 CXXFLAGS___STDC__gnu++98 := -std=gnu++98
+CXXFLAGS_fmt := -lfmt
 
 include ../template/subdir-header.mk
 
