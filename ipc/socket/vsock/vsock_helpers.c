@@ -11,6 +11,16 @@
 #include "vsock_helpers.h"
 
 
+char *vsock_cid_name(unsigned int cid)
+{
+	switch (cid) {
+	case VMADDR_CID_ANY: return "VMADDR_CID_ANY";
+	case VMADDR_CID_HOST: return "VMADDR_CID_HOST";
+	case VMADDR_CID_LOCAL: return "VMADDR_CID_LOCAL";
+	default: return "NUM";
+	}
+}
+
 int vsock_get_local_cid(void)
 {
 	unsigned int cid;
@@ -56,6 +66,8 @@ unsigned int vsock_get_cid_from_args(int argc, char *argv[])
 #endif
 		return cid;
 	}
+
+	fprintf(stderr, "usage: cid=[any|host|local|<NUM>]\n");
 
 	/* not found cid= */
 	errno = -ENOENT;

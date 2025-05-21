@@ -22,13 +22,13 @@ int main(int argc, char *argv[])
 
 	cid = vsock_get_local_cid();
 
-	printf("Local CID %d\n", cid);
+	printf("Local CID %d(%s)\n", cid, vsock_cid_name(cid));
 
 	remote_cid = vsock_get_cid_from_args(argc, argv);
 	if (remote_cid == 0)
 		remote_cid = VMADDR_CID_HOST;
 
-	printf("Remote CID %d\n", remote_cid);
+	printf("Remote CID %d(%s)\n", remote_cid, vsock_cid_name(remote_cid));
 
 	addr.svm_family = AF_VSOCK;
 	addr.svm_cid = remote_cid;
