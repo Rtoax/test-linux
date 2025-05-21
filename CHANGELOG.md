@@ -9,6 +9,7 @@ and this project adheres to
 ## Unreleased
 #### Breaking Changes
 #### Added
+- cpp: try test fmtlib.
 - cgroup: Support sub-dir.
 - add posix sub-directory.
 - scripts: add ascii.mk.

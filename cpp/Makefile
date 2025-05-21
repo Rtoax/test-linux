@@ -17,6 +17,8 @@ TARGETS += __cplusplus
 ifeq (${CC_STD_C++20},1)
   TARGETS += format
 endif
+# TODO:
+# TARGETS += fmt
 TARGETS += __STDC__ __STDC__c++98 __STDC__gnu++98
 
 CXXFLAGS := -Werror -Wall
@@ -69,6 +71,7 @@ __STDC__: __STDC__.o
 __STDC__c++98: __STDC__c++98.o
 __STDC__gnu++98: __STDC__gnu++98.o
 format: format.o
+fmt: fmt.o
 
 
 %.o: %.cpp
