@@ -8,9 +8,9 @@
 #include "config.h"
 #include "../vsock_helpers.h"
 
-int main(void)
+int main(int argc, char *argv[])
 {
-	unsigned int cid;
+	unsigned int cid, remote_cid;
 	int sockfd;
 	struct sockaddr_vm addr = {0};
 	const char *msg = "Hello from VSOCK client!";
@@ -22,10 +22,16 @@ int main(void)
 
 	cid = vsock_get_local_cid();
 
-	printf("CID %d\n", cid);
+	printf("Local CID %d\n", cid);
+
+	remote_cid = vsock_get_cid_from_args(argc, argv);
+	if (remote_cid == 0)
+		remote_cid = VMADDR_CID_HOST;
+
+	printf("Remote CID %d\n", remote_cid);
 
 	addr.svm_family = AF_VSOCK;
-	addr.svm_cid = VMADDR_CID_HOST;
+	addr.svm_cid = remote_cid;
 	addr.svm_port = PORT;
 
 	if (connect(sockfd, (struct sockaddr*)&addr, sizeof(addr)) < 0) {
