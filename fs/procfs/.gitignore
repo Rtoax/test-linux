@@ -1,3 +1,4 @@
+/proc-*
 /auxv
 /self
 /thread-self

@@ -1,5 +1,5 @@
+# SPDX-License-Identifier: GPL-3.0
 include ../../tlbuild.mk
-
 
 sub-dir := process
 
@@ -20,6 +20,7 @@ include ../../template/subdir-header.mk
 
 .PHONY: build
 build: ${TARGETS} $(sub-dir-build)
+	$(Q)./mounts.sh
 	@echo -e " \033[1;33m Done \033[m"
 
 # Add more object.o file
