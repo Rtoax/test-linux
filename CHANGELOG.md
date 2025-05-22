@@ -9,6 +9,7 @@ and this project adheres to
 ## Unreleased
 #### Breaking Changes
 #### Added
+- coredump: add dump.sh.
 - kata-containers: Add deploy.sh.
 - opcode: Add samples.
 #### Changed
