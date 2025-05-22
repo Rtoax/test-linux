@@ -17,6 +17,7 @@ and this project adheres to
 #### Security
 #### Docs
 #### Tools
+- Install firecracker.
 
 ## [v2.2.11] 2025-05-21
 #### Breaking Changes

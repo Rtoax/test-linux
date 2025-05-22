@@ -886,6 +886,7 @@ dnf_add_packages()
 	# Add more
 	if [[ $(is_os fedora) ]]; then
 		pkgs_virt+=( box64 ) # Linux Userspace x86_64 Emulator with a twist
+		pkgs_virt+=( firecracker ) # Secure and fast microVMs for serverless computing
 		pkgs_virt+=( qemu-system-loongarch64 edk2-loongarch64 )
 		pkgs_virt+=( qemu-system-riscv edk2-riscv64 )
 	fi
