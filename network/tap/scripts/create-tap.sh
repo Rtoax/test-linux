@@ -1,17 +1,16 @@
 #!/bin/bash
 
-# 创建 tap
+# create tap
 ip tuntap add dev tap0 mode tap
-# 创建 tun
+# create tun
 ip tuntap add dev tun0 mode tun
 
-# 删除 tap
+# delete tap
 ip tuntap del dev tap0 mode tap
-# 删除 tun
+# delete tun
 ip tuntap del dev tun0 mode tun
 
-# tun/tap 设备创建成功后可以当作普通的网卡一样使用，
-# 因此我们也可以通过ip link命令来操作它。
-# 例如: 使用ip link命令也可以删除tun/tap设备
+# after tun/tap device created, it could be used as NIC, thus, we could modify
+# it with 'ip link' command. like:
 ip link del tap0
 ip link del tun0
