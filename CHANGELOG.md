@@ -9,6 +9,7 @@ and this project adheres to
 ## Unreleased
 #### Breaking Changes
 #### Added
+- kata-containers: Add deploy.sh.
 - opcode: Add samples.
 #### Changed
 #### Deprecated
