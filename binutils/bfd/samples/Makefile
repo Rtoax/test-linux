@@ -1,7 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
 include ../../../tlbuild.mk
-
-
 include bfd.mk
 
 TARGETS :=
@@ -117,12 +115,13 @@ define bfd_strip
   @strip $(1) -o $(1).strip
 endef
 
-$(info CFLAGS=${CFLAGS})
-$(info LDFLAGS=${LDFLAGS})
+ifdef DEBUG
+  $(info CFLAGS=${CFLAGS})
+  $(info LDFLAGS=${LDFLAGS})
+endif
 
+.PHONY: build
 build: ${TARGETS}
-	@echo -e "  CFLAGS=${CFLAGS}"
-	@echo -e "  LDFLAGS=${LDFLAGS}"
 	@echo -e " \033[1;33m Done \033[m"
 
 bfd_helpers.o: bfd_helpers.h
@@ -154,9 +153,11 @@ $(TARGETS): %:
 	${Q}$(CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*)) $(CFLAGS) $(CFLAGS_$(*))
 	$(call bfd_strip,$(@))
 
+.PHONY: test
 test: ${TARGETS}
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
 
+.PHONY: clean
 clean:
 	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
 	${Q}rm -f ${TARGETS} *.o *.out *.strip *.a

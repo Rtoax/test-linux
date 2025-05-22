@@ -9,6 +9,7 @@ and this project adheres to
 ## Unreleased
 #### Breaking Changes
 #### Added
+- opcode: Add samples.
 #### Changed
 #### Deprecated
 #### Removed
