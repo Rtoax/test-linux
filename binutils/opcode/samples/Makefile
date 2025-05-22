@@ -18,8 +18,6 @@ include ../../binutils.mk
 CFLAGS += -DBINUTILS_VERSION_MAJOR=${BINUTILS_VERSION_MAJOR}
 CFLAGS += -DBINUTILS_VERSION_MINOR=${BINUTILS_VERSION_MINOR}
 
-CFLAGS_disassemble_init_for_target := -DARCH_aarch64=1
-
 ifdef DEBUG
   $(info CFLAGS=${CFLAGS})
   $(info LDFLAGS=${LDFLAGS})

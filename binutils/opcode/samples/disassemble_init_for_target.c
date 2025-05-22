@@ -1,6 +1,3 @@
-#ifndef ARCH_aarch64
-#define ARCH_aarch64
-#endif
 #include <stdio.h>
 #include <stdarg.h>
 #include <dis-asm.h>
