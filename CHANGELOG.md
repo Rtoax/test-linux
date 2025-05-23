@@ -9,6 +9,7 @@ and this project adheres to
 ## Unreleased
 #### Breaking Changes
 #### Added
+- nvdimm: Introduce.
 - network/9p: Introduce.
 - virtio/9p: Introduce.
 - virtio/fs: Introduce.
