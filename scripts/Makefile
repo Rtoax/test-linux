@@ -28,8 +28,11 @@ test_call:
 	$(Q)./moonlight.sh
 	$(Q)./gotoxy.sh
 	$(Q)./kconfig_compare.sh --base ../kconfig --config ../kconfig --display all
+	$(Q)${SHELL} patchset_examples.sh
 	@echo -e "  \033[1;33mDone\033[m"
 test:
 
 clean:
-	@rm -f test-linux-*.tar.gz
+	${Q}rm -f test-linux-*.tar.gz
+	${Q}rm -rf tmp.patch
+
