@@ -9,6 +9,7 @@ and this project adheres to
 ## Unreleased
 #### Breaking Changes
 #### Added
+- network/9p: Introduce.
 - virtio/9p: Introduce.
 - virtio/fs: Introduce.
 - distributions: add sources.list.d,yum.repos.d from ostools.
