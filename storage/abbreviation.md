@@ -19,6 +19,7 @@
 - LVM: Logical Volume Manager (逻辑卷管理)
 - MBR: Master Boot Record (主引导记录) @GPT
 - NAS: Network Attached Storage (网络附加存储)
+- NVDIMM: Non-Volatile Dual In-line Memory Module (非易失性双列直插式存储器模块) @DIMM
 - NVMe: Non-Volatile Memory Express (非易失性内存表达)
 - NVMe-oF: NVMe over Fabrics (NoF)
 - NVMe/FC: NVMe over Fibre Channel (FC-NVMe, NVMe over FC)
