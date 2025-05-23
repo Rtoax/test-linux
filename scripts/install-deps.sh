@@ -531,6 +531,8 @@ pkgs_base+=( make cmake )
 pkgs_base+=( nasm )                 # nasm
 if [[ ${OS} == fedora ]] && [[ ${OS_VERSION} -ge 40 ]]; then
 	pkgs_base+=( fastfetch )
+	pkgs_base+=( procs )
+	pkgs_base+=( procinfo procinfo-ng )
 fi
 pkgs_base+=( neofetch )
 pkgs_base+=( numactl )              # numastat
