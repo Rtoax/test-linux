@@ -749,6 +749,7 @@ dnf_add_packages()
 	pkgs_base+=( libdwarf-tools )       # dwarfdump
 	pkgs_base+=( libedit-devel )
 	pkgs_base+=( libpcap-devel )
+	pkgs_base+=( libpwquality )
 	pkgs_base+=( libseccomp-devel )
 	pkgs_base+=( libselinux-devel )     # SELinux
 	pkgs_base+=( libunwind-devel )      # Unwind
@@ -776,6 +777,7 @@ dnf_add_packages()
 	pkgs_base+=( readline-devel )
 	pkgs_base+=( scl-utils )
 	pkgs_base+=( sg3_utils )            # sg_inq, etc.
+	pkgs_base+=( shadow-utils )
 	pkgs_base+=( systemd-udev )         # coredumpctl
 	pkgs_base+=( vim-default-editor )
 	pkgs_base+=( which )
@@ -932,6 +934,7 @@ apt_add_packages()
 	pkgs_base+=( libopenmpi-dev )
 	pkgs_base+=( libpam0g )
 	pkgs_base+=( libpam0g-dev )
+	pkgs_base+=( libpwquality-tools )
 	pkgs_base+=( libssl-dev )
 	pkgs_base+=( libunwind-dev )
 	pkgs_base+=( liburing-dev )
@@ -942,6 +945,7 @@ apt_add_packages()
 	fi
 	pkgs_base+=( lsb-release )
 	pkgs_base+=( parallel )
+	pkgs_base+=( passwd )
 	pkgs_base+=( procps )
 	pkgs_base+=( python3-dbus ) # D-Bus
 	pkgs_base+=( python3-scapy )
