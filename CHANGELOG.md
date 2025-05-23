@@ -9,6 +9,7 @@ and this project adheres to
 ## Unreleased
 #### Breaking Changes
 #### Added
+- distributions: add sources.list from ostools.
 - add admin.sh,password.sh from ostools.
 - coredump: add dump.sh.
 - kata-containers: Add config-kata.toml, deploy.sh and create.sh.

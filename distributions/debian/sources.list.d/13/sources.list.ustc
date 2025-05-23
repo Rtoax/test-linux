@@ -1,0 +1,8 @@
+deb https://mirrors.ustc.edu.cn/debian/ trixie main non-free non-free-firmware contrib
+deb-src https://mirrors.ustc.edu.cn/debian/ trixie main non-free non-free-firmware contrib
+deb https://mirrors.ustc.edu.cn/debian-security/ trixie-security main
+deb-src https://mirrors.ustc.edu.cn/debian-security/ trixie-security main
+deb https://mirrors.ustc.edu.cn/debian/ trixie-updates main non-free non-free-firmware contrib
+deb-src https://mirrors.ustc.edu.cn/debian/ trixie-updates main non-free non-free-firmware contrib
+deb https://mirrors.ustc.edu.cn/debian/ trixie-backports main non-free non-free-firmware contrib
+deb-src https://mirrors.ustc.edu.cn/debian/ trixie-backports main non-free non-free-firmware contrib

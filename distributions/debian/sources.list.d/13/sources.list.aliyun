@@ -1,0 +1,9 @@
+deb https://mirrors.aliyun.com/debian/ trixie main non-free non-free-firmware contrib
+deb-src https://mirrors.aliyun.com/debian/ trixie main non-free non-free-firmware contrib
+deb https://mirrors.aliyun.com/debian-security/ trixie-security main
+deb-src https://mirrors.aliyun.com/debian-security/ trixie-security main
+deb https://mirrors.aliyun.com/debian/ trixie-updates main non-free non-free-firmware contrib
+deb-src https://mirrors.aliyun.com/debian/ trixie-updates main non-free non-free-firmware contrib
+deb https://mirrors.aliyun.com/debian/ trixie-backports main non-free non-free-firmware contrib
+deb-src https://mirrors.aliyun.com/debian/ trixie-backports main non-free non-free-firmware contrib
+

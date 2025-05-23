@@ -1,0 +1,8 @@
+deb https://mirrors.ustc.edu.cn/debian/ stable main non-free non-free-firmware contrib
+deb-src https://mirrors.ustc.edu.cn/debian/ stable main non-free non-free-firmware contrib
+deb https://mirrors.ustc.edu.cn/debian-security/ stable-security main
+deb-src https://mirrors.ustc.edu.cn/debian-security/ stable-security main
+deb https://mirrors.ustc.edu.cn/debian/ stable-updates main non-free non-free-firmware contrib
+deb-src https://mirrors.ustc.edu.cn/debian/ stable-updates main non-free non-free-firmware contrib
+deb https://mirrors.ustc.edu.cn/debian/ stable-backports main non-free non-free-firmware contrib
+deb-src https://mirrors.ustc.edu.cn/debian/ stable-backports main non-free non-free-firmware contrib
