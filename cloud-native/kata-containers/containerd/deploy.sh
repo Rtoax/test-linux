@@ -11,18 +11,7 @@ containerd config default | tee containerd-config.toml
 
 # Modify containerd-config.toml to add runtime io.containerd.kata.v2
 #
-# 1. add kata runtime
-#
-# [plugins]
-#   [plugins."io.containerd.grpc.v1.cri"]
-#     [plugins."io.containerd.grpc.v1.cri".containerd]
-#       default_runtime_name = "kata"
-#       [plugins."io.containerd.grpc.v1.cri".containerd.runtimes]
-#         [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.kata]
-#           runtime_type = "io.containerd.kata.v2"
-#
-# TODO: modify with sed.
-
+# 1. add kata runtime config, example config-kata.toml
 # 2. replace pause
 sed -i 's#registry.k8s.io/pause:3.#registry.cn-hangzhou.aliyuncs.com/google_containers/pause:3.#g' containerd-config.toml
 

@@ -10,7 +10,7 @@ and this project adheres to
 #### Breaking Changes
 #### Added
 - coredump: add dump.sh.
-- kata-containers: Add deploy.sh and create.sh.
+- kata-containers: Add config-kata.toml, deploy.sh and create.sh.
 - opcode: Add samples.
 #### Changed
 #### Deprecated
