@@ -96,7 +96,11 @@ goodbye()
 	local ret=$?
 	if [[ ${ret} != 0 ]]; then
 		echo >&2 -e "\033[1;31mRunning ${prog} failed!\033[m"
-		exit ${ret}
+		if [[ ${force} ]]; then
+			exit 0
+		else
+			exit ${ret}
+		fi
 	else
 		echo >&2 -e "\033[1;32mRunning ${prog} success!\033[m"
 		exit 0
