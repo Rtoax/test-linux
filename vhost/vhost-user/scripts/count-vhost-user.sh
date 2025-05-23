@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. ../../../libs/qemu.sh
+. ../../../qemu/qemu.sh
 
 qemu=$(get_qemu_kvm_emulator)
 

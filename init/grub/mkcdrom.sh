@@ -1,7 +1,7 @@
 #!/bin/bash
 set -ex
 
-. ../../libs/qemu.sh
+. ../../qemu/qemu.sh
 
 qemu_kvm=$(get_qemu_kvm_emulator)
 

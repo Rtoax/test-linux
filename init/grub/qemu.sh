@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. ../../libs/qemu.sh
+. ../../qemu/qemu.sh
 
 qemu_emulator=$(get_qemu_kvm_emulator)
 grub_img=$PWD/grub.img

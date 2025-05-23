@@ -1,5 +1,5 @@
 #!/bin/bash
-. ../../libs/qemu.sh
+. ../../qemu/qemu.sh
 
 QEMU=$(get_qemu_kvm_emulator)
 IMG_QCOW2=$PWD/vm.qcow2
