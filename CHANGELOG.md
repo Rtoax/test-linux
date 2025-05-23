@@ -9,6 +9,7 @@ and this project adheres to
 ## Unreleased
 #### Breaking Changes
 #### Added
+- virtio/fs: Introduce.
 - distributions: add sources.list.d,yum.repos.d from ostools.
 - add admin.sh,password.sh from ostools.
 - coredump: add dump.sh.
