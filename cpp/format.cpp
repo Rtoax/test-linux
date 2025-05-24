@@ -1,5 +1,8 @@
 #ifdef __has_include
 # if __has_include (<format>)
+#  ifdef ERROR
+#    error "std::format is banned. Use fmt::format instead."
+#  endif
 #include <format>
 # endif
 #endif
@@ -9,7 +12,12 @@
 #error "only -std >= c++20 support std::format"
 #endif
 
-std::string format(void)
+// error: invalid ‘#pragma GCC poison’ directive
+//    12 | #pragma GCC poison std::format
+//       |                       ^~
+//#pragma GCC poison std::format
+
+std::string tl_format(void)
 {
 #ifdef STD_FORMAT
 #pragma message "Support std::format()"
@@ -21,6 +29,6 @@ std::string format(void)
 
 int main(void)
 {
-	std::cout << format() << std::endl;
+	std::cout << tl_format() << std::endl;
 	return 0;
 }

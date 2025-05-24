@@ -23,11 +23,14 @@ TARGETS += __STDC__ __STDC__c++98 __STDC__gnu++98
 CXXFLAGS := -Werror -Wall
 CXXFLAGS += -DCPP
 ifdef DEBUG
-  CFLAGS += -DDEBUG -O0 -g -ggdb
+  CXXFLAGS += -DDEBUG -O0 -g -ggdb
+endif
+ifdef ERROR
+  CXXFLAGS += -DERROR=1
 endif
 
 ifdef M32
-  CFLAGS += -m32 -DM32=1
+  CXXFLAGS += -m32 -DM32=1
   CXXFLAGS += -m32 -DM32=1
   $(info Compile 32bit ELF)
 endif
