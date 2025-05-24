@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0
 include ../../tlbuild.mk
 
 TARGETS :=
@@ -26,6 +27,22 @@ CFLAGS += -I../../
 CFLAGS += -pthread
 CFLAGS += -DDEBUG -O0 -g
 
+ifdef ERROR
+  CFLAGS += -DERROR=1
+endif
+
+# TODO
+CFLAGS_call-func := -Wno-unknown-pragmas
+CFLAGS_GCC_system_header := -I./
+
+# Use /etc/os-release file for GCC dependency check, if system upgraded,
+# /etc/os-release could be newer than current source code, let's 'Warning',
+# not 'error'.
+CFLAGS_GCC_dependency := -Wno-error
+CFLAGS__Pragma := -Wno-error
+
+CFLAGS_GCC_diagnostic := -pg -Wno-error=pragmas -Wno-error=uninitialized
+
 build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
@@ -43,18 +60,6 @@ call-func: call-func.o
 push_macro: push_macro.o
 message: message.o
 _Pragma: _Pragma.o
-
-# TODO
-CFLAGS_call-func := -Wno-unknown-pragmas
-CFLAGS_GCC_system_header := -I./
-
-# Use /etc/os-release file for GCC dependency check, if system upgraded,
-# /etc/os-release could be newer than current source code, let's 'Warning',
-# not 'error'.
-CFLAGS_GCC_dependency := -Wno-error
-CFLAGS__Pragma := -Wno-error
-
-CFLAGS_GCC_diagnostic := -pg -Wno-error=pragmas -Wno-error=uninitialized
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
