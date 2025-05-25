@@ -1,8 +1,5 @@
 include ../../../../tlbuild.mk
 
-
-LDS_INSERT := ld-insert.lds
-
 TARGETS := main
 TARGETS += main-pie
 
@@ -12,14 +9,16 @@ CFLAGS :=
 LDFLAGS :=
 
 # FIXME: PIE not implement, because _start address in lds
-CFLAGS += -Wl,-T${LDS_INSERT}
+CFLAGS += -Wl,-Tld-insert-text.lds,-Tld-insert-data.lds
 CFLAGS += -Wl,--no-warn-rwx-segments
 
 .PHONY: build
-build: ${TARGETS} ${LDS_INSERT}
+build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
+main.o: init.h log.h
 main: main.o
+main-pie.o: init.h log.h
 main-pie: main-pie.o
 
 CFLAGS_main += -no-pie

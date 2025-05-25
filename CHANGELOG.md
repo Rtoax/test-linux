@@ -9,6 +9,7 @@ and this project adheres to
 ## Unreleased
 #### Breaking Changes
 #### Added
+- linker-script: Test multi scripts(.text+.data).
 - nvdimm: Introduce, kconfig.
 - network/9p: Introduce.
 - virtio/9p: Introduce.
