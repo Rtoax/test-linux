@@ -9,8 +9,14 @@ struct test {
 	char name[4];
 	int reserve[1];
 	int i;
+#if defined(ALIGNED_1)
 	int j;
 } __attribute__((packed));
+#elif defined(ALIGNED_8)
+} __attribute__((aligned(8)));
+#else
+};
+#endif
 
 #define INIT(func) init_call __init_##func __init = func
 
