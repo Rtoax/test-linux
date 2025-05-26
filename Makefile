@@ -90,39 +90,35 @@ $(TLCONFIG_CONFIG):
 	@echo >&2 -e "***"
 	@/bin/false
 
-# make_build [U|K] [dir]
-define make_build
-	@echo -e "[$(1)] \033[1;34mMake [$(2)] starting\033[m"
-	@pushd $(2) >/dev/null ; \
+# kern_build [dir]
+define kern_build
+	@echo -e "[K] \033[1;34mMake [$(1)] starting\033[m"
+	@pushd $(1) >/dev/null ; \
 		make; \
 		if [ $$? -ne 0 ]; then \
-			if [ $(1) == U ]; then \
-				echo "Failed $(1) $(2)" | tee --append $(FAILED_LOG); \
-			elif [ $(1) == K ]; then \
-				echo "Failed $(1) $(2)" | tee --append $(FAILED_LOG); \
-			fi ; \
+			echo "Failed $(1)" | tee --append $(FAILED_LOG); \
 			false; \
 		fi ; \
 		popd >/dev/null
-	@echo -e "[$(1)] Make [$(2)] done"
+	@echo -e "[K] Make [$(1)] done"
 endef
 
-# make_test [U|K] [dir]
-define make_test
-	@echo -e "[$(1)] \033[1;35mTest [$(2)] starting\033[m"
-	@pushd $(2) >/dev/null ; \
+# kern_test [dir]
+define kern_test
+	@echo -e "[K] \033[1;35mTest [$(1)] starting\033[m"
+	@pushd $(1) >/dev/null ; \
 		make test ; \
 		popd >/dev/null
-	@echo -e "[$(1)] Test [$(2)] done"
+	@echo -e "[K] Test [$(1)] done"
 endef
 
-# make_clean [U|K] [dir]
-define make_clean
-	@echo -e "[$(1)] \033[1;36mClean [$(2)] starting\033[m"
-	@pushd $(2) >/dev/null ; \
+# kern_clean [dir]
+define kern_clean
+	@echo -e "[K] \033[1;36mClean [$(1)] starting\033[m"
+	@pushd $(1) >/dev/null ; \
 		make clean ; \
 		popd >/dev/null
-	@echo -e "[$(1)] Clean [$(2)] done"
+	@echo -e "[K] Clean [$(1)] done"
 endef
 
 .PHONY: all
@@ -147,14 +143,14 @@ kernel: cleanfailedlog $(SUB_KERN_DIR)
 	$(call printfailedlog)
 	@echo "${MOONLIGHT}"
 $(SUB_KERN_DIR):
-	$(call make_build,K,$@)
+	$(call kern_build,$@)
 
 .PHONY: test
 test: testuser testkernel
 testuser: ${sub-dir-test}
 testkernel:$(SUB_KERN_DIR_TEST)
 $(SUB_KERN_DIR_TEST):
-	$(call make_test,K,$(@:%_test=%))
+	$(call kern_test,$(@:%_test=%))
 
 define installdeps
 	${SHELL} scripts/install-deps.sh --all --force --noupgrade
@@ -216,7 +212,7 @@ cleanuser: ${sub-dir-clean}
 cleankernel: $(SUB_KERN_DIR_CLEAN)
 	@echo "=== clean kernel"
 $(SUB_KERN_DIR_CLEAN):
-	$(call make_clean,K,$(@:%_clean=%))
+	$(call kern_clean,$(@:%_clean=%))
 # Clean git repo useless file and directory
 cleangit:
 	@echo "=== clean git repo"
