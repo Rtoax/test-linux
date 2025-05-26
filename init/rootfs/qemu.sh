@@ -130,9 +130,15 @@ if [[ ${is_initrd} ]]; then
 else
 	if [[ ${is_nvdimm} ]]; then
 		size=$(stat --format=%s ${rootfs})
+		skip_resize() {
+			if [[ ${size} -lt $((1024*1024*1024)) ]]; then
+				size=$((1024*1024*1024))
+			fi
+		}
+		qemu_args+=( -machine nvdimm=on )
 		qemu_args+=( -device nvdimm,id=nv0,memdev=mem0,unarmed=on )
 		qemu_args+=( -object memory-backend-file,id=mem0,mem-path=${rootfs},size=${size},readonly=on )
-		kernel_args+=( root=/dev/pmem0p1 )
+		kernel_args+=( root=/dev/pmem0 )
 	else
 		qemu_args+=( -drive file=${rootfs},format=raw,if=virtio )
 		kernel_args+=( root=/dev/vda )
