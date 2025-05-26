@@ -18,12 +18,10 @@
 
 <!-- Direct qemu command -->
 <domain type='kvm' xmlns:qemu='http://libvirt.org/schemas/domain/qemu/1.0'>
-  <os>
-    <!-- TODO: need enable nvdimm=on for -machine -->
-    <type arch='x86_64' machine='pc-q35-9.2'>hvm</type>
-    <boot dev='hd'/>
-  </os>
   <qemu:commandline>
+    <!-- need enable nvdimm=on for -machine -->
+    <qemu:arg value='-machine'/>
+    <qemu:arg value='nvdimm=on'/>
     <qemu:arg value='-device'/>
     <qemu:arg value='nvdimm,id=nv0,memdev=mem0,unarmed=on'/>
     <qemu:arg value='-object'/>
