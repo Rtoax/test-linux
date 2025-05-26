@@ -632,6 +632,7 @@ pkgs_desktop+=( shutter )
 pkgs_desktop+=( terminator )
 pkgs_desktop+=( thunderbird )
 pkgs_desktop+=( wireshark )
+pkgs_desktop+=( xrdp )
 
 if [[ $(is_rhel_like) ]]; then
 	if [[ ! -e /etc/yum.repos.d/scootersoftware.repo ]]; then
@@ -1153,3 +1154,5 @@ if [[ ${have_pip} ]] && [[ -e /usr/bin/pip3 ]]; then
 	fi
 	inst_eval sudo pip3 install ${PIP_EXTRA_ARGS[@]} "${pip_whls[@]}"
 fi
+
+sudo systemctl enable --now xrdp.service
