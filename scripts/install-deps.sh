@@ -617,6 +617,7 @@ pkgs_media_3rd+=()
 # Desktop Packages
 pkgs_desktop+=( gimp )
 pkgs_desktop+=( gitk )
+pkgs_desktop+=( gnome-remote-desktop )
 pkgs_desktop+=( gnome-tweaks )
 pkgs_desktop+=( gnuplot )
 pkgs_desktop+=( ksnip )
