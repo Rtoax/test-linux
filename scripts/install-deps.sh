@@ -701,6 +701,7 @@ pkgs_fs+=( xfsprogs )
 pkgs_storage+=( lvm2 )
 pkgs_storage+=( iotop )
 pkgs_storage+=( mdadm ) # manage MD devices aka Linux Software RAID
+pkgs_storage+=( ndctl ) # for nvdimm/libndctl
 
 pkgs_net+=( ethtool )
 pkgs_net+=( net-tools ) # netstat
