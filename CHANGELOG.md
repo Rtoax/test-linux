@@ -6,8 +6,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+
 ## Unreleased
+
 #### Breaking Changes
+- pxe: Introduce from ostools.
 - libvirt: Introduce from ostools.
 #### Added
 - install-deps.sh: add --srvs argument.
@@ -35,6 +38,7 @@ and this project adheres to
 
 
 ## [v2.2.11] 2025-05-21
+
 #### Breaking Changes
 #### Added
 - kata-containers: First commit.
