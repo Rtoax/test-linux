@@ -77,9 +77,11 @@ CONFIG_LOCKUP_DETECTOR
 
 ## abbreviation.md Example
 
+- Syntax: `NAME[,ALIAS1,ALIAS2]: English shotcut (Chinese shotcut) @RELATE1 @RELATE2`
+
 ```
 - AB: A Ball (一个球)
-- ABC: A Ball Circle (一个球圈) @AB
+- ABC[,ALIAS1,ALIAS2]: A Ball Circle (一个球圈) @AB
 ```
 
 
