@@ -28,6 +28,7 @@ force=
 
 readonly OS=${ID}
 readonly OS_VERSION=${VERSION_ID}
+readonly OSV="${OS}:${OS_VERSION}"
 readonly VIRT_TYPE=$(systemd-detect-virt 2>/dev/null || :)
 readonly IS_PHY=$( [[ ${VIRT_TYPE} == none ]] && echo YES || :)
 readonly IS_DNF5="$(dnf --version 2>/dev/null | grep -woi dnf5 | uniq)"
@@ -38,6 +39,7 @@ readonly DISTS_DEBIAN_LIKE=( debian ubuntu )
 readonly DISTS_SUSE_LIKE=( suse opensuse opensuse-leap )
 
 echo "OS: ${OS}"
+echo "OSV: ${OSV}"
 echo "VIRT: ${VIRT_TYPE} (IS_PHY: ${IS_PHY})"
 
 have_base=YES
@@ -219,7 +221,8 @@ os_operator()
 is_os()
 {
 	local oss=( $@ )
-	if [[ " ${oss[@]} " =~ " ${OS} " ]]; then
+	if [[ " ${oss[@]} " =~ " ${OS} " ]] || \
+	   [[ " ${oss[@]} " =~ " ${OSV} " ]]; then
 		echo YES
 	fi
 	return 0
@@ -544,8 +547,11 @@ pkgs_base+=( jq )
 pkgs_base+=( lshw )                 # lshw
 pkgs_base+=( make cmake )
 pkgs_base+=( nasm )                 # nasm
-if [[ ${OS} == fedora ]] && [[ ${OS_VERSION} -ge 40 ]]; then
+if [[ $(is_os fedora:40 fedora:41 fedora:42) ]]; then
 	pkgs_base+=( fastfetch )
+	if [[ $(is_os fedora:42) ]]; then
+		pkgs_skip+=( neofetch )
+	fi
 	pkgs_base+=( procs )
 	pkgs_base+=( procinfo procinfo-ng )
 fi
