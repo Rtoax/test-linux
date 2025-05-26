@@ -1,7 +1,7 @@
 - CE: Correctable Error () @ECC
-- DDR: Doubld Date Rate SDRAM (双倍速率 SDRAM) @DIMM
+- DDR: Doubld Date Rate SDRAM (双倍速率 SDRAM) @DIMM @SDRAM
 - DMB: Data Memory Barrier (数据内存屏障) @arm @DSB @ISB
-- DIMM: Dual-Inline-Memory-Modules (双列直插式内存模块) @UDIMM @RDIMM @LRDIMM @DDR
+- DIMM: Dual-Inline-Memory-Modules (双列直插式内存模块，内存条) @UDIMM @RDIMM @LRDIMM @DDR
 - DRAM: Dynamic Random Access Memory (动态随机存取存储器)
 - DSB: Data Synchronization Barrier (数据同步屏障) @arm @DMB @ISB
 - ECC: Error Checking and Correcting () @UE @CE
@@ -23,6 +23,9 @@
 - PTI: Page Table Isolation (页表隔离) @KPTI
 - RDIMM: Registered DIMM (服务器使用，适用于主流) @DIMM
 - RSS: Resident Set Size (常驻内存集合大小 包含共享库占用的内存)
+- SO-DIMM: Small Outline DIMM Module (笔记本内存条) @DIMM
+- SDRAM: Synchronous Dynamic Random Access Memory (同步动态随机存储器) @DDR
+- SIMM: Single Inline Memory Module (单列直插式内存模块) @DIMM
 - TLB: Translation Lookaside Buffer (旁路转换缓冲, 地址转换后备缓冲)
 - UDIMM: Unbuffered DIMM (适用于低端CPU平台) @DIMM
 - UE: Uncorrectable Error () @ECC
