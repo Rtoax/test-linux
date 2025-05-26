@@ -20,6 +20,8 @@ declare -a pip_whls
 
 declare -a pkgs_skip
 
+declare -a enable_srvs
+
 verbose=
 dry_run=
 force=
@@ -58,6 +60,7 @@ have_net=
 have_video=
 have_boot=
 
+have_services=
 have_3rd_party=
 
 enable_all()
@@ -81,6 +84,7 @@ enable_all()
 	#not set video for --all
 	#have_video=YES
 	have_boot=YES
+	have_services=YES
 }
 
 enable_auto()
@@ -300,6 +304,8 @@ ARGUMENT
 	--video            install video relate software, such as video editor
 	--boot             install boot/bootloader relate software
 
+	--srvs             enable systemd services
+
 	--3rd              get third party software packages above
 
 	--nobase           skip basic packages
@@ -348,6 +354,7 @@ TEMP_ARGS=$(getopt --options uvhfk: \
 	--long video \
 	--long boot \
 	--long net \
+	--long srvs \
 	--long skip-pkg: \
 	--long dry-run \
 	--long verbose \
@@ -444,6 +451,10 @@ while true; do
 	--3rd)
 		shift
 		have_3rd_party=YES
+		;;
+	--srvs)
+		shift
+		have_services=YES
 		;;
 	--pip)
 		shift
@@ -633,6 +644,7 @@ pkgs_desktop+=( terminator )
 pkgs_desktop+=( thunderbird )
 pkgs_desktop+=( wireshark )
 pkgs_desktop+=( xrdp )
+enable_srvs+=( xrdp.service )
 
 if [[ $(is_rhel_like) ]]; then
 	if [[ ! -e /etc/yum.repos.d/scootersoftware.repo ]]; then
@@ -1155,4 +1167,9 @@ if [[ ${have_pip} ]] && [[ -e /usr/bin/pip3 ]]; then
 	inst_eval sudo pip3 install ${PIP_EXTRA_ARGS[@]} "${pip_whls[@]}"
 fi
 
-sudo systemctl enable --now xrdp.service
+if [[ ${have_services} ]] && [[ ${enable_srvs} ]]; then
+	for srv in ${enable_srvs[@]}
+	do
+		inst_eval sudo systemctl enable --now ${srv}
+	done
+fi
