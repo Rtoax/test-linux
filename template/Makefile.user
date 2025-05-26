@@ -9,9 +9,6 @@ STDIO_H := /usr/include/stdio.h
 
 sub-dir := SUBDIR
 
-sub-dir-build := $(addprefix $(shell pwd)/,$(sub-dir:=.build))
-sub-dir-clean := $(addprefix $(shell pwd)/,$(sub-dir:=.clean))
-
 TARGETS :=
 
 ifneq ($(wildcard $(STDIO_H)),)
@@ -74,6 +71,8 @@ define user_strip
   $(Q)strip $(1) -o $(1).strip
 endef
 
+include subdir-header.mk
+
 .PHONY: build
 build: ${TARGETS} $(sub-dir-build)
 	@echo -e "  CFLAGS=${CFLAGS}"
@@ -81,9 +80,6 @@ build: ${TARGETS} $(sub-dir-build)
 	@echo -e "  PRINTF  ${feature-printf} "
 	@echo -e "  CFLAGS  $(CFLAGS)"
 	@echo -e "  \033[1;33mDone\033[m"
-
-$(sub-dir-build):
-	make -C $(@:.build=)
 
 main.user: main.user.o
 main.user.o: main.h main.user.d
@@ -110,5 +106,4 @@ clean: $(sub-dir-clean)
 	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
 	$(Q)rm -f ${TARGETS} *.s *.o *.strip *.d
 
-$(sub-dir-clean):
-	$(Q)make -C $(@:.clean=) clean
+include subdir-footer.mk
