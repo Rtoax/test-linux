@@ -24,6 +24,7 @@
     <qemu:arg value='nvdimm=on'/>
     <qemu:arg value='-device'/>
     <qemu:arg value='nvdimm,id=nv0,memdev=mem0,unarmed=on'/>
+    <!-- sudo chown qemu:qemu nvdimm.bin -->
     <qemu:arg value='-object'/>
     <qemu:arg value='memory-backend-file,id=mem0,mem-path=/home/sda/qcow2s/nvdimm.bin,size=1073741824,readonly=off'/>
   </qemu:commandline>
