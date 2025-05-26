@@ -9,6 +9,7 @@ and this project adheres to
 ## Unreleased
 #### Breaking Changes
 #### Added
+- elf/plt: add overwrite-plt.c.
 - linker-script: Test multi scripts(.text+.data).
 - nvdimm: Introduce, kconfig.
 - network/9p: Introduce.

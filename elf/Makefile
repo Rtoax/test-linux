@@ -4,6 +4,7 @@ include ./elf.mk
 
 sub-dir := got
 sub-dir += library
+sub-dir += plt
 sub-dir += pie
 
 TARGETS :=
