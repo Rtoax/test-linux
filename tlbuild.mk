@@ -42,20 +42,20 @@ NUMA_TOPDIR := $(TL_TOPDIR)/numa/
 export GIT_TOPDIR TL_TOPDIR LIBS_TOPDIR NUMA_TOPDIR
 
 TL_LOG := $(TL_TOPDIR)/test-linux.log
-FAILED_LOG := $(TL_TOPDIR)/failed.log
-export TL_LOG FAILED_LOG
+TL_FAILED_LOG := $(TL_TOPDIR)/failed.log
+export TL_LOG TL_FAILED_LOG
 
 define tl_log
 	${Q}echo $(shell date '+%Y-%m-%d_%H:%M:%S') $(shell hostname) $1 >> ${TL_LOG}
 endef
 
 define cleanfailedlog
-	${Q}rm -f $(FAILED_LOG)
+	${Q}rm -f $(TL_FAILED_LOG)
 endef
 
 define printfailedlog
-	${Q}if [[ -e $(FAILED_LOG) ]]; then \
-		cat $(FAILED_LOG) ; \
+	${Q}if [[ -e $(TL_FAILED_LOG) ]]; then \
+		cat $(TL_FAILED_LOG) ; \
 	fi
 endef
 

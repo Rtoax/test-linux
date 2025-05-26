@@ -58,7 +58,7 @@ help:
 	@echo >&2 -e "*** GIT_TOPDIR ${GIT_TOPDIR}"
 	@echo >&2 -e "***    core.hooksPath = ${GIT_CONFIG_CORE_HOOKSPATH}"
 	@echo >&2 -e "*** TL_LOG ${TL_LOG}"
-	@echo >&2 -e "*** FAILED_LOG ${FAILED_LOG}"
+	@echo >&2 -e "*** TL_FAILED_LOG ${TL_FAILED_LOG}"
 	@echo >&2 -e "*** TEST_LINUX_VERSION v${TEST_LINUX_VERSION} (${NAME})"
 	@echo >&2 -e "*** KERNEL_VERSION ${KVERSION}.${KPATCHLEVEL}.${KSUBLEVEL}, CODE ${KVERSION_CODE}"
 	@echo >&2 -e "***"
@@ -96,7 +96,7 @@ define kern_build
 	@pushd $(1) >/dev/null ; \
 		make; \
 		if [ $$? -ne 0 ]; then \
-			echo "Failed $(1)" | tee --append $(FAILED_LOG); \
+			echo "Failed $(1)" | tee --append $(TL_FAILED_LOG); \
 			false; \
 		fi ; \
 		popd >/dev/null

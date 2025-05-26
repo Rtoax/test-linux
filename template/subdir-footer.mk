@@ -2,7 +2,7 @@
 Q ?= @
 
 define make_sub_dir
-	@make -C ${1} || echo "Failed ${1}" | tee --append ${FAILED_LOG}
+	@make -C ${1} || echo "Failed ${1}" | tee --append ${TL_FAILED_LOG}
 endef
 
 $(sub-dir-build):
