@@ -13,6 +13,7 @@ and this project adheres to
 - pxe: Introduce from ostools.
 - libvirt: Introduce from ostools.
 #### Added
+- initrd: Add minimal image from ostools.
 - install-deps.sh: add --srvs argument.
 - elf/plt: add overwrite-plt.c.
 - linker-script: Test multi scripts(.text+.data).
