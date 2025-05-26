@@ -1,0 +1,22 @@
+<!--
+  sudo virsh net-define test1.xml
+  sudo virsh net-start test1
+  sudo virsh net-autostart test1
+  sudo virsh attach-interface NAME --type bridge --source virbr1
+-->
+<network connections='1'>
+  <name>test1</name>
+  <uuid>1f85128c-5c18-48af-ad97-090ed42e6113</uuid>
+  <forward mode='nat'>
+    <nat>
+      <port start='1024' end='65535'/>
+    </nat>
+  </forward>
+  <bridge name='virbr1' stp='on' delay='0'/>
+  <mac address='52:54:00:a7:d4:4e'/>
+  <ip address='192.168.1.1' netmask='255.255.255.0'>
+    <dhcp>
+      <range start='192.168.1.2' end='192.168.1.254'/>
+    </dhcp>
+  </ip>
+</network>

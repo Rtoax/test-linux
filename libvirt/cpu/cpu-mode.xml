@@ -1,0 +1,19 @@
+<!-- host-passthrough -->
+<!-- example: -->
+<cpu mode='host-passthrough' check='none' migratable='on'/>
+
+<!-- host-model -->
+<!-- see /usr/share/libvirt/cpu_map/ -->
+<!-- example: -->
+<cpu mode='host-model' check='partial'/>
+<!-- example: -->
+<cpu mode='host-model' check='partial'>
+  <model>EPYC</model>
+</cpu>
+
+<!-- custom -->
+<!-- example: -->
+<cpu mode='custom' match='exact' check='none'>
+  <model fallback='allow'>SandyBridge</model>
+</cpu>
+

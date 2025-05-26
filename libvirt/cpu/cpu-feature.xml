@@ -1,0 +1,40 @@
+<!-- Disable cpu feature -->
+<domain type='kvm' xmlns:qemu='http://libvirt.org/schemas/domain/qemu/1.0'>
+  <cpu mode='host-passthrough' check='none' migratable='on'/>
+  <qemu:commandline>
+    <qemu:arg value='-cpu'/>
+    <!-- Forbid sse will cause kernel panic -->
+    <qemu:arg value='host,-sse4.1,-sse4.2,-avx,-avx2'/>
+    <qemu:arg value='host,-avx,-avx2'/>
+  </qemu:commandline>
+</domain>
+
+<!-- Disable Guest OS CPU Feature -->
+<!-- Turn off vmx feature -->
+<domain type='kvm' xmlns:qemu='http://libvirt.org/schemas/domain/qemu/1.0'>
+  <cpu mode='custom' match='exact' check='none'>
+    <model fallback='forbid'>SandyBridge</model>
+  </cpu>
+  <qemu:commandline>
+    <qemu:arg value='-cpu'/>
+    <qemu:arg value='max,vmx=off'/>
+  </qemu:commandline>
+</domain>
+
+<!-- Enable cpu feature SVE on arm64 -->
+<domain type='qemu' xmlns:qemu='http://libvirt.org/schemas/domain/qemu/1.0'>
+  <qemu:commandline>
+    <qemu:arg value='-cpu'/>
+    <qemu:arg value='max,sve=on,sve256=on'/>
+  </qemu:commandline>
+</domain>
+
+<!-- If cpu is host-model, the feature see /usr/share/libvirt/cpu_map/ first -->
+
+<!-- Qemu TCG CPU Feature -->
+<domain type='qemu'>
+  <cpu mode='custom' match='exact' check='none'>
+    <model fallback='allow'>qemu64</model>
+    <feature policy='require' name='pku'/>
+  </cpu>
+</domain>

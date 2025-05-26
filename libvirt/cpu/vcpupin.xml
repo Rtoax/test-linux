@@ -1,0 +1,37 @@
+<!-- virsh vcpupin [domain] [vcpu] [cpu] -->
+<vcpu cpuset='0-7'>8</vcpu>
+	<cputune>
+		<vcpupin vcpu='0' cpuset='0'/>
+		<vcpupin vcpu='1' cpuset='1'/>
+		<vcpupin vcpu='2' cpuset='2'/>
+		<vcpupin vcpu='3' cpuset='3'/>
+		<vcpupin vcpu='4' cpuset='4'/>
+		<vcpupin vcpu='6' cpuset='6'/>
+		<vcpupin vcpu='7' cpuset='7'/>
+	</cputune>
+
+	<!-- sched_setaffinity(2) -->
+	<cputune>
+		<vcpupin vcpu="0" cpuset="1-4,ˆ2"/>
+		<vcpupin vcpu="1" cpuset="0,1"/>
+		<vcpupin vcpu="2" cpuset="2,3"/>
+		<vcpupin vcpu="3" cpuset="0,4"/>
+	</cputune>
+
+	<!-- numa -->
+	<cputune>
+		<vcpupin vcpu="0" cpuset="1"/>
+		<vcpupin vcpu="1" cpuset="5"/>
+		<vcpupin vcpu="2" cpuset="2"/>
+		<vcpupin vcpu="3" cpuset="6"/>
+	</cputune>
+	<numatune>
+		<memory mode="strict" nodeset="1-2"/>
+	</numatune>
+	<cpu>
+		<numa>
+			<cell id="0" cpus="0-1" memory="3" unit="GiB"/>
+			<cell id="1" cpus="2-3" memory="3" unit="GiB"/>
+		</numa>
+	</cpu>
+

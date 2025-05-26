@@ -1,0 +1,6 @@
+<network>
+  <name>pxebr0</name>
+  <forward mode='nat'/>
+  <bridge name='pxebr0' stp='on' delay='0'/>
+  <ip address='192.168.30.1' netmask='255.255.255.0'/>
+</network>

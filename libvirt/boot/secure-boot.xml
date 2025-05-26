@@ -1,0 +1,14 @@
+<!-- enable secure boot -->
+<os firmware="efi">
+  <firmware>
+    <feature enabled='yes' name='enrolled-keys'/>
+    <feature enabled='yes' name='secure-boot'/>
+  </firmware>
+</os>
+
+<!-- disable secure boot -->
+<os firmware="efi">
+  <firmware>
+    <feature enabled='no' name='secure-boot'/>
+  </firmware>
+</os>

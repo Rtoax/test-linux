@@ -1,0 +1,7 @@
+<!--
+ enable bootmenu
+ virt-install: bootmenu.enable=on
+-->
+<os firmware="efi">
+  <bootmenu enable="yes"/>
+</os>

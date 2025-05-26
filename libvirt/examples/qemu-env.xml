@@ -1,0 +1,7 @@
+<!-- add qemu env -->
+<domain type='kvm' xmlns:qemu='http://libvirt.org/schemas/domain/qemu/1.0'>
+  <!-- ... -->
+  <qemu:commandline>
+    <qemu:env name='LD_PRELOAD' value='/lib64/libasan.so.8'/>
+  </qemu:commandline>
+</domain>

@@ -1,0 +1,9 @@
+<graphics type='spice' autoport='yes'>
+  <listen type='address'/>
+  <image compression='off'/>
+</graphics>
+
+<graphics type='spice' port='5900' autoport='yes' listen='127.0.0.1'>
+  <listen type='address' address='127.0.0.1'/>
+  <image compression='off'/>
+</graphics>

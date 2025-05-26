@@ -1,0 +1,14 @@
+<!-- Set cache -->
+
+<cpu mode='host-model'>
+  <model fallback='allow'/>
+  <cache level='3' mode='emulate'/>
+</cpu>
+
+<!--
+  error: unsupported configuration: CPU cache specification is not
+  supported for 'aarch64' architecture
+-->
+<cpu mode='host-passthrough' check='none'>
+  <cache level='3' mode='emulate'/>
+</cpu>

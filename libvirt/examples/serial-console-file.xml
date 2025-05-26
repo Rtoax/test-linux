@@ -1,0 +1,10 @@
+    <serial type='file'>
+      <source path='/var/log/libvirt/qemu/anconsole.log'/>
+      <target type='system-serial' port='0'>
+        <model name='pl011'/>
+      </target>
+    </serial>
+    <console type='file'>
+      <source path='/var/log/libvirt/qemu/anconsole.log'/>
+      <target type='serial' port='0'/>
+    </console>

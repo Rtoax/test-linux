@@ -1,0 +1,21 @@
+<!-- Hypervisor: KVM -->
+<!-- qemu-kvm -accel kvm ... -->
+<domain type='kvm'>
+
+<!-- Hypervisor: QEMU TCG -->
+<!--
+    $ lscpu
+    Vendor ID:             AuthenticAMD
+    Model name:            QEMU TCG CPU version 2.5+
+-->
+<domain type='qemu'>
+
+<!-- example: custom cpu model
+     qemu-tcg not support avx512, pku could pass to guest os.
+-->
+<domain type='qemu'>
+  <cpu mode='custom' match='exact' check='none'>
+    <model fallback='allow'>qemu64</model>
+    <feature policy='require' name='pku'/>
+  </cpu>
+</domain>

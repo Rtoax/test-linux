@@ -8,6 +8,7 @@ and this project adheres to
 
 ## Unreleased
 #### Breaking Changes
+- libvirt: Introduce from ostools.
 #### Added
 - install-deps.sh: add --srvs argument.
 - elf/plt: add overwrite-plt.c.
