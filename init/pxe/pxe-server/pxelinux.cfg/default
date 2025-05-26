@@ -3,17 +3,17 @@ prompt 0
 timeout 600
 
 label linux
-	menu label ^Start CCLinux Live OS
+	menu label ^Start Fedora Live OS
 	menu default
-	kernel images/cclinux/live/vmlinuz-5.15.131-10.cl9.x86_64
-	append initrd=images/cclinux/live/initramfs-5.15.131-10.cl9.x86_64.img root=live:http://192.168.30.127/live-rootfs.squashfs.img ip=dhcp
+	kernel images/fedora/live/vmlinuz-6.14.6-300.fc42.x86_64
+	append initrd=images/fedora/live/initramfs-6.14.6-300.fc42.x86_64.img root=live:http://192.168.30.127/live-rootfs.squashfs.img ip=dhcp
 label linux-rd-break
-	menu label ^Start CCLinux Live OS rd.break
+	menu label ^Start Fedora Live OS rd.break
 	menu default
-	kernel images/cclinux/live/vmlinuz-5.15.131-10.cl9.x86_64
-	append initrd=images/cclinux/live/initramfs-5.15.131-10.cl9.x86_64.img root=live:http://192.168.30.127/live-rootfs.squashfs.img ip=dhcp rd.break
+	kernel images/fedora/live/vmlinuz-6.14.6-300.fc42.x86_64
+	append initrd=images/fedora/live/initramfs-6.14.6-300.fc42.x86_64.img root=live:http://192.168.30.127/live-rootfs.squashfs.img ip=dhcp rd.break
 label linux-ignition
-	menu label ^Start CCLinux Live OS with Ignition
+	menu label ^Start Fedora Live OS with Ignition
 	menu default
-	kernel images/cclinux/live/vmlinuz-5.15.131-10.cl9.x86_64
-	append initrd=images/cclinux/live/initramfs-5.15.131-10.cl9.x86_64.img root=live:http://192.168.30.127/live-rootfs.squashfs.img ignition.firstboot ignition.platform.id=openstack ip=dhcp
+	kernel images/fedora/live/vmlinuz-6.14.6-300.fc42.x86_64
+	append initrd=images/fedora/live/initramfs-6.14.6-300.fc42.x86_64.img root=live:http://192.168.30.127/live-rootfs.squashfs.img ignition.firstboot ignition.platform.id=openstack ip=dhcp

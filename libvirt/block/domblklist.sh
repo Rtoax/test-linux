@@ -1,6 +1,6 @@
 #!/bin/bash
+set -e
 
-name=cclinux2209
+name=almalinux9
 
 sudo virsh domblklist ${name}
-

@@ -1,7 +1,7 @@
 #!/bin/bash
 set -ex
 
-dom_name=cclinux2209
+dom_name=almalinux9
 target_ip=10.253.12.70
 
 # Set max downtime 500ms
@@ -27,4 +27,3 @@ sudo virsh migrate --live  --unsafe --copy-storage-all --migrate-disks vda ${dom
 
 # Encrypted Transmission
 # TODO
-

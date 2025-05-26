@@ -1,6 +1,7 @@
 #!/bin/bash
+set -e
 
-dom=cclinux2209
+dom=almalinux9
 
 cat>tmp-new-device.xml<<-EOF
 <disk type='file' device='disk'>
@@ -14,4 +15,3 @@ EOF
 sudo virsh attach-device ${dom} tmp-new-device.xml
 # Detach
 sudo virsh detach-device ${dom} tmp-new-device.xml
-

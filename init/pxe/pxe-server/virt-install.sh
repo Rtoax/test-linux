@@ -7,7 +7,7 @@ create_vm()
 {
 	sudo virt-install \
 		--virt-type=kvm \
-		--name cclinux-live \
+		--name fedora-live \
 		--memory 8192 \
 		--vcpus 8 \
 		--os-variant=generic \

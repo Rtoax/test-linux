@@ -1,4 +1,4 @@
 #!/bin/bash
 
-vm_name=cclinux2209
+vm_name=almalinux9
 sudo virsh inject-nmi ${vm_name}

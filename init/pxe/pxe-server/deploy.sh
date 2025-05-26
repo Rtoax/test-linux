@@ -47,9 +47,9 @@ uefi_based() {
 }
 uefi_based
 
-sudo mkdir -p /var/lib/tftpboot/images/cclinux/live/
+sudo mkdir -p /var/lib/tftpboot/images/fedora/live/
 # Then, copy images
-sudo cp /home/rongtao/pxe/* /var/lib/tftpboot/images/cclinux/live/
+sudo cp /home/rongtao/pxe/* /var/lib/tftpboot/images/fedora/live/
 sudo chmod -R ugo+rx /var/lib/tftpboot/images
 
 sudo cp /home/rongtao/pxe/live-rootfs.squashfs.img /var/www/html/
