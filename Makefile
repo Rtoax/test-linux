@@ -11,9 +11,6 @@ EXTRAVERSION =
 NAME = Fedora
 
 include make.list
-SUB_USER_DIR = $(USER_LIST)
-SUB_USER_DIR_TEST := $(SUB_USER_DIR:%=%_test)
-SUB_USER_DIR_CLEAN := $(SUB_USER_DIR:%=%_clean)
 
 SUB_KERN_DIR = $(KERNEL_LIST)
 SUB_KERN_DIR_TEST := $(SUB_KERN_DIR:%=%_test)
@@ -135,14 +132,14 @@ all: default ${TLCONFIG_CONFIG}
 .PHONY: default
 default: user kernel
 
+include template/subdir-header.mk
+
 .PHONY: user
-user: cleanfailedlog $(SUB_USER_DIR)
+user: cleanfailedlog ${sub-dir-build}
 	$(call tl_log,top-makefile user)
 	@echo "=========== User done ==========="
 	$(call printfailedlog)
 	@echo "${MOONLIGHT}"
-$(SUB_USER_DIR):
-	$(call make_build,U,$@)
 
 .PHONY: kernel
 kernel: cleanfailedlog $(SUB_KERN_DIR)
@@ -154,9 +151,7 @@ $(SUB_KERN_DIR):
 
 .PHONY: test
 test: testuser testkernel
-testuser:$(SUB_USER_DIR_TEST)
-$(SUB_USER_DIR_TEST):
-	$(call make_test,U,$(@:%_test=%))
+testuser: ${sub-dir-test}
 testkernel:$(SUB_KERN_DIR_TEST)
 $(SUB_KERN_DIR_TEST):
 	$(call make_test,K,$(@:%_test=%))
@@ -216,10 +211,8 @@ clean:
 	@echo "==="
 cleanall: cleanuser cleankernel cleangit
 	@echo "=== clean all"
-cleanuser: $(SUB_USER_DIR_CLEAN)
+cleanuser: ${sub-dir-clean}
 	@echo "=== clean user"
-$(SUB_USER_DIR_CLEAN):
-	$(call make_clean,U,$(@:%_clean=%))
 cleankernel: $(SUB_KERN_DIR_CLEAN)
 	@echo "=== clean kernel"
 $(SUB_KERN_DIR_CLEAN):
@@ -232,10 +225,12 @@ cleangit:
 cleanfailedlog:
 	$(call cleanfailedlog)
 
+include template/subdir-footer.mk
+
 .PHONY: all test clean \
-	$(SUB_USER_DIR) \
-	$(SUB_USER_DIR_TEST) \
-	$(SUB_USER_DIR_CLEAN) \
+	${sub-dir-build} \
+	${sub-dir-test} \
+	${sub-dir-clean} \
 	$(SUB_KERN_DIR) \
 	$(SUB_KERN_DIR_TEST) \
 	$(SUB_KERN_DIR_CLEAN)

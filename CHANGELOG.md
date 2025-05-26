@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - pxe: Introduce from ostools.
 - libvirt: Introduce from ostools.
+- top-Makefile: Apply sub-dir to user targets.
 #### Added
 - libvirt: add memory directory.
 - initrd: Add minimal image from ostools.
