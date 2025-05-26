@@ -2,8 +2,6 @@
 SHELL := bash
 
 $(info INFO: This is info)
-$(info INFO: USER_FAILED_LOG = ${USER_FAILED_LOG})
-$(info INFO: KERNEL_FAILED_LOG = ${KERNEL_FAILED_LOG})
 $(warning WARNING: This is warning)
 #$(error ERROR: This error)
 
