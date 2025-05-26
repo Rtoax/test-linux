@@ -54,8 +54,9 @@ BOOT
 +---------------+
 ```
 
+
 # init
 
-- `rdinit=`
-- `init=`
+- `rdinit=`: for example: rdinit=/bin/bash
+- `init=`: for example: init=/bin/bash
 
