@@ -1,0 +1,13 @@
+<domain type='qemu'>
+  <device>
+    <memory model='virtio-mem'>
+      <target>
+        <size unit='KiB'>1048576</size>
+        <node>0</node>
+        <block unit='KiB'>2048</block>
+        <requested unit='KiB'>524288</requested>
+      </target>
+      <address type='pci' domain='0x0000' bus='0x00' slot='0x02' function='0x0'/>
+    </memory>
+  </device>
+</domain>

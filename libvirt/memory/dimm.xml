@@ -1,0 +1,11 @@
+<domain type='qemu'>
+  <device>
+    <memory model='dimm'>
+      <target>
+        <size unit='KiB'>523264</size>
+        <node>0</node>
+      </target>
+      <address type='dimm' slot='0'/>
+    </memory>
+  </device>
+</domain>

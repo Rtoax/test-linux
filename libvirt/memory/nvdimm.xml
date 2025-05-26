@@ -1,0 +1,17 @@
+<!-- you could see /dev/pmemN in guestos -->
+<domain type='qemu'>
+  <!-- may need maxMemory -->
+  <maxMemory slots='16' unit='GiB'>16</maxMemory>
+  <device>
+    <memory model='nvdimm'>
+      <source>
+        <path>/home/sda/qcow2s/nvdimm.bin</path>
+      </source>
+      <target>
+        <size unit='GiB'>1</size>
+        <node>0</node>
+      </target>
+      <address type='dimm' slot='0'/>
+    </memory>
+  </device>
+</domain>

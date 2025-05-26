@@ -13,6 +13,7 @@ and this project adheres to
 - pxe: Introduce from ostools.
 - libvirt: Introduce from ostools.
 #### Added
+- libvirt: add memory directory.
 - initrd: Add minimal image from ostools.
 - install-deps.sh: add --srvs argument.
 - elf/plt: add overwrite-plt.c.
