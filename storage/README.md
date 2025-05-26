@@ -30,3 +30,8 @@ SDCard 等移动存储设备也都是使用 Flash Memory 作为存储介质。
 	- 正在被`GPT`取代
 - `GPT`: GUID Partition Table
 	- 支持最大`128PB`(1PB=1024TB)
+
+
+# Links
+
+- https://www.thomas-krenn.com/en/wiki/Linux_I/O_Stack_Diagram
