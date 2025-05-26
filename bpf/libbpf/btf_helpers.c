@@ -48,7 +48,7 @@ const char *btf_kind_name(int kind)
 	 * linux commit b5ea834dde6b ("bpf: Support for new btf kind BTF_KIND_TAG")
 	 * v5.14-9734-gb5ea834dde6b
 	 */
-#if LINUX_VERSION_CODE < KERNEL_VERSION(5, 15, 0)
+#if LINUX_VERSION_CODE > KERNEL_VERSION(5, 14, 0) && LINUX_VERSION_CODE < KERNEL_VERSION(5, 15, 0)
 	KIND(BTF_KIND_TAG);
 #elif LINUX_VERSION_CODE >= KERNEL_VERSION(5, 15, 0)
 	KIND(BTF_KIND_DECL_TAG);
