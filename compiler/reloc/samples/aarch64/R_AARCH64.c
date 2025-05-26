@@ -3,7 +3,8 @@
 
 int main(void)
 {
-#define P(v) printf("%-48s : %d\n", #v, v);
+	int i = 0;
+#define P(v) printf("%-4d %-48s : %d\n", ++i, #v, v);
 	P(R_AARCH64_NONE);
 	P(R_AARCH64_P32_ABS32);
 	P(R_AARCH64_P32_COPY);
