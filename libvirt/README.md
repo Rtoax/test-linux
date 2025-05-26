@@ -8,5 +8,7 @@ Virtualization Deployment and Administration Guide
 
 # Links
 
+- https://libvirt.org/
+- https://github.com/libvirt/libvirt/
 - https://libvirt.org/formatdomain.html
 - https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/virtualization_deployment_and_administration_guide/index
