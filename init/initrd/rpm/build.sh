@@ -2,5 +2,5 @@
 
 rpmbuild -ba \
 	--define "_topdir $PWD" \
-	SPECS/initramfs.spec
+	initramfs.spec
 
