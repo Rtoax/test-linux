@@ -1,5 +1,5 @@
 <domain type='qemu'>
-  <device>
+  <devices>
     <memory model='virtio-mem'>
       <target>
         <size unit='KiB'>1048576</size>
@@ -9,5 +9,5 @@
       </target>
       <address type='pci' domain='0x0000' bus='0x00' slot='0x02' function='0x0'/>
     </memory>
-  </device>
+  </devices>
 </domain>

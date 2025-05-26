@@ -1,5 +1,5 @@
 <domain type='qemu'>
-  <device>
+  <devices>
     <memory model='dimm'>
       <target>
         <size unit='KiB'>523264</size>
@@ -7,5 +7,5 @@
       </target>
       <address type='dimm' slot='0'/>
     </memory>
-  </device>
+  </devices>
 </domain>

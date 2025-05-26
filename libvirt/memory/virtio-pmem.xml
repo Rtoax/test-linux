@@ -1,7 +1,7 @@
 <domain type='qemu'>
   <!-- may need maxMemory -->
   <maxMemory slots='16' unit='GiB'>16</maxMemory>
-  <device>
+  <devices>
     <memory model='virtio-pmem' access='shared'>
       <source>
         <path>/home/sda/qcow2s/nvdimm.bin</path>
@@ -11,5 +11,5 @@
       </target>
       <address type='pci' domain='0x0000' bus='0x00' slot='0x05' function='0x0'/>
     </memory>
-  </device>
+  </devices>
 </domain>

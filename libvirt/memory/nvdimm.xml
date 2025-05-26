@@ -2,7 +2,7 @@
 <domain type='qemu'>
   <!-- may need maxMemory -->
   <maxMemory slots='16' unit='GiB'>16</maxMemory>
-  <device>
+  <devices>
     <memory model='nvdimm'>
       <source>
         <path>/home/sda/qcow2s/nvdimm.bin</path>
@@ -13,5 +13,20 @@
       </target>
       <address type='dimm' slot='0'/>
     </memory>
-  </device>
+  </devices>
+</domain>
+
+<!-- Direct qemu command -->
+<domain type='kvm' xmlns:qemu='http://libvirt.org/schemas/domain/qemu/1.0'>
+  <os>
+    <!-- TODO: need enable nvdimm=on for -machine -->
+    <type arch='x86_64' machine='pc-q35-9.2'>hvm</type>
+    <boot dev='hd'/>
+  </os>
+  <qemu:commandline>
+    <qemu:arg value='-device'/>
+    <qemu:arg value='nvdimm,id=nv0,memdev=mem0,unarmed=on'/>
+    <qemu:arg value='-object'/>
+    <qemu:arg value='memory-backend-file,id=mem0,mem-path=/home/sda/qcow2s/nvdimm.bin,size=1073741824,readonly=off'/>
+  </qemu:commandline>
 </domain>
