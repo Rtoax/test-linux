@@ -6,7 +6,11 @@
 #include <signal.h>
 
 #ifndef SYS_tkill
-#define SYS_tkill 238
+# if defined(__x86_64__)
+#  SYS_tkill	200
+# elif defined(__aarch64__)
+#  SYS_tkill	130
+# endif
 #endif
 
 static pid_t child_tid;
