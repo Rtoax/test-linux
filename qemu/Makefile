@@ -1,6 +1,7 @@
 include ../tlbuild.mk
 
 sub-dir := tcg/samples/
+sub-dir += qcow2
 
 include ../template/subdir-header.mk
 

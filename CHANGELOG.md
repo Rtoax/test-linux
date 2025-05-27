@@ -15,6 +15,7 @@ and this project adheres to
 - libvirt: Introduce from ostools.
 - top-Makefile: Apply sub-dir to user targets.
 #### Added
+- qemu: qcow2: Parse qcow2 file.
 - libvirt: add memory directory.
 - initrd: Add minimal image from ostools.
 - install-deps.sh: add --srvs argument.
