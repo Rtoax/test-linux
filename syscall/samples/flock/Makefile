@@ -1,6 +1,5 @@
 include ../../../tlbuild.mk
 
-
 TARGETS :=
 TARGETS += flock flock-fork flock-unlink flock-thread
 
@@ -15,11 +14,11 @@ CFLAGS += -DDEBUG -O0 -g
 build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
-# Add more object.o file
+flock_helpers.o: flock_helpers.h
 flock: flock.o
-flock-fork: flock-fork.o
+flock-fork: flock-fork.o flock_helpers.o
 flock-unlink: flock-unlink.o
-flock-thread: flock-thread.o
+flock-thread: flock-thread.o flock_helpers.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

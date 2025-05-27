@@ -11,6 +11,8 @@
 #include <getopt.h>
 #include <syscall.h>
 
+#include "flock_helpers.h"
+
 /* FIXME: In some glibc, there is no gettid() */
 int sys_gettid(void)
 {
@@ -33,31 +35,6 @@ void usage(int err)
 	exit(err);
 }
 
-/**
- * duplicate file descriptors (created by, for example, fork(2) or dup(2))
- * refer to the same lock. (see flock(2))
- */
-int open_and_write(const char *filename, const char *prefix, const char *msg)
-{
-	int ret;
-	int fd = open(filename, O_TRUNC | O_RDWR, 0644);
-
-	ret = flock(fd, LOCK_EX | LOCK_NB);
-	if (ret != 0) {
-		fprintf(stderr, "[%s:pid=%d:tid=%d] flock: %s\n", prefix,
-			getpid(), gettid(), strerror(errno));
-		close(fd);
-		return -1;
-	}
-
-	write(fd, msg, strlen(msg));
-
-	flock(fd, LOCK_UN);
-	close(fd);
-
-	return 0;
-}
-
 void *task_routinue(void *arg)
 {
 	int try = try_times;
@@ -67,7 +44,7 @@ void *task_routinue(void *arg)
 		 getpid(), gettid());
 	printf("%s", buffer);
 
-	while (try-- && !open_and_write(filename, "Thread", buffer)) ;
+	while (try-- && !open_and_write_with_lock(filename, "Thread", buffer));
 
 	return NULL;
 }
