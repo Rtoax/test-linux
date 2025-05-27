@@ -9,6 +9,7 @@
 /psignal
 /raise
 /kill
+/tkill
 /kill-fork
 /killpg
 /SIGFPE

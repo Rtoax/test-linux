@@ -10,7 +10,7 @@ TARGETS += sigwait
 TARGETS += sigaddset
 TARGETS += signo
 TARGETS += psignal
-TARGETS += kill kill-fork killpg
+TARGETS += kill tkill kill-fork killpg
 TARGETS += raise
 TARGETS += strsignal
 TARGETS += alarm alarm-sleep alarm-sleep-2
@@ -24,6 +24,8 @@ TARGETS += sigprocmask
 TARGETS += signalfd
 
 CC := gcc
+CFLAGS :=
+LDFLAGS :=
 
 CFLAGS += -Werror -Wall -D_GNU_SOURCE
 CFLAGS += -I../../../
@@ -31,6 +33,7 @@ ifdef DEBUG
   CFLAGS += -DDEBUG -O0 -g
 endif
 
+LDFLAGS_tkill := -pthread
 CFLAGS_SIGRTMAX := ${SIGRT_CFLAGS}
 
 include ../../../template/subdir-header.mk
@@ -52,6 +55,7 @@ sigaddset: sigaddset.o
 psignal: psignal.o
 raise: raise.o
 kill: kill.o
+tkill: tkill.o
 kill-fork: kill-fork.o
 killpg: killpg.o
 SIGBUS: SIGBUS.o
@@ -84,7 +88,7 @@ signalfd: signalfd.o
 
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(<)\033[m"
-	${Q}$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) $(^)
+	${Q}$(CC) $(CFLAGS) $(CFLAGS_$(*)) $(LDFLAGS) $(LDFLAGS_$(*)) -o $(@) $(^)
 
 test: ${TARGETS} $(sub-dir-test)
 	@echo -e "  TEST  \033[1;32msigpending\033[m"
@@ -102,4 +106,3 @@ clean: $(sub-dir-clean)
 	${Q}rm -f ${TARGETS} *.o sig.h
 
 include ../../../template/subdir-footer.mk
-
