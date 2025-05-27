@@ -4,6 +4,10 @@
 #include <sys/syscall.h>
 #include <syscall.h>
 #include <unistd.h>
+#include <errno.h>
+#include <fcntl.h>
+
+#include "stat_helpers.h"
 
 
 int do_statx(int dfd, const char *path, int flags, unsigned mask,
@@ -14,13 +18,20 @@ int do_statx(int dfd, const char *path, int flags, unsigned mask,
 
 int main(int argc, char *argv[])
 {
+	int err;
 	struct statx buf;
 	const char *filename = "/etc/os-release";
 
-	statx(-1, filename, 0, STATX_ALL, &buf);
+	if (argc >= 2)
+		filename = argv[1];
 
-	printf("mode: %x\n", buf.stx_mode);
-	printf("ino: %lld\n", buf.stx_ino);
+	err = statx(AT_FDCWD, filename, 0, STATX_ALL, &buf);
+	if (err) {
+		perror("statx");
+		return -errno;
+	}
+
+	print_statx(&buf);
 
 	if (buf.stx_mode & S_IWUSR)
 		printf("Owning user can write `%s'.\n", filename);

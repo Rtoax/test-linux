@@ -8,8 +8,10 @@ struct tl_ustat {
 	char f_fpack[6];
 };
 
+void print_stat(const char *file, struct stat *stat);
+void print_statx(struct statx *x);
+void print_ustat(struct tl_ustat *us);
+
 int sys_fstat(int fd, struct stat *statbuf);
 int sys_lstat(const char *pathname, struct stat *statbuf);
-void print_stat(const char *file, struct stat *stat);
 int sys_ustat(dev_t dev, struct tl_ustat *ubuf);
-void print_ustat(struct tl_ustat *us);

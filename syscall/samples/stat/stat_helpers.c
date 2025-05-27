@@ -40,6 +40,39 @@ void print_stat(const char *file, struct stat *stat)
 	printf("major:%d, minor:%d\n", maj, min);
 }
 
+static void print_stx_attr(__u64 attr)
+{
+	printf("attr: ");
+#define ATTR(a, seperator) if (attr & STATX_ATTR_##a) printf("%s%c", #a, seperator);
+	ATTR(COMPRESSED, '|');
+	ATTR(IMMUTABLE, '|');
+	ATTR(APPEND, '|');
+	ATTR(NODUMP, '|');
+	ATTR(ENCRYPTED, '|');
+	ATTR(AUTOMOUNT, '|');
+	ATTR(MOUNT_ROOT, '|');
+	ATTR(VERITY, '|');
+	ATTR(DAX, '|'); /* linux >= 5.8 */
+	ATTR(WRITE_ATOMIC, '\0');
+#undef ATTR
+	printf("\n");
+}
+
+void print_statx(struct statx *x)
+{
+	printf("mode: %x\n", x->stx_mode);
+	printf("ino: %lld\n", x->stx_ino);
+	print_stx_attr(x->stx_attributes);
+}
+
+void print_ustat(struct tl_ustat *us)
+{
+	printf("f_tfree: %d\n", us->f_tfree);
+	printf("f_tinode: %ld\n", us->f_tinode);
+	printf("f_fname: %s\n", us->f_fname);
+	printf("f_fpack: %s\n", us->f_fpack);
+}
+
 int sys_fstat(int fd, struct stat *statbuf)
 {
 	return syscall(__NR_fstat, fd, statbuf);
@@ -53,12 +86,4 @@ int sys_lstat(const char *pathname, struct stat *statbuf)
 int sys_ustat(dev_t dev, struct tl_ustat *ubuf)
 {
 	return syscall(__NR_ustat, dev, ubuf);
-}
-
-void print_ustat(struct tl_ustat *us)
-{
-	printf("f_tfree: %d\n", us->f_tfree);
-	printf("f_tinode: %ld\n", us->f_tinode);
-	printf("f_fname: %s\n", us->f_fname);
-	printf("f_fpack: %s\n", us->f_fpack);
 }

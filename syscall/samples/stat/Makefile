@@ -27,8 +27,10 @@ CFLAGS_futimens := -DFUTIMENS=1
 build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
+stat_helpers.o: stat_helpers.h
+
 stat: stat.o stat_helpers.o
-statx: statx.o
+statx: statx.o stat_helpers.o
 fstat: fstat.o stat_helpers.o proc.o
 lstat: lstat.o stat_helpers.o
 listdir: listdir.o
