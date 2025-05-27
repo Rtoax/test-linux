@@ -34,7 +34,8 @@ ifdef DEBUG
 endif
 
 LDFLAGS_tkill := -pthread
-LDFLAGS_tgkill := -pthread -DTGKILL=1
+LDFLAGS_tgkill := -pthread
+CFLAGS_tgkill := -DTGKILL=1
 CFLAGS_SIGRTMAX := ${SIGRT_CFLAGS}
 
 include ../../../template/subdir-header.mk
