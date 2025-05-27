@@ -10,7 +10,7 @@ TARGETS += sigwait
 TARGETS += sigaddset
 TARGETS += signo
 TARGETS += psignal
-TARGETS += kill tkill kill-fork killpg
+TARGETS += kill tkill tgkill kill-fork killpg
 TARGETS += raise
 TARGETS += strsignal
 TARGETS += alarm alarm-sleep alarm-sleep-2
@@ -34,6 +34,7 @@ ifdef DEBUG
 endif
 
 LDFLAGS_tkill := -pthread
+LDFLAGS_tgkill := -pthread -DTGKILL=1
 CFLAGS_SIGRTMAX := ${SIGRT_CFLAGS}
 
 include ../../../template/subdir-header.mk
@@ -56,6 +57,7 @@ psignal: psignal.o
 raise: raise.o
 kill: kill.o
 tkill: tkill.o
+tgkill: tgkill.o
 kill-fork: kill-fork.o
 killpg: killpg.o
 SIGBUS: SIGBUS.o

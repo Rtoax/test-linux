@@ -10,6 +10,7 @@
 /raise
 /kill
 /tkill
+/tgkill
 /kill-fork
 /killpg
 /SIGFPE

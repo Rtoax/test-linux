@@ -36,7 +36,11 @@ int main(void)
 
 	printf("send signal SIGTERM to TID=%d\n", child_tid);
 
+#ifdef TGKILL
+	ret = tgkill(getpid(), child_tid, SIGTERM);
+#else
 	ret = syscall(SYS_tkill, child_tid, SIGTERM);
+#endif
 	if (ret == -1) {
 		perror("tkill failed");
 	}

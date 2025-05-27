@@ -16,6 +16,7 @@ and this project adheres to
 - top-Makefile: Apply sub-dir to user targets.
 #### Added
 - tkill(2): add tkill.c demo.
+- tgkill(2): add tgkill.c demo.
 - flock(2): add `flock_helpers.c`.
 - qemu: qcow2: Parse qcow2 file.
 - libvirt: add memory directory.
