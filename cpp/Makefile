@@ -19,6 +19,7 @@ ifeq (${CC_STD_C++20},1)
 endif
 TARGETS += fmt
 TARGETS += __STDC__ __STDC__c++98 __STDC__gnu++98
+TARGETS += expired
 
 CXXFLAGS := -Werror -Wall
 CXXFLAGS += -DCPP
@@ -75,6 +76,7 @@ __STDC__c++98: __STDC__c++98.o
 __STDC__gnu++98: __STDC__gnu++98.o
 format: format.o
 fmt: fmt.o
+expired: expired.o
 
 
 %.o: %.cpp
