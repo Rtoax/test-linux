@@ -10,6 +10,7 @@ and this project adheres to
 ## Unreleased
 
 #### Breaking Changes
+- pmem: Introduce.
 - pxe: Introduce from ostools.
 - libvirt: Introduce from ostools.
 - top-Makefile: Apply sub-dir to user targets.

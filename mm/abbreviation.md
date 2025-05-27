@@ -1,4 +1,5 @@
 - CE: Correctable Error () @ECC
+- DAX: Direct-Access (直接访问) @PMEM
 - DDR: Doubld Date Rate SDRAM (双倍速率 SDRAM) @DIMM @SDRAM
 - DMB: Data Memory Barrier (数据内存屏障) @arm @DSB @ISB
 - DIMM: Dual-Inline-Memory-Modules (双列直插式内存模块，内存条) @UDIMM @RDIMM @LRDIMM @DDR
@@ -19,6 +20,7 @@
 - NUMA: Non-Uniform Memory Architecture (非一致性内存架构)
 - OOM: Out Of Memory (内存耗尽)
 - PAE: Physical Address Extension (物理地址扩展)
+- PMEM: Persistent Memory (持久内存)
 - PSS: Proportional Set Size (实际使用的物理内存 比例分配共享库占用的内存)
 - PTI: Page Table Isolation (页表隔离) @KPTI
 - RDIMM: Registered DIMM (服务器使用，适用于主流) @DIMM
