@@ -24,6 +24,7 @@ cmake \
 	-DCMAKE_INSTALL_PREFIX=/usr \
 	-DENABLE_LLVM_SHARED=1 \
 	-DCMAKE_BUILD_TYPE=Debug \
+	${PYTHON_CMD:+-DPYTHON_CMD=${PYTHON_CMD}} \
 	..
 
 make -j$(($(nproc) / 2))
