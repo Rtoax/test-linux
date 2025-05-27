@@ -35,6 +35,19 @@ pmem - Persistent Memory (持久性内存)
                                         Intel Optane PMem modules
 ```
 
+```
+$ sudo ndctl list
+[
+  {
+    "dev":"namespace0.0",
+    "mode":"raw",
+    "size":1073741824,
+    "sector_size":512,
+    "blockdev":"pmem0"
+  }
+]
+```
+
 
 # Links
 
