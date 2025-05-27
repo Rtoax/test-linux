@@ -61,5 +61,5 @@ $ sudo ndctl create-namespace -m devdax -e namespace0.0 -f
   "align":2097152
 }
 
-# create /dev/dax0.0, and use it with mmap(2) like PMDK.
+# create /dev/dax0.0, and use it with mmap(2) like PMDK, see libpmem/pmem_map_file().
 ```

@@ -10,6 +10,7 @@ sub-dir += tcmalloc
 sub-dir += tlb
 sub-dir += jemalloc
 sub-dir += vmalloc
+sub-dir += pmem
 
 TARGETS :=
 TARGETS_LIBA :=

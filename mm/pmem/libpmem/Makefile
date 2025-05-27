@@ -1,24 +1,20 @@
-include ../../tlbuild.mk
+include ../../../tlbuild.mk
 
-TARGETS := aio_read
-TARGETS += aio_write
-TARGETS += aio_suspend
-TARGETS += lio_listio
+TARGETS :=
+TARGETS += mmap
+TARGETS += pmem_map_file
 
 CC := gcc
 
 CFLAGS := -Werror -Wall -D_GNU_SOURCE
 CFLAGS += -DDEBUG -O0 -g
-CFLAGS += -lrt
+CFLAGS += -lpmem
 
 build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
-	@echo -e "  SRCTREE  ${ABS_SRCTREE}"
 
-aio_read: aio_read.o
-aio_write: aio_write.o
-aio_suspend: aio_suspend.o
-lio_listio: lio_listio.o
+mmap: mmap.o
+pmem_map_file: pmem_map_file.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
@@ -26,11 +22,11 @@ lio_listio: lio_listio.o
 
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	${Q}$(CC) $(CFLAGS) -o $(@) $(^)
+	${Q}$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) $(^)
 
 test: ${TARGETS}
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
 
 clean:
 	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
-	${Q}rm -f ${TARGETS} *.o *.d *.txt *.dat
+	${Q}rm -f ${TARGETS} *.o

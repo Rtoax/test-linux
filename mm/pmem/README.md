@@ -51,4 +51,6 @@ $ sudo ndctl list
 
 # Links
 
+- https://github.com/pmem/
+	- https://github.com/pmem/pmdk
 - https://www.intel.com/content/www/us/en/developer/articles/technical/storage-redundancy-with-intel-optane-persistent-memory-modules.html
