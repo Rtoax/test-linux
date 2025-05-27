@@ -3,8 +3,10 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <argp.h>
+#include <errno.h>
 
-#include "qcow2.h"
+#include "qcow2_helpers.h"
+
 
 static char *qcow2_name;
 static int verbose = 0;
@@ -46,9 +48,10 @@ static const struct argp argp = {
 
 int main(int argc, char *argv[])
 {
-	int err;
+	int err = 0;
 	FILE *fp;
-	QCowHeader qcowhdr;
+	QCowHeader qhdr;
+	size_t n;
 
 	err = argp_parse(&argp, argc, argv, 0, NULL, NULL);
 	if (err) {
@@ -67,8 +70,19 @@ int main(int argc, char *argv[])
 		return -EINVAL;
 	}
 
-	fread(&qcowhdr, sizeof(QCowHeader), 1, fp);
+	n = fread(&qhdr, sizeof(QCowHeader), 1, fp);
+	if (n != 1) {
+		fprintf(stderr, "fread(%s) %m\n", qcow2_name);
+		err = -errno;
+		goto error;
+	}
 
+	if ((err = qcowhdr_check_magic(&qhdr)))
+		goto error;
+
+	display_qcowhdr(&qhdr);
+
+error:
 	fclose(fp);
-	return 0;
+	return err;
 }

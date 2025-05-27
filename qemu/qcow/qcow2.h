@@ -37,4 +37,3 @@ typedef struct QCowHeader {
 	/* header must be a multiple of 8 */
 	uint8_t padding[7];
 } QEMU_PACKED QCowHeader;
-
