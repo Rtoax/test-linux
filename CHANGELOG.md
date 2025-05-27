@@ -20,7 +20,7 @@ and this project adheres to
 - install-deps.sh: add --srvs argument.
 - elf/plt: add overwrite-plt.c.
 - linker-script: Test multi scripts(.text+.data).
-- nvdimm: Introduce, kconfig.
+- nvdimm: Introduce, kconfig, ndctl/dax.md.
 - network/9p: Introduce.
 - virtio/9p: Introduce.
 - virtio/fs: Introduce.
