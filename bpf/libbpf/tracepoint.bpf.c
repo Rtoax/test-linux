@@ -158,11 +158,17 @@ int tracepoint__syscalls__sys_exit_execve(struct syscall_trace_exit *ctx)
  */
 #if LINUX_VERSION_CODE > KERNEL_VERSION(6, 1, 0)
 	if (bpf_ksym_exists(bpf_task_from_pid)) {
+		/**
+		 * struct task_struct *bpf_task_from_pid(s32 pid)
+		 */
 		struct task_struct *task = bpf_task_from_pid(pid);
 		if (task) {
 			bpf_probe_read_kernel(pevent->comm2,
 					      sizeof(pevent->comm2),
 					      task->comm);
+			/**
+			 * void bpf_task_release(struct task_struct *p)
+			 */
 			bpf_task_release(task);
 		}
 	}
