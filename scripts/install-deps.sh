@@ -903,9 +903,11 @@ dnf_add_packages()
 
 	pkgs_db+=( libpq-devel )
 
-	pkgs_storage+=( gdisk )
+	pkgs_storage+=( daxctl )
+	pkgs_storage+=( daxctl-devel )
 	pkgs_storage+=( device-mapper )
 	pkgs_storage+=( device-mapper-multipath )
+	pkgs_storage+=( gdisk )
 
 	pkgs_virt+=( edk2-ovmf )
 	pkgs_virt+=( libvirt )
@@ -1067,7 +1069,9 @@ apt_add_packages()
 	pkgs_container+=( cgroup-tools )
 	pkgs_container+=( libcgroup-dev )
 
+	pkgs_storage+=( daxctl )
 	pkgs_storage+=( gdisk )
+	pkgs_storage+=( libdaxctl-dev )
 	pkgs_storage+=( libdevmapper-dev )
 
 	pkgs_virt+=( binfmt-support )
