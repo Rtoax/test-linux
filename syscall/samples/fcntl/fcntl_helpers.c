@@ -80,3 +80,40 @@ int support_openat2(void)
 	return 0;
 }
 #endif
+
+void tl_fwrlock(int fd, int wait)
+{
+	struct flock lock;
+	int op;
+
+	/**
+	 * F_SETLKW: As for F_SETLK, but if a conflicting lock is held on the
+	 * file, then wait for that lock to be released.
+	 */
+	op = wait ? F_SETLKW : F_SETLK;
+
+	memset(&lock, 0, sizeof(lock));
+
+	lock.l_type = F_WRLCK;
+	lock.l_whence = SEEK_SET;
+	lock.l_start = 0;
+	/* 0: write lock entire file */
+	lock.l_len = 0;
+
+	fcntl(fd, op, &lock);
+}
+
+void tl_funlock(int fd)
+{
+	struct flock lock;
+
+	memset(&lock, 0, sizeof(lock));
+
+	lock.l_type = F_UNLCK;
+	lock.l_whence = SEEK_SET;
+	lock.l_start = 0;
+	/* 0: unlock entire file */
+	lock.l_len = 0;
+
+	fcntl(fd, F_SETLK, &lock);
+}

@@ -4,35 +4,8 @@
 #include <string.h>
 #include <unistd.h>
 
-void tl_fwrlock(int fd)
-{
-	struct flock lock;
+#include "fcntl_helpers.h"
 
-	memset(&lock, 0, sizeof(lock));
-
-	lock.l_type = F_WRLCK;
-	lock.l_whence = SEEK_SET;
-	lock.l_start = 0;
-	/* 0: write lock entire file */
-	lock.l_len = 0;
-
-	fcntl(fd, F_SETLKW, &lock);
-}
-
-void tl_funlock(int fd)
-{
-	struct flock lock;
-
-	memset(&lock, 0, sizeof(lock));
-
-	lock.l_type = F_UNLCK;
-	lock.l_whence = SEEK_SET;
-	lock.l_start = 0;
-	/* 0: unlock entire file */
-	lock.l_len = 0;
-
-	fcntl(fd, F_SETLK, &lock);
-}
 
 int main(int argc, char* argv[])
 {
@@ -47,7 +20,7 @@ int main(int argc, char* argv[])
 	}
 
 	printf("locking\n");
-	tl_fwrlock(fd);
+	tl_fwrlock(fd, true);
 
 	printf("locked; hit Enter to unlock... ");
 	getchar();

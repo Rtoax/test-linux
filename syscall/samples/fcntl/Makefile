@@ -29,6 +29,7 @@ CFLAGS += -DDEBUG -O0 -g
 build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
+fcntl_helpers.o: fcntl_helpers.h
 fallocate: fallocate.o
 open: open.o fcntl_helpers.o
 openat: openat.o fcntl_helpers.o
@@ -43,7 +44,7 @@ mode: mode.o
 
 F_GET_SEALS: F_GET_SEALS.o
 F_ADD_SEALS: F_ADD_SEALS.o
-F_SETLKW: F_SETLKW.o
+F_SETLKW: F_SETLKW.o fcntl_helpers.o
 F_DUPFD: F_DUPFD.o
 F_GETFD: F_GETFD.o
 F_GETFL: F_GETFL.o

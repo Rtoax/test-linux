@@ -21,3 +21,7 @@ int sys_openat(int dfd, const char *path, int flags, mode_t mode);
 int support_openat2(void);
 int sys_openat2(int dfd, const char *path, const struct open_how *how,
 		size_t size);
+
+/* file lock */
+void tl_fwrlock(int fd, int wait);
+void tl_funlock(int fd);
