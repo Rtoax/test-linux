@@ -9,9 +9,16 @@ pkgs_deb+=(
 	libdebuginfod-dev
 )
 
+pkgs_rpm+=(
+	netperf
+)
+
 case ${ID} in
 debian | ubuntu)
 	sudo apt install -y ${pkgs_deb[@]}
+	;;
+fedora)
+	sudo dnf install -y ${pkgs_rpm[@]}
 	;;
 *)
 	;;
