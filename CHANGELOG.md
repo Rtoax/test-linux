@@ -15,7 +15,7 @@ and this project adheres to
 - libvirt: Introduce from ostools.
 - top-Makefile: Apply sub-dir to user targets.
 #### Added
-- scripts/git: add bigfile.sh from ostoos.
+- scripts/git: add bigfile.sh, statistic.sh, statistic.py from ostools.
 - shell: add align.sh, alias.sh.
 - cpp: Test `std::weak_ptr expired()`.
 - tkill(2): add tkill.c demo.
