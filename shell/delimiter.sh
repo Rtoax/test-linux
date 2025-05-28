@@ -44,3 +44,23 @@ EOF
 cat <<-EOF | sudo tee a.out
 Wrote by sudo tee
 EOF
+
+BuildId=121212
+Env=cclinux
+Region=Beijing
+NONCE=NONE
+
+      cat<<-EOF
+	version: '3.5'
+	services:
+      onboarding:
+          container_name: nginx
+          image: nginx:${BuildId}
+          restart: always
+            ports:
+            - 80:80
+          environment:
+            ENV: ${Env}
+            AWS_REGION: ${Region}
+            NONCE: $NONCE
+EOF
