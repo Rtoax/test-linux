@@ -15,7 +15,7 @@
 
 static pid_t child_tid;
 
-void* thread_func(void* arg)
+void *thread_func(void* arg)
 {
 	child_tid = syscall(SYS_gettid);
 	printf("child thread tid %d\n", child_tid);
@@ -36,6 +36,11 @@ int main(void)
 		perror("pthread_create %m");
 		exit(1);
 	}
+
+	ret = pthread_setname_np(thread, "target-thread");
+	if (ret != 0)
+		perror("pthread_setname_np %m");
+
 	sleep(1);
 
 	printf("send signal SIGTERM to TID=%d\n", child_tid);
