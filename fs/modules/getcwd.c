@@ -2,6 +2,7 @@
 #include <linux/module.h>
 #include <linux/sched/signal.h>
 #include <linux/fs.h>
+#include <linux/fs_struct.h>
 #include <linux/dcache.h>
 #include <linux/path.h>
 #include <linux/slab.h>
@@ -47,7 +48,7 @@ int get_task_cwd(pid_t pid, char *buf, size_t buflen)
 		return ret;
 	}
 
-	strlcpy(buf, tmp, buflen);
+	strncpy(buf, tmp, buflen);
 
 	kfree(tmp);
 	path_put(&pwd_path);
