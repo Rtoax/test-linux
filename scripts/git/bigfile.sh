@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 nr_file=10
 dry_run=""
