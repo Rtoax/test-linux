@@ -20,7 +20,6 @@ endef
 
 define git_clean
 	@if [[ ! -z $(TL_TOPDIR) ]]; then \
-		${SHELL} ${TL_TOPDIR}/scripts/git-clean; \
+		${SHELL} ${TL_TOPDIR}/scripts/git/clean.sh; \
 	fi
 endef
-
