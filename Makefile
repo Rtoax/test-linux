@@ -73,6 +73,7 @@ help:
 	@echo >&2 -e "*** make kconfig-display"
 	@echo >&2 -e "*** make check"
 	@echo >&2 -e "*** make installdeps"
+	@echo >&2 -e "*** make [install|uninstall]"
 	@echo >&2 -e "*** make docker"
 	@echo >&2 -e "***"
 	@echo >&2 -e "*** make version"
@@ -163,6 +164,16 @@ endef
 .PHONY: installdeps
 installdeps:
 	$(call installdeps)
+
+.PHONY: install
+install: uninstall
+	@echo "Install"
+	${Q}sudo ln -s ${TL_TOPDIR}/scripts/git/bigfile.sh /usr/bin/git-bigfile
+
+.PHONY: uninstall
+uninstall:
+	@echo "Uninstall"
+	${Q}sudo rm -f /usr/bin/git-bigfile
 
 .PHONY: docker
 docker:
