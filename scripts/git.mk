@@ -14,7 +14,7 @@ endef
 
 define git_archive
 	@if [[ ! -z $(TL_TOPDIR) ]]; then \
-		${SHELL} ${TL_TOPDIR}/scripts/git-archive; \
+		${SHELL} ${TL_TOPDIR}/scripts/git/archive.sh; \
 	fi
 endef
 
