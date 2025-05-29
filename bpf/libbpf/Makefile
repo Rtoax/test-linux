@@ -214,6 +214,10 @@ CFLAGS_BPF_fmod_ret := ${CFLAGS_fmod_ret}
 CFLAGS_socket_filter := -DSOCKET_FILTER=1 -DSTRICT_SEC_NAME=1 -DMAP_ARRAY=1
 CFLAGS_BPF_socket_filter := ${CFLAGS_socket_filter}
 CFLAGS_tracepoint := -DMAP_HASH -DTRACEPOINT=1 -DSEC_DEF_TRACEPOINT=1 -DPARSE_AUXV=1
+# https://github.com/Rtoax/linux/tree/p056-bpf_task_cwd
+ifeq ($(shell grep -wo bpf_task_cwd_from_pid /proc/kallsyms),bpf_task_cwd_from_pid)
+  CFLAGS_tracepoint += -DBPF_TASK_CWD_FROM_PID=1
+endif
 CFLAGS_BPF_tracepoint := ${CFLAGS_tracepoint}
 # Kill process with signal.
 CFLAGS_BPF_tracepoint += -DBPF_SEND_SIGNAL=1

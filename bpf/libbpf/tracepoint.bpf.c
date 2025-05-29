@@ -181,10 +181,15 @@ int tracepoint__syscalls__sys_exit_execve(struct syscall_trace_exit *ctx)
 	pevent->comm2[5] = '\0';
 #endif
 
+#if defined(BPF_TASK_CWD_FROM_PID)
 	/**
-	 * TODO: Get cwd
+	 * https://github.com/Rtoax/linux/tree/p056-bpf_task_cwd
 	 */
-	//bpf_getcwd(pevent->cwd, sizeof(pevent->cwd));
+	if (bpf_ksym_exists(bpf_task_cwd_from_pid)) {
+		bpf_task_cwd_from_pid(pid, pevent->cwd, sizeof(pevent->cwd));
+	}
+#endif
+
 	bpf_get_current_comm(&pevent->comm, sizeof(pevent->comm));
 
 	pevent->ret = ctx->ret;

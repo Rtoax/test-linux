@@ -57,8 +57,8 @@ void handle_event(void *ctx, int cpu, void *event, unsigned int event_sz)
 {
 	struct event_t *m = event;
 
-	printf("%-6d %-6d %-16s(%-16s) %s ret = %d\n", m->pid, m->uid, m->comm,
-		m->comm2, m->filename, m->ret);
+	printf("%-6d %-6d %-16s(%-16s) %s %s ret = %d\n", m->pid, m->uid, m->comm,
+		m->comm2, m->filename, m->cwd, m->ret);
 #ifdef PARSE_AUXV
 	printf(" auxv.type %ld, auxv.val 0x%lx\n", m->auxv.type, m->auxv.val);
 #endif

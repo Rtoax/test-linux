@@ -1,5 +1,4 @@
 #!/bin/bash
-
 set -e
 
 cross_compile_env()
@@ -31,8 +30,9 @@ config_kernel()
 
 install_from_source()
 {
-	# see https://github.com/torvalds/linux
-	local kver=6.14.0-rc1+
+	# https://github.com/torvalds/linux
+	# https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next
+	local kver="6.15.0-rc4+"
 
 	# Compile and install
 	sudo make -j$(nproc)
