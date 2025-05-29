@@ -3,6 +3,10 @@
 
 #define bpf_getcwd(buf, buf_len) __bpf_getcwd(buf, buf_len)
 
+/**
+ * https://github.com/bpftrace/bpftrace/issues/3314
+ * https://lore.kernel.org/lkml/tencent_97F8B56B340F51DB604B482FEBF012460505@qq.com/
+ */
 static __always_inline int __bpf_getcwd(char *buf, u32 buf_len)
 {
 #ifdef DEBUG
@@ -11,24 +15,9 @@ static __always_inline int __bpf_getcwd(char *buf, u32 buf_len)
 	buf[2] = 'A';
 	buf[3] = '\0';
 #else
-	struct task_struct *curtask;
-	struct dentry *dentry;
-	curtask = (void *)bpf_get_current_task();
-
-	if (curtask) {
-		dentry = curtask->fs->pwd.dentry;
-
-		for (u32 i = 0; i < 10 && dentry; i++) {
-			const unsigned char *name = dentry->d_name.name;
-
-			/* TODO */
-			(void)name;
-
-			if (dentry == dentry->d_parent)
-				break;
-			dentry = dentry->d_parent;
-		}
-	}
+	struct task_struct *curtask = (void *)bpf_get_current_task();
+	if (curtask)
+		bpf_d_path(&curtask->fs->pwd, buf, buf_len);
 #endif
 	return 0;
 }
