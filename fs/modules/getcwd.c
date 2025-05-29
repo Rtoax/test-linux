@@ -10,6 +10,40 @@
 
 #define BUF_SIZE 512
 
+static int bpf_task_cwd_from_pid(pid_t pid, char *buf, u32 buf_len)
+{
+	struct path pwd;
+	char kpath[256], *path;
+	struct task_struct *task;
+
+	if (!pid || !buf || buf_len == 0)
+		return -EINVAL;
+
+	rcu_read_lock();
+	task = pid_task(find_vpid(pid), PIDTYPE_PID);
+	if (!task) {
+		rcu_read_unlock();
+		return -ESRCH;
+	}
+	task_lock(task);
+	if (!task->fs) {
+		task_unlock(task);
+		return -ENOENT;
+	}
+	get_fs_pwd(task->fs, &pwd);
+	task_unlock(task);
+	rcu_read_unlock();
+
+	path = d_path(&pwd, kpath, sizeof(kpath));
+	path_put(&pwd);
+	if (IS_ERR(path))
+		return PTR_ERR(path);
+
+	strncpy(buf, path, buf_len);
+	return 0;
+}
+
+#if 0
 int get_task_cwd(pid_t pid, char *buf, size_t buflen)
 {
 	struct task_struct *task;
@@ -55,11 +89,12 @@ int get_task_cwd(pid_t pid, char *buf, size_t buflen)
 	return 0;
 }
 EXPORT_SYMBOL(get_task_cwd);
+#endif
 
 static int __init mymod_init(void)
 {
 	char buf[BUF_SIZE];
-	int ret = get_task_cwd(current->pid, buf, BUF_SIZE);
+	int ret = bpf_task_cwd_from_pid(current->pid, buf, BUF_SIZE);
 	if (ret == 0)
 		printk(KERN_INFO "Current CWD: %s\n", buf);
 	else
