@@ -188,6 +188,8 @@ int tracepoint__syscalls__sys_exit_execve(struct syscall_trace_exit *ctx)
 	if (bpf_ksym_exists(bpf_task_cwd_from_pid)) {
 		bpf_task_cwd_from_pid(pid, pevent->cwd, sizeof(pevent->cwd));
 	}
+#else
+	bpf_getcwd(pevent->cwd, sizeof(pevent->cwd));
 #endif
 
 	bpf_get_current_comm(&pevent->comm, sizeof(pevent->comm));
