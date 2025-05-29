@@ -121,7 +121,7 @@ int main(void)
 		return 1;
 	}
 
-	printf("Tracing execve(2) syscall, and kill 'ls' command.\n");
+	printf("Tracing execve(2) syscall, and kill 'top' command.\n");
 
 	while (true) {
 		err = perf_buffer__poll(pb, 100 /* timeout, ms */);
