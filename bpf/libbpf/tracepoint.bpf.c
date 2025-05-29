@@ -195,7 +195,7 @@ int tracepoint__syscalls__sys_exit_execve(struct syscall_trace_exit *ctx)
 	pevent->ret = ctx->ret;
 
 #if defined(BPF_SEND_SIGNAL)
-	if (str_eq(pevent->comm, "top", 3)) {
+	if (!bpf_strncmp(pevent->comm, 3, "top")) {
 		bpf_send_signal(SIGKILL);
 		goto cleanup;
 	}
