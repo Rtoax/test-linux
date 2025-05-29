@@ -169,6 +169,9 @@ patchset()
 
 	local args
 
+	args+=( --numbered )
+	args+=( --thread=shallow )
+
 	if [[ ${no_cover_letter} ]]; then
 		args+=( --no-cover-letter )
 	else
@@ -176,8 +179,6 @@ patchset()
 	fi
 
 	my_eval git format-patch \
-		--numbered \
-		--thread=shallow \
 		${args[@]} \
 		${subject_prefix:+--subject-prefix="'${subject_prefix}'"} \
 		${downer_commit}^..${upper_commit} \
