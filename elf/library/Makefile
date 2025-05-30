@@ -82,14 +82,7 @@ libadd.a: add.a.o
 libcall0.so: call0.so.o
 libcall0.a: call0.a.o
 
-%.o: %.c
-	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	${Q}LD_LIBRARY_PATH=$(shell pwd) $(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
-
-$(TARGETS): %:
-	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	${Q}LD_LIBRARY_PATH=$(shell pwd) $(CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*))
-
+include ../../template/target-exe.mk
 include ../../template/target-liba.mk
 include ../../template/target-libso.mk
 
