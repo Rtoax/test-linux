@@ -10,10 +10,10 @@ TARGETS += latency
 TARGETS += latency-got latency-got-llc
 TARGETS += latency-a latency-a-llc
 
-TARGETS_SO :=
-TARGETS_SO += libfoo.so
-TARGETS_SO += libadd.so
-TARGETS_SO += libcall0.so
+TARGETS_LIBSO :=
+TARGETS_LIBSO += libfoo.so
+TARGETS_LIBSO += libadd.so
+TARGETS_LIBSO += libcall0.so
 
 TARGETS_LIBA :=
 TARGETS_LIBA += libfoo.a
@@ -55,7 +55,7 @@ CFLAGS_latency-a-llc := -DONLY_TEST_ONE_LLC_LINESIZE=1
 CFLAGS_main-a-ctors += -DCALL_FUNC_IN_OBJ=1
 
 .PHONY: build
-build: ${TARGETS_SO} ${TARGETS_LIBA} ${TARGETS}
+build: ${TARGETS_LIBSO} ${TARGETS_LIBA} ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
 # FIXME: HygonGenuine not support x86-64
@@ -86,19 +86,12 @@ libcall0.a: call0.a.o
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	${Q}LD_LIBRARY_PATH=$(shell pwd) $(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
 
-%.so.o: %.c
-	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	${Q}LD_LIBRARY_PATH=$(shell pwd) $(CC) -o $(@) -c $(<) $(CFLAGS_$(*)) $(CFLAGS_SO)
-
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
 	${Q}LD_LIBRARY_PATH=$(shell pwd) $(CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*))
 
-$(TARGETS_SO): %:
-	@echo -e "  SO  \033[1;32m$(@)\033[m"
-	${Q}$(CC) -o $(@) $(^) $(LDFLAGS_SO) $(LDFLAGS_$(*)) -Wl,-soname=$(@)
-
 include ../../template/target-liba.mk
+include ../../template/target-libso.mk
 
 .PHONY: test
 test: ${TARGETS}
@@ -107,5 +100,5 @@ test: ${TARGETS}
 
 .PHONY: clean
 clean:
-	@echo -e "  CLEAN  \033[1;32m$(TARGETS) $(TARGETS_SO) $(TARGETS_LIBA)\033[m"
-	${Q}rm -f ${TARGETS} ${TARGETS_SO} ${TARGETS_LIBA} *.o *.so.o
+	@echo -e "  CLEAN  \033[1;32m$(TARGETS) $(TARGETS_LIBSO) $(TARGETS_LIBA)\033[m"
+	${Q}rm -f ${TARGETS} ${TARGETS_LIBSO} ${TARGETS_LIBA} *.o *.so.o

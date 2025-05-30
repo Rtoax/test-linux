@@ -3,7 +3,7 @@ CC ?= gcc
 Q ?= @
 
 %.a.o: %.c
-	@echo -e "  CC OBJ  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
+	@echo -e "  CC A.O  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	${Q}$(CC) -o $(@) -c $(<) $(CFLAGS_A) $(CFLAGS_A_$(*)) -fPIC
 
 $(TARGETS_LIBA): %:
