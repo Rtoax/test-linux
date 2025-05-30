@@ -1,5 +1,4 @@
 # SPDX-License-Identifier: GPL-3.0
-include ../tlbuild.mk
 include ../scripts/ansi.mk
 include ../gnu/gnu.mk
 include glibc.mk
@@ -90,14 +89,14 @@ endif
 CFLAGS__GNU_SOURCE := -D_GNU_SOURCE=1
 CFLAGS__XOPEN_SOURCE := -D_XOPEN_SOURCE=1
 
+TARGETS_EXTRA := tl_ascii_logo_gnu
+
 include ../elf/pie.mk
 
-include ../template/subdir-header.mk
+include ../template/main.mk
 
-.PHONY: build
-build: ${TARGETS} $(sub-dir-build)
+tl_ascii_logo_gnu:
 	@$(call tl_ascii_logo_gnu)
-	@echo -e " \033[1;33m Done \033[m"
 
 gnu_get_libc_version: gnu_get_libc_version.o
 environ: environ.o
@@ -105,21 +104,3 @@ lib-names: lib-names.o
 ftm: ftm.o
 _GNU_SOURCE: _GNU_SOURCE.o
 _XOPEN_SOURCE: _XOPEN_SOURCE.o
-
-%.o: %.c
-	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	${Q}$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
-
-$(TARGETS): %:
-	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	${Q}$(CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*)) $(CFLAGS) $(CFLAGS_$(*))
-
-test: ${TARGETS} $(sub-dir-test)
-	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
-
-.PHONY: clean
-clean: $(sub-dir-clean)
-	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
-	${Q}rm -f ${TARGETS} *.o *.d *.out
-
-include ../template/subdir-footer.mk

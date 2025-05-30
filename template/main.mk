@@ -8,7 +8,7 @@ include ${SUBDIR_DIR}/../tlbuild.mk
 include ${SUBDIR_DIR}/subdir-header.mk
 
 .PHONY: build
-build: $(TARGETS) $(TARGETS_LIBA) $(TARGETS_LIBSO) $(sub-dir-build)
+build: $(TARGETS) $(TARGETS_LIBA) $(TARGETS_LIBSO) $(sub-dir-build) $(TARGETS_EXTRA)
 	@echo -e " \033[1;33m Build done \033[m"
 
 .PHONY: test
@@ -17,8 +17,8 @@ test: $(TARGETS) $(TARGETS_LIBA) $(TARGETS_LIBSO) $(sub-dir-test)
 
 .PHONY: clean
 clean: $(sub-dir-clean)
-	@echo -e "  CLEAN  \033[1;32m${TARGETS} ${TARGETS_LIBA} ${TARGETS_LIBSO}\033[m"
-	${Q}rm -rf ${TARGETS} ${TARGETS_LIBA} ${TARGETS_LIBSO} *.o *.d
+	@echo -e "  CLEAN  \033[1;32m${TARGETS} ${TARGETS_LIBA} ${TARGETS_LIBSO} ${TARGETS_EXTRA}\033[m"
+	${Q}rm -rf ${TARGETS} ${TARGETS_LIBA} ${TARGETS_LIBSO} ${TARGETS_EXTRA} *.o *.d
 
 include ${SUBDIR_DIR}/target-exe.mk
 include ${SUBDIR_DIR}/target-liba.mk
