@@ -142,6 +142,9 @@ qargs+=( -qmp unix:$PWD/qmp-${vm_name}.sock,server=on,wait=off )
 qargs+=( -pidfile ${vm_name}.pid)
 qargs+=( -cpu max )
 qargs+=( -m 2048M,slots=10,maxmem=129139M )
+# TODO: NIC
+qargs+=( -net user,host=10.0.2.10,hostfwd=tcp:127.0.0.1:10021-:22 )
+qargs+=( -net nic,model=e1000 )
 
 kargs+=( earlyprintk=serial )
 kargs+=( net.ifnames=0 )
