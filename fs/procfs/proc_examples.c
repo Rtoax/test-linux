@@ -11,7 +11,8 @@
 #include <sys/time.h>
 #include <setjmp.h>
 
-#include "proc.h"
+#include "proc_helpers.h"
+
 
 #define JMP_SKIP	12
 

@@ -7,12 +7,12 @@ TARGETS += hello-pie
 TARGETS += is_pie
 
 CC := gcc
-LIBS_DIR := ../../../libs/
+LIBPROCFS_DIR := ../../../fs/procfs/
 
 CFLAGS :=
 LDFLAGS :=
 
-CFLAGS += -I${LIBS_DIR}
+CFLAGS += -I${LIBPROCFS_DIR}
 
 CFLAGS_hello += -no-pie
 LDFLAGS_hello += -no-pie
@@ -26,11 +26,12 @@ build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 	@$(shell diff -up hello.s hello-pie.s >> build.log)
 
-hello: hello.o libtest-linux-c.a
-hello-pie: hello-pie.o libtest-linux-c.a
+include ${LIBPROCFS_DIR}/procfs-lib-target.mk
+
+hello: hello.o libtest-linux-procfs.a
+hello-pie: hello-pie.o libtest-linux-procfs.a
 is_pie: is_pie.o
 
-include ${LIBS_DIR}/libs.mk
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

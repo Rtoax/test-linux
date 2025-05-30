@@ -14,7 +14,7 @@
 #include <sys/time.h>
 #include <sys/utsname.h>
 
-#include "proc.h"
+#include "proc_helpers.h"
 
 #define KB	(1024)
 #define MB	(1024 * KB)

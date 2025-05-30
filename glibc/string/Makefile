@@ -122,13 +122,13 @@ bcopy: bcopy.o
 index: index.o
 memchr: memchr.o
 memcpy: memcpy.o
-memcpy-stress: memcpy-stress.o proc.o
-__memcpy_ssse3-stress: __memcpy_ssse3-stress.o proc.o
-__memcpy_generic-stress: __memcpy_generic-stress.o proc.o
-__memcpy_simd-stress: __memcpy_simd-stress.o proc.o
-__memcpy_a64fx-stress: __memcpy_a64fx-stress.o proc.o
-__memcpy_aarch64-stress: __memcpy_aarch64-stress.o proc.o
-__memcpy_aarch64_sve-stress: __memcpy_aarch64_sve-stress.o proc.o
+memcpy-stress: memcpy-stress.o proc_helpers.o
+__memcpy_ssse3-stress: __memcpy_ssse3-stress.o proc_helpers.o
+__memcpy_generic-stress: __memcpy_generic-stress.o proc_helpers.o
+__memcpy_simd-stress: __memcpy_simd-stress.o proc_helpers.o
+__memcpy_a64fx-stress: __memcpy_a64fx-stress.o proc_helpers.o
+__memcpy_aarch64-stress: __memcpy_aarch64-stress.o proc_helpers.o
+__memcpy_aarch64_sve-stress: __memcpy_aarch64_sve-stress.o proc_helpers.o
 memset: memset.o
 memset-stress: memset-stress.o
 memmove: memmove.o

@@ -29,6 +29,7 @@ ifdef DEBUG
 endif
 
 CFLAGS += -I../../
+CFLAGS += -I../../fs/procfs/
 
 ifdef M32
   CFLAGS += -m32 -DM32=1
@@ -42,15 +43,14 @@ include ../../template/subdir-header.mk
 build: ${TARGETS} ${TARGETS_LIBS} $(sub-dir-build)
 	@echo -e " \033[1;33m Done \033[m"
 
-# Add more object.o file
 hello: hello.o
 socket: socket.o libc.o
 malloc: malloc.o libc.o
 vdso: vdso.o
-dlinfo: dlinfo.o proc.o
+dlinfo: dlinfo.o proc_helpers.o
 dlsym-RTLD_DEFAULT: dlsym-RTLD_DEFAULT.o
 
-proc.o: ../../libs/proc.o
+proc_helpers.o: ../../fs/procfs/proc_helpers.o
 	$(info We are in $(shell pwd))
 	mv $(<) $(@)
 

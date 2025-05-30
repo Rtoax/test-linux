@@ -26,7 +26,7 @@
 #endif
 
 #if defined(HAVE_LIB_TEST_LINUX_C)
-#include "proc.h"
+#include "proc_helpers.h"
 #endif
 
 #if defined(HAVE_LIB_TEST_LINUX_NUMA)

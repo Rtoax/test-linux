@@ -9,7 +9,7 @@
 #include <stdlib.h>
 #include <inttypes.h>
 
-#include <libs/proc.h>
+#include "proc_helpers.h"
 #include "common.h"
 
 #if defined(M32)

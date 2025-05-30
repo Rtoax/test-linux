@@ -18,7 +18,7 @@ TARGETS += reloc-name
 TARGETS += bfd_print_symbol_vandf
 
 CC := gcc
-LIBS_DIR := ../../../libs/
+LIBPROCFS_DIR := ../../../fs/procfs/
 
 CFLAGS := -Werror -Wall -D_GNU_SOURCE
 CFLAGS += -DDEBUG -O0
@@ -26,7 +26,7 @@ CFLAGS += -Wno-unused-label
 CFLAGS += -Wno-unused-variable
 CFLAGS += -lbfd
 CFLAGS += -lpthread
-CFLAGS += -I${LIBS_DIR}
+CFLAGS += -I${LIBPROCFS_DIR}
 
 # FIXME: /usr/include/bfd.h may include these lines. There must be a better way
 # to fix this.
@@ -128,21 +128,21 @@ bfd_helpers.o: bfd_helpers.h
 
 bfd_init: bfd_init.o bfd_helpers.o
 build_id: build_id.o bfd_helpers.o
-bfd_symbol_info: bfd_symbol_info.o bfd_helpers.o libtest-linux-c.a
+bfd_symbol_info: bfd_symbol_info.o bfd_helpers.o libtest-linux-procfs.a
 bfd_get_start_address: bfd_get_start_address.o
 bfd_get_flavour: bfd_get_flavour.o
 bfd_elf_bfd_from_remote_memory: bfd_elf_bfd_from_remote_memory.o
 phdr: phdr.o
 sections: sections.o
-symbol: symbol.o bfd_helpers.o libtest-linux-c.a
-symbol-value: symbol-value.o bfd_helpers.o libtest-linux-c.a
+symbol: symbol.o bfd_helpers.o libtest-linux-procfs.a
+symbol-value: symbol-value.o bfd_helpers.o libtest-linux-procfs.a
 breakpoint_tst: breakpoint_tst.o
 breakpoint_bfd: breakpoint_bfd.o
 reloc: reloc.o
 reloc-name: reloc-name.o
-bfd_print_symbol_vandf: bfd_print_symbol_vandf.o bfd_helpers.o libtest-linux-c.a
+bfd_print_symbol_vandf: bfd_print_symbol_vandf.o bfd_helpers.o libtest-linux-procfs.a
 
-include ${LIBS_DIR}/libs.mk
+include ${LIBPROCFS_DIR}/procfs-lib-target.mk
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

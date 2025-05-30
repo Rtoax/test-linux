@@ -31,14 +31,14 @@ stat_helpers.o: stat_helpers.h
 
 stat: stat.o stat_helpers.o
 statx: statx.o stat_helpers.o
-fstat: fstat.o stat_helpers.o proc.o
+fstat: fstat.o stat_helpers.o proc_helpers.o
 lstat: lstat.o stat_helpers.o
 listdir: listdir.o
 chmod: chmod.o
 fchmod: fchmod.o
 mkdir: mkdir.o
 mknod: mknod.o
-fstatat: fstatat.o stat_helpers.o proc.o
+fstatat: fstatat.o stat_helpers.o proc_helpers.o
 st_mode: st_mode.o stat_helpers.o
 utimensat: utimensat.o
 futimens: futimens.o

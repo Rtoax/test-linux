@@ -5,7 +5,7 @@
 #include <sys/stat.h>
 
 #include "stat_helpers.h"
-#include "proc.h"
+#include "proc_helpers.h"
 
 
 int main(int argc, char *argv[])

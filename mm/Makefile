@@ -48,11 +48,11 @@ ifeq ($(CONFIG_MEMFD_CREATE),y)
 endif
 
 MAKEFLAGS :=
-LIBS_DIR := ../libs/
 NUMA_DIR := ../numa/
+LIBPROCFS_DIR := ../fs/procfs/
 
 CFLAGS += -g
-CFLAGS += -I${LIBS_DIR}
+CFLAGS += -I${LIBPROCFS_DIR}
 CFLAGS += -I${NUMA_DIR}
 
 ifdef DEBUG
@@ -68,10 +68,10 @@ include ../template/subdir-header.mk
 all: ${TARGETS_LIBA} ${TARGETS} $(sub-dir-build)
 	@echo -e " \033[1;33m Done \033[m"
 
-virt2phy: virt2phy.o libtest-linux-c.a libtest-linux-numa.a mmap_helpers.o
+virt2phy: virt2phy.o libtest-linux-procfs.a libtest-linux-numa.a mmap_helpers.o
 libtest-linux-mm.a: virt2phy.obj
 
-include ${LIBS_DIR}/libs.mk
+include ${LIBPROCFS_DIR}/procfs-lib-target.mk
 include ${NUMA_DIR}/numa.mk
 
 %.o: %.c
@@ -88,7 +88,7 @@ $(TARGETS): %:
 
 $(TARGETS_LIBA): %:
 	@echo -e "  AR  \033[1;32m$(^) to $(@)\033[m"
-	@ar rcs $(@) $(^)
+	${Q}ar rcs $(@) $(^)
 
 test: ${TARGETS} $(sub-dir-test)
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"

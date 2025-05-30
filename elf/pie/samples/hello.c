@@ -3,7 +3,7 @@
 #include <string.h>
 #include <unistd.h>
 
-#include "proc.h"
+#include "proc_helpers.h"
 
 /**
  * if initialized with 0, is in .bss

@@ -39,6 +39,7 @@ and this project adheres to
 - kata-containers: Add config-kata.toml, deploy.sh and create.sh.
 - opcode: Add samples.
 #### Changed
+- Move libs/proc.c to `fs/procfs/proc_helpers.c`.
 - Move libs/qemu.sh to qemu/libqemu.sh.
 #### Deprecated
 #### Removed

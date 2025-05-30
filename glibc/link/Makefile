@@ -2,7 +2,7 @@
 include ../../tlbuild.mk
 
 CC := gcc
-LIBS_DIR := ../../libs/
+LIBPROCFS_DIR := ../../fs/procfs/
 
 TARGETS := dl_iterate_phdr
 TARGETS += dl_iterate_phdr-pie
@@ -10,7 +10,7 @@ TARGETS += has_shared_object
 
 CFLAGS := -Werror -Wall
 CFLAGS += -Wstrict-prototypes
-CFLAGS += -I${LIBS_DIR}
+CFLAGS += -I${LIBPROCFS_DIR}
 
 LDFLAGS :=
 
@@ -22,11 +22,11 @@ LDFLAGS_dl_iterate_phdr-pie := -pie
 build: ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
-dl_iterate_phdr: dl_iterate_phdr.o libtest-linux-c.a
-dl_iterate_phdr-pie: dl_iterate_phdr-pie.o libtest-linux-c.a
+dl_iterate_phdr: dl_iterate_phdr.o libtest-linux-procfs.a
+dl_iterate_phdr-pie: dl_iterate_phdr-pie.o libtest-linux-procfs.a
 has_shared_object: has_shared_object.o
 
-include ${LIBS_DIR}/libs.mk
+include ${LIBPROCFS_DIR}/procfs-lib-target.mk
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

@@ -2,7 +2,7 @@
 #include <string.h>
 #include <sys/statfs.h>
 
-#include "proc.h"
+#include "proc_helpers.h"
 
 
 static void mountpoint_statfs_callback(const char *mnt_point)

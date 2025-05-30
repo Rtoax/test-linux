@@ -9,7 +9,7 @@
 #include <stdbool.h>
 #include <string.h>
 
-#include "proc.h"
+#include "proc_helpers.h"
 #include "bfd_helpers.h"
 
 #define BFD_ERR	bfd_errmsg(bfd_get_error())

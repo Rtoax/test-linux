@@ -17,12 +17,11 @@ TARGETS += gotoxy goprint
 TARGETS += log
 TARGETS += memshow
 TARGETS += mac
-TARGETS += proc_examples
 TARGETS += progress
 TARGETS += str
 TARGETS += ipaddr
 
-LIB_OBJS := ipaddr.obj proc.obj readline.obj
+LIB_OBJS := ipaddr.obj readline.obj
 
 TARGETS_LIBSO += libtest-linux-c.so
 TARGETS_LIBA += libtest-linux-c.a
@@ -71,9 +70,6 @@ mac: mac.o
 mac.o: mac.h
 progress: progress.o
 progress.o: progress.h
-proc_examples: proc_examples.o proc.o
-proc_examples.o: proc.h
-proc.o: proc.h
 str: str.o
 ipaddr: ipaddr.o
 ipaddr.o: ipaddr.h
@@ -99,7 +95,7 @@ $(TARGETS_LIBSO): %:
 
 $(TARGETS_LIBA): %:
 	@echo -e "  AR  \033[1;32m$(^) to $(@)\033[m"
-	@ar rcs $(@) $(^)
+	${Q}ar rcs $(@) $(^)
 
 .PHONY: test
 test: ${TARGETS} $(sub-dir-test)
@@ -109,7 +105,6 @@ test: ${TARGETS} $(sub-dir-test)
 	${Q}./gotoxy
 	${Q}clear
 	${Q}./qemu_examples.sh
-	${Q}./proc_examples
 	${Q}./file.sh test
 
 .PHONY: clean
