@@ -10,7 +10,8 @@ build: $(sub-dir-build)
 
 .PHONY: test
 test: $(sub-dir-test)
-	@$(SHELL) support-cpu.sh
+	${Q}$(SHELL) support-cpu.sh
+	${Q}$(SHELL) libqemu_examples.sh
 
 .PHONY: clean
 clean: $(sub-dir-clean)

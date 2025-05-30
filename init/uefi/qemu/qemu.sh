@@ -3,7 +3,7 @@ set -ex
 
 declare -a args
 
-. ../../../qemu/qemu.sh
+. ../../../qemu/libqemu.sh
 
 qemu_emulator=$(get_qemu_kvm_emulator)
 

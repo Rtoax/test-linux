@@ -2,7 +2,7 @@
 # Wrote by Rong Tao
 set -e
 
-. ../../qemu/qemu.sh
+. ../../qemu/libqemu.sh
 
 readonly prog=qemu-rootfs.sh
 readonly qemu=$(get_qemu_kvm_emulator)

@@ -39,7 +39,7 @@ and this project adheres to
 - kata-containers: Add config-kata.toml, deploy.sh and create.sh.
 - opcode: Add samples.
 #### Changed
-- Move libs/qemu.sh to qemu/qemu.sh.
+- Move libs/qemu.sh to qemu/libqemu.sh.
 #### Deprecated
 #### Removed
 #### Fixed

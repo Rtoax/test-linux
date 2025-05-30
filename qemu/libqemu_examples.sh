@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-. qemu.sh
+. libqemu.sh
 
 echo $(get_qemu_kvm_emulator)
 qemu=$(get_qemu_kvm_emulator_arch $(uname -m)) || {
