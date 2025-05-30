@@ -19,6 +19,7 @@ CC := gcc
 CFLAGS := -Werror -Wall
 CFLAGS += -DDEBUG -O0 -g
 
+include ../../elf/pie.mk
 include ../../template/subdir-header.mk
 
 .PHONY: build
@@ -40,11 +41,15 @@ statm: statm.o
 status: status.o
 uptime: uptime.o
 
-libtest-linux-procfs.a: proc_helpers.o
+libtest-linux-procfs.a: proc_helpers.obj
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	${Q}$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
+
+%.obj: %.c
+	@echo -e "  CC OBJ  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
+	${Q}$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*)) -fPIC
 
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
