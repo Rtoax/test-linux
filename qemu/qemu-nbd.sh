@@ -1,4 +1,5 @@
 #!/bin/bash
+set -ex
 
 img_type=qcow2
 img_name=test.${img_type}
@@ -52,4 +53,3 @@ sudo rmdir ext4.out
 # Disconnect nbd
 sudo qemu-nbd --disconnect /dev/nbd0
 sudo rmmod nbd
-
