@@ -25,6 +25,6 @@ ifdef DEBUG
   CFLAGS += -DDEBUG -O0 -g -ggdb
 endif
 
-include ../template/subdir-pure.mk
+include ../template/main.mk
 
 pi: pi.o

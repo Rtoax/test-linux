@@ -11,7 +11,7 @@ CFLAGS := -Werror -Wall -D_GNU_SOURCE
 CFLAGS += -DDEBUG -O0 -g
 CFLAGS += -lrt
 
-include ../../template/subdir-pure.mk
+include ../../template/main.mk
 
 aio_read: aio_read.o
 aio_write: aio_write.o

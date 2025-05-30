@@ -1,2 +1,2 @@
 sub-dir := posix
-include ../template/subdir-pure.mk
+include ../template/main.mk
