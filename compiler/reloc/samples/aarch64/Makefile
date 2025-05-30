@@ -55,9 +55,6 @@ R_AARCH64_ADR_PREL_PG_HI21: R_AARCH64_ADR_PREL_PG_HI21.o
 	@LD_LIBRARY_PATH=$(shell pwd) $(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_PIE) $(CFLAGS_$(*))
 	@$(call print_elf_reloc,$(@))
 
-%.obj: %.c
-	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	@LD_LIBRARY_PATH=$(shell pwd) $(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*)) -fPIC
 
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"

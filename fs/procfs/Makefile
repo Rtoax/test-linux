@@ -41,23 +41,17 @@ statm: statm.o
 status: status.o
 uptime: uptime.o
 
-libtest-linux-procfs.a: proc_helpers.obj
+libtest-linux-procfs.a: proc_helpers.a.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	${Q}$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
 
-%.obj: %.c
-	@echo -e "  CC OBJ  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	${Q}$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*)) -fPIC
-
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
 	${Q}$(CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*)) $(CFLAGS) $(CFLAGS_$(*))
 
-$(TARGETS_LIBA): %:
-	@echo -e "  AR  \033[1;32m$(^) to $(@)\033[m"
-	${Q}ar rcs $(@) $(^)
+include ../../template/target-liba.mk
 
 test: ${TARGETS} $(sub-dir-test)
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"

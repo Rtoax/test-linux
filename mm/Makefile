@@ -69,7 +69,7 @@ all: ${TARGETS_LIBA} ${TARGETS} $(sub-dir-build)
 	@echo -e " \033[1;33m Done \033[m"
 
 virt2phy: virt2phy.o libtest-linux-procfs.a libtest-linux-numa.a mmap_helpers.o
-libtest-linux-mm.a: virt2phy.obj
+libtest-linux-mm.a: virt2phy.a.o
 
 include ${LIBPROCFS_DIR}/procfs-lib-target.mk
 include ${NUMA_DIR}/numa.mk
@@ -86,9 +86,7 @@ $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
 	${Q}$(CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*)) $(CFLAGS) $(CFLAGS_$(*))
 
-$(TARGETS_LIBA): %:
-	@echo -e "  AR  \033[1;32m$(^) to $(@)\033[m"
-	${Q}ar rcs $(@) $(^)
+include ../template/target-liba.mk
 
 test: ${TARGETS} $(sub-dir-test)
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"

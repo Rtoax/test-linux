@@ -15,10 +15,10 @@ TARGETS_SO += libfoo.so
 TARGETS_SO += libadd.so
 TARGETS_SO += libcall0.so
 
-TARGETS_A :=
-TARGETS_A += libfoo.a
-TARGETS_A += libadd.a
-TARGETS_A += libcall0.a
+TARGETS_LIBA :=
+TARGETS_LIBA += libfoo.a
+TARGETS_LIBA += libadd.a
+TARGETS_LIBA += libcall0.a
 
 CC := gcc
 
@@ -55,7 +55,7 @@ CFLAGS_latency-a-llc := -DONLY_TEST_ONE_LLC_LINESIZE=1
 CFLAGS_main-a-ctors += -DCALL_FUNC_IN_OBJ=1
 
 .PHONY: build
-build: ${TARGETS_SO} ${TARGETS_A} ${TARGETS}
+build: ${TARGETS_SO} ${TARGETS_LIBA} ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 
 # FIXME: HygonGenuine not support x86-64
@@ -76,11 +76,11 @@ latency-a: latency-a.o libcall0.a
 latency-a-llc: latency-a-llc.o libcall0.a
 
 libfoo.so: foo.so.o ctors.so.o
-libfoo.a: foo.so.o ctors.so.o
+libfoo.a: foo.a.o ctors.a.o
 libadd.so: add.so.o
-libadd.a: add.so.o
+libadd.a: add.a.o
 libcall0.so: call0.so.o
-libcall0.a: call0.so.o
+libcall0.a: call0.a.o
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
@@ -98,9 +98,7 @@ $(TARGETS_SO): %:
 	@echo -e "  SO  \033[1;32m$(@)\033[m"
 	${Q}$(CC) -o $(@) $(^) $(LDFLAGS_SO) $(LDFLAGS_$(*)) -Wl,-soname=$(@)
 
-$(TARGETS_A): %:
-	@echo -e "  AR  \033[1;32m$(^) to $(@)\033[m"
-	${Q}ar rcs $(@) $(^)
+include ../../template/target-liba.mk
 
 .PHONY: test
 test: ${TARGETS}
@@ -109,5 +107,5 @@ test: ${TARGETS}
 
 .PHONY: clean
 clean:
-	@echo -e "  CLEAN  \033[1;32m$(TARGETS) $(TARGETS_SO) $(TARGETS_A)\033[m"
-	${Q}rm -f ${TARGETS} ${TARGETS_SO} ${TARGETS_A} *.o *.so.o
+	@echo -e "  CLEAN  \033[1;32m$(TARGETS) $(TARGETS_SO) $(TARGETS_LIBA)\033[m"
+	${Q}rm -f ${TARGETS} ${TARGETS_SO} ${TARGETS_LIBA} *.o *.so.o

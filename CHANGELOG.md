@@ -15,6 +15,7 @@ and this project adheres to
 - libvirt: Introduce from ostools.
 - top-Makefile: Apply sub-dir to user targets.
 #### Added
+- template: Add target-liba.mk.
 - bpf: test `bpf_task_cwd_from_pid()`.
 - fs/modules: add getcwd.c get task cwd from pid.
 - scripts/git: add bigfile.sh, statistic.sh, statistic.py from ostools.

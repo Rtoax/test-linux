@@ -22,6 +22,7 @@ TARGETS += str
 TARGETS += ipaddr
 
 LIB_OBJS := ipaddr.obj readline.obj
+LIB_OBJS_A := ipaddr.a.o readline.a.o
 
 TARGETS_LIBSO += libtest-linux-c.so
 TARGETS_LIBA += libtest-linux-c.a
@@ -75,7 +76,7 @@ ipaddr: ipaddr.o
 ipaddr.o: ipaddr.h
 
 libtest-linux-c.so: ${LIB_OBJS}
-libtest-linux-c.a: ${LIB_OBJS}
+libtest-linux-c.a: ${LIB_OBJS_A}
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
@@ -93,9 +94,7 @@ $(TARGETS_LIBSO): %:
 	@echo -e "  SO  \033[1;32m$(@)\033[m"
 	${Q}$(CC) -o $(@) $(^) -shared -fPIC $(LDFLAGS_SO) $(LDFLAGS_SO_$(*))
 
-$(TARGETS_LIBA): %:
-	@echo -e "  AR  \033[1;32m$(^) to $(@)\033[m"
-	${Q}ar rcs $(@) $(^)
+include ../template/target-liba.mk
 
 .PHONY: test
 test: ${TARGETS} $(sub-dir-test)
