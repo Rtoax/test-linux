@@ -1,4 +1,5 @@
 #!/bin/bash
+# Wrote by Rong Tao
 set -e
 
 . ../../qemu/qemu.sh
@@ -17,6 +18,8 @@ dry_run=
 verbose=
 stdio=
 
+declare -a qargs kargs
+
 __usage__() {
 	echo -e "
 NAME
@@ -27,6 +30,9 @@ SYNOPSIS
 
 DESCRIPTION
 	-k, --kernel [KERNEL]   specify vmlinuz, bzImage
+	    --karg [ARG]        add kernel argument, (may be listed multiple times)
+	                        example: --karg=rdinit=/usr/bin/bash
+
 	-r, --rootfs [ROOTFS]   specify rootfs image
 	    --initrd            the rootfs used as initrd
 	    --nvdimm            the rootfs used as nvdimm
@@ -49,10 +55,10 @@ SEE ALSO
 	exit ${1-0}
 }
 
-declare -a qargs kargs
 
 TEMP_ARGS=$(getopt --options k:r:huv \
 	--long kernel: \
+	--long karg: \
 	--long rootfs: \
 	--long init: \
 	--long initrd \
@@ -72,6 +78,11 @@ while true; do
 	-k | --kernel)
 		shift
 		kernel=$1
+		shift
+		;;
+	--karg)
+		shift
+		kargs+=( $1 )
 		shift
 		;;
 	-r | --rootfs)
@@ -163,7 +174,7 @@ if [[ ${stdio} ]]; then
 fi
 
 if [[ ${init} ]]; then
-	kargs+=( rdinit=${init} )
+	kargs+=( rdinit=${init} init=${init} )
 fi
 
 _eval()
