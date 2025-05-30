@@ -9,14 +9,12 @@
  */
 static __always_inline int __bpf_getcwd(char *buf, u32 buf_len)
 {
-#ifdef DEBUG
-	buf[0] = 'N';
-	buf[1] = '/';
-	buf[2] = 'A';
-	buf[3] = '\0';
-#else
-# pragma message "How to use bpf_d_path()"
-# if 0
+#if defined(SUPPORT_BPF_D_PATH)
+# pragma message "use bpf_d_path(), please very strict use"
+/**
+ * see linux::kernel/trace/bpf_trace.c btf_allowlist_d_path, only few fentry
+ * could use bpf_d_path().
+ */
 	struct task_struct *curtask = (void *)bpf_get_current_task();
 	if (curtask) {
 		struct fs_struct *fs;
@@ -27,7 +25,11 @@ static __always_inline int __bpf_getcwd(char *buf, u32 buf_len)
 			bpf_d_path(&pwd, buf, buf_len);
 		}
 	}
-# endif
+#else
+	buf[0] = 'N';
+	buf[1] = '/';
+	buf[2] = 'A';
+	buf[3] = '\0';
 #endif
 	return 0;
 }
