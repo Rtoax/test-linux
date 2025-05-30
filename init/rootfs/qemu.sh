@@ -6,6 +6,7 @@ set -e
 readonly prog=qemu-rootfs.sh
 readonly qemu=$(get_qemu_kvm_emulator)
 
+vm_name=$(mktemp -u vm-XXXXXX)
 kernel=
 rootfs=
 init=
@@ -25,7 +26,7 @@ SYNOPSIS
 	${prog} -k=<kernel> -r=<rootfs> [--stdio]
 
 DESCRIPTION
-	-k, --kernel [KERNEL]   specify vmlinuz
+	-k, --kernel [KERNEL]   specify vmlinuz, bzImage
 	-r, --rootfs [ROOTFS]   specify rootfs image
 	    --initrd            the rootfs used as initrd
 	    --nvdimm            the rootfs used as nvdimm
@@ -48,7 +49,7 @@ SEE ALSO
 	exit ${1-0}
 }
 
-declare -a qemu_args kernel_args
+declare -a qargs kargs
 
 TEMP_ARGS=$(getopt --options k:r:huv \
 	--long kernel: \
@@ -123,10 +124,21 @@ if [[ ${verbose} ]]; then
 	set -x
 fi
 
+qargs+=( -name ${vm_name} )
+qargs+=( -uuid $(uuid) )
+qargs+=( -enable-kvm )
+qargs+=( -qmp unix:$PWD/qmp-${vm_name}.sock,server=on,wait=off )
+qargs+=( -pidfile ${vm_name}.pid)
+qargs+=( -cpu max )
+qargs+=( -m 2048M,slots=10,maxmem=129139M )
+
+kargs+=( earlyprintk=serial )
+kargs+=( net.ifnames=0 )
+kargs+=( selinux=0 )
 
 if [[ ${is_initrd} ]]; then
-	qemu_args+=( -initrd ${rootfs} )
-	kernel_args+=( rd.break ) # dracut.cmdline(7)
+	qargs+=( -initrd ${rootfs} )
+	kargs+=( rd.break ) # dracut.cmdline(7)
 else
 	if [[ ${is_nvdimm} ]]; then
 		size=$(stat --format=%s ${rootfs})
@@ -135,23 +147,23 @@ else
 				size=$((1024*1024*1024))
 			fi
 		}
-		qemu_args+=( -machine nvdimm=on )
-		qemu_args+=( -device nvdimm,id=nv0,memdev=mem0,unarmed=on )
-		qemu_args+=( -object memory-backend-file,id=mem0,mem-path=${rootfs},size=${size},readonly=on )
-		kernel_args+=( root=/dev/pmem0 )
+		qargs+=( -machine nvdimm=on )
+		qargs+=( -device nvdimm,id=nv0,memdev=mem0,unarmed=on )
+		qargs+=( -object memory-backend-file,id=mem0,mem-path=${rootfs},size=${size},readonly=on )
+		kargs+=( root=/dev/pmem0 )
 	else
-		qemu_args+=( -drive file=${rootfs},format=raw,if=virtio )
-		kernel_args+=( root=/dev/vda )
+		qargs+=( -drive file=${rootfs},format=raw,if=virtio )
+		kargs+=( root=/dev/vda )
 	fi
 fi
 
 if [[ ${stdio} ]]; then
-	qemu_args+=( -serial mon:stdio -nographic )
-	kernel_args+=( rw console=ttyS0 )
+	qargs+=( -serial mon:stdio -nographic )
+	kargs+=( rw console=ttyS0 )
 fi
 
 if [[ ${init} ]]; then
-	kernel_args+=( rdinit=${init} )
+	kargs+=( rdinit=${init} )
 fi
 
 _eval()
@@ -165,8 +177,4 @@ _eval()
 	fi
 }
 
-_eval ${qemu} -name vm-test-rootfs -uuid $(uuid) \
-	-qmp unix:$PWD/qmp.sock,server=on,wait=off \
-	-m 2048M,slots=10,maxmem=129139M \
-	${qemu_args[@]} \
-	-kernel ${kernel} -append \"${kernel_args[@]}\"
+_eval ${qemu} ${qargs[@]} -kernel ${kernel} -append \"${kargs[@]}\"
