@@ -2,6 +2,7 @@
 CC ?= gcc
 Q ?= @
 
+CFLAGS_SO += -fPIC
 LDFLAGS_SO += -shared -fPIC
 
 %.so.o: %.c
