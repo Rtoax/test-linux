@@ -49,7 +49,7 @@ ifeq ($(has-std_format),y)
 endif
 CXXFLAGS___STDC__c++98 := -std=c++98
 CXXFLAGS___STDC__gnu++98 := -std=gnu++98
-CXXFLAGS_fmt := -lfmt
+LDXXFLAGS_fmt := -lfmt
 
 TARGETS_EXTRA := $(patsubst %,%.cpp.s,${TARGETS_CPP})
 
