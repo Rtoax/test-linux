@@ -8,7 +8,6 @@ TARGETS += lio_listio
 CC := gcc
 
 CFLAGS := -Werror -Wall -D_GNU_SOURCE
-CFLAGS += -DDEBUG -O0 -g
 CFLAGS += -lrt
 
 include ../../template/main.mk

@@ -5,30 +5,24 @@ include ../compiler/compiler.mk
 
 sub-dir := demangle
 
-TARGETS :=
-TARGETS += hello
-TARGETS += alignas
-TARGETS += extern_C
-TARGETS += pass-arg
-TARGETS += return
-TARGETS += this
-TARGETS += string
-TARGETS += __cplusplus
+TARGETS_CPP :=
+TARGETS_CPP += hello
+TARGETS_CPP += alignas
+TARGETS_CPP += extern_C
+TARGETS_CPP += pass-arg
+TARGETS_CPP += return
+TARGETS_CPP += this
+TARGETS_CPP += string
+TARGETS_CPP += __cplusplus
 ifeq (${CC_STD_C++20},1)
-  TARGETS += format
+  TARGETS_CPP += format
 endif
-TARGETS += fmt
-TARGETS += __STDC__ __STDC__c++98 __STDC__gnu++98
-TARGETS += expired
+TARGETS_CPP += fmt
+TARGETS_CPP += __STDC__ __STDC__c++98 __STDC__gnu++98
+TARGETS_CPP += expired
 
 CXXFLAGS := -Werror -Wall
 CXXFLAGS += -DCPP
-ifdef DEBUG
-  CXXFLAGS += -DDEBUG -O0 -g -ggdb
-endif
-ifdef ERROR
-  CXXFLAGS += -DERROR=1
-endif
 
 ifdef M32
   CXXFLAGS += -m32 -DM32=1
@@ -57,43 +51,22 @@ CXXFLAGS___STDC__c++98 := -std=c++98
 CXXFLAGS___STDC__gnu++98 := -std=gnu++98
 CXXFLAGS_fmt := -lfmt
 
-include ../template/subdir-header.mk
+TARGETS_EXTRA := $(patsubst %,%.cpp.s,${TARGETS_CPP})
 
-.PHONY: build
-build: ${TARGETS} $(sub-dir-build)
-	@echo -e " \033[1;33m Done \033[m"
+#	${Q}$(CXX) $(CXXFLAGS) $(CXXFLAGS_$(*)) -S $(<) -o $(<:.cpp=.s)
+include ../template/main.mk
 
-hello: hello.o
-alignas: alignas.o
-extern_C: extern_C.o
-pass-arg: pass-arg.o
-return: return.o
-this: this.o
-string: string.o
-__cplusplus: __cplusplus.o
-__STDC__: __STDC__.o
-__STDC__c++98: __STDC__c++98.o
-__STDC__gnu++98: __STDC__gnu++98.o
-format: format.o
-fmt: fmt.o
-expired: expired.o
-
-
-%.o: %.cpp
-	@echo -e "  CXX  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	${Q}$(CXX) $(CXXFLAGS) $(CXXFLAGS_$(*)) -o $(@) -c $(<)
-	${Q}$(CXX) $(CXXFLAGS) $(CXXFLAGS_$(*)) -S $(<) -o $(<:.cpp=.s)
-
-${TARGETS}: %:
-	@echo -e "  LD   \033[1;32m$(@)\033[m"
-	${Q}$(CXX) $(CXXFLAGS) $(CXXFLAGS_$(*)) -o $(@) $(^)
-
-test: ${TARGETS} $(sub-dir-test)
-	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
-
-.PHONY: clean
-clean: $(sub-dir-clean)
-	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
-	${Q}rm -f ${TARGETS} *.o *.d *.s
-
-include ../template/subdir-footer.mk
+hello: hello.opp
+alignas: alignas.opp
+extern_C: extern_C.opp
+pass-arg: pass-arg.opp
+return: return.opp
+this: this.opp
+string: string.opp
+__cplusplus: __cplusplus.opp
+__STDC__: __STDC__.opp
+__STDC__c++98: __STDC__c++98.opp
+__STDC__gnu++98: __STDC__gnu++98.opp
+format: format.opp
+fmt: fmt.opp
+expired: expired.opp
