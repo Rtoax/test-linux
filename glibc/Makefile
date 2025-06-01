@@ -77,14 +77,6 @@ CC := gcc
 CFLAGS :=
 CFLAGS += -Werror -Wall -D_GNU_SOURCE
 CFLAGS += -pthread
-CFLAGS += -DDEBUG -O0 -g
-
-ifdef M32
-  CFLAGS += -m32 -DM32=1
-  LDFLAGS += -m32
-  MAKEFLAGS += M32=1
-  $(info Compile 32bit ELF)
-endif
 
 CFLAGS__GNU_SOURCE := -D_GNU_SOURCE=1
 CFLAGS__XOPEN_SOURCE := -D_XOPEN_SOURCE=1

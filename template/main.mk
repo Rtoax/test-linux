@@ -21,8 +21,9 @@ ifdef ERROR
 endif
 ifdef M32
   $(info Compile 32bit ELF)
+  CFLAGS += -m32 -DM32=1
   CXXFLAGS += -m32 -DM32=1
-  CXXFLAGS += -m32 -DM32=1
+  MAKEFLAGS += M32=1
 endif
 
 include ${SUBDIR_DIR}/../tlbuild.mk
