@@ -1,14 +1,9 @@
-include ../../tlbuild.mk
-
 sub-dir := dmidecode
 
-include ../../template/subdir-header.mk
+TARGETS_EXTRA := builds
 
-.PHONY: build
-build: $(sub-dir-build)
-	./support.sh
+include ../../template/main.mk
 
-.PHONY: clean
-clean: $(sub-dir-clean)
-
-include ../../template/subdir-footer.mk
+builds:
+	${Q}./dmidecode.sh
+	${Q}./support.sh
