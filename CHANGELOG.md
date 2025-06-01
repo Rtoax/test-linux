@@ -10,6 +10,7 @@ and this project adheres to
 ## Unreleased
 
 #### Breaking Changes
+- template: introduce main.mk, and all Makefile should use main.mk.
 - pmem: Introduce (and libpmem).
 - pxe: Introduce from ostools.
 - libvirt: Introduce from ostools.
