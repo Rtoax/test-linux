@@ -37,7 +37,7 @@ test: $(ALL_TARGETS) $(sub-dir-test) $(TARGETS_TEST)
 	@echo -e " \033[1;33m Test done \033[m"
 
 .PHONY: clean
-clean: $(sub-dir-clean)
+clean: $(sub-dir-clean) $(TARGETS_CLEAN)
 	@echo -e "  CLEAN  \033[1;32m${ALL_TARGETS}\033[m"
 	${Q}rm -rf ${ALL_TARGETS} *.o *.opp *.d
 

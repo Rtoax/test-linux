@@ -13,9 +13,9 @@ CC := gcc
 CFLAGS :=
 LDFLAGS :=
 
-CFLAGS += -Wl,-T${LDS}
+LDFLAGS += -Wl,-T${LDS}
 ifneq ($(shell ld --help | grep -o no-warn-rwx-segments),)
-  CFLAGS += -Wl,--no-warn-rwx-segments
+  LDFLAGS += -Wl,--no-warn-rwx-segments
 endif
 
 include ../../template/main.mk

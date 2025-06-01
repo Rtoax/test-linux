@@ -6,11 +6,6 @@ else
   $(warning Not support arch except x86_64)
 endif
 
-CC := gcc
-
-CFLAGS :=
-LDFLAGS :=
-
 include ../../template/main.mk
 
 macro: macro.o

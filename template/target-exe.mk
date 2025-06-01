@@ -7,6 +7,10 @@ Q ?= @
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	${Q}LD_LIBRARY_PATH=$(shell pwd) $(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
 
+%.c.s: %.c
+	@echo -e "  CC S \033[1m$(<)\033[m to \033[1m$(@)\033[m"
+	${Q}LD_LIBRARY_PATH=$(shell pwd) $(CC) -S -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
+
 $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
 	${Q}LD_LIBRARY_PATH=$(shell pwd) $(CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*))
