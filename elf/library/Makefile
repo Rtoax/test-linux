@@ -28,8 +28,6 @@ LDFLAGS :=
 CFLAGS_SO := -shared -fPIC
 LDFLAGS_SO := -shared -fPIC
 
-CFLAGS += -DDEBUG=1 -O0 -g -ggdb
-
 # Debian 12 default compile PIE EXEC, Fedora40 default compile no-PIE EXEC.
 # Default no-PIE in my case.
 include ../pie.mk

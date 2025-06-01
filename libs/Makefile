@@ -8,6 +8,7 @@ TARGETS_LIBSO :=
 TARGETS_LIBA :=
 TARGETS :=
 CFLAGS :=
+TARGETS_TEST :=
 
 TARGETS += byteswap
 TARGETS += endian
@@ -21,18 +22,17 @@ TARGETS += progress
 TARGETS += str
 TARGETS += ipaddr
 
-LIB_OBJS := ipaddr.obj readline.obj
+LIB_OBJS := ipaddr.so.o readline.so.o
 LIB_OBJS_A := ipaddr.a.o readline.a.o
 
 TARGETS_LIBSO += libtest-linux-c.so
 TARGETS_LIBA += libtest-linux-c.a
 
+TARGETS_TEST += test1
+
 CC := gcc
 
 CFLAGS += -Werror -Wall
-ifdef DEBUG
-  CFLAGS += -DDEBUG -O0 -g -ggdb
-endif
 CFLAGS += -DTEST=1
 ifeq (${CONFIG_ANON_VMA_NAME},y)
   $(info INFO: Support CONFIG_ANON_VMA_NAME)
@@ -46,13 +46,17 @@ endif
 
 include ../elf/pie.mk
 
-include ../template/subdir-header.mk
+include ../template/main.mk
 
-.PHONY: build
-build: ${TARGETS_LIBSO} ${TARGETS_LIBA} ${TARGETS} $(sub-dir-build)
-	@echo -e " \033[1;33m Done \033[m"
+test1:
+	@echo -e " \033[1;33m Test libs \033[m"
+	${Q}LD_LIBRARY_PATH=$(shell pwd) ./byteswap
+	${Q}clear
+	${Q}./gotoxy
+	${Q}clear
+	${Q}./file.sh test
 
-*.obj: *.h
+*.so.o: *.h
 
 byteswap: byteswap.o
 byteswap.o: byteswap.h
@@ -77,39 +81,3 @@ ipaddr.o: ipaddr.h
 
 libtest-linux-c.so: ${LIB_OBJS}
 libtest-linux-c.a: ${LIB_OBJS_A}
-
-%.o: %.c
-	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	@LD_LIBRARY_PATH=$(shell pwd) $(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
-
-%.obj: %.c
-	@echo -e "  CC OBJ  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	${Q}$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*)) -fPIC
-
-$(TARGETS): %:
-	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	@LD_LIBRARY_PATH=$(shell pwd) $(CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*))
-
-$(TARGETS_LIBSO): %:
-	@echo -e "  SO  \033[1;32m$(@)\033[m"
-	${Q}$(CC) -o $(@) $(^) -shared -fPIC $(LDFLAGS_SO) $(LDFLAGS_SO_$(*))
-
-include ../template/target-liba.mk
-
-.PHONY: test
-test: ${TARGETS} $(sub-dir-test)
-	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
-	${Q}LD_LIBRARY_PATH=$(shell pwd) ./byteswap
-	${Q}clear
-	${Q}./gotoxy
-	${Q}clear
-	${Q}./qemu_examples.sh
-	${Q}./file.sh test
-
-.PHONY: clean
-clean: $(sub-dir-clean)
-	@echo -e "  CLEAN  \033[1;32m$(TARGETS) ${TARGETS_LIBSO} ${TARGETS_LIBA}\033[m"
-	${Q}rm -f ${TARGETS} ${TARGETS_LIBSO} ${TARGETS_LIBA} *.o *.obj vdso.elf*
-
-include ../template/subdir-footer.mk
-
