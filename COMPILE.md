@@ -34,3 +34,7 @@ Compile with verbose:
 ```
 $ make user V=1
 ```
+
+## Create Makefile
+
+You should better use `template/main.mk`.
