@@ -82,7 +82,7 @@ CFLAGS += -I$(shell realpath .)/../../../
 ifeq (${Q}$(CC),clang)
   LDFLAGS += -Wl,-lm
 else
-  CFLAGS += -lm
+  LDFLAGS += -lm
 endif
 
 CFLAGS += -DDEBUG -O0 -g
@@ -92,9 +92,13 @@ CFLAGS_pthread_cond_broadcast := -DCOND_ATTR=1
 CFLAGS_pthread_cond_signal := -DCOND_ATTR=1
 CFLAGS_pthread_create := -DNR_THREADS=5
 
-build: ${TARGETS}
+TARGETS_EXTRA := $(patsubst %,%.c.s,${TARGETS})
+TARGETS_EXTRA += ld-list-tunables
+
+include ../../../template/main.mk
+
+ld-list-tunables:
 	${Q}ld.so --list-tunables 2>/dev/null | grep -i pthread || true
-	@echo -e " \033[1;33m Done \033[m"
 
 pthread_helpers.o: pthread_helpers.h
 sched_helpers.o: sched_helpers.h
@@ -177,19 +181,3 @@ rt_thread: rt_thread.o
 cond-demo1: cond-demo1.o
 cond-demo2: cond-demo2.o
 cond-demo3-latency: cond-demo3-latency.o
-
-%.o: %.c
-	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	${Q}$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
-	${Q}$(CC) -S $(<) -o $(<:.c=.s) $(CFLAGS) $(CFLAGS_$(*))
-
-$(TARGETS): %:
-	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	${Q}$(CC) -o $(@) $(^) $(CFLAGS) $(LDFLAGS) $(LDFLAGS_$(*))
-
-test: ${TARGETS}
-	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
-
-clean:
-	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
-	${Q}rm -f ${TARGETS} *.o *.log *.s
