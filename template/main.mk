@@ -14,15 +14,19 @@ ifdef DEBUG
   CFLAGS += -DDEBUG -O0 -g -ggdb
   CXXFLAGS += -DDEBUG -O0 -g -ggdb
 endif
+
 ifdef ERROR
   $(info Compile with ERROR=1)
   CFLAGS += -DERROR=1
   CXXFLAGS += -DERROR=1
 endif
+
 ifdef M32
   $(info Compile 32bit ELF)
   CFLAGS += -m32 -DM32=1
   CXXFLAGS += -m32 -DM32=1
+  LDFLAGS += -m32 -DM32=1
+  LDXXFLAGS += -m32 -DM32=1
   MAKEFLAGS += M32=1
 endif
 
