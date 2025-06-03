@@ -72,7 +72,12 @@ struct {
 } spin_lock_hash_map SEC(".maps");
 
 #elif defined(TEST_RBTREE)
+/**
+ * linux commit 9c395c1b99bd ("bpf: Add basic bpf_rb_{root,node} support")
+ * v6.2-rc7-1571-g9c395c1b99bd add bpf_rb_root to uapi/linux/bpf.h
+ */
 #include "spin_lock.h"
+#include "rbtree.h"
 
 #include "btf_helpers.h"
 /**
@@ -94,12 +99,17 @@ struct {
 	__type(value, struct spin_lock_hmap_elem);
 } spin_lock_hash_map SEC(".maps");
 
+struct {
+	__uint(type, BPF_MAP_TYPE_ARRAY);
+	__uint(max_entries, 1);
+	__type(key, int);
+	__type(value, struct rbtree_root);
+} rbtree_root_map SEC(".maps");
+
+#if 0 /* TODO */
 private(A) struct bpf_spin_lock glock;
-/**
- * linux commit 9c395c1b99bd ("bpf: Add basic bpf_rb_{root,node} support")
- * v6.2-rc7-1571-g9c395c1b99bd add bpf_rb_root to uapi/linux/bpf.h
- */
 private(A) struct bpf_rb_root groot __contains(node_data, node);
+#endif
 
 long less_callback_ran = -1;
 
@@ -157,45 +167,50 @@ int tc_ingress(struct __sk_buff *ctx)
 #if defined(TEST_SPIN_LOCK)
 	struct spin_lock_hmap_elem *val;
 	int key = 0;
+	char *str = "";
 
 	val = bpf_map_lookup_elem(&spin_lock_hash_map, &key);
 	if (!val)
 		return 1;
 
 	bpf_spin_lock(&val->lock);
+	str = "HELLO";
 	bpf_spin_unlock(&val->lock);
-	bpf_printk("test spin lock");
+	bpf_printk("test spin lock, %s", str);
 
 #elif defined(TEST_RBTREE)
 	struct node_data n1, n2, *o;
 	struct bpf_rb_node *res = NULL;
-	struct spin_lock_hmap_elem *val;
+	struct spin_lock_hmap_elem *lock;
+	struct rbtree_root *root;
 	int key = 0;
 
-	val = bpf_map_lookup_elem(&spin_lock_hash_map, &key);
-	if (!val)
+	lock = bpf_map_lookup_elem(&spin_lock_hash_map, &key);
+	if (!lock)
+		return 1;
+
+	root = bpf_map_lookup_elem(&rbtree_root_map, &key);
+	if (!root)
 		return 1;
 
 	n1.key = 1;
 	n2.key = 2;
+#if 1
+	bpf_spin_lock(&lock->lock);
+	bpf_rbtree_add(&root->root, &n1.node, less);
+	bpf_rbtree_add(&root->root, &n2.node, less);
 
-	bpf_spin_lock(&val->lock);
-	bpf_rbtree_add(&groot, &n1.node, less);
-	bpf_rbtree_add(&groot, &n2.node, less);
-
-	res = bpf_rbtree_first(&groot);
+	res = bpf_rbtree_first(&root->root);
 	if (!res) {
 		bpf_printk("Failed to call bpf_rbtree_first.");
-		bpf_spin_unlock(&val->lock);
+		bpf_spin_unlock(&lock->lock);
 		return 2;
 	}
-
 	o = container_of(res, struct node_data, node);
-	bpf_printk("First rbtree key is %d", o->key);
-
-	res = bpf_rbtree_remove(&groot, &o->node);
-
-	bpf_spin_unlock(&val->lock);
+	res = bpf_rbtree_remove(&root->root, &o->node);
+	bpf_spin_unlock(&lock->lock);
+#endif
+	bpf_printk("test rbtree");
 
 #endif /* TEST_RBTREE */
 

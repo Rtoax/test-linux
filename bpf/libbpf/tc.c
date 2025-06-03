@@ -17,14 +17,16 @@
 #include <linux/bpf.h>
 #include "btf_helpers.h"
 #include "trace_helpers.h"
-#if defined(TEST_SPIN_LOCK)
 #include "libbpf_wrapper.h"
+#if defined(TEST_SPIN_LOCK)
 #include "spin_lock.h"
 #include "spin_lock.skel.h"
 #define struct_bpf	spin_lock_bpf
 #define _bpf__open_and_load	spin_lock_bpf__open_and_load
 #define _bpf__destroy	spin_lock_bpf__destroy
 #elif defined(TEST_RBTREE)
+#include "rbtree.h"
+#include "spin_lock.h"
 #include "rbtree.skel.h"
 #define struct_bpf	rbtree_bpf
 #define _bpf__open_and_load	rbtree_bpf__open_and_load
@@ -119,7 +121,7 @@ int main(int argc, char **argv)
 		return 1;
 	}
 
-#if defined(TEST_SPIN_LOCK) || defined(TEST_SPIN_LOCK)
+#if defined(TEST_SPIN_LOCK) || defined(TEST_RBTREE)
 	printf("spin_lock hash map max entries %d\n",
 		bpf_map__max_entries(skel->maps.spin_lock_hash_map));
 
@@ -132,6 +134,17 @@ int main(int argc, char **argv)
 		fprintf(stderr, "Failed to update hash map: %d\n", err);
 		goto cleanup;
 	}
+
+# if defined(TEST_RBTREE)
+	struct rbtree_root rbroot = {};
+	err = libbpf_bpf_map_update_elem(skel->maps.rbtree_root_map,
+					&zero, sizeof(zero),
+					&rbroot, sizeof(rbroot), BPF_EXIST);
+	if (err) {
+		fprintf(stderr, "Failed to update rbtree root hash map: %d\n", err);
+		goto cleanup;
+	}
+# endif
 #endif
 
 	/**

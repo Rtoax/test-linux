@@ -323,7 +323,7 @@ libbpf_version: ${OUTPUT}/libbpf_version.o
 config-map: ${OUTPUT}/config-map.o ${LIBBPF_WRAPPER}
 socket_filter: ${OUTPUT}/socket_filter.o ${SOCKET_HELPERS}
 tc: ${OUTPUT}/tc.o
-rbtree: ${OUTPUT}/rbtree.o
+rbtree: ${OUTPUT}/rbtree.o ${LIBBPF_WRAPPER}
 ${OUTPUT}/spin_lock.o: spin_lock.h
 ${OUTPUT}/spin_lock.bpf.o: spin_lock.h
 spin_lock: ${OUTPUT}/spin_lock.o ${LIBBPF_WRAPPER}
