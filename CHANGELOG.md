@@ -17,6 +17,7 @@ and this project adheres to
 - top-Makefile: Apply sub-dir to user targets.
 - bpf/libbpf: compile with -std=gnu89.
 #### Added
+- libbpf: Test spin lock and add wrapper `tl_bpf_map_update_elem()`.
 - template: Add target-liba.mk,target-libso.mk,target-exe.mk,main.mk,target-output.mk.
 - bpf: test `bpf_task_cwd_from_pid()`.
 - fs/modules: add getcwd.c get task cwd from pid.

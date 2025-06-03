@@ -56,7 +56,18 @@
 #define TC_ACT_OK 0
 #define ETH_P_IP  0x0800 /* Internet Protocol packet */
 
-#if defined(TEST_RBTREE)
+#if defined(TEST_SPIN_LOCK)
+#include "spin_lock.h"
+
+struct {
+	__uint(type, BPF_MAP_TYPE_HASH);
+	__uint(max_entries, 1);
+	__type(key, __u32);
+	__type(value, struct spin_lock_hmap_elem);
+} spin_lock_hash_map SEC(".maps");
+
+#elif defined(TEST_RBTREE)
+
 #include "btf_helpers.h"
 /**
  * see linux:tools/testing/selftests/bpf/progs/rbtree.c
@@ -142,7 +153,19 @@ int tc_ingress(struct __sk_buff *ctx)
 
 	bpf_printk("Got IP packet: tot_len: %d, ttl: %d", bpf_ntohs(iphdr->tot_len), iphdr->ttl);
 
-#if defined(TEST_RBTREE)
+#if defined(TEST_SPIN_LOCK)
+	struct spin_lock_hmap_elem *val;
+	int key = 0;
+
+	val = bpf_map_lookup_elem(&spin_lock_hash_map, &key);
+	if (!val)
+		return 1;
+
+	bpf_spin_lock(&val->lock);
+	bpf_spin_unlock(&val->lock);
+	bpf_printk("test spin lock");
+
+#elif defined(TEST_RBTREE)
 	struct node_data n1, n2, *o;
 	struct bpf_rb_node *res = NULL;
 	struct hmap_elem *val;

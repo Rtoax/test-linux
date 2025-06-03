@@ -111,6 +111,12 @@ ifeq ($(call kernel_newer_than,6,2,0),y)
   TARGETS += rbtree
 endif
 
+# linux commit d83525ca62cf ("bpf: introduce bpf_spin_lock")
+# v5.0-rc4-620-gd83525ca62cf
+ifeq ($(call kernel_newer_than,5,0,0),y)
+  TARGETS += spin_lock
+endif
+
 # linux 7b15523a989b ("bpf: Add a bpf_snprintf helper")
 # v5.12-rc4-1654-g7b15523a989b
 ifeq ($(call kernel_newer_than,5,12,0),y)
@@ -285,7 +291,10 @@ CFLAGS_btf_kfunc := -DTEST_BTF_KIND_FUNC=1
 CFLAGS_btf_decl_tag := -DTEST_BTF_KIND_DECL_TAG=1
 
 CFLAGS_rbtree := -DTEST_RBTREE=1
-CFLAGS_BPF_rbtree := -DTEST_RBTREE=1
+CFLAGS_BPF_rbtree := ${CFLAGS_BPF_rbtree}
+
+CFLAGS_spin_lock := -DTEST_SPIN_LOCK=1
+CFLAGS_BPF_spin_lock := ${CFLAGS_spin_lock}
 
 SOCKET_HELPERS := ${OUTPUT}/socket_helpers.o
 TASK_HELPERS := ${OUTPUT}/task_helpers.o
@@ -315,6 +324,7 @@ config-map: ${OUTPUT}/config-map.o ${LIBBPF_WRAPPER}
 socket_filter: ${OUTPUT}/socket_filter.o ${SOCKET_HELPERS}
 tc: ${OUTPUT}/tc.o
 rbtree: ${OUTPUT}/rbtree.o
+spin_lock: ${OUTPUT}/spin_lock.o ${LIBBPF_WRAPPER}
 xdp: ${OUTPUT}/xdp.o ${LIBBPF_WRAPPER}
 xdp_simple: ${OUTPUT}/xdp_simple.o ${LIBBPF_WRAPPER} ${LIBXDP_HELPERS}
 xdp_dos: ${OUTPUT}/xdp_dos.o ${LIBBPF_WRAPPER} ${LIBXDP_HELPERS}

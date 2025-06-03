@@ -68,22 +68,14 @@ int main(void)
 	printf("Config message for uid = %d\n", key);
 	printf("event max entries %d\n", bpf_map__max_entries(skel->maps.event));
 	printf("config_hash max entries %d\n", bpf_map__max_entries(skel->maps.config_hash));
-/**
- * libbpf commit 650adc5118f1 ("libbpf: Add safer high-level wrappers for map
- * operations") support bpf_map__update_elem()
- */
-#if LIBBPF_MAJOR_VERSION >= 1 || (LIBBPF_MAJOR_VERSION == 0 && LIBBPF_MINOR_VERSION > 8)
-	bpf_map__update_elem(skel->maps.config_hash, &key, sizeof(key), &msg,
-				sizeof(msg), 0);
-#else
-	int msg_map_fd = bpf_map__fd(skel->maps.config_hash);
-	err = bpf_map_update_elem(msg_map_fd, &key, &msg, 0);
+
+	err = tl_bpf_map_update_elem(skel->maps.config_hash, &key, sizeof(key),
+				&msg, sizeof(msg), 0);
 	if (err < 0) {
 		printf("failed to update elem.\n");
 		config_map_bpf__destroy(skel);
 		return 1;
 	}
-#endif
 
 	/* Attach the progam to the event */
 	err = config_map_bpf__attach(skel);
