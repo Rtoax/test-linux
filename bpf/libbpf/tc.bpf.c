@@ -52,6 +52,7 @@
 #include <bpf/bpf_endian.h>
 #include <bpf/bpf_helpers.h>
 #include <bpf/bpf_tracing.h>
+#include <bpf/bpf_core_read.h>
 
 #define TC_ACT_OK 0
 #define ETH_P_IP  0x0800 /* Internet Protocol packet */
@@ -86,6 +87,9 @@ struct {
 #define private(name) SEC(".data." #name) __hidden __attribute__((aligned(8)))
 #define __contains(name, node) __attribute__((btf_decl_tag("contains:" #name ":" #node)))
 #define bpf_rbtree_add(head, node, less) bpf_rbtree_add_impl(head, node, less, NULL, 0)
+#define bpf_obj_new(type) ((type *)bpf_obj_new_impl(bpf_core_type_id_local(type), NULL))
+#define bpf_obj_drop(kptr) bpf_obj_drop_impl(kptr, NULL)
+
 struct node_data {
 	long key;
 	long data;
@@ -179,7 +183,7 @@ int tc_ingress(struct __sk_buff *ctx)
 	bpf_printk("test spin lock, %s", str);
 
 #elif defined(TEST_RBTREE)
-	struct node_data n1, n2, *o;
+	struct node_data *n, *o;
 	struct bpf_rb_node *res = NULL;
 	struct spin_lock_hmap_elem *lock;
 	struct rbtree_root *root;
@@ -193,12 +197,14 @@ int tc_ingress(struct __sk_buff *ctx)
 	if (!root)
 		return 1;
 
-	n1.key = 1;
-	n2.key = 2;
+	n = bpf_obj_new(typeof(*n));
+	if (!n)
+		return 0;
+
+	n->key = 1;
 #if 1
 	bpf_spin_lock(&lock->lock);
-	bpf_rbtree_add(&root->root, &n1.node, less);
-	bpf_rbtree_add(&root->root, &n2.node, less);
+	bpf_rbtree_add(&root->root, &n->node, less);
 
 	res = bpf_rbtree_first(&root->root);
 	if (!res) {
@@ -210,6 +216,8 @@ int tc_ingress(struct __sk_buff *ctx)
 	res = bpf_rbtree_remove(&root->root, &o->node);
 	bpf_spin_unlock(&lock->lock);
 #endif
+
+	bpf_obj_drop(n);
 	bpf_printk("test rbtree");
 
 #endif /* TEST_RBTREE */
