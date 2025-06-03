@@ -1,7 +1,5 @@
 include ../../../tlbuild.mk
 
-
-
 TARGETS := dev
 
 TARGETS_LIBS := libdev.so
@@ -20,13 +18,11 @@ CFLAGS += -DDEBUG -O0 -g
 CFLAGS_dev := -ldev
 LDFLAGS_dev := libdev.so
 
-
 .PHONY: build
 build: ${TARGETS_LIBS} ${TARGETS}
 	@echo -e " \033[1;33m Done \033[m"
 	@echo -e "Running ./run.sh to testing."
 
-# Add more object.o file
 libdev.so: libdev.o
 dev: dev.o
 
