@@ -53,8 +53,7 @@ CXXFLAGS___STDC__c++98 := -std=c++98
 CXXFLAGS___STDC__gnu++98 := -std=gnu++98
 LDXXFLAGS_fmt := -lfmt
 
-TARGETS_EXTRA := $(patsubst %,%.cpp.s,${TARGETS_CPP})
-TARGETS_EXTRA := $(addprefix ${OUTPUT},${TARGETS_EXTRA})
+TARGETS_EXTRA := $(addprefix ${OUTPUT},$(patsubst %,%.cpp.s,${TARGETS_CPP}))
 
 include ../template/main.mk
 
