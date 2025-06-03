@@ -1,6 +1,3 @@
-include ../../tlbuild.mk
-
-
 TARGETS :=
 TARGETS += mtrace
 TARGETS += mprobe
@@ -9,31 +6,14 @@ TARGETS += mcheck_check_all
 CC := gcc
 
 CFLAGS := -Werror -Wall
-CFLAGS += -DDEBUG -O0 -g
 CFLAGS += -lmcheck
 
 LDFLAGS :=
 
-build: ${TARGETS}
-	@echo -e " \033[1;33m Done \033[m"
+CFLAGS_mprobe := -Wno-error=use-after-free
+
+include ../../template/main.mk
 
 mtrace: mtrace.o
 mprobe: mprobe.o
 mcheck_check_all: mcheck_check_all.o
-
-CFLAGS_mprobe := -Wno-error=use-after-free
-
-%.o: %.c
-	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	${Q}$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
-
-$(TARGETS): %:
-	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	${Q}$(CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*)) $(CFLAGS) $(CFLAGS_$(*))
-
-test: ${TARGETS}
-	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
-
-clean:
-	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
-	${Q}rm -f ${TARGETS} *.o *.d

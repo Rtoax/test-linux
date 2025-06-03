@@ -1,5 +1,4 @@
 # SPDX-License-Identifier: GPL-3.0
-include ../../tlbuild.mk
 include ../../compiler/compiler.mk
 
 TARGETS :=
@@ -21,7 +20,6 @@ TARGETS += pvalloc
 CC := gcc
 
 CFLAGS := -Werror -Wall
-CFLAGS += -DDEBUG -O0 -g
 
 CFLAGS_mallinfo := -Wno-error=deprecated-declarations
 CFLAGS_malloc_helpers := -Wno-error=deprecated-declarations
@@ -39,10 +37,12 @@ ifeq (${CC_-use-after-free},1)
   CFLAGS_double-free += -Wno-error=use-after-free
 endif
 
-.PHONY: build
-build: ${TARGETS}
+TARGETS_EXTRA := ld-list-tunables
+
+include ../../template/main.mk
+
+ld-list-tunables:
 	${Q}ld.so --list-tunables 2>/dev/null | grep -i malloc || true
-	@echo -e " \033[1;33m Done \033[m"
 
 malloc_helpers.o: malloc_helpers.h
 
@@ -64,19 +64,3 @@ corrupted-size-vs.prev_size: corrupted-size-vs.prev_size.o malloc_helpers.o
 malloc_usable_size: malloc_usable_size.o
 memalign: memalign.o
 pvalloc: pvalloc.o
-
-
-%.o: %.c
-	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	${Q}$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
-
-$(TARGETS): %:
-	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	${Q}$(CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*)) $(CFLAGS) $(CFLAGS_$(*))
-
-test: ${TARGETS}
-	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
-
-clean:
-	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
-	${Q}rm -f ${TARGETS} *.o *.d *.xml

@@ -1,37 +1,14 @@
-include ../../tlbuild.mk
-
-
 TARGETS := wchar_t
 TARGETS += iswctype
 TARGETS += wcstol
 TARGETS += demo-1
 
-CC := gcc
-
 CFLAGS := -Werror -Wall -D_GNU_SOURCE
 CFLAGS += -pthread
-CFLAGS += -DDEBUG -O0 -g
 
-build: ${TARGETS}
-	@echo -e " \033[1;33m Done \033[m"
+include ../../template/main.mk
 
 iswctype: iswctype.o
 wchar_t: wchar_t.o
 wcstol: wcstol.o
 demo-1: demo-1.o
-
-%.o: %.c
-	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	${Q}$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
-
-$(TARGETS): %:
-	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	${Q}$(CC) $(CFLAGS) -o $(@) $(^)
-
-test: ${TARGETS}
-	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
-
-clean:
-	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
-	${Q}rm -f ${TARGETS} *.o
-

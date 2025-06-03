@@ -1,5 +1,4 @@
 # SPDX-License-Identifier: GPL-3.0
-include ../../tlbuild.mk
 include ../glibc.mk
 
 SYMADDR___memcpy_ssse3 := $(call libc_sym_addr,__memcpy_ssse3)
@@ -56,10 +55,6 @@ CC := gcc
 CFLAGS := -Werror -Wall
 CFLAGS += -I../../../
 CFLAGS += -lm
-CFLAGS += -O0 -g -ggdb
-ifdef DEBUG
-  CFLAGS += -DDEBUG
-endif
 ifdef STATIC
   CFLAGS += -static
   LDFLAGS += -static
@@ -111,9 +106,9 @@ CFLAGS___memcpy_a64fx-stress := -DSYMADDR___memcpy_a64fx=$(SYMADDR___memcpy_a64f
 CFLAGS___memcpy_aarch64-stress := -DARM_SOFTWARE___memcpy_aarch64=1
 CFLAGS___memcpy_aarch64_sve-stress := -DARM_SOFTWARE___memcpy_aarch64_sve=1
 
-.PHONY: build
-build: sig.h ${TARGETS}
-	@echo -e " \033[1;33m Done \033[m"
+TARGETS_PRE := sig.h
+
+include ../../template/main.mk
 
 sig.h:
 	$(shell bash signo.sh)
@@ -149,18 +144,3 @@ strsignal: strsignal.o
 strerror: strerror.o
 strerror_r: strerror_r.o
 strstr: strstr.o
-
-%.o: %.c
-	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	${Q}$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
-
-$(TARGETS): %:
-	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	${Q}$(CC) -o $(@) $(^) $(CFLAGS) $(CFLAGS_$(*)) $(LDFLAGS) $(LDFLAGS_$(*))
-
-test: ${TARGETS}
-	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
-
-clean:
-	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
-	${Q}rm -f ${TARGETS} *.o *.log sig.h

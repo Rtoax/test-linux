@@ -1,5 +1,3 @@
-include ../../tlbuild.mk
-
 TARGETS :=
 TARGETS += abort
 TARGETS += atof
@@ -29,10 +27,7 @@ TARGETS += open_pty_pair
 TARGETS += div
 TARGETS += demo-qsort-bsearch
 
-CC := gcc
-
 CFLAGS := -Werror -Wall
-CFLAGS += -DDEBUG -O0 -g -ggdb
 
 CFLAGS_unlockpt := -D_XOPEN_SOURCE
 # TODO
@@ -43,10 +38,8 @@ CFLAGS_srandom := -DSRANDOM=1
 CFLAGS_aligned_alloc := -DALIGNED_ALLOC=1
 CFLAGS_valloc := -DVALLOC=1
 
-build: ${TARGETS}
-	@echo -e " \033[1;33m Done \033[m"
+include ../../template/main.mk
 
-# Add more object.o file
 abort: abort.o
 atof: atof.o
 atexit: atexit.o
@@ -95,19 +88,3 @@ _Exit: _Exit.o
 open_pty_pair: open_pty_pair.o
 div: div.o
 demo-qsort-bsearch: demo-qsort-bsearch.o
-
-%.o: %.c
-	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	${Q}$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
-
-$(TARGETS): %:
-	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	${Q}$(CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*)) $(CFLAGS) $(CFLAGS_$(*))
-
-test: ${TARGETS}
-	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
-
-clean:
-	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
-	${Q}rm -f ${TARGETS} *.o *.d *.log
-	${Q}rm -rf tmpd-* tmp-* *.dir

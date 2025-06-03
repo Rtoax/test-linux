@@ -1,6 +1,4 @@
 # SPDX-License-Identifier: GPL-3.0
-include ../../tlbuild.mk
-
 TARGETS :=
 TARGETS += time
 TARGETS += asctime asctime_r
@@ -25,17 +23,13 @@ TARGETS += timeval
 TARGETS += show_systime
 TARGETS += process-runtime
 
-CC := gcc
-
 CFLAGS := -Werror -Wall
 CFLAGS += -D_GNU_SOURCE
-CFLAGS += -DDEBUG -O0 -g
 CFLAGS += -pthread -lrt
 
 LDFLAGS := -pthread -lrt
 
-build: ${TARGETS}
-	@echo -e " \033[1;33m Done \033[m"
+include ../../template/main.mk
 
 time_helpers.o: time_helpers.h
 
@@ -60,18 +54,3 @@ timeval: timeval.o
 show_systime: show_systime.o
 process-runtime: process-runtime.o
 iso8601: iso8601.o
-
-%.o: %.c
-	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	${Q}$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
-
-$(TARGETS): %:
-	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	${Q}$(CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*))
-
-test: ${TARGETS}
-	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
-
-clean:
-	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
-	${Q}rm -f ${TARGETS} *.o *.d tfile.txt

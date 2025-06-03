@@ -1,5 +1,4 @@
 # SPDX-License-Identifier: GPL-3.0
-include ../../tlbuild.mk
 include ../glibc.mk
 
 TARGETS :=
@@ -26,8 +25,6 @@ TARGETS += fgets
 TARGETS += fopen
 TARGETS += fopencookie
 
-CC := gcc
-
 CFLAGS := -Werror -Wall
 CFLAGS += -DDEBUG -O0 -g
 
@@ -38,18 +35,13 @@ endif
 CFLAGS_asprintf := -D_GNU_SOURCE=1
 CFLAGS_getdelim := -DTEST_getdelim=1
 
+TARGETS_EXTRA := os-release
+
 include ../../elf/pie.mk
+include ../../template/main.mk
 
-ifdef M32
-  CFLAGS += -m32 -DM32=1
-  LDFLAGS += -m32
-  $(info Compile 32bit ELF)
-endif
-
-.PHONY: build
-build: ${TARGETS}
+os-release:
 	@cp /etc/os-release os-release
-	@echo -e " \033[1;33m Done \033[m"
 
 ansi_ascii: ansi_ascii.o
 ctermid: ctermid.o
@@ -80,23 +72,3 @@ setvbuf: setvbuf.o
 fgets: fgets.o
 fopen: fopen.o
 fopencookie: fopencookie.o
-
-%.o: %.c
-	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	${Q}$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
-
-$(TARGETS): %:
-	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	${Q}$(CC) $(CFLAGS) -o $(@) $(^)
-
-.PHONY: test
-test: ${TARGETS}
-	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
-	./getchar < getchar.c
-	echo 1.2 | ./scanf
-	./fopencookie 'hello world'
-
-.PHONY: clean
-clean:
-	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
-	${Q}rm -f ${TARGETS} *.o *.d *.log *.out *.bin os-release
