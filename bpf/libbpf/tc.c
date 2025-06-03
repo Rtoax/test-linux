@@ -119,7 +119,7 @@ int main(int argc, char **argv)
 		return 1;
 	}
 
-#if defined(TEST_SPIN_LOCK)
+#if defined(TEST_SPIN_LOCK) || defined(TEST_SPIN_LOCK)
 	printf("spin_lock hash map max entries %d\n",
 		bpf_map__max_entries(skel->maps.spin_lock_hash_map));
 

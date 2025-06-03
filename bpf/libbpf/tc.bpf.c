@@ -72,6 +72,7 @@ struct {
 } spin_lock_hash_map SEC(".maps");
 
 #elif defined(TEST_RBTREE)
+#include "spin_lock.h"
 
 #include "btf_helpers.h"
 /**
@@ -86,17 +87,12 @@ struct node_data {
 	struct bpf_rb_node node;
 };
 
-struct hmap_elem {
-	struct bpf_spin_lock lock;
-	int var[2];
-};
-
 struct {
 	__uint(type, BPF_MAP_TYPE_HASH);
 	__uint(max_entries, 1);
 	__type(key, __u32);
-	__type(value, struct hmap_elem);
-} hash_map SEC(".maps");
+	__type(value, struct spin_lock_hmap_elem);
+} spin_lock_hash_map SEC(".maps");
 
 private(A) struct bpf_spin_lock glock;
 /**
@@ -173,10 +169,10 @@ int tc_ingress(struct __sk_buff *ctx)
 #elif defined(TEST_RBTREE)
 	struct node_data n1, n2, *o;
 	struct bpf_rb_node *res = NULL;
-	struct hmap_elem *val;
+	struct spin_lock_hmap_elem *val;
 	int key = 0;
 
-	val = bpf_map_lookup_elem(&hash_map, &key);
+	val = bpf_map_lookup_elem(&spin_lock_hash_map, &key);
 	if (!val)
 		return 1;
 
