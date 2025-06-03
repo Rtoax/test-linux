@@ -188,9 +188,9 @@ int tc_ingress(struct __sk_buff *ctx)
 	struct bpf_rb_node *res = NULL;
 	struct bpf_spin_lock *spinlock;
 	struct bpf_rb_root *rbroot;
-	int key = 0;
 
 # if defined(TEST_RBTREE_RAW_MAP)
+	int key = 0;
 	struct spin_lock_hmap_elem *lock;
 	struct rbtree_root *root;
 
