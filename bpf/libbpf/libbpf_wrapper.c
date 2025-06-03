@@ -68,7 +68,7 @@ int libbpf_bpf_map_update_elem(const struct bpf_map *map, const void *key,
 			       size_t key_sz, const void *value, size_t value_sz,
 			       __u64 flags)
 {
-	int fd, err = 0;
+	int err = 0;
 /**
  * libbpf commit 650adc5118f1 ("libbpf: Add safer high-level wrappers for map
  * operations") support bpf_map__update_elem()
@@ -76,7 +76,7 @@ int libbpf_bpf_map_update_elem(const struct bpf_map *map, const void *key,
 #if LIBBPF_MAJOR_VERSION >= 1 || (LIBBPF_MAJOR_VERSION == 0 && LIBBPF_MINOR_VERSION > 8)
 	err = bpf_map__update_elem(map, key, key_sz, value, value_sz, flags);
 #else
-	fd = bpf_map__fd(map);
+	int fd = bpf_map__fd(map);
 	err = bpf_map_update_elem(fd, key, msg, flags);
 #endif
 	if (err < 0)

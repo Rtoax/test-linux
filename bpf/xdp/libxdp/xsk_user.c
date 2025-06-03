@@ -662,7 +662,7 @@ int main(int argc, char **argv)
 		exit(EXIT_FAILURE);
 	}
 
-	err = tl_bpf_xdp_attach(ifindex, prog_fd, 0);
+	err = libbpf_bpf_xdp_attach(ifindex, prog_fd, 0);
 	if (err)
 		goto cleanup;
 
@@ -695,7 +695,7 @@ cleanup:
 		xsk_umem__delete(umem_info->umem);
 		munmap(umem_info->buffer, umem_info->buffer_size);
 	}
-	tl_bpf_xdp_detach(ifindex, 0);
+	libbpf_bpf_xdp_detach(ifindex, 0);
 	xdp_xsk_bpf__destroy(skel);
 	return 0;
 }
