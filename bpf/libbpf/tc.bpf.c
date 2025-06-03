@@ -70,6 +70,18 @@ struct node_data {
 	struct bpf_rb_node node;
 };
 
+struct hmap_elem {
+	struct bpf_spin_lock lock;
+	int var[2];
+};
+
+struct {
+	__uint(type, BPF_MAP_TYPE_HASH);
+	__uint(max_entries, 1);
+	__type(key, __u32);
+	__type(value, struct hmap_elem);
+} hash_map SEC(".maps");
+
 private(A) struct bpf_spin_lock glock;
 /**
  * linux commit 9c395c1b99bd ("bpf: Add basic bpf_rb_{root,node} support")
@@ -133,18 +145,24 @@ int tc_ingress(struct __sk_buff *ctx)
 #if defined(TEST_RBTREE)
 	struct node_data n1, n2, *o;
 	struct bpf_rb_node *res = NULL;
+	struct hmap_elem *val;
+	int key = 0;
+
+	val = bpf_map_lookup_elem(&hash_map, &key);
+	if (!val)
+		return 1;
 
 	n1.key = 1;
 	n2.key = 2;
 
-	bpf_spin_lock(&glock);
+	bpf_spin_lock(&val->lock);
 	bpf_rbtree_add(&groot, &n1.node, less);
 	bpf_rbtree_add(&groot, &n2.node, less);
 
 	res = bpf_rbtree_first(&groot);
 	if (!res) {
 		bpf_printk("Failed to call bpf_rbtree_first.");
-		bpf_spin_unlock(&glock);
+		bpf_spin_unlock(&val->lock);
 		return 2;
 	}
 
@@ -153,7 +171,7 @@ int tc_ingress(struct __sk_buff *ctx)
 
 	res = bpf_rbtree_remove(&groot, &o->node);
 
-	bpf_spin_unlock(&glock);
+	bpf_spin_unlock(&val->lock);
 
 #endif /* TEST_RBTREE */
 
