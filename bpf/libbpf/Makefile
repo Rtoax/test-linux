@@ -109,6 +109,7 @@ ifeq ($(call kernel_newer_than,6,2,0),y)
     CFLAGS += -DKAPI_NO_BPF_RB_ROOT=1
   endif
   TARGETS += rbtree
+  TARGETS += rbtree-raw-map
 endif
 
 # linux commit d83525ca62cf ("bpf: introduce bpf_spin_lock")
@@ -292,6 +293,8 @@ CFLAGS_btf_decl_tag := -DTEST_BTF_KIND_DECL_TAG=1
 
 CFLAGS_rbtree := -DTEST_RBTREE=1
 CFLAGS_BPF_rbtree := ${CFLAGS_rbtree}
+CFLAGS_rbtree-raw-map := ${CFLAGS_rbtree} -DTEST_RBTREE_RAW_MAP=1
+CFLAGS_BPF_rbtree-raw-map := ${CFLAGS_rbtree-raw-map}
 
 CFLAGS_spin_lock := -DTEST_SPIN_LOCK=1
 CFLAGS_BPF_spin_lock := ${CFLAGS_spin_lock}
@@ -326,6 +329,9 @@ tc: ${OUTPUT}/tc.o
 ${OUTPUT}/rbtree.o: rbtree.h
 ${OUTPUT}/rbtree.bpf.o: rbtree.h
 rbtree: ${OUTPUT}/rbtree.o ${LIBBPF_WRAPPER}
+${OUTPUT}/rbtree-raw-map.o: rbtree.h
+${OUTPUT}/rbtree-raw-map.bpf.o: rbtree.h
+rbtree-raw-map: ${OUTPUT}/rbtree-raw-map.o ${LIBBPF_WRAPPER}
 ${OUTPUT}/spin_lock.o: spin_lock.h
 ${OUTPUT}/spin_lock.bpf.o: spin_lock.h
 spin_lock: ${OUTPUT}/spin_lock.o ${LIBBPF_WRAPPER}

@@ -96,6 +96,7 @@ struct node_data {
 	struct bpf_rb_node node;
 };
 
+#if defined(TEST_RBTREE_RAW_MAP)
 struct {
 	__uint(type, BPF_MAP_TYPE_HASH);
 	__uint(max_entries, 1);
@@ -110,7 +111,7 @@ struct {
 	__type(value, struct rbtree_root);
 } rbtree_root_map SEC(".maps");
 
-#if 0 /* TODO */
+#else
 private(A) struct bpf_spin_lock glock;
 private(A) struct bpf_rb_root groot __contains(node_data, node);
 #endif
@@ -183,41 +184,52 @@ int tc_ingress(struct __sk_buff *ctx)
 	bpf_printk("test spin lock, %s", str);
 
 #elif defined(TEST_RBTREE)
-	struct node_data *n, *o;
+	struct node_data *n, *o, n1;
 	struct bpf_rb_node *res = NULL;
+	struct bpf_spin_lock *spinlock;
+	struct bpf_rb_root *rbroot;
+	int key = 0;
+
+# if defined(TEST_RBTREE_RAW_MAP)
 	struct spin_lock_hmap_elem *lock;
 	struct rbtree_root *root;
-	int key = 0;
 
 	lock = bpf_map_lookup_elem(&spin_lock_hash_map, &key);
 	if (!lock)
 		return 1;
+	spinlock = &lock->lock;
 
 	root = bpf_map_lookup_elem(&rbtree_root_map, &key);
 	if (!root)
 		return 1;
+	rbroot = &root->root;
 
-	n = bpf_obj_new(typeof(*n));
+#else /* TEST_RBTREE_RAW_MAP */
+
+	spinlock = &glock;
+	rbroot = &groot;
+#endif
+
+	n = &n1;
+	//n = bpf_obj_new(typeof(*n));
 	if (!n)
 		return 0;
 
 	n->key = 1;
-#if 1
-	bpf_spin_lock(&lock->lock);
-	bpf_rbtree_add(&root->root, &n->node, less);
 
-	res = bpf_rbtree_first(&root->root);
+	bpf_spin_lock(spinlock);
+	bpf_rbtree_add(rbroot, &n->node, less);
+
+	res = bpf_rbtree_first(rbroot);
 	if (!res) {
-		bpf_printk("Failed to call bpf_rbtree_first.");
-		bpf_spin_unlock(&lock->lock);
+		bpf_spin_unlock(spinlock);
 		return 2;
 	}
 	o = container_of(res, struct node_data, node);
-	res = bpf_rbtree_remove(&root->root, &o->node);
-	bpf_spin_unlock(&lock->lock);
-#endif
+	res = bpf_rbtree_remove(rbroot, &o->node);
+	bpf_spin_unlock(spinlock);
 
-	bpf_obj_drop(n);
+	//bpf_obj_drop(n);
 	bpf_printk("test rbtree");
 
 #endif /* TEST_RBTREE */

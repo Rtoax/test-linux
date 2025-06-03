@@ -24,9 +24,15 @@
 #define struct_bpf	spin_lock_bpf
 #define _bpf__open_and_load	spin_lock_bpf__open_and_load
 #define _bpf__destroy	spin_lock_bpf__destroy
-#elif defined(TEST_RBTREE)
+#elif defined(TEST_RBTREE) && defined(TEST_RBTREE_RAW_MAP)
 #include "rbtree.h"
 #include "spin_lock.h"
+#include "rbtree-raw-map.skel.h"
+#define struct_bpf	rbtree_raw_map_bpf
+#define _bpf__open_and_load	rbtree_raw_map_bpf__open_and_load
+#define _bpf__destroy	rbtree_raw_map_bpf__destroy
+#elif defined(TEST_RBTREE) && !defined(TEST_RBTREE_RAW_MAP)
+#include "rbtree.h"
 #include "rbtree.skel.h"
 #define struct_bpf	rbtree_bpf
 #define _bpf__open_and_load	rbtree_bpf__open_and_load
@@ -121,7 +127,7 @@ int main(int argc, char **argv)
 		return 1;
 	}
 
-#if defined(TEST_SPIN_LOCK) || defined(TEST_RBTREE)
+#if defined(TEST_SPIN_LOCK) || (defined(TEST_RBTREE) && defined(TEST_RBTREE_RAW_MAP))
 	printf("spin_lock hash map max entries %d\n",
 		bpf_map__max_entries(skel->maps.spin_lock_hash_map));
 

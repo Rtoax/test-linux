@@ -40,4 +40,5 @@
 /btf_kfunc
 /btf_decl_tag
 /rbtree
+/rbtree-raw-map
 /spin_lock
