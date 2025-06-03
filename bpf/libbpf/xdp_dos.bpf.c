@@ -266,9 +266,10 @@ int xdp_dummy_prog(struct xdp_md *ctx)
 
 		/* Copy packet data to event buffer. */
 		if (event.xdp_action == XDP_DROP) {
+			int i;
 			bpf_printk("dump pkt len %ld", data_len);
 			#pragma unroll
-			for (int i = 0; i < sizeof(*ethhdr) + sizeof(*iphdr) + sizeof(*icmphdr); i++) {
+			for (i = 0; i < sizeof(*ethhdr) + sizeof(*iphdr) + sizeof(*icmphdr); i++) {
 				event.pkt_data[i] = *(char *)(data + i);
 			}
 			event.pkt_len = data_len;

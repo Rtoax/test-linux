@@ -15,6 +15,7 @@ and this project adheres to
 - pxe: Introduce from ostools.
 - libvirt: Introduce from ostools.
 - top-Makefile: Apply sub-dir to user targets.
+- bpf/libbpf: compile with -std=gnu89.
 #### Added
 - template: Add target-liba.mk,target-libso.mk,target-exe.mk,main.mk,target-output.mk.
 - bpf: test `bpf_task_cwd_from_pid()`.

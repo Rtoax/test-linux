@@ -85,7 +85,8 @@ struct bpf_cpumap_val {
  */
 static __always_inline bool str_eq(const char *a, const char *b, int len)
 {
-	for (int i = 0; i < len; i++) {
+	int i;
+	for (i = 0; i < len; i++) {
 		if (a[i] != b[i])
 			return false;
 		if (a[i] == '\0')
@@ -99,7 +100,8 @@ static __always_inline bool str_eq(const char *a, const char *b, int len)
  */
 static __always_inline int str_len(char *s, int max_len)
 {
-	for (int i = 0; i < max_len; i++) {
+	int i;
+	for (i = 0; i < max_len; i++) {
 		if (s[i] == '\0')
 			return i;
 	}
