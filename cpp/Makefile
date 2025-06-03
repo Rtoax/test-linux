@@ -1,7 +1,9 @@
 # SPDX-License-Identifier: GPL-3.0
-include ../tlbuild.mk
 CXX := g++
+
 include ../compiler/compiler.mk
+
+OUTPUT := .output/
 
 sub-dir := demangle
 
@@ -52,21 +54,21 @@ CXXFLAGS___STDC__gnu++98 := -std=gnu++98
 LDXXFLAGS_fmt := -lfmt
 
 TARGETS_EXTRA := $(patsubst %,%.cpp.s,${TARGETS_CPP})
+TARGETS_EXTRA := $(addprefix ${OUTPUT},${TARGETS_EXTRA})
 
-#	${Q}$(CXX) $(CXXFLAGS) $(CXXFLAGS_$(*)) -S $(<) -o $(<:.cpp=.s)
 include ../template/main.mk
 
-hello: hello.opp
-alignas: alignas.opp
-extern_C: extern_C.opp
-pass-arg: pass-arg.opp
-return: return.opp
-this: this.opp
-string: string.opp
-__cplusplus: __cplusplus.opp
-__STDC__: __STDC__.opp
-__STDC__c++98: __STDC__c++98.opp
-__STDC__gnu++98: __STDC__gnu++98.opp
-format: format.opp
-fmt: fmt.opp
-expired: expired.opp
+hello: ${OUTPUT}hello.opp
+alignas: ${OUTPUT}alignas.opp
+extern_C: ${OUTPUT}extern_C.opp
+pass-arg: ${OUTPUT}pass-arg.opp
+return: ${OUTPUT}return.opp
+this: ${OUTPUT}this.opp
+string: ${OUTPUT}string.opp
+__cplusplus: ${OUTPUT}__cplusplus.opp
+__STDC__: ${OUTPUT}__STDC__.opp
+__STDC__c++98: ${OUTPUT}__STDC__c++98.opp
+__STDC__gnu++98: ${OUTPUT}__STDC__gnu++98.opp
+format: ${OUTPUT}format.opp
+fmt: ${OUTPUT}fmt.opp
+expired: ${OUTPUT}expired.opp

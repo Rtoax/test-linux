@@ -5,7 +5,7 @@ Q ?= @
 CFLAGS_SO += -fPIC
 LDFLAGS_SO += -shared -fPIC
 
-%.so.o: %.c
+${OUTPUT}%.so.o: %.c | ${OUTPUT}
 	@echo -e "  CC SO.O \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	${Q}LD_LIBRARY_PATH=$(shell pwd) $(CC) -o $(@) -c $(<) $(CFLAGS_SO) $(CFLAGS_SO_$(*))
 

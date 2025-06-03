@@ -3,11 +3,11 @@ CC ?= gcc
 CXX ?= g++
 Q ?= @
 
-%.o: %.c
+${OUTPUT}%.o: %.c | ${OUTPUT}
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	${Q}LD_LIBRARY_PATH=$(shell pwd) $(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
 
-%.c.s: %.c
+${OUTPUT}%.c.s: %.c | ${OUTPUT}
 	@echo -e "  CC S \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	${Q}LD_LIBRARY_PATH=$(shell pwd) $(CC) -S -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
 
@@ -15,11 +15,11 @@ $(TARGETS): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
 	${Q}LD_LIBRARY_PATH=$(shell pwd) $(CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*))
 
-%.opp: %.cpp
+${OUTPUT}%.opp: %.cpp | ${OUTPUT}
 	@echo -e "  CXX  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	${Q}$(CXX) -o $(@) -c $(<) $(CXXFLAGS) $(CXXFLAGS_$(*))
 
-%.cpp.s: %.cpp
+${OUTPUT}%.cpp.s: %.cpp | ${OUTPUT}
 	@echo -e "  CXX S  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	${Q}$(CXX) -S -o $(@) -c $(<) $(CXXFLAGS) $(CXXFLAGS_$(*))
 

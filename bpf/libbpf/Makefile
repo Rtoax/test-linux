@@ -343,7 +343,7 @@ map_array: ${OUTPUT}/map_array.o ${SOCKET_HELPERS}
 map_percpu_array: ${OUTPUT}/map_percpu_array.o ${SOCKET_HELPERS}
 
 ${OUTPUT}:
-	@echo -e "  MKDIR  \033[1m$(notdir ${@})\033[m"
+	@echo -e "  MKDIR  \033[1m${@}\033[m"
 	${Q}mkdir -p $(@)
 
 ${OUTPUT}/%.bpf.o: %.bpf.c ${VMLINUX_H} | ${OUTPUT}

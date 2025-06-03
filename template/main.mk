@@ -8,6 +8,7 @@ ALL_TARGETS := $(TARGETS) $(TARGETS_LIBA) $(TARGETS_LIBSO)
 ALL_TARGETS += $(TARGETS_CPP)
 ALL_TARGETS += $(sub-dir-build)
 ALL_TARGETS += $(TARGETS_EXTRA)
+ALL_TARGETS += $(OUTPUT)
 
 ifdef DEBUG
   $(info Compile with DEBUG=1)
@@ -49,5 +50,8 @@ clean: $(sub-dir-clean) $(TARGETS_CLEAN)
 include ${SUBDIR_DIR}/target-exe.mk
 include ${SUBDIR_DIR}/target-liba.mk
 include ${SUBDIR_DIR}/target-libso.mk
+ifneq (${OUTPUT},)
+  include ${SUBDIR_DIR}/target-output.mk
+endif
 
 include ${SUBDIR_DIR}/subdir-footer.mk

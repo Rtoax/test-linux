@@ -17,11 +17,11 @@ squashfs-root
 *.opp
 *.obj
 *.elf
-*.out
 *.d
 *.dpp
 *.strip
 *.readelf
+*.output*
 
 # Precompiled Headers
 *.gch

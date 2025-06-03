@@ -2,9 +2,11 @@
 CC ?= gcc
 Q ?= @
 
-%.a.o: %.c
+CFLAGS_A += -fPIC
+
+${OUTPUT}%.a.o: %.c | ${OUTPUT}
 	@echo -e "  CC A.O  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	${Q}$(CC) -o $(@) -c $(<) $(CFLAGS_A) $(CFLAGS_A_$(*)) -fPIC
+	${Q}$(CC) -o $(@) -c $(<) $(CFLAGS_A) $(CFLAGS_A_$(*))
 
 $(TARGETS_LIBA): %:
 	@echo -e "  AR  \033[1;32m$(^) to $(@)\033[m"
