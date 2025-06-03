@@ -179,7 +179,6 @@ int main(int argc, char **argv)
 
 	read_trace_pipe();
 
-detach:
 	/**
 	 * like: sudo tc filter delete dev [lo] ingress
 	 */
