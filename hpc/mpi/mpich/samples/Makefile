@@ -1,7 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
 include ../../../../tlbuild.mk
 
-
 MPICC := $(shell which mpicc 2>/dev/null)
 MPIRUN := $(shell which mpirun 2>/dev/null)
 MPIEXEC := $(shell which mpiexec 2>/dev/null)
@@ -19,7 +18,7 @@ ifeq ($(MPICC),)
   endif
 endif
 
-CC = ${MPICC}
+CC := ${MPICC}
 
 $(info - INFO MPICC = ${MPICC})
 $(info - INFO MPIRUN = ${MPIRUN})
@@ -49,6 +48,7 @@ LDFLAGS :=
 #   warning _FORTIFY_SOURCE requires compiling with optimization (-O)
 CFLAGS += -DDEBUG -O3 -g
 CFLAGS += -Wno-error=unused-result
+CFLAGS_MPI_Sendrecv_replace := -DCONFIG_MPI_Sendrecv_replace=1
 
 .PHONY: build
 build: ${TARGETS}
@@ -66,8 +66,6 @@ MPI_Sendrecv: MPI_Sendrecv.o
 MPI_Sendrecv_replace: MPI_Sendrecv_replace.o
 MPI_Wtime: MPI_Wtime.o
 MPI_Wtick: MPI_Wtick.o
-
-CFLAGS_MPI_Sendrecv_replace := -DCONFIG_MPI_Sendrecv_replace=1
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

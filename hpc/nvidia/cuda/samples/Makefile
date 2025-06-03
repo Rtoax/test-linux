@@ -1,9 +1,8 @@
 # SPDX-License-Identifier: GPL-3.0
 include ../../../../tlbuild.mk
 
-
-NVCC = $(shell which nvcc 2>/dev/null)
-CC = $(NVCC)
+NVCC := $(shell which nvcc 2>/dev/null)
+CC := $(NVCC)
 
 TARGETS :=
 TARGETS += hello

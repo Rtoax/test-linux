@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
-include ../../../tlbuild.mk
 
+OUTPUT := .output/
 
 TARGETS :=
 TARGETS += atomic
@@ -61,85 +61,68 @@ TARGETS += omp_get_wtick
 CC := gcc
 
 CFLAGS := -Werror -Wall
-CFLAGS += -O0
 CFLAGS += -fopenmp
 CFLAGS += -Wno-error=unused-variable
 
 ifdef DEBUG
-  CFLAGS += -g -ggdb
+  CFLAGS += -g -ggdb -O0
 endif
 
-.PHONY: build
-build: ${TARGETS}
-	@echo -e " \033[1;33m Done \033[m"
+LDFLAGS += ${CFLAGS}
 
-atomic: atomic.o
-barrier: barrier.o
-critical: critical.o
-default: default.o
-firstprivate: firstprivate.o
-flush: flush.o
-lastprivate: lastprivate.o
-lock: lock.o
-master: master.o
-memory: memory.o
-nowait: nowait.o
-omp_get_thread_limit: omp_get_thread_limit.o
-omp_get_num_procs: omp_get_num_procs.o
-omp_get_level: omp_get_level.o
-omp_get_thread_num: omp_get_thread_num.o
-omp_get_max_threads: omp_get_max_threads.o
-omp_set_num_threads: omp_set_num_threads.o
-omp_get_nested: omp_get_nested.o
-omp_set_nested_1: omp_set_nested_1.o
-omp_set_nested_2: omp_set_nested_2.o
-omp_set_nest_lock: omp_set_nest_lock.o
-omp_set_lock: omp_set_lock.o
-omp_test_lock: omp_test_lock.o
-omp_test_nest_lock: omp_test_nest_lock.o
-omp_destroy_nest_lock: omp_destroy_nest_lock.o
-omp_set_max_active_levels: omp_set_max_active_levels.o
-omp_get_active_level: omp_get_active_level.o
-omp_in_parallel: omp_in_parallel.o
-ordered: ordered.o
-parallel_for: parallel_for.o
-pragma_omp_atomic: pragma_omp_atomic.o
-pragma_omp_barrier: pragma_omp_barrier.o
-pragma_omp_critical: pragma_omp_critical.o
-pragma_omp_parallel_copyin: pragma_omp_parallel_copyin.o
-pragma_omp_parallel_for_reduction: pragma_omp_parallel_for_reduction.o
-private: private.o
-private_firstprivate_lastprivate_threadprivate: private_firstprivate_lastprivate_threadprivate.o
-reduction: reduction.o
-schedule_dynamic: schedule_dynamic.o
-schedule_guided: schedule_guided.o
-schedule_runtime: schedule_runtime.o
-schedule_sections_single_master_nowait: schedule_sections_single_master_nowait.o
-schedule_static: schedule_static.o
-sections_section: sections_section.o
-shared: shared.o
-single: single.o
-simd: simd.o
-threadprivate: threadprivate.o
-threadprivate_copyin: threadprivate_copyin.o
-threadprivate_copyprivate: threadprivate_copyprivate.o
-omp_get_ancestor_thread_num: omp_get_ancestor_thread_num.o
-omp_get_schedule: omp_get_schedule.o
-omp_get_team_size: omp_get_team_size.o
-omp_get_wtick: omp_get_wtick.o
+include ../../../template/main.mk
 
-%.o: %.c
-	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	${Q}$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
-
-$(TARGETS): %:
-	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	${Q}$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) $(^)
-
-test: ${TARGETS}
-	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
-
-.PHONY: clean
-clean:
-	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
-	${Q}rm -f ${TARGETS} *.o
+atomic: ${OUTPUT}atomic.o
+barrier: ${OUTPUT}barrier.o
+critical: ${OUTPUT}critical.o
+default: ${OUTPUT}default.o
+firstprivate: ${OUTPUT}firstprivate.o
+flush: ${OUTPUT}flush.o
+lastprivate: ${OUTPUT}lastprivate.o
+lock: ${OUTPUT}lock.o
+master: ${OUTPUT}master.o
+memory: ${OUTPUT}memory.o
+nowait: ${OUTPUT}nowait.o
+omp_get_thread_limit: ${OUTPUT}omp_get_thread_limit.o
+omp_get_num_procs: ${OUTPUT}omp_get_num_procs.o
+omp_get_level: ${OUTPUT}omp_get_level.o
+omp_get_thread_num: ${OUTPUT}omp_get_thread_num.o
+omp_get_max_threads: ${OUTPUT}omp_get_max_threads.o
+omp_set_num_threads: ${OUTPUT}omp_set_num_threads.o
+omp_get_nested: ${OUTPUT}omp_get_nested.o
+omp_set_nested_1: ${OUTPUT}omp_set_nested_1.o
+omp_set_nested_2: ${OUTPUT}omp_set_nested_2.o
+omp_set_nest_lock: ${OUTPUT}omp_set_nest_lock.o
+omp_set_lock: ${OUTPUT}omp_set_lock.o
+omp_test_lock: ${OUTPUT}omp_test_lock.o
+omp_test_nest_lock: ${OUTPUT}omp_test_nest_lock.o
+omp_destroy_nest_lock: ${OUTPUT}omp_destroy_nest_lock.o
+omp_set_max_active_levels: ${OUTPUT}omp_set_max_active_levels.o
+omp_get_active_level: ${OUTPUT}omp_get_active_level.o
+omp_in_parallel: ${OUTPUT}omp_in_parallel.o
+ordered: ${OUTPUT}ordered.o
+parallel_for: ${OUTPUT}parallel_for.o
+pragma_omp_atomic: ${OUTPUT}pragma_omp_atomic.o
+pragma_omp_barrier: ${OUTPUT}pragma_omp_barrier.o
+pragma_omp_critical: ${OUTPUT}pragma_omp_critical.o
+pragma_omp_parallel_copyin: ${OUTPUT}pragma_omp_parallel_copyin.o
+pragma_omp_parallel_for_reduction: ${OUTPUT}pragma_omp_parallel_for_reduction.o
+private: ${OUTPUT}private.o
+private_firstprivate_lastprivate_threadprivate: ${OUTPUT}private_firstprivate_lastprivate_threadprivate.o
+reduction: ${OUTPUT}reduction.o
+schedule_dynamic: ${OUTPUT}schedule_dynamic.o
+schedule_guided: ${OUTPUT}schedule_guided.o
+schedule_runtime: ${OUTPUT}schedule_runtime.o
+schedule_sections_single_master_nowait: ${OUTPUT}schedule_sections_single_master_nowait.o
+schedule_static: ${OUTPUT}schedule_static.o
+sections_section: ${OUTPUT}sections_section.o
+shared: ${OUTPUT}shared.o
+single: ${OUTPUT}single.o
+simd: ${OUTPUT}simd.o
+threadprivate: ${OUTPUT}threadprivate.o
+threadprivate_copyin: ${OUTPUT}threadprivate_copyin.o
+threadprivate_copyprivate: ${OUTPUT}threadprivate_copyprivate.o
+omp_get_ancestor_thread_num: ${OUTPUT}omp_get_ancestor_thread_num.o
+omp_get_schedule: ${OUTPUT}omp_get_schedule.o
+omp_get_team_size: ${OUTPUT}omp_get_team_size.o
+omp_get_wtick: ${OUTPUT}omp_get_wtick.o
