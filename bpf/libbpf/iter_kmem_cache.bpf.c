@@ -31,6 +31,7 @@ int dump_kmem_cache(struct bpf_iter__kmem_cache *ctx)
 
 	/* TODO: add more kmem_cache info */
 
+	bpf_probe_read_kernel_str(info->name, sizeof(info->name), s->name);
 	info->size = s->size;
 
 	bpf_seq_write(seq, info, sizeof(struct iter_kmem_cache_info));

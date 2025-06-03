@@ -4,6 +4,7 @@
 
 #define TASK_COMM_LEN 16
 #define MAX_STACK_LEN 127
+#define MAX_NAME_LEN 64
 
 /**
  * struct bpf_iter__task {}
@@ -52,5 +53,6 @@ struct iter_bpf_map_info {
  * struct bpf_iter__kmem_cache {}
  */
 struct iter_kmem_cache_info {
+	char name[MAX_NAME_LEN];
 	unsigned int size;
 };

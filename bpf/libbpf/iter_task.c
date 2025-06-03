@@ -138,7 +138,7 @@ int main(int argc, char **argv)
 		printf("BPF Map Info, Pid: %d. Process Name: %s. map type:%d id:%d.\n",
 			buf.pid, buf.comm, buf.map_type, buf.map_id);
 #elif defined(ITER_KMEM_CACHE)
-		printf("kmem_cache Info, size: %d.\n", buf.size);
+		printf("kmem_cache %s: size: %d.\n", buf.name, buf.size);
 #endif
 	}
 
