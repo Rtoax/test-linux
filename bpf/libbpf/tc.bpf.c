@@ -60,6 +60,11 @@
 #include "spin_lock.h"
 
 struct {
+	/**
+	 * bpf_spin_lock objects are only allowed inside maps of types
+	 * BPF_MAP_TYPE_HASH and BPF_MAP_TYPE_ARRAY (this list could be
+	 * extended in the future).
+	 */
 	__uint(type, BPF_MAP_TYPE_HASH);
 	__uint(max_entries, 1);
 	__type(key, __u32);
