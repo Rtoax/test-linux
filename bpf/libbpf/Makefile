@@ -245,6 +245,8 @@ CFLAGS_BPF_xdp := ${CFLAGS_xdp}
 CFLAGS_xdp_devmap := -DSTRICT_SEC_NAME=1 -DXDP_DEVMAP=1
 ifeq ($(call vmlinux_has_struct,bpf_devmap_val),y)
   CFLAGS_xdp_devmap += -DHAVE_STRUCT_BPF_DEVMAP_VAL=1
+else
+  $(warning not found struct bpf_devmap_val {})
 endif
 CFLAGS_BPF_xdp_devmap := ${CFLAGS_xdp_devmap}
 CFLAGS_xdp_cpumap := -DSTRICT_SEC_NAME=1 -DXDP_CPUMAP=1
