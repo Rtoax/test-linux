@@ -111,6 +111,12 @@ ifeq ($(call kernel_newer_than,6,2,0),y)
   TARGETS += rbtree
 endif
 
+# linux 7b15523a989b ("bpf: Add a bpf_snprintf helper")
+# v5.12-rc4-1654-g7b15523a989b
+ifeq ($(call kernel_newer_than,5,12,0),y)
+  CFLAGS_BPF += -DSUPPORT_BPF_SNPRINTF=1
+endif
+
 # _if_ there are no user mode code, append to bpf target only
 TARGETS_BPF := ${TARGETS:=.bpf.o}
 TARGETS_BPF += cgroup_skb.bpf.o
