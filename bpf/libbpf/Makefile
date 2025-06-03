@@ -291,7 +291,7 @@ CFLAGS_btf_kfunc := -DTEST_BTF_KIND_FUNC=1
 CFLAGS_btf_decl_tag := -DTEST_BTF_KIND_DECL_TAG=1
 
 CFLAGS_rbtree := -DTEST_RBTREE=1
-CFLAGS_BPF_rbtree := ${CFLAGS_BPF_rbtree}
+CFLAGS_BPF_rbtree := ${CFLAGS_rbtree}
 
 CFLAGS_spin_lock := -DTEST_SPIN_LOCK=1
 CFLAGS_BPF_spin_lock := ${CFLAGS_spin_lock}
