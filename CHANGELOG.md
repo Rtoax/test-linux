@@ -17,7 +17,7 @@ and this project adheres to
 - top-Makefile: Apply sub-dir to user targets.
 - bpf/libbpf: compile with -std=gnu89.
 #### Added
-- libbpf: Test spin lock and add wrapper `tl_bpf_map_update_elem()`.
+- libbpf: Test spin lock and add wrapper `libbpf_bpf_map_update_elem()`.
 - template: Add target-liba.mk,target-libso.mk,target-exe.mk,main.mk,target-output.mk.
 - bpf: test `bpf_task_cwd_from_pid()`.
 - fs/modules: add getcwd.c get task cwd from pid.
@@ -43,6 +43,7 @@ and this project adheres to
 - kata-containers: Add config-kata.toml, deploy.sh and create.sh.
 - opcode: Add samples.
 #### Changed
+- libbpf: wrapper use `libbpf_` prefix instead of `tl_` prefix.
 - Move libs/proc.c to `fs/procfs/proc_helpers.c`.
 - Move libs/qemu.sh to qemu/libqemu.sh.
 #### Deprecated

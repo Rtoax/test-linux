@@ -233,7 +233,7 @@ int main(int argc, char *argv[])
 	/* Attach BPF program to raw socket */
 	prog_fd = bpf_program__fd(basic_action_prog);
 
-	err = tl_bpf_xdp_attach(ifindex, prog_fd, xdp_flags);
+	err = libbpf_bpf_xdp_attach(ifindex, prog_fd, xdp_flags);
 	if (err < 0) {
 		printf("link set xdp fd failed\n");
 		goto cleanup;
@@ -258,7 +258,7 @@ int main(int argc, char *argv[])
 		goto cleanup;
 	}
 
-	err = tl_bpf_xdp_attach(ifindex, prog_fd, XDP_FLAGS_SKB_MODE);
+	err = libbpf_bpf_xdp_attach(ifindex, prog_fd, XDP_FLAGS_SKB_MODE);
 	if (err < 0) {
 		printf("link set xdp fd failed\n");
 		goto cleanup;
@@ -293,7 +293,7 @@ int main(int argc, char *argv[])
 		goto cleanup;
 	}
 
-	err = tl_bpf_xdp_attach(ifindex, prog_fd, XDP_FLAGS_SKB_MODE);
+	err = libbpf_bpf_xdp_attach(ifindex, prog_fd, XDP_FLAGS_SKB_MODE);
 	if (err < 0) {
 		printf("link set xdp fd failed\n");
 		goto cleanup;
@@ -462,7 +462,7 @@ int main(int argc, char *argv[])
 	}
 #endif
 
-	err = tl_bpf_xdp_attach(ifindex, prog_fd, XDP_FLAGS_SKB_MODE);
+	err = libbpf_bpf_xdp_attach(ifindex, prog_fd, XDP_FLAGS_SKB_MODE);
 	if (err < 0) {
 		printf("link set xdp fd failed\n");
 		goto cleanup;
@@ -528,10 +528,10 @@ int main(int argc, char *argv[])
 
 cleanup:
 	printf("Detach xdp from interface %s\n", interface);
-	tl_bpf_xdp_detach(ifindex, xdp_flags);
+	libbpf_bpf_xdp_detach(ifindex, xdp_flags);
 #if defined(XDP_DEVMAP)
 	printf("Detach xdp from out interface %s\n", out_interface);
-	tl_bpf_xdp_detach(o_ifindex, xdp_flags);
+	libbpf_bpf_xdp_detach(o_ifindex, xdp_flags);
 #elif defined(XDP_XSKMAP)
 	printf("Close AF_XDP %d\n", sock_fd);
 	// TODO: munmap

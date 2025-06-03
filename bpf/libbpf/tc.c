@@ -125,9 +125,9 @@ int main(int argc, char **argv)
 
 	int zero = 0;
 	struct spin_lock_hmap_elem elem = {0};
-	err = tl_bpf_map_update_elem(skel->maps.spin_lock_hash_map,
-				&zero, sizeof(zero),
-				&elem, sizeof(elem), 0);
+	err = libbpf_bpf_map_update_elem(skel->maps.spin_lock_hash_map,
+					&zero, sizeof(zero),
+					&elem, sizeof(elem), 0);
 	if (err) {
 		fprintf(stderr, "Failed to update hash map: %d\n", err);
 		goto cleanup;

@@ -178,14 +178,14 @@ int main(int argc, char *argv[])
 
 	events_fd = bpf_map__fd(skel->maps.events);
 
-	perf_buf = tl_perf_buffer__new(events_fd, 8, handle_event, lost_event);
+	perf_buf = libbpf_perf_buffer__new(events_fd, 8, handle_event, lost_event);
 	if (!perf_buf) {
 		err = -1;
 		fprintf(stderr, "Failed to create ring buffer\n");
 		goto cleanup;
 	}
 
-	err = tl_bpf_xdp_attach(ifindex, prog_fd, xdp_flags);
+	err = libbpf_bpf_xdp_attach(ifindex, prog_fd, xdp_flags);
 	if (err < 0) {
 		printf("link set xdp fd failed\n");
 		goto cleanup;
@@ -209,7 +209,7 @@ int main(int argc, char *argv[])
 cleanup:
 	read_trace_pipe_wait();
 	printf("Detach xdp from ifname %s\n", ifname);
-	tl_bpf_xdp_detach(ifindex, xdp_flags);
+	libbpf_bpf_xdp_detach(ifindex, xdp_flags);
 	_bpf__destroy(skel);
 	return 0;
 }

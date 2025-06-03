@@ -114,7 +114,7 @@ int main(void)
 
 	events_map_fd = bpf_map__fd(skel->maps.events);
 
-	pb = tl_perf_buffer__new(events_map_fd, 8, handle_event, lost_event);
+	pb = libbpf_perf_buffer__new(events_map_fd, 8, handle_event, lost_event);
 	if (!pb) {
 		err = -1;
 		fprintf(stderr, "Failed to create ring buffer\n");

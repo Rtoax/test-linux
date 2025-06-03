@@ -8,7 +8,7 @@
 #include "libbpf_wrapper.h"
 
 
-int tl_bpf_xdp_attach(int ifindex, int prog_fd, int xdp_flags)
+int libbpf_bpf_xdp_attach(int ifindex, int prog_fd, int xdp_flags)
 {
 	int err;
 /**
@@ -31,7 +31,7 @@ int tl_bpf_xdp_attach(int ifindex, int prog_fd, int xdp_flags)
 /**
  * Like: sudo bpftool net detach xdp dev $interface
  */
-int tl_bpf_xdp_detach(int ifindex, int xdp_flags)
+int libbpf_bpf_xdp_detach(int ifindex, int xdp_flags)
 {
 	int err;
 /**
@@ -46,10 +46,10 @@ int tl_bpf_xdp_detach(int ifindex, int xdp_flags)
 	return err;
 }
 
-struct perf_buffer *tl_perf_buffer__new(int map_fd,
-					size_t page_cnt,
-					perf_buffer_sample_fn sample_cb,
-					perf_buffer_lost_fn lost_cb)
+struct perf_buffer *libbpf_perf_buffer__new(int map_fd,
+					    size_t page_cnt,
+					    perf_buffer_sample_fn sample_cb,
+					    perf_buffer_lost_fn lost_cb)
 {
 	struct perf_buffer *pb = NULL;
 #if LIBBPF_MAJOR_VERSION >= 1
@@ -64,9 +64,9 @@ struct perf_buffer *tl_perf_buffer__new(int map_fd,
 	return pb;
 }
 
-int tl_bpf_map_update_elem(const struct bpf_map *map, const void *key,
-			   size_t key_sz, const void *value, size_t value_sz,
-			   __u64 flags)
+int libbpf_bpf_map_update_elem(const struct bpf_map *map, const void *key,
+			       size_t key_sz, const void *value, size_t value_sz,
+			       __u64 flags)
 {
 	int fd, err = 0;
 /**
