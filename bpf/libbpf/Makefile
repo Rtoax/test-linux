@@ -167,6 +167,7 @@ TARGETS_BTF += btf_kfunc
 TARGETS_BTF += btf_decl_tag
 
 # FIXME: vmlinux.h use macro 'restrict'
+# TODO: linux selftests/bpf is -std=gnu11
 CFLAGS_BPF += -std=gnu89 -Drestrict=
 CFLAGS_BPF += -I.
 CFLAGS_BPF += -O2 -Wall -g
