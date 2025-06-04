@@ -77,7 +77,7 @@ int libbpf_bpf_map_update_elem(const struct bpf_map *map, const void *key,
 	err = bpf_map__update_elem(map, key, key_sz, value, value_sz, flags);
 #else
 	int fd = bpf_map__fd(map);
-	err = bpf_map_update_elem(fd, key, msg, flags);
+	err = bpf_map_update_elem(fd, key, value, flags);
 #endif
 	if (err < 0)
 		fprintf(stderr, "failed to update elem.\n");

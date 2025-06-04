@@ -118,10 +118,15 @@ ifeq ($(call kernel_newer_than,5,0,0),y)
   TARGETS += spin_lock
 endif
 
-# linux 7b15523a989b ("bpf: Add a bpf_snprintf helper")
+# linux commit 7b15523a989b ("bpf: Add a bpf_snprintf helper")
 # v5.12-rc4-1654-g7b15523a989b
 ifeq ($(call kernel_newer_than,5,12,0),y)
   CFLAGS_BPF += -DSUPPORT_BPF_SNPRINTF=1
+endif
+# linux commit c5fb19937455 ("bpf: Add bpf_strncmp helper")
+# v5.16-rc4-1160-gc5fb19937455
+ifeq ($(call kernel_newer_than,5,16,0),y)
+  CFLAGS_BPF += -DSUPPORT_BPF_STRNCMP=1
 endif
 
 # _if_ there are no user mode code, append to bpf target only
@@ -392,8 +397,11 @@ ${OUTPUT}/%.skel.h: ${OUTPUT}/%.bpf.o | ${OUTPUT}
 	${Q}diff $(<:.o=.linked2.o) $(<:.o=.linked3.o)
 	${Q}$(BPFTOOL) gen skeleton $(SKEL_ARGS) $(SKEL_ARGS_$(*)) \
 		$(<:.o=.linked3.o) name $(subst -,_,$(notdir $(<:.bpf.o=)))_bpf > $@
-	${Q}$(BPFTOOL) gen subskeleton \
-		$(<:.o=.linked3.o) name $(subst -,_,$(notdir $(<:.bpf.o=)))_bpf > $(@:.skel.h=.subskel.h)
+	# FIXME: old bpftool not support 'gen subskeleton' command.
+	# bpftool commit ad805235e295 ("bpftool: Add support for subskeletons")
+	# https://github.com/libbpf/bpftool.git
+	#${Q}$(BPFTOOL) gen subskeleton \
+	#	$(<:.o=.linked3.o) name $(subst -,_,$(notdir $(<:.bpf.o=)))_bpf > $(@:.skel.h=.subskel.h)
 
 ${OUTPUT}/%.o: %.c ${OUTPUT}/%.skel.h | ${OUTPUT}
 	@echo -e "  CC  \033[1m$(notdir ${@})\033[m"
