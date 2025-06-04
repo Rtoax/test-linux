@@ -81,7 +81,7 @@ CFLAGS += -pthread
 CFLAGS__GNU_SOURCE := -D_GNU_SOURCE=1
 CFLAGS__XOPEN_SOURCE := -D_XOPEN_SOURCE=1
 
-TARGETS_EXTRA := tl_ascii_logo_gnu
+TARGETS_POST := tl_ascii_logo_gnu
 
 include ../elf/pie.mk
 

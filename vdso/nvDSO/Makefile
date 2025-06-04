@@ -25,7 +25,7 @@ endif
 
 CFLAGS_main :=
 
-TARGETS_EXTRA := virt2phy
+TARGETS_POST := virt2phy
 TARGETS_TEST := test-nvdso
 TARGETS_CLEAN := clean-nvdso
 

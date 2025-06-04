@@ -3,7 +3,7 @@ include ../kconfig.mk
 sub-dir := libcgroup
 sub-dir += tools
 
-TARGETS_EXTRA := info
+TARGETS_POST := info
 TARGETS_CLEAN := info_clean
 
 include ../template/main.mk

@@ -14,7 +14,7 @@ CC := gcc
 
 CFLAGS := -Werror -Wall
 
-TARGETS_EXTRA := generate-dir
+TARGETS_POST := generate-dir
 TARGETS_CLEAN := remove-dir
 
 include ../../template/main.mk

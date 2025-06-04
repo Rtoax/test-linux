@@ -35,7 +35,7 @@ endif
 CFLAGS_asprintf := -D_GNU_SOURCE=1
 CFLAGS_getdelim := -DTEST_getdelim=1
 
-TARGETS_EXTRA := os-release
+TARGETS_POST := os-release
 
 include ../../elf/pie.mk
 include ../../template/main.mk

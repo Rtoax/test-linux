@@ -37,7 +37,7 @@ ifeq (${CC_-use-after-free},1)
   CFLAGS_double-free += -Wno-error=use-after-free
 endif
 
-TARGETS_EXTRA := ld-list-tunables
+TARGETS_POST := ld-list-tunables
 
 include ../../template/main.mk
 

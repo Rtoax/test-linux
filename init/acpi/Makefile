@@ -1,6 +1,6 @@
 sub-dir := dmidecode
 
-TARGETS_EXTRA := builds
+TARGETS_POST := builds
 
 include ../../template/main.mk
 

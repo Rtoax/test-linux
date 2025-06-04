@@ -20,7 +20,7 @@ CFLAGS := -Werror -Wall
 
 CFLAGS_cpu_relax :=
 
-TARGETS_EXTRA := $(patsubst %,%.c.s,${TARGETS})
+TARGETS_POST := $(patsubst %,%.c.s,${TARGETS})
 
 include ../template/main.mk
 

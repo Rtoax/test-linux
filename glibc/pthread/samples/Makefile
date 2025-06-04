@@ -92,8 +92,8 @@ CFLAGS_pthread_cond_broadcast := -DCOND_ATTR=1
 CFLAGS_pthread_cond_signal := -DCOND_ATTR=1
 CFLAGS_pthread_create := -DNR_THREADS=5
 
-TARGETS_EXTRA := $(addprefix ${OUTPUT},$(patsubst %,%.c.s,${TARGETS}))
-TARGETS_EXTRA += ld-list-tunables
+TARGETS_POST := $(addprefix ${OUTPUT},$(patsubst %,%.c.s,${TARGETS}))
+TARGETS_POST += ld-list-tunables
 
 include ../../../template/main.mk
 
