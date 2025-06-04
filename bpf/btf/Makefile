@@ -1,7 +1,15 @@
 # SPDX-License-Identifier: GPL-3.0
 include ../../tlbuild.mk
+include btf.mk
 
 sub-dir := examples
+
+ifneq ($(call vmlinux_has_struct,task_struct),y)
+  $(error Not found task_struct in vmlinux.h: <$(call vmlinux_has_struct,task_struct)>)
+endif
+ifneq ($(call vmlinux_has_sym,task_struct),y)
+  $(error Not found task_struct in vmlinux.h: <$(call vmlinux_has_sym,task_struct)>)
+endif
 
 include ../../template/subdir-header.mk
 
