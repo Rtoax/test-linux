@@ -402,4 +402,4 @@ include ../bpftool/vmlinux.h.mk
 clean:
 	@echo -e "  RM  \033[1;32m$(TARGETS_BPF) ${TARGETS}\033[m"
 	${Q}rm -f ${TARGETS_BPF} ${TARGETS} *.o ${VMLINUX_H} libbpf_version
-	${Q}rm -rf ${OUTPUT}
+	${Q}rm -rf ${OUTPUT} ${TARGETS_BTF}
