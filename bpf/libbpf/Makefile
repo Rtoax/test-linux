@@ -171,7 +171,9 @@ TARGETS_BTF += btf_decl_tag
 CFLAGS_BPF += -std=gnu89 -Drestrict=
 CFLAGS_BPF += -I.
 CFLAGS_BPF += -O2 -Wall -g
-CFLAGS_BPF += -target bpf
+# Like -target bpfel
+CFLAGS_BPF += -target bpf -mlittle-endian
+CFLAGS_BPF += -mcpu=v3
 ifeq ($(CONFIG_ARCH_HAS_SYSCALL_WRAPPER),y)
   CFLAGS_BPF += -DCONFIG_ARCH_HAS_SYSCALL_WRAPPER=1
 endif
