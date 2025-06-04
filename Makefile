@@ -12,9 +12,8 @@ NAME = Fedora
 
 include make.list
 
-SUB_KERN_DIR = $(KERNEL_LIST)
-SUB_KERN_DIR_TEST := $(SUB_KERN_DIR:%=%_test)
-SUB_KERN_DIR_CLEAN := $(SUB_KERN_DIR:%=%_clean)
+kmod-list-test := $(kmod-list:%=%_test)
+kmod-list-clean := $(kmod-list:%=%_clean)
 
 TEST_LINUX_VERSION := $(VERSION)$(if $(PATCHLEVEL),.$(PATCHLEVEL)$(if $(SUBLEVEL),.$(SUBLEVEL)))$(EXTRAVERSION)
 export VERSION PATCHLEVEL SUBLEVEL TEST_LINUX_VERSION
@@ -139,18 +138,18 @@ user: cleanfailedlog ${sub-dir-build}
 	@echo "${MOONLIGHT}"
 
 .PHONY: kernel
-kernel: cleanfailedlog $(SUB_KERN_DIR)
+kernel: cleanfailedlog $(kmod-list)
 	@echo "=========== Kernel done ==========="
 	$(call printfailedlog)
 	@echo "${MOONLIGHT}"
-$(SUB_KERN_DIR):
+$(kmod-list):
 	$(call kern_build,$@)
 
 .PHONY: test
 test: testuser testkernel
 testuser: ${sub-dir-test}
-testkernel:$(SUB_KERN_DIR_TEST)
-$(SUB_KERN_DIR_TEST):
+testkernel:$(kmod-list-test)
+$(kmod-list-test):
 	$(call kern_test,$(@:%_test=%))
 
 define installdeps
@@ -226,9 +225,9 @@ cleanall: cleanuser cleankernel cleangit
 	@echo "=== clean all"
 cleanuser: ${sub-dir-clean}
 	@echo "=== clean user"
-cleankernel: $(SUB_KERN_DIR_CLEAN)
+cleankernel: $(kmod-list-clean)
 	@echo "=== clean kernel"
-$(SUB_KERN_DIR_CLEAN):
+$(kmod-list-clean):
 	$(call kern_clean,$(@:%_clean=%))
 # Clean git repo useless file and directory
 cleangit:
@@ -244,6 +243,6 @@ include template/subdir-footer.mk
 	${sub-dir-build} \
 	${sub-dir-test} \
 	${sub-dir-clean} \
-	$(SUB_KERN_DIR) \
-	$(SUB_KERN_DIR_TEST) \
-	$(SUB_KERN_DIR_CLEAN)
+	$(kmod-list) \
+	$(kmod-list-test) \
+	$(kmod-list-clean)
