@@ -1,5 +1,6 @@
 #!/bin/bash
 set -e
+. /etc/os-release
 
 cross_compile_env()
 {
@@ -28,31 +29,36 @@ config_kernel()
 	make menuconfig
 }
 
+compile()
+{
+	sudo make -j$(nproc)
+}
+
 install_from_source()
 {
 	# https://github.com/torvalds/linux
 	# https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next
 	local kver="6.15.0+"
 
-	# Compile and install
-	sudo make -j$(nproc)
+	# install
 	sudo make modules_install
 	sudo make headers_install
 	sudo make install
 
-	# If RHEL like OS:
 	# Update grub
-	sudo grub2-mkconfig -o /boot/grub2/grub.cfg
-	sudo grubby --set-default /boot/vmlinuz-${kver}
-	sudo cp .config /boot/config-${kver}
+	# If RHEL like OS:
+	if [[ " fedora " =~ " ${ID} " ]]; then
+		sudo grub2-mkconfig -o /boot/grub2/grub.cfg
+		sudo grubby --set-default /boot/vmlinuz-${kver}
+		sudo cp .config /boot/config-${kver}
 
-	# Confirm
-	sudo grubby --info=ALL | more
-	sudo grubby --default-index
-	sudo grubby --default-kernel
-
+		sudo grubby --info=ALL | more
+		sudo grubby --default-index
+		sudo grubby --default-kernel
 	# If Debian like OS:
-	sudo update-grub
+	elif [[ " debian " =~ " ${ID} " ]]; then
+		sudo update-grub
+	fi
 }
 
 uninstall_kernel()
