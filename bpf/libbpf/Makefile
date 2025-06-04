@@ -382,7 +382,7 @@ ${OUTPUT}:
 ${OUTPUT}/%.bpf.o: %.bpf.c ${VMLINUX_H} | ${OUTPUT} libbpf_version
 	@echo -e "  BPF  \033[1m$(notdir ${@})\033[m"
 	${Q}$(CLANG) -c $(<) -o $(@) ${CFLAGS_BPF} $(CFLAGS_BPF_$(*)) $(CLANG_V) $(shell ./libbpf_version cflags)
-	${Q}${PAHOLE} $(@) > $(@:.bpf.o=.bpf.h)
+	${Q}${PAHOLE} $(@) > $(@:.bpf.o=.btf.h)
 
 ${OUTPUT}/%.skel.h: ${OUTPUT}/%.bpf.o | ${OUTPUT}
 	@echo -e "  SKEL  \033[1m$(notdir ${@})\033[m"
