@@ -37,11 +37,11 @@ include ${TEMPLATE_DIR}/subdir-header.mk
 
 .PHONY: build
 build: $(ALL_TARGETS) $(sub-dir-build)
-	@echo -e " \033[1;33m Build done \033[m"
+	@echo -e " \033[1;33m Build $(shell pwd) done \033[m"
 
 .PHONY: test
 test: $(ALL_TARGETS) $(sub-dir-test) $(TARGETS_TEST)
-	@echo -e " \033[1;33m Test done \033[m"
+	@echo -e " \033[1;33m Test $(shell pwd) done \033[m"
 
 .PHONY: clean
 clean: $(sub-dir-clean) $(TARGETS_CLEAN)
