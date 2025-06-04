@@ -377,7 +377,7 @@ ${OUTPUT}:
 	@echo -e "  MKDIR  \033[1m${@}\033[m"
 	${Q}mkdir -p $(@)
 
-${OUTPUT}/%.bpf.o: %.bpf.c ${VMLINUX_H} | ${OUTPUT}
+${OUTPUT}/%.bpf.o: %.bpf.c ${VMLINUX_H} | ${OUTPUT} libbpf_version
 	@echo -e "  BPF  \033[1m$(notdir ${@})\033[m"
 	${Q}$(CLANG) -c $(<) -o $(@) ${CFLAGS_BPF} $(CFLAGS_BPF_$(*)) $(CLANG_V) $(shell ./libbpf_version cflags)
 
