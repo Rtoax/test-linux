@@ -32,7 +32,7 @@ install_from_source()
 {
 	# https://github.com/torvalds/linux
 	# https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next
-	local kver="6.15.0-rc4+"
+	local kver="6.15.0+"
 
 	# Compile and install
 	sudo make -j$(nproc)
@@ -61,20 +61,16 @@ uninstall_kernel()
 	local modules=/lib/modules/$version
 	local vmlinuz=/boot/vmlinuz-$version
 	local initramfs=/boot/initramfs-$version.img
-	local config=/boot/config-$version.img
+	local config=/boot/config-$version
 
 	local curr_version=$(uname -r)
 
 	test $version == $curr_version && \
-		echo "Can't remove running kernel" && exit 1
+		echo "ERROR: Can't remove running kernel" && exit 1
 
-	test ! -d $modules && \
-		echo "$modules not exist" && exit 1
-	test ! -f $vmlinuz && \
-		echo "$vmlinuz not exist" && exit 1
-	test ! -f $initramfs && \
-		echo "$initramfs not exist" && exit 1
-
+	test ! -d $modules && echo "WARNING: $modules not exist"
+	test ! -f $vmlinuz && echo "WARNING: $vmlinuz not exist"
+	test ! -f $initramfs && echo "WARNING: $initramfs not exist"
 
 	sudo grubby --remove-kernel /boot/vmlinuz-${version}
 
@@ -82,19 +78,21 @@ uninstall_kernel()
 	sudo rm -f $vmlinuz $initramfs $config
 
 	sudo grub2-mkconfig -o /boot/grub2/grub.cfg
-
-	# TODO
-	# grubby --set-default /boot/vmlinuz-...
 }
 
 case $1 in
-	install_from_source)
-		install_from_source
-		;;
-	*)
+install_from_source)
+	shift
+	install_from_source
+	;;
+uninstall)
+	shift
+	uninstall_kernel $@
+	;;
+*)
 echo -e "
   install_from_source
+  uninstall [kver]
 "
 		;;
 esac
-
