@@ -33,7 +33,7 @@ CLANG := clang
 CFLAGS :=
 CFLAGS_BPF :=
 # bpftool gen skeleton
-GEN_SKEL_ARGS :=
+SKEL_ARGS :=
 
 kconfig-obj-y :=
 kconfig-obj-$(CONFIG_KPROBES) += kprobe
@@ -383,7 +383,15 @@ ${OUTPUT}/%.bpf.o: %.bpf.c ${VMLINUX_H} | ${OUTPUT}
 
 ${OUTPUT}/%.skel.h: ${OUTPUT}/%.bpf.o | ${OUTPUT}
 	@echo -e "  SKEL  \033[1m$(notdir ${@})\033[m"
-	${Q}$(BPFTOOL) gen skeleton $(GEN_SKEL_ARGS) $(GEN_SKEL_ARGS_$(*)) $< > $@
+	${Q}$(BPFTOOL) gen object $(<:.o=.linked1.o) $(<)
+	${Q}$(BPFTOOL) gen object $(<:.o=.linked2.o) $(<:.o=.linked1.o)
+	${Q}$(BPFTOOL) gen object $(<:.o=.linked3.o) $(<:.o=.linked2.o)
+	${Q}diff $(<:.o=.linked2.o) $(<:.o=.linked3.o)
+	${Q}$(BPFTOOL) gen skeleton $(SKEL_ARGS) $(SKEL_ARGS_$(*)) \
+		$(<:.o=.linked3.o) name $(subst -,_,$(notdir $(<:.bpf.o=)))_bpf > $@
+	# TODO: Error: need btf type information for syscall_bpf
+	#${Q}$(BPFTOOL) gen subskeleton \
+	#	$(<:.o=.linked3.o) name $(subst -,_,$(notdir $(<:.bpf.o=)))_bpf > $(@:.skel.h=.subskel.h)
 
 ${OUTPUT}/%.o: %.c ${OUTPUT}/%.skel.h | ${OUTPUT}
 	@echo -e "  CC  \033[1m$(notdir ${@})\033[m"
