@@ -382,6 +382,7 @@ ${OUTPUT}:
 ${OUTPUT}/%.bpf.o: %.bpf.c ${VMLINUX_H} | ${OUTPUT} libbpf_version
 	@echo -e "  BPF  \033[1m$(notdir ${@})\033[m"
 	${Q}$(CLANG) -c $(<) -o $(@) ${CFLAGS_BPF} $(CFLAGS_BPF_$(*)) $(CLANG_V) $(shell ./libbpf_version cflags)
+	${Q}${PAHOLE} $(@) > $(@:.bpf.o=.bpf.h)
 
 ${OUTPUT}/%.skel.h: ${OUTPUT}/%.bpf.o | ${OUTPUT}
 	@echo -e "  SKEL  \033[1m$(notdir ${@})\033[m"
@@ -391,9 +392,8 @@ ${OUTPUT}/%.skel.h: ${OUTPUT}/%.bpf.o | ${OUTPUT}
 	${Q}diff $(<:.o=.linked2.o) $(<:.o=.linked3.o)
 	${Q}$(BPFTOOL) gen skeleton $(SKEL_ARGS) $(SKEL_ARGS_$(*)) \
 		$(<:.o=.linked3.o) name $(subst -,_,$(notdir $(<:.bpf.o=)))_bpf > $@
-	# TODO: Error: need btf type information for syscall_bpf
-	#${Q}$(BPFTOOL) gen subskeleton \
-	#	$(<:.o=.linked3.o) name $(subst -,_,$(notdir $(<:.bpf.o=)))_bpf > $(@:.skel.h=.subskel.h)
+	${Q}$(BPFTOOL) gen subskeleton \
+		$(<:.o=.linked3.o) name $(subst -,_,$(notdir $(<:.bpf.o=)))_bpf > $(@:.skel.h=.subskel.h)
 
 ${OUTPUT}/%.o: %.c ${OUTPUT}/%.skel.h | ${OUTPUT}
 	@echo -e "  CC  \033[1m$(notdir ${@})\033[m"

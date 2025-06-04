@@ -13,5 +13,9 @@
  *
  * [1] https://docs.ebpf.io/linux/program-type/BPF_PROG_TYPE_SYSCALL/
  */
+#include <vmlinux.h>
+#include <bpf/bpf_helpers.h>
 
 // TODO
+
+char __license[] SEC("license") = "GPL";
