@@ -374,6 +374,7 @@ xdp_xskmap: ${OUTPUT}/xdp_xskmap.o ${LIBBPF_WRAPPER} ${LIBXDP_HELPERS}
 sockops: ${OUTPUT}/sockops.o
 kprobe: ${OUTPUT}/kprobe.o
 tracepoint: ${OUTPUT}/tracepoint.o ${LIBBPF_WRAPPER}
+${OUTPUT}/tracepoint.o: ${OUTPUT}/tracepoint.skel.h ${OUTPUT}/map_hash.skel.h
 ${OUTPUT}/tracepoint.bpf.o: tracepoint.h bpf_helpers.h
 raw_tracepoint: ${OUTPUT}/raw_tracepoint.o ${LIBBPF_WRAPPER}
 tp_btf: ${OUTPUT}/tp_btf.o ${LIBBPF_WRAPPER}
