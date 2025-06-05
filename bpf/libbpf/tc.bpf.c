@@ -180,6 +180,7 @@ SEC("tcx/ingress")
 #endif
 int tc_ingress(struct __sk_buff *ctx)
 {
+	int err = 0;
 	void *data_end = (void *)(__u64)ctx->data_end;
 	void *data = (void *)(__u64)ctx->data;
 	struct ethhdr *ethhdr;
@@ -213,7 +214,7 @@ int tc_ingress(struct __sk_buff *ctx)
 	bpf_printk("test spin lock, %s", str);
 
 #elif defined(TEST_RBTREE)
-	struct bpf_rb_node *res = NULL;
+	struct bpf_rb_node *n = NULL;
 	struct bpf_spin_lock *lock;
 	struct bpf_rb_root *root;
 
@@ -239,7 +240,14 @@ int tc_ingress(struct __sk_buff *ctx)
 #endif
 
 	__add_three(root, lock);
-	bpf_printk("test rbtree");
+
+	bpf_spin_lock(lock);
+	n = bpf_rbtree_first(root);
+	if (!n)
+		err++;
+	bpf_spin_unlock(lock);
+
+	bpf_printk("test rbtree, err = %d", err);
 
 #endif /* TEST_RBTREE */
 
