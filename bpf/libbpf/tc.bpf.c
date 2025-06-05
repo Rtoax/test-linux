@@ -207,7 +207,9 @@ int tc_ingress(struct __sk_buff *ctx)
 	rbroot = &groot;
 #endif
 
-	n = &n1;
+	n = bpf_obj_new(typeof(*n));
+	if (!n)
+		return 1;
 	n->key = 1;
 
 	bpf_spin_lock(spinlock);
