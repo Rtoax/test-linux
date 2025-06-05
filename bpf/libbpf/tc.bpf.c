@@ -215,8 +215,8 @@ int tc_ingress(struct __sk_buff *ctx)
 
 #elif defined(TEST_RBTREE)
 	int err = 0, cnt = 0;
-	struct bpf_rb_node *n = NULL;
-	struct node_data *o;
+	struct bpf_rb_node *node = NULL;
+	struct node_data *ndata;
 	struct bpf_spin_lock *lock;
 	struct bpf_rb_root *root;
 
@@ -243,12 +243,12 @@ int tc_ingress(struct __sk_buff *ctx)
 	__add_three(root, lock);
 
 	bpf_spin_lock(lock);
-	n = bpf_rbtree_first(root);
-	if (!n)
+	node = bpf_rbtree_first(root);
+	if (!node)
 		err++;
 	else {
-		o = container_of(n, struct node_data, node);
-		cnt = o->key;
+		ndata = container_of(node, struct node_data, node);
+		cnt = ndata->key;
 	}
 	bpf_spin_unlock(lock);
 
