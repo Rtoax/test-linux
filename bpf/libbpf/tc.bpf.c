@@ -58,6 +58,8 @@
 #define TC_ACT_OK 0
 #define ETH_P_IP  0x0800 /* Internet Protocol packet */
 
+const int zero = 0;
+
 #if defined(TEST_SPIN_LOCK)
 #include "spin_lock.h"
 
@@ -201,10 +203,9 @@ int tc_ingress(struct __sk_buff *ctx)
 
 #if defined(TEST_SPIN_LOCK)
 	struct spin_lock_hmap_elem *val;
-	int key = 0;
 	char *str = "";
 
-	val = bpf_map_lookup_elem(&spin_lock_hash_map, &key);
+	val = bpf_map_lookup_elem(&spin_lock_hash_map, &zero);
 	if (!val)
 		return 1;
 
@@ -221,16 +222,15 @@ int tc_ingress(struct __sk_buff *ctx)
 	struct bpf_rb_root *root;
 
 # if defined(TEST_RBTREE_RAW_MAP)
-	int key = 0;
 	struct spin_lock_hmap_elem *lock_from_map;
 	struct rbtree_root *root_from_map;
 
-	lock_from_map = bpf_map_lookup_elem(&spin_lock_hash_map, &key);
+	lock_from_map = bpf_map_lookup_elem(&spin_lock_hash_map, &zero);
 	if (!lock)
 		return 1;
 	lock = &lock_from_map->lock;
 
-	root_from_map = bpf_map_lookup_elem(&rbtree_root_map, &key);
+	root_from_map = bpf_map_lookup_elem(&rbtree_root_map, &zero);
 	if (!root_from_map)
 		return 1;
 	root = &root_from_map->root;
