@@ -22,6 +22,8 @@
 #include "spin_lock.h"
 #include "spin_lock.skel.h"
 #define struct_bpf	spin_lock_bpf
+#define _bpf__open_opts	spin_lock_bpf__open_opts
+#define _bpf__load	spin_lock_bpf__load
 #define _bpf__open_and_load	spin_lock_bpf__open_and_load
 #define _bpf__destroy	spin_lock_bpf__destroy
 #elif defined(TEST_RBTREE) && defined(TEST_RBTREE_RAW_MAP)
@@ -29,17 +31,23 @@
 #include "spin_lock.h"
 #include "rbtree-raw-map.skel.h"
 #define struct_bpf	rbtree_raw_map_bpf
+#define _bpf__open_opts	rbtree_raw_map_bpf__open_opts
+#define _bpf__load	rbtree_raw_map_bpf__load
 #define _bpf__open_and_load	rbtree_raw_map_bpf__open_and_load
 #define _bpf__destroy	rbtree_raw_map_bpf__destroy
 #elif defined(TEST_RBTREE) && !defined(TEST_RBTREE_RAW_MAP)
 #include "rbtree.h"
 #include "rbtree.skel.h"
 #define struct_bpf	rbtree_bpf
+#define _bpf__open_opts	rbtree_bpf__open_opts
+#define _bpf__load	rbtree_bpf__load
 #define _bpf__open_and_load	rbtree_bpf__open_and_load
 #define _bpf__destroy	rbtree_bpf__destroy
 #else
 #include "tc.skel.h"
 #define struct_bpf	tc_bpf
+#define _bpf__open_opts	tc_bpf__open_opts
+#define _bpf__load	tc_bpf__load
 #define _bpf__open_and_load	tc_bpf__open_and_load
 #define _bpf__destroy	tc_bpf__destroy
 #endif
@@ -116,7 +124,27 @@ int main(int argc, char **argv)
 
 	libbpf_set_print(libbpf_print_fn);
 
+#if defined(LIBBPF_OPTS)
+	char log_buf[64 * 1024];
+
+	LIBBPF_OPTS(bpf_object_open_opts, opts,
+		.kernel_log_buf = log_buf,
+		.kernel_log_size = sizeof(log_buf),
+		.kernel_log_level = LIBBPF_DEBUG,
+	);
+
+	skel = _bpf__open_opts(&opts);
+	err = _bpf__load(skel);
+	if (err) {
+		printf("Failed to load BPF object\n");
+		_bpf__destroy(skel);
+		return 1;
+	}
+
+	print_bpf_log_buf(log_buf, sizeof(log_buf));
+#else
 	skel = _bpf__open_and_load();
+#endif
 	if (!skel) {
 		fprintf(stderr, "Failed to open BPF skeleton\n");
 		return 1;
