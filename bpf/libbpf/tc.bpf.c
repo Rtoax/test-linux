@@ -82,10 +82,6 @@ struct {
 #include "rbtree.h"
 
 #include "btf_helpers.h"
-/**
- * see linux:tools/testing/selftests/bpf/progs/rbtree.c
- */
-#define private(name) SEC(".data." #name) __hidden __attribute__((aligned(8)))
 
 struct node_data {
 	long key;
@@ -109,9 +105,15 @@ struct {
 } rbtree_root_map SEC(".maps");
 
 # else /* TEST_RBTREE_RAW_MAP */
+/**
+ * see linux:tools/testing/selftests/bpf/progs/rbtree.c
+ */
+#define private(name) SEC(".data." #name) __hidden __attribute__((aligned(8)))
 private(A) struct bpf_spin_lock glock;
 private(A) struct bpf_rb_root groot __contains(node_data, node);
 # endif /* TEST_RBTREE_RAW_MAP */
+
+long less_callback_ran = -1;
 
 static bool less(struct bpf_rb_node *a, const struct bpf_rb_node *b)
 {
@@ -120,6 +122,7 @@ static bool less(struct bpf_rb_node *a, const struct bpf_rb_node *b)
 
 	node_a = container_of(a, struct node_data, node);
 	node_b = container_of(b, struct node_data, node);
+	less_callback_ran = 1;
 
 	return node_a->key < node_b->key;
 }
