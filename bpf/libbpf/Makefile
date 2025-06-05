@@ -347,10 +347,12 @@ btf_kfunc: ${OUTPUT}/btf_kfunc.o ${BTF_HELPERS}
 btf_decl_tag: ${OUTPUT}/btf_decl_tag.o ${BTF_HELPERS}
 libbpf_version: ${OUTPUT}/libbpf_version.o
 
+${OUTPUT}/config-map.o: ${OUTPUT}/config-map.skel.h config-map.h
 config-map: ${OUTPUT}/config-map.o ${LIBBPF_WRAPPER}
 socket_filter: ${OUTPUT}/socket_filter.o ${SOCKET_HELPERS}
 tc: ${OUTPUT}/tc.o
-${OUTPUT}/rbtree.o: rbtree.h
+${OUTPUT}/tc.o: ${OUTPUT}/tc.skel.h
+${OUTPUT}/rbtree.o: rbtree.h ${OUTPUT}/rbtree.skel.h
 ${OUTPUT}/rbtree.bpf.o: rbtree.h
 rbtree: ${OUTPUT}/rbtree.o ${LIBBPF_WRAPPER}
 ${OUTPUT}/rbtree-raw-map.o: rbtree.h
