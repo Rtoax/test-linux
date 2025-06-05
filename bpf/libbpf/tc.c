@@ -108,11 +108,6 @@ int main(int argc, char **argv)
 		return -EINVAL;
 	}
 
-	DECLARE_LIBBPF_OPTS(bpf_tc_hook, tc_hook,
-			.ifindex = ifindex,
-			.attach_point = BPF_TC_INGRESS);
-	DECLARE_LIBBPF_OPTS(bpf_tc_opts, tc_opts, .handle = 1, .priority = 1);
-
 	if (signal(SIGINT, sig_int) == SIG_ERR) {
 		err = errno;
 		fprintf(stderr, "Can't set signal handler: %s\n", strerror(errno));
@@ -152,6 +147,11 @@ int main(int argc, char **argv)
 	}
 # endif
 #endif
+
+	DECLARE_LIBBPF_OPTS(bpf_tc_hook, tc_hook,
+			.ifindex = ifindex,
+			.attach_point = BPF_TC_INGRESS);
+	DECLARE_LIBBPF_OPTS(bpf_tc_opts, tc_opts, .handle = 1, .priority = 1);
 
 	/**
 	 * The hook (i.e. qdisc) may already exists because:
