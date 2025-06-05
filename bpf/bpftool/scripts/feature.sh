@@ -1,6 +1,10 @@
 #!/bin/bash
 set -ex
 
-sudo bpftool feature
-bpftool feature list_builtins prog_types
-bpftool feature list_builtins map_types
+BPFTOOL=$1
+[[ -z ${BPFTOOL} ]] && BPFTOOL=bpftool
+
+sudo ${BPFTOOL} feature
+sudo ${BPFTOOL} feature probe
+sudo ${BPFTOOL} feature list_builtins prog_types
+sudo ${BPFTOOL} feature list_builtins map_types
