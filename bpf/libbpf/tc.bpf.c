@@ -244,14 +244,24 @@ int tc_ingress(struct __sk_buff *ctx)
 
 	bpf_spin_lock(lock);
 	node = bpf_rbtree_first(root);
-	if (!node)
+	if (!node) {
 		err++;
-	else {
-		ndata = container_of(node, struct node_data, node);
-		cnt = ndata->key;
+		bpf_spin_unlock(lock);
+		goto rbtree_done;
 	}
+
+	ndata = container_of(node, struct node_data, node);
+	cnt = ndata->key;
+	node = bpf_rbtree_remove(root, &ndata->node);
+
 	bpf_spin_unlock(lock);
 
+	if (node) {
+		ndata = container_of(node, struct node_data, node);
+		bpf_obj_drop(ndata);
+	}
+
+rbtree_done:
 	bpf_printk("test rbtree, err %d, cnt %d", err, cnt);
 
 #endif /* TEST_RBTREE */
