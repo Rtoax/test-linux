@@ -86,7 +86,6 @@ struct {
  * see linux:tools/testing/selftests/bpf/progs/rbtree.c
  */
 #define private(name) SEC(".data." #name) __hidden __attribute__((aligned(8)))
-#define __contains(name, node) __attribute__((btf_decl_tag("contains:" #name ":" #node)))
 
 struct node_data {
 	long key;
@@ -214,7 +213,9 @@ int tc_ingress(struct __sk_buff *ctx)
 
 	bpf_spin_lock(spinlock);
 	bpf_rbtree_add(rbroot, &n->node, less);
+	bpf_spin_unlock(spinlock);
 
+	bpf_spin_lock(spinlock);
 	res = bpf_rbtree_first(rbroot);
 	if (!res) {
 		bpf_spin_unlock(spinlock);
