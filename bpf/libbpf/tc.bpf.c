@@ -214,31 +214,31 @@ int tc_ingress(struct __sk_buff *ctx)
 
 #elif defined(TEST_RBTREE)
 	struct bpf_rb_node *res = NULL;
-	struct bpf_spin_lock *spinlock;
-	struct bpf_rb_root *rbroot;
+	struct bpf_spin_lock *lock;
+	struct bpf_rb_root *root;
 
 # if defined(TEST_RBTREE_RAW_MAP)
 	int key = 0;
-	struct spin_lock_hmap_elem *lock;
-	struct rbtree_root *root;
+	struct spin_lock_hmap_elem *lock_from_map;
+	struct rbtree_root *root_from_map;
 
-	lock = bpf_map_lookup_elem(&spin_lock_hash_map, &key);
+	lock_from_map = bpf_map_lookup_elem(&spin_lock_hash_map, &key);
 	if (!lock)
 		return 1;
-	spinlock = &lock->lock;
+	lock = &lock_from_map->lock;
 
-	root = bpf_map_lookup_elem(&rbtree_root_map, &key);
-	if (!root)
+	root_from_map = bpf_map_lookup_elem(&rbtree_root_map, &key);
+	if (!root_from_map)
 		return 1;
-	rbroot = &root->root;
+	root = &root_from_map->root;
 
 #else /* TEST_RBTREE_RAW_MAP */
 
-	spinlock = &glock;
-	rbroot = &groot;
+	lock = &glock;
+	root = &groot;
 #endif
 
-	__add_three(rbroot, spinlock);
+	__add_three(root, lock);
 	bpf_printk("test rbtree");
 
 #endif /* TEST_RBTREE */
