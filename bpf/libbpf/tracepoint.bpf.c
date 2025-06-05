@@ -181,7 +181,7 @@ int tracepoint__syscalls__sys_exit_execve(struct syscall_trace_exit *ctx)
 	pevent->comm2[5] = '\0';
 #endif
 
-#if defined(BPF_TASK_CWD_FROM_PID)
+#if defined(SUPPORT_BPF_TASK_CWD_FROM_PID)
 	/**
 	 * https://github.com/Rtoax/linux/tree/p056-bpf_task_cwd
 	 */

@@ -128,6 +128,16 @@ endif
 ifeq ($(call kernel_newer_than,5,16,0),y)
   CFLAGS_BPF += -DSUPPORT_BPF_STRNCMP=1
 endif
+# linux commit d08e2045ebf0 ("bpf: introduce new VFS based BPF kfuncs")
+# v6.10-12667-gd08e2045ebf0
+ifeq ($(call kernel_newer_than,6,10,0),y)
+  # bpf_path_d_path()
+  CFLAGS_BPF += -DSUPPORT_BPF_PATH_D_PATH=1
+  # bpf_get_task_exe_file()
+  CFLAGS_BPF += -DSUPPORT_BPF_GET_TASK_EXE_FILE=1
+  # bpf_put_file()
+  CFLAGS_BPF += -DSUPPORT_BPF_PUT_FILE=1
+endif
 
 # _if_ there are no user mode code, append to bpf target only
 TARGETS_BPF := ${TARGETS:=.bpf.o}
@@ -239,7 +249,7 @@ CFLAGS_BPF_socket_filter := ${CFLAGS_socket_filter}
 CFLAGS_tracepoint := -DMAP_HASH -DTRACEPOINT=1 -DSEC_DEF_TRACEPOINT=1 -DPARSE_AUXV=1
 # https://github.com/Rtoax/linux/tree/p056-bpf_task_cwd
 ifeq ($(shell grep -wo bpf_task_cwd_from_pid /proc/kallsyms),bpf_task_cwd_from_pid)
-  CFLAGS_tracepoint += -DBPF_TASK_CWD_FROM_PID=1
+  CFLAGS_tracepoint += -DSUPPORT_BPF_TASK_CWD_FROM_PID=1
 endif
 CFLAGS_BPF_tracepoint := ${CFLAGS_tracepoint}
 # Kill process with signal.

@@ -12,7 +12,23 @@ static __always_inline int __bpf_getcwd(char *buf, u32 buf_len)
 {
 	struct task_struct __attribute__((unused)) *curtask;
 	curtask = (void *)bpf_get_current_task();
-#if defined(SUPPORT_BPF_D_PATH)
+#if defined(SUPPORT_BPF_PATH_D_PATH)
+# pragma message "use bpf_path_d_path()"
+/**
+ * bpf_path_d_path() BPF kfunc may only be called from BPF LSM programs.
+ */
+# if 0
+	if (curtask) {
+		struct fs_struct *fs;
+		struct path pwd;
+		bpf_probe_read_kernel(&fs, sizeof(fs), &curtask->fs);
+		if (fs) {
+			bpf_probe_read_kernel(&pwd, sizeof(pwd), &fs->pwd);
+			bpf_path_d_path(&pwd, buf, buf_len);
+		}
+	}
+# endif
+#elif defined(SUPPORT_BPF_D_PATH)
 # pragma message "use bpf_d_path(), please very strict use"
 /**
  * see linux::kernel/trace/bpf_trace.c btf_allowlist_d_path, only few fentry
