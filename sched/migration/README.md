@@ -1,5 +1,4 @@
-Migration
-================
+Migration Kthread
+==================
 
-`migration/%u`内核线程“迁移”的作用是将线程从高负载的 CPU 移动到不拥挤的 CPU.
-
+`migration/%u` kernel thread "migration" is the process of moving threads from a heavily loaded CPU to a less crowded CPU.
