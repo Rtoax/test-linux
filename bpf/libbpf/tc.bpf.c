@@ -126,6 +126,38 @@ static bool less(struct bpf_rb_node *a, const struct bpf_rb_node *b)
 
 	return node_a->key < node_b->key;
 }
+
+static long __add_three(struct bpf_rb_root *root, struct bpf_spin_lock *lock)
+{
+	struct node_data *n, *m;
+
+	n = bpf_obj_new(typeof(*n));
+	if (!n)
+		return 1;
+	n->key = 5;
+
+	m = bpf_obj_new(typeof(*m));
+	if (!m) {
+		bpf_obj_drop(n);
+		return 2;
+	}
+	m->key = 1;
+
+	bpf_spin_lock(lock);
+	bpf_rbtree_add(root, &n->node, less);
+	bpf_rbtree_add(root, &m->node, less);
+	bpf_spin_unlock(lock);
+
+	n = bpf_obj_new(typeof(*n));
+	if (!n)
+		return 3;
+	n->key = 3;
+
+	bpf_spin_lock(lock);
+	bpf_rbtree_add(root, &n->node, less);
+	bpf_spin_unlock(lock);
+	return 0;
+}
 #endif /* TEST_RBTREE */
 
 #ifdef TEST_SCHED_ACT
@@ -205,34 +237,8 @@ int tc_ingress(struct __sk_buff *ctx)
 	spinlock = &glock;
 	rbroot = &groot;
 #endif
-	struct node_data *n, *m;
 
-	n = bpf_obj_new(typeof(*n));
-	if (!n)
-		return 1;
-	n->key = 1;
-
-	m = bpf_obj_new(typeof(*m));
-	if (!m) {
-		bpf_obj_drop(n);
-		return 2;
-	}
-	m->key = 1;
-
-	bpf_spin_lock(spinlock);
-	bpf_rbtree_add(rbroot, &n->node, less);
-	bpf_rbtree_add(rbroot, &m->node, less);
-	bpf_spin_unlock(spinlock);
-
-	n = bpf_obj_new(typeof(*n));
-	if (!n)
-		return 3;
-	n->key = 3;
-
-	bpf_spin_lock(spinlock);
-	bpf_rbtree_add(rbroot, &n->node, less);
-	bpf_spin_unlock(spinlock);
-
+	__add_three(rbroot, spinlock);
 	bpf_printk("test rbtree");
 
 #endif /* TEST_RBTREE */
