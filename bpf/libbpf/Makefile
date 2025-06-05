@@ -239,7 +239,9 @@ CFLAGS_BPF_kprobe := -D'KSYM_DO_EXECVEAT_COMMON="${KSYM_DO_EXECVEAT_COMMON}"' -D
 ifeq ($(CONFIG_BPF_KPROBE_OVERRIDE),y)
   CFLAGS_BPF_kprobe += -DCONFIG_BPF_KPROBE_OVERRIDE=1
 else
-  $(warning "Not config CONFIG_BPF_KPROBE_OVERRIDE=y, skip test bpf_override_return()")
+  ifdef DEBUG
+    $(warning "Not config CONFIG_BPF_KPROBE_OVERRIDE=y, skip test bpf_override_return()")
+  endif
 endif
 CFLAGS_fentry := -DFENTRY=1
 CFLAGS_BPF_fentry := ${CFLAGS_fentry}
@@ -332,7 +334,9 @@ BTF_HELPERS := ${OUTPUT}/btf_helpers.o
 
 .PHONY: build
 build: libbpf_version ${VMLINUX_H} ${TARGETS_BPF} ${TARGETS_SKEL} ${TARGETS} ${TARGETS_BTF}
-	${Q}./libbpf_version | sed 's/^/  /g'
+	${Q}./libbpf_version cflags >/dev/null
+	${Q}./libbpf_version env >/dev/null
+	${Q}./libbpf_version >/dev/null
 	@echo -e "  \033[1;33mDone\033[m"
 
 ${OUTPUT}/socket_helpers.o: socket_helpers.h

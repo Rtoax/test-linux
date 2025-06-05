@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <errno.h>
 #include <bpf/libbpf.h>
 
 int main(int argc, char *argv[])
@@ -23,12 +24,12 @@ int main(int argc, char *argv[])
 			printf("-DLIBBPF_MAJOR_VERSION=%d -DLIBBPF_MINOR_VERSION=%d\n",
 				LIBBPF_MAJOR_VERSION, LIBBPF_MINOR_VERSION);
 			return 0;
-		}
-		if (!strcmp(argv[i], "env")) {
+		} else if (!strcmp(argv[i], "env")) {
 			printf("LIBBPF_MAJOR_VERSION=%d LIBBPF_MINOR_VERSION=%d\n",
 				LIBBPF_MAJOR_VERSION, LIBBPF_MINOR_VERSION);
 			return 0;
-		}
+		} else
+			return -EINVAL;
 	}
 	if (i == argc) {
 		printf("LIBBPF_MAJOR_VERSION = %d\n", LIBBPF_MAJOR_VERSION);
