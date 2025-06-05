@@ -208,27 +208,12 @@ int tc_ingress(struct __sk_buff *ctx)
 #endif
 
 	n = &n1;
-	//n = bpf_obj_new(typeof(*n));
-	if (!n)
-		return 0;
-
 	n->key = 1;
 
 	bpf_spin_lock(spinlock);
 	bpf_rbtree_add(rbroot, &n->node, less);
 	bpf_spin_unlock(spinlock);
 
-	bpf_spin_lock(spinlock);
-	res = bpf_rbtree_first(rbroot);
-	if (!res) {
-		bpf_spin_unlock(spinlock);
-		return 2;
-	}
-	o = container_of(res, struct node_data, node);
-	res = bpf_rbtree_remove(rbroot, &o->node);
-	bpf_spin_unlock(spinlock);
-
-	//bpf_obj_drop(n);
 	bpf_printk("test rbtree");
 
 #endif /* TEST_RBTREE */
