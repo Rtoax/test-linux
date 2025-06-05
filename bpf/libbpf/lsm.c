@@ -28,8 +28,15 @@
 #define _bpf__open_and_load	lsm_socket_sendmsg_bpf__open_and_load
 #define _bpf__attach	lsm_socket_sendmsg_bpf__attach
 #define _bpf__destroy	lsm_socket_sendmsg_bpf__destroy
+#elif defined(LSM_FILE_OPEN)
+# pragma message "Compile lsm/file_open"
+#include "lsm_file_open.skel.h"
+#define struct_bpf	lsm_file_open_bpf
+#define _bpf__open_and_load	lsm_file_open_bpf__open_and_load
+#define _bpf__attach	lsm_file_open_bpf__attach
+#define _bpf__destroy	lsm_file_open_bpf__destroy
 #else
-#error "Not defined LSM_BPF, LSM_SOCKET_CREATE or LSM_SOCKET_SENDMSG"
+#error "Not defined LSM_BPF, LSM_SOCKET_CREATE, LSM_SOCKET_SENDMSG, LSM_FILE_OPEN"
 #endif
 
 void sig_handler(int sig)

@@ -30,6 +30,7 @@
 /lsm_bpf
 /lsm_socket_create
 /lsm_socket_sendmsg
+/lsm_file_open
 /map_hash
 /map_percpu_hash
 /map_array

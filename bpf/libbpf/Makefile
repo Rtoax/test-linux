@@ -46,6 +46,7 @@ kconfig-obj-$(CONFIG_HAVE_FENTRY) += fentry
 kconfig-obj-$(CONFIG_BPF_LSM) += lsm_bpf
 kconfig-obj-$(CONFIG_BPF_LSM) += lsm_socket_create
 kconfig-obj-$(CONFIG_BPF_LSM) += lsm_socket_sendmsg
+kconfig-obj-$(CONFIG_BPF_LSM) += lsm_file_open
 
 ifdef DEBUG
   $(info kconfig-obj-y : $(kconfig-obj-y))
@@ -281,12 +282,15 @@ CFLAGS_iter_bpf_map := -DITER_BPF_MAP=1
 CFLAGS_BPF_iter_bpf_map := ${CFLAGS_iter_bpf_map}
 CFLAGS_iter_kmem_cache := -DITER_KMEM_CACHE=1
 CFLAGS_BPF_iter_kmem_cache := ${CFLAGS_iter_kmem_cache}
-CFLAGS_lsm_bpf := -DLSM_BPF=1
+CFLAGS_LSM := -DIN_BPF_LSM=1
+CFLAGS_lsm_bpf := ${CFLAGS_LSM} -DLSM_BPF=1
 CFLAGS_BPF_lsm_bpf := ${CFLAGS_lsm_bpf}
-CFLAGS_lsm_socket_create := -DLSM_SOCKET_CREATE=1
+CFLAGS_lsm_socket_create := ${CFLAGS_LSM} -DLSM_SOCKET_CREATE=1
 CFLAGS_BPF_lsm_socket_create := ${CFLAGS_lsm_socket_create}
-CFLAGS_lsm_socket_sendmsg := -DLSM_SOCKET_SENDMSG=1
-CFLAGS_BPF_lsm_socket_sendmsg := ${CFLAGS_BPF_lsm_socket_sendmsg}
+CFLAGS_lsm_socket_sendmsg := ${CFLAGS_LSM} -DLSM_SOCKET_SENDMSG=1
+CFLAGS_BPF_lsm_socket_sendmsg := ${CFLAGS_lsm_socket_sendmsg}
+CFLAGS_lsm_file_open := ${CFLAGS_LSM} -DLSM_FILE_OPEN=1
+CFLAGS_BPF_lsm_file_open := ${CFLAGS_lsm_file_open}
 CFLAGS_BPF_sched_act := -DTEST_SCHED_ACT=1
 
 CFLAGS_map_hash := ${CFLAGS_tracepoint}
@@ -380,8 +384,11 @@ iter_task_vma: ${OUTPUT}/iter_task_vma.o
 iter_bpf_map: ${OUTPUT}/iter_bpf_map.o
 iter_kmem_cache: ${OUTPUT}/iter_kmem_cache.o
 lsm_bpf: ${OUTPUT}/lsm_bpf.o
+${OUTPUT}/lsm_bpf.bpf.o: bpf_helpers.h
 lsm_socket_create: ${OUTPUT}/lsm_socket_create.o
+${OUTPUT}/lsm_socket_create.bpf.o: bpf_helpers.h
 lsm_socket_sendmsg: ${OUTPUT}/lsm_socket_sendmsg.o
+${OUTPUT}/lsm_socket_sendmsg.bpf.o: bpf_helpers.h
 
 map_hash: ${OUTPUT}/map_hash.o ${LIBBPF_WRAPPER}
 map_percpu_hash: ${OUTPUT}/map_percpu_hash.o ${LIBBPF_WRAPPER}

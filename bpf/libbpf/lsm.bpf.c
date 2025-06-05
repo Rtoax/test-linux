@@ -18,6 +18,7 @@
 #include "vmlinux.h"
 #include <bpf/bpf_helpers.h>
 #include <bpf/bpf_tracing.h>
+#include "bpf_helpers.h"
 
 
 #define EPERM  1
@@ -87,6 +88,36 @@ int BPF_PROG(socket_sendmsg, struct socket *sock, struct msghdr *msg, int size,
 	 */
 	return 0;
 }
+#elif defined(LSM_FILE_OPEN)
+# pragma message "Compile lsm/file_open"
+/**
+ * see also linux:tools/testing/selftests/bpf/progs/verifier_vfs_accept.c
+ */
+SEC("lsm/file_open")
+int BPF_PROG(file_open, struct file *file)
+{
+	char buf[128] = "N/A";
+	char exe[128] = "N/A";
+#if defined(SUPPORT_BPF_PATH_D_PATH)
+# pragma message "lsm/file_open: support bpf_path_d_path()"
+	struct path *path = &file->f_path;
+	bpf_path_d_path(path, buf, sizeof(buf));
+#endif
+#if defined(SUPPORT_BPF_GET_TASK_EXE_FILE)
+# pragma message "lsm/file_open: support bpf_get_task_exe_file()"
+	struct file *acquired;
+	acquired = bpf_get_task_exe_file(bpf_get_current_task_btf());
+	if (acquired) {
+		struct path *path_exe = &acquired->f_path;
+		bpf_path_d_path(path_exe, exe, sizeof(exe));
+		bpf_put_file(acquired);
+	}
+#endif
+	bpf_printk("LSM: file_open(%s) exe=%s\n", buf, exe);
+	return 0;
+}
+#else
+# error "Not found any lsm prog"
 #endif
 
 char LICENSE[] SEC("license") = "GPL";
