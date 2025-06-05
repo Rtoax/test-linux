@@ -256,6 +256,14 @@ int tc_ingress(struct __sk_buff *ctx)
 
 	bpf_spin_unlock(lock);
 
+/**
+ * linux commit 9e3e66c553f7 ("bpf: Add bpf_rbtree_{root,left,right} kfunc")
+ * v6.15-rc4-68-g9e3e66c553f7
+ */
+#if defined(SUPPORT_BPF_RBTREE_ROOT)
+	/* TODO */
+#endif
+
 	if (node) {
 		ndata = container_of(node, struct node_data, node);
 		bpf_obj_drop(ndata);

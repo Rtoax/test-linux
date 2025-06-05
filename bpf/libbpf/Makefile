@@ -111,6 +111,13 @@ ifeq ($(call kernel_newer_than,6,2,0),y)
   endif
   TARGETS += rbtree
   TARGETS += rbtree-raw-map
+  # linux commit 9e3e66c553f7 ("bpf: Add bpf_rbtree_{root,left,right} kfunc")
+  # v6.15-rc4-68-g9e3e66c553f7
+  ifeq ($(call kernel_newer_than,6,14,0),y)
+    CFLAGS_BPF += -DSUPPORT_BPF_RBTREE_ROOT=1
+    CFLAGS_BPF += -DSUPPORT_BPF_RBTREE_LEFT=1
+    CFLAGS_BPF += -DSUPPORT_BPF_RBTREE_RIGHT=1
+  endif
 endif
 
 # linux commit d83525ca62cf ("bpf: introduce bpf_spin_lock")
