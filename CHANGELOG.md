@@ -17,6 +17,7 @@ and this project adheres to
 - top-Makefile: Apply sub-dir to user targets.
 - bpf/libbpf: compile with -std=gnu89.
 #### Added
+- signal: Test `sigabbrev_np()`.
 - libbpf: Add `skel_defs.h`.
 - libbpf: Add `BPF__OPEN_AND_LOAD()` macro.
 - libbpf: add `bpf_experimental.h` from linux upstream.
