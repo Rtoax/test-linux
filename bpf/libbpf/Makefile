@@ -407,6 +407,9 @@ iter_task_vma: ${OUTPUT}/iter_task_vma.o
 iter_bpf_map: ${OUTPUT}/iter_bpf_map.o
 iter_kmem_cache: ${OUTPUT}/iter_kmem_cache.o
 lsm_bpf: ${OUTPUT}/lsm_bpf.o
+${OUTPUT}/lsm_file_open.bpf.o: lsm_file_open.bpf.c
+${OUTPUT}/lsm_file_open.skel.h: ${OUTPUT}/lsm_file_open.bpf.o
+lsm_file_open: ${OUTPUT}/lsm_file_open.o
 ${OUTPUT}/lsm_bpf.bpf.o: bpf_helpers.h
 lsm_socket_create: ${OUTPUT}/lsm_socket_create.o
 ${OUTPUT}/lsm_socket_create.bpf.o: bpf_helpers.h
