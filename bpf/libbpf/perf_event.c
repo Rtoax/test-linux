@@ -116,25 +116,10 @@ int main(int argc, char *argv[])
 
 	signal(SIGINT, sig_handler);
 
-#if defined(LIBBPF_OPTS)
-	LIBBPF_OPTS(bpf_object_open_opts, opts,
-		.kernel_log_level = LIBBPF_DEBUG,
-	);
-
-	skel = perf_event_bpf__open_opts(&opts);
-	err = perf_event_bpf__load(skel);
-	if (err) {
-		printf("Failed to load BPF object\n");
-		perf_event_bpf__destroy(skel);
-		return 1;
-	}
-#else
-	skel = perf_event_bpf__open_and_load();
-#endif
-	if (!skel) {
-		printf("Failed to open BPF object\n");
-		return 1;
-	}
+	BPF__OPEN_AND_LOAD(skel, perf_event_bpf__open_and_load,
+			perf_event_bpf__open_opts,
+			perf_event_bpf__load,
+			perf_event_bpf__destroy);
 
 	err = perf_event_bpf__attach(skel);
 	if (err) {

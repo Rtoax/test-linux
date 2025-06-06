@@ -29,24 +29,32 @@
 #include "xdp.skel.h"
 #define struct_bpf	xdp_bpf
 #define _bpf__open	xdp_bpf__open
+#define _bpf__open_opts	xdp_bpf__open_opts
+#define _bpf__open_and_load	xdp_bpf__open_and_load
 #define _bpf__load	xdp_bpf__load
 #define _bpf__destroy	xdp_bpf__destroy
 #elif defined(XDP_DEVMAP)
 #include "xdp_devmap.skel.h"
 #define struct_bpf	xdp_devmap_bpf
 #define _bpf__open	xdp_devmap_bpf__open
+#define _bpf__open_opts	xdp_devmap_bpf__open_opts
+#define _bpf__open_and_load	xdp_devmap_bpf__open_and_load
 #define _bpf__load	xdp_devmap_bpf__load
 #define _bpf__destroy	xdp_devmap_bpf__destroy
 #elif defined(XDP_CPUMAP)
 #include "xdp_cpumap.skel.h"
 #define struct_bpf	xdp_cpumap_bpf
 #define _bpf__open	xdp_cpumap_bpf__open
+#define _bpf__open_opts	xdp_cpumap_bpf__open_opts
+#define _bpf__open_and_load	xdp_cpumap_bpf__open_and_load
 #define _bpf__load	xdp_cpumap_bpf__load
 #define _bpf__destroy	xdp_cpumap_bpf__destroy
 #elif defined(XDP_XSKMAP)
 #include "xdp_xskmap.skel.h"
 #define struct_bpf	xdp_xskmap_bpf
 #define _bpf__open	xdp_xskmap_bpf__open
+#define _bpf__open_opts	xdp_xskmap_bpf__open_opts
+#define _bpf__open_and_load	xdp_xskmap_bpf__open_and_load
 #define _bpf__load	xdp_xskmap_bpf__load
 #define _bpf__destroy	xdp_xskmap_bpf__destroy
 #endif
@@ -178,12 +186,6 @@ int main(int argc, char *argv[])
 	}
 #endif
 
-	skel = _bpf__open();
-	if (!skel) {
-		printf("Failed to open BPF object\n");
-		return 1;
-	}
-
 #if defined(XDP_BASIC) || defined(XDP_XSKMAP)
 	fprintf(stderr, "Track interface %s, index %d\n", interface, ifindex);
 #elif defined(XDP_DEVMAP)
@@ -193,6 +195,10 @@ int main(int argc, char *argv[])
 	fprintf(stderr, "Redirect %s(%d) to cpu %d\n", interface, ifindex,
 		cpu);
 #endif
+
+	BPF__OPEN_AND_LOAD(skel, _bpf__open_and_load, _bpf__open_opts,
+			_bpf__load, _bpf__destroy);
+
 	fprintf(stderr, "Prog count %d\n", skel->skeleton->prog_cnt);
 
 #if defined(XDP_BASIC)
@@ -213,12 +219,6 @@ int main(int argc, char *argv[])
 		break;
 	}
 #endif
-
-	err = _bpf__load(skel);
-	if (err) {
-		_bpf__destroy(skel);
-		return 1;
-	}
 
 #if defined(XDP_BASIC)
 	/* Attach BPF program to raw socket */

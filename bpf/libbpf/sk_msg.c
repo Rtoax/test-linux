@@ -11,18 +11,19 @@
 #include <sys/resource.h>
 #include <sys/socket.h>
 #include <unistd.h>
+#include "libbpf_wrapper.h"
 #include "sk_msg.skel.h"
 
 int main(int argc, char *argv[])
 {
+	int err;
 	struct sk_msg_bpf *skel;
 	int verdict;
 
-	skel = sk_msg_bpf__open_and_load();
-	if (!skel) {
-		fprintf(stderr, "open and load error\n");
-		return -1;
-	}
+	BPF__OPEN_AND_LOAD(skel, sk_msg_bpf__open_and_load,
+			sk_msg_bpf__open_opts,
+			sk_msg_bpf__load,
+			sk_msg_bpf__destroy);
 
 	verdict = bpf_program__fd(skel->progs.prog_skmsg_drop);
 

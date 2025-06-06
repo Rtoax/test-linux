@@ -17,35 +17,50 @@
 #if defined(ITER_TASK)
 #include "iter_task.skel.h"
 #define struct_bpf	iter_task_bpf
+#define _bpf__open	iter_task_bpf__open
+#define _bpf__open_opts	iter_task_bpf__open_opts
 #define _bpf__open_and_load	iter_task_bpf__open_and_load
+#define _bpf__load	iter_task_bpf__load
 #define _bpf__attach	iter_task_bpf__attach
 #define _bpf__destroy	iter_task_bpf__destroy
 #define _bpf_link	get_tasks
 #elif defined(ITER_TASK_FILE)
 #include "iter_task_file.skel.h"
 #define struct_bpf	iter_task_file_bpf
+#define _bpf__open	iter_task_file_bpf__open
+#define _bpf__open_opts	iter_task_file_bpf__open_opts
 #define _bpf__open_and_load	iter_task_file_bpf__open_and_load
+#define _bpf__load	iter_task_file_bpf__load
 #define _bpf__attach	iter_task_file_bpf__attach
 #define _bpf__destroy	iter_task_file_bpf__destroy
 #define _bpf_link	dump_task_file
 #elif defined(ITER_TASK_VMA)
 #include "iter_task_vma.skel.h"
 #define struct_bpf	iter_task_vma_bpf
+#define _bpf__open	iter_task_vma_bpf__open
+#define _bpf__open_opts	iter_task_vma_bpf__open_opts
 #define _bpf__open_and_load	iter_task_vma_bpf__open_and_load
+#define _bpf__load	iter_task_vma_bpf__load
 #define _bpf__attach	iter_task_vma_bpf__attach
 #define _bpf__destroy	iter_task_vma_bpf__destroy
 #define _bpf_link	dump_task_vma
 #elif defined(ITER_BPF_MAP)
 #include "iter_bpf_map.skel.h"
 #define struct_bpf	iter_bpf_map_bpf
+#define _bpf__open	iter_bpf_map_bpf__open
+#define _bpf__open_opts	iter_bpf_map_bpf__open_opts
 #define _bpf__open_and_load	iter_bpf_map_bpf__open_and_load
+#define _bpf__load	iter_bpf_map_bpf__load
 #define _bpf__attach	iter_bpf_map_bpf__attach
 #define _bpf__destroy	iter_bpf_map_bpf__destroy
 #define _bpf_link	dump_bpf_map
 #elif defined(ITER_KMEM_CACHE)
 #include "iter_kmem_cache.skel.h"
 #define struct_bpf	iter_kmem_cache_bpf
+#define _bpf__open	iter_kmem_cache_bpf__open
+#define _bpf__open_opts	iter_kmem_cache_bpf__open_opts
 #define _bpf__open_and_load	iter_kmem_cache_bpf__open_and_load
+#define _bpf__load	iter_kmem_cache_bpf__load
 #define _bpf__attach	iter_kmem_cache_bpf__attach
 #define _bpf__destroy	iter_kmem_cache_bpf__destroy
 #define _bpf_link	dump_kmem_cache
@@ -75,12 +90,8 @@ int main(int argc, char **argv)
 	signal(SIGINT, sig_handler);
 	signal(SIGTERM, sig_handler);
 
-	/* Open, load, and verify BPF application */
-	skel = _bpf__open_and_load();
-	if (!skel) {
-		fprintf(stderr, "Failed to open and load BPF skeleton\n");
-		goto cleanup;
-	}
+	BPF__OPEN_AND_LOAD(skel, _bpf__open_and_load, _bpf__open_opts,
+			_bpf__load, _bpf__destroy);
 
 	/* Attach tracepoints */
 	err = _bpf__attach(skel);

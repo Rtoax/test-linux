@@ -27,32 +27,14 @@ int main(void)
 	int err, event_map_fd;
 	struct config_map_bpf *skel;
 	struct perf_buffer *pb = NULL;
-	char log_buf[64 * 1024];
 
 	libbpf_set_strict_mode(LIBBPF_STRICT_ALL);
 	libbpf_set_print(libbpf_print_fn);
 
-#if defined(LIBBPF_OPTS)
-	LIBBPF_OPTS(bpf_object_open_opts, opts,
-		.kernel_log_buf = log_buf,
-		.kernel_log_size = sizeof(log_buf),
-		.kernel_log_level = 1,
-	);
-
-	skel = config_map_bpf__open_opts(&opts);
-	err = config_map_bpf__load(skel);
-	if (err) {
-		printf("Failed to load BPF object\n");
-		config_map_bpf__destroy(skel);
-		return 1;
-	}
-#else
-	skel = config_map_bpf__open_and_load();
-#endif
-	if (!skel) {
-		printf("Failed to open BPF object\n");
-		return 1;
-	}
+	BPF__OPEN_AND_LOAD(skel, config_map_bpf__open_and_load,
+			config_map_bpf__open_opts,
+			config_map_bpf__load,
+			config_map_bpf__destroy);
 
 	libbpf_print_bpf_log_buf(log_buf, sizeof(log_buf));
 

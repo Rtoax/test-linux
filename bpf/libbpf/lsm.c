@@ -13,6 +13,9 @@
 # pragma message "Compile lsm/bpf"
 #include "lsm_bpf.skel.h"
 #define struct_bpf	lsm_bpf_bpf
+#define _bpf__open	lsm_bpf_bpf__open
+#define _bpf__open_opts	lsm_bpf_bpf__open_opts
+#define _bpf__load	lsm_bpf_bpf__load
 #define _bpf__open_and_load	lsm_bpf_bpf__open_and_load
 #define _bpf__attach	lsm_bpf_bpf__attach
 #define _bpf__destroy	lsm_bpf_bpf__destroy
@@ -20,6 +23,9 @@
 # pragma message "Compile lsm/socket_create"
 #include "lsm_socket_create.skel.h"
 #define struct_bpf	lsm_socket_create_bpf
+#define _bpf__open	lsm_socket_create_bpf__open
+#define _bpf__open_opts	lsm_socket_create_bpf__open_opts
+#define _bpf__load	lsm_socket_create_bpf__load
 #define _bpf__open_and_load	lsm_socket_create_bpf__open_and_load
 #define _bpf__attach	lsm_socket_create_bpf__attach
 #define _bpf__destroy	lsm_socket_create_bpf__destroy
@@ -27,6 +33,9 @@
 # pragma message "Compile lsm/socket_sendmsg"
 #include "lsm_socket_sendmsg.skel.h"
 #define struct_bpf	lsm_socket_sendmsg_bpf
+#define _bpf__open	lsm_socket_sendmsg_bpf__open
+#define _bpf__open_opts	lsm_socket_sendmsg_bpf__open_opts
+#define _bpf__load	lsm_socket_sendmsg_bpf__load
 #define _bpf__open_and_load	lsm_socket_sendmsg_bpf__open_and_load
 #define _bpf__attach	lsm_socket_sendmsg_bpf__attach
 #define _bpf__destroy	lsm_socket_sendmsg_bpf__destroy
@@ -34,6 +43,9 @@
 # pragma message "Compile lsm/file_open"
 #include "lsm_file_open.skel.h"
 #define struct_bpf	lsm_file_open_bpf
+#define _bpf__open	lsm_file_open_bpf__open
+#define _bpf__open_opts	lsm_file_open_bpf__open_opts
+#define _bpf__load	lsm_file_open_bpf__load
 #define _bpf__open_and_load	lsm_file_open_bpf__open_and_load
 #define _bpf__attach	lsm_file_open_bpf__attach
 #define _bpf__destroy	lsm_file_open_bpf__destroy
@@ -62,12 +74,8 @@ int main(int argc, char **argv)
 	/* Set up libbpf errors and debug info callback */
 	libbpf_set_print(libbpf_print_fn);
 
-	/* Open, load, and verify BPF application */
-	skel = _bpf__open_and_load();
-	if (!skel) {
-		fprintf(stderr, "Failed to open and load BPF skeleton\n");
-		goto cleanup;
-	}
+	BPF__OPEN_AND_LOAD(skel, _bpf__open_and_load, _bpf__open_opts,
+			_bpf__load, _bpf__destroy);
 
 	/* Attach lsm handler */
 	err = _bpf__attach(skel);

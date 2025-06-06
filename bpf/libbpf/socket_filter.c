@@ -21,18 +21,24 @@
 #include "socket_filter.skel.h"
 #define struct_bpf	socket_filter_bpf
 #define _bpf__open	socket_filter_bpf__open
+#define _bpf__open_opts	socket_filter_bpf__open_opts
+#define _bpf__open_and_load	socket_filter_bpf__open_and_load
 #define _bpf__load	socket_filter_bpf__load
 #define _bpf__destroy	socket_filter_bpf__destroy
 #elif defined(SOCKET_FILTER) && defined(MAP_ARRAY)
 #include "map_array.skel.h"
 #define struct_bpf	map_array_bpf
 #define _bpf__open	map_array_bpf__open
+#define _bpf__open_opts	map_array_bpf__open_opts
+#define _bpf__open_and_load	map_array_bpf__open_and_load
 #define _bpf__load	map_array_bpf__load
 #define _bpf__destroy	map_array_bpf__destroy
 #elif defined(SOCKET_FILTER) && defined(MAP_PERCPU_ARRAY)
 #include "map_percpu_array.skel.h"
 #define struct_bpf	map_percpu_array_bpf
 #define _bpf__open	map_percpu_array_bpf__open
+#define _bpf__open_opts	map_percpu_array_bpf__open_opts
+#define _bpf__open_and_load	map_percpu_array_bpf__open_and_load
 #define _bpf__load	map_percpu_array_bpf__load
 #define _bpf__destroy	map_percpu_array_bpf__destroy
 #endif
@@ -156,20 +162,11 @@ int main(int argc, char *argv[])
 		return -err;
 	}
 
-	skel = _bpf__open();
-	if (!skel) {
-		printf("Failed to open BPF object\n");
-		return 1;
-	}
+	BPF__OPEN_AND_LOAD(skel, _bpf__open_and_load, _bpf__open_opts,
+			_bpf__load, _bpf__destroy);
 
 	fprintf(stderr, "Track interface %s\n", interface);
 	fprintf(stderr, "Prog count %d\n", skel->skeleton->prog_cnt);
-
-	err = _bpf__load(skel);
-	if (err) {
-		_bpf__destroy(skel);
-		return 1;
-	}
 
 	map_fd = bpf_map__fd(skel->maps.proto_cnt);
 
