@@ -1,4 +1,5 @@
 #pragma once
+#include <malloc.h>
 #include <bpf/bpf.h>
 #include <bpf/libbpf.h>
 
