@@ -140,11 +140,17 @@ endif
 # v6.10-12667-gd08e2045ebf0
 ifeq ($(call kernel_newer_than,6,10,0),y)
   # bpf_path_d_path()
-  CFLAGS_BPF += -DSUPPORT_BPF_PATH_D_PATH=1
+  ifeq ($(call vmlinux_has_sym,bpf_path_d_path),y)
+    CFLAGS_BPF += -DSUPPORT_BPF_PATH_D_PATH=1
+  endif
   # bpf_get_task_exe_file()
-  CFLAGS_BPF += -DSUPPORT_BPF_GET_TASK_EXE_FILE=1
+  ifeq ($(call vmlinux_has_sym,bpf_get_task_exe_file),y)
+    CFLAGS_BPF += -DSUPPORT_BPF_GET_TASK_EXE_FILE=1
+  endif
   # bpf_put_file()
-  CFLAGS_BPF += -DSUPPORT_BPF_PUT_FILE=1
+  ifeq ($(call vmlinux_has_sym,bpf_put_file),y)
+    CFLAGS_BPF += -DSUPPORT_BPF_PUT_FILE=1
+  endif
 endif
 
 # _if_ there are no user mode code, append to bpf target only
