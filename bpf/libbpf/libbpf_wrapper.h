@@ -28,7 +28,7 @@
 		printf("Failed to open BPF object\n");				\
 		return 1;							\
 	}									\
-	print_bpf_log_buf(log_buf, sizeof(log_buf));
+	libbpf_print_bpf_log_buf(log_buf, sizeof(log_buf));
 #else
 #define BPF__OPEN_AND_LOAD(skel, open_and_load, open_opts, load, destroy)	\
 	skel = open_and_load();							\
@@ -49,3 +49,8 @@ struct perf_buffer *libbpf_perf_buffer__new(int map_fd,
 int libbpf_bpf_map_update_elem(const struct bpf_map *map, const void *key,
 			       size_t key_sz, const void *value, size_t value_sz,
 			       __u64 flags);
+
+int libbpf_print_bpf_log_buf(char *buf, size_t size);
+
+int libbpf_print_fn(enum libbpf_print_level level, const char *format,
+		    va_list args);

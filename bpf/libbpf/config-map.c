@@ -54,7 +54,7 @@ int main(void)
 		return 1;
 	}
 
-	print_bpf_log_buf(log_buf, sizeof(log_buf));
+	libbpf_print_bpf_log_buf(log_buf, sizeof(log_buf));
 
 	/**
 	 * Configure a message to use only if the UID for the event is current

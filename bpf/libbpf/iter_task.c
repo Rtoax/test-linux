@@ -12,6 +12,7 @@
 #include "iter.h"
 #include "task_helpers.h"
 #include "trace_helpers.h"
+#include "libbpf_wrapper.h"
 
 #if defined(ITER_TASK)
 #include "iter_task.skel.h"

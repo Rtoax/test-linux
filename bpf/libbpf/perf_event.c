@@ -12,6 +12,7 @@
 #include "perf_event.h"
 #include "perf_event.skel.h"
 #include "trace_helpers.h"
+#include "libbpf_wrapper.h"
 
 #define DEFAULT_FREQ	99
 

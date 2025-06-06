@@ -339,6 +339,9 @@ LIBBPF_WRAPPER := ${OUTPUT}/libbpf_wrapper.o
 LIBXDP_HELPERS := ${OUTPUT}/libxdp_helpers.o
 BTF_HELPERS := ${OUTPUT}/btf_helpers.o
 
+HELPERS := ${BTF_HELPERS} ${LIBXDP_HELPERS} ${LIBBPF_WRAPPER} ${TRACE_HELPERS} \
+	   ${TASK_HELPERS} ${SOCKET_HELPERS}
+
 .PHONY: build
 build: libbpf_version ${VMLINUX_H} ${TARGETS_BPF} ${TARGETS_SKEL} ${TARGETS} ${TARGETS_BTF}
 	${Q}./libbpf_version cflags >/dev/null
@@ -442,7 +445,7 @@ ${OUTPUT}/%.o: %.c | ${OUTPUT}
 	@echo -e "  CC(LIB)  \033[1m$(notdir ${@})\033[m"
 	${Q}$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
 
-$(TARGETS) libbpf_version ${TARGETS_BTF}: %: ${OUTPUT}/%.o ${TRACE_HELPERS}
+$(TARGETS) libbpf_version ${TARGETS_BTF}: %: ${OUTPUT}/%.o ${HELPERS}
 	@echo -e "  LD  \033[1;32m$(notdir ${@})\033[m"
 	${Q}$(CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*))
 

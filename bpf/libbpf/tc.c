@@ -137,12 +137,12 @@ int main(int argc, char **argv)
 	err = _bpf__load(skel);
 	if (err) {
 		printf("Failed to load BPF object\n");
-		print_bpf_log_buf(log_buf, sizeof(log_buf));
+		libbpf_print_bpf_log_buf(log_buf, sizeof(log_buf));
 		_bpf__destroy(skel);
 		return 1;
 	}
 
-	print_bpf_log_buf(log_buf, sizeof(log_buf));
+	libbpf_print_bpf_log_buf(log_buf, sizeof(log_buf));
 #else
 	skel = _bpf__open_and_load();
 #endif

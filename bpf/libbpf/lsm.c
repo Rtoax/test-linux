@@ -7,6 +7,8 @@
 #include <sys/resource.h>
 #include <bpf/libbpf.h>
 #include "trace_helpers.h"
+#include "libbpf_wrapper.h"
+
 #if defined(LSM_BPF)
 # pragma message "Compile lsm/bpf"
 #include "lsm_bpf.skel.h"

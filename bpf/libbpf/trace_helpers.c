@@ -134,23 +134,3 @@ int read_trace_pipe_stop(void)
 {
 	return pthread_kill(thread, SIGUSR1);
 }
-
-int print_bpf_log_buf(char *buf, size_t size)
-{
-	int i;
-
-	for (i = 0; i < size; i++) {
-		if (buf[i] == 0 && buf[i + 1] == 0)
-			break;
-		printf("%c", buf[i]);
-	}
-	return 0;
-}
-
-int libbpf_print_fn(enum libbpf_print_level level, const char *format,
-		    va_list args)
-{
-	if (level >= LIBBPF_DEBUG)
-		return 0;
-	return vfprintf(stderr, format, args);
-}

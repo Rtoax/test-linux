@@ -15,6 +15,7 @@
 #include "socket_helpers.h"
 #include "socket_filter.h"
 #include "trace_helpers.h"
+#include "libbpf_wrapper.h"
 
 #if defined(SOCKET_FILTER) && !defined(MAP_ARRAY) && !defined(MAP_PERCPU_ARRAY)
 #include "socket_filter.skel.h"

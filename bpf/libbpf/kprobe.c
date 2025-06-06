@@ -7,6 +7,7 @@
 #include <sys/resource.h>
 #include <bpf/libbpf.h>
 #include "trace_helpers.h"
+#include "libbpf_wrapper.h"
 
 #if defined(KPROBE)
 #include "kprobe.skel.h"

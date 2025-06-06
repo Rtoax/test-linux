@@ -13,6 +13,7 @@
 #include <bpf/libbpf.h>
 #include "sockops.skel.h"
 #include "trace_helpers.h"
+#include "libbpf_wrapper.h"
 
 
 const char *cgroup_path;
