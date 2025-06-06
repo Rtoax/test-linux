@@ -6,9 +6,9 @@
 # Change the CHANGELOG.md at the same time
 VERSION = 2
 PATCHLEVEL = 2
-SUBLEVEL = 11
+SUBLEVEL = 12
 EXTRAVERSION =
-NAME = Fedora
+NAME = GPT
 
 include make.list
 

@@ -8,6 +8,18 @@ and this project adheres to
 
 
 ## Unreleased
+#### Breaking Changes
+#### Added
+#### Changed
+#### Deprecated
+#### Removed
+#### Fixed
+#### Security
+#### Docs
+#### Tools
+
+
+## [v2.2.12] 2025-06-06
 
 #### Breaking Changes
 - template: introduce main.mk, and all Makefile should use main.mk.
