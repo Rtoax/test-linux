@@ -37,6 +37,32 @@ struct {
  * };
  */
 
+/**
+ * TRACE_EVENT(sched_process_fork,
+ *
+ * 	TP_PROTO(struct task_struct *parent, struct task_struct *child),
+ *
+ * 	TP_ARGS(parent, child),
+ *
+ * 	TP_STRUCT__entry(
+ * 		__array(	char,	parent_comm,	TASK_COMM_LEN	)
+ * 		__field(	pid_t,	parent_pid			)
+ * 		__array(	char,	child_comm,	TASK_COMM_LEN	)
+ * 		__field(	pid_t,	child_pid			)
+ * 	),
+ * 	...
+ * );
+ *
+ * rawtracepoint:vmlinux:sched_process_fork
+ *	struct task_struct * parent
+ *	struct task_struct * child
+ *
+ * tracepoint:sched:sched_process_fork
+ *	char parent_comm[16]
+ * 	pid_t parent_pid
+ *	char child_comm[16]
+ *	pid_t child_pid
+ */
 #if defined(SEC_DEF_RAW_TRACEPOINT)
 SEC("raw_tracepoint/sched_process_fork")
 #elif defined(SEC_DEF_RAW_TP)
