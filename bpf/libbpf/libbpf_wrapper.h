@@ -35,12 +35,15 @@
 	__skel;									\
 	})
 #else
-#define BPF__OPEN_AND_LOAD(skel, open_and_load, open_opts, load, destroy)	\
-	skel = open_and_load();							\
-	if (!skel) {								\
+#define BPF__OPEN_AND_LOAD(open_and_load, open_opts, load, destroy) ({		\
+	struct struct_bpf *__skel = NULL;					\
+	__skel = open_and_load();						\
+	if (!__skel) {								\
 		printf("Failed to open BPF object\n");				\
 		return 1;							\
-	}
+	}									\
+	__skel;									\
+	})
 #endif
 
 int libbpf_bpf_xdp_attach(int ifindex, int prog_fd, int xdp_flags);
