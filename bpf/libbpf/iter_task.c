@@ -65,7 +65,7 @@ int main(int argc, char **argv)
 	signal(SIGINT, sig_handler);
 	signal(SIGTERM, sig_handler);
 
-	BPF__OPEN_AND_LOAD(skel, _bpf__open_and_load, _bpf__open_opts,
+	skel = BPF__OPEN_AND_LOAD(_bpf__open_and_load, _bpf__open_opts,
 			_bpf__load, _bpf__destroy);
 
 	/* Attach tracepoints */

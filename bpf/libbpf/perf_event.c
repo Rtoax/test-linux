@@ -116,7 +116,8 @@ int main(int argc, char *argv[])
 
 	signal(SIGINT, sig_handler);
 
-	BPF__OPEN_AND_LOAD(skel, perf_event_bpf__open_and_load,
+#define struct_bpf	perf_event_bpf
+	skel = BPF__OPEN_AND_LOAD(perf_event_bpf__open_and_load,
 			perf_event_bpf__open_opts,
 			perf_event_bpf__load,
 			perf_event_bpf__destroy);

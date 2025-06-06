@@ -92,7 +92,8 @@ int main(int argc, char **argv)
 		return 1;
 	}
 
-	BPF__OPEN_AND_LOAD(skel, sockops_bpf__open_and_load,
+#define struct_bpf	sockops_bpf
+	skel = BPF__OPEN_AND_LOAD(sockops_bpf__open_and_load,
 			sockops_bpf__open_opts,
 			sockops_bpf__load,
 			sockops_bpf__destroy);

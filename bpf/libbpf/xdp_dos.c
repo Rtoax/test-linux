@@ -341,7 +341,7 @@ int main(int argc, char *argv[])
 	system("rm -f " DIR_FILTER_DUMP "/*");
 	mkdir(DIR_FILTER_DUMP, 0777);
 
-	BPF__OPEN_AND_LOAD(skel, _bpf__open_and_load, _bpf__open_opts,
+	skel = BPF__OPEN_AND_LOAD(_bpf__open_and_load, _bpf__open_opts,
 			_bpf__load, _bpf__destroy);
 
 	bpf_program__set_type(skel->progs.xdp_dummy_prog, BPF_PROG_TYPE_XDP);

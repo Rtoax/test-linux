@@ -20,7 +20,8 @@ int main(int argc, char *argv[])
 	struct sk_msg_bpf *skel;
 	int verdict;
 
-	BPF__OPEN_AND_LOAD(skel, sk_msg_bpf__open_and_load,
+#define struct_bpf	sk_msg_bpf
+	skel = BPF__OPEN_AND_LOAD(sk_msg_bpf__open_and_load,
 			sk_msg_bpf__open_opts,
 			sk_msg_bpf__load,
 			sk_msg_bpf__destroy);

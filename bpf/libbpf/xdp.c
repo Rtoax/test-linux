@@ -180,7 +180,7 @@ int main(int argc, char *argv[])
 		cpu);
 #endif
 
-	BPF__OPEN_AND_LOAD(skel, _bpf__open_and_load, _bpf__open_opts,
+	skel = BPF__OPEN_AND_LOAD(_bpf__open_and_load, _bpf__open_opts,
 			_bpf__load, _bpf__destroy);
 
 	fprintf(stderr, "Prog count %d\n", skel->skeleton->prog_cnt);

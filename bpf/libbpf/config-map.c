@@ -31,12 +31,11 @@ int main(void)
 	libbpf_set_strict_mode(LIBBPF_STRICT_ALL);
 	libbpf_set_print(libbpf_print_fn);
 
-	BPF__OPEN_AND_LOAD(skel, config_map_bpf__open_and_load,
+#define struct_bpf	config_map_bpf
+	skel = BPF__OPEN_AND_LOAD(config_map_bpf__open_and_load,
 			config_map_bpf__open_opts,
 			config_map_bpf__load,
 			config_map_bpf__destroy);
-
-	libbpf_print_bpf_log_buf(log_buf, sizeof(log_buf));
 
 	/**
 	 * Configure a message to use only if the UID for the event is current

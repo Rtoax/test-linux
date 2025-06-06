@@ -39,7 +39,7 @@ int main(int argc, char **argv)
 
 	libbpf_set_print(libbpf_print_fn);
 
-	BPF__OPEN_AND_LOAD(skel, _bpf__open_and_load, _bpf__open_opts,
+	skel = BPF__OPEN_AND_LOAD(_bpf__open_and_load, _bpf__open_opts,
 			_bpf__load, _bpf__destroy);
 
 	err = _bpf__attach(skel);

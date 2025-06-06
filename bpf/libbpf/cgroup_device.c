@@ -88,7 +88,8 @@ int main(int argc, char **argv)
 		return 1;
 	}
 
-	BPF__OPEN_AND_LOAD(skel, cgroup_device_bpf__open_and_load,
+#define struct_bpf cgroup_device_bpf
+	skel = BPF__OPEN_AND_LOAD(cgroup_device_bpf__open_and_load,
 			cgroup_device_bpf__open_opts,
 			cgroup_device_bpf__load,
 			cgroup_device_bpf__destroy);

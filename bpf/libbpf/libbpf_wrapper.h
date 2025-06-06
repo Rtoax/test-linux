@@ -9,7 +9,8 @@
  * So, let's add a macro.
  */
 #if defined(LIBBPF_OPTS)
-#define BPF__OPEN_AND_LOAD(skel, open_and_load, open_opts, load, destroy)	\
+#define BPF__OPEN_AND_LOAD(open_and_load, open_opts, load, destroy) ({		\
+	struct struct_bpf *__skel = NULL;					\
 	size_t __log_buf_sz = 64 * 1024;					\
 	char *__log_buf = malloc(__log_buf_sz);					\
 	LIBBPF_OPTS(bpf_object_open_opts, ___opts,				\
@@ -18,19 +19,21 @@
 		.kernel_log_level = LIBBPF_DEBUG,				\
 	);									\
 										\
-	skel = open_opts(&___opts);						\
-	err = load(skel);							\
-	if (err) {								\
-		printf("Failed to load BPF object\n");				\
-		destroy(skel);							\
-		return 1;							\
-	}									\
-	if (!skel) {								\
+	__skel = open_opts(&___opts);						\
+	if (!__skel) {								\
 		printf("Failed to open BPF object\n");				\
 		return 1;							\
 	}									\
+	if (load(__skel)) {							\
+		libbpf_print_bpf_log_buf(__log_buf, __log_buf_sz);		\
+		printf("Failed to load BPF object\n");				\
+		destroy(__skel);						\
+		return 1;							\
+	}									\
 	libbpf_print_bpf_log_buf(__log_buf, __log_buf_sz);			\
-	free(__log_buf);
+	free(__log_buf);							\
+	__skel;									\
+	})
 #else
 #define BPF__OPEN_AND_LOAD(skel, open_and_load, open_opts, load, destroy)	\
 	skel = open_and_load();							\
