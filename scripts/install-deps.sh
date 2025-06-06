@@ -652,7 +652,7 @@ pkgs_desktop+=( wireshark )
 pkgs_desktop+=( xrdp )
 enable_srvs+=( xrdp.service )
 
-if [[ $(is_rhel_like) ]]; then
+if [[ $(is_rhel_like) ]] && [[ ${have_3rd_party} ]]; then
 	if [[ ! -e /etc/yum.repos.d/scootersoftware.repo ]]; then
 		cat <<-EOF | sudo tee /etc/yum.repos.d/scootersoftware.repo
 		[scootersoftware]
