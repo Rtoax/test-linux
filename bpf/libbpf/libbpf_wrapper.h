@@ -10,10 +10,11 @@
  */
 #if defined(LIBBPF_OPTS)
 #define BPF__OPEN_AND_LOAD(skel, open_and_load, open_opts, load, destroy)	\
-	char log_buf[64 * 1024];						\
+	size_t __log_buf_sz = 64 * 1024;					\
+	char *__log_buf = malloc(__log_buf_sz);					\
 	LIBBPF_OPTS(bpf_object_open_opts, ___opts,				\
-		.kernel_log_buf = log_buf,					\
-		.kernel_log_size = sizeof(log_buf),				\
+		.kernel_log_buf = __log_buf,					\
+		.kernel_log_size = __log_buf_sz,				\
 		.kernel_log_level = LIBBPF_DEBUG,				\
 	);									\
 										\
@@ -28,7 +29,8 @@
 		printf("Failed to open BPF object\n");				\
 		return 1;							\
 	}									\
-	libbpf_print_bpf_log_buf(log_buf, sizeof(log_buf));
+	libbpf_print_bpf_log_buf(__log_buf, __log_buf_sz);			\
+	free(__log_buf);
 #else
 #define BPF__OPEN_AND_LOAD(skel, open_and_load, open_opts, load, destroy)	\
 	skel = open_and_load();							\
