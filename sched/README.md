@@ -18,7 +18,7 @@ Process Schedule
 ```
                                                   -20 ~ 10 (nice)
 +-----------------------------------------+----------------------+
-|                  0 ~ 99                 |       100 ~ 139      |  Priority
+|                  1 ~ 99                 |       100 ~ 139      |  Priority
 +-----------------------------------------+----------------------+
                  SCHED_FIFO                 SCHED_NORMAL
                                             (SCHED_OTHER)
@@ -37,14 +37,14 @@ Process Schedule
 
 > see also 'chrt --max'
 
-|       Policy      |  Priority   |   Nice   |
-| ----------------- | ----------- | -------- |
-| `SCHED_FIFO`      |   0 - 99    |          |
-| `SCHED_RR`        |   0 - 99    |          |
-| `SCHED_DEADLINE`  |             |          |
-| `SCHED_NORMAL`    | 100 - 139   | -20 - 10 |
-| `SCHED_BATCH`     | 100 - 139   | -20 - 10 |
-| `SCHED_IDLE`      | 100 - 139   | -20 - 10 |
+|       Policy      |  Priority   |   Nice   |  top PR    |
+| ----------------- | ----------- | -------- | ---------- |
+| `SCHED_FIFO`      |   0 - 99    |          |  -1 - P    |
+| `SCHED_RR`        |   0 - 99    |          |  -1 - P    |
+| `SCHED_DEADLINE`  |             |          |            |
+| `SCHED_NORMAL`    | 100 - 139   | -20 - 10 | 20 + Nice  |
+| `SCHED_BATCH`     | 100 - 139   | -20 - 10 | 20 + Nice  |
+| `SCHED_IDLE`      | 100 - 139   | -20 - 10 | 20 + Nice  |
 
 
 ```bash
