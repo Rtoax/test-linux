@@ -50,6 +50,7 @@ and this project adheres to
 - Move libs/qemu.sh to qemu/libqemu.sh.
 #### Deprecated
 #### Removed
+- libbpf: remove macro `STRICT_SEC_NAME`.
 #### Fixed
 #### Security
 #### Docs

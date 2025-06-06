@@ -214,15 +214,6 @@ int main(int argc, char *argv[])
 	}
 #endif
 
-#if !defined(STRICT_SEC_NAME)
-# if defined(XDP_BASIC)
-	bpf_program__set_type(basic_action_prog, BPF_PROG_TYPE_XDP);
-# elif defined(XDP_DEVMAP)
-	bpf_program__set_type(skel->progs.xdp_redir_prog, BPF_PROG_TYPE_XDP);
-	bpf_program__set_type(skel->progs.xdp_devmap_printk, BPF_PROG_TYPE_XDP);
-# endif
-#endif
-
 	err = _bpf__load(skel);
 	if (err) {
 		_bpf__destroy(skel);

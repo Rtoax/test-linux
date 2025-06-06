@@ -76,14 +76,9 @@ struct {
 
 /**
  * SEC("socketxxxx") will be parse as BPF_PROG_TYPE_SOCKET_FILTER
- *
- * Set bpf prog type with bpf_program__set_type()
+ * Or set bpf prog type with bpf_program__set_type()
  */
-#if defined(STRICT_SEC_NAME)
 SEC("socket")
-#else
-SEC("socket0")
-#endif
 int bpf_prog1(struct __sk_buff *skb)
 {
 	struct so_event *e;

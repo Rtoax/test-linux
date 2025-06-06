@@ -33,9 +33,7 @@
 #if defined(XDP_BASIC) /* Test basic */
 
 # ifdef XDP_BASIC_DUMMY
-#  if defined(STRICT_SEC_NAME)
 SEC("xdp")
-#  endif
 int xdp_dummy_prog(struct xdp_md *ctx)
 {
 	return XDP_PASS;
@@ -43,9 +41,7 @@ int xdp_dummy_prog(struct xdp_md *ctx)
 # endif
 
 # ifdef XDP_BASIC_TX
-#  if defined(STRICT_SEC_NAME)
 SEC("xdp")
-#  endif
 int xdp_tx_prog(struct xdp_md *ctx)
 {
 	void *data = (void *)(long)ctx->data;
@@ -67,9 +63,7 @@ int xdp_tx_prog(struct xdp_md *ctx)
 # endif
 
 # ifdef XDP_BASIC_PRINTK
-#  if defined(STRICT_SEC_NAME)
 SEC("xdp")
-#  endif
 int xdp_printk(struct xdp_md *ctx)
 {
 	int proto = 0;
@@ -176,7 +170,6 @@ int xdp_redir_prog(struct xdp_md *ctx)
  * valid program on DEVMAP entry via SEC name;
  * has access to egress and ingress ifindex
  */
-#if defined(STRICT_SEC_NAME)
 #if (LIBBPF_MAJOR_VERSION == 0 && LIBBPF_MINOR_VERSION > 7) || (LIBBPF_MAJOR_VERSION >= 1)
 /**
  * libbpf commit c245b0eeafcf ("libbpf: Deprecate xdp_cpumap, xdp_devmap and
@@ -189,7 +182,6 @@ SEC("xdp/devmap")
  * remove "xdp_devmap" support.
  */
 SEC("xdp_devmap/printk")
-#endif
 #endif
 int xdp_devmap_printk(struct xdp_md *ctx)
 {
@@ -274,12 +266,11 @@ int xdp_redir_prog(struct xdp_md *ctx)
 	return bpf_redirect_map(&cpu_map, *cpu, 0);
 }
 
-#if defined(STRICT_SEC_NAME)
+/* see comment of devmap */
 #if (LIBBPF_MAJOR_VERSION == 0 && LIBBPF_MINOR_VERSION > 7) || (LIBBPF_MAJOR_VERSION >= 1)
 SEC("xdp/cpumap")
 #else
 SEC("xdp_cpumap/prog1")
-#endif
 #endif
 int xdp_dummy_cpumap(struct xdp_md *ctx)
 {

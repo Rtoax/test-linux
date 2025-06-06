@@ -254,7 +254,7 @@ CFLAGS_fentry := -DFENTRY=1
 CFLAGS_BPF_fentry := ${CFLAGS_fentry}
 CFLAGS_fmod_ret := -DFMOD_RET=1
 CFLAGS_BPF_fmod_ret := ${CFLAGS_fmod_ret}
-CFLAGS_socket_filter := -DSOCKET_FILTER=1 -DSTRICT_SEC_NAME=1 -DMAP_ARRAY=1
+CFLAGS_socket_filter := -DSOCKET_FILTER=1 -DMAP_ARRAY=1
 CFLAGS_BPF_socket_filter := ${CFLAGS_socket_filter}
 CFLAGS_tracepoint := -DMAP_HASH -DTRACEPOINT=1 -DSEC_DEF_TRACEPOINT=1 -DPARSE_AUXV=1
 # https://github.com/Rtoax/linux/tree/p056-bpf_task_cwd
@@ -268,18 +268,18 @@ CFLAGS_raw_tracepoint := -DSEC_DEF_RAW_TRACEPOINT=1
 CFLAGS_BPF_raw_tracepoint := ${CFLAGS_raw_tracepoint}
 CFLAGS_tp_btf := -DSEC_DEF_TP_BTF=1
 CFLAGS_BPF_tp_btf := ${CFLAGS_tp_btf}
-CFLAGS_xdp := -DSTRICT_SEC_NAME=1 -DXDP_BASIC=1 -DXDP_BASIC_DUMMY=1 -DXDP_BASIC_TX=1 -DXDP_BASIC_PRINTK=1
+CFLAGS_xdp := -DXDP_BASIC=1 -DXDP_BASIC_DUMMY=1 -DXDP_BASIC_TX=1 -DXDP_BASIC_PRINTK=1
 CFLAGS_BPF_xdp := ${CFLAGS_xdp}
-CFLAGS_xdp_devmap := -DSTRICT_SEC_NAME=1 -DXDP_DEVMAP=1
+CFLAGS_xdp_devmap := -DXDP_DEVMAP=1
 ifeq ($(call vmlinux_has_struct,bpf_devmap_val),y)
   CFLAGS_xdp_devmap += -DHAVE_STRUCT_BPF_DEVMAP_VAL=1
 else
   $(warning not found struct bpf_devmap_val {})
 endif
 CFLAGS_BPF_xdp_devmap := ${CFLAGS_xdp_devmap}
-CFLAGS_xdp_cpumap := -DSTRICT_SEC_NAME=1 -DXDP_CPUMAP=1
+CFLAGS_xdp_cpumap := -DXDP_CPUMAP=1
 CFLAGS_BPF_xdp_cpumap := ${CFLAGS_xdp_cpumap}
-CFLAGS_xdp_xskmap := -DSTRICT_SEC_NAME=1 -DXDP_XSKMAP=1
+CFLAGS_xdp_xskmap := -DXDP_XSKMAP=1
 CFLAGS_BPF_xdp_xskmap := ${CFLAGS_xdp_xskmap}
 CFLAGS_iter_task := -DITER_TASK=1
 CFLAGS_BPF_iter_task := ${CFLAGS_iter_task}
@@ -310,9 +310,9 @@ CFLAGS_map_lru_hash := -DTRACEPOINT=1 -DMAP_LRU_HASH=1 -DSEC_DEF_TRACEPOINT=1
 CFLAGS_BPF_map_lru_hash := ${CFLAGS_map_lru_hash}
 CFLAGS_map_lru_percpu_hash := -DTRACEPOINT=1 -DMAP_LRU_PERCPU_HASH=1 -DSEC_DEF_TRACEPOINT=1
 CFLAGS_BPF_map_lru_percpu_hash := ${CFLAGS_map_lru_percpu_hash}
-CFLAGS_map_array := -DSOCKET_FILTER=1 -DSTRICT_SEC_NAME=1 -DMAP_ARRAY=1
+CFLAGS_map_array := -DSOCKET_FILTER=1 -DMAP_ARRAY=1
 CFLAGS_BPF_map_array := ${CFLAGS_map_array}
-CFLAGS_map_percpu_array := -DSOCKET_FILTER=1 -DSTRICT_SEC_NAME=1 -DMAP_PERCPU_ARRAY=1
+CFLAGS_map_percpu_array := -DSOCKET_FILTER=1 -DMAP_PERCPU_ARRAY=1
 CFLAGS_BPF_map_percpu_array := ${CFLAGS_map_percpu_array}
 CFLAGS_map_array_of_maps := -DMAP_ARRAY_OF_MAPS=1
 CFLAGS_BPF_map_array_of_maps := ${CFLAGS_map_array_of_maps}

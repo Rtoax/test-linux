@@ -164,9 +164,6 @@ int main(int argc, char *argv[])
 
 	fprintf(stderr, "Track interface %s\n", interface);
 	fprintf(stderr, "Prog count %d\n", skel->skeleton->prog_cnt);
-#if !defined(STRICT_SEC_NAME)
-	bpf_program__set_type(skel->progs.bpf_prog1, BPF_PROG_TYPE_SOCKET_FILTER);
-#endif
 
 	err = _bpf__load(skel);
 	if (err) {
