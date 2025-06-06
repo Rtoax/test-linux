@@ -21,35 +21,23 @@
 #if defined(TEST_SPIN_LOCK)
 #include "spin_lock.h"
 #include "spin_lock.skel.h"
-#define struct_bpf	spin_lock_bpf
-#define _bpf__open_opts	spin_lock_bpf__open_opts
-#define _bpf__load	spin_lock_bpf__load
-#define _bpf__open_and_load	spin_lock_bpf__open_and_load
-#define _bpf__destroy	spin_lock_bpf__destroy
+#define NAME spin_lock
+#include "skel_defs.h"
 #elif defined(TEST_RBTREE) && defined(TEST_RBTREE_RAW_MAP)
 #include "rbtree.h"
 #include "spin_lock.h"
 #include "rbtree-raw-map.skel.h"
-#define struct_bpf	rbtree_raw_map_bpf
-#define _bpf__open_opts	rbtree_raw_map_bpf__open_opts
-#define _bpf__load	rbtree_raw_map_bpf__load
-#define _bpf__open_and_load	rbtree_raw_map_bpf__open_and_load
-#define _bpf__destroy	rbtree_raw_map_bpf__destroy
+#define NAME rbtree_raw_map
+#include "skel_defs.h"
 #elif defined(TEST_RBTREE) && !defined(TEST_RBTREE_RAW_MAP)
 #include "rbtree.h"
 #include "rbtree.skel.h"
-#define struct_bpf	rbtree_bpf
-#define _bpf__open_opts	rbtree_bpf__open_opts
-#define _bpf__load	rbtree_bpf__load
-#define _bpf__open_and_load	rbtree_bpf__open_and_load
-#define _bpf__destroy	rbtree_bpf__destroy
+#define NAME rbtree
+#include "skel_defs.h"
 #else
 #include "tc.skel.h"
-#define struct_bpf	tc_bpf
-#define _bpf__open_opts	tc_bpf__open_opts
-#define _bpf__load	tc_bpf__load
-#define _bpf__open_and_load	tc_bpf__open_and_load
-#define _bpf__destroy	tc_bpf__destroy
+#define NAME tc
+#include "skel_defs.h"
 #endif
 
 

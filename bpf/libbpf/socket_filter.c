@@ -19,28 +19,16 @@
 
 #if defined(SOCKET_FILTER) && !defined(MAP_ARRAY) && !defined(MAP_PERCPU_ARRAY)
 #include "socket_filter.skel.h"
-#define struct_bpf	socket_filter_bpf
-#define _bpf__open	socket_filter_bpf__open
-#define _bpf__open_opts	socket_filter_bpf__open_opts
-#define _bpf__open_and_load	socket_filter_bpf__open_and_load
-#define _bpf__load	socket_filter_bpf__load
-#define _bpf__destroy	socket_filter_bpf__destroy
+#define NAME socket_filter
+#include "skel_defs.h"
 #elif defined(SOCKET_FILTER) && defined(MAP_ARRAY)
 #include "map_array.skel.h"
-#define struct_bpf	map_array_bpf
-#define _bpf__open	map_array_bpf__open
-#define _bpf__open_opts	map_array_bpf__open_opts
-#define _bpf__open_and_load	map_array_bpf__open_and_load
-#define _bpf__load	map_array_bpf__load
-#define _bpf__destroy	map_array_bpf__destroy
+#define NAME map_array
+#include "skel_defs.h"
 #elif defined(SOCKET_FILTER) && defined(MAP_PERCPU_ARRAY)
 #include "map_percpu_array.skel.h"
-#define struct_bpf	map_percpu_array_bpf
-#define _bpf__open	map_percpu_array_bpf__open
-#define _bpf__open_opts	map_percpu_array_bpf__open_opts
-#define _bpf__open_and_load	map_percpu_array_bpf__open_and_load
-#define _bpf__load	map_percpu_array_bpf__load
-#define _bpf__destroy	map_percpu_array_bpf__destroy
+#define NAME map_percpu_array
+#include "skel_defs.h"
 #endif
 
 static volatile bool exiting = false;

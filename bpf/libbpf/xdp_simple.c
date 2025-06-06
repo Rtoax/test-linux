@@ -27,12 +27,8 @@
 #include "xdp_simple.skel.h"
 #include "xdp_simple.h"
 
-#define struct_bpf	xdp_simple_bpf
-#define _bpf__open_opts	xdp_simple_bpf__open_opts
-#define _bpf__open_and_load	xdp_simple_bpf__open_and_load
-#define _bpf__open	xdp_simple_bpf__open
-#define _bpf__load	xdp_simple_bpf__load
-#define _bpf__destroy	xdp_simple_bpf__destroy
+#define NAME xdp_simple
+#include "skel_defs.h"
 
 
 static int ifindex = -1;

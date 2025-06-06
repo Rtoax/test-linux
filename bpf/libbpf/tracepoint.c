@@ -10,44 +10,24 @@
 
 #if defined(TRACEPOINT) && (!defined(MAP_HASH) && !defined(MAP_PERCPU_HASH))
 #include "tracepoint.skel.h"
-#define struct_bpf	tracepoint_bpf
-#define _bpf__open_opts	tracepoint_bpf__open_opts
-#define _bpf__load	tracepoint_bpf__load
-#define _bpf__destroy	tracepoint_bpf__destroy
-#define _bpf__open_and_load	tracepoint_bpf__open_and_load
-#define _bpf__attach	tracepoint_bpf__attach
+#define NAME tracepoint
+#include "skel_defs.h"
 #elif defined(TRACEPOINT) && defined(MAP_HASH)
 #include "map_hash.skel.h"
-#define struct_bpf	map_hash_bpf
-#define _bpf__open_opts	map_hash_bpf__open_opts
-#define _bpf__load	map_hash_bpf__load
-#define _bpf__destroy	map_hash_bpf__destroy
-#define _bpf__open_and_load	map_hash_bpf__open_and_load
-#define _bpf__attach	map_hash_bpf__attach
+#define NAME map_hash
+#include "skel_defs.h"
 #elif defined(TRACEPOINT) && defined(MAP_PERCPU_HASH)
 #include "map_percpu_hash.skel.h"
-#define struct_bpf	map_percpu_hash_bpf
-#define _bpf__open_opts	map_percpu_hash_bpf__open_opts
-#define _bpf__load	map_percpu_hash_bpf__load
-#define _bpf__destroy	map_percpu_hash_bpf__destroy
-#define _bpf__open_and_load	map_percpu_hash_bpf__open_and_load
-#define _bpf__attach	map_percpu_hash_bpf__attach
+#define NAME map_percpu_hash
+#include "skel_defs.h"
 #elif defined(TRACEPOINT) && defined(MAP_LRU_HASH)
 #include "map_lru_hash.skel.h"
-#define struct_bpf	map_lru_hash_bpf
-#define _bpf__open_opts	map_lru_hash_bpf__open_opts
-#define _bpf__load	map_lru_hash_bpf__load
-#define _bpf__destroy	map_lru_hash_bpf__destroy
-#define _bpf__open_and_load	map_lru_hash_bpf__open_and_load
-#define _bpf__attach	map_lru_hash_bpf__attach
+#define NAME map_lru_hash
+#include "skel_defs.h"
 #elif defined(TRACEPOINT) && defined(MAP_LRU_PERCPU_HASH)
 #include "map_lru_percpu_hash.skel.h"
-#define struct_bpf	map_lru_percpu_hash_bpf
-#define _bpf__open_opts	map_lru_percpu_hash_bpf__open_opts
-#define _bpf__load	map_lru_percpu_hash_bpf__load
-#define _bpf__destroy	map_lru_percpu_hash_bpf__destroy
-#define _bpf__open_and_load	map_lru_percpu_hash_bpf__open_and_load
-#define _bpf__attach	map_lru_percpu_hash_bpf__attach
+#define NAME map_lru_percpu_hash
+#include "skel_defs.h"
 #else
 #error "Must define TRACEPOINT and one of MAP_HASH MAP_PERCPU_HASH"
 #endif

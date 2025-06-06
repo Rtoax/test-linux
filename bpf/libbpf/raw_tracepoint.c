@@ -11,20 +11,12 @@
 
 #if defined(SEC_DEF_RAW_TRACEPOINT)
 #include "raw_tracepoint.skel.h"
-#define struct_bpf	raw_tracepoint_bpf
-#define _bpf__open_opts	raw_tracepoint_bpf__open_opts
-#define _bpf__load	raw_tracepoint_bpf__load
-#define _bpf__destroy	raw_tracepoint_bpf__destroy
-#define _bpf__open_and_load	raw_tracepoint_bpf__open_and_load
-#define _bpf__attach	raw_tracepoint_bpf__attach
+#define NAME raw_tracepoint
+#include "skel_defs.h"
 #elif defined(SEC_DEF_TP_BTF)
 #include "tp_btf.skel.h"
-#define struct_bpf	tp_btf_bpf
-#define _bpf__open_opts	tp_btf_bpf__open_opts
-#define _bpf__load	tp_btf_bpf__load
-#define _bpf__destroy	tp_btf_bpf__destroy
-#define _bpf__open_and_load	tp_btf_bpf__open_and_load
-#define _bpf__attach	tp_btf_bpf__attach
+#define NAME tp_btf
+#include "skel_defs.h"
 #endif
 
 

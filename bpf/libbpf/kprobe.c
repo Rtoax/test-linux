@@ -11,31 +11,16 @@
 
 #if defined(KPROBE)
 #include "kprobe.skel.h"
-#define struct_bpf	kprobe_bpf
-#define _bpf__open	kprobe_bpf__open
-#define _bpf__open_opts	kprobe_bpf__open_opts
-#define _bpf__load	kprobe_bpf__load
-#define _bpf__open_and_load	kprobe_bpf__open_and_load
-#define _bpf__attach	kprobe_bpf__attach
-#define _bpf__destroy	kprobe_bpf__destroy
+#define NAME kprobe
+#include "skel_defs.h"
 #elif defined(FENTRY)
 #include "fentry.skel.h"
-#define struct_bpf	fentry_bpf
-#define _bpf__open	fentry_bpf__open
-#define _bpf__open_opts	fentry_bpf__open_opts
-#define _bpf__load	fentry_bpf__load
-#define _bpf__open_and_load	fentry_bpf__open_and_load
-#define _bpf__attach	fentry_bpf__attach
-#define _bpf__destroy	fentry_bpf__destroy
+#define NAME fentry
+#include "skel_defs.h"
 #elif defined(FMOD_RET)
 #include "fmod_ret.skel.h"
-#define struct_bpf	fmod_ret_bpf
-#define _bpf__open	fmod_ret_bpf__open
-#define _bpf__open_opts	fmod_ret_bpf__open_opts
-#define _bpf__load	fmod_ret_bpf__load
-#define _bpf__open_and_load	fmod_ret_bpf__open_and_load
-#define _bpf__attach	fmod_ret_bpf__attach
-#define _bpf__destroy	fmod_ret_bpf__destroy
+#define NAME fmod_ret
+#include "skel_defs.h"
 #else
 #error "Not support skel"
 #endif

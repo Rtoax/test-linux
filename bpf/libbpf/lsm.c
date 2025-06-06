@@ -12,43 +12,23 @@
 #if defined(LSM_BPF)
 # pragma message "Compile lsm/bpf"
 #include "lsm_bpf.skel.h"
-#define struct_bpf	lsm_bpf_bpf
-#define _bpf__open	lsm_bpf_bpf__open
-#define _bpf__open_opts	lsm_bpf_bpf__open_opts
-#define _bpf__load	lsm_bpf_bpf__load
-#define _bpf__open_and_load	lsm_bpf_bpf__open_and_load
-#define _bpf__attach	lsm_bpf_bpf__attach
-#define _bpf__destroy	lsm_bpf_bpf__destroy
+#define NAME lsm_bpf
+#include "skel_defs.h"
 #elif defined(LSM_SOCKET_CREATE)
 # pragma message "Compile lsm/socket_create"
 #include "lsm_socket_create.skel.h"
-#define struct_bpf	lsm_socket_create_bpf
-#define _bpf__open	lsm_socket_create_bpf__open
-#define _bpf__open_opts	lsm_socket_create_bpf__open_opts
-#define _bpf__load	lsm_socket_create_bpf__load
-#define _bpf__open_and_load	lsm_socket_create_bpf__open_and_load
-#define _bpf__attach	lsm_socket_create_bpf__attach
-#define _bpf__destroy	lsm_socket_create_bpf__destroy
+#define NAME lsm_socket_create
+#include "skel_defs.h"
 #elif defined(LSM_SOCKET_SENDMSG)
 # pragma message "Compile lsm/socket_sendmsg"
 #include "lsm_socket_sendmsg.skel.h"
-#define struct_bpf	lsm_socket_sendmsg_bpf
-#define _bpf__open	lsm_socket_sendmsg_bpf__open
-#define _bpf__open_opts	lsm_socket_sendmsg_bpf__open_opts
-#define _bpf__load	lsm_socket_sendmsg_bpf__load
-#define _bpf__open_and_load	lsm_socket_sendmsg_bpf__open_and_load
-#define _bpf__attach	lsm_socket_sendmsg_bpf__attach
-#define _bpf__destroy	lsm_socket_sendmsg_bpf__destroy
+#define NAME lsm_socket_sendmsg
+#include "skel_defs.h"
 #elif defined(LSM_FILE_OPEN)
 # pragma message "Compile lsm/file_open"
 #include "lsm_file_open.skel.h"
-#define struct_bpf	lsm_file_open_bpf
-#define _bpf__open	lsm_file_open_bpf__open
-#define _bpf__open_opts	lsm_file_open_bpf__open_opts
-#define _bpf__load	lsm_file_open_bpf__load
-#define _bpf__open_and_load	lsm_file_open_bpf__open_and_load
-#define _bpf__attach	lsm_file_open_bpf__attach
-#define _bpf__destroy	lsm_file_open_bpf__destroy
+#define NAME lsm_file_open
+#include "skel_defs.h"
 #else
 #error "Not defined LSM_BPF, LSM_SOCKET_CREATE, LSM_SOCKET_SENDMSG, LSM_FILE_OPEN"
 #endif

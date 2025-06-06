@@ -27,36 +27,20 @@
 
 #if defined(XDP_BASIC)
 #include "xdp.skel.h"
-#define struct_bpf	xdp_bpf
-#define _bpf__open	xdp_bpf__open
-#define _bpf__open_opts	xdp_bpf__open_opts
-#define _bpf__open_and_load	xdp_bpf__open_and_load
-#define _bpf__load	xdp_bpf__load
-#define _bpf__destroy	xdp_bpf__destroy
+#define NAME xdp
+#include "skel_defs.h"
 #elif defined(XDP_DEVMAP)
 #include "xdp_devmap.skel.h"
-#define struct_bpf	xdp_devmap_bpf
-#define _bpf__open	xdp_devmap_bpf__open
-#define _bpf__open_opts	xdp_devmap_bpf__open_opts
-#define _bpf__open_and_load	xdp_devmap_bpf__open_and_load
-#define _bpf__load	xdp_devmap_bpf__load
-#define _bpf__destroy	xdp_devmap_bpf__destroy
+#define NAME xdp_devmap
+#include "skel_defs.h"
 #elif defined(XDP_CPUMAP)
 #include "xdp_cpumap.skel.h"
-#define struct_bpf	xdp_cpumap_bpf
-#define _bpf__open	xdp_cpumap_bpf__open
-#define _bpf__open_opts	xdp_cpumap_bpf__open_opts
-#define _bpf__open_and_load	xdp_cpumap_bpf__open_and_load
-#define _bpf__load	xdp_cpumap_bpf__load
-#define _bpf__destroy	xdp_cpumap_bpf__destroy
+#define NAME xdp_cpumap
+#include "skel_defs.h"
 #elif defined(XDP_XSKMAP)
 #include "xdp_xskmap.skel.h"
-#define struct_bpf	xdp_xskmap_bpf
-#define _bpf__open	xdp_xskmap_bpf__open
-#define _bpf__open_opts	xdp_xskmap_bpf__open_opts
-#define _bpf__open_and_load	xdp_xskmap_bpf__open_and_load
-#define _bpf__load	xdp_xskmap_bpf__load
-#define _bpf__destroy	xdp_xskmap_bpf__destroy
+#define NAME xdp_xskmap
+#include "skel_defs.h"
 #endif
 
 static int ifindex = -1;
