@@ -9,8 +9,7 @@
  *
  * So, let's add a macro.
  */
-#if defined(LIBBPF_OPTS)
-#define BPF__OPEN_AND_LOAD(open_and_load, open_opts, load, destroy) ({		\
+#define BPF__OPEN_AND_LOAD_OPTS(open_and_load, open_opts, load, destroy) ({	\
 	struct struct_bpf *__skel = NULL;					\
 	size_t __log_buf_sz = 64 * 1024;					\
 	char *__log_buf = malloc(__log_buf_sz);					\
@@ -35,8 +34,8 @@
 	free(__log_buf);							\
 	__skel;									\
 	})
-#else
-#define BPF__OPEN_AND_LOAD(open_and_load, open_opts, load, destroy) ({		\
+
+#define BPF__OPEN_AND_LOAD_RAW(open_and_load, open_opts, load, destroy) ({	\
 	struct struct_bpf *__skel = NULL;					\
 	__skel = open_and_load();						\
 	if (!__skel) {								\
@@ -45,6 +44,13 @@
 	}									\
 	__skel;									\
 	})
+
+#if defined(LIBBPF_OPTS)
+#define BPF__OPEN_AND_LOAD(open_and_load, open_opts, load, destroy)		\
+	BPF__OPEN_AND_LOAD_OPTS(open_and_load, open_opts, load, destroy)
+#else
+#define BPF__OPEN_AND_LOAD(open_and_load, open_opts, load, destroy) ({		\
+	BPF__OPEN_AND_LOAD_RAW(open_and_load, open_opts, load, destroy)
 #endif
 
 int libbpf_bpf_xdp_attach(int ifindex, int prog_fd, int xdp_flags);
