@@ -1,3 +1,4 @@
+#include "task_helpers.h"
 
 const char *get_task_state(int state)
 {
