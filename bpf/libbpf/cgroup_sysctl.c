@@ -88,11 +88,10 @@ int main(int argc, char **argv)
 		return 1;
 	}
 
-	skel = cgroup_sysctl_bpf__open_and_load();
-	if (!skel) {
-		fprintf(stderr, "Failed to open BPF skeleton\n");
-		return 1;
-	}
+	BPF__OPEN_AND_LOAD(skel, cgroup_sysctl_bpf__open_and_load,
+			cgroup_sysctl_bpf__open_opts,
+			cgroup_sysctl_bpf__load,
+			cgroup_sysctl_bpf__destroy);
 
 	err = cgroup_sysctl_bpf__attach(skel);
 	if (err) {

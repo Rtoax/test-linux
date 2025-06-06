@@ -33,7 +33,9 @@
 #include "xdp_dos.h"
 
 #define struct_bpf	xdp_dos_bpf
+#define _bpf__open_opts	xdp_dos_bpf__open_opts
 #define _bpf__open	xdp_dos_bpf__open
+#define _bpf__open_and_load	xdp_dos_bpf__open_and_load
 #define _bpf__load	xdp_dos_bpf__load
 #define _bpf__destroy	xdp_dos_bpf__destroy
 
@@ -343,19 +345,10 @@ int main(int argc, char *argv[])
 	system("rm -f " DIR_FILTER_DUMP "/*");
 	mkdir(DIR_FILTER_DUMP, 0777);
 
-	skel = _bpf__open();
-	if (!skel) {
-		printf("Failed to open BPF object\n");
-		exit(EXIT_FAILURE);
-	}
+	BPF__OPEN_AND_LOAD(skel, _bpf__open_and_load, _bpf__open_opts,
+			_bpf__load, _bpf__destroy);
 
 	bpf_program__set_type(skel->progs.xdp_dummy_prog, BPF_PROG_TYPE_XDP);
-
-	err = _bpf__load(skel);
-	if (err) {
-		_bpf__destroy(skel);
-		exit(EXIT_FAILURE);
-	}
 
 	prog_fd = bpf_program__fd(skel->progs.xdp_dummy_prog);
 	config_map_fd = bpf_map__fd(skel->maps.map_config);

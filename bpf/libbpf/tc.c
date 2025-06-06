@@ -124,32 +124,8 @@ int main(int argc, char **argv)
 
 	libbpf_set_print(libbpf_print_fn);
 
-#if defined(LIBBPF_OPTS)
-	char log_buf[64 * 1024];
-
-	LIBBPF_OPTS(bpf_object_open_opts, opts,
-		.kernel_log_buf = log_buf,
-		.kernel_log_size = sizeof(log_buf),
-		.kernel_log_level = LIBBPF_DEBUG,
-	);
-
-	skel = _bpf__open_opts(&opts);
-	err = _bpf__load(skel);
-	if (err) {
-		printf("Failed to load BPF object\n");
-		libbpf_print_bpf_log_buf(log_buf, sizeof(log_buf));
-		_bpf__destroy(skel);
-		return 1;
-	}
-
-	libbpf_print_bpf_log_buf(log_buf, sizeof(log_buf));
-#else
-	skel = _bpf__open_and_load();
-#endif
-	if (!skel) {
-		fprintf(stderr, "Failed to open BPF skeleton\n");
-		return 1;
-	}
+	BPF__OPEN_AND_LOAD(skel, _bpf__open_and_load, _bpf__open_opts,
+			_bpf__load, _bpf__destroy);
 
 #if defined(TEST_SPIN_LOCK) || (defined(TEST_RBTREE) && defined(TEST_RBTREE_RAW_MAP))
 	printf("spin_lock hash map max entries %d\n",
