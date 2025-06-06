@@ -1,11 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <unistd.h>
 #include <signal.h>
 
+
 void handler(int signum)
 {
-	printf("Get signal, pid %d\n", getpid());
+	printf("Get signal %s, pid %d\n", strsignal(signum), getpid());
 	exit(1);
 }
 

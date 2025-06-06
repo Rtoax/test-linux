@@ -1,15 +1,17 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <signal.h>
 #include <unistd.h>
 
+
 void handler(int signum)
 {
-	printf("Get signal\n");
+	printf("Get signal %s\n", strsignal(signum));
 	exit(1);
 }
 
-int main()
+int main(void)
 {
 	signal(SIGINT, handler);
 
