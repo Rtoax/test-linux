@@ -35,7 +35,7 @@
 	__skel;									\
 	})
 
-#define BPF__OPEN_AND_LOAD_RAW(open_and_load, open_opts, load, destroy) ({	\
+#define BPF__OPEN_AND_LOAD_RAW(open_and_load) ({				\
 	struct struct_bpf *__skel = NULL;					\
 	__skel = open_and_load();						\
 	if (!__skel) {								\
@@ -50,7 +50,7 @@
 	BPF__OPEN_AND_LOAD_OPTS(open_and_load, open_opts, load, destroy)
 #else
 #define BPF__OPEN_AND_LOAD(open_and_load, open_opts, load, destroy) ({		\
-	BPF__OPEN_AND_LOAD_RAW(open_and_load, open_opts, load, destroy)
+	BPF__OPEN_AND_LOAD_RAW(open_and_load)
 #endif
 
 int libbpf_bpf_xdp_attach(int ifindex, int prog_fd, int xdp_flags);
