@@ -6,7 +6,9 @@
 
 /**
  * https://github.com/bpftrace/bpftrace/issues/3314
+ * https://github.com/iovisor/bcc/pull/5323
  * https://lore.kernel.org/lkml/tencent_97F8B56B340F51DB604B482FEBF012460505@qq.com/
+ * https://github.com/torvalds/linux/blob/master/tools/testing/selftests/bpf/progs/profiler.inc.h#L204-L229
  */
 static __always_inline int __bpf_getcwd(char *buf, u32 buf_len)
 {
