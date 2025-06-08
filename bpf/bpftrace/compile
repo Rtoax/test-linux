@@ -31,7 +31,8 @@ deb_pkgs() {
 }
 
 rpm_pkgs() {
-	sudo dnf install -y \
+	sudo dnf install -y --skip-broken \
+		blazesym-c-devel \
 		rubygem-asciidoctor
 }
 
