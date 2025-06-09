@@ -1,0 +1,13 @@
+#!/bin/bash
+set -e
+
+# change directory to blazesym/capi/
+
+cargo build -j6
+cargo tree --target all --prefix none
+
+cargo cbuild -j6 --prefix=/usr --libdir=/usr/lib64/ --includedir=/usr/include --pkgconfigdir=/usr/lib64/pkgconfig/
+
+cargo package -l
+
+sudo cargo cinstall -j6 --prefix=/usr --libdir=/usr/lib64 --includedir=/usr/include --pkgconfigdir=/usr/lib64/pkgconfig

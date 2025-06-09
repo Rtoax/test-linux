@@ -10,7 +10,7 @@ and this project adheres to
 ## Unreleased
 #### Breaking Changes
 #### Added
-- blazesym: Introduce.
+- blazesym: Introduce and add capi/compile.
 - libbpf: Add test `ring_buffer`,`perf_buffer` symlink.
 #### Changed
 - main.mk: Rename `TARGETS_PRE` to `TARGETS_PREP`.
