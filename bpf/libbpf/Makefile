@@ -47,6 +47,7 @@ kconfig-obj-$(CONFIG_BPF_LSM) += lsm_bpf
 kconfig-obj-$(CONFIG_BPF_LSM) += lsm_socket_create
 kconfig-obj-$(CONFIG_BPF_LSM) += lsm_socket_sendmsg
 kconfig-obj-$(CONFIG_BPF_LSM) += lsm_file_open
+kconfig-obj-$(CONFIG_RING_BUFFER) += ring_buffer
 
 ifdef DEBUG
   $(info kconfig-obj-y : $(kconfig-obj-y))
@@ -260,8 +261,10 @@ CFLAGS_fentry := -DFENTRY=1
 CFLAGS_BPF_fentry := ${CFLAGS_fentry}
 CFLAGS_fmod_ret := -DFMOD_RET=1
 CFLAGS_BPF_fmod_ret := ${CFLAGS_fmod_ret}
-CFLAGS_socket_filter := -DSOCKET_FILTER=1 -DMAP_ARRAY=1
+CFLAGS_socket_filter := -DSOCKET_FILTER=1 -DMAP_ARRAY=1 -DRING_BUFFER=1
 CFLAGS_BPF_socket_filter := ${CFLAGS_socket_filter}
+CFLAGS_ring_buffer := ${CFLAGS_socket_filter} -DRING_BUFFER=1
+CFLAGS_BPF_ring_buffer := ${CFLAGS_ring_buffer}
 CFLAGS_tracepoint := -DMAP_HASH -DTRACEPOINT=1 -DSEC_DEF_TRACEPOINT=1 -DPARSE_AUXV=1
 # https://github.com/Rtoax/linux/tree/p056-bpf_task_cwd
 ifeq ($(shell grep -wo bpf_task_cwd_from_pid /proc/kallsyms),bpf_task_cwd_from_pid)
@@ -309,7 +312,7 @@ CFLAGS_BPF_lsm_file_open := ${CFLAGS_lsm_file_open}
 CFLAGS_BPF_sched_act := -DTEST_SCHED_ACT=1
 
 CFLAGS_perf_buffer := ${CFLAGS_tracepoint} -DPERF_BUFFER=1
-CFLAGS_BPF_perf_buffer := ${CFLAGS_BPF_tracepoint}
+CFLAGS_BPF_perf_buffer := ${CFLAGS_perf_buffer}
 
 CFLAGS_map_hash := ${CFLAGS_tracepoint}
 CFLAGS_BPF_map_hash := ${CFLAGS_BPF_tracepoint}
@@ -373,6 +376,7 @@ libbpf_version: ${OUTPUT}/libbpf_version.o
 ${OUTPUT}/config-map.o: ${OUTPUT}/config-map.skel.h config-map.h
 config-map: ${OUTPUT}/config-map.o ${LIBBPF_WRAPPER}
 socket_filter: ${OUTPUT}/socket_filter.o ${SOCKET_HELPERS}
+ring_buffer: ${OUTPUT}/ring_buffer.o ${SOCKET_HELPERS}
 tc: ${OUTPUT}/tc.o
 ${OUTPUT}/tc.o: ${OUTPUT}/tc.skel.h
 ${OUTPUT}/rbtree.o: rbtree.h ${OUTPUT}/rbtree.skel.h

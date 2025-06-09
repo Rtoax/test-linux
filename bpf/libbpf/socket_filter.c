@@ -29,6 +29,10 @@
 #include "map_percpu_array.skel.h"
 #define NAME map_percpu_array
 #include "skel_defs.h"
+#elif defined(SOCKET_FILTER) && defined(RING_BUFFER)
+#include "ring_buffer.skel.h"
+#define NAME ring_buffer
+#include "skel_defs.h"
 #endif
 
 static volatile bool exiting = false;

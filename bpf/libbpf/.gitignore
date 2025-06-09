@@ -44,3 +44,4 @@
 /rbtree
 /rbtree-raw-map
 /spin_lock
+/ring_buffer
