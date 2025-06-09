@@ -19,7 +19,7 @@ CFLAGS_NPROCESSORS := -D_NPROCESSORS=1
 LDFLAGS_NPROCESSORS :=
 CFLAGS_sysconf := -Wno-error
 
-TARGETS_PRE := confs_def.h
+TARGETS_PREP := confs_def.h
 TARGETS_CLEAN := cleans
 
 include ../../../template/main.mk

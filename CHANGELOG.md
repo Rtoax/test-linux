@@ -13,6 +13,7 @@ and this project adheres to
 - blazesym: Introduce.
 - libbpf: Add test `ring_buffer`,`perf_buffer` symlink.
 #### Changed
+- main.mk: Rename `TARGETS_PRE` to `TARGETS_PREP`.
 #### Deprecated
 #### Removed
 #### Fixed

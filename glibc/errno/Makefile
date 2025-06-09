@@ -14,7 +14,7 @@ CFLAGS += -pthread
 
 CFLAGS += -DLIBC___ERRNO_LOCATION_SYMADDR=${LIBC___ERRNO_LOCATION_SYMADDR}
 
-TARGETS_PRE := nr_errno.h
+TARGETS_PREP := nr_errno.h
 TARGETS_CLEAN := clean-more
 
 include ../../elf/pie.mk

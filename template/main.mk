@@ -4,10 +4,6 @@ TEMPLATE_DIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 
 sub-dir ?=
 
-ALL_TARGETS := $(TARGETS_PRE)
-ALL_TARGETS += $(OUTPUT)
-ALL_TARGETS += $(TARGETS) $(TARGETS_LIBA) $(TARGETS_LIBSO)
-ALL_TARGETS += $(TARGETS_CPP)
 
 ifdef DEBUG
   $(info Compile with DEBUG=1)
@@ -34,21 +30,25 @@ endif
 include ${TEMPLATE_DIR}/../tlbuild.mk
 include ${TEMPLATE_DIR}/subdir-header.mk
 
-ALL_TARGETS += $(sub-dir-build)
-ALL_TARGETS += $(TARGETS_POST)
+build-targets := $(TARGETS_PREP)
+build-targets += $(OUTPUT)
+build-targets += $(TARGETS) $(TARGETS_LIBA) $(TARGETS_LIBSO)
+build-targets += $(TARGETS_CPP)
+build-targets += $(sub-dir-build)
+build-targets += $(TARGETS_POST)
 
 .PHONY: build
-build: $(ALL_TARGETS)
+build: $(build-targets)
 	@echo -e " \033[1;33m Build $(shell pwd) done \033[m"
 
 .PHONY: test
-test: $(ALL_TARGETS) $(sub-dir-test) $(TARGETS_TEST)
+test: $(build-targets) $(sub-dir-test) $(TARGETS_TEST)
 	@echo -e " \033[1;33m Test $(shell pwd) done \033[m"
 
 .PHONY: clean
 clean: $(sub-dir-clean) $(TARGETS_CLEAN)
-	@echo -e "  CLEAN  \033[1;32m${ALL_TARGETS}\033[m"
-	${Q}rm -rf ${ALL_TARGETS} *.o *.opp *.d
+	@echo -e "  CLEAN  \033[1;32m${build-targets}\033[m"
+	${Q}rm -rf ${build-targets} *.o *.opp *.d
 
 include ${TEMPLATE_DIR}/target-exe.mk
 include ${TEMPLATE_DIR}/target-liba.mk

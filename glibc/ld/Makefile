@@ -1,4 +1,4 @@
-TARGETS_PRE := ldd
+TARGETS_PREP := ldd
 
 include ../../template/main.mk
 
