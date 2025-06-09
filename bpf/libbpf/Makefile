@@ -39,7 +39,7 @@ kconfig-obj-y :=
 kconfig-obj-$(CONFIG_KPROBES) += kprobe
 kconfig-obj-$(CONFIG_TRACEPOINTS) += tracepoint raw_tracepoint tp_btf
 kconfig-obj-$(CONFIG_TRACEPOINTS) += map_hash map_lru_hash map_percpu_hash map_lru_percpu_hash
-kconfig-obj-$(CONFIG_PERF_EVENTS) += perf_event
+kconfig-obj-$(CONFIG_PERF_EVENTS) += perf_event perf_buffer
 # fentry: -pg -mfentry
 #  fentry + BPF trampoline ~= kprobe hook
 kconfig-obj-$(CONFIG_HAVE_FENTRY) += fentry
@@ -308,6 +308,9 @@ CFLAGS_lsm_file_open := ${CFLAGS_LSM} -DLSM_FILE_OPEN=1
 CFLAGS_BPF_lsm_file_open := ${CFLAGS_lsm_file_open}
 CFLAGS_BPF_sched_act := -DTEST_SCHED_ACT=1
 
+CFLAGS_perf_buffer := ${CFLAGS_tracepoint} -DPERF_BUFFER=1
+CFLAGS_BPF_perf_buffer := ${CFLAGS_BPF_tracepoint}
+
 CFLAGS_map_hash := ${CFLAGS_tracepoint}
 CFLAGS_BPF_map_hash := ${CFLAGS_BPF_tracepoint}
 CFLAGS_map_percpu_hash := -DTRACEPOINT=1 -DMAP_PERCPU_HASH=1 -DSEC_DEF_TRACEPOINT=1
@@ -395,6 +398,7 @@ ${OUTPUT}/tracepoint.bpf.o: tracepoint.h bpf_helpers.h
 raw_tracepoint: ${OUTPUT}/raw_tracepoint.o ${LIBBPF_WRAPPER}
 tp_btf: ${OUTPUT}/tp_btf.o ${LIBBPF_WRAPPER}
 perf_event: ${OUTPUT}/perf_event.o
+perf_buffer: ${OUTPUT}/perf_buffer.o
 sk_skb: ${OUTPUT}/sk_skb.o
 sk_msg: ${OUTPUT}/sk_msg.o
 cgroup_device: ${OUTPUT}/cgroup_device.o

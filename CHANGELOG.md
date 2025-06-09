@@ -10,6 +10,7 @@ and this project adheres to
 ## Unreleased
 #### Breaking Changes
 #### Added
+- libbpf: Add test `perf_buffer` symlink.
 #### Changed
 #### Deprecated
 #### Removed

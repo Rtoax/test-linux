@@ -15,6 +15,7 @@
 /xdp_xskmap
 /xdp_dos
 /perf_event
+/perf_buffer
 /sockops
 /cgroupv2
 /sk_skb

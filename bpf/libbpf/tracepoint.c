@@ -28,8 +28,12 @@
 #include "map_lru_percpu_hash.skel.h"
 #define NAME map_lru_percpu_hash
 #include "skel_defs.h"
+#elif defined(TRACEPOINT) && defined(PERF_BUFFER)
+#include "perf_buffer.skel.h"
+#define NAME perf_buffer
+#include "skel_defs.h"
 #else
-#error "Must define TRACEPOINT and one of MAP_HASH MAP_PERCPU_HASH"
+#error "Must define TRACEPOINT and one of MAP_HASH MAP_PERCPU_HASH MAP_LRU_HASH MAP_LRU_PERCPU_HASH PERF_BUFFER"
 #endif
 
 
