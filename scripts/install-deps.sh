@@ -543,6 +543,7 @@ pkgs_base+=( htop )
 pkgs_base+=( hwloc )                # lstopo
 pkgs_base+=( indent )
 pkgs_base+=( inotify-tools )        # inotifywatch, ...
+pkgs_base+=( ipmitool )
 pkgs_base+=( jq )
 pkgs_base+=( lshw )                 # lshw
 pkgs_base+=( make cmake )
