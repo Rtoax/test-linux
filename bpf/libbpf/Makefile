@@ -322,15 +322,15 @@ CFLAGS_map_lru_hash := -DTRACEPOINT=1 -DMAP_LRU_HASH=1 -DSEC_DEF_TRACEPOINT=1
 CFLAGS_BPF_map_lru_hash := ${CFLAGS_map_lru_hash}
 CFLAGS_map_lru_percpu_hash := -DTRACEPOINT=1 -DMAP_LRU_PERCPU_HASH=1 -DSEC_DEF_TRACEPOINT=1
 CFLAGS_BPF_map_lru_percpu_hash := ${CFLAGS_map_lru_percpu_hash}
-CFLAGS_map_array := -DSOCKET_FILTER=1 -DMAP_ARRAY=1
+CFLAGS_map_array := -DSOCKET_FILTER=1 -DRING_BUFFER=1 -DMAP_ARRAY=1
 CFLAGS_BPF_map_array := ${CFLAGS_map_array}
-CFLAGS_map_percpu_array := -DSOCKET_FILTER=1 -DMAP_PERCPU_ARRAY=1
+CFLAGS_map_percpu_array := -DSOCKET_FILTER=1 -DRING_BUFFER=1 -DMAP_PERCPU_ARRAY=1
 CFLAGS_BPF_map_percpu_array := ${CFLAGS_map_percpu_array}
 CFLAGS_map_array_of_maps := -DMAP_ARRAY_OF_MAPS=1
 CFLAGS_BPF_map_array_of_maps := ${CFLAGS_map_array_of_maps}
 CFLAGS_map_hash_of_maps := -DMAP_HASH_OF_MAPS=1
 CFLAGS_BPF_map_hash_of_maps := ${CFLAGS_map_hash_of_maps}
-CFLAGS_BPF_map_ringbuf := -DMAP_ARRAY=1
+CFLAGS_BPF_map_ringbuf := -DRING_BUFFER=1 -DMAP_ARRAY=1
 CFLAGS_BPF_map_devmap := ${CFLAGS_BPF_xdp_devmap}
 
 CFLAGS_btf_kfunc := -DTEST_BTF_KIND_FUNC=1

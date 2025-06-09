@@ -30,6 +30,7 @@
 #define ETH_HLEN	14	/* Total octets in header. */
 #define ETH_P_IP	0x0800	/* Internet Protocol packet	*/
 
+#ifdef RING_BUFFER
 struct {
 	/**
 	 * BPF_MAP_TYPE_RINGBUF
@@ -53,6 +54,9 @@ struct {
 	__uint(type, BPF_MAP_TYPE_RINGBUF);
 	__uint(max_entries, 256 * 1024);
 } ring_buf SEC(".maps");
+#else
+# error "Not support ring_buffer"
+#endif
 
 struct {
 #if defined(MAP_PERCPU_ARRAY)
