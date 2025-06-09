@@ -1,5 +1,4 @@
 - ASPM: Active State Power Management (激活状态电源管理) @PCIe
-- CXL: Compute Express Link (计算快速链接)
 - MMIO: Memory Mapping I/O (内存映射I/O) @PIO
 - PCI: Peripheral Component Interconnect (外围组件互联) @PCIe
 - PCIe: PCI-Express () @PCI

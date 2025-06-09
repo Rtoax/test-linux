@@ -1,0 +1,2 @@
+- CXL: Compute Express Link (计算快速链接)
+- CCIX: Cache Coherent Interconnect for Accelerators (面向加速器的高速缓存一致性互连)
