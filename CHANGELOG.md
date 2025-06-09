@@ -12,6 +12,7 @@ and this project adheres to
 #### Added
 - blazesym: Introduce and add capi/compile.
 - libbpf: Add test `ring_buffer`,`perf_buffer` symlink.
+- libbpf: Test `bpf_loop()` helper.
 #### Changed
 - main.mk: Rename `TARGETS_PRE` to `TARGETS_PREP`.
 #### Deprecated

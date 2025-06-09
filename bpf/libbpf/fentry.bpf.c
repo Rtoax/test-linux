@@ -26,6 +26,15 @@ struct nanosleep_args {
 	struct timespec64 rem;
 };
 
+#if defined(SUPPORT_BPF_LOOP)
+static __u32 loop_cnt = 0;
+static int loop_callback(__u32 index, void *data)
+{
+	loop_cnt++;
+	return 0;
+}
+#endif
+
 SEC("fentry/" SYS_PREFIX "sys_nanosleep")
 #if defined(CONFIG_ARCH_HAS_SYSCALL_WRAPPER)
 int BPF_PROG(test_sys_nanosleep, struct pt_regs *regs)
@@ -51,6 +60,7 @@ int BPF_PROG(test_sys_nanosleep, const struct timespec64 *duration,
 	     struct timespec64 *rem)
 {
 #endif
+
 	bpf_printk("nanosleep({.tv_sec = %ld, .tv_nsec = %ld})",
 		   duration->tv_sec, duration->tv_nsec);
 	return 0;
@@ -151,6 +161,12 @@ int BPF_PROG(test_sys_openat, int dfd, const char *filename, int flags,
 	 * use %o instead of %x.
 	 */
 	bpf_printk("                     mode = 0x%x)", mode);
+
+#if defined(SUPPORT_BPF_LOOP)
+	bpf_loop(10, loop_callback, NULL, 0);
+	bpf_printk("bpf_loop: loop_cnt %d", loop_cnt);
+#endif
+
 	return 0;
 }
 #endif

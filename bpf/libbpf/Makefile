@@ -73,6 +73,13 @@ endif
 ifeq ($(call kernel_newer_than,5,8,0),y)
   TARGETS += xdp_cpumap
 endif
+
+# linux commit e6f2dd0f8067 ("bpf: Add bpf_loop helper")
+# v5.15-12938-ge6f2dd0f8067
+ifeq ($(call kernel_newer_than,5,15,0),y)
+  CFLAGS_BPF += -DSUPPORT_BPF_LOOP=1
+endif
+
 TARGETS += sockops
 TARGETS += sk_skb
 TARGETS += sk_msg
