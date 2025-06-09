@@ -17,6 +17,7 @@
 - MGLRU: Multi-Gen LRU (多代 LRU) @LRU
 - MM: Memory Managment (内存管理) @MMU
 - MMU: Memory Management Unit (内存管理单元) @IOMMU @SMMU
+- MRDIMM: Multiplexed Rank DIMM (多路复用等级 DIMM) @RDIMM
 - NUMA: Non-Uniform Memory Architecture (非一致性内存架构)
 - OOM: Out Of Memory (内存耗尽)
 - PAE: Physical Address Extension (物理地址扩展)
