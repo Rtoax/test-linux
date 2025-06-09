@@ -10,6 +10,7 @@ and this project adheres to
 ## Unreleased
 #### Breaking Changes
 #### Added
+- cxl: Add kconfig.
 - mm: Add README.dimm.md.
 - blazesym: Introduce and add capi/compile.
 - libbpf: Add test `ring_buffer`,`perf_buffer` symlink.

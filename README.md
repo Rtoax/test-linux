@@ -74,6 +74,7 @@ CONFIG_LOCKUP_DETECTOR
 * Each `history.md` is store history of some technology.
 * Each **drawio** contains relate directory diagrams.
 * Never call `include` in `*.mk` file, only call `include` in Makefile.
+* Each `kconfig` contains kernel CONFIG.
 
 
 ## abbreviation.md Example
