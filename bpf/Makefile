@@ -1,5 +1,4 @@
 # SPDX-License-Identifier: GPL-3.0
-include ../tlbuild.mk
 include ../scripts/ansi.mk
 include bpf.mk
 
@@ -14,14 +13,10 @@ sub-dir += seccomp
 sub-dir += usdt
 sub-dir += xdp
 
-include ../template/subdir-header.mk
+TARGETS_POST := post0
 
-.PHONY: build
-build: $(sub-dir-build)
+include ../template/main.mk
+
+post0:
 	$(Q)./tcpdump.sh
 	$(call tl_ascii_logo_ebpf_bee_summit_2021)
-
-.PHONY: clean
-clean: $(sub-dir-clean)
-
-include ../template/subdir-footer.mk

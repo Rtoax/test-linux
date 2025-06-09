@@ -10,6 +10,7 @@ and this project adheres to
 ## Unreleased
 #### Breaking Changes
 #### Added
+- blazesym: Introduce.
 - libbpf: Add test `ring_buffer`,`perf_buffer` symlink.
 #### Changed
 #### Deprecated

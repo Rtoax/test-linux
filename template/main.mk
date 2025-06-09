@@ -8,7 +8,6 @@ ALL_TARGETS := $(TARGETS_PRE)
 ALL_TARGETS += $(OUTPUT)
 ALL_TARGETS += $(TARGETS) $(TARGETS_LIBA) $(TARGETS_LIBSO)
 ALL_TARGETS += $(TARGETS_CPP)
-ALL_TARGETS += $(TARGETS_POST)
 
 ifdef DEBUG
   $(info Compile with DEBUG=1)
@@ -35,8 +34,11 @@ endif
 include ${TEMPLATE_DIR}/../tlbuild.mk
 include ${TEMPLATE_DIR}/subdir-header.mk
 
+ALL_TARGETS += $(sub-dir-build)
+ALL_TARGETS += $(TARGETS_POST)
+
 .PHONY: build
-build: $(ALL_TARGETS) $(sub-dir-build)
+build: $(ALL_TARGETS)
 	@echo -e " \033[1;33m Build $(shell pwd) done \033[m"
 
 .PHONY: test
