@@ -3,6 +3,7 @@
 - ASPM: Active-State Power Management (活动状态电源管理) @PCIe
 - BIOS: Basic Input Ouput System (基础输入输出系统)
 - BMC: Baseboard Management Controller (基板管理控制器)
+- CPLD: Complex Programmable Logic Device (复杂可编程逻辑器件)
 - DMI: Desktop Management Interface (桌面管理接口)
 - GRUB: GRand Unified Bootloader (统一引导加载程序)
 - iBMC: Intelligent Baseboard Management System (智能 BMC) @BMC @Huawei
