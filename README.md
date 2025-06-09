@@ -63,6 +63,7 @@ CONFIG_LOCKUP_DETECTOR
 	- Normally there is no need to sync from Linux upstream.
 * Each `samples` directory contain source userspace code.
 * Each `commands` directory contain relative command lines.
+* Each `images` directory contains relative images.
 
 ## Files
 
