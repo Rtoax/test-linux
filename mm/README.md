@@ -1,8 +1,8 @@
 MM - Memory Managment
-====================
+=====================
 
 
-# 进程内存类型
+# Process Memory Types
 
 见`/proc/1/smaps`
 
@@ -28,7 +28,7 @@ $ smem
 ```
 
 
-# 用户态内存管理
+# Usespace Memory Managment
 
 - jemalloc
 - tcmalloc
