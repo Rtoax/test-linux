@@ -16,6 +16,7 @@ declare -a dnf_args apt_args zypper_args
 declare -a pkgs_inst pkgs_compiler pkgs_desktop pkgs_bench pkgs_math pkgs_db
 declare -a pkgs_storage pkgs_net pkgs_container pkgs_virt pkgs_base pkgs_fs
 declare -a pkgs_media pkgs_build pkgs_devel pkgs_docs pkgs_video pkgs_boot
+declare -a pkgs_cxl
 declare -a pip_whls
 
 declare -a pkgs_skip
@@ -61,6 +62,7 @@ have_storage=
 have_net=
 have_video=
 have_boot=
+have_cxl=
 
 have_services=
 have_3rd_party=
@@ -86,6 +88,7 @@ enable_all()
 	#not set video for --all
 	#have_video=YES
 	have_boot=YES
+	have_cxl=YES
 	have_services=YES
 }
 
@@ -307,6 +310,8 @@ ARGUMENT
 	--video            install video relate software, such as video editor
 	--boot             install boot/bootloader relate software
 
+	--cxl              install CXL relate software
+
 	--srvs             enable systemd services
 
 	--3rd              get third party software packages above
@@ -357,6 +362,7 @@ TEMP_ARGS=$(getopt --options uvhfk: \
 	--long video \
 	--long boot \
 	--long net \
+	--long cxl \
 	--long srvs \
 	--long skip-pkg: \
 	--long dry-run \
@@ -454,6 +460,10 @@ while true; do
 	--3rd)
 		shift
 		have_3rd_party=YES
+		;;
+	--cxl)
+		shift
+		have_cxl=YES
 		;;
 	--srvs)
 		shift
@@ -709,6 +719,8 @@ pkgs_net+=( net-tools ) # netstat
 pkgs_net+=( rsync )
 pkgs_net+=( tcpdump )
 
+pkgs_cxl+=( ndctl )
+
 # openshot: Crashed at first time
 #pkgs_video+=( openshot )
 #pkgs_video+=( pitivi )
@@ -929,6 +941,9 @@ dnf_add_packages()
 	pkgs_net+=( httpd )
 	pkgs_net+=( libxdp libxdp-static )
 
+	pkgs_cxl+=( cxl-cli )
+	pkgs_cxl+=( cxl-devel )
+
 	if [[ ${IS_DNF5} ]] && [[ ${force} ]]; then
 		dnf_args+=( --skip-unavailable )
 	fi
@@ -1089,6 +1104,9 @@ apt_add_packages()
 	pkgs_desktop+=( tigervnc-standalone-server )
 	pkgs_desktop+=( tigervnc-viewer )
 
+	pkgs_cxl+=( libcxl-dev )
+	pkgs_cxl+=( libcxl1 )
+
 	[[ ${force} ]] && apt_args+=( --fix-missing --fix-broken )
 	[[ ${force} ]] && apt_args+=( -f )
 
@@ -1153,6 +1171,7 @@ os_packages
 [[ ${have_net} ]] && pkgs_inst+=( ${pkgs_net[@]} )
 [[ ${have_video} ]] && pkgs_inst+=( ${pkgs_video[@]} )
 [[ ${have_boot} ]] && pkgs_inst+=( ${pkgs_boot[@]} )
+[[ ${have_cxl} ]] && pkgs_inst+=( ${pkgs_cxl[@]} )
 
 # Sort and remove duplicate items
 pkgs_inst=( $(for i in "${pkgs_inst[@]}"; do echo $i; done | sort | uniq) )

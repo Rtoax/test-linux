@@ -11,7 +11,7 @@ and this project adheres to
 #### Breaking Changes
 #### Added
 - network: Add mctp directory.
-- cxl: Add kconfig, abbreviation.md, history.md.
+- cxl: Add kconfig, abbreviation.md, history.md, libcxl.
 - mm: Add README.dimm.md.
 - blazesym: Introduce and add capi/compile.
 - libbpf: Add test `ring_buffer`,`perf_buffer` symlink.
