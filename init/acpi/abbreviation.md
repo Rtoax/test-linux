@@ -1,2 +1,5 @@
+- CDAT: (相干设备属性表) @CXL
+- HMAT: (异构内存属性表)
 - RSDP: Root System Description Pointer ()
 - SPCR: Serial Port Console Redirection Table (串行端口控制台重定向表)
+- SRAT: (静态资源亲和表)
