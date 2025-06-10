@@ -65,6 +65,7 @@ have_boot=
 have_cxl=
 
 have_services=
+have_3rd_party=
 
 enable_all()
 {
@@ -83,7 +84,7 @@ enable_all()
 	have_fs=YES
 	have_db=YES
 	have_storage=YES
-	have_3rd_party=YES
+	#have_3rd_party=YES
 	#not set video for --all
 	#have_video=YES
 	have_boot=YES
