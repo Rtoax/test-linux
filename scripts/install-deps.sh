@@ -65,7 +65,6 @@ have_boot=
 have_cxl=
 
 have_services=
-have_3rd_party=
 
 enable_all()
 {
@@ -291,7 +290,7 @@ DESCRIPTION
 	Install various dependencies.
 
 ARGUMENT
-	--all
+	--all              all but no 3rd
 
 	--compilers        install compilers, such as rust java
 	--build            install package builders, such as meson ninja
