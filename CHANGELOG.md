@@ -10,6 +10,7 @@ and this project adheres to
 ## Unreleased
 #### Breaking Changes
 #### Added
+- qemu/libvirt: Test cxl volatile memory.
 - qemu: Add cxl directory.
 - kmod: Add libkmod test directory.
 - systemd: Add udev.

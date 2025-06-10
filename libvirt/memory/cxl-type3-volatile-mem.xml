@@ -1,0 +1,24 @@
+<!-- CXL Type 3 Volatile Memory device -->
+<domain type='kvm' xmlns:qemu='http://libvirt.org/schemas/domain/qemu/1.0'>
+  <!-- may need maxMemory -->
+  <maxMemory slots='16' unit='GiB'>16</maxMemory>
+  <devices>
+    <controller type='pci' index='0' model='pcie-root'>
+      <alias name='pcie.0'/>
+    </controller>
+  </devices>
+  <qemu:commandline>
+    <qemu:arg value='-machine'/>
+    <qemu:arg value='cxl=on'/>
+    <qemu:arg value='-object'/>
+    <qemu:arg value='memory-backend-ram,id=vmem0,share=on,size=256M'/>
+    <qemu:arg value='-device'/>
+    <qemu:arg value='pxb-cxl,bus_nr=12,bus=pcie.0,id=cxl.1'/>
+    <qemu:arg value='-device'/>
+    <qemu:arg value='cxl-rp,port=0,bus=cxl.1,id=root_port13,chassis=0,slot=2'/>
+    <qemu:arg value='-device'/>
+    <qemu:arg value='cxl-type3,bus=root_port13,volatile-memdev=vmem0,id=cxl-vmem0'/>
+    <qemu:arg value='-M'/>
+    <qemu:arg value='cxl-fmw.0.targets.0=cxl.1,cxl-fmw.0.size=4G'/>
+  </qemu:commandline>
+</domain>
