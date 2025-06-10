@@ -1,4 +1,5 @@
 - AMD: Advanced Micro Devices ()
 - CPU: Central Processor Units (中央处理器)
+- DPU: Data Processing Unit (数据处理单元)
 - MSR: Module Specific Register (TODO)
 - SMP: Symmetric Multiple Processing (对称多处理器)

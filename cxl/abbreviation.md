@@ -1,5 +1,6 @@
 - CXL: Compute Express Link (计算快速链接)
 - CCIX: Cache Coherent Interconnect for Accelerators (面向加速器的高速缓存一致性互连)
 - OMI: Open Memory Interface (开放内存接口)
-- OpenCAPI: Open Coherent Accelerator Processor Interface (开放相干加速器处理器接) @IBM
+- CAPI/OpenCAPI: Open Coherent Accelerator Processor Interface (开放相干加速器处理器接) @IBM
 - NVLINK: () @NVIDIA
+- UCIe: Universal Chiplet Interconnect express (通用芯片互连快速)
