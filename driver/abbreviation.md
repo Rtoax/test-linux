@@ -6,3 +6,4 @@
 - PCIe AER: Advanced Error Reporting
 - PCIe BAR: Base Address Register
 - PIO: Port I/O (端口IO) @MMIO
+- PPB: PCI-to-PCI Bridge (PCI到PCI桥)

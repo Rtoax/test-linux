@@ -1,5 +1,8 @@
 - CXL: Compute Express Link (计算快速链接) @MCTP
+- CCI: Component Command Interface (组件命令接口)
 - CCIX: Cache Coherent Interconnect for Accelerators (面向加速器的高速缓存一致性互连)
+- FM: Fabric Manager ()
+- LD: Logical Device (逻辑设备)
 - OMI: Open Memory Interface (开放内存接口)
 - CAPI/OpenCAPI: Open Coherent Accelerator Processor Interface (开放相干加速器处理器接) @IBM
 - SLD: Single Logical Device (单一逻辑设备)
