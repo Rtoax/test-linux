@@ -16,6 +16,7 @@
 - LR-WPAN: Low-Rate Wireless Personal Area Network (无线个人网) @IEEE-802.15.4
 - LWT: Light Weight Tunnel (轻量级隧道)
 - MAC: Media Access Control (媒体访问控制) @IEEE-802.3
+- MCTP: Management Component Transport Protocol (管理和控制传输协议)
 - MPLS: Multi-Protocol Label Switching (多协议标签交换)
 - MQTT: Message Queuing Telemetry Transport (消息队列遥测传输协议)
 - NAPI: New API (新API)

@@ -10,6 +10,7 @@ and this project adheres to
 ## Unreleased
 #### Breaking Changes
 #### Added
+- network: Add mctp directory.
 - cxl: Add kconfig, abbreviation.md, history.md.
 - mm: Add README.dimm.md.
 - blazesym: Introduce and add capi/compile.
