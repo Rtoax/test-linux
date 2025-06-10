@@ -23,7 +23,7 @@ ifeq ($(shell uname -m),x86_64)
 endif
 
 # ld --verbose argument can print linker script
-LDFLAGS_C := -Wl,-Tdefault.lds
+LDFLAGS_C := -Wl,--script=default.lds
 
 include ../../../elf/pie.mk
 
@@ -51,7 +51,7 @@ default.lds:
 
 ${TARGETS_AS}: %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	${Q}$(LD) -T $(@).ld -o $(@) $(ALDFLAGS) $(ALDFLAGS_$(*))
+	${Q}$(LD) --script $(@).ld -o $(@) $(ALDFLAGS) $(ALDFLAGS_$(*))
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
