@@ -27,6 +27,7 @@
 - LTTng: Linux Trace Toolkit Next Generation (Linux跟踪工具集ng)
 - LWN: Linux Weekly News (Linux 每日新闻)
 - LXC: Linux Containers (Linux容器)
+- MCTP: Management Component Transport Protocol (管理和控制传输协议)
 - NDAs: Non-Disclosure Agreements (保密协议)
 - NIST: National Institute of Standard and Technology (美国国家标准与技术研究所)
 - NPTL: Native POSIX Threads Library (原生 POSIX 线程库) @POSIX
