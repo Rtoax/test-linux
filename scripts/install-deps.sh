@@ -819,6 +819,7 @@ dnf_add_packages()
 	pkgs_base+=( scl-utils )
 	pkgs_base+=( sg3_utils )            # sg_inq, etc.
 	pkgs_base+=( shadow-utils )
+	pkgs_base+=( systemd-devel )
 	pkgs_base+=( systemd-udev )         # coredumpctl
 	pkgs_base+=( vim-default-editor )
 	pkgs_base+=( which )
@@ -998,6 +999,7 @@ apt_add_packages()
 	pkgs_base+=( python3-scapy )
 	pkgs_base+=( sg3-utils )            # sg_inq, etc.
 	pkgs_base+=( systemtap-sdt-dev )    # sdt.h
+	pkgs_base+=( systemd-dev )
 	if [[ $(is_os ubuntu) ]]; then
 		pkgs_base+=( linux-tools-common )
 	fi
