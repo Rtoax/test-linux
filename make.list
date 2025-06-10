@@ -30,6 +30,7 @@ sub-dir += ipc
 sub-dir += init
 sub-dir += io_uring/samples
 sub-dir += java
+sub-dir += kmod
 sub-dir += kvm
 sub-dir += libs
 sub-dir += lua

@@ -10,6 +10,7 @@ and this project adheres to
 ## Unreleased
 #### Breaking Changes
 #### Added
+- kmod: Add libkmod test directory.
 - systemd: Add udev.
 - network: Add mctp directory.
 - cxl: Add kconfig, abbreviation.md, history.md, libcxl.
