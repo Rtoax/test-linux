@@ -17,8 +17,6 @@ Linux desktop environments (CORBA and DCOP respectively).
 | ProcessA |       | ProcessB |
 +-----+--+-+       +-----+----+
       |  |               |
-      |  |               |
-      |  |               |
       |  +------------+  |
       |               |  |
 +-----+----+       +--+--+----+
