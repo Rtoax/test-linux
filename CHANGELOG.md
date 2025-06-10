@@ -10,6 +10,7 @@ and this project adheres to
 ## Unreleased
 #### Breaking Changes
 #### Added
+- qemu: Add cxl directory.
 - kmod: Add libkmod test directory.
 - systemd: Add udev.
 - network: Add mctp directory.
