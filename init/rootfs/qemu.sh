@@ -17,6 +17,7 @@ is_initrd=
 is_nvdimm=
 dry_run=
 verbose=
+debug=
 stdio=
 
 readonly CXL_VOLATILE_MEM=cxl-vmem
@@ -28,7 +29,7 @@ readonly CXL_TYPES=( ${CXL_VOLATILE_MEM} ${CXL_VOLATILE_MEM_LSA}
 			${CXL_PMEM} ${CXL_PMEM_4WAY} ${CXL_PMEM_4WAY_SWITCH})
 cxl_type=
 
-declare -a qargs kargs
+declare -a qargs kcmd
 
 __usage__() {
 	echo -e "
@@ -52,10 +53,12 @@ DESCRIPTION
 	--stdio                 input/output from/to stdio
 
 	--cxl [TYPE]            test CXL, support: ${CXL_TYPES[@]}
+	                        debug with debug mode.
 
 	-u, --dry-run           only show commands
 
-	-v, --verbose           show verbose information
+	-D, --debug             enable debug mode.
+	-v, --verbose           enable verbose mode.
 	-h, --help              show this help information
 
 EXAMPLES
@@ -70,7 +73,7 @@ SEE ALSO
 }
 
 
-TEMP_ARGS=$(getopt --options k:r:huv \
+TEMP_ARGS=$(getopt --options k:r:huDv \
 	--long kernel: \
 	--long karg: \
 	--long rootfs: \
@@ -80,6 +83,7 @@ TEMP_ARGS=$(getopt --options k:r:huv \
 	--long stdio \
 	--long cxl: \
 	--long dry-run \
+	--long debug \
 	--long verbose \
 	--long help \
 	--name ${prog} -- "$@")
@@ -97,7 +101,7 @@ while true; do
 		;;
 	--karg)
 		shift
-		kargs+=( $1 )
+		kcmd+=( $1 )
 		shift
 		;;
 	-r | --rootfs)
@@ -143,6 +147,10 @@ while true; do
 		shift
 		verbose=YES
 		;;
+	-D | --debug)
+		shift
+		debug=YES
+		;;
 	--)
 		shift
 		break
@@ -187,13 +195,17 @@ qargs+=( -m 2048M,slots=10,maxmem=129139M )
 qargs+=( -net user,host=10.0.2.10,hostfwd=tcp:127.0.0.1:10021-:22 )
 qargs+=( -net nic,model=e1000 )
 
-kargs+=( earlyprintk=serial )
-kargs+=( net.ifnames=0 )
-kargs+=( selinux=0 )
+kcmd+=( earlyprintk=serial )
+kcmd+=( net.ifnames=0 )
+kcmd+=(	selinux=0
+	audit=0
+	console=tty0
+	nokaslr
+	)
 
 if [[ ${is_initrd} ]]; then
 	qargs+=( -initrd ${rootfs} )
-	kargs+=( rd.break ) # dracut.cmdline(7)
+	kcmd+=( rd.break ) # dracut.cmdline(7)
 else
 	if [[ ${is_nvdimm} ]]; then
 		size=$(stat --format=%s ${rootfs})
@@ -205,20 +217,20 @@ else
 		qargs+=( -machine nvdimm=on )
 		qargs+=( -device nvdimm,id=nv0,memdev=mem0,unarmed=on )
 		qargs+=( -object memory-backend-file,id=mem0,mem-path=${rootfs},size=${size},readonly=on )
-		kargs+=( root=/dev/pmem0 )
+		kcmd+=( root=/dev/pmem0 )
 	else
 		qargs+=( -drive file=${rootfs},format=raw,if=virtio )
-		kargs+=( root=/dev/vda )
+		kcmd+=( root=/dev/vda )
 	fi
 fi
 
 if [[ ${stdio} ]]; then
 	qargs+=( -serial mon:stdio -nographic )
-	kargs+=( rw console=ttyS0 )
+	kcmd+=( rw console=ttyS0 )
 fi
 
 if [[ ${init} ]]; then
-	kargs+=( rdinit=${init} init=${init} )
+	kcmd+=( rdinit=${init} init=${init} )
 fi
 
 # https://www.qemu.org/docs/master/system/devices/cxl.html
@@ -336,6 +348,24 @@ cxl_volatile_mem_lsa() {
 	)
 }
 
+cxl_debug() {
+	kcmd+=( "cxl_acpi.dyndbg=+fplm"
+		"cxl_pci.dyndbg=+fplm"
+		"cxl_core.dyndbg=+fplm"
+		"cxl_mem.dyndbg=+fplm"
+		"cxl_pmem.dyndbg=+fplm"
+		"cxl_port.dyndbg=+fplm"
+		"cxl_region.dyndbg=+fplm"
+		"cxl_test.dyndbg=+fplm"
+		"cxl_mock.dyndbg=+fplm"
+		"cxl_mock_mem.dyndbg=+fplm"
+		)
+}
+
+if [[ ${cxl_type} ]] && [[ ${debug} ]]; then
+	cxl_debug
+fi
+
 case ${cxl_type} in
 ${CXL_PMEM})
 	cxl_pmem
@@ -354,4 +384,4 @@ ${CXL_VOLATILE_MEM_LSA})
 	;;
 esac
 
-_eval ${qemu} ${qargs[@]} -kernel ${kernel} -append \"${kargs[@]}\"
+_eval ${qemu} ${qargs[@]} -kernel ${kernel} -append \"${kcmd[@]}\"
