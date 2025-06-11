@@ -7,6 +7,8 @@ readonly prog=$0
 TARGET_ARCH=$(uname -m)
 ROOTFS_DIR="${PWD}/${ID}${VERSION_ID}-${TARGET_ARCH}-rootfs"
 
+RAW_IMAGE=
+
 verbose=
 dry_run=
 
@@ -16,10 +18,11 @@ NAME
 	${prog} - make rootfs for fedora liked distrobution
 
 SYNOPSIS
-	${prog} --rootfs=<DIR>
+	${prog} --rootfs=<DIR> [--raw=<a.raw>]
 
 DESCRIPTION
 	-r, --rootfs [DIR]      specify rootfs directory.
+	    --raw [FILE NAME]   specify raw image filename
 
 	-u, --dry-run           only show commands
 	-v, --verbose           enable verbose mode.
@@ -36,6 +39,7 @@ SEE ALSO
 
 TEMP_ARGS=$(getopt --options r:uhv \
 	--long rootfs: \
+	--long raw: \
 	--long dry-run \
 	--long verbose \
 	--long help \
@@ -50,6 +54,11 @@ while true; do
 	-r | --rootfs)
 		shift
 		ROOTFS_DIR=$1
+		shift
+		;;
+	--raw)
+		shift
+		RAW_IMAGE=$1
 		shift
 		;;
 	-h | --help)
@@ -100,6 +109,22 @@ os_dnf() {
 		--forcearch=${TARGET_ARCH} \
 		--use-host-config -y \
 		"$@"
+}
+
+dev_nbd=
+raw_create_and_mount() {
+	dev_nbd=/dev/nbd0
+
+	sudo modprobe nbd max_part=16 || true
+	sudo qemu-nbd --connect ${dev_nbd} ${RAW_IMAGE} -f raw
+	sudo mkfs.xfs ${dev_nbd}
+	sudo mount ${dev_nbd} ${ROOTFS_DIR}
+}
+
+raw_unmount() {
+	sudo umount ${ROOTFS_DIR}
+	sudo qemu-nbd --disconnect ${dev_nbd}
+	sudo rmmod nbd || true
 }
 
 _eval sudo mkdir -p ${ROOTFS_DIR}

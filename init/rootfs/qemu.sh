@@ -235,7 +235,7 @@ if [[ ${rootfs} ]]; then
 		kcmd+=( root=/dev/pmem0 )
 	else
 		qargs+=( -drive file=${rootfs},format=raw,if=virtio )
-		kcmd+=( root=/dev/vda )
+		kcmd+=( root=UUID=b0a6f931-024e-4ce3-b02e-e1b8db1e3b87 )
 	fi
 fi
 

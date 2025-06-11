@@ -115,6 +115,8 @@ __pycache__
 *.img
 *.img.[0-9]
 *.disk
+*.rootfs
+*.initrd
 vmlinux
 vmlinuz
 vmlinuz-*
