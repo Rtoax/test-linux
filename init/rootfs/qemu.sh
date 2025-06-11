@@ -276,8 +276,8 @@ cxl_pmem_4way() {
 # https://www.qemu.org/docs/master/system/devices/cxl.html
 # An example of 4 devices below a switch suitable for 1, 2 or 4 way interleave:
 cxl_pmem_4way_switch() {
-	local imgs=(cxltest.raw cxltest2.raw cxltest3.raw cxltest4.raw
-		lsa.raw lsa2.raw lsa3.raw lsa4.raw)
+	local imgs=(cxltest.raw cxltest1.raw cxltest2.raw cxltest3.raw
+		lsa0.raw lsa1.raw lsa2.raw lsa3.raw)
 	for img in ${imgs[@]}
 	do
 		_eval qemu-img create -f raw ${img} 256M
