@@ -10,6 +10,12 @@ CXL - Compute Express Link (计算快速链接)
 - CXL.memory
 
 
+# Linux Kernel
+
+- /sys/bus/cxl/
+- /dev/cxl/memX
+
+
 # Links
 
 - https://computeexpresslink.org/cxl-specification/

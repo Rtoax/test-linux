@@ -16,7 +16,7 @@ esac
 
 if ! [[ -e initramfs.img ]]; then
 	sudo dracut --kver $(uname -r) --no-hostonly --verbose --force \
-		--install 'insmod rmmod modprobe lspci ndctl cxl' \
+		--install 'insmod rmmod modprobe lspci ndctl cxl lsblk' \
 		--add-drivers 'cxl_acpi cxl_core cxl_mem cxl_pci cxl_pmem cxl_pmu cxl_port' \
 		initramfs.img
 fi
