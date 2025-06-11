@@ -5,7 +5,6 @@ set -ex
 
 TARGET_ARCH=$(uname -m)
 ROOTFS_DIR="/home/rongtao/${ID}${VERSION_ID}-${TARGET_ARCH}-rootfs"
-QEMU_BIN="/usr/bin/qemu-${TARGET_ARCH}-static"
 
 sudo dnf install -y dnf-plugins-core qemu-user-static
 sudo mkdir -p ${ROOTFS_DIR}
