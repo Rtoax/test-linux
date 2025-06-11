@@ -1,6 +1,7 @@
-- CXL: Compute Express Link (计算快速链接) @MCTP
 - CCI: Component Command Interface (组件命令接口)
 - CCIX: Cache Coherent Interconnect for Accelerators (面向加速器的高速缓存一致性互连)
+- CFMW: CXL Fixed Memory Windows (CXL 固定内存窗)
+- CXL: Compute Express Link (计算快速链接) @MCTP
 - FM: Fabric Manager ()
 - LD: Logical Device (逻辑设备)
 - LSA: Label Storage Area (标签存储区)
