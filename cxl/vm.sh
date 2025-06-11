@@ -12,4 +12,4 @@ fi
 
 [[ ! -e vmlinuz ]] && sudo cp /boot/vmlinuz-$(uname -r) vmlinuz
 
-sudo ../init/rootfs/qemu.sh -k vmlinuz -r initramfs.img --initrd --cxl cxl-vmem-lsa --stdio
+sudo ../init/rootfs/qemu.sh -k vmlinuz -r initramfs.img --initrd --cxl cxl-pmem-4way --stdio "${@}"
