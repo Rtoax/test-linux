@@ -1,8 +1,9 @@
 #!/bin/bash
 # Wrote by Rong Tao
 set -e
+readonly WHERE_AM_I=$(dirname $(realpath $0))
 
-. ../../qemu/libqemu.sh
+. ${WHERE_AM_I}/../../qemu/libqemu.sh
 
 readonly prog=qemu-rootfs.sh
 readonly qemu=$(get_qemu_kvm_emulator)
