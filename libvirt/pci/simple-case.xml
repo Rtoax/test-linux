@@ -1,0 +1,17 @@
+<controller type='pci' index='0' model='pcie-root'/>
+<controller type='pci' index='1' model='pcie-root-port'>
+  <model name='pcie-root-port'/>
+  <target chassis='1' port='0x8'/>
+  <address type='pci' domain='0x0000' bus='0x00' slot='0x01' function='0x0'/>
+</controller>
+<interface type='network'>
+  <source network='default'/>
+  <model type='virtio'/>
+  <address type='pci' domain='0x0000' bus='0x01' slot='0x00' function='0x0'/>
+</interface>
+
+<!-- will result in the PCI topology
+0000:00:00.0 Host bridge: Intel Corporation 82G33/G31/P35/P31 Express DRAM Controller
+0000:00:01.0 PCI bridge: Red Hat, Inc. QEMU PCIe Root port
+0000:01:00.0 Ethernet controller: Red Hat, Inc. Virtio network device (rev 01)
+-->
