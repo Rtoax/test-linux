@@ -127,6 +127,8 @@ raw_unmount() {
 	sudo rmmod nbd || true
 }
 
+[[ ${RAW_IMAGE} ]] && _eval qemu-img create -f raw ${RAW_IMAGE} 10G
+
 _eval sudo mkdir -p ${ROOTFS_DIR}
 os_dnf group install development-tools
 os_dnf install dnf make sudo rpm vim glibc-static
