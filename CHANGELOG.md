@@ -11,7 +11,7 @@ and this project adheres to
 #### Breaking Changes
 #### Added
 - libvirt: Add pci xml demos.
-- qemu/libvirt: Test cxl volatile memory.
+- qemu/libvirt: Test cxl persistent,volatile memory.
 - qemu: Add cxl directory.
 - kmod: Add libkmod test directory.
 - systemd: Add udev.
