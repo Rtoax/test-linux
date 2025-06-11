@@ -18,6 +18,11 @@ dry_run=
 verbose=
 stdio=
 
+readonly CXL_VOLATILE_MEM=cxl-vmem
+readonly CXL_PMEM=cxl-pmem
+readonly CXL_TYPES=( ${CXL_VOLATILE_MEM} ${CXL_PMEM} )
+cxl_type=
+
 declare -a qargs kargs
 
 __usage__() {
@@ -40,6 +45,8 @@ DESCRIPTION
 	--init [/path/to/init]  specify initrd.
 
 	--stdio                 input/output from/to stdio
+
+	--cxl [TYPE]            test CXL, support type: ${CXL_TYPES[@]}
 
 	-u, --dry-run           only show commands
 
@@ -64,6 +71,7 @@ TEMP_ARGS=$(getopt --options k:r:huv \
 	--long initrd \
 	--long nvdimm \
 	--long stdio \
+	--long cxl: \
 	--long dry-run \
 	--long verbose \
 	--long help \
@@ -103,6 +111,15 @@ while true; do
 		shift
 		is_nvdimm=YES
 		;;
+	--cxl)
+		shift
+		cxl_type=$1
+		if ! [[ " ${CXL_TYPES[@]} " =~ " ${cxl_type} " ]]; then
+			echo >&2 "ERROR: cxl type only support <${CXL_TYPES[@]}>"
+			exit 1
+		fi
+		shift
+		;;
 	--stdio)
 		shift
 		stdio=YES
@@ -134,6 +151,11 @@ if [[ ${verbose} ]]; then
 	export PS4='+${BASH_SOURCE}:${LINENO}:${FUNCNAME[0]}: '
 	set -x
 fi
+
+cleanup() {
+	sudo rm -rf $PWD/qmp-${vm_name}.sock ${vm_name}.pid
+}
+trap cleanup EXIT
 
 qargs+=( -name ${vm_name} )
 qargs+=( -uuid $(uuid) )
@@ -179,6 +201,39 @@ fi
 if [[ ${init} ]]; then
 	kargs+=( rdinit=${init} init=${init} )
 fi
+
+# https://www.qemu.org/docs/master/system/devices/cxl.html
+cxl_pmem() {
+	qargs+=(
+		-machine q35,cxl=on
+		-object memory-backend-file,id=cxl-mem1,share=on,mem-path=/home/sda/qcow2s/cxltest.raw,size=256M
+		-object memory-backend-file,id=cxl-lsa1,share=on,mem-path=/home/sda/qcow2s/lsa.raw,size=256M
+		-device pxb-cxl,bus_nr=12,bus=pcie.0,id=cxl.1
+		-device cxl-rp,port=0,bus=cxl.1,id=root_port13,chassis=0,slot=2
+		-device cxl-type3,bus=root_port13,persistent-memdev=cxl-mem1,lsa=cxl-lsa1,id=cxl-pmem0,sn=0x1
+		-M cxl-fmw.0.targets.0=cxl.1,cxl-fmw.0.size=4G
+	)
+}
+
+# https://www.qemu.org/docs/master/system/devices/cxl.html
+cxl_volatile_mem() {
+	qargs+=(
+		-machine q35,cxl=on
+		-object memory-backend-ram,id=vmem0,share=on,size=256M
+		-device pxb-cxl,bus_nr=12,bus=pcie.0,id=cxl.1
+		-device cxl-rp,port=0,bus=cxl.1,id=root_port13,chassis=0,slot=2
+		-device cxl-type3,bus=root_port13,volatile-memdev=vmem0,id=cxl-vmem0
+		-M cxl-fmw.0.targets.0=cxl.1,cxl-fmw.0.size=4G
+	)
+}
+case ${cxl_type} in
+${CXL_VOLATILE_MEM})
+	cxl_volatile_mem
+	;;
+${CXL_PMEM})
+	cxl_pmem
+	;;
+esac
 
 _eval()
 {
