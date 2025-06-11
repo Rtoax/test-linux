@@ -20,8 +20,10 @@ verbose=
 stdio=
 
 readonly CXL_VOLATILE_MEM=cxl-vmem
+readonly CXL_VOLATILE_MEM_LSA=cxl-vmem-lsa
 readonly CXL_PMEM=cxl-pmem
-readonly CXL_TYPES=( ${CXL_VOLATILE_MEM} ${CXL_PMEM} )
+readonly CXL_TYPES=( ${CXL_VOLATILE_MEM} ${CXL_VOLATILE_MEM_LSA}
+			${CXL_PMEM})
 cxl_type=
 
 declare -a qargs kargs
@@ -47,7 +49,7 @@ DESCRIPTION
 
 	--stdio                 input/output from/to stdio
 
-	--cxl [TYPE]            test CXL, support type: ${CXL_TYPES[@]}
+	--cxl [TYPE]            test CXL, support: ${CXL_TYPES[@]}
 
 	-u, --dry-run           only show commands
 
@@ -55,7 +57,9 @@ DESCRIPTION
 	-h, --help              show this help information
 
 EXAMPLES
-	$ sudo ./qemu.sh -k /boot/vmlinuz-$(uname -r) -r /boot/initramfs-$(uname -r).img --initrd [--init=/usr/bin/bash]
+	$ sudo ./qemu.sh -k /boot/vmlinuz-$(uname -r) \\
+		-r /boot/initramfs-$(uname -r).img \\
+		--initrd [--init=/usr/bin/bash]
 
 SEE ALSO
 	qemu(1), qemu-kvm(1), etc.
@@ -242,12 +246,31 @@ cxl_volatile_mem() {
 		-M cxl-fmw.0.targets.0=cxl.1,cxl-fmw.0.size=4G
 	)
 }
+
+# https://www.qemu.org/docs/master/system/devices/cxl.html
+cxl_volatile_mem_lsa() {
+	_eval qemu-img create -f raw lsa.raw 256M
+	cleanup_files+=( lsa.raw )
+	qargs+=(
+		-machine q35,cxl=on
+		-object memory-backend-ram,id=vmem0,share=on,size=256M
+		-object memory-backend-file,id=cxl-lsa0,share=on,mem-path=$PWD/lsa.raw,size=256M
+		-device pxb-cxl,bus_nr=12,bus=pcie.0,id=cxl.1
+		-device cxl-rp,port=0,bus=cxl.1,id=root_port13,chassis=0,slot=2
+		-device cxl-type3,bus=root_port13,volatile-memdev=vmem0,lsa=cxl-lsa0,id=cxl-vmem0
+		-M cxl-fmw.0.targets.0=cxl.1,cxl-fmw.0.size=4G
+	)
+}
+
 case ${cxl_type} in
+${CXL_PMEM})
+	cxl_pmem
+	;;
 ${CXL_VOLATILE_MEM})
 	cxl_volatile_mem
 	;;
-${CXL_PMEM})
-	cxl_pmem
+${CXL_VOLATILE_MEM_LSA})
+	cxl_volatile_mem_lsa
 	;;
 esac
 
