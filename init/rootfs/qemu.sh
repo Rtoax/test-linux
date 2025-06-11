@@ -10,6 +10,7 @@ readonly qemu=$(get_qemu_kvm_emulator)
 
 vm_name=$(mktemp -u vm-XXXXXX)
 kernel=
+initrd=
 rootfs=
 init=
 
@@ -37,15 +38,15 @@ NAME
 	${prog} - test rootfs/initrd with qemu
 
 SYNOPSIS
-	${prog} -k=<kernel> -r=<rootfs> [--stdio]
+	${prog} -k=<kernel> -i=<initrd> [-r=<rootfs>] [--stdio]
 
 DESCRIPTION
 	-k, --kernel [KERNEL]   specify vmlinuz, bzImage
 	    --karg [ARG]        add kernel argument, (may be listed multiple times)
 	                        example: --karg=rdinit=/usr/bin/bash
 
-	-r, --rootfs [ROOTFS]   specify rootfs image
-	    --initrd            the rootfs used as initrd
+	-i, --initrd [INITRD]   specify initrd image
+	-r, --rootfs [ROOTFS]   specify rootfs image. optional
 	    --nvdimm            the rootfs used as nvdimm
 
 	--init [/path/to/init]  specify initrd.
@@ -62,9 +63,9 @@ DESCRIPTION
 	-h, --help              show this help information
 
 EXAMPLES
-	$ sudo ./qemu.sh -k /boot/vmlinuz-$(uname -r) \\
-		-r /boot/initramfs-$(uname -r).img \\
-		--initrd [--init=/usr/bin/bash]
+	$ sudo ./qemu.sh --kernel /boot/vmlinuz-$(uname -r) \\
+		--initrd /boot/initramfs-$(uname -r).img \\
+		[--init=/usr/bin/bash]
 
 SEE ALSO
 	qemu(1), qemu-kvm(1), etc.
@@ -73,9 +74,10 @@ SEE ALSO
 }
 
 
-TEMP_ARGS=$(getopt --options k:r:huDv \
+TEMP_ARGS=$(getopt --options k:i:r:huDv \
 	--long kernel: \
 	--long karg: \
+	--long initrd: \
 	--long rootfs: \
 	--long init: \
 	--long initrd \
@@ -102,6 +104,11 @@ while true; do
 	--karg)
 		shift
 		kcmd+=( $1 )
+		shift
+		;;
+	-i | --initrd)
+		shift
+		initrd=$1
 		shift
 		;;
 	-r | --rootfs)
@@ -158,9 +165,14 @@ while true; do
 	esac
 done
 
-[[ -z ${kernel} ]] && __usage__ && exit 1
-[[ -z ${rootfs} ]] && __usage__ && exit 1
-rootfs=$(realpath ${rootfs})
+if [[ -z ${kernel} ]] && [[ -z ${initrd} ]]; then
+	__usage__
+	echo >&2 "ERROR: must specify kernel and initrd"
+	exit 1
+fi
+
+kernel=$(realpath ${kernel})
+initrd=$(realpath ${initrd})
 
 if [[ ${verbose} ]]; then
 	export PS4='+${BASH_SOURCE}:${LINENO}:${FUNCNAME[0]}: '
@@ -203,10 +215,13 @@ kcmd+=(	selinux=0
 	nokaslr
 	)
 
-if [[ ${is_initrd} ]]; then
-	qargs+=( -initrd ${rootfs} )
-	kcmd+=( rd.break ) # dracut.cmdline(7)
-else
+qargs+=( -kernel ${kernel} )
+qargs+=( -initrd ${initrd} )
+kcmd+=( rd.break ) # dracut.cmdline(7)
+
+if [[ ${rootfs} ]]; then
+	rootfs=$(realpath ${rootfs})
+
 	if [[ ${is_nvdimm} ]]; then
 		size=$(stat --format=%s ${rootfs})
 		skip_resize() {
@@ -384,4 +399,4 @@ ${CXL_VOLATILE_MEM_LSA})
 	;;
 esac
 
-_eval ${qemu} ${qargs[@]} -kernel ${kernel} -append \"${kcmd[@]}\"
+_eval ${qemu} ${qargs[@]} -append \"${kcmd[@]}\"
