@@ -153,8 +153,20 @@ if [[ ${verbose} ]]; then
 	set -x
 fi
 
+_eval()
+{
+	if [[ -z ${dry_run} ]]; then
+		echo >&2 -e "\033[1;32mStartup: $@\033[m"
+		eval "$@"
+		echo >&2 -e "\033[1;33mDone: $@\033[m"
+	else
+		echo "$@"
+	fi
+}
+
+cleanup_files+=( $PWD/qmp-${vm_name}.sock ${vm_name}.pid )
 cleanup() {
-	sudo rm -rf $PWD/qmp-${vm_name}.sock ${vm_name}.pid
+	_eval sudo rm -rf ${cleanup_files[@]}
 }
 trap cleanup EXIT
 
@@ -205,10 +217,13 @@ fi
 
 # https://www.qemu.org/docs/master/system/devices/cxl.html
 cxl_pmem() {
+	_eval qemu-img create -f raw cxltest.raw 256M
+	_eval qemu-img create -f raw lsa.raw 256M
+	cleanup_files+=( cxltest.raw lsa.raw )
 	qargs+=(
 		-machine q35,cxl=on
-		-object memory-backend-file,id=cxl-mem1,share=on,mem-path=/home/sda/qcow2s/cxltest.raw,size=256M
-		-object memory-backend-file,id=cxl-lsa1,share=on,mem-path=/home/sda/qcow2s/lsa.raw,size=256M
+		-object memory-backend-file,id=cxl-mem1,share=on,mem-path=$PWD/cxltest.raw,size=256M
+		-object memory-backend-file,id=cxl-lsa1,share=on,mem-path=$PWD/lsa.raw,size=256M
 		-device pxb-cxl,bus_nr=12,bus=pcie.0,id=cxl.1
 		-device cxl-rp,port=0,bus=cxl.1,id=root_port13,chassis=0,slot=2
 		-device cxl-type3,bus=root_port13,persistent-memdev=cxl-mem1,lsa=cxl-lsa1,id=cxl-pmem0,sn=0x1
@@ -235,16 +250,5 @@ ${CXL_PMEM})
 	cxl_pmem
 	;;
 esac
-
-_eval()
-{
-	if [[ -z ${dry_run} ]]; then
-		echo >&2 -e "\033[1;32mStartup: $@\033[m"
-		eval "$@"
-		echo >&2 -e "\033[1;33mDone: $@\033[m"
-	else
-		echo "$@"
-	fi
-}
 
 _eval ${qemu} ${qargs[@]} -kernel ${kernel} -append \"${kargs[@]}\"
