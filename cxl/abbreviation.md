@@ -1,12 +1,16 @@
 - CCI: Component Command Interface (组件命令接口)
 - CCIX: Cache Coherent Interconnect for Accelerators (面向加速器的高速缓存一致性互连)
-- CFMW: CXL Fixed Memory Windows (CXL 固定内存窗)
+- CEDT: CXL Early Discovery Table (CXL 早期发现表) @ACPI
+- CFMW/CFMWS: CXL Fixed Memory Windows Structure (CXL 固定内存窗)
+- CHBS: CXL Host Bridge Structure (CXL 主机桥结构)
 - CXL: Compute Express Link (计算快速链接) @MCTP
+- EDSFF: Enterprise and Data Center Standard Form Factor (企业和数据中心标准外形尺寸)
 - FM: Fabric Manager ()
 - LD: Logical Device (逻辑设备)
 - LSA: Label Storage Area (标签存储区)
 - OMI: Open Memory Interface (开放内存接口)
 - CAPI/OpenCAPI: Open Coherent Accelerator Processor Interface (开放相干加速器处理器接) @IBM
+- PXB: PCI eXpander Bridge (PCI 扩展桥)
 - SLD: Single Logical Device (单一逻辑设备)
 - MLD: Muiltple Logical Device (多逻辑设备)
 - NVLINK: () @NVIDIA

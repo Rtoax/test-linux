@@ -13,7 +13,20 @@ CXL - Compute Express Link (计算快速链接)
 # Linux Kernel
 
 - /sys/bus/cxl/
-- /dev/cxl/memX
+- /dev/cxl/memX: ioctl(2)
+
+
+# ACPI
+
+- ACPI0017
+- ACPI0016
+
+
+# EDSFF
+
+- Ex #1: EDSFF E1.S (Smaller), 12 ~ 25W
+- Ex #2: EDSFF E3.S / E3.L (Larger), 25W ~ 40W (1T), 40W ~ 70W (2T)
+- Ex #3: Add-in Card (AIC) (Larger than E3.S/L), Similar range compared to E3.S/L
 
 
 # Links
@@ -23,3 +36,4 @@ CXL - Compute Express Link (计算快速链接)
 - https://www.lazystones.com/project/559625
 - https://www.qemu.org/docs/master/system/devices/cxl.html
 - https://github.com/computexpresslink/
+- https://git.kernel.org/pub/scm/linux/kernel/git/cxl/cxl.git/

@@ -12,11 +12,10 @@ and this project adheres to
 #### Added
 - libvirt: Add pci xml demos.
 - qemu/libvirt: Test cxl persistent,volatile memory.
-- qemu: Add cxl directory.
 - kmod: Add libkmod test directory.
 - systemd: Add udev.
 - network: Add mctp directory.
-- cxl: Add kconfig, abbreviation.md, history.md, libcxl.
+- cxl: Add kconfig, abbreviation.md, history.md, libcxl, qemu/cxl/.
 - mm: Add README.dimm.md.
 - blazesym: Introduce and add capi/compile.
 - libbpf: Add test `ring_buffer`,`perf_buffer` symlink.
