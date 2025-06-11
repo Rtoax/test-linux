@@ -1,7 +1,18 @@
 #!/bin/bash
 set -e
+. /etc/os-release
 
-sudo dnf install -y cxl-cli
+case ${ID} in
+fedora|rhel)
+	sudo dnf install -y cxl-cli dracut
+	;;
+debian|ubuntu)
+	sudo apt install -u ndctl dracut
+	;;
+*)
+	echo >&2 "ERROR: not support ${ID}"
+	;;
+esac
 
 if ! [[ -e initramfs.img ]]; then
 	sudo dracut --kver $(uname -r) --no-hostonly --verbose --force \
