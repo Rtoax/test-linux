@@ -12,6 +12,8 @@ IMAGE=
 IMAGE_TYPE=
 IMAGE_NEW=
 
+declare -a pkgs
+
 verbose=
 dry_run=
 
@@ -27,6 +29,8 @@ DESCRIPTION
 	-r, --rootfs [DIR]      specify rootfs directory.
 	    --image [NAME]      specify image filename
 
+	-i, --install [PKG]     install package, (may be listed multiple times)
+
 	-u, --dry-run           only show commands
 	-v, --verbose           enable verbose mode.
 	-h, --help              show this help information
@@ -40,9 +44,10 @@ SEE ALSO
 	exit ${1-0}
 }
 
-TEMP_ARGS=$(getopt --options r:uhv \
+TEMP_ARGS=$(getopt --options r:i:uhv \
 	--long rootfs: \
 	--long image: \
+	--long install: \
 	--long dry-run \
 	--long verbose \
 	--long help \
@@ -72,6 +77,11 @@ while true; do
 		else
 			IMAGE_NEW=YES
 		fi
+		shift
+		;;
+	-i | --install)
+		shift
+		pkgs+=( $1 )
 		shift
 		;;
 	-h | --help)
@@ -181,7 +191,7 @@ if [[ ${IMAGE} ]]; then
 fi
 
 rootfs_dnf group install development-tools
-rootfs_dnf install dnf make sudo rpm vim glibc-static hostname
+rootfs_dnf install dnf make sudo rpm vim glibc-static hostname ${pkgs[@]}
 
 # Create user and change password
 rootfs_exec useradd -G wheel rongtao || true
