@@ -13,6 +13,7 @@ IMAGE_TYPE=
 IMAGE_NEW=
 
 declare -a pkgs
+pkgs+=( dnf make sudo rpm vim glibc-static hostname iproute )
 
 verbose=
 dry_run=
@@ -191,7 +192,7 @@ if [[ ${IMAGE} ]]; then
 fi
 
 rootfs_dnf group install development-tools
-rootfs_dnf install dnf make sudo rpm vim glibc-static hostname ${pkgs[@]}
+rootfs_dnf install ${pkgs[@]}
 
 # Create user and change password
 rootfs_exec useradd -G wheel rongtao || true
