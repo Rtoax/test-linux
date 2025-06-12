@@ -251,7 +251,13 @@ if [[ ${rootfs} ]]; then
 		qargs+=( -object memory-backend-file,id=mem0,mem-path=${rootfs},size=${size},readonly=on )
 		kcmd+=( root=/dev/pmem0 )
 	else
-		qargs+=( -drive file=${rootfs},format=${rootfs_type},if=virtio )
+		if [[ ${cxl_type} ]]; then
+			virtio_id=$(mktemp -u virtio-XXXXXX)
+			qargs+=( -drive file=${rootfs},format=${rootfs_type},if=none,id=${virtio_id}
+				-device virtio-blk,drive=${virtio_id} )
+		else
+			qargs+=( -drive file=${rootfs},format=${rootfs_type},if=virtio )
+		fi
 		kcmd+=( root=UUID=$(image2uuid ${rootfs}) )
 	fi
 fi
