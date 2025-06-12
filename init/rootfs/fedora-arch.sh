@@ -1,4 +1,5 @@
 #!/bin/bash
+# Wrote by Rong Tao
 set -e
 readonly prog=$0
 
@@ -109,7 +110,7 @@ _eval()
 	fi
 }
 
-os_dnf() {
+rootfs_dnf() {
 	_eval sudo dnf --installroot=${ROOTFS_DIR} \
 		--releasever=${VERSION_ID} \
 		--forcearch=${TARGET_ARCH} \
@@ -117,9 +118,8 @@ os_dnf() {
 		"$@"
 }
 
-# TODO
-chroot_cmd() {
-	sudo chroot ${ROOTFS_DIR} "$@"
+rootfs_exec() {
+	_eval sudo chroot --userspec=root ${ROOTFS_DIR} "$@"
 }
 
 dev_nbd=
@@ -161,8 +161,19 @@ if [[ ${RAW_IMAGE} ]]; then
 	raw_create_and_mount
 fi
 
-os_dnf group install development-tools
-os_dnf install dnf make sudo rpm vim glibc-static
+rootfs_dnf group install development-tools
+rootfs_dnf install dnf make sudo rpm vim glibc-static hostname
+
+# Create user and change password
+rootfs_exec useradd -G wheel rongtao || true
+# NOTE: don't use 'usermod --password "$(openssl passwd -1 123456)" rongtao'
+echo "root:123456" | rootfs_exec chpasswd
+echo "rongtao:123456" | rootfs_exec chpasswd
+
+# Don't use hostnamectl:
+# System has not been booted with systemd as init system (PID 1). Can't operate.
+# Failed to connect to system scope bus via local transport: Host is down
+rootfs_exec hostname VM-${ID}
 
 if [[ ${RAW_IMAGE} ]]; then
 	raw_unmount
