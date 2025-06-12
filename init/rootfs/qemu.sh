@@ -12,6 +12,7 @@ vm_name=$(mktemp -u vm-XXXXXX)
 kernel=
 initrd=
 rootfs=
+rootfs_type=
 init=
 
 is_initrd=
@@ -114,6 +115,11 @@ while true; do
 	-r | --rootfs)
 		shift
 		rootfs=$1
+		rootfs_type=${rootfs##*.}
+		if ! [[ " raw qcow2 " =~ " ${rootfs_type} " ]]; then
+			echo >&2 "ERROR: ${rootfs} is not raw or qcow2."
+			exit 1
+		fi
 		shift
 		;;
 	--init)
@@ -245,7 +251,7 @@ if [[ ${rootfs} ]]; then
 		qargs+=( -object memory-backend-file,id=mem0,mem-path=${rootfs},size=${size},readonly=on )
 		kcmd+=( root=/dev/pmem0 )
 	else
-		qargs+=( -drive file=${rootfs},format=raw,if=virtio )
+		qargs+=( -drive file=${rootfs},format=${rootfs_type},if=virtio )
 		kcmd+=( root=UUID=$(image2uuid ${rootfs}) )
 	fi
 fi
