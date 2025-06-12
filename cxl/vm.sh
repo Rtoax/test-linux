@@ -16,6 +16,8 @@ debian|ubuntu)
 	;;
 esac
 
+[[ ! -e vmlinuz ]] && sudo cp /boot/vmlinuz-$(uname -r) vmlinuz
+
 if ! [[ -e initramfs.img ]]; then
 	sudo dracut --kver $(uname -r) --no-hostonly --verbose --force \
 		--install 'insmod rmmod modprobe lspci ndctl cxl lsblk dmidecode tree' \
@@ -24,7 +26,15 @@ if ! [[ -e initramfs.img ]]; then
 		initramfs.img
 fi
 
-[[ ! -e vmlinuz ]] && sudo cp /boot/vmlinuz-$(uname -r) vmlinuz
+if ! [[ -e vm.qcow2 ]]; then
+	sudo ../init/rootfs/fedora-arch.sh --rootfs vm.rootfs/ --image vm.qcow2 \
+		-i cxl-cli -i cxl-libs -i ndctl \
+		-i dmidecode -i kmod -i util-linux -i pciutils \
+		-i kernel-$(uname -r) \
+		-i kernel-modules-$(uname -r) \
+		-i kernel-modules-core-$(uname -r) \
+		-i kernel-modules-extra-$(uname -r)
+fi
 
-sudo ../init/rootfs/qemu.sh --kernel vmlinuz --initrd initramfs.img \
+sudo ../init/rootfs/qemu.sh --kernel vmlinuz --initrd initramfs.img --rootfs vm.qcow2 \
 	--cxl cxl-pmem-4way-switch --stdio "${@}"
