@@ -8,6 +8,7 @@ TARGET_ARCH=$(uname -m)
 ROOTFS_DIR="${PWD}/${ID}${VERSION_ID}-${TARGET_ARCH}-rootfs"
 
 RAW_IMAGE=
+RAW_IMAGE_NEW=
 
 verbose=
 dry_run=
@@ -59,6 +60,11 @@ while true; do
 	--raw)
 		shift
 		RAW_IMAGE=$1
+		if [[ -e ${RAW_IMAGE} ]]; then
+			echo >&2 "WARNING: ${RAW_IMAGE} already exist."
+		else
+			RAW_IMAGE_NEW=YES
+		fi
 		shift
 		;;
 	-h | --help)
@@ -111,26 +117,58 @@ os_dnf() {
 		"$@"
 }
 
+# TODO
+chroot_cmd() {
+	sudo chroot ${ROOTFS_DIR} "$@"
+}
+
 dev_nbd=
+dev_uuid=
 raw_create_and_mount() {
 	dev_nbd=/dev/nbd0
 
-	sudo modprobe nbd max_part=16 || true
-	sudo qemu-nbd --connect ${dev_nbd} ${RAW_IMAGE} -f raw
-	sudo mkfs.xfs ${dev_nbd}
-	sudo mount ${dev_nbd} ${ROOTFS_DIR}
+	[[ -z ${RAW_IMAGE} ]] && return 0
+
+	if [[ ${RAW_IMAGE} ]] && [[ ! -e ${RAW_IMAGE} ]]; then
+		_eval qemu-img create -f raw ${RAW_IMAGE} 10G
+	fi
+
+	_eval sudo modprobe nbd max_part=16 || true
+	_eval sudo qemu-nbd --connect ${dev_nbd} ${RAW_IMAGE} -f raw
+
+	# Make fs if new create
+	[[ ${RAW_IMAGE_NEW} ]] && _eval sudo mkfs.xfs ${dev_nbd}
+
+	if [[ ${dry_run} ]]; then
+		dev_uuid=$(uuid)
+	else
+		dev_uuid=$(sudo lsblk -o uuid ${dev_nbd} | grep -v UUID)
+	fi
+	_eval sudo mount ${dev_nbd} ${ROOTFS_DIR}
 }
 
 raw_unmount() {
-	sudo umount ${ROOTFS_DIR}
-	sudo qemu-nbd --disconnect ${dev_nbd}
-	sudo rmmod nbd || true
+	[[ -z ${RAW_IMAGE} ]] && return 0
+
+	_eval sudo umount ${ROOTFS_DIR}
+	_eval sudo qemu-nbd --disconnect ${dev_nbd}
+	_eval sudo rmmod nbd || true
 }
 
-[[ ${RAW_IMAGE} ]] && _eval qemu-img create -f raw ${RAW_IMAGE} 10G
-
 _eval sudo mkdir -p ${ROOTFS_DIR}
+
+if [[ ${RAW_IMAGE} ]]; then
+	raw_create_and_mount
+fi
+
 os_dnf group install development-tools
 os_dnf install dnf make sudo rpm vim glibc-static
 
+if [[ ${RAW_IMAGE} ]]; then
+	raw_unmount
+fi
+
+echo >&2 -e "\033[32m"
 echo >&2 "${ID} ${VERSION_ID} rootfs for ${TARGET_ARCH} has been created at ${ROOTFS_DIR}"
+[[ ${RAW_IMAGE} ]] && echo >&2 "UUID=${dev_uuid}"
+echo >&2 -e "\033[0m"
