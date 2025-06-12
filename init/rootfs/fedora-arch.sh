@@ -8,8 +8,9 @@ readonly prog=$0
 TARGET_ARCH=$(uname -m)
 ROOTFS_DIR="${PWD}/${ID}${VERSION_ID}-${TARGET_ARCH}-rootfs"
 
-RAW_IMAGE=
-RAW_IMAGE_NEW=
+IMAGE=
+IMAGE_TYPE=
+IMAGE_NEW=
 
 verbose=
 dry_run=
@@ -20,11 +21,11 @@ NAME
 	${prog} - make rootfs for fedora liked distrobution
 
 SYNOPSIS
-	${prog} --rootfs=<DIR> [--raw=<a.raw>]
+	${prog} --rootfs=<DIR> [--image=<vm.raw|vm.qcow2>]
 
 DESCRIPTION
 	-r, --rootfs [DIR]      specify rootfs directory.
-	    --raw [FILE NAME]   specify raw image filename
+	    --image [NAME]      specify image filename
 
 	-u, --dry-run           only show commands
 	-v, --verbose           enable verbose mode.
@@ -41,7 +42,7 @@ SEE ALSO
 
 TEMP_ARGS=$(getopt --options r:uhv \
 	--long rootfs: \
-	--long raw: \
+	--long image: \
 	--long dry-run \
 	--long verbose \
 	--long help \
@@ -58,13 +59,18 @@ while true; do
 		ROOTFS_DIR=$1
 		shift
 		;;
-	--raw)
+	--image)
 		shift
-		RAW_IMAGE=$1
-		if [[ -e ${RAW_IMAGE} ]]; then
-			echo >&2 "WARNING: ${RAW_IMAGE} already exist."
+		IMAGE=$1
+		IMAGE_TYPE=${IMAGE##*.}
+		if ! [[ " raw qcow2 " =~ " ${IMAGE_TYPE} " ]]; then
+			echo >&2 "ERROR: ${IMAGE} is not raw or qcow2."
+			exit 1
+		fi
+		if [[ -e ${IMAGE} ]]; then
+			echo >&2 "WARNING: ${IMAGE} already exist."
 		else
-			RAW_IMAGE_NEW=YES
+			IMAGE_NEW=YES
 		fi
 		shift
 		;;
@@ -124,20 +130,20 @@ rootfs_exec() {
 
 dev_nbd=
 dev_uuid=
-raw_create_and_mount() {
+image_create_and_mount() {
 	dev_nbd=/dev/nbd0
 
-	[[ -z ${RAW_IMAGE} ]] && return 0
+	[[ -z ${IMAGE} ]] && return 0
 
-	if [[ ${RAW_IMAGE} ]] && [[ ! -e ${RAW_IMAGE} ]]; then
-		_eval qemu-img create -f raw ${RAW_IMAGE} 10G
+	if [[ ${IMAGE} ]] && [[ ! -e ${IMAGE} ]]; then
+		_eval qemu-img create -f ${IMAGE_TYPE} ${IMAGE} 10G
 	fi
 
 	_eval sudo modprobe nbd max_part=16 || true
-	_eval sudo qemu-nbd --connect ${dev_nbd} ${RAW_IMAGE} -f raw
+	_eval sudo qemu-nbd --connect ${dev_nbd} ${IMAGE} -f ${IMAGE_TYPE}
 
 	# Make fs if new create
-	[[ ${RAW_IMAGE_NEW} ]] && _eval sudo mkfs.xfs ${dev_nbd}
+	[[ ${IMAGE_NEW} ]] && _eval sudo mkfs.xfs ${dev_nbd}
 
 	if [[ ${dry_run} ]]; then
 		dev_uuid=$(uuid)
@@ -147,8 +153,8 @@ raw_create_and_mount() {
 	_eval sudo mount ${dev_nbd} ${ROOTFS_DIR}
 }
 
-raw_unmount() {
-	[[ -z ${RAW_IMAGE} ]] && return 0
+image_unmount() {
+	[[ -z ${IMAGE} ]] && return 0
 
 	_eval sudo umount ${ROOTFS_DIR}
 	_eval sudo qemu-nbd --disconnect ${dev_nbd}
@@ -158,20 +164,20 @@ raw_unmount() {
 print_hint() {
 	echo >&2 -e "\033[32m"
 	echo >&2 "${ID} ${VERSION_ID} rootfs for ${TARGET_ARCH} has been created at ${ROOTFS_DIR}"
-	[[ ${RAW_IMAGE} ]] && echo >&2 "UUID=${dev_uuid}"
+	[[ ${IMAGE} ]] && echo >&2 "UUID=${dev_uuid}"
 	echo >&2 -e "\033[0m"
 }
 
 cleanup() {
-	raw_unmount
+	image_unmount
 	print_hint
 }
 trap cleanup EXIT
 
 _eval sudo mkdir -p ${ROOTFS_DIR}
 
-if [[ ${RAW_IMAGE} ]]; then
-	raw_create_and_mount
+if [[ ${IMAGE} ]]; then
+	image_create_and_mount
 fi
 
 rootfs_dnf group install development-tools
