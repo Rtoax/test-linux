@@ -155,6 +155,19 @@ raw_unmount() {
 	_eval sudo rmmod nbd || true
 }
 
+print_hint() {
+	echo >&2 -e "\033[32m"
+	echo >&2 "${ID} ${VERSION_ID} rootfs for ${TARGET_ARCH} has been created at ${ROOTFS_DIR}"
+	[[ ${RAW_IMAGE} ]] && echo >&2 "UUID=${dev_uuid}"
+	echo >&2 -e "\033[0m"
+}
+
+cleanup() {
+	raw_unmount
+	print_hint
+}
+trap cleanup EXIT
+
 _eval sudo mkdir -p ${ROOTFS_DIR}
 
 if [[ ${RAW_IMAGE} ]]; then
@@ -174,12 +187,3 @@ echo "rongtao:123456" | rootfs_exec chpasswd
 # System has not been booted with systemd as init system (PID 1). Can't operate.
 # Failed to connect to system scope bus via local transport: Host is down
 rootfs_exec hostname VM-${ID}
-
-if [[ ${RAW_IMAGE} ]]; then
-	raw_unmount
-fi
-
-echo >&2 -e "\033[32m"
-echo >&2 "${ID} ${VERSION_ID} rootfs for ${TARGET_ARCH} has been created at ${ROOTFS_DIR}"
-[[ ${RAW_IMAGE} ]] && echo >&2 "UUID=${dev_uuid}"
-echo >&2 -e "\033[0m"
