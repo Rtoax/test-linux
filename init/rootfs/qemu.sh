@@ -190,6 +190,17 @@ _eval()
 	fi
 }
 
+image2uuid() {
+	if [[ ${dry_run} ]]; then
+		uuid
+	else
+		local img=$1
+		local dev_loop=$(sudo losetup --find --show ${img})
+		sudo lsblk -o uuid ${dev_loop} | grep -v UUID
+		sudo losetup --detach ${dev_loop}
+	fi
+}
+
 cleanup_files+=( $PWD/qmp-${vm_name}.sock ${vm_name}.pid )
 cleanup() {
 	_eval sudo rm -rf ${cleanup_files[@]}
@@ -235,7 +246,7 @@ if [[ ${rootfs} ]]; then
 		kcmd+=( root=/dev/pmem0 )
 	else
 		qargs+=( -drive file=${rootfs},format=raw,if=virtio )
-		kcmd+=( root=UUID=29efa7e5-23bc-4192-81ca-31d4f342555a )
+		kcmd+=( root=UUID=$(image2uuid ${rootfs}) )
 	fi
 fi
 
