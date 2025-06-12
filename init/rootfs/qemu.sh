@@ -253,7 +253,6 @@ kcmd+=(	selinux=0
 
 qargs+=( -kernel ${kernel} )
 qargs+=( -initrd ${initrd} )
-kcmd+=( rd.break ) # dracut.cmdline(7)
 
 if [[ ${rootfs} ]]; then
 	rootfs=$(realpath ${rootfs})
@@ -279,6 +278,9 @@ if [[ ${rootfs} ]]; then
 		fi
 		kcmd+=( root=UUID=$(image2uuid ${rootfs}) )
 	fi
+else
+	# if not rootfs, we should break in initrd.
+	kcmd+=( rd.break ) # dracut.cmdline(7)
 fi
 
 if [[ ${stdio} ]]; then
