@@ -1,21 +1,14 @@
-include ../tlbuild.mk
-
 sub-dir := tcg/samples/
 sub-dir += qcow2
 
-include ../template/subdir-header.mk
+TARGETS_TEST := test0
+TARGETS_CLEAN := clean0
 
-.PHONY: build
-build: $(sub-dir-build)
+include ../template/main.mk
 
-.PHONY: test
-test: $(sub-dir-test)
+test0:
 	${Q}$(SHELL) support-cpu.sh
 	${Q}$(SHELL) libqemu_examples.sh
 
-.PHONY: clean
-clean: $(sub-dir-clean)
+clean0:
 	${Q}rm -f *.qcow2 *.raw
-
-include ../template/subdir-footer.mk
-
