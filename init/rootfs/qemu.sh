@@ -200,6 +200,7 @@ image2uuid() {
 	if [[ ${dry_run} ]]; then
 		uuid
 	else
+		# only raw could use this, qcow2 don't
 		local img=$1
 		local dev_loop=$(sudo losetup --find --show ${img})
 		sudo lsblk -o uuid ${dev_loop} | grep -v UUID
