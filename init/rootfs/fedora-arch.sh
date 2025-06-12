@@ -6,7 +6,7 @@ readonly prog=$0
 . /etc/os-release
 
 TARGET_ARCH=$(uname -m)
-ROOTFS_DIR="${PWD}/${ID}${VERSION_ID}-${TARGET_ARCH}-rootfs"
+ROOTFS_DIR=
 
 IMAGE=
 IMAGE_TYPE=
