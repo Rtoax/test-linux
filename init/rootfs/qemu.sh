@@ -14,9 +14,9 @@ initrd=
 rootfs=
 rootfs_type=
 init=
+nvdimm=
 
 is_initrd=
-is_nvdimm=
 dry_run=
 verbose=
 debug=
@@ -47,10 +47,10 @@ DESCRIPTION
 	                        example: --karg=rdinit=/usr/bin/bash
 
 	-i, --initrd [INITRD]   specify initrd image
+	    --init [PATH]       specify initrd.
 	-r, --rootfs [ROOTFS]   optional specify rootfs image. attr: rw
-	    --nvdimm            the rootfs used as nvdimm
 
-	--init [/path/to/init]  specify initrd.
+	--nvdimm [FILE]         add a nvdimm pmem
 
 	--stdio                 input/output from/to stdio
 
@@ -83,7 +83,7 @@ TEMP_ARGS=$(getopt --options k:i:r:huDv \
 	--long rootfs: \
 	--long init: \
 	--long initrd \
-	--long nvdimm \
+	--long nvdimm: \
 	--long stdio \
 	--long cxl: \
 	--long dry-run \
@@ -134,7 +134,12 @@ while true; do
 		;;
 	--nvdimm)
 		shift
-		is_nvdimm=YES
+		nvdimm=$1
+		if ! [[ -e ${nvdimm} ]]; then
+			echo >&2 "ERROR: nvdimm backend file ${nvdimm} is not exist."
+			exit 1
+		fi
+		shift
 		;;
 	--cxl)
 		shift
@@ -259,30 +264,31 @@ qargs+=( -initrd ${initrd} )
 if [[ ${rootfs} ]]; then
 	rootfs=$(realpath ${rootfs})
 
-	if [[ ${is_nvdimm} ]]; then
-		size=$(stat --format=%s ${rootfs})
-		skip_resize() {
-			if [[ ${size} -lt $((1024*1024*1024)) ]]; then
-				size=$((1024*1024*1024))
-			fi
-		}
-		qargs+=( -machine nvdimm=on )
-		qargs+=( -device nvdimm,id=nv0,memdev=mem0,unarmed=on )
-		qargs+=( -object memory-backend-file,id=mem0,mem-path=${rootfs},size=${size},readonly=on )
-		kcmd+=( root=/dev/pmem0 )
+	if [[ ${cxl_type} ]]; then
+		virtio_id=$(mktemp -u virtio-XXXXXX)
+		qargs+=( -drive file=${rootfs},format=${rootfs_type},if=none,id=${virtio_id}
+			-device virtio-blk,drive=${virtio_id} )
 	else
-		if [[ ${cxl_type} ]]; then
-			virtio_id=$(mktemp -u virtio-XXXXXX)
-			qargs+=( -drive file=${rootfs},format=${rootfs_type},if=none,id=${virtio_id}
-				-device virtio-blk,drive=${virtio_id} )
-		else
-			qargs+=( -drive file=${rootfs},format=${rootfs_type},if=virtio )
-		fi
-		kcmd+=( root=UUID=$(image2uuid ${rootfs}) )
+		qargs+=( -drive file=${rootfs},format=${rootfs_type},if=virtio )
 	fi
+	kcmd+=( root=UUID=$(image2uuid ${rootfs}) )
 else
 	# if not rootfs, we should break in initrd.
 	kcmd+=( rd.break ) # dracut.cmdline(7)
+fi
+
+if [[ ${nvdimm} ]]; then
+	nvdimm=$(realpath ${nvdimm})
+	size=$(stat --format=%s ${nvdimm})
+	skip_resize() {
+		if [[ ${size} -lt $((1024*1024*1024)) ]]; then
+			size=$((1024*1024*1024))
+		fi
+	}
+	# TODO: not works
+	qargs+=( -machine nvdimm=on )
+	qargs+=( -device nvdimm,id=nv0,memdev=mem0,unarmed=on )
+	qargs+=( -object memory-backend-file,id=mem0,mem-path=${nvdimm},size=${size},readonly=on )
 fi
 
 if [[ ${stdio} ]]; then
