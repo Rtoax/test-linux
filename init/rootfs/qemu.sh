@@ -47,7 +47,7 @@ DESCRIPTION
 	                        example: --karg=rdinit=/usr/bin/bash
 
 	-i, --initrd [INITRD]   specify initrd image
-	-r, --rootfs [ROOTFS]   specify rootfs image. optional
+	-r, --rootfs [ROOTFS]   optional specify rootfs image. attr: rw
 	    --nvdimm            the rootfs used as nvdimm
 
 	--init [/path/to/init]  specify initrd.
@@ -66,6 +66,7 @@ DESCRIPTION
 EXAMPLES
 	$ sudo ./qemu.sh --kernel /boot/vmlinuz-$(uname -r) \\
 		--initrd /boot/initramfs-$(uname -r).img \\
+		[--rootfs vm.raw] \\
 		[--init=/usr/bin/bash]
 
 SEE ALSO
@@ -249,6 +250,7 @@ kcmd+=(	selinux=0
 	audit=0
 	console=tty0
 	nokaslr
+	rw
 	)
 
 qargs+=( -kernel ${kernel} )
