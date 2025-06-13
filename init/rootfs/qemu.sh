@@ -75,6 +75,13 @@ SEE ALSO
 	exit ${1-0}
 }
 
+check_file_exist_and_exit() {
+	local f=$1
+	if [[ ! -e ${f} ]]; then
+		echo >&2 "ERROR: ${f} is not exist."
+		exit 1
+	fi
+}
 
 TEMP_ARGS=$(getopt --options k:i:r:huDv \
 	--long kernel: \
@@ -101,6 +108,7 @@ while true; do
 	-k | --kernel)
 		shift
 		kernel=$1
+		check_file_exist_and_exit ${kernel}
 		shift
 		;;
 	--karg)
@@ -111,6 +119,7 @@ while true; do
 	-i | --initrd)
 		shift
 		initrd=$1
+		check_file_exist_and_exit ${initrd}
 		shift
 		;;
 	-r | --rootfs)
@@ -121,6 +130,7 @@ while true; do
 			echo >&2 "ERROR: ${rootfs} is not raw or qcow2."
 			exit 1
 		fi
+		check_file_exist_and_exit ${rootfs}
 		shift
 		;;
 	--init)
@@ -135,10 +145,7 @@ while true; do
 	--nvdimm)
 		shift
 		nvdimm=$1
-		if ! [[ -e ${nvdimm} ]]; then
-			echo >&2 "ERROR: nvdimm backend file ${nvdimm} is not exist."
-			exit 1
-		fi
+		check_file_exist_and_exit ${nvdimm}
 		shift
 		;;
 	--cxl)
