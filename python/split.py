@@ -15,9 +15,12 @@ if __name__ == "__main__":
     NAME_MAX = 8
     MAX_ENTRIES = 3
 
-    input_string = "AAAA\x00\x00\x00\x00BB\x00\x00\x00\x00\x00\x00CCCCC\x00\x00\x00"
+    str1 = "AAAA\x00\x00\x00\x00BB\x00\x00\x00\x00\x00\x00CCCCC\x00\x00\x00"
+    hexdump(str1.encode("utf-8"))
+    names = split_c_string_array(str1, NAME_MAX)
+    print(names)
 
-    hexdump(input_string.encode("utf-8"))
-
-    names = split_c_string_array(input_string, NAME_MAX)
+    str2 = b"AAAA\x00\x00\x00\x00BB\x00\x00\x00\x00\x00\x00CCCCC\x00\x00\x00"
+    hexdump(str2)
+    names = split_c_string_array(str2.decode("utf-8"), NAME_MAX)
     print(names)
