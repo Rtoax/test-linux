@@ -27,5 +27,5 @@ def recursive_listdir(path):
             recursive_listdir(file_path)
 
 
-recursive_listdir('/etc/')
+recursive_listdir('.')
 print(hash_ino_file)
