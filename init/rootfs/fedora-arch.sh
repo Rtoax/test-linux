@@ -13,7 +13,7 @@ IMAGE_TYPE=
 IMAGE_NEW=
 
 declare -a pkgs
-pkgs+=( dnf make sudo rpm vim glibc-static hostname iproute )
+pkgs+=( dnf make sudo rpm vim glibc-static hostname iproute pciutils )
 
 verbose=
 dry_run=
