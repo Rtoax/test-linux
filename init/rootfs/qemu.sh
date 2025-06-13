@@ -462,10 +462,6 @@ ${CXL_VOLATILE_MEM_LSA})
 	;;
 esac
 
-machine=${qmachine[0]}
-for ((i = 1; i < ${#qmachine[@]}; i++)) do
-	machine+=",${qmachine[i]}"
-done
-qargs+=( -machine ${machine} )
+qargs+=( -machine $(IFS=,; echo "${qmachine[*]}") )
 
 _eval ${qemu} ${qargs[@]} -append \"${kcmd[@]}\"
