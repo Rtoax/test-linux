@@ -252,9 +252,15 @@ qargs+=( -qmp unix:$PWD/qmp-${vm_name}.sock,server=on,wait=off )
 qargs+=( -pidfile ${vm_name}.pid)
 qargs+=( -cpu max )
 qargs+=( -m 2048M,slots=10,maxmem=129139M )
+
+qargs+=( -machine q35
+	-device pcie-root-port,id=pcie.1,bus=pcie.0,port=1,chassis=1,slot=0
+	-device pcie-root-port,id=pcie.2,bus=pcie.0,port=2,chassis=2,slot=0)
+
 qargs+=( -machine q35 # q35 for pcie.0
 	-netdev type=user,id=net0
 	-device virtio-net-pci,bus=pcie.0,netdev=net0,addr=6.0 )
+
 
 kcmd+=( earlyprintk=serial )
 kcmd+=( net.ifnames=0 )
