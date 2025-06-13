@@ -31,6 +31,8 @@ readonly CXL_TYPES=( ${CXL_VOLATILE_MEM} ${CXL_VOLATILE_MEM_LSA}
 			${CXL_PMEM} ${CXL_PMEM_4WAY} ${CXL_PMEM_4WAY_SWITCH})
 cxl_type=
 
+# q35 for pcie.0
+declare -a qmachine+=( q35 )
 declare -a qargs kcmd
 
 __usage__() {
@@ -245,6 +247,7 @@ cleanup() {
 }
 trap cleanup EXIT
 
+
 qargs+=( -name ${vm_name} )
 qargs+=( -uuid $(uuid) )
 qargs+=( -enable-kvm )
@@ -253,12 +256,10 @@ qargs+=( -pidfile ${vm_name}.pid)
 qargs+=( -cpu max )
 qargs+=( -m 2048M,slots=10,maxmem=129139M )
 
-qargs+=( -machine q35
-	-device pcie-root-port,id=pcie.1,bus=pcie.0,port=1,chassis=1,slot=0
+qargs+=(-device pcie-root-port,id=pcie.1,bus=pcie.0,port=1,chassis=1,slot=0
 	-device pcie-root-port,id=pcie.2,bus=pcie.0,port=2,chassis=2,slot=0)
 
-qargs+=( -machine q35 # q35 for pcie.0
-	-netdev type=user,id=net0
+qargs+=(-netdev type=user,id=net0
 	-device virtio-net-pci,bus=pcie.0,netdev=net0,addr=6.0 )
 
 
@@ -298,8 +299,8 @@ if [[ ${nvdimm} ]]; then
 			size=$((1024*1024*1024))
 		fi
 	}
+	qmachine+=( nvdimm=on )
 	# TODO: not works
-	qargs+=( -machine nvdimm=on )
 	qargs+=( -device nvdimm,id=nv0,memdev=mem0,unarmed=on )
 	qargs+=( -object memory-backend-file,id=mem0,mem-path=${nvdimm},size=${size},readonly=on )
 fi
@@ -319,7 +320,6 @@ cxl_pmem() {
 	_eval qemu-img create -f raw lsa.raw 256M
 	cleanup_files+=( cxltest.raw lsa.raw )
 	qargs+=(
-		-machine q35,cxl=on
 		-object memory-backend-file,id=cxl-mem1,share=on,mem-path=$PWD/cxltest.raw,size=256M
 		-object memory-backend-file,id=cxl-lsa1,share=on,mem-path=$PWD/lsa.raw,size=256M
 		-device pxb-cxl,bus_nr=12,bus=pcie.0,id=cxl.1
@@ -342,7 +342,6 @@ cxl_pmem_4way() {
 	done
 	cleanup_files+=( ${imgs[@]} )
 	qargs+=(
-		-machine q35,cxl=on
 		-object memory-backend-file,id=cxl-mem1,share=on,mem-path=$PWD/cxltest.raw,size=256M
 		-object memory-backend-file,id=cxl-mem2,share=on,mem-path=$PWD/cxltest2.raw,size=256M
 		-object memory-backend-file,id=cxl-mem3,share=on,mem-path=$PWD/cxltest3.raw,size=256M
@@ -376,7 +375,6 @@ cxl_pmem_4way_switch() {
 	done
 	cleanup_files+=( ${imgs[@]} )
 	qargs+=(
-		-machine q35,cxl=on
 		-object memory-backend-file,id=cxl-mem0,share=on,mem-path=$PWD/cxltest.raw,size=256M
 		-object memory-backend-file,id=cxl-mem1,share=on,mem-path=$PWD/cxltest1.raw,size=256M
 		-object memory-backend-file,id=cxl-mem2,share=on,mem-path=$PWD/cxltest2.raw,size=256M
@@ -404,7 +402,6 @@ cxl_pmem_4way_switch() {
 # https://www.qemu.org/docs/master/system/devices/cxl.html
 cxl_volatile_mem() {
 	qargs+=(
-		-machine q35,cxl=on
 		-object memory-backend-ram,id=vmem0,share=on,size=256M
 		-device pxb-cxl,bus_nr=12,bus=pcie.0,id=cxl.1
 		-device cxl-rp,port=0,bus=cxl.1,id=root_port13,chassis=0,slot=2
@@ -418,7 +415,6 @@ cxl_volatile_mem_lsa() {
 	_eval qemu-img create -f raw lsa.raw 256M
 	cleanup_files+=( lsa.raw )
 	qargs+=(
-		-machine q35,cxl=on
 		-object memory-backend-ram,id=vmem0,share=on,size=256M
 		-object memory-backend-file,id=cxl-lsa0,share=on,mem-path=$PWD/lsa.raw,size=256M
 		-device pxb-cxl,bus_nr=12,bus=pcie.0,id=cxl.1
@@ -446,6 +442,8 @@ if [[ ${cxl_type} ]] && [[ ${debug} ]]; then
 	cxl_debug
 fi
 
+[[ ${cxl_type} ]] && qmachine+=( cxl=on )
+
 case ${cxl_type} in
 ${CXL_PMEM})
 	cxl_pmem
@@ -463,5 +461,11 @@ ${CXL_VOLATILE_MEM_LSA})
 	cxl_volatile_mem_lsa
 	;;
 esac
+
+machine=${qmachine[0]}
+for ((i = 1; i < ${#qmachine[@]}; i++)) do
+	machine+=",${qmachine[i]}"
+done
+qargs+=( -machine ${machine} )
 
 _eval ${qemu} ${qargs[@]} -append \"${kcmd[@]}\"
