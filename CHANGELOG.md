@@ -10,7 +10,7 @@ and this project adheres to
 ## Unreleased
 #### Breaking Changes
 #### Added
-- wayland: First commit.
+- wayland: Add helloworld.c demo.
 - python: add split.py,hexdump().
 - libvirt: Add pci xml demos.
 - qemu/libvirt: Test cxl persistent,volatile memory.

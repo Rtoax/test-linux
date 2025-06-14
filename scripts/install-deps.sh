@@ -865,6 +865,7 @@ dnf_add_packages()
 	pkgs_desktop+=( gtk3 )
 	pkgs_desktop+=( gtk3-devel )
 	pkgs_desktop+=( tigervnc )
+	pkgs_desktop+=( wayland-devel )
 
 	pkgs_devel+=( bcc-devel )
 	pkgs_devel+=( cyrus-sasl-devel )
