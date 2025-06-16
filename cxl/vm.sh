@@ -37,4 +37,4 @@ if ! [[ -e vm.qcow2 ]]; then
 fi
 
 sudo ../init/rootfs/qemu.sh --kernel vmlinuz --initrd initramfs.img --rootfs vm.qcow2 \
-	--cxl cxl-pmem-4way-switch --stdio "${@}"
+	--cxl cxl-vmem-4way --stdio "${@}"
