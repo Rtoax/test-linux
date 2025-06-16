@@ -1,4 +1,5 @@
-sub-dir := dmidecode
+sub-dir := cxl
+sub-dir += dmidecode
 
 TARGETS_POST := builds
 
