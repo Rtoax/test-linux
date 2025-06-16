@@ -246,7 +246,7 @@ void usage(char *prog)
 	printf(" -v, --verbose         show verbose information.\n");
 	printf("\n");
 	printf(" like:\n");
-	printf("  $ fdisk -l blk.bin\n");
+	printf("  $ fdisk --blk blk.bin\n");
 }
 
 
