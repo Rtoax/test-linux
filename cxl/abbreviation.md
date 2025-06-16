@@ -3,9 +3,12 @@
 - CEDT: CXL Early Discovery Table (CXL 早期发现表) @ACPI
 - CFMW/CFMWS: CXL Fixed Memory Windows Structure (CXL 固定内存窗)
 - CHBS: CXL Host Bridge Structure (CXL 主机桥结构)
+- CXIMS: CXL XOR Interleave Math Structure (CXL XOR 交错数学结构)
 - CXL: Compute Express Link (计算快速链接) @MCTP
+- DPA: CXL Memory Device Physical Address (内存设备物理地址)
 - EDSFF: Enterprise and Data Center Standard Form Factor (企业和数据中心标准外形尺寸)
 - FM: Fabric Manager ()
+- ISP: Interleave set position (交错set位置)
 - LD: Logical Device (逻辑设备)
 - LSA: Label Storage Area (标签存储区)
 - OMI: Open Memory Interface (开放内存接口)
@@ -15,3 +18,4 @@
 - MLD: Muiltple Logical Device (多逻辑设备)
 - NVLINK: () @NVIDIA
 - UCIe: Universal Chiplet Interconnect express (通用芯片互连快速)
+- XHB: CXL Host Bridge (CXL Host 桥)

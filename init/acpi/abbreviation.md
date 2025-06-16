@@ -1,4 +1,5 @@
-- CDAT: (相干设备属性表) @CXL
+- CDAT: Coherent Device Attribute Table (相干设备属性表) @CXL
+- CFMWS: ACPI CEDT CXL Fixed Memory Window Structure (ACPI CEDT CXL 固定内存窗口结构)
 - HMAT: (异构内存属性表)
 - RSDP: Root System Description Pointer ()
 - SPCR: Serial Port Console Redirection Table (串行端口控制台重定向表)
