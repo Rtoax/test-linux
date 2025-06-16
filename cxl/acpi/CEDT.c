@@ -1,5 +1,6 @@
 /**
  * CXL Early Discovery Table (CEDT)
+ * ACPI0017 CXL Root Object
  */
 #include <stdio.h>
 #include <stdint.h>

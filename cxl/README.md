@@ -20,7 +20,7 @@ CXL - Compute Express Link (计算快速链接)
 
 > /sys/firmware/acpi/
 
-- ACPI0017
+- ACPI0017: CXL Root Object, CEDT
 - ACPI0016: CXL Host Bridge Object, CXL root complex
 
 
