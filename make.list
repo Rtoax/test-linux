@@ -13,6 +13,7 @@ sub-dir += cgroup
 sub-dir += compiler
 sub-dir += cpp
 sub-dir += criu
+sub-dir += cxl
 sub-dir += database
 sub-dir += device
 sub-dir += elf
