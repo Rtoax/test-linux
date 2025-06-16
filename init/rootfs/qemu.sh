@@ -24,10 +24,11 @@ stdio=
 
 readonly CXL_VOLATILE_MEM=cxl-vmem
 readonly CXL_VOLATILE_MEM_LSA=cxl-vmem-lsa
+readonly CXL_VOLATILE_MEM_4WAY=cxl-vmem-4way
 readonly CXL_PMEM=cxl-pmem
 readonly CXL_PMEM_4WAY=cxl-pmem-4way
 readonly CXL_PMEM_4WAY_SWITCH=cxl-pmem-4way-switch
-readonly CXL_TYPES=( ${CXL_VOLATILE_MEM} ${CXL_VOLATILE_MEM_LSA}
+readonly CXL_TYPES=( ${CXL_VOLATILE_MEM} ${CXL_VOLATILE_MEM_LSA} ${CXL_VOLATILE_MEM_4WAY}
 			${CXL_PMEM} ${CXL_PMEM_4WAY} ${CXL_PMEM_4WAY_SWITCH})
 cxl_type=
 
@@ -424,6 +425,25 @@ cxl_volatile_mem_lsa() {
 	)
 }
 
+cxl_volatile_mem_4way() {
+	qargs+=(
+		-object memory-backend-ram,id=vmem0,share=on,size=256M
+		-object memory-backend-ram,id=vmem1,share=on,size=256M
+		-object memory-backend-ram,id=vmem2,share=on,size=256M
+		-object memory-backend-ram,id=vmem3,share=on,size=256M
+		-device pxb-cxl,bus_nr=12,bus=pcie.0,id=cxl.1
+		-device cxl-rp,port=0,bus=cxl.1,id=root_port13,chassis=0,slot=2
+		-device cxl-rp,port=1,bus=cxl.1,id=root_port14,chassis=0,slot=3
+		-device cxl-rp,port=2,bus=cxl.1,id=root_port15,chassis=0,slot=4
+		-device cxl-rp,port=3,bus=cxl.1,id=root_port16,chassis=0,slot=5
+		-device cxl-type3,bus=root_port13,volatile-memdev=vmem0,id=cxl-vmem0
+		-device cxl-type3,bus=root_port14,volatile-memdev=vmem1,id=cxl-vmem1
+		-device cxl-type3,bus=root_port15,volatile-memdev=vmem2,id=cxl-vmem2
+		-device cxl-type3,bus=root_port16,volatile-memdev=vmem3,id=cxl-vmem3
+		-M cxl-fmw.0.targets.0=cxl.1,cxl-fmw.0.size=4G
+	)
+}
+
 cxl_debug() {
 	kcmd+=( "cxl_acpi.dyndbg=+fplm"
 		"cxl_pci.dyndbg=+fplm"
@@ -459,6 +479,9 @@ ${CXL_VOLATILE_MEM})
 	;;
 ${CXL_VOLATILE_MEM_LSA})
 	cxl_volatile_mem_lsa
+	;;
+${CXL_VOLATILE_MEM_4WAY})
+	cxl_volatile_mem_4way
 	;;
 esac
 
