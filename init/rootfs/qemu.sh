@@ -265,6 +265,14 @@ qargs+=(-device pcie-root-port,id=pcie.1,bus=pcie.0,port=1,chassis=1,slot=0
 qargs+=(-netdev type=user,id=net0
 	-device virtio-net-pci,bus=pcie.0,netdev=net0,addr=6.0 )
 
+# Create tap0 with:
+# $ sudo ip tuntap add tap0 mode tap
+# $ sudo ip addr add 192.168.100.1/24 dev tap0
+# $ sudo sysctl net.ipv4.ip_forward=1
+# $ sudo iptables -t nat -A POSTROUTING -o wlan0 -j MASQUERADE
+add_net_nic_tap() {
+	qargs+=( -net nic -net tap,ifname=tap0,script=no,downscript=no )
+}
 
 kcmd+=( earlyprintk=serial )
 kcmd+=( net.ifnames=0 )
