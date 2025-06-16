@@ -1,7 +1,7 @@
 - CCI: Component Command Interface (组件命令接口)
 - CCIX: Cache Coherent Interconnect for Accelerators (面向加速器的高速缓存一致性互连)
 - CEDT: CXL Early Discovery Table (CXL 早期发现表) @ACPI
-- CFMW/CFMWS: CXL Fixed Memory Windows Structure (CXL 固定内存窗)
+- CFMW/CFMWS: ACPI CEDT CXL Fixed Memory Window Structure (ACPI CEDT CXL 固定内存窗口结构)
 - CHBS: CXL Host Bridge Structure (CXL 主机桥结构)
 - CXIMS: CXL XOR Interleave Math Structure (CXL XOR 交错数学结构)
 - CXL: Compute Express Link (计算快速链接) @MCTP
