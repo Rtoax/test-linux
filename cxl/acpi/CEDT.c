@@ -5,8 +5,10 @@
 #include <stdint.h>
 #include <errno.h>
 #include <unistd.h>
+#include "chbs.h"
 
 #define FILE_CEDT	"/sys/firmware/acpi/tables/CEDT"
+
 
 /**
  * CXL 2.0 Specification, Section 9.14.1
@@ -23,39 +25,6 @@ struct cedt_hdr {
 	uint32_t creator_revision;
 	uint8_t cedt_structure[];
 } __attribute__((packed));
-
-/**
- * CXL 2.0 Specification, Section 9.14.1.2
- * CXL Host Bridge Structure (CHBS)
- */
-struct chbs {
-	uint8_t type;
-	uint8_t reserved;
-	uint16_t record_length;
-	uint32_t uid;
-	/**
-	 * 00h: CXL 1.1 Specification compliant Host Bridge
-	 * 01h: CXL 2.0 Specification compliant Host Bridge
-	 */
-	uint32_t cxl_version;
-	uint32_t reserved2;
-	/**
-	 * If Version = 0, this represents the base address of
-	 * CXL 1.1 Downstream Port RCRB.
-	 *
-	 * If version =1, this represents the base address of
-	 * the CXL 2.0 CHBCR.
-	 */
-	uint64_t base;
-	uint64_t length;
-} __attribute__((packed));
-
-void display_chbs(struct chbs *chbs)
-{
-	printf("CHBS type %2d, len %4d, uid %4x, CXL version %2x, base %lx len %lx\n",
-		chbs->type, chbs->record_length, chbs->uid,
-		chbs->cxl_version, chbs->base, chbs->length);
-}
 
 void display_cedt_hdr(struct cedt_hdr *hdr)
 {

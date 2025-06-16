@@ -2,4 +2,5 @@ TARGETS := CEDT
 
 include ../../template/main.mk
 
-CEDT: CEDT.o
+chbs.o: chbs.h
+CEDT: CEDT.o chbs.o
