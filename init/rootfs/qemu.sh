@@ -259,6 +259,9 @@ qargs+=( -pidfile ${vm_name}.pid)
 qargs+=( -cpu max )
 qargs+=( -m 2048M,slots=10,maxmem=129139M )
 
+qargs+=( -drive if=pflash,format=raw,readonly=on,file=/usr/share/OVMF/OVMF_CODE.fd
+	-drive if=pflash,format=raw,file=/usr/share/OVMF/OVMF_VARS.fd )
+
 qargs+=(-device pcie-root-port,id=pcie.1,bus=pcie.0,port=1,chassis=1,slot=0
 	-device pcie-root-port,id=pcie.2,bus=pcie.0,port=2,chassis=2,slot=0)
 

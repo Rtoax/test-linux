@@ -6,10 +6,10 @@ set -e
 
 case ${ID} in
 fedora|rhel)
-	sudo dnf install -y cxl-cli dracut
+	sudo dnf install -y cxl-cli dracut edk2-ovmf
 	;;
 debian|ubuntu)
-	sudo apt install -u ndctl dracut
+	sudo apt install -u ndctl dracut ovmf
 	;;
 *)
 	echo >&2 "ERROR: not support ${ID}"
