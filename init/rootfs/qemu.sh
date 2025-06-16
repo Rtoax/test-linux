@@ -368,22 +368,17 @@ cxl_pmem_4way() {
 # https://www.qemu.org/docs/master/system/devices/cxl.html
 # An example of 4 devices below a switch suitable for 1, 2 or 4 way interleave:
 cxl_pmem_4way_switch() {
-	local imgs=(cxltest.raw cxltest1.raw cxltest2.raw cxltest3.raw
-		lsa0.raw lsa1.raw lsa2.raw lsa3.raw)
-	for img in ${imgs[@]}
+	for i in $(seq 0 1 3)
 	do
-		_eval qemu-img create -f raw ${img} 256M
+		_eval qemu-img create -f raw cxltest${i}.raw 256M
+		_eval qemu-img create -f raw lsa${i}.raw 256M
+		cleanup_files+=( cxltest${i}.raw lsa${i}.raw )
+
+		qargs+=( -object memory-backend-file,id=cxl-mem${i},share=on,mem-path=$PWD/cxltest${i}.raw,size=256M
+			-object memory-backend-file,id=cxl-lsa${i},share=on,mem-path=$PWD/lsa${i}.raw,size=256M
+			)
 	done
-	cleanup_files+=( ${imgs[@]} )
 	qargs+=(
-		-object memory-backend-file,id=cxl-mem0,share=on,mem-path=$PWD/cxltest.raw,size=256M
-		-object memory-backend-file,id=cxl-mem1,share=on,mem-path=$PWD/cxltest1.raw,size=256M
-		-object memory-backend-file,id=cxl-mem2,share=on,mem-path=$PWD/cxltest2.raw,size=256M
-		-object memory-backend-file,id=cxl-mem3,share=on,mem-path=$PWD/cxltest3.raw,size=256M
-		-object memory-backend-file,id=cxl-lsa0,share=on,mem-path=$PWD/lsa0.raw,size=256M
-		-object memory-backend-file,id=cxl-lsa1,share=on,mem-path=$PWD/lsa1.raw,size=256M
-		-object memory-backend-file,id=cxl-lsa2,share=on,mem-path=$PWD/lsa2.raw,size=256M
-		-object memory-backend-file,id=cxl-lsa3,share=on,mem-path=$PWD/lsa3.raw,size=256M
 		-device pxb-cxl,bus_nr=12,bus=pcie.0,id=cxl.1
 		-device cxl-rp,port=0,bus=cxl.1,id=root_port0,chassis=0,slot=0
 		-device cxl-rp,port=1,bus=cxl.1,id=root_port1,chassis=0,slot=1
