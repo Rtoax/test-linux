@@ -4,11 +4,20 @@
  */
 #include <stdio.h>
 #include <stdint.h>
+#include <stdlib.h>
+#include <malloc.h>
 #include <errno.h>
 #include <unistd.h>
 #include "chbs.h"
+#include "cfmws.h"
 
 #define FILE_CEDT	"/sys/firmware/acpi/tables/CEDT"
+
+#define CEDT_STRUCTURE_TYPE_CHBS	0
+/* CXL 3.0 added */
+#define CEDT_STRUCTURE_TYPE_CFMWS	1
+#define CEDT_STRUCTURE_TYPE_CXIMS	2
+#define CEDT_STRUCTURE_TYPE_RDPAS	3
 
 
 /**
@@ -52,6 +61,20 @@ void display_cedt_hdr(struct cedt_hdr *hdr)
 	printf("CEDT structure size %d\n", hdr->length - sizeof(*hdr));
 	printf("struct cedt_hdr size %d\n", sizeof(struct cedt_hdr));
 	printf("struct chbs size %d\n", sizeof(struct chbs));
+	printf("struct cfmws size %d\n", sizeof(struct cfmws));
+}
+
+static int probe_structure_type(FILE *fp)
+{
+	uint8_t type;
+	fpos_t old_pos;
+
+	fgetpos(fp, &old_pos);
+	fread(&type, 1, 1, fp);
+	if (feof(fp))
+		return -1;
+	fsetpos(fp, &old_pos);
+	return type;
 }
 
 int main(void)
@@ -59,6 +82,7 @@ int main(void)
 	FILE *fp;
 	struct cedt_hdr hdr;
 	struct chbs chbs;
+	struct cfmws *cfmws;
 
 	fp = fopen(FILE_CEDT, "r");
 	if (!fp) {
@@ -69,12 +93,27 @@ int main(void)
 	fread(&hdr, sizeof(hdr), 1, fp);
 	display_cedt_hdr(&hdr);
 
-	/* TODO: only handle one CHBS */
-	if (hdr.length > sizeof(hdr) + sizeof(chbs)) {
-		fread(&chbs, sizeof(chbs), 1, fp);
-		display_chbs(&chbs);
+	while (1) {
+		int type = probe_structure_type(fp);
+		if (type == -1)
+			break;
+		switch (type) {
+		case CEDT_STRUCTURE_TYPE_CHBS:
+			fread(&chbs, sizeof(chbs), 1, fp);
+			display_chbs(&chbs);
+			break;
+		case CEDT_STRUCTURE_TYPE_CFMWS:
+			cfmws = read_and_alloc_cfmws(fp);
+			display_cfmws(cfmws);
+			free(cfmws);
+			break;
+		default:
+			fprintf(stderr, "Unknown CEDT structure type %d\n", type);
+			goto done;
+		}
 	}
 
+done:
 	fclose(fp);
 	return 0;
 }

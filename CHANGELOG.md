@@ -17,7 +17,7 @@ and this project adheres to
 - kmod: Add libkmod test directory.
 - systemd: Add udev.
 - network: Add mctp directory.
-- cxl: Add kconfig, abbreviation.md, history.md, libcxl, qemu/cxl/, CEDT/CHBS.
+- cxl: Add kconfig, abbreviation.md, history.md, libcxl, qemu/cxl/, CEDT/CHBS/CFMWS.
 - mm: Add README.dimm.md.
 - blazesym: Introduce and add capi/compile.
 - libbpf: Add test `ring_buffer`,`perf_buffer` symlink.
