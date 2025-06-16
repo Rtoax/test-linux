@@ -383,16 +383,14 @@ cxl_pmem_4way_switch() {
 		-device cxl-rp,port=0,bus=cxl.1,id=root_port0,chassis=0,slot=0
 		-device cxl-rp,port=1,bus=cxl.1,id=root_port1,chassis=0,slot=1
 		-device cxl-upstream,bus=root_port0,id=us0
-		-device cxl-downstream,port=0,bus=us0,id=swport0,chassis=0,slot=4
-		-device cxl-type3,bus=swport0,persistent-memdev=cxl-mem0,lsa=cxl-lsa0,id=cxl-pmem0,sn=0x1
-		-device cxl-downstream,port=1,bus=us0,id=swport1,chassis=0,slot=5
-		-device cxl-type3,bus=swport1,persistent-memdev=cxl-mem1,lsa=cxl-lsa1,id=cxl-pmem1,sn=0x2
-		-device cxl-downstream,port=2,bus=us0,id=swport2,chassis=0,slot=6
-		-device cxl-type3,bus=swport2,persistent-memdev=cxl-mem2,lsa=cxl-lsa2,id=cxl-pmem2,sn=0x3
-		-device cxl-downstream,port=3,bus=us0,id=swport3,chassis=0,slot=7
-		-device cxl-type3,bus=swport3,persistent-memdev=cxl-mem3,lsa=cxl-lsa3,id=cxl-pmem3,sn=0x4
 		-M cxl-fmw.0.targets.0=cxl.1,cxl-fmw.0.size=4G,cxl-fmw.0.interleave-granularity=4k
 	)
+	for i in $(seq 0 1 3)
+	do
+		qargs+=( -device cxl-downstream,port=${i},bus=us0,id=swport${i},chassis=0,slot=$((${i}+2))
+			-device cxl-type3,bus=swport${i},persistent-memdev=cxl-mem${i},lsa=cxl-lsa${i},id=cxl-pmem${i},sn=0x1
+			)
+	done
 }
 
 # https://www.qemu.org/docs/master/system/devices/cxl.html
