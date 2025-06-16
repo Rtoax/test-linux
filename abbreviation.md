@@ -2,6 +2,7 @@
 - API: Application Programming Interface (应用程序接口) @ABI
 - BSD: Berkeley Software Distribution (伯克利软件分发)
 - CLA: Contributor License Agreement () @DCO
+- CLI: Command Line Interface (命令行接口)
 - CD: Continuous Delivery (持续交付) @CDF
 - CDF: Continuous Delivery Foundation (持续交付基金会) @CD
 - CI: Continuous Integration (持续集成)
@@ -14,6 +15,7 @@
 - FOSS: Free and Open Source Software (自由开源软件)
 - FSF: Free Software Foundation (自由软件基金会)
 - gABI: Generic ABI (通用ABI) @ABI
+- HII: Human Interface Infrastructure (人机界面基础设施)
 - IEEE: Institute of Electrical and Electronics Engineers (电气电子工程师协会)
 - IEEE-1003: POSIX Standards (POSIX 标准) @POSIX
 - IMA: Integrity Measurement Architecture (完整性测量架构)
