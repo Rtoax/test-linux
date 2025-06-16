@@ -4,6 +4,6 @@
 - PCIe: PCI-Express () @PCI
 - PCIe ACS: Access Control Services
 - PCIe AER: Advanced Error Reporting
-- PCIe BAR: Base Address Register
+- PCIe BAR: Base Address Register (基址寄存器)
 - PIO: Port I/O (端口IO) @MMIO
 - PPB: PCI-to-PCI Bridge (PCI到PCI桥)

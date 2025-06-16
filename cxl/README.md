@@ -19,7 +19,7 @@ CXL - Compute Express Link (计算快速链接)
 # ACPI
 
 - ACPI0017
-- ACPI0016
+- ACPI0016: CXL Host Bridge Object, CXL root complex
 
 
 # EDSFF
