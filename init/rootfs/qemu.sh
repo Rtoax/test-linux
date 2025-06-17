@@ -308,13 +308,24 @@ qargs+=( -initrd ${initrd} )
 if [[ ${rootfs} ]]; then
 	rootfs=$(realpath ${rootfs})
 
-	if [[ ${cxl_type} ]]; then
-		virtio_id=$(mktemp -u virtio-XXXXXX)
+	rootfs_virtio() {
+		local virtio_id=$(mktemp -u virtio-XXXXXX)
 		qargs+=( -drive file=${rootfs},format=${rootfs_type},if=none,id=${virtio_id}
 			-device virtio-blk,drive=${virtio_id} )
-	else
-		qargs+=( -drive file=${rootfs},format=${rootfs_type},if=virtio )
-	fi
+	}
+	rootfs_sata() {
+		local sata_id=$(mktemp -u sata-XXXXXX)
+		qargs+=( -device ahci,id=ahci0
+			-drive if=none,file=${rootfs},format=${rootfs_type},id=${sata_id}
+			-device ide-hd,bus=ahci0.0,drive=${sata_id} )
+	}
+	rootfs_nvme() {
+		local drive_id=$(mktemp -u nvme-XXXXXX)
+		qargs+=( -drive if=none,file=${rootfs},format=${rootfs_type},id=${drive_id}
+			-device nvme,drive=${drive_id},serial=sn-${drive_id} )
+	}
+	rootfs_virtio
+
 	kcmd+=( root=UUID=$(image2uuid ${rootfs}) )
 else
 	# if not rootfs, we should break in initrd.
