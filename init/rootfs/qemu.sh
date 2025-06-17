@@ -35,7 +35,7 @@ readonly CXL_TYPES=( ${CXL_VOLATILE_MEM} ${CXL_VOLATILE_MEM_LSA}
 cxl_type=
 
 # q35 for pcie.0
-declare -a qmachine+=( q35 )
+declare -a qmachine+=( q35 accel=kvm )
 declare -a qargs kcmd
 
 __usage__() {
@@ -265,8 +265,10 @@ qargs+=( -drive if=pflash,format=raw,readonly=on,file=/usr/share/OVMF/OVMF_CODE.
 qargs+=(-device pcie-root-port,id=pcie.1,bus=pcie.0,port=1,chassis=1,slot=0
 	-device pcie-root-port,id=pcie.2,bus=pcie.0,port=2,chassis=2,slot=0)
 
-qargs+=(-netdev type=user,id=net0
-	-device virtio-net-pci,bus=pcie.0,netdev=net0,addr=6.0 )
+add_net_nic_user() {
+	qargs+=(-netdev type=user,id=net0
+		-device virtio-net-pci,bus=pcie.0,netdev=net0,addr=6.0 )
+}
 
 # Create tap0 with:
 # $ sudo ip tuntap add tap0 mode tap
@@ -276,6 +278,17 @@ qargs+=(-netdev type=user,id=net0
 add_net_nic_tap() {
 	qargs+=( -net nic -net tap,ifname=tap0,script=no,downscript=no )
 }
+
+# Usage:
+# on hostos:
+# $ ssh -p8080 root@localhost
+add_net_nic_user_tap() {
+	qargs+=( -net user,hostfwd=tcp::8080-:22
+		-net nic,model=virtio
+		-device virtio-net,netdev=network0
+		-netdev tap,id=network0,ifname=tap0,script=no,downscript=no )
+}
+add_net_nic_user_tap
 
 kcmd+=( earlyprintk=serial )
 kcmd+=( net.ifnames=0 )

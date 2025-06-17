@@ -14,7 +14,7 @@ IMAGE_NEW=
 
 declare -a pkgs
 pkgs+=( dnf make sudo rpm vim glibc-static hostname iproute pciutils
-	NetworkManager )
+	NetworkManager openssh-server )
 
 verbose=
 dry_run=
@@ -205,3 +205,5 @@ echo "rongtao:123456" | rootfs_exec chpasswd
 # System has not been booted with systemd as init system (PID 1). Can't operate.
 # Failed to connect to system scope bus via local transport: Host is down
 rootfs_exec hostname VM-${ID}
+
+rootfs_exec systemctl enable sshd.service
