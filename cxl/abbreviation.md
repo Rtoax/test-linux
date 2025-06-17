@@ -3,6 +3,7 @@
 - CEDT: CXL Early Discovery Table (CXL 早期发现表) @ACPI
 - CFMW/CFMWS: ACPI CEDT CXL Fixed Memory Window Structure (ACPI CEDT CXL 固定内存窗口结构)
 - CHBS: CXL Host Bridge Structure (CXL 主机桥结构)
+- CMRK: CXL Memory Resource Kit (CXL 内存资源kit)
 - CXIMS: CXL XOR Interleave Math Structure (CXL XOR 交错数学结构)
 - CXL: Compute Express Link (计算快速链接) @MCTP
 - DPA: CXL Memory Device Physical Address (内存设备物理地址)
