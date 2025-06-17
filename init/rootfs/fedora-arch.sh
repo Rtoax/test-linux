@@ -12,9 +12,13 @@ IMAGE=
 IMAGE_TYPE=
 IMAGE_NEW=
 
+INITRD=
+
+KVER=
+
 declare -a pkgs
 pkgs+=( dnf make sudo rpm vim glibc-static hostname iproute pciutils
-	NetworkManager openssh-server )
+	NetworkManager openssh-server dracut )
 
 verbose=
 dry_run=
@@ -30,18 +34,22 @@ SYNOPSIS
 DESCRIPTION
 	-r, --rootfs [DIR]      specify rootfs directory.
 	    --image [NAME]      specify image filename
+	    --initrd [NAME]     generate initrd based on rootfs.
 
-	-i, --install [PKG]     install package, (may be listed multiple times)
+	    --kver [VERSION]    speicfy kernel version, use to install, dracut, etc.
+
+	-i, --install [PKG]     install package (may be listed multiple times)
 
 	-u, --dry-run           only show commands
 	-v, --verbose           enable verbose mode.
 	-h, --help              show this help information
 
 EXAMPLES
-	$ sudo ${prog} --rootfs tmp-rootfs.dir
+	$ sudo ${prog} --rootfs tmp-rootfs.dir --image rootfs.qcow2 \\
+		--initrd initramfs.img --install kernel-modules
 
 SEE ALSO
-	dnf(8)
+	dnf(8), dracut(8)
 "
 	exit ${1-0}
 }
@@ -49,6 +57,8 @@ SEE ALSO
 TEMP_ARGS=$(getopt --options r:i:uhv \
 	--long rootfs: \
 	--long image: \
+	--long initrd: \
+	--long kver: \
 	--long install: \
 	--long dry-run \
 	--long verbose \
@@ -79,6 +89,16 @@ while true; do
 		else
 			IMAGE_NEW=YES
 		fi
+		shift
+		;;
+	--initrd)
+		shift
+		INITRD=$1
+		shift
+		;;
+	--kver)
+		shift
+		KVER=$1
 		shift
 		;;
 	-i | --install)
@@ -207,3 +227,11 @@ echo "rongtao:123456" | rootfs_exec chpasswd
 rootfs_exec hostname VM-${ID}
 
 rootfs_exec systemctl enable sshd.service
+
+# In the end, generate initrd if need.
+if [[ ${INITRD} ]]; then
+	_eval sudo dracut --sysroot=${ROOTFS_DIR} \
+		--no-hostonly --force \
+		${KVER:+--kver ${KVER}} \
+		${INITRD}
+fi
