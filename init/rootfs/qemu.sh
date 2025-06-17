@@ -324,6 +324,11 @@ if [[ ${rootfs} ]]; then
 		qargs+=( -drive if=none,file=${rootfs},format=${rootfs_type},id=${drive_id}
 			-device nvme,drive=${drive_id},serial=sn-${drive_id} )
 	}
+	rootfs_scsi() {
+		qargs+=( -device virtio-scsi-pci,id=scsi0
+			-device scsi-hd,drive=hd0
+			-drive file=${rootfs},if=none,aio=native,cache=none,format=${rootfs_type},id=hd0 )
+	}
 	rootfs_virtio
 
 	kcmd+=( root=UUID=$(image2uuid ${rootfs}) )
