@@ -8,7 +8,12 @@ sudo cxl create-region --decoder decoder0.0 --size 1024M --type ram --memdevs me
 sudo cxl create-region --decoder decoder0.0 --size 1024M --type ram --memdevs mem3
 
 # create region0
-# will create /sys/bus/cxl/devices/region0
+# will create
+# - /sys/bus/cxl/devices/region0/dax_region
+# - /sys/devices/platform/ACPI0017:00/root0/decoder0.0/region0/dax_region0/dax0.0
+# - /sys/bus/dax/devices/dax0.0
+# - /sys/bus/dax/drivers/kmem/dax0.0
+# - /dev/dax0.0 [Character Device]
 sudo cxl create-region --decoder decoder0.0 --size 4096M --type ram --memdevs mem0 mem1 mem2 mem3
 
 sudo cxl enable-region region0
