@@ -264,7 +264,7 @@ qargs+=( -uuid $(uuid) )
 qargs+=( -enable-kvm )
 qargs+=( -qmp unix:$PWD/qmp-${vm_name}.sock,server=on,wait=off )
 qargs+=( -pidfile ${vm_name}.pid)
-qargs+=( -cpu max )
+qargs+=( -cpu host -smp cpus=4 )
 qargs+=( -m 2048M,slots=10,maxmem=129139M )
 
 qargs+=( -drive if=pflash,format=raw,readonly=on,file=/usr/share/OVMF/OVMF_CODE.fd
