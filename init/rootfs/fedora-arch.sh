@@ -17,8 +17,9 @@ INITRD=
 KVER=
 
 declare -a pkgs
-pkgs+=( dnf make sudo rpm vim glibc-static hostname iproute pciutils
-	NetworkManager openssh-server dracut )
+pkgs+=( autoconf automake binutils cmake dnf dracut gcc gcc-c++ gdb git
+	glibc-devel glibc-static hostname iproute libtool ltrace make
+	NetworkManager openssh-server pciutils pkgconf rpm strace sudo vim )
 
 verbose=
 dry_run=
@@ -214,7 +215,6 @@ if [[ ${IMAGE} ]]; then
 	image_create_and_mount
 fi
 
-rootfs_dnf group install -y development-tools
 rootfs_dnf install -y ${pkgs[@]}
 
 # Create user and change password
