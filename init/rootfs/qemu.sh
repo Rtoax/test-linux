@@ -47,6 +47,8 @@ SYNOPSIS
 	${prog} -k=<kernel> -i=<initrd> [-r=<rootfs>] [--stdio]
 
 DESCRIPTION
+	-n, --name [NAME]       specify vm name, default: vm- prefix
+
 	-k, --kernel [KERNEL]   specify vmlinuz, bzImage
 	    --karg [ARG]        add kernel argument, (may be listed multiple times)
 	                        example: --karg=rdinit=/usr/bin/bash
@@ -88,7 +90,8 @@ check_file_exist_and_exit() {
 	fi
 }
 
-TEMP_ARGS=$(getopt --options k:i:r:huDv \
+TEMP_ARGS=$(getopt --options n:k:i:r:huDv \
+	--long name: \
 	--long kernel: \
 	--long karg: \
 	--long initrd: \
@@ -110,6 +113,11 @@ eval set -- "$TEMP_ARGS"
 
 while true; do
 	case $1 in
+	-n | --name)
+		shift
+		vm_name=$1
+		shift
+		;;
 	-k | --kernel)
 		shift
 		kernel=$1
@@ -292,12 +300,7 @@ add_net_nic_user_tap
 
 kcmd+=( earlyprintk=serial )
 kcmd+=( net.ifnames=0 )
-kcmd+=(	selinux=0
-	audit=0
-	console=tty0
-	nokaslr
-	rw
-	)
+kcmd+=(	selinux=0 audit=0 console=tty0 nokaslr rw )
 
 qargs+=( -kernel ${kernel} )
 qargs+=( -initrd ${initrd} )

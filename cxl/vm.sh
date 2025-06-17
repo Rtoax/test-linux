@@ -36,5 +36,6 @@ if ! [[ -e vm.qcow2 ]]; then
 		-i kernel-modules-extra-$(uname -r)
 fi
 
-sudo ../init/rootfs/qemu.sh --kernel vmlinuz --initrd initramfs.img --rootfs vm.qcow2 \
+sudo ../init/rootfs/qemu.sh --name vm-test-cxl \
+	--kernel vmlinuz --initrd initramfs.img --rootfs vm.qcow2 \
 	--cxl cxl-vmem-4way --stdio "${@}"
