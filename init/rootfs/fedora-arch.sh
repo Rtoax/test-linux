@@ -149,10 +149,12 @@ _eval()
 }
 
 rootfs_dnf() {
+	local SUPPORT_UHC=$(dnf --help | grep -o use-host-config || true)
+
 	_eval sudo dnf --installroot=${ROOTFS_DIR} \
 		--releasever=${VERSION_ID} \
 		--forcearch=${TARGET_ARCH} \
-		--use-host-config -y \
+		${SUPPORT_UHC:+--use-host-config} \
 		"$@"
 }
 
@@ -212,8 +214,8 @@ if [[ ${IMAGE} ]]; then
 	image_create_and_mount
 fi
 
-rootfs_dnf group install development-tools
-rootfs_dnf install ${pkgs[@]}
+rootfs_dnf group install -y development-tools
+rootfs_dnf install -y ${pkgs[@]}
 
 # Create user and change password
 rootfs_exec useradd -G wheel rongtao || true
