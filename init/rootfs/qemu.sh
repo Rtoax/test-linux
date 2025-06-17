@@ -347,9 +347,9 @@ if [[ ${nvdimm} ]]; then
 		fi
 	}
 	qmachine+=( nvdimm=on )
-	# TODO: not works
-	qargs+=( -device nvdimm,id=nv0,memdev=mem0,unarmed=on )
-	qargs+=( -object memory-backend-file,id=mem0,mem-path=${nvdimm},size=${size},readonly=on )
+	nvdimm_id=$(mktemp -u nvdimm-XXXXXX)
+	qargs+=( -device nvdimm,id=nv0,memdev=${nvdimm_id},unarmed=on )
+	qargs+=( -object memory-backend-file,id=${nvdimm_id},mem-path=${nvdimm},size=${size},readonly=on )
 fi
 
 if [[ ${stdio} ]]; then
