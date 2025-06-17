@@ -33,6 +33,7 @@ readonly CXL_TYPES=( ${CXL_VOLATILE_MEM} ${CXL_VOLATILE_MEM_LSA}
 			${CXL_VOLATILE_MEM_4WAY} ${CXL_VOLATILE_MEM_4WAY_SWITCH}
 			${CXL_PMEM} ${CXL_PMEM_4WAY} ${CXL_PMEM_4WAY_SWITCH})
 cxl_type=
+cxl_size=1024M
 
 # q35 for pcie.0
 declare -a qmachine+=( q35 accel=kvm )
@@ -300,7 +301,7 @@ add_net_nic_user_tap
 
 kcmd+=( earlyprintk=serial )
 kcmd+=( net.ifnames=0 )
-kcmd+=(	selinux=0 audit=0 console=tty0 nokaslr rw )
+kcmd+=( selinux=0 audit=0 console=tty0 nokaslr rw )
 
 qargs+=( -kernel ${kernel} )
 qargs+=( -initrd ${initrd} )
@@ -362,12 +363,12 @@ fi
 
 # https://www.qemu.org/docs/master/system/devices/cxl.html
 cxl_pmem() {
-	_eval qemu-img create -f raw cxltest.raw 256M
-	_eval qemu-img create -f raw lsa.raw 256M
+	_eval qemu-img create -f raw cxltest.raw ${cxl_size}
+	_eval qemu-img create -f raw lsa.raw ${cxl_size}
 	cleanup_files+=( cxltest.raw lsa.raw )
 	qargs+=(
-		-object memory-backend-file,id=cxl-mem1,share=on,mem-path=$PWD/cxltest.raw,size=256M
-		-object memory-backend-file,id=cxl-lsa1,share=on,mem-path=$PWD/lsa.raw,size=256M
+		-object memory-backend-file,id=cxl-mem1,share=on,mem-path=$PWD/cxltest.raw,size=${cxl_size}
+		-object memory-backend-file,id=cxl-lsa1,share=on,mem-path=$PWD/lsa.raw,size=${cxl_size}
 		-device pxb-cxl,bus_nr=12,bus=pcie.0,id=cxl.1
 		-device cxl-rp,port=0,bus=cxl.1,id=root_port13,chassis=0,slot=2
 		-device cxl-type3,bus=root_port13,persistent-memdev=cxl-mem1,lsa=cxl-lsa1,id=cxl-pmem0,sn=0x1
@@ -384,18 +385,18 @@ cxl_pmem_4way() {
 		lsa.raw lsa2.raw lsa3.raw lsa4.raw)
 	for img in ${imgs[@]}
 	do
-		_eval qemu-img create -f raw ${img} 256M
+		_eval qemu-img create -f raw ${img} ${cxl_size}
 	done
 	cleanup_files+=( ${imgs[@]} )
 	qargs+=(
-		-object memory-backend-file,id=cxl-mem1,share=on,mem-path=$PWD/cxltest.raw,size=256M
-		-object memory-backend-file,id=cxl-mem2,share=on,mem-path=$PWD/cxltest2.raw,size=256M
-		-object memory-backend-file,id=cxl-mem3,share=on,mem-path=$PWD/cxltest3.raw,size=256M
-		-object memory-backend-file,id=cxl-mem4,share=on,mem-path=$PWD/cxltest4.raw,size=256M
-		-object memory-backend-file,id=cxl-lsa1,share=on,mem-path=$PWD/lsa.raw,size=256M
-		-object memory-backend-file,id=cxl-lsa2,share=on,mem-path=$PWD/lsa2.raw,size=256M
-		-object memory-backend-file,id=cxl-lsa3,share=on,mem-path=$PWD/lsa3.raw,size=256M
-		-object memory-backend-file,id=cxl-lsa4,share=on,mem-path=$PWD/lsa4.raw,size=256M
+		-object memory-backend-file,id=cxl-mem1,share=on,mem-path=$PWD/cxltest.raw,size=${cxl_size}
+		-object memory-backend-file,id=cxl-mem2,share=on,mem-path=$PWD/cxltest2.raw,size=${cxl_size}
+		-object memory-backend-file,id=cxl-mem3,share=on,mem-path=$PWD/cxltest3.raw,size=${cxl_size}
+		-object memory-backend-file,id=cxl-mem4,share=on,mem-path=$PWD/cxltest4.raw,size=${cxl_size}
+		-object memory-backend-file,id=cxl-lsa1,share=on,mem-path=$PWD/lsa.raw,size=${cxl_size}
+		-object memory-backend-file,id=cxl-lsa2,share=on,mem-path=$PWD/lsa2.raw,size=${cxl_size}
+		-object memory-backend-file,id=cxl-lsa3,share=on,mem-path=$PWD/lsa3.raw,size=${cxl_size}
+		-object memory-backend-file,id=cxl-lsa4,share=on,mem-path=$PWD/lsa4.raw,size=${cxl_size}
 		-device pxb-cxl,bus_nr=12,bus=pcie.0,id=cxl.1
 		-device pxb-cxl,bus_nr=222,bus=pcie.0,id=cxl.2
 		-device cxl-rp,port=0,bus=cxl.1,id=root_port13,chassis=0,slot=2
@@ -415,12 +416,12 @@ cxl_pmem_4way() {
 cxl_pmem_4way_switch() {
 	for i in $(seq 0 1 3)
 	do
-		_eval qemu-img create -f raw cxltest${i}.raw 256M
-		_eval qemu-img create -f raw lsa${i}.raw 256M
+		_eval qemu-img create -f raw cxltest${i}.raw ${cxl_size}
+		_eval qemu-img create -f raw lsa${i}.raw ${cxl_size}
 		cleanup_files+=( cxltest${i}.raw lsa${i}.raw )
 
-		qargs+=( -object memory-backend-file,id=cxl-mem${i},share=on,mem-path=$PWD/cxltest${i}.raw,size=256M
-			-object memory-backend-file,id=cxl-lsa${i},share=on,mem-path=$PWD/lsa${i}.raw,size=256M
+		qargs+=( -object memory-backend-file,id=cxl-mem${i},share=on,mem-path=$PWD/cxltest${i}.raw,size=${cxl_size}
+			-object memory-backend-file,id=cxl-lsa${i},share=on,mem-path=$PWD/lsa${i}.raw,size=${cxl_size}
 			)
 	done
 	qargs+=(
@@ -441,7 +442,7 @@ cxl_pmem_4way_switch() {
 # https://www.qemu.org/docs/master/system/devices/cxl.html
 cxl_volatile_mem() {
 	qargs+=(
-		-object memory-backend-ram,id=vmem0,share=on,size=256M
+		-object memory-backend-ram,id=vmem0,share=on,size=${cxl_size}
 		-device pxb-cxl,bus_nr=12,bus=pcie.0,id=cxl.1
 		-device cxl-rp,port=0,bus=cxl.1,id=root_port13,chassis=0,slot=2
 		-device cxl-type3,bus=root_port13,volatile-memdev=vmem0,id=cxl-vmem0
@@ -451,11 +452,11 @@ cxl_volatile_mem() {
 
 # https://www.qemu.org/docs/master/system/devices/cxl.html
 cxl_volatile_mem_lsa() {
-	_eval qemu-img create -f raw lsa.raw 256M
+	_eval qemu-img create -f raw lsa.raw ${cxl_size}
 	cleanup_files+=( lsa.raw )
 	qargs+=(
-		-object memory-backend-ram,id=vmem0,share=on,size=256M
-		-object memory-backend-file,id=cxl-lsa0,share=on,mem-path=$PWD/lsa.raw,size=256M
+		-object memory-backend-ram,id=vmem0,share=on,size=${cxl_size}
+		-object memory-backend-file,id=cxl-lsa0,share=on,mem-path=$PWD/lsa.raw,size=${cxl_size}
 		-device pxb-cxl,bus_nr=12,bus=pcie.0,id=cxl.1
 		-device cxl-rp,port=0,bus=cxl.1,id=root_port13,chassis=0,slot=2
 		-device cxl-type3,bus=root_port13,volatile-memdev=vmem0,lsa=cxl-lsa0,id=cxl-vmem0
@@ -465,10 +466,10 @@ cxl_volatile_mem_lsa() {
 
 cxl_volatile_mem_4way() {
 	qargs+=(
-		-object memory-backend-ram,id=vmem0,share=on,size=256M
-		-object memory-backend-ram,id=vmem1,share=on,size=256M
-		-object memory-backend-ram,id=vmem2,share=on,size=256M
-		-object memory-backend-ram,id=vmem3,share=on,size=256M
+		-object memory-backend-ram,id=vmem0,share=on,size=${cxl_size}
+		-object memory-backend-ram,id=vmem1,share=on,size=${cxl_size}
+		-object memory-backend-ram,id=vmem2,share=on,size=${cxl_size}
+		-object memory-backend-ram,id=vmem3,share=on,size=${cxl_size}
 		-device pxb-cxl,bus_nr=12,bus=pcie.0,id=cxl.1
 		-device cxl-rp,port=0,bus=cxl.1,id=root_port13,chassis=0,slot=2
 		-device cxl-rp,port=1,bus=cxl.1,id=root_port14,chassis=0,slot=3
@@ -485,7 +486,7 @@ cxl_volatile_mem_4way() {
 cxl_volatile_mem_4way_switch() {
 	for i in $(seq 0 1 3)
 	do
-		qargs+=( -object memory-backend-ram,id=vmem${i},share=on,size=256M
+		qargs+=( -object memory-backend-ram,id=vmem${i},share=on,size=${cxl_size}
 			)
 	done
 	qargs+=(
