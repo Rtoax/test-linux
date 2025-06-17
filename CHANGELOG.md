@@ -27,6 +27,7 @@ and this project adheres to
 - main.mk: Rename `TARGETS_PRE` to `TARGETS_PREP`.
 #### Deprecated
 #### Removed
+- cxl: Temp remove driver directory.
 #### Fixed
 #### Security
 #### Docs
