@@ -15,6 +15,8 @@ sudo cxl create-region --decoder decoder0.0 --size 1024M --type ram --memdevs me
 # - /sys/bus/dax/drivers/kmem/dax0.0
 # - /dev/dax0.0 [Character Device]
 sudo cxl create-region --decoder decoder0.0 --size 4096M --type ram --memdevs mem0 mem1 mem2 mem3
+sudo daxctl list
+sudo daxctl list -r region0
 
 sudo cxl enable-region region0
 sudo cxl enable-region all
