@@ -84,8 +84,8 @@ tracepoint:kvm:kvm_exit
 {
 	$reason = args->exit_reason;
 
-	if (@vmx_str[$reason] != "") {
-		@reasons[@vmx_str[$reason]] = count();
+	if (has_key(@vmx_str, (int64)$reason)) {
+		@reasons[@vmx_str[(int64)$reason]] = count();
 	} else {
 		@reasons_v[$reason] = count();
 	}

@@ -1,4 +1,6 @@
 #!/bin/bash
+set -e
+
 ABSDIR=$(dirname $(realpath $0))
 echo $ABSDIR
 
