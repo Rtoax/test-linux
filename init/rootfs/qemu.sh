@@ -13,7 +13,6 @@ memory=2G
 f_kernel=
 f_initrd=
 f_rootfs=
-rootfs_type=
 init=
 f_nvdimm=
 
@@ -130,6 +129,7 @@ while true; do
 		shift
 		f_kernel=$1
 		check_file_exist_and_exit ${f_kernel}
+		f_kernel=$(realpath ${f_kernel})
 		shift
 		;;
 	--karg)
@@ -141,17 +141,18 @@ while true; do
 		shift
 		f_initrd=$1
 		check_file_exist_and_exit ${f_initrd}
+		f_initrd=$(realpath ${f_initrd})
 		shift
 		;;
 	-r | --rootfs)
 		shift
 		f_rootfs=$1
-		rootfs_type=${f_rootfs##*.}
-		if ! [[ " raw qcow2 " =~ " ${rootfs_type} " ]]; then
+		if ! [[ " raw qcow2 " =~ " ${f_rootfs##*.} " ]]; then
 			echo >&2 "ERROR: ${f_rootfs} is not raw or qcow2."
 			exit 1
 		fi
 		check_file_exist_and_exit ${f_rootfs}
+		f_rootfs=$(realpath ${f_rootfs})
 		shift
 		;;
 	--init)
@@ -163,6 +164,7 @@ while true; do
 		shift
 		f_nvdimm=$1
 		check_file_exist_and_exit ${f_nvdimm}
+		f_nvdimm=$(realpath ${f_nvdimm})
 		shift
 		;;
 	--cxl)
@@ -206,9 +208,6 @@ if [[ -z ${f_kernel} ]] && [[ -z ${f_initrd} ]]; then
 	echo >&2 "ERROR: must specify kernel and initrd"
 	exit 1
 fi
-
-f_kernel=$(realpath ${f_kernel})
-f_initrd=$(realpath ${f_initrd})
 
 if [[ ${verbose} ]]; then
 	export PS4='+${BASH_SOURCE}:${LINENO}:${FUNCNAME[0]}: '
@@ -344,7 +343,7 @@ config_rootfs() {
 		return 0
 	fi
 
-	f_rootfs=$(realpath ${f_rootfs})
+	local rootfs_type=${f_rootfs##*.}
 
 	rootfs_virtio() {
 		local virtio_id=$(mktemp -u virtio-XXXXXX)
@@ -378,7 +377,6 @@ config_nvdimm() {
 	if [[ -z ${f_nvdimm} ]]; then
 		return 0
 	fi
-	f_nvdimm=$(realpath ${f_nvdimm})
 
 	size=$(stat --format=%s ${f_nvdimm})
 	skip_resize() {
