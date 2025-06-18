@@ -37,6 +37,7 @@ cxl_size=1024M
 # q35 for pcie.0
 declare -a qmachine+=( q35 accel=kvm )
 declare -a qargs kcmds
+declare -a cleanup_files
 
 __usage__() {
 	echo -e "
