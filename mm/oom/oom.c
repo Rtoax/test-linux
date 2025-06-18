@@ -15,6 +15,7 @@
 
 volatile sig_atomic_t keep_going = 1;
 
+size_t total_size = 0;
 size_t mem_size = 0;
 bool flag_oom_adj = false;
 int oom_adj;
@@ -123,6 +124,7 @@ void hold_mem(size_t size)
 			size / 1024 / 1024);
 
 	mem = malloc(size);
+	total_size = size;
 
 	while (keep_going) {
 		for (i = 0; i < size; i += pagesize)
@@ -139,7 +141,7 @@ void try_oom(void)
 	const size_t pagesize = getpagesize();
 	const size_t blk = pagesize * 100;
 	char *mem;
-	size_t total_size = 0, cal_rate_size = 0;
+	size_t cal_rate_size = 0;
 	unsigned long start, end;
 
 	if (verbose)
