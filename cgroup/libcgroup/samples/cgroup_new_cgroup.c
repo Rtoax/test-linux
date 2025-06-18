@@ -44,9 +44,14 @@ int main(int argc, char **argv)
 		goto delete;
 	}
 
+#ifdef CGROUP_V1
+#define MEMORY_LIMIT	"memory.limit_in_bytes"
+#else
+#define MEMORY_LIMIT	"memory.max"
+#endif
 	/* 100M */
 	size_t limit_in_bytes = 100 * 1024 * 1024;
-	ret = cgroup_set_value_uint64(cgroup_controller, "memory.limit_in_bytes", limit_in_bytes);
+	ret = cgroup_set_value_uint64(cgroup_controller, MEMORY_LIMIT, limit_in_bytes);
 	if (ret) {
 		fprintf(stderr, "Error setting memory limit: %d\n", ret);
 		ret = 1;
@@ -54,8 +59,8 @@ int main(int argc, char **argv)
 	}
 
 	limit_in_bytes = 0;
-	cgroup_get_value_uint64(cgroup_controller, "memory.limit_in_bytes", &limit_in_bytes);
-	printf("Set memory.limit_in_bytes to %ld\n", limit_in_bytes);
+	cgroup_get_value_uint64(cgroup_controller, MEMORY_LIMIT, &limit_in_bytes);
+	printf("Set "MEMORY_LIMIT" to %ld\n", limit_in_bytes);
 
 	pid = fork();
 	if (pid < 0)

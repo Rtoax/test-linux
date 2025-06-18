@@ -10,6 +10,7 @@ and this project adheres to
 ## Unreleased
 #### Breaking Changes
 #### Added
+- oom: add cgroup-oom.sh.
 - rootfs/qemu.sh: support sata,nvme,virtio-blk,virtio-scsi.
 - wayland: Add helloworld.c demo.
 - python: add split.py,hexdump().
