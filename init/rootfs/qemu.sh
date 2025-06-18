@@ -266,7 +266,14 @@ qargs+=( -enable-kvm )
 qargs+=( -qmp unix:$PWD/qmp-${vm_name}.sock,server=on,wait=off )
 qargs+=( -pidfile ${vm_name}.pid)
 qargs+=( -cpu host,migratable=off -smp cpus=4 )
-qargs+=( -m 2048M,slots=10,maxmem=129139M )
+
+config_memory() {
+	local m=( 2048M )
+	m+=( slots=0 )
+	m+=( maxmem=129139M )
+	qargs+=( -m $(IFS=,; echo "${m[*]}") )
+}
+config_memory
 
 qargs+=( -drive if=pflash,format=raw,readonly=on,file=/usr/share/OVMF/OVMF_CODE.fd
 	-drive if=pflash,format=raw,file=/usr/share/OVMF/OVMF_VARS.fd )
