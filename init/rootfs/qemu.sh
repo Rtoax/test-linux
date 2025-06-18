@@ -10,14 +10,13 @@ readonly qemu=$(get_qemu_kvm_emulator)
 
 vm_name=$(mktemp -u vm-XXXXXX)
 memory=2G
-kernel=
-initrd=
-rootfs=
+f_kernel=
+f_initrd=
+f_rootfs=
 rootfs_type=
 init=
-nvdimm=
+f_nvdimm=
 
-is_initrd=
 dry_run=
 verbose=
 debug=
@@ -43,7 +42,7 @@ declare -a qargs kcmds
 __usage__() {
 	echo -e "
 NAME
-	${prog} - test rootfs/initrd with qemu
+	${prog} - Running a virtual machine with Qemu
 
 SYNOPSIS
 	${prog} -k=<kernel> -i=<initrd> [-r=<rootfs>] [-m=4G] [--stdio]
@@ -102,7 +101,6 @@ TEMP_ARGS=$(getopt --options n:m:k:i:r:huDv \
 	--long initrd: \
 	--long rootfs: \
 	--long init: \
-	--long initrd \
 	--long nvdimm: \
 	--long stdio \
 	--long cxl: \
@@ -130,8 +128,8 @@ while true; do
 		;;
 	-k | --kernel)
 		shift
-		kernel=$1
-		check_file_exist_and_exit ${kernel}
+		f_kernel=$1
+		check_file_exist_and_exit ${f_kernel}
 		shift
 		;;
 	--karg)
@@ -141,19 +139,19 @@ while true; do
 		;;
 	-i | --initrd)
 		shift
-		initrd=$1
-		check_file_exist_and_exit ${initrd}
+		f_initrd=$1
+		check_file_exist_and_exit ${f_initrd}
 		shift
 		;;
 	-r | --rootfs)
 		shift
-		rootfs=$1
-		rootfs_type=${rootfs##*.}
+		f_rootfs=$1
+		rootfs_type=${f_rootfs##*.}
 		if ! [[ " raw qcow2 " =~ " ${rootfs_type} " ]]; then
-			echo >&2 "ERROR: ${rootfs} is not raw or qcow2."
+			echo >&2 "ERROR: ${f_rootfs} is not raw or qcow2."
 			exit 1
 		fi
-		check_file_exist_and_exit ${rootfs}
+		check_file_exist_and_exit ${f_rootfs}
 		shift
 		;;
 	--init)
@@ -161,14 +159,10 @@ while true; do
 		init=$1
 		shift
 		;;
-	--initrd)
-		shift
-		is_initrd=YES
-		;;
 	--nvdimm)
 		shift
-		nvdimm=$1
-		check_file_exist_and_exit ${nvdimm}
+		f_nvdimm=$1
+		check_file_exist_and_exit ${f_nvdimm}
 		shift
 		;;
 	--cxl)
@@ -207,14 +201,14 @@ while true; do
 	esac
 done
 
-if [[ -z ${kernel} ]] && [[ -z ${initrd} ]]; then
+if [[ -z ${f_kernel} ]] && [[ -z ${f_initrd} ]]; then
 	__usage__
 	echo >&2 "ERROR: must specify kernel and initrd"
 	exit 1
 fi
 
-kernel=$(realpath ${kernel})
-initrd=$(realpath ${initrd})
+f_kernel=$(realpath ${f_kernel})
+f_initrd=$(realpath ${f_initrd})
 
 if [[ ${verbose} ]]; then
 	export PS4='+${BASH_SOURCE}:${LINENO}:${FUNCNAME[0]}: '
@@ -330,8 +324,8 @@ config_net() {
 }
 
 config_kernel() {
-	qargs+=( -kernel ${kernel} )
-	qargs+=( -initrd ${initrd} )
+	qargs+=( -kernel ${f_kernel} )
+	qargs+=( -initrd ${f_initrd} )
 
 	kcmds+=( earlyprintk=serial )
 	kcmds+=( net.ifnames=0 )
@@ -344,49 +338,49 @@ config_kernel() {
 }
 
 config_rootfs() {
-	if [[ -z ${rootfs} ]]; then
+	if [[ -z ${f_rootfs} ]]; then
 		# if not rootfs, we should break in initrd.
 		kcmds+=( rd.break ) # dracut.cmdline(7)
 		return 0
 	fi
 
-	rootfs=$(realpath ${rootfs})
+	f_rootfs=$(realpath ${f_rootfs})
 
 	rootfs_virtio() {
 		local virtio_id=$(mktemp -u virtio-XXXXXX)
-		qargs+=( -drive file=${rootfs},format=${rootfs_type},if=none,id=${virtio_id}
+		qargs+=( -drive file=${f_rootfs},format=${rootfs_type},if=none,id=${virtio_id}
 			-device virtio-blk,drive=${virtio_id} )
 	}
 	rootfs_sata() {
 		local sata_id=$(mktemp -u sata-XXXXXX)
 		qargs+=( -device ahci,id=ahci0
-			-drive if=none,file=${rootfs},format=${rootfs_type},id=${sata_id}
+			-drive if=none,file=${f_rootfs},format=${rootfs_type},id=${sata_id}
 			-device ide-hd,bus=ahci0.0,drive=${sata_id} )
 	}
 	rootfs_nvme() {
 		local drive_id=$(mktemp -u nvme-XXXXXX)
-		qargs+=( -drive if=none,file=${rootfs},format=${rootfs_type},id=${drive_id}
+		qargs+=( -drive if=none,file=${f_rootfs},format=${rootfs_type},id=${drive_id}
 			-device nvme,drive=${drive_id},serial=sn-${drive_id} )
 	}
 	rootfs_scsi() {
 		qargs+=( -device virtio-scsi-pci,id=scsi0
 			-device scsi-hd,drive=hd0
-			-drive file=${rootfs},if=none,aio=native,cache=none,format=${rootfs_type},id=hd0 )
+			-drive file=${f_rootfs},if=none,aio=native,cache=none,format=${rootfs_type},id=hd0 )
 	}
 	rootfs_virtio
 
-	kcmds+=( root=UUID=$(image2uuid ${rootfs}) )
+	kcmds+=( root=UUID=$(image2uuid ${f_rootfs}) )
 }
 
 config_nvdimm() {
 	local size nvdimm_id
 
-	if [[ -z ${nvdimm} ]]; then
+	if [[ -z ${f_nvdimm} ]]; then
 		return 0
 	fi
-	nvdimm=$(realpath ${nvdimm})
+	f_nvdimm=$(realpath ${f_nvdimm})
 
-	size=$(stat --format=%s ${nvdimm})
+	size=$(stat --format=%s ${f_nvdimm})
 	skip_resize() {
 		if [[ ${size} -lt $((1024*1024*1024)) ]]; then
 			size=$((1024*1024*1024))
@@ -395,7 +389,7 @@ config_nvdimm() {
 	qmachine+=( nvdimm=on )
 	nvdimm_id=$(mktemp -u nvdimm-XXXXXX)
 	qargs+=( -device nvdimm,id=nv0,memdev=${nvdimm_id},unarmed=on )
-	qargs+=( -object memory-backend-file,id=${nvdimm_id},mem-path=${nvdimm},size=${size},readonly=on )
+	qargs+=( -object memory-backend-file,id=${nvdimm_id},mem-path=${f_nvdimm},size=${size},readonly=on )
 }
 
 # https://www.qemu.org/docs/master/system/devices/cxl.html
