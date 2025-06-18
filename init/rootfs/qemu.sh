@@ -268,13 +268,13 @@ cleanup() {
 }
 trap cleanup EXIT
 
-
-qargs+=( -name ${vm_name} )
-qargs+=( -uuid $(uuid) )
-qargs+=( -enable-kvm )
-qargs+=( -qmp unix:$PWD/qmp-${vm_name}.sock,server=on,wait=off )
-qargs+=( -pidfile ${vm_name}.pid)
-qargs+=( -cpu host,migratable=off -smp cpus=4 )
+config_base() {
+	qargs+=( -name ${vm_name} )
+	qargs+=( -uuid $(uuid) )
+	qargs+=( -enable-kvm )
+	qargs+=( -qmp unix:$PWD/qmp-${vm_name}.sock,server=on,wait=off )
+	qargs+=( -pidfile ${vm_name}.pid)
+}
 
 config_memory() {
 	local m=( ${memory} )
@@ -282,13 +282,20 @@ config_memory() {
 	m+=( maxmem=32768M )
 	qargs+=( -m $(IFS=,; echo "${m[*]}") )
 }
-config_memory
 
-qargs+=( -drive if=pflash,format=raw,readonly=on,file=/usr/share/OVMF/OVMF_CODE.fd
-	-drive if=pflash,format=raw,file=/usr/share/OVMF/OVMF_VARS.fd )
+config_cpu() {
+	qargs+=( -cpu host,migratable=off -smp cpus=4 )
+}
 
-qargs+=(-device pcie-root-port,id=pcie.1,bus=pcie.0,port=1,chassis=1,slot=0
-	-device pcie-root-port,id=pcie.2,bus=pcie.0,port=2,chassis=2,slot=0)
+config_uefi() {
+	qargs+=( -drive if=pflash,format=raw,readonly=on,file=/usr/share/OVMF/OVMF_CODE.fd
+		-drive if=pflash,format=raw,file=/usr/share/OVMF/OVMF_VARS.fd )
+}
+
+config_pci() {
+	qargs+=(-device pcie-root-port,id=pcie.1,bus=pcie.0,port=1,chassis=1,slot=0
+		-device pcie-root-port,id=pcie.2,bus=pcie.0,port=2,chassis=2,slot=0)
+}
 
 add_net_nic_user() {
 	qargs+=(-netdev type=user,id=net0
@@ -313,14 +320,27 @@ add_net_nic_user_tap() {
 		-device virtio-net,netdev=network0
 		-netdev tap,id=network0,ifname=tap0,script=no,downscript=no )
 }
-add_net_nic_user_tap
+
+config_net() {
+	add_net_nic_user_tap
+}
+
+config_kernel() {
+	qargs+=( -kernel ${kernel} )
+	qargs+=( -initrd ${initrd} )
+}
+
+config_base
+config_memory
+config_cpu
+config_uefi
+config_pci
+config_net
+config_kernel
 
 kcmd+=( earlyprintk=serial )
 kcmd+=( net.ifnames=0 )
 kcmd+=( selinux=0 audit=0 console=tty0 nokaslr rw )
-
-qargs+=( -kernel ${kernel} )
-qargs+=( -initrd ${initrd} )
 
 if [[ ${rootfs} ]]; then
 	rootfs=$(realpath ${rootfs})
