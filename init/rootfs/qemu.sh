@@ -362,9 +362,10 @@ config_rootfs() {
 			-device nvme,drive=${drive_id},serial=sn-${drive_id} )
 	}
 	rootfs_scsi() {
+		local hd_id=$(mktemp -u hd-XXXXXX)
 		qargs+=( -device virtio-scsi-pci,id=scsi0
-			-device scsi-hd,drive=hd0
-			-drive file=${f_rootfs},if=none,aio=native,cache=none,format=${rootfs_type},id=hd0 )
+			-device scsi-hd,drive=${hd_id}
+			-drive file=${f_rootfs},if=none,aio=native,cache=none,format=${rootfs_type},id=${hd_id} )
 	}
 	rootfs_virtio
 
