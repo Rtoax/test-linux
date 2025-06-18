@@ -436,13 +436,14 @@ config_nvdimm() {
 		return 0
 	fi
 
+	qmachine+=( nvdimm=on )
+
 	size=$(stat --format=%s ${f_nvdimm})
 	skip_resize() {
 		if [[ ${size} -lt $((1024*1024*1024)) ]]; then
 			size=$((1024*1024*1024))
 		fi
 	}
-	qmachine+=( nvdimm=on )
 	obj_id=$(mktemp -u nvdimm-XXXXXX)
 	nv_id=$(mktemp -u nv-XXXXXX)
 
@@ -656,6 +657,7 @@ config_rootfs
 config_nvdimm
 config_cxl
 
+#qmachine=( $(printf "%s\n" ${qmachine[@]} | sort -u) )
 qargs+=( -machine $(IFS=,; echo "${qmachine[*]}") )
 
 _eval ${qemu} ${qargs[@]} -append \"${kcmds[@]}\"
