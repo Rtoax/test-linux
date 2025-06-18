@@ -42,7 +42,9 @@ cxl_pmem() {
 	sudo lsblk
 
 	# Use pmem block...
-	# 1. dd test in VM, commit 396d70443203 ("cxl.sh: pmem: add how to use pmem block")
+	# 1. dd test in VM
+	#    commit 396d70443203 ("cxl.sh: pmem: add how to use pmem block")
+	#    commit 6b4e95c05687 ("cxl.sh: pmem: vm: why CXL pmem block is so slow in VM")
 	test_pmem_blk {
 		sudo mkfs.xfs -f /dev/pmem0
 		sudo mkdir -p pmem
