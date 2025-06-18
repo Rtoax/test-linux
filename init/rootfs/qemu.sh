@@ -381,6 +381,37 @@ config_kernel() {
 	fi
 }
 
+add_virtio_disk() {
+	local f_img=$1
+	local f_type=${f_img##*.}
+	local virtio_id=$(mktemp -u virtio-XXXXXX)
+	qargs+=( -drive file=${f_img},format=${f_type},if=none,id=${virtio_id}
+		-device virtio-blk,drive=${virtio_id} )
+}
+add_sata_disk() {
+	local f_img=$1
+	local f_type=${f_img##*.}
+	local sata_id=$(mktemp -u sata-XXXXXX)
+	qargs+=( -device ahci,id=ahci0
+		-drive if=none,file=${f_img},format=${f_type},id=${sata_id}
+		-device ide-hd,bus=ahci0.0,drive=${sata_id} )
+}
+add_nvme_disk() {
+	local f_img=$1
+	local f_type=${f_img##*.}
+	local drive_id=$(mktemp -u nvme-XXXXXX)
+	qargs+=( -drive if=none,file=${f_img},format=${f_type},id=${drive_id}
+		-device nvme,drive=${drive_id},serial=sn-${drive_id} )
+}
+add_scsi_disk() {
+	local f_img=$1
+	local f_type=${f_img##*.}
+	local hd_id=$(mktemp -u hd-XXXXXX)
+	qargs+=( -device virtio-scsi-pci,id=scsi0
+		-device scsi-hd,drive=${hd_id}
+		-drive file=${f_img},if=none,aio=native,cache=none,format=${f_type},id=${hd_id} )
+}
+
 config_rootfs() {
 	if [[ -z ${f_rootfs} ]]; then
 		# if not rootfs, we should break in initrd.
@@ -388,36 +419,11 @@ config_rootfs() {
 		return 0
 	fi
 
-	local rootfs_type=${f_rootfs##*.}
-
-	rootfs_virtio() {
-		local virtio_id=$(mktemp -u virtio-XXXXXX)
-		qargs+=( -drive file=${f_rootfs},format=${rootfs_type},if=none,id=${virtio_id}
-			-device virtio-blk,drive=${virtio_id} )
-	}
-	rootfs_sata() {
-		local sata_id=$(mktemp -u sata-XXXXXX)
-		qargs+=( -device ahci,id=ahci0
-			-drive if=none,file=${f_rootfs},format=${rootfs_type},id=${sata_id}
-			-device ide-hd,bus=ahci0.0,drive=${sata_id} )
-	}
-	rootfs_nvme() {
-		local drive_id=$(mktemp -u nvme-XXXXXX)
-		qargs+=( -drive if=none,file=${f_rootfs},format=${rootfs_type},id=${drive_id}
-			-device nvme,drive=${drive_id},serial=sn-${drive_id} )
-	}
-	rootfs_scsi() {
-		local hd_id=$(mktemp -u hd-XXXXXX)
-		qargs+=( -device virtio-scsi-pci,id=scsi0
-			-device scsi-hd,drive=${hd_id}
-			-drive file=${f_rootfs},if=none,aio=native,cache=none,format=${rootfs_type},id=${hd_id} )
-	}
-
 	case ${f_rootfs_disk_type} in
-	${DISK_TYPE_VIRTIO}) rootfs_virtio ;;
-	${DISK_TYPE_SATA}) rootfs_sata ;;
-	${DISK_TYPE_NVME}) rootfs_nvme ;;
-	${DISK_TYPE_SCSI}) rootfs_scsi ;;
+	${DISK_TYPE_VIRTIO}) add_virtio_disk ${f_rootfs} ;;
+	${DISK_TYPE_SATA}) add_sata_disk ${f_rootfs} ;;
+	${DISK_TYPE_NVME}) add_nvme_disk ${f_rootfs} ;;
+	${DISK_TYPE_SCSI}) add_scsi_disk ${f_rootfs} ;;
 	esac
 
 	kcmds+=( root=UUID=$(image2uuid ${f_rootfs}) )
