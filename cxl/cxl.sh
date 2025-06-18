@@ -47,7 +47,7 @@ cxl_pmem() {
 		sudo mkfs.xfs -f /dev/pmem0
 		sudo mkdir -p pmem
 		sudo mount /dev/pmem0 pmem
-		sudo dd if=/dev/zero of=a.bin bs=1M count=200 status=progress
+		sudo dd if=/dev/zero of=a.bin oflag=direct bs=1M count=200 status=progress
 	}
 
 	sudo ndctl disable-namespace namespace0.0
