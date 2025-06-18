@@ -374,7 +374,7 @@ config_rootfs() {
 }
 
 config_nvdimm() {
-	local size nvdimm_id
+	local size nv_id obj_id
 
 	if [[ -z ${f_nvdimm} ]]; then
 		return 0
@@ -387,9 +387,11 @@ config_nvdimm() {
 		fi
 	}
 	qmachine+=( nvdimm=on )
-	nvdimm_id=$(mktemp -u nvdimm-XXXXXX)
-	qargs+=( -device nvdimm,id=nv0,memdev=${nvdimm_id},unarmed=on )
-	qargs+=( -object memory-backend-file,id=${nvdimm_id},mem-path=${f_nvdimm},size=${size},readonly=on )
+	obj_id=$(mktemp -u nvdimm-XXXXXX)
+	nv_id=$(mktemp -u nv-XXXXXX)
+
+	qargs+=( -device nvdimm,id=${nv_id},memdev=${obj_id},unarmed=on )
+	qargs+=( -object memory-backend-file,id=${obj_id},mem-path=${f_nvdimm},size=${size},readonly=on )
 }
 
 # https://www.qemu.org/docs/master/system/devices/cxl.html
