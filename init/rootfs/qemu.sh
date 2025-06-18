@@ -270,7 +270,7 @@ qargs+=( -cpu host,migratable=off -smp cpus=4 )
 config_memory() {
 	local m=( 2048M )
 	m+=( slots=0 )
-	m+=( maxmem=129139M )
+	m+=( maxmem=32768M )
 	qargs+=( -m $(IFS=,; echo "${m[*]}") )
 }
 config_memory
