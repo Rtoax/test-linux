@@ -97,6 +97,14 @@ unsigned long usecs(void)
 	return tv.tv_sec * 1000000UL + tv.tv_usec;
 }
 
+static inline void backspace(FILE *fp, int n)
+{
+	char buf[256];
+	memset(buf, '\b', n);
+	buf[n] = '\0';
+	fprintf(fp, "%s", buf);
+}
+
 int test_popen(void)
 {
 	char buf[128] = "uname -rm";
@@ -175,12 +183,8 @@ void try_oom(void)
 				    total_size / 1024 / 1024 / 1024,
 				    cal_rate_size * 1.0 / (usecs() - start),
 				    get_oom_score(getpid()));
-			if (keep_going) {
-				char buf[256];
-				memset(buf, '\b', n);
-				buf[n] = '\0';
-				fprintf(stderr, "%s", buf);
-			}
+			if (keep_going)
+				backspace(stderr, n);
 		}
 	}
 }
