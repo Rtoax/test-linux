@@ -11,6 +11,8 @@ cxl_ram_4way() {
 	# - /sys/bus/dax/drivers/kmem/dax0.0
 	# - /dev/dax0.0 [Character Device], commit 1227030c1d3f ("cxl.sh: region: character device /dev/dax0.0")
 	sudo cxl create-region --decoder decoder0.0 --size 4096M --type ram --memdevs mem0 mem1 mem2 mem3
+	# or only use one way
+	sudo cxl create-region --decoder decoder0.0 --size 1024M --type ram --memdevs mem0
 
 	sudo cxl enable-region region0
 	sudo cxl enable-region all
