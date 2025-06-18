@@ -6,8 +6,8 @@
 #include <linux/module.h>
 #include <linux/oom.h>
 
-static int notifier_fn(struct notifier_block *nb,
-			unsigned long action, void *data)
+static int notifier_fn(struct notifier_block *nb, unsigned long action,
+		       void *data)
 {
 	/* TODO */
 	return 0;

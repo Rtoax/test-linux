@@ -1,7 +1,3 @@
-ifeq ($(shell uname -m),x86_64)
-endif
-ifeq ($(shell uname -m),aarch64)
-endif
 obj-m += oom_notifier.o
 
 KERNELDIR ?= /lib/modules/$(shell uname -r)/build
