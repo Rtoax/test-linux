@@ -9,6 +9,7 @@
 #include <stdlib.h>
 #include <signal.h>
 #include <sys/mman.h>
+#include <sys/time.h>
 
 #include "oom_helpers.h"
 
@@ -87,6 +88,13 @@ void sig_handler(int signum)
 	}
 }
 
+unsigned long usecs(void)
+{
+	struct timeval tv;
+	gettimeofday(&tv, NULL);
+	return tv.tv_sec * 1000000UL + tv.tv_usec;
+}
+
 int test_popen(void)
 {
 	char buf[128] = "uname -rm";
@@ -131,25 +139,38 @@ void try_oom(void)
 	const size_t pagesize = getpagesize();
 	const size_t blk = pagesize * 100;
 	char *mem;
-	size_t total_size = 0;
+	size_t total_size = 0, cal_rate_size = 0;
+	unsigned long start, end;
 
 	if (verbose)
 		fprintf(stderr, "OOMing...\n");
 
+	start = usecs();
+	cal_rate_size = 0;
+
 	while (keep_going) {
+		end = usecs();
+		/* calculate rate per second */
+		if (end - start >= 1000000UL) {
+			start = usecs();
+			cal_rate_size = 0;
+		}
+
 		/* No need to free(), just leak it. */
 		mem = malloc(blk);
 		for (i = 0; i < blk; i += pagesize)
 			mem[i] = 'a';
 		total_size += blk;
+		cal_rate_size += blk;
 
 		if (flag_popen)
 			test_popen();
 
 		if (verbose) {
-			n = fprintf(stderr, "allocated %ld B (%ld MiB, %ld GiB), oom_score %d",
+			n = fprintf(stderr, "allocated %ld B (%ld MiB, %ld GiB), %.2lf MiB/s, oom_score %d",
 				    total_size, total_size / 1024 / 1024,
 				    total_size / 1024 / 1024 / 1024,
+				    cal_rate_size * 1.0 / (usecs() - start),
 				    get_oom_score(getpid()));
 			while (keep_going && n--)
 				fprintf(stderr, "\b");
