@@ -41,9 +41,13 @@ cxl_pmem() {
 	sudo ndctl list
 	sudo lsblk
 
-	sudo mkfs.xfs -f /dev/pmem0
-
 	# Use pmem block...
+	test_pmem_blk {
+		sudo mkfs.xfs -f /dev/pmem0
+		sudo mkdir -p pmem
+		sudo mount /dev/pmem0 pmem
+		sudo dd if=/dev/zero of=a.bin bs=1M count=200 status=progress
+	}
 
 	sudo ndctl disable-namespace namespace0.0
 	sudo ndctl destroy-namespace namespace0.0
