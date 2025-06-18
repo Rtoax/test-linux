@@ -38,7 +38,7 @@ cxl_size=1024M
 
 # q35 for pcie.0
 declare -a qmachine+=( q35 accel=kvm )
-declare -a qargs kcmd
+declare -a qargs kcmds
 
 __usage__() {
 	echo -e "
@@ -136,7 +136,7 @@ while true; do
 		;;
 	--karg)
 		shift
-		kcmd+=( $1 )
+		kcmds+=( $1 )
 		shift
 		;;
 	-i | --initrd)
@@ -277,7 +277,7 @@ config_basic() {
 
 	if [[ ${stdio} ]]; then
 		qargs+=( -serial mon:stdio -nographic )
-		kcmd+=( console=ttyS0 )
+		kcmds+=( console=ttyS0 )
 	fi
 }
 
@@ -334,19 +334,19 @@ config_kernel() {
 	qargs+=( -kernel ${kernel} )
 	qargs+=( -initrd ${initrd} )
 
-	kcmd+=( earlyprintk=serial )
-	kcmd+=( net.ifnames=0 )
-	kcmd+=( selinux=0 audit=0 console=tty0 nokaslr rw )
+	kcmds+=( earlyprintk=serial )
+	kcmds+=( net.ifnames=0 )
+	kcmds+=( selinux=0 audit=0 console=tty0 nokaslr rw )
 
 	if [[ ${init} ]]; then
-		kcmd+=( rdinit=${init} init=${init} )
+		kcmds+=( rdinit=${init} init=${init} )
 	fi
 }
 
 config_rootfs() {
 	if [[ -z ${rootfs} ]]; then
 		# if not rootfs, we should break in initrd.
-		kcmd+=( rd.break ) # dracut.cmdline(7)
+		kcmds+=( rd.break ) # dracut.cmdline(7)
 		return 0
 	fi
 
@@ -375,7 +375,7 @@ config_rootfs() {
 	}
 	rootfs_virtio
 
-	kcmd+=( root=UUID=$(image2uuid ${rootfs}) )
+	kcmds+=( root=UUID=$(image2uuid ${rootfs}) )
 }
 
 config_nvdimm() {
@@ -540,7 +540,7 @@ cxl_volatile_mem_4way_switch() {
 }
 
 cxl_debug() {
-	kcmd+=( "cxl_acpi.dyndbg=+fplm"
+	kcmds+=( "cxl_acpi.dyndbg=+fplm"
 		"cxl_pci.dyndbg=+fplm"
 		"cxl_core.dyndbg=+fplm"
 		"cxl_mem.dyndbg=+fplm"
@@ -561,8 +561,8 @@ config_cxl() {
 	if [[ ${cxl_type} ]]; then
 		qmachine+=( cxl=on )
 		# Disable ACPI CXL enumeration at boot
-		# kcmd+=( acpi=off )
-		kcmd+=( cxl.mem=disable cxl.acpi=0 )
+		# kcmds+=( acpi=off )
+		kcmds+=( cxl.mem=disable cxl.acpi=0 )
 	fi
 
 	case ${cxl_type} in
@@ -603,4 +603,4 @@ config_cxl
 
 qargs+=( -machine $(IFS=,; echo "${qmachine[*]}") )
 
-_eval ${qemu} ${qargs[@]} -append \"${kcmd[@]}\"
+_eval ${qemu} ${qargs[@]} -append \"${kcmds[@]}\"
