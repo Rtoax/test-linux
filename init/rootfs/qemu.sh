@@ -379,10 +379,13 @@ config_rootfs() {
 }
 
 config_nvdimm() {
+	local size nvdimm_id
+
 	if [[ -z ${nvdimm} ]]; then
 		return 0
 	fi
 	nvdimm=$(realpath ${nvdimm})
+
 	size=$(stat --format=%s ${nvdimm})
 	skip_resize() {
 		if [[ ${size} -lt $((1024*1024*1024)) ]]; then
