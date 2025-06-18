@@ -277,7 +277,6 @@ config_basic() {
 
 	if [[ ${stdio} ]]; then
 		qargs+=( -serial mon:stdio -nographic )
-		kcmds+=( console=ttyS0 )
 	fi
 }
 
@@ -336,7 +335,8 @@ config_kernel() {
 
 	kcmds+=( earlyprintk=serial )
 	kcmds+=( net.ifnames=0 )
-	kcmds+=( selinux=0 audit=0 console=tty0 nokaslr rw )
+	kcmds+=( selinux=0 audit=0 nokaslr rw )
+	kcmds+=( console=tty0 console=ttyS0 )
 
 	if [[ ${init} ]]; then
 		kcmds+=( rdinit=${init} init=${init} )
