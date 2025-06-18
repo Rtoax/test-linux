@@ -5,7 +5,6 @@ pid=$$
 
 cleanup() {
 	printf "\n"
-	echo 0 | sudo tee /sys/fs/cgroup/oom-test/cgroup.procs || :
 	sudo rmdir /sys/fs/cgroup/oom-test/
 }
 trap cleanup EXIT
