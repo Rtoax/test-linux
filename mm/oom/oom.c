@@ -137,19 +137,21 @@ void try_oom(void)
 		fprintf(stderr, "OOMing...\n");
 
 	while (keep_going) {
+		/* No need to free(), just leak it. */
 		mem = malloc(blk);
 		for (i = 0; i < blk; i += pagesize)
 			mem[i] = 'a';
 		total_size += blk;
+
 		if (flag_popen)
 			test_popen();
-		/* No need to free(), just leak it. */
+
 		if (verbose) {
 			n = fprintf(stderr, "allocated %ld B (%ld MiB, %ld GiB), oom_score %d",
 				    total_size, total_size / 1024 / 1024,
 				    total_size / 1024 / 1024 / 1024,
 				    get_oom_score(getpid()));
-			while (n--)
+			while (keep_going && n--)
 				fprintf(stderr, "\b");
 		}
 	}
