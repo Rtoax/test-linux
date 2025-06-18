@@ -42,6 +42,7 @@ cxl_pmem() {
 	sudo lsblk
 
 	# Use pmem block...
+	# 1. dd test in VM, commit 396d70443203 ("cxl.sh: pmem: add how to use pmem block")
 	test_pmem_blk {
 		sudo mkfs.xfs -f /dev/pmem0
 		sudo mkdir -p pmem
