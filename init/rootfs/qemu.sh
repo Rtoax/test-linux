@@ -9,6 +9,7 @@ readonly prog=qemu-rootfs.sh
 readonly qemu=$(get_qemu_kvm_emulator)
 
 vm_name=$(mktemp -u vm-XXXXXX)
+memory=2G
 kernel=
 initrd=
 rootfs=
@@ -45,10 +46,12 @@ NAME
 	${prog} - test rootfs/initrd with qemu
 
 SYNOPSIS
-	${prog} -k=<kernel> -i=<initrd> [-r=<rootfs>] [--stdio]
+	${prog} -k=<kernel> -i=<initrd> [-r=<rootfs>] [-m=4G] [--stdio]
 
 DESCRIPTION
 	-n, --name [NAME]       specify vm name, default: vm- prefix
+
+	-m, --memory [SIZE]     Sets guest startup RAM size, default: ${memory}.
 
 	-k, --kernel [KERNEL]   specify vmlinuz, bzImage
 	    --karg [ARG]        add kernel argument, (may be listed multiple times)
@@ -91,8 +94,9 @@ check_file_exist_and_exit() {
 	fi
 }
 
-TEMP_ARGS=$(getopt --options n:k:i:r:huDv \
+TEMP_ARGS=$(getopt --options n:m:k:i:r:huDv \
 	--long name: \
+	--long memory: \
 	--long kernel: \
 	--long karg: \
 	--long initrd: \
@@ -117,6 +121,11 @@ while true; do
 	-n | --name)
 		shift
 		vm_name=$1
+		shift
+		;;
+	-m | --memory)
+		shift
+		memory=$1
 		shift
 		;;
 	-k | --kernel)
@@ -268,7 +277,7 @@ qargs+=( -pidfile ${vm_name}.pid)
 qargs+=( -cpu host,migratable=off -smp cpus=4 )
 
 config_memory() {
-	local m=( 2048M )
+	local m=( ${memory} )
 	m+=( slots=0 )
 	m+=( maxmem=32768M )
 	qargs+=( -m $(IFS=,; echo "${m[*]}") )
