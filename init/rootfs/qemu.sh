@@ -268,12 +268,17 @@ cleanup() {
 }
 trap cleanup EXIT
 
-config_base() {
+config_basic() {
 	qargs+=( -name ${vm_name} )
 	qargs+=( -uuid $(uuid) )
 	qargs+=( -enable-kvm )
 	qargs+=( -qmp unix:$PWD/qmp-${vm_name}.sock,server=on,wait=off )
 	qargs+=( -pidfile ${vm_name}.pid)
+
+	if [[ ${stdio} ]]; then
+		qargs+=( -serial mon:stdio -nographic )
+		kcmd+=( console=ttyS0 )
+	fi
 }
 
 config_memory() {
@@ -328,21 +333,23 @@ config_net() {
 config_kernel() {
 	qargs+=( -kernel ${kernel} )
 	qargs+=( -initrd ${initrd} )
+
+	kcmd+=( earlyprintk=serial )
+	kcmd+=( net.ifnames=0 )
+	kcmd+=( selinux=0 audit=0 console=tty0 nokaslr rw )
+
+	if [[ ${init} ]]; then
+		kcmd+=( rdinit=${init} init=${init} )
+	fi
 }
 
-config_base
-config_memory
-config_cpu
-config_uefi
-config_pci
-config_net
-config_kernel
+config_rootfs() {
+	if [[ -z ${rootfs} ]]; then
+		# if not rootfs, we should break in initrd.
+		kcmd+=( rd.break ) # dracut.cmdline(7)
+		return 0
+	fi
 
-kcmd+=( earlyprintk=serial )
-kcmd+=( net.ifnames=0 )
-kcmd+=( selinux=0 audit=0 console=tty0 nokaslr rw )
-
-if [[ ${rootfs} ]]; then
 	rootfs=$(realpath ${rootfs})
 
 	rootfs_virtio() {
@@ -369,12 +376,12 @@ if [[ ${rootfs} ]]; then
 	rootfs_virtio
 
 	kcmd+=( root=UUID=$(image2uuid ${rootfs}) )
-else
-	# if not rootfs, we should break in initrd.
-	kcmd+=( rd.break ) # dracut.cmdline(7)
-fi
+}
 
-if [[ ${nvdimm} ]]; then
+config_nvdimm() {
+	if [[ -z ${nvdimm} ]]; then
+		return 0
+	fi
 	nvdimm=$(realpath ${nvdimm})
 	size=$(stat --format=%s ${nvdimm})
 	skip_resize() {
@@ -386,16 +393,7 @@ if [[ ${nvdimm} ]]; then
 	nvdimm_id=$(mktemp -u nvdimm-XXXXXX)
 	qargs+=( -device nvdimm,id=nv0,memdev=${nvdimm_id},unarmed=on )
 	qargs+=( -object memory-backend-file,id=${nvdimm_id},mem-path=${nvdimm},size=${size},readonly=on )
-fi
-
-if [[ ${stdio} ]]; then
-	qargs+=( -serial mon:stdio -nographic )
-	kcmd+=( rw console=ttyS0 )
-fi
-
-if [[ ${init} ]]; then
-	kcmd+=( rdinit=${init} init=${init} )
-fi
+}
 
 # https://www.qemu.org/docs/master/system/devices/cxl.html
 cxl_pmem() {
@@ -555,40 +553,53 @@ cxl_debug() {
 		)
 }
 
-if [[ ${cxl_type} ]] && [[ ${debug} ]]; then
-	cxl_debug
-fi
+config_cxl() {
+	if [[ ${cxl_type} ]] && [[ ${debug} ]]; then
+		cxl_debug
+	fi
 
-if [[ ${cxl_type} ]]; then
-	qmachine+=( cxl=on )
-	# Disable ACPI CXL enumeration at boot
-	# kcmd+=( acpi=off )
-	kcmd+=( cxl.mem=disable cxl.acpi=0 )
-fi
+	if [[ ${cxl_type} ]]; then
+		qmachine+=( cxl=on )
+		# Disable ACPI CXL enumeration at boot
+		# kcmd+=( acpi=off )
+		kcmd+=( cxl.mem=disable cxl.acpi=0 )
+	fi
 
-case ${cxl_type} in
-${CXL_PMEM})
-	cxl_pmem
-	;;
-${CXL_PMEM_4WAY})
-	cxl_pmem_4way
-	;;
-${CXL_PMEM_4WAY_SWITCH})
-	cxl_pmem_4way_switch
-	;;
-${CXL_VOLATILE_MEM})
-	cxl_volatile_mem
-	;;
-${CXL_VOLATILE_MEM_LSA})
-	cxl_volatile_mem_lsa
-	;;
-${CXL_VOLATILE_MEM_4WAY})
-	cxl_volatile_mem_4way
-	;;
-${CXL_VOLATILE_MEM_4WAY_SWITCH})
-	cxl_volatile_mem_4way_switch
-	;;
-esac
+	case ${cxl_type} in
+	${CXL_PMEM})
+		cxl_pmem
+		;;
+	${CXL_PMEM_4WAY})
+		cxl_pmem_4way
+		;;
+	${CXL_PMEM_4WAY_SWITCH})
+		cxl_pmem_4way_switch
+		;;
+	${CXL_VOLATILE_MEM})
+		cxl_volatile_mem
+		;;
+	${CXL_VOLATILE_MEM_LSA})
+		cxl_volatile_mem_lsa
+		;;
+	${CXL_VOLATILE_MEM_4WAY})
+		cxl_volatile_mem_4way
+		;;
+	${CXL_VOLATILE_MEM_4WAY_SWITCH})
+		cxl_volatile_mem_4way_switch
+		;;
+	esac
+}
+
+config_basic
+config_memory
+config_cpu
+config_uefi
+config_pci
+config_net
+config_kernel
+config_rootfs
+config_nvdimm
+config_cxl
 
 qargs+=( -machine $(IFS=,; echo "${qmachine[*]}") )
 
