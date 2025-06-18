@@ -276,7 +276,7 @@ config_basic() {
 
 config_memory() {
 	local m=( ${memory} )
-	m+=( slots=0 )
+	m+=( slots=8 )
 	m+=( maxmem=32768M )
 	qargs+=( -m $(IFS=,; echo "${m[*]}") )
 }
