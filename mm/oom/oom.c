@@ -8,6 +8,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <signal.h>
+#include <string.h>
 #include <sys/mman.h>
 #include <sys/time.h>
 
@@ -174,8 +175,12 @@ void try_oom(void)
 				    total_size / 1024 / 1024 / 1024,
 				    cal_rate_size * 1.0 / (usecs() - start),
 				    get_oom_score(getpid()));
-			while (keep_going && n--)
-				fprintf(stderr, "\b");
+			if (keep_going) {
+				char buf[256];
+				memset(buf, '\b', n);
+				buf[n] = '\0';
+				fprintf(stderr, "%s", buf);
+			}
 		}
 	}
 }
