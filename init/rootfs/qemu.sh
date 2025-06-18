@@ -13,6 +13,7 @@ memory=2G
 f_kernel=
 f_initrd=
 f_rootfs=
+f_rootfs_disk_type=
 init=
 f_nvdimm=
 
@@ -33,6 +34,13 @@ readonly CXL_TYPES=( ${CXL_VOLATILE_MEM} ${CXL_VOLATILE_MEM_LSA}
 			${CXL_PMEM} ${CXL_PMEM_4WAY} ${CXL_PMEM_4WAY_SWITCH})
 cxl_type=
 cxl_size=1024M
+
+readonly DISK_TYPE_VIRTIO=virtio
+readonly DISK_TYPE_SATA=sata
+readonly DISK_TYPE_NVME=nvme
+readonly DISK_TYPE_SCSI=scsi
+readonly DISK_TYPES=( ${DISK_TYPE_VIRTIO} ${DISK_TYPE_SATA} ${DISK_TYPE_NVME}
+			${DISK_TYPE_SCSI} )
 
 # q35 for pcie.0
 declare -a qmachine+=( q35 accel=kvm )
@@ -58,7 +66,10 @@ DESCRIPTION
 
 	-i, --initrd [INITRD]   specify initrd image
 	    --init [PATH]       specify initrd.
-	-r, --rootfs [ROOTFS]   optional specify rootfs image. attr: rw
+
+	-r, --rootfs [type=TYPE,file=ROOTFS]|[ROOTFS]
+	                        optional specify rootfs image. attr: rw
+	                        TYPE=\"${DISK_TYPES[@]}\"
 
 	--nvdimm [FILE]         add a nvdimm pmem
 
@@ -147,7 +158,40 @@ while true; do
 		;;
 	-r | --rootfs)
 		shift
-		f_rootfs=$1
+		# type=TYPE,file=FILE
+		if [[ $(echo $1 | tr '=,' ' ' | wc -w) -gt 1 ]]; then
+			args=( $(echo $1 | tr ',' ' ') )
+			for arg in ${args[@]}
+			do
+				case ${arg%%=*}= in
+				type=)
+					f_rootfs_disk_type=${arg:5}
+					if ! [[ " ${DISK_TYPES[@]} " =~ " ${f_rootfs_disk_type} " ]]; then
+						echo >&2 "ERROR: rootfs unsupport ${arg}"
+						exit 1
+					fi
+					;;
+				file=)
+					f_rootfs=${arg:5}
+					;;
+				*)
+					echo >&2 "ERROR: rootfs unknown ${arg}"
+					exit 1
+					;;
+				esac
+			done
+			if [[ -z ${f_rootfs} ]]; then
+				echo >&2 "ERROR: not found file= for rootfs"
+				exit 1
+			fi
+			if [[ -z ${f_rootfs_disk_type} ]]; then
+				f_rootfs_disk_type=${DISK_TYPE_VIRTIO}
+			fi
+		else
+			f_rootfs_disk_type=${DISK_TYPE_VIRTIO}
+			f_rootfs=$1
+		fi
+
 		if ! [[ " raw qcow2 " =~ " ${f_rootfs##*.} " ]]; then
 			echo >&2 "ERROR: ${f_rootfs} is not raw or qcow2."
 			exit 1
@@ -368,7 +412,13 @@ config_rootfs() {
 			-device scsi-hd,drive=${hd_id}
 			-drive file=${f_rootfs},if=none,aio=native,cache=none,format=${rootfs_type},id=${hd_id} )
 	}
-	rootfs_virtio
+
+	case ${f_rootfs_disk_type} in
+	${DISK_TYPE_VIRTIO}) rootfs_virtio ;;
+	${DISK_TYPE_SATA}) rootfs_sata ;;
+	${DISK_TYPE_NVME}) rootfs_nvme ;;
+	${DISK_TYPE_SCSI}) rootfs_scsi ;;
+	esac
 
 	kcmds+=( root=UUID=$(image2uuid ${f_rootfs}) )
 }
