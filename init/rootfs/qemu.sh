@@ -398,6 +398,12 @@ config_uefi() {
 		/usr/share/OVMF/OVMF_VARS.fd
 	)
 
+	# FIXME: aarch64 default UEFI, skip error:
+	# qemu-kvm: device requires 67108864 bytes, block backend provides 786432 bytes
+	if [[ $(uname -m) == aarch64 ]]; then
+		return 0
+	fi
+
 	for i in ${codes[@]}; do
 		if [[ -e ${i} ]]; then
 			code=${i}
