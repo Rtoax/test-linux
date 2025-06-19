@@ -18,6 +18,11 @@ volatile sig_atomic_t keep_going = 1;
 
 size_t total_size = 0;
 size_t mem_size = 0;
+enum {
+	OP_GLIBC = 1,
+	OP_MMAP_ANON,
+	OP_MMAP_FILE,
+} op_type = OP_GLIBC;
 bool flag_oom_adj = false;
 int oom_adj;
 bool flag_oom_score_adj = false;
@@ -36,6 +41,7 @@ const char argp_prog_doc[] =
 	"USAGE: [-p] [-s <size>] [-a <oom_adj>] [-c <oom_score_adj>] [-v|--verbose]\n";
 
 static const struct argp_option opts[] = {
+	{ "operation", 'e', "OPERATION", 0, "specify operation, glibc, mmap-anon, mmap-file" },
 	{ "size", 's', "SIZE", 0, "only allocate size of memory, instead of oom" },
 	{ "popen", 'p', NULL, 1, "test popen(3) after memory" },
 	{ "verbose", 'v', NULL, 1, "display detail" },
@@ -47,6 +53,18 @@ static const struct argp_option opts[] = {
 static error_t parse_arg(int key, char *arg, struct argp_state *state)
 {
 	switch (key) {
+	case 'e':
+		if (!strcmp(arg, "glibc"))
+			op_type = OP_GLIBC;
+		else if (!strcmp(arg, "mmap-anon"))
+			op_type = OP_MMAP_ANON;
+		else if (!strcmp(arg, "mmap-file"))
+			op_type = OP_MMAP_FILE;
+		else {
+			fprintf(stderr, "ERROR: operation only glibc, mmap-anon, mmap-file");
+			exit(EXIT_FAILURE);
+		}
+		break;
 	case 's':
 		mem_size = strtoul(arg, NULL, 10);
 		break;
@@ -153,6 +171,12 @@ void *glibc_alloc(size_t size)
 	return malloc(size);
 }
 
+void *mmap_anon_alloc(size_t size)
+{
+	return mmap(NULL, size, PROT_READ | PROT_WRITE,
+		    MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
+}
+
 void default_pagefault(void *mem, size_t size)
 {
 	size_t i;
@@ -163,6 +187,11 @@ void default_pagefault(void *mem, size_t size)
 
 struct oom_operations glibc_ops = {
 	.alloc = glibc_alloc,
+	.pagefault = default_pagefault,
+};
+
+struct oom_operations mmap_anon_ops = {
+	.alloc = mmap_anon_alloc,
 	.pagefault = default_pagefault,
 };
 
@@ -246,8 +275,22 @@ int main(int argc, char *argv[])
 
 	if (mem_size)
 		hold_mem(mem_size);
-	else
-		try_oom(&glibc_ops);
+	else {
+		struct oom_operations *ops;
+		switch (op_type) {
+		case OP_GLIBC:
+			ops = &glibc_ops;
+			break;
+		case OP_MMAP_ANON:
+			ops = &mmap_anon_ops;
+			break;
+		case OP_MMAP_FILE:
+			fprintf(stderr, "ERROR: not support yet.\n");
+			exit(EXIT_FAILURE);
+			break;
+		}
+		try_oom(ops);
+	}
 
 	return 0;
 }
