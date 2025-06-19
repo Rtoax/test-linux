@@ -40,6 +40,7 @@ build-targets := $(TARGETS_PREP)
 build-targets += $(OUTPUT)
 build-targets += $(TARGETS) $(TARGETS_LIBA) $(TARGETS_LIBSO)
 build-targets += $(TARGETS_CPP)
+build-targets += $(TARGETS_GO)
 TARGETS_SHELL_LOGS := $(patsubst %.sh,%.sh.log,$(TARGETS_SHELL))
 build-targets += $(TARGETS_SHELL_LOGS)
 build-targets += $(sub-dir-build)
@@ -63,6 +64,7 @@ include ${TEMPLATE_DIR}/target-exe.mk
 include ${TEMPLATE_DIR}/target-liba.mk
 include ${TEMPLATE_DIR}/target-libso.mk
 include ${TEMPLATE_DIR}/target-shell.mk
+include ${TEMPLATE_DIR}/target-golang.mk
 ifneq (${OUTPUT},)
   include ${TEMPLATE_DIR}/target-output.mk
 endif

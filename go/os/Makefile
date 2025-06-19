@@ -1,19 +1,4 @@
 # SPDX-License-Identifier: GPL-3.0
-include ../../tlbuild.mk
-
-include ../go.mk
-
-TARGETS :=
-TARGETS += exec
-
-.PHONY: build
-all: ${TARGETS}
-
-${TARGETS}:
-	@echo -e "  GO  \033[1;32m$(@)\033[m"
-	${Q}$(GO) build $(@).go
-
-.PHONY: clean
-clean:
-	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
-	${Q}rm -f ${TARGETS}
+TARGETS_GO :=
+TARGETS_GO += exec
+include ../../template/main.mk

@@ -11,11 +11,12 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
-- Add template/target-shell.mk.
+- template: Add target-shell.mk, target-golang.mk.
 #### Changed
 - syscall: Use main.mk.
 #### Deprecated
 #### Removed
+- Remove go/go.mk.
 - Remove compiler/force-cflags.mk, move FORCE to main.mk.
 - Remove shell/shell-run.mk.
 #### Fixed
