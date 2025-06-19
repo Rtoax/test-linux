@@ -384,7 +384,7 @@ config_memory() {
 }
 
 config_cpu() {
-	qargs+=( -cpu host,migratable=off -smp cpus=4 )
+	qargs+=( -cpu host -smp cpus=4 )
 }
 
 config_uefi() {
