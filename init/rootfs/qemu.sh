@@ -42,9 +42,7 @@ readonly DISK_TYPE_SCSI=scsi
 readonly DISK_TYPES=( ${DISK_TYPE_VIRTIO} ${DISK_TYPE_SATA} ${DISK_TYPE_NVME}
 			${DISK_TYPE_SCSI} )
 
-# q35 for pcie.0
-declare -a qmachine+=( q35 accel=kvm )
-declare -a qargs kcmds
+declare -a qargs qmachine kcmds
 declare -a cleanup_files
 
 __usage__() {
@@ -316,6 +314,10 @@ config_basic() {
 	if [[ ${stdio} ]]; then
 		qargs+=( -serial mon:stdio -nographic )
 	fi
+
+	# q35 for pcie.0
+	qmachine+=( type=q35 )
+	qmachine+=( accel=kvm )
 }
 
 config_memory() {
@@ -657,7 +659,7 @@ config_rootfs
 config_nvdimm
 config_cxl
 
-#qmachine=( $(printf "%s\n" ${qmachine[@]} | sort -u) )
+qmachine=( $(printf "%s\n" ${qmachine[@]} | sort -u) )
 qargs+=( -machine $(IFS=,; echo "${qmachine[*]}") )
 
 _eval ${qemu} ${qargs[@]} -append \"${kcmds[@]}\"
