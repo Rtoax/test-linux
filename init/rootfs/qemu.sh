@@ -361,6 +361,11 @@ config_basic() {
 	# q35 for pcie.0
 	qmachine+=( type=q35 )
 	qmachine+=( accel=kvm )
+
+	if [[ ${debug} ]]; then
+		kcmds+=( rd.debug )
+		kcmds+=( systemd.log_level=debug )
+	fi
 }
 
 config_memory() {
