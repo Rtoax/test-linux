@@ -414,6 +414,25 @@ add_scsi_disk() {
 		-drive file=${f_img},if=none,aio=native,cache=none,format=${f_type},id=${hd_id} )
 }
 
+add_nvdimm_blk() {
+	local size nv_id obj_id f_img
+
+	f_img=${1}
+	qmachine+=( nvdimm=on )
+
+	size=$(stat --format=%s ${f_img})
+	skip_resize() {
+		if [[ ${size} -lt $((1024*1024*1024)) ]]; then
+			size=$((1024*1024*1024))
+		fi
+	}
+	obj_id=$(mktemp -u nvdimm-XXXXXX)
+	nv_id=$(mktemp -u nv-XXXXXX)
+
+	qargs+=( -device nvdimm,id=${nv_id},memdev=${obj_id},unarmed=on )
+	qargs+=( -object memory-backend-file,id=${obj_id},mem-path=${f_img},size=${size},readonly=on )
+}
+
 config_rootfs() {
 	if [[ -z ${f_rootfs} ]]; then
 		# if not rootfs, we should break in initrd.
@@ -432,25 +451,12 @@ config_rootfs() {
 }
 
 config_nvdimm() {
-	local size nv_id obj_id
 
 	if [[ -z ${f_nvdimm} ]]; then
 		return 0
 	fi
 
-	qmachine+=( nvdimm=on )
-
-	size=$(stat --format=%s ${f_nvdimm})
-	skip_resize() {
-		if [[ ${size} -lt $((1024*1024*1024)) ]]; then
-			size=$((1024*1024*1024))
-		fi
-	}
-	obj_id=$(mktemp -u nvdimm-XXXXXX)
-	nv_id=$(mktemp -u nv-XXXXXX)
-
-	qargs+=( -device nvdimm,id=${nv_id},memdev=${obj_id},unarmed=on )
-	qargs+=( -object memory-backend-file,id=${obj_id},mem-path=${f_nvdimm},size=${size},readonly=on )
+	add_nvdimm_blk ${f_nvdimm}
 }
 
 # https://www.qemu.org/docs/master/system/devices/cxl.html
