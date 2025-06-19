@@ -1,17 +1,4 @@
 # SPDX-License-Identifier: GPL-3.0
-include ../../tlbuild.mk
-
-CC := gcc
-CXX := g++
-
-CFLAGS := -Werror -Wall -D_GNU_SOURCE
-CFLAGS += -Wstrict-prototypes
-CFLAGS += -I../../
-CFLAGS += -pthread
-ifdef DEBUG
-  CFLAGS += -DDEBUG -O0 -g
-endif
-
 include ../../compiler/cross-compile.mk
 
 sub-dir :=
@@ -142,22 +129,22 @@ ifeq ($(shell uname -m),riscv64)
   TARGETS := $(filter-out getdents, $(TARGETS))
 endif
 
-PFX_CC := CC
-ifeq ($(CC),clang)
-  PFX_CC := CLANG
-endif
-
 ifdef STATIC
   CFLAGS += -static
 endif
 
+CFLAGS := -Werror -Wall -D_GNU_SOURCE
+CFLAGS += -Wstrict-prototypes
+CFLAGS += -I../../
+CFLAGS += -pthread
+
 CFLAGS_write := -Wno-error=unused-variable
 CXXFLAGS_readlink2 := -std=c++17 -lstdc++
 
+TARGETS_PREP := nr.h
+TARGETS_CLEAN := clean0
 
-.PHONY: build
-build: nr.h ${TARGETS} ${TARGETS_CPP} $(sub-dir-build)
-	@echo -e " \033[1;33m Done \033[m"
+include ../../template/main.mk
 
 nr.h: nr.sh
 	$(shell bash nr.sh)
@@ -232,30 +219,5 @@ getpagesize: getpagesize.o
 ioprio_get: ioprio_get.o
 ioprio_set: ioprio_set.o
 
-%.o: %.c
-	@echo -e "  ${PFX_CC}  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	${Q}$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
-
-%.opp: %.cpp
-	@echo -e "  ${PFX_CC}  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	${Q}$(CXX) $(CXXFLAGS) $(CXXFLAGS_$(*)) -o $(@) -c $(<)
-
-$(TARGETS): %:
-	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	${Q}$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) $(^)
-
-$(TARGETS_CPP): %:
-	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	${Q}$(CXX) $(CXXFLAGS) $(CXXFLAGS_$(*)) -o $(@) $(^)
-
-test: ${TARGETS} $(sub-dir-test)
-	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
-
-.PHONY: clean
-clean: $(sub-dir-clean)
-	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
-	${Q}rm -rf ${TARGETS} ${TARGETS_CPP} \
-		*.o *.opp nr.h *.out *.dat \
-		*.txt testfile
-
-include ../../template/subdir-footer.mk
+clean0:
+	${Q}rm -rf nr.h *.txt testfile
