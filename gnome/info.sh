@@ -1,8 +1,8 @@
 #!/bin/bash
 set -e
 
-desktop_info()
-{
+desktop_info() {
+	echo DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORITY
 	echo $XDG_CURRENT_DESKTOP
 }
 
