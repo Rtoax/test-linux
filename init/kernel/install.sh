@@ -11,6 +11,20 @@ cross_compile_env()
 	export INSTALL_HDR_PATH=$PWD/headers
 }
 
+kernel_compile_cross_aarch64() {
+	sudo make ARCH=arm CROSS_COMPILE=aarch64-linux-gnu- vexpress_defconfig
+	sudo make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- menuconfig
+	sudo make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- -j8
+}
+
+# qemu: docs/system/arm/orangepi.rst
+kernel_compile_cross_arm() {
+	sudo ARCH=arm CROSS_COMPILE=arm-linux-gnu- make mrproper
+	sudo ARCH=arm CROSS_COMPILE=arm-linux-gnu- make sunxi_defconfig
+	sudo ARCH=arm CROSS_COMPILE=arm-linux-gnu- make menuconfig
+	sudo ARCH=arm CROSS_COMPILE=arm-linux-gnu- make -j8
+}
+
 config_kernel()
 {
 	# to see a list of new configuration symbols

@@ -609,6 +609,10 @@ add_cross_compiler()
 		pkgs_compiler+=( binutils-aarch64-linux-gnu )
 		pkgs_compiler+=( gcc-aarch64-linux-gnu )
 	fi
+	if [[ ! $(is_arch arm) ]]; then
+		pkgs_compiler+=( binutils-arm-linux-gnu )
+		pkgs_compiler+=( gcc-arm-linux-gnu )
+	fi
 	if [[ ! $(is_arch x86_64) ]]; then
 		pkgs_compiler+=( binutils-x86_64-linux-gnu )
 		pkgs_compiler+=( gcc-x86_64-linux-gnu )

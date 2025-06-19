@@ -2,20 +2,6 @@
 
 . config
 
-kernel_compile_cross_aarch64() {
-	sudo make ARCH=arm CROSS_COMPILE=aarch64-linux-gnu- vexpress_defconfig
-	sudo make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- menuconfig
-	sudo make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- -j8
-}
-
-# qemu: docs/system/arm/orangepi.rst
-kernel_compile_cross_arm() {
-	sudo ARCH=arm CROSS_COMPILE=arm-linux-gnu- make mrproper
-	sudo ARCH=arm CROSS_COMPILE=arm-linux-gnu- make sunxi_defconfig
-	sudo ARCH=arm CROSS_COMPILE=arm-linux-gnu- make menuconfig
-	sudo ARCH=arm CROSS_COMPILE=arm-linux-gnu- make -j8
-}
-
 # qemu: docs/system/arm/orangepi.rst
 kernel_run_arm_1() {
 	qemu-system-arm  -M orangepi-pc -nic user -nographic \
@@ -38,7 +24,7 @@ usage()
 
 	compile [type]
 
-	type: cross-aarch64 cross-arm test-cross-arm test-cross-arm-disk
+	type: test-arm test-arm-disk
 
 		-v, --verbose
 		-h, --help
@@ -66,20 +52,10 @@ esac
 done
 
 case $1 in
-cross-aarch64)
-	pushd ${LINUX_KERNEL_DIR}
-	kernel_compile_cross_aarch64
-	popd
-	;;
-cross-arm)
-	pushd ${LINUX_KERNEL_DIR}
-	kernel_compile_cross_arm
-	popd
-	;;
-test-cross-arm)
+test-arm)
 	kernel_run_arm_1
 	;;
-test-cross-arm-disk)
+test-arm-disk)
 	kernel_run_arm_2
 	;;
 *)
