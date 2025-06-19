@@ -1,5 +1,4 @@
 # SPDX-License-Identifier: GPL-3.0
-include ../../../tlbuild.mk
 include signal.mk
 
 sub-dir := SIGURG
@@ -23,26 +22,18 @@ TARGETS += sigsuspend
 TARGETS += sigprocmask
 TARGETS += signalfd
 
-CC := gcc
-CFLAGS :=
-LDFLAGS :=
-
 CFLAGS += -Werror -Wall -D_GNU_SOURCE
 CFLAGS += -I../../../
-ifdef DEBUG
-  CFLAGS += -DDEBUG -O0 -g
-endif
 
 LDFLAGS_tkill := -pthread
 LDFLAGS_tgkill := -pthread
 CFLAGS_tgkill := -DTGKILL=1
 CFLAGS_SIGRTMAX := ${SIGRT_CFLAGS}
 
-include ../../../template/subdir-header.mk
+TARGETS_PREP := sig.h
+TARGETS_TEST := test0
 
-.PHONY: build
-build: sig.h ${TARGETS} $(sub-dir-build)
-	@echo -e " \033[1;33m Done \033[m"
+include ../../../template/main.mk
 
 sig.h:
 	$(shell bash signo.sh)
@@ -85,15 +76,8 @@ sigsuspend: sigsuspend.o
 sigprocmask: sigprocmask.o
 signalfd: signalfd.o
 
-%.o: %.c
-	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	${Q}$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
 
-$(TARGETS): %:
-	@echo -e "  LD  \033[1;32m$(<)\033[m"
-	${Q}$(CC) $(CFLAGS) $(CFLAGS_$(*)) $(LDFLAGS) $(LDFLAGS_$(*)) -o $(@) $(^)
-
-test: ${TARGETS} $(sub-dir-test)
+test0: ${TARGETS}
 	@echo -e "  TEST  \033[1;32msigpending\033[m"
 	./sigpending &
 	sleep 1
@@ -102,10 +86,3 @@ test: ${TARGETS} $(sub-dir-test)
 	kill -20 $(shell pidof sigpending) # SIGTSTP
 	sleep 1
 	kill -9 $(shell pidof sigpending)
-
-.PHONY: clean
-clean: $(sub-dir-clean)
-	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
-	${Q}rm -f ${TARGETS} *.o sig.h
-
-include ../../../template/subdir-footer.mk

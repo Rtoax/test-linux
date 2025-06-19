@@ -1,6 +1,4 @@
 # SPDX-License-Identifier: GPL-3.0
-include ../../../tlbuild.mk
-
 sub-dir :=
 sub-dir += clone
 sub-dir += fork
@@ -20,20 +18,14 @@ TARGETS += sched_yield
 TARGETS += taskset
 TARGETS += daemon
 
-CC := gcc
-CXX := g++
-
 CFLAGS := -Werror -Wall -D_GNU_SOURCE -D__USE_GNU
 CFLAGS += -Wstrict-prototypes
 CFLAGS += -I../../../
 CFLAGS += -pthread
-CFLAGS += -DDEBUG -O0 -g
 
-include ../../../template/subdir-header.mk
+TARGETS_TEST := test0
 
-.PHONY: build
-build: ${TARGETS} $(sub-dir-build)
-	@echo -e " \033[1;33m Done \033[m"
+include ../../../template/main.mk
 
 sched_helpers.o: sched_helpers.h
 
@@ -60,23 +52,8 @@ setns: setns.o
 taskset: taskset.o
 daemon: daemon.o
 
-%.o: %.c
-	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	${Q}$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
-
-$(TARGETS): %:
-	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	${Q}$(CC) -o $(@) $(^) $(CFLAGS) $(CFLAGS_$(*))
-
-test: ${TARGETS} $(sub-dir-test)
+test0:
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
 	sudo chrt -r 10 ./sched_rr_get_interval
 	sudo chrt -f 10 ./sched_rr_get_interval
-
-.PHONY: clean
-clean: $(sub-dir-clean)
-	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
-	${Q}rm -f ${TARGETS} *.o
-
-include ../../../template/subdir-footer.mk
 

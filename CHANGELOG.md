@@ -13,6 +13,7 @@ and this project adheres to
 #### Added
 - Add template/target-shell.mk.
 #### Changed
+- syscall: Use main.mk.
 #### Deprecated
 #### Removed
 - Remove compiler/force-cflags.mk, move FORCE to main.mk.

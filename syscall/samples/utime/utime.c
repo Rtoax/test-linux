@@ -16,7 +16,7 @@ int main(int argc, char *argv[])
 
 	ret = utime(filename, &utim);
 	if (ret == -1) {
-		fprintf(stderr, "utime() %m\n");
+		fprintf(stderr, "utime(%s) %m\n", filename);
 		return 0;
 	}
 

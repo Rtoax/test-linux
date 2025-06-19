@@ -1,6 +1,1 @@
-include ../../../tlbuild.mk
-
-
-
-build:
-clean:
+include ../../../template/main.mk
