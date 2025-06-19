@@ -39,6 +39,10 @@ cxl_pmem() {
 	sudo ndctl list -R
 
 	# Create namespace, generate /dev/pmem0
+	# mode: raw, sector, fsdax, devdax
+	# - raw: /dev/pmemN
+	# - fsdax: /dev/pmemN (block device)
+	# - devdax: /dev/dax0.0 (mmap(2))
 	sudo ndctl create-namespace --region=region0 --mode=fsdax --size=1024M
 	sudo ndctl list
 	sudo lsblk

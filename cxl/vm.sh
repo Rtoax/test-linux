@@ -38,4 +38,4 @@ fi
 
 sudo ../init/rootfs/qemu.sh --name vm-test-cxl \
 	--kernel vmlinuz --initrd initramfs.img --rootfs vm.qcow2 \
-	--cxl cxl-vmem-4way --stdio "${@}"
+	--cxl cxl-pmem --stdio "${@}"
