@@ -16,7 +16,6 @@
 
 volatile sig_atomic_t keep_going = 1;
 
-size_t total_size = 0;
 size_t mem_size = 0;
 enum {
 	OP_GLIBC = 1,
@@ -146,7 +145,6 @@ void hold_mem(size_t size)
 		size / 1024 / 1024);
 
 	mem = malloc(size);
-	total_size = size;
 
 	while (keep_going) {
 		for (i = 0; i < size; i += pagesize)
@@ -158,6 +156,7 @@ void hold_mem(size_t size)
 }
 
 struct oom_operations {
+	size_t total_size;
 	void *(*alloc)(size_t size);
 	void (*pagefault)(void *mem, size_t size);
 };
@@ -182,11 +181,13 @@ void default_pagefault(void *mem, size_t size)
 }
 
 struct oom_operations glibc_ops = {
+	.total_size = 0,
 	.alloc = glibc_alloc,
 	.pagefault = default_pagefault,
 };
 
 struct oom_operations mmap_anon_ops = {
+	.total_size = 0,
 	.alloc = mmap_anon_alloc,
 	.pagefault = default_pagefault,
 };
@@ -217,7 +218,7 @@ void try_oom(struct oom_operations *ops)
 		mem = ops->alloc(blk);
 		ops->pagefault(mem, blk);
 
-		total_size += blk;
+		ops->total_size += blk;
 		cal_rate_size += blk;
 
 		if (flag_popen)
@@ -225,8 +226,8 @@ void try_oom(struct oom_operations *ops)
 
 		if (verbose) {
 			n = fprintf(stderr, "allocated %ld B (%ld MiB, %ld GiB), %.2lf MiB/s, oom_score %d",
-				    total_size, total_size / 1024 / 1024,
-				    total_size / 1024 / 1024 / 1024,
+				    ops->total_size, ops->total_size / 1024 / 1024,
+				    ops->total_size / 1024 / 1024 / 1024,
 				    cal_rate_size * 1.0 / (usecs() - start),
 				    get_oom_score(getpid()));
 			if (keep_going)
