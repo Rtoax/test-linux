@@ -12,10 +12,10 @@ vm_name=$(mktemp -u vm-XXXXXX)
 memory=2G
 f_kernel=
 f_initrd=
-f_rdinit=
+k_rdinit=
 f_rootfs=
 f_rootfs_disk_type=
-f_init=
+k_init=
 f_nvdimm=
 
 dry_run=
@@ -203,12 +203,12 @@ while true; do
 		;;
 	--rdinit)
 		shift
-		f_rdinit=$1
+		k_rdinit=$1
 		shift
 		;;
 	--init)
 		shift
-		f_init=$1
+		k_init=$1
 		shift
 		;;
 	--nvdimm)
@@ -386,11 +386,11 @@ config_kernel() {
 	kcmds+=( selinux=0 audit=0 nokaslr rw )
 	kcmds+=( console=tty0 console=ttyS0 )
 
-	if [[ ${f_rdinit} ]]; then
-		kcmds+=( rdinit=${f_rdinit} )
+	if [[ ${k_rdinit} ]]; then
+		kcmds+=( rdinit=${k_rdinit} )
 	fi
-	if [[ ${f_init} ]]; then
-		kcmds+=( init=${f_init} )
+	if [[ ${k_init} ]]; then
+		kcmds+=( init=${k_init} )
 	fi
 }
 
