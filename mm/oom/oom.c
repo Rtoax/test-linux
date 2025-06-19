@@ -143,9 +143,32 @@ void hold_mem(size_t size)
 	}
 }
 
-void try_oom(void)
+struct oom_operations {
+	void *(*alloc)(size_t size);
+	void (*pagefault)(void *mem, size_t size);
+};
+
+void *glibc_alloc(size_t size)
 {
-	int i, n;
+	return malloc(size);
+}
+
+void default_pagefault(void *mem, size_t size)
+{
+	size_t i;
+	const size_t pagesize = getpagesize();
+	for (i = 0; i < size; i += pagesize)
+		((char *)mem)[i] = 'a';
+}
+
+struct oom_operations glibc_ops = {
+	.alloc = glibc_alloc,
+	.pagefault = default_pagefault,
+};
+
+void try_oom(struct oom_operations *ops)
+{
+	int n;
 	const size_t pagesize = getpagesize();
 	const size_t blk = pagesize * 100;
 	char *mem;
@@ -166,9 +189,9 @@ void try_oom(void)
 		}
 
 		/* No need to free(), just leak it. */
-		mem = malloc(blk);
-		for (i = 0; i < blk; i += pagesize)
-			mem[i] = 'a';
+		mem = ops->alloc(blk);
+		ops->pagefault(mem, blk);
+
 		total_size += blk;
 		cal_rate_size += blk;
 
@@ -224,7 +247,7 @@ int main(int argc, char *argv[])
 	if (mem_size)
 		hold_mem(mem_size);
 	else
-		try_oom();
+		try_oom(&glibc_ops);
 
 	return 0;
 }
