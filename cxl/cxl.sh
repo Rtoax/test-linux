@@ -33,7 +33,6 @@ cxl_ram_4way() {
 	sudo cxl destroy-region region0
 }
 
-# commit d61a78f78d31 ("cxl: pmem: test block device of 1way pmem")
 cxl_pmem() {
 	sudo cxl create-region --decoder decoder0.0 --size 1024M --type pmem --memdevs mem0
 	sudo ndctl list -R
@@ -41,8 +40,8 @@ cxl_pmem() {
 	# Create namespace, generate /dev/pmem0
 	# mode: raw, sector, fsdax, devdax
 	# - raw: /dev/pmemN
-	# - fsdax: /dev/pmemN (block device)
-	# - devdax: /dev/dax0.0 (mmap(2))
+	# - fsdax: /dev/pmemN (block device), commit d61a78f78d31 ("cxl: pmem: test block device of 1way pmem")
+	# - devdax: /dev/dax0.0 (mmap(2)), commit 1a630215e445 ("cxl: pmem: test --mode=devdax")
 	sudo ndctl create-namespace --region=region0 --mode=fsdax --size=1024M
 	sudo ndctl list
 	sudo lsblk
