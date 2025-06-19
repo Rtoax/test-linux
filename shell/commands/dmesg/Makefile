@@ -1,2 +1,4 @@
 # SPDX-License-Identifier: GPL-3.0
-include ../../shell-run.mk
+TARGETS_SHELL := tail.sh
+
+include ../../../template/main.mk

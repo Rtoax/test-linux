@@ -1,2 +1,4 @@
 # SPDX-License-Identifier: GPL-3.0
-include ../../shell-run.mk
+TARGETS_SHELL := ipv4.sh tab.sh
+
+include ../../../template/main.mk

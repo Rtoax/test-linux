@@ -11,10 +11,12 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- Add template/target-shell.mk.
 #### Changed
 #### Deprecated
 #### Removed
 - Remove compiler/force-cflags.mk, move FORCE to main.mk.
+- Remove shell/shell-run.mk.
 #### Fixed
 #### Security
 #### Docs
