@@ -30,4 +30,3 @@ do
 done
 
 echo "Total size ${total_size} Bytes."
-

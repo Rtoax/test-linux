@@ -28,7 +28,7 @@ test: $(sub-dir-test)
 	./replace.sh
 	./ret.sh
 	./root-chk.sh
-	echo 3 | ./select.sh
+	./select.sh
 	./stat.sh /etc/os-release /etc/hosts
 	./tracing.sh
 	./trap.sh
