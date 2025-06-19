@@ -358,8 +358,16 @@ config_basic() {
 		qargs+=( -serial mon:stdio -nographic )
 	fi
 
-	# q35 for pcie.0
-	qmachine+=( type=q35 )
+	case $(uname -m) in
+	x86_64)
+		# q35 for pcie.0
+		qmachine+=( type=q35 )
+		;;
+	aarch64)
+		qmachine+=( type=virt )
+		;;
+	esac
+
 	qmachine+=( accel=kvm )
 
 	if [[ ${debug} ]]; then
@@ -380,8 +388,39 @@ config_cpu() {
 }
 
 config_uefi() {
-	qargs+=( -drive if=pflash,format=raw,readonly=on,file=/usr/share/OVMF/OVMF_CODE.fd
-		-drive if=pflash,format=raw,file=/usr/share/OVMF/OVMF_VARS.fd )
+	local i code var
+	local codes=(
+		/usr/share/edk2/aarch64/QEMU_EFI-silent-pflash.raw
+		/usr/share/OVMF/OVMF_CODE.fd
+	)
+	local vars=(
+		/usr/share/edk2/aarch64/QEMU_VARS.fd
+		/usr/share/OVMF/OVMF_VARS.fd
+	)
+
+	for i in ${codes[@]}; do
+		if [[ -e ${i} ]]; then
+			code=${i}
+			break
+		fi
+	done
+
+	for i in ${vars[@]}; do
+		if [[ -e ${i} ]]; then
+			var=${i}
+			break
+		fi
+	done
+
+	if [[ -z ${code} ]]; then
+		echo >&2 "ERROR: not found ovmf code: ${codes[@]}"
+		exit 1
+	fi
+
+	qargs+=( -drive if=pflash,format=raw,readonly=on,file=${code} )
+	if [[ ${var} ]]; then
+		qargs+=( -drive if=pflash,format=raw,file=${var} )
+	fi
 }
 
 config_pci() {
