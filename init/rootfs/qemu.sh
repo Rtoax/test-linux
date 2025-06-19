@@ -12,6 +12,7 @@ vm_name=$(mktemp -u vm-XXXXXX)
 memory=2G
 f_kernel=
 f_initrd=
+f_rdinit=
 f_rootfs=
 f_rootfs_disk_type=
 f_init=
@@ -64,11 +65,12 @@ DESCRIPTION
 	                        example: --karg=rdinit=/usr/bin/bash
 
 	-i, --initrd [INITRD]   specify initrd image
-	    --init [PATH]       specify initrd.
+	    --rdinit [PATH]     specify initrd's init process.
 
 	-r, --rootfs [type=TYPE,file=ROOTFS]|[ROOTFS]
 	                        optional specify rootfs image. attr: rw
 	                        TYPE=\"${DISK_TYPES[@]}\"
+	    --init [PATH]       specify rootfs's init process.
 
 	--nvdimm [FILE]         add a nvdimm pmem
 
@@ -85,9 +87,8 @@ DESCRIPTION
 
 EXAMPLES
 	$ sudo ./qemu.sh --kernel /boot/vmlinuz-$(uname -r) \\
-		--initrd /boot/initramfs-$(uname -r).img \\
-		[--rootfs vm.raw] \\
-		[--init=/usr/bin/bash]
+		--initrd /boot/initramfs-$(uname -r).img [--rdinit=/bin/bash] \\
+		[--rootfs vm.raw] [--init=/usr/bin/bash]
 
 SEE ALSO
 	qemu(1), qemu-kvm(1), etc.
@@ -109,6 +110,7 @@ TEMP_ARGS=$(getopt --options n:m:k:i:r:huDv \
 	--long kernel: \
 	--long karg: \
 	--long initrd: \
+	--long rdinit: \
 	--long rootfs: \
 	--long init: \
 	--long nvdimm: \
@@ -197,6 +199,11 @@ while true; do
 		fi
 		check_file_exist_and_exit ${f_rootfs}
 		f_rootfs=$(realpath ${f_rootfs})
+		shift
+		;;
+	--rdinit)
+		shift
+		f_rdinit=$1
 		shift
 		;;
 	--init)
@@ -379,8 +386,11 @@ config_kernel() {
 	kcmds+=( selinux=0 audit=0 nokaslr rw )
 	kcmds+=( console=tty0 console=ttyS0 )
 
+	if [[ ${f_rdinit} ]]; then
+		kcmds+=( rdinit=${f_rdinit} )
+	fi
 	if [[ ${f_init} ]]; then
-		kcmds+=( rdinit=${f_init} init=${f_init} )
+		kcmds+=( init=${f_init} )
 	fi
 }
 
