@@ -1,6 +1,4 @@
 # SPDX-License-Identifier: GPL-3.0
-include ../tlbuild.mk
-
 sub-dir :=
 sub-dir += alias
 sub-dir += array
@@ -9,38 +7,26 @@ sub-dir += math
 sub-dir += network
 sub-dir += string
 
-include ../template/subdir-header.mk
+TARGETS_SHELL :=
+TARGETS_SHELL += args.sh
+TARGETS_SHELL += call.sh
+TARGETS_SHELL += digit.sh
+TARGETS_SHELL += nested-func.sh
+TARGETS_SHELL += num.sh
+TARGETS_SHELL += open-fd.sh
+TARGETS_SHELL += parallel.sh
+TARGETS_SHELL += replace.sh
+TARGETS_SHELL += ret.sh
+TARGETS_SHELL += root-chk.sh
+TARGETS_SHELL += select.sh
+TARGETS_SHELL += stat.sh
+TARGETS_SHELL += tracing.sh
+TARGETS_SHELL += trap.sh
+TARGETS_SHELL += while.sh
+TARGETS_SHELL += cmdline.sh
+TARGETS_SHELL += sudo.sh
+TARGETS_SHELL += c_code.sh
 
-.PHONY: build
-build: $(sub-dir-build) test
-	@echo -e "  \033[1;33mDone\033[m"
+SHELL_ARGS_stat.sh := /etc/os-release /etc/hosts
 
-.PHONY: test
-test: $(sub-dir-test)
-	@echo -e "  \033[1;33mTEST\033[m"
-	./args.sh
-	./call.sh
-	./digit.sh
-	./nested-func.sh
-	./num.sh
-	./open-fd.sh
-	./parallel.sh
-	./replace.sh
-	./ret.sh
-	./root-chk.sh
-	./select.sh
-	./stat.sh /etc/os-release /etc/hosts
-	./tracing.sh
-	./trap.sh
-	./while.sh
-	./cmdline.sh
-	./sudo.sh
-	./c_code.sh
-
-.PHONY: clean
-clean: $(sub-dir-clean)
-	@echo -e "  CLEAN  \033[1;32m$(@)\033[m"
-	${Q}rm -f a.txt *.log tmp.sh *.out
-
-include ../template/subdir-footer.mk
-
+include ../template/main.mk
