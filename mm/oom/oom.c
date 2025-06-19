@@ -128,9 +128,8 @@ void hold_mem(size_t size)
 	const int pagesize = getpagesize();
 	char *mem;
 
-	if (verbose)
-		fprintf(stderr, "Hold %ld B (%ldMib) of memory\n", size,
-			size / 1024 / 1024);
+	fprintf(stderr, "Hold %ld B (%ldMib) of memory\n", size,
+		size / 1024 / 1024);
 
 	mem = malloc(size);
 	total_size = size;
@@ -153,8 +152,7 @@ void try_oom(void)
 	size_t cal_rate_size = 0;
 	unsigned long start, end;
 
-	if (verbose)
-		fprintf(stderr, "OOMing...\n");
+	fprintf(stderr, "OOMing...\n");
 
 	start = usecs();
 	cal_rate_size = 0;
