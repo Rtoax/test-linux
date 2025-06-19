@@ -16,6 +16,7 @@ k_rdinit=
 f_rootfs=
 f_rootfs_disk_type=
 k_init=
+k_root=
 f_nvdimm=
 
 dry_run=
@@ -71,6 +72,8 @@ DESCRIPTION
 	                        optional specify rootfs image. attr: rw
 	                        TYPE=\"${DISK_TYPES[@]}\"
 	    --init [PATH]       specify rootfs's init process.
+	    --root [ROOT]       specify root= in kernel cmdline, default use UUID
+	                        of rootfs image.
 
 	--nvdimm [FILE]         add a nvdimm pmem
 
@@ -113,6 +116,7 @@ TEMP_ARGS=$(getopt --options n:m:k:i:r:huDv \
 	--long rdinit: \
 	--long rootfs: \
 	--long init: \
+	--long root: \
 	--long nvdimm: \
 	--long stdio \
 	--long cxl: \
@@ -209,6 +213,11 @@ while true; do
 	--init)
 		shift
 		k_init=$1
+		shift
+		;;
+	--root)
+		shift
+		k_root=$1
 		shift
 		;;
 	--nvdimm)
@@ -460,7 +469,11 @@ config_rootfs() {
 	${DISK_TYPE_SCSI}) add_scsi_disk ${f_rootfs} ;;
 	esac
 
-	kcmds+=( root=UUID=$(image2uuid ${f_rootfs}) )
+	if [[ ${k_root} ]]; then
+		kcmds+=( root=${k_root} )
+	else
+		kcmds+=( root=UUID=$(image2uuid ${f_rootfs}) )
+	fi
 }
 
 config_nvdimm() {
