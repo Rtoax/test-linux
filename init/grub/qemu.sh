@@ -117,4 +117,3 @@ while :; do
 done
 
 test_grub_with_qemu "$@"
-

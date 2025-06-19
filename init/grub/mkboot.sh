@@ -1,5 +1,5 @@
 #!/bin/bash
-set -ex
+set -e
 
 curr_dir=$PWD
 root_dir=$(mktemp -u tmp-XXXXXXX)
@@ -130,4 +130,3 @@ else
 fi
 
 popd
-
