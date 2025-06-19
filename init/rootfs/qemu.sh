@@ -10,21 +10,25 @@ readonly WHERE_AM_I=$(dirname $(realpath $0))
 readonly prog=qemu-rootfs.sh
 readonly qemu=$(get_qemu_kvm_emulator)
 
-vm_name=$(mktemp -u vm-XXXXXX)
-memory=2G
+q_vm_name=$(mktemp -u vm-XXXXXX)
+q_memory=2G
+
 f_kernel=
 f_initrd=
 k_rdinit=
+
 f_rootfs=
 f_rootfs_disk_type=
 k_init=
 k_root=
+
 f_nvdimm=
+
+q_stdio=
 
 dry_run=
 verbose=
 debug=
-stdio=
 
 readonly CXL_VOLATILE_MEM=cxl-vmem
 readonly CXL_VOLATILE_MEM_LSA=cxl-vmem-lsa
@@ -136,12 +140,12 @@ while true; do
 	case $1 in
 	-n | --name)
 		shift
-		vm_name=$1
+		q_vm_name=$1
 		shift
 		;;
 	-m | --memory)
 		shift
-		memory=$1
+		q_memory=$1
 		shift
 		;;
 	-k | --kernel)
@@ -240,7 +244,7 @@ while true; do
 		;;
 	--stdio)
 		shift
-		stdio=YES
+		q_stdio=YES
 		;;
 	-h | --help)
 		shift
@@ -317,20 +321,20 @@ image2uuid() {
 	fi
 }
 
-cleanup_files+=( $PWD/qmp-${vm_name}.sock ${vm_name}.pid )
+cleanup_files+=( $PWD/qmp-${q_vm_name}.sock ${q_vm_name}.pid )
 cleanup() {
 	_eval sudo rm -rf ${cleanup_files[@]}
 }
 trap cleanup EXIT
 
 config_basic() {
-	qargs+=( -name ${vm_name} )
+	qargs+=( -name ${q_vm_name} )
 	qargs+=( -uuid $(uuid) )
 	qargs+=( -enable-kvm )
-	qargs+=( -qmp unix:$PWD/qmp-${vm_name}.sock,server=on,wait=off )
-	qargs+=( -pidfile ${vm_name}.pid)
+	qargs+=( -qmp unix:$PWD/qmp-${q_vm_name}.sock,server=on,wait=off )
+	qargs+=( -pidfile ${q_vm_name}.pid)
 
-	if [[ ${stdio} ]]; then
+	if [[ ${q_stdio} ]]; then
 		qargs+=( -serial mon:stdio -nographic )
 	fi
 
@@ -340,7 +344,7 @@ config_basic() {
 }
 
 config_memory() {
-	local m=( ${memory} )
+	local m=( ${q_memory} )
 	m+=( slots=8 )
 	m+=( maxmem=32768M )
 	qargs+=( -m $(IFS=,; echo "${m[*]}") )
