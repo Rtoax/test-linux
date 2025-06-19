@@ -1,4 +1,6 @@
 #!/bin/bash
+# Use the qemu command to create a virtual machine directly, without using
+# libvirt, but directly use the qemu command line parameters.
 # Wrote by Rong Tao
 set -e
 readonly WHERE_AM_I=$(dirname $(realpath $0))
