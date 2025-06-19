@@ -1,17 +1,10 @@
-include ../../../tlbuild.mk
-
-
 TARGETS :=
 ifeq ($(shell uname -m),x86_64)
-TARGETS += test
+  TARGETS += tst
 endif
 
-CC := gcc
 CFLAGS := -O0
 
-build: ${TARGETS}
+include ../../../template/main.mk
 
-test: test.o breakfast.o
-
-clean:
-	rm -rf $(TARGETS) *.o
+tst: tst.o breakfast.o
