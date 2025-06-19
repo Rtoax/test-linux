@@ -115,6 +115,23 @@ check_file_exist_and_exit() {
 	fi
 }
 
+is_qemu_format() {
+	local img=$1
+	local img_type=${img##*.}
+	if [[ " raw qcow2 " =~ " ${img_type} " ]]; then
+		echo yes
+	else
+		echo no
+	fi
+}
+
+check_qemu_format_and_exit() {
+	if [[ $(is_qemu_format ${f_rootfs}) != yes ]]; then
+		echo >&2 "ERROR: ${f_rootfs} is not raw or qcow2."
+		exit 1
+	fi
+}
+
 TEMP_ARGS=$(getopt --options n:m:k:i:r:huDv \
 	--long name: \
 	--long memory: \
@@ -212,11 +229,8 @@ while true; do
 			f_rootfs_disk_type=${DISK_TYPE_VIRTIO}
 		fi
 
-		if ! [[ " raw qcow2 " =~ " ${f_rootfs##*.} " ]]; then
-			echo >&2 "ERROR: ${f_rootfs} is not raw or qcow2."
-			exit 1
-		fi
 		check_file_exist_and_exit ${f_rootfs}
+		check_qemu_format_and_exit ${f_rootfs}
 		f_rootfs=$(realpath ${f_rootfs})
 		shift
 		;;
@@ -306,10 +320,7 @@ image2uuid() {
 	else
 		local img=$1
 		local img_type=${img##*.}
-		if ! [[ " raw qcow2 " =~ " ${img_type} " ]]; then
-			echo >&2 "ERROR: ${img} is not raw or qcow2."
-			exit 1
-		fi
+		check_qemu_format_and_exit ${img}
 
 		# only raw could use this, qcow2 don't
 		case ${img_type} in
