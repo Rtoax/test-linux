@@ -21,6 +21,8 @@ f_rootfs=
 f_rootfs_disk_type=
 k_init=
 k_root=
+# root mount attr: ro, rw. default: rw
+k_rw=rw
 
 f_nvdimm=
 
@@ -74,8 +76,8 @@ DESCRIPTION
 	-i, --initrd [INITRD]   specify initrd image
 	    --rdinit [PATH]     specify initrd's init process.
 
-	-r, --rootfs [type=TYPE,file=ROOTFS]|[ROOTFS]
-	                        optional specify rootfs image. attr: rw
+	-r, --rootfs [type=TYPE,file=ROOTFS,<rw|ro>]|[ROOTFS]
+	                        optional specify rootfs image.
 	                        TYPE=\"${DISK_TYPES[@]}\"
 	    --init [PATH]       specify rootfs's init process.
 	    --root [ROOT]       specify root= in kernel cmdline, default use UUID
@@ -174,16 +176,23 @@ while true; do
 			args=( $(echo $1 | tr ',' ' ') )
 			for arg in ${args[@]}
 			do
-				case ${arg%%=*}= in
-				type=)
+				case ${arg%%=*} in
+				type)
 					f_rootfs_disk_type=${arg:5}
 					if ! [[ " ${DISK_TYPES[@]} " =~ " ${f_rootfs_disk_type} " ]]; then
 						echo >&2 "ERROR: rootfs unsupport ${arg}"
 						exit 1
 					fi
 					;;
-				file=)
+				file)
 					f_rootfs=${arg:5}
+					;;
+				rw | ro)
+					if [[ ${arg} != ro ]] && [[ ${arg} != rw ]]; then
+						echo >&2 "ERROR: rootfs unknown ${arg}"
+						exit 1
+					fi
+					k_rw=${arg}
 					;;
 				*)
 					echo >&2 "ERROR: rootfs unknown ${arg}"
@@ -398,7 +407,7 @@ config_kernel() {
 
 	kcmds+=( earlyprintk=serial )
 	kcmds+=( net.ifnames=0 )
-	kcmds+=( selinux=0 audit=0 nokaslr rw )
+	kcmds+=( selinux=0 audit=0 nokaslr )
 	kcmds+=( console=tty0 console=ttyS0 )
 
 	if [[ ${k_rdinit} ]]; then
@@ -474,6 +483,8 @@ config_rootfs() {
 	${DISK_TYPE_NVDIMM}) add_nvdimm_blk ${f_rootfs} ;;
 	${DISK_TYPE_SCSI}) add_scsi_disk ${f_rootfs} ;;
 	esac
+
+	kcmds+=( ${k_rw} )
 
 	if [[ ${k_root} ]]; then
 		kcmds+=( root=${k_root} )
