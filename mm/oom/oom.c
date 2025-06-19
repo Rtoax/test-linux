@@ -23,9 +23,7 @@ enum {
 	OP_MMAP_ANON,
 	OP_MMAP_FILE,
 } op_type = OP_GLIBC;
-bool flag_oom_adj = false;
 int oom_adj;
-bool flag_oom_score_adj = false;
 int oom_score_adj;
 bool flag_popen =
 #if !defined(POPEN)
@@ -45,8 +43,8 @@ static const struct argp_option opts[] = {
 	{ "size", 's', "SIZE", 0, "only allocate size of memory, instead of oom" },
 	{ "popen", 'p', NULL, 1, "test popen(3) after memory" },
 	{ "verbose", 'v', NULL, 1, "display detail" },
-	{ "oom_adj", 'a', "OOM_ADJ", 0, "set oom_adj" },
-	{ "oom_score_adj", 'c', "OOM_SCORE_ADJ", 0, "set oom_score_adj" },
+	{ "oom_adj", 'a', "OOM_ADJ", 0, "set oom_adj (-17 to 15)" },
+	{ "oom_score_adj", 'c', "OOM_SCORE_ADJ", 0, "set oom_score_adj (-1000 to 1000)" },
 	{},
 };
 
@@ -69,11 +67,9 @@ static error_t parse_arg(int key, char *arg, struct argp_state *state)
 		mem_size = strtoul(arg, NULL, 10);
 		break;
 	case 'a':
-		flag_oom_adj = true;
 		oom_adj = atoi(arg);
 		break;
 	case 'c':
-		flag_oom_score_adj = true;
 		oom_score_adj = atoi(arg);
 		break;
 	case 'p':
@@ -253,14 +249,14 @@ int main(int argc, char *argv[])
 
 	mlockall(MCL_CURRENT);
 
-	if (flag_oom_adj) {
+	if (oom_adj) {
 		printf("set oom_adj to %d\n", oom_adj);
 		err = set_oom_adj(getpid(), oom_adj);
 		if (err != 0)
 			return err;
 	}
 
-	if (flag_oom_score_adj) {
+	if (oom_score_adj) {
 		printf("set oom_score_adj to %d\n", oom_score_adj);
 		err = set_oom_score_adj(getpid(), oom_score_adj);
 		if (err != 0)
