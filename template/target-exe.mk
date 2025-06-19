@@ -1,8 +1,4 @@
 # SPDX-License-Identifier: GPL-3.0
-CC ?= gcc
-CXX ?= g++
-Q ?= @
-
 CC_PFX := LD_LIBRARY_PATH=$(shell pwd)
 
 ${OUTPUT}%.o: %.c | ${OUTPUT}

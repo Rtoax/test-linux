@@ -1,9 +1,9 @@
 # SPDX-License-Identifier: GPL-3.0
-
-TEMPLATE_DIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
+CC ?= gcc
+CXX ?= g++
+Q ?= @
 
 sub-dir ?=
-
 
 ifdef DEBUG
   $(info Compile with DEBUG=1)
@@ -30,6 +30,8 @@ endif
 ifdef FORCE
   CFLAGS += -Wno-error
 endif
+
+TEMPLATE_DIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 
 include ${TEMPLATE_DIR}/../tlbuild.mk
 include ${TEMPLATE_DIR}/subdir-header.mk
