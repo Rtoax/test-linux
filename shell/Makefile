@@ -27,7 +27,7 @@ test: $(sub-dir-test)
 	./parallel.sh
 	./replace.sh
 	./ret.sh
-	sudo ./root-chk.sh
+	./root-chk.sh
 	echo 3 | ./select.sh
 	./stat.sh /etc/os-release /etc/hosts
 	./tracing.sh
