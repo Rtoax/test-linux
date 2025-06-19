@@ -14,7 +14,7 @@ f_kernel=
 f_initrd=
 f_rootfs=
 f_rootfs_disk_type=
-init=
+f_init=
 f_nvdimm=
 
 dry_run=
@@ -201,7 +201,7 @@ while true; do
 		;;
 	--init)
 		shift
-		init=$1
+		f_init=$1
 		shift
 		;;
 	--nvdimm)
@@ -379,8 +379,8 @@ config_kernel() {
 	kcmds+=( selinux=0 audit=0 nokaslr rw )
 	kcmds+=( console=tty0 console=ttyS0 )
 
-	if [[ ${init} ]]; then
-		kcmds+=( rdinit=${init} init=${init} )
+	if [[ ${f_init} ]]; then
+		kcmds+=( rdinit=${f_init} init=${f_init} )
 	fi
 }
 
