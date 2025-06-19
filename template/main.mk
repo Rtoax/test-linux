@@ -27,6 +27,10 @@ ifdef M32
   MAKEFLAGS += M32=1
 endif
 
+ifdef FORCE
+  CFLAGS += -Wno-error
+endif
+
 include ${TEMPLATE_DIR}/../tlbuild.mk
 include ${TEMPLATE_DIR}/subdir-header.mk
 

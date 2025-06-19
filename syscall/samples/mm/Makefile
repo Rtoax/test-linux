@@ -21,7 +21,6 @@ CFLAGS := -Werror -Wall -D_GNU_SOURCE
 CFLAGS += -Wstrict-prototypes
 CFLAGS += -pthread
 CFLAGS += -lrt
-include ../../../compiler/force-cflags.mk
 
 include ../../../template/main.mk
 

@@ -14,6 +14,7 @@ and this project adheres to
 #### Changed
 #### Deprecated
 #### Removed
+- Remove compiler/force-cflags.mk, move FORCE to main.mk.
 #### Fixed
 #### Security
 #### Docs
