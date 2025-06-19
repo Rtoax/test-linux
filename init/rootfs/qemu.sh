@@ -38,9 +38,10 @@ cxl_size=1024M
 readonly DISK_TYPE_VIRTIO=virtio
 readonly DISK_TYPE_SATA=sata
 readonly DISK_TYPE_NVME=nvme
+readonly DISK_TYPE_NVDIMM=nvdimm
 readonly DISK_TYPE_SCSI=scsi
 readonly DISK_TYPES=( ${DISK_TYPE_VIRTIO} ${DISK_TYPE_SATA} ${DISK_TYPE_NVME}
-			${DISK_TYPE_SCSI} )
+			${DISK_TYPE_SCSI} ${DISK_TYPE_NVDIMM} )
 
 declare -a qargs qmachine kcmds
 declare -a cleanup_files
@@ -182,12 +183,12 @@ while true; do
 				echo >&2 "ERROR: not found file= for rootfs"
 				exit 1
 			fi
-			if [[ -z ${f_rootfs_disk_type} ]]; then
-				f_rootfs_disk_type=${DISK_TYPE_VIRTIO}
-			fi
 		else
-			f_rootfs_disk_type=${DISK_TYPE_VIRTIO}
 			f_rootfs=$1
+		fi
+
+		if [[ -z ${f_rootfs_disk_type} ]]; then
+			f_rootfs_disk_type=${DISK_TYPE_VIRTIO}
 		fi
 
 		if ! [[ " raw qcow2 " =~ " ${f_rootfs##*.} " ]]; then
@@ -405,6 +406,7 @@ add_nvme_disk() {
 	qargs+=( -drive if=none,file=${f_img},format=${f_type},id=${drive_id}
 		-device nvme,drive=${drive_id},serial=sn-${drive_id} )
 }
+
 add_scsi_disk() {
 	local f_img=$1
 	local f_type=${f_img##*.}
@@ -444,6 +446,7 @@ config_rootfs() {
 	${DISK_TYPE_VIRTIO}) add_virtio_disk ${f_rootfs} ;;
 	${DISK_TYPE_SATA}) add_sata_disk ${f_rootfs} ;;
 	${DISK_TYPE_NVME}) add_nvme_disk ${f_rootfs} ;;
+	${DISK_TYPE_NVDIMM}) add_nvdimm_blk ${f_rootfs} ;;
 	${DISK_TYPE_SCSI}) add_scsi_disk ${f_rootfs} ;;
 	esac
 

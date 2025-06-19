@@ -52,4 +52,3 @@ qcow2_installer()
 		-W ${src_qcow2} \
 		${target_disk_dev}
 }
-
