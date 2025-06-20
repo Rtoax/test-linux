@@ -1,3 +1,4 @@
+- APEI: ACPI Platform Error Interfaces (ACPI 平台错误接口)
 - CDAT: Coherent Device Attribute Table (相干设备属性表) @CXL
 - HMAT: Heterogeneous Memory Attribute Table (异构内存属性表)
 - RSDP: Root System Description Pointer ()
