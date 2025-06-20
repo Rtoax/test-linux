@@ -1,4 +1,4 @@
-/test
+/tst
 /unw_regname
 /unw_create_addr_space
 /backtrace
@@ -6,4 +6,3 @@
 /do_backtrace
 /unwind-backtrace
 /backtrace.txt
-/*.oo

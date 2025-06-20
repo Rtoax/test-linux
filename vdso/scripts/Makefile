@@ -1,6 +1,3 @@
-include ../../tlbuild.mk
-
-all:
-	${Q}gcc getauxval.c -o getauxval
-clean:
-	${Q}rm -f getauxval vDSO-VMA.out
+TARGETS := getauxval
+include ../../template/main.mk
+getauxval: getauxval.o

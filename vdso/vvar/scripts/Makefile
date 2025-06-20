@@ -1,11 +1,3 @@
-include ../../../tlbuild.mk
-
-TARGET=clock_gettime.out
-
-all: ${TARGET}
-
-clock_gettime.out:
-	gcc clock_gettime.c -o clock_gettime.out
-
-clean:
-	rm -f ${TARGET}
+TARGETS := clock_gettime
+include ../../../template/main.mk
+clock_gettime: clock_gettime.o

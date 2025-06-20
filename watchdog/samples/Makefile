@@ -1,20 +1,5 @@
-include ../../tlbuild.mk
-
-
-
 TARGETS := watchdog-simple
 
-DEBUG := yes
-CC := gcc
+include ../../template/main.mk
 
-CFLAGS :=
-
-ifdef DEBUG
-CFLAGS += -DDEBUG -O0 -g
-endif
-
-build: ${TARGETS}
-	@echo -e " \033[1;33m Done \033[m"
-
-clean:
-	rm -f ${TARGETS} *.o *.d
+watchdog-simple: watchdog-simple.o

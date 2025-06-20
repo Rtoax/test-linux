@@ -1,8 +1,4 @@
 /**
- * File: vsyscall_vma.c
- * AUthor: Rong Tao <rtoax@foxmail.com>
- * Date: 2022.05.13
- *
  * Read [vsyscall] vma and output to file.
  */
 #include <stdio.h>

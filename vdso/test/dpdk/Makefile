@@ -1,27 +1,11 @@
-# Rong Tao, 2022.05.09
-include ../../../tlbuild.mk
-
-ARCH := $(shell uname -m)
-
 TARGETS :=
-
-ifeq (${ARCH}, x86_64)
-  TARGETS += tsc_freq_arch.o tsc_freq.o
+ifeq ($(shell uname -m), x86_64)
+  TARGETS += tsc_freq_arch tsc_freq
 endif
 
-all: ${TARGETS}
+CFLAGS := -DTEST=1
 
-%.o: %.c
-	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	${Q}$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
+include ../../../template/main.mk
 
-#$(TARGETS): %:
-#	@echo -e "  LD  \033[1;32m$(@)\033[m"
-#	${Q}$(CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*)) $(CFLAGS) $(CFLAGS_$(*))
-
-test:
-	gcc tsc_freq_arch.c -o tsc_freq_arch.out -DTEST
-	gcc tsc_freq.c -o tsc_freq.out -DTEST
-
-clean:
-	${Q}rm -f *.o *.out
+tsc_freq_arch: tsc_freq_arch.o
+tsc_freq: tsc_freq.o

@@ -1,9 +1,7 @@
-include ../../tlbuild.mk
-
 TARGETS :=
 TARGETS_CPP :=
 
-TARGETS += test
+TARGETS += tst
 TARGETS += unw_regname
 TARGETS += unw_create_addr_space
 TARGETS += do_backtrace
@@ -14,20 +12,12 @@ ifeq ($(shell uname -m),x86_64)
   TARGETS += backtrace
 endif
 
-CC := gcc
-CXX := g++
-CFLAGS :=
-
 UNWIND_PTRACE :=
 UNWIND_PTRACE1 := /lib64/libunwind-ptrace.a
 UNWIND_PTRACE2 := /usr/lib/$(shell uname -m)-linux-gnu/libunwind-ptrace.a
 
-CFLAGS += -lunwind
-CFLAGS += -lunwind-$(shell uname -m)
-
-ifdef DEBUG
-  CFLAGS += -DDEBUG -O0 -g
-endif
+LDFLAGS += -lunwind
+LDFLAGS += -lunwind-$(shell uname -m)
 
 ifneq ($(wildcard $(UNWIND_PTRACE1)),)
   UNWIND_PTRACE := ${UNWIND_PTRACE1}
@@ -42,36 +32,14 @@ ifeq (${UNWIND_PTRACE},)
   $(error Not found libunwind-ptrace.a)
 endif
 
-CFLAGS_test := -g -ggdb -O0
+CFLAGS_tst := -g -ggdb -O0
 
+include ../../template/main.mk
 
-build: ${TARGETS} ${TARGETS_CPP}
-	@echo -e " \033[1;33m Done \033[m"
-
-test: test.o
+tst: tst.o
 unw_regname: unw_regname.o
 unw_create_addr_space: unw_create_addr_space.o
 backtrace: backtrace.o
-backtrace-pid: backtrace-pid.oo
+backtrace-pid: backtrace-pid.opp
 do_backtrace: do_backtrace.o
 unwind-backtrace: unwind-backtrace.o
-
-%.o: %.c
-	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	${Q}$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
-
-%.oo: %.cc
-	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	${Q}$(CXX) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
-
-${TARGETS}: %:
-	@echo -e "  LD  \033[1m$(<)\033[m to \033[1;32m$(@)\033[m"
-	${Q}$(CC) -o $(@) $(<) ${UNWIND_PTRACE} $(CFLAGS) $(CFLAGS_$(*))
-
-${TARGETS_CPP}: %:
-	@echo -e "  LD  \033[1m$(<)\033[m to \033[1;32m$(@)\033[m"
-	${Q}$(CXX) -o $(@) $(<) ${UNWIND_PTRACE} $(CFLAGS) $(CFLAGS_$(*))
-
-clean:
-	@echo -e "  CLEAN  \033[1m$(TARGETS) ${TARGETS_CPP}\033[m"
-	${Q}rm -f ${TARGETS} ${TARGETS_CPP} *.o *.oo

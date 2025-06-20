@@ -63,4 +63,3 @@ main-kernel: lib${VDSO_NAME}.copy.so
 clean:
 	@echo -e "  CLEAN  \033[1m$(TARGETS)\033[m"
 	$(Q)rm -f ${TARGETS} *.so *linux-vdso.so*
-

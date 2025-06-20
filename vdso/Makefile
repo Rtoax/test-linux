@@ -1,5 +1,4 @@
 # SPDX-License-Identifier: GPL-3.0
-include ../tlbuild.mk
 include vdso.mk
 
 sub-dir := abi
@@ -8,18 +7,11 @@ sub-dir += test
 sub-dir += nvDSO
 sub-dir += vvar/scripts/
 
-include ../template/subdir-header.mk
+TARGETS_PREP := ${VDSO_NAME}
+TARGETS_SHELL := layout.sh
 
-.PHONY: build
-build: ${VDSO_NAME} $(sub-dir-build)
-	@${SHELL} ./layout.sh
+include ../template/main.mk
 
 ${VDSO_NAME}:
 	@echo -e "  GEN  \033[1m$(@)\033[m"
 	$(call gen_vdso_elf)
-
-.PHONY: clean
-clean: $(sub-dir-clean)
-	${Q}rm -rf *.so.1 *.bt.out
-
-include ../template/subdir-footer.mk
