@@ -24,3 +24,16 @@ if __name__ == "__main__":
     hexdump(str2)
     names = split_c_string_array(str2.decode("utf-8"), NAME_MAX)
     print(names)
+    picked = names[:2 + 1]
+    picked_str = [x.decode('utf-8', 'ignore') if isinstance(x, bytes) else str(x) for x in picked]
+    result = '/' + '/'.join(picked_str[::-1])
+    print(result);
+
+    str3 = b"/AAAA\x00\x00\x00"
+    names = split_c_string_array(str3.decode("utf-8"), NAME_MAX)
+    print(names)
+    picked = names[:2 + 1]
+    picked_str = [x.decode('utf-8', 'ignore') if isinstance(x, bytes) else str(x) for x in picked]
+    joined = '/'.join(picked_str[::-1])
+    result = joined if joined.startswith('/') else '/' + joined
+    print(result);
