@@ -174,6 +174,8 @@ If the source code file has a copyright information at the beginning, the copyri
 	- [github](https://github.com/tuanchauict/MonoSketch)
 - [drawio](https://github.com/jgraph/drawio-desktop)
 	- [releases](https://github.com/jgraph/drawio-desktop/releases)
+- [IDA](https://hex-rays.com/ida-free)
+	- [Download Center](https://my.hex-rays.com/dashboard/download-center/)
 
 ## Standard
 
