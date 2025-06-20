@@ -17,7 +17,9 @@ UNWIND_PTRACE1 := /lib64/libunwind-ptrace.a
 UNWIND_PTRACE2 := /usr/lib/$(shell uname -m)-linux-gnu/libunwind-ptrace.a
 
 LDFLAGS += -lunwind
+LDFLAGS += -lunwind-ptrace
 LDFLAGS += -lunwind-$(shell uname -m)
+LDXXFLAGS := ${LDFLAGS}
 
 ifneq ($(wildcard $(UNWIND_PTRACE1)),)
   UNWIND_PTRACE := ${UNWIND_PTRACE1}
