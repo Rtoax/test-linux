@@ -1,5 +1,5 @@
-cgroup cpuacct
-==============
+CPU Accounting Controller
+==========================
 
 The CPU accounting controller is used to group tasks using cgroups and account the CPU usage of these groups of tasks.
 
