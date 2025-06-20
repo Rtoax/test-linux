@@ -9,7 +9,7 @@ sudo mount -t cgroup -o none,name=${NAME} ${NAME} ${MNT_POINT}
 
 cleanall() {
 	#sudo tree ${MNT_POINT} || true
-	sudo umount ${MNT_POINT}/cpuacct ${MNT_POINT}/freezer ${MNT_POINT} || true
+	sudo umount ${MNT_POINT}/cpu,cpuacct ${MNT_POINT}/freezer ${MNT_POINT} || true
 	sudo rm -rf ${MNT_POINT} || true
 }
 trap cleanall EXIT
@@ -20,11 +20,14 @@ mount_freezer() {
 }
 mount_freezer
 
-mount_cpuacct() {
-	sudo mkdir -p ${MNT_POINT}/cpuacct
-	sudo mount -t cgroup -o cpuacct none ${MNT_POINT}/cpuacct
+mount_cpu_cpuacct() {
+	sudo mkdir -p ${MNT_POINT}/cpu,cpuacct
+	sudo mount -t cgroup -o cpu,cpuacct cgroup ${MNT_POINT}/cpu,cpuacct
+	pushd ${MNT_POINT}/cpu,cpuacct
+	sudo ln -s cpu,cpuacct cpu
+	sudo ln -s cpu,cpuacct cpuacct
 }
-mount_cpuacct
+mount_cpu_cpuacct
 
 mount_memory() {
 	sudo mkdir -p ${MNT_POINT}/memory
