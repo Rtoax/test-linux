@@ -1,6 +1,3 @@
-include ../../tlbuild.mk
-
-
 obj-m += my_audit.o sys-define.o
 
 all:

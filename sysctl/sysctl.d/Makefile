@@ -1,10 +1,4 @@
-include ../../tlbuild.mk
-
-
-all:
+TARGETS_PREP := test0
+include ../../template/main.mk
+test0:
 	$(Q)sudo ./console_printk.bt
-
-test:
-clean:
-	@echo -e "  CLEAN  \033[1;32m$(@)\033[m"
-	${Q}rm -f *.log

@@ -51,6 +51,7 @@ sub-dir += synchronization
 sub-dir += syscall
 sub-dir += sysctl
 sub-dir += template
+sub-dir += tracepoint
 sub-dir += unwind
 sub-dir += vdso
 sub-dir += vhost

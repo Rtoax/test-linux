@@ -1,6 +1,3 @@
-include ../../tlbuild.mk
-
-
 obj-m += timer01.o
 obj-m += timer02.o
 

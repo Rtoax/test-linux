@@ -1,6 +1,3 @@
-include ../../../tlbuild.mk
-
-
-# SPDX-License-Identifier: GPL-2.0
-all:
-	gcc hpet_example.c 
+TARGETS := hpet_example
+include ../../../template/main.mk
+hpet_example: hpet_example.o

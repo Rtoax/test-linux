@@ -1,7 +1,3 @@
-include ../../tlbuild.mk
-
-
-
 obj-m += trace-printk.o
 
 all:
