@@ -1,4 +1,4 @@
-cgroup freezer
+Cgroup Freezer
 ===============
 
 - `CONFIG_CGROUP_FREEZER`

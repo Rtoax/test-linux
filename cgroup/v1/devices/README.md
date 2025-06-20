@@ -1,6 +1,5 @@
-cgroup V1 Devices
-=================
-
+Device Whitelist Controller cgroup
+==================================
 
 # Device Whitelist Controller
 
