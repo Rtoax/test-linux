@@ -1,40 +1,23 @@
 #!/bin/bash
 set -ex
 
-NAME=tst-cgrp1-$(mktemp -u XXXX)
-MNT_POINT=$PWD/cgroup-v1.dir
+NAME=$(mktemp -u cgroupv1-XXXX)
+MNT=${NAME}.mnt
 
-sudo mkdir -p ${MNT_POINT}
-sudo mount -t cgroup -o none,name=${NAME} ${NAME} ${MNT_POINT}
+sudo mkdir -p ${MNT}
 
 cleanall() {
-	#sudo tree ${MNT_POINT} || true
-	sudo umount ${MNT_POINT}/cpu,cpuacct ${MNT_POINT}/freezer ${MNT_POINT} || true
-	sudo rm -rf ${MNT_POINT} || true
+	sudo umount ${MNT}/memory ${MNT}/cpu,cpuacct ${MNT}/freezer ${MNT} || true
+	sudo rm -rf ${MNT} || true
 }
 trap cleanall EXIT
 
-mount_freezer() {
-	sudo mkdir -p ${MNT_POINT}/freezer
-	sudo mount -t cgroup -o freezer ${NAME}-freezer ${MNT_POINT}/freezer
-}
-mount_freezer
+sudo mount -t cgroup -o none,name=${NAME} ${NAME} ${MNT}
 
-mount_cpu_cpuacct() {
-	sudo mkdir -p ${MNT_POINT}/cpu,cpuacct
-	sudo mount -t cgroup -o cpu,cpuacct cgroup ${MNT_POINT}/cpu,cpuacct
-	pushd ${MNT_POINT}/cpu,cpuacct
-	sudo ln -s cpu,cpuacct cpu
-	sudo ln -s cpu,cpuacct cpuacct
-}
-mount_cpu_cpuacct
+sudo mkdir -p ${MNT}/freezer ${MNT}/cpu,cpuacct ${MNT}/memory
 
-mount_memory() {
-	sudo mkdir -p ${MNT_POINT}/memory
-	sudo mount -t cgroup -o memory ${NAME}-memory ${MNT_POINT}/memory
-}
-mount_memory
+sudo mount -t cgroup -o freezer ${NAME}-freezer ${MNT}/freezer
+sudo mount -t cgroup -o cpu,cpuacct ${NAME}-cpu,cpuacct ${MNT}/cpu,cpuacct
+sudo mount -t cgroup -o memory ${NAME}-memory ${MNT}/memory
 
-# Show some information
 mount | grep ${NAME}
-findmnt
