@@ -1,8 +1,6 @@
 Block IO Controller cgroup
 ==========================
 
-# CONFIG
+# Links
 
-- `CONFIG_BLK_CGROUP=y`
-- `CONFIG_BLK_DEV_THROTTLING=y`
-
+- https://www.kernel.org/doc/html/latest/admin-guide/cgroup-v1/blkio-controller.html

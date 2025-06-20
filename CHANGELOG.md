@@ -11,7 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
-- cgroup: add some controller.
+- cgroup/v1: add some controller.
 - template: Add target-shell.mk, target-golang.mk.
 #### Changed
 - syscall: Use main.mk.
