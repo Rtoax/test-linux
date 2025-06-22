@@ -65,6 +65,15 @@ ${ANSI_BOLD}EXAMPLES${ANSI_RESET}
 	${ANSI_GRAY}# Then, modify 0000-cover-letter.patch${ANSI_RESET}
 	$ git send-email ${dumpcmd:+--dry-run} ${output_dir}/*.patch
 
+${ANSI_BOLD}DEVELOPE GIT PATCHSET${ANSI_RESET}
+	$ git rebase ${ANSI_BOLD}<parent commit of modified commit>${ANSI_RESET} --interactive
+	${ANSI_GRAY}# Then, change the 'pick' in front of the commit that needs to be
+	# changed to 'edit', then, save and exit;${ANSI_RESET}
+	${ANSI_GRAY}# Then, modify the code.${ANSI_RESET}
+	$ git add ${ANSI_BOLD}<files>${ANSI_RESET} ${ANSI_GRAY}[--all]${ANSI_RESET}
+	$ git commit --amend
+	$ git rebase --continue
+
 ${ANSI_BOLD}SEE ALSO${ANSI_RESET}
 	git(1), git‐format‐patch(1), git‐send‐email(1)
 
