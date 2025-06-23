@@ -1,7 +1,3 @@
-include ../../tlbuild.mk
-
-
-
 obj-m += test_blackhole_dev.o
 
 all:

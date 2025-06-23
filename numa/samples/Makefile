@@ -1,5 +1,4 @@
 # SPDX-License-Identifier: GPL-3.0
-include ../../tlbuild.mk
 include ../numactl.mk
 
 LIBNUMA_HDR = /usr/include/numa.h
@@ -15,16 +14,13 @@ TARGETS += numa_pagesize
 TARGETS += numa_preferred
 TARGETS += migrate_pages
 
-CC := gcc
-
 ifeq ($(wildcard $(LIBNUMA_HDR)),)
   TARGETS :=
   $(warning "ERROR: Must install numactl development header")
 endif
 
 CFLAGS := -Werror -Wall
-CFLAGS += -DDEBUG -O0 -g
-CFLAGS += -lnuma
+LDFLAGS += -lnuma
 
 CFLAGS += -DNUMACTL_VERSION_MAJOR=${NUMACTL_VERSION_MAJOR}
 CFLAGS += -DNUMACTL_VERSION_MINOR=${NUMACTL_VERSION_MINOR}
@@ -34,9 +30,7 @@ CFLAGS += -DNUMACTL_VERSION_PATCH=${NUMACTL_VERSION_PATCH}
 CFLAGS_numa_node_size := -Wno-incompatible-pointer-types
 CFLAGS_numa_node_size64 := -Wno-incompatible-pointer-types
 
-.PHONY: build
-build: ${TARGETS}
-	@echo -e " \033[1;33m Done \033[m"
+include ../../template/main.mk
 
 numa_alloc: numa_alloc.o
 numa_available: numa_available.o
@@ -47,19 +41,3 @@ numa_node_size: numa_node_size.o
 numa_pagesize: numa_pagesize.o
 numa_preferred: numa_preferred.o
 migrate_pages: migrate_pages.o
-
-%.o: %.c
-	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	${Q}$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
-
-$(TARGETS): %:
-	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	${Q}$(CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*)) $(CFLAGS) $(CFLAGS_$(*))
-
-test: ${TARGETS}
-	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
-
-.PHONY: clean
-clean:
-	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
-	${Q}rm -f ${TARGETS} *.o
