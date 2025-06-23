@@ -111,6 +111,7 @@ $ lspci -d ::0280
 
 # Links
 
+- https://pcisig.com/specifications/pciexpress
 - https://admin.pci-ids.ucw.cz/read/PC
 - https://admin.pci-ids.ucw.cz/read/PD
 - https://pcisig.com/membership/member-companies
