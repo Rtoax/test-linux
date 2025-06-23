@@ -16,6 +16,7 @@ sub-dir += criu
 sub-dir += cxl
 sub-dir += database
 sub-dir += device
+sub-dir += driver
 sub-dir += elf
 sub-dir += fs
 sub-dir += ftrace

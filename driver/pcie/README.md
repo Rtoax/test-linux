@@ -1,15 +1,13 @@
-PCI - Peripheral Component Interconnect
-=======================================
+PCI - Peripheral Component Interconnect (外围组件互联)
+======================================================
 
-# PCI - 外设组件互连标准
-
-操作系统与 PCI 设备交互的主要方式是 PIO 和 MMIO.
+The main ways for OS interact with PCI devices are PIO and MMIO:
 
 * PIO: `/proc/ioports`
 * MMIO: `/proc/iomem`
 
 
-# PCI 总线结构
+# PCI Bus
 
 `0006:02:00.1` = `域号(Domain)`:`总线号(Bus Number)`:`设备号(Device Number)`.`功能号(Function Number)`
 
@@ -17,9 +15,9 @@ PCI - Peripheral Component Interconnect
 - 在包含多个 PCIe 根总线的大型系统（例如多处理器服务器）中，域号用于区分不同的PCIe根总线。
 
 
-# PCI 配置空间
+# PCI Configration Space
 
-至少 256 字节，前 64 字节时标准化的，所有设备都一样.
+At least 256 bytes, the first 64 bytes are standardized and the same for all devices.
 
 * BAR - Base Address Register
 
@@ -116,4 +114,3 @@ $ lspci -d ::0280
 - https://admin.pci-ids.ucw.cz/read/PC
 - https://admin.pci-ids.ucw.cz/read/PD
 - https://pcisig.com/membership/member-companies
-

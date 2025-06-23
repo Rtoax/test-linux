@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- make.list: add driver directory.
 - cgroup/v1: add some controller.
 - template: Add target-shell.mk, target-golang.mk, target-java.mk, target-libso.sh.
 #### Changed
