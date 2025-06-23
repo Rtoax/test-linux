@@ -10,6 +10,7 @@ and this project adheres to
 ## Unreleased
 
 #### Breaking Changes
+- main.mk: CFLAGS: add `-Werror -Wall -D_GNU_SOURCE -Wstrict-prototypes`.
 #### Added
 - pcie: add configuration-space and pciutils directory.
 - make.list: add driver, python directory.
