@@ -1,14 +1,4 @@
 # SPDX-License-Identifier: GPL-3.0
-include ../../tlbuild.mk
-
-###############################################################################
-# Kernel
-obj-m += invalid_opcode_kern.o
-
-KERNELDIR ?= /lib/modules/$(shell uname -r)/build
-
-###############################################################################
-# User
 sub-dir :=
 
 TARGETS :=
@@ -17,7 +7,6 @@ CFLAGS :=
 LDFLAGS :=
 ARCH_LIB_CPUID :=
 
-# User
 ifeq ($(shell uname -m),x86_64)
   sub-dir += avx
   sub-dir += tsc
@@ -51,9 +40,7 @@ ifeq ($(shell uname -m),x86_64)
   endif
 
   ARCH_LIB_CPUID += cpuid-x86.o
-endif
-
-ifeq ($(shell uname -m),aarch64)
+else ifeq ($(shell uname -m),aarch64)
   sub-dir += neon
   sub-dir += sve
 
@@ -89,37 +76,6 @@ include $(shell pwd)/../../binutils/binutils.mk
 CFLAGS += -DBINUTILS_VERSION_MAJOR=${BINUTILS_VERSION_MAJOR}
 CFLAGS += -DBINUTILS_VERSION_MINOR=${BINUTILS_VERSION_MINOR}
 
-include ../../template/subdir-header.mk
-
-.PHONY: user
-user: $(TARGETS) $(sub-dir-build)
-
-kernel:
-	${Q}make -C ${KERNELDIR} M=$(PWD) modules
-
-
-add-x86: add-x86.o
-bts: bts.o
-bswapl: bswapl.o
-invalid_opcode_user: invalid_opcode_user.o
-cpuid_user: cpuid_user.o ${ARCH_LIB_CPUID}
-_mm_clflush: _mm_clflush.o
-prefetch: prefetch.o
-rte_memcpy: rte_memcpy.o
-fsin: fsin.o
-udiv: udiv.o
-div: div.o
-vgetbv: vgetbv.o
-stosb: stosb.o
-memset: memset.o
-nop: nop.o
-rdmsr: rdmsr.o
-mrs: mrs.o
-ret: ret.o
-simd: simd.o
-rdrand: rdrand.o
-rdseed: rdseed.o
-
 #CFLAGS += -Werror -Wall
 CFLAGS += -g -ggdb
 CFLAGS += -D_GNU_SOURCE
@@ -147,29 +103,26 @@ ifdef IGNORE_RETURN_VALUE
   CFLAGS_div += -DIGNORE_RETURN_VALUE=1
 endif
 
-%.o: %.c
-	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	${Q}$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
+include ../../template/main.mk
 
-$(TARGETS): %:
-	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	${Q}$(CC) -o $(@) $(^) $(CFLAGS) $(CFLAGS_$(*)) ${LDFLAGS}
-
-help:
-	@echo "make [kernel|user|help]"
-	@echo " default: user"
-
-test: $(sub-dir-test)
-	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
-	@echo "empty, [cd $(PWD)] to insmod"
-
-.PHONY: clean
-clean: $(sub-dir-clean)
-	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
-	${Q}rm -f $(TARGETS) *.o
-
-clean-kern:
-	@echo -e "  CLEAN  \033[1;32m$(KERNELDIR)\033[m"
-	${Q}make -C ${KERNELDIR} M=$(PWD) clean
-
-include ../../template/subdir-footer.mk
+add-x86: add-x86.o
+bts: bts.o
+bswapl: bswapl.o
+invalid_opcode_user: invalid_opcode_user.o
+cpuid_user: cpuid_user.o ${ARCH_LIB_CPUID}
+_mm_clflush: _mm_clflush.o
+prefetch: prefetch.o
+rte_memcpy: rte_memcpy.o
+fsin: fsin.o
+udiv: udiv.o
+div: div.o
+vgetbv: vgetbv.o
+stosb: stosb.o
+memset: memset.o
+nop: nop.o
+rdmsr: rdmsr.o
+mrs: mrs.o
+ret: ret.o
+simd: simd.o
+rdrand: rdrand.o
+rdseed: rdseed.o
