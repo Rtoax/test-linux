@@ -26,5 +26,5 @@ export CONFIG_KERNEL CONFIG_CURDIR_KCONFIG
 
 define display_all_kconfig
 	@configs=($$(find ${CONFIG_TOPDIR} -name kconfig)); \
-		cat $${configs[@]} | grep -e '^CONFIG_' -e '^# CONFIG_' | sort | uniq
+		cat $${configs[@]} | grep -e '^CONFIG_' -e '^# CONFIG_' | sort -u
 endef

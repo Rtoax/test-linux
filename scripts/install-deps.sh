@@ -1184,7 +1184,7 @@ os_packages
 [[ ${have_cxl} ]] && pkgs_inst+=( ${pkgs_cxl[@]} )
 
 # Sort and remove duplicate items
-pkgs_inst=( $(for i in "${pkgs_inst[@]}"; do echo $i; done | sort | uniq) )
+pkgs_inst=( $(for i in "${pkgs_inst[@]}"; do echo $i; done | sort -u) )
 
 # Filter out skip packages
 for p in ${pkgs_skip[@]}

@@ -3,7 +3,7 @@ SHELL := bash
 
 LDCONFIG ?= ldconfig
 LIBBPF_PATHES ?= $(shell ${LDCONFIG} -p | grep libbpf.so | awk '{print $$NF}' || true)
-LIBBPF_PATH ?= $(shell dirname $(LIBBPF_PATHES) | sort | uniq || true)
+LIBBPF_PATH ?= $(shell dirname $(LIBBPF_PATHES) | sort -u || true)
 # Like /usr/lib64/libbpf.so.0.4.0
 LIBBPF_V_PATH := $(shell realpath ${LIBBPF_PATH}/libbpf.so)
 
