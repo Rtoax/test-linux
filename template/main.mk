@@ -31,6 +31,11 @@ ifdef FORCE
   CFLAGS += -Wno-error
 endif
 
+ifdef STATIC
+  CFLAGS += -static
+  LDFLAGS += -static
+endif
+
 TEMPLATE_DIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 export TEMPLATE_DIR
 
