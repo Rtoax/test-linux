@@ -63,34 +63,35 @@ At least 256 bytes, the first 64 bytes are standardized and the same for all dev
 
 # Device classes
 
-```
-00	Unclassified device
-01	Mass storage controller (SATA, NVMe, SCSI, IDE)
-02	Network controller
-03	Display controller
-04	Multimedia controller
-05	Memory controller
-06	Bridge
-07	Communication controller
-08	Generic system peripheral
-09	Input device controller
-0a	Docking station
-0b	Processor
-0c	Serial bus controller
-0d	Wireless controller
-0e	Intelligent controller
-0f	Satellite communications controller
-10	Encryption controller
-11	Data Acquisition and Signal Processing
-12	Processing accelerators
-13	Non-Essential Instrumentation
-14
-15
-16
-40	Coprocessor
-64
-ff	Unassigned class
-```
+| Code  | Description                            | Examples               |
+| ----- | ---------------------------------------| ---------------------- |
+| 0x00  | Unclassified Device                    |                        |
+| 0x01  | Mass Storage Controller                | SATA, NVMe, SCSI, IDE  |
+| 0x02  | Network Controller                     |                        |
+| 0x03  | Display Controller                     | VGA, 3D, XGA           |
+| 0x04  | Multimedia Controller                  |                        |
+| 0x05  | Memory Controller                      |                        |
+| 0x06  | Bridge Device                          | PCI-PCI, ISA, CardBus, PCIe-PCI |
+| 0x07  | Simple Communication Controller        |                        |
+| 0x08  | Generic System Peripheral              |                        |
+| 0x09  | Input Device Controller                |                        |
+| 0x0a  | Docking Station                        |                        |
+| 0x0b  | Processor                              |                        |
+| 0x0c  | Serial Bus Controller                  | USB, Firewire, SPI, I2C |
+| 0x0d  | Wireless Controller                    |                        |
+| 0x0e  | Intelligent I/O controller             |                        |
+| 0x0f  | Satellite communications controller    |                        |
+| 0x10  | Encryption/Decryption Controller       |                        |
+| 0x11  | Data Acquisition and Signal Processing |                        |
+| 0x12  | Processing accelerators                |                        |
+| 0x13  | Non-Essential Instrumentation          |                        |
+| 0x14  |                                        |                        |
+| 0x15  |                                        |                        |
+| 0x16  |                                        |                        |
+| 0x40  | Coprocessor                            |                        |
+| 0x64  |                                        |                        |
+| 0xff  | Unassigned class                       |                        |
+
 
 ## 根据 Class 过滤
 
