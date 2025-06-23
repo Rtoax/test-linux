@@ -24,6 +24,11 @@ CXL - Compute Express Link (计算快速链接)
 - ACPI0016: CXL Host Bridge Object, CXL root complex
 
 
+# PCIe
+
+- configuration space example: see commit 958db9e08b9e ("cxl: pcie: configuration space example")
+
+
 # EDSFF
 
 - Ex #1: EDSFF E1.S (Smaller), 12 ~ 25W
