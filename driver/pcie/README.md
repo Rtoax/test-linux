@@ -55,7 +55,19 @@ At least 256 bytes, the first 64 bytes are standardized and the same for all dev
  | Revison |          Class Code         |  Cache  | Latency |  Header |   BIST  |
  |    ID   |         |         |         |   Line  |  Timer  |   Type  |         |
  +---------+---------+---------+---------+---------+---------+---------+---------+
- ....
+ |             Base Address0             |             Base Address1             |
+ +---------+---------+---------+---------+---------+---------+-------------------+
+ | Primary | Second  |   High  | Second  | IO Base |IO Limit | Secondary Status  |
+ | Bus     | Bus     |   Bus   | LatTimer|         |         |                   |
+ +---------+---------+---------+---------+---------+---------+-------------------+
+ |    Memory Base    |   Memory Limit    | Pref Memory Base  | Pref Memory Limit |
+ +-------------------+-------------------+-------------------+-------------------+
+ |Upper half of prefetchable memory range| Limit                                 |
+ +-------------------+-------------------+---------+-----------------------------+
+ |    IO Base Upper  |   IO Limit Upper  | Cap Ptr |          Reserved           |
+ +-------------------+-------------------+---------+---------+-------------------+
+ |                ROM Address            | IRQ Line| IRQ Pin | Bridge Control    |
+ +---------------------------------------+-------------------+-------------------+
 ```
 
 ## Type 2 Header (CardBus)
