@@ -1,9 +1,2 @@
-include ../../tlbuild.mk
-
-
-
-all:
-	timeout 2 gpg --list-keys || true
-
-clean:
-	rm -f os-release.txt
+TARGETS_SHELL := list-keys.sh
+include ../../template/main.mk
