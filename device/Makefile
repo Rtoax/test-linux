@@ -1,5 +1,6 @@
 sub-dir := block
 sub-dir += udev
+sub-dir += input
 
 TARGETS :=
 TARGETS += cpu_dma_latency

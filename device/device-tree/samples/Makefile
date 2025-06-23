@@ -1,7 +1,3 @@
-include ../../../tlbuild.mk
-
-
-
 TARGETS := helloworld.dtb
 
 build: ${TARGETS}
