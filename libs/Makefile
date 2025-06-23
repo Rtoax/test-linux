@@ -1,5 +1,4 @@
 # SPDX-License-Identifier: GPL-3.0
-include ../tlbuild.mk
 include ../kconfig.mk
 
 sub-dir := readline
@@ -29,8 +28,6 @@ TARGETS_LIBSO += libtest-linux-c.so
 TARGETS_LIBA += libtest-linux-c.a
 
 TARGETS_TEST += test1
-
-CC := gcc
 
 CFLAGS += -Werror -Wall
 CFLAGS += -DTEST=1
