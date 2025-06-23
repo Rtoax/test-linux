@@ -21,7 +21,7 @@ At least 256 bytes, the first 64 bytes are standardized and the same for all dev
 
 * BAR - Base Address Register
 
-## Type 0 Header
+## Type 0 Header (Normal)
 
 ```
    0x00  0x01  0x02  0x03   0x04 0x05  0x06  0x07   0x08    0x09  0x0a  0x0b  0x0c    0x0d    0x0e   0x0f Bytes
@@ -39,7 +39,7 @@ At least 256 bytes, the first 64 bytes are standardized and the same for all dev
  +------------------------+-----+-------------------------------------------+------+-------+-------+------+
 ```
 
-## Type 1 Header
+## Type 1 Header (Bridge)
 
 ```
    0x00  0x01  0x02  0x03   0x04 0x05  0x06  0x07   0x08    0x09  0x0a  0x0b  0x0c    0x0d    0x0e   0x0f Bytes
@@ -50,12 +50,15 @@ At least 256 bytes, the first 64 bytes are standardized and the same for all dev
  ...
 ```
 
+## Type 2 Header (CardBus)
+
+
 # Vendors
 
 - https://pcisig.com/membership/member-companies
 
 
-# Device classes
+# Device Classes
 
 | Code  | Description                            | Examples               |
 | ----- | ---------------------------------------| ---------------------- |

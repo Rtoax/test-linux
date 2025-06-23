@@ -1,6 +1,6 @@
 #pragma once
 
-#define offsetof(TYPE, MEMBER)    ((size_t) &((TYPE *)0)->MEMBER)
+#define offsetof(TYPE, MEMBER)    ((size_t)&((TYPE *)0)->MEMBER)
 
 #ifndef offsetof
 #define offsetof(type, number) __builtin_offsetof(type, number)

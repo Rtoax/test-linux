@@ -12,6 +12,7 @@ struct pci_config_space_type0 {
 	uint8_t  class_code;
 	uint8_t  cache_line_size;
 	uint8_t  latency_timer;
+	/* 0 - normal, 1 - bridge, 2 - cardbus */
 	uint8_t  header_type;
 	uint8_t  bist;
 	uint32_t bar[6];
@@ -20,7 +21,7 @@ struct pci_config_space_type0 {
 	uint16_t subsystem_id;
 	uint32_t expansion_rom_base_addr;
 	uint8_t  capabilities_pointer;
-	uint8_t  reserved1[3];
+	uint8_t  reserved1[7];
 	uint8_t  interrupt_line;
 	uint8_t  interrupt_pin;
 	uint8_t  min_gnt;
