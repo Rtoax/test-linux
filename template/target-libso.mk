@@ -14,3 +14,4 @@ ${OUTPUT}%.so.o: %.c | ${OUTPUT}
 $(TARGETS_LIBSO): %:
 	@echo -e "  SO  \033[1;32m$(@)\033[m"
 	${Q}${CC_PFX} $(CC) -o $(@) $(^) $(LDFLAGS_SO) $(LDFLAGS_SO_$(*)) -Wl,-soname=$(@)
+	${Q}${SHELL} ${TEMPLATE_DIR}/target-libso.sh multi-version $(@)

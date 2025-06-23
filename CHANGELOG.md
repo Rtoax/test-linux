@@ -12,7 +12,7 @@ and this project adheres to
 #### Breaking Changes
 #### Added
 - cgroup/v1: add some controller.
-- template: Add target-shell.mk, target-golang.mk, target-java.mk.
+- template: Add target-shell.mk, target-golang.mk, target-java.mk, target-libso.sh.
 #### Changed
 - syscall: Use main.mk.
 #### Deprecated

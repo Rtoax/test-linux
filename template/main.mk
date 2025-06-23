@@ -32,6 +32,7 @@ ifdef FORCE
 endif
 
 TEMPLATE_DIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
+export TEMPLATE_DIR
 
 include ${TEMPLATE_DIR}/../tlbuild.mk
 include ${TEMPLATE_DIR}/subdir-header.mk
@@ -58,7 +59,7 @@ test: $(build-targets) $(sub-dir-test) $(TARGETS_TEST)
 .PHONY: clean
 clean: $(sub-dir-clean) $(TARGETS_CLEAN)
 	@echo -e "  CLEAN  \033[1;32m${build-targets} ${TARGETS_CLEAN}\033[m"
-	${Q}rm -rf ${build-targets} *.o *.opp *.d *.log *.out *.class
+	${Q}rm -rf ${build-targets} *.o *.opp *.d *.log *.out *.class *.so *.so.*
 	@echo -e " \033[1;33m Clean $(shell pwd) done \033[m"
 
 include ${TEMPLATE_DIR}/target-exe.mk

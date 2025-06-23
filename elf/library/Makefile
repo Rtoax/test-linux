@@ -9,7 +9,7 @@ TARGETS += latency-got latency-got-llc
 TARGETS += latency-a latency-a-llc
 
 TARGETS_LIBSO :=
-TARGETS_LIBSO += libfoo.so
+TARGETS_LIBSO += libfoo.so.1.10
 TARGETS_LIBSO += libadd.so
 TARGETS_LIBSO += libcall0.so
 
@@ -57,7 +57,7 @@ endif
 include ../../template/main.mk
 
 libc: libc.o
-main: main.o libfoo.so
+main: main.o libfoo.so.1.10
 main-a: main-a.o libfoo.a
 main-a-ctors: main-a-ctors.o libfoo.a
 latency: latency.o libcall0.so
@@ -66,7 +66,7 @@ latency-got-llc: latency-got-llc.o libcall0.so
 latency-a: latency-a.o libcall0.a
 latency-a-llc: latency-a-llc.o libcall0.a
 
-libfoo.so: foo.so.o ctors.so.o
+libfoo.so.1.10: foo.so.o ctors.so.o
 libfoo.a: foo.a.o ctors.a.o
 libadd.so: add.so.o
 libadd.a: add.a.o
