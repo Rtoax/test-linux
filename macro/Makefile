@@ -1,5 +1,4 @@
 # SPDX-License-Identifier: GPL-3.0
-include ../tlbuild.mk
 include ../kernel.mk
 
 CC := gcc
@@ -59,22 +58,22 @@ ifeq ($(shell uname -m),loongarch64)
 endif
 
 CFLAGS := -Werror -Wall
-CFLAGS += -O0
-CFLAGS += -DDEBUG -g
 CFLAGS += ${KFLAGS}
 
 CFLAGS___stringify := -DSTDBOOL_HDR=stdbool.h
 CFLAGS___i386__ := -m32
+LDFLAGS___i386__ := -m32
 CFLAGS___x86_64__ := -m64
 CFLAGS___WORDSIZE-32 := -m32
+LDFLAGS___WORDSIZE-32 := -m32
 CFLAGS_machine := -Wno-error=deprecated -Wno-deprecated
 CFLAGS___user := -Wno-error=attributes
 CFLAGS___cplusplus-std98 := -std=c++98
 
-.PHONY: build
-build: $(CC)-macros.h compiler-macros.h ${TARGETS} ${TARGETS_CXX}
-	${Q}./likely.sh
-	@echo -e " \033[1;33m Done \033[m"
+TARGETS_PREP := $(CC)-macros.h compiler-macros.h
+TARGETS_SHELL := likely.sh
+
+include ../template/main.mk
 
 arch: arch.o
 align: align.o
@@ -126,25 +125,3 @@ compiler-macros.h: $(CC)-macros.h
 	@echo -e "  GEN COMPILER MARCOS  \033[1m${@}\033[m"
 	${Q}rm -f $(@)
 	${Q}ln -s $(<) $(@)
-
-%.o: %.c
-	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	${Q}$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
-
-%.opp: %.cpp
-	@echo -e "  CXX  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	${Q}$(CXX) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
-
-$(TARGETS): %:
-	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	${Q}$(CC) -o $(@) $(^) $(CFLAGS) $(CFLAGS_$(*))
-
-$(TARGETS_CXX): %:
-	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	${Q}$(CXX) -o $(@) $(^) $(CFLAGS) $(CFLAGS_$(*))
-
-.PHONY: clean
-clean:
-	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
-	${Q}rm -f ${TARGETS} ${TARGETS_CXX} *.o *.opp
-	${Q}rm -f $(CC)-macros.h compiler-macros.h
