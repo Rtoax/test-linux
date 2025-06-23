@@ -70,7 +70,7 @@ At least 256 bytes, the first 64 bytes are standardized and the same for all dev
 | 0x02  | Network Controller                     |                        |
 | 0x03  | Display Controller                     | VGA, 3D, XGA           |
 | 0x04  | Multimedia Controller                  |                        |
-| 0x05  | Memory Controller                      |                        |
+| 0x05  | Memory Controller                      | CXL                    |
 | 0x06  | Bridge Device                          | PCI-PCI, ISA, CardBus, PCIe-PCI |
 | 0x07  | Simple Communication Controller        |                        |
 | 0x08  | Generic System Peripheral              |                        |
