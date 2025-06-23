@@ -1,6 +1,3 @@
-include ../../../tlbuild.mk
-
-
 TARGETS :=
 TARGETS += builder
 TARGETS += builder-menu
@@ -36,8 +33,10 @@ GTK_VERSION := gtk+-3.0
 GTK_LIBS := $(shell pkg-config --libs ${GTK_VERSION})
 GTK_CFLAGS := $(shell pkg-config --cflags ${GTK_VERSION})
 
-$(info GTK_CFLAGS=$(GTK_CFLAGS))
-$(info GTK_LIBS=$(GTK_LIBS))
+ifdef DEBUG
+  $(info GTK_CFLAGS=$(GTK_CFLAGS))
+  $(info GTK_LIBS=$(GTK_LIBS))
+endif
 
 CFLAGS += -Werror -Wall
 CFLAGS += $(GTK_CFLAGS)
@@ -45,16 +44,10 @@ CFLAGS += $(GTK_LIBS)
 
 LDFLAGS += $(GTK_LIBS)
 
-ifdef DEBUG
-  CFLAGS += -DDEBUG -O0 -g
-endif
-
 # TODO: no deprecated
 CFLAGS += -Wno-error=deprecated-declarations
 
-.PHONY: build
-build: ${TARGETS}
-	@echo -e " \033[1;33m Done \033[m"
+include ../../../template/main.mk
 
 builder: builder.o
 builder-menu: builder-menu.o
@@ -86,19 +79,3 @@ frame: frame.o
 aspect_frame: aspect_frame.o
 menu: menu.o
 dialog: dialog.o
-
-%.o: %.c
-	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	${Q}$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
-
-$(TARGETS): %:
-	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	${Q}$(CC) -o $(@) $(^) $(CFLAGS) $(CFLAGS_$(*)) $(LDFLAGS) $(LDFLAGS_$(*))
-
-test: ${TARGETS}
-	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
-
-.PHONY: clean
-clean:
-	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
-	${Q}rm -f ${TARGETS} *.o
