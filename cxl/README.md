@@ -27,6 +27,7 @@ CXL - Compute Express Link (计算快速链接)
 # PCIe
 
 - configuration space example: see commit 958db9e08b9e ("cxl: pcie: configuration space example")
+- memory space example: see commit c2d6194c135e ("cxl: pcie: memory space example")
 
 
 # EDSFF
