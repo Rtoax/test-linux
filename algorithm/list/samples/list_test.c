@@ -379,7 +379,6 @@ int demo_list_7_splice()//粘贴
 int demo_list_8_for_each_and_entry()
 {
 	struct list_head lhead;
-	int __a = 13;
 
 	struct list_test lt1 = LIST_TEST_INITIALIZER(1);
 	struct list_test lt2 = LIST_TEST_INITIALIZER(2);
@@ -536,14 +535,12 @@ void demo_list_9_list_sort()
 {
 	printf("sort:::::::::::::::::::::::\n");
 	struct list_head lhead;
-	int __a = 13;
 
 	struct list_test lt1 = LIST_TEST_INITIALIZER(1);
 	struct list_test lt2 = LIST_TEST_INITIALIZER(2);
 	struct list_test lt3 = LIST_TEST_INITIALIZER(3);
 	struct list_test lt4 = LIST_TEST_INITIALIZER(4);
 	struct list_test lt5 = LIST_TEST_INITIALIZER(5);
-	struct list_test lt6 = LIST_TEST_INITIALIZER(6);
 
 	struct list_test *iter;
 
@@ -587,7 +584,7 @@ static void demo_llist_1_add()
 	for(i=0;i<NLLIST_NODE;i++)
 		llist_add(&llist_nodes[i].llist, &head);
 
-	struct llist_node *pos, *next, *node;
+	struct llist_node *node;
 	struct llist_test *entry;
 
 	node = head.first;
@@ -602,7 +599,7 @@ static void demo_llist_1_add()
 
 }
 
-int main()
+int main(void)
 {
 	demo_list_1_add_del_swap_for_each();
 	demo_list_2_move_and_move_tail();
@@ -618,4 +615,3 @@ int main()
 
 	return 0;
 }
-

@@ -5,6 +5,9 @@ Q ?= @
 
 sub-dir ?=
 
+CFLAGS += -Werror -Wall -D_GNU_SOURCE
+CFLAGS += -Wstrict-prototypes
+
 ifdef DEBUG
   $(info Compile with DEBUG=1)
   CFLAGS += -DDEBUG -O0 -g -ggdb

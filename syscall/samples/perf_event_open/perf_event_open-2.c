@@ -3,7 +3,9 @@
  *
  * perf stat -e cycles,faults ls
  */
+#ifndef _GNU_SOURCE
 #define _GNU_SOURCE
+#endif
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
@@ -118,8 +120,6 @@ int create_software_perf(int grp_fd, enum perf_sw_ids sw_ids, uint64_t *ioc_id)
 
 int main(int argc, char *argv[])
 {
-	struct perf_event_attr pea;
-
 	int group_fd, fd2, fd3, fd4, fd5;
 	uint64_t id1, id2, id3, id4, id5;
 	uint64_t val1, val2, val3, val4, val5;

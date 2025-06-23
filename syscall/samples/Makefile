@@ -129,12 +129,6 @@ ifeq ($(shell uname -m),riscv64)
   TARGETS := $(filter-out getdents, $(TARGETS))
 endif
 
-ifdef STATIC
-  CFLAGS += -static
-endif
-
-CFLAGS := -Werror -Wall -D_GNU_SOURCE
-CFLAGS += -Wstrict-prototypes
 CFLAGS += -I../../
 CFLAGS += -pthread
 
