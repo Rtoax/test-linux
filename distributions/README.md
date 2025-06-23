@@ -20,5 +20,6 @@ OS Distrobutions
 # Links
 
 - https://distrowatch.com/
+- https://mirrors.kernel.org/
 - http://www.linuxfromscratch.org/
 - https://gs.statcounter.com/os-market-share/desktop/worldwide

@@ -155,7 +155,7 @@ If the source code file has a copyright information at the beginning, the copyri
 	- [github torvalds](https://github.com/torvalds/linux)
 	- [git.kernel.org stable](git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git)
 	- [git.kernel.org torvalds](git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git)
-
+	- [mirrors.kernel.org](https://mirrors.kernel.org/)
 
 ## Relative Projects
 
