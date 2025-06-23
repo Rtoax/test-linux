@@ -12,9 +12,9 @@ and this project adheres to
 #### Breaking Changes
 #### Added
 - pcie: add configuration-space and pciutils directory.
-- make.list: add driver directory.
+- make.list: add driver, python directory.
 - cgroup/v1: add some controller.
-- template: Add target-shell.mk, target-golang.mk, target-java.mk, target-libso.sh.
+- template: Add target-shell.mk, target-golang.mk, target-java.mk, target-libso.sh, target-python.mk.
 #### Changed
 - syscall: Use main.mk.
 #### Deprecated

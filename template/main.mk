@@ -46,6 +46,8 @@ build-targets += $(TARGETS_GO)
 build-targets += $(TARGETS_JAVA)
 TARGETS_SHELL_LOGS := $(patsubst %.sh,%.sh.log,$(TARGETS_SHELL))
 build-targets += $(TARGETS_SHELL_LOGS)
+TARGETS_PYTHON_LOGS := $(patsubst %.py,%.py.log,$(TARGETS_PYTHON))
+build-targets += $(TARGETS_PYTHON_LOGS)
 build-targets += $(sub-dir-build)
 build-targets += $(TARGETS_POST)
 
@@ -67,6 +69,7 @@ include ${TEMPLATE_DIR}/target-exe.mk
 include ${TEMPLATE_DIR}/target-liba.mk
 include ${TEMPLATE_DIR}/target-libso.mk
 include ${TEMPLATE_DIR}/target-shell.mk
+include ${TEMPLATE_DIR}/target-python.mk
 include ${TEMPLATE_DIR}/target-golang.mk
 include ${TEMPLATE_DIR}/target-java.mk
 ifneq (${OUTPUT},)

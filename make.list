@@ -42,6 +42,7 @@ sub-dir += namespace
 sub-dir += network
 sub-dir += numa
 sub-dir += pahole
+sub-dir += python
 sub-dir += qemu
 sub-dir += rust
 sub-dir += scripts
