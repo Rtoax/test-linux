@@ -20,6 +20,7 @@ and this project adheres to
 - syscall: Use main.mk.
 #### Deprecated
 #### Removed
+- Remove `fprobe/samples/fprobe_example.c`.
 - Remove go/go.mk.
 - Remove compiler/force-cflags.mk, move FORCE to main.mk.
 - Remove shell/shell-run.mk.
