@@ -781,7 +781,7 @@ dnf_add_packages()
 	pkgs_base+=( gperftools-devel )
 	pkgs_base+=( grub2-tools-minimal grub2-tools-extra )
 	pkgs_base+=( gtest-devel gmock-devel )
-	pkgs_base+=( iproute )              # ss
+	pkgs_base+=( iproute )              # ss, ip, vdpa
 	pkgs_base+=( iproute-tc )           # tc
 	pkgs_base+=( iptables-devel )
 	pkgs_base+=( jemalloc-devel )

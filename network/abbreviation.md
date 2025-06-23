@@ -36,6 +36,7 @@
 - STP: Spanning Tree Protocol (生成树协议)
 - TCP: Transmission Control Protocol (传输控制协议)
 - UDP: User Datagram Protocol (用户数据报协议)
+- vDPA: Virtual Data Path Acceleration (虚拟数据路径加速)
 - VoIP: Voice over IP ()
 - WAN: Wide Area Network (广域网)
 - WLAN: Wireless Local Area Network (无线局域网) @Wi-Fi
