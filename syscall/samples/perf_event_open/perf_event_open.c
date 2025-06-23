@@ -14,7 +14,6 @@ int main(int argc, char **argv)
 	long long count, cycles, instructions;
 	double ipc;
 	int fd;
-	int i;
 
 	pid_t pid = argc > 1 ? atoi(argv[1]) : 1;
 
