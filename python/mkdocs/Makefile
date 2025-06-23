@@ -1,8 +1,2 @@
-include ../../tlbuild.mk
-
-
-
-all:
-	mkdocs build
-clean:
-	rm -rf site/
+TARGETS_SHELL := build.sh
+include ../../template/main.mk
