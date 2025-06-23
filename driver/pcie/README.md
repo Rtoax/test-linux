@@ -24,33 +24,27 @@ At least 256 bytes, the first 64 bytes are standardized and the same for all dev
 ## Type 0 Header
 
 ```
-   0x0   0x1    0x2   0x3   0x4  0x5   0x6   0x7    0x8     0x9   0xa   0xb   0xc     0xd     0xe     0xf
+   0x00  0x01  0x02  0x03   0x04 0x05  0x06  0x07   0x08    0x09  0x0a  0x0b  0x0c    0x0d    0x0e   0x0f Bytes
  +-----------+------------+----------+------------+-------+-----------------+------+-------+-------+------+
- |   Vendor  |    Device  |  Command |    Status  |Revison|    Class Code   |Cache |Latency| Header|  BIST|
- |     ID    |      ID    |   Reg    |     Reg    |  ID   |                 | Line | Timer |  Type |      |
- +-----------+------------+----------+------------+-------+-----------------+------+-------+-------+------+
-
- +------------------------+-----------------------+-------------------------+-----------------------------+
+ |   Vendor  |    Device  |  Command |    Status  |Revison|    Class Code   |Cache |Latency| Header| BIST |
+ |     ID    |      ID    |   Reg    |     Reg    |  ID   |     |     |     | Line | Timer |  Type |      |
+ +-----------+------------+----------+------------+-------+-----+-----+-----+------+-------+-------+------+
  |     Base Address0      |    Base Address1      |        Base Address2    |       Base Address3         |
- +------------------------+-----------------------+-------------------------+-----------------------------+
-
  +------------------------+-----------------------+-------------------------+--------------+--------------+
- |     Base Address4      |    Base Address5      |     CardBus CIS Pointer |   Subsystem  |   Subsystemd |
+ |     Base Address4      |    Base Address5      |     CardBus CIS Pointer |   Subsystem  |   Subsystem  |
  |                        |                       |                         |   Vendor ID  |   Device ID  |
- +------------------------+-----------------------+-------------------------+--------------+--------------+
-
- +------------------------+----+--------------------------------------------+------+-------+-------+------+
- |      Expansion ROM     |Cap |               Reserved                     |IRQ   |  IRQ  | Min_  | Max_ |
- |       Base Addres      |Ptr |                                            |Line  |  Pin  | Gnt   | Lat  |
- +------------------------+----+--------------------------------------------+------+-------+-------+------+
+ +------------------------+-----+-----------------+-------------------------+------+-------+-------+------+
+ |      Expansion ROM     | Cap |              Reserved                     |IRQ   |  IRQ  | Min_  | Max_ |
+ |       Base Addres      | Ptr |                                           |Line  |  Pin  | Gnt   | Lat  |
+ +------------------------+-----+-------------------------------------------+------+-------+-------+------+
 ```
 
 ## Type 1 Header
 
 ```
-   0x0   0x1    0x2   0x3   0x4  0x5   0x6   0x7    0x8     0x9   0xa   0xb   0xc     0xd     0xe     0xf
+   0x00  0x01  0x02  0x03   0x04 0x05  0x06  0x07   0x08    0x09  0x0a  0x0b  0x0c    0x0d    0x0e   0x0f Bytes
  +-----------+------------+----------+------------+-------+-----------------+------+-------+-------+------+
- |   Vendor  |    Device  |  Command |    Status  |Revison|    Class Code   |Cache |Latency| Header|  BIST|
+ |   Vendor  |    Device  |  Command |    Status  |Revison|    Class Code   |Cache |Latency| Header| BIST |
  |     ID    |      ID    |   Reg    |     Reg    |  ID   |                 | Line | Timer |  Type |      |
  +-----------+------------+----------+------------+-------+-----------------+------+-------+-------+------+
  ...
