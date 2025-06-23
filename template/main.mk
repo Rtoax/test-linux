@@ -70,11 +70,21 @@ include ${TEMPLATE_DIR}/target-exe.mk
 ifneq ($(TARGETS_LIBA),)
   include ${TEMPLATE_DIR}/target-liba.mk
 endif
-include ${TEMPLATE_DIR}/target-libso.mk
-include ${TEMPLATE_DIR}/target-shell.mk
-include ${TEMPLATE_DIR}/target-python.mk
-include ${TEMPLATE_DIR}/target-golang.mk
-include ${TEMPLATE_DIR}/target-java.mk
+ifneq ($(TARGETS_LIBSO),)
+  include ${TEMPLATE_DIR}/target-libso.mk
+endif
+ifneq ($(TARGETS_SHELL),)
+  include ${TEMPLATE_DIR}/target-shell.mk
+endif
+ifneq ($(TARGETS_PYTHON),)
+  include ${TEMPLATE_DIR}/target-python.mk
+endif
+ifneq ($(TARGETS_GO),)
+  include ${TEMPLATE_DIR}/target-golang.mk
+endif
+ifneq ($(TARGETS_JAVA),)
+  include ${TEMPLATE_DIR}/target-java.mk
+endif
 ifneq (${OUTPUT},)
   include ${TEMPLATE_DIR}/target-output.mk
 endif
