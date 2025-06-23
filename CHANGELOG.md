@@ -16,6 +16,7 @@ and this project adheres to
 - cgroup/v1: add some controller.
 - template: Add target-shell.mk, target-golang.mk, target-java.mk, target-libso.sh, target-python.mk.
 #### Changed
+- macro: support cross-compile.
 - syscall: Use main.mk.
 #### Deprecated
 #### Removed

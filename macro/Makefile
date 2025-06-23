@@ -1,11 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
 include ../kernel.mk
 
-CC := gcc
-CXX := c++
-
-include ../compiler/compiler.mk
-
 TARGETS :=
 TARGETS += align
 TARGETS += alias
@@ -60,17 +55,23 @@ endif
 CFLAGS := -Werror -Wall
 CFLAGS += ${KFLAGS}
 
+ifdef STATIC
+  LDFLAGS += -static
+endif
+
 CFLAGS___stringify := -DSTDBOOL_HDR=stdbool.h
 CFLAGS___i386__ := -m32
 LDFLAGS___i386__ := -m32
-CFLAGS___x86_64__ := -m64
+ifndef CROSS_COMPILE
+  CFLAGS___x86_64__ := -m64
+endif
 CFLAGS___WORDSIZE-32 := -m32
 LDFLAGS___WORDSIZE-32 := -m32
 CFLAGS_machine := -Wno-error=deprecated -Wno-deprecated
 CFLAGS___user := -Wno-error=attributes
 CFLAGS___cplusplus-std98 := -std=c++98
 
-TARGETS_PREP := $(CC)-macros.h compiler-macros.h
+TARGETS_PREP := compiler-macros.h
 TARGETS_SHELL := likely.sh
 
 include ../template/main.mk
@@ -117,11 +118,6 @@ __GLIBC__: __GLIBC__.o
 __GLIBC_MINOR__: __GLIBC_MINOR__.o
 __GLIBC_PREREQ: __GLIBC_PREREQ.o
 
-$(CC)-macros.h:
+compiler-macros.h:
 	@echo -e "  GEN ${CC} MACRO HDR \033[1m$(@)\033[m"
 	$(call gen_compiler_macro_hdr,$(@))
-
-compiler-macros.h: $(CC)-macros.h
-	@echo -e "  GEN COMPILER MARCOS  \033[1m${@}\033[m"
-	${Q}rm -f $(@)
-	${Q}ln -s $(<) $(@)

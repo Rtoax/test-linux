@@ -34,6 +34,11 @@ endif
 TEMPLATE_DIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 export TEMPLATE_DIR
 
+ifneq ($(CROSS_COMPILE),)
+  include ${TEMPLATE_DIR}/../compiler/cross-compile.mk
+endif
+include ${TEMPLATE_DIR}/../compiler/compiler.mk
+
 include ${TEMPLATE_DIR}/../tlbuild.mk
 include ${TEMPLATE_DIR}/subdir-header.mk
 

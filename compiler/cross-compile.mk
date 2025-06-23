@@ -12,6 +12,7 @@ LD ?= ld
 STRIP ?= strip
 
 CFLAGS ?=
+LDFLAGS ?=
 SYSROOT ?=
 
 MK_ARCH ?= ${shell uname -m}
@@ -57,6 +58,7 @@ ifdef CROSS_COMPILE
   # see: aarch64-linux-gnu-gcc -print-sysroot
   CFLAGS += --sysroot=${SYSROOT}
   CFLAGS += -DCROSS_COMPILE=1
+  LDFLAGS += ${CFLAGS}
 
   MAKEFLAGS += CROSS_COMPILE=${CROSS_COMPILE}
 
@@ -65,11 +67,13 @@ ifdef CROSS_COMPILE
     $(error "$(shell uname -m) is not support CROSS_COMPILE")
   endif
 
-  $(info INFO: Enable CROSS_COMPILE=${CROSS_COMPILE})
-  $(info INFO: SYSROOT=${SYSROOT})
+  ifdef DEBUG
+    $(info INFO: Enable CROSS_COMPILE=${CROSS_COMPILE})
+    $(info INFO: SYSROOT=${SYSROOT})
+  endif
 else
   ifdef DEBUG
     $(info INFO: Define CROSS_COMPILE=[Cross-build [GNU] C compiler] when make)
   endif
 endif
-
+export CC CXX AS LD CFLAGS LDFLAGS STRIP
