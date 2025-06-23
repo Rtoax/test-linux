@@ -1,5 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
 include ../kernel.mk
+include ../compiler/cross-compile.mk
+include ../compiler/compiler.mk
 
 TARGETS :=
 TARGETS += align
@@ -52,7 +54,7 @@ ifeq ($(shell uname -m),loongarch64)
   TARGETS += __loongarch64
 endif
 
-CFLAGS := -Werror -Wall
+CFLAGS += -Werror -Wall
 CFLAGS += ${KFLAGS}
 
 ifdef STATIC
