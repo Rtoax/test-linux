@@ -87,6 +87,11 @@ ${BOLD}LINKS${RST}
 	exit ${1-0}
 }
 
+error() {
+	echo -e >&2 "${RED}ERROR: ${@}${RST}"
+	exit 1
+}
+
 __main__()
 {
 	TEMP=$(getopt \
@@ -120,8 +125,7 @@ __main__()
 		--to)
 			shift
 			if [[ -z ${downer_commit} ]]; then
-				echo "ERROR: specify --from first"
-				exit 1
+				error "specify --from first"
 			fi
 			upper_commit="$1"
 			shift
@@ -169,11 +173,10 @@ my_eval()
 # ref: https://kernelnewbies.org/FirstKernelPatch
 patchset()
 {
-	[[ -z ${downer_commit} ]] && echo "ERROR: Must specify --from" && exit 1
-	[[ -z ${upper_commit} ]] && echo "ERROR: Must specify --to" && exit 1
+	[[ -z ${downer_commit} ]] && error "Must specify --from"
+	[[ -z ${upper_commit} ]] && error "Must specify --to"
 	if [[ -e ${output_dir} ]] && [[ ! -d ${output_dir} ]]; then
-		echo "ERROR: ${output_dir} exist but is not directory"
-		exit 1
+		error "${output_dir} exist but is not directory"
 	fi
 
 	local args

@@ -121,11 +121,15 @@ ${BOLD}SEE ALSO${RST}
 	exit ${1-0}
 }
 
+error() {
+	echo -e >&2 "${RED}ERROR: ${@}${RST}"
+	exit 1
+}
+
 check_file_exist_and_exit() {
 	local f=$1
 	if [[ ! -e ${f} ]]; then
-		echo >&2 "ERROR: ${f} is not exist."
-		exit 1
+		error "${f} is not exist."
 	fi
 }
 
@@ -141,8 +145,7 @@ is_qemu_format() {
 
 check_qemu_format_and_exit() {
 	if [[ $(is_qemu_format ${f_rootfs}) != yes ]]; then
-		echo >&2 "ERROR: ${f_rootfs} is not raw or qcow2."
-		exit 1
+		error "${f_rootfs} is not raw or qcow2."
 	fi
 }
 
@@ -211,8 +214,7 @@ while true; do
 				type)
 					f_rootfs_disk_type=${arg:5}
 					if ! [[ " ${DISK_TYPES[@]} " =~ " ${f_rootfs_disk_type} " ]]; then
-						echo >&2 "ERROR: rootfs unsupport ${arg}"
-						exit 1
+						error "rootfs unsupport ${arg}"
 					fi
 					;;
 				file)
@@ -220,20 +222,17 @@ while true; do
 					;;
 				rw | ro)
 					if [[ ${arg} != ro ]] && [[ ${arg} != rw ]]; then
-						echo >&2 "ERROR: rootfs unknown ${arg}"
-						exit 1
+						error "rootfs unknown ${arg}"
 					fi
 					k_rw=${arg}
 					;;
 				*)
-					echo >&2 "ERROR: rootfs unknown ${arg}"
-					exit 1
+					error "rootfs unknown ${arg}"
 					;;
 				esac
 			done
 			if [[ -z ${f_rootfs} ]]; then
-				echo >&2 "ERROR: not found file= for rootfs"
-				exit 1
+				error "not found file= for rootfs"
 			fi
 		else
 			f_rootfs=$1
@@ -274,8 +273,7 @@ while true; do
 		shift
 		cxl_type=$1
 		if ! [[ " ${CXL_TYPES[@]} " =~ " ${cxl_type} " ]]; then
-			echo >&2 "ERROR: cxl type only support <${CXL_TYPES[@]}>"
-			exit 1
+			error "cxl type only support <${CXL_TYPES[@]}>"
 		fi
 		shift
 		;;
@@ -308,8 +306,7 @@ done
 
 if [[ -z ${f_kernel} ]] && [[ -z ${f_initrd} ]]; then
 	__usage__
-	echo >&2 "ERROR: must specify kernel and initrd"
-	exit 1
+	error "must specify kernel and initrd"
 fi
 
 if [[ ${verbose} ]]; then
@@ -433,8 +430,7 @@ config_uefi() {
 	done
 
 	if [[ -z ${code} ]]; then
-		echo >&2 "ERROR: not found ovmf code: ${codes[@]}"
-		exit 1
+		error "not found ovmf code: ${codes[@]}"
 	fi
 
 	qargs+=( -drive if=pflash,format=raw,readonly=on,file=${code} )
