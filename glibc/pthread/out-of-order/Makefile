@@ -1,7 +1,4 @@
 # SPDX-License-Identifier: GPL-3.0
-include ../../../tlbuild.mk
-
-
 TARGETS :=
 TARGETS += r-barrier
 TARGETS += w-barrier
@@ -18,8 +15,6 @@ TARGETS += sequentially-consistent-waw
 TARGETS += sequentially-consistent-waw-2
 TARGETS += sequentially-consistent-raw
 TARGETS += sequentially-consistent-war
-
-CC := gcc
 
 CFLAGS := -Werror -Wall -pthread
 CFLAGS += -I$(shell realpath .)/../../../synchronization/barrier/
@@ -39,8 +34,7 @@ CFLAGS_sequentially-consistent-raw := ${CFLAGS_no-barrier}
 CFLAGS_sequentially-consistent-waw := -Wno-error=cpp
 CFLAGS_sequentially-consistent-waw-2 := ${CFLAGS_sequentially-consistent-waw}
 
-
-build: ${TARGETS}
+include ../../../template/main.mk
 
 r-barrier: r-barrier.o
 w-barrier: w-barrier.o
@@ -57,15 +51,3 @@ sequentially-consistent-waw: sequentially-consistent-waw.o
 sequentially-consistent-waw-2: sequentially-consistent-waw-2.o
 sequentially-consistent-raw: sequentially-consistent-raw.o
 sequentially-consistent-war: sequentially-consistent-war.o
-
-%.o: %.c
-	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	${Q}$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
-
-$(TARGETS): %:
-	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	${Q}$(CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*)) $(CFLAGS) $(CFLAGS_$(*))
-
-clean:
-	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
-	${Q}rm -f *.o ${TARGETS}
