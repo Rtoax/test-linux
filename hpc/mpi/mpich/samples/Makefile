@@ -1,6 +1,4 @@
 # SPDX-License-Identifier: GPL-3.0
-include ../../../../tlbuild.mk
-
 MPICC := $(shell which mpicc 2>/dev/null)
 MPIRUN := $(shell which mpirun 2>/dev/null)
 MPIEXEC := $(shell which mpiexec 2>/dev/null)
@@ -50,10 +48,9 @@ CFLAGS += -DDEBUG -O3 -g
 CFLAGS += -Wno-error=unused-result
 CFLAGS_MPI_Sendrecv_replace := -DCONFIG_MPI_Sendrecv_replace=1
 
-.PHONY: build
-build: ${TARGETS}
-	@echo "TARGETS = ${TARGETS}"
-	@echo -e " \033[1;33m Done \033[m"
+TARGETS_TEST := test0
+
+include ../../../../template/main.mk
 
 MPI_Abort: MPI_Abort.o
 MPI_Init: MPI_Init.o
@@ -67,22 +64,8 @@ MPI_Sendrecv_replace: MPI_Sendrecv_replace.o
 MPI_Wtime: MPI_Wtime.o
 MPI_Wtick: MPI_Wtick.o
 
-%.o: %.c
-	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	${Q}$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
-	${Q}$(CC) $(CFLAGS) $(CFLAGS_$(*)) -S $(<) -o $(<:.c=.s)
-
-$(TARGETS): %:
-	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	${Q}$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*))
-
-test: ${TARGETS}
+test0:
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
 	$(MPIRUN) -n 2 ./MPI_Init
 	$(MPIRUN) -n 2 ./MPI_Send
 	$(MPIRUN) -n 10 ./MPI_Send-2
-
-.PHONY: clean
-clean:
-	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
-	${Q}rm -f ${TARGETS} *.s *.o *.d
