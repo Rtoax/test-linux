@@ -1,12 +1,7 @@
-include ../../../tlbuild.mk
-
-
 LLVM_CONFIG = $(shell which llvm-config 2>/dev/null)
 LLVM_AS = $(shell which llvm-as 2>/dev/null)
 LLVM_DIS = $(shell which llvm-dis 2>/dev/null)
 LLC = $(shell which llc 2>/dev/null)
-
-CC := gcc
 
 TARGETS :=
 TARGETS += sum
@@ -26,11 +21,9 @@ TARGETS += add-unalign-f4
 TARGETS += cvt-df
 TARGETS += mask
 
-TARGETS_asm := vperm2i128
-TARGETS_asm += vfmadd231ps
-TARGETS_asm += kxord
-
-all: $(TARGETS) $(TARGETS_asm)
+TARGETS_ASM := vperm2i128
+TARGETS_ASM += vfmadd231ps
+TARGETS_ASM += kxord
 
 CFLAGS += -g -ggdb
 CFLAGS += -D_GNU_SOURCE
@@ -55,6 +48,8 @@ CFLAGS_add-unalign-f4 := -mavx2 -mfma
 CFLAGS_cvt-df := -mavx2 -mfma
 CFLAGS_mask := -mavx2 -mavx512f -mfma
 
+include ../../../template/main.mk
+
 sum: sum.o
 sum-avx: sum-avx.o
 sum-avx2: sum-avx2.o
@@ -71,10 +66,11 @@ reducetion-f4: reducetion-f4.o
 add-unalign-f4: add-unalign-f4.o
 cvt-df: cvt-df.o
 mask: mask.o
-vperm2i128: vperm2i128.os
-vfmadd231ps: vfmadd231ps.os
-kxord: kxord.os
+vperm2i128: vperm2i128.oasm
+vfmadd231ps: vfmadd231ps.oasm
+kxord: kxord.oasm
 
+# FIXME: move to main.mk??
 ifeq ($(CC),clang)
   # If clang, i want to get IR
   define clang_emit_llvm
@@ -87,35 +83,3 @@ else
   define clang_emit_llvm
   endef
 endif
-
-%.o: %.c
-	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	${Q}$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
-	@objdump -d $(@) > $(@).obj.s
-	$(call clang_emit_llvm,$(<))
-
-%.oS: %.S
-	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	${Q}$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
-	@objdump -d $(@) > $(@).obj.s
-
-%.os: %.asm
-	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	@nasm -o $(@) -felf64 $(<)
-
-$(TARGETS): %:
-	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	${Q}$(CC) $(CFLAGS) -o $(@) $(^)
-
-$(TARGETS_asm): %:
-	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	@$(LD) -o $(@) $(^)
-
-test:
-	@echo -e "  TEST  \033[1;32m$(TARGETS) ${TARGETS_asm}\033[m"
-	@echo "empty"
-
-clean:
-	@echo -e "  CLEAN \033[1;32m$(TARGETS) $(TARGETS_asm)\033[m"
-	${Q}rm -f $(TARGETS) $(TARGETS_asm) \
-		*.o *.obj.s *.oS *.os *.ll *.llc.s *.bc

@@ -16,6 +16,8 @@ squashfs-root
 *.oc
 *.opp
 *.obj
+*.oasm
+*.oS
 *.elf
 *.d
 *.dpp

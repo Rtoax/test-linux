@@ -41,6 +41,7 @@ build-targets := $(TARGETS_PREP)
 build-targets += $(OUTPUT)
 build-targets += $(TARGETS_LIBA) $(TARGETS_LIBSO)
 build-targets += $(TARGETS)
+build-targets += $(TARGETS_ASM)
 build-targets += $(TARGETS_CPP)
 build-targets += $(TARGETS_GO)
 build-targets += $(TARGETS_JAVA)
@@ -62,7 +63,7 @@ test: $(build-targets) $(sub-dir-test) $(TARGETS_TEST)
 .PHONY: clean
 clean: $(sub-dir-clean) $(TARGETS_CLEAN)
 	@echo -e "  CLEAN  \033[1;32m${build-targets} ${TARGETS_CLEAN}\033[m"
-	${Q}rm -rf ${build-targets} *.o *.opp *.d *.log *.out *.class
+	${Q}rm -rf ${build-targets} *.o *.opp *.d *.oasm *.oS *.log *.out *.class
 	${Q}rm -rf *.so *.so.* *.a
 	@echo -e " \033[1;33m Clean $(shell pwd) done \033[m"
 

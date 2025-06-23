@@ -1,4 +1,8 @@
 # SPDX-License-Identifier: GPL-3.0
+CC ?= gcc
+CXX ?= g++
+LD ?= ld
+NASM ?= nasm
 CC_PFX := LD_LIBRARY_PATH=$(shell pwd)
 
 ${OUTPUT}%.o: %.c | ${OUTPUT}
@@ -24,3 +28,15 @@ ${OUTPUT}%.cpp.s: %.cpp | ${OUTPUT}
 ${TARGETS_CPP}: %:
 	@echo -e "  LD CXX   \033[1;32m$(@)\033[m"
 	${Q}${CC_PFX} $(CXX) -o $(@) $(^) $(LDXXFLAGS) $(LDXXFLAGS_$(*))
+
+${OUTPUT}%.oasm: %.asm | ${OUTPUT}
+	@echo -e "  ASM  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
+	${Q}${NASM} -o $(@) -felf64 $(<)
+
+${OUTPUT}%.oS: %.S | ${OUTPUT}
+	@echo -e "  CC S  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
+	${Q}$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
+
+${TARGETS_ASM}: %:
+	@echo -e "  LD ASM   \033[1;32m$(@)\033[m"
+	${Q}$(LD) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*))
