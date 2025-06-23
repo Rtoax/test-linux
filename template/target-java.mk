@@ -2,8 +2,10 @@
 JAVA ?= $(shell which java 2>/dev/null)
 JAVAC ?= $(shell which javac 2>/dev/null)
 
-ifeq ($(wildcard $(JAVAC)),)
-  $(error Please install java)
+ifneq (${TARGETS_JAVA},)
+  ifeq ($(wildcard $(JAVAC)),)
+    $(error Please install java)
+  endif
 endif
 
 ${TARGETS_JAVA}:

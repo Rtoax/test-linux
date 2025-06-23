@@ -1,7 +1,9 @@
 # SPDX-License-Identifier: GPL-3.0
 GO ?= $(shell which go 2>/dev/null)
-ifeq ($(wildcard $(GO)),)
-  $(error Please install golang)
+ifneq ($(TARGETS_GO),)
+  ifeq ($(wildcard $(GO)),)
+    $(error Please install golang)
+  endif
 endif
 
 ${TARGETS_GO}:
