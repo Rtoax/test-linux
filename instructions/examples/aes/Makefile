@@ -1,9 +1,5 @@
-include ../../../tlbuild.mk
-
-
-
-all:
-	gcc aesdec.c -maes -o aesdec
-
-clean:
-	rm -f aesdec *.out
+TARGETS_SHELL := check.sh
+TARGETS := aesdec
+CFLAGS := -maes
+include ../../../template/main.mk
+aesdec: aesdec.o

@@ -1,8 +1,4 @@
-include ../../../../tlbuild.mk
-
-
-
-all:
-	gcc -o main main.c sm4_aesni_x4.c sm4.c -Og -msse4 -maes
-clean:
-	rm -f main
+TARGETS := main
+CFLAGS := -Og -msse4 -maes
+include ../../../../template/main.mk
+main: main.o sm4_aesni_x4.o sm4.o

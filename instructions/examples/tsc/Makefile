@@ -1,22 +1,11 @@
-include ../../../tlbuild.mk
-
 TARGETS :=
-CFLAGS :=
-ARCH_LIB_CPUID :=
-
 TARGETS += rdtsc_user
 TARGETS += rdtscp_user
 TARGETS += rdtsc_cmp
 TARGETS += rdtsc_evil
 
-user: $(TARGETS)
-
-pthread_helpers.o: pthread_helpers.h
-
-rdtsc_user: rdtsc_user.o
-rdtscp_user: rdtscp_user.o
-rdtsc_cmp: rdtsc_cmp.o
-rdtsc_evil: rdtsc_evil.o pthread_helpers.o
+CFLAGS :=
+ARCH_LIB_CPUID :=
 
 CFLAGS += -g -ggdb
 CFLAGS += -D_GNU_SOURCE
@@ -27,18 +16,10 @@ ifdef STATIC
   $(info Defined STATIC)
 endif
 
-%.o: %.c
-	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	${Q}$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
+include ../../../template/main.mk
 
-$(TARGETS): %:
-	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	${Q}$(CC) $(CFLAGS) -o $(@) $(^)
-
-test:
-	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
-	@echo "empty, [cd $(PWD)] to insmod"
-
-clean:
-	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
-	${Q}rm -f $(TARGETS) *.o
+pthread_helpers.o: pthread_helpers.h
+rdtsc_user: rdtsc_user.o
+rdtscp_user: rdtscp_user.o
+rdtsc_cmp: rdtsc_cmp.o
+rdtsc_evil: rdtsc_evil.o pthread_helpers.o
