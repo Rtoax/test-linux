@@ -10,7 +10,7 @@ ifneq ($(shell uname -m),aarch64)
   TARGETS += dlsym-RTLD_DEFAULT
 endif
 
-TARGETS_LIBSO := libhello.so
+TARGETS_LIBSO := libhello.so.0.1
 
 CC := gcc
 
@@ -32,7 +32,7 @@ vdso: vdso.o
 dlinfo: dlinfo.o proc_helpers.o
 dlsym-RTLD_DEFAULT: dlsym-RTLD_DEFAULT.o
 
-libhello.so: libhello.so.o
+libhello.so.0.1: libhello.so.o
 
 proc_helpers.o: ../../fs/procfs/proc_helpers.o
 	$(info We are in $(shell pwd))

@@ -39,7 +39,8 @@ include ${TEMPLATE_DIR}/subdir-header.mk
 
 build-targets := $(TARGETS_PREP)
 build-targets += $(OUTPUT)
-build-targets += $(TARGETS) $(TARGETS_LIBA) $(TARGETS_LIBSO)
+build-targets += $(TARGETS_LIBA) $(TARGETS_LIBSO)
+build-targets += $(TARGETS)
 build-targets += $(TARGETS_CPP)
 build-targets += $(TARGETS_GO)
 build-targets += $(TARGETS_JAVA)

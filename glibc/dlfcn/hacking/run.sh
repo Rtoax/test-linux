@@ -1,11 +1,11 @@
 #!/bin/bash
+set -e
 
 libdir=$PWD
 run_dev() {
 	LD_LIBRARY_PATH=$libdir ./dev
 }
 
-make clean
 make
 
 echo ==========================================================================
