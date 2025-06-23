@@ -53,7 +53,6 @@ At least 256 bytes, the first 64 bytes are standardized and the same for all dev
  |   Vendor  |    Device  |  Command |    Status  |Revison|    Class Code   |Cache |Latency| Header|  BIST|
  |     ID    |      ID    |   Reg    |     Reg    |  ID   |                 | Line | Timer |  Type |      |
  +-----------+------------+----------+------------+-------+-----------------+------+-------+-------+------+
-
  ...
 ```
 
@@ -66,7 +65,7 @@ At least 256 bytes, the first 64 bytes are standardized and the same for all dev
 
 ```
 00	Unclassified device
-01	Mass storage controller
+01	Mass storage controller (SATA, NVMe, SCSI, IDE)
 02	Network controller
 03	Display controller
 04	Multimedia controller
@@ -82,7 +81,7 @@ At least 256 bytes, the first 64 bytes are standardized and the same for all dev
 0e	Intelligent controller
 0f	Satellite communications controller
 10	Encryption controller
-11	Signal processing controller
+11	Data Acquisition and Signal Processing
 12	Processing accelerators
 13	Non-Essential Instrumentation
 14
@@ -114,3 +113,8 @@ $ lspci -d ::0280
 - https://admin.pci-ids.ucw.cz/read/PC
 - https://admin.pci-ids.ucw.cz/read/PD
 - https://pcisig.com/membership/member-companies
+
+## Git Links
+
+- https://github.com/pciutils/pciutils
+- git://git.kernel.org/pub/scm/utils/pciutils/pciutils.git
