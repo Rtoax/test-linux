@@ -1,6 +1,4 @@
 # SPDX-License-Identifier: GPL-3.0
-include ../../tlbuild.mk
-
 TARGETS :=
 TARGETS += libc
 TARGETS += main
@@ -24,9 +22,6 @@ CC := gcc
 
 CFLAGS :=
 LDFLAGS :=
-
-CFLAGS_SO := -shared -fPIC
-LDFLAGS_SO := -shared -fPIC
 
 # Debian 12 default compile PIE EXEC, Fedora40 default compile no-PIE EXEC.
 # Default no-PIE in my case.
@@ -52,16 +47,14 @@ CFLAGS_latency-a-llc := -DONLY_TEST_ONE_LLC_LINESIZE=1
 
 CFLAGS_main-a-ctors += -DCALL_FUNC_IN_OBJ=1
 
-.PHONY: build
-build: ${TARGETS_LIBSO} ${TARGETS_LIBA} ${TARGETS}
-	@echo -e " \033[1;33m Done \033[m"
-
 # FIXME: HygonGenuine not support x86-64
 ifneq ($(CPU_VENDOR_ID),HygonGenuine)
   CFLAGS += -march=native
 else
   $(warning CPU Vendor ID: ${CPU_VENDOR_ID})
 endif
+
+include ../../template/main.mk
 
 libc: libc.o
 main: main.o libfoo.so
@@ -79,17 +72,3 @@ libadd.so: add.so.o
 libadd.a: add.a.o
 libcall0.so: call0.so.o
 libcall0.a: call0.a.o
-
-include ../../template/target-exe.mk
-include ../../template/target-liba.mk
-include ../../template/target-libso.mk
-
-.PHONY: test
-test: ${TARGETS}
-	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
-	${Q}LD_LIBRARY_PATH=$(shell pwd) ./main
-
-.PHONY: clean
-clean:
-	@echo -e "  CLEAN  \033[1;32m$(TARGETS) $(TARGETS_LIBSO) $(TARGETS_LIBA)\033[m"
-	${Q}rm -f ${TARGETS} ${TARGETS_LIBSO} ${TARGETS_LIBA} *.o *.so.o
