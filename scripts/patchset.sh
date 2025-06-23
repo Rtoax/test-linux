@@ -8,7 +8,7 @@ upper_commit=
 
 no_cover_letter=
 
-dumpcmd=
+dry_run=
 output_dir=tmp.patch
 
 readonly ANSI_RED="\033[31m"
@@ -45,7 +45,7 @@ ${ANSI_BOLD}ARGUMENT${ANSI_RESET}
 	--no-cover-letter        no cover letter
 
 	-o, --output [DIR]       specify output directory, default: ${output_dir}
-	-d, --dumpcmd, --dry-run dump command instead execute
+	-n, --dry-run            dump command instead execute
 	-h, --help               show this help information
 	-v, --verbose            show detail during running
 
@@ -63,7 +63,7 @@ ${ANSI_BOLD}EXAMPLES${ANSI_RESET}
 	${ANSI_GRAY}# Submit a patchset:${ANSI_RESET}
 	$ patchset --from [commit1] --to [commit2]
 	${ANSI_GRAY}# Then, modify 0000-cover-letter.patch${ANSI_RESET}
-	$ git send-email ${dumpcmd:+--dry-run} ${output_dir}/*.patch
+	$ git send-email ${dry_run:+--dry-run} ${output_dir}/*.patch
 
 ${ANSI_BOLD}DEVELOPE GIT PATCHSET${ANSI_RESET}
 	$ git rebase ${ANSI_BOLD}<parent commit of modified commit>${ANSI_RESET} --interactive
@@ -89,13 +89,12 @@ ${ANSI_BOLD}LINKS${ANSI_RESET}
 __main__()
 {
 	TEMP=$(getopt \
-		--options o:dv:h \
+		--options o:nv:h \
 		--long subject-prefix: \
 		--long from: \
 		--long to: \
 		--long no-cover-letter \
 		--long output: \
-		--long dumpcmd \
 		--long dry-run \
 		--long verbose: \
 		--long help \
@@ -135,9 +134,9 @@ __main__()
 			output_dir=$1
 			shift
 			;;
-		-d|--dumpcmd|--dry-run)
+		-n|--dry-run)
 			shift
-			dumpcmd=YES
+			dry_run=YES
 			;;
 		-h|--help)
 			shift
@@ -158,7 +157,7 @@ __main__()
 
 my_eval()
 {
-	if [[ $dumpcmd == YES ]]; then
+	if [[ $dry_run == YES ]]; then
 		echo "$@"
 	else
 		eval "$@"
@@ -196,7 +195,7 @@ patchset()
 	echo "
 	1. modify 0000-cover-letter.patch
 	2. check patches (scripts/checkpatch.pl if linux)
-	3. git send-email ${dumpcmd:+--dry-run} [--to|--cc|--to-cmd=] ${output_dir}/*.patch
+	3. git send-email ${dry_run:+--dry-run} [--to|--cc|--to-cmd=] ${output_dir}/*.patch
 	"
 }
 
