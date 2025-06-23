@@ -12,11 +12,12 @@
 - ISP: Interleave set position (交错set位置)
 - LD: Logical Device (逻辑设备)
 - LSA: Label Storage Area (标签存储区)
+- MHD: Muiltple Headed Device ()
+- MLD: Muiltple Logical Device (多逻辑设备)
+- NVLINK: () @NVIDIA
 - OMI: Open Memory Interface (开放内存接口)
 - CAPI/OpenCAPI: Open Coherent Accelerator Processor Interface (开放相干加速器处理器接) @IBM
 - PXB: PCI eXpander Bridge (PCI 扩展桥)
 - SLD: Single Logical Device (单一逻辑设备)
-- MLD: Muiltple Logical Device (多逻辑设备)
-- NVLINK: () @NVIDIA
 - UCIe: Universal Chiplet Interconnect express (通用芯片互连快速)
 - XHB: CXL Host Bridge (CXL Host 桥)
