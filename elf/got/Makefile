@@ -1,7 +1,4 @@
 # SPDX-License-Identifier: GPL-3.0
-include ../../tlbuild.mk
-
-
 CC := gcc
 
 include ../../compiler/compiler.mk
@@ -17,7 +14,6 @@ endif
 
 CFLAGS :=
 LDFLAGS :=
-
 CFLAGS += -O0 -g -ggdb
 
 ifdef STATIC
@@ -33,25 +29,7 @@ include ../pie.mk
 CFLAGS__GLOBAL_OFFSET_TABLE_-32 := -m32 -DM32=1
 LDFLAGS__GLOBAL_OFFSET_TABLE_-32 := -m32
 
-.PHONY: build
-build: ${TARGETS}
-	@echo -e " \033[1;33m Done \033[m"
+include ../../template/main.mk
 
 _GLOBAL_OFFSET_TABLE_: _GLOBAL_OFFSET_TABLE_.o
 _GLOBAL_OFFSET_TABLE_-32: _GLOBAL_OFFSET_TABLE_-32.o
-
-%.o: %.c
-	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	${Q}$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
-
-$(TARGETS): %:
-	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	${Q}$(CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*))
-
-test: ${TARGETS}
-	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
-
-.PHONY: clean
-clean:
-	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
-	${Q}rm -f ${TARGETS} *.s *.o *.d

@@ -1,16 +1,11 @@
 # SPDX-License-Identifier: GPL-3.0
-include ../../../tlbuild.mk
 include ../../elf.mk
 
 TARGETS := hello
 TARGETS += hello-pie
 TARGETS += is_pie
 
-CC := gcc
 LIBPROCFS_DIR := ../../../fs/procfs/
-
-CFLAGS :=
-LDFLAGS :=
 
 CFLAGS += -I${LIBPROCFS_DIR}
 
@@ -21,33 +16,10 @@ LDFLAGS_hello-pie := -pie
 CFLAGS_proc := -fpie
 LDFLAGS_is_pie := -lelf
 
-.PHONY: build
-build: ${TARGETS}
-	@echo -e " \033[1;33m Done \033[m"
-	@$(shell diff -up hello.s hello-pie.s >> build.log)
+include ../../../template/main.mk
 
 include ${LIBPROCFS_DIR}/procfs-lib-target.mk
 
 hello: hello.o libtest-linux-procfs.a
 hello-pie: hello-pie.o libtest-linux-procfs.a
 is_pie: is_pie.o
-
-
-%.o: %.c
-	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	${Q}$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
-	${Q}$(CC) -S $(<) -o $(<:.c=.s) $(CFLAGS) $(CFLAGS_$(*))
-
-$(TARGETS): %:
-	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	${Q}$(CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*)) $(CFLAGS) $(CFLAGS_$(*))
-	@size --format=sysv $(@) >> build.log
-	$(Q)echo "  $(@) : $(call elf_is_pie,${@})"
-
-test: ${TARGETS}
-	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
-
-.PHONY: clean
-clean:
-	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
-	${Q}rm -f ${TARGETS} *.s *.o *.d *.log *.a
