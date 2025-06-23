@@ -63,7 +63,8 @@ ${ANSI_BOLD}EXAMPLES${ANSI_RESET}
 	${ANSI_GRAY}# Submit a patchset:${ANSI_RESET}
 	$ patchset --from [commit1] --to [commit2]
 	${ANSI_GRAY}# Then, modify 0000-cover-letter.patch${ANSI_RESET}
-	$ git send-email ${dry_run:+--dry-run} ${output_dir}/*.patch
+	${ANSI_GRAY}# check patches (scripts/checkpatch.pl if linux)${ANSI_RESET}
+	$ git send-email ${dry_run:+--dry-run} ${ANSI_GRAY}[--to|--cc|--to-cmd=]${ANSI_RESET} ${output_dir}/*.patch
 
 ${ANSI_BOLD}DEVELOPE GIT PATCHSET${ANSI_RESET}
 	$ git rebase ${ANSI_BOLD}<parent commit of modified commit>${ANSI_RESET} --interactive
@@ -191,12 +192,6 @@ patchset()
 		${subject_prefix:+--subject-prefix="'${subject_prefix}'"} \
 		${downer_commit}^..${upper_commit} \
 		-o ${output_dir}
-
-	echo "
-	1. modify 0000-cover-letter.patch
-	2. check patches (scripts/checkpatch.pl if linux)
-	3. git send-email ${dry_run:+--dry-run} [--to|--cc|--to-cmd=] ${output_dir}/*.patch
-	"
 }
 
 __main__ "$@"
