@@ -11,33 +11,33 @@ no_cover_letter=
 dry_run=
 output_dir=tmp.patch
 
-readonly ANSI_RED="\033[31m"
-readonly ANSI_GREEN="\033[32m"
-readonly ANSI_YELLOW="\033[33m"
-readonly ANSI_BLUE="\033[34m"
-readonly ANSI_PURPLE="\033[35m"
+readonly RED="\033[31m"
+readonly GREEN="\033[32m"
+readonly YELLOW="\033[33m"
+readonly BLUE="\033[34m"
+readonly PURPLE="\033[35m"
 
-readonly ANSI_BOLD="\033[1m"
-readonly ANSI_GRAY="\033[2m"
-readonly ANSI_ITALIC="\033[3m"
-readonly ANSI_UL="\033[4m" # Underline
-readonly ANSI_REVERSE="\033[7m"
+readonly BOLD="\033[1m"
+readonly GRAY="\033[2m"
+readonly ITALIC="\033[3m"
+readonly UL="\033[4m" # Underline
+readonly REVERSE="\033[7m"
 
-readonly ANSI_RESET="\033[m"
+readonly RST="\033[m"
 
 __usage__()
 {
 	echo -e "
-${ANSI_BOLD}NAME${ANSI_RESET}
+${BOLD}NAME${RST}
 	patchset - Generate patchset
 
-${ANSI_BOLD}SYNOPSIS${ANSI_RESET}
+${BOLD}SYNOPSIS${RST}
 	patchset [options]
 
-${ANSI_BOLD}DESCRIPTION${ANSI_RESET}
+${BOLD}DESCRIPTION${RST}
 	Generate patchset to send email.
 
-${ANSI_BOLD}ARGUMENT${ANSI_RESET}
+${BOLD}ARGUMENT${RST}
 	--subject-prefix [STR]   specify Subject prefix
 	--from [COMMIT]          specify downer/older commit, see git log --oneline
 	--to   [COMMIT]          specify upper/newer commit, see git log --oneline
@@ -49,39 +49,39 @@ ${ANSI_BOLD}ARGUMENT${ANSI_RESET}
 	-h, --help               show this help information
 	-v, --verbose            show detail during running
 
-${ANSI_BOLD}BARE GIT EXAMPLES${ANSI_RESET}
-	${ANSI_GRAY}# Generate single one pretty patch${ANSI_RESET}
-	$ git format-patch ${ANSI_UL}-1${ANSI_RESET} --pretty=fuller HEAD
-	${ANSI_GRAY}# Generate single one patch with e-mail${ANSI_RESET}
-	$ git format-patch ${ANSI_UL}-1${ANSI_RESET} HEAD --to=${ANSI_UL}rtoax@foxmail.com${ANSI_RESET} \\
-				 --cc=${ANSI_UL}linux-kernel@vger.kernel.org${ANSI_RESET}
-	${ANSI_GRAY}# Generate 2 patches patchset with cover letter${ANSI_RESET}
-	$ git format-patch ${ANSI_UL}-2${ANSI_RESET} -s --cover-letter --thread \\
-			--subject-prefix=\"${ANSI_UL}PATCH v3${ANSI_RESET}\"
+${BOLD}BARE GIT EXAMPLES${RST}
+	${GRAY}# Generate single one pretty patch${RST}
+	$ git format-patch ${UL}-1${RST} --pretty=fuller HEAD
+	${GRAY}# Generate single one patch with e-mail${RST}
+	$ git format-patch ${UL}-1${RST} HEAD --to=${UL}rtoax@foxmail.com${RST} \\
+				 --cc=${UL}linux-kernel@vger.kernel.org${RST}
+	${GRAY}# Generate 2 patches patchset with cover letter${RST}
+	$ git format-patch ${UL}-2${RST} -s --cover-letter --thread \\
+			--subject-prefix=\"${UL}PATCH v3${RST}\"
 
-${ANSI_BOLD}EXAMPLES${ANSI_RESET}
-	${ANSI_GRAY}# Submit a patchset:${ANSI_RESET}
+${BOLD}EXAMPLES${RST}
+	${GRAY}# Submit a patchset:${RST}
 	$ patchset --from [commit1] --to [commit2]
-	${ANSI_GRAY}# Then, modify 0000-cover-letter.patch${ANSI_RESET}
-	${ANSI_GRAY}# check patches (scripts/checkpatch.pl if linux)${ANSI_RESET}
-	$ git send-email ${dry_run:+--dry-run} ${ANSI_GRAY}[--to|--cc|--to-cmd=]${ANSI_RESET} ${output_dir}/*.patch
+	${GRAY}# Then, modify 0000-cover-letter.patch${RST}
+	${GRAY}# check patches (scripts/checkpatch.pl if linux)${RST}
+	$ git send-email ${dry_run:+--dry-run} ${GRAY}[--to|--cc|--to-cmd=]${RST} ${output_dir}/*.patch
 
-${ANSI_BOLD}DEVELOPE GIT PATCHSET${ANSI_RESET}
-	$ git rebase ${ANSI_BOLD}<parent commit of modified commit>${ANSI_RESET} --interactive
-	${ANSI_GRAY}# Then, change the 'pick' in front of the commit that needs to be
-	# changed to 'edit', then, save and exit;${ANSI_RESET}
-	${ANSI_GRAY}# Then, modify the code.${ANSI_RESET}
-	$ git add ${ANSI_BOLD}<files>${ANSI_RESET} ${ANSI_GRAY}[--all]${ANSI_RESET}
+${BOLD}DEVELOPE GIT PATCHSET${RST}
+	$ git rebase ${BOLD}<parent commit of modified commit>${RST} --interactive
+	${GRAY}# Then, change the 'pick' in front of the commit that needs to be
+	# changed to 'edit', then, save and exit;${RST}
+	${GRAY}# Then, modify the code.${RST}
+	$ git add ${BOLD}<files>${RST} ${GRAY}[--all]${RST}
 	$ git commit --amend
 	$ git rebase --continue
 
-${ANSI_BOLD}SEE ALSO${ANSI_RESET}
+${BOLD}SEE ALSO${RST}
 	git(1), git‐format‐patch(1), git‐send‐email(1)
 
-${ANSI_BOLD}AUTHOR${ANSI_RESET}
+${BOLD}AUTHOR${RST}
 	Rong Tao
 
-${ANSI_BOLD}LINKS${ANSI_RESET}
+${BOLD}LINKS${RST}
 	https://kernelnewbies.org/FirstKernelPatch
 " | more
 	exit ${1-0}

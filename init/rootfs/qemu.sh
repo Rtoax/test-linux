@@ -3,6 +3,20 @@
 # libvirt, but directly use the qemu command line parameters.
 # Wrote by Rong Tao
 set -e
+readonly RED="\033[31m"
+readonly GREEN="\033[32m"
+readonly YELLOW="\033[33m"
+readonly BLUE="\033[34m"
+readonly PURPLE="\033[35m"
+
+readonly BOLD="\033[1m"
+readonly GRAY="\033[2m"
+readonly ITALIC="\033[3m"
+readonly UL="\033[4m" # Underline
+readonly REVERSE="\033[7m"
+
+readonly RST="\033[m"
+
 readonly WHERE_AM_I=$(dirname $(realpath $0))
 
 . ${WHERE_AM_I}/../../qemu/libqemu.sh
@@ -58,20 +72,20 @@ declare -a cleanup_files
 
 __usage__() {
 	echo -e "
-NAME
+${BOLD}NAME${RST}
 	${prog} - Running a virtual machine with Qemu
 
-SYNOPSIS
+${BOLD}SYNOPSIS${RST}
 	${prog} -k=<kernel> -i=<initrd> [-r=<rootfs>] [-m=4G] [--stdio]
 
-DESCRIPTION
+${BOLD}DESCRIPTION${RST}
 	-n, --name [NAME]       specify vm name, default: vm- prefix
 
 	-m, --memory [SIZE]     Sets guest startup RAM size, default: ${memory}.
 
 	-k, --kernel [KERNEL]   specify vmlinuz, bzImage
 	    --karg [ARG]        add kernel argument, (may be listed multiple times)
-	                        example: --karg=rdinit=/usr/bin/bash
+	                        example: --karg=${GRAY}rdinit=/usr/bin/bash${RST}
 
 	-i, --initrd [INITRD]   specify initrd image
 	    --rdinit [PATH]     specify initrd's init process.
@@ -96,12 +110,12 @@ DESCRIPTION
 	-v, --verbose           enable verbose mode.
 	-h, --help              show this help information
 
-EXAMPLES
-	$ sudo ./qemu.sh --kernel /boot/vmlinuz-$(uname -r) \\
-		--initrd /boot/initramfs-$(uname -r).img [--rdinit=/bin/bash] \\
-		[--rootfs vm.raw] [--init=/usr/bin/bash]
+${BOLD}EXAMPLES${RST}
+	$ sudo ./qemu.sh --kernel ${GRAY}${ITALIC}/boot/vmlinuz-$(uname -r)${RST} \\
+		--initrd ${GRAY}${ITALIC}/boot/initramfs-$(uname -r).img${RST} ${GRAY}[--rdinit=/bin/bash]${RST} \\
+		${GRAY}[--rootfs vm.raw] [--init=/usr/bin/bash]${RST}
 
-SEE ALSO
+${BOLD}SEE ALSO${RST}
 	qemu(1), qemu-kvm(1), etc.
 "
 	exit ${1-0}
@@ -306,9 +320,9 @@ fi
 _eval()
 {
 	if [[ -z ${dry_run} ]]; then
-		echo >&2 -e "\033[1;32mStartup: $@\033[m"
+		echo >&2 -e "${BOLD}${GREEN}Startup: $@${RST}"
 		eval "$@"
-		echo >&2 -e "\033[1;33mDone: $@\033[m"
+		echo >&2 -e "${BOLD}${YELLOW}Done: $@${RST}"
 	else
 		echo "$@"
 	fi
