@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
 sub-dir := coroutine
 sub-dir += os
+sub-dir += C
 
 TARGETS_GO :=
 TARGETS_GO += hello
