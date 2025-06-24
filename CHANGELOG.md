@@ -21,6 +21,7 @@ and this project adheres to
 - syscall: Use main.mk.
 #### Deprecated
 #### Removed
+- Remove scripts/makefile-modify.sh.
 - Remove rust/rust.mk.
 - Remove `fprobe/samples/fprobe_example.c`.
 - Remove go/go.mk.

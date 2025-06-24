@@ -1,9 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
-include ../tlbuild.mk
-
 CC := gcc
 include ../compiler/compiler.mk
-include ../tlbuild.mk
 include ../glibc/glibc.mk
 include success.mk
 include wow.mk
@@ -14,7 +11,15 @@ include git.mk
 include ../bpf/bpf.mk
 include ascii.mk
 
-all: test_call
+TARGETS_PREP := test_call
+TARGETS_SHELL := moonlight.sh
+TARGETS_SHELL += gotoxy.sh
+TARGETS_SHELL += kconfig_compare.sh
+TARGETS_SHELL += patchset_examples.sh
+
+SHELL_ARGS_kconfig_compare.sh := --base ../kconfig --config ../kconfig --display all
+
+include ../template/main.mk
 
 test_call:
 	$(call success)
@@ -25,14 +30,3 @@ test_call:
 	$(call tl_ascii_logo_gnu)
 	$(call git_config)
 	$(call git_archive)
-	$(Q)./moonlight.sh
-	$(Q)./gotoxy.sh
-	$(Q)./kconfig_compare.sh --base ../kconfig --config ../kconfig --display all
-	$(Q)${SHELL} patchset_examples.sh
-	@echo -e "  \033[1;33mDone\033[m"
-test:
-
-clean:
-	${Q}rm -f test-linux-*.tar.gz
-	${Q}rm -rf tmp.patch
-
