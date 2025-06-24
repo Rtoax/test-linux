@@ -1,5 +1,5 @@
-ipmitool
-========
+IPMI - Intelligent Platform Management Interface
+================================================
 
 # Links
 
