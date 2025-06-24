@@ -9,7 +9,7 @@ BMC and IPMI(Intelligent Platform Management Interface)
 └─────┬────────────────────────────────────┘
       │                           ▲
       │ HTTPS                     │ HTTPS
-      │ (GET,                     │ Rsp
+      │ (GET,     RESTful         │ Rsp
       │ POST,                     │
       │ PATCH,                    │
       ▼ ...)                      │
