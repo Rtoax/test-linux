@@ -5,21 +5,21 @@ TARGETS := hello
 TARGETS += hello-pie
 TARGETS += is_pie
 
-LIBPROCFS_DIR := ../../../fs/procfs/
-
-CFLAGS += -I${LIBPROCFS_DIR}
+TARGETS_LIBA := proc_helpers.a
 
 CFLAGS_hello += -no-pie
 LDFLAGS_hello += -no-pie
+
 CFLAGS_hello-pie := -fpie
 LDFLAGS_hello-pie := -pie
-CFLAGS_proc := -fpie
+
 LDFLAGS_is_pie := -lelf
 
 include ../../../template/main.mk
 
-include ${LIBPROCFS_DIR}/procfs-lib-target.mk
+proc_helpers.a.o: proc_helpers.h
+proc_helpers.a: proc_helpers.a.o
 
-hello: hello.o libtest-linux-procfs.a
-hello-pie: hello-pie.o libtest-linux-procfs.a
+hello: hello.o proc_helpers.a
+hello-pie: hello-pie.o proc_helpers.a
 is_pie: is_pie.o

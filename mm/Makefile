@@ -17,6 +17,7 @@ TARGETS_LIBA :=
 
 TARGETS += virt2phy
 TARGETS_LIBA += libtest-linux-mm.a
+TARGETS_LIBA += proc_helpers.a
 
 CC := gcc
 
@@ -49,10 +50,8 @@ endif
 
 MAKEFLAGS :=
 NUMA_DIR := ../numa/
-LIBPROCFS_DIR := ../fs/procfs/
 
 CFLAGS += -g
-CFLAGS += -I${LIBPROCFS_DIR}
 CFLAGS += -I${NUMA_DIR}
 
 ifdef DEBUG
@@ -68,10 +67,10 @@ include ../template/subdir-header.mk
 all: ${TARGETS_LIBA} ${TARGETS} $(sub-dir-build)
 	@echo -e " \033[1;33m Done \033[m"
 
-virt2phy: virt2phy.o libtest-linux-procfs.a libtest-linux-numa.a mmap_helpers.o
+virt2phy: virt2phy.o proc_helpers.a libtest-linux-numa.a mmap_helpers.o
 libtest-linux-mm.a: virt2phy.a.o
+proc_helpers.a: proc_helpers.a.o
 
-include ${LIBPROCFS_DIR}/procfs-lib-target.mk
 include ${NUMA_DIR}/numa.mk
 
 %.o: %.c

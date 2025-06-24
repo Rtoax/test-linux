@@ -1,24 +1,20 @@
 # SPDX-License-Identifier: GPL-3.0
-CC := gcc
-LIBPROCFS_DIR := ../../fs/procfs/
-
 TARGETS := dl_iterate_phdr
 TARGETS += dl_iterate_phdr-pie
 TARGETS += has_shared_object
 
-CFLAGS :=
-CFLAGS += -I${LIBPROCFS_DIR}
-
-LDFLAGS :=
+TARGETS_LIBA := proc_helpers.a
 
 CFLAGS_dl_iterate_phdr := -no-pie
+LDFLAGS_dl_iterate_phdr := -no-pie
 CFLAGS_dl_iterate_phdr-pie := -fpie
 LDFLAGS_dl_iterate_phdr-pie := -pie
 
 include ../../template/main.mk
 
-dl_iterate_phdr: dl_iterate_phdr.o libtest-linux-procfs.a
-dl_iterate_phdr-pie: dl_iterate_phdr-pie.o libtest-linux-procfs.a
-has_shared_object: has_shared_object.o
+proc_helpers.a.o: proc_helpers.h
+proc_helpers.a: proc_helpers.a.o
 
-include ${LIBPROCFS_DIR}/procfs-lib-target.mk
+dl_iterate_phdr: dl_iterate_phdr.o proc_helpers.a
+dl_iterate_phdr-pie: dl_iterate_phdr-pie.o proc_helpers.a
+has_shared_object: has_shared_object.o

@@ -1,5 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
-include ../../../tlbuild.mk
+CC := gcc
+
 include bfd.mk
 
 TARGETS :=
@@ -17,16 +18,15 @@ TARGETS += reloc
 TARGETS += reloc-name
 TARGETS += bfd_print_symbol_vandf
 
-CC := gcc
-LIBPROCFS_DIR := ../../../fs/procfs/
+TARGETS_LIBA := proc_helpers.a
 
 CFLAGS :=
-CFLAGS += -DDEBUG -O0
 CFLAGS += -Wno-unused-label
 CFLAGS += -Wno-unused-variable
-CFLAGS += -lbfd
-CFLAGS += -lpthread
 CFLAGS += -I${LIBPROCFS_DIR}
+
+LDFLAGS += -lbfd
+LDFLAGS += -lpthread
 
 # FIXME: /usr/include/bfd.h may include these lines. There must be a better way
 # to fix this.
@@ -111,54 +111,29 @@ CFLAGS += -DBINUTILS_VERSION_MINOR=${BINUTILS_VERSION_MINOR}
 CFLAGS_bfd_print_symbol_vandf := -DTEST_bfd_print_symbol_vandf=1
 CFLAGS_symbol-value := -DTEST_SYMBOL_VALUE=1
 
+# TODO: use this
 define bfd_strip
   @strip $(1) -o $(1).strip
 endef
 
-ifdef DEBUG
-  $(info CFLAGS=${CFLAGS})
-  $(info LDFLAGS=${LDFLAGS})
-endif
-
-.PHONY: build
-build: ${TARGETS}
-	@echo -e " \033[1;33m Done \033[m"
+include ../../../template/main.mk
 
 bfd_helpers.o: bfd_helpers.h
+proc_helpers.a.o: proc_helpers.h
+proc_helpers.a: proc_helpers.a.o
 
 bfd_init: bfd_init.o bfd_helpers.o
 build_id: build_id.o bfd_helpers.o
-bfd_symbol_info: bfd_symbol_info.o bfd_helpers.o libtest-linux-procfs.a
+bfd_symbol_info: bfd_symbol_info.o bfd_helpers.o proc_helpers.a
 bfd_get_start_address: bfd_get_start_address.o
 bfd_get_flavour: bfd_get_flavour.o
 bfd_elf_bfd_from_remote_memory: bfd_elf_bfd_from_remote_memory.o
 phdr: phdr.o
 sections: sections.o
-symbol: symbol.o bfd_helpers.o libtest-linux-procfs.a
-symbol-value: symbol-value.o bfd_helpers.o libtest-linux-procfs.a
+symbol: symbol.o bfd_helpers.o proc_helpers.a
+symbol-value: symbol-value.o bfd_helpers.o proc_helpers.a
 breakpoint_tst: breakpoint_tst.o
 breakpoint_bfd: breakpoint_bfd.o
 reloc: reloc.o
 reloc-name: reloc-name.o
-bfd_print_symbol_vandf: bfd_print_symbol_vandf.o bfd_helpers.o libtest-linux-procfs.a
-
-include ${LIBPROCFS_DIR}/procfs-lib-target.mk
-
-%.o: %.c
-	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	${Q}$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
-
-$(TARGETS): %:
-	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	${Q}$(CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*)) $(CFLAGS) $(CFLAGS_$(*))
-	$(call bfd_strip,$(@))
-
-.PHONY: test
-test: ${TARGETS}
-	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
-
-.PHONY: clean
-clean:
-	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
-	${Q}rm -f ${TARGETS} *.o *.out *.strip *.a
-
+bfd_print_symbol_vandf: bfd_print_symbol_vandf.o bfd_helpers.o proc_helpers.a
