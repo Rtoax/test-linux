@@ -1,4 +1,6 @@
-#define _GNU_SOURCE         /* See feature_test_macros(7) */
+#ifndef _GNU_SOURCE
+#define _GNU_SOURCE
+#endif
 #include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>

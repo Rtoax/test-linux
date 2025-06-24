@@ -14,7 +14,7 @@ int main(int argc, char* argv[])
 {
 	int serv_sock,clnt_sock;
 	struct sockaddr_in serv_addr,clnt_addr;
-	int clnt_addr_sz;
+	socklen_t clnt_addr_sz;
 	FILE* fp;
 	char buf[1024];
 	int str_len;

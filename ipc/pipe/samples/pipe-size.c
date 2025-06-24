@@ -2,7 +2,9 @@
  * kernel commit [0] increase minimum default pipe size to 2 pages
  * [0] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=46c4c9d1beb7f5b4cec4dd90e7728720583ee348
  */
+#ifndef _GNU_SOURCE
 #define _GNU_SOURCE
+#endif
 #include <unistd.h>
 #include <stdio.h>
 #include <malloc.h>

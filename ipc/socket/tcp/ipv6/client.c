@@ -27,6 +27,8 @@ int main(int argc, char *argv[])
 		exit(1);
 	}
 
+	(void)servaddr;
+
 	printf("Input: ");
 	while(fgets(sendline, MAX_LINE, stdin) != NULL) {
 		write(sockfd, sendline, strlen(sendline));
