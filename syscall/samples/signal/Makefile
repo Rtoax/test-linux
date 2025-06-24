@@ -22,7 +22,6 @@ TARGETS += sigsuspend
 TARGETS += sigprocmask
 TARGETS += signalfd
 
-CFLAGS += -Werror -Wall -D_GNU_SOURCE
 CFLAGS += -I../../../
 
 LDFLAGS_tkill := -pthread

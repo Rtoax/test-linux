@@ -9,8 +9,7 @@ TARGETS :=
 TARGETS += fzero-initialized-in-bss
 TARGETS += fno-zero-initialized-in-bss
 
-CFLAGS := -Werror -Wall
-CFLAGS += -Wstrict-prototypes
+CFLAGS :=
 CFLAGS += -Wno-error=unused-variable
 
 CFLAGS_fzero-initialized-in-bss := -fzero-initialized-in-bss

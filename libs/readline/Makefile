@@ -9,7 +9,7 @@ ifeq ($(wildcard $(READLINE_HDR)),)
   TARGETS :=
 endif
 
-CFLAGS := -Werror -Wall -D_GNU_SOURCE
+CFLAGS :=
 
 ifneq ($(wildcard $(READLINE_HDR)),)
   LDFLAGS += -lreadline -lutil -ltermcap -lhistory

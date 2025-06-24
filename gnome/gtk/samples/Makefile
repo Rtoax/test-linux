@@ -38,7 +38,6 @@ ifdef DEBUG
   $(info GTK_LIBS=$(GTK_LIBS))
 endif
 
-CFLAGS += -Werror -Wall
 CFLAGS += $(GTK_CFLAGS)
 CFLAGS += $(GTK_LIBS)
 

@@ -11,8 +11,7 @@ TARGETS := unshare
 
 CC := gcc
 
-CFLAGS := -Werror -Wall
-CFLAGS += -Wstrict-prototypes
+CFLAGS :=
 
 LDFLAGS :=
 

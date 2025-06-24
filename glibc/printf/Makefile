@@ -3,7 +3,7 @@ TARGETS += parse_printf_format
 TARGETS += register_printf_function
 TARGETS += register_printf_specifier
 
-CFLAGS := -Werror -Wall -D_GNU_SOURCE
+CFLAGS :=
 CFLAGS_register_printf_function := -Wno-error=deprecated-declarations
 
 include ../../template/main.mk

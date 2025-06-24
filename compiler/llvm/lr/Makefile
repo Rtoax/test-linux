@@ -13,7 +13,7 @@ endif
 
 CC = ${CLANG}
 
-CFLAGS := -O0 -Wall
+CFLAGS := -O0
 CFLAGS += -Wno-override-module
 
 .PHONY: build

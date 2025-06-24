@@ -12,7 +12,7 @@ TARGETS += remove_dir
 
 CC := gcc
 
-CFLAGS := -Werror -Wall
+CFLAGS :=
 
 TARGETS_POST := generate-dir
 TARGETS_CLEAN := remove-dir

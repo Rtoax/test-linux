@@ -5,8 +5,7 @@ TARGETS += cgroup_new_cgroup
 
 CC := gcc
 
-CFLAGS := -Werror -Wall
-CFLAGS += -D_GNU_SOURCE
+CFLAGS :=
 LDFLAGS += -lcgroup
 
 include ../../../template/main.mk

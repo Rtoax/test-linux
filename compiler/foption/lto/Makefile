@@ -8,8 +8,7 @@ TARGETS :=
 TARGETS += ffat-lto-objects
 TARGETS += flto
 
-CFLAGS := -Werror -Wall
-CFLAGS += -Wstrict-prototypes
+CFLAGS :=
 
 CFLAGS_ffat-lto-objects := -flto -ffat-lto-objects
 CFLAGS_flto := -flto=auto

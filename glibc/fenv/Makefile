@@ -8,7 +8,7 @@ TARGETS += fesetround
 TARGETS += fetestexcept
 TARGETS += demo-exception
 
-CFLAGS := -Wall
+CFLAGS :=
 CFLAGS += -Wno-unused-variable -Wno-unused-but-set-variable
 CFLAGS += -I../../../
 CFLAGS += -lm

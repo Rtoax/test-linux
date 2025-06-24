@@ -6,7 +6,7 @@ TARGETS += disassemble_init_for_target
 
 CC := gcc
 
-CFLAGS := -Werror -Wall -D_GNU_SOURCE
+CFLAGS :=
 CFLAGS += -DDEBUG -O0
 CFLAGS += -Wno-unused-label
 CFLAGS += -Wno-unused-variable

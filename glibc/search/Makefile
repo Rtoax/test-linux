@@ -3,8 +3,7 @@ TARGETS += hsearch
 TARGETS += lfind
 TARGETS += tsearch
 
-CFLAGS := -Werror -Wall
-CFLAGS += -D_GNU_SOURCE
+CFLAGS :=
 
 include ../../template/main.mk
 

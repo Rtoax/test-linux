@@ -14,7 +14,7 @@ endif
 
 CC := gcc
 
-CFLAGS := -Werror -Wall -D_GNU_SOURCE
+CFLAGS :=
 CFLAGS += -I../../
 CFLAGS += -pthread
 CFLAGS += -DDEBUG -O0 -g

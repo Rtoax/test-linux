@@ -4,7 +4,7 @@ TARGETS += posix_fallocate
 CFLAGS :=
 LDFLAGS :=
 
-CFLAGS += -D_GNU_SOURCE=1
+CFLAGS +==1
 
 include ../../template/main.mk
 

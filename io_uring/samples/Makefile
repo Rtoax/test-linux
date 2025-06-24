@@ -13,7 +13,7 @@ TARGETS += io_uring-test
 DEBUG := yes
 CC := gcc
 
-CFLAGS := -Werror -Wall -luring
+CFLAGS := -luring
 
 ifdef DEBUG
 CFLAGS += -DDEBUG -O0 -g

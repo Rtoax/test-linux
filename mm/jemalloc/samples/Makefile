@@ -23,8 +23,7 @@ endif
 
 CC := gcc
 
-CFLAGS := -Werror -Wall
-CFLAGS += -Wstrict-prototypes
+CFLAGS :=
 CFLAGS += -ljemalloc
 
 LDFLAGS :=

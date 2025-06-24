@@ -1,9 +1,9 @@
 TARGETS := crypt
 TARGETS += encrypt
 
-CFLAGS := -Werror -Wall
+CFLAGS :=
 CFLAGS += -lcrypt
-CFLAGS += -D_XOPEN_SOURCE -D_GNU_SOURCE
+CFLAGS += -D_XOPEN_SOURCE
 CFLAGS += -Wno-error=implicit-function-declaration
 
 LDFLAGS := -lcrypt

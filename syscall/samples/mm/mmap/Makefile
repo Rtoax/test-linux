@@ -10,8 +10,7 @@ TARGETS += get_unmapped_page
 TARGETS += mmap-multi-thread-copy
 TARGETS += mmap-exec
 
-CFLAGS := -Werror -Wall -D_GNU_SOURCE
-CFLAGS += -Wstrict-prototypes
+CFLAGS :=
 CFLAGS += -I../../
 CFLAGS += -pthread
 CFLAGS += -lrt

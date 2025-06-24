@@ -5,7 +5,7 @@ TARGETS += va_arg
 TARGETS += va_start
 TARGETS += va_copy
 
-CFLAGS := -Werror -Wall -D_GNU_SOURCE
+CFLAGS :=
 
 include ../../template/main.mk
 

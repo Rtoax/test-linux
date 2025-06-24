@@ -37,7 +37,7 @@ else
   $(warning "WARNING: Not support 32bit")
 endif
 
-CFLAGS := -Werror -Wall
+CFLAGS :=
 CFLAGS += -m32
 CFLAGS += -DDEBUG -O0 -g
 

@@ -6,7 +6,7 @@ TARGETS += native_flush_tlb_one_user
 
 CC := gcc
 
-CFLAGS := -Werror -Wall
+CFLAGS :=
 CFLAGS += -DDEBUG -O0 -g
 
 build: ${TARGETS}

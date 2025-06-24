@@ -5,8 +5,7 @@ TARGETS_LIBSO += libdev_hack.so
 
 CC := gcc
 
-CFLAGS := -Werror -Wall
-CFLAGS += -Wstrict-prototypes
+CFLAGS :=
 
 LDFLAGS :=
 

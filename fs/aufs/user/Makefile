@@ -2,7 +2,7 @@ include ../../../tlbuild.mk
 
 
 CXX ?= g++
-CPPFLAGS += -Wall -Werror -pedantic -std=c++11
+CPPFLAGS += -pedantic -std=c++11
 
 mkfs.aufs: mkfs.o block.o format.o
 	$(CXX) $(LDFLAGS) mkfs.o block.o format.o -o mkfs.aufs

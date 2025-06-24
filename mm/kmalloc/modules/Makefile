@@ -1,4 +1,4 @@
-EXTRA_CFLAGS := -Wall -g
+EXTRA_CFLAGS := -g
 EXTRA_CFLAGS += -DTEST_KMALLOC=1
 
 obj-m += kmalloc.o

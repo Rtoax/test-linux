@@ -17,7 +17,6 @@ GLIB_CFLAGS := $(shell pkg-config --cflags ${GLIB_VERSION})
 $(info GLIB_CFLAGS=$(GLIB_CFLAGS))
 $(info GLIB_LIBS=$(GLIB_LIBS))
 
-CFLAGS += -Werror -Wall
 CFLAGS += $(GLIB_CFLAGS)
 CFLAGS += $(GLIB_LIBS)
 

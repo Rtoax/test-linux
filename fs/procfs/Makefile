@@ -16,7 +16,7 @@ TARGETS_LIBA := libtest-linux-procfs.a
 
 CC := gcc
 
-CFLAGS := -Werror -Wall
+CFLAGS :=
 CFLAGS += -DDEBUG -O0 -g
 
 include ../../elf/pie.mk

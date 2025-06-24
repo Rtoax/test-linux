@@ -2,7 +2,7 @@ TARGETS := pthread_none
 TARGETS += pthread_orig
 TARGETS += pthread_pthread
 
-CFLAGS := -Werror -Wall
+CFLAGS :=
 CFLAGS += -I$(shell realpath ../../../)
 
 CFLAGS_pthread_none := -DSPIN_NONE

@@ -76,9 +76,8 @@ include $(shell pwd)/../../binutils/binutils.mk
 CFLAGS += -DBINUTILS_VERSION_MAJOR=${BINUTILS_VERSION_MAJOR}
 CFLAGS += -DBINUTILS_VERSION_MINOR=${BINUTILS_VERSION_MINOR}
 
-#CFLAGS += -Werror -Wall
+#CFLAGS +=
 CFLAGS += -g -ggdb
-CFLAGS += -D_GNU_SOURCE
 CFLAGS += -O0
 CFLAGS += -pthread
 

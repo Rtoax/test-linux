@@ -27,7 +27,7 @@ TARGETS += open_pty_pair
 TARGETS += div
 TARGETS += demo-qsort-bsearch
 
-CFLAGS := -Werror -Wall
+CFLAGS :=
 
 CFLAGS_unlockpt := -D_XOPEN_SOURCE
 # TODO

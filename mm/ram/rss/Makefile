@@ -5,7 +5,7 @@ include ../../../tlbuild.mk
 TARGETS :=
 TARGETS += rss
 
-CFLAGS := -Werror -Wall
+CFLAGS :=
 LDFLAGS :=
 
 .PHONY: build

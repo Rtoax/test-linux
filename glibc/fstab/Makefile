@@ -5,7 +5,7 @@ TARGETS += setfsent
 
 CC := gcc
 
-CFLAGS := -Werror -Wall
+CFLAGS :=
 
 include ../../template/main.mk
 

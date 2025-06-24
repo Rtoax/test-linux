@@ -12,7 +12,7 @@ endif
 
 CC := gcc
 
-CFLAGS := -Werror -Wall -D_GNU_SOURCE
+CFLAGS :=
 CFLAGS += -I../../../
 CFLAGS += -DDEBUG -O0 -g
 CFLAGS += -lm

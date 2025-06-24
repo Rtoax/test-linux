@@ -8,7 +8,6 @@ CFLAGS :=
 ARCH_LIB_CPUID :=
 
 CFLAGS += -g -ggdb
-CFLAGS += -D_GNU_SOURCE
 CFLAGS += -pthread
 CFLAGS += -O3
 ifdef STATIC

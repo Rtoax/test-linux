@@ -3,7 +3,7 @@ TARGETS += iswctype
 TARGETS += wcstol
 TARGETS += demo-1
 
-CFLAGS := -Werror -Wall -D_GNU_SOURCE
+CFLAGS :=
 CFLAGS += -pthread
 
 include ../../template/main.mk

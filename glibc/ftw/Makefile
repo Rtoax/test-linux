@@ -1,6 +1,6 @@
 TARGETS := nftw
 
-CFLAGS := -Werror -Wall -D_GNU_SOURCE
+CFLAGS :=
 
 include ../../template/main.mk
 

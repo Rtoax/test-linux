@@ -4,8 +4,7 @@ TARGETS += fork vfork fork-share
 TARGETS += fork-ENOMEM fork-ENOMEM-2
 TARGETS += fork_twice
 
-CFLAGS := -Werror -Wall -D_GNU_SOURCE -D__USE_GNU
-CFLAGS += -Wstrict-prototypes
+CFLAGS := -D__USE_GNU
 CFLAGS += -pthread
 
 CFLAGS_vfork := -DVFORK=1

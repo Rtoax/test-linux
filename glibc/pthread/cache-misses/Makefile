@@ -1,5 +1,5 @@
 CC := gcc
-CFLAGS := -Werror -Wall -pthread
+CFLAGS := -pthread
 LDFLAGS := -pthread
 
 VIRT_TYPE ?= $(shell systemd-detect-virt)

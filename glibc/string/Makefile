@@ -52,7 +52,7 @@ TARGETS += strstr
 
 CC := gcc
 
-CFLAGS := -Werror -Wall
+CFLAGS :=
 CFLAGS += -I../../../
 CFLAGS += -lm
 ifdef STATIC

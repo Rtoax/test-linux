@@ -23,8 +23,7 @@ ifeq (${feature-annobin},1)
 endif
 
 
-CFLAGS := -Werror -Wall
-CFLAGS += -Wstrict-prototypes
+CFLAGS :=
 CFLAGS += -specs=$(ANNOBIN)
 
 LDFLAGS :=

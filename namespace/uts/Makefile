@@ -5,8 +5,7 @@ TARGETS := uts_hostname
 
 CC := gcc
 
-CFLAGS := -Werror -Wall
-CFLAGS += -Wstrict-prototypes
+CFLAGS :=
 
 LDFLAGS :=
 

@@ -23,7 +23,7 @@ TARGETS_CPP += fmt
 TARGETS_CPP += __STDC__ __STDC__c++98 __STDC__gnu++98
 TARGETS_CPP += expired
 
-CXXFLAGS := -Werror -Wall
+CXXFLAGS :=
 CXXFLAGS += -DCPP
 
 ifdef M32

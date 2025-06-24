@@ -9,8 +9,7 @@ TARGETS += mbind
 TARGETS += migrate_pages
 TARGETS += get_mempolicy
 
-CFLAGS := -Werror -Wall -D_GNU_SOURCE
-CFLAGS += -Wstrict-prototypes
+CFLAGS :=
 CFLAGS += -pthread
 CFLAGS += -O0
 LDFLAGS += -lnuma

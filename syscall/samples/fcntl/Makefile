@@ -16,7 +16,7 @@ TARGETS += O_CLOEXEC
 TARGETS += O_PATH
 TARGETS += O_TMPFILE
 
-CFLAGS := -Werror -Wall -D_GNU_SOURCE
+CFLAGS :=
 
 include ../../../template/main.mk
 

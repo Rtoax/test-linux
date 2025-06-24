@@ -7,7 +7,6 @@ TARGETS += math
 CC := gcc
 
 CFLAGS ?=
-CFLAGS += -Werror -Wall -D_GNU_SOURCE
 CFLAGS += -Wno-error=unused-variable
 CFLAGS += -pthread
 # FIXME

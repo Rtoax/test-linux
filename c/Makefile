@@ -54,7 +54,6 @@ LDFLAGS :=
 
 include ../compiler/cross-compile.mk
 
-CFLAGS += -Werror -Wall
 CFLAGS += -I../macro/
 
 ifeq ($(shell uname -m),sw_64)

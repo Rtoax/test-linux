@@ -13,7 +13,7 @@ TARGETS_CPP := global-var
 
 TARGETS_SHELL := $(shell ls *.sh)
 
-CFLAGS := -Werror -Wall
+CFLAGS :=
 CFLAGS += -O0 -ggdb
 CFLAGS += -pthread
 

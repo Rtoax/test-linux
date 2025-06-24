@@ -4,8 +4,7 @@ TARGETS += memfd_create-dup2
 TARGETS += MFD_ALLOW_SEALING
 TARGETS += memfd_secret
 
-CFLAGS := -Werror -Wall -D_GNU_SOURCE
-CFLAGS += -Wstrict-prototypes
+CFLAGS :=
 CFLAGS += -pthread
 CFLAGS += -DTEST_MEMFD=1
 

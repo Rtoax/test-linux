@@ -54,7 +54,6 @@ ifeq ($(shell uname -m),loongarch64)
   TARGETS += __loongarch64
 endif
 
-CFLAGS += -Werror -Wall
 CFLAGS += ${KFLAGS}
 
 ifdef STATIC

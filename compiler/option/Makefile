@@ -6,8 +6,7 @@ TARGETS += nostartfiles
 
 CC := gcc
 
-CFLAGS := -Werror -Wall
-CFLAGS += -Wstrict-prototypes
+CFLAGS :=
 
 LDFLAGS_nostartfiles := -nostartfiles
 # /usr/bin/ld: warning: cannot find entry symbol _start; defaulting to 0000000000401000

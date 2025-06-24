@@ -2,7 +2,7 @@ TARGETS :=
 TARGETS += ntp_adjtime
 TARGETS += ntp_gettime
 
-CFLAGS := -Werror -Wall
+CFLAGS :=
 
 include ../../template/main.mk
 

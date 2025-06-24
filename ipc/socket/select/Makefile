@@ -9,7 +9,7 @@ TARGETS += fd_set
 
 CC := gcc
 
-CFLAGS := -Werror -Wall
+CFLAGS :=
 CFLAGS += -DDEBUG -O0 -g
 
 include ../../../template/subdir-header.mk

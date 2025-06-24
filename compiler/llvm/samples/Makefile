@@ -26,7 +26,7 @@ ifeq ($(LLVM_CONFIG),)
 endif
 
 CXXFLAGS :=
-CXXFLAGS += -Werror -Wall
+CXXFLAGS +=
 CXXFLAGS += -DDEBUG -O0 -g
 CXXFLAGS += $(shell llvm-config --cxxflags --ldflags --system-libs --libs core mc mcjit ExecutionEngine)
 CXXFLAGS += -Wno-error=unused-command-line-argument

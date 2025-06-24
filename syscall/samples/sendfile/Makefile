@@ -3,7 +3,7 @@ TARGETS += sendfile
 TARGETS += sendfile-tcp-server
 TARGETS += sendfile-socket
 
-CFLAGS := -Werror -Wall -D_GNU_SOURCE
+CFLAGS :=
 CFLAGS += -pthread
 
 include ../../../template/main.mk

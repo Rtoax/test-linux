@@ -15,8 +15,7 @@ TARGETS += getipnodebyname
 TARGETS += herror
 TARGETS += getnameinfo
 
-CFLAGS := -Werror -Wall
-CFLAGS += -Wstrict-prototypes
+CFLAGS :=
 
 LDFLAGS :=
 

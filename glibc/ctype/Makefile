@@ -2,7 +2,7 @@ TARGETS :=
 TARGETS += is
 TARGETS += to
 
-CFLAGS := -Werror -Wall
+CFLAGS :=
 
 include ../../template/main.mk
 

@@ -10,7 +10,7 @@ TARGETS += ramdisk tmpfs
 
 TARGETS_PREP := fs.ext4
 
-CFLAGS := -Werror -Wall -D_GNU_SOURCE
+CFLAGS :=
 CFLAGS += -pthread
 CFLAGS += -DDEBUG -O0 -g
 CFLAGS += -I../../libs/

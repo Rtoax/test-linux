@@ -21,7 +21,7 @@ TARGETS += relocs
 
 CC := gcc
 
-CFLAGS := -Werror -Wall
+CFLAGS :=
 CFLAGS += -O0
 
 ifdef PIC

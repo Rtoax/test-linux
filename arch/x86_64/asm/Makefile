@@ -60,7 +60,7 @@ endif
 DEBUG := yes
 CC := gcc
 
-CFLAGS := -Werror -Wall
+CFLAGS :=
 LDFLAGS :=
 
 ifdef DEBUG

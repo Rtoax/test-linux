@@ -19,7 +19,7 @@ TARGETS += AF_XDP
 DEBUG := yes
 CC := gcc
 
-CFLAGS := -Werror -Wall -D_GNU_SOURCE
+CFLAGS :=
 CFLAGS += -I../../
 CFLAGS += -I../../../libs/
 

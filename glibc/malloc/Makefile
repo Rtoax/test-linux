@@ -19,7 +19,7 @@ TARGETS += pvalloc
 
 CC := gcc
 
-CFLAGS := -Werror -Wall
+CFLAGS :=
 
 CFLAGS_mallinfo := -Wno-error=deprecated-declarations
 CFLAGS_malloc_helpers := -Wno-error=deprecated-declarations

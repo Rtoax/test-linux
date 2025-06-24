@@ -8,8 +8,7 @@ TARGETS += container
 TARGETS += uts_hostname
 TARGETS += CLONE_
 
-CFLAGS := -Werror -Wall -D_GNU_SOURCE -D__USE_GNU
-CFLAGS += -Wstrict-prototypes
+CFLAGS := -D__USE_GNU
 CFLAGS += -pthread
 
 ifdef STATIC

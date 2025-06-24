@@ -4,8 +4,7 @@ TARGETS += if_indextoname
 TARGETS += if_nametoindex
 TARGETS += if_nameindex
 
-CFLAGS := -Werror -Wall
-CFLAGS += -Wstrict-prototypes
+CFLAGS :=
 
 LDFLAGS :=
 

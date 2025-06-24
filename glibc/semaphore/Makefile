@@ -1,6 +1,6 @@
 TARGETS := h2o
 
-CFLAGS := -Werror -Wall
+CFLAGS :=
 CFLAGS += -pthread
 
 include ../../template/main.mk

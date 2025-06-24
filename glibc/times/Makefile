@@ -2,7 +2,7 @@ TARGETS :=
 TARGETS += times
 TARGETS += times-cnt times-cal
 
-CFLAGS := -Werror -Wall
+CFLAGS :=
 
 include ../../template/main.mk
 

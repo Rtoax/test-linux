@@ -20,7 +20,7 @@ CC := gcc
 
 LDFLAGS :=
 
-CFLAGS := -Werror -Wall
+CFLAGS :=
 CFLAGS += -DDEBUG -O0 -g -ggdb
 CFLAGS +=$(shell pkg-config --libs --cflags openssl)
 # FIXME: I'm too lazy

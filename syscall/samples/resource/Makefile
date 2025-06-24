@@ -3,7 +3,7 @@ TARGETS += getrlimit setrlimit ulimit prlimit
 TARGETS += fork-inherit
 TARGETS += getrusage vlimit
 
-CFLAGS := -Werror -Wall -D_GNU_SOURCE
+CFLAGS :=
 CFLAGS += -pthread
 
 include ../../../template/main.mk

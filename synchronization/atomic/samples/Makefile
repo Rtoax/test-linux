@@ -2,8 +2,7 @@
 TARGETS :=
 TARGETS += atomic_fetch_add
 
-CFLAGS := -Werror -Wall
-CFLAGS += -Wstrict-prototypes
+CFLAGS :=
 CFLAGS += -lpthread
 
 include ../../../template/main.mk

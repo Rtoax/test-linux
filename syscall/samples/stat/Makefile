@@ -14,7 +14,7 @@ TARGETS += utimensat
 TARGETS += futimens
 TARGETS += ustat
 
-CFLAGS := -Werror -Wall -D_GNU_SOURCE
+CFLAGS :=
 CFLAGS += -pthread
 
 CFLAGS_futimens := -DFUTIMENS=1

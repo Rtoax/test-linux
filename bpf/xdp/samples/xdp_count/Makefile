@@ -5,7 +5,7 @@ include ../../../../tlbuild.mk
 #
 
 all:
-	clang -O2 -Wall -g -target bpf -c xdp_count.c -o xdp_count.o
+	clang -O2 -g -target bpf -c xdp_count.c -o xdp_count.o
 	sudo bpftool prog load xdp_count.o /sys/fs/bpf/xdp_count type xdp
 	sudo bpftool prog list
 

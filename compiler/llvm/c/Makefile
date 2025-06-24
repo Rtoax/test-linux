@@ -18,8 +18,7 @@ endif
 
 CC = ${CLANG}
 
-CFLAGS := -Werror -Wall
-CFLAGS += -Wstrict-prototypes
+CFLAGS :=
 
 LLVM_CFLAGS :=
 LLVM_CXXFLAGS :=

@@ -5,7 +5,7 @@ TARGETS += getsubopt
 TARGETS += demo-wls
 TARGETS += demo-clr
 
-CFLAGS := -Werror -Wall
+CFLAGS :=
 
 include ../../template/main.mk
 

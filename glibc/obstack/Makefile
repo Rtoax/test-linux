@@ -3,8 +3,7 @@ TARGETS += obstack
 TARGETS += alloc-performance-cmp
 TARGETS += multithread
 
-CFLAGS := -Werror -Wall
-CFLAGS += -Wstrict-prototypes
+CFLAGS :=
 CFLAGS += -lpthread
 
 LDFLAGS :=

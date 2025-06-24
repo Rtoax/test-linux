@@ -29,7 +29,6 @@ TARGETS_LIBA += libtest-linux-c.a
 
 TARGETS_TEST += test1
 
-CFLAGS += -Werror -Wall
 CFLAGS += -DTEST=1
 ifeq (${CONFIG_ANON_VMA_NAME},y)
   $(info INFO: Support CONFIG_ANON_VMA_NAME)

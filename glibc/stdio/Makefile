@@ -25,14 +25,13 @@ TARGETS += fgets
 TARGETS += fopen
 TARGETS += fopencookie
 
-CFLAGS := -Werror -Wall
+CFLAGS :=
 CFLAGS += -DDEBUG -O0 -g
 
 ifneq ($(LIBC_PRINTF_SYMADDR),)
   CFLAGS += -DLIBC_PRINTF_SYMADDR=${LIBC_PRINTF_SYMADDR}
 endif
 
-CFLAGS_asprintf := -D_GNU_SOURCE=1
 CFLAGS_getdelim := -DTEST_getdelim=1
 
 TARGETS_POST := os-release

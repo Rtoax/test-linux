@@ -38,8 +38,7 @@ endif
 
 CC := gcc
 
-CFLAGS := -Werror -Wall
-CFLAGS += -Wstrict-prototypes
+CFLAGS :=
 CFLAGS += -ltcmalloc
 CFLAGS += -ltcmalloc_and_profiler
 CFLAGS += -ltcmalloc_debug

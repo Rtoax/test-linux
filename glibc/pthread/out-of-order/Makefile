@@ -16,7 +16,7 @@ TARGETS += sequentially-consistent-waw-2
 TARGETS += sequentially-consistent-raw
 TARGETS += sequentially-consistent-war
 
-CFLAGS := -Werror -Wall -pthread
+CFLAGS := -pthread
 CFLAGS += -I$(shell realpath .)/../../../synchronization/barrier/
 
 CFLAGS_r-barrier := -DHAVE_MRBARRIER=1

@@ -32,7 +32,7 @@ TARGETS += getopt
 TARGETS += _exit
 TARGETS += gethostid
 
-CFLAGS := -Werror -Wall
+CFLAGS :=
 CFLAGS += -lrt
 
 CFLAGS_getwd := -Wno-error=deprecated-declarations

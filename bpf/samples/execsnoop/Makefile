@@ -1,6 +1,6 @@
 include ../../../tlbuild.mk
 
-CFLAGS := -Wall -Werror
+CFLAGS :=
 
 all: vmlinux.h
 	# Compile bpf_program

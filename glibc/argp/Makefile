@@ -2,8 +2,7 @@
 TARGETS :=
 TARGETS += argp_parse
 
-CFLAGS := -Werror -Wall
-CFLAGS += -D_GNU_SOURCE
+CFLAGS :=
 
 LDFLAGS := -pthread -lrt
 

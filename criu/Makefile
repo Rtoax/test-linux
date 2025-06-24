@@ -11,11 +11,10 @@ TARGETS :=
 CC := gcc
 
 CFLAGS :=
-CFLAGS += -Werror -Wall -D_GNU_SOURCE
 CFLAGS += -pthread
 CFLAGS += -DDEBUG -O0 -g
 
-CFLAGS__GNU_SOURCE := -D_GNU_SOURCE=1
+CFLAGS__GNU_SOURCE :==1
 CFLAGS__XOPEN_SOURCE := -D_XOPEN_SOURCE=1
 
 include ../template/subdir-header.mk

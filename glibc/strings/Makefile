@@ -1,7 +1,7 @@
 TARGETS :=
 TARGETS += index
 
-CFLAGS := -Werror -Wall
+CFLAGS :=
 
 include ../../template/main.mk
 

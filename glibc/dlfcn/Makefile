@@ -14,8 +14,7 @@ TARGETS_LIBSO := libhello.so.0.1
 
 CC := gcc
 
-CFLAGS := -Werror -Wall
-CFLAGS += -Wstrict-prototypes
+CFLAGS :=
 CFLAGS += -ldl
 
 LDFLAGS :=

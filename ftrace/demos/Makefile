@@ -12,7 +12,7 @@ ifeq ($(CC_-mfentry),1)
   TARGETS += main-pg-fentry
 endif
 
-CFLAGS := -Werror -Wall -O0
+CFLAGS := -O0
 
 .PHONY: build
 build: ${TARGETS}

@@ -19,8 +19,7 @@ endif
 
 CC := gcc
 
-CFLAGS := -Werror -Wall
-CFLAGS += -Wstrict-prototypes
+CFLAGS :=
 
 include ../../compiler/compiler.mk
 

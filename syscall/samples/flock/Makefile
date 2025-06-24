@@ -1,7 +1,7 @@
 TARGETS :=
 TARGETS += flock flock-fork flock-unlink flock-thread
 
-CFLAGS := -Werror -Wall -D_GNU_SOURCE
+CFLAGS :=
 
 include ../../../template/main.mk
 

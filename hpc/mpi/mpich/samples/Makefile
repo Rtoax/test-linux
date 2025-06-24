@@ -36,8 +36,7 @@ ifeq ($(wildcard $(CC)),)
   $(warning Not install mpich or openmpi development software)
 endif
 
-CFLAGS := -Werror -Wall
-CFLAGS += -Wstrict-prototypes
+CFLAGS :=
 
 LDFLAGS :=
 

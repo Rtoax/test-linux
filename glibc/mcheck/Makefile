@@ -5,7 +5,7 @@ TARGETS += mcheck_check_all
 
 CC := gcc
 
-CFLAGS := -Werror -Wall
+CFLAGS :=
 CFLAGS += -lmcheck
 
 LDFLAGS :=

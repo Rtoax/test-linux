@@ -10,7 +10,7 @@ TARGETS += socketpair
 DEBUG := yes
 CC := gcc
 
-CFLAGS := -Werror -Wall
+CFLAGS :=
 CFLAGS += -Wno-error=unused-function
 
 ifdef DEBUG

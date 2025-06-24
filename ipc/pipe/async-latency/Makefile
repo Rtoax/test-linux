@@ -6,7 +6,7 @@ TARGETS := main
 DEBUG := yes
 CC := gcc
 
-CFLAGS := -Werror -Wall
+CFLAGS :=
 CFLAGS += -lpthread
 
 ifdef DEBUG

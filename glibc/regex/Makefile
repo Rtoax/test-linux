@@ -7,7 +7,7 @@ TARGETS += getprocessruntime-regex
 TARGETS += printf-format-arg-split
 TARGETS += tr069
 
-CFLAGS := -Werror -Wall
+CFLAGS :=
 CFLAGS += -D__USE_GNU=1
 
 # TODO: I don't know why `implicit declaration of function`

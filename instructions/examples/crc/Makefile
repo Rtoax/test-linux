@@ -2,7 +2,6 @@ TARGETS := crc32b
 TARGETS += crc32w
 
 CFLAGS += -g -ggdb
-CFLAGS += -D_GNU_SOURCE
 CFLAGS += -O3
 CFLAGS += -pthread
 CFLAGS += -march=armv8.1-a

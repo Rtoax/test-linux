@@ -6,8 +6,7 @@ TARGETS := dl_iterate_phdr
 TARGETS += dl_iterate_phdr-pie
 TARGETS += has_shared_object
 
-CFLAGS := -Werror -Wall
-CFLAGS += -Wstrict-prototypes
+CFLAGS :=
 CFLAGS += -I${LIBPROCFS_DIR}
 
 LDFLAGS :=

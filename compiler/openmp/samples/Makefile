@@ -60,7 +60,7 @@ TARGETS += omp_get_wtick
 
 CC := gcc
 
-CFLAGS := -Werror -Wall
+CFLAGS :=
 CFLAGS += -fopenmp
 CFLAGS += -Wno-error=unused-variable
 

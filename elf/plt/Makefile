@@ -2,7 +2,7 @@
 TARGETS :=
 TARGETS += overwrite-plt
 
-CFLAGS := -Werror -Wall -D_GNU_SOURCE
+CFLAGS :=
 CFLAGS_overwrite-plt := -DOVERWRITE=1
 
 include ../../template/main.mk

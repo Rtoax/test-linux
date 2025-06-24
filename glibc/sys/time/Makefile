@@ -2,8 +2,7 @@ TARGETS :=
 TARGETS += adjtime
 TARGETS += TIMEVAL_TO_TIMESPEC
 
-CFLAGS := -Werror -Wall
-CFLAGS += -D_GNU_SOURCE
+CFLAGS :=
 
 include ../../../template/main.mk
 

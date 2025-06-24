@@ -49,7 +49,7 @@ CFLAGS_popcount := -Wno-int-conversion
 #CFLAGS_preserve_field_info := -mxbpf -mco-re
 
 CFLAGS_BPF :=
-CFLAGS_BPF += -O2 -Wall -g
+CFLAGS_BPF += -O2 -g
 CFLAGS_BPF += -target bpf
 CFLAGS_BPF += $(CFLAG_BPF_TARGET_ARCH)
 

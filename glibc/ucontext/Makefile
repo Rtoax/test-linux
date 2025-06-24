@@ -7,7 +7,7 @@ TARGETS += ucontext_t
 TARGETS += makecontext
 TARGETS += demo1
 
-CFLAGS := -Werror -Wall
+CFLAGS :=
 
 CFLAGS_setcontext := -DTEST_SETCONTEXT=1
 

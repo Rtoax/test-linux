@@ -9,7 +9,7 @@ TARGETS += timeval
 TARGETS += getitimer setitimer setitimer-1
 TARGETS += gettimeofday settimeofday
 
-CFLAGS := -Werror -Wall -D_GNU_SOURCE
+CFLAGS :=
 CFLAGS += -pthread
 
 include ../../../template/main.mk

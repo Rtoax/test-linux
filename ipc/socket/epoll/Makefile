@@ -6,7 +6,7 @@ TARGETS := echo-server
 
 CC := gcc
 
-CFLAGS := -Werror -Wall
+CFLAGS :=
 CFLAGS += -DDEBUG -O0 -g
 
 build: ${TARGETS}

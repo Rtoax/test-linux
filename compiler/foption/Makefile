@@ -33,8 +33,7 @@ ifeq ($(CC_-fpatchable-function-entry),1)
   TARGETS += fpatchable-function-entry
 endif
 
-CFLAGS := -Werror -Wall
-CFLAGS += -Wstrict-prototypes
+CFLAGS :=
 
 # gcc: -fcf-protection=[full|branch|return|none|check]
 CFLAGS_fcf-protection := -fcf-protection

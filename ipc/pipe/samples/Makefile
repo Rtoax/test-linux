@@ -8,7 +8,7 @@ TARGETS += pipe-broken-pipe shutdown-broken-pipe
 
 CC := gcc
 
-CFLAGS := -Werror -Wall
+CFLAGS :=
 CFLAGS += -DDEBUG -O0 -g
 CFLAGS += -lpthread
 

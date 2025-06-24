@@ -13,7 +13,7 @@ else
   CC := gcc
 endif
 
-CFLAGS := -Werror -Wall
+CFLAGS :=
 CFLAGS += -O0
 
 .PHONY: build

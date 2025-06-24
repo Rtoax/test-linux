@@ -18,8 +18,7 @@ TARGETS += sched_yield
 TARGETS += taskset
 TARGETS += daemon
 
-CFLAGS := -Werror -Wall -D_GNU_SOURCE -D__USE_GNU
-CFLAGS += -Wstrict-prototypes
+CFLAGS := -D__USE_GNU
 CFLAGS += -I../../../
 CFLAGS += -pthread
 

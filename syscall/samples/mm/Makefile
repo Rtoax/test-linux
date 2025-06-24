@@ -17,8 +17,7 @@ TARGETS += mprotect-ld
 TARGETS += process_madvise
 TARGETS += process_mrelease
 
-CFLAGS := -Werror -Wall -D_GNU_SOURCE
-CFLAGS += -Wstrict-prototypes
+CFLAGS :=
 CFLAGS += -pthread
 CFLAGS += -lrt
 

@@ -3,8 +3,7 @@ TARGETS :=
 TARGETS += madvise-MADV_MERGEABLE
 TARGETS += madvise-MADV_HUGEPAGE
 
-CFLAGS := -Werror -Wall -D_GNU_SOURCE
-CFLAGS += -Wstrict-prototypes
+CFLAGS :=
 CFLAGS += -pthread
 
 include ../../../../template/main.mk

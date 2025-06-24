@@ -5,8 +5,7 @@ TARGETS += sigsetjmp
 TARGETS += getline
 TARGETS += signal
 
-CFLAGS := -Werror -Wall
-CFLAGS += -D_GNU_SOURCE
+CFLAGS :=
 
 CFLAGS_sigsetjmp := -DSIGJMP=1
 CFLAGS_setjmp := -DJMP=1

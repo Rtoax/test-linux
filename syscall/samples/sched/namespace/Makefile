@@ -3,8 +3,7 @@ TARGETS += dummy dummy-fork dummy-vfork dummy-popen
 TARGETS += setns
 TARGETS += unshare unshare-execve
 
-CFLAGS := -Werror -Wall -D_GNU_SOURCE -D__USE_GNU
-CFLAGS += -Wstrict-prototypes
+CFLAGS := -D__USE_GNU
 CFLAGS += -pthread
 
 CFLAGS_dummy := -static

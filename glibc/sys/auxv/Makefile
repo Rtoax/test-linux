@@ -9,7 +9,7 @@ TARGETS += AT_PLATFORM
 TARGETS += AT_SYSINFO
 TARGETS += AT_SYSINFO_EHDR
 
-CFLAGS := -Werror -Wall
+CFLAGS :=
 CFLAGS += -lm
 
 include ../../../elf/pie.mk

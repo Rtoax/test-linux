@@ -10,7 +10,7 @@ LIBXML2_VERSION := libxml-2.0
 LIBXML2_LIBS := $(shell pkg-config --libs libxml-2.0)
 LIBXML2_CFLAGS := $(shell pkg-config --cflags libxml-2.0)
 
-CFLAGS := -Werror -Wall
+CFLAGS :=
 CFLAGS += $(LIBXML2_CFLAGS)
 # FIXME: maybe use BAD_CAST
 CFLAGS_addchild := -Wno-error=pointer-sign

@@ -19,7 +19,7 @@ ifeq ($(wildcard $(LIBNUMA_HDR)),)
   $(warning "ERROR: Must install numactl development header")
 endif
 
-CFLAGS := -Werror -Wall
+CFLAGS :=
 LDFLAGS += -lnuma
 
 CFLAGS += -DNUMACTL_VERSION_MAJOR=${NUMACTL_VERSION_MAJOR}

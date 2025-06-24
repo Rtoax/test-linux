@@ -6,7 +6,7 @@ TARGETS += madvise-MADV_HUGEPAGE
 
 CC := gcc
 
-CFLAGS := -Werror -Wall
+CFLAGS :=
 CFLAGS += -DDEBUG -O0 -g
 
 .PHONY: build

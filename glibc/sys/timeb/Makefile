@@ -1,7 +1,7 @@
 TARGETS :=
 TARGETS += ftime
 
-CFLAGS := -Werror -Wall
+CFLAGS :=
 CFLAGS_ftime := -Wno-deprecated-declarations
 
 include ../../../template/main.mk

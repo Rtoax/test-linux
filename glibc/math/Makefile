@@ -14,7 +14,7 @@ TARGETS += nextafter
 
 CC := gcc
 
-CFLAGS := -Werror -Wall
+CFLAGS :=
 CFLAGS += -lm
 
 LDFLAGS := ${CFLAGS}

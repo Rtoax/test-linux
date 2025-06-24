@@ -7,8 +7,7 @@ TARGETS += setutent endutent
 TARGETS += login logwtmp
 TARGETS += login_tty
 
-CFLAGS := -Werror -Wall
-CFLAGS += -Wstrict-prototypes
+CFLAGS :=
 CFLAGS += -lutil
 
 LDFLAGS :=

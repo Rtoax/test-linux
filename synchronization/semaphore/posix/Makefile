@@ -2,8 +2,7 @@ TARGETS := semaphore
 TARGETS += latency
 TARGETS += pthread-semaphore
 
-CFLAGS := -Werror -Wall
-CFLAGS += -Wstrict-prototypes
+CFLAGS :=
 CFLAGS += -lpthread
 
 include ../../../template/main.mk

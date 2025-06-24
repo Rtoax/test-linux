@@ -7,7 +7,7 @@ IMAGES := initrd.img
 
 CC := gcc
 
-CFLAGS := -Werror -Wall
+CFLAGS :=
 CFLAGS += -static
 CFLAGS += -DDEBUG -O0 -g
 

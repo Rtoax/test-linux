@@ -1,7 +1,7 @@
 TARGETS := getspent
 TARGETS += getspnam
 
-CFLAGS := -Werror -Wall -D_GNU_SOURCE
+CFLAGS :=
 CFLAGS += -I../../
 CFLAGS += -pthread
 

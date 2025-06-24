@@ -1,7 +1,7 @@
 TARGETS := oom
 TARGETS += popen
 
-CFLAGS := -Werror -Wall
+CFLAGS :=
 
 CFLAGS_popen = -DPOPEN=1
 

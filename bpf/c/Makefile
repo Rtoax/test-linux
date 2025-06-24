@@ -5,8 +5,7 @@ TARGETS := hello
 
 CC := gcc
 
-CFLAGS := -Werror -Wall
-CFLAGS += -Wstrict-prototypes
+CFLAGS :=
 CFLAGS += -lbpf -lbcc
 
 LDFLAGS :=

@@ -20,7 +20,7 @@ TARGETS += bfd_print_symbol_vandf
 CC := gcc
 LIBPROCFS_DIR := ../../../fs/procfs/
 
-CFLAGS := -Werror -Wall -D_GNU_SOURCE
+CFLAGS :=
 CFLAGS += -DDEBUG -O0
 CFLAGS += -Wno-unused-label
 CFLAGS += -Wno-unused-variable

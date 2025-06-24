@@ -30,19 +30,19 @@ build: $(TARGETS_KERN) ${TARGETS_USER}
 
 %.o: %.c
 	@echo -e "  CLANG-K  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	${Q}$(CLANG) -O2 -Wall -target bpf -c $(<) -o $(@) ${CFLAGS_KERN}
+	${Q}$(CLANG) -O2 -target bpf -c $(<) -o $(@) ${CFLAGS_KERN}
 	${Q}llvm-objdump -S --no-show-raw-insn $(@)
 	${Q}llvm-objdump -S $(@)
-	${Q}$(CLANG) -O2 -Wall -target bpf -c $(<) -S -o $(<:.c=.S) ${CFLAGS_KERN}
+	${Q}$(CLANG) -O2 -target bpf -c $(<) -S -o $(<:.c=.S) ${CFLAGS_KERN}
 	${Q}llvm-mc -triple bpf -filetype=obj -o $(@) $(<:.c=.S) # LLVM 6.0
-	${Q}$(CLANG) -O2 -Wall -target bpf -emit-llvm -c $(<) -o $(<:.c=.bc) ${CFLAGS_KERN}
+	${Q}$(CLANG) -O2 -target bpf -emit-llvm -c $(<) -o $(<:.c=.bc) ${CFLAGS_KERN}
 	${Q}llc $(<:.c=.bc) -march=bpf -filetype=obj -o $(@)
-	${Q}$(CLANG) -O2 -Wall -emit-llvm -S -c $(<) ${CFLAGS_KERN} -o -
+	${Q}$(CLANG) -O2 -emit-llvm -S -c $(<) ${CFLAGS_KERN} -o -
 
 %.g.o: %.c
 	@echo -e "  CLANG-g  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	${Q}llc -march=bpf -mattr=help |& grep dwarfris
-	${Q}$(CLANG) -O2 -g -Wall -target bpf -emit-llvm -c $(<) -o $(<:.c=.g.bc) ${CFLAGS_KERN}
+	${Q}$(CLANG) -O2 -g -target bpf -emit-llvm -c $(<) -o $(<:.c=.g.bc) ${CFLAGS_KERN}
 	${Q}llc $(<:.c=.g.bc) -march=bpf -mattr=dwarfris -filetype=obj -o $(<:.c=.g.o)
 	${Q}$(CLANG) -target bpf -O2 -g -c -Xclang -target-feature -Xclang +dwarfris -c $(<) -o $(<:.c=.g.o) ${CFLAGS_KERN}
 	${Q}pahole $(<:.c=.g.o)

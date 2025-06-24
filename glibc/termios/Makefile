@@ -9,7 +9,6 @@ TARGETS += password
 TARGETS += set_istrip set_input_mode
 TARGETS += get_cursor_position
 
-CFLAGS += -Werror -Wall
 CFLAGS += -I../../../
 CFLAGS += -lm
 

@@ -3,7 +3,7 @@ include ../../tlbuild.mk
 
 # SPDX-License-Identifier: GPL-2.0
 # Makefile for io_uring test tools
-CFLAGS += -Wall -Wextra -g -D_GNU_SOURCE
+CFLAGS += -Wextra -g
 
 all: io_uring-cp.out \
 	 io_uring-bench.out \

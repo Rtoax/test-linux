@@ -3,7 +3,7 @@ ifeq ($(shell uname -m),x86_64)
   TARGETS += main
 endif
 
-CFLAGS := -Werror -Wall
+CFLAGS :=
 CFLAGS += -pthread
 
 include ../../../template/main.mk

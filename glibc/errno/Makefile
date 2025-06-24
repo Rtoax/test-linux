@@ -8,7 +8,7 @@ TARGETS += EAFNOSUPPORT
 
 CC := gcc
 
-CFLAGS := -Werror -Wall -D_GNU_SOURCE
+CFLAGS :=
 CFLAGS += -I../../
 CFLAGS += -pthread
 

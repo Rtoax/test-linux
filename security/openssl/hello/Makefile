@@ -9,7 +9,7 @@ CC := gcc
 
 LDFLAGS :=
 
-CFLAGS := -Werror -Wall
+CFLAGS :=
 CFLAGS += -I../macro/
 CFLAGS += -DDEBUG -O0 -g -ggdb
 CFLAGS +=$(shell pkg-config --libs --cflags openssl)

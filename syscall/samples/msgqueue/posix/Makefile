@@ -3,7 +3,7 @@ TARGETS += mq_getattr
 TARGETS += mq_notify
 TARGETS += multi-thread-minimal multi-thread
 
-CFLAGS := -Werror -Wall -D_GNU_SOURCE
+CFLAGS :=
 CFLAGS += -lrt
 
 CFLAGS_multi-thread := -pthread

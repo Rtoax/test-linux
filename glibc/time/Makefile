@@ -23,8 +23,7 @@ TARGETS += timeval
 TARGETS += show_systime
 TARGETS += process-runtime
 
-CFLAGS := -Werror -Wall
-CFLAGS += -D_GNU_SOURCE
+CFLAGS :=
 CFLAGS += -pthread -lrt
 
 LDFLAGS := -pthread -lrt

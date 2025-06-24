@@ -207,7 +207,7 @@ TARGETS_BTF += btf_decl_tag
 # TODO: linux selftests/bpf is -std=gnu11
 CFLAGS_BPF += -std=gnu89 -Drestrict=
 CFLAGS_BPF += -I.
-CFLAGS_BPF += -O2 -Wall -g
+CFLAGS_BPF += -O2 -g
 # Like -target bpfel
 CFLAGS_BPF += -target bpf -mlittle-endian
 CFLAGS_BPF += -mcpu=v3
@@ -216,9 +216,9 @@ ifeq ($(CONFIG_ARCH_HAS_SYSCALL_WRAPPER),y)
 endif
 
 CFLAGS += -lbpf
-CFLAGS += -O0 -Wall -g
+CFLAGS += -O0 -g
 LDFLAGS := -lbpf
-LDFLAGS += -O0 -Wall -g
+LDFLAGS += -O0 -g
 LDFLAGS += -pthread
 
 CFLAGS += -DCONFIG_BPF_SYSCALL=$(CONFIG_BPF_SYSCALL)

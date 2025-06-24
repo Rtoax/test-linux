@@ -17,7 +17,7 @@ TARGETS += pthread_create
 TARGETS += multi-thread
 TARGETS += ptrace-strace
 
-CFLAGS := -Werror -Wall
+CFLAGS :=
 CFLAGS += -pthread
 
 TARGETS_PREP := nr.h

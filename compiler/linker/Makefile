@@ -26,8 +26,7 @@ endif
 CC := gcc
 LD = ld
 
-CFLAGS := -Werror -Wall
-CFLAGS += -Wstrict-prototypes
+CFLAGS :=
 
 LDFLAGS :=
 

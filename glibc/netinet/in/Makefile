@@ -2,7 +2,7 @@ TARGETS := IPPORT_
 TARGETS += inet6_opt_
 TARGETS += inet6_rth_
 
-CFLAGS := -Werror -Wall -D_GNU_SOURCE
+CFLAGS :=
 
 include ../../../template/main.mk
 

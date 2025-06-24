@@ -26,7 +26,6 @@ TARGETS_ASM += vfmadd231ps
 TARGETS_ASM += kxord
 
 CFLAGS += -g -ggdb
-CFLAGS += -D_GNU_SOURCE
 CFLAGS += -O0
 
 CFLAGS_sum := -DTYPE_FLOAT

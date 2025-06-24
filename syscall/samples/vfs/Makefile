@@ -1,7 +1,7 @@
 TARGETS := statfs
 TARGETS += fstatfs
 
-CFLAGS := -Werror -Wall -D_GNU_SOURCE
+CFLAGS :=
 CFLAGS += -pthread
 CFLAGS += -I../../../fs/procfs/
 

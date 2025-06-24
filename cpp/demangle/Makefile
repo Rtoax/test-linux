@@ -5,7 +5,7 @@ TARGETS :=
 
 CXX = g++
 
-CXXFLAGS := -Werror -Wall
+CXXFLAGS :=
 CXXFLAGS += -DCPP
 ifdef DEBUG
   CFLAGS += -DDEBUG -O0 -g -ggdb

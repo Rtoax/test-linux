@@ -9,7 +9,7 @@ TARGETS += setgrent
 TARGETS += getgroups
 TARGETS += demo-pwd-grp
 
-CFLAGS := -Werror -Wall -D_GNU_SOURCE
+CFLAGS :=
 
 include ../../template/main.mk
 

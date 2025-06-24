@@ -75,7 +75,6 @@ TARGETS += ftm _GNU_SOURCE _XOPEN_SOURCE
 CC := gcc
 
 CFLAGS :=
-CFLAGS += -Werror -Wall -D_GNU_SOURCE
 CFLAGS += -pthread
 
 CFLAGS__GNU_SOURCE := -D_GNU_SOURCE=1

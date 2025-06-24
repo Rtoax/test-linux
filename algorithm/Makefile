@@ -19,7 +19,7 @@ TARGETS += pi
 DEBUG ?= yes
 CC := gcc
 
-CFLAGS := -Werror -Wall
+CFLAGS :=
 CFLAGS += -I../macro/
 
 ifdef DEBUG

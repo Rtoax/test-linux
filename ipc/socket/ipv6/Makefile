@@ -6,7 +6,7 @@ TARGETS += IN6ADDR_ANY_INIT IN6ADDR_LOOPBACK_INIT
 
 CC := gcc
 
-CFLAGS := -Werror -Wall
+CFLAGS :=
 CFLAGS += -DDEBUG -O0 -g
 
 build: ${TARGETS}

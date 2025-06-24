@@ -3,7 +3,7 @@ include ../../../tlbuild.mk
 TARGETS :=
 TARGETS += hello
 
-CFLAGS := -Werror -Wall
+CFLAGS :=
 CFLAGS_DBG := -g
 
 ifdef DWARF5

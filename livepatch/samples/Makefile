@@ -1,7 +1,7 @@
 # Copyright (C) Rong Tao
 include /boot/config-$(shell uname -r)
 
-EXTRA_CFLAGS := -Wall -g
+EXTRA_CFLAGS := -g
 
 LIVEPATCH:=
 

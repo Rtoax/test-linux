@@ -6,7 +6,7 @@ TARGETS += arg arg-O3
 
 LDFLAGS :=
 
-CFLAGS := -Werror -Wall
+CFLAGS :=
 
 ifdef DEBUG
   CFLAGS += -DDEBUG -g -ggdb

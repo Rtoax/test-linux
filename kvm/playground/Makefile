@@ -28,7 +28,7 @@ AS = as
 NASM = nasm
 OBJCOPY = objcopy
 
-CFLAGS := -Werror -Wall
+CFLAGS :=
 
 ifdef DEBUG
 CFLAGS += -DDEBUG -O0 -g

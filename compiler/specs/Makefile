@@ -8,8 +8,7 @@ CC := gcc
 TARGETS += hello
 
 
-CFLAGS := -Werror -Wall
-CFLAGS += -Wstrict-prototypes
+CFLAGS :=
 CFLAGS += -specs=$(shell pwd)/definitions
 CFLAGS += -specs=$(shell pwd)/definitions2
 

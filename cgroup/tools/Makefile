@@ -1,7 +1,7 @@
 TARGETS :=
 TARGETS += cgroup_event_listener
 
-CFLAGS := -Werror -Wall
+CFLAGS :=
 
 include ../../template/main.mk
 

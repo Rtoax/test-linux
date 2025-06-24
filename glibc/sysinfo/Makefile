@@ -3,7 +3,7 @@ TARGETS += sysinfo
 TARGETS += get_avphys_pages get_phys_pages
 TARGETS += get_nprocs get_nprocs_conf
 
-CFLAGS := -Werror -Wall
+CFLAGS :=
 CFLAGS += -I../../../
 CFLAGS += -lm
 

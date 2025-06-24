@@ -2,7 +2,7 @@ TARGETS :=
 TARGETS += syslog
 TARGETS += syslog-benchmark
 
-CFLAGS := -Werror -Wall
+CFLAGS :=
 
 include ../../template/main.mk
 

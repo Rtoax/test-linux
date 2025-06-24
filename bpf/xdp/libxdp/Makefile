@@ -1,7 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
-
 include ../../../tlbuild.mk
-
 include ../../bpf.mk
 
 TARGETS :=
@@ -16,8 +14,7 @@ CC := gcc
 CLANG := clang
 BPFTOOL := bpftool
 
-CFLAGS := -Werror -Wall
-CFLAGS += -Wstrict-prototypes
+CFLAGS :=
 CFLAGS += -lxdp -lbpf -pthread
 CFLAGS += -O0 -g -ggdb
 

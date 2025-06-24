@@ -8,7 +8,7 @@ TARGETS += test_string
 DEBUG := yes
 CC := gcc
 
-CFLAGS := -Werror -Wall
+CFLAGS :=
 
 ifdef DEBUG
 CFLAGS += -DDEBUG -O0 -g
