@@ -1,6 +1,3 @@
-include ../../../tlbuild.mk
-
-
 obj-m += map_driver.o
 
 PWD := $(shell pwd)

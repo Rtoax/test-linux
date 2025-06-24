@@ -1,11 +1,7 @@
-include ../../../tlbuild.mk
-
-
-
 obj-m := dram.o
 
-KDIR=/lib/modules/$(shell uname -r)/build
-PWD=$(shell pwd)
+KDIR = /lib/modules/$(shell uname -r)/build
+PWD = $(shell pwd)
 
 default:
 	gcc ./fileview.cpp -o fileview

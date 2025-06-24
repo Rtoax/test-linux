@@ -24,7 +24,7 @@ void sig_handler(int signum)
 	}
 }
 
-int main()
+int main(void)
 {
 	int i;
 	char *p;
