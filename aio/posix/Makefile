@@ -1,11 +1,7 @@
-include ../../tlbuild.mk
-
 TARGETS := aio_read
 TARGETS += aio_write
 TARGETS += aio_suspend
 TARGETS += lio_listio
-
-CC := gcc
 
 CFLAGS :=
 CFLAGS += -lrt

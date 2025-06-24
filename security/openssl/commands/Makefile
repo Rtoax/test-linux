@@ -1,8 +1,4 @@
-include ../../../tlbuild.mk
+TARGETS_SHELL := base64.sh
+TARGETS_SHELL += rand.sh
 
-all:
-	./base64.sh
-	./rand.sh
-
-clean:
-	rm -rf *.pem
+include ../../../template/main.mk

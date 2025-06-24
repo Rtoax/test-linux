@@ -170,7 +170,7 @@ int TestForMedium(void)
 	 *(((struct sg_header*)cmd)->sense_buffer +ADD_SC_QUALIFIER) != NO_MEDIA_SCQ;
 }
 
-void main(void)
+int main(void)
 {
 	fd = open(DEVICE, O_RDWR);
 	if (fd < 0) {
@@ -187,5 +187,6 @@ void main(void)
 	} else {
 		printf("device is loaded\n");
 	}
-}
 
+	return 0;
+}

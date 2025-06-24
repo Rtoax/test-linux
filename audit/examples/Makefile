@@ -1,12 +1,4 @@
-include ../../tlbuild.mk
+TARGETS_SHELL := file.sh
+TARGETS_SHELL += syscall.sh
 
-.PHONY: all
-all:
-
-.PHONY: test
-test:
-	@$(SHELL) file.sh
-
-.PHONY: clean
-clean:
-	${Q}rm -f tmpfile-*.out
+include ../../template/main.mk
