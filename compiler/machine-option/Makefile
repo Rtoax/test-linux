@@ -1,8 +1,4 @@
 # SPDX-License-Identifier: GPL-3.0
-include ../../tlbuild.mk
-
-include ../../tlbuild.mk
-
 TARGETS :=
 TARGETS += helloworld
 TARGETS += march-native
@@ -17,8 +13,9 @@ ifeq ($(shell uname -m),x86_64)
   TARGETS += mfentry
 endif
 
-CC := gcc
+TARGETS_SHELL := info.sh
 
+CC := gcc
 CFLAGS :=
 
 include ../../compiler/compiler.mk
@@ -31,13 +28,8 @@ else
   $(warning "$(CC) not support -mbranch-protection=pac-ret")
 endif
 
-
 CFLAGS_march-armv8.3-a := -march=armv8.3-a
 CFLAGS_mfentry := -pg -mfentry
-
-.PHONY: build
-build: ${TARGETS}
-	@echo -e " \033[1;33m Done \033[m"
 
 # FIXME: HygonGenuine not support x86-64
 ifneq ($(CPU_VENDOR_ID),HygonGenuine)
@@ -46,28 +38,11 @@ else
   $(warning CPU Vendor ID: ${CPU_VENDOR_ID})
 endif
 
+include ../../template/main.mk
+
+
 helloworld: helloworld.o
 march-native: march-native.o
 march-armv8.3-a: march-armv8.3-a.o
 mbranch-protection: mbranch-protection.o
 mfentry: mfentry.o
-
-%.o: %.c
-	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	${Q}$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
-	${Q}$(CC) $(CFLAGS) $(CFLAGS_$(*)) -S $(<) -o $(<:.c=.s)
-	${Q}$(CC) $(CFLAGS) -S $(<) -o $(<:.c=-nof.s) -Wno-error
-
-$(TARGETS): %:
-	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	${Q}$(CC) $(CFLAGS) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*))
-
-test: ${TARGETS}
-	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
-
-clean:
-	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
-	${Q}rm -f ${TARGETS} *.o *.d *.s
-
-info:
-	@${SHELL} info.sh
