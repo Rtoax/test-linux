@@ -41,7 +41,7 @@ void *recv_message(void *fd)
 int main(int argc, char **argv)
 {
 	int sockfd;
-	pthread_t recv_tid, send_tid;
+	pthread_t recv_tid;
 	struct sockaddr_in servaddr;
 	char msg[MAX_LINE];
 

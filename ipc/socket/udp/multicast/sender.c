@@ -17,7 +17,7 @@ int main(int argc ,char* argv[])
 	const int loopback = 0;
 
 	if (argc != 2) {
-		printf("Usage <addr>\n", argv[1]);
+		printf("Usage: %s <addr>\n", argv[0]);
 		exit(1);
 	}
 

@@ -2,12 +2,10 @@
 
 int main(void)
 {
-	socklen_t clt_addr_len;
 	int listen_fd;
 	int client_fd;
 	int ret = 0;
-	int i;
-	int len;
+	socklen_t len;
 	struct sockaddr_un clt_addr, srv_addr;
 
 	listen_fd = socket(AF_UNIX, SOCK_STREAM, 0);

@@ -18,7 +18,6 @@ int main(int argc, char *argv[])
 	struct sockaddr_in servaddr, cliaddr;
 	int listenfd, connfd;
 	pid_t childpid;
-	char buf[MAX_LINE];
 	socklen_t clilen;
 
 	if ((listenfd = socket(AF_INET, SOCK_STREAM, 0)) < 0) {

@@ -1,29 +1,13 @@
-include ../../../../tlbuild.mk
-
 TARGETS :=
 TARGETS += server
 TARGETS += client
 
-CC := gcc
+CFLAGS := -pthread
 
-CFLAGS := -O0 -g -ggdb -pthread
-
-ALL: $(TARGETS)
+include ../../../../template/main.mk
 
 ../vsock_helpers.o: ../vsock_helpers.h
 server.o: config.h
 server: server.o ../vsock_helpers.o
 client.o: config.h
 client: client.o ../vsock_helpers.o
-
-%.o: %.c
-	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	${Q}$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
-
-$(TARGETS): %:
-	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	${Q}$(CC) -o $(@) $(^) $(CFLAGS) $(CFLAGS_$(*))
-
-clean:
-	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
-	${Q}rm -f ${TARGETS} *.o *.txt

@@ -4,7 +4,7 @@
 int main(void)
 {
 	int connect_fd;
-	int ret = 0, len;
+	int ret = 0;
 	unsigned long nloop = 0;
 	struct timeval start, end;
 	unsigned long send_bytes = 0;

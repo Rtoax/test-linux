@@ -18,7 +18,7 @@
 #define UNIX_DOMAIN "./UNIX.sock"
 
 static short recv_php_buf[] = {0x0102, 0x0304, 0x0506};
-static int recv_php_num = 0;
+static int __attribute__((unused)) recv_php_num = 0;
 
 #define _print_buf(buf, size) \
 	do { \

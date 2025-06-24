@@ -28,12 +28,10 @@ void handle_sigint(int signum)
 
 int main(void)
 {
-	socklen_t clt_addr_len;
-
 	int connfd;
 	int ret = 0;
 	int i;
-	int len;
+	socklen_t len;
 	struct sockaddr_un clt_addr, srv_addr;
 
 	char msg[256];

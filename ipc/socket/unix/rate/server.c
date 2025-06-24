@@ -6,8 +6,7 @@ int main(void)
 	int listen_fd;
 	int con_fd;
 	int ret = 0;
-	int i;
-	int len;
+	socklen_t len;
 	int val = 1;
 	struct sockaddr_un clt_addr;
 	char buf[MSG_LENGTH];

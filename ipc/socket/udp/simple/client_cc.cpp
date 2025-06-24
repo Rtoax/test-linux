@@ -82,6 +82,7 @@ int main(int argc, char* argv[])
 		int sendLen = sock.sendto(addr, buf, sizeof(buf));
 		int recvLen = sock.recvfrom(addr, buf, sizeof(buf)-1);
 
+		(void)sendLen;
 		buf[recvLen] = 0;
 		printf("Message from server: %s", buf);
 	}

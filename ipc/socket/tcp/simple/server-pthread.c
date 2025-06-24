@@ -40,7 +40,7 @@ int main(int argc, char **argv)
 	int listenfd, connfd;
 	socklen_t clilen;
 	char msg[MAX_LINE];
-	pthread_t recv_tid, send_tid;
+	pthread_t recv_tid;
 	struct sockaddr_in servaddr, cliaddr;
 
 	if ((listenfd = socket(AF_INET, SOCK_STREAM, 0)) == -1) {

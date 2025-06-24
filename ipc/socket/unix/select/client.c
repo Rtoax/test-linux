@@ -27,7 +27,7 @@ void handle_sigint(int signum)
 
 int main(void)
 {
-	int i, ret = 0;
+	int ret = 0;
 	struct sockaddr_un srv_addr;
 
 	char msg[256] = HELLO;
@@ -57,7 +57,7 @@ int main(void)
 		memset(msg, 0 , sizeof(msg));
 		msglen = recv(connect_fd, msg, sizeof(msg), 0);
 
-		printf("%s\n", msg);
+		printf("%s %d\n", msg, msglen);
 
 		memset(msg, 0 , sizeof(msg));
 		printf("Input: ");

@@ -1,7 +1,9 @@
 /**
  * Zero copy TCP echo server
  */
+#ifndef _GNU_SOURCE
 #define _GNU_SOURCE
+#endif
 #include <stdio.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -25,15 +27,13 @@
 
 int main(void)
 {
-	int i, j, maxi;
+	int i, maxi;
 	int listenfd, connfd, sockfd;
 	int nready;
-	int numbytes;
-	char buf[MAXDATASIZE];
 	struct pollfd client[FILEMAX];
 	struct sockaddr_in seraddr;
 	struct sockaddr_in cliaddr;
-	int sin_size;
+	socklen_t sin_size;
 	int on = 1;
 
 	seraddr.sin_family = AF_INET;

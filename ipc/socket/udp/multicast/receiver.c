@@ -10,10 +10,9 @@
 int main(int argc, char* argv[])
 {
 	int sock;
-	struct sockaddr_in addr, sender_addr;
+	struct sockaddr_in addr;
 	char buf[BUF_SIZE];
 	int str_len;
-	int sender_addr_sz;
 	struct ip_mreq join_addr;
 	const int loopback = 0;
 

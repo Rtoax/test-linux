@@ -45,6 +45,7 @@ int main(void)
 	while (1)
 		sleep(3);
 #endif
+	(void)buffer;
 
 	close(connect_fd);
 	return 0;
