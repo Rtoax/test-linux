@@ -51,7 +51,18 @@ tracepoint:syscalls:sys_exit_mmap
 	delete(@start[tid]);
 }
 
+tracepoint:syscalls:sys_enter_munmap
+{
+	$addr = args->addr;
+	$len = args->len;
+
+	time("%H:%M:%S ");
+	printf("%-8d %-16s %-8lx %4s %7s %9s %8s %8s %-16lx <munmap>\n",
+		pid, comm, $len / 1024, "", "", "", "", "", $addr);
+}
+
 END
 {
+	clear(@start);
 	printf("Bye.\n");
 }
