@@ -1,8 +1,4 @@
-include ../../../../../tlbuild.mk
-
-
-
-uid=$(shell id -g)
+uid = $(shell id -g)
 
 all:
 	@echo "Command"
@@ -23,7 +19,7 @@ ifneq ($(uid),0)
 endif
 	@echo make test for all
 
-test:build install check sepolicy rebuild restart check ausearch sealert verification clean
+test: build install check sepolicy rebuild restart check ausearch sealert verification clean
 
 build:
 	gcc -o mydaemon mydaemon.c
