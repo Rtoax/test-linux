@@ -18,9 +18,6 @@ kmod-list-clean := $(kmod-list:%=%_clean)
 TEST_LINUX_VERSION := $(VERSION)$(if $(PATCHLEVEL),.$(PATCHLEVEL)$(if $(SUBLEVEL),.$(SUBLEVEL)))$(EXTRAVERSION)
 export VERSION PATCHLEVEL SUBLEVEL TEST_LINUX_VERSION
 
-TLCONFIG_CONFIG ?= .config
-export TLCONFIG_CONFIG
-
 .PHONY: build
 # Default to display help information
 build: help
@@ -82,14 +79,6 @@ help:
 	@echo >&2 -e "***  M32=1  compile with -m32 if possible"
 	@echo >&2 -e "***"
 
-$(TLCONFIG_CONFIG):
-	@echo >&2 -e "***"
-	@echo >&2 -e "*** Configuration file "$@" not found!"
-	@echo >&2 -e "***"
-	@echo >&2 -e "*** Please run some configurator"
-	@echo >&2 -e "***"
-	@/bin/false
-
 # kern_build [dir]
 define kern_build
 	@echo -e "[K] \033[1;34mMake [$(1)] starting\033[m"
@@ -122,7 +111,7 @@ define kern_clean
 endef
 
 .PHONY: all
-all: default ${TLCONFIG_CONFIG}
+all: default
 	$(call tl_log,top-makefile all)
 
 .PHONY: default
