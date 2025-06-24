@@ -69,6 +69,7 @@ build-targets += $(TARGETS_LIBA) $(TARGETS_LIBSO)
 build-targets += $(TARGETS)
 build-targets += $(TARGETS_ASM)
 build-targets += $(TARGETS_CPP)
+build-targets += $(TARGETS_RUST)
 build-targets += $(TARGETS_GO)
 build-targets += $(TARGETS_JAVA)
 TARGETS_SHELL_LOGS := $(patsubst %.sh,%.sh.log,$(TARGETS_SHELL))
@@ -99,6 +100,9 @@ ifneq ($(TARGETS_LIBA),)
 endif
 ifneq ($(TARGETS_LIBSO),)
   include ${TEMPLATE_DIR}/target-libso.mk
+endif
+ifneq ($(TARGETS_RUST),)
+  include ${TEMPLATE_DIR}/target-rust.mk
 endif
 ifneq ($(TARGETS_SHELL),)
   include ${TEMPLATE_DIR}/target-shell.mk
