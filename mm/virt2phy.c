@@ -124,7 +124,7 @@ void *map_file_or_anon(const char *file, int ro, int cow, struct mem *m)
 {
 #define MAP_FILE_ANON	((void *)-2)	/* arg file */
 	void *mem = NULL;
-	int i, err, fd = -1, prot, flags;
+	int err, fd = -1, prot, flags;
 	struct stat st;
 	size_t size;
 
@@ -175,7 +175,7 @@ void *map_file_or_anon(const char *file, int ro, int cow, struct mem *m)
 	if (mem == MAP_FAILED) {
 		perror("mmap");
 		size = 0;
-		mem == NULL;
+		mem = NULL;
 		goto done;
 	}
 
@@ -193,7 +193,7 @@ done:
 	return mem;
 }
 
-void *unmap_file_or_anon(struct mem *m)
+void unmap_file_or_anon(struct mem *m)
 {
 	munmap(m->mem, m->sz);
 	if (m->fd != -1)
@@ -317,8 +317,6 @@ int addr_numa(unsigned long pa, unsigned long va)
 
 void test_mapping_phy_addr(void)
 {
-	unsigned long va, pa;
-
 	printf("%-16s %-16s %-16s %-8s %-8s %-8s\n", "NAME", "VIRT_ADDR",
 		"PHY_ADDR", "MEM_NUMA", "CPU", "CPU_NUMA");
 	printf("%-16s %-16s %-16s %-8s %-8s %-8s\n", "----", "---------",
@@ -393,28 +391,28 @@ void mbind_numa(int numa)
 	va = proc_maps_exec_text_addr(&size);
 	pa = virt_to_phy(va);
 	node = addr_numa(pa, va);
-	fprintf(stderr, "Try bind exec text from numa %d to %d\n",
+	fprintf(stderr, "Try bind exec text from numa %ld to %d\n",
 		node, numa);
 	mem_bind_to_numa((void *)va, size, numa);
 
 	va = proc_maps_exec_data_addr(&size);
 	pa = virt_to_phy(va);
 	node = addr_numa(pa, va);
-	fprintf(stderr, "Try bind exec data from numa %d to %d\n",
+	fprintf(stderr, "Try bind exec data from numa %ld to %d\n",
 		node, numa);
 	mem_bind_to_numa((void *)va, size, numa);
 
 	va = proc_maps_libc_text_addr(&size);
 	pa = virt_to_phy(va);
 	node = addr_numa(pa, va);
-	fprintf(stderr, "Try bind libc text from numa %d to %d\n",
+	fprintf(stderr, "Try bind libc text from numa %ld to %d\n",
 		node, numa);
 	mem_bind_to_numa((void *)va, size, numa);
 
 	va = proc_maps_libc_data_addr(&size);
 	pa = virt_to_phy(va);
 	node = addr_numa(pa, va);
-	fprintf(stderr, "Try bind libc data from numa %d to %d\n",
+	fprintf(stderr, "Try bind libc data from numa %ld to %d\n",
 		node, numa);
 	mem_bind_to_numa((void *)va, size, numa);
 }
@@ -426,11 +424,7 @@ void mbind_numa(int numa)
 
 int main(int argc, char *argv[])
 {
-	int i, memfd, ret;
-	char *buf;
-	size_t buf_len;
-	unsigned long phy;
-	char buffer[1024];
+	int ret;
 
 	run_on_cpu = sched_getcpu();
 	cpu_numa = numa_node_of_cpu(run_on_cpu);

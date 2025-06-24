@@ -1,6 +1,3 @@
-include ../../../tlbuild.mk
-
-
 TCMALLOC_HDR = /usr/include/gperftools/tcmalloc.h
 
 TARGETS :=
@@ -19,40 +16,35 @@ TARGETS += tc_mallinfo
 TARGETS += tc_free_sized
 TARGETS += tc_cfree
 
+targets-profile += GetHeapProfile
+targets-profile += GetStackFrames
+targets-profile += GetStackTrace
+targets-profile += HeapProfilerStart
+targets-profile += IsHeapProfilerRunning
+targets-profile += MallocExtension_VerifyNewMemory
+targets-profile += ProfilerStart
+targets-profile += ProfilerStartWithOptions
+
 ifdef PROFILE
-TARGETS += GetHeapProfile
-TARGETS += GetStackFrames
-TARGETS += GetStackTrace
-TARGETS += HeapProfilerStart
-TARGETS += IsHeapProfilerRunning
-TARGETS += MallocExtension_VerifyNewMemory
-TARGETS += ProfilerStart
-TARGETS += ProfilerStartWithOptions
+  TARGETS += $(targets-profile)
 endif
 
 ifeq ($(wildcard $(TCMALLOC_HDR)),)
-$(warning "WARNING: Must install gperftools/tcmalloc development header")
-# Compile nothing
-TARGETS :=
+  $(warning "WARNING: Must install gperftools/tcmalloc development header")
+  # Compile nothing
+  TARGETS :=
 endif
 
-CC := gcc
-
-CFLAGS :=
-CFLAGS += -ltcmalloc
-CFLAGS += -ltcmalloc_and_profiler
-CFLAGS += -ltcmalloc_debug
-CFLAGS += -ltcmalloc_minimal
-CFLAGS += -ltcmalloc_minimal_debug
-CFLAGS += -lpthread
-
 LDFLAGS :=
+LDFLAGS += -ltcmalloc
+LDFLAGS += -ltcmalloc_and_profiler
+LDFLAGS += -ltcmalloc_debug
+LDFLAGS += -ltcmalloc_minimal
+LDFLAGS += -ltcmalloc_minimal_debug
+LDFLAGS += -lpthread
 
-.PHONY: build
-build: ${TARGETS}
-	@echo -e " \033[1;33m Done \033[m"
+include ../../../template/main.mk
 
-# Add more object.o file
 tc_malloc: tc_malloc.o
 tc_malloc_skip_new_handler: tc_malloc_skip_new_handler.o
 tc_calloc: tc_calloc.o
@@ -77,19 +69,3 @@ IsHeapProfilerRunning: IsHeapProfilerRunning.o
 MallocExtension_VerifyNewMemory: MallocExtension_VerifyNewMemory.o
 ProfilerStart: ProfilerStart.o
 ProfilerStartWithOptions: ProfilerStartWithOptions.o
-
-%.o: %.c
-	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	${Q}$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
-
-$(TARGETS): %:
-	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	${Q}$(CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*)) $(CFLAGS) $(CFLAGS_$(*))
-
-test: ${TARGETS}
-	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
-
-.PHONY: clean
-clean:
-	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
-	${Q}rm -f ${TARGETS} *.s *.o *.d

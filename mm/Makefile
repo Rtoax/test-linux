@@ -1,5 +1,4 @@
 # SPDX-License-Identifier: GPL-3.0
-include ../tlbuild.mk
 include ../kconfig.mk
 
 sub-dir := rss
@@ -12,17 +11,9 @@ sub-dir += jemalloc
 sub-dir += vmalloc
 sub-dir += pmem
 
-TARGETS :=
-TARGETS_LIBA :=
-
-TARGETS += virt2phy
-TARGETS_LIBA += libtest-linux-mm.a
+TARGETS := virt2phy
+TARGETS_LIBA := libtest-linux-mm.a
 TARGETS_LIBA += proc_helpers.a
-
-CC := gcc
-
-CFLAGS :=
-LDFLAGS :=
 
 CFLAGS += -DMMAP_HELPERS_HDR=mmap_helpers.h
 
@@ -30,8 +21,8 @@ CFLAGS_virt2phy := -DHAVE_MAIN=1
 CFLAGS_virt2phy += -DHAVE_LIB_TEST_LINUX_C=1
 CFLAGS_virt2phy += -DHAVE_LIB_TEST_LINUX_NUMA=1
 CFLAGS_virt2phy += -DHAVE_MMAP_HELPERS=1
-CFLAGS_virt2phy += -lnuma
 CFLAGS_virt2phy += -I../numa/
+LDFLAGS_virt2phy += -lnuma
 
 ifeq ($(CONFIG_DEVMEM),y)
   $(info CONFIG_DEVMEM=y)
@@ -49,22 +40,9 @@ ifeq ($(CONFIG_MEMFD_CREATE),y)
   CFLAGS_virt2phy += -DCONFIG_MEMFD_CREATE=1
 endif
 
-MAKEFLAGS :=
-
-CFLAGS += -g
-
-ifdef DEBUG
-  CFLAGS += -DDEBUG=1
-  MAKEFLAGS := DEBUG=1
-endif
-
 include ../elf/pie.mk
 
-include ../template/subdir-header.mk
-
-.PHONY: all
-all: ${TARGETS_LIBA} ${TARGETS} $(sub-dir-build)
-	@echo -e " \033[1;33m Done \033[m"
+include ../template/main.mk
 
 virt2phy: virt2phy.o proc_helpers.a numa.a.1 mmap_helpers.o
 libtest-linux-mm.a: virt2phy.a.o
@@ -72,27 +50,3 @@ proc_helpers.a: proc_helpers.a.o
 numa.a.1:
 	$(Q)make -C ../numa numa.a
 	$(Q)cp ../numa/numa.a numa.a.1
-
-%.o: %.c
-	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	${Q}$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
-
-%.obj: %.c
-	@echo -e "  CC OBJ  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	${Q}$(CC) -o $(@) -c $(<) $(CFLAGS_SO) $(CFLAGS_SO_$(*)) -fPIC
-
-$(TARGETS): %:
-	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	${Q}$(CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*)) $(CFLAGS) $(CFLAGS_$(*))
-
-include ../template/target-liba.mk
-
-test: ${TARGETS} $(sub-dir-test)
-	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
-
-.PHONY: clean
-clean: $(sub-dir-clean)
-	@echo -e "  CLEAN  \033[1;32m$(TARGETS) $(TARGETS_LIBA)\033[m"
-	${Q}rm -f ${TARGETS} *.o *.a *.obj
-
-include ../template/subdir-footer.mk

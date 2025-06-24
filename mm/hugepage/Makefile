@@ -1,16 +1,5 @@
-include ../../tlbuild.mk
-
-
 sub-dir := samples
 
-include ../../template/subdir-header.mk
+TARGETS_SHELL := check.sh
 
-.PHONY: build
-build: $(sub-dir-build)
-	${Q}./check.sh
-	@echo -e " \033[1;33m Done \033[m"
-
-.PHONY: clean
-clean: $(sub-dir-clean)
-
-include ../../template/subdir-footer.mk
+include ../../template/main.mk
