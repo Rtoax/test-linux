@@ -31,6 +31,7 @@ CFLAGS_virt2phy += -DHAVE_LIB_TEST_LINUX_C=1
 CFLAGS_virt2phy += -DHAVE_LIB_TEST_LINUX_NUMA=1
 CFLAGS_virt2phy += -DHAVE_MMAP_HELPERS=1
 CFLAGS_virt2phy += -lnuma
+CFLAGS_virt2phy += -I../numa/
 
 ifeq ($(CONFIG_DEVMEM),y)
   $(info CONFIG_DEVMEM=y)
@@ -49,10 +50,8 @@ ifeq ($(CONFIG_MEMFD_CREATE),y)
 endif
 
 MAKEFLAGS :=
-NUMA_DIR := ../numa/
 
 CFLAGS += -g
-CFLAGS += -I${NUMA_DIR}
 
 ifdef DEBUG
   CFLAGS += -DDEBUG=1
@@ -67,11 +66,12 @@ include ../template/subdir-header.mk
 all: ${TARGETS_LIBA} ${TARGETS} $(sub-dir-build)
 	@echo -e " \033[1;33m Done \033[m"
 
-virt2phy: virt2phy.o proc_helpers.a libtest-linux-numa.a mmap_helpers.o
+virt2phy: virt2phy.o proc_helpers.a numa.a.1 mmap_helpers.o
 libtest-linux-mm.a: virt2phy.a.o
 proc_helpers.a: proc_helpers.a.o
-
-include ${NUMA_DIR}/numa.mk
+numa.a.1:
+	$(Q)make -C ../numa numa.a
+	$(Q)cp ../numa/numa.a numa.a.1
 
 %.o: %.c
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

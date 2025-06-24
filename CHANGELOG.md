@@ -21,6 +21,7 @@ and this project adheres to
 - syscall: Use main.mk.
 #### Deprecated
 #### Removed
+- Remove numa/numa.mk.
 - Remove fs/procfs/procfs-lib-target.mk.
 - Remove tlconfig.
 - Remove scripts/makefile-modify.sh.

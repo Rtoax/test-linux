@@ -35,6 +35,7 @@ squashfs-root
 # Libraries
 *.lib
 *.a
+*.a.*
 *.la
 *.lo
 
