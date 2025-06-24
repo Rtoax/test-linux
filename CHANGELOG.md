@@ -22,6 +22,7 @@ and this project adheres to
 - syscall: Use main.mk.
 #### Deprecated
 #### Removed
+- Remove `tracepoint/trace_events/samples/trace-events-sample.c`.
 - Remove numa/numa.mk.
 - Remove fs/procfs/procfs-lib-target.mk.
 - Remove tlconfig.
