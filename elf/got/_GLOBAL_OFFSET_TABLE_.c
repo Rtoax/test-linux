@@ -103,7 +103,6 @@ void dump_dynamic(Elf_Dyn *dynamic)
 			break;
 		dyn++;
 	}
-done:
 	return;
 }
 
@@ -179,7 +178,7 @@ int main(void)
 	printf("size of Elf32_Dyn = %ld\n", sizeof(Elf32_Dyn));
 	printf("size of Elf_Dyn = %ld\n", sizeof(Elf_Dyn));
 
-	printf("_GLOBAL_OFFSET_TABLE_ addr = 0x%lx\n", _GLOBAL_OFFSET_TABLE_);
+	printf("_GLOBAL_OFFSET_TABLE_ addr = 0x%lx\n", (unsigned long)_GLOBAL_OFFSET_TABLE_);
 /**
  * FIXME: Why segfault here??
  */

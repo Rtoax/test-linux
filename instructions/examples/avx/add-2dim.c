@@ -17,7 +17,6 @@ int add_avx2(double a[N][N], double b[N][N], double c[N][N])
 {
 	int i, j;
 	int block = N / 4;
-	int reserve = N % 4;
 	__m256d ymm0, ymm1;
 	__m256d avx_sum0 = _mm256_setzero_pd();
 	for (i = 0; i < N; i++){

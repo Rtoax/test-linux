@@ -144,7 +144,7 @@ int main(int argc, char *argv[])
 				(uint8_t)ethhdr->h_dest[5]);
 
 		p = (char*)&iphdr->saddr;
-		char s_ip[16];
+		char s_ip[128];
 		sprintf(s_ip, "%d.%d.%d.%d ",
 				(uint8_t)p[0],
 				(uint8_t)p[1],

@@ -23,7 +23,7 @@ void mask_avx256(void)
 	int i, j;
 	for (i = 0; i < N; i += 32) {
 		__m256d aa, bb, mask;
-		#pragma unroll(8)
+		#pragma GCC unroll(8)
 		for (j = 0; j < 8; j++) {
 			aa = _mm256_loadu_pd(a + i + j * 4);
 			bb = _mm256_loadu_pd(b + i + j * 4);
@@ -43,7 +43,7 @@ void mask_avx512(void)
 	for (i = 0; i < N; i += 32) {
 		__m512d aa, bb;
 		__mmask8 mask;
-		#pragma unroll(4)
+		#pragma GCC unroll(4)
 		for (j = 0; j < 4; j++) {
 			aa = _mm512_loadu_pd(a + i + j * 8);
 			bb = _mm512_loadu_pd(b + i + j * 8);

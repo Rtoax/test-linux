@@ -96,11 +96,14 @@ CFLAGS_rdrand := -mrdrnd
 CFLAGS_rdseed := -mrdseed
 CFLAGS_udiv := -O0
 CFLAGS_div := -O0
+CFLAGS__mm_clflush := -DFLUSH
 
 ifdef IGNORE_RETURN_VALUE
   CFLAGS_udiv += -DIGNORE_RETURN_VALUE=1
   CFLAGS_div += -DIGNORE_RETURN_VALUE=1
 endif
+
+CFLAGS_ret := -Wno-error=return-type
 
 include ../../template/main.mk
 

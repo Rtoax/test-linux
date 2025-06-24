@@ -19,6 +19,7 @@ void sigtrap(int sig)
 int trap(void)
 {
 	BREAKPOINT();
+	return 0;
 }
 
 void usage(void)

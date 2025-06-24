@@ -11,7 +11,6 @@ int main(int argc, char *const argv[])
 {
 	int fd;
 	void *mem;
-	int integer;
 	struct student *student;
 
 	fd = open("mmap.out", O_RDONLY);
@@ -30,4 +29,3 @@ int main(int argc, char *const argv[])
 	close(fd);
 	return 0;
 }
-

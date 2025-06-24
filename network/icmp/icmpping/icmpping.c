@@ -156,7 +156,7 @@ static int icmp_dst_addr(const char *addrHost, struct sockaddr_in *dst_addr)
 /* set icmp hdr */
 static int icmp_pkg_pack(void *buffer, int pack_no, const void *data, int data_size)
 {
-	int i, packsize = 0;
+	int packsize = 0;
 
 	struct icmp *icmp = malloc(sizeof(struct icmp));
 	icmp->icmp_type = ICMP_ECHO;
@@ -207,7 +207,8 @@ static int icmp_send_pkg(icmp_ping_t *ping, const void *data, int size)
 /* send icmp package */
 static int icmp_recv_pkg(icmp_ping_t *ping, void *recvbuf, int size)
 {
-	int n, fromlen;
+	int n;
+	socklen_t fromlen;
 
 	fromlen = sizeof(struct sockaddr_in);
 
@@ -223,7 +224,7 @@ static int icmp_recv_pkg(icmp_ping_t *ping, void *recvbuf, int size)
 /* unpack icmp pkg */
 static int icmp_pkg_unpack(icmp_ping_t *ping, char * buf, int len)
 {
-	int i, iphdrlen;
+	int iphdrlen;
 
 	struct ip * ip = NULL;
 	struct icmp * icmp = NULL;
@@ -312,6 +313,7 @@ static int icmp_ping_destroy(icmp_ping_t* ping)
 		free(ping);
 	}
 	ping = NULL;
+	return 0;
 }
 static long int timeval_sub_usec(const struct timeval *before, const struct timeval *after)
 {

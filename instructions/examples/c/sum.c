@@ -50,5 +50,8 @@ int main(void)
 	type_t sum1 = sum(v.v);
 	type_t sum2 = sum_align(&v);
 
+	(void)sum1;
+	(void)sum2;
+
 	return 0;
 }

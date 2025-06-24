@@ -142,6 +142,7 @@ int vendor_id(void)
 
 	/* max_level: 22, vendor_id: GenuineIntel */
 	printf("max_level: %d, vendor_id: %s\n", max_level, x86_vendor_id);
+	return 0;
 }
 
 void family_model(void)
@@ -231,6 +232,7 @@ int cpu_flags(void)
 	printf("%s", have_rdrand() ? " rdrand" : "");
 	printf("%s", have_rdseed() ? " rdseed" : "");
 	printf("\n");
+	return 0;
 }
 
 int detect_vm_cpuid(void)

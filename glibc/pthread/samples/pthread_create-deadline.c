@@ -1,7 +1,9 @@
 /**
  * https://www.kernel.org/doc/Documentation/scheduler/sched-deadline.txt
  */
+#ifndef _GNU_SOURCE
 #define _GNU_SOURCE
+#endif
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>

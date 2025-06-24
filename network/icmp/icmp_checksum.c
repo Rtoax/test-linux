@@ -73,10 +73,10 @@ int main(void)
 {
 	int icmp_pkg_size = strlen(icmp_pkg) / 2;
 
-	int i, j;
+	int i;
 	unsigned char v;
-	unsigned char *const pc = icmp_pkg;
-	unsigned char icmp_pkg_[icmp_pkg_size];
+	char *const pc = icmp_pkg;
+	char icmp_pkg_[icmp_pkg_size];
 
 	printf("icmp_pkg_size	:	%d\n", icmp_pkg_size);
 
@@ -92,9 +92,8 @@ int main(void)
 	}
 	printf("\n");
 
-	printf("icmp_pkg_chksum	:	0x%x [0x%x], (i,j)=(%d,%d)\n",
-
-	icmp_pkg_chksum(icmp_pkg_ + 13, 85), *(icmp_pkg_ + 13), i, j);
+	printf("icmp_pkg_chksum	:	0x%x [0x%x], i=%d\n",
+		icmp_pkg_chksum(icmp_pkg_ + 13, 85), *(icmp_pkg_ + 13), i);
 
 	for (i = 13; i < icmp_pkg_size; i++) {
 		printf("%02x ", *(icmp_pkg_ + i));

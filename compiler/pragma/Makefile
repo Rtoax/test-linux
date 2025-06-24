@@ -1,6 +1,4 @@
 # SPDX-License-Identifier: GPL-3.0
-include ../../tlbuild.mk
-
 TARGETS :=
 TARGETS += GCC_error
 TARGETS += GCC_poison
@@ -17,19 +15,12 @@ TARGETS += push_macro
 TARGETS += message
 TARGETS += _Pragma
 
-CC := gcc
-
 include ../compiler.mk
 
 CFLAGS :=
-CFLAGS +==unknown-pragmas
+CFLAGS += -Werror=unknown-pragmas
 CFLAGS += -I../../
 CFLAGS += -pthread
-CFLAGS += -DDEBUG -O0 -g
-
-ifdef ERROR
-  CFLAGS += -DERROR=1
-endif
 
 # TODO
 CFLAGS_call-func := -Wno-unknown-pragmas
@@ -43,8 +34,7 @@ CFLAGS__Pragma := -Wno-error
 
 CFLAGS_GCC_diagnostic := -pg -Wno-error=pragmas -Wno-error=uninitialized
 
-build: ${TARGETS}
-	@echo -e " \033[1;33m Done \033[m"
+include ../../template/main.mk
 
 GCC_poison: GCC_poison.o
 GCC_diagnostic: GCC_diagnostic.o
@@ -60,21 +50,3 @@ call-func: call-func.o
 push_macro: push_macro.o
 message: message.o
 _Pragma: _Pragma.o
-
-%.o: %.c
-	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	${Q}$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
-	$(call print_elf,$(@))
-
-$(TARGETS): %:
-	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	${Q}$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) $(^)
-	$(call print_elf,$(@))
-
-test: ${TARGETS}
-	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
-
-clean:
-	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
-	${Q}rm -f ${TARGETS} *.o *.d *.out
-

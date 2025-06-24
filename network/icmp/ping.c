@@ -18,7 +18,7 @@
 #define MAX_WAIT_TIME	5
 #define MAX_NO_PACKETS	3
 
-#define IPFMT "%d.%d.%d.%d"
+#define IPFMT "%ld.%ld.%ld.%ld"
 #define ipfmt(ip) (ip) & 0xff, ((ip) >> 8) & 0xff, ((ip) >> 16) & 0xff, ((ip) >> 24) & 0xff
 
 char sendpacket[PACKET_SIZE];
@@ -74,7 +74,7 @@ unsigned short cal_chksum(unsigned short *addr, int len)
 
 int pack(int pack_no)
 {
-	int i, packsize;
+	int packsize;
 	struct icmp *icmp = (void *)sendpacket;
 	struct timeval *tval;
 
@@ -112,7 +112,8 @@ void send_packet(void)
 
 void recv_packet(void)
 {
-	int n, fromlen;
+	int n;
+	socklen_t fromlen;
 
 	signal(SIGALRM, statistics);
 	fromlen = sizeof(from);
@@ -135,7 +136,7 @@ void recv_packet(void)
 
 int unpack(char *buf, int len)
 {
-	int i, iphdrlen;
+	int iphdrlen;
 
 	struct ip *ip = NULL;
 	struct icmp *icmp = NULL;
@@ -163,6 +164,7 @@ int unpack(char *buf, int len)
 	} else{
 		return -1;
 	}
+	return 0;
 }
 
 void tv_sub(struct timeval *out, struct timeval *in)
@@ -179,7 +181,6 @@ int main(int argc, char *argv[])
 	struct hostent *host = NULL;
 	struct protoent *protocol = NULL;
 	unsigned long inaddr = 0;
-	int waittine = MAX_WAIT_TIME;
 	int size = 50 * 1024;
 
 	if (argc < 2) {
@@ -210,10 +211,10 @@ int main(int argc, char *argv[])
 		}
 		memcpy((char*)&dest_addr.sin_addr, host->h_addr, host->h_length);
 	} else {
-		printf("inaddr = %ld, INADDR_NONE = %ld\n", inaddr, INADDR_NONE);
+		printf("inaddr = %ld, INADDR_NONE = %d\n", inaddr, INADDR_NONE);
 		perror("inet_addr.");
 		printf(IPFMT"\n", ipfmt(inaddr));
-		printf("%x\n", dest_addr);
+		printf("%s\n", inet_ntoa(dest_addr.sin_addr));
 		memcpy((char*)&dest_addr.sin_addr, (char *)&inaddr, sizeof(dest_addr.sin_addr));
 	}
 

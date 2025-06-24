@@ -58,10 +58,10 @@ void display_cedt_hdr(struct cedt_hdr *hdr)
 	printf("OEM revision 0x%x\n", hdr->oem_revision);
 	printf("Creator ID 0x%x\n", hdr->creator_id);
 	printf("Creator revision 0x%x\n", hdr->creator_revision);
-	printf("CEDT structure size %d\n", hdr->length - sizeof(*hdr));
-	printf("struct cedt_hdr size %d\n", sizeof(struct cedt_hdr));
-	printf("struct chbs size %d\n", sizeof(struct chbs));
-	printf("struct cfmws size %d\n", sizeof(struct cfmws));
+	printf("CEDT structure size %ld\n", hdr->length - sizeof(*hdr));
+	printf("struct cedt_hdr size %ld\n", sizeof(struct cedt_hdr));
+	printf("struct chbs size %ld\n", sizeof(struct chbs));
+	printf("struct cfmws size %ld\n", sizeof(struct cfmws));
 }
 
 static int probe_structure_type(FILE *fp)

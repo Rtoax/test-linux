@@ -27,7 +27,6 @@ int main(int argc, char *argv[])
 	char *cmd, *auxv;
 	uintptr_t vdso;
 	FILE *fp;
-	int i;
 
 	vdso = (uintptr_t) getauxval(AT_SYSINFO_EHDR);
 	printf("getauxval: \033[1;31m0x%016lx\033[m\n", vdso);

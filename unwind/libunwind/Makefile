@@ -34,6 +34,9 @@ ifeq (${UNWIND_PTRACE},)
   $(error Not found libunwind-ptrace.a)
 endif
 
+CFLAGS += -Wno-error=nonnull
+CXXFLAGS += -Wno-error=nonnull
+
 CFLAGS_tst := -g -ggdb -O0
 
 include ../../template/main.mk

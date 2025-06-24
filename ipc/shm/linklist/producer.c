@@ -1,8 +1,6 @@
 #include <stdio.h>
-
 #include <mlinklist.h>
 #include <common.h>
-
 
 int main(void)
 {
@@ -10,7 +8,7 @@ int main(void)
 	mll_t mll;
 
 	struct ll_node nodes[] = {
-		{1, NULL}, {2, NULL}, {3, NULL}, {4, NULL},
+		{1, {NULL}}, {2, {NULL}}, {3, {NULL}}, {4, {NULL}},
 	};
 
 	create_mll(&mll, MMAP_FILENAME, sizeof(struct ll_node) * LINKLIST_SIZE, 1);
@@ -20,4 +18,3 @@ int main(void)
 	}
 	return 0;
 }
-

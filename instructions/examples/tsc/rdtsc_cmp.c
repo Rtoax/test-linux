@@ -55,6 +55,9 @@ int main(int argc, char *argv[])
 	gettimeofday(&end, NULL);
 	print_diff_tv("    rdtsc ordered ", &end, &start, true);
 
+	(void)tsc;
+	(void)tscp;
+
 	return 0;
 }
 

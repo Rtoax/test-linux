@@ -17,7 +17,7 @@ int orig(float a[N], float b[N], float c[N])
 
 int avx(float a[N], float b[N], float c[N])
 {
-	int i, j;
+	int i;
 	__m256 ymm_a = _mm256_setzero_ps();
 	__m256 ymm_b = _mm256_setzero_ps();
 	__m256 ymm_c = _mm256_setzero_ps();

@@ -8,8 +8,8 @@
 
 int main(int argc, char *argv[])
 {
-	int i, fd, n, idx;
-	char buf[6], event[64];
+	int i, fd, idx;
+	char event[64];
 	struct input_event ev;
 
 
@@ -29,11 +29,11 @@ int main(int argc, char *argv[])
 		exit(1);
 	}
 
-	fprintf(stderr, "Open %s read %d bytes event\n", event, sizeof(ev));
+	fprintf(stderr, "Open %s read %ld bytes event\n", event, sizeof(ev));
 	fprintf(stderr, "Press any keyboard to see what happen!!!\n");
 
 	while (1) {
-		n = read(fd, &ev, sizeof(ev));
+		read(fd, &ev, sizeof(ev));
 		/* Keyboard event */
 		if (ev.type == EV_KEY) {
 			printf("Key %d (%s)\n", ev.code,

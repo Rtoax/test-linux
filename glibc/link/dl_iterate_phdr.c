@@ -1,7 +1,9 @@
 /**
  * Copy from man dl_phdr_info(3)
  */
+#ifndef _GNU_SOURCE
 #define _GNU_SOURCE
+#endif
 #include <link.h>
 #include <stdint.h>
 #include <stdio.h>

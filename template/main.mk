@@ -7,38 +7,55 @@ sub-dir ?=
 
 CFLAGS += -D_GNU_SOURCE
 CFLAGS += -Werror -Wall
+# C special, not for C++
 CFLAGS += -Wstrict-prototypes
+
+CXXFLAGS += -D_GNU_SOURCE
+CXXFLAGS += -Werror -Wall
 
 ifdef DEBUG
   $(info Compile with DEBUG=1)
   CFLAGS += -DDEBUG -O0 -g -ggdb
+  CXXFLAGS += -DDEBUG -O0 -g -ggdb
   MAKEFLAGS += DEBUG=1
 endif
 
 ifdef ERROR
   $(info Compile with ERROR=1)
   CFLAGS += -DERROR=1
+  CXXFLAGS += -DERROR=1
+  MAKEFLAGS += ERROR=1
 endif
 
 ifdef M32
   $(info Compile 32bit ELF)
   CFLAGS += -m32 -DM32=1
+  CXXFLAGS += -m32 -DM32=1
   LDFLAGS += -m32 -DM32=1
+  LDXXFLAGS += -m32 -DM32=1
   MAKEFLAGS += M32=1
 endif
 
 ifdef FORCE
   CFLAGS += -Wno-error
+  CXXFLAGS += -Wno-error
+  MAKEFLAGS += FORCE=1
 endif
 
 ifdef STATIC
   CFLAGS += -static
+  CXXFLAGS += -static
   LDFLAGS += -static
+  LDXXFLAGS += -static
+  MAKEFLAGS += STATIC=1
 endif
 
-# For c++
-CXXFLAGS += $(CFLAGS)
-LDXXFLAGS += $(LDFLAGS)
+ifdef DEBUG
+  $(info CFLAGS = ${CFLAGS})
+  $(info LDFLAGS = ${LDFLAGS})
+  $(info CXXFLAGS = ${CXXFLAGS})
+  $(info LDXXFLAGS = ${LDXXFLAGS})
+endif
 
 TEMPLATE_DIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 export TEMPLATE_DIR

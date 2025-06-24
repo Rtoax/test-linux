@@ -1,4 +1,6 @@
+#ifndef _GNU_SOURCE
 #define _GNU_SOURCE
+#endif
 #define _XOPEN_SOURCE
 #include <stdio.h>
 #include <unistd.h>

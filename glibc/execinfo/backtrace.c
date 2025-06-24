@@ -21,7 +21,7 @@ void print_trace(void)
 
 	printf("Obtained %zd stack frames.\n", size);
 	for (i = 0; i < size; i++)
-		printf("%-016p -> %s\n", array[i], symbols[i]);
+		printf("%p -> %s\n", array[i], symbols[i]);
 
 	free(symbols);
 }

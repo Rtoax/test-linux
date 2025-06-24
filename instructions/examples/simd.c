@@ -417,7 +417,7 @@ void double_avx256_X_add_Y(void *_x, void *_y, size_t n)
 {
 	double *x = _x;
 	double *y = _y;
-	size_t i, r = n & 3, n2 = n & (-4);
+	size_t i, n2 = n & (-4);
 	for(i = -n2; i != 0; i += 4) {
 		__m256d yv = _mm256_loadu_pd(&y[i + n2]);
 		__m256d xv = _mm256_loadu_pd(&x[i + n2]);
@@ -431,7 +431,7 @@ void double_avx256_X_mul_Y(void *_x, void *_y, size_t n)
 {
 	double *x = _x;
 	double *y = _y;
-	size_t i, r = n & 3, n2 = n & (-4);
+	size_t i, n2 = n & (-4);
 	for(i = -n2; i != 0; i += 4) {
 		__m256d yv = _mm256_loadu_pd(&y[i + n2]);
 		__m256d xv = _mm256_loadu_pd(&x[i + n2]);

@@ -111,7 +111,7 @@ uint64_t __rdtscp_ia32(unsigned int *__A)
 
 /* clock */
 struct clock {
-	const char const *name;
+	const char *name;
 	uint64_t (*read)(void);
 };
 

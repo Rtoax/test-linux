@@ -1,5 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0
+#ifndef _GNU_SOURCE
 #define _GNU_SOURCE
+#endif
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <errno.h>
@@ -69,4 +71,3 @@ int main(int argc, char *argv[])
 
 	return 0;
 }
-

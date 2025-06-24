@@ -90,5 +90,5 @@ int main(void)
 
 	rdmsr_on_all_cpus(0xCE);
 
-	return 0;
+	return ret;
 }

@@ -22,10 +22,10 @@ int main(void)
 	uint32_t seed32;
 
 	_rdseed32_step(&seed32);
-	printf("seed = %ld\n", seed32);
+	printf("seed = %d\n", seed32);
 
 	seed32 = rdseed32();
-	printf("seed = %ld\n", seed32);
+	printf("seed = %d\n", seed32);
 
 	return 0;
 }

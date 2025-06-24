@@ -191,7 +191,7 @@ int main(int argc, char *argv[])
 	
 	diff_ns = longtime(end) - longtime(start);
 
-	printf("diff %lld, (%llf nspc)\n", diff_ns, diff_ns*1.0L / nloop);
+	printf("diff %lld, (%Lf nspc)\n", diff_ns, diff_ns*1.0L / nloop);
 
 	return 0;
 }

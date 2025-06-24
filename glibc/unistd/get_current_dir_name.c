@@ -1,4 +1,6 @@
+#ifndef _GNU_SOURCE
 #define _GNU_SOURCE
+#endif
 #include <stdio.h>
 #include <malloc.h>
 #include <string.h>
@@ -16,4 +18,3 @@ int main(void)
 	printf("%s\n", get_current_dir_name());
 	return 0;
 }
-

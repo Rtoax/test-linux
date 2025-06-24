@@ -1,4 +1,6 @@
+#ifndef _GNU_SOURCE
 #define _GNU_SOURCE
+#endif
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdint.h>
@@ -116,7 +118,7 @@ get_int_range(char *str, int base, long long min, long long max)
 	return v;
 }
 
-static unsigned long long
+unsigned long long
 get_uint_range(char *str, int base, unsigned long long max)
 {
 	unsigned long long v;

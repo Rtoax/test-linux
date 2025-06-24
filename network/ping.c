@@ -66,7 +66,6 @@ void sig_handler(int dummy)
 char *dns_lookup(char *addr_host, struct sockaddr_in *addr_conn)
 {
 	struct hostent *host_entity;
-	int i;
 	char *ip = (char *)malloc(NI_MAXHOST * sizeof(char));
 
 	printf("\nResolving DNS..\n");
@@ -112,7 +111,8 @@ char *reverse_dns_lookup(char *ip_addr)
 void send_ping(int ping_sockfd, struct sockaddr_in *ping_addr, char *ping_dom,
 	       char *ping_ip, char *rev_host)
 {
-	int ttl_val = 64, msg_count = 0, i, addr_len, flag = 1;
+	int ttl_val = 64, msg_count = 0, i, flag = 1;
+	socklen_t addr_len;
 	int msg_received_count = 0;
 	struct ping_pkt pckt;
 	struct sockaddr_in r_addr;
@@ -210,8 +210,6 @@ int main(int argc, char *argv[])
 	int sockfd;
 	char *ip_addr, *reverse_hostname;
 	struct sockaddr_in addr_conn;
-	int addrlen = sizeof(addr_conn);
-	char net_buf[NI_MAXHOST];
 
 	if (argc != 2) {
 		printf("\nFormat %s <address>\n", argv[0]);

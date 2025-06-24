@@ -22,7 +22,7 @@ int main(void)
 	uint32_t rand32;
 
 	rand32 = rdrand32();
-	printf("rand = %ld\n", rand32);
+	printf("rand = %d\n", rand32);
 
 	/**
 	 * Intel C/C++ Compiler Intrinsic Equivalent

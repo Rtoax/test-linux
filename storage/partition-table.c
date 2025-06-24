@@ -102,7 +102,7 @@ int read_off(int fd, off_t off, void *buf, size_t size)
 	return read(fd, buf, size);
 }
 
-const char* utf16le_to_utf8(char *inbuff, size_t inbytes, char *outbuff,
+const char *utf16le_to_utf8(char *inbuff, size_t inbytes, char *outbuff,
 			    size_t outbytes)
 {
 	int err;
@@ -185,7 +185,7 @@ void parse_gpt_hdr(int blkfd, struct classical_generic_mbr *protective_mbr,
 
 		printf("%-6d %#016lx %#016lx %#016lx %-36s",
 			i, e->first_lba, e->last_lba, e->attr_flags,
-			utf16le_to_utf8(e->utf16le_name, sizeof(e->utf16le_name),
+			utf16le_to_utf8((char *)e->utf16le_name, sizeof(e->utf16le_name),
 					utf8buf, sizeof(utf8buf)));
 
 		if (verbose) {
@@ -253,7 +253,7 @@ void usage(char *prog)
 int main(int argc, char *argv[])
 {
 	char *path = NULL;
-	int err, i, fd = -1;
+	int err, fd = -1;
 	unsigned char *mbr;
 	unsigned char *primary_gpt_hdr;
 	struct stat statbuf;
@@ -354,6 +354,8 @@ int main(int argc, char *argv[])
 	if (cg_mbr->boot_signature[0] == 0x55 && cg_mbr->boot_signature[1] == 0xAA) {
 		tab_type = PTAB_TYPE_MBR_CLASSIC;
 	}
+
+	(void)ms_mbr;
 
 	if (aap_mbr->boot_signature[0] == 0x55 && aap_mbr->boot_signature[1] == 0xAA &&
 	    aap_mbr->aap_signature[0] == 0x78 && aap_mbr->aap_signature[1] == 0x56) {

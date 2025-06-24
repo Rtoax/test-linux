@@ -4,7 +4,7 @@
 
 void daxpy2(size_t n, double a, const double x[], double y[])
 {
-	size_t i, r = n & 3, n2 = n & (-4);
+	size_t i, n2 = n & (-4);
 	for(i = -n2; i != 0; i += 4) {
 		__m256d yv = _mm256_loadu_pd(&y[i + n2]);
 		__m256d xv = _mm256_loadu_pd(&x[i + n2]);

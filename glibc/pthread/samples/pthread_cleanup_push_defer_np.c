@@ -1,5 +1,9 @@
+#ifndef __USE_GNU
 #define __USE_GNU
+#endif
+#ifndef _GNU_SOURCE
 #define _GNU_SOURCE
+#endif
 #include <pthread.h>
 #include <malloc.h>
 #include <stdio.h>

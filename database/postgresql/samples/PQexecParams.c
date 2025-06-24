@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <libpq-fe.h>
 
+#define LEN	20
+
 void do_exit(PGconn *conn)
 {
 	PQfinish(conn);
@@ -10,7 +12,6 @@ void do_exit(PGconn *conn)
 
 int main(int argc, char *argv[])
 {
-	const int LEN = 10;
 	const char *paramValues[1];
 
 	if (argc != 2) {

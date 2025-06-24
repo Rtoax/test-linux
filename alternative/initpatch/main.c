@@ -11,7 +11,7 @@ void __attribute__((constructor)) do_alt(void)
 	};
 
 	for (alt = region.begin; alt < region.end; alt++) {
-		log("instr_offset:%lx, repl_offset:%lx, cpuid:%lx, instrlen:%lx, replacementlen:%lx, padlen:%lx\n",
+		log("instr_offset:%x, repl_offset:%x, cpuid:%x, instrlen:%x, replacementlen:%x, padlen:%x\n",
 			alt->instr_offset, alt->repl_offset, alt->cpuid,
 			alt->instrlen, alt->replacementlen, alt->padlen);
 	}

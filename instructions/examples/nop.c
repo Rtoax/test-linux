@@ -1,4 +1,4 @@
-void main(void)
+int main(void)
 {
 	while (1) {
 		__asm__("nop\n\t"
@@ -9,4 +9,5 @@ void main(void)
 			"nop\n\t"
 			"nop");
 	}
+	return 0;
 }

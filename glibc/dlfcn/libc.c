@@ -5,7 +5,9 @@
 #include <sys/un.h>
 #include <netinet/in.h>
 
+#ifndef __USE_GNU
 #define __USE_GNU
+#endif
 #include <dlfcn.h>
 #include <unistd.h>
 #include <errno.h>
