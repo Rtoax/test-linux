@@ -1,4 +1,2 @@
-all:
-	./ping.sh
-
-clean:
+TARGETS_SHELL := ping.sh
+include ../../../template/main.mk
