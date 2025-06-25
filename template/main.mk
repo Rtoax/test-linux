@@ -78,6 +78,8 @@ TARGETS_SHELL_LOGS := $(patsubst %.sh,%.sh.log,$(TARGETS_SHELL))
 build-targets += $(TARGETS_SHELL_LOGS)
 TARGETS_PYTHON_LOGS := $(patsubst %.py,%.py.log,$(TARGETS_PYTHON))
 build-targets += $(TARGETS_PYTHON_LOGS)
+TARGETS_MK_LOGS := $(patsubst %.mk,%.mk.log,$(TARGETS_MK))
+build-targets += $(TARGETS_MK_LOGS)
 build-targets += $(sub-dir-build)
 build-targets += $(TARGETS_POST)
 
@@ -111,6 +113,9 @@ ifneq ($(TARGETS_CUDA),)
 endif
 ifneq ($(TARGETS_SHELL),)
   include ${TEMPLATE_DIR}/target-shell.mk
+endif
+ifneq ($(TARGETS_MK_LOGS),)
+  include ${TEMPLATE_DIR}/target-make.mk
 endif
 ifneq ($(TARGETS_PYTHON),)
   include ${TEMPLATE_DIR}/target-python.mk
