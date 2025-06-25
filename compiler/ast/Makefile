@@ -1,20 +1,15 @@
 # SPDX-License-Identifier: GPL-3.0
 include ../../tlbuild.mk
-
-
 CLANG = $(shell which clang 2>/dev/null)
 
 TARGETS :=
 
 ifneq ($(wildcard $(CLANG)),)
   TARGETS += hello
-  CC = ${CLANG}
+  CC := ${CLANG}
 else
   CC := gcc
 endif
-
-CFLAGS :=
-CFLAGS += -O0
 
 .PHONY: build
 build: ${TARGETS}

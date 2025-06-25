@@ -1,6 +1,4 @@
 # SPDX-License-Identifier: GPL-3.0
-include ../../tlbuild.mk
-
 LD_LLD := $(shell which lld 2>/dev/null)
 LD_MOLD := $(shell which mold 2>/dev/null)
 
@@ -24,11 +22,7 @@ else
 endif
 
 CC := gcc
-LD = ld
-
-CFLAGS :=
-
-LDFLAGS :=
+LD := ld
 
 # Use the bfd linker instead of the default linker.
 LDFLAGS_bfd := -fuse-ld=bfd
@@ -38,14 +32,10 @@ LDFLAGS_gold := -fuse-ld=gold
 LDFLAGS_lld := -fuse-ld=lld
 # Use the Modern Linker (mold) instead of the default linker.
 LDFLAGS_mold := -fuse-ld=mold
-CFLAGS_pushsection := -nostdlib
-CFLAGS_attribute := -nostdlib
+LDFLAGS_pushsection := -nostdlib
+LDFLAGS_attribute := -nostdlib
 
-include ../../template/subdir-header.mk
-
-.PHONY: build
-build: ${TARGETS} $(sub-dir-build)
-	@echo -e " \033[1;33m Done \033[m"
+include ../../template/main.mk
 
 pushsection: pushsection.o
 attribute: attribute.o
@@ -53,22 +43,3 @@ bfd: bfd.o
 gold: gold.o
 lld: lld.o
 mold: mold.o
-
-%.o: %.c
-	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	${Q}$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
-	${Q}$(CC) -S $(<) -o $(<:.c=.s) $(CFLAGS) $(CFLAGS_$(*))
-
-$(TARGETS): %:
-	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	${Q}$(CC) -o $(@) $(^) $(CFLAGS) $(CFLAGS_$(*)) $(LDFLAGS) $(LDFLAGS_$(*))
-
-test: ${TARGETS} $(sub-dir-test)
-	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
-
-.PHONY: clean
-clean: $(sub-dir-clean)
-	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
-	${Q}rm -f ${TARGETS} *.o *.d *.s
-
-include ../../template/subdir-footer.mk
