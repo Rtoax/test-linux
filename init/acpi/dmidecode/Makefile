@@ -1,14 +1,9 @@
-include ../../../tlbuild.mk
+TARGETS_SHELL += memory.sh
+TARGETS_SHELL += oem.sh
+TARGETS_SHELL += power.sh
+TARGETS_SHELL += product.sh
+TARGETS_SHELL += serial-number.sh
+TARGETS_SHELL += string.sh
+TARGETS_SHELL += type.sh
 
-.PHONY: build
-build:
-	./memory.sh
-	./oem.sh
-	./power.sh
-	./product.sh
-	./serial-number.sh
-	./string.sh
-	./type.sh
-
-.PHONY: clean
-clean:
+include ../../../template/main.mk
