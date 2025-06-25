@@ -18,4 +18,3 @@ sudo cp /etc/os-release tmp-mnt/
 sudo tree tmp-mnt/
 sudo umount tmp-mnt
 sudo rmdir tmp-mnt
-

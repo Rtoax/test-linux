@@ -1,6 +1,3 @@
-include ../../../tlbuild.mk
-
-
 ifneq ($(KERNELRELEASE),)
 obj-m := aufs.o
 aufs-objs := super.o inode.o dir.o file.o

@@ -1,8 +1,2 @@
-include ../../tlbuild.mk
-
-.PHONY: build
-build:
-	$(Q)bash info.sh
-
-.PHONY: clean
-clean:
+TARGETS_SHELL := info.sh
+include ../../template/main.mk

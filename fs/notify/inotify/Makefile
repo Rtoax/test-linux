@@ -1,11 +1,3 @@
-include ../../../tlbuild.mk
-
-
-TARGETS := test
-
-all: ${TARGETS}
-
-test: test.o
-
-clean:
-	rm -rf ${TARGETS} *.txt *.o
+TARGETS := tst
+include ../../../template/main.mk
+tst: tst.o

@@ -11,7 +11,7 @@ struct vma {
 
 int main(void)
 {
-	int memfd, ret, i;
+	int memfd, ret;
 	FILE *mapsfp, *vdsofp;
 	struct vma vma_vdso;
 	void *mem;

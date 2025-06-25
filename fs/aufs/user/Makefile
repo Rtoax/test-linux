@@ -1,6 +1,3 @@
-include ../../../tlbuild.mk
-
-
 CXX ?= g++
 CPPFLAGS += -pedantic -std=c++11
 
