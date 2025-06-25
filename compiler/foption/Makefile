@@ -64,6 +64,8 @@ ifneq ($(CC),clang)
 endif
 LDFLAGS_fsanitize := ${CFLAGS_fsanitize}
 
+TARGETS_CLEAN := clean0
+
 include ../../template/main.mk
 
 fcf-protection: fcf-protection.o
@@ -87,3 +89,8 @@ fplt: fplt.o
 fno-plt: fno-plt.o
 fuse-ld: fuse-ld.o
 fsanitize: fsanitize.o
+
+clean0:
+	${Q}rm -rf fdump-ipa-all.c.* fdump-ipa-clones.c.* \
+		fdump-tree-gimple.c.* \
+		fdump-tree-all-raw.c.* fdump-tree-all.c.*
