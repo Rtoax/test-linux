@@ -1,13 +1,8 @@
-include ../../../tlbuild.mk
-
-
-#ifneq ($(KERNELRELEASE),)
 MODULE_NAME = shmqueue
 
 $(MODULE_NAME)-objs := shmq.o 
 obj-m := $(MODULE_NAME).o
 
-#else
 KERNEL_DIR=/lib/modules/`uname -r`/build
 MODULEDIR := $(shell pwd)
 
