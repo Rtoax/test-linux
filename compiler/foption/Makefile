@@ -1,13 +1,9 @@
-include ../../tlbuild.mk
-
 CC := gcc
 
 include ../compiler.mk
 
 sub-dir := bss
 sub-dir += lto
-
-include ../../template/subdir-header.mk
 
 TARGETS :=
 TARGETS += fwhole-program
@@ -68,11 +64,7 @@ ifneq ($(CC),clang)
 endif
 LDFLAGS_fsanitize := ${CFLAGS_fsanitize}
 
-.PHONY: build
-build: ${TARGETS} ${sub-dir-build}
-	@echo -e "  CC = ${CC}"
-	@echo -e "  CFLAGS = ${CFLAGS}"
-	@echo -e " \033[1;33m Done \033[m"
+include ../../template/main.mk
 
 fcf-protection: fcf-protection.o
 fpatchable-function-entry: fpatchable-function-entry.o
@@ -95,26 +87,3 @@ fplt: fplt.o
 fno-plt: fno-plt.o
 fuse-ld: fuse-ld.o
 fsanitize: fsanitize.o
-
-%.o: %.c
-	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	${Q}$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
-	${Q}$(CC) -S $(<) -o $(<:.c=.s) $(CFLAGS) $(CFLAGS_$(*))
-	${Q}$(CC) -S $(<) -o $(<:.c=-nof.s) $(CFLAGS) -Wno-error
-
-$(TARGETS): %:
-	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	${Q}$(CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*))
-
-test: ${TARGETS} $(sub-dir-test)
-	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
-
-.PHONY: clean
-clean: $(sub-dir-clean)
-	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
-	${Q}rm -f ${TARGETS} *.o *.d *.s \
-		fdump-ipa-all.c.* fdump-ipa-clones.c.* \
-		fdump-tree-gimple.c.* \
-		fdump-tree-all-raw.c.* fdump-tree-all.c.*
-
-include ../../template/subdir-footer.mk
