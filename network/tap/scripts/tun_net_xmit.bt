@@ -15,7 +15,7 @@ struct net_device {
 
 BEGIN
 {
-	printf("Tracing xxx, hit ctrl-c to end.\n");
+	printf("Tracing TUN xmit, hit ctrl-c to end.\n");
 	printf("%-8s %-8s %-16s\n", "TIME", "PID", "COMM");
 }
 

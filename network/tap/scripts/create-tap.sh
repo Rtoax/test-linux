@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # create tap
 ip tuntap add dev tap0 mode tap
