@@ -16,6 +16,7 @@ TARGETS += fno-zero-initialized-in-bss fzero-initialized-in-bss
 TARGETS += fplt fno-plt
 TARGETS += fuse-ld
 TARGETS += fsanitize
+TARGETS_CPP += fsanitize_cpp
 
 ifeq ($(CC_-fcf-protection),1)
   TARGETS += fcf-protection
@@ -64,6 +65,10 @@ ifneq ($(CC),clang)
 endif
 LDFLAGS_fsanitize := ${CFLAGS_fsanitize}
 
+CXXFLAGS_fsanitize_cpp := ${CFLAGS_fsanitize}
+CXXFLAGS_fsanitize_cpp += -Wno-error=stringop-overflow
+LDXXFLAGS_fsanitize_cpp := ${LDFLAGS_fsanitize}
+
 TARGETS_CLEAN := clean0
 
 include ../../template/main.mk
@@ -89,6 +94,7 @@ fplt: fplt.o
 fno-plt: fno-plt.o
 fuse-ld: fuse-ld.o
 fsanitize: fsanitize.o
+fsanitize_cpp: fsanitize_cpp.opp
 
 clean0:
 	${Q}rm -rf fdump-ipa-all.c.* fdump-ipa-clones.c.* \

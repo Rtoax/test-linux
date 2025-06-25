@@ -3,8 +3,8 @@
 
 int main(void)
 {
-	char *a = malloc(10);
-	char *b = malloc(10);
+	char *a = (char *)malloc(10);
+	char *b = (char *)malloc(10);
 
 	(void)b;
 

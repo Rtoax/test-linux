@@ -25,3 +25,4 @@
 /fno-plt
 /fuse-ld
 /fsanitize
+/fsanitize_cpp
