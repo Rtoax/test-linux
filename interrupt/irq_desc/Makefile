@@ -1,7 +1,3 @@
-include ../../tlbuild.mk
-
-
-
 obj-m += NR_IRQS.o
 
 all:

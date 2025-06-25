@@ -1,47 +1,13 @@
-include ../../tlbuild.mk
-
-
 TARGETS :=
 TARGETS += demo-eventfd
 ifeq ($(shell uname -m),x86_64)
-TARGETS += demo-select_eventfd
-TARGETS += demo-epoll_eventfd
-endif
-ifeq ($(shell uname -m),aarch64)
-endif
-
-DEBUG := yes
-CC := gcc
-
-CFLAGS := -pthread
-
-ifdef DEBUG
-CFLAGS += -DDEBUG -O0 -g
+  TARGETS += demo-select_eventfd
+  TARGETS += demo-epoll_eventfd
+else ifeq ($(shell uname -m),aarch64)
 endif
 
-build: ${TARGETS}
-	@echo -e " \033[1;33m Done \033[m"
+include ../../template/main.mk
 
-# Add more object.o file
 demo-eventfd: demo-eventfd.o common.o
 demo-select_eventfd: demo-select_eventfd.o common.o
 demo-epoll_eventfd: demo-epoll_eventfd.o common.o
-
-%.d: %.c
-	@echo -e "Generate \033[1m$(@)\033[m"
-	${Q}$(CC) $(CFLAGS) -MM -MF "$@" -MG -MP -MT"$@" -MT"$(<:.c=.o)" $(<)
-
-%.o: %.c %.d
-	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	${Q}$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
-
-$(TARGETS): %:
-	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	${Q}$(CC) $(CFLAGS) -o $(@) $(^)
-
-test: ${TARGETS}
-	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
-
-clean:
-	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
-	${Q}rm -f ${TARGETS} *.o *.d

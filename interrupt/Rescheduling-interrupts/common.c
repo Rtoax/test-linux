@@ -1,4 +1,6 @@
+#ifndef _GNU_SOURCE
 #define _GNU_SOURCE
+#endif
 #include <sched.h>
 #include <unistd.h>
 #include <stdbool.h>
@@ -194,4 +196,3 @@ void reset_self_cpuset(char *cpu_list)
 		assert(0);
 	}
 }
-
