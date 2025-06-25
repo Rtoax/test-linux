@@ -1,11 +1,17 @@
 #!/bin/env bpftrace
 
+#define NETDEV_TX_OK	0x00
+#define NET_XMIT_DROP	0x01
+
 struct net_device {
 	char name[32];
 }
 
 BEGIN
 {
+	@netdev_tx[NETDEV_TX_OK] = "NETDEV_TX_OK";
+	@netdev_tx[NET_XMIT_DROP] = "NET_XMIT_DROP";
+
 	printf("Tracing TUN xmit, hit ctrl-c to end.\n");
 	printf("%-8s %-8s %-16s %-8s %-8s\n", "TIME", "PID", "COMM", "DEV", "RET");
 }
@@ -22,11 +28,16 @@ kretprobe:tun_net_xmit
 	time("%H:%M:%S ");
 	printf("%-8d %-16s %-8s %-8d\n", pid, comm, $dev->name, retval);
 
+	if (retval == NET_XMIT_DROP) {
+		@drop = count();
+	}
+
 	delete(@dev[tid]);
 }
 
 END
 {
 	clear(@dev);
+	clear(@netdev_tx);
 	printf("Bye.\n");
 }
