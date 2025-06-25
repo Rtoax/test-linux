@@ -1,5 +1,4 @@
 # SPDX-License-Identifier: GPL-3.0
-
 CC ?= gcc
 
 ifdef PIE
