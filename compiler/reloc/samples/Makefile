@@ -1,5 +1,3 @@
-include ../../../tlbuild.mk
-
 sub-dir :=
 ifeq ($(shell uname -m),x86_64)
   sub-dir += x86_64
@@ -9,8 +7,6 @@ ifeq ($(shell uname -m),aarch64)
   sub-dir += aarch64
 endif
 
-include ../../../template/subdir-header.mk
-
 TARGETS :=
 TARGETS += relocation-truncated-to-fit
 TARGETS += nostdlib
@@ -19,21 +15,19 @@ TARGETS += testcase
 TARGETS += testcase-now
 TARGETS += relocs
 
-CC := gcc
+CFLAGS_reloc-types := -Wno-error=unused-variable
+CFLAGS_reloc-types += -Wno-error=unused-function
+CFLAGS_reloc-types-libs := ${CFLAGS_reloc-types}
+CFLAGS_reloc-types-vars := ${CFLAGS_reloc-types}
+CFLAGS_nostdlib-libs := $(CFLAGS_nostdlib)
+CFLAGS_testcase := -Wl,-z,relro
+CFLAGS_testcase-now := -Wl,-z,relro,-z,now
 
-CFLAGS :=
-CFLAGS += -O0
+LDFLAGS_nostdlib := -nostdlib
 
-ifdef PIC
-  CFLAGS += -fpic
-endif
-ifdef DEBUG
-  CFLAGS += -g -ggdb
-endif
+TARGETS_PREP := relocs-gen.h
 
-.PHONY: build
-build: relocs-gen.h ${TARGETS} $(sub-dir-build)
-	@echo -e " \033[1;33m Done \033[m"
+include ../../../template/main.mk
 
 relocs-gen.h:
 	@echo -e "  GEN  \033[1;32m$(@)\033[m"
@@ -46,36 +40,8 @@ nostdlib: nostdlib.o nostdlib-libs.o
 testcase: testcase.o
 testcase-now: testcase-now.o
 
-CFLAGS_reloc-types := -Wno-error=unused-variable
-CFLAGS_reloc-types += -Wno-error=unused-function
-CFLAGS_reloc-types-libs := ${CFLAGS_reloc-types}
-CFLAGS_reloc-types-vars := ${CFLAGS_reloc-types}
-CFLAGS_nostdlib := -nostdlib
-CFLAGS_nostdlib-libs := $(CFLAGS_nostdlib)
-CFLAGS_testcase := -Wl,-z,relro
-CFLAGS_testcase-now := -Wl,-z,relro,-z,now
-
+# TODO: use it
 define print_elf
 	@echo -e "# $(1)" > ${1}.readelf.log
 	@readelf --relocs --syms --wide $(1) >> ${1}.readelf.log
 endef
-
-%.o: %.c
-	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	${Q}$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
-	$(call print_elf,$(@))
-
-$(TARGETS): %:
-	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	${Q}$(CC) -o $(@) $(^) $(CFLAGS) $(CFLAGS_$(*))
-	$(call print_elf,$(@))
-
-test: ${TARGETS} $(sub-dir-test)
-	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
-
-.PHONY: clean
-clean: $(sub-dir-clean)
-	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
-	${Q}rm -f ${TARGETS} *.o *.readelf.log relocs-gen.h
-
-include ../../../template/subdir-footer.mk
