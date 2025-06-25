@@ -1,0 +1,25 @@
+#!/bin/env bpftrace
+
+kprobe:__udp4_lib_lookup
+{
+	@saddr[tid] = arg1;
+	@sport[tid] = arg2;
+	@daddr[tid] = arg3;
+	@dport[tid] = arg4;
+}
+
+kretprobe:__udp4_lib_lookup
+/ @saddr[tid] && retval == 0 /
+{
+	@rx_no_sock_udp[ntop(@saddr[tid]), ntop(@daddr[tid])] = count();
+	delete(@saddr[tid]);
+	delete(@daddr[tid]);
+}
+
+END
+{
+	clear(@saddr);
+	clear(@sport);
+	clear(@daddr);
+	clear(@dport);
+}
