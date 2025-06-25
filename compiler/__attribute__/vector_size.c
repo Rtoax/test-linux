@@ -12,10 +12,10 @@ v4si f (v4si a, v4si b, v4si c)
 
 int main(void)
 {
-	v4si a, b, c;
-	v4si *pa, *pb, *pc;
+	v4si a;
+	v4si *pa;
 
-#define PRINT_SIZE(v) printf("%-8s %d\n", #v, sizeof(v));
+#define PRINT_SIZE(v) printf("%-8s %ld\n", #v, sizeof(v));
 
 	PRINT_SIZE(v4si);
 	PRINT_SIZE(v4si*);

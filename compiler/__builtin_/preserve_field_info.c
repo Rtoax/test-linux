@@ -25,7 +25,11 @@ struct task_struct {
 
 struct task_struct___x {
 	int __state;
-} __attribute__((preserve_access_index));
+}
+#if 0
+__attribute__((preserve_access_index))
+#endif
+;
 
 enum {
 	FIELD_BYTE_OFFSET = 0,
@@ -68,4 +72,5 @@ int kprobe__foo(void)
 
 int main(void)
 {
+	return 0;
 }

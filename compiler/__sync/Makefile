@@ -1,9 +1,4 @@
 # SPDX-License-Identifier: GPL-3.0
-include ../../tlbuild.mk
-
-
-CC := gcc
-
 TARGETS := atomic_test
 TARGETS += __sync_fetch_and_add
 TARGETS += __sync_fetch_and_sub
@@ -27,15 +22,13 @@ ifeq ($(shell uname -m),x86_64)
 endif
 
 CFLAGS :=
-
 CFLAGS += -lpthread
 CFLAGS_spin-demo3-nonlock := -DNONLOCK=1
 # Warn when "__sync_fetch_and_nand" and "__sync_nand_and_fetch" built-in
 # functions are used.  These functions changed semantics in GCC 4.4.
 CFLAGS___sync_nand_and_fetch := -Wsync-nand
 
-.PHONY: build
-build: ${TARGETS}
+include ../../template/main.mk
 
 __sync_fetch_and_add: __sync_fetch_and_add.o
 __sync_fetch_and_sub: __sync_fetch_and_sub.o
@@ -57,17 +50,3 @@ __sync_lock_release: __sync_lock_release.o
 atomic_test: atomic_test.o
 spin-demo3: spin-demo3.o
 spin-demo3-nonlock: spin-demo3-nonlock.o
-
-%.o: %.c
-	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	${Q}$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
-	${Q}$(CC) $(CFLAGS) $(CFLAGS_$(*)) -S $(<) -o $(<:.c=.s)
-
-$(TARGETS): %:
-	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	${Q}$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*))
-
-.PHONY: clean
-clean:
-	@echo -e "  CLEAN  \033[1;32m${TARGETS}\033[m"
-	${Q}rm -f ${TARGETS} *.o *.s

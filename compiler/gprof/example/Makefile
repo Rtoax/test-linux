@@ -1,7 +1,3 @@
-include ../../../tlbuild.mk
-
-
-
 all:
 	# clang is ok too
 	gcc main.c -pg -g -ggdb -O0

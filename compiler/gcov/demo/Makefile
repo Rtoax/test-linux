@@ -1,8 +1,3 @@
-include ../../../tlbuild.mk
-
-
-
-
 all: compile run gcov html
 
 compile:

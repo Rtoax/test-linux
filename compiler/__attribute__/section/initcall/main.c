@@ -33,12 +33,14 @@ void __attribute__((constructor)) do_init(void)
 int init_1(void)
 {
 	log("\n");
+	return 0;
 }
 INIT(init_1);
 
 int init_2(void)
 {
 	log("\n");
+	return 0;
 }
 INIT(init_2);
 

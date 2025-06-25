@@ -8,8 +8,7 @@
 
 int main(void)
 {
-	atomic_t v;
-	atomic_t u = ATOMIC_INIT(0);
+	atomic_t v = ATOMIC_INIT(0);
 
 	atomic_set(&v, 4);
 	printf("%d\n", atomic_read(&v));
@@ -22,4 +21,3 @@ int main(void)
 
 	return 0;
 }
-

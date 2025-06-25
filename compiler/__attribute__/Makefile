@@ -1,6 +1,4 @@
 # SPDX-License-Identifier: GPL-3.0
-include ../../tlbuild.mk
-
 CC := gcc
 
 TARGETS :=
@@ -34,8 +32,6 @@ TARGETS += preserve_access_index
 
 include ../compiler.mk
 
-CFLAGS :=
-
 ifeq ($(CC_-fcf-protection),1)
   CFLAGS_nocf_check := -fcf-protection
 else
@@ -47,10 +43,10 @@ CFLAGS_cleanup := -Werror=attributes
 CFLAGS_noreturn := -Werror=attributes -Werror
 CFLAGS_deprecated := -Wno-error=deprecated-declarations
 CFLAGS_format := -Werror=varargs -Werror=attributes
+CFLAGS_nonnull := -Wno-error=nonnull -Wno-error=nonnull-compare
+CFLAGS___pure__ := -Wno-error=unused-value -Wno-error=unused-variable
 
-.PHONY: build
-build: ${TARGETS}
-	@echo -e " \033[1;33m Done \033[m"
+include ../../template/main.mk
 
 alias: alias.o
 always_inline: always_inline.o
@@ -79,16 +75,3 @@ noplt-plt: noplt-plt.o
 kernel_helper: kernel_helper.o
 preserve_access_index: preserve_access_index.o
 __has_attribute: __has_attribute.o
-
-%.o: %.c
-	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	${Q}$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
-	${Q}$(CC) $(CFLAGS) $(CFLAGS_$(*)) -S $(<) -o $(<:.c=.s)
-
-$(TARGETS): %:
-	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	${Q}$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*))
-
-clean:
-	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
-	${Q}rm -f ${TARGETS} *.o *.s

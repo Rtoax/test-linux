@@ -7,6 +7,7 @@ inline __gnu_inline
 int fun(void)
 {
 	printf("-------\n");
+	return 0;
 }
 
 int main(void)
