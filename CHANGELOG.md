@@ -16,7 +16,7 @@ and this project adheres to
 - pcie: add configuration-space and pciutils directory.
 - make.list: add driver, python directory.
 - cgroup/v1: add some controller.
-- template: Add target-shell.mk, target-golang.mk, target-java.mk, target-libso.sh, target-python.mk, target-rust.mk.
+- template: Add target-shell.mk, target-golang.mk, target-java.mk, target-libso.sh, target-python.mk, target-rust.mk, target-llvm.mk.
 #### Changed
 - macro: support cross-compile.
 - syscall: Use main.mk.
