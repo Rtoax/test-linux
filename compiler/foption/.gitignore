@@ -1,4 +1,3 @@
-/*.ipa-clones
 /*.gimple
 /*.s
 /fcf-protection
@@ -10,9 +9,6 @@
 /fstack-protector-all
 /fstack-protector-strong
 /fstack-protector-explicit
-/fdump-ipa-all
-/fdump-ipa-all.c.*
-/fdump-ipa-clones
 /fdump-tree-gimple
 /fdump-tree-all
 /fdump-tree-all.c.*
