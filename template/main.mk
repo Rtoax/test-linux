@@ -61,6 +61,11 @@ TEMPLATE_DIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 export TEMPLATE_DIR
 
 include ${TEMPLATE_DIR}/../scripts/ansi.mk
+include ${TEMPLATE_DIR}/../tlbuild.mk
+
+define git_relative_dir
+$(patsubst ${GIT_TOPDIR}/%,%,$(1))
+endef
 
 define log_tgt_obj
 @printf '  %-6s ${ANSI_BOLD}%s${ANSI_RST} -> ${ANSI_BOLD}%s${ANSI_RST}\n' "${1}" "$(2)" "$(3)"
@@ -76,7 +81,6 @@ define log_tgt_done
 endef
 
 include ${TEMPLATE_DIR}/../elf/pie.mk
-include ${TEMPLATE_DIR}/../tlbuild.mk
 include ${TEMPLATE_DIR}/subdir-header.mk
 
 build-targets := $(TARGETS_PREP)
@@ -102,18 +106,18 @@ build-targets += $(TARGETS_POST)
 
 .PHONY: build
 build: $(build-targets)
-	$(call log_tgt_done,build,$(shell realpath .))
+	$(call log_tgt_done,build,$(call git_relative_dir,$(shell realpath .)))
 
 .PHONY: test
 test: $(build-targets) $(sub-dir-test) $(TARGETS_TEST)
-	$(call log_tgt_done,test,$(shell realpath .))
+	$(call log_tgt_done,test,$(call git_relative_dir,$(shell realpath .)))
 
 .PHONY: clean
 clean: $(sub-dir-clean) $(TARGETS_CLEAN)
 	$(call log_tgt_start,clean,${build-targets} ${TARGETS_CLEAN})
 	${Q}rm -rf ${build-targets} *.o *.d *.log *.out *.class
 	${Q}rm -rf *.so *.so.* *.a
-	$(call log_tgt_done,clean,$(shell realpath .))
+	$(call log_tgt_done,clean,$(call git_relative_dir,$(shell realpath .)))
 
 include ${TEMPLATE_DIR}/target-exe.mk
 ifneq ($(TARGETS_LIBA),)
