@@ -22,7 +22,7 @@ ${OUTPUT}%.cpp.s: %.cpp | ${OUTPUT}
 	@echo -e "  CXX S  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	${Q}${CC_PFX} $(CXX) -S -o $(@) -c $(<) $(CXXFLAGS) $(CXXFLAGS_$(*))
 
-${OUTPUT}%.oasm: %.asm | ${OUTPUT}
+${OUTPUT}%.asm.o: %.asm | ${OUTPUT}
 	@echo -e "  ASM  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	${Q}${NASM} -o $(@) -felf64 $(<)
 

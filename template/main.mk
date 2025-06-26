@@ -95,7 +95,7 @@ test: $(build-targets) $(sub-dir-test) $(TARGETS_TEST)
 .PHONY: clean
 clean: $(sub-dir-clean) $(TARGETS_CLEAN)
 	@echo -e "  CLEAN  \033[1;32m${build-targets} ${TARGETS_CLEAN}\033[m"
-	${Q}rm -rf ${build-targets} *.o *.opp *.d *.oasm *.log *.out *.class
+	${Q}rm -rf ${build-targets} *.o *.opp *.d *.log *.out *.class
 	${Q}rm -rf *.so *.so.* *.a
 	@echo -e " \033[1;33m Clean $(shell pwd) done \033[m"
 

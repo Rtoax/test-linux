@@ -65,9 +65,9 @@ reducetion-f4: reducetion-f4.o
 add-unalign-f4: add-unalign-f4.o
 cvt-df: cvt-df.o
 mask: mask.o
-vperm2i128: vperm2i128.oasm
-vfmadd231ps: vfmadd231ps.oasm
-kxord: kxord.oasm
+vperm2i128: vperm2i128.asm.o
+vfmadd231ps: vfmadd231ps.asm.o
+kxord: kxord.asm.o
 
 # FIXME: move to main.mk??
 ifeq ($(CC),clang)
