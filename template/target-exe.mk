@@ -2,6 +2,7 @@
 CC ?= gcc
 CXX ?= g++
 LD ?= ld
+AS ?= as
 NASM ?= nasm
 CC_PFX := LD_LIBRARY_PATH=$(shell pwd)
 
