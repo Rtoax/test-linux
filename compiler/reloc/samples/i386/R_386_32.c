@@ -3,7 +3,7 @@
  *
  * value = 1, field = word64, calculation = S + A
  */
-#include "macros.h"
+#include "compiler.h"
 
 /**
  * s1 ~ s7 are R_X86_64_64 in ELF 64-bit LSB relocatable

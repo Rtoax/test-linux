@@ -10,6 +10,8 @@ ifneq (${CC_M32},1)
   TARGETS :=
 endif
 
+CFLAGS += -I../
+
 CFLAGS += -m32
 LDFLAGS += -m32
 

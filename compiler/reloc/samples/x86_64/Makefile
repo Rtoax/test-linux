@@ -38,6 +38,7 @@ TARGETS_SHELL := R_X86_64_64.sh
 TARGETS_SHELL += R_X86_64_PC32.sh
 
 CFLAGS += -O0
+CFLAGS += -I..
 
 ifneq ($(shell uname -m),x86_64)
   $(warning Try compile on $(shell uname -m))

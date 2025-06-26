@@ -4,7 +4,7 @@
  * value = 1, field = word64, calculation = S + A
  */
 #include <stddef.h>
-#include "macros.h"
+#include "compiler.h"
 
 /**
  * in ELF 64-bit LSB relocatable:
@@ -57,7 +57,6 @@ int main(void)	/* .rela.eh_frame */
 {
 	char local_s2[] = RODATA_1;	/* not rela */
 
-	(void)local_s2;
 #if 0
 	/**
 	 * in ELF 64-bit LSB relocatable:

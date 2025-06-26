@@ -2,6 +2,7 @@
  * R_AARCH64_ABS64 (like x86_64's R_X86_64_64)
  */
 #include <stddef.h>
+#include "compiler.h"
 
 /**
  * in ELF 64-bit LSB relocatable:
@@ -27,7 +28,7 @@ const char *s3 = RODATA_2;	/* .data, GLOBAL */
 const char *s4 = RODATA_2;	/* .data, GLOBAL */
 const char *s5 = RODATA_2;	/* .data, GLOBAL */
 char *s6 = RODATA_2;		/* .data, GLOBAL */
-static char *s7 = RODATA_2;	/* .data, LOCAL */
+static char __unused *s7 = RODATA_2;	/* .data, LOCAL */
 
 /**
  * in ELF 64-bit LSB relocatable:
@@ -48,6 +49,6 @@ int *pi3 = arr_i + 2;
 
 int main(void)	/* .rela.eh_frame */
 {
-	char local_s2[] = RODATA_1;	/* not rela */
+	char __unused local_s2[] = RODATA_1;	/* not rela */
 	return 0;
 }
