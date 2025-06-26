@@ -63,10 +63,10 @@ export TEMPLATE_DIR
 include ${TEMPLATE_DIR}/../scripts/ansi.mk
 
 define log_tgt_obj
-@echo -e "  ${1}  ${ANSI_BOLD}$(2)${ANSI_RST} -> ${ANSI_BOLD}$(3)${ANSI_RST}"
+@printf '  %-6s ${ANSI_BOLD}%s${ANSI_RST} -> ${ANSI_BOLD}%s${ANSI_RST}\n' "${1}" "$(2)" "$(3)"
 endef
 define log_tgt_exe
-@echo -e "  $(1)  ${ANSI_BOLD}$(2)${ANSI_RST} -> ${ANSI_BOLD}${ANSI_GRE}$(3)${ANSI_RST}"
+@printf '  %-6s ${ANSI_BOLD}%s${ANSI_RST} -> ${ANSI_BOLD}${ANSI_GRE}%s${ANSI_RST}\n' "${1}" "$(2)" "$(3)"
 endef
 define log_tgt_start
 @echo -e "[$(1)] ${ANSI_BOLD}${ANSI_GRE}$(2)${ANSI_RST} done"
