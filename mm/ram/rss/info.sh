@@ -1,13 +1,11 @@
 #!/bin/bash
 set -e
 
-ps -eo user,comm,pid,vsz,rss
-
 comm_rss() {
-	ps --no-headers -e -o comm,rss | awk '
+	ps --no-headers -eo comm,pid,rss | awk '
 		{
 			name = $1;
-			score = $2;
+			score = $3;
 			total_score[name] += score;
 			total_count[name] += 1;
 		} END {
@@ -21,6 +19,5 @@ comm_rss_total() {
 	comm_rss | awk '{ sum += $1 } END { print "Total RSS:\t"sum"kB" }'
 }
 
-comm_rss
+# comm_rss
 comm_rss_total
-
