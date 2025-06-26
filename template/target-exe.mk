@@ -26,7 +26,7 @@ ${OUTPUT}%.asm.o: %.asm | ${OUTPUT}
 	@echo -e "  ASM  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	${Q}${NASM} -o $(@) -felf64 $(<)
 
-# Same as: as --64 a.S -o a.o
+# Same as: as {--64,--32} a.S -o a.o
 ${OUTPUT}%.S.o: %.S | ${OUTPUT}
 	@echo -e "  CC S  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	${Q}$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
