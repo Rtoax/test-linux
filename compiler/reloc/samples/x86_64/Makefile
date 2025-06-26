@@ -29,14 +29,14 @@ TARGETS_O += R_X86_64_32.o
 TARGETS_O += R_X86_64_PLT32.o
 TARGETS_O += R_X86_64_GOTPCRELX.o
 
-TARGETS_S_O += R_X86_64_32.oS
-TARGETS_S_O += R_X86_64_64.oS
-TARGETS_S_O += R_X86_64_GOT32.oS R_X86_64_GOTPC32.oS
-TARGETS_S_O += R_X86_64_GOTPLT64.oS
-TARGETS_S_O += R_X86_64_GOTOFF64.oS
-TARGETS_S_O += R_X86_64_REX_GOTPCRELX.oS
-TARGETS_S_O += R_X86_64_PLT32.oS
-TARGETS_S_O += R_X86_64_PLTOFF64.oS
+TARGETS_S_O += R_X86_64_32.S.o
+TARGETS_S_O += R_X86_64_64.S.o
+TARGETS_S_O += R_X86_64_GOT32.S.o R_X86_64_GOTPC32.S.o
+TARGETS_S_O += R_X86_64_GOTPLT64.S.o
+TARGETS_S_O += R_X86_64_GOTOFF64.S.o
+TARGETS_S_O += R_X86_64_REX_GOTPCRELX.S.o
+TARGETS_S_O += R_X86_64_PLT32.S.o
+TARGETS_S_O += R_X86_64_PLTOFF64.S.o
 
 AS_ARGS += --64
 CFLAGS += -O0
@@ -95,7 +95,7 @@ R_X86_64_GOTPCRELX.o: R_X86_64_GOTPCRELX.c
 	${Q}LD_LIBRARY_PATH=$(shell pwd) $(CC) -S $(<) -o $(<:.c=.c.s) $(CFLAGS) $(CFLAGS_PIE) $(CFLAGS_$(*))
 	@$(call print_elf_reloc,$(@))
 
-%.oS: %.S
+%.S.o: %.S
 	@echo -e "  AS  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	${Q}${AS} ${AS_ARGS} -o $(@) $(<)
 	@$(call print_elf_reloc,$(@))
@@ -122,4 +122,4 @@ test: ${TARGETS}
 clean:
 	@echo -e "  CLEAN  \033[1;32m$(TARGETS) $(TARGETS_SO) $(TARGETS_A) ${TARGETS_O} ${TARGETS_S_O}\033[m"
 	${Q}rm -f ${TARGETS} ${TARGETS_SO} ${TARGETS_A} ${TARGETS_O} ${TARGETS_S_O} \
-		*.o *.reloc *.oS *.c.s
+		*.o *.reloc *.S.o *.c.s

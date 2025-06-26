@@ -53,7 +53,7 @@ sum: sum.o
 sum-avx: sum-avx.o
 sum-avx2: sum-avx2.o
 cpu-features: cpu-features.o
-test-asm: test-asm.oS test-asm.o
+test-asm: test-asm.S.o test-asm.o
 avx512_aux: avx512_aux.o
 mul-avx256: mul-avx256.o
 mul-avx512: mul-avx512.o
