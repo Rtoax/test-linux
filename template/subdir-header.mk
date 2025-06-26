@@ -1,6 +1,9 @@
 # SPDX-License-Identifier: GPL-3.0
 sub-dir ?=
 
-sub-dir-build := $(addprefix $(shell realpath .)/,$(sub-dir:=.build))
-sub-dir-test := $(addprefix $(shell realpath .)/,$(sub-dir:=.test))
-sub-dir-clean := $(addprefix $(shell realpath .)/,$(sub-dir:=.clean))
+ABS_CURRENT_DIR := $(shell realpath .)
+CURRENT_DIR := ${ABS_CURRENT_DIR}
+
+sub-dir-build := $(addprefix $(CURRENT_DIR)/,$(sub-dir:=.build))
+sub-dir-test := $(addprefix $(CURRENT_DIR)/,$(sub-dir:=.test))
+sub-dir-clean := $(addprefix $(CURRENT_DIR)/,$(sub-dir:=.clean))
