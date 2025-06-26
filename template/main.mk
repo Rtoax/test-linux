@@ -60,6 +60,21 @@ endif
 TEMPLATE_DIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 export TEMPLATE_DIR
 
+include ${TEMPLATE_DIR}/../scripts/ansi.mk
+
+define log_tgt_obj
+@echo -e "  ${1}  ${ANSI_BOLD}$(2)${ANSI_RST} -> ${ANSI_BOLD}$(3)${ANSI_RST}"
+endef
+define log_tgt_exe
+@echo -e "  $(1)  ${ANSI_BOLD}$(2)${ANSI_RST} -> ${ANSI_BOLD}${ANSI_GRE}$(3)${ANSI_RST}"
+endef
+define log_tgt_start
+@echo -e "[$(1)] ${ANSI_BOLD}${ANSI_GRE}$(2)${ANSI_RST} done"
+endef
+define log_tgt_done
+@echo -e "[$(1)] ${ANSI_BOLD}${ANSI_YEL}$(2)${ANSI_RST} done"
+endef
+
 include ${TEMPLATE_DIR}/../elf/pie.mk
 include ${TEMPLATE_DIR}/../tlbuild.mk
 include ${TEMPLATE_DIR}/subdir-header.mk
@@ -87,18 +102,18 @@ build-targets += $(TARGETS_POST)
 
 .PHONY: build
 build: $(build-targets)
-	@echo -e " \033[1;33m Build $(shell pwd) done \033[m"
+	$(call log_tgt_done,build,$(shell realpath .))
 
 .PHONY: test
 test: $(build-targets) $(sub-dir-test) $(TARGETS_TEST)
-	@echo -e " \033[1;33m Test $(shell pwd) done \033[m"
+	$(call log_tgt_done,test,$(shell realpath .))
 
 .PHONY: clean
 clean: $(sub-dir-clean) $(TARGETS_CLEAN)
-	@echo -e "  CLEAN  \033[1;32m${build-targets} ${TARGETS_CLEAN}\033[m"
+	$(call log_tgt_start,clean,${build-targets} ${TARGETS_CLEAN})
 	${Q}rm -rf ${build-targets} *.o *.d *.log *.out *.class
 	${Q}rm -rf *.so *.so.* *.a
-	@echo -e " \033[1;33m Clean $(shell pwd) done \033[m"
+	$(call log_tgt_done,clean,$(shell realpath .))
 
 include ${TEMPLATE_DIR}/target-exe.mk
 ifneq ($(TARGETS_LIBA),)

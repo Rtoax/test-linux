@@ -5,9 +5,9 @@ ifeq ($(wildcard $(NVCC)),)
 endif
 
 %.cu.o: %.cu
-	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
+	$(call log_tgt_obj,NVCC,$(<),$(@))
 	${Q}$(NVCC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
 
 $(TARGETS_CUDA): %:
-	@echo -e "  LD  \033[1;32m$(@)\033[m"
+	$(call log_tgt_exe,NVCC LD,$(<),$(@))
 	${Q}$(NVCC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*))

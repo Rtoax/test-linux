@@ -17,13 +17,14 @@ define make_sub_dir_clean
 endef
 
 $(sub-dir-build):
-	@echo -e "\033[1;32m[build] $(patsubst %.build,%,$(@))\033[m"
+	$(call log_tgt_start,build,$(patsubst %.build,%,$(@)))
 	${Q}$(call make_sub_dir_build,$(@:.build=))
 
 $(sub-dir-test):
+	$(call log_tgt_start,test,$(patsubst %.test,%,$(@)))
 	@echo -e "\033[1;32m[test] $(patsubst %.test,%,$(@))\033[m"
 	${Q}$(call make_sub_dir_test,$(@:.test=))
 
 $(sub-dir-clean):
-	@echo -e "\033[1;32m[clean] $(patsubst %.clean,%,$(@))\033[m"
+	$(call log_tgt_start,clean,$(patsubst %.clean,%,$(@)))
 	${Q}$(call make_sub_dir_clean,$(@:.clean=))

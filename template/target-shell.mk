@@ -4,5 +4,5 @@ Q ?= @
 
 # see TARGETS_SHELL_LOGS
 %.sh.log: %.sh
-	@echo -e "  SHELL  \033[1;32m$(@)\033[m"
+	$(call log_tgt_exe,SHELL,$(<),$(@))
 	$(Q)${SHELL} $(<) $(ARGS_$(*)) $(SHELL_ARGS_$(<)) | tee $(@)

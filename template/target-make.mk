@@ -2,5 +2,5 @@
 MAKE := make
 
 %.mk.log: %.mk
-	@echo -e "  MK  \033[1;32m$(@)\033[m"
+	$(call log_tgt_exe,MAKE,$(<),$(@))
 	$(Q)$(MAKE) -f $(<) $(ARGS_$(*)) | tee $(@)

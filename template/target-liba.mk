@@ -5,9 +5,9 @@ Q ?= @
 CFLAGS_A += -fPIC
 
 ${OUTPUT}%.a.o: %.c | ${OUTPUT}
-	@echo -e "  CC A.O  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
+	$(call log_tgt_obj,CC A.o,$(<),$(@))
 	${Q}$(CC) -o $(@) -c $(<) $(CFLAGS_A) $(CFLAGS_A_$(*))
 
 $(TARGETS_LIBA): %:
-	@echo -e "  AR  \033[1;32m$(^) to $(@)\033[m"
+	$(call log_tgt_exe,AR,$(<),$(@))
 	${Q}ar rcs $(@) $(^)

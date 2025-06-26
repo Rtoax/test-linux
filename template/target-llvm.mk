@@ -23,25 +23,25 @@ CLANG_AST_CFLAGS := -Xclang -ast-dump -fsyntax-only
 
 # AST: Abstract Syntax Tree
 %.ast: %.c
-	@echo -e "  CLANG AST  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
+	$(call log_tgt_obj,CLANG AST,$(<),$(@))
 	${Q}$(CLANG) $(<) ${CLANG_AST_CFLAGS} $(CFLAGS) $(CFLAGS_$(*)) > $(@)
 
 %.ll: %.c
-	@echo -e "  CLANG LL  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
+	$(call log_tgt_obj,CLANG LL,$(<),$(@))
 	${Q}$(CLANG) -S -emit-llvm $(<) -o $(@) $(CFLAGS) $(CFLAGS_$(*))
 
 %.bc: %.ll
-	@echo -e "  LLVM AS  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
+	$(call log_tgt_obj,LLVM AS,$(<),$(@))
 	${Q}$(LLVM_AS) $(<) -o $(@)
 
 %.dis.ll: %.bc
-	@echo -e "  LLVM DIS  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
+	$(call log_tgt_obj,LLVM DIS,$(<),$(@))
 	${Q}$(LLVM_DIS) $(<) -o $(@)
 
 %.ll.s: %.ll
-	@echo -e "  LLC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
+	$(call log_tgt_obj,LLC,$(<),$(@))
 	${Q}$(LLC) $(<) -o $(@)
 
 ${TARGETS_LLVM_LL}: %:
-	@echo -e "  LLVM LL   \033[1;32m$(@)\033[m"
+	$(call log_tgt_exe,LLVM LL,$(<),$(@))
 	${Q}$(CLANG) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*))

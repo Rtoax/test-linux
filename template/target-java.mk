@@ -9,5 +9,5 @@ ifneq (${TARGETS_JAVA},)
 endif
 
 ${TARGETS_JAVA}:
-	@echo -e "  JAVAC  \033[1;32m$(@)\033[m"
+	$(call log_tgt_exe,JAVAC,$(<),$(@))
 	${Q}$(JAVAC) $(^)

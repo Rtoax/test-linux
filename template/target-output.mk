@@ -2,5 +2,5 @@
 MKDIR ?= mkdir
 
 ${OUTPUT}:
-	@echo -e "  MKDIR  \033[1m${@}\033[m"
+	$(call log_tgt_exe,MKDIR,$(<),$(@))
 	${Q}${MKDIR} -p $(@)

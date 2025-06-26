@@ -11,5 +11,5 @@ CFLAGS_BPF += -target bpf
 CFLAGS_BPF += $(CFLAG_BPF_TARGET_ARCH)
 
 %.bpf.o: %.bpf.c
-	@echo -e "  CLANG BPF  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
+	$(call log_tgt_obj,CLANG BPF,$(<),$(@))
 	${Q}$(CLANG) -c $(<) -o $(@) ${CFLAGS_BPF} $(CFLAGS_BPF_$(*))

@@ -6,6 +6,6 @@ ifneq ($(TARGETS_GO),)
   endif
 endif
 
-${TARGETS_GO}:
-	@echo -e "  GO  \033[1;32m$(@)\033[m"
+${TARGETS_GO}: %:
+	$(call log_tgt_exe,GO,$(<),$(@))
 	${Q}$(GO) build $(@).go

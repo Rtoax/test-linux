@@ -5,5 +5,5 @@ ifeq ($(RUSTC),)
 endif
 
 $(TARGETS_RUST): %:
-	@echo -e "  RUSTC  \033[1;32m$(@)\033[m"
+	$(call log_tgt_exe,RUSTC,$(<),$(@))
 	${Q}$(RUSTC) -o $(@) $(^)
