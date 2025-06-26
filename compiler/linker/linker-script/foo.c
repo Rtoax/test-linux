@@ -16,6 +16,7 @@ int foo(void)
 	foo_local_bss2 = 1;
 	foo_local_data1 = 1;
 	foo_local_data2 = 1;
+	return 0;
 }
 
 int foo1(void)

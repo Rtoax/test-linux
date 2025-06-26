@@ -24,7 +24,7 @@ ${OUTPUT}%.cpp.s: %.cpp | ${OUTPUT}
 
 ${OUTPUT}%.asm.o: %.asm | ${OUTPUT}
 	@echo -e "  ASM  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	${Q}${NASM} -o $(@) -felf64 $(<)
+	${Q}${NASM} -o $(@) -felf64 $(<) $(ASMCFLAGS) $(ASMCFLAGS_$(*))
 
 # Same as: as {--64,--32} a.S -o a.o
 ${OUTPUT}%.S.o: %.S | ${OUTPUT}
@@ -32,13 +32,13 @@ ${OUTPUT}%.S.o: %.S | ${OUTPUT}
 	${Q}$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
 
 $(TARGETS): %:
-	@echo -e "  LD  \033[1;32m$(@)\033[m"
+	@echo -e "  LD  \033[1m$(<)\033[m to \033[1;32m$(@)\033[m"
 	${Q}${CC_PFX} $(CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*))
 
 ${TARGETS_CPP}: %:
-	@echo -e "  LD CXX   \033[1;32m$(@)\033[m"
+	@echo -e "  LD CXX   \033[1m$(<)\033[m to \033[1;32m$(@)\033[m"
 	${Q}${CC_PFX} $(CXX) -o $(@) $(^) $(LDXXFLAGS) $(LDXXFLAGS_$(*))
 
 ${TARGETS_ASM}: %:
-	@echo -e "  LD ASM   \033[1;32m$(@)\033[m"
-	${Q}$(LD) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*))
+	@echo -e "  LD ASM   \033[1m$(<)\033[m to \033[1;32m$(@)\033[m"
+	${Q}$(LD) -o $(@) $(^) $(ASMLDFLAGS) $(ASMLDFLAGS_$(*))
