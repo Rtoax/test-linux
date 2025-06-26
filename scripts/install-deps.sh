@@ -543,7 +543,6 @@ pkgs_base+=( dwz )                  # DWARF optimization and duplicate removal t
 pkgs_base+=( dwarves )              # pahole
 pkgs_base+=( efivar mokutil )       # UEFI
 pkgs_base+=( elfutils )             # eu- prefix tools
-pkgs_base+=( fortune )
 pkgs_base+=( gdb cgdb )
 pkgs_base+=( git )
 pkgs_base+=( git-email )
@@ -771,6 +770,7 @@ dnf_add_packages()
 	pkgs_base+=( dtc )                  # device tree
 	pkgs_base+=( elfutils-devel )
 	pkgs_base+=( elfutils-libelf-devel )
+	pkgs_base+=( fortune )
 	pkgs_base+=( git-clang-format )
 	pkgs_base+=( glibc-common )
 	pkgs_base+=( glibc-static )
@@ -979,6 +979,7 @@ apt_add_packages()
 	pkgs_base+=( clang-format )
 	pkgs_base+=( cloc )
 	pkgs_base+=( dwarfdump )
+	pkgs_base+=( fortune-mod )
 	pkgs_base+=( gnupg2 )
 	pkgs_base+=( iproute2 )             # ss, tc
 	pkgs_base+=( libaio-dev )           # aio
