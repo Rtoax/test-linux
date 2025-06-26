@@ -12,7 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - main.mk: cflags: default `-Werror -Wall -D_GNU_SOURCE -Wstrict-prototypes`.
 #### Added
-- foption: test -fsanitize for g++;
+- foption: test -fsanitize=address for g++, test -fsanitize=leak;
 - go: Add C/malloc.go,mmap.go.
 - pcie: add configuration-space and pciutils directory.
 - make.list: add driver, python directory.
