@@ -5,6 +5,7 @@ include ../../compiler.mk
 TARGETS += leak
 TARGETS += address
 TARGETS_CPP += address_cpp
+TARGETS += thread
 
 # Depends on libasan
 CFLAGS_address := -fsanitize=address
@@ -20,9 +21,13 @@ LDXXFLAGS_address_cpp := ${LDFLAGS_address}
 CFLAGS_leak := -fsanitize=leak
 LDFLAGS_leak := -llsan
 
+CFLAGS_thread := -fsanitize=thread
+LDFLAGS_thread := -ltsan -pthread
+
 
 include ../../../template/main.mk
 
 address: address.o
 address_cpp: address_cpp.opp
 leak: leak.o
+thread: thread.o
