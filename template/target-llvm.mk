@@ -1,5 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
 CLANG ?= $(shell which clang 2>/dev/null)
+CLANG_CXX ?= $(shell which clang++ 2>/dev/null)
+
 LLVM_CONFIG ?= $(shell which llvm-config 2>/dev/null)
 LLVM_AS ?= $(shell which llvm-as 2>/dev/null)
 LLVM_DIS ?= $(shell which llvm-dis 2>/dev/null)
@@ -39,3 +41,7 @@ CLANG_AST_CFLAGS := -Xclang -ast-dump -fsyntax-only
 %.ll.s: %.ll
 	@echo -e "  LLC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	${Q}$(LLC) $(<) -o $(@)
+
+${TARGETS_LLVM_LL}: %:
+	@echo -e "  LLVM LL   \033[1;32m$(@)\033[m"
+	${Q}$(CLANG) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*))

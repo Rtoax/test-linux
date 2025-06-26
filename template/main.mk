@@ -70,6 +70,7 @@ build-targets += $(TARGETS_LIBA) $(TARGETS_LIBSO)
 build-targets += $(TARGETS)
 build-targets += $(TARGETS_ASM)
 build-targets += $(TARGETS_CPP)
+build-targets += $(TARGETS_LLVM_LL)
 build-targets += $(TARGETS_BPF)
 build-targets += $(TARGETS_RUST)
 build-targets += $(TARGETS_CUDA)
@@ -106,7 +107,7 @@ endif
 ifneq ($(TARGETS_LIBSO),)
   include ${TEMPLATE_DIR}/target-libso.mk
 endif
-ifneq ($(HAVE_LLVM),)
+ifneq ($(TARGETS_LLVM_LL),)
   include ${TEMPLATE_DIR}/target-llvm.mk
 endif
 ifneq ($(TARGETS_BPF),)

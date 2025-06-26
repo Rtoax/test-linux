@@ -1,33 +1,9 @@
-include ../../../tlbuild.mk
+HAVE_LLVM := yes
 
+TARGETS_LLVM_LL := main
 
-TARGETS :=
-
-CLANG = $(shell which clang 2>/dev/null)
-
-ifeq ($(CLANG),)
-  $(warning Not found clang, please install clang first)
-else
-  TARGETS += main
-endif
-
-CC = ${CLANG}
-
-CFLAGS := -O0
 CFLAGS += -Wno-override-module
 
-.PHONY: build
-build: ${TARGETS}
-	@echo -e " \033[1;33m Done \033[m"
+include ../../../template/main.mk
 
-# Add more object.o file
 main: main.ll
-
-$(TARGETS): %:
-	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	${Q}$(CC) $(CFLAGS) -o $(@) $(^)
-
-.PHONY: clean
-clean:
-	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
-	${Q}rm -f ${TARGETS} *.o *.d

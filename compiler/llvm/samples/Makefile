@@ -1,9 +1,10 @@
 # SPDX-License-Identifier: GPL-3.0
-include ../../../tlbuild.mk
-include ../llvm.mk
+TARGETS_CPP :=
+TARGETS_CPP += ParseCommandLineOptions
+TARGETS_CPP += ParseCommandLineOptions-2
+TARGETS_CPP += LLVM_VERSION_MAJOR
 
 CLANG_CXX := $(shell which clang++ 2>/dev/null)
-
 ifneq ($(wildcard $(CLANG_CXX)),)
   CXX := ${CLANG_CXX}
 else
@@ -15,46 +16,16 @@ ifeq ($(CXX),)
   $(warning Not found ${CXX}, please install first)
 endif
 
-TARGETS :=
-TARGETS += ParseCommandLineOptions
-TARGETS += ParseCommandLineOptions-2
-TARGETS += LLVM_VERSION_MAJOR
-
-ifeq ($(LLVM_CONFIG),)
-  $(warning Not found llvm-config, please install llvm first)
-  TARGETS :=
-endif
-
 CXXFLAGS :=
-CXXFLAGS +=
-CXXFLAGS += -DDEBUG -O0 -g
-CXXFLAGS += $(shell llvm-config --cxxflags --ldflags --system-libs --libs core mc mcjit ExecutionEngine)
 CXXFLAGS += -Wno-error=unused-command-line-argument
+CXXFLAGS += $(shell llvm-config --cxxflags --system-libs --libs core mc mcjit ExecutionEngine)
+LDXXFLAGS += $(shell llvm-config --ldflags --system-libs --libs core mc mcjit ExecutionEngine)
 
 CXXFLAGS_ParseCommandLineOptions := -Wno-unused-command-line-argument
 CXXFLAGS_ParseCommandLineOptions-2 := -Wno-unused-command-line-argument
 
+include ../../../template/main.mk
 
-.PHONY: build
-build: ${TARGETS}
-	@echo -e " \033[1;33m Done \033[m"
-
-ParseCommandLineOptions: ParseCommandLineOptions.o
-ParseCommandLineOptions-2: ParseCommandLineOptions-2.o
-LLVM_VERSION_MAJOR: LLVM_VERSION_MAJOR.o
-
-%.o: %.cpp
-	@echo -e "  CXX  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	${Q}$(CXX) $(CXXFLAGS) $(CXXFLAGS_$(*)) -o $(@) -c $(<)
-
-$(TARGETS): %:
-	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	${Q}$(CXX) $(CXXFLAGS) -o $(@) $(^)
-
-test: ${TARGETS}
-	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
-
-.PHONY: clean
-clean:
-	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
-	${Q}rm -f ${TARGETS} *.o
+ParseCommandLineOptions: ParseCommandLineOptions.cpp.o
+ParseCommandLineOptions-2: ParseCommandLineOptions-2.cpp.o
+LLVM_VERSION_MAJOR: LLVM_VERSION_MAJOR.cpp.o
