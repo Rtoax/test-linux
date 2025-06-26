@@ -48,7 +48,10 @@ tracepoint:syscalls:sys_exit_mmap
 {
 	printf(" %-16lx\n", args->ret);
 	@hist_us = hist((nsecs - @start[tid]) / 1000);
+
 	delete(@start[tid]);
+
+	@may_leak[comm, (uint64)args->ret] = count();
 }
 
 tracepoint:syscalls:sys_enter_munmap
@@ -59,10 +62,22 @@ tracepoint:syscalls:sys_enter_munmap
 	time("%H:%M:%S ");
 	printf("%-8d %-16s %-8lx %4s %7s %9s %8s %8s %-16lx <munmap>\n",
 		pid, comm, $len / 1024, "", "", "", "", "", $addr);
+
+	if (has_key(@may_leak, (comm, (uint64)args->addr))) {
+		delete(@may_leak[comm, args->addr]);
+	}
+}
+
+i:s:5
+{
+	printf("\033[31m");
+	print(@may_leak, 10);
+	printf("\033[m");
 }
 
 END
 {
 	clear(@start);
+	clear(@may_leak);
 	printf("Bye.\n");
 }
