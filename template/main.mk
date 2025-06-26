@@ -107,7 +107,7 @@ endif
 ifneq ($(TARGETS_LIBSO),)
   include ${TEMPLATE_DIR}/target-libso.mk
 endif
-ifneq ($(TARGETS_LLVM_LL),)
+ifneq ($(HAVE_LLVM)$(TARGETS_LLVM_LL),)
   include ${TEMPLATE_DIR}/target-llvm.mk
 endif
 ifneq ($(TARGETS_BPF),)
