@@ -17,6 +17,12 @@ LLVM_CXXFLAGS += $(shell ${LLVM_CONFIG} --cxxflags)
 
 LLVM_LDFLAGS += $(shell ${LLVM_CONFIG} --ldflags)
 
+CLANG_AST_CFLAGS := -Xclang -ast-dump -fsyntax-only
+
+# AST: Abstract Syntax Tree
+%.ast: %.c
+	@echo -e "  CLANG AST  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
+	${Q}$(CLANG) $(<) ${CLANG_AST_CFLAGS} $(CFLAGS) $(CFLAGS_$(*)) > $(@)
 
 %.ll: %.c
 	@echo -e "  CLANG LL  \033[1m$(<)\033[m to \033[1m$(@)\033[m"

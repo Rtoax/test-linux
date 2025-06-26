@@ -105,6 +105,7 @@ endif
 ifneq ($(TARGETS_LIBSO),)
   include ${TEMPLATE_DIR}/target-libso.mk
 endif
+include ${TEMPLATE_DIR}/target-llvm.mk
 ifneq ($(TARGETS_RUST),)
   include ${TEMPLATE_DIR}/target-rust.mk
 endif
