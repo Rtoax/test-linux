@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - main.mk: cflags: default `-Werror -Wall -D_GNU_SOURCE -Wstrict-prototypes`.
 #### Added
+- distributions: add asterinas;
 - make: test gnu/make/addsuffix.mk;
 - foption: test -fsanitize=address for g++, test -fsanitize={leak,thread};
 - go: Add C/malloc.go,mmap.go.
