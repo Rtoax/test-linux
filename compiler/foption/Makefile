@@ -5,6 +5,7 @@ include ../compiler.mk
 sub-dir := bss
 sub-dir += lto
 sub-dir += ipa
+sub-dir += sanitizer
 
 TARGETS :=
 TARGETS += fwhole-program
@@ -15,8 +16,6 @@ TARGETS += finput-charset
 TARGETS += fno-zero-initialized-in-bss fzero-initialized-in-bss
 TARGETS += fplt fno-plt
 TARGETS += fuse-ld
-TARGETS += fsanitize
-TARGETS_CPP += fsanitize_cpp
 
 ifeq ($(CC_-fcf-protection),1)
   TARGETS += fcf-protection
@@ -56,16 +55,6 @@ CFLAGS_fno-plt := -fno-plt
 # Use the bfd linker instead of the default linker. There are bfd, gold, lld,
 # mold, etc. optional linkers.
 LDFLAGS_fuse-ld := -fuse-ld=bfd
-# Depends on libasan
-CFLAGS_fsanitize := -fsanitize=address
-ifneq ($(CC),clang)
-  CFLAGS_fsanitize += -Wno-error=stringop-overflow
-endif
-LDFLAGS_fsanitize := ${CFLAGS_fsanitize}
-
-CXXFLAGS_fsanitize_cpp := ${CFLAGS_fsanitize}
-CXXFLAGS_fsanitize_cpp += -Wno-error=stringop-overflow
-LDXXFLAGS_fsanitize_cpp := ${LDFLAGS_fsanitize}
 
 TARGETS_CLEAN := clean0
 
@@ -89,8 +78,6 @@ fzero-initialized-in-bss: fzero-initialized-in-bss.o
 fplt: fplt.o
 fno-plt: fno-plt.o
 fuse-ld: fuse-ld.o
-fsanitize: fsanitize.o
-fsanitize_cpp: fsanitize_cpp.opp
 
 clean0:
 	${Q}rm -rf fdump-tree-gimple.c.* \
