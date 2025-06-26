@@ -3,8 +3,6 @@ include ../../../../tlbuild.mk
 
 TARGETS :=
 TARGETS_O :=
-TARGETS_SO :=
-TARGETS_A :=
 TARGETS_S_O :=
 
 CC := gcc
@@ -72,7 +70,7 @@ define print_elf_reloc
 endef
 
 .PHONY: build
-build: ${TARGETS_SO} ${TARGETS_A} ${TARGETS} ${TARGETS_O} ${TARGETS_S_O}
+build: ${TARGETS} ${TARGETS_O} ${TARGETS_S_O}
 	@echo -e " \033[1;33m Done \033[m"
 
 R_X86_64: R_X86_64.o
@@ -105,14 +103,6 @@ $(TARGETS): %:
 	${Q}LD_LIBRARY_PATH=$(shell pwd) $(CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_PIE) $(LDFLAGS_$(*))
 	@$(call print_elf_reloc,$(@))
 
-$(TARGETS_SO): %:
-	@echo -e "  SO  \033[1;32m$(@)\033[m"
-	${Q}$(CC) -o $(@) $(^) -shared -fPIC $(LDFLAGS) $(LDFLAGS_$(*))
-
-$(TARGETS_A): %:
-	@echo -e "  AR  \033[1;32m$(^) to $(@)\033[m"
-	${Q}ar rcs $(@) $(^)
-
 test: ${TARGETS}
 	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
 	${Q}./R_X86_64_64.sh
@@ -120,6 +110,6 @@ test: ${TARGETS}
 
 .PHONY: clean
 clean:
-	@echo -e "  CLEAN  \033[1;32m$(TARGETS) $(TARGETS_SO) $(TARGETS_A) ${TARGETS_O} ${TARGETS_S_O}\033[m"
-	${Q}rm -f ${TARGETS} ${TARGETS_SO} ${TARGETS_A} ${TARGETS_O} ${TARGETS_S_O} \
+	@echo -e "  CLEAN  \033[1;32m$(TARGETS) ${TARGETS_O} ${TARGETS_S_O}\033[m"
+	${Q}rm -f ${TARGETS} ${TARGETS_O} ${TARGETS_S_O} \
 		*.o *.reloc *.S.o *.c.s
