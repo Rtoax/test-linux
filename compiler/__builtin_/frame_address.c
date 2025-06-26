@@ -2,7 +2,6 @@
 
 #define FRAME(i) __builtin_frame_address(i)
 
-
 int f1(void)
 {
 	long I = 1;
@@ -10,6 +9,7 @@ int f1(void)
 	printf("f1: %p, %p\n", FRAME(1), &I);
 	printf("f1: %p, %p\n", FRAME(2), &I);
 	printf("f1: %p, %p\n", FRAME(3), &I);
+	return 0;
 }
 
 int f2(void)

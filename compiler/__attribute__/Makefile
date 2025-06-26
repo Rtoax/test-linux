@@ -28,7 +28,7 @@ TARGETS += noplt noplt-plt
 TARGETS += kernel_helper
 TARGETS += __has_attribute
 
-TARGETS += preserve_access_index
+TARGETS_BPF := preserve_access_index.bpf.o
 
 include ../compiler.mk
 
@@ -73,5 +73,4 @@ weak: weak.o
 noplt: noplt.o
 noplt-plt: noplt-plt.o
 kernel_helper: kernel_helper.o
-preserve_access_index: preserve_access_index.o
 __has_attribute: __has_attribute.o

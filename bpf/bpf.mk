@@ -1,5 +1,4 @@
 # SPDX-License-Identifier: GPL-3.0
-#
 BPF_TARGET_ARCH ?= $(shell uname -m | sed 's/x86_64/x86/' \
 			 | sed 's/arm.*/arm/' \
 			 | sed 's/aarch64/arm64/' \

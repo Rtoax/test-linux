@@ -9,7 +9,7 @@ struct A {};
 
 #define PREDEFINED_VAL 1
 
-#define TEST(val) printf("__builtin_constant_p("#val") is %d\n", __builtin_constant_p(val));
+#define TEST(val) printf("__builtin_constant_p(#val) is %d\n", __builtin_constant_p(val));
 
 int main(void)
 {
@@ -34,7 +34,7 @@ int main(void)
 	const char fmt2[] = "Hello %s";
 	TEST(fmt2);
 
-	const char const fmt3[] = "Hello %s";
+	const char fmt3[] = "Hello %s";
 	TEST(fmt3);
 
 	TEST(sizeof(i));

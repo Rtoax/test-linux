@@ -15,6 +15,7 @@ int main(void)
 {
 	fptr pf = f1();
 
+	(void)pf;
 	printf("p0=%p, p1=%p, f1=%p, main=%p\n", p0, p1, f1, main);
 
 	return 0;

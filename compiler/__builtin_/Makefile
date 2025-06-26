@@ -1,5 +1,4 @@
 # SPDX-License-Identifier: GPL-3.0
-include ../../tlbuild.mk
 include ../../bpf/bpf.mk
 CC := gcc
 CLANG := clang
@@ -43,6 +42,10 @@ TARGETS_todo += preserve_enum_value
 # TODO: Fix this warning skip
 CFLAGS_apply_args := -Wno-incompatible-pointer-types
 CFLAGS_popcount := -Wno-int-conversion
+# TODO: error: calling ‘__builtin_frame_address’ with a nonzero argument is unsafe
+CFLAGS_frame_address := -Wno-error=frame-address
+# TODO: error: calling ‘__builtin_return_address’ with a nonzero argument is unsafe
+CFLAGS_return_address := -Wno-error=frame-address
 
 # [1] https://gcc.gnu.org/onlinedocs/gcc/BPF-Built-in-Functions.html
 #CFLAGS_preserve_field_info := -mxbpf -mco-re
@@ -52,9 +55,7 @@ CFLAGS_BPF += -O2 -g
 CFLAGS_BPF += -target bpf
 CFLAGS_BPF += $(CFLAG_BPF_TARGET_ARCH)
 
-.PHONY: build
-build: $(TARGETS) $(TARGETS_BPF)
-	@echo -e " \033[1;33m Done \033[m"
+include ../../template/main.mk
 
 __has_builtin: __has_builtin.o
 apply_args: apply_args.o
@@ -85,19 +86,3 @@ preserve_enum_value: preserve_enum_value.o
 memcpy: memcpy.o
 strlen: strlen.o
 strcmp: strcmp.o
-
-%.o: %.c
-	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	${Q}$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
-
-%.bpf.o: %.c
-	@echo -e "  BPF  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	${Q}$(CLANG) -c $(<) -o $(@) ${CFLAGS_BPF} $(CFLAGS_BPF_$(*))
-
-$(TARGETS): %:
-	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	${Q}$(CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*)) $(CFLAGS) $(CFLAGS_$(*))
-
-clean:
-	@echo -e "  CLEAN  \033[1;32m$(TARGETS) $(TARGETS_BPF)\033[m"
-	${Q}rm -f ${TARGETS} ${TARGETS_BPF} *.o

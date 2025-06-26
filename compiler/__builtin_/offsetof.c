@@ -9,6 +9,6 @@ struct A{
 
 int main(void)
 {
-	printf("%d\n", offsetof(struct A, b));
+	printf("%ld\n", offsetof(struct A, b));
 	return 0;
 }

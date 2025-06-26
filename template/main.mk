@@ -70,6 +70,7 @@ build-targets += $(TARGETS_LIBA) $(TARGETS_LIBSO)
 build-targets += $(TARGETS)
 build-targets += $(TARGETS_ASM)
 build-targets += $(TARGETS_CPP)
+build-targets += $(TARGETS_BPF)
 build-targets += $(TARGETS_RUST)
 build-targets += $(TARGETS_CUDA)
 build-targets += $(TARGETS_GO)
@@ -106,6 +107,9 @@ ifneq ($(TARGETS_LIBSO),)
   include ${TEMPLATE_DIR}/target-libso.mk
 endif
 include ${TEMPLATE_DIR}/target-llvm.mk
+ifneq ($(TARGETS_BPF),)
+  include ${TEMPLATE_DIR}/target-bpf.mk
+endif
 ifneq ($(TARGETS_RUST),)
   include ${TEMPLATE_DIR}/target-rust.mk
 endif
