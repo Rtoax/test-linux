@@ -39,13 +39,13 @@ foo.o: foo.h bar.h
 bar.o: foo.h bar.h
 main-c.o: foo.h bar.h
 main-c: main-c.o foo.o bar.o
-hello-as: hello-as.o
+hello-as: hello-as.asm.o
 
 default.lds:
 	@echo -e "  LDS  generate \033[1;32m$(@)\033[m"
 	${Q}LD=${LD} ./default.lds.sh ${LDS_PIE}
 
-%.o: %.asm
+%.asm.o: %.asm
 	@echo -e "  AS  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	${Q}$(NASM) $(<) -felf64 -o $(@) $(AFLAGS) $(AFLAGS_$(*))
 

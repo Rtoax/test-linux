@@ -1,6 +1,6 @@
 OUTPUT(hello-as)
 OUTPUT_FORMAT("elf64-x86-64")
-INPUT(hello-as.o)
+INPUT(hello-as.asm.o)
 
 START_ADDRESS = 0x200000;
 DATA_OFFSET   = 0x400000;
