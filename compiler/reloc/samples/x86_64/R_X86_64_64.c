@@ -55,7 +55,7 @@ int *pi3 = arr_i + 2;
  */
 int main(void)	/* .rela.eh_frame */
 {
-	char local_s2[] = RODATA_1;	/* not rela */
+	char __unused local_s2[] = RODATA_1;	/* not rela */
 
 #if 0
 	/**
