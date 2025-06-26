@@ -14,7 +14,7 @@ ${OUTPUT}%.c.s: %.c | ${OUTPUT}
 	@echo -e "  CC S \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	${Q}${CC_PFX} $(CC) -S -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
 
-${OUTPUT}%.opp: %.cpp | ${OUTPUT}
+${OUTPUT}%.cpp.o: %.cpp | ${OUTPUT}
 	@echo -e "  CXX  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	${Q}${CC_PFX} $(CXX) -o $(@) -c $(<) $(CXXFLAGS) $(CXXFLAGS_$(*))
 

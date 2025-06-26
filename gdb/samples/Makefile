@@ -37,7 +37,7 @@ pthread-gdb: pthread-gdb.o
 hello: hello.o
 linklist: linklist.o
 daxpy: daxpy.o
-global-var: global-var.opp
+global-var: global-var.cpp.o
 
 # Strip
 hello.strip: hello

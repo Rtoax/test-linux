@@ -57,17 +57,17 @@ TARGETS_POST := $(addprefix ${OUTPUT},$(patsubst %,%.cpp.s,${TARGETS_CPP}))
 
 include ../template/main.mk
 
-hello: ${OUTPUT}hello.opp
-alignas: ${OUTPUT}alignas.opp
-extern_C: ${OUTPUT}extern_C.opp
-pass-arg: ${OUTPUT}pass-arg.opp
-return: ${OUTPUT}return.opp
-this: ${OUTPUT}this.opp
-string: ${OUTPUT}string.opp
-__cplusplus: ${OUTPUT}__cplusplus.opp
-__STDC__: ${OUTPUT}__STDC__.opp
-__STDC__c++98: ${OUTPUT}__STDC__c++98.opp
-__STDC__gnu++98: ${OUTPUT}__STDC__gnu++98.opp
-format: ${OUTPUT}format.opp
-fmt: ${OUTPUT}fmt.opp
-expired: ${OUTPUT}expired.opp
+hello: ${OUTPUT}hello.cpp.o
+alignas: ${OUTPUT}alignas.cpp.o
+extern_C: ${OUTPUT}extern_C.cpp.o
+pass-arg: ${OUTPUT}pass-arg.cpp.o
+return: ${OUTPUT}return.cpp.o
+this: ${OUTPUT}this.cpp.o
+string: ${OUTPUT}string.cpp.o
+__cplusplus: ${OUTPUT}__cplusplus.cpp.o
+__STDC__: ${OUTPUT}__STDC__.cpp.o
+__STDC__c++98: ${OUTPUT}__STDC__c++98.cpp.o
+__STDC__gnu++98: ${OUTPUT}__STDC__gnu++98.cpp.o
+format: ${OUTPUT}format.cpp.o
+fmt: ${OUTPUT}fmt.cpp.o
+expired: ${OUTPUT}expired.cpp.o

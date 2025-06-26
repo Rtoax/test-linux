@@ -45,6 +45,6 @@ tst: tst.o
 unw_regname: unw_regname.o
 unw_create_addr_space: unw_create_addr_space.o
 backtrace: backtrace.o
-backtrace-pid: backtrace-pid.opp
+backtrace-pid: backtrace-pid.cpp.o
 do_backtrace: do_backtrace.o
 unwind-backtrace: unwind-backtrace.o

@@ -14,7 +14,6 @@ squashfs-root
 # Object files
 *.o
 *.oc
-*.opp
 *.obj
 *.elf
 *.d

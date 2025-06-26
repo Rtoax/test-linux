@@ -163,7 +163,7 @@ personality: personality.o
 lseek: lseek.o
 rename: rename.o
 readlink: readlink.o
-readlink2: readlink2.opp
+readlink2: readlink2.cpp.o
 getcwd: getcwd.o
 gettid: gettid.o
 getpid: getpid.o

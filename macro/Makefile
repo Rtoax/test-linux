@@ -92,8 +92,8 @@ __x86_64__: __x86_64__.o
 __aarch64__: __aarch64__.o
 __loongarch64: __loongarch64.o
 __nonnull: __nonnull.o
-__cplusplus: __cplusplus.opp
-__cplusplus-std98: __cplusplus-std98.opp
+__cplusplus: __cplusplus.cpp.o
+__cplusplus-std98: __cplusplus-std98.cpp.o
 __restrict__: __restrict__.o
 __func__: __func__.o
 __linux__: __linux__.o

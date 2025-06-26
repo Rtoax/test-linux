@@ -22,7 +22,7 @@ CFLAGS_clock_gettime.nsec := -DHAVE_DPDK_TSC_FREQ
 
 include ../../template/main.mk
 
-evil-clock-test: evil-clock-test.opp
+evil-clock-test: evil-clock-test.cpp.o
 accuracy: accuracy.o
 clock_gettime.sec: clock_gettime.sec.o tsc_freq.o
 clock_gettime.nsec: clock_gettime.nsec.o tsc_freq.o

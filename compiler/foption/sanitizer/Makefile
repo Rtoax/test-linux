@@ -28,6 +28,6 @@ LDFLAGS_thread := -ltsan -pthread
 include ../../../template/main.mk
 
 address: address.o
-address_cpp: address_cpp.opp
+address_cpp: address_cpp.cpp.o
 leak: leak.o
 thread: thread.o
