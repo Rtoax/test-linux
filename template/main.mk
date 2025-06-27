@@ -81,7 +81,9 @@ define log_tgt_done
 endef
 
 include ${TEMPLATE_DIR}/../elf/pie.mk
-include ${TEMPLATE_DIR}/subdir-header.mk
+ifneq ($(sub-dir),)
+  include ${TEMPLATE_DIR}/subdir-header.mk
+endif
 
 build-targets := $(TARGETS_PREP)
 build-targets += $(OUTPUT)
@@ -157,4 +159,6 @@ ifneq (${OUTPUT},)
   include ${TEMPLATE_DIR}/target-output.mk
 endif
 
-include ${TEMPLATE_DIR}/subdir-footer.mk
+ifneq ($(sub-dir),)
+  include ${TEMPLATE_DIR}/subdir-footer.mk
+endif
