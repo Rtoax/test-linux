@@ -1,9 +1,1 @@
-include ../../tlbuild.mk
-
-
-TARGETS :=
-
-all:
-
-clean:
-
+include ../../template/main.mk
