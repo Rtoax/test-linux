@@ -1,0 +1,30 @@
+#!/bin/env bpftrace
+
+uprobe:/lib64/libtsan.so.2:_ZN11__sanitizer13internal_mmapEPvmiiiy
+{
+	@LEN[tid] = arg1;
+}
+
+uretprobe:/lib64/libtsan.so.2:_ZN11__sanitizer13internal_mmapEPvmiiiy
+/ @LEN[tid] /
+{
+	printf("\033[31m");
+	time("+++ %H:%M:%S ");
+	printf("%-8d %-16s %16lx %16lx mmap\n", pid, comm, retval, @LEN[tid]);
+	printf("\033[0m");
+
+	delete(@LEN[tid]);
+}
+
+uprobe:/lib64/libtsan.so.2:_ZN11__sanitizer15internal_munmapEPvm
+{
+	printf("\033[32m");
+	time("--- %H:%M:%S ");
+	printf("%-8d %-16s %16lx %16lx munamp\n", pid, comm, arg0, arg1);
+	printf("\033[m");
+}
+
+END
+{
+	clear(@LEN);
+}

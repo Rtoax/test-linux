@@ -3,7 +3,8 @@
 #include <unistd.h>
 #include <pthread.h>
 
-#define NR_THREAD	30
+#define NR_THREAD	2
+#define NR_LOOP	100
 
 struct data_t {
 	char *str;
@@ -16,7 +17,8 @@ void *thread_race(void *arg)
 #define RACE
 #ifdef RACE
 	struct data_t *data = arg;
-	while (data->count <= 10) {
+	while (data->count <= NR_LOOP) {
+		sleep(1);
 		data->count++;
 		printf("%16ld %ld\n", pthread_self(), data->count);
 	}
@@ -44,5 +46,6 @@ int main(void)
 	for (i = 0; i < NR_THREAD; i++)
 		pthread_join(thread[i], NULL);
 
+	free(str);
 	return 0;
 }

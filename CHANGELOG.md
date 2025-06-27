@@ -14,7 +14,7 @@ and this project adheres to
 #### Added
 - distributions: add asterinas;
 - make: test gnu/make/addsuffix.mk;
-- foption: test -fsanitize=address for g++, test -fsanitize={leak,thread};
+- foption: test -fsanitize=address for g++, test -fsanitize={leak,thread}, add libtsan.bt;
 - go: Add C/malloc.go,mmap.go.
 - pcie: add configuration-space and pciutils directory.
 - make.list: add driver, python directory.
