@@ -39,6 +39,7 @@ ${TARGETS_CPP}: %:
 	$(call log_tgt_exe,LD CXX,$(<),$(@))
 	${Q}${CC_PFX} $(CXX) -o $(@) $(^) $(LDXXFLAGS) $(LDXXFLAGS_$(*))
 
+# Same as: ld -m elf_i386 a.o -o a
 ${TARGETS_ASM}: %:
 	$(call log_tgt_exe,LD ASM,$(<),$(@))
 	${Q}$(LD) -o $(@) $(^) $(ASMLDFLAGS) $(ASMLDFLAGS_$(*))

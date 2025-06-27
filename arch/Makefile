@@ -14,12 +14,6 @@ else ifeq ($(shell uname -m),riscv64)
   sub-dir += riscv64
 endif
 
-CC := gcc
-
-CFLAGS :=
-
-CFLAGS_cpu_relax :=
-
 TARGETS_POST := $(patsubst %,%.c.s,${TARGETS})
 
 include ../template/main.mk
