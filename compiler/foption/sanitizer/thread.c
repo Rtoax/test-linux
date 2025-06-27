@@ -6,7 +6,10 @@
 #define NR_THREAD	2
 #define NR_LOOP	1
 
-//#define LOCK
+/**
+ * NOTE: I don't know why RSS memory growing even has mutex lock if high rate
+ * call racecall(). maybe some cache not released?
+ */
 #ifdef LOCK
 pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 #define my_lock() pthread_mutex_lock(&mutex)

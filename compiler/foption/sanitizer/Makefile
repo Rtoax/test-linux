@@ -24,6 +24,11 @@ LDFLAGS_leak := -llsan
 CFLAGS_thread := -fsanitize=thread
 LDFLAGS_thread := -ltsan -pthread
 
+ifdef LOCK
+  CFLAGS := -DLOCK=1
+else
+  $(warning Define LOCK=1 to running with lock for SAN)
+endif
 
 include ../../../template/main.mk
 
