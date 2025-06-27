@@ -22,6 +22,7 @@ uprobe:/lib64/libtsan.so.2:_ZN11__sanitizer15internal_munmapEPvm
 	time("--- %H:%M:%S ");
 	printf("%-8d %-16s %16lx %16lx munamp\n", pid, comm, arg0, arg1);
 	printf("\033[m");
+	printf("%r\n", buf(arg0, arg1));
 }
 
 END

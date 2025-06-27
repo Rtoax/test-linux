@@ -6,6 +6,17 @@
 #define NR_THREAD	2
 #define NR_LOOP	1
 
+//#define LOCK
+#ifdef LOCK
+pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
+#define my_lock() pthread_mutex_lock(&mutex)
+#define my_unlock() pthread_mutex_unlock(&mutex)
+#else
+#define my_lock()
+#define my_unlock()
+#endif
+
+
 struct data_t {
 	char *str;
 	size_t len;
@@ -15,12 +26,15 @@ struct data_t {
 
 void *thread_race(void *arg)
 {
+	int i = 0;
 	struct data_t *data = arg;
-	while (data->count <= data->loop) {
+	while (i++ < NR_LOOP) {
 		sleep(1);
+		my_lock();
 		data->count++;
 		data->str[0] = 'a';
 		printf("%16ld %ld\n", pthread_self(), data->count);
+		my_unlock();
 	}
 
 	return 0;
