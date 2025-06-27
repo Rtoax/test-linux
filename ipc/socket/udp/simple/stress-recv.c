@@ -44,6 +44,7 @@ int main(int argc, char *argv[])
 
 		recvcnt++;
 		recvbytes += n;
+
 		printf("recv %ld pkts, %ld bytes.\n", recvcnt, recvbytes);
 	}
 
