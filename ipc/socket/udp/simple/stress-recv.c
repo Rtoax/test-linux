@@ -5,10 +5,29 @@
 #include <sys/types.h>
 #include <netinet/ip.h>
 #include <unistd.h>
+#include <time.h>
+#include <pthread.h>
 
 
 const int SERV_PORT = 6000;
 const int MAXLINE = 2048;
+volatile size_t recvcnt, recvbytes;
+
+static inline unsigned long nsecs(void)
+{
+	struct timespec ts;
+	clock_gettime(CLOCK_REALTIME, &ts);
+	return ts.tv_sec * 1000000000UL + ts.tv_nsec;
+}
+
+void *display_thread(void *arg)
+{
+	while (1) {
+		printf("Total rx %ld pkts, %ld bytes.\n", recvcnt, recvbytes);
+		sleep(1);
+	}
+	return NULL;
+}
 
 int main(int argc, char *argv[])
 {
@@ -16,7 +35,8 @@ int main(int argc, char *argv[])
 	struct sockaddr_in servaddr, cliaddr;
 	socklen_t len;
 	char mesg[MAXLINE];
-	size_t n, recvcnt, recvbytes;
+	size_t n;
+	pthread_t displayer;
 
 	bzero(&servaddr, sizeof(servaddr));
 	servaddr.sin_family = AF_INET;
@@ -37,17 +57,18 @@ int main(int argc, char *argv[])
 
 	recvcnt = recvbytes = 0;
 
+	pthread_create(&displayer, NULL, display_thread, NULL);
+
 	for (;;) {
 		n = recvfrom(sockfd, mesg, MAXLINE, 0, (struct sockaddr *)&cliaddr, &len);
 		if (n < 0)
 			continue;
 
-		recvcnt++;
-		recvbytes += n;
-
-		printf("recv %ld pkts, %ld bytes.\n", recvcnt, recvbytes);
+		__sync_add_and_fetch(&recvcnt, 1);
+		__sync_add_and_fetch(&recvbytes, n);
 	}
 
+	pthread_join(displayer, NULL);
 	close(sockfd);
 	return 0;
 }
