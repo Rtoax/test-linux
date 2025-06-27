@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <signal.h>
 #include <sys/socket.h>
 #include <netinet/ip.h>
 #include <arpa/inet.h>
@@ -9,7 +10,13 @@
 
 const int SERV_PORT = 6000;
 const int MAXLINE = 2048;
+volatile sig_atomic_t keep_going = 1;
 
+void sig_handler(int signum)
+{
+	psignal(signum, "Signal");
+	keep_going = 0;
+}
 
 int main(int argc, char *argv[])
 {
@@ -23,6 +30,8 @@ int main(int argc, char *argv[])
 		fprintf(stderr, "Usage: %s <IPAddress> <N pkts>\n", argv[0]);
 		exit(1);
 	}
+
+	signal(SIGINT, sig_handler);
 
 	bzero(&servaddr, sizeof(servaddr));
 	servaddr.sin_family = AF_INET;
@@ -51,12 +60,13 @@ int main(int argc, char *argv[])
 
 	printf("Try send %ld packets to %s\n", total, argv[1]);
 
-	while (1) {
+	while (keep_going) {
 		n = sendto(sockfd, sendline, MAXLINE, 0, pservaddr, sizeof(servaddr));
 		if (n > 0) {
 			sendcnt++;
 			sendbytes += n;
 		}
+
 		if (sendcnt % 1000 == 0)
 			printf("send %ld pkts, %ld bytes.\n", sendcnt, sendbytes);
 
@@ -64,7 +74,7 @@ int main(int argc, char *argv[])
 			break;
 	}
 
-	printf("Total send %ld packets, %ld bytes\n", sendcnt, sendbytes);
+	printf("Total tx %ld pkts, %ld bytes\n", sendcnt, sendbytes);
 
 	close(sockfd);
 	return 0;
