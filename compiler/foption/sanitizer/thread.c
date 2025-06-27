@@ -11,10 +11,12 @@
  * call racecall(). maybe some cache not released?
  */
 #ifdef LOCK
+#pragma message "Enable mutex"
 pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 #define my_lock() pthread_mutex_lock(&mutex)
 #define my_unlock() pthread_mutex_unlock(&mutex)
 #else
+#pragma message "Disable mutex"
 #define my_lock()
 #define my_unlock()
 #endif
