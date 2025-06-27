@@ -1,10 +1,7 @@
-include ../../tlbuild.mk
-
-
 TARGETS += reverse_list
 TARGETS += list_del
 
-all: ${TARGETS}
+include ../../template/main.mk
 
-clean:
-	rm -rf ${TARGETS}
+reverse_list: reverse_list.o
+list_del: list_del.o

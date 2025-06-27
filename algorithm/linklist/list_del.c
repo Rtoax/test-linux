@@ -18,6 +18,7 @@ int list_del(list l, int n)
 		l = l->next;
 		n--;
 	}
+	return 0;
 }
 
 void for_each(list l)

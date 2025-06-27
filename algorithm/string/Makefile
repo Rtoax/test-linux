@@ -1,10 +1,7 @@
-include ../../tlbuild.mk
-
-
 TARGETS += huiwen
 TARGETS += reverse_string_words
 
-all: ${TARGETS}
+include ../../template/main.mk
 
-clean:
-	rm -rf ${TARGETS}
+huiwen: huiwen.o
+reverse_string_words: reverse_string_words.o

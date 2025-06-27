@@ -1,51 +1,20 @@
-include ../../../tlbuild.mk
-
-
 FFTW_HDR = /usr/include/fftw3.h
 
 TARGETS :=
 ifneq ($(wildcard ${FFTW_HDR}),)
-TARGETS += fftw_plan_dft_1d
-TARGETS += fftw_plan_dft_1d-1
-TARGETS += fftw_plan_dft_r2c_1d
-endif
+  TARGETS += fftw_plan_dft_1d
+  TARGETS += fftw_plan_dft_1d-1
+  TARGETS += fftw_plan_dft_r2c_1d
 
-CC := gcc
-
-CFLAGS :=
-CFLAGS += -I../../../
-CFLAGS += -DDEBUG -O0 -g
-CFLAGS += -lm
-
-ifneq ($(wildcard ${FFTW_HDR}),)
-CFLAGS += -lfftw3
+  LDFLAGS += -lfftw3
 else
-$(warning "Not found header ${FFTW_HDR}, please install fftw")
+  $(warning "Not found header ${FFTW_HDR}, please install fftw")
 endif
 
-build: ${TARGETS}
-	@echo -e " \033[1;33m Done \033[m"
+LDFLAGS += -lm
 
-# Add more object.o file
+include ../../../template/main.mk
+
 fftw_plan_dft_1d: fftw_plan_dft_1d.o
 fftw_plan_dft_1d-1: fftw_plan_dft_1d-1.o
 fftw_plan_dft_r2c_1d: fftw_plan_dft_r2c_1d.o
-
-%.d: %.c
-	@echo -e "Generate \033[1m$(@)\033[m"
-	${Q}$(CC) $(CFLAGS) -MM -MF "$@" -MG -MP -MT"$@" -MT"$(<:.c=.o)" $(<)
-
-%.o: %.c %.d
-	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	${Q}$(CC) $(CFLAGS) $(CFLAGS_$(*)) -o $(@) -c $(<)
-
-$(TARGETS): %:
-	@echo -e "  LD  \033[1;32m$(@)\033[m"
-	${Q}$(CC) $(CFLAGS) -o $(@) $(^)
-
-test: ${TARGETS}
-	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
-
-clean:
-	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
-	${Q}rm -f ${TARGETS} *.o *.d

@@ -12,7 +12,6 @@ void reverse_word(char *substr, int len)
 
 void reverse_string_words(char *str)
 {
-	int pos = 0;
 	char *substr = str;
 
 	while (*str != '\0') {

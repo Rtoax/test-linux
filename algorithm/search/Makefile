@@ -1,12 +1,3 @@
-include ../../tlbuild.mk
-
-
-TARGETS :=
 TARGETS += bsearch
-
-CC := gcc
-
-all: ${TARGETS}
-
-clean:
-	rm -rf ${TARGETS}
+include ../../template/main.mk
+bsearch: bsearch.o
