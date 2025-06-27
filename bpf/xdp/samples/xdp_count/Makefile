@@ -1,8 +1,4 @@
-include ../../../../tlbuild.mk
-
-
 # ref: https://www.containiq.com/post/btf-bpf-type-format
-#
 
 all:
 	clang -O2 -g -target bpf -c xdp_count.c -o xdp_count.o

@@ -1,7 +1,4 @@
 # SPDX-License-Identifier: GPL-3.0
-include ../../../../tlbuild.mk
-
-
 IF := lo
 $(warning "Specify IF=[Interface] like IF=lo")
 
