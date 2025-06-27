@@ -26,6 +26,10 @@ ${OUTPUT}%.asm.o: %.asm | ${OUTPUT}
 	$(call log_tgt_obj,ASM,$(<),$(@))
 	${Q}${NASM} -o $(@) -felf64 $(<) $(ASMCFLAGS) $(ASMCFLAGS_$(*))
 
+${OUTPUT}%.as.o: %.asm | ${OUTPUT}
+	$(call log_tgt_obj,AS,$(<),$(@))
+	${Q}${AS} -o $(@) $(<) $(ASCFLAGS) $(ASCFLAGS_$(*))
+
 # Same as: as {--64,--32} a.S -o a.o
 ${OUTPUT}%.S.o: %.S | ${OUTPUT}
 	$(call log_tgt_obj,CC S,$(<),$(@))
