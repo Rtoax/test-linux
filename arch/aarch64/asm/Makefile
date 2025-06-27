@@ -24,11 +24,13 @@ endif
 # Cross compile
 # If cross compile, you could use binfmt_misc to running aarch64 on x86_64, ..
 ifneq ($(shell uname -m),aarch64)
+  include ../../../compiler/cross-compile.mk
   CC := aarch64-linux-gnu-gcc
   AS := aarch64-linux-gnu-as
   LD := aarch64-linux-gnu-ld
   OBJDUMP := aarch64-linux-gnu-objdump
   RUN_PFX := qemu-aarch64
+  ASMLDFLAGS += --sysroot /home/rongtao/rootfs-aarch64/
 else ifeq ($(shell uname -m),aarch64)
   TARGETS += add-c
   TARGETS += loop-c
@@ -51,6 +53,8 @@ else ifeq ($(shell uname -m),aarch64)
   TARGETS += printf-main
 
   LDFLAGS += -lc
+
+  ASMLDFLAGS += -lc
 endif
 
 ifdef STATIC
@@ -62,8 +66,6 @@ ifdef STATIC
   # but it not works.
   TARGETS_ASM := $(filter-out branch, $(TARGETS_ASM))
 endif
-
-ASMLDFLAGS += -lc
 
 ASFLAGS_paciasp := -march=armv8.3-a
 CFLAGS_paciasp-c := -march=armv8.3-a
