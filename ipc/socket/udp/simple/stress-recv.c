@@ -22,8 +22,12 @@ static inline unsigned long nsecs(void)
 
 void *display_thread(void *arg)
 {
+	size_t old_pkts = 0;
 	while (1) {
-		printf("Total rx %ld pkts, %ld bytes.\n", recvcnt, recvbytes);
+		if (old_pkts != recvcnt) {
+			printf("Total rx %ld pkts, %ld bytes.\n", recvcnt, recvbytes);
+			old_pkts = recvcnt;
+		}
 		sleep(1);
 	}
 	return NULL;
