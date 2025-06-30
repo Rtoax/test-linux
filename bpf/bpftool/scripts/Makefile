@@ -1,29 +1,8 @@
 # SPDX-License-Identifier: GPL-3.0
-include ../../../tlbuild.mk
-
 include ../bpftool.mk
-
-SCRIPTS := $(shell find -maxdepth 1 -type f -name '*.sh' -executable)
-# Remove './' prefix
-SCRIPTS := $(subst ./,,$(SCRIPTS))
-# Output .log suffix file list
-SCRIPTS_LOG = $(patsubst %.sh,%.log,$(SCRIPTS))
 
 sub-dir := map
 
-include ../../../template/subdir-header.mk
+TARGETS_SHELL := $(shell find -maxdepth 1 -type f -name '*.sh' -executable)
 
-.PHONY: build
-build: ${SCRIPTS_LOG} $(sub-dir-build)
-	@echo -e " \033[1;33m Done \033[m"
-
-%.log: %.sh
-	@echo -e "  TEST \033[1;32m$(<)\033[m"
-	@${SHELL} $(<) 2>&1 | tee $(@)
-
-.PHONY: clean
-clean: $(sub-dir-clean)
-	@echo -e "  RM \033[32m$(SCRIPTS_LOG)\033[m"
-	@rm -f ${SCRIPTS_LOG} batch_example.txt
-
-include ../../../template/subdir-footer.mk
+include ../../../template/main.mk

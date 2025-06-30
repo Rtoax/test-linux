@@ -7,5 +7,5 @@ ifneq ($(TARGETS_GO),)
 endif
 
 ${TARGETS_GO}: %:
-	$(call log_tgt_exe,GO,$(<),$(@))
+	$(call log_tgt_exe,GO,$(@).go,$(@))
 	${Q}$(GO) build $(@).go

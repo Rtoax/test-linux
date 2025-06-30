@@ -1,9 +1,2 @@
-include ../../../../tlbuild.mk
-
-
-
-main:
-	go build main.go
-
-clean:
-	rm -f main
+TARGETS_GO := main
+include ../../../../template/main.mk

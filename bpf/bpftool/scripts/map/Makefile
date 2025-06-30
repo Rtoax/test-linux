@@ -1,26 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
-include ../../../../tlbuild.mk
-
 include ../../bpftool.mk
 
-$(info BPFTOOL = ${BPFTOOL})
+TARGETS_SHELL := $(shell find -maxdepth 1 -type f -name '*.sh' -executable)
 
-SCRIPTS := $(shell find -maxdepth 1 -type f -name '*.sh' -executable)
-
-# Remove './' prefix
-SCRIPTS := $(subst ./,,$(SCRIPTS))
-# Output .log suffix file list
-SCRIPTS_LOG = $(patsubst %.sh,%.log,$(SCRIPTS))
-
-.PHONY: build
-build: ${SCRIPTS_LOG}
-	@echo -e " \033[1;33m Done \033[m"
-
-%.log: %.sh
-	@echo -e "  TEST \033[1;32m$(<)\033[m"
-	@${SHELL} $(<) 2>&1 | tee $(@)
-
-.PHONY: clean
-clean:
-	@echo -e "  RM \033[32m$(SCRIPTS_LOG)\033[m"
-	@rm -f ${SCRIPTS_LOG}
+include ../../../../template/main.mk
