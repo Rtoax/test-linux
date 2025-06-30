@@ -83,6 +83,7 @@ ${BOLD}AUTHOR${RST}
 
 ${BOLD}LINKS${RST}
 	https://kernelnewbies.org/FirstKernelPatch
+	https://www.kernel.org/doc/html/latest/process/submitting-patches.html
 " | more
 	exit ${1-0}
 }
