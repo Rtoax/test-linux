@@ -1,9 +1,4 @@
-include ../../../tlbuild.mk
+TARGETS_SHELL := list_usdt.sh
+TARGETS_SHELL += list_uprobe.sh
 
-
-all:
-	sh list_usdt.sh
-	sh list_uprobe.sh
-
-test:
-clean:
+include ../../../template/main.mk
