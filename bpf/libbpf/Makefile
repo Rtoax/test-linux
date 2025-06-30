@@ -162,32 +162,32 @@ ifeq ($(call kernel_newer_than,6,10,0),y)
 endif
 
 # _if_ there are no user mode code, append to bpf target only
-TARGETS_BPF := ${TARGETS:=.bpf.o}
-TARGETS_BPF += cgroup_skb.bpf.o
-TARGETS_BPF += cgroup_sock.bpf.o
-TARGETS_BPF += cgroup_sock_addr.bpf.o
-TARGETS_BPF += cgroup_sockopt.bpf.o
-TARGETS_BPF += lwt_in.bpf.o
-TARGETS_BPF += lwt_out.bpf.o
-TARGETS_BPF += lwt_xmit.bpf.o
-TARGETS_BPF += sk_lookup.bpf.o
-TARGETS_BPF += flow_dissector.bpf.o
-TARGETS_BPF += sk_reuseport.bpf.o
-TARGETS_BPF += netfilter.bpf.o
-TARGETS_BPF += syscall.bpf.o
-TARGETS_BPF += map_queue.bpf.o
-TARGETS_BPF += map_stack.bpf.o
-TARGETS_BPF += map_lpm_trie.bpf.o
-TARGETS_BPF += map_array_of_maps.bpf.o
-TARGETS_BPF += map_hash_of_maps.bpf.o
-TARGETS_BPF += map_ringbuf.bpf.o
-TARGETS_BPF += map_devmap.bpf.o
-TARGETS_BPF += map_arena.bpf.o
-TARGETS_BPF += map_bloom_filter.bpf.o
-TARGETS_BPF += sched_cls.bpf.o
-TARGETS_BPF += sched_act.bpf.o
-# Must be the last one
-TARGETS_BPF := $(addprefix ${OUTPUT},${TARGETS_BPF})
+obj-bpf.o := ${TARGETS:=.bpf.o}
+obj-bpf.o += cgroup_skb.bpf.o
+obj-bpf.o += cgroup_sock.bpf.o
+obj-bpf.o += cgroup_sock_addr.bpf.o
+obj-bpf.o += cgroup_sockopt.bpf.o
+obj-bpf.o += lwt_in.bpf.o
+obj-bpf.o += lwt_out.bpf.o
+obj-bpf.o += lwt_xmit.bpf.o
+obj-bpf.o += sk_lookup.bpf.o
+obj-bpf.o += flow_dissector.bpf.o
+obj-bpf.o += sk_reuseport.bpf.o
+obj-bpf.o += netfilter.bpf.o
+obj-bpf.o += syscall.bpf.o
+obj-bpf.o += map_queue.bpf.o
+obj-bpf.o += map_stack.bpf.o
+obj-bpf.o += map_lpm_trie.bpf.o
+obj-bpf.o += map_array_of_maps.bpf.o
+obj-bpf.o += map_hash_of_maps.bpf.o
+obj-bpf.o += map_ringbuf.bpf.o
+obj-bpf.o += map_devmap.bpf.o
+obj-bpf.o += map_arena.bpf.o
+obj-bpf.o += map_bloom_filter.bpf.o
+obj-bpf.o += sched_cls.bpf.o
+obj-bpf.o += sched_act.bpf.o
+
+TARGETS_BPF := $(addprefix ${OUTPUT},${obj-bpf.o})
 
 # Never append to skel target, always generate by bpf target
 TARGETS_SKEL := $(patsubst %.bpf.o,%.skel.h,$(TARGETS_BPF))
