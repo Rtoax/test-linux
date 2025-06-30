@@ -1,5 +1,4 @@
 # SPDX-License-Identifier: GPL-3.0
-
 VMLINUX_H ?= vmlinux.h
 BPFTOOL ?= bpftool
 

@@ -3,4 +3,3 @@ struct t {
 	int b:3;
 	int c:2;
 } g;
-
