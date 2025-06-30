@@ -10,6 +10,10 @@ ${OUTPUT}%.o: %.c | ${OUTPUT}
 	$(call log_tgt_obj,CC,$(<),$(@))
 	${Q}${CC_PFX} $(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
 
+${OUTPUT}%.E.c: %.c | ${OUTPUT}
+	$(call log_tgt_obj,CC E,$(<),$(@))
+	${Q}${CC_PFX} $(CC) -E -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
+
 ${OUTPUT}%.c.s: %.c | ${OUTPUT}
 	$(call log_tgt_obj,CC S,$(<),$(@))
 	${Q}${CC_PFX} $(CC) -S -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
