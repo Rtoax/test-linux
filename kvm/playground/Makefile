@@ -1,41 +1,31 @@
-include ../../tlbuild.mk
 ARCH := $(shell uname -m)
 
-TARGETS :=
+TARGETS_PREP :=
 LIBS :=
 
 ifeq (${ARCH},x86_64)
-TARGETS += hello
-TARGETS += basic-vm
-TARGETS += load-payload01
-TARGETS += load-payload02
-TARGETS += cpuid
-TARGETS += assemly-compiling
-TARGETS += ia32e-paging
-TARGETS += protected-mode-with-paging
-TARGETS += exceptions
+  TARGETS_PREP += hello
+  TARGETS_PREP += basic-vm
+  TARGETS_PREP += load-payload01
+  TARGETS_PREP += load-payload02
+  TARGETS_PREP += cpuid
+  TARGETS_PREP += assemly-compiling
+  TARGETS_PREP += ia32e-paging
+  TARGETS_PREP += protected-mode-with-paging
+  TARGETS_PREP += exceptions
+else ifeq (${ARCH},aarch64)
 endif
-
-ifeq (${ARCH},aarch64)
-endif
-
-DEBUG := yes
 
 CC := gcc
-AS = as
-NASM = nasm
-OBJCOPY = objcopy
+AS := as
+NASM := nasm
+OBJCOPY := objcopy
 
 CFLAGS :=
 
-ifdef DEBUG
-CFLAGS += -DDEBUG -O0 -g
-endif
-
 LIBS += common.o
 
-all: ${TARGETS}
-	@echo -e "\033[1;33mDone\033[m"
+include ../../template/main.mk
 
 hello: hello.c common.o
 	@echo -e "\033[1;33m$(@)\033[m"
@@ -88,7 +78,3 @@ exceptions: exceptions.c common.o
 	${Q}$(NASM) exceptions-a.asm -o exceptions-a.bin
 	${Q}$(NASM) exceptions-handler.asm -o exceptions-handler.bin
 	${Q}$(CC) $(CFLAGS) -o $(@) $(<) $(LIBS)
-
-clean:
-	@echo -e "\033[1;32m$(@)\033[m"
-	${Q}rm -f ${TARGETS} *.o *.d *.bin
