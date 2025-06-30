@@ -1,18 +1,11 @@
-include ../../../tlbuild.mk
+TARGETS := execsnoop
+TARGETS_BPF := bpf_program.bpf.o
+TARGETS_PREP := vmlinux.h
 
-CFLAGS :=
+LDFLAGS := -lelf -lbpf
 
-all: vmlinux.h
-	# Compile bpf_program
-	clang $(CFLAGS) -O2 -target bpf -c bpf_program.c -o bpf_program.o
+include ../../../template/main.mk
 
-	# Compile loader
-	gcc $(CFLAGS) loader.c bpf_load.c -lelf trace_helpers.c -lbpf -o execsnoop
+execsnoop: trace_helpers.o bpf_load.o loader.o
 
 include ../../bpftool/vmlinux.h.mk
-
-test:
-	@echo "skip" >/dev/null
-
-clean:
-	rm -f *.out *.o execsnoop vmlinux.h

@@ -1,6 +1,4 @@
 include ../../../tlbuild.mk
-
-
 CLANG = clang
 
 INCLUDE_PATH += -I/kernel-src/tools/lib/bpf
