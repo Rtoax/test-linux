@@ -3,6 +3,11 @@ CC ?= gcc
 CXX ?= g++
 Q ?= @
 
+OS := $(shell grep ^ID= /etc/os-release | sed 's/ID=//g' | sed 's/"//g')
+ifeq ($(shell uname -m),x86_64)
+else ifeq ($(shell uname -m),aarch64)
+endif
+
 sub-dir ?=
 
 CFLAGS += -D_GNU_SOURCE
