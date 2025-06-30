@@ -6,8 +6,6 @@ ifndef NO_PAHOLE
 endif
 
 OUTPUT := $(abspath .output)/
-VIRT_TYPE ?= $(shell systemd-detect-virt)
-
 VMLINUX_H := ${OUTPUT}vmlinux.h
 
 include ../../kconfig.mk
@@ -25,7 +23,7 @@ ifdef DEBUG
   $(info KSYM_DO_EXECVEAT_COMMON = ${KSYM_DO_EXECVEAT_COMMON})
 endif
 
-UID=$(shell id -u)
+UID := $(shell id -u)
 
 CC := gcc
 CLANG := clang
@@ -191,13 +189,6 @@ TARGETS_BPF := $(addprefix ${OUTPUT},${obj-bpf.o})
 
 # Never append to skel target, always generate by bpf target
 TARGETS_SKEL := $(patsubst %.bpf.o,%.skel.h,$(TARGETS_BPF))
-
-ifeq (${VIRT_TYPE},systemd-nspawn)
-  $(warning "Could not support virt type ${VIRT_TYPE} in systemd-nspawn")
-  TARGETS :=
-  TARGETS_BPF :=
-  TARGETS_SKEL :=
-endif
 
 TARGETS_BTF := btf_ksym
 TARGETS_BTF += btf_kfunc
