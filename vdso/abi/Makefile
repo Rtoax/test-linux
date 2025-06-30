@@ -1,14 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
-include ../../tlbuild.mk
 include ../vdso.mk
-include ../../kconfig
-
-TARGETS :=
-TARGETS += main-custom
-TARGETS += main-kernel
-
-.PHONY: all
-all: ${TARGETS}
 
 VDSO_CFLAGS :=
 VDSO_CFLAGS += -nolibc
@@ -31,6 +22,12 @@ else ifeq ($(shell uname -m),aarch64)
   VDSO_CFLAGS += -O2 -mcmodel=tiny -fasynchronous-unwind-tables
 endif
 
+TARGETS_PREP := lib${VDSO_NAME}.custom.so
+TARGETS_PREP += lib${VDSO_NAME}.copy.so
+TARGETS_PREP += ${VDSO_NAME}
+TARGETS_PREP += main-custom main-kernel
+
+include ../../template/main.mk
 
 lib${VDSO_NAME}.custom.so:
 	@echo -e "  CC  \033[1m$(@)\033[m"
@@ -58,8 +55,3 @@ main-kernel: lib${VDSO_NAME}.copy.so
 	@echo -e "  CC  \033[1m$(@)\033[m"
 	$(Q)gcc main.c -o $(@) -L .${VDSO_NAME}.copy -DKERNEL_VDSO64
 	$(Q)LD_LIBRARY_PATH=. ldd $(@)
-
-.PHONY: clean
-clean:
-	@echo -e "  CLEAN  \033[1m$(TARGETS)\033[m"
-	$(Q)rm -f ${TARGETS} *.so *linux-vdso.so*
