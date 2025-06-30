@@ -1,11 +1,10 @@
 # SPDX-License-Identifier: GPL-3.0
-include ../../tlbuild.mk
 include ../../kernel.mk
 ifndef NO_PAHOLE
   include ../../pahole/pahole.mk
 endif
 
-OUTPUT := $(abspath .output)/
+OUTPUT := .output/
 VMLINUX_H := ${OUTPUT}vmlinux.h
 
 include ../../kconfig.mk
@@ -342,6 +341,13 @@ CFLAGS_BPF_rbtree-raw-map := ${CFLAGS_rbtree-raw-map}
 CFLAGS_spin_lock := -DTEST_SPIN_LOCK=1
 CFLAGS_BPF_spin_lock := ${CFLAGS_spin_lock}
 
+# Get libbpf cflags
+libbpf-cflags := $(shell ${CC} libbpf_version.c ${CFLAGS} ${LDFLAGS} -o libbpf_version && \
+	./libbpf_version cflags)
+
+CFLAGS += $(libbpf-cflags)
+CFLAGS_BPF += $(libbpf-cflags)
+
 SOCKET_HELPERS := ${OUTPUT}socket_helpers.o
 TASK_HELPERS := ${OUTPUT}task_helpers.o
 TRACE_HELPERS := ${OUTPUT}trace_helpers.o
@@ -349,15 +355,20 @@ LIBBPF_WRAPPER := ${OUTPUT}libbpf_wrapper.o
 LIBXDP_HELPERS := ${OUTPUT}libxdp_helpers.o
 BTF_HELPERS := ${OUTPUT}btf_helpers.o
 
-HELPERS := ${BTF_HELPERS} ${LIBXDP_HELPERS} ${LIBBPF_WRAPPER} ${TRACE_HELPERS} \
-	   ${TASK_HELPERS} ${SOCKET_HELPERS}
+HELPERS := ${BTF_HELPERS} ${LIBXDP_HELPERS} ${TRACE_HELPERS} \
+	   ${TASK_HELPERS} ${SOCKET_HELPERS} ${LIBBPF_WRAPPER}
 
-.PHONY: build
-build: libbpf_version ${VMLINUX_H} ${TARGETS_BPF} ${TARGETS_SKEL} ${TARGETS} ${TARGETS_BTF}
+TARGETS += libbpf_version
+TARGETS_PREP += libbpf_version
+TARGETS_PREP += test-libbpf_version
+TARGETS_PREP += ${HELPERS}
+
+include ../../template/main.mk
+
+test-libbpf_version: libbpf_version
 	${Q}./libbpf_version cflags >/dev/null
 	${Q}./libbpf_version env >/dev/null
 	${Q}./libbpf_version >/dev/null
-	@echo -e "  \033[1;33mDone\033[m"
 
 ${OUTPUT}socket_helpers.o: socket_helpers.h
 ${OUTPUT}trace_helpers.o: trace_helpers.h
@@ -366,108 +377,99 @@ ${OUTPUT}libbpf_wrapper.o: libbpf_wrapper.h
 ${OUTPUT}libxdp_helpers.o: libxdp_helpers.h
 ${OUTPUT}btf_helpers.o: btf_helpers.h
 
-btf_ksym: ${OUTPUT}btf_ksym.o ${BTF_HELPERS}
-btf_kfunc: ${OUTPUT}btf_kfunc.o ${BTF_HELPERS}
-btf_decl_tag: ${OUTPUT}btf_decl_tag.o ${BTF_HELPERS}
-libbpf_version: ${OUTPUT}libbpf_version.o
+btf_ksym: ${OUTPUT}btf_ksym.o ${HELPERS}
+btf_kfunc: ${OUTPUT}btf_kfunc.o ${HELPERS}
+btf_decl_tag: ${OUTPUT}btf_decl_tag.o ${HELPERS}
+libbpf_version: ${OUTPUT}libbpf_version.o ${HELPERS}
 
 ${OUTPUT}config-map.o: ${OUTPUT}config-map.skel.h config-map.h
-config-map: ${OUTPUT}config-map.o ${LIBBPF_WRAPPER}
-socket_filter: ${OUTPUT}socket_filter.o ${SOCKET_HELPERS}
-ring_buffer: ${OUTPUT}ring_buffer.o ${SOCKET_HELPERS}
-tc: ${OUTPUT}tc.o
+config-map: ${OUTPUT}config-map.o ${HELPERS}
+socket_filter: ${OUTPUT}socket_filter.o ${HELPERS}
+${OUTPUT}socket_filter.o: ${OUTPUT}map_array.skel.h
+ring_buffer: ${OUTPUT}ring_buffer.o ${HELPERS}
+tc: ${OUTPUT}tc.o ${HELPERS}
 ${OUTPUT}tc.o: ${OUTPUT}tc.skel.h
 ${OUTPUT}rbtree.o: rbtree.h ${OUTPUT}rbtree.skel.h
 ${OUTPUT}rbtree.bpf.o: rbtree.h
-rbtree: ${OUTPUT}rbtree.o ${LIBBPF_WRAPPER}
+rbtree: ${OUTPUT}rbtree.o ${HELPERS}
 ${OUTPUT}rbtree-raw-map.o: rbtree.h
 ${OUTPUT}rbtree-raw-map.bpf.o: rbtree.h
-rbtree-raw-map: ${OUTPUT}rbtree-raw-map.o ${LIBBPF_WRAPPER}
+rbtree-raw-map: ${OUTPUT}rbtree-raw-map.o ${HELPERS}
+${OUTPUT}rbtree-raw-map.o: ${OUTPUT}rbtree-raw-map.skel.h
 ${OUTPUT}spin_lock.o: spin_lock.h
 ${OUTPUT}spin_lock.bpf.o: spin_lock.h
-spin_lock: ${OUTPUT}spin_lock.o ${LIBBPF_WRAPPER}
-xdp: ${OUTPUT}xdp.o ${LIBBPF_WRAPPER}
-xdp_simple: ${OUTPUT}xdp_simple.o ${LIBBPF_WRAPPER} ${LIBXDP_HELPERS}
-xdp_dos: ${OUTPUT}xdp_dos.o ${LIBBPF_WRAPPER} ${LIBXDP_HELPERS}
-xdp_devmap: ${OUTPUT}xdp_devmap.o ${LIBBPF_WRAPPER}
-xdp_cpumap: ${OUTPUT}xdp_cpumap.o ${LIBBPF_WRAPPER}
-xdp_xskmap: ${OUTPUT}xdp_xskmap.o ${LIBBPF_WRAPPER} ${LIBXDP_HELPERS}
-sockops: ${OUTPUT}sockops.o
-kprobe: ${OUTPUT}kprobe.o
-tracepoint: ${OUTPUT}tracepoint.o ${LIBBPF_WRAPPER}
+spin_lock: ${OUTPUT}spin_lock.o ${HELPERS}
+${OUTPUT}spin_lock.o: ${OUTPUT}spin_lock.skel.h
+xdp: ${OUTPUT}xdp.o ${HELPERS}
+${OUTPUT}xdp.o: ${OUTPUT}xdp.skel.h
+xdp_simple: ${OUTPUT}xdp_simple.o ${HELPERS}
+${OUTPUT}xdp_simple.o: ${OUTPUT}xdp_simple.skel.h
+xdp_dos: ${OUTPUT}xdp_dos.o ${HELPERS}
+${OUTPUT}xdp_dos.o: ${OUTPUT}xdp_dos.skel.h
+xdp_devmap: ${OUTPUT}xdp_devmap.o ${HELPERS}
+${OUTPUT}xdp_devmap.o: ${OUTPUT}xdp_devmap.skel.h
+xdp_cpumap: ${OUTPUT}xdp_cpumap.o ${HELPERS}
+${OUTPUT}xdp_cpumap.o: ${OUTPUT}xdp_cpumap.skel.h
+xdp_xskmap: ${OUTPUT}xdp_xskmap.o ${HELPERS}
+${OUTPUT}xdp_xskmap.o: ${OUTPUT}xdp_xskmap.skel.h
+sockops: ${OUTPUT}sockops.o ${HELPERS}
+${OUTPUT}sockops.o: ${OUTPUT}sockops.skel.h
+kprobe: ${OUTPUT}kprobe.o ${HELPERS}
+${OUTPUT}kprobe.o: ${OUTPUT}kprobe.skel.h
+tracepoint: ${OUTPUT}tracepoint.o ${HELPERS}
 ${OUTPUT}tracepoint.o: ${OUTPUT}tracepoint.skel.h ${OUTPUT}map_hash.skel.h
 ${OUTPUT}tracepoint.bpf.o: tracepoint.h bpf_helpers.h
-raw_tracepoint: ${OUTPUT}raw_tracepoint.o ${LIBBPF_WRAPPER}
-tp_btf: ${OUTPUT}tp_btf.o ${LIBBPF_WRAPPER}
-perf_event: ${OUTPUT}perf_event.o
-perf_buffer: ${OUTPUT}perf_buffer.o
-sk_skb: ${OUTPUT}sk_skb.o
-sk_msg: ${OUTPUT}sk_msg.o
-cgroup_device: ${OUTPUT}cgroup_device.o
-cgroup_sysctl: ${OUTPUT}cgroup_sysctl.o
-fentry: ${OUTPUT}fentry.o
-fmod_ret: ${OUTPUT}fmod_ret.o
-iter_task: ${OUTPUT}iter_task.o ${TASK_HELPERS}
-iter_task_file: ${OUTPUT}iter_task_file.o
-iter_task_vma: ${OUTPUT}iter_task_vma.o
-iter_bpf_map: ${OUTPUT}iter_bpf_map.o
-iter_kmem_cache: ${OUTPUT}iter_kmem_cache.o
-lsm_bpf: ${OUTPUT}lsm_bpf.o
+raw_tracepoint: ${OUTPUT}raw_tracepoint.o ${HELPERS}
+${OUTPUT}raw_tracepoint.o: ${OUTPUT}raw_tracepoint.skel.h
+tp_btf: ${OUTPUT}tp_btf.o ${HELPERS}
+${OUTPUT}tp_btf.o: ${OUTPUT}tp_btf.skel.h
+perf_event: ${OUTPUT}perf_event.o ${HELPERS}
+${OUTPUT}perf_event.o: ${OUTPUT}perf_event.skel.h
+perf_buffer: ${OUTPUT}perf_buffer.o ${HELPERS}
+${OUTPUT}perf_buffer.o: ${OUTPUT}perf_buffer.skel.h
+sk_skb: ${OUTPUT}sk_skb.o ${HELPERS}
+${OUTPUT}sk_skb.o: ${OUTPUT}sk_skb.skel.h
+sk_msg: ${OUTPUT}sk_msg.o ${HELPERS}
+${OUTPUT}sk_msg.o: ${OUTPUT}sk_msg.skel.h
+cgroup_device: ${OUTPUT}cgroup_device.o ${HELPERS}
+${OUTPUT}cgroup_device.o: ${OUTPUT}cgroup_device.skel.h
+cgroup_sysctl: ${OUTPUT}cgroup_sysctl.o ${HELPERS}
+${OUTPUT}cgroup_sysctl.o: ${OUTPUT}cgroup_sysctl.skel.h
+fentry: ${OUTPUT}fentry.o ${HELPERS}
+${OUTPUT}fentry.o: ${OUTPUT}fentry.skel.h
+fmod_ret: ${OUTPUT}fmod_ret.o ${HELPERS}
+${OUTPUT}fmod_ret.o: ${OUTPUT}fmod_ret.skel.h
+iter_task: ${OUTPUT}iter_task.o ${HELPERS}
+${OUTPUT}iter_task.o: ${OUTPUT}iter_task.skel.h
+iter_task_file: ${OUTPUT}iter_task_file.o ${HELPERS}
+${OUTPUT}iter_task_file.o: ${OUTPUT}iter_task_file.skel.h
+iter_task_vma: ${OUTPUT}iter_task_vma.o ${HELPERS}
+${OUTPUT}iter_task_vma.o: ${OUTPUT}iter_task_vma.skel.h
+iter_bpf_map: ${OUTPUT}iter_bpf_map.o ${HELPERS}
+${OUTPUT}iter_bpf_map.o: ${OUTPUT}iter_bpf_map.skel.h
+iter_kmem_cache: ${OUTPUT}iter_kmem_cache.o ${HELPERS}
+${OUTPUT}iter_kmem_cache.o: ${OUTPUT}iter_kmem_cache.skel.h
+lsm_bpf: ${OUTPUT}lsm_bpf.o ${HELPERS}
+${OUTPUT}lsm_bpf.o: ${OUTPUT}lsm_bpf.skel.h
 ${OUTPUT}lsm_file_open.bpf.o: lsm_file_open.bpf.c
+${OUTPUT}lsm_file_open.o: ${OUTPUT}lsm_file_open.skel.h
 ${OUTPUT}lsm_file_open.skel.h: ${OUTPUT}lsm_file_open.bpf.o
-lsm_file_open: ${OUTPUT}lsm_file_open.o
+lsm_file_open: ${OUTPUT}lsm_file_open.o ${HELPERS}
 ${OUTPUT}lsm_bpf.bpf.o: bpf_helpers.h
-lsm_socket_create: ${OUTPUT}lsm_socket_create.o
+lsm_socket_create: ${OUTPUT}lsm_socket_create.o ${HELPERS}
+${OUTPUT}lsm_socket_create.o: ${OUTPUT}lsm_socket_create.skel.h
 ${OUTPUT}lsm_socket_create.bpf.o: bpf_helpers.h
-lsm_socket_sendmsg: ${OUTPUT}lsm_socket_sendmsg.o
+lsm_socket_sendmsg: ${OUTPUT}lsm_socket_sendmsg.o ${HELPERS}
+${OUTPUT}lsm_socket_sendmsg.o: ${OUTPUT}lsm_socket_sendmsg.skel.h
 ${OUTPUT}lsm_socket_sendmsg.bpf.o: bpf_helpers.h
-
-map_hash: ${OUTPUT}map_hash.o ${LIBBPF_WRAPPER}
-map_percpu_hash: ${OUTPUT}map_percpu_hash.o ${LIBBPF_WRAPPER}
-map_lru_hash: ${OUTPUT}map_lru_hash.o ${LIBBPF_WRAPPER}
-map_lru_percpu_hash: ${OUTPUT}map_lru_percpu_hash.o ${LIBBPF_WRAPPER}
-map_array: ${OUTPUT}map_array.o ${SOCKET_HELPERS}
-map_percpu_array: ${OUTPUT}map_percpu_array.o ${SOCKET_HELPERS}
-
-${OUTPUT}:
-	@echo -e "  MKDIR  \033[1m${@}\033[m"
-	${Q}mkdir -p $(@)
-
-${OUTPUT}%.bpf.o: %.bpf.c ${VMLINUX_H} | ${OUTPUT} libbpf_version
-	@echo -e "  BPF  \033[1m$(notdir ${@})\033[m"
-	${Q}$(CLANG) -c $(<) -o $(@) ${CFLAGS_BPF} $(CFLAGS_BPF_$(*)) $(CLANG_V) $(shell ./libbpf_version cflags)
-	${Q}${PAHOLE} $(@) > $(@:.bpf.o=.btf.h) || rm $(@:.bpf.o=.btf.h)
-
-${OUTPUT}%.skel.h: ${OUTPUT}%.bpf.o | ${OUTPUT}
-	@echo -e "  SKEL  \033[1m$(notdir ${@})\033[m"
-	${Q}$(BPFTOOL) gen object $(<:.o=.linked1.o) $(<)
-	${Q}$(BPFTOOL) gen object $(<:.o=.linked2.o) $(<:.o=.linked1.o)
-	${Q}$(BPFTOOL) gen object $(<:.o=.linked3.o) $(<:.o=.linked2.o)
-	${Q}diff $(<:.o=.linked2.o) $(<:.o=.linked3.o)
-	${Q}$(BPFTOOL) gen skeleton $(SKEL_ARGS) $(SKEL_ARGS_$(*)) \
-		$(<:.o=.linked3.o) name $(subst -,_,$(notdir $(<:.bpf.o=)))_bpf > $@ || rm -f $@
-	# FIXME: old bpftool not support 'gen subskeleton' command.
-	# bpftool commit ad805235e295 ("bpftool: Add support for subskeletons")
-	# https://github.com/libbpf/bpftool.git
-	#${Q}$(BPFTOOL) gen subskeleton \
-	#	$(<:.o=.linked3.o) name $(subst -,_,$(notdir $(<:.bpf.o=)))_bpf > $(@:.skel.h=.subskel.h)
-
-${OUTPUT}%.o: %.c ${OUTPUT}%.skel.h | ${OUTPUT}
-	@echo -e "  CC  \033[1m$(notdir ${@})\033[m"
-	${Q}$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
-
-${OUTPUT}%.o: %.c | ${OUTPUT}
-	@echo -e "  CC(LIB)  \033[1m$(notdir ${@})\033[m"
-	${Q}$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
-
-$(TARGETS) libbpf_version ${TARGETS_BTF}: %: ${OUTPUT}%.o ${HELPERS}
-	@echo -e "  LD  \033[1;32m$(notdir ${@})\033[m"
-	${Q}$(CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*))
+map_hash: ${OUTPUT}map_hash.o ${HELPERS}
+${OUTPUT}map_hash.o: ${OUTPUT}map_hash.skel.h
+map_percpu_hash: ${OUTPUT}map_percpu_hash.o ${HELPERS}
+${OUTPUT}map_percpu_hash.o: ${OUTPUT}map_percpu_hash.skel.h
+map_lru_hash: ${OUTPUT}map_lru_hash.o ${HELPERS}
+map_lru_percpu_hash: ${OUTPUT}map_lru_percpu_hash.o ${HELPERS}
+map_array: ${OUTPUT}map_array.o ${HELPERS}
+map_percpu_array: ${OUTPUT}map_percpu_array.o ${HELPERS}
+${OUTPUT}map_percpu_array.o: ${OUTPUT}map_percpu_array.skel.h
 
 include ../bpftool/vmlinux.h.mk
-
-.PHONY: clean
-clean:
-	@echo -e "  RM  \033[1;32m$(TARGETS_BPF) ${TARGETS}\033[m"
-	${Q}rm -f ${TARGETS_BPF} ${TARGETS} *.o ${VMLINUX_H} libbpf_version
-	${Q}rm -rf ${OUTPUT} ${TARGETS_BTF}

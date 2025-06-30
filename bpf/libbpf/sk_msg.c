@@ -16,7 +16,6 @@
 
 int main(int argc, char *argv[])
 {
-	int err;
 	struct sk_msg_bpf *skel;
 	int verdict;
 
