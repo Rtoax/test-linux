@@ -25,6 +25,7 @@ and this project adheres to
 - syscall: Use main.mk.
 #### Deprecated
 #### Removed
+- Remove `bpf/tools/bpf_dbg.c`;
 - Remove `bpf/socket/packet-filtering-raw-sockets/*`;
 - Remove `bpf/samples/bpf_fs/`;
 - Remove `arch/x86_64/asm/minilibc`;
