@@ -6,9 +6,9 @@
 # Change the CHANGELOG.md at the same time
 VERSION = 2
 PATCHLEVEL = 2
-SUBLEVEL = 13
+SUBLEVEL = 14
 EXTRAVERSION =
-NAME = HPC
+NAME = IPC
 
 include make.list
 

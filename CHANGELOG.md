@@ -10,6 +10,20 @@ and this project adheres to
 ## Unreleased
 
 #### Breaking Changes
+#### Added
+#### Changed
+#### Deprecated
+#### Removed
+#### Fixed
+#### Security
+#### Docs
+#### Tools
+
+
+## [v2.2.14] 2025-06-30
+
+#### Breaking Changes
+- main.mk: all Makefile use main.mk;
 - main.mk: cflags: default `-Werror -Wall -D_GNU_SOURCE -Wstrict-prototypes`.
 #### Added
 - distributions: add asterinas;
