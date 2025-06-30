@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- python: add import/log.py to test import from python source code;
 #### Changed
 #### Deprecated
 #### Removed
