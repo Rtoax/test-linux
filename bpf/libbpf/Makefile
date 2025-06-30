@@ -186,9 +186,6 @@ obj-bpf.o += sched_act.bpf.o
 
 TARGETS_BPF := $(addprefix ${OUTPUT},${obj-bpf.o})
 
-# Never append to skel target, always generate by bpf target
-TARGETS_SKEL := $(patsubst %.bpf.o,%.skel.h,$(TARGETS_BPF))
-
 TARGETS_BTF := btf_ksym
 TARGETS_BTF += btf_kfunc
 TARGETS_BTF += btf_decl_tag
