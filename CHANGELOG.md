@@ -25,6 +25,7 @@ and this project adheres to
 - syscall: Use main.mk.
 #### Deprecated
 #### Removed
+- Remove `bpf/samples/bpf_fs/`;
 - Remove `arch/x86_64/asm/minilibc`;
 - Remove `tracepoint/trace_events/samples/trace-events-sample.c`.
 - Remove numa/numa.mk.
