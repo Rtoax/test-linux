@@ -5,10 +5,10 @@ ifndef NO_PAHOLE
   include ../../pahole/pahole.mk
 endif
 
-OUTPUT := $(abspath .output)
+OUTPUT := $(abspath .output)/
 VIRT_TYPE ?= $(shell systemd-detect-virt)
 
-VMLINUX_H := ${OUTPUT}/vmlinux.h
+VMLINUX_H := ${OUTPUT}vmlinux.h
 
 include ../../kconfig.mk
 include ../bpf.mk
@@ -187,7 +187,7 @@ TARGETS_BPF += map_bloom_filter.bpf.o
 TARGETS_BPF += sched_cls.bpf.o
 TARGETS_BPF += sched_act.bpf.o
 # Must be the last one
-TARGETS_BPF := $(addprefix ${OUTPUT}/,${TARGETS_BPF})
+TARGETS_BPF := $(addprefix ${OUTPUT},${TARGETS_BPF})
 
 # Never append to skel target, always generate by bpf target
 TARGETS_SKEL := $(patsubst %.bpf.o,%.skel.h,$(TARGETS_BPF))
@@ -351,12 +351,12 @@ CFLAGS_BPF_rbtree-raw-map := ${CFLAGS_rbtree-raw-map}
 CFLAGS_spin_lock := -DTEST_SPIN_LOCK=1
 CFLAGS_BPF_spin_lock := ${CFLAGS_spin_lock}
 
-SOCKET_HELPERS := ${OUTPUT}/socket_helpers.o
-TASK_HELPERS := ${OUTPUT}/task_helpers.o
-TRACE_HELPERS := ${OUTPUT}/trace_helpers.o
-LIBBPF_WRAPPER := ${OUTPUT}/libbpf_wrapper.o
-LIBXDP_HELPERS := ${OUTPUT}/libxdp_helpers.o
-BTF_HELPERS := ${OUTPUT}/btf_helpers.o
+SOCKET_HELPERS := ${OUTPUT}socket_helpers.o
+TASK_HELPERS := ${OUTPUT}task_helpers.o
+TRACE_HELPERS := ${OUTPUT}trace_helpers.o
+LIBBPF_WRAPPER := ${OUTPUT}libbpf_wrapper.o
+LIBXDP_HELPERS := ${OUTPUT}libxdp_helpers.o
+BTF_HELPERS := ${OUTPUT}btf_helpers.o
 
 HELPERS := ${BTF_HELPERS} ${LIBXDP_HELPERS} ${LIBBPF_WRAPPER} ${TRACE_HELPERS} \
 	   ${TASK_HELPERS} ${SOCKET_HELPERS}
@@ -368,86 +368,86 @@ build: libbpf_version ${VMLINUX_H} ${TARGETS_BPF} ${TARGETS_SKEL} ${TARGETS} ${T
 	${Q}./libbpf_version >/dev/null
 	@echo -e "  \033[1;33mDone\033[m"
 
-${OUTPUT}/socket_helpers.o: socket_helpers.h
-${OUTPUT}/trace_helpers.o: trace_helpers.h
-${OUTPUT}/task_helpers.o: task_helpers.h
-${OUTPUT}/libbpf_wrapper.o: libbpf_wrapper.h
-${OUTPUT}/libxdp_helpers.o: libxdp_helpers.h
-${OUTPUT}/btf_helpers.o: btf_helpers.h
+${OUTPUT}socket_helpers.o: socket_helpers.h
+${OUTPUT}trace_helpers.o: trace_helpers.h
+${OUTPUT}task_helpers.o: task_helpers.h
+${OUTPUT}libbpf_wrapper.o: libbpf_wrapper.h
+${OUTPUT}libxdp_helpers.o: libxdp_helpers.h
+${OUTPUT}btf_helpers.o: btf_helpers.h
 
-btf_ksym: ${OUTPUT}/btf_ksym.o ${BTF_HELPERS}
-btf_kfunc: ${OUTPUT}/btf_kfunc.o ${BTF_HELPERS}
-btf_decl_tag: ${OUTPUT}/btf_decl_tag.o ${BTF_HELPERS}
-libbpf_version: ${OUTPUT}/libbpf_version.o
+btf_ksym: ${OUTPUT}btf_ksym.o ${BTF_HELPERS}
+btf_kfunc: ${OUTPUT}btf_kfunc.o ${BTF_HELPERS}
+btf_decl_tag: ${OUTPUT}btf_decl_tag.o ${BTF_HELPERS}
+libbpf_version: ${OUTPUT}libbpf_version.o
 
-${OUTPUT}/config-map.o: ${OUTPUT}/config-map.skel.h config-map.h
-config-map: ${OUTPUT}/config-map.o ${LIBBPF_WRAPPER}
-socket_filter: ${OUTPUT}/socket_filter.o ${SOCKET_HELPERS}
-ring_buffer: ${OUTPUT}/ring_buffer.o ${SOCKET_HELPERS}
-tc: ${OUTPUT}/tc.o
-${OUTPUT}/tc.o: ${OUTPUT}/tc.skel.h
-${OUTPUT}/rbtree.o: rbtree.h ${OUTPUT}/rbtree.skel.h
-${OUTPUT}/rbtree.bpf.o: rbtree.h
-rbtree: ${OUTPUT}/rbtree.o ${LIBBPF_WRAPPER}
-${OUTPUT}/rbtree-raw-map.o: rbtree.h
-${OUTPUT}/rbtree-raw-map.bpf.o: rbtree.h
-rbtree-raw-map: ${OUTPUT}/rbtree-raw-map.o ${LIBBPF_WRAPPER}
-${OUTPUT}/spin_lock.o: spin_lock.h
-${OUTPUT}/spin_lock.bpf.o: spin_lock.h
-spin_lock: ${OUTPUT}/spin_lock.o ${LIBBPF_WRAPPER}
-xdp: ${OUTPUT}/xdp.o ${LIBBPF_WRAPPER}
-xdp_simple: ${OUTPUT}/xdp_simple.o ${LIBBPF_WRAPPER} ${LIBXDP_HELPERS}
-xdp_dos: ${OUTPUT}/xdp_dos.o ${LIBBPF_WRAPPER} ${LIBXDP_HELPERS}
-xdp_devmap: ${OUTPUT}/xdp_devmap.o ${LIBBPF_WRAPPER}
-xdp_cpumap: ${OUTPUT}/xdp_cpumap.o ${LIBBPF_WRAPPER}
-xdp_xskmap: ${OUTPUT}/xdp_xskmap.o ${LIBBPF_WRAPPER} ${LIBXDP_HELPERS}
-sockops: ${OUTPUT}/sockops.o
-kprobe: ${OUTPUT}/kprobe.o
-tracepoint: ${OUTPUT}/tracepoint.o ${LIBBPF_WRAPPER}
-${OUTPUT}/tracepoint.o: ${OUTPUT}/tracepoint.skel.h ${OUTPUT}/map_hash.skel.h
-${OUTPUT}/tracepoint.bpf.o: tracepoint.h bpf_helpers.h
-raw_tracepoint: ${OUTPUT}/raw_tracepoint.o ${LIBBPF_WRAPPER}
-tp_btf: ${OUTPUT}/tp_btf.o ${LIBBPF_WRAPPER}
-perf_event: ${OUTPUT}/perf_event.o
-perf_buffer: ${OUTPUT}/perf_buffer.o
-sk_skb: ${OUTPUT}/sk_skb.o
-sk_msg: ${OUTPUT}/sk_msg.o
-cgroup_device: ${OUTPUT}/cgroup_device.o
-cgroup_sysctl: ${OUTPUT}/cgroup_sysctl.o
-fentry: ${OUTPUT}/fentry.o
-fmod_ret: ${OUTPUT}/fmod_ret.o
-iter_task: ${OUTPUT}/iter_task.o ${TASK_HELPERS}
-iter_task_file: ${OUTPUT}/iter_task_file.o
-iter_task_vma: ${OUTPUT}/iter_task_vma.o
-iter_bpf_map: ${OUTPUT}/iter_bpf_map.o
-iter_kmem_cache: ${OUTPUT}/iter_kmem_cache.o
-lsm_bpf: ${OUTPUT}/lsm_bpf.o
-${OUTPUT}/lsm_file_open.bpf.o: lsm_file_open.bpf.c
-${OUTPUT}/lsm_file_open.skel.h: ${OUTPUT}/lsm_file_open.bpf.o
-lsm_file_open: ${OUTPUT}/lsm_file_open.o
-${OUTPUT}/lsm_bpf.bpf.o: bpf_helpers.h
-lsm_socket_create: ${OUTPUT}/lsm_socket_create.o
-${OUTPUT}/lsm_socket_create.bpf.o: bpf_helpers.h
-lsm_socket_sendmsg: ${OUTPUT}/lsm_socket_sendmsg.o
-${OUTPUT}/lsm_socket_sendmsg.bpf.o: bpf_helpers.h
+${OUTPUT}config-map.o: ${OUTPUT}config-map.skel.h config-map.h
+config-map: ${OUTPUT}config-map.o ${LIBBPF_WRAPPER}
+socket_filter: ${OUTPUT}socket_filter.o ${SOCKET_HELPERS}
+ring_buffer: ${OUTPUT}ring_buffer.o ${SOCKET_HELPERS}
+tc: ${OUTPUT}tc.o
+${OUTPUT}tc.o: ${OUTPUT}tc.skel.h
+${OUTPUT}rbtree.o: rbtree.h ${OUTPUT}rbtree.skel.h
+${OUTPUT}rbtree.bpf.o: rbtree.h
+rbtree: ${OUTPUT}rbtree.o ${LIBBPF_WRAPPER}
+${OUTPUT}rbtree-raw-map.o: rbtree.h
+${OUTPUT}rbtree-raw-map.bpf.o: rbtree.h
+rbtree-raw-map: ${OUTPUT}rbtree-raw-map.o ${LIBBPF_WRAPPER}
+${OUTPUT}spin_lock.o: spin_lock.h
+${OUTPUT}spin_lock.bpf.o: spin_lock.h
+spin_lock: ${OUTPUT}spin_lock.o ${LIBBPF_WRAPPER}
+xdp: ${OUTPUT}xdp.o ${LIBBPF_WRAPPER}
+xdp_simple: ${OUTPUT}xdp_simple.o ${LIBBPF_WRAPPER} ${LIBXDP_HELPERS}
+xdp_dos: ${OUTPUT}xdp_dos.o ${LIBBPF_WRAPPER} ${LIBXDP_HELPERS}
+xdp_devmap: ${OUTPUT}xdp_devmap.o ${LIBBPF_WRAPPER}
+xdp_cpumap: ${OUTPUT}xdp_cpumap.o ${LIBBPF_WRAPPER}
+xdp_xskmap: ${OUTPUT}xdp_xskmap.o ${LIBBPF_WRAPPER} ${LIBXDP_HELPERS}
+sockops: ${OUTPUT}sockops.o
+kprobe: ${OUTPUT}kprobe.o
+tracepoint: ${OUTPUT}tracepoint.o ${LIBBPF_WRAPPER}
+${OUTPUT}tracepoint.o: ${OUTPUT}tracepoint.skel.h ${OUTPUT}map_hash.skel.h
+${OUTPUT}tracepoint.bpf.o: tracepoint.h bpf_helpers.h
+raw_tracepoint: ${OUTPUT}raw_tracepoint.o ${LIBBPF_WRAPPER}
+tp_btf: ${OUTPUT}tp_btf.o ${LIBBPF_WRAPPER}
+perf_event: ${OUTPUT}perf_event.o
+perf_buffer: ${OUTPUT}perf_buffer.o
+sk_skb: ${OUTPUT}sk_skb.o
+sk_msg: ${OUTPUT}sk_msg.o
+cgroup_device: ${OUTPUT}cgroup_device.o
+cgroup_sysctl: ${OUTPUT}cgroup_sysctl.o
+fentry: ${OUTPUT}fentry.o
+fmod_ret: ${OUTPUT}fmod_ret.o
+iter_task: ${OUTPUT}iter_task.o ${TASK_HELPERS}
+iter_task_file: ${OUTPUT}iter_task_file.o
+iter_task_vma: ${OUTPUT}iter_task_vma.o
+iter_bpf_map: ${OUTPUT}iter_bpf_map.o
+iter_kmem_cache: ${OUTPUT}iter_kmem_cache.o
+lsm_bpf: ${OUTPUT}lsm_bpf.o
+${OUTPUT}lsm_file_open.bpf.o: lsm_file_open.bpf.c
+${OUTPUT}lsm_file_open.skel.h: ${OUTPUT}lsm_file_open.bpf.o
+lsm_file_open: ${OUTPUT}lsm_file_open.o
+${OUTPUT}lsm_bpf.bpf.o: bpf_helpers.h
+lsm_socket_create: ${OUTPUT}lsm_socket_create.o
+${OUTPUT}lsm_socket_create.bpf.o: bpf_helpers.h
+lsm_socket_sendmsg: ${OUTPUT}lsm_socket_sendmsg.o
+${OUTPUT}lsm_socket_sendmsg.bpf.o: bpf_helpers.h
 
-map_hash: ${OUTPUT}/map_hash.o ${LIBBPF_WRAPPER}
-map_percpu_hash: ${OUTPUT}/map_percpu_hash.o ${LIBBPF_WRAPPER}
-map_lru_hash: ${OUTPUT}/map_lru_hash.o ${LIBBPF_WRAPPER}
-map_lru_percpu_hash: ${OUTPUT}/map_lru_percpu_hash.o ${LIBBPF_WRAPPER}
-map_array: ${OUTPUT}/map_array.o ${SOCKET_HELPERS}
-map_percpu_array: ${OUTPUT}/map_percpu_array.o ${SOCKET_HELPERS}
+map_hash: ${OUTPUT}map_hash.o ${LIBBPF_WRAPPER}
+map_percpu_hash: ${OUTPUT}map_percpu_hash.o ${LIBBPF_WRAPPER}
+map_lru_hash: ${OUTPUT}map_lru_hash.o ${LIBBPF_WRAPPER}
+map_lru_percpu_hash: ${OUTPUT}map_lru_percpu_hash.o ${LIBBPF_WRAPPER}
+map_array: ${OUTPUT}map_array.o ${SOCKET_HELPERS}
+map_percpu_array: ${OUTPUT}map_percpu_array.o ${SOCKET_HELPERS}
 
 ${OUTPUT}:
 	@echo -e "  MKDIR  \033[1m${@}\033[m"
 	${Q}mkdir -p $(@)
 
-${OUTPUT}/%.bpf.o: %.bpf.c ${VMLINUX_H} | ${OUTPUT} libbpf_version
+${OUTPUT}%.bpf.o: %.bpf.c ${VMLINUX_H} | ${OUTPUT} libbpf_version
 	@echo -e "  BPF  \033[1m$(notdir ${@})\033[m"
 	${Q}$(CLANG) -c $(<) -o $(@) ${CFLAGS_BPF} $(CFLAGS_BPF_$(*)) $(CLANG_V) $(shell ./libbpf_version cflags)
 	${Q}${PAHOLE} $(@) > $(@:.bpf.o=.btf.h) || rm $(@:.bpf.o=.btf.h)
 
-${OUTPUT}/%.skel.h: ${OUTPUT}/%.bpf.o | ${OUTPUT}
+${OUTPUT}%.skel.h: ${OUTPUT}%.bpf.o | ${OUTPUT}
 	@echo -e "  SKEL  \033[1m$(notdir ${@})\033[m"
 	${Q}$(BPFTOOL) gen object $(<:.o=.linked1.o) $(<)
 	${Q}$(BPFTOOL) gen object $(<:.o=.linked2.o) $(<:.o=.linked1.o)
@@ -461,15 +461,15 @@ ${OUTPUT}/%.skel.h: ${OUTPUT}/%.bpf.o | ${OUTPUT}
 	#${Q}$(BPFTOOL) gen subskeleton \
 	#	$(<:.o=.linked3.o) name $(subst -,_,$(notdir $(<:.bpf.o=)))_bpf > $(@:.skel.h=.subskel.h)
 
-${OUTPUT}/%.o: %.c ${OUTPUT}/%.skel.h | ${OUTPUT}
+${OUTPUT}%.o: %.c ${OUTPUT}%.skel.h | ${OUTPUT}
 	@echo -e "  CC  \033[1m$(notdir ${@})\033[m"
 	${Q}$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
 
-${OUTPUT}/%.o: %.c | ${OUTPUT}
+${OUTPUT}%.o: %.c | ${OUTPUT}
 	@echo -e "  CC(LIB)  \033[1m$(notdir ${@})\033[m"
 	${Q}$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
 
-$(TARGETS) libbpf_version ${TARGETS_BTF}: %: ${OUTPUT}/%.o ${HELPERS}
+$(TARGETS) libbpf_version ${TARGETS_BTF}: %: ${OUTPUT}%.o ${HELPERS}
 	@echo -e "  LD  \033[1;32m$(notdir ${@})\033[m"
 	${Q}$(CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*))
 
