@@ -7,4 +7,3 @@ int sys_bpf(int cmd, union bpf_attr *attr, unsigned int size)
 {
 	return syscall(__NR_bpf, cmd, attr, size);
 }
-
