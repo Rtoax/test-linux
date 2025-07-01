@@ -11,7 +11,6 @@
 #include <errno.h>
 #include <stdbool.h>
 
-extern int errno;
 
 enum {
 	BREAK_EXEC = 0x0,

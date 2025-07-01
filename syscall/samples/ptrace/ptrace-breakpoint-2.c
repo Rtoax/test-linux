@@ -16,8 +16,6 @@
 #include <errno.h>
 #include <stdbool.h>
 
-extern int errno;
-
 typedef enum {
 	DATA_BREAK,
 	CMD_BREAK,
