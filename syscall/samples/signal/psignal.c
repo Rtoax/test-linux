@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 
-int main()
+int main(void)
 {
 	psignal(SIGXCPU, "SIGXCPU");
 	psignal(SIGFPE, "SIGFPE");
