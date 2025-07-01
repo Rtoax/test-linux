@@ -1,19 +1,23 @@
 # SPDX-License-Identifier: GPL-3.0
 Q ?= @
 
+# $1: build, test, clean
+# $2: sub-dir
+define make_sub_dir
+	$(call tl_log,"${1} $(call git_relative_dir,$(2))")
+	@make -C ${2} || echo "Failed ${1} $(call git_relative_dir,$(2))" | tee --append ${TL_FAILED_LOG}
+endef
+
 define make_sub_dir_build
-	$(call tl_log,"Build $(call git_relative_dir,$(1))")
-	@make -C ${1} || echo "Failed build $(call git_relative_dir,$(1))" | tee --append ${TL_FAILED_LOG}
+	$(call make_sub_dir,build,${1})
 endef
 
 define make_sub_dir_test
-	$(call tl_log,"Test $(call git_relative_dir,$(1))")
-	@make -C ${1} test || echo "Failed test $(call git_relative_dir,$(1))" | tee --append ${TL_FAILED_LOG}
+	$(call make_sub_dir,test,${1})
 endef
 
 define make_sub_dir_clean
-	$(call tl_log,"Clean $(call git_relative_dir,$(1))")
-	@make -C ${1} clean || echo "Failed clean $(call git_relative_dir,$(1))" | tee --append ${TL_FAILED_LOG}
+	$(call make_sub_dir,clean,${1})
 endef
 
 $(sub-dir-build):
