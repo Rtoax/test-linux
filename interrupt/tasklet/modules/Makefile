@@ -7,7 +7,7 @@ obj-m += tasklet-module2.o
 
 KERNELDIR ?= /lib/modules/$(shell uname -r)/build
 
-all default: modules
+build all default: modules
 install: modules_install
 
 test:

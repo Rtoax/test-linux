@@ -21,7 +21,7 @@ obj-$(LIVEPATCH) += test_klp_state.o
 #obj-$(LIVEPATCH) += test_klp_sysvec_apic_timer_interrupt.o
 #obj-$(LIVEPATCH) += test_klp_lapic_cal_handler.o
 
-all:
+build:
 		${Q}make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
 
 test:

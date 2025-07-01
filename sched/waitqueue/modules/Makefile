@@ -3,7 +3,8 @@ obj-m += waitqueue.o
 
 KERNELDIR ?= /lib/modules/$(shell uname -r)/build
 
-default:
+build:
 	${Q}make -C $(KERNELDIR) M=$(PWD) modules
+test:
 clean:
 	${Q}make -C $(KERNELDIR) M=$(PWD) clean

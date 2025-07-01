@@ -8,7 +8,7 @@ endif
 
 KERNELDIR ?= /lib/modules/$(shell uname -r)/build
 
-all:
+build:
 	${Q}make -C ${KERNELDIR} M=$(PWD) modules
 
 test:

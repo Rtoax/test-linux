@@ -16,9 +16,8 @@ CC += ${MCFLAGS}
 
 KDIR := /lib/modules/$(shell uname -r)/build
 
-all:
+build:
 	${Q}make -C $(KDIR) M=$(PWD) modules
-
 
 test:
 	@echo >/dev/null

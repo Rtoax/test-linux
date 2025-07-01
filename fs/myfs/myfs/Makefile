@@ -2,7 +2,7 @@ obj-m := myfs.o
 CURRENT_PATH := $(shell pwd)
 LINUX_KERNEL_PATH:=/lib/modules/`uname -r`/build
 
-all:
+build:
 	${Q}make -C $(LINUX_KERNEL_PATH) M=$(CURRENT_PATH) modules
 
 test:

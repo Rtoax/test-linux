@@ -1,6 +1,6 @@
 obj-m += sections.o
 
-all:
+build:
 	${Q}make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
 
 clean:

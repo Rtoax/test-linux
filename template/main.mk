@@ -9,6 +9,7 @@ else ifeq ($(shell uname -m),aarch64)
 endif
 
 sub-dir ?=
+kmod-list ?=
 
 CFLAGS += -D_GNU_SOURCE
 CFLAGS += -Werror -Wall
@@ -86,7 +87,7 @@ define log_tgt_done
 endef
 
 include ${TEMPLATE_DIR}/../elf/pie.mk
-ifneq ($(sub-dir),)
+ifneq ($(sub-dir)$(kmod-list),)
   include ${TEMPLATE_DIR}/subdir-header.mk
 endif
 
@@ -108,12 +109,11 @@ TARGETS_PYTHON_LOGS := $(patsubst %.py,%.py.log,$(TARGETS_PYTHON))
 build-targets += $(TARGETS_PYTHON_LOGS)
 TARGETS_MK_LOGS := $(patsubst %.mk,%.mk.log,$(TARGETS_MK))
 build-targets += $(TARGETS_MK_LOGS)
-build-targets += $(sub-dir-build)
+build-targets += $(sub-dir-build) $(kmod-list-build)
 build-targets += $(TARGETS_POST)
 
 ifdef DEBUG
   $(info build-targets = ${build-targets})
-  $(info sub-dir-clean = ${sub-dir-clean})
 endif
 
 .PHONY: build
@@ -121,11 +121,11 @@ build: $(build-targets)
 	$(call log_tgt_done,build,$(call git_relative_dir,$(shell realpath .)))
 
 .PHONY: test
-test: $(build-targets) $(sub-dir-test) $(TARGETS_TEST)
+test: $(build-targets) $(sub-dir-test) $(kmod-list-test) $(TARGETS_TEST)
 	$(call log_tgt_done,test,$(call git_relative_dir,$(shell realpath .)))
 
 .PHONY: clean
-clean: $(sub-dir-clean) $(TARGETS_CLEAN)
+clean: $(sub-dir-clean) $(kmod-list-clean) $(TARGETS_CLEAN)
 	$(call log_tgt_start,clean,${build-targets} ${TARGETS_CLEAN})
 	${Q}rm -rf ${build-targets} *.o *.d *.log *.out *.class
 	${Q}rm -rf *.so *.so.* *.a
@@ -169,6 +169,6 @@ ifneq (${OUTPUT},)
   include ${TEMPLATE_DIR}/target-output.mk
 endif
 
-ifneq ($(sub-dir),)
+ifneq ($(sub-dir)$(kmod-list),)
   include ${TEMPLATE_DIR}/subdir-footer.mk
 endif

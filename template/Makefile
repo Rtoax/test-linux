@@ -5,8 +5,8 @@ $(info INFO: This is info)
 $(warning WARNING: This is warning)
 #$(error ERROR: This error)
 
-.PHONY: all
-all:
+.PHONY: build
+build:
 	@echo -e " \033[1;33m Building User \033[m"
 	${Q}make -f Makefile.user
 	${Q}make -f Makefile.subdir

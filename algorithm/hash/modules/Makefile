@@ -3,7 +3,7 @@ obj-m += hash_long.o
 obj-m += hash_ptr.o
 obj-m += test_hash.o
 
-all:
+build:
 	${Q}make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
 
 test:

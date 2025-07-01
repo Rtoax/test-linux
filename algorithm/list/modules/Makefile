@@ -3,7 +3,7 @@ obj-m += list_dynamic.o
 obj-m += list_rcu.o
 obj-m += list_rcu_example.o
 
-all:
+build:
 	${Q}make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
 
 test:

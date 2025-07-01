@@ -7,7 +7,7 @@ obj-m += workqueue4.o
 KERNELDIR ?= /lib/modules/$(shell uname -r)/build
 PWD	:= $(shell pwd)
 
-all:
+build:
 	$(MAKE) -C $(KERNELDIR) M=$(PWD) modules
 
 test:

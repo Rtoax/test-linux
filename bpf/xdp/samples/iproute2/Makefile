@@ -2,8 +2,8 @@
 IF := lo
 $(warning "Specify IF=[Interface] like IF=lo")
 
-.PHONY: all
-all: $(BPF_OBJ)
+.PHONY: build
+build: $(BPF_OBJ)
 	@clang -g -c -O2 -target bpf -c program.c -o program.o
 	@echo >&2 ""
 	@echo >&2 " make"

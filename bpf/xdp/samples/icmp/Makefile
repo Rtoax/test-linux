@@ -12,8 +12,8 @@ CLANG_CFLAGS += -D__BPF_TRACING__
 CLANG_CFLAGS += -I/usr/include/$(shell uname -m)-linux-gnu
 
 
-.PHONY: all
-all: $(BPF_OBJ)
+.PHONY: build
+build: $(BPF_OBJ)
 	@echo >&2 ""
 	@echo >&2 " make"
 	@echo >&2 " make   install [IF=enp10s0]"

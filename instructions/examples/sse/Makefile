@@ -5,7 +5,7 @@ CFLAGS += -O1
 CFLAGS += -ftree-vectorize
 CFLAGS += ${CFLAGS_ORIG}
 
-all:
+build:
 	gcc sum.c $(CFLAGS_ORIG) -o orig
 	gcc sum.c $(CFLAGS) -msse -o sse
 	gcc sum.c $(CFLAGS) -msse2 -o sse2

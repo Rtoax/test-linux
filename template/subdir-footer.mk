@@ -25,14 +25,14 @@ define make_sub_dir_clean
 	$(call make_sub_dir,clean,${1})
 endef
 
-$(sub-dir-build):
+$(sub-dir-build) $(kmod-list-build):
 	$(call log_tgt_start,sub-build,$(call git_relative_dir,$(patsubst %.build,%,$(@))))
 	$(call make_sub_dir_build,$(@:.build=))
 
-$(sub-dir-test):
+$(sub-dir-test) $(kmod-list-test):
 	$(call log_tgt_start,sub-test,$(call git_relative_dir,$(patsubst %.test,%,$(@))))
 	$(call make_sub_dir_test,$(@:.test=))
 
-$(sub-dir-clean):
+$(sub-dir-clean) $(kmod-list-clean):
 	$(call log_tgt_start,sub-clean,$(call git_relative_dir,$(patsubst %.clean,%,$(@))))
 	$(call make_sub_dir_clean,$(@:.clean=))

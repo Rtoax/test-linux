@@ -18,7 +18,7 @@ obj-$(LIVEPATCH) += livepatch-shadow-fix2.o
 obj-$(LIVEPATCH) += livepatch-shadow-mod.o
 obj-$(LIVEPATCH) += loadavg_proc_show.o
 
-all:
+build:
 	@echo "CONFIG_LIVEPATCH = $(CONFIG_LIVEPATCH)"
 	${Q}make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
 

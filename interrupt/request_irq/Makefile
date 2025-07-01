@@ -1,7 +1,7 @@
 obj-m += request-irq.o
 obj-m += tasklet-bh.o
 
-all:
+build:
 	${Q}make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
 
 test:

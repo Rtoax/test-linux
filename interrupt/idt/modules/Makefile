@@ -4,7 +4,7 @@ endif
 ifeq ($(shell uname -m),aarch64)
 endif
 
-all:
+build:
 	${Q}make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
 
 test:
