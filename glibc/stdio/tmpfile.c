@@ -4,7 +4,7 @@
 #include <string.h>
 #include <errno.h>
 
-int main()
+int main(void)
 {
 	FILE *fp = tmpfile();
 	fprintf(fp, "Hello, Yue Hua!\n");

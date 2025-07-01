@@ -1,5 +1,5 @@
-void foo();
-void _start()
+void foo(void);
+void _start(void)
 {
 	foo();
 }

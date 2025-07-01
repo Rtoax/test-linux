@@ -23,23 +23,27 @@
 #define offsetof(type, member)	( (int) & ((type*)0) -> member )
 #endif
 
-#define ICMP_BUF_SIZE		   256
-#define ICMP_RECVBUF_SIZE	   (50 * 1024)
-#define ICMP_MAGIC_ID		   0xf1f2
-#define ICMP_PROTO_NAME		 "icmp"
-#define ICMP_DATA			   "Rong Tao's ICMP Ping"
+#define ICMP_BUF_SIZE		256
+#define ICMP_RECVBUF_SIZE	(50 * 1024)
+#define ICMP_MAGIC_ID		0xf1f2
+#define ICMP_PROTO_NAME		"icmp"
+#define ICMP_DATA		"Rong Tao's ICMP Ping"
 
-#define ICMP_PING_SUCC		  __ICMP_PING_SUCC
-#define ICMP_PING_FAIL		  __ICMP_PING_FAIL
+#define ICMP_PING_SUCC		__ICMP_PING_SUCC
+#define ICMP_PING_FAIL		__ICMP_PING_FAIL
 
-#define ICMP_LOG(fmt...)		//printf(fmt)
+#ifdef DEBUG
+#define ICMP_LOG(fmt...)	printf(fmt)
+#else
+#define ICMP_LOG(fmt...)
+#endif
 
 #define ICMP_LOG_ERR(fmt...)	fprintf(stderr, fmt);
 
 typedef enum {
 	__ICMP_PING_FAIL = ICMPPING_FAIL,
 	__ICMP_PING_SUCC = ICMPPING_SUCC,
-}icmp_ping_rlst_t;
+} icmp_ping_rlst_t;
 
 /* type of icmp ping */
 typedef struct __icmp_ping_s {
@@ -62,7 +66,7 @@ static void icmp_ping_finish (icmp_ping_t *ping);
 static int icmp_ping_destroy(icmp_ping_t* ping);
 
 
-static int icmp_socket();
+static int icmp_socket(void);
 static int icmp_dst_addr(const char *addrHost, struct sockaddr_in * dst_addr);
 static unsigned short icmp_gen_chksum(unsigned short *data, int len);
 static int icmp_pkg_pack(void *buffer, int pack_no, const void *data,

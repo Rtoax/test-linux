@@ -72,11 +72,11 @@ int check_ipversion(char * address);
 int create_socket(int port);
 void sigchld_handler(int signal);
 void sigterm_handler(int signal);
-void proxy_server_loop();
+void proxy_server_loop(void);
 void handle_client(int client_sock, struct sockaddr_storage client_addr);
 void forward_data(int source_sock, int destination_sock);
 void forward_data_ext(int source_sock, int destination_sock, char *cmd);
-int create_connection();
+int create_connection(void);
 int parse_options(int argc, char *argv[]);
 void plog(int priority, const char *format, ...);
 
@@ -432,7 +432,8 @@ void forward_data_ext(int source_sock, int destination_sock, char *cmd) {
 }
 
 /* Create client connection */
-int create_connection() {
+int create_connection(void)
+{
 	struct addrinfo hints, *res=NULL;
 	int sock;
 	int validfamily=0;

@@ -47,7 +47,7 @@ int get_self_run_time(struct timerun *tr)
 	return 0;
 }
 
-int main()
+int main(void)
 {
 	struct timerun tr;
 	while (1) {

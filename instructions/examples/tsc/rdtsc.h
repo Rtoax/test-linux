@@ -42,7 +42,7 @@ unsigned long timer_get_ticks(void)
  * link: https://www.felixcloutier.com/x86/rdtsc
  */
 static inline __always_inline__
-uint64_t rdtsc()
+uint64_t rdtsc(void)
 {
 	uint32_t lo, hi;
 
@@ -52,7 +52,7 @@ uint64_t rdtsc()
 }
 
 static inline __always_inline__
-uint64_t rdtsc_fence()
+uint64_t rdtsc_fence(void)
 {
 	uint32_t lo, hi;
 
