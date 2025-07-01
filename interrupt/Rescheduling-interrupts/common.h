@@ -37,7 +37,7 @@ int select_context_init(struct select_context *ctx);
 int epoll_context_init(struct epoll_context *ctx);
 void epoll_add_fd(struct epoll_context *ctx, int fd);
 
-int eventfd_create();
+int eventfd_create(void);
 
 void reset_self_sched(int sched_policy, int sched_priority);
 void reset_self_cpuset(char *cpu_list);

@@ -3,7 +3,8 @@
  * 转换后str->data 的前四个字节即变成"测试"。
  */
 #include <openssl/asn1.h>
-int main()
+
+int main(void)
 {
 	BIO *bp;
 	ASN1_STRING *str;

@@ -5,7 +5,8 @@
 // -3
 // 0
 #include <openssl/asn1.h>
-int main()
+
+int main(void)
 {
 	int ret;
 	ASN1_STRING *a,*b,*c;

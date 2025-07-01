@@ -4,7 +4,6 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
-extern HIST_ENTRY **history_list();
 
 int main(void)
 {

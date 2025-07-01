@@ -2,6 +2,7 @@ TARGETS := hello
 TARGETS_POST := hello.dwz hello.strip
 
 CFLAGS := -g
+CFLAGS += -ggdb -O0
 ifdef DWARF5
   CFLAGS += -gdwarf-5
 else ifdef DWARF4

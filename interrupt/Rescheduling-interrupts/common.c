@@ -82,7 +82,7 @@ void select_add_fd(struct select_context *ctx, int evt_fd)
 	printf("Select add: fd = %d, maxfd = %d.\n", evt_fd, ctx->maxfd);
 }
 
-int eventfd_create() 
+int eventfd_create(void) 
 {
 	int efd = eventfd(0, EFD_CLOEXEC);
 	if (efd <= 0) {

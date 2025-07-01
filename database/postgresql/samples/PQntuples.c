@@ -8,7 +8,7 @@ void do_exit(PGconn *conn)
 	exit(1);
 }
 
-int main()
+int main(void)
 {
 	PGconn *conn = PQconnectdb("user=rongtao dbname=testdb");
 
