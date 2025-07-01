@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- licenses: add BSD/BSD-2-Clause.txt;
 - python: add import/log.py to test import from python source code;
 #### Changed
 - helpers: change license to (LGPL-2.1 OR BSD-2-Clause).
