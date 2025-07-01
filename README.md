@@ -75,6 +75,7 @@ CONFIG_LOCKUP_DETECTOR
 * Each **drawio** contains relate directory diagrams.
 * Never call `include` in `*.mk` file, only call `include` in Makefile.
 * Each `kconfig` contains kernel CONFIG.
+* Each `*_helpers*` is helpers program/script of current directory, better `LGPL-2.1 OR BSD-2-Clause` license.
 
 
 ## abbreviation.md Example

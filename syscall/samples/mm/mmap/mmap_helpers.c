@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
 #include <string.h>
 #include <sys/types.h>
 #include <sys/file.h>

@@ -13,6 +13,7 @@ and this project adheres to
 #### Added
 - python: add import/log.py to test import from python source code;
 #### Changed
+- helpers: change license to (LGPL-2.1 OR BSD-2-Clause).
 #### Deprecated
 #### Removed
 #### Fixed

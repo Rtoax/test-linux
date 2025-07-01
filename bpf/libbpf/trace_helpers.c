@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: GPL-3.0
+// SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>

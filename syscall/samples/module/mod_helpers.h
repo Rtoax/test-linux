@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
 #pragma once
 
 int sys_init_module(void *module_image, unsigned long len,

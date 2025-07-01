@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
 #include <linux/types.h>
 #include <linux/seccomp.h>  /* Definition of SECCOMP_* constants */
 #include <linux/filter.h>   /* Definition of struct sock_fprog */

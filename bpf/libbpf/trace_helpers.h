@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: GPL-3.0
+// SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
 #pragma once
 #include <stdarg.h>
 #include <bpf/libbpf.h>

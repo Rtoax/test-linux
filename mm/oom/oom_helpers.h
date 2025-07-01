@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
 #pragma once
 
 int disable_oom_by_adj(pid_t pid);
