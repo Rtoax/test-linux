@@ -2,8 +2,6 @@ TARGETS :=
 TARGETS += mmap
 TARGETS += pmem_map_file
 
-CFLAGS :=
-CFLAGS += -DDEBUG -O0 -g
 LDFLAGS := -lpmem
 
 include ../../../template/main.mk

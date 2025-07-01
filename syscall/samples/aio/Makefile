@@ -9,7 +9,6 @@ ifeq ($(wildcard $(LIBAIO_HDR)),)
 endif
 
 LDFLAGS :=
-CFLAGS += -DDEBUG -O0 -g
 
 include ../../../compiler/cross-compile.mk
 

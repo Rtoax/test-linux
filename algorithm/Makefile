@@ -16,15 +16,8 @@ sub-dir += search
 TARGETS :=
 TARGETS += pi
 
-DEBUG ?= yes
-CC := gcc
-
 CFLAGS :=
 CFLAGS += -I../macro/
-
-ifdef DEBUG
-  CFLAGS += -DDEBUG -O0 -g -ggdb
-endif
 
 include ../template/main.mk
 

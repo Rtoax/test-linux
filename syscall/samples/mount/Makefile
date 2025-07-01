@@ -12,7 +12,6 @@ TARGETS_PREP := fs.ext4
 
 CFLAGS :=
 CFLAGS += -pthread
-CFLAGS += -DDEBUG -O0 -g
 CFLAGS += -I../../libs/
 
 include ../../../template/main.mk

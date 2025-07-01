@@ -83,15 +83,6 @@ CFLAGS += -pthread
 
 CFLAGS += -no-pie
 
-ifdef STATIC
-  CFLAGS += -static
-  $(info Defined STATIC)
-endif
-ifdef DEBUG
-  CFLAGS += -DDEBUG=1
-  $(info Defined DEBUG)
-endif
-
 CFLAGS_rdrand := -mrdrnd
 CFLAGS_rdseed := -mrdseed
 CFLAGS_udiv := -O0
