@@ -5,7 +5,12 @@ Q ?= @
 # $2: sub-dir
 define make_sub_dir
 	$(call tl_log,"${1} $(call git_relative_dir,$(2))")
-	${Q}make -C ${2} ${1} || echo "Failed ${1} $(call git_relative_dir,$(2))" | tee --append ${TL_FAILED_LOG}
+	$(Q)pushd $(2) >/dev/null; \
+	make ${1}; \
+	if [ $$? -ne 0 ]; then \
+		echo "Failed ${1} $(call git_relative_dir,$(2))" | tee --append ${TL_FAILED_LOG}; \
+	fi; \
+	popd >/dev/null
 endef
 
 define make_sub_dir_build
