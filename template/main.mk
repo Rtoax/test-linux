@@ -79,7 +79,7 @@ define log_tgt_exe
 @printf '  %-6s ${ANSI_BOLD}%s${ANSI_RST} -> ${ANSI_BOLD}${ANSI_GRE}%s${ANSI_RST}\n' "${1}" "$(2)" "$(3)"
 endef
 define log_tgt_start
-@echo -e "[$(1)] ${ANSI_BOLD}${ANSI_GRE}$(2)${ANSI_RST} done"
+@echo -e "[$(1)] ${ANSI_BOLD}${ANSI_GRE}$(2)${ANSI_RST} start"
 endef
 define log_tgt_done
 @echo -e "[$(1)] ${ANSI_BOLD}${ANSI_YEL}$(2)${ANSI_RST} done"
@@ -110,6 +110,11 @@ TARGETS_MK_LOGS := $(patsubst %.mk,%.mk.log,$(TARGETS_MK))
 build-targets += $(TARGETS_MK_LOGS)
 build-targets += $(sub-dir-build)
 build-targets += $(TARGETS_POST)
+
+ifdef DEBUG
+  $(info build-targets = ${build-targets})
+  $(info sub-dir-clean = ${sub-dir-clean})
+endif
 
 .PHONY: build
 build: $(build-targets)
