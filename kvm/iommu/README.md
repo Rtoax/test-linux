@@ -34,6 +34,12 @@ Access-capable I/O Bus）和主存（main memory）。传统的内存管理单�
 ```
 
 
+# Kernel cmdline
+
+- `iommu.passthrough=1`
+- `iommu=pt`
+
+
 # 虚拟化
 
 - GPA to HPA
