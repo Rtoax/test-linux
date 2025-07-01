@@ -16,6 +16,7 @@ and this project adheres to
 - helpers: change license to (LGPL-2.1 OR BSD-2-Clause).
 #### Deprecated
 #### Removed
+- Remove selftests directory.
 #### Fixed
 #### Security
 #### Docs
