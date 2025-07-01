@@ -10,6 +10,19 @@ and this project adheres to
 ## Unreleased
 
 #### Breaking Changes
+#### Added
+#### Changed
+#### Deprecated
+#### Removed
+#### Fixed
+#### Security
+#### Docs
+#### Tools
+
+
+## [v2.2.15] 2025-07-01
+
+#### Breaking Changes
 - Remove **user** and **kernel** target in main Makefile, use build,test,clean instead;
 #### Added
 - licenses: add BSD/BSD-2-Clause.txt;
