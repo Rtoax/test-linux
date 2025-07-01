@@ -60,9 +60,9 @@ help:
 	@echo >&2 -e "***"
 	@echo >&2 -e "*** make default: show this information"
 	@echo >&2 -e "***"
-	@echo >&2 -e "*** make [user|kernel]"
-	@echo >&2 -e "*** make [test|testuser|testkernel]"
-	@echo >&2 -e "*** make [clean|cleanuser|cleankernel|cleangit]"
+	@echo >&2 -e "*** make [user|kmod]"
+	@echo >&2 -e "*** make [test|testuser|testkmod]"
+	@echo >&2 -e "*** make [clean|cleanuser|cleankmod|cleangit]"
 	@echo >&2 -e "***"
 	@echo >&2 -e "*** make archive"
 	@echo >&2 -e "*** make config"
@@ -115,7 +115,7 @@ all: default
 	$(call tl_log,top-makefile all)
 
 .PHONY: default
-default: user kernel
+default: user kmod
 
 include template/subdir-header.mk
 
@@ -126,8 +126,8 @@ user: cleanfailedlog ${sub-dir-build}
 	$(call printfailedlog)
 	@echo "${MOONLIGHT}"
 
-.PHONY: kernel
-kernel: cleanfailedlog $(kmod-list)
+.PHONY: kmod
+kmod: cleanfailedlog $(kmod-list)
 	@echo "=========== Kernel done ==========="
 	$(call printfailedlog)
 	@echo "${MOONLIGHT}"
@@ -135,9 +135,9 @@ $(kmod-list):
 	$(call kern_build,$@)
 
 .PHONY: test
-test: testuser testkernel
+test: testuser testkmod
 testuser: ${sub-dir-test}
-testkernel:$(kmod-list-test)
+testkmod:$(kmod-list-test)
 $(kmod-list-test):
 	$(call kern_test,$(@:%_test=%))
 
@@ -207,15 +207,15 @@ clean:
 	@echo "==="
 	@echo "=== cleanall"
 	@echo "=== cleanuser"
-	@echo "=== cleankernel"
+	@echo "=== cleankmod"
 	@echo "=== cleangit (default)"
 	@echo "==="
-cleanall: cleanuser cleankernel cleangit
+cleanall: cleanuser cleankmod cleangit
 	@echo "=== clean all"
 cleanuser: ${sub-dir-clean}
 	@echo "=== clean user"
-cleankernel: $(kmod-list-clean)
-	@echo "=== clean kernel"
+cleankmod: $(kmod-list-clean)
+	@echo "=== clean kmod"
 $(kmod-list-clean):
 	$(call kern_clean,$(@:%_clean=%))
 # Clean git repo useless file and directory

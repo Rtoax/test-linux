@@ -10,6 +10,7 @@ and this project adheres to
 ## Unreleased
 
 #### Breaking Changes
+- Rename target **kernel** to **kmod** in main Makefile;
 #### Added
 - licenses: add BSD/BSD-2-Clause.txt;
 - python: add import/log.py to test import from python source code;
