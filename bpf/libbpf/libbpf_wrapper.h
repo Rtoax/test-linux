@@ -49,7 +49,7 @@
 #define BPF__OPEN_AND_LOAD(open_and_load, open_opts, load, destroy)		\
 	BPF__OPEN_AND_LOAD_OPTS(open_and_load, open_opts, load, destroy)
 #else
-#define BPF__OPEN_AND_LOAD(open_and_load, open_opts, load, destroy) ({		\
+#define BPF__OPEN_AND_LOAD(open_and_load, open_opts, load, destroy)		\
 	BPF__OPEN_AND_LOAD_RAW(open_and_load)
 #endif
 
