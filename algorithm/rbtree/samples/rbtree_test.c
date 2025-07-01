@@ -3,7 +3,6 @@
 #include "rbtree.h"
 
 
-
 struct mytype {
 	struct rb_node my_node;
 	int num;
@@ -12,18 +11,13 @@ struct mytype {
 struct mytype *my_search(struct rb_root *root, int num)
 {
 	struct rb_node *node = root->rb_node;
-	while(node)
-	{
+	while (node) {
 		struct mytype *data = container_of(node, struct mytype, my_node);
-		if(num < data->num)
-		{
+		if (num < data->num) {
 			node = node->rb_left;
-		}
-		else if(num > data->num)
-		{
+		} else if(num > data->num) {
 			node = node->rb_right;
-		}
-		else
+		} else
 			return data;
 	}
 	return NULL;
@@ -76,7 +70,7 @@ void print_rbtree(struct rb_root *tree)
     printf("\n");
 }
 
-void demo_rbtree_original()
+void demo_rbtree_original(void)
 {
     struct rb_root mytree = RB_ROOT;
     int i, ret, num, nums[] = {2,6,9,8,3,4,7,1,12,1,5,6,9,31,41,3,41,34,1,34,13,4,13,4,13,41,3,41,34,\
@@ -107,10 +101,9 @@ void demo_rbtree_original()
     print_rbtree(&mytree);
 }
 
-int main()
+int main(void)
 {
     demo_rbtree_original();
     
     return 0;
 }
-

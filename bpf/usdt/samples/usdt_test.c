@@ -3,7 +3,7 @@
 #include <unistd.h>
 #include <stdio.h>
 
-static long myclock()
+long myclock(void)
 {
 	char hello1[] = "Hello world1";
 	char hello2[] = "Hello world2";

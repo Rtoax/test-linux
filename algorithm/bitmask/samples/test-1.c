@@ -1,5 +1,4 @@
 #include <stdio.h>
-
 #include "bitmask.h"
 
 #define print_info(fmt...) fprintf(stdout, fmt)
@@ -16,7 +15,7 @@ int memshow(const void*in, int len)
 	return len;
 }
 
-static void demo_bitmask_test1()
+void demo_bitmask_test1(void)
 {
 	unsigned int nbits = 256;
 
@@ -58,4 +57,3 @@ int main(void)
 	demo_bitmask_test1();
 	return 0;
 }
-

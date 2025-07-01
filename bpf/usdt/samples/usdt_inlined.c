@@ -7,19 +7,19 @@
 #define __always_inline __attribute__((always_inline))
 #endif
 
-__always_inline inline static void myclock()
+__always_inline inline static void myclock(void)
 {
 	struct timeval tv;
 	gettimeofday(&tv, NULL);
 	DTRACE_PROBE2(tracetest, testprobe, tv.tv_sec, "Hello world");
 }
 
-static void mywrapper()
+static void mywrapper(void)
 {
 	myclock();
 }
 
-static void loop()
+static void loop(void)
 {
 	while (1)
 	{

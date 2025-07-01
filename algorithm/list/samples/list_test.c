@@ -16,7 +16,7 @@ struct hlist_test {
 };
 
 
-int demo_list_1_add_del_swap_for_each()
+int demo_list_1_add_del_swap_for_each(void)
 {
 	struct list_head lhead;
 
@@ -54,9 +54,7 @@ int demo_list_1_add_del_swap_for_each()
 	return 0;
 }
 
-
-
-int demo_list_2_move_and_move_tail()
+int demo_list_2_move_and_move_tail(void)
 {
 	struct list_head lhead1, lhead2;
 
@@ -105,8 +103,7 @@ int demo_list_2_move_and_move_tail()
 	return 0;
 }
 
-
-int demo_list_3_bulk_move()
+int demo_list_3_bulk_move(void)
 {
 	struct list_head lhead1, lhead2;
 
@@ -147,8 +144,7 @@ int demo_list_3_bulk_move()
 	return 0;
 }
 
-
-int demo_list_4_is_first_is_last_is_empty_is_singular()
+int demo_list_4_is_first_is_last_is_empty_is_singular(void)
 {
 	struct list_head lhead;
 
@@ -214,9 +210,7 @@ int demo_list_4_is_first_is_last_is_empty_is_singular()
 	return 0;
 }
 
-
-
-int demo_list_5_rotate()
+int demo_list_5_rotate(void)
 {
 	struct list_head lhead;
 
@@ -252,17 +246,10 @@ int demo_list_5_rotate()
 		printf("%d - ", iter->a);
 	}printf("\n");
 
-//    list_rotate_left(&lhead);
-//
-//
-//    list_for_each_entry(iter, &lhead, list) {
-//		printf("%d - ", iter->a);
-//	}printf("\n");
-
 	return 0;
 }
 
-int demo_list_6_cut()
+int demo_list_6_cut(void)
 {
 	struct list_head lhead;
 
@@ -298,8 +285,6 @@ int demo_list_6_cut()
 //    3 - 4 - 5 -
 //    1 - 2 -
 
-
-
 	list_for_each_entry(iter, &lhead, list) {
 		printf("%d - ", iter->a);
 	}printf("\n");
@@ -313,8 +298,7 @@ int demo_list_6_cut()
 	return 0;
 }
 
-
-int demo_list_7_splice()//粘贴
+int demo_list_7_splice(void)
 {
 	struct list_head lhead;
 
@@ -374,9 +358,7 @@ int demo_list_7_splice()//粘贴
 	return 0;
 }
 
-
-
-int demo_list_8_for_each_and_entry()
+int demo_list_8_for_each_and_entry(void)
 {
 	struct list_head lhead;
 
@@ -531,7 +513,7 @@ static int list_sort_test_cmp(void *priv, struct list_head *a, struct list_head 
 	return t1->a-t2->a;
 }
 
-void demo_list_9_list_sort()
+void demo_list_9_list_sort(void)
 {
 	printf("sort:::::::::::::::::::::::\n");
 	struct list_head lhead;
@@ -565,7 +547,7 @@ void demo_list_9_list_sort()
 }
 
 
-struct llist_test{
+struct llist_test {
 	int a;
 	struct llist_node llist;
 };
@@ -574,8 +556,7 @@ struct llist_test  llist_nodes[] = {
 			};
 #define NLLIST_NODE (sizeof(llist_nodes)/sizeof(llist_nodes[0]))
 
-
-static void demo_llist_1_add()
+void demo_llist_1_add(void)
 {
 	struct llist_head head;
 	init_llist_head(&head);

@@ -1,7 +1,7 @@
 #include <sys/sdt.h>
 #include <stdint.h>
 
-int main()
+int main(void)
 {
 	uint32_t a = 0xdeadbeef;
 	uint32_t b = 1;

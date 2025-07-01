@@ -21,6 +21,7 @@ squashfs-root
 *.strip
 *.readelf
 *.output*
+*.btf
 
 # Precompiled Headers
 *.gch

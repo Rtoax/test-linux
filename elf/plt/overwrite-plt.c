@@ -2,14 +2,14 @@
 /* Copyright (C) 2022-2025 Rong Tao */
 #include <unistd.h>
 
-#if OVERWRITE==1
+#if OVERWRITE == 1
 ssize_t write(int fd, const void *buf, size_t count)
 {
 	return 0;
 }
 #endif
 
-int main()
+int main(void)
 {
 	return write(0, NULL, 0);
 }

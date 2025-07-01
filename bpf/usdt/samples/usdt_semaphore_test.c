@@ -12,7 +12,7 @@
 __extension__
 unsigned short tracetest_testprobe_semaphore __unused __sec_probes __hidden;
 
-static long myclock()
+long myclock(void)
 {
 	char buffer[100];
 	struct timeval tv;
