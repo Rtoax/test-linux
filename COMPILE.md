@@ -15,24 +15,30 @@ $ make config
 $ make installdeps
 ```
 
-## Compile User
+## Compile in Top Directory
 
 > You'd better compiled under git-repo, because some Makefile use 'git rev-parse --show-toplevel' get top-dir.
 
 ```bash
-$ make user
+$ make build
+```
+
+Compile without kernel modules:
+
+```bash
+$ make build KMOD=0
 ```
 
 Compile with `-m32`:
 
 ```bash
-$ make user M32=1
+$ make build M32=1
 ```
 
 Compile with verbose:
 
 ```
-$ make user V=1
+$ make build V=1
 ```
 
 ## Create Makefile

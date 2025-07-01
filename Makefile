@@ -10,8 +10,6 @@ SUBLEVEL = 14
 EXTRAVERSION =
 NAME = IPC
 
-include make.list
-
 TEST_LINUX_VERSION := $(VERSION)$(if $(PATCHLEVEL),.$(PATCHLEVEL)$(if $(SUBLEVEL),.$(SUBLEVEL)))$(EXTRAVERSION)
 export VERSION PATCHLEVEL SUBLEVEL TEST_LINUX_VERSION
 
@@ -51,7 +49,7 @@ help:
 	@echo >&2 -e "*** TEST_LINUX_VERSION v${TEST_LINUX_VERSION} (${NAME})"
 	@echo >&2 -e "*** KERNEL_VERSION ${KVERSION}.${KPATCHLEVEL}.${KSUBLEVEL}, CODE ${KVERSION_CODE}"
 	@echo >&2 -e "***"
-	@echo >&2 -e "*** make build"
+	@echo >&2 -e "*** make build [KMOD=0] [USER=0]"
 	@echo >&2 -e "*** make test"
 	@echo >&2 -e "*** make clean"
 	@echo >&2 -e "***"
@@ -70,8 +68,17 @@ help:
 	@echo >&2 -e "***  M32=1  compile with -m32 if possible"
 	@echo >&2 -e "***"
 
+include make.list
+
 TARGETS_PREP := cleanfailedlog
 TARGETS_POST := printfailedlog
+
+ifeq ($(KMOD),0)
+  kmod-list :=
+endif
+ifeq ($(USER),0)
+  sub-dir :=
+endif
 
 include template/main.mk
 
