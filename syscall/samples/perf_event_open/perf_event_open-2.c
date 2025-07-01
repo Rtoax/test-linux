@@ -6,6 +6,7 @@
 #ifndef _GNU_SOURCE
 #define _GNU_SOURCE
 #endif
+#include <assert.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
@@ -33,10 +34,11 @@ struct read_format {
 void do_malloc(void)
 {
 	int i;
-	char *ptr;
+	char *ptr = NULL;
 	int len = 2 * 1024 * 1024;
-	ptr = malloc(len);
 
+	ptr = malloc(len);
+	assert(ptr && "malloc failed");
 	mlock(ptr, len);
 
 	/* pagefault */
