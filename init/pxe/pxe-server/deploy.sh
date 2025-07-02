@@ -23,7 +23,6 @@ sudo cp ${pxelinux} /var/lib/tftpboot/pxelinux/
 #  /tftpboot/efi64/vesamenu.c32
 #  /tftpboot/vesamenu.c32
 #
-# See https://code.cestc.cn/rongtao/ostools/-/issues/50
 sudo cp $(rpm -ql syslinux-tftpboot | grep -v efi64) /var/lib/tftpboot/pxelinux/
 
 ### For efi64: syslinux.efi + ldlinux.e64
