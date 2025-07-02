@@ -7,24 +7,19 @@ TARGETS += hello
 TARGETS += linklist
 TARGETS += daxpy
 
-TARGETS_PREP := hello.strip
-
 TARGETS_CPP := global-var
+
+TARGETS_PREP := hello.strip
 
 TARGETS_SHELL := $(shell ls *.sh)
 
 CFLAGS :=
 CFLAGS += -O0 -ggdb
-CFLAGS += -pthread
+LDFLAGS += -pthread
 
 CXXFLAGS :=
 CXXFLAGS += -O0 -ggdb
-
-ifneq ($(PIE),)
-  CFLAGS += -fpie
-  LDFLAGS += -pie
-  CXXFLAGS += -fpie
-endif
+LDXXFLAGS += -pthread
 
 CFLAGS_hello := -Wno-error=unused-function
 

@@ -29,8 +29,6 @@
 #	delete breakpoints <brk num>	删除一个或所有断点
 break hello
 break main
-set $addr = &main
-break *$addr
 info breakpoints
 # hello()
 enable 1
@@ -40,5 +38,7 @@ enable delete 1
 disable 2
 delete breakpoints 2
 run
+set $addr = &main
+break *$addr
 continue
 quit
