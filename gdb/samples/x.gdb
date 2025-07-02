@@ -21,8 +21,9 @@
 # 			h	半字（两个字节）
 # 			w	字（四个字节）
 # 			g	双字（八个字节）
-x /16ag main
 break main
 run
+x /16ag main
 x /10cb argv[0]
 continue
+quit

@@ -1,4 +1,4 @@
 #!/bin/bash
 make hello
 # NOTE: symbol-value is not gdb command
-gdb --quiet ./hello < symbol-value.gdb
+gdb --quiet ./hello -x symbol-value.gdb

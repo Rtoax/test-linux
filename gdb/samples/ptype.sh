@@ -1,3 +1,3 @@
 #!/bin/bash
 make hello
-gdb --quiet ./hello < ptype.gdb
+gdb --quiet ./hello -x ptype.gdb

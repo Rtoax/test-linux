@@ -14,3 +14,4 @@ print hello
 print static_hello
 info proc mappings
 continue
+quit

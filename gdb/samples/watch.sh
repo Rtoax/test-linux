@@ -1,3 +1,3 @@
 #!/bin/bash
 make hello
-gdb --quiet ./hello < watch.gdb
+gdb --quiet ./hello -x watch.gdb

@@ -1,3 +1,3 @@
 #!/bin/bash
 make hello
-gdb --quiet ./hello < frame.gdb
+gdb --quiet ./hello -x frame.gdb

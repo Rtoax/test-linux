@@ -35,3 +35,4 @@ info proc mappings
 echo --- _GLOBAL_OFFSET_TABLE_ ---\n
 print /x (unsigned long)_GLOBAL_OFFSET_TABLE_
 continue
+quit

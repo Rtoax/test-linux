@@ -1,3 +1,3 @@
 #!/bin/bash
 make hello
-gdb --quiet ./hello < info-symbol.gdb
+gdb --quiet ./hello -x info-symbol.gdb

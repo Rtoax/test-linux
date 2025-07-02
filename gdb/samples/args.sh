@@ -1,3 +1,3 @@
 #!/bin/bash
 make hello
-gdb --quiet ./hello < args.gdb
+gdb --quiet -x args.gdb ./hello

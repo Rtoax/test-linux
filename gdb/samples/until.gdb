@@ -1,3 +1,5 @@
-until 20
+break main
 run
+until 41
 continue
+quit

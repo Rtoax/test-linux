@@ -5,3 +5,4 @@ break hello
 run
 mybacktrace
 continue
+quit

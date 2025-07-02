@@ -1,3 +1,3 @@
 #!/bin/bash
 make hello
-gdb --quiet ./hello < directory.gdb
+gdb --quiet ./hello -x directory.gdb

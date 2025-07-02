@@ -2,7 +2,7 @@ info
 info files
 info sources
 break hello
-r
+run
 info args
 info registers
 info proc all
@@ -15,3 +15,4 @@ info thread
 info threads
 info stack
 c
+quit

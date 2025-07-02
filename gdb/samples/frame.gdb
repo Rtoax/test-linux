@@ -3,6 +3,7 @@ run
 bt
 frame 1
 f 1
-up
+# up
 down
 continue
+quit

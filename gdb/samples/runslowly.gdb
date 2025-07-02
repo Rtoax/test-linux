@@ -7,3 +7,5 @@ define runslowly
 	end
 
 runslowly
+
+quit

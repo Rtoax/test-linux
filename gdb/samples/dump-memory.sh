@@ -1,3 +1,3 @@
 #!/bin/bash
 make hello
-gdb --quiet ./hello < dump-memory.gdb
+gdb --quiet ./hello -x dump-memory.gdb

@@ -13,6 +13,7 @@ and this project adheres to
 - Introduce scripts/dialog/main.sh;
 #### Added
 #### Changed
+- gdb/samples: use -x instead of `<` to pass gdb script;
 #### Deprecated
 #### Removed
 - Remove libs/libs.mk;
