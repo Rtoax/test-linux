@@ -462,6 +462,7 @@ ${OUTPUT}map_hash.o: ${OUTPUT}map_hash.skel.h
 map_percpu_hash: ${OUTPUT}map_percpu_hash.o ${HELPERS}
 ${OUTPUT}map_percpu_hash.o: ${OUTPUT}map_percpu_hash.skel.h
 map_lru_hash: ${OUTPUT}map_lru_hash.o ${HELPERS}
+${OUTPUT}map_lru_hash.o: ${OUTPUT}tracepoint.skel.h
 map_lru_percpu_hash: ${OUTPUT}map_lru_percpu_hash.o ${HELPERS}
 map_array: ${OUTPUT}map_array.o ${HELPERS}
 map_percpu_array: ${OUTPUT}map_percpu_array.o ${HELPERS}
