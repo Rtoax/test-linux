@@ -46,7 +46,7 @@ TL_FAILED_LOG := $(TL_TOPDIR)/failed.log
 export TL_LOG TL_FAILED_LOG
 
 define tl_log
-	${Q}echo $(shell date '+%Y-%m-%d_%H:%M:%S') $(shell hostname) $1 >> ${TL_LOG}
+	${Q}echo $(shell date '+%Y-%m-%d %H:%M:%S') $(shell hostname) $1 >> ${TL_LOG}
 endef
 
 define cleanfailedlog
