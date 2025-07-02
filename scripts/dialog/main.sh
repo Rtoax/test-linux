@@ -18,7 +18,8 @@ readonly WIDTH=$(( $(stty size | awk '{print $2}') - 10 ))
 : ${DIALOG_ESC=255}
 
 readonly PRODUCT="Test Linux"
-readonly BACKTITLE="${PRODUCT} Configuration"
+readonly TITLE="${PRODUCT} Configuration"
+readonly BACKTITLE="${PRODUCT} Configuration with kernel $(uname -r)"
 
 readonly MENU_Save_and_Continue='Save and Continue'
 
@@ -65,7 +66,7 @@ __save_and_continue__()
 		--title "${MENU_Save_and_Continue}" \
 		--yesno \
 "Save and Continue? \n" \
-		${HEIGHT} ${WIDTH} 2>&1 1>&3
+		0 0 2>&1 1>&3
 
 	ret_status=$?
 	exec 3>&-
@@ -83,10 +84,10 @@ __main__()
 	while :; do
 		exec 3>&1
 		selection=$(${DIALOG} --backtitle "${BACKTITLE}" \
-			--title "Main Menu" \
+			--title "${TITLE}" \
 			--default-item "${MENU_Save_and_Continue}" \
 			--clear --cancel-label "Exit" \
-			--menu "${PRODUCT} Main Menu" \
+			--menu "${PRODUCT} Configuration Main Window." \
 			${HEIGHT} ${WIDTH} ${MENU_HIGHT} \
 			"${MENU_Save_and_Continue}" '' \
 			2>&1 1>&3
