@@ -2,6 +2,10 @@
 #pragma once
 #include <sys/stat.h>
 
+#ifndef offsetof
+#define offsetof(TYPE, MEMBER)    ((size_t)&((TYPE *)0)->MEMBER)
+#endif
+
 struct tl_ustat {
 	int f_tfree;
 	unsigned long f_tinode;

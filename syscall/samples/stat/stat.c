@@ -13,6 +13,9 @@ int main(int argc, char *argv[])
 	if (argc > 1)
 		filename = argv[1];
 
+	printf("size of struct stat %ld\n", sizeof(struct stat));
+	printf("offset of st_size %ld\n", offsetof(struct stat, st_size));
+
 	stat(filename, &buf);
 
 	print_stat(filename, &buf);
