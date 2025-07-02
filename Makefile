@@ -61,6 +61,8 @@ help:
 	@echo >&2 -e "*** make [install|uninstall]"
 	@echo >&2 -e "*** make docker"
 	@echo >&2 -e "***"
+	@echo >&2 -e "*** make menuconfig"
+	@echo >&2 -e "***"
 	@echo >&2 -e "*** make version"
 	@echo >&2 -e "***"
 	@echo >&2 -e "*** Arguments:"
@@ -131,6 +133,11 @@ config:
 .PHONY: kconfig-display
 kconfig-display:
 	$(call display_all_kconfig)
+
+.PHONY: menuconfig
+menuconfig:
+	@echo "=== menuconfig"
+	$(SHELL) ./scripts/dialog/main.sh
 
 define check_links
 	@echo "Check invalid symbol link start"

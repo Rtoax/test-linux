@@ -10,6 +10,7 @@ and this project adheres to
 ## Unreleased
 
 #### Breaking Changes
+- Introduce scripts/dialog/main.sh;
 #### Added
 #### Changed
 #### Deprecated
