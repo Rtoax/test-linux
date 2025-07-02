@@ -46,7 +46,7 @@ hello.strip: hello
 #  @eu-strip hello -f hello.debug -o hello.strip
 define mystrip
 	@objcopy --only-keep-debug $(1) $(1).debug
-	@strip $(1) -o $(1).strip
+	$(Q)strip $(1) -o $(1).strip
 endef
 
 %.strip:
