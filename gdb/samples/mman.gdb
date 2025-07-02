@@ -1,0 +1,5 @@
+set $PROT_READ = 0x1
+set $PROT_WRITE = 0x2
+set $PROT_EXEC = 0x4
+set $MAP_SHARED = 0x01
+set $MAP_PRIVATE = 0x02

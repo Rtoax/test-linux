@@ -1,12 +1,5 @@
-set $PROT_READ = 0x1
-set $PROT_WRITE = 0x2
-set $PROT_EXEC = 0x4
-set $MAP_SHARED = 0x01
-set $MAP_PRIVATE = 0x02
-set $O_RDONLY = 00
-set $O_WRONLY = 01
-set $O_RDWR = 02
-set $O_CREAT = 0100
+source mman.gdb
+source fcntl.gdb
 set $sizeof_stat = 144
 break main
 run
