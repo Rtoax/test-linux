@@ -4,7 +4,7 @@
 # Copyright (C) 2025 Rong Tao. All rights reserved.
 #
 
-readonly DIALOG=dialog
+readonly DIALOG=$(which dialog 2>/dev/null || :)
 readonly DIALOG_ROOT=$(dirname `realpath $0`)
 readonly HEIGHT=$(( $(stty size | awk '{print $1}') - 10 ))
 readonly MENU_HIGHT=${HEIGHT}
@@ -41,6 +41,11 @@ mylog() {
 	logger -t "test-linux[$$]" -p ${prio} -- "$@"
 }
 
+crit() {
+	mylog crit "$@"
+	exit 1
+}
+
 debug() {
 	mylog debug "$@"
 }
@@ -66,13 +71,8 @@ __save_and_continue__()
 	exec 3>&-
 
 	case ${ret_status} in
-	${DIALOG_OK})
-		return 0
-		;;
-	${DIALOG_CANCEL})
-		debug "${MENU_Save_and_Continue} terminated."
-		return 1
-		;;
+	${DIALOG_OK}) return 0 ;;
+	${DIALOG_CANCEL}) debug "${MENU_Save_and_Continue} terminated."; return 1 ;;
 	esac
 }
 
@@ -96,7 +96,7 @@ __main__()
 		exec 3>&-
 		case ${ret_status} in
 		${DIALOG_CANCEL} | ${DIALOG_ESC})
-			echo >&2 -e "Program terminated"
+			debug "Program terminated"
 			break
 			;;
 		esac
@@ -105,18 +105,15 @@ __main__()
 		${MENU_Save_and_Continue})
 			__save_and_continue__
 			case $? in
-			0)
-				debug "End of the main loop"
-				break
-				;;
-			*)
-				debug "back to main menu"
-				continue
-				;;
+			0) debug "End of the main loop"; break ;;
+			*) debug "back to main menu"; continue ;;
 			esac
-			;;
 		esac
 	done
 }
+
+if [[ -z ${DIALOG} ]]; then
+	crit "Not found dialog command"
+fi
 
 __main__ "$@"
