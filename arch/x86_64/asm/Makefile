@@ -83,5 +83,5 @@ atomic_forced_read: atomic_forced_read.o
 time: time.o
 
 test0: ${TARGETS}
-	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
+	$(call log_tgt_exe,TEST,,$(@))
 	$(Q)$(RUN_PFX) ./hello

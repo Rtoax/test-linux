@@ -1,10 +1,7 @@
-TARGETS := helloworld.dtb
+TARGETS_PREP := helloworld.dtb
 
-build: ${TARGETS}
+include ../../../template/main.mk
 
 %.dtb: %.dts
-	@echo -e "  CC  \033[32m$(<)\033[m to \033[32m$(@)\033[m"
-	dtc -I dts -O dtb -o $(@) $(<) --include ${PWD}
-
-clean:
-	rm -f ${TARGETS}
+	$(call log_tgt_exe,DTC,$(<),$(@))
+	$(Q)dtc -I dts -O dtb -o $(@) $(<) --include ${PWD}

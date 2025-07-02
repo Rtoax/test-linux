@@ -86,5 +86,5 @@ define print_elf_reloc
 endef
 
 %.reloc:
-	@echo -e "  READELF  \033[1;32m$(@)\033[m"
+	$(call log_tgt_exe,READELF,,$(@))
 	@$(call print_elf_reloc,$(@))

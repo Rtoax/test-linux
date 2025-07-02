@@ -29,6 +29,6 @@ ramdisk: ramdisk.o tmpfs_helpers.o
 tmpfs: tmpfs.o tmpfs_helpers.o
 
 fs.ext4:
-	@echo -e "  MKFS  \033[1;32m$(@)\033[m"
+	$(call log_tgt_exe,FS,,$(@))
 	${Q}./mkfs.sh
 	${Q}mkdir tmp-dir

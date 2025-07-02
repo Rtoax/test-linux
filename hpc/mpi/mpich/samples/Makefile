@@ -18,9 +18,11 @@ endif
 
 CC := ${MPICC}
 
-$(info - INFO MPICC = ${MPICC})
-$(info - INFO MPIRUN = ${MPIRUN})
-$(info - INFO MPIRUN = ${MPIRUN})
+ifdef DEBUG
+  $(info - INFO MPICC = ${MPICC})
+  $(info - INFO MPIRUN = ${MPIRUN})
+  $(info - INFO MPIRUN = ${MPIRUN})
+endif
 
 TARGETS :=
 TARGETS += MPI_Abort
@@ -37,7 +39,6 @@ ifeq ($(wildcard $(CC)),)
 endif
 
 CFLAGS :=
-
 LDFLAGS :=
 
 # -O3:
@@ -63,7 +64,7 @@ MPI_Wtime: MPI_Wtime.o
 MPI_Wtick: MPI_Wtick.o
 
 test0:
-	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
-	$(MPIRUN) -n 2 ./MPI_Init
-	$(MPIRUN) -n 2 ./MPI_Send
-	$(MPIRUN) -n 10 ./MPI_Send-2
+	$(call log_tgt_obj,TEST,,$(@))
+	$(Q)$(MPIRUN) -n 2 ./MPI_Init
+	$(Q)$(MPIRUN) -n 2 ./MPI_Send
+	$(Q)$(MPIRUN) -n 10 ./MPI_Send-2

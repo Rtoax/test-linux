@@ -120,5 +120,5 @@ __GLIBC_MINOR__: __GLIBC_MINOR__.o
 __GLIBC_PREREQ: __GLIBC_PREREQ.o
 
 compiler-macros.h:
-	@echo -e "  GEN ${CC} MACRO HDR \033[1m$(@)\033[m"
+	$(call log_tgt_obj,HDR,,$(@))
 	$(call gen_compiler_macro_hdr,$(@))

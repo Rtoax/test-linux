@@ -45,7 +45,7 @@ include ../elf/pie.mk
 include ../template/main.mk
 
 test1:
-	@echo -e " \033[1;33m Test libs \033[m"
+	$(call log_tgt_exe,TEST,,$(@))
 	${Q}LD_LIBRARY_PATH=$(shell pwd) ./byteswap
 	${Q}clear
 	${Q}./gotoxy

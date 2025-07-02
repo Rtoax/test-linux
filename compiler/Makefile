@@ -34,7 +34,7 @@ include compiler.mk
 include ../template/main.mk
 
 $(CC)-macros.h:
-	@echo -e "  GEN  \033[1m$(@)\033[m"
+	$(call log_tgt_exe,HDR,,$(@))
 	$(call gen_compiler_macro_hdr,$(@))
 
 __VERSION__: __VERSION__.o

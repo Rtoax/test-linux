@@ -50,5 +50,5 @@ define mystrip
 endef
 
 %.strip:
-	@echo -e "  STRIP  \033[1;32m$(@)\033[m"
+	$(call log_tgt_exe,STRIP,$(^),$(^).strip)
 	$(call mystrip,$(^))

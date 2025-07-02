@@ -15,11 +15,12 @@ help:
 	@echo >&2 " make unload [IF=enp10s0]"
 	@echo >&2 ""
 
-load: $(BPF_OBJ)
-	@echo -e "  LOAD  \033[1mclassifier.bpf.o\033[m to \033[1m$(IF)\033[m"
+load: $(TARGETS_BPF)
+	$(call log_tgt_exe,LOAD,,$(TARGETS_BPF))
 	$(Q)sudo tc qdisc add dev ${IF} handle 0: ingress
 	$(Q)sudo tc filter add dev ${IF} ingress bpf obj classifier.bpf.o flowid 0:
 
 unload:
+	$(call log_tgt_exe,UNLOAD,,$(TARGETS_BPF))
 	@echo -e "  UNLOAD  \033[1mclassifier.bpf.o\033[m to \033[1m$(IF)\033[m"
 	$(Q)sudo tc qdisc del dev ${IF} ingress

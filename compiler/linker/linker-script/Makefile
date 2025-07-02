@@ -28,5 +28,5 @@ main-c: main-c.o foo.o bar.o
 hello-as: hello-as.asm.o
 
 default.lds:
-	@echo -e "  LDS  generate \033[1;32m$(@)\033[m"
+	$(call log_tgt_exe,LDS,,$(@))
 	${Q}LD=${LD} ./default.lds.sh ${LDS_PIE}

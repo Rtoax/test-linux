@@ -15,6 +15,6 @@ mmap-reader: mmap-reader.o
 mmap-writer: mmap-writer.o
 
 test0:
-	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
-	./shm-writer && ./shm-reader
-	./mmap-writer && ./mmap-reader
+	$(call log_tgt_exe,TEST,,$(@))
+	$(Q)./shm-writer && ./shm-reader
+	$(Q)./mmap-writer && ./mmap-reader

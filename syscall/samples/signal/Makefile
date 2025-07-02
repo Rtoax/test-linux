@@ -77,7 +77,7 @@ signalfd: signalfd.o
 
 
 test0: ${TARGETS}
-	@echo -e "  TEST  \033[1;32msigpending\033[m"
+	$(call log_tgt_exe,TEST,,$(@))
 	./sigpending &
 	sleep 1
 	kill -2 $(shell pidof sigpending) # SIGINT

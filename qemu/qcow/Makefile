@@ -13,9 +13,9 @@ qcow2_helpers.o: qcow2_helpers.h qcow2.h
 qcow2: qcow2.o qcow2_helpers.o
 
 %.qcow2:
-	@echo -e "  QCOW2 \033[1m$(@)\033[m"
+	$(call log_tgt_exe,QCOW2,,$(@))
 	$(call create_qcow2,$(@),1G)
 
 test-qcow2: ${QCOW2S}
-	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
+	$(call log_tgt_exe,TEST,,$(@))
 	${Q}./qcow2 -q a.qcow2 --verbose

@@ -30,7 +30,7 @@ TARGETS_PREP := relocs-gen.h
 include ../../../template/main.mk
 
 relocs-gen.h:
-	@echo -e "  GEN  \033[1;32m$(@)\033[m"
+	$(call log_tgt_exe,HDR,,$(@))
 	${Q}./relocs.h.sh
 
 relocs: relocs.o

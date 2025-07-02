@@ -52,7 +52,7 @@ taskset: taskset.o
 daemon: daemon.o
 
 test0:
-	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
-	sudo chrt -r 10 ./sched_rr_get_interval
-	sudo chrt -f 10 ./sched_rr_get_interval
+	$(call log_tgt_exe,TEST,,$(@))
+	$(Q)sudo chrt -r 10 ./sched_rr_get_interval
+	$(Q)sudo chrt -f 10 ./sched_rr_get_interval
 
