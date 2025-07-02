@@ -14,6 +14,7 @@ and this project adheres to
 #### Changed
 #### Deprecated
 #### Removed
+- Remove libs/libs.mk;
 #### Fixed
 #### Security
 #### Docs
