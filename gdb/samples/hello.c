@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <signal.h>
 
 union utest {
 	int i;
@@ -16,6 +18,12 @@ int bss_global_i = 0;
 
 union utest ut1;
 struct stest st1;
+
+void sig_handler(int sig)
+{
+	psignal(sig, "Get");
+	exit(1);
+}
 
 int hello(int argc, char *argv[])
 {

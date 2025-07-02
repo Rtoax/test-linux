@@ -12,7 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - Introduce scripts/dialog/main.sh;
 #### Added
-- gdb/samples: add mmap-file.gdb to test mmap syscall;
+- gdb/samples: add mmap-file.gdb to test mmap syscall, add signal.gdb;
 #### Changed
 - gdb/samples: use -x instead of `<` to pass gdb script;
 #### Deprecated
