@@ -72,8 +72,8 @@ static __always_inline int __bpf_getcwd(char *buf, u32 buf_len)
 		}
 	}
 # else
-	unsigned long long args[2] = {10,11};
-	bpf_snprintf(buf, buf_len, "<%ld,%ld>", &args, sizeof(args));
+	unsigned long long args[2] = {10, 11};
+	bpf_snprintf(buf, buf_len, "<%ld,%ld>", (__u64 *)&args, sizeof(args));
 # endif
 #else
 # pragma message "cwd=N/A"
