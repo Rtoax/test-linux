@@ -14,8 +14,7 @@ void sig_alarm_timeout(int signo)
 
 void sig_handler_exit(int signum)
 {
-	printf("%d\n", signum);
-	psignal(signum, "RongTao");
+	psignal(signum, "EXIT");
 	exit(0);
 }
 

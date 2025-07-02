@@ -6,8 +6,7 @@
 
 void sig_handler_exit(int signum)
 {
-	printf("%d\n", signum);
-	psignal(signum, "RongTao");
+	psignal(signum, "EXIT");
 	exit(0);
 }
 
@@ -29,15 +28,14 @@ void demo2(void)
 	new.sa_flags = 0;
 
 	sigaction(SIGINT, NULL, &old);
-
 	if (old.sa_handler != SIG_IGN)
 		sigaction(SIGINT, &new, NULL);
-	sigaction(SIGHUP, NULL, &old);
 
+	sigaction(SIGHUP, NULL, &old);
 	if (old.sa_handler != SIG_IGN)
 		sigaction(SIGHUP, &new, NULL);
-	sigaction(SIGTERM, NULL, &old);
 
+	sigaction(SIGTERM, NULL, &old);
 	if (old.sa_handler != SIG_IGN)
 		sigaction(SIGTERM, &new, NULL);
 }
@@ -51,4 +49,3 @@ int main(void)
 
 	return 0;
 }
-
