@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - Introduce scripts/dialog/main.sh;
 #### Added
+- oom: introduce adaptive-oom-score tools;
 - gdb/samples: add mmap-file.gdb to test mmap syscall, add signal.gdb, fcntl.gdb, mman.gdb;
 #### Changed
 - gdb/samples: use -x instead of `<` to pass gdb script;

@@ -1,11 +1,10 @@
 # SPDX-License-Identifier: GPL-3.0
-
 Q ?= @
 BPFTOOL ?= bpftool
 VMLINUX_H ?= vmlinux.h
 
 define gen_vmlinux_h
-	@${BPFTOOL} btf dump file /sys/kernel/btf/vmlinux format c > ${1}
+	$(Q)${BPFTOOL} btf dump file /sys/kernel/btf/vmlinux format c > ${1}
 endef
 
 ${VMLINUX_H}:
