@@ -10,4 +10,7 @@ Swap
 
 ```
 sudo swapoff --all
+sudo swapon --show
 ```
+
+> swapoff --all may cause OOM.
