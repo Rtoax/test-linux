@@ -37,7 +37,7 @@ const char argp_prog_doc[] =
 	"USAGE: [-p] [-s <size>] [-a <oom_adj>] [-c <oom_score_adj>] [-v|--verbose]\n"
 	"\n"
 	"EXAMPLES\n"
-	"  $ ./oom -s 2GB --oom_score_adj -1000\n"
+	"  $ ./oom -v -s 2GB --oom_score_adj -1000\n"
 	"  $ ./oom -v\n"
 	"  $ ./oom -v --rate 1000MB\n";
 
@@ -145,7 +145,7 @@ int test_popen(void)
 
 void hold_mem(size_t size)
 {
-	size_t i;
+	size_t i, n;
 	const int pagesize = getpagesize();
 	char *mem;
 
@@ -167,12 +167,24 @@ void hold_mem(size_t size)
 	}
 
 	while (keep_going) {
-		for (i = 0; i < size; i += pagesize)
+		size_t pf_size = 0;
+		/* pagefault */
+		for (i = 0; i < size && keep_going; i += pagesize) {
 			mem[i] = 'a';
+			pf_size += pagesize;
+			if (verbose) {
+				n = fprintf(stderr, "Pagefault %ld B (%ld KiB, %ld MiB)",
+						pf_size, pf_size / KB, pf_size / MB);
+				if (keep_going)
+					backspace(stderr, n);
+			}
+		}
 		if (flag_popen)
 			test_popen();
 		sleep(1);
 	}
+
+	free(mem);
 }
 
 struct oom_operations {
