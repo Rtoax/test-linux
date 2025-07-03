@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <sys/socket.h>
 #include <sys/time.h>
 #include <sys/syscall.h>
@@ -14,11 +15,14 @@
 #include <stdbool.h>
 
 #include "common.h"
+#include "libc.h"
 
 
-#define LIBC_SO "libc.so.6" /* /usr/lib64/libc.so.6 */
+#define LIBC_SO	"libc.so.6" /* /usr/lib64/libc.so.6 */
 
 static __thread bool override = false;
+
+static void *dl_libc_handle = NULL;
 
 typedef int (*socket_fn_t)(int domain, int type, int protocol);
 
@@ -47,18 +51,16 @@ static strdup_fn_t      g_libc_real_strdup_func = NULL;
 static strndup_fn_t     g_libc_real_strndup_func = NULL;
 
 
-static void *__libc_dl_handle = RTLD_NEXT;
-
 #define HOOK_SYS_FUNC(name) \
-	if ( !g_sys_##name##_func ) { \
-		g_sys_##name##_func = (name##_fn_t)dlsym(__libc_dl_handle, #name); \
+	if (!g_sys_##name##_func) { \
+		g_sys_##name##_func = (name##_fn_t)dlsym(RTLD_NEXT, #name); \
 		if (!g_sys_##name##_func) { \
 			fprintf(stderr, "Failed to load %s\n", #name); \
 		} \
 	}
 
 #define HOOK_LIBC_FUNC(name, dl) \
-	if( !g_libc_real_##name##_func ) { \
+	if(!g_libc_real_##name##_func) { \
 		g_libc_real_##name##_func = (name##_fn_t)dlsym(dl, #name); \
 		if (!g_libc_real_##name##_func) { \
 			fprintf(stderr, "Failed to load %s\n", #name); \
@@ -78,11 +80,14 @@ static void __sys_libc(void)
 
 static void __real_libc(void)
 {
-	void *libc = dlopen(LIBC_SO, RTLD_LAZY | RTLD_LOCAL | RTLD_NOLOAD);
+	void *libc = dlopen(LIBC_SO, RTLD_LAZY);
 	if (!libc) {
-		fprintf(stderr, "Failed to find "LIBC_SO", %s\n", strerror(errno));
+		fprintf(stderr, "Failed to find "LIBC_SO", %m\n");
 		return;
 	}
+
+	dl_libc_handle = libc;
+
 	HOOK_LIBC_FUNC(socket, libc);
 	HOOK_LIBC_FUNC(malloc, libc);
 	HOOK_LIBC_FUNC(free, libc);
@@ -94,10 +99,17 @@ static void __real_libc(void)
 
 void __attribute__((constructor(101))) __dlsym_sys_func_init(void)
 {
-	override = false;
+	if (getenv("OVERRIDE"))
+		libc_override_set(true);
 
 	__sys_libc();
 	__real_libc();
+}
+
+void __attribute__((destructor(101))) __dlsym_sys_func_close(void)
+{
+	if (dl_libc_handle)
+		dlclose(dl_libc_handle);
 }
 
 void libc_override_set(bool state)
