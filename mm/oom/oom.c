@@ -102,7 +102,7 @@ static const struct argp argp = {
 
 void sig_handler(int signum)
 {
-	psignal(signum, "\nGet signal");
+	psignal(signum, "\n\nGet signal");
 
 	switch (signum) {
 	case SIGINT:
@@ -125,6 +125,14 @@ static inline void backspace(FILE *fp, int n)
 	buf[n] = '\0';
 	fprintf(fp, "%s", buf);
 }
+
+#define BACK_PRINTF(fmt...) do {			\
+		int ____n = fprintf(stderr, fmt);	\
+		if (keep_going)				\
+			backspace(stderr, ____n);	\
+		else					\
+			fprintf(stderr, "\n");		\
+	} while (0)
 
 struct oom_operations {
 	const char *name;
@@ -157,7 +165,7 @@ void mmap_anon_free(void *mem, size_t size)
 
 void default_pagefault(void *mem, size_t size, bool verbose)
 {
-	size_t i, n;
+	size_t i;
 	size_t pf_size = 0;
 	const size_t pagesize = getpagesize();
 
@@ -166,11 +174,9 @@ void default_pagefault(void *mem, size_t size, bool verbose)
 
 		pf_size += pagesize;
 		if (verbose) {
-			n = fprintf(stderr, "Pagefault %ld B (%ld KiB, %ld MiB), oom_score %d",
+			BACK_PRINTF("Pagefault %ld B (%ld KiB, %ld MiB), oom_score %d",
 					pf_size, pf_size / KB, pf_size / MB,
 					get_oom_score(getpid()));
-			if (keep_going)
-				backspace(stderr, n);
 		}
 	}
 }
@@ -244,7 +250,6 @@ void hold_mem(struct oom_operations *ops)
 
 void try_oom(struct oom_operations *ops)
 {
-	int n;
 	const size_t pagesize = getpagesize();
 	const size_t blk = pagesize * 100;
 	char *mem;
@@ -280,13 +285,11 @@ void try_oom(struct oom_operations *ops)
 			test_popen();
 
 		if (verbose) {
-			n = fprintf(stderr, "allocated %ld B (%ld MiB, %ld GiB), %.2lf MiB/s, oom_score %d",
+			BACK_PRINTF("allocated %ld B (%ld MiB, %ld GiB), %.2lf MiB/s, oom_score %d",
 				    ops->total_size, ops->total_size / 1024 / 1024,
 				    ops->total_size / 1024 / 1024 / 1024,
 				    rate_Mps,
 				    get_oom_score(getpid()));
-			if (keep_going)
-				backspace(stderr, n);
 		}
 		/* Limit the allocate rate */
 		if (rate_Mps > (rate_limit / 1024.0f / 1024.0f))
