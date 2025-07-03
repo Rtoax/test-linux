@@ -13,20 +13,31 @@
 #include "oom_helpers.h"
 
 static volatile bool exiting = false;
+static int verbose = 0;
+static unsigned long rate_threshold = 100 * MB;
+
+#define VERBOSE_LOG(fmt...) do {		\
+		if (!verbose) break;		\
+		fprintf(stderr, fmt);		\
+       } while (0)
 
 const char argp_prog_doc[] =
-	"USAGE: []\n";
+	"USAGE: [-T <200MB>] [-v|--verbose]\n";
 
 static const struct argp_option opts[] = {
-	{ "aaa", 'a', "AAA", 0, "Config something" },
+	{ "rate-threshold", 'T', "RATE_THRESHOLD", 0, "Set Pagefault Rate Threshold, suffix KB, MB, GB" },
+	{ "verbose", 'v', NULL, 1, "Display the detail, for debug maybe" },
 	{},
 };
 
 static error_t parse_arg(int key, char *arg, struct argp_state *state)
 {
 	switch (key) {
-	case 'a':
-		// TODO
+	case 'T':
+		rate_threshold = str2size(arg);
+		break;
+	case 'v':
+		verbose = 1;
 		break;
 	case ARGP_KEY_ARG:
 		argp_usage(state);
@@ -87,7 +98,7 @@ int main(int argc, char *argv[])
 		return 1;
 	}
 
-	printf("Load bpf done.\n");
+	VERBOSE_LOG("Load bpf done.\n");
 
 	rb = ring_buffer__new(bpf_map__fd(skel->maps.ring_buf), handle_event, NULL, NULL);
 	if (!rb) {
@@ -102,7 +113,8 @@ int main(int argc, char *argv[])
 		goto cleanup;
 	}
 
-	printf("Handling event.\n");
+	VERBOSE_LOG("Handling event.\n");
+	VERBOSE_LOG("Running...\n");
 
 	while (!exiting) {
 		err = ring_buffer__poll(rb, 100 /* timeout, ms */);
