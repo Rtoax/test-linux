@@ -107,15 +107,22 @@ void Pagefault(pid_t pid)
 		exit(EXIT_FAILURE);
 
 	/* already have this process info */
-	if (*old == new) {
+	if (*old != new) {
 		free(new);
 		new = *old;
+
 		tdelete(new, &all_procs, info_cmp);
+
+		/* increment */
 		new->nr_pagefault++;
+
 		old = tsearch(new, &all_procs, info_cmp);
-		VERBOSE_LOG("process %d, pagefault %ld\n", pid, new->nr_pagefault);
+		if (unlikely(*old != new) || old == NULL) {
+			assert("Try insert already exist process");
+		}
+		VERBOSE_LOG("old process %d, pagefault %lu\n", pid, new->nr_pagefault);
 	} else {
-		VERBOSE_LOG("record new process %d, pagefault %ld\n", pid, new->nr_pagefault);
+		VERBOSE_LOG("record new process %d, pagefault %lu\n", pid, new->nr_pagefault);
 	}
 }
 
@@ -135,7 +142,9 @@ int libbpf_print_fn(enum libbpf_print_level level, const char *format,
 static int handle_event(void *ctx, void *data, size_t data_sz)
 {
 	struct pf_event_t *pf_ev = data;
+#ifdef DEBUG
 	VERBOSE_LOG("pid %d, error_code %ld\n", pf_ev->pid, pf_ev->error_code);
+#endif
 	Pagefault(pf_ev->pid);
 	return 0;
 }
