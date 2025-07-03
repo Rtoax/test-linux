@@ -25,10 +25,6 @@
 #define OOM_ADJUST_MIN (-16)
 #define OOM_ADJUST_MAX 15
 
-#define KB 1024UL
-#define MB (KB * 1024UL)
-#define GB (MB * 1024UL)
-
 
 static int set_int_to_file(char *file, int val)
 {

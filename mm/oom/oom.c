@@ -31,17 +31,20 @@ bool flag_popen =
 #pragma message("with popen(3)")
 #endif
 int verbose = false;
+unsigned long rate_limit = 9999999999;
 
 const char argp_prog_doc[] =
 	"USAGE: [-p] [-s <size>] [-a <oom_adj>] [-c <oom_score_adj>] [-v|--verbose]\n"
 	"\n"
 	"EXAMPLES\n"
 	"  $ ./oom -s 2GB --oom_score_adj -1000\n"
-	"  $ ./oom -v\n";
+	"  $ ./oom -v\n"
+	"  $ ./oom -v --rate 1000MB\n";
 
 static const struct argp_option opts[] = {
 	{ "operation", 'e', "OPERATION", 0, "specify operation, glibc, mmap-anon, mmap-file" },
 	{ "size", 's', "SIZE", 0, "only allocate size of memory, instead of oom, suffix KB, MB, GB" },
+	{ "rate", 'r', "RATE", 0, "limit the alloc rate, suffix KB, MB, GB" },
 	{ "popen", 'p', NULL, 1, "test popen(3) after memory" },
 	{ "verbose", 'v', NULL, 1, "display detail" },
 	{ "oom_adj", 'a', "OOM_ADJ", 0, "set oom_adj (-17 to 15)" },
@@ -66,6 +69,9 @@ static error_t parse_arg(int key, char *arg, struct argp_state *state)
 		break;
 	case 's':
 		mem_size = str2size(arg);
+		break;
+	case 'r':
+		rate_limit = str2size(arg);
 		break;
 	case 'a':
 		oom_adj = atoi(arg);
@@ -213,6 +219,7 @@ void try_oom(struct oom_operations *ops)
 	const size_t blk = pagesize * 100;
 	char *mem;
 	size_t cal_rate_size = 0;
+	double rate_Mps;
 	unsigned long start, end;
 
 	fprintf(stderr, "OOMing...\n");
@@ -222,6 +229,7 @@ void try_oom(struct oom_operations *ops)
 
 	while (keep_going) {
 		end = usecs();
+
 		/* calculate rate per second */
 		if (end - start >= 1000000UL) {
 			start = usecs();
@@ -235,6 +243,8 @@ void try_oom(struct oom_operations *ops)
 		ops->total_size += blk;
 		cal_rate_size += blk;
 
+		rate_Mps = cal_rate_size * 1.0f / (usecs() - start);
+
 		if (flag_popen)
 			test_popen();
 
@@ -242,11 +252,14 @@ void try_oom(struct oom_operations *ops)
 			n = fprintf(stderr, "allocated %ld B (%ld MiB, %ld GiB), %.2lf MiB/s, oom_score %d",
 				    ops->total_size, ops->total_size / 1024 / 1024,
 				    ops->total_size / 1024 / 1024 / 1024,
-				    cal_rate_size * 1.0 / (usecs() - start),
+				    rate_Mps,
 				    get_oom_score(getpid()));
 			if (keep_going)
 				backspace(stderr, n);
 		}
+		/* Limit the allocate rate */
+		if (rate_Mps > (rate_limit / 1024.0f / 1024.0f))
+			usleep(5000);
 	}
 }
 
