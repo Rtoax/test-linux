@@ -15,7 +15,7 @@ int main(void)
 		printf("%s\n", dlerror());
 		exit(1);
 	}
-	debug();
+	debug("\n");
 
 	init = dlsym(dp, "init");
 	done = dlsym(dp, "done");

@@ -18,10 +18,10 @@ void init(void)
 	extern_i++;
 #endif
 	printf("\n");
-	debug();
+	debug("\n");
 }
 
 void done(void)
 {
-	debug();
+	debug("\n");
 }

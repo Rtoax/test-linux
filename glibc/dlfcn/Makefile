@@ -11,6 +11,7 @@ ifneq ($(shell uname -m),aarch64)
 endif
 
 TARGETS_LIBSO := libhello.so.0.1
+TARGETS_LIBSO += libglibc.so.6
 
 LDFLAGS := -ldl
 
@@ -27,6 +28,7 @@ dlinfo: dlinfo.o proc_helpers.o
 dlsym-RTLD_DEFAULT: dlsym-RTLD_DEFAULT.o
 
 libhello.so.0.1: libhello.so.o
+libglibc.so.6: libc.so.o
 
 proc_helpers.o: ../../fs/procfs/proc_helpers.o
 	$(info We are in $(shell pwd))

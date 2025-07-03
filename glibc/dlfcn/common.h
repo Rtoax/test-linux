@@ -1,9 +1,9 @@
 #pragma once
-
 #include <stdio.h>
 
 #define __unused __attribute__((unused))
 
-#define debug() do { \
-	printf("%s:%s:%d\n", __FILE__, __func__, __LINE__); \
+#define debug(fmt...) do {						\
+		printf("%s:%s:%d", __FILE__, __func__, __LINE__);	\
+		printf(fmt);						\
 	} while (0)

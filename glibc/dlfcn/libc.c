@@ -4,7 +4,6 @@
 #include <sys/syscall.h>
 #include <sys/un.h>
 #include <netinet/in.h>
-
 #ifndef __USE_GNU
 #define __USE_GNU
 #endif
@@ -113,7 +112,7 @@ bool libc_override_get(void)
 
 static int __socket(int domain, int type, int protocol)
 {
-	debug();
+	debug("socket\n");
 	return 0;
 }
 
@@ -191,4 +190,3 @@ char *strndup(const char *s, size_t n)
 	}
 	return NULL;
 }
-
