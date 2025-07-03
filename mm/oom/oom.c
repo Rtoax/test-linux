@@ -1,6 +1,4 @@
-/**
- * TODO: cgroup oom, tmpfs oom.
- */
+#include <assert.h>
 #include <argp.h>
 #include <stdio.h>
 #include <stdbool.h>
@@ -145,6 +143,10 @@ void hold_mem(size_t size)
 		size / 1024, size / 1024 / 1024);
 
 	mem = malloc(size);
+	if (!mem) {
+		fprintf(stderr, "malloc(%ld) = NULL, %m.\n", size);
+		exit(EXIT_FAILURE);
+	}
 
 	while (keep_going) {
 		for (i = 0; i < size; i += pagesize)
