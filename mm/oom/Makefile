@@ -16,9 +16,10 @@ include ../../template/main.mk
 include ../../bpf/bpftool/vmlinux.h.mk
 
 oom_helpers.o: oom_helpers.h
+proc_helpers.o: proc_helpers.h
 
 oom: oom.o oom_helpers.o
 popen: popen.o oom_helpers.o
 
 adaptive-oom-score.o: ${VMLINUX_H} adaptive-oom-score.skel.h
-adaptive-oom-score: adaptive-oom-score.o oom_helpers.o
+adaptive-oom-score: adaptive-oom-score.o oom_helpers.o proc_helpers.o
