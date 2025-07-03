@@ -15,6 +15,10 @@ include ${TEMPLATE_DIR}/../bpf/bpftool/bpftool.mk
 CFLAGS_BPF += -O2 -g
 CFLAGS_BPF += -target bpf
 CFLAGS_BPF += $(CFLAG_BPF_TARGET_ARCH)
+ifdef DEBUG
+  CFLAGS_BPF += -DDEBUG=1
+  $(info CFLAGS_BPF := ${CFLAGS_BPF})
+endif
 
 ${OUTPUT}%.bpf.o: %.bpf.c | ${OUTPUT}
 	$(call log_tgt_obj,BPF,$(<),$(@))
