@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
 #include <stdio.h>
+#include <stdlib.h>
 #include <fcntl.h>
 #include <string.h>
 #include <errno.h>
@@ -22,6 +23,10 @@
 /* inclusive(包容性) */
 #define OOM_ADJUST_MIN (-16)
 #define OOM_ADJUST_MAX 15
+
+#define KB 1024UL
+#define MB (KB * 1024UL)
+#define GB (MB * 1024UL)
 
 
 static int set_int_to_file(char *file, int val)
@@ -135,4 +140,28 @@ int get_oom_score_adj(pid_t pid)
 	char buf[128];
 	snprintf(buf, 128, "/proc/%d/oom_score_adj", pid);
 	return get_int_from_file(buf);
+}
+
+unsigned long str2size(const char *str)
+{
+	unsigned long size = 0;
+
+	if (!str) {
+		errno = EINVAL;
+		return 0;
+	}
+
+	if (str[0] == '0' && str[1] == 'x')
+		size = strtoull(str, NULL, 16);
+	else
+		size = strtoull(str, NULL, 10);
+
+	if (strstr(str, "GB"))
+		size *= GB;
+	else if (strstr(str, "MB"))
+		size *= MB;
+	else if (strstr(str, "KB"))
+		size *= KB;
+
+	return size;
 }

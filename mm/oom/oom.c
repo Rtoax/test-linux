@@ -39,7 +39,7 @@ const char argp_prog_doc[] =
 
 static const struct argp_option opts[] = {
 	{ "operation", 'e', "OPERATION", 0, "specify operation, glibc, mmap-anon, mmap-file" },
-	{ "size", 's', "SIZE", 0, "only allocate size of memory, instead of oom" },
+	{ "size", 's', "SIZE", 0, "only allocate size of memory, instead of oom, suffix KB, MB, GB" },
 	{ "popen", 'p', NULL, 1, "test popen(3) after memory" },
 	{ "verbose", 'v', NULL, 1, "display detail" },
 	{ "oom_adj", 'a', "OOM_ADJ", 0, "set oom_adj (-17 to 15)" },
@@ -63,7 +63,7 @@ static error_t parse_arg(int key, char *arg, struct argp_state *state)
 		}
 		break;
 	case 's':
-		mem_size = strtoul(arg, NULL, 10);
+		mem_size = str2size(arg);
 		break;
 	case 'a':
 		oom_adj = atoi(arg);
@@ -141,7 +141,7 @@ void hold_mem(size_t size)
 	const int pagesize = getpagesize();
 	char *mem;
 
-	fprintf(stderr, "Hold %ld B (%ldMib) of memory\n", size,
+	fprintf(stderr, "Hold %ld B (%ldMiB) of memory\n", size,
 		size / 1024 / 1024);
 
 	mem = malloc(size);

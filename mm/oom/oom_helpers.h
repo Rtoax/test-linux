@@ -10,3 +10,5 @@ int get_oom_score(pid_t pid);
 int disable_oom_by_score_adj(pid_t pid);
 int set_oom_score_adj(pid_t pid, int val);
 int get_oom_score_adj(pid_t pid);
+
+unsigned long str2size(const char *str);
