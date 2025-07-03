@@ -208,5 +208,6 @@ cleanup:
 	ring_buffer__free(rb);
 	adaptive_oom_score_bpf__detach(skel);
 	adaptive_oom_score_bpf__destroy(skel);
+	tdestroy(all_procs);
 	return 0;
 }
