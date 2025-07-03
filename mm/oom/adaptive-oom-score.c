@@ -129,6 +129,17 @@ void Pagefault(pid_t pid)
 	}
 }
 
+static void walk_print(const void *nodep, VISIT which, int depth)
+{
+	const struct info *inf = nodep;
+	printf("pid %d, nr_pagefault %lu\n", inf->pid, inf->nr_pagefault);
+}
+
+void WalkInfo(void)
+{
+	twalk(all_procs, walk_print);
+}
+
 static void sig_handler(int sig)
 {
 	exiting = true;
@@ -149,6 +160,7 @@ static int handle_event(void *ctx, void *data, size_t data_sz)
 	VERBOSE_LOG("pid %d, error_code %ld\n", pf_ev->pid, pf_ev->error_code);
 #endif
 	Pagefault(pf_ev->pid);
+	WalkInfo();
 	return 0;
 }
 
