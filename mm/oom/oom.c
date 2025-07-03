@@ -139,6 +139,14 @@ void hold_mem(size_t size)
 	const int pagesize = getpagesize();
 	char *mem;
 
+	if (size >= totalram()) {
+		if (size >= totalram() + totalswap()) {
+			fprintf(stderr, "\033[31mERROR: alloc > ram + swap\033[m\n");
+			exit(EXIT_FAILURE);
+		}
+		fprintf(stderr, "\033[31mWARNING: Trying to alloc memory size bigger than system RAM size. May use Swap\033[m\n");
+	}
+
 	fprintf(stderr, "Hold %ld B (%ldKiB, %ldMiB) of memory\n", size,
 		size / 1024, size / 1024 / 1024);
 

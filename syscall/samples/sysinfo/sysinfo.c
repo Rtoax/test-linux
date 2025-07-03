@@ -1,6 +1,3 @@
-/**
- * 2020-10-16	Rong Tao	Create this
- */
 #include <linux/kernel.h>
 #include <linux/sysinfo.h>
 #include <stdio.h>

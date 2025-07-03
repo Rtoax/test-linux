@@ -4,6 +4,7 @@
 #include <fcntl.h>
 #include <string.h>
 #include <errno.h>
+#include <sys/sysinfo.h>
 
 #include "oom_helpers.h"
 
@@ -164,4 +165,30 @@ unsigned long str2size(const char *str)
 		size *= KB;
 
 	return size;
+}
+
+#define SYSINFO(field) do {	\
+		struct sysinfo ___si;	\
+		sysinfo(&___si);	\
+		return ___si.field;	\
+	} while (0)
+
+unsigned long totalram(void)
+{
+	SYSINFO(totalram);
+}
+
+unsigned long freeram(void)
+{
+	SYSINFO(freeram);
+}
+
+unsigned long totalswap(void)
+{
+	SYSINFO(totalswap);
+}
+
+unsigned long freeswap(void)
+{
+	SYSINFO(freeswap);
 }

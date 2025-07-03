@@ -12,3 +12,8 @@ int set_oom_score_adj(pid_t pid, int val);
 int get_oom_score_adj(pid_t pid);
 
 unsigned long str2size(const char *str);
+
+unsigned long totalram(void);
+unsigned long freeram(void);
+unsigned long totalswap(void);
+unsigned long freeswap(void);
