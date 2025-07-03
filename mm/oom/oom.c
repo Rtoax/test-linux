@@ -33,7 +33,11 @@ bool flag_popen =
 int verbose = false;
 
 const char argp_prog_doc[] =
-	"USAGE: [-p] [-s <size>] [-a <oom_adj>] [-c <oom_score_adj>] [-v|--verbose]\n";
+	"USAGE: [-p] [-s <size>] [-a <oom_adj>] [-c <oom_score_adj>] [-v|--verbose]\n"
+	"\n"
+	"EXAMPLES\n"
+	"  $ ./oom -s 2GB --oom_score_adj -1000\n"
+	"  $ ./oom -v\n";
 
 static const struct argp_option opts[] = {
 	{ "operation", 'e', "OPERATION", 0, "specify operation, glibc, mmap-anon, mmap-file" },
