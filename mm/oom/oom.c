@@ -263,6 +263,7 @@ void try_oom(struct oom_operations *ops)
 		if (end - start >= 1000000UL) {
 			start = usecs();
 			cal_rate_size = 0;
+			rate_Mps = 0.0f;
 		}
 
 		/* No need to free(), just leak it. */
