@@ -4,6 +4,7 @@
 #include <bpf/bpf_core_read.h>
 #include "adaptive-oom-score.h"
 
+
 struct {
 	__uint(type, BPF_MAP_TYPE_RINGBUF);
 	__uint(max_entries, 4096 * 64);
