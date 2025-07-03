@@ -111,7 +111,10 @@ void Pagefault(pid_t pid)
 		free(new);
 		new = *old;
 
-		tdelete(new, &all_procs, info_cmp);
+		old = tdelete(new, &all_procs, info_cmp);
+		if (unlikely(*old != new) || old == NULL) {
+			assert("Try remove already exist process");
+		}
 
 		/* increment */
 		new->nr_pagefault++;
