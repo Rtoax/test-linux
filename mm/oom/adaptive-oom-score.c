@@ -4,6 +4,7 @@
 #include <assert.h>
 #include <bpf/bpf.h>
 #include <bpf/libbpf.h>
+#include <search.h>
 #include <signal.h>
 #include <stdio.h>
 #include <sys/resource.h>
@@ -16,8 +17,12 @@ static volatile bool exiting = false;
 static int verbose = 0;
 static unsigned long rate_threshold = 100 * MB;
 
+#define likely(x)    __builtin_expect(!!(x), 1)
+#define unlikely(x)  __builtin_expect(!!(x), 0)
+
 #define VERBOSE_LOG(fmt...) do {		\
-		if (!verbose) break;		\
+		if (likely(!verbose))		\
+			break;			\
 		fprintf(stderr, fmt);		\
        } while (0)
 
@@ -54,6 +59,66 @@ static const struct argp argp = {
 	.doc = argp_prog_doc,
 };
 
+struct info {
+	pid_t pid;
+	unsigned long nr_pagefault;
+};
+
+/**
+ * All process information is stored in this structure, using the red-black
+ * tree interface provided by glibc. The tree structure is used because it
+ * has its own sorting function, instead of using sorting algorithms such
+ * as qsort().
+ */
+static void *all_procs = NULL;
+
+static int info_cmp(const void *pa, const void *pb)
+{
+	const struct info *i1, *i2;
+	i1 = pa;
+	i2 = pb;
+	if (i1->nr_pagefault > i2->nr_pagefault)
+		return -1;
+	else if (i1->nr_pagefault < i2->nr_pagefault)
+		return 1;
+	else {
+		if (i1->pid > i2->pid)
+			return -1;
+		else if (i1->pid > i2->pid)
+			return 1;
+		else
+			return 0;
+	}
+}
+
+/* Userspace process page-fault happen */
+void Pagefault(pid_t pid)
+{
+	struct info *new, **old;
+
+	new = malloc(sizeof(struct info));
+	assert(new && "Malloc failed");
+
+	new->pid = pid;
+	new->nr_pagefault = 1;
+
+	old = tsearch(new, &all_procs, info_cmp);
+	if (old == NULL)
+		exit(EXIT_FAILURE);
+
+	/* already have this process info */
+	if (*old == new) {
+		free(new);
+		new = *old;
+		tdelete(new, &all_procs, info_cmp);
+		new->nr_pagefault++;
+		old = tsearch(new, &all_procs, info_cmp);
+		VERBOSE_LOG("process %d, pagefault %ld\n", pid, new->nr_pagefault);
+	} else {
+		VERBOSE_LOG("record new process %d, pagefault %ld\n", pid, new->nr_pagefault);
+	}
+}
+
 static void sig_handler(int sig)
 {
 	exiting = true;
@@ -70,7 +135,8 @@ int libbpf_print_fn(enum libbpf_print_level level, const char *format,
 static int handle_event(void *ctx, void *data, size_t data_sz)
 {
 	struct pf_event_t *pf_ev = data;
-	printf("pid %d, error_code %ld\n", pf_ev->pid, pf_ev->error_code);
+	VERBOSE_LOG("pid %d, error_code %ld\n", pf_ev->pid, pf_ev->error_code);
+	Pagefault(pf_ev->pid);
 	return 0;
 }
 

@@ -328,6 +328,7 @@ int main(int argc, char *argv[])
 	}
 
 	if (verbose) {
+		printf("pid %d\n", getpid());
 		printf("oom_adj %d\n", get_oom_adj(getpid()));
 		printf("oom_score_adj %d\n", get_oom_score_adj(getpid()));
 		printf("oom_score %d\n", get_oom_score(getpid()));
