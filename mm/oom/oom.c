@@ -19,7 +19,7 @@ enum {
 	OP_GLIBC = 1,
 	OP_MMAP_ANON,
 	OP_MMAP_FILE,
-} op_type = OP_GLIBC;
+} op_type = OP_GLIBC; /* default use glibc */
 int oom_adj;
 int oom_score_adj;
 bool flag_popen =
@@ -126,6 +126,70 @@ static inline void backspace(FILE *fp, int n)
 	fprintf(fp, "%s", buf);
 }
 
+struct oom_operations {
+	const char *name;
+	size_t total_size;
+	void *(*alloc)(size_t size);
+	void (*pagefault)(void *mem, size_t size, bool verbose);
+	void (*free)(void *mem, size_t size);
+};
+
+void *glibc_alloc(size_t size)
+{
+	return malloc(size);
+}
+
+void glibc_free(void *mem, size_t size)
+{
+	free(mem);
+}
+
+void *mmap_anon_alloc(size_t size)
+{
+	return mmap(NULL, size, PROT_READ | PROT_WRITE,
+		    MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
+}
+
+void mmap_anon_free(void *mem, size_t size)
+{
+	munmap(mem, size);
+}
+
+void default_pagefault(void *mem, size_t size, bool verbose)
+{
+	size_t i, n;
+	size_t pf_size = 0;
+	const size_t pagesize = getpagesize();
+
+	for (i = 0; i < size && keep_going; i += pagesize) {
+		((char *)mem)[i] = 'a';
+
+		pf_size += pagesize;
+		if (verbose) {
+			n = fprintf(stderr, "Pagefault %ld B (%ld KiB, %ld MiB)",
+					pf_size, pf_size / KB, pf_size / MB);
+			if (keep_going)
+				backspace(stderr, n);
+		}
+	}
+}
+
+struct oom_operations glibc_ops = {
+	.name = "GLIBC",
+	.total_size = 0,
+	.alloc = glibc_alloc,
+	.pagefault = default_pagefault,
+	.free = glibc_free,
+};
+
+struct oom_operations mmap_anon_ops = {
+	.name = "MMAP",
+	.total_size = 0,
+	.alloc = mmap_anon_alloc,
+	.pagefault = default_pagefault,
+	.free = mmap_anon_free,
+};
+
 int test_popen(void)
 {
 	char buf[128] = "uname -rm";
@@ -143,11 +207,12 @@ int test_popen(void)
 	return 0;
 }
 
-void hold_mem(size_t size)
+void hold_mem(struct oom_operations *ops)
 {
-	size_t i, n;
-	const int pagesize = getpagesize();
+	size_t size;
 	char *mem;
+
+	size = ops->total_size;
 
 	if (size >= totalram()) {
 		if (size >= totalram() + totalswap()) {
@@ -160,69 +225,21 @@ void hold_mem(size_t size)
 	fprintf(stderr, "Hold %ld B (%ldKiB, %ldMiB) of memory\n", size,
 		size / 1024, size / 1024 / 1024);
 
-	mem = malloc(size);
+	mem = ops->alloc(size);
 	if (!mem) {
 		fprintf(stderr, "malloc(%ld) = NULL, %m.\n", size);
 		exit(EXIT_FAILURE);
 	}
 
 	while (keep_going) {
-		size_t pf_size = 0;
-		/* pagefault */
-		for (i = 0; i < size && keep_going; i += pagesize) {
-			mem[i] = 'a';
-			pf_size += pagesize;
-			if (verbose) {
-				n = fprintf(stderr, "Pagefault %ld B (%ld KiB, %ld MiB)",
-						pf_size, pf_size / KB, pf_size / MB);
-				if (keep_going)
-					backspace(stderr, n);
-			}
-		}
+		ops->pagefault(mem, size, true);
 		if (flag_popen)
 			test_popen();
 		sleep(1);
 	}
 
-	free(mem);
+	ops->free(mem, size);
 }
-
-struct oom_operations {
-	size_t total_size;
-	void *(*alloc)(size_t size);
-	void (*pagefault)(void *mem, size_t size);
-};
-
-void *glibc_alloc(size_t size)
-{
-	return malloc(size);
-}
-
-void *mmap_anon_alloc(size_t size)
-{
-	return mmap(NULL, size, PROT_READ | PROT_WRITE,
-		    MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
-}
-
-void default_pagefault(void *mem, size_t size)
-{
-	size_t i;
-	const size_t pagesize = getpagesize();
-	for (i = 0; i < size; i += pagesize)
-		((char *)mem)[i] = 'a';
-}
-
-struct oom_operations glibc_ops = {
-	.total_size = 0,
-	.alloc = glibc_alloc,
-	.pagefault = default_pagefault,
-};
-
-struct oom_operations mmap_anon_ops = {
-	.total_size = 0,
-	.alloc = mmap_anon_alloc,
-	.pagefault = default_pagefault,
-};
 
 void try_oom(struct oom_operations *ops)
 {
@@ -250,7 +267,7 @@ void try_oom(struct oom_operations *ops)
 
 		/* No need to free(), just leak it. */
 		mem = ops->alloc(blk);
-		ops->pagefault(mem, blk);
+		ops->pagefault(mem, blk, false);
 
 		ops->total_size += blk;
 		cal_rate_size += blk;
@@ -273,6 +290,8 @@ void try_oom(struct oom_operations *ops)
 		if (rate_Mps > (rate_limit / 1024.0f / 1024.0f))
 			usleep(5000);
 	}
+
+	/* No need to free??? */
 }
 
 int main(int argc, char *argv[])
@@ -309,22 +328,28 @@ int main(int argc, char *argv[])
 		printf("get oom_score %d\n", get_oom_score(getpid()));
 	}
 
-	if (mem_size)
-		hold_mem(mem_size);
-	else {
-		struct oom_operations *ops;
-		switch (op_type) {
-		case OP_GLIBC:
-			ops = &glibc_ops;
-			break;
-		case OP_MMAP_ANON:
-			ops = &mmap_anon_ops;
-			break;
-		case OP_MMAP_FILE:
-			fprintf(stderr, "ERROR: not support yet.\n");
-			exit(EXIT_FAILURE);
-			break;
-		}
+	struct oom_operations *ops;
+	switch (op_type) {
+	case OP_GLIBC:
+		ops = &glibc_ops;
+		break;
+	case OP_MMAP_ANON:
+		ops = &mmap_anon_ops;
+		break;
+	case OP_MMAP_FILE:
+		fprintf(stderr, "ERROR: not support yet.\n");
+		exit(EXIT_FAILURE);
+		break;
+	}
+
+	if (verbose) {
+		printf("Use OOM operator %s\n", ops->name);
+	}
+
+	if (mem_size) {
+		ops->total_size = mem_size;
+		hold_mem(ops);
+	} else {
 		try_oom(ops);
 	}
 
