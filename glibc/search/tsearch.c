@@ -65,4 +65,3 @@ int main(void)
 	tdestroy(root, free);
 	exit(EXIT_SUCCESS);
 }
-
