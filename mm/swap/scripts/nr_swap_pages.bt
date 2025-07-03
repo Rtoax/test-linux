@@ -4,4 +4,5 @@ BEGIN
 {
 	$nr_swap_pages = kaddr("nr_swap_pages");
 	printf("nr_swap_pages = %ld\n", *$nr_swap_pages);
+	exit();
 }
