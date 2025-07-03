@@ -1,3 +1,4 @@
+#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -89,6 +90,9 @@ int main(void)
 	signal(SIGSEGV, sig_handler);
 
 	proc_for_each_mnt_point(mnt_point_callback);
+
+	assert(proc_exist(getpid()));
+	assert(!proc_exist(0xFFFFFFFF));
 
 	proc_pid_maps_display();
 	printf("comm : %s\n", proc_comm(comm, sizeof(comm)));

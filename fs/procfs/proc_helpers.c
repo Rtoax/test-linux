@@ -24,6 +24,13 @@
 # define LOG_DEBUG(fmt...)
 #endif
 
+bool proc_exist(pid_t pid)
+{
+	char proc[64];
+	snprintf(proc, sizeof(proc) - 1, "/proc/%d", pid);
+	return access(proc, F_OK) == 0;
+}
+
 const char *proc_pid_comm(pid_t pid, char *buf, size_t buf_len)
 {
 	char comm[128], content[256];

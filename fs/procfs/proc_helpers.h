@@ -1,8 +1,10 @@
 // SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
 #pragma once
-
 #include <stdbool.h>
 #include <sys/types.h>
+
+/* /proc/PID */
+bool proc_exist(pid_t pid);
 
 /* /proc/PID/comm */
 const char *proc_comm(char *buf, size_t buf_len);
