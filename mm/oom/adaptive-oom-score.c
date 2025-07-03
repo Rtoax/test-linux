@@ -13,6 +13,8 @@
 #include "adaptive-oom-score.skel.h"
 #include "adaptive-oom-score.h"
 #include "oom_helpers.h"
+#include "proc_helpers.h"
+
 
 static pthread_t thread;
 static pthread_spinlock_t info_lock;
@@ -28,6 +30,12 @@ static unsigned long rate_threshold = 100 * MB;
 			break;			\
 		fprintf(stderr, fmt);		\
        } while (0)
+
+#ifdef DEBUG
+#define VERBOSE_LOG_DEBUG(fmt...) VERBOSE_LOG(fmt)
+#else
+#define VERBOSE_LOG_DEBUG(fmt...)
+#endif
 
 #define INFO_LOCK()	pthread_spin_lock(&info_lock)
 #define INFO_UNLOCK()	pthread_spin_unlock(&info_lock)
@@ -118,31 +126,72 @@ void Pagefault(pid_t pid, unsigned long nr_pagefault)
 
 	/* already have this node */
 	if (*old != new) {
-		VERBOSE_LOG("old process %d, pagefault %lu\n", new->pid, new->nr_pagefault);
+		VERBOSE_LOG_DEBUG("old process %d, pagefault %lu\n", new->pid, new->nr_pagefault);
 		free_info(new);
 		(*old)->nr_pagefault += nr_pagefault;
 	} else {
-		VERBOSE_LOG("record new process %d, pagefault %lu\n", pid, new->nr_pagefault);
+		VERBOSE_LOG_DEBUG("record new process %d, pagefault %lu\n", pid, new->nr_pagefault);
 	}
 
 	INFO_UNLOCK();
 }
 
-static void walk_action(const void *nodep, VISIT which, int depth)
+struct walk_arg {
+	const struct info **del_nodes;
+	size_t del_cnt;
+};
+
+static void walk_action(const void *nodep, VISIT which, void *closure)
 {
+	struct walk_arg *arg = closure;
 	const struct info *inf = *(struct info **)nodep;
 	if (which == preorder || which == leaf) {
 		printf("pid %d, nr_pagefault %lu\n", inf->pid, inf->nr_pagefault);
+
+		/**
+		 * If process is not exist anymore, mark it as NEED TO DELETE
+		 */
+		if (!proc_exist(inf->pid)) {
+			VERBOSE_LOG("pid %d is not exist, %p.\n", inf->pid, inf);
+			arg->del_nodes = realloc(arg->del_nodes,
+				(arg->del_cnt + 1) * sizeof(struct info *));
+			arg->del_nodes[arg->del_cnt++] = inf;
+		}
 	}
 }
 
 void WalkInfo(void)
 {
+	size_t i;
+
+	struct walk_arg arg = {
+		.del_nodes = NULL,
+		.del_cnt = 0,
+	};
+
 	printf("-----------------------\n");
 	INFO_LOCK();
-	twalk(all_procs, walk_action);
+	twalk_r(all_procs, walk_action, &arg);
 	INFO_UNLOCK();
+
 	fflush(stdout);
+
+	if (arg.del_cnt > 0)
+		VERBOSE_LOG("del %ld\n", arg.del_cnt);
+
+	INFO_LOCK();
+	for (i = 0; i < arg.del_cnt; i++) {
+		const struct info *del = arg.del_nodes[i];
+		VERBOSE_LOG("Try del %d, %p\n", del->pid, del);
+		if (unlikely(!tdelete(del, &all_procs, info_cmp))) {
+			assert(!"Try delete non-exist node.");
+		}
+		free((void *)del);
+	}
+	INFO_UNLOCK();
+
+	if (arg.del_cnt > 0)
+		free(arg.del_nodes);
 }
 
 void *thread_fn(void *arg)
@@ -171,9 +220,7 @@ int libbpf_print_fn(enum libbpf_print_level level, const char *format,
 static int handle_event(void *ctx, void *data, size_t data_sz)
 {
 	struct pf_event_t *pf_ev = data;
-#ifdef DEBUG
-	VERBOSE_LOG("pid %d, error_code %ld\n", pf_ev->pid, pf_ev->error_code);
-#endif
+	VERBOSE_LOG_DEBUG("pid %d, error_code %ld\n", pf_ev->pid, pf_ev->error_code);
 	Pagefault(pf_ev->pid, 1);
 	return 0;
 }
