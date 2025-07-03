@@ -92,7 +92,7 @@ static int info_cmp(const void *pa, const void *pb)
 }
 
 /* Userspace process page-fault happen */
-void Pagefault(pid_t pid)
+void Pagefault(pid_t pid, unsigned long nr_pagefault)
 {
 	struct info *new, **old;
 
@@ -100,30 +100,29 @@ void Pagefault(pid_t pid)
 	assert(new && "Malloc failed");
 
 	new->pid = pid;
-	new->nr_pagefault = 1;
+	new->nr_pagefault = nr_pagefault;
 
 	old = tsearch(new, &all_procs, info_cmp);
-	if (old == NULL)
-		exit(EXIT_FAILURE);
+	if (unlikely(!old))
+		assert(!"tsearch failed");
 
-	/* already have this process info */
+	/* already have this node */
 	if (*old != new) {
+		VERBOSE_LOG("old process %d, pagefault %lu\n", new->pid, new->nr_pagefault);
 		free(new);
-		new = *old;
 
-		old = tdelete(new, &all_procs, info_cmp);
-		if (unlikely(*old != new) || old == NULL) {
-			assert("Try remove already exist process");
+		struct info del = {
+			.pid = (*old)->pid,
+			.nr_pagefault = (*old)->nr_pagefault,
+		};
+		old = tdelete(&del, &all_procs, info_cmp);
+		if (unlikely(!old)) {
+			assert(!"Try remove non-exist process");
 		}
 
-		/* increment */
-		new->nr_pagefault++;
+		Pagefault((*old)->pid, (*old)->nr_pagefault + 1);
 
-		old = tsearch(new, &all_procs, info_cmp);
-		if (unlikely(*old != new) || old == NULL) {
-			assert("Try insert already exist process");
-		}
-		VERBOSE_LOG("old process %d, pagefault %lu\n", pid, new->nr_pagefault);
+		free(*old);
 	} else {
 		VERBOSE_LOG("record new process %d, pagefault %lu\n", pid, new->nr_pagefault);
 	}
@@ -132,7 +131,9 @@ void Pagefault(pid_t pid)
 static void walk_print(const void *nodep, VISIT which, int depth)
 {
 	const struct info *inf = *(struct info **)nodep;
-	printf("pid %d, nr_pagefault %lu\n", inf->pid, inf->nr_pagefault);
+	if (which == preorder || which == leaf) {
+		printf("pid %d, nr_pagefault %lu\n", inf->pid, inf->nr_pagefault);
+	}
 }
 
 void WalkInfo(void)
@@ -159,7 +160,7 @@ static int handle_event(void *ctx, void *data, size_t data_sz)
 #ifdef DEBUG
 	VERBOSE_LOG("pid %d, error_code %ld\n", pf_ev->pid, pf_ev->error_code);
 #endif
-	Pagefault(pf_ev->pid);
+	Pagefault(pf_ev->pid, 1);
 	WalkInfo();
 	return 0;
 }
