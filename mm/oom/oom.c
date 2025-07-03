@@ -166,8 +166,9 @@ void default_pagefault(void *mem, size_t size, bool verbose)
 
 		pf_size += pagesize;
 		if (verbose) {
-			n = fprintf(stderr, "Pagefault %ld B (%ld KiB, %ld MiB)",
-					pf_size, pf_size / KB, pf_size / MB);
+			n = fprintf(stderr, "Pagefault %ld B (%ld KiB, %ld MiB), oom_score %d",
+					pf_size, pf_size / KB, pf_size / MB,
+					get_oom_score(getpid()));
 			if (keep_going)
 				backspace(stderr, n);
 		}
