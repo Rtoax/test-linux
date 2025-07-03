@@ -141,8 +141,8 @@ void hold_mem(size_t size)
 	const int pagesize = getpagesize();
 	char *mem;
 
-	fprintf(stderr, "Hold %ld B (%ldMiB) of memory\n", size,
-		size / 1024 / 1024);
+	fprintf(stderr, "Hold %ld B (%ldKiB, %ldMiB) of memory\n", size,
+		size / 1024, size / 1024 / 1024);
 
 	mem = malloc(size);
 
