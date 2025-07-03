@@ -7,12 +7,15 @@
 #include <search.h>
 #include <signal.h>
 #include <stdio.h>
+#include <pthread.h>
 #include <sys/resource.h>
 #include <unistd.h>
 #include "adaptive-oom-score.skel.h"
 #include "adaptive-oom-score.h"
 #include "oom_helpers.h"
 
+static pthread_t thread;
+static pthread_spinlock_t info_lock;
 static volatile bool exiting = false;
 static int verbose = 0;
 static unsigned long rate_threshold = 100 * MB;
@@ -25,6 +28,9 @@ static unsigned long rate_threshold = 100 * MB;
 			break;			\
 		fprintf(stderr, fmt);		\
        } while (0)
+
+#define INFO_LOCK()	pthread_spin_lock(&info_lock)
+#define INFO_UNLOCK()	pthread_spin_unlock(&info_lock)
 
 const char argp_prog_doc[] =
 	"USAGE: [-T <200MB>] [-v|--verbose]\n";
@@ -104,6 +110,8 @@ void free_info(void *inf)
 void Pagefault(pid_t pid, unsigned long nr_pagefault)
 {
 	struct info *new = alloc_info(pid, nr_pagefault);
+
+	INFO_LOCK();
 	struct info **old = tsearch(new, &all_procs, info_cmp);
 	if (unlikely(!old))
 		assert(!"tsearch failed");
@@ -116,9 +124,11 @@ void Pagefault(pid_t pid, unsigned long nr_pagefault)
 	} else {
 		VERBOSE_LOG("record new process %d, pagefault %lu\n", pid, new->nr_pagefault);
 	}
+
+	INFO_UNLOCK();
 }
 
-static void walk_print(const void *nodep, VISIT which, int depth)
+static void walk_action(const void *nodep, VISIT which, int depth)
 {
 	const struct info *inf = *(struct info **)nodep;
 	if (which == preorder || which == leaf) {
@@ -128,7 +138,18 @@ static void walk_print(const void *nodep, VISIT which, int depth)
 
 void WalkInfo(void)
 {
-	twalk(all_procs, walk_print);
+	INFO_LOCK();
+	twalk(all_procs, walk_action);
+	INFO_UNLOCK();
+}
+
+void *thread_fn(void *arg)
+{
+	while (!exiting) {
+		WalkInfo();
+		usleep(100000);
+	}
+	return NULL;
 }
 
 static void sig_handler(int sig)
@@ -151,7 +172,6 @@ static int handle_event(void *ctx, void *data, size_t data_sz)
 	VERBOSE_LOG("pid %d, error_code %ld\n", pf_ev->pid, pf_ev->error_code);
 #endif
 	Pagefault(pf_ev->pid, 1);
-	WalkInfo();
 	return 0;
 }
 
@@ -197,6 +217,9 @@ int main(int argc, char *argv[])
 	VERBOSE_LOG("Handling event.\n");
 	VERBOSE_LOG("Running...\n");
 
+	pthread_spin_init(&info_lock, PTHREAD_PROCESS_SHARED);
+	pthread_create(&thread, NULL, thread_fn, NULL);
+
 	while (!exiting) {
 		err = ring_buffer__poll(rb, 100 /* timeout, ms */);
 		/* Ctrl-C will cause -EINTR */
@@ -211,6 +234,8 @@ int main(int argc, char *argv[])
 	}
 
 cleanup:
+	pthread_join(thread, NULL);
+	pthread_spin_destroy(&info_lock);
 	ring_buffer__free(rb);
 	adaptive_oom_score_bpf__detach(skel);
 	adaptive_oom_score_bpf__destroy(skel);

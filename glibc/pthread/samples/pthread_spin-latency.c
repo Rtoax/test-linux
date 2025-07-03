@@ -3,7 +3,7 @@
 #include <unistd.h>
 #include <time.h>
 
-#include <libs/log.h>
+#include "libs/log.h"
 
 pthread_spinlock_t spinlock;
 volatile unsigned long ticks_start = 0;
