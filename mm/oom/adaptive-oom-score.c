@@ -80,7 +80,7 @@ int main(int argc, char *argv[])
 
 	skel = adaptive_oom_score_bpf__open_and_load();
 	if (!skel) {
-		printf("Failed to open BPF object\n");
+		fprintf(stderr, "Failed to open BPF object\n");
 		return 1;
 	}
 
@@ -90,6 +90,12 @@ int main(int argc, char *argv[])
 	if (!rb) {
 		err = -1;
 		fprintf(stderr, "Failed to create ring buffer\n");
+		goto cleanup;
+	}
+
+	err = adaptive_oom_score_bpf__attach(skel);
+	if (err) {
+		fprintf(stderr, "Attach bpf failed\n");
 		goto cleanup;
 	}
 
@@ -110,6 +116,7 @@ int main(int argc, char *argv[])
 
 cleanup:
 	ring_buffer__free(rb);
+	adaptive_oom_score_bpf__detach(skel);
 	adaptive_oom_score_bpf__destroy(skel);
 	return 0;
 }
