@@ -138,16 +138,19 @@ static void walk_action(const void *nodep, VISIT which, int depth)
 
 void WalkInfo(void)
 {
+	printf("-----------------------\n");
 	INFO_LOCK();
 	twalk(all_procs, walk_action);
 	INFO_UNLOCK();
+	fflush(stdout);
 }
 
 void *thread_fn(void *arg)
 {
 	while (!exiting) {
 		WalkInfo();
-		usleep(100000);
+		usleep(1000000);
+		//system("clear");
 	}
 	return NULL;
 }
