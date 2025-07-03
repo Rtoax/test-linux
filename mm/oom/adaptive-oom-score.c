@@ -131,7 +131,7 @@ void Pagefault(pid_t pid)
 
 static void walk_print(const void *nodep, VISIT which, int depth)
 {
-	const struct info *inf = nodep;
+	const struct info *inf = *(struct info **)nodep;
 	printf("pid %d, nr_pagefault %lu\n", inf->pid, inf->nr_pagefault);
 }
 
