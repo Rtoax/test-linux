@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: GPL-3.0
+/* Copyright (c) 2025 Rong Tao */
 #include "vmlinux.h"
 #include <bpf/bpf_helpers.h>
 #include <bpf/bpf_tracing.h>

@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: GPL-3.0
+/* Copyright (c) 2025 Rong Tao */
 #include <argp.h>
 #include <assert.h>
 #include <bpf/bpf.h>
@@ -8,6 +10,7 @@
 #include <unistd.h>
 #include "adaptive-oom-score.skel.h"
 #include "adaptive-oom-score.h"
+#include "oom_helpers.h"
 
 static volatile bool exiting = false;
 

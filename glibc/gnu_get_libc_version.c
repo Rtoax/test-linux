@@ -15,4 +15,3 @@ int main(void)
 	printf("__GLIBC_MINOR__ = %d\n", __GLIBC_MINOR__);
 	return 0;
 }
-
