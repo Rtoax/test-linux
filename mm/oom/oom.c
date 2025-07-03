@@ -328,9 +328,9 @@ int main(int argc, char *argv[])
 	}
 
 	if (verbose) {
-		printf("get oom_adj %d\n", get_oom_adj(getpid()));
-		printf("get oom_score_adj %d\n", get_oom_score_adj(getpid()));
-		printf("get oom_score %d\n", get_oom_score(getpid()));
+		printf("oom_adj %d\n", get_oom_adj(getpid()));
+		printf("oom_score_adj %d\n", get_oom_score_adj(getpid()));
+		printf("oom_score %d\n", get_oom_score(getpid()));
 	}
 
 	struct oom_operations *ops;

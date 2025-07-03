@@ -38,7 +38,7 @@ static int set_int_to_file(char *file, int val)
 	}
 	ret = fprintf(fp, "%d", val);
 	if (ret <= 0) {
-		fprintf(stderr, "fprintf(%s) %m\n", file);
+		fprintf(stderr, "fprintf(%s, %d) %m\n", file, val);
 		err = -errno;
 	}
 	fclose(fp);
