@@ -12,12 +12,7 @@ endif
 
 TARGETS_LIBSO := libhello.so.0.1
 
-CC := gcc
-
-CFLAGS :=
-CFLAGS += -ldl
-
-LDFLAGS :=
+LDFLAGS := -ldl
 
 CFLAGS += -I../../
 CFLAGS += -I../../fs/procfs/

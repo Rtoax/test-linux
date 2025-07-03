@@ -129,4 +129,3 @@ int dev_getallocatedsize(void)
 	pthread_rwlock_unlock(&dev_rwlock);
 	return use;
 }
-

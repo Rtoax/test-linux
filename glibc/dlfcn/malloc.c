@@ -18,4 +18,3 @@ int main(void)
 	free(str2);
 	return 0;
 }
-

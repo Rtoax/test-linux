@@ -1,8 +1,6 @@
 TARGETS := oom
 TARGETS += popen
 
-CFLAGS :=
-
 CFLAGS_popen = -DPOPEN=1
 
 include ../../template/main.mk

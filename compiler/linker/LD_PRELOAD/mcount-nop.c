@@ -53,4 +53,3 @@ void __visible_default mcount_reset(void)
 {
 	print_func();
 }
-
