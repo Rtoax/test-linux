@@ -77,52 +77,42 @@ static int info_cmp(const void *pa, const void *pb)
 	const struct info *i1, *i2;
 	i1 = pa;
 	i2 = pb;
-	if (i1->nr_pagefault > i2->nr_pagefault)
+	if (i1->pid > i2->pid)
 		return -1;
-	else if (i1->nr_pagefault < i2->nr_pagefault)
+	else if (i1->pid > i2->pid)
 		return 1;
-	else {
-		if (i1->pid > i2->pid)
-			return -1;
-		else if (i1->pid > i2->pid)
-			return 1;
-		else
-			return 0;
-	}
+	else
+		return 0;
+}
+
+struct info *alloc_info(pid_t pid, unsigned long nr_pagefault)
+{
+	struct info *new;
+	new = malloc(sizeof(struct info));
+	assert(new && "Malloc failed");
+	new->pid = pid;
+	new->nr_pagefault = nr_pagefault;
+	return new;
+}
+
+void free_info(void *inf)
+{
+	free(inf);
 }
 
 /* Userspace process page-fault happen */
 void Pagefault(pid_t pid, unsigned long nr_pagefault)
 {
-	struct info *new, **old;
-
-	new = malloc(sizeof(struct info));
-	assert(new && "Malloc failed");
-
-	new->pid = pid;
-	new->nr_pagefault = nr_pagefault;
-
-	old = tsearch(new, &all_procs, info_cmp);
+	struct info *new = alloc_info(pid, nr_pagefault);
+	struct info **old = tsearch(new, &all_procs, info_cmp);
 	if (unlikely(!old))
 		assert(!"tsearch failed");
 
 	/* already have this node */
 	if (*old != new) {
 		VERBOSE_LOG("old process %d, pagefault %lu\n", new->pid, new->nr_pagefault);
-		free(new);
-
-		struct info del = {
-			.pid = (*old)->pid,
-			.nr_pagefault = (*old)->nr_pagefault,
-		};
-		old = tdelete(&del, &all_procs, info_cmp);
-		if (unlikely(!old)) {
-			assert(!"Try remove non-exist process");
-		}
-
-		Pagefault((*old)->pid, (*old)->nr_pagefault + 1);
-
-		free(*old);
+		free_info(new);
+		(*old)->nr_pagefault += nr_pagefault;
 	} else {
 		VERBOSE_LOG("record new process %d, pagefault %lu\n", pid, new->nr_pagefault);
 	}
@@ -224,6 +214,6 @@ cleanup:
 	ring_buffer__free(rb);
 	adaptive_oom_score_bpf__detach(skel);
 	adaptive_oom_score_bpf__destroy(skel);
-	tdestroy(all_procs, free);
+	tdestroy(all_procs, free_info);
 	return 0;
 }
