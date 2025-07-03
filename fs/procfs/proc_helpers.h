@@ -6,6 +6,7 @@
 
 /* /proc/PID/comm */
 const char *proc_comm(char *buf, size_t buf_len);
+const char *proc_pid_comm(pid_t pid, char *buf, size_t buf_len);
 
 /* /proc/PID/maps */
 unsigned long proc_maps_exec_base_addr(unsigned long *size);

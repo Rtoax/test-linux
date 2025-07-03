@@ -24,12 +24,12 @@
 # define LOG_DEBUG(fmt...)
 #endif
 
-const char *proc_comm(char *buf, size_t buf_len)
+const char *proc_pid_comm(pid_t pid, char *buf, size_t buf_len)
 {
 	char comm[128], content[256];
 	FILE *fp;
 
-	snprintf(comm, sizeof(comm) - 1, "/proc/%d/comm", getpid());
+	snprintf(comm, sizeof(comm) - 1, "/proc/%d/comm", pid);
 	fp = fopen(comm, "r");
 	fseek(fp, 0, SEEK_SET);
 	fgets(content, sizeof(content), fp);
@@ -37,6 +37,11 @@ const char *proc_comm(char *buf, size_t buf_len)
 	fclose(fp);
 
 	return buf;
+}
+
+const char *proc_comm(char *buf, size_t buf_len)
+{
+	return proc_pid_comm(getpid(), buf, buf_len);
 }
 
 enum vma_type {
