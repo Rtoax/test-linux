@@ -146,7 +146,7 @@ unsigned long usecs(void)
 }
 
 /**
- * All process information is stored in this structure, using the red-black
+ * All process information is stored in this structure, using the AVL
  * tree interface provided by glibc. The tree structure is used because it
  * has its own sorting function, instead of using sorting algorithms such
  * as qsort().
