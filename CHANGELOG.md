@@ -13,7 +13,7 @@ and this project adheres to
 - Introduce scripts/dialog/main.sh;
 #### Added
 - glibc: test fread.c,sprintf.c;
-- oom: introduce adaptive-oom-score tools;
+- oom: introduce adaptive-oom-score tools, and test it;
 - gdb/samples: add mmap-file.gdb to test mmap syscall, add signal.gdb, fcntl.gdb, mman.gdb;
 #### Changed
 - gdb/samples: use -x instead of `<` to pass gdb script;

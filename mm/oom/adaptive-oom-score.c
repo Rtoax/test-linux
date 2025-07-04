@@ -1,5 +1,17 @@
 // SPDX-License-Identifier: GPL-3.0
 /* Copyright (c) 2025 Rong Tao */
+/**
+ * This tool can dynamically decide or adjust which process OOM-Killer kills
+ * based on the actual memory application of the process, instead of selecting
+ * the process with the highest oom_score and the most memory usage.
+ *
+ * This tool currently only considers the rate at which a process allocates
+ * memory. For example, when a service, such as redis or memcached, steadily
+ * occupies most of the system's memory, and another process suddenly applies
+ * for and uses RAM memory, redis or memcached will be killed, which is not
+ * what we expect. Therefore, we dynamically determine which process should
+ * be killed based on the sudden increase in memory allocation.
+ */
 #include <argp.h>
 #include <assert.h>
 #include <bpf/bpf.h>
@@ -29,8 +41,8 @@ static volatile bool exiting = false;
 static int verbose = 0;
 /* default 1s */
 static unsigned long sampling_interval_us = 1000000UL;
-/* default 100 MBps */
-static unsigned long rate_threshold_Bps = 100 * MB;
+/* default 50 MBps */
+static unsigned long rate_threshold_Bps = 50 * MB;
 static unsigned long PAGESIZE = 0;
 
 #define likely(x)	__builtin_expect(!!(x), 1)
@@ -48,6 +60,12 @@ static unsigned long PAGESIZE = 0;
 #else
 #define VERBOSE_LOG_DEBUG(fmt...)
 #endif
+
+#define WARNING(fmt...) do {	\
+		fprintf(stderr, ANSI_PUR);	\
+		fprintf(stderr, fmt);	\
+		fprintf(stderr, ANSI_RST);	\
+	} while (0)
 
 #define INFO_LOCK()	pthread_spin_lock(&info_lock)
 #define INFO_UNLOCK()	pthread_spin_unlock(&info_lock)
@@ -94,12 +112,19 @@ struct info {
 	char comm[64];
 
 	size_t nr_sampling;
-#define SAMPLING_0BPS_THRESHOLD	10
+
+#define NR_SAMPLING_0BPS	10
 	/**
 	 * The number of consecutive sampling rates of 0, can be used to
 	 * remove invalid data from statistical data.
 	 */
 	size_t nr_sampling_0Bps;
+
+#define NR_SAMPLING_EXCEEDING_LIMITS	3
+	/**
+	 * The number of samples that exceeded the rate threshold.
+	 */
+	size_t nr_sampling_exceeding_limits;
 
 	struct __date_to_record__ {
 		double rate_Bps;
@@ -200,6 +225,9 @@ static void update_info(struct info *inf, unsigned long nr_pf)
 		else {
 			inf->nr_sampling_0Bps++;
 		}
+
+		if (inf->sample.rate_Bps >= rate_threshold_Bps)
+			inf->nr_sampling_exceeding_limits++;
 	}
 
 	if (delta_us > sampling_interval_us) {
@@ -259,7 +287,7 @@ static void walk_action(const void *nodep, VISIT which, void *closure)
 		 * If the sampling rate is 0 for several consecutive times,
 		 * the process will be deleted from the statistics.
 		 */
-		if (inf->nr_sampling_0Bps >= SAMPLING_0BPS_THRESHOLD)
+		if (inf->nr_sampling_0Bps >= NR_SAMPLING_0BPS)
 			should_del |= 1;
 
 		if (should_del) {
@@ -270,6 +298,21 @@ static void walk_action(const void *nodep, VISIT which, void *closure)
 		} else {
 			display_info(inf);
 			update_info((void *)inf, 0);
+			/**
+			 * This process has been allocating memory at a rate
+			 * that is too high for a long time, so the score at
+			 * which this process is killed by the oom-killer is
+			 * increased.
+			 */
+			if (inf->nr_sampling_exceeding_limits > NR_SAMPLING_EXCEEDING_LIMITS) {
+				WARNING("Set %s[%d] oom_score_adj to max.\n", inf->comm, inf->pid);
+				/**
+				 * TODO: Here, we can introduce a more complex
+				 * algorithm instead of simply adjusting
+				 * oom_score_adj to the maximum.
+				 */
+				set_oom_score_adj(inf->pid, OOM_SCORE_ADJ_MAX);
+			}
 		}
 	}
 }

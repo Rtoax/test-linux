@@ -6,6 +6,23 @@
 #define MB (KB * 1024UL)
 #define GB (MB * 1024UL)
 
+/*
+ * /proc/<pid>/oom_score_adj set to OOM_SCORE_ADJ_MIN disables oom killing for
+ * pid.
+ */
+#define OOM_SCORE_ADJ_MIN	(-1000)
+#define OOM_SCORE_ADJ_MAX	1000
+
+/*
+ * /proc/<pid>/oom_adj set to -17 protects from the oom killer for legacy
+ * purposes.
+ */
+#define OOM_DISABLE (-17)
+
+/* inclusive(包容性) */
+#define OOM_ADJUST_MIN (-16)
+#define OOM_ADJUST_MAX 15
+
 int disable_oom_by_adj(pid_t pid);
 int get_oom_adj(pid_t pid);
 int set_oom_adj(pid_t pid, int val);

@@ -174,9 +174,10 @@ void default_pagefault(void *mem, size_t size, bool verbose)
 
 		pf_size += pagesize;
 		if (verbose) {
-			BACK_PRINTF("Pagefault %ld B (%ld KiB, %ld MiB), oom_score %d",
+			BACK_PRINTF("Pagefault %ld B (%ld KiB, %ld MiB), oom_score %d, score_adj %d",
 					pf_size, pf_size / KB, pf_size / MB,
-					get_oom_score(getpid()));
+					get_oom_score(getpid()),
+					get_oom_score_adj(getpid()));
 		}
 	}
 }
@@ -285,11 +286,12 @@ void try_oom(struct oom_operations *ops)
 			test_popen();
 
 		if (verbose) {
-			BACK_PRINTF("allocated %ld B (%ld MiB, %ld GiB), %.2lf MiB/s, oom_score %d",
+			BACK_PRINTF("allocated %ld B (%ld MiB, %ld GiB), %.2lf MiB/s, oom_score %d, score_adj %d",
 				    ops->total_size, ops->total_size / 1024 / 1024,
 				    ops->total_size / 1024 / 1024 / 1024,
 				    rate_Mps,
-				    get_oom_score(getpid()));
+				    get_oom_score(getpid()),
+				    get_oom_score_adj(getpid()));
 		}
 		/* Limit the allocate rate */
 		if (rate_Mps > (rate_limit / 1024.0f / 1024.0f))

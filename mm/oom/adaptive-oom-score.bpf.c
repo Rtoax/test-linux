@@ -11,7 +11,7 @@
 #define BPF_DEBUG(fmt...) bpf_printk(fmt)
 #else
 #pragma message("You could $ make DEBUG=1 to enable debug info")
-#define BPF_DEBUG(fmt...)
+#define BPF_DEBUG(fmt...) do {} while (0)
 #endif
 
 struct {
