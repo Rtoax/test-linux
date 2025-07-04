@@ -16,6 +16,12 @@
 #include "oom_helpers.h"
 #include "proc_helpers.h"
 
+#define ANSI_RED	"\033[31m"
+#define ANSI_GRE	"\033[32m"
+#define ANSI_YEL	"\033[33m"
+#define ANSI_BLU	"\033[34m"
+#define ANSI_PUR	"\033[35m"
+#define ANSI_RST	"\033[m"
 
 static pthread_t thread;
 static pthread_spinlock_t info_lock;
@@ -159,8 +165,12 @@ void display_info(const struct info *inf)
 {
 #define _FMT "pf %lu, %.2lfB/s, %.2lfMB/s"
 #define _DATA(d) d.nr_pf, d.rate_Bps, d.rate_Bps / 1024 / 1024
-	printf("pid %d, comm %s (total: "_FMT")(sample: "_FMT")\n",
-		inf->pid, inf->comm, _DATA(inf->total), _DATA(inf->sample));
+	printf("pid %d, comm %s (total: %s"_FMT""ANSI_RST")(sample: %s"_FMT""ANSI_RST")\n",
+		inf->pid, inf->comm,
+		inf->total.rate_Bps > 10 * MB ? ANSI_RED : ANSI_RST,
+		_DATA(inf->total),
+		inf->sample.rate_Bps > 10 * MB ? ANSI_RED : ANSI_RST,
+		_DATA(inf->sample));
 #undef _FMT
 #undef _DATA
 }
