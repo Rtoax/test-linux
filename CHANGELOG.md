@@ -11,7 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
-- qemu: add replay directory.
+- qemu: add replay directory, symlink record.
 #### Changed
 #### Deprecated
 #### Removed
