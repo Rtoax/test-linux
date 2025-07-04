@@ -86,9 +86,12 @@ static const struct argp argp = {
 struct info {
 	pid_t pid;
 	char comm[64];
+	/* total pagefault */
 	unsigned long nr_pagefault;
 	struct {
 		double rate_Bps;
+		/* number of pagefault in one sampling cycle */
+		unsigned long nr_pf;
 		unsigned long start_us;
 	} sample;
 };
@@ -121,7 +124,7 @@ static int info_cmp(const void *pa, const void *pb)
 		return 0;
 }
 
-struct info *alloc_info(pid_t pid, unsigned long nr_pagefault)
+struct info *alloc_info(pid_t pid, unsigned long nr_pf)
 {
 	struct info *new;
 	new = malloc(sizeof(struct info));
@@ -131,7 +134,8 @@ struct info *alloc_info(pid_t pid, unsigned long nr_pagefault)
 
 	new->pid = pid;
 	proc_pid_comm(pid, new->comm, sizeof(new->comm)),
-	new->nr_pagefault = nr_pagefault;
+	new->nr_pagefault = nr_pf;
+	new->sample.nr_pf = nr_pf;
 	new->sample.start_us = usecs();
 
 	return new;
@@ -156,8 +160,9 @@ static void update_info(struct info *inf, unsigned long nr_pf)
 	end_us = usecs();
 
 	inf->nr_pagefault += nr_pf;
+	inf->sample.nr_pf += nr_pf;
 
-	mem_sz = PAGESIZE * inf->nr_pagefault;
+	mem_sz = PAGESIZE * inf->sample.nr_pf;
 
 	delta_us = end_us - inf->sample.start_us;
 	inf->sample.rate_Bps = mem_sz * 1000000.0f / delta_us;
@@ -166,16 +171,16 @@ static void update_info(struct info *inf, unsigned long nr_pf)
 	 * Reset sampling
 	 */
 	if (delta_us > sampling_interval_us) {
-		inf->nr_pagefault = 0;
+		inf->sample.nr_pf = 0;
 		inf->sample.rate_Bps = 0;
 		inf->sample.start_us = usecs();
 	}
 }
 
 /* Userspace process page-fault happen */
-void Pagefault(pid_t pid, unsigned long nr_pagefault)
+void Pagefault(pid_t pid, unsigned long nr_pf)
 {
-	struct info *new = alloc_info(pid, nr_pagefault);
+	struct info *new = alloc_info(pid, nr_pf);
 
 	INFO_LOCK();
 	struct info **old = tsearch(new, &all_procs, info_cmp);
@@ -184,11 +189,11 @@ void Pagefault(pid_t pid, unsigned long nr_pagefault)
 
 	/* already have this node */
 	if (*old != new) {
-		VERBOSE_LOG_DEBUG("old process %d, pagefault %lu\n", new->pid, new->nr_pagefault);
+		VERBOSE_LOG_DEBUG("old process %d, pagefault %lu\n", pid, nr_pf);
 		free_info(new);
-		update_info(*old, nr_pagefault);
+		update_info(*old, nr_pf);
 	} else {
-		VERBOSE_LOG_DEBUG("record new process %d, pagefault %lu\n", pid, new->nr_pagefault);
+		VERBOSE_LOG_DEBUG("record new process %d, pagefault %lu\n", pid, nr_pf);
 	}
 
 	INFO_UNLOCK();
