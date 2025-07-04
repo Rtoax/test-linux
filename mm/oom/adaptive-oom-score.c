@@ -331,6 +331,9 @@ int main(int argc, char *argv[])
 	VERBOSE_LOG("Rate Threshold %ld Bps\n", rate_threshold_Bps);
 	VERBOSE_LOG("PAGESIZE %ld B\n", PAGESIZE);
 
+	/* Trust me, i'll never use too much memory */
+	disable_oom_by_score_adj(getpid());
+
 	pthread_spin_init(&info_lock, PTHREAD_PROCESS_SHARED);
 	pthread_create(&thread, NULL, thread_fn, NULL);
 
