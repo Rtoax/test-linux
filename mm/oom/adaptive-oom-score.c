@@ -96,7 +96,7 @@ static int info_cmp(const struct info *i1, const struct info *i2)
 {
 	if (i1->pid > i2->pid)
 		return -1;
-	else if (i1->pid > i2->pid)
+	else if (i1->pid < i2->pid)
 		return 1;
 	else
 		return 0;
