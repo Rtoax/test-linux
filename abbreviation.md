@@ -21,6 +21,7 @@
 - IMA: Integrity Measurement Architecture (完整性测量架构)
 - IOPS: Input/Output operations Per Second (IO 操作数每秒)
 - ISO: International Organization for Standardization (国际标准化组织)
+- KRR: Kernel Record and Replay (内核记录重演)
 - KSPP: Kernel Self-Protection Project ()
 - LaTeX: Lamport TeX (一种文档准备系统，广泛应用于学术界) @TeX
 - LKFT: Linux Kernel Functional Testing (Linux 内核功能测试)
@@ -32,6 +33,7 @@
 - NDAs: Non-Disclosure Agreements (保密协议)
 - NIST: National Institute of Standard and Technology (美国国家标准与技术研究所)
 - NPTL: Native POSIX Threads Library (原生 POSIX 线程库) @POSIX
+- OSDI: Symposium on Operating Systems Design and Implementation (操作系统设计与实现研讨会)
 - OSF: Open Software Foundation (开源基金会)
 - OSI: Open Source Initiative (开源倡议)
 - OSS: Open Source Software (开源软件)
