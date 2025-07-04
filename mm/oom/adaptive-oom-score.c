@@ -88,6 +88,12 @@ struct info {
 	char comm[64];
 
 	size_t nr_sampling;
+#define SAMPLING_0BPS_THRESHOLD	10
+	/**
+	 * The number of consecutive sampling rates of 0, can be used to
+	 * remove invalid data from statistical data.
+	 */
+	size_t nr_sampling_0Bps;
 
 	struct __date_to_record__ {
 		double rate_Bps;
@@ -168,16 +174,23 @@ static void update_info(struct info *inf, unsigned long nr_pf)
 	inf->total.nr_pf += nr_pf;
 	inf->sample.nr_pf += nr_pf;
 
-	/* Pagefault() will update too */
-	if (nr_pf == 0)
-		inf->nr_sampling++;
-
 	/**
 	 * Update sampling
 	 */
 	mem_sz = PAGESIZE * inf->sample.nr_pf;
 	delta_us = end_us - inf->sample.start_us;
 	inf->sample.rate_Bps = mem_sz * 1000000.0f / delta_us;
+
+
+	/* Pagefault() will update too */
+	if (nr_pf == 0) {
+		inf->nr_sampling++;
+		if (inf->sample.rate_Bps != 0)
+			inf->nr_sampling_0Bps = 0;
+		else {
+			inf->nr_sampling_0Bps++;
+		}
+	}
 
 	if (delta_us > sampling_interval_us) {
 		inf->sample.nr_pf = 0;
@@ -231,6 +244,13 @@ static void walk_action(const void *nodep, VISIT which, void *closure)
 		 * If process is not exist anymore, mark it as NEED TO DELETE
 		 */
 		should_del = !proc_exist(inf->pid);
+
+		/**
+		 * If the sampling rate is 0 for several consecutive times,
+		 * the process will be deleted from the statistics.
+		 */
+		if (inf->nr_sampling_0Bps >= SAMPLING_0BPS_THRESHOLD)
+			should_del |= 1;
 
 		if (should_del) {
 			VERBOSE_LOG("pid %d, comm %s is not exist, %p.\n", inf->pid, inf->comm, inf);
