@@ -1,1 +1,0 @@
-../../algorithm/rbtree/samples/single-header/rb.h

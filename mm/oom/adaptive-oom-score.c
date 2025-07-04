@@ -14,7 +14,6 @@
 #include "adaptive-oom-score.h"
 #include "oom_helpers.h"
 #include "proc_helpers.h"
-#include "rb.h"
 
 
 static pthread_t thread;
@@ -79,10 +78,7 @@ struct info {
 	pid_t pid;
 	char comm[64];
 	unsigned long nr_pagefault;
-	rb_node(struct info) rb_link_node;
 };
-
-typedef rb_tree(struct info) infos_t;
 
 /**
  * All process information is stored in this structure, using the red-black
@@ -90,29 +86,19 @@ typedef rb_tree(struct info) infos_t;
  * has its own sorting function, instead of using sorting algorithms such
  * as qsort().
  */
-static infos_t all_procs;
+static void *all_procs = NULL;
 
-static int info_cmp(const struct info *i1, const struct info *i2)
+static int info_cmp(const void *pa, const void *pb)
 {
+	const struct info *i1, *i2;
+	i1 = pa;
+	i2 = pb;
 	if (i1->pid > i2->pid)
 		return -1;
 	else if (i1->pid < i2->pid)
 		return 1;
 	else
 		return 0;
-}
-
-rb_gen(static __unused, infos_, infos_t, struct info, rb_link_node, info_cmp);
-
-struct info *try_get_info(pid_t pid)
-{
-	struct info i = { .pid = pid, };
-	return infos_search(&all_procs, &i);
-}
-
-bool has_info(pid_t pid)
-{
-	return try_get_info(pid);
 }
 
 struct info *alloc_info(pid_t pid, unsigned long nr_pagefault)
@@ -126,7 +112,7 @@ struct info *alloc_info(pid_t pid, unsigned long nr_pagefault)
 	return new;
 }
 
-void free_info(struct info *inf)
+void free_info(void *inf)
 {
 	free(inf);
 }
@@ -134,47 +120,81 @@ void free_info(struct info *inf)
 /* Userspace process page-fault happen */
 void Pagefault(pid_t pid, unsigned long nr_pagefault)
 {
-	struct info *new;
+	struct info *new = alloc_info(pid, nr_pagefault);
 
 	INFO_LOCK();
+	struct info **old = tsearch(new, &all_procs, info_cmp);
+	if (unlikely(!old))
+		assert(!"tsearch failed");
 
-	new = try_get_info(pid);
-	if (new) {
+	/* already have this node */
+	if (*old != new) {
 		VERBOSE_LOG_DEBUG("old process %d, pagefault %lu\n", new->pid, new->nr_pagefault);
-		new->nr_pagefault += nr_pagefault;
+		free_info(new);
+		(*old)->nr_pagefault += nr_pagefault;
 	} else {
 		VERBOSE_LOG_DEBUG("record new process %d, pagefault %lu\n", pid, new->nr_pagefault);
-		new = alloc_info(pid, nr_pagefault);
-		infos_insert(&all_procs, new);
 	}
 
 	INFO_UNLOCK();
 }
 
+struct walk_arg {
+	const struct info **del_nodes;
+	size_t del_cnt;
+};
+
+static void walk_action(const void *nodep, VISIT which, void *closure)
+{
+	struct walk_arg *arg = closure;
+	const struct info *inf = *(struct info **)nodep;
+	if (which == preorder || which == leaf) {
+		printf("pid %d, comm %s, nr_pagefault %lu\n", inf->pid, inf->comm, inf->nr_pagefault);
+
+		/**
+		 * If process is not exist anymore, mark it as NEED TO DELETE
+		 */
+		if (!proc_exist(inf->pid)) {
+			VERBOSE_LOG("pid %d, comm %s is not exist, %p.\n", inf->pid, inf->comm, inf);
+			arg->del_nodes = realloc(arg->del_nodes,
+				(arg->del_cnt + 1) * sizeof(struct info *));
+			arg->del_nodes[arg->del_cnt++] = inf;
+		}
+	}
+}
 
 void WalkInfo(void)
 {
-	struct info *inf;
+	size_t i;
+
+	struct walk_arg arg = {
+		.del_nodes = NULL,
+		.del_cnt = 0,
+	};
 
 	printf("-----------------------\n");
-
 	INFO_LOCK();
-	for (inf = infos_first(&all_procs); inf; inf = infos_next(&all_procs, inf)) {
-		if (proc_exist(inf->pid)) {
-			printf("pid %d, comm %s, nr_pagefault %lu\n",
-				inf->pid,
-				inf->comm,
-				inf->nr_pagefault);
-		} else {
-			VERBOSE_LOG("pid %d, comm %s is not exist, %p.\n", inf->pid, inf->comm, inf);
-			infos_remove(&all_procs, inf);
-			free_info((void *)inf);
-			inf = infos_first(&all_procs);
-		}
-	}
+	twalk_r(all_procs, walk_action, &arg);
 	INFO_UNLOCK();
 
 	fflush(stdout);
+
+	if (arg.del_cnt > 0)
+		VERBOSE_LOG("del %ld\n", arg.del_cnt);
+
+	INFO_LOCK();
+	for (i = 0; i < arg.del_cnt; i++) {
+		const struct info *del = arg.del_nodes[i];
+		VERBOSE_LOG("Try del %d, %p\n", del->pid, del);
+		if (unlikely(!tdelete(del, &all_procs, info_cmp))) {
+			assert(!"Try delete non-exist node.");
+		}
+		free((void *)del);
+	}
+	INFO_UNLOCK();
+
+	if (arg.del_cnt > 0)
+		free(arg.del_nodes);
 }
 
 void *thread_fn(void *arg)
@@ -250,8 +270,6 @@ int main(int argc, char *argv[])
 	VERBOSE_LOG("Handling event.\n");
 	VERBOSE_LOG("Running...\n");
 
-	infos_new(&all_procs);
-
 	pthread_spin_init(&info_lock, PTHREAD_PROCESS_SHARED);
 	pthread_create(&thread, NULL, thread_fn, NULL);
 
@@ -274,5 +292,6 @@ cleanup:
 	ring_buffer__free(rb);
 	adaptive_oom_score_bpf__detach(skel);
 	adaptive_oom_score_bpf__destroy(skel);
+	tdestroy(all_procs, free_info);
 	return 0;
 }
