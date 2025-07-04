@@ -41,6 +41,7 @@ const char *proc_pid_comm(pid_t pid, char *buf, size_t buf_len)
 	if (!fp) {
 		buf[0] = '-';
 		buf[1] = '\0';
+		return buf;
 	}
 	fseek(fp, 0, SEEK_SET);
 	fgets(content, sizeof(content), fp);
