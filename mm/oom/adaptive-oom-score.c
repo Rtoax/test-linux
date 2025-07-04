@@ -397,7 +397,7 @@ int libbpf_print_fn(enum libbpf_print_level level, const char *format,
 static int handle_event(void *ctx, void *data, size_t data_sz)
 {
 	struct pf_event_t *pf_ev = data;
-	VERBOSE_LOG_DEBUG("pid %d, error_code %ld\n", pf_ev->pid, pf_ev->error_code);
+	VERBOSE_LOG_DEBUG("pid %d, comm %s\n", pf_ev->pid, pf_ev->comm);
 	Pagefault(1, pf_ev);
 	return 0;
 }

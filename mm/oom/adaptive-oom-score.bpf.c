@@ -20,12 +20,8 @@ struct {
 } ring_buf SEC(".maps");
 
 
-#if defined(__TARGET_ARCH_x86)
-SEC("tracepoint/exceptions/page_fault_user")
-int tracepoint__pf_user(struct trace_event_raw_x86_exceptions *ctx)
-#else
-#error "Only support x86_64 yet"
-#endif
+SEC("kprobe/handle_mm_fault")
+int kprobe_handle_mm_fault(struct pt_regs *ctx)
 {
 	BPF_DEBUG("Start");
 
@@ -41,10 +37,8 @@ int tracepoint__pf_user(struct trace_event_raw_x86_exceptions *ctx)
 
 	pf_ev->pid = pid;
 	bpf_get_current_comm(&pf_ev->comm, sizeof(pf_ev->comm));
-	pf_ev->error_code = ctx->error_code;
 
 	BPF_DEBUG("Submit");
-
 	bpf_ringbuf_submit(pf_ev, 0);
 	return 0;
 }
