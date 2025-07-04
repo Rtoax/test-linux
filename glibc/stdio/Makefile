@@ -5,7 +5,7 @@ TARGETS :=
 TARGETS += ansi_ascii
 TARGETS += ctermid
 TARGETS += asprintf vasprintf
-TARGETS += snprintf
+TARGETS += snprintf sprintf
 TARGETS += vfprintf
 TARGETS += vsprintf
 TARGETS += printf vprintf
@@ -33,6 +33,7 @@ ifneq ($(LIBC_PRINTF_SYMADDR),)
 endif
 
 CFLAGS_getdelim := -DTEST_getdelim=1
+CFLAGS_sprintf := -Wno-error=format-overflow
 
 TARGETS_POST := os-release
 
@@ -65,6 +66,7 @@ perror: perror.o
 tmpfile: tmpfile.o
 tmpnam: tmpnam.o
 tempnam: tempnam.o
+sprintf: sprintf.o
 snprintf: snprintf.o
 setbuf: setbuf.o
 setvbuf: setvbuf.o

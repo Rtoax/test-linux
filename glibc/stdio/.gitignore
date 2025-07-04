@@ -21,6 +21,7 @@
 /ctermid
 /tmpnam
 /tempnam
+/sprintf
 /snprintf
 /setbuf
 /setvbuf
