@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include <pthread.h>
 #include <sys/resource.h>
+#include <sys/time.h>
 #include <unistd.h>
 #include "adaptive-oom-score.skel.h"
 #include "adaptive-oom-score.h"
@@ -20,7 +21,11 @@ static pthread_t thread;
 static pthread_spinlock_t info_lock;
 static volatile bool exiting = false;
 static int verbose = 0;
-static unsigned long rate_threshold = 100 * MB;
+/* default 1s */
+static unsigned long sampling_interval_us = 1000000UL;
+/* default 100 MBps */
+static unsigned long rate_threshold_Bps = 100 * MB;
+static unsigned long PAGESIZE = 0;
 
 #define likely(x)	__builtin_expect(!!(x), 1)
 #define unlikely(x)	__builtin_expect(!!(x), 0)
@@ -42,10 +47,11 @@ static unsigned long rate_threshold = 100 * MB;
 #define INFO_UNLOCK()	pthread_spin_unlock(&info_lock)
 
 const char argp_prog_doc[] =
-	"USAGE: [-T <200MB>] [-v|--verbose]\n";
+	"USAGE: [-T <200MB>] [i <US>] [-v|--verbose]\n";
 
 static const struct argp_option opts[] = {
-	{ "rate-threshold", 'T', "RATE_THRESHOLD", 0, "Set Pagefault Rate Threshold, suffix KB, MB, GB" },
+	{ "rate-threshold", 'T', "RATE_THRESHOLD", 0, "Set Pagefault Rate Threshold(Bps), suffix KB, MB, GB" },
+	{ "sampling-us", 'i', "SAMPLING_US", 0, "Set Sampling interval, default 1s" },
 	{ "verbose", 'v', NULL, 1, "Display the detail, for debug maybe" },
 	{},
 };
@@ -54,7 +60,10 @@ static error_t parse_arg(int key, char *arg, struct argp_state *state)
 {
 	switch (key) {
 	case 'T':
-		rate_threshold = str2size(arg);
+		rate_threshold_Bps = str2size(arg);
+		break;
+	case 'i':
+		sampling_interval_us = strtoull(arg, NULL, 10);
 		break;
 	case 'v':
 		verbose = 1;
@@ -78,7 +87,18 @@ struct info {
 	pid_t pid;
 	char comm[64];
 	unsigned long nr_pagefault;
+	struct {
+		double rate_Bps;
+		unsigned long start_us;
+	} sample;
 };
+
+unsigned long usecs(void)
+{
+	struct timeval tv;
+	gettimeofday(&tv, NULL);
+	return tv.tv_sec * 1000000UL + tv.tv_usec;
+}
 
 /**
  * All process information is stored in this structure, using the red-black
@@ -106,15 +126,50 @@ struct info *alloc_info(pid_t pid, unsigned long nr_pagefault)
 	struct info *new;
 	new = malloc(sizeof(struct info));
 	assert(new && "Malloc failed");
+
+	memset(new, 0, sizeof(*new));
+
 	new->pid = pid;
 	proc_pid_comm(pid, new->comm, sizeof(new->comm)),
 	new->nr_pagefault = nr_pagefault;
+	new->sample.start_us = usecs();
+
 	return new;
 }
 
 void free_info(void *inf)
 {
 	free(inf);
+}
+
+void display_info(const struct info *inf)
+{
+	printf("pid %d, comm %s, nr_pagefault %lu, %.2lfB/s, %.2lfMB/s\n",
+		inf->pid, inf->comm, inf->nr_pagefault,
+		inf->sample.rate_Bps, inf->sample.rate_Bps / 1024 / 1024);
+}
+
+static void update_info(struct info *inf, unsigned long nr_pf)
+{
+	unsigned long end_us, mem_sz, delta_us;
+
+	end_us = usecs();
+
+	inf->nr_pagefault += nr_pf;
+
+	mem_sz = PAGESIZE * inf->nr_pagefault;
+
+	delta_us = end_us - inf->sample.start_us;
+	inf->sample.rate_Bps = mem_sz * 1000000.0f / delta_us;
+
+	/**
+	 * Reset sampling
+	 */
+	if (delta_us > sampling_interval_us) {
+		inf->nr_pagefault = 0;
+		inf->sample.rate_Bps = 0;
+		inf->sample.start_us = usecs();
+	}
 }
 
 /* Userspace process page-fault happen */
@@ -131,7 +186,7 @@ void Pagefault(pid_t pid, unsigned long nr_pagefault)
 	if (*old != new) {
 		VERBOSE_LOG_DEBUG("old process %d, pagefault %lu\n", new->pid, new->nr_pagefault);
 		free_info(new);
-		(*old)->nr_pagefault += nr_pagefault;
+		update_info(*old, nr_pagefault);
 	} else {
 		VERBOSE_LOG_DEBUG("record new process %d, pagefault %lu\n", pid, new->nr_pagefault);
 	}
@@ -149,8 +204,6 @@ static void walk_action(const void *nodep, VISIT which, void *closure)
 	struct walk_arg *arg = closure;
 	const struct info *inf = *(struct info **)nodep;
 	if (which == preorder || which == leaf) {
-		printf("pid %d, comm %s, nr_pagefault %lu\n", inf->pid, inf->comm, inf->nr_pagefault);
-
 		/**
 		 * If process is not exist anymore, mark it as NEED TO DELETE
 		 */
@@ -159,6 +212,9 @@ static void walk_action(const void *nodep, VISIT which, void *closure)
 			arg->del_nodes = realloc(arg->del_nodes,
 				(arg->del_cnt + 1) * sizeof(struct info *));
 			arg->del_nodes[arg->del_cnt++] = inf;
+		} else {
+			display_info(inf);
+			update_info((void *)inf, 0);
 		}
 	}
 }
@@ -267,8 +323,13 @@ int main(int argc, char *argv[])
 		goto cleanup;
 	}
 
+	PAGESIZE = getpagesize();
+
 	VERBOSE_LOG("Handling event.\n");
 	VERBOSE_LOG("Running...\n");
+	VERBOSE_LOG("Sampling Interval %ld us\n", sampling_interval_us);
+	VERBOSE_LOG("Rate Threshold %ld Bps\n", rate_threshold_Bps);
+	VERBOSE_LOG("PAGESIZE %ld B\n", PAGESIZE);
 
 	pthread_spin_init(&info_lock, PTHREAD_PROCESS_SHARED);
 	pthread_create(&thread, NULL, thread_fn, NULL);
