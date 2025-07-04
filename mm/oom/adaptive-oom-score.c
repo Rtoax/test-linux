@@ -203,7 +203,8 @@ void display_info(const struct info *inf)
 #undef _DATA
 }
 
-static void update_info(struct info *inf, unsigned long nr_pf)
+static void update_info(struct info *inf, unsigned long nr_pf,
+			const struct pf_event_t *pf_ev)
 {
 	unsigned long end_us, mem_sz, delta_us;
 
@@ -211,6 +212,18 @@ static void update_info(struct info *inf, unsigned long nr_pf)
 
 	inf->total.nr_pf += nr_pf;
 	inf->sample.nr_pf += nr_pf;
+
+	/**
+	 * This is so funny! Why update comm?
+	 * Because we trace pagefault, but when brand new process is created,
+	 * the /proc/self/comm and bpf_get_current_comm() are not allocated,
+	 * thus, we got it's parent comm. The following update are not accurate
+	 * but worth to shot.
+	 */
+	if (inf->nr_sampling == 1)
+		proc_pid_comm(inf->pid, inf->comm, sizeof(inf->comm));
+	if (pf_ev && inf->total.nr_pf / 99)
+		strcpy(inf->comm_bpf, pf_ev->comm);
 
 	/**
 	 * Update sampling
@@ -262,7 +275,7 @@ void Pagefault(unsigned long nr_pf, struct pf_event_t *pf_ev)
 	if (*old != new) {
 		VERBOSE_LOG_DEBUG("old process %d, pagefault %lu\n", pid, nr_pf);
 		free_info(new);
-		update_info(*old, nr_pf);
+		update_info(*old, nr_pf, pf_ev);
 	} else {
 		VERBOSE_LOG_DEBUG("record new process %d, pagefault %lu\n", pid, nr_pf);
 	}
@@ -304,7 +317,7 @@ static void walk_action(const void *nodep, VISIT which, void *closure)
 		arg->del_nodes[arg->del_cnt++] = inf;
 	} else {
 		display_info(inf);
-		update_info((void *)inf, 0);
+		update_info((void *)inf, 0, NULL);
 		/**
 		 * This process has been allocating memory at a rate
 		 * that is too high for a long time, so the score at
