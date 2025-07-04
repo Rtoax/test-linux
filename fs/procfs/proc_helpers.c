@@ -38,6 +38,10 @@ const char *proc_pid_comm(pid_t pid, char *buf, size_t buf_len)
 
 	snprintf(comm, sizeof(comm) - 1, "/proc/%d/comm", pid);
 	fp = fopen(comm, "r");
+	if (!fp) {
+		buf[0] = '-';
+		buf[1] = '\0';
+	}
 	fseek(fp, 0, SEEK_SET);
 	fgets(content, sizeof(content), fp);
 	sscanf(content, "%s", buf);

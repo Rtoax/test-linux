@@ -77,6 +77,7 @@ static const struct argp argp = {
 
 struct info {
 	pid_t pid;
+	char comm[64];
 	unsigned long nr_pagefault;
 	rb_node(struct info) rb_link_node;
 };
@@ -120,6 +121,7 @@ struct info *alloc_info(pid_t pid, unsigned long nr_pagefault)
 	new = malloc(sizeof(struct info));
 	assert(new && "Malloc failed");
 	new->pid = pid;
+	proc_pid_comm(pid, new->comm, sizeof(new->comm)),
 	new->nr_pagefault = nr_pagefault;
 	return new;
 }
@@ -153,7 +155,6 @@ void Pagefault(pid_t pid, unsigned long nr_pagefault)
 void WalkInfo(void)
 {
 	struct info *inf;
-	char comm[32];
 
 	printf("-----------------------\n");
 
@@ -162,10 +163,10 @@ void WalkInfo(void)
 		if (proc_exist(inf->pid)) {
 			printf("pid %d, comm %s, nr_pagefault %lu\n",
 				inf->pid,
-				proc_pid_comm(inf->pid, comm, sizeof(comm)),
+				inf->comm,
 				inf->nr_pagefault);
 		} else {
-			VERBOSE_LOG("pid %d is not exist, %p.\n", inf->pid, inf);
+			VERBOSE_LOG("pid %d, comm %s is not exist, %p.\n", inf->pid, inf->comm, inf);
 			infos_remove(&all_procs, inf);
 			free_info((void *)inf);
 			inf = infos_first(&all_procs);
