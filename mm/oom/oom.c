@@ -11,6 +11,7 @@
 #include <sys/time.h>
 
 #include "oom_helpers.h"
+#include "proc_helpers.h"
 
 volatile sig_atomic_t keep_going = 1;
 
@@ -330,7 +331,8 @@ int main(int argc, char *argv[])
 	}
 
 	if (verbose) {
-		printf("pid %d\n", getpid());
+		char comm[64];
+		printf("pid %d, comm %s\n", getpid(), proc_comm(comm, sizeof(comm)));
 		printf("oom_adj %d\n", get_oom_adj(getpid()));
 		printf("oom_score_adj %d\n", get_oom_score_adj(getpid()));
 		printf("oom_score %d\n", get_oom_score(getpid()));
