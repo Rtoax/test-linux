@@ -110,6 +110,7 @@ static const struct argp argp = {
 struct info {
 	pid_t pid;
 	char comm[64];
+	char comm_bpf[TASK_COMM_LEN];
 
 	size_t nr_sampling;
 
@@ -165,7 +166,7 @@ static int info_cmp(const void *pa, const void *pb)
 		return 0;
 }
 
-struct info *alloc_info(pid_t pid, unsigned long nr_pf)
+struct info *alloc_info(pid_t pid, unsigned long nr_pf, char *comm)
 {
 	struct info *new;
 	new = malloc(sizeof(struct info));
@@ -175,6 +176,7 @@ struct info *alloc_info(pid_t pid, unsigned long nr_pf)
 
 	new->pid = pid;
 	proc_pid_comm(pid, new->comm, sizeof(new->comm)),
+	strcpy(new->comm_bpf, comm);
 	new->total.nr_pf = new->sample.nr_pf = nr_pf;
 	new->total.start_us = new->sample.start_us = usecs();
 
@@ -190,8 +192,8 @@ void display_info(const struct info *inf)
 {
 #define _FMT "pf %lu, %.2lfB/s, %.2lfMB/s"
 #define _DATA(d) d.nr_pf, d.rate_Bps, d.rate_Bps / 1024 / 1024
-	printf("pid %d, comm %s (total: %s"_FMT""ANSI_RST")(sample: %s"_FMT""ANSI_RST")\n",
-		inf->pid, inf->comm,
+	printf("pid %d, comm %s(%s) (total: %s"_FMT""ANSI_RST")(sample: %s"_FMT""ANSI_RST")\n",
+		inf->pid, inf->comm, inf->comm_bpf,
 		inf->total.rate_Bps > 10 * MB ? ANSI_RED : ANSI_RST,
 		_DATA(inf->total),
 		inf->sample.rate_Bps > 10 * MB ? ANSI_RED : ANSI_RST,
@@ -245,9 +247,10 @@ static void update_info(struct info *inf, unsigned long nr_pf)
 }
 
 /* Userspace process page-fault happen */
-void Pagefault(pid_t pid, unsigned long nr_pf)
+void Pagefault(unsigned long nr_pf, struct pf_event_t *pf_ev)
 {
-	struct info *new = alloc_info(pid, nr_pf);
+	pid_t pid = pf_ev->pid;
+	struct info *new = alloc_info(pid, nr_pf, pf_ev->comm);
 
 	INFO_LOCK();
 	struct info **old = tsearch(new, &all_procs, info_cmp);
@@ -291,7 +294,8 @@ static void walk_action(const void *nodep, VISIT which, void *closure)
 			should_del |= 1;
 
 		if (should_del) {
-			VERBOSE_LOG("pid %d, comm %s is not exist, %p.\n", inf->pid, inf->comm, inf);
+			VERBOSE_LOG("pid %d, comm %s(%s) is not exist, %p.\n",
+				inf->pid, inf->comm, inf->comm_bpf, inf);
 			arg->del_nodes = realloc(arg->del_nodes,
 				(arg->del_cnt + 1) * sizeof(struct info *));
 			arg->del_nodes[arg->del_cnt++] = inf;
@@ -305,7 +309,8 @@ static void walk_action(const void *nodep, VISIT which, void *closure)
 			 * increased.
 			 */
 			if (inf->nr_sampling_exceeding_limits > NR_SAMPLING_EXCEEDING_LIMITS) {
-				WARNING("Set %s[%d] oom_score_adj to max.\n", inf->comm, inf->pid);
+				WARNING("Set %s(%s)[%d] oom_score_adj to max.\n",
+					inf->comm, inf->comm_bpf, inf->pid);
 				/**
 				 * TODO: Here, we can introduce a more complex
 				 * algorithm instead of simply adjusting
@@ -378,7 +383,7 @@ static int handle_event(void *ctx, void *data, size_t data_sz)
 {
 	struct pf_event_t *pf_ev = data;
 	VERBOSE_LOG_DEBUG("pid %d, error_code %ld\n", pf_ev->pid, pf_ev->error_code);
-	Pagefault(pf_ev->pid, 1);
+	Pagefault(1, pf_ev);
 	return 0;
 }
 

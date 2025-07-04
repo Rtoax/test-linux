@@ -30,6 +30,7 @@ int tracepoint__pf_user(struct trace_event_raw_x86_exceptions *ctx)
 	BPF_DEBUG("Start");
 
 	struct pf_event_t *pf_ev;
+
 	pid_t pid = (pid_t)(bpf_get_current_pid_tgid() >> 32);
 
 	pf_ev = bpf_ringbuf_reserve(&ring_buf, sizeof(*pf_ev), 0);
@@ -39,6 +40,7 @@ int tracepoint__pf_user(struct trace_event_raw_x86_exceptions *ctx)
 	BPF_DEBUG("Reserve from ring buffer");
 
 	pf_ev->pid = pid;
+	bpf_get_current_comm(&pf_ev->comm, sizeof(pf_ev->comm));
 	pf_ev->error_code = ctx->error_code;
 
 	BPF_DEBUG("Submit");
