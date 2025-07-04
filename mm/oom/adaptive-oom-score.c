@@ -169,13 +169,14 @@ static int info_cmp(const void *pa, const void *pb)
 struct info *alloc_info(pid_t pid, unsigned long nr_pf, char *comm)
 {
 	struct info *new;
+
 	new = malloc(sizeof(struct info));
 	assert(new && "Malloc failed");
 
 	memset(new, 0, sizeof(*new));
 
 	new->pid = pid;
-	proc_pid_comm(pid, new->comm, sizeof(new->comm)),
+	proc_pid_comm(pid, new->comm, sizeof(new->comm));
 	strcpy(new->comm_bpf, comm);
 	new->total.nr_pf = new->sample.nr_pf = nr_pf;
 	new->total.start_us = new->sample.start_us = usecs();
