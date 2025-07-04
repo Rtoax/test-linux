@@ -153,13 +153,18 @@ void Pagefault(pid_t pid, unsigned long nr_pagefault)
 void WalkInfo(void)
 {
 	struct info *inf;
+	char comm[32];
 
 	printf("-----------------------\n");
 
 	INFO_LOCK();
 	for (inf = infos_first(&all_procs); inf; inf = infos_next(&all_procs, inf)) {
-		printf("pid %d, nr_pagefault %lu\n", inf->pid, inf->nr_pagefault);
-		if (!proc_exist(inf->pid)) {
+		if (proc_exist(inf->pid)) {
+			printf("pid %d, comm %s, nr_pagefault %lu\n",
+				inf->pid,
+				proc_pid_comm(inf->pid, comm, sizeof(comm)),
+				inf->nr_pagefault);
+		} else {
 			VERBOSE_LOG("pid %d is not exist, %p.\n", inf->pid, inf);
 			infos_remove(&all_procs, inf);
 			free_info((void *)inf);
