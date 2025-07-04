@@ -86,9 +86,12 @@ static const struct argp argp = {
 struct info {
 	pid_t pid;
 	char comm[64];
-	struct {
+
+	size_t nr_sampling;
+
+	struct __date_to_record__ {
 		double rate_Bps;
-		unsigned long nr_pf;
+		unsigned long nr_pf;	/* number of pagefault */
 		unsigned long start_us;
 	}
 	/* number of pagefault in one sampling cycle */
@@ -148,7 +151,7 @@ void free_info(void *inf)
 
 void display_info(const struct info *inf)
 {
-#define _FMT "nr_pf %lu, %.2lfB/s, %.2lfMB/s"
+#define _FMT "pf %lu, %.2lfB/s, %.2lfMB/s"
 #define _DATA(d) d.nr_pf, d.rate_Bps, d.rate_Bps / 1024 / 1024
 	printf("pid %d, comm %s (total: "_FMT")(sample: "_FMT")\n",
 		inf->pid, inf->comm, _DATA(inf->total), _DATA(inf->sample));
@@ -164,6 +167,10 @@ static void update_info(struct info *inf, unsigned long nr_pf)
 
 	inf->total.nr_pf += nr_pf;
 	inf->sample.nr_pf += nr_pf;
+
+	/* Pagefault() will update too */
+	if (nr_pf == 0)
+		inf->nr_sampling++;
 
 	/**
 	 * Update sampling
@@ -218,10 +225,14 @@ static void walk_action(const void *nodep, VISIT which, void *closure)
 	struct walk_arg *arg = closure;
 	const struct info *inf = *(struct info **)nodep;
 	if (which == preorder || which == leaf) {
+		bool should_del;
+
 		/**
 		 * If process is not exist anymore, mark it as NEED TO DELETE
 		 */
-		if (!proc_exist(inf->pid)) {
+		should_del = !proc_exist(inf->pid);
+
+		if (should_del) {
 			VERBOSE_LOG("pid %d, comm %s is not exist, %p.\n", inf->pid, inf->comm, inf);
 			arg->del_nodes = realloc(arg->del_nodes,
 				(arg->del_cnt + 1) * sizeof(struct info *));
@@ -271,7 +282,7 @@ void *thread_fn(void *arg)
 {
 	while (!exiting) {
 		WalkInfo();
-		usleep(1000000);
+		usleep(sampling_interval_us);
 		//system("clear");
 	}
 	return NULL;
