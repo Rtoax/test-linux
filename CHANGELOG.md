@@ -10,6 +10,19 @@ and this project adheres to
 ## Unreleased
 
 #### Breaking Changes
+#### Added
+#### Changed
+#### Deprecated
+#### Removed
+#### Fixed
+#### Security
+#### Docs
+#### Tools
+
+
+## [v2.2.16] 2025-07-04
+
+#### Breaking Changes
 - Introduce scripts/dialog/main.sh;
 #### Added
 - glibc: test fread.c,sprintf.c;
