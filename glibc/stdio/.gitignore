@@ -26,4 +26,5 @@
 /setvbuf
 /fgets
 /fopen
+/fread
 /fopencookie

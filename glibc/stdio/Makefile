@@ -23,6 +23,7 @@ TARGETS += tmpfile tmpnam tempnam
 TARGETS += setbuf setvbuf
 TARGETS += fgets
 TARGETS += fopen
+TARGETS += fread
 TARGETS += fopencookie
 
 CFLAGS :=
@@ -69,4 +70,5 @@ setbuf: setbuf.o
 setvbuf: setvbuf.o
 fgets: fgets.o
 fopen: fopen.o
+fread: fread.o
 fopencookie: fopencookie.o
