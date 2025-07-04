@@ -86,14 +86,15 @@ static const struct argp argp = {
 struct info {
 	pid_t pid;
 	char comm[64];
-	/* total pagefault */
-	unsigned long nr_pagefault;
 	struct {
 		double rate_Bps;
-		/* number of pagefault in one sampling cycle */
 		unsigned long nr_pf;
 		unsigned long start_us;
-	} sample;
+	}
+	/* number of pagefault in one sampling cycle */
+	sample,
+	/* total pagefault */
+	total;
 };
 
 unsigned long usecs(void)
@@ -134,9 +135,8 @@ struct info *alloc_info(pid_t pid, unsigned long nr_pf)
 
 	new->pid = pid;
 	proc_pid_comm(pid, new->comm, sizeof(new->comm)),
-	new->nr_pagefault = nr_pf;
-	new->sample.nr_pf = nr_pf;
-	new->sample.start_us = usecs();
+	new->total.nr_pf = new->sample.nr_pf = nr_pf;
+	new->total.start_us = new->sample.start_us = usecs();
 
 	return new;
 }
@@ -148,9 +148,12 @@ void free_info(void *inf)
 
 void display_info(const struct info *inf)
 {
-	printf("pid %d, comm %s, nr_pagefault %lu, %.2lfB/s, %.2lfMB/s\n",
-		inf->pid, inf->comm, inf->nr_pagefault,
-		inf->sample.rate_Bps, inf->sample.rate_Bps / 1024 / 1024);
+#define _FMT "nr_pf %lu, %.2lfB/s, %.2lfMB/s"
+#define _DATA(d) d.nr_pf, d.rate_Bps, d.rate_Bps / 1024 / 1024
+	printf("pid %d, comm %s (total: "_FMT")(sample: "_FMT")\n",
+		inf->pid, inf->comm, _DATA(inf->total), _DATA(inf->sample));
+#undef _FMT
+#undef _DATA
 }
 
 static void update_info(struct info *inf, unsigned long nr_pf)
@@ -159,22 +162,28 @@ static void update_info(struct info *inf, unsigned long nr_pf)
 
 	end_us = usecs();
 
-	inf->nr_pagefault += nr_pf;
+	inf->total.nr_pf += nr_pf;
 	inf->sample.nr_pf += nr_pf;
 
+	/**
+	 * Update sampling
+	 */
 	mem_sz = PAGESIZE * inf->sample.nr_pf;
-
 	delta_us = end_us - inf->sample.start_us;
 	inf->sample.rate_Bps = mem_sz * 1000000.0f / delta_us;
 
-	/**
-	 * Reset sampling
-	 */
 	if (delta_us > sampling_interval_us) {
 		inf->sample.nr_pf = 0;
 		inf->sample.rate_Bps = 0;
 		inf->sample.start_us = usecs();
 	}
+
+	/**
+	 * Update total
+	 */
+	mem_sz = PAGESIZE * inf->total.nr_pf;
+	delta_us = end_us - inf->total.start_us;
+	inf->total.rate_Bps = mem_sz * 1000000.0f / delta_us;
 }
 
 /* Userspace process page-fault happen */
