@@ -278,47 +278,48 @@ struct walk_arg {
 static void walk_action(const void *nodep, VISIT which, void *closure)
 {
 	struct walk_arg *arg = closure;
+	bool should_del;
 	const struct info *inf = *(struct info **)nodep;
-	if (which == preorder || which == leaf) {
-		bool should_del;
 
+	if (which != preorder && which != leaf)
+		return;
+
+	/**
+	 * If process is not exist anymore, mark it as NEED TO DELETE
+	 */
+	should_del = !proc_exist(inf->pid);
+
+	/**
+	 * If the sampling rate is 0 for several consecutive times,
+	 * the process will be deleted from the statistics.
+	 */
+	if (inf->nr_sampling_0Bps >= NR_SAMPLING_0BPS)
+		should_del |= 1;
+
+	if (should_del) {
+		VERBOSE_LOG("pid %d, comm %s(%s) is not exist, %p.\n",
+			inf->pid, inf->comm, inf->comm_bpf, inf);
+		arg->del_nodes = realloc(arg->del_nodes,
+			(arg->del_cnt + 1) * sizeof(struct info *));
+		arg->del_nodes[arg->del_cnt++] = inf;
+	} else {
+		display_info(inf);
+		update_info((void *)inf, 0);
 		/**
-		 * If process is not exist anymore, mark it as NEED TO DELETE
+		 * This process has been allocating memory at a rate
+		 * that is too high for a long time, so the score at
+		 * which this process is killed by the oom-killer is
+		 * increased.
 		 */
-		should_del = !proc_exist(inf->pid);
-
-		/**
-		 * If the sampling rate is 0 for several consecutive times,
-		 * the process will be deleted from the statistics.
-		 */
-		if (inf->nr_sampling_0Bps >= NR_SAMPLING_0BPS)
-			should_del |= 1;
-
-		if (should_del) {
-			VERBOSE_LOG("pid %d, comm %s(%s) is not exist, %p.\n",
-				inf->pid, inf->comm, inf->comm_bpf, inf);
-			arg->del_nodes = realloc(arg->del_nodes,
-				(arg->del_cnt + 1) * sizeof(struct info *));
-			arg->del_nodes[arg->del_cnt++] = inf;
-		} else {
-			display_info(inf);
-			update_info((void *)inf, 0);
+		if (inf->nr_sampling_exceeding_limits > NR_SAMPLING_EXCEEDING_LIMITS) {
+			WARNING("Set %s(%s)[%d] oom_score_adj to max.\n",
+				inf->comm, inf->comm_bpf, inf->pid);
 			/**
-			 * This process has been allocating memory at a rate
-			 * that is too high for a long time, so the score at
-			 * which this process is killed by the oom-killer is
-			 * increased.
+			 * TODO: Here, we can introduce a more complex
+			 * algorithm instead of simply adjusting
+			 * oom_score_adj to the maximum.
 			 */
-			if (inf->nr_sampling_exceeding_limits > NR_SAMPLING_EXCEEDING_LIMITS) {
-				WARNING("Set %s(%s)[%d] oom_score_adj to max.\n",
-					inf->comm, inf->comm_bpf, inf->pid);
-				/**
-				 * TODO: Here, we can introduce a more complex
-				 * algorithm instead of simply adjusting
-				 * oom_score_adj to the maximum.
-				 */
-				set_oom_score_adj(inf->pid, OOM_SCORE_ADJ_MAX);
-			}
+			set_oom_score_adj(inf->pid, OOM_SCORE_ADJ_MAX);
 		}
 	}
 }
