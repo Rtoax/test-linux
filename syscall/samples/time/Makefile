@@ -1,4 +1,5 @@
 TARGETS :=
+TARGETS += time
 TARGETS += alarm
 TARGETS += stime
 TARGETS += clock_getres
@@ -14,6 +15,7 @@ CFLAGS += -pthread
 
 include ../../../template/main.mk
 
+time: time.o
 alarm: alarm.o
 clock_getres: clock_getres.o time_helpers.o
 clock_gettime: clock_gettime.o time_helpers.o
