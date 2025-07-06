@@ -43,7 +43,7 @@ static int verbose = 0;
 static unsigned long sampling_interval_us = 1000000UL;
 /* default 50 MBps */
 static unsigned long rate_threshold_Bps = 50 * MB;
-static unsigned long PAGESIZE = 0;
+static unsigned long PAGESIZE, TOTALPAGE, FREEPAGE;
 
 #define likely(x)	__builtin_expect(!!(x), 1)
 #define unlikely(x)	__builtin_expect(!!(x), 0)
@@ -145,6 +145,23 @@ unsigned long usecs(void)
 	return tv.tv_sec * 1000000UL + tv.tv_usec;
 }
 
+static void _update_sys_pages(void)
+{
+	TOTALPAGE = totalram() + totalswap();
+	FREEPAGE = freeram() + freeswap();
+}
+
+/* if memory is not shortage, don't need to adjust oom_score_adj */
+static int __unused is_mem_shortage(void)
+{
+	/**
+	 * TODO: Fake memory shortage rate 50%. Here you can get information
+	 * from the zone waterline, but I'm not going to make it so complicated
+	 * because this is just a simple example code.
+	 */
+	return (FREEPAGE * 1.0 / TOTALPAGE) <= 0.5;
+}
+
 /**
  * All process information is stored in this structure, using the AVL
  * tree interface provided by glibc. The tree structure is used because it
@@ -207,6 +224,8 @@ static void update_info(struct info *inf, unsigned long nr_pf,
 			const struct pf_event_t *pf_ev)
 {
 	unsigned long end_us, mem_sz, delta_us;
+
+	_update_sys_pages();
 
 	end_us = usecs();
 
@@ -324,7 +343,8 @@ static void walk_action(const void *nodep, VISIT which, void *closure)
 		 * which this process is killed by the oom-killer is
 		 * increased.
 		 */
-		if (inf->nr_sampling_exceeding_limits > NR_SAMPLING_EXCEEDING_LIMITS) {
+		if (inf->nr_sampling_exceeding_limits > NR_SAMPLING_EXCEEDING_LIMITS &&
+		    is_mem_shortage()) {
 			WARNING("Set %s(%s)[%d] oom_score_adj to max.\n",
 				inf->comm, inf->comm_bpf, inf->pid);
 			/**
@@ -442,6 +462,7 @@ int main(int argc, char *argv[])
 	}
 
 	PAGESIZE = getpagesize();
+	_update_sys_pages();
 
 	VERBOSE_LOG("Handling event.\n");
 	VERBOSE_LOG("Running...\n");
