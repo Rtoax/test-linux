@@ -63,9 +63,9 @@ ifeq ($(shell uname -m),sw_64)
   endif
 endif
 
-CFLAGS_param-pass := -O0
 CFLAGS_auto := -Wno-error=implicit-int
 CFLAGS_param-pass := -O0 -I../macro/
+CFLAGS_param-pass += -Wno-error=strict-prototypes
 ifeq (${CC_STD_GNU17},1)
   CFLAGS_alignas := -std=gnu17
 endif
