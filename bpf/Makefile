@@ -19,6 +19,8 @@ TARGETS_BPF := tcpdump.bpf.o
 TARGETS_POST := post0
 TARGETS_POST += $(patsubst %.bpf.o,%.bpf.disasm,$(TARGETS_BPF))
 
+CFLAGS_BPF_tcpdump := -DVERIFER=1
+
 include ../template/main.mk
 
 tcpdump.bpf.o: vmlinux.h
