@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <malloc.h>
 #include <string.h>
+#include <sys/mman.h>
 
 
 long add(long num)
@@ -19,9 +20,9 @@ long add(long num)
 void emit_code_into_memory(unsigned char *m)
 {
 	/**
-	 *	long add4(long num) {
-	 *		return num + 4;
-	 *	}
+	 * long add4(long num) {
+	 *     return num + 4;
+	 * }
 	 */
 	unsigned char __attribute__((unused)) code1[] = {
 		0x48, 0x89, 0xf8,       /* mov %rdi, %rax */
@@ -47,17 +48,18 @@ typedef long (*JittedFunc)(long);
 
 void run_from_rwx(void)
 {
-	void *m = malloc(SIZE);
+	void *m = mmap(NULL, SIZE, PROT_READ | PROT_WRITE | PROT_EXEC,
+			MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
 	emit_code_into_memory(m);
 	JittedFunc func = m;
 	int result = func(2);
 
 	printf("result = %d\n", result);
-	free(m);
+	munmap(m, SIZE);
 }
 
 int main(void)
 {
 	run_from_rwx();
+	return 0;
 }
-
