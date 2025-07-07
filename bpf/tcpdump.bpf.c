@@ -28,19 +28,14 @@ int xdp_tcpdump_prog(struct xdp_md *ctx)
 	if ((void *)(ethhdr + 1) > data_end)
 		return XDP_PASS;
 
-	if (ethhdr->h_proto == ETH_P_IP) {
-		bpf_printk("Get IP");
-
+	if (bpf_ntohs(ethhdr->h_proto) == ETH_P_IP) {
 		iphdr = (void *)(ethhdr + 1);
 
 		if ((void *)(iphdr + 1) > data_end)
 			return XDP_PASS;
 
 		if (iphdr->protocol == IPPROTO_TCP) {
-
-			bpf_printk("Get TCP");
-
-			if (iphdr->frag_off & 0x1fff)
+			if (bpf_ntohs(iphdr->frag_off) & 0x1fff)
 				goto exit;
 
 			tcphdr = (void *)(iphdr + 1);
@@ -48,12 +43,12 @@ int xdp_tcpdump_prog(struct xdp_md *ctx)
 			if ((void *)(tcphdr + 1) > data_end)
 				return XDP_PASS;
 
-			if (tcphdr->source != 80 && tcphdr->dest != 80)
+			if (bpf_ntohs(tcphdr->source) != 80 && bpf_ntohs(tcphdr->dest) != 80)
 				goto exit;
 
 			bpf_printk("Get IP->TCP->Port80");
 
-			/* 0x40000, see libcap,tcpdump source code */
+			/* tcpdump return 0x40000, see libcap,tcpdump source code */
 			return XDP_PASS;
 		} else {
 			goto exit;
