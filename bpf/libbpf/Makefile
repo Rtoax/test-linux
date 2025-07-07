@@ -183,6 +183,7 @@ obj-bpf.o += sched_cls.bpf.o
 obj-bpf.o += sched_act.bpf.o
 
 TARGETS_BPF := $(addprefix ${OUTPUT},${obj-bpf.o})
+TARGETS_POST := $(patsubst %.bpf.o,%.bpf.disasm,$(TARGETS_BPF))
 
 TARGETS_BTF := btf_ksym
 TARGETS_BTF += btf_kfunc
