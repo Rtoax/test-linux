@@ -349,7 +349,7 @@ static void walk_action(const void *nodep, VISIT which, void *closure)
 			inf->pid, inf->comm, inf->comm_bpf, inf);
 		add_info_node(&arg->del, inf);
 	} else {
-		display_info(inf);
+		add_info_node(&arg->print, inf);
 		update_info((void *)inf, 0, NULL);
 		/**
 		 * This process has been allocating memory at a rate
@@ -391,6 +391,10 @@ void WalkInfo(void)
 		VERBOSE_LOG("del %ld\n", arg.del.cnt);
 
 	INFO_LOCK();
+	for (i = 0; i < arg.print.cnt; i++) {
+		const struct info *print = arg.print.nodes[i];
+		display_info(print);
+	}
 	for (i = 0; i < arg.del.cnt; i++) {
 		const struct info *del = arg.del.nodes[i];
 		VERBOSE_LOG("Try del %d, %p\n", del->pid, del);
@@ -403,6 +407,8 @@ void WalkInfo(void)
 
 	if (arg.del.cnt > 0)
 		free(arg.del.nodes);
+	if (arg.print.cnt > 0)
+		free(arg.print.nodes);
 }
 
 void *thread_fn(void *arg)
