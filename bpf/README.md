@@ -26,11 +26,11 @@ The GCC compiler comes with an eBPF backend starting from GCC 10. Up to that poi
 
 # Links
 
-* [https://ebpf.io/infrastructure/](https://ebpf.io/infrastructure/)
-* [https://www.kernel.org/doc/html/latest/bpf/](https://www.kernel.org/doc/html/latest/bpf/)
-* [https://docs.kernel.org/bpf/](https://docs.kernel.org/bpf/)
-* [https://github.com/isovalent/](https://github.com/isovalent/)
-* [https://github.com/isovalent/ebpf-docs](https://github.com/isovalent/ebpf-docs)
-* [https://github.com/isovalent/ebeedex](https://github.com/isovalent/ebeedex) LOGOs
-* [https://github.com/lizrice/learning-ebpf](https://github.com/lizrice/learning-ebpf)
-* [https://github.com/lizrice/ebpf-beginners](https://github.com/lizrice/ebpf-beginners)
+* [What is eBPF?](https://ebpf.io/what-is-ebpf/)
+* [Major Infrastructure](https://ebpf.io/infrastructure/)
+* [Linux Kernel BPF Documentation](https://www.kernel.org/doc/html/latest/bpf/)
+* [GitHub isovalent](https://github.com/isovalent/)
+	* [GitHub ebpf-docs](https://github.com/isovalent/ebpf-docs)
+	* [GitHub ebeedex, LOGOs](https://github.com/isovalent/ebeedex)
+* [GitHub lizrice/learning-ebpf](https://github.com/lizrice/learning-ebpf)
+* [GitHub lizrice/ebpf-beginners](https://github.com/lizrice/ebpf-beginners)
