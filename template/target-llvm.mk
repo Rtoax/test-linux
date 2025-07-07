@@ -1,14 +1,18 @@
 # SPDX-License-Identifier: GPL-3.0
-CLANG ?= $(shell which clang 2>/dev/null)
-CLANG_CXX ?= $(shell which clang++ 2>/dev/null)
+CLANG := $(shell which clang 2>/dev/null)
+CLANG_CXX := $(shell which clang++ 2>/dev/null)
 
-LLVM_CONFIG ?= $(shell which llvm-config 2>/dev/null)
-LLVM_AS ?= $(shell which llvm-as 2>/dev/null)
-LLVM_DIS ?= $(shell which llvm-dis 2>/dev/null)
-LLC ?= $(shell which llc 2>/dev/null)
+LLVM_OBJDUMP := $(shell which llvm-objdump 2>/dev/null)
+LLVM_CONFIG := $(shell which llvm-config 2>/dev/null)
+LLVM_AS := $(shell which llvm-as 2>/dev/null)
+LLVM_DIS := $(shell which llvm-dis 2>/dev/null)
+LLC := $(shell which llc 2>/dev/null)
 
 ifeq ($(CLANG),)
   $(error Not found clang, please install clang first)
+endif
+ifeq ($(LLVM_OBJDUMP),)
+  $(error Not found llvm-objdump, please install llvm first)
 endif
 ifeq ($(LLVM_CONFIG),)
   $(error Not found llvm-config, please install llvm first)
@@ -29,6 +33,10 @@ CLANG_AST_CFLAGS := -Xclang -ast-dump -fsyntax-only
 %.ll: %.c
 	$(call log_tgt_obj,CLANG LL,$(<),$(@))
 	${Q}$(CLANG) -S -emit-llvm $(<) -o $(@) $(CFLAGS) $(CFLAGS_$(*))
+
+%.bpf.disasm: %.bpf.o
+	$(call log_tgt_obj,LLVM DISASM,$(<),$(@))
+	${Q}${LLVM_OBJDUMP} --disassemble --source --no-show-raw-insn $(<) > $(Q)
 
 %.bc: %.ll
 	$(call log_tgt_obj,LLVM AS,$(<),$(@))
