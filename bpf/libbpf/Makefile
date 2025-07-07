@@ -29,8 +29,6 @@ CLANG := clang
 
 CFLAGS :=
 CFLAGS_BPF :=
-# bpftool gen skeleton
-SKEL_ARGS :=
 
 kconfig-obj-y :=
 kconfig-obj-$(CONFIG_KPROBES) += kprobe

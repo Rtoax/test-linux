@@ -1,7 +1,13 @@
 # SPDX-License-Identifier: GPL-3.0
 CLANG ?= $(shell which clang 2>/dev/null)
+LLVM_OBJDUMP := $(shell which llvm-objdump 2>/dev/null)
+
 ifeq ($(CLANG),)
   $(error Not found clang, please install clang first)
+endif
+
+ifeq ($(LLVM_OBJDUMP),)
+  $(error Not found llvm-objdump, please install llvm first)
 endif
 
 PAHOLE := $(shell which pahole 2>/dev/null || true)
@@ -23,6 +29,10 @@ endif
 ${OUTPUT}%.bpf.o: %.bpf.c | ${OUTPUT}
 	$(call log_tgt_obj,BPF,$(<),$(@))
 	${Q}$(CLANG) -c $(<) -o $(@) ${CFLAGS_BPF} $(CFLAGS_BPF_$(*))
+
+${OUTPUT}%.bpf.disasm: ${OUTPUT}%.bpf.o | ${OUTPUT}
+	$(call log_tgt_obj,BPF DIS,$(<),$(@))
+	${Q}${LLVM_OBJDUMP} --disassemble --source --no-show-raw-insn $(<) > $(@)
 
 ${OUTPUT}%.bpf.s: %.bpf.c | ${OUTPUT}
 	$(call log_tgt_obj,BPF S,$(<),$(@))
