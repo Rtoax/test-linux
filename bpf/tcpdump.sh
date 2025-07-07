@@ -1,6 +1,7 @@
 #!/bin/bash
+set -e
 
-# 二层以太网帧结构
+# Ethernet Frame
 # |       0-6       |      6-12       |     12-14       |
 # +-----------------+-----------------+-----------------+----------------------+--------------------+
 # | Dst MAC(6Bytes) | Src MAC(6Bytes) | EthType(2Bytes) |   Data(46-1500Bytes) | FrameChech(4Bytes) |
@@ -15,10 +16,14 @@
 # (004) ldh      [20]	--段偏移量
 # (005) jset     #0x1fff          jt 12	jf 6	--查看最后13字节
 # (006) ldxb     4*([14]&0xf)	--加载
-# (007) ldh      [x + 14]
-# (008) jeq      #0x50            jt 11	jf 9
-# (009) ldh      [x + 16]
-# (010) jeq      #0x50            jt 11	jf 12
+# (007) ldh      [x + 14]	--加载端口
+# (008) jeq      #0x50            jt 11	jf 9	--80端口
+# (009) ldh      [x + 16]	--加载端口
+# (010) jeq      #0x50            jt 11	jf 12	--80端口
 # (011) ret      #262144
 # (012) ret      #0
 sudo tcpdump -d ip and tcp port 80
+
+# Test with:
+# server: nc -l 80
+# client: nc 10.56.52.9 80
