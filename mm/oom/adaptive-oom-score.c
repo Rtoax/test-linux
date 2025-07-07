@@ -39,6 +39,7 @@ static pthread_t thread;
 static pthread_spinlock_t info_lock;
 static volatile bool exiting = false;
 static int verbose = 0;
+static int no_clear = false;
 /* default 1s */
 static unsigned long sampling_interval_us = 1000000UL;
 /* default 50 MBps */
@@ -71,12 +72,13 @@ static unsigned long PAGESIZE, TOTALPAGE, FREEPAGE;
 #define INFO_UNLOCK()	pthread_spin_unlock(&info_lock)
 
 const char argp_prog_doc[] =
-	"USAGE: [-T <200MB>] [i <US>] [-v|--verbose]\n";
+	"USAGE: [-T <200MB>] [i <US>] [-v|--verbose] [-c|--no-clear]\n";
 
 static const struct argp_option opts[] = {
 	{ "rate-threshold", 'T', "RATE_THRESHOLD", 0, "Set Pagefault Rate Threshold(Bps), suffix KB, MB, GB" },
 	{ "sampling-us", 'i', "SAMPLING_US", 0, "Set Sampling interval, default 1s" },
 	{ "verbose", 'v', NULL, 1, "Display the detail, for debug maybe" },
+	{ "no-clear", 'c', NULL, 1, "Don't clear the screen" },
 	{},
 };
 
@@ -91,6 +93,9 @@ static error_t parse_arg(int key, char *arg, struct argp_state *state)
 		break;
 	case 'v':
 		verbose = 1;
+		break;
+	case 'c':
+		no_clear = 1;
 		break;
 	case ARGP_KEY_ARG:
 		argp_usage(state);
@@ -396,7 +401,8 @@ void *thread_fn(void *arg)
 	while (!exiting) {
 		WalkInfo();
 		usleep(sampling_interval_us);
-		//system("clear");
+		if (!no_clear)
+			system("clear");
 	}
 	return NULL;
 }
