@@ -74,11 +74,12 @@ static const struct btf_kfunc_id_set bpf_kfunc_example_set = {
 /* Function executed when the module is loaded */
 static int __init hello_init(void)
 {
-	int ret;
+	int ret = 0;
 
 	printk(KERN_INFO "Hello, world!\n");
 	/* Register the BTF kfunc ID set for BPF_PROG_TYPE_KPROBE */
 	ret = register_btf_kfunc_id_set(BPF_PROG_TYPE_KPROBE, &bpf_kfunc_example_set);
+	ret = ret ?: register_btf_kfunc_id_set(BPF_PROG_TYPE_TRACEPOINT, &bpf_kfunc_example_set);
 	if (ret) {
 		pr_err("bpf_kfunc_example: Failed to register BTF kfunc ID set\n");
 		return ret;

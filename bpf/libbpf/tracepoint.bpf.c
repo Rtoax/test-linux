@@ -185,12 +185,12 @@ int tracepoint__syscalls__sys_exit_execve(struct syscall_trace_exit *ctx)
 #endif
 
 #if defined(SUPPORT_BPF_TASK_CWD_FROM_PID)
+# pragma message "support bpf_task_cwd_from_pid()"
+	extern int bpf_task_cwd_from_pid(s32 pid, char *buf, u32 buf_len) __weak __ksym;
 	/**
 	 * https://github.com/Rtoax/linux/tree/p056-bpf_task_cwd
 	 */
-	if (bpf_ksym_exists(bpf_task_cwd_from_pid)) {
-		bpf_task_cwd_from_pid(pid, pevent->cwd, sizeof(pevent->cwd));
-	}
+	bpf_task_cwd_from_pid(pid, pevent->cwd, sizeof(pevent->cwd));
 #else
 	bpf_getcwd(pevent->cwd, sizeof(pevent->cwd));
 #endif
