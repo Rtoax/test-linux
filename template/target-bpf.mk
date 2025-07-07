@@ -18,12 +18,15 @@ endif
 include ${TEMPLATE_DIR}/../bpf/bpf.mk
 include ${TEMPLATE_DIR}/../bpf/bpftool/bpftool.mk
 
+OBJDUMP_ARGS :=
+
 CFLAGS_BPF += -O2 -g
 CFLAGS_BPF += -target bpf
 CFLAGS_BPF += $(CFLAG_BPF_TARGET_ARCH)
 ifdef DEBUG
   CFLAGS_BPF += -DDEBUG=1
   $(info CFLAGS_BPF := ${CFLAGS_BPF})
+else
 endif
 
 ${OUTPUT}%.bpf.o: %.bpf.c | ${OUTPUT}
@@ -32,7 +35,7 @@ ${OUTPUT}%.bpf.o: %.bpf.c | ${OUTPUT}
 
 ${OUTPUT}%.bpf.disasm: ${OUTPUT}%.bpf.o | ${OUTPUT}
 	$(call log_tgt_obj,BPF DIS,$(<),$(@))
-	${Q}${LLVM_OBJDUMP} --disassemble --source --no-show-raw-insn $(<) > $(@)
+	${Q}${LLVM_OBJDUMP} --disassemble --source ${OBJDUMP_ARGS} $(<) > $(@)
 
 ${OUTPUT}%.bpf.s: %.bpf.c | ${OUTPUT}
 	$(call log_tgt_obj,BPF S,$(<),$(@))
