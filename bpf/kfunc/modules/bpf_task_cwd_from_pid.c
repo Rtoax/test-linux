@@ -90,8 +90,6 @@ static int __init hello_init(void)
 /* Function executed when the module is removed */
 static void __exit hello_exit(void)
 {
-	/* Unregister the BTF kfunc ID set */
-	unregister_btf_kfunc_id_set(BPF_PROG_TYPE_KPROBE, &bpf_kfunc_example_set);
 	printk(KERN_INFO "Goodbye, world!\n");
 }
 
