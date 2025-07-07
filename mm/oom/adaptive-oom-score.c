@@ -236,19 +236,21 @@ void display_info_detail(const struct info *inf)
 void display_info_align(const struct info *inf, int firstline)
 {
 	if (firstline) {
-		printf("%-8s %-16s %-8s %-12s %-8s %-8s %-12s %-8s\n",
+		printf("%-8s %-16s %-8s %-12s %-10s %-8s %-12s %-10s %-8s %-8s\n",
 			"PID", "COMM",
 			"T_PF", "T_kB/s", "T_MB/s",
-			"S_PF", "S_kB/s", "S_MB/s");
+			"S_PF", "S_kB/s", "S_MB/s", "SCORE", "ADJ");
 	}
-#define _FMT "%-8lu %-13.2lf %-8.2lf"
+#define _FMT "%-8lu %-12.2lf %-10.2lf"
 #define _DATA(d) d.nr_pf, d.rate_Bps / 1024, d.rate_Bps / 1024 / 1024
-	printf("%-8d %-16s %s"_FMT""ANSI_RST"%s"_FMT""ANSI_RST"\n",
+	printf("%-8d %-16s %s"_FMT""ANSI_RST" %s"_FMT""ANSI_RST" %-8d %-8d\n",
 		inf->pid, inf->comm_bpf,
 		inf->total.rate_Bps > 10 * MB ? ANSI_RED : ANSI_RST,
 		_DATA(inf->total),
 		inf->sample.rate_Bps > 10 * MB ? ANSI_RED : ANSI_RST,
-		_DATA(inf->sample));
+		_DATA(inf->sample),
+		get_oom_score(inf->pid),
+		get_oom_score_adj(inf->pid));
 #undef _FMT
 #undef _DATA
 }
