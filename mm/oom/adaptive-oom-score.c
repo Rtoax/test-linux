@@ -307,12 +307,21 @@ void Pagefault(unsigned long nr_pf, struct pf_event_t *pf_ev)
 	INFO_UNLOCK();
 }
 
-struct walk_arg {
-	struct {
-		const struct info **nodes;
-		size_t cnt;
-	} del, print;
+struct info_nodes {
+	const struct info **nodes;
+	size_t cnt;
 };
+
+struct walk_arg {
+	struct info_nodes del, print;
+};
+
+static void add_info_node(struct info_nodes *nodes, const struct info *inf)
+{
+	nodes->nodes = realloc(nodes->nodes,
+		(nodes->cnt + 1) * sizeof(struct info *));
+	nodes->nodes[nodes->cnt++] = inf;
+}
 
 static void walk_action(const void *nodep, VISIT which, void *closure)
 {
@@ -338,9 +347,7 @@ static void walk_action(const void *nodep, VISIT which, void *closure)
 	if (should_del) {
 		VERBOSE_LOG("pid %d, comm %s(%s) is not exist, %p.\n",
 			inf->pid, inf->comm, inf->comm_bpf, inf);
-		arg->del.nodes = realloc(arg->del.nodes,
-			(arg->del.cnt + 1) * sizeof(struct info *));
-		arg->del.nodes[arg->del.cnt++] = inf;
+		add_info_node(&arg->del, inf);
 	} else {
 		display_info(inf);
 		update_info((void *)inf, 0, NULL);
