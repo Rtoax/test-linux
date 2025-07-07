@@ -219,12 +219,32 @@ void free_info(void *inf)
 	free(inf);
 }
 
-void display_info(const struct info *inf)
+void display_info_detail(const struct info *inf)
 {
 #define _FMT "pf %lu, %.2lfB/s, %.2lfMB/s"
 #define _DATA(d) d.nr_pf, d.rate_Bps, d.rate_Bps / 1024 / 1024
 	printf("pid %d, comm %s(%s) (total: %s"_FMT""ANSI_RST")(sample: %s"_FMT""ANSI_RST")\n",
 		inf->pid, inf->comm, inf->comm_bpf,
+		inf->total.rate_Bps > 10 * MB ? ANSI_RED : ANSI_RST,
+		_DATA(inf->total),
+		inf->sample.rate_Bps > 10 * MB ? ANSI_RED : ANSI_RST,
+		_DATA(inf->sample));
+#undef _FMT
+#undef _DATA
+}
+
+void display_info_align(const struct info *inf, int firstline)
+{
+	if (firstline) {
+		printf("%-8s %-16s %-8s %-12s %-8s %-8s %-12s %-8s\n",
+			"PID", "COMM",
+			"T_PF", "T_kB/s", "T_MB/s",
+			"S_PF", "S_kB/s", "S_MB/s");
+	}
+#define _FMT "%-8lu %-13.2lf %-8.2lf"
+#define _DATA(d) d.nr_pf, d.rate_Bps / 1024, d.rate_Bps / 1024 / 1024
+	printf("%-8d %-16s %s"_FMT""ANSI_RST"%s"_FMT""ANSI_RST"\n",
+		inf->pid, inf->comm_bpf,
 		inf->total.rate_Bps > 10 * MB ? ANSI_RED : ANSI_RST,
 		_DATA(inf->total),
 		inf->sample.rate_Bps > 10 * MB ? ANSI_RED : ANSI_RST,
@@ -388,7 +408,6 @@ void WalkInfo(void)
 		.del.cnt = 0,
 	};
 
-	printf("-----------------------\n");
 	INFO_LOCK();
 	twalk_r(all_procs, walk_action, &arg);
 	INFO_UNLOCK();
@@ -403,9 +422,10 @@ void WalkInfo(void)
 		qsort(arg.print.nodes, arg.print.cnt, sizeof(struct info *), info_sample_rate_cmp);
 	}
 
+	printf("-----------------------\n");
 	for (i = 0; i < arg.print.cnt; i++) {
 		const struct info *print = arg.print.nodes[i];
-		display_info(print);
+		display_info_align(print, i == 0);
 	}
 	for (i = 0; i < arg.del.cnt; i++) {
 		const struct info *del = arg.del.nodes[i];
@@ -428,7 +448,7 @@ void *thread_fn(void *arg)
 	while (!exiting) {
 		WalkInfo();
 		usleep(sampling_interval_us);
-		if (!no_clear)
+		if (!no_clear && !exiting)
 			system("clear");
 	}
 	return NULL;

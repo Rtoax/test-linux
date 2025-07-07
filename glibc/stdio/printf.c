@@ -14,6 +14,7 @@
 int main(void)
 {
 	int i;
+	double d = 1234.5678f;
 
 	printf("pid %d\n", getpid());
 	printf("printf addr %p\n", &printf);
@@ -37,5 +38,8 @@ int main(void)
 	printf("%*.*d|\n", 40, 4, 10000);
 
 	printf("Hello %.*d %.*d|\n", 5, 2, 5, 3);
+
+	printf("%-8.2f|\n", d);
+
 	return 0;
 }
