@@ -7,6 +7,7 @@ sub-dir += bpftrace
 sub-dir += bpftool
 sub-dir += btf
 sub-dir += c
+sub-dir += jit
 sub-dir += libbpf
 sub-dir += samples
 sub-dir += seccomp
