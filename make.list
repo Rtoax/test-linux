@@ -70,6 +70,7 @@ kmod-list += algorithm/list/modules
 kmod-list += algorithm/rbtree/modules
 kmod-list += algorithm/string/modules
 kmod-list += boot/modules
+kmod-list += bpf/kfunc/modules
 kmod-list += driver/block/bio/modules
 kmod-list += fs/configfs/samples/
 kmod-list += fs/debugfs/modules
