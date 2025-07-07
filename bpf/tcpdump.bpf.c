@@ -27,7 +27,8 @@ int xdp_tcpdump_prog(struct xdp_md *ctx)
 			if (tcphdr->source != 80 && tcphdr->dest != 80)
 				goto exit;
 
-			return 0x40000;
+			/* 0x40000, see libcap,tcpdump source code */
+			return XDP_PASS;
 		} else {
 			goto exit;
 		}
@@ -35,5 +36,5 @@ int xdp_tcpdump_prog(struct xdp_md *ctx)
 		goto exit;
 	}
 exit:
-	return 0;
+	return XDP_PASS;
 }
