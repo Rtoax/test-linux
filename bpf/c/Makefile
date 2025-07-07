@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
-TARGETS := hello
+TARGETS := kprobe
 
 CFLAGS += -DBCC=1
 LDFLAGS := -lbpf -lbcc
@@ -7,4 +7,4 @@ LDFLAGS := -lbpf -lbcc
 include ../../template/main.mk
 
 bpf_helpers.o: bpf_helpers.h
-hello: hello.o bpf_helpers.o
+kprobe: kprobe.o bpf_helpers.o
