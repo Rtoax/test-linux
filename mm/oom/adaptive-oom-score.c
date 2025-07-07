@@ -308,8 +308,10 @@ void Pagefault(unsigned long nr_pf, struct pf_event_t *pf_ev)
 }
 
 struct walk_arg {
-	const struct info **del_nodes;
-	size_t del_cnt;
+	struct {
+		const struct info **nodes;
+		size_t cnt;
+	} del, print;
 };
 
 static void walk_action(const void *nodep, VISIT which, void *closure)
@@ -336,9 +338,9 @@ static void walk_action(const void *nodep, VISIT which, void *closure)
 	if (should_del) {
 		VERBOSE_LOG("pid %d, comm %s(%s) is not exist, %p.\n",
 			inf->pid, inf->comm, inf->comm_bpf, inf);
-		arg->del_nodes = realloc(arg->del_nodes,
-			(arg->del_cnt + 1) * sizeof(struct info *));
-		arg->del_nodes[arg->del_cnt++] = inf;
+		arg->del.nodes = realloc(arg->del.nodes,
+			(arg->del.cnt + 1) * sizeof(struct info *));
+		arg->del.nodes[arg->del.cnt++] = inf;
 	} else {
 		display_info(inf);
 		update_info((void *)inf, 0, NULL);
@@ -367,8 +369,8 @@ void WalkInfo(void)
 	size_t i;
 
 	struct walk_arg arg = {
-		.del_nodes = NULL,
-		.del_cnt = 0,
+		.del.nodes = NULL,
+		.del.cnt = 0,
 	};
 
 	printf("-----------------------\n");
@@ -378,12 +380,12 @@ void WalkInfo(void)
 
 	fflush(stdout);
 
-	if (arg.del_cnt > 0)
-		VERBOSE_LOG("del %ld\n", arg.del_cnt);
+	if (arg.del.cnt > 0)
+		VERBOSE_LOG("del %ld\n", arg.del.cnt);
 
 	INFO_LOCK();
-	for (i = 0; i < arg.del_cnt; i++) {
-		const struct info *del = arg.del_nodes[i];
+	for (i = 0; i < arg.del.cnt; i++) {
+		const struct info *del = arg.del.nodes[i];
 		VERBOSE_LOG("Try del %d, %p\n", del->pid, del);
 		if (unlikely(!tdelete(del, &all_procs, info_cmp))) {
 			assert(!"Try delete non-exist node.");
@@ -392,8 +394,8 @@ void WalkInfo(void)
 	}
 	INFO_UNLOCK();
 
-	if (arg.del_cnt > 0)
-		free(arg.del_nodes);
+	if (arg.del.cnt > 0)
+		free(arg.del.nodes);
 }
 
 void *thread_fn(void *arg)
