@@ -7,6 +7,7 @@ ifneq ($(wildcard /usr/include/libaio.h),)
   $(info Already install libaio development)
   sub-dir += aio
 endif
+sub-dir += bpf
 ifneq ($(wildcard /usr/include/sys/capability.h),)
   $(info Already install capability development)
   sub-dir += capability

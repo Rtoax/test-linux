@@ -5,4 +5,5 @@ LDFLAGS := -lbpf -lbcc
 
 include ../../template/main.mk
 
-hello: hello.o bpf.o
+bpf_helpers.o: bpf_helpers.h
+hello: hello.o bpf_helpers.o

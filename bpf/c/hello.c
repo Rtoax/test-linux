@@ -7,8 +7,8 @@
 #include <bcc/libbpf.h>
 #include <linux/bpf.h>
 #include <linux/version.h>
+#include "bpf_helpers.h"
 
-#include "bpf.h"
 
 #define DEBUGFS	"/sys/kernel/debug/tracing"
 

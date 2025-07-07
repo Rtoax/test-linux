@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- syscall/samples: add `bpf/bpf_helpers.c`;
 - bpf: add history.md;
 - qemu: add replay directory, symlink record.
 #### Changed
