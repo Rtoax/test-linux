@@ -14,7 +14,8 @@ include ./libbpf.mk
 include ../btf/btf.mk
 include ../bpftool/bpftool.mk
 
-KSYM_DO_EXECVEAT_COMMON := $(shell grep 't do_execveat_common' /proc/kallsyms \
+KSYM_DO_EXECVEAT_COMMON := $(shell grep -w 't do_execveat_common' /proc/kallsyms \
+			| grep -v cold \
 			| head -1 \
 			| awk '{print $$3}')
 
