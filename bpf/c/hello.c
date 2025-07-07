@@ -65,7 +65,7 @@ int main(void)
 		printf("%c", bpf_log_buf[i]);
 	}
 
-#if 1
+#if defined(BCC)
 	int probe_fd;
 	/**
 	 * bcc function bpf_attach_kprobe()
