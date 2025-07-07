@@ -188,6 +188,14 @@ static int info_cmp(const void *pa, const void *pb)
 		return 0;
 }
 
+static int info_sample_rate_cmp(const void *pa, const void *pb)
+{
+	const struct info *i1, *i2;
+	i1 = *(struct info **)pa;
+	i2 = *(struct info **)pb;
+	return i2->sample.rate_Bps - i1->sample.rate_Bps;
+}
+
 struct info *alloc_info(pid_t pid, unsigned long nr_pf, char *comm)
 {
 	struct info *new;
@@ -391,6 +399,10 @@ void WalkInfo(void)
 		VERBOSE_LOG("del %ld\n", arg.del.cnt);
 
 	INFO_LOCK();
+	if (arg.print.cnt) {
+		qsort(arg.print.nodes, arg.print.cnt, sizeof(struct info *), info_sample_rate_cmp);
+	}
+
 	for (i = 0; i < arg.print.cnt; i++) {
 		const struct info *print = arg.print.nodes[i];
 		display_info(print);
