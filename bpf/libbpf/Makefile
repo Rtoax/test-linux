@@ -382,6 +382,7 @@ ${OUTPUT}config-map.o: ${OUTPUT}config-map.skel.h config-map.h
 config-map: ${OUTPUT}config-map.o ${HELPERS}
 socket_filter: ${OUTPUT}socket_filter.o ${HELPERS}
 ${OUTPUT}socket_filter.o: ${OUTPUT}map_array.skel.h
+${OUTPUT}ring_buffer.o: ${OUTPUT}map_array.skel.h ${OUTPUT}ring_buffer.skel.h
 ring_buffer: ${OUTPUT}ring_buffer.o ${HELPERS}
 tc: ${OUTPUT}tc.o ${HELPERS}
 ${OUTPUT}tc.o: ${OUTPUT}tc.skel.h
@@ -464,7 +465,9 @@ map_percpu_hash: ${OUTPUT}map_percpu_hash.o ${HELPERS}
 ${OUTPUT}map_percpu_hash.o: ${OUTPUT}map_percpu_hash.skel.h
 map_lru_hash: ${OUTPUT}map_lru_hash.o ${HELPERS}
 ${OUTPUT}map_lru_hash.o: ${OUTPUT}tracepoint.skel.h
+${OUTPUT}map_lru_percpu_hash.o: ${OUTPUT}tracepoint.skel.h
 map_lru_percpu_hash: ${OUTPUT}map_lru_percpu_hash.o ${HELPERS}
+${OUTPUT}map_array.o: ${OUTPUT}map_array.skel.h
 map_array: ${OUTPUT}map_array.o ${HELPERS}
 map_percpu_array: ${OUTPUT}map_percpu_array.o ${HELPERS}
 ${OUTPUT}map_percpu_array.o: ${OUTPUT}map_percpu_array.skel.h
