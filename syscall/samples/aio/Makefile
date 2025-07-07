@@ -1,4 +1,4 @@
-LIBAIO_HDR = /usr/include/libaio.h
+LIBAIO_HDR := /usr/include/libaio.h
 
 TARGETS :=
 TARGETS += libaio
@@ -7,8 +7,6 @@ TARGETS += epoll
 ifeq ($(wildcard $(LIBAIO_HDR)),)
   $(error "ERROR: Must install libaio development header")
 endif
-
-LDFLAGS :=
 
 include ../../../compiler/cross-compile.mk
 

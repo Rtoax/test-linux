@@ -3,15 +3,9 @@ include ../../compiler/cross-compile.mk
 
 sub-dir :=
 sub-dir += access
-ifneq ($(wildcard /usr/include/libaio.h),)
-  $(info Already install libaio development)
-  sub-dir += aio
-endif
+sub-dir += aio
 sub-dir += bpf
-ifneq ($(wildcard /usr/include/sys/capability.h),)
-  $(info Already install capability development)
-  sub-dir += capability
-endif
+sub-dir += capability
 sub-dir += io
 sub-dir += ioctl
 sub-dir += poll
