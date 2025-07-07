@@ -17,6 +17,7 @@ endif
 
 include ${TEMPLATE_DIR}/../bpf/bpf.mk
 include ${TEMPLATE_DIR}/../bpf/bpftool/bpftool.mk
+include ${TEMPLATE_DIR}/../bpf/bpftool/vmlinux.h.mk
 
 OBJDUMP_ARGS :=
 

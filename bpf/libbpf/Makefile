@@ -471,5 +471,3 @@ ${OUTPUT}map_array.o: ${OUTPUT}map_array.skel.h
 map_array: ${OUTPUT}map_array.o ${HELPERS}
 map_percpu_array: ${OUTPUT}map_percpu_array.o ${HELPERS}
 ${OUTPUT}map_percpu_array.o: ${OUTPUT}map_percpu_array.skel.h
-
-include ../bpftool/vmlinux.h.mk
