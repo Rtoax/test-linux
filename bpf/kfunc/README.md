@@ -1,6 +1,7 @@
 BPF Kernel Functions (kfuncs)
 =============================
 
+`Kfuncs` allow kernel modules to define their own helper functions for BPF, providing a more flexible and extensible interface.
 
 - kfunc: `BPF_TRACE_FENTRY`
 - kretfunc: `BPF_TRACE_FEXIT`
@@ -34,4 +35,4 @@ __bpf_kfunc_end_defs();
 
 - https://www.kernel.org/doc/html/latest/bpf/kfuncs.html
 - https://docs.kernel.org/bpf/kfuncs.html
-
+- https://eunomia.dev/tutorials/43-kfuncs/

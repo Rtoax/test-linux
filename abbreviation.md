@@ -42,6 +42,7 @@
 - QoS: Quality of Service (服务质量)
 - RAS: Reliability, Availability, Serviceability (可靠性、可用性、可维护性) @CPU
 - RC: Release Candidate (候选版本,例如rc1)
+- RFC: Request For Comments (征求意见稿)
 - RTLA: Real-time Linux Analysis tool (实时分析工具)
 - SMT: Satisfiability Modulo Theories (基于模理论的可满足性)
 - SVR1: System V Release 1

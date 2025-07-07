@@ -5,12 +5,14 @@
 - DLPI: Datalink Provider Interface (数据链路提供者接口)
 - DoS: Denial of Service (拒绝服务)
 - DPDK: Data Plane Development Kit (数据面开发工具)
+- HTTP: Hypertext Transfer Protocol (超文本传输协议，RFC 2616)
 - IB: InfiniBand
 - ICMP: Internet Control Message Protocol (网络控制消息协议)
 - IEEE-802.3: @MAC
 - IEEE-802.11: @WLAN @Wi-Fi
 - IEEE-802.15.4: @LR-WPAN @IoT
-- IETF: Internet Engineering Task Force (互联网工程任务组)
+- IETF: Internet Engineering Task Force (互联网工程任务组) @RFC
+- IP: Internet Protocol (互联网协议, RFC 791)
 - KNI: Kernel Network Interface (内核网络接口) @DPDK
 - LAN: Local Area Network (局域网)
 - LR-WPAN: Low-Rate Wireless Personal Area Network (无线个人网) @IEEE-802.15.4
