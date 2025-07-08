@@ -145,10 +145,42 @@ int bpf_prog1(struct __sk_buff *skb)
 	return skb->len;
 }
 
+/**
+ * $ sudo tcpdump -d ip and tcp port 80
+ * $ sudo nc -l 80
+ * $ sudo nc 127.0.0.1 80
+ */
 SEC("socket")
 int bpf_prog2(struct __sk_buff *skb)
 {
-	bpf_printk("socket_filter");
+	__u16 proto, frag_off;
+	__u32 nhoff = ETH_HLEN;
+	__u32 ip_proto, sport, dport;
+
+	bpf_skb_load_bytes(skb, 12, &proto, sizeof(proto));
+	proto = __bpf_ntohs(proto);
+	if (proto != ETH_P_IP)
+		return 0;
+
+	bpf_skb_load_bytes(skb, nhoff + offsetof(struct iphdr, protocol), &ip_proto, 1);
+	if (ip_proto != IPPROTO_TCP)
+		return 0;
+
+	bpf_skb_load_bytes(skb, 20, &frag_off, sizeof(frag_off));
+	frag_off = bpf_ntohs(frag_off);
+	if (frag_off & 0x1fff)
+		return 0;
+
+	bpf_skb_load_bytes(skb, nhoff + sizeof(struct iphdr), &sport, sizeof(sport));
+	bpf_skb_load_bytes(skb, nhoff + sizeof(struct iphdr) + sizeof(sport), &dport, sizeof(dport));
+
+	sport = bpf_ntohs(sport);
+	dport = bpf_ntohs(dport);
+
+	if (sport != 80 && dport != 80)
+		return 0;
+
+	bpf_printk("Get TCP80 sport %d, dport %d", sport, dport);
 	return 0;
 }
 
