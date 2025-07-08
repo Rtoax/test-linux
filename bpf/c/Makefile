@@ -9,7 +9,7 @@ TARGETS_POST += foo.c.s foo.o
 CFLAGS += -DBCC=1
 LDFLAGS := -lbpf -lbcc
 
-CFLAGS_BPF_foo := -DBPF=1
+CFLAGS_BPF_foo := -DBPF=1 -O0
 CFLAGS_foo := -fomit-frame-pointer
 
 include ../../template/main.mk
