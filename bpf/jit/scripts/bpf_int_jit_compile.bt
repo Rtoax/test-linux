@@ -1,0 +1,42 @@
+#!/bin/env bpftrace
+#ifndef BPFTRACE_HAVE_BTF
+#include <linux/filter.h>
+#endif
+BEGIN
+{
+	@PT[(uint64)1] = "SOCKET_FILTER";
+	@PT[2] = "KPROBE";
+	@PT[3] = "SCHED_CLS";
+	@PT[4] = "SCHED_ACT";
+	@PT[5] = "TRACEPOINT";
+	@PT[6] = "XDP";
+	@PT[7] = "PERF_EVENT";
+	@PT[8] = "CGROUP_SKB";
+	@PT[9] = "CGROUP_SOCK";
+	@PT[17] = "RAW_TRACEPOINT";
+	@PT[26] = "TRACING";
+	@PT[29] = "LSM";
+	@PT[32] = "NETFILTER";
+
+	printf("Tracing BPF JIT, hit ctrl-c to end.\n");
+	printf("%-8s %-8s %-16s %-16s\n", "TIME", "PID", "COMM", "TYPE");
+}
+
+kprobe:bpf_int_jit_compile
+{
+	$prog = (struct bpf_prog *)arg0;
+	time("%H:%M:%S ");
+	printf("%-8d %-16s", pid, comm);
+	if (!has_key(@PT, $prog->type)) {
+		printf(" %-16d", $prog->type);
+	} else {
+		printf(" %-16s", @PT[$prog->type]);
+	}
+	printf("\n");
+}
+
+END
+{
+	clear(@PT);
+	printf("Bye.\n");
+}

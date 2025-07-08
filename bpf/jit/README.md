@@ -1,17 +1,26 @@
-JIT - Just In Time Compiler
-===========================
+BPF JIT - Just In Time Compiler
+===============================
 
-# 及时编译器
+# Linux JIT kstack
 
-在一些特定硬件平台，进行提速
-
-* `bpf_init_jit_compile()`: 将传入的 BPF 伪代码加以编译，编译结果取代原有的处理函数
-* `sk_run_filter()`: 负责报文到来时进行过滤的操作，提升效率
-
-
-# libgccjit
-
-看个评论: libgccjit简直就只是一个玩具，根本没有办法拿来做即时编译器， 所以我决定不学libgccjit.
+```c
+bpf_prog_load(bpf_attr) {
+  bpf_int_jit_compile(bpf_prog) {
+    /* x86_64 */
+    do_jit(prog, ...) {
+      for (i = 1; i <= insn_cnt; i++) {
+        /* BPF_ADD -> x86 add */
+      }
+    }
+    /* aarch64 */
+    build_body(jit_ctx) {
+      build_insn(insn) {
+        /* BPF_ADD -> x86 add */
+      }
+    }
+  }
+}
+```
 
 
 # Links
