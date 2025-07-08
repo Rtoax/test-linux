@@ -1,6 +1,6 @@
 /**
  * Usage:
- * $ sudo ip link set dev lo xdp obj tcpdump.bpf.o
+ * $ sudo ip link set dev lo xdp obj tcpdump.bpf.o section xdp_prog1
  * $ sudo ip link set dev lo xdp off
  * $ sudo cat /sys/kernel/tracing/trace_pipe
  */
@@ -15,7 +15,7 @@
 /**
  * sudo tcpdump -d ip and tcp port 80
  */
-SEC("prog")
+SEC("xdp_prog1")
 int xdp_tcpdump_prog(struct xdp_md *ctx)
 {
 	void *data = (void *)(long)ctx->data;
