@@ -9,6 +9,9 @@ TARGETS_POST += foo.c.s
 CFLAGS += -DBCC=1
 LDFLAGS := -lbpf -lbcc
 
+CFLAGS_BPF_foo := -DBPF=1
+CFLAGS_foo := -fomit-frame-pointer
+
 include ../../template/main.mk
 
 bpf_helpers.o: bpf_helpers.h
