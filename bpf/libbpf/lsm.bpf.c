@@ -38,11 +38,11 @@ int BPF_PROG(lsm_bpf, int cmd, union bpf_attr *attr, unsigned int size, int ret)
 	 * ret is the return value from the previous BPF program or 0 if
 	 * it's the first hook.
 	 */
-	if (ret != 0)
-		return ret;
-
-	bpf_printk("LSM: block bpf() worked");
-	return -EPERM;
+	if (ret == 0) {
+		bpf_printk("LSM: block bpf() worked");
+		return -EPERM;
+	} else
+		return 0;
 }
 #elif defined(LSM_SOCKET_CREATE)
 # pragma message "Compile lsm/socket_create"
