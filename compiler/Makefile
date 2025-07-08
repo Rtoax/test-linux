@@ -1,6 +1,4 @@
 # SPDX-License-Identifier: GPL-3.0
-CC := gcc
-
 include ../scripts/ansi.mk
 include ../gnu/gnu.mk
 
@@ -8,6 +6,7 @@ sub-dir := annobin
 sub-dir += ast
 sub-dir += linker
 sub-dir += llvm
+sub-dir += jit
 sub-dir += __atomic
 sub-dir += __attribute__
 sub-dir += __builtin_
