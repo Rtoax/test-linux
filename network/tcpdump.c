@@ -83,7 +83,7 @@ int main(int argc, char *argv[])
 	signal(SIGINT, sig_handler);
 
 	/* Data Link Layer */
-	sock = open_raw_sock(interface, false);
+	sock = socket_raw(interface, false);
 	if (sock < 0 ) {
 		perror("Create raw socket error");
 		exit(0);

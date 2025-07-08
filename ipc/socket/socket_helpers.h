@@ -2,4 +2,4 @@
 #pragma once
 #include <stdbool.h>
 
-int open_raw_sock(const char *ifname, bool nonblk);
+int socket_raw(const char *ifname, bool nonblk);

@@ -15,7 +15,7 @@
 /**
  * @ifname could be NULL, if NULL, skip bind(2).
  */
-int open_raw_sock(const char *ifname, bool nonblk)
+int socket_raw(const char *ifname, bool nonblk)
 {
 	int sock, flags;
 	struct sockaddr_ll sll;
