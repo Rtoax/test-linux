@@ -12,7 +12,7 @@ and this project adheres to
 #### Breaking Changes
 #### Added
 - compiler: add jit/libgccjit/;
-- syscall/samples: add `bpf/bpf_helpers.c`;
+- syscall/samples: add `bpf/bpf_helpers.c`, bpf.bt;
 - bpf: add history.md, c/foo.bpf.c, kfunc/modules/`bpf_task_cwd_from_pid.c`, README.ISA.md, tcpdump.bpf.c;
 - qemu: add replay directory, symlink record.
 #### Changed
