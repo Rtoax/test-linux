@@ -1,5 +1,7 @@
 # 2024
 - IETF release BPF Instruction Set Architecture (ISA) [RFC 9669](https://www.rfc-editor.org/rfc/rfc9669.html);
+# 2016
+- Linux kernel [v4.8](https://kernelnewbies.org/Linux_4.8) support XDP, [merge](https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=22b3548861fb21ad79e0d3afeee123b0eb3912cc);
 # 2015
 - LLVM [v3.7](https://releases.llvm.org/3.7.0/docs/ReleaseNotes.html) start support eBPF;
 # 2014
