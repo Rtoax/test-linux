@@ -36,7 +36,10 @@ int BPF_PROG(lsm_bpf, int cmd, union bpf_attr *attr, unsigned int size, int ret)
 {
 	/**
 	 * ret is the return value from the previous BPF program or 0 if
-	 * it's the first hook.
+	 * it's the first hook. ret may be any value, so it cannot be used
+	 * as a return value directly, see:
+	 * commit 5fb380546493 ("libbpf: lsm_bpf: Fix At program exit the
+	 * register R0 has smin=-9223372036854775807 should have been in [-4095, 0]")
 	 */
 	if (ret == 0) {
 		bpf_printk("LSM: block bpf() worked");
