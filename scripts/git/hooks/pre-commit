@@ -20,10 +20,11 @@ try_modify=( $(git status --short | grep ^M | awk '{print $2}' || true) )
 # Redirect output to stderr.
 exec 1>&2
 
-must_modify_changelog() {
-	if ! [[ "${try_modify[@]}" =~ CHANGELOG.md ]]; then
+hint_changelog() {
+	if ! [[ " ${try_modify[@]} " =~ " CHANGELOG.md " ]]; then
 		git status --short
-		echo "FATAL: you forgot modify CHANGELOG.md !!"
+		echo "FATAL: you forgot modify CHANGELOG.md!!! Try FORCE???"
+		echo "FATAL: ${@}"
 		exit 1
 	fi
 }
@@ -61,9 +62,9 @@ do
 	fi
 done
 
-# modify too much files or delete files, need modify CHANGELOG.md too
-if [[ ${#try_modify[@]} -ge ${NR_MOD} ]] || \
-   [[ ${#try_del[@]} -ge ${NR_DEL} ]] || \
-   [[ ${#try_add[@]} -ge ${NR_ADD} ]]; then
-	must_modify_changelog
-fi
+# modify,add,delete files, need modify CHANGELOG.md too
+[[ ${#try_modify[@]} -ge ${NR_MOD} ]] && hint_changelog "<Modify too many files>"
+[[ ${#try_del[@]} -ge ${NR_DEL} ]] && hint_changelog "<Delete files>"
+[[ ${#try_add[@]} -ge ${NR_ADD} ]] && hint_changelog "<Add files: ${try_add[@]}>"
+
+exit 0
