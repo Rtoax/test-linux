@@ -1,6 +1,4 @@
 # SPDX-License-Identifier: GPL-3.0
-CC := gcc
-
 TARGETS :=
 TARGETS += alias
 TARGETS += always_inline
@@ -43,8 +41,16 @@ CFLAGS_cleanup := -Werror=attributes
 CFLAGS_noreturn := -Werror=attributes -Werror
 CFLAGS_deprecated := -Wno-error=deprecated-declarations
 CFLAGS_format := -Werror=varargs -Werror=attributes
-CFLAGS_nonnull := -Wno-error=nonnull -Wno-error=nonnull-compare
+CFLAGS_nonnull := -Wno-error=nonnull
 CFLAGS___pure__ := -Wno-error=unused-value -Wno-error=unused-variable
+
+ifeq ($(CC),clang)
+  CFLAGS_nonnull += -Wno-error=tautological-pointer-compare
+  CFLAGS_section-initcall := -Wno-error=ordered-compare-function-pointers
+else
+  # clang error: unknown warning option '-Werror=nonnull-compare'
+  CFLAGS_nonnull += -Wno-error=nonnull-compare
+endif
 
 include ../../template/main.mk
 
