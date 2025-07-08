@@ -1,3 +1,5 @@
+# 2024
+- IETF release BPF Instruction Set Architecture (ISA) [RFC 9669](https://www.rfc-editor.org/rfc/rfc9669.html);
 # 2015
 - LLVM [v3.7](https://releases.llvm.org/3.7.0/docs/ReleaseNotes.html) start support eBPF;
 # 2014

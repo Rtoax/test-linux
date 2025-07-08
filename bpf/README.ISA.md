@@ -1,7 +1,13 @@
 BPF Instruction Set Architecture (ISA)
 ======================================
 
+# cBPF
+
+- only support two 32-bits registers, `A` add register and `X` index register;
+
 # Resigters
+
+support 10 64-bits registers.
 
 - `R0`: return value from function calls, and exit value for eBPF programs;
 - `R1 - R5`: arguments for function calls;
