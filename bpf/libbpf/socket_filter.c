@@ -170,7 +170,7 @@ int main(int argc, char *argv[])
 	}
 
 	/* Create raw socket for localhost interface */
-	sock = open_raw_sock(interface);
+	sock = open_raw_sock(interface, true);
 	if (sock < 0) {
 		err = -2;
 		fprintf(stderr, "Failed to open raw socket of interface %s\n",

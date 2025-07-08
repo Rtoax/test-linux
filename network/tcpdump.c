@@ -14,12 +14,12 @@
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <unistd.h>
+#include "socket_helpers.h"
 
 
 #define BUFFER_MAX 2048
 
 static const char *interface = NULL;
-static int ifindex = 0;
 static volatile sig_atomic_t exiting = 0;
 int verbose = false;
 
@@ -69,7 +69,6 @@ int main(int argc, char *argv[])
 {
 	int err, sock, len;
 	char buffer[BUFFER_MAX];
-	struct sockaddr_ll sll;
 
 	struct ethhdr *ethhdr;
 	struct iphdr *iphdr;
@@ -84,31 +83,10 @@ int main(int argc, char *argv[])
 	signal(SIGINT, sig_handler);
 
 	/* Data Link Layer */
-	sock = socket(PF_PACKET, SOCK_RAW, htons(ETH_P_ALL));
+	sock = open_raw_sock(interface, false);
 	if (sock < 0 ) {
-		perror("Create socket error");
+		perror("Create raw socket error");
 		exit(0);
-	}
-
-	if (interface) {
-		ifindex = if_nametoindex(interface);
-		if (ifindex == 0) {
-			fprintf(stderr, "Unknown interface %s\n", interface);
-			exit(EXIT_FAILURE);
-		}
-	}
-
-	if (ifindex > 0) {
-		memset(&sll, 0, sizeof(sll));
-		sll.sll_family = PF_PACKET;
-		sll.sll_ifindex = if_nametoindex(interface);
-		sll.sll_protocol = htons(ETH_P_ALL);
-		err = bind(sock, (struct sockaddr *)&sll, sizeof(sll));
-		if (err < 0) {
-			fprintf(stderr, "bind %s: %m\n", interface);
-			err = -errno;
-			goto cleanup;
-		}
 	}
 
 	printf("Tcpdump, hit ctrl-c to end.\n");
@@ -187,7 +165,6 @@ int main(int argc, char *argv[])
 		fflush(stdout);
 	}
 
-cleanup:
 	close(sock);
 	return err;
 }

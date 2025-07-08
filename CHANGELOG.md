@@ -18,6 +18,7 @@ and this project adheres to
 #### Changed
 #### Deprecated
 #### Removed
+- Remove `ipc/socket/raw/raw_helpers.c`, use `socket_helpers.c` instead;
 #### Fixed
 #### Security
 #### Docs
