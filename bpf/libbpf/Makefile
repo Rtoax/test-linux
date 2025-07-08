@@ -381,7 +381,7 @@ libbpf_version: ${OUTPUT}libbpf_version.o ${HELPERS}
 ${OUTPUT}config-map.o: ${OUTPUT}config-map.skel.h config-map.h
 config-map: ${OUTPUT}config-map.o ${HELPERS}
 socket_filter: ${OUTPUT}socket_filter.o ${HELPERS}
-${OUTPUT}socket_filter.o: ${OUTPUT}map_array.skel.h
+${OUTPUT}socket_filter.o: ${OUTPUT}map_array.skel.h ${OUTPUT}socket_filter.skel.h
 ${OUTPUT}ring_buffer.o: ${OUTPUT}map_array.skel.h ${OUTPUT}ring_buffer.skel.h
 ring_buffer: ${OUTPUT}ring_buffer.o ${HELPERS}
 tc: ${OUTPUT}tc.o ${HELPERS}

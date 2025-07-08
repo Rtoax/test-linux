@@ -145,4 +145,11 @@ int bpf_prog1(struct __sk_buff *skb)
 	return skb->len;
 }
 
+SEC("socket")
+int bpf_prog2(struct __sk_buff *skb)
+{
+	bpf_printk("socket_filter");
+	return 0;
+}
+
 char __license[] SEC("license") = "GPL";

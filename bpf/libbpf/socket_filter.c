@@ -39,12 +39,14 @@ static volatile bool exiting = false;
 static int map_fd = -1;
 
 const char *interface;
+int prog_idx = 1;
 
 const char argp_prog_doc[] =
-	"USAGE: [-i <interface>]\n";
+	"USAGE: [-i <interface>] [-p <1|2>]\n";
 
 static const struct argp_option opts[] = {
 	{ "interface", 'i', "INTERFACE", 0, "Network interface to attach" },
+	{ "prog", 'p', "PROG", 0, "Set program index" },
 	{},
 };
 
@@ -53,6 +55,13 @@ static error_t parse_arg(int key, char *arg, struct argp_state *state)
 	switch (key) {
 	case 'i':
 		interface = arg;
+		break;
+	case 'p':
+		prog_idx = atoi(arg);
+		if (prog_idx != 1 && prog_idx != 2) {
+			fprintf(stderr, "ERROR: program only support 1,2\n");
+			exit(EXIT_FAILURE);
+		}
 		break;
 	case ARGP_KEY_ARG:
 		argp_usage(state);
@@ -84,6 +93,7 @@ static const char *ipproto_mapping[IPPROTO_MAX] = {
 
 static void sig_handler(int sig)
 {
+	read_trace_pipe_stop();
 	exiting = true;
 }
 
@@ -138,6 +148,7 @@ int main(int argc, char *argv[])
 	int err, sock, prog_fd;
 	struct struct_bpf *skel;
 	struct ring_buffer *rb = NULL;
+	struct bpf_program *prog;
 
 	interface = "lo";
 
@@ -179,12 +190,20 @@ int main(int argc, char *argv[])
 	}
 
 	/* Attach BPF program to raw socket */
-	prog_fd = bpf_program__fd(skel->progs.bpf_prog1);
+	if (prog_idx == 1)
+		prog = skel->progs.bpf_prog1;
+	else if (prog_idx == 2)
+		prog = skel->progs.bpf_prog2;
+
+	prog_fd = bpf_program__fd(prog);
+
 	if (setsockopt(sock, SOL_SOCKET, SO_ATTACH_BPF, &prog_fd, sizeof(prog_fd))) {
 		err = -3;
 		fprintf(stderr, "Failed to attach to raw socket\n");
 		goto cleanup;
 	}
+
+	read_trace_pipe_start();
 
 	/* Process events */
 	while (!exiting) {
@@ -198,10 +217,10 @@ int main(int argc, char *argv[])
 			fprintf(stderr, "Error polling perf buffer: %d\n", err);
 			break;
 		}
-		sleep(1);
 	}
 
 cleanup:
+	read_trace_pipe_wait();
 	ring_buffer__free(rb);
 	_bpf__destroy(skel);
 	return 0;
