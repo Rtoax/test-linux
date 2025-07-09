@@ -15,7 +15,7 @@ bpf_prog_load(bpf_attr) {
     /* aarch64 */
     build_body(jit_ctx) {
       build_insn(insn) {
-        /* BPF_ADD -> x86 add */
+        /* BPF_ADD -> aarch64 add */
       }
     }
   }
