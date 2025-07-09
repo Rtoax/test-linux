@@ -12,12 +12,25 @@ tracepoint:syscalls:sys_enter_clock_gettime
 tracepoint:syscalls:sys_exit_clock_gettime
 / @start[tid] /
 {
-	@latency_ns_clock_gettime[comm] = hist(nsecs - @start[tid]);
-	clear(@start);
+	@latency_ns = hist(nsecs - @start[tid]);
+	delete(@start[tid]);
+}
+
+uprobe:./clock_gettime:sys_clock_gettime
+{
+	@start_user[tid] = nsecs;
+}
+
+uretprobe:./clock_gettime:sys_clock_gettime
+/ @start_user[tid] /
+{
+	@latency_ns_user = hist(nsecs - @start_user[tid]);
+	delete(@start_user[tid]);
 }
 
 END
 {
 	clear(@start);
+	clear(@start_user);
 	printf("Bye.\n");
 }
