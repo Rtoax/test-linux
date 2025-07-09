@@ -1,12 +1,4 @@
 #!/usr/bin/env bpftrace
-/**
- * clock_gettime.bt - get clock_gettime() latency
- *
- * Copyright (C) Rong Tao.
- *
- * 2023-04-06	Rong Tao	Create this.
- * 2024-12-24	Rong Tao	Track gettimeofday().
- */
 
 BEGIN
 {
@@ -23,8 +15,7 @@ uretprobe:libc:gettimeofday,
 uretprobe:libc:clock_gettime
 / @start[tid] /
 {
-	$latency_us = (nsecs - @start[tid]) / 1000;
-	@graph_latency_us[probe] = hist($latency_us);
+	@latency_ns_hist = hist(nsecs - @start[tid]);
 	delete(@start[tid]);
 }
 
