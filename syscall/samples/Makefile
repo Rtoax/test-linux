@@ -85,7 +85,7 @@ TARGETS += uname
 TARGETS += userfaultfd
 TARGETS += symlink
 TARGETS += readdir
-TARGETS += write
+TARGETS += write write-EBADF
 TARGETS += read
 TARGETS += getdents
 TARGETS += getgroups
@@ -186,6 +186,7 @@ sysctl: sysctl.o
 symlink: symlink.o
 readdir: readdir.o
 write: write.o
+write-EBADF: write-EBADF.o
 read: read.o
 getdents: getdents.o
 getgroups: getgroups.o
@@ -209,4 +210,4 @@ ioprio_get: ioprio_get.o
 ioprio_set: ioprio_set.o
 
 clean0:
-	${Q}rm -rf nr.h *.txt testfile
+	${Q}rm -rf nr.h *.txt testfile tmp-*
