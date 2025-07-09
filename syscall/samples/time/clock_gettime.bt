@@ -28,9 +28,22 @@ uretprobe:./clock_gettime:sys_clock_gettime
 	delete(@start_user[tid]);
 }
 
+uprobe:libc:clock_gettime
+{
+	@start_vdso[tid] = nsecs;
+}
+
+uretprobe:libc:clock_gettime
+/ @start_vdso[tid] /
+{
+	@latency_ns_vdso = hist(nsecs - @start_vdso[tid]);
+	delete(@start_vdso[tid]);
+}
+
 END
 {
 	clear(@start);
 	clear(@start_user);
+	clear(@start_vdso);
 	printf("Bye.\n");
 }
