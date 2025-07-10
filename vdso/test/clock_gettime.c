@@ -1,6 +1,6 @@
 /**
  * File: clock_gettime.c
- * Discription: Compare the latency of vDSO, syscall, etc.
+ * Discription: Compare the latency of vDSO, syscall, rdtsc, etc.
  *
  * Author:	Ge Changzhong
  *			Rong Tao (rtoax@foxmail.com)
@@ -41,7 +41,6 @@ uint64_t start_tsc = 0;
 uint64_t tsc_freq = 0;
 struct timespec start_timespec;
 
-/* 读取 TSC */
 static inline uint64_t
 __rdtsc(void)
 {
@@ -54,7 +53,7 @@ __rdtsc(void)
  * 获取程序启动时的 tsc 和 timespec
  * 用来计算 clock_gettime() 的时间
  */
-static  __attribute__((constructor(101)))
+static __attribute__((constructor(101)))
 void ____start_record_tsc_and_freq(void)
 {
 	start_tsc = __rdtsc();
@@ -66,34 +65,25 @@ void ____start_record_tsc_and_freq(void)
 /* see 'vdso/test/dpdk' */
 int rdtsc_clock_gettime(clockid_t clockid, struct timespec *tp)
 {
-	/* 计算程序启动至此接口调用的 tsc 差值 */
 	uint64_t tsc_diff = __rdtsc() - start_tsc;
+
 #if defined(ACCURATE_TO_SEC)
-	/**
-	 * 精确到秒
-	 */
 	uint64_t time_spend_sec = tsc_diff / tsc_freq;
 	
-	/* 给当前之间赋值 */
 	tp->tv_sec = start_timespec.tv_sec + time_spend_sec;
 	tp->tv_nsec = start_timespec.tv_nsec;
 #else
-	/**
-	 * 精确到纳秒
-	 */
 	uint64_t time_spend_nsec = tsc_diff * 1000000000ULL / tsc_freq;
 
 	tp->tv_nsec = start_timespec.tv_nsec + time_spend_nsec;
 
 	tp->tv_sec = start_timespec.tv_sec + tp->tv_nsec / 1000000000ULL;
 	tp->tv_nsec %= 1000000000ULL;
-
 #endif
 	return 0;
 }
 #endif
 
-/* 使用系统调用 */
 int sys_clock_gettime(clockid_t clockid, struct timespec *tp)
 {
 	return syscall(__NR_clock_gettime, clockid, tp);
@@ -195,5 +185,3 @@ int main(int argc, char *argv[])
 
 	return 0;
 }
-
-
