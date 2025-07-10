@@ -36,7 +36,7 @@
 - SDN: Software-defined networking (软件定义网络)
 - slip: Serial line IP (串列线路互联网协议)
 - STP: Spanning Tree Protocol (生成树协议)
-- TCP: Transmission Control Protocol (传输控制协议)
+- TCP: Transmission Control Protocol (传输控制协议, RFC-793)
 - UDP: User Datagram Protocol (用户数据报协议)
 - vDPA: Virtual Data Path Acceleration (虚拟数据路径加速)
 - VoIP: Voice over IP ()
