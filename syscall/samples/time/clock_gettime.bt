@@ -12,7 +12,7 @@ tracepoint:syscalls:sys_enter_clock_gettime
 tracepoint:syscalls:sys_exit_clock_gettime
 / @start[tid] /
 {
-	@latency_ns = hist(nsecs - @start[tid]);
+	@latency_ns_tp = hist(nsecs - @start[tid]);
 	delete(@start[tid]);
 }
 
