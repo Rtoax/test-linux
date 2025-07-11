@@ -5,6 +5,7 @@
 - BMC: Baseboard Management Controller (基板管理控制器)
 - CPLD: Complex Programmable Logic Device (复杂可编程逻辑器件)
 - DMI: Desktop Management Interface (桌面管理接口)
+- ESP: EFI System Partition (EFI系统分区)
 - GRUB: GRand Unified Bootloader (统一引导加载程序)
 - iBMC: Intelligent Baseboard Management System (智能 BMC) @BMC @Huawei
 - IPMI: Intelligent Platform Management Interface (智能平台管理接口) @BMC
