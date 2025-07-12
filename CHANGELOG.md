@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 #### Added
 #### Changed
+- bpf: Move `libbpf/btf_helpers.c` to `btf/`;
 #### Deprecated
 #### Removed
 #### Fixed

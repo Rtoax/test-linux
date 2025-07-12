@@ -186,10 +186,6 @@ obj-bpf.o += sched_act.bpf.o
 TARGETS_BPF := $(addprefix ${OUTPUT},${obj-bpf.o})
 TARGETS_POST := $(patsubst %.bpf.o,%.bpf.disasm,$(TARGETS_BPF))
 
-TARGETS_BTF := btf_ksym
-TARGETS_BTF += btf_kfunc
-TARGETS_BTF += btf_decl_tag
-
 # FIXME: vmlinux.h use macro 'restrict'
 # TODO: linux selftests/bpf is -std=gnu11
 CFLAGS_BPF += -std=gnu89 -Drestrict=
@@ -326,9 +322,6 @@ CFLAGS_BPF_map_hash_of_maps := ${CFLAGS_map_hash_of_maps}
 CFLAGS_BPF_map_ringbuf := -DRING_BUFFER=1 -DMAP_ARRAY=1
 CFLAGS_BPF_map_devmap := ${CFLAGS_BPF_xdp_devmap}
 
-CFLAGS_btf_kfunc := -DTEST_BTF_KIND_FUNC=1
-CFLAGS_btf_decl_tag := -DTEST_BTF_KIND_DECL_TAG=1
-
 CFLAGS_rbtree := -DTEST_RBTREE=1
 CFLAGS_BPF_rbtree := ${CFLAGS_rbtree}
 CFLAGS_rbtree-raw-map := ${CFLAGS_rbtree} -DTEST_RBTREE_RAW_MAP=1
@@ -349,9 +342,8 @@ TASK_HELPERS := ${OUTPUT}task_helpers.o
 TRACE_HELPERS := ${OUTPUT}trace_helpers.o
 LIBBPF_WRAPPER := ${OUTPUT}libbpf_wrapper.o
 LIBXDP_HELPERS := ${OUTPUT}libxdp_helpers.o
-BTF_HELPERS := ${OUTPUT}btf_helpers.o
 
-HELPERS := ${BTF_HELPERS} ${LIBXDP_HELPERS} ${TRACE_HELPERS} \
+HELPERS := ${LIBXDP_HELPERS} ${TRACE_HELPERS} \
 	   ${TASK_HELPERS} ${SOCKET_HELPERS} ${LIBBPF_WRAPPER}
 
 TARGETS += libbpf_version
@@ -371,11 +363,7 @@ ${OUTPUT}trace_helpers.o: trace_helpers.h
 ${OUTPUT}task_helpers.o: task_helpers.h
 ${OUTPUT}libbpf_wrapper.o: libbpf_wrapper.h
 ${OUTPUT}libxdp_helpers.o: libxdp_helpers.h
-${OUTPUT}btf_helpers.o: btf_helpers.h
 
-btf_ksym: ${OUTPUT}btf_ksym.o ${HELPERS}
-btf_kfunc: ${OUTPUT}btf_kfunc.o ${HELPERS}
-btf_decl_tag: ${OUTPUT}btf_decl_tag.o ${HELPERS}
 libbpf_version: ${OUTPUT}libbpf_version.o ${HELPERS}
 
 ${OUTPUT}config-map.o: ${OUTPUT}config-map.skel.h config-map.h

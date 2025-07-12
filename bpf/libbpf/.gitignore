@@ -38,9 +38,6 @@
 /map_percpu_array
 /map_lru_hash
 /map_lru_percpu_hash
-/btf_ksym
-/btf_kfunc
-/btf_decl_tag
 /rbtree
 /rbtree-raw-map
 /spin_lock

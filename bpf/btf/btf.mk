@@ -24,3 +24,11 @@ $(call chk_vmlinux_h)$(shell if [[ "$$(grep -wo '${1}' ${VMLINUX_H})" ]]; then \
 	else echo n; \
 	fi)
 endef
+
+ifneq ($(call vmlinux_has_struct,task_struct),y)
+  $(error Not found task_struct in vmlinux.h: <$(call vmlinux_has_struct,task_struct)>)
+endif
+ifneq ($(call vmlinux_has_sym,task_struct),y)
+  $(error Not found task_struct in vmlinux.h: <$(call vmlinux_has_sym,task_struct)>)
+endif
+
