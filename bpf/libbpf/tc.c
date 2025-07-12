@@ -15,7 +15,6 @@
 #include <unistd.h>
 #include <net/if.h>
 #include <linux/bpf.h>
-#include "btf_helpers.h"
 #include "trace_helpers.h"
 #include "libbpf_wrapper.h"
 #if defined(TEST_SPIN_LOCK)

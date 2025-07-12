@@ -83,8 +83,6 @@ struct {
 #include "spin_lock.h"
 #include "rbtree.h"
 
-#include "btf_helpers.h"
-
 struct node_data {
 	long key;
 	long data;
