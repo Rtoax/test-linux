@@ -81,6 +81,12 @@ const char *btf_kind_name(int kind)
 	abort();
 }
 
+static int get_func_btf(struct btf *btf, const char *func)
+{
+	int btf_id = btf__find_by_name_kind(btf, func, BTF_KIND_FUNC);
+	return btf_id;
+}
+
 static int __btf_has_ksym(const char *ksym, int kind)
 {
 	struct btf *btf;
@@ -107,7 +113,7 @@ static int __btf_has_ksym(const char *ksym, int kind)
 
 	switch (kind) {
 	case BTF_KIND_FUNC:
-		btf_id = btf__find_by_name_kind(btf, ksym, BTF_KIND_FUNC);
+		btf_id = get_func_btf(btf, ksym);
 	case BTF_KIND_DECL_TAG:
 		btf_id = btf__find_by_name_kind(btf, ksym, BTF_KIND_DECL_TAG);
 	case BTF_KIND_UNKN:
