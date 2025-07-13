@@ -2,6 +2,7 @@
 #include <bpf/libbpf.h>
 #include <bpf/bpf.h>
 #include <bpf/btf.h>
+#include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -9,6 +10,7 @@
 
 #include "btf_helpers.h"
 
+#define MAX_ARGS	5
 
 /**
  * linux commit 41ced4cd8802 ("btf: Change BTF_KIND_* macros to enums")
@@ -83,7 +85,25 @@ const char *btf_kind_name(int kind)
 
 static int get_func_btf(struct btf *btf, const char *func)
 {
-	int btf_id = btf__find_by_name_kind(btf, func, BTF_KIND_FUNC);
+	int i, btf_id;
+	const struct btf_type *type;
+	const struct btf_param *param;
+
+	btf_id = btf__find_by_name_kind(btf, func, BTF_KIND_FUNC);
+	if (btf_id <= 0)
+		return -ENOENT;
+	type = btf__type_by_id(btf, btf_id);
+	if (!type || BTF_INFO_KIND(type->info) != BTF_KIND_FUNC)
+		return -ENOENT;
+	type = btf__type_by_id(btf, type->type);
+	if (!type || BTF_INFO_KIND(type->info) != BTF_KIND_FUNC_PROTO)
+		return -EINVAL;
+
+	for (param = (struct btf_param *)(type + 1), i = 0;
+	     i < BTF_INFO_VLEN(type->info) && i < MAX_ARGS;
+	     param++, i++) {
+		printf("%s\n", (char *)btf__str_by_offset(btf, param->name_off));
+	}
 	return btf_id;
 }
 
