@@ -3,6 +3,32 @@
 
 #define SYSFS_VMLINUX	"/sys/kernel/btf/vmlinux"
 
+#define MAX_NAME			96
+#define MAX_STR				256
+#define MAX_VALUES			6
+#define MAX_ARGS			(MAX_VALUES - 1)
+
+struct value {
+	char name[MAX_STR];
+	enum {
+		ARG1, ARG2, ARG3, ARG4, ARG5, RETURN
+	} base_arg;
+	__u32 offset;
+	__u32 size;
+	__u64 type_id;
+	__u64 flags;
+	__u64 predicate_value;
+};
+
+struct func {
+	char name[MAX_NAME];
+	char mod[MAX_NAME];
+	__s32 id;
+	__u8 nr_args;
+	__u64 ip;
+	struct value args[MAX_VALUES];
+};
+
 #if defined(KAPI_NO_BPF_RB_ROOT) && defined(TEST_RBTREE)
 struct bpf_rb_root {
 	__u64 __opaque[2];

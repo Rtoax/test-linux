@@ -10,7 +10,6 @@
 
 #include "btf_helpers.h"
 
-#define MAX_ARGS	5
 
 /**
  * linux commit 41ced4cd8802 ("btf: Change BTF_KIND_* macros to enums")
@@ -83,13 +82,45 @@ const char *btf_kind_name(int kind)
 	abort();
 }
 
-static int get_func_btf(struct btf *btf, const char *func)
+static void type_to_value(struct btf *btf, char *name, __u32 type_id,
+			  struct value *val)
+{
+	const struct btf_type *type;
+	__s32 id = type_id;
+
+	if (name)
+		strncpy(val->name, name, sizeof(val->name) - 1);
+	else
+		val->name[0] = '\0';
+
+	do {
+		type = btf__type_by_id(btf, id);
+		switch (BTF_INFO_KIND(type->info)) {
+		case BTF_KIND_CONST:
+		case BTF_KIND_VOLATILE:
+		case BTF_KIND_RESTRICT:
+		case BTF_KIND_PTR:
+			id = type->type;
+			break;
+		default:
+			/* FIXME: set id */
+			val->type_id = id;
+			goto done;
+		}
+	} while (id >= 0);
+
+done:
+	val->size = btf__resolve_size(btf, val->type_id);
+}
+
+static int get_func_btf(struct btf *btf, const char *name)
 {
 	int i, btf_id;
 	const struct btf_type *type;
 	const struct btf_param *param;
+	struct func func;
 
-	btf_id = btf__find_by_name_kind(btf, func, BTF_KIND_FUNC);
+	btf_id = btf__find_by_name_kind(btf, name, BTF_KIND_FUNC);
 	if (btf_id <= 0)
 		return -ENOENT;
 	type = btf__type_by_id(btf, btf_id);
@@ -102,8 +133,15 @@ static int get_func_btf(struct btf *btf, const char *func)
 	for (param = (struct btf_param *)(type + 1), i = 0;
 	     i < BTF_INFO_VLEN(type->info) && i < MAX_ARGS;
 	     param++, i++) {
+		type_to_value(btf,
+			      (char *)btf__str_by_offset(btf, param->name_off),
+			      param->type, &func.args[i]);
 		printf("%s\n", (char *)btf__str_by_offset(btf, param->name_off));
 	}
+
+	func.nr_args = BTF_INFO_VLEN(type->info);
+
+	type_to_value(btf, "return", type->type, &func.args[RETURN]);
 	return btf_id;
 }
 
