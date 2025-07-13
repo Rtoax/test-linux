@@ -129,8 +129,10 @@ static char *type_id_to_str(struct btf *btf, __s32 type_id, char *str)
 	switch (type_id) {
 	case 0:
 		name = "void";
+		break;
 	case ID_UNKNOWN:
 		name = "?";
+		break;
 	default:
 		do {
 			type = btf__type_by_id(btf, type_id);
