@@ -1,3 +1,7 @@
+void func0(void)
+{
+}
+
 /**
  * Test parameters pass
  */
@@ -31,7 +35,7 @@ int a, b, c, d, e, f, g, h;
 	return a + b + c + d + e + f + g + h;
 }
 
-void func0(void)
+void func4_float(int i1, float f1, int i2)
 {
 }
 
@@ -48,7 +52,11 @@ int main(void)
 	g = 7;
 	h = 8;
 
+	func0();
 	func1(a, b, c);
 	func2(a, b, c, d, e, f);
 	func3(a, b, c, d, e, f, g, h);
+	func4_float(a, 0.1, b);
+
+	return 0;
 }
