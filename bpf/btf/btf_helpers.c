@@ -100,6 +100,7 @@ static void type_to_value(struct btf *btf, char *name, __u32 type_id,
 		case BTF_KIND_VOLATILE:
 		case BTF_KIND_RESTRICT:
 		case BTF_KIND_PTR:
+			val->flags |= F_PTR;
 			id = type->type;
 			break;
 		default:
@@ -109,8 +110,81 @@ static void type_to_value(struct btf *btf, char *name, __u32 type_id,
 		}
 	} while (id >= 0);
 
+	val->type_id = ID_UNKNOWN;
+
 done:
 	val->size = btf__resolve_size(btf, val->type_id);
+}
+
+static char *type_id_to_str(struct btf *btf, __s32 type_id, char *str)
+{
+	const struct btf_type *type;
+	const char *name = "";
+	char *prefix = "";
+	char *suffix = " ";
+	char *ptr = "";
+
+	str[0] = '\0';
+
+	switch (type_id) {
+	case 0:
+		name = "void";
+	case ID_UNKNOWN:
+		name = "?";
+	default:
+		do {
+			type = btf__type_by_id(btf, type_id);
+			if (!type) {
+				name = "?";
+				break;
+			}
+
+			switch (BTF_INFO_KIND(type->info)) {
+			case BTF_KIND_CONST:
+			case BTF_KIND_VOLATILE:
+			case BTF_KIND_RESTRICT:
+				type_id = type->type;
+				break;
+			case BTF_KIND_PTR:
+				ptr = "* ";
+				type_id = type->type;
+				break;
+			case BTF_KIND_ARRAY:
+				suffix = "[]";
+				type_id = type->type;
+				break;
+			case BTF_KIND_STRUCT:
+				prefix = "struct ";
+				name = btf__str_by_offset(btf, type->name_off);
+				break;
+			case BTF_KIND_UNION:
+				prefix = "union ";
+				name = btf__str_by_offset(btf, type->name_off);
+				break;
+			case BTF_KIND_ENUM:
+				prefix = "enum ";
+				name = btf__str_by_offset(btf, type->name_off);
+				break;
+			case BTF_KIND_TYPEDEF:
+			default:
+				name = btf__str_by_offset(btf, type->name_off);
+				break;
+			}
+		} while (type_id >= 0 && strlen(name) == 0);
+		break;
+	}
+	snprintf(str, MAX_STR, "%s%s%s%s", prefix, name, suffix, ptr);
+	return str;
+}
+
+static char *value_to_str(struct btf *btf, struct value *val, char *str)
+{
+	str = type_id_to_str(btf, val->type_id, str);
+	if (val->flags & F_PTR)
+		strncat(str, "*", MAX_STR);
+	if (strlen(val->name) > 0 && strcmp(val->name, "return") != 0)
+		strncat(str, val->name, MAX_STR);
+	return str;
 }
 
 static int get_func_btf(struct btf *btf, const char *name)
@@ -119,6 +193,9 @@ static int get_func_btf(struct btf *btf, const char *name)
 	const struct btf_type *type;
 	const struct btf_param *param;
 	struct func func;
+	char str[MAX_STR];
+
+	snprintf(func.name, MAX_NAME, "%s", name);
 
 	btf_id = btf__find_by_name_kind(btf, name, BTF_KIND_FUNC);
 	if (btf_id <= 0)
@@ -136,12 +213,23 @@ static int get_func_btf(struct btf *btf, const char *name)
 		type_to_value(btf,
 			      (char *)btf__str_by_offset(btf, param->name_off),
 			      param->type, &func.args[i]);
-		printf("%s\n", (char *)btf__str_by_offset(btf, param->name_off));
 	}
 
 	func.nr_args = BTF_INFO_VLEN(type->info);
 
 	type_to_value(btf, "return", type->type, &func.args[RETURN]);
+
+	/* print function */
+	printf("%s%s(", value_to_str(btf, &func.args[RETURN], str), func.name);
+	for (i = 0; i < func.nr_args; i++) {
+		if (i > 0)
+			printf(", ");
+		printf("%s", value_to_str(btf, &func.args[i], str));
+	}
+	if (func.nr_args > MAX_ARGS)
+		printf("/* and %d more args that are not traceable */",
+			func.nr_args - MAX_ARGS);
+	printf(");\n");
 	return btf_id;
 }
 

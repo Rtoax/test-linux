@@ -7,6 +7,14 @@
 #define MAX_STR				256
 #define MAX_VALUES			6
 #define MAX_ARGS			(MAX_VALUES - 1)
+#define F_PTR				0x1	/* value is a pointer */
+
+/**
+ * if we can't get a type id for a type (such as module-specific type)
+ * mark it as KSNOOP_ID_UNKNOWN since BTF lookup in bpf_snprintf_btf()
+ * will fail and the data will be simply displayed as a __u64.
+ */
+#define ID_UNKNOWN			0xffffffff
 
 struct value {
 	char name[MAX_STR];
