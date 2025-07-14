@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- dnf: add cuda rhel9 yum repo;
 #### Changed
 - bpf: Move `libbpf/btf_helpers.c` to `btf/`;
 #### Deprecated
