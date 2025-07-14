@@ -102,6 +102,8 @@ install: uninstall
 	${Q}sudo ln -s ${TL_TOPDIR}/scripts/git/bigfile.sh /usr/bin/git-bigfile
 	${Q}sudo ln -s ${TL_TOPDIR}/scripts/git/statistic.sh /usr/bin/git-statistic
 	${Q}sudo ln -s ${TL_TOPDIR}/scripts/git/statistic.py /usr/bin/git-statistic.py
+	${Q}sudo ln -s ${TL_TOPDIR}/scripts/git/push-remote-all.sh /usr/bin/git-push-remote-all
+	${Q}sudo ln -s ${TL_TOPDIR}/scripts/git/push-remote-all.sh /usr/bin/git-push-remote-all-tags
 	${Q}sudo ln -s ${TL_TOPDIR}/scripts/patchset.sh /usr/bin/patchset
 
 .PHONY: uninstall
@@ -110,6 +112,8 @@ uninstall:
 	${Q}sudo rm -f /usr/bin/git-bigfile \
 		/usr/bin/git-statistic \
 		/usr/bin/git-statistic.py \
+		/usr/bin/git-push-remote-all \
+		/usr/bin/git-push-remote-all-tags \
 		/usr/bin/patchset
 
 .PHONY: docker
