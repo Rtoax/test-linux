@@ -11,7 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
-- git: add push-remote-all.sh from ostools;
+- git: add push-remote-all.sh, rm-permanent.sh from ostools;
 - dnf: add cuda rhel9 yum repo;
 #### Changed
 - bpf: Move `libbpf/btf_helpers.c` to `btf/`;
