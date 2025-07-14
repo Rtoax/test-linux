@@ -13,8 +13,13 @@ git_topdir=$(git rev-parse --show-toplevel 2>/dev/null || {
 
 __usage__() {
 	echo "
-git-rm-permanent [--dry-run] <[-f file], ...>
+NAME
+  git-rm-permanent - Remove files from git repo permanently
 
+SYNOPSIS
+  git-rm-permanent [--dry-run] <[-f file], ...>
+
+ARGUMENTS
   -f, --file [file]    specify remove file (may be listed multiple times)
   --dry-run            only dump command not execute
 
