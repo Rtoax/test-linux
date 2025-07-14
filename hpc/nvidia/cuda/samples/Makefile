@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
-TARGETS_CUDA := hello
+TARGETS_NVCC := hello
 
 include ../../../../template/main.mk
 

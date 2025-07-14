@@ -8,6 +8,6 @@ endif
 	$(call log_tgt_obj,NVCC,$(<),$(@))
 	${Q}$(NVCC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
 
-$(TARGETS_CUDA): %:
+$(TARGETS_NVCC): %:
 	$(call log_tgt_exe,NVCC LD,$(<),$(@))
 	${Q}$(NVCC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*))
