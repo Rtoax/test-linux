@@ -1,5 +1,6 @@
 - ABI: Application Binary Interface (应用程序二进制接口) @API
 - API: Application Programming Interface (应用程序接口) @ABI
+- BE: big-endian (大端字节序) @LE
 - BSD: Berkeley Software Distribution (伯克利软件分发)
 - CLA: Contributor License Agreement () @DCO
 - CLI: Command Line Interface (命令行接口)
@@ -24,12 +25,15 @@
 - KRR: Kernel Record and Replay (内核记录重演)
 - KSPP: Kernel Self-Protection Project ()
 - LaTeX: Lamport TeX (一种文档准备系统，广泛应用于学术界) @TeX
+- LE: little-endian (小短字节序) @BE
 - LKFT: Linux Kernel Functional Testing (Linux 内核功能测试)
 - LKM: Linux Kernel Module (内核模块)
 - LKML: Linux Kernel Mail List (Linux邮件列表)
+- LSb: Least Significant bit (最低有效位,小字节序优先) @MSb
 - LTTng: Linux Trace Toolkit Next Generation (Linux跟踪工具集ng)
 - LWN: Linux Weekly News (Linux 每日新闻)
 - LXC: Linux Containers (Linux容器)
+- MSb: Most Significant bit (最高有效位) @LSb
 - NDAs: Non-Disclosure Agreements (保密协议)
 - NIST: National Institute of Standard and Technology (美国国家标准与技术研究所)
 - NPTL: Native POSIX Threads Library (原生 POSIX 线程库) @POSIX
