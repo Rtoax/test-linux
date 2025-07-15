@@ -6,6 +6,7 @@
 #include <linux/in.h>
 #include <net/if.h>
 #include <signal.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <string.h>
 #include <sys/resource.h>
