@@ -2,4 +2,5 @@
 - DNN: Deep Neural Network (深度神经网络)
 - LLM: Large Language Model (大语言模型)
 - ONNX: Open Neural Network Exchange (开放神经网络交换)
+- sGPU: Sliced GPU (GPU切片)
 - Tensor: (张量，是一种特殊的数据结构)
