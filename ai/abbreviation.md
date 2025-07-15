@@ -1,5 +1,6 @@
 - BLAS: Basic Linear Algebra Subprograms (基本线性代数子程序)
 - DNN: Deep Neural Network (深度神经网络)
+- Grid: (线程网格)
 - LLM: Large Language Model (大语言模型)
 - ONNX: Open Neural Network Exchange (开放神经网络交换)
 - sGPU: Sliced GPU (GPU切片)
