@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- compiler: Introduce OpenACC directory;
 - ai: Introduce AI directory;
 - git: add push-remote-all.sh, rm-permanent.sh from ostools;
 - dnf: add cuda rhel9 yum repo;

@@ -13,6 +13,7 @@ sub-dir += __builtin_
 sub-dir += dwarf
 sub-dir += foption option
 sub-dir += machine-option
+sub-dir += openacc
 sub-dir += openmp
 sub-dir += optimize
 sub-dir += pragma

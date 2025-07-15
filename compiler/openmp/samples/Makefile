@@ -58,17 +58,9 @@ TARGETS += omp_get_thread_limit
 TARGETS += omp_get_team_size
 TARGETS += omp_get_wtick
 
-CC := gcc
-
-CFLAGS :=
-CFLAGS += -fopenmp
+CFLAGS :=  -fopenmp
 CFLAGS += -Wno-error=unused-variable
-
-ifdef DEBUG
-  CFLAGS += -g -ggdb -O0
-endif
-
-LDFLAGS += ${CFLAGS}
+LDFLAGS := -fopenmp
 
 include ../../../template/main.mk
 
