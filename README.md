@@ -81,8 +81,8 @@ CONFIG_LOCKUP_DETECTOR
 - Syntax: `NAME[,ALIAS1,ALIAS2]: English shotcut (Chinese shotcut) @RELATE1 @RELATE2`
 
 ```
-- AB: A Ball (一个球[, RFC])
-- ABC[,ALIAS1,ALIAS2]: A Ball Circle (一个球圈[, RFC]) @AB
+- AB: A Ball (一个球[, RFC|IEEE])
+- ABC[,ALIAS1,ALIAS2]: A Ball Circle (一个球圈[, RFC|IEEE]) @AB
 ```
 
 
