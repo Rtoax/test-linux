@@ -1,9 +1,12 @@
 - ASPM: Active State Power Management (激活状态电源管理) @PCIe
 - MMIO: Memory Mapping I/O (内存映射I/O) @PIO
+- PCBA: PCBA (PCB 空板经过 SMT 贴片加工或 DIP 插件的成品电路板)
 - PCI: Peripheral Component Interconnect (外围组件互联) @PCIe
 - PCIe: PCI-Express () @PCI
 - PCIe ACS: Access Control Services
 - PCIe AER: Advanced Error Reporting
 - PCIe BAR: Base Address Register (基址寄存器)
+- PEC: Packet Error Code (Packet Error Code) @PCIe
 - PIO: Port I/O (端口IO) @MMIO
 - PPB: PCI-to-PCI Bridge (PCI到PCI桥)
+- SMBus: System Management Bus (系统管理总线)

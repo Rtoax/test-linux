@@ -29,7 +29,7 @@
 - LKFT: Linux Kernel Functional Testing (Linux 内核功能测试)
 - LKM: Linux Kernel Module (内核模块)
 - LKML: Linux Kernel Mail List (Linux邮件列表)
-- LSb: Least Significant bit (最低有效位,小字节序优先) @MSb
+- LSb: Least Significant bit (最低有效位,二进制数字中的第0位) @MSb
 - LTTng: Linux Trace Toolkit Next Generation (Linux跟踪工具集ng)
 - LWN: Linux Weekly News (Linux 每日新闻)
 - LXC: Linux Containers (Linux容器)
