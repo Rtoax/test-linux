@@ -1,2 +1,5 @@
 - BLAS: Basic Linear Algebra Subprograms (基本线性代数子程序)
 - DNN: Deep Neural Network (深度神经网络)
+- LLM: Large Language Model (大语言模型)
+- ONNX: Open Neural Network Exchange (开放神经网络交换)
+- Tensor: (张量，是一种特殊的数据结构)
