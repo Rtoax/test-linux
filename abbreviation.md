@@ -49,6 +49,7 @@
 - RFC: Request For Comments (征求意见稿)
 - RTLA: Real-time Linux Analysis tool (实时分析工具)
 - SMT: Satisfiability Modulo Theories (基于模理论的可满足性)
+- STL: Standard Template Library (标准模板库，C++模板库)
 - SVR1: System V Release 1
 - SVR2: System V Release 2
 - SVR3: System V Release 3
