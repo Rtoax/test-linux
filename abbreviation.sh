@@ -6,7 +6,7 @@ word=
 __usage__() {
 	echo -e "
 Usage:
-
+-w, --word         match the whole word
 -h, --help         show this help information
 "
 	exit ${1-0}
