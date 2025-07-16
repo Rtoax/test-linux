@@ -1,1 +1,2 @@
 - HPC: High Performance Compute (高性能计算)
+- OpenCL: Open Computing Language (开放计算语言)
