@@ -4,7 +4,12 @@
 
 int main(void)
 {
-	int num = acc_get_num_devices(acc_device_default);
-	printf("num = %d\n", num);
+#define NUM(v)	printf("%s = %d\n", #v, acc_get_num_devices(v));
+	NUM(acc_device_default);
+	NUM(acc_device_host);
+	NUM(acc_device_not_host);
+	NUM(acc_device_nvidia);
+	NUM(acc_device_radeon);
+#undef NUM
 	return 0;
 }
