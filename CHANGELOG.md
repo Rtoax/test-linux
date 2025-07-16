@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- cuda: add driver-version.c from ostools;
 - compiler: Introduce OpenACC directory;
 - ai: Introduce AI directory;
 - git: add push-remote-all.sh, rm-permanent.sh from ostools;
