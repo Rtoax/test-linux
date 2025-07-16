@@ -1,2 +1,4 @@
 - HPC: High Performance Compute (高性能计算)
 - OpenCL: Open Computing Language (开放计算语言)
+- PTX: Parallel Thread eXecution (并行线程执行)
+- SASS: Streaming ASSembly (原生机器码指令集)
