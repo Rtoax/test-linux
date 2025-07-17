@@ -3,7 +3,10 @@
  */
 
 #include <stdio.h>
-
+/**
+ * Actually, nvcc will add -include cuda_runtime.h during compile, thus, we
+ * don't need this include line
+ */
 #include <cuda_runtime.h>
 
 
