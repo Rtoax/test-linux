@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- hpc: add metax/ directory;
 - cuda: add driver-version.c from ostools;
 - compiler: Introduce OpenACC directory;
 - ai: Introduce AI directory;
