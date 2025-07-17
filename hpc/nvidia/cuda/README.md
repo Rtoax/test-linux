@@ -21,4 +21,4 @@ $ sudo dnf install cuda-toolkit-12-9
 # Links
 
 - https://developer.nvidia.com/cuda-downloads
-
+- https://developer.download.nvidia.cn/compute/cuda/repos/rhel9/x86_64/

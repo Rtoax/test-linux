@@ -1,10 +1,10 @@
 # SPDX-License-Identifier: GPL-3.0
-SHELL = bash
+FILE := /etc/os-release
 
-ifeq ($(wildcard /etc/os-release),)
-  $(error ERROR: /etc/os-release is not exist)
+ifeq ($(wildcard ${FILE}),)
+  $(error ERROR: ${FILE} is not exist)
 else
-  $(info INFO: Found /etc/os-release)
+  $(info INFO: Found ${FILE})
 endif
 
 .PHONY: build
