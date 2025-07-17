@@ -1,3 +1,7 @@
+/**
+ * elf sections of cuda: commit bd1c08a6a95f ("cuda: hello.c: see elf sections")
+ */
+
 #include <stdio.h>
 
 #include <cuda_runtime.h>
