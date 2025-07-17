@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
-TARGETS_MXCC := hello
+TARGETS_HTCC := hello
 
 include ../../../template/main.mk
 
-hello: hello.maca.o
+hello: hello.hpcc.o

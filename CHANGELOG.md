@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- metax: add ht-envs.sh to set ENVs of hpcc;
 - hpc: add metax/ directory;
 - cuda: add driver-version.c from ostools;
 - compiler: Introduce OpenACC directory;

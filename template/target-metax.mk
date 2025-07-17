@@ -2,27 +2,22 @@
 # https://www.metax-tech.com/
 
 MXCC := $(shell which mxcc 2>/dev/null)
-MXLD := ??
-
-HPCC_232 := /opt/hpcc-2.32.0/htgpu_llvm/bin/
+HTCC := $(shell which htcc 2>/dev/null)
 
 ifeq ($(MXCC),)
-  ifneq ($(wildcard ${HPCC_232}),)
-    MXCC := ${HPCC_232}/htcc
-    MXLD := ${HPCC_232}/ld.lld
+  ifneq ($(TARGETS_MXCC),)
+    $(error Not found mxcc, install MetaX Toolkit first)
   endif
 endif
-
-ifeq ($(MXCC),)
-  $(error Not found mxcc, install MetaX Toolkit first)
-endif
-ifeq ($(MXLD),)
-  MXLD := MXCC
+ifeq ($(HTCC),)
+  ifneq ($(TARGETS_HTCC),)
+    $(error Not found htcc, install MetaX hpcc first)
+  endif
 endif
 
 ifdef DEBUG
   $(info MXCC = ${MXCC})
-  $(info MXLD = ${MXLD})
+  $(info HTCC = ${HTCC})
 endif
 
 %.maca.o: %.maca
@@ -31,4 +26,12 @@ endif
 
 $(TARGETS_MXCC): %:
 	$(call log_tgt_exe,MXCC LD,$(<),$(@))
-	${Q}$(MXLD) -o $(@) $(^) $(LDFLAGS_MXCC) $(LDFLAGS_MXCC_$(*))
+	${Q}$(MXCC) -o $(@) $(^) $(LDFLAGS_MXCC) $(LDFLAGS_MXCC_$(*))
+
+%.hpcc.o: %.hpcc
+	$(call log_tgt_obj,HTCC,$(<),$(@))
+	${Q}$(HTCC) -o $(@) -c $(<) $(CFLAGS_HTCC) $(CFLAGS_HTCC_$(*))
+
+$(TARGETS_HTCC): %:
+	$(call log_tgt_exe,HTCC LD,$(<),$(@))
+	${Q}$(HTCC) -o $(@) $(^) $(LDFLAGS_HTCC) $(LDFLAGS_HTCC_$(*))

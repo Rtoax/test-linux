@@ -101,7 +101,7 @@ build-targets += $(TARGETS_LLVM_LL)
 build-targets += $(TARGETS_BPF)
 build-targets += $(TARGETS_RUST)
 build-targets += $(TARGETS_NVCC)
-build-targets += $(TARGETS_MXCC)
+build-targets += $(TARGETS_MXCC) $(TARGETS_HTCC)
 build-targets += $(TARGETS_GO)
 build-targets += $(TARGETS_JAVA)
 TARGETS_SHELL_LOGS := $(patsubst %.sh,%.sh.log,$(TARGETS_SHELL))
@@ -151,7 +151,7 @@ endif
 ifneq ($(TARGETS_NVCC),)
   include ${TEMPLATE_DIR}/target-cuda.mk
 endif
-ifneq ($(TARGETS_MXCC),)
+ifneq ($(TARGETS_MXCC)$(TARGETS_HTCC),)
   include ${TEMPLATE_DIR}/target-metax.mk
 endif
 ifneq ($(TARGETS_SHELL),)
