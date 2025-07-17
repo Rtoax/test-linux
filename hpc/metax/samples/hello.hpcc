@@ -1,5 +1,5 @@
 /**
- *
+ * elf sections of metax: commit 047883bd3538 ("metax: hello.hpcc: ELF section info")
  */
 #include <stdio.h>
 #include <hc_runtime.h>
