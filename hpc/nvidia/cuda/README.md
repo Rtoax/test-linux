@@ -9,10 +9,12 @@ CUDA™是一种由NVIDIA推出的通用并行计算架构，该架构使GPU能�
 
 # Requirements
 
-## ubuntu
+```
+$ sudo apt install nvidia-cuda-toolkit-gcc nvidia-cuda-toolkit
+```
 
 ```
-sudo apt install nvidia-cuda-toolkit-gcc nvidia-cuda-toolkit
+$ sudo dnf install cuda-toolkit-12-9
 ```
 
 
