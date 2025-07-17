@@ -12,24 +12,21 @@ ifeq ($(wildcard $(NVCC)),)
   $(error Not found nvcc, install cuda first)
 endif
 
-# Fix errors, those cflags added in main.mk
-# nvcc fatal   : Value '-Wall' is not defined for option 'Werror'
-# nvcc fatal   : Unknown option '-Wall'
-# nvcc fatal   : Unknown option '-Wstrict-prototypes'
-CFLAGS := $(patsubst -Wall,,${CFLAGS})
-CFLAGS := $(patsubst -Werror,,${CFLAGS})
-CFLAGS := $(patsubst -Wstrict-prototypes,,${CFLAGS})
-LDFLAGS := $(patsubst -Wall,,${LDFLAGS})
-LDFLAGS := $(patsubst -Werror,,${LDFLAGS})
-
 ifdef DEBUG
   $(info NVCC = ${NVCC})
+  $(info CFLAGS_NVCC = ${CFLAGS_NVCC})
+  $(info LDFLAGS_NVCC = ${LDFLAGS_NVCC})
 endif
+
+# NOTE: NVCC's cflags,ldflags is totally different from gcc/clang, thus, we
+# don't use CFLAGS and LDFLAGS.
+CFLAGS :=
+LDFLAGS :=
 
 %.cu.o: %.cu
 	$(call log_tgt_obj,NVCC,$(<),$(@))
-	${Q}$(NVCC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
+	${Q}$(NVCC) -o $(@) -c $(<) $(CFLAGS_NVCC) $(CFLAGS_NVCC_$(*))
 
 $(TARGETS_NVCC): %:
 	$(call log_tgt_exe,NVCC LD,$(<),$(@))
-	${Q}$(NVCC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*))
+	${Q}$(NVCC) -o $(@) $(^) $(LDFLAGS_NVCC) $(LDFLAGS_NVCC_$(*))
