@@ -13,15 +13,19 @@ ifeq ($(MXCC),)
   endif
 endif
 
-ifeq ($(wildcard $(MXCC)),)
+ifeq ($(MXCC),)
   $(error Not found mxcc, install MetaX Toolkit first)
+endif
+ifeq ($(MXLD),)
+  MXLD := MXCC
 endif
 
 ifdef DEBUG
   $(info MXCC = ${MXCC})
+  $(info MXLD = ${MXLD})
 endif
 
-%.maca.o: %.c
+%.maca.o: %.maca
 	$(call log_tgt_obj,MXCC,$(<),$(@))
 	${Q}$(MXCC) -o $(@) -c $(<) $(CFLAGS_MXCC) $(CFLAGS_MXCC_$(*))
 
