@@ -1,8 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
-SHELL = bash
-
-SRCROOT = $(shell pwd)
-DEPROOT = $(shell pwd)/.deps
+SRCROOT := $(shell pwd)
+DEPROOT := $(shell pwd)/.deps
 
 SRCS := ${SRCROOT}/module1/obj-a.c
 SRCS += ${SRCROOT}/module1/obj-b.c
