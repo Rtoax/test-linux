@@ -1,4 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
+OUTPUT := .output/
+
 TARGETS_HTCC := hello
 TARGETS_HTCC += parallel
 TARGETS_HTCC += hcclGetVersion
@@ -7,6 +9,6 @@ LDFLAGS_HTCC := -lhccl
 
 include ../../../template/main.mk
 
-hello: hello.hpcc.o
-parallel: parallel.hpcc.o
-hcclGetVersion: hcclGetVersion.hpcc.o
+hello: ${OUTPUT}hello.hpcc.o
+parallel: ${OUTPUT}parallel.hpcc.o
+hcclGetVersion: ${OUTPUT}hcclGetVersion.hpcc.o
