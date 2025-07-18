@@ -1,3 +1,4 @@
+#include <argp.h>
 #include <stdio.h>
 #include <string.h>
 #include <malloc.h>
@@ -5,6 +6,53 @@
 #include <hc_runtime.h>
 #endif
 #include "hpcc_helpers.h"
+
+int verbose = false;
+int m_num = 3;
+int n_num = 2;
+unsigned long nloop = 1;
+
+const char argp_prog_doc[] =
+	"USAGE: [-m <NUM>] [-n <NUM>] [--nloop|-N <NUM>] [-v]\n";
+
+static const struct argp_option opts[] = {
+	{ "m-num", 'm', "M_NUM", 0, "Matrix M number" },
+	{ "n-num", 'n', "N_NUM", 0, "Matrix N number" },
+	{ "nloop", 'N', "NLOOP", 0, "Test loop number" },
+	{ "verbose", 'v', NULL, 1, "Display detail" },
+	{},
+};
+
+static error_t parse_arg(int key, char *arg, struct argp_state *state)
+{
+	switch (key) {
+	case 'm':
+		m_num = strtoul(arg, NULL, 10);
+		break;
+	case 'n':
+		n_num = strtoul(arg, NULL, 10);
+		break;
+	case 'N':
+		nloop = strtoul(arg, NULL, 10);
+		break;
+	case 'v':
+		verbose = true;
+		break;
+	case ARGP_KEY_ARG:
+		break;
+	case ARGP_KEY_END:
+		break;
+	default:
+		return ARGP_ERR_UNKNOWN;
+	}
+	return 0;
+}
+
+static const struct argp argp = {
+	.options = opts,
+	.parser = parse_arg,
+	.doc = argp_prog_doc,
+};
 
 /**
  * A[mn] * B[nm] = C[nn]
@@ -57,18 +105,24 @@ void print_matrix(float *p, int n)
 	printf("\n");
 }
 
-int main(void)
+int main(int argc, char *argv[])
 {
-	unsigned long nloop, iloop;
-	int m, n;
+	unsigned long iloop;
+	int m, n, err;
 	float *A, *B, *C, *host_A, *host_B, *host_C;
+
+	err = argp_parse(&argp, argc, argv, 0, NULL, NULL);
+	if (err) {
+		fprintf(stderr, "argp_parse return %d\n", err);
+		return -err;
+	}
+
+	printf("M = %d, N = %d, NLOOP = %ld\n", m_num, n_num, nloop);
 
 	hc_init(0);
 
-	m = 3;
-	n = 2;
-
-	nloop = 10000;
+	m = m_num;
+	n = n_num;
 
 	host_A = (float *)malloc(sizeof(float) * m * n);
 	host_B = (float *)malloc(sizeof(float) * m * n);
@@ -78,8 +132,10 @@ int main(void)
 	init_matrix(host_B, m * n, false);
 	init_matrix(host_C, n * n, true);
 
-	print_matrix(host_A, m * n);
-	print_matrix(host_B, m * n);
+	if (verbose) {
+		print_matrix(host_A, m * n);
+		print_matrix(host_B, m * n);
+	}
 
 	hcMalloc(&A, sizeof(float) * m * n);
 	hcMalloc(&B, sizeof(float) * m * n);
@@ -98,7 +154,8 @@ int main(void)
 
 	hcMemcpy(host_C, C, sizeof(float) * n * n, hcMemcpyDeviceToHost);
 
-	print_matrix(host_C, n * n);
+	if (verbose)
+		print_matrix(host_C, n * n);
 
 	hcFree(A);
 	hcFree(B);
