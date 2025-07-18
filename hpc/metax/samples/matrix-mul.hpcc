@@ -1,9 +1,14 @@
 #include <argp.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 #include <malloc.h>
 #ifdef HAVE_HCCL
 #include <hc_runtime.h>
+#define __gpu_global__	__global__
+#else
+#define __gpu_global__
 #endif
 #include "hpcc_helpers.h"
 
@@ -66,14 +71,18 @@ static const struct argp argp = {
  * └       ┘   │ 5 6 │   └       ┘
  *             └     ┘
  */
-__global__ void matrix_mul(float *A, float *B, float *C, int m, int n)
+__gpu_global__ void matrix_mul(float *A, float *B, float *C, int m, int n)
 {
 	int ia, ib, ic, icx, icy, im;
 
+#ifdef HAVE_HCCL
 	ic = threadIdx.x + blockDim.x * blockIdx.x;
 	if (ic >= n * n)
 		return;
-
+#else
+	for (ic = 0; ic < n * n; ic++)
+#endif
+	{
 	icx = ic % n;
 	icy = ic / n;
 
@@ -83,6 +92,7 @@ __global__ void matrix_mul(float *A, float *B, float *C, int m, int n)
 		ia = icy * m + im;
 		ib = im * n + icx;
 		C[ic] += A[ia] * B[ib];
+	}
 	}
 }
 
@@ -109,7 +119,10 @@ int main(int argc, char *argv[])
 {
 	unsigned long iloop;
 	int m, n, err;
-	float *A, *B, *C, *host_A, *host_B, *host_C;
+#ifdef HAVE_HCCL
+	float *A, *B, *C;
+#endif
+	float *host_A, *host_B, *host_C;
 
 	err = argp_parse(&argp, argc, argv, 0, NULL, NULL);
 	if (err) {
@@ -137,6 +150,7 @@ int main(int argc, char *argv[])
 		print_matrix(host_B, m * n);
 	}
 
+#ifdef HAVE_HCCL
 	hcMalloc(&A, sizeof(float) * m * n);
 	hcMalloc(&B, sizeof(float) * m * n);
 	hcMalloc(&C, sizeof(float) * n * n);
@@ -147,19 +161,28 @@ int main(int argc, char *argv[])
 
 	hcMemcpy(A, host_A, sizeof(float) * m * n, hcMemcpyHostToDevice);
 	hcMemcpy(B, host_B, sizeof(float) * m * n, hcMemcpyHostToDevice);
+#endif
 
 	/* Stress test */
 	for (iloop = 0; iloop < nloop; iloop++)
+#ifdef HAVE_HCCL
 		matrix_mul<<<(n * n + 511) / 512, 512>>>(A, B, C, m, n);
+#else
+		matrix_mul(host_A, host_B, host_C, m, n);
+#endif
 
+#ifdef HAVE_HCCL
 	hcMemcpy(host_C, C, sizeof(float) * n * n, hcMemcpyDeviceToHost);
+#endif
 
 	if (verbose)
 		print_matrix(host_C, n * n);
 
+#ifdef HAVE_HCCL
 	hcFree(A);
 	hcFree(B);
 	hcFree(C);
+#endif
 	free(host_A);
 	free(host_B);
 	free(host_C);
