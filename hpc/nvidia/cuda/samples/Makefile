@@ -6,6 +6,8 @@ TARGETS_NVCC += parallel
 TARGETS_NVCC += cudaMalloc
 TARGETS_NVCC += matrix-mul
 
+TARGETS := matrix-mul-c
+
 CFLAGS_NVCC := -DHAVE_CUDA=1
 CFLAGS_NVCC += -Wno-deprecated-gpu-targets
 LDFLAGS_NVCC := -Wno-deprecated-gpu-targets
@@ -20,3 +22,4 @@ hello: ${OUTPUT}hello.cu.o ${CUDA_HELPERS}
 parallel: ${OUTPUT}parallel.cu.o ${CUDA_HELPERS}
 cudaMalloc: ${OUTPUT}cudaMalloc.cu.o ${CUDA_HELPERS}
 matrix-mul: ${OUTPUT}matrix-mul.cu.o ${CUDA_HELPERS}
+matrix-mul-c: ${OUTPUT}matrix-mul.o

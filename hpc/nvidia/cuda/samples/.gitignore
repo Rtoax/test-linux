@@ -2,3 +2,4 @@
 /parallel
 /cudaMalloc
 /matrix-mul
+/matrix-mul-c
