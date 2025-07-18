@@ -26,14 +26,17 @@ int verbose = false;
 int m_num = 3;
 int n_num = 2;
 unsigned long nloop = 1;
+bool set_value = false;
+unsigned int value;
 
 const char argp_prog_doc[] =
-	"USAGE: [-m <NUM>] [-n <NUM>] [--nloop|-N <NUM>] [-v]\n";
+	"USAGE: [-m <NUM>] [-n <NUM>] [--nloop|-N <NUM>] [-i <VAL>] [-v]\n";
 
 static const struct argp_option opts[] = {
 	{ "m-num", 'm', "M_NUM", 0, "Matrix M number" },
 	{ "n-num", 'n', "N_NUM", 0, "Matrix N number" },
 	{ "nloop", 'N', "NLOOP", 0, "Test loop number" },
+	{ "init-val", 'i', "INIT_VAL", 0, "Set matrix values" },
 	{ "verbose", 'v', NULL, 1, "Display detail" },
 	{},
 };
@@ -49,6 +52,10 @@ static error_t parse_arg(int key, char *arg, struct argp_state *state)
 		break;
 	case 'N':
 		nloop = strtoul(arg, NULL, 10);
+		break;
+	case 'i':
+		set_value = true;
+		value = atoi(arg);
 		break;
 	case 'v':
 		verbose = true;
@@ -106,12 +113,14 @@ __gpu_global__ void matrix_mul(float *A, float *B, float *C, int m, int n)
 	}
 }
 
-void init_matrix(float *p, int n, bool zero)
+void init_matrix(float *p, int n, bool zero, bool set_val, float val)
 {
 	int i;
 	for (i = 0; i < n; i++) {
 		if (zero)
 			p[i] = 0.0;
+		else if (set_val)
+			p[i] = val;
 		else
 			p[i] = 1.0 * (i + 1);
 	}
@@ -141,6 +150,8 @@ int main(int argc, char *argv[])
 	}
 
 	printf("M = %d, N = %d, NLOOP = %ld\n", m_num, n_num, nloop);
+	if (set_value)
+		printf("Matrix values set to %d\n", value);
 
 #ifdef HAVE_HCCL
 	hc_init(0);
@@ -155,9 +166,9 @@ int main(int argc, char *argv[])
 	host_B = (float *)malloc(sizeof(float) * m * n);
 	host_C = (float *)malloc(sizeof(float) * n * n);
 
-	init_matrix(host_A, m * n, false);
-	init_matrix(host_B, m * n, false);
-	init_matrix(host_C, n * n, true);
+	init_matrix(host_A, m * n, false, set_value, value);
+	init_matrix(host_B, m * n, false, set_value, value);
+	init_matrix(host_C, n * n, true, false, -1);
 
 	if (verbose) {
 		print_matrix(host_A, m * n);
