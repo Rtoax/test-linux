@@ -7,6 +7,9 @@
 #if defined(HAVE_HCCL)
 #include <hc_runtime.h>
 #include "hpcc_helpers.h"
+/**
+ * Metax has a CUDA-compatible API
+ */
 #define __gpu_global__	__global__
 #define cudaMalloc	hcMalloc
 #define cudaFree	hcFree
@@ -155,7 +158,7 @@ int main(int argc, char *argv[])
 
 #ifdef HAVE_HCCL
 	hc_init(0);
-#elif defined(HAVE_HCCL)
+#elif defined(HAVE_CUDA)
 	cuda_init(0);
 #endif
 
