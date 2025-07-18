@@ -136,7 +136,7 @@ void print_matrix(float *p, int n)
 
 int main(int argc, char *argv[])
 {
-	unsigned long iloop;
+	unsigned long iloop, i;
 	int m, n, err;
 #if defined(HAVE_HCCL) || defined(HAVE_CUDA)
 	float *A, *B, *C;
@@ -202,6 +202,20 @@ int main(int argc, char *argv[])
 
 	if (verbose)
 		print_matrix(host_C, n * n);
+
+	/**
+	 * If a fixed value is set, we can easily judge the accuracy of the
+	 * calculation result.
+	 */
+	if (set_value) {
+		float correct_val = value * value * m;
+		for (i = 0; i < n * n; i++) {
+			if (host_C[i] != correct_val) {
+				fprintf(stderr, "ERROR: cal matrix mul failed.\n");
+				break;
+			}
+		}
+	}
 
 #if defined(HAVE_HCCL) || defined(HAVE_CUDA)
 	cudaFree(A);
