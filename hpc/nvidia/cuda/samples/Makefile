@@ -11,5 +11,5 @@ include ../../../../template/main.mk
 cuda_helpers.cu.o: cuda_helpers.h
 
 hello: hello.cu.o
-parallel: parallel.cu.o
+parallel: parallel.cu.o cuda_helpers.cu.o
 cudaMalloc: cudaMalloc.cu.o cuda_helpers.cu.o
