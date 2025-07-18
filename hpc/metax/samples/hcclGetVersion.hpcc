@@ -1,0 +1,11 @@
+#include <stdio.h>
+#include <hc_runtime.h>
+#include <hccl.h>
+
+int main(void)
+{
+	int version = 0;
+	hcclGetVersion(&version);
+	printf("version %d\n", version);
+	return 0;
+}
