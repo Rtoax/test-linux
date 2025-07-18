@@ -9,8 +9,7 @@ int main(void)
 	int num= 1024;
 	float *ptr;
 
-	cudaSetDevice(0);
-	cuda_check_gpu_error("Failed to initialize device!");
+	cuda_init(0);
 
 	cudaMalloc(&ptr, sizeof(*ptr) * num);
 	cudaFree(ptr);

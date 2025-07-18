@@ -19,8 +19,7 @@ __global__ void cuda_hello(void)
 
 int main(void)
 {
-	cudaSetDevice(0);
-	cuda_check_gpu_error("Failed to initialize device!");
+	cuda_init(0);
 
 	cuda_hello<<<1,1>>>();
 	return 0;

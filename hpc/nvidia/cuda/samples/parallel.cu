@@ -16,8 +16,7 @@ int main(void)
 {
 	int count = 10000;
 
-	cudaSetDevice(0);
-	cuda_check_gpu_error("Failed to initialize device!");
+	cuda_init(0);
 
 	foo<<<(count + 511) / 512, 512>>>(count);
 	return 0;
