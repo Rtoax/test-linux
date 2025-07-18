@@ -2,3 +2,4 @@
 /parallel
 /hcclGetVersion
 /hcMalloc
+/matrix-mul
