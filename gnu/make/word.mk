@@ -9,4 +9,3 @@ $(info word3 = $(word 3,${ARRAY}))
 
 .PHONY: build
 build:
-

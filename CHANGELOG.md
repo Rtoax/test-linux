@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- make: add filter.mk;
 - wayland: add info.sh;
 - X11/Xorg: Introduce;
 - metax: add ht-envs.sh to set ENVs of hpcc;
@@ -25,6 +26,7 @@ and this project adheres to
 #### Deprecated
 #### Removed
 #### Fixed
+- OUTPUT must end with '/';
 #### Security
 #### Docs
 #### Tools

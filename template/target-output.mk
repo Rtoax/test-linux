@@ -1,6 +1,10 @@
 # SPDX-License-Identifier: GPL-3.0
 MKDIR ?= mkdir
 
+ifeq ($(filter %/,$(OUTPUT)),)
+  $(error OUTPUT must end with '/', now is ${OUTPUT})
+endif
+
 ${OUTPUT}:
 	$(call log_tgt_exe,MKDIR,$(<),$(@))
 	${Q}${MKDIR} -p $(@)
