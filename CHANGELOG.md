@@ -15,7 +15,7 @@ and this project adheres to
 - X11/Xorg: Introduce;
 - metax: add ht-envs.sh to set ENVs of hpcc;
 - hpc: add metax/ directory;
-- cuda: add driver-version.c from ostools;
+- cuda: add driver-version.c from ostools, add parallel.cu;
 - compiler: Introduce OpenACC directory;
 - ai: Introduce AI directory;
 - git: add push-remote-all.sh, rm-permanent.sh from ostools;
