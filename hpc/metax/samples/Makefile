@@ -6,6 +6,8 @@ TARGETS_HTCC += parallel
 TARGETS_HTCC += hcclGetVersion
 TARGETS_HTCC += hcMalloc
 
+# some code use this macro test pure C
+CFLAGS_HTCC := -DHAVE_HCCL=1
 LDFLAGS_HTCC := -lhccl
 
 HPCC_HELPERS := ${OUTPUT}hpcc_helpers.hpcc.o

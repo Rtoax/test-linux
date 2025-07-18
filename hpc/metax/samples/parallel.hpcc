@@ -1,6 +1,7 @@
 #include <stdio.h>
+#ifdef HAVE_HCCL
 #include <hc_runtime.h>
-
+#endif
 #include "hpcc_helpers.h"
 
 
