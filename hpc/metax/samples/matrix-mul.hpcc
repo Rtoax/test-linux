@@ -4,13 +4,23 @@
 #include <string.h>
 #include <stdbool.h>
 #include <malloc.h>
-#ifdef HAVE_HCCL
+#if defined(HAVE_HCCL)
 #include <hc_runtime.h>
+#include "hpcc_helpers.h"
+#define __gpu_global__	__global__
+#define cudaMalloc	hcMalloc
+#define cudaFree	hcFree
+#define cudaMemset	hcMemset
+#define cudaMemcpy	hcMemcpy
+#define cudaMemcpyHostToDevice	hcMemcpyHostToDevice
+#define cudaMemcpyDeviceToHost	hcMemcpyDeviceToHost
+#elif defined(HAVE_CUDA)
+#include <cuda_runtime.h>
+#include "cuda_helpers.h"
 #define __gpu_global__	__global__
 #else
 #define __gpu_global__
 #endif
-#include "hpcc_helpers.h"
 
 int verbose = false;
 int m_num = 3;
@@ -75,7 +85,7 @@ __gpu_global__ void matrix_mul(float *A, float *B, float *C, int m, int n)
 {
 	int ia, ib, ic, icx, icy, im;
 
-#ifdef HAVE_HCCL
+#if defined(HAVE_HCCL) || defined(HAVE_CUDA)
 	ic = threadIdx.x + blockDim.x * blockIdx.x;
 	if (ic >= n * n)
 		return;
@@ -119,7 +129,7 @@ int main(int argc, char *argv[])
 {
 	unsigned long iloop;
 	int m, n, err;
-#ifdef HAVE_HCCL
+#if defined(HAVE_HCCL) || defined(HAVE_CUDA)
 	float *A, *B, *C;
 #endif
 	float *host_A, *host_B, *host_C;
@@ -132,7 +142,11 @@ int main(int argc, char *argv[])
 
 	printf("M = %d, N = %d, NLOOP = %ld\n", m_num, n_num, nloop);
 
+#ifdef HAVE_HCCL
 	hc_init(0);
+#elif defined(HAVE_HCCL)
+	cuda_init(0);
+#endif
 
 	m = m_num;
 	n = n_num;
@@ -150,38 +164,38 @@ int main(int argc, char *argv[])
 		print_matrix(host_B, m * n);
 	}
 
-#ifdef HAVE_HCCL
-	hcMalloc(&A, sizeof(float) * m * n);
-	hcMalloc(&B, sizeof(float) * m * n);
-	hcMalloc(&C, sizeof(float) * n * n);
+#if defined(HAVE_HCCL) || defined(HAVE_CUDA)
+	cudaMalloc(&A, sizeof(float) * m * n);
+	cudaMalloc(&B, sizeof(float) * m * n);
+	cudaMalloc(&C, sizeof(float) * n * n);
 
-	hcMemset(A, 0, sizeof(float) * m * n);
-	hcMemset(B, 0, sizeof(float) * m * n);
-	hcMemset(C, 0, sizeof(float) * n * n);
+	cudaMemset(A, 0, sizeof(float) * m * n);
+	cudaMemset(B, 0, sizeof(float) * m * n);
+	cudaMemset(C, 0, sizeof(float) * n * n);
 
-	hcMemcpy(A, host_A, sizeof(float) * m * n, hcMemcpyHostToDevice);
-	hcMemcpy(B, host_B, sizeof(float) * m * n, hcMemcpyHostToDevice);
+	cudaMemcpy(A, host_A, sizeof(float) * m * n, cudaMemcpyHostToDevice);
+	cudaMemcpy(B, host_B, sizeof(float) * m * n, cudaMemcpyHostToDevice);
 #endif
 
 	/* Stress test */
 	for (iloop = 0; iloop < nloop; iloop++)
-#ifdef HAVE_HCCL
+#if defined(HAVE_HCCL) || defined(HAVE_CUDA)
 		matrix_mul<<<(n * n + 511) / 512, 512>>>(A, B, C, m, n);
 #else
 		matrix_mul(host_A, host_B, host_C, m, n);
 #endif
 
-#ifdef HAVE_HCCL
-	hcMemcpy(host_C, C, sizeof(float) * n * n, hcMemcpyDeviceToHost);
+#if defined(HAVE_HCCL) || defined(HAVE_CUDA)
+	cudaMemcpy(host_C, C, sizeof(float) * n * n, cudaMemcpyDeviceToHost);
 #endif
 
 	if (verbose)
 		print_matrix(host_C, n * n);
 
-#ifdef HAVE_HCCL
-	hcFree(A);
-	hcFree(B);
-	hcFree(C);
+#if defined(HAVE_HCCL) || defined(HAVE_CUDA)
+	cudaFree(A);
+	cudaFree(B);
+	cudaFree(C);
 #endif
 	free(host_A);
 	free(host_B);
