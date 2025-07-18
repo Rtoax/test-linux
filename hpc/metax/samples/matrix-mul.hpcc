@@ -59,6 +59,7 @@ void print_matrix(float *p, int n)
 
 int main(void)
 {
+	unsigned long nloop, iloop;
 	int m, n;
 	float *A, *B, *C, *host_A, *host_B, *host_C;
 
@@ -66,6 +67,8 @@ int main(void)
 
 	m = 3;
 	n = 2;
+
+	nloop = 10000;
 
 	host_A = (float *)malloc(sizeof(float) * m * n);
 	host_B = (float *)malloc(sizeof(float) * m * n);
@@ -89,7 +92,9 @@ int main(void)
 	hcMemcpy(A, host_A, sizeof(float) * m * n, hcMemcpyHostToDevice);
 	hcMemcpy(B, host_B, sizeof(float) * m * n, hcMemcpyHostToDevice);
 
-	matrix_mul<<<(n * n + 511) / 512, 512>>>(A, B, C, m, n);
+	/* Stress test */
+	for (iloop = 0; iloop < nloop; iloop++)
+		matrix_mul<<<(n * n + 511) / 512, 512>>>(A, B, C, m, n);
 
 	hcMemcpy(host_C, C, sizeof(float) * n * n, hcMemcpyDeviceToHost);
 
