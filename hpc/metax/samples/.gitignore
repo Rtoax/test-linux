@@ -1,3 +1,4 @@
 /hello
 /parallel
 /hcclGetVersion
+/hcMalloc
