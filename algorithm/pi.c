@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include "unused.h"
 
-double caculate_pi(int accuracy)
+double caculate_pi(long int accuracy)
 {
-	int i;
+	long int i;
 	double result = 1;
 	double a = 2;
 	double b = 1;
@@ -21,7 +21,7 @@ double caculate_pi(int accuracy)
 
 int main(void)
 {
-	double __unused pi = caculate_pi(50000000);
+	double __unused pi = caculate_pi(500000000);
 	printf("pi = %.30lf\n", pi);
 	return 0;
 }
