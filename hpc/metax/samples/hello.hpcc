@@ -4,17 +4,30 @@
 #include <stdio.h>
 #include <hc_runtime.h>
 
+/* call by kernel/device, run by device */
+__device__ void foo(void)
+{
+}
+
+/* call by host, run by device */
 __global__ void func(void)
 {
-#ifdef __MACA_ARCH__
+#ifdef __HPCC_ARCH__
 	/* Device code */
 #else
 	/* Host code */
 #endif
+	foo();
+}
+
+/* call,run by host */
+__host__ void host_func(void)
+{
 }
 
 int main(void)
 {
 	func<<<1,1>>>();
+	host_func();
 	return 0;
 }
