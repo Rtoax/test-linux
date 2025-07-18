@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 #include <malloc.h>
 #ifdef HAVE_HCCL
 #include <hc_runtime.h>
@@ -19,18 +20,41 @@
  */
 __global__ void matrix_mul(float *A, float *B, float *C, int m, int n)
 {
-	int id = threadIdx.x + blockDim.x * blockIdx.x;
-	if (id >= n * n)
+	int ia, ib, ic, icx, icy, im;
+
+	ic = threadIdx.x + blockDim.x * blockIdx.x;
+	if (ic >= n * n)
 		return;
 
-	// TODO
+	icx = ic % n;
+	icy = ic / n;
+
+	C[ic] = 0;
+
+	for (im = 0; im < m; im++) {
+		ia = icy * m + im;
+		ib = im * n + icx;
+		C[ic] += A[ia] * B[ib];
+	}
 }
 
-void init_matrix(float *p, int n)
+void init_matrix(float *p, int n, bool zero)
+{
+	int i;
+	for (i = 0; i < n; i++) {
+		if (zero)
+			p[i] = 0.0;
+		else
+			p[i] = 1.0 * (i + 1);
+	}
+}
+
+void print_matrix(float *p, int n)
 {
 	int i;
 	for (i = 0; i < n; i++)
-		p[i] = 1.0 * i;
+		printf("%.2f%s", p[i], i == n - 1 ? "\0" : ", ");
+	printf("\n");
 }
 
 int main(void)
@@ -40,19 +64,27 @@ int main(void)
 
 	hc_init(0);
 
-	m = 20;
-	n = 30;
+	m = 3;
+	n = 2;
 
 	host_A = (float *)malloc(sizeof(float) * m * n);
 	host_B = (float *)malloc(sizeof(float) * m * n);
 	host_C = (float *)malloc(sizeof(float) * n * n);
 
-	init_matrix(host_A, m * n);
-	init_matrix(host_B, m * n);
+	init_matrix(host_A, m * n, false);
+	init_matrix(host_B, m * n, false);
+	init_matrix(host_C, n * n, true);
+
+	print_matrix(host_A, m * n);
+	print_matrix(host_B, m * n);
 
 	hcMalloc(&A, sizeof(float) * m * n);
 	hcMalloc(&B, sizeof(float) * m * n);
 	hcMalloc(&C, sizeof(float) * n * n);
+
+	hcMemset(A, 0, sizeof(float) * m * n);
+	hcMemset(B, 0, sizeof(float) * m * n);
+	hcMemset(C, 0, sizeof(float) * n * n);
 
 	hcMemcpy(A, host_A, sizeof(float) * m * n, hcMemcpyHostToDevice);
 	hcMemcpy(B, host_B, sizeof(float) * m * n, hcMemcpyHostToDevice);
@@ -60,6 +92,8 @@ int main(void)
 	matrix_mul<<<(n * n + 511) / 512, 512>>>(A, B, C, m, n);
 
 	hcMemcpy(host_C, C, sizeof(float) * n * n, hcMemcpyDeviceToHost);
+
+	print_matrix(host_C, n * n);
 
 	hcFree(A);
 	hcFree(B);
