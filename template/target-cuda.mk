@@ -23,7 +23,7 @@ endif
 CFLAGS :=
 LDFLAGS :=
 
-%.cu.o: %.cu
+${OUTPUT}%.cu.o: %.cu
 	$(call log_tgt_obj,NVCC,$(<),$(@))
 	${Q}$(NVCC) -o $(@) -c $(<) $(CFLAGS_NVCC) $(CFLAGS_NVCC_$(*))
 
