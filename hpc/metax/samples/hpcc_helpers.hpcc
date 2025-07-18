@@ -1,2 +1,13 @@
 #include <stdio.h>
 #include <hccl.h>
+
+
+void hc_init(int dev_id)
+{
+	/* same as cudaSetDevice() */
+	hcError_t err = hcSetDevice(0);
+	if (err != hcSuccess) {
+		printf("Device init failed: %s\n", hcGetErrorString(err));
+		exit(0);
+	}
+}

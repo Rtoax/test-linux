@@ -9,7 +9,7 @@ int main(void)
 	int num= 1024;
 	float *ptr;
 
-	hcSetDevice(0);
+	hc_init(0);
 
 	/* same as cudaMalloc() */
 	hcMalloc(&ptr, sizeof(*ptr) * num);

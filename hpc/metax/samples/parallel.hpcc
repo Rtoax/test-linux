@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <hc_runtime.h>
 
+#include "hpcc_helpers.h"
+
 
 __global__ void foo(int count)
 {
@@ -14,8 +16,7 @@ int main(void)
 {
 	int count = 10000;
 
-	/* same as cudaSetDevice() */
-	hcSetDevice(0);
+	hc_init(0);
 
 	foo<<<(count + 511) / 512, 512>>>(count);
 	return 0;

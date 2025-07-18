@@ -15,6 +15,6 @@ include ../../../template/main.mk
 ${HPCC_HELPERS}: hpcc_helpers.h
 
 hello: ${OUTPUT}hello.hpcc.o
-parallel: ${OUTPUT}parallel.hpcc.o
+parallel: ${OUTPUT}parallel.hpcc.o ${HPCC_HELPERS}
 hcclGetVersion: ${OUTPUT}hcclGetVersion.hpcc.o ${HPCC_HELPERS}
 hcMalloc: ${OUTPUT}hcMalloc.hpcc.o ${HPCC_HELPERS}
