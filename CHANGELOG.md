@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- wayland: add info.sh;
 - X11/Xorg: Introduce;
 - metax: add ht-envs.sh to set ENVs of hpcc;
 - hpc: add metax/ directory;
