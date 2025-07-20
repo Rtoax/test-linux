@@ -11,6 +11,19 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+#### Changed
+#### Deprecated
+#### Removed
+#### Fixed
+#### Security
+#### Docs
+#### Tools
+
+
+## [v2.2.18] 2025-07-20
+
+#### Breaking Changes
+#### Added
 - make: add filter.mk;
 - wayland: add info.sh;
 - X11/Xorg: Introduce;
