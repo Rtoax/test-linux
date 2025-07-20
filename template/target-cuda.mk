@@ -15,6 +15,9 @@ ifeq ($(wildcard $(NVCC)),)
   $(error Not found nvcc, install cuda first)
 endif
 
+CFLAGS_NVCC += -Wno-deprecated-gpu-targets
+LDFLAGS_NVCC += -Wno-deprecated-gpu-targets
+
 ifdef DEBUG
   $(info NVCC = ${NVCC})
   $(info CFLAGS_NVCC = ${CFLAGS_NVCC})
@@ -23,9 +26,6 @@ endif
 
 # NOTE: NVCC's cflags,ldflags is totally different from gcc/clang, thus, we
 # don't use CFLAGS and LDFLAGS.
-CFLAGS :=
-LDFLAGS :=
-
 ${OUTPUT}%.cu.o: %.cu
 	$(call log_tgt_obj,NVCC,$(<),$(@))
 	${Q}$(NVCC) -o $(@) -c $(<) $(CFLAGS_NVCC) $(CFLAGS_NVCC_$(*))

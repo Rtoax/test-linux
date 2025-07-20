@@ -9,8 +9,6 @@ TARGETS_NVCC += matrix-mul
 TARGETS := matrix-mul-c
 
 CFLAGS_NVCC := -DHAVE_CUDA=1
-CFLAGS_NVCC += -Wno-deprecated-gpu-targets
-LDFLAGS_NVCC := -Wno-deprecated-gpu-targets
 
 CUDA_HELPERS := ${OUTPUT}cuda_helpers.cu.o
 
