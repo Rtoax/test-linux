@@ -32,8 +32,10 @@
 
 #if defined(TEST_DOUBLE)
 #define TYPE	double
+#define TFMT	"%.2lf"
 #else
 #define TYPE	float
+#define TFMT	"%.2f"
 #endif
 
 int verbose = false;
@@ -147,7 +149,7 @@ void print_matrix(TYPE *p, int n)
 {
 	int i;
 	for (i = 0; i < n; i++)
-		printf("%.2f%s", p[i], i == n - 1 ? "\0" : ", ");
+		printf(TFMT"%s", p[i], i == n - 1 ? "\0" : ", ");
 	printf("\n");
 }
 
