@@ -3,6 +3,8 @@
 - GSO: Generic Segmentation Offload (通用 TSO)
 - LRO: Large Receive Offload ()
 - LSO: Large segment offload (TCP 分段卸载)
+- RTO: Retransmission Timeout (重传超时) @RTT
+- RTT: Round-Trip Time (往返时延) @RTO
 - TC: Traffic Control (拥塞控制) @qdiscs
 - TOE: TCP Offload Engine (TCP 卸载引擎)
 - TSO: TCP Segmentation Offload (TCP 分段卸载) @LSO @GRO @TSS
