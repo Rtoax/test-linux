@@ -30,6 +30,8 @@
 #define __gpu_global__
 #endif
 
+#define TYPE	float
+
 int verbose = false;
 int m_num = 3;
 int n_num = 2;
@@ -99,7 +101,7 @@ static const struct argp argp = {
  * └       ┘   │ 5 6 │   └       ┘
  *             └     ┘
  */
-__gpu_global__ void matrix_mul(float *A, float *B, float *C, int m, int n)
+__gpu_global__ void matrix_mul(TYPE *A, TYPE *B, TYPE *C, int m, int n)
 {
 	int ia, ib, ic, icx, icy, im;
 
@@ -124,7 +126,7 @@ __gpu_global__ void matrix_mul(float *A, float *B, float *C, int m, int n)
 	}
 }
 
-void init_matrix(float *p, int n, bool zero, bool set_val, float val)
+void init_matrix(TYPE *p, int n, bool zero, bool set_val, TYPE val)
 {
 	int i;
 	for (i = 0; i < n; i++) {
@@ -137,7 +139,7 @@ void init_matrix(float *p, int n, bool zero, bool set_val, float val)
 	}
 }
 
-void print_matrix(float *p, int n)
+void print_matrix(TYPE *p, int n)
 {
 	int i;
 	for (i = 0; i < n; i++)
@@ -150,9 +152,9 @@ int main(int argc, char *argv[])
 	unsigned long iloop, i;
 	int m, n, err;
 #if defined(HAVE_HCCL) || defined(HAVE_CUDA)
-	float *A, *B, *C;
+	TYPE *A, *B, *C;
 #endif
-	float *host_A, *host_B, *host_C;
+	TYPE *host_A, *host_B, *host_C;
 
 	err = argp_parse(&argp, argc, argv, 0, NULL, NULL);
 	if (err) {
@@ -173,9 +175,9 @@ int main(int argc, char *argv[])
 	m = m_num;
 	n = n_num;
 
-	host_A = (float *)malloc(sizeof(float) * m * n);
-	host_B = (float *)malloc(sizeof(float) * m * n);
-	host_C = (float *)malloc(sizeof(float) * n * n);
+	host_A = (TYPE *)malloc(sizeof(TYPE) * m * n);
+	host_B = (TYPE *)malloc(sizeof(TYPE) * m * n);
+	host_C = (TYPE *)malloc(sizeof(TYPE) * n * n);
 
 	init_matrix(host_A, m * n, false, set_value, value);
 	init_matrix(host_B, m * n, false, set_value, value);
@@ -187,16 +189,16 @@ int main(int argc, char *argv[])
 	}
 
 #if defined(HAVE_HCCL) || defined(HAVE_CUDA)
-	cudaMalloc(&A, sizeof(float) * m * n);
-	cudaMalloc(&B, sizeof(float) * m * n);
-	cudaMalloc(&C, sizeof(float) * n * n);
+	cudaMalloc(&A, sizeof(TYPE) * m * n);
+	cudaMalloc(&B, sizeof(TYPE) * m * n);
+	cudaMalloc(&C, sizeof(TYPE) * n * n);
 
-	cudaMemset(A, 0, sizeof(float) * m * n);
-	cudaMemset(B, 0, sizeof(float) * m * n);
-	cudaMemset(C, 0, sizeof(float) * n * n);
+	cudaMemset(A, 0, sizeof(TYPE) * m * n);
+	cudaMemset(B, 0, sizeof(TYPE) * m * n);
+	cudaMemset(C, 0, sizeof(TYPE) * n * n);
 
-	cudaMemcpy(A, host_A, sizeof(float) * m * n, cudaMemcpyHostToDevice);
-	cudaMemcpy(B, host_B, sizeof(float) * m * n, cudaMemcpyHostToDevice);
+	cudaMemcpy(A, host_A, sizeof(TYPE) * m * n, cudaMemcpyHostToDevice);
+	cudaMemcpy(B, host_B, sizeof(TYPE) * m * n, cudaMemcpyHostToDevice);
 #endif
 
 	/* Stress test */
@@ -208,7 +210,7 @@ int main(int argc, char *argv[])
 #endif
 
 #if defined(HAVE_HCCL) || defined(HAVE_CUDA)
-	cudaMemcpy(host_C, C, sizeof(float) * n * n, cudaMemcpyDeviceToHost);
+	cudaMemcpy(host_C, C, sizeof(TYPE) * n * n, cudaMemcpyDeviceToHost);
 #endif
 
 	if (verbose)
@@ -219,7 +221,7 @@ int main(int argc, char *argv[])
 	 * calculation result.
 	 */
 	if (set_value) {
-		float correct_val = value * value * m;
+		TYPE correct_val = value * value * m;
 		for (i = 0; i < n * n; i++) {
 			if (host_C[i] != correct_val) {
 				fprintf(stderr, "ERROR: cal matrix mul failed.\n");
