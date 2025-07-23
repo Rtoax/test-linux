@@ -88,6 +88,7 @@ CFLAGS_rdseed := -mrdseed
 CFLAGS_udiv := -O0
 CFLAGS_div := -O0
 CFLAGS__mm_clflush := -DFLUSH
+CFLAGS_simd := -Wno-error=uninitialized
 
 ifdef IGNORE_RETURN_VALUE
   CFLAGS_udiv += -DIGNORE_RETURN_VALUE=1
