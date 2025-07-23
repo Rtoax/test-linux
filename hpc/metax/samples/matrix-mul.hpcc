@@ -30,7 +30,11 @@
 #define __gpu_global__
 #endif
 
+#if defined(TEST_DOUBLE)
+#define TYPE	double
+#else
 #define TYPE	float
+#endif
 
 int verbose = false;
 int m_num = 3;

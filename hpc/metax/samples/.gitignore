@@ -3,4 +3,5 @@
 /hcclGetVersion
 /hcMalloc
 /matrix-mul
+/matrix-mul-double
 /matrix-mul-c
