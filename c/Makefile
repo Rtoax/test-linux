@@ -7,6 +7,7 @@ TARGETS :=
 TARGETS += arg
 TARGETS += argv
 TARGETS += auto
+TARGETS += approaching
 TARGETS += array
 TARGETS += ascii
 TARGETS += arch-unsigned-signed
@@ -88,6 +89,7 @@ include ../template/main.mk
 arg: arg.o
 argv: argv.o
 auto: auto.o
+approaching: approaching.o
 ascii: ascii.o
 alignas: alignas.o
 arch-unsigned-signed: arch-unsigned-signed.o

@@ -24,6 +24,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- c: add approaching.c;
 - make: add filter.mk;
 - wayland: add info.sh;
 - X11/Xorg: Introduce;
