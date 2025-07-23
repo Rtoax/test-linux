@@ -8,6 +8,7 @@ TARGETS_HTCC += hcMalloc
 TARGETS_HTCC += matrix-mul matrix-mul-double
 
 TARGETS := matrix-mul-c
+TARGETS := matrix-mul-c-double
 
 # some code use this macro test pure C
 CFLAGS_HTCC := -DHAVE_HCCL=1
@@ -29,3 +30,4 @@ matrix-mul: ${OUTPUT}matrix-mul.hpcc.o ${HPCC_HELPERS}
 matrix-mul-double: ${OUTPUT}matrix-mul-double.hpcc.o ${HPCC_HELPERS}
 
 matrix-mul-c: ${OUTPUT}matrix-mul.o
+matrix-mul-c-double: ${OUTPUT}matrix-mul-double.o
