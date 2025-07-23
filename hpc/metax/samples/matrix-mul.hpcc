@@ -1,3 +1,6 @@
+/**
+ * Using GPU to perform matrix multiplication
+ */
 #include <argp.h>
 #include <stdio.h>
 #include <stdlib.h>
