@@ -166,6 +166,7 @@ int main(int argc, char *argv[])
 		return -err;
 	}
 
+	printf("size of TYPE %ld\n", sizeof(TYPE));
 	printf("M = %d, N = %d, NLOOP = %ld\n", m_num, n_num, nloop);
 	if (set_value)
 		printf("Matrix values set to %d\n", value);
