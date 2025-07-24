@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- ascend: add abbreviation.md;
 - metax: add hcGetDeviceProperties.hpcc, cuda2hccl.h, symlink dim3.hpcc;
 - cuda: add dim3.cu;
 #### Changed
