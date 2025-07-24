@@ -2,6 +2,7 @@
 /parallel
 /hcclGetVersion
 /hcMalloc
+/hcGetDeviceProperties
 /matrix-mul
 /matrix-mul-double
 /matrix-mul-c

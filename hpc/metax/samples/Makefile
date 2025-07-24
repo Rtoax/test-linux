@@ -5,6 +5,7 @@ TARGETS_HTCC := hello
 TARGETS_HTCC += parallel
 TARGETS_HTCC += hcclGetVersion
 TARGETS_HTCC += hcMalloc
+TARGETS_HTCC += hcGetDeviceProperties
 TARGETS_HTCC += matrix-mul matrix-mul-double
 
 TARGETS := matrix-mul-c
@@ -26,6 +27,7 @@ hello: ${OUTPUT}hello.hpcc.o
 parallel: ${OUTPUT}parallel.hpcc.o ${HPCC_HELPERS}
 hcclGetVersion: ${OUTPUT}hcclGetVersion.hpcc.o ${HPCC_HELPERS}
 hcMalloc: ${OUTPUT}hcMalloc.hpcc.o ${HPCC_HELPERS}
+hcGetDeviceProperties: ${OUTPUT}hcGetDeviceProperties.hpcc.o ${HPCC_HELPERS}
 matrix-mul: ${OUTPUT}matrix-mul.hpcc.o ${HPCC_HELPERS}
 matrix-mul-double: ${OUTPUT}matrix-mul-double.hpcc.o ${HPCC_HELPERS}
 

@@ -28,7 +28,7 @@ and this project adheres to
 - make: add filter.mk;
 - wayland: add info.sh;
 - X11/Xorg: Introduce;
-- metax: add ht-envs.sh to set ENVs of hpcc, add abbreviation.md, parallel.hpcc, hcclGetVersion.hpcc, `hpcc_helpers.hpcc`, hcMalloc.hpcc, matrix-mul.hpcc;
+- metax: add ht-envs.sh to set ENVs of hpcc, add abbreviation.md, parallel.hpcc, hcclGetVersion.hpcc, `hpcc_helpers.hpcc`, hcMalloc.hpcc, matrix-mul.hpcc, hcGetDeviceProperties.hpcc;
 - hpc: add metax/ directory;
 - cuda: add driver-version.c from ostools, add parallel.cu, cudaMalloc.cu, dim3.cu, `cuda_helpers.cu`, metax symlink matrix-mul.cu;
 - compiler: Introduce OpenACC directory;
