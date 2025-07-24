@@ -9,6 +9,8 @@ TARGETS_HTCC += hcGetDeviceProperties
 TARGETS_HTCC += dim3
 TARGETS_HTCC += matrix-mul matrix-mul-double
 
+TARGETS_POST := $(patsubst %,${OUTPUT}%.E.hpcc,$(TARGETS_HTCC))
+
 TARGETS := matrix-mul-c
 TARGETS += matrix-mul-c-double
 

@@ -20,7 +20,7 @@ ifdef DEBUG
   $(info HTCC = ${HTCC})
 endif
 
-${OUTPUT}%.maca.o: %.maca
+${OUTPUT}%.maca.o: %.maca | ${OUTPUT}
 	$(call log_tgt_obj,MXCC,$(<),$(@))
 	${Q}$(MXCC) -o $(@) -c $(<) $(CFLAGS_MXCC) $(CFLAGS_MXCC_$(*))
 
@@ -28,7 +28,11 @@ $(TARGETS_MXCC): %:
 	$(call log_tgt_exe,MXCC LD,$(<),$(@))
 	${Q}$(MXCC) -o $(@) $(^) $(LDFLAGS_MXCC) $(LDFLAGS_MXCC_$(*))
 
-${OUTPUT}%.hpcc.o: %.hpcc
+${OUTPUT}%.E.hpcc: %.hpcc | ${OUTPUT}
+	$(call log_tgt_obj,HTCC E,$(<),$(@))
+	${Q}$(HTCC) -E -o $(@) -c $(<) $(CFLAGS_HTCC) $(CFLAGS_HTCC_$(*))
+
+${OUTPUT}%.hpcc.o: %.hpcc | ${OUTPUT}
 	$(call log_tgt_obj,HTCC,$(<),$(@))
 	${Q}$(HTCC) -o $(@) -c $(<) $(CFLAGS_HTCC) $(CFLAGS_HTCC_$(*))
 
