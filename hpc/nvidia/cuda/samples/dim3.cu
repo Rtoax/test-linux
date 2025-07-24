@@ -1,6 +1,9 @@
 #include <stdio.h>
+#if defined(HAVE_HCCL)
+#include <hc_runtime.h>
+#else
 #include <cuda_runtime.h>
-
+#endif
 
 __global__ void checkIndex(void)
 {

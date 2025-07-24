@@ -1,4 +1,5 @@
 /hello
+/dim3
 /parallel
 /hcclGetVersion
 /hcMalloc

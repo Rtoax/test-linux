@@ -6,6 +6,7 @@ TARGETS_HTCC += parallel
 TARGETS_HTCC += hcclGetVersion
 TARGETS_HTCC += hcMalloc
 TARGETS_HTCC += hcGetDeviceProperties
+TARGETS_HTCC += dim3
 TARGETS_HTCC += matrix-mul matrix-mul-double
 
 TARGETS := matrix-mul-c
@@ -24,6 +25,7 @@ include ../../../template/main.mk
 ${HPCC_HELPERS}: hpcc_helpers.h
 
 hello: ${OUTPUT}hello.hpcc.o
+dim3: ${OUTPUT}dim3.hpcc.o
 parallel: ${OUTPUT}parallel.hpcc.o ${HPCC_HELPERS}
 hcclGetVersion: ${OUTPUT}hcclGetVersion.hpcc.o ${HPCC_HELPERS}
 hcMalloc: ${OUTPUT}hcMalloc.hpcc.o ${HPCC_HELPERS}
