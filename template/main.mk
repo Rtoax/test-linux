@@ -22,6 +22,9 @@ CXXFLAGS += -Werror -Wall
 ifdef DEBUG
   $(info Compile with DEBUG=1)
   CFLAGS += -DDEBUG -O0 -g -ggdb
+  CFLAGS_NVCC += -DDEBUG
+  CFLAGS_MXCC += -DDEBUG
+  CFLAGS_HTCC += -DDEBUG
   CXXFLAGS += -DDEBUG -O0 -g -ggdb
   MAKEFLAGS += DEBUG=1
 endif
