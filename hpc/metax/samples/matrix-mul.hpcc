@@ -309,30 +309,30 @@ int main(int argc, char *argv[])
 	free(host_C);
 
 	if (env.verbose) {
-		printf("%-8s %-8s %-8s ", "M", "N", "NLOOP");
+		printf("%-4s %-4s %-8s ", "M", "N", "NLOOP");
 #if defined(HAVE_HCCL) || defined(HAVE_CUDA)
 		printf("%-8s %-8s ", "ALLOC", "H2D");
 #endif
-		printf("%-16s ", "KERNEL");
+		printf("%-12s ", "KERNEL");
 #if defined(HAVE_HCCL) || defined(HAVE_CUDA)
-		printf("%-16s ", "D2H");
+		printf("%-12s ", "D2H");
 #endif
-		printf("%-16s %-8s\n", "TOTAL", "FLOPS");
+		printf("%-12s %-8s\n", "TOTAL", "FLOPS");
 	}
 
 	total_ns = 0;
-	printf("%-8ld %-8ld %-8ld ", env.m, env.n, env.nloop);
+	printf("%-4ld %-4ld %-8ld ", env.m, env.n, env.nloop);
 #if defined(HAVE_HCCL) || defined(HAVE_CUDA)
 	total_ns += malloc_ns + h2d_ns;
 	printf("%-8ld %-8ld ", malloc_ns / env.unit_time, h2d_ns / env.unit_time);
 #endif
 	total_ns += cal_ns;
-	printf("%-16ld ", cal_ns / env.unit_time);
+	printf("%-12ld ", cal_ns / env.unit_time);
 #if defined(HAVE_HCCL) || defined(HAVE_CUDA)
 	total_ns += d2h_ns;
-	printf("%-16ld ", d2h_ns / env.unit_time);
+	printf("%-12ld ", d2h_ns / env.unit_time);
 #endif
-	printf("%-16ld ", total_ns / env.unit_time);
+	printf("%-12ld ", total_ns / env.unit_time);
 
 	flops = matrix_mul_FLOPS(cal_ns);
 	printf("%-8.2lf\n", flops);
