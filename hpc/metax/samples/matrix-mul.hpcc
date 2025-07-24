@@ -14,19 +14,8 @@
 #if defined(HAVE_HCCL)
 #include <hc_runtime.h>
 #include "hpcc_helpers.h"
-/* Metax has CUDA-compatible APIs */
 #define __gpu_global__	__global__
-#define cudaMalloc	hcMalloc
-#define cudaFree	hcFree
-#define cudaMemset	hcMemset
-#define cudaMemcpy	hcMemcpy
-#define cudaMemcpyHostToDevice	hcMemcpyHostToDevice
-#define cudaMemcpyDeviceToHost	hcMemcpyDeviceToHost
-#define cudaEvent_t	hcEvent_t
-#define cudaEventCreate	hcEventCreate
-#define cudaEventRecord	hcEventRecord
-#define cudaEventElapsedTime	hcEventElapsedTime
-#define cudaEventSynchronize	hcEventSynchronize
+#include "cuda2hccl.h"
 #elif defined(HAVE_CUDA)
 #include <cuda_runtime.h>
 #include "cuda_helpers.h"
