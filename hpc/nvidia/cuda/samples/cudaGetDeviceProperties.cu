@@ -16,7 +16,8 @@ int main(void)
 	cudaGetDeviceProperties(&prop, 0);
 
 	printf("name %s\n", prop.name);
-	printf("totalGlobalMem %ld\n", prop.totalGlobalMem);
+	printf("totalGlobalMem %ld (%.0lf GiB)\n",
+		prop.totalGlobalMem, prop.totalGlobalMem / 1e9);
 	printf("totalConstMem %ld\n", prop.totalConstMem);
 	printf("maxThreadsPerBlock %d\n", prop.maxThreadsPerBlock);
 	for (i = 0; i < 3; i++)
