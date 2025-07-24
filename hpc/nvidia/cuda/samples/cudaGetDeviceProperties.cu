@@ -1,5 +1,10 @@
 /**
- * cuda-12.9 struct cudaDeviceProp: commit d072d32dcb00 ("cuda: cudaGetDeviceProperties.cu: display more")
+ * - NVIDIA H800 device properties
+ *   commit 3e9b58b99824 ("cudaGetDeviceProperties: blockDim,gridDim")
+ * - MetaX Mars 03 device properties
+ *   commit 4117d2538707 ("metax: Display Mars 03 DeviceProperties")
+ * - cuda-12.9 struct cudaDeviceProp
+ *   commit d072d32dcb00 ("cuda: cudaGetDeviceProperties.cu: display more")
  */
 #include <stdio.h>
 #if defined(HAVE_HCCL)
