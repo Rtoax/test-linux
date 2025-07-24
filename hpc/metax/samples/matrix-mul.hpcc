@@ -41,6 +41,7 @@
 #endif
 
 struct {
+	int gpu;
 	bool verbose;
 	unsigned long m;
 	unsigned long n;
@@ -48,6 +49,7 @@ struct {
 	bool set_value;
 	unsigned int value;
 } env = {
+	.gpu = 0,
 	.verbose = false,
 	.m = 3,
 	.n = 2,
@@ -63,6 +65,7 @@ const char argp_prog_doc[] =
 	" $ time ./matrix-mul -m200 -n200 -N10000 -i2";
 
 static const struct argp_option opts[] = {
+	{ "gpu", 'g', "GPU", 0, "Running on GPU" },
 	{ "m-num", 'm', "M_NUM", 0, "Matrix M number" },
 	{ "n-num", 'n', "N_NUM", 0, "Matrix N number" },
 	{ "nloop", 'N', "NLOOP", 0, "Test loop number" },
@@ -74,6 +77,9 @@ static const struct argp_option opts[] = {
 static error_t parse_arg(int key, char *arg, struct argp_state *state)
 {
 	switch (key) {
+	case 'g':
+		env.gpu = strtoul(arg, NULL, 10);
+		break;
 	case 'm':
 		env.m = strtoul(arg, NULL, 10);
 		break;
@@ -196,9 +202,9 @@ int main(int argc, char *argv[])
 
 	if (env.verbose) {
 #ifdef HAVE_HCCL
-		fprintf(stderr, "MetaX HCCL\n");
+		fprintf(stderr, "Running on MetaX GPU %d\n", env.gpu);
 #elif defined(HAVE_CUDA)
-		fprintf(stderr, "Nvidia CUDA\n");
+		fprintf(stderr, "Running on Nvidia GPU %d\n", env.gpu);
 #endif
 		fprintf(stderr, "size of TYPE %ld\n", sizeof(TYPE));
 		fprintf(stderr, "M = %ld, N = %ld, NLOOP = %ld\n",
@@ -208,9 +214,9 @@ int main(int argc, char *argv[])
 	}
 
 #ifdef HAVE_HCCL
-	hc_init(0);
+	hc_init(env.gpu);
 #elif defined(HAVE_CUDA)
-	cuda_init(0);
+	cuda_init(env.gpu);
 #endif
 
 	host_A = (TYPE *)malloc(sizeof(TYPE) * env.m * env.n);

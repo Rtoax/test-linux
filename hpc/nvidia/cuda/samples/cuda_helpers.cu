@@ -5,7 +5,7 @@
 
 void cuda_init(int dev_id)
 {
-	cudaSetDevice(0);
+	cudaSetDevice(dev_id);
 	cuda_check_gpu_error("Failed to initialize device!");
 	cudaDeviceSetLimit(cudaLimitPrintfFifoSize, 1048576);
 }
