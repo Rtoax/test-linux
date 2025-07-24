@@ -180,10 +180,10 @@ int main(int argc, char *argv[])
 	}
 
 	if (verbose) {
-		printf("size of TYPE %ld\n", sizeof(TYPE));
-		printf("M = %d, N = %d, NLOOP = %ld\n", m_num, n_num, nloop);
+		fprintf(stderr, "size of TYPE %ld\n", sizeof(TYPE));
+		fprintf(stderr, "M = %d, N = %d, NLOOP = %ld\n", m_num, n_num, nloop);
 		if (set_value)
-			printf("Matrix values set to %d\n", value);
+			fprintf(stderr, "Matrix values set to %d\n", value);
 	}
 
 #ifdef HAVE_HCCL
@@ -274,7 +274,7 @@ int main(int argc, char *argv[])
 	if (verbose) {
 		printf("%-8s %-8s %-8s ", "M", "N", "NLOOP");
 #if defined(HAVE_HCCL) || defined(HAVE_CUDA)
-		printf("%-8s %-8s", "MALLOC", "CPY2DEV");
+		printf("%-8s %-8s ", "MALLOC", "CPY2DEV");
 #endif
 		printf("%-8s ", "CAL");
 #if defined(HAVE_HCCL) || defined(HAVE_CUDA)
