@@ -1,5 +1,6 @@
 /hello
 /parallel
 /cudaMalloc
+/cudaGetDeviceProperties
 /matrix-mul
 /matrix-mul-c
