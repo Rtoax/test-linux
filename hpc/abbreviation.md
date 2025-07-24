@@ -3,6 +3,7 @@
 - GFLOPS: Giga FLOPS (每秒10亿次的浮点运算数) @FLOPS
 - HPC: High Performance Compute (高性能计算)
 - MFLOPS: Mega FLOPS (每秒一百万次的浮点运算)
+- MPI: Message Passing Interface (消息传递接口)
 - OpenCL: Open Computing Language (开放计算语言)
 - PTX: Parallel Thread eXecution (并行线程执行)
 - SASS: Streaming ASSembly (原生机器码指令集)
