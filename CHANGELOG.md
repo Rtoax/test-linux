@@ -14,6 +14,7 @@ and this project adheres to
 - ascend: add abbreviation.md;
 - metax: add hcGetDeviceProperties.hpcc, cuda2hccl.h, symlink dim3.hpcc;
 - cuda: add dim3.cu;
+- nvidia: add README.Nsight.md from ostools;
 #### Changed
 #### Deprecated
 #### Removed
