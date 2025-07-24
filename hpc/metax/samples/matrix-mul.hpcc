@@ -166,7 +166,7 @@ int main(int argc, char *argv[])
 {
 	unsigned long iloop, i;
 	unsigned long start, cal_ns, total_ns;
-	int m, n, err;
+	int m, n, err = 0;
 #if defined(HAVE_HCCL) || defined(HAVE_CUDA)
 	unsigned long malloc_ns, cpy2dev_ns, cpy2host_ns;
 	TYPE *A, *B, *C;
@@ -256,6 +256,7 @@ int main(int argc, char *argv[])
 		for (i = 0; i < n * n; i++) {
 			if (host_C[i] != correct_val) {
 				fprintf(stderr, "ERROR: cal matrix mul failed.\n");
+				err = -1;
 				break;
 			}
 		}
@@ -296,5 +297,5 @@ int main(int argc, char *argv[])
 #endif
 	printf("%-8ld\n", total_ns);
 
-	return 0;
+	return err;
 }
