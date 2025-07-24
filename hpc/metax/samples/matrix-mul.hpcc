@@ -14,9 +14,7 @@
 #if defined(HAVE_HCCL)
 #include <hc_runtime.h>
 #include "hpcc_helpers.h"
-/**
- * Metax has a CUDA-compatible API
- */
+/* Metax has CUDA-compatible APIs */
 #define __gpu_global__	__global__
 #define cudaMalloc	hcMalloc
 #define cudaFree	hcFree
@@ -24,6 +22,11 @@
 #define cudaMemcpy	hcMemcpy
 #define cudaMemcpyHostToDevice	hcMemcpyHostToDevice
 #define cudaMemcpyDeviceToHost	hcMemcpyDeviceToHost
+#define cudaEvent_t	hcEvent_t
+#define cudaEventCreate	hcEventCreate
+#define cudaEventRecord	hcEventRecord
+#define cudaEventElapsedTime	hcEventElapsedTime
+#define cudaEventSynchronize	hcEventSynchronize
 #elif defined(HAVE_CUDA)
 #include <cuda_runtime.h>
 #include "cuda_helpers.h"
@@ -189,6 +192,7 @@ int main(int argc, char *argv[])
 #if defined(HAVE_HCCL) || defined(HAVE_CUDA)
 	unsigned long malloc_ns, cpy2dev_ns, cpy2host_ns;
 	TYPE *dev_A, *dev_B, *dev_C;
+	cudaEvent_t ev_start, ev_stop;
 #endif
 	TYPE *host_A, *host_B, *host_C;
 
@@ -231,6 +235,10 @@ int main(int argc, char *argv[])
 #endif
 
 #if defined(HAVE_HCCL) || defined(HAVE_CUDA)
+
+	cudaEventCreate(&ev_start);
+	cudaEventCreate(&ev_stop);
+
 	start = nsecs();
 
 	cudaMalloc(&dev_A, sizeof(TYPE) * env.m * env.n);
@@ -249,15 +257,28 @@ int main(int argc, char *argv[])
 	cpy2dev_ns = nsecs() - start;
 #endif
 
+#if defined(HAVE_HCCL) || defined(HAVE_CUDA)
+	cudaEventRecord(ev_start);
+#else
 	start = nsecs();
+#endif
 	/* Stress test */
-	for (iloop = 0; iloop < env.nloop; iloop++)
+	for (iloop = 0; iloop < env.nloop; iloop++) {
 #if defined(HAVE_HCCL) || defined(HAVE_CUDA)
 		matrix_mul<<<(env.n * env.n + 511) / 512, 512>>>(dev_A, dev_B, dev_C, env.m, env.n);
 #else
 		matrix_mul(host_A, host_B, host_C, env.m, env.n);
 #endif
+	}
+#if defined(HAVE_HCCL) || defined(HAVE_CUDA)
+	cudaEventRecord(ev_stop);
+	cudaEventSynchronize(ev_stop);
+	float t_ms;
+	cudaEventElapsedTime(&t_ms, ev_start, ev_stop);
+	cal_ns = t_ms * 1e6;
+#else
 	cal_ns = nsecs() - start;
+#endif
 
 #if defined(HAVE_HCCL) || defined(HAVE_CUDA)
 	start = nsecs();
