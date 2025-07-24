@@ -106,6 +106,7 @@ install: uninstall
 	${Q}sudo ln -s ${TL_TOPDIR}/scripts/git/push-remote-all.sh /usr/bin/git-push-remote-all-tags
 	${Q}sudo ln -s ${TL_TOPDIR}/scripts/git/rm-permanent.sh /usr/bin/git-rm-permanent
 	${Q}sudo ln -s ${TL_TOPDIR}/scripts/patchset.sh /usr/bin/patchset
+	${Q}sudo ln -s ${TL_TOPDIR}/scripts/kconfig_compare.sh /usr/bin/kconfig_compare
 
 .PHONY: uninstall
 uninstall:
@@ -116,7 +117,8 @@ uninstall:
 		/usr/bin/git-push-remote-all \
 		/usr/bin/git-push-remote-all-tags \
 		/usr/bin/git-rm-permanent \
-		/usr/bin/patchset
+		/usr/bin/patchset \
+		/usr/bin/kconfig_compare
 
 .PHONY: docker
 docker:
