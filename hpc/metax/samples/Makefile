@@ -8,7 +8,7 @@ TARGETS_HTCC += hcMalloc
 TARGETS_HTCC += matrix-mul matrix-mul-double
 
 TARGETS := matrix-mul-c
-TARGETS := matrix-mul-c-double
+TARGETS += matrix-mul-c-double
 
 # some code use this macro test pure C
 CFLAGS_HTCC := -DHAVE_HCCL=1

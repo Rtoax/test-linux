@@ -270,15 +270,17 @@ int main(int argc, char *argv[])
 	free(host_B);
 	free(host_C);
 
-	printf("%-8s %-8s %-8s ", "M", "N", "NLOOP");
+	if (verbose) {
+		printf("%-8s %-8s %-8s ", "M", "N", "NLOOP");
 #if defined(HAVE_HCCL) || defined(HAVE_CUDA)
-	printf("%-8s %-8s", "MALLOC", "CPY2DEV");
+		printf("%-8s %-8s", "MALLOC", "CPY2DEV");
 #endif
-	printf("%-8s ", "CAL");
+		printf("%-8s ", "CAL");
 #if defined(HAVE_HCCL) || defined(HAVE_CUDA)
-	printf("%-8s ", "CPY2HOST");
+		printf("%-8s ", "CPY2HOST");
 #endif
-	printf("%-8s\n", "TOTAL");
+		printf("%-8s\n", "TOTAL");
+	}
 
 	total_ns = 0;
 	printf("%-8d %-8d %-8ld ", m, n, nloop);
