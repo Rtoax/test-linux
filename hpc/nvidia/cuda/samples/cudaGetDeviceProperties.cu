@@ -33,10 +33,10 @@ int main(void)
 
 	printf("totalGlobalMem %ld (%.0lf GiB)\n",
 		prop.totalGlobalMem, prop.totalGlobalMem / 1e9);
-	printf("totalConstMem %ld >= blockDim.x * blockDim.y * blockDim.z\n",
-		prop.totalConstMem);
+	printf("totalConstMem %ld\n", prop.totalConstMem);
 
-	printf("maxThreadsPerBlock %d\n", prop.maxThreadsPerBlock);
+	printf("maxThreadsPerBlock %d >= blockDim.x * blockDim.y * blockDim.z\n",
+		prop.maxThreadsPerBlock);
 
 	for (i = 0; i < 3; i++)
 		printf("maxThreadsDim[%d] = %-8d >= blockDim.%s\n", i,
