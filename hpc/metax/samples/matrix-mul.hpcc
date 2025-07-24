@@ -2,6 +2,7 @@
  * Using GPU to perform matrix multiplication
  *
  * - commit 2506e482755d ("hpc: matrix-mul: Nvidia Tesla T4 vs MetaX ???")
+ *
  */
 #include <argp.h>
 #include <stdio.h>
