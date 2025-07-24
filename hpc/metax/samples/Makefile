@@ -26,6 +26,9 @@ include ../../../template/main.mk
 
 ${HPCC_HELPERS}: hpcc_helpers.h
 
+${OUTPUT}matrix-mul.hpcc.o: cuda2hccl.h
+${OUTPUT}matrix-mul-double.hpcc.o: cuda2hccl.h
+
 hello: ${OUTPUT}hello.hpcc.o
 dim3: ${OUTPUT}dim3.hpcc.o
 parallel: ${OUTPUT}parallel.hpcc.o ${HPCC_HELPERS}

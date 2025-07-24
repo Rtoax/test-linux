@@ -11,7 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
-- metax: add hcGetDeviceProperties.hpcc, symlink dim3.hpcc;
+- metax: add hcGetDeviceProperties.hpcc, cuda2hccl.h, symlink dim3.hpcc;
 - cuda: add dim3.cu;
 #### Changed
 #### Deprecated
