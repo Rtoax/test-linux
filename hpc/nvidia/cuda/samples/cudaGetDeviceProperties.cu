@@ -1,3 +1,6 @@
+/**
+ * cuda-12.9 struct cudaDeviceProp: commit d072d32dcb00 ("cuda: cudaGetDeviceProperties.cu: display more")
+ */
 #include <stdio.h>
 #include <cuda_runtime.h>
 #include "cuda_helpers.h"
