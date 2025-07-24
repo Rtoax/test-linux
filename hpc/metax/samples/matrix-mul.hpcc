@@ -151,10 +151,9 @@ __gpu_global__ void matrix_mul(TYPE *A, TYPE *B, TYPE *C, unsigned long m,
 	}
 }
 
-static double matrix_mul_FLOPS(unsigned long nsec, unsigned long int m,
-			       unsigned long n)
+static double matrix_mul_FLOPS(unsigned long ns)
 {
-	return m * n * n * 1e9 / nsec;
+	return env.m * env.n * env.n * env.nloop * 1e9 / ns;
 }
 
 void init_matrix(TYPE *p, unsigned long n, bool zero, bool set_val, TYPE val)
@@ -309,7 +308,7 @@ int main(int argc, char *argv[])
 	printf("%-8ld %-8ld ", malloc_ns, cpy2dev_ns);
 #endif
 	total_ns += cal_ns;
-	printf("%-8ld %-8.2lf ", cal_ns, matrix_mul_FLOPS(cal_ns, env.m, env.n));
+	printf("%-8ld %-8.2lf ", cal_ns, matrix_mul_FLOPS(cal_ns));
 #if defined(HAVE_HCCL) || defined(HAVE_CUDA)
 	total_ns += cpy2host_ns;
 	printf("%-8ld ", cpy2host_ns);
