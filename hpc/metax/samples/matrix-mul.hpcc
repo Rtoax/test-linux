@@ -141,7 +141,7 @@ __gpu_global__ void matrix_mul(TYPE *A, TYPE *B, TYPE *C, int m, int n)
 	}
 }
 
-double matrix_mul_FLOPS(int nsec, int m, int n)
+static double matrix_mul_FLOPS(unsigned long nsec, int m, int n)
 {
 	return m * n * n * 1e9 / nsec;
 }
