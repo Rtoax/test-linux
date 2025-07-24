@@ -270,11 +270,21 @@ int main(int argc, char *argv[])
 	free(host_B);
 	free(host_C);
 
+	printf("%-8s %-8s %-8s ", "M", "N", "NLOOP");
+#if defined(HAVE_HCCL) || defined(HAVE_CUDA)
+	printf("%-8s %-8s", "MALLOC", "CPY2DEV");
+#endif
+	printf("%-8s ", "CAL");
+#if defined(HAVE_HCCL) || defined(HAVE_CUDA)
+	printf("%-8s ", "CPY2HOST");
+#endif
+	printf("%-8s\n", "TOTAL");
+
 	total_ns = 0;
 	printf("%-8d %-8d %-8ld ", m, n, nloop);
 #if defined(HAVE_HCCL) || defined(HAVE_CUDA)
 	total_ns += malloc_ns + cpy2dev_ns;
-	printf("%-8ld %-8ld", malloc_ns, cpy2dev_ns);
+	printf("%-8ld %-8ld ", malloc_ns, cpy2dev_ns);
 #endif
 	total_ns += cal_ns;
 	printf("%-8ld ", cal_ns);
