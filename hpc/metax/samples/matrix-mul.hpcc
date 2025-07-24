@@ -180,6 +180,11 @@ int main(int argc, char *argv[])
 	}
 
 	if (verbose) {
+#ifdef HAVE_HCCL
+		fprintf(stderr, "MetaX HCCL\n");
+#elif defined(HAVE_CUDA)
+		fprintf(stderr, "Nvidia CUDA\n");
+#endif
 		fprintf(stderr, "size of TYPE %ld\n", sizeof(TYPE));
 		fprintf(stderr, "M = %d, N = %d, NLOOP = %ld\n", m_num, n_num, nloop);
 		if (set_value)
