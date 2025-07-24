@@ -2,6 +2,7 @@
 OUTPUT := .output/
 
 TARGETS_NVCC := hello
+TARGETS_NVCC += dim3
 TARGETS_NVCC += parallel
 TARGETS_NVCC += cudaMalloc
 TARGETS_NVCC += cudaGetDeviceProperties
@@ -17,6 +18,7 @@ include ../../../../template/main.mk
 
 ${CUDA_HELPERS}: cuda_helpers.h
 
+dim3: ${OUTPUT}dim3.cu.o ${CUDA_HELPERS}
 hello: ${OUTPUT}hello.cu.o ${CUDA_HELPERS}
 parallel: ${OUTPUT}parallel.cu.o ${CUDA_HELPERS}
 cudaMalloc: ${OUTPUT}cudaMalloc.cu.o ${CUDA_HELPERS}
