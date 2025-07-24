@@ -5,13 +5,21 @@
 
 int main(void)
 {
+	int i;
 	cudaDeviceProp prop;
 
 	cuda_init(0);
 
 	cudaGetDeviceProperties(&prop, 0);
 
+	printf("name %d\n", prop.name);
+	printf("totalGlobalMem %ld\n", prop.totalGlobalMem);
+	printf("totalConstMem %ld\n", prop.totalConstMem);
 	printf("maxThreadsPerBlock %d\n", prop.maxThreadsPerBlock);
+	for (i = 0; i < 3; i++)
+		printf("maxThreadsDim[%d] = %d\n", i, prop.maxThreadsDim[i]);
+	for (i = 0; i < 3; i++)
+		printf("maxGridSize[%d] = %d\n", i, prop.maxGridSize[i]);
 
 	return 0;
 }
