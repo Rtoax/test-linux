@@ -141,6 +141,11 @@ __gpu_global__ void matrix_mul(TYPE *A, TYPE *B, TYPE *C, int m, int n)
 	}
 }
 
+double matrix_mul_FLOPS(int nsec, int m, int n)
+{
+	return m * n * n * 1e9 / nsec;
+}
+
 void init_matrix(TYPE *p, int n, bool zero, bool set_val, TYPE val)
 {
 	int i;
@@ -281,7 +286,7 @@ int main(int argc, char *argv[])
 #if defined(HAVE_HCCL) || defined(HAVE_CUDA)
 		printf("%-8s %-8s ", "MALLOC", "CPY2DEV");
 #endif
-		printf("%-8s ", "CAL");
+		printf("%-8s %-8s", "CAL", "FLOPS");
 #if defined(HAVE_HCCL) || defined(HAVE_CUDA)
 		printf("%-8s ", "CPY2HOST");
 #endif
@@ -295,7 +300,7 @@ int main(int argc, char *argv[])
 	printf("%-8ld %-8ld ", malloc_ns, cpy2dev_ns);
 #endif
 	total_ns += cal_ns;
-	printf("%-8ld ", cal_ns);
+	printf("%-8ld %-8.2lf ", cal_ns, matrix_mul_FLOPS(cal_ns, m, n));
 #if defined(HAVE_HCCL) || defined(HAVE_CUDA)
 	total_ns += cpy2host_ns;
 	printf("%-8ld ", cpy2host_ns);

@@ -1,4 +1,9 @@
+- FLOPs: Floating Point of Operations (浮点运算)
+- FLOPS: Floating Point Operations Per Second (每秒浮点运算个数)
+- GFLOPS: Giga FLOPS (每秒10亿次的浮点运算数) @FLOPS
 - HPC: High Performance Compute (高性能计算)
+- MFLOPS: Mega FLOPS (每秒一百万次的浮点运算)
 - OpenCL: Open Computing Language (开放计算语言)
 - PTX: Parallel Thread eXecution (并行线程执行)
 - SASS: Streaming ASSembly (原生机器码指令集)
+- TFLOPS: teraFLOPS (每秒一万亿次的浮点运算)
