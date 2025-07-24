@@ -46,5 +46,7 @@ int main(void)
 		printf("maxGridSize[%d] = %-16d >= gridDim.%s\n", i,
 			prop.maxGridSize[i], "x\0y\0z\0" + (2 * i));
 
+	printf("major %d, minor %d\n", prop.major, prop.minor);
+
 	return 0;
 }

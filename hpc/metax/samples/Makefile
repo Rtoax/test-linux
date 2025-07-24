@@ -16,6 +16,8 @@ TARGETS += matrix-mul-c-double
 CFLAGS_HTCC := -DHAVE_HCCL=1
 LDFLAGS_HTCC := -lhccl
 
+CFLAGS_HTCC_hcGetDeviceProperties := -Wno-string-plus-int
+
 CFLAGS_HTCC_matrix-mul-double := -DTEST_DOUBLE=1
 
 HPCC_HELPERS := ${OUTPUT}hpcc_helpers.hpcc.o
