@@ -126,20 +126,20 @@ __gpu_global__ void matrix_mul(TYPE *A, TYPE *B, TYPE *C, unsigned long m,
 	ic = threadIdx.x + blockDim.x * blockIdx.x;
 	if (ic >= n * n)
 		return;
-#else
+#else /* Running on CPU */
 	for (ic = 0; ic < n * n; ic++)
 #endif
 	{
-	icx = ic % n;
-	icy = ic / n;
+		icx = ic % n;
+		icy = ic / n;
 
-	C[ic] = 0;
+		C[ic] = 0;
 
-	for (im = 0; im < m; im++) {
-		ia = icy * m + im;
-		ib = im * n + icx;
-		C[ic] += A[ia] * B[ib];
-	}
+		for (im = 0; im < m; im++) {
+			ia = icy * m + im;
+			ib = im * n + icx;
+			C[ic] += A[ia] * B[ib];
+		}
 	}
 }
 
