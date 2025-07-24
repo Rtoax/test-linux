@@ -153,7 +153,11 @@ __gpu_global__ void matrix_mul(TYPE *A, TYPE *B, TYPE *C, unsigned long m,
 
 static double matrix_mul_FLOPS(unsigned long ns)
 {
-	return env.m * env.n * env.n * env.nloop * 1e9 / ns;
+	/**
+	 * 2.0: plus and multi
+	 * 1e9: nanoseconds to seconds
+	 */
+	return 2.0 * env.m * env.n * env.n * env.nloop * 1e9 / ns;
 }
 
 void init_matrix(TYPE *p, unsigned long n, bool zero, bool set_val, TYPE val)
