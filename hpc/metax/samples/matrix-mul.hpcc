@@ -40,12 +40,12 @@
 #define TFMT	"%.2f"
 #endif
 
-int verbose = false;
-int m_num = 3;
-int n_num = 2;
-unsigned long nloop = 1;
-bool set_value = false;
-unsigned int value;
+static bool verbose = false;
+static unsigned long m_num = 3;
+static unsigned long n_num = 2;
+static unsigned long nloop = 1;
+static bool set_value = false;
+static unsigned int value;
 
 const char argp_prog_doc[] =
 	"USAGE: [-m <NUM>] [-n <NUM>] [--nloop|-N <NUM>] [-i <VAL>] [-v]\n"
@@ -116,7 +116,8 @@ static inline unsigned long nsecs(void)
  * └       ┘   │ 5 6 │   └       ┘
  *             └     ┘
  */
-__gpu_global__ void matrix_mul(TYPE *A, TYPE *B, TYPE *C, int m, int n)
+__gpu_global__ void matrix_mul(TYPE *A, TYPE *B, TYPE *C, unsigned long m,
+			       unsigned long n)
 {
 	int ia, ib, ic, icx, icy, im;
 
@@ -141,12 +142,13 @@ __gpu_global__ void matrix_mul(TYPE *A, TYPE *B, TYPE *C, int m, int n)
 	}
 }
 
-static double matrix_mul_FLOPS(unsigned long nsec, int m, int n)
+static double matrix_mul_FLOPS(unsigned long nsec, unsigned long int m,
+			       unsigned long n)
 {
 	return m * n * n * 1e9 / nsec;
 }
 
-void init_matrix(TYPE *p, int n, bool zero, bool set_val, TYPE val)
+void init_matrix(TYPE *p, unsigned long n, bool zero, bool set_val, TYPE val)
 {
 	int i;
 	for (i = 0; i < n; i++) {
@@ -159,7 +161,7 @@ void init_matrix(TYPE *p, int n, bool zero, bool set_val, TYPE val)
 	}
 }
 
-void print_matrix(TYPE *p, int n)
+void print_matrix(TYPE *p, unsigned long n)
 {
 	int i;
 	for (i = 0; i < n; i++)
@@ -171,7 +173,8 @@ int main(int argc, char *argv[])
 {
 	unsigned long iloop, i;
 	unsigned long start, cal_ns, total_ns;
-	int m, n, err = 0;
+	unsigned long m, n;
+	int err = 0;
 #if defined(HAVE_HCCL) || defined(HAVE_CUDA)
 	unsigned long malloc_ns, cpy2dev_ns, cpy2host_ns;
 	TYPE *dev_A, *dev_B, *dev_C;
@@ -191,7 +194,7 @@ int main(int argc, char *argv[])
 		fprintf(stderr, "Nvidia CUDA\n");
 #endif
 		fprintf(stderr, "size of TYPE %ld\n", sizeof(TYPE));
-		fprintf(stderr, "M = %d, N = %d, NLOOP = %ld\n", m_num, n_num, nloop);
+		fprintf(stderr, "M = %ld, N = %ld, NLOOP = %ld\n", m_num, n_num, nloop);
 		if (set_value)
 			fprintf(stderr, "Matrix values set to %d\n", value);
 	}
@@ -294,7 +297,7 @@ int main(int argc, char *argv[])
 	}
 
 	total_ns = 0;
-	printf("%-8d %-8d %-8ld ", m, n, nloop);
+	printf("%-8ld %-8ld %-8ld ", m, n, nloop);
 #if defined(HAVE_HCCL) || defined(HAVE_CUDA)
 	total_ns += malloc_ns + cpy2dev_ns;
 	printf("%-8ld %-8ld ", malloc_ns, cpy2dev_ns);
