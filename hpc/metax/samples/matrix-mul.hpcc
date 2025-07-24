@@ -169,7 +169,7 @@ int main(int argc, char *argv[])
 	int m, n, err = 0;
 #if defined(HAVE_HCCL) || defined(HAVE_CUDA)
 	unsigned long malloc_ns, cpy2dev_ns, cpy2host_ns;
-	TYPE *A, *B, *C;
+	TYPE *dev_A, *dev_B, *dev_C;
 #endif
 	TYPE *host_A, *host_B, *host_C;
 
@@ -216,19 +216,19 @@ int main(int argc, char *argv[])
 #if defined(HAVE_HCCL) || defined(HAVE_CUDA)
 	start = nsecs();
 
-	cudaMalloc(&A, sizeof(TYPE) * m * n);
-	cudaMalloc(&B, sizeof(TYPE) * m * n);
-	cudaMalloc(&C, sizeof(TYPE) * n * n);
+	cudaMalloc(&dev_A, sizeof(TYPE) * m * n);
+	cudaMalloc(&dev_B, sizeof(TYPE) * m * n);
+	cudaMalloc(&dev_C, sizeof(TYPE) * n * n);
 
-	cudaMemset(A, 0, sizeof(TYPE) * m * n);
-	cudaMemset(B, 0, sizeof(TYPE) * m * n);
-	cudaMemset(C, 0, sizeof(TYPE) * n * n);
+	cudaMemset(dev_A, 0, sizeof(TYPE) * m * n);
+	cudaMemset(dev_B, 0, sizeof(TYPE) * m * n);
+	cudaMemset(dev_C, 0, sizeof(TYPE) * n * n);
 
 	malloc_ns = nsecs() - start;
 
 	start = nsecs();
-	cudaMemcpy(A, host_A, sizeof(TYPE) * m * n, cudaMemcpyHostToDevice);
-	cudaMemcpy(B, host_B, sizeof(TYPE) * m * n, cudaMemcpyHostToDevice);
+	cudaMemcpy(dev_A, host_A, sizeof(TYPE) * m * n, cudaMemcpyHostToDevice);
+	cudaMemcpy(dev_B, host_B, sizeof(TYPE) * m * n, cudaMemcpyHostToDevice);
 	cpy2dev_ns = nsecs() - start;
 #endif
 
@@ -236,7 +236,7 @@ int main(int argc, char *argv[])
 	/* Stress test */
 	for (iloop = 0; iloop < nloop; iloop++)
 #if defined(HAVE_HCCL) || defined(HAVE_CUDA)
-		matrix_mul<<<(n * n + 511) / 512, 512>>>(A, B, C, m, n);
+		matrix_mul<<<(n * n + 511) / 512, 512>>>(dev_A, dev_B, dev_C, m, n);
 #else
 		matrix_mul(host_A, host_B, host_C, m, n);
 #endif
@@ -244,7 +244,7 @@ int main(int argc, char *argv[])
 
 #if defined(HAVE_HCCL) || defined(HAVE_CUDA)
 	start = nsecs();
-	cudaMemcpy(host_C, C, sizeof(TYPE) * n * n, cudaMemcpyDeviceToHost);
+	cudaMemcpy(host_C, dev_C, sizeof(TYPE) * n * n, cudaMemcpyDeviceToHost);
 	cpy2host_ns = nsecs() - start;
 #endif
 
@@ -268,9 +268,9 @@ int main(int argc, char *argv[])
 	}
 
 #if defined(HAVE_HCCL) || defined(HAVE_CUDA)
-	cudaFree(A);
-	cudaFree(B);
-	cudaFree(C);
+	cudaFree(dev_A);
+	cudaFree(dev_B);
+	cudaFree(dev_C);
 #endif
 	free(host_A);
 	free(host_B);
