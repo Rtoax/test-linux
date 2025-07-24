@@ -10,6 +10,7 @@
 #include <string.h>
 #include <stdbool.h>
 #include <malloc.h>
+#include <time.h>
 #if defined(HAVE_HCCL)
 #include <hc_runtime.h>
 #include "hpcc_helpers.h"
@@ -96,6 +97,13 @@ static const struct argp argp = {
 	.doc = argp_prog_doc,
 };
 
+static inline unsigned long nsecs(void)
+{
+	struct timespec ts;
+	clock_gettime(CLOCK_MONOTONIC, &ts);
+	return ts.tv_sec * 1000000000UL + ts.tv_nsec;
+}
+
 /**
  * A[mn] * B[nm] = C[nn]
  *
@@ -157,8 +165,10 @@ void print_matrix(TYPE *p, int n)
 int main(int argc, char *argv[])
 {
 	unsigned long iloop, i;
+	unsigned long start, cal_ns, total_ns;
 	int m, n, err;
 #if defined(HAVE_HCCL) || defined(HAVE_CUDA)
+	unsigned long malloc_ns, cpy2dev_ns, cpy2host_ns;
 	TYPE *A, *B, *C;
 #endif
 	TYPE *host_A, *host_B, *host_C;
@@ -169,10 +179,12 @@ int main(int argc, char *argv[])
 		return -err;
 	}
 
-	printf("size of TYPE %ld\n", sizeof(TYPE));
-	printf("M = %d, N = %d, NLOOP = %ld\n", m_num, n_num, nloop);
-	if (set_value)
-		printf("Matrix values set to %d\n", value);
+	if (verbose) {
+		printf("size of TYPE %ld\n", sizeof(TYPE));
+		printf("M = %d, N = %d, NLOOP = %ld\n", m_num, n_num, nloop);
+		if (set_value)
+			printf("Matrix values set to %d\n", value);
+	}
 
 #ifdef HAVE_HCCL
 	hc_init(0);
@@ -191,12 +203,14 @@ int main(int argc, char *argv[])
 	init_matrix(host_B, m * n, false, set_value, value);
 	init_matrix(host_C, n * n, true, false, -1);
 
-	if (verbose) {
-		print_matrix(host_A, m * n);
-		print_matrix(host_B, m * n);
-	}
+#ifdef DEBUG
+	print_matrix(host_A, m * n);
+	print_matrix(host_B, m * n);
+#endif
 
 #if defined(HAVE_HCCL) || defined(HAVE_CUDA)
+	start = nsecs();
+
 	cudaMalloc(&A, sizeof(TYPE) * m * n);
 	cudaMalloc(&B, sizeof(TYPE) * m * n);
 	cudaMalloc(&C, sizeof(TYPE) * n * n);
@@ -205,10 +219,15 @@ int main(int argc, char *argv[])
 	cudaMemset(B, 0, sizeof(TYPE) * m * n);
 	cudaMemset(C, 0, sizeof(TYPE) * n * n);
 
+	malloc_ns = nsecs() - start;
+
+	start = nsecs();
 	cudaMemcpy(A, host_A, sizeof(TYPE) * m * n, cudaMemcpyHostToDevice);
 	cudaMemcpy(B, host_B, sizeof(TYPE) * m * n, cudaMemcpyHostToDevice);
+	cpy2dev_ns = nsecs() - start;
 #endif
 
+	start = nsecs();
 	/* Stress test */
 	for (iloop = 0; iloop < nloop; iloop++)
 #if defined(HAVE_HCCL) || defined(HAVE_CUDA)
@@ -216,13 +235,17 @@ int main(int argc, char *argv[])
 #else
 		matrix_mul(host_A, host_B, host_C, m, n);
 #endif
+	cal_ns = nsecs() - start;
 
 #if defined(HAVE_HCCL) || defined(HAVE_CUDA)
+	start = nsecs();
 	cudaMemcpy(host_C, C, sizeof(TYPE) * n * n, cudaMemcpyDeviceToHost);
+	cpy2host_ns = nsecs() - start;
 #endif
 
-	if (verbose)
-		print_matrix(host_C, n * n);
+#ifdef DEBUG
+	print_matrix(host_C, n * n);
+#endif
 
 	/**
 	 * If a fixed value is set, we can easily judge the accuracy of the
@@ -246,6 +269,20 @@ int main(int argc, char *argv[])
 	free(host_A);
 	free(host_B);
 	free(host_C);
+
+	total_ns = 0;
+	printf("%-8d %-8d %-8ld ", m, n, nloop);
+#if defined(HAVE_HCCL) || defined(HAVE_CUDA)
+	total_ns += malloc_ns + cpy2dev_ns;
+	printf("%-8ld %-8ld", malloc_ns, cpy2dev_ns);
+#endif
+	total_ns += cal_ns;
+	printf("%-8ld ", cal_ns);
+#if defined(HAVE_HCCL) || defined(HAVE_CUDA)
+	total_ns += cpy2host_ns;
+	printf("%-8ld ", cpy2host_ns);
+#endif
+	printf("%-8ld\n", total_ns);
 
 	return 0;
 }
