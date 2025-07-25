@@ -2,6 +2,7 @@
 #if defined(HAVE_HCCL)
 #include <hc_runtime.h>
 #include "hpcc_helpers.h"
+#include "cuda2hccl.h"
 #else
 #include <cuda_runtime.h>
 #include "cuda_helpers.h"
@@ -25,6 +26,9 @@ int main(void)
 	gpu_init(0);
 
 	checkIndex<<<grid, block>>>();
+
+	/* flush printf */
+	cudaDeviceSynchronize();
 
 	return 0;
 }

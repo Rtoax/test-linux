@@ -17,3 +17,4 @@
 #define cudaDevP2PAttrPerformanceRank	hcDevP2PAttrPerformanceRank
 #define cudaDevP2PAttrAccessSupported	hcDevP2PAttrAccessSupported
 #define cudaDevP2PAttrNativeAtomicSupported	hcDevP2PAttrNativeAtomicSupported
+#define cudaDeviceSynchronize()	hcDeviceSynchronize()
