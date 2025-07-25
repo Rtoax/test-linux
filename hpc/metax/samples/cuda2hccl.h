@@ -13,3 +13,7 @@
 #define cudaEventElapsedTime	hcEventElapsedTime
 #define cudaEventSynchronize	hcEventSynchronize
 #define cudaGetDeviceProperties(prop, devid)	hcGetDeviceProperties(prop, devid)
+#define cudaDeviceGetP2PAttribute(v, attr, src, dst)	hcDeviceGetP2PAttribute(v, attr, src, dst)
+#define cudaDevP2PAttrPerformanceRank	hcDevP2PAttrPerformanceRank
+#define cudaDevP2PAttrAccessSupported	hcDevP2PAttrAccessSupported
+#define cudaDevP2PAttrNativeAtomicSupported	hcDevP2PAttrNativeAtomicSupported

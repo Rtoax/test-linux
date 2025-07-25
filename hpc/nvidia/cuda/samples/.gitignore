@@ -3,5 +3,6 @@
 /parallel
 /cudaMalloc
 /cudaGetDeviceProperties
+/cudaDeviceGetP2PAttribute
 /matrix-mul
 /matrix-mul-c

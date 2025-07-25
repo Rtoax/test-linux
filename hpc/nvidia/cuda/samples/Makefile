@@ -6,6 +6,7 @@ TARGETS_NVCC += dim3
 TARGETS_NVCC += parallel
 TARGETS_NVCC += cudaMalloc
 TARGETS_NVCC += cudaGetDeviceProperties
+TARGETS_NVCC += cudaDeviceGetP2PAttribute
 TARGETS_NVCC += matrix-mul
 
 TARGETS := matrix-mul-c
@@ -23,5 +24,6 @@ hello: ${OUTPUT}hello.cu.o ${CUDA_HELPERS}
 parallel: ${OUTPUT}parallel.cu.o ${CUDA_HELPERS}
 cudaMalloc: ${OUTPUT}cudaMalloc.cu.o ${CUDA_HELPERS}
 cudaGetDeviceProperties: ${OUTPUT}cudaGetDeviceProperties.cu.o ${CUDA_HELPERS}
+cudaDeviceGetP2PAttribute: ${OUTPUT}cudaDeviceGetP2PAttribute.cu.o ${CUDA_HELPERS}
 matrix-mul: ${OUTPUT}matrix-mul.cu.o ${CUDA_HELPERS}
 matrix-mul-c: ${OUTPUT}matrix-mul.o
