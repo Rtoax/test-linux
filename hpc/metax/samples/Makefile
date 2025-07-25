@@ -33,7 +33,7 @@ ${HPCC_HELPERS}: hpcc_helpers.h
 ${OUTPUT}matrix-mul.hpcc.o: cuda2hccl.h
 ${OUTPUT}matrix-mul-double.hpcc.o: cuda2hccl.h
 
-hello: ${OUTPUT}hello.hpcc.o
+hello: ${OUTPUT}hello.hpcc.o ${HPCC_HELPERS}
 dim3: ${OUTPUT}dim3.hpcc.o ${HPCC_HELPERS}
 parallel: ${OUTPUT}parallel.hpcc.o ${HPCC_HELPERS}
 hcclGetVersion: ${OUTPUT}hcclGetVersion.hpcc.o ${HPCC_HELPERS}
