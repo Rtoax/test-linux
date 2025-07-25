@@ -9,7 +9,7 @@ targets-htcc += hcGetDeviceProperties
 targets-htcc += hcDeviceGetAttribute
 targets-htcc += hcDeviceGetP2PAttribute
 targets-htcc += dim3
-targets-htcc += matrix-mul matrix-mul-double
+targets-htcc += matrix-mul matrix-mul-double matrix-mul-int8
 
 targets-post := $(patsubst %,${OUTPUT}%.E.hpcc,$(targets-htcc))
 
@@ -23,6 +23,7 @@ LDFLAGS_HTCC := -lhccl
 CFLAGS_HTCC_hcGetDeviceProperties := -Wno-string-plus-int
 
 CFLAGS_HTCC_matrix-mul-double := -DTEST_DOUBLE=1
+CFLAGS_HTCC_matrix-mul-int8 := -DTEST_INT8=1
 
 HPCC_HELPERS := ${OUTPUT}hpcc_helpers.hpcc.o
 
@@ -32,6 +33,7 @@ ${HPCC_HELPERS}: hpcc_helpers.h
 
 ${OUTPUT}matrix-mul.hpcc.o: cuda2hccl.h
 ${OUTPUT}matrix-mul-double.hpcc.o: cuda2hccl.h
+${OUTPUT}matrix-mul-int8.hpcc.o: cuda2hccl.h
 
 hello: ${OUTPUT}hello.hpcc.o ${HPCC_HELPERS}
 dim3: ${OUTPUT}dim3.hpcc.o ${HPCC_HELPERS}
@@ -43,6 +45,7 @@ hcDeviceGetAttribute: ${OUTPUT}hcDeviceGetAttribute.hpcc.o ${HPCC_HELPERS}
 hcDeviceGetP2PAttribute: ${OUTPUT}hcDeviceGetP2PAttribute.hpcc.o ${HPCC_HELPERS}
 matrix-mul: ${OUTPUT}matrix-mul.hpcc.o ${HPCC_HELPERS}
 matrix-mul-double: ${OUTPUT}matrix-mul-double.hpcc.o ${HPCC_HELPERS}
+matrix-mul-int8: ${OUTPUT}matrix-mul-int8.hpcc.o ${HPCC_HELPERS}
 
 matrix-mul-c: ${OUTPUT}matrix-mul.o
 matrix-mul-c-double: ${OUTPUT}matrix-mul-double.o

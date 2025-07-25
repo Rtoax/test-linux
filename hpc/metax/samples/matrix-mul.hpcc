@@ -7,6 +7,7 @@
  */
 #include <argp.h>
 #include <stdio.h>
+#include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
@@ -33,6 +34,10 @@
 #define TYPE	double
 #define TFMT	"%.2lf"
 #define TNAME	"double"
+#elif defined(TEST_INT8)
+#define TYPE	int8_t
+#define TFMT	"%d"
+#define TNAME	"int8_t"
 #else
 #define TYPE	float
 #define TFMT	"%.2f"
