@@ -1,12 +1,25 @@
 /**
  * elf sections of metax: commit 047883bd3538 ("metax: hello.hpcc: ELF section info")
+ * elf sections of cuda:  commit bd1c08a6a95f ("cuda: hello.c: see elf sections")
  */
 #include <stdio.h>
+#if defined(HAVE_HCCL)
 #include <hc_runtime.h>
+#include "hpcc_helpers.h"
+#include "cuda2hccl.h"
+#else
+/**
+ * Actually, nvcc will add -include cuda_runtime.h during compile, thus, we
+ * don't need this include line
+ */
+#include <cuda_runtime.h>
+#include "cuda_helpers.h"
+#endif
 
 /* call by kernel/device, run by device */
 __device__ void foo(void)
 {
+	printf("Hello from GPU foo.\n");
 }
 
 /* call by host, run by device */
@@ -17,6 +30,7 @@ __global__ void func(void)
 #else
 	/* Host code */
 #endif
+	printf("Hello from GPU.\n");
 	foo();
 }
 
@@ -27,7 +41,13 @@ __host__ void host_func(void)
 
 int main(void)
 {
+	gpu_init(0);
+
 	func<<<1,1>>>();
 	host_func();
+
+	/* flush printf */
+	cudaDeviceSynchronize();
+
 	return 0;
 }
