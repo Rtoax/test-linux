@@ -32,9 +32,11 @@
 #if defined(TEST_DOUBLE)
 #define TYPE	double
 #define TFMT	"%.2lf"
+#define TNAME	"double"
 #else
 #define TYPE	float
 #define TFMT	"%.2f"
+#define TNAME	"float"
 #endif
 
 #define NS2US	1000UL
@@ -221,7 +223,7 @@ int main(int argc, char *argv[])
 #elif defined(HAVE_CUDA)
 		fprintf(stderr, "Running on Nvidia GPU %d\n", env.gpu);
 #endif
-		fprintf(stderr, "size of TYPE %ld\n", sizeof(TYPE));
+		fprintf(stderr, "size of TYPE(%s) %ld\n", TNAME, sizeof(TYPE));
 		fprintf(stderr, "M = %ld, N = %ld, NLOOP = %ld\n",
 			env.m, env.n, env.nloop);
 		if (env.set_value)
