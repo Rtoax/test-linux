@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 #if defined(HAVE_HCCL)
 #include <hc_runtime.h>
 #include "hpcc_helpers.h"
@@ -17,11 +18,31 @@ __global__ void checkIndex(void)
 		gridDim.x, gridDim.y, gridDim.z);
 }
 
-int main(void)
+int main(int argc, char *argv[])
 {
-	int n = 6;
-	dim3 block(3);
-	dim3 grid((n + block.x - 1) / block.x);
+	int i, bx, by, bz, gx, gy, gz;
+
+	bx = gx = 3;
+	by = gy = 1;
+	bz = gz = 1;
+
+	for (i = 1; i < argc; i++) {
+#define xyz(v) if (!strncmp(#v"=", argv[i], 3)) v = atoi(argv[i] + 3);
+		xyz(bx);
+		xyz(by);
+		xyz(bz);
+		xyz(gx);
+		xyz(gy);
+		xyz(gz);
+#undef xyz
+	}
+
+	fprintf(stderr, "Usage: %s [bx|by|bz|gx|gy|gz=<N>]\n", argv[0]);
+	fprintf(stderr, "<<< grid(%d,%d,%d), block(%d,%d,%d) >>>\n",
+		gx, gy, gz, bx, by, bz);
+
+	dim3 block(bx, by, bz);
+	dim3 grid(gx, gy, gz);
 
 	gpu_init(0);
 
