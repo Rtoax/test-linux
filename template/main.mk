@@ -33,6 +33,9 @@ ifdef ERROR
   $(info Compile with ERROR=1)
   CFLAGS += -DERROR=1
   CXXFLAGS += -DERROR=1
+  CFLAGS_NVCC += -DERROR=1
+  CFLAGS_MXCC += -DERROR=1
+  CFLAGS_HTCC += -DERROR=1
   MAKEFLAGS += ERROR=1
 endif
 
