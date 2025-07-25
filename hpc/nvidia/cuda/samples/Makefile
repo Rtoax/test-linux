@@ -9,6 +9,8 @@ targets-nvcc += cudaGetDeviceProperties
 targets-nvcc += cudaDeviceGetP2PAttribute
 targets-nvcc += matrix-mul
 
+targets-post := $(patsubst %,${OUTPUT}%.E.cu,$(targets-nvcc))
+
 targets := matrix-mul-c
 
 CFLAGS_NVCC := -DHAVE_CUDA=1

@@ -18,6 +18,10 @@ endif
 ifdef DEBUG
   $(info MXCC = ${MXCC})
   $(info HTCC = ${HTCC})
+  $(info CFLAGS_MXCC = ${CFLAGS_MXCC})
+  $(info LDFLAGS_MXCC = ${LDFLAGS_MXCC})
+  $(info CFLAGS_HTCC = ${CFLAGS_HTCC})
+  $(info LDFLAGS_HTCC = ${LDFLAGS_HTCC})
 endif
 
 ${OUTPUT}%.maca.o: %.maca | ${OUTPUT}

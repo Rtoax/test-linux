@@ -26,9 +26,13 @@ endif
 
 # NOTE: NVCC's cflags,ldflags is totally different from gcc/clang, thus, we
 # don't use CFLAGS and LDFLAGS.
-${OUTPUT}%.cu.o: %.cu
+${OUTPUT}%.cu.o: %.cu | ${OUTPUT}
 	$(call log_tgt_obj,NVCC,$(<),$(@))
 	${Q}$(NVCC) -o $(@) -c $(<) $(CFLAGS_NVCC) $(CFLAGS_NVCC_$(*))
+
+${OUTPUT}%.E.cu: %.cu | ${OUTPUT}
+	$(call log_tgt_obj,NVCC E,$(<),$(@))
+	${Q}$(NVCC) -E -o $(@) -c $(<) $(CFLAGS_NVCC) $(CFLAGS_NVCC_$(*))
 
 $(targets-nvcc): %:
 	$(call log_tgt_exe,NVCC LD,$(<),$(@))
