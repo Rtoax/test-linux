@@ -11,11 +11,16 @@
 
 __global__ void checkIndex(void)
 {
-	printf("threadIdx(%d,%d,%d), blockIdx(%d,%d,%d), blockDim(%d,%d,%d), gridDim(%d,%d,%d)\n",
+	int ix = threadIdx.x + blockDim.x * blockIdx.x;
+	int iy = threadIdx.y + blockDim.y * blockIdx.y;
+	int iz = threadIdx.z + blockDim.z * blockIdx.z;
+
+	printf("threadIdx(%d,%d,%d), blockIdx(%d,%d,%d), blockDim(%d,%d,%d), gridDim(%d,%d,%d) (%d,%d,%d)\n",
 		threadIdx.x, threadIdx.y, threadIdx.z,
 		blockDim.x, blockDim.y, blockDim.z,
 		blockIdx.x, blockIdx.y, blockIdx.z,
-		gridDim.x, gridDim.y, gridDim.z);
+		gridDim.x, gridDim.y, gridDim.z,
+		ix, iy, iz);
 }
 
 int main(int argc, char *argv[])
