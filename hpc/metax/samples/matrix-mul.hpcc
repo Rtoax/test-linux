@@ -25,6 +25,10 @@
 #define __gpu_global__
 #endif
 
+#ifndef gpu_init
+#define gpu_init(dev)
+#endif
+
 #if defined(TEST_DOUBLE)
 #define TYPE	double
 #define TFMT	"%.2lf"
@@ -216,11 +220,7 @@ int main(int argc, char *argv[])
 			fprintf(stderr, "Matrix values set to %d\n", env.value);
 	}
 
-#ifdef HAVE_HCCL
-	hc_init(env.gpu);
-#elif defined(HAVE_CUDA)
-	cuda_init(env.gpu);
-#endif
+	gpu_init(env.gpu);
 
 	host_A = (TYPE *)malloc(sizeof(TYPE) * env.m * env.n);
 	host_B = (TYPE *)malloc(sizeof(TYPE) * env.m * env.n);

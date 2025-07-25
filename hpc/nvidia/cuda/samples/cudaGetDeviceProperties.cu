@@ -24,11 +24,11 @@ int main(void)
 	int i;
 #ifdef HAVE_HCCL
 	hcDeviceProp_t prop;
-	hc_init(0);
 #else
 	cudaDeviceProp prop;
-	cuda_init(0);
 #endif
+	gpu_init(0);
+
 	cudaGetDeviceProperties(&prop, 0);
 
 	printf("name %s\n", prop.name);

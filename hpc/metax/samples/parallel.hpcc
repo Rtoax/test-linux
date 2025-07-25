@@ -1,8 +1,8 @@
 #include <stdio.h>
 #ifdef HAVE_HCCL
 #include <hc_runtime.h>
-#endif
 #include "hpcc_helpers.h"
+#endif
 
 
 __global__ void foo(int count)
@@ -17,7 +17,7 @@ int main(void)
 {
 	int count = 10000;
 
-	hc_init(0);
+	gpu_init(0);
 
 	foo<<<(count + 511) / 512, 512>>>(count);
 	return 0;

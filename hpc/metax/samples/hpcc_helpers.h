@@ -6,3 +6,5 @@ void hc_init(int dev_id);
 #else
 #define hc_init(id) do {} while (0)
 #endif
+
+#define gpu_init(dev_id)	hc_init(dev_id)
