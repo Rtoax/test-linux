@@ -27,6 +27,7 @@ int main(void)
 #else
 	cudaDeviceProp prop;
 #endif
+
 	gpu_init(0);
 
 	cudaGetDeviceProperties(&prop, 0);
@@ -36,6 +37,10 @@ int main(void)
 	printf("totalGlobalMem %ld (%.0lf GiB)\n",
 		prop.totalGlobalMem, prop.totalGlobalMem / 1e9);
 	printf("totalConstMem %ld\n", prop.totalConstMem);
+	printf("multiProcessorCount %d\n", prop.multiProcessorCount);
+	printf("maxThreadsPerMultiProcessor %d\n", prop.maxThreadsPerMultiProcessor);
+	printf("Theoretical number of concurrent hardware threads: %d\n",
+		prop.multiProcessorCount * prop.maxThreadsPerMultiProcessor);
 
 	printf("maxThreadsPerBlock %d >= blockDim.x * blockDim.y * blockDim.z\n",
 		prop.maxThreadsPerBlock);
