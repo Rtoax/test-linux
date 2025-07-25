@@ -1,0 +1,23 @@
+#include <stdio.h>
+#include <hc_runtime.h>
+
+
+int main(void)
+{
+	int value, srcDev, dstDev;
+
+	srcDev = 0;
+	dstDev = 1;
+
+#define P2PAttr(attr) do {	\
+		hcDeviceGetP2PAttribute(&value, attr, srcDev, dstDev);	\
+		printf("%s %d\n", #attr, value);	\
+	} while (0)
+
+	P2PAttr(hcDevP2PAttrPerformanceRank);
+	P2PAttr(hcDevP2PAttrAccessSupported);
+	P2PAttr(hcDevP2PAttrNativeAtomicSupported);
+	P2PAttr(hcDevP2PAttrHcArrayAccessSupported);
+
+	return 0;
+}
