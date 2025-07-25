@@ -1,0 +1,19 @@
+#include <stdio.h>
+#include <hc_runtime.h>
+#include <hc_runtime_api.h>
+
+
+int main(void)
+{
+	int value, dev_id;
+
+#define Attr(attr) do {	\
+		cudaDeviceGetAttribute(&value, attr, dev_id);	\
+		printf("%s %d\n", #attr, value);	\
+	} while (0)
+
+	// TODO: error: use of undeclared identifier 'hcDevAttrMaxThreadsPerBlock'
+	// Attr(hcDevAttrMaxThreadsPerBlock);
+
+	return 0;
+}

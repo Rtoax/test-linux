@@ -12,7 +12,7 @@ and this project adheres to
 #### Breaking Changes
 #### Added
 - ascend: add abbreviation.md;
-- metax: add hcGetDeviceProperties.hpcc, cuda2hccl.h, hcDeviceGetP2PAttribute.hpcc, symlink dim3.hpcc;
+- metax: add hcGetDeviceProperties.hpcc, cuda2hccl.h, hcDeviceGetAttribute.hpcc, hcDeviceGetP2PAttribute.hpcc, symlink dim3.hpcc;
 - cuda: add dim3.cu, symlink cudaDeviceGetP2PAttribute.cu;
 - nvidia: add README.Nsight.md from ostools;
 #### Changed

@@ -4,6 +4,7 @@
 /hcclGetVersion
 /hcMalloc
 /hcGetDeviceProperties
+/hcDeviceGetAttribute
 /hcDeviceGetP2PAttribute
 /matrix-mul
 /matrix-mul-double
