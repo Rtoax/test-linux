@@ -4,6 +4,8 @@ set -e
 readonly loop=10000
 program=matrix-mul
 gpu=0
+max_size=1000
+sz_interval=10
 
 __usage__()
 {
@@ -12,14 +14,18 @@ matrix-mul.sh
 
 -g, --gpu [GPU]        running on GPU
 -p, --prog [PROG]      set ELF program
+-s, --size [NUM]       set matrix max size, default: ${max_size}
+-i, --interval [NUM]   set matrix size interval, default: ${sz_interval}
 -h, --help             show help info
 "
 	exit ${1-0}
 }
 
-TEMP_ARGS=$(getopt --options g:p:h \
+TEMP_ARGS=$(getopt --options g:p:s:i:h \
 	--long gpu: \
 	--long prog: \
+	--long size: \
+	--long interval: \
 	--long help \
 	--name $0 -- "$@")
 
@@ -38,6 +44,16 @@ while true; do
 		program=$1
 		shift
 		;;
+	-s | --size)
+		shift
+		max_size=$1
+		shift
+		;;
+	-i | --interval)
+		shift
+		sz_interval=$1
+		shift
+		;;
 	-h | --help)
 		shift
 		__usage__
@@ -50,7 +66,7 @@ while true; do
 done
 
 rm -f ${program}.log
-for m in $(seq 10 10 1000)
+for m in $(seq 10 ${sz_interval} ${max_size})
 do
 	if [[ $m -eq 10 ]]; then
 		verbose=-v
