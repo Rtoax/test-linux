@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
 #include <stdio.h>
+#include <string.h>
 #include <cuda_runtime.h>
 #include "cuda_helpers.h"
 
@@ -27,4 +28,15 @@ void cuda_check_gpu_error(const char *msg)
 		printf("Cuda error: %s: %s\n", msg, cudaGetErrorString(err));
 		exit(1);
 	}
+}
+
+const char *gpu_name(char *buf, int buf_len)
+{
+	cudaDeviceProp prop;
+	cudaError_t err = cudaGetDeviceProperties(&prop, 0);
+	if (err != cudaSuccess) {
+		return NULL;
+	}
+	strncpy(buf, prop.name, buf_len);
+	return buf;
 }

@@ -1,10 +1,11 @@
 // SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
 #include <stdio.h>
+#include <string.h>
 #include <hccl.h>
 #include "hpcc_helpers.h"
 
 
-void hc_init(int dev_id)
+void gpu_init(int dev_id)
 {
 	int deviceId;
 	hcError_t err;
@@ -21,4 +22,15 @@ void hc_init(int dev_id)
 		fprintf(stderr, "Set Device failed: %s\n", hcGetErrorString(err));
 		exit(1);
 	}
+}
+
+const char *gpu_name(char *buf, int buf_len)
+{
+	hcDeviceProp_t prop;
+	hcError_t err = hcGetDeviceProperties(&prop, 0);
+	if (err != hcSuccess) {
+		return NULL;
+	}
+	strncpy(buf, prop.name, buf_len);
+	return buf;
 }

@@ -226,10 +226,12 @@ int main(int argc, char *argv[])
 
 	if (env.verbose) {
 		fprintf(stderr, "Version %s\n", version);
-#ifdef HAVE_HCCL
-		fprintf(stderr, "Running on MetaX GPU %d\n", env.gpu);
+#if defined(HAVE_HCCL)
+		char buf[64];
+		fprintf(stderr, "Running on MetaX GPU %d, %s\n", env.gpu, gpu_name(buf, sizeof(buf)));
 #elif defined(HAVE_CUDA)
-		fprintf(stderr, "Running on Nvidia GPU %d\n", env.gpu);
+		char buf[64];
+		fprintf(stderr, "Running on Nvidia GPU %d, %s\n", env.gpu, gpu_name(buf, sizeof(buf)));
 #endif
 		fprintf(stderr, "size of TYPE(%s) %ld\n", TNAME, sizeof(TYPE));
 		fprintf(stderr, "M = %ld, N = %ld, NLOOP = %ld\n",
