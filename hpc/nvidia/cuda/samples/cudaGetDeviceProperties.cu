@@ -12,6 +12,7 @@
 #if defined(HAVE_HCCL)
 #include <hc_runtime.h>
 #include "hpcc_helpers.h"
+#include "cuda2hccl.h"
 #else
 #include <cuda_runtime.h>
 #include "cuda_helpers.h"
@@ -24,12 +25,11 @@ int main(void)
 #ifdef HAVE_HCCL
 	hcDeviceProp_t prop;
 	hc_init(0);
-	hcGetDeviceProperties(&prop, 0);
 #else
 	cudaDeviceProp prop;
 	cuda_init(0);
-	cudaGetDeviceProperties(&prop, 0);
 #endif
+	cudaGetDeviceProperties(&prop, 0);
 
 	printf("name %s\n", prop.name);
 

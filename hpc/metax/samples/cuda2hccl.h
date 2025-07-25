@@ -12,3 +12,4 @@
 #define cudaEventRecord	hcEventRecord
 #define cudaEventElapsedTime	hcEventElapsedTime
 #define cudaEventSynchronize	hcEventSynchronize
+#define cudaGetDeviceProperties(prop, devid)	hcGetDeviceProperties(prop, devid)
