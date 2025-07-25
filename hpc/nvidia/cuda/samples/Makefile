@@ -7,7 +7,7 @@ targets-nvcc += parallel
 targets-nvcc += cudaMalloc
 targets-nvcc += cudaGetDeviceProperties
 targets-nvcc += cudaDeviceGetP2PAttribute
-targets-nvcc += matrix-mul matrix-mul-double matrix-mul-init8
+targets-nvcc += matrix-mul matrix-mul-double matrix-mul-int8
 
 targets-post := $(patsubst %,${OUTPUT}%.E.cu,$(targets-nvcc))
 
