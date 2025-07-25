@@ -1,8 +1,10 @@
 #include <stdio.h>
 #if defined(HAVE_HCCL)
 #include <hc_runtime.h>
+#include "hpcc_helpers.h"
 #else
 #include <cuda_runtime.h>
+#include "cuda_helpers.h"
 #endif
 
 __global__ void checkIndex(void)
@@ -19,6 +21,8 @@ int main(void)
 	int n = 6;
 	dim3 block(3);
 	dim3 grid((n + block.x - 1) / block.x);
+
+	gpu_init(0);
 
 	checkIndex<<<grid, block>>>();
 
