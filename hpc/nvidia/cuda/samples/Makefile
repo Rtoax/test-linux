@@ -12,8 +12,11 @@ targets-nvcc += matrix-mul
 targets-post := $(patsubst %,${OUTPUT}%.E.cu,$(targets-nvcc))
 
 targets := matrix-mul-c
+targets += matrix-mul-c-double
 
 CFLAGS_NVCC := -DHAVE_CUDA=1
+
+CFLAGS_matrix-mul-double := -DTEST_DOUBLE=1
 
 CUDA_HELPERS := ${OUTPUT}cuda_helpers.cu.o
 
@@ -29,3 +32,4 @@ cudaGetDeviceProperties: ${OUTPUT}cudaGetDeviceProperties.cu.o ${CUDA_HELPERS}
 cudaDeviceGetP2PAttribute: ${OUTPUT}cudaDeviceGetP2PAttribute.cu.o ${CUDA_HELPERS}
 matrix-mul: ${OUTPUT}matrix-mul.cu.o ${CUDA_HELPERS}
 matrix-mul-c: ${OUTPUT}matrix-mul.o
+matrix-mul-c-double: ${OUTPUT}matrix-mul-double.o
