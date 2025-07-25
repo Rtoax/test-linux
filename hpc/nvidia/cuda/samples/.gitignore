@@ -5,5 +5,7 @@
 /cudaGetDeviceProperties
 /cudaDeviceGetP2PAttribute
 /matrix-mul
+/matrix-mul-double
+/matrix-mul-int8
 /matrix-mul-c
 /matrix-mul-c-double

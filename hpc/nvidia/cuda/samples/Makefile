@@ -7,7 +7,7 @@ targets-nvcc += parallel
 targets-nvcc += cudaMalloc
 targets-nvcc += cudaGetDeviceProperties
 targets-nvcc += cudaDeviceGetP2PAttribute
-targets-nvcc += matrix-mul
+targets-nvcc += matrix-mul matrix-mul-double matrix-mul-init8
 
 targets-post := $(patsubst %,${OUTPUT}%.E.cu,$(targets-nvcc))
 
@@ -17,6 +17,8 @@ targets += matrix-mul-c-double
 CFLAGS_NVCC := -DHAVE_CUDA=1
 
 CFLAGS_matrix-mul-double := -DTEST_DOUBLE=1
+CFLAGS_NVCC_matrix-mul-double := -DTEST_DOUBLE=1
+CFLAGS_NVCC_matrix-mul-int8 := -DTEST_INT8=1
 
 CUDA_HELPERS := ${OUTPUT}cuda_helpers.cu.o
 
@@ -31,5 +33,7 @@ cudaMalloc: ${OUTPUT}cudaMalloc.cu.o ${CUDA_HELPERS}
 cudaGetDeviceProperties: ${OUTPUT}cudaGetDeviceProperties.cu.o ${CUDA_HELPERS}
 cudaDeviceGetP2PAttribute: ${OUTPUT}cudaDeviceGetP2PAttribute.cu.o ${CUDA_HELPERS}
 matrix-mul: ${OUTPUT}matrix-mul.cu.o ${CUDA_HELPERS}
+matrix-mul-double: ${OUTPUT}matrix-mul-double.cu.o ${CUDA_HELPERS}
+matrix-mul-int8: ${OUTPUT}matrix-mul-int8.cu.o ${CUDA_HELPERS}
 matrix-mul-c: ${OUTPUT}matrix-mul.o
 matrix-mul-c-double: ${OUTPUT}matrix-mul-double.o
