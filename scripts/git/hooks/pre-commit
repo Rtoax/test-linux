@@ -17,22 +17,24 @@ try_add=( $(git status --short | grep ^A | awk '{print $2}' || true) )
 try_del=( $(git status --short | grep ^D | awk '{print $2}' || true) )
 try_modify=( $(git status --short | grep ^M | awk '{print $2}' || true) )
 
+fatal() {
+	echo >&2 "FATAL: "${@}
+	exit 1
+}
+
 # Redirect output to stderr.
 exec 1>&2
 
 hint_changelog() {
 	if ! [[ " ${try_modify[@]} " =~ " CHANGELOG.md " ]]; then
 		git status --short
-		echo "FATAL: you forgot modify CHANGELOG.md!!! Try FORCE???"
-		echo "FATAL: ${@}"
-		exit 1
+		fatal "${@}" "you forgot modify CHANGELOG.md!!! Try FORCE???"
 	fi
 }
 
 broken_symlinks=( $(find ${GIT_TOPDIR} -xtype l) )
 if [[ ${#broken_symlinks[@]} -ge 1 ]]; then
-	echo >&2 "Broken-symlink: ${broken_symlinks[@]}"
-	exit 1
+	fatal "Broken-symlink: ${broken_symlinks[@]}"
 fi
 
 for f in ${try_add[@]}
@@ -42,23 +44,18 @@ do
 	# true: for empty file
 	read -r -N 8 bin < $f || true
 	if [[ $bin == $'\x7f'ELF* ]]; then
-		echo "FATAL: You are trying to add <$f> ELF file to git-tree, see git status."
-		exit 1
+		fatal "You are trying to add <$f> ELF file to git-tree, see git status."
 	# ar file start from "!<arch>\n", see /usr/include/ar.h
 	elif [[ $bin == $'!<arch>\n' ]]; then
-		echo "FATAL: You are trying to add <$f> ar file to git-tree, see git status."
-		exit 1
+		fatal "You are trying to add <$f> ar file to git-tree, see git status."
 	elif [[ $bin == $'gmon'* ]]; then
-		echo "FATAL: You are trying to add <$f> GNU prof performance file to git-tree, see git status."
-		exit 1
+		fatal "You are trying to add <$f> GNU prof performance file to git-tree, see git status."
 	fi
 	if [[ $(basename $f) == vmlinux.h ]]; then
-		echo "FATAL: vmlinux.h is too big, generate it with bpftool command!!!"
-		exit 1
+		fatal "vmlinux.h is too big, generate it with bpftool command!!!"
 	fi
 	if [[ $(file $f | awk '{print $NF}') == data ]] && [[ -z ${FORCE} ]]; then
-		echo "FATAL: $f is considered a data file!!! try FORCE"
-		exit 1
+		fatal "$f is considered a data file!!! try FORCE"
 	fi
 done
 
