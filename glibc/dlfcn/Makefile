@@ -1,17 +1,17 @@
 sub-dir := hacking
 
-TARGETS := hello
-TARGETS += socket
-TARGETS += malloc
-TARGETS += vdso
-TARGETS += dlinfo
+targets := hello
+targets += socket
+targets += malloc
+targets += vdso
+targets += dlinfo
 
 ifneq ($(shell uname -m),aarch64)
-  TARGETS += dlsym-RTLD_DEFAULT
+  targets += dlsym-RTLD_DEFAULT
 endif
 
-TARGETS_LIBSO := libhello.so.0.1
-TARGETS_LIBSO += libglibc.so.6
+targets-libso := libhello.so.0.1
+targets-libso += libglibc.so.6
 
 LDFLAGS := -ldl
 

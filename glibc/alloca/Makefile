@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
-TARGETS := alloca
+targets := alloca
 
 include ../../template/main.mk
 

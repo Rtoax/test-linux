@@ -1,7 +1,7 @@
-TARGETS := dev
+targets := dev
 
-TARGETS_LIBSO := libdev.so.1
-TARGETS_LIBSO += libdev_hack.so
+targets-libso := libdev.so.1
+targets-libso += libdev_hack.so
 
 CC := gcc
 
@@ -12,7 +12,7 @@ LDFLAGS :=
 CFLAGS_dev := -ldev
 LDFLAGS_dev := libdev.so
 
-TARGETS_TEST := run0
+targets-test := run0
 
 include ../../../template/main.mk
 

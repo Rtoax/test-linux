@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
 include ../../compiler/compiler.mk
 
-TARGETS :=
+targets :=
 ANNOBIN = $(shell pwd)/annobin-cc1
 
 ifneq ($(wildcard /usr/lib/rpm/redhat/redhat-annobin-cc1),)
@@ -14,7 +14,7 @@ feature-annobin := $(findstring 1,$(call check_compiler_option,$(CC),-specs=${AN
 $(info feature-annobin ${feature-annobin})
 ifeq (${feature-annobin},1)
   $(info Support ANNOBIN)
-  TARGETS += hello
+  targets += hello
 endif
 
 CFLAGS :=

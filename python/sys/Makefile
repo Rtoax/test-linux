@@ -1,4 +1,4 @@
-TARGETS_PYTHON := argv.py
+targets-python := argv.py
 
 PY_ARGS_argv.py := 12
 

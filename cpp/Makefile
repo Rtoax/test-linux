@@ -7,21 +7,21 @@ OUTPUT := .output/
 
 sub-dir := demangle
 
-TARGETS_CPP :=
-TARGETS_CPP += hello
-TARGETS_CPP += alignas
-TARGETS_CPP += extern_C
-TARGETS_CPP += pass-arg
-TARGETS_CPP += return
-TARGETS_CPP += this
-TARGETS_CPP += string
-TARGETS_CPP += __cplusplus
+targets-cpp :=
+targets-cpp += hello
+targets-cpp += alignas
+targets-cpp += extern_C
+targets-cpp += pass-arg
+targets-cpp += return
+targets-cpp += this
+targets-cpp += string
+targets-cpp += __cplusplus
 ifeq (${CC_STD_C++20},1)
-  TARGETS_CPP += format
+  targets-cpp += format
 endif
-TARGETS_CPP += fmt
-TARGETS_CPP += __STDC__ __STDC__c++98 __STDC__gnu++98
-TARGETS_CPP += expired
+targets-cpp += fmt
+targets-cpp += __STDC__ __STDC__c++98 __STDC__gnu++98
+targets-cpp += expired
 
 CXXFLAGS :=
 CXXFLAGS += -DCPP
@@ -53,7 +53,7 @@ CXXFLAGS___STDC__c++98 := -std=c++98
 CXXFLAGS___STDC__gnu++98 := -std=gnu++98
 LDXXFLAGS_fmt := -lfmt
 
-TARGETS_POST := $(addprefix ${OUTPUT},$(patsubst %,%.cpp.s,${TARGETS_CPP}))
+targets-post := $(addprefix ${OUTPUT},$(patsubst %,%.cpp.s,${targets-cpp}))
 
 include ../template/main.mk
 

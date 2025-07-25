@@ -1,7 +1,7 @@
-TARGETS :=
-TARGETS += mode_strict
-TARGETS += mode_filter mode_filter-no-scmp
-TARGETS += filter-write
+targets :=
+targets += mode_strict
+targets += mode_filter mode_filter-no-scmp
+targets += filter-write
 
 CFLAGS_mode_filter-no-scmp := -DCONFIG_NO_SECCOMP=1
 

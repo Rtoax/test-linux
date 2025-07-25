@@ -1,15 +1,15 @@
 # SPDX-License-Identifier: GPL-3.0
 OUTPUT := .output/
 
-TARGETS_NVCC := hello
-TARGETS_NVCC += dim3
-TARGETS_NVCC += parallel
-TARGETS_NVCC += cudaMalloc
-TARGETS_NVCC += cudaGetDeviceProperties
-TARGETS_NVCC += cudaDeviceGetP2PAttribute
-TARGETS_NVCC += matrix-mul
+targets-nvcc := hello
+targets-nvcc += dim3
+targets-nvcc += parallel
+targets-nvcc += cudaMalloc
+targets-nvcc += cudaGetDeviceProperties
+targets-nvcc += cudaDeviceGetP2PAttribute
+targets-nvcc += matrix-mul
 
-TARGETS := matrix-mul-c
+targets := matrix-mul-c
 
 CFLAGS_NVCC := -DHAVE_CUDA=1
 

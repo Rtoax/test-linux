@@ -1,5 +1,5 @@
-TARGETS := capget
-TARGETS += version
+targets := capget
+targets += version
 
 ifeq ($(wildcard /usr/include/sys/capability.h),)
   $(error "ERROR: not found capability development")

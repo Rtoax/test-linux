@@ -1,5 +1,5 @@
-TARGETS :=
-TARGETS += clone
+targets :=
+targets += clone
 
 include ../../../template/main.mk
 

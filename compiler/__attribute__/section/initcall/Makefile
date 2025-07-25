@@ -1,5 +1,5 @@
-TARGETS := main
-TARGETS += main-pie
+targets := main
+targets += main-pie
 
 # FIXME: PIE not implement, because _start address in lds
 LDFLAGS += -Wl,-Tld-insert-text.lds,-Tld-insert-data.lds

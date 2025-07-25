@@ -30,6 +30,6 @@ ${OUTPUT}%.cu.o: %.cu
 	$(call log_tgt_obj,NVCC,$(<),$(@))
 	${Q}$(NVCC) -o $(@) -c $(<) $(CFLAGS_NVCC) $(CFLAGS_NVCC_$(*))
 
-$(TARGETS_NVCC): %:
+$(targets-nvcc): %:
 	$(call log_tgt_exe,NVCC LD,$(<),$(@))
 	${Q}$(NVCC) -o $(@) $(^) $(LDFLAGS_NVCC) $(LDFLAGS_NVCC_$(*))

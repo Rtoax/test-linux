@@ -50,15 +50,15 @@ ifdef DEBUG
   $(info kconfig-obj-n : $(kconfig-obj-))
 endif
 
-TARGETS :=
-TARGETS += config-map
-TARGETS += socket_filter
-TARGETS += tc
-TARGETS += xdp xdp_simple xdp_dos
+targets :=
+targets += config-map
+targets += socket_filter
+targets += tc
+targets += xdp xdp_simple xdp_dos
 # kernel v4.12-11037-g546ac1ffb70d
 # commit 546ac1ffb70d ("bpf: add devmap, a map for storing net device references")
 ifeq ($(call kernel_newer_than,4,12,0),y)
-  TARGETS += xdp_devmap
+  targets += xdp_devmap
 endif
 # kernel v5.8-rc4-1449-g9216477449f3
 # commit 9216477449f3 ("bpf: cpumap: Add the possibility to attach an eBPF program to cpumap")
@@ -67,7 +67,7 @@ endif
 # commit 644bfe51fa49 ("cpumap: Formalize map value as a named struct")
 # introduce struct bpf_cpumap_val
 ifeq ($(call kernel_newer_than,5,8,0),y)
-  TARGETS += xdp_cpumap
+  targets += xdp_cpumap
 endif
 
 # linux commit e6f2dd0f8067 ("bpf: Add bpf_loop helper")
@@ -76,33 +76,33 @@ ifeq ($(call kernel_newer_than,5,15,0),y)
   CFLAGS_BPF += -DSUPPORT_BPF_LOOP=1
 endif
 
-TARGETS += sockops
-TARGETS += sk_skb
-TARGETS += sk_msg
-TARGETS += cgroup_device
-TARGETS += cgroup_sysctl
-TARGETS += fmod_ret
+targets += sockops
+targets += sk_skb
+targets += sk_msg
+targets += cgroup_device
+targets += cgroup_sysctl
+targets += fmod_ret
 ifeq ($(call kernel_newer_than,5,7,0),y)
   # linux v5.7-rc2-1180-geaaacd23910f
   # commit eaaacd23910f ("bpf: Add task and task/file iterator targets")
-  TARGETS += iter_task iter_task_file
+  targets += iter_task iter_task_file
   # linux v5.7-rc2-1178-g6086d29def80
   # commit 6086d29def80 ("bpf: Add bpf_map iterator")
-  TARGETS += iter_bpf_map
+  targets += iter_bpf_map
 endif
 ifeq ($(call kernel_newer_than,5,11,0),y)
   # linux v5.11-rc4-606-g3a7b35b899de
   # commit 3a7b35b899de ("bpf: Introduce task_vma bpf_iter")
-  TARGETS += iter_task_vma
+  targets += iter_task_vma
 endif
 ifeq ($(call kernel_newer_than,6,12,0),y)
   # linux v6.12-rc1-177-g4971266e1595
   # commit 4971266e1595 ("bpf: Add kmem_cache iterator")
-  TARGETS += iter_kmem_cache
+  targets += iter_kmem_cache
 endif
-TARGETS += $(kconfig-obj-y)
-TARGETS += map_array map_percpu_array
-TARGETS += xdp_xskmap
+targets += $(kconfig-obj-y)
+targets += map_array map_percpu_array
+targets += xdp_xskmap
 
 # linux commit bd1279ae8a69 ("bpf: Add bpf_rbtree_{add,remove,first} kfuncs")
 # v6.2-rc7-1572-gbd1279ae8a69
@@ -113,8 +113,8 @@ ifeq ($(call kernel_newer_than,6,2,0),y)
     $(warning "kuapi not support bpf_rb_root")
     CFLAGS += -DKAPI_NO_BPF_RB_ROOT=1
   endif
-  TARGETS += rbtree
-  TARGETS += rbtree-raw-map
+  targets += rbtree
+  targets += rbtree-raw-map
   # linux commit 9e3e66c553f7 ("bpf: Add bpf_rbtree_{root,left,right} kfunc")
   # v6.15-rc4-68-g9e3e66c553f7
   ifeq ($(call kernel_newer_than,6,14,0),y)
@@ -127,7 +127,7 @@ endif
 # linux commit d83525ca62cf ("bpf: introduce bpf_spin_lock")
 # v5.0-rc4-620-gd83525ca62cf
 ifeq ($(call kernel_newer_than,5,0,0),y)
-  TARGETS += spin_lock
+  targets += spin_lock
 endif
 
 # linux commit 7b15523a989b ("bpf: Add a bpf_snprintf helper")
@@ -158,7 +158,7 @@ ifeq ($(call kernel_newer_than,6,10,0),y)
 endif
 
 # _if_ there are no user mode code, append to bpf target only
-obj-bpf.o := ${TARGETS:=.bpf.o}
+obj-bpf.o := ${targets:=.bpf.o}
 obj-bpf.o += cgroup_skb.bpf.o
 obj-bpf.o += cgroup_sock.bpf.o
 obj-bpf.o += cgroup_sock_addr.bpf.o
@@ -183,8 +183,8 @@ obj-bpf.o += map_bloom_filter.bpf.o
 obj-bpf.o += sched_cls.bpf.o
 obj-bpf.o += sched_act.bpf.o
 
-TARGETS_BPF := $(addprefix ${OUTPUT},${obj-bpf.o})
-TARGETS_POST := $(patsubst %.bpf.o,%.bpf.disasm,$(TARGETS_BPF))
+targets-bpf := $(addprefix ${OUTPUT},${obj-bpf.o})
+targets-post := $(patsubst %.bpf.o,%.bpf.disasm,$(targets-bpf))
 
 # FIXME: vmlinux.h use macro 'restrict'
 # TODO: linux selftests/bpf is -std=gnu11
@@ -346,10 +346,10 @@ LIBXDP_HELPERS := ${OUTPUT}libxdp_helpers.o
 HELPERS := ${LIBXDP_HELPERS} ${TRACE_HELPERS} \
 	   ${TASK_HELPERS} ${SOCKET_HELPERS} ${LIBBPF_WRAPPER}
 
-TARGETS += libbpf_version
-TARGETS_PREP += libbpf_version
-TARGETS_PREP += test-libbpf_version
-TARGETS_PREP += ${HELPERS}
+targets += libbpf_version
+targets-prep += libbpf_version
+targets-prep += test-libbpf_version
+targets-prep += ${HELPERS}
 
 include ../../template/main.mk
 

@@ -1,16 +1,16 @@
 # SPDX-License-Identifier: GPL-3.0
 sub-dir := process
 
-TARGETS :=
-TARGETS += proc_examples
-TARGETS += self thread-self
-TARGETS += auxv
-TARGETS += stat
-TARGETS += statm
-TARGETS += status
-TARGETS += uptime
+targets :=
+targets += proc_examples
+targets += self thread-self
+targets += auxv
+targets += stat
+targets += statm
+targets += status
+targets += uptime
 
-TARGETS_SHELL := mounts.sh
+targets-shell := mounts.sh
 
 include ../../elf/pie.mk
 include ../../template/main.mk

@@ -1,2 +1,2 @@
-TARGETS_SHELL := mkfs.fat.sh
+targets-shell := mkfs.fat.sh
 include ../../template/main.mk

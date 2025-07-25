@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
-TARGETS :=
-TARGETS_O :=
-TARGETS_S_O :=
+targets :=
+obj-o :=
+obj-s-o :=
 
 CC := gcc
 AS := as
@@ -11,38 +11,38 @@ LDFLAGS :=
 CFLAGS_PIE :=
 LDFLAGS_PIE :=
 
-TARGETS += R_X86_64
-TARGETS += R_X86_64_64
-TARGETS += R_X86_64_32S
-TARGETS += R_X86_64_PC32
-TARGETS += R_X86_64_PLT32
-TARGETS += R_X86_64_COPY
-TARGETS += R_X86_64_JUMP_SLOT
-TARGETS += R_X86_64_GLOB_DAT
+targets += R_X86_64
+targets += R_X86_64_64
+targets += R_X86_64_32S
+targets += R_X86_64_PC32
+targets += R_X86_64_PLT32
+targets += R_X86_64_COPY
+targets += R_X86_64_JUMP_SLOT
+targets += R_X86_64_GLOB_DAT
 
-TARGETS_O += R_X86_64_32.o
-TARGETS_O += R_X86_64_PLT32.o
-TARGETS_O += R_X86_64_GOTPCRELX.o
+obj-o += R_X86_64_32.o
+obj-o += R_X86_64_PLT32.o
+obj-o += R_X86_64_GOTPCRELX.o
 
-TARGETS_S_O += R_X86_64_32.S.o
-TARGETS_S_O += R_X86_64_64.S.o
-TARGETS_S_O += R_X86_64_GOT32.S.o R_X86_64_GOTPC32.S.o
-TARGETS_S_O += R_X86_64_GOTPLT64.S.o
-TARGETS_S_O += R_X86_64_GOTOFF64.S.o
-TARGETS_S_O += R_X86_64_REX_GOTPCRELX.S.o
-TARGETS_S_O += R_X86_64_PLT32.S.o
-TARGETS_S_O += R_X86_64_PLTOFF64.S.o
+obj-s-o += R_X86_64_32.S.o
+obj-s-o += R_X86_64_64.S.o
+obj-s-o += R_X86_64_GOT32.S.o R_X86_64_GOTPC32.S.o
+obj-s-o += R_X86_64_GOTPLT64.S.o
+obj-s-o += R_X86_64_GOTOFF64.S.o
+obj-s-o += R_X86_64_REX_GOTPCRELX.S.o
+obj-s-o += R_X86_64_PLT32.S.o
+obj-s-o += R_X86_64_PLTOFF64.S.o
 
-TARGETS_PREP := ${TARGETS_O} ${TARGETS_S_O}
-TARGETS_SHELL := R_X86_64_64.sh
-TARGETS_SHELL += R_X86_64_PC32.sh
+targets-prep := ${obj-o} ${obj-s-o}
+targets-shell := R_X86_64_64.sh
+targets-shell += R_X86_64_PC32.sh
 
 CFLAGS += -O0
 CFLAGS += -I..
 
 ifneq ($(shell uname -m),x86_64)
   $(warning Try compile on $(shell uname -m))
-  TARGETS_S_O :=
+  obj-s-o :=
 endif
 
 # Debian 12 default compile PIE EXEC, Fedora40 default compile no-PIE EXEC.

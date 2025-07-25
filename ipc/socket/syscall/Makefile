@@ -1,17 +1,17 @@
-TARGETS :=
-TARGETS += socketpair
-TARGETS += getsockopt
-TARGETS += setsockopt
-TARGETS += getsockname
-TARGETS += socket
-TARGETS += bind bind-ENOTSOCK
-TARGETS += listen
-TARGETS += accept
-TARGETS += connect
-TARGETS += shutdown
-TARGETS += recv
-TARGETS += tcp-srv-1 tcp-clt-1
-TARGETS += AF_XDP
+targets :=
+targets += socketpair
+targets += getsockopt
+targets += setsockopt
+targets += getsockname
+targets += socket
+targets += bind bind-ENOTSOCK
+targets += listen
+targets += accept
+targets += connect
+targets += shutdown
+targets += recv
+targets += tcp-srv-1 tcp-clt-1
+targets += AF_XDP
 
 include ../../../template/main.mk
 

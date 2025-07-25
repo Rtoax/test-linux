@@ -1,4 +1,4 @@
-TARGETS := mkfifo
+targets := mkfifo
 
 CFLAGS :=
 

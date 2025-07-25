@@ -1,2 +1,2 @@
-TARGETS_SHELL := ping.sh
+targets-shell := ping.sh
 include ../../../template/main.mk

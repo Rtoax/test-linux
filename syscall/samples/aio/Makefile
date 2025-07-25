@@ -1,8 +1,8 @@
 LIBAIO_HDR := /usr/include/libaio.h
 
-TARGETS :=
-TARGETS += libaio
-TARGETS += epoll
+targets :=
+targets += libaio
+targets += epoll
 
 ifeq ($(wildcard $(LIBAIO_HDR)),)
   $(error "ERROR: Must install libaio development header")

@@ -1,32 +1,32 @@
 # SPDX-License-Identifier: GPL-3.0
-TARGETS :=
-TARGETS += alias
-TARGETS += always_inline
-TARGETS += noinline
-TARGETS += cleanup
-TARGETS += const
-TARGETS += constructor
-TARGETS += deprecated
-TARGETS += error
-TARGETS += format
-TARGETS += __gnu_inline__
-TARGETS += __naked__
-TARGETS += nocf_check
-TARGETS += nonnull
-TARGETS += noreturn
-TARGETS += optimize
-TARGETS += optimize_omit-frame-pointer
-TARGETS += __pure__
-TARGETS += randomize_layout
-TARGETS += section-initcall
-TARGETS += section-readmostly
-TARGETS += vector_size
-TARGETS += weak
-TARGETS += noplt noplt-plt
-TARGETS += kernel_helper
-TARGETS += __has_attribute
+targets :=
+targets += alias
+targets += always_inline
+targets += noinline
+targets += cleanup
+targets += const
+targets += constructor
+targets += deprecated
+targets += error
+targets += format
+targets += __gnu_inline__
+targets += __naked__
+targets += nocf_check
+targets += nonnull
+targets += noreturn
+targets += optimize
+targets += optimize_omit-frame-pointer
+targets += __pure__
+targets += randomize_layout
+targets += section-initcall
+targets += section-readmostly
+targets += vector_size
+targets += weak
+targets += noplt noplt-plt
+targets += kernel_helper
+targets += __has_attribute
 
-TARGETS_BPF := preserve_access_index.bpf.o
+targets-bpf := preserve_access_index.bpf.o
 
 include ../compiler.mk
 

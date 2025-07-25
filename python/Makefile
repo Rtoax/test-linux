@@ -2,11 +2,11 @@ sub-dir := mkdocs
 sub-dir += os
 sub-dir += sys
 
-TARGETS_SHELL := calendar.sh
+targets-shell := calendar.sh
 
-TARGETS_PYTHON := hexdump.py
-TARGETS_PYTHON += listdir.py
-TARGETS_PYTHON += print.py
-TARGETS_PYTHON += split.py
+targets-python := hexdump.py
+targets-python += listdir.py
+targets-python += print.py
+targets-python += split.py
 
 include ../template/main.mk

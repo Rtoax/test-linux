@@ -1,9 +1,9 @@
-TARGETS :=
-TARGETS += current
-TARGETS += uninterruptible
-TARGETS += hung
-TARGETS += zombie
-TARGETS += stopped
+targets :=
+targets += current
+targets += uninterruptible
+targets += hung
+targets += zombie
+targets += stopped
 
 include ../template/main.mk
 

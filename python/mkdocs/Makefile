@@ -1,2 +1,2 @@
-TARGETS_SHELL := build.sh
+targets-shell := build.sh
 include ../../template/main.mk

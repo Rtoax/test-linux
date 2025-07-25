@@ -1,7 +1,7 @@
-TARGETS :=
-TARGETS += obstack
-TARGETS += alloc-performance-cmp
-TARGETS += multithread
+targets :=
+targets += obstack
+targets += alloc-performance-cmp
+targets += multithread
 
 CFLAGS :=
 CFLAGS += -lpthread

@@ -1,6 +1,6 @@
-TARGETS := io_uring-cp.out
-TARGETS += io_uring-bench.out
-TARGETS += io_uring-latency.out
+targets := io_uring-cp.out
+targets += io_uring-bench.out
+targets += io_uring-latency.out
 
 CFLAGS += -Wextra -g
 

@@ -1,8 +1,8 @@
-TARGETS :=
-TARGETS += demo-eventfd
+targets :=
+targets += demo-eventfd
 ifeq ($(shell uname -m),x86_64)
-  TARGETS += demo-select_eventfd
-  TARGETS += demo-epoll_eventfd
+  targets += demo-select_eventfd
+  targets += demo-epoll_eventfd
 else ifeq ($(shell uname -m),aarch64)
 endif
 

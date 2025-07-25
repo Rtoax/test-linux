@@ -1,8 +1,8 @@
-TARGETS := wait-wake
-TARGETS += requeue
-TARGETS += h2o
-TARGETS += spin
-TARGETS += latency
+targets := wait-wake
+targets += requeue
+targets += h2o
+targets += spin
+targets += latency
 
 include ../../../template/main.mk
 

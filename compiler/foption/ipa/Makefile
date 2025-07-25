@@ -2,15 +2,15 @@ CC := gcc
 
 include ../../compiler.mk
 
-TARGETS :=
-TARGETS += fdump-ipa-all fdump-ipa-clones
+targets :=
+targets += fdump-ipa-all fdump-ipa-clones
 
 ifneq ($(CC),clang)
   CFLAGS_fdump-ipa-all := -fdump-ipa-all
   CFLAGS_fdump-ipa-clones := -fdump-ipa-clones
 endif
 
-TARGETS_CLEAN := clean0
+targets-clean := clean0
 
 include ../../../template/main.mk
 

@@ -1,10 +1,10 @@
-TARGETS :=
-TARGETS += setpwent getpwent endpwent
-TARGETS += putpwent
-TARGETS += getpwnam
-TARGETS += getpwuid
-TARGETS += fgetpwent
-TARGETS += demo-pwd-grp
+targets :=
+targets += setpwent getpwent endpwent
+targets += putpwent
+targets += getpwnam
+targets += getpwuid
+targets += fgetpwent
+targets += demo-pwd-grp
 
 CFLAGS :=
 

@@ -4,25 +4,25 @@ sub-dir += clone
 sub-dir += fork
 sub-dir += namespace
 
-TARGETS :=
-TARGETS += cpuset CPU_SETSIZE CPU_ALLOC str2cpuset
-TARGETS += getcpu sched_getcpu
-TARGETS += nice nice-latency
-TARGETS += sched_setattr
-TARGETS += sched_setscheduler sched_getscheduler policy
-TARGETS += sched_getparam sched_setparam
-TARGETS += sched_getaffinity
-TARGETS += sched_get_priority_max sched_get_priority_min
-TARGETS += sched_rr_get_interval
-TARGETS += sched_yield
-TARGETS += taskset
-TARGETS += daemon
+targets :=
+targets += cpuset CPU_SETSIZE CPU_ALLOC str2cpuset
+targets += getcpu sched_getcpu
+targets += nice nice-latency
+targets += sched_setattr
+targets += sched_setscheduler sched_getscheduler policy
+targets += sched_getparam sched_setparam
+targets += sched_getaffinity
+targets += sched_get_priority_max sched_get_priority_min
+targets += sched_rr_get_interval
+targets += sched_yield
+targets += taskset
+targets += daemon
 
 CFLAGS := -D__USE_GNU
 CFLAGS += -I../../../
 CFLAGS += -pthread
 
-TARGETS_TEST := test0
+targets-test := test0
 
 include ../../../template/main.mk
 

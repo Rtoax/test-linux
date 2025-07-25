@@ -2,10 +2,10 @@ CC := gcc
 
 include ../../compiler.mk
 
-TARGETS += leak
-TARGETS += address
-TARGETS_CPP += address_cpp
-TARGETS += thread
+targets += leak
+targets += address
+targets-cpp += address_cpp
+targets += thread
 
 # Depends on libasan
 CFLAGS_address := -fsanitize=address

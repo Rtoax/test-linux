@@ -1,8 +1,8 @@
 # SPDX-License-Identifier: GPL-3.0
-TARGETS_CPP :=
-TARGETS_CPP += ParseCommandLineOptions
-TARGETS_CPP += ParseCommandLineOptions-2
-TARGETS_CPP += LLVM_VERSION_MAJOR
+targets-cpp :=
+targets-cpp += ParseCommandLineOptions
+targets-cpp += ParseCommandLineOptions-2
+targets-cpp += LLVM_VERSION_MAJOR
 
 CLANG_CXX := $(shell which clang++ 2>/dev/null)
 ifneq ($(wildcard $(CLANG_CXX)),)

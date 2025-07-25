@@ -1,10 +1,10 @@
 # SPDX-License-Identifier: GPL-3.0
 include ../../bpf.mk
 
-TARGETS := xsk_user
+targets := xsk_user
 
-TARGETS_BPF := xdp_drop.bpf.o
-TARGETS_BPF += xdp_xsk.bpf.o
+targets-bpf := xdp_drop.bpf.o
+targets-bpf += xdp_xsk.bpf.o
 
 CFLAGS :=
 CFLAGS += -lxdp -lbpf -pthread

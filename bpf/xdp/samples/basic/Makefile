@@ -4,17 +4,17 @@ include ../../../../tlbuild.mk
 CC := gcc
 CLANG := clang
 
-TARGETS_KERN :=
-TARGETS_USER :=
+targets-kern :=
+targets-user :=
 
-TARGETS_KERN += vmlinux.h
-TARGETS_KERN += drop.o
-TARGETS_KERN += proto.o
-TARGETS_KERN += config_map.kern.o
+targets-kern += vmlinux.h
+targets-kern += drop.o
+targets-kern += proto.o
+targets-kern += config_map.kern.o
 
 ifdef DEBUG
-  TARGETS_KERN += drop.g.o
-  TARGETS_KERN += proto.g.o
+  targets-kern += drop.g.o
+  targets-kern += proto.g.o
 endif
 
 IF := lo
@@ -26,7 +26,7 @@ CFLAGS_USER := -lbpf
 LDFLAGS_USER := -lbpf
 
 .PHONY: build
-build: $(TARGETS_KERN) ${TARGETS_USER}
+build: $(targets-kern) ${targets-user}
 
 %.o: %.c
 	@echo -e "  CLANG-K  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
@@ -53,7 +53,7 @@ build: $(TARGETS_KERN) ${TARGETS_USER}
 	@echo -e "  CC  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	${Q}$(CC) -o $(@) -c $(<) $(CFLAGS_USER) $(CFLAGS_USER_$(*))
 
-$(TARGETS_USER): %:
+$(targets-user): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
 	${Q}$(CC) -o $(@) $(^) $(LDFLAGS_USER) $(LDFLAGS_USER_$(*))
 
@@ -75,4 +75,4 @@ uninstall:
 	${Q}sudo rm -f /sys/fs/bpf/proto
 
 clean:
-	${Q}rm -f ${TARGETS_KERN} ${TARGETS_USER} *.o *.S *.bc *.uo
+	${Q}rm -f ${targets-kern} ${targets-user} *.o *.S *.bc *.uo

@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
-TARGETS := fakeinit
-TARGETS_POST := initrd.img
+targets := fakeinit
+targets-post := initrd.img
 
 CFLAGS := -static
 

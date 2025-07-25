@@ -5,18 +5,18 @@ LD_MOLD := $(shell which mold 2>/dev/null)
 sub-dir := linker-script
 sub-dir += LD_PRELOAD
 
-TARGETS :=
-TARGETS += pushsection
-TARGETS += attribute
-TARGETS += bfd
-TARGETS += gold
+targets :=
+targets += pushsection
+targets += attribute
+targets += bfd
+targets += gold
 ifneq ($(wildcard $(LD_LLD)),)
-  TARGETS += lld
+  targets += lld
 else
   $(warning "WARNING: not found mold lld")
 endif
 ifneq ($(wildcard $(LD_MOLD)),)
-  TARGETS += mold
+  targets += mold
 else
   $(warning "WARNING: not found mold linker")
 endif

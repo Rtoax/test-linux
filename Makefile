@@ -72,8 +72,8 @@ help:
 
 include make.list
 
-TARGETS_PREP := cleanfailedlog
-TARGETS_POST := printfailedlog
+targets-prep := cleanfailedlog
+targets-post := printfailedlog
 
 ifeq ($(KMOD),0)
   kmod-list :=

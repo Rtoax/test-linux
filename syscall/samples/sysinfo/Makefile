@@ -1,5 +1,5 @@
-TARGETS := sysinfo
-TARGETS += uptime
+targets := sysinfo
+targets += uptime
 
 include ../../../template/main.mk
 

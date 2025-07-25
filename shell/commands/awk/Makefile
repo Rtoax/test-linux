@@ -1,9 +1,9 @@
 # SPDX-License-Identifier: GPL-3.0
-TARGETS_SHELL := gsub.sh
-TARGETS_SHELL += index.sh
-TARGETS_SHELL += length.sh
-TARGETS_SHELL += match.sh
-TARGETS_SHELL += strtonum.sh
-TARGETS_SHELL += swap-two-words.sh
+targets-shell := gsub.sh
+targets-shell += index.sh
+targets-shell += length.sh
+targets-shell += match.sh
+targets-shell += strtonum.sh
+targets-shell += swap-two-words.sh
 
 include ../../../template/main.mk

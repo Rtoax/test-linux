@@ -11,9 +11,9 @@ sub-dir += jemalloc
 sub-dir += vmalloc
 sub-dir += pmem
 
-TARGETS := virt2phy
-TARGETS_LIBA := libtest-linux-mm.a
-TARGETS_LIBA += proc_helpers.a
+targets := virt2phy
+targets-liba := libtest-linux-mm.a
+targets-liba += proc_helpers.a
 
 CFLAGS += -DMMAP_HELPERS_HDR=mmap_helpers.h
 

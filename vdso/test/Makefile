@@ -1,15 +1,15 @@
-TARGETS :=
-TARGETS_CPP :=
+targets :=
+targets-cpp :=
 
-TARGETS += accuracy
-TARGETS += clock_gettime.sec
-TARGETS += clock_gettime.nsec
+targets += accuracy
+targets += clock_gettime.sec
+targets += clock_gettime.nsec
 
 ARCH := $(shell uname -m)
 
 ifeq (${ARCH},x86_64)
-  TARGETS_CPP += evil-clock-test
-  TARGETS += time
+  targets-cpp += evil-clock-test
+  targets += time
 endif
 
 CFLAGS := -O2

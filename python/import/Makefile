@@ -1,3 +1,3 @@
-TARGETS_PYTHON := main.py
+targets-python := main.py
 
 include ../../template/main.mk

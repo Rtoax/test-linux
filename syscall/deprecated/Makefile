@@ -1,5 +1,5 @@
-TARGETS :=
-TARGETS += sysctl
+targets :=
+targets += sysctl
 
 include ../../template/main.mk
 

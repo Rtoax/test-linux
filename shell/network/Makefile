@@ -1,4 +1,4 @@
-TARGETS_SHELL := ipswap.sh
-TARGETS_SHELL += ipv4_check.sh
-TARGETS_SHELL += mac.sh
+targets-shell := ipswap.sh
+targets-shell += ipv4_check.sh
+targets-shell += mac.sh
 include ../../template/main.mk

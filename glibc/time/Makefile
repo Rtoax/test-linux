@@ -1,27 +1,27 @@
 # SPDX-License-Identifier: GPL-3.0
-TARGETS :=
-TARGETS += time
-TARGETS += asctime asctime_r
-TARGETS += localtime
-TARGETS += clock
-TARGETS += clock_getcpuclockid
-TARGETS += difftime
-TARGETS += strftime
-TARGETS += strptime
-TARGETS += ctime
-TARGETS += getdate
-TARGETS += timelocal
-TARGETS += timegm
-TARGETS += gmtime
-TARGETS += mktime
+targets :=
+targets += time
+targets += asctime asctime_r
+targets += localtime
+targets += clock
+targets += clock_getcpuclockid
+targets += difftime
+targets += strftime
+targets += strptime
+targets += ctime
+targets += getdate
+targets += timelocal
+targets += timegm
+targets += gmtime
+targets += mktime
 
-TARGETS += timer_create
-TARGETS += timer-demo
+targets += timer_create
+targets += timer-demo
 
-TARGETS += iso8601
-TARGETS += timeval
-TARGETS += show_systime
-TARGETS += process-runtime
+targets += iso8601
+targets += timeval
+targets += show_systime
+targets += process-runtime
 
 CFLAGS :=
 CFLAGS += -pthread -lrt

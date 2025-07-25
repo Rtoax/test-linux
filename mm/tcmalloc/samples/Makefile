@@ -1,20 +1,20 @@
 TCMALLOC_HDR = /usr/include/gperftools/tcmalloc.h
 
-TARGETS :=
-TARGETS += tc_malloc tc_malloc_skip_new_handler
-TARGETS += tc_calloc
-TARGETS += tc_valloc
-TARGETS += tc_pvalloc
-TARGETS += tc_realloc
-TARGETS += tc_version
-TARGETS += tc_posix_memalign
-TARGETS += tc_nallocx
-TARGETS += tc_memalign
-TARGETS += tc_mallopt
-TARGETS += tc_malloc_stats
-TARGETS += tc_mallinfo
-TARGETS += tc_free_sized
-TARGETS += tc_cfree
+targets :=
+targets += tc_malloc tc_malloc_skip_new_handler
+targets += tc_calloc
+targets += tc_valloc
+targets += tc_pvalloc
+targets += tc_realloc
+targets += tc_version
+targets += tc_posix_memalign
+targets += tc_nallocx
+targets += tc_memalign
+targets += tc_mallopt
+targets += tc_malloc_stats
+targets += tc_mallinfo
+targets += tc_free_sized
+targets += tc_cfree
 
 targets-profile += GetHeapProfile
 targets-profile += GetStackFrames
@@ -26,13 +26,13 @@ targets-profile += ProfilerStart
 targets-profile += ProfilerStartWithOptions
 
 ifdef PROFILE
-  TARGETS += $(targets-profile)
+  targets += $(targets-profile)
 endif
 
 ifeq ($(wildcard $(TCMALLOC_HDR)),)
   $(warning "WARNING: Must install gperftools/tcmalloc development header")
   # Compile nothing
-  TARGETS :=
+  targets :=
 endif
 
 LDFLAGS :=

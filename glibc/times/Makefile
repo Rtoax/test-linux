@@ -1,6 +1,6 @@
-TARGETS :=
-TARGETS += times
-TARGETS += times-cnt times-cal
+targets :=
+targets += times
+targets += times-cnt times-cal
 
 CFLAGS :=
 

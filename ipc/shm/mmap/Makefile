@@ -1,11 +1,11 @@
-TARGETS :=
-TARGETS += shm-reader shm-writer
-TARGETS += mmap-reader mmap-writer
+targets :=
+targets += shm-reader shm-writer
+targets += mmap-reader mmap-writer
 
 CFLAGS := -g -ggdb -O0
 CFLAGS += -lrt
 
-TARGETS_TEST += test0
+targets-test += test0
 
 include ../../../template/main.mk
 

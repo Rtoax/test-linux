@@ -1,3 +1,3 @@
-TARGETS_SHELL := ldd.sh
+targets-shell := ldd.sh
 
 include ../../template/main.mk

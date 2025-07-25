@@ -1,5 +1,5 @@
-TARGETS := truncate
-TARGETS += ftruncate
+targets := truncate
+targets += ftruncate
 
 include ../../../template/main.mk
 

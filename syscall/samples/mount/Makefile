@@ -1,14 +1,14 @@
 include ../../../kernel.mk
 
-TARGETS :=
-TARGETS += mount
-TARGETS += mount-tmpfs
+targets :=
+targets += mount
+targets += mount-tmpfs
 ifeq ($(call kernel_newer_than,5,1,0),y)
-  TARGETS += fsmount
+  targets += fsmount
 endif
-TARGETS += ramdisk tmpfs
+targets += ramdisk tmpfs
 
-TARGETS_PREP := fs.ext4
+targets-prep := fs.ext4
 
 CFLAGS :=
 CFLAGS += -pthread

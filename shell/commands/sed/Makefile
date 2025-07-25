@@ -1,4 +1,4 @@
 # SPDX-License-Identifier: GPL-3.0
-TARGETS_SHELL := delete-line.sh
+targets-shell := delete-line.sh
 
 include ../../../template/main.mk

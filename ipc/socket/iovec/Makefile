@@ -1,7 +1,7 @@
-TARGETS := unix-server
-TARGETS += unix-client
-TARGETS += unix-client-memfd_create
-TARGETS += socketpair
+targets := unix-server
+targets += unix-client
+targets += unix-client-memfd_create
+targets += socketpair
 
 include ../../../template/main.mk
 

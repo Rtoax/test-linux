@@ -1,4 +1,4 @@
-TARGETS := test-1
+targets := test-1
 
 include ../../../template/main.mk
 

@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
-TARGETS :=
-TARGETS += icmping
+targets :=
+targets += icmping
 
 include ../../../template/main.mk
 

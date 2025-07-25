@@ -1,3 +1,3 @@
-TARGETS_PYTHON := getmtime.py
+targets-python := getmtime.py
 
 include ../../../template/main.mk

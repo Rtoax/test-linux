@@ -1,9 +1,9 @@
-TARGETS :=
-TARGETS += server
-TARGETS += server-fork-pipe
-TARGETS += server-pthread
-TARGETS += client
-TARGETS += client-pthread
+targets :=
+targets += server
+targets += server-fork-pipe
+targets += server-pthread
+targets += client
+targets += client-pthread
 
 include ../../../../template/main.mk
 

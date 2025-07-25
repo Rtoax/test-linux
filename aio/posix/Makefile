@@ -1,7 +1,7 @@
-TARGETS := aio_read
-TARGETS += aio_write
-TARGETS += aio_suspend
-TARGETS += lio_listio
+targets := aio_read
+targets += aio_write
+targets += aio_suspend
+targets += lio_listio
 
 CFLAGS :=
 CFLAGS += -lrt

@@ -4,6 +4,6 @@ ifeq ($(RUSTC),)
   $(error "Not found rustc compiler")
 endif
 
-$(TARGETS_RUST): %:
+$(targets-rust): %:
 	$(call log_tgt_exe,RUSTC,$(<),$(@))
 	${Q}$(RUSTC) -o $(@) $(^)

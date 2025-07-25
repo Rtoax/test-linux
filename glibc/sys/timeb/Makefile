@@ -1,5 +1,5 @@
-TARGETS :=
-TARGETS += ftime
+targets :=
+targets += ftime
 
 CFLAGS :=
 CFLAGS_ftime := -Wno-deprecated-declarations

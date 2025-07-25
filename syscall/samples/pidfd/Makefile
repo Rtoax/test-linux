@@ -1,5 +1,5 @@
-TARGETS :=
-TARGETS += pidfd_open
+targets :=
+targets += pidfd_open
 
 include ../../../template/main.mk
 

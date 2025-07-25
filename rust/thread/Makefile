@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
-TARGETS_RUST :=
-TARGETS_RUST += threads
-TARGETS_RUST += spawn
+targets-rust :=
+targets-rust += threads
+targets-rust += spawn
 
 include ../../template/main.mk
 

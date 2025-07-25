@@ -1,2 +1,2 @@
-TARGETS_SHELL := list-keys.sh
+targets-shell := list-keys.sh
 include ../../template/main.mk

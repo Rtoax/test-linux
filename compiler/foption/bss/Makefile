@@ -1,10 +1,10 @@
 CC := gcc
 include ../../compiler.mk
 
-TARGETS :=
+targets :=
 # Default
-TARGETS += fzero-initialized-in-bss
-TARGETS += fno-zero-initialized-in-bss
+targets += fzero-initialized-in-bss
+targets += fno-zero-initialized-in-bss
 
 CFLAGS :=
 CFLAGS += -Wno-error=unused-variable

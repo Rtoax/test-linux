@@ -1,7 +1,7 @@
-TARGETS :=
-TARGETS += duplicate-decl-specifier
-TARGETS += no-warn
-TARGETS += no-error
+targets :=
+targets += duplicate-decl-specifier
+targets += no-warn
+targets += no-error
 
 CFLAGS_duplicate-decl-specifier := -Wduplicate-decl-specifier
 CFLAGS_no-warn := -Wno-warn -Wno-warning

@@ -3,12 +3,12 @@ sub-dir := icmp
 sub-dir += netlink
 sub-dir += nic
 
-TARGETS := ethtool
-TARGETS += tcpdump
-TARGETS += ifconfig
-TARGETS += ping
+targets := ethtool
+targets += tcpdump
+targets += ifconfig
+targets += ping
 
-TARGETS_SHELL := interface.sh
+targets-shell := interface.sh
 
 include ../template/main.mk
 

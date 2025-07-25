@@ -1,23 +1,23 @@
 # SPDX-License-Identifier: GPL-3.0
 HAVE_LIBATOMIC := $(shell ldconfig -p | grep -w libatomic.so 2>/dev/null)
-TARGETS :=
-TARGETS += test1
-TARGETS += load-store
-TARGETS += load-store-atomic-relaxed
-TARGETS += load-store-atomic-strict
-TARGETS += exchange
-TARGETS += compare_exchange
-TARGETS += fetch
-TARGETS += __ATOMIC_
-TARGETS += __atomic_test_and_set
-TARGETS += __atomic_clear
-TARGETS += __atomic_thread_fence
-TARGETS += __atomic_signal_fence
+targets :=
+targets += test1
+targets += load-store
+targets += load-store-atomic-relaxed
+targets += load-store-atomic-strict
+targets += exchange
+targets += compare_exchange
+targets += fetch
+targets += __ATOMIC_
+targets += __atomic_test_and_set
+targets += __atomic_clear
+targets += __atomic_thread_fence
+targets += __atomic_signal_fence
 
 ifneq (${HAVE_LIBATOMIC},)
   $(info Found libatomic.so)
-  TARGETS += __atomic_always_lock_free
-  TARGETS += __atomic_is_lock_free
+  targets += __atomic_always_lock_free
+  targets += __atomic_is_lock_free
 endif
 
 CFLAGS += -pthread

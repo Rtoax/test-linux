@@ -3,8 +3,8 @@ include ../../kconfig.mk
 CFLAGS :=
 LDFLAGS :=
 
-TARGETS := main
-TARGETS_LIBSO := libnvdso.so
+targets := main
+targets-libso := libnvdso.so
 
 NVDSO_ENV :=
 
@@ -25,9 +25,9 @@ endif
 
 CFLAGS_main :=
 
-TARGETS_POST := virt2phy
-TARGETS_TEST := test-nvdso
-TARGETS_CLEAN := clean-nvdso
+targets-post := virt2phy
+targets-test := test-nvdso
+targets-clean := clean-nvdso
 
 include ../../template/main.mk
 

@@ -1,16 +1,16 @@
 # SPDX-License-Identifier: GPL-3.0
 HAVE_LLVM := yes
 
-TARGETS := hello
-TARGETS_LLVM_LL := hello_ll
+targets := hello
+targets-llvm-ll := hello_ll
 
-obj-ast := $(addsuffix .ast, $(TARGETS))
-obj-ll := $(addsuffix .ll, $(TARGETS))
-obj-ll.s := $(addsuffix .ll.s, $(TARGETS))
-obj-bc := $(addsuffix .bc, $(TARGETS))
-obj-dis.ll := $(addsuffix .dis.ll, $(TARGETS))
+obj-ast := $(addsuffix .ast, $(targets))
+obj-ll := $(addsuffix .ll, $(targets))
+obj-ll.s := $(addsuffix .ll.s, $(targets))
+obj-bc := $(addsuffix .bc, $(targets))
+obj-dis.ll := $(addsuffix .dis.ll, $(targets))
 
-TARGETS_POST := ${obj-ast} ${obj-ll} ${obj-ll.s} ${obj-bc} ${obj-dis.ll}
+targets-post := ${obj-ast} ${obj-ll} ${obj-ll.s} ${obj-bc} ${obj-dis.ll}
 
 include ../../../template/main.mk
 

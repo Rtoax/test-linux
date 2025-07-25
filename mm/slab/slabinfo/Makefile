@@ -1,4 +1,4 @@
-TARGETS := slabinfo
+targets := slabinfo
 
 include ../../../template/main.mk
 

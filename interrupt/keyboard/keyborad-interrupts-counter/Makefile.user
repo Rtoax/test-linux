@@ -1,9 +1,9 @@
-TARGETS := key-handler-user
+targets := key-handler-user
 
 key-handler-user: key-handler-user.o
 
-all: @{TARGETS}
+all: @{targets}
 
 .PHONY : clean
 clean:
-	@rm -f ${TARGETS} *.o
+	@rm -f ${targets} *.o

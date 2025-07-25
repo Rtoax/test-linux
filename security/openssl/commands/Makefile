@@ -1,4 +1,4 @@
-TARGETS_SHELL := base64.sh
-TARGETS_SHELL += rand.sh
+targets-shell := base64.sh
+targets-shell += rand.sh
 
 include ../../../template/main.mk

@@ -1,13 +1,13 @@
-TARGETS :=
+targets :=
 
 ifeq ($(shell uname -m),aarch64)
-  TARGETS += vrsqrtsq_f32
-  TARGETS += vst1q_u8
-  TARGETS += vaddq_s64
+  targets += vrsqrtsq_f32
+  targets += vst1q_u8
+  targets += vaddq_s64
   CFLAGS += -DCPU_HAVE_NEON=1
 endif
 
-TARGETS += neon-sve
+targets += neon-sve
 
 ifeq ($(shell lscpu | grep -w -e sve -e sve2),)
   $(warning WARNING: Not support SVE/SVE2 on this CPU)

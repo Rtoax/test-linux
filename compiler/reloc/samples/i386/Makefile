@@ -1,13 +1,13 @@
 # SPDX-License-Identifier: GPL-3.0
-TARGETS :=
-TARGETS += R_386_32
+targets :=
+targets += R_386_32
 
 CC := gcc
 include ../../../../compiler/compiler.mk
 
 ifneq (${CC_M32},1)
   $(warning ${CC} not support -m32)
-  TARGETS :=
+  targets :=
 endif
 
 CFLAGS += -I../

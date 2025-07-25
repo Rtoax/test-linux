@@ -1,8 +1,8 @@
-TARGETS :=
-TARGETS += dup
-TARGETS += dup2
-TARGETS += dup-dup2
-TARGETS += fork-pipe
+targets :=
+targets += dup
+targets += dup2
+targets += dup-dup2
+targets += fork-pipe
 
 include ../../../template/main.mk
 

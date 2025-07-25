@@ -1,7 +1,7 @@
-TARGETS :=
-TARGETS += mtrace
-TARGETS += mprobe
-TARGETS += mcheck_check_all
+targets :=
+targets += mtrace
+targets += mprobe
+targets += mcheck_check_all
 
 CC := gcc
 

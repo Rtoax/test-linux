@@ -1,18 +1,18 @@
 # SPDX-License-Identifier: GPL-3.0
-TARGETS := lstat
-TARGETS += stat
-TARGETS += statx
-TARGETS += fstat
-TARGETS += listdir
-TARGETS += chmod
-TARGETS += fchmod
-TARGETS += mkdir
-TARGETS += mknod
-TARGETS += st_mode
-TARGETS += fstatat
-TARGETS += utimensat
-TARGETS += futimens
-TARGETS += ustat
+targets := lstat
+targets += stat
+targets += statx
+targets += fstat
+targets += listdir
+targets += chmod
+targets += fchmod
+targets += mkdir
+targets += mknod
+targets += st_mode
+targets += fstatat
+targets += utimensat
+targets += futimens
+targets += ustat
 
 CFLAGS :=
 CFLAGS += -pthread

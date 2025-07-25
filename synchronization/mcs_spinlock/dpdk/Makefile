@@ -1,6 +1,6 @@
-TARGETS :=
+targets :=
 ifeq ($(shell uname -m),x86_64)
-  TARGETS += main
+  targets += main
 endif
 
 CFLAGS :=

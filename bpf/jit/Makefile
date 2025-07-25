@@ -2,6 +2,6 @@
 sub-dir :=
 sub-dir += samples
 
-TARGETS_SHELL := info.sh
+targets-shell := info.sh
 
 include ../../template/main.mk

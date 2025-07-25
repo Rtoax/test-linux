@@ -1,7 +1,7 @@
 sub-dir := cxl
 sub-dir += dmidecode
 
-TARGETS_POST := builds
+targets-post := builds
 
 include ../../template/main.mk
 

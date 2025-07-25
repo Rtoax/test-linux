@@ -1,7 +1,7 @@
-TARGETS :=
-TARGETS += access
-TARGETS += faccessat2
-TARGETS += eaccess
+targets :=
+targets += access
+targets += faccessat2
+targets += eaccess
 
 include ../../../template/main.mk
 

@@ -4,7 +4,7 @@ include ../kconfig.mk
 $(info CONFIG_CHECKPOINT_RESTORE = $(CONFIG_CHECKPOINT_RESTORE))
 
 sub-dir :=
-TARGETS :=
+targets :=
 
 CFLAGS :=
 CFLAGS += -pthread
@@ -12,6 +12,6 @@ CFLAGS += -pthread
 CFLAGS__GNU_SOURCE :==1
 CFLAGS__XOPEN_SOURCE := -D_XOPEN_SOURCE=1
 
-TARGETS_SHELL := check.sh
+targets-shell := check.sh
 
 include ../template/main.mk

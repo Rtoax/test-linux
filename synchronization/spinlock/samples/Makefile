@@ -1,6 +1,6 @@
-TARGETS := pthread_none
-TARGETS += pthread_orig
-TARGETS += pthread_pthread
+targets := pthread_none
+targets += pthread_orig
+targets += pthread_pthread
 
 CFLAGS :=
 CFLAGS += -I$(shell realpath ../../../)

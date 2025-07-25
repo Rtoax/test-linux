@@ -1,6 +1,6 @@
-TARGETS :=
-TARGETS += receiver sender
-TARGETS += server client
+targets :=
+targets += receiver sender
+targets += server client
 
 include ../../../../template/main.mk
 

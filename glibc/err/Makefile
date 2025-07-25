@@ -1,5 +1,5 @@
-TARGETS :=
-TARGETS += warn
+targets :=
+targets += warn
 
 include ../../template/main.mk
 

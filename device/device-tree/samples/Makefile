@@ -1,4 +1,4 @@
-TARGETS_PREP := helloworld.dtb
+targets-prep := helloworld.dtb
 
 include ../../../template/main.mk
 

@@ -1,6 +1,6 @@
-TARGETS :=
-TARGETS += getmntent getmntent_r
-TARGETS += setmntent
+targets :=
+targets += getmntent getmntent_r
+targets += setmntent
 
 CC := gcc
 

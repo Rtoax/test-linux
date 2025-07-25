@@ -3,7 +3,7 @@ sub-dir := make
 sub-dir += glibc
 sub-dir += gnupg
 
-TARGETS := __GNUC__
+targets := __GNUC__
 
 include ../template/main.mk
 

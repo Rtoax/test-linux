@@ -67,10 +67,10 @@ sub-dir += utmp
 sub-dir += wctype
 sub-dir += wordexp
 
-TARGETS := environ
-TARGETS += gnu_get_libc_version
-TARGETS += lib-names
-TARGETS += ftm _GNU_SOURCE _XOPEN_SOURCE
+targets := environ
+targets += gnu_get_libc_version
+targets += lib-names
+targets += ftm _GNU_SOURCE _XOPEN_SOURCE
 
 CC := gcc
 
@@ -80,7 +80,7 @@ CFLAGS += -pthread
 CFLAGS__GNU_SOURCE := -D_GNU_SOURCE=1
 CFLAGS__XOPEN_SOURCE := -D_XOPEN_SOURCE=1
 
-TARGETS_POST := tl_ascii_logo_gnu
+targets-post := tl_ascii_logo_gnu
 
 include ../elf/pie.mk
 

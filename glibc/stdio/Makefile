@@ -1,30 +1,30 @@
 # SPDX-License-Identifier: GPL-3.0
 include ../glibc.mk
 
-TARGETS :=
-TARGETS += ansi_ascii
-TARGETS += ctermid
-TARGETS += asprintf vasprintf
-TARGETS += snprintf sprintf
-TARGETS += vfprintf
-TARGETS += vsprintf
-TARGETS += printf vprintf
-TARGETS += puts
-TARGETS += __freadable
-TARGETS += open_memstream
-TARGETS += remove
-TARGETS += popen
-TARGETS += fwrite
-TARGETS += getchar
-TARGETS += getline getdelim
-TARGETS += scanf sscanf
-TARGETS += perror
-TARGETS += tmpfile tmpnam tempnam
-TARGETS += setbuf setvbuf
-TARGETS += fgets
-TARGETS += fopen
-TARGETS += fread
-TARGETS += fopencookie
+targets :=
+targets += ansi_ascii
+targets += ctermid
+targets += asprintf vasprintf
+targets += snprintf sprintf
+targets += vfprintf
+targets += vsprintf
+targets += printf vprintf
+targets += puts
+targets += __freadable
+targets += open_memstream
+targets += remove
+targets += popen
+targets += fwrite
+targets += getchar
+targets += getline getdelim
+targets += scanf sscanf
+targets += perror
+targets += tmpfile tmpnam tempnam
+targets += setbuf setvbuf
+targets += fgets
+targets += fopen
+targets += fread
+targets += fopencookie
 
 CFLAGS :=
 
@@ -36,7 +36,7 @@ CFLAGS_getdelim := -DTEST_getdelim=1
 CFLAGS_sprintf := -Wno-error=format-overflow
 CFLAGS_snprintf := -Wno-error=format-truncation
 
-TARGETS_POST := os-release
+targets-post := os-release
 
 include ../../elf/pie.mk
 include ../../template/main.mk

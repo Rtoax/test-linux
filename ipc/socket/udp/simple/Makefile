@@ -1,8 +1,8 @@
-TARGETS :=
-TARGETS += server client
-TARGETS += stress-send stress-recv
+targets :=
+targets += server client
+targets += stress-send stress-recv
 
-TARGETS_CPP := client_cc
+targets-cpp := client_cc
 
 include ../../../../template/main.mk
 

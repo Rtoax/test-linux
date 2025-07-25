@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
-TARGETS := list_test
+targets := list_test
 
 include ../../../template/main.mk
 

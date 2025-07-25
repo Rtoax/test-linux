@@ -1,4 +1,4 @@
-TARGETS := hello_usdt
+targets := hello_usdt
 
 include ../../../../template/main.mk
 

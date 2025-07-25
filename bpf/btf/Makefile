@@ -3,11 +3,11 @@ include btf.mk
 OUTPUT := .output/
 sub-dir := examples
 
-TARGETS_PREP := vmlinux.h
+targets-prep := vmlinux.h
 
-TARGETS := btf_ksym
-TARGETS += btf_kfunc
-TARGETS += btf_decl_tag
+targets := btf_ksym
+targets += btf_kfunc
+targets += btf_decl_tag
 
 BTF_HELPERS := ${OUTPUT}btf_helpers.o
 

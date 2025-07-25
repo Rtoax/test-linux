@@ -1,8 +1,8 @@
 CACHEFLUSH_HDR = /usr/include/asm/cacheflush.h
 
-TARGETS :=
+targets :=
 ifneq ($(wildcard $(CACHEFLUSH_HDR)),)
-  TARGETS += cacheflush
+  targets += cacheflush
 endif
 
 include ../../../template/main.mk

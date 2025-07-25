@@ -1,5 +1,5 @@
-TARGETS := statfs
-TARGETS += fstatfs
+targets := statfs
+targets += fstatfs
 
 CFLAGS :=
 CFLAGS += -pthread

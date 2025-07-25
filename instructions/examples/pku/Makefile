@@ -1,6 +1,6 @@
-TARGETS :=
+targets :=
 ifeq ($(shell uname -m),x86_64)
-  TARGETS += rdpkru
+  targets += rdpkru
 endif
 
 include ../../../template/main.mk

@@ -1,7 +1,7 @@
-TARGETS :=
-TARGETS += getrlimit setrlimit ulimit prlimit
-TARGETS += fork-inherit
-TARGETS += getrusage vlimit
+targets :=
+targets += getrlimit setrlimit ulimit prlimit
+targets += fork-inherit
+targets += getrusage vlimit
 
 CFLAGS :=
 CFLAGS += -pthread

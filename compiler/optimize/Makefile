@@ -1,7 +1,7 @@
-TARGETS :=
-TARGETS += arg arg-O3
+targets :=
+targets += arg arg-O3
 
-TARGETS_SHELL := optimizers.sh
+targets-shell := optimizers.sh
 
 CFLAGS_arg := -O0
 CFLAGS_arg-O3 := -O3

@@ -1,19 +1,19 @@
 # SPDX-License-Identifier: GPL-3.0
-TARGETS :=
-TARGETS += GCC_error
-TARGETS += GCC_poison
-TARGETS += GCC_diagnostic
-TARGETS += GCC_dependency
-TARGETS += GCC_system_header
-TARGETS += GCC_target
-TARGETS += GCC_novector
-TARGETS += GCC_unroll
-TARGETS += GCC_ivdep
-TARGETS += pragma-message
-TARGETS += call-func
-TARGETS += push_macro
-TARGETS += message
-TARGETS += _Pragma
+targets :=
+targets += GCC_error
+targets += GCC_poison
+targets += GCC_diagnostic
+targets += GCC_dependency
+targets += GCC_system_header
+targets += GCC_target
+targets += GCC_novector
+targets += GCC_unroll
+targets += GCC_ivdep
+targets += pragma-message
+targets += call-func
+targets += push_macro
+targets += message
+targets += _Pragma
 
 include ../compiler.mk
 

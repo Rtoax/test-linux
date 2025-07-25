@@ -3,31 +3,31 @@ include ../kconfig.mk
 
 sub-dir := readline
 
-TARGETS_LIBSO :=
-TARGETS_LIBA :=
-TARGETS :=
+targets-libso :=
+targets-liba :=
+targets :=
 CFLAGS :=
-TARGETS_TEST :=
+targets-test :=
 
-TARGETS += byteswap
-TARGETS += endian
-TARGETS += file
-TARGETS += fd
-TARGETS += gotoxy goprint
-TARGETS += log
-TARGETS += memshow
-TARGETS += mac
-TARGETS += progress
-TARGETS += str
-TARGETS += ipaddr
+targets += byteswap
+targets += endian
+targets += file
+targets += fd
+targets += gotoxy goprint
+targets += log
+targets += memshow
+targets += mac
+targets += progress
+targets += str
+targets += ipaddr
 
 LIB_OBJS := ipaddr.so.o readline.so.o
 LIB_OBJS_A := ipaddr.a.o readline.a.o
 
-TARGETS_LIBSO += libtest-linux-c.so
-TARGETS_LIBA += libtest-linux-c.a
+targets-libso += libtest-linux-c.so
+targets-liba += libtest-linux-c.a
 
-TARGETS_TEST += test1
+targets-test += test1
 
 CFLAGS += -DTEST=1
 ifeq (${CONFIG_ANON_VMA_NAME},y)

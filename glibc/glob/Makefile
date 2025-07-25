@@ -1,5 +1,5 @@
-TARGETS :=
-TARGETS += glob
+targets :=
+targets += glob
 
 CFLAGS :=
 

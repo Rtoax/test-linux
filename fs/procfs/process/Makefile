@@ -1,13 +1,13 @@
 # SPDX-License-Identifier: GPL-3.0
-TARGETS :=
-TARGETS += cmdline
-TARGETS += environ
-TARGETS += exe
-TARGETS += loginuid
-TARGETS += pagemap
-TARGETS += mem
-TARGETS += maps
-TARGETS += stat
+targets :=
+targets += cmdline
+targets += environ
+targets += exe
+targets += loginuid
+targets += pagemap
+targets += mem
+targets += maps
+targets += stat
 
 CFLAGS_pagemap := -DHAVE_MAIN=1
 LDFLAGS_pagemap += -lnuma

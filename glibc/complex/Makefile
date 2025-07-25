@@ -1,8 +1,8 @@
-TARGETS :=
-TARGETS += _Complex_I _Complex __complex__
-TARGETS += creal cimag
-TARGETS += int
-TARGETS += math
+targets :=
+targets += _Complex_I _Complex __complex__
+targets += creal cimag
+targets += int
+targets += math
 
 CC := gcc
 

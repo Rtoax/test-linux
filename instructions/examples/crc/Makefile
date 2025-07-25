@@ -1,5 +1,5 @@
-TARGETS := crc32b
-TARGETS += crc32w
+targets := crc32b
+targets += crc32w
 
 CFLAGS += -g -ggdb
 CFLAGS += -O3

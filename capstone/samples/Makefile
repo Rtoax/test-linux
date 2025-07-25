@@ -1,13 +1,13 @@
 # SPDX-License-Identifier: GPL-3.0
 CS_HDR_CAPSTONE = /usr/include/capstone/capstone.h
 
-TARGETS :=
-TARGETS += version
-TARGETS += simple
-TARGETS += detail
+targets :=
+targets += version
+targets += simple
+targets += detail
 
 ifeq ($(wildcard $(CS_HDR_CAPSTONE)),)
-  TARGETS :=
+  targets :=
   $(warning "WARNING: You need to install capstone development")
 endif
 

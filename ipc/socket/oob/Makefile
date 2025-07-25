@@ -1,7 +1,7 @@
-TARGETS :=
-TARGETS += server
-TARGETS += client
-TARGETS += SO_OOBINLINE
+targets :=
+targets += server
+targets += client
+targets += SO_OOBINLINE
 
 include ../../../template/main.mk
 

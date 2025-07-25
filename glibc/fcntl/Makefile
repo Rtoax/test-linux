@@ -1,5 +1,5 @@
-TARGETS :=
-TARGETS += posix_fallocate
+targets :=
+targets += posix_fallocate
 
 include ../../template/main.mk
 

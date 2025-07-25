@@ -1,2 +1,2 @@
-TARGETS_SHELL := minimal-example.sh
+targets-shell := minimal-example.sh
 include ../../template/main.mk

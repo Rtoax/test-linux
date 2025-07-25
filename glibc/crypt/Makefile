@@ -1,5 +1,5 @@
-TARGETS := crypt
-TARGETS += encrypt
+targets := crypt
+targets += encrypt
 
 CFLAGS :=
 CFLAGS += -lcrypt

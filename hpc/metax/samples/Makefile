@@ -1,20 +1,20 @@
 # SPDX-License-Identifier: GPL-3.0
 OUTPUT := .output/
 
-TARGETS_HTCC := hello
-TARGETS_HTCC += parallel
-TARGETS_HTCC += hcclGetVersion
-TARGETS_HTCC += hcMalloc
-TARGETS_HTCC += hcGetDeviceProperties
-TARGETS_HTCC += hcDeviceGetAttribute
-TARGETS_HTCC += hcDeviceGetP2PAttribute
-TARGETS_HTCC += dim3
-TARGETS_HTCC += matrix-mul matrix-mul-double
+targets-htcc := hello
+targets-htcc += parallel
+targets-htcc += hcclGetVersion
+targets-htcc += hcMalloc
+targets-htcc += hcGetDeviceProperties
+targets-htcc += hcDeviceGetAttribute
+targets-htcc += hcDeviceGetP2PAttribute
+targets-htcc += dim3
+targets-htcc += matrix-mul matrix-mul-double
 
-TARGETS_POST := $(patsubst %,${OUTPUT}%.E.hpcc,$(TARGETS_HTCC))
+targets-post := $(patsubst %,${OUTPUT}%.E.hpcc,$(targets-htcc))
 
-TARGETS := matrix-mul-c
-TARGETS += matrix-mul-c-double
+targets := matrix-mul-c
+targets += matrix-mul-c-double
 
 # some code use this macro test pure C
 CFLAGS_HTCC := -DHAVE_HCCL=1

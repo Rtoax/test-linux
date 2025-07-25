@@ -1,3 +1,3 @@
-TARGETS_SHELL := prefix.sh
-TARGETS_SHELL += string.sh
+targets-shell := prefix.sh
+targets-shell += string.sh
 include ../../template/main.mk

@@ -1,5 +1,5 @@
-TARGETS := hello
-TARGETS_POST := hello.dwz hello.strip
+targets := hello
+targets-post := hello.dwz hello.strip
 
 CFLAGS := -g
 CFLAGS += -ggdb -O0

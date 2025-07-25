@@ -22,10 +22,10 @@ else ifeq ($(shell uname -m),aarch64)
   VDSO_CFLAGS += -O2 -mcmodel=tiny -fasynchronous-unwind-tables
 endif
 
-TARGETS_PREP := lib${VDSO_NAME}.custom.so
-TARGETS_PREP += lib${VDSO_NAME}.copy.so
-TARGETS_PREP += ${VDSO_NAME}
-TARGETS_PREP += main-custom main-kernel
+targets-prep := lib${VDSO_NAME}.custom.so
+targets-prep += lib${VDSO_NAME}.copy.so
+targets-prep += ${VDSO_NAME}
+targets-prep += main-custom main-kernel
 
 include ../../template/main.mk
 

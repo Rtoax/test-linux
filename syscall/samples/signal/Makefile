@@ -3,24 +3,24 @@ include signal.mk
 
 sub-dir := SIGURG
 
-TARGETS := signal
-TARGETS += sigaction sigaction-2 sigaction-3
-TARGETS += sigwait
-TARGETS += sigaddset
-TARGETS += signo
-TARGETS += psignal
-TARGETS += kill tkill tgkill kill-fork killpg
-TARGETS += raise
-TARGETS += strsignal
-TARGETS += alarm alarm-sleep alarm-sleep-2
-TARGETS += SIGFPE SIGHUP SIGALRM SIGUSR1 SIGUSR1-1 SIGUSR2 NSIG SIGCHLD SIGRTMAX
-TARGETS += SIGPIPE SIGBUS SIGILL
-TARGETS += SIGTERM SIGKILL
-TARGETS += sigaltstack
-TARGETS += sigpending
-TARGETS += sigsuspend
-TARGETS += sigprocmask
-TARGETS += signalfd
+targets := signal
+targets += sigaction sigaction-2 sigaction-3
+targets += sigwait
+targets += sigaddset
+targets += signo
+targets += psignal
+targets += kill tkill tgkill kill-fork killpg
+targets += raise
+targets += strsignal
+targets += alarm alarm-sleep alarm-sleep-2
+targets += SIGFPE SIGHUP SIGALRM SIGUSR1 SIGUSR1-1 SIGUSR2 NSIG SIGCHLD SIGRTMAX
+targets += SIGPIPE SIGBUS SIGILL
+targets += SIGTERM SIGKILL
+targets += sigaltstack
+targets += sigpending
+targets += sigsuspend
+targets += sigprocmask
+targets += signalfd
 
 CFLAGS += -I../../../
 
@@ -29,8 +29,8 @@ LDFLAGS_tgkill := -pthread
 CFLAGS_tgkill := -DTGKILL=1
 CFLAGS_SIGRTMAX := ${SIGRT_CFLAGS}
 
-TARGETS_PREP := sig.h
-TARGETS_TEST := test0
+targets-prep := sig.h
+targets-test := test0
 
 include ../../../template/main.mk
 
@@ -76,7 +76,7 @@ sigprocmask: sigprocmask.o
 signalfd: signalfd.o
 
 
-test0: ${TARGETS}
+test0: ${targets}
 	$(call log_tgt_exe,TEST,,$(@))
 	./sigpending &
 	sleep 1

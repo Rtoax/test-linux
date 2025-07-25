@@ -1,6 +1,6 @@
-TARGETS :=
-TARGETS += tcp-server tcp-client tcp-server-noclose
-TARGETS += udp-server udp-client
+targets :=
+targets += tcp-server tcp-client tcp-server-noclose
+targets += udp-server udp-client
 
 CFLAGS_tcp-server-noclose := -DNO_CLOSE_CLIENT_FD=1
 

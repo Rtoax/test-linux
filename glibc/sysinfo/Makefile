@@ -1,7 +1,7 @@
-TARGETS :=
-TARGETS += sysinfo
-TARGETS += get_avphys_pages get_phys_pages
-TARGETS += get_nprocs get_nprocs_conf
+targets :=
+targets += sysinfo
+targets += get_avphys_pages get_phys_pages
+targets += get_nprocs get_nprocs_conf
 
 CFLAGS :=
 CFLAGS += -I../../../

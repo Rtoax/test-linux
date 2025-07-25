@@ -1,8 +1,8 @@
-TARGETS :=
-TARGETS += msgsnd
-TARGETS += msgctl
-TARGETS += msg_server msg_client
-TARGETS += fork-trigger
+targets :=
+targets += msgsnd
+targets += msgctl
+targets += msg_server msg_client
+targets += fork-trigger
 
 include ../../../../template/main.mk
 

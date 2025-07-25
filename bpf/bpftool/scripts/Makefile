@@ -3,6 +3,6 @@ include ../bpftool.mk
 
 sub-dir := map
 
-TARGETS_SHELL := $(shell find -maxdepth 1 -type f -name '*.sh' -executable)
+targets-shell := $(shell find -maxdepth 1 -type f -name '*.sh' -executable)
 
 include ../../../template/main.mk

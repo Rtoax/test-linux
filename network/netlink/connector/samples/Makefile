@@ -1,8 +1,8 @@
 obj-m += cn_test.o
 
-TARGETS := ucon
+targets := ucon
 
-all: ${TARGETS}
+all: ${targets}
 	${Q}make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
 
 test:
@@ -11,4 +11,4 @@ test:
 
 clean:
 	${Q}make -C /lib/modules/$(shell uname -r)/build M=$(PWD) clean
-	@rm -f ${TARGETS}
+	@rm -f ${targets}

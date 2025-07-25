@@ -1,12 +1,12 @@
-TARGETS :=
-TARGETS += usdt_test
-TARGETS += usdt_hello
-TARGETS += usdt_inlined
-TARGETS += usdt_quoted_probe
-TARGETS += usdt_semaphore_test
-TARGETS += usdt_sized_args
+targets :=
+targets += usdt_test
+targets += usdt_hello
+targets += usdt_inlined
+targets += usdt_quoted_probe
+targets += usdt_semaphore_test
+targets += usdt_sized_args
 
-TARGETS_POST := help
+targets-post := help
 
 include ../../../template/main.mk
 

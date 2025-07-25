@@ -13,8 +13,8 @@ sub-dir += string
 sub-dir += sort
 sub-dir += search
 
-TARGETS :=
-TARGETS += pi
+targets :=
+targets += pi
 
 CFLAGS :=
 CFLAGS += -I../macro/

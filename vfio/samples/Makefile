@@ -1,5 +1,5 @@
-TARGETS :=
-TARGETS += vfio_region_info
+targets :=
+targets += vfio_region_info
 
 include ../../template/main.mk
 

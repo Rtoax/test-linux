@@ -1,4 +1,4 @@
-TARGETS := tst
+targets := tst
 
 CFLAGS := -funwind-tables
 

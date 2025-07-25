@@ -1,3 +1,3 @@
-TARGETS := bss
+targets := bss
 include ../../template/main.mk
 bss: bss.o

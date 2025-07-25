@@ -1,11 +1,11 @@
-TARGETS :=
-TARGETS += io_uring-cat
-TARGETS += io_uring-cat-liburing
-TARGETS += io_uring-multi-reqs
-TARGETS += io_uring-web-server
-TARGETS += ordinary-cat
-TARGETS += link-cp
-TARGETS += io_uring-test
+targets :=
+targets += io_uring-cat
+targets += io_uring-cat-liburing
+targets += io_uring-multi-reqs
+targets += io_uring-web-server
+targets += ordinary-cat
+targets += link-cp
+targets += io_uring-test
 
 LDFLAGS := -luring
 

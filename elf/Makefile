@@ -6,8 +6,8 @@ sub-dir += library
 sub-dir += plt
 sub-dir += pie
 
-TARGETS :=
-TARGETS += macro
+targets :=
+targets += macro
 
 include pie.mk
 

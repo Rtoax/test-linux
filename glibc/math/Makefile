@@ -1,16 +1,16 @@
-TARGETS :=
-TARGETS += ceil
-TARGETS += copysign
-TARGETS += exp
-TARGETS += fpclassify
-TARGETS += finite
-TARGETS += sqrt sqrt-stress
-TARGETS += nan
-TARGETS += isgreater
-TARGETS += log log-stress
-TARGETS += sin
-TARGETS += signbit
-TARGETS += nextafter
+targets :=
+targets += ceil
+targets += copysign
+targets += exp
+targets += fpclassify
+targets += finite
+targets += sqrt sqrt-stress
+targets += nan
+targets += isgreater
+targets += log log-stress
+targets += sin
+targets += signbit
+targets += nextafter
 
 CC := gcc
 
@@ -22,7 +22,7 @@ LDFLAGS := ${CFLAGS}
 CFLAGS_sqrt-stress := -DSTRESS=1
 CFLAGS_log-stress := -DSTRESS=1
 
-TARGETS_CLEAN := clean-tmp
+targets-clean := clean-tmp
 
 include ../../template/main.mk
 
@@ -42,5 +42,5 @@ signbit: signbit.o
 nextafter: nextafter.o
 
 clean-tmp:
-	${Q}rm -f ${TARGETS} *.o *.d *.log
+	${Q}rm -f ${targets} *.o *.d *.log
 	${Q}rm -rf tmpd-* tmp-*

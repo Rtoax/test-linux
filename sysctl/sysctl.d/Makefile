@@ -1,4 +1,4 @@
-TARGETS_PREP := test0
+targets-prep := test0
 include ../../template/main.mk
 test0:
 	$(Q)sudo ./console_printk.bt

@@ -1,5 +1,5 @@
-TARGETS :=
-TARGETS += vhost-user
+targets :=
+targets += vhost-user
 
 include ../../../template/main.mk
 

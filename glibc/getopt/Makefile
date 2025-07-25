@@ -1,9 +1,9 @@
-TARGETS :=
-TARGETS += getopt
-TARGETS += getopt_long getopt_long-in
-TARGETS += getsubopt
-TARGETS += demo-wls
-TARGETS += demo-clr
+targets :=
+targets += getopt
+targets += getopt_long getopt_long-in
+targets += getsubopt
+targets += demo-wls
+targets += demo-clr
 
 CFLAGS :=
 

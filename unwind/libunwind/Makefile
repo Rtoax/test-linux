@@ -1,15 +1,15 @@
-TARGETS :=
-TARGETS_CPP :=
+targets :=
+targets-cpp :=
 
-TARGETS += tst
-TARGETS += unw_regname
-TARGETS += unw_create_addr_space
-TARGETS += do_backtrace
-TARGETS += unwind-backtrace
+targets += tst
+targets += unw_regname
+targets += unw_create_addr_space
+targets += do_backtrace
+targets += unwind-backtrace
 
-TARGETS_CPP += backtrace-pid
+targets-cpp += backtrace-pid
 ifeq ($(shell uname -m),x86_64)
-  TARGETS += backtrace
+  targets += backtrace
 endif
 
 UNWIND_PTRACE :=

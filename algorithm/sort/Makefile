@@ -1,8 +1,8 @@
-TARGETS := select
-TARGETS += heap-1 heap-2
-TARGETS += insert
-TARGETS += merge
-TARGETS += quick-1 quick-2
+targets := select
+targets += heap-1 heap-2
+targets += insert
+targets += merge
+targets += quick-1 quick-2
 
 include ../../template/main.mk
 

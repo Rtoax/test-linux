@@ -38,7 +38,7 @@ $(info L3_CACHELINE_SIZE=$(L3_CACHELINE_SIZE))
 
 CFLAGS += -DL3_CACHELINE_SIZE=$(L3_CACHELINE_SIZE)
 
-TARGETS := struct
+targets := struct
 
 include ../../../template/main.mk
 

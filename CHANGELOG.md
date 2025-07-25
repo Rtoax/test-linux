@@ -10,6 +10,7 @@ and this project adheres to
 ## Unreleased
 
 #### Breaking Changes
+- mk: All targets use small case words, this is a big change;
 #### Added
 - ascend: add abbreviation.md;
 - metax: add hcGetDeviceProperties.hpcc, cuda2hccl.h, hcDeviceGetAttribute.hpcc, hcDeviceGetP2PAttribute.hpcc, symlink dim3.hpcc;

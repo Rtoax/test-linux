@@ -1,5 +1,5 @@
-TARGETS := hello
-TARGETS += dbus_malloc
+targets := hello
+targets += dbus_malloc
 
 CFLAGS += $(shell pkg-config --cflags dbus-1)
 LDFLAGS += $(shell pkg-config --libs dbus-1)

@@ -2,7 +2,7 @@
 sub-dir := scsi
 sub-dir += lvm
 
-TARGETS := partition-table
+targets := partition-table
 
 include ../template/main.mk
 

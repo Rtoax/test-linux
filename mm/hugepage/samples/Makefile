@@ -1,5 +1,5 @@
-TARGETS := malloc
-TARGETS += madvise-MADV_HUGEPAGE
+targets := malloc
+targets += madvise-MADV_HUGEPAGE
 
 include ../../../template/main.mk
 

@@ -1,9 +1,9 @@
-TARGETS_SHELL += memory.sh
-TARGETS_SHELL += oem.sh
-TARGETS_SHELL += power.sh
-TARGETS_SHELL += product.sh
-TARGETS_SHELL += serial-number.sh
-TARGETS_SHELL += string.sh
-TARGETS_SHELL += type.sh
+targets-shell += memory.sh
+targets-shell += oem.sh
+targets-shell += power.sh
+targets-shell += product.sh
+targets-shell += serial-number.sh
+targets-shell += string.sh
+targets-shell += type.sh
 
 include ../../../template/main.mk

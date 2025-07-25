@@ -1,19 +1,19 @@
-TARGETS :=
-TARGETS += gai_strerror
-TARGETS += getaddrinfo
-TARGETS += gethostbyaddr
-TARGETS += gethostbyname gethostbyname_r gethostbyname-2
-TARGETS += getservbyport getservbyname
-TARGETS += hstrerror
-TARGETS += setservent
-TARGETS += setnetent
-TARGETS += sethostent
-TARGETS += innetgr
-TARGETS += getprotoent getprotobyname getprotobynumber
-TARGETS += getnetbyname
-TARGETS += getipnodebyname
-TARGETS += herror
-TARGETS += getnameinfo
+targets :=
+targets += gai_strerror
+targets += getaddrinfo
+targets += gethostbyaddr
+targets += gethostbyname gethostbyname_r gethostbyname-2
+targets += getservbyport getservbyname
+targets += hstrerror
+targets += setservent
+targets += setnetent
+targets += sethostent
+targets += innetgr
+targets += getprotoent getprotobyname getprotobynumber
+targets += getnetbyname
+targets += getipnodebyname
+targets += herror
+targets += getnameinfo
 
 CFLAGS :=
 

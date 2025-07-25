@@ -1,7 +1,7 @@
-TARGETS :=
-TARGETS += cgroup_version
-TARGETS += cgroup_get_subsys_mount_point
-TARGETS += cgroup_new_cgroup
+targets :=
+targets += cgroup_version
+targets += cgroup_get_subsys_mount_point
+targets += cgroup_new_cgroup
 
 CC := gcc
 

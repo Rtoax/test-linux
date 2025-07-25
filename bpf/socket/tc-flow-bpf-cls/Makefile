@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
-TARGETS_BPF := classifier.bpf.o
+targets-bpf := classifier.bpf.o
 
-TARGETS_POST := help
+targets-post := help
 
 IF := lo
 $(warning "Specify IF=[Interface] like IF=lo")
@@ -15,12 +15,12 @@ help:
 	@echo >&2 " make unload [IF=enp10s0]"
 	@echo >&2 ""
 
-load: $(TARGETS_BPF)
-	$(call log_tgt_exe,LOAD,,$(TARGETS_BPF))
+load: $(targets-bpf)
+	$(call log_tgt_exe,LOAD,,$(targets-bpf))
 	$(Q)sudo tc qdisc add dev ${IF} handle 0: ingress
 	$(Q)sudo tc filter add dev ${IF} ingress bpf obj classifier.bpf.o flowid 0:
 
 unload:
-	$(call log_tgt_exe,UNLOAD,,$(TARGETS_BPF))
+	$(call log_tgt_exe,UNLOAD,,$(targets-bpf))
 	@echo -e "  UNLOAD  \033[1mclassifier.bpf.o\033[m to \033[1m$(IF)\033[m"
 	$(Q)sudo tc qdisc del dev ${IF} ingress

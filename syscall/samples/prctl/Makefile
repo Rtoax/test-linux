@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: GPL-3.0
 include ../../../kconfig.mk
 
-TARGETS := PR_CAPBSET_DROP
-TARGETS += PR_GET_NAME
-TARGETS += PR_SET_VMA_ANON_NAME
-TARGETS += PR_GET_ENDIAN
-TARGETS += PR_SET_SECCOMP
+targets := PR_CAPBSET_DROP
+targets += PR_GET_NAME
+targets += PR_SET_VMA_ANON_NAME
+targets += PR_GET_ENDIAN
+targets += PR_SET_SECCOMP
 
 ifeq ($(CONFIG_ANON_VMA_NAME),y)
   CFLAGS += -DCONFIG_ANON_VMA_NAME=1

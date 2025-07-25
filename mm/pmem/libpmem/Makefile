@@ -1,6 +1,6 @@
-TARGETS :=
-TARGETS += mmap
-TARGETS += pmem_map_file
+targets :=
+targets += mmap
+targets += pmem_map_file
 
 LDFLAGS := -lpmem
 

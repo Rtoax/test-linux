@@ -1,7 +1,7 @@
-TARGETS :=
-TARGETS += hsearch
-TARGETS += lfind
-TARGETS += tsearch
+targets :=
+targets += hsearch
+targets += lfind
+targets += tsearch
 
 CFLAGS :=
 

@@ -2,9 +2,9 @@
 sub-dir :=
 sub-dir += icmpping
 
-TARGETS :=
-TARGETS += ping
-TARGETS += icmp_checksum
+targets :=
+targets += ping
+targets += icmp_checksum
 
 include ../../template/main.mk
 

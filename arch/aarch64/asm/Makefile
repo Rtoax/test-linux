@@ -3,21 +3,21 @@ AS := as
 LD := ld
 LDFLAGS :=
 
-TARGETS :=
+targets :=
 
-TARGETS_ASM := hello
-TARGETS_ASM += hello-stack
-TARGETS_ASM += paciasp
-TARGETS_ASM += exit
-TARGETS_ASM += ldr
-TARGETS_ASM += while
-TARGETS_ASM += add
-TARGETS_ASM += mov
-TARGETS_ASM += nanosleep
+targets-asm := hello
+targets-asm += hello-stack
+targets-asm += paciasp
+targets-asm += exit
+targets-asm += ldr
+targets-asm += while
+targets-asm += add
+targets-asm += mov
+targets-asm += nanosleep
 
 ifneq ($(shell lscpu | grep -w -e sve -e sve2),)
-  TARGETS_ASM += hello_sve
-  TARGETS += daxpy
+  targets-asm += hello_sve
+  targets += daxpy
   ASCFLAGS := -march=armv8-a+sve2
 endif
 
@@ -32,25 +32,25 @@ ifneq ($(shell uname -m),aarch64)
   RUN_PFX := qemu-aarch64
   ASMLDFLAGS += --sysroot /home/rongtao/rootfs-aarch64/
 else ifeq ($(shell uname -m),aarch64)
-  TARGETS += add-c
-  TARGETS += loop-c
-  TARGETS += puts
-  TARGETS += paciasp-c
-  TARGETS += nanosleep-c
-  TARGETS += write-c write-c-loop
-  TARGETS += exit-c
+  targets += add-c
+  targets += loop-c
+  targets += puts
+  targets += paciasp-c
+  targets += nanosleep-c
+  targets += write-c write-c-loop
+  targets += exit-c
 
-  TARGETS_ASM += branch
+  targets-asm += branch
 
-  TARGETS += main
-  TARGETS += say_hello
-  TARGETS += hello-puts
-  TARGETS += hello-puts-infinite-loop
-  TARGETS += hello-main
-  TARGETS += read-main
-  TARGETS += exit-main
-  TARGETS += puts-main
-  TARGETS += printf-main
+  targets += main
+  targets += say_hello
+  targets += hello-puts
+  targets += hello-puts-infinite-loop
+  targets += hello-main
+  targets += read-main
+  targets += exit-main
+  targets += puts-main
+  targets += printf-main
 
   LDFLAGS += -lc
 
@@ -64,7 +64,7 @@ ifdef STATIC
   LDFLAGS += -static
   # FIXME: branch.asm no main() but call libc::printf(), I try 'gcc -nostdlib'
   # but it not works.
-  TARGETS_ASM := $(filter-out branch, $(TARGETS_ASM))
+  targets-asm := $(filter-out branch, $(targets-asm))
 endif
 
 ASFLAGS_paciasp := -march=armv8.3-a

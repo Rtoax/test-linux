@@ -1,4 +1,4 @@
-TARGETS := nftw
+targets := nftw
 
 CFLAGS :=
 

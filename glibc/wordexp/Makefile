@@ -1,5 +1,5 @@
-TARGETS :=
-TARGETS += wordexp
+targets :=
+targets += wordexp
 
 include ../../template/main.mk
 

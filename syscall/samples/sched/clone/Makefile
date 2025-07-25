@@ -1,12 +1,12 @@
-TARGETS :=
-TARGETS += glibc
-TARGETS += clone
-TARGETS += parent_tid
-TARGETS += ns_pid
-TARGETS += ns_net
-TARGETS += container
-TARGETS += uts_hostname
-TARGETS += CLONE_
+targets :=
+targets += glibc
+targets += clone
+targets += parent_tid
+targets += ns_pid
+targets += ns_net
+targets += container
+targets += uts_hostname
+targets += CLONE_
 
 CFLAGS := -D__USE_GNU
 CFLAGS += -pthread
@@ -18,7 +18,7 @@ endif
 CFLAGS_ns_pid := -Wno-error=int-to-pointer-cast
 CFLAGS_parent_tid := -DPARENT_TID=1
 
-TARGETS_PREP := CLONE_.h
+targets-prep := CLONE_.h
 
 include ../../../../template/main.mk
 

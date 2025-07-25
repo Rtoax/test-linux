@@ -1,9 +1,9 @@
 LIBSECCOMP_HDR = /usr/include/seccomp.h
 
-TARGETS :=
-TARGETS += seccomp_arch_resolve_name
-TARGETS += seccomp_rule_add
-TARGETS += seccomp_syscall_resolve_name
+targets :=
+targets += seccomp_arch_resolve_name
+targets += seccomp_rule_add
+targets += seccomp_syscall_resolve_name
 
 ifeq ($(wildcard $(LIBSECCOMP_HDR)),)
   $(warning "ERROR: Must install libseccomp header")

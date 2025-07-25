@@ -3,47 +3,47 @@ include ../kconfig.mk
 CC := gcc
 include ../compiler/compiler.mk
 
-TARGETS :=
-TARGETS += arg
-TARGETS += argv
-TARGETS += auto
-TARGETS += approaching
-TARGETS += array
-TARGETS += ascii
-TARGETS += arch-unsigned-signed
-TARGETS += alignas
-TARGETS += case
-TARGETS += const
-TARGETS += dummy
-TARGETS += param-pass
-TARGETS += compat
-TARGETS += compare
-TARGETS += _Generic
-TARGETS += goto
-TARGETS += ptr-dim
-TARGETS += struct
-TARGETS += string
-TARGETS += union
-TARGETS += xor
-TARGETS += __alignof__
-TARGETS += __has_include __has_feature
-TARGETS += __label__
-TARGETS += __typeof__
-TARGETS += NULL
-TARGETS += _Nullable
-TARGETS += _Nonnull
-TARGETS += BUILD_BUG_ON_ZERO
-TARGETS += macro
-TARGETS += while while-sleep
-TARGETS += stub
-TARGETS += if
-TARGETS += enum
-TARGETS += __STDC__ __STDC__gnu98 __STDC__c98 __STDC__c17
-TARGETS += include_next
-TARGETS += unsigned
-TARGETS += restrict
-TARGETS += ternary
-TARGETS += return
+targets :=
+targets += arg
+targets += argv
+targets += auto
+targets += approaching
+targets += array
+targets += ascii
+targets += arch-unsigned-signed
+targets += alignas
+targets += case
+targets += const
+targets += dummy
+targets += param-pass
+targets += compat
+targets += compare
+targets += _Generic
+targets += goto
+targets += ptr-dim
+targets += struct
+targets += string
+targets += union
+targets += xor
+targets += __alignof__
+targets += __has_include __has_feature
+targets += __label__
+targets += __typeof__
+targets += NULL
+targets += _Nullable
+targets += _Nonnull
+targets += BUILD_BUG_ON_ZERO
+targets += macro
+targets += while while-sleep
+targets += stub
+targets += if
+targets += enum
+targets += __STDC__ __STDC__gnu98 __STDC__c98 __STDC__c17
+targets += include_next
+targets += unsigned
+targets += restrict
+targets += ternary
+targets += return
 
 define arch_strip
   ${Q}${STRIP} $(1) -o $(1).strip
@@ -82,7 +82,7 @@ CFLAGS___STDC__gnu98 := -std=gnu89 -DSTD_GNU98=1
 CFLAGS___STDC__c17 := -std=c89 -DSTD_C17=1
 
 # preprocessing
-TARGETS_PREP := ${TARGETS:=.E.c}
+targets-prep := ${targets:=.E.c}
 
 include ../template/main.mk
 

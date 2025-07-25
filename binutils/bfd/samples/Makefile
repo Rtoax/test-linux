@@ -3,22 +3,22 @@ CC := gcc
 
 include bfd.mk
 
-TARGETS :=
-TARGETS += bfd_init
-TARGETS += build_id
-TARGETS += bfd_symbol_info
-TARGETS += bfd_get_start_address
-TARGETS += bfd_get_flavour
-TARGETS += bfd_elf_bfd_from_remote_memory
-TARGETS += phdr
-TARGETS += sections
-TARGETS += symbol symbol-value
-TARGETS += breakpoint_tst breakpoint_bfd
-TARGETS += reloc
-TARGETS += reloc-name
-TARGETS += bfd_print_symbol_vandf
+targets :=
+targets += bfd_init
+targets += build_id
+targets += bfd_symbol_info
+targets += bfd_get_start_address
+targets += bfd_get_flavour
+targets += bfd_elf_bfd_from_remote_memory
+targets += phdr
+targets += sections
+targets += symbol symbol-value
+targets += breakpoint_tst breakpoint_bfd
+targets += reloc
+targets += reloc-name
+targets += bfd_print_symbol_vandf
 
-TARGETS_LIBA := proc_helpers.a
+targets-liba := proc_helpers.a
 
 CFLAGS :=
 CFLAGS += -Wno-unused-label

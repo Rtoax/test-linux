@@ -1,9 +1,9 @@
 # SPDX-License-Identifier: GPL-3.0
 HAVE_LLVM := yes
 
-TARGETS := hello
-TARGETS_PREP := hello.ll
-TARGETS_PREP += hello.ast
+targets := hello
+targets-prep := hello.ll
+targets-prep += hello.ast
 
 CC := clang
 

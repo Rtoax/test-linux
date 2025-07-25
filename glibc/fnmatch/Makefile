@@ -1,5 +1,5 @@
-TARGETS :=
-TARGETS += fnmatch
+targets :=
+targets += fnmatch
 
 include ../../template/main.mk
 

@@ -1,4 +1,4 @@
-TARGETS := main
+targets := main
 
 include ../../../template/main.mk
 

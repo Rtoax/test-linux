@@ -1,21 +1,21 @@
-TARGETS :=
-TARGETS += opendir
-TARGETS += readdir
-TARGETS += telldir
-TARGETS += seekdir
-TARGETS += rewinddir
-TARGETS += scandir
-TARGETS += fdopendir
+targets :=
+targets += opendir
+targets += readdir
+targets += telldir
+targets += seekdir
+targets += rewinddir
+targets += scandir
+targets += fdopendir
 # Demos
-TARGETS += listdir
-TARGETS += remove_dir
+targets += listdir
+targets += remove_dir
 
 CC := gcc
 
 CFLAGS :=
 
-TARGETS_POST := generate-dir
-TARGETS_CLEAN := remove-dir
+targets-post := generate-dir
+targets-clean := remove-dir
 
 include ../../template/main.mk
 

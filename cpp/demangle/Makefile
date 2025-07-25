@@ -1,2 +1,2 @@
-TARGETS_SHELL := filt.sh
+targets-shell := filt.sh
 include ../../template/main.mk

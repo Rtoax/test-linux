@@ -9,10 +9,10 @@ STDIO_H := /usr/include/stdio.h
 
 sub-dir := SUBDIR
 
-TARGETS :=
+targets :=
 
 ifneq ($(wildcard $(STDIO_H)),)
-  TARGETS += main.user
+  targets += main.user
 else
   $(warning "WARNING: You need to install glibc-headers")
 endif
@@ -74,7 +74,7 @@ endef
 include subdir-header.mk
 
 .PHONY: build
-build: ${TARGETS} $(sub-dir-build)
+build: ${targets} $(sub-dir-build)
 	@echo -e "  CFLAGS=${CFLAGS}"
 	@echo -e "  LDFLAGS=${LDFLAGS}"
 	@echo -e "  PRINTF  ${feature-printf} "
@@ -93,17 +93,17 @@ main.user.o: main.h main.user.d
 	$(Q)$(CC) -MMD -MF $(@:.o=.d) -MP -S $(<) -o $(<:.c=.s) $(CFLAGS) $(CFLAGS_$(*))
 	$(Q)$(CC) -MMD -MF $(@:.o=.d) -MP -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
 
-$(TARGETS): %:
+$(targets): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
 	$(Q)$(CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*)) $(CFLAGS) $(CFLAGS_$(*))
 	$(Q)$(call user_strip,$(@))
 
-test: ${TARGETS}
-	@echo -e "  TEST  \033[1;32m$(TARGETS)\033[m"
+test: ${targets}
+	@echo -e "  TEST  \033[1;32m$(targets)\033[m"
 
 .PHONY: clean
 clean: $(sub-dir-clean)
-	@echo -e "  CLEAN  \033[1;32m$(TARGETS)\033[m"
-	$(Q)rm -f ${TARGETS} *.s *.o *.strip *.d
+	@echo -e "  CLEAN  \033[1;32m$(targets)\033[m"
+	$(Q)rm -f ${targets} *.s *.o *.strip *.d
 
 include subdir-footer.mk

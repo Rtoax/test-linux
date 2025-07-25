@@ -1,5 +1,5 @@
-TARGETS :=
-TARGETS += utime
+targets :=
+targets += utime
 
 include ../../../template/main.mk
 

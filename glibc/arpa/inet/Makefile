@@ -1,14 +1,14 @@
-TARGETS :=
-TARGETS += htonl
-TARGETS += htons
-TARGETS += ntohl
-TARGETS += ntohs
-TARGETS += inet_ntoa
-TARGETS += inet_ntop
-TARGETS += inet_pton
-TARGETS += inet_aton
-TARGETS += inet_addr
-TARGETS += inet_network
+targets :=
+targets += htonl
+targets += htons
+targets += ntohl
+targets += ntohs
+targets += inet_ntoa
+targets += inet_ntop
+targets += inet_pton
+targets += inet_aton
+targets += inet_addr
+targets += inet_network
 
 CFLAGS :=
 CFLAGS += -pthread

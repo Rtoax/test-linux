@@ -1,8 +1,8 @@
-TARGETS :=
-TARGETS += shmctl
-TARGETS += reader
-TARGETS += writer writer-hugetlb
-TARGETS += private
+targets :=
+targets += shmctl
+targets += reader
+targets += writer writer-hugetlb
+targets += private
 
 CFLAGS_writer-hugetlb := -DHAVE_HUGETLB=1
 

@@ -3,41 +3,41 @@ include ../../bpf/bpf.mk
 CC := gcc
 CLANG := clang
 
-TARGETS :=
-TARGETS_todo :=
-TARGETS_BPF :=
+targets :=
+targets-todo :=
+targets-bpf :=
 
-TARGETS += __has_builtin
-TARGETS += apply_args
-TARGETS += apply
-TARGETS += bswap16
-TARGETS += bswap32
-TARGETS += bswap64
-TARGETS += clz
-TARGETS += constant_p
-TARGETS += cpu_supports
-TARGETS += expect
-TARGETS += frame_address
-TARGETS += index
-TARGETS += object_size
-TARGETS += offsetof
-TARGETS += popcount
-TARGETS += prefetch
-TARGETS += return_address-2
-TARGETS += return_address
-TARGETS += rindex
-TARGETS += thread_pointer
-TARGETS += __clear_cache
-TARGETS += types_compatible_p
-TARGETS += clzl
-TARGETS += memcpy
-TARGETS += strlen strcmp
+targets += __has_builtin
+targets += apply_args
+targets += apply
+targets += bswap16
+targets += bswap32
+targets += bswap64
+targets += clz
+targets += constant_p
+targets += cpu_supports
+targets += expect
+targets += frame_address
+targets += index
+targets += object_size
+targets += offsetof
+targets += popcount
+targets += prefetch
+targets += return_address-2
+targets += return_address
+targets += rindex
+targets += thread_pointer
+targets += __clear_cache
+targets += types_compatible_p
+targets += clzl
+targets += memcpy
+targets += strlen strcmp
 
-TARGETS_BPF += preserve_field_info.bpf.o
+targets-bpf += preserve_field_info.bpf.o
 
-TARGETS_todo += read8
-TARGETS_todo += va_arg_pack
-TARGETS_todo += preserve_enum_value
+targets-todo += read8
+targets-todo += va_arg_pack
+targets-todo += preserve_enum_value
 
 # TODO: Fix this warning skip
 CFLAGS_apply_args := -Wno-incompatible-pointer-types

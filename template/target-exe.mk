@@ -39,15 +39,15 @@ ${OUTPUT}%.S.o: %.S | ${OUTPUT}
 	$(call log_tgt_obj,CC S,$(<),$(@))
 	${Q}$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
 
-$(TARGETS): %:
+$(targets): %:
 	$(call log_tgt_exe,LD,$(<),$(@))
 	${Q}${CC_PFX} $(CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*))
 
-${TARGETS_CPP}: %:
+${targets-cpp}: %:
 	$(call log_tgt_exe,LD CXX,$(<),$(@))
 	${Q}${CC_PFX} $(CXX) -o $(@) $(^) $(LDXXFLAGS) $(LDXXFLAGS_$(*))
 
 # Same as: ld -m elf_i386 a.o -o a
-${TARGETS_ASM}: %:
+${targets-asm}: %:
 	$(call log_tgt_exe,LD ASM,$(<),$(@))
 	${Q}$(LD) -o $(@) $(^) $(ASMLDFLAGS) $(ASMLDFLAGS_$(*))

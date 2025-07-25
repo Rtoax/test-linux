@@ -1,6 +1,6 @@
-TARGETS :=
-TARGETS += adjtime
-TARGETS += TIMEVAL_TO_TIMESPEC
+targets :=
+targets += adjtime
+targets += TIMEVAL_TO_TIMESPEC
 
 CFLAGS :=
 

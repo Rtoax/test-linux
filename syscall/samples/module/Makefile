@@ -2,14 +2,14 @@
 include ../../../kernel.mk
 include ../../../kconfig.mk
 
-TARGETS :=
+targets :=
 # This system call is present only before Linux 2.6. see create_module(2)
 ifeq ($(call kernel_lower_than,2,7,0),y)
-  TARGETS += create_module
+  targets += create_module
 endif
-TARGETS += init_module
-TARGETS += finit_module
-TARGETS += delete_module
+targets += init_module
+targets += finit_module
+targets += delete_module
 
 ifeq (${CONFIG_MODULE_FORCE_LOAD},y)
   CFLAGS += -DCONFIG_MODULE_FORCE_LOAD=1

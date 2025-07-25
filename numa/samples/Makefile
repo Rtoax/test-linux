@@ -3,19 +3,19 @@ include ../numactl.mk
 
 LIBNUMA_HDR = /usr/include/numa.h
 
-TARGETS :=
-TARGETS += numa_alloc
-TARGETS += numa_available
-TARGETS += numa_max_node
-TARGETS += numa_max_possible_node
-TARGETS += numa_node_size64
-TARGETS += numa_node_size
-TARGETS += numa_pagesize
-TARGETS += numa_preferred
-TARGETS += migrate_pages
+targets :=
+targets += numa_alloc
+targets += numa_available
+targets += numa_max_node
+targets += numa_max_possible_node
+targets += numa_node_size64
+targets += numa_node_size
+targets += numa_pagesize
+targets += numa_preferred
+targets += migrate_pages
 
 ifeq ($(wildcard $(LIBNUMA_HDR)),)
-  TARGETS :=
+  targets :=
   $(warning "ERROR: Must install numactl development header")
 endif
 

@@ -1,4 +1,4 @@
-TARGETS := h2o
+targets := h2o
 
 CFLAGS :=
 CFLAGS += -pthread

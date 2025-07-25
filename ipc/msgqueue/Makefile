@@ -1,4 +1,4 @@
-TARGETS := latency
+targets := latency
 
 CFLAGS_multi-thread := -pthread
 

@@ -1,74 +1,74 @@
 # SPDX-License-Identifier: GPL-3.0
 OUTPUT := .output/
 
-TARGETS :=
-TARGETS += foobar
-TARGETS += pthread_atfork
-TARGETS += create_thread
-TARGETS += multi_thread_stress
-TARGETS += dead_lock-1
-TARGETS += dead_lock-2
-TARGETS += pthread_attr_setstacksize
-TARGETS += pthread_attr_setstack-1
-TARGETS += pthread_attr_setstack-2
-TARGETS += pthread_attr_setstack-3
-TARGETS += pthread_attr_setdetachstate
-TARGETS += pthread_attr_getstack
-TARGETS += pthread_attr_getstacksize
-TARGETS += pthread_attr_getdetachstate
-TARGETS += pthread_attr_getinheritsched
-TARGETS += pthread_attr_getschedpolicy
-TARGETS += pthread_attr_init
-TARGETS += pthread_barrier_init
-TARGETS += pthread_cancel pthread_testcancel pthread_setcancelstate
-TARGETS += pthread_create
-TARGETS += pthread_create-deadline
-TARGETS += pthread_cleanup_push
-TARGETS += pthread_cleanup_push-deadlock
-TARGETS += pthread_cleanup_push_defer_np
-TARGETS += pthread_equal
-TARGETS += pthread_exit
-TARGETS += pthread_getschedparam
-TARGETS += pthread_key_create pthread_setspecific pthread_getspecific
-TARGETS += pthread_join-coredump
-TARGETS += pthread_join pthread_tryjoin_np pthread_timedjoin_np pthread_detach
-TARGETS += pthread_getname_np pthread_setname_np
-TARGETS += pthread_rwlock_init pthread_rwlock_rdlock pthread_rwlockattr_setpshared
-TARGETS += pthread_self
-TARGETS += pthread_spin_lock
-TARGETS += pthread_spin-latency pthread_spin-latency-loop
-TARGETS += pthread_setaffinity_np
-TARGETS += pthread_sigmask
-TARGETS += pthread_kill
-TARGETS += pthread_once
-TARGETS += pthread_yield
-TARGETS += pthread_mutexattr_setprioceiling
-TARGETS += pthread_mutexattr_setprotocol
-TARGETS += pthread_mutexattr_setpshared
-TARGETS += pthread_mutexattr_setrobust
-TARGETS += pthread_mutexattr_settype
-TARGETS += pthread_mutex_consistent
-TARGETS += pthread_mutex_getprioceiling
-TARGETS += pthread_mutex_init
-TARGETS += pthread_setconcurrency
-TARGETS += pthread_cond_init
-TARGETS += pthread_cond_wait
-TARGETS += pthread_cond_broadcast pthread_cond_broadcast-1
-TARGETS += pthread_cond_signal
-TARGETS += pthread_condattr_init
-TARGETS += pthread_condattr_getclock
-TARGETS += pthread_condattr_setpshared
-TARGETS += pthread_getcpuclockid
-TARGETS += tls
-TARGETS += taskset
-TARGETS += rt_thread
-TARGETS += cond-demo1 cond-demo2 cond-demo3-latency
+targets :=
+targets += foobar
+targets += pthread_atfork
+targets += create_thread
+targets += multi_thread_stress
+targets += dead_lock-1
+targets += dead_lock-2
+targets += pthread_attr_setstacksize
+targets += pthread_attr_setstack-1
+targets += pthread_attr_setstack-2
+targets += pthread_attr_setstack-3
+targets += pthread_attr_setdetachstate
+targets += pthread_attr_getstack
+targets += pthread_attr_getstacksize
+targets += pthread_attr_getdetachstate
+targets += pthread_attr_getinheritsched
+targets += pthread_attr_getschedpolicy
+targets += pthread_attr_init
+targets += pthread_barrier_init
+targets += pthread_cancel pthread_testcancel pthread_setcancelstate
+targets += pthread_create
+targets += pthread_create-deadline
+targets += pthread_cleanup_push
+targets += pthread_cleanup_push-deadlock
+targets += pthread_cleanup_push_defer_np
+targets += pthread_equal
+targets += pthread_exit
+targets += pthread_getschedparam
+targets += pthread_key_create pthread_setspecific pthread_getspecific
+targets += pthread_join-coredump
+targets += pthread_join pthread_tryjoin_np pthread_timedjoin_np pthread_detach
+targets += pthread_getname_np pthread_setname_np
+targets += pthread_rwlock_init pthread_rwlock_rdlock pthread_rwlockattr_setpshared
+targets += pthread_self
+targets += pthread_spin_lock
+targets += pthread_spin-latency pthread_spin-latency-loop
+targets += pthread_setaffinity_np
+targets += pthread_sigmask
+targets += pthread_kill
+targets += pthread_once
+targets += pthread_yield
+targets += pthread_mutexattr_setprioceiling
+targets += pthread_mutexattr_setprotocol
+targets += pthread_mutexattr_setpshared
+targets += pthread_mutexattr_setrobust
+targets += pthread_mutexattr_settype
+targets += pthread_mutex_consistent
+targets += pthread_mutex_getprioceiling
+targets += pthread_mutex_init
+targets += pthread_setconcurrency
+targets += pthread_cond_init
+targets += pthread_cond_wait
+targets += pthread_cond_broadcast pthread_cond_broadcast-1
+targets += pthread_cond_signal
+targets += pthread_condattr_init
+targets += pthread_condattr_getclock
+targets += pthread_condattr_setpshared
+targets += pthread_getcpuclockid
+targets += tls
+targets += taskset
+targets += rt_thread
+targets += cond-demo1 cond-demo2 cond-demo3-latency
 
 ifeq ($(shell uname -m),x86_64)
-  TARGETS += pthread_mutex_latency
+  targets += pthread_mutex_latency
 endif
 
-TARGETS += taskset_example
+targets += taskset_example
 
 CC := gcc
 
@@ -89,8 +89,8 @@ CFLAGS_pthread_cond_broadcast := -DCOND_ATTR=1
 CFLAGS_pthread_cond_signal := -DCOND_ATTR=1
 CFLAGS_pthread_create := -DNR_THREADS=5
 
-TARGETS_POST := $(addprefix ${OUTPUT},$(patsubst %,%.c.s,${TARGETS}))
-TARGETS_POST += ld-list-tunables
+targets-post := $(addprefix ${OUTPUT},$(patsubst %,%.c.s,${targets}))
+targets-post += ld-list-tunables
 
 include ../../../template/main.mk
 

@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
-TARGETS :=
-TARGETS += mount
+targets :=
+targets += mount
 
 CFLAGS_mount := -DTEST_MAIN=1
 LDFLAGS :=

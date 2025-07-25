@@ -1,5 +1,5 @@
-TARGETS :=
-TARGETS += setlocale
+targets :=
+targets += setlocale
 
 CFLAGS :=
 

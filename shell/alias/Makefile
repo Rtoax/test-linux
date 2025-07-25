@@ -1,2 +1,2 @@
-TARGETS_SHELL := uname.sh
+targets-shell := uname.sh
 include ../../template/main.mk

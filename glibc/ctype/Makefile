@@ -1,6 +1,6 @@
-TARGETS :=
-TARGETS += is
-TARGETS += to
+targets :=
+targets += is
+targets += to
 
 CFLAGS :=
 

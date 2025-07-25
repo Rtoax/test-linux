@@ -1,5 +1,5 @@
-TARGETS := semget
-TARGETS += fork-pv
+targets := semget
+targets += fork-pv
 
 include ../../../template/main.mk
 

@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: GPL-3.0
 include ../../elf.mk
 
-TARGETS := hello
-TARGETS += hello-pie
-TARGETS += is_pie
+targets := hello
+targets += hello-pie
+targets += is_pie
 
-TARGETS_LIBA := proc_helpers.a
+targets-liba := proc_helpers.a
 
 CFLAGS_hello += -no-pie
 LDFLAGS_hello += -no-pie

@@ -1,9 +1,9 @@
 # SPDX-License-Identifier: GPL-3.0
-TARGETS := dl_iterate_phdr
-TARGETS += dl_iterate_phdr-pie
-TARGETS += has_shared_object
+targets := dl_iterate_phdr
+targets += dl_iterate_phdr-pie
+targets += has_shared_object
 
-TARGETS_LIBA := proc_helpers.a
+targets-liba := proc_helpers.a
 
 CFLAGS_dl_iterate_phdr := -no-pie
 LDFLAGS_dl_iterate_phdr := -no-pie

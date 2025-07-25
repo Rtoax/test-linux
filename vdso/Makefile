@@ -7,8 +7,8 @@ sub-dir += test
 sub-dir += nvDSO
 sub-dir += vvar/scripts/
 
-TARGETS_PREP := ${VDSO_NAME}
-TARGETS_SHELL := layout.sh
+targets-prep := ${VDSO_NAME}
+targets-shell := layout.sh
 
 include ../template/main.mk
 

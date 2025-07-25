@@ -1,7 +1,7 @@
-TARGETS :=
-TARGETS += dummy dummy-fork dummy-vfork dummy-popen
-TARGETS += setns
-TARGETS += unshare unshare-execve
+targets :=
+targets += dummy dummy-fork dummy-vfork dummy-popen
+targets += setns
+targets += unshare unshare-execve
 
 CFLAGS := -D__USE_GNU
 CFLAGS += -pthread
@@ -11,7 +11,7 @@ CFLAGS_dummy-fork := -static -DTRY_FORK=1
 CFLAGS_dummy-vfork := -static -DTRY_VFORK=1
 CFLAGS_dummy-popen := -static -DTRY_POPEN=1
 
-TARGETS_TEST := test0
+targets-test := test0
 
 include ../../../../template/main.mk
 

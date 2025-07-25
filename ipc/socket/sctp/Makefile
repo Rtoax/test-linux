@@ -1,9 +1,9 @@
 LKSCTP_TOOLS_DEVEL=/usr/include/netinet/sctp.h
 
-TARGETS :=
+targets :=
 ifneq ($(wildcard $(LKSCTP_TOOLS_DEVEL)),)
-  TARGETS += IPPROTO_SCTP
-  TARGETS += client server
+  targets += IPPROTO_SCTP
+  targets += client server
 else
   $(warning "WARNING: Maybe install lksctp-tools development package")
 endif

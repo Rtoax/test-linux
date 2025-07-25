@@ -22,12 +22,12 @@ sub-dir += specs
 sub-dir += __sync
 sub-dir += Wwarn
 
-TARGETS :=
-TARGETS += __GNUC__
-TARGETS += __GNUC_PREREQ
-TARGETS += __VERSION__
+targets :=
+targets += __GNUC__
+targets += __GNUC_PREREQ
+targets += __VERSION__
 
-TARGETS_PREP := $(CC)-macros.h
+targets-prep := $(CC)-macros.h
 
 include compiler.mk
 

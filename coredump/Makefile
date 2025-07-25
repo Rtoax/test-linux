@@ -1,5 +1,5 @@
-TARGETS := coredump
-TARGETS_SHELL := prlimit.sh
-TARGETS_SHELL += list.sh
+targets := coredump
+targets-shell := prlimit.sh
+targets-shell += list.sh
 include ../template/main.mk
 coredump: coredump.o

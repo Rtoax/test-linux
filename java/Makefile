@@ -1,8 +1,8 @@
 # SPDX-License-Identifier: GPL-3.0
-TARGETS_JAVA :=
-TARGETS_JAVA += hello.class
-TARGETS_JAVA += malloc.class
-TARGETS_JAVA += url_GET.class
+targets-java :=
+targets-java += hello.class
+targets-java += malloc.class
+targets-java += url_GET.class
 
 include ../template/main.mk
 

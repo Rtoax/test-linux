@@ -1,7 +1,7 @@
-TARGETS :=
-TARGETS += server
-TARGETS += server-poll
-TARGETS += client
+targets :=
+targets += server
+targets += server-poll
+targets += client
 
 include ../../../../template/main.mk
 

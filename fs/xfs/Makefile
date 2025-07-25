@@ -1,2 +1,2 @@
-TARGETS_SHELL := mkfs.xfs.sh
+targets-shell := mkfs.xfs.sh
 include ../../template/main.mk

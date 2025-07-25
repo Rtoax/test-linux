@@ -1,12 +1,12 @@
-TARGETS := oom
-TARGETS += popen
-TARGETS += adaptive-oom-score
+targets := oom
+targets += popen
+targets += adaptive-oom-score
 
-TARGETS_BPF := adaptive-oom-score.bpf.o
-TARGETS_POST := adaptive-oom-score.skel.h
+targets-bpf := adaptive-oom-score.bpf.o
+targets-post := adaptive-oom-score.skel.h
 
 VMLINUX_H := vmlinux.h
-TARGETS_PREP := ${VMLINUX_H}
+targets-prep := ${VMLINUX_H}
 
 CFLAGS_popen = -DPOPEN=1
 LDFLAGS_adaptive-oom-score := -lbpf

@@ -1,4 +1,4 @@
-TARGETS := uts_hostname
+targets := uts_hostname
 
 include ../../template/main.mk
 

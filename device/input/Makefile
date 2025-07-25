@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
-TARGETS :=
-TARGETS += mice mouse0
-TARGETS += event0 keyboard
+targets :=
+targets += mice mouse0
+targets += event0 keyboard
 
 CFLAGS_mouse0 := -DDEV_INPUT_MOUSE0=1
 

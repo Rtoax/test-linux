@@ -1,4 +1,4 @@
-TARGETS := watchdog-simple
+targets := watchdog-simple
 
 include ../../template/main.mk
 

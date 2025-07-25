@@ -1,10 +1,10 @@
 include ../glibc.mk
 
-TARGETS := nr_errno
-TARGETS += __errno_location
-TARGETS += EDOM
-TARGETS += ENOENT
-TARGETS += EAFNOSUPPORT
+targets := nr_errno
+targets += __errno_location
+targets += EDOM
+targets += ENOENT
+targets += EAFNOSUPPORT
 
 CC := gcc
 
@@ -14,8 +14,8 @@ CFLAGS += -pthread
 
 CFLAGS += -DLIBC___ERRNO_LOCATION_SYMADDR=${LIBC___ERRNO_LOCATION_SYMADDR}
 
-TARGETS_PREP := nr_errno.h
-TARGETS_CLEAN := clean-more
+targets-prep := nr_errno.h
+targets-clean := clean-more
 
 include ../../elf/pie.mk
 include ../../template/main.mk

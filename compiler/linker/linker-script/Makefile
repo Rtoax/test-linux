@@ -1,12 +1,12 @@
 # SPDX-License-Identifier: GPL-3.0
-TARGETS :=
-TARGETS_ASM :=
+targets :=
+targets-asm :=
 
-TARGETS += main-c
-TARGETS_PREP := default.lds
+targets += main-c
+targets-prep := default.lds
 
 ifeq ($(shell uname -m),x86_64)
-  TARGETS_ASM += hello-as
+  targets-asm += hello-as
 endif
 
 # ld --verbose argument can print linker script

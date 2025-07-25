@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
-TARGETS += NETLINK_KOBJECT_UEVENT
+targets += NETLINK_KOBJECT_UEVENT
 
 include ../../../template/main.mk
 

@@ -51,77 +51,77 @@ sub-dir += truncate
 
 include ../../template/subdir-header.mk
 
-TARGETS :=
-TARGETS += acct
-TARGETS += chdir fchdir
-TARGETS += chown fchown fchownat
-TARGETS += fdopen
-TARGETS += kcmp
-TARGETS += execve execve-fork
-TARGETS += nr
-TARGETS += opendir
-TARGETS += pause
-TARGETS += personality
-TARGETS += readlink
-TARGETS += rename
-TARGETS += getcwd
-TARGETS += gettid
-TARGETS += getpid getpgid
-TARGETS += setpgid setpgid-fork
-TARGETS += setgid setegid setregid
-TARGETS += getuid setuid seteuid setreuid
-TARGETS += setpgrp
-TARGETS += tee tee2
-TARGETS += close
+targets :=
+targets += acct
+targets += chdir fchdir
+targets += chown fchown fchownat
+targets += fdopen
+targets += kcmp
+targets += execve execve-fork
+targets += nr
+targets += opendir
+targets += pause
+targets += personality
+targets += readlink
+targets += rename
+targets += getcwd
+targets += gettid
+targets += getpid getpgid
+targets += setpgid setpgid-fork
+targets += setgid setegid setregid
+targets += getuid setuid seteuid setreuid
+targets += setpgrp
+targets += tee tee2
+targets += close
 ifneq ($(wildcard /usr/include/linux/close_range.h),)
-  TARGETS += close_range
+  targets += close_range
 else
   $(warning "WARNING: not found /usr/include/linux/close_range.h")
 endif
-TARGETS += setitimer
-TARGETS += unlink
-TARGETS += rmdir
-TARGETS += uname
-TARGETS += userfaultfd
-TARGETS += symlink
-TARGETS += readdir
-TARGETS += write write-EBADF
-TARGETS += read
-TARGETS += getdents
-TARGETS += getgroups
-TARGETS += gethostname sethostname
-TARGETS += gethostid sethostid
-TARGETS += vhangup
-TARGETS += syscall
-TARGETS += sync syncfs
-TARGETS += getsid setsid
-TARGETS += getdomainname
-TARGETS += lseek
-TARGETS += link
-TARGETS += fsync fdatasync
-TARGETS += sync_file_range
-TARGETS += getpagesize
-TARGETS += ioprio_get ioprio_set
+targets += setitimer
+targets += unlink
+targets += rmdir
+targets += uname
+targets += userfaultfd
+targets += symlink
+targets += readdir
+targets += write write-EBADF
+targets += read
+targets += getdents
+targets += getgroups
+targets += gethostname sethostname
+targets += gethostid sethostid
+targets += vhangup
+targets += syscall
+targets += sync syncfs
+targets += getsid setsid
+targets += getdomainname
+targets += lseek
+targets += link
+targets += fsync fdatasync
+targets += sync_file_range
+targets += getpagesize
+targets += ioprio_get ioprio_set
 
-TARGETS_CPP :=
+targets-cpp :=
 ifndef NOCPP
-  TARGETS_CPP += readlink2
+  targets-cpp += readlink2
 endif
 
 ifeq ($(shell uname -m),x86_64)
-  TARGETS += sysctl
+  targets += sysctl
 endif
 ifeq ($(shell uname -m),aarch64)
-# TODO: Remove openat2 from TARGETS
-  TARGETS := $(filter-out pause, $(TARGETS))
+# TODO: Remove openat2 from targets
+  targets := $(filter-out pause, $(targets))
 endif
 ifeq ($(shell uname -m),sw_64)
-  TARGETS := $(filter-out pause, $(TARGETS))
+  targets := $(filter-out pause, $(targets))
 endif
 ifeq ($(shell uname -m),riscv64)
-  TARGETS := $(filter-out pause, $(TARGETS))
-  TARGETS := $(filter-out chmod, $(TARGETS))
-  TARGETS := $(filter-out getdents, $(TARGETS))
+  targets := $(filter-out pause, $(targets))
+  targets := $(filter-out chmod, $(targets))
+  targets := $(filter-out getdents, $(targets))
 endif
 
 CFLAGS += -I../../
@@ -130,8 +130,8 @@ CFLAGS += -pthread
 CFLAGS_write := -Wno-error=unused-variable
 CXXFLAGS_readlink2 := -std=c++17 -lstdc++
 
-TARGETS_PREP := nr.h
-TARGETS_CLEAN := clean0
+targets-prep := nr.h
+targets-clean := clean0
 
 include ../../template/main.mk
 

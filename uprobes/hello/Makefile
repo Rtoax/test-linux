@@ -1,6 +1,6 @@
-TARGETS :=
-TARGETS += hello
-TARGETS += hello-pie
+targets :=
+targets += hello
+targets += hello-pie
 
 CFLAGS_hello += -no-pie
 LDFLAGS_hello += -no-pie

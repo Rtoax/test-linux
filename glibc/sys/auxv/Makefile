@@ -1,13 +1,13 @@
-TARGETS :=
-TARGETS += getauxval
-TARGETS += AT_ENTRY
-TARGETS += AT_EXECFN
-TARGETS += AT_HWCAP
-TARGETS += AT_PAGESZ
-TARGETS += AT_PHDR
-TARGETS += AT_PLATFORM
-TARGETS += AT_SYSINFO
-TARGETS += AT_SYSINFO_EHDR
+targets :=
+targets += getauxval
+targets += AT_ENTRY
+targets += AT_EXECFN
+targets += AT_HWCAP
+targets += AT_PAGESZ
+targets += AT_PHDR
+targets += AT_PLATFORM
+targets += AT_SYSINFO
+targets += AT_SYSINFO_EHDR
 
 CFLAGS :=
 CFLAGS += -lm

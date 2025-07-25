@@ -5,6 +5,6 @@ sub-dir += dmesg
 sub-dir += grep
 sub-dir += sed
 
-TARGETS_SHELL := bc.sh tr.sh
+targets-shell := bc.sh tr.sh
 
 include ../../template/main.mk

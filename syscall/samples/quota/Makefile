@@ -1,4 +1,4 @@
-TARGETS := quotactl
+targets := quotactl
 
 include ../../../template/main.mk
 

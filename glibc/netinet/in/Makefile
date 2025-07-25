@@ -1,6 +1,6 @@
-TARGETS := IPPORT_
-TARGETS += inet6_opt_
-TARGETS += inet6_rth_
+targets := IPPORT_
+targets += inet6_opt_
+targets += inet6_rth_
 
 CFLAGS :=
 

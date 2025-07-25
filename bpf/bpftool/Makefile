@@ -3,7 +3,7 @@ include bpftool.mk
 
 sub-dir := scripts
 
-TARGETS_PREP := vmlinux.h
+targets-prep := vmlinux.h
 
 include ../../template/main.mk
 

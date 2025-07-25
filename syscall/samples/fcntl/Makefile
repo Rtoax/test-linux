@@ -1,20 +1,20 @@
-TARGETS :=
-TARGETS += fallocate
-TARGETS += open openat openat2
-TARGETS += splice splice-read
-TARGETS += O_ flags S_ mode
+targets :=
+targets += fallocate
+targets += open openat openat2
+targets += splice splice-read
+targets += O_ flags S_ mode
 
 # F_ flags
-TARGETS += F_GET_SEALS
-TARGETS += F_ADD_SEALS
-TARGETS += F_SETLKW
-TARGETS += F_DUPFD
-TARGETS += F_GETFD
-TARGETS += F_GETFL
+targets += F_GET_SEALS
+targets += F_ADD_SEALS
+targets += F_SETLKW
+targets += F_DUPFD
+targets += F_GETFD
+targets += F_GETFL
 # O_ flags
-TARGETS += O_CLOEXEC
-TARGETS += O_PATH
-TARGETS += O_TMPFILE
+targets += O_CLOEXEC
+targets += O_PATH
+targets += O_TMPFILE
 
 CFLAGS :=
 

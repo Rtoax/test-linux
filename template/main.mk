@@ -94,27 +94,27 @@ ifneq ($(sub-dir)$(kmod-list),)
   include ${TEMPLATE_DIR}/subdir-header.mk
 endif
 
-build-targets := $(TARGETS_PREP)
+build-targets := $(targets-prep)
 build-targets += $(OUTPUT)
-build-targets += $(TARGETS_LIBA) $(TARGETS_LIBSO)
-build-targets += $(TARGETS)
-build-targets += $(TARGETS_ASM)
-build-targets += $(TARGETS_CPP)
-build-targets += $(TARGETS_LLVM_LL)
-build-targets += $(TARGETS_BPF)
-build-targets += $(TARGETS_RUST)
-build-targets += $(TARGETS_NVCC)
-build-targets += $(TARGETS_MXCC) $(TARGETS_HTCC)
-build-targets += $(TARGETS_GO)
-build-targets += $(TARGETS_JAVA)
-TARGETS_SHELL_LOGS := $(patsubst %.sh,%.sh.log,$(TARGETS_SHELL))
-build-targets += $(TARGETS_SHELL_LOGS)
-TARGETS_PYTHON_LOGS := $(patsubst %.py,%.py.log,$(TARGETS_PYTHON))
-build-targets += $(TARGETS_PYTHON_LOGS)
-TARGETS_MK_LOGS := $(patsubst %.mk,%.mk.log,$(TARGETS_MK))
-build-targets += $(TARGETS_MK_LOGS)
+build-targets += $(targets-liba) $(targets-libso)
+build-targets += $(targets)
+build-targets += $(targets-asm)
+build-targets += $(targets-cpp)
+build-targets += $(targets-llvm-ll)
+build-targets += $(targets-bpf)
+build-targets += $(targets-rust)
+build-targets += $(targets-nvcc)
+build-targets += $(targets-mxcc) $(targets-htcc)
+build-targets += $(targets-go)
+build-targets += $(targets-java)
+targets-shell-logs := $(patsubst %.sh,%.sh.log,$(targets-shell))
+build-targets += $(targets-shell-logs)
+targets-python-logs := $(patsubst %.py,%.py.log,$(targets-python))
+build-targets += $(targets-python-logs)
+targets-mk-logs := $(patsubst %.mk,%.mk.log,$(targets-mk))
+build-targets += $(targets-mk-logs)
 build-targets += $(sub-dir-build) $(kmod-list-build)
-build-targets += $(TARGETS_POST)
+build-targets += $(targets-post)
 
 ifdef DEBUG
   $(info build-targets = ${build-targets})
@@ -125,51 +125,51 @@ build: $(build-targets)
 	$(call log_tgt_done,build,$(call git_relative_dir,$(shell realpath .)))
 
 .PHONY: test
-test: $(build-targets) $(sub-dir-test) $(kmod-list-test) $(TARGETS_TEST)
+test: $(build-targets) $(sub-dir-test) $(kmod-list-test) $(targets-test)
 	$(call log_tgt_done,test,$(call git_relative_dir,$(shell realpath .)))
 
 .PHONY: clean
-clean: $(sub-dir-clean) $(kmod-list-clean) $(TARGETS_CLEAN)
-	$(call log_tgt_start,clean,${build-targets} ${TARGETS_CLEAN})
+clean: $(sub-dir-clean) $(kmod-list-clean) $(targets-clean)
+	$(call log_tgt_start,clean,${build-targets} ${targets-clean})
 	${Q}rm -rf ${build-targets} *.o *.d *.log *.out *.class
 	${Q}rm -rf *.so *.so.* *.a
 	$(call log_tgt_done,clean,$(call git_relative_dir,$(shell realpath .)))
 
 include ${TEMPLATE_DIR}/target-exe.mk
-ifneq ($(TARGETS_LIBA),)
+ifneq ($(targets-liba),)
   include ${TEMPLATE_DIR}/target-liba.mk
 endif
-ifneq ($(TARGETS_LIBSO),)
+ifneq ($(targets-libso),)
   include ${TEMPLATE_DIR}/target-libso.mk
 endif
-ifneq ($(HAVE_LLVM)$(TARGETS_LLVM_LL),)
+ifneq ($(HAVE_LLVM)$(targets-llvm-ll),)
   include ${TEMPLATE_DIR}/target-llvm.mk
 endif
-ifneq ($(TARGETS_BPF),)
+ifneq ($(targets-bpf),)
   include ${TEMPLATE_DIR}/target-bpf.mk
 endif
-ifneq ($(TARGETS_RUST),)
+ifneq ($(targets-rust),)
   include ${TEMPLATE_DIR}/target-rust.mk
 endif
-ifneq ($(TARGETS_NVCC),)
+ifneq ($(targets-nvcc),)
   include ${TEMPLATE_DIR}/target-cuda.mk
 endif
-ifneq ($(TARGETS_MXCC)$(TARGETS_HTCC),)
+ifneq ($(targets-mxcc)$(targets-htcc),)
   include ${TEMPLATE_DIR}/target-metax.mk
 endif
-ifneq ($(TARGETS_SHELL),)
+ifneq ($(targets-shell),)
   include ${TEMPLATE_DIR}/target-shell.mk
 endif
-ifneq ($(TARGETS_MK_LOGS),)
+ifneq ($(targets-mk-logs),)
   include ${TEMPLATE_DIR}/target-make.mk
 endif
-ifneq ($(TARGETS_PYTHON),)
+ifneq ($(targets-python),)
   include ${TEMPLATE_DIR}/target-python.mk
 endif
-ifneq ($(TARGETS_GO),)
+ifneq ($(targets-go),)
   include ${TEMPLATE_DIR}/target-golang.mk
 endif
-ifneq ($(TARGETS_JAVA),)
+ifneq ($(targets-java),)
   include ${TEMPLATE_DIR}/target-java.mk
 endif
 ifneq (${OUTPUT},)

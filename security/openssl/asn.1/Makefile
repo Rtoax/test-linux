@@ -1,17 +1,17 @@
-TARGETS :=
-TARGETS += a2d_ASN1_OBJECT
-TARGETS += a2i_ASN1_INTEGER
-TARGETS += a2i_ASN1_STRING
-#TARGETS += asc2uni
-TARGETS += ASN1_BIT_STRING_get_bit
-TARGETS += ASN1_d2i_bio
-TARGETS += ASN1_ENUMERATED_get
-TARGETS += ASN1_ENUMERATED_to_BN
-TARGETS += ASN1_i2d_bio
-TARGETS += ASN1_parse_dump
-TARGETS += ASN1_STRING_cmp
-TARGETS += i2a_ASN1_INTEGER
-TARGETS += i2a_ASN1_STRING
+targets :=
+targets += a2d_ASN1_OBJECT
+targets += a2i_ASN1_INTEGER
+targets += a2i_ASN1_STRING
+#targets += asc2uni
+targets += ASN1_BIT_STRING_get_bit
+targets += ASN1_d2i_bio
+targets += ASN1_ENUMERATED_get
+targets += ASN1_ENUMERATED_to_BN
+targets += ASN1_i2d_bio
+targets += ASN1_parse_dump
+targets += ASN1_STRING_cmp
+targets += i2a_ASN1_INTEGER
+targets += i2a_ASN1_STRING
 
 CFLAGS :=
 # FIXME: I'm too lazy

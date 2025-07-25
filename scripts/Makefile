@@ -11,11 +11,11 @@ include git.mk
 include ../bpf/bpf.mk
 include ascii.mk
 
-TARGETS_PREP := test_call
-TARGETS_SHELL := moonlight.sh
-TARGETS_SHELL += gotoxy.sh
-TARGETS_SHELL += kconfig_compare.sh
-TARGETS_SHELL += patchset_examples.sh
+targets-prep := test_call
+targets-shell := moonlight.sh
+targets-shell += gotoxy.sh
+targets-shell += kconfig_compare.sh
+targets-shell += patchset_examples.sh
 
 SHELL_ARGS_kconfig_compare.sh := --base ../kconfig --config ../kconfig --display all
 

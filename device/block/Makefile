@@ -1,7 +1,7 @@
-TARGETS_SHELL := f2blk.sh
-TARGETS_SHELL += lsblk.sh
+targets-shell := f2blk.sh
+targets-shell += lsblk.sh
 
-TARGETS := open
+targets := open
 
 include ../../template/main.mk
 

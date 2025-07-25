@@ -10,8 +10,8 @@ sub-dir += udp
 sub-dir += vsock
 sub-dir += ipv6
 
-TARGETS := sockaddr-size
-TARGETS_LIBA := socket_helpers.a
+targets := sockaddr-size
+targets-liba := socket_helpers.a
 
 include ../../template/main.mk
 
