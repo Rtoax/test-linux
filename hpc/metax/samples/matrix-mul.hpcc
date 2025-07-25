@@ -61,7 +61,15 @@ struct {
 	.unit_time = NS2US,
 };
 
-const char *version = "v0.0.1";
+const char *version = "v0.0.1 "
+#if defined(HAVE_HCCL)
+	"(GPU MetaX)"
+#elif defined(HAVE_CUDA)
+	"(GPU Nvidia)"
+#else
+	"(CPU)"
+#endif
+;
 
 const char argp_prog_doc[] =
 	"USAGE: [-m <NUM>] [-n <NUM>] [--nloop|-N <NUM>] [-i <VAL>] [-v]\n"
