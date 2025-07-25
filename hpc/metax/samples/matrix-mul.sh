@@ -1,6 +1,7 @@
 #!/bin/bash
 set -e
 
+readonly PROG=$0
 readonly loop=10000
 program=matrix-mul
 gpu=0
@@ -9,14 +10,21 @@ sz_interval=10
 
 __usage__()
 {
-	echo -e "
-matrix-mul.sh
+	echo -en "NAME
+	${PROG} - Test matrix mul on GPU or CPU
 
--g, --gpu [GPU]        running on GPU
--p, --prog [PROG]      set ELF program
--s, --size [NUM]       set matrix max size, default: ${max_size}
--i, --interval [NUM]   set matrix size interval, default: ${sz_interval}
--h, --help             show help info
+SYNOPSIS
+	${PROG} [-g <IDX>] [...]
+
+ARGUMENTS
+	-g, --gpu [GPU]        running on GPU
+	-p, --prog [PROG]      set ELF program
+	-s, --size [NUM]       set matrix max size, default: ${max_size}
+	-i, --interval [NUM]   set matrix size interval, default: ${sz_interval}
+	-h, --help             show help info
+
+EXAMPLES
+	$ ${PROG} -s 5000 -i 50
 "
 	exit ${1-0}
 }
@@ -27,7 +35,7 @@ TEMP_ARGS=$(getopt --options g:p:s:i:h \
 	--long size: \
 	--long interval: \
 	--long help \
-	--name $0 -- "$@")
+	--name ${PROG} -- "$@")
 
 test $? != 0 && __usage__ 1
 
