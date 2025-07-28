@@ -27,6 +27,8 @@
 
 #define cudaDeviceSynchronize()	hcDeviceSynchronize()
 
+#define cublasStatus_t	hcblasStatus_t
+#define CUBLAS_STATUS_SUCCESS	HCBLAS_STATUS_SUCCESS
 #define cublasHandle_t	hcblasHandle_t
 #define cublasCreate(handle)	hcblasCreate(handle)
 #define cublasDestroy(handle)	hcblasDestroy(handle)

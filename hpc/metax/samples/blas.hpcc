@@ -15,16 +15,24 @@
 #include <cuda_runtime.h>
 #include <cublas_v2.h>
 #include "cuda_helpers.h"
+#else
+# error "Must define one of HAVE_HCCL, HAVE_CUDA"
 #endif
 
 
 int main(int argc, char *argv[])
 {
+	cublasStatus_t status;
 	cublasHandle_t blashandle;
 
 	gpu_init(0);
 
-	cublasCreate(&blashandle);
+	status = cublasCreate(&blashandle);
+	if (status != CUBLAS_STATUS_SUCCESS) {
+		fprintf(stderr, "ERROR: Create blas handle failed.\n");
+		return -1;
+	}
+
 	cublasDestroy(blashandle);
 	return 0;
 }
