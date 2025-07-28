@@ -3,6 +3,7 @@
 #pragma once
 
 #define cudaError_t	hcError_t
+#define cudaSuccess	hcSuccess
 
 #define cudaMalloc(pp, sz)	hcMalloc(pp, sz)
 #define cudaFree(ptr)	hcFree(ptr)
@@ -57,6 +58,19 @@
 #define CUBLAS_FILL_MODE_LOWER	HCBLAS_FILL_MODE_LOWER
 #define CUBLAS_FILL_MODE_UPPER	HCBLAS_FILL_MODE_UPPER
 #define CUBLAS_FILL_MODE_FULL	HCBLAS_FILL_MODE_FULL
+
+#define cublasSetMatrix(rows, cols, elemsize, A, ola, B, ldb)	\
+	hcblasSetMatrix(rows, cols, elemsize, A, ola, B, ldb)
+#define cublasGetMatrix(rows, cols, elemsize, A, ola, B, ldb)	\
+	hcblasGetMatrix(rows, cols, elemsize, A, ola, B, ldb)
+
+/* S-float, D-double, C-Complex, Cs-Complex/float, Z-DoubleComplex, Zd-DoubleComplex/double */
+#define cublasSscal(handle, n, alpha, x, incx)	hcblasSscal(handle, n, alpha, x, incx)
+#define cublasDscal(handle, n, alpha, x, incx)	hcblasDscal(handle, n, alpha, x, incx)
+#define cublasCscal(handle, n, alpha, x, incx)	hcblasCscal(handle, n, alpha, x, incx)
+#define cublasCsscal(handle, n, alpha, x, incx)	hcblasCsscal(handle, n, alpha, x, incx)
+#define cublasZscal(handle, n, alpha, x, incx)	hcblasZscal(handle, n, alpha, x, incx)
+#define cublasZdscal(handle, n, alpha, x, incx)	hcblasZdscal(handle, n, alpha, x, incx)
 
 /**
  * see /usr/local/cuda-12.9/targets/x86_64-linux/include/library_types.h

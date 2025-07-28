@@ -5,6 +5,7 @@
  * refs:
  * - https://docs.nvidia.com/cuda/cublas/index.html
  */
+#include <assert.h>
 #include <argp.h>
 #include <stdio.h>
 #include <stdint.h>
@@ -25,11 +26,100 @@
 # error "Must define one of HAVE_HCCL, HAVE_CUDA"
 #endif
 
+#define IDX2C(i, j, ld)	(((j) * (ld)) + (i))
+
+struct {
+	int gpu;
+	unsigned long m;
+	unsigned long n;
+	bool verbose;
+} env = {
+	.gpu = 0,
+	.m = 3,
+	.n = 2,
+	.verbose = false,
+};
+
+const char *version = "v0.0.1 "
+#if defined(HAVE_HCCL)
+	"(GPU MetaX)"
+#elif defined(HAVE_CUDA)
+	"(GPU Nvidia)"
+#endif
+;
+
+const char argp_prog_doc[] =
+	"USAGE: [-g <GPU>] [-v]\n"
+	"\n"
+	"Examples:\n"
+	" $ time ./blas -m10 -n10";
+
+static const struct argp_option opts[] = {
+	{ "gpu", 'g', "GPU", 0, "Running on GPU" },
+	{ "m-num", 'm', "M_NUM", 0, "Matrix M number" },
+	{ "n-num", 'n', "N_NUM", 0, "Matrix N number" },
+	{ "verbose", 'v', NULL, 1, "Display detail" },
+	{ "version", 'V', NULL, 1, "Display version" },
+	{},
+};
+
+static error_t parse_arg(int key, char *arg, struct argp_state *state)
+{
+	switch (key) {
+	case 'g':
+		env.gpu = strtoul(arg, NULL, 10);
+		break;
+	case 'm':
+		env.m = strtoul(arg, NULL, 10);
+		break;
+	case 'n':
+		env.n = strtoul(arg, NULL, 10);
+		break;
+	case 'v':
+		env.verbose = true;
+		break;
+	case 'V':
+		printf("%s\n", version);
+		exit(EXIT_SUCCESS);
+		break;
+	case ARGP_KEY_ARG:
+		break;
+	case ARGP_KEY_END:
+		break;
+	default:
+		return ARGP_ERR_UNKNOWN;
+	}
+	return 0;
+}
+
+static const struct argp argp = {
+	.options = opts,
+	.parser = parse_arg,
+	.doc = argp_prog_doc,
+};
+
+static __inline__
+void modify(cublasHandle_t handle, float *m, int ldm, int n, int p, int q,
+	    float alpha, float beta)
+{
+	cublasSscal(handle, n - q, &alpha, &m[IDX2C(p, q, ldm)], ldm);
+	cublasSscal(handle, ldm - p, &beta, &m[IDX2C(p, q, ldm)], 1);
+}
 
 int main(int argc, char *argv[])
 {
+	int i, j, err = 0;
+	cudaError_t cuerr;
 	cublasStatus_t status;
 	cublasHandle_t blashandle;
+	float *dev_A;
+	float *host_A;
+
+	err = argp_parse(&argp, argc, argv, 0, NULL, NULL);
+	if (err) {
+		fprintf(stderr, "argp_parse return %d\n", err);
+		return -err;
+	}
 
 	gpu_init(0);
 
@@ -39,6 +129,47 @@ int main(int argc, char *argv[])
 		return -1;
 	}
 
+	host_A = (float *)malloc(env.m * env.n * sizeof(float));
+	assert(host_A);
+
+	for (j = 0; j < env.n; j++) {
+		for (i = 0; i < env.m; i++) {
+			host_A[IDX2C(i, j, env.m)] = (float)(i * env.n + j + 1);
+		}
+	}
+
+	cuerr = cudaMalloc(&dev_A, env.m * env.n * sizeof(float));
+	if (cuerr != cudaSuccess) {
+		fprintf(stderr, "cudaMalloc failed\n");
+		err = -ENOMEM;
+		goto done;
+	}
+
+	status = cublasSetMatrix(env.m, env.n, sizeof(float), host_A, env.m, dev_A, env.m);
+	if (status != CUBLAS_STATUS_SUCCESS) {
+		fprintf(stderr, "set matrix failed.\n");
+		err = -1;
+		goto done;
+	}
+
+	modify(blashandle, dev_A, env.m, env.n, 1, 2, 16.0f, 12.0f);
+
+	status = cublasGetMatrix(env.m, env.n, sizeof(float), dev_A, env.m, host_A, env.m);
+	if (status != CUBLAS_STATUS_SUCCESS) {
+		fprintf(stderr, "get matrix failed.\n");
+		err = -1;
+		goto done;
+	}
+
+	for (j = 0; j < env.n; j++) {
+		for (i = 0; i < env.m; i++) {
+			printf("%7.0f", host_A[IDX2C(i, j, env.m)]);
+		}
+		printf("\n");
+	}
+done:
 	cublasDestroy(blashandle);
-	return 0;
+	cudaFree(dev_A);
+	free(host_A);
+	return err;
 }
