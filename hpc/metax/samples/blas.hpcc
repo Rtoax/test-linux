@@ -13,6 +13,7 @@
 #include "cuda2hccl.h"
 #elif defined(HAVE_CUDA)
 #include <cuda_runtime.h>
+#include <cublas_v2.h>
 #include "cuda_helpers.h"
 #endif
 

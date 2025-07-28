@@ -1,4 +1,5 @@
 /dim3
+/blas
 /hello
 /parallel
 /cudaMalloc

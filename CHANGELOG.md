@@ -14,7 +14,7 @@ and this project adheres to
 #### Added
 - ascend: add abbreviation.md;
 - metax: add hcGetDeviceProperties.hpcc, cuda2hccl.h, hcDeviceGetAttribute.hpcc, hcDeviceGetP2PAttribute.hpcc, blas.hpcc, symlink dim3.hpcc, matrix-mul-int8.hpcc, matrix-mul-fp16.hpcc;
-- cuda: add dim3.cu, symlink cudaDeviceGetP2PAttribute.cu, matrix-mul.sh, matrix-mul-double.cu, matrix-mul-int8.cu;
+- cuda: add dim3.cu, symlink cudaDeviceGetP2PAttribute.cu, matrix-mul.sh, matrix-mul-double.cu, matrix-mul-int8.cu, blas.cu;
 - nvidia: add README.Nsight.md from ostools;
 #### Changed
 #### Deprecated
