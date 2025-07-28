@@ -14,7 +14,7 @@
 #define cudaEventDestroy(ev)	hcEventDestroy(ev)
 #define cudaEventRecord(ev)	hcEventRecord(ev)
 #define cudaEventElapsedTime(pt, start, stop)	hcEventElapsedTime(pt, start, stop)
-#define cudaEventSynchronize()	hcEventSynchronize()
+#define cudaEventSynchronize(ev)	hcEventSynchronize(ev)
 
 #define cudaGetDeviceProperties(prop, devid)	hcGetDeviceProperties(prop, devid)
 
