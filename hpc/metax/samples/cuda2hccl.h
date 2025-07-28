@@ -54,8 +54,8 @@
 #define CUBLAS_OP_N	HCBLAS_OP_N
 #define CUBLAS_OP_T	HCBLAS_OP_T
 #define CUBLAS_OP_C	HCBLAS_OP_C
-#define CUBLAS_OP_HERMITAN	CUBLAS_OP_HERMITAN
-#define CUBLAS_OP_CONJG	CUBLAS_OP_CONJG
+#define CUBLAS_OP_HERMITAN	HCBLAS_OP_HERMITAN
+#define CUBLAS_OP_CONJG	HCBLAS_OP_CONJG
 
 #define cublasFillMode_t	hcblasFillMode_t
 #define CUBLAS_FILL_MODE_LOWER	HCBLAS_FILL_MODE_LOWER
@@ -80,6 +80,25 @@
 #define cublasCsscal(handle, n, alpha, x, incx)	hcblasCsscal(handle, n, alpha, x, incx)
 #define cublasZscal(handle, n, alpha, x, incx)	hcblasZscal(handle, n, alpha, x, incx)
 #define cublasZdscal(handle, n, alpha, x, incx)	hcblasZdscal(handle, n, alpha, x, incx)
+
+/**
+ * cublasComputeType_t enumerate type is used in cublasGemmEx() and
+ * cublasLtMatmul() (including all batched and strided batched variants) to
+ * choose compute precision modes as defined below.
+ */
+#define cublasComputeType_t	hcblasComputeType_t
+#define CUBLAS_COMPUTE_16F	HCBLAS_COMPUTE_16F
+#define CUBLAS_COMPUTE_16F_PEDANTIC	HCBLAS_COMPUTE_16F_PEDANTIC
+#define CUBLAS_COMPUTE_32F	HCBLAS_COMPUTE_32F
+#define CUBLAS_COMPUTE_32F_PEDANTIC	HCBLAS_COMPUTE_32F_PEDANTIC
+#define CUBLAS_COMPUTE_32F_FAST_16F	HCBLAS_COMPUTE_32F_FAST_16F
+#define CUBLAS_COMPUTE_32F_FAST_16BF	HCBLAS_COMPUTE_32F_FAST_16BF
+#define CUBLAS_COMPUTE_32F_FAST_TF32	HCBLAS_COMPUTE_32F_FAST_TF32
+#define CUBLAS_COMPUTE_32F_EMULATED_16BFX9	HCBLAS_COMPUTE_32F_EMULATED_16BFX9
+#define CUBLAS_COMPUTE_64F	HCBLAS_COMPUTE_64F
+#define CUBLAS_COMPUTE_64F_PEDANTIC	HCBLAS_COMPUTE_64F_PEDANTIC
+#define CUBLAS_COMPUTE_32I	HCBLAS_COMPUTE_32I
+#define CUBLAS_COMPUTE_32I_PEDANTIC	HCBLAS_COMPUTE_32I_PEDANTIC
 
 /**
  * see /usr/local/cuda-12.9/targets/x86_64-linux/include/library_types.h
