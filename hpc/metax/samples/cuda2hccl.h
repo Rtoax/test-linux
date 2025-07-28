@@ -27,6 +27,10 @@
 
 #define cudaDeviceSynchronize()	hcDeviceSynchronize()
 
+/**
+ * BLAS: Basic Linear Algebra Subprograms
+ * see /usr/local/cuda-12.9/targets/x86_64-linux/include/cublas_api.h
+ */
 #define cublasStatus_t	hcblasStatus_t
 #define CUBLAS_STATUS_SUCCESS	HCBLAS_STATUS_SUCCESS
 #define CUBLAS_STATUS_NOT_INITIALIZED	HCBLAS_STATUS_NOT_INITIALIZED
@@ -37,9 +41,22 @@
 #define CUBLAS_STATUS_EXECUTION_FAILED	HCBLAS_STATUS_EXECUTION_FAILED
 #define CUBLAS_STATUS_INTERNAL_ERROR	HCBLAS_STATUS_INTERNAL_ERROR
 #define CUBLAS_STATUS_NOT_SUPPORTED	HCBLAS_STATUS_NOT_SUPPORTED
+
 #define cublasHandle_t	hcblasHandle_t
 #define cublasCreate(handle)	hcblasCreate(handle)
 #define cublasDestroy(handle)	hcblasDestroy(handle)
+
+#define cublasOperation_t	hcblasOperation_t
+#define CUBLAS_OP_N	HCBLAS_OP_N
+#define CUBLAS_OP_T	HCBLAS_OP_T
+#define CUBLAS_OP_C	HCBLAS_OP_C
+#define CUBLAS_OP_HERMITAN	CUBLAS_OP_HERMITAN
+#define CUBLAS_OP_CONJG	CUBLAS_OP_CONJG
+
+#define cublasFillMode_t	hcblasFillMode_t
+#define CUBLAS_FILL_MODE_LOWER	HCBLAS_FILL_MODE_LOWER
+#define CUBLAS_FILL_MODE_UPPER	HCBLAS_FILL_MODE_UPPER
+#define CUBLAS_FILL_MODE_FULL	HCBLAS_FILL_MODE_FULL
 
 /**
  * see /usr/local/cuda-12.9/targets/x86_64-linux/include/library_types.h
