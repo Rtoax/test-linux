@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0
 /**
- * Using GPU to perform matrix multiplication
+ * Using GPU to perform matrix multiplication, and this program not use any
+ * library(like BLAS), only use pure-C to test matrix.
  *
  * - commit 2506e482755d ("hpc: matrix-mul: Nvidia Tesla T4 vs MetaX ???")
  * - commit 0528d8ab981f ("hpc: matrix-mul: Compare Nvidia H800 & Mars X203 (Metax)")
