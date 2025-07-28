@@ -125,7 +125,7 @@ void modify(cublasHandle_t handle, float *m, int ldm, int n, int p, int q,
 
 int main(int argc, char *argv[])
 {
-	int i, j, err = 0;
+	int i, j, blasversion, err = 0;
 	cudaError_t cuerr;
 	cublasStatus_t status;
 	cublasHandle_t blashandle;
@@ -150,6 +150,10 @@ int main(int argc, char *argv[])
 		fprintf(stderr, "ERROR: Create blas handle failed.\n");
 		return -1;
 	}
+
+	cublasGetVersion(blashandle, &blasversion);
+	if (env.verbose)
+		printf("BLAS version %d\n", blasversion);
 
 	host_A = (float *)malloc(env.m * env.n * sizeof(float));
 	assert(host_A);
