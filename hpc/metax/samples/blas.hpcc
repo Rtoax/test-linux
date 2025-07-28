@@ -32,34 +32,28 @@
 
 struct {
 	int gpu;
-	unsigned long m;
-	unsigned long n;
+	unsigned long x;
+	unsigned long y;
 	bool verbose;
 } env = {
 	.gpu = 0,
-	.m = 6,
-	.n = 5,
+	.x = 6,
+	.y = 5,
 	.verbose = false,
 };
 
-const char *version = "v0.0.1 "
-#if defined(HAVE_HCCL)
-	"(GPU MetaX)"
-#elif defined(HAVE_CUDA)
-	"(GPU Nvidia)"
-#endif
-;
+const char *version = "v0.0.2 (" NAME ")";
 
 const char argp_prog_doc[] =
 	"USAGE: [-g <GPU>] [-v]\n"
 	"\n"
 	"Examples:\n"
-	" $ time ./blas -m10 -n10";
+	" $ time ./blas -x10 -y10";
 
 static const struct argp_option opts[] = {
 	{ "gpu", 'g', "GPU", 0, "Running on GPU" },
-	{ "m-num", 'm', "M_NUM", 0, "Matrix M number" },
-	{ "n-num", 'n', "N_NUM", 0, "Matrix N number" },
+	{ NULL, 'x', "X", 0, "X number" },
+	{ NULL, 'y', "Y", 0, "Y number" },
 	{ "verbose", 'v', NULL, 1, "Display detail" },
 	{ "version", 'V', NULL, 1, "Display version" },
 	{},
@@ -86,11 +80,11 @@ static error_t parse_arg(int key, char *arg, struct argp_state *state)
 	case 'g':
 		env.gpu = strtoul(arg, NULL, 10);
 		break;
-	case 'm':
-		env.m = strtoul(arg, NULL, 10);
+	case 'x':
+		env.x = strtoul(arg, NULL, 10);
 		break;
-	case 'n':
-		env.n = strtoul(arg, NULL, 10);
+	case 'y':
+		env.y = strtoul(arg, NULL, 10);
 		break;
 	case 'v':
 		env.verbose = true;
@@ -136,7 +130,7 @@ int main(int argc, char *argv[])
 
 	if (env.verbose) {
 		print_version();
-		printf("M = %ld, N = %ld\n", env.m, env.n);
+		printf("M = %ld, N = %ld\n", env.x, env.y);
 	}
 
 	status = cublasCreate(&blashandle);
@@ -149,23 +143,23 @@ int main(int argc, char *argv[])
 	if (env.verbose)
 		printf("BLAS version %d\n", blasversion);
 
-	host_A = (float *)malloc(env.m * env.n * sizeof(float));
+	host_A = (float *)malloc(env.x * env.y * sizeof(float));
 	assert(host_A);
 
-	for (j = 0; j < env.n; j++) {
-		for (i = 0; i < env.m; i++) {
-			host_A[IDX2C(i, j, env.m)] = (float)(i * env.n + j + 1);
+	for (j = 0; j < env.y; j++) {
+		for (i = 0; i < env.x; i++) {
+			host_A[IDX2C(i, j, env.x)] = (float)(i * env.y + j + 1);
 		}
 	}
 
-	cuerr = cudaMalloc(&dev_A, env.m * env.n * sizeof(float));
+	cuerr = cudaMalloc(&dev_A, env.x * env.y * sizeof(float));
 	if (cuerr != cudaSuccess) {
 		fprintf(stderr, "cudaMalloc failed\n");
 		err = -ENOMEM;
 		goto done;
 	}
 
-	status = cublasSetMatrix(env.m, env.n, sizeof(float), host_A, env.m, dev_A, env.m);
+	status = cublasSetMatrix(env.x, env.y, sizeof(float), host_A, env.x, dev_A, env.x);
 	if (status != CUBLAS_STATUS_SUCCESS) {
 		fprintf(stderr, "set matrix failed.\n");
 		err = -1;
@@ -173,15 +167,15 @@ int main(int argc, char *argv[])
 	}
 
 	alpha = 2.0;
-	cublasSscal(blashandle, env.m * env.n, &alpha, dev_A, 1);
+	cublasSscal(blashandle, env.x * env.y, &alpha, dev_A, 1);
 
-	cublasIsamax(blashandle, env.n * env.m, dev_A, 1, &idx_max);
-	cublasIsamin(blashandle, env.n * env.m, dev_A, 1, &idx_min);
-	cublasSasum(blashandle, env.n * env.m, dev_A, 1, &sum);
+	cublasIsamax(blashandle, env.y * env.x, dev_A, 1, &idx_max);
+	cublasIsamin(blashandle, env.y * env.x, dev_A, 1, &idx_min);
+	cublasSasum(blashandle, env.y * env.x, dev_A, 1, &sum);
 
 	printf("Index min %d, max %d, %.2f\n", idx_min, idx_max, sum);
 
-	status = cublasGetMatrix(env.m, env.n, sizeof(float), dev_A, env.m, host_A, env.m);
+	status = cublasGetMatrix(env.x, env.y, sizeof(float), dev_A, env.x, host_A, env.x);
 	if (status != CUBLAS_STATUS_SUCCESS) {
 		fprintf(stderr, "get matrix failed.\n");
 		err = -1;
@@ -189,10 +183,10 @@ int main(int argc, char *argv[])
 	}
 
 	sum = 0.0;
-	for (j = 0; j < env.n; j++) {
-		for (i = 0; i < env.m; i++) {
-			sum += host_A[IDX2C(i, j, env.m)];
-			printf("%7.0f", host_A[IDX2C(i, j, env.m)]);
+	for (j = 0; j < env.y; j++) {
+		for (i = 0; i < env.x; i++) {
+			sum += host_A[IDX2C(i, j, env.x)];
+			printf("%7.0f", host_A[IDX2C(i, j, env.x)]);
 		}
 		printf("\n");
 	}
