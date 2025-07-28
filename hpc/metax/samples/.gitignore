@@ -12,3 +12,4 @@
 /matrix-mul-fp16
 /matrix-mul-c
 /matrix-mul-c-double
+/blas

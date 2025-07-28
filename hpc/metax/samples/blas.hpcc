@@ -1,0 +1,29 @@
+// SPDX-License-Identifier: GPL-3.0
+#include <argp.h>
+#include <stdio.h>
+#include <stdint.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stdbool.h>
+#include <malloc.h>
+#if defined(HAVE_HCCL)
+#include <hc_runtime.h>
+#include <hcblas/hcblas.h>
+#include "hpcc_helpers.h"
+#include "cuda2hccl.h"
+#elif defined(HAVE_CUDA)
+#include <cuda_runtime.h>
+#include "cuda_helpers.h"
+#endif
+
+
+int main(int argc, char *argv[])
+{
+	cublasHandle_t blashandle;
+
+	gpu_init(0);
+
+	cublasCreate(&blashandle);
+	cublasDestroy(blashandle);
+	return 0;
+}
