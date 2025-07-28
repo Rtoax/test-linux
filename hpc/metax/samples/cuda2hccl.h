@@ -85,6 +85,15 @@
 #define cublasZdscal(handle, n, alpha, x, incx)	hcblasZdscal(handle, n, alpha, x, incx)
 
 /**
+ * This function finds the (smallest) index of the element of the maximum
+ * magnitude.
+ */
+#define cublasIsamax(handle, n, x, incx, presult)	hcblasIsamax(handle, n, x, incx, presult)
+#define cublasIdamax(handle, n, x, incx, presult)	hcblasIdamax(handle, n, x, incx, presult)
+#define cublasIcamax(handle, n, x, incx, presult)	hcblasIcamax(handle, n, x, incx, presult)
+#define cublasIzamax(handle, n, x, incx, presult)	hcblasIzamax(handle, n, x, incx, presult)
+
+/**
  * cublasComputeType_t enumerate type is used in cublasGemmEx() and
  * cublasLtMatmul() (including all batched and strided batched variants) to
  * choose compute precision modes as defined below.
@@ -142,3 +151,12 @@
 #define CUDA_R_6F_E2M3	HPCC_R_6F_E2M3
 #define CUDA_R_6F_E3M2	HPCC_R_6F_E3M2
 #define CUDA_R_4F_E2M1	HPCC_R_4F_E2M1
+
+/**
+ * float - s, S, real single-precision
+ * double - d, D, real double-precision
+ * cuComplex - c, C, complex single-precision
+ * cuDoubleComplex - z, Z, complex double-precision
+ */
+#define cuComplex	hcComplex
+#define cuDoubleComplex	hcDoubleComplex
