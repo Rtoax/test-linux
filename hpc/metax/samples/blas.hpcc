@@ -35,8 +35,8 @@ struct {
 	bool verbose;
 } env = {
 	.gpu = 0,
-	.m = 3,
-	.n = 2,
+	.m = 6,
+	.n = 5,
 	.verbose = false,
 };
 

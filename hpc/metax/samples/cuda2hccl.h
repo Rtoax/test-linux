@@ -31,6 +31,9 @@
 /**
  * BLAS: Basic Linear Algebra Subprograms
  * see /usr/local/cuda-12.9/targets/x86_64-linux/include/cublas_api.h
+ *
+ * refs:
+ * - https://docs.nvidia.com/cuda/cublas/index.html
  */
 #define cublasStatus_t	hcblasStatus_t
 #define CUBLAS_STATUS_SUCCESS	HCBLAS_STATUS_SUCCESS
@@ -64,7 +67,13 @@
 #define cublasGetMatrix(rows, cols, elemsize, A, ola, B, ldb)	\
 	hcblasGetMatrix(rows, cols, elemsize, A, ola, B, ldb)
 
-/* S-float, D-double, C-Complex, Cs-Complex/float, Z-DoubleComplex, Zd-DoubleComplex/double */
+/**
+ * x[j] = α × x[j]
+ * i = 1 ... n
+ * j = 1 + (i − 1) * incx
+ *
+ * S-float, D-double, C-Complex, Cs-Complex/float, Z-DoubleComplex, Zd-DoubleComplex/double
+ */
 #define cublasSscal(handle, n, alpha, x, incx)	hcblasSscal(handle, n, alpha, x, incx)
 #define cublasDscal(handle, n, alpha, x, incx)	hcblasDscal(handle, n, alpha, x, incx)
 #define cublasCscal(handle, n, alpha, x, incx)	hcblasCscal(handle, n, alpha, x, incx)
