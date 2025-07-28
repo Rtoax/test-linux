@@ -25,6 +25,7 @@ CFLAGS_HTCC_hcGetDeviceProperties := -Wno-string-plus-int
 CFLAGS_HTCC_matrix-mul-double := -DTEST_DOUBLE=1
 CFLAGS_HTCC_matrix-mul-int8 := -DTEST_INT8=1
 CFLAGS_HTCC_matrix-mul-fp16 := -DTEST_FP16=1
+LDFLAGS_HTCC_matrix-mul-fp16 := -lhcblas
 
 HPCC_HELPERS := ${OUTPUT}hpcc_helpers.hpcc.o
 

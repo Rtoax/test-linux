@@ -15,8 +15,11 @@
 #include <time.h>
 #if defined(HAVE_HCCL)
 #include <hc_runtime.h>
-#include <hpcc_fp16.h>
 #include "hpcc_helpers.h"
+# if defined(TEST_FP16)
+#  include <hpcc_fp16.h>
+#  include <hcblas/hcblas.h>
+# endif
 #define __gpu_global__	__global__
 #include "cuda2hccl.h"
 #elif defined(HAVE_CUDA)
@@ -233,6 +236,9 @@ int main(int argc, char *argv[])
 	unsigned long malloc_ns, h2d_ns, d2h_ns;
 	TYPE *dev_A, *dev_B, *dev_C;
 	cudaEvent_t ev_start, ev_stop;
+# if defined(TEST_FP16)
+	cublasHandle_t blashandle;
+# endif
 #endif
 	TYPE *host_A, *host_B, *host_C;
 
@@ -274,7 +280,9 @@ int main(int argc, char *argv[])
 #endif
 
 #if defined(HAVE_HCCL) || defined(HAVE_CUDA)
-
+# if defined(TEST_FP16)
+	cublasCreate(&blashandle);
+# endif
 	cudaEventCreate(&ev_start);
 	cudaEventCreate(&ev_stop);
 
@@ -353,8 +361,7 @@ int main(int argc, char *argv[])
 	cudaEventDestroy(ev_stop);
 
 # if defined(TEST_FP16)
-	//TODO
-	//cublasDestroy(handle);
+	cublasDestroy(blashandle);
 # endif
 #endif
 	free(host_A);

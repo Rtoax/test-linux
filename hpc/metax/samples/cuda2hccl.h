@@ -24,3 +24,7 @@
 #define cudaDevP2PAttrNativeAtomicSupported	hcDevP2PAttrNativeAtomicSupported
 
 #define cudaDeviceSynchronize()	hcDeviceSynchronize()
+
+#define cublasHandle_t	hcblasHandle_t
+#define cublasCreate(handle)	hcblasCreate(handle)
+#define cublasDestroy(handle)	hcblasDestroy(handle)
