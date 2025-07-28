@@ -15,6 +15,7 @@
 #include <time.h>
 #if defined(HAVE_HCCL)
 #include <hc_runtime.h>
+#include <hpcc_fp16.h>
 #include "hpcc_helpers.h"
 #define __gpu_global__	__global__
 #include "cuda2hccl.h"
@@ -33,15 +34,27 @@
 #if defined(TEST_DOUBLE)
 #define TYPE	double
 #define TFMT	"%.2lf"
+#define TVAL(v)	(v)
 #define TNAME	"double"
+#define TRVALUE(v)	(v * 1.0)
 #elif defined(TEST_INT8)
 #define TYPE	int8_t
 #define TFMT	"%d"
+#define TVAL(v)	(v)
 #define TNAME	"int8_t"
+#define TRVALUE(v)	(v)
+#elif defined(TEST_FP16)
+#define TYPE	half
+#define TFMT	"%.2f"
+#define TVAL(v)	__half2float(v)
+#define TNAME	"half"
+#define TRVALUE(v)	__float2half(v)
 #else
 #define TYPE	float
 #define TFMT	"%.2f"
+#define TVAL(v)	(v)
 #define TNAME	"float"
+#define TRVALUE(v)	(v * 1.0f)
 #endif
 
 #define NS2US	1000UL
@@ -194,11 +207,11 @@ void init_matrix(TYPE *p, unsigned long n, bool zero, bool set_val, TYPE val)
 	int i;
 	for (i = 0; i < n; i++) {
 		if (zero)
-			p[i] = 0.0;
+			p[i] = TRVALUE(0.0f);
 		else if (set_val)
-			p[i] = val;
+			p[i] = TRVALUE(val);
 		else
-			p[i] = 1.0 * (i + 1);
+			p[i] = TRVALUE(i + 1);
 	}
 }
 
@@ -206,7 +219,7 @@ void print_matrix(TYPE *p, unsigned long n)
 {
 	int i;
 	for (i = 0; i < n; i++)
-		printf(TFMT"%s", p[i], i == n - 1 ? "\0" : ", ");
+		printf(TFMT"%s", TVAL(p[i]), i == n - 1 ? "\0" : ", ");
 	printf("\n");
 }
 
@@ -321,9 +334,9 @@ int main(int argc, char *argv[])
 	 * calculation result.
 	 */
 	if (env.set_value) {
-		TYPE correct_val = env.value * env.value * env.m;
+		TYPE correct_val = TRVALUE(env.value * env.value * env.m);
 		for (i = 0; i < env.n * env.n; i++) {
-			if (host_C[i] != correct_val) {
+			if (TVAL(host_C[i]) != TVAL(correct_val)) {
 				fprintf(stderr, "ERROR: cal matrix mul failed.\n");
 				err = -1;
 				break;
@@ -338,6 +351,11 @@ int main(int argc, char *argv[])
 
 	cudaEventDestroy(ev_start);
 	cudaEventDestroy(ev_stop);
+
+# if defined(TEST_FP16)
+	//TODO
+	//cublasDestroy(handle);
+# endif
 #endif
 	free(host_A);
 	free(host_B);
