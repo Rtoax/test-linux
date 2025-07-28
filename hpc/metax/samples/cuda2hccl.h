@@ -9,6 +9,7 @@
 #define cudaMemcpyDeviceToHost	hcMemcpyDeviceToHost
 #define cudaEvent_t	hcEvent_t
 #define cudaEventCreate	hcEventCreate
+#define cudaEventDestroy	hcEventDestroy
 #define cudaEventRecord	hcEventRecord
 #define cudaEventElapsedTime	hcEventElapsedTime
 #define cudaEventSynchronize	hcEventSynchronize

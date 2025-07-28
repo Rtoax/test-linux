@@ -335,6 +335,9 @@ int main(int argc, char *argv[])
 	cudaFree(dev_A);
 	cudaFree(dev_B);
 	cudaFree(dev_C);
+
+	cudaEventDestroy(ev_start);
+	cudaEventDestroy(ev_end);
 #endif
 	free(host_A);
 	free(host_B);
