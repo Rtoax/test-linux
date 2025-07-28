@@ -186,12 +186,16 @@ __gpu_global__ void matrix_mul(TYPE *A, TYPE *B, TYPE *C, unsigned long m,
 		icx = ic % n;
 		icy = ic / n;
 
-		C[ic] = 0;
+		C[ic] = TRVALUE(0.0f);
 
 		for (im = 0; im < m; im++) {
 			ia = icy * m + im;
 			ib = im * n + icx;
+# if defined(TEST_FP16)
+			C[ic] = __hadd(C[ic], __hmul(A[ia], B[ib]));
+# else
 			C[ic] += A[ia] * B[ib];
+# endif
 		}
 	}
 }
