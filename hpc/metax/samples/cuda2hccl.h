@@ -40,3 +40,43 @@
 #define cublasHandle_t	hcblasHandle_t
 #define cublasCreate(handle)	hcblasCreate(handle)
 #define cublasDestroy(handle)	hcblasDestroy(handle)
+
+/**
+ * see /usr/local/cuda-12.9/targets/x86_64-linux/include/library_types.h
+ */
+#define cudaDataType_t	hpccDataType_t
+#define CUDA_R_16F	HPCC_R_16F
+#define CUDA_C_16F	HPCC_C_16F
+#define CUDA_R_16BF	HPCC_R_16BF
+#define CUDA_C_16BF	HPCC_C_16BF
+#define CUDA_R_32F	HPCC_R_32F
+#define CUDA_C_32F	HPCC_C_32F
+#define CUDA_R_64F	HPCC_R_64F
+#define CUDA_C_64F	HPCC_C_64F
+#define CUDA_R_4I	HPCC_R_4I
+#define CUDA_C_4I	HPCC_C_4I
+#define CUDA_R_4U	HPCC_R_4U
+#define CUDA_C_4U	HPCC_C_4U
+#define CUDA_R_8I	HPCC_R_8I
+#define CUDA_C_8I	HPCC_C_8I
+#define CUDA_R_8U	HPCC_R_8U
+#define CUDA_C_8U	HPCC_C_8U
+#define CUDA_R_16I	HPCC_R_16I
+#define CUDA_C_16I	HPCC_C_16I
+#define CUDA_R_16U	HPCC_R_16U
+#define CUDA_C_16U	HPCC_C_16U
+#define CUDA_R_32I	HPCC_R_32I
+#define CUDA_C_32I	HPCC_C_32I
+#define CUDA_R_32U	HPCC_R_32U
+#define CUDA_C_32U	HPCC_C_32U
+#define CUDA_R_64I	HPCC_R_64I
+#define CUDA_C_64I	HPCC_C_64I
+#define CUDA_R_64U	HPCC_R_64U
+#define CUDA_C_64U	HPCC_C_64U
+#define CUDA_R_8F_E4M3	HPCC_R_8F_E4M3
+#define CUDA_R_8F_UE4M3	HPCC_R_8F_UE4M3
+#define CUDA_R_8F_E5M2	HPCC_R_8F_E5M2
+#define CUDA_R_8F_UE8M0	HPCC_R_8F_UE8M0
+#define CUDA_R_6F_E2M3	HPCC_R_6F_E2M3
+#define CUDA_R_6F_E3M2	HPCC_R_6F_E3M2
+#define CUDA_R_4F_E2M1	HPCC_R_4F_E2M1
