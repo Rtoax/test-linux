@@ -131,6 +131,7 @@ int main(int argc, char *argv[])
 	cublasHandle_t blashandle;
 	float *dev_A;
 	float *host_A;
+	float sum;
 	int idx_max, idx_min;
 
 	err = argp_parse(&argp, argc, argv, 0, NULL, NULL);
@@ -183,7 +184,9 @@ int main(int argc, char *argv[])
 
 	cublasIsamax(blashandle, env.n * env.m, dev_A, 1, &idx_max);
 	cublasIsamin(blashandle, env.n * env.m, dev_A, 1, &idx_min);
-	printf("Index min %d, max %d\n", idx_min, idx_max);
+	cublasSasum(blashandle, env.n * env.m, dev_A, 1, &sum);
+
+	printf("Index min %d, max %d, %.2f\n", idx_min, idx_max, sum);
 
 	status = cublasGetMatrix(env.m, env.n, sizeof(float), dev_A, env.m, host_A, env.m);
 	if (status != CUBLAS_STATUS_SUCCESS) {
@@ -192,12 +195,16 @@ int main(int argc, char *argv[])
 		goto done;
 	}
 
+	sum = 0.0;
 	for (j = 0; j < env.n; j++) {
 		for (i = 0; i < env.m; i++) {
+			sum += host_A[IDX2C(i, j, env.m)];
 			printf("%7.0f", host_A[IDX2C(i, j, env.m)]);
 		}
 		printf("\n");
 	}
+	printf("Host sum %.2lf\n", sum);
+
 done:
 	cublasDestroy(blashandle);
 	cudaFree(dev_A);

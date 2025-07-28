@@ -103,6 +103,15 @@
 #define cublasIzamin(handle, n, x, incx, presult)	hcblasIzamin(handle, n, x, incx, presult)
 
 /**
+ * This function computes the sum of the absolute values of the elements of
+ * vector x.
+ */
+#define cublasSasum(handle, n, x, incx, presult)	hcblasSasum(handle, n, x, incx, presult)
+#define cublasDasum(handle, n, x, incx, presult)	hcblasDasum(handle, n, x, incx, presult)
+#define cublasScasum(handle, n, x, incx, presult)	hcblasScasum(handle, n, x, incx, presult)
+#define cublasDzasum(handle, n, x, incx, presult)	hcblasDzasum(handle, n, x, incx, presult)
+
+/**
  * cublasComputeType_t enumerate type is used in cublasGemmEx() and
  * cublasLtMatmul() (including all batched and strided batched variants) to
  * choose compute precision modes as defined below.
