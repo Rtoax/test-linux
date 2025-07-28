@@ -33,6 +33,8 @@ int main(int argc, char *argv[])
 {
 	int i, bx, by, bz, gx, gy, gz;
 
+	gpu_init(0);
+
 	bx = gx = 3;
 	by = gy = 1;
 	bz = gz = 1;
@@ -54,8 +56,6 @@ int main(int argc, char *argv[])
 
 	dim3 block(bx, by, bz);
 	dim3 grid(gx, gy, gz);
-
-	gpu_init(0);
 
 	checkIndex<<<grid, block>>>();
 
