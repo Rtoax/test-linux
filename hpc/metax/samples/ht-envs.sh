@@ -1,5 +1,4 @@
 #!/bin/bash
-set -e
 export HPCC_PATH=/opt/hpcc
 export HPCC_CLANG_PATH=/opt/hpcc/htgpu_llvm/bin
 export HPCC_CLANG=/opt/hpcc/htgpu_llvm
