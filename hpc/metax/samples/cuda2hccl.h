@@ -50,6 +50,8 @@
 #define cublasCreate(handle)	hcblasCreate(handle)
 #define cublasDestroy(handle)	hcblasDestroy(handle)
 
+#define cublasGetProperty(type, pvalue)	hcblasGetProperty(type, pvalue)
+
 #define cublasOperation_t	hcblasOperation_t
 #define CUBLAS_OP_N	HCBLAS_OP_N
 #define CUBLAS_OP_T	HCBLAS_OP_T
