@@ -115,15 +115,15 @@ struct test_operations {
 	float *host_A, *host_B, *host_C;
 	float *dev_A, *dev_B, *dev_C;
 	/* operations */
-	int (*create)(struct test_operations *test);
+	int (*create_blas)(struct test_operations *test);
 	int (*prepare_data)(struct test_operations *test);
 	int (*run_blas)(struct test_operations *test);
 	int (*display_data)(struct test_operations *test);
 	int (*free_data)(struct test_operations *test);
-	int (*destroy)(struct test_operations *test);
+	int (*destroy_blas)(struct test_operations *test);
 };
 
-int default_create(struct test_operations *test)
+int default_create_blas(struct test_operations *test)
 {
 	int version;
 	cublasStatus_t status;
@@ -215,19 +215,19 @@ int free_data_matrix_A(struct test_operations *test)
 	return 0;
 }
 
-int default_destroy(struct test_operations *test)
+int default_destroy_blas(struct test_operations *test)
 {
 	cublasDestroy(test->handle);
 	return 0;
 }
 
 struct test_operations testScal = {
-	.create = default_create,
+	.create_blas = default_create_blas,
 	.prepare_data = prepare_data_matrix_A,
 	.run_blas = run_blas_scal,
 	.display_data = display_data_A,
 	.free_data = free_data_matrix_A,
-	.destroy = default_destroy,
+	.destroy_blas = default_destroy_blas,
 };
 
 int main(int argc, char *argv[])
@@ -248,12 +248,12 @@ int main(int argc, char *argv[])
 		printf("M = %ld, N = %ld\n", env.x, env.y);
 	}
 
-	test->create(test);
+	test->create_blas(test);
 	test->prepare_data(test);
 	test->run_blas(test);
 	test->display_data(test);
 	test->free_data(test);
-	test->destroy(test);
+	test->destroy_blas(test);
 
 	return 0;
 }
