@@ -21,6 +21,12 @@ __global__ void checkIndex(void)
 		blockIdx.x, blockIdx.y, blockIdx.z,
 		gridDim.x, gridDim.y, gridDim.z,
 		ix, iy, iz);
+/**
+ * FIXME: MetaX htcc have wrong threadIdx.x, add printf could fix it.
+ */
+#if defined(HAVE_HCCL)
+	printf("");
+#endif
 }
 
 int main(int argc, char *argv[])
