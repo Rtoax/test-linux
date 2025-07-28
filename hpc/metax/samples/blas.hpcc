@@ -193,7 +193,7 @@ int display_data_A(struct test_operations *test)
 	cublasIsamin(test->handle, env.y * env.x, test->dev_A, 1, &idx_min);
 	cublasSasum(test->handle, env.y * env.x, test->dev_A, 1, &sum);
 
-	printf("Index min %d, max %d, %.2f\n", idx_min, idx_max, sum);
+	printf("Device index min %d, index max %d, sum %.2f\n", idx_min, idx_max, sum);
 
 	status = cublasGetMatrix(env.x, env.y, sizeof(float), test->dev_A, env.x, test->host_A, env.x);
 	if (status != CUBLAS_STATUS_SUCCESS) {
