@@ -109,16 +109,131 @@ static const struct argp argp = {
 	.doc = argp_prog_doc,
 };
 
-int main(int argc, char *argv[])
+struct test_operations {
+	/* private */
+	cublasHandle_t handle;
+	float *host_A, *host_B, *host_C;
+	float *dev_A, *dev_B, *dev_C;
+	/* operations */
+	int (*create)(struct test_operations *test);
+	int (*prepare_data)(struct test_operations *test);
+	int (*run_blas)(struct test_operations *test);
+	int (*display_data)(struct test_operations *test);
+	int (*free_data)(struct test_operations *test);
+	int (*destroy)(struct test_operations *test);
+};
+
+int default_create(struct test_operations *test)
 {
-	int i, j, blasversion, err = 0;
+	int version;
+	cublasStatus_t status;
+
+	status = cublasCreate(&test->handle);
+	if (status != CUBLAS_STATUS_SUCCESS) {
+		fprintf(stderr, "ERROR: Create blas handle failed.\n");
+		return -1;
+	}
+
+	cublasGetVersion(test->handle, &version);
+	if (env.verbose)
+		printf("BLAS version %d\n", version);
+
+	return 0;
+}
+
+int prepare_data_matrix_A(struct test_operations *test)
+{
+	int i, j;
 	cudaError_t cuerr;
 	cublasStatus_t status;
-	cublasHandle_t blashandle;
-	float *dev_A;
-	float *host_A;
-	float sum, alpha;
+
+	test->host_A = (float *)malloc(env.x * env.y * sizeof(float));
+	assert(test->host_A);
+
+	for (j = 0; j < env.y; j++) {
+		for (i = 0; i < env.x; i++) {
+			test->host_A[IDX2C(i, j, env.x)] = (float)(i * env.y + j + 1);
+		}
+	}
+
+	cuerr = cudaMalloc(&test->dev_A, env.x * env.y * sizeof(float));
+	if (cuerr != cudaSuccess) {
+		fprintf(stderr, "cudaMalloc failed\n");
+		return -ENOMEM;
+	}
+
+	status = cublasSetMatrix(env.x, env.y, sizeof(float),
+				 test->host_A, env.x, test->dev_A, env.x);
+	if (status != CUBLAS_STATUS_SUCCESS) {
+		fprintf(stderr, "set matrix failed.\n");
+		return -1;
+	}
+	return 0;
+}
+
+int run_blas_scal(struct test_operations *test)
+{
+	float alpha = 2.0;
+	cublasSscal(test->handle, env.x * env.y, &alpha, test->dev_A, 1);
+	return 0;
+}
+
+int display_data_A(struct test_operations *test)
+{
+	cublasStatus_t status;
+	int i, j;
 	int idx_max, idx_min;
+	float sum = 0.0;
+
+	cublasIsamax(test->handle, env.y * env.x, test->dev_A, 1, &idx_max);
+	cublasIsamin(test->handle, env.y * env.x, test->dev_A, 1, &idx_min);
+	cublasSasum(test->handle, env.y * env.x, test->dev_A, 1, &sum);
+
+	printf("Index min %d, max %d, %.2f\n", idx_min, idx_max, sum);
+
+	status = cublasGetMatrix(env.x, env.y, sizeof(float), test->dev_A, env.x, test->host_A, env.x);
+	if (status != CUBLAS_STATUS_SUCCESS) {
+		fprintf(stderr, "get matrix failed.\n");
+		return -1;
+	}
+
+	for (j = 0; j < env.y; j++) {
+		for (i = 0; i < env.x; i++) {
+			sum += test->host_A[IDX2C(i, j, env.x)];
+			printf("%7.0f", test->host_A[IDX2C(i, j, env.x)]);
+		}
+		printf("\n");
+	}
+	printf("Host sum %.2lf\n", sum);
+	return 0;
+}
+
+int free_data_matrix_A(struct test_operations *test)
+{
+	cudaFree(test->dev_A);
+	free(test->host_A);
+	return 0;
+}
+
+int default_destroy(struct test_operations *test)
+{
+	cublasDestroy(test->handle);
+	return 0;
+}
+
+struct test_operations testScal = {
+	.create = default_create,
+	.prepare_data = prepare_data_matrix_A,
+	.run_blas = run_blas_scal,
+	.display_data = display_data_A,
+	.free_data = free_data_matrix_A,
+	.destroy = default_destroy,
+};
+
+int main(int argc, char *argv[])
+{
+	int err = 0;
+	struct test_operations *test = &testScal;
 
 	err = argp_parse(&argp, argc, argv, 0, NULL, NULL);
 	if (err) {
@@ -133,68 +248,12 @@ int main(int argc, char *argv[])
 		printf("M = %ld, N = %ld\n", env.x, env.y);
 	}
 
-	status = cublasCreate(&blashandle);
-	if (status != CUBLAS_STATUS_SUCCESS) {
-		fprintf(stderr, "ERROR: Create blas handle failed.\n");
-		return -1;
-	}
+	test->create(test);
+	test->prepare_data(test);
+	test->run_blas(test);
+	test->display_data(test);
+	test->free_data(test);
+	test->destroy(test);
 
-	cublasGetVersion(blashandle, &blasversion);
-	if (env.verbose)
-		printf("BLAS version %d\n", blasversion);
-
-	host_A = (float *)malloc(env.x * env.y * sizeof(float));
-	assert(host_A);
-
-	for (j = 0; j < env.y; j++) {
-		for (i = 0; i < env.x; i++) {
-			host_A[IDX2C(i, j, env.x)] = (float)(i * env.y + j + 1);
-		}
-	}
-
-	cuerr = cudaMalloc(&dev_A, env.x * env.y * sizeof(float));
-	if (cuerr != cudaSuccess) {
-		fprintf(stderr, "cudaMalloc failed\n");
-		err = -ENOMEM;
-		goto done;
-	}
-
-	status = cublasSetMatrix(env.x, env.y, sizeof(float), host_A, env.x, dev_A, env.x);
-	if (status != CUBLAS_STATUS_SUCCESS) {
-		fprintf(stderr, "set matrix failed.\n");
-		err = -1;
-		goto done;
-	}
-
-	alpha = 2.0;
-	cublasSscal(blashandle, env.x * env.y, &alpha, dev_A, 1);
-
-	cublasIsamax(blashandle, env.y * env.x, dev_A, 1, &idx_max);
-	cublasIsamin(blashandle, env.y * env.x, dev_A, 1, &idx_min);
-	cublasSasum(blashandle, env.y * env.x, dev_A, 1, &sum);
-
-	printf("Index min %d, max %d, %.2f\n", idx_min, idx_max, sum);
-
-	status = cublasGetMatrix(env.x, env.y, sizeof(float), dev_A, env.x, host_A, env.x);
-	if (status != CUBLAS_STATUS_SUCCESS) {
-		fprintf(stderr, "get matrix failed.\n");
-		err = -1;
-		goto done;
-	}
-
-	sum = 0.0;
-	for (j = 0; j < env.y; j++) {
-		for (i = 0; i < env.x; i++) {
-			sum += host_A[IDX2C(i, j, env.x)];
-			printf("%7.0f", host_A[IDX2C(i, j, env.x)]);
-		}
-		printf("\n");
-	}
-	printf("Host sum %.2lf\n", sum);
-
-done:
-	cublasDestroy(blashandle);
-	cudaFree(dev_A);
-	free(host_A);
-	return err;
+	return 0;
 }
