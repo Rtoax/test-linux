@@ -94,6 +94,15 @@
 #define cublasIzamax(handle, n, x, incx, presult)	hcblasIzamax(handle, n, x, incx, presult)
 
 /**
+ * This function finds the (smallest) index of the element of the minimum
+ * magnitude.
+ */
+#define cublasIsamin(handle, n, x, incx, presult)	hcblasIsamin(handle, n, x, incx, presult)
+#define cublasIdamin(handle, n, x, incx, presult)	hcblasIdamin(handle, n, x, incx, presult)
+#define cublasIcamin(handle, n, x, incx, presult)	hcblasIcamin(handle, n, x, incx, presult)
+#define cublasIzamin(handle, n, x, incx, presult)	hcblasIzamin(handle, n, x, incx, presult)
+
+/**
  * cublasComputeType_t enumerate type is used in cublasGemmEx() and
  * cublasLtMatmul() (including all batched and strided batched variants) to
  * choose compute precision modes as defined below.
