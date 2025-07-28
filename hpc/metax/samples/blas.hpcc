@@ -115,14 +115,6 @@ static const struct argp argp = {
 	.doc = argp_prog_doc,
 };
 
-static __inline__
-void modify(cublasHandle_t handle, float *m, int ldm, int n, int p, int q,
-	    float alpha, float beta)
-{
-	cublasSscal(handle, n - q, &alpha, &m[IDX2C(p, q, ldm)], ldm);
-	cublasSscal(handle, ldm - p, &beta, &m[IDX2C(p, q, ldm)], 1);
-}
-
 int main(int argc, char *argv[])
 {
 	int i, j, blasversion, err = 0;
@@ -131,7 +123,7 @@ int main(int argc, char *argv[])
 	cublasHandle_t blashandle;
 	float *dev_A;
 	float *host_A;
-	float sum;
+	float sum, alpha;
 	int idx_max, idx_min;
 
 	err = argp_parse(&argp, argc, argv, 0, NULL, NULL);
@@ -180,7 +172,8 @@ int main(int argc, char *argv[])
 		goto done;
 	}
 
-	modify(blashandle, dev_A, env.m, env.n, 1, 2, 16.0f, 12.0f);
+	alpha = 2.0;
+	cublasSscal(blashandle, env.m * env.n, &alpha, dev_A, 1);
 
 	cublasIsamax(blashandle, env.n * env.m, dev_A, 1, &idx_max);
 	cublasIsamin(blashandle, env.n * env.m, dev_A, 1, &idx_min);

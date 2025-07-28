@@ -71,7 +71,7 @@
 	hcblasGetMatrix(rows, cols, elemsize, A, ola, B, ldb)
 
 /**
- * x[j] = α × x[j]
+ * x[j] = alpha * x[j]
  * i = 1 ... n
  * j = 1 + (i − 1) * incx
  *
