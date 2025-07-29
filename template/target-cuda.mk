@@ -15,6 +15,14 @@ ifeq ($(wildcard $(NVCC)),)
   $(error Not found nvcc, install cuda first)
 endif
 
+ifdef DEBUG
+  CFLAGS_NVCC += -DDEBUG
+endif
+
+ifdef ERROR
+  CFLAGS_NVCC += -DERROR=1
+endif
+
 CFLAGS_NVCC += -Wno-deprecated-gpu-targets
 LDFLAGS_NVCC += -Wno-deprecated-gpu-targets
 

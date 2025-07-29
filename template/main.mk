@@ -22,9 +22,6 @@ CXXFLAGS += -Werror -Wall
 ifdef DEBUG
   $(info Compile with DEBUG=1)
   CFLAGS += -DDEBUG -O0 -g -ggdb
-  CFLAGS_NVCC += -DDEBUG
-  CFLAGS_MXCC += -DDEBUG
-  CFLAGS_HTCC += -DDEBUG
   CXXFLAGS += -DDEBUG -O0 -g -ggdb
   MAKEFLAGS += DEBUG=1
 endif
@@ -33,9 +30,6 @@ ifdef ERROR
   $(info Compile with ERROR=1)
   CFLAGS += -DERROR=1
   CXXFLAGS += -DERROR=1
-  CFLAGS_NVCC += -DERROR=1
-  CFLAGS_MXCC += -DERROR=1
-  CFLAGS_HTCC += -DERROR=1
   MAKEFLAGS += ERROR=1
 endif
 

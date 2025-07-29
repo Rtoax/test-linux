@@ -15,7 +15,14 @@ ifeq ($(HTCC),)
   endif
 endif
 
+ifdef ERROR
+  CFLAGS_MXCC += -DERROR=1
+  CFLAGS_HTCC += -DERROR=1
+endif
+
 ifdef DEBUG
+  CFLAGS_MXCC += -DDEBUG
+  CFLAGS_HTCC += -DDEBUG
   $(info MXCC = ${MXCC})
   $(info HTCC = ${HTCC})
   $(info CFLAGS_MXCC = ${CFLAGS_MXCC})
