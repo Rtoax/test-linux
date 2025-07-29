@@ -139,6 +139,16 @@
 #define cublasZcopy(handle, n, x, incx, y, incy)	hcblasZcopy(handle, n, x, incx, y, incy)
 
 /**
+ * This function computes the dot product of vectors x and y.
+ */
+#define cublasSdot(handle, n, x, incx, y, incy, presult)	hcblasSdot(handle, n, x, incx, y, incy, presult)
+#define cublasDdot(handle, n, x, incx, y, incy, presult)	hcblasDdot(handle, n, x, incx, y, incy, presult)
+#define cublasCdotu(handle, n, x, incx, y, incy, presult)	hcblasCdotu(handle, n, x, incx, y, incy, presult)
+#define cublasCdotc(handle, n, x, incx, y, incy, presult)	hcblasCdotc(handle, n, x, incx, y, incy, presult)
+#define cublasZdotu(handle, n, x, incx, y, incy, presult)	hcblasZdotu(handle, n, x, incx, y, incy, presult)
+#define cublasZdotc(handle, n, x, incx, y, incy, presult)	hcblasZdotc(handle, n, x, incx, y, incy, presult)
+
+/**
  * cublasComputeType_t enumerate type is used in cublasGemmEx() and
  * cublasLtMatmul() (including all batched and strided batched variants) to
  * choose compute precision modes as defined below.

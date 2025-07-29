@@ -33,7 +33,8 @@ enum {
 	TEST_SCAL,
 	TEST_AXPY,
 	TEST_COPY,
-#define TEST_LIST	"scal|axpy|copy"
+	TEST_DOT,
+#define TEST_LIST	"scal|axpy|copy|dot"
 };
 
 struct {
@@ -103,6 +104,8 @@ static error_t parse_arg(int key, char *arg, struct argp_state *state)
 			env.test_type = TEST_AXPY;
 		else if (!strcmp(arg, "copy"))
 			env.test_type = TEST_COPY;
+		else if (!strcmp(arg, "dot"))
+			env.test_type = TEST_DOT;
 		else {
 			fprintf(stderr, "Support TEST TYPE: " TEST_LIST "\n");
 			exit(-EINVAL);
@@ -132,11 +135,11 @@ static const struct argp argp = {
 };
 
 struct test_operations {
-	/* private */
 	const char *name;
 	cublasHandle_t handle;
 	float *host_A, *host_B, *host_C;
 	float *dev_A, *dev_B, *dev_C;
+	float result;
 	/* operations */
 	int (*create_blas)(struct test_operations *test);
 	int (*prepare_data)(struct test_operations *test);
@@ -235,6 +238,12 @@ int run_blas_copy(struct test_operations *test)
 	return 0;
 }
 
+int run_blas_dot(struct test_operations *test)
+{
+	cublasSdot(test->handle, env.x * env.y, test->dev_A, 1, test->dev_B, 1, &test->result);
+	return 0;
+}
+
 int __display_matrix_pair(const char *pfx, struct test_operations *test,
 			  float *host, float *dev, int x, int y)
 {
@@ -280,6 +289,14 @@ int display_data_AB(struct test_operations *test)
 	int err = 0;
 	err += __display_matrix_pair("A", test, test->host_A, test->dev_A, env.x, env.y);
 	err += __display_matrix_pair("B", test, test->host_B, test->dev_B, env.x, env.y);
+	return err;
+}
+
+int display_data_dot(struct test_operations *test)
+{
+	int err = 0;
+	err += display_data_AB(test);
+	printf("Result %.2f\n", test->result);
 	return err;
 }
 
@@ -335,6 +352,16 @@ struct test_operations testCopy = {
 	.destroy_blas = default_destroy_blas,
 };
 
+struct test_operations testDot = {
+	.name = "DOT",
+	.create_blas = default_create_blas,
+	.prepare_data = prepare_data_matrix_AB,
+	.run_blas = run_blas_dot,
+	.display_data = display_data_dot,
+	.free_data = free_data_matrix_AB,
+	.destroy_blas = default_destroy_blas,
+};
+
 int main(int argc, char *argv[])
 {
 	int err = 0;
@@ -362,6 +389,9 @@ int main(int argc, char *argv[])
 		break;
 	case TEST_COPY:
 		test = &testCopy;
+		break;
+	case TEST_DOT:
+		test = &testDot;
 		break;
 	}
 
