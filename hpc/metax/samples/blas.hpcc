@@ -35,6 +35,9 @@ enum {
 	TEST_COPY,
 	TEST_DOT,
 	TEST_NRM2,
+	TEST_ROT,	/* TODO */
+	TEST_ROTG,	/* TODO */
+	TEST_ROTM,	/* TODO */
 #define TEST_LIST	"scal|axpy|copy|dot|nrm2"
 };
 

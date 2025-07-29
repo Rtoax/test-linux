@@ -157,6 +157,27 @@
 #define cublasDznrm2(handle, n, x, incx, presult)	hcblasDznrm2(handle, n, x, incx, presult)
 
 /**
+ * This function applies Givens rotation matrix.
+ */
+#define cublasSrot(handle, n, x, incx, y, incy, c, s)	hcblasSrot(handle, n, x, incx, y, incy, c, s)
+#define cublasDrot(handle, n, x, incx, y, incy, c, s)	hcblasDrot(handle, n, x, incx, y, incy, c, s)
+#define cublasCrot(handle, n, x, incx, y, incy, c, s)	hcblasCrot(handle, n, x, incx, y, incy, c, s)
+#define cublasCsrot(handle, n, x, incx, y, incy, c, s)	hcblasCsrot(handle, n, x, incx, y, incy, c, s)
+#define cublasZrot(handle, n, x, incx, y, incy, c, s)	hcblasZrot(handle, n, x, incx, y, incy, c, s)
+#define cublasZdrot(handle, n, x, incx, y, incy, c, s)	hcblasZdrot(handle, n, x, incx, y, incy, c, s)
+
+/**
+ * This function constructs the Givens rotation matrix.
+ */
+#define cublasSrotg(handle, a, b, c, s)	hcblasSrotg(handle, a, b, c, s)
+#define cublasDrotg(handle, a, b, c, s)	hcblasDrotg(handle, a, b, c, s)
+#define cublasCrotg(handle, a, b, c, s)	hcblasCrotg(handle, a, b, c, s)
+#define cublasZrotg(handle, a, b, c, s)	hcblasZrotg(handle, a, b, c, s)
+
+#define cublasSrotm(handle, n, x, incx, y, incy, param)	hcblasSrotm(handle, n, x, incx, y, incy, param)
+#define cublasDrotm(handle, n, x, incx, y, incy, param)	hcblasDrotm(handle, n, x, incx, y, incy, param)
+
+/**
  * cublasComputeType_t enumerate type is used in cublasGemmEx() and
  * cublasLtMatmul() (including all batched and strided batched variants) to
  * choose compute precision modes as defined below.
