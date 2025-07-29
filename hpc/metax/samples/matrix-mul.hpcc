@@ -227,15 +227,22 @@ void init_matrix(TYPE *p, unsigned long n, bool zero, bool set_val, TYPE val)
 			p[i] = TRVALUE(val);
 		else
 			p[i] = TRVALUE(i + 1);
+#ifdef DEBUG
+		printf("p[%d] = " TFMT "\n", i, TVAL(p[i]));
+#endif
 	}
 }
 
 void print_matrix(TYPE *p, unsigned long x, unsigned long y)
 {
 	int i, j;
-	for (i = 0; i < x; i++) {
-		for (j = 0; j < y; j++) {
-			printf(TFMT"\t", TVAL(p[i * x + j]));
+	for (j = 0; j < y; j++) {
+		for (i = 0; i < x; i++) {
+#ifdef DEBUG2
+			printf("[%d,%d] = " TFMT "\n", i, j, TVAL(p[j * x + i]));
+#else
+			printf(TFMT"\t", TVAL(p[j * x + i]));
+#endif
 		}
 		printf("\n");
 	}
