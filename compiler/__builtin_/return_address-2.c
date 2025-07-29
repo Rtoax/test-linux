@@ -1,33 +1,27 @@
 #include <stdio.h>
 
-
-typedef int (*fn_t)(void);
-
 typedef struct {
 	int value;
-	fn_t getValue;
-}text_t;
+	int (*getValue)(void);
+} text_t;
 
 
 int __getValue(void)
 {
 	/**
-	 * 显然这个地址不是全局变量的地址，这只是一个函数栈帧的结束地址
+	 * TODO: Wrong 'this' pointer
 	 */
-	text_t *t = __builtin_return_address(0);
-	printf("getValue: %d\n", t->value);
-	return t->value;
+	void *ret_addr = __builtin_return_address(0);
+	text_t *this = (void *)(ret_addr - sizeof(void *));
+	return this->value;
 }
 
-text_t t1 = {1, __getValue};
-
-text_t* test(void)
-{
-	printf("%d\n", t1.getValue());
-	return &t1;
-}
+text_t t1 = { 1, __getValue };
+text_t t2 = { 2, __getValue };
 
 int main(void)
 {
-	test();
+	printf("%d\n", t1.getValue());
+	printf("%d\n", t2.getValue());
+	return 0;
 }
