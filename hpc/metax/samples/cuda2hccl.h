@@ -112,6 +112,20 @@
 #define cublasDzasum(handle, n, x, incx, presult)	hcblasDzasum(handle, n, x, incx, presult)
 
 /**
+ * This function multiplies the vector x by the scalar alpha and adds it to
+ * the vector y overwriting the latest vector with the result.
+ *
+ * y[j] = alpha X x[k] + y[j]
+ * i = 1, ..., n
+ * k = 1 + (i − 1) * incx
+ * j = 1 + (i − 1) * incy
+ */
+#define cublasSaxpy(handle, n, alpha, x, incx, y, incy)	hcblasSaxpy(handle, n, alpha, x, incx, y, incy)
+#define cublasDaxpy(handle, n, alpha, x, incx, y, incy)	hcblasDaxpy(handle, n, alpha, x, incx, y, incy)
+#define cublasCaxpy(handle, n, alpha, x, incx, y, incy)	hcblasCaxpy(handle, n, alpha, x, incx, y, incy)
+#define cublasZaxpy(handle, n, alpha, x, incx, y, incy)	hcblasZaxpy(handle, n, alpha, x, incx, y, incy)
+
+/**
  * cublasComputeType_t enumerate type is used in cublasGemmEx() and
  * cublasLtMatmul() (including all batched and strided batched variants) to
  * choose compute precision modes as defined below.
