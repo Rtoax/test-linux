@@ -46,6 +46,10 @@ enum {
 
 struct {
 	int gpu;
+	/**
+	 * Use m, n first, then, use k (see cublasSgemm()). and m used as rows,
+	 * n used as columns.
+	 */
 	unsigned long m, n, k;
 	int test_type;
 	bool verbose;
@@ -193,14 +197,14 @@ int default_create_blas(struct test_operations *test)
 	return 0;
 }
 
-int __alloc_and_init_matrix(float **host, float **dev, int x, int y)
+int __alloc_matrix_pair(float **host, float **dev, int x, int y)
 {
 	int i, j;
 	cudaError_t cuerr;
 	cublasStatus_t status;
 
 	*host = (float *)malloc(x * y * sizeof(float));
-	assert(*host);
+	assert(*host && "Malloc failed");
 
 	for (j = 0; j < y; j++) {
 		for (i = 0; i < x; i++) {
@@ -224,14 +228,14 @@ int __alloc_and_init_matrix(float **host, float **dev, int x, int y)
 
 int prepare_data_matrix_A(struct test_operations *test)
 {
-	return __alloc_and_init_matrix(&test->host_A, &test->dev_A, env.m, env.n);
+	return __alloc_matrix_pair(&test->host_A, &test->dev_A, env.n, env.m);
 }
 
 int prepare_data_matrix_sameAB(struct test_operations *test)
 {
 	int err = 0;
-	err += __alloc_and_init_matrix(&test->host_A, &test->dev_A, env.m, env.n);
-	err += __alloc_and_init_matrix(&test->host_B, &test->dev_B, env.m, env.n);
+	err += __alloc_matrix_pair(&test->host_A, &test->dev_A, env.n, env.m);
+	err += __alloc_matrix_pair(&test->host_B, &test->dev_B, env.n, env.m);
 	return err;
 }
 
@@ -313,14 +317,14 @@ int __display_matrix_pair(const char *pfx, struct test_operations *test,
 
 int display_data_A(struct test_operations *test)
 {
-	return __display_matrix_pair("A", test, test->host_A, test->dev_A, env.m, env.n);
+	return __display_matrix_pair("A", test, test->host_A, test->dev_A, env.n, env.m);
 }
 
 int display_data_AB(struct test_operations *test)
 {
 	int err = 0;
-	err += __display_matrix_pair("A", test, test->host_A, test->dev_A, env.m, env.n);
-	err += __display_matrix_pair("B", test, test->host_B, test->dev_B, env.m, env.n);
+	err += __display_matrix_pair("A", test, test->host_A, test->dev_A, env.n, env.m);
+	err += __display_matrix_pair("B", test, test->host_B, test->dev_B, env.n, env.m);
 	return err;
 }
 
