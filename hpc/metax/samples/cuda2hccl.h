@@ -53,9 +53,16 @@
 #define cublasGetVersion(handle, pversion)	hcblasGetVersion(handle, pversion)
 #define cublasGetProperty(type, pvalue)	hcblasGetProperty(type, pvalue)
 
+/**
+ * The cublasOperation_t type indicates which operation needs to be performed
+ * with the dense matrix.
+ */
 #define cublasOperation_t	hcblasOperation_t
+/* The non-transpose operation is selected. */
 #define CUBLAS_OP_N	HCBLAS_OP_N
+/* The transpose operation is selected. */
 #define CUBLAS_OP_T	HCBLAS_OP_T
+/* The conjugate transpose operation is selected. */
 #define CUBLAS_OP_C	HCBLAS_OP_C
 #define CUBLAS_OP_HERMITAN	HCBLAS_OP_HERMITAN
 #define CUBLAS_OP_CONJG	HCBLAS_OP_CONJG
@@ -176,6 +183,22 @@
 
 #define cublasSrotm(handle, n, x, incx, y, incy, param)	hcblasSrotm(handle, n, x, incx, y, incy, param)
 #define cublasDrotm(handle, n, x, incx, y, incy, param)	hcblasDrotm(handle, n, x, incx, y, incy, param)
+
+/**
+ * This function performs the matrix-matrix multiplication.
+ *
+ * C = alpha op(A) op(B) + beta C
+ */
+#define cublasSgemm(handle, transa, transb, m, n, k, alpha, A, lda, B, ldb, beta, C, ldc) \
+	hcblasSgemm(handle, transa, transb, m, n, k, alpha, A, lda, B, ldb, beta, C, ldc)
+#define cublasDgemm(handle, transa, transb, m, n, k, alpha, A, lda, B, ldb, beta, C, ldc) \
+	hcblasDgemm(handle, transa, transb, m, n, k, alpha, A, lda, B, ldb, beta, C, ldc)
+#define cublasCgemm(handle, transa, transb, m, n, k, alpha, A, lda, B, ldb, beta, C, ldc) \
+	hcblasCgemm(handle, transa, transb, m, n, k, alpha, A, lda, B, ldb, beta, C, ldc)
+#define cublasZgemm(handle, transa, transb, m, n, k, alpha, A, lda, B, ldb, beta, C, ldc) \
+	hcblasZgemm(handle, transa, transb, m, n, k, alpha, A, lda, B, ldb, beta, C, ldc)
+#define cublasHgemm(handle, transa, transb, m, n, k, alpha, A, lda, B, ldb, beta, C, ldc) \
+	hcblasHgemm(handle, transa, transb, m, n, k, alpha, A, lda, B, ldb, beta, C, ldc)
 
 /**
  * D = alpha*(A*B) + beta*(C)
