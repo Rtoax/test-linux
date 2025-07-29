@@ -239,6 +239,18 @@ int prepare_data_matrix_sameAB(struct test_operations *test)
 	return err;
 }
 
+int prepare_data_matrix_Gemm(struct test_operations *test)
+{
+	extern int display_data_Gemm(struct test_operations *test);
+
+	int err = 0;
+	err += __alloc_matrix_pair(&test->host_A, &test->dev_A, env.k, env.m);
+	err += __alloc_matrix_pair(&test->host_B, &test->dev_B, env.n, env.k);
+	err += __alloc_matrix_pair(&test->host_C, &test->dev_C, env.n, env.m);
+	err += display_data_Gemm(test);
+	return err;
+}
+
 /**
  * A[j] = alpha * A[j]
  */
@@ -277,6 +289,29 @@ int run_blas_dot(struct test_operations *test)
 int run_blas_nrm2(struct test_operations *test)
 {
 	cublasSnrm2(test->handle, env.m * env.n, test->dev_A, 1, &test->result);
+	return 0;
+}
+
+int run_blas_Gemm(struct test_operations *test)
+{
+	cublasStatus_t status;
+	float alpha = 2.0, beta = 2.0;
+
+	/**
+	 * C^T = B^T * A^T equal to C = A * B
+	 */
+	status = cublasSgemm(test->handle, CUBLAS_OP_T, CUBLAS_OP_T,
+				env.m, env.n, env.k,
+				&alpha,
+				test->dev_A, env.k,
+				test->dev_B, env.n,
+				&beta,
+				test->dev_C, env.m);
+	if (status != CUBLAS_STATUS_SUCCESS) {
+		fprintf(stderr, "ERROR: cublasSgemm(): %s.\n",
+			cublasGetStatusString(status));
+		return -status;
+	}
 	return 0;
 }
 
@@ -344,6 +379,15 @@ int display_data_nrm2(struct test_operations *test)
 	return err;
 }
 
+int display_data_Gemm(struct test_operations *test)
+{
+	int err = 0;
+	err += __display_matrix_pair("A", test, test->host_A, test->dev_A, env.k, env.m);
+	err += __display_matrix_pair("B", test, test->host_B, test->dev_B, env.n, env.k);
+	err += __display_matrix_pair("C", test, test->host_C, test->dev_C, env.n, env.m);
+	return err;
+}
+
 int free_data_matrix_A(struct test_operations *test)
 {
 	cudaFree(test->dev_A);
@@ -357,6 +401,17 @@ int free_data_matrix_AB(struct test_operations *test)
 	cudaFree(test->dev_B);
 	free(test->host_A);
 	free(test->host_B);
+	return 0;
+}
+
+int free_data_matrix_ABC(struct test_operations *test)
+{
+	cudaFree(test->dev_A);
+	cudaFree(test->dev_B);
+	cudaFree(test->dev_C);
+	free(test->host_A);
+	free(test->host_B);
+	free(test->host_C);
 	return 0;
 }
 
@@ -417,6 +472,13 @@ struct test_operations testNrm2 = {
 };
 
 struct test_operations testGemm = {
+	.name = "GEMM",
+	.create_blas = default_create_blas,
+	.prepare_data = prepare_data_matrix_Gemm,
+	.run_blas = run_blas_Gemm,
+	.display_data = display_data_Gemm,
+	.free_data = free_data_matrix_ABC,
+	.destroy_blas = default_destroy_blas,
 };
 
 int main(int argc, char *argv[])

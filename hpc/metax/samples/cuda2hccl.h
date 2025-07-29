@@ -35,6 +35,7 @@
  * refs:
  * - https://docs.nvidia.com/cuda/cublas/index.html
  */
+#define cublasGetStatusString(status)	hcblasGetStatusString(status)
 #define cublasStatus_t	hcblasStatus_t
 #define CUBLAS_STATUS_SUCCESS	HCBLAS_STATUS_SUCCESS
 #define CUBLAS_STATUS_NOT_INITIALIZED	HCBLAS_STATUS_NOT_INITIALIZED
