@@ -235,8 +235,8 @@ int run_blas_copy(struct test_operations *test)
 	return 0;
 }
 
-int __display_matrix_pair(struct test_operations *test, float *host,
-			  float *dev, int x, int y)
+int __display_matrix_pair(const char *pfx, struct test_operations *test,
+			  float *host, float *dev, int x, int y)
 {
 	cublasStatus_t status;
 	int i, j;
@@ -247,7 +247,8 @@ int __display_matrix_pair(struct test_operations *test, float *host,
 	cublasIsamin(test->handle, y * x, dev, 1, &idx_min);
 	cublasSasum(test->handle, y * x, dev, 1, &sum);
 
-	printf("Device index min %d, index max %d, sum %.2f\n", idx_min, idx_max, sum);
+	printf("%s>> Device index min %d, index max %d, sum %.2f\n", pfx,
+		idx_min, idx_max, sum);
 
 	status = cublasGetMatrix(x, y, sizeof(float), dev, x, host, x);
 	if (status != CUBLAS_STATUS_SUCCESS) {
@@ -258,26 +259,27 @@ int __display_matrix_pair(struct test_operations *test, float *host,
 	sum = 0;
 
 	for (j = 0; j < y; j++) {
+		printf("%s>> ", pfx);
 		for (i = 0; i < x; i++) {
 			sum += host[IDX2C(i, j, x)];
 			printf("%7.0f", host[IDX2C(i, j, x)]);
 		}
 		printf("\n");
 	}
-	printf("Host sum %.2lf\n", sum);
+	printf("%s>> Host sum %.2lf\n", pfx, sum);
 	return 0;
 }
 
 int display_data_A(struct test_operations *test)
 {
-	return __display_matrix_pair(test, test->host_A, test->dev_A, env.x, env.y);
+	return __display_matrix_pair("A", test, test->host_A, test->dev_A, env.x, env.y);
 }
 
 int display_data_AB(struct test_operations *test)
 {
 	int err = 0;
-	err += __display_matrix_pair(test, test->host_A, test->dev_A, env.x, env.y);
-	err += __display_matrix_pair(test, test->host_B, test->dev_B, env.x, env.y);
+	err += __display_matrix_pair("A", test, test->host_A, test->dev_A, env.x, env.y);
+	err += __display_matrix_pair("B", test, test->host_B, test->dev_B, env.x, env.y);
 	return err;
 }
 
