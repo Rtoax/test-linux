@@ -28,6 +28,7 @@
 #define __gpu_global__	__global__
 #else
 #define __gpu_global__
+#define gpu_name(b, bl)	({ strncpy(b, "CPU", bl); b; })
 #endif
 
 #ifndef gpu_init
@@ -63,7 +64,10 @@
 #define NS2US	1000UL
 
 struct {
-	int gpu;
+	union {
+		int gpu;
+		int cpu;
+	};
 	bool verbose;
 	unsigned long m;
 	unsigned long n;
@@ -250,14 +254,9 @@ int main(int argc, char *argv[])
 	}
 
 	if (env.verbose) {
+		char buf[64];
 		fprintf(stderr, "Version %s\n", version);
-#if defined(HAVE_HCCL)
-		char buf[64];
-		fprintf(stderr, "Running on MetaX GPU %d, %s\n", env.gpu, gpu_name(buf, sizeof(buf)));
-#elif defined(HAVE_CUDA)
-		char buf[64];
-		fprintf(stderr, "Running on Nvidia GPU %d, %s\n", env.gpu, gpu_name(buf, sizeof(buf)));
-#endif
+		fprintf(stderr, "Running on %s %d\n", gpu_name(buf, sizeof(buf)), env.gpu);
 		fprintf(stderr, "size of TYPE(%s) %ld\n", TNAME, sizeof(TYPE));
 		fprintf(stderr, "M = %ld, N = %ld, NLOOP = %ld\n",
 			env.m, env.n, env.nloop);
