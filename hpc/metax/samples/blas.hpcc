@@ -13,6 +13,7 @@
 #include <string.h>
 #include <stdbool.h>
 #include <malloc.h>
+#include <time.h>
 #if defined(HAVE_HCCL)
 #include <hc_runtime.h>
 #include <hcblas/hcblas.h>
@@ -89,6 +90,13 @@ static void print_version(void)
 	printf("test %s\n", version);
 }
 
+static inline unsigned long nsecs(void)
+{
+	struct timespec ts;
+	clock_gettime(CLOCK_MONOTONIC, &ts);
+	return ts.tv_sec * 1000000000UL + ts.tv_nsec;
+}
+
 static error_t parse_arg(int key, char *arg, struct argp_state *state)
 {
 	switch (key) {
@@ -146,7 +154,11 @@ struct test_operations {
 	float *host_A, *host_B, *host_C;
 	float *dev_A, *dev_B, *dev_C;
 	float result;
+
 	/* operations */
+	struct {
+		unsigned long start, end;
+	} create, prepare, run, display, free, destroy;
 	int (*create_blas)(struct test_operations *test);
 	int (*prepare_data)(struct test_operations *test);
 	int (*run_blas)(struct test_operations *test);
@@ -430,12 +442,34 @@ int main(int argc, char *argv[])
 
 	printf("Testing %s\n", test->name);
 
+	test->create.start = nsecs();
 	test->create_blas(test);
+	test->create.end = nsecs();
+
+	test->prepare.start = nsecs();
 	test->prepare_data(test);
+	test->prepare.end = nsecs();
+
+	test->run.start = nsecs();
 	test->run_blas(test);
+	test->run.end = nsecs();
+
+	test->display.start = nsecs();
 	test->display_data(test);
+	test->display.end = nsecs();
+
+	test->free.start = nsecs();
 	test->free_data(test);
+	test->free.end = nsecs();
+
+	test->destroy.start = nsecs();
 	test->destroy_blas(test);
+	test->destroy.end = nsecs();
+
+#define LAT(n) (test->n.end - test->n.start)
+	printf("%ld %ld %ld %ld %ld %ld\n", LAT(create), LAT(prepare), LAT(run),
+		LAT(display), LAT(free), LAT(destroy));
+#undef LAT
 
 	return 0;
 }
