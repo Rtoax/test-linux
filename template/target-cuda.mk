@@ -23,6 +23,15 @@ ifdef ERROR
   CFLAGS_NVCC += -DERROR=1
 endif
 
+# Pascal (sm_60+)
+# Volta (sm_70+)
+# Turing (sm_75+)
+# Ampere (sm_80+)
+# Ada Lovelace (sm_89+)
+# Hopper (sm_90+)
+CFLAGS_NVCC += -arch=sm_80
+LDFLAGS_NVCC := -arch=sm_80
+
 CFLAGS_NVCC += -Wno-deprecated-gpu-targets
 LDFLAGS_NVCC += -Wno-deprecated-gpu-targets
 
