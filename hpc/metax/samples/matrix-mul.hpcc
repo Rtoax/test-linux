@@ -69,8 +69,7 @@ struct {
 		int cpu;
 	};
 	bool verbose;
-	unsigned long m;
-	unsigned long n;
+	unsigned long m, k, n;
 	unsigned long nloop;
 	bool set_value;
 	unsigned int value;
@@ -78,7 +77,8 @@ struct {
 } env = {
 	.gpu = 0,
 	.verbose = false,
-	.m = 3,
+	.m = 2,
+	.k = 3,
 	.n = 2,
 	.nloop = 1,
 	.set_value = false,
@@ -86,7 +86,7 @@ struct {
 	.unit_time = NS2US,
 };
 
-const char *version = "v0.0.1 "
+const char *version = "v0.0.2 "
 #if defined(HAVE_HCCL)
 	"(GPU MetaX)"
 #elif defined(HAVE_CUDA)
@@ -105,6 +105,7 @@ const char argp_prog_doc[] =
 static const struct argp_option opts[] = {
 	{ "gpu", 'g', "GPU", 0, "Running on GPU" },
 	{ "m-num", 'm', "M_NUM", 0, "Matrix M number" },
+	{ "k-num", 'k', "K_NUM", 0, "Matrix K number" },
 	{ "n-num", 'n', "N_NUM", 0, "Matrix N number" },
 	{ "nloop", 'N', "NLOOP", 0, "Test loop number" },
 	{ "init-val", 'i', "INIT_VAL", 0, "Set matrix values" },
@@ -121,6 +122,9 @@ static error_t parse_arg(int key, char *arg, struct argp_state *state)
 		break;
 	case 'm':
 		env.m = strtoul(arg, NULL, 10);
+		break;
+	case 'k':
+		env.k = strtoul(arg, NULL, 10);
 		break;
 	case 'n':
 		env.n = strtoul(arg, NULL, 10);
@@ -163,9 +167,9 @@ static inline unsigned long nsecs(void)
 }
 
 /**
- * A[mn] * B[nm] = C[nn]
+ * A[m*k] * B[k*n] = C[m*n]
  *
- * m=3,n=2
+ * m=2,k=3,n=2
  *             ┌     ┐
  * ┌       ┐   │ 1 2 │   ┌       ┐
  * │ 1 2 3 │   │     │   │ 22 28 │
@@ -175,16 +179,16 @@ static inline unsigned long nsecs(void)
  *             └     ┘
  */
 __gpu_global__ void matrix_mul(TYPE *A, TYPE *B, TYPE *C, unsigned long m,
-			       unsigned long n)
+			       unsigned long k, unsigned long n)
 {
-	int ia, ib, ic, icx, icy, im;
+	int ia, ib, ic, icx, icy, ik;
 
 #if defined(HAVE_HCCL) || defined(HAVE_CUDA)
 	ic = threadIdx.x + blockDim.x * blockIdx.x;
-	if (ic >= n * n)
+	if (ic >= m * n)
 		return;
 #else /* Running on CPU */
-	for (ic = 0; ic < n * n; ic++)
+	for (ic = 0; ic < m * n; ic++)
 #endif
 	{
 		icx = ic % n;
@@ -192,9 +196,9 @@ __gpu_global__ void matrix_mul(TYPE *A, TYPE *B, TYPE *C, unsigned long m,
 
 		C[ic] = TRVALUE(0.0f);
 
-		for (im = 0; im < m; im++) {
-			ia = icy * m + im;
-			ib = im * n + icx;
+		for (ik = 0; ik < k; ik++) {
+			ia = icy * k + ik;
+			ib = ik * n + icx;
 # if defined(TEST_FP16)
 			C[ic] = __hadd(C[ic], __hmul(A[ia], B[ib]));
 # else
@@ -210,7 +214,7 @@ static double matrix_mul_FLOPS(unsigned long ns)
 	 * 2.0: plus and multi
 	 * 1e9: nanoseconds to seconds
 	 */
-	return 2.0 * env.m * env.n * env.n * env.nloop * 1e9 / ns;
+	return 2.0 * env.m * env.k * env.n * env.nloop * 1e9 / ns;
 }
 
 void init_matrix(TYPE *p, unsigned long n, bool zero, bool set_val, TYPE val)
@@ -226,12 +230,15 @@ void init_matrix(TYPE *p, unsigned long n, bool zero, bool set_val, TYPE val)
 	}
 }
 
-void print_matrix(TYPE *p, unsigned long n)
+void print_matrix(TYPE *p, unsigned long x, unsigned long y)
 {
-	int i;
-	for (i = 0; i < n; i++)
-		printf(TFMT"%s", TVAL(p[i]), i == n - 1 ? "\0" : ", ");
-	printf("\n");
+	int i, j;
+	for (i = 0; i < x; i++) {
+		for (j = 0; j < y; j++) {
+			printf(TFMT"\t", TVAL(p[i * x + j]));
+		}
+		printf("\n");
+	}
 }
 
 int main(int argc, char *argv[])
@@ -266,17 +273,17 @@ int main(int argc, char *argv[])
 
 	gpu_init(env.gpu);
 
-	host_A = (TYPE *)malloc(sizeof(TYPE) * env.m * env.n);
-	host_B = (TYPE *)malloc(sizeof(TYPE) * env.m * env.n);
-	host_C = (TYPE *)malloc(sizeof(TYPE) * env.n * env.n);
+	host_A = (TYPE *)malloc(sizeof(TYPE) * env.m * env.k);
+	host_B = (TYPE *)malloc(sizeof(TYPE) * env.k * env.n);
+	host_C = (TYPE *)malloc(sizeof(TYPE) * env.m * env.n);
 
-	init_matrix(host_A, env.m * env.n, false, env.set_value, env.value);
-	init_matrix(host_B, env.m * env.n, false, env.set_value, env.value);
-	init_matrix(host_C, env.n * env.n, true, false, -1);
+	init_matrix(host_A, env.m * env.k, false, env.set_value, env.value);
+	init_matrix(host_B, env.k * env.n, false, env.set_value, env.value);
+	init_matrix(host_C, env.m * env.n, true, false, -1);
 
 #ifdef DEBUG
-	print_matrix(host_A, env.m * env.n);
-	print_matrix(host_B, env.m * env.n);
+	print_matrix(host_A, env.k, env.m);
+	print_matrix(host_B, env.n, env.k);
 #endif
 
 #if defined(HAVE_HCCL) || defined(HAVE_CUDA)
@@ -285,19 +292,19 @@ int main(int argc, char *argv[])
 
 	start = nsecs();
 
-	cudaMalloc(&dev_A, sizeof(TYPE) * env.m * env.n);
-	cudaMalloc(&dev_B, sizeof(TYPE) * env.m * env.n);
-	cudaMalloc(&dev_C, sizeof(TYPE) * env.n * env.n);
+	cudaMalloc(&dev_A, sizeof(TYPE) * env.m * env.k);
+	cudaMalloc(&dev_B, sizeof(TYPE) * env.k * env.n);
+	cudaMalloc(&dev_C, sizeof(TYPE) * env.m * env.n);
 
-	cudaMemset(dev_A, 0, sizeof(TYPE) * env.m * env.n);
-	cudaMemset(dev_B, 0, sizeof(TYPE) * env.m * env.n);
-	cudaMemset(dev_C, 0, sizeof(TYPE) * env.n * env.n);
+	cudaMemset(dev_A, 0, sizeof(TYPE) * env.m * env.k);
+	cudaMemset(dev_B, 0, sizeof(TYPE) * env.k * env.n);
+	cudaMemset(dev_C, 0, sizeof(TYPE) * env.m * env.n);
 
 	malloc_ns = nsecs() - start;
 
 	start = nsecs();
-	cudaMemcpy(dev_A, host_A, sizeof(TYPE) * env.m * env.n, cudaMemcpyHostToDevice);
-	cudaMemcpy(dev_B, host_B, sizeof(TYPE) * env.m * env.n, cudaMemcpyHostToDevice);
+	cudaMemcpy(dev_A, host_A, sizeof(TYPE) * env.m * env.k, cudaMemcpyHostToDevice);
+	cudaMemcpy(dev_B, host_B, sizeof(TYPE) * env.k * env.n, cudaMemcpyHostToDevice);
 	h2d_ns = nsecs() - start;
 #endif
 
@@ -309,9 +316,9 @@ int main(int argc, char *argv[])
 	/* Stress test */
 	for (iloop = 0; iloop < env.nloop; iloop++) {
 #if defined(HAVE_HCCL) || defined(HAVE_CUDA)
-		matrix_mul<<<(env.n * env.n + 511) / 512, 512>>>(dev_A, dev_B, dev_C, env.m, env.n);
+		matrix_mul<<<(env.m * env.n + 511) / 512, 512>>>(dev_A, dev_B, dev_C, env.m, env.k, env.n);
 #else
-		matrix_mul(host_A, host_B, host_C, env.m, env.n);
+		matrix_mul(host_A, host_B, host_C, env.m, env.k, env.n);
 #endif
 	}
 #if defined(HAVE_HCCL) || defined(HAVE_CUDA)
@@ -326,12 +333,12 @@ int main(int argc, char *argv[])
 
 #if defined(HAVE_HCCL) || defined(HAVE_CUDA)
 	start = nsecs();
-	cudaMemcpy(host_C, dev_C, sizeof(TYPE) * env.n * env.n, cudaMemcpyDeviceToHost);
+	cudaMemcpy(host_C, dev_C, sizeof(TYPE) * env.m * env.n, cudaMemcpyDeviceToHost);
 	d2h_ns = nsecs() - start;
 #endif
 
 #ifdef DEBUG
-	print_matrix(host_C, env.n * env.n);
+	print_matrix(host_C, env.n, env.m);
 #endif
 
 	/**
@@ -339,8 +346,8 @@ int main(int argc, char *argv[])
 	 * calculation result.
 	 */
 	if (env.set_value) {
-		TYPE correct_val = TRVALUE(env.value * env.value * env.m);
-		for (i = 0; i < env.n * env.n; i++) {
+		TYPE correct_val = TRVALUE(env.value * env.value * env.k);
+		for (i = 0; i < env.m * env.n; i++) {
 			if (TVAL(host_C[i]) != TVAL(correct_val)) {
 				fprintf(stderr, "ERROR: cal matrix mul failed.\n");
 				err = -1;
@@ -362,7 +369,7 @@ int main(int argc, char *argv[])
 	free(host_C);
 
 	if (env.verbose) {
-		printf("%-4s %-4s %-8s ", "M", "N", "NLOOP");
+		printf("%-4s %-4s %-4s %-8s ", "M", "K", "N", "NLOOP");
 #if defined(HAVE_HCCL) || defined(HAVE_CUDA)
 		printf("%-8s %-8s ", "ALLOC", "H2D");
 #endif
@@ -374,7 +381,7 @@ int main(int argc, char *argv[])
 	}
 
 	total_ns = 0;
-	printf("%-4ld %-4ld %-8ld ", env.m, env.n, env.nloop);
+	printf("%-4ld %-4ld %-4ld %-8ld ", env.m, env.k, env.n, env.nloop);
 #if defined(HAVE_HCCL) || defined(HAVE_CUDA)
 	total_ns += malloc_ns + h2d_ns;
 	printf("%-8ld %-8ld ", malloc_ns / env.unit_time, h2d_ns / env.unit_time);

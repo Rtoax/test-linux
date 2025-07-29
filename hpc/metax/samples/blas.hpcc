@@ -30,6 +30,7 @@
 #endif
 
 #define IDX2C(i, j, ld)	(((j) * (ld)) + (i))
+
 enum {
 	TEST_SCAL,
 	TEST_AXPY,
