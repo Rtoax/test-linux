@@ -64,6 +64,8 @@ struct {
 	 */
 	unsigned long m, n, k;
 	int test_type;
+	bool set_value;
+	unsigned int value;
 	bool verbose;
 } env = {
 	.gpu = 0,
@@ -71,6 +73,8 @@ struct {
 	.n = 5,
 	.k = 1,
 	.test_type = TEST_SCAL,
+	.set_value = false,
+	.value = 0,
 	.verbose = false,
 };
 
@@ -89,6 +93,7 @@ static const struct argp_option opts[] = {
 	{ NULL, 'n', "N", 0, "N number" },
 	{ NULL, 'k', "K", 0, "K number" },
 	{ "type", 't', "TYPE", 0, "set test type" },
+	{ "init-val", 'i', "INIT_VAL", 0, "Set matrix values" },
 	{ "verbose", 'v', NULL, 1, "Display detail" },
 	{ "version", 'V', NULL, 1, "Display version" },
 	{},
@@ -148,6 +153,10 @@ static error_t parse_arg(int key, char *arg, struct argp_state *state)
 			fprintf(stderr, "Support TEST TYPE: " TEST_LIST "\n");
 			exit(-EINVAL);
 		}
+		break;
+	case 'i':
+		env.set_value = true;
+		env.value = atoi(arg);
 		break;
 	case 'v':
 		env.verbose = true;
@@ -220,7 +229,9 @@ int __alloc_matrix_pair(TYPE **host, TYPE **dev, int x, int y)
 
 	for (j = 0; j < y; j++) {
 		for (i = 0; i < x; i++) {
-			(*host)[IDX2C(i, j, x)] = (TYPE)(i * y + j + 1);
+			(*host)[IDX2C(i, j, x)] = env.set_value ?
+							(TYPE)env.value :
+							(TYPE)(i * y + j + 1);
 		}
 	}
 
