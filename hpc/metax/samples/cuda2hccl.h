@@ -178,6 +178,16 @@
 #define cublasDrotm(handle, n, x, incx, y, incy, param)	hcblasDrotm(handle, n, x, incx, y, incy, param)
 
 /**
+ * D = alpha*(A*B) + beta*(C)
+ */
+#define cublasLtMatmul(lightHandle, computeDesc, alpha, A, Adesc, B, Bdesc, \
+		       beta, C, Cdesc, D, Ddesc, algo, workspace, \
+		       workspaceSizeInBytes, stream) \
+	hcblasLtMatmul(lightHandle, computeDesc, alpha, A, Adesc, B, Bdesc, \
+		       beta, C, Cdesc, D, Ddesc, algo, workspace, \
+		       workspaceSizeInBytes, stream)
+
+/**
  * cublasComputeType_t enumerate type is used in cublasGemmEx() and
  * cublasLtMatmul() (including all batched and strided batched variants) to
  * choose compute precision modes as defined below.
