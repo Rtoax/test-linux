@@ -15,50 +15,50 @@
 #include <malloc.h>
 #include <time.h>
 #if defined(HAVE_HCCL)
-#include <hc_runtime.h>
-#include "hpcc_helpers.h"
-# if defined(TEST_FP16)
-#  include <hpcc_fp16.h>
-# endif
-#define __gpu_global__	__global__
-#include "cuda2hccl.h"
+# include <hc_runtime.h>
+# include "hpcc_helpers.h"
+#  if defined(TEST_FP16)
+#   include <hpcc_fp16.h>
+#  endif
+# define __gpu_global__	__global__
+# include "cuda2hccl.h"
 #elif defined(HAVE_CUDA)
-#include <cuda_runtime.h>
-#include "cuda_helpers.h"
-#define __gpu_global__	__global__
+# include <cuda_runtime.h>
+# include "cuda_helpers.h"
+# define __gpu_global__	__global__
 #else
-#define __gpu_global__
-#define gpu_name(b, bl)	({ strncpy(b, "CPU", bl); b; })
+# define __gpu_global__
+# define gpu_name(b, bl)	({ strncpy(b, "CPU", bl); b; })
 #endif
 
 #ifndef gpu_init
-#define gpu_init(dev)
+# define gpu_init(dev)
 #endif
 
 #if defined(TEST_DOUBLE)
-#define TYPE	double
-#define TFMT	"%.2lf"
-#define TVAL(v)	(v)
-#define TNAME	"double"
-#define TRVALUE(v)	(v * 1.0)
+# define TYPE	double
+# define TFMT	"%.2lf"
+# define TVAL(v)	(v)
+# define TNAME	"double"
+# define TRVALUE(v)	(v * 1.0)
 #elif defined(TEST_INT8)
-#define TYPE	int8_t
-#define TFMT	"%d"
-#define TVAL(v)	(v)
-#define TNAME	"int8_t"
-#define TRVALUE(v)	(v)
+# define TYPE	int8_t
+# define TFMT	"%d"
+# define TVAL(v)	(v)
+# define TNAME	"int8_t"
+# define TRVALUE(v)	(v)
 #elif defined(TEST_FP16)
-#define TYPE	half
-#define TFMT	"%.2f"
-#define TVAL(v)	__half2float(v)
-#define TNAME	"half"
-#define TRVALUE(v)	__float2half(v)
+# define TYPE	half
+# define TFMT	"%.2f"
+# define TVAL(v)	__half2float(v)
+# define TNAME	"half"
+# define TRVALUE(v)	__float2half(v)
 #else
-#define TYPE	float
-#define TFMT	"%.2f"
-#define TVAL(v)	(v)
-#define TNAME	"float"
-#define TRVALUE(v)	(v * 1.0f)
+# define TYPE	float
+# define TFMT	"%.2f"
+# define TVAL(v)	(v)
+# define TNAME	"float"
+# define TRVALUE(v)	(v * 1.0f)
 #endif
 
 #define NS2US	1000UL

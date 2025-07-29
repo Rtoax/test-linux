@@ -15,16 +15,16 @@
 #include <malloc.h>
 #include <time.h>
 #if defined(HAVE_HCCL)
-#include <hc_runtime.h>
-#include <hcblas/hcblas.h>
-#include "hpcc_helpers.h"
-#include "cuda2hccl.h"
-#define NAME	"MetaX BLAS"
+# include <hc_runtime.h>
+# include <hcblas/hcblas.h>
+# include "hpcc_helpers.h"
+# include "cuda2hccl.h"
+# define NAME	"MetaX BLAS"
 #elif defined(HAVE_CUDA)
-#include <cuda_runtime.h>
-#include <cublas_v2.h>
-#include "cuda_helpers.h"
-#define NAME	"CUDA BLAS"
+# include <cuda_runtime.h>
+# include <cublas_v2.h>
+# include "cuda_helpers.h"
+# define NAME	"CUDA BLAS"
 #else
 # error "Must define one of HAVE_HCCL, HAVE_CUDA"
 #endif
@@ -34,11 +34,13 @@
 # define TFMT	"%.2lf"
 # define TVAL(v)	(v)
 # define TNAME	"double"
+# define TRVALUE(v)	(v * 1.0)
 #else
 # define TYPE	float
 # define TFMT	"%.2f"
 # define TVAL(v)	(v)
 # define TNAME	"float"
+# define TRVALUE(v)	(v * 1.0f)
 #endif
 
 #define IDX2C(i, j, ld)	(((j) * (ld)) + (i))
@@ -63,6 +65,7 @@ struct {
 	 * n used as columns.
 	 */
 	unsigned long m, n, k;
+	int alpha, beta;
 	unsigned long nloop;
 	int test_type;
 	bool set_value;
@@ -73,6 +76,8 @@ struct {
 	.m = 6,
 	.n = 5,
 	.k = 1,
+	.alpha = 2,
+	.beta = 2,
 	.nloop = 1,
 	.test_type = TEST_SCAL,
 	.set_value = false,
@@ -94,6 +99,8 @@ static const struct argp_option opts[] = {
 	{ NULL, 'm', "M", 0, "M number" },
 	{ NULL, 'n', "N", 0, "N number" },
 	{ NULL, 'k', "K", 0, "K number" },
+	{ "alpha", 'A', "ALPHA", 0, "Set alpha value" },
+	{ "beta", 'B', "BETA", 0, "Set beta value" },
 	{ "type", 't', "TYPE", 0, "set test type" },
 	{ "init-val", 'i', "INIT_VAL", 0, "Set matrix values" },
 	{ "nloop", 'N', "NLOOP", 0, "Test loop number" },
@@ -138,6 +145,12 @@ static error_t parse_arg(int key, char *arg, struct argp_state *state)
 		break;
 	case 'k':
 		env.k = strtoul(arg, NULL, 10);
+		break;
+	case 'A':
+		env.alpha = strtoul(arg, NULL, 10);
+		break;
+	case 'B':
+		env.beta = strtoul(arg, NULL, 10);
 		break;
 	case 't':
 		if (!strcmp(arg, "scal"))
@@ -285,7 +298,7 @@ int prepare_data_matrix_Gemm(struct test_operations *test)
  */
 int run_blas_scal(struct test_operations *test)
 {
-	TYPE alpha = 2.0;
+	TYPE alpha = TRVALUE(env.alpha);
 #if defined(TEST_DOUBLE)
 	cublasDscal(test->handle, env.m * env.n, &alpha, test->dev_A, 1);
 #else
@@ -299,7 +312,7 @@ int run_blas_scal(struct test_operations *test)
  */
 int run_blas_axpy(struct test_operations *test)
 {
-	TYPE alpha = 3.0;
+	TYPE alpha = TRVALUE(env.alpha);
 #if defined(TEST_DOUBLE)
 	cublasDaxpy(test->handle, env.m * env.n, &alpha, test->dev_A, 1, test->dev_B, 1);
 #else
@@ -344,7 +357,8 @@ int run_blas_nrm2(struct test_operations *test)
 int run_blas_Gemm(struct test_operations *test)
 {
 	cublasStatus_t status;
-	TYPE alpha = 2.0, beta = 2.0;
+	TYPE alpha = TRVALUE(env.alpha);
+	TYPE beta = TRVALUE(env.beta);
 
 	/**
 	 * C^T = B^T * A^T equal to C = A * B
