@@ -86,7 +86,7 @@ struct {
 	.unit_time = NS2US,
 };
 
-const char *version = "v0.0.2 "
+const char *version = "v0.0.3 "
 #if defined(HAVE_HCCL)
 	"(GPU MetaX)"
 #elif defined(HAVE_CUDA)
@@ -384,7 +384,7 @@ int main(int argc, char *argv[])
 #if defined(HAVE_HCCL) || defined(HAVE_CUDA)
 		printf("%-12s ", "D2H");
 #endif
-		printf("%-12s %-8s\n", "TOTAL", "FLOPS");
+		printf("%-12s %-8s\n", "TOTAL", "GFLOPS");
 	}
 
 	total_ns = 0;
@@ -402,7 +402,7 @@ int main(int argc, char *argv[])
 	printf("%-12ld ", total_ns / env.unit_time);
 
 	flops = matrix_mul_FLOPS(cal_ns);
-	printf("%-8.2lf\n", flops);
+	printf("%-8.2lf\n", flops / 1e9);
 
 	return err;
 }
