@@ -326,3 +326,9 @@
  */
 #define cuComplex	hcComplex
 #define cuDoubleComplex	hcDoubleComplex
+
+/**
+ * refs
+ * - https://docs.nvidia.com/cuda/curand/group__HOST.html
+ */
+#define curandGetVersion(version)	hcrandGetVersion(version)
