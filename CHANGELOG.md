@@ -10,6 +10,19 @@ and this project adheres to
 ## Unreleased
 
 #### Breaking Changes
+#### Added
+#### Changed
+#### Deprecated
+#### Removed
+#### Fixed
+#### Security
+#### Docs
+#### Tools
+
+
+## [v2.2.19] 2025-07-29
+
+#### Breaking Changes
 - mk: All targets use small case words, this is a big change;
 #### Added
 - ascend: add abbreviation.md;
