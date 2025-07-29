@@ -63,6 +63,7 @@ struct {
 	 * n used as columns.
 	 */
 	unsigned long m, n, k;
+	unsigned long nloop;
 	int test_type;
 	bool set_value;
 	unsigned int value;
@@ -72,6 +73,7 @@ struct {
 	.m = 6,
 	.n = 5,
 	.k = 1,
+	.nloop = 1,
 	.test_type = TEST_SCAL,
 	.set_value = false,
 	.value = 0,
@@ -94,6 +96,7 @@ static const struct argp_option opts[] = {
 	{ NULL, 'k', "K", 0, "K number" },
 	{ "type", 't', "TYPE", 0, "set test type" },
 	{ "init-val", 'i', "INIT_VAL", 0, "Set matrix values" },
+	{ "nloop", 'N', "NLOOP", 0, "Test loop number" },
 	{ "verbose", 'v', NULL, 1, "Display detail" },
 	{ "version", 'V', NULL, 1, "Display version" },
 	{},
@@ -157,6 +160,9 @@ static error_t parse_arg(int key, char *arg, struct argp_state *state)
 	case 'i':
 		env.set_value = true;
 		env.value = atoi(arg);
+		break;
+	case 'N':
+		env.nloop = strtoul(arg, NULL, 10);
 		break;
 	case 'v':
 		env.verbose = true;
@@ -544,6 +550,7 @@ struct test_operations testGemm = {
 int main(int argc, char *argv[])
 {
 	int err = 0;
+	unsigned long n;
 	struct test_operations *test = &testScal;
 
 	err = argp_parse(&argp, argc, argv, 0, NULL, NULL);
@@ -592,7 +599,8 @@ int main(int argc, char *argv[])
 	test->prepare.end = nsecs();
 
 	test->run.start = nsecs();
-	test->run_blas(test);
+	for (n = 0; n < env.nloop; n++)
+		test->run_blas(test);
 	test->run.end = nsecs();
 
 	test->display.start = nsecs();
