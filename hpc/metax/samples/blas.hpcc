@@ -34,7 +34,8 @@ enum {
 	TEST_AXPY,
 	TEST_COPY,
 	TEST_DOT,
-#define TEST_LIST	"scal|axpy|copy|dot"
+	TEST_NRM2,
+#define TEST_LIST	"scal|axpy|copy|dot|nrm2"
 };
 
 struct {
@@ -106,6 +107,8 @@ static error_t parse_arg(int key, char *arg, struct argp_state *state)
 			env.test_type = TEST_COPY;
 		else if (!strcmp(arg, "dot"))
 			env.test_type = TEST_DOT;
+		else if (!strcmp(arg, "nrm2"))
+			env.test_type = TEST_NRM2;
 		else {
 			fprintf(stderr, "Support TEST TYPE: " TEST_LIST "\n");
 			exit(-EINVAL);
@@ -244,6 +247,12 @@ int run_blas_dot(struct test_operations *test)
 	return 0;
 }
 
+int run_blas_nrm2(struct test_operations *test)
+{
+	cublasSnrm2(test->handle, env.x * env.y, test->dev_A, 1, &test->result);
+	return 0;
+}
+
 int __display_matrix_pair(const char *pfx, struct test_operations *test,
 			  float *host, float *dev, int x, int y)
 {
@@ -296,6 +305,14 @@ int display_data_dot(struct test_operations *test)
 {
 	int err = 0;
 	err += display_data_AB(test);
+	printf("Result %.2f\n", test->result);
+	return err;
+}
+
+int display_data_nrm2(struct test_operations *test)
+{
+	int err = 0;
+	err += display_data_A(test);
 	printf("Result %.2f\n", test->result);
 	return err;
 }
@@ -362,6 +379,16 @@ struct test_operations testDot = {
 	.destroy_blas = default_destroy_blas,
 };
 
+struct test_operations testNrm2 = {
+	.name = "NRM2",
+	.create_blas = default_create_blas,
+	.prepare_data = prepare_data_matrix_A,
+	.run_blas = run_blas_nrm2,
+	.display_data = display_data_nrm2,
+	.free_data = free_data_matrix_A,
+	.destroy_blas = default_destroy_blas,
+};
+
 int main(int argc, char *argv[])
 {
 	int err = 0;
@@ -392,6 +419,9 @@ int main(int argc, char *argv[])
 		break;
 	case TEST_DOT:
 		test = &testDot;
+		break;
+	case TEST_NRM2:
+		test = &testNrm2;
 		break;
 	}
 

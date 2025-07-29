@@ -149,6 +149,14 @@
 #define cublasZdotc(handle, n, x, incx, y, incy, presult)	hcblasZdotc(handle, n, x, incx, y, incy, presult)
 
 /**
+ * This function computes the Euclidean norm of the vector x.
+ */
+#define cublasSnrm2(handle, n, x, incx, presult)	hcblasSnrm2(handle, n, x, incx, presult)
+#define cublasDnrm2(handle, n, x, incx, presult)	hcblasDnrm2(handle, n, x, incx, presult)
+#define cublasScnrm2(handle, n, x, incx, presult)	hcblasScnrm2(handle, n, x, incx, presult)
+#define cublasDznrm2(handle, n, x, incx, presult)	hcblasDznrm2(handle, n, x, incx, presult)
+
+/**
  * cublasComputeType_t enumerate type is used in cublasGemmEx() and
  * cublasLtMatmul() (including all batched and strided batched variants) to
  * choose compute precision modes as defined below.
