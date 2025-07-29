@@ -29,16 +29,21 @@
 #endif
 
 #define IDX2C(i, j, ld)	(((j) * (ld)) + (i))
+enum {
+	TEST_SCAL,
+};
 
 struct {
 	int gpu;
 	unsigned long x;
 	unsigned long y;
+	int test_type;
 	bool verbose;
 } env = {
 	.gpu = 0,
 	.x = 6,
 	.y = 5,
+	.test_type = TEST_SCAL,
 	.verbose = false,
 };
 
@@ -54,6 +59,7 @@ static const struct argp_option opts[] = {
 	{ "gpu", 'g', "GPU", 0, "Running on GPU" },
 	{ NULL, 'x', "X", 0, "X number" },
 	{ NULL, 'y', "Y", 0, "Y number" },
+	{ "type", 't', "TYPE", 0, "set test type" },
 	{ "verbose", 'v', NULL, 1, "Display detail" },
 	{ "version", 'V', NULL, 1, "Display version" },
 	{},
@@ -85,6 +91,14 @@ static error_t parse_arg(int key, char *arg, struct argp_state *state)
 		break;
 	case 'y':
 		env.y = strtoul(arg, NULL, 10);
+		break;
+	case 't':
+		if (!strcmp(arg, "scal"))
+			env.test_type = TEST_SCAL;
+		else {
+			fprintf(stderr, "Support TEST TYPE: scal\n");
+			exit(-EINVAL);
+		}
 		break;
 	case 'v':
 		env.verbose = true;
@@ -250,6 +264,12 @@ int main(int argc, char *argv[])
 	if (env.verbose) {
 		print_version();
 		printf("M = %ld, N = %ld\n", env.x, env.y);
+	}
+
+	switch (env.test_type) {
+	case TEST_SCAL:
+		test = &testScal;
+		break;
 	}
 
 	test->create_blas(test);
