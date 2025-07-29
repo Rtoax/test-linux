@@ -115,7 +115,7 @@
  * This function multiplies the vector x by the scalar alpha and adds it to
  * the vector y overwriting the latest vector with the result.
  *
- * y[j] = alpha X x[k] + y[j]
+ * y[j] = alpha x x[k] + y[j]
  * i = 1, ..., n
  * k = 1 + (i − 1) * incx
  * j = 1 + (i − 1) * incy
@@ -124,6 +124,19 @@
 #define cublasDaxpy(handle, n, alpha, x, incx, y, incy)	hcblasDaxpy(handle, n, alpha, x, incx, y, incy)
 #define cublasCaxpy(handle, n, alpha, x, incx, y, incy)	hcblasCaxpy(handle, n, alpha, x, incx, y, incy)
 #define cublasZaxpy(handle, n, alpha, x, incx, y, incy)	hcblasZaxpy(handle, n, alpha, x, incx, y, incy)
+
+/**
+ * This function copies the vector x into the vector y.
+ *
+ * y[j] = x[k]
+ * i = 1, ..., n
+ * k = 1 + (i − 1) * incx
+ * j = 1 + (i − 1) * incy
+ */
+#define cublasScopy(handle, n, x, incx, y, incy)	hcblasScopy(handle, n, x, incx, y, incy)
+#define cublasDcopy(handle, n, x, incx, y, incy)	hcblasDcopy(handle, n, x, incx, y, incy)
+#define cublasCcopy(handle, n, x, incx, y, incy)	hcblasCcopy(handle, n, x, incx, y, incy)
+#define cublasZcopy(handle, n, x, incx, y, incy)	hcblasZcopy(handle, n, x, incx, y, incy)
 
 /**
  * cublasComputeType_t enumerate type is used in cublasGemmEx() and

@@ -32,7 +32,8 @@
 enum {
 	TEST_SCAL,
 	TEST_AXPY,
-#define TEST_LIST	"scal|axpy"
+	TEST_COPY,
+#define TEST_LIST	"scal|axpy|copy"
 };
 
 struct {
@@ -100,6 +101,8 @@ static error_t parse_arg(int key, char *arg, struct argp_state *state)
 			env.test_type = TEST_SCAL;
 		else if (!strcmp(arg, "axpy"))
 			env.test_type = TEST_AXPY;
+		else if (!strcmp(arg, "copy"))
+			env.test_type = TEST_COPY;
 		else {
 			fprintf(stderr, "Support TEST TYPE: " TEST_LIST "\n");
 			exit(-EINVAL);
@@ -223,6 +226,15 @@ int run_blas_axpy(struct test_operations *test)
 	return 0;
 }
 
+/**
+ * B[j] = A[k]
+ */
+int run_blas_copy(struct test_operations *test)
+{
+	cublasScopy(test->handle, env.x * env.y, test->dev_A, 1, test->dev_B, 1);
+	return 0;
+}
+
 int __display_matrix_pair(struct test_operations *test, float *host,
 			  float *dev, int x, int y)
 {
@@ -311,6 +323,16 @@ struct test_operations testAxpy = {
 	.destroy_blas = default_destroy_blas,
 };
 
+struct test_operations testCopy = {
+	.name = "COPY",
+	.create_blas = default_create_blas,
+	.prepare_data = prepare_data_matrix_AB,
+	.run_blas = run_blas_copy,
+	.display_data = display_data_AB,
+	.free_data = free_data_matrix_AB,
+	.destroy_blas = default_destroy_blas,
+};
+
 int main(int argc, char *argv[])
 {
 	int err = 0;
@@ -335,6 +357,9 @@ int main(int argc, char *argv[])
 		break;
 	case TEST_AXPY:
 		test = &testAxpy;
+		break;
+	case TEST_COPY:
+		test = &testCopy;
 		break;
 	}
 
