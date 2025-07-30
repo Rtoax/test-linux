@@ -32,11 +32,15 @@ __global__ void kernel(clock_t cycles)
 	busy_sleep(cycles);
 }
 
+/**
+ *                     sleep()     kernel     EvSync
+ * Whole: |<-------->|<-------->|<-------->|<-------->|<-------->|
+ */
 int main(int argc, char *argv[])
 {
 	int dev_id;
-	unsigned long start, end;
-	float t_ms;
+	unsigned long start, elapse1, elapse2;
+	float ev_ms1;
 	cudaEvent_t ev_start, ev_stop;
 	int clock_rate;
 
@@ -50,22 +54,24 @@ int main(int argc, char *argv[])
 	cudaEventCreate(&ev_stop);
 
 	cudaEventRecord(ev_start);
-
 	start = nsecs();
 
-	/* some thing */
+	/* do some thing */
 	sleep(1);
 	kernel<<<2, 2>>>(clock_rate * 1000);
 
-	end = nsecs();
+	elapse1 = nsecs() - start;
 
 	cudaEventRecord(ev_stop);
 	cudaEventSynchronize(ev_stop);
 
-	cudaEventElapsedTime(&t_ms, ev_start, ev_stop);
+	elapse2 = nsecs() - start;
 
-	printf("GPU Elapsed %.6f ms\n", t_ms);
-	printf("Clock get time %ld ms\n", (end - start) / 1000000UL);
+	cudaEventElapsedTime(&ev_ms1, ev_start, ev_stop);
+
+	printf("CUDA Elapsed %.6f ms\n", ev_ms1);
+	printf("SYS Elapsed1 %ld ms\n", elapse1 / 1000000UL);
+	printf("SYS Elapsed2 %ld ms\n", elapse2 / 1000000UL);
 
 	cudaEventDestroy(ev_start);
 	cudaEventDestroy(ev_stop);
