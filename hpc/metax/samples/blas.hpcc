@@ -45,11 +45,6 @@
 
 #define IDX2C(i, j, ld)	(((j) * (ld)) + (i))
 
-enum data_type {
-	TYPE_FLOAT,
-	TYPE_DOUBLE,
-};
-
 enum test_type {
 	TEST_SCAL,
 	TEST_AXPY,
@@ -210,11 +205,14 @@ static const struct argp argp = {
 struct test_operations {
 	const char *name;
 	cublasHandle_t handle;
-	enum data_type type;
 
 	TYPE *host_A, *host_B, *host_C;
 	TYPE *dev_A, *dev_B, *dev_C;
-	TYPE result;
+	union {
+		float f32;
+		double f64;
+		TYPE result;
+	};
 
 	/* operations */
 	struct {
@@ -246,47 +244,46 @@ int default_create_blas(struct test_operations *test)
 	return 0;
 }
 
-int __alloc_matrix_pair(TYPE **host, TYPE **dev, int x, int y)
-{
-	int i, j;
-	cudaError_t cuerr;
-	cublasStatus_t status;
-
-	*host = (TYPE *)malloc(x * y * sizeof(TYPE));
-	assert(*host && "Malloc failed");
-
-	for (j = 0; j < y; j++) {
-		for (i = 0; i < x; i++) {
-			(*host)[IDX2C(i, j, x)] = env.set_value ?
-							(TYPE)env.value :
-							(TYPE)(i * y + j + 1);
-		}
-	}
-
-	cuerr = cudaMalloc(dev, x * y * sizeof(TYPE));
-	if (cuerr != cudaSuccess) {
-		fprintf(stderr, "cudaMalloc failed\n");
-		return -ENOMEM;
-	}
-
-	status = cublasSetMatrix(x, y, sizeof(TYPE), *host, x, *dev, x);
-	if (status != CUBLAS_STATUS_SUCCESS) {
-		fprintf(stderr, "set matrix failed.\n");
-		return -1;
-	}
-	return 0;
-}
+#define __ALLOC_MATRIX_PAIR_FLOAT(type, host, dev, x, y) ({			\
+	int i, j, err = 0;							\
+	cudaError_t cuerr;							\
+	cublasStatus_t status;							\
+										\
+	*host = (TYPE *)malloc(x * y * sizeof(type));				\
+	assert(*host && "Malloc failed");					\
+										\
+	for (j = 0; j < y; j++) {						\
+		for (i = 0; i < x; i++) {					\
+			(*host)[IDX2C(i, j, x)] = env.set_value ?		\
+						(type)env.value :		\
+						(type)(i * y + j + 1);		\
+		}								\
+	}									\
+										\
+	cuerr = cudaMalloc(dev, x * y * sizeof(type));				\
+	if (cuerr != cudaSuccess) {						\
+		fprintf(stderr, "cudaMalloc failed\n");				\
+		err = -ENOMEM;							\
+	}									\
+										\
+	status = cublasSetMatrix(x, y, sizeof(type), *host, x, *dev, x);	\
+	if (status != CUBLAS_STATUS_SUCCESS) {					\
+		fprintf(stderr, "set matrix failed.\n");			\
+		err = -1;							\
+	}									\
+	err;									\
+})
 
 int prepare_data_matrix_A(struct test_operations *test)
 {
-	return __alloc_matrix_pair(&test->host_A, &test->dev_A, env.n, env.m);
+	return __ALLOC_MATRIX_PAIR_FLOAT(TYPE, &test->host_A, &test->dev_A, env.n, env.m);
 }
 
 int prepare_data_matrix_sameAB(struct test_operations *test)
 {
 	int err = 0;
-	err += __alloc_matrix_pair(&test->host_A, &test->dev_A, env.n, env.m);
-	err += __alloc_matrix_pair(&test->host_B, &test->dev_B, env.n, env.m);
+	err += __ALLOC_MATRIX_PAIR_FLOAT(TYPE, &test->host_A, &test->dev_A, env.n, env.m);
+	err += __ALLOC_MATRIX_PAIR_FLOAT(TYPE, &test->host_B, &test->dev_B, env.n, env.m);
 	return err;
 }
 
@@ -295,9 +292,9 @@ int prepare_data_matrix_Gemm(struct test_operations *test)
 	extern int display_data_Gemm(struct test_operations *test);
 
 	int err = 0;
-	err += __alloc_matrix_pair(&test->host_A, &test->dev_A, env.k, env.m);
-	err += __alloc_matrix_pair(&test->host_B, &test->dev_B, env.n, env.k);
-	err += __alloc_matrix_pair(&test->host_C, &test->dev_C, env.n, env.m);
+	err += __ALLOC_MATRIX_PAIR_FLOAT(TYPE, &test->host_A, &test->dev_A, env.k, env.m);
+	err += __ALLOC_MATRIX_PAIR_FLOAT(TYPE, &test->host_B, &test->dev_B, env.n, env.k);
+	err += __ALLOC_MATRIX_PAIR_FLOAT(TYPE, &test->host_C, &test->dev_C, env.n, env.m);
 	err += display_data_Gemm(test);
 	return err;
 }
