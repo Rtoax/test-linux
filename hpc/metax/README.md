@@ -4,10 +4,11 @@ MetaX
 # Benchmark
 
 - **htvs devices**
+	- commit ad678fdf7eff ("metax: README: Mars X203: htvs devices")
 - **htvs memory benchmark**
-	- commit 324df728388a ("metax: README: htvs memory benchmark")
+	- commit 324df728388a ("metax: README: Mars X203: htvs memory benchmark")
 - **htvs memory bandwidth**
-	- commit 6c0ad155239f ("metax: README: htvs memory bandwidth")
+	- commit 6c0ad155239f ("metax: README: Mars X203: htvs memory bandwidth")
 
 
 # Links
