@@ -6,6 +6,7 @@
 /cudaMalloc
 /cudaGetDeviceProperties
 /cudaDeviceGetP2PAttribute
+/cudaEvent
 /matrix
 /matrix-double
 /matrix-int8
