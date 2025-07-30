@@ -7,6 +7,8 @@ targets-nvcc += parallel
 targets-nvcc += cudaMalloc
 targets-nvcc += cudaGetDeviceProperties
 targets-nvcc += cudaDeviceGetP2PAttribute
+targets-nvcc += cudaDeviceGetAttribute
+targets-nvcc += cudaEvent
 targets-nvcc += matrix matrix-double matrix-int8
 targets-nvcc += blas blas-double
 targets-nvcc += rand
@@ -41,6 +43,8 @@ parallel: ${OUTPUT}parallel.cu.o ${CUDA_HELPERS}
 cudaMalloc: ${OUTPUT}cudaMalloc.cu.o ${CUDA_HELPERS}
 cudaGetDeviceProperties: ${OUTPUT}cudaGetDeviceProperties.cu.o ${CUDA_HELPERS}
 cudaDeviceGetP2PAttribute: ${OUTPUT}cudaDeviceGetP2PAttribute.cu.o ${CUDA_HELPERS}
+cudaDeviceGetAttribute: ${OUTPUT}cudaDeviceGetAttribute.cu.o ${CUDA_HELPERS}
+cudaEvent: ${OUTPUT}cudaEvent.cu.o ${CUDA_HELPERS}
 matrix: ${OUTPUT}matrix.cu.o ${CUDA_HELPERS}
 matrix-double: ${OUTPUT}matrix-double.cu.o ${CUDA_HELPERS}
 matrix-int8: ${OUTPUT}matrix-int8.cu.o ${CUDA_HELPERS}
