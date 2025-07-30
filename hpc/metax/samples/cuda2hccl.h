@@ -2,8 +2,11 @@
 /* Metax has CUDA-compatible APIs */
 #pragma once
 
+/* typedef hcError_t	cudaError_t; */
 #define cudaError_t	hcError_t
 #define cudaSuccess	hcSuccess
+#define cudaErrorInvalidValue	hcErrorInvalidValue
+#define cudaErrorMemoryAllocation	hcErrorMemoryAllocation
 
 #define cudaMalloc(pp, sz)	hcMalloc(pp, sz)
 #define cudaFree(ptr)	hcFree(ptr)

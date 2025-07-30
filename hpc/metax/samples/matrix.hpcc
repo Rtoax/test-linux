@@ -15,6 +15,7 @@
 #include <malloc.h>
 #include <time.h>
 #if defined(HAVE_HCCL)
+# include <hccl.h>
 # include <hc_runtime.h>
 # include "hpcc_helpers.h"
 #  if defined(TEST_FP16)
@@ -22,6 +23,8 @@
 #  endif
 # define __gpu_global__	__global__
 # include "cuda2hccl.h"
+/* Use some macros, _must_ include after cuda2hccl.h */
+# include "cuda_call.h"
 #elif defined(HAVE_CUDA)
 # include <cuda_runtime.h>
 # include "cuda_helpers.h"
@@ -325,6 +328,8 @@ int main(int argc, char *argv[])
 	host_A = (TYPE *)malloc(sizeof(TYPE) * env.m * env.k);
 	host_B = (TYPE *)malloc(sizeof(TYPE) * env.k * env.n);
 	host_C = (TYPE *)malloc(sizeof(TYPE) * env.m * env.n);
+	if (!host_A || !host_B || !host_C)
+		goto Malloc_failed;
 
 	init_matrix(host_A, env.m * env.k, false, env.set_value, env.value);
 	init_matrix(host_B, env.k * env.n, false, env.set_value, env.value);
@@ -341,9 +346,9 @@ int main(int argc, char *argv[])
 
 	start = nsecs();
 
-	cudaMalloc(&dev_A, sizeof(TYPE) * env.m * env.k);
-	cudaMalloc(&dev_B, sizeof(TYPE) * env.k * env.n);
-	cudaMalloc(&dev_C, sizeof(TYPE) * env.m * env.n);
+	CUDA_BUG_CALL(cudaMalloc(&dev_A, sizeof(TYPE) * env.m * env.k), goto Malloc_failed)
+	CUDA_BUG_CALL(cudaMalloc(&dev_B, sizeof(TYPE) * env.k * env.n), goto Malloc_failed);
+	CUDA_BUG_CALL(cudaMalloc(&dev_C, sizeof(TYPE) * env.m * env.n), goto Malloc_failed);
 
 	cudaMemset(dev_A, 0, sizeof(TYPE) * env.m * env.k);
 	cudaMemset(dev_B, 0, sizeof(TYPE) * env.k * env.n);
@@ -454,5 +459,9 @@ int main(int argc, char *argv[])
 		flops = matrix_mul_FLOPS(cal_ns);
 	printf("%-8.2lf\n", flops / 1e9);
 
+	return 0;
+
+Malloc_failed:
+	fprintf(stderr, "ERROR: Malloc failed.\n");
 	return err;
 }

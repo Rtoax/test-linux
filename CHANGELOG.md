@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- cuda: add `cuda_call.h`;
 #### Changed
 - hpc: Rename matrix-mul to matrix;
 #### Deprecated
