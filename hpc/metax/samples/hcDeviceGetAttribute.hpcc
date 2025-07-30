@@ -1,5 +1,6 @@
 #include <stdio.h>
 #if defined(HAVE_HCCL)
+#include <hccl.h>
 #include <hc_runtime.h>
 #include <hc_runtime_api.h>
 #include "hpcc_helpers.h"
@@ -24,10 +25,14 @@ int main(void)
 		printf("%s %d\n", #attr, value);	\
 	} while (0)
 
-	// TODO: error: use of undeclared identifier 'hcDevAttrMaxThreadsPerBlock'
-	// Attr(hcDevAttrMaxThreadsPerBlock);
+	/**
+	 * TODO: HCCL: error: use of undeclared identifier 'hcDevAttrMaxThreadsPerBlock'
+	 */
+#if !defined(HAVE_HCCL)
+	Attr(cudaDevAttrMaxThreadsPerBlock);
 	Attr(cudaDevAttrClockRate);
 	Attr(cudaDevAttrMaxThreadsPerMultiProcessor);
+#endif
 
 	return 0;
 }

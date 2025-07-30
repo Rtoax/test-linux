@@ -24,6 +24,10 @@
 
 #define cudaGetDeviceProperties(prop, devid)	hcGetDeviceProperties(prop, devid)
 
+#define cudaDeviceGetAttribute(pval, attr, dev_id)	hcDeviceGetAttribute(pval, attr, dev_id)
+#define cudaDevAttrClockRate	hcDevAttrClockRate
+#define cudaDevAttrMaxThreadsPerMultiProcessor	hcDevAttrMaxThreadsPerMultiProcessor
+
 #define cudaDeviceGetP2PAttribute(v, attr, src, dst)	hcDeviceGetP2PAttribute(v, attr, src, dst)
 #define cudaDevP2PAttrPerformanceRank	hcDevP2PAttrPerformanceRank
 #define cudaDevP2PAttrAccessSupported	hcDevP2PAttrAccessSupported
