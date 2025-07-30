@@ -24,11 +24,9 @@
 # define __gpu_global__	__global__
 # include "cuda2hccl.h"
 /* Use some macros, _must_ include after cuda2hccl.h */
-# include "cuda_call.h"
 #elif defined(HAVE_CUDA)
 # include <cuda_runtime.h>
 # include "cuda_helpers.h"
-# include "cuda_call.h"
 # define __gpu_global__	__global__
 #else
 # define __gpu_global__
