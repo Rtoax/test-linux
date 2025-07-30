@@ -1,0 +1,1 @@
+../../../metax/samples/hcDeviceGetAttribute.hpcc
