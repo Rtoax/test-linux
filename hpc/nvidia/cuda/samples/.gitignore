@@ -6,9 +6,9 @@
 /cudaMalloc
 /cudaGetDeviceProperties
 /cudaDeviceGetP2PAttribute
-/matrix-mul
-/matrix-mul-double
-/matrix-mul-int8
-/matrix-mul-c
-/matrix-mul-c-double
+/matrix
+/matrix-double
+/matrix-int8
+/matrix-c
+/matrix-c-double
 /rand

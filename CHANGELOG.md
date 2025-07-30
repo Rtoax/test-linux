@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 #### Added
 #### Changed
+- hpc: Rename matrix-mul to matrix;
 #### Deprecated
 #### Removed
 #### Fixed

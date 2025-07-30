@@ -89,7 +89,7 @@ struct {
 	.unit_time = NS2US,
 };
 
-const char *version = "v0.0.4 "
+const char *version = "v1.0.0 "
 #if defined(HAVE_HCCL)
 	"(GPU MetaX)"
 #elif defined(HAVE_CUDA)

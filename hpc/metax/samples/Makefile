@@ -9,14 +9,14 @@ targets-htcc += hcGetDeviceProperties
 targets-htcc += hcDeviceGetAttribute
 targets-htcc += hcDeviceGetP2PAttribute
 targets-htcc += dim3
-targets-htcc += matrix-mul matrix-mul-double matrix-mul-int8 matrix-mul-fp16
+targets-htcc += matrix matrix-double matrix-int8 matrix-fp16
 targets-htcc += blas blas-double
 targets-htcc += rand
 
 targets-post := $(patsubst %,${OUTPUT}%.E.hpcc,$(targets-htcc))
 
-targets := matrix-mul-c
-targets += matrix-mul-c-double
+targets := matrix-c
+targets += matrix-c-double
 
 # some code use this macro test pure C
 CFLAGS_HTCC := -DHAVE_HCCL=1
@@ -25,9 +25,9 @@ LDFLAGS_HTCC := -lhccl
 
 CFLAGS_HTCC_hcGetDeviceProperties := -Wno-string-plus-int
 
-CFLAGS_HTCC_matrix-mul-double := -DTEST_DOUBLE=1
-CFLAGS_HTCC_matrix-mul-int8 := -DTEST_INT8=1
-CFLAGS_HTCC_matrix-mul-fp16 := -DTEST_FP16=1
+CFLAGS_HTCC_matrix-double := -DTEST_DOUBLE=1
+CFLAGS_HTCC_matrix-int8 := -DTEST_INT8=1
+CFLAGS_HTCC_matrix-fp16 := -DTEST_FP16=1
 LDFLAGS_HTCC_blas := -lhcblas
 CFLAGS_HTCC_blas-double := -DTEST_DOUBLE=1
 LDFLAGS_HTCC_blas-double := -lhcblas
@@ -39,10 +39,10 @@ include ../../../template/main.mk
 
 ${HPCC_HELPERS}: hpcc_helpers.h
 
-${OUTPUT}matrix-mul.hpcc.o: cuda2hccl.h
-${OUTPUT}matrix-mul-double.hpcc.o: cuda2hccl.h
-${OUTPUT}matrix-mul-int8.hpcc.o: cuda2hccl.h
-${OUTPUT}matrix-mul-fp16.hpcc.o: cuda2hccl.h
+${OUTPUT}matrix.hpcc.o: cuda2hccl.h
+${OUTPUT}matrix-double.hpcc.o: cuda2hccl.h
+${OUTPUT}matrix-int8.hpcc.o: cuda2hccl.h
+${OUTPUT}matrix-fp16.hpcc.o: cuda2hccl.h
 ${OUTPUT}blas.hpcc.o: cuda2hccl.h
 ${OUTPUT}blas-double.hpcc.o: cuda2hccl.h
 ${OUTPUT}rand.hpcc.o: cuda2hccl.h
@@ -55,13 +55,13 @@ hcMalloc: ${OUTPUT}hcMalloc.hpcc.o ${HPCC_HELPERS}
 hcGetDeviceProperties: ${OUTPUT}hcGetDeviceProperties.hpcc.o ${HPCC_HELPERS}
 hcDeviceGetAttribute: ${OUTPUT}hcDeviceGetAttribute.hpcc.o ${HPCC_HELPERS}
 hcDeviceGetP2PAttribute: ${OUTPUT}hcDeviceGetP2PAttribute.hpcc.o ${HPCC_HELPERS}
-matrix-mul: ${OUTPUT}matrix-mul.hpcc.o ${HPCC_HELPERS}
-matrix-mul-double: ${OUTPUT}matrix-mul-double.hpcc.o ${HPCC_HELPERS}
-matrix-mul-int8: ${OUTPUT}matrix-mul-int8.hpcc.o ${HPCC_HELPERS}
-matrix-mul-fp16: ${OUTPUT}matrix-mul-fp16.hpcc.o ${HPCC_HELPERS}
+matrix: ${OUTPUT}matrix.hpcc.o ${HPCC_HELPERS}
+matrix-double: ${OUTPUT}matrix-double.hpcc.o ${HPCC_HELPERS}
+matrix-int8: ${OUTPUT}matrix-int8.hpcc.o ${HPCC_HELPERS}
+matrix-fp16: ${OUTPUT}matrix-fp16.hpcc.o ${HPCC_HELPERS}
 blas: ${OUTPUT}blas.hpcc.o ${HPCC_HELPERS}
 blas-double: ${OUTPUT}blas-double.hpcc.o ${HPCC_HELPERS}
 rand: ${OUTPUT}rand.hpcc.o ${HPCC_HELPERS}
 
-matrix-mul-c: ${OUTPUT}matrix-mul.o
-matrix-mul-c-double: ${OUTPUT}matrix-mul-double.o
+matrix-c: ${OUTPUT}matrix.o
+matrix-c-double: ${OUTPUT}matrix-double.o
