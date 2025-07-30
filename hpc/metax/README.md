@@ -3,7 +3,8 @@ MetaX
 
 # Benchmark
 
-- htvs memory benchmark
+- **htvs memory benchmark**
+	- commit 324df728388a ("metax: README: htvs memory benchmark")
 
 
 # Links
