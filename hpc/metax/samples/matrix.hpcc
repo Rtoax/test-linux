@@ -187,9 +187,13 @@ static inline unsigned long nsecs(void)
  * │ 4 5 6 │   │     │   │ 49 64 │
  * └       ┘   │ 5 6 │   └       ┘
  *             └     ┘
+ *
+ * @nocal - The call of GPU kernel function will have a large overhead. When
+ * nocal is true, multiplication operation will not be calculated, and a more
+ * accurate FLOPS can be calculated.
  */
 __gpu_global__ void matrix_mul(TYPE *A, TYPE *B, TYPE *C, unsigned long m,
-			       unsigned long k, unsigned long n)
+			       unsigned long k, unsigned long n, bool nocal)
 {
 	unsigned long ia, ib, ic, icx, icy, ik;
 
@@ -204,16 +208,20 @@ __gpu_global__ void matrix_mul(TYPE *A, TYPE *B, TYPE *C, unsigned long m,
 		icx = ic % n;
 		icy = ic / n;
 
-		C[ic] = TRVALUE(0.0f);
+		if (!nocal) {
+			C[ic] = TRVALUE(0.0f);
+		}
 
 		for (ik = 0; ik < k; ik++) {
 			ia = icy * k + ik;
 			ib = ik * n + icx;
+			if (!nocal) {
 #if defined(TEST_FP16)
-			C[ic] = __hadd(C[ic], __hmul(A[ia], B[ib]));
+				C[ic] = __hadd(C[ic], __hmul(A[ia], B[ib]));
 #else
-			C[ic] += A[ia] * B[ib];
+				C[ic] += A[ia] * B[ib];
 #endif
+			}
 		}
 	}
 }
@@ -289,7 +297,7 @@ void print_matrix(TYPE *p, unsigned long x, unsigned long y)
 int main(int argc, char *argv[])
 {
 	unsigned long iloop, i;
-	unsigned long start, cal_ns, total_ns;
+	unsigned long start, cal_ns, total_ns, kern_call_ns;
 	int err = 0;
 	double flops;
 #if defined(HAVE_HCCL) || defined(HAVE_CUDA)
@@ -370,19 +378,34 @@ int main(int argc, char *argv[])
 	/* Stress test */
 	for (iloop = 0; iloop < env.nloop; iloop++) {
 #if defined(HAVE_HCCL) || defined(HAVE_CUDA)
-		matrix_mul<<<(env.m * env.n + 511) / 512, 512>>>(dev_A, dev_B, dev_C, env.m, env.k, env.n);
+# define DIM	<<<(env.m * env.n + 511) / 512, 512>>>
+		matrix_mul DIM (dev_A, dev_B, dev_C, env.m, env.k, env.n, false);
 #else
-		matrix_mul(host_A, host_B, host_C, env.m, env.k, env.n);
+		matrix_mul(host_A, host_B, host_C, env.m, env.k, env.n, false);
 #endif
 	}
+
 #if defined(HAVE_HCCL) || defined(HAVE_CUDA)
 	cudaEventRecord(ev_stop);
 	cudaEventSynchronize(ev_stop);
 	float t_ms;
 	cudaEventElapsedTime(&t_ms, ev_start, ev_stop);
 	cal_ns = t_ms * 1e6;
+
+	/**
+	 * The call of GPU kernel function will have a large overhead.
+	 */
+	cudaEventRecord(ev_start);
+	for (iloop = 0; iloop < env.nloop; iloop++) {
+		matrix_mul DIM (dev_A, dev_B, dev_C, env.m, env.k, env.n, true);
+	}
+	cudaEventRecord(ev_stop);
+	cudaEventSynchronize(ev_stop);
+	cudaEventElapsedTime(&t_ms, ev_start, ev_stop);
+	kern_call_ns = t_ms * 1e6;
 #else
 	cal_ns = nsecs() - start;
+	kern_call_ns = 0;
 #endif
 
 #if defined(HAVE_HCCL) || defined(HAVE_CUDA)
@@ -427,8 +450,9 @@ int main(int argc, char *argv[])
 #if defined(HAVE_HCCL) || defined(HAVE_CUDA)
 		printf("%-8s %-8s ", "ALLOC", "H2D");
 #endif
-		printf("%-12s ", "KERNEL");
+		printf("%-12s ", "CAL");
 #if defined(HAVE_HCCL) || defined(HAVE_CUDA)
+		printf("%-12s ", "KERNEL");
 		printf("%-12s ", "D2H");
 #endif
 		printf("%-12s %-8s\n", "TOTAL", "GFLOPS");
@@ -443,15 +467,16 @@ int main(int argc, char *argv[])
 	total_ns += cal_ns;
 	printf("%-12ld ", cal_ns / env.unit_time);
 #if defined(HAVE_HCCL) || defined(HAVE_CUDA)
+	printf("%-12ld ", kern_call_ns / env.unit_time);
 	total_ns += d2h_ns;
 	printf("%-12ld ", d2h_ns / env.unit_time);
 #endif
 	printf("%-12ld ", total_ns / env.unit_time);
 
 	if (env.vector)
-		flops = vector_mul_FLOPS(cal_ns);
+		flops = vector_mul_FLOPS(cal_ns - kern_call_ns);
 	else
-		flops = matrix_mul_FLOPS(cal_ns);
+		flops = matrix_mul_FLOPS(cal_ns - kern_call_ns);
 	printf("%-8.2lf\n", flops / 1e9);
 
 	return 0;
