@@ -5,8 +5,9 @@ readonly PROG=$0
 readonly loop=10000
 program=matrix
 gpu=0
-max_size=1000
-sz_interval=10
+max_size=10000
+sz_start=100
+sz_interval=50
 
 __usage__()
 {
@@ -19,20 +20,22 @@ SYNOPSIS
 ARGUMENTS
 	-g, --gpu [GPU]        running on GPU
 	-p, --prog [PROG]      set ELF program
-	-s, --size [NUM]       set matrix max size, default: ${max_size}
+	-s, --start [NUM]      set matrix size start, default: ${sz_start}
+	-M, --max [NUM]        set matrix max size, default: ${max_size}
 	-i, --interval [NUM]   set matrix size interval, default: ${sz_interval}
 	-h, --help             show help info
 
 EXAMPLES
-	$ ${PROG} -s 5000 -i 50
+	$ ${PROG} -s 5000 -i 50 -- --vector
 "
 	exit ${1-0}
 }
 
-TEMP_ARGS=$(getopt --options g:p:s:i:h \
+TEMP_ARGS=$(getopt --options g:p:s:M:i:h \
 	--long gpu: \
 	--long prog: \
-	--long size: \
+	--long start: \
+	--long max: \
 	--long interval: \
 	--long help \
 	--name ${PROG} -- "$@")
@@ -52,7 +55,12 @@ while true; do
 		program=$1
 		shift
 		;;
-	-s | --size)
+	-s | --start)
+		shift
+		sz_start=$1
+		shift
+		;;
+	-M | --max)
 		shift
 		max_size=$1
 		shift
@@ -74,9 +82,9 @@ while true; do
 done
 
 rm -f ${program}.log
-for m in $(seq 10 ${sz_interval} ${max_size})
+for m in $(seq ${sz_start} ${sz_interval} ${max_size})
 do
-	if [[ $m -eq 10 ]]; then
+	if [[ $m -eq ${sz_start} ]]; then
 		verbose=-v
 	else
 		verbose=""
