@@ -3,7 +3,7 @@ set -e
 
 readonly PROG=$0
 readonly loop=10000
-program=matrix-mul
+program=matrix
 gpu=0
 max_size=1000
 sz_interval=10
