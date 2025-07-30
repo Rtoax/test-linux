@@ -8,6 +8,12 @@
 #define cudaErrorInvalidValue	hcErrorInvalidValue
 #define cudaErrorMemoryAllocation	hcErrorMemoryAllocation
 
+#define cudaGetLastError()	hcGetLastError()
+#define cudaGetErrorString(err)	hcGetErrorString(err)
+
+#define cudaDeviceSetLimit(limit, value)	hcDeviceSetLimit(limit, value)
+#define cudaLimitPrintfFifoSize	hcLimitPrintfFifoSize
+
 #define cudaMalloc(pp, sz)	hcMalloc(pp, sz)
 #define cudaFree(ptr)	hcFree(ptr)
 #define cudaMemset(ptr, v, size)	hcMemset(ptr, v, size)
@@ -22,6 +28,10 @@
 #define cudaEventElapsedTime(pt, start, stop)	hcEventElapsedTime(pt, start, stop)
 #define cudaEventSynchronize(ev)	hcEventSynchronize(ev)
 
+#define cudaGetDevice(p_id)	hcGetDevice(p_id)
+#define cudaSetDevice(dev_id)	hcSetDevice(dev_id)
+
+#define cudaDeviceProp	hcDeviceProp_t
 #define cudaGetDeviceProperties(prop, devid)	hcGetDeviceProperties(prop, devid)
 
 #define cudaDeviceGetAttribute(pval, attr, dev_id)	hcDeviceGetAttribute(pval, attr, dev_id)

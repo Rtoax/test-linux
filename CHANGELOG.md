@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- metax: Symlink `hpcc_helpers` to `cuda_helpers`;
 - cuda: add `cuda_call.h`, cudaEvent.cu;
 - metax: add symlink hcEvent.hpcc;
 - hpc: `gpu_name()` add `dev_id` param;

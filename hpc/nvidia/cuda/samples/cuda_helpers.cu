@@ -1,16 +1,22 @@
 // SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
 #include <stdio.h>
 #include <string.h>
+#if defined(HAVE_HCCL)
+#include <hc_runtime.h>
+#include "hpcc_helpers.h"
+#include "cuda2hccl.h"
+#else
 #include <cuda_runtime.h>
 #include "cuda_helpers.h"
+#endif
 
 
-void cuda_init(int dev_id)
+void gpu_init(int dev_id)
 {
 	int deviceId;
 
 	cudaSetDevice(dev_id);
-	cuda_check_gpu_error("Failed to initialize device!");
+	gpu_check_gpu_error("Failed to initialize device!");
 	cudaDeviceSetLimit(cudaLimitPrintfFifoSize, 1048576);
 
 	cudaGetDevice(&deviceId);
@@ -21,7 +27,7 @@ void cuda_init(int dev_id)
 }
 
 /*< check GPU errors >*/
-void cuda_check_gpu_error(const char *msg)
+void gpu_check_gpu_error(const char *msg)
 {
 	cudaError_t err = cudaGetLastError();
 	if (cudaSuccess != err) {
