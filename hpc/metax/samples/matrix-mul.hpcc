@@ -62,6 +62,7 @@
 #endif
 
 #define NS2US	1000UL
+#define MAX(x, y)	(x > y ? x : y)
 
 struct {
 	union {
@@ -70,6 +71,7 @@ struct {
 	};
 	bool verbose;
 	unsigned long m, k, n;
+	bool vector;
 	unsigned long nloop;
 	bool set_value;
 	unsigned int value;
@@ -80,13 +82,14 @@ struct {
 	.m = 2,
 	.k = 3,
 	.n = 2,
+	.vector = false,
 	.nloop = 1,
 	.set_value = false,
 	.value = 0,
 	.unit_time = NS2US,
 };
 
-const char *version = "v0.0.3 "
+const char *version = "v0.0.4 "
 #if defined(HAVE_HCCL)
 	"(GPU MetaX)"
 #elif defined(HAVE_CUDA)
@@ -104,6 +107,7 @@ const char argp_prog_doc[] =
 
 static const struct argp_option opts[] = {
 	{ "gpu", 'g', "GPU", 0, "Running on GPU" },
+	{ "vector", 'z', NULL, 1, "Call vector instead of matrix" },
 	{ "m-num", 'm', "M_NUM", 0, "Matrix M number" },
 	{ "k-num", 'k', "K_NUM", 0, "Matrix K number" },
 	{ "n-num", 'n', "N_NUM", 0, "Matrix N number" },
@@ -135,6 +139,9 @@ static error_t parse_arg(int key, char *arg, struct argp_state *state)
 	case 'i':
 		env.set_value = true;
 		env.value = atoi(arg);
+		break;
+	case 'z':
+		env.vector = true;
 		break;
 	case 'v':
 		env.verbose = true;
@@ -181,7 +188,7 @@ static inline unsigned long nsecs(void)
 __gpu_global__ void matrix_mul(TYPE *A, TYPE *B, TYPE *C, unsigned long m,
 			       unsigned long k, unsigned long n)
 {
-	int ia, ib, ic, icx, icy, ik;
+	unsigned long ia, ib, ic, icx, icy, ik;
 
 #if defined(HAVE_HCCL) || defined(HAVE_CUDA)
 	ic = threadIdx.x + blockDim.x * blockIdx.x;
@@ -215,6 +222,34 @@ static double matrix_mul_FLOPS(unsigned long ns)
 	 * 1e9: nanoseconds to seconds
 	 */
 	return 2.0 * env.m * env.k * env.n * env.nloop * 1e9 / ns;
+}
+
+__gpu_global__ void vector_mul(TYPE *A, TYPE *B, TYPE *C, unsigned long N)
+{
+	unsigned long i;
+
+#if defined(HAVE_HCCL) || defined(HAVE_CUDA)
+	i = threadIdx.x + blockDim.x * blockIdx.x;
+	if (i >= N)
+		return;
+#else
+	for (i = 0; i < N; i++)
+#endif
+	{
+#if defined(TEST_FP16)
+		C[i] = __hmul(A[i], B[i]);
+#else
+		C[i] = A[i] * B[i];
+#endif
+	}
+}
+
+static double vector_mul_FLOPS(unsigned long ns)
+{
+	/**
+	 * 1e9: nanoseconds to seconds
+	 */
+	return env.m * env.k * env.nloop * 1e9 / ns;
 }
 
 void init_matrix(TYPE *p, unsigned long n, bool zero, bool set_val, TYPE val)
@@ -267,6 +302,11 @@ int main(int argc, char *argv[])
 		return -err;
 	}
 
+	if (env.vector) {
+		unsigned long _i = MAX(env.n, MAX(env.m, env.k));
+		env.k = env.n = env.m = _i;
+	}
+
 	if (env.verbose) {
 		char buf[64];
 		fprintf(stderr, "Version %s\n", version);
@@ -276,6 +316,8 @@ int main(int argc, char *argv[])
 			env.m, env.n, env.nloop);
 		if (env.set_value)
 			fprintf(stderr, "Matrix values set to %d\n", env.value);
+		if (env.vector)
+			fprintf(stderr, "Test vector instead of matrix\n");
 	}
 
 	gpu_init(env.gpu);
@@ -327,7 +369,10 @@ int main(int argc, char *argv[])
 #else
 # define GPU_DIM
 #endif
-		matrix_mul GPU_DIM (host_A, host_B, host_C, env.m, env.k, env.n);
+		if (env.vector)
+			vector_mul GPU_DIM (host_A, host_B, host_C, env.m * env.n);
+		else
+			matrix_mul GPU_DIM (host_A, host_B, host_C, env.m, env.k, env.n);
 #undef GPU_DIM
 	}
 #if defined(HAVE_HCCL) || defined(HAVE_CUDA)
@@ -403,7 +448,10 @@ int main(int argc, char *argv[])
 #endif
 	printf("%-12ld ", total_ns / env.unit_time);
 
-	flops = matrix_mul_FLOPS(cal_ns);
+	if (env.vector)
+		flops = vector_mul_FLOPS(cal_ns);
+	else
+		flops = matrix_mul_FLOPS(cal_ns);
 	printf("%-8.2lf\n", flops / 1e9);
 
 	return err;

@@ -81,5 +81,5 @@ do
 	else
 		verbose=""
 	fi
-	./${program} -m${m} -n${m} -N${loop} -i2 ${verbose} --gpu ${gpu} | tee --append ${program}.log
+	./${program} -m${m} -n${m} -N${loop} -i2 ${verbose} --gpu ${gpu} ${@} | tee --append ${program}.log
 done
