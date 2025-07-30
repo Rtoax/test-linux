@@ -11,7 +11,8 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
-- cuda: add `cuda_call.h`;
+- cuda: add `cuda_call.h`, cudaEvent.cu;
+- metax: add symlink hcEvent.hpcc;
 #### Changed
 - hpc: Rename matrix-mul to matrix;
 #### Deprecated

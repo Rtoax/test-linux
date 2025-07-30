@@ -6,6 +6,7 @@
 /hcGetDeviceProperties
 /hcDeviceGetAttribute
 /hcDeviceGetP2PAttribute
+/hcEvent
 /matrix
 /matrix-double
 /matrix-int8

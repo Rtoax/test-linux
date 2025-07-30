@@ -8,6 +8,7 @@ targets-htcc += hcMalloc
 targets-htcc += hcGetDeviceProperties
 targets-htcc += hcDeviceGetAttribute
 targets-htcc += hcDeviceGetP2PAttribute
+targets-htcc += hcEvent
 targets-htcc += dim3
 targets-htcc += matrix matrix-double matrix-int8 matrix-fp16
 targets-htcc += blas blas-double
@@ -55,6 +56,7 @@ hcMalloc: ${OUTPUT}hcMalloc.hpcc.o ${HPCC_HELPERS}
 hcGetDeviceProperties: ${OUTPUT}hcGetDeviceProperties.hpcc.o ${HPCC_HELPERS}
 hcDeviceGetAttribute: ${OUTPUT}hcDeviceGetAttribute.hpcc.o ${HPCC_HELPERS}
 hcDeviceGetP2PAttribute: ${OUTPUT}hcDeviceGetP2PAttribute.hpcc.o ${HPCC_HELPERS}
+hcEvent: ${OUTPUT}hcEvent.hpcc.o ${HPCC_HELPERS}
 matrix: ${OUTPUT}matrix.hpcc.o ${HPCC_HELPERS}
 matrix-double: ${OUTPUT}matrix-double.hpcc.o ${HPCC_HELPERS}
 matrix-int8: ${OUTPUT}matrix-int8.hpcc.o ${HPCC_HELPERS}
