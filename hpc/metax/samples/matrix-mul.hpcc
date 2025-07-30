@@ -323,10 +323,12 @@ int main(int argc, char *argv[])
 	/* Stress test */
 	for (iloop = 0; iloop < env.nloop; iloop++) {
 #if defined(HAVE_HCCL) || defined(HAVE_CUDA)
-		matrix_mul<<<(env.m * env.n + 511) / 512, 512>>>(dev_A, dev_B, dev_C, env.m, env.k, env.n);
+# define GPU_DIM <<<(env.m * env.n + 511) / 512, 512>>>
 #else
-		matrix_mul(host_A, host_B, host_C, env.m, env.k, env.n);
+# define GPU_DIM
 #endif
+		matrix_mul GPU_DIM (host_A, host_B, host_C, env.m, env.k, env.n);
+#undef GPU_DIM
 	}
 #if defined(HAVE_HCCL) || defined(HAVE_CUDA)
 	cudaEventRecord(ev_stop);
