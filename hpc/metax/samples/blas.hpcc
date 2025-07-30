@@ -45,15 +45,22 @@
 
 #define IDX2C(i, j, ld)	(((j) * (ld)) + (i))
 
-enum {
+enum data_type {
+	TYPE_FLOAT,
+	TYPE_DOUBLE,
+};
+
+enum test_type {
 	TEST_SCAL,
 	TEST_AXPY,
 	TEST_COPY,
 	TEST_DOT,
 	TEST_NRM2,
+#if 0
 	TEST_ROT,	/* TODO */
 	TEST_ROTG,	/* TODO */
 	TEST_ROTM,	/* TODO */
+#endif
 	TEST_GEMM,
 #define TEST_LIST	"scal|axpy|copy|dot|nrm2|gemm"
 };
@@ -67,7 +74,7 @@ struct {
 	unsigned long m, n, k;
 	int alpha, beta;
 	unsigned long nloop;
-	int test_type;
+	enum test_type test_type;
 	bool set_value;
 	unsigned int value;
 	bool verbose;
@@ -203,6 +210,8 @@ static const struct argp argp = {
 struct test_operations {
 	const char *name;
 	cublasHandle_t handle;
+	enum data_type type;
+
 	TYPE *host_A, *host_B, *host_C;
 	TYPE *dev_A, *dev_B, *dev_C;
 	TYPE result;
