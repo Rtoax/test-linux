@@ -52,6 +52,7 @@ int main(void)
 			prop.maxGridSize[i], "x\0y\0z\0" + (2 * i));
 
 	printf("major %d, minor %d\n", prop.major, prop.minor);
+	printf("clockRate %d Hz\n", prop.clockRate);
 
 	return 0;
 }

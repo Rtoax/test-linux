@@ -14,6 +14,17 @@
 # include "cuda_helpers.h"
 #endif
 
+__device__ void busy_sleep(clock_t cycles)
+{
+	clock_t start = clock64();
+	while (clock64() - start < cycles);
+}
+
+__global__ void kernel(clock_t cycles)
+{
+	busy_sleep(cycles);
+}
+
 int main(int argc, char *argv[])
 {
 	float t_ms;
@@ -28,6 +39,7 @@ int main(int argc, char *argv[])
 
 	/* some thing */
 	sleep(1);
+	kernel<<<1, 1>>>(100000000);
 
 	cudaEventRecord(ev_stop);
 	cudaEventSynchronize(ev_stop);
