@@ -3,6 +3,7 @@ MetaX
 
 # Benchmark
 
+- **htvs devices**
 - **htvs memory benchmark**
 	- commit 324df728388a ("metax: README: htvs memory benchmark")
 - **htvs memory bandwidth**
