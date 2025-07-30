@@ -300,11 +300,11 @@ void print_matrix(TYPE *p, unsigned long x, unsigned long y)
 int main(int argc, char *argv[])
 {
 	unsigned long iloop, i;
-	unsigned long start, cal_ns, total_ns, kern_call_ns;
+	unsigned long start, cal_ns, total_ns;
 	int err = 0;
 	double flops;
 #if defined(HAVE_HCCL) || defined(HAVE_CUDA)
-	unsigned long malloc_ns, h2d_ns, d2h_ns;
+	unsigned long malloc_ns, h2d_ns, d2h_ns, kern_gpu_ns, kern_call_ns;
 	TYPE *dev_A, *dev_B, *dev_C;
 	cudaEvent_t ev_start, ev_stop;
 #endif
@@ -375,17 +375,19 @@ int main(int argc, char *argv[])
 
 #if defined(HAVE_HCCL) || defined(HAVE_CUDA)
 	cudaEventRecord(ev_start);
-#else
-	start = nsecs();
 #endif
+	start = nsecs();
+
 	/* Stress test */
 	for (iloop = 0; iloop < env.nloop; iloop++) {
 #if defined(HAVE_HCCL) || defined(HAVE_CUDA)
 # define DIM	<<<(env.m * env.n + 511) / 512, 512>>>
+
 		if (env.vector)
 			vector_mul DIM (dev_A, dev_B, dev_C, env.m * env.n, false);
 		else
 			matrix_mul DIM (dev_A, dev_B, dev_C, env.m, env.k, env.n, false);
+
 #else
 		if (env.vector)
 			vector_mul(host_A, host_B, host_C, env.m * env.n, false);
@@ -394,31 +396,35 @@ int main(int argc, char *argv[])
 #endif
 	}
 
+	cal_ns = nsecs() - start;
+
 #if defined(HAVE_HCCL) || defined(HAVE_CUDA)
 	cudaEventRecord(ev_stop);
 	cudaEventSynchronize(ev_stop);
 	float t_ms;
 	cudaEventElapsedTime(&t_ms, ev_start, ev_stop);
-	cal_ns = t_ms * 1e6;
+	kern_gpu_ns = t_ms * 1e6;
+#endif
 
+#if defined(HAVE_HCCL) || defined(HAVE_CUDA)
 	/**
 	 * The call of GPU kernel function will have a large overhead.
 	 */
 	cudaEventRecord(ev_start);
+
 	for (iloop = 0; iloop < env.nloop; iloop++) {
 		if (env.vector)
 			vector_mul DIM (dev_A, dev_B, dev_C, env.m * env.n, true);
 		else
 			matrix_mul DIM (dev_A, dev_B, dev_C, env.m, env.k, env.n, true);
 	}
+
 	cudaEventRecord(ev_stop);
 	cudaEventSynchronize(ev_stop);
 	cudaEventElapsedTime(&t_ms, ev_start, ev_stop);
 	kern_call_ns = t_ms * 1e6;
-#else
-	cal_ns = nsecs() - start;
-	kern_call_ns = 0;
 #endif
+
 
 #if defined(HAVE_HCCL) || defined(HAVE_CUDA)
 	start = nsecs();
@@ -468,7 +474,8 @@ int main(int argc, char *argv[])
 #endif
 		printf("%-12s ", "CAL");
 #if defined(HAVE_HCCL) || defined(HAVE_CUDA)
-		printf("%-12s ", "KERNEL");
+		printf("%-12s ", "KERN_CALL");
+		printf("%-12s ", "KERN_GPU");
 		printf("%-12s ", "D2H");
 #endif
 		printf("%-12s %-8s\n", "TOTAL", "GFLOPS");
@@ -484,15 +491,22 @@ int main(int argc, char *argv[])
 	printf("%-12ld ", cal_ns / env.unit_time);
 #if defined(HAVE_HCCL) || defined(HAVE_CUDA)
 	printf("%-12ld ", kern_call_ns / env.unit_time);
+	printf("%-12ld ", kern_gpu_ns / env.unit_time);
 	total_ns += d2h_ns;
 	printf("%-12ld ", d2h_ns / env.unit_time);
 #endif
 	printf("%-12ld ", total_ns / env.unit_time);
 
+	unsigned long flops_ns;
+#if defined(HAVE_HCCL) || defined(HAVE_CUDA)
+	flops_ns = kern_gpu_ns; /* FIXME: use correct time */
+#else
+	flops_ns = cal_ns;
+#endif
 	if (env.vector)
-		flops = vector_mul_FLOPS(cal_ns - kern_call_ns);
+		flops = vector_mul_FLOPS(flops_ns);
 	else
-		flops = matrix_mul_FLOPS(cal_ns - kern_call_ns);
+		flops = matrix_mul_FLOPS(flops_ns);
 	printf("%-8.2lf\n", flops / 1e9);
 
 	return 0;
