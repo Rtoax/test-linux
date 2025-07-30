@@ -39,10 +39,14 @@ void gpu_check_gpu_error(const char *msg)
 const char *gpu_name(int dev_id, char *buf, int buf_len)
 {
 	cudaDeviceProp prop;
-	cudaError_t err = cudaGetDeviceProperties(&prop, dev_id);
-	if (err != cudaSuccess) {
-		return NULL;
-	}
+	CUDA_BUG_CALL(cudaGetDeviceProperties(&prop, dev_id), return NULL);
 	strncpy(buf, prop.name, buf_len);
 	return buf;
+}
+
+int gpu_clock_rate(int dev_id)
+{
+	cudaDeviceProp prop;
+	CUDA_BUG_CALL(cudaGetDeviceProperties(&prop, dev_id), return 0);
+	return prop.clockRate;
 }
