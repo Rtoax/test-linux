@@ -565,26 +565,9 @@ struct test_operations alltests[] = {
 	},
 };
 
-int main(int argc, char *argv[])
+void exec_one_test(struct test_operations *test)
 {
-	int err = 0;
 	unsigned long n;
-	struct test_operations *test = &alltests[TEST_SCAL];
-
-	err = argp_parse(&argp, argc, argv, 0, NULL, NULL);
-	if (err) {
-		fprintf(stderr, "argp_parse return %d\n", err);
-		return -err;
-	}
-
-	gpu_init(0);
-
-	if (env.verbose) {
-		print_version();
-		printf("M = %ld, N = %ld\n", env.m, env.n);
-	}
-
-	test = &alltests[env.test_type];
 
 	printf("Testing %s for %s (size of %ld)\n", test->name, TNAME, sizeof(TYPE));
 
@@ -617,6 +600,29 @@ int main(int argc, char *argv[])
 	printf("%ld %ld %ld %ld %ld %ld\n", LAT(create), LAT(prepare), LAT(run),
 		LAT(display), LAT(free), LAT(destroy));
 #undef LAT
+}
+
+int main(int argc, char *argv[])
+{
+	int err = 0;
+	struct test_operations *test = &alltests[TEST_SCAL];
+
+	err = argp_parse(&argp, argc, argv, 0, NULL, NULL);
+	if (err) {
+		fprintf(stderr, "argp_parse return %d\n", err);
+		return -err;
+	}
+
+	gpu_init(0);
+
+	if (env.verbose) {
+		print_version();
+		printf("M = %ld, N = %ld\n", env.m, env.n);
+	}
+
+	test = &alltests[env.test_type];
+
+	exec_one_test(test);
 
 	return 0;
 }
