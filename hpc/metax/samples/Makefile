@@ -40,13 +40,13 @@ include ../../../template/main.mk
 
 ${HPCC_HELPERS}: hpcc_helpers.h
 
-${OUTPUT}matrix.hpcc.o: cuda2hccl.h
-${OUTPUT}matrix-double.hpcc.o: cuda2hccl.h
-${OUTPUT}matrix-int8.hpcc.o: cuda2hccl.h
-${OUTPUT}matrix-fp16.hpcc.o: cuda2hccl.h
-${OUTPUT}blas.hpcc.o: cuda2hccl.h
-${OUTPUT}blas-double.hpcc.o: cuda2hccl.h
-${OUTPUT}rand.hpcc.o: cuda2hccl.h
+${OUTPUT}matrix.hpcc.o: cuda2hccl.h hpcc_helpers.h
+${OUTPUT}matrix-double.hpcc.o: cuda2hccl.h hpcc_helpers.h
+${OUTPUT}matrix-int8.hpcc.o: cuda2hccl.h hpcc_helpers.h
+${OUTPUT}matrix-fp16.hpcc.o: cuda2hccl.h hpcc_helpers.h
+${OUTPUT}blas.hpcc.o: cuda2hccl.h hpcc_helpers.h
+${OUTPUT}blas-double.hpcc.o: cuda2hccl.h hpcc_helpers.h
+${OUTPUT}rand.hpcc.o: cuda2hccl.h hpcc_helpers.h
 
 hello: ${OUTPUT}hello.hpcc.o ${HPCC_HELPERS}
 dim3: ${OUTPUT}dim3.hpcc.o ${HPCC_HELPERS}
