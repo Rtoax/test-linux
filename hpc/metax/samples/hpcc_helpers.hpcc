@@ -24,10 +24,10 @@ void gpu_init(int dev_id)
 	}
 }
 
-const char *gpu_name(char *buf, int buf_len)
+const char *gpu_name(int dev_id, char *buf, int buf_len)
 {
 	hcDeviceProp_t prop;
-	hcError_t err = hcGetDeviceProperties(&prop, 0);
+	hcError_t err = hcGetDeviceProperties(&prop, dev_id);
 	if (err != hcSuccess) {
 		return NULL;
 	}

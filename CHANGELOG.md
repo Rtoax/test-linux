@@ -13,6 +13,7 @@ and this project adheres to
 #### Added
 - cuda: add `cuda_call.h`, cudaEvent.cu;
 - metax: add symlink hcEvent.hpcc;
+- hpc: `gpu_name()` add `dev_id` param;
 #### Changed
 - hpc: Rename matrix-mul to matrix;
 #### Deprecated

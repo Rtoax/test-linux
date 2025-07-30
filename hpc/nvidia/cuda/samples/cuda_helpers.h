@@ -5,4 +5,4 @@
 
 void cuda_init(int dev_id);
 void cuda_check_gpu_error(const char *msg);
-const char *gpu_name(char *buf, int buf_len);
+const char *gpu_name(int dev_id, char *buf, int buf_len);

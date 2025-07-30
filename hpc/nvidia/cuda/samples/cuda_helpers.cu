@@ -30,10 +30,10 @@ void cuda_check_gpu_error(const char *msg)
 	}
 }
 
-const char *gpu_name(char *buf, int buf_len)
+const char *gpu_name(int dev_id, char *buf, int buf_len)
 {
 	cudaDeviceProp prop;
-	cudaError_t err = cudaGetDeviceProperties(&prop, 0);
+	cudaError_t err = cudaGetDeviceProperties(&prop, dev_id);
 	if (err != cudaSuccess) {
 		return NULL;
 	}

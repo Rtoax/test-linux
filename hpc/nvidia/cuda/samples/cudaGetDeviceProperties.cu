@@ -19,16 +19,18 @@
 
 int main(void)
 {
-	int i;
+	int i, dev_id;
 #ifdef HAVE_HCCL
 	hcDeviceProp_t prop;
 #else
 	cudaDeviceProp prop;
 #endif
 
-	gpu_init(0);
+	dev_id = 0;
 
-	cudaGetDeviceProperties(&prop, 0);
+	gpu_init(dev_id);
+
+	cudaGetDeviceProperties(&prop, dev_id);
 
 	printf("name %s\n", prop.name);
 
