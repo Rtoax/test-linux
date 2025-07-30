@@ -57,6 +57,7 @@ enum test_type {
 	TEST_ROTM,	/* TODO */
 #endif
 	TEST_GEMM,
+	TEST_MAX,
 #define TEST_LIST	"scal|axpy|copy|dot|nrm2|gemm"
 };
 
@@ -507,71 +508,68 @@ int default_destroy_blas(struct test_operations *test)
 	return 0;
 }
 
-struct test_operations testScal = {
-	.name = "SCAL",
-	.create_blas = default_create_blas,
-	.prepare_data = prepare_data_matrix_A,
-	.run_blas = run_blas_scal,
-	.display_data = display_data_A,
-	.free_data = free_data_matrix_A,
-	.destroy_blas = default_destroy_blas,
-};
-
-struct test_operations testAxpy = {
-	.name = "AXPY",
-	.create_blas = default_create_blas,
-	.prepare_data = prepare_data_matrix_sameAB,
-	.run_blas = run_blas_axpy,
-	.display_data = display_data_AB,
-	.free_data = free_data_matrix_AB,
-	.destroy_blas = default_destroy_blas,
-};
-
-struct test_operations testCopy = {
-	.name = "COPY",
-	.create_blas = default_create_blas,
-	.prepare_data = prepare_data_matrix_sameAB,
-	.run_blas = run_blas_copy,
-	.display_data = display_data_AB,
-	.free_data = free_data_matrix_AB,
-	.destroy_blas = default_destroy_blas,
-};
-
-struct test_operations testDot = {
-	.name = "DOT",
-	.create_blas = default_create_blas,
-	.prepare_data = prepare_data_matrix_sameAB,
-	.run_blas = run_blas_dot,
-	.display_data = display_data_dot,
-	.free_data = free_data_matrix_AB,
-	.destroy_blas = default_destroy_blas,
-};
-
-struct test_operations testNrm2 = {
-	.name = "NRM2",
-	.create_blas = default_create_blas,
-	.prepare_data = prepare_data_matrix_A,
-	.run_blas = run_blas_nrm2,
-	.display_data = display_data_nrm2,
-	.free_data = free_data_matrix_A,
-	.destroy_blas = default_destroy_blas,
-};
-
-struct test_operations testGemm = {
-	.name = "GEMM",
-	.create_blas = default_create_blas,
-	.prepare_data = prepare_data_matrix_Gemm,
-	.run_blas = run_blas_Gemm,
-	.display_data = display_data_Gemm,
-	.free_data = free_data_matrix_ABC,
-	.destroy_blas = default_destroy_blas,
+struct test_operations alltests[] = {
+	[TEST_SCAL] = {
+		.name = "SCAL",
+		.create_blas = default_create_blas,
+		.prepare_data = prepare_data_matrix_A,
+		.run_blas = run_blas_scal,
+		.display_data = display_data_A,
+		.free_data = free_data_matrix_A,
+		.destroy_blas = default_destroy_blas,
+	},
+	[TEST_AXPY] = {
+		.name = "AXPY",
+		.create_blas = default_create_blas,
+		.prepare_data = prepare_data_matrix_sameAB,
+		.run_blas = run_blas_axpy,
+		.display_data = display_data_AB,
+		.free_data = free_data_matrix_AB,
+		.destroy_blas = default_destroy_blas,
+	},
+	[TEST_COPY] = {
+		.name = "COPY",
+		.create_blas = default_create_blas,
+		.prepare_data = prepare_data_matrix_sameAB,
+		.run_blas = run_blas_copy,
+		.display_data = display_data_AB,
+		.free_data = free_data_matrix_AB,
+		.destroy_blas = default_destroy_blas,
+	},
+	[TEST_DOT] = {
+		.name = "DOT",
+		.create_blas = default_create_blas,
+		.prepare_data = prepare_data_matrix_sameAB,
+		.run_blas = run_blas_dot,
+		.display_data = display_data_dot,
+		.free_data = free_data_matrix_AB,
+		.destroy_blas = default_destroy_blas,
+	},
+	[TEST_NRM2] = {
+		.name = "NRM2",
+		.create_blas = default_create_blas,
+		.prepare_data = prepare_data_matrix_A,
+		.run_blas = run_blas_nrm2,
+		.display_data = display_data_nrm2,
+		.free_data = free_data_matrix_A,
+		.destroy_blas = default_destroy_blas,
+	},
+	[TEST_GEMM] = {
+		.name = "GEMM",
+		.create_blas = default_create_blas,
+		.prepare_data = prepare_data_matrix_Gemm,
+		.run_blas = run_blas_Gemm,
+		.display_data = display_data_Gemm,
+		.free_data = free_data_matrix_ABC,
+		.destroy_blas = default_destroy_blas,
+	},
 };
 
 int main(int argc, char *argv[])
 {
 	int err = 0;
 	unsigned long n;
-	struct test_operations *test = &testScal;
+	struct test_operations *test = &alltests[TEST_SCAL];
 
 	err = argp_parse(&argp, argc, argv, 0, NULL, NULL);
 	if (err) {
@@ -586,27 +584,7 @@ int main(int argc, char *argv[])
 		printf("M = %ld, N = %ld\n", env.m, env.n);
 	}
 
-	switch (env.test_type) {
-	case TEST_SCAL:
-		test = &testScal;
-		break;
-	case TEST_AXPY:
-		test = &testAxpy;
-		break;
-	case TEST_COPY:
-		test = &testCopy;
-		break;
-	case TEST_DOT:
-		test = &testDot;
-		break;
-	case TEST_NRM2:
-		test = &testNrm2;
-		break;
-	case TEST_GEMM:
-		test = &testGemm;
-		assert("Not support gemm yet!!!!!");
-		break;
-	}
+	test = &alltests[env.test_type];
 
 	printf("Testing %s for %s (size of %ld)\n", test->name, TNAME, sizeof(TYPE));
 

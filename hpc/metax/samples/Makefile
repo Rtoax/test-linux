@@ -20,6 +20,7 @@ targets += matrix-mul-c-double
 
 # some code use this macro test pure C
 CFLAGS_HTCC := -DHAVE_HCCL=1
+CFLAGS_HTCC += -Wno-c99-designator
 LDFLAGS_HTCC := -lhccl
 
 CFLAGS_HTCC_hcGetDeviceProperties := -Wno-string-plus-int
