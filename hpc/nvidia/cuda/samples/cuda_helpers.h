@@ -10,6 +10,7 @@
 		ERROR_DO;						\
 	}								\
 }
+#define CUDA_BUG_CALL_EXIT(CALL) CUDA_BUG_CALL(CALL, exit(-1))
 
 #define CUDA_BLAS_BUG_CALL(CALL, ERROR_DO)	{			\
 	cublasStatus_t __status = CALL;					\
@@ -19,6 +20,7 @@
 		ERROR_DO;						\
 	}								\
 }
+#define CUDA_BLAS_BUG_CALL_EXIT(CALL) CUDA_BLAS_BUG_CALL(CALL, exit(-1))
 
 void gpu_init(int dev_id);
 void gpu_check_gpu_error(const char *msg);

@@ -12,25 +12,6 @@
 # include "cuda_helpers.h"
 #endif
 
-#define CHECK_CUDA(call) \
-	{ \
-		cudaError_t err = call; \
-		if (err != cudaSuccess) { \
-			fprintf(stderr, "CUDA error %s:%d: %s\n", __FILE__, __LINE__, cudaGetErrorString(err)); \
-			exit(EXIT_FAILURE); \
-		} \
-	}
-
-#define CHECK_CUBLAS(call) \
-	{ \
-		cublasStatus_t err = call; \
-		if (err != CUBLAS_STATUS_SUCCESS) { \
-			fprintf(stderr, "cuBLAS error %s:%d: %d, %s\n", \
-				__FILE__, __LINE__, err, cublasGetStatusString(err)); \
-			exit(EXIT_FAILURE); \
-		} \
-	}
-
 #define m	2
 #define n	3
 #define k	4
@@ -49,41 +30,41 @@ int main(void)
 	float h_C[m * n] = {0};
 
 	float *d_A, *d_B, *d_C;
-	CHECK_CUDA(cudaMalloc((void**)&d_A, m * k * sizeof(float)));
-	CHECK_CUDA(cudaMalloc((void**)&d_B, k * n * sizeof(float)));
-	CHECK_CUDA(cudaMalloc((void**)&d_C, m * n * sizeof(float)));
-	CHECK_CUDA(cudaMemcpy(d_A, h_A, m * k * sizeof(float), cudaMemcpyHostToDevice));
-	CHECK_CUDA(cudaMemcpy(d_B, h_B, k * n * sizeof(float), cudaMemcpyHostToDevice));
+	CUDA_BUG_CALL_EXIT(cudaMalloc((void**)&d_A, m * k * sizeof(float)));
+	CUDA_BUG_CALL_EXIT(cudaMalloc((void**)&d_B, k * n * sizeof(float)));
+	CUDA_BUG_CALL_EXIT(cudaMalloc((void**)&d_C, m * n * sizeof(float)));
+	CUDA_BUG_CALL_EXIT(cudaMemcpy(d_A, h_A, m * k * sizeof(float), cudaMemcpyHostToDevice));
+	CUDA_BUG_CALL_EXIT(cudaMemcpy(d_B, h_B, k * n * sizeof(float), cudaMemcpyHostToDevice));
 
 	cublasLtHandle_t ltHandle;
-	CHECK_CUBLAS(cublasLtCreate(&ltHandle));
+	CUDA_BLAS_BUG_CALL(cublasLtCreate(&ltHandle), exit(EXIT_FAILURE));
 
 	cublasLtMatmulDesc_t matmulDesc;
-	CHECK_CUBLAS(cublasLtMatmulDescCreate(&matmulDesc, CUBLAS_COMPUTE_32F, CUDA_R_32F));
+	CUDA_BLAS_BUG_CALL(cublasLtMatmulDescCreate(&matmulDesc, CUBLAS_COMPUTE_32F, CUDA_R_32F), exit(EXIT_FAILURE));
 
 	cublasLtMatrixLayout_t layoutA, layoutB, layoutC;
-	CHECK_CUBLAS(cublasLtMatrixLayoutCreate(&layoutA, CUDA_R_32F, m, k, k));
-	CHECK_CUBLAS(cublasLtMatrixLayoutCreate(&layoutB, CUDA_R_32F, k, n, n));
-	CHECK_CUBLAS(cublasLtMatrixLayoutCreate(&layoutC, CUDA_R_32F, m, n, n));
+	CUDA_BLAS_BUG_CALL(cublasLtMatrixLayoutCreate(&layoutA, CUDA_R_32F, m, k, k), exit(EXIT_FAILURE));
+	CUDA_BLAS_BUG_CALL(cublasLtMatrixLayoutCreate(&layoutB, CUDA_R_32F, k, n, n), exit(EXIT_FAILURE));
+	CUDA_BLAS_BUG_CALL(cublasLtMatrixLayoutCreate(&layoutC, CUDA_R_32F, m, n, n), exit(EXIT_FAILURE));
 
 	void* workspace;
 	size_t workspaceSize = 1 << 22; // 4MB
-	CHECK_CUDA(cudaMalloc(&workspace, workspaceSize));
+	CUDA_BUG_CALL_EXIT(cudaMalloc(&workspace, workspaceSize));
 
-	CHECK_CUBLAS(cublasLtMatmul(
-		ltHandle,
-		matmulDesc,
-		&alpha,
-		d_A, layoutA,
-		d_B, layoutB,
-		&beta,
-		d_C, layoutC,
-		d_C, layoutC,
-		NULL,
-		workspace, workspaceSize,
-		0 /* No stream */));
+	CUDA_BLAS_BUG_CALL(cublasLtMatmul(
+				ltHandle,
+				matmulDesc,
+				&alpha,
+				d_A, layoutA,
+				d_B, layoutB,
+				&beta,
+				d_C, layoutC,
+				d_C, layoutC,
+				NULL,
+				workspace, workspaceSize,
+				0 /* No stream */), goto free);
 
-	CHECK_CUDA(cudaMemcpy(h_C, d_C, m * n * sizeof(float), cudaMemcpyDeviceToHost));
+	CUDA_BUG_CALL_EXIT(cudaMemcpy(h_C, d_C, m * n * sizeof(float), cudaMemcpyDeviceToHost));
 
 	printf("Result C = \n");
 	for (int i = 0; i < m; ++i) {
@@ -92,6 +73,7 @@ int main(void)
 		printf("\n");
 	}
 
+free:
 	cudaFree(d_A);
 	cudaFree(d_B);
 	cudaFree(d_C);
