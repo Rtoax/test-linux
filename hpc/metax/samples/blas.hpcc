@@ -44,6 +44,7 @@
 #endif
 
 #define IDX2C(i, j, ld)	(((j) * (ld)) + (i))
+#define ARRAY_SIZE(arr)	(sizeof(arr) / sizeof(arr[0]))
 
 enum test_type {
 	TEST_SCAL,
@@ -58,6 +59,7 @@ enum test_type {
 #endif
 	TEST_GEMM,
 	TEST_MAX,
+	TEST_ALL = TEST_MAX,
 #define TEST_LIST_STR	"scal|axpy|copy|dot|nrm2|gemm"
 };
 
@@ -82,13 +84,13 @@ struct {
 	.alpha = 2,
 	.beta = 2,
 	.nloop = 1,
-	.test_type = TEST_SCAL,
+	.test_type = TEST_ALL,
 	.set_value = false,
 	.value = 0,
 	.verbose = false,
 };
 
-const char *version = "v0.0.5 (" NAME ")";
+const char *version = "v0.0.6 (" NAME ")";
 
 const char argp_prog_doc[] =
 	"USAGE: [-g <GPU>] [-v] [=t=<" TEST_LIST_STR ">]\n"
@@ -658,7 +660,8 @@ void exec_one_test(struct test_operations *test)
 		printf("display elapsed %ld ms\n", LAT(display));
 		printf("free elapsed %ld ms\n", LAT(free));
 	}
-	printf("run elapsed %.2f ms, %.2lf FLOPS, %.2lf GFLOPS, %.2lf TFLOPS\n",
+	printf("%s elapsed %.2f ms, %.2lf FLOPS, %.2lf GFLOPS, %.2lf TFLOPS\n",
+		test->name,
 		LAT_GPU(run),
 		test->run.flops,
 		test->run.flops / 1e9,
@@ -669,8 +672,8 @@ void exec_one_test(struct test_operations *test)
 
 int main(int argc, char *argv[])
 {
-	int err = 0;
-	struct test_operations *test = &alltests[TEST_SCAL];
+	int i, err = 0;
+	struct test_operations *test;
 
 	err = argp_parse(&argp, argc, argv, 0, NULL, NULL);
 	if (err) {
@@ -685,9 +688,15 @@ int main(int argc, char *argv[])
 		printf("M = %ld, N = %ld\n", env.m, env.n);
 	}
 
-	test = &alltests[env.test_type];
-
-	exec_one_test(test);
+	if (env.test_type == TEST_ALL) {
+		for (i = 0; i < ARRAY_SIZE(alltests); i++) {
+			test = &alltests[i];
+			exec_one_test(test);
+		}
+	} else {
+		test = &alltests[env.test_type];
+		exec_one_test(test);
+	}
 
 	return 0;
 }
