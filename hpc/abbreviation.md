@@ -6,6 +6,8 @@
 - MFLOPS: Mega FLOPS (每秒一百万次的浮点运算)
 - MPI: Message Passing Interface (消息传递接口)
 - OpenCL: Open Computing Language (开放计算语言)
+- OPS: Operations Per Second (每秒操作数)
 - PTX: Parallel Thread eXecution (并行线程执行)
 - SASS: Streaming ASSembly (原生机器码指令集)
 - TFLOPS: teraFLOPS (每秒一万亿次的浮点运算)
+- TOPS: Tera Operations Per Second (处理器每秒一万亿次)
