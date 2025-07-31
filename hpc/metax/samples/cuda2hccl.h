@@ -32,6 +32,18 @@
  */
 #define cudaEventSynchronize(ev)	hcEventSynchronize(ev)
 
+/**
+ * cudaStream_t is a data type in CUDA used to represent a stream. A stream in
+ * CUDA is a sequence of operations (such as kernel launches or memory
+ * transfers) that execute in order on the GPU. Streams enable asynchronous
+ * execution, allowing multiple operations to overlap and improve performance
+ * by utilizing GPU resources more efficiently.
+ */
+#define cudaStream_t	hcStream_t
+#define cudaStreamCreate(pstream)	hcStreamCreate(pstream)
+#define cudaStreamSynchronize(stream)	hcStreamSynchronize(stream)
+#define cudaStreamDestroy(stream)	hcStreamDestroy(stream)
+
 #define cudaGetDevice(p_id)	hcGetDevice(p_id)
 #define cudaSetDevice(dev_id)	hcSetDevice(dev_id)
 

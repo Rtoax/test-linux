@@ -43,13 +43,20 @@ __host__ void host_func(void)
 
 int main(void)
 {
+	cudaStream_t stream;
+
 	gpu_init(0);
 
-	kern_func<<<1, 1>>>();
+	cudaStreamCreate(&stream);
+
+	kern_func<<<1, 1, 0, stream>>>();
 	host_func();
+
+	cudaStreamSynchronize(stream);
 
 	/* flush printf */
 	cudaDeviceSynchronize();
 
+	cudaStreamDestroy(stream);
 	return 0;
 }
