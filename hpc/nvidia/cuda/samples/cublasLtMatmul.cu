@@ -25,7 +25,8 @@
 	{ \
 		cublasStatus_t err = call; \
 		if (err != CUBLAS_STATUS_SUCCESS) { \
-			fprintf(stderr, "cuBLAS error %s:%d: %d\n", __FILE__, __LINE__, err); \
+			fprintf(stderr, "cuBLAS error %s:%d: %d, %s\n", \
+				__FILE__, __LINE__, err, cublasGetStatusString(err)); \
 			exit(EXIT_FAILURE); \
 		} \
 	}

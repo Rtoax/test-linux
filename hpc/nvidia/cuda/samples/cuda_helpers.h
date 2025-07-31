@@ -5,15 +5,17 @@
 #define CUDA_BUG_CALL(CALL, ERROR_DO)	{				\
 	cudaError_t __err = CALL;					\
 	if (__err != cudaSuccess) {					\
-		fprintf(stderr, "ERROR: Call %s failed\n", #CALL);	\
+		fprintf(stderr, "ERROR: Call %s failed, %s\n",		\
+			#CALL, cudaGetErrorString(__err));		\
 		ERROR_DO;						\
 	}								\
 }
 
 #define CUDA_BLAS_BUG_CALL(CALL, ERROR_DO)	{			\
-	cublasStatus_t __err = CALL;					\
-	if (__err != CUBLAS_STATUS_SUCCESS) {				\
-		fprintf(stderr, "ERROR: Blas %s failed\n", #CALL);	\
+	cublasStatus_t __status = CALL;					\
+	if (__status != CUBLAS_STATUS_SUCCESS) {			\
+		fprintf(stderr, "ERROR: Blas %s failed, %s\n",		\
+			#CALL, cublasGetStatusString(__status));	\
 		ERROR_DO;						\
 	}								\
 }
