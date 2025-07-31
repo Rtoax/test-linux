@@ -26,6 +26,10 @@
 #define cudaEventDestroy(ev)	hcEventDestroy(ev)
 #define cudaEventRecord(ev)	hcEventRecord(ev)
 #define cudaEventElapsedTime(pt, start, stop)	hcEventElapsedTime(pt, start, stop)
+/**
+ * cudaEventSynchronize() will block the CPU until the CPU waits for the GPU
+ * calculation to complete the event 'ev'.
+ */
 #define cudaEventSynchronize(ev)	hcEventSynchronize(ev)
 
 #define cudaGetDevice(p_id)	hcGetDevice(p_id)
