@@ -260,35 +260,67 @@ int default_create_blas(struct test_operations *test)
 	return 0;
 }
 
-#define __ALLOC_MATRIX_PAIR_FLOAT(type, host, dev, x, y) ({			\
-	int i, j, err = 0;							\
-										\
-	*host = (TYPE *)malloc(x * y * sizeof(type));				\
-	assert(*host && "Malloc failed");					\
-										\
-	for (j = 0; j < y; j++) {						\
-		for (i = 0; i < x; i++) {					\
-			(*host)[IDX2C(i, j, x)] = env.set_value ?		\
-						(type)env.value :		\
-						(type)(i * y + j + 1);		\
-		}								\
-	}									\
-										\
-	CUDA_BUG_CALL(cudaMalloc(dev, x * y * sizeof(type)), err = -ENOMEM);	\
-	CUDA_BLAS_BUG_CALL(cublasSetMatrix(x, y, sizeof(type), *host, x, *dev, x), err = -1);	\
-	err;									\
-})
+int __alloc_matrix_pair_f32(float **host, float **dev, int x, int y)
+{
+	int i, j, err = 0;
+
+	*host = (float *)malloc(x * y * sizeof(float));
+	assert(*host && "Malloc failed");
+
+	for (j = 0; j < y; j++) {
+		for (i = 0; i < x; i++) {
+			(*host)[IDX2C(i, j, x)] = env.set_value ?
+						(float)env.value :
+						(float)(i * y + j + 1);
+		}
+	}
+
+	CUDA_BUG_CALL(cudaMalloc(dev, x * y * sizeof(float)), err = -ENOMEM);
+	CUDA_BLAS_BUG_CALL(cublasSetMatrix(x, y, sizeof(float), *host, x, *dev, x), err = -1);
+
+	return err;
+}
+
+int __alloc_matrix_pair_f64(double **host, double **dev, int x, int y)
+{
+	int i, j, err = 0;
+
+	*host = (double *)malloc(x * y * sizeof(double));
+	assert(*host && "Malloc failed");
+
+	for (j = 0; j < y; j++) {
+		for (i = 0; i < x; i++) {
+			(*host)[IDX2C(i, j, x)] = env.set_value ?
+						(double)env.value :
+						(double)(i * y + j + 1);
+		}
+	}
+
+	CUDA_BUG_CALL(cudaMalloc(dev, x * y * sizeof(double)), err = -ENOMEM);
+	CUDA_BLAS_BUG_CALL(cublasSetMatrix(x, y, sizeof(double), *host, x, *dev, x), err = -1);
+
+	return err;
+}
 
 int prepare_data_matrix_A(struct test_operations *test)
 {
-	return __ALLOC_MATRIX_PAIR_FLOAT(TYPE, &test->host_A, &test->dev_A, env.n, env.m);
+#if defined(TEST_DOUBLE)
+	return __alloc_matrix_pair_f64(&test->host_A, &test->dev_A, env.n, env.m);
+#else
+	return __alloc_matrix_pair_f32(&test->host_A, &test->dev_A, env.n, env.m);
+#endif
 }
 
 int prepare_data_matrix_sameAB(struct test_operations *test)
 {
 	int err = 0;
-	err += __ALLOC_MATRIX_PAIR_FLOAT(TYPE, &test->host_A, &test->dev_A, env.n, env.m);
-	err += __ALLOC_MATRIX_PAIR_FLOAT(TYPE, &test->host_B, &test->dev_B, env.n, env.m);
+#if defined(TEST_DOUBLE)
+	err += __alloc_matrix_pair_f64(&test->host_A, &test->dev_A, env.n, env.m);
+	err += __alloc_matrix_pair_f64(&test->host_B, &test->dev_B, env.n, env.m);
+#else
+	err += __alloc_matrix_pair_f32(&test->host_A, &test->dev_A, env.n, env.m);
+	err += __alloc_matrix_pair_f32(&test->host_B, &test->dev_B, env.n, env.m);
+#endif
 	return err;
 }
 
@@ -297,9 +329,15 @@ int prepare_data_matrix_Gemm(struct test_operations *test)
 	extern int display_data_Gemm(struct test_operations *test);
 
 	int err = 0;
-	err += __ALLOC_MATRIX_PAIR_FLOAT(TYPE, &test->host_A, &test->dev_A, env.k, env.m);
-	err += __ALLOC_MATRIX_PAIR_FLOAT(TYPE, &test->host_B, &test->dev_B, env.n, env.k);
-	err += __ALLOC_MATRIX_PAIR_FLOAT(TYPE, &test->host_C, &test->dev_C, env.n, env.m);
+#if defined(TEST_DOUBLE)
+	err += __alloc_matrix_pair_f64(&test->host_A, &test->dev_A, env.k, env.m);
+	err += __alloc_matrix_pair_f64(&test->host_B, &test->dev_B, env.n, env.k);
+	err += __alloc_matrix_pair_f64(&test->host_C, &test->dev_C, env.n, env.m);
+#else
+	err += __alloc_matrix_pair_f32(&test->host_A, &test->dev_A, env.k, env.m);
+	err += __alloc_matrix_pair_f32(&test->host_B, &test->dev_B, env.n, env.k);
+	err += __alloc_matrix_pair_f32(&test->host_C, &test->dev_C, env.n, env.m);
+#endif
 	if (env.verbose)
 		err += display_data_Gemm(test);
 	return err;
