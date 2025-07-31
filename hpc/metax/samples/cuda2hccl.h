@@ -241,6 +241,12 @@
 #define CUBLASLT_MATMUL_DESC_POINTER_MODE	HCBLASLT_MATMUL_DESC_POINTER_MODE
 /* more ... */
 
+#define cublasLtMatrixLayout_t	hcblasLtMatrixLayout_t
+#define cublasLtMatrixLayoutAttribute_t	hcblasLtMatrixLayoutAttribute_t
+
+#define cublasLtMatrixLayoutGetAttribute(matLayout, attr, buf, sizeInBytes, sizeWritten) \
+	hcblasLtMatrixLayoutGetAttribute(matLayout, attr, buf, sizeInBytes, sizeWritten)
+
 /**
  * D = alpha*(A*B) + beta*(C)
  */
