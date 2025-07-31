@@ -22,11 +22,17 @@ int main(void)
 #ifdef __clang__
 	pfx = "clang";
 
-	printf("clang: __clang_major__ = %d\n", __clang_major__);
-	printf("clang: __clang_minor__ = %d\n", __clang_minor__);
-	printf("clang: __clang_patchlevel__ = %d\n", __clang_patchlevel__);
-	printf("clang: __clang_version__ = %s\n", __clang_version__);
+	printf("%s: __clang_major__ = %d\n", pfx, __clang_major__);
+	printf("%s: __clang_minor__ = %d\n", pfx, __clang_minor__);
+	printf("%s: __clang_patchlevel__ = %d\n", pfx, __clang_patchlevel__);
+	printf("%s: __clang_version__ = %s\n", pfx, __clang_version__);
 #endif
+
+#ifdef __NVCC__
+	pfx = "nvcc";
+	printf("%s: __NVCC__ = %d\n", pfx, __NVCC__);
+#endif
+
 	printf("%s: __GNUC__ = %d.\n", pfx, __GNUC__);
 	printf("%s: __GNUC_MINOR__ = %d.\n", pfx, __GNUC_MINOR__);
 	printf("%s: __GNUC_PATCHLEVEL__ = %d.\n", pfx, __GNUC_PATCHLEVEL__);
@@ -49,6 +55,16 @@ int main(void)
 	 * any particular form, but it can be counted on to contain at least
 	 * the release number. */
 	printf("%s: __VERSION__ = %s\n", pfx, __VERSION__);
+
+#ifdef __CUDA__
+	printf("%s: __CUDA__ = %d\n", pfx, __CUDA__);
+#endif
+#ifdef __CUDACC__
+	printf("%s: __CUDACC__ = %d\n", pfx, __CUDACC__);
+#endif
+#ifdef __CUDA_ARCH__
+	printf("%s: __CUDA_ARCH__ = %d\n", pfx, __CUDA_ARCH__);
+#endif
 
 	return 0;
 }

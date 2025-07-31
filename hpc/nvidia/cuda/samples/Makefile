@@ -13,6 +13,7 @@ targets-nvcc += cublasLtMatmul
 targets-nvcc += matrix matrix-double matrix-int8
 targets-nvcc += blas
 targets-nvcc += rand
+targets-nvcc += __GNUC__ __STDC__
 
 targets-post := $(patsubst %,${OUTPUT}%.E.cu,$(targets-nvcc))
 
@@ -50,3 +51,5 @@ matrix-double: ${OUTPUT}matrix-double.cu.o ${CUDA_HELPERS}
 matrix-int8: ${OUTPUT}matrix-int8.cu.o ${CUDA_HELPERS}
 matrix-c: ${OUTPUT}matrix.o
 matrix-c-double: ${OUTPUT}matrix-double.o
+__GNUC__: ${OUTPUT}__GNUC__.cu.o
+__STDC__: ${OUTPUT}__STDC__.cu.o

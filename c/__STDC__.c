@@ -79,8 +79,8 @@ int main(void)
 	/**
 	 * FIXME: Why __STDC_VERSION__ not defined
 	 */
-#if !defined(__cplusplus) && !defined(STD_C98) && !defined(STD_GNU98) && \
-	!defined(STD_C17)
+#if defined(__STDC_VERSION__) || \
+	(!defined(__cplusplus) && !defined(STD_C98) && !defined(STD_GNU98) && !defined(STD_C17))
 	printf("__STDC_VERSION__ %ld\n", __STDC_VERSION__);
 #endif
 
@@ -90,5 +90,10 @@ int main(void)
 	 * a C compiler or an Objective-C compiler. */
 	printf("__OBJC__ %d\n", __OBJC__);
 #endif
+
+#ifdef __NVCC__
+	printf("__NVCC__ = %d\n", __NVCC__);
+#endif
+
 	return 0;
 }
