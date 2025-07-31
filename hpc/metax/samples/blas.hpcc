@@ -81,6 +81,19 @@ struct {
 	.verbose = false,
 };
 
+struct test;
+
+struct test_operations {
+	/* operations */
+	int (*create_blas)(struct test *test);
+	int (*prepare_data)(struct test *test);
+	int (*run_blas)(struct test *test);
+	double (*get_flops)(struct test *test);
+	int (*display_data)(struct test *test);
+	int (*free_data)(struct test *test);
+	int (*destroy_blas)(struct test *test);
+};
+
 struct test {
 	const char *name;
 	cublasHandle_t handle;
@@ -107,14 +120,7 @@ struct test {
 		double flops;
 	} run;
 
-	/* operations */
-	int (*create_blas)(struct test *test);
-	int (*prepare_data)(struct test *test);
-	int (*run_blas)(struct test *test);
-	double (*get_flops)(struct test *test);
-	int (*display_data)(struct test *test);
-	int (*free_data)(struct test *test);
-	int (*destroy_blas)(struct test *test);
+	struct test_operations ops;
 };
 
 const char *version = "v0.0.6 (" NAME ")";
@@ -767,133 +773,159 @@ int default_destroy_blas(struct test *test)
 struct test alltests[] = {
 	[TEST_SCAL_FP32] = {
 		.name = "SCAL FP32",
-		.create_blas = default_create_blas,
-		.prepare_data = prepare_data_matrix_A_fp32,
-		.run_blas = run_blas_scal_fp32,
-		.get_flops = get_flops_scal,
-		.display_data = display_data_A_fp32,
-		.free_data = free_data_matrix_A,
-		.destroy_blas = default_destroy_blas,
+		.ops = {
+			.create_blas = default_create_blas,
+			.prepare_data = prepare_data_matrix_A_fp32,
+			.run_blas = run_blas_scal_fp32,
+			.get_flops = get_flops_scal,
+			.display_data = display_data_A_fp32,
+			.free_data = free_data_matrix_A,
+			.destroy_blas = default_destroy_blas,
+		}
 	},
 	[TEST_SCAL_FP64] = {
 		.name = "SCAL FP64",
-		.create_blas = default_create_blas,
-		.prepare_data = prepare_data_matrix_A_fp64,
-		.run_blas = run_blas_scal_fp64,
-		.get_flops = get_flops_scal,
-		.display_data = display_data_A_fp64,
-		.free_data = free_data_matrix_A,
-		.destroy_blas = default_destroy_blas,
+		.ops = {
+			.create_blas = default_create_blas,
+			.prepare_data = prepare_data_matrix_A_fp64,
+			.run_blas = run_blas_scal_fp64,
+			.get_flops = get_flops_scal,
+			.display_data = display_data_A_fp64,
+			.free_data = free_data_matrix_A,
+			.destroy_blas = default_destroy_blas,
+		}
 	},
 	[TEST_AXPY_FP32] = {
 		.name = "AXPY FP32",
-		.create_blas = default_create_blas,
-		.prepare_data = prepare_data_matrix_sameAB_fp32,
-		.run_blas = run_blas_axpy_fp32,
-		.get_flops = get_flops_axpy,
-		.display_data = display_data_AB_fp32,
-		.free_data = free_data_matrix_AB,
-		.destroy_blas = default_destroy_blas,
+		.ops = {
+			.create_blas = default_create_blas,
+			.prepare_data = prepare_data_matrix_sameAB_fp32,
+			.run_blas = run_blas_axpy_fp32,
+			.get_flops = get_flops_axpy,
+			.display_data = display_data_AB_fp32,
+			.free_data = free_data_matrix_AB,
+			.destroy_blas = default_destroy_blas,
+		}
 	},
 	[TEST_AXPY_FP64] = {
 		.name = "AXPY FP64",
-		.create_blas = default_create_blas,
-		.prepare_data = prepare_data_matrix_sameAB_fp64,
-		.run_blas = run_blas_axpy_fp64,
-		.get_flops = get_flops_axpy,
-		.display_data = display_data_AB_fp64,
-		.free_data = free_data_matrix_AB,
-		.destroy_blas = default_destroy_blas,
+		.ops = {
+			.create_blas = default_create_blas,
+			.prepare_data = prepare_data_matrix_sameAB_fp64,
+			.run_blas = run_blas_axpy_fp64,
+			.get_flops = get_flops_axpy,
+			.display_data = display_data_AB_fp64,
+			.free_data = free_data_matrix_AB,
+			.destroy_blas = default_destroy_blas,
+		}
 	},
 	[TEST_COPY_FP32] = {
 		.name = "COPY FP32",
-		.create_blas = default_create_blas,
-		.prepare_data = prepare_data_matrix_sameAB_fp32,
-		.run_blas = run_blas_copy_fp32,
-		.get_flops = get_flops_copy,
-		.display_data = display_data_AB_fp32,
-		.free_data = free_data_matrix_AB,
-		.destroy_blas = default_destroy_blas,
+		.ops = {
+			.create_blas = default_create_blas,
+			.prepare_data = prepare_data_matrix_sameAB_fp32,
+			.run_blas = run_blas_copy_fp32,
+			.get_flops = get_flops_copy,
+			.display_data = display_data_AB_fp32,
+			.free_data = free_data_matrix_AB,
+			.destroy_blas = default_destroy_blas,
+		}
 	},
 	[TEST_COPY_FP64] = {
 		.name = "COPY FP64",
-		.create_blas = default_create_blas,
-		.prepare_data = prepare_data_matrix_sameAB_fp64,
-		.run_blas = run_blas_copy_fp64,
-		.get_flops = get_flops_copy,
-		.display_data = display_data_AB_fp64,
-		.free_data = free_data_matrix_AB,
-		.destroy_blas = default_destroy_blas,
+		.ops = {
+			.create_blas = default_create_blas,
+			.prepare_data = prepare_data_matrix_sameAB_fp64,
+			.run_blas = run_blas_copy_fp64,
+			.get_flops = get_flops_copy,
+			.display_data = display_data_AB_fp64,
+			.free_data = free_data_matrix_AB,
+			.destroy_blas = default_destroy_blas,
+		}
 	},
 	[TEST_DOT_FP32] = {
 		.name = "DOT FP32",
-		.create_blas = default_create_blas,
-		.prepare_data = prepare_data_matrix_sameAB_fp32,
-		.run_blas = run_blas_dot_fp32,
-		.get_flops = get_flops_dot,
-		.display_data = display_data_dot_fp32,
-		.free_data = free_data_matrix_AB,
-		.destroy_blas = default_destroy_blas,
+		.ops = {
+			.create_blas = default_create_blas,
+			.prepare_data = prepare_data_matrix_sameAB_fp32,
+			.run_blas = run_blas_dot_fp32,
+			.get_flops = get_flops_dot,
+			.display_data = display_data_dot_fp32,
+			.free_data = free_data_matrix_AB,
+			.destroy_blas = default_destroy_blas,
+		}
 	},
 	[TEST_DOT_FP64] = {
 		.name = "DOT FP64",
-		.create_blas = default_create_blas,
-		.prepare_data = prepare_data_matrix_sameAB_fp64,
-		.run_blas = run_blas_dot_fp64,
-		.get_flops = get_flops_dot,
-		.display_data = display_data_dot_fp64,
-		.free_data = free_data_matrix_AB,
-		.destroy_blas = default_destroy_blas,
+		.ops = {
+			.create_blas = default_create_blas,
+			.prepare_data = prepare_data_matrix_sameAB_fp64,
+			.run_blas = run_blas_dot_fp64,
+			.get_flops = get_flops_dot,
+			.display_data = display_data_dot_fp64,
+			.free_data = free_data_matrix_AB,
+			.destroy_blas = default_destroy_blas,
+		}
 	},
 	[TEST_NRM2_FP32] = {
 		.name = "NRM2 FP32",
-		.create_blas = default_create_blas,
-		.prepare_data = prepare_data_matrix_A_fp32,
-		.run_blas = run_blas_nrm2_fp32,
-		.get_flops = get_flops_nrm2,
-		.display_data = display_data_nrm2_fp32,
-		.free_data = free_data_matrix_A,
-		.destroy_blas = default_destroy_blas,
+		.ops = {
+			.create_blas = default_create_blas,
+			.prepare_data = prepare_data_matrix_A_fp32,
+			.run_blas = run_blas_nrm2_fp32,
+			.get_flops = get_flops_nrm2,
+			.display_data = display_data_nrm2_fp32,
+			.free_data = free_data_matrix_A,
+			.destroy_blas = default_destroy_blas,
+		}
 	},
 	[TEST_NRM2_FP64] = {
 		.name = "NRM2 FP64",
-		.create_blas = default_create_blas,
-		.prepare_data = prepare_data_matrix_A_fp64,
-		.run_blas = run_blas_nrm2_fp64,
-		.get_flops = get_flops_nrm2,
-		.display_data = display_data_nrm2_fp64,
-		.free_data = free_data_matrix_A,
-		.destroy_blas = default_destroy_blas,
+		.ops = {
+			.create_blas = default_create_blas,
+			.prepare_data = prepare_data_matrix_A_fp64,
+			.run_blas = run_blas_nrm2_fp64,
+			.get_flops = get_flops_nrm2,
+			.display_data = display_data_nrm2_fp64,
+			.free_data = free_data_matrix_A,
+			.destroy_blas = default_destroy_blas,
+		}
 	},
 	[TEST_GEMM_FP16] = {
 		.name = "GEMM FP16",
-		.create_blas = default_create_blas,
-		.prepare_data = prepare_data_matrix_Gemm_fp16,
-		.run_blas = run_blas_Gemm_fp16,
-		.get_flops = get_flops_gemm,
-		.display_data = display_data_Gemm_fp16,
-		.free_data = free_data_matrix_ABC,
-		.destroy_blas = default_destroy_blas,
+		.ops = {
+			.create_blas = default_create_blas,
+			.prepare_data = prepare_data_matrix_Gemm_fp16,
+			.run_blas = run_blas_Gemm_fp16,
+			.get_flops = get_flops_gemm,
+			.display_data = display_data_Gemm_fp16,
+			.free_data = free_data_matrix_ABC,
+			.destroy_blas = default_destroy_blas,
+		}
 	},
 	[TEST_GEMM_FP32] = {
 		.name = "GEMM FP32",
-		.create_blas = default_create_blas,
-		.prepare_data = prepare_data_matrix_Gemm_fp32,
-		.run_blas = run_blas_Gemm_fp32,
-		.get_flops = get_flops_gemm,
-		.display_data = display_data_Gemm_fp32,
-		.free_data = free_data_matrix_ABC,
-		.destroy_blas = default_destroy_blas,
+		.ops = {
+			.create_blas = default_create_blas,
+			.prepare_data = prepare_data_matrix_Gemm_fp32,
+			.run_blas = run_blas_Gemm_fp32,
+			.get_flops = get_flops_gemm,
+			.display_data = display_data_Gemm_fp32,
+			.free_data = free_data_matrix_ABC,
+			.destroy_blas = default_destroy_blas,
+		}
 	},
 	[TEST_GEMM_FP64] = {
 		.name = "GEMM FP64",
-		.create_blas = default_create_blas,
-		.prepare_data = prepare_data_matrix_Gemm_fp64,
-		.run_blas = run_blas_Gemm_fp64,
-		.get_flops = get_flops_gemm,
-		.display_data = display_data_Gemm_fp64,
-		.free_data = free_data_matrix_ABC,
-		.destroy_blas = default_destroy_blas,
+		.ops = {
+			.create_blas = default_create_blas,
+			.prepare_data = prepare_data_matrix_Gemm_fp64,
+			.run_blas = run_blas_Gemm_fp64,
+			.get_flops = get_flops_gemm,
+			.display_data = display_data_Gemm_fp64,
+			.free_data = free_data_matrix_ABC,
+			.destroy_blas = default_destroy_blas,
+		}
 	},
 };
 
@@ -905,36 +937,36 @@ void exec_one_test(struct test *test)
 		printf("Testing %s\n", test->name);
 
 	test->create.start = nsecs();
-	test->create_blas(test);
+	test->ops.create_blas(test);
 	test->create.end = nsecs();
 
 	test->prepare.start = nsecs();
-	test->prepare_data(test);
+	test->ops.prepare_data(test);
 	test->prepare.end = nsecs();
 
 	cudaEventCreate(&test->run.start);
 	cudaEventCreate(&test->run.end);
 	cudaEventRecord(test->run.start);
 	for (n = 0; n < env.nloop; n++)
-		test->run_blas(test);
+		test->ops.run_blas(test);
 	cudaEventRecord(test->run.end);
 	cudaEventSynchronize(test->run.end);
 	cudaEventElapsedTime(&test->run.elapsed, test->run.start, test->run.end);
 
-	test->run.flops = test->get_flops(test);
+	test->run.flops = test->ops.get_flops(test);
 
 	test->display.start = nsecs();
 	if (env.verbose) {
-		test->display_data(test);
+		test->ops.display_data(test);
 	}
 	test->display.end = nsecs();
 
 	test->free.start = nsecs();
-	test->free_data(test);
+	test->ops.free_data(test);
 	test->free.end = nsecs();
 
 	test->destroy.start = nsecs();
-	test->destroy_blas(test);
+	test->ops.destroy_blas(test);
 	test->destroy.end = nsecs();
 
 #define LAT(n) ((test->n.end - test->n.start) / 1000000UL)
