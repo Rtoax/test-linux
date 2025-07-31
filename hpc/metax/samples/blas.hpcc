@@ -257,7 +257,7 @@ int default_create_blas(struct test_operations *test)
 	return 0;
 }
 
-int __alloc_matrix_pair_f32(float **host, float **dev, int x, int y)
+int __alloc_matrix_pair_fp32(float **host, float **dev, int x, int y)
 {
 	int i, j, err = 0;
 
@@ -278,7 +278,7 @@ int __alloc_matrix_pair_f32(float **host, float **dev, int x, int y)
 	return err;
 }
 
-int __alloc_matrix_pair_f64(double **host, double **dev, int x, int y)
+int __alloc_matrix_pair_fp64(double **host, double **dev, int x, int y)
 {
 	int i, j, err = 0;
 
@@ -301,45 +301,45 @@ int __alloc_matrix_pair_f64(double **host, double **dev, int x, int y)
 
 int prepare_data_matrix_A_fp64(struct test_operations *test)
 {
-	return __alloc_matrix_pair_f64(&test->host_A.fp64, &test->dev_A.fp64, env.n, env.m);
+	return __alloc_matrix_pair_fp64(&test->host_A.fp64, &test->dev_A.fp64, env.n, env.m);
 }
 
 int prepare_data_matrix_A_fp32(struct test_operations *test)
 {
-	return __alloc_matrix_pair_f32(&test->host_A.fp32, &test->dev_A.fp32, env.n, env.m);
+	return __alloc_matrix_pair_fp32(&test->host_A.fp32, &test->dev_A.fp32, env.n, env.m);
 }
 
 int prepare_data_matrix_sameAB_fp32(struct test_operations *test)
 {
 	int err = 0;
-	err += __alloc_matrix_pair_f32(&test->host_A.fp32, &test->dev_A.fp32, env.n, env.m);
-	err += __alloc_matrix_pair_f32(&test->host_B.fp32, &test->dev_B.fp32, env.n, env.m);
+	err += __alloc_matrix_pair_fp32(&test->host_A.fp32, &test->dev_A.fp32, env.n, env.m);
+	err += __alloc_matrix_pair_fp32(&test->host_B.fp32, &test->dev_B.fp32, env.n, env.m);
 	return err;
 }
 
 int prepare_data_matrix_sameAB_fp64(struct test_operations *test)
 {
 	int err = 0;
-	err += __alloc_matrix_pair_f64(&test->host_A.fp64, &test->dev_A.fp64, env.n, env.m);
-	err += __alloc_matrix_pair_f64(&test->host_B.fp64, &test->dev_B.fp64, env.n, env.m);
+	err += __alloc_matrix_pair_fp64(&test->host_A.fp64, &test->dev_A.fp64, env.n, env.m);
+	err += __alloc_matrix_pair_fp64(&test->host_B.fp64, &test->dev_B.fp64, env.n, env.m);
 	return err;
 }
 
 int prepare_data_matrix_Gemm_fp32(struct test_operations *test)
 {
 	int err = 0;
-	err += __alloc_matrix_pair_f32(&test->host_A.fp32, &test->dev_A.fp32, env.k, env.m);
-	err += __alloc_matrix_pair_f32(&test->host_B.fp32, &test->dev_B.fp32, env.n, env.k);
-	err += __alloc_matrix_pair_f32(&test->host_C.fp32, &test->dev_C.fp32, env.n, env.m);
+	err += __alloc_matrix_pair_fp32(&test->host_A.fp32, &test->dev_A.fp32, env.k, env.m);
+	err += __alloc_matrix_pair_fp32(&test->host_B.fp32, &test->dev_B.fp32, env.n, env.k);
+	err += __alloc_matrix_pair_fp32(&test->host_C.fp32, &test->dev_C.fp32, env.n, env.m);
 	return err;
 }
 
 int prepare_data_matrix_Gemm_fp64(struct test_operations *test)
 {
 	int err = 0;
-	err += __alloc_matrix_pair_f64(&test->host_A.fp64, &test->dev_A.fp64, env.k, env.m);
-	err += __alloc_matrix_pair_f64(&test->host_B.fp64, &test->dev_B.fp64, env.n, env.k);
-	err += __alloc_matrix_pair_f64(&test->host_C.fp64, &test->dev_C.fp64, env.n, env.m);
+	err += __alloc_matrix_pair_fp64(&test->host_A.fp64, &test->dev_A.fp64, env.k, env.m);
+	err += __alloc_matrix_pair_fp64(&test->host_B.fp64, &test->dev_B.fp64, env.n, env.k);
+	err += __alloc_matrix_pair_fp64(&test->host_C.fp64, &test->dev_C.fp64, env.n, env.m);
 	return err;
 }
 
