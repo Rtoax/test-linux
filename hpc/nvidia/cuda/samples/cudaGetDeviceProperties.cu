@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: GPL-3.0
+/* Copyright (c) 2025 Rong Tao */
 /**
  * - NVIDIA H800 device properties
  *   commit b8164f610bdb ("hpc: DeviceProp: display multiProcessorCount and maxThreadsPerMultiProcessor")
