@@ -9,6 +9,7 @@ targets-nvcc += cudaGetDeviceProperties
 targets-nvcc += cudaDeviceGetP2PAttribute
 targets-nvcc += cudaDeviceGetAttribute
 targets-nvcc += cudaEvent
+targets-nvcc += cublasLtMatmul
 targets-nvcc += matrix matrix-double matrix-int8
 targets-nvcc += blas
 targets-nvcc += rand
@@ -24,6 +25,7 @@ CFLAGS_matrix-double := -DTEST_DOUBLE=1
 CFLAGS_NVCC_matrix-double := -DTEST_DOUBLE=1
 CFLAGS_NVCC_matrix-int8 := -DTEST_INT8=1
 LDFLAGS_NVCC_blas := -lcublas
+LDFLAGS_NVCC_cublasLtMatmul := -lcublas -lcublasLt
 LDFLAGS_NVCC_rand := -lcurand
 
 CUDA_HELPERS := ${OUTPUT}cuda_helpers.cu.o
@@ -34,6 +36,7 @@ ${CUDA_HELPERS}: cuda_helpers.h
 
 dim3: ${OUTPUT}dim3.cu.o ${CUDA_HELPERS}
 blas: ${OUTPUT}blas.cu.o ${CUDA_HELPERS}
+cublasLtMatmul: ${OUTPUT}cublasLtMatmul.cu.o ${CUDA_HELPERS}
 rand: ${OUTPUT}rand.cu.o ${CUDA_HELPERS}
 hello: ${OUTPUT}hello.cu.o ${CUDA_HELPERS}
 parallel: ${OUTPUT}parallel.cu.o ${CUDA_HELPERS}
