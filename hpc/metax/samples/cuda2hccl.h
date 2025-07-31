@@ -234,6 +234,13 @@
 #define cublasHgemm(handle, transa, transb, m, n, k, alpha, A, lda, B, ldb, beta, C, ldc) \
 	hcblasHgemm(handle, transa, transb, m, n, k, alpha, A, lda, B, ldb, beta, C, ldc)
 
+#define cublasLtMatmulDesc_t	hcblasLtMatmulDesc_t
+#define cublasLtMatmulDescAttributes_t	hcblasLtMatmulDescAttributes_t
+#define CUBLASLT_MATMUL_DESC_COMPUTE_TYPE	HCBLASLT_MATMUL_DESC_COMPUTE_TYPE
+#define CUBLASLT_MATMUL_DESC_SCALE_TYPE		HCBLASLT_MATMUL_DESC_SCALE_TYPE
+#define CUBLASLT_MATMUL_DESC_POINTER_MODE	HCBLASLT_MATMUL_DESC_POINTER_MODE
+/* more ... */
+
 /**
  * D = alpha*(A*B) + beta*(C)
  */
