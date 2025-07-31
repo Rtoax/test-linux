@@ -65,6 +65,11 @@ int main(void)
 #ifdef __CUDA_ARCH__
 	printf("%s: __CUDA_ARCH__ = %d\n", pfx, __CUDA_ARCH__);
 #endif
+#ifdef __CUDACC_VER_MAJOR__
+	printf("%s: __CUDACC_VER_MAJOR__ = %d\n", pfx, __CUDACC_VER_MAJOR__);
+	printf("%s: __CUDACC_VER_MINOR__ = %d\n", pfx, __CUDACC_VER_MINOR__);
+	printf("%s: __CUDACC_VER_BUILD__ = %d\n", pfx, __CUDACC_VER_BUILD__);
+#endif
 
 	return 0;
 }
