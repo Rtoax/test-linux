@@ -10,6 +10,14 @@
 	}								\
 }
 
+#define CUDA_BLAS_BUG_CALL(CALL, ERROR_DO)	{			\
+	cublasStatus_t __err = CALL;					\
+	if (__err != CUBLAS_STATUS_SUCCESS) {				\
+		fprintf(stderr, "ERROR: Blas %s failed\n", #CALL);	\
+		ERROR_DO;						\
+	}								\
+}
+
 void gpu_init(int dev_id);
 void gpu_check_gpu_error(const char *msg);
 

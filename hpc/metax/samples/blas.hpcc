@@ -216,6 +216,17 @@ struct test_operations {
 		double f64;
 		TYPE result;
 	};
+#if 0
+	union {
+		float *f32;
+		double *f64;
+	} host_A, host_B, host_C, dev_A, dev_B, dev_C;
+
+	union {
+		float f32;
+		double f64;
+	} result;
+#endif
 
 	struct {
 		unsigned long start, end;
@@ -239,13 +250,8 @@ struct test_operations {
 int default_create_blas(struct test_operations *test)
 {
 	int version;
-	cublasStatus_t status;
 
-	status = cublasCreate(&test->handle);
-	if (status != CUBLAS_STATUS_SUCCESS) {
-		fprintf(stderr, "ERROR: Create blas handle failed.\n");
-		return -1;
-	}
+	CUDA_BLAS_BUG_CALL(cublasCreate(&test->handle), return -1);
 
 	cublasGetVersion(test->handle, &version);
 	if (env.verbose)
@@ -256,8 +262,6 @@ int default_create_blas(struct test_operations *test)
 
 #define __ALLOC_MATRIX_PAIR_FLOAT(type, host, dev, x, y) ({			\
 	int i, j, err = 0;							\
-	cudaError_t cuerr;							\
-	cublasStatus_t status;							\
 										\
 	*host = (TYPE *)malloc(x * y * sizeof(type));				\
 	assert(*host && "Malloc failed");					\
@@ -270,17 +274,8 @@ int default_create_blas(struct test_operations *test)
 		}								\
 	}									\
 										\
-	cuerr = cudaMalloc(dev, x * y * sizeof(type));				\
-	if (cuerr != cudaSuccess) {						\
-		fprintf(stderr, "cudaMalloc failed\n");				\
-		err = -ENOMEM;							\
-	}									\
-										\
-	status = cublasSetMatrix(x, y, sizeof(type), *host, x, *dev, x);	\
-	if (status != CUBLAS_STATUS_SUCCESS) {					\
-		fprintf(stderr, "set matrix failed.\n");			\
-		err = -1;							\
-	}									\
+	CUDA_BUG_CALL(cudaMalloc(dev, x * y * sizeof(type)), err = -ENOMEM);	\
+	CUDA_BLAS_BUG_CALL(cublasSetMatrix(x, y, sizeof(type), *host, x, *dev, x), err = -1);	\
 	err;									\
 })
 
