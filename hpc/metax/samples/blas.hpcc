@@ -215,10 +215,15 @@ struct test_operations {
 		TYPE result;
 	};
 
-	/* operations */
 	struct {
 		unsigned long start, end;
-	} create, prepare, run, display, free, destroy;
+	} create, prepare, display, free, destroy;
+	struct {
+		cudaEvent_t start, end;
+		float elapsed;
+	} run;
+
+	/* operations */
 	int (*create_blas)(struct test_operations *test);
 	int (*prepare_data)(struct test_operations *test);
 	int (*run_blas)(struct test_operations *test);
@@ -579,10 +584,14 @@ void exec_one_test(struct test_operations *test)
 	test->prepare_data(test);
 	test->prepare.end = nsecs();
 
-	test->run.start = nsecs();
+	cudaEventCreate(&test->run.start);
+	cudaEventCreate(&test->run.end);
+	cudaEventRecord(test->run.start);
 	for (n = 0; n < env.nloop; n++)
 		test->run_blas(test);
-	test->run.end = nsecs();
+	cudaEventRecord(test->run.end);
+	cudaEventSynchronize(test->run.end);
+	cudaEventElapsedTime(&test->run.elapsed, test->run.start, test->run.end);
 
 	test->display.start = nsecs();
 	test->display_data(test);
@@ -596,10 +605,14 @@ void exec_one_test(struct test_operations *test)
 	test->destroy_blas(test);
 	test->destroy.end = nsecs();
 
-#define LAT(n) (test->n.end - test->n.start)
-	printf("%ld %ld %ld %ld %ld %ld\n", LAT(create), LAT(prepare), LAT(run),
+	printf("%s %s %s %s %s %s\n", "create", "prepare", "run", "display", "free", "destroy");
+#define LAT(n) ((test->n.end - test->n.start) / 1000000UL)
+#define LAT_GPU(e) (test->e.elapsed)
+	printf("%ld %ld %.2f %ld %ld %ld\n", LAT(create), LAT(prepare),
+		LAT_GPU(run),
 		LAT(display), LAT(free), LAT(destroy));
 #undef LAT
+#undef LAT_GPU
 }
 
 int main(int argc, char *argv[])
