@@ -234,7 +234,15 @@
 #define cublasHgemm(handle, transa, transb, m, n, k, alpha, A, lda, B, ldb, beta, C, ldc) \
 	hcblasHgemm(handle, transa, transb, m, n, k, alpha, A, lda, B, ldb, beta, C, ldc)
 
+#define cublasLtHandle_t	hcblasLtHandle_t
+#define cublasLtCreate(phandle)	hcblasLtCreate(phandle)
+#define cublasLtDestroy(handle)	hcblasLtDestroy(handle)
+
 #define cublasLtMatmulDesc_t	hcblasLtMatmulDesc_t
+#define cublasLtMatmulDescCreate(pdesc, computeType, scaleType) \
+	hcblasLtMatmulDescCreate(pdesc, computeType, scaleType)
+#define cublasLtMatmulDescDestroy(desc)	hcblasLtMatmulDescDestroy(desc)
+
 #define cublasLtMatmulDescAttributes_t	hcblasLtMatmulDescAttributes_t
 #define CUBLASLT_MATMUL_DESC_COMPUTE_TYPE	HCBLASLT_MATMUL_DESC_COMPUTE_TYPE
 #define CUBLASLT_MATMUL_DESC_SCALE_TYPE		HCBLASLT_MATMUL_DESC_SCALE_TYPE
@@ -242,6 +250,10 @@
 /* more ... */
 
 #define cublasLtMatrixLayout_t	hcblasLtMatrixLayout_t
+#define cublasLtMatrixLayoutCreate(playout, type, rows, cols, ld) \
+	hcblasLtMatrixLayoutCreate(playout, type, rows, cols, ld)
+#define cublasLtMatrixLayoutDestroy(layout)	hcblasLtMatrixLayoutDestroy(layout)
+
 #define cublasLtMatrixLayoutAttribute_t	hcblasLtMatrixLayoutAttribute_t
 
 #define cublasLtMatrixLayoutGetAttribute(matLayout, attr, buf, sizeInBytes, sizeWritten) \
