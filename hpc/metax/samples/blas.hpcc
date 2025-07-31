@@ -58,7 +58,7 @@ enum test_type {
 #endif
 	TEST_GEMM,
 	TEST_MAX,
-#define TEST_LIST	"scal|axpy|copy|dot|nrm2|gemm"
+#define TEST_LIST_STR	"scal|axpy|copy|dot|nrm2|gemm"
 };
 
 struct {
@@ -91,7 +91,7 @@ struct {
 const char *version = "v0.0.5 (" NAME ")";
 
 const char argp_prog_doc[] =
-	"USAGE: [-g <GPU>] [-v] [=t=<" TEST_LIST ">]\n"
+	"USAGE: [-g <GPU>] [-v] [=t=<" TEST_LIST_STR ">]\n"
 	"\n"
 	"Examples:\n"
 	" $ time ./blas -m10 -n10\n"
@@ -104,7 +104,7 @@ static const struct argp_option opts[] = {
 	{ NULL, 'k', "K", 0, "K number" },
 	{ "alpha", 'A', "ALPHA", 0, "Set alpha value" },
 	{ "beta", 'B', "BETA", 0, "Set beta value" },
-	{ "type", 't', "TYPE", 0, "set test type" },
+	{ "type", 't', "TYPE", 0, "set test type: " TEST_LIST_STR },
 	{ "init-val", 'i', "INIT_VAL", 0, "Set matrix values" },
 	{ "nloop", 'N', "NLOOP", 0, "Test loop number" },
 	{ "verbose", 'v', NULL, 1, "Display detail" },
@@ -169,7 +169,7 @@ static error_t parse_arg(int key, char *arg, struct argp_state *state)
 		else if (!strcmp(arg, "gemm"))
 			env.test_type = TEST_GEMM;
 		else {
-			fprintf(stderr, "Support TEST TYPE: " TEST_LIST "\n");
+			fprintf(stderr, "Support TEST TYPE: " TEST_LIST_STR "\n");
 			exit(-EINVAL);
 		}
 		break;
