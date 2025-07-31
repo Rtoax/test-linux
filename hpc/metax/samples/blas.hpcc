@@ -20,13 +20,11 @@
 # include "hpcc_helpers.h"
 # include "cuda2hccl.h"
 # define NAME	"MetaX BLAS"
-#elif defined(HAVE_CUDA)
+#else
 # include <cuda_runtime.h>
 # include <cublas_v2.h>
 # include "cuda_helpers.h"
 # define NAME	"CUDA BLAS"
-#else
-# error "Must define one of HAVE_HCCL, HAVE_CUDA"
 #endif
 
 #define IDX2C(i, j, ld)	(((j) * (ld)) + (i))
