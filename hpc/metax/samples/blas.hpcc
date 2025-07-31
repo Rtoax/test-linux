@@ -88,7 +88,7 @@ struct {
 	.verbose = false,
 };
 
-const char *version = "v0.0.3 (" NAME ")";
+const char *version = "v0.0.4 (" NAME ")";
 
 const char argp_prog_doc[] =
 	"USAGE: [-g <GPU>] [-v] [=t=<" TEST_LIST ">]\n"
@@ -301,7 +301,8 @@ int prepare_data_matrix_Gemm(struct test_operations *test)
 	err += __ALLOC_MATRIX_PAIR_FLOAT(TYPE, &test->host_A, &test->dev_A, env.k, env.m);
 	err += __ALLOC_MATRIX_PAIR_FLOAT(TYPE, &test->host_B, &test->dev_B, env.n, env.k);
 	err += __ALLOC_MATRIX_PAIR_FLOAT(TYPE, &test->host_C, &test->dev_C, env.n, env.m);
-	err += display_data_Gemm(test);
+	if (env.verbose)
+		err += display_data_Gemm(test);
 	return err;
 }
 
@@ -594,7 +595,9 @@ void exec_one_test(struct test_operations *test)
 	cudaEventElapsedTime(&test->run.elapsed, test->run.start, test->run.end);
 
 	test->display.start = nsecs();
-	test->display_data(test);
+	if (env.verbose) {
+		test->display_data(test);
+	}
 	test->display.end = nsecs();
 
 	test->free.start = nsecs();
