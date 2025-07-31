@@ -11,7 +11,7 @@ targets-htcc += hcDeviceGetP2PAttribute
 targets-htcc += hcEvent
 targets-htcc += dim3
 targets-htcc += matrix matrix-double matrix-int8 matrix-fp16
-targets-htcc += blas blas-double
+targets-htcc += blas
 targets-htcc += rand
 
 targets-post := $(patsubst %,${OUTPUT}%.E.hpcc,$(targets-htcc))
@@ -30,8 +30,6 @@ CFLAGS_HTCC_matrix-double := -DTEST_DOUBLE=1
 CFLAGS_HTCC_matrix-int8 := -DTEST_INT8=1
 CFLAGS_HTCC_matrix-fp16 := -DTEST_FP16=1
 LDFLAGS_HTCC_blas := -lhcblas
-CFLAGS_HTCC_blas-double := -DTEST_DOUBLE=1
-LDFLAGS_HTCC_blas-double := -lhcblas
 LDFLAGS_HTCC_rand := -lhcrand
 
 HPCC_HELPERS := ${OUTPUT}hpcc_helpers.hpcc.o
@@ -45,7 +43,6 @@ ${OUTPUT}matrix-double.hpcc.o: cuda2hccl.h hpcc_helpers.h
 ${OUTPUT}matrix-int8.hpcc.o: cuda2hccl.h hpcc_helpers.h
 ${OUTPUT}matrix-fp16.hpcc.o: cuda2hccl.h hpcc_helpers.h
 ${OUTPUT}blas.hpcc.o: cuda2hccl.h hpcc_helpers.h
-${OUTPUT}blas-double.hpcc.o: cuda2hccl.h hpcc_helpers.h
 ${OUTPUT}rand.hpcc.o: cuda2hccl.h hpcc_helpers.h
 
 hello: ${OUTPUT}hello.hpcc.o ${HPCC_HELPERS}
@@ -62,7 +59,6 @@ matrix-double: ${OUTPUT}matrix-double.hpcc.o ${HPCC_HELPERS}
 matrix-int8: ${OUTPUT}matrix-int8.hpcc.o ${HPCC_HELPERS}
 matrix-fp16: ${OUTPUT}matrix-fp16.hpcc.o ${HPCC_HELPERS}
 blas: ${OUTPUT}blas.hpcc.o ${HPCC_HELPERS}
-blas-double: ${OUTPUT}blas-double.hpcc.o ${HPCC_HELPERS}
 rand: ${OUTPUT}rand.hpcc.o ${HPCC_HELPERS}
 
 matrix-c: ${OUTPUT}matrix.o
