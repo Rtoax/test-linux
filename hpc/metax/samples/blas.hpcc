@@ -88,7 +88,7 @@ struct {
 	.verbose = false,
 };
 
-const char *version = "v0.0.4 (" NAME ")";
+const char *version = "v0.0.5 (" NAME ")";
 
 const char argp_prog_doc[] =
 	"USAGE: [-g <GPU>] [-v] [=t=<" TEST_LIST ">]\n"
@@ -220,13 +220,15 @@ struct test_operations {
 	} create, prepare, display, free, destroy;
 	struct {
 		cudaEvent_t start, end;
-		float elapsed;
+		float elapsed; /* ms */
+		double flops;
 	} run;
 
 	/* operations */
 	int (*create_blas)(struct test_operations *test);
 	int (*prepare_data)(struct test_operations *test);
 	int (*run_blas)(struct test_operations *test);
+	double (*get_flops)(struct test_operations *test);
 	int (*display_data)(struct test_operations *test);
 	int (*free_data)(struct test_operations *test);
 	int (*destroy_blas)(struct test_operations *test);
@@ -320,6 +322,11 @@ int run_blas_scal(struct test_operations *test)
 	return 0;
 }
 
+double get_flops_scal(struct test_operations *test)
+{
+	return env.nloop * env.m * env.n * 1e3 / (test->run.elapsed);
+}
+
 /**
  * B[j] = alpha x A[k] + B[j]
  */
@@ -332,6 +339,11 @@ int run_blas_axpy(struct test_operations *test)
 	cublasSaxpy(test->handle, env.m * env.n, &alpha, test->dev_A, 1, test->dev_B, 1);
 #endif
 	return 0;
+}
+
+double get_flops_axpy(struct test_operations *test)
+{
+	return 2.0 * env.nloop * env.m * env.n * 1e3 / (test->run.elapsed);
 }
 
 /**
@@ -347,6 +359,11 @@ int run_blas_copy(struct test_operations *test)
 	return 0;
 }
 
+double get_flops_copy(struct test_operations *test)
+{
+	return env.nloop * env.m * env.n * 1e3 / (test->run.elapsed);
+}
+
 int run_blas_dot(struct test_operations *test)
 {
 #if defined(TEST_DOUBLE)
@@ -357,6 +374,11 @@ int run_blas_dot(struct test_operations *test)
 	return 0;
 }
 
+double get_flops_dot(struct test_operations *test)
+{
+	return env.nloop * env.m * env.n * 1e3 / (test->run.elapsed);
+}
+
 int run_blas_nrm2(struct test_operations *test)
 {
 #if defined(TEST_DOUBLE)
@@ -365,6 +387,11 @@ int run_blas_nrm2(struct test_operations *test)
 	cublasSnrm2(test->handle, env.m * env.n, test->dev_A, 1, &test->result);
 #endif
 	return 0;
+}
+
+double get_flops_nrm2(struct test_operations *test)
+{
+	return env.nloop * (1 + env.m * env.n) * 1e3 / (test->run.elapsed);
 }
 
 int run_blas_Gemm(struct test_operations *test)
@@ -400,6 +427,11 @@ int run_blas_Gemm(struct test_operations *test)
 		return -status;
 	}
 	return 0;
+}
+
+double get_flops_gemm(struct test_operations *test)
+{
+	return 2.0 * env.nloop * env.k * env.m * env.n * 1e3 / (test->run.elapsed);
 }
 
 int __display_matrix_pair(const char *pfx, struct test_operations *test,
@@ -520,6 +552,7 @@ struct test_operations alltests[] = {
 		.create_blas = default_create_blas,
 		.prepare_data = prepare_data_matrix_A,
 		.run_blas = run_blas_scal,
+		.get_flops = get_flops_scal,
 		.display_data = display_data_A,
 		.free_data = free_data_matrix_A,
 		.destroy_blas = default_destroy_blas,
@@ -529,6 +562,7 @@ struct test_operations alltests[] = {
 		.create_blas = default_create_blas,
 		.prepare_data = prepare_data_matrix_sameAB,
 		.run_blas = run_blas_axpy,
+		.get_flops = get_flops_axpy,
 		.display_data = display_data_AB,
 		.free_data = free_data_matrix_AB,
 		.destroy_blas = default_destroy_blas,
@@ -538,6 +572,7 @@ struct test_operations alltests[] = {
 		.create_blas = default_create_blas,
 		.prepare_data = prepare_data_matrix_sameAB,
 		.run_blas = run_blas_copy,
+		.get_flops = get_flops_copy,
 		.display_data = display_data_AB,
 		.free_data = free_data_matrix_AB,
 		.destroy_blas = default_destroy_blas,
@@ -547,6 +582,7 @@ struct test_operations alltests[] = {
 		.create_blas = default_create_blas,
 		.prepare_data = prepare_data_matrix_sameAB,
 		.run_blas = run_blas_dot,
+		.get_flops = get_flops_dot,
 		.display_data = display_data_dot,
 		.free_data = free_data_matrix_AB,
 		.destroy_blas = default_destroy_blas,
@@ -556,6 +592,7 @@ struct test_operations alltests[] = {
 		.create_blas = default_create_blas,
 		.prepare_data = prepare_data_matrix_A,
 		.run_blas = run_blas_nrm2,
+		.get_flops = get_flops_nrm2,
 		.display_data = display_data_nrm2,
 		.free_data = free_data_matrix_A,
 		.destroy_blas = default_destroy_blas,
@@ -565,6 +602,7 @@ struct test_operations alltests[] = {
 		.create_blas = default_create_blas,
 		.prepare_data = prepare_data_matrix_Gemm,
 		.run_blas = run_blas_Gemm,
+		.get_flops = get_flops_gemm,
 		.display_data = display_data_Gemm,
 		.free_data = free_data_matrix_ABC,
 		.destroy_blas = default_destroy_blas,
@@ -575,7 +613,9 @@ void exec_one_test(struct test_operations *test)
 {
 	unsigned long n;
 
-	printf("Testing %s for %s (size of %ld)\n", test->name, TNAME, sizeof(TYPE));
+	if (env.verbose)
+		printf("Testing %s for %s (size of %ld)\n",
+			test->name, TNAME, sizeof(TYPE));
 
 	test->create.start = nsecs();
 	test->create_blas(test);
@@ -594,6 +634,8 @@ void exec_one_test(struct test_operations *test)
 	cudaEventSynchronize(test->run.end);
 	cudaEventElapsedTime(&test->run.elapsed, test->run.start, test->run.end);
 
+	test->run.flops = test->get_flops(test);
+
 	test->display.start = nsecs();
 	if (env.verbose) {
 		test->display_data(test);
@@ -608,12 +650,19 @@ void exec_one_test(struct test_operations *test)
 	test->destroy_blas(test);
 	test->destroy.end = nsecs();
 
-	printf("%s %s %s %s %s %s\n", "create", "prepare", "run", "display", "free", "destroy");
 #define LAT(n) ((test->n.end - test->n.start) / 1000000UL)
 #define LAT_GPU(e) (test->e.elapsed)
-	printf("%ld %ld %.2f %ld %ld %ld\n", LAT(create), LAT(prepare),
+	if (env.verbose) {
+		printf("create elapsed %ld ms\n", LAT(create));
+		printf("prepare elapsed %ld ms\n", LAT(prepare));
+		printf("display elapsed %ld ms\n", LAT(display));
+		printf("free elapsed %ld ms\n", LAT(free));
+	}
+	printf("run elapsed %.2f ms, %.2lf FLOPS, %.2lf GFLOPS, %.2lf TFLOPS\n",
 		LAT_GPU(run),
-		LAT(display), LAT(free), LAT(destroy));
+		test->run.flops,
+		test->run.flops / 1e9,
+		test->run.flops / 1e12);
 #undef LAT
 #undef LAT_GPU
 }
