@@ -17,13 +17,13 @@
 #endif
 
 /* call by kernel/device, run by device */
-__device__ void foo(void)
+__device__ void dev_foo(void)
 {
 	printf("Hello from GPU foo.\n");
 }
 
 /* call by host, run by device */
-__global__ void func(void)
+__global__ void kern_func(void)
 {
 #ifdef __HPCC_ARCH__
 	/* Device code */
@@ -31,7 +31,9 @@ __global__ void func(void)
 	/* Host code */
 #endif
 	printf("Hello from GPU.\n");
-	foo();
+	dev_foo();
+
+	__syncthreads();
 }
 
 /* call,run by host */
@@ -43,7 +45,7 @@ int main(void)
 {
 	gpu_init(0);
 
-	func<<<1,1>>>();
+	kern_func<<<1, 1>>>();
 	host_func();
 
 	/* flush printf */

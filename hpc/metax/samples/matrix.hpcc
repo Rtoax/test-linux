@@ -223,6 +223,9 @@ __gpu_global__ void matrix_mul(TYPE *A, TYPE *B, TYPE *C, unsigned long m,
 			}
 		}
 	}
+#if defined(HAVE_HCCL) || defined(HAVE_CUDA)
+	__syncthreads();
+#endif
 }
 
 static double matrix_mul_FLOPS(unsigned long ns)
@@ -255,6 +258,9 @@ __gpu_global__ void vector_mul(TYPE *A, TYPE *B, TYPE *C, unsigned long N,
 #endif
 		}
 	}
+#if defined(HAVE_HCCL) || defined(HAVE_CUDA)
+	__syncthreads();
+#endif
 }
 
 static double vector_mul_FLOPS(unsigned long ns)
