@@ -363,7 +363,7 @@ int main(int argc, char *argv[])
 
 	start = nsecs();
 
-	CUDA_BUG_CALL(cudaMalloc(&dev_A, sizeof(TYPE) * env.m * env.k), goto Malloc_failed)
+	CUDA_BUG_CALL(cudaMalloc(&dev_A, sizeof(TYPE) * env.m * env.k), goto Malloc_failed);
 	CUDA_BUG_CALL(cudaMalloc(&dev_B, sizeof(TYPE) * env.k * env.n), goto Malloc_failed);
 	CUDA_BUG_CALL(cudaMalloc(&dev_C, sizeof(TYPE) * env.m * env.n), goto Malloc_failed);
 
