@@ -313,6 +313,8 @@ int main(int argc, char *argv[])
 	unsigned long malloc_ns, h2d_ns, d2h_ns, kern_gpu_ns, kern_nocal_ns;
 	TYPE *dev_A, *dev_B, *dev_C;
 	cudaEvent_t ev_start, ev_stop;
+	dim3 block1;
+	dim3 grid1;
 #endif
 	TYPE *host_A, *host_B, *host_C;
 
@@ -358,6 +360,10 @@ int main(int argc, char *argv[])
 #endif
 
 #if defined(HAVE_HCCL) || defined(HAVE_CUDA)
+
+	block1.x = 512;
+	grid1.x = (env.m * env.n + 511) / 512;
+
 	cudaEventCreate(&ev_start);
 	cudaEventCreate(&ev_stop);
 
@@ -387,7 +393,7 @@ int main(int argc, char *argv[])
 	/* Stress test */
 	for (iloop = 0; iloop < env.nloop; iloop++) {
 #if defined(HAVE_HCCL) || defined(HAVE_CUDA)
-# define DIM	<<<(env.m * env.n + 511) / 512, 512>>>
+# define DIM	<<<grid1, block1>>>
 
 		if (env.vector)
 			vector_mul DIM (dev_A, dev_B, dev_C, env.m * env.n, false);
