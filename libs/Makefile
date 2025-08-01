@@ -24,7 +24,7 @@ targets += ipaddr
 LIB_OBJS := ipaddr.so.o readline.so.o
 LIB_OBJS_A := ipaddr.a.o readline.a.o
 
-targets-libso += libtest-linux-c.so
+targets-libso += libtest-linux-c.so.0.1
 targets-liba += libtest-linux-c.a
 
 targets-test += test1
@@ -37,7 +37,7 @@ endif
 
 ifdef LINK_LIB
   CFLAGS += -ltest-linux-c
-  LDFLAGS += libtest-linux-c.so
+  LDFLAGS += libtest-linux-c.so.0.1
 endif
 
 include ../elf/pie.mk
@@ -52,7 +52,7 @@ test1:
 	${Q}clear
 	${Q}./file.sh test
 
-*.so.o: *.h
+%.so.o: %.h
 
 byteswap: byteswap.o
 byteswap.o: byteswap.h
@@ -75,5 +75,5 @@ str: str.o
 ipaddr: ipaddr.o
 ipaddr.o: ipaddr.h
 
-libtest-linux-c.so: ${LIB_OBJS}
+libtest-linux-c.so.0.1: ${LIB_OBJS}
 libtest-linux-c.a: ${LIB_OBJS_A}
