@@ -507,7 +507,9 @@ int main(int argc, char *argv[])
 			pv = host_D;
 		}
 		for (i = 0; i < env.m * env.n; i++) {
+#ifdef DEBUG
 			printf("correct_val " TFMT "\n", TVAL(correct_val));
+#endif
 			if (TVAL(pv[i]) != TVAL(correct_val)) {
 				fprintf(stderr, "ERROR: cal matrix mul failed.\n");
 				err = -1;
