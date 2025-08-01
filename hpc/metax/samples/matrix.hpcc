@@ -195,7 +195,7 @@ static inline unsigned long nsecs(void)
 __gpu_global__ void matrix_mul(TYPE *A, TYPE *B, TYPE *C, unsigned long m,
 			       unsigned long k, unsigned long n, bool nocal)
 {
-	unsigned long ia, ib, ic, icx, icy, ik;
+	unsigned long ia, ib, ic, in, im, ik;
 
 #if defined(HAVE_HCCL) || defined(HAVE_CUDA)
 	ic = threadIdx.x + blockDim.x * blockIdx.x;
@@ -205,16 +205,16 @@ __gpu_global__ void matrix_mul(TYPE *A, TYPE *B, TYPE *C, unsigned long m,
 	for (ic = 0; ic < m * n; ic++)
 #endif
 	{
-		icx = ic % n;
-		icy = ic / n;
+		in = ic % n;
+		im = ic / n;
 
 		if (!nocal) {
 			C[ic] = TRVALUE(0.0f);
 		}
 
 		for (ik = 0; ik < k; ik++) {
-			ia = icy * k + ik;
-			ib = ik * n + icx;
+			ia = im * k + ik;
+			ib = ik * n + in;
 			if (!nocal) {
 #if defined(TEST_FP16)
 				C[ic] = __hadd(C[ic], __hmul(A[ia], B[ib]));
