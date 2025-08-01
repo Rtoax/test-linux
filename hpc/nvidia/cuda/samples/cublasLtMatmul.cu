@@ -18,6 +18,24 @@
 #define n	3
 #define k	4
 
+void printMatrixLayout(const char* name, cublasLtMatrixLayout_t layout)
+{
+	uint32_t rows, cols;
+	int32_t ld;
+	cudaDataType type;
+
+	cublasLtMatrixLayoutGetAttribute(layout, CUBLASLT_MATRIX_LAYOUT_ROWS, &rows, sizeof(rows), NULL);
+	cublasLtMatrixLayoutGetAttribute(layout, CUBLASLT_MATRIX_LAYOUT_COLS, &cols, sizeof(cols), NULL);
+	cublasLtMatrixLayoutGetAttribute(layout, CUBLASLT_MATRIX_LAYOUT_LD, &ld, sizeof(ld), NULL);
+	cublasLtMatrixLayoutGetAttribute(layout, CUBLASLT_MATRIX_LAYOUT_TYPE, &type, sizeof(type), NULL);
+
+	printf("%s Layout: rows=%u, cols=%u, ld=%d, type=%s\n",
+		name, rows, cols, ld,
+		(type == CUDA_R_32F) ? "FP32" :
+		(type == CUDA_R_16F) ? "FP16" :
+		(type == CUDA_R_8I) ? "INT8" : "Unknown");
+}
+
 int main(void)
 {
 	float alpha = 1.0f;
@@ -45,13 +63,29 @@ int main(void)
 	CUDA_BLAS_BUG_CALL(cublasLtMatmulDescCreate(&matmulDesc, CUBLAS_COMPUTE_32F, CUDA_R_32F), exit(EXIT_FAILURE));
 
 	cublasLtMatrixLayout_t layoutA, layoutB, layoutC;
-	CUDA_BLAS_BUG_CALL(cublasLtMatrixLayoutCreate(&layoutA, CUDA_R_32F, m, k, k), exit(EXIT_FAILURE));
-	CUDA_BLAS_BUG_CALL(cublasLtMatrixLayoutCreate(&layoutB, CUDA_R_32F, k, n, n), exit(EXIT_FAILURE));
-	CUDA_BLAS_BUG_CALL(cublasLtMatrixLayoutCreate(&layoutC, CUDA_R_32F, m, n, n), exit(EXIT_FAILURE));
+	CUDA_BLAS_BUG_CALL(cublasLtMatrixLayoutCreate(&layoutA, CUDA_R_32F, m, k, m), exit(EXIT_FAILURE));
+	CUDA_BLAS_BUG_CALL(cublasLtMatrixLayoutCreate(&layoutB, CUDA_R_32F, k, n, k), exit(EXIT_FAILURE));
+	CUDA_BLAS_BUG_CALL(cublasLtMatrixLayoutCreate(&layoutC, CUDA_R_32F, m, n, m), exit(EXIT_FAILURE));
+
+	printMatrixLayout("A", layoutA);
+	printMatrixLayout("B", layoutB);
+	printMatrixLayout("C", layoutC);
 
 	void* workspace;
 	size_t workspaceSize = 1 << 22; // 4MB
 	CUDA_BUG_CALL_EXIT(cudaMalloc(&workspace, workspaceSize));
+
+	cublasLtMatmulPreference_t pref;
+	CUDA_BLAS_BUG_CALL(cublasLtMatmulPreferenceCreate(&pref), exit(EXIT_FAILURE));
+	CUDA_BLAS_BUG_CALL(cublasLtMatmulPreferenceSetAttribute(pref,
+			CUBLASLT_MATMUL_PREF_MAX_WORKSPACE_BYTES,
+			&workspaceSize, sizeof(workspaceSize)), exit(EXIT_FAILURE));
+
+	int rslt;
+	cublasLtMatmulHeuristicResult_t heuristic_result;
+	CUDA_BLAS_BUG_CALL(cublasLtMatmulAlgoGetHeuristic(ltHandle,
+				matmulDesc, layoutA, layoutB, layoutC, layoutC,
+				pref, 1, &heuristic_result, &rslt),);
 
 	CUDA_BLAS_BUG_CALL(cublasLtMatmul(
 				ltHandle,
@@ -62,9 +96,16 @@ int main(void)
 				&beta,
 				d_C, layoutC,
 				d_C, layoutC,
-				NULL,
+#if 1
+				&heuristic_result.algo,
 				workspace, workspaceSize,
-				0 /* No stream */), goto free);
+#else
+				NULL,
+				NULL, 0,
+#endif
+				NULL /* No stream */), goto free);
+
+	CUDA_BUG_CALL_EXIT(cudaDeviceSynchronize());
 
 	CUDA_BUG_CALL_EXIT(cudaMemcpy(h_C, d_C, m * n * sizeof(float), cudaMemcpyDeviceToHost));
 
@@ -80,6 +121,7 @@ free:
 	cudaFree(d_B);
 	cudaFree(d_C);
 	cudaFree(workspace);
+	cublasLtMatmulPreferenceDestroy(pref);
 	cublasLtMatrixLayoutDestroy(layoutA);
 	cublasLtMatrixLayoutDestroy(layoutB);
 	cublasLtMatrixLayoutDestroy(layoutC);
