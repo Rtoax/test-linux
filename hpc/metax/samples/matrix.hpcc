@@ -184,13 +184,13 @@ static inline unsigned long nsecs(void)
  * alpha * A[m*k] * B[k*n] = C[m*n]
  *
  * m=2,k=3,n=2
- *             ┌     ┐
- * ┌       ┐   │ 1 2 │   ┌       ┐
- * │ 1 2 3 │   │     │   │ 22 28 │
- * │       │ * │ 3 4 │ = │       │
- * │ 4 5 6 │   │     │   │ 49 64 │
- * └       ┘   │ 5 6 │   └       ┘
- *             └     ┘
+ *                     ┌     ┐
+ *         ┌       ┐   │ 1 2 │   ┌       ┐
+ *         │ 1 2 3 │   │     │   │ 22 28 │
+ * alpha * │       │ * │ 3 4 │ = │       │
+ *         │ 4 5 6 │   │     │   │ 49 64 │
+ *         └       ┘   │ 5 6 │   └       ┘
+ *                     └     ┘
  *
  * @nocal - The call of GPU kernel function will have a large overhead. When
  * nocal is true, multiplication operation will not be calculated, and a more
