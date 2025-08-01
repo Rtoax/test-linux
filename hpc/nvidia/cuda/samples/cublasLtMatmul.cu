@@ -50,19 +50,26 @@ int main(void)
 	float h_C[m * n] = {0};
 
 	float *d_A, *d_B, *d_C;
+
+	cublasLtHandle_t ltHandle;
+	cublasLtMatmulDesc_t matmulDesc;
+	cublasLtMatrixLayout_t layoutA, layoutB, layoutC;
+	cublasLtMatmulPreference_t pref;
+	void *workspace;
+	size_t workspaceSize = 1 << 22; // 4MB
+	int rslt;
+
+
 	CUDA_BUG_CALL_EXIT(cudaMalloc((void**)&d_A, m * k * sizeof(float)));
 	CUDA_BUG_CALL_EXIT(cudaMalloc((void**)&d_B, k * n * sizeof(float)));
 	CUDA_BUG_CALL_EXIT(cudaMalloc((void**)&d_C, m * n * sizeof(float)));
 	CUDA_BUG_CALL_EXIT(cudaMemcpy(d_A, h_A, m * k * sizeof(float), cudaMemcpyHostToDevice));
 	CUDA_BUG_CALL_EXIT(cudaMemcpy(d_B, h_B, k * n * sizeof(float), cudaMemcpyHostToDevice));
 
-	cublasLtHandle_t ltHandle;
 	CUDA_BLAS_BUG_CALL(cublasLtCreate(&ltHandle), exit(EXIT_FAILURE));
 
-	cublasLtMatmulDesc_t matmulDesc;
 	CUDA_BLAS_BUG_CALL(cublasLtMatmulDescCreate(&matmulDesc, CUBLAS_COMPUTE_32F, CUDA_R_32F), exit(EXIT_FAILURE));
 
-	cublasLtMatrixLayout_t layoutA, layoutB, layoutC;
 	CUDA_BLAS_BUG_CALL(cublasLtMatrixLayoutCreate(&layoutA, CUDA_R_32F, m, k, m), exit(EXIT_FAILURE));
 	CUDA_BLAS_BUG_CALL(cublasLtMatrixLayoutCreate(&layoutB, CUDA_R_32F, k, n, k), exit(EXIT_FAILURE));
 	CUDA_BLAS_BUG_CALL(cublasLtMatrixLayoutCreate(&layoutC, CUDA_R_32F, m, n, m), exit(EXIT_FAILURE));
@@ -71,21 +78,23 @@ int main(void)
 	printMatrixLayout("B", layoutB);
 	printMatrixLayout("C", layoutC);
 
-	void* workspace;
-	size_t workspaceSize = 1 << 22; // 4MB
 	CUDA_BUG_CALL_EXIT(cudaMalloc(&workspace, workspaceSize));
 
-	cublasLtMatmulPreference_t pref;
 	CUDA_BLAS_BUG_CALL(cublasLtMatmulPreferenceCreate(&pref), exit(EXIT_FAILURE));
 	CUDA_BLAS_BUG_CALL(cublasLtMatmulPreferenceSetAttribute(pref,
 			CUBLASLT_MATMUL_PREF_MAX_WORKSPACE_BYTES,
 			&workspaceSize, sizeof(workspaceSize)), exit(EXIT_FAILURE));
 
-	int rslt;
 	cublasLtMatmulHeuristicResult_t heuristic_result;
 	CUDA_BLAS_BUG_CALL(cublasLtMatmulAlgoGetHeuristic(ltHandle,
 				matmulDesc, layoutA, layoutB, layoutC, layoutC,
 				pref, 1, &heuristic_result, &rslt),);
+
+	if (rslt == 0) {
+		fprintf(stderr, "No valid algorithm found! Using fallback method.\n");
+	} else {
+		printf("Found %d heuristic algorithms\n", rslt);
+	}
 
 	CUDA_BLAS_BUG_CALL(cublasLtMatmul(
 				ltHandle,
