@@ -122,6 +122,10 @@ int main(int argc, char *argv[])
 			perf_event_bpf__load,
 			perf_event_bpf__destroy);
 
+	/* init stackmap */
+	bpf_map__set_value_size(skel->maps.stackmap, 128 * sizeof(unsigned long));
+	bpf_map__set_max_entries(skel->maps.stackmap, 1024);
+
 	err = perf_event_bpf__attach(skel);
 	if (err) {
 		fprintf(stderr, "Failed to attach BPF skeleton: %d\n", err);

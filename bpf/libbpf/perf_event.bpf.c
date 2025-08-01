@@ -26,6 +26,15 @@ struct {
 	__uint(max_entries, MAX_IPS);
 } vaddr_map SEC(".maps");
 
+#define STACK_MAP	1
+#if defined(STACK_MAP)
+struct {
+	__uint(type, BPF_MAP_TYPE_STACK_TRACE);
+	__type(key, u32);
+} stackmap SEC(".maps");
+#endif
+
+
 SEC("perf_event")
 int do_sample(struct bpf_perf_event_data *ctx)
 {
@@ -42,6 +51,18 @@ int do_sample(struct bpf_perf_event_data *ctx)
 		/* E2BIG not tested for this example only */
 		bpf_map_update_elem(&vaddr_map, &ip, &init_val, BPF_NOEXIST);
 
+#if defined(STACK_MAP)
+	int user_stack_id;
+	int kern_stack_id;
+	/* Walk a kernel stack and return its id. */
+	kern_stack_id = bpf_get_stackid(&ctx->regs, &stackmap, 0);
+	/* Collect a user space stack instead of a kernel stack. */
+	user_stack_id = bpf_get_stackid(&ctx->regs, &stackmap, BPF_F_USER_STACK);
+
+	if (kern_stack_id >= 0 && user_stack_id >= 0) {
+		bpf_printk("Stack kernel %d, user %d", kern_stack_id, user_stack_id);
+	}
+#endif
 	return 0;
 }
 
