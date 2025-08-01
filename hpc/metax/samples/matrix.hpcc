@@ -23,14 +23,17 @@
 #   include <hpcc_fp16.h>
 #  endif
 # define __gpu_global__	__global__
+# define __gpu_device__	__device__
 # include "cuda2hccl.h"
 /* Use some macros, _must_ include after cuda2hccl.h */
 #elif defined(HAVE_CUDA)
 # include <cuda_runtime.h>
 # include "cuda_helpers.h"
 # define __gpu_global__	__global__
+# define __gpu_device__	__device__
 #else
 # define __gpu_global__
+# define __gpu_device__
 # define gpu_name(devid, b, bl)	({ strncpy(b, "CPU", bl); b; })
 #endif
 
@@ -76,6 +79,7 @@ struct {
 	unsigned long m, k, n;
 	bool vector;
 	unsigned long nloop;
+	TYPE alpha;
 	bool set_value;
 	unsigned int value;
 	unsigned int unit_time;
@@ -87,6 +91,7 @@ struct {
 	.n = 2,
 	.vector = false,
 	.nloop = 1,
+	.alpha = TRVALUE(1),
 	.set_value = false,
 	.value = 0,
 	.unit_time = NS2US,
@@ -114,6 +119,7 @@ static const struct argp_option opts[] = {
 	{ "m-num", 'm', "M_NUM", 0, "Matrix M number" },
 	{ "k-num", 'k', "K_NUM", 0, "Matrix K number" },
 	{ "n-num", 'n', "N_NUM", 0, "Matrix N number" },
+	{ "alpha", 'a', "ALPHA", 0, "Alpha number" },
 	{ "nloop", 'N', "NLOOP", 0, "Test loop number" },
 	{ "init-val", 'i', "INIT_VAL", 0, "Set matrix values" },
 	{ "verbose", 'v', NULL, 1, "Display detail" },
@@ -135,6 +141,9 @@ static error_t parse_arg(int key, char *arg, struct argp_state *state)
 		break;
 	case 'n':
 		env.n = strtoul(arg, NULL, 10);
+		break;
+	case 'a':
+		env.alpha = TRVALUE(strtoul(arg, NULL, 10));
 		break;
 	case 'N':
 		env.nloop = strtoul(arg, NULL, 10);
@@ -177,7 +186,7 @@ static inline unsigned long nsecs(void)
 }
 
 /**
- * A[m*k] * B[k*n] = C[m*n]
+ * alpha * A[m*k] * B[k*n] = C[m*n]
  *
  * m=2,k=3,n=2
  *             ┌     ┐
@@ -192,8 +201,9 @@ static inline unsigned long nsecs(void)
  * nocal is true, multiplication operation will not be calculated, and a more
  * accurate FLOPS can be calculated.
  */
-__gpu_global__ void matrix_mul(TYPE *A, TYPE *B, TYPE *C, unsigned long m,
-			       unsigned long k, unsigned long n, bool nocal)
+__gpu_global__ void matrix_mul(TYPE *A, TYPE *B, TYPE *C, TYPE alpha,
+			       unsigned long m, unsigned long k,
+			       unsigned long n, bool nocal)
 {
 	unsigned long ia, ib, ic, in, im, ik;
 
@@ -217,9 +227,9 @@ __gpu_global__ void matrix_mul(TYPE *A, TYPE *B, TYPE *C, unsigned long m,
 			ib = ik * n + in;
 			if (!nocal) {
 #if defined(TEST_FP16)
-				C[ic] = __hadd(C[ic], __hmul(A[ia], B[ib]));
+				C[ic] = __hadd(C[ic], __hmul(alpha, __hmul(A[ia], B[ib])));
 #else
-				C[ic] += A[ia] * B[ib];
+				C[ic] += TVAL(alpha) * A[ia] * B[ib];
 #endif
 			}
 		}
@@ -232,14 +242,14 @@ __gpu_global__ void matrix_mul(TYPE *A, TYPE *B, TYPE *C, unsigned long m,
 static double matrix_mul_FLOPS(unsigned long ns)
 {
 	/**
-	 * 2.0: plus and multi
+	 * 3.0: alpha + plus + A*B
 	 * 1e9: nanoseconds to seconds
 	 */
-	return 2.0 * env.m * env.k * env.n * env.nloop * 1e9 / ns;
+	return 3.0 * env.m * env.k * env.n * env.nloop * 1e9 / ns;
 }
 
-__gpu_global__ void vector_mul(TYPE *A, TYPE *B, TYPE *C, unsigned long N,
-			       bool nocal)
+__gpu_global__ void vector_mul(TYPE *A, TYPE *B, TYPE *C, TYPE alpha,
+			       unsigned long N, bool nocal)
 {
 	unsigned long i;
 
@@ -253,9 +263,9 @@ __gpu_global__ void vector_mul(TYPE *A, TYPE *B, TYPE *C, unsigned long N,
 	{
 		if (!nocal) {
 #if defined(TEST_FP16)
-			C[i] = __hmul(A[i], B[i]);
+			C[i] = __hmul(alpha, __hmul(A[i], B[i]));
 #else
-			C[i] = A[i] * B[i];
+			C[i] = alpha * A[i] * B[i];
 #endif
 		}
 	}
@@ -267,9 +277,10 @@ __gpu_global__ void vector_mul(TYPE *A, TYPE *B, TYPE *C, unsigned long N,
 static double vector_mul_FLOPS(unsigned long ns)
 {
 	/**
+	 * 2.0: alpha + A*B
 	 * 1e9: nanoseconds to seconds
 	 */
-	return env.m * env.k * env.nloop * 1e9 / ns;
+	return 2.0 * env.m * env.k * env.nloop * 1e9 / ns;
 }
 
 void init_matrix(TYPE *p, unsigned long n, bool zero, bool set_val, TYPE val)
@@ -396,15 +407,19 @@ int main(int argc, char *argv[])
 # define DIM	<<<grid1, block1>>>
 
 		if (env.vector)
-			vector_mul DIM (dev_A, dev_B, dev_C, env.m * env.n, false);
+			vector_mul DIM (dev_A, dev_B, dev_C, env.alpha,
+					env.m * env.n, false);
 		else
-			matrix_mul DIM (dev_A, dev_B, dev_C, env.m, env.k, env.n, false);
+			matrix_mul DIM (dev_A, dev_B, dev_C, env.alpha,
+					env.m, env.k, env.n, false);
 
 #else
 		if (env.vector)
-			vector_mul(host_A, host_B, host_C, env.m * env.n, false);
+			vector_mul(host_A, host_B, host_C, env.alpha,
+				   env.m * env.n, false);
 		else
-			matrix_mul(host_A, host_B, host_C, env.m, env.k, env.n, false);
+			matrix_mul(host_A, host_B, host_C, env.alpha,
+				   env.m, env.k, env.n, false);
 #endif
 	}
 
@@ -425,9 +440,11 @@ int main(int argc, char *argv[])
 
 	for (iloop = 0; iloop < env.nloop; iloop++) {
 		if (env.vector)
-			vector_mul DIM (dev_A, dev_B, dev_C, env.m * env.n, true);
+			vector_mul DIM (dev_A, dev_B, dev_C, env.alpha,
+					env.m * env.n, true);
 		else
-			matrix_mul DIM (dev_A, dev_B, dev_C, env.m, env.k, env.n, true);
+			matrix_mul DIM (dev_A, dev_B, dev_C, env.alpha,
+					env.m, env.k, env.n, true);
 	}
 
 	cudaEventRecord(ev_stop);
