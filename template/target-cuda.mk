@@ -3,12 +3,15 @@ NVCC := $(shell which nvcc 2>/dev/null)
 # see https://developer.download.nvidia.cn/compute/cuda/repos/rhel9/x86_64/
 CUDA_NVCC_123 := /usr/local/cuda-12.3/bin/nvcc
 CUDA_NVCC_129 := /usr/local/cuda-12.9/bin/nvcc
+CUDA_NVCC := /usr/local/cuda/bin/nvcc
 
 ifeq ($(NVCC),)
   ifneq ($(wildcard ${CUDA_NVCC_129}),)
     NVCC := ${CUDA_NVCC_129}
   else ifneq ($(wildcard ${CUDA_NVCC_123}),)
     NVCC := ${CUDA_NVCC_123}
+  else ifneq ($(wildcard ${CUDA_NVCC}),)
+    NVCC := ${CUDA_NVCC}
   endif
 endif
 ifeq ($(wildcard $(NVCC)),)
