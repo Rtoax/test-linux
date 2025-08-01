@@ -111,6 +111,22 @@
 #define cublasGetMatrix(rows, cols, elemsize, A, ola, B, ldb)	\
 	hcblasGetMatrix(rows, cols, elemsize, A, ola, B, ldb)
 
+#define cublasSetVector(n, elemSize, x, incx, y, incy) \
+	hcblasSetVector(n, elemSize, x, incx, y, incy)
+#define cublasGetVector(n, elemSize, x, incx, y, incy) \
+	hcblasGetVector(n, elemSize, x, incx, y, incy)
+
+/**
+ * The cublasPointerMode_t type indicates whether the scalar values are passed
+ * by reference on the host or device.
+ */
+#define cublasPointerMode_t	hcblasPointerMode_t
+#define CUBLAS_POINTER_MODE_HOST	HCBLAS_POINTER_MODE_HOST
+#define CUBLAS_POINTER_MODE_DEVICE	HCBLAS_POINTER_MODE_DEVICE
+
+#define cublasGetPointerMode(handle, mode)	hcblasGetPointerMode(handle, mode)
+#define cublasSetPointerMode(handle, mode)	hcblasSetPointerMode(handle, mode)
+
 /**
  * x[j] = alpha * x[j]
  * i = 1 ... n
