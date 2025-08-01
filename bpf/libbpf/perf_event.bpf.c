@@ -26,7 +26,6 @@ struct {
 	__uint(max_entries, MAX_IPS);
 } vaddr_map SEC(".maps");
 
-#define STACK_MAP	1
 #if defined(STACK_MAP)
 struct {
 	__uint(type, BPF_MAP_TYPE_STACK_TRACE);
