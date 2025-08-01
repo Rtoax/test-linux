@@ -19,9 +19,9 @@
 # include <hccl.h>
 # include <hc_runtime.h>
 # include "hpcc_helpers.h"
-#  if defined(TEST_FP16)
-#   include <hpcc_fp16.h>
-#  endif
+# if defined(TEST_FP16)
+#  include <hpcc_fp16.h>
+# endif
 # define __gpu_global__	__global__
 # define __gpu_device__	__device__
 # include "cuda2hccl.h"
@@ -29,6 +29,9 @@
 #elif defined(HAVE_CUDA)
 # include <cuda_runtime.h>
 # include "cuda_helpers.h"
+# if defined(TEST_FP16)
+#  include <cuda_fp16.h>
+# endif
 # define __gpu_global__	__global__
 # define __gpu_device__	__device__
 #else
