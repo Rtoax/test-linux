@@ -97,6 +97,8 @@ struct test_operations {
 
 struct test {
 	const char *name;
+	enum test_type type;
+
 	cublasHandle_t handle;
 
 	union {
@@ -105,22 +107,26 @@ struct test {
 		double *fp64;
 		void *ptr;
 	} host_A, host_B, host_C, dev_A, dev_B, dev_C;
+#define Z1      {NULL}
 
 	union {
 		half fp16;
 		float fp32;
 		double fp64;
 	} result;
+#define Z2      {0.0}
 
 	struct {
 		unsigned long start, end;
 	} create, prepare, display, free, destroy;
+#define Z3      {0,0}
 	struct {
 		cudaEvent_t start, end;
 		float elapsed; /* ms */
 		double flops;
 	} run;
-
+#define Z4      {NULL,NULL,0.0,0.0}
+#define ZERO_TEST(name, type) name,type,NULL,Z1,Z1,Z1,Z1,Z1,Z1,Z2,Z3,Z3,Z3,Z3,Z3,Z4
 	struct test_operations ops;
 };
 
@@ -772,9 +778,9 @@ int default_destroy_blas(struct test *test)
 }
 
 struct test alltests[] = {
-	[TEST_SCAL_FP32] = {
-		.name = "SCAL FP32",
-		.ops = {
+	{
+		ZERO_TEST("SCAL FP32", TEST_SCAL_FP32),
+		{
 			.create_blas = default_create_blas,
 			.prepare_data = prepare_data_matrix_A_fp32,
 			.run_blas = run_blas_scal_fp32,
@@ -784,9 +790,9 @@ struct test alltests[] = {
 			.destroy_blas = default_destroy_blas,
 		}
 	},
-	[TEST_SCAL_FP64] = {
-		.name = "SCAL FP64",
-		.ops = {
+	{
+		ZERO_TEST("SCAL FP64", TEST_SCAL_FP64),
+		{
 			.create_blas = default_create_blas,
 			.prepare_data = prepare_data_matrix_A_fp64,
 			.run_blas = run_blas_scal_fp64,
@@ -796,9 +802,9 @@ struct test alltests[] = {
 			.destroy_blas = default_destroy_blas,
 		}
 	},
-	[TEST_AXPY_FP32] = {
-		.name = "AXPY FP32",
-		.ops = {
+	{
+		ZERO_TEST("AXPY FP32", TEST_AXPY_FP32),
+		{
 			.create_blas = default_create_blas,
 			.prepare_data = prepare_data_matrix_sameAB_fp32,
 			.run_blas = run_blas_axpy_fp32,
@@ -808,9 +814,9 @@ struct test alltests[] = {
 			.destroy_blas = default_destroy_blas,
 		}
 	},
-	[TEST_AXPY_FP64] = {
-		.name = "AXPY FP64",
-		.ops = {
+	{
+		ZERO_TEST("AXPY FP64", TEST_AXPY_FP64),
+		{
 			.create_blas = default_create_blas,
 			.prepare_data = prepare_data_matrix_sameAB_fp64,
 			.run_blas = run_blas_axpy_fp64,
@@ -820,9 +826,9 @@ struct test alltests[] = {
 			.destroy_blas = default_destroy_blas,
 		}
 	},
-	[TEST_COPY_FP32] = {
-		.name = "COPY FP32",
-		.ops = {
+	{
+		ZERO_TEST("COPY FP32", TEST_COPY_FP32),
+		{
 			.create_blas = default_create_blas,
 			.prepare_data = prepare_data_matrix_sameAB_fp32,
 			.run_blas = run_blas_copy_fp32,
@@ -832,9 +838,9 @@ struct test alltests[] = {
 			.destroy_blas = default_destroy_blas,
 		}
 	},
-	[TEST_COPY_FP64] = {
-		.name = "COPY FP64",
-		.ops = {
+	{
+		ZERO_TEST("COPY FP64", TEST_COPY_FP64),
+		{
 			.create_blas = default_create_blas,
 			.prepare_data = prepare_data_matrix_sameAB_fp64,
 			.run_blas = run_blas_copy_fp64,
@@ -844,9 +850,9 @@ struct test alltests[] = {
 			.destroy_blas = default_destroy_blas,
 		}
 	},
-	[TEST_DOT_FP32] = {
-		.name = "DOT FP32",
-		.ops = {
+	{
+		ZERO_TEST("DOT FP32", TEST_DOT_FP32),
+		{
 			.create_blas = default_create_blas,
 			.prepare_data = prepare_data_matrix_sameAB_fp32,
 			.run_blas = run_blas_dot_fp32,
@@ -856,9 +862,9 @@ struct test alltests[] = {
 			.destroy_blas = default_destroy_blas,
 		}
 	},
-	[TEST_DOT_FP64] = {
-		.name = "DOT FP64",
-		.ops = {
+	{
+		ZERO_TEST("DOT FP64", TEST_DOT_FP64),
+		{
 			.create_blas = default_create_blas,
 			.prepare_data = prepare_data_matrix_sameAB_fp64,
 			.run_blas = run_blas_dot_fp64,
@@ -868,9 +874,9 @@ struct test alltests[] = {
 			.destroy_blas = default_destroy_blas,
 		}
 	},
-	[TEST_NRM2_FP32] = {
-		.name = "NRM2 FP32",
-		.ops = {
+	{
+		ZERO_TEST("NRM2 FP32", TEST_NRM2_FP32),
+		{
 			.create_blas = default_create_blas,
 			.prepare_data = prepare_data_matrix_A_fp32,
 			.run_blas = run_blas_nrm2_fp32,
@@ -880,9 +886,9 @@ struct test alltests[] = {
 			.destroy_blas = default_destroy_blas,
 		}
 	},
-	[TEST_NRM2_FP64] = {
-		.name = "NRM2 FP64",
-		.ops = {
+	{
+		ZERO_TEST("NRM2 FP64", TEST_NRM2_FP64),
+		{
 			.create_blas = default_create_blas,
 			.prepare_data = prepare_data_matrix_A_fp64,
 			.run_blas = run_blas_nrm2_fp64,
@@ -892,9 +898,9 @@ struct test alltests[] = {
 			.destroy_blas = default_destroy_blas,
 		}
 	},
-	[TEST_GEMM_FP16] = {
-		.name = "GEMM FP16",
-		.ops = {
+	{
+		ZERO_TEST("GEMM FP16", TEST_GEMM_FP16),
+		{
 			.create_blas = default_create_blas,
 			.prepare_data = prepare_data_matrix_Gemm_fp16,
 			.run_blas = run_blas_Gemm_fp16,
@@ -904,9 +910,9 @@ struct test alltests[] = {
 			.destroy_blas = default_destroy_blas,
 		}
 	},
-	[TEST_GEMM_FP32] = {
-		.name = "GEMM FP32",
-		.ops = {
+	{
+		ZERO_TEST("GEMM FP32", TEST_GEMM_FP32),
+		{
 			.create_blas = default_create_blas,
 			.prepare_data = prepare_data_matrix_Gemm_fp32,
 			.run_blas = run_blas_Gemm_fp32,
@@ -916,9 +922,9 @@ struct test alltests[] = {
 			.destroy_blas = default_destroy_blas,
 		}
 	},
-	[TEST_GEMM_FP64] = {
-		.name = "GEMM FP64",
-		.ops = {
+	{
+		ZERO_TEST("GEMM FP64", TEST_GEMM_FP64),
+		{
 			.create_blas = default_create_blas,
 			.prepare_data = prepare_data_matrix_Gemm_fp64,
 			.run_blas = run_blas_Gemm_fp64,
@@ -1006,13 +1012,10 @@ int main(int argc, char *argv[])
 		printf("M = %ld, N = %ld\n", env.m, env.n);
 	}
 
-	if (env.test_type == TEST_ALL) {
-		for (i = 0; i < ARRAY_SIZE(alltests); i++) {
-			test = &alltests[i];
-			exec_one_test(test);
-		}
-	} else {
-		test = &alltests[env.test_type];
+	for (i = 0; i < ARRAY_SIZE(alltests); i++) {
+		test = &alltests[i];
+		if (env.test_type != TEST_ALL && env.test_type != test->type)
+			continue;
 		exec_one_test(test);
 	}
 
