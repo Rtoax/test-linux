@@ -413,8 +413,8 @@ int main(int argc, char *argv[])
 	start = nsecs();
 	cudaMemcpy(dev_A, host_A, sizeof(TYPE) * env.m * env.k, cudaMemcpyHostToDevice);
 	cudaMemcpy(dev_B, host_B, sizeof(TYPE) * env.k * env.n, cudaMemcpyHostToDevice);
-	cudaMemcpy(dev_C, host_C, sizeof(TYPE) * env.k * env.n, cudaMemcpyHostToDevice);
-	cudaMemcpy(dev_D, host_D, sizeof(TYPE) * env.k * env.n, cudaMemcpyHostToDevice);
+	cudaMemcpy(dev_C, host_C, sizeof(TYPE) * env.m * env.n, cudaMemcpyHostToDevice);
+	cudaMemcpy(dev_D, host_D, sizeof(TYPE) * env.m * env.n, cudaMemcpyHostToDevice);
 	h2d_ns = nsecs() - start;
 #endif
 
