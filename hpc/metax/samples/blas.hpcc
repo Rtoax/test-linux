@@ -47,6 +47,9 @@ enum test_type {
 	TEST_ROTG,	/* TODO */
 	TEST_ROTM,	/* TODO */
 #endif
+	/**
+	 * MetaX Mars X203 vs Nvidia H800
+	 */
 	TEST_GEMM_FP16,
 	TEST_GEMM_FP32,
 	TEST_GEMM_FP64,
