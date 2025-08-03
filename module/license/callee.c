@@ -1,4 +1,6 @@
 #include <linux/module.h>
+#include "call.h"
+
 
 int int_1 = 1024;
 EXPORT_SYMBOL(int_1);
