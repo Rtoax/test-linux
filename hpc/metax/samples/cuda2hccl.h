@@ -265,6 +265,8 @@
 #define CUBLASLT_MATMUL_DESC_POINTER_MODE	HCBLASLT_MATMUL_DESC_POINTER_MODE
 /* more ... */
 
+#define cublasLtMatmulHeuristicResult_t	hcblasLtMatmulHeuristicResult_t
+
 #define cublasLtMatrixLayout_t	hcblasLtMatrixLayout_t
 #define cublasLtMatrixLayoutCreate(playout, type, rows, cols, ld) \
 	hcblasLtMatrixLayoutCreate(playout, type, rows, cols, ld)
@@ -380,6 +382,7 @@
  * see /usr/local/cuda-12.9/targets/x86_64-linux/include/library_types.h
  */
 #define cudaDataType_t	hpccDataType_t
+#define cudaDataType	hpccDataType
 #define CUDA_R_16F	HPCC_R_16F
 #define CUDA_C_16F	HPCC_C_16F
 #define CUDA_R_16BF	HPCC_R_16BF
