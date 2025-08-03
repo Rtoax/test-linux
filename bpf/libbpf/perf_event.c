@@ -116,17 +116,23 @@ int main(int argc, char *argv[])
 
 	signal(SIGINT, sig_handler);
 
-#define struct_bpf	perf_event_bpf
-	skel = BPF__OPEN_AND_LOAD(perf_event_bpf__open_and_load,
-			perf_event_bpf__open_opts,
-			perf_event_bpf__load,
-			perf_event_bpf__destroy);
+	skel = perf_event_bpf__open();
+	if (!skel) {
+		printf("Failed to open BPF object\n");
+		return 1;
+	}
 
 #if defined(STACK_MAP)
 	/* init stackmap */
 	bpf_map__set_value_size(skel->maps.stackmap, 128 * sizeof(unsigned long));
 	bpf_map__set_max_entries(skel->maps.stackmap, 1024);
 #endif
+
+	if (perf_event_bpf__load(skel)) {
+		printf("Failed to load BPF object\n");
+		perf_event_bpf__destroy(skel);
+		return 1;
+	}
 
 	err = perf_event_bpf__attach(skel);
 	if (err) {

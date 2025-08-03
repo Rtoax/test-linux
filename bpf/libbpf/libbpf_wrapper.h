@@ -33,7 +33,7 @@
 	libbpf_print_bpf_log_buf(__log_buf, __log_buf_sz);			\
 	free(__log_buf);							\
 	__skel;									\
-	})
+})
 
 #define BPF__OPEN_AND_LOAD_RAW(open_and_load) ({				\
 	struct struct_bpf *__skel = NULL;					\
@@ -43,7 +43,7 @@
 		return 1;							\
 	}									\
 	__skel;									\
-	})
+})
 
 #if defined(LIBBPF_OPTS)
 #define BPF__OPEN_AND_LOAD(open_and_load, open_opts, load, destroy)		\
