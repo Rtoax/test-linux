@@ -277,6 +277,11 @@
 #define cublasLtMatrixLayoutGetAttribute(matLayout, attr, buf, sizeInBytes, sizeWritten) \
 	hcblasLtMatrixLayoutGetAttribute(matLayout, attr, buf, sizeInBytes, sizeWritten)
 
+#define CUBLASLT_MATRIX_LAYOUT_ROWS	HCBLASLT_MATRIX_LAYOUT_ROWS
+#define CUBLASLT_MATRIX_LAYOUT_COLS	HCBLASLT_MATRIX_LAYOUT_COLS
+#define CUBLASLT_MATRIX_LAYOUT_LD	HCBLASLT_MATRIX_LAYOUT_LD
+#define CUBLASLT_MATRIX_LAYOUT_TYPE	HCBLASLT_MATRIX_LAYOUT_TYPE
+
 #define cublasLtMatmulAlgo_t	hcblasLtMatmulAlgo_t
 #define CUBLASLT_ALGO_CAP_SPLITK_SUPPORT	HCBLASLT_ALGO_CAP_SPLITK_SUPPORT
 #define CUBLASLT_ALGO_CAP_REDUCTION_SCHEME_MASK	HCBLASLT_ALGO_CAP_REDUCTION_SCHEME_MASK
@@ -298,8 +303,16 @@
 #define CUBLASLT_ALGO_CAP_MIN_ALIGNMENT_D_BYTES	HCBLASLT_ALGO_CAP_MIN_ALIGNMENT_D_BYTES
 #define CUBLASLT_ALGO_CAP_ATOMIC_SYNC	HCBLASLT_ALGO_CAP_ATOMIC_SYNC
 
+#define cublasLtMatmulAlgoGetHeuristic(ltHandle, matmulDesc, layoutA, layoutB, \
+				       layoutC, layoutD, pref, n, heuristic_result, rslt) \
+	hcblasLtMatmulAlgoGetHeuristic(ltHandle, matmulDesc, layoutA, layoutB, \
+				       layoutC, layoutD, pref, n, heuristic_result, rslt)
+#define cublasLtMatmulPreferenceDestroy(pref)	hcblasLtMatmulPreferenceDestroy(pref)
+
 #define cublasLtMatmulPreference_t	hcblasLtMatmulPreference_t
 #define cublasLtMatmulPreferenceCreate(preference)	hcblasLtMatmulPreferenceCreate(preference)
+
+#define CUBLASLT_MATMUL_PREF_MAX_WORKSPACE_BYTES	HCBLASLT_MATMUL_PREF_MAX_WORKSPACE_BYTES
 
 /**
  * D = alpha*(A*B) + beta*(C)
