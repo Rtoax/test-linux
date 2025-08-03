@@ -122,11 +122,10 @@ int main(int argc, char *argv[])
 		return 1;
 	}
 
-#if defined(STACK_MAP)
 	/* init stackmap */
-	bpf_map__set_value_size(skel->maps.stackmap, 127 * sizeof(unsigned long));
+	bpf_map__set_value_size(skel->maps.stackmap,
+			sizeof(unsigned long) * PERF_MAX_STACK_DEPTH);
 	bpf_map__set_max_entries(skel->maps.stackmap, 1024);
-#endif
 
 	if (perf_event_bpf__load(skel)) {
 		printf("Failed to load BPF object\n");
