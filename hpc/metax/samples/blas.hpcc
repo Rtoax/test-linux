@@ -49,6 +49,7 @@ enum test_type {
 #endif
 	/**
 	 * MetaX Mars X203 vs Nvidia H800
+	 * - commit a9912e59ae2e ("hpc: blas: gemm: Cmp MetaX Mars X203 and Nvidia H800")
 	 */
 	TEST_GEMM_FP16,
 	TEST_GEMM_FP32,
