@@ -124,7 +124,7 @@ int main(int argc, char *argv[])
 
 #if defined(STACK_MAP)
 	/* init stackmap */
-	bpf_map__set_value_size(skel->maps.stackmap, 128 * sizeof(unsigned long));
+	bpf_map__set_value_size(skel->maps.stackmap, 127 * sizeof(unsigned long));
 	bpf_map__set_max_entries(skel->maps.stackmap, 1024);
 #endif
 
