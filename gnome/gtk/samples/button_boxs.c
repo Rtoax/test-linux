@@ -1,8 +1,7 @@
 #include <gtk/gtk.h>
 
-
 GtkWidget *create_bbox(gint horizontal, char *title, gint spacing,
-	gint child_w, gint child_h, gint layout)
+		       gint child_w, gint child_h, gint layout)
 {
 	GtkWidget *frame;
 	GtkWidget *bbox;
@@ -49,28 +48,27 @@ int main(int argc, char *argv[])
 	vbox = gtk_vbox_new(FALSE, 0);
 	gtk_container_set_border_width(GTK_CONTAINER(vbox), 10);
 	gtk_container_add(GTK_CONTAINER(frame_horz), vbox);
-	gtk_box_pack_start(GTK_BOX(vbox),
-	create_bbox(TRUE, "Spread(spacing 40)", 40, 85, 20,
-					 GTK_BUTTONBOX_SPREAD), TRUE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(vbox), create_bbox(TRUE, "Spread(spacing 40)", 40, 85, 20,
+			GTK_BUTTONBOX_SPREAD), TRUE, TRUE, 0);
 	gtk_box_pack_start(GTK_BOX(vbox), create_bbox(TRUE, "Edge(spacing 30)", 30, 85, 20,
-							  GTK_BUTTONBOX_EDGE), TRUE, TRUE, 5);
-	gtk_box_pack_start(GTK_BOX(vbox),
-	create_bbox(TRUE, "Start(spacing 20)", 20, 85, 20, GTK_BUTTONBOX_START), TRUE, TRUE, 5);
+			GTK_BUTTONBOX_EDGE), TRUE, TRUE, 5);
+	gtk_box_pack_start(GTK_BOX(vbox), create_bbox(TRUE, "Start(spacing 20)", 20, 85, 20,
+			GTK_BUTTONBOX_START), TRUE, TRUE, 5);
 	gtk_box_pack_start(GTK_BOX(vbox), create_bbox(TRUE, "End(spacing 10)", 10, 85, 20,
-							  GTK_BUTTONBOX_END), TRUE, TRUE, 5);
+			GTK_BUTTONBOX_END), TRUE, TRUE, 5);
 	frame_vert = gtk_frame_new("Vertical Button Boxes");
 	gtk_box_pack_start(GTK_BOX(main_vbox), frame_vert, TRUE, TRUE, 10);
 	hbox = gtk_hbox_new(FALSE, 0);
 	gtk_container_set_border_width(GTK_CONTAINER(hbox), 10);
 	gtk_container_add(GTK_CONTAINER(frame_vert), hbox);
 	gtk_box_pack_start(GTK_BOX(hbox), create_bbox(FALSE, "Spread(spacing 5)", 5, 85, 20,
-							  GTK_BUTTONBOX_SPREAD), TRUE, TRUE, 0);
+			GTK_BUTTONBOX_SPREAD), TRUE, TRUE, 0);
 	gtk_box_pack_start(GTK_BOX(hbox), create_bbox(FALSE, "Edge(spacing 30)", 30, 85, 20,
-							  GTK_BUTTONBOX_EDGE), TRUE, TRUE, 5);
+			GTK_BUTTONBOX_EDGE), TRUE, TRUE, 5);
 	gtk_box_pack_start(GTK_BOX(hbox), create_bbox(FALSE, "Start(spacing 20)", 20, 85, 20,
-							  GTK_BUTTONBOX_START), TRUE, TRUE, 5);
+			GTK_BUTTONBOX_START), TRUE, TRUE, 5);
 	gtk_box_pack_start(GTK_BOX(hbox), create_bbox(FALSE, "End(spacing 20)", 20, 85, 20,
-							  GTK_BUTTONBOX_END), TRUE, TRUE, 5);
+			GTK_BUTTONBOX_END), TRUE, TRUE, 5);
 	gtk_widget_show_all(window);
 
 	gtk_main();
