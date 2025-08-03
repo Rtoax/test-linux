@@ -4,12 +4,16 @@
 #include <linux/kallsyms.h>
 
 /**
- * FIXME: failing symbol_get of non-GPLONLY symbol jiffies
+ * time/jiffies.c: EXPORT_SYMBOL(jiffies)
  */
 static char ksym_name[KSYM_NAME_LEN] = "jiffies";
 
 static int __init s_module_init(void)
 {
+	/**
+	 * NOTE: __symbol_get() can only get EXPORT_SYMBOL_GPL()
+	 * err: failing symbol_get of non-GPLONLY symbol jiffies
+	 */
 	void *addr = __symbol_get(ksym_name);
 	if (!addr)
 		return -ENXIO;
