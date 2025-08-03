@@ -23,11 +23,8 @@ targets += menu
 targets += dialog
 targets += sunny
 targets += entry_get_text
+targets += deepseek
 
-CC := gcc
-
-CFLAGS :=
-LDFLAGS :=
 
 GTK_VERSION := gtk+-3.0
 GTK_LIBS := $(shell pkg-config --libs ${GTK_VERSION})
@@ -39,8 +36,6 @@ ifdef DEBUG
 endif
 
 CFLAGS += $(GTK_CFLAGS)
-CFLAGS += $(GTK_LIBS)
-
 LDFLAGS += $(GTK_LIBS)
 
 # TODO: no deprecated
@@ -78,3 +73,4 @@ frame: frame.o
 aspect_frame: aspect_frame.o
 menu: menu.o
 dialog: dialog.o
+deepseek: deepseek.o
