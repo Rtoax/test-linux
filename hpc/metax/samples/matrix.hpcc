@@ -496,21 +496,22 @@ int main(int argc, char *argv[])
 	 * calculation result.
 	 */
 	if (env.set_value) {
-		TYPE correct_val;
+		double correct_val;
 		TYPE *pv;
 		if (env.vector) {
-			correct_val = TRVALUE(env.alpha * env.value * env.value);
+			correct_val = TVAL(env.alpha) * TVAL(env.value) * TVAL(env.value);
 			pv = host_C;
 		} else {
-			correct_val = TRVALUE(env.alpha * env.value * env.value * env.k
-					+ env.beta * env.value);
+			correct_val = TVAL(env.alpha) * TVAL(env.value) *
+					TVAL(env.value) * env.k
+					+ TVAL(env.beta) * TVAL(env.value);
 			pv = host_D;
 		}
 		for (i = 0; i < env.m * env.n; i++) {
 #ifdef DEBUG
-			printf("correct_val " TFMT "\n", TVAL(correct_val));
+			printf("correct_val %lf\n", correct_val);
 #endif
-			if (TVAL(pv[i]) != TVAL(correct_val)) {
+			if ((double)TVAL(pv[i]) != correct_val) {
 				fprintf(stderr, "ERROR: cal matrix mul failed.\n");
 				err = -1;
 				break;
