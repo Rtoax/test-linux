@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- module: add license direcory;
 - cuda: nvcc: display __GNUC__ and __STDC__;
 - hpc: blas: fp32+fp64 at the same time, and remove symlink blas-double;
 - metax: Symlink `hpcc_helpers` to `cuda_helpers`;

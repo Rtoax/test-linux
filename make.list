@@ -90,6 +90,7 @@ kmod-list += livepatch/modules
 kmod-list += livepatch/samples
 kmod-list += mm/vma/modules
 kmod-list += module/kbuild
+kmod-list += module/license
 kmod-list += module/multi-srcfile
 kmod-list += module/nothing
 kmod-list += module/params
