@@ -78,6 +78,26 @@ void sig_handler(int sig)
 	stop = 1;
 }
 
+static void print_stack(int fd)
+{
+	int kern_stack_id, next_kern_stack_id, i;
+	unsigned long *IPs;
+
+	kern_stack_id = 0;
+	IPs = malloc(sizeof(unsigned long) * PERF_MAX_STACK_DEPTH);
+
+	while (bpf_map_get_next_key(fd, &kern_stack_id, &next_kern_stack_id) == 0) {
+		bpf_map_lookup_elem(fd, &next_kern_stack_id, IPs);
+		printf("-----------\n");
+		for (i = 0; i < PERF_MAX_STACK_DEPTH && IPs[i]; i++) {
+			printf("\t%#016lx\n", IPs[i]);
+		}
+		kern_stack_id = next_kern_stack_id;
+	}
+
+	free(IPs);
+}
+
 static void print_ip_map(int fd)
 {
 	unsigned long key, next_key;
@@ -92,6 +112,7 @@ static void print_ip_map(int fd)
 		bpf_map_lookup_elem(fd, &next_key, &value);
 		printf("%-19lx %-16d\n", next_key, value);
 		key = next_key;
+		max++;
 	}
 
 	if (max == MAX_IPS) {
@@ -102,7 +123,7 @@ static void print_ip_map(int fd)
 
 int main(int argc, char *argv[])
 {
-	int err, event_map_fd, pmu_fd;
+	int err, pmu_fd;
 	struct perf_event_bpf *skel;
 
 	err = argp_parse(&argp, argc, argv, 0, NULL, NULL);
@@ -173,8 +194,8 @@ int main(int argc, char *argv[])
 cleanup:
 	printf("Exiting...\n");
 	if (!err) {
-		event_map_fd = bpf_map__fd(skel->maps.vaddr_map);
-		print_ip_map(event_map_fd);
+		print_stack(bpf_map__fd(skel->maps.stackmap));
+		print_ip_map(bpf_map__fd(skel->maps.vaddr_map));
 	}
 	close(pmu_fd);
 	perf_event_bpf__destroy(skel);
