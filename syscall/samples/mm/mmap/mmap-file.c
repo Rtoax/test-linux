@@ -16,12 +16,18 @@ int fdin, fdout;
 char *pin, *pout;
 size_t size;
 
-void sig_handler(int signo)
+void cleanup(void)
 {
 	munmap(pin, size);
 	munmap(pout, size);
 	close(fdin);
 	close(fdout);
+}
+
+void sig_handler(int signo)
+{
+	psignal(signo, "Catch");
+	cleanup();
 	exit(0);
 }
 
@@ -100,11 +106,11 @@ int main(void)
 		}
 		msync(pout, size, MS_SYNC);
 		exit(0);
-	} else {
-		wait(NULL);
 	}
 
-	sig_handler(0);
+	wait(NULL);
+
+	cleanup();
 
 	return 0;
 }
