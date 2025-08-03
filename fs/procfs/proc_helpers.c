@@ -62,6 +62,16 @@ const char *proc_comm(char *buf, size_t buf_len)
 	return proc_pid_comm(getpid(), buf, buf_len);
 }
 
+const char *proc_pid_cgroup(pid_t pid, char *buf, size_t buf_len)
+{
+	return proc_pid_file_content(pid, "cgroup", buf, buf_len);
+}
+
+const char *proc_cgroup(char *buf, size_t buf_len)
+{
+	return proc_pid_cgroup(getpid(), buf, buf_len);
+}
+
 enum vma_type {
 	VT_COMM,
 	VT_LIBC,
