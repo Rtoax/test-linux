@@ -10,9 +10,7 @@ targets += get_unmapped_page
 targets += mmap-multi-thread-copy
 targets += mmap-exec
 
-CFLAGS :=
-CFLAGS += -I../../
-CFLAGS += -pthread
+CFLAGS := -pthread
 CFLAGS += -lrt
 
 CFLAGS_mremap-file := -DMREMAP=1
