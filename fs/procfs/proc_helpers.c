@@ -31,13 +31,14 @@ bool proc_exist(pid_t pid)
 	return access(proc, F_OK) == 0;
 }
 
-const char *proc_pid_comm(pid_t pid, char *buf, size_t buf_len)
+static const char *proc_pid_file_content(pid_t pid, const char *fname,
+					 char *buf, size_t buf_len)
 {
-	char comm[128], content[256];
+	char file[128], content[256];
 	FILE *fp;
 
-	snprintf(comm, sizeof(comm) - 1, "/proc/%d/comm", pid);
-	fp = fopen(comm, "r");
+	snprintf(file, sizeof(file) - 1, "/proc/%d/%s", pid, fname);
+	fp = fopen(file, "r");
 	if (!fp) {
 		buf[0] = '-';
 		buf[1] = '\0';
@@ -49,6 +50,11 @@ const char *proc_pid_comm(pid_t pid, char *buf, size_t buf_len)
 	fclose(fp);
 
 	return buf;
+}
+
+const char *proc_pid_comm(pid_t pid, char *buf, size_t buf_len)
+{
+	return proc_pid_file_content(pid, "comm", buf, buf_len);
 }
 
 const char *proc_comm(char *buf, size_t buf_len)

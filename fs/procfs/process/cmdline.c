@@ -5,6 +5,7 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <unistd.h>
+
 /* Prints the argument list, one argument to a line, of the process
  * given by PID. */
 void print_process_arg_list(pid_t pid)
