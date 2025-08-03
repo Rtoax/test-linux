@@ -13,8 +13,6 @@ LDFLAGS_adaptive-oom-score := -lbpf
 
 include ../../template/main.mk
 
-include ../../bpf/bpftool/vmlinux.h.mk
-
 oom_helpers.o: oom_helpers.h
 proc_helpers.o: proc_helpers.h
 
