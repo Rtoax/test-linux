@@ -38,6 +38,7 @@ int main(void)
 	pid_t child;
 
 	signal(SIGINT, sig_handler);
+	signal(SIGSEGV, sig_handler);
 
 	fdin = open(MAP_FILENAME, O_RDONLY);
 	if (fdin == -1) {
@@ -104,6 +105,10 @@ int main(void)
 			putchar(ch);
 			pout[i] = ch;
 		}
+#ifdef OVERFLOW
+		fprintf(stderr, "OVERFLOW write to %s\n", MAP_FILENAME_OUT);
+		pout[size + 4094] = 'a';
+#endif
 		msync(pout, size, MS_SYNC);
 		exit(0);
 	}

@@ -15,6 +15,10 @@ CFLAGS += -lrt
 
 CFLAGS_mremap-file := -DMREMAP=1
 
+ifdef OVERFLOW
+  CFLAGS += -DOVERFLOW=1
+endif
+
 ifeq ($(CONFIG_ANON_VMA_NAME),y)
   CFLAGS += -DCONFIG_ANON_VMA_NAME=1
 endif
