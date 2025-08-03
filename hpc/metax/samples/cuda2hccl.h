@@ -312,6 +312,9 @@
 #define cublasLtMatmulPreference_t	hcblasLtMatmulPreference_t
 #define cublasLtMatmulPreferenceCreate(preference)	hcblasLtMatmulPreferenceCreate(preference)
 
+#define cublasLtMatmulPreferenceSetAttribute(pref, arg1, ptr, size) \
+	hcblasLtMatmulPreferenceSetAttribute(pref, arg1, ptr, size)
+
 #define CUBLASLT_MATMUL_PREF_MAX_WORKSPACE_BYTES	HCBLASLT_MATMUL_PREF_MAX_WORKSPACE_BYTES
 
 /**
