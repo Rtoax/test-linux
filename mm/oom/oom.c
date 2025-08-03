@@ -335,8 +335,9 @@ int main(int argc, char *argv[])
 	}
 
 	if (verbose) {
-		char comm[64];
+		char comm[64], cgroup[256];
 		printf("pid %d, comm %s\n", getpid(), proc_comm(comm, sizeof(comm)));
+		printf("cgroup %s\n", proc_cgroup(cgroup, sizeof(cgroup)));
 		printf("oom_adj %d\n", get_oom_adj(getpid()));
 		printf("oom_score_adj %d\n", get_oom_score_adj(getpid()));
 		printf("oom_score %d\n", get_oom_score(getpid()));
