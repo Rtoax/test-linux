@@ -20,8 +20,9 @@ long cgroup_cgroupid(const char *mntpoint, const char *cgroup_path)
 	return err ? -errno : st.st_ino;
 }
 
-int cgroup_proc_for_each_cgroup_entry(pid_t pid,
-				      void (*callback)(const struct proc_cgroup *cgrp))
+int cgroup_proc_for_each_cgroup_entry(pid_t pid, void (*callback)(const struct proc_cgroup *cgrp,
+								  void *arg),
+				      void *arg)
 {
 	char line[512];
 	char proc[64];
@@ -66,7 +67,7 @@ int cgroup_proc_for_each_cgroup_entry(pid_t pid,
 		snprintf(cgrp.cgroup_path, strlen(s_path), s_path);
 
 		lines++;
-		callback(&cgrp);
+		callback(&cgrp, arg);
 	}
 
 	fclose(f);

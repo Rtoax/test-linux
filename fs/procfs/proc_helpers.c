@@ -470,7 +470,8 @@ int map_new_vdso(const char *vdsoelf, void *addr, size_t size, bool anon)
 	return ret;
 }
 
-int proc_for_each_mount(void (*callback)(const struct proc_mountpoint *mnt))
+int proc_for_each_mount(void (*callback)(const struct proc_mountpoint *mnt,
+					 void *arg), void *arg)
 {
 	char s[1024];
 	FILE *f;
@@ -485,7 +486,7 @@ int proc_for_each_mount(void (*callback)(const struct proc_mountpoint *mnt))
 		sscanf(s, "%s %s %s %s %d %d\n", mnt.fsname, mnt.mountpoint,
 			mnt.fstype, mnt.mntoptions, &mnt.dump_frequency,
 			&mnt.fsck_order);
-		callback(&mnt);
+		callback(&mnt, arg);
 	}
 	fclose(f);
 

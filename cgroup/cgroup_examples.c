@@ -5,7 +5,7 @@
 #include "cgroup_helpers.h"
 
 
-void display_proc_cgrp(const struct proc_cgroup *cgrp)
+static void display_proc_cgrp(const struct proc_cgroup *cgrp, void *arg)
 {
 	long cgroupid;
 	cgroupid = cgroup_cgroupid(CGROUP_DEFAULT_MNTPOINT, cgrp->cgroup_path);
@@ -21,7 +21,7 @@ int main(int argc, char *argv[])
 	if (argc >= 2)
 		pid = atoi(argv[1]);
 
-	cgroup_proc_for_each_cgroup_entry(pid, display_proc_cgrp);
+	cgroup_proc_for_each_cgroup_entry(pid, display_proc_cgrp, NULL);
 
 	return 0;
 }

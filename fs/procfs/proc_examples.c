@@ -24,7 +24,7 @@ void sig_handler(int sig)
 	longjmp(vdso_segv_jmp, JMP_SKIP);
 }
 
-static void mnt_point_callback(const struct proc_mountpoint *mnt)
+static void mnt_point_callback(const struct proc_mountpoint *mnt, void *arg)
 {
 	printf("MNT: %s %s %s\n", mnt->fsname, mnt->mountpoint, mnt->fstype);
 }
@@ -89,7 +89,7 @@ int main(void)
 
 	signal(SIGSEGV, sig_handler);
 
-	proc_for_each_mount(mnt_point_callback);
+	proc_for_each_mount(mnt_point_callback, NULL);
 
 	assert(proc_exist(getpid()));
 	assert(!proc_exist(0xFFFFFFFF));

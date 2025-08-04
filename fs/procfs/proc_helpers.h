@@ -47,4 +47,5 @@ struct proc_mountpoint {
 	int fsck_order;
 };
 
-int proc_for_each_mount(void (*callback)(const struct proc_mountpoint *mnt));
+int proc_for_each_mount(void (*callback)(const struct proc_mountpoint *mnt,
+					 void *arg), void *arg);
