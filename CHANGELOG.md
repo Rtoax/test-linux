@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- cgroup: add `cgroup_helpers`;
 - gtk: add deepseek.c;
 - module: add license direcory;
 - cuda: nvcc: display __GNUC__ and __STDC__;

@@ -1,0 +1,7 @@
+// SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
+/* Copyright (c) 2025 Rong Tao */
+#pragma once
+#include <unistd.h>
+#include <sys/types.h>
+
+unsigned long proc_cgroupid(pid_t pid);
