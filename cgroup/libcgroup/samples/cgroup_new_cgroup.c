@@ -31,14 +31,6 @@ int main(int argc, char **argv)
 		exit(1);
 	}
 
-	ret = cgroup_create_cgroup(cgrp, 0);
-	if (ret) {
-		fprintf(stderr, "Failed to create cgroup %s, %s\n", CGRP_NAME,
-			cgroup_strerror(cgroup_get_last_errno()));
-		ret = 1;
-		goto free;
-	}
-
 	memcg = cgroup_add_controller(cgrp, "memory");
 	if (!memcg) {
 		fprintf(stderr, "Error adding memory controller to cgroup\n");
@@ -60,6 +52,14 @@ int main(int argc, char **argv)
 	limit_in_bytes = 0;
 	cgroup_get_value_uint64(memcg, MEMORY_LIMIT, &limit_in_bytes);
 	printf("Set "MEMORY_LIMIT" to %ld MB\n", limit_in_bytes / 1024 / 1024);
+
+	ret = cgroup_create_cgroup(cgrp, 0);
+	if (ret) {
+		fprintf(stderr, "Failed to create cgroup %s, %s\n", CGRP_NAME,
+			cgroup_strerror(cgroup_get_last_errno()));
+		ret = 1;
+		goto free;
+	}
 
 	pid = fork();
 	if (pid < 0)
