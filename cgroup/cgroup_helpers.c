@@ -2,6 +2,7 @@
 /* Copyright (c) 2025 Rong Tao */
 #include <dirent.h>
 #include <errno.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/stat.h>
@@ -26,6 +27,8 @@ int cgroup_get_roots(char ***roots, int *nentries)
 	fp = fopen("/proc/mounts", "r");
 	if (!fp)
 		return -errno;
+
+	*roots = NULL;
 
 	while (fgets(line, sizeof(line), fp)) {
 		if (sscanf(line, "%s %s %s %s %d %d\n", fsname, mountpoint,
@@ -69,7 +72,9 @@ long cgroup_cgroupid2(const char *mntpoint, const char *cgroup_path)
 	return cgroup_cgroupid(path);
 }
 
-int for_each_cgroup(const char *root)
+static int for_each_cgroup_match(const char *root, int (*match)(const char *path,
+								void *arg),
+				 void *arg)
 {
 	int err = 0;
 	DIR *dir;
@@ -78,7 +83,7 @@ int for_each_cgroup(const char *root)
 	struct stat st;
 	size_t path_len;
 
-	if (!root)
+	if (!root || !match)
 		return -EINVAL;
 
 	lstat(root, &st);
@@ -97,7 +102,7 @@ int for_each_cgroup(const char *root)
 	dir = opendir(path);
 	if (!dir) {
 		err = -errno;
-		goto error;
+		goto done;
 	}
 
 	path_len = strlen(path);
@@ -115,14 +120,70 @@ int for_each_cgroup(const char *root)
 		lstat(path, &st);
 		if (!S_ISDIR(st.st_mode))
 			continue;
-		printf("%s\n", path);
-		for_each_cgroup(path);
+#ifdef DEBUG
+		fprintf(stderr, "%s\n", path);
+#endif
+		if (match(path, arg)) {
+			err = 0;
+			goto done;
+		}
+		err = for_each_cgroup_match(path, match, arg);
+		if (err)
+			goto done;
 	}
 
-error:
+done:
 	closedir(dir);
 	free(path);
 	return err;
+}
+
+struct match_cgroupid_arg {
+	long cgroupid;
+	bool match;
+	char path[PATH_MAX];
+};
+
+static int match_cgroupid(const char *path, void *arg)
+{
+	long cgroupid;
+	struct match_cgroupid_arg *a = arg;
+
+	cgroupid = cgroup_cgroupid(path);
+#ifdef DEBUG
+	fprintf(stderr, "%ld:%ld %s\n", cgroupid, a->cgroupid, path);
+#endif
+	if (cgroupid == a->cgroupid) {
+		snprintf(a->path, PATH_MAX, path);
+		a->match = true;
+		return 1;
+	}
+	return 0;
+}
+
+int cgroup_cgroup_path(long cgroupid, char *buf, size_t buf_len)
+{
+	char **roots;
+	int nroots, i;
+	struct match_cgroupid_arg arg = {};
+	arg.cgroupid = cgroupid;
+	arg.match = false;
+
+	cgroup_get_roots(&roots, &nroots);
+
+	for (i = 0; i < nroots; i++) {
+#ifdef DEBUG
+		fprintf(stderr, "root --- %s\n", roots[i]);
+#endif
+		for_each_cgroup_match(roots[i], match_cgroupid, &arg);
+		if (arg.match) {
+			strncpy(buf, arg.path, buf_len);
+			break;
+		}
+	}
+
+	cgroup_free_roots(roots, nroots);
+	return 0;
 }
 
 int cgroup_proc_for_each_cgroup_entry(pid_t pid, void (*callback)(const struct proc_cgroup *cgrp,

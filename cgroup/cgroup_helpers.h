@@ -18,12 +18,11 @@ struct proc_cgroup {
 int cgroup_get_roots(char ***roots, int *nentries);
 void cgroup_free_roots(char **roots, int nentries);
 
-int cgroup_proc_for_each_cgroup_entry(pid_t pid, void (*callback)(const struct proc_cgroup *cgrp,
-								  void *arg),
-				      void *arg);
-
 long cgroup_cgroupid(const char *cgroup_path);
 long cgroup_cgroupid2(const char *mntpoint, const char *cgroup_path);
 
-/* TODO */
-int for_each_cgroup(const char *root);
+int cgroup_cgroup_path(long cgroupid, char *buf, size_t buf_len);
+
+int cgroup_proc_for_each_cgroup_entry(pid_t pid, void (*callback)(const struct proc_cgroup *cgrp,
+								  void *arg),
+				      void *arg);
