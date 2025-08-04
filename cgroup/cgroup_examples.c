@@ -6,7 +6,7 @@
 
 int main(void)
 {
-	unsigned long cgroupid;
+	long cgroupid;
 	const pid_t pid = getpid();
 
 	cgroupid = proc_cgroupid(pid);

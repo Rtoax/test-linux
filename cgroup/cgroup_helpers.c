@@ -3,16 +3,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/stat.h>
+#include <errno.h>
 #include "cgroup_helpers.h"
 
 
-unsigned long proc_cgroupid(pid_t pid)
+long proc_cgroupid(pid_t pid)
 {
+	int err;
 	char proc[64];
 	struct stat st;
 
 	snprintf(proc, sizeof(proc) - 1, "/proc/%d/cgroup", pid);
-	stat(proc, &st);
+	err = stat(proc, &st);
 
-	return st.st_ino;
+	return err ? -errno : st.st_ino;
 }

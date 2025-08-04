@@ -4,4 +4,4 @@
 #include <unistd.h>
 #include <sys/types.h>
 
-unsigned long proc_cgroupid(pid_t pid);
+long proc_cgroupid(pid_t pid);
