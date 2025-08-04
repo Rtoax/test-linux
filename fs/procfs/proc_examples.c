@@ -83,7 +83,7 @@ void test_find_vma_hole(void)
 
 int main(void)
 {
-	char comm[128], name[512], cgroup[256];
+	char comm[128], name[512];
 	unsigned long addr;
 	size_t size;
 
@@ -97,8 +97,6 @@ int main(void)
 	proc_pid_maps_display();
 	printf("comm : %s\n", proc_comm(comm, sizeof(comm)));
 	printf("comm : %s\n", proc_pid_comm(getpid(), comm, sizeof(comm)));
-	printf("cgroup : %s\n", proc_cgroup(cgroup, sizeof(cgroup)));
-	printf("cgroup : %s\n", proc_pid_cgroup(getpid(), cgroup, sizeof(cgroup)));
 	printf("base addr : %lx\n", proc_maps_exec_base_addr(NULL));
 	printf("base text addr : %lx\n", proc_maps_exec_text_addr(NULL));
 	printf("base data addr : %lx\n", proc_maps_exec_data_addr(NULL));
