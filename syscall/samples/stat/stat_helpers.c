@@ -16,7 +16,7 @@ void print_stat(const char *file, struct stat *stat)
 
 	printf("----- %s -----\n", file);
 	printf("mode: %x\n", stat->st_mode);
-	printf("ino: %ld\n", stat->st_ino);
+	printf("inode: %ld\n", stat->st_ino);
 	printf("size: %ld\n", stat->st_size);
 	printf("block: size: %ld, count %ld\n", stat->st_blksize,
 		stat->st_blocks);
@@ -62,7 +62,7 @@ static void print_stx_attr(__u64 attr)
 void print_statx(struct statx *x)
 {
 	printf("mode: %x\n", x->stx_mode);
-	printf("ino: %lld\n", x->stx_ino);
+	printf("inode: %lld\n", x->stx_ino);
 	print_stx_attr(x->stx_attributes);
 }
 
