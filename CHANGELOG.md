@@ -11,7 +11,8 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
-- oom.c: support memory cgroup limit;
+- oom: remove symlink popen.c;
+- oom.c: support memory cgroup limit, and add global env;
 - libcgroup: add libcgroup.mk;
 - procfs: add sysrq-trigger tool;
 - `proc_helpers`: Rename `proc_for_each_mnt_point()` to `proc_for_each_mount()`;
