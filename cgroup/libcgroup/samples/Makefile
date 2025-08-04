@@ -3,10 +3,7 @@ targets += cgroup_version
 targets += cgroup_get_subsys_mount_point
 targets += cgroup_new_cgroup
 
-CC := gcc
-
-CFLAGS :=
-LDFLAGS += -lcgroup
+LDFLAGS := -lcgroup
 
 include ../../../template/main.mk
 
