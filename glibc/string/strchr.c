@@ -12,12 +12,21 @@ int main(void)
 	char *str = "/bin/bash:0x00000000000d1c70";
 	unsigned long offset;
 
+	/**
+	 * strchr() function returns a pointer to the first occurrence of the
+	 * character.
+	 */
 	printf("%s\n", strchr(str, ':'));
 
 	/**
 	 * See kernel trace_uprobe_create()
 	 */
 	filename = strdup(str);
+
+	/**
+	 * strrchr() function returns a pointer to the last occurrence of the
+	 * character.
+	 */
 	s_addr = strrchr(filename, ':');
 	*s_addr++ = '\0';
 	offset = strtoul(s_addr, NULL, 0);

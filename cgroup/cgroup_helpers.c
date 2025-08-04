@@ -44,19 +44,27 @@ int cgroup_proc_for_each_cgroup_entry(pid_t pid,
 	 * 0::/user.slice/user-1000.slice/session-1.scope
 	 */
 	while (fgets(line, sizeof(line), f)) {
-		memset(&cgrp, 0, sizeof(struct proc_cgroup));
-		/* cgroupv2 is more popular */
-		cgrp.cgroup_type = 2;
+		char *s_hid = line;
+		char *s_subsys = strchr(line, ':');
+		char *s_path = strrchr(line, ':');
 
-		/* at least has 2 item, cgroupv2 subsystem_list is empty */
-		if (sscanf(line, "%d::%s", &cgrp.hierarchy_id, cgrp.cgroup_path) != 2) {
-			/* If is cgroupv1 */
-			if (sscanf(line, "%d:%s:%s", &cgrp.hierarchy_id,
-				   cgrp.subsystem_list, cgrp.cgroup_path) != 3) {
-				continue;
-			}
-			cgrp.cgroup_type = 1;
+		s_subsys[0] = '\0';
+		s_subsys++;
+		s_path[0] = '\0';
+		s_path++;
+
+		memset(&cgrp, 0, sizeof(struct proc_cgroup));
+
+		cgrp.hierarchy_id = atoi(s_hid);
+
+		if (strlen(s_subsys) == 0) {
+			cgrp.cgroup_type = 2;	/* cgroupv2 */
+		} else {
+			cgrp.cgroup_type = 1;	/* cgroupv1 */
+			sprintf(cgrp.subsystem_list, s_subsys);
 		}
+		/* strlen() to strip '\n' */
+		snprintf(cgrp.cgroup_path, strlen(s_path), s_path);
 
 		lines++;
 		callback(&cgrp);
