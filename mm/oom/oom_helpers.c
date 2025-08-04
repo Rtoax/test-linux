@@ -137,11 +137,11 @@ unsigned long str2size(const char *str)
 	else
 		size = strtoull(str, NULL, 10);
 
-	if (strstr(str, "GB"))
+	if (strstr(str, "G") || strstr(str, "GB") || strstr(str, "GiB"))
 		size *= GB;
-	else if (strstr(str, "MB"))
+	else if (strstr(str, "M") || strstr(str, "MB") || strstr(str, "MiB"))
 		size *= MB;
-	else if (strstr(str, "KB"))
+	else if (strstr(str, "K") || strstr(str, "KB") || strstr(str, "KiB"))
 		size *= KB;
 
 	return size;
