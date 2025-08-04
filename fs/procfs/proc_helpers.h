@@ -42,4 +42,13 @@ int proc_pid_mem_write(int mem_fd, off_t paddr, void *src, size_t len);
 void proc_pid_fds_display(pid_t pid);
 
 /* /proc/mounts */
-int proc_for_each_mnt_point(void (*callback)(const char *mnt_point));
+struct proc_mountpoint {
+	char fsname[128];
+	char mountpoint[512];
+	char fstype[64];
+	char mntoptions[256];
+	int dump_frequency;
+	int fsck_order;
+};
+
+int proc_for_each_mount(void (*callback)(const struct proc_mountpoint *mnt));

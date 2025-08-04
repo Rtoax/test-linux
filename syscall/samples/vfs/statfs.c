@@ -5,11 +5,12 @@
 #include "proc_helpers.h"
 
 
-static void mountpoint_statfs_callback(const char *mnt_point)
+static void mountpoint_statfs_callback(const struct proc_mountpoint *mnt)
 {
 	int ret;
 	size_t total_sz, free_sz;
 	struct statfs info;
+	const char *mnt_point = mnt->mountpoint;
 
 	memset(&info, 0, sizeof(struct statfs));
 
@@ -32,7 +33,7 @@ int main(void)
 	fprintf(stdout, "%-32s %-12s %-12s %-12s\n",
 		"FILE", "ALL(MB)", "FREE(MB)", "USE%");
 
-	proc_for_each_mnt_point(mountpoint_statfs_callback);
+	proc_for_each_mount(mountpoint_statfs_callback);
 
 	return 0;
 }
