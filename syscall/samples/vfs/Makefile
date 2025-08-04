@@ -1,15 +1,10 @@
 targets := statfs
 targets += fstatfs
 
-CFLAGS :=
-CFLAGS += -pthread
-CFLAGS += -I../../../fs/procfs/
+CFLAGS := -pthread
 
 include ../../../template/main.mk
 
+proc_helpers.o: proc_helpers.h
 statfs: statfs.o proc_helpers.o
 fstatfs: fstatfs.o
-
-proc_helpers.o: ../../../fs/procfs/proc_helpers.o
-	$(info We are in $(shell pwd))
-	mv $(<) $(@)
