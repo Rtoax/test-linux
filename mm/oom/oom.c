@@ -9,7 +9,10 @@
 #include <string.h>
 #include <sys/mman.h>
 #include <sys/time.h>
-
+#ifdef HAVE_LIBCGROUP
+# include <libcgroup.h>
+# define CGRP_NAME "oom-memcg"
+#endif
 #include "oom_helpers.h"
 #include "proc_helpers.h"
 
@@ -33,6 +36,9 @@ bool flag_popen =
 #endif
 int verbose = false;
 unsigned long rate_limit = 9999999999;
+#ifdef HAVE_LIBCGROUP
+size_t limit_in_bytes = 0;
+#endif
 
 const char argp_prog_doc[] =
 	"USAGE: [-p] [-s <size>] [-a <oom_adj>] [-c <oom_score_adj>] [-v|--verbose]\n"
@@ -50,6 +56,9 @@ static const struct argp_option opts[] = {
 	{ "verbose", 'v', NULL, 1, "display detail" },
 	{ "oom_adj", 'a', "OOM_ADJ", 0, "set oom_adj (-17 to 15)" },
 	{ "oom_score_adj", 'c', "OOM_SCORE_ADJ", 0, "set oom_score_adj (-1000 to 1000)" },
+#ifdef HAVE_LIBCGROUP
+	{ "memcg-size", 'M', "MEMCG_SIZE", 0, "create and attach to memory cgroup, suffix KB, MB, GB" },
+#endif
 	{},
 };
 
@@ -71,6 +80,11 @@ static error_t parse_arg(int key, char *arg, struct argp_state *state)
 	case 's':
 		mem_size = str2size(arg);
 		break;
+#ifdef HAVE_LIBCGROUP
+	case 'M':
+		limit_in_bytes = str2size(arg);
+		break;
+#endif
 	case 'r':
 		rate_limit = str2size(arg);
 		break;
@@ -306,6 +320,106 @@ void try_oom(struct oom_operations *ops)
 	/* No need to free??? */
 }
 
+#ifdef HAVE_LIBCGROUP
+static struct cgroup *cgrp = NULL;
+static struct cgroup_controller *memcg = NULL;
+
+int memcg_limit(void)
+{
+	int err = 0;
+
+	if (limit_in_bytes == 0)
+		return 0;
+
+	err = cgroup_init();
+	if (err) {
+		fprintf(stderr, "cgroup_init failed\n");
+		return err;
+	}
+
+	cgrp = cgroup_new_cgroup(CGRP_NAME);
+	if (!cgrp) {
+		fprintf(stderr, "Failed to allocate cgroup %s, %s\n", CGRP_NAME,
+			cgroup_strerror(cgroup_get_last_errno()));
+		return err;
+	}
+
+	memcg = cgroup_add_controller(cgrp, "memory");
+	if (!memcg) {
+		fprintf(stderr, "Error adding memory controller to cgroup\n");
+		goto free;
+	}
+
+#ifdef CGROUP_V1
+/* TODO: I'm not test cgroup v1 yet */
+# define MEMORY_LIMIT	"memory.limit_in_bytes"
+# define MEMORY_SWAP_LIMIT	"memory.swap.limit_in_bytes"
+#else
+# define MEMORY_LIMIT	"memory.max"
+# define MEMORY_SWAP_LIMIT	"memory.swap.max"
+#endif
+
+	err = cgroup_set_value_uint64(memcg, MEMORY_LIMIT, limit_in_bytes);
+	if (err) {
+		fprintf(stderr, "Error setting memory limit: %s, %s\n", CGRP_NAME,
+			cgroup_strerror(cgroup_get_last_errno()));
+		goto free;
+	}
+
+	/* Forbidden swap */
+	err = cgroup_set_value_uint64(memcg, MEMORY_SWAP_LIMIT, 0);
+	if (err) {
+		fprintf(stderr, "Error setting memory swap limit: %s, %s\n", CGRP_NAME,
+			cgroup_strerror(cgroup_get_last_errno()));
+		goto free;
+	}
+
+	limit_in_bytes = 0;
+	cgroup_get_value_uint64(memcg, MEMORY_LIMIT, &limit_in_bytes);
+	if (verbose) {
+		printf("Set "MEMORY_LIMIT" to %ld MB\n", limit_in_bytes / 1024 / 1024);
+	}
+
+	err = cgroup_create_cgroup(cgrp, 0);
+	if (err) {
+		fprintf(stderr, "Failed to create cgroup %s, %s\n", CGRP_NAME,
+			cgroup_strerror(cgroup_get_last_errno()));
+		goto free;
+	}
+
+	if (verbose) {
+		printf("Attaching process to cgroup.\n");
+	}
+	err = cgroup_attach_task_pid(cgrp, getpid());
+	if (err) {
+		fprintf(stderr, "Error attaching task to cgroup: %s, %s\n", CGRP_NAME,
+			cgroup_strerror(cgroup_get_last_errno()));
+		goto delete;
+	}
+
+	return 0;
+
+delete:
+	cgroup_delete_cgroup(cgrp, 0);
+free:
+	cgroup_free_controllers(cgrp);
+	cgroup_free(&cgrp);
+	fprintf(stderr, "ERROR: memory cgroup failed.\n");
+	exit(EXIT_FAILURE);
+	return err;
+}
+
+void memcg_release(void)
+{
+	cgroup_delete_cgroup(cgrp, 0);
+	cgroup_free_controllers(cgrp);
+	cgroup_free(&cgrp);
+}
+#else
+#define memcg_limit()	(0)
+#define memcg_release()
+#endif
+
 int main(int argc, char *argv[])
 {
 	int err;
@@ -317,6 +431,8 @@ int main(int argc, char *argv[])
 	}
 
 	signal(SIGINT, sig_handler);
+
+	memcg_limit();
 
 	mlockall(MCL_CURRENT);
 
@@ -366,6 +482,8 @@ int main(int argc, char *argv[])
 	} else {
 		try_oom(ops);
 	}
+
+	memcg_release();
 
 	return 0;
 }

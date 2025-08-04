@@ -35,7 +35,7 @@ int main(int argc, char **argv)
 	if (!memcg) {
 		fprintf(stderr, "Error adding memory controller to cgroup\n");
 		ret = 1;
-		goto delete;
+		goto free;
 	}
 
 #ifdef CGROUP_V1
@@ -43,10 +43,11 @@ int main(int argc, char **argv)
 #else
 # define MEMORY_LIMIT	"memory.max"
 #endif
+	/* note: some time you need to set memory.swap.max too */
 	ret = cgroup_set_value_uint64(memcg, MEMORY_LIMIT, limit_in_bytes);
 	if (ret) {
 		fprintf(stderr, "Error setting memory limit: %d\n", ret);
-		goto delete;
+		goto free;
 	}
 
 	limit_in_bytes = 0;

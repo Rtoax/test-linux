@@ -3,8 +3,6 @@ targets += cgroup_version
 targets += cgroup_get_subsys_mount_point
 targets += cgroup_new_cgroup
 
-LDFLAGS := -lcgroup
-
 include ../libcgroup.mk
 include ../../../template/main.mk
 

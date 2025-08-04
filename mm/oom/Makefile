@@ -11,6 +11,7 @@ targets-prep := ${VMLINUX_H}
 CFLAGS_popen = -DPOPEN=1
 LDFLAGS_adaptive-oom-score := -lbpf
 
+include ../../cgroup/libcgroup/libcgroup.mk
 include ../../template/main.mk
 
 oom_helpers.o: oom_helpers.h
