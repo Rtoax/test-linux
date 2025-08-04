@@ -40,11 +40,8 @@ static const char *proc_pid_file_content(pid_t pid, const char *fname,
 
 	snprintf(file, sizeof(file) - 1, "/proc/%d/%s", pid, fname);
 	fp = fopen(file, "r");
-	if (!fp) {
-		buf[0] = '-';
-		buf[1] = '\0';
-		return buf;
-	}
+	if (!fp)
+		return NULL;
 	fseek(fp, 0, SEEK_SET);
 	fgets(content, sizeof(content), fp);
 	sscanf(content, "%s", buf);
