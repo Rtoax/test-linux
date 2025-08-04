@@ -15,6 +15,9 @@ struct proc_cgroup {
 	char cgroup_path[1024];
 };
 
+int cgroup_get_roots(char ***roots, int *nentries);
+void cgroup_free_roots(char **roots, int nentries);
+
 int cgroup_proc_for_each_cgroup_entry(pid_t pid, void (*callback)(const struct proc_cgroup *cgrp,
 								  void *arg),
 				      void *arg);

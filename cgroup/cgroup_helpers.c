@@ -8,6 +8,49 @@
 #include "cgroup_helpers.h"
 
 
+int cgroup_get_roots(char ***roots, int *nentries)
+{
+	char line[1024];
+	char fsname[128];
+	char mountpoint[512];
+	char fstype[64];
+	char mntoptions[256];
+	int dump_frequency;
+	int fsck_order;
+	FILE *fp;
+	int n = 0;
+
+	fp = fopen("/proc/mounts", "r");
+	if (!fp)
+		return -errno;
+
+	while (fgets(line, sizeof(line), fp)) {
+		if (sscanf(line, "%s %s %s %s %d %d\n", fsname, mountpoint,
+			fstype, mntoptions, &dump_frequency,
+			&fsck_order) != 6)
+			continue;
+		if (strcmp(fstype, "cgroup") && strcmp(fstype, "cgroup2"))
+			continue;
+
+		n++;
+		*roots = (char **)realloc(*roots, n * sizeof(char *));
+		(*roots)[n - 1] = strdup(mountpoint);
+	}
+
+	*nentries = n;
+	fclose(fp);
+
+	return 0;
+}
+
+void cgroup_free_roots(char **roots, int nentries)
+{
+	int i;
+	for (i = 0; i < nentries; i++)
+		free(roots[i]);
+	free(roots);
+}
+
 long cgroup_cgroupid(const char *mntpoint, const char *cgroup_path)
 {
 	int err;

@@ -16,10 +16,17 @@ static void display_proc_cgrp(const struct proc_cgroup *cgrp, void *arg)
 
 int main(int argc, char *argv[])
 {
+	char **roots;
+	int nroots, i;
 	pid_t pid = getpid();
 
 	if (argc >= 2)
 		pid = atoi(argv[1]);
+
+	cgroup_get_roots(&roots, &nroots);
+	for (i = 0; i < nroots; i++)
+		printf("%s\n", roots[i]);
+	cgroup_free_roots(roots, nroots);
 
 	cgroup_proc_for_each_cgroup_entry(pid, display_proc_cgrp, NULL);
 
