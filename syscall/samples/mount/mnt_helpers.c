@@ -137,4 +137,3 @@ int bind_file_with_loop(const char *file, int *pffd, const char *dev_loop,
 	return -ENOSYS;
 #endif
 }
-

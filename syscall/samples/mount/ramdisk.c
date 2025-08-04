@@ -51,4 +51,3 @@ int main(void)
 	rmdir(tmpfs);
 	return 0;
 }
-

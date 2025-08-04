@@ -21,4 +21,3 @@ int get_free_dev_loop(void);
 
 int bind_file_with_loop(const char *file, int *pffd, const char *dev_loop,
 			int *plfd);
-
