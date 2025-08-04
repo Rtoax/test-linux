@@ -482,7 +482,7 @@ int map_new_vdso(const char *vdsoelf, void *addr, size_t size, bool anon)
 
 int proc_for_each_mount(void (*callback)(const struct proc_mountpoint *mnt))
 {
-	char s[2000];
+	char s[1024];
 	FILE *f;
 	struct proc_mountpoint mnt;
 
@@ -491,25 +491,7 @@ int proc_for_each_mount(void (*callback)(const struct proc_mountpoint *mnt))
 
 	f = fopen("/proc/mounts", "r");
 
-	while (fgets(s, 2000, f)) {
-#if 0
-		char *c, *e = s;
-
-		for (c = s; *c; c++) {
-			if (*c == ' ') {
-				e = c + 1;
-				break;
-			}
-		}
-
-		for (c = e; *c; c++) {
-			if (*c == ' ') {
-				*c = '\0';
-				break;
-			}
-		}
-		callback(e);
-#endif
+	while (fgets(s, 1024, f)) {
 		sscanf(s, "%s %s %s %s %d %d\n", mnt.fsname, mnt.mountpoint,
 			mnt.fstype, mnt.mntoptions, &mnt.dump_frequency,
 			&mnt.fsck_order);
