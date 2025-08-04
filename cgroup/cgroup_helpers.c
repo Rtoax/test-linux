@@ -1,13 +1,16 @@
 // SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
 /* Copyright (c) 2025 Rong Tao */
+#include <dirent.h>
+#include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/stat.h>
 #include <string.h>
-#include <errno.h>
 #include "cgroup_helpers.h"
 
-
+/**
+ * Get cgroup mountpoints.
+ */
 int cgroup_get_roots(char ***roots, int *nentries)
 {
 	char line[1024];
@@ -51,16 +54,75 @@ void cgroup_free_roots(char **roots, int nentries)
 	free(roots);
 }
 
-long cgroup_cgroupid(const char *mntpoint, const char *cgroup_path)
+long cgroup_cgroupid(const char *cgroup_path)
 {
 	int err;
-	char path[512];
 	struct stat st;
-
-	snprintf(path, sizeof(path) - 1, "%s/%s", mntpoint, cgroup_path);
-	err = stat(path, &st);
-
+	err = stat(cgroup_path, &st);
 	return err ? -errno : st.st_ino;
+}
+
+long cgroup_cgroupid2(const char *mntpoint, const char *cgroup_path)
+{
+	char path[512];
+	snprintf(path, sizeof(path) - 1, "%s/%s", mntpoint, cgroup_path);
+	return cgroup_cgroupid(path);
+}
+
+int for_each_cgroup(const char *root)
+{
+	int err = 0;
+	DIR *dir;
+	struct dirent *dirent;
+	char *path;
+	struct stat st;
+	size_t path_len;
+
+	if (!root)
+		return -EINVAL;
+
+	lstat(root, &st);
+	if (!S_ISDIR(st.st_mode))
+		return -EINVAL;
+
+	path = malloc(PATH_MAX);
+	snprintf(path, PATH_MAX - 1, "%s/", root);
+
+	lstat(path, &st);
+	if (!S_ISDIR(st.st_mode)) {
+		free(path);
+		return -ENOENT;
+	}
+
+	dir = opendir(path);
+	if (!dir) {
+		err = -errno;
+		goto error;
+	}
+
+	path_len = strlen(path);
+
+	/* If the directory path doesn't end with a slash, append a slash. */
+	if (path[path_len - 1] != '/') {
+		path[path_len] = '/';
+		path[++path_len] = '\0';
+	}
+
+	while ((dirent = readdir(dir)) != NULL) {
+		if (!strcmp(dirent->d_name, ".") || !strcmp(dirent->d_name, ".."))
+			continue;
+		strncpy(path + path_len, dirent->d_name, PATH_MAX - path_len);
+		lstat(path, &st);
+		if (!S_ISDIR(st.st_mode))
+			continue;
+		printf("%s\n", path);
+		for_each_cgroup(path);
+	}
+
+error:
+	closedir(dir);
+	free(path);
+	return err;
 }
 
 int cgroup_proc_for_each_cgroup_entry(pid_t pid, void (*callback)(const struct proc_cgroup *cgrp,

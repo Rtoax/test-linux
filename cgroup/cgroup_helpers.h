@@ -22,4 +22,8 @@ int cgroup_proc_for_each_cgroup_entry(pid_t pid, void (*callback)(const struct p
 								  void *arg),
 				      void *arg);
 
-long cgroup_cgroupid(const char *mntpoint, const char *cgroup_path);
+long cgroup_cgroupid(const char *cgroup_path);
+long cgroup_cgroupid2(const char *mntpoint, const char *cgroup_path);
+
+/* TODO */
+int for_each_cgroup(const char *root);

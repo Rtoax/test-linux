@@ -6,12 +6,14 @@
 #include <sys/types.h>
 #include <unistd.h>
 #include <malloc.h>
+#include <errno.h>
 
 
 int listdir_recur(char *dir_path)
 {
-	DIR* dir;
-	struct dirent* entry;
+	int err = 0;
+	DIR *dir;
+	struct dirent *entry;
 	size_t entry_size = PATH_MAX + 1;
 	char *entry_path = malloc(entry_size);
 	size_t path_len;
@@ -29,12 +31,18 @@ int listdir_recur(char *dir_path)
 	}
 
 	dir = opendir(dir_path);
+	if (!dir) {
+		err = -errno;
+		goto error;
+	}
 
 	/* Loop over all directory entries. */
 	while ((entry = readdir(dir)) != NULL) {
-		const char* type;
-		/* Build the path to the directory entry by appending the entry
-		 * name to the path name. */
+		const char *type;
+		/**
+		 * Build the path to the directory entry by appending the entry
+		 * name to the path name.
+		 */
 		strncpy(entry_path + path_len, entry->d_name,
 				entry_size - path_len);
 
@@ -64,12 +72,13 @@ int listdir_recur(char *dir_path)
 		printf("%-18s: %s\n", type, entry_path);
 	}
 
+error:
 	free(entry_path);
 	closedir(dir);
-	return 0;
+	return err;
 }
 
-int main(int argc, char* argv[])
+int main(int argc, char *argv[])
 {
 	char* dir_path;
 
