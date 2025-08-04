@@ -1,10 +1,11 @@
-#include <libcgroup.h>
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
 #include <sys/mman.h>
 #include <sys/wait.h>
+#include <sys/prctl.h>
+
+#include <libcgroup.h>
 
 
 #define CGRP_NAME "test_cgroup"
@@ -13,8 +14,9 @@ int main(int argc, char **argv)
 {
 	pid_t pid;
 	struct cgroup *cgrp = NULL;
-	struct cgroup_controller *cgroup_controller;
+	struct cgroup_controller *memcg;
 	int ret = 0;
+	size_t limit_in_bytes = 100 * 1024 * 1024; /* 100M */
 
 	ret = cgroup_init();
 	if (ret) {
@@ -37,30 +39,27 @@ int main(int argc, char **argv)
 		goto free;
 	}
 
-	cgroup_controller = cgroup_add_controller(cgrp, "memory");
-	if (!cgroup_controller) {
+	memcg = cgroup_add_controller(cgrp, "memory");
+	if (!memcg) {
 		fprintf(stderr, "Error adding memory controller to cgroup\n");
 		ret = 1;
 		goto delete;
 	}
 
 #ifdef CGROUP_V1
-#define MEMORY_LIMIT	"memory.limit_in_bytes"
+# define MEMORY_LIMIT	"memory.limit_in_bytes"
 #else
-#define MEMORY_LIMIT	"memory.max"
+# define MEMORY_LIMIT	"memory.max"
 #endif
-	/* 100M */
-	size_t limit_in_bytes = 100 * 1024 * 1024;
-	ret = cgroup_set_value_uint64(cgroup_controller, MEMORY_LIMIT, limit_in_bytes);
+	ret = cgroup_set_value_uint64(memcg, MEMORY_LIMIT, limit_in_bytes);
 	if (ret) {
 		fprintf(stderr, "Error setting memory limit: %d\n", ret);
-		ret = 1;
 		goto delete;
 	}
 
 	limit_in_bytes = 0;
-	cgroup_get_value_uint64(cgroup_controller, MEMORY_LIMIT, &limit_in_bytes);
-	printf("Set "MEMORY_LIMIT" to %ld\n", limit_in_bytes);
+	cgroup_get_value_uint64(memcg, MEMORY_LIMIT, &limit_in_bytes);
+	printf("Set "MEMORY_LIMIT" to %ld MB\n", limit_in_bytes / 1024 / 1024);
 
 	pid = fork();
 	if (pid < 0)
@@ -70,15 +69,26 @@ int main(int argc, char **argv)
 	if (pid == 0) {
 		size_t i;
 
+		prctl(PR_SET_NAME, "memcg-oom-test", 0, 0, 0);
 		sleep(1);
 		printf("Child running...\n");
 
 		mlockall(MCL_CURRENT | MCL_FUTURE);
 		char *mem = malloc(limit_in_bytes * 10);
-		/* page fault */
-		for (i = 0; i < limit_in_bytes * 10; i += getpagesize())
-			mem[i] = 'a';
 
+		/* page fault */
+		for (i = 0; i < limit_in_bytes * 10; i += getpagesize()) {
+			mem[i] = 'a';
+			if (i % (getpagesize() * 500) == 0) {
+				printf(".");
+				fflush(stdout);
+			}
+		}
+		printf("\n");
+
+#ifdef DEBUG
+		sleep(100);
+#endif
 		exit(1);
 	}
 
@@ -89,6 +99,10 @@ int main(int argc, char **argv)
 		ret = 1;
 		goto delete;
 	}
+
+#ifdef DEBUG
+	sleep(100);
+#endif
 
 	waitpid(pid, NULL, 0);
 
