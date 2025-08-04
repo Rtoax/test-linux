@@ -7,7 +7,7 @@
 #include "cgroup_helpers.h"
 
 
-long proc_cgroupid(pid_t pid)
+long cgroup_proc_cgroupid(pid_t pid)
 {
 	int err;
 	char proc[64];
