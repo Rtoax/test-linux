@@ -31,4 +31,4 @@ tmpfs: tmpfs.o tmpfs_helpers.o
 fs.ext4:
 	$(call log_tgt_exe,FS,,$(@))
 	${Q}./mkfs.sh
-	${Q}mkdir tmp-dir
+	${Q}mkdir -p tmp-dir
