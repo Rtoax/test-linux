@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- libcgroup: add libcgroup.mk;
 - procfs: add sysrq-trigger tool;
 - `proc_helpers`: Rename `proc_for_each_mnt_point()` to `proc_for_each_mount()`;
 - cgroup: add `cgroup_helpers`;

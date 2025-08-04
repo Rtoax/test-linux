@@ -1,4 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
+# Copyright (c) 2022-2025 Rong Tao
 #
 # test-linux Makefile
 # Wrote by Rong Tao <rtoax@foxmail.com>

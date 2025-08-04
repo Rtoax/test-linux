@@ -5,6 +5,7 @@ targets += cgroup_new_cgroup
 
 LDFLAGS := -lcgroup
 
+include ../libcgroup.mk
 include ../../../template/main.mk
 
 cgroup_version: cgroup_version.o
