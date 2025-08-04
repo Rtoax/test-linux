@@ -8,15 +8,14 @@
 #include "cgroup_helpers.h"
 
 
-/* FIXME: wrong cgroupid, use /sys/fs/cgroup/FILE instead */
-long cgroup_proc_cgroupid(pid_t pid)
+long cgroup_cgroupid(const char *mntpoint, const char *cgroup_path)
 {
 	int err;
-	char proc[64];
+	char path[512];
 	struct stat st;
 
-	snprintf(proc, sizeof(proc) - 1, "/proc/%d/cgroup", pid);
-	err = stat(proc, &st);
+	snprintf(path, sizeof(path) - 1, "%s/%s", mntpoint, cgroup_path);
+	err = stat(path, &st);
 
 	return err ? -errno : st.st_ino;
 }

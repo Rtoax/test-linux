@@ -4,6 +4,7 @@
 #include <unistd.h>
 #include <sys/types.h>
 
+#define CGROUP_DEFAULT_MNTPOINT	"/sys/fs/cgroup/"
 
 /* /proc/PID/cgroup content */
 struct proc_cgroup {
@@ -17,4 +18,4 @@ struct proc_cgroup {
 int cgroup_proc_for_each_cgroup_entry(pid_t pid,
 				      void (*callback)(const struct proc_cgroup *cgrp));
 
-long cgroup_proc_cgroupid(pid_t pid);
+long cgroup_cgroupid(const char *mntpoint, const char *cgroup_path);

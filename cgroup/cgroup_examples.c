@@ -7,20 +7,19 @@
 
 void display_proc_cgrp(const struct proc_cgroup *cgrp)
 {
-	printf("cgroupv%d %d:%s:%s\n", cgrp->cgroup_type, cgrp->hierarchy_id,
-		cgrp->subsystem_list, cgrp->cgroup_path);
+	long cgroupid;
+	cgroupid = cgroup_cgroupid(CGROUP_DEFAULT_MNTPOINT, cgrp->cgroup_path);
+
+	printf("cgroupv%d %ld %d:%s:%s\n", cgrp->cgroup_type, cgroupid,
+		cgrp->hierarchy_id, cgrp->subsystem_list, cgrp->cgroup_path);
 }
 
 int main(int argc, char *argv[])
 {
-	long cgroupid;
 	pid_t pid = getpid();
 
 	if (argc >= 2)
 		pid = atoi(argv[1]);
-
-	cgroupid = cgroup_proc_cgroupid(pid);
-	printf("PID %d CGROUP %ld\n", pid, cgroupid);
 
 	cgroup_proc_for_each_cgroup_entry(pid, display_proc_cgrp);
 
