@@ -67,6 +67,7 @@ enum test_type {
 	TEST_MATMUL_FP64,
 	/**
 	 * NOTE: Matmul int8 is faster than GemmEx int8
+	 * - commit f1389d15082c ("hpc: blas: int8: MetaX Mars X203: Matmul faster than GemmEx")
 	 */
 	TEST_MATMUL_INT8,
 	TEST_MAX,
