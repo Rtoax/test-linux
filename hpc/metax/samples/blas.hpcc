@@ -1352,7 +1352,7 @@ void exec_one_test(struct test *test)
 		printf("display elapsed %ld ms\n", LAT(display));
 		printf("free elapsed %ld ms\n", LAT(free));
 	}
-	printf("%s elapsed %.2f ms, %.2lf FLOPS, %.2lf GFLOPS, %.2lf TFLOPS\n",
+	printf("%s elapsed %.2f ms, %.2lf FLOPS/OPS, %.2lf GFLOPS/GOPS, %.2lf TFLOPS/TOPS\n",
 		test->name,
 		LAT_GPU(run),
 		test->run.flops,
