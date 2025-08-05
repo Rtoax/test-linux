@@ -47,12 +47,17 @@ struct {
 };
 
 const char argp_prog_doc[] =
-	"USAGE: [-p] [-s <size>] [-a <oom_adj>] [-c <oom_score_adj>] [-v|--verbose]\n"
-	"\n"
-	"EXAMPLES\n"
-	"  $ ./oom -v -s 2GB --oom_score_adj -1000\n"
-	"  $ ./oom -v\n"
-	"  $ ./oom -v --rate 1000MB\n";
+"USAGE: [-p] [-s <size>] [-a <oom_adj>] [-c <oom_score_adj>] [-v|--verbose]\n"
+"\n"
+"EXAMPLES\n"
+"  $ ./oom -v                          # Alloc until OOM with verbose mode\n"
+"  $ ./oom -v --size 2GB               # Hold 2GB memory\n"
+"  $ ./oom -v --rate 100MB             # Allocate rate 100MB/s\n"
+"  $ ./oom -v --oom_score_adj -1000    # Set oom_score_adj to -1000\n"
+#ifdef HAVE_LIBCGROUP
+"  $ sudo ./oom -v --memcg-size=100MB  # Limit memcg size to 100MB\n"
+#endif
+;
 
 static const struct argp_option opts[] = {
 	{ "operation", 'e', "OPERATION", 0, "specify operation, glibc, mmap-anon, mmap-file" },
