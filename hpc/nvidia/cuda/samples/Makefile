@@ -25,7 +25,7 @@ CFLAGS_NVCC := -DHAVE_CUDA=1
 CFLAGS_matrix-double := -DTEST_DOUBLE=1
 CFLAGS_NVCC_matrix-double := -DTEST_DOUBLE=1
 CFLAGS_NVCC_matrix-int8 := -DTEST_INT8=1
-LDFLAGS_NVCC_blas := -lcublas
+LDFLAGS_NVCC_blas := -lcublas -lcublasLt
 LDFLAGS_NVCC_cublasLtMatmul := -lcublas -lcublasLt
 LDFLAGS_NVCC_rand := -lcurand
 

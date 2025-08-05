@@ -25,6 +25,7 @@
 #else
 # include <cuda_runtime.h>
 # include <cublas_v2.h>
+# include <cublasLt.h>
 # include "cuda_helpers.h"
 # define NAME	"CUDA BLAS"
 #endif
@@ -294,8 +295,6 @@ int default_create_blas(struct test *test)
 
 int default_create_blasLt(struct test *test)
 {
-	int version;
-
 	CUDA_BLAS_BUG_CALL(cublasLtCreate(&test->ltHandle), exit(EXIT_FAILURE));
 
 	CUDA_BLAS_BUG_CALL(cublasLtMatmulDescCreate(&test->matmulDesc, CUBLAS_COMPUTE_32F, CUDA_R_32F), exit(EXIT_FAILURE));
