@@ -137,6 +137,7 @@ struct test {
 #define Z0	{NULL,NULL,NULL,NULL,NULL,NULL,{},NULL,1<<22/*4MB*/}
 
 	union {
+		int8_t *int8;
 		half *fp16;
 		float *fp32;
 		double *fp64;
@@ -145,11 +146,12 @@ struct test {
 #define Z1      {NULL}
 
 	union {
+		int8_t int8;
 		half fp16;
 		float fp32;
 		double fp64;
 	} result;
-#define Z2      {0.0}
+#define Z2      {0}
 
 	struct {
 		unsigned long start, end;
