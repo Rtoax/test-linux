@@ -56,6 +56,7 @@ enum test_type {
 	TEST_GEMM_FP16,
 	TEST_GEMM_FP32,
 	TEST_GEMM_FP64,
+	TEST_GEMMEX_FP16,
 	TEST_GEMMEX_INT8,
 	/**
 	 * MetaX Mars X203
@@ -72,6 +73,7 @@ enum test_type {
 			"dot-fp32|dot-fp64|" \
 			"nrm2-fp32|nrm2-fp64|" \
 			"gemm-fp16|gemm-fp32|gemm-fp64|" \
+			"gemmex-fp16|" \
 			"gemmex-int8|" \
 			"matmul-fp16|matmul-fp32|matmul-fp64"
 };
@@ -267,6 +269,8 @@ static error_t parse_arg(int key, char *arg, struct argp_state *state)
 			env.test_type = TEST_GEMM_FP32;
 		else if (!strcmp(arg, "gemm-fp64"))
 			env.test_type = TEST_GEMM_FP64;
+		else if (!strcmp(arg, "gemmex-fp16"))
+			env.test_type = TEST_GEMMEX_FP16;
 		else if (!strcmp(arg, "gemmex-int8"))
 			env.test_type = TEST_GEMMEX_INT8;
 		else if (!strcmp(arg, "matmul-fp16"))
@@ -703,6 +707,27 @@ int run_blas_GemmEx_int8(struct test *test)
 				&beta,
 				test->dev_C.int32, CUDA_R_32I, env.m,
 				CUBLAS_COMPUTE_32I,
+				CUBLAS_GEMM_DEFAULT),
+			return -1);
+	return 0;
+}
+
+int run_blas_GemmEx_fp16(struct test *test)
+{
+	half alpha = __float2half(env.alpha);
+	half beta = __float2half(env.beta);
+
+	/**
+	 * C^T = B^T * A^T equal to C = A * B
+	 */
+	CUDA_BLAS_BUG_CALL(cublasGemmEx(test->handle, CUBLAS_OP_T, CUBLAS_OP_T,
+				env.m, env.n, env.k,
+				&alpha,
+				test->dev_A.fp16, CUDA_R_16F, env.k,
+				test->dev_B.fp16, CUDA_R_16F, env.n,
+				&beta,
+				test->dev_C.fp16, CUDA_R_16F, env.m,
+				CUBLAS_COMPUTE_16F,
 				CUBLAS_GEMM_DEFAULT),
 			return -1);
 	return 0;
@@ -1250,6 +1275,18 @@ struct test alltests[] = {
 			.run_blas = run_blas_Gemm_fp64,
 			.get_flops = get_flops_gemm,
 			.display_data = display_data_Gemm_fp64,
+			.free_data = free_data_matrix_ABC,
+			.destroy_blas = default_destroy_blas,
+		}
+	},
+	{
+		ZERO_TEST("GEMMEx FP16", TEST_GEMMEX_FP16),
+		{
+			.create_blas = default_create_blas,
+			.prepare_data = prepare_data_matrix_Gemm_fp16,
+			.run_blas = run_blas_GemmEx_fp16,
+			.get_flops = get_flops_gemm,
+			.display_data = display_data_Gemm_fp16,
 			.free_data = free_data_matrix_ABC,
 			.destroy_blas = default_destroy_blas,
 		}
