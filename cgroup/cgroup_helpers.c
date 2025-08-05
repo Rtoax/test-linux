@@ -82,9 +82,16 @@ long cgroup_cgroupid_of_mnt_path(const char *mntpoint, const char *cgroup_path)
 typedef int (*match_fn)(const char *path, void *arg);
 
 /**
+ * Recursively search for a matching cgroup in a root directory.
  *
+ * When @match returns true, the match succeeds and the function returns
+ * without further searching.
+ *
+ * If the match is successful, 1 is returned. If the match fails, 0 is returned.
+ * If an error occurs during the search process, -errno is returned.
  */
-static int find_cgroup_from_root(const char *root, match_fn match, void *arg)
+static int find_cgroup_from_root_recur(const char *root, match_fn match,
+				       void *arg)
 {
 	int err = 0;
 	DIR *dir;
@@ -123,12 +130,19 @@ static int find_cgroup_from_root(const char *root, match_fn match, void *arg)
 
 	path_len = strlen(path);
 
-	/* If the directory path doesn't end with a slash, append a slash. */
+	/**
+	 * If the directory path doesn't end with a slash, append a slash,
+	 * convenient for splicing subdirectories.
+	 */
 	if (path[path_len - 1] != '/') {
 		path[path_len] = '/';
 		path[++path_len] = '\0';
 	}
 
+	/**
+	 * Traverse all folders under the root directory, skipping the current
+	 * directory and the previous directory.
+	 */
 	while ((dirent = readdir(dir)) != NULL) {
 		if (!strcmp(dirent->d_name, ".") || !strcmp(dirent->d_name, ".."))
 			continue;
@@ -141,16 +155,23 @@ static int find_cgroup_from_root(const char *root, match_fn match, void *arg)
 #ifdef DEBUG
 		fprintf(stderr, "%s\n", path);
 #endif
-		/* Found it */
 		if (match(path, arg)) {
-			err = 0;
+			/* Found */
+			err = 1;
 			goto done;
 		}
-		err = find_cgroup_from_root(path, match, arg);
+
+		/**
+		 * Recursive search. Returning 1 means it was found, return
+		 * -errno means an error occurred, and returning 0 means it
+		 * was not found and should continue searching.
+		 */
+		err = find_cgroup_from_root_recur(path, match, arg);
 		if (err)
 			goto done;
 	}
 
+	/* Not found */
 	err = 0;
 done:
 	closedir(dir);
@@ -160,10 +181,13 @@ done:
 
 struct match_cgroupid_arg {
 	long cgroupid;
-	bool match;
 	char path[PATH_MAX];
 };
 
+/**
+ * As the @match parameter of the find_cgroup_from_root_recur() function,
+ * the cgroup path is found by cgroupid.
+ */
 static int match_cgroupid(const char *path, void *arg)
 {
 	long cgroupid;
@@ -175,7 +199,6 @@ static int match_cgroupid(const char *path, void *arg)
 #endif
 	if (cgroupid == a->cgroupid) {
 		snprintf(a->path, PATH_MAX, path);
-		a->match = true;
 		return 1;
 	}
 	return 0;
@@ -184,12 +207,11 @@ static int match_cgroupid(const char *path, void *arg)
 int cgroup_cgroup_path(long cgroupid, char *buf, size_t buf_len)
 {
 	char **roots;
-	int nroots, i;
+	int nroots, i, err;
 	struct match_cgroupid_arg arg = {};
 	bool found = false;
 
 	arg.cgroupid = cgroupid;
-	arg.match = false;
 
 	nroots = cgroup_get_roots(&roots);
 
@@ -197,8 +219,8 @@ int cgroup_cgroup_path(long cgroupid, char *buf, size_t buf_len)
 #ifdef DEBUG
 		fprintf(stderr, "root --- %s\n", roots[i]);
 #endif
-		find_cgroup_from_root(roots[i], match_cgroupid, &arg);
-		if (arg.match) {
+		err = find_cgroup_from_root_recur(roots[i], match_cgroupid, &arg);
+		if (err == 1) {
 			strncpy(buf, arg.path, buf_len);
 			found = true;
 			break;
