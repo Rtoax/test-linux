@@ -79,9 +79,12 @@ long cgroup_cgroupid_of_mnt_path(const char *mntpoint, const char *cgroup_path)
 	return cgroup_cgroupid_of_path(path);
 }
 
-static int for_each_cgroup_match(const char *root, int (*match)(const char *path,
-								void *arg),
-				 void *arg)
+typedef int (*match_fn)(const char *path, void *arg);
+
+/**
+ *
+ */
+static int find_cgroup_from_root(const char *root, match_fn match, void *arg)
 {
 	int err = 0;
 	DIR *dir;
@@ -97,7 +100,7 @@ static int for_each_cgroup_match(const char *root, int (*match)(const char *path
 	if (err)
 		return -errno;
 	if (!S_ISDIR(st.st_mode))
-		return -EINVAL;
+		return -ENOTDIR;
 
 	path = malloc(PATH_MAX);
 	assert(path && "Malloc failed");
@@ -138,11 +141,12 @@ static int for_each_cgroup_match(const char *root, int (*match)(const char *path
 #ifdef DEBUG
 		fprintf(stderr, "%s\n", path);
 #endif
+		/* Found it */
 		if (match(path, arg)) {
 			err = 0;
 			goto done;
 		}
-		err = for_each_cgroup_match(path, match, arg);
+		err = find_cgroup_from_root(path, match, arg);
 		if (err)
 			goto done;
 	}
@@ -193,7 +197,7 @@ int cgroup_cgroup_path(long cgroupid, char *buf, size_t buf_len)
 #ifdef DEBUG
 		fprintf(stderr, "root --- %s\n", roots[i]);
 #endif
-		for_each_cgroup_match(roots[i], match_cgroupid, &arg);
+		find_cgroup_from_root(roots[i], match_cgroupid, &arg);
 		if (arg.match) {
 			strncpy(buf, arg.path, buf_len);
 			found = true;
