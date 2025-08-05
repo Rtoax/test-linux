@@ -113,11 +113,16 @@ struct test {
 	 * to GEneral Matrix-to-matrix Multiply (GEMM) operations with a new
 	 * flexible API.
 	 */
-	cublasLtHandle_t ltHandle;
-	cublasLtMatmulDesc_t matmulDesc;
-	cublasLtMatrixLayout_t layoutA, layoutB, layoutC;
-	cublasLtMatmulPreference_t pref;
-#define Z0	NULL,NULL,NULL,NULL,NULL,NULL
+	struct {
+		cublasLtHandle_t ltHandle;
+		cublasLtMatmulDesc_t matmulDesc;
+		cublasLtMatrixLayout_t layoutA, layoutB, layoutC;
+		cublasLtMatmulPreference_t pref;
+		cublasLtMatmulHeuristicResult_t heuristic_result;
+		void *workspace;
+		size_t workspaceSize;
+	};
+#define Z0	{NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1<<22/*4MB*/}
 
 	union {
 		half *fp16;
@@ -295,6 +300,8 @@ int default_create_blas(struct test *test)
 
 int default_create_blasLt(struct test *test)
 {
+	int rslt;
+
 	CUDA_BLAS_BUG_CALL(cublasLtCreate(&test->ltHandle), exit(EXIT_FAILURE));
 
 	CUDA_BLAS_BUG_CALL(cublasLtMatmulDescCreate(&test->matmulDesc, CUBLAS_COMPUTE_32F, CUDA_R_32F), exit(EXIT_FAILURE));
@@ -302,6 +309,26 @@ int default_create_blasLt(struct test *test)
 	CUDA_BLAS_BUG_CALL(cublasLtMatrixLayoutCreate(&test->layoutA, CUDA_R_32F, env.m, env.k, env.m), exit(EXIT_FAILURE));
 	CUDA_BLAS_BUG_CALL(cublasLtMatrixLayoutCreate(&test->layoutB, CUDA_R_32F, env.k, env.n, env.k), exit(EXIT_FAILURE));
 	CUDA_BLAS_BUG_CALL(cublasLtMatrixLayoutCreate(&test->layoutC, CUDA_R_32F, env.m, env.n, env.m), exit(EXIT_FAILURE));
+	CUDA_BUG_CALL_EXIT(cudaMalloc(&test->workspace, test->workspaceSize));
+
+	CUDA_BLAS_BUG_CALL(cublasLtMatmulPreferenceCreate(&test->pref), exit(EXIT_FAILURE));
+	CUDA_BLAS_BUG_CALL(cublasLtMatmulPreferenceSetAttribute(test->pref,
+			CUBLASLT_MATMUL_PREF_MAX_WORKSPACE_BYTES,
+			&test->workspaceSize, sizeof(test->workspaceSize)), exit(EXIT_FAILURE));
+
+	CUDA_BLAS_BUG_CALL(cublasLtMatmulAlgoGetHeuristic(test->ltHandle,
+				test->matmulDesc,
+				test->layoutA,
+				test->layoutB,
+				test->layoutC,
+				test->layoutC,
+				test->pref, 1, &test->heuristic_result, &rslt),);
+
+	if (rslt == 0) {
+		fprintf(stderr, "No valid algorithm found! Using fallback method.\n");
+	} else {
+		printf("Found %d heuristic algorithms\n", rslt);
+	}
 
 	if (env.verbose) {
 		printf("BLAS version %zu\n", cublasLtGetVersion());

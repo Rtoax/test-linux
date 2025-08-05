@@ -55,6 +55,7 @@ int main(void)
 	cublasLtMatmulDesc_t matmulDesc;
 	cublasLtMatrixLayout_t layoutA, layoutB, layoutC;
 	cublasLtMatmulPreference_t pref;
+	cublasLtMatmulHeuristicResult_t heuristic_result;
 	void *workspace;
 	size_t workspaceSize = 1 << 22; // 4MB
 	int rslt;
@@ -85,7 +86,6 @@ int main(void)
 			CUBLASLT_MATMUL_PREF_MAX_WORKSPACE_BYTES,
 			&workspaceSize, sizeof(workspaceSize)), exit(EXIT_FAILURE));
 
-	cublasLtMatmulHeuristicResult_t heuristic_result;
 	CUDA_BLAS_BUG_CALL(cublasLtMatmulAlgoGetHeuristic(ltHandle,
 				matmulDesc, layoutA, layoutB, layoutC, layoutC,
 				pref, 1, &heuristic_result, &rslt),);
