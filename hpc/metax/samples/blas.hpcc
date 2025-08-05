@@ -58,6 +58,8 @@ enum test_type {
 	TEST_GEMM_FP64,
 	TEST_GEMMEX_FP16,
 	TEST_GEMMEX_INT8,
+	TEST_GEMMEX_INT16,
+	TEST_GEMMEX_INT32,
 	/**
 	 * fp: MetaX Mars X203
 	 * - commit 3237eede2fb2 ("hpc: blas: matmul: Test MetaX Mars X203 fp16/fp32/fp64")
@@ -79,7 +81,7 @@ enum test_type {
 			"nrm2-fp32|nrm2-fp64|" \
 			"gemm-fp16|gemm-fp32|gemm-fp64|" \
 			"gemmex-fp16|" \
-			"gemmex-int8|" \
+			"gemmex-int8|gemmex-int16|gemmex-int32|" \
 			"matmul-int8|" \
 			"matmul-fp16|matmul-fp32|matmul-fp64"
 };
@@ -148,7 +150,9 @@ struct test {
 
 	union {
 		int8_t *int8;
+		int16_t *int16;
 		int32_t *int32;
+		int64_t *int64;
 		half *fp16;
 		float *fp32;
 		double *fp64;
@@ -158,7 +162,9 @@ struct test {
 
 	union {
 		int8_t int8;
+		int16_t int16;
 		int32_t int32;
+		int64_t int64;
 		half fp16;
 		float fp32;
 		double fp64;
@@ -279,6 +285,10 @@ static error_t parse_arg(int key, char *arg, struct argp_state *state)
 			env.test_type = TEST_GEMMEX_FP16;
 		else if (!strcmp(arg, "gemmex-int8"))
 			env.test_type = TEST_GEMMEX_INT8;
+		else if (!strcmp(arg, "gemmex-int16"))
+			env.test_type = TEST_GEMMEX_INT16;
+		else if (!strcmp(arg, "gemmex-int32"))
+			env.test_type = TEST_GEMMEX_INT32;
 		else if (!strcmp(arg, "matmul-fp16"))
 			env.test_type = TEST_MATMUL_FP16;
 		else if (!strcmp(arg, "matmul-fp32"))
@@ -429,6 +439,35 @@ int __alloc_matrix_pair_int8(const char *dpfx, int8_t **host, int8_t **dev,
 	return err;
 }
 
+int __alloc_matrix_pair_int16(const char *dpfx, int16_t **host, int16_t **dev,
+			     int x, int y)
+{
+	int i, j, err = 0;
+
+	*host = (int16_t *)malloc(x * y * sizeof(int16_t));
+	assert(*host && "Malloc failed");
+
+	for (j = 0; j < y; j++) {
+		if (env.verbose)
+			printf("%s>> ", dpfx);
+		for (i = 0; i < x; i++) {
+			int16_t val = env.set_value ?
+					(int16_t)env.value :
+					(int16_t)(i * y + j + 1);
+			(*host)[IDX2C(i, j, x)] = val;
+			if (env.verbose)
+				printf("%d\t", val);
+		}
+		if (env.verbose)
+			printf("\n");
+	}
+
+	CUDA_BUG_CALL(cudaMalloc(dev, x * y * sizeof(int16_t)), err = -ENOMEM);
+	CUDA_BLAS_BUG_CALL(cublasSetMatrix(x, y, sizeof(int16_t), *host, x, *dev, x), err = -1);
+
+	return err;
+}
+
 int __alloc_matrix_pair_int32(const char *dpfx, int32_t **host, int32_t **dev,
 			     int x, int y)
 {
@@ -454,6 +493,35 @@ int __alloc_matrix_pair_int32(const char *dpfx, int32_t **host, int32_t **dev,
 
 	CUDA_BUG_CALL(cudaMalloc(dev, x * y * sizeof(int32_t)), err = -ENOMEM);
 	CUDA_BLAS_BUG_CALL(cublasSetMatrix(x, y, sizeof(int32_t), *host, x, *dev, x), err = -1);
+
+	return err;
+}
+
+int __alloc_matrix_pair_int64(const char *dpfx, int64_t **host, int64_t **dev,
+			     int x, int y)
+{
+	int i, j, err = 0;
+
+	*host = (int64_t *)malloc(x * y * sizeof(int64_t));
+	assert(*host && "Malloc failed");
+
+	for (j = 0; j < y; j++) {
+		if (env.verbose)
+			printf("%s>> ", dpfx);
+		for (i = 0; i < x; i++) {
+			int64_t val = env.set_value ?
+					(int64_t)env.value :
+					(int64_t)(i * y + j + 1);
+			(*host)[IDX2C(i, j, x)] = val;
+			if (env.verbose)
+				printf("%ld\t", val);
+		}
+		if (env.verbose)
+			printf("\n");
+	}
+
+	CUDA_BUG_CALL(cudaMalloc(dev, x * y * sizeof(int64_t)), err = -ENOMEM);
+	CUDA_BLAS_BUG_CALL(cublasSetMatrix(x, y, sizeof(int64_t), *host, x, *dev, x), err = -1);
 
 	return err;
 }
@@ -576,6 +644,24 @@ int prepare_data_matrix_GemmEx_int8(struct test *test)
 	int err = 0;
 	err += __alloc_matrix_pair_int8("A int8", &test->host_A.int8, &test->dev_A.int8, env.k, env.m);
 	err += __alloc_matrix_pair_int8("B int8", &test->host_B.int8, &test->dev_B.int8, env.n, env.k);
+	err += __alloc_matrix_pair_int32("C int32", &test->host_C.int32, &test->dev_C.int32, env.n, env.m);
+	return err;
+}
+
+int prepare_data_matrix_GemmEx_int16(struct test *test)
+{
+	int err = 0;
+	err += __alloc_matrix_pair_int16("A int16", &test->host_A.int16, &test->dev_A.int16, env.k, env.m);
+	err += __alloc_matrix_pair_int16("B int16", &test->host_B.int16, &test->dev_B.int16, env.n, env.k);
+	err += __alloc_matrix_pair_int32("C int32", &test->host_C.int32, &test->dev_C.int32, env.n, env.m);
+	return err;
+}
+
+int prepare_data_matrix_GemmEx_int32(struct test *test)
+{
+	int err = 0;
+	err += __alloc_matrix_pair_int32("A int32", &test->host_A.int32, &test->dev_A.int32, env.k, env.m);
+	err += __alloc_matrix_pair_int32("B int32", &test->host_B.int32, &test->dev_B.int32, env.n, env.k);
 	err += __alloc_matrix_pair_int32("C int32", &test->host_C.int32, &test->dev_C.int32, env.n, env.m);
 	return err;
 }
@@ -722,6 +808,48 @@ int run_blas_GemmEx_int8(struct test *test)
 				&alpha,
 				test->dev_A.int8, CUDA_R_8I, env.k,
 				test->dev_B.int8, CUDA_R_8I, env.n,
+				&beta,
+				test->dev_C.int32, CUDA_R_32I, env.m,
+				CUBLAS_COMPUTE_32I,
+				CUBLAS_GEMM_DEFAULT),
+			return -1);
+	return 0;
+}
+
+int run_blas_GemmEx_int16(struct test *test)
+{
+	int16_t alpha = (int16_t)(env.alpha);
+	int16_t beta = (int16_t)(env.beta);
+
+	/**
+	 * C^T = B^T * A^T equal to C = A * B
+	 */
+	CUDA_BLAS_BUG_CALL(cublasGemmEx(test->handle, CUBLAS_OP_T, CUBLAS_OP_T,
+				env.m, env.n, env.k,
+				&alpha,
+				test->dev_A.int16, CUDA_R_16I, env.k,
+				test->dev_B.int16, CUDA_R_16I, env.n,
+				&beta,
+				test->dev_C.int32, CUDA_R_32I, env.m,
+				CUBLAS_COMPUTE_32I,
+				CUBLAS_GEMM_DEFAULT),
+			return -1);
+	return 0;
+}
+
+int run_blas_GemmEx_int32(struct test *test)
+{
+	int32_t alpha = (int32_t)(env.alpha);
+	int32_t beta = (int32_t)(env.beta);
+
+	/**
+	 * C^T = B^T * A^T equal to C = A * B
+	 */
+	CUDA_BLAS_BUG_CALL(cublasGemmEx(test->handle, CUBLAS_OP_T, CUBLAS_OP_T,
+				env.m, env.n, env.k,
+				&alpha,
+				test->dev_A.int32, CUDA_R_32I, env.k,
+				test->dev_B.int32, CUDA_R_32I, env.n,
 				&beta,
 				test->dev_C.int32, CUDA_R_32I, env.m,
 				CUBLAS_COMPUTE_32I,
@@ -911,6 +1039,26 @@ int __display_matrix_pair_int8(const char *pfx, struct test *test,
 	return 0;
 }
 
+int __display_matrix_pair_int16(const char *pfx, struct test *test,
+			       int16_t *host, int16_t *dev, int x, int y)
+{
+	int i, j;
+	long sum = 0;
+
+	CUDA_BLAS_BUG_CALL(cublasGetMatrix(x, y, sizeof(int16_t), dev, x, host, x), return -1);
+
+	for (j = 0; j < y; j++) {
+		printf("%s>> ", pfx);
+		for (i = 0; i < x; i++) {
+			sum += host[IDX2C(i, j, x)];
+			printf("%7d", host[IDX2C(i, j, x)]);
+		}
+		printf("\n");
+	}
+	printf("%s>> Host sum %ld\n", pfx, sum);
+	return 0;
+}
+
 int __display_matrix_pair_int32(const char *pfx, struct test *test,
 			       int32_t *host, int32_t *dev, int x, int y)
 {
@@ -924,6 +1072,26 @@ int __display_matrix_pair_int32(const char *pfx, struct test *test,
 		for (i = 0; i < x; i++) {
 			sum += host[IDX2C(i, j, x)];
 			printf("%7d", host[IDX2C(i, j, x)]);
+		}
+		printf("\n");
+	}
+	printf("%s>> Host sum %ld\n", pfx, sum);
+	return 0;
+}
+
+int __display_matrix_pair_int64(const char *pfx, struct test *test,
+			       int64_t *host, int64_t *dev, int x, int y)
+{
+	int i, j;
+	long sum = 0;
+
+	CUDA_BLAS_BUG_CALL(cublasGetMatrix(x, y, sizeof(int64_t), dev, x, host, x), return -1);
+
+	for (j = 0; j < y; j++) {
+		printf("%s>> ", pfx);
+		for (i = 0; i < x; i++) {
+			sum += host[IDX2C(i, j, x)];
+			printf("%7ld", host[IDX2C(i, j, x)]);
 		}
 		printf("\n");
 	}
@@ -1076,6 +1244,24 @@ int display_data_GemmEx_int8(struct test *test)
 	int err = 0;
 	err += __display_matrix_pair_int8("A int8", test, test->host_A.int8, test->dev_A.int8, env.k, env.m);
 	err += __display_matrix_pair_int8("B int8", test, test->host_B.int8, test->dev_B.int8, env.n, env.k);
+	err += __display_matrix_pair_int32("C int32", test, test->host_C.int32, test->dev_C.int32, env.n, env.m);
+	return err;
+}
+
+int display_data_GemmEx_int16(struct test *test)
+{
+	int err = 0;
+	err += __display_matrix_pair_int16("A int16", test, test->host_A.int16, test->dev_A.int16, env.k, env.m);
+	err += __display_matrix_pair_int16("B int16", test, test->host_B.int16, test->dev_B.int16, env.n, env.k);
+	err += __display_matrix_pair_int32("C int32", test, test->host_C.int32, test->dev_C.int32, env.n, env.m);
+	return err;
+}
+
+int display_data_GemmEx_int32(struct test *test)
+{
+	int err = 0;
+	err += __display_matrix_pair_int32("A int32", test, test->host_A.int32, test->dev_A.int32, env.k, env.m);
+	err += __display_matrix_pair_int32("B int32", test, test->host_B.int32, test->dev_B.int32, env.n, env.k);
 	err += __display_matrix_pair_int32("C int32", test, test->host_C.int32, test->dev_C.int32, env.n, env.m);
 	return err;
 }
@@ -1329,6 +1515,30 @@ struct test alltests[] = {
 			.run_blas = run_blas_GemmEx_int8,
 			.get_flops = get_flops_gemm,
 			.display_data = display_data_GemmEx_int8,
+			.free_data = free_data_matrix_ABC,
+			.destroy_blas = default_destroy_blas,
+		}
+	},
+	{
+		ZERO_TEST("GEMMEx INT16", TEST_GEMMEX_INT16),
+		{
+			.create_blas = default_create_blas,
+			.prepare_data = prepare_data_matrix_GemmEx_int16,
+			.run_blas = run_blas_GemmEx_int16,
+			.get_flops = get_flops_gemm,
+			.display_data = display_data_GemmEx_int16,
+			.free_data = free_data_matrix_ABC,
+			.destroy_blas = default_destroy_blas,
+		}
+	},
+	{
+		ZERO_TEST("GEMMEx INT32", TEST_GEMMEX_INT32),
+		{
+			.create_blas = default_create_blas,
+			.prepare_data = prepare_data_matrix_GemmEx_int32,
+			.run_blas = run_blas_GemmEx_int32,
+			.get_flops = get_flops_gemm,
+			.display_data = display_data_GemmEx_int32,
 			.free_data = free_data_matrix_ABC,
 			.destroy_blas = default_destroy_blas,
 		}
