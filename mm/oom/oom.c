@@ -325,7 +325,7 @@ void try_oom(struct oom_operations *ops)
 		}
 		/* Limit the allocate rate */
 		if (rate_Mps > (env.rate_limit / 1024.0f / 1024.0f))
-			usleep(5000);
+			usleep(50000);
 	}
 
 	/* No need to free??? */
