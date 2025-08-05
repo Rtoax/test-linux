@@ -57,7 +57,7 @@ void cgroup_free_roots(char **roots, int nentries)
 	free(roots);
 }
 
-long cgroup_cgroupid(const char *cgroup_path)
+long cgroup_cgroupid_of_path(const char *cgroup_path)
 {
 	int err;
 	struct stat st;
@@ -65,11 +65,11 @@ long cgroup_cgroupid(const char *cgroup_path)
 	return err ? -errno : st.st_ino;
 }
 
-long cgroup_cgroupid2(const char *mntpoint, const char *cgroup_path)
+long cgroup_cgroupid_of_mnt_path(const char *mntpoint, const char *cgroup_path)
 {
 	char path[512];
 	snprintf(path, sizeof(path) - 1, "%s/%s", mntpoint, cgroup_path);
-	return cgroup_cgroupid(path);
+	return cgroup_cgroupid_of_path(path);
 }
 
 static int for_each_cgroup_match(const char *root, int (*match)(const char *path,
@@ -149,7 +149,7 @@ static int match_cgroupid(const char *path, void *arg)
 	long cgroupid;
 	struct match_cgroupid_arg *a = arg;
 
-	cgroupid = cgroup_cgroupid(path);
+	cgroupid = cgroup_cgroupid_of_path(path);
 #ifdef DEBUG
 	fprintf(stderr, "%ld:%ld %s\n", cgroupid, a->cgroupid, path);
 #endif

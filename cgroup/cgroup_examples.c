@@ -12,7 +12,7 @@ static void display_proc_cgrp(const struct proc_cgroup *cgrp, void *arg)
 	long cgroupid;
 	char cgroup_path[PATH_MAX] = {0};
 
-	cgroupid = cgroup_cgroupid2(CGROUP_DEFAULT_MNTPOINT, cgrp->cgroup_path);
+	cgroupid = cgroup_cgroupid_of_mnt_path(CGROUP_DEFAULT_MNTPOINT, cgrp->cgroup_path);
 
 	cgroup_cgroup_path(cgroupid, cgroup_path, PATH_MAX);
 

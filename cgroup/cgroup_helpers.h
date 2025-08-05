@@ -18,8 +18,8 @@ struct proc_cgroup {
 int cgroup_get_roots(char ***roots, int *nentries);
 void cgroup_free_roots(char **roots, int nentries);
 
-long cgroup_cgroupid(const char *cgroup_path);
-long cgroup_cgroupid2(const char *mntpoint, const char *cgroup_path);
+long cgroup_cgroupid_of_path(const char *cgroup_path);
+long cgroup_cgroupid_of_mnt_path(const char *mntpoint, const char *cgroup_path);
 
 int cgroup_cgroup_path(long cgroupid, char *buf, size_t buf_len);
 
