@@ -152,12 +152,31 @@ static inline void backspace(FILE *fp, int n)
 	fprintf(fp, "%s", buf);
 }
 
-#define BACK_PRINTF(fmt...) do {			\
-		int ____n = fprintf(stderr, fmt);	\
-		if (keep_going)				\
-			backspace(stderr, ____n);	\
-		else					\
-			fprintf(stderr, "\n");		\
+static inline void whitespace(FILE *fp, int n)
+{
+	char buf[256];
+
+	if (n <= 0)
+		return;
+
+	memset(buf, ' ', n);
+	buf[n] = '\0';
+	fprintf(fp, "%s", buf);
+}
+
+#define BACK_PRINTF(fmt...) do {				\
+		static int ____prev_n = 0;			\
+		int ____n = fprintf(stderr, fmt);		\
+		int ____diff = ____prev_n - ____n;		\
+		if (____diff > 0)				\
+			whitespace(stderr, ____diff);		\
+		if (keep_going) {				\
+			backspace(stderr, ____n);		\
+			if (____diff > 0)			\
+				backspace(stderr, ____diff);	\
+		} else						\
+			fprintf(stderr, "\n");			\
+		____prev_n = ____n;				\
 	} while (0)
 
 struct oom_operations {
