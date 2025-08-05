@@ -65,7 +65,13 @@ enum test_type {
 	TEST_MATMUL_FP64,
 	TEST_MAX,
 	TEST_ALL = TEST_MAX,
-#define TEST_LIST_STR	"scal|axpy|copy|dot|nrm2|gemm|matmul+fp16|fp32|fp64"
+#define TEST_LIST_STR	"scal-fp32|scal-fp64|" \
+			"axpy-fp32|axpy-fp64|" \
+			"copy-fp32|copy-fp64|" \
+			"dot-fp32|dot-fp64|" \
+			"nrm2-fp32|nrm2-fp64|" \
+			"gemm-fp16|gemm-fp32|gemm-fp64|" \
+			"matmul-fp16|matmul-fp32|matmul-fp64"
 };
 
 struct {
@@ -162,11 +168,13 @@ struct test {
 const char *version = "v0.0.6 (" NAME ")";
 
 const char argp_prog_doc[] =
-	"USAGE: [-g <GPU>] [-v] [=t=<" TEST_LIST_STR ">]\n"
+	"USAGE: [-g <GPU>] [-v] [=t=<TYPE>]\n"
 	"\n"
 	"Examples:\n"
 	" $ time ./blas -m10 -n10\n"
-	" $ time ./blas -t scal-fp32\n";
+	" $ time ./blas -t scal-fp32\n"
+	"\n"
+	"TYPE: " TEST_LIST_STR "\n";
 
 static const struct argp_option opts[] = {
 	{ "gpu", 'g', "GPU", 0, "Running on GPU" },
@@ -175,7 +183,7 @@ static const struct argp_option opts[] = {
 	{ NULL, 'k', "K", 0, "K number" },
 	{ "alpha", 'A', "ALPHA", 0, "Set alpha value" },
 	{ "beta", 'B', "BETA", 0, "Set beta value" },
-	{ "type", 't', "TYPE", 0, "set test type: " TEST_LIST_STR },
+	{ "type", 't', "TYPE", 0, "set test type, see TYPE " },
 	{ "init-val", 'i', "INIT_VAL", 0, "Set matrix values" },
 	{ "nloop", 'N', "NLOOP", 0, "Test loop number" },
 	{ "verbose", 'v', NULL, 1, "Display detail" },
