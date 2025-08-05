@@ -324,13 +324,12 @@ int default_create_blasLt(struct test *test)
 				test->layoutC,
 				test->pref, 1, &test->heuristic_result, &rslt),);
 
-	if (rslt == 0) {
-		fprintf(stderr, "No valid algorithm found! Using fallback method.\n");
-	} else {
-		printf("Found %d heuristic algorithms\n", rslt);
-	}
-
 	if (env.verbose) {
+		if (rslt == 0) {
+			fprintf(stderr, "No valid algorithm found! Using fallback method.\n");
+		} else {
+			printf("Found %d heuristic algorithms\n", rslt);
+		}
 		printf("BLAS version %zu\n", cublasLtGetVersion());
 	}
 
