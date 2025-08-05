@@ -427,14 +427,19 @@
  */
 #define cudaDataType_t	hpccDataType_t
 #define cudaDataType	hpccDataType
+/* The data type is a 16-bit real half precision floating-point */
 #define CUDA_R_16F	HPCC_R_16F
+/* The data type is a 32-bit structure comprised of two half precision
+ * floating-points representing a complex number. */
 #define CUDA_C_16F	HPCC_C_16F
+/* The data type is a 16-bit real bfloat16 floating-point */
 #define CUDA_R_16BF	HPCC_R_16BF
 #define CUDA_C_16BF	HPCC_C_16BF
 #define CUDA_R_32F	HPCC_R_32F
 #define CUDA_C_32F	HPCC_C_32F
 #define CUDA_R_64F	HPCC_R_64F
 #define CUDA_C_64F	HPCC_C_64F
+/* The data type is a 8-bit real signed integer */
 #define CUDA_R_4I	HPCC_R_4I
 #define CUDA_C_4I	HPCC_C_4I
 #define CUDA_R_4U	HPCC_R_4U
