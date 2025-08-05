@@ -240,6 +240,16 @@
  *
  * C = alpha op(A) op(B) + beta C
  */
+/**
+ * cublasStatus_t cublasSgemm(cublasHandle_t handle,
+ *                          cublasOperation_t transa, cublasOperation_t transb,
+ *                          int m, int n, int k,
+ *                          const float           *alpha,
+ *                          const float           *A, int lda,
+ *                          const float           *B, int ldb,
+ *                          const float           *beta,
+ *                          float           *C, int ldc)
+ */
 #define cublasSgemm(handle, transa, transb, m, n, k, alpha, A, lda, B, ldb, beta, C, ldc) \
 	hcblasSgemm(handle, transa, transb, m, n, k, alpha, A, lda, B, ldb, beta, C, ldc)
 #define cublasDgemm(handle, transa, transb, m, n, k, alpha, A, lda, B, ldb, beta, C, ldc) \
@@ -276,6 +286,30 @@
 		     B, Btype, ldb, beta, C, Ctype, ldc, computeType, algo) \
 	hcblasGemmEx(handle, transa, transb, m, n, k, alpha, A, Atype, lda, \
 		     B, Btype, ldb, beta, C, Ctype, ldc, computeType, algo)
+
+/**
+ * cublasStatus_t cublasSgemmEx(cublasHandle_t handle,
+ *                          cublasOperation_t transa,
+ *                          cublasOperation_t transb,
+ *                          int m,
+ *                          int n,
+ *                          int k,
+ *                          const float    *alpha,
+ *                          const void     *A,
+ *                          cudaDataType_t Atype,
+ *                          int lda,
+ *                          const void     *B,
+ *                          cudaDataType_t Btype,
+ *                          int ldb,
+ *                          const float    *beta,
+ *                          void           *C,
+ *                          cudaDataType_t Ctype,
+ *                          int ldc)
+ */
+#define cublasSgemmEx(handle, transa, transb, m, n, k, alpha, A, Atype, lda, \
+		      B, Btype, ldb, beta, C, Ctype, ldc) \
+	hcblasSgemmEx(handle, transa, transb, m, n, k, alpha, A, Atype, lda, \
+		      B, Btype, ldb, beta, C, Ctype, ldc)
 
 #define cublasLtHandle_t	hcblasLtHandle_t
 #define cublasLtCreate(phandle)	hcblasLtCreate(phandle)
