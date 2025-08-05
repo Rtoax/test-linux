@@ -388,12 +388,12 @@ int __alloc_matrix_pair_int8(const char *dpfx, int8_t **host, int8_t **dev,
 		if (env.verbose)
 			printf("%s>> ", dpfx);
 		for (i = 0; i < x; i++) {
-			float val = env.set_value ?
-					(float)env.value :
-					(float)(i * y + j + 1);
+			int8_t val = env.set_value ?
+					(int8_t)env.value :
+					(int8_t)(i * y + j + 1);
 			(*host)[IDX2C(i, j, x)] = val;
 			if (env.verbose)
-				printf("%.0f\t", val);
+				printf("%d\t", val);
 		}
 		if (env.verbose)
 			printf("\n");
