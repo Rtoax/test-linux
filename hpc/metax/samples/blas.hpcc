@@ -18,6 +18,7 @@
 #if defined(HAVE_HCCL)
 # include <hc_runtime.h>
 # include <hcblas/hcblas.h>
+# include <hcblas/hcblasLt.h>
 # include "hpcc_helpers.h"
 # include "cuda2hccl.h"
 # define NAME	"MetaX BLAS"
@@ -54,9 +55,10 @@ enum test_type {
 	TEST_GEMM_FP16,
 	TEST_GEMM_FP32,
 	TEST_GEMM_FP64,
+	TEST_MATMUL_FP32,
 	TEST_MAX,
 	TEST_ALL = TEST_MAX,
-#define TEST_LIST_STR	"scal|axpy|copy|dot|nrm2|gemm+fp16|fp32|fp64"
+#define TEST_LIST_STR	"scal|axpy|copy|dot|nrm2|gemm|matmul+fp16|fp32|fp64"
 };
 
 struct {
@@ -105,6 +107,17 @@ struct test {
 
 	cublasHandle_t handle;
 
+	/**
+	 * BLASLt - The cuBLASLt library is a new lightweight library dedicated
+	 * to GEneral Matrix-to-matrix Multiply (GEMM) operations with a new
+	 * flexible API.
+	 */
+	cublasLtHandle_t ltHandle;
+	cublasLtMatmulDesc_t matmulDesc;
+	cublasLtMatrixLayout_t layoutA, layoutB, layoutC;
+	cublasLtMatmulPreference_t pref;
+#define Z0	NULL,NULL,NULL,NULL,NULL,NULL
+
 	union {
 		half *fp16;
 		float *fp32;
@@ -130,7 +143,7 @@ struct test {
 		double flops;
 	} run;
 #define Z4      {NULL,NULL,0.0,0.0}
-#define ZERO_TEST(name, type) name,type,NULL,Z1,Z1,Z1,Z1,Z1,Z1,Z2,Z3,Z3,Z3,Z3,Z3,Z4
+#define ZERO_TEST(name, type) name,type,NULL,Z0,Z1,Z1,Z1,Z1,Z1,Z1,Z2,Z3,Z3,Z3,Z3,Z3,Z4
 	struct test_operations ops;
 };
 
@@ -228,6 +241,8 @@ static error_t parse_arg(int key, char *arg, struct argp_state *state)
 			env.test_type = TEST_GEMM_FP32;
 		else if (!strcmp(arg, "gemm-fp64"))
 			env.test_type = TEST_GEMM_FP64;
+		else if (!strcmp(arg, "matmul-fp32"))
+			env.test_type = TEST_MATMUL_FP32;
 		else {
 			fprintf(stderr, "Support TEST TYPE: " TEST_LIST_STR "\n");
 			exit(-EINVAL);
@@ -272,6 +287,25 @@ int default_create_blas(struct test *test)
 	if (env.verbose) {
 		CUDA_BLAS_BUG_CALL(cublasGetVersion(test->handle, &version), return -1);
 		printf("BLAS version %d\n", version);
+	}
+
+	return 0;
+}
+
+int default_create_blasLt(struct test *test)
+{
+	int version;
+
+	CUDA_BLAS_BUG_CALL(cublasLtCreate(&test->ltHandle), exit(EXIT_FAILURE));
+
+	CUDA_BLAS_BUG_CALL(cublasLtMatmulDescCreate(&test->matmulDesc, CUBLAS_COMPUTE_32F, CUDA_R_32F), exit(EXIT_FAILURE));
+
+	CUDA_BLAS_BUG_CALL(cublasLtMatrixLayoutCreate(&test->layoutA, CUDA_R_32F, env.m, env.k, env.m), exit(EXIT_FAILURE));
+	CUDA_BLAS_BUG_CALL(cublasLtMatrixLayoutCreate(&test->layoutB, CUDA_R_32F, env.k, env.n, env.k), exit(EXIT_FAILURE));
+	CUDA_BLAS_BUG_CALL(cublasLtMatrixLayoutCreate(&test->layoutC, CUDA_R_32F, env.m, env.n, env.m), exit(EXIT_FAILURE));
+
+	if (env.verbose) {
+		printf("BLAS version %zu\n", cublasLtGetVersion());
 	}
 
 	return 0;
@@ -937,6 +971,20 @@ struct test alltests[] = {
 			.free_data = free_data_matrix_ABC,
 			.destroy_blas = default_destroy_blas,
 		}
+	},
+	{
+		#if 0
+		ZERO_TEST("MATMUL FP32", TEST_MATMUL_FP32),
+		{
+			.create_blas = default_create_blasLt,
+			.prepare_data = prepare_data_matrix_Matmul_fp32,
+			.run_blas = run_blas_Matmul_fp32,
+			.get_flops = get_flops_matmul,
+			.display_data = display_data_Matmul_fp32,
+			.free_data = free_data_matrix_ABC,
+			.destroy_blas = default_destroy_blasLt,
+		}
+		#endif
 	},
 };
 

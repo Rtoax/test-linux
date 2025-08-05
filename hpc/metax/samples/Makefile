@@ -30,7 +30,7 @@ CFLAGS_HTCC_hcGetDeviceProperties := -Wno-string-plus-int
 CFLAGS_HTCC_matrix-double := -DTEST_DOUBLE=1
 CFLAGS_HTCC_matrix-int8 := -DTEST_INT8=1
 CFLAGS_HTCC_matrix-fp16 := -DTEST_FP16=1
-LDFLAGS_HTCC_blas := -lhcblas
+LDFLAGS_HTCC_blas := -lhcblas -lhcblasLt
 CFLAGS_HTCC_hcblasLtMatmul := -Wno-ignored-attributes
 LDFLAGS_HTCC_hcblasLtMatmul := -lhcblas -lhcblasLt
 LDFLAGS_HTCC_rand := -lhcrand

@@ -85,6 +85,7 @@
 #define cublasDestroy(handle)	hcblasDestroy(handle)
 
 #define cublasGetVersion(handle, pversion)	hcblasGetVersion(handle, pversion)
+#define cublasLtGetVersion()	hcblasLtGetVersion()
 #define cublasGetProperty(type, pvalue)	hcblasGetProperty(type, pvalue)
 
 /**
