@@ -641,6 +641,34 @@ double get_flops_gemm(struct test *test)
 	return 2.0 * env.nloop * env.k * env.m * env.n * 1e3 / (test->run.elapsed);
 }
 
+/**
+ * D = alpha*(A*B) + beta*(C)
+ */
+int run_blas_Matmul_fp32(struct test *test)
+{
+	float alpha = (float)env.alpha;
+	float beta = (float)env.beta;
+
+	CUDA_BLAS_BUG_CALL(cublasLtMatmul(
+				test->ltHandle,
+				test->matmulDesc,
+				&alpha,
+				test->dev_A.fp32,
+				test->layoutA,
+				test->dev_B.fp32,
+				test->layoutB,
+				&beta,
+				test->dev_C.fp32,
+				test->layoutC,
+				test->dev_C.fp32,
+				test->layoutC,
+				&test->heuristic_result.algo,
+				test->workspace,
+				test->workspaceSize,
+				NULL /* No stream */), return -1);
+	return 0;
+}
+
 int __display_matrix_pair_fp16(const char *pfx, struct test *test,
 			       half *host, half *dev, int x, int y)
 {
@@ -841,6 +869,18 @@ int default_destroy_blas(struct test *test)
 	return 0;
 }
 
+int default_destroy_blasLt(struct test *test)
+{
+	cudaFree(test->workspace);
+	cublasLtMatmulPreferenceDestroy(test->pref);
+	cublasLtMatrixLayoutDestroy(test->layoutA);
+	cublasLtMatrixLayoutDestroy(test->layoutB);
+	cublasLtMatrixLayoutDestroy(test->layoutC);
+	cublasLtMatmulDescDestroy(test->matmulDesc);
+	cublasLtDestroy(test->ltHandle);
+	return 0;
+}
+
 struct test alltests[] = {
 	{
 		ZERO_TEST("SCAL FP32", TEST_SCAL_FP32),
@@ -999,18 +1039,16 @@ struct test alltests[] = {
 		}
 	},
 	{
-		#if 0
 		ZERO_TEST("MATMUL FP32", TEST_MATMUL_FP32),
 		{
 			.create_blas = default_create_blasLt,
-			.prepare_data = prepare_data_matrix_Matmul_fp32,
+			.prepare_data = prepare_data_matrix_Gemm_fp32,
 			.run_blas = run_blas_Matmul_fp32,
-			.get_flops = get_flops_matmul,
-			.display_data = display_data_Matmul_fp32,
+			.get_flops = get_flops_gemm,
+			.display_data = display_data_Gemm_fp32,
 			.free_data = free_data_matrix_ABC,
 			.destroy_blas = default_destroy_blasLt,
 		}
-		#endif
 	},
 };
 
