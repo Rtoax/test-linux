@@ -1,5 +1,11 @@
 // SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
 /* Copyright (c) 2025 Rong Tao */
+/**
+ * This code file only stores some common interfaces, which will exist in
+ * other _helpers source code files for different subsystems in the proc file
+ * system. For example, for the cgroup subsystem, cgroup parsing of
+ * /proc/mounts and /proc/<pid>/cgroup will be done in cgroup_helpers.c.
+ */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
