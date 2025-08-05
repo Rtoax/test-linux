@@ -10,12 +10,15 @@
 
 static void display_proc_cgrp(const struct proc_cgroup *cgrp, void *arg)
 {
+	int err;
 	long cgroupid;
 	char cgroup_path[PATH_MAX] = {0};
 
 	cgroupid = cgroup_cgroupid_of_mnt_path(CGROUP_DEFAULT_MNTPOINT, cgrp->cgroup_path);
 
-	cgroup_cgroup_path(cgroupid, cgroup_path, PATH_MAX);
+	err = cgroup_cgroup_path(cgroupid, cgroup_path, PATH_MAX);
+	if (err)
+		return;
 
 	printf("cgroupv%d %ld %d:%s:%s %s\n", cgrp->cgroup_type, cgroupid,
 		cgrp->hierarchy_id, cgrp->subsystem_list, cgrp->cgroup_path, cgroup_path);

@@ -48,12 +48,18 @@ int cgroup_get_roots(char ***roots)
 	return n;
 }
 
-void cgroup_free_roots(char **roots, int nentries)
+int cgroup_free_roots(char **roots, int nentries)
 {
 	int i;
+
+	if (!roots || nentries <= 0)
+		return -EINVAL;
+
 	for (i = 0; i < nentries; i++)
 		free(roots[i]);
 	free(roots);
+
+	return 0;
 }
 
 long cgroup_cgroupid_of_path(const char *cgroup_path)
@@ -165,6 +171,8 @@ int cgroup_cgroup_path(long cgroupid, char *buf, size_t buf_len)
 	char **roots;
 	int nroots, i;
 	struct match_cgroupid_arg arg = {};
+	bool found = false;
+
 	arg.cgroupid = cgroupid;
 	arg.match = false;
 
@@ -177,12 +185,14 @@ int cgroup_cgroup_path(long cgroupid, char *buf, size_t buf_len)
 		for_each_cgroup_match(roots[i], match_cgroupid, &arg);
 		if (arg.match) {
 			strncpy(buf, arg.path, buf_len);
+			found = true;
 			break;
 		}
 	}
 
 	cgroup_free_roots(roots, nroots);
-	return 0;
+
+	return found ? 0 : -ENOENT;
 }
 
 int cgroup_proc_for_each_cgroup_entry(pid_t pid, void (*callback)(const struct proc_cgroup *cgrp,

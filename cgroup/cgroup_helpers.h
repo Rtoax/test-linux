@@ -18,15 +18,27 @@ struct proc_cgroup {
 /**
  * Get cgroup mountpoints.
  *
+ * @roots need to be free with cgroup_free_roots(), access with roots[idx].
+ *
  * On success, the number of root path returned, need pass to cgroup_free_roots()
  * nentries parameter. On error, -errno returned.
  */
 int cgroup_get_roots(char ***roots);
-void cgroup_free_roots(char **roots, int nentries);
+int cgroup_free_roots(char **roots, int nentries);
 
+/**
+ * Get cgroup id from cgroup path.
+ *
+ * On success, the cgroupid returned. On error, -errno returned.
+ */
 long cgroup_cgroupid_of_path(const char *cgroup_path);
 long cgroup_cgroupid_of_mnt_path(const char *mntpoint, const char *cgroup_path);
 
+/**
+ * Get cgroup path from cgroupid.
+ *
+ * On success, zero returned. On error, -errno returned.
+ */
 int cgroup_cgroup_path(long cgroupid, char *buf, size_t buf_len);
 
 int cgroup_proc_for_each_cgroup_entry(pid_t pid, void (*callback)(const struct proc_cgroup *cgrp,
