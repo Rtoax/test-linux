@@ -11,6 +11,7 @@ targets-clean := info_clean
 include ../template/main.mk
 
 cgroup_helpers.o: cgroup_helpers.h
+cgroup_examples.o: cgroup_helpers.h
 cgroup_examples: cgroup_examples.o cgroup_helpers.o
 
 info:

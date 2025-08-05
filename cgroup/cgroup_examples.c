@@ -10,7 +10,7 @@
 static char **roots;
 static int nroots;
 
-static void display_proc_cgrp(const struct proc_cgroup *cgrp, void *arg)
+static void display_proc_cgrp(const struct cgroup_proc_entry *cgrp, void *arg)
 {
 	int i, err;
 	long cgroupid;

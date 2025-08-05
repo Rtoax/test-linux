@@ -206,8 +206,7 @@ int cgroup_cgroup_path(long cgroupid, char *buf, size_t buf_len)
 	return found ? 0 : -ENOENT;
 }
 
-int cgroup_proc_for_each_cgroup_entry(pid_t pid, void (*callback)(const struct cgroup_proc_entry *cgrp,
-								  void *arg),
+int cgroup_proc_for_each_cgroup_entry(pid_t pid, cgroup_proc_entry_fn callback,
 				      void *arg)
 {
 	char line[512];
@@ -222,12 +221,15 @@ int cgroup_proc_for_each_cgroup_entry(pid_t pid, void (*callback)(const struct c
 	snprintf(proc, sizeof(proc) - 1, "/proc/%d/cgroup", pid);
 
 	f = fopen(proc, "r");
+	if (!f)
+		return -errno;
 
 	/**
-	 * parse each line, for example:
-	 * 11:memory:/user.slice/user-1000.slice/session-1.scope
-	 * 1:name=systemd:/user.slice/user-1000.slice/session-1.scope
-	 * 0::/user.slice/user-1000.slice/session-1.scope
+	 * Parse each line, format:
+	 *
+	 *     <hierarchy_id>:<subsystem_list>:<cgroup_path>
+	 *
+	 * For cgroupv2, subsystem_list is empty.
 	 */
 	while (fgets(line, sizeof(line), f)) {
 		char *s_hid = line;
@@ -247,9 +249,11 @@ int cgroup_proc_for_each_cgroup_entry(pid_t pid, void (*callback)(const struct c
 			cgrp.cgroup_type = 2;	/* cgroupv2 */
 		} else {
 			cgrp.cgroup_type = 1;	/* cgroupv1 */
-			sprintf(cgrp.subsystem_list, s_subsys);
+			snprintf(cgrp.subsystem_list, sizeof(cgrp.subsystem_list),
+				 s_subsys);
 		}
-		/* strlen() to strip '\n' */
+
+		/* Use strlen() to strip '\n' */
 		snprintf(cgrp.cgroup_path, strlen(s_path), s_path);
 
 		lines++;
