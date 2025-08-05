@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
 /* Copyright (c) 2025 Rong Tao */
+#include <assert.h>
 #include <dirent.h>
 #include <errno.h>
 #include <stdbool.h>
@@ -12,9 +13,9 @@
 
 int cgroup_get_roots(char ***roots)
 {
-	char line[1024];
+	char line[2048];
 	char fsname[128];
-	char mountpoint[512];
+	char mountpoint[PATH_MAX];
 	char fstype[64];
 	char mntoptions[256];
 	int dump_frequency;
@@ -66,13 +67,14 @@ long cgroup_cgroupid_of_path(const char *cgroup_path)
 {
 	int err;
 	struct stat st;
+	/* The inode of the cgroup folder is the groupid */
 	err = stat(cgroup_path, &st);
 	return err ? -errno : st.st_ino;
 }
 
 long cgroup_cgroupid_of_mnt_path(const char *mntpoint, const char *cgroup_path)
 {
-	char path[512];
+	char path[PATH_MAX];
 	snprintf(path, sizeof(path) - 1, "%s/%s", mntpoint, cgroup_path);
 	return cgroup_cgroupid_of_path(path);
 }
@@ -91,14 +93,20 @@ static int for_each_cgroup_match(const char *root, int (*match)(const char *path
 	if (!root || !match)
 		return -EINVAL;
 
-	lstat(root, &st);
+	err = lstat(root, &st);
+	if (err)
+		return -errno;
 	if (!S_ISDIR(st.st_mode))
 		return -EINVAL;
 
 	path = malloc(PATH_MAX);
+	assert(path && "Malloc failed");
+
 	snprintf(path, PATH_MAX - 1, "%s/", root);
 
-	lstat(path, &st);
+	err = lstat(path, &st);
+	if (err)
+		return -errno;
 	if (!S_ISDIR(st.st_mode)) {
 		free(path);
 		return -ENOENT;
@@ -122,7 +130,9 @@ static int for_each_cgroup_match(const char *root, int (*match)(const char *path
 		if (!strcmp(dirent->d_name, ".") || !strcmp(dirent->d_name, ".."))
 			continue;
 		strncpy(path + path_len, dirent->d_name, PATH_MAX - path_len);
-		lstat(path, &st);
+		err = lstat(path, &st);
+		if (err)
+			continue;
 		if (!S_ISDIR(st.st_mode))
 			continue;
 #ifdef DEBUG
@@ -137,6 +147,7 @@ static int for_each_cgroup_match(const char *root, int (*match)(const char *path
 			goto done;
 	}
 
+	err = 0;
 done:
 	closedir(dir);
 	free(path);
