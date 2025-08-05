@@ -65,6 +65,9 @@ enum test_type {
 	TEST_MATMUL_FP16,
 	TEST_MATMUL_FP32,
 	TEST_MATMUL_FP64,
+	/**
+	 * NOTE: Matmul int8 is faster than GemmEx int8
+	 */
 	TEST_MATMUL_INT8,
 	TEST_MAX,
 	TEST_ALL = TEST_MAX,
