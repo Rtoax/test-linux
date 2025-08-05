@@ -642,30 +642,46 @@ double get_flops_gemm(struct test *test)
 
 /**
  * D = alpha*(A*B) + beta*(C)
+ *
+ * type: 1-fp32
  */
-int run_blas_Matmul_fp32(struct test *test)
+static inline int run_blas_Matmul_type(struct test *test, int type)
 {
-	float alpha = (float)env.alpha;
-	float beta = (float)env.beta;
+	float alpha_fp32 = (float)env.alpha;
+	float beta_fp32 = (float)env.beta;
+
+	void *alpha, *beta;
+
+	switch (type) {
+	case 1:
+		alpha = &alpha_fp32;
+		beta = &beta_fp32;
+		break;
+	}
 
 	CUDA_BLAS_BUG_CALL(cublasLtMatmul(
 				test->ltHandle,
 				test->matmulDesc,
-				&alpha,
-				test->dev_A.fp32,
+				alpha,
+				test->dev_A.ptr,
 				test->layoutA,
-				test->dev_B.fp32,
+				test->dev_B.ptr,
 				test->layoutB,
-				&beta,
-				test->dev_C.fp32,
+				beta,
+				test->dev_C.ptr,
 				test->layoutC,
-				test->dev_C.fp32,
+				test->dev_C.ptr,
 				test->layoutC,
 				&test->heuristic_result.algo,
 				test->workspace,
 				test->workspaceSize,
 				NULL /* No stream */), return -1);
 	return 0;
+}
+
+int run_blas_Matmul_fp32(struct test *test)
+{
+	return run_blas_Matmul_type(test, 1);
 }
 
 int __display_matrix_pair_fp16(const char *pfx, struct test *test,
