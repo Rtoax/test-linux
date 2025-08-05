@@ -16,6 +16,12 @@
  * nentries parameter. On error, -errno returned.
  */
 int cgroup_get_roots(char ***roots);
+
+/**
+ * Used to release roots allocated by cgroup_get_roots().
+ *
+ * On success, zero returned. On error, -errno returned.
+ */
 int cgroup_free_roots(char **roots, int nentries);
 
 /**
