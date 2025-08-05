@@ -316,6 +316,14 @@
 #define cublasLtDestroy(handle)	hcblasLtDestroy(handle)
 
 #define cublasLtMatmulDesc_t	hcblasLtMatmulDesc_t
+/**
+ * cublasStatus_t cublasLtMatmulDescCreate(cublasLtMatmulDesc_t *matmulDesc,
+ *                                         cublasComputeType_t computeType,
+ *                                         cudaDataType_t scaleType);
+ *
+ * This function creates a matrix multiply descriptor by allocating the memory
+ * needed to hold its opaque structure.
+ */
 #define cublasLtMatmulDescCreate(pdesc, computeType, scaleType) \
 	hcblasLtMatmulDescCreate(pdesc, computeType, scaleType)
 #define cublasLtMatmulDescDestroy(desc)	hcblasLtMatmulDescDestroy(desc)
