@@ -140,6 +140,7 @@ struct test {
 
 	union {
 		int8_t *int8;
+		int32_t *int32;
 		half *fp16;
 		float *fp32;
 		double *fp64;
@@ -149,6 +150,7 @@ struct test {
 
 	union {
 		int8_t int8;
+		int32_t int32;
 		half fp16;
 		float fp32;
 		double fp64;
@@ -405,6 +407,35 @@ int __alloc_matrix_pair_int8(const char *dpfx, int8_t **host, int8_t **dev,
 	return err;
 }
 
+int __alloc_matrix_pair_int32(const char *dpfx, int32_t **host, int32_t **dev,
+			     int x, int y)
+{
+	int i, j, err = 0;
+
+	*host = (int32_t *)malloc(x * y * sizeof(int32_t));
+	assert(*host && "Malloc failed");
+
+	for (j = 0; j < y; j++) {
+		if (env.verbose)
+			printf("%s>> ", dpfx);
+		for (i = 0; i < x; i++) {
+			int32_t val = env.set_value ?
+					(int32_t)env.value :
+					(int32_t)(i * y + j + 1);
+			(*host)[IDX2C(i, j, x)] = val;
+			if (env.verbose)
+				printf("%d\t", val);
+		}
+		if (env.verbose)
+			printf("\n");
+	}
+
+	CUDA_BUG_CALL(cudaMalloc(dev, x * y * sizeof(int32_t)), err = -ENOMEM);
+	CUDA_BLAS_BUG_CALL(cublasSetMatrix(x, y, sizeof(int32_t), *host, x, *dev, x), err = -1);
+
+	return err;
+}
+
 int __alloc_matrix_pair_fp16(const char *dpfx, half **host, half **dev,
 			     int x, int y)
 {
@@ -523,7 +554,7 @@ int prepare_data_matrix_GemmEx_int8(struct test *test)
 	int err = 0;
 	err += __alloc_matrix_pair_int8("A int8", &test->host_A.int8, &test->dev_A.int8, env.k, env.m);
 	err += __alloc_matrix_pair_int8("B int8", &test->host_B.int8, &test->dev_B.int8, env.n, env.k);
-	err += __alloc_matrix_pair_int8("C int8", &test->host_C.int8, &test->dev_C.int8, env.n, env.m);
+	err += __alloc_matrix_pair_int32("C int32", &test->host_C.int32, &test->dev_C.int32, env.n, env.m);
 	return err;
 }
 
@@ -658,8 +689,8 @@ double get_flops_nrm2(struct test *test)
 
 int run_blas_GemmEx_int8(struct test *test)
 {
-	int8_t alpha = (int8_t)(env.alpha);
-	int8_t beta = (int8_t)(env.beta);
+	int32_t alpha = (int32_t)(env.alpha);
+	int32_t beta = (int32_t)(env.beta);
 
 	/**
 	 * C^T = B^T * A^T equal to C = A * B
@@ -670,7 +701,7 @@ int run_blas_GemmEx_int8(struct test *test)
 				test->dev_A.int8, CUDA_R_8I, env.k,
 				test->dev_B.int8, CUDA_R_8I, env.n,
 				&beta,
-				test->dev_C.int8, CUDA_R_8I, env.m,
+				test->dev_C.int32, CUDA_R_32I, env.m,
 				CUBLAS_COMPUTE_32I,
 				CUBLAS_GEMM_DEFAULT),
 			return -1);
@@ -812,6 +843,26 @@ int __display_matrix_pair_int8(const char *pfx, struct test *test,
 	long sum = 0;
 
 	CUDA_BLAS_BUG_CALL(cublasGetMatrix(x, y, sizeof(int8_t), dev, x, host, x), return -1);
+
+	for (j = 0; j < y; j++) {
+		printf("%s>> ", pfx);
+		for (i = 0; i < x; i++) {
+			sum += host[IDX2C(i, j, x)];
+			printf("%7d", host[IDX2C(i, j, x)]);
+		}
+		printf("\n");
+	}
+	printf("%s>> Host sum %ld\n", pfx, sum);
+	return 0;
+}
+
+int __display_matrix_pair_int32(const char *pfx, struct test *test,
+			       int32_t *host, int32_t *dev, int x, int y)
+{
+	int i, j;
+	long sum = 0;
+
+	CUDA_BLAS_BUG_CALL(cublasGetMatrix(x, y, sizeof(int32_t), dev, x, host, x), return -1);
 
 	for (j = 0; j < y; j++) {
 		printf("%s>> ", pfx);
@@ -970,7 +1021,7 @@ int display_data_GemmEx_int8(struct test *test)
 	int err = 0;
 	err += __display_matrix_pair_int8("A int8", test, test->host_A.int8, test->dev_A.int8, env.k, env.m);
 	err += __display_matrix_pair_int8("B int8", test, test->host_B.int8, test->dev_B.int8, env.n, env.k);
-	err += __display_matrix_pair_int8("C int8", test, test->host_C.int8, test->dev_C.int8, env.n, env.m);
+	err += __display_matrix_pair_int32("C int32", test, test->host_C.int32, test->dev_C.int32, env.n, env.m);
 	return err;
 }
 
