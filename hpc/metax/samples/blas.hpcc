@@ -59,12 +59,13 @@ enum test_type {
 	TEST_GEMMEX_FP16,
 	TEST_GEMMEX_INT8,
 	/**
-	 * MetaX Mars X203
+	 * fp: MetaX Mars X203
 	 * - commit 3237eede2fb2 ("hpc: blas: matmul: Test MetaX Mars X203 fp16/fp32/fp64")
 	 */
 	TEST_MATMUL_FP16,
 	TEST_MATMUL_FP32,
 	TEST_MATMUL_FP64,
+	TEST_MATMUL_INT8,
 	TEST_MAX,
 	TEST_ALL = TEST_MAX,
 #define TEST_LIST_STR	"scal-fp32|scal-fp64|" \
@@ -75,6 +76,7 @@ enum test_type {
 			"gemm-fp16|gemm-fp32|gemm-fp64|" \
 			"gemmex-fp16|" \
 			"gemmex-int8|" \
+			"matmul-int8|" \
 			"matmul-fp16|matmul-fp32|matmul-fp64"
 };
 
@@ -279,6 +281,8 @@ static error_t parse_arg(int key, char *arg, struct argp_state *state)
 			env.test_type = TEST_MATMUL_FP32;
 		else if (!strcmp(arg, "matmul-fp64"))
 			env.test_type = TEST_MATMUL_FP64;
+		else if (!strcmp(arg, "matmul-int8"))
+			env.test_type = TEST_MATMUL_INT8;
 		else {
 			fprintf(stderr, "Support TEST TYPE: " TEST_LIST_STR "\n");
 			exit(-EINVAL);
@@ -329,17 +333,18 @@ int default_create_blas(struct test *test)
 }
 
 int default_create_blasLt_type(struct test *test, cublasComputeType_t computeType,
-				cudaDataType_t scaleType)
+				cudaDataType_t Atype, cudaDataType_t Btype,
+				cudaDataType_t Ctype, cudaDataType_t Dtype)
 {
 	int rslt;
 
 	CUDA_BLAS_BUG_CALL(cublasLtCreate(&test->ltHandle), exit(EXIT_FAILURE));
 
-	CUDA_BLAS_BUG_CALL(cublasLtMatmulDescCreate(&test->matmulDesc, computeType, scaleType), exit(EXIT_FAILURE));
+	CUDA_BLAS_BUG_CALL(cublasLtMatmulDescCreate(&test->matmulDesc, computeType, Dtype), exit(EXIT_FAILURE));
 
-	CUDA_BLAS_BUG_CALL(cublasLtMatrixLayoutCreate(&test->layoutA, scaleType, env.m, env.k, env.m), exit(EXIT_FAILURE));
-	CUDA_BLAS_BUG_CALL(cublasLtMatrixLayoutCreate(&test->layoutB, scaleType, env.k, env.n, env.k), exit(EXIT_FAILURE));
-	CUDA_BLAS_BUG_CALL(cublasLtMatrixLayoutCreate(&test->layoutC, scaleType, env.m, env.n, env.m), exit(EXIT_FAILURE));
+	CUDA_BLAS_BUG_CALL(cublasLtMatrixLayoutCreate(&test->layoutA, Atype, env.m, env.k, env.m), exit(EXIT_FAILURE));
+	CUDA_BLAS_BUG_CALL(cublasLtMatrixLayoutCreate(&test->layoutB, Btype, env.k, env.n, env.k), exit(EXIT_FAILURE));
+	CUDA_BLAS_BUG_CALL(cublasLtMatrixLayoutCreate(&test->layoutC, Ctype, env.m, env.n, env.m), exit(EXIT_FAILURE));
 	CUDA_BUG_CALL_EXIT(cudaMalloc(&test->workspace, test->workspaceSize));
 
 	CUDA_BLAS_BUG_CALL(cublasLtMatmulPreferenceCreate(&test->pref), exit(EXIT_FAILURE));
@@ -367,19 +372,28 @@ int default_create_blasLt_type(struct test *test, cublasComputeType_t computeTyp
 	return 0;
 }
 
+int default_create_blasLt_int8(struct test *test)
+{
+	return default_create_blasLt_type(test, CUBLAS_COMPUTE_32I,
+		CUDA_R_8I, CUDA_R_8I, CUDA_R_32I, CUDA_R_32I);
+}
+
 int default_create_blasLt_fp16(struct test *test)
 {
-	return default_create_blasLt_type(test, CUBLAS_COMPUTE_16F, CUDA_R_16F);
+	return default_create_blasLt_type(test, CUBLAS_COMPUTE_16F,
+		CUDA_R_16F, CUDA_R_16F, CUDA_R_16F, CUDA_R_16F);
 }
 
 int default_create_blasLt_fp32(struct test *test)
 {
-	return default_create_blasLt_type(test, CUBLAS_COMPUTE_32F, CUDA_R_32F);
+	return default_create_blasLt_type(test, CUBLAS_COMPUTE_32F,
+		CUDA_R_32F, CUDA_R_32F, CUDA_R_32F, CUDA_R_32F);
 }
 
 int default_create_blasLt_fp64(struct test *test)
 {
-	return default_create_blasLt_type(test, CUBLAS_COMPUTE_64F, CUDA_R_64F);
+	return default_create_blasLt_type(test, CUBLAS_COMPUTE_64F,
+		CUDA_R_64F, CUDA_R_64F, CUDA_R_64F, CUDA_R_64F);
 }
 
 int __alloc_matrix_pair_int8(const char *dpfx, int8_t **host, int8_t **dev,
@@ -798,10 +812,12 @@ double get_flops_gemm(struct test *test)
 /**
  * D = alpha*(A*B) + beta*(C)
  *
- * type: 1-fp32, 2-fp16, 3-fp64
+ * type: 1-fp32, 2-fp16, 3-fp64, 4-int32
  */
 static inline int run_blas_Matmul_type(struct test *test, int type)
 {
+	int32_t alpha_int32 = (int32_t)env.alpha;
+	int32_t beta_int32 = (int32_t)env.beta;
 	float alpha_fp32 = (float)env.alpha;
 	float beta_fp32 = (float)env.beta;
 	double alpha_fp64 = (double)env.alpha;
@@ -824,6 +840,10 @@ static inline int run_blas_Matmul_type(struct test *test, int type)
 		alpha = &alpha_fp64;
 		beta = &beta_fp64;
 		break;
+	case 4:
+		alpha = &alpha_int32;
+		beta = &beta_int32;
+		break;
 	}
 
 	CUDA_BLAS_BUG_CALL(cublasLtMatmul(
@@ -844,6 +864,12 @@ static inline int run_blas_Matmul_type(struct test *test, int type)
 				test->workspaceSize,
 				NULL /* No stream */), return -1);
 	return 0;
+}
+
+int run_blas_Matmul_int8(struct test *test)
+{
+	/* WARNING: alpha and beta need to be int32 */
+	return run_blas_Matmul_type(test, 4);
 }
 
 int run_blas_Matmul_fp16(struct test *test)
@@ -1301,6 +1327,18 @@ struct test alltests[] = {
 			.display_data = display_data_GemmEx_int8,
 			.free_data = free_data_matrix_ABC,
 			.destroy_blas = default_destroy_blas,
+		}
+	},
+	{
+		ZERO_TEST("MATMUL INT8", TEST_MATMUL_INT8),
+		{
+			.create_blas = default_create_blasLt_int8,
+			.prepare_data = prepare_data_matrix_GemmEx_int8,
+			.run_blas = run_blas_Matmul_int8,
+			.get_flops = get_flops_gemm,
+			.display_data = display_data_GemmEx_int8,
+			.free_data = free_data_matrix_ABC,
+			.destroy_blas = default_destroy_blasLt,
 		}
 	},
 	{
