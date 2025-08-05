@@ -446,7 +446,7 @@ void memcg_release(void)
 	cgroup_free(&cgrp);
 }
 #else
-#define memcg_limit()	(0)
+#define memcg_limit()	0
 #define memcg_release()
 #endif
 
@@ -462,7 +462,7 @@ int main(int argc, char *argv[])
 
 	signal(SIGINT, sig_handler);
 
-	memcg_limit();
+	(void)memcg_limit();
 
 	mlockall(MCL_CURRENT);
 
