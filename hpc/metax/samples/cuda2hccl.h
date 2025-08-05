@@ -251,6 +251,32 @@
 #define cublasHgemm(handle, transa, transb, m, n, k, alpha, A, lda, B, ldb, beta, C, ldc) \
 	hcblasHgemm(handle, transa, transb, m, n, k, alpha, A, lda, B, ldb, beta, C, ldc)
 
+/**
+ * cublasStatus_t cublasGemmEx(cublasHandle_t handle,
+ *                          cublasOperation_t transa,
+ *                          cublasOperation_t transb,
+ *                          int m,
+ *                          int n,
+ *                          int k,
+ *                          const void    *alpha,
+ *                          const void     *A,
+ *                          cudaDataType_t Atype,
+ *                          int lda,
+ *                          const void     *B,
+ *                          cudaDataType_t Btype,
+ *                          int ldb,
+ *                          const void    *beta,
+ *                          void           *C,
+ *                          cudaDataType_t Ctype,
+ *                          int ldc,
+ *                          cublasComputeType_t computeType,
+ *                          cublasGemmAlgo_t algo)
+ */
+#define cublasGemmEx(handle, transa, transb, m, n, k, alpha, A, Atype, lda, \
+		     B, Btype, ldb, beta, C, Ctype, ldc, computeType, algo) \
+	hcblasGemmEx(handle, transa, transb, m, n, k, alpha, A, Atype, lda, \
+		     B, Btype, ldb, beta, C, Ctype, ldc, computeType, algo)
+
 #define cublasLtHandle_t	hcblasLtHandle_t
 #define cublasLtCreate(phandle)	hcblasLtCreate(phandle)
 #define cublasLtDestroy(handle)	hcblasLtDestroy(handle)
