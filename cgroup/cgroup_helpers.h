@@ -6,10 +6,16 @@
 
 #define CGROUP_DEFAULT_MNTPOINT	"/sys/fs/cgroup/"
 
-/* /proc/PID/cgroup content */
-struct proc_cgroup {
-	/* 1 or 2 */
+struct cgroup_proc_entry {
+	/**
+	 * 1: cgroup v1
+	 * 2: cgroup v2
+	 */
 	int cgroup_type;
+	/**
+	 * The following variable stores a line of information from a
+	 * /proc/<pid>/cgroup file.
+	 */
 	int hierarchy_id;
 	char subsystem_list[128];
 	char cgroup_path[1024];
@@ -41,6 +47,6 @@ long cgroup_cgroupid_of_mnt_path(const char *mntpoint, const char *cgroup_path);
  */
 int cgroup_cgroup_path(long cgroupid, char *buf, size_t buf_len);
 
-int cgroup_proc_for_each_cgroup_entry(pid_t pid, void (*callback)(const struct proc_cgroup *cgrp,
+int cgroup_proc_for_each_cgroup_entry(pid_t pid, void (*callback)(const struct cgroup_proc_entry *cgrp,
 								  void *arg),
 				      void *arg);

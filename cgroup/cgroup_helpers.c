@@ -206,7 +206,7 @@ int cgroup_cgroup_path(long cgroupid, char *buf, size_t buf_len)
 	return found ? 0 : -ENOENT;
 }
 
-int cgroup_proc_for_each_cgroup_entry(pid_t pid, void (*callback)(const struct proc_cgroup *cgrp,
+int cgroup_proc_for_each_cgroup_entry(pid_t pid, void (*callback)(const struct cgroup_proc_entry *cgrp,
 								  void *arg),
 				      void *arg)
 {
@@ -214,7 +214,7 @@ int cgroup_proc_for_each_cgroup_entry(pid_t pid, void (*callback)(const struct p
 	char proc[64];
 	FILE *f;
 	int lines = 0;
-	struct proc_cgroup cgrp;
+	struct cgroup_proc_entry cgrp;
 
 	if (!callback)
 		return -EINVAL;
@@ -239,7 +239,7 @@ int cgroup_proc_for_each_cgroup_entry(pid_t pid, void (*callback)(const struct p
 		s_path[0] = '\0';
 		s_path++;
 
-		memset(&cgrp, 0, sizeof(struct proc_cgroup));
+		memset(&cgrp, 0, sizeof(cgrp));
 
 		cgrp.hierarchy_id = atoi(s_hid);
 
