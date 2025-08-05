@@ -56,6 +56,10 @@ enum test_type {
 	TEST_GEMM_FP16,
 	TEST_GEMM_FP32,
 	TEST_GEMM_FP64,
+	/**
+	 * MetaX Mars X203
+	 * - commit 3237eede2fb2 ("hpc: blas: matmul: Test MetaX Mars X203 fp16/fp32/fp64")
+	 */
 	TEST_MATMUL_FP16,
 	TEST_MATMUL_FP32,
 	TEST_MATMUL_FP64,
