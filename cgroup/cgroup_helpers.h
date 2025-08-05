@@ -15,7 +15,13 @@ struct proc_cgroup {
 	char cgroup_path[1024];
 };
 
-int cgroup_get_roots(char ***roots, int *nentries);
+/**
+ * Get cgroup mountpoints.
+ *
+ * On success, the number of root path returned, need pass to cgroup_free_roots()
+ * nentries parameter. On error, -errno returned.
+ */
+int cgroup_get_roots(char ***roots);
 void cgroup_free_roots(char **roots, int nentries);
 
 long cgroup_cgroupid_of_path(const char *cgroup_path);

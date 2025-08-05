@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <unistd.h>
 #include <sys/types.h>
 #include <limits.h>
@@ -18,6 +19,12 @@ static void display_proc_cgrp(const struct proc_cgroup *cgrp, void *arg)
 
 	printf("cgroupv%d %ld %d:%s:%s %s\n", cgrp->cgroup_type, cgroupid,
 		cgrp->hierarchy_id, cgrp->subsystem_list, cgrp->cgroup_path, cgroup_path);
+
+#if 0
+	if (strcmp(cgrp->cgroup_path, cgroup_path)) {
+		fprintf(stderr, "\033[31mERROR %s != %s\033[m\n", cgrp->cgroup_path, cgroup_path);
+	}
+#endif
 }
 
 int main(int argc, char *argv[])

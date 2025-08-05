@@ -9,10 +9,8 @@
 #include <string.h>
 #include "cgroup_helpers.h"
 
-/**
- * Get cgroup mountpoints.
- */
-int cgroup_get_roots(char ***roots, int *nentries)
+
+int cgroup_get_roots(char ***roots)
 {
 	char line[1024];
 	char fsname[128];
@@ -35,6 +33,8 @@ int cgroup_get_roots(char ***roots, int *nentries)
 			fstype, mntoptions, &dump_frequency,
 			&fsck_order) != 6)
 			continue;
+
+		/* Only need cgroup or cgroup2 */
 		if (strcmp(fstype, "cgroup") && strcmp(fstype, "cgroup2"))
 			continue;
 
@@ -43,10 +43,9 @@ int cgroup_get_roots(char ***roots, int *nentries)
 		(*roots)[n - 1] = strdup(mountpoint);
 	}
 
-	*nentries = n;
 	fclose(fp);
 
-	return 0;
+	return n;
 }
 
 void cgroup_free_roots(char **roots, int nentries)
@@ -169,7 +168,7 @@ int cgroup_cgroup_path(long cgroupid, char *buf, size_t buf_len)
 	arg.cgroupid = cgroupid;
 	arg.match = false;
 
-	cgroup_get_roots(&roots, &nroots);
+	nroots = cgroup_get_roots(&roots);
 
 	for (i = 0; i < nroots; i++) {
 #ifdef DEBUG
