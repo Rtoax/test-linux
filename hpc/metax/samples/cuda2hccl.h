@@ -382,16 +382,43 @@
  * choose compute precision modes as defined below.
  */
 #define cublasComputeType_t	hcblasComputeType_t
+/**
+ * This is the default and highest-performance mode for 16-bit half precision
+ * floating point and all compute and intermediate storage precisions with at
+ * least 16-bit half precision. Tensor Cores will be used whenever possible.
+ */
 #define CUBLAS_COMPUTE_16F	HCBLAS_COMPUTE_16F
+/**
+ * This mode uses 16-bit half precision floating point standardized arithmetic
+ * for all phases of calculations and is primarily intended for numerical
+ * robustness studies, testing, and debugging. This mode might not be as
+ * performant as the other modes since it disables use of tensor cores.
+ */
 #define CUBLAS_COMPUTE_16F_PEDANTIC	HCBLAS_COMPUTE_16F_PEDANTIC
+/**
+ * This is the default 32-bit single precision floating point and uses compute
+ * and intermediate storage precisions of at least 32-bits.
+ */
 #define CUBLAS_COMPUTE_32F	HCBLAS_COMPUTE_32F
 #define CUBLAS_COMPUTE_32F_PEDANTIC	HCBLAS_COMPUTE_32F_PEDANTIC
+/**
+ * Allows the library to use Tensor Cores with automatic down-conversion and
+ * 16-bit half-precision compute for 32-bit input and output matrices.
+ */
 #define CUBLAS_COMPUTE_32F_FAST_16F	HCBLAS_COMPUTE_32F_FAST_16F
 #define CUBLAS_COMPUTE_32F_FAST_16BF	HCBLAS_COMPUTE_32F_FAST_16BF
 #define CUBLAS_COMPUTE_32F_FAST_TF32	HCBLAS_COMPUTE_32F_FAST_TF32
 #define CUBLAS_COMPUTE_32F_EMULATED_16BFX9	HCBLAS_COMPUTE_32F_EMULATED_16BFX9
+/**
+ * This is the default 64-bit double precision floating point and uses compute
+ * and intermediate storage precisions of at least 64-bits.
+ */
 #define CUBLAS_COMPUTE_64F	HCBLAS_COMPUTE_64F
 #define CUBLAS_COMPUTE_64F_PEDANTIC	HCBLAS_COMPUTE_64F_PEDANTIC
+/**
+ * This is the default 32-bit integer mode and uses compute and intermediate
+ * storage precisions of at least 32-bits.
+ */
 #define CUBLAS_COMPUTE_32I	HCBLAS_COMPUTE_32I
 #define CUBLAS_COMPUTE_32I_PEDANTIC	HCBLAS_COMPUTE_32I_PEDANTIC
 
