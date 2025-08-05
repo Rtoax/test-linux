@@ -25,4 +25,3 @@ int main(void)
 	printf("Pid %d belongs to uid %d\n", pid, uid);
 	return 0;
 }
-
