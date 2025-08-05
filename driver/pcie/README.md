@@ -76,6 +76,7 @@ At least 256 bytes, the first 64 bytes are standardized and the same for all dev
 # Vendors
 
 - https://pcisig.com/membership/member-companies
+- https://admin.pci-ids.ucw.cz/read/PC
 
 
 # Device Classes
