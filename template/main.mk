@@ -128,8 +128,9 @@ test: $(build-targets) $(sub-dir-test) $(kmod-list-test) $(targets-test)
 .PHONY: clean
 clean: $(sub-dir-clean) $(kmod-list-clean) $(targets-clean)
 	$(call log_tgt_start,clean,${build-targets} ${targets-clean})
-	${Q}rm -rf ${build-targets} *.o *.d *.log *.out *.class
-	${Q}rm -rf *.so *.so.* *.a
+	${Q}rm -rf ${build-targets}
+	${Q}rm -f *.o *.log *.out *.class
+	${Q}rm -f *.so *.so.* *.a
 	$(call log_tgt_done,clean,$(call git_relative_dir,$(shell realpath .)))
 
 include ${TEMPLATE_DIR}/target-exe.mk
