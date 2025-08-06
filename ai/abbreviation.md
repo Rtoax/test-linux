@@ -7,3 +7,5 @@
 - PD: Prediction Server (预测服务器) @EP
 - sGPU: Sliced GPU (GPU切片)
 - Tensor: (张量，是一种特殊的数据结构)
+- Token: (词元)
+- Tokenization: (分词)
