@@ -1,16 +1,17 @@
-BPF Type Format
-===============
+BTF (BPF Type Format)
+=====================
 
 # BTF Types
 
 - `BTF_KIND_DECL_TAG`: Declaration Tag
 
 
-# vmlinux
+# /sys/kernel/btf/
 
 * `/sys/kernel/btf/vmlinux`
 	* `btf_vmlinux_init()`
 	* `btf_vmlinux_read()`
+* `/sys/kernel/btf/kvm`
 
 
 # pahole
@@ -24,4 +25,3 @@ The `pahole` acts as a `dwarf2btf` converter. It doesn’t support `.BTF.ext` an
 # References
 
 * [Linux: 6. BTF Generation](https://www.kernel.org/doc/html/latest/bpf/btf.html)
-
