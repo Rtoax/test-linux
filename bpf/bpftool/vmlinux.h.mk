@@ -3,8 +3,12 @@ Q ?= @
 BPFTOOL ?= bpftool
 VMLINUX_H ?= vmlinux.h
 
+define gen_btf_h
+	$(Q)${BPFTOOL} btf dump file /sys/kernel/btf/${1} format c > ${2}
+endef
+
 define gen_vmlinux_h
-	$(Q)${BPFTOOL} btf dump file /sys/kernel/btf/vmlinux format c > ${1}
+$(call gen_btf_h,vmlinux,${VMLINUX_H})
 endef
 
 ${VMLINUX_H}:
