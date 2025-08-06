@@ -1,5 +1,6 @@
 #!/bin/bash
-# Generate patch set
+# Copyright (c) 2022-2025 Rong Tao
+# Generate patch set in git repo.
 set -e
 
 subject_prefix=

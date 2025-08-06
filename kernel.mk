@@ -1,4 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
+#
+# Copyright (c) 2025 Rong Tao
+#
 # WARNING: If you are inside a container, the kernel version queried by uame -r
 # may not match the environment inside the container, so it is normal if
 # compilation errors occur.

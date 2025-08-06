@@ -1,5 +1,5 @@
 #!/bin/bash
-# Wrote by Rong Tao, 2025
+# Copyright (c) 2025 Rong Tao
 set -e
 
 readonly prog=$0

@@ -1,8 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
-# test-linux Container Dockerfile
-#
 # Copyright (C) 2024-2025 Rong Tao
-#
+# test-linux Container Dockerfile
 ARG IMAGE
 FROM ${IMAGE}
 

@@ -1,4 +1,5 @@
 #!/bin/bash
+# Copyright (c) 2024-2025 Rong Tao
 set -e
 
 IMG=fedora:42
