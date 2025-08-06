@@ -11,6 +11,19 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+#### Changed
+#### Deprecated
+#### Removed
+#### Fixed
+#### Security
+#### Docs
+#### Tools
+
+
+## [v2.3.0] 2025-08-06
+
+#### Breaking Changes
+#### Added
 - hpc: add README.benchmark.md;
 - oom: remove symlink popen.c;
 - oom.c: support memory cgroup limit, and add global env;
