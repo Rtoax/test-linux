@@ -14,11 +14,18 @@ module_param_array(array_int, int, &count, 0660);
 static int ok = 0;
 module_param(ok, int, 0660);
 
+static void array_foo(int arr[SIZE])
+{
+	return;
+}
+
 static int simple_init(void)
 {
 	int i;
 	for (i = 0; i < count; i++)
 		printk(KERN_WARNING "array_int[%d]=%d\n", i, array_int[i]);
+
+	array_foo(array_int);
 
 	if (ok)
 		return 0;
