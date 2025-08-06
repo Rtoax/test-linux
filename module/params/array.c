@@ -11,11 +11,18 @@ static int array_int[SIZE];
 static int count;
 module_param_array(array_int, int, &count, 0660);
 
+static int ok = 0;
+module_param(ok, int, 0660);
+
 static int simple_init(void)
 {
 	int i;
 	for (i = 0; i < count; i++)
 		printk(KERN_WARNING "array_int[%d]=%d\n", i, array_int[i]);
+
+	if (ok)
+		return 0;
+
 	return -EINVAL;
 }
 
