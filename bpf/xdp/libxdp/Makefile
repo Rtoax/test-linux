@@ -25,5 +25,3 @@ xdp_xsk.o: xdp_xsk.skel.h
 xsk_user.o: xdp_xsk.skel.h
 xsk_user: xsk_user.o libbpf_wrapper.o libxdp_helpers.o trace_helpers.o \
 	net_helpers.o pkt_stream.o
-
-include ../../bpftool/vmlinux.h.mk
