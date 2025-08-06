@@ -72,6 +72,8 @@ enum test_type {
 	 * - commit f1389d15082c ("hpc: blas: int8: MetaX Mars X203: Matmul faster than GemmEx")
 	 */
 	TEST_MATMUL_INT8,
+	/* Test different dataType of blasLtMatmul() */
+	TEST_MATMUL_INT8_2,
 	TEST_MAX,
 	TEST_ALL = TEST_MAX,
 #define TEST_LIST_STR	"scal-fp32|scal-fp64|" \
@@ -82,7 +84,7 @@ enum test_type {
 			"gemm-fp16|gemm-fp32|gemm-fp64|" \
 			"gemmex-fp16|gemmex-fp32|gemmex-fp64|" \
 			"gemmex-int8|" \
-			"matmul-int8|" \
+			"matmul-int8|matmul-int8-2|" \
 			"matmul-fp16|matmul-fp32|matmul-fp64"
 };
 
@@ -293,6 +295,8 @@ static error_t parse_arg(int key, char *arg, struct argp_state *state)
 			env.test_type = TEST_MATMUL_FP64;
 		else if (!strcmp(arg, "matmul-int8"))
 			env.test_type = TEST_MATMUL_INT8;
+		else if (!strcmp(arg, "matmul-int8-2"))
+			env.test_type = TEST_MATMUL_INT8_2;
 		else {
 			fprintf(stderr, "Support TEST TYPE: " TEST_LIST_STR "\n");
 			exit(-EINVAL);
@@ -394,6 +398,19 @@ int default_create_blasLt_int8(struct test *test)
 	 */
 	return default_create_blasLt_type(test, CUBLAS_COMPUTE_32I,
 		CUDA_R_8I, CUDA_R_8I, CUDA_R_32I, CUDA_R_32I);
+}
+
+int default_create_blasLt_int8_2(struct test *test)
+{
+	/**
+	 * https://docs.nvidia.com/cuda/cublas/index.html#cublasltmatmul
+	 *
+	 * computeType: CUBLAS_COMPUTE_32I
+	 * scaleType: CUDA_R_32F
+	 * Atype/Btype/Ctype: CUDA_R_8I
+	 */
+	return default_create_blasLt_type(test, CUBLAS_COMPUTE_32I,
+		CUDA_R_8I, CUDA_R_8I, CUDA_R_8I, CUDA_R_32F);
 }
 
 int default_create_blasLt_fp16(struct test *test)
@@ -591,6 +608,20 @@ int prepare_data_matrix_GemmEx_int8(struct test *test)
 	err += __alloc_matrix_pair_int8("A int8", &test->host_A.int8, &test->dev_A.int8, env.k, env.m);
 	err += __alloc_matrix_pair_int8("B int8", &test->host_B.int8, &test->dev_B.int8, env.n, env.k);
 	err += __alloc_matrix_pair_int32("C int32", &test->host_C.int32, &test->dev_C.int32, env.n, env.m);
+	return err;
+}
+
+int prepare_data_matrix_Matmul_int8(struct test *test)
+{
+	return prepare_data_matrix_GemmEx_int8(test);
+}
+
+int prepare_data_matrix_Matmul_int8_2(struct test *test)
+{
+	int err = 0;
+	err += __alloc_matrix_pair_int8("A int8", &test->host_A.int8, &test->dev_A.int8, env.k, env.m);
+	err += __alloc_matrix_pair_int8("B int8", &test->host_B.int8, &test->dev_B.int8, env.n, env.k);
+	err += __alloc_matrix_pair_int8("C int8", &test->host_C.int8, &test->dev_C.int8, env.n, env.m);
 	return err;
 }
 
@@ -935,6 +966,15 @@ int run_blas_Matmul_int8(struct test *test)
 	return run_blas_Matmul_type(test, 4);
 }
 
+int run_blas_Matmul_int8_2(struct test *test)
+{
+	/**
+	 * WARNING: alpha and beta need to be float
+	 * see https://docs.nvidia.com/cuda/cublas/index.html#cublasltmatmul
+	 */
+	return run_blas_Matmul_type(test, 4);
+}
+
 int run_blas_Matmul_fp16(struct test *test)
 {
 	return run_blas_Matmul_type(test, 2);
@@ -1136,6 +1176,20 @@ int display_data_GemmEx_int8(struct test *test)
 	err += __display_matrix_pair_int8("A int8", test, test->host_A.int8, test->dev_A.int8, env.k, env.m);
 	err += __display_matrix_pair_int8("B int8", test, test->host_B.int8, test->dev_B.int8, env.n, env.k);
 	err += __display_matrix_pair_int32("C int32", test, test->host_C.int32, test->dev_C.int32, env.n, env.m);
+	return err;
+}
+
+int display_data_Matmul_int8(struct test *test)
+{
+	return display_data_GemmEx_int8(test);
+}
+
+int display_data_Matmul_int8_2(struct test *test)
+{
+	int err = 0;
+	err += __display_matrix_pair_int8("A int8", test, test->host_A.int8, test->dev_A.int8, env.k, env.m);
+	err += __display_matrix_pair_int8("B int8", test, test->host_B.int8, test->dev_B.int8, env.n, env.k);
+	err += __display_matrix_pair_int8("C int8", test, test->host_C.int8, test->dev_C.int8, env.n, env.m);
 	return err;
 }
 
@@ -1420,10 +1474,22 @@ struct test alltests[] = {
 		ZERO_TEST("MATMUL INT8", TEST_MATMUL_INT8),
 		{
 			.create_blas = default_create_blasLt_int8,
-			.prepare_data = prepare_data_matrix_GemmEx_int8,
+			.prepare_data = prepare_data_matrix_Matmul_int8,
 			.run_blas = run_blas_Matmul_int8,
 			.get_flops = get_flops_gemm,
-			.display_data = display_data_GemmEx_int8,
+			.display_data = display_data_Matmul_int8,
+			.free_data = free_data_matrix_ABC,
+			.destroy_blas = default_destroy_blasLt,
+		}
+	},
+	{
+		ZERO_TEST("MATMUL INT8 (2)", TEST_MATMUL_INT8_2),
+		{
+			.create_blas = default_create_blasLt_int8_2,
+			.prepare_data = prepare_data_matrix_Matmul_int8_2,
+			.run_blas = run_blas_Matmul_int8_2,
+			.get_flops = get_flops_gemm,
+			.display_data = display_data_Matmul_int8_2,
 			.free_data = free_data_matrix_ABC,
 			.destroy_blas = default_destroy_blasLt,
 		}
