@@ -34,14 +34,15 @@
  * NOTE: you could use 'tcpdump -dd' to fill sock_filter structure.
  */
 static struct sock_filter bpfcode[] = {
-	{ OP_LDH, 0, 0, 12          }, /* ldh [12] */
-	{ OP_JEQ, 0, 5, ETH_P_IP    }, /* jeq #0x800, L2, L8 */
-	{ OP_LDB, 0, 0, 23          }, /* ldb [23] # 14 Ether, 9 IP proto */
-	{ OP_JEQ, 0, 3, IPPROTO_TCP }, /* jeq #0x6, L4, L8 */
-	{ OP_LDH, 0, 0, 36          }, /* ldh [36] # 14 Ether, 20 IPhdr, 2 port */
-	{ OP_JEQ, 0, 1, 80          }, /* jeq #0x50, L6, L8 */
-	{ OP_RET, 0, 0, -1,         }, /* ret #0xffffffff # (accept) */
-	{ OP_RET, 0, 0, 0           }, /* ret #0x0 # (reject) */
+/* tcpdump tcp dst port 80 */
+/*(001)*/{ OP_LDH, 0, 0, 12          }, /* ldh [12] */
+/*(002)*/{ OP_JEQ, 0, 5, ETH_P_IP    }, /* jeq #0x800, jt 3, jf 8 */
+/*(003)*/{ OP_LDB, 0, 0, 23          }, /* ldb [23] # 14 Ether, 9 IP proto */
+/*(004)*/{ OP_JEQ, 0, 3, IPPROTO_TCP }, /* jeq #0x6, jt 5, jf 8 */
+/*(005)*/{ OP_LDH, 0, 0, 36          }, /* ldh [36] # 14 Ether, 20 IPhdr, 2 port */
+/*(006)*/{ OP_JEQ, 0, 1, 80          }, /* jeq #0x50, jt 7, jf 8 */
+/*(007)*/{ OP_RET, 0, 0, -1,         }, /* ret #0xffffffff # (accept) */
+/*(008)*/{ OP_RET, 0, 0, 0           }, /* ret #0x0 # (reject) */
 };
 
 int main(int argc, char **argv)
