@@ -235,6 +235,35 @@ static int get_func_btf(struct btf *btf, const char *name)
 	return btf_id;
 }
 
+static int get_struct_btf(struct btf *btf, const char *name)
+{
+	int i, btf_id, vlen;
+	const struct btf_type *type;
+	const struct btf_member *member;
+
+	btf_id = btf__find_by_name_kind(btf, name, BTF_KIND_STRUCT);
+	if (btf_id <= 0)
+		return -ENOENT;
+
+	type = btf__type_by_id(btf, btf_id);
+	if (!type || BTF_INFO_KIND(type->info) != BTF_KIND_STRUCT)
+		return -ENOENT;
+
+	vlen = BTF_INFO_VLEN(type->info);
+	member = (const struct btf_member *)(type + 1);
+
+	printf("struct %s {\n", name);
+	for (i = 0; i < vlen; i++) {
+		const char *member_name = btf__name_by_offset(btf, member[i].name_off);
+		const struct btf_type *member_type = btf__type_by_id(btf, member[i].type);
+		const char *type_name = btf__name_by_offset(btf, member_type->name_off);
+		printf("    %s %s;\n", type_name ? type_name : "unknown", member_name);
+	}
+	printf("}\n");
+
+	return btf_id;
+}
+
 static int __btf_has_ksym(const char *ksym, int kind)
 {
 	struct btf *btf;
@@ -262,11 +291,17 @@ static int __btf_has_ksym(const char *ksym, int kind)
 	switch (kind) {
 	case BTF_KIND_FUNC:
 		btf_id = get_func_btf(btf, ksym);
+		break;
 	case BTF_KIND_DECL_TAG:
 		btf_id = btf__find_by_name_kind(btf, ksym, BTF_KIND_DECL_TAG);
+		break;
+	case BTF_KIND_STRUCT:
+		btf_id = get_struct_btf(btf, ksym);
+		break;
 	case BTF_KIND_UNKN:
 	default:
 		btf_id = btf__find_by_name(btf, ksym);
+		break;
 	}
 	if (btf_id < 0) {
 #ifdef DEBUG
@@ -295,6 +330,11 @@ int btf_has_ksym(const char *ksym)
 int btf_has_kfunc(const char *kfunc)
 {
 	return __btf_has_ksym(kfunc, BTF_KIND_FUNC);
+}
+
+int btf_has_struct(const char *sname)
+{
+	return __btf_has_ksym(sname, BTF_KIND_STRUCT);
 }
 
 int btf_has_decl_tag(const char *ksym)

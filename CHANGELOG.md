@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- btf: parse kernel structure;
 - bpf: add pure userspace code tcpdump.c;
 - kprobe: add README.md;
 #### Changed

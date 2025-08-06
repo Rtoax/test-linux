@@ -2,4 +2,5 @@
 /*.btf
 /btf_ksym
 /btf_kfunc
+/btf_struct
 /btf_decl_tag
