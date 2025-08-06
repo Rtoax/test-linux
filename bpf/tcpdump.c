@@ -34,14 +34,9 @@
 static struct sock_filter bpfcode[8] = {
 	{ OP_LDH, 0, 0, 12          }, /* ldh [12] */
 	{ OP_JEQ, 0, 5, ETH_P_IP    }, /* jeq #0x800, L2, L8 */
-	{ OP_LDB, 0, 0, 23          }, /* ldb [23] */ /* 14 bytes of ethernet
-						       * header + 9 bytes in IP
-						       * header until the protocol */
+	{ OP_LDB, 0, 0, 23          }, /* ldb [23] # 14 Ether, 9 IP proto */
 	{ OP_JEQ, 0, 3, IPPROTO_TCP }, /* jeq #0x6, L4, L8 */
-	{ OP_LDH, 0, 0, 36          }, /* ldh [36] */ /* 14 bytes of ethernet
-						       * header + 20 bytes of IP
-						       * header (we assume no options)
-						       * + 2 bytes of offset until the port */
+	{ OP_LDH, 0, 0, 36          }, /* ldh [36] # 14 Ether, 20 IPhdr, 2 port */
 	{ OP_JEQ, 0, 1, 80          }, /* jeq #0x50, L6, L8 */
 	{ OP_RET, 0, 0, -1,         }, /* ret #0xffffffff # (accept) */
 	{ OP_RET, 0, 0, 0           }, /* ret #0x0 # (reject) */
