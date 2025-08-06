@@ -22,26 +22,29 @@
 
 /**
  * Filter TCP segments to port 80
+ *
+ * // /usr/include/linux/filter.h
+ * struct sock_filter {	// Filter block
+ *	__u16	code;   // Actual filter code
+ *	__u8	jt;	// Jump true
+ *	__u8	jf;	// Jump false
+ *	__u32	k;      // Generic multiuse field
+ * };
  */
 static struct sock_filter bpfcode[8] = {
-	/* ldh [12] */
-	{ OP_LDH, 0, 0, 12          },
-	/* jeq #0x800, L2, L8 */
-	{ OP_JEQ, 0, 5, ETH_P_IP    },
-	/* ldb [23] # 14 bytes of ethernet header + 9 bytes in IP header until
-	 * the protocol */
-	{ OP_LDB, 0, 0, 23          },
-	/* jeq #0x6, L4, L8 */
-	{ OP_JEQ, 0, 3, IPPROTO_TCP },
-	/* ldh [36] # 14 bytes of ethernet header + 20 bytes of IP header (we
-	 * assume no options) + 2 bytes of offset until the port */
-	{ OP_LDH, 0, 0, 36          },
-	/* jeq #0x50, L6, L8 */
-	{ OP_JEQ, 0, 1, 80          },
-	/* ret #0xffffffff # (accept) */
-	{ OP_RET, 0, 0, -1,         },
-	/* ret #0x0 # (reject) */
-	{ OP_RET, 0, 0, 0           },
+	{ OP_LDH, 0, 0, 12          }, /* ldh [12] */
+	{ OP_JEQ, 0, 5, ETH_P_IP    }, /* jeq #0x800, L2, L8 */
+	{ OP_LDB, 0, 0, 23          }, /* ldb [23] */ /* 14 bytes of ethernet
+						       * header + 9 bytes in IP
+						       * header until the protocol */
+	{ OP_JEQ, 0, 3, IPPROTO_TCP }, /* jeq #0x6, L4, L8 */
+	{ OP_LDH, 0, 0, 36          }, /* ldh [36] */ /* 14 bytes of ethernet
+						       * header + 20 bytes of IP
+						       * header (we assume no options)
+						       * + 2 bytes of offset until the port */
+	{ OP_JEQ, 0, 1, 80          }, /* jeq #0x50, L6, L8 */
+	{ OP_RET, 0, 0, -1,         }, /* ret #0xffffffff # (accept) */
+	{ OP_RET, 0, 0, 0           }, /* ret #0x0 # (reject) */
 };
 
 int main(int argc, char **argv)
