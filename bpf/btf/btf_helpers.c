@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
+/* Copyright (c) 2025 Rong Tao */
 #include <bpf/libbpf.h>
 #include <bpf/bpf.h>
 #include <bpf/btf.h>
@@ -116,7 +117,11 @@ done:
 	val->size = btf__resolve_size(btf, val->type_id);
 }
 
-static char *type_id_to_str(struct btf *btf, __s32 type_id, char *str)
+/**
+ * @allow_unnamed - struct, enum, union could be unnamed.
+ */
+static char *type_id_to_str(struct btf *btf, __s32 type_id, char *buf,
+			    bool allow_unnamed)
 {
 	const struct btf_type *type;
 	const char *name = "";
@@ -124,7 +129,7 @@ static char *type_id_to_str(struct btf *btf, __s32 type_id, char *str)
 	char *suffix = " ";
 	char *ptr = "";
 
-	str[0] = '\0';
+	buf[0] = '\0';
 
 	switch (type_id) {
 	case 0:
@@ -172,16 +177,17 @@ static char *type_id_to_str(struct btf *btf, __s32 type_id, char *str)
 				name = btf__str_by_offset(btf, type->name_off);
 				break;
 			}
-		} while (type_id >= 0 && strlen(name) == 0);
+		} while (type_id >= 0 && (strlen(name) == 0 && !allow_unnamed));
 		break;
 	}
-	snprintf(str, MAX_STR, "%s%s%s%s", prefix, name, suffix, ptr);
-	return str;
+	snprintf(buf, MAX_STR, "%s%s%s%s", prefix, name, suffix, ptr);
+	return buf;
 }
 
-static char *value_to_str(struct btf *btf, struct value *val, char *str)
+static char *value_to_str(struct btf *btf, struct value *val, char *str,
+			  bool allow_unnamed)
 {
-	str = type_id_to_str(btf, val->type_id, str);
+	str = type_id_to_str(btf, val->type_id, str, allow_unnamed);
 	if (val->flags & F_PTR)
 		strncat(str, "*", MAX_STR);
 	if (strlen(val->name) > 0 && strcmp(val->name, "return") != 0)
@@ -222,11 +228,11 @@ static int get_func_btf(struct btf *btf, const char *name)
 	type_to_value(btf, "return", type->type, &func.args[RETURN]);
 
 	/* print function */
-	printf("%s%s(", value_to_str(btf, &func.args[RETURN], str), func.name);
+	printf("%s%s(", value_to_str(btf, &func.args[RETURN], str, false), func.name);
 	for (i = 0; i < func.nr_args; i++) {
 		if (i > 0)
 			printf(", ");
-		printf("%s", value_to_str(btf, &func.args[i], str));
+		printf("%s", value_to_str(btf, &func.args[i], str, false));
 	}
 	if (func.nr_args > MAX_ARGS)
 		printf("/* and %d more args that are not traceable */",
@@ -254,12 +260,18 @@ static int get_struct_btf(struct btf *btf, const char *name)
 
 	printf("struct %s {\n", name);
 	for (i = 0; i < vlen; i++) {
+		struct value val;
+		char str[MAX_STR];
 		const char *member_name = btf__name_by_offset(btf, member[i].name_off);
-		const struct btf_type *member_type = btf__type_by_id(btf, member[i].type);
-		const char *type_name = btf__name_by_offset(btf, member_type->name_off);
-		printf("    %s %s;\n", type_name ? type_name : "unknown", member_name);
+
+		memset(&val, 0 , sizeof(val));
+		memset(&str, 0 , sizeof(str));
+
+		type_to_value(btf, NULL, member[i].type, &val);
+
+		printf("    %s %s;\n", value_to_str(btf, &val, str, true), member_name);
 	}
-	printf("}\n");
+	printf("};\n");
 
 	return btf_id;
 }
