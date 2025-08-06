@@ -13,21 +13,35 @@
 #include <netpacket/packet.h>
 #include <linux/filter.h>
 
+#define ARRAY_SIZE(arr)	(sizeof(arr) / sizeof(arr[0]))
+
 #define OP_LDH (BPF_LD  | BPF_H   | BPF_ABS)
 #define OP_LDB (BPF_LD  | BPF_B   | BPF_ABS)
 #define OP_JEQ (BPF_JMP | BPF_JEQ | BPF_K)
 #define OP_RET (BPF_RET | BPF_K)
 
-// Filter TCP segments to port 80
+/**
+ * Filter TCP segments to port 80
+ */
 static struct sock_filter bpfcode[8] = {
-	{ OP_LDH, 0, 0, 12          },  // ldh [12]
-	{ OP_JEQ, 0, 5, ETH_P_IP    },  // jeq #0x800, L2, L8
-	{ OP_LDB, 0, 0, 23          },  // ldb [23]           # 14 bytes of ethernet header + 9 bytes in IP header until the protocol
-	{ OP_JEQ, 0, 3, IPPROTO_TCP },  // jeq #0x6, L4, L8
-	{ OP_LDH, 0, 0, 36          },  // ldh [36]           # 14 bytes of ethernet header + 20 bytes of IP header (we assume no options) + 2 bytes of offset until the port
-	{ OP_JEQ, 0, 1, 80          },  // jeq #0x50, L6, L8
-	{ OP_RET, 0, 0, -1,         },  // ret #0xffffffff    # (accept)
-	{ OP_RET, 0, 0, 0           },  // ret #0x0           # (reject)
+	/* ldh [12] */
+	{ OP_LDH, 0, 0, 12          },
+	/* jeq #0x800, L2, L8 */
+	{ OP_JEQ, 0, 5, ETH_P_IP    },
+	/* ldb [23] # 14 bytes of ethernet header + 9 bytes in IP header until
+	 * the protocol */
+	{ OP_LDB, 0, 0, 23          },
+	/* jeq #0x6, L4, L8 */
+	{ OP_JEQ, 0, 3, IPPROTO_TCP },
+	/* ldh [36] # 14 bytes of ethernet header + 20 bytes of IP header (we
+	 * assume no options) + 2 bytes of offset until the port */
+	{ OP_LDH, 0, 0, 36          },
+	/* jeq #0x50, L6, L8 */
+	{ OP_JEQ, 0, 1, 80          },
+	/* ret #0xffffffff # (accept) */
+	{ OP_RET, 0, 0, -1,         },
+	/* ret #0x0 # (reject) */
+	{ OP_RET, 0, 0, 0           },
 };
 
 int main(int argc, char **argv)
@@ -41,7 +55,7 @@ int main(int argc, char **argv)
 	char saddr_str[INET_ADDRSTRLEN], daddr_str[INET_ADDRSTRLEN];
 	char *proto_str;
 	char *name;
-	struct sock_fprog bpf = { 8, bpfcode };
+	struct sock_fprog bpf = { ARRAY_SIZE(bpfcode), bpfcode };
 
 	if (argc != 2) {
 		printf("Usage: %s ifname\n", argv[0]);
@@ -75,8 +89,7 @@ int main(int argc, char **argv)
 	mreq.mr_type = PACKET_MR_PROMISC;
 	mreq.mr_ifindex = if_nametoindex(name);
 
-	if (setsockopt(sock, SOL_PACKET,
-				PACKET_ADD_MEMBERSHIP, (char *)&mreq, sizeof(mreq))) {
+	if (setsockopt(sock, SOL_PACKET, PACKET_ADD_MEMBERSHIP, (char *)&mreq, sizeof(mreq))) {
 		perror("setsockopt MR_PROMISC");
 		return 1;
 	}
@@ -94,9 +107,7 @@ int main(int argc, char **argv)
 		inet_ntop(AF_INET, &ip->daddr, daddr_str, sizeof(daddr_str));
 
 		switch (ip->protocol) {
-#define PTOSTR(_p,_str) \
-			case _p: proto_str = _str; break
-
+#define PTOSTR(_p,_str) case _p: proto_str = _str; break
 		PTOSTR(IPPROTO_ICMP, "icmp");
 		PTOSTR(IPPROTO_TCP, "tcp");
 		PTOSTR(IPPROTO_UDP, "udp");
@@ -106,7 +117,7 @@ int main(int argc, char **argv)
 		}
 
 		printf("IPv%d proto=%d(%s) src=%s dst=%s\n",
-				ip->version, ip->protocol, proto_str, saddr_str, daddr_str);
+			ip->version, ip->protocol, proto_str, saddr_str, daddr_str);
 	}
 
 	return 0;
