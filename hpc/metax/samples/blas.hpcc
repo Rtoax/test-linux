@@ -602,7 +602,7 @@ int prepare_data_matrix_sameAB_fp64(struct test *test)
 	return err;
 }
 
-int prepare_data_matrix_GemmEx_int8(struct test *test)
+int prepare_data_matrix_ABint8_Cint32(struct test *test)
 {
 	int err = 0;
 	err += __alloc_matrix_pair_int8("A int8", &test->host_A.int8, &test->dev_A.int8, env.k, env.m);
@@ -611,12 +611,7 @@ int prepare_data_matrix_GemmEx_int8(struct test *test)
 	return err;
 }
 
-int prepare_data_matrix_Matmul_int8(struct test *test)
-{
-	return prepare_data_matrix_GemmEx_int8(test);
-}
-
-int prepare_data_matrix_Matmul_int8_2(struct test *test)
+int prepare_data_matrix_ABC_int8(struct test *test)
 {
 	int err = 0;
 	err += __alloc_matrix_pair_int8("A int8", &test->host_A.int8, &test->dev_A.int8, env.k, env.m);
@@ -625,7 +620,7 @@ int prepare_data_matrix_Matmul_int8_2(struct test *test)
 	return err;
 }
 
-int prepare_data_matrix_Gemm_fp16(struct test *test)
+int prepare_data_matrix_ABC_fp16(struct test *test)
 {
 	int err = 0;
 	err += __alloc_matrix_pair_fp16("A fp16", &test->host_A.fp16, &test->dev_A.fp16, env.k, env.m);
@@ -634,7 +629,7 @@ int prepare_data_matrix_Gemm_fp16(struct test *test)
 	return err;
 }
 
-int prepare_data_matrix_Gemm_fp32(struct test *test)
+int prepare_data_matrix_ABC_fp32(struct test *test)
 {
 	int err = 0;
 	err += __alloc_matrix_pair_fp32("A fp32", &test->host_A.fp32, &test->dev_A.fp32, env.k, env.m);
@@ -643,7 +638,7 @@ int prepare_data_matrix_Gemm_fp32(struct test *test)
 	return err;
 }
 
-int prepare_data_matrix_Gemm_fp64(struct test *test)
+int prepare_data_matrix_ABC_fp64(struct test *test)
 {
 	int err = 0;
 	err += __alloc_matrix_pair_fp64("A fp64", &test->host_A.fp64, &test->dev_A.fp64, env.k, env.m);
@@ -1138,39 +1133,7 @@ int display_data_AB_fp64(struct test *test)
 	return err;
 }
 
-int display_data_dot_fp32(struct test *test)
-{
-	int err = 0;
-	err += display_data_AB_fp32(test);
-	printf("Result %.2f\n", test->result.fp32);
-	return err;
-}
-
-int display_data_dot_fp64(struct test *test)
-{
-	int err = 0;
-	err += display_data_AB_fp64(test);
-	printf("Result %.2lf\n", test->result.fp64);
-	return err;
-}
-
-int display_data_nrm2_fp32(struct test *test)
-{
-	int err = 0;
-	err += display_data_A_fp32(test);
-	printf("Result %.2f\n", test->result.fp32);
-	return err;
-}
-
-int display_data_nrm2_fp64(struct test *test)
-{
-	int err = 0;
-	err += display_data_A_fp64(test);
-	printf("Result %.2lf\n", test->result.fp64);
-	return err;
-}
-
-int display_data_GemmEx_int8(struct test *test)
+int display_data_ABint8_Cint32(struct test *test)
 {
 	int err = 0;
 	err += __display_matrix_pair_int8("A int8", test, test->host_A.int8, test->dev_A.int8, env.k, env.m);
@@ -1179,12 +1142,7 @@ int display_data_GemmEx_int8(struct test *test)
 	return err;
 }
 
-int display_data_Matmul_int8(struct test *test)
-{
-	return display_data_GemmEx_int8(test);
-}
-
-int display_data_Matmul_int8_2(struct test *test)
+int display_data_ABC_int8(struct test *test)
 {
 	int err = 0;
 	err += __display_matrix_pair_int8("A int8", test, test->host_A.int8, test->dev_A.int8, env.k, env.m);
@@ -1193,7 +1151,7 @@ int display_data_Matmul_int8_2(struct test *test)
 	return err;
 }
 
-int display_data_Gemm_fp16(struct test *test)
+int display_data_ABC_fp16(struct test *test)
 {
 	int err = 0;
 	err += __display_matrix_pair_fp16("A fp16", test, test->host_A.fp16, test->dev_A.fp16, env.k, env.m);
@@ -1202,7 +1160,7 @@ int display_data_Gemm_fp16(struct test *test)
 	return err;
 }
 
-int display_data_Gemm_fp32(struct test *test)
+int display_data_ABC_fp32(struct test *test)
 {
 	int err = 0;
 	err += __display_matrix_pair_fp32("A fp32", test, test->host_A.fp32, test->dev_A.fp32, env.k, env.m);
@@ -1211,7 +1169,7 @@ int display_data_Gemm_fp32(struct test *test)
 	return err;
 }
 
-int display_data_Gemm_fp64(struct test *test)
+int display_data_ABC_fp64(struct test *test)
 {
 	int err = 0;
 	err += __display_matrix_pair_fp64("A fp64", test, test->host_A.fp64, test->dev_A.fp64, env.k, env.m);
@@ -1345,7 +1303,7 @@ struct test alltests[] = {
 			.prepare_data = prepare_data_matrix_sameAB_fp32,
 			.run_blas = run_blas_dot_fp32,
 			.get_flops = get_flops_dot,
-			.display_data = display_data_dot_fp32,
+			.display_data = display_data_AB_fp32,
 			.free_data = free_data_matrix_AB,
 			.destroy_blas = default_destroy_blas,
 		}
@@ -1357,7 +1315,7 @@ struct test alltests[] = {
 			.prepare_data = prepare_data_matrix_sameAB_fp64,
 			.run_blas = run_blas_dot_fp64,
 			.get_flops = get_flops_dot,
-			.display_data = display_data_dot_fp64,
+			.display_data = display_data_AB_fp64,
 			.free_data = free_data_matrix_AB,
 			.destroy_blas = default_destroy_blas,
 		}
@@ -1369,7 +1327,7 @@ struct test alltests[] = {
 			.prepare_data = prepare_data_matrix_A_fp32,
 			.run_blas = run_blas_nrm2_fp32,
 			.get_flops = get_flops_nrm2,
-			.display_data = display_data_nrm2_fp32,
+			.display_data = display_data_A_fp32,
 			.free_data = free_data_matrix_A,
 			.destroy_blas = default_destroy_blas,
 		}
@@ -1381,7 +1339,7 @@ struct test alltests[] = {
 			.prepare_data = prepare_data_matrix_A_fp64,
 			.run_blas = run_blas_nrm2_fp64,
 			.get_flops = get_flops_nrm2,
-			.display_data = display_data_nrm2_fp64,
+			.display_data = display_data_A_fp64,
 			.free_data = free_data_matrix_A,
 			.destroy_blas = default_destroy_blas,
 		}
@@ -1390,10 +1348,10 @@ struct test alltests[] = {
 		ZERO_TEST("GEMM FP16", TEST_GEMM_FP16),
 		{
 			.create_blas = default_create_blas,
-			.prepare_data = prepare_data_matrix_Gemm_fp16,
+			.prepare_data = prepare_data_matrix_ABC_fp16,
 			.run_blas = run_blas_Gemm_fp16,
 			.get_flops = get_flops_gemm,
-			.display_data = display_data_Gemm_fp16,
+			.display_data = display_data_ABC_fp16,
 			.free_data = free_data_matrix_ABC,
 			.destroy_blas = default_destroy_blas,
 		}
@@ -1402,10 +1360,10 @@ struct test alltests[] = {
 		ZERO_TEST("GEMM FP32", TEST_GEMM_FP32),
 		{
 			.create_blas = default_create_blas,
-			.prepare_data = prepare_data_matrix_Gemm_fp32,
+			.prepare_data = prepare_data_matrix_ABC_fp32,
 			.run_blas = run_blas_Gemm_fp32,
 			.get_flops = get_flops_gemm,
-			.display_data = display_data_Gemm_fp32,
+			.display_data = display_data_ABC_fp32,
 			.free_data = free_data_matrix_ABC,
 			.destroy_blas = default_destroy_blas,
 		}
@@ -1414,10 +1372,10 @@ struct test alltests[] = {
 		ZERO_TEST("GEMM FP64", TEST_GEMM_FP64),
 		{
 			.create_blas = default_create_blas,
-			.prepare_data = prepare_data_matrix_Gemm_fp64,
+			.prepare_data = prepare_data_matrix_ABC_fp64,
 			.run_blas = run_blas_Gemm_fp64,
 			.get_flops = get_flops_gemm,
-			.display_data = display_data_Gemm_fp64,
+			.display_data = display_data_ABC_fp64,
 			.free_data = free_data_matrix_ABC,
 			.destroy_blas = default_destroy_blas,
 		}
@@ -1426,10 +1384,10 @@ struct test alltests[] = {
 		ZERO_TEST("GEMMEx FP16", TEST_GEMMEX_FP16),
 		{
 			.create_blas = default_create_blas,
-			.prepare_data = prepare_data_matrix_Gemm_fp16,
+			.prepare_data = prepare_data_matrix_ABC_fp16,
 			.run_blas = run_blas_GemmEx_fp16,
 			.get_flops = get_flops_gemm,
-			.display_data = display_data_Gemm_fp16,
+			.display_data = display_data_ABC_fp16,
 			.free_data = free_data_matrix_ABC,
 			.destroy_blas = default_destroy_blas,
 		}
@@ -1438,10 +1396,10 @@ struct test alltests[] = {
 		ZERO_TEST("GEMMEx FP32", TEST_GEMMEX_FP32),
 		{
 			.create_blas = default_create_blas,
-			.prepare_data = prepare_data_matrix_Gemm_fp32,
+			.prepare_data = prepare_data_matrix_ABC_fp32,
 			.run_blas = run_blas_GemmEx_fp32,
 			.get_flops = get_flops_gemm,
-			.display_data = display_data_Gemm_fp32,
+			.display_data = display_data_ABC_fp32,
 			.free_data = free_data_matrix_ABC,
 			.destroy_blas = default_destroy_blas,
 		}
@@ -1450,10 +1408,10 @@ struct test alltests[] = {
 		ZERO_TEST("GEMMEx FP64", TEST_GEMMEX_FP64),
 		{
 			.create_blas = default_create_blas,
-			.prepare_data = prepare_data_matrix_Gemm_fp64,
+			.prepare_data = prepare_data_matrix_ABC_fp64,
 			.run_blas = run_blas_GemmEx_fp64,
 			.get_flops = get_flops_gemm,
-			.display_data = display_data_Gemm_fp64,
+			.display_data = display_data_ABC_fp64,
 			.free_data = free_data_matrix_ABC,
 			.destroy_blas = default_destroy_blas,
 		}
@@ -1462,10 +1420,10 @@ struct test alltests[] = {
 		ZERO_TEST("GEMMEx INT8", TEST_GEMMEX_INT8),
 		{
 			.create_blas = default_create_blas,
-			.prepare_data = prepare_data_matrix_GemmEx_int8,
+			.prepare_data = prepare_data_matrix_ABint8_Cint32,
 			.run_blas = run_blas_GemmEx_int8,
 			.get_flops = get_flops_gemm,
-			.display_data = display_data_GemmEx_int8,
+			.display_data = display_data_ABint8_Cint32,
 			.free_data = free_data_matrix_ABC,
 			.destroy_blas = default_destroy_blas,
 		}
@@ -1474,10 +1432,10 @@ struct test alltests[] = {
 		ZERO_TEST("MATMUL INT8", TEST_MATMUL_INT8),
 		{
 			.create_blas = default_create_blasLt_int8,
-			.prepare_data = prepare_data_matrix_Matmul_int8,
+			.prepare_data = prepare_data_matrix_ABint8_Cint32,
 			.run_blas = run_blas_Matmul_int8,
 			.get_flops = get_flops_gemm,
-			.display_data = display_data_Matmul_int8,
+			.display_data = display_data_ABint8_Cint32,
 			.free_data = free_data_matrix_ABC,
 			.destroy_blas = default_destroy_blasLt,
 		}
@@ -1486,10 +1444,10 @@ struct test alltests[] = {
 		ZERO_TEST("MATMUL INT8 (2)", TEST_MATMUL_INT8_2),
 		{
 			.create_blas = default_create_blasLt_int8_2,
-			.prepare_data = prepare_data_matrix_Matmul_int8_2,
+			.prepare_data = prepare_data_matrix_ABC_int8,
 			.run_blas = run_blas_Matmul_int8_2,
 			.get_flops = get_flops_gemm,
-			.display_data = display_data_Matmul_int8_2,
+			.display_data = display_data_ABC_int8,
 			.free_data = free_data_matrix_ABC,
 			.destroy_blas = default_destroy_blasLt,
 		}
@@ -1498,10 +1456,10 @@ struct test alltests[] = {
 		ZERO_TEST("MATMUL FP16", TEST_MATMUL_FP16),
 		{
 			.create_blas = default_create_blasLt_fp16,
-			.prepare_data = prepare_data_matrix_Gemm_fp16,
+			.prepare_data = prepare_data_matrix_ABC_fp16,
 			.run_blas = run_blas_Matmul_fp16,
 			.get_flops = get_flops_gemm,
-			.display_data = display_data_Gemm_fp16,
+			.display_data = display_data_ABC_fp16,
 			.free_data = free_data_matrix_ABC,
 			.destroy_blas = default_destroy_blasLt,
 		}
@@ -1510,10 +1468,10 @@ struct test alltests[] = {
 		ZERO_TEST("MATMUL FP32", TEST_MATMUL_FP32),
 		{
 			.create_blas = default_create_blasLt_fp32,
-			.prepare_data = prepare_data_matrix_Gemm_fp32,
+			.prepare_data = prepare_data_matrix_ABC_fp32,
 			.run_blas = run_blas_Matmul_fp32,
 			.get_flops = get_flops_gemm,
-			.display_data = display_data_Gemm_fp32,
+			.display_data = display_data_ABC_fp32,
 			.free_data = free_data_matrix_ABC,
 			.destroy_blas = default_destroy_blasLt,
 		}
@@ -1522,10 +1480,10 @@ struct test alltests[] = {
 		ZERO_TEST("MATMUL FP64", TEST_MATMUL_FP64),
 		{
 			.create_blas = default_create_blasLt_fp64,
-			.prepare_data = prepare_data_matrix_Gemm_fp64,
+			.prepare_data = prepare_data_matrix_ABC_fp64,
 			.run_blas = run_blas_Matmul_fp64,
 			.get_flops = get_flops_gemm,
-			.display_data = display_data_Gemm_fp64,
+			.display_data = display_data_ABC_fp64,
 			.free_data = free_data_matrix_ABC,
 			.destroy_blas = default_destroy_blasLt,
 		}
