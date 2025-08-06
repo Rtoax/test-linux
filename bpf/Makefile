@@ -14,6 +14,7 @@ sub-dir += seccomp
 sub-dir += usdt
 sub-dir += xdp
 
+targets := tcpdump
 targets-shell := tcpdump.sh
 targets-bpf := tcpdump.bpf.o
 
@@ -24,6 +25,7 @@ CFLAGS_BPF_tcpdump := -DVERIFER=1
 
 include ../template/main.mk
 
+tcpdump: tcpdump.o
 tcpdump.bpf.o: vmlinux.h
 
 post0:

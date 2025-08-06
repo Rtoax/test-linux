@@ -149,6 +149,9 @@ int bpf_prog1(struct __sk_buff *skb)
  * $ sudo tcpdump -d ip and tcp port 80
  * $ sudo nc -l 80
  * $ sudo nc 127.0.0.1 80
+ *
+ * or we could totally done it in userspace,
+ * see https://gist.github.com/Rtoax/d79d694034c10359c00c2cb169661cef
  */
 SEC("socket")
 int bpf_prog2(struct __sk_buff *skb)

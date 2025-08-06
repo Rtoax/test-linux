@@ -1,4 +1,5 @@
 #!/bin/bash
+# see also https://gist.github.com/Rtoax/d79d694034c10359c00c2cb169661cef
 set -e
 
 # Ethernet Frame
