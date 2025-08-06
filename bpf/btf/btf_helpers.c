@@ -155,10 +155,12 @@ static char *type_id_to_str(struct btf *btf, __s32 type_id, char *buf)
 				ptr = "* ";
 				type_id = type->type;
 				break;
-			case BTF_KIND_ARRAY:
+			case BTF_KIND_ARRAY: {
+				//const struct btf_array *arr = btf_array(type);
 				suffix = "[]";
 				type_id = type->type;
 				break;
+			}
 			case BTF_KIND_STRUCT:
 				prefix = "struct ";
 				name = btf__str_by_offset(btf, type->name_off);
