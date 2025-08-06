@@ -32,7 +32,7 @@ HPC Benchmark
 | FP32 | 32 T    | 45 T    |
 | FP64 | 33 T    | 0.99 T  |
 
-## API blasMatmul()
+## API blasLtMatmul()
 
 | TYPE | X203    | H800    |
 | ---- | ------- | ------- |
