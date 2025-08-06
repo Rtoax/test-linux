@@ -890,6 +890,9 @@ int run_blas_Gemm_fp64(struct test *test)
 	return 0;
 }
 
+/**
+ * D = alpha * (A x B) + beta * (C)
+ */
 double get_flops_gemm(struct test *test)
 {
 	return 2.0 * env.nloop * env.k * env.m * env.n * 1e3 / (test->run.elapsed);
