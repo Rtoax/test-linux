@@ -1,4 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
+# Copyright (C) 2025 Rong Tao
 SHELL ?= bash
 
 CONFIG_TOPDIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))

@@ -1,6 +1,7 @@
 #!/bin/bash
+# Copyright (c) 2025 Rong Tao
 # https://windowsloop.com/download-m3u8-video-with-ffmpeg/
-#
+set -e
 
 url=$1
 star=$2

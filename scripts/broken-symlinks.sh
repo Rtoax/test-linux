@@ -1,4 +1,5 @@
 #!/bin/bash
+# Copyright (c) 2022-2025 Rong Tao
 set -e
 
 readonly GIT_TOPDIR=$(git rev-parse --show-toplevel 2>/dev/null || :)
