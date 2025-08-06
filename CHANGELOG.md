@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- hpc: add README.benchmark.md;
 - oom: remove symlink popen.c;
 - oom.c: support memory cgroup limit, and add global env;
 - libcgroup: add libcgroup.mk;
