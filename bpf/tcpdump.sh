@@ -26,6 +26,11 @@ set -e
 # (011) ret      #262144			--返回0x40000，捕获整个数据包
 # (012) ret      #0
 sudo tcpdump -d ip and tcp port 80
+# Dump packet-matching code as a C program fragment,
+# see /usr/include/linux/filter.h struct sock_filter {}
+sudo tcpdump -dd tcp and dst port 80
+# Dump packet-matching code as decimal numbers (preceded with a count)
+sudo tcpdump -ddd tcp and dst port 80
 
 # Test with:
 # server: nc -l 80
