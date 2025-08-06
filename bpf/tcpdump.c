@@ -30,8 +30,10 @@
  *	__u8	jf;	// Jump false
  *	__u32	k;      // Generic multiuse field
  * };
+ *
+ * NOTE: you could use 'tcpdump -dd' to fill sock_filter structure.
  */
-static struct sock_filter bpfcode[8] = {
+static struct sock_filter bpfcode[] = {
 	{ OP_LDH, 0, 0, 12          }, /* ldh [12] */
 	{ OP_JEQ, 0, 5, ETH_P_IP    }, /* jeq #0x800, L2, L8 */
 	{ OP_LDB, 0, 0, 23          }, /* ldb [23] # 14 Ether, 9 IP proto */
