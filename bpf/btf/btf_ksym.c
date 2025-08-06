@@ -28,12 +28,10 @@ int main(int argc, char **argv)
 	s_type = "DECL_TAG";
 #else
 	result = btf_has_ksym(ksym_name);
+	if (result > 0)
+		printf("Kernel symbol '%s' exist.\n", ksym_name);
 #endif
-	if (result > 0) {
-		printf("Kernel symbol '%s' %s exists.\n", ksym_name, s_type);
-	} else if (result == 0) {
+	if (result <= 0)
 		printf("Kernel symbol '%s' %s does not exist.\n", ksym_name, s_type);
-	}
-
 	return 0;
 }
