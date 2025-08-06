@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
-VMLINUX_H ?= vmlinux.h
-BPFTOOL ?= bpftool
+SHELL := bash
+VMLINUX_H := vmlinux.h
+BPFTOOL := bpftool
 
 define chk_vmlinux_h
 $(shell if [[ ! -e ${VMLINUX_H} ]]; then \
