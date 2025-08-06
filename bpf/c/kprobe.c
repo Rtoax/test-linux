@@ -25,7 +25,7 @@ int main(void)
 
 	char license[] = "GPL";
 	struct bpf_insn insns[] = {
-		BPF_MOV64_IMM(BPF_REG_1, 0xa21),        /* '!\n' */
+		BPF_MOV64_IMM(BPF_REG_1, 0x21),        /* '!' */
 		BPF_STX_MEM(BPF_H, BPF_REG_10, BPF_REG_1, -4),
 		BPF_MOV64_IMM(BPF_REG_1, 0x646c726f),   /* 'orld' */
 		BPF_STX_MEM(BPF_W, BPF_REG_10, BPF_REG_1, -8),
