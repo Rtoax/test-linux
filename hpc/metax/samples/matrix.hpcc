@@ -442,12 +442,12 @@ int main(int argc, char *argv[])
 #if defined(HAVE_HCCL) || defined(HAVE_CUDA)
 
 	block1.x = 512;
-	grid1.x = (env.m * env.n + 511) / 512;
+	grid1.x = (env.m * env.n + block1.x - 1) / block1.x;
 
 	block2.x = 32;
 	block2.y = 32;
-	grid2.x = (env.n + 511) / 512;
-	grid2.y = (env.m + 511) / 512;
+	grid2.x = (env.n + block2.x - 1) / block2.x;
+	grid2.y = (env.m + block2.y - 1) / block2.y;
 
 	cudaEventCreate(&ev_start);
 	cudaEventCreate(&ev_stop);
