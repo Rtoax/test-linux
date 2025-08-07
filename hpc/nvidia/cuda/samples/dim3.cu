@@ -36,14 +36,15 @@ __global__ void checkIndex(int it)
 
 int main(int argc, char *argv[])
 {
-	int i, bx, by, bz, gx, gy, gz, it;
+	int i, it, bx, by, bz, gx, gy, gz, dim;
 
 	gpu_init(0);
 
 	it = 1;
-	bx = gx = 3;
-	by = gy = 1;
-	bz = gz = 1;
+	dim = 3;
+	bx = gx = 2;
+	by = gy = 2;
+	bz = gz = 2;
 
 	for (i = 1; i < argc; i++) {
 #define arg_eq(v) if (!strncmp(#v"=", argv[i], strlen(#v) + 1)) \
@@ -55,15 +56,42 @@ int main(int argc, char *argv[])
 		arg_eq(gy);
 		arg_eq(gz);
 		arg_eq(it);
+		arg_eq(dim);
 #undef arg_eq
 	}
 
-	fprintf(stderr, "Usage: %s [bx|by|bz|gx|gy|gz=<N>] [it=<INTERVAL>]\n", argv[0]);
-	fprintf(stderr, "<<< grid(%d,%d,%d), block(%d,%d,%d) >>>\n",
-		gx, gy, gz, bx, by, bz);
+	dim3 block1(bx);
+	dim3 grid1(gx);
+	dim3 block2(bx, by);
+	dim3 grid2(gx, gy);
+	dim3 block3(bx, by, bz);
+	dim3 grid3(gx, gy, gz);
 
-	dim3 block(bx, by, bz);
-	dim3 grid(gx, gy, gz);
+	dim3 grid;
+	dim3 block;
+
+	fprintf(stderr, "Usage: %s [bx|by|bz|gx|gy|gz=<N>] [it=<INTERVAL>] [dim=<1|2|3>]\n", argv[0]);
+
+	switch (dim) {
+	case 3:
+		grid = grid3;
+		block = block3;
+		break;
+	case 2:
+		grid = grid2;
+		block = block2;
+		break;
+	case 1:
+		grid = grid1;
+		block = block1;
+		break;
+	default:
+		fprintf(stderr, "ERROR: Not support dim=%d\n", dim);
+		exit(EXIT_FAILURE);
+	}
+
+	fprintf(stderr, "<<< grid(%d,%d,%d), block(%d,%d,%d) >>>\n",
+		grid.x, grid.y, grid.z, block.x, block.y, block.z);
 
 	checkIndex<<<grid, block>>>(it);
 
