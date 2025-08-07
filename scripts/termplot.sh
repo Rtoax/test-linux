@@ -152,7 +152,48 @@ drawline() {
 		done
 		pgotoxy $ystart $(($ix ${arrow_inc})) ${arrow}
 	else
-		error "$0: invalid parameter"
+		local xmin xmax ymin ymax xlen ylen
+		local slope
+		if [[ ${xstart} -gt ${xend} ]]; then
+			xmin=${xend}
+			xmax=${xstart}
+		else
+			xmin=${xstart}
+			xmax=${xend}
+		fi
+		if [[ ${ystart} -gt ${yend} ]]; then
+			ymin=${yend}
+			ymax=${ystart}
+		else
+			ymin=${ystart}
+			ymax=${yend}
+		fi
+
+		xlen=$(( ${xmax} - ${xmin} ))
+		ylen=$(( ${ymax} - ${ymin} ))
+
+		if [[ ${ymin} -eq ${ymax} ]]; then
+			slope="Inf"
+		else
+			slope=$(echo "scale=0; 1000 * ${ylen} / ${xlen}" | bc)
+		fi
+
+		# FIXME: performance is so bad, and it's wrong line
+		for ix in $(seq ${xmin} 1 ${xmax})
+		do
+			for iy in $(seq ${ymin} 1 ${ymax})
+			do
+				if [[ ${ix} -eq 0 ]]; then
+					continue
+				fi
+				local slope2=$(echo "scale=0; 1000 * ${iy} / ${ix}" | bc)
+				local diff=$(echo "s=$slope-$slope2; if(s<0) -s else s" | bc)
+				if [[ ${diff} -lt 100 ]]; then
+					pgotoxy $iy $ix 'x'
+				fi
+			done
+		done
+		#error "$0: invalid parameter"
 	fi
 }
 
@@ -198,4 +239,6 @@ drawline --xstart $((${TWIDTH} - ${bnd})) --xend ${bnd} --yy ${bnd} --arrow
 drawline --xx ${bnd} --ystart ${bnd} --yend $((${THEIGHT} - ${bnd})) --arrow
 gotoxy ${THEIGHT} 0
 echo
+drawline --xstart ${bnd} --ystart ${bnd} \
+	--xend $((${TWIDTH} - ${bnd})) --yend $((${THEIGHT} - ${bnd}))
 drawcurve -x 1 -y 1 -x 2 -y 2
