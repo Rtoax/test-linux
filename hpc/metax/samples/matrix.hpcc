@@ -309,6 +309,9 @@ static double matrix_mul_FLOPS(unsigned long ns)
 	return (part1 + part2) * 1e9 / ns;
 }
 
+/**
+ * Vector multiplication
+ */
 __global__ void vector_mul(TYPE *A, TYPE *B, TYPE *C, TYPE alpha,
 			       unsigned long N, bool nocal)
 {
