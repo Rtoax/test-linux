@@ -6,6 +6,8 @@ obj-m += hello2.o
 
 ccflags-y := -std=gnu99 -Wno-declaration-after-statement
 ccflags-y += -DCCFLAGS_Y=1
+# NOTE: some kernel only specify EXTRA_CFLAGS is OK
+ccflags-y += ${EXTRA_CFLAGS}
 
 CFLAGS_hello.o := -DHELLO1=1
 CFLAGS_hello2.o := -DHELLO2=1
