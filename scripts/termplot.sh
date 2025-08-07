@@ -12,10 +12,10 @@ readonly B5='┼'
 readonly B6='┤'
 readonly B7='┘'
 readonly B8='─'
-readonly B9='▲'
-readonly B10='▼'
-readonly B11='◀'
-readonly B12='►'
+readonly ARROW_UP='▲'
+readonly ARROW_DOWN='▼'
+readonly ARROW_LEFT='◀'
+readonly ARROW_RIGHT='►'
 
 gotoxy() {
 	local x=$2 y=$1
@@ -43,11 +43,11 @@ drawline() {
 		if [[ $ystart -lt $yend ]]; then
 			seq_args="$ystart 1 $yend"
 			arrow_inc="+ 1"
-			[[ ${arrow} ]] && arrow=${B10}
+			[[ ${arrow} ]] && arrow=${ARROW_DOWN}
 		else
 			seq_args="$ystart -1 $yend"
 			arrow_inc="- 1"
-			[[ ${arrow} ]] && arrow=${B9}
+			[[ ${arrow} ]] && arrow=${ARROW_UP}
 		fi
 
 		for iy in $(seq $seq_args)
@@ -61,11 +61,11 @@ drawline() {
 		if [[ $xstart -lt $xend ]]; then
 			seq_args="$xstart 1 $xend"
 			arrow_inc="+ 1"
-			[[ ${arrow} ]] && arrow=${B12}
+			[[ ${arrow} ]] && arrow=${ARROW_RIGHT}
 		else
 			seq_args="$xstart -1 $xend"
 			arrow_inc="- 1"
-			[[ ${arrow} ]] && arrow=${B11}
+			[[ ${arrow} ]] && arrow=${ARROW_LEFT}
 		fi
 
 		for ix in $(seq $seq_args)
