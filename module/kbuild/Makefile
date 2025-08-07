@@ -1,16 +1,5 @@
 # NOTE: dnf install kernel-debug-devel kernel-debuginfo kernel-debug-modules
-VMLINUX := /usr/lib/debug/lib/modules/$(shell uname -r)/vmlinux
-KDIR := /lib/modules/$(shell uname -r)/build
-
-ifneq ($(wildcard ${VMLINUX}),)
-  $(info Build with VMLINUX=${VMLINUX})
-  ifeq ($(wildcard ${KDIR}/vmlinux),)
-    # TODO: could non copy?
-    $(shell sudo cp ${VMLINUX} ${KDIR}/vmlinux)
-    $(info Copy ${VMLINUX} to ${KDIR})
-  endif
-endif
-
+include ../kcompile.mk
 
 build:
 	${Q}make -C $(KDIR) M=`pwd`

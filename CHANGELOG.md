@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- kmod: add kcompile.mk;
 - bpf: add kconfig;
 - btf: add kconfig;
 - btf: parse kernel structure;
