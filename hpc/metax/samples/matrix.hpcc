@@ -441,8 +441,8 @@ int main(int argc, char *argv[])
 	block1.x = 512;
 	grid1.x = (env.m * env.n + 511) / 512;
 
-	block2.x = 512;
-	block2.y = 512;
+	block2.x = 32;
+	block2.y = 32;
 	grid2.x = (env.n + 511) / 512;
 	grid2.y = (env.m + 511) / 512;
 
