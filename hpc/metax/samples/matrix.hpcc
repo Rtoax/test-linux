@@ -201,12 +201,47 @@ static inline unsigned long nsecs(void)
  * nocal is true, multiplication operation will not be calculated, and a more
  * accurate FLOPS can be calculated.
  */
+
+__device__ void dev_matrix_mul_inner(TYPE *A, TYPE *B, TYPE *C, TYPE *D,
+			   TYPE alpha, TYPE beta,
+			   unsigned long m, unsigned long im,
+			   unsigned long k,
+			   unsigned long n, unsigned long in,
+			   bool nocal)
+{
+	unsigned long ia, ib, ik;
+	unsigned long ic = im * m + in;
+
+	if (!nocal) {
+		D[ic] = TRVALUE(0.0f);
+	}
+
+	for (ik = 0; ik < k; ik++) {
+		ia = im * k + ik;
+		ib = ik * n + in;
+		if (!nocal) {
+#if defined(TEST_FP16)
+			D[ic] = __hadd(D[ic], __hmul(alpha, __hmul(A[ia], B[ib])));
+#else
+			D[ic] += TVAL(alpha) * A[ia] * B[ib];
+#endif
+		}
+	}
+	if (!nocal) {
+#if defined(TEST_FP16)
+		D[ic] = __hadd(D[ic], __hmul(beta, C[ic]));
+#else
+		D[ic] += TVAL(beta) * C[ic];
+#endif
+	}
+}
+
 __global__ void matrix_mul(TYPE *A, TYPE *B, TYPE *C, TYPE *D,
 			   TYPE alpha, TYPE beta,
 			   unsigned long m, unsigned long k,
 			   unsigned long n, bool nocal)
 {
-	unsigned long ia, ib, ic, in, im, ik;
+	unsigned long ic, in, im;
 
 #if defined(HAVE_HCCL) || defined(HAVE_CUDA)
 	ic = threadIdx.x + blockDim.x * blockIdx.x;
@@ -219,28 +254,7 @@ __global__ void matrix_mul(TYPE *A, TYPE *B, TYPE *C, TYPE *D,
 		in = ic % n;
 		im = ic / n;
 
-		if (!nocal) {
-			D[ic] = TRVALUE(0.0f);
-		}
-
-		for (ik = 0; ik < k; ik++) {
-			ia = im * k + ik;
-			ib = ik * n + in;
-			if (!nocal) {
-#if defined(TEST_FP16)
-				D[ic] = __hadd(D[ic], __hmul(alpha, __hmul(A[ia], B[ib])));
-#else
-				D[ic] += TVAL(alpha) * A[ia] * B[ib];
-#endif
-			}
-		}
-		if (!nocal) {
-#if defined(TEST_FP16)
-			D[ic] = __hadd(D[ic], __hmul(beta, C[ic]));
-#else
-			D[ic] += TVAL(beta) * C[ic];
-#endif
-		}
+		dev_matrix_mul_inner(A, B, C, D, alpha, beta, m, im, k, n, in, nocal);
 	}
 #if defined(HAVE_HCCL) || defined(HAVE_CUDA)
 	__syncthreads();
@@ -360,8 +374,8 @@ int main(int argc, char *argv[])
 		fprintf(stderr, "Version %s\n", version);
 		fprintf(stderr, "Running on %s %d\n", gpu_name(env.gpu, buf, sizeof(buf)), env.gpu);
 		fprintf(stderr, "size of TYPE(%s) %ld\n", TNAME, sizeof(TYPE));
-		fprintf(stderr, "M = %ld, N = %ld, NLOOP = %ld\n",
-			env.m, env.n, env.nloop);
+		fprintf(stderr, "M = %ld, K = %ld, N = %ld, NLOOP = %ld\n",
+			env.m, env.k, env.n, env.nloop);
 		if (env.set_value)
 			fprintf(stderr, "Matrix values set to %d\n", env.value);
 		if (env.vector)
