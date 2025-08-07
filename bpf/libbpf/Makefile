@@ -146,14 +146,17 @@ ifeq ($(call kernel_newer_than,6,10,0),y)
   # bpf_path_d_path()
   ifeq ($(call vmlinux_has_sym,bpf_path_d_path),y)
     CFLAGS_BPF += -DSUPPORT_BPF_PATH_D_PATH=1
+    $(info Found bpf_path_d_path)
   endif
   # bpf_get_task_exe_file()
   ifeq ($(call vmlinux_has_sym,bpf_get_task_exe_file),y)
     CFLAGS_BPF += -DSUPPORT_BPF_GET_TASK_EXE_FILE=1
+    $(info Found bpf_get_task_exe_file)
   endif
   # bpf_put_file()
   ifeq ($(call vmlinux_has_sym,bpf_put_file),y)
     CFLAGS_BPF += -DSUPPORT_BPF_PUT_FILE=1
+    $(info Found bpf_put_file)
   endif
 endif
 
@@ -234,6 +237,7 @@ CFLAGS_BPF += ${CFLAGS_PAHOLE}
 ifneq ($(call vmlinux_has_sym,bpf_task_from_pid),y)
   # FIXME: some day use CFLAGS_PAHOLE replace this macro
   CFLAGS_BPF += -DBPF_NO_KFUNC_PROTOTYPES=1
+  $(info Found bpf_task_from_pid)
 endif
 
 CFLAGS_kprobe := -D'KSYM_DO_EXECVEAT_COMMON="${KSYM_DO_EXECVEAT_COMMON}"' -DKPROBE=1
@@ -271,6 +275,7 @@ CFLAGS_BPF_xdp := ${CFLAGS_xdp}
 CFLAGS_xdp_devmap := -DXDP_DEVMAP=1
 ifeq ($(call vmlinux_has_struct,bpf_devmap_val),y)
   CFLAGS_xdp_devmap += -DHAVE_STRUCT_BPF_DEVMAP_VAL=1
+  $(info Found bpf_devmap_val)
 else
   $(warning not found struct bpf_devmap_val {})
 endif
