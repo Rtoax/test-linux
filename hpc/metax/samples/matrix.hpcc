@@ -210,7 +210,7 @@ __device__ void dev_matrix_mul_inner(TYPE *A, TYPE *B, TYPE *C, TYPE *D,
 			   bool nocal)
 {
 	unsigned long ia, ib, ik;
-	unsigned long ic = im * m + in;
+	unsigned long ic = im * n + in;
 
 	if (!nocal) {
 		D[ic] = TRVALUE(0.0f);
