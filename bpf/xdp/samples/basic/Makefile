@@ -57,7 +57,8 @@ $(targets-user): %:
 	@echo -e "  LD  \033[1;32m$(@)\033[m"
 	${Q}$(CC) -o $(@) $(^) $(LDFLAGS_USER) $(LDFLAGS_USER_$(*))
 
-include ../../../bpftool/vmlinux.h.mk
+vmlinux.h:
+	$(Q)bpftool btf dump file /sys/kernel/btf/vmlinux format c > ${@}
 
 attach:
 	${Q}sudo ip link set dev ${IF} xdp obj drop.o

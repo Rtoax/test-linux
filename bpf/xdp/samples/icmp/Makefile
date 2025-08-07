@@ -23,7 +23,8 @@ build: $(BPF_OBJ)
 $(BPF_OBJ): %.o: %.c vmlinux.h
 	clang ${CLANG_CFLAGS} -o $@ -c $<
 
-include ../../../bpftool/vmlinux.h.mk
+vmlinux.h:
+	bpftool btf dump file /sys/kernel/btf/vmlinux format c > ${@}
 
 install: $(BPF_OBJ)
 	sudo bpftool prog load $(BPF_OBJ) /sys/fs/bpf/$(TARGET)

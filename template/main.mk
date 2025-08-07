@@ -143,7 +143,7 @@ endif
 ifneq ($(HAVE_LLVM)$(targets-llvm-ll),)
   include ${TEMPLATE_DIR}/target-llvm.mk
 endif
-ifneq ($(targets-bpf),)
+ifneq ($(targets-bpf)$(VMLINUX_H),)
   include ${TEMPLATE_DIR}/target-bpf.mk
 endif
 ifneq ($(targets-rust),)

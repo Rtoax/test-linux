@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
-CLANG ?= $(shell which clang 2>/dev/null)
+CLANG := $(shell which clang 2>/dev/null)
 LLVM_OBJDUMP := $(shell which llvm-objdump 2>/dev/null)
+VMLINUX_H := vmlinux.h
 
 ifeq ($(CLANG),)
   $(error Not found clang, please install clang first)
@@ -63,3 +64,7 @@ ${OUTPUT}%.bpf.btf: ${OUTPUT}%.bpf.o | ${OUTPUT}
 #$(targets-bpf): %:
 #	$(call log_tgt_exe,LD BPF,$(<),$(@))
 #	${Q}$(CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*))
+
+${VMLINUX_H}: | ${OUTPUT}
+	$(call log_tgt_obj,BTF_H,,$(@))
+	$(call bpf_gen_vmlinux_h,${VMLINUX_H})
