@@ -117,6 +117,7 @@ drawline() {
 		esac
 	done
 
+	# x doesn't change, so draw a vertical line.
 	if [[ ${xstart} -eq ${xend} ]]; then
 		if [[ $ystart -lt $yend ]]; then
 			seq_args="$ystart 1 $yend"
@@ -133,6 +134,7 @@ drawline() {
 			pgotoxy $iy $xstart ${B2}
 		done
 		pgotoxy $(($iy ${arrow_inc})) $xstart ${arrow}
+	# y doesn't change, which means draw a horizontal line.
 	elif [[ ${ystart} -eq ${yend} ]]; then
 		if [[ $xstart -lt $xend ]]; then
 			seq_args="$xstart 1 $xend"
