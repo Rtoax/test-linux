@@ -31,7 +31,7 @@ drawline() {
 	local ix xstart xend
 	local iy ystart yend
 	local arrow
-	local seq_args
+	local seq_args arrow_inc
 
 	xstart=$1
 	xend=$2
@@ -42,10 +42,12 @@ drawline() {
 	if [[ ${xstart} -eq ${xend} ]]; then
 		if [[ $ystart -lt $yend ]]; then
 			seq_args="$ystart 1 $yend"
-			[[ ${arrow} ]] && arrow=${B9}
+			arrow_inc="+ 1"
+			[[ ${arrow} ]] && arrow=${B10}
 		else
 			seq_args="$ystart -1 $yend"
-			[[ ${arrow} ]] && arrow=${B10}
+			arrow_inc="- 1"
+			[[ ${arrow} ]] && arrow=${B9}
 		fi
 
 		for iy in $(seq $seq_args)
@@ -53,14 +55,16 @@ drawline() {
 			gotoxy $iy $xstart
 			printf "%s" ${B2}
 		done
-		gotoxy $(($iy + 1)) $xstart
+		gotoxy $(($iy ${arrow_inc})) $xstart
 		printf "%s" ${arrow}
 	elif [[ ${ystart} -eq ${yend} ]]; then
 		if [[ $xstart -lt $xend ]]; then
 			seq_args="$xstart 1 $xend"
+			arrow_inc="+ 1"
 			[[ ${arrow} ]] && arrow=${B12}
 		else
 			seq_args="$xstart -1 $xend"
+			arrow_inc="- 1"
 			[[ ${arrow} ]] && arrow=${B11}
 		fi
 
@@ -69,7 +73,7 @@ drawline() {
 			gotoxy $ystart $ix
 			printf "%s" ${B8}
 		done
-		gotoxy $ystart $(($ix + 1))
+		gotoxy $ystart $(($ix ${arrow_inc}))
 		printf "%s" ${arrow}
 	else
 		echo >&2 "ERROR: invalid parameter"
@@ -97,5 +101,6 @@ clear
 horizontal_line 4 $((${TERM_WIDTH} - 4)) ${TERM_HEIGHT} YES
 horizontal_line $((${TERM_WIDTH} - 4)) 4 $((${TERM_HEIGHT} - 2)) YES
 vertical_line 4 $((${TERM_HEIGHT} - 4)) ${TERM_WIDTH} YES
-gotoxy 0 0
+vertical_line $((${TERM_HEIGHT} - 4)) 4 $((${TERM_WIDTH} - 2 )) YES
+gotoxy ${TERM_HEIGHT} 0
 echo
