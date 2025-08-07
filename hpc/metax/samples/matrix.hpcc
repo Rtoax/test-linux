@@ -93,7 +93,7 @@ struct {
 	.unit_time = NS2US,
 };
 
-const char *version = "v1.0.0 "
+const char *version = "v1.0.1 "
 #if defined(HAVE_HCCL)
 	"(GPU MetaX)"
 #elif defined(HAVE_CUDA)
@@ -565,7 +565,7 @@ int main(int argc, char *argv[])
 
 	unsigned long flops_ns;
 #if defined(HAVE_HCCL) || defined(HAVE_CUDA)
-	flops_ns = kern_gpu_ns - kern_nocal_ns; /* FIXME: use correct time */
+	flops_ns = kern_gpu_ns; /* Contain kernel call latency */
 #else
 	flops_ns = cal_ns;
 #endif
