@@ -17,6 +17,29 @@ readonly ARROW_DOWN='▼'
 readonly ARROW_LEFT='◀'
 readonly ARROW_RIGHT='►'
 
+readonly RED="\033[31m"
+readonly GREEN="\033[32m"
+readonly YELLOW="\033[33m"
+readonly BLUE="\033[34m"
+readonly PURPLE="\033[35m"
+
+readonly BOLD="\033[1m"
+readonly GRAY="\033[2m"
+readonly ITALIC="\033[3m"
+readonly UL="\033[4m" # Underline
+readonly REVERSE="\033[7m"
+
+readonly RST="\033[m"
+
+error() {
+	echo -e >&2 "${RED}ERROR: ${@}${RST}"
+	exit 1
+}
+
+warning() {
+	echo -e >&2 "${RED}WARNING: ${@}${RST}"
+}
+
 gotoxy() {
 	local x=$2 y=$1
 	printf "\033[%d;%df" ${y} ${x}
@@ -76,8 +99,7 @@ drawline() {
 		gotoxy $ystart $(($ix ${arrow_inc}))
 		printf "%s" ${arrow}
 	else
-		echo >&2 "ERROR: invalid parameter"
-		exit 1
+		error "$0: invalid parameter"
 	fi
 }
 
@@ -97,6 +119,40 @@ vertical_line() {
 	drawline $3 $3 $1 $2 $4
 }
 
+drawcurve() {
+	local X=()
+	local Y=()
+
+	local ARGS=$(getopt --options x:y: \
+		-n drawcurve -- "$@")
+
+	test $? != 0 && error "$0: getopt failed"
+
+	eval set -- "$ARGS"
+
+	while true; do
+		case $1 in
+		-x)
+			shift
+			X+=( $1 )
+			shift
+			;;
+		-y)
+			shift
+			Y+=( $1 )
+			shift
+			;;
+		--)
+			shift
+			break
+			;;
+		esac
+	done
+
+	[[ ${#X[@]} -ne ${#Y[@]} ]] && error "$0: Number -x != -y"
+
+}
+
 clear
 horizontal_line 4 $((${TERM_WIDTH} - 4)) ${TERM_HEIGHT} YES
 horizontal_line $((${TERM_WIDTH} - 4)) 4 $((${TERM_HEIGHT} - 2)) YES
@@ -104,3 +160,4 @@ vertical_line 4 $((${TERM_HEIGHT} - 4)) ${TERM_WIDTH} YES
 vertical_line $((${TERM_HEIGHT} - 4)) 4 $((${TERM_WIDTH} - 2 )) YES
 gotoxy ${TERM_HEIGHT} 0
 echo
+drawcurve -x 1 -y 1 -x 2 -y 2
