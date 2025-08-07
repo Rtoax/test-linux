@@ -12,7 +12,7 @@ $ make config
 ## Install depends
 
 ```
-$ make installdeps
+$ sudo make installdeps
 ```
 
 ## Compile in Top Directory

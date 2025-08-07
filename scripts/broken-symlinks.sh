@@ -6,7 +6,7 @@ readonly GIT_TOPDIR=$(git rev-parse --show-toplevel 2>/dev/null || :)
 
 remove_broken_symlinks()
 {
-	sudo find ${GIT_TOPDIR} -type l -xtype l -delete
+	find ${GIT_TOPDIR} -type l -xtype l -delete
 }
 
 bad_way()

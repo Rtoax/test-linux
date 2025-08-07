@@ -131,7 +131,7 @@ inst_eval()
 
 dnf_upgrade()
 {
-	inst_eval sudo dnf up ${dnf_args[@]} -y --allowerasing --nobest || {
+	inst_eval dnf up ${dnf_args[@]} -y --allowerasing --nobest || {
 		echo "WARNING: Failed to upgrade"
 		true
 	}
@@ -139,18 +139,18 @@ dnf_upgrade()
 
 apt_upgrade()
 {
-	inst_eval sudo apt update -y || :
-	inst_eval sudo apt list --upgradable || :
-	inst_eval sudo apt upgrade --fix-missing -y || {
+	inst_eval apt update -y || :
+	inst_eval apt list --upgradable || :
+	inst_eval apt upgrade --fix-missing -y || {
 		echo "WARNING: Failed to upgrade"
 		true
 	}
-	inst_eval sudo apt autoremove -y || :
+	inst_eval apt autoremove -y || :
 }
 
 zypper_upgrade()
 {
-	inst_eval sudo zypper update -y || {
+	inst_eval zypper update -y || {
 		echo "WARNING: Failed to upgrade"
 		true
 	}
@@ -158,34 +158,34 @@ zypper_upgrade()
 
 dnf_install()
 {
-	inst_eval sudo dnf install -y ${dnf_args[@]} ${@}
+	inst_eval dnf install -y ${dnf_args[@]} ${@}
 }
 
 apt_install()
 {
-	inst_eval sudo apt install -y ${apt_args[@]} ${@}
+	inst_eval apt install -y ${apt_args[@]} ${@}
 }
 
 zypper_install()
 {
-	inst_eval sudo zypper install -y ${zypper_args[@]} ${@}
+	inst_eval zypper install -y ${zypper_args[@]} ${@}
 }
 
 dnf_remove()
 {
 	local ARGS=$(echo ${dnf_args[@]} | sed 's/--allowerasing//g' \
 			| sed 's/--skip-broken//g')
-	inst_eval sudo dnf remove -y ${ARGS} ${@}
+	inst_eval dnf remove -y ${ARGS} ${@}
 }
 
 apt_remove()
 {
-	inst_eval sudo apt remove -y ${apt_args[@]} ${@}
+	inst_eval apt remove -y ${apt_args[@]} ${@}
 }
 
 zypper_remove()
 {
-	inst_eval sudo zypper remove -y ${zypper_args[@]} ${@}
+	inst_eval zypper remove -y ${zypper_args[@]} ${@}
 }
 
 os_operator()
@@ -274,7 +274,6 @@ os_packages()
 }
 
 [[ ! -e /etc/os-release ]] && echo "ERROR: No /etc/os-release found" && exit 1
-[[ ! -e /usr/bin/sudo ]] && echo "ERROR: Not found sudo, please install sudo first" && exit 1
 [[ ! -e /usr/bin/getopt ]] && echo "WARNING: Not found getopt, try install util-linux first" && {
 	os_install util-linux
 }
@@ -670,7 +669,7 @@ enable_srvs+=( xrdp.service )
 
 if [[ $(is_rhel_like) ]] && [[ ${have_3rd_party} ]]; then
 	if [[ ! -e /etc/yum.repos.d/scootersoftware.repo ]]; then
-		cat <<-EOF | sudo tee /etc/yum.repos.d/scootersoftware.repo
+		cat <<-EOF | tee /etc/yum.repos.d/scootersoftware.repo
 		[scootersoftware]
 		name=Scooter Software
 		baseurl=https://www.scootersoftware.com/bcompare4
@@ -682,7 +681,7 @@ if [[ $(is_rhel_like) ]] && [[ ${have_3rd_party} ]]; then
 	pkgs_desktop+=( bcompare )
 
 	if [[ ! -e /etc/yum.repos.d/vscode.repo ]]; then
-		cat <<-EOF | sudo tee /etc/yum.repos.d/vscode.repo
+		cat <<-EOF | tee /etc/yum.repos.d/vscode.repo
 		[vscode]
 		name=Visual Studio Code
 		baseurl=https://packages.microsoft.com/yumrepos/vscode
@@ -694,7 +693,7 @@ if [[ $(is_rhel_like) ]] && [[ ${have_3rd_party} ]]; then
 	pkgs_desktop+=( code )
 
 	if [[ ! -e /etc/yum.repos.d/google-chrome.repo ]]; then
-		cat <<-EOF | sudo tee /etc/yum.repos.d/google-chrome.repo
+		cat <<-EOF | tee /etc/yum.repos.d/google-chrome.repo
 		[google-chrome]
 		name=google-chrome
 		baseurl=https://dl.google.com/linux/chrome/rpm/stable/\$basearch/
@@ -1217,12 +1216,12 @@ if [[ ${have_pip} ]] && [[ -e /usr/bin/pip3 ]]; then
 	if [[ $(is_os debian ubuntu) ]]; then
 		PIP_EXTRA_ARGS=( --break-system-packages )
 	fi
-	inst_eval sudo pip3 install ${PIP_EXTRA_ARGS[@]} "${pip_whls[@]}"
+	inst_eval pip3 install ${PIP_EXTRA_ARGS[@]} "${pip_whls[@]}"
 fi
 
 if [[ ${have_services} ]] && [[ ${enable_srvs} ]]; then
 	for srv in ${enable_srvs[@]}
 	do
-		inst_eval sudo systemctl enable --now ${srv}
+		inst_eval systemctl enable --now ${srv}
 	done
 fi

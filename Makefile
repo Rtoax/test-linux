@@ -100,19 +100,19 @@ installdeps:
 .PHONY: install
 install: uninstall
 	@echo "Install"
-	${Q}sudo ln -s ${TL_TOPDIR}/scripts/git/bigfile.sh /usr/bin/git-bigfile
-	${Q}sudo ln -s ${TL_TOPDIR}/scripts/git/statistic.sh /usr/bin/git-statistic
-	${Q}sudo ln -s ${TL_TOPDIR}/scripts/git/statistic.py /usr/bin/git-statistic.py
-	${Q}sudo ln -s ${TL_TOPDIR}/scripts/git/push-remote-all.sh /usr/bin/git-push-remote-all
-	${Q}sudo ln -s ${TL_TOPDIR}/scripts/git/push-remote-all.sh /usr/bin/git-push-remote-all-tags
-	${Q}sudo ln -s ${TL_TOPDIR}/scripts/git/rm-permanent.sh /usr/bin/git-rm-permanent
-	${Q}sudo ln -s ${TL_TOPDIR}/scripts/patchset.sh /usr/bin/patchset
-	${Q}sudo ln -s ${TL_TOPDIR}/scripts/kconfig_compare.sh /usr/bin/kconfig_compare
+	${Q}ln -s ${TL_TOPDIR}/scripts/git/bigfile.sh /usr/bin/git-bigfile
+	${Q}ln -s ${TL_TOPDIR}/scripts/git/statistic.sh /usr/bin/git-statistic
+	${Q}ln -s ${TL_TOPDIR}/scripts/git/statistic.py /usr/bin/git-statistic.py
+	${Q}ln -s ${TL_TOPDIR}/scripts/git/push-remote-all.sh /usr/bin/git-push-remote-all
+	${Q}ln -s ${TL_TOPDIR}/scripts/git/push-remote-all.sh /usr/bin/git-push-remote-all-tags
+	${Q}ln -s ${TL_TOPDIR}/scripts/git/rm-permanent.sh /usr/bin/git-rm-permanent
+	${Q}ln -s ${TL_TOPDIR}/scripts/patchset.sh /usr/bin/patchset
+	${Q}ln -s ${TL_TOPDIR}/scripts/kconfig_compare.sh /usr/bin/kconfig_compare
 
 .PHONY: uninstall
 uninstall:
 	@echo "Uninstall"
-	${Q}sudo rm -f /usr/bin/git-bigfile \
+	${Q}rm -f /usr/bin/git-bigfile \
 		/usr/bin/git-statistic \
 		/usr/bin/git-statistic.py \
 		/usr/bin/git-push-remote-all \

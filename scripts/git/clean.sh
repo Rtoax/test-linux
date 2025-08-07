@@ -95,5 +95,5 @@ if [[ ${answer} != y ]] && [[ -z ${FORCE} ]]; then
 	done
 fi
 
-sudo git clean -dfx
+git clean -dfx
 echo "Clean git"

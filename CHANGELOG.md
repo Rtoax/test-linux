@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- Add INSTALL.md;
 - kmod: add kcompile.mk;
 - bpf: add kconfig;
 - btf: add kconfig;
@@ -18,6 +19,7 @@ and this project adheres to
 - bpf: add pure userspace code tcpdump.c;
 - kprobe: add README.md;
 #### Changed
+- make,script: Remove sudo from scripts;
 #### Deprecated
 #### Removed
 - bpftool: remove vmlinux.h.mk;
