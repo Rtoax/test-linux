@@ -2,6 +2,7 @@
 CLANG := $(shell which clang 2>/dev/null)
 LLVM_OBJDUMP := $(shell which llvm-objdump 2>/dev/null)
 VMLINUX_H := vmlinux.h
+BPFTOOL := bpftool
 
 ifeq ($(CLANG),)
   $(error Not found clang, please install clang first)
@@ -11,11 +12,7 @@ ifeq ($(LLVM_OBJDUMP),)
   $(error Not found llvm-objdump, please install llvm first)
 endif
 
-PAHOLE := $(shell which pahole 2>/dev/null || true)
-ifeq ($(PAHOLE),)
-  $(error Not found pahole, please install dwarves)
-endif
-
+include ${TEMPLATE_DIR}/../pahole/pahole.mk
 include ${TEMPLATE_DIR}/../bpf/bpf.mk
 include ${TEMPLATE_DIR}/../bpf/bpftool/bpftool.mk
 include ${TEMPLATE_DIR}/../bpf/btf/btf.mk
