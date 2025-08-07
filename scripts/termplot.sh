@@ -40,7 +40,21 @@ drawline() {
 	arrow=$5
 
 	if [[ ${xstart} -eq ${xend} ]]; then
-		echo "TODO"
+		if [[ $ystart -lt $yend ]]; then
+			seq_args="$ystart 1 $yend"
+			[[ ${arrow} ]] && arrow=${B9}
+		else
+			seq_args="$ystart -1 $yend"
+			[[ ${arrow} ]] && arrow=${B10}
+		fi
+
+		for iy in $(seq $seq_args)
+		do
+			gotoxy $iy $xstart
+			printf "%s" ${B2}
+		done
+		gotoxy $(($iy + 1)) $xstart
+		printf "%s" ${arrow}
 	elif [[ ${ystart} -eq ${yend} ]]; then
 		if [[ $xstart -lt $xend ]]; then
 			seq_args="$xstart 1 $xend"
@@ -55,6 +69,7 @@ drawline() {
 			gotoxy $ystart $ix
 			printf "%s" ${B8}
 		done
+		gotoxy $ystart $(($ix + 1))
 		printf "%s" ${arrow}
 	else
 		echo >&2 "ERROR: invalid parameter"
@@ -70,13 +85,17 @@ horizontal_line() {
 	drawline $1 $2 $3 $3 $4
 }
 
-# $1 - x
-# $2 - y
-# $3 - length
+# $1 - y start
+# $2 - y end
+# $3 - x
 # $4 - with arrow or not
-#vertical_line() {
-#}
+vertical_line() {
+	drawline $3 $3 $1 $2 $4
+}
 
 clear
 horizontal_line 4 $((${TERM_WIDTH} - 4)) ${TERM_HEIGHT} YES
+horizontal_line $((${TERM_WIDTH} - 4)) 4 $((${TERM_HEIGHT} - 2)) YES
+vertical_line 4 $((${TERM_HEIGHT} - 4)) ${TERM_WIDTH} YES
+gotoxy 0 0
 echo
