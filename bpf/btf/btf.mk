@@ -1,12 +1,11 @@
 # SPDX-License-Identifier: GPL-3.0
 SHELL := bash
-Q := @
 BPFTOOL := bpftool
 VMLINUX_H := vmlinux.h
 
 # Use the bpftool command to generate a series of btf header files.
 define bpf_gen_btf_h
-	$(Q)${BPFTOOL} btf dump file /sys/kernel/btf/${1} format c > ${2}
+	${BPFTOOL} btf dump file /sys/kernel/btf/${1} format c > ${2}
 endef
 
 define bpf_gen_vmlinux_h
