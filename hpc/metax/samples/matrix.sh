@@ -5,6 +5,7 @@ readonly PROG=$0
 readonly loop=10000
 program=matrix
 gpu=0
+dim_2=
 max_size=10000
 sz_start=100
 sz_interval=50
@@ -19,6 +20,7 @@ SYNOPSIS
 
 ARGUMENTS
 	-g, --gpu [GPU]        running on GPU
+	-2, --2dim             use 2D grid/block instead of 1D
 	-p, --prog [PROG]      set ELF program
 	-s, --start [NUM]      set matrix size start, default: ${sz_start}
 	-M, --max [NUM]        set matrix max size, default: ${max_size}
@@ -31,8 +33,9 @@ EXAMPLES
 	exit ${1-0}
 }
 
-TEMP_ARGS=$(getopt --options g:p:s:M:i:h \
+TEMP_ARGS=$(getopt --options g:2p:s:M:i:h \
 	--long gpu: \
+	--long 2dim \
 	--long prog: \
 	--long start: \
 	--long max: \
@@ -49,6 +52,10 @@ while true; do
 		shift
 		gpu=$1
 		shift
+		;;
+	-2 | --2dim)
+		shift
+		dim_2=$1
 		;;
 	-p | --prog)
 		shift
@@ -89,5 +96,6 @@ do
 	else
 		verbose=""
 	fi
-	./${program} -m${m} -n${m} -N${loop} -i2 ${verbose} --gpu ${gpu} ${@} | tee --append ${program}.log
+	./${program} -m${m} -n${m} -N${loop} -i2 ${verbose} --gpu ${gpu} ${dim_2:+-2} ${@} | \
+		tee --append ${program}.log
 done
