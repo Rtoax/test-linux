@@ -56,11 +56,50 @@ drawline() {
 	local arrow
 	local seq_args arrow_inc
 
-	xstart=$1
-	xend=$2
-	ystart=$3
-	yend=$4
-	arrow=$5
+	local ARGS=$(getopt --options x:X:y:Y:a \
+		--long xstart: \
+		--long xend: \
+		--long ystart: \
+		--long yend: \
+		--long arrow \
+		-n drawline -- "$@")
+
+	test $? != 0 && error "$0: getopt failed"
+
+	eval set -- "$ARGS"
+
+	while true; do
+		case $1 in
+		-x | --xstart)
+			shift
+			xstart=$1
+			shift
+			;;
+		-X | --xend)
+			shift
+			xend=$1
+			shift
+			;;
+		-y | --ystart)
+			shift
+			ystart=$1
+			shift
+			;;
+		-Y | --yend)
+			shift
+			yend=$1
+			shift
+			;;
+		-a | --arrow)
+			shift
+			arrow=YES
+			;;
+		--)
+			shift
+			break
+			;;
+		esac
+	done
 
 	if [[ ${xstart} -eq ${xend} ]]; then
 		if [[ $ystart -lt $yend ]]; then
@@ -108,7 +147,7 @@ drawline() {
 # $3 - y
 # $4 - with arrow or not
 horizontal_line() {
-	drawline $1 $2 $3 $3 $4
+	drawline --xstart $1 --xend $2 --ystart $3 --yend $3 ${4:+--arrow}
 }
 
 # $1 - y start
@@ -116,7 +155,7 @@ horizontal_line() {
 # $3 - x
 # $4 - with arrow or not
 vertical_line() {
-	drawline $3 $3 $1 $2 $4
+	drawline --xstart $3 --xend $3 --ystart $1 --yend $2 ${4:+--arrow}
 }
 
 drawcurve() {
