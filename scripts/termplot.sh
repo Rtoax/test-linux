@@ -45,11 +45,6 @@ gotoxy() {
 	printf "\033[%d;%df" ${y} ${x}
 }
 
-# $1 - x start
-# $2 - x end
-# $3 - y start
-# $4 - y end
-# $5 - with arrow or not
 drawline() {
 	local ix xstart xend
 	local iy ystart yend
@@ -59,8 +54,10 @@ drawline() {
 	local ARGS=$(getopt --options x:X:y:Y:a \
 		--long xstart: \
 		--long xend: \
+		--long xx: \
 		--long ystart: \
 		--long yend: \
+		--long yy: \
 		--long arrow \
 		-n drawline -- "$@")
 
@@ -80,6 +77,12 @@ drawline() {
 			xend=$1
 			shift
 			;;
+		--xx)
+			shift
+			xstart=$1
+			xend=$1
+			shift
+			;;
 		-y | --ystart)
 			shift
 			ystart=$1
@@ -87,6 +90,12 @@ drawline() {
 			;;
 		-Y | --yend)
 			shift
+			yend=$1
+			shift
+			;;
+		--yy)
+			shift
+			ystart=$1
 			yend=$1
 			shift
 			;;
@@ -177,15 +186,11 @@ drawcurve() {
 }
 
 clear
-readonly bnd=4
-drawline --xstart ${bnd} --xend $((${TWIDTH} - ${bnd})) \
-	--ystart $((${THEIGHT} - ${bnd})) --yend $((${THEIGHT} - ${bnd})) --arrow
-drawline --xstart $((${TWIDTH} - ${bnd})) --xend $((${TWIDTH} - ${bnd})) \
-	--ystart $((${THEIGHT} - ${bnd})) --yend ${bnd} --arrow
-drawline --xstart $((${TWIDTH} - ${bnd})) --xend ${bnd} \
-	--ystart ${bnd} --yend ${bnd} --arrow
-drawline --xstart ${bnd} --xend ${bnd} \
-	--ystart ${bnd} --yend $((${THEIGHT} - ${bnd})) --arrow
+readonly bnd=5
+drawline --xstart ${bnd} --xend $((${TWIDTH} - ${bnd})) --yy $((${THEIGHT} - ${bnd})) --arrow
+drawline --xx $((${TWIDTH} - ${bnd})) --ystart $((${THEIGHT} - ${bnd})) --yend ${bnd} --arrow
+drawline --xstart $((${TWIDTH} - ${bnd})) --xend ${bnd} --yy ${bnd} --arrow
+drawline --xx ${bnd} --ystart ${bnd} --yend $((${THEIGHT} - ${bnd})) --arrow
 gotoxy ${THEIGHT} 0
 echo
 drawcurve -x 1 -y 1 -x 2 -y 2
