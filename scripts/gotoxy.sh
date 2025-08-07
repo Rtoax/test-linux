@@ -1,9 +1,9 @@
 #!/bin/bash
 set -e
 
-gotoxy()
-{
-	printf "\033[%d;%df" ${1} ${2}
+gotoxy() {
+	local x=$2 y=$1
+	printf "\033[%d;%df" ${y} ${x}
 }
 
 if [[ $(basename $0) == gotoxy.sh ]]; then

@@ -18,6 +18,7 @@ and this project adheres to
 - btf: parse kernel structure;
 - bpf: add pure userspace code tcpdump.c;
 - kprobe: add README.md;
+- scripts: add termplot.sh;
 #### Changed
 - make,script: Remove sudo from scripts;
 #### Deprecated

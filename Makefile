@@ -107,6 +107,7 @@ install: uninstall
 	${Q}ln -s ${TL_TOPDIR}/scripts/git/push-remote-all.sh /usr/bin/git-push-remote-all-tags
 	${Q}ln -s ${TL_TOPDIR}/scripts/git/rm-permanent.sh /usr/bin/git-rm-permanent
 	${Q}ln -s ${TL_TOPDIR}/scripts/patchset.sh /usr/bin/patchset
+	${Q}ln -s ${TL_TOPDIR}/scripts/termplot.sh /usr/bin/termplot
 	${Q}ln -s ${TL_TOPDIR}/scripts/kconfig_compare.sh /usr/bin/kconfig_compare
 
 .PHONY: uninstall
@@ -119,6 +120,7 @@ uninstall:
 		/usr/bin/git-push-remote-all-tags \
 		/usr/bin/git-rm-permanent \
 		/usr/bin/patchset \
+		/usr/bin/termplot \
 		/usr/bin/kconfig_compare
 
 .PHONY: docker
