@@ -12,6 +12,8 @@ no_cover_letter=
 dry_run=
 output_dir=tmp.patch
 
+abbrev_commits=()
+
 readonly RED="\033[31m"
 readonly GREEN="\033[32m"
 readonly YELLOW="\033[33m"
@@ -33,7 +35,7 @@ ${BOLD}NAME${RST}
 	patchset - Generate patchset
 
 ${BOLD}SYNOPSIS${RST}
-	patchset [options]
+	patchset [options] -- [commit1|commit2|...]
 
 ${BOLD}DESCRIPTION${RST}
 	Generate patchset to send email.
@@ -92,6 +94,10 @@ ${BOLD}LINKS${RST}
 error() {
 	echo -e >&2 "${RED}ERROR: ${@}${RST}"
 	exit 1
+}
+
+warning() {
+	echo -e >&2 "${RED}WARNING: ${@}${RST}"
 }
 
 __main__()
@@ -156,6 +162,7 @@ __main__()
 			;;
 		--)
 			shift
+			abbrev_commits+=( $@ )
 			break
 			;;
 		esac
@@ -175,8 +182,9 @@ my_eval()
 # ref: https://kernelnewbies.org/FirstKernelPatch
 patchset()
 {
-	[[ -z ${downer_commit} ]] && error "Must specify --from"
-	[[ -z ${upper_commit} ]] && error "Must specify --to"
+	if [[ -z ${downer_commit} ]] || [[ -z ${upper_commit} ]]; then
+		error "Must specify --from and --to"
+	fi
 	if [[ -e ${output_dir} ]] && [[ ! -d ${output_dir} ]]; then
 		error "${output_dir} exist but is not directory"
 	fi
@@ -200,4 +208,15 @@ patchset()
 }
 
 __main__ "$@"
-patchset
+
+# If the -- parameter is specified, a summary of the
+# commit is displayed.
+if [[ " ${@} " =~ " -- " ]]; then
+	if [[ -z ${abbrev_commits[@]} ]]; then
+		git log --abbrev=12 --pretty=format:'commit %h ("%s")'
+	else
+		git show -s --abbrev=12 --pretty=format:'commit %h ("%s")' ${abbrev_commits[@]}
+	fi
+else
+	patchset
+fi
