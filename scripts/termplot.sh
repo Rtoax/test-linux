@@ -1,8 +1,8 @@
 #!/bin/bash
 # Copyright (C) 2025 Rong Tao. All rights reserved.
 set -e
-readonly TERM_HEIGHT=$(( $(stty size | awk '{print $1}') - 10 ))
-readonly TERM_WIDTH=$(( $(stty size | awk '{print $2}') - 10 ))
+readonly THEIGHT=$(stty size | awk '{print $1}')
+readonly TWIDTH=$(stty size | awk '{print $2}')
 
 readonly B1='┌'
 readonly B2='│'
@@ -142,22 +142,6 @@ drawline() {
 	fi
 }
 
-# $1 - x start
-# $2 - x end
-# $3 - y
-# $4 - with arrow or not
-horizontal_line() {
-	drawline --xstart $1 --xend $2 --ystart $3 --yend $3 ${4:+--arrow}
-}
-
-# $1 - y start
-# $2 - y end
-# $3 - x
-# $4 - with arrow or not
-vertical_line() {
-	drawline --xstart $3 --xend $3 --ystart $1 --yend $2 ${4:+--arrow}
-}
-
 drawcurve() {
 	local X=()
 	local Y=()
@@ -193,10 +177,10 @@ drawcurve() {
 }
 
 clear
-horizontal_line 4 $((${TERM_WIDTH} - 4)) ${TERM_HEIGHT} YES
-horizontal_line $((${TERM_WIDTH} - 4)) 4 $((${TERM_HEIGHT} - 2)) YES
-vertical_line 4 $((${TERM_HEIGHT} - 4)) ${TERM_WIDTH} YES
-vertical_line $((${TERM_HEIGHT} - 4)) 4 $((${TERM_WIDTH} - 2 )) YES
-gotoxy ${TERM_HEIGHT} 0
+drawline --xstart 1 --xend ${TWIDTH} --ystart ${THEIGHT} --yend ${THEIGHT} --arrow
+drawline --xstart ${TWIDTH} --xend ${TWIDTH} --ystart ${THEIGHT} --yend 1 --arrow
+drawline --xstart ${TWIDTH} --xend 1 --ystart 1 --yend 1 --arrow
+drawline --xstart 1 --xend 1 --ystart 1 --yend ${THEIGHT} --arrow
+gotoxy ${THEIGHT} 0
 echo
 drawcurve -x 1 -y 1 -x 2 -y 2
