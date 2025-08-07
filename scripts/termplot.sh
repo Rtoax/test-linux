@@ -177,10 +177,15 @@ drawcurve() {
 }
 
 clear
-drawline --xstart 1 --xend ${TWIDTH} --ystart ${THEIGHT} --yend ${THEIGHT} --arrow
-drawline --xstart ${TWIDTH} --xend ${TWIDTH} --ystart ${THEIGHT} --yend 1 --arrow
-drawline --xstart ${TWIDTH} --xend 1 --ystart 1 --yend 1 --arrow
-drawline --xstart 1 --xend 1 --ystart 1 --yend ${THEIGHT} --arrow
+readonly bnd=4
+drawline --xstart ${bnd} --xend $((${TWIDTH} - ${bnd})) \
+	--ystart $((${THEIGHT} - ${bnd})) --yend $((${THEIGHT} - ${bnd})) --arrow
+drawline --xstart $((${TWIDTH} - ${bnd})) --xend $((${TWIDTH} - ${bnd})) \
+	--ystart $((${THEIGHT} - ${bnd})) --yend ${bnd} --arrow
+drawline --xstart $((${TWIDTH} - ${bnd})) --xend ${bnd} \
+	--ystart ${bnd} --yend ${bnd} --arrow
+drawline --xstart ${bnd} --xend ${bnd} \
+	--ystart ${bnd} --yend $((${THEIGHT} - ${bnd})) --arrow
 gotoxy ${THEIGHT} 0
 echo
 drawcurve -x 1 -y 1 -x 2 -y 2
