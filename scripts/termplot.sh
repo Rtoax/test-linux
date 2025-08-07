@@ -45,6 +45,13 @@ gotoxy() {
 	printf "\033[%d;%df" ${y} ${x}
 }
 
+pgotoxy() {
+	local x=$2 y=$1
+	shift 2
+	printf "\033[%d;%df" ${y} ${x}
+	printf "$@"
+}
+
 drawline() {
 	local ix xstart xend
 	local iy ystart yend
@@ -123,11 +130,9 @@ drawline() {
 
 		for iy in $(seq $seq_args)
 		do
-			gotoxy $iy $xstart
-			printf "%s" ${B2}
+			pgotoxy $iy $xstart ${B2}
 		done
-		gotoxy $(($iy ${arrow_inc})) $xstart
-		printf "%s" ${arrow}
+		pgotoxy $(($iy ${arrow_inc})) $xstart ${arrow}
 	elif [[ ${ystart} -eq ${yend} ]]; then
 		if [[ $xstart -lt $xend ]]; then
 			seq_args="$xstart 1 $xend"
@@ -141,11 +146,9 @@ drawline() {
 
 		for ix in $(seq $seq_args)
 		do
-			gotoxy $ystart $ix
-			printf "%s" ${B8}
+			pgotoxy $ystart $ix ${B8}
 		done
-		gotoxy $ystart $(($ix ${arrow_inc}))
-		printf "%s" ${arrow}
+		pgotoxy $ystart $(($ix ${arrow_inc})) ${arrow}
 	else
 		error "$0: invalid parameter"
 	fi
