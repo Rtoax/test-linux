@@ -17,9 +17,9 @@ readonly B10='▼'
 readonly B11='◀'
 readonly B12='►'
 
-height=20
 height_start=5
 width_start=5
+height=20
 width=$(( ${TERM_WIDTH} - ${width_start} * 2 ))
 
 gotoxy() {
@@ -42,7 +42,7 @@ horizontal_line() {
 		gotoxy $y $ix
 		printf "%s" ${B8}
 	done
-	[[ ${arrow} ]] && printf "%s" ${B12}
+	[[ ${arrow} ]] && printf "%s" ${arrow}
 }
 
 # $1 - x
@@ -53,5 +53,5 @@ horizontal_line() {
 #}
 
 clear
-horizontal_line ${width_start} ${height_start} ${width} YES
+horizontal_line ${width_start} ${height_start} ${width} ${B12}
 echo
