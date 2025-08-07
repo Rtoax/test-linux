@@ -4,5 +4,8 @@ EXTRA_CFLAGS += -DCURRENT_PATH=\"$(PWD)\"
 obj-m := hello.o
 obj-m += hello2.o
 
+ccflags-y := -std=gnu99 -Wno-declaration-after-statement
+ccflags-y += -DCCFLAGS_Y=1
+
 CFLAGS_hello.o := -DHELLO1=1
 CFLAGS_hello2.o := -DHELLO2=1
