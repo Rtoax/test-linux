@@ -70,6 +70,8 @@ struct {
 		int gpu;
 		int cpu;
 	};
+	/* use 2D grid and block */
+	bool dim_2;
 	bool verbose;
 	unsigned long m, k, n;
 	bool vector;
@@ -80,6 +82,7 @@ struct {
 	unsigned int unit_time;
 } env = {
 	.gpu = 0,
+	.dim_2 = false,
 	.verbose = false,
 	.m = 2,
 	.k = 3,
@@ -93,7 +96,7 @@ struct {
 	.unit_time = NS2US,
 };
 
-const char *version = "v1.0.1 "
+const char *version = "v1.0.2 "
 #if defined(HAVE_HCCL)
 	"(GPU MetaX)"
 #elif defined(HAVE_CUDA)
@@ -104,13 +107,14 @@ const char *version = "v1.0.1 "
 ;
 
 const char argp_prog_doc[] =
-	"USAGE: [-m <NUM>] [-n <NUM>] [--nloop|-N <NUM>] [-i <VAL>] [-v]\n"
+	"USAGE: [-m <NUM>] [-n <NUM>] [--nloop|-N <NUM>] [-i <VAL>] [-2] [-v]\n"
 	"\n"
 	"Examples:\n"
 	" $ time ./matrix-mul -m200 -n200 -N10000 -i2";
 
 static const struct argp_option opts[] = {
 	{ "gpu", 'g', "GPU", 0, "Running on GPU" },
+	{ "2dim", '2', NULL, 1, "Use 2D grid and block of GPU" },
 	{ "vector", 'z', NULL, 1, "Call vector instead of matrix" },
 	{ "m-num", 'm', "M_NUM", 0, "Matrix M number" },
 	{ "k-num", 'k', "K_NUM", 0, "Matrix K number" },
@@ -129,6 +133,9 @@ static error_t parse_arg(int key, char *arg, struct argp_state *state)
 	switch (key) {
 	case 'g':
 		env.gpu = strtoul(arg, NULL, 10);
+		break;
+	case '2':
+		env.dim_2 = true;
 		break;
 	case 'm':
 		env.m = strtoul(arg, NULL, 10);
@@ -261,6 +268,31 @@ __global__ void matrix_mul(TYPE *A, TYPE *B, TYPE *C, TYPE *D,
 #endif
 }
 
+__global__ void matrix_mul_2d(TYPE *A, TYPE *B, TYPE *C, TYPE *D,
+			      TYPE alpha, TYPE beta,
+			      unsigned long m, unsigned long k,
+			      unsigned long n, bool nocal)
+{
+	unsigned long ic, in, im;
+
+#if defined(HAVE_HCCL) || defined(HAVE_CUDA)
+	in = threadIdx.x + blockDim.x * blockIdx.x;
+	im = threadIdx.y + blockDim.y * blockIdx.y;
+	if (in >= n || im >= m)
+		return;
+	{
+#else /* Running on CPU */
+	for (ic = 0; ic < m * n; ic++) {
+		in = ic % n;
+		im = ic / n;
+#endif
+		dev_matrix_mul_inner(A, B, C, D, alpha, beta, m, im, k, n, in, nocal);
+	}
+#if defined(HAVE_HCCL) || defined(HAVE_CUDA)
+	__syncthreads();
+#endif
+}
+
 static double matrix_mul_FLOPS(unsigned long ns)
 {
 	/**
@@ -353,8 +385,8 @@ int main(int argc, char *argv[])
 	unsigned long malloc_ns, h2d_ns, d2h_ns, kern_gpu_ns, kern_nocal_ns;
 	TYPE *dev_A, *dev_B, *dev_C, *dev_D;
 	cudaEvent_t ev_start, ev_stop;
-	dim3 block1;
-	dim3 grid1;
+	dim3 block1, block2;
+	dim3 grid1, grid2;
 #endif
 	TYPE *host_A, *host_B, *host_C, *host_D;
 
@@ -380,6 +412,8 @@ int main(int argc, char *argv[])
 			fprintf(stderr, "Matrix values set to %d\n", env.value);
 		if (env.vector)
 			fprintf(stderr, "Test vector instead of matrix\n");
+		if (env.dim_2)
+			fprintf(stderr, "Use 2D grid and block instead of 1D\n");
 	}
 
 	gpu_init(env.gpu);
@@ -406,6 +440,11 @@ int main(int argc, char *argv[])
 
 	block1.x = 512;
 	grid1.x = (env.m * env.n + 511) / 512;
+
+	block2.x = 512;
+	block2.y = 512;
+	grid2.x = (env.n + 511) / 512;
+	grid2.y = (env.m + 511) / 512;
 
 	cudaEventCreate(&ev_start);
 	cudaEventCreate(&ev_stop);
@@ -441,15 +480,22 @@ int main(int argc, char *argv[])
 	for (iloop = 0; iloop < env.nloop; iloop++) {
 #if defined(HAVE_HCCL) || defined(HAVE_CUDA)
 # define DIM	<<<grid1, block1>>>
+# define DIM2	<<<grid2, block2>>>
 
 		if (env.vector)
 			vector_mul DIM (dev_A, dev_B, dev_C, env.alpha,
 					env.m * env.n, false);
-		else
-			matrix_mul DIM (dev_A, dev_B, dev_C, dev_D,
-					env.alpha, env.beta,
-					env.m, env.k, env.n, false);
-
+		else {
+			if (env.dim_2) {
+				matrix_mul_2d DIM2 (dev_A, dev_B, dev_C, dev_D,
+						    env.alpha, env.beta,
+						    env.m, env.k, env.n, false);
+			} else {
+				matrix_mul DIM (dev_A, dev_B, dev_C, dev_D,
+						env.alpha, env.beta,
+						env.m, env.k, env.n, false);
+			}
+		}
 #else
 		if (env.vector)
 			vector_mul(host_A, host_B, host_C, env.alpha,
@@ -480,10 +526,17 @@ int main(int argc, char *argv[])
 		if (env.vector)
 			vector_mul DIM (dev_A, dev_B, dev_C, env.alpha,
 					env.m * env.n, true);
-		else
-			matrix_mul DIM (dev_A, dev_B, dev_C, dev_D,
-					env.alpha, env.beta,
-					env.m, env.k, env.n, true);
+		else {
+			if (env.dim_2) {
+				matrix_mul_2d DIM2 (dev_A, dev_B, dev_C, dev_D,
+						    env.alpha, env.beta,
+						    env.m, env.k, env.n, true);
+			} else {
+				matrix_mul DIM (dev_A, dev_B, dev_C, dev_D,
+						env.alpha, env.beta,
+						env.m, env.k, env.n, true);
+			}
+		}
 	}
 
 	cudaEventRecord(ev_stop);
