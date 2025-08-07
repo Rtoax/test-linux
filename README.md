@@ -72,7 +72,7 @@ CONFIG_LOCKUP_DETECTOR
 * Each `history.md` is store history of some technology.
 * Each **drawio** contains relate directory diagrams.
 * Never call `include` in `*.mk` file, only call `include` in Makefile.
-* Each `kconfig` contains kernel CONFIG.
+* Each `kconfig` contains kernel CONFIG, each CONFIG is placed in the kconfig of the corresponding directory, and the public CONFIG is placed in the kconfig of the top-level directory.
 * Each `*_helpers*` is helpers program/script of current directory, better `LGPL-2.1 OR BSD-2-Clause` license.
 
 

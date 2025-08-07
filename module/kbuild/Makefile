@@ -1,7 +1,4 @@
-KDIR = /lib/modules/`uname -r`/build
-
-ccflags-y := -std=gnu99 -Wno-declaration-after-statement
-ccflags-y += -DCCFLAGS_Y=1
+KDIR := /lib/modules/`uname -r`/build
 
 build:
 	${Q}make -C $(KDIR) M=`pwd`

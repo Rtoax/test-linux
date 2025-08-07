@@ -33,6 +33,10 @@ static int simple_init(void)
 	return -EINVAL;
 }
 
+static void simple_exit(void)
+{}
+
 module_init(simple_init);
+module_exit(simple_exit);
 MODULE_AUTHOR("Rong Tao");
 MODULE_LICENSE("GPL");
