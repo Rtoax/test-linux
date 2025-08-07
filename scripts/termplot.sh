@@ -27,7 +27,10 @@ gotoxy() {
 # $3 - y
 # $4 - with arrow or not
 horizontal_line() {
-	local ix xstart xend y arrow seq_args
+	local ix xstart xend
+	local y
+	local arrow
+	local seq_args
 
 	xstart=$1
 	xend=$2
@@ -36,8 +39,10 @@ horizontal_line() {
 
 	if [[ $xstart -lt $xend ]]; then
 		seq_args="$xstart 1 $xend"
+		[[ ${arrow} ]] && arrow=${B12}
 	else
 		seq_args="$xstart -1 $xend"
+		[[ ${arrow} ]] && arrow=${B11}
 	fi
 
 	for ix in $(seq $seq_args)
@@ -45,7 +50,7 @@ horizontal_line() {
 		gotoxy $y $ix
 		printf "%s" ${B8}
 	done
-	[[ ${arrow} ]] && printf "%s" ${arrow}
+	printf "%s" ${arrow}
 }
 
 # $1 - x
@@ -56,5 +61,5 @@ horizontal_line() {
 #}
 
 clear
-horizontal_line 4 $((${TERM_WIDTH} - 0)) ${TERM_HEIGHT} ${B12}
+horizontal_line 4 $((${TERM_WIDTH} - 4)) ${TERM_HEIGHT} YES
 echo
