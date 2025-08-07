@@ -1,9 +1,9 @@
 # SPDX-License-Identifier: GPL-3.0
-include btf.mk
 OUTPUT := .output/
 sub-dir := examples
 
-targets-prep := vmlinux.h
+VMLINUX_H := vmlinux.h
+targets-prep := ${VMLINUX_H}
 
 targets := btf_ksym
 targets += btf_kfunc
@@ -20,8 +20,6 @@ CFLAGS_btf_struct := -DTEST_BTF_KIND_STRUCT=1
 CFLAGS_btf_decl_tag := -DTEST_BTF_KIND_DECL_TAG=1
 
 include ../../template/main.mk
-
-include ../bpftool/vmlinux.h.mk
 
 ${OUTPUT}btf_helpers.o: btf_helpers.h
 

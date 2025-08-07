@@ -7,5 +7,3 @@ LDFLAGS := -lelf -lbpf
 include ../../../template/main.mk
 
 execsnoop: trace_helpers.o bpf_load.o loader.o
-
-include ../../bpftool/vmlinux.h.mk

@@ -17,6 +17,7 @@ and this project adheres to
 #### Changed
 #### Deprecated
 #### Removed
+- bpftool: remove vmlinux.h.mk;
 #### Fixed
 #### Security
 #### Docs
@@ -28,7 +29,6 @@ and this project adheres to
 #### Breaking Changes
 #### Added
 - hpc: add README.benchmark.md;
-- oom: remove symlink popen.c;
 - oom.c: support memory cgroup limit, and add global env;
 - libcgroup: add libcgroup.mk;
 - procfs: add sysrq-trigger tool;
@@ -46,6 +46,7 @@ and this project adheres to
 - hpc: Rename matrix-mul to matrix;
 #### Deprecated
 #### Removed
+- oom: remove symlink popen.c;
 #### Fixed
 #### Security
 #### Docs
