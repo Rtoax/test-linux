@@ -51,3 +51,10 @@ int gpu_clock_rate(int dev_id)
 	CUDA_BUG_CALL(cudaGetDeviceProperties(&prop, dev_id), return 0);
 	return prop.clockRate;
 }
+
+int gpu_max_threads_per_block(int dev_id)
+{
+	cudaDeviceProp prop;
+	CUDA_BUG_CALL(cudaGetDeviceProperties(&prop, dev_id), return 0);
+	return prop.maxThreadsPerBlock;
+}
