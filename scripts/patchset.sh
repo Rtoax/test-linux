@@ -102,7 +102,7 @@ warning() {
 
 __main__()
 {
-	TEMP=$(getopt \
+	local TEMP=$(getopt \
 		--options o:nv:h \
 		--long subject-prefix: \
 		--long from: \
