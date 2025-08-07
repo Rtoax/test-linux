@@ -24,33 +24,50 @@ gotoxy() {
 
 # $1 - x start
 # $2 - x end
-# $3 - y
-# $4 - with arrow or not
-horizontal_line() {
+# $3 - y start
+# $4 - y end
+# $5 - with arrow or not
+drawline() {
 	local ix xstart xend
-	local y
+	local iy ystart yend
 	local arrow
 	local seq_args
 
 	xstart=$1
 	xend=$2
-	y=$3
-	arrow=$4
+	ystart=$3
+	yend=$4
+	arrow=$5
 
-	if [[ $xstart -lt $xend ]]; then
-		seq_args="$xstart 1 $xend"
-		[[ ${arrow} ]] && arrow=${B12}
+	if [[ ${xstart} -eq ${xend} ]]; then
+		echo "TODO"
+	elif [[ ${ystart} -eq ${yend} ]]; then
+		if [[ $xstart -lt $xend ]]; then
+			seq_args="$xstart 1 $xend"
+			[[ ${arrow} ]] && arrow=${B12}
+		else
+			seq_args="$xstart -1 $xend"
+			[[ ${arrow} ]] && arrow=${B11}
+		fi
+
+		for ix in $(seq $seq_args)
+		do
+			gotoxy $ystart $ix
+			printf "%s" ${B8}
+		done
+		printf "%s" ${arrow}
 	else
-		seq_args="$xstart -1 $xend"
-		[[ ${arrow} ]] && arrow=${B11}
+		echo >&2 "ERROR: invalid parameter"
+		exit 1
 	fi
+}
 
-	for ix in $(seq $seq_args)
-	do
-		gotoxy $y $ix
-		printf "%s" ${B8}
-	done
-	printf "%s" ${arrow}
+# $1 - x start
+# $2 - x end
+# $3 - y
+# $4 - with arrow or not
+horizontal_line() {
+	drawline $1 $2 $3 $3 $4
 }
 
 # $1 - x
