@@ -153,12 +153,18 @@ void *map_base = mmap(0, map_size, PROT_READ|PROT_WRITE, MAP_SHARED, fd, 0);
 
 # Links
 
-- https://pcisig.com/specifications/pciexpress
-- https://admin.pci-ids.ucw.cz/read/PC
-- https://admin.pci-ids.ucw.cz/read/PD
-- https://pcisig.com/membership/member-companies
+## PCI-SIG Links
+
+- [Become a Member](https://pcisig.com/membership/become-member)
+- [Member Companies](https://pcisig.com/membership/member-companies)
+- [Specifications](https://pcisig.com/specifications/pciexpress)
 
 ## Git Links
 
 - https://github.com/pciutils/pciutils
 - git://git.kernel.org/pub/scm/utils/pciutils/pciutils.git
+
+## Other Links
+
+- https://admin.pci-ids.ucw.cz/read/PC
+- https://admin.pci-ids.ucw.cz/read/PD
