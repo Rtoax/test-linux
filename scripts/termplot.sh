@@ -42,6 +42,7 @@ warning() {
 
 gotoxy() {
 	local x=$2 y=$1
+	# or could use $ tput cup $y $x
 	printf "\033[%d;%df" ${y} ${x}
 }
 
