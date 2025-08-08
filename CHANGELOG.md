@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- template: add log.mk;
 - Add INSTALL.md;
 - kmod: add kcompile.mk;
 - bpf: add kconfig;
