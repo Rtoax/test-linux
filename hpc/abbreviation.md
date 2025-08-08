@@ -1,3 +1,5 @@
+- BLAS: Basic Linear Algebra Subprograms (基本线性代数子程序)
+- CRS: Compressed Sparse Row (压缩稀疏行)
 - FLOPs: Floating Point of Operations (浮点运算)
 - FLOPS: Floating Point Operations Per Second (每秒浮点运算个数)
 - FMA: Fused Multiply-Add ()

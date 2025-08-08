@@ -1,4 +1,3 @@
-- BLAS: Basic Linear Algebra Subprograms (基本线性代数子程序)
 - DNN: Deep Neural Network (深度神经网络)
 - EP: Execution Provider (执行提供者) @PD
 - Grid: (线程网格)
