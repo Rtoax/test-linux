@@ -40,7 +40,7 @@ while true; do
 done
 
 name=$1
-files=( $(find -name abbreviation.md) )
+files=( $(find -name abbrev.md) )
 
 list_all() {
 	for f in ${files[@]}

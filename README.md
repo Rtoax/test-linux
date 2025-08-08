@@ -66,9 +66,9 @@ CONFIG_LOCKUP_DETECTOR
 ## Files
 
 * Each `README.md` is current directory's description.
-* Each `abbreviation.md` is current directory's relative abbreviation.
+* Each `abbrev.md` is current directory's relative abbreviation.
 	- format: **abbreviation: full name (中文全称) @relate1 @relate2**
-	- scripts: `./abbreviation.sh` to check all abbreviations.
+	- scripts: `./abbrev.sh` to check all abbreviations.
 * Each `history.md` is store history of some technology.
 * Each **drawio** contains relate directory diagrams.
 * Never call `include` in `*.mk` file, only call `include` in Makefile.
@@ -76,7 +76,7 @@ CONFIG_LOCKUP_DETECTOR
 * Each `*_helpers*` is helpers program/script of current directory, better `LGPL-2.1 OR BSD-2-Clause` license.
 
 
-## abbreviation.md Example
+## abbrev.md Example
 
 - Syntax: `NAME[,ALIAS1,ALIAS2]: English shotcut (Chinese shotcut) @RELATE1 @RELATE2`
 

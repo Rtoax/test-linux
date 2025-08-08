@@ -20,6 +20,7 @@ and this project adheres to
 - kprobe: add README.md;
 - scripts: add termplot.sh;
 #### Changed
+- Rename all abbreviation.md to abbrev.md;
 - make,script: Remove sudo from scripts;
 #### Deprecated
 #### Removed
