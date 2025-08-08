@@ -72,18 +72,20 @@ include ${TEMPLATE_DIR}/../tlbuild.mk
 define git_relative_dir
 $(patsubst ${GIT_TOPDIR}/%,%,$(1))
 endef
-
+define timestamp
+[$(shell date '+%H:%M:%S')]
+endef
 define log_tgt_obj
-@printf '  %-8s ${ANSI_BOLD}%s${ANSI_RST} -> ${ANSI_BOLD}%s${ANSI_RST}\n' "${1}" "$(2)" "$(3)"
+@printf '$(call timestamp) %-8s ${ANSI_BOLD}%s${ANSI_RST} -> ${ANSI_BOLD}%s${ANSI_RST}\n' "${1}" "$(2)" "$(3)"
 endef
 define log_tgt_exe
-@printf '  %-8s ${ANSI_BOLD}%s${ANSI_RST} -> ${ANSI_BOLD}${ANSI_GRE}%s${ANSI_RST}\n' "${1}" "$(2)" "$(3)"
+@printf '$(call timestamp) %-8s ${ANSI_BOLD}%s${ANSI_RST} -> ${ANSI_BOLD}${ANSI_GRE}%s${ANSI_RST}\n' "${1}" "$(2)" "$(3)"
 endef
 define log_tgt_start
-@echo -e "[$(1)] ${ANSI_BOLD}${ANSI_GRE}$(2)${ANSI_RST} start"
+@echo -e "$(call timestamp) [$(1)] ${ANSI_BOLD}${ANSI_GRE}$(2)${ANSI_RST} start"
 endef
 define log_tgt_done
-@echo -e "[$(1)] ${ANSI_BOLD}${ANSI_YEL}$(2)${ANSI_RST} done"
+@echo -e "$(call timestamp) [$(1)] ${ANSI_BOLD}${ANSI_YEL}$(2)${ANSI_RST} done"
 endef
 
 include ${TEMPLATE_DIR}/../elf/pie.mk
