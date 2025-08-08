@@ -4,6 +4,7 @@
 - FLOPS: Floating Point Operations Per Second (每秒浮点运算个数)
 - FMA: Fused Multiply-Add ()
 - GFLOPS: Giga FLOPS (每秒10亿次的浮点运算数) @FLOPS
+- GEMM: General Matrix-Matrix Multiplication (广义矩阵乘法, C=α⋅A⋅B+β⋅C)
 - HPC: High Performance Compute (高性能计算)
 - MFLOPS: Mega FLOPS (每秒一百万次的浮点运算)
 - MPI: Message Passing Interface (消息传递接口)

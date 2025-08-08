@@ -50,6 +50,8 @@ enum test_type {
 	TEST_ROTM,	/* TODO */
 #endif
 	/**
+	 * GEMM: General Matrix-Matrix Multiplication
+	 *
 	 * fp: MetaX Mars X203 vs Nvidia H800
 	 * - commit a9912e59ae2e ("hpc: blas: gemm: Cmp MetaX Mars X203 and Nvidia H800")
 	 */
