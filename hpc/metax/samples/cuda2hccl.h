@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
+/* Copyright (c) 2025 Rong Tao */
 /* Metax has CUDA-compatible APIs */
 #pragma once
 
@@ -260,6 +261,9 @@
 	hcblasZgemm(handle, transa, transb, m, n, k, alpha, A, lda, B, ldb, beta, C, ldc)
 #define cublasHgemm(handle, transa, transb, m, n, k, alpha, A, lda, B, ldb, beta, C, ldc) \
 	hcblasHgemm(handle, transa, transb, m, n, k, alpha, A, lda, B, ldb, beta, C, ldc)
+
+#define cublasDgemv(handle, transa, m, n, alpha, a, lda, x, incx, beta, y, incy) \
+	hcblasDgemv(handle, transa, m, n, alpha, a, lda, x, incx, beta, y, incy)
 
 /**
  * cublasStatus_t cublasGemmEx(cublasHandle_t handle,
