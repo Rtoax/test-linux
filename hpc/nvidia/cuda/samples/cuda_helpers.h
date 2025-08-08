@@ -22,6 +22,15 @@
 }
 #define CUBLAS_CHECK_EXIT(CALL) CUBLAS_CHECK(CALL, exit(-1))
 
+#define CURAND_CHECK(CALL, ERROR_DO)	{				\
+	curandStatus_t __status = CALL;					\
+	if (__status != CURAND_STATUS_SUCCESS) {			\
+		fprintf(stderr, "ERROR: Rand %s failed, %d\n",		\
+			#CALL, __status);				\
+		ERROR_DO;						\
+	}								\
+}
+
 void gpu_init(int dev_id);
 void gpu_check_gpu_error(const char *msg);
 

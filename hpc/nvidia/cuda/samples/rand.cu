@@ -20,7 +20,7 @@
 int main(int argc, char *argv[])
 {
 	int version;
-	curandGetVersion(&version);
+	CURAND_CHECK(curandGetVersion(&version), exit(1));
 	printf(NAME " version %d\n", version);
 	return 0;
 }
