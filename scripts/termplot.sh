@@ -40,6 +40,10 @@ warning() {
 	echo -e >&2 "${RED}WARNING: ${@}${RST}"
 }
 
+abs() {
+	echo $(( $1 < 0 ? -$1 : $1 ));
+}
+
 gotoxy() {
 	local x=$2 y=$1
 	# or could use $ tput cup $y $x
@@ -152,49 +156,25 @@ drawline() {
 			pgotoxy $ystart $ix ${B8}
 		done
 		pgotoxy $ystart $(($ix ${arrow_inc})) ${arrow}
+	# Draw a diagonal line
 	else
-		local xmin xmax ymin ymax xlen ylen
-		local slope
-		if [[ ${xstart} -gt ${xend} ]]; then
-			xmin=${xend}
-			xmax=${xstart}
-		else
-			xmin=${xstart}
-			xmax=${xend}
-		fi
-		if [[ ${ystart} -gt ${yend} ]]; then
-			ymin=${yend}
-			ymax=${ystart}
-		else
-			ymin=${ystart}
-			ymax=${yend}
-		fi
+		local i dx dy abs_dx abs_dy steps
+		dx=$(( xend - xstart ))
+		dy=$(( yend - ystart ))
 
-		xlen=$(( ${xmax} - ${xmin} ))
-		ylen=$(( ${ymax} - ${ymin} ))
+		abs_dx=$(abs $dx)
+		abs_dy=$(abs $dy)
 
-		if [[ ${ymin} -eq ${ymax} ]]; then
-			slope="Inf"
+		if [ $abs_dx -ge $abs_dy ]; then
+			steps=$abs_dx
 		else
-			slope=$(echo "scale=0; 1000 * ${ylen} / ${xlen}" | bc)
+			steps=$abs_dy
 		fi
-
-		# FIXME: performance is so bad, and it's wrong line
-		for ix in $(seq ${xmin} 1 ${xmax})
-		do
-			for iy in $(seq ${ymin} 1 ${ymax})
-			do
-				if [[ ${ix} -eq 0 ]]; then
-					continue
-				fi
-				local slope2=$(echo "scale=0; 1000 * ${iy} / ${ix}" | bc)
-				local diff=$(echo "s=$slope-$slope2; if(s<0) -s else s" | bc)
-				if [[ ${diff} -lt 100 ]]; then
-					pgotoxy $iy $ix 'x'
-				fi
-			done
+		for (( i = 0; i <= steps; i++ )); do
+			local x=$(( xstart + i * dx / steps ))
+			local y=$(( ystart + i * dy / steps ))
+			pgotoxy $y $x '*'
 		done
-		#error "$0: invalid parameter"
 	fi
 }
 
