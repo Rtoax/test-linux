@@ -2,7 +2,7 @@
 /* Copyright (c) 2025 Rong Tao */
 #pragma once
 
-#define CUDA_BUG_CALL(CALL, ERROR_DO)	{				\
+#define CUDA_CHECK(CALL, ERROR_DO)	{				\
 	cudaError_t __err = CALL;					\
 	if (__err != cudaSuccess) {					\
 		fprintf(stderr, "ERROR: Call %s failed, %s\n",		\
@@ -10,9 +10,9 @@
 		ERROR_DO;						\
 	}								\
 }
-#define CUDA_BUG_CALL_EXIT(CALL) CUDA_BUG_CALL(CALL, exit(-1))
+#define CUDA_CHECK_EXIT(CALL) CUDA_CHECK(CALL, exit(-1))
 
-#define CUDA_BLAS_BUG_CALL(CALL, ERROR_DO)	{			\
+#define CUBLAS_CHECK(CALL, ERROR_DO)	{				\
 	cublasStatus_t __status = CALL;					\
 	if (__status != CUBLAS_STATUS_SUCCESS) {			\
 		fprintf(stderr, "ERROR: Blas %s failed, %s\n",		\
@@ -20,7 +20,7 @@
 		ERROR_DO;						\
 	}								\
 }
-#define CUDA_BLAS_BUG_CALL_EXIT(CALL) CUDA_BLAS_BUG_CALL(CALL, exit(-1))
+#define CUBLAS_CHECK_EXIT(CALL) CUBLAS_CHECK(CALL, exit(-1))
 
 void gpu_init(int dev_id);
 void gpu_check_gpu_error(const char *msg);

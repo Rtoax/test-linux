@@ -336,10 +336,10 @@ int default_create_blas(struct test *test)
 {
 	int version;
 
-	CUDA_BLAS_BUG_CALL(cublasCreate(&test->handle), return -1);
+	CUBLAS_CHECK(cublasCreate(&test->handle), return -1);
 
 	if (env.verbose) {
-		CUDA_BLAS_BUG_CALL(cublasGetVersion(test->handle, &version), return -1);
+		CUBLAS_CHECK(cublasGetVersion(test->handle, &version), return -1);
 		printf("BLAS version %d\n", version);
 	}
 
@@ -352,21 +352,21 @@ int default_create_blasLt_type(struct test *test, cublasComputeType_t computeTyp
 {
 	int rslt;
 
-	CUDA_BLAS_BUG_CALL(cublasLtCreate(&test->ltHandle), exit(EXIT_FAILURE));
+	CUBLAS_CHECK(cublasLtCreate(&test->ltHandle), exit(EXIT_FAILURE));
 
-	CUDA_BLAS_BUG_CALL(cublasLtMatmulDescCreate(&test->matmulDesc, computeType, scaleType), exit(EXIT_FAILURE));
+	CUBLAS_CHECK(cublasLtMatmulDescCreate(&test->matmulDesc, computeType, scaleType), exit(EXIT_FAILURE));
 
-	CUDA_BLAS_BUG_CALL(cublasLtMatrixLayoutCreate(&test->layoutA, Atype, env.m, env.k, env.m), exit(EXIT_FAILURE));
-	CUDA_BLAS_BUG_CALL(cublasLtMatrixLayoutCreate(&test->layoutB, Btype, env.k, env.n, env.k), exit(EXIT_FAILURE));
-	CUDA_BLAS_BUG_CALL(cublasLtMatrixLayoutCreate(&test->layoutC, Ctype, env.m, env.n, env.m), exit(EXIT_FAILURE));
-	CUDA_BUG_CALL_EXIT(cudaMalloc(&test->workspace, test->workspaceSize));
+	CUBLAS_CHECK(cublasLtMatrixLayoutCreate(&test->layoutA, Atype, env.m, env.k, env.m), exit(EXIT_FAILURE));
+	CUBLAS_CHECK(cublasLtMatrixLayoutCreate(&test->layoutB, Btype, env.k, env.n, env.k), exit(EXIT_FAILURE));
+	CUBLAS_CHECK(cublasLtMatrixLayoutCreate(&test->layoutC, Ctype, env.m, env.n, env.m), exit(EXIT_FAILURE));
+	CUDA_CHECK_EXIT(cudaMalloc(&test->workspace, test->workspaceSize));
 
-	CUDA_BLAS_BUG_CALL(cublasLtMatmulPreferenceCreate(&test->pref), exit(EXIT_FAILURE));
-	CUDA_BLAS_BUG_CALL(cublasLtMatmulPreferenceSetAttribute(test->pref,
+	CUBLAS_CHECK(cublasLtMatmulPreferenceCreate(&test->pref), exit(EXIT_FAILURE));
+	CUBLAS_CHECK(cublasLtMatmulPreferenceSetAttribute(test->pref,
 			CUBLASLT_MATMUL_PREF_MAX_WORKSPACE_BYTES,
 			&test->workspaceSize, sizeof(test->workspaceSize)), exit(EXIT_FAILURE));
 
-	CUDA_BLAS_BUG_CALL(cublasLtMatmulAlgoGetHeuristic(test->ltHandle,
+	CUBLAS_CHECK(cublasLtMatmulAlgoGetHeuristic(test->ltHandle,
 				test->matmulDesc,
 				test->layoutA,
 				test->layoutB,
@@ -454,8 +454,8 @@ int __alloc_matrix_pair_int8(const char *dpfx, int8_t **host, int8_t **dev,
 			printf("\n");
 	}
 
-	CUDA_BUG_CALL(cudaMalloc(dev, x * y * sizeof(int8_t)), err = -ENOMEM);
-	CUDA_BLAS_BUG_CALL(cublasSetMatrix(x, y, sizeof(int8_t), *host, x, *dev, x), err = -1);
+	CUDA_CHECK(cudaMalloc(dev, x * y * sizeof(int8_t)), err = -ENOMEM);
+	CUBLAS_CHECK(cublasSetMatrix(x, y, sizeof(int8_t), *host, x, *dev, x), err = -1);
 
 	return err;
 }
@@ -483,8 +483,8 @@ int __alloc_matrix_pair_int32(const char *dpfx, int32_t **host, int32_t **dev,
 			printf("\n");
 	}
 
-	CUDA_BUG_CALL(cudaMalloc(dev, x * y * sizeof(int32_t)), err = -ENOMEM);
-	CUDA_BLAS_BUG_CALL(cublasSetMatrix(x, y, sizeof(int32_t), *host, x, *dev, x), err = -1);
+	CUDA_CHECK(cudaMalloc(dev, x * y * sizeof(int32_t)), err = -ENOMEM);
+	CUBLAS_CHECK(cublasSetMatrix(x, y, sizeof(int32_t), *host, x, *dev, x), err = -1);
 
 	return err;
 }
@@ -512,8 +512,8 @@ int __alloc_matrix_pair_fp16(const char *dpfx, half **host, half **dev,
 			printf("\n");
 	}
 
-	CUDA_BUG_CALL(cudaMalloc(dev, x * y * sizeof(half)), err = -ENOMEM);
-	CUDA_BLAS_BUG_CALL(cublasSetMatrix(x, y, sizeof(half), *host, x, *dev, x), err = -1);
+	CUDA_CHECK(cudaMalloc(dev, x * y * sizeof(half)), err = -ENOMEM);
+	CUBLAS_CHECK(cublasSetMatrix(x, y, sizeof(half), *host, x, *dev, x), err = -1);
 
 	return err;
 }
@@ -541,8 +541,8 @@ int __alloc_matrix_pair_fp32(const char *dpfx, float **host, float **dev,
 			printf("\n");
 	}
 
-	CUDA_BUG_CALL(cudaMalloc(dev, x * y * sizeof(float)), err = -ENOMEM);
-	CUDA_BLAS_BUG_CALL(cublasSetMatrix(x, y, sizeof(float), *host, x, *dev, x), err = -1);
+	CUDA_CHECK(cudaMalloc(dev, x * y * sizeof(float)), err = -ENOMEM);
+	CUBLAS_CHECK(cublasSetMatrix(x, y, sizeof(float), *host, x, *dev, x), err = -1);
 
 	return err;
 }
@@ -570,8 +570,8 @@ int __alloc_matrix_pair_fp64(const char *dpfx, double **host, double **dev,
 			printf("\n");
 	}
 
-	CUDA_BUG_CALL(cudaMalloc(dev, x * y * sizeof(double)), err = -ENOMEM);
-	CUDA_BLAS_BUG_CALL(cublasSetMatrix(x, y, sizeof(double), *host, x, *dev, x), err = -1);
+	CUDA_CHECK(cudaMalloc(dev, x * y * sizeof(double)), err = -ENOMEM);
+	CUBLAS_CHECK(cublasSetMatrix(x, y, sizeof(double), *host, x, *dev, x), err = -1);
 
 	return err;
 }
@@ -757,7 +757,7 @@ int run_blas_GemmEx_int8(struct test *test)
 	/**
 	 * C^T = B^T * A^T equal to C = A * B
 	 */
-	CUDA_BLAS_BUG_CALL(cublasGemmEx(test->handle, CUBLAS_OP_T, CUBLAS_OP_T,
+	CUBLAS_CHECK(cublasGemmEx(test->handle, CUBLAS_OP_T, CUBLAS_OP_T,
 				env.m, env.n, env.k,
 				&alpha,
 				test->dev_A.int8, CUDA_R_8I, env.k,
@@ -778,7 +778,7 @@ int run_blas_GemmEx_fp16(struct test *test)
 	/**
 	 * C^T = B^T * A^T equal to C = A * B
 	 */
-	CUDA_BLAS_BUG_CALL(cublasGemmEx(test->handle, CUBLAS_OP_T, CUBLAS_OP_T,
+	CUBLAS_CHECK(cublasGemmEx(test->handle, CUBLAS_OP_T, CUBLAS_OP_T,
 				env.m, env.n, env.k,
 				&alpha,
 				test->dev_A.fp16, CUDA_R_16F, env.k,
@@ -799,7 +799,7 @@ int run_blas_GemmEx_fp32(struct test *test)
 	/**
 	 * C^T = B^T * A^T equal to C = A * B
 	 */
-	CUDA_BLAS_BUG_CALL(cublasGemmEx(test->handle, CUBLAS_OP_T, CUBLAS_OP_T,
+	CUBLAS_CHECK(cublasGemmEx(test->handle, CUBLAS_OP_T, CUBLAS_OP_T,
 				env.m, env.n, env.k,
 				&alpha,
 				test->dev_A.fp32, CUDA_R_32F, env.k,
@@ -820,7 +820,7 @@ int run_blas_GemmEx_fp64(struct test *test)
 	/**
 	 * C^T = B^T * A^T equal to C = A * B
 	 */
-	CUDA_BLAS_BUG_CALL(cublasGemmEx(test->handle, CUBLAS_OP_T, CUBLAS_OP_T,
+	CUBLAS_CHECK(cublasGemmEx(test->handle, CUBLAS_OP_T, CUBLAS_OP_T,
 				env.m, env.n, env.k,
 				&alpha,
 				test->dev_A.fp64, CUDA_R_64F, env.k,
@@ -841,7 +841,7 @@ int run_blas_Gemm_fp16(struct test *test)
 	/**
 	 * C^T = B^T * A^T equal to C = A * B
 	 */
-	CUDA_BLAS_BUG_CALL(cublasHgemm(test->handle, CUBLAS_OP_T, CUBLAS_OP_T,
+	CUBLAS_CHECK(cublasHgemm(test->handle, CUBLAS_OP_T, CUBLAS_OP_T,
 				env.m, env.n, env.k,
 				&alpha,
 				test->dev_A.fp16, env.k,
@@ -860,7 +860,7 @@ int run_blas_Gemm_fp32(struct test *test)
 	/**
 	 * C^T = B^T * A^T equal to C = A * B
 	 */
-	CUDA_BLAS_BUG_CALL(cublasSgemm(test->handle, CUBLAS_OP_T, CUBLAS_OP_T,
+	CUBLAS_CHECK(cublasSgemm(test->handle, CUBLAS_OP_T, CUBLAS_OP_T,
 				env.m, env.n, env.k,
 				&alpha,
 				test->dev_A.fp32, env.k,
@@ -879,7 +879,7 @@ int run_blas_Gemm_fp64(struct test *test)
 	/**
 	 * C^T = B^T * A^T equal to C = A * B
 	 */
-	CUDA_BLAS_BUG_CALL(cublasDgemm(test->handle, CUBLAS_OP_T, CUBLAS_OP_T,
+	CUBLAS_CHECK(cublasDgemm(test->handle, CUBLAS_OP_T, CUBLAS_OP_T,
 				env.m, env.n, env.k,
 				&alpha,
 				test->dev_A.fp64, env.k,
@@ -935,7 +935,7 @@ static inline int run_blas_Matmul_type(struct test *test, int type)
 		break;
 	}
 
-	CUDA_BLAS_BUG_CALL(cublasLtMatmul(
+	CUBLAS_CHECK(cublasLtMatmul(
 				test->ltHandle,
 				test->matmulDesc,
 				alpha,
@@ -994,7 +994,7 @@ int __display_matrix_pair_int8(const char *pfx, struct test *test,
 	int i, j;
 	long sum = 0;
 
-	CUDA_BLAS_BUG_CALL(cublasGetMatrix(x, y, sizeof(int8_t), dev, x, host, x), return -1);
+	CUBLAS_CHECK(cublasGetMatrix(x, y, sizeof(int8_t), dev, x, host, x), return -1);
 
 	for (j = 0; j < y; j++) {
 		printf("%s>> ", pfx);
@@ -1014,7 +1014,7 @@ int __display_matrix_pair_int32(const char *pfx, struct test *test,
 	int i, j;
 	long sum = 0;
 
-	CUDA_BLAS_BUG_CALL(cublasGetMatrix(x, y, sizeof(int32_t), dev, x, host, x), return -1);
+	CUBLAS_CHECK(cublasGetMatrix(x, y, sizeof(int32_t), dev, x, host, x), return -1);
 
 	for (j = 0; j < y; j++) {
 		printf("%s>> ", pfx);
@@ -1034,7 +1034,7 @@ int __display_matrix_pair_fp16(const char *pfx, struct test *test,
 	int i, j;
 	float sum = 0.0;
 
-	CUDA_BLAS_BUG_CALL(cublasGetMatrix(x, y, sizeof(half), dev, x, host, x), return -1);
+	CUBLAS_CHECK(cublasGetMatrix(x, y, sizeof(half), dev, x, host, x), return -1);
 
 	for (j = 0; j < y; j++) {
 		printf("%s>> ", pfx);
@@ -1062,7 +1062,7 @@ int __display_matrix_pair_fp32(const char *pfx, struct test *test,
 	printf("%s>> Device index min %d, index max %d, sum %.2f\n", pfx,
 		idx_min, idx_max, sum);
 
-	CUDA_BLAS_BUG_CALL(cublasGetMatrix(x, y, sizeof(float), dev, x, host, x), return -1);
+	CUBLAS_CHECK(cublasGetMatrix(x, y, sizeof(float), dev, x, host, x), return -1);
 
 	sum = 0;
 
@@ -1092,7 +1092,7 @@ int __display_matrix_pair_fp64(const char *pfx, struct test *test,
 	printf("%s>> Device index min %d, index max %d, sum %.2f\n", pfx,
 		idx_min, idx_max, sum);
 
-	CUDA_BLAS_BUG_CALL(cublasGetMatrix(x, y, sizeof(double), dev, x, host, x), return -1);
+	CUBLAS_CHECK(cublasGetMatrix(x, y, sizeof(double), dev, x, host, x), return -1);
 
 	sum = 0;
 
