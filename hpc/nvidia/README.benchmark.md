@@ -45,3 +45,4 @@ HPC Benchmark
 # Links
 
 - https://www.chaoqing-i.com/upload/20231128/NVIDIA%20H800%20GPU%20Datasheet.pdf
+- commit af116c3af0a5 ("metax: README: Mars X203: htvs ops")
