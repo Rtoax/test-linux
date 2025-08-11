@@ -2,7 +2,10 @@
 
 #include <linux/mm.h>
 
-
+/**
+ * vm_fault_t handle_mm_fault(struct vm_area_struct *vma, unsigned long address,
+ *                            unsigned int flags, struct pt_regs *regs);
+ */
 kprobe:handle_mm_fault
 {
 	$vma = (struct vm_area_struct *)arg0;

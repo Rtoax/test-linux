@@ -1,0 +1,29 @@
+#!/usr/bin/bpftrace
+/* Copyright (c) 2025 Rong Tao */
+#ifndef BPFTRACE_HAVE_BTF
+#include <linux/mm.h>
+#endif
+
+#define FAULT_FLAG_WRITE	0x1
+#define FAULT_FLAG_INSTRUCTION	0x100
+
+BEGIN
+{
+	printf("Tracing handle_mm_fault(), Hit ctrl+C to end.\n");
+}
+
+/**
+ * vm_fault_t handle_mm_fault(struct vm_area_struct *vma, unsigned long address,
+ *                            unsigned int flags, struct pt_regs *regs);
+ */
+kprobe:handle_mm_fault
+{
+	$vma = (struct vm_area_struct *)arg0;
+	$addr = arg1;
+	$flags = arg2;
+
+	printf("%-16s %-8d %016lx %s%s\n", comm, pid, $addr,
+		($flags & FAULT_FLAG_WRITE) ? "w" : "-",
+		($flags & FAULT_FLAG_INSTRUCTION) ? "S" : "-"
+	);
+}

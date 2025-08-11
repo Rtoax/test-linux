@@ -9,17 +9,17 @@
 #include <unistd.h>
 
 static int alloc_size;
-static char *memory;
+static char *mem;
 
 void segv_handler(int signal_number)
 {
 	printf("memory accessed! signal_number(SIGSEGV) = %d\n", signal_number);
-	mprotect(memory, alloc_size, PROT_READ | PROT_WRITE);
+	mprotect(mem, alloc_size, PROT_READ | PROT_WRITE);
 }
 
 int main(void)
 {
-	int fd;
+	int fd, i;
 	struct sigaction sa;
 
 	memset(&sa, 0, sizeof(sa));
@@ -29,26 +29,48 @@ int main(void)
 	alloc_size = getpagesize();
 	printf("alloc_size = %d\n", alloc_size);
 	fd = open("/dev/zero", O_RDONLY);
-#if 1
-	memory = mmap(NULL, alloc_size, PROT_WRITE, MAP_PRIVATE, fd, 0);
+
+#ifdef ERROR
+	/* failed, need to use mmap() */
+	mem = malloc(alloc_size);
 #else
-	/* failed */
-	memory = malloc(alloc_size);
+	mem = mmap(NULL, alloc_size, PROT_WRITE, MAP_PRIVATE, fd, 0);
 #endif
+
+	for (i = 0; i < alloc_size; i += getpagesize())
+		mem[i] = 'a';
 
 	close(fd);
 
-	memory[0] = 0;
+	printf("%p\n", mem);
+
+	mem[0] = 0;
 
 	/* Make the memory unwritable. */
-	mprotect(memory, alloc_size, PROT_NONE);
+	mprotect(mem, alloc_size, PROT_NONE);
 
+	sleep(4);
+
+	/**
+	 * When mprotect is used to remove memory read and write permissions,
+	 * does page handling (calling handle_mm_fault()) occur when reading
+	 * or writing memory? My current test results show that page handling
+	 * is not triggered. So, where is this SIGSEGV triggered?
+	 */
+
+#ifdef TEST_READ
+	/* Read */
+	printf("reading...\n");
+	char ch = mem[0];
+	(void)ch;
+#else
 	/* Write to the allocated memory region. */
-	memory[0] = 1;
-	memory[2] = 2;
+	printf("writing...\n");
+	mem[0] = 1;
+#endif
 
 	/* All done; unmap the memory. */
-	printf("all done, memory[0] = %d\n", memory[0]);
-	munmap(memory, alloc_size);
+	printf("all done, mem[0] = %d\n", mem[0]);
+	munmap(mem, alloc_size);
 	return 0;
 }

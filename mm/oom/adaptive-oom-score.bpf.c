@@ -20,6 +20,10 @@ struct {
 } ring_buf SEC(".maps");
 
 
+/**
+ * vm_fault_t handle_mm_fault(struct vm_area_struct *vma, unsigned long address,
+ *                            unsigned int flags, struct pt_regs *regs);
+ */
 SEC("kprobe/handle_mm_fault")
 int kprobe_handle_mm_fault(struct pt_regs *ctx)
 {

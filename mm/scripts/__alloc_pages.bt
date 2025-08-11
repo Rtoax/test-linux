@@ -1,13 +1,9 @@
 #!/usr/bin/env bpftrace
-/**
- *	Tracing __alloc_pages() function
- *	
- *	Author:	荣涛
- *	Data:	2022-02-03
- *	
- */
+/* Copyright (c) 2022 Rong Tao */
+#ifndef BPFTRACE_HAVE_BTF
 #include <linux/mm.h>
 #include <asm/page_types.h>
+#endif
 
 BEGIN
 {
@@ -17,7 +13,7 @@ BEGIN
 kprobe:__alloc_pages
 {
 	//printf("__alloc_pages %d %d.\n", arg1, arg2);
-	//@orders[tid] = ((arg1 + 1)*(1<<PAGE_SHIFT));
+	//@orders[tid] = ((arg1 + 1) * (1 << PAGE_SHIFT));
 	@orders[tid] = arg1;
 	@start[tid] = nsecs;
 	@kstack_of_alloc_pages[kstack] = count();
@@ -35,5 +31,5 @@ END
 {
 	clear(@orders);
 	clear(@start);
-	printf("Bye. %d\n", PAGE_SHIFT);
+	//printf("Bye. %d\n", PAGE_SHIFT);
 }
