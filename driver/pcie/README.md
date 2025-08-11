@@ -75,11 +75,13 @@ At least 256 bytes, the first 64 bytes are standardized and the same for all dev
 
 # Vendors
 
-- https://pcisig.com/membership/member-companies
-- https://admin.pci-ids.ucw.cz/read/PC
+- [Member Companies](https://pcisig.com/membership/member-companies)
+- [PCI Device Vendors](https://admin.pci-ids.ucw.cz/read/PC)
 
 
 # Device Classes
+
+- [PCI Device Classes](https://admin.pci-ids.ucw.cz/read/PD)
 
 | Code  | Description                            | Examples               |
 | ----- | ---------------------------------------| ---------------------- |
@@ -166,5 +168,5 @@ void *map_base = mmap(0, map_size, PROT_READ|PROT_WRITE, MAP_SHARED, fd, 0);
 
 ## Other Links
 
-- https://admin.pci-ids.ucw.cz/read/PC
-- https://admin.pci-ids.ucw.cz/read/PD
+- [PCI Device Vendors](https://admin.pci-ids.ucw.cz/read/PC)
+- [PCI Device Classes](https://admin.pci-ids.ucw.cz/read/PD)
