@@ -1,0 +1,20 @@
+#!/bin/env bpftrace
+#ifndef BPFTRACE_HAVE_BTF
+#endif
+
+BEGIN
+{
+	printf("Tracing do_error_trap(), hit ctrl-c to end.\n");
+	printf("%-8s %-8s %-16s\n", "TIME", "PID", "COMM");
+}
+
+kprobe:do_error_trap
+{
+	time("%H:%M:%S ");
+	printf("%-8d %-16s\n", pid, comm);
+}
+
+END
+{
+	printf("Bye.\n");
+}

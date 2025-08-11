@@ -46,7 +46,7 @@ int main(void)
 
 	mem[0] = 0;
 
-	/* Make the memory unwritable. */
+	/* Make the memory unreadable and unwritable. */
 	mprotect(mem, alloc_size, PROT_NONE);
 
 	sleep(4);
