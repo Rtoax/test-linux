@@ -36,7 +36,7 @@ ifeq ($(shell uname -m),x86_64)
     targets += rdrand
   endif
   ifneq ($(shell lscpu | grep -w rdseed),)
-  targets += rdseed
+    targets += rdseed
   endif
 
   ARCH_LIB_CPUID += cpuid-x86.o
@@ -65,6 +65,7 @@ ifdef BFD
   $(info User linker bfd)
 endif
 
+targets += breakpoint
 targets += ret
 targets += udiv div
 targets += simd
@@ -100,6 +101,7 @@ CFLAGS_ret := -Wno-error=return-type
 include ../../template/main.mk
 
 add-x86: add-x86.o
+breakpoint: breakpoint.o
 bts: bts.o
 bswapl: bswapl.o
 invalid_opcode_user: invalid_opcode_user.o

@@ -2,12 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <signal.h>
-
-#if defined(__x86_64__) || defined(__i386__)
-# define BREAKPOINT()	asm volatile("int3")
-#elif defined(__aarch64__)
-# define BREAKPOINT()	asm volatile("brk #0")
-#endif
+#include "breakpoint.h"
 
 static char *prog = NULL;
 

@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- instructions: add breakpoint.h;
 - interrupt: add cli.c;
 - mm: add scripts/`handle_mm_fault.bt`;
 - template: add log.mk;
