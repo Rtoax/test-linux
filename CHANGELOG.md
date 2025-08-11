@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- c: add float.c;
 - instructions: add breakpoint.h;
 - interrupt: add cli.c;
 - mm: add scripts/`handle_mm_fault.bt`;

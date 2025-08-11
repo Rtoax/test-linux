@@ -20,6 +20,7 @@ targets += compat
 targets += compare
 targets += _Generic
 targets += goto
+targets += float
 targets += ptr-dim
 targets += struct
 targets += string
@@ -100,6 +101,7 @@ array: array.o
 compat: compat.o
 compare: compare.o
 dummy: dummy.o
+float: float.o
 _Generic: _Generic.o
 goto: goto.o
 ptr-dim: ptr-dim.o c_helpers.o
