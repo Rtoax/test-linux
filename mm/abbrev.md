@@ -21,6 +21,7 @@
 - NUMA: Non-Uniform Memory Architecture (非一致性内存架构)
 - OOM: Out Of Memory (内存耗尽)
 - PAE: Physical Address Extension (物理地址扩展)
+- PDBR: Page Directory Base Register (页目录基址寄存器)
 - PMEM: Persistent Memory (持久内存)
 - PSS: Proportional Set Size (实际使用的物理内存 比例分配共享库占用的内存)
 - PTI: Page Table Isolation (页表隔离) @KPTI
