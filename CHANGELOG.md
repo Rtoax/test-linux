@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- interrupt: add cli.c;
 - mm: add scripts/`handle_mm_fault.bt`;
 - template: add log.mk;
 - Add INSTALL.md;
