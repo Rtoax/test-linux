@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 #### Added
 - debian: add upgrade.sh;
+- fedora: add upgrade.sh;
 #### Changed
 #### Deprecated
 #### Removed
