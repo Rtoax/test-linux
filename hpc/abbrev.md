@@ -7,6 +7,9 @@
 - FP: Float Point (浮点, IEEE 754-2008) @TF
 - GFLOPS: Giga FLOPS (每秒10亿次的浮点运算数) @FLOPS
 - GEMM: General Matrix-Matrix Multiplication (广义矩阵乘法, C=α⋅A⋅B+β⋅C)
+- HBM: High Bandwidth Memory (高带宽内存)
+- HBM2: HBM 2 generation (第二代 HBM) @HBM
+- HBM2E: HBM2E
 - HPC: High Performance Compute (高性能计算)
 - MFLOPS: Mega FLOPS (每秒一百万次的浮点运算)
 - MPI: Message Passing Interface (消息传递接口)
