@@ -19,7 +19,7 @@ include template/topdir.mk
 include kconfig.mk
 include kernel.mk
 include $(TOPDIR)/template/emoji.mk
-include $(TOPDIR)/scripts/git.mk
+include $(TOPDIR)/template/git.mk
 include $(TOPDIR)/scripts/logo.mk
 
 GIT_CONFIG_CORE_HOOKSPATH := $(shell git config get core.hooksPath 2>/dev/null \

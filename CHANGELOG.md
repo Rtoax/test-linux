@@ -11,7 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
-- template: add arch.sh, cpu.sh, topdir.mk;
+- template: add arch.sh, cpu.sh, topdir.mk, git.mk;
 - debian: add upgrade.sh;
 - fedora: add upgrade.sh;
 - ubuntu: add upgrade.sh;

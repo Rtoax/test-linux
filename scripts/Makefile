@@ -1,13 +1,13 @@
 # SPDX-License-Identifier: GPL-3.0
-CC := gcc
 include ../compiler/compiler.mk
 include ../glibc/glibc.mk
 include ../template/ansi.mk
+include ../template/topdir.mk
+include ../template/git.mk
 include ../template/success.mk
 include ../template/wow.mk
 include logo.mk
 include ../gnu/gnu.mk
-include git.mk
 include ../bpf/bpf.mk
 
 targets-prep := test_call
