@@ -1,5 +1,4 @@
 # SPDX-License-Identifier: GPL-3.0
-include ../scripts/ansi.mk
 include ../gnu/gnu.mk
 include glibc.mk
 
