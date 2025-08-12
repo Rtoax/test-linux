@@ -20,7 +20,7 @@
 
 int main(int argc, char *argv[])
 {
-	int sfd, fds[2];
+	int sfd, fd;
 	struct sockaddr_un addr;
 	const int size = 0xff;
 	void *ptr0;
@@ -33,20 +33,20 @@ int main(int argc, char *argv[])
 	addr.sun_family = AF_UNIX;
 	strncpy(addr.sun_path, UNSOCKET_PATH, sizeof(addr.sun_path)-1);
 
-	fds[0] = syscall(SYS_memfd_create, "shma", 0);
-	if (fds[0] < 0)
+	fd = syscall(SYS_memfd_create, "shma", 0);
+	if (fd < 0)
 		handle_error("SYS_memfd_create error.");
 
-	ftruncate(fds[0], size);
+	ftruncate(fd, size);
 
-	ptr0 = mmap(NULL, size, PROT_READ|PROT_WRITE, MAP_SHARED, fds[0], 0);
+	ptr0 = mmap(NULL, size, PROT_READ|PROT_WRITE, MAP_SHARED, fd, 0);
 	memset(ptr0, 'R', size);
 	munmap(ptr0, size);
 
 	if (connect(sfd, (struct sockaddr *) &addr, sizeof(struct sockaddr_un)) == -1)
 		handle_error("Failed to connect to socket");
 
-	sock_send_fds(sfd, fds, 1);
+	sock_send_fds(sfd, &fd, 1);
 
 	exit(EXIT_SUCCESS);
 }
