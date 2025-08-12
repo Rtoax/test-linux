@@ -2,8 +2,8 @@
 CC := gcc
 include ../compiler/compiler.mk
 include ../glibc/glibc.mk
-include success.mk
 include ../template/ansi.mk
+include ../template/success.mk
 include ../template/wow.mk
 include logo.mk
 include ../gnu/gnu.mk
