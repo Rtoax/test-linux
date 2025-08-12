@@ -14,6 +14,7 @@ MetaX
 - **htvs ops**
 	- commit af116c3af0a5 ("metax: README: Mars X203: htvs ops")
 - **htvs ops -m fp16 and power**
+	- commit 25ae9af043a3 ("metax: README: Mars X203: htvs ops fp16 power")
 
 
 # Links
