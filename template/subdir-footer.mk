@@ -8,7 +8,7 @@ define make_sub_dir
 	$(Q)pushd $(2) >/dev/null; \
 	make ${1}; \
 	if [ $$? -ne 0 ]; then \
-		echo "Failed ${1} $(call git_relative_dir,$(2))" | tee --append ${TL_FAILED_LOG}; \
+		echo "$(call timestamp) Failed ${1} $(call git_relative_dir,$(2))" | tee --append ${TL_FAILED_LOG}; \
 	fi; \
 	popd >/dev/null
 endef
