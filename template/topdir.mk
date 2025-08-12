@@ -12,3 +12,5 @@ endif
 ifeq (${TOPDIR},)
   $(error Could not found topdir in anywhere)
 endif
+
+export TOPDIR GIT_TOPDIR

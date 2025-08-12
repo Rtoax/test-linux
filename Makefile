@@ -18,9 +18,9 @@ include tlbuild.mk
 include template/topdir.mk
 include kconfig.mk
 include kernel.mk
-include $(TL_TOPDIR)/template/emoji.mk
-include $(TL_TOPDIR)/scripts/git.mk
-include $(TL_TOPDIR)/scripts/logo.mk
+include $(TOPDIR)/template/emoji.mk
+include $(TOPDIR)/scripts/git.mk
+include $(TOPDIR)/scripts/logo.mk
 
 GIT_CONFIG_CORE_HOOKSPATH := $(shell git config get core.hooksPath 2>/dev/null \
 	|| git config core.hooksPath 2>/dev/null \
@@ -43,7 +43,7 @@ help:
 	$(call tl_ascii_logo1,*** )
 	@echo >&2 -e "***"
 	@echo >&2 -e "*** ${MOONLIGHT} ${MOONLIGHT}"
-	@echo >&2 -e "*** TL_TOPDIR ${TL_TOPDIR}"
+	@echo >&2 -e "*** TOPDIR ${TOPDIR}"
 	@echo >&2 -e "*** GIT_TOPDIR ${GIT_TOPDIR}"
 	@echo >&2 -e "***    core.hooksPath = ${GIT_CONFIG_CORE_HOOKSPATH}"
 	@echo >&2 -e "*** TL_LOG ${TL_LOG}"
@@ -101,15 +101,15 @@ installdeps:
 .PHONY: install
 install: uninstall
 	@echo "Install"
-	${Q}ln -s ${TL_TOPDIR}/scripts/git/bigfile.sh /usr/bin/git-bigfile
-	${Q}ln -s ${TL_TOPDIR}/scripts/git/statistic.sh /usr/bin/git-statistic
-	${Q}ln -s ${TL_TOPDIR}/scripts/git/statistic.py /usr/bin/git-statistic.py
-	${Q}ln -s ${TL_TOPDIR}/scripts/git/push-remote-all.sh /usr/bin/git-push-remote-all
-	${Q}ln -s ${TL_TOPDIR}/scripts/git/push-remote-all.sh /usr/bin/git-push-remote-all-tags
-	${Q}ln -s ${TL_TOPDIR}/scripts/git/rm-permanent.sh /usr/bin/git-rm-permanent
-	${Q}ln -s ${TL_TOPDIR}/scripts/patchset.sh /usr/bin/patchset
-	${Q}ln -s ${TL_TOPDIR}/scripts/termplot.sh /usr/bin/termplot
-	${Q}ln -s ${TL_TOPDIR}/scripts/kconfig_compare.sh /usr/bin/kconfig_compare
+	${Q}ln -s ${TOPDIR}/scripts/git/bigfile.sh /usr/bin/git-bigfile
+	${Q}ln -s ${TOPDIR}/scripts/git/statistic.sh /usr/bin/git-statistic
+	${Q}ln -s ${TOPDIR}/scripts/git/statistic.py /usr/bin/git-statistic.py
+	${Q}ln -s ${TOPDIR}/scripts/git/push-remote-all.sh /usr/bin/git-push-remote-all
+	${Q}ln -s ${TOPDIR}/scripts/git/push-remote-all.sh /usr/bin/git-push-remote-all-tags
+	${Q}ln -s ${TOPDIR}/scripts/git/rm-permanent.sh /usr/bin/git-rm-permanent
+	${Q}ln -s ${TOPDIR}/scripts/patchset.sh /usr/bin/patchset
+	${Q}ln -s ${TOPDIR}/scripts/termplot.sh /usr/bin/termplot
+	${Q}ln -s ${TOPDIR}/scripts/kconfig_compare.sh /usr/bin/kconfig_compare
 
 .PHONY: uninstall
 uninstall:
