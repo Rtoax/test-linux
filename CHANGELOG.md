@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- metax: add more htvs benchmark results;
 - c: add float.c;
 - instructions: add breakpoint.h;
 - interrupt: add cli.c;
