@@ -9,6 +9,7 @@ MetaX
 	- commit e139156c8b3a ("metax: README: Mars X203: htvs marslink benchmark")
 	- commit 29f83a76d02c ("metax: README: Mars X203: htvs marslink benchmark egress")
 	- commit 80e62047d2e7 ("metax: README: Mars X203: htvs marslink benchmark ingress")
+	- **htvs marslink parallel unidirection**
 - **htvs memory benchmark**
 	- commit 324df728388a ("metax: README: Mars X203: htvs memory benchmark")
 	- commit 781d99ebebb7 ("metax: README: Mars X203: htvs memory benchmark kernel-copy")
