@@ -22,13 +22,13 @@ int main(int argc, const char *argv[])
 	if (pid == 0) {
 		close(pairfd[0]);
 		int fd_to_pass = open("/etc/os-release", O_RDONLY, 0666);
-		send_fd(pairfd[1], &fd_to_pass, 1);
+		sock_send_fds(pairfd[1], &fd_to_pass, 1);
 		close(fd_to_pass);
 	} else if (pid > 0) {
 		close(pairfd[1]);
 		char buf[1024];
 		int FD;
-		recv_fd(pairfd[0], &FD, 1);
+		sock_recv_fds(pairfd[0], &FD, 1);
 		read(FD, buf, sizeof(buf));
 		printf("[Parent] I got fd %d and data %s\n", FD, buf);
 		close(FD);

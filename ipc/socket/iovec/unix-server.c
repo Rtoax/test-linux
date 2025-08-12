@@ -39,7 +39,7 @@ int main(int argc, char *argv[])
 	if (cfd == -1)
 		handle_error("Failed to accept incoming connection");
 
-	recv_fd(cfd, &fd, 1);
+	sock_recv_fds(cfd, &fd, 1);
 
 	for (i = 0; i < 1; ++i) {
 		fprintf (stdout, "Reading from passed fd %d\n", fd);

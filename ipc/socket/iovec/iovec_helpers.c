@@ -13,7 +13,7 @@
 #include "iovec_helpers.h"
 
 
-int recv_fd(int socket, int *fds, int n)
+int sock_recv_fds(int socket, int *fds, int n)
 {
 	struct msghdr msg = {0};
 	struct cmsghdr *cmsg;
@@ -38,7 +38,7 @@ int recv_fd(int socket, int *fds, int n)
 	return 0;
 }
 
-int send_fd(int socket, int *fds, int n)
+int sock_send_fds(int socket, int *fds, int n)
 {
 	struct msghdr msg = {0};
 	struct cmsghdr *cmsg;

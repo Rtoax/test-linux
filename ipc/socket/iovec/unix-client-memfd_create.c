@@ -44,7 +44,7 @@ int main(int argc, char *argv[])
 	if (connect(sfd, (struct sockaddr *) &addr, sizeof(struct sockaddr_un)) == -1)
 		handle_error("Failed to connect to socket");
 
-	send_fd(sfd, fds, 1);
+	sock_send_fds(sfd, fds, 1);
 
 	exit(EXIT_SUCCESS);
 }
