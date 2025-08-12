@@ -4,15 +4,17 @@ set -e
 
 readonly GIT_TOPDIR=$(git rev-parse --show-toplevel 2>/dev/null || :)
 
+readonly TOPDIR=${GIT_TOPDIR}
+
 remove_broken_symlinks()
 {
-	find ${GIT_TOPDIR} -type l -xtype l -delete
+	find ${TOPDIR} -type l -xtype l -delete
 }
 
 bad_way()
 {
 	local f
-	local symlinks=( $(find ${GIT_TOPDIR} -path ".git" -a -prune -o -type l -exec echo {} +) )
+	local symlinks=( $(find ${TOPDIR} -path ".git" -a -prune -o -type l -exec echo {} +) )
 	for f in ${symlinks[@]}
 	do
 		real_f=$(realpath $f 2>/dev/null || true)
@@ -25,7 +27,7 @@ bad_way()
 good_way()
 {
 	local f
-	local broken_symlinks=( $(find ${GIT_TOPDIR} -xtype l) )
+	local broken_symlinks=( $(find ${TOPDIR} -xtype l) )
 	for f in ${broken_symlinks[@]}
 	do
 		echo "Broken-symlink: ${f}"
