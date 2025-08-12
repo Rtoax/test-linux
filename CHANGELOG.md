@@ -13,6 +13,7 @@ and this project adheres to
 #### Added
 - debian: add upgrade.sh;
 - fedora: add upgrade.sh;
+- ubuntu: add upgrade.sh;
 #### Changed
 #### Deprecated
 #### Removed
