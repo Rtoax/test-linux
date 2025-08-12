@@ -7,7 +7,7 @@ MetaX
 	- commit ad678fdf7eff ("metax: README: Mars X203: htvs devices")
 - **htvs marslink benchmark [--mode=<ingress|egress>]**
 	- commit e139156c8b3a ("metax: README: Mars X203: htvs marslink benchmark")
-	- commit
+	- commit 29f83a76d02c ("metax: README: Mars X203: htvs marslink benchmark egress")
 	- commit 80e62047d2e7 ("metax: README: Mars X203: htvs marslink benchmark ingress")
 - **htvs memory benchmark**
 	- commit 324df728388a ("metax: README: Mars X203: htvs memory benchmark")
