@@ -3,7 +3,8 @@ CC := gcc
 include ../compiler/compiler.mk
 include ../glibc/glibc.mk
 include success.mk
-include wow.mk
+include ../template/ansi.mk
+include ../template/wow.mk
 include logo.mk
 include ../gnu/gnu.mk
 include git.mk
