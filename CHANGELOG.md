@@ -11,6 +11,19 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+#### Changed
+#### Deprecated
+#### Removed
+#### Fixed
+#### Security
+#### Docs
+#### Tools
+
+
+## [v2.3.1] 2025-08-12
+
+#### Breaking Changes
+#### Added
 - ipc: introduce iovec_helpers.c;
 - ipc/socket/iovec: remove send_fd() and recv_fd() from socketpair.c;
 - metax: add more htvs benchmark results;
