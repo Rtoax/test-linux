@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdint.h>
+#include <math.h>
 #include <byteswap.h>
 
 struct fp32 {
@@ -9,6 +10,7 @@ struct fp32 {
 } __attribute__((packed));
 
 static struct fp32 fp32_NaN = {1, 255, 255};
+static struct fp32 fp32_Zero = {0, 0, 0};
 
 void float_to_fp32(const float f)
 {
@@ -23,22 +25,42 @@ void float_to_fp32(const float f)
 		fp32->sign, fp32->exponent, fp32->mantissa);
 }
 
-void fp32_to_float(const struct fp32 *fp32)
+float fp32_to_float(const struct fp32 *fp32)
 {
-	float f;
+	float f, cal_f;
 	int32_t i32 = *(int32_t *)fp32;
 	int32_t i32_orig = i32;
 
 	i32 = bswap_32(i32);
 	f = *(float *)&i32;
 
-	printf("%-2d %-8d %-23d : %10.2f : %08x : %08x\n",
-		fp32->sign, fp32->exponent, fp32->mantissa, f, i32, i32_orig);
+	float sign = 1 - 2 * (fp32->sign % 2);
+	float e2, fra;
+
+	if (fp32->exponent == 0) {
+		e2 = exp2(-14);
+		fra = fp32->mantissa / 1024;
+	} else if (fp32->exponent == 0xff) {
+		//if (fp32->mantissa = 0)
+		// TODO: 0: +inf,-inf else NaN
+	} else {
+		e2 = exp2(fp32->exponent - 15);
+		fra = 1 + fp32->mantissa / 1024;
+	}
+
+	// TODO: Wrong calculate
+	cal_f = sign * e2 * fra;
+
+	printf("%-2d %-8d %-23d : %10.2f(%.2f) : %08x : %08x\n",
+		fp32->sign, fp32->exponent, fp32->mantissa, f, cal_f, i32, i32_orig);
+
+	return cal_f;
 }
 
 int main(void)
 {
 	fp32_to_float(&fp32_NaN);
+	fp32_to_float(&fp32_Zero);
 
 	float_to_fp32(0.0f);
 	float_to_fp32(1.0f);

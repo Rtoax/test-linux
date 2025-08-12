@@ -3,6 +3,7 @@
 /sqrt
 /sqrt-stress
 /exp
+/exp2
 /fpclassify
 /finite
 /nan

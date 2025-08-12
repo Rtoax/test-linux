@@ -2,6 +2,7 @@ targets :=
 targets += ceil
 targets += copysign
 targets += exp
+targets += exp2
 targets += fpclassify
 targets += finite
 targets += sqrt sqrt-stress
@@ -28,6 +29,7 @@ include ../../template/main.mk
 
 ceil: ceil.o
 exp: exp.o
+exp2: exp2.o
 sqrt: sqrt.o
 sqrt-stress: sqrt-stress.o
 copysign: copysign.o
@@ -42,5 +44,4 @@ signbit: signbit.o
 nextafter: nextafter.o
 
 clean-tmp:
-	${Q}rm -f ${targets} *.o *.d *.log
 	${Q}rm -rf tmpd-* tmp-*

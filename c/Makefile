@@ -81,6 +81,7 @@ CFLAGS_struct := -Wno-gnu-designator -Wno-initializer-overrides
 CFLAGS___STDC__c98 := -std=c89 -DSTD_C98=1
 CFLAGS___STDC__gnu98 := -std=gnu89 -DSTD_GNU98=1
 CFLAGS___STDC__c17 := -std=c89 -DSTD_C17=1
+LDFLAGS_float := -lm
 
 # preprocessing
 targets-prep := ${targets:=.E.c}
