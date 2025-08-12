@@ -15,6 +15,7 @@ TEST_LINUX_VERSION := $(VERSION)$(if $(PATCHLEVEL),.$(PATCHLEVEL)$(if $(SUBLEVEL
 export VERSION PATCHLEVEL SUBLEVEL TEST_LINUX_VERSION
 
 include tlbuild.mk
+include template/topdir.mk
 include kconfig.mk
 include kernel.mk
 include $(TL_TOPDIR)/template/emoji.mk

@@ -25,14 +25,10 @@ else
 endif
 export Q
 
-# GIT_TOPDIR is empty if not in git-repo.
-GIT_TOPDIR := $(shell git rev-parse --show-toplevel 2>/dev/null || :)
-TL_TOPDIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
-
 LIBS_TOPDIR := $(TL_TOPDIR)/libs/
 NUMA_TOPDIR := $(TL_TOPDIR)/numa/
 
-export GIT_TOPDIR TL_TOPDIR LIBS_TOPDIR NUMA_TOPDIR
+export LIBS_TOPDIR NUMA_TOPDIR
 
 TL_LOG := $(TL_TOPDIR)/test-linux.log
 TL_FAILED_LOG := $(TL_TOPDIR)/failed.log
