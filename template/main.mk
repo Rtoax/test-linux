@@ -64,6 +64,8 @@ ifdef DEBUG
   $(info LDXXFLAGS = ${LDXXFLAGS})
 endif
 
+export CFLAGS LDFLAGS CXXFLAGS LDXXFLAGS
+
 TEMPLATE_DIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 export TEMPLATE_DIR
 
