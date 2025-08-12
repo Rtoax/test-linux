@@ -17,7 +17,7 @@ export VERSION PATCHLEVEL SUBLEVEL TEST_LINUX_VERSION
 include tlbuild.mk
 include kconfig.mk
 include kernel.mk
-include $(TL_TOPDIR)/scripts/emoji.mk
+include $(TL_TOPDIR)/template/emoji.mk
 include $(TL_TOPDIR)/scripts/git.mk
 include $(TL_TOPDIR)/scripts/logo.mk
 
