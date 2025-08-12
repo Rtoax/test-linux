@@ -12,12 +12,12 @@ MetaX
 - **htvs memory benchmark**
 	- commit 324df728388a ("metax: README: Mars X203: htvs memory benchmark")
 	- commit 781d99ebebb7 ("metax: README: Mars X203: htvs memory benchmark kernel-copy")
-- **htvs memory bandwidth**
-	- commit 6c0ad155239f ("metax: README: Mars X203: htvs memory bandwidth")
+	- display **htvs memory bandwidth**
+		- commit 6c0ad155239f ("metax: README: Mars X203: htvs memory bandwidth")
 - **htvs ops**
 	- commit af116c3af0a5 ("metax: README: Mars X203: htvs ops")
-- **htvs ops -m fp16 and power**
-	- commit 25ae9af043a3 ("metax: README: Mars X203: htvs ops fp16 power")
+	- **htvs ops -m fp16 and power**
+		- commit 25ae9af043a3 ("metax: README: Mars X203: htvs ops fp16 power")
 
 
 # Links
