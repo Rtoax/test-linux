@@ -53,6 +53,6 @@ int main(int argc, char *argv[])
 
 	close(fd);
 	close(cfd);
-
+	close(sfd);
 	return 0;
 }

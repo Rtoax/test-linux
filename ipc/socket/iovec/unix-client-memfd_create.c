@@ -48,5 +48,7 @@ int main(int argc, char *argv[])
 
 	sock_send_fds(sfd, &fd, 1);
 
+	close(fd);
+	close(sfd);
 	exit(EXIT_SUCCESS);
 }
