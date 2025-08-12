@@ -13,6 +13,7 @@ MetaX
 	- commit 6c0ad155239f ("metax: README: Mars X203: htvs memory bandwidth")
 - **htvs ops**
 	- commit af116c3af0a5 ("metax: README: Mars X203: htvs ops")
+- **htvs ops -m fp16 and power**
 
 
 # Links
