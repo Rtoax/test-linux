@@ -15,7 +15,7 @@ int main(int argc, char *argv[])
 	int i;
 	ssize_t nbytes;
 	char buffer[256];
-	int sfd, cfd, *pfd;
+	int sfd, cfd, fd;
 	struct sockaddr_un addr;
 
 	sfd = socket(AF_UNIX, SOCK_STREAM, 0);
@@ -39,16 +39,16 @@ int main(int argc, char *argv[])
 	if (cfd == -1)
 		handle_error("Failed to accept incoming connection");
 
-	pfd = recv_fd(cfd, 1);
+	recv_fd(cfd, &fd, 1);
 
 	for (i = 0; i < 1; ++i) {
-		fprintf (stdout, "Reading from passed fd %d\n", *pfd);
-		while ((nbytes = read(*pfd, buffer, sizeof(buffer))) > 0)
+		fprintf (stdout, "Reading from passed fd %d\n", fd);
+		while ((nbytes = read(fd, buffer, sizeof(buffer))) > 0)
 			write(1, buffer, nbytes);
 		*buffer = '\0';
 	}
 
-	close(*pfd);
+	close(fd);
 	close(cfd);
 
 	return 0;

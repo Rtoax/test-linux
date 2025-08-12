@@ -11,9 +11,8 @@
 #include "common.h"
 
 
-int *recv_fd(int socket, int n)
+int recv_fd(int socket, int *fds, int n)
 {
-	int *fds = malloc (n * sizeof(int));
 	struct msghdr msg = {0};
 	struct cmsghdr *cmsg;
 
@@ -34,10 +33,10 @@ int *recv_fd(int socket, int n)
 
 	memcpy(fds, (int *)CMSG_DATA(cmsg), n * sizeof(int));
 
-	return fds;
+	return 0;
 }
 
-void send_fd(int socket, int *fds, int n)
+int send_fd(int socket, int *fds, int n)
 {
 	struct msghdr msg = {0};
 	struct cmsghdr *cmsg;
@@ -59,5 +58,6 @@ void send_fd(int socket, int *fds, int n)
 
 	if (sendmsg(socket, &msg, 0) < 0)
 		handle_error("Failed to send message");
-}
 
+	return 0;
+}
