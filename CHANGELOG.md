@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- template: add arch.sh;
 - debian: add upgrade.sh;
 - fedora: add upgrade.sh;
 - ubuntu: add upgrade.sh;
