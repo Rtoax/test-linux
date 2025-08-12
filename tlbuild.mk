@@ -4,16 +4,6 @@
 # space.
 SHELL := bash
 
-ifeq ($(V),1)
-  Q =
-  MAKEFLAGS += V=1
-else
-  Q = @
-  MAKEFLAGS += --silent
-  MAKEFLAGS += --no-print-directory
-endif
-export Q
-
 TL_LOG := $(TOPDIR)/test-linux.log
 TL_FAILED_LOG := $(TOPDIR)/failed.log
 export TL_LOG TL_FAILED_LOG

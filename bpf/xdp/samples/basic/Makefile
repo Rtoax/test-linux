@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
-include ../../../../tlbuild.mk
+include ../../../../template/verbose.mk
 
 CC := gcc
 CLANG := clang

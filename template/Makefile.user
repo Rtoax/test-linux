@@ -2,7 +2,7 @@
 # This Makefile is a template for test-linux userspace code. You can copy the
 # code blob to develope Makefile your own.
 
-include ../tlbuild.mk
+include verbose.mk
 include ../kconfig.mk
 
 STDIO_H := /usr/include/stdio.h
