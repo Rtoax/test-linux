@@ -23,13 +23,22 @@ void float_to_fp32(const float f)
 		fp32->sign, fp32->exponent, fp32->mantissa);
 }
 
+void fp32_to_float(const struct fp32 *fp32)
+{
+	float f;
+	int32_t i32 = *(int32_t *)fp32;
+	int32_t i32_orig = i32;
+
+	i32 = bswap_32(i32);
+	f = *(float *)&i32;
+
+	printf("%-2d %-8d %-23d : %10.2f : %08x : %08x\n",
+		fp32->sign, fp32->exponent, fp32->mantissa, f, i32, i32_orig);
+}
+
 int main(void)
 {
-	int32_t *i32 = (int32_t *)&fp32_NaN;
-	*i32 = bswap_32(*i32);
-
-	float *f32 = (float *)i32;
-	printf("%f\n", *f32);
+	fp32_to_float(&fp32_NaN);
 
 	float_to_fp32(0.0f);
 	float_to_fp32(1.0f);
@@ -38,6 +47,7 @@ int main(void)
 	float_to_fp32(5.0f);
 	float_to_fp32(-1.0f);
 	float_to_fp32(-1024.0f);
+	float_to_fp32(1.0f / 3);
 
 	return 0;
 }
