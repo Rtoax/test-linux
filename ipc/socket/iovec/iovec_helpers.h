@@ -2,7 +2,5 @@
 /* Copyright (c) 2025 Rong Tao */
 #pragma once
 
-#define UNSOCKET_PATH   "/tmp/fd-pass.socket"
-
 int sock_send_fds(int socket, int *fds, int n);
 int sock_recv_fds(int socket, int *fds, int n);
