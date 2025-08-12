@@ -6,8 +6,8 @@
 /* Metax has CUDA-compatible APIs */
 # define __pfx(name)	hc##name
 # define __PFX(name)	HC##name
-#else
-# error "Need __pfx() and __PFX() macros"
+#elif !defined(__pfx) || !defined(__PFX)
+# error "Must define __pfx() and __PFX() macros, or define HAVE_HCCL"
 #endif
 
 /* typedef hcError_t	cudaError_t; */
