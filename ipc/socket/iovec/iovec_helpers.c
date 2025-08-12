@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
+/* Copyright (c) 2025 Rong Tao */
 #include <fcntl.h>
 #include <stdio.h>
 #include <errno.h>
@@ -8,7 +10,7 @@
 #include <sys/wait.h>
 #include <sys/socket.h>
 
-#include "common.h"
+#include "iovec_helpers.h"
 
 
 int recv_fd(int socket, int *fds, int n)

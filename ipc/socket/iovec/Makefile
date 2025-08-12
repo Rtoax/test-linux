@@ -5,7 +5,9 @@ targets += socketpair
 
 include ../../../template/main.mk
 
-unix-server: unix-server.o common.o
-unix-client: unix-client.o common.o
-unix-client-memfd_create: unix-client-memfd_create.o common.o
-socketpair: socketpair.o common.o
+iovec_helpers.o: iovec_helpers.h
+
+unix-server: unix-server.o iovec_helpers.o
+unix-client: unix-client.o iovec_helpers.o
+unix-client-memfd_create: unix-client-memfd_create.o iovec_helpers.o
+socketpair: socketpair.o iovec_helpers.o

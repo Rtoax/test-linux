@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- ipc: introduce iovec_helpers.c;
 - ipc/socket/iovec: remove send_fd() and recv_fd() from socketpair.c;
 - metax: add more htvs benchmark results;
 - c: add float.c;
