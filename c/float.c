@@ -13,13 +13,13 @@ static struct fp32 fp32_NaN = {1, 255, 255};
 void float_to_fp32(const float f)
 {
 	float tmp = f;
-	int32_t *i32 = (int32_t *)&tmp;
-	int32_t i32_orig = *i32;
+	int32_t i32 = *(int32_t *)&tmp;
+	int32_t i32_orig = i32;
 
-	*i32 = bswap_32(*i32);
-	struct fp32 *fp32 = (struct fp32 *)i32;
+	i32 = bswap_32(i32);
+	struct fp32 *fp32 = (struct fp32 *)&i32;
 
-	printf("%10.2f : %08x : %08x : %-2d %-8d %-23d\n", f, *i32, i32_orig,
+	printf("%10.2f : %08x : %08x : %-2d %-8d %-23d\n", f, i32, i32_orig,
 		fp32->sign, fp32->exponent, fp32->mantissa);
 }
 
