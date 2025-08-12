@@ -25,8 +25,8 @@ else
 endif
 export Q
 
-TL_LOG := $(TL_TOPDIR)/test-linux.log
-TL_FAILED_LOG := $(TL_TOPDIR)/failed.log
+TL_LOG := $(TOPDIR)/test-linux.log
+TL_FAILED_LOG := $(TOPDIR)/failed.log
 export TL_LOG TL_FAILED_LOG
 
 define tl_log

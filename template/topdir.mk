@@ -2,11 +2,10 @@
 # Copyright (c) 2025 Rong Tao
 
 GIT_TOPDIR := $(shell git rev-parse --show-toplevel 2>/dev/null || :)
-TL_TOPDIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))/../
 
 TOPDIR := ${GIT_TOPDIR}
 ifeq (${TOPDIR},)
-  TOPDIR := ${TL_TOPDIR}
+  TOPDIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))/../
 endif
 
 ifeq (${TOPDIR},)
