@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- debian: add upgrade.sh;
 #### Changed
 #### Deprecated
 #### Removed
