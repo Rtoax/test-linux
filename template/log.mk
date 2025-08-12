@@ -16,3 +16,25 @@ endef
 define log_tgt_done
 @echo -e "$(call timestamp) [$(1)] ${ANSI_BOLD}${ANSI_YEL}$(2)${ANSI_RST} done"
 endef
+
+ifeq (${TOPDIR},)
+  $(error Not define TOPDIR)
+endif
+
+TL_LOG := $(TOPDIR)/test-linux.log
+TL_FAILED_LOG := $(TOPDIR)/failed.log
+export TL_LOG TL_FAILED_LOG
+
+define tl_log
+	${Q}echo $(shell date '+%Y-%m-%d %H:%M:%S') $(shell hostname) $1 >> ${TL_LOG}
+endef
+
+define cleanfailedlog
+	${Q}rm -f $(TL_FAILED_LOG)
+endef
+
+define printfailedlog
+	${Q}if [[ -e $(TL_FAILED_LOG) ]]; then \
+		cat $(TL_FAILED_LOG) ; \
+	fi
+endef

@@ -14,14 +14,13 @@ NAME = Podman
 TEST_LINUX_VERSION := $(VERSION)$(if $(PATCHLEVEL),.$(PATCHLEVEL)$(if $(SUBLEVEL),.$(SUBLEVEL)))$(EXTRAVERSION)
 export VERSION PATCHLEVEL SUBLEVEL TEST_LINUX_VERSION
 
-include tlbuild.mk
-include template/topdir.mk
 include template/verbose.mk
+include template/topdir.mk
+include template/emoji.mk
+include template/git.mk
+include scripts/logo.mk
 include kconfig.mk
 include kernel.mk
-include $(TOPDIR)/template/emoji.mk
-include $(TOPDIR)/template/git.mk
-include $(TOPDIR)/scripts/logo.mk
 
 GIT_CONFIG_CORE_HOOKSPATH := $(shell git config get core.hooksPath 2>/dev/null \
 	|| git config core.hooksPath 2>/dev/null \

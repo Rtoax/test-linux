@@ -3,6 +3,7 @@
 CC ?= gcc
 CXX ?= g++
 Q ?= @
+SHELL := bash
 
 OS := $(shell grep ^ID= /etc/os-release | sed 's/ID=//g' | sed 's/"//g')
 ifeq ($(shell uname -m),x86_64)
@@ -73,7 +74,6 @@ include ${TEMPLATE_DIR}/ansi.mk
 include ${TEMPLATE_DIR}/verbose.mk
 include ${TEMPLATE_DIR}/arch.mk
 include ${TEMPLATE_DIR}/topdir.mk
-include ${TEMPLATE_DIR}/../tlbuild.mk
 include ${TEMPLATE_DIR}/log.mk
 
 define git_relative_dir
