@@ -25,11 +25,6 @@ else
 endif
 export Q
 
-LIBS_TOPDIR := $(TL_TOPDIR)/libs/
-NUMA_TOPDIR := $(TL_TOPDIR)/numa/
-
-export LIBS_TOPDIR NUMA_TOPDIR
-
 TL_LOG := $(TL_TOPDIR)/test-linux.log
 TL_FAILED_LOG := $(TL_TOPDIR)/failed.log
 export TL_LOG TL_FAILED_LOG
