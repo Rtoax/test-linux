@@ -28,8 +28,10 @@ int sock_recv_fds(int socket, int *fds, int n)
 	msg.msg_control = buf;
 	msg.msg_controllen = sizeof(buf);
 
-	if (recvmsg(socket, &msg, 0) < 0)
-		handle_error("Failed to receive message");
+	if (recvmsg(socket, &msg, 0) < 0) {
+		perror("recvmsg");
+		return -errno;
+	}
 
 	cmsg = CMSG_FIRSTHDR(&msg);
 
@@ -58,8 +60,10 @@ int sock_send_fds(int socket, int *fds, int n)
 
 	memcpy((int *)CMSG_DATA(cmsg), fds, n * sizeof(int));
 
-	if (sendmsg(socket, &msg, 0) < 0)
-		handle_error("Failed to send message");
+	if (sendmsg(socket, &msg, 0) < 0) {
+		perror("sendmsg");
+		return -errno;
+	}
 
 	return 0;
 }
