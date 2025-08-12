@@ -8,7 +8,6 @@ include logo.mk
 include ../gnu/gnu.mk
 include git.mk
 include ../bpf/bpf.mk
-include ascii.mk
 
 targets-prep := test_call
 targets-shell := moonlight.sh
