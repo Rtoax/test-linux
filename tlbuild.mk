@@ -4,17 +4,6 @@
 # space.
 SHELL := bash
 
-comma	:= ,
-quota	:= "
-squote	:= '
-empty   :=
-space   := $(empty) $(empty)
-space_escape := _-_SPACE_-_
-pound	:= \#
-define newline
-
-endef
-
 ifeq ($(V),1)
   Q =
   MAKEFLAGS += V=1
