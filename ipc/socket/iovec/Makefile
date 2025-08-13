@@ -3,6 +3,8 @@ targets += unix-client
 targets += unix-client-memfd_create
 targets += socketpair
 
+CFLAGS_unix-client-memfd_create := -DMEMFD=1
+
 include ../../../template/main.mk
 
 iovec_helpers.o: iovec_helpers.h
