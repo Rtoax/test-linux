@@ -12,7 +12,7 @@ no_cover_letter=
 dry_run=
 output_dir=tmp.patch
 
-abbrev_commits=()
+declare -a abbrev_commits
 
 readonly RED="\033[31m"
 readonly GREEN="\033[32m"
@@ -212,9 +212,8 @@ __main__ "$@"
 # If the -- parameter is specified, a summary of the
 # commit is displayed.
 if [[ " ${@} " =~ " -- " ]]; then
-	if [[ -z ${abbrev_commits[@]} ]]; then
-		git_cmd="git log"
-	else
+	git_cmd="git log"
+	if [[ ${#abbrev_commits[@]} -ge 1 ]]; then
 		git_cmd="git show --no-patch"
 	fi
 	my_eval ${git_cmd} --abbrev=12 --pretty=format:\''commit %h ("%s")'\' ${abbrev_commits[@]}
