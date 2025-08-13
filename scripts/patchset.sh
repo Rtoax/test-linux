@@ -213,10 +213,11 @@ __main__ "$@"
 # commit is displayed.
 if [[ " ${@} " =~ " -- " ]]; then
 	if [[ -z ${abbrev_commits[@]} ]]; then
-		my_eval git log --abbrev=12 --pretty=format:\''commit %h ("%s")'\'
+		git_cmd="git log"
 	else
-		my_eval git show --no-patch --abbrev=12 --pretty=format:\''commit %h ("%s")'\' ${abbrev_commits[@]}
+		git_cmd="git show --no-patch"
 	fi
+	my_eval ${git_cmd} --abbrev=12 --pretty=format:\''commit %h ("%s")'\' ${abbrev_commits[@]}
 else
 	patchset
 fi
