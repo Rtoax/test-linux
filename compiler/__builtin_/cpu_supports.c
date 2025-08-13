@@ -19,9 +19,9 @@ int main(void)
 		printf("\nWhat ? MMX ? What is that ?\n");
 	}
 #elif defined(__aarch64__) || defined(__arm__)
-# warning "TODO: arm"
+# pragma message "TODO: arm,arm64"
 #elif defined(__sw_64__) || defined(__riscv)
-# warning "TODO: sw"
+# pragma message "TODO: sw"
 #else
 # error "Not support __builtin_cpu_supports but x86, arm."
 #endif
