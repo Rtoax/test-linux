@@ -1,4 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
+# Copyright (c) 2024 Rong Tao
 
 # $1 - prefix
 define wow

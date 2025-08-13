@@ -9,4 +9,4 @@ else
   MAKEFLAGS += --silent
   MAKEFLAGS += --no-print-directory
 endif
-export Q
+export Q MAKEFLAGS
