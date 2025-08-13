@@ -1,8 +1,8 @@
 # SPDX-License-Identifier: GPL-3.0
 # Copyright (c) 2022-2025 Rong Tao
-CC := gcc
-CXX := g++
-Q := @
+CC ?= gcc
+CXX ?= g++
+Q ?= @
 SHELL := bash
 
 OS := $(shell grep ^ID= /etc/os-release | sed 's/ID=//g' | sed 's/"//g')
@@ -10,8 +10,8 @@ ifeq ($(shell uname -m),x86_64)
 else ifeq ($(shell uname -m),aarch64)
 endif
 
-sub-dir :=
-kmod-list :=
+sub-dir ?=
+kmod-list ?=
 
 CFLAGS += -D_GNU_SOURCE
 CFLAGS += -Werror -Wall
