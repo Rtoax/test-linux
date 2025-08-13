@@ -1,6 +1,8 @@
 #!/bin/bash
 # Upgrade Debian
-# ref: https://wiki.debian.org/DebianUpgrade
+# ref:
+# - https://wiki.debian.org/DebianUpgrade
+# - Debian 13 Trixie: https://www.debian.org/releases/trixie/release-notes/upgrading.en.html
 
 # First, ensure your system is up-to-date in it's current release.
 sudo apt-get update
