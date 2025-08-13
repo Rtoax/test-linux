@@ -18,7 +18,7 @@ include template/verbose.mk
 include template/topdir.mk
 include template/emoji.mk
 include template/git.mk
-include scripts/logo.mk
+include template/logo.mk
 include kconfig.mk
 include kernel.mk
 

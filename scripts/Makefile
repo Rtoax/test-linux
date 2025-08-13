@@ -6,7 +6,7 @@ include ../template/topdir.mk
 include ../template/git.mk
 include ../template/success.mk
 include ../template/wow.mk
-include logo.mk
+include ../template/logo.mk
 include ../gnu/gnu.mk
 include ../bpf/bpf.mk
 

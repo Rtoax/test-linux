@@ -1,5 +1,9 @@
 # SPDX-License-Identifier: GPL-3.0
 
+ifeq ($(GB),)
+  $(error Not define GB, need include ansi.mk)
+endif
+
 define tl_ascii_logo1
 	@echo >&2 -e "$(1)${GB}88888888${RG}                        ${RGB}  88${RG}${RST}"
 	@echo >&2 -e "$(1)${GB}   88${RG}                      ,d   ${RGB}  88${RG}      88${RST}"
