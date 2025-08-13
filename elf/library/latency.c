@@ -59,6 +59,7 @@ int get_call_got_idx(int argc, char *argv[], int idx[])
 			fprintf(stderr, "idx[%d] = %d\n", a - 1, idx[a - 1]);
 		}
 	}
+	return 0;
 }
 # endif
 #endif
