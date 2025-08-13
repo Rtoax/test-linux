@@ -1,6 +1,14 @@
 # SPDX-License-Identifier: GPL-3.0
 # Copyright (c) 2022-2025 Rong Tao
 
+ifeq (${TOPDIR},)
+  $(error Not define TOPDIR)
+endif
+
+ifeq (${ANSI_BOLD},)
+  $(error Not define ANSI_BOLD)
+endif
+
 define timestamp
 [$(shell date '+%H:%M:%S')]
 endef
@@ -16,10 +24,6 @@ endef
 define log_tgt_done
 @echo -e "$(call timestamp) [$(1)] ${ANSI_BOLD}${ANSI_YEL}$(2)${ANSI_RST} done"
 endef
-
-ifeq (${TOPDIR},)
-  $(error Not define TOPDIR)
-endif
 
 TL_LOG := $(TOPDIR)/test-linux.log
 TL_FAILED_LOG := $(TOPDIR)/failed.log
