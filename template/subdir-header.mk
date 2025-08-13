@@ -1,5 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
 sub-dir ?=
+kmod-list ?=
 
 ABS_CURRENT_DIR := $(shell realpath .)
 CURRENT_DIR := ${ABS_CURRENT_DIR}
