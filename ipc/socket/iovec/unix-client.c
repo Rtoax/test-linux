@@ -39,9 +39,18 @@ int main(int argc, char *argv[])
 
 	ftruncate(fd, size);
 
+# if 1
+	char *s = malloc(size + 1);
+	memset(s, 'X', size);
+	int n = write(fd, s, size);
+	printf("write %d bytes, %s\n", n, s);
+	/* Rewind fd, make server could read it */
+	lseek(fd, 0, SEEK_SET);
+# else
 	void *ptr0 = mmap(NULL, size, PROT_READ|PROT_WRITE, MAP_SHARED, fd, 0);
 	memset(ptr0, 'R', size);
 	munmap(ptr0, size);
+# endif
 #else
 	fd = open("/etc/os-release", O_RDONLY);
 	if (fd < 0)
