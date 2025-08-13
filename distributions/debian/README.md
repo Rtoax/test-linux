@@ -8,6 +8,6 @@ Debian
 
 # Links
 
-- https://www.debian.org/releases/
-	- https://www.debian.org/releases/index.zh-cn.html
-- https://wiki.debian.org/DebianUpgrade
+- [Debian Releases](https://www.debian.org/releases/)
+	- [Debian 发行版本](https://www.debian.org/releases/index.zh-cn.html)
+- [Debian Upgrade](https://wiki.debian.org/DebianUpgrade)
