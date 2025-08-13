@@ -215,7 +215,7 @@ if [[ " ${@} " =~ " -- " ]]; then
 	if [[ -z ${abbrev_commits[@]} ]]; then
 		my_eval git log --abbrev=12 --pretty=format:\''commit %h ("%s")'\'
 	else
-		my_eval git show -s --abbrev=12 --pretty=format:\''commit %h ("%s")'\' ${abbrev_commits[@]}
+		my_eval git show --no-patch --abbrev=12 --pretty=format:\''commit %h ("%s")'\' ${abbrev_commits[@]}
 	fi
 else
 	patchset
