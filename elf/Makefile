@@ -6,10 +6,7 @@ sub-dir += library
 sub-dir += plt
 sub-dir += pie
 
-targets :=
-targets += macro
-
-include pie.mk
+targets := macro
 
 include ../template/main.mk
 

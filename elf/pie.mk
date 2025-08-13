@@ -1,5 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
-CC ?= gcc
+ifeq ($(CC),)
+  $(error Not define CC)
+endif
 
 ifdef PIE
   # clang: not support -pie in cflags
