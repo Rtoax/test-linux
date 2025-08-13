@@ -1,9 +1,5 @@
-/**
- *	File	rwlock_init.c
- *	Time	2021.11.11
- *	Author	Rong Tao <rtoax@foxmail.com>
- */
-
+// SPDX-License-Identifier: GPL-3.0
+/* Copyright (c) 2021-2025 Rong Tao */
 #include <linux/init.h>
 #include <linux/module.h>
 #include <linux/kernel.h>
