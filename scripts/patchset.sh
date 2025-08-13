@@ -213,9 +213,9 @@ __main__ "$@"
 # commit is displayed.
 if [[ " ${@} " =~ " -- " ]]; then
 	if [[ -z ${abbrev_commits[@]} ]]; then
-		git log --abbrev=12 --pretty=format:'commit %h ("%s")'
+		my_eval git log --abbrev=12 --pretty=format:\''commit %h ("%s")'\'
 	else
-		git show -s --abbrev=12 --pretty=format:'commit %h ("%s")' ${abbrev_commits[@]}
+		my_eval git show -s --abbrev=12 --pretty=format:\''commit %h ("%s")'\' ${abbrev_commits[@]}
 	fi
 else
 	patchset
