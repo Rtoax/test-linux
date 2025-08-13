@@ -43,5 +43,6 @@ int main(void)
 	func1();
 	func2();
 	func3();
+	func4();
 	return 0;
 }

@@ -43,6 +43,8 @@ CFLAGS_deprecated := -Wno-error=deprecated-declarations
 CFLAGS_format := -Werror=varargs -Werror=attributes
 CFLAGS_nonnull := -Wno-error=nonnull
 CFLAGS___pure__ := -Wno-error=unused-value -Wno-error=unused-variable
+# FIXME: error: ‘naked’ attribute directive ignored
+CFLAGS___naked__ := -Wno-error=attributes
 
 ifeq ($(CC),clang)
   CFLAGS_nonnull += -Wno-error=tautological-pointer-compare

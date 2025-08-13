@@ -20,10 +20,10 @@
 #define __noendbr       __attribute__((nocf_check))
 #elif defined(__aarch64__)
 #define __noendbr
-# warning "TODO: aarch64"
+# pragma message "TODO: aarch64"
 #elif defined(__sw_64__) || defined(__riscv)
 #define __noendbr
-# warning "TODO: sw_64"
+# pragma message "TODO: sw_64"
 #else
 # error "Not support arch"
 #endif
