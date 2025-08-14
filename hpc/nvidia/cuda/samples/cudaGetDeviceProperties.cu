@@ -57,6 +57,16 @@ int main(void)
 
 	printf("major %d, minor %d\n", prop.major, prop.minor);
 	printf("clockRate %d Hz\n", prop.clockRate);
+
+	/**
+	 * Threads are batched in groups that we’ll call Wavefronts or waves
+	 * (or warps in Nvidia lingo). Like the name, the numbers of threads
+	 * in a wave is architecture dependent, 32 on NVIDIA GPUs, 64 on AMD’s
+	 * GCN and variable on Intel cards.
+	 * https://flashypixels.wordpress.com/2018/11/10/intro-to-gpu-scalarization-part-1/
+	 *
+	 * MetaX wave/warp size is 64.
+	 */
 	printf("warpSize %d\n", prop.warpSize);
 	printf("waveSize %d\n", prop.waveSize);
 
