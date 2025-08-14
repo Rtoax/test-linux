@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- sched_ext: add kconfig;
 - metax: add smi.sh;
 - template: add arch.sh, cpu.sh, topdir.mk, git.mk, verbose.mk;
 - debian: add upgrade.sh;

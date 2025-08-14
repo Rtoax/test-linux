@@ -4,9 +4,13 @@
 # Black
 ANSI_BLK := \033[30m
 ANSI_RED := \033[31m
+TPUT_RED := $(shell tput setaf 1)
 ANSI_GRE := \033[32m
+TPUT_GRE := $(shell tput setaf 2)
 ANSI_YEL := \033[33m
+TPUT_YEL := $(shell tput setaf 3)
 ANSI_BLU := \033[34m
+TPUT_BLU := $(shell tput setaf 6)
 ANSI_PUR := \033[35m
 ANSI_CYAN := \033[36m
 ANSI_DARK_WHITE := \033[37m
@@ -22,8 +26,9 @@ ANSI_UNDL := \033[4m
 ANSI_REVE := \033[7m
 
 ANSI_RST := \033[m
-RST := ${ANSI_RST}
+TPUT_RST := $(shell tput sgr0)
 
 GB := ${ANSI_GRE}${ANSI_BOLD}
 RGB := ${ANSI_RST}${ANSI_GRE}${ANSI_BOLD}
 RG := ${ANSI_RST}${ANSI_GRE}${ANSI_GRAY}
+RST := ${ANSI_RST}
