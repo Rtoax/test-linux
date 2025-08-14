@@ -28,9 +28,13 @@ int main(void)
 	printf("%s: __clang_version__ = %s\n", pfx, __clang_version__);
 #endif
 
-#ifdef __NVCC__
+#ifdef __NVCC__	/* Nvidia nvcc */
 	pfx = "nvcc";
 	printf("%s: __NVCC__ = %d\n", pfx, __NVCC__);
+#endif
+#ifdef __HPCC__	/* MetaX htcc */
+	pfx = "htcc";
+	printf("%s: __HPCC__ = %d\n", pfx, __HPCC__);
 #endif
 
 	printf("%s: __GNUC__ = %d.\n", pfx, __GNUC__);

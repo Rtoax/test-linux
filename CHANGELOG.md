@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- metax/samples: add __GNUC__ and __STDC__ test;
 - HPC: add README.GPU.md;
 - coredump: add info.sh;
 - sched_ext: add kconfig;

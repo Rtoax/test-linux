@@ -94,6 +94,9 @@ int main(void)
 #ifdef __NVCC__
 	printf("__NVCC__ = %d\n", __NVCC__);
 #endif
+#ifdef __HPCC__
+	printf("__HPCC__ = %d\n", __HPCC__);
+#endif
 
 	return 0;
 }

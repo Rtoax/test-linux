@@ -16,3 +16,5 @@
 /matrix-c-double
 /blas
 /rand
+/__GNUC__
+/__STDC__

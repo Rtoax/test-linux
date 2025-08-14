@@ -14,6 +14,8 @@ targets-htcc += matrix matrix-double matrix-int8 matrix-fp16
 targets-htcc += blas
 targets-htcc += hcblasLtMatmul
 targets-htcc += rand
+targets-htcc += __GNUC__
+targets-htcc += __STDC__
 
 targets-post := $(patsubst %,${OUTPUT}%.E.hpcc,$(targets-htcc))
 
@@ -66,6 +68,8 @@ matrix-fp16: ${OUTPUT}matrix-fp16.hpcc.o ${HPCC_HELPERS}
 blas: ${OUTPUT}blas.hpcc.o ${HPCC_HELPERS}
 hcblasLtMatmul: ${OUTPUT}hcblasLtMatmul.hpcc.o ${HPCC_HELPERS}
 rand: ${OUTPUT}rand.hpcc.o ${HPCC_HELPERS}
+__GNUC__: ${OUTPUT}__GNUC__.hpcc.o ${HPCC_HELPERS}
+__STDC__: ${OUTPUT}__STDC__.hpcc.o ${HPCC_HELPERS}
 
 matrix-c: ${OUTPUT}matrix.o
 matrix-c-double: ${OUTPUT}matrix-double.o

@@ -63,6 +63,7 @@ GPU - Graphics Processing Unit
 ```
 
 - `DP-U`: Double Precision, FP64
+- `SFU`: Special Function Unit
 
 
 # CUDA Core
