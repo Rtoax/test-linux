@@ -3,6 +3,8 @@ GPU - Graphics Processing Unit
 
 # SM: Streaming Multiprocessors
 
+## Nvidia Pascal GP100
+
 ```
 ┌───────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │ SM - Streaming Multiprocessor                                                                             │
