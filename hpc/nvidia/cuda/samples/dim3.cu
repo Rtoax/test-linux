@@ -20,12 +20,12 @@ __global__ void checkIndex(int it)
 	if (ix % it != 0 || iy % it != 0 || iz % it != 0)
 		return;
 
-	printf("threadIdx(%d,%d,%d), blockIdx(%d,%d,%d), blockDim(%d,%d,%d), gridDim(%d,%d,%d) (%d,%d,%d)\n",
+	printf("threadIdx(%d,%d,%d), blockIdx(%d,%d,%d), blockDim(%d,%d,%d), gridDim(%d,%d,%d) (%d,%d,%d) warpSize %d\n",
 		threadIdx.x, threadIdx.y, threadIdx.z,
 		blockDim.x, blockDim.y, blockDim.z,
 		blockIdx.x, blockIdx.y, blockIdx.z,
 		gridDim.x, gridDim.y, gridDim.z,
-		ix, iy, iz);
+		ix, iy, iz, warpSize);
 /**
  * FIXME: MetaX htcc have wrong threadIdx.x, add printf could fix it.
  */

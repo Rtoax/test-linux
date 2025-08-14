@@ -57,6 +57,7 @@ int main(void)
 
 	printf("major %d, minor %d\n", prop.major, prop.minor);
 	printf("clockRate %d Hz\n", prop.clockRate);
+	printf("warpSize %d\n", prop.warpSize);
 
 	return 0;
 }
