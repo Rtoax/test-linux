@@ -25,12 +25,12 @@ struct fp32 {
 static struct fp32 fp32_NaN = FP32(1, 255, 255);
 static struct fp32 fp32_Zero = FP32(0, 0, 0);
 
-void float_to_fp32(const float f)
+void float_to_fp32(const float f, struct fp32 *fp32)
 {
 	float tmp = f;
 	int32_t i32 = *(int32_t *)&tmp;
 
-	struct fp32 *fp32 = (struct fp32 *)&i32;
+	fp32 = (struct fp32 *)&i32;
 
 	printf("%20.5f : %08x : %-2d %-8d %-23d\n", f, i32,
 		fp32->sign, fp32->exponent, fp32->mantissa);
@@ -68,6 +68,8 @@ float fp32_to_float(const struct fp32 *fp32)
 
 int main(void)
 {
+	struct fp32 fp32;
+
 	assert(sizeof(struct fp32) == 4);
 
 	fp32_to_float(&fp32_NaN);
@@ -77,15 +79,15 @@ int main(void)
 	struct fp32 fp32_0dot15625 = FP32(0, 0x7c, 0x200000);
 	fp32_to_float(&fp32_0dot15625);
 
-	float_to_fp32(0.0f);
-	float_to_fp32(1.0f);
-	float_to_fp32(2.0f);
-	float_to_fp32(4.0f);
-	float_to_fp32(5.0f);
-	float_to_fp32(-1.0f);
-	float_to_fp32(-1024.0f);
-	float_to_fp32(1.0f / 3);
-	float_to_fp32(0.15625f);
+	float_to_fp32(0.0f, &fp32);
+	float_to_fp32(1.0f, &fp32);
+	float_to_fp32(2.0f, &fp32);
+	float_to_fp32(4.0f, &fp32);
+	float_to_fp32(5.0f, &fp32);
+	float_to_fp32(-1.0f, &fp32);
+	float_to_fp32(-1024.0f, &fp32);
+	float_to_fp32(1.0f / 3, &fp32);
+	float_to_fp32(0.15625f, &fp32);
 
 	return 0;
 }
