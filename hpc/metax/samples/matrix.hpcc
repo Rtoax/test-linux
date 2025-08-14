@@ -445,6 +445,13 @@ int main(int argc, char *argv[])
 	block1.x = 512;
 	grid1.x = (env.m * env.n + block1.x - 1) / block1.x;
 
+	/**
+	 * Threads are batched in groups that we’ll call Wavefronts or waves
+	 * (or warps in Nvidia lingo). Like the name, the numbers of threads
+	 * in a wave is architecture dependent, 32 on NVIDIA GPUs, 64 on AMD’s
+	 * GCN and variable on Intel cards.
+	 * https://flashypixels.wordpress.com/2018/11/10/intro-to-gpu-scalarization-part-1/
+	 */
 	block2.x = 32;
 	block2.y = 32;
 	grid2.x = (env.n + block2.x - 1) / block2.x;

@@ -1,5 +1,8 @@
 // SPDX-License-Identifier: GPL-3.0
 /* Copyright (c) 2025 Rong Tao */
+/**
+ * grid, block, warps(wavefronts or waves), thread
+ */
 #include <stdio.h>
 #include <string.h>
 #if defined(HAVE_HCCL)
@@ -20,12 +23,23 @@ __global__ void checkIndex(int it)
 	if (ix % it != 0 || iy % it != 0 || iz % it != 0)
 		return;
 
-	printf("threadIdx(%d,%d,%d), blockIdx(%d,%d,%d), blockDim(%d,%d,%d), gridDim(%d,%d,%d) (%d,%d,%d) warpSize %d\n",
+	if (ix == 0 && iy == 0 && iz == 0) {
+		/**
+		 * Threads are batched in groups that we’ll call Wavefronts or
+		 * waves (or warps in Nvidia lingo), see
+		 * https://flashypixels.wordpress.com/2018/11/10/intro-to-gpu-scalarization-part-1/
+		 */
+		printf("warpSize %d, waveSize %d\n", warpSize, waveSize);
+	}
+
+	__syncthreads();
+
+	printf("threadIdx(%d,%d,%d), blockIdx(%d,%d,%d), blockDim(%d,%d,%d), gridDim(%d,%d,%d) (%d,%d,%d)\n",
 		threadIdx.x, threadIdx.y, threadIdx.z,
 		blockDim.x, blockDim.y, blockDim.z,
 		blockIdx.x, blockIdx.y, blockIdx.z,
 		gridDim.x, gridDim.y, gridDim.z,
-		ix, iy, iz, warpSize);
+		ix, iy, iz);
 /**
  * FIXME: MetaX htcc have wrong threadIdx.x, add printf could fix it.
  */

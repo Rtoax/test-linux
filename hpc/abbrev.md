@@ -20,6 +20,7 @@
 - OPS: Operations Per Second (每秒操作数)
 - PTX: Parallel Thread eXecution (并行线程执行)
 - SASS: Streaming ASSembly (原生机器码指令集)
+- SM: Streaming Multiprocessors (流式多处理器)
 - SMI: System Management Interface (系统管理接口, nvidia-smi)
 - TF: TensorFloat (张量浮点) @TF @FP
 - TFLOPS: teraFLOPS (每秒一万亿次的浮点运算)
