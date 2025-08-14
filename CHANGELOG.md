@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- coredump: add info.sh;
 - sched_ext: add kconfig;
 - metax: add smi.sh;
 - template: add arch.sh, cpu.sh, topdir.mk, git.mk, verbose.mk;
