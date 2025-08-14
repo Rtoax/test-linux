@@ -68,7 +68,9 @@ int main(void)
 	 * MetaX wave/warp size is 64.
 	 */
 	printf("warpSize %d\n", prop.warpSize);
+#if !defined(__CUDACC__)
 	printf("waveSize %d\n", prop.waveSize);
+#endif
 
 	return 0;
 }

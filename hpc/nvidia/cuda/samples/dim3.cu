@@ -29,7 +29,10 @@ __global__ void checkIndex(int it)
 		 * waves (or warps in Nvidia lingo), see
 		 * https://flashypixels.wordpress.com/2018/11/10/intro-to-gpu-scalarization-part-1/
 		 */
-		printf("warpSize %d, waveSize %d\n", warpSize, waveSize);
+		printf("warpSize %d\n", warpSize);
+#if !defined(__CUDACC__)
+		printf("waveSize %d\n", waveSize);
+#endif
 	}
 
 	__syncthreads();
