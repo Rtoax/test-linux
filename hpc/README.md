@@ -34,3 +34,4 @@ FP4  |-|--|-|
 # Links
 
 - [IEEE 754-2008](https://en.wikipedia.org/wiki/IEEE_754-2008_revision)
+- [Single-precision floating-point format](https://en.wikipedia.org/wiki/Single-precision_floating-point_format)
