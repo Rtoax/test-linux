@@ -1,6 +1,21 @@
 GPU - Graphics Processing Unit
 ==============================
 
+# GPUs
+
+|   GPU                |  SMs  |  CUDA Cores |
+| -------------------- | ----- | ----------- |
+| GB200                | 144   | 18,432      |
+| H200                 | 144   | 18,432      |
+| H100 SXM             | 132   | 16,896      |
+| H100 PCIe            | 114   | 14,592      |
+| L40S                 | 142   | 18,176      |
+| RTX 6000 Ada         | 142   | 18,176      |
+| A6000                | 84    | 10,752      |
+| A100 (80GB and 40GB) | 108   | 6,912       |
+| V100                 | 80    | 5,120       |
+
+
 # SM: Streaming Multiprocessors
 
 ## Nvidia Pascal GP100
@@ -62,6 +77,7 @@ GPU - Graphics Processing Unit
 └───────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
+- `Core`: CUDA Core
 - `DP-U`: Double Precision, FP64
 - `SFU`: Special Function Unit
 
