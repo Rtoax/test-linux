@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- HPC: add README.GPU.md;
 - coredump: add info.sh;
 - sched_ext: add kconfig;
 - metax: add smi.sh;

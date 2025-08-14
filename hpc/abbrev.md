@@ -7,6 +7,7 @@
 - FP: Float Point (浮点, IEEE 754-2008) @TF
 - GFLOPS: Giga FLOPS (每秒10亿次的浮点运算数) @FLOPS
 - GEMM: General Matrix-Matrix Multiplication (广义矩阵乘法, C=α⋅A⋅B+β⋅C)
+- GPU: Graphics Processing Unit (图形处理器)
 - HBM: High Bandwidth Memory (高带宽内存)
 - HBM2: HBM 2 generation (第二代 HBM) @HBM
 - HBM2E: HBM2E
@@ -20,8 +21,11 @@
 - OPS: Operations Per Second (每秒操作数)
 - PTX: Parallel Thread eXecution (并行线程执行)
 - SASS: Streaming ASSembly (原生机器码指令集)
-- SM: Streaming Multiprocessors (流式多处理器)
+- SFU: Special Function Unit (特定功能单元)
+- SM: Streaming Multiprocessors (流式多处理器) @SMP
 - SMI: System Management Interface (系统管理接口, nvidia-smi)
+- SMP: SM Processing Block (SM 处理块) @SM
+- SP: Streaming Processor (流式处理器, CUDA Core)
 - TF: TensorFloat (张量浮点) @TF @FP
 - TFLOPS: teraFLOPS (每秒一万亿次的浮点运算)
 - TOPS: Tera Operations Per Second (处理器每秒一万亿次)
