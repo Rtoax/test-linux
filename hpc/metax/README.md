@@ -1,6 +1,11 @@
 MetaX
 ======
 
+# SMI
+
+- **ht-smi topo**
+	- matrix
+
 # Benchmark
 
 - **htvs devices**

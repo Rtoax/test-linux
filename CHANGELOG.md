@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- metax: add smi.sh;
 - template: add arch.sh, cpu.sh, topdir.mk, git.mk, verbose.mk;
 - debian: add upgrade.sh;
 - fedora: add upgrade.sh;
