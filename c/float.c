@@ -34,17 +34,12 @@ void float_to_fp32(const float f, struct fp32 *fp32)
 	int32_t i32 = *(int32_t *)&tmp;
 
 	*fp32 = *(struct fp32 *)&i32;
-
-#ifdef DEBUG
-	printf("%20.5f : %08x : %-2d %-8d %-23d\n", f, i32,
-		fp32->sign, fp32->exponent, fp32->fraction);
-#endif
 }
 
 float fp32_to_float(const struct fp32 *fp32)
 {
 	int i;
-	float f, cal_f;
+	float f;
 	int32_t i32 = *(int32_t *)fp32;
 
 	f = *(float *)&i32;
@@ -55,8 +50,7 @@ float fp32_to_float(const struct fp32 *fp32)
 
 	if (fp32->exponent == 0) {
 		if (fp32->fraction == 0) {
-			cal_f = sign * 0.0f;
-			goto skip_cal;
+			return sign * 0.0f;
 		} else {
 			e2 = exp2(-126);
 			fra = 0;
@@ -69,10 +63,9 @@ float fp32_to_float(const struct fp32 *fp32)
 		}
 	} else if (fp32->exponent == 0xff) {
 		if (fp32->fraction == 0)
-			cal_f = sign * *(float *)&fp32_Inf;
+			return sign * *(float *)&fp32_Inf;
 		else
-			cal_f = *(float *)&fp32_NaN;
-		goto skip_cal;
+			return *(float *)&fp32_NaN;
 	} else {
 		e2 = exp2(fp32->exponent - 127);
 		fra = 1;
@@ -84,14 +77,7 @@ float fp32_to_float(const struct fp32 *fp32)
 		}
 	}
 
-	cal_f = sign * e2 * fra;
-
-skip_cal:
-#ifdef DEBUG
-	printf("%-1x %-2x %-6x : %10.5f(%10.5f) : %08x\n",
-		fp32->sign, fp32->exponent, fp32->fraction, f, cal_f, i32);
-#endif
-	return cal_f;
+	return sign * e2 * fra;
 }
 
 void check_fp32(float f)
@@ -102,12 +88,12 @@ void check_fp32(float f)
 	float_to_fp32(f, &fp32);
 	to = fp32_to_float(&fp32);
 
-	printf("%f vs %f\n", f, to);
+	printf("%f vs %f (%x %x %x)\n", f, to, fp32.sign, fp32.exponent, fp32.fraction);
 }
 
 int main(void)
 {
-	assert(sizeof(struct fp32) == 4);
+	assert(sizeof(struct fp32) == 4 && "Bad size of fp32");
 
 	check_fp32(0);
 	check_fp32(1.2f);
