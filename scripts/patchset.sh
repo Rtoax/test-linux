@@ -35,7 +35,7 @@ ${BOLD}NAME${RST}
 	patchset - Generate patchset
 
 ${BOLD}SYNOPSIS${RST}
-	patchset [options] -- [commit1|commit2|...]
+	patchset [options] -- [COMMIT1|COMMIT2|...] [FILE1|FILE2|...]
 
 ${BOLD}DESCRIPTION${RST}
 	Generate patchset to send email.
@@ -178,6 +178,11 @@ my_eval()
 	fi
 }
 
+# $1 - one file
+file2commits() {
+	git log --follow --abbrev=12 --pretty=format:%h $1 2>/dev/null
+}
+
 # Submit multi-patches at one time
 # ref: https://kernelnewbies.org/FirstKernelPatch
 patchset()
@@ -215,6 +220,13 @@ if [[ " ${@} " =~ " -- " ]]; then
 	git_cmd="git log"
 	if [[ ${#abbrev_commits[@]} -ge 1 ]]; then
 		git_cmd="git show --no-patch"
+		for ((i = 0; i < ${#abbrev_commits[@]}; i++)); do
+			commit=${abbrev_commits[$i]}
+			if [[ -f ${commit} ]]; then
+				unset abbrev_commits[$i]
+				abbrev_commits+=( $(file2commits ${commit}) )
+			fi
+		done
 	fi
 	my_eval ${git_cmd} --abbrev=12 --pretty=format:\''commit %h ("%s")'\' ${abbrev_commits[@]}
 else
