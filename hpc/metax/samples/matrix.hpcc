@@ -273,7 +273,7 @@ __global__ void matrix_mul_2d(TYPE *A, TYPE *B, TYPE *C, TYPE *D,
 			      unsigned long m, unsigned long k,
 			      unsigned long n, bool nocal)
 {
-	unsigned long ic, in, im;
+	unsigned long in, im;
 
 #if defined(HAVE_HCCL) || defined(HAVE_CUDA)
 	in = threadIdx.x + blockDim.x * blockIdx.x;
@@ -282,6 +282,7 @@ __global__ void matrix_mul_2d(TYPE *A, TYPE *B, TYPE *C, TYPE *D,
 		return;
 	{
 #else /* Running on CPU */
+	unsigned long ic;
 	for (ic = 0; ic < m * n; ic++) {
 		in = ic % n;
 		im = ic / n;
