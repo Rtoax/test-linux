@@ -1,3 +1,7 @@
+/**
+ * https://en.wikipedia.org/wiki/IEEE_754-2008_revision
+ */
+#include <assert.h>
 #include <stdio.h>
 #include <stdint.h>
 #include <math.h>
@@ -59,6 +63,8 @@ float fp32_to_float(const struct fp32 *fp32)
 
 int main(void)
 {
+	assert(sizeof(struct fp32) == 4);
+
 	fp32_to_float(&fp32_NaN);
 	fp32_to_float(&fp32_Zero);
 
