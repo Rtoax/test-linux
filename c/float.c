@@ -10,15 +10,15 @@
 
 struct fp32 {
 #if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
-	unsigned int mantissa:23;
+	unsigned int fraction:23;
 	unsigned int exponent:8;
 	unsigned int sign:1;
-#define FP32(sign, exponent, mantissa) {mantissa, exponent, sign}
+#define FP32(sign, exponent, fraction) {fraction, exponent, sign}
 #else
 	unsigned int sign:1;
 	unsigned int exponent:8;
-	unsigned int mantissa:23;
-#define FP32(sign, exponent, mantissa) {sign, exponent, mantissa}
+	unsigned int fraction:23;
+#define FP32(sign, exponent, fraction) {sign, exponent, fraction}
 #endif
 } __attribute__((packed));
 
@@ -33,7 +33,7 @@ void float_to_fp32(const float f, struct fp32 *fp32)
 	fp32 = (struct fp32 *)&i32;
 
 	printf("%20.5f : %08x : %-2d %-8d %-23d\n", f, i32,
-		fp32->sign, fp32->exponent, fp32->mantissa);
+		fp32->sign, fp32->exponent, fp32->fraction);
 }
 
 float fp32_to_float(const struct fp32 *fp32)
@@ -48,20 +48,20 @@ float fp32_to_float(const struct fp32 *fp32)
 
 	if (fp32->exponent == 0) {
 		e2 = exp2(-14);
-		fra = fp32->mantissa / 1024;
+		fra = fp32->fraction / 1024;
 	} else if (fp32->exponent == 0xff) {
-		//if (fp32->mantissa = 0)
+		//if (fp32->fraction = 0)
 		// TODO: 0: +inf,-inf else NaN
 	} else {
-		e2 = exp2(fp32->exponent - 15);
-		fra = 1 + fp32->mantissa / 1024;
+		e2 = exp2(fp32->exponent - 127);
+		fra = 1 + fp32->fraction / 1024;
 	}
 
 	// TODO: Wrong calculate
 	cal_f = sign * e2 * fra;
 
 	printf("%-2d %-8d %-23d : %10.5f(%.2f) : %08x\n",
-		fp32->sign, fp32->exponent, fp32->mantissa, f, cal_f, i32);
+		fp32->sign, fp32->exponent, fp32->fraction, f, cal_f, i32);
 
 	return cal_f;
 }
