@@ -22,19 +22,23 @@ struct fp32 {
 #endif
 } __attribute__((packed));
 
-static struct fp32 fp32_NaN = FP32(1, 255, 255);
-static struct fp32 fp32_Inf = FP32(1, 255, 0);
-static struct fp32 fp32_Zero = FP32(0, 0, 0);
+const struct fp32 fp32_NaN = FP32(1, 255, 255);
+const struct fp32 fp32_Inf = FP32(1, 255, 0);
+const struct fp32 fp32_Zero = FP32(0, 0, 0);
+/* see https://en.wikipedia.org/wiki/Single-precision_floating-point_format */
+const struct fp32 fp32_0dot15625 = FP32(0, 0x7c, 0x200000);
 
 void float_to_fp32(const float f, struct fp32 *fp32)
 {
 	float tmp = f;
 	int32_t i32 = *(int32_t *)&tmp;
 
-	fp32 = (struct fp32 *)&i32;
+	*fp32 = *(struct fp32 *)&i32;
 
+#ifdef DEBUG
 	printf("%20.5f : %08x : %-2d %-8d %-23d\n", f, i32,
 		fp32->sign, fp32->exponent, fp32->fraction);
+#endif
 }
 
 float fp32_to_float(const struct fp32 *fp32)
@@ -44,6 +48,7 @@ float fp32_to_float(const struct fp32 *fp32)
 	int32_t i32 = *(int32_t *)fp32;
 
 	f = *(float *)&i32;
+	(void)f;
 
 	float sign = 1 - 2 * (fp32->sign % 2);
 	float e2, fra;
@@ -82,35 +87,33 @@ float fp32_to_float(const struct fp32 *fp32)
 	cal_f = sign * e2 * fra;
 
 skip_cal:
+#ifdef DEBUG
 	printf("%-1x %-2x %-6x : %10.5f(%10.5f) : %08x\n",
 		fp32->sign, fp32->exponent, fp32->fraction, f, cal_f, i32);
-
+#endif
 	return cal_f;
+}
+
+void check_fp32(float f)
+{
+	float to;
+	struct fp32 fp32;
+
+	float_to_fp32(f, &fp32);
+	to = fp32_to_float(&fp32);
+
+	printf("%f vs %f\n", f, to);
 }
 
 int main(void)
 {
-	struct fp32 fp32;
-
 	assert(sizeof(struct fp32) == 4);
 
-	fp32_to_float(&fp32_NaN);
-	fp32_to_float(&fp32_Inf);
-	fp32_to_float(&fp32_Zero);
-
-	/* see https://en.wikipedia.org/wiki/Single-precision_floating-point_format */
-	struct fp32 fp32_0dot15625 = FP32(0, 0x7c, 0x200000);
-	fp32_to_float(&fp32_0dot15625);
-
-	float_to_fp32(0.0f, &fp32);
-	float_to_fp32(1.0f, &fp32);
-	float_to_fp32(2.0f, &fp32);
-	float_to_fp32(4.0f, &fp32);
-	float_to_fp32(5.0f, &fp32);
-	float_to_fp32(-1.0f, &fp32);
-	float_to_fp32(-1024.0f, &fp32);
-	float_to_fp32(1.0f / 3, &fp32);
-	float_to_fp32(0.15625f, &fp32);
+	check_fp32(0);
+	check_fp32(1.2f);
+	check_fp32(0.2f);
+	check_fp32(3.14159265f);
+	check_fp32(-3.14159265f);
 
 	return 0;
 }
