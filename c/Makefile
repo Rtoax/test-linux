@@ -1,4 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
+OUTPUT := .output/
+
 include ../kconfig.mk
 CC := gcc
 include ../compiler/compiler.mk
@@ -76,53 +78,53 @@ CFLAGS___STDC__c17 := -std=c89 -DSTD_C17=1
 LDFLAGS_float := -lm
 
 # preprocessing
-targets-prep := ${targets:=.E.c}
+targets-prep := $(patsubst %,${OUTPUT}%.E.c,$(targets))
 
 include ../template/main.mk
 
-arg: arg.o
-argv: argv.o
-auto: auto.o
-approaching: approaching.o
-ascii: ascii.o
-alignas: alignas.o
-arch-unsigned-signed: arch-unsigned-signed.o
-case: case.o
-const: const.o
-param-pass: param-pass.o
-array: array.o
-compat: compat.o
-compare: compare.o
-dummy: dummy.o
-float: float.o
-_Generic: _Generic.o
-goto: goto.o
-ptr-dim: ptr-dim.o c_helpers.o
-struct: struct.o
-string: string.o
-union: union.o
-xor: xor.o
-__alignof__: __alignof__.o
-__has_include: __has_include.o
-__has_feature: __has_feature.o
-__label__: __label__.o
-__typeof__: __typeof__.o
-NULL: NULL.o
-_Nullable: _Nullable.o
-_Nonnull: _Nonnull.o
-BUILD_BUG_ON_ZERO: BUILD_BUG_ON_ZERO.o
-macro: macro.o
-while: while.o
-while-sleep: while-sleep.o
-stub: stub.o
-if: if.o
-enum: enum.o
-__STDC__: __STDC__.o
-__STDC__c98: __STDC__c98.o
-__STDC__gnu98: __STDC__gnu98.o
-__STDC__c17: __STDC__c17.o
-include_next: include_next.o
-unsigned: unsigned.o
-restrict: restrict.o
-ternary: ternary.o
-return: return.o
+arg: ${OUTPUT}arg.o
+argv: ${OUTPUT}argv.o
+auto: ${OUTPUT}auto.o
+approaching: ${OUTPUT}approaching.o
+ascii: ${OUTPUT}ascii.o
+alignas: ${OUTPUT}alignas.o
+arch-unsigned-signed: ${OUTPUT}arch-unsigned-signed.o
+case: ${OUTPUT}case.o
+const: ${OUTPUT}const.o
+param-pass: ${OUTPUT}param-pass.o
+array: ${OUTPUT}array.o
+compat: ${OUTPUT}compat.o
+compare: ${OUTPUT}compare.o
+dummy: ${OUTPUT}dummy.o
+float: ${OUTPUT}float.o
+_Generic: ${OUTPUT}_Generic.o
+goto: ${OUTPUT}goto.o
+ptr-dim: ${OUTPUT}ptr-dim.o ${OUTPUT}c_helpers.o
+struct: ${OUTPUT}struct.o
+string: ${OUTPUT}string.o
+union: ${OUTPUT}union.o
+xor: ${OUTPUT}xor.o
+__alignof__: ${OUTPUT}__alignof__.o
+__has_include: ${OUTPUT}__has_include.o
+__has_feature: ${OUTPUT}__has_feature.o
+__label__: ${OUTPUT}__label__.o
+__typeof__: ${OUTPUT}__typeof__.o
+NULL: ${OUTPUT}NULL.o
+_Nullable: ${OUTPUT}_Nullable.o
+_Nonnull: ${OUTPUT}_Nonnull.o
+BUILD_BUG_ON_ZERO: ${OUTPUT}BUILD_BUG_ON_ZERO.o
+macro: ${OUTPUT}macro.o
+while: ${OUTPUT}while.o
+while-sleep: ${OUTPUT}while-sleep.o
+stub: ${OUTPUT}stub.o
+if: ${OUTPUT}if.o
+enum: ${OUTPUT}enum.o
+__STDC__: ${OUTPUT}__STDC__.o
+__STDC__c98: ${OUTPUT}__STDC__c98.o
+__STDC__gnu98: ${OUTPUT}__STDC__gnu98.o
+__STDC__c17: ${OUTPUT}__STDC__c17.o
+include_next: ${OUTPUT}include_next.o
+unsigned: ${OUTPUT}unsigned.o
+restrict: ${OUTPUT}restrict.o
+ternary: ${OUTPUT}ternary.o
+return: ${OUTPUT}return.o
