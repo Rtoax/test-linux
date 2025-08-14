@@ -1,10 +1,12 @@
 - BLAS: Basic Linear Algebra Subprograms (基本线性代数子程序)
 - CSR: Compressed Sparse Row (压缩稀疏行) @CSC
 - CSC: Compressed Sparse Column (压缩稀疏列) @CSR
+- DP: Double Precision (双精度) @FP64
 - FLOPs: Floating Point of Operations (浮点运算)
 - FLOPS: Floating Point Operations Per Second (每秒浮点运算个数)
 - FMA: Fused Multiply-Add ()
 - FP: Float Point (浮点, IEEE 754-2008) @TF
+- FP64: FP 64-bit (双精度浮点) @DP
 - GFLOPS: Giga FLOPS (每秒10亿次的浮点运算数) @FLOPS
 - GEMM: General Matrix-Matrix Multiplication (广义矩阵乘法, C=α⋅A⋅B+β⋅C)
 - GPU: Graphics Processing Unit (图形处理器)
