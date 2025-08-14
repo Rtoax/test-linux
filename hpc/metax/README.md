@@ -5,7 +5,7 @@ MetaX
 
 - **ht-smi topo**
 	- commit d74b9ae9bf9b ("metax: README: Mars X203: OAM topo matrix")
-	- topo nic
+	- commit a7a937db7c36 ("metax: README: Mars X203: OAM topo nic mlx")
 
 # Benchmark
 
