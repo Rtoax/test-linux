@@ -41,7 +41,7 @@ int main(int argc, char *argv[])
 	gpu_init(0);
 
 	it = 1;
-	dim = 3;
+	dim = 2;
 	bx = gx = 2;
 	by = gy = 2;
 	bz = gz = 2;
