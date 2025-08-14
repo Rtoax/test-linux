@@ -15,7 +15,6 @@
 - LSA: Label Storage Area (标签存储区)
 - MHD: Muiltple Headed Device ()
 - MLD: Muiltple Logical Device (多逻辑设备)
-- NVLINK: () @NVIDIA
 - OMI: Open Memory Interface (开放内存接口)
 - CAPI/OpenCAPI: Open Coherent Accelerator Processor Interface (开放相干加速器处理器接) @IBM
 - PXB: PCI eXpander Bridge (PCI 扩展桥)
