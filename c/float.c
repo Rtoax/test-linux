@@ -23,6 +23,7 @@ struct fp32 {
 } __attribute__((packed));
 
 static struct fp32 fp32_NaN = FP32(1, 255, 255);
+static struct fp32 fp32_Inf = FP32(1, 255, 0);
 static struct fp32 fp32_Zero = FP32(0, 0, 0);
 
 void float_to_fp32(const float f, struct fp32 *fp32)
@@ -48,11 +49,25 @@ float fp32_to_float(const struct fp32 *fp32)
 	float e2, fra;
 
 	if (fp32->exponent == 0) {
-		e2 = exp2(-14);
-		fra = fp32->fraction / 1024;
+		if (fp32->fraction == 0) {
+			cal_f = sign * 0.0f;
+			goto skip_cal;
+		} else {
+			e2 = exp2(-126);
+			fra = 0;
+			for (i = 1; i <= 23; i++) {
+				unsigned int tmp = fp32->fraction >> (23 - i) & 0x1;
+				if (tmp == 0)
+					continue;
+				fra += exp2(-i);
+			}
+		}
 	} else if (fp32->exponent == 0xff) {
-		//if (fp32->fraction = 0)
-		// TODO: 0: +inf,-inf else NaN
+		if (fp32->fraction == 0)
+			cal_f = sign * *(float *)&fp32_Inf;
+		else
+			cal_f = *(float *)&fp32_NaN;
+		goto skip_cal;
 	} else {
 		e2 = exp2(fp32->exponent - 127);
 		fra = 1;
@@ -66,7 +81,8 @@ float fp32_to_float(const struct fp32 *fp32)
 
 	cal_f = sign * e2 * fra;
 
-	printf("%-1x %-2x %-6x : %10.5f(%.2f) : %08x\n",
+skip_cal:
+	printf("%-1x %-2x %-6x : %10.5f(%10.5f) : %08x\n",
 		fp32->sign, fp32->exponent, fp32->fraction, f, cal_f, i32);
 
 	return cal_f;
@@ -79,6 +95,7 @@ int main(void)
 	assert(sizeof(struct fp32) == 4);
 
 	fp32_to_float(&fp32_NaN);
+	fp32_to_float(&fp32_Inf);
 	fp32_to_float(&fp32_Zero);
 
 	/* see https://en.wikipedia.org/wiki/Single-precision_floating-point_format */
