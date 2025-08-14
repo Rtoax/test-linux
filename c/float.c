@@ -38,6 +38,7 @@ void float_to_fp32(const float f, struct fp32 *fp32)
 
 float fp32_to_float(const struct fp32 *fp32)
 {
+	int i;
 	float f, cal_f;
 	int32_t i32 = *(int32_t *)fp32;
 
@@ -54,13 +55,18 @@ float fp32_to_float(const struct fp32 *fp32)
 		// TODO: 0: +inf,-inf else NaN
 	} else {
 		e2 = exp2(fp32->exponent - 127);
-		fra = 1 + fp32->fraction / 1024;
+		fra = 1;
+		for (i = 1; i <= 23; i++) {
+			unsigned int tmp = fp32->fraction >> (23 - i) & 0x1;
+			if (tmp == 0)
+				continue;
+			fra += exp2(-i);
+		}
 	}
 
-	// TODO: Wrong calculate
 	cal_f = sign * e2 * fra;
 
-	printf("%-2d %-8d %-23d : %10.5f(%.2f) : %08x\n",
+	printf("%-1x %-2x %-6x : %10.5f(%.2f) : %08x\n",
 		fp32->sign, fp32->exponent, fp32->fraction, f, cal_f, i32);
 
 	return cal_f;
