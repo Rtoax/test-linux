@@ -3,4 +3,6 @@
 - DPU: Data Processing Unit (数据处理单元)
 - MCU: Microcontroller Unit (微控制单元)
 - MSR: Module Specific Register (TODO)
+- QPI: QuickPath Interconnect (快速路径互连) @Intel @NUMA @UPI
 - SMP: Symmetric Multiple Processing (对称多处理器)
+- UPI: Quick Path Interconnect (超级路径互连) @Intel @NUMA @QPI
