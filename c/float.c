@@ -24,7 +24,7 @@ typedef union fp64 {
 		# define __FP64_INITIALIZER(s, e, f) {s, e, f}
 		#endif
 	};
-	double fp64;
+	double f64;
 	int64_t i64;
 #define FP64_INITIALIZER(s, e, f) {__FP64_INITIALIZER(s, e, f)}
 #define FP64(s, e, f) (((s & 0x1UL) << 63) | ((e & 0x7ffUL) << 52) | ((f & 0xfffffffffffffUL)))
@@ -44,7 +44,7 @@ typedef union fp32 {
 		# define __FP32_INITIALIZER(s, e, f) {s, e, f}
 		#endif
 	};
-	float fp32;
+	float f32;
 	int32_t i32;
 #define FP32_INITIALIZER(s, e, f) {__FP32_INITIALIZER(s, e, f)}
 } __attribute__((packed)) fp32_t;
@@ -59,7 +59,6 @@ const fp32_t fp32_0dot15625 = FP32_INITIALIZER(0, 0x7c, 0x200000);
 
 /* https://en.wikipedia.org/wiki/Double-precision_floating-point_format */
 const fp64_t fp64_NaN = FP64_INITIALIZER(1, 0x7ff, 0xfffffffffffff);
-const int64_t double_NaN = FP64(1, 0x7ff, 0xfffffffffffff);
 const fp64_t fp64_PosInf = FP64_INITIALIZER(0, 0x7ff, 0);
 const fp64_t fp64_NegInf = FP64_INITIALIZER(1, 0x7ff, 0);
 const fp64_t fp64_PosZero = FP64_INITIALIZER(0, 0, 0);
@@ -195,6 +194,11 @@ int main(void)
 	check_fp32(0.23456789f);
 	check_fp32(3.14159265f);
 	check_fp32(-3.14159265f);
+	check_fp32(fp32_NaN.f32);
+	check_fp32(fp32_PosInf.f32);
+	check_fp32(fp32_NegInf.f32);
+	check_fp32(fp32_PosZero.f32);
+	check_fp32(fp32_NegZero.f32);
 
 	check_fp64(0);
 	check_fp64(1.2);
@@ -203,7 +207,11 @@ int main(void)
 	check_fp64(0.23456789);
 	check_fp64(3.14159265);
 	check_fp64(-3.14159265);
-	check_fp64(*(double *)&double_NaN);
+	check_fp64(fp64_NaN.f64);
+	check_fp64(fp64_PosInf.f64);
+	check_fp64(fp64_NegInf.f64);
+	check_fp64(fp64_PosZero.f64);
+	check_fp64(fp64_NegZero.f64);
 
 	return 0;
 }
