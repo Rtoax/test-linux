@@ -28,6 +28,20 @@ const struct fp32 fp32_Zero = FP32(0, 0, 0);
 /* see https://en.wikipedia.org/wiki/Single-precision_floating-point_format */
 const struct fp32 fp32_0dot15625 = FP32(0, 0x7c, 0x200000);
 
+float fraction_value(unsigned int fraction, unsigned int nbits)
+{
+	unsigned int tmp, i;
+	float fra = 0.0f;
+
+	for (i = 1; i <= nbits; i++) {
+		tmp = (fraction >> (nbits - i)) & 0x1;
+		if (tmp == 0)
+			continue;
+		fra += exp2f(-1.0f * i);
+	}
+	return fra;
+}
+
 void float_to_fp32(const float f, struct fp32 *fp32)
 {
 	float tmp = f;
@@ -38,7 +52,6 @@ void float_to_fp32(const float f, struct fp32 *fp32)
 
 float fp32_to_float(const struct fp32 *fp32)
 {
-	int i;
 	float f;
 	int32_t i32 = *(int32_t *)fp32;
 
@@ -52,14 +65,8 @@ float fp32_to_float(const struct fp32 *fp32)
 		if (fp32->fraction == 0) {
 			return sign * 0.0f;
 		} else {
-			e2 = exp2(-126);
-			fra = 0;
-			for (i = 1; i <= 23; i++) {
-				unsigned int tmp = fp32->fraction >> (23 - i) & 0x1;
-				if (tmp == 0)
-					continue;
-				fra += exp2(-i);
-			}
+			e2 = exp2f(-126.0f);
+			fra = 0 + fraction_value(fp32->fraction, 23);
 		}
 	} else if (fp32->exponent == 0xff) {
 		if (fp32->fraction == 0)
@@ -67,14 +74,8 @@ float fp32_to_float(const struct fp32 *fp32)
 		else
 			return *(float *)&fp32_NaN;
 	} else {
-		e2 = exp2(fp32->exponent - 127);
-		fra = 1;
-		for (i = 1; i <= 23; i++) {
-			unsigned int tmp = fp32->fraction >> (23 - i) & 0x1;
-			if (tmp == 0)
-				continue;
-			fra += exp2(-i);
-		}
+		e2 = exp2f(fp32->exponent - 127.0f);
+		fra = 1 + fraction_value(fp32->fraction, 23);
 	}
 
 	return sign * e2 * fra;
