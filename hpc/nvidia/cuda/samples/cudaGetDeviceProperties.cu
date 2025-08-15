@@ -1,10 +1,13 @@
 // SPDX-License-Identifier: GPL-3.0
 /* Copyright (c) 2025 Rong Tao */
 /**
- * - NVIDIA H800 device properties
+ * - NVIDIA H800
  *   commit b8164f610bdb ("hpc: DeviceProp: display multiProcessorCount and maxThreadsPerMultiProcessor")
- * - MetaX Mars 03 device properties
- *   commit b8164f610bdb ("hpc: DeviceProp: display multiProcessorCount and maxThreadsPerMultiProcessor")
+ * - NVIDIA GeForce RTX 3060
+ *   commit 3dfdd4a370f2 ("hpc: DeviceProp: NVIDIA GeForce RTX 3060")
+ * - MetaX Mars 03
+ *   commit 79e92d93846f ("hpc: DeviceProp: MetaX Mars X203")
+ *
  * - cuda-12.9 struct cudaDeviceProp
  *   commit d072d32dcb00 ("cuda: cudaGetDeviceProperties.cu: display more")
  */
