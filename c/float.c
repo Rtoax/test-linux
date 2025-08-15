@@ -15,12 +15,12 @@ typedef struct fp64 {
 	uint64_t fraction:52;
 	uint64_t exponent:11;
 	uint64_t sign:1;
-#define FP64(sign, exponent, fraction) {fraction, exponent, sign}
+#define FP64_INITIALIZER(sign, exponent, fraction) {fraction, exponent, sign}
 #else
 	uint64_t sign:1;
 	uint64_t exponent:11;
 	uint64_t fraction:52;
-#define FP64(sign, exponent, fraction) {sign, exponent, fraction}
+#define FP64_INITIALIZER(sign, exponent, fraction) {sign, exponent, fraction}
 #endif
 } __attribute__((packed)) fp64_t;
 
@@ -29,29 +29,29 @@ typedef struct fp32 {
 	uint32_t fraction:23;
 	uint32_t exponent:8;
 	uint32_t sign:1;
-#define FP32(sign, exponent, fraction) {fraction, exponent, sign}
+#define FP32_INITIALIZER(sign, exponent, fraction) {fraction, exponent, sign}
 #else
 	uint32_t sign:1;
 	uint32_t exponent:8;
 	uint32_t fraction:23;
-#define FP32(sign, exponent, fraction) {sign, exponent, fraction}
+#define FP32_INITIALIZER(sign, exponent, fraction) {sign, exponent, fraction}
 #endif
 } __attribute__((packed)) fp32_t;
 
 /* https://en.wikipedia.org/wiki/Single-precision_floating-point_format */
-const fp32_t fp32_NaN = FP32(1, 255, 255);
-const fp32_t fp32_PosInf = FP32(0, 255, 0);
-const fp32_t fp32_NegInf = FP32(1, 255, 0);
-const fp32_t fp32_PosZero = FP32(0, 0, 0);
-const fp32_t fp32_NegZero = FP32(1, 0, 0);
-const fp32_t fp32_0dot15625 = FP32(0, 0x7c, 0x200000);
+const fp32_t fp32_NaN = FP32_INITIALIZER(1, 255, 255);
+const fp32_t fp32_PosInf = FP32_INITIALIZER(0, 255, 0);
+const fp32_t fp32_NegInf = FP32_INITIALIZER(1, 255, 0);
+const fp32_t fp32_PosZero = FP32_INITIALIZER(0, 0, 0);
+const fp32_t fp32_NegZero = FP32_INITIALIZER(1, 0, 0);
+const fp32_t fp32_0dot15625 = FP32_INITIALIZER(0, 0x7c, 0x200000);
 
 /* https://en.wikipedia.org/wiki/Double-precision_floating-point_format */
-const fp64_t fp64_NaN = FP64(1, 0x7ff, 0xfffffffffffff);
-const fp64_t fp64_PosInf = FP64(0, 0x7ff, 0);
-const fp64_t fp64_NegInf = FP64(1, 0x7ff, 0);
-const fp64_t fp64_PosZero = FP64(0, 0, 0);
-const fp64_t fp64_NegZero = FP64(1, 0, 0);
+const fp64_t fp64_NaN = FP64_INITIALIZER(1, 0x7ff, 0xfffffffffffff);
+const fp64_t fp64_PosInf = FP64_INITIALIZER(0, 0x7ff, 0);
+const fp64_t fp64_NegInf = FP64_INITIALIZER(1, 0x7ff, 0);
+const fp64_t fp64_PosZero = FP64_INITIALIZER(0, 0, 0);
+const fp64_t fp64_NegZero = FP64_INITIALIZER(1, 0, 0);
 
 
 /* Could use to both float and double */
