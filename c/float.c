@@ -1,12 +1,27 @@
 /**
  * https://en.wikipedia.org/wiki/IEEE_754-2008_revision
  * https://en.wikipedia.org/wiki/Single-precision_floating-point_format
+ * https://en.wikipedia.org/wiki/Double-precision_floating-point_format
  */
 #include <assert.h>
 #include <stdio.h>
 #include <stdint.h>
 #include <math.h>
 #include <byteswap.h>
+
+typedef struct fp64 {
+#if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
+	uint64_t fraction:52;
+	uint64_t exponent:11;
+	uint64_t sign:1;
+#define FP64(sign, exponent, fraction) {fraction, exponent, sign}
+#else
+	uint64_t sign:1;
+	uint64_t exponent:11;
+	uint64_t fraction:52;
+#define FP64(sign, exponent, fraction) {sign, exponent, fraction}
+#endif
+} __attribute__((packed)) fp64_t;
 
 typedef struct fp32 {
 #if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
@@ -96,6 +111,7 @@ void check_fp32(float f)
 int main(void)
 {
 	assert(sizeof(fp32_t) == 4 && "Bad size of fp32");
+	assert(sizeof(fp64_t) == 8 && "Bad size of fp64");
 
 	check_fp32(0);
 	check_fp32(1.2f);
