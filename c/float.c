@@ -41,7 +41,8 @@ typedef union fp64 {
 	double f64;
 	uint64_t i64;
 #define FP64_INITIALIZER(s, e, f) {__FP64_INITIALIZER(s, e, f)}
-#define FP64(s, e, f) (((s & 0x1UL) << 63) | ((e & 0x7ffUL) << 52) | ((f & 0xfffffffffffffUL)))
+#define FP64(s, e, f) (((s & 0x1UL) << 63) | ((e & 0x7ffUL) << 52) | \
+		       ((f & 0xfffffffffffffUL)))
 } __attribute__((packed)) fp64_t;
 
 /* https://en.wikipedia.org/wiki/Double-precision_floating-point_format */
@@ -130,12 +131,6 @@ void double_to_fp64(const double d, fp64_t *fp64)
 
 double fp64_to_double(const fp64_t *fp64)
 {
-	double f;
-	int64_t i64 = *(int64_t *)fp64;
-
-	f = *(double *)&i64;
-	(void)f;
-
 	double sign = 1 - 2 * (fp64->sign % 2);
 	double e2, fra;
 
@@ -168,7 +163,8 @@ void check_fp64(double f)
 	double_to_fp64(f, &fp64);
 	to = fp64_to_double(&fp64);
 
-	printf("%lf vs %lf (%x %x %lx)\n", f, to, fp64.sign, fp64.exponent, (uint64_t)fp64.fraction);
+	printf("%lf vs %lf (%x %x %lx)\n", f, to, fp64.sign, fp64.exponent,
+		(uint64_t)fp64.fraction);
 }
 
 void float_to_fp32(const float f, fp32_t *fp32)
@@ -181,12 +177,6 @@ void float_to_fp32(const float f, fp32_t *fp32)
 
 float fp32_to_float(const fp32_t *fp32)
 {
-	float f;
-	int32_t i32 = *(int32_t *)fp32;
-
-	f = *(float *)&i32;
-	(void)f;
-
 	float sign = 1 - 2 * (fp32->sign % 2);
 	float e2, fra;
 
@@ -219,7 +209,8 @@ void check_fp32(float f)
 	float_to_fp32(f, &fp32);
 	to = fp32_to_float(&fp32);
 
-	printf("%f vs %f (%x %x %x)\n", f, to, fp32.sign, fp32.exponent, fp32.fraction);
+	printf("%f vs %f (%x %x %x)\n", f, to, fp32.sign, fp32.exponent,
+		fp32.fraction);
 }
 
 void float16_to_fp16(const _Float16 f, fp16_t *fp16)
@@ -232,12 +223,6 @@ void float16_to_fp16(const _Float16 f, fp16_t *fp16)
 
 _Float16 fp16_to_float16(const fp16_t *fp16)
 {
-	_Float16 f;
-	int16_t i16 = *(int16_t *)fp16;
-
-	f = *(_Float16 *)&i16;
-	(void)f;
-
 	_Float16 sign = 1 - 2 * (fp16->sign % 2);
 	_Float16 e2, fra;
 
@@ -270,7 +255,8 @@ void check_fp16(_Float16 f)
 	float16_to_fp16(f, &fp16);
 	to = fp16_to_float16(&fp16);
 
-	printf("%f vs %f (%x %x %x)\n", (float)f, (float)to, fp16.sign, fp16.exponent, fp16.fraction);
+	printf("%f vs %f (%x %x %x)\n", (float)f, (float)to,
+		fp16.sign, fp16.exponent, fp16.fraction);
 }
 
 int main(void)
@@ -278,6 +264,19 @@ int main(void)
 	assert(sizeof(fp64_t) == 8 && "Bad size of fp64");
 	assert(sizeof(fp32_t) == 4 && "Bad size of fp32");
 	assert(sizeof(fp16_t) == 2 && "Bad size of fp16");
+
+#define ARRAY_SIZE(arr)	(sizeof(arr) / sizeof(arr[0]))
+const static char *ascii[] = {
+	"\033[32m",
+	"\033[33m",
+	"\033[34m",
+};
+static const char *reset = "\033[m";
+static int ascii_idx = 0;
+#define seperator() printf("%s%s", reset, ascii[ascii_idx++ % ARRAY_SIZE(ascii)])
+#define reset() printf("%s", reset)
+
+	seperator();
 
 	check_fp64(0);
 	check_fp64(1.2);
@@ -292,6 +291,8 @@ int main(void)
 	check_fp64(fp64_PosZero.f64);
 	check_fp64(fp64_NegZero.f64);
 
+	seperator();
+
 	check_fp32(0);
 	check_fp32(1.2f);
 	check_fp32(0.2f);
@@ -305,6 +306,8 @@ int main(void)
 	check_fp32(fp32_PosZero.f32);
 	check_fp32(fp32_NegZero.f32);
 
+	seperator();
+
 	check_fp16(0);
 	check_fp16(1.2);
 	check_fp16(0.2);
@@ -317,6 +320,8 @@ int main(void)
 	check_fp16(fp16_NegInf.f16);
 	check_fp16(fp16_PosZero.f16);
 	check_fp16(fp16_NegZero.f16);
+
+	reset();
 
 #ifdef HAVE_CUDA
 	half f16 = __float2half(1.0f);

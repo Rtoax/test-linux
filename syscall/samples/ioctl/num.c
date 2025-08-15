@@ -24,7 +24,7 @@ const static char *ascii[] = {
 	"\033[1;32m",
 	"\033[1;33m",
 };
-static char *reset = "\033[m";
+static const char *reset = "\033[m";
 static int ascii_idx = 0;
 #define seperator() printf("%s%s", reset, ascii[ascii_idx++ % ARRAY_SIZE(ascii)])
 #define reset() printf("%s", reset)
