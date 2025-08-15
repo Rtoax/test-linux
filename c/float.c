@@ -22,6 +22,9 @@ typedef struct fp64 {
 	uint64_t fraction:52;
 #define FP64_INITIALIZER(sign, exponent, fraction) {sign, exponent, fraction}
 #endif
+#define FP64(sign, exponent, fraction) (((sign & 0x1UL) << 63) | \
+					((exponent & 0x7ffUL) << 52) | \
+					((fraction & 0xfffffffffffffUL)))
 } __attribute__((packed)) fp64_t;
 
 typedef struct fp32 {
@@ -48,6 +51,7 @@ const fp32_t fp32_0dot15625 = FP32_INITIALIZER(0, 0x7c, 0x200000);
 
 /* https://en.wikipedia.org/wiki/Double-precision_floating-point_format */
 const fp64_t fp64_NaN = FP64_INITIALIZER(1, 0x7ff, 0xfffffffffffff);
+const int64_t double_NaN = FP64(1, 0x7ff, 0xfffffffffffff);
 const fp64_t fp64_PosInf = FP64_INITIALIZER(0, 0x7ff, 0);
 const fp64_t fp64_NegInf = FP64_INITIALIZER(1, 0x7ff, 0);
 const fp64_t fp64_PosZero = FP64_INITIALIZER(0, 0, 0);
@@ -95,7 +99,7 @@ double fp64_to_double(const fp64_t *fp64)
 			e2 = exp2(-1022.0);
 			fra = 0 + fraction_value(fp64->fraction, 52);
 		}
-	} else if (fp64->exponent == 0xff) {
+	} else if (fp64->exponent == 0x7ff) {
 		if (fp64->fraction == 0)
 			return fp64->sign == 0 ? *(double *)&fp64_PosInf :
 						 *(double *)&fp64_NegInf;
@@ -191,6 +195,7 @@ int main(void)
 	check_fp64(0.23456789);
 	check_fp64(3.14159265);
 	check_fp64(-3.14159265);
+	check_fp64(*(double *)&double_NaN);
 
 	return 0;
 }
