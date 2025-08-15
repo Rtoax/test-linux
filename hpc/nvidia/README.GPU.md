@@ -20,7 +20,7 @@ GPU - Graphics Processing Unit
 
 # SM: Streaming Multiprocessors
 
-## Nvidia Pascal GP100
+## Nvidia Pascal GP100 SM Unit
 
 ```
 ┌───────────────────────────────────────────────────────────────────────────────────────────────────────────┐
@@ -105,3 +105,9 @@ GPU - Graphics Processing Unit
 │└───────────────────┘│
 └─────────────────────┘
 ```
+
+
+# Links
+
+- Whitepaper [NVIDIA Tesla P100](https://images.nvidia.cn/content/pdf/tesla/whitepaper/pascal-architecture-whitepaper.pdf)
+- Whitepaper [NVIDIA TESLA V100](https://images.nvidia.cn/content/volta-architecture/pdf/volta-architecture-whitepaper.pdf)

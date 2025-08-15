@@ -1,6 +1,8 @@
+- ALU: Arithmetic Logic Unit (算术逻辑单元)
 - AMD: Advanced Micro Devices ()
 - CPU: Central Processor Units (中央处理器)
 - DPU: Data Processing Unit (数据处理单元)
+- FPU: Floating Point Unit (浮点单元)
 - MCU: Microcontroller Unit (微控制单元)
 - MSR: Module Specific Register (TODO)
 - QPI: QuickPath Interconnect (快速路径互连) @Intel @NUMA @UPI

@@ -9,6 +9,7 @@
 - FP64: FP 64-bit (双精度浮点) @DP
 - GFLOPS: Giga FLOPS (每秒10亿次的浮点运算数) @FLOPS
 - GEMM: General Matrix-Matrix Multiplication (广义矩阵乘法, C=α⋅A⋅B+β⋅C)
+- GPC: Graphics Processing Cluster (图形处理器集合)
 - GPU: Graphics Processing Unit (图形处理器)
 - HBM: High Bandwidth Memory (高带宽内存)
 - HBM2: HBM 2 generation (第二代 HBM) @HBM
@@ -31,3 +32,4 @@
 - TF: TensorFloat (张量浮点) @TF @FP
 - TFLOPS: teraFLOPS (每秒一万亿次的浮点运算)
 - TOPS: Tera Operations Per Second (处理器每秒一万亿次)
+- TPC: Texture Processing Cluster (纹理处理器集群)
