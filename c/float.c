@@ -24,6 +24,20 @@
 # endif
 #endif
 
+#define ARRAY_SIZE(arr)	(sizeof(arr) / sizeof(arr[0]))
+const static char *ascii[] = {
+	"\033[32m",
+	"\033[33m",
+	"\033[34m",
+	"\033[35m",
+	"\033[36m",
+};
+static const char *reset = "\033[m";
+static int ascii_idx = 0;
+#define seperator() printf("%s%s", reset, ascii[ascii_idx++ % ARRAY_SIZE(ascii)])
+#define reset() printf("%s", reset)
+
+
 typedef union fp64 {
 	struct {
 		#if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
@@ -259,22 +273,22 @@ void check_fp16(_Float16 f)
 		fp16.sign, fp16.exponent, fp16.fraction);
 }
 
+#ifdef HAVE_CUDA
+/* CUDA fp16 is totally same as IEEE-754 Half-precision-floating */
+void check_fp16_cuda(_Float16 f)
+{
+	half f16 = *(half *)&f;
+	check_fp16(*(_Float16 *)&f16);
+}
+#else
+# define check_fp16_cuda(f) do {} while (0)
+#endif
+
 int main(void)
 {
 	assert(sizeof(fp64_t) == 8 && "Bad size of fp64");
 	assert(sizeof(fp32_t) == 4 && "Bad size of fp32");
 	assert(sizeof(fp16_t) == 2 && "Bad size of fp16");
-
-#define ARRAY_SIZE(arr)	(sizeof(arr) / sizeof(arr[0]))
-const static char *ascii[] = {
-	"\033[32m",
-	"\033[33m",
-	"\033[34m",
-};
-static const char *reset = "\033[m";
-static int ascii_idx = 0;
-#define seperator() printf("%s%s", reset, ascii[ascii_idx++ % ARRAY_SIZE(ascii)])
-#define reset() printf("%s", reset)
 
 	seperator();
 
@@ -321,12 +335,23 @@ static int ascii_idx = 0;
 	check_fp16(fp16_PosZero.f16);
 	check_fp16(fp16_NegZero.f16);
 
-	reset();
+	seperator();
 
-#ifdef HAVE_CUDA
-	half f16 = __float2half(1.0f);
-	// TODO
-#endif
+	check_fp16_cuda(0);
+	check_fp16_cuda(1.2);
+	check_fp16_cuda(0.2);
+	check_fp16_cuda(1.23456789);
+	check_fp16_cuda(0.23456789);
+	check_fp16_cuda(3.14159265);
+	check_fp16_cuda(-3.14159265);
+	check_fp16_cuda(fp16_NaN.f16);
+	check_fp16_cuda(fp16_PosInf.f16);
+	check_fp16_cuda(fp16_NegInf.f16);
+	check_fp16_cuda(fp16_PosZero.f16);
+	check_fp16_cuda(fp16_NegZero.f16);
+	check_fp16_cuda(fp16_NaN.f16);
+
+	reset();
 
 	return 0;
 }
