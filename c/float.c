@@ -40,14 +40,18 @@ typedef struct fp32 {
 
 /* https://en.wikipedia.org/wiki/Single-precision_floating-point_format */
 const fp32_t fp32_NaN = FP32(1, 255, 255);
-const fp32_t fp32_Inf = FP32(1, 255, 0);
-const fp32_t fp32_Zero = FP32(0, 0, 0);
+const fp32_t fp32_PosInf = FP32(0, 255, 0);
+const fp32_t fp32_NegInf = FP32(1, 255, 0);
+const fp32_t fp32_PosZero = FP32(0, 0, 0);
+const fp32_t fp32_NegZero = FP32(1, 0, 0);
 const fp32_t fp32_0dot15625 = FP32(0, 0x7c, 0x200000);
 
 /* https://en.wikipedia.org/wiki/Double-precision_floating-point_format */
 const fp64_t fp64_NaN = FP64(1, 0x7ff, 0xfffffffffffff);
-const fp64_t fp64_Inf = FP64(1, 0x7ff, 0);
-const fp64_t fp64_Zero = FP64(0, 0, 0);
+const fp64_t fp64_PosInf = FP64(0, 0x7ff, 0);
+const fp64_t fp64_NegInf = FP64(1, 0x7ff, 0);
+const fp64_t fp64_PosZero = FP64(0, 0, 0);
+const fp64_t fp64_NegZero = FP64(1, 0, 0);
 
 
 /* Could use to both float and double */
@@ -93,7 +97,8 @@ double fp64_to_double(const fp64_t *fp64)
 		}
 	} else if (fp64->exponent == 0xff) {
 		if (fp64->fraction == 0)
-			return sign * *(double *)&fp64_Inf;
+			return fp64->sign == 0 ? *(double *)&fp64_PosInf :
+						 *(double *)&fp64_NegInf;
 		else
 			return *(double *)&fp64_NaN;
 	} else {
@@ -143,7 +148,8 @@ float fp32_to_float(const fp32_t *fp32)
 		}
 	} else if (fp32->exponent == 0xff) {
 		if (fp32->fraction == 0)
-			return sign * *(float *)&fp32_Inf;
+			return fp32->sign == 0 ? *(float *)&fp32_PosInf :
+						 *(float *)&fp32_NegInf;
 		else
 			return *(float *)&fp32_NaN;
 	} else {
