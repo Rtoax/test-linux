@@ -1,4 +1,6 @@
 int main(void)
 {
-    return 0;
+	int i;
+	i = 1;
+	return i;
 }
