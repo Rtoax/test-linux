@@ -179,6 +179,8 @@ void check_fp64(double f)
 
 	printf("%lf vs %lf (%x %x %lx)\n", f, to, fp64.sign, fp64.exponent,
 		(uint64_t)fp64.fraction);
+
+	assert(*(uint64_t *)&f == *(uint64_t *)&to && "Failed to check fp64");
 }
 
 void float_to_fp32(const float f, fp32_t *fp32)
@@ -225,6 +227,8 @@ void check_fp32(float f)
 
 	printf("%f vs %f (%x %x %x)\n", f, to, fp32.sign, fp32.exponent,
 		fp32.fraction);
+
+	assert(*(uint32_t *)&f == *(uint32_t *)&to && "Failed to check fp32");
 }
 
 void float16_to_fp16(const _Float16 f, fp16_t *fp16)
@@ -271,6 +275,8 @@ void check_fp16(_Float16 f)
 
 	printf("%f vs %f (%x %x %x)\n", (float)f, (float)to,
 		fp16.sign, fp16.exponent, fp16.fraction);
+
+	assert(*(uint16_t *)&f == *(uint16_t *)&to && "Failed to check fp16");
 }
 
 #ifdef HAVE_CUDA
