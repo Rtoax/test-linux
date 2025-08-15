@@ -8,7 +8,7 @@
 #include <math.h>
 #include <byteswap.h>
 
-struct fp32 {
+typedef struct fp32 {
 #if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
 	uint32_t fraction:23;
 	uint32_t exponent:8;
@@ -20,13 +20,13 @@ struct fp32 {
 	uint32_t fraction:23;
 #define FP32(sign, exponent, fraction) {sign, exponent, fraction}
 #endif
-} __attribute__((packed));
+} __attribute__((packed)) fp32_t;
 
-const struct fp32 fp32_NaN = FP32(1, 255, 255);
-const struct fp32 fp32_Inf = FP32(1, 255, 0);
-const struct fp32 fp32_Zero = FP32(0, 0, 0);
+const fp32_t fp32_NaN = FP32(1, 255, 255);
+const fp32_t fp32_Inf = FP32(1, 255, 0);
+const fp32_t fp32_Zero = FP32(0, 0, 0);
 /* see https://en.wikipedia.org/wiki/Single-precision_floating-point_format */
-const struct fp32 fp32_0dot15625 = FP32(0, 0x7c, 0x200000);
+const fp32_t fp32_0dot15625 = FP32(0, 0x7c, 0x200000);
 
 /* Could use to both float and double */
 double fraction_value(uint64_t fraction, uint64_t nbits)
@@ -43,15 +43,15 @@ double fraction_value(uint64_t fraction, uint64_t nbits)
 	return fra;
 }
 
-void float_to_fp32(const float f, struct fp32 *fp32)
+void float_to_fp32(const float f, fp32_t *fp32)
 {
 	float tmp = f;
 	int32_t i32 = *(int32_t *)&tmp;
 
-	*fp32 = *(struct fp32 *)&i32;
+	*fp32 = *(fp32_t *)&i32;
 }
 
-float fp32_to_float(const struct fp32 *fp32)
+float fp32_to_float(const fp32_t *fp32)
 {
 	float f;
 	int32_t i32 = *(int32_t *)fp32;
@@ -85,7 +85,7 @@ float fp32_to_float(const struct fp32 *fp32)
 void check_fp32(float f)
 {
 	float to;
-	struct fp32 fp32;
+	fp32_t fp32;
 
 	float_to_fp32(f, &fp32);
 	to = fp32_to_float(&fp32);
@@ -95,7 +95,7 @@ void check_fp32(float f)
 
 int main(void)
 {
-	assert(sizeof(struct fp32) == 4 && "Bad size of fp32");
+	assert(sizeof(fp32_t) == 4 && "Bad size of fp32");
 
 	check_fp32(0);
 	check_fp32(1.2f);
