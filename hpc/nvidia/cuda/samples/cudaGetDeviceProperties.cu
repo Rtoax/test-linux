@@ -3,6 +3,7 @@
 /**
  * - NVIDIA H800 device properties
  *   commit b8164f610bdb ("hpc: DeviceProp: display multiProcessorCount and maxThreadsPerMultiProcessor")
+ * - NVIDIA GeForce RTX 3060
  * - MetaX Mars 03 device properties
  *   commit b8164f610bdb ("hpc: DeviceProp: display multiProcessorCount and maxThreadsPerMultiProcessor")
  * - cuda-12.9 struct cudaDeviceProp
