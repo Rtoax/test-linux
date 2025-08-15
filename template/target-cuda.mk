@@ -1,5 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
 NVCC := $(shell which nvcc 2>/dev/null)
+CUOBJDUMP := $(shell which cuobjdump 2>/dev/null)
+
 # see https://developer.download.nvidia.cn/compute/cuda/repos/rhel9/x86_64/
 CUDA_NVCC_123 := /usr/local/cuda-12.3/bin/nvcc
 CUDA_NVCC_129 := /usr/local/cuda-12.9/bin/nvcc
