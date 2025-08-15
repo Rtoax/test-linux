@@ -215,6 +215,14 @@ void check_fp32(float f)
 	printf("%f vs %f (%x %x %x)\n", f, to, fp32.sign, fp32.exponent, fp32.fraction);
 }
 
+void float16_to_fp16(const _Float16 f, fp16_t *fp16)
+{
+	_Float16 tmp = f;
+	int16_t i16 = *(int16_t *)&tmp;
+
+	*fp16 = *(fp16_t *)&i16;
+}
+
 int main(void)
 {
 	assert(sizeof(fp64_t) == 8 && "Bad size of fp64");
