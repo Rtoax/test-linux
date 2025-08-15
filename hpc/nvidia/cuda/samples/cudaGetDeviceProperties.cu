@@ -40,6 +40,8 @@ int main(void)
 	printf("totalGlobalMem %ld (%.0lf GiB)\n", prop.totalGlobalMem, prop.totalGlobalMem / 1e9);
 	printf("totalConstMem %ld (%.0lf GiB)\n", prop.totalConstMem, prop.totalConstMem / 1e9);
 	printf("l2CacheSize %d B (%d MB)\n", prop.l2CacheSize, prop.l2CacheSize / 1024 / 1024);
+	printf("globalL1CacheSupported %d\n", prop.globalL1CacheSupported);
+	printf("localL1CacheSupported %d\n", prop.localL1CacheSupported);
 	printf("managedMemory %d\n", prop.managedMemory);
 	printf("ECCEnabled %d\n", prop.ECCEnabled);
 
