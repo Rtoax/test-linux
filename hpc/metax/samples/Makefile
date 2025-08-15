@@ -22,6 +22,7 @@ targets-post := $(patsubst %,${OUTPUT}%.E.hpcc,$(targets-htcc))
 
 targets := matrix-c
 targets += matrix-c-double
+targets += float-c
 
 # some code use this macro test pure C
 CFLAGS_HTCC := -DHAVE_HCCL=1
@@ -38,6 +39,7 @@ LDFLAGS_HTCC_blas := -lhcblas -lhcblasLt
 CFLAGS_HTCC_hcblasLtMatmul := ${CFLAGS_HTCC_blas}
 LDFLAGS_HTCC_hcblasLtMatmul := ${LDFLAGS_HTCC_blas}
 LDFLAGS_HTCC_rand := -lhcrand
+LDFLAGS_float-c := -lm
 
 HPCC_HELPERS := ${OUTPUT}hpcc_helpers.hpcc.o
 
@@ -75,3 +77,4 @@ float: ${OUTPUT}float.hpcc.o
 
 matrix-c: ${OUTPUT}matrix.o
 matrix-c-double: ${OUTPUT}matrix-double.o
+float-c: ${OUTPUT}float.o
