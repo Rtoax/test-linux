@@ -10,14 +10,14 @@
 
 struct fp32 {
 #if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
-	unsigned int fraction:23;
-	unsigned int exponent:8;
-	unsigned int sign:1;
+	uint32_t fraction:23;
+	uint32_t exponent:8;
+	uint32_t sign:1;
 #define FP32(sign, exponent, fraction) {fraction, exponent, sign}
 #else
-	unsigned int sign:1;
-	unsigned int exponent:8;
-	unsigned int fraction:23;
+	uint32_t sign:1;
+	uint32_t exponent:8;
+	uint32_t fraction:23;
 #define FP32(sign, exponent, fraction) {sign, exponent, fraction}
 #endif
 } __attribute__((packed));
@@ -28,9 +28,9 @@ const struct fp32 fp32_Zero = FP32(0, 0, 0);
 /* see https://en.wikipedia.org/wiki/Single-precision_floating-point_format */
 const struct fp32 fp32_0dot15625 = FP32(0, 0x7c, 0x200000);
 
-float fraction_value(unsigned int fraction, unsigned int nbits)
+float fraction_value(uint32_t fraction, uint32_t nbits)
 {
-	unsigned int tmp, i;
+	uint32_t tmp, i;
 	float fra = 0.0f;
 
 	for (i = 1; i <= nbits; i++) {
