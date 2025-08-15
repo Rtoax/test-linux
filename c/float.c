@@ -3,6 +3,7 @@
 /**
  * Refs:
  * - https://en.wikipedia.org/wiki/IEEE_754-2008_revision
+ * - https://en.wikipedia.org/wiki/Half-precision_floating-point_format
  * - https://en.wikipedia.org/wiki/Single-precision_floating-point_format
  * - https://en.wikipedia.org/wiki/Double-precision_floating-point_format
  */
@@ -38,7 +39,7 @@ typedef union fp64 {
 		#endif
 	};
 	double f64;
-	int64_t i64;
+	uint64_t i64;
 #define FP64_INITIALIZER(s, e, f) {__FP64_INITIALIZER(s, e, f)}
 #define FP64(s, e, f) (((s & 0x1UL) << 63) | ((e & 0x7ffUL) << 52) | ((f & 0xfffffffffffffUL)))
 } __attribute__((packed)) fp64_t;
@@ -58,14 +59,33 @@ typedef union fp32 {
 		#endif
 	};
 	float f32;
-	int32_t i32;
+	uint32_t i32;
 #define FP32_INITIALIZER(s, e, f) {__FP32_INITIALIZER(s, e, f)}
 } __attribute__((packed)) fp32_t;
 
+typedef union fp16 {
+	struct {
+		#if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
+		uint16_t fraction:10;
+		uint16_t exponent:5;
+		uint16_t sign:1;
+		# define __FP16_INITIALIZER(s, e, f) {f, e, s}
+		#else
+		uint16_t sign:1;
+		uint16_t exponent:5;
+		uint16_t fraction:10;
+		# define __FP16_INITIALIZER(s, e, f) {s, e, f}
+		#endif
+	};
+	_Float16 f16;
+	uint16_t i16;
+#define FP16_INITIALIZER(s, e, f) {__FP16_INITIALIZER(s, e, f)}
+} __attribute__((packed)) fp16_t;
+
 /* https://en.wikipedia.org/wiki/Single-precision_floating-point_format */
-const fp32_t fp32_NaN = FP32_INITIALIZER(1, 255, 255);
-const fp32_t fp32_PosInf = FP32_INITIALIZER(0, 255, 0);
-const fp32_t fp32_NegInf = FP32_INITIALIZER(1, 255, 0);
+const fp32_t fp32_NaN = FP32_INITIALIZER(1, 0xff, 0xff);
+const fp32_t fp32_PosInf = FP32_INITIALIZER(0, 0xff, 0);
+const fp32_t fp32_NegInf = FP32_INITIALIZER(1, 0xff, 0);
 const fp32_t fp32_PosZero = FP32_INITIALIZER(0, 0, 0);
 const fp32_t fp32_NegZero = FP32_INITIALIZER(1, 0, 0);
 const fp32_t fp32_0dot15625 = FP32_INITIALIZER(0, 0x7c, 0x200000);
@@ -197,8 +217,9 @@ void check_fp32(float f)
 
 int main(void)
 {
-	assert(sizeof(fp32_t) == 4 && "Bad size of fp32");
 	assert(sizeof(fp64_t) == 8 && "Bad size of fp64");
+	assert(sizeof(fp32_t) == 4 && "Bad size of fp32");
+	assert(sizeof(fp16_t) == 2 && "Bad size of fp16");
 
 	check_fp32(0);
 	check_fp32(1.2f);

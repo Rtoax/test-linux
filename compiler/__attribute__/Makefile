@@ -25,6 +25,7 @@ targets += weak
 targets += noplt noplt-plt
 targets += kernel_helper
 targets += __has_attribute
+targets += __mode__
 
 targets-bpf := preserve_access_index.bpf.o
 
@@ -82,3 +83,4 @@ noplt: noplt.o
 noplt-plt: noplt-plt.o
 kernel_helper: kernel_helper.o
 __has_attribute: __has_attribute.o
+__mode__: __mode__.o
