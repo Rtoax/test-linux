@@ -28,10 +28,11 @@ const struct fp32 fp32_Zero = FP32(0, 0, 0);
 /* see https://en.wikipedia.org/wiki/Single-precision_floating-point_format */
 const struct fp32 fp32_0dot15625 = FP32(0, 0x7c, 0x200000);
 
-float fraction_value(uint32_t fraction, uint32_t nbits)
+/* Could use to both float and double */
+double fraction_value(uint64_t fraction, uint64_t nbits)
 {
 	uint32_t tmp, i;
-	float fra = 0.0f;
+	double fra = 0.0f;
 
 	for (i = 1; i <= nbits; i++) {
 		tmp = (fraction >> (nbits - i)) & 0x1;
