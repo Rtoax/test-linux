@@ -5,7 +5,7 @@ GPU - Graphics Processing Unit
 
 | GPU                  | SMs   | CUDA Cores  | Tensor Core |
 | -------------------- | ----- | ----------- | ----------- |
-| GB200                | 144   | 18,432      | -           |
+| B200                 | 144   | 18,432      | -           |
 | H200                 | 144   | 18,432      | -           |
 | H800 SXM5            | -     | 16,896      | -           |
 | H800 PCIe            | -     | 14,592      | 456         |
@@ -16,6 +16,7 @@ GPU - Graphics Processing Unit
 | A6000                | 84    | 10,752      | -           |
 | A100 (80GB and 40GB) | 108   | 6,912       | 432         |
 | V100                 | 80    | 5,120       | -           |
+| P100                 |       |             |             |
 
 
 # SM: Streaming Multiprocessors
@@ -210,5 +211,6 @@ GPU - Graphics Processing Unit
 
 # Links
 
+- https://en.wikipedia.org/wiki/Hopper_(microarchitecture)
 - Whitepaper [NVIDIA Tesla P100](https://images.nvidia.cn/content/pdf/tesla/whitepaper/pascal-architecture-whitepaper.pdf)
 - Whitepaper [NVIDIA TESLA V100](https://images.nvidia.cn/content/volta-architecture/pdf/volta-architecture-whitepaper.pdf)
