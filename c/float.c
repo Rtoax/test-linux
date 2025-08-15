@@ -150,17 +150,18 @@ double fp64_to_double(const fp64_t *fp64)
 
 	if (fp64->exponent == 0) {
 		if (fp64->fraction == 0) {
-			return sign * 0.0;
+			return fp64->sign == 0 ? fp64_PosZero.f64 :
+						 fp64_NegZero.f64;
 		} else {
 			e2 = exp2(-1022.0);
 			fra = 0 + fraction_value(fp64->fraction, 52);
 		}
 	} else if (fp64->exponent == 0x7ff) {
 		if (fp64->fraction == 0)
-			return fp64->sign == 0 ? *(double *)&fp64_PosInf :
-						 *(double *)&fp64_NegInf;
+			return fp64->sign == 0 ? fp64_PosInf.f64 :
+						 fp64_NegInf.f64;
 		else
-			return *(double *)&fp64_NaN;
+			return fp64_NaN.f64;
 	} else {
 		e2 = exp2(fp64->exponent - 1023.0);
 		fra = 1 + fraction_value(fp64->fraction, 52);
@@ -198,17 +199,18 @@ float fp32_to_float(const fp32_t *fp32)
 
 	if (fp32->exponent == 0) {
 		if (fp32->fraction == 0) {
-			return sign * 0.0f;
+			return fp32->sign == 0 ? fp32_PosZero.f32 :
+						 fp32_NegZero.f32;
 		} else {
 			e2 = exp2f(-126.0f);
 			fra = 0 + fraction_value(fp32->fraction, 23);
 		}
 	} else if (fp32->exponent == 0xff) {
 		if (fp32->fraction == 0)
-			return fp32->sign == 0 ? *(float *)&fp32_PosInf :
-						 *(float *)&fp32_NegInf;
+			return fp32->sign == 0 ? fp32_PosInf.f32 :
+						 fp32_NegInf.f32;
 		else
-			return *(float *)&fp32_NaN;
+			return fp32_NaN.f32;
 	} else {
 		e2 = exp2f(fp32->exponent - 127.0f);
 		fra = 1 + fraction_value(fp32->fraction, 23);
@@ -246,17 +248,18 @@ _Float16 fp16_to_float16(const fp16_t *fp16)
 
 	if (fp16->exponent == 0) {
 		if (fp16->fraction == 0) {
-			return sign * 0.0f;
+			return fp16->sign == 0 ? fp16_PosZero.f16 :
+						 fp16_NegZero.f16;
 		} else {
 			e2 = exp2f(-14.0f);
 			fra = 0 + fraction_value(fp16->fraction, 10);
 		}
 	} else if (fp16->exponent == 0x1f) {
 		if (fp16->fraction == 0)
-			return fp16->sign == 0 ? *(_Float16 *)&fp16_PosInf :
-						 *(_Float16 *)&fp16_NegInf;
+			return fp16->sign == 0 ? fp16_PosInf.f16 :
+						 fp16_NegInf.f16;
 		else
-			return *(_Float16 *)&fp16_NaN;
+			return fp16_NaN.f16;
 	} else {
 		e2 = exp2f(fp16->exponent - 15.0f);
 		fra = 1 + fraction_value(fp16->fraction, 10);
