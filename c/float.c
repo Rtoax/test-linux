@@ -10,35 +10,43 @@
 #include <math.h>
 #include <byteswap.h>
 
-typedef struct fp64 {
-#if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
-	uint64_t fraction:52;
-	uint64_t exponent:11;
-	uint64_t sign:1;
-#define FP64_INITIALIZER(sign, exponent, fraction) {fraction, exponent, sign}
-#else
-	uint64_t sign:1;
-	uint64_t exponent:11;
-	uint64_t fraction:52;
-#define FP64_INITIALIZER(sign, exponent, fraction) {sign, exponent, fraction}
-#endif
-#define FP64(sign, exponent, fraction) (((sign & 0x1UL) << 63) | \
-					((exponent & 0x7ffUL) << 52) | \
-					((fraction & 0xfffffffffffffUL)))
+typedef union fp64 {
+	struct {
+		#if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
+		uint64_t fraction:52;
+		uint64_t exponent:11;
+		uint64_t sign:1;
+		# define __FP64_INITIALIZER(s, e, f) {f, e, s}
+		#else
+		uint64_t sign:1;
+		uint64_t exponent:11;
+		uint64_t fraction:52;
+		# define __FP64_INITIALIZER(s, e, f) {s, e, f}
+		#endif
+	};
+	double fp64;
+	int64_t i64;
+#define FP64_INITIALIZER(s, e, f) {__FP64_INITIALIZER(s, e, f)}
+#define FP64(s, e, f) (((s & 0x1UL) << 63) | ((e & 0x7ffUL) << 52) | ((f & 0xfffffffffffffUL)))
 } __attribute__((packed)) fp64_t;
 
-typedef struct fp32 {
-#if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
-	uint32_t fraction:23;
-	uint32_t exponent:8;
-	uint32_t sign:1;
-#define FP32_INITIALIZER(sign, exponent, fraction) {fraction, exponent, sign}
-#else
-	uint32_t sign:1;
-	uint32_t exponent:8;
-	uint32_t fraction:23;
-#define FP32_INITIALIZER(sign, exponent, fraction) {sign, exponent, fraction}
-#endif
+typedef union fp32 {
+	struct {
+		#if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
+		uint32_t fraction:23;
+		uint32_t exponent:8;
+		uint32_t sign:1;
+		# define __FP32_INITIALIZER(s, e, f) {f, e, s}
+		#else
+		uint32_t sign:1;
+		uint32_t exponent:8;
+		uint32_t fraction:23;
+		# define __FP32_INITIALIZER(s, e, f) {s, e, f}
+		#endif
+	};
+	float fp32;
+	int32_t i32;
+#define FP32_INITIALIZER(s, e, f) {__FP32_INITIALIZER(s, e, f)}
 } __attribute__((packed)) fp32_t;
 
 /* https://en.wikipedia.org/wiki/Single-precision_floating-point_format */
