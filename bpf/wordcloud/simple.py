@@ -4,6 +4,8 @@ Minimal Example
 ===============
 
 Generating a square wordcloud from the US constitution using default arguments.
+
+https://amueller.github.io/word_cloud/auto_examples/index.html
 """
 
 import os
