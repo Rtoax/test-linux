@@ -44,6 +44,13 @@ typedef union fp64 {
 #define FP64(s, e, f) (((s & 0x1UL) << 63) | ((e & 0x7ffUL) << 52) | ((f & 0xfffffffffffffUL)))
 } __attribute__((packed)) fp64_t;
 
+/* https://en.wikipedia.org/wiki/Double-precision_floating-point_format */
+const fp64_t fp64_NaN = FP64_INITIALIZER(1, 0x7ff, 0xfffffffffffff);
+const fp64_t fp64_PosInf = FP64_INITIALIZER(0, 0x7ff, 0);
+const fp64_t fp64_NegInf = FP64_INITIALIZER(1, 0x7ff, 0);
+const fp64_t fp64_PosZero = FP64_INITIALIZER(0, 0, 0);
+const fp64_t fp64_NegZero = FP64_INITIALIZER(1, 0, 0);
+
 typedef union fp32 {
 	struct {
 		#if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
@@ -62,6 +69,14 @@ typedef union fp32 {
 	uint32_t i32;
 #define FP32_INITIALIZER(s, e, f) {__FP32_INITIALIZER(s, e, f)}
 } __attribute__((packed)) fp32_t;
+
+/* https://en.wikipedia.org/wiki/Single-precision_floating-point_format */
+const fp32_t fp32_NaN = FP32_INITIALIZER(1, 0xff, 0xff);
+const fp32_t fp32_PosInf = FP32_INITIALIZER(0, 0xff, 0);
+const fp32_t fp32_NegInf = FP32_INITIALIZER(1, 0xff, 0);
+const fp32_t fp32_PosZero = FP32_INITIALIZER(0, 0, 0);
+const fp32_t fp32_NegZero = FP32_INITIALIZER(1, 0, 0);
+const fp32_t fp32_0dot15625 = FP32_INITIALIZER(0, 0x7c, 0x200000);
 
 typedef union fp16 {
 	struct {
@@ -82,20 +97,12 @@ typedef union fp16 {
 #define FP16_INITIALIZER(s, e, f) {__FP16_INITIALIZER(s, e, f)}
 } __attribute__((packed)) fp16_t;
 
-/* https://en.wikipedia.org/wiki/Single-precision_floating-point_format */
-const fp32_t fp32_NaN = FP32_INITIALIZER(1, 0xff, 0xff);
-const fp32_t fp32_PosInf = FP32_INITIALIZER(0, 0xff, 0);
-const fp32_t fp32_NegInf = FP32_INITIALIZER(1, 0xff, 0);
-const fp32_t fp32_PosZero = FP32_INITIALIZER(0, 0, 0);
-const fp32_t fp32_NegZero = FP32_INITIALIZER(1, 0, 0);
-const fp32_t fp32_0dot15625 = FP32_INITIALIZER(0, 0x7c, 0x200000);
-
-/* https://en.wikipedia.org/wiki/Double-precision_floating-point_format */
-const fp64_t fp64_NaN = FP64_INITIALIZER(1, 0x7ff, 0xfffffffffffff);
-const fp64_t fp64_PosInf = FP64_INITIALIZER(0, 0x7ff, 0);
-const fp64_t fp64_NegInf = FP64_INITIALIZER(1, 0x7ff, 0);
-const fp64_t fp64_PosZero = FP64_INITIALIZER(0, 0, 0);
-const fp64_t fp64_NegZero = FP64_INITIALIZER(1, 0, 0);
+/* https://en.wikipedia.org/wiki/Half-precision_floating-point_format */
+const fp16_t fp16_NaN = FP16_INITIALIZER(1, 0x1f, 0x3ff);
+const fp16_t fp16_PosInf = FP16_INITIALIZER(0, 0x1f, 0);
+const fp16_t fp16_NegInf = FP16_INITIALIZER(1, 0x1f, 0);
+const fp16_t fp16_PosZero = FP16_INITIALIZER(0, 0, 0);
+const fp16_t fp16_NegZero = FP16_INITIALIZER(1, 0, 0);
 
 
 /* Could use to both float and double */
@@ -223,11 +230,67 @@ void float16_to_fp16(const _Float16 f, fp16_t *fp16)
 	*fp16 = *(fp16_t *)&i16;
 }
 
+_Float16 fp16_to_float16(const fp16_t *fp16)
+{
+	_Float16 f;
+	int16_t i16 = *(int16_t *)fp16;
+
+	f = *(_Float16 *)&i16;
+	(void)f;
+
+	_Float16 sign = 1 - 2 * (fp16->sign % 2);
+	_Float16 e2, fra;
+
+	if (fp16->exponent == 0) {
+		if (fp16->fraction == 0) {
+			return sign * 0.0f;
+		} else {
+			e2 = exp2f(-14.0f);
+			fra = 0 + fraction_value(fp16->fraction, 10);
+		}
+	} else if (fp16->exponent == 0x1f) {
+		if (fp16->fraction == 0)
+			return fp16->sign == 0 ? *(_Float16 *)&fp16_PosInf :
+						 *(_Float16 *)&fp16_NegInf;
+		else
+			return *(_Float16 *)&fp16_NaN;
+	} else {
+		e2 = exp2f(fp16->exponent - 15.0f);
+		fra = 1 + fraction_value(fp16->fraction, 10);
+	}
+
+	return sign * e2 * fra;
+}
+
+void check_fp16(_Float16 f)
+{
+	_Float16 to;
+	fp16_t fp16;
+
+	float16_to_fp16(f, &fp16);
+	to = fp16_to_float16(&fp16);
+
+	printf("%f vs %f (%x %x %x)\n", (float)f, (float)to, fp16.sign, fp16.exponent, fp16.fraction);
+}
+
 int main(void)
 {
 	assert(sizeof(fp64_t) == 8 && "Bad size of fp64");
 	assert(sizeof(fp32_t) == 4 && "Bad size of fp32");
 	assert(sizeof(fp16_t) == 2 && "Bad size of fp16");
+
+	check_fp64(0);
+	check_fp64(1.2);
+	check_fp64(0.2);
+	check_fp64(1.23456789);
+	check_fp64(0.23456789);
+	check_fp64(3.14159265);
+	check_fp64(-3.14159265);
+	check_fp64(fp64_NaN.f64);
+	check_fp64(fp64_PosInf.f64);
+	check_fp64(fp64_NegInf.f64);
+	check_fp64(fp64_PosZero.f64);
+	check_fp64(fp64_NegZero.f64);
 
 	check_fp32(0);
 	check_fp32(1.2f);
@@ -242,18 +305,18 @@ int main(void)
 	check_fp32(fp32_PosZero.f32);
 	check_fp32(fp32_NegZero.f32);
 
-	check_fp64(0);
-	check_fp64(1.2);
-	check_fp64(0.2);
-	check_fp64(1.23456789);
-	check_fp64(0.23456789);
-	check_fp64(3.14159265);
-	check_fp64(-3.14159265);
-	check_fp64(fp64_NaN.f64);
-	check_fp64(fp64_PosInf.f64);
-	check_fp64(fp64_NegInf.f64);
-	check_fp64(fp64_PosZero.f64);
-	check_fp64(fp64_NegZero.f64);
+	check_fp16(0);
+	check_fp16(1.2);
+	check_fp16(0.2);
+	check_fp16(1.23456789);
+	check_fp16(0.23456789);
+	check_fp16(3.14159265);
+	check_fp16(-3.14159265);
+	check_fp16(fp16_NaN.f16);
+	check_fp16(fp16_PosInf.f16);
+	check_fp16(fp16_NegInf.f16);
+	check_fp16(fp16_PosZero.f16);
+	check_fp16(fp16_NegZero.f16);
 
 #ifdef HAVE_CUDA
 	half f16 = __float2half(1.0f);
