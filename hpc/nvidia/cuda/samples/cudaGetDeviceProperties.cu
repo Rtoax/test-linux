@@ -6,7 +6,6 @@
  * - NVIDIA GeForce RTX 3060
  *   commit 3dfdd4a370f2 ("hpc: DeviceProp: NVIDIA GeForce RTX 3060")
  * - MetaX Mars 03
- *   commit b8164f610bdb ("hpc: DeviceProp: display multiProcessorCount and maxThreadsPerMultiProcessor")
  *
  * - cuda-12.9 struct cudaDeviceProp
  *   commit d072d32dcb00 ("cuda: cudaGetDeviceProperties.cu: display more")
