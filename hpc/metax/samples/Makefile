@@ -16,6 +16,7 @@ targets-htcc += hcblasLtMatmul
 targets-htcc += rand
 targets-htcc += __GNUC__
 targets-htcc += __STDC__
+targets-htcc += float
 
 targets-post := $(patsubst %,${OUTPUT}%.E.hpcc,$(targets-htcc))
 
@@ -70,6 +71,7 @@ hcblasLtMatmul: ${OUTPUT}hcblasLtMatmul.hpcc.o ${HPCC_HELPERS}
 rand: ${OUTPUT}rand.hpcc.o ${HPCC_HELPERS}
 __GNUC__: ${OUTPUT}__GNUC__.hpcc.o ${HPCC_HELPERS}
 __STDC__: ${OUTPUT}__STDC__.hpcc.o ${HPCC_HELPERS}
+float: ${OUTPUT}float.hpcc.o
 
 matrix-c: ${OUTPUT}matrix.o
 matrix-c-double: ${OUTPUT}matrix-double.o

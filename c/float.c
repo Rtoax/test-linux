@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: GPL-3.0
+/* Copyright (c) 2025 Rong Tao */
 /**
  * Refs:
  * - https://en.wikipedia.org/wiki/IEEE_754-2008_revision
@@ -9,6 +11,17 @@
 #include <stdint.h>
 #include <math.h>
 #include <byteswap.h>
+
+#if defined(__HPCC__) || defined(__NVCC__)
+# define HAVE_CUDA	1
+  /* Metax has CUDA-compatible APIs */
+# if defined(__HPCC__)	/* MetaX */
+#  include <hccl.h>
+#  include <hpcc_fp16.h>
+# elif defined(__NVCC__)	/* Nvidia */
+#  include <cuda_fp16.h>
+# endif
+#endif
 
 typedef union fp64 {
 	struct {
@@ -212,6 +225,11 @@ int main(void)
 	check_fp64(fp64_NegInf.f64);
 	check_fp64(fp64_PosZero.f64);
 	check_fp64(fp64_NegZero.f64);
+
+#ifdef HAVE_CUDA
+	half f16 = __float2half(1.0f);
+	// TODO
+#endif
 
 	return 0;
 }
