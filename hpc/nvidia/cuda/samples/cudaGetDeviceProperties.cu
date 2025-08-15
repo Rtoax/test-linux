@@ -36,9 +36,14 @@ int main(void)
 
 	printf("name %s\n", prop.name);
 
-	printf("totalGlobalMem %ld (%.0lf GiB)\n",
-		prop.totalGlobalMem, prop.totalGlobalMem / 1e9);
-	printf("totalConstMem %ld\n", prop.totalConstMem);
+	/* Information about memory */
+	printf("totalGlobalMem %ld (%.0lf GiB)\n", prop.totalGlobalMem, prop.totalGlobalMem / 1e9);
+	printf("totalConstMem %ld (%.0lf GiB)\n", prop.totalConstMem, prop.totalConstMem / 1e9);
+	printf("l2CacheSize %d B (%d MB)\n", prop.l2CacheSize, prop.l2CacheSize / 1024 / 1024);
+	printf("managedMemory %d\n", prop.managedMemory);
+	printf("ECCEnabled %d\n", prop.ECCEnabled);
+
+	/* Information about Core/Thread */
 	printf("multiProcessorCount %d\n", prop.multiProcessorCount);
 	printf("maxThreadsPerMultiProcessor %d\n", prop.maxThreadsPerMultiProcessor);
 	printf("Theoretical number of concurrent hardware threads: %d\n",
@@ -55,6 +60,7 @@ int main(void)
 		printf("maxGridSize[%d] = %-16d >= gridDim.%s\n", i,
 			prop.maxGridSize[i], "x\0y\0z\0" + (2 * i));
 
+	/* Information about device */
 	printf("major %d, minor %d\n", prop.major, prop.minor);
 	printf("clockRate %d Hz\n", prop.clockRate);
 
