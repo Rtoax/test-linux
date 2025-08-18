@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- ksym: add kallsyms/ksym_helpers.c;
 - security: add openssh;
 - bpf: add wordcloud from ostools;
 - metax/samples: add __GNUC__ and __STDC__ test;

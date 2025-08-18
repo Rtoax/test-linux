@@ -1,5 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
 sub-dir := process
+sub-dir += kallsyms
 
 targets :=
 targets += proc_examples
