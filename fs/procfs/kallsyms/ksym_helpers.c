@@ -40,9 +40,17 @@ struct ksym {
 struct ksyms {
 	size_t nsyms;
 	void *root_nkta;
+	void *root_addr;
 };
 
 static struct ksyms ksyms = {0, NULL};
+
+
+static int ksym_cmp_addr(const void *a1, const void *a2)
+{
+	const struct ksym *s1 = a1, *s2 = a2;
+	return s1->addr - s2->addr;
+}
 
 static int ksym_cmp_nkta(const void *a1, const void *a2)
 {
@@ -59,19 +67,24 @@ static int ksym_cmp_nkta(const void *a1, const void *a2)
 	cmp = s1->type - s2->type;
 	if (cmp)
 		return cmp;
-	return s1->addr - s2->addr;
+	return ksym_cmp_addr(s1, s2);
 }
 
 static struct ksym *alloc_ksym(unsigned long addr, char c_type, char *name,
 			       char *kmod)
 {
-	struct ksym *ksym = malloc(sizeof(struct ksym));
+	struct ksym *new;
 
-	memset(ksym, 0, sizeof(struct ksym));
-	ksym->addr = addr;
+	if (addr == 0 || !name || strlen(name) <= 1)
+		return NULL;
+
+	new = malloc(sizeof(struct ksym));
+
+	memset(new, 0, sizeof(struct ksym));
+	new->addr = addr;
 
 	switch (c_type) {
-#define CASE(c, e)	case c: ksym->type = e; break
+#define CASE(c, e)	case c: new->type = e; break
 	CASE('t', KSYM_LOCAL_FUNC);
 	CASE('T', KSYM_GLOBAL_FUNC);
 	CASE('d', KSYM_LOCAL_DATA);
@@ -92,18 +105,26 @@ static struct ksym *alloc_ksym(unsigned long addr, char c_type, char *name,
 		break;
 	}
 
-	ksym->name = strdup(name);
+	new->name = strdup(name);
 
 	if (kmod)
-		ksym->kmod = strdup(kmod);
+		new->kmod = strdup(kmod);
 
-	return ksym;
+	return new;
 
 invalid:
 	fprintf(stderr, "Invalid %lx %c %s %s\n", addr, c_type, name, kmod);
-	free(ksym);
+	free(new);
 	return NULL;
 }
+
+#if 0
+static struct ksym *dup_ksym(struct ksym *old)
+{
+	// TODO
+	return NULL;
+}
+#endif
 
 static void free_ksym(struct ksym *ksym)
 {
@@ -149,10 +170,16 @@ int load_kallsyms(void)
 		/* already exit */
 		if (*old != new) {
 			free_ksym(new);
-		} else {
-			ksyms.nsyms++;
+			continue;
 		}
+
+		ksyms.nsyms++;
+
+		old = tsearch(new, &ksyms.root_addr, ksym_cmp_addr);
+		assert(old && "tsearch() failed");
 	}
+
+	fprintf(stderr, "kallsyms %ld symbols\n", ksyms.nsyms);
 
 	fclose(fp);
 	return 0;
