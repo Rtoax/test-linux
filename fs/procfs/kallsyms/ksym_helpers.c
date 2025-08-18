@@ -70,7 +70,7 @@ static int ksym_cmp_nkta(const void *a1, const void *a2)
 	return ksym_cmp_addr(s1, s2);
 }
 
-static enum ksym_type c2type(char c_type)
+enum ksym_type c2type(char c_type)
 {
 	switch (c_type) {
 #define CASE(c, e)	case c: return e; break
@@ -93,8 +93,31 @@ static enum ksym_type c2type(char c_type)
 	return KSYM_GLOBAL_UNKNOWN;
 }
 
-static struct ksym *alloc_ksym(unsigned long addr, enum ksym_type type,
-			       char *name, char *kmod)
+char type2c(enum ksym_type type)
+{
+	switch (type) {
+#define CASE(c, e)	case e: return c; break
+	CASE('t', KSYM_LOCAL_FUNC);
+	CASE('T', KSYM_GLOBAL_FUNC);
+	CASE('d', KSYM_LOCAL_DATA);
+	CASE('D', KSYM_GLOBAL_DATA);
+	CASE('b', KSYM_LOCAL_BSS);
+	CASE('B', KSYM_GLOBAL_BSS);
+	CASE('r', KSYM_LOCAL_RODATA);
+	CASE('R', KSYM_GLOBAL_RODATA);
+	CASE('a', KSYM_LOCAL_ABS);
+	CASE('A', KSYM_GLOBAL_ABS);
+	CASE('w', KSYM_LOCAL_WEAK_FUNC);
+	CASE('W', KSYM_GLOBAL_WEAK_FUNC);
+	CASE('V', KSYM_GLOBAL_WEAK_DATA);
+	CASE('?', KSYM_GLOBAL_UNKNOWN);
+#undef CASE
+	}
+	return '?';
+}
+
+struct ksym *alloc_ksym(unsigned long addr, enum ksym_type type, char *name,
+			char *kmod)
 {
 	struct ksym *new;
 
@@ -114,14 +137,14 @@ static struct ksym *alloc_ksym(unsigned long addr, enum ksym_type type,
 }
 
 #if 0
-static struct ksym *dup_ksym(struct ksym *old)
+struct ksym *dup_ksym(struct ksym *old)
 {
 	// TODO
 	return NULL;
 }
 #endif
 
-static void free_ksym(struct ksym *ksym)
+void free_ksym(struct ksym *ksym)
 {
 	if (!ksym)
 		return;
