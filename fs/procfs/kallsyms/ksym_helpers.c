@@ -165,6 +165,8 @@ struct ksym *alloc_ksym(unsigned long addr, enum ksym_type type, char *name,
 
 	if (addr == 0 || !name || strlen(name) <= 1)
 		return NULL;
+	if (!kmod)
+		kmod = "vmlinux";
 
 	new = malloc(sizeof(struct ksym));
 
@@ -172,8 +174,7 @@ struct ksym *alloc_ksym(unsigned long addr, enum ksym_type type, char *name,
 	new->addr = addr;
 	new->type = type;
 	new->name = strdup(name);
-	if (kmod)
-		new->kmod = strdup(kmod);
+	new->kmod = strdup(kmod);
 
 	return new;
 }
