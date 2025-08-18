@@ -5,6 +5,7 @@ HPC Benchmark
 
 - MetaX Mars X203: Insight C100P Theory
 - Nvidia H800
+- Nvidia GeForce RTX 3060
 
 ## Theory
 
@@ -34,12 +35,12 @@ HPC Benchmark
 
 ## API blasLtMatmul()
 
-| TYPE | X203    | H800    |
-| ---- | ------- | ------- |
-| INT8 | 204 T   | N/A     |
-| FP16 | 168 T   | 521 T   |
-| FP32 | 33 T    | 46 T    |
-| FP64 | 33 T    | 0.96 T  |
+| TYPE | X203    | H800    | 3060   |
+| ---- | ------- | ------- | ------ |
+| INT8 | 204 T   | N/A     | N/A    |
+| FP16 | 168 T   | 521 T   | 40 T   |
+| FP32 | 33 T    | 46 T    | 7.8 T  |
+| FP64 | 33 T    | 0.96 T  | 0.19 T |
 
 
 # Links
