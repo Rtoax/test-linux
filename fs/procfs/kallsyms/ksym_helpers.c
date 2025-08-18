@@ -270,13 +270,14 @@ int load_kallsyms(void)
 	return 0;
 }
 
-long ksym_addr(const char *name)
+long ksym_addr(const char *name, const char *kmod)
 {
 	struct ksym **found, find;
 
 	memset(&find, 0, sizeof(struct ksym));
 
 	find.name = (char *)name;
+	find.kmod = (char *)(kmod ?: DEFAULT_KMOD);
 
 	found = tfind(&find, &ksyms.nkta.root, ksym_cmp_name);
 	if (found)

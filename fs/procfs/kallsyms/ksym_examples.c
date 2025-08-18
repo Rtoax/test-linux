@@ -4,7 +4,7 @@
 
 void assert_find(const char *ksym)
 {
-	long addr = ksym_addr(ksym);
+	long addr = ksym_addr(ksym, NULL);
 	if (addr != INVALID_ADDR)
 		printf("%s %lx\n", ksym, addr);
 	else

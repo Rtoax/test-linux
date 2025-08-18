@@ -11,4 +11,4 @@ int load_kallsyms(void);
 /**
  * If exist, return valid address, else return INVALID_ADDR
  */
-long ksym_addr(const char *name);
+long ksym_addr(const char *name, const char *kmod);
