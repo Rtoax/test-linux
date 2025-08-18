@@ -41,11 +41,14 @@ struct ksyms_tree {
 	size_t nsyms;
 	void *root;
 	int (*compare)(const void *, const void *);
+	void (*walk)(const void *, VISIT, void *);
 };
 
 struct ksyms {
 	struct ksyms_tree nkta, addr;
 };
+
+void print_ksym(const struct ksym *sym);
 
 static int ksym_cmp_addr(const void *a1, const void *a2)
 {
@@ -71,16 +74,28 @@ static int ksym_cmp_nkta(const void *a1, const void *a2)
 	return ksym_cmp_addr(s1, s2);
 }
 
+void walk_action(const void *nodep, VISIT which, void *closure)
+{
+	const struct ksym *sym = *(struct ksym **)nodep;
+
+	if (which != preorder && which != leaf)
+		return;
+
+	print_ksym(sym);
+}
+
 static struct ksyms ksyms = {
 	.nkta = {
 		.nsyms = 0,
 		.root = NULL,
 		.compare = ksym_cmp_nkta,
+		.walk = walk_action,
 	},
 	.addr = {
 		.nsyms = 0,
 		.root = NULL,
 		.compare = ksym_cmp_addr,
+		.walk = walk_action,
 	}
 };
 
@@ -156,6 +171,12 @@ struct ksym *dup_ksym(struct ksym *old)
 	return alloc_ksym(old->addr, old->type, old->name, old->kmod);
 }
 
+void print_ksym(const struct ksym *sym)
+{
+	fprintf(stderr, "%lx %c %s %s\n", sym->addr, type2c(sym->type),
+		sym->name, sym->kmod ?: "");
+}
+
 void free_ksym(struct ksym *ksym)
 {
 	if (!ksym)
@@ -185,6 +206,11 @@ int insert_to_tree(struct ksyms_tree *tree, struct ksym *new)
 	return 0;
 }
 
+void walk_tree(struct ksyms_tree *tree)
+{
+	twalk_r(tree->root, tree->walk, NULL);
+}
+
 int load_kallsyms(void)
 {
 	int n;
@@ -210,8 +236,10 @@ int load_kallsyms(void)
 		if (!new)
 			continue;
 
-#ifdef DEBUG
+#if defined(DEBUG)
+# if DEBUG >= 2
 		fprintf(stderr, "%d %lx %c %s %s\n", n, new->addr, c_type, new->name, new->kmod);
+# endif
 #endif
 
 		insert_to_tree(&ksyms.nkta, new);
@@ -223,6 +251,10 @@ int load_kallsyms(void)
 #ifdef DEBUG
 	fprintf(stderr, "kallsyms nkta %ld, addr %ld symbols\n",
 		ksyms.nkta.nsyms, ksyms.addr.nsyms);
+# if DEBUG >= 2
+	walk_tree(&ksyms.addr);
+	walk_tree(&ksyms.nkta);
+# endif
 #endif
 
 	fclose(fp);

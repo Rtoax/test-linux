@@ -23,16 +23,16 @@ CXXFLAGS += -Werror -Wall
 
 ifdef DEBUG
   $(info Compile with DEBUG=1)
-  CFLAGS += -DDEBUG -O0 -g -ggdb
-  CXXFLAGS += -DDEBUG -O0 -g -ggdb
-  MAKEFLAGS += DEBUG=1
+  CFLAGS += -DDEBUG=${DEBUG} -O0 -g -ggdb
+  CXXFLAGS += -DDEBUG=${DEBUG} -O0 -g -ggdb
+  MAKEFLAGS += DEBUG=${DEBUG}
 endif
 
 ifdef ERROR
-  $(info Compile with ERROR=1)
-  CFLAGS += -DERROR=1
-  CXXFLAGS += -DERROR=1
-  MAKEFLAGS += ERROR=1
+  $(info Compile with ERROR=${ERROR})
+  CFLAGS += -DERROR=${ERROR}
+  CXXFLAGS += -DERROR=${ERROR}
+  MAKEFLAGS += ERROR=${ERROR}
 endif
 
 ifdef M32
