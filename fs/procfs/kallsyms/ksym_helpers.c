@@ -67,11 +67,6 @@ static int ksym_cmp_nkta(const void *a1, const void *a2)
 	int cmp;
 	const struct ksym *s1 = a1, *s2 = a2;
 
-#ifdef DEBUG
-# if DEBUG >= 2
-	fprintf(stderr, "%s vs %s\n", s1->name, s2->name);
-# endif
-#endif
 	cmp = strcmp(s1->name, s2->name);
 	if (cmp)
 		return cmp;
@@ -161,12 +156,20 @@ char type2c(enum ksym_type type)
 struct ksym *alloc_ksym(unsigned long addr, enum ksym_type type, char *name,
 			char *kmod)
 {
+	char module[64];
 	struct ksym *new;
 
 	if (addr == 0 || !name || strlen(name) <= 1)
 		return NULL;
 	if (!kmod)
 		kmod = "vmlinux";
+
+	strcpy(module, kmod);
+	kmod = module;
+	if (kmod[0] == '[') {
+		kmod++;
+		kmod[strlen(kmod) - 1] = '\0';
+	}
 
 	new = malloc(sizeof(struct ksym));
 
@@ -248,12 +251,6 @@ int load_kallsyms(void)
 				n == 4 ? s_kmod : NULL);
 		if (!new)
 			continue;
-
-#if defined(DEBUG)
-# if DEBUG >= 2
-		fprintf(stderr, "%d %lx %c %s %s\n", n, new->addr, c_type, new->name, new->kmod);
-# endif
-#endif
 
 		insert_to_tree(&ksyms.nkta, new);
 		insert_to_tree(&ksyms.addr, new);
