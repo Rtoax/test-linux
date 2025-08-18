@@ -52,8 +52,8 @@ enum test_type {
 	/**
 	 * GEMM: General Matrix-Matrix Multiplication
 	 *
-	 * fp: MetaX Mars X203 vs Nvidia H800
 	 * - commit a9912e59ae2e ("hpc: blas: gemm: Cmp MetaX Mars X203 and Nvidia H800")
+	 * - commit 68f09e1a28c3 ("hpc: blas: gemm: Test NVIDIA GeForce RTX 3060 fp16/fp32/fp64")
 	 */
 	TEST_GEMM_FP16,
 	TEST_GEMM_FP32,
@@ -66,7 +66,8 @@ enum test_type {
 	TEST_GEMMEX_FP64,
 	TEST_GEMMEX_INT8,
 	/**
-	 * Matrix Mul test
+	 * Matrix Multiplication
+	 *
 	 * - commit 3237eede2fb2 ("hpc: blas: matmul: Test MetaX Mars X203 fp16/fp32/fp64")
 	 * - commit 54df2b69c4cc ("hpc: blas: matmul: Test NVIDIA GeForce RTX 3060 fp16/fp32/fp64")
 	 */
