@@ -6,13 +6,15 @@ VIRT_TYPE ?= $(shell systemd-detect-virt)
 
 L3_CACHELINE_SIZE :=
 DEFAULT_L3_CACHELINE_SIZE = 64
-SYS_DEV_L3_CACHELINE_SIZE = $(shell cat /sys/devices/system/cpu/cpu1/cache/index3/coherency_line_size 2>/dev/null)
-CONF_L3_CACHELINE_SIZE = $(shell getconf LEVEL3_CACHE_LINESIZE)
+SYS_DEV_L3_CACHELINE_SIZE = $(shell cat /sys/devices/system/cpu/cpu1/cache/index3/coherency_line_size 2>/dev/null || true)
+CONF_L3_CACHELINE_SIZE = $(shell getconf LEVEL3_CACHE_LINESIZE 2>/dev/null || true)
 
 ifeq ($(SYS_DEV_L3_CACHELINE_SIZE),0)
   $(warning Not found L3 cache in /sys/devices/system/cpu)
+else ifeq (${SYS_DEV_L3_CACHELINE_SIZE},)
+  L3_CACHELINE_SIZE := ${DEFAULT_L3_CACHELINE_SIZE}
 else
-  L3_CACHELINE_SIZE=${SYS_DEV_L3_CACHELINE_SIZE}
+  L3_CACHELINE_SIZE := ${SYS_DEV_L3_CACHELINE_SIZE}
 endif
 
 ifeq ($(CONF_L3_CACHELINE_SIZE),0)
