@@ -58,6 +58,9 @@ enum test_type {
 	TEST_GEMM_FP16,
 	TEST_GEMM_FP32,
 	TEST_GEMM_FP64,
+	/**
+	 * - commit de0a14c3e683 ("hpc: blas: gemmex: Test NVIDIA GeForce RTX 3060 fp16/fp32/fp64")
+	 */
 	TEST_GEMMEX_FP16,
 	TEST_GEMMEX_FP32,
 	TEST_GEMMEX_FP64,
