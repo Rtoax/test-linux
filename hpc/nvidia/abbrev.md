@@ -1,2 +1,4 @@
 - NCCL: NVIDIA Collective Communication Library (NVIDIA 集体通信库)
 - NVLINK: () @NVIDIA @CXL
+- PTX: Parallel Thread eXecution (并行线程执行,GPU汇编代码)
+- SASS: Shader Assembly (GPU机器码)
