@@ -7,7 +7,7 @@
 # compilation errors occur.
 SHELL := /bin/bash
 
-KVER_GREP_CMD := grep -Eo '^[0-9]+\.[0-9]+\.[0-9]+'
+KVER_GREP_CMD := grep -Eo '[0-9]+\.[0-9]+\.[0-9]+'
 
 KVERSION_RAW := $(shell uname -r | ${KVER_GREP_CMD})
 KVERSION := $(shell echo ${KVERSION_RAW} | awk -F '.' '{print $$1}')
@@ -16,9 +16,9 @@ KSUBLEVEL := $(shell echo ${KVERSION_RAW} | awk -F '.' '{print $$3}')
 KVERSION_CODE := $(shell echo "$$(( (${KVERSION}<<16) + (${KPATCHLEVEL}<<8) + (${KSUBLEVEL}>255?255:${KSUBLEVEL}) ))" )
 
 KUAPI_VERSION_H := /usr/include/linux/version.h
-KUAPI_VERSION_RAW := $(shell rpm -q --queryformat='%{VERSION}' kernel-headers \
+KUAPI_VERSION_RAW := $(shell rpm -q --queryformat='%{VERSION}' kernel-headers 2>/dev/null \
 				| ${KVER_GREP_CMD} || \
-			dpkg-query -W -f='$${Version}' linux-libc-dev \
+			dpkg-query -W -f='$${Version}' linux-libc-dev 2>/dev/null \
 				| ${KVER_GREP_CMD})
 KUAPIVERSION := $(shell echo ${KUAPI_VERSION_RAW} | awk -F '.' '{print $$1}')
 KUAPIPATCHLEVEL := $(shell echo ${KUAPI_VERSION_RAW} | awk -F '.' '{print $$2}')
