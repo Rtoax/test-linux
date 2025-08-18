@@ -6,7 +6,10 @@
 
 #define INVALID_ADDR	(-1)
 
-int load_kallsyms(void);
+struct ksym;
+struct ksyms;
+
+struct ksyms *load_kallsyms(void);
 
 /**
  * If exist, return valid address, else return INVALID_ADDR

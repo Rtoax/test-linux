@@ -2,6 +2,8 @@
 #include "ksym_helpers.h"
 
 
+static struct ksyms *ksyms = NULL;
+
 void assert_find(const char *ksym)
 {
 	long addr = ksym_addr(ksym, NULL);
@@ -13,7 +15,7 @@ void assert_find(const char *ksym)
 
 int main(void)
 {
-	load_kallsyms();
+	ksyms = load_kallsyms();
 
 	assert_find("schedule");
 	assert_find("net_tx_action");

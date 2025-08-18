@@ -226,7 +226,7 @@ void walk_tree(struct ksyms_tree *tree)
 	twalk_r(tree->root, tree->walk, NULL);
 }
 
-int load_kallsyms(void)
+struct ksyms *load_kallsyms(void)
 {
 	int n;
 	FILE *fp;
@@ -236,7 +236,7 @@ int load_kallsyms(void)
 
 	fp = fopen(PROC_KALLSYMS, "r");
 	if (!fp)
-		return -errno;
+		return NULL;
 
 	while (fgets(line, sizeof(line), fp)) {
 		memset(s_name, 0, sizeof(s_name));
@@ -267,7 +267,7 @@ int load_kallsyms(void)
 #endif
 
 	fclose(fp);
-	return 0;
+	return &ksyms;
 }
 
 long ksym_addr(const char *name, const char *kmod)
