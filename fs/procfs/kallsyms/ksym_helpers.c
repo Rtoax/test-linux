@@ -38,12 +38,13 @@ struct ksym {
 };
 
 struct ksyms {
-	size_t nsyms;
-	void *root_nkta;
-	void *root_addr;
+	struct {
+		size_t nsyms;
+		void *root;
+	} nkta, addr;
 };
 
-static struct ksyms ksyms = {0, NULL};
+static struct ksyms ksyms = {{0, NULL}};
 
 
 static int ksym_cmp_addr(const void *a1, const void *a2)
@@ -136,13 +137,10 @@ struct ksym *alloc_ksym(unsigned long addr, enum ksym_type type, char *name,
 	return new;
 }
 
-#if 0
 struct ksym *dup_ksym(struct ksym *old)
 {
-	// TODO
-	return NULL;
+	return alloc_ksym(old->addr, old->type, old->name, old->kmod);
 }
-#endif
 
 void free_ksym(struct ksym *ksym)
 {
@@ -183,7 +181,7 @@ int load_kallsyms(void)
 		fprintf(stderr, "%d %lx %c %s %s\n", n, new->addr, c_type, new->name, new->kmod);
 #endif
 
-		struct ksym **old = tsearch(new, &ksyms.root_nkta, ksym_cmp_nkta);
+		struct ksym **old = tsearch(new, &ksyms.nkta.root, ksym_cmp_nkta);
 		assert(old && "tsearch() failed");
 
 		/* already exit */
@@ -191,15 +189,22 @@ int load_kallsyms(void)
 			free_ksym(new);
 			continue;
 		}
+		ksyms.nkta.nsyms++;
 
-		ksyms.nsyms++;
+		new = dup_ksym(new);
 
-		old = tsearch(new, &ksyms.root_addr, ksym_cmp_addr);
+		old = tsearch(new, &ksyms.addr.root, ksym_cmp_addr);
 		assert(old && "tsearch() failed");
+		if (*old != new) {
+			free_ksym(new);
+			continue;
+		}
+		ksyms.addr.nsyms++;
 	}
 
 #ifdef DEBUG
-	fprintf(stderr, "kallsyms %ld symbols\n", ksyms.nsyms);
+	fprintf(stderr, "kallsyms nkta %ld, addr %ld symbols\n",
+		ksyms.nkta.nsyms, ksyms.addr.nsyms);
 #endif
 
 	fclose(fp);
