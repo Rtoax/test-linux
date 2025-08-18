@@ -4,3 +4,4 @@
 #include <stdbool.h>
 #include <sys/types.h>
 
+int load_kallsyms(void);
