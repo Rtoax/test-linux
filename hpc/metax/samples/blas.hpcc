@@ -63,8 +63,9 @@ enum test_type {
 	TEST_GEMMEX_FP64,
 	TEST_GEMMEX_INT8,
 	/**
-	 * fp: MetaX Mars X203
+	 * Matrix Mul test
 	 * - commit 3237eede2fb2 ("hpc: blas: matmul: Test MetaX Mars X203 fp16/fp32/fp64")
+	 * - commit 54df2b69c4cc ("hpc: blas: matmul: Test NVIDIA GeForce RTX 3060 fp16/fp32/fp64")
 	 */
 	TEST_MATMUL_FP16,
 	TEST_MATMUL_FP32,
