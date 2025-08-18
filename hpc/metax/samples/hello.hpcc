@@ -1,6 +1,7 @@
 /**
  * elf sections of metax: commit 047883bd3538 ("metax: hello.hpcc: ELF section info")
  * elf sections of cuda:  commit bd1c08a6a95f ("cuda: hello.c: see elf sections")
+ * elf dump PTX and SASS: commit 306555e1b4e6 ("nvidia: PTX and SASS")
  */
 #include <stdio.h>
 #if defined(HAVE_HCCL)
