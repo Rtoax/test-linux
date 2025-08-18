@@ -56,10 +56,22 @@ static int ksym_cmp_addr(const void *a1, const void *a2)
 	return s1->addr - s2->addr;
 }
 
+static int ksym_cmp_name(const void *a1, const void *a2)
+{
+	const struct ksym *s1 = a1, *s2 = a2;
+	return strcmp(s1->name, s2->name);
+}
+
 static int ksym_cmp_nkta(const void *a1, const void *a2)
 {
 	int cmp;
 	const struct ksym *s1 = a1, *s2 = a2;
+
+#ifdef DEBUG
+# if DEBUG >= 2
+	fprintf(stderr, "%s vs %s\n", s1->name, s2->name);
+# endif
+#endif
 	cmp = strcmp(s1->name, s2->name);
 	if (cmp)
 		return cmp;
@@ -259,4 +271,20 @@ int load_kallsyms(void)
 
 	fclose(fp);
 	return 0;
+}
+
+long ksym_addr(const char *name)
+{
+	struct ksym **found, find;
+
+	memset(&find, 0, sizeof(struct ksym));
+
+	find.name = (char *)name;
+	find.addr = 0x1234567890;
+
+	found = tfind(&find, &ksyms.nkta.root, ksym_cmp_name);
+	if (found)
+		return (*found)->addr;
+
+	return INVALID_ADDR;
 }
