@@ -1,10 +1,12 @@
 // SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
 /* Copyright (c) 2025 Rong Tao */
+#include <assert.h>
 #include <errno.h>
 #include <malloc.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <search.h>
 
 #include "ksym_helpers.h"
 
@@ -12,7 +14,7 @@
 
 
 enum ksym_type {
-	KSYM_LOCAL_ABS,		/* a */
+	KSYM_LOCAL_ABS = 1,	/* a */
 	KSYM_GLOBAL_ABS,	/* A */
 	KSYM_LOCAL_BSS,		/* b */
 	KSYM_GLOBAL_BSS,	/* B */
@@ -29,26 +31,91 @@ enum ksym_type {
 };
 
 struct ksym {
-	unsigned long address;
+	unsigned long addr;
 	enum ksym_type type;
 	char *name;
 	char *kmod;	/* optional */
 };
 
-struct ksyms {
-	void *tree_handle;
+struct ksyms_tree {
+	size_t nsyms;
+	void *root;
+	int (*compare)(const void *, const void *);
+	void (*walk)(const void *, VISIT, void *);
 };
 
-static struct ksym *alloc_ksym(unsigned long addr, char c_type, char *name,
-			       char *kmod)
+struct ksyms {
+	struct ksyms_tree nkta, addr;
+};
+
+void print_ksym(const struct ksym *sym);
+
+static int ksym_cmp_addr(const void *a1, const void *a2)
 {
-	struct ksym *ksym = malloc(sizeof(struct ksym));
+	const struct ksym *s1 = a1, *s2 = a2;
+	return s1->addr - s2->addr;
+}
 
-	memset(ksym, 0, sizeof(struct ksym));
-	ksym->address = addr;
+static int ksym_cmp_name(const void *a1, const void *a2)
+{
+	const struct ksym *s1 = a1, *s2 = a2;
+	return strcmp(s1->name, s2->name);
+}
 
+static int ksym_cmp_nkta(const void *a1, const void *a2)
+{
+	int cmp;
+	const struct ksym *s1 = a1, *s2 = a2;
+
+#ifdef DEBUG
+# if DEBUG >= 2
+	fprintf(stderr, "%s vs %s\n", s1->name, s2->name);
+# endif
+#endif
+	cmp = strcmp(s1->name, s2->name);
+	if (cmp)
+		return cmp;
+	if (s1->kmod && s2->kmod) {
+		cmp = strcmp(s1->kmod, s2->kmod);
+		if (cmp)
+			return cmp;
+	}
+	cmp = s1->type - s2->type;
+	if (cmp)
+		return cmp;
+	return ksym_cmp_addr(s1, s2);
+}
+
+void walk_action(const void *nodep, VISIT which, void *closure)
+{
+	const struct ksym *sym = *(struct ksym **)nodep;
+
+	if (which != preorder && which != leaf)
+		return;
+
+	print_ksym(sym);
+}
+
+static struct ksyms ksyms = {
+	.nkta = {
+		.nsyms = 0,
+		.root = NULL,
+		.compare = ksym_cmp_nkta,
+		.walk = walk_action,
+	},
+	.addr = {
+		.nsyms = 0,
+		.root = NULL,
+		.compare = ksym_cmp_addr,
+		.walk = walk_action,
+	}
+};
+
+
+enum ksym_type c2type(char c_type)
+{
 	switch (c_type) {
-#define CASE(c, e)	case c: ksym->type = e; break
+#define CASE(c, e)	case c: return e; break
 	CASE('t', KSYM_LOCAL_FUNC);
 	CASE('T', KSYM_GLOBAL_FUNC);
 	CASE('d', KSYM_LOCAL_DATA);
@@ -64,23 +131,65 @@ static struct ksym *alloc_ksym(unsigned long addr, char c_type, char *name,
 	CASE('V', KSYM_GLOBAL_WEAK_DATA);
 	CASE('?', KSYM_GLOBAL_UNKNOWN);
 #undef CASE
-	default:
-		goto invalid;
-		break;
 	}
-	ksym->name = strdup(name);
-	if (kmod)
-		ksym->name = strdup(kmod);
-
-	return ksym;
-
-invalid:
-	fprintf(stderr, "Invalid %lx %c %s %s\n", addr, c_type, name, kmod);
-	free(ksym);
-	return NULL;
+	return KSYM_GLOBAL_UNKNOWN;
 }
 
-static void free_ksym(struct ksym *ksym)
+char type2c(enum ksym_type type)
+{
+	switch (type) {
+#define CASE(c, e)	case e: return c; break
+	CASE('t', KSYM_LOCAL_FUNC);
+	CASE('T', KSYM_GLOBAL_FUNC);
+	CASE('d', KSYM_LOCAL_DATA);
+	CASE('D', KSYM_GLOBAL_DATA);
+	CASE('b', KSYM_LOCAL_BSS);
+	CASE('B', KSYM_GLOBAL_BSS);
+	CASE('r', KSYM_LOCAL_RODATA);
+	CASE('R', KSYM_GLOBAL_RODATA);
+	CASE('a', KSYM_LOCAL_ABS);
+	CASE('A', KSYM_GLOBAL_ABS);
+	CASE('w', KSYM_LOCAL_WEAK_FUNC);
+	CASE('W', KSYM_GLOBAL_WEAK_FUNC);
+	CASE('V', KSYM_GLOBAL_WEAK_DATA);
+	CASE('?', KSYM_GLOBAL_UNKNOWN);
+#undef CASE
+	}
+	return '?';
+}
+
+struct ksym *alloc_ksym(unsigned long addr, enum ksym_type type, char *name,
+			char *kmod)
+{
+	struct ksym *new;
+
+	if (addr == 0 || !name || strlen(name) <= 1)
+		return NULL;
+
+	new = malloc(sizeof(struct ksym));
+
+	memset(new, 0, sizeof(struct ksym));
+	new->addr = addr;
+	new->type = type;
+	new->name = strdup(name);
+	if (kmod)
+		new->kmod = strdup(kmod);
+
+	return new;
+}
+
+struct ksym *dup_ksym(struct ksym *old)
+{
+	return alloc_ksym(old->addr, old->type, old->name, old->kmod);
+}
+
+void print_ksym(const struct ksym *sym)
+{
+	fprintf(stderr, "%lx %c %s %s\n", sym->addr, type2c(sym->type),
+		sym->name, sym->kmod ?: "");
+}
+
+void free_ksym(struct ksym *ksym)
 {
 	if (!ksym)
 		return;
@@ -90,11 +199,36 @@ static void free_ksym(struct ksym *ksym)
 	free(ksym);
 }
 
+int insert_to_tree(struct ksyms_tree *tree, struct ksym *new)
+{
+	struct ksym *dup, **old;
+
+	dup = dup_ksym(new);
+	if (!dup)
+		return -1;
+
+	old = tsearch(dup, &tree->root, tree->compare);
+	assert(old && "tsearch() failed");
+
+	if (*old != dup) {
+		free_ksym(dup);
+		return -1;
+	}
+	tree->nsyms++;
+	return 0;
+}
+
+void walk_tree(struct ksyms_tree *tree)
+{
+	twalk_r(tree->root, tree->walk, NULL);
+}
+
 int load_kallsyms(void)
 {
 	int n;
 	FILE *fp;
-	char s_addr[32], c_type, s_name[256], s_kmod[128];
+	unsigned long addr;
+	char c_type, s_name[256], s_kmod[128];
 	char line[512];
 
 	fp = fopen(PROC_KALLSYMS, "r");
@@ -102,17 +236,55 @@ int load_kallsyms(void)
 		return -errno;
 
 	while (fgets(line, sizeof(line), fp)) {
+		memset(s_name, 0, sizeof(s_name));
 		memset(s_kmod, 0, sizeof(s_kmod));
 
-		n = sscanf(line, "%s %c %s %s\n", s_addr, &c_type, s_name, s_kmod);
+		n = sscanf(line, "%lx %c %s %s\n", &addr, &c_type, s_name, s_kmod);
 		if (n != 4 && n != 3)
 			continue;
 
-		struct ksym *sym = alloc_ksym(strtoull(s_addr, NULL, 16),
-				c_type, s_name, s_kmod);
-		free_ksym(sym);
+		struct ksym *new = alloc_ksym(addr, c2type(c_type), s_name,
+				n == 4 ? s_kmod : NULL);
+		if (!new)
+			continue;
+
+#if defined(DEBUG)
+# if DEBUG >= 2
+		fprintf(stderr, "%d %lx %c %s %s\n", n, new->addr, c_type, new->name, new->kmod);
+# endif
+#endif
+
+		insert_to_tree(&ksyms.nkta, new);
+		insert_to_tree(&ksyms.addr, new);
+
+		free_ksym(new);
 	}
+
+#ifdef DEBUG
+	fprintf(stderr, "kallsyms nkta %ld, addr %ld symbols\n",
+		ksyms.nkta.nsyms, ksyms.addr.nsyms);
+# if DEBUG >= 2
+	walk_tree(&ksyms.addr);
+	walk_tree(&ksyms.nkta);
+# endif
+#endif
 
 	fclose(fp);
 	return 0;
+}
+
+long ksym_addr(const char *name)
+{
+	struct ksym **found, find;
+
+	memset(&find, 0, sizeof(struct ksym));
+
+	find.name = (char *)name;
+	find.addr = 0x1234567890;
+
+	found = tfind(&find, &ksyms.nkta.root, ksym_cmp_name);
+	if (found)
+		return (*found)->addr;
+
+	return INVALID_ADDR;
 }

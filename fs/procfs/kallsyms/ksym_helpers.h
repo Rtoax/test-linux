@@ -4,4 +4,11 @@
 #include <stdbool.h>
 #include <sys/types.h>
 
+#define INVALID_ADDR	(-1)
+
 int load_kallsyms(void);
+
+/**
+ * If exist, return valid address, else return INVALID_ADDR
+ */
+long ksym_addr(const char *name);
