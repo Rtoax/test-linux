@@ -46,7 +46,7 @@ struct ksyms_tree {
 };
 
 struct ksyms {
-	struct ksyms_tree nkta, addr;
+	struct ksyms_tree nkta, name, addr;
 };
 
 void print_ksym(const struct ksym *sym);
@@ -95,6 +95,12 @@ static const struct ksyms default_zero_ksyms = {
 		.nsyms = 0,
 		.root = NULL,
 		.compare = ksym_cmp_nkta,
+		.walk = walk_action,
+	},
+	.name = {
+		.nsyms = 0,
+		.root = NULL,
+		.compare = ksym_cmp_name,
 		.walk = walk_action,
 	},
 	.addr = {
@@ -264,16 +270,18 @@ struct ksyms *load_kallsyms(void)
 			continue;
 
 		insert_to_tree(&ksyms->nkta, new);
+		insert_to_tree(&ksyms->name, new);
 		insert_to_tree(&ksyms->addr, new);
 
 		free_ksym(new);
 	}
 
 #ifdef DEBUG
-	fprintf(stderr, "kallsyms nkta %ld, addr %ld symbols\n",
-		ksyms->nkta.nsyms, ksyms->addr.nsyms);
+	fprintf(stderr, "kallsyms nkta %ld, name %ld, addr %ld symbols\n",
+		ksyms->nkta.nsyms, ksyms->name.nsyms, ksyms->addr.nsyms);
 # if DEBUG >= 2
 	walk_tree(&ksyms->nkta);
+	walk_tree(&ksyms->name);
 	walk_tree(&ksyms->addr);
 # endif
 #endif
@@ -286,19 +294,19 @@ exit:
 void free_kallsyms(struct ksyms *ksyms)
 {
 	tdestroy(ksyms->nkta.root, free_ksym_t);
+	tdestroy(ksyms->name.root, free_ksym_t);
 	tdestroy(ksyms->addr.root, free_ksym_t);
 }
 
-long ksym_addr(const struct ksyms *ksyms, const char *name, const char *kmod)
+long ksym_addr(const struct ksyms *ksyms, const char *name)
 {
 	struct ksym **found, find;
 
 	memset(&find, 0, sizeof(struct ksym));
 
 	find.name = (char *)name;
-	find.kmod = (char *)(kmod ?: DEFAULT_KMOD);
 
-	found = tfind(&find, &ksyms->nkta.root, ksym_cmp_name);
+	found = tfind(&find, &ksyms->name.root, ksyms->name.compare);
 	if (found)
 		return (*found)->addr;
 

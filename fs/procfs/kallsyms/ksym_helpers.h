@@ -15,4 +15,4 @@ void free_kallsyms(struct ksyms *ksyms);
 /**
  * If exist, return valid address, else return INVALID_ADDR
  */
-long ksym_addr(const struct ksyms *ksyms, const char *name, const char *kmod);
+long ksym_addr(const struct ksyms *ksyms, const char *name);
