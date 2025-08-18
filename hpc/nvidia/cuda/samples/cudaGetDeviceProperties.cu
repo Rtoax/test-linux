@@ -42,6 +42,9 @@ int main(void)
 	printf("globalL1CacheSupported %d\n", prop.globalL1CacheSupported);
 	printf("localL1CacheSupported %d\n", prop.localL1CacheSupported);
 	printf("managedMemory %d\n", prop.managedMemory);
+	/**
+	 * see also $ nvidia-smi -q -d ECC
+	 */
 	printf("ECCEnabled %d\n", prop.ECCEnabled);
 
 	/* Information about Core/Thread */
