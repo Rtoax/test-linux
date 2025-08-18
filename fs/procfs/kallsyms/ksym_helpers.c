@@ -40,14 +40,12 @@ struct ksym {
 struct ksyms_tree {
 	size_t nsyms;
 	void *root;
+	int (*compare)(const void *, const void *);
 };
 
 struct ksyms {
 	struct ksyms_tree nkta, addr;
 };
-
-static struct ksyms ksyms = {{0, NULL}};
-
 
 static int ksym_cmp_addr(const void *a1, const void *a2)
 {
@@ -72,6 +70,20 @@ static int ksym_cmp_nkta(const void *a1, const void *a2)
 		return cmp;
 	return ksym_cmp_addr(s1, s2);
 }
+
+static struct ksyms ksyms = {
+	.nkta = {
+		.nsyms = 0,
+		.root = NULL,
+		.compare = ksym_cmp_nkta,
+	},
+	.addr = {
+		.nsyms = 0,
+		.root = NULL,
+		.compare = ksym_cmp_addr,
+	}
+};
+
 
 enum ksym_type c2type(char c_type)
 {
@@ -154,6 +166,25 @@ void free_ksym(struct ksym *ksym)
 	free(ksym);
 }
 
+int insert_to_tree(struct ksyms_tree *tree, struct ksym *new)
+{
+	struct ksym *dup, **old;
+
+	dup = dup_ksym(new);
+	if (!dup)
+		return -1;
+
+	old = tsearch(dup, &tree->root, tree->compare);
+	assert(old && "tsearch() failed");
+
+	if (*old != dup) {
+		free_ksym(dup);
+		return -1;
+	}
+	tree->nsyms++;
+	return 0;
+}
+
 int load_kallsyms(void)
 {
 	int n;
@@ -183,25 +214,10 @@ int load_kallsyms(void)
 		fprintf(stderr, "%d %lx %c %s %s\n", n, new->addr, c_type, new->name, new->kmod);
 #endif
 
-		struct ksym **old = tsearch(new, &ksyms.nkta.root, ksym_cmp_nkta);
-		assert(old && "tsearch() failed");
+		insert_to_tree(&ksyms.nkta, new);
+		insert_to_tree(&ksyms.addr, new);
 
-		/* already exit */
-		if (*old != new) {
-			free_ksym(new);
-			continue;
-		}
-		ksyms.nkta.nsyms++;
-
-		new = dup_ksym(new);
-
-		old = tsearch(new, &ksyms.addr.root, ksym_cmp_addr);
-		assert(old && "tsearch() failed");
-		if (*old != new) {
-			free_ksym(new);
-			continue;
-		}
-		ksyms.addr.nsyms++;
+		free_ksym(new);
 	}
 
 #ifdef DEBUG
