@@ -37,11 +37,13 @@ struct ksym {
 	char *kmod;	/* optional */
 };
 
+struct ksyms_tree {
+	size_t nsyms;
+	void *root;
+};
+
 struct ksyms {
-	struct {
-		size_t nsyms;
-		void *root;
-	} nkta, addr;
+	struct ksyms_tree nkta, addr;
 };
 
 static struct ksyms ksyms = {{0, NULL}};
