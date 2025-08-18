@@ -44,6 +44,7 @@ int main(void)
 	printf("managedMemory %d\n", prop.managedMemory);
 	/**
 	 * see also $ nvidia-smi -q -d ECC
+	 * - commit 120e7c6f3062 ("cudaGetDeviceProperties: ECC info")
 	 */
 	printf("ECCEnabled %d\n", prop.ECCEnabled);
 
