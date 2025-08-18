@@ -158,7 +158,8 @@ int load_kallsyms(void)
 {
 	int n;
 	FILE *fp;
-	char s_addr[32], c_type, s_name[256], s_kmod[128];
+	unsigned long addr;
+	char c_type, s_name[256], s_kmod[128];
 	char line[512];
 
 	fp = fopen(PROC_KALLSYMS, "r");
@@ -169,17 +170,17 @@ int load_kallsyms(void)
 		memset(s_name, 0, sizeof(s_name));
 		memset(s_kmod, 0, sizeof(s_kmod));
 
-		n = sscanf(line, "%s %c %s %s\n", s_addr, &c_type, s_name, s_kmod);
+		n = sscanf(line, "%lx %c %s %s\n", &addr, &c_type, s_name, s_kmod);
 		if (n != 4 && n != 3)
 			continue;
 
-		struct ksym *new = alloc_ksym(strtoull(s_addr, NULL, 16),
-				c2type(c_type), s_name, n == 4 ? s_kmod : NULL);
+		struct ksym *new = alloc_ksym(addr, c2type(c_type), s_name,
+				n == 4 ? s_kmod : NULL);
 		if (!new)
 			continue;
 
 #ifdef DEBUG
-		printf("%d %lx %c %s %s\n", n, new->addr, c_type, new->name, new->kmod);
+		fprintf(stderr, "%d %lx %c %s %s\n", n, new->addr, c_type, new->name, new->kmod);
 #endif
 
 		struct ksym **old = tsearch(new, &ksyms.root_nkta, ksym_cmp_nkta);
@@ -197,7 +198,9 @@ int load_kallsyms(void)
 		assert(old && "tsearch() failed");
 	}
 
+#ifdef DEBUG
 	fprintf(stderr, "kallsyms %ld symbols\n", ksyms.nsyms);
+#endif
 
 	fclose(fp);
 	return 0;
