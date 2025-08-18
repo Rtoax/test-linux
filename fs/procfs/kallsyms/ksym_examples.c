@@ -6,7 +6,7 @@ static struct ksyms *ksyms = NULL;
 
 void assert_find(const char *ksym)
 {
-	long addr = ksym_addr(ksym, NULL);
+	long addr = ksym_addr(ksyms, ksym, NULL);
 	if (addr != INVALID_ADDR)
 		printf("%s %lx\n", ksym, addr);
 	else
