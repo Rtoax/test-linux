@@ -280,7 +280,6 @@ long ksym_addr(const char *name)
 	memset(&find, 0, sizeof(struct ksym));
 
 	find.name = (char *)name;
-	find.addr = 0x1234567890;
 
 	found = tfind(&find, &ksyms.nkta.root, ksym_cmp_name);
 	if (found)
