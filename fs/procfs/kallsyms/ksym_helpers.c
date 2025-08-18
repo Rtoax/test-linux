@@ -102,7 +102,7 @@ static struct ksyms ksyms = {
 		.root = NULL,
 		.compare = ksym_cmp_addr,
 		.walk = walk_action,
-	}
+	},
 };
 
 
@@ -202,6 +202,11 @@ void free_ksym(struct ksym *ksym)
 	free(ksym);
 }
 
+static void free_ksym_t(void *p)
+{
+	free_ksym(p);
+}
+
 int insert_to_tree(struct ksyms_tree *tree, struct ksym *new)
 {
 	struct ksym *dup, **old;
@@ -261,13 +266,19 @@ struct ksyms *load_kallsyms(void)
 	fprintf(stderr, "kallsyms nkta %ld, addr %ld symbols\n",
 		ksyms.nkta.nsyms, ksyms.addr.nsyms);
 # if DEBUG >= 2
-	walk_tree(&ksyms.addr);
 	walk_tree(&ksyms.nkta);
+	walk_tree(&ksyms.addr);
 # endif
 #endif
 
 	fclose(fp);
 	return &ksyms;
+}
+
+void free_kallsyms(struct ksyms *ksyms)
+{
+	tdestroy(ksyms->nkta.root, free_ksym_t);
+	tdestroy(ksyms->addr.root, free_ksym_t);
 }
 
 long ksym_addr(const char *name, const char *kmod)

@@ -20,5 +20,7 @@ int main(void)
 	assert_find("schedule");
 	assert_find("net_tx_action");
 
+	free_kallsyms(ksyms);
+
 	return 0;
 }

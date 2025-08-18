@@ -10,6 +10,7 @@ struct ksym;
 struct ksyms;
 
 struct ksyms *load_kallsyms(void);
+void free_kallsyms(struct ksyms *ksyms);
 
 /**
  * If exist, return valid address, else return INVALID_ADDR
