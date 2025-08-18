@@ -11,6 +11,7 @@
 #include "ksym_helpers.h"
 
 #define PROC_KALLSYMS	"/proc/kallsyms"
+#define DEFAULT_KMOD	"vmlinux"
 
 
 enum ksym_type {
@@ -70,11 +71,9 @@ static int ksym_cmp_nkta(const void *a1, const void *a2)
 	cmp = strcmp(s1->name, s2->name);
 	if (cmp)
 		return cmp;
-	if (s1->kmod && s2->kmod) {
-		cmp = strcmp(s1->kmod, s2->kmod);
-		if (cmp)
-			return cmp;
-	}
+	cmp = strcmp(s1->kmod, s2->kmod);
+	if (cmp)
+		return cmp;
 	cmp = s1->type - s2->type;
 	if (cmp)
 		return cmp;
@@ -162,7 +161,7 @@ struct ksym *alloc_ksym(unsigned long addr, enum ksym_type type, char *name,
 	if (addr == 0 || !name || strlen(name) <= 1)
 		return NULL;
 	if (!kmod)
-		kmod = "vmlinux";
+		kmod = DEFAULT_KMOD;
 
 	strcpy(module, kmod);
 	kmod = module;
