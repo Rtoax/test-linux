@@ -1,4 +1,5 @@
 - AI: Artificial Intelligence (人工智能)
+- BST: Binary Search Tree (二叉搜索树)
 - IEEE-754: Floating Point Standards
 - LPM: Largest Prefix Match (最大前缀匹配)
 - LRU: Least Recently Used ()

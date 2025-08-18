@@ -1,3 +1,7 @@
+/**
+ * BST - Binary Search Tree
+ * see tsearch(3)
+ */
 #include <search.h>
 #include <stddef.h>
 #include <stdio.h>
@@ -19,9 +23,9 @@ static void *xmalloc(size_t n)
 
 static int compare(const void *pa, const void *pb)
 {
-	if (*(int *) pa < *(int *) pb)
+	if (*(int *)pa < *(int *)pb)
 		return -1;
-	if (*(int *) pa > *(int *) pb)
+	if (*(int *)pa > *(int *)pb)
 		return 1;
 	return 0;
 }
@@ -34,13 +38,13 @@ static void action(const void *nodep, VISIT which, int depth)
 	case preorder:
 		break;
 	case postorder:
-		datap = *(int **) nodep;
+		datap = *(int **)nodep;
 		printf("%6d\n", *datap);
 		break;
 	case endorder:
 		break;
 	case leaf:
-		datap = *(int **) nodep;
+		datap = *(int **)nodep;
 		printf("%6d\n", *datap);
 		break;
 	}
@@ -48,8 +52,8 @@ static void action(const void *nodep, VISIT which, int depth)
 
 int main(void)
 {
-	int  *ptr;
-	int  **val;
+	int *ptr;
+	int **val;
 
 	srand(time(NULL));
 	for (unsigned int i = 0; i < 12; i++) {
