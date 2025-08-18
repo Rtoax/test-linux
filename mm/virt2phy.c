@@ -490,7 +490,11 @@ int main(int argc, char *argv[])
  * of RAM.
  */
 #if defined(CONFIG_DEVMEM) && !defined(CONFIG_STRICT_DEVMEM)
-	buf_len = 1024;
+	int memfd;
+	char *buf;
+	unsigned long phy;
+	char buffer[1024];
+	size_t buf_len = 1024;
 
 #define BUF_STRING0	"Hello, Original!"
 #define BUF_STRING1	"Hello, Memory!"
@@ -512,9 +516,9 @@ int main(int argc, char *argv[])
 
 	memfd = open_dev_mem();
 
-	dev_mem_read(memfd, phy, buffer, strlen(BUF_STRING0));
+	dev_mem_read(memfd, phy, buffer, strlen(BUF_STRING0) + 1);
 	printf("read from /dev/mem buffer %s\n", buffer);
-	dev_mem_write(memfd, phy, BUF_STRING1, strlen(BUF_STRING1));
+	dev_mem_write(memfd, phy, BUF_STRING1, strlen(BUF_STRING1) + 1);
 	printf("write to /dev/mem buf %s\n", buf);
 	close(memfd);
 
