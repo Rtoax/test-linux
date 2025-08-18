@@ -25,11 +25,7 @@
 int main(void)
 {
 	int i, dev_id;
-#ifdef HAVE_HCCL
-	hcDeviceProp_t prop;
-#else
 	cudaDeviceProp prop;
-#endif
 
 	dev_id = 0;
 
