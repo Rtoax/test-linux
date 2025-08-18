@@ -32,6 +32,8 @@ __global__ void checkIndex(int it)
 		printf("warpSize %d\n", warpSize);
 #if !defined(__CUDACC__)
 		printf("waveSize %d\n", waveSize);
+#else
+		printf("waveSize not support on CUDA.\n");
 #endif
 	}
 
@@ -49,6 +51,11 @@ __global__ void checkIndex(int it)
 #if defined(HAVE_HCCL)
 	printf("");
 #endif
+
+	__syncthreads();
+
+	if (ix == 0 && iy == 0 && iz == 0)
+		printf("------ done ------\n");
 }
 
 int main(int argc, char *argv[])
