@@ -70,21 +70,10 @@ static int ksym_cmp_nkta(const void *a1, const void *a2)
 	return ksym_cmp_addr(s1, s2);
 }
 
-static struct ksym *alloc_ksym(unsigned long addr, char c_type, char *name,
-			       char *kmod)
+static enum ksym_type c2type(char c_type)
 {
-	struct ksym *new;
-
-	if (addr == 0 || !name || strlen(name) <= 1)
-		return NULL;
-
-	new = malloc(sizeof(struct ksym));
-
-	memset(new, 0, sizeof(struct ksym));
-	new->addr = addr;
-
 	switch (c_type) {
-#define CASE(c, e)	case c: new->type = e; break
+#define CASE(c, e)	case c: return e; break
 	CASE('t', KSYM_LOCAL_FUNC);
 	CASE('T', KSYM_GLOBAL_FUNC);
 	CASE('d', KSYM_LOCAL_DATA);
@@ -100,22 +89,28 @@ static struct ksym *alloc_ksym(unsigned long addr, char c_type, char *name,
 	CASE('V', KSYM_GLOBAL_WEAK_DATA);
 	CASE('?', KSYM_GLOBAL_UNKNOWN);
 #undef CASE
-	default:
-		goto invalid;
-		break;
 	}
+	return KSYM_GLOBAL_UNKNOWN;
+}
 
+static struct ksym *alloc_ksym(unsigned long addr, enum ksym_type type,
+			       char *name, char *kmod)
+{
+	struct ksym *new;
+
+	if (addr == 0 || !name || strlen(name) <= 1)
+		return NULL;
+
+	new = malloc(sizeof(struct ksym));
+
+	memset(new, 0, sizeof(struct ksym));
+	new->addr = addr;
+	new->type = type;
 	new->name = strdup(name);
-
 	if (kmod)
 		new->kmod = strdup(kmod);
 
 	return new;
-
-invalid:
-	fprintf(stderr, "Invalid %lx %c %s %s\n", addr, c_type, name, kmod);
-	free(new);
-	return NULL;
 }
 
 #if 0
@@ -156,7 +151,7 @@ int load_kallsyms(void)
 			continue;
 
 		struct ksym *new = alloc_ksym(strtoull(s_addr, NULL, 16),
-				c_type, s_name, n == 4 ? s_kmod : NULL);
+				c2type(c_type), s_name, n == 4 ? s_kmod : NULL);
 		if (!new)
 			continue;
 
