@@ -1,10 +1,8 @@
 sub-dir := cxl
 sub-dir += dmidecode
+sub-dir += scripts
 
-targets-post := builds
+targets-shell := dmidecode.sh
+targets-shell += support.sh
 
 include ../../template/main.mk
-
-builds:
-	${Q}./dmidecode.sh
-	${Q}./support.sh

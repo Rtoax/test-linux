@@ -125,6 +125,7 @@ clean: $(sub-dir-clean) $(kmod-list-clean) $(targets-clean)
 	${Q}rm -rf ${build-targets}
 	${Q}rm -f *.o *.log *.out *.class
 	${Q}rm -f *.so *.so.* *.a
+	${Q}rm -f *.dat *.bin
 	$(call log_tgt_done,clean,$(call git_relative_dir,$(shell realpath .)))
 
 include ${TEMPLATE_DIR}/target-exe.mk
