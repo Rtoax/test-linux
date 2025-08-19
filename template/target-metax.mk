@@ -4,6 +4,8 @@
 MXCC := $(shell which mxcc 2>/dev/null)
 HTCC := $(shell which htcc 2>/dev/null)
 
+HPCC_CU_BRIDGE := /opt/hpcc/tools/cu-bridge/include/
+
 ifeq ($(MXCC),)
   ifneq ($(targets-mxcc),)
     $(error Not found mxcc, install MetaX Toolkit first)
@@ -13,6 +15,10 @@ ifeq ($(HTCC),)
   ifneq ($(targets-htcc),)
     $(error Not found htcc, install MetaX hpcc first)
   endif
+endif
+
+ifneq ($(wildcard ${HPCC_CU_BRIDGE}),)
+  CFLAGS_HTCC += -I${HPCC_CU_BRIDGE} -DHPCC_CU_BRIDGE=1
 endif
 
 ifdef ERROR
