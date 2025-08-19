@@ -97,10 +97,12 @@ endef
 
 .PHONY: installdeps
 installdeps:
+	$(call log_info,top-makefile installdeps)
 	$(call installdeps)
 
 .PHONY: install
 install: uninstall
+	$(call log_info,top-makefile install)
 	@echo "Install"
 	${Q}ln -s ${TOPDIR}/scripts/git/bigfile.sh /usr/bin/git-bigfile
 	${Q}ln -s ${TOPDIR}/scripts/git/statistic.sh /usr/bin/git-statistic
@@ -114,6 +116,7 @@ install: uninstall
 
 .PHONY: uninstall
 uninstall:
+	$(call log_info,top-makefile uninstall)
 	@echo "Uninstall"
 	${Q}rm -f /usr/bin/git-bigfile \
 		/usr/bin/git-statistic \
@@ -135,11 +138,13 @@ version:
 
 .PHONY: archive
 archive:
+	$(call log_info,top-makefile archive)
 	@echo "=== archive"
 	$(call git_archive)
 
 .PHONY: config
 config:
+	$(call log_info,top-makefile config)
 	@echo "=== config"
 	$(call git_config)
 
@@ -149,6 +154,7 @@ kconfig-display:
 
 .PHONY: menuconfig
 menuconfig:
+	$(call log_info,top-makefile menuconfig)
 	@echo "=== menuconfig"
 	$(SHELL) ./scripts/dialog/main.sh
 
@@ -160,10 +166,12 @@ endef
 
 .PHONY: check
 check:
+	$(call log_info,top-makefile check)
 	$(call check_links)
 
 # Clean git repo useless file and directory
 cleangit:
+	$(call log_info,top-makefile cleangit)
 	@echo "=== clean git repo"
 	$(call git_clean)
 
