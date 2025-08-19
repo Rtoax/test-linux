@@ -69,8 +69,10 @@
 #define cudaGetDeviceProperties(prop, devid)	__pfx(GetDeviceProperties(prop, devid))
 
 #define cudaDeviceGetAttribute(pval, attr, dev_id)	__pfx(DeviceGetAttribute(pval, attr, dev_id))
-#define cudaDevAttrClockRate	__pfx(DevAttrClockRate)
-#define cudaDevAttrMaxThreadsPerMultiProcessor	__pfx(DevAttrMaxThreadsPerMultiProcessor)
+/* WARNING: different name */
+#define cudaDevAttrMaxThreadsPerBlock	__pfx(DeviceAttributeMaxThreadsPerBlock)
+#define cudaDevAttrClockRate	__pfx(DeviceAttributeClockRate)
+#define cudaDevAttrMaxThreadsPerMultiProcessor	__pfx(DeviceAttributeMaxThreadsPerMultiProcessor)
 
 #define cudaDeviceGetP2PAttribute(v, attr, src, dst)	__pfx(DeviceGetP2PAttribute(v, attr, src, dst))
 #define cudaDevP2PAttrPerformanceRank	__pfx(DevP2PAttrPerformanceRank)

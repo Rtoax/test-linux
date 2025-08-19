@@ -25,14 +25,9 @@ int main(void)
 		printf("%s %d\n", #attr, value);	\
 	} while (0)
 
-	/**
-	 * TODO: HCCL: error: use of undeclared identifier 'hcDevAttrMaxThreadsPerBlock'
-	 */
-#if !defined(HAVE_HCCL)
 	Attr(cudaDevAttrMaxThreadsPerBlock);
 	Attr(cudaDevAttrClockRate);
 	Attr(cudaDevAttrMaxThreadsPerMultiProcessor);
-#endif
 
 	return 0;
 }
