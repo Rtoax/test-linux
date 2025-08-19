@@ -29,6 +29,10 @@
 #define cudaMemcpyHostToDevice	__pfx(MemcpyHostToDevice)
 #define cudaMemcpyDeviceToHost	__pfx(MemcpyDeviceToHost)
 
+#define cudaMallocManaged(pp, sz)	__pfx(MallocManaged(pp, sz))
+#define cudaMallocAsync(pp, sz, stream)	__pfx(MallocAsync(pp, sz, stream))
+#define cudaFreeAsync(ptr, stream)	__pfx(FreeAsync(ptr, stream))
+
 #define cudaEvent_t	__pfx(Event_t)
 #define cudaEventCreate(pe)	__pfx(EventCreate(pe))
 #define cudaEventDestroy(ev)	__pfx(EventDestroy(ev))

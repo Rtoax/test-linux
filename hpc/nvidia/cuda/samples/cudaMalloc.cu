@@ -21,5 +21,8 @@ int main(void)
 	cudaMalloc(&ptr, sizeof(*ptr) * num);
 	cudaFree(ptr);
 
+	/* No need to free */
+	cudaMallocManaged(&ptr, sizeof(*ptr) * num);
+
 	return 0;
 }
