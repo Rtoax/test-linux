@@ -4,7 +4,7 @@ Q ?= @
 # $1: build, test, clean
 # $2: sub-dir
 define make_sub_dir
-	$(call tl_log,"${1} $(call git_relative_dir,$(2))")
+	$(call log_info,"${1} $(call git_relative_dir,$(2))")
 	$(Q)pushd $(2) >/dev/null; \
 	make ${1}; \
 	if [ $$? -ne 0 ]; then \

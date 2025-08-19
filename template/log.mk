@@ -9,6 +9,10 @@ ifeq (${ANSI_BOLD},)
   $(error Not define ANSI_BOLD)
 endif
 
+TL_LOG := $(TOPDIR)/test-linux.log
+TL_FAILED_LOG := $(TOPDIR)/failed.log
+export TL_LOG TL_FAILED_LOG
+
 define timestamp
 [$(shell date '+%H:%M:%S')]
 endef
@@ -25,11 +29,7 @@ define log_tgt_done
 @echo -e "$(call timestamp) [$(1)] ${ANSI_BOLD}${ANSI_YEL}$(2)${ANSI_RST} done"
 endef
 
-TL_LOG := $(TOPDIR)/test-linux.log
-TL_FAILED_LOG := $(TOPDIR)/failed.log
-export TL_LOG TL_FAILED_LOG
-
-define tl_log
+define log_info
 	${Q}echo $(shell date '+%Y-%m-%d %H:%M:%S') $(shell hostname) $1 >> ${TL_LOG}
 endef
 

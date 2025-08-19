@@ -39,7 +39,7 @@ endif
 # Default help
 .PHONY: help
 help:
-	$(call tl_log,top-makefile help)
+	$(call log_info,top-makefile help)
 	@echo >&2 -e "***"
 	$(call tl_ascii_logo1,*** )
 	@echo >&2 -e "***"
