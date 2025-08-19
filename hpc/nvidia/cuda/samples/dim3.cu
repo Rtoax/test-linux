@@ -14,6 +14,21 @@
 #include "cuda_helpers.h"
 #endif
 
+__global__ void checkInfo(void)
+{
+	/**
+	 * Threads are batched in groups that we’ll call Wavefronts or
+	 * waves (or warps in Nvidia lingo), see
+	 * https://flashypixels.wordpress.com/2018/11/10/intro-to-gpu-scalarization-part-1/
+	 */
+	printf("warpSize %d\n", warpSize);
+#if !defined(__CUDACC__)
+	printf("waveSize %d\n", waveSize);
+#else
+	printf("waveSize not support on CUDA.\n");
+#endif
+}
+
 __global__ void checkIndex(int it)
 {
 	int ix = threadIdx.x + blockDim.x * blockIdx.x;
@@ -22,20 +37,6 @@ __global__ void checkIndex(int it)
 
 	if (ix % it != 0 || iy % it != 0 || iz % it != 0)
 		return;
-
-	if (ix == 0 && iy == 0 && iz == 0) {
-		/**
-		 * Threads are batched in groups that we’ll call Wavefronts or
-		 * waves (or warps in Nvidia lingo), see
-		 * https://flashypixels.wordpress.com/2018/11/10/intro-to-gpu-scalarization-part-1/
-		 */
-		printf("warpSize %d\n", warpSize);
-#if !defined(__CUDACC__)
-		printf("waveSize %d\n", waveSize);
-#else
-		printf("waveSize not support on CUDA.\n");
-#endif
-	}
 
 	__syncthreads();
 
@@ -117,6 +118,7 @@ int main(int argc, char *argv[])
 	fprintf(stderr, "<<< grid(%d,%d,%d), block(%d,%d,%d) >>>\n",
 		grid.x, grid.y, grid.z, block.x, block.y, block.z);
 
+	checkInfo<<<1, 1>>>();
 	checkIndex<<<grid, block>>>(it);
 
 	/* flush printf */
