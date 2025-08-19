@@ -30,7 +30,11 @@ define log_tgt_done
 endef
 
 define log_info
-@echo -e $(call timestamp) $(shell hostname) $1 | tee --append ${TL_LOG}
+printf '$(call timestamp) $(shell hostname) $1\n' | tee --append ${TL_LOG}
+endef
+
+define log_failed
+printf '$(call timestamp) $(shell hostname) ${ANSI_RED}$1${ANSI_RST}\n' | tee --append ${TL_FAILED_LOG}
 endef
 
 define cleanfailedlog
