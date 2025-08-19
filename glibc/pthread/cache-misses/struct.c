@@ -1,12 +1,9 @@
+// SPDX-License-Identifier: GPL-3.0
+/* Copyright (C) 2023-2025 Rong Tao. */
 /**
  * cache-misses.c - Test the program efficiency problems caused by the
  * influence of data structures on cache misses.
  *
- * Copyright (C) Rong Tao.
- *
- * 2023-04-15	Rong Tao	Create this.
- * 2023-08-02	Rong Tao	Test read/write
- * 2024-10-08	Rong Tao	Support arguments
  */
 #include <stdio.h>
 #include <stdlib.h>
@@ -31,8 +28,8 @@ enum op_type {
  */
 struct good_struct {
 	unsigned long t1;
-#if defined(L3_CACHELINE_SIZE)
-	char pad[L3_CACHELINE_SIZE];
+#if defined(LEVEL3_CACHE_LINESIZE)
+	char pad[LEVEL3_CACHE_LINESIZE];
 #else
 	/* Usually the LLC cache line size is 64 bytes */
 	unsigned long pad[8];
