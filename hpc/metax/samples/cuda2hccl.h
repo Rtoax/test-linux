@@ -73,8 +73,8 @@
 #define cudaDevP2PAttrNativeAtomicSupported	__pfx(DevP2PAttrNativeAtomicSupported)
 
 #define cudaDeviceCanAccessPeer(can, devfrom, devto) __pfx(DeviceCanAccessPeer(can, devfrom, devto))
-#define cudaDeviceEnableAccessPeer(peerdev, flag)	__pfx(DeviceEnableAccessPeer(peerdev, flag))
-#define cudaDeviceDisableAccessPeer(dev)	__pfx(DeviceDisableAccessPeer(dev))
+#define cudaDeviceEnablePeerAccess(peerdev, flag)	__pfx(DeviceEnablePeerAccess(peerdev, flag))
+#define cudaDeviceDisablePeerAccess(dev)	__pfx(DeviceDisablePeerAccess(dev))
 
 #define cudaDeviceSynchronize()	__pfx(DeviceSynchronize())
 

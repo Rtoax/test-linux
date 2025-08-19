@@ -18,6 +18,8 @@ int main(void)
 
 	nGPUs = gpu_num();
 
+	cudaDeviceDisablePeerAccess(0);
+
 	printf("CanAccessPeer\n");
 	printf("%-4s", "GPU");
 	for (i = 0; i < nGPUs; i++)
