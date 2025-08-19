@@ -11,6 +11,19 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+#### Changed
+#### Deprecated
+#### Removed
+#### Fixed
+#### Security
+#### Docs
+#### Tools
+
+
+## [v2.3.2] 2025-08-19
+
+#### Breaking Changes
+#### Added
 - cuda: add cooperative.cu;
 - ksym: add kallsyms/ksym_helpers.c;
 - security: add openssh;
