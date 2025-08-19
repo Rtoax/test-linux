@@ -9,7 +9,7 @@ SHELL := /bin/bash
 
 KVER_GREP_CMD := grep -Eo '[0-9]+\.[0-9]+\.[0-9]+'
 
-KVERSION_RAW := $(shell uname -r | ${KVER_GREP_CMD})
+KVERSION_RAW := $(shell uname -r | ${KVER_GREP_CMD} | head -1)
 KVERSION := $(shell echo ${KVERSION_RAW} | awk -F '.' '{print $$1}')
 KPATCHLEVEL := $(shell echo ${KVERSION_RAW} | awk -F '.' '{print $$2}')
 KSUBLEVEL := $(shell echo ${KVERSION_RAW} | awk -F '.' '{print $$3}')
