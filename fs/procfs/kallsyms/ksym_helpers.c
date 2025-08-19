@@ -241,6 +241,11 @@ int insert_to_tree(struct ksyms_tree *tree, struct ksym *new)
 int insert_to_array(struct ksyms_array *arr, struct ksym *new)
 {
 	size_t new_cap;
+	struct ksym *dup;
+
+	dup = dup_ksym(new);
+	if (!dup)
+		return -1;
 
 	if (arr->nsyms + 1 > arr->cap) {
 		new_cap = arr->cap * 4 / 3;
@@ -252,7 +257,7 @@ int insert_to_array(struct ksyms_array *arr, struct ksym *new)
 		arr->cap = new_cap;
 	}
 
-	memcpy(&arr->array[arr->nsyms], new, sizeof(struct ksym));
+	memcpy(&arr->array[arr->nsyms], dup, sizeof(struct ksym));
 	arr->nsyms++;
 
 	return 0;
@@ -348,4 +353,28 @@ long ksym_addr(const struct ksyms *ksyms, const char *name)
 		return (*found)->addr;
 
 	return INVALID_ADDR;
+}
+
+const char *ksym_name(const struct ksyms *ksyms, unsigned long address,
+		      unsigned long *off)
+{
+	int start = 0, end = ksyms->arr_addr.nsyms - 1, mid;
+	unsigned long addr;
+
+	while (start < end) {
+		mid = start + (end - start + 1) / 2;
+		addr = ksyms->arr_addr.array[mid].addr;
+		if (addr <= address)
+			start = mid;
+		else
+			end = mid - 1;
+	}
+	if (start == end && ksyms->arr_addr.array[start].addr <= address) {
+		if (off) {
+			addr = ksyms->arr_addr.array[start].addr;
+			*off = address - addr;
+		}
+		return ksyms->arr_addr.array[start].name;
+	}
+	return NULL;
 }

@@ -16,3 +16,6 @@ void free_kallsyms(struct ksyms *ksyms);
  * If exist, return valid address, else return INVALID_ADDR
  */
 long ksym_addr(const struct ksyms *ksyms, const char *name);
+
+const char *ksym_name(const struct ksyms *ksyms, unsigned long address,
+		      unsigned long *off);
