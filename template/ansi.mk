@@ -26,7 +26,7 @@ ANSI_UNDL := \033[4m
 ANSI_REVE := \033[7m
 
 ANSI_RST := \033[m
-TPUT_RST := $(shell tput sgr0)
+TPUT_RST := $(shell tput sgr0 2>/dev/null)
 
 GB := ${ANSI_GRE}${ANSI_BOLD}
 RGB := ${ANSI_RST}${ANSI_GRE}${ANSI_BOLD}
