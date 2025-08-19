@@ -4,13 +4,13 @@
 # Black
 ANSI_BLK := \033[30m
 ANSI_RED := \033[31m
-TPUT_RED := $(shell tput setaf 1)
+TPUT_RED := $(shell tput setaf 1 2>/dev/null)
 ANSI_GRE := \033[32m
-TPUT_GRE := $(shell tput setaf 2)
+TPUT_GRE := $(shell tput setaf 2 2>/dev/null)
 ANSI_YEL := \033[33m
-TPUT_YEL := $(shell tput setaf 3)
+TPUT_YEL := $(shell tput setaf 3 2>/dev/null)
 ANSI_BLU := \033[34m
-TPUT_BLU := $(shell tput setaf 6)
+TPUT_BLU := $(shell tput setaf 6 2>/dev/null)
 ANSI_PUR := \033[35m
 ANSI_CYAN := \033[36m
 ANSI_DARK_WHITE := \033[37m
