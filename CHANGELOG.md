@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- cuda: add cooperative.cu;
 - ksym: add kallsyms/ksym_helpers.c;
 - security: add openssh;
 - bpf: add wordcloud from ostools;

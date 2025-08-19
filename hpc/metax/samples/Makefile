@@ -17,6 +17,7 @@ targets-htcc += rand
 targets-htcc += __GNUC__
 targets-htcc += __STDC__
 targets-htcc += float
+targets-htcc += cooperative
 
 targets-post := $(patsubst %,${OUTPUT}%.E.hpcc,$(targets-htcc))
 
@@ -58,6 +59,7 @@ ${OUTPUT}rand.hpcc.o: cuda2hccl.h hpcc_helpers.h
 hello: ${OUTPUT}hello.hpcc.o ${HPCC_HELPERS}
 dim3: ${OUTPUT}dim3.hpcc.o ${HPCC_HELPERS}
 parallel: ${OUTPUT}parallel.hpcc.o ${HPCC_HELPERS}
+cooperative: ${OUTPUT}cooperative.hpcc.o ${HPCC_HELPERS}
 hcclGetVersion: ${OUTPUT}hcclGetVersion.hpcc.o ${HPCC_HELPERS}
 hcMalloc: ${OUTPUT}hcMalloc.hpcc.o ${HPCC_HELPERS}
 hcGetDeviceProperties: ${OUTPUT}hcGetDeviceProperties.hpcc.o ${HPCC_HELPERS}
