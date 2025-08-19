@@ -1,18 +1,1 @@
-#include <stdio.h>
-#include <hc_runtime.h>
-#include "hpcc_helpers.h"
-
-
-int main(void)
-{
-	int num= 1024;
-	float *ptr;
-
-	gpu_init(0);
-
-	/* same as cudaMalloc() */
-	hcMalloc(&ptr, sizeof(*ptr) * num);
-	hcFree(ptr);
-
-	return 0;
-}
+../../nvidia/cuda/samples/cudaMalloc.cu
