@@ -22,12 +22,16 @@ int main(void)
 
 #define Attr(attr) do {	\
 		cudaDeviceGetAttribute(&value, attr, dev_id);	\
-		printf("%s %d\n", #attr, value);	\
+		printf("%-64s %d\n", #attr, value);	\
 	} while (0)
 
 	Attr(cudaDevAttrMaxThreadsPerBlock);
 	Attr(cudaDevAttrClockRate);
 	Attr(cudaDevAttrMaxThreadsPerMultiProcessor);
+	Attr(cudaDevAttrHostNumaId);
+	Attr(cudaDevAttrEccEnabled);
+	Attr(cudaDevAttrWarpSize);
+	Attr(cudaDevAttrL2CacheSize);
 
 	return 0;
 }
