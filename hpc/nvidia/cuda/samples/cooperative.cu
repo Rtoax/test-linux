@@ -23,7 +23,8 @@ __global__ void kernel(void)
 	/**
 	 * If access temp[512 / sizeof(int)], metax trigger an error (memory
 	 * access offset is negative, out of bounds), thus, metax page size is
-	 * 512?
+	 * 512? error log see:
+	 * - commit 1bf55db4e15b ("cuda: cooperative: use __shared__ and shareBytes")
 	 */
 	temp[lane] = lane;
 
