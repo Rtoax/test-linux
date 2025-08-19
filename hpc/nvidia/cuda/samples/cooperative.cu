@@ -17,7 +17,17 @@ namespace cg = cooperative_groups;
 __global__ void kernel(void)
 {
 	cg::thread_group g = cg::this_thread_block();
-	printf("rank %llu\n", g.thread_rank());
+	int lane = g.thread_rank();
+	extern __shared__ int temp[];
+
+	/**
+	 * If access temp[512 / sizeof(int)], metax trigger an error (memory
+	 * access offset is negative, out of bounds), thus, metax page size is
+	 * 512?
+	 */
+	temp[lane] = lane;
+
+	printf("rank %d\n", lane);
 
 	/* FIXME: printf display wrong/zero %d, add printf could fix it. */
 	#if defined(HAVE_HCCL)
@@ -27,13 +37,23 @@ __global__ void kernel(void)
 
 int main(void)
 {
+	int n, blksz, nblks, sharebytes;
 	cudaStream_t stream;
+	int *val;
 
 	gpu_init(0);
 
+	n = 4;
+	blksz = 8;
+	nblks = (n + blksz - 1) / blksz;
+	sharebytes = blksz * sizeof(int);
+
+	cudaMallocManaged(&val, n * sizeof(int));
+
 	cudaStreamCreate(&stream);
 
-	cudaLaunchCooperativeKernel((void *)kernel, 3, 2, NULL, 0, stream);
+	cudaLaunchCooperativeKernel((void *)kernel, nblks, blksz, NULL,
+				    sharebytes, stream);
 
 	cudaStreamSynchronize(stream);
 	cudaStreamDestroy(stream);

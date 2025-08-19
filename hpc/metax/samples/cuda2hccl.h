@@ -22,13 +22,15 @@
 #define cudaDeviceSetLimit(limit, value)	__pfx(DeviceSetLimit(limit, value))
 #define cudaLimitPrintfFifoSize	__pfx(LimitPrintfFifoSize)
 
+/**
+ * https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__MEMORY.html
+ */
 #define cudaMalloc(pp, sz)	__pfx(Malloc(pp, sz))
 #define cudaFree(ptr)	__pfx(Free(ptr))
 #define cudaMemset(ptr, v, size)	__pfx(Memset(ptr, v, size))
 #define cudaMemcpy(dev, host, size, flag)	__pfx(Memcpy(dev, host, size, flag))
 #define cudaMemcpyHostToDevice	__pfx(MemcpyHostToDevice)
 #define cudaMemcpyDeviceToHost	__pfx(MemcpyDeviceToHost)
-
 #define cudaMallocManaged(pp, sz)	__pfx(MallocManaged(pp, sz))
 #define cudaMallocAsync(pp, sz, stream)	__pfx(MallocAsync(pp, sz, stream))
 #define cudaFreeAsync(ptr, stream)	__pfx(FreeAsync(ptr, stream))
