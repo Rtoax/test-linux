@@ -30,7 +30,7 @@ define log_tgt_done
 endef
 
 define log_info
-	${Q}echo $(shell date '+%Y-%m-%d %H:%M:%S') $(shell hostname) $1 >> ${TL_LOG}
+@echo -e $(call timestamp) $(shell hostname) $1 | tee --append ${TL_LOG}
 endef
 
 define cleanfailedlog
