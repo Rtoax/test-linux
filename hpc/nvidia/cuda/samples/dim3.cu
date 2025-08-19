@@ -46,17 +46,13 @@ __global__ void checkIndex(int it)
 		blockIdx.x, blockIdx.y, blockIdx.z,
 		gridDim.x, gridDim.y, gridDim.z,
 		ix, iy, iz);
-/**
- * FIXME: MetaX htcc have wrong threadIdx.x, add printf could fix it.
- */
-#if defined(HAVE_HCCL)
+
+	/* FIXME: printf display wrong/zero %d, add printf could fix it. */
+	#if defined(HAVE_HCCL)
 	printf("");
-#endif
+	#endif
 
 	__syncthreads();
-
-	if (ix == 0 && iy == 0 && iz == 0)
-		printf("------ done ------\n");
 }
 
 int main(int argc, char *argv[])

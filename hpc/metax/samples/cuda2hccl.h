@@ -44,6 +44,9 @@
  */
 #define cudaEventSynchronize(ev)	__pfx(EventSynchronize(ev))
 
+#define cudaLaunchCooperativeKernel(kernel, blocks, blksz, kargs, bytes, stream) \
+	__pfx(LaunchCooperativeKernel(kernel, blocks, blksz, kargs, bytes, stream))
+
 /**
  * cudaStream_t is a data type in CUDA used to represent a stream. A stream in
  * CUDA is a sequence of operations (such as kernel launches or memory
