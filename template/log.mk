@@ -9,9 +9,9 @@ ifeq (${ANSI_BOLD},)
   $(error Not define ANSI_BOLD)
 endif
 
-TL_LOG := $(TOPDIR)/test-linux.log
-TL_FAILED_LOG := $(TOPDIR)/failed.log
-export TL_LOG TL_FAILED_LOG
+FILE_LOG_INFO := $(TOPDIR)/info.log
+FILE_LOG_FAILED := $(TOPDIR)/failed.log
+export FILE_LOG_INFO FILE_LOG_FAILED
 
 define timestamp
 [$(shell date '+%H:%M:%S')]
@@ -30,19 +30,19 @@ define log_tgt_done
 endef
 
 define log_info
-printf '$(call timestamp) $(shell hostname) $1\n' | tee --append ${TL_LOG}
+printf '$(call timestamp) $(shell hostname) $1\n' | tee --append ${FILE_LOG_INFO}
 endef
 
 define log_failed
-printf '$(call timestamp) $(shell hostname) ${ANSI_RED}$1${ANSI_RST}\n' | tee --append ${TL_FAILED_LOG}
+printf '$(call timestamp) $(shell hostname) ${ANSI_RED}$1${ANSI_RST}\n' | tee --append ${FILE_LOG_FAILED}
 endef
 
 define cleanfailedlog
-	${Q}rm -f $(TL_FAILED_LOG)
+	${Q}rm -f $(FILE_LOG_FAILED)
 endef
 
 define printfailedlog
-	${Q}if [[ -e $(TL_FAILED_LOG) ]]; then \
-		cat $(TL_FAILED_LOG) ; \
+	${Q}if [[ -e $(FILE_LOG_FAILED) ]]; then \
+		cat $(FILE_LOG_FAILED) ; \
 	fi
 endef
