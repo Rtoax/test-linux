@@ -8,16 +8,21 @@ static struct ksyms *ksyms = NULL;
 void assert_find(const char *ksym)
 {
 	const char *name;
-	unsigned long off;
+	unsigned long off, off2 = 0xf;
 	long addr = ksym_addr(ksyms, ksym);
-	if (addr != INVALID_ADDR) {
-		name = ksym_name(ksyms, addr + 0xf, &off);
-		printf("%s %lx (%s+%#lx)\n", ksym, addr, name, off);
-		if (strcmp(name, ksym)) {
-			fprintf(stderr, "ERROR: %s != %s\n", ksym, name);
-		}
-	} else
+
+	if (addr == INVALID_ADDR) {
 		printf("%s is not found.\n", ksym);
+		return;
+	}
+
+	name = ksym_name(ksyms, addr + off2, &off);
+
+	printf("%s %lx (%s+%#lx)\n", ksym, addr, name, off);
+
+	if (strcmp(name, ksym) || off != off2)
+		fprintf(stderr, "ERROR: %s != %s or %lx != %lx\n",
+			ksym, name, off, off2);
 }
 
 int main(void)
