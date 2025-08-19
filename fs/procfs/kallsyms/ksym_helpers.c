@@ -45,8 +45,14 @@ struct ksyms_tree {
 	void (*walk)(const void *, VISIT, void *);
 };
 
+struct ksyms_array {
+	struct ksym *array;
+	size_t nsyms, cap;
+};
+
 struct ksyms {
 	struct ksyms_tree nkta, name, addr;
+	struct ksyms_array arr_addr;
 };
 
 void print_ksym(const struct ksym *sym);
@@ -232,6 +238,32 @@ int insert_to_tree(struct ksyms_tree *tree, struct ksym *new)
 	return 0;
 }
 
+int insert_to_array(struct ksyms_array *arr, struct ksym *new)
+{
+	size_t new_cap;
+
+	if (arr->nsyms + 1 > arr->cap) {
+		new_cap = arr->cap * 4 / 3;
+		if (new_cap < 1024)
+			new_cap = 1024;
+		arr->array = realloc(arr->array, sizeof(struct ksym) * new_cap);
+		if (!arr->array)
+			return -1;
+		arr->cap = new_cap;
+	}
+
+	memcpy(&arr->array[arr->nsyms], new, sizeof(struct ksym));
+	arr->nsyms++;
+
+	return 0;
+}
+
+int sort_array(struct ksyms_array *arr)
+{
+	qsort(arr->array, arr->nsyms, sizeof(struct ksym), ksym_cmp_addr);
+	return 0;
+}
+
 void walk_tree(struct ksyms_tree *tree)
 {
 	twalk_r(tree->root, tree->walk, NULL);
@@ -254,6 +286,7 @@ struct ksyms *load_kallsyms(void)
 	if (!ksyms)
 		goto exit;
 
+	memset(ksyms, 0, sizeof(struct ksyms));
 	memcpy(ksyms, &default_zero_ksyms, sizeof(struct ksyms));
 
 	while (fgets(line, sizeof(line), fp)) {
@@ -269,12 +302,15 @@ struct ksyms *load_kallsyms(void)
 		if (!new)
 			continue;
 
+		insert_to_array(&ksyms->arr_addr, new);
 		insert_to_tree(&ksyms->nkta, new);
 		insert_to_tree(&ksyms->name, new);
 		insert_to_tree(&ksyms->addr, new);
 
 		free_ksym(new);
 	}
+
+	sort_array(&ksyms->arr_addr);
 
 #ifdef DEBUG
 	fprintf(stderr, "kallsyms nkta %ld, name %ld, addr %ld symbols\n",
@@ -296,6 +332,7 @@ void free_kallsyms(struct ksyms *ksyms)
 	tdestroy(ksyms->nkta.root, free_ksym_t);
 	tdestroy(ksyms->name.root, free_ksym_t);
 	tdestroy(ksyms->addr.root, free_ksym_t);
+	free(ksyms->arr_addr.array);
 }
 
 long ksym_addr(const struct ksyms *ksyms, const char *name)
