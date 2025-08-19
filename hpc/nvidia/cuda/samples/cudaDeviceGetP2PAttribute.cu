@@ -11,10 +11,13 @@
 
 int main(void)
 {
-	int value, srcDev, dstDev;
+	int value, srcDev, dstDev, can;
 
 	srcDev = 0;
 	dstDev = 1;
+
+	cudaDeviceCanAccessPeer(&can, srcDev, dstDev);
+	printf("%d -> %d %s\n", srcDev, dstDev, can ? "can" : "can't");
 
 #define P2PAttr(attr) do {	\
 		cudaDeviceGetP2PAttribute(&value, attr, srcDev, dstDev);	\
