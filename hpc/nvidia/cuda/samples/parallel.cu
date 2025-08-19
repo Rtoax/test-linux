@@ -17,6 +17,8 @@ __global__ void foo(int count)
 	if (id >= count)
 		return;
 	/* do something */
+
+	__syncthreads();
 }
 
 int main(void)

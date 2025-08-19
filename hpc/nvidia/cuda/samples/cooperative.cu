@@ -17,7 +17,11 @@ namespace cg = cooperative_groups;
 __global__ void kernel(void)
 {
 	cg::thread_group g = cg::this_thread_block();
-	int lane = g.thread_rank();
+	int rank = g.thread_rank();
+	int size = g.size();
+	//bool valid = g.is_valid();
+	bool valid = 0;
+
 	extern __shared__ int temp[];
 
 	/**
@@ -26,9 +30,9 @@ __global__ void kernel(void)
 	 * 512? error log see:
 	 * - commit 1bf55db4e15b ("cuda: cooperative: use __shared__ and shareBytes")
 	 */
-	temp[lane] = lane;
+	temp[rank] = rank;
 
-	printf("rank %d\n", lane);
+	printf("rank %d, size %d, valid %d\n", rank, size, valid);
 
 	/* FIXME: printf display wrong/zero %d, add printf could fix it. */
 	#if defined(HAVE_HCCL)
