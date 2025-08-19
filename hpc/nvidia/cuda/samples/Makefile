@@ -3,6 +3,7 @@ OUTPUT := .output/
 
 targets-nvcc := hello
 targets-nvcc += dim3
+targets-nvcc += cooperative
 targets-nvcc += parallel
 targets-nvcc += cudaMalloc
 targets-nvcc += cudaGetDeviceProperties
@@ -36,6 +37,7 @@ include ../../../../template/main.mk
 ${CUDA_HELPERS}: cuda_helpers.h
 
 dim3: ${OUTPUT}dim3.cu.o ${CUDA_HELPERS}
+cooperative: ${OUTPUT}cooperative.cu.o ${CUDA_HELPERS}
 blas: ${OUTPUT}blas.cu.o ${CUDA_HELPERS}
 cublasLtMatmul: ${OUTPUT}cublasLtMatmul.cu.o ${CUDA_HELPERS}
 rand: ${OUTPUT}rand.cu.o ${CUDA_HELPERS}

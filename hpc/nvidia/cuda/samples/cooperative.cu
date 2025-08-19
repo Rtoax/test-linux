@@ -33,8 +33,7 @@ int main(void)
 
 	cudaStreamCreate(&stream);
 
-	cudaLaunchCooperativeKernel(kernel, 3, 2, NULL, 0, stream);
-	//kernel<<<1, 2>>>();
+	cudaLaunchCooperativeKernel((void *)kernel, 3, 2, NULL, 0, stream);
 
 	cudaStreamSynchronize(stream);
 	cudaStreamDestroy(stream);
