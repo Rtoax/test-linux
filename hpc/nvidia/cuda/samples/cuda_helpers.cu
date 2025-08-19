@@ -27,6 +27,13 @@ void gpu_init(int dev_id)
 	}
 }
 
+int gpu_num(void)
+{
+	int count;
+	cudaGetDeviceCount(&count);
+	return count;
+}
+
 /*< check GPU errors >*/
 void gpu_check_gpu_error(const char *msg)
 {

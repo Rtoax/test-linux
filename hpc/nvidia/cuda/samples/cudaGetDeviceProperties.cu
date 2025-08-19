@@ -24,16 +24,18 @@
 
 int main(void)
 {
-	int i, dev_id;
+	int i, dev_id, dev_count;
 	cudaDeviceProp prop;
 
 	dev_id = 0;
 
 	gpu_init(dev_id);
 
+	dev_count = gpu_num();
+
 	cudaGetDeviceProperties(&prop, dev_id);
 
-	printf("name %s\n", prop.name);
+	printf("name %s, gpu count %d/%d\n", prop.name, dev_id, dev_count);
 
 	/* Information about memory */
 	printf("totalGlobalMem %ld (%.0lf GiB)\n", prop.totalGlobalMem, prop.totalGlobalMem / 1e9);

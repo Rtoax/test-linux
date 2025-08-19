@@ -34,6 +34,7 @@
 void gpu_init(int dev_id);
 void gpu_check_gpu_error(const char *msg);
 
+int gpu_num(void);
 const char *gpu_name(int dev_id, char *buf, int buf_len);
 int gpu_clock_rate(int dev_id);
 int gpu_max_threads_per_block(int dev_id);

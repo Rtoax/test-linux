@@ -56,6 +56,7 @@
 #define cudaStreamSynchronize(stream)	__pfx(StreamSynchronize(stream))
 #define cudaStreamDestroy(stream)	__pfx(StreamDestroy(stream))
 
+#define cudaGetDeviceCount(pgpus)	__pfx(GetDeviceCount(pgpus))
 #define cudaGetDevice(p_id)	__pfx(GetDevice(p_id))
 #define cudaSetDevice(dev_id)	__pfx(SetDevice(dev_id))
 
