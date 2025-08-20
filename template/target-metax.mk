@@ -41,16 +41,23 @@ endif
 ifdef DEBUG
   CFLAGS_MXCC += -DDEBUG
   CFLAGS_HTCC += -DDEBUG
-  $(info MXCC = ${MXCC})
-  $(info HTCC = ${HTCC})
-  $(info CFLAGS_MXCC = ${CFLAGS_MXCC})
-  $(info LDFLAGS_MXCC = ${LDFLAGS_MXCC})
-  $(info CFLAGS_HTCC = ${CFLAGS_HTCC})
-  $(info LDFLAGS_HTCC = ${LDFLAGS_HTCC})
-  $(info HPCC_VERSION_RAW = ${HPCC_VERSION_RAW})
-  $(info HPCC_VERSION_MAJOR = ${HPCC_VERSION_MAJOR})
-  $(info HPCC_VERSION_MINOR = ${HPCC_VERSION_MINOR})
-  $(info HPCC_VERSION_PATCH = ${HPCC_VERSION_PATCH})
+
+  ifneq ($(targets-mxcc),)
+    $(info $(shell ${MXCC} --version))
+    $(info MXCC = ${MXCC})
+    $(info CFLAGS_MXCC = ${CFLAGS_MXCC})
+    $(info LDFLAGS_MXCC = ${LDFLAGS_MXCC})
+  endif
+  ifneq ($(targets-htcc),)
+    $(info $(shell ${HTCC} --version))
+    $(info HTCC = ${HTCC})
+    $(info CFLAGS_HTCC = ${CFLAGS_HTCC})
+    $(info LDFLAGS_HTCC = ${LDFLAGS_HTCC})
+    $(info HPCC_VERSION_RAW = ${HPCC_VERSION_RAW})
+    $(info HPCC_VERSION_MAJOR = ${HPCC_VERSION_MAJOR})
+    $(info HPCC_VERSION_MINOR = ${HPCC_VERSION_MINOR})
+    $(info HPCC_VERSION_PATCH = ${HPCC_VERSION_PATCH})
+  endif
 endif
 
 ${OUTPUT}%.maca.o: %.maca | ${OUTPUT}

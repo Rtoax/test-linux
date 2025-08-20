@@ -21,14 +21,6 @@ ifeq ($(wildcard $(NVCC)),)
   $(error Not found nvcc, install cuda first)
 endif
 
-ifdef DEBUG
-  CFLAGS_NVCC += -DDEBUG
-endif
-
-ifdef ERROR
-  CFLAGS_NVCC += -DERROR=1
-endif
-
 # NVCC: --gpu-architecture
 # Pascal (sm_60+)
 # Volta (sm_70+)
@@ -43,10 +35,16 @@ CFLAGS_NVCC += -Wno-deprecated-gpu-targets
 LDFLAGS_NVCC += -Wno-deprecated-gpu-targets
 
 ifdef DEBUG
+  CFLAGS_NVCC += -DDEBUG
+  $(info $(shell ${NVCC} --version))
   $(info NVCC = ${NVCC})
   $(info NVCC VERSION: $(shell ${NVCC} --version))
   $(info CFLAGS_NVCC = ${CFLAGS_NVCC})
   $(info LDFLAGS_NVCC = ${LDFLAGS_NVCC})
+endif
+
+ifdef ERROR
+  CFLAGS_NVCC += -DERROR=1
 endif
 
 # NOTE: NVCC's cflags,ldflags is totally different from gcc/clang, thus, we
