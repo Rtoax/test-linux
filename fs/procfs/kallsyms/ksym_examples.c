@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <errno.h>
 #include "ksym_helpers.h"
 
 
@@ -11,7 +12,7 @@ void assert_find(const char *ksym)
 	unsigned long off, off2 = 0xf;
 	long addr = ksym_addr(ksyms, ksym);
 
-	if (addr == INVALID_ADDR) {
+	if (addr == INVALID_ADDR || addr == -EINVAL) {
 		printf("%s is not found.\n", ksym);
 		return;
 	}

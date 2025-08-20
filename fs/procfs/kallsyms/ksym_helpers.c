@@ -344,6 +344,9 @@ long ksym_addr(const struct ksyms *ksyms, const char *name)
 {
 	struct ksym **found, find;
 
+	if (!ksyms || !name)
+		return -EINVAL;
+
 	memset(&find, 0, sizeof(struct ksym));
 
 	find.name = (char *)name;
@@ -356,10 +359,13 @@ long ksym_addr(const struct ksyms *ksyms, const char *name)
 }
 
 const char *ksym_name(const struct ksyms *ksyms, unsigned long address,
-		      unsigned long *off)
+		      long *off)
 {
 	int start = 0, end = ksyms->arr_addr.nsyms - 1, mid;
 	unsigned long addr;
+
+	if (!ksyms)
+		return NULL;
 
 	while (start < end) {
 		mid = start + (end - start + 1) / 2;

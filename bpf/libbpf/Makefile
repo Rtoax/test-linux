@@ -347,9 +347,11 @@ TASK_HELPERS := ${OUTPUT}task_helpers.o
 TRACE_HELPERS := ${OUTPUT}trace_helpers.o
 LIBBPF_WRAPPER := ${OUTPUT}libbpf_wrapper.o
 LIBXDP_HELPERS := ${OUTPUT}libxdp_helpers.o
+KSYM_HELPERS := ${OUTPUT}ksym_helpers.o
 
 HELPERS := ${LIBXDP_HELPERS} ${TRACE_HELPERS} \
-	   ${TASK_HELPERS} ${SOCKET_HELPERS} ${LIBBPF_WRAPPER}
+	   ${TASK_HELPERS} ${SOCKET_HELPERS} ${LIBBPF_WRAPPER} \
+	   ${KSYM_HELPERS}
 
 targets += libbpf_version
 targets-prep += libbpf_version

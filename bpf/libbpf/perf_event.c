@@ -13,6 +13,7 @@
 #include "perf_event.skel.h"
 #include "trace_helpers.h"
 #include "libbpf_wrapper.h"
+#include "ksym_helpers.h"
 
 #define DEFAULT_FREQ	99
 
@@ -21,6 +22,8 @@ static int cpu = 0;
 static int pid = -1;
 static int freq = DEFAULT_FREQ;
 static int verbose = 0;
+
+static struct ksyms *ksyms = NULL;
 
 static const char argp_prog_doc[] =
 	"USAGE: [-c <cpu>] [-p <pid>] [-f <FREQ>] [-v]\n"
@@ -90,7 +93,15 @@ static void print_stack(int fd)
 		bpf_map_lookup_elem(fd, &next_kern_stack_id, IPs);
 		printf("-----------\n");
 		for (i = 0; i < PERF_MAX_STACK_DEPTH && IPs[i]; i++) {
-			printf("\t%#016lx\n", IPs[i]);
+			long off = 0;
+			const char *name = ksym_name(ksyms, IPs[i], &off);
+			printf("\t%#016lx %s", IPs[i], name ?: "[unknown]");
+			if (off > 0)
+				printf("+0x%lx\n", off);
+			else if (off < 0)
+				printf("-0x%lx\n", -off);
+			else
+				printf("\n");
 		}
 		kern_stack_id = next_kern_stack_id;
 	}
@@ -177,6 +188,8 @@ int main(int argc, char *argv[])
 		goto cleanup;
 	}
 
+	ksyms = load_kallsyms();
+
 	fprintf(stderr, "CPU %d, PID %d, PMU fd %d, freq %d\n", cpu, pid,
 		pmu_fd, freq);
 
@@ -199,5 +212,6 @@ cleanup:
 	}
 	close(pmu_fd);
 	perf_event_bpf__destroy(skel);
+	free_kallsyms(ksyms);
 	return -err;
 }

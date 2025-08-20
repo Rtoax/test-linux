@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- libbpf: add symlink `ksym_helpers` and apply to stack;
 #### Changed
 - template: mk: Define DEBUG=${DEBUG}
 #### Deprecated
