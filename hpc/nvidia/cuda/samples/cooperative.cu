@@ -31,7 +31,7 @@ __global__ void kernel(void)
 	 * 512? error log see:
 	 * - commit 1bf55db4e15b ("cuda: cooperative: use __shared__ and shareBytes")
 	 */
-	temp[rank] = rank;
+	temp[rank] = rank + 1;
 
 	/**
 	 * Some sync APIs
@@ -40,7 +40,7 @@ __global__ void kernel(void)
 	g.sync();
 	cg::this_thread_block().sync();
 
-	printf("rank %d, size %d, valid %d\n", rank, size, valid);
+	printf("rank %d, size %d, valid %d, temp %d\n", rank, size, valid, temp[rank]);
 
 	/* FIXME: printf display wrong/zero %d, add printf could fix it. */
 	#if defined(HAVE_HCCL)
