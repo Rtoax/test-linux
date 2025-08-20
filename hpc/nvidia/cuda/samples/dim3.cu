@@ -47,6 +47,11 @@ __global__ void checkIndex(int it)
 		gridDim.x, gridDim.y, gridDim.z,
 		ix, iy, iz);
 
+	/* FIXME: printf display wrong/zero %d, add printf could fix it. */
+	#if defined(HAVE_HCCL)
+	printf("");
+	#endif
+
 	__syncthreads();
 }
 
