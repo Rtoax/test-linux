@@ -28,7 +28,9 @@ __global__ void foo(int count)
 
 	device1(id);
 
+#ifdef __HPCC__
 	cudaDeviceSynchronize();
+#endif
 
 	device2(id);
 
