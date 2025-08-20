@@ -35,7 +35,7 @@ CFLAGS_NVCC += -Wno-deprecated-gpu-targets
 LDFLAGS_NVCC += -Wno-deprecated-gpu-targets
 
 ifdef DEBUG
-  CFLAGS_NVCC += -DDEBUG
+  CFLAGS_NVCC += -DDEBUG=${DEBUG}
   $(info $(shell ${NVCC} --version))
   $(info NVCC = ${NVCC})
   $(info NVCC VERSION: $(shell ${NVCC} --version))

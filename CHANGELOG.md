@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 #### Added
 #### Changed
+- template: mk: Define DEBUG=${DEBUG}
 #### Deprecated
 #### Removed
 #### Fixed

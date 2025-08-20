@@ -22,10 +22,10 @@ OBJDUMP_ARGS :=
 CFLAGS_BPF += -O2 -g
 CFLAGS_BPF += -target bpf
 CFLAGS_BPF += $(CFLAG_BPF_TARGET_ARCH)
+
 ifdef DEBUG
-  CFLAGS_BPF += -DDEBUG=1
+  CFLAGS_BPF += -DDEBUG=${DEBUG}
   $(info CFLAGS_BPF := ${CFLAGS_BPF})
-else
 endif
 
 ${OUTPUT}%.bpf.o: %.bpf.c | ${OUTPUT}

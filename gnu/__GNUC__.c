@@ -75,5 +75,9 @@ int main(void)
 	printf("%s: __CUDACC_VER_BUILD__ = %d\n", pfx, __CUDACC_VER_BUILD__);
 #endif
 
+#ifdef __HPCC_ARCH__
+	printf("%s: __HPCC_ARCH__ = %d\n", pfx, __HPCC_ARCH__);
+#endif
+
 	return 0;
 }

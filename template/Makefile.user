@@ -34,8 +34,9 @@ CFLAGS += -Wstrict-prototypes
 LDFLAGS :=
 
 ifdef DEBUG
-  CFLAGS += -DDEBUG -O0 -g
+  CFLAGS += -DDEBUG=${DEBUG} -O0 -g
 endif
+
 ifdef STATIC
   LDFLAGS += -static
   $(info Defined STATIC)

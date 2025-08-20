@@ -39,8 +39,8 @@ ifdef ERROR
 endif
 
 ifdef DEBUG
-  CFLAGS_MXCC += -DDEBUG
-  CFLAGS_HTCC += -DDEBUG
+  CFLAGS_MXCC += -DDEBUG=${DEBUG}
+  CFLAGS_HTCC += -DDEBUG=${DEBUG}
 
   ifneq ($(targets-mxcc),)
     $(info $(shell ${MXCC} --version))
