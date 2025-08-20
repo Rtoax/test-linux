@@ -1,3 +1,4 @@
 - HCCL: Mars HPC Collective Communications Library ()
 - HPCC: High Performance Computing Communications (HPC 通信)
+- HPCCRT: HPCC Runtime (HPCC运行时)
 - HTHPCC: HPC-Tools on HPCC (HPC工具)
