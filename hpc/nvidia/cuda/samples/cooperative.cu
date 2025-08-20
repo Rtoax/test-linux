@@ -17,6 +17,7 @@ namespace cg = cooperative_groups;
 __global__ void kernel(void)
 {
 	cg::thread_group g = cg::this_thread_block();
+
 	int rank = g.thread_rank();
 	int size = g.size();
 	//bool valid = g.is_valid();
@@ -31,6 +32,13 @@ __global__ void kernel(void)
 	 * - commit 1bf55db4e15b ("cuda: cooperative: use __shared__ and shareBytes")
 	 */
 	temp[rank] = rank;
+
+	/**
+	 * Some sync APIs
+	 */
+	__syncthreads();
+	g.sync();
+	cg::this_thread_block().sync();
 
 	printf("rank %d, size %d, valid %d\n", rank, size, valid);
 
