@@ -1,5 +1,4 @@
-targets :=
-targets += getauxval
+targets := getauxval
 targets += AT_ENTRY
 targets += AT_EXECFN
 targets += AT_HWCAP
@@ -9,10 +8,7 @@ targets += AT_PLATFORM
 targets += AT_SYSINFO
 targets += AT_SYSINFO_EHDR
 
-CFLAGS :=
-CFLAGS += -lm
-
-include ../../../elf/pie.mk
+CFLAGS := -lm
 
 include ../../../template/main.mk
 
