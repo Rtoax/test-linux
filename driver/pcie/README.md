@@ -159,6 +159,7 @@ void *map_base = mmap(0, map_size, PROT_READ|PROT_WRITE, MAP_SHARED, fd, 0);
 
 - [Become a Member](https://pcisig.com/membership/become-member)
 - [Member Companies](https://pcisig.com/membership/member-companies)
+	- [All PCI Vendors](https://devicehunt.com/all-pci-vendors)
 - [Specifications](https://pcisig.com/specifications/pciexpress)
 
 ## Git Links
