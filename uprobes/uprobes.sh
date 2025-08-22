@@ -12,7 +12,7 @@ if [[ $(id -u) != 0 ]]; then
 fi
 
 binary=$( realpath ${binary} )
-# This address is in binary address, not PIE real address.
+# WARNING: This address is in binary address, not PIE real address.
 addr=$( objdump -T ${binary} | grep -w ${func} 2>/dev/null | awk '{print $1}' )
 
 [[ ! -e ${binary} ]] && echo "ERROR: ${binary} is not exist" && exit 1
@@ -27,13 +27,12 @@ cat ${TRACEFS}/events/uprobes/${func}/enable
 
 echo 1 | sudo tee ${TRACEFS}/events/uprobes/enable
 
-clean() {
+cleanup() {
 	local ret=$?
 	echo 0 | sudo tee ${TRACEFS}/events/uprobes/enable
 	echo 0 | sudo tee ${TRACEFS}/uprobe_events
 	exit ${ret}
 }
-trap clean EXIT
+trap cleanup EXIT
 
 watch -n1 tail ${TRACEFS}/trace
-
