@@ -70,15 +70,11 @@ endif
 
 targets += taskset_example
 
-CC := gcc
-
-LDFLAGS :=
-
 # glibc >= 2.34, pthread APIs move from libpthread.so to libc.so.
 # ref: https://developers.redhat.com/articles/2021/12/17/why-glibc-234-removed-libpthread
 CFLAGS := -pthread
 CFLAGS += -I$(shell realpath .)/../../../
-ifeq (${Q}$(CC),clang)
+ifeq ($(CC),clang)
   LDFLAGS += -Wl,-lm
 else
   LDFLAGS += -lm
@@ -90,12 +86,9 @@ CFLAGS_pthread_cond_signal := -DCOND_ATTR=1
 CFLAGS_pthread_create := -DNR_THREADS=5
 
 targets-post := $(addprefix ${OUTPUT},$(patsubst %,%.c.s,${targets}))
-targets-post += ld-list-tunables
+targets-shell := list-tunables.sh
 
 include ../../../template/main.mk
-
-ld-list-tunables:
-	${Q}ld.so --list-tunables 2>/dev/null | grep -i pthread || true
 
 pthread_helpers.o: pthread_helpers.h
 sched_helpers.o: sched_helpers.h
