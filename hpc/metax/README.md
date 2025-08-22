@@ -124,7 +124,6 @@ MetaX - 沐曦
 - [沐曦开发者社区](https://developer.metax-tech.com/developer/index)
 	- Account: 2386499836@qq.com rongtao
 - [软件中心](https://sw-download.metax-tech.com/index)
-- [适配记录](https://wiki.cestc.cn/pages/viewpage.action?pageId=491115469)
 - [沐曦在线编译平台](https://compiler.metax-tech.com/editor)
 
 ## 《沐曦异构并行计算软件栈》
