@@ -81,5 +81,18 @@ def test_tensor():
     print(x.mean())
 
 
+def test_tensor_matrix():
+    print("---- Tensor Dot product ----")
+    a = torch.tensor([1., 2., 3.])
+    b = torch.tensor([4., 5., 6.])
+    print(torch.dot(a, b))
+
+    print("---- Tensor Matrix multiplication ----")
+    a = torch.tensor([[ 1., 2.], [ 3., 4.]])
+    b = torch.tensor([[ 5., 6.], [ 7., 8.]])
+    print(torch.mm(a, b))
+
+
 if __name__ == "__main__":
     test_tensor()
+    test_tensor_matrix()
