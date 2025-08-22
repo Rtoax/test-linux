@@ -15,6 +15,7 @@ and this project adheres to
 - libbpf: add symlink `ksym_helpers` and apply to stack;
 - aslr: add info.sh;
 #### Changed
+- Makefile: rename target config to gitconfig;
 - template: mk: Define DEBUG=${DEBUG}
 #### Deprecated
 #### Removed

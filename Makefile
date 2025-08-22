@@ -30,8 +30,8 @@ GIT_CONFIG_CORE_HOOKSPATH := $(shell git config get core.hooksPath 2>/dev/null \
 # If in git-tree, need check something already config.
 ifneq (${GIT_TOPDIR},)
   ifneq (${GIT_CONFIG_CORE_HOOKSPATH},scripts/git/hooks/)
-    ifneq ($(firstword $(MAKECMDGOALS)),config)
-      $(error You MUST run 'make config' first!!)
+    ifneq ($(firstword $(MAKECMDGOALS)),gitconfig)
+      $(error You MUST run 'make gitconfig' first!!)
     endif
   endif
 endif
@@ -57,7 +57,7 @@ help:
 	@echo >&2 -e "*** make clean"
 	@echo >&2 -e "***"
 	@echo >&2 -e "*** make archive"
-	@echo >&2 -e "*** make config"
+	@echo >&2 -e "*** make gitconfig"
 	@echo >&2 -e "*** make kconfig-display"
 	@echo >&2 -e "*** make check"
 	@echo >&2 -e "*** make installdeps"
@@ -142,10 +142,10 @@ archive:
 	@echo "=== archive"
 	$(call git_archive)
 
-.PHONY: config
-config:
-	$(call log_info,top-makefile config)
-	@echo "=== config"
+.PHONY: gitconfig
+gitconfig:
+	$(call log_info,top-makefile gitconfig)
+	@echo "=== gitconfig"
 	$(call git_config)
 
 .PHONY: kconfig-display
