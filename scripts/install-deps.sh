@@ -17,7 +17,7 @@ declare -a dnf_args apt_args zypper_args
 declare -a pkgs_inst pkgs_compiler pkgs_desktop pkgs_bench pkgs_math pkgs_db
 declare -a pkgs_storage pkgs_net pkgs_container pkgs_virt pkgs_base pkgs_fs
 declare -a pkgs_media pkgs_build pkgs_devel pkgs_docs pkgs_video pkgs_boot
-declare -a pkgs_cxl
+declare -a pkgs_cxl pkgs_ai
 declare -a pip_whls
 
 declare -a pkgs_skip
@@ -46,6 +46,7 @@ echo "VIRT: ${VIRT_TYPE} (IS_PHY: ${IS_PHY})"
 
 have_base=YES
 have_upgrade=YES
+have_ai=
 have_fs=
 have_pip=
 have_compiler=
@@ -83,6 +84,7 @@ enable_all()
 	have_bench=YES
 	have_net=YES
 	have_fs=YES
+	have_ai=YES
 	have_db=YES
 	have_storage=YES
 	#have_3rd_party=YES
@@ -307,6 +309,7 @@ ARGUMENT
 	--net              install network relate packages
 	--virt             install virtualization relate packages
 	--fs               install filesystem relate packages
+	--ai               install AI relate packages
 	--video            install video relate software, such as video editor
 	--boot             install boot/bootloader relate software
 
@@ -396,6 +399,10 @@ while true; do
 	--fs)
 		shift
 		have_fs=YES
+		;;
+	--ai)
+		shift
+		have_ai=YES
 		;;
 	--compilers)
 		shift
@@ -711,6 +718,10 @@ pkgs_db+=( postgresql )
 # Filesystem
 pkgs_fs+=( attr )
 pkgs_fs+=( xfsprogs )
+
+# AI
+pkgs_ai+=( python3-torch )
+pkgs_ai+=( python3-torchvision )
 
 # Storage
 pkgs_storage+=( lvm2 )
@@ -1175,6 +1186,7 @@ fi
 os_packages
 
 [[ ${have_base} ]] && pkgs_inst+=( ${pkgs_base[@]} )
+[[ ${have_ai} ]] && pkgs_inst+=( ${pkgs_ai[@]} )
 [[ ${have_fs} ]] && pkgs_inst+=( ${pkgs_fs[@]} )
 [[ ${have_compiler} ]] && pkgs_inst+=( ${pkgs_compiler[@]} )
 [[ ${have_build} ]] && pkgs_inst+=( ${pkgs_build[@]} )
