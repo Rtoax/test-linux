@@ -29,6 +29,13 @@ def test_tensor():
     np_x = x.data.numpy()
     print(np_x.dtype)
 
+    if torch.cuda.is_available():
+        cuda_x = x.cuda()
+        print(cuda_x.dtype)
+
+        cpu_x = cuda_x.cpu()
+        print(cpu_x.dtype)
+
 
 if __name__ == "__main__":
     test_tensor()
