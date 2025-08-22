@@ -3,8 +3,11 @@
 import torch
 
 def test_rand():
-    x = torch.rand(5, 3)
-    print(x)
+    # Positive
+    print(torch.rand(5, 3))
+    # Negative
+    print(torch.randn(5, 3))
+
 
 if __name__ == "__main__":
     test_rand()
