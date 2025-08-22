@@ -9,8 +9,17 @@ import matplotlib.pyplot as plt
 np_image = np.array(Image.open("lenna.png"))
 # Or: torch.as_tensor(a, device=torch.device('cuda'))
 image = torch.as_tensor(np_image)
-plt.imshow(image)
 
 print(image.shape)
 print(image.dtype)
 print(image.ndim)
+
+plt.imshow(image)
+plt.show()
+
+plt.imshow(image[:, :256, :])
+plt.show()
+
+batch = image.unsqueeze(0).repeat(3, 1, 1, 1)
+plt.imshow(image)
+plt.show()
