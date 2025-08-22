@@ -10,12 +10,17 @@ def test_tensor():
     print(torch.ones(2,3))
     print(torch.eye(3))
 
-    x = torch.tensor([[ 0.1000, 1.2000], [ 2.2000, 3.1000], [ 4.9000, 5.2000]])
+    x = torch.tensor([[ 1., 2.], [ 3., 4.], [ 5., 6.]])
     print(x.shape)
     print(x.size())
     print(x.dtype)
     print(x.type())
     print(x.ndim)
+
+    print(x[0, 1])
+    print(x[2, :])
+    print(x[:, 0])
+    print(x[1:3, :])
 
     y = x.int()
     print(y.dtype)
