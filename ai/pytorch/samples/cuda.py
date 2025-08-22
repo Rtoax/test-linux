@@ -1,7 +1,6 @@
 #!/bin/env python
 
 import torch
-import torchvision
 
 def check_env():
     if torch.cuda.is_available():
@@ -10,4 +9,5 @@ def check_env():
         print("Not support cuda")
 
 if __name__ == "__main__":
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     check_env()

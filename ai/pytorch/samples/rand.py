@@ -1,7 +1,6 @@
 #!/bin/env python
 
 import torch
-import torchvision
 
 def test_rand():
     x = torch.rand(5, 3)
