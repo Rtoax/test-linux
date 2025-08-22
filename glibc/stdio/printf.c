@@ -15,6 +15,10 @@ int main(void)
 {
 	int i;
 	double d = 1234.5678f;
+	void *p = (void *)0;
+	void *p2 = p + 1;
+
+	printf("%p\n", p2);
 
 	printf("pid %d\n", getpid());
 	printf("printf addr %p\n", &printf);
