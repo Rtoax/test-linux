@@ -6,13 +6,15 @@
 BEGIN
 {
 	printf("Tracing pthread_create, hit ctrl-c to end.\n");
-	printf("%-8s %-8s %-16s %-8s\n", "TIME", "PID", "COMM", "LAT(us)");
+	printf("%-8s %-8s %-16s %-8s %s\n", "TIME", "PID", "COMM", "LAT(us)",
+		"FN");
 }
 
 uprobe:libc:pthread_create
 {
 	@start[tid] = nsecs;
 	@comm[tid] = comm;
+	@usym[tid] = usym(arg2);
 }
 
 uretprobe:libc:pthread_create
@@ -22,14 +24,16 @@ uretprobe:libc:pthread_create
 	@latency_us = hist($us);
 
 	time("%H:%M:%S ");
-	printf("%-8d %-16s %-8d\n", pid, @comm[tid], $us);
+	printf("%-8d %-16s %-8d %s\n", pid, @comm[tid], $us, @usym[tid]);
 	delete(@start[tid]);
 	delete(@comm[tid]);
+	delete(@usym[tid]);
 }
 
 END
 {
 	clear(@start);
 	clear(@comm);
+	clear(@usym);
 	printf("Bye.\n");
 }
