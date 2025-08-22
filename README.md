@@ -128,6 +128,11 @@ System V has evolved through multiple standard versions, each adding significant
 If glibc/posix/syscall already have name `a`, The function test-linux implemented is name `tl_a`(the `tl_` prefix).
 
 
+# Miscs
+
+It seems that I have also added some **GPU** and **AI** related content, which is less related to Linux, but most of it is still part of the Linux ecosystem.
+
+
 # License
 
 If the source code file has a copyright information at the beginning, the copyright of the source code is the description content, otherwise, it is the copyright of the test-linux repository.
