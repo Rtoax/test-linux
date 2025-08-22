@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 #### Added
 - python: add numpy;
+- pthread: move `pthread_helpers` to top pthread directory;
 #### Changed
 #### Deprecated
 #### Removed
