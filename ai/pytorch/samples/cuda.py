@@ -1,6 +1,7 @@
 #!/bin/env python
 
 import torch
+import torchvision
 
 def check_env():
     if torch.cuda.is_available():
