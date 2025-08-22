@@ -27,6 +27,8 @@ declare -a MAIN_MENU_ITEMS=(
 	"${MENU_Save_and_Continue}"
 	)
 
+. ${DIALOG_ROOT}/log.sh
+
 # When switching TTY during the installation process (switching from TTY1
 # to TTY9), the printed information of TTY1 may remain on TTY9, so clean
 # the screen output here to prevent the screen output from being dialogged.
@@ -35,25 +37,6 @@ trap clear EXIT
 # Ignore SIGINT SIGQUIT SIGTSTP. In the interactive dialog interface,
 # some keyboard signals should be ignored
 trap "" INT QUIT TSTP
-
-mylog() {
-	local prio=$1 # crit, error, warning, info, debug
-	shift
-	logger -t "test-linux[$$]" -p ${prio} -- "$@"
-}
-
-crit() {
-	mylog crit "$@"
-	exit 1
-}
-
-debug() {
-	mylog debug "$@"
-}
-
-error() {
-	mylog error "$@"
-}
 
 __save_and_continue__()
 {
