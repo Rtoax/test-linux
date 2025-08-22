@@ -17,6 +17,18 @@ def test_tensor():
     print(x.type())
     print(x.ndim)
 
+    y = x.int()
+    print(y.dtype)
+
+    z = x.double()
+    print(z.dtype)
+
+    np_x = x.numpy()
+    print(np_x.dtype)
+
+    np_x = x.data.numpy()
+    print(np_x.dtype)
+
 
 if __name__ == "__main__":
     test_tensor()
