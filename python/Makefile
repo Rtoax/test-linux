@@ -1,4 +1,5 @@
 sub-dir := mkdocs
+sub-dir += numpy
 sub-dir += os
 sub-dir += sys
 

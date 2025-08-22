@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- python: add numpy;
 #### Changed
 #### Deprecated
 #### Removed
