@@ -1,3 +1,3 @@
-targets-python := random.py
+sub-dir := random
 
 include ../../template/main.mk
