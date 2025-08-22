@@ -1,7 +1,8 @@
 # SPDX-License-Identifier: GPL-3.0
 include ../kconfig.mk
 
-sub-dir := rss
+sub-dir := aslr
+sub-dir += rss
 sub-dir += cache
 sub-dir += hugepage
 sub-dir += oom
