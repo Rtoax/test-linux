@@ -55,8 +55,13 @@ __save_and_continue__()
 	exec 3>&-
 
 	case ${ret_status} in
-	${DIALOG_OK}) return 0 ;;
-	${DIALOG_CANCEL}) debug "${MENU_Save_and_Continue} terminated."; return 1 ;;
+	${DIALOG_OK})
+		return ${DIALOG_OK}
+		;;
+	${DIALOG_CANCEL})
+		debug "${MENU_Save_and_Continue} terminated.";
+		return ${DIALOG_CANCEL}
+		;;
 	esac
 }
 
@@ -89,7 +94,7 @@ __main__()
 		${MENU_Save_and_Continue})
 			__save_and_continue__
 			case $? in
-			0) debug "End of the main loop"; break ;;
+			${DIALOG_OK}) debug "End of the main loop"; break ;;
 			*) debug "back to main menu"; continue ;;
 			esac
 		esac
