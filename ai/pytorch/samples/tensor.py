@@ -63,6 +63,23 @@ def test_tensor():
     y = x.expand(3, 2)
     print(y)
 
+    print("---- Tensor Addition, subtraction, multiplication and division ----")
+    print(x + 3)
+    print(x + x)
+    print(x * 3)
+
+    print("---- Tensor Addition, subtraction, multiplication and division ----")
+    print(x.exp())
+    print(x.log())
+    print(x.pow(2))
+
+    print("---- Tensor max/min/sum/mean ----")
+    print(x.min())
+    print(x.sum())
+    print(x.sum(dim=0))
+    print(x.sum(dim=1))
+    print(x.mean())
+
 
 if __name__ == "__main__":
     test_tensor()
