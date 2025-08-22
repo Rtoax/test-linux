@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- pytorch: Added;
 - libbpf: add symlink `ksym_helpers` and apply to stack;
 - aslr: add info.sh;
 #### Changed
