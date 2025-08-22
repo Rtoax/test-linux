@@ -10,18 +10,30 @@ def test_tensor():
     print(torch.ones(2,3))
     print(torch.eye(3))
 
+    print("---- Tensor x ----")
     x = torch.tensor([[ 1., 2.], [ 3., 4.], [ 5., 6.]])
+    print(x)
+
+    print("---- Tensor properties ----")
     print(x.shape)
     print(x.size())
     print(x.dtype)
     print(x.type())
     print(x.ndim)
 
+    print("---- Tensor indexing ----")
     print(x[0, 1])
     print(x[2, :])
     print(x[:, 0])
     print(x[1:3, :])
 
+    print("---- Tensor reshaping ----")
+    y = x.reshape(6)
+    print(y)
+    y = x.view(6)
+    print(y)
+
+    print("---- Tensor type transformation ----")
     y = x.int()
     print(y.dtype)
 
@@ -40,6 +52,16 @@ def test_tensor():
 
         cpu_x = cuda_x.cpu()
         print(cpu_x.dtype)
+
+    print("---- Tensor squeezing and unsqueezing ----")
+    y = torch.unsqueeze(x, 0)
+    print(y)
+    z = torch.squeeze(y, 0)
+    print(z)
+
+    print("---- Tensor expansion ----")
+    y = x.expand(3, 2)
+    print(y)
 
 
 if __name__ == "__main__":
