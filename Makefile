@@ -4,12 +4,13 @@
 # test-linux Makefile
 # Wrote by Rong Tao <rtoax@foxmail.com>
 #
-# Change the CHANGELOG.md at the same time
+# Change the CHANGELOG.md at the same time, and get the statistic of code with
+# cloc will be better (add cloc output to commit message).
 VERSION = 2
 PATCHLEVEL = 3
-SUBLEVEL = 2
+SUBLEVEL = 3
 EXTRAVERSION =
-NAME = Qdisc
+NAME = Runtime
 
 TEST_LINUX_VERSION := $(VERSION)$(if $(PATCHLEVEL),.$(PATCHLEVEL)$(if $(SUBLEVEL),.$(SUBLEVEL)))$(EXTRAVERSION)
 export VERSION PATCHLEVEL SUBLEVEL TEST_LINUX_VERSION

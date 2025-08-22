@@ -11,6 +11,19 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+#### Changed
+#### Deprecated
+#### Removed
+#### Fixed
+#### Security
+#### Docs
+#### Tools
+
+
+## [v2.3.3] 2025-08-22
+
+#### Breaking Changes
+#### Added
 - pytorch: Added;
 - libbpf: add symlink `ksym_helpers` and apply to stack;
 - aslr: add info.sh;
