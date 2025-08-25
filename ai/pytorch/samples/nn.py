@@ -1,6 +1,7 @@
 #!/bin/env python
 
 import torch
+import torch.nn as nn
 
 def test_nn_base():
     model = torch.nn.Linear(20, 30)
@@ -9,6 +10,16 @@ def test_nn_base():
     print(input)
     print(output)
 
+# Mean Squared Error
+def test_nn_mse():
+    # Defines a MSE loss function
+    loss_fn = nn.MSELoss(reduction='mean')
+    # This is a random example to illustrate the loss function
+    predictions = torch.tensor([0.5, 1.0])
+    labels = torch.tensor([2.0, 1.3])
+    print(loss_fn(predictions, labels))
+
 
 if __name__ == "__main__":
     test_nn_base()
+    test_nn_mse()
