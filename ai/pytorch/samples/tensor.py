@@ -102,9 +102,19 @@ def test_tensor_matrix():
     b = torch.tensor([[ 5., 6.], [ 7., 8.]])
     print(torch.mm(a, b))
 
+def test_as_tensor():
+    print("---- Tensor as_tensor() ----")
+    dummy_array = np.array([1, 2, 3])
+    dummy_tensor = torch.as_tensor(dummy_array)
+    # Modifies the numpy array
+    dummy_array[1] = 0
+    # Tensor gets modified too...
+    print(dummy_tensor)
+    print(dummy_tensor.numpy())
 
 if __name__ == "__main__":
     test_tensor()
     test_tensor_scaler()
     test_tensor_vector()
     test_tensor_matrix()
+    test_as_tensor()
