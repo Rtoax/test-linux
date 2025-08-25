@@ -10,6 +10,7 @@ squashfs-root
 *.tar.*
 *.xz
 *.gz
+*.npz
 
 # Object files
 *.o
