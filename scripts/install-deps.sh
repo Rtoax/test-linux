@@ -12,13 +12,13 @@ set -e
 . /etc/os-release
 
 readonly prog=inst-deps
+readonly ROOT_DIRECTORY=$(dirname $(realpath $0))
 
 declare -a dnf_args apt_args zypper_args
 declare -a pkgs_inst pkgs_compiler pkgs_desktop pkgs_bench pkgs_math pkgs_db
 declare -a pkgs_storage pkgs_net pkgs_container pkgs_virt pkgs_base pkgs_fs
 declare -a pkgs_media pkgs_build pkgs_devel pkgs_docs pkgs_video pkgs_boot
 declare -a pkgs_cxl pkgs_ai
-declare -a pip_whls
 
 declare -a pkgs_skip
 
@@ -742,14 +742,6 @@ pkgs_cxl+=( ndctl )
 #pkgs_video+=( openshot )
 #pkgs_video+=( pitivi )
 
-pip_whls+=( numpy pyyaml )
-pip_whls+=( tqdm )
-pip_whls+=( "\"mkdocs>=1.5.2\"" )
-pip_whls+=( "\"mkdocs-material>=9.2.6\"" )
-pip_whls+=( "\"mkdocstrings[python]>=0.22.0\"" )
-pip_whls+=( "\"mkdocs-static-i18n>=1.0.2\"" )
-pip_whls+=( "\"mkdocs-include-markdown-plugin>=6.0.1\"" )
-
 
 if [[ ${have_upgrade} ]]; then
 	os_upgrade
@@ -1231,7 +1223,7 @@ if [[ ${have_pip} ]] && [[ -e /usr/bin/pip3 ]]; then
 	if [[ $(is_os debian ubuntu) ]]; then
 		PIP_EXTRA_ARGS=( --break-system-packages )
 	fi
-	inst_eval pip3 install ${PIP_EXTRA_ARGS[@]} "${pip_whls[@]}"
+	inst_eval pip3 install ${PIP_EXTRA_ARGS[@]} --requirement=${ROOT_DIRECTORY}/requirements.txt
 fi
 
 if [[ ${have_services} ]] && [[ ${enable_srvs} ]]; then
