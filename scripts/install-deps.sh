@@ -1222,6 +1222,7 @@ fi
 if [[ ${have_pip} ]] && [[ -e /usr/bin/pip3 ]]; then
 	if [[ $(is_os debian ubuntu) ]]; then
 		PIP_EXTRA_ARGS=( --break-system-packages )
+		PIP_EXTRA_ARGS+=( -i https://pypi.tuna.tsinghua.edu.cn/simple/ )
 	fi
 	inst_eval pip3 install ${PIP_EXTRA_ARGS[@]} --requirement=${ROOT_DIRECTORY}/requirements.txt
 fi
