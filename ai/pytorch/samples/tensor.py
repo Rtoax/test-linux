@@ -8,6 +8,7 @@ def test_tensor():
     print(torch.tensor(np.array([[0.1, 1.2], [2.2, 3.1], [4.9, 5.2]])))
     print(torch.zeros(2,3))
     print(torch.ones(2,3))
+    print(torch.ones((2, 3), dtype=torch.float))
     print(torch.eye(3))
 
     print("---- Tensor x ----")
@@ -80,6 +81,15 @@ def test_tensor():
     print(x.sum(dim=1))
     print(x.mean())
 
+def test_tensor_scaler():
+    print("---- Tensor Scaler ----")
+    scaler = torch.tensor(3.14)
+    print(scaler)
+
+def test_tensor_vector():
+    print("---- Tensor Vector ----")
+    vector = torch.tensor([1, 2, 3])
+    print(vector)
 
 def test_tensor_matrix():
     print("---- Tensor Dot product ----")
@@ -95,4 +105,6 @@ def test_tensor_matrix():
 
 if __name__ == "__main__":
     test_tensor()
+    test_tensor_scaler()
+    test_tensor_vector()
     test_tensor_matrix()

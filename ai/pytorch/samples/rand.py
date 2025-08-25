@@ -7,6 +7,7 @@ def test_rand():
     print(torch.rand(5, 3))
     # Negative
     print(torch.randn(5, 3))
+    print(torch.randn((2, 3, 4), dtype=torch.float))
 
 
 if __name__ == "__main__":
