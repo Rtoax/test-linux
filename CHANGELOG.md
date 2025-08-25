@@ -13,7 +13,7 @@ and this project adheres to
 #### Added
 - python: add numpy;
 - pthread: move `pthread_helpers` to top pthread directory;
-- ai: Introduce tensorflow, mnist;
+- ai: Introduce tensorflow, mnist, keras;
 #### Changed
 #### Deprecated
 #### Removed
