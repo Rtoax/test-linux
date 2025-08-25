@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- python/numpy: add array directory;
 - keras: Train MNIST with keras;
 - python: add numpy;
 - pthread: move `pthread_helpers` to top pthread directory;
