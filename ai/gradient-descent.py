@@ -26,6 +26,39 @@ def drosdx(x, a, b):
     return np.array([-2.0*(a - x0) - 4.0*b*(x1 - x0**2)*x0,
                      2.0*b*(x1 - x0**2)])
 
+def do_descent(dfdx, x0, eps=1.e-5, eta=2.e-3, args=None, ax=None):
+    # dx will be the change in the solution -- we'll iterate until this
+    # is small
+    dx = 1.e30
+    xp_old = x0.copy()
+
+    if args:
+        grad = dfdx(xp_old, *args)
+    else:
+        grad = dfdx(xp_old)
+
+    while dx > eps:
+
+        xp = xp_old - eta * grad
+
+        if ax:
+            ax.plot([xp_old[0], xp[0]], [xp_old[1], xp[1]], color="C1")
+
+        dx = np.linalg.norm(xp - xp_old)
+
+        if args:
+            grad_new = dfdx(xp, *args)
+        else:
+            grad_new = dfdx(xp)
+
+        #eta_new = np.abs(np.transpose(xp) @ (grad_new - grad)) / np.linalg.norm(grad_new - grad)**2
+        #eta = min(10*eta, eta_new)
+
+        grad = grad_new
+
+        xp_old[:] = xp
+
+
 xmin = -2.0
 xmax = 2.0
 ymin = -1.0
@@ -47,6 +80,7 @@ im = ax.imshow(np.log10(np.transpose(rosenbrock(x2d, y2d, a, b))),
 
 fig.colorbar(im, ax=ax)
 
-# TODO
+x0 = np.array([-1.0, 1.5])
+do_descent(drosdx, x0, args=(a, b), ax=ax)
 
 plt.show()
