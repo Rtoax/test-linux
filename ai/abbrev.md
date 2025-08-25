@@ -2,6 +2,7 @@
 - EP: Execution Provider (执行提供者) @PD
 - Grid: (线程网格)
 - LLM: Large Language Model (大语言模型)
+- MSE: Mean Squared Error (均方误差)
 - NLP: Nature Language Process (自然语言处理)
 - ONNX: Open Neural Network Exchange (开放神经网络交换)
 - PD: Prediction Server (预测服务器) @EP
