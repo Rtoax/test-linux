@@ -19,7 +19,13 @@ def test_nn_mse():
     labels = torch.tensor([2.0, 1.3])
     print(loss_fn(predictions, labels))
 
+def test_nn_linear():
+    linear = nn.Linear(1, 1)
+    print(linear)
+    linear.state_dict()
+
 
 if __name__ == "__main__":
     test_nn_base()
     test_nn_mse()
+    test_nn_linear()
