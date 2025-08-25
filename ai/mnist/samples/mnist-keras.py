@@ -1,4 +1,6 @@
 #!/bin/env python
+# refs:
+# https://sbu-phy-ast-reu.github.io/reu-python-tutorial/11-machine-learning/keras-mnist.html
 
 from keras.datasets import mnist
 from keras.models import Sequential
