@@ -1,4 +1,3 @@
-sub-dir := array
-sub-dir += random
+targets-python := np.random.py
 
 include ../../template/main.mk
