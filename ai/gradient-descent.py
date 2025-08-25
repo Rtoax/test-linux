@@ -9,6 +9,7 @@
 #
 # ∂f/∂x = (∂f/∂x0, ∂f/x1, ...)
 #
+# x <- x - η * ∂f/∂x
 
 import numpy as np
 import matplotlib.pyplot as plt
