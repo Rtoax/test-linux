@@ -7,6 +7,7 @@
 - ONNX: Open Neural Network Exchange (开放神经网络交换)
 - PD: Prediction Server (预测服务器) @EP
 - sGPU: Sliced GPU (GPU切片)
+- SGD: Stochastic Gradient Descent (随机梯度下降)
 - Tensor: (张量，是一种特殊的数据结构)
 - Token: (词元)
 - Tokenization: (分词)
