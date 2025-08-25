@@ -52,7 +52,7 @@ install_from_source()
 {
 	# https://github.com/torvalds/linux
 	# https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next
-	local kver="6.15.0+"
+	local kver="6.17-rc3"
 
 	# install
 	sudo make modules_install
