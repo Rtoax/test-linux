@@ -2,7 +2,7 @@
 # Refs:
 # https://storage.googleapis.com/tensorflow/tf-keras-datasets/mnist.npz
 
-from tensorflow.keras.datasets import mnist
+from keras.datasets import mnist
 import matplotlib.pyplot as plt
 
 (train_images, train_labels), (test_images, test_labels) = mnist.load_data(path='mnist.npz')

@@ -1,0 +1,1 @@
+../../mnist/samples/mnist-keras.py
