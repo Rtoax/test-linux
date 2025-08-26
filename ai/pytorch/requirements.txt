@@ -1,1 +1,3 @@
+skorch
 torch
+torchvision
