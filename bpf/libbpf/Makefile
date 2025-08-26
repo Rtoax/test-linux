@@ -139,6 +139,19 @@ endif
 # v5.16-rc4-1160-gc5fb19937455
 ifeq ($(call kernel_newer_than,5,16,0),y)
   CFLAGS_BPF += -DSUPPORT_BPF_STRNCMP=1
+  $(info Found bpf_strncmp)
+endif
+# linux >= v6.15 commit e91370550f1f ("bpf: Add kfuncs for read-only string
+# operations") add string kfunc.
+ifeq ($(call kernel_newer_than,6,16,0),y)
+  ifeq ($(call vmlinux_has_sym,bpf_strnstr),y)
+    CFLAGS_BPF += -DSUPPORT_BPF_STRNSTR=1
+    $(info Found bpf_strnstr())
+  endif
+  ifeq ($(call vmlinux_has_sym,bpf_strstr),y)
+    CFLAGS_BPF += -DSUPPORT_BPF_STRSTR=1
+    $(info Found bpf_strstr())
+  endif
 endif
 # linux commit d08e2045ebf0 ("bpf: introduce new VFS based BPF kfuncs")
 # v6.10-12667-gd08e2045ebf0
