@@ -67,6 +67,8 @@ install_from_source()
 	# https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next
 	local kver="6.17-rc3"
 
+	[[ $1 ]] && kver=$1
+
 	# install
 	sudo make modules_install
 	sudo make headers_install
@@ -115,15 +117,15 @@ uninstall_kernel()
 case $1 in
 install_from_source)
 	shift
-	install_from_source
+	install_from_source $@
 	;;
 uninstall)
 	shift
 	uninstall_kernel $@
 	;;
 *)
-echo -e "
-  install_from_source
+	echo -e "
+  install_from_source [kver]
   uninstall [kver]
 "
 		;;
