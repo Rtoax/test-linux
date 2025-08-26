@@ -199,11 +199,19 @@ int tracepoint__syscalls__sys_exit_execve(struct syscall_trace_exit *ctx)
 	pevent->ret = ctx->ret;
 
 #if defined(BPF_SEND_SIGNAL)
+	bool should_kill = false;
 # if defined(SUPPORT_BPF_STRNCMP)
-	if (!bpf_strncmp(pevent->comm, 3, "top")) {
+	should_kill |= !bpf_strncmp(pevent->comm, 3, "top");
 # else
-	if (!str_eq(pevent->comm, "top", 3)) {
+	should_kill |= !str_eq(pevent->comm, "top", 3);
 # endif
+# if defined(SUPPORT_BPF_STRNSTR)
+	should_kill |= bpf_strnstr(pevent->comm, "ls", 3) >= 0;
+# endif
+# if defined(SUPPORT_BPF_STRSTR)
+	should_kill |= bpf_strstr(pevent->comm, "openat") >= 0;
+# endif
+	if (should_kill) {
 		bpf_send_signal(SIGKILL);
 		goto cleanup;
 	}
