@@ -73,12 +73,12 @@ y = np.linspace(ymin, ymax, N)
 
 x2d, y2d = np.meshgrid(x, y, indexing="ij")
 
+fig, ax = plt.subplots()
 img = ax.imshow(np.log10(np.transpose(rosenbrock(x2d, y2d, a, b))),
                origin="lower", extent=[xmin, xmax, ymin, ymax])
 
 x0 = np.array([-1.0, 1.5])
 do_descent(drosdx, x0, args=(a, b), ax=ax)
 
-fig, ax = plt.subplots()
 fig.colorbar(img, ax=ax)
 plt.show()
