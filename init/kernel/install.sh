@@ -2,6 +2,19 @@
 set -e
 . /etc/os-release
 
+error() {
+	echo >&2 "\033[31m"
+	echo >&2 "ERROR: ${@}"
+	echo >&2 "\033[m"
+	exit 1
+}
+
+warning() {
+	echo >&2 "\033[34m"
+	echo >&2 "WARNING: ${@}"
+	echo >&2 "\033[m"
+}
+
 cross_compile_env()
 {
 	export ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu-
@@ -85,12 +98,11 @@ uninstall_kernel()
 
 	local curr_version=$(uname -r)
 
-	test $version == $curr_version && \
-		echo "ERROR: Can't remove running kernel" && exit 1
+	[[ $version == $curr_version ]] && error "Can't remove running kernel"
 
-	test ! -d $modules && echo "WARNING: $modules not exist"
-	test ! -f $vmlinuz && echo "WARNING: $vmlinuz not exist"
-	test ! -f $initramfs && echo "WARNING: $initramfs not exist"
+	test ! -d $modules && warning "$modules not exist"
+	test ! -f $vmlinuz && warning "$vmlinuz not exist"
+	test ! -f $initramfs && warning "$initramfs not exist"
 
 	sudo grubby --remove-kernel /boot/vmlinuz-${version}
 
