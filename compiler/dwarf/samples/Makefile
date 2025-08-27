@@ -1,3 +1,5 @@
+CC := gcc
+
 targets := hello
 targets-post := hello.dwz hello.strip
 

@@ -1,13 +1,8 @@
 # SPDX-License-Identifier: GPL-3.0
+include ../../template/ansi.mk
 include ../../bpf/bpf.mk
-CC := gcc
-CLANG := clang
 
-targets :=
-targets-todo :=
-targets-bpf :=
-
-targets += __has_builtin
+targets := __has_builtin
 targets += apply_args
 targets += apply
 targets += bswap16
@@ -33,9 +28,9 @@ targets += clzl
 targets += memcpy
 targets += strlen strcmp
 
-targets-bpf += preserve_field_info.bpf.o
+targets-bpf := preserve_field_info.bpf.o
 
-targets-todo += read8
+targets-todo := read8
 targets-todo += va_arg_pack
 targets-todo += preserve_enum_value
 

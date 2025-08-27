@@ -1,4 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
+include ../template/ansi.mk
 include ../gnu/gnu.mk
 
 sub-dir := annobin
@@ -21,8 +22,7 @@ sub-dir += specs
 sub-dir += __sync
 sub-dir += Wwarn
 
-targets :=
-targets += __GNUC__
+targets := __GNUC__
 targets += __GNUC_PREREQ
 targets += __VERSION__
 
