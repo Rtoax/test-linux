@@ -17,6 +17,7 @@ targets-nvcc += rand
 targets-nvcc += __GNUC__ __STDC__
 
 targets-post := $(patsubst %,${OUTPUT}%.E.cu,$(targets-nvcc))
+targets-post += $(patsubst %,${OUTPUT}%.sass.dump,$(targets-nvcc))
 
 targets := matrix-c
 targets += matrix-c-double

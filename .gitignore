@@ -107,6 +107,7 @@ __pycache__
 *.log
 *.log.[0-9]
 *.blktrace.[0-9]*
+*.dump
 
 # Socket
 *.sock

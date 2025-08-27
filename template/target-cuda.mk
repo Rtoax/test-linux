@@ -17,9 +17,11 @@ endif
 ifeq ($(NVCC),)
   ifneq ($(wildcard ${CUDA_ROOT}),)
     NVCC := ${CUDA_ROOT}/bin/nvcc
+    CUOBJDUMP := ${CUDA_ROOT}/bin/cuobjdump
   endif
 else
   NVCC := $(shell realpath ${NVCC})
+  CUOBJDUMP := $(shell realpath ${CUOBJDUMP})
 endif
 
 ifeq ($(wildcard $(NVCC)),)
@@ -72,6 +74,10 @@ endif
 ${OUTPUT}%.cu.o: %.cu | ${OUTPUT}
 	$(call log_tgt_obj,NVCC,$(<),$(@))
 	${Q}$(NVCC) -o $(@) -c $(<) $(CFLAGS_NVCC) $(CFLAGS_NVCC_$(*))
+
+${OUTPUT}%.sass.dump: ${OUTPUT}%.cu.o | ${OUTPUT}
+	$(call log_tgt_obj,NV SASS,$(<),$(@))
+	${Q}${CUOBJDUMP} --dump-sass $(<) > ${@}
 
 ${OUTPUT}%.E.cu: %.cu | ${OUTPUT}
 	$(call log_tgt_obj,NVCC E,$(<),$(@))
