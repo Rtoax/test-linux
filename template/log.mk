@@ -17,28 +17,32 @@ ifdef DEBUG
   $(info LOG_FILE_FAILED = ${LOG_FILE_FAILED})
 endif
 
-define timestamp
+# Timestamp
+define TS
 [$(shell date '+%H:%M:%S')]
 endef
+define HOST
+[$(shell hostname)]
+endef
 define log_tgt_obj
-@printf '$(call timestamp) %-8s ${ANSI_BOLD}%s${ANSI_RST} -> ${ANSI_BOLD}%s${ANSI_RST}\n' "${1}" "$(2)" "$(3)"
+@printf '$(call TS) %-8s ${ANSI_BOLD}%s${ANSI_RST} -> ${ANSI_BOLD}%s${ANSI_RST}\n' "${1}" "$(2)" "$(3)"
 endef
 define log_tgt_exe
-@printf '$(call timestamp) %-8s ${ANSI_BOLD}%s${ANSI_RST} -> ${ANSI_BOLD}${ANSI_GRE}%s${ANSI_RST}\n' "${1}" "$(2)" "$(3)"
+@printf '$(call TS) %-8s ${ANSI_BOLD}%s${ANSI_RST} -> ${ANSI_BOLD}${ANSI_GRE}%s${ANSI_RST}\n' "${1}" "$(2)" "$(3)"
 endef
 define log_tgt_start
-@echo -e "$(call timestamp) [$(1)] ${ANSI_BOLD}${ANSI_GRE}$(2)${ANSI_RST} start"
+@echo -e "$(call TS) [$(1)] ${ANSI_BOLD}${ANSI_GRE}$(2)${ANSI_RST} start"
 endef
 define log_tgt_done
-@echo -e "$(call timestamp) [$(1)] ${ANSI_BOLD}${ANSI_YEL}$(2)${ANSI_RST} done"
+@echo -e "$(call TS) [$(1)] ${ANSI_BOLD}${ANSI_YEL}$(2)${ANSI_RST} done"
 endef
 
 define log_info
-printf '$(call timestamp) $(shell hostname) $1\n' | tee --append ${LOG_FILE_INFO}
+printf '$(call TS) $(call HOST) $1\n' | tee --append ${LOG_FILE_INFO}
 endef
 
 define log_failed
-printf '$(call timestamp) $(shell hostname) ${ANSI_RED}$1${ANSI_RST}\n' | tee --append ${LOG_FILE_FAILED}
+printf '$(call TS) $(call HOST) ${ANSI_RED}$1${ANSI_RST}\n' | tee --append ${LOG_FILE_FAILED}
 endef
 
 define log_reset_files
