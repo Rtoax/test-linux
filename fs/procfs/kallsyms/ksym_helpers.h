@@ -18,4 +18,4 @@ void free_kallsyms(struct ksyms *ksyms);
 long ksym_addr(const struct ksyms *ksyms, const char *name);
 
 const char *ksym_name(const struct ksyms *ksyms, unsigned long address,
-		      long *off);
+		      unsigned long *off);
