@@ -126,6 +126,7 @@ clean: $(sub-dir-clean) $(kmod-list-clean) $(targets-clean)
 	${Q}rm -f *.o *.log *.out *.class
 	${Q}rm -f *.so *.so.* *.a
 	${Q}rm -f *.dat *.bin
+	${Q}rm -f ${VMLINUX_H}
 	$(call log_tgt_done,clean,$(call git_relative_dir,$(shell realpath .)))
 
 include ${TEMPLATE_DIR}/target-exe.mk
