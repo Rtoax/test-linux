@@ -18,6 +18,7 @@ and this project adheres to
 - ai: Introduce tensorflow, mnist, keras;
 #### Changed
 - template: Rename target-cuda.mk to target-nvidia.mk;
+- template: Rename topdir.mk to dir.mk;
 #### Deprecated
 #### Removed
 #### Fixed

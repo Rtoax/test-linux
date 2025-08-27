@@ -4,7 +4,7 @@
 
 include verbose.mk
 include ansi.mk
-include topdir.mk
+include dir.mk
 include log.mk
 include ../kconfig.mk
 

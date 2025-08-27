@@ -2,7 +2,7 @@
 include ../compiler/compiler.mk
 include ../glibc/glibc.mk
 include ../template/ansi.mk
-include ../template/topdir.mk
+include ../template/dir.mk
 include ../template/git.mk
 include ../template/success.mk
 include ../template/wow.mk

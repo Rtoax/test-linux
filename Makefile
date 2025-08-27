@@ -16,7 +16,7 @@ TEST_LINUX_VERSION := $(VERSION)$(if $(PATCHLEVEL),.$(PATCHLEVEL)$(if $(SUBLEVEL
 export VERSION PATCHLEVEL SUBLEVEL TEST_LINUX_VERSION
 
 include template/verbose.mk
-include template/topdir.mk
+include template/dir.mk
 include template/emoji.mk
 include template/git.mk
 include template/ansi.mk
