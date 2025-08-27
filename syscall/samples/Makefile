@@ -49,8 +49,6 @@ sub-dir += ldt
 sub-dir += xattr
 sub-dir += truncate
 
-include ../../template/subdir-header.mk
-
 targets :=
 targets += acct
 targets += chdir fchdir
