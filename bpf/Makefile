@@ -1,4 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
+include ../template/ansi.mk
 include bpf.mk
 
 sub-dir := bcc
@@ -29,4 +30,4 @@ tcpdump.bpf.o: vmlinux.h
 
 post0:
 	$(Q)./tcpdump.sh
-	$(call tl_ascii_logo_ebpf_bee_summit_2021)
+	$(call bpf_logo_summit_2021)

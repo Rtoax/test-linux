@@ -8,6 +8,7 @@ OUTPUT := .output/
 VMLINUX_H := ${OUTPUT}vmlinux.h
 
 include ../../kconfig.mk
+include ../../template/ansi.mk
 include ../bpf.mk
 include ../../glibc/ldconfig.mk
 include ./libbpf.mk

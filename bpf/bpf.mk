@@ -1,4 +1,9 @@
 # SPDX-License-Identifier: GPL-3.0
+
+ifndef _ANSI
+  $(error Not define _ANSI, include ansi.mk)
+endif
+
 BPF_TARGET_ARCH ?= $(shell uname -m | sed 's/x86_64/x86/' \
 			 | sed 's/arm.*/arm/' \
 			 | sed 's/aarch64/arm64/' \
@@ -18,7 +23,7 @@ G := ${ANSI_GRAY}${ANSI_REVE}
 C := ${ANSI_CYAN}${ANSI_REVE}
 R := ${ANSI_RST}
 
-define tl_ascii_logo_ebpf_bee_summit_2021
+define bpf_logo_summit_2021
 @echo -e "                     ${w}.${R}${b}####-${R}                ${b}.+@@@@-${R}"
 @echo -e "                     ${w}.${R}${b}####=${R}                ${b}.+@@@@-${R}"
 @echo -e "                ${w}:${R}${b}*####${R}                 ${b}@@@@@+${R}"

@@ -1,4 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
+include ../../../template/ansi.mk
 include ../../bpf.mk
 
 targets := xsk_user
