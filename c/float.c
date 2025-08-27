@@ -6,6 +6,7 @@
  * - https://en.wikipedia.org/wiki/Half-precision_floating-point_format
  * - https://en.wikipedia.org/wiki/Single-precision_floating-point_format
  * - https://en.wikipedia.org/wiki/Double-precision_floating-point_format
+ * - https://github.com/Maratyszcza/FP16
  */
 #include <assert.h>
 #include <stdio.h>
