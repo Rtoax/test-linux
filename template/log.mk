@@ -9,9 +9,13 @@ ifeq (${ANSI_BOLD},)
   $(error Not define ANSI_BOLD)
 endif
 
-FILE_LOG_INFO := $(TOPDIR)/info.log
-FILE_LOG_FAILED := $(TOPDIR)/failed.log
-export FILE_LOG_INFO FILE_LOG_FAILED
+LOG_FILE_INFO := $(TOPDIR)/info.log
+LOG_FILE_FAILED := $(TOPDIR)/failed.log
+
+ifdef DEBUG
+  $(info LOG_FILE_INFO = ${LOG_FILE_INFO})
+  $(info LOG_FILE_FAILED = ${LOG_FILE_FAILED})
+endif
 
 define timestamp
 [$(shell date '+%H:%M:%S')]
@@ -30,19 +34,19 @@ define log_tgt_done
 endef
 
 define log_info
-printf '$(call timestamp) $(shell hostname) $1\n' | tee --append ${FILE_LOG_INFO}
+printf '$(call timestamp) $(shell hostname) $1\n' | tee --append ${LOG_FILE_INFO}
 endef
 
 define log_failed
-printf '$(call timestamp) $(shell hostname) ${ANSI_RED}$1${ANSI_RST}\n' | tee --append ${FILE_LOG_FAILED}
+printf '$(call timestamp) $(shell hostname) ${ANSI_RED}$1${ANSI_RST}\n' | tee --append ${LOG_FILE_FAILED}
 endef
 
-define cleanfailedlog
-	${Q}rm -f $(FILE_LOG_FAILED)
+define log_reset_files
+	${Q}rm -f $(LOG_FILE_FAILED) $(LOG_FILE_INFO)
 endef
 
-define printfailedlog
-	${Q}if [[ -e $(FILE_LOG_FAILED) ]]; then \
-		cat $(FILE_LOG_FAILED) ; \
+define log_display_failed
+	${Q}if [[ -e $(LOG_FILE_FAILED) ]]; then \
+		cat $(LOG_FILE_FAILED) ; \
 	fi
 endef

@@ -48,8 +48,6 @@ help:
 	@echo >&2 -e "*** TOPDIR ${TOPDIR}"
 	@echo >&2 -e "*** GIT_TOPDIR ${GIT_TOPDIR}"
 	@echo >&2 -e "***    core.hooksPath = ${GIT_CONFIG_CORE_HOOKSPATH}"
-	@echo >&2 -e "*** FILE_LOG_INFO ${FILE_LOG_INFO}"
-	@echo >&2 -e "*** FILE_LOG_FAILED ${FILE_LOG_FAILED}"
 	@echo >&2 -e "*** TEST_LINUX_VERSION v${TEST_LINUX_VERSION} (${NAME})"
 	@echo >&2 -e "*** KERNEL_VERSION ${KVERSION}.${KPATCHLEVEL}.${KSUBLEVEL}, CODE ${KVERSION_CODE}"
 	@echo >&2 -e "***"
@@ -76,8 +74,8 @@ help:
 
 include make.list
 
-targets-prep := cleanfailedlog
-targets-post := printfailedlog
+targets-prep := reset
+targets-post := done
 
 ifeq ($(KMOD),0)
   kmod-list :=
@@ -176,7 +174,8 @@ cleangit:
 	@echo "=== clean git repo"
 	$(call git_clean)
 
-cleanfailedlog:
-	$(call cleanfailedlog)
-printfailedlog:
-	$(call printfailedlog)
+reset:
+	$(call log_reset_files)
+
+done:
+	$(call log_display_failed)
