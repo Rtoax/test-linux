@@ -93,7 +93,7 @@ static void print_stack(int fd)
 		bpf_map_lookup_elem(fd, &next_kern_stack_id, IPs);
 		printf("-----------\n");
 		for (i = 0; i < PERF_MAX_STACK_DEPTH && IPs[i]; i++) {
-			long off = 0;
+			unsigned long off = 0;
 			const char *name = ksym_name(ksyms, IPs[i], &off);
 			printf("\t%#016lx %s", IPs[i], name ?: "[unknown]");
 			if (off > 0)
