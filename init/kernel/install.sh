@@ -15,6 +15,12 @@ warning() {
 	echo >&2 "\033[m"
 }
 
+check_root() {
+	if [[ $(id -u) -ne 0 ]]; then
+		error "Must run with root(sudo)"
+	fi
+}
+
 cross_compile_env()
 {
 	export ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu-
@@ -25,17 +31,17 @@ cross_compile_env()
 }
 
 kernel_compile_cross_aarch64() {
-	sudo make ARCH=arm CROSS_COMPILE=aarch64-linux-gnu- vexpress_defconfig
-	sudo make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- menuconfig
-	sudo make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- -j8
+	make ARCH=arm CROSS_COMPILE=aarch64-linux-gnu- vexpress_defconfig
+	make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- menuconfig
+	make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- -j8
 }
 
 # qemu: docs/system/arm/orangepi.rst
 kernel_compile_cross_arm() {
-	sudo ARCH=arm CROSS_COMPILE=arm-linux-gnu- make mrproper
-	sudo ARCH=arm CROSS_COMPILE=arm-linux-gnu- make sunxi_defconfig
-	sudo ARCH=arm CROSS_COMPILE=arm-linux-gnu- make menuconfig
-	sudo ARCH=arm CROSS_COMPILE=arm-linux-gnu- make -j8
+	ARCH=arm CROSS_COMPILE=arm-linux-gnu- make mrproper
+	ARCH=arm CROSS_COMPILE=arm-linux-gnu- make sunxi_defconfig
+	ARCH=arm CROSS_COMPILE=arm-linux-gnu- make menuconfig
+	ARCH=arm CROSS_COMPILE=arm-linux-gnu- make -j8
 }
 
 config_kernel()
@@ -58,7 +64,7 @@ config_kernel()
 
 compile()
 {
-	sudo make -j$(nproc)
+	make -j$(nproc)
 }
 
 install_from_source()
@@ -67,26 +73,28 @@ install_from_source()
 	# https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next
 	local kver="6.17-rc3"
 
+	check_root
+
 	[[ $1 ]] && kver=$1
 
 	# install
-	sudo make modules_install
-	sudo make headers_install
-	sudo make install
+	make modules_install
+	make headers_install
+	make install
 
 	# Update grub
 	# If RHEL like OS:
 	if [[ " fedora " =~ " ${ID} " ]]; then
-		sudo grub2-mkconfig -o /boot/grub2/grub.cfg
-		sudo grubby --set-default /boot/vmlinuz-${kver}
-		sudo cp .config /boot/config-${kver}
+		grub2-mkconfig -o /boot/grub2/grub.cfg
+		grubby --set-default /boot/vmlinuz-${kver}
+		cp .config /boot/config-${kver}
 
-		sudo grubby --info=ALL | more
-		sudo grubby --default-index
-		sudo grubby --default-kernel
+		grubby --info=ALL | more
+		grubby --default-index
+		grubby --default-kernel
 	# If Debian like OS:
 	elif [[ " debian " =~ " ${ID} " ]]; then
-		sudo update-grub
+		update-grub
 	fi
 }
 
@@ -100,18 +108,20 @@ uninstall_kernel()
 
 	local curr_version=$(uname -r)
 
+	check_root
+
 	[[ $version == $curr_version ]] && error "Can't remove running kernel"
 
 	test ! -d $modules && warning "$modules not exist"
 	test ! -f $vmlinuz && warning "$vmlinuz not exist"
 	test ! -f $initramfs && warning "$initramfs not exist"
 
-	sudo grubby --remove-kernel /boot/vmlinuz-${version}
+	grubby --remove-kernel /boot/vmlinuz-${version}
 
-	sudo rm -rf $modules
-	sudo rm -f $vmlinuz $initramfs $config
+	rm -rf $modules
+	rm -f $vmlinuz $initramfs $config
 
-	sudo grub2-mkconfig -o /boot/grub2/grub.cfg
+	grub2-mkconfig -o /boot/grub2/grub.cfg
 }
 
 case $1 in
