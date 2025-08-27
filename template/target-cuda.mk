@@ -26,6 +26,18 @@ ifeq ($(wildcard $(NVCC)),)
   $(error Not found nvcc, install cuda first)
 endif
 
+CUDA_VERSION_RAW := $(shell ${NVCC} --version | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+' 2>/dev/null || true)
+ifeq (${CUDA_VERSION_RAW},)
+  $(error Not found CUDA Version in ${NVCC} --version)
+endif
+CUDA_VERSION_MAJOR := $(shell echo ${CUDA_VERSION_RAW} | awk -F '.' '{print $$1}')
+CUDA_VERSION_MINOR := $(shell echo ${CUDA_VERSION_RAW} | awk -F '.' '{print $$2}')
+CUDA_VERSION_PATCH := $(shell echo ${CUDA_VERSION_RAW} | awk -F '.' '{print $$3}')
+
+CFLAGS_NVCC += -DCUDA_VERSION_MAJOR=${CUDA_VERSION_MAJOR}
+CFLAGS_NVCC += -DCUDA_VERSION_MINOR=${CUDA_VERSION_MINOR}
+CFLAGS_NVCC += -DCUDA_VERSION_PATCH=${CUDA_VERSION_PATCH}
+
 # NVCC: --gpu-architecture
 # Pascal (sm_60+)
 # Volta (sm_70+)
@@ -44,6 +56,9 @@ ifdef DEBUG
   $(info $(shell ${NVCC} --version))
   $(info NVCC = ${NVCC})
   $(info NVCC VERSION: $(shell ${NVCC} --version))
+  $(info CUDA_VERSION_MAJOR = ${CUDA_VERSION_MAJOR})
+  $(info CUDA_VERSION_MINOR = ${CUDA_VERSION_MINOR})
+  $(info CUDA_VERSION_PATCH = ${CUDA_VERSION_PATCH})
   $(info CFLAGS_NVCC = ${CFLAGS_NVCC})
   $(info LDFLAGS_NVCC = ${LDFLAGS_NVCC})
 endif
