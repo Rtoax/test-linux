@@ -3,6 +3,8 @@ CC := gcc
 targets := hello
 targets-post := hello.dwz hello.strip
 
+targets-clean := clean0
+
 CFLAGS := -g
 CFLAGS += -ggdb -O0
 ifdef DWARF5
@@ -16,6 +18,9 @@ CFLAGS_hello += -Wno-error=unused-variable
 include ../../../template/main.mk
 
 hello: hello.o
+
+clean0:
+	$(Q)rm -f hello.no-debug hello.debug hello.orig
 
 %.dwz: %
 	$(call log_tgt_exe,DWZ,$(<),$(@))
