@@ -20,6 +20,9 @@ KUAPI_VERSION_RAW := $(shell rpm -q --queryformat='%{VERSION}' kernel-headers 2>
 				| ${KVER_GREP_CMD} || \
 			dpkg-query -W -f='$${Version}' linux-libc-dev 2>/dev/null \
 				| ${KVER_GREP_CMD})
+ifeq ($(KUAPI_VERSION_RAW),)
+  $(error Not found kernel-headers or linux-libc-dev on your system)
+endif
 KUAPIVERSION := $(shell echo ${KUAPI_VERSION_RAW} | awk -F '.' '{print $$1}')
 KUAPIPATCHLEVEL := $(shell echo ${KUAPI_VERSION_RAW} | awk -F '.' '{print $$2}')
 KUAPISUBLEVEL := $(shell echo ${KUAPI_VERSION_RAW} | awk -F '.' '{print $$3}')
