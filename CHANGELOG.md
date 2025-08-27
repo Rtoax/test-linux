@@ -19,6 +19,7 @@ and this project adheres to
 #### Changed
 - template: Rename target-cuda.mk to target-nvidia.mk;
 - template: Rename topdir.mk to dir.mk;
+- pthread/samples: Remove `pthread_` prefix of source code;
 #### Deprecated
 #### Removed
 #### Fixed

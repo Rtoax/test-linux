@@ -1,1 +1,0 @@
-pthread_getname_np.c

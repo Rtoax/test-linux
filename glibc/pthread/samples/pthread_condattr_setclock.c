@@ -1,1 +1,0 @@
-pthread_condattr_getclock.c

@@ -1,1 +1,0 @@
-pthread_setspecific.c

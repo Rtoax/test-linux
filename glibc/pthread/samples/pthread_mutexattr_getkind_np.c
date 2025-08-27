@@ -1,1 +1,0 @@
-pthread_mutexattr_settype.c

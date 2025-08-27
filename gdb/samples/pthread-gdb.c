@@ -1,1 +1,1 @@
-../../glibc/pthread/samples/pthread_create.c
+../../glibc/pthread/samples/create.c

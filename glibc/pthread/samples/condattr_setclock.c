@@ -1,0 +1,1 @@
+condattr_getclock.c
