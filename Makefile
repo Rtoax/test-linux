@@ -42,7 +42,7 @@ endif
 help:
 	$(call log_info,top-makefile help)
 	@echo >&2 -e "***"
-	$(call tl_ascii_logo1,*** )
+	$(call tl_logo1,*** )
 	@echo >&2 -e "***"
 	@echo >&2 -e "*** ${MOONLIGHT} ${MOONLIGHT}"
 	@echo >&2 -e "*** TOPDIR ${TOPDIR}"
