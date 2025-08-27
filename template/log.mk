@@ -25,16 +25,16 @@ define HOST
 [$(shell hostname)]
 endef
 define log_tgt_obj
-@printf '$(call TS) %-8s ${ANSI_BOLD}%s${ANSI_RST} -> ${ANSI_BOLD}%s${ANSI_RST}\n' "${1}" "$(2)" "$(3)"
+@printf '$(call TS) %-8s $(call bold,%s) -> $(call bold,%s)\n' "${1}" "$(2)" "$(3)"
 endef
 define log_tgt_exe
-@printf '$(call TS) %-8s ${ANSI_BOLD}%s${ANSI_RST} -> ${ANSI_BOLD}${ANSI_GRE}%s${ANSI_RST}\n' "${1}" "$(2)" "$(3)"
+@printf '$(call TS) %-8s $(call bold,%s) -> ${ANSI_BOLD}$(call green,%s)\n' "${1}" "$(2)" "$(3)"
 endef
 define log_tgt_start
-@echo -e "$(call TS) [$(1)] ${ANSI_BOLD}${ANSI_GRE}$(2)${ANSI_RST} start"
+@echo -e "$(call TS) [$(1)] ${ANSI_BOLD}$(call green,$(2)) start"
 endef
 define log_tgt_done
-@echo -e "$(call TS) [$(1)] ${ANSI_BOLD}${ANSI_YEL}$(2)${ANSI_RST} done"
+@echo -e "$(call TS) [$(1)] ${ANSI_BOLD}$(call yellow,$(2)) done"
 endef
 
 define log_info
@@ -42,7 +42,7 @@ printf '$(call TS) $(call HOST) $1\n' | tee --append ${LOG_FILE_INFO}
 endef
 
 define log_failed
-printf '$(call TS) $(call HOST) ${ANSI_RED}$1${ANSI_RST}\n' | tee --append ${LOG_FILE_FAILED}
+printf '$(call TS) $(call HOST) $(call red,$1)\n' | tee --append ${LOG_FILE_FAILED}
 endef
 
 define log_reset_files
