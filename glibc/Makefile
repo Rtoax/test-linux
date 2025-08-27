@@ -1,4 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
+include ../template/ansi.mk
 include ../gnu/gnu.mk
 include glibc.mk
 
@@ -79,14 +80,14 @@ CFLAGS += -pthread
 CFLAGS__GNU_SOURCE := -D_GNU_SOURCE=1
 CFLAGS__XOPEN_SOURCE := -D_XOPEN_SOURCE=1
 
-targets-post := tl_ascii_logo_gnu
+targets-post := post
 
 include ../elf/pie.mk
 
 include ../template/main.mk
 
-tl_ascii_logo_gnu:
-	@$(call tl_ascii_logo_gnu)
+post:
+	@$(call gnu_logo)
 
 gnu_get_libc_version: gnu_get_libc_version.o
 environ: environ.o
