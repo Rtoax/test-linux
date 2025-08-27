@@ -5,8 +5,8 @@ ifeq (${TOPDIR},)
   $(error Not define TOPDIR)
 endif
 
-ifeq (${ANSI_BOLD},)
-  $(error Not define ANSI_BOLD)
+ifeq (${_ANSI},)
+  $(error Not define _ANSI, include ansi.mk)
 endif
 
 LOG_FILE_INFO := $(TOPDIR)/info.log
@@ -28,13 +28,13 @@ define log_tgt_obj
 @printf '$(call TS) %-8s $(call bold,%s) -> $(call bold,%s)\n' "${1}" "$(2)" "$(3)"
 endef
 define log_tgt_exe
-@printf '$(call TS) %-8s $(call bold,%s) -> ${ANSI_BOLD}$(call green,%s)\n' "${1}" "$(2)" "$(3)"
+@printf '$(call TS) %-8s $(call bold,%s) -> $(call bgreen,%s)\n' "${1}" "$(2)" "$(3)"
 endef
 define log_tgt_start
-@echo -e "$(call TS) [$(1)] ${ANSI_BOLD}$(call green,$(2)) start"
+@echo -e "$(call TS) [$(1)] $(call bgreen,$(2)) start"
 endef
 define log_tgt_done
-@echo -e "$(call TS) [$(1)] ${ANSI_BOLD}$(call yellow,$(2)) done"
+@echo -e "$(call TS) [$(1)] $(call byellow,$(2)) done"
 endef
 
 define log_info
