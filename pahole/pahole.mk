@@ -1,4 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
+_PAHOLE = 1
 
 PAHOLE := $(shell which pahole 2>/dev/null)
 ifeq ($(PAHOLE),)

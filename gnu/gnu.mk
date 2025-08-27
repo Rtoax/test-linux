@@ -1,4 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
+_GNU = 1
 
 ifndef _ANSI
   $(error Not define _ANSI, include ansi.mk)

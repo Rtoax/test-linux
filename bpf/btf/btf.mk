@@ -1,4 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
+_BTF = 1
+
 SHELL := bash
 BPFTOOL := bpftool
 VMLINUX_H := vmlinux.h

@@ -1,4 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
+_TARGET_PYTHON = 1
+
 PYTHON ?= python
 Q ?= @
 

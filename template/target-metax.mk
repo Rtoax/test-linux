@@ -1,5 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
 # https://www.metax-tech.com/
+_TARGET_METAX = 1
 
 MXCC := $(shell which mxcc 2>/dev/null)
 HTCC := $(shell which htcc 2>/dev/null)

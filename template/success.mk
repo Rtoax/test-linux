@@ -1,5 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
-# Copyright (c) 2024 Rong Tao
+# Copyright (c) 2024-2025 Rong Tao
+
+_SUCCESS = 1
 
 define success
 	@echo >&2 -e " 	                       dBWWS-"

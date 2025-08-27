@@ -1,4 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
+_GLIBC = 1
 
 # Get libc.so.6 abs-path
 LIBC_SO_PATH=$(shell ldconfig -p | grep libc.so.6 | grep 64 | awk '{printf $$NF}')

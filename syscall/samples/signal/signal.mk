@@ -1,4 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
+_SIGNAL = 1
 
 SIGRT_PROBE := '\#include <stdio.h>\n'
 SIGRT_PROBE += '\#include <signal.h>\n'

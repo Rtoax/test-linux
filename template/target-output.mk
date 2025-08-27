@@ -1,4 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
+_TARGET_OUTPUT = 1
+
 MKDIR ?= mkdir
 
 ifeq ($(filter %/,$(OUTPUT)),)

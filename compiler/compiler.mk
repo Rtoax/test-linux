@@ -1,4 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
+_COMPILER = 1
+
 SHELL := bash
 
 CC ?= gcc

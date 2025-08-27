@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
-SHELL = bash
+_BINUTILS = 1
 
 LD_BFD := $(shell which ld.bfd 2>/dev/null)
 ifeq ($(LD_BFD),)

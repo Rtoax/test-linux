@@ -1,4 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
+_SUBDIR_FOOTER = 1
+
 Q ?= @
 
 # $1: build, test, clean

@@ -1,4 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
+_TARGET_EXE = 1
+
 CC ?= gcc
 CXX ?= g++
 LD ?= ld

@@ -1,4 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
+_TARGET_BPF = 1
+
 CLANG := $(shell which clang 2>/dev/null)
 LLVM_OBJDUMP := $(shell which llvm-objdump 2>/dev/null)
 VMLINUX_H := vmlinux.h

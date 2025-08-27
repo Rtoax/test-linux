@@ -1,5 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
 # Copyright (c) 2022-2025 Rong Tao
+_LOG = 1
 
 ifeq (${TOPDIR},)
   $(error Not define TOPDIR)

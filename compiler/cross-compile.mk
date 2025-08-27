@@ -5,6 +5,7 @@
 #
 # Cross compile aarch64
 # $ make CROSS_COMPILE=aarch64-linux-gnu-
+_CROSS_COMPILE = 1
 
 CC ?= gcc
 AS ?= as

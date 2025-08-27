@@ -1,4 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
+# Copyright (c) 2025 Rong Tao
+_LOGO = 1
 
 ifeq ($(_ANSI),)
   $(error Not define _ANSI, need include ansi.mk)

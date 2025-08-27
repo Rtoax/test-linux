@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
-SHELL := bash
+_LIBBPF = 1
 
 LDCONFIG ?= ldconfig
 LIBBPF_PATHES ?= $(shell ${LDCONFIG} -p | grep libbpf.so | awk '{print $$NF}' || true)

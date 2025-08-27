@@ -1,4 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
+_TARGET_LIBSO = 1
+
 CC ?= gcc
 Q ?= @
 

@@ -1,4 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
+_PIE = 1
+
 ifeq ($(CC),)
   $(error Not define CC)
 endif

@@ -1,4 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
+_SUBDIR_HEADER = 1
+
 sub-dir ?=
 kmod-list ?=
 

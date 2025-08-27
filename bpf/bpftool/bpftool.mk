@@ -1,4 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
+_BPFTOOL = 1
+
 SHELL := bash
 
 BPFTOOL := $(shell which bpftool 2>/dev/null)

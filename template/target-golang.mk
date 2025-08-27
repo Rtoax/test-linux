@@ -1,4 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
+_TARGET_GOLANG = 1
+
 GO ?= $(shell which go 2>/dev/null)
 ifneq ($(targets-go),)
   ifeq ($(wildcard $(GO)),)

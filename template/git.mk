@@ -1,4 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
+_GIT = 1
 
 ifeq (${TOPDIR},)
   $(error Not define TOPDIR)

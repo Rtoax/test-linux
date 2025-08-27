@@ -1,4 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
+_QCOW2 = 1
+
 QEMU_IMG := qemu-img
 
 define create_qcow2
