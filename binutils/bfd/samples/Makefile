@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
 CC := gcc
 
-include bfd.mk
+include ../bfd.mk
 
 targets :=
 targets += bfd_init
