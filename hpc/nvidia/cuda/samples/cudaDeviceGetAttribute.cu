@@ -25,6 +25,7 @@ int main(void)
 		printf("%-64s %d\n", #attr, value);	\
 	} while (0)
 
+	Attr(cudaDevAttrClockRate);
 	Attr(cudaDevAttrMaxThreadsPerBlock);
 	Attr(cudaDevAttrClockRate);
 	Attr(cudaDevAttrMaxThreadsPerMultiProcessor);

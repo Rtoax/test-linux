@@ -31,6 +31,15 @@
 	}								\
 }
 
+#ifdef CUDA_VERSION_MAJOR
+# if CUDA_VERSION_MAJOR < 13
+#  define DEVPROP_HAVE_CLOCK_REATE	1
+# endif
+#else
+# define DEVPROP_HAVE_CLOCK_REATE	1
+#endif
+
+
 void gpu_init(int dev_id);
 void gpu_check_gpu_error(const char *msg);
 

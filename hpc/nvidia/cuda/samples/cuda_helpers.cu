@@ -54,9 +54,15 @@ const char *gpu_name(int dev_id, char *buf, int buf_len)
 
 int gpu_clock_rate(int dev_id)
 {
+#ifdef DEVPROP_HAVE_CLOCK_REATE
 	cudaDeviceProp prop;
 	CUDA_CHECK(cudaGetDeviceProperties(&prop, dev_id), return 0);
 	return prop.clockRate;
+#else
+	int rate;
+	CUDA_CHECK(cudaDeviceGetAttribute(&rate, cudaDevAttrClockRate, dev_id), return 0);
+	return rate;
+#endif
 }
 
 int gpu_max_threads_per_block(int dev_id)

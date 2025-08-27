@@ -21,7 +21,6 @@
 #include "cuda_helpers.h"
 #endif
 
-
 int main(void)
 {
 	int i, dev_id, dev_count;
@@ -69,7 +68,9 @@ int main(void)
 
 	/* Information about device */
 	printf("major %d, minor %d\n", prop.major, prop.minor);
+#ifdef DEVPROP_HAVE_CLOCK_REATE
 	printf("clockRate %d Hz\n", prop.clockRate);
+#endif
 
 	/**
 	 * Threads are batched in groups that we’ll call Wavefronts or waves
