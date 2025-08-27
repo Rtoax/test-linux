@@ -146,7 +146,7 @@ ifneq ($(targets-rust),)
   include ${TEMPLATE_DIR}/target-rust.mk
 endif
 ifneq ($(targets-nvcc),)
-  include ${TEMPLATE_DIR}/target-cuda.mk
+  include ${TEMPLATE_DIR}/target-nvidia.mk
 endif
 ifneq ($(targets-mxcc)$(targets-htcc),)
   include ${TEMPLATE_DIR}/target-metax.mk

@@ -17,6 +17,7 @@ and this project adheres to
 - pthread: move `pthread_helpers` to top pthread directory;
 - ai: Introduce tensorflow, mnist, keras;
 #### Changed
+- template: Rename target-cuda.mk to target-nvidia.mk;
 #### Deprecated
 #### Removed
 #### Fixed
