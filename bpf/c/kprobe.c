@@ -25,7 +25,7 @@ int main(void)
 
 	char license[] = "GPL";
 	struct bpf_insn insns[] = {
-		#if 1
+		#if 0
 		BPF_MOV64_IMM(BPF_REG_1, 0x21),        /* '!' */
 		BPF_STX_MEM(BPF_H, BPF_REG_10, BPF_REG_1, -4),
 		BPF_MOV64_IMM(BPF_REG_1, 0x646c726f),   /* 'orld' */
@@ -142,7 +142,16 @@ int main(void)
 		{0x95, 0x0, 0x0, 0x0000, 0x00},
 		#endif
 	};
+
 	size_t insns_cnt = sizeof(insns) / sizeof(struct bpf_insn);
+	unsigned char *p = (void *)&insns;
+	for (i = 0; i < insns_cnt * sizeof(struct bpf_insn); i++) {
+		unsigned char c = *(p + i);
+		printf("%02x ", c);
+		if ((i + 1) % 8 == 0)
+			printf("\n");
+	}
+
 	union bpf_attr prog_load_attr = {
 		.prog_type = BPF_PROG_TYPE_KPROBE,
 		.insns = (long)insns,
