@@ -50,8 +50,7 @@ fi
 cmake \
 	-DCMAKE_INSTALL_PREFIX=/usr/ \
 	-DCMAKE_BUILD_TYPE=Debug \
-	-DBUILD_TESTING=OFF \
-	-DVENDOR_GTEST=OFF \
+	-DBUILD_TESTING=ON \
 	${cmake_args[@]} \
 	..
 
