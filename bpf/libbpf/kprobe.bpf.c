@@ -60,9 +60,15 @@ int BPF_KPROBE(do_execveat_common, int fd, struct filename *name)
 SEC("kretprobe/"KSYM_DO_EXECVEAT_COMMON)
 int BPF_KRETPROBE(do_execveat_common_exit, long ret)
 {
+	#if 1
 	pid_t pid;
 	pid = bpf_get_current_pid_tgid() >> 32;
 	bpf_printk("KPROBE EXIT: pid = %d, ret = %ld", pid, ret);
+	#elif 0
+	char s1[5] = {"test"};
+	char s2[5] = {"test"};
+	bpf_strncmp(s1, 4, s2);
+	#endif
 	return 0;
 }
 
