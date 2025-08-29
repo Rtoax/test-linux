@@ -80,6 +80,7 @@ struct {
 	bool set_value;
 	unsigned int value;
 	unsigned int unit_time;
+	char *output_file;
 } env = {
 	.gpu = 0,
 	.dim_2 = false,
@@ -94,9 +95,10 @@ struct {
 	.set_value = false,
 	.value = 0,
 	.unit_time = NS2US,
+	.output_file = NULL,
 };
 
-const char *version = "v1.0.2 "
+const char *version = "v1.0.3 "
 #if defined(HAVE_HCCL)
 	"(GPU MetaX)"
 #elif defined(HAVE_CUDA)
@@ -125,6 +127,7 @@ static const struct argp_option opts[] = {
 	{ "init-val", 'i', "INIT_VAL", 0, "Set matrix values" },
 	{ "verbose", 'v', NULL, 1, "Display detail" },
 	{ "version", 'V', NULL, 1, "Display version" },
+	{ "output-file", 'O', "FILE", 0, "Specify output file name" },
 	{},
 };
 
@@ -168,6 +171,9 @@ static error_t parse_arg(int key, char *arg, struct argp_state *state)
 	case 'V':
 		printf("%s\n", version);
 		exit(EXIT_SUCCESS);
+		break;
+	case 'O':
+		env.output_file = arg;
 		break;
 	case ARGP_KEY_ARG:
 		break;
@@ -418,6 +424,8 @@ int main(int argc, char *argv[])
 			fprintf(stderr, "Test vector instead of matrix\n");
 		if (env.dim_2)
 			fprintf(stderr, "Use 2D grid and block instead of 1D\n");
+		if (env.output_file)
+			fprintf(stderr, "Output file %s\n", env.output_file);
 	}
 
 	gpu_init(env.gpu);
@@ -606,6 +614,16 @@ int main(int argc, char *argv[])
 	cudaEventDestroy(ev_start);
 	cudaEventDestroy(ev_stop);
 #endif
+
+	if (env.output_file) {
+		FILE *fp = fopen(env.output_file, "w");
+		fwrite(host_A, sizeof(float), env.m * env.k, fp);
+		fwrite(host_B, sizeof(float), env.k * env.n, fp);
+		fwrite(host_C, sizeof(float), env.m * env.n, fp);
+		fwrite(host_D, sizeof(float), env.m * env.n, fp);
+		fclose(fp);
+	}
+
 	free(host_A);
 	free(host_B);
 	free(host_C);
