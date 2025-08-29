@@ -938,9 +938,6 @@ int run_blas_Gemm_fp16(struct test *test)
 	half alpha = __float2half(env.alpha);
 	half beta = __float2half(env.beta);
 
-	/**
-	 * C^T = B^T * A^T equal to C = A * B
-	 */
 	CUBLAS_CHECK(cublasHgemm(test->handle, CUBLAS_OP_T, CUBLAS_OP_T,
 				env.m, env.n, env.k,
 				&alpha,
@@ -957,9 +954,6 @@ int run_blas_Gemm_fp32(struct test *test)
 	float alpha = (float)env.alpha;
 	float beta = (float)env.beta;
 
-	/**
-	 * C^T = B^T * A^T equal to C = A * B
-	 */
 	CUBLAS_CHECK(cublasSgemm(test->handle, CUBLAS_OP_T, CUBLAS_OP_T,
 				env.m, env.n, env.k,
 				&alpha,
@@ -976,9 +970,6 @@ int run_blas_Gemm_fp64(struct test *test)
 	double alpha = (double)(env.alpha);
 	double beta = (double)(env.beta);
 
-	/**
-	 * C^T = B^T * A^T equal to C = A * B
-	 */
 	CUBLAS_CHECK(cublasDgemm(test->handle, CUBLAS_OP_T, CUBLAS_OP_T,
 				env.m, env.n, env.k,
 				&alpha,
