@@ -5,7 +5,8 @@
 #define CUDA_CHECK(CALL, ERROR_DO)	{				\
 	cudaError_t __err = CALL;					\
 	if (__err != cudaSuccess) {					\
-		fprintf(stderr, "ERROR: Call %s failed, %s\n",		\
+		fprintf(stderr, "ERROR: %s:%d Call %s failed, %s\n",	\
+			__func__, __LINE__,				\
 			#CALL, cudaGetErrorString(__err));		\
 		ERROR_DO;						\
 	}								\
@@ -15,7 +16,8 @@
 #define CUBLAS_CHECK(CALL, ERROR_DO)	{				\
 	cublasStatus_t __status = CALL;					\
 	if (__status != CUBLAS_STATUS_SUCCESS) {			\
-		fprintf(stderr, "ERROR: Blas %s failed, %s\n",		\
+		fprintf(stderr, "ERROR: %s:%d Blas %s failed, %s\n",	\
+			__func__, __LINE__,				\
 			#CALL, cublasGetStatusString(__status));	\
 		ERROR_DO;						\
 	}								\
@@ -25,7 +27,8 @@
 #define CURAND_CHECK(CALL, ERROR_DO)	{				\
 	curandStatus_t __status = CALL;					\
 	if (__status != CURAND_STATUS_SUCCESS) {			\
-		fprintf(stderr, "ERROR: Rand %s failed, %d\n",		\
+		fprintf(stderr, "ERROR: %s:%d Rand %s failed, %d\n",	\
+			__func__, __LINE__,				\
 			#CALL, __status);				\
 		ERROR_DO;						\
 	}								\
