@@ -283,6 +283,11 @@
 
 #define cublasSetMatrix(rows, cols, elemsize, A, ola, B, ldb)	\
 	__pfx(blasSetMatrix(rows, cols, elemsize, A, ola, B, ldb))
+/**
+ * cublasStatus_t cublasGetMatrix(int rows, int cols, int elemSize,
+ *                                const void *devicePtr, int ldDevice,
+ *                                void *hostPtr, int ldHost);
+ */
 #define cublasGetMatrix(rows, cols, elemsize, A, ola, B, ldb)	\
 	__pfx(blasGetMatrix(rows, cols, elemsize, A, ola, B, ldb))
 
