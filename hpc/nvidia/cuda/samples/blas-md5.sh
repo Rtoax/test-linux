@@ -4,7 +4,7 @@
 set -e
 
 # NOTE: Assuming that the metax mars x203 is accurate data.
-DATAS_MD5_FILE=(
+DATAS_MD5_FILE_BIN=(
 475e326dc09eedd5059d448c79666660  AXPY_FP32-blas-k1000_m1000_n1000.bin
 d998979509c1ef846b3924d23faa5ef3  AXPY_FP32-blas-k100_m100_n100.bin
 e7ae879b9ef3c4ab52452d27af2422ff  AXPY_FP32-blas-k200_m200_n200.bin
@@ -233,16 +233,22 @@ do
 	./blas -O blas-k${x}_m${x}_n${x}.bin -k $x -m $x -n $x
 done
 
-for ((i = 0; i < $(( ${#DATAS_MD5_FILE[@]} / 2 )); i++))
-do
-	md5_correct=${DATAS_MD5_FILE[ $(( $i * 2 )) ]}
-	file=${DATAS_MD5_FILE[ $(( $i * 2 + 1 )) ]}
+check_md5() {
+	local md5_file=( ${@} )
 
-	md5_real=$(fmd5 ${file})
+	for ((i = 0; i < $(( ${#md5_file[@]} / 2 )); i++))
+	do
+		md5_correct=${md5_file[ $(( $i * 2 )) ]}
+		file=${md5_file[ $(( $i * 2 + 1 )) ]}
 
-	if [[ ${md5_correct} != ${md5_real} ]]; then
-		printf "\033[31mFAILED\t%s\t%s != %s\033[m\n" $file $md5_correct $md5_real
-	else
-		printf "\033[32mSUCCESS\t%s\t%s\033[m\n" $file $md5_correct
-	fi
-done
+		md5_real=$(fmd5 ${file})
+
+		if [[ ${md5_correct} != ${md5_real} ]]; then
+			printf "\033[31mFAILED\t%s\t%s != %s\033[m\n" $file $md5_correct $md5_real
+		else
+			printf "\033[32mSUCCESS\t%s\t%s\033[m\n" $file $md5_correct
+		fi
+	done
+}
+
+check_md5 ${DATAS_MD5_FILE_BIN[@]}
