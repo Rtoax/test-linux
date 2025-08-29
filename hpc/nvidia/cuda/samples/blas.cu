@@ -133,8 +133,10 @@ struct {
 	.set_value = false,
 	.value = 0,
 	.verbose = false,
-	.output.file_suffix = NULL,
-	.output.is_txt = false,
+	.output = {
+		.file_suffix = NULL,
+		.is_txt = false,
+	},
 };
 
 struct test;
