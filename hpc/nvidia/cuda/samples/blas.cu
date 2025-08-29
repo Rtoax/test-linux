@@ -1025,7 +1025,8 @@ int __display_matrix_pair_int8(const char *pfx, struct test *test,
 	int i, j;
 	long sum = 0;
 
-	CUBLAS_CHECK(cublasGetMatrix(x, y, sizeof(int8_t), dev, x, host, x), return -1);
+	CUBLAS_CHECK(cublasGetMatrix(x, y, sizeof(int8_t), dev, x, host, x),
+		CUDA_CHECK(cudaMemcpy(host, dev, sizeof(int8_t) * x * y, cudaMemcpyDeviceToHost), return -1));
 
 	fwrite_test(test, host, sizeof(int8_t), x * y);
 
@@ -1051,7 +1052,8 @@ int __display_matrix_pair_int32(const char *pfx, struct test *test,
 	int i, j;
 	long sum = 0;
 
-	CUBLAS_CHECK(cublasGetMatrix(x, y, sizeof(int32_t), dev, x, host, x), return -1);
+	CUBLAS_CHECK(cublasGetMatrix(x, y, sizeof(int32_t), dev, x, host, x),
+		CUDA_CHECK(cudaMemcpy(host, dev, sizeof(int32_t) * x * y, cudaMemcpyDeviceToHost), return -1));
 
 	fwrite_test(test, host, sizeof(int32_t), x * y);
 
@@ -1077,7 +1079,8 @@ int __display_matrix_pair_fp16(const char *pfx, struct test *test,
 	int i, j;
 	float sum = 0.0;
 
-	CUBLAS_CHECK(cublasGetMatrix(x, y, sizeof(half), dev, x, host, x), return -1);
+	CUBLAS_CHECK(cublasGetMatrix(x, y, sizeof(half), dev, x, host, x),
+		CUDA_CHECK(cudaMemcpy(host, dev, sizeof(half) * x * y, cudaMemcpyDeviceToHost), return -1));
 
 	fwrite_test(test, host, sizeof(half), x * y);
 
