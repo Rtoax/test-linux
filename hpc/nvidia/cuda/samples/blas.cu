@@ -1026,6 +1026,12 @@ int __display_matrix_pair_int8(const char *pfx, struct test *test,
 
 	CUBLAS_CHECK(cublasGetMatrix(x, y, sizeof(int8_t), dev, x, host, x), return -1);
 
+	fwrite_test(test, host, sizeof(int8_t), x * y);
+
+	/* only print in verbose mode */
+	if (!env.verbose)
+		return 0;
+
 	for (j = 0; j < y; j++) {
 		printf("%s>> ", pfx);
 		for (i = 0; i < x; i++) {
@@ -1034,7 +1040,6 @@ int __display_matrix_pair_int8(const char *pfx, struct test *test,
 		}
 		printf("\n");
 	}
-	fwrite_test(test, host, sizeof(int8_t), x * y);
 	printf("%s>> Host sum %ld\n", pfx, sum);
 	return 0;
 }
@@ -1047,6 +1052,12 @@ int __display_matrix_pair_int32(const char *pfx, struct test *test,
 
 	CUBLAS_CHECK(cublasGetMatrix(x, y, sizeof(int32_t), dev, x, host, x), return -1);
 
+	fwrite_test(test, host, sizeof(int32_t), x * y);
+
+	/* only print in verbose mode */
+	if (!env.verbose)
+		return 0;
+
 	for (j = 0; j < y; j++) {
 		printf("%s>> ", pfx);
 		for (i = 0; i < x; i++) {
@@ -1055,7 +1066,6 @@ int __display_matrix_pair_int32(const char *pfx, struct test *test,
 		}
 		printf("\n");
 	}
-	fwrite_test(test, host, sizeof(int32_t), x * y);
 	printf("%s>> Host sum %ld\n", pfx, sum);
 	return 0;
 }
@@ -1068,6 +1078,12 @@ int __display_matrix_pair_fp16(const char *pfx, struct test *test,
 
 	CUBLAS_CHECK(cublasGetMatrix(x, y, sizeof(half), dev, x, host, x), return -1);
 
+	fwrite_test(test, host, sizeof(half), x * y);
+
+	/* only print in verbose mode */
+	if (!env.verbose)
+		return 0;
+
 	for (j = 0; j < y; j++) {
 		printf("%s>> ", pfx);
 		for (i = 0; i < x; i++) {
@@ -1076,7 +1092,6 @@ int __display_matrix_pair_fp16(const char *pfx, struct test *test,
 		}
 		printf("\n");
 	}
-	fwrite_test(test, host, sizeof(half), x * y);
 	printf("%s>> Host sum %.2f\n", pfx, sum);
 	return 0;
 }
@@ -1088,14 +1103,20 @@ int __display_matrix_pair_fp32(const char *pfx, struct test *test,
 	int idx_max, idx_min;
 	float sum = 0.0;
 
+	CUBLAS_CHECK(cublasGetMatrix(x, y, sizeof(float), dev, x, host, x), return -1);
+
+	fwrite_test(test, host, sizeof(float), x * y);
+
+	/* only print in verbose mode */
+	if (!env.verbose)
+		return 0;
+
 	cublasIsamax(test->handle, y * x, dev, 1, &idx_max);
 	cublasIsamin(test->handle, y * x, dev, 1, &idx_min);
 	cublasSasum(test->handle, y * x, dev, 1, &sum);
 
 	printf("%s>> Device index min %d, index max %d, sum %.2f\n", pfx,
 		idx_min, idx_max, sum);
-
-	CUBLAS_CHECK(cublasGetMatrix(x, y, sizeof(float), dev, x, host, x), return -1);
 
 	sum = 0;
 
@@ -1107,7 +1128,6 @@ int __display_matrix_pair_fp32(const char *pfx, struct test *test,
 		}
 		printf("\n");
 	}
-	fwrite_test(test, host, sizeof(float), x * y);
 	printf("%s>> Host sum %.2f\n", pfx, sum);
 	return 0;
 }
@@ -1119,14 +1139,20 @@ int __display_matrix_pair_fp64(const char *pfx, struct test *test,
 	int idx_max, idx_min;
 	double sum = 0.0;
 
+	CUBLAS_CHECK(cublasGetMatrix(x, y, sizeof(double), dev, x, host, x), return -1);
+
+	fwrite_test(test, host, sizeof(double), x * y);
+
+	/* only print in verbose mode */
+	if (!env.verbose)
+		return 0;
+
 	cublasIdamax(test->handle, y * x, dev, 1, &idx_max);
 	cublasIdamin(test->handle, y * x, dev, 1, &idx_min);
 	cublasDasum(test->handle, y * x, dev, 1, &sum);
 
 	printf("%s>> Device index min %d, index max %d, sum %.2f\n", pfx,
 		idx_min, idx_max, sum);
-
-	CUBLAS_CHECK(cublasGetMatrix(x, y, sizeof(double), dev, x, host, x), return -1);
 
 	sum = 0;
 
@@ -1138,7 +1164,6 @@ int __display_matrix_pair_fp64(const char *pfx, struct test *test,
 		}
 		printf("\n");
 	}
-	fwrite_test(test, host, sizeof(double), x * y);
 	printf("%s>> Host sum %.2lf\n", pfx, sum);
 	return 0;
 }
@@ -1573,9 +1598,7 @@ void exec_one_test(struct test *test)
 	test->run.flops = test->ops.get_flops(test);
 
 	test->display.start = nsecs();
-	if (env.verbose) {
-		test->ops.display_data(test);
-	}
+	test->ops.display_data(test);
 	test->display.end = nsecs();
 
 	test->free.start = nsecs();
