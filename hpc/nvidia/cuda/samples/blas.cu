@@ -1611,8 +1611,12 @@ void exec_one_test(struct test *test)
 	test->run.flops = test->ops.get_flops(test);
 
 	test->display.start = nsecs();
-	test->ops.display_data(test);
+	err = test->ops.display_data(test);
 	test->display.end = nsecs();
+	if (err) {
+		fprintf(stderr, "\033[31mERROR: %s display failed\033[m\n", test->name);
+		goto output_file;
+	}
 
 	test->free.start = nsecs();
 	test->ops.free_data(test);
