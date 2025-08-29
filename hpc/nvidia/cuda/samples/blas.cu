@@ -34,6 +34,14 @@
 #define IDX2C(i, j, ld)	(((j) * (ld)) + (i))
 #define ARRAY_SIZE(arr)	(sizeof(arr) / sizeof(arr[0]))
 
+enum data_type {
+	TYPE_FP16,
+	TYPE_FP32,
+	TYPE_FP64,
+	TYPE_INT8,
+	TYPE_INT32,
+};
+
 enum test_type {
 	TEST_SCAL_FP32,
 	TEST_SCAL_FP64,
@@ -109,7 +117,10 @@ struct {
 	bool set_value;
 	unsigned int value;
 	bool verbose;
-	char *output_file_suffix;
+	struct {
+		char *file_suffix;
+		bool is_txt;	/* output as text instead of binary */
+	} output;
 } env = {
 	.gpu = 0,
 	.m = 6,
@@ -122,7 +133,8 @@ struct {
 	.set_value = false,
 	.value = 0,
 	.verbose = false,
-	.output_file_suffix = NULL,
+	.output.file_suffix = NULL,
+	.output.is_txt = false,
 };
 
 struct test;
@@ -222,6 +234,7 @@ static const struct argp_option opts[] = {
 	{ "verbose", 'v', NULL, 1, "Display detail" },
 	{ "version", 'V', NULL, 1, "Display version" },
 	{ "output-file-suffix", 'O', "FILE", 0, "Specify output file suffix, prefix is test name" },
+	{ "output-txt", 'T', NULL, 1, "Output text file instead binary" },
 	{},
 };
 
@@ -247,14 +260,65 @@ static inline unsigned long nsecs(void)
 	return ts.tv_sec * 1000000000UL + ts.tv_nsec;
 }
 
-int fwrite_test(struct test *test, void *host_ptr, size_t size, size_t nmemb)
+int output_write(struct test *test, void *host_ptr, size_t size, size_t nmemb,
+		 enum data_type type)
 {
-	size_t n;
+	size_t n, i;
+
 	if (!test->output.fp)
 		return -EINVAL;
+
 	if (env.verbose)
 		fprintf(stderr, "Write to %s\n", test->output.file);
-	n = fwrite(host_ptr, size, nmemb, test->output.fp);
+
+	if (env.output.is_txt) {
+		switch (type) {
+		case TYPE_FP16: {
+			half *fp16 = (half *)host_ptr;
+			for (i = 0; i < nmemb; i++) {
+				float v = __float2half(*(half *)(fp16 + i));
+				fprintf(test->output.fp, "%-8ld %.10f\n", i, v);
+			}
+			break;
+		}
+		case TYPE_FP32: {
+			float *fp32 = (float *)host_ptr;
+			for (i = 0; i < nmemb; i++) {
+				float v = *(float *)(fp32 + i);
+				fprintf(test->output.fp, "%-8ld %.10f\n", i, v);
+			}
+			break;
+		}
+		case TYPE_FP64: {
+			double *fp64 = (double *)host_ptr;
+			for (i = 0; i < nmemb; i++) {
+				double v = *(double *)(fp64 + i);
+				fprintf(test->output.fp, "%-8ld %.10lf\n", i, v);
+			}
+			break;
+		}
+		case TYPE_INT8: {
+			int8_t *i8 = (int8_t *)host_ptr;
+			for (i = 0; i < nmemb; i++) {
+				int8_t v = *(int8_t *)(i8 + i);
+				fprintf(test->output.fp, "%-8ld %d\n", i, v);
+			}
+			break;
+		}
+		case TYPE_INT32: {
+			int32_t *i32 = (int32_t *)host_ptr;
+			for (i = 0; i < nmemb; i++) {
+				int32_t v = *(int32_t *)(i32 + i);
+				fprintf(test->output.fp, "%-8ld %d\n", i, v);
+			}
+			break;
+		}
+		default:
+			break;
+		}
+	} else {
+		n = fwrite(host_ptr, size, nmemb, test->output.fp);
+	}
 	fflush(test->output.fp);
 	return n;
 }
@@ -345,7 +409,10 @@ static error_t parse_arg(int key, char *arg, struct argp_state *state)
 		exit(EXIT_SUCCESS);
 		break;
 	case 'O':
-		env.output_file_suffix = arg;
+		env.output.file_suffix = arg;
+		break;
+	case 'T':
+		env.output.is_txt = true;
 		break;
 	case ARGP_KEY_ARG:
 		break;
@@ -1028,7 +1095,7 @@ int __display_matrix_pair_int8(const char *pfx, struct test *test,
 	CUBLAS_CHECK(cublasGetMatrix(x, y, sizeof(int8_t), dev, x, host, x),
 		CUDA_CHECK(cudaMemcpy(host, dev, sizeof(int8_t) * x * y, cudaMemcpyDeviceToHost), return -1));
 
-	fwrite_test(test, host, sizeof(int8_t), x * y);
+	output_write(test, host, sizeof(int8_t), x * y, TYPE_INT8);
 
 	/* only print in verbose mode */
 	if (!env.verbose)
@@ -1055,7 +1122,7 @@ int __display_matrix_pair_int32(const char *pfx, struct test *test,
 	CUBLAS_CHECK(cublasGetMatrix(x, y, sizeof(int32_t), dev, x, host, x),
 		CUDA_CHECK(cudaMemcpy(host, dev, sizeof(int32_t) * x * y, cudaMemcpyDeviceToHost), return -1));
 
-	fwrite_test(test, host, sizeof(int32_t), x * y);
+	output_write(test, host, sizeof(int32_t), x * y, TYPE_INT32);
 
 	/* only print in verbose mode */
 	if (!env.verbose)
@@ -1082,7 +1149,7 @@ int __display_matrix_pair_fp16(const char *pfx, struct test *test,
 	CUBLAS_CHECK(cublasGetMatrix(x, y, sizeof(half), dev, x, host, x),
 		CUDA_CHECK(cudaMemcpy(host, dev, sizeof(half) * x * y, cudaMemcpyDeviceToHost), return -1));
 
-	fwrite_test(test, host, sizeof(half), x * y);
+	output_write(test, host, sizeof(half), x * y, TYPE_FP16);
 
 	/* only print in verbose mode */
 	if (!env.verbose)
@@ -1115,7 +1182,7 @@ int __display_matrix_pair_fp32(const char *pfx, struct test *test,
 	CUBLAS_CHECK(cublasGetMatrix(x, y, sizeof(float), dev, x, host, x),
 		CUDA_CHECK(cudaMemcpy(host, dev, sizeof(float) * x * y, cudaMemcpyDeviceToHost), return -1));
 
-	fwrite_test(test, host, sizeof(float), x * y);
+	output_write(test, host, sizeof(float), x * y, TYPE_FP32);
 
 	/* only print in verbose mode */
 	if (!env.verbose)
@@ -1157,7 +1224,7 @@ int __display_matrix_pair_fp64(const char *pfx, struct test *test,
 	CUBLAS_CHECK(cublasGetMatrix(x, y, sizeof(double), dev, x, host, x),
 		CUDA_CHECK(cudaMemcpy(host, dev, sizeof(double) * x * y, cudaMemcpyDeviceToHost), return -1));
 
-	fwrite_test(test, host, sizeof(double), x * y);
+	output_write(test, host, sizeof(double), x * y, TYPE_FP64);
 
 	/* only print in verbose mode */
 	if (!env.verbose)
@@ -1577,10 +1644,10 @@ void exec_one_test(struct test *test)
 	if (env.verbose)
 		printf("Testing %s\n", test->name);
 
-	if (env.output_file_suffix) {
+	if (env.output.file_suffix) {
 		int i;
 		char file[512];
-		snprintf(file, sizeof(file) - 1, "%s-%s", test->name, env.output_file_suffix);
+		snprintf(file, sizeof(file) - 1, "%s-%s", test->name, env.output.file_suffix);
 
 		/* Replace the specify character with '_' */
 		for (i = 0; i < strlen(file); i++) {
@@ -1688,8 +1755,8 @@ int main(int argc, char *argv[])
 	if (env.verbose) {
 		print_version();
 		printf("M = %ld, N = %ld\n", env.m, env.n);
-		if (env.output_file_suffix)
-			fprintf(stderr, "Output file %s\n", env.output_file_suffix);
+		if (env.output.file_suffix)
+			fprintf(stderr, "Output file %s\n", env.output.file_suffix);
 	}
 
 	for (i = 0; i < ARRAY_SIZE(alltests); i++) {
