@@ -108,6 +108,7 @@ struct {
 	bool set_value;
 	unsigned int value;
 	bool verbose;
+	char *output_file_suffix;
 } env = {
 	.gpu = 0,
 	.m = 6,
@@ -120,6 +121,7 @@ struct {
 	.set_value = false,
 	.value = 0,
 	.verbose = false,
+	.output_file_suffix = NULL,
 };
 
 struct test;
@@ -186,11 +188,16 @@ struct test {
 		double flops;
 	} run;
 #define Z4      {NULL,NULL,0.0,0.0}
-#define ZERO_TEST(name, type) name,type,NULL,Z0,Z1,Z1,Z1,Z1,Z1,Z1,Z2,Z3,Z3,Z3,Z3,Z3,Z4
+	struct {
+		FILE *fp;
+		char *file;
+	} output;
+#define Z5	{NULL,NULL}
+#define ZERO_TEST(name, type) name,type,NULL,Z0,Z1,Z1,Z1,Z1,Z1,Z1,Z2,Z3,Z3,Z3,Z3,Z3,Z4,Z5
 	struct test_operations ops;
 };
 
-const char *version = "v0.0.6 (" NAME ")";
+const char *version = "v0.0.7 (" NAME ")";
 
 const char argp_prog_doc[] =
 	"USAGE: [-g <GPU>] [-v] [=t=<TYPE>]\n"
@@ -213,6 +220,7 @@ static const struct argp_option opts[] = {
 	{ "nloop", 'N', "NLOOP", 0, "Test loop number" },
 	{ "verbose", 'v', NULL, 1, "Display detail" },
 	{ "version", 'V', NULL, 1, "Display version" },
+	{ "output-file-suffix", 'O', "FILE", 0, "Specify output file suffix, prefix is test name" },
 	{},
 };
 
@@ -236,6 +244,18 @@ static inline unsigned long nsecs(void)
 	struct timespec ts;
 	clock_gettime(CLOCK_MONOTONIC, &ts);
 	return ts.tv_sec * 1000000000UL + ts.tv_nsec;
+}
+
+int fwrite_test(struct test *test, void *host_ptr, size_t size, size_t nmemb)
+{
+	size_t n;
+	if (!test->output.fp)
+		return -EINVAL;
+	if (env.verbose)
+		fprintf(stderr, "Write to %s\n", test->output.file);
+	n = fwrite(host_ptr, size, nmemb, test->output.fp);
+	fflush(test->output.fp);
+	return n;
 }
 
 static error_t parse_arg(int key, char *arg, struct argp_state *state)
@@ -322,6 +342,9 @@ static error_t parse_arg(int key, char *arg, struct argp_state *state)
 	case 'V':
 		print_version();
 		exit(EXIT_SUCCESS);
+		break;
+	case 'O':
+		env.output_file_suffix = arg;
 		break;
 	case ARGP_KEY_ARG:
 		break;
@@ -1011,6 +1034,7 @@ int __display_matrix_pair_int8(const char *pfx, struct test *test,
 		}
 		printf("\n");
 	}
+	fwrite_test(test, host, sizeof(int8_t), x * y);
 	printf("%s>> Host sum %ld\n", pfx, sum);
 	return 0;
 }
@@ -1031,6 +1055,7 @@ int __display_matrix_pair_int32(const char *pfx, struct test *test,
 		}
 		printf("\n");
 	}
+	fwrite_test(test, host, sizeof(int32_t), x * y);
 	printf("%s>> Host sum %ld\n", pfx, sum);
 	return 0;
 }
@@ -1051,6 +1076,7 @@ int __display_matrix_pair_fp16(const char *pfx, struct test *test,
 		}
 		printf("\n");
 	}
+	fwrite_test(test, host, sizeof(half), x * y);
 	printf("%s>> Host sum %.2f\n", pfx, sum);
 	return 0;
 }
@@ -1081,6 +1107,7 @@ int __display_matrix_pair_fp32(const char *pfx, struct test *test,
 		}
 		printf("\n");
 	}
+	fwrite_test(test, host, sizeof(float), x * y);
 	printf("%s>> Host sum %.2f\n", pfx, sum);
 	return 0;
 }
@@ -1111,6 +1138,7 @@ int __display_matrix_pair_fp64(const char *pfx, struct test *test,
 		}
 		printf("\n");
 	}
+	fwrite_test(test, host, sizeof(double), x * y);
 	printf("%s>> Host sum %.2lf\n", pfx, sum);
 	return 0;
 }
@@ -1507,6 +1535,24 @@ void exec_one_test(struct test *test)
 	if (env.verbose)
 		printf("Testing %s\n", test->name);
 
+	if (env.output_file_suffix) {
+		int i;
+		char file[512];
+		snprintf(file, sizeof(file) - 1, "%s-%s", test->name, env.output_file_suffix);
+
+		/* Replace the specify character with '_' */
+		for (i = 0; i < strlen(file); i++) {
+			if (strchr(" ()*&#$@^%`~\\/", file[i]))
+				file[i] = '_';
+		}
+		test->output.fp = fopen(file, "w");
+		test->output.file = strdup(file);
+		if (!test->output.fp) {
+			fprintf(stderr, "ERROR: Failed open %s\n", file);
+			return;
+		}
+	}
+
 	test->create.start = nsecs();
 	test->ops.create_blas(test);
 	test->create.end = nsecs();
@@ -1539,6 +1585,11 @@ void exec_one_test(struct test *test)
 	test->destroy.start = nsecs();
 	test->ops.destroy_blas(test);
 	test->destroy.end = nsecs();
+
+	if (test->output.fp) {
+		fclose(test->output.fp);
+		free(test->output.file);
+	}
 
 #define LAT(n) ((test->n.end - test->n.start) / 1000000UL)
 #define LAT_GPU(e) (test->e.elapsed)
@@ -1574,6 +1625,8 @@ int main(int argc, char *argv[])
 	if (env.verbose) {
 		print_version();
 		printf("M = %ld, N = %ld\n", env.m, env.n);
+		if (env.output_file_suffix)
+			fprintf(stderr, "Output file %s\n", env.output_file_suffix);
 	}
 
 	for (i = 0; i < ARRAY_SIZE(alltests); i++) {
