@@ -2,12 +2,21 @@
 /* Copyright (c) 2025 Rong Tao */
 #pragma once
 
+#ifndef likely
+#define likely(x)    __builtin_expect(!!(x), 1)
+#endif
+#ifndef unlikely
+#define unlikely(x)  __builtin_expect(!!(x), 0)
+#endif
+
 #define CUDA_CHECK(CALL, ERROR_DO)	{				\
 	cudaError_t __err = CALL;					\
-	if (__err != cudaSuccess) {					\
+	if (unlikely(__err != cudaSuccess)) {				\
+		fprintf(stderr, "\033[31m");				\
 		fprintf(stderr, "ERROR: %s:%d Call %s failed, %s\n",	\
 			__func__, __LINE__,				\
 			#CALL, cudaGetErrorString(__err));		\
+		fprintf(stderr, "\033[m");				\
 		ERROR_DO;						\
 	}								\
 }
@@ -15,10 +24,12 @@
 
 #define CUBLAS_CHECK(CALL, ERROR_DO)	{				\
 	cublasStatus_t __status = CALL;					\
-	if (__status != CUBLAS_STATUS_SUCCESS) {			\
+	if (unlikely(__status != CUBLAS_STATUS_SUCCESS)) {		\
+		fprintf(stderr, "\033[31m");				\
 		fprintf(stderr, "ERROR: %s:%d Blas %s failed, %s\n",	\
 			__func__, __LINE__,				\
 			#CALL, cublasGetStatusString(__status));	\
+		fprintf(stderr, "\033[m");				\
 		ERROR_DO;						\
 	}								\
 }
@@ -26,10 +37,12 @@
 
 #define CURAND_CHECK(CALL, ERROR_DO)	{				\
 	curandStatus_t __status = CALL;					\
-	if (__status != CURAND_STATUS_SUCCESS) {			\
+	if (unlikely(__status != CURAND_STATUS_SUCCESS)) {		\
+		fprintf(stderr, "\033[31m");				\
 		fprintf(stderr, "ERROR: %s:%d Rand %s failed, %d\n",	\
 			__func__, __LINE__,				\
 			#CALL, __status);				\
+		fprintf(stderr, "\033[m");				\
 		ERROR_DO;						\
 	}								\
 }
