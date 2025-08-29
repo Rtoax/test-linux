@@ -67,7 +67,7 @@ ${BOLD}EXAMPLES${RST}
 	$ patchset --from [commit1] --to [commit2]
 	${GRAY}# Then, modify 0000-cover-letter.patch${RST}
 	${GRAY}# check patches (scripts/checkpatch.pl if linux)${RST}
-	$ git send-email ${dry_run:+--dry-run} ${GRAY}[--to|--cc|--to-cmd=]${RST} ${output_dir}/*.patch
+	$ git send-email ${dry_run:+--dry-run} ${GRAY}[--to|--cc|--to-cmd=] --confirm=[always|never|cc|compose|auto]${RST} ${output_dir}/*.patch
 
 ${BOLD}DEVELOPE GIT PATCHSET${RST}
 	$ git rebase ${BOLD}<parent commit of modified commit>${RST} --interactive
