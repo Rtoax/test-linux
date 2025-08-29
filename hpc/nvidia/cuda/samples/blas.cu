@@ -1104,7 +1104,13 @@ int __display_matrix_pair_fp32(const char *pfx, struct test *test,
 	int idx_max, idx_min;
 	float sum = 0.0;
 
-	CUBLAS_CHECK(cublasGetMatrix(x, y, sizeof(float), dev, x, host, x), return -1);
+	/**
+	 * FIXME: on Nvidia H800 cuda_11.8.r11.8/compiler.31833905_0
+	 * cublasGetMatrix(x, y, sizeof(float), dev, x, host, x) failed, an access to GPU memory space failed
+	 * just use memcpy instead of getmatrix here.
+	 */
+	CUBLAS_CHECK(cublasGetMatrix(x, y, sizeof(float), dev, x, host, x),
+		CUDA_CHECK(cudaMemcpy(host, dev, sizeof(float) * x * y, cudaMemcpyDeviceToHost), return -1));
 
 	fwrite_test(test, host, sizeof(float), x * y);
 
@@ -1140,7 +1146,13 @@ int __display_matrix_pair_fp64(const char *pfx, struct test *test,
 	int idx_max, idx_min;
 	double sum = 0.0;
 
-	CUBLAS_CHECK(cublasGetMatrix(x, y, sizeof(double), dev, x, host, x), return -1);
+	/**
+	 * FIXME: on Nvidia H800 cuda_11.8.r11.8/compiler.31833905_0
+	 * cublasGetMatrix(x, y, sizeof(double), dev, x, host, x) failed, an access to GPU memory space failed
+	 * just use memcpy instead of getmatrix here.
+	 */
+	CUBLAS_CHECK(cublasGetMatrix(x, y, sizeof(double), dev, x, host, x),
+		CUDA_CHECK(cudaMemcpy(host, dev, sizeof(double) * x * y, cudaMemcpyDeviceToHost), return -1));
 
 	fwrite_test(test, host, sizeof(double), x * y);
 
