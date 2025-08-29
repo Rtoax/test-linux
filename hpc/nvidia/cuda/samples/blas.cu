@@ -15,6 +15,7 @@
 #include <stdbool.h>
 #include <malloc.h>
 #include <time.h>
+#include <unistd.h>
 #if defined(HAVE_HCCL)
 # include <hc_runtime.h>
 # include <hcblas/hcblas.h>
@@ -1555,6 +1556,7 @@ struct test alltests[] = {
 
 void exec_one_test(struct test *test)
 {
+	int err = 0;
 	unsigned long n;
 
 	if (env.verbose)
@@ -1579,21 +1581,32 @@ void exec_one_test(struct test *test)
 	}
 
 	test->create.start = nsecs();
-	test->ops.create_blas(test);
+	err = test->ops.create_blas(test);
 	test->create.end = nsecs();
+	if (err)
+		goto init_error;
 
 	test->prepare.start = nsecs();
-	test->ops.prepare_data(test);
+	err = test->ops.prepare_data(test);
 	test->prepare.end = nsecs();
+	if (err)
+		goto init_error;
 
 	cudaEventCreate(&test->run.start);
 	cudaEventCreate(&test->run.end);
 	cudaEventRecord(test->run.start);
-	for (n = 0; n < env.nloop; n++)
-		test->ops.run_blas(test);
+	for (n = 0; n < env.nloop; n++) {
+		err = test->ops.run_blas(test);
+		if (err)
+			break;
+	}
 	cudaEventRecord(test->run.end);
 	cudaEventSynchronize(test->run.end);
 	cudaEventElapsedTime(&test->run.elapsed, test->run.start, test->run.end);
+	if (err) {
+		fprintf(stderr, "\033[31mERROR: %s run failed\033[m\n", test->name);
+		goto output_file;
+	}
 
 	test->run.flops = test->ops.get_flops(test);
 
@@ -1608,11 +1621,6 @@ void exec_one_test(struct test *test)
 	test->destroy.start = nsecs();
 	test->ops.destroy_blas(test);
 	test->destroy.end = nsecs();
-
-	if (test->output.fp) {
-		fclose(test->output.fp);
-		free(test->output.file);
-	}
 
 #define LAT(n) ((test->n.end - test->n.start) / 1000000UL)
 #define LAT_GPU(e) (test->e.elapsed)
@@ -1630,6 +1638,19 @@ void exec_one_test(struct test *test)
 		test->run.flops / 1e12);
 #undef LAT
 #undef LAT_GPU
+
+output_file:
+	if (test->output.fp) {
+		fclose(test->output.fp);
+		if (err)
+			unlink(test->output.file);
+		free(test->output.file);
+	}
+	return;
+
+init_error:
+	fprintf(stderr, "\033[31mERROR: %s init failed\033[m\n", test->name);
+	return;
 }
 
 int main(int argc, char *argv[])
