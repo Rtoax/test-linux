@@ -1,0 +1,1 @@
+../../nvidia/cuda/samples/blas-md5.sh

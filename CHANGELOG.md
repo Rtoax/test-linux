@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- hpc: blas: add blas-md5.sh;
 - python/numpy: add array test;
 - keras: Train MNIST with keras;
 - python: add numpy;
