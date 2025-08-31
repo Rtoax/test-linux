@@ -6,8 +6,10 @@ BPFTOOL := bpftool
 VMLINUX_H := vmlinux.h
 
 # Use the bpftool command to generate a series of btf header files.
+# $1 - btf file name
+# $2 - btf header file name
 define bpf_gen_btf_h
-	${BPFTOOL} btf dump file /sys/kernel/btf/${1} format c > ${2}
+${BPFTOOL} btf dump file /sys/kernel/btf/${1} format c > ${2}
 endef
 
 define bpf_gen_vmlinux_h
@@ -30,6 +32,7 @@ $(call chk_vmlinux_h)$(shell if [[ "$$(grep -wo '^struct ${1} {' ${VMLINUX_H})" 
 endef
 
 # $1 - symbol name, like bpf_task_from_pid, task_struct.
+# return: n if failed, y if success
 define vmlinux_has_sym
 $(call chk_vmlinux_h)$(shell if [[ "$$(grep -wo '${1}' ${VMLINUX_H})" ]]; then \
 		echo y; \
