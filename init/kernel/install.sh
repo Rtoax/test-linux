@@ -33,7 +33,7 @@ cross_compile_env()
 kernel_compile_cross_aarch64() {
 	make ARCH=arm CROSS_COMPILE=aarch64-linux-gnu- vexpress_defconfig
 	make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- menuconfig
-	make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- -j8
+	make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- -j$(nproc)
 }
 
 # qemu: docs/system/arm/orangepi.rst
@@ -41,7 +41,7 @@ kernel_compile_cross_arm() {
 	ARCH=arm CROSS_COMPILE=arm-linux-gnu- make mrproper
 	ARCH=arm CROSS_COMPILE=arm-linux-gnu- make sunxi_defconfig
 	ARCH=arm CROSS_COMPILE=arm-linux-gnu- make menuconfig
-	ARCH=arm CROSS_COMPILE=arm-linux-gnu- make -j8
+	ARCH=arm CROSS_COMPILE=arm-linux-gnu- make -j$(nproc)
 }
 
 config_kernel()

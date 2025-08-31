@@ -34,5 +34,5 @@ cmake \
 	${PYTHON_CMD:+-DPYTHON_CMD=${PYTHON_CMD}} \
 	..
 
-make -j$(($(nproc) / 2))
+make -j$(nproc)
 sudo make install

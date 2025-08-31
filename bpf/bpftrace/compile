@@ -54,5 +54,5 @@ cmake \
 	${cmake_args[@]} \
 	..
 
-make -j$(($(nproc) / 2))
+make -j$(nproc)
 sudo make install
