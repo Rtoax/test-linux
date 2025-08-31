@@ -18,11 +18,13 @@ and this project adheres to
 - pthread: move `pthread_helpers` to top pthread directory;
 - ai: Introduce tensorflow, mnist, keras;
 #### Changed
+- main.mk: add PIE cflags/ldflags from pie.mk;
 - template: Rename target-cuda.mk to target-nvidia.mk;
 - template: Rename topdir.mk to dir.mk;
 - pthread/samples: Remove `pthread_` prefix of source code;
 #### Deprecated
 #### Removed
+- pie.mk: Remove cflags/ldflags;
 #### Fixed
 #### Security
 #### Docs

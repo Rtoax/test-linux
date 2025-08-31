@@ -8,16 +8,12 @@ targets += EAFNOSUPPORT
 
 CC := gcc
 
-CFLAGS :=
-CFLAGS += -I../../
-CFLAGS += -pthread
-
+CFLAGS := -pthread
 CFLAGS += -DLIBC___ERRNO_LOCATION_SYMADDR=${LIBC___ERRNO_LOCATION_SYMADDR}
 
 targets-prep := nr_errno.h
 targets-clean := clean-more
 
-include ../../elf/pie.mk
 include ../../template/main.mk
 
 nr_errno.h: errno.sh

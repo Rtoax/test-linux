@@ -8,8 +8,6 @@ AS := as
 
 CFLAGS :=
 LDFLAGS :=
-CFLAGS_PIE :=
-LDFLAGS_PIE :=
 
 targets += R_X86_64
 targets += R_X86_64_64
@@ -44,13 +42,6 @@ ifneq ($(shell uname -m),x86_64)
   $(warning Try compile on $(shell uname -m))
   obj-s-o :=
 endif
-
-# Debian 12 default compile PIE EXEC, Fedora40 default compile no-PIE EXEC.
-# Default no-PIE in my case.
-ifndef PIE
-  NOPIE ?= 1
-endif
-include ../../../../elf/pie.mk
 
 ifdef VERBOSE
   CFLAGS += -Q

@@ -23,10 +23,6 @@ CC := gcc
 CFLAGS :=
 LDFLAGS :=
 
-# Debian 12 default compile PIE EXEC, Fedora40 default compile no-PIE EXEC.
-# Default no-PIE in my case.
-include ../pie.mk
-
 ifdef VERBOSE
   CFLAGS += -Q
   LDFLAGS += -Q

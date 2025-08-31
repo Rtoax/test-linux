@@ -60,6 +60,27 @@ ifdef STATIC
   MAKEFLAGS += STATIC=1
 endif
 
+# Debian 12 default compile PIE EXEC, Fedora40 default compile no-PIE EXEC.
+# Default no-PIE in my case.
+ifdef PIE
+  # clang: not support -pie in cflags
+  ifeq ($(CC),gcc)
+    CFLAGS += -pie
+  endif
+  CFLAGS += -fPIE
+  LDFLAGS += -pie -fPIE
+  MAKEFLAGS += PIE=1
+endif
+
+ifdef NOPIE
+  CFLAGS += -no-pie
+  LDFLAGS += -no-pie
+  MAKEFLAGS += NOPIE=1
+  ifdef PIE
+    $(error "Could no specify PIE and NOPIE at the same time")
+  endif
+endif
+
 ifdef DEBUG
   $(info CFLAGS = ${CFLAGS})
   $(info LDFLAGS = ${LDFLAGS})

@@ -72,17 +72,12 @@ targets += gnu_get_libc_version
 targets += lib-names
 targets += ftm _GNU_SOURCE _XOPEN_SOURCE
 
-CC := gcc
-
-CFLAGS :=
-CFLAGS += -pthread
+CFLAGS := -pthread
 
 CFLAGS__GNU_SOURCE := -D_GNU_SOURCE=1
 CFLAGS__XOPEN_SOURCE := -D_XOPEN_SOURCE=1
 
 targets-post := post
-
-include ../elf/pie.mk
 
 include ../template/main.mk
 

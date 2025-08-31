@@ -26,8 +26,6 @@ targets += fopen
 targets += fread
 targets += fopencookie
 
-CFLAGS :=
-
 ifneq ($(LIBC_PRINTF_SYMADDR),)
   CFLAGS += -DLIBC_PRINTF_SYMADDR=${LIBC_PRINTF_SYMADDR}
 endif
@@ -38,7 +36,6 @@ CFLAGS_snprintf := -Wno-error=format-truncation
 
 targets-post := os-release
 
-include ../../elf/pie.mk
 include ../../template/main.mk
 
 os-release:

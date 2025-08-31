@@ -13,7 +13,6 @@ targets += uptime
 
 targets-shell := mounts.sh
 
-include ../../elf/pie.mk
 include ../../template/main.mk
 
 proc_examples: proc_examples.o proc_helpers.o

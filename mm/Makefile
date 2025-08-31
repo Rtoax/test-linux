@@ -41,8 +41,6 @@ ifeq ($(CONFIG_MEMFD_CREATE),y)
   CFLAGS_virt2phy += -DCONFIG_MEMFD_CREATE=1
 endif
 
-include ../elf/pie.mk
-
 include ../template/main.mk
 
 virt2phy: virt2phy.o proc_helpers.a numa.a.1 mmap_helpers.o

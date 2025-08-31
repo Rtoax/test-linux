@@ -36,8 +36,6 @@ LDFLAGS += -lpthread
 #  #endif
 CFLAGS += -DPACKAGE=1
 
-include ../../../elf/pie.mk
-
 bfd_init-ret-magic := $(findstring 1,$(call probe_bfd_init_ret_magic))
 ifeq ($(bfd_init-ret-magic),1)
   CFLAGS += -DBFD_INIT_RET_INIT_MAGIC=1

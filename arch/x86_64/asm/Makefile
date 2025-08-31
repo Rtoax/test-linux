@@ -45,9 +45,6 @@ endif
 CFLAGS_write-c-loop := -DINFINITE_LOOP=1
 CFLAGS_puts-c-loop := -DINFINITE_LOOP=1
 
-NOPIE ?= 1
-include ../../../elf/pie.mk
-
 LDFLAGS += -z noexecstack
 
 include ../../../template/main.mk

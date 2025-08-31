@@ -40,8 +40,6 @@ ifdef LINK_LIB
   LDFLAGS += libtest-linux-c.so.0.1
 endif
 
-include ../elf/pie.mk
-
 include ../template/main.mk
 
 test1:

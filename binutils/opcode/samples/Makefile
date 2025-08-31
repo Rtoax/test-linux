@@ -5,7 +5,6 @@ CFLAGS :=
 CFLAGS += -Wno-unused-label
 CFLAGS += -Wno-unused-variable
 
-include ../../../elf/pie.mk
 include ../../binutils.mk
 
 CFLAGS += -DBINUTILS_VERSION_MAJOR=${BINUTILS_VERSION_MAJOR}

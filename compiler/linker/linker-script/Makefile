@@ -1,8 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
-targets :=
 targets-asm :=
-
-targets += main-c
+targets := main-c
 targets-prep := default.lds
 
 ifeq ($(shell uname -m),x86_64)
@@ -12,8 +10,6 @@ endif
 # ld --verbose argument can print linker script
 LDFLAGS := -Wl,--script=default.lds
 ASMLDFLAGS_hello-as := --script hello-as.ld
-
-include ../../../elf/pie.mk
 
 ifdef PIE
   LDS_PIE := PIE
