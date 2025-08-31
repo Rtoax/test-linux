@@ -49,18 +49,12 @@ targets += strtol
 targets += strsignal
 targets += strerror strerror_r
 targets += strstr
-
-CC := gcc
+targets += strspn
 
 CFLAGS :=
 CFLAGS += -I../../../
 CFLAGS += -lm
-ifdef STATIC
-  CFLAGS += -static
-  LDFLAGS += -static
-  MAKEFLAGS += STATIC=1
-  $(info Defined STATIC)
-endif
+
 ifdef RAND
   CFLAGS += -DRAND_MEM_POS=1
 else
@@ -144,3 +138,4 @@ strsignal: strsignal.o
 strerror: strerror.o
 strerror_r: strerror_r.o
 strstr: strstr.o
+strspn: strspn.o

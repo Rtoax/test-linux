@@ -17,6 +17,7 @@ and this project adheres to
 - python: add numpy;
 - pthread: move `pthread_helpers` to top pthread directory;
 - ai: Introduce tensorflow, mnist, keras;
+- glibc/string: test strspn.c and strcspn.c;
 #### Changed
 - main.mk: add PIE cflags/ldflags from pie.mk;
 - template: Rename target-cuda.mk to target-nvidia.mk;

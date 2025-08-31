@@ -30,3 +30,4 @@
 /strerror
 /strerror_r
 /strstr
+/strspn
