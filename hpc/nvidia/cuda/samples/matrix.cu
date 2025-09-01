@@ -451,7 +451,7 @@ int main(int argc, char *argv[])
 	init_matrix(host_A, env.m * env.k, false, env.set_value, env.value);
 	init_matrix(host_B, env.k * env.n, false, env.set_value, env.value);
 	init_matrix(host_C, env.m * env.n, false, env.set_value, env.value);
-	init_matrix(host_D, env.m * env.n, true, false, -1);
+	init_matrix(host_D, env.m * env.n, true, false, 0);
 
 #ifdef DEBUG
 	print_matrix(host_A, env.k, env.m);
