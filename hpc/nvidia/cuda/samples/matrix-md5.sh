@@ -67,7 +67,7 @@ fmd5() {
 	fi
 }
 
-[[ -z ${MATRIX} ]] && MATRIX=matrix
+[[ -z ${MATRIX} ]] && MATRIX=matrix-fp32
 
 MATRIX=$(echo ${MATRIX} | tr -d './')
 

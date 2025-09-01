@@ -8,11 +8,11 @@
 /cudaDeviceGetAttribute
 /cudaEvent
 /cublasLtMatmul
-/matrix
-/matrix-double
+/matrix-fp32
+/matrix-fp64
 /matrix-int8
-/matrix-c
-/matrix-c-double
+/matrix-c-fp32
+/matrix-c-fp64
 /rand
 /__GNUC__
 /__STDC__
