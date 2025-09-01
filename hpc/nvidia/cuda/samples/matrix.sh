@@ -3,7 +3,7 @@ set -e
 
 readonly PROG=$0
 readonly loop=10000
-program=matrix
+program=matrix-fp32
 gpu=0
 dim_2=
 max_size=10000
