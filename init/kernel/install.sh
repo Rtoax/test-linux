@@ -87,7 +87,6 @@ install_from_source()
 	if [[ " fedora " =~ " ${ID} " ]]; then
 		grub2-mkconfig -o /boot/grub2/grub.cfg
 		grubby --set-default /boot/vmlinuz-${kver}
-		cp .config /boot/config-${kver}
 
 		grubby --info=ALL | more
 		grubby --default-index
@@ -96,6 +95,8 @@ install_from_source()
 	elif [[ " debian " =~ " ${ID} " ]]; then
 		update-grub
 	fi
+
+	cp .config /boot/config-${kver}
 }
 
 uninstall_kernel()
