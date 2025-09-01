@@ -8,12 +8,12 @@
 /hcDeviceGetP2PAttribute
 /hcblasLtMatmul
 /hcEvent
-/matrix
-/matrix-double
-/matrix-int8
 /matrix-fp16
-/matrix-c
-/matrix-c-double
+/matrix-fp32
+/matrix-fp64
+/matrix-int8
+/matrix-c-fp32
+/matrix-c-fp64
 /blas
 /rand
 /__GNUC__
