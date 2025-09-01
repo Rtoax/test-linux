@@ -228,6 +228,7 @@ if [[ " ${@} " =~ " -- " ]]; then
 			fi
 		done
 	fi
+	# NOTE: linux kernel 'Fixes:' don't need 'commit' prefix.
 	my_eval ${git_cmd} --abbrev=12 --pretty=format:\''commit %h ("%s")'\' ${abbrev_commits[@]}
 else
 	patchset
