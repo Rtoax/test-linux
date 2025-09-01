@@ -8,6 +8,7 @@
  *
  * CPU Test
  * - commit 76aff9663c19 ("simd: GenuineIntel 11th Gen Intel(R) Core(TM) i7-1165G7 @ 2.80GHz")
+ * - Phytium S5000C
  */
 #include <stdio.h>
 #include <stdint.h>
