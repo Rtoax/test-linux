@@ -80,7 +80,9 @@ struct {
 	bool set_value;
 	unsigned long value;
 	unsigned int unit_time;
-	char *output_file;
+	struct {
+		char *file;
+	} output;
 } env = {
 	.gpu = 0,
 	.dim_2 = false,
@@ -95,7 +97,9 @@ struct {
 	.set_value = false,
 	.value = 0,
 	.unit_time = NS2US,
-	.output_file = NULL,
+	.output = {
+		.file = NULL,
+	},
 };
 
 const char *version = "v1.0.3 "
@@ -173,7 +177,7 @@ static error_t parse_arg(int key, char *arg, struct argp_state *state)
 		exit(EXIT_SUCCESS);
 		break;
 	case 'O':
-		env.output_file = arg;
+		env.output.file = arg;
 		break;
 	case ARGP_KEY_ARG:
 		break;
@@ -425,8 +429,8 @@ int main(int argc, char *argv[])
 			fprintf(stderr, "Test vector instead of matrix\n");
 		if (env.dim_2)
 			fprintf(stderr, "Use 2D grid and block instead of 1D\n");
-		if (env.output_file)
-			fprintf(stderr, "Output file %s\n", env.output_file);
+		if (env.output.file)
+			fprintf(stderr, "Output file %s\n", env.output.file);
 	}
 
 	gpu_init(env.gpu);
@@ -615,8 +619,8 @@ int main(int argc, char *argv[])
 	cudaEventDestroy(ev_stop);
 #endif
 
-	if (env.output_file) {
-		FILE *fp = fopen(env.output_file, "w");
+	if (env.output.file) {
+		FILE *fp = fopen(env.output.file, "w");
 		fwrite(host_A, sizeof(float), env.m * env.k, fp);
 		fwrite(host_B, sizeof(float), env.k * env.n, fp);
 		fwrite(host_C, sizeof(float), env.m * env.n, fp);
