@@ -460,7 +460,7 @@ void double_avx512_X_add_Y(void *_x, void *_y, size_t n)
 	}
 	//__mmask8 mask = _bzhi_u32(-1, r);
 	__mmask8 mask = (1 << r) - 1;
-	__m512d src;
+	__m512d src = _mm512_setzero_pd();
 	__m512d yv = _mm512_mask_loadu_pd(_mm512_undefined_pd(), mask, &y[n2]);
 	__m512d xv = _mm512_mask_loadu_pd(_mm512_undefined_pd(), mask, &x[n2]);
 	yv = _mm512_mask_add_pd(src, mask, xv, yv);
@@ -481,7 +481,7 @@ void double_avx512_X_mul_Y(void *_x, void *_y, size_t n)
 	}
 	//__mmask8 mask = _bzhi_u32(-1, r);
 	__mmask8 mask = (1 << r) - 1;
-	__m512d src;
+	__m512d src = _mm512_setzero_pd();
 	__m512d yv = _mm512_mask_loadu_pd(_mm512_undefined_pd(), mask, &y[n2]);
 	__m512d xv = _mm512_mask_loadu_pd(_mm512_undefined_pd(), mask, &x[n2]);
 	yv = _mm512_mask_mul_pd(src, mask, xv, yv);
