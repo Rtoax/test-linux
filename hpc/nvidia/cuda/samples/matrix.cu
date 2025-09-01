@@ -364,15 +364,14 @@ static double vector_mul_FLOPS(unsigned long ns)
 	return 2.0 * env.m * env.k * env.nloop * 1e9 / ns;
 }
 
-void init_matrix(TYPE *p, unsigned long n, bool zero, bool set_val,
-		 unsigned long val)
+void init_matrix(TYPE *p, unsigned long n, bool zero)
 {
 	int i;
 	for (i = 0; i < n; i++) {
 		if (zero)
 			p[i] = TRVAL(0.0f);
-		else if (set_val)
-			p[i] = TRVAL(val);
+		else if (env.set_value)
+			p[i] = TRVAL(env.value);
 		else
 			p[i] = TRVAL(i + 1);
 #ifdef DEBUG
@@ -448,10 +447,10 @@ int main(int argc, char *argv[])
 	if (!host_A || !host_B || !host_C || !host_D)
 		goto Malloc_failed;
 
-	init_matrix(host_A, env.m * env.k, false, env.set_value, env.value);
-	init_matrix(host_B, env.k * env.n, false, env.set_value, env.value);
-	init_matrix(host_C, env.m * env.n, false, env.set_value, env.value);
-	init_matrix(host_D, env.m * env.n, true, false, 0);
+	init_matrix(host_A, env.m * env.k, false);
+	init_matrix(host_B, env.k * env.n, false);
+	init_matrix(host_C, env.m * env.n, false);
+	init_matrix(host_D, env.m * env.n, true);
 
 #ifdef DEBUG
 	print_matrix(host_A, env.k, env.m);
