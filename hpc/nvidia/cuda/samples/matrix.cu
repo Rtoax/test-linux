@@ -38,28 +38,28 @@
 
 #if defined(TEST_DOUBLE)
 # define TYPE	double
-# define TFMT	"%.2lf"
-# define TVAL(v)	(v)
 # define TNAME	"double"
-# define TRVALUE(v)	(v * 1.0)
+# define TPFMT	"%.2lf"			/* print format */
+# define TPVAL(v)	(v)		/* print value */
+# define TRVAL(v)	(v * 1.0)	/* right value */
 #elif defined(TEST_INT8)
 # define TYPE	int8_t
-# define TFMT	"%d"
-# define TVAL(v)	(v)
 # define TNAME	"int8_t"
-# define TRVALUE(v)	((int8_t)v)
+# define TPFMT	"%d"
+# define TPVAL(v)	(v)
+# define TRVAL(v)	((int8_t)v)
 #elif defined(TEST_FP16)
 # define TYPE	half
-# define TFMT	"%.2f"
-# define TVAL(v)	__half2float(v)
 # define TNAME	"half"
-# define TRVALUE(v)	__float2half(v)
+# define TPFMT	"%.2f"
+# define TPVAL(v)	__half2float(v)
+# define TRVAL(v)	__float2half(v)
 #else
 # define TYPE	float
-# define TFMT	"%.2f"
-# define TVAL(v)	(v)
 # define TNAME	"float"
-# define TRVALUE(v)	(v * 1.0f)
+# define TPFMT	"%.2f"
+# define TPVAL(v)	(v)
+# define TRVAL(v)	(v * 1.0f)
 #endif
 
 #define NS2US	1000UL
@@ -90,8 +90,8 @@ struct {
 	.n = 2,
 	.vector = false,
 	.nloop = 1,
-	.alpha = TRVALUE(1),
-	.beta = TRVALUE(1),
+	.alpha = TRVAL(1),
+	.beta = TRVAL(1),
 	.set_value = false,
 	.value = 0,
 	.unit_time = NS2US,
@@ -150,10 +150,10 @@ static error_t parse_arg(int key, char *arg, struct argp_state *state)
 		env.n = strtoul(arg, NULL, 10);
 		break;
 	case 'a':
-		env.alpha = TRVALUE(strtoul(arg, NULL, 10));
+		env.alpha = TRVAL(strtoul(arg, NULL, 10));
 		break;
 	case 'b':
-		env.beta = TRVALUE(strtoul(arg, NULL, 10));
+		env.beta = TRVAL(strtoul(arg, NULL, 10));
 		break;
 	case 'N':
 		env.nloop = strtoul(arg, NULL, 10);
@@ -226,7 +226,7 @@ __device__ void dev_matrix_mul_inner(TYPE *A, TYPE *B, TYPE *C, TYPE *D,
 	unsigned long ic = im * n + in;
 
 	if (!nocal) {
-		D[ic] = TRVALUE(0.0f);
+		D[ic] = TRVAL(0.0f);
 	}
 
 	for (ik = 0; ik < k; ik++) {
@@ -236,7 +236,7 @@ __device__ void dev_matrix_mul_inner(TYPE *A, TYPE *B, TYPE *C, TYPE *D,
 #if defined(TEST_FP16)
 			D[ic] = __hadd(D[ic], __hmul(alpha, __hmul(A[ia], B[ib])));
 #else
-			D[ic] += TVAL(alpha) * A[ia] * B[ib];
+			D[ic] += TPVAL(alpha) * A[ia] * B[ib];
 #endif
 		}
 	}
@@ -244,7 +244,7 @@ __device__ void dev_matrix_mul_inner(TYPE *A, TYPE *B, TYPE *C, TYPE *D,
 #if defined(TEST_FP16)
 		D[ic] = __hadd(D[ic], __hmul(beta, C[ic]));
 #else
-		D[ic] += TVAL(beta) * C[ic];
+		D[ic] += TPVAL(beta) * C[ic];
 #endif
 	}
 }
@@ -360,13 +360,13 @@ void init_matrix(TYPE *p, unsigned long n, bool zero, bool set_val,
 	int i;
 	for (i = 0; i < n; i++) {
 		if (zero)
-			p[i] = TRVALUE(0.0f);
+			p[i] = TRVAL(0.0f);
 		else if (set_val)
-			p[i] = TRVALUE(val);
+			p[i] = TRVAL(val);
 		else
-			p[i] = TRVALUE(i + 1);
+			p[i] = TRVAL(i + 1);
 #ifdef DEBUG
-		printf("p[%d] = " TFMT "\n", i, TVAL(p[i]));
+		printf("p[%d] = " TPFMT "\n", i, TPVAL(p[i]));
 #endif
 	}
 }
@@ -377,9 +377,9 @@ void print_matrix(TYPE *p, unsigned long x, unsigned long y)
 	for (j = 0; j < y; j++) {
 		for (i = 0; i < x; i++) {
 #ifdef DEBUG2
-			printf("[%d,%d] = " TFMT "\n", i, j, TVAL(p[j * x + i]));
+			printf("[%d,%d] = " TPFMT "\n", i, j, TPVAL(p[j * x + i]));
 #else
-			printf(TFMT"\t", TVAL(p[j * x + i]));
+			printf(TPFMT"\t", TPVAL(p[j * x + i]));
 #endif
 		}
 		printf("\n");
@@ -586,18 +586,18 @@ int main(int argc, char *argv[])
 		double correct_val;
 		TYPE *pv;
 		if (env.vector) {
-			correct_val = TVAL(env.alpha) * env.value * env.value;
+			correct_val = TPVAL(env.alpha) * env.value * env.value;
 			pv = host_C;
 		} else {
-			correct_val = TVAL(env.alpha) * env.value * env.value * env.k
-					+ TVAL(env.beta) * env.value;
+			correct_val = TPVAL(env.alpha) * env.value * env.value * env.k
+					+ TPVAL(env.beta) * env.value;
 			pv = host_D;
 		}
 		for (i = 0; i < env.m * env.n; i++) {
 #ifdef DEBUG
 			printf("correct_val %lf\n", correct_val);
 #endif
-			if ((double)TVAL(pv[i]) != correct_val) {
+			if ((double)TPVAL(pv[i]) != correct_val) {
 				fprintf(stderr, "ERROR: cal matrix mul failed.\n");
 				err = -1;
 				break;
