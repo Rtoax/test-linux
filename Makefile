@@ -117,6 +117,7 @@ install: uninstall
 	${Q}ln -s ${TOPDIR}/scripts/patchset.sh /usr/bin/patchset
 	${Q}ln -s ${TOPDIR}/scripts/termplot.sh /usr/bin/termplot
 	${Q}ln -s ${TOPDIR}/scripts/kconfig_compare.sh /usr/bin/kconfig_compare
+	${Q}ln -s ${TOPDIR}/init/kernel/install.sh /usr/bin/kinstall
 
 .PHONY: uninstall
 uninstall:
@@ -130,7 +131,8 @@ uninstall:
 		/usr/bin/git-rm-permanent \
 		/usr/bin/patchset \
 		/usr/bin/termplot \
-		/usr/bin/kconfig_compare
+		/usr/bin/kconfig_compare \
+		/usr/bin/kinstall
 
 .PHONY: docker
 docker:

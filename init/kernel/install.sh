@@ -126,7 +126,7 @@ uninstall_kernel()
 }
 
 case $1 in
-install_from_source)
+install-from-source)
 	shift
 	install_from_source $@
 	;;
@@ -136,7 +136,7 @@ uninstall)
 	;;
 *)
 	echo -e "
-  install_from_source [kver]
+  install-from-source [kver]
   uninstall [kver]
 "
 		;;
