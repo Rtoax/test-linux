@@ -36,7 +36,7 @@
 # define gpu_init(dev) do {} while (0)
 #endif
 
-#if defined(TEST_DOUBLE)
+#if defined(TEST_FP64)
 # define TYPE	double
 # define TNAME	"double"
 # define TPFMT	"%.2lf"			/* print format */
@@ -54,12 +54,14 @@
 # define TPFMT	"%.2f"
 # define TPVAL(v)	__half2float(v)
 # define TRVAL(v)	__float2half(v)
-#else
+#elif defined(TEST_FP32)
 # define TYPE	float
 # define TNAME	"float"
 # define TPFMT	"%.2f"
 # define TPVAL(v)	(v)
 # define TRVAL(v)	(v * 1.0f)
+#else
+# error "ERROR: Must define one of TEST_FP16, TEST_FP32, TEST_FP64, TEST_INT8"
 #endif
 
 #define NS2US	1000UL
