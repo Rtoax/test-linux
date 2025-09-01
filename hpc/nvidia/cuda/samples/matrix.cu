@@ -47,7 +47,7 @@
 # define TFMT	"%d"
 # define TVAL(v)	(v)
 # define TNAME	"int8_t"
-# define TRVALUE(v)	(v)
+# define TRVALUE(v)	((int8_t)v)
 #elif defined(TEST_FP16)
 # define TYPE	half
 # define TFMT	"%.2f"
@@ -78,7 +78,7 @@ struct {
 	unsigned long nloop;
 	TYPE alpha, beta;
 	bool set_value;
-	unsigned int value;
+	unsigned long value;
 	unsigned int unit_time;
 	char *output_file;
 } env = {
@@ -160,7 +160,7 @@ static error_t parse_arg(int key, char *arg, struct argp_state *state)
 		break;
 	case 'i':
 		env.set_value = true;
-		env.value = atoi(arg);
+		env.value = strtoul(arg, NULL, 10);
 		break;
 	case 'z':
 		env.vector = true;
@@ -354,7 +354,8 @@ static double vector_mul_FLOPS(unsigned long ns)
 	return 2.0 * env.m * env.k * env.nloop * 1e9 / ns;
 }
 
-void init_matrix(TYPE *p, unsigned long n, bool zero, bool set_val, TYPE val)
+void init_matrix(TYPE *p, unsigned long n, bool zero, bool set_val,
+		 unsigned long val)
 {
 	int i;
 	for (i = 0; i < n; i++) {
@@ -419,7 +420,7 @@ int main(int argc, char *argv[])
 		fprintf(stderr, "M = %ld, K = %ld, N = %ld, NLOOP = %ld\n",
 			env.m, env.k, env.n, env.nloop);
 		if (env.set_value)
-			fprintf(stderr, "Matrix values set to %d\n", env.value);
+			fprintf(stderr, "Matrix values set to %ld\n", env.value);
 		if (env.vector)
 			fprintf(stderr, "Test vector instead of matrix\n");
 		if (env.dim_2)
@@ -585,12 +586,11 @@ int main(int argc, char *argv[])
 		double correct_val;
 		TYPE *pv;
 		if (env.vector) {
-			correct_val = TVAL(env.alpha) * TVAL(env.value) * TVAL(env.value);
+			correct_val = TVAL(env.alpha) * env.value * env.value;
 			pv = host_C;
 		} else {
-			correct_val = TVAL(env.alpha) * TVAL(env.value) *
-					TVAL(env.value) * env.k
-					+ TVAL(env.beta) * TVAL(env.value);
+			correct_val = TVAL(env.alpha) * env.value * env.value * env.k
+					+ TVAL(env.beta) * env.value;
 			pv = host_D;
 		}
 		for (i = 0; i < env.m * env.n; i++) {
