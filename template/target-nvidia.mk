@@ -49,8 +49,8 @@ CFLAGS_NVCC += -DCUDA_VERSION_PATCH=${CUDA_VERSION_PATCH}
 # Ampere (sm_80+)
 # Ada Lovelace (sm_89+)
 # Hopper (sm_90+)
-CFLAGS_NVCC += -arch=sm_80
-LDFLAGS_NVCC += -arch=sm_80
+CFLAGS_NVCC += -arch=native
+LDFLAGS_NVCC += -arch=native
 
 CFLAGS_NVCC += -Wno-deprecated-gpu-targets
 LDFLAGS_NVCC += -Wno-deprecated-gpu-targets
