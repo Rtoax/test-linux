@@ -11,6 +11,19 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+#### Changed
+#### Deprecated
+#### Removed
+#### Fixed
+#### Security
+#### Docs
+#### Tools
+
+
+## [v2.3.4] 2025-09-01
+
+#### Breaking Changes
+#### Added
 - hpc: blas: add blas-md5.sh, matrix-md5.sh;
 - python/numpy: add array test;
 - keras: Train MNIST with keras;
