@@ -82,6 +82,7 @@ struct {
 	unsigned int unit_time;
 	struct {
 		char *file;
+		bool is_txt;	/* output as text instead of binary */
 	} output;
 } env = {
 	.gpu = 0,
@@ -99,6 +100,7 @@ struct {
 	.unit_time = NS2US,
 	.output = {
 		.file = NULL,
+		.is_txt = false,
 	},
 };
 
@@ -132,6 +134,7 @@ static const struct argp_option opts[] = {
 	{ "verbose", 'v', NULL, 1, "Display detail" },
 	{ "version", 'V', NULL, 1, "Display version" },
 	{ "output-file", 'O', "FILE", 0, "Specify output file name" },
+	{ "output-txt", 'T', NULL, 1, "Output text file instead binary" },
 	{},
 };
 
@@ -178,6 +181,9 @@ static error_t parse_arg(int key, char *arg, struct argp_state *state)
 		break;
 	case 'O':
 		env.output.file = arg;
+		break;
+	case 'T':
+		env.output.is_txt = true;
 		break;
 	case ARGP_KEY_ARG:
 		break;
@@ -621,10 +627,22 @@ int main(int argc, char *argv[])
 
 	if (env.output.file) {
 		FILE *fp = fopen(env.output.file, "w");
-		fwrite(host_A, sizeof(float), env.m * env.k, fp);
-		fwrite(host_B, sizeof(float), env.k * env.n, fp);
-		fwrite(host_C, sizeof(float), env.m * env.n, fp);
-		fwrite(host_D, sizeof(float), env.m * env.n, fp);
+		if (env.output.is_txt) {
+			size_t i;
+			for (i = 0; i < env.m * env.k; i++)
+				fprintf(fp, "%-8ld\t" TPFMT "\n", i, TPVAL(host_A[i]));
+			for (i = 0; i < env.k * env.n; i++)
+				fprintf(fp, "%-8ld\t" TPFMT "\n", i, TPVAL(host_B[i]));
+			for (i = 0; i < env.m * env.n; i++)
+				fprintf(fp, "%-8ld\t" TPFMT "\n", i, TPVAL(host_C[i]));
+			for (i = 0; i < env.m * env.n; i++)
+				fprintf(fp, "%-8ld\t" TPFMT "\n", i, TPVAL(host_D[i]));
+		} else {
+			fwrite(host_A, sizeof(TYPE), env.m * env.k, fp);
+			fwrite(host_B, sizeof(TYPE), env.k * env.n, fp);
+			fwrite(host_C, sizeof(TYPE), env.m * env.n, fp);
+			fwrite(host_D, sizeof(TYPE), env.m * env.n, fp);
+		}
 		fclose(fp);
 	}
 
