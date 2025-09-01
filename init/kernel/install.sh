@@ -3,16 +3,16 @@ set -e
 . /etc/os-release
 
 error() {
-	echo >&2 "\033[31m"
-	echo >&2 "ERROR: ${@}"
-	echo >&2 "\033[m"
+	echo -en >&2 "\033[31m"
+	echo -e >&2 "ERROR: ${@}"
+	echo -en >&2 "\033[m"
 	exit 1
 }
 
 warning() {
-	echo >&2 "\033[34m"
-	echo >&2 "WARNING: ${@}"
-	echo >&2 "\033[m"
+	echo -en >&2 "\033[34m"
+	echo -e >&2 "WARNING: ${@}"
+	echo -en >&2 "\033[m"
 }
 
 check_root() {
