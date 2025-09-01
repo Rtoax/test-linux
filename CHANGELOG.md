@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 #### Added
 - kinstall: Install init/kernel/install.sh to /usr/bin/kinstall;
+- cuda: add cudaMallocManaged.cu;
 #### Changed
 #### Deprecated
 #### Removed

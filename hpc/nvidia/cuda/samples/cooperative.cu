@@ -70,5 +70,7 @@ int main(void)
 
 	cudaStreamSynchronize(stream);
 	cudaStreamDestroy(stream);
+
+	cudaFree(val);
 	return 0;
 }

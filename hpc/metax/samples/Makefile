@@ -5,6 +5,7 @@ targets-htcc := hello
 targets-htcc += parallel
 targets-htcc += hcclGetVersion
 targets-htcc += hcMalloc
+targets-htcc += hcMallocManaged
 targets-htcc += hcGetDeviceProperties
 targets-htcc += hcDeviceGetAttribute
 targets-htcc += hcDeviceGetP2PAttribute
@@ -64,6 +65,7 @@ parallel: ${OUTPUT}parallel.hpcc.o ${HPCC_HELPERS}
 cooperative: ${OUTPUT}cooperative.hpcc.o ${HPCC_HELPERS}
 hcclGetVersion: ${OUTPUT}hcclGetVersion.hpcc.o ${HPCC_HELPERS}
 hcMalloc: ${OUTPUT}hcMalloc.hpcc.o ${HPCC_HELPERS}
+hcMallocManaged: ${OUTPUT}hcMallocManaged.hpcc.o ${HPCC_HELPERS}
 hcGetDeviceProperties: ${OUTPUT}hcGetDeviceProperties.hpcc.o ${HPCC_HELPERS}
 hcDeviceGetAttribute: ${OUTPUT}hcDeviceGetAttribute.hpcc.o ${HPCC_HELPERS}
 hcDeviceGetP2PAttribute: ${OUTPUT}hcDeviceGetP2PAttribute.hpcc.o ${HPCC_HELPERS}

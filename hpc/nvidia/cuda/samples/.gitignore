@@ -3,6 +3,7 @@
 /hello
 /parallel
 /cudaMalloc
+/cudaMallocManaged
 /cudaGetDeviceProperties
 /cudaDeviceGetP2PAttribute
 /cudaDeviceGetAttribute

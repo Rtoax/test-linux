@@ -3,6 +3,7 @@
 /parallel
 /hcclGetVersion
 /hcMalloc
+/hcMallocManaged
 /hcGetDeviceProperties
 /hcDeviceGetAttribute
 /hcDeviceGetP2PAttribute
