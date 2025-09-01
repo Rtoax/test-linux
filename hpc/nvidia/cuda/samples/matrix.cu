@@ -71,7 +71,7 @@ struct {
 	union {
 		int gpu;
 		int cpu;
-	};
+	} core;
 	/* use 2D grid and block */
 	bool dim_2;
 	bool verbose;
@@ -87,7 +87,9 @@ struct {
 		bool is_txt;	/* output as text instead of binary */
 	} output;
 } env = {
-	.gpu = 0,
+	.core = {
+		.gpu = 0,
+	},
 	.dim_2 = false,
 	.verbose = false,
 	.m = 2,
@@ -144,7 +146,7 @@ static error_t parse_arg(int key, char *arg, struct argp_state *state)
 {
 	switch (key) {
 	case 'g':
-		env.gpu = strtoul(arg, NULL, 10);
+		env.core.gpu = strtoul(arg, NULL, 10);
 		break;
 	case '2':
 		env.dim_2 = true;
@@ -426,7 +428,7 @@ int main(int argc, char *argv[])
 	if (env.verbose) {
 		char buf[64];
 		fprintf(stderr, "Version %s\n", version);
-		fprintf(stderr, "Running on %s %d\n", gpu_name(env.gpu, buf, sizeof(buf)), env.gpu);
+		fprintf(stderr, "Running on %s %d\n", gpu_name(env.core.gpu, buf, sizeof(buf)), env.core.gpu);
 		fprintf(stderr, "size of TYPE(%s) %ld\n", TNAME, sizeof(TYPE));
 		fprintf(stderr, "M = %ld, K = %ld, N = %ld, NLOOP = %ld\n",
 			env.m, env.k, env.n, env.nloop);
@@ -440,7 +442,7 @@ int main(int argc, char *argv[])
 			fprintf(stderr, "Output file %s\n", env.output.file);
 	}
 
-	gpu_init(env.gpu);
+	gpu_init(env.core.gpu);
 
 	host_A = (TYPE *)malloc(sizeof(TYPE) * env.m * env.k);
 	host_B = (TYPE *)malloc(sizeof(TYPE) * env.k * env.n);
