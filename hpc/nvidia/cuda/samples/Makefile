@@ -11,7 +11,7 @@ targets-nvcc += cudaDeviceGetP2PAttribute
 targets-nvcc += cudaDeviceGetAttribute
 targets-nvcc += cudaEvent
 targets-nvcc += cublasLtMatmul
-targets-nvcc += matrix-fp32 matrix-fp64 matrix-int8
+targets-nvcc += matrix-fp16 matrix-fp32 matrix-fp64 matrix-int8
 targets-nvcc += blas
 targets-nvcc += rand
 targets-nvcc += __GNUC__ __STDC__
@@ -48,6 +48,7 @@ cudaGetDeviceProperties: ${OUTPUT}cudaGetDeviceProperties.cu.o ${CUDA_HELPERS}
 cudaDeviceGetP2PAttribute: ${OUTPUT}cudaDeviceGetP2PAttribute.cu.o ${CUDA_HELPERS}
 cudaDeviceGetAttribute: ${OUTPUT}cudaDeviceGetAttribute.cu.o ${CUDA_HELPERS}
 cudaEvent: ${OUTPUT}cudaEvent.cu.o ${CUDA_HELPERS}
+matrix-fp16: ${OUTPUT}matrix-fp16.cu.o ${CUDA_HELPERS}
 matrix-fp32: ${OUTPUT}matrix-fp32.cu.o ${CUDA_HELPERS}
 matrix-fp64: ${OUTPUT}matrix-fp64.cu.o ${CUDA_HELPERS}
 matrix-int8: ${OUTPUT}matrix-int8.cu.o ${CUDA_HELPERS}

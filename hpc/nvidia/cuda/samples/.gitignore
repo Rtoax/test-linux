@@ -8,6 +8,7 @@
 /cudaDeviceGetAttribute
 /cudaEvent
 /cublasLtMatmul
+/matrix-fp16
 /matrix-fp32
 /matrix-fp64
 /matrix-int8
