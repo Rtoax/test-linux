@@ -1,5 +1,5 @@
 #!/bin/bash
-# Usage: [MATRIX=<matrix prog>] [TXT=1] ./matrix-md5.sh
+# Usage: [TXT=1] ./matrix-md5.sh
 set -e
 
 DATAS_MD5_FILE_BIN=(
@@ -103,17 +103,17 @@ fmd5() {
 	fi
 }
 
-[[ -z ${MATRIX} ]] && MATRIX=matrix-fp32
-
-MATRIX=$(echo ${MATRIX} | tr -d './')
-
-for x in $(seq 100 100 1000)
+for prog in matrix-fp32 matrix-fp64 matrix-c-fp32 matrix-c-fp64
 do
-	suffix=bin
-	[[ ${TXT} ]] && suffix=log
-	./${MATRIX} ${TXT:+-T} -O ${MATRIX}-k${x}_m${x}_n${x}.${suffix} -k $x -m $x -n $x
-done
+	prog=$(echo ${prog} | tr -d './')
 
+	for x in $(seq 100 100 1000)
+	do
+		suffix=bin
+		[[ ${TXT} ]] && suffix=log
+		./${prog} ${TXT:+-T} -O ${prog}-k${x}_m${x}_n${x}.${suffix} -k $x -m $x -n $x
+	done
+done
 
 check_md5() {
 	local md5_file=( ${@} )
