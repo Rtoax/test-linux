@@ -72,7 +72,7 @@ int main(void)
 			prop.maxGridSize[i], "x\0y\0z\0" + (2 * i));
 
 	/* Information about device */
-	printf("major %d, minor %d, ", prop.major, prop.minor);
+	printf("Compute Capability: major.minor %d.%d, ", prop.major, prop.minor);
 	if (prop.major == 10)
 		printf("Blackwell");
 	else if (prop.major == 9)
