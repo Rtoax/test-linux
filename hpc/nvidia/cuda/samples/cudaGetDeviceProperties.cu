@@ -2,10 +2,11 @@
 /* Copyright (c) 2025 Rong Tao */
 /**
  * - NVIDIA H800
- *   commit b8164f610bdb ("hpc: DeviceProp: display multiProcessorCount and maxThreadsPerMultiProcessor")
+ *   commit 37abe51dfb76 ("hpc: DeviceProp: NVIDIA H800 v2")
  *
  * - NVIDIA GeForce RTX 3060
  *   commit 3dfdd4a370f2 ("hpc: DeviceProp: NVIDIA GeForce RTX 3060")
+ *
  * - MetaX Mars 03
  *   commit 79e92d93846f ("hpc: DeviceProp: MetaX Mars X203")
  *
