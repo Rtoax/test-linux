@@ -1,1 +1,1 @@
-../../nvidia/cuda/samples/cuda_helpers.h
+../../nvidia/cuda/cuda_helpers.h
