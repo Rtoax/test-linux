@@ -80,7 +80,6 @@ else
   LDFLAGS += -lm
 endif
 
-CFLAGS_create_thread := -DMAIN_TEST=1
 CFLAGS_cond_broadcast := -DCOND_ATTR=1
 CFLAGS_cond_signal := -DCOND_ATTR=1
 CFLAGS_create := -DNR_THREADS=5

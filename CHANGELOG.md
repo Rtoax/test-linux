@@ -17,7 +17,7 @@ and this project adheres to
 #### Changed
 #### Deprecated
 #### Removed
-- Remove `samples/sys_affinity_bind.c`;
+- pthread/samples: Remove `sys_affinity_bind.c`, `create_thread.h`;
 #### Fixed
 #### Security
 #### Docs
