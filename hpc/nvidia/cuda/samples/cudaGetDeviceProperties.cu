@@ -67,7 +67,25 @@ int main(void)
 			prop.maxGridSize[i], "x\0y\0z\0" + (2 * i));
 
 	/* Information about device */
-	printf("major %d, minor %d\n", prop.major, prop.minor);
+	printf("major %d, minor %d, ", prop.major, prop.minor);
+	if (prop.major == 9)
+		printf("Ada Lovelace");
+	else if (prop.major == 8)
+		printf("Ampere");
+	else if (prop.major == 7) {
+		if (prop.minor == 5)
+			printf("Turing");
+		else
+			printf("Volta");
+	}
+	else if (prop.major == 6)
+		printf("Pascal");
+	else if (prop.major == 5)
+		printf("Maxwell");
+	else
+		printf("[Unknown]");
+	printf("\n");
+
 #ifdef DEVPROP_HAVE_CLOCK_REATE
 	printf("clockRate %d Hz\n", prop.clockRate);
 #endif
