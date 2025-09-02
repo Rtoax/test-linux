@@ -10,6 +10,9 @@
  *
  * - cuda-12.9 struct cudaDeviceProp
  *   commit d072d32dcb00 ("cuda: cudaGetDeviceProperties.cu: display more")
+ *
+ * Links
+ * - https://docs.nvidia.com/cuda/cuda-runtime-api/structcudaDeviceProp.html
  */
 #include <stdio.h>
 #if defined(HAVE_HCCL)
@@ -68,8 +71,10 @@ int main(void)
 
 	/* Information about device */
 	printf("major %d, minor %d, ", prop.major, prop.minor);
-	if (prop.major == 9)
-		printf("Ada Lovelace");
+	if (prop.major == 10)
+		printf("Blackwell");
+	else if (prop.major == 9)
+		printf("Hopper");
 	else if (prop.major == 8)
 		printf("Ampere");
 	else if (prop.major == 7) {
