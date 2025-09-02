@@ -170,5 +170,6 @@ void *map_base = mmap(0, map_size, PROT_READ|PROT_WRITE, MAP_SHARED, fd, 0);
 
 ## Other Links
 
+- [The PCI ID Repository](https://pci-ids.ucw.cz/)
 - [PCI Device Vendors](https://admin.pci-ids.ucw.cz/read/PC)
 - [PCI Device Classes](https://admin.pci-ids.ucw.cz/read/PD)
