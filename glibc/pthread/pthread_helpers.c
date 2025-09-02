@@ -73,7 +73,7 @@ void init_pi_mutex(pthread_mutex_t *m)
 	/* FIXME: does any of this need to be destroyed ? */
 }
 
-struct thread *create_thread(void *(*func)(void *), void *arg, int prio,
+struct thread *thread_create(void *(*func)(void *), void *arg, int prio,
 			     int policy)
 {
 	struct sched_param param;
@@ -110,19 +110,19 @@ struct thread *create_thread(void *(*func)(void *), void *arg, int prio,
 	return thread;
 }
 
-struct thread *create_fifo_thread(void *(*func)(void *), void *arg, int prio)
+struct thread *thread_create_fifo(void *(*func)(void *), void *arg, int prio)
 {
-	return create_thread(func, arg, prio, SCHED_FIFO);
+	return thread_create(func, arg, prio, SCHED_FIFO);
 }
 
-struct thread *create_rr_thread(void *(*func)(void *), void *arg, int prio)
+struct thread *thread_create_rr(void *(*func)(void *), void *arg, int prio)
 {
-	return create_thread(func, arg, prio, SCHED_RR);
+	return thread_create(func, arg, prio, SCHED_RR);
 }
 
-struct thread *create_other_thread(void *(*func)(void *), void *arg)
+struct thread *thread_create_other(void *(*func)(void *), void *arg)
 {
-	return create_thread(func, arg, 0, SCHED_OTHER);
+	return thread_create(func, arg, 0, SCHED_OTHER);
 }
 
 int destroy_thread(struct thread *thread)

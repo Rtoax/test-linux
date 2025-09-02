@@ -20,13 +20,13 @@ pthread_t start_thread(void *(*routine)(void *), int cpu, void *arg);
 
 void init_pi_mutex(pthread_mutex_t *m);
 
-struct thread *create_thread(void *(*func)(void *), void *arg, int prio,
+struct thread *thread_create(void *(*func)(void *), void *arg, int prio,
 			     int policy);
 
-struct thread *create_fifo_thread(void *(*func)(void *), void *arg, int prio);
+struct thread *thread_create_fifo(void *(*func)(void *), void *arg, int prio);
 
-struct thread *create_rr_thread(void *(*func)(void *), void *arg, int prio);
-struct thread *create_other_thread(void *(*func)(void *), void *arg);
+struct thread *thread_create_rr(void *(*func)(void *), void *arg, int prio);
+struct thread *thread_create_other(void *(*func)(void *), void *arg);
 
 int destroy_thread(struct thread *thread);
 

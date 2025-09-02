@@ -24,19 +24,19 @@ int main(void)
 
 	struct args args[3] = {
 		{
-		 .cpu = 1,
-		 },
+			.cpu = 1,
+		},
 		{
-		 .cpu = 2,
-		 },
+			.cpu = 2,
+		},
 		{
-		 .cpu = 3,
-		 },
+			.cpu = 3,
+		},
 	};
 
-	threads[0] = create_fifo_thread(loop, &args[0], 99);
-	threads[1] = create_rr_thread(loop, &args[1], 99);
-	threads[2] = create_other_thread(loop, &args[2]);
+	threads[0] = thread_create_fifo(loop, &args[0], 99);
+	threads[1] = thread_create_rr(loop, &args[1], 99);
+	threads[2] = thread_create_other(loop, &args[2]);
 	if (!threads[0] || !threads[1] || !threads[2])
 		goto failed;
 
