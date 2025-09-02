@@ -46,16 +46,12 @@ struct __sched_attr {
 	uint64_t sched_period;
 };
 
-/* FIXME: In some glibc, there is no gettid() */
-static __attribute__((unused)) int sys_gettid(void)
-{
-	return syscall(__NR_gettid);
-}
 #define gettid() sys_gettid()
-
+int sys_gettid(void);
 long int sys_getcpu(unsigned *cpu, unsigned *node);
+
 void print_cpuset(cpu_set_t * cpuset);
-int str2cpuset(const char *cpulist, cpu_set_t * cpuset);
+int str2cpuset(const char *cpulist, cpu_set_t *cpuset);
 int taskset(int pid, char *cpu_list);
 const char *sched_policy_string(int policy);
 

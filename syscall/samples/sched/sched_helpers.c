@@ -18,6 +18,11 @@
 #include "sched_helpers.h"
 
 
+int sys_gettid(void)
+{
+	return syscall(__NR_gettid);
+}
+
 void print_cpuset(cpu_set_t *cpuset)
 {
 	int j;
@@ -54,9 +59,11 @@ static int next_num(const char *str, char **end, int *result)
 	return 0;
 }
 
-/* set current thread cpu affinity to cpu list, this function works like
+/**
+ * set current thread cpu affinity to cpu list, this function works like
  * taskset command (actually cpulist parsing logic reference to util-linux).
- * example of this function: "0,2,3", "0,2-3", "0-20:2". */
+ * example of this function: "0,2,3", "0,2-3", "0-20:2".
+ */
 int str2cpuset(const char *cpulist, cpu_set_t *cpuset)
 {
 	const char *p, *q;
