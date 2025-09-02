@@ -13,6 +13,7 @@ and this project adheres to
 #### Added
 - kinstall: Install init/kernel/install.sh to /usr/bin/kinstall;
 - cuda: add cudaMallocManaged.cu;
+- oom: add `oom_minimal.c`;
 #### Changed
 #### Deprecated
 #### Removed
