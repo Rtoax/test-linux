@@ -89,10 +89,20 @@ int main(void)
 		printf("Pascal");
 	else if (prop.major == 5)
 		printf("Maxwell");
-	else if (prop.major == 1) {
+	else if (prop.major == 3) {
+		printf("Tesla");
+		if (prop.minor == 0)
+			printf(" K10");
+		else if (prop.minor == 5)
+			printf(" K20");
+	} else if (prop.major == 2) {
+		printf("Tesla C2050");
+	} else if (prop.major == 1) {
 		printf("Tesla");
 		if (prop.minor == 0)
 			printf(" C870");
+		else if (prop.minor == 3)
+			printf(" C1060");
 	} else
 		printf("[Unknown]");
 	printf("\n");
