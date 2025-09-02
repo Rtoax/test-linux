@@ -84,7 +84,8 @@ struct thread *create_thread(void *(*func)(void *), void *arg, int prio,
 	if (!thread)
 		return NULL;
 
-	pthread_cond_init(&thread->cond, NULL);	// Accept the defaults
+	pthread_cond_init(&thread->cond, NULL);
+
 	init_pi_mutex(&thread->mutex);
 	thread->priority = prio;
 	thread->policy = policy;
@@ -105,7 +106,6 @@ struct thread *create_thread(void *(*func)(void *), void *arg, int prio,
 		free(thread);
 		return NULL;
 	}
-	pthread_attr_destroy(&thread->attr);
 
 	return thread;
 }
@@ -123,6 +123,15 @@ struct thread *create_rr_thread(void *(*func)(void *), void *arg, int prio)
 struct thread *create_other_thread(void *(*func)(void *), void *arg)
 {
 	return create_thread(func, arg, 0, SCHED_OTHER);
+}
+
+int destroy_thread(struct thread *thread)
+{
+	if (!thread)
+		return -EINVAL;
+	pthread_attr_destroy(&thread->attr);
+	free(thread);
+	return 0;
 }
 
 int sys_affinity_bind(int cpu)

@@ -28,4 +28,6 @@ struct thread *create_fifo_thread(void *(*func)(void *), void *arg, int prio);
 struct thread *create_rr_thread(void *(*func)(void *), void *arg, int prio);
 struct thread *create_other_thread(void *(*func)(void *), void *arg);
 
+int destroy_thread(struct thread *thread);
+
 int sys_affinity_bind(int cpu);
