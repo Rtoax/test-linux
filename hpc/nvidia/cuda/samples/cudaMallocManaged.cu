@@ -22,12 +22,22 @@ __global__ void kernel_set1(int *mem, size_t nmemb)
 int main(void)
 {
 	int *ptr;
+	int gpu_id = 0;
 	size_t i, nmemb = 128;
 	size_t size = nmemb * sizeof(*ptr);
 
-	gpu_init(0);
+	gpu_init(gpu_id);
 
 	cudaMallocManaged(&ptr, size);
+
+#if defined(HAVE_HCCL)
+	cudaMemAdvise(ptr, size, cudaMemAdviseSetReadMostly, gpu_id);
+#else
+	cudaMemLocation location;
+	location.id = gpu_id;
+	location.type = cudaMemLocationTypeDevice;
+	cudaMemAdvise(ptr, size, cudaMemAdviseSetReadMostly, location);
+#endif
 
 	memset(ptr, 0, size);
 

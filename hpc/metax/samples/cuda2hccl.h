@@ -35,6 +35,33 @@
 #define cudaMallocAsync(pp, sz, stream)	__pfx(MallocAsync(pp, sz, stream))
 #define cudaFreeAsync(ptr, stream)	__pfx(FreeAsync(ptr, stream))
 
+/**
+ * CUDA V13.0.48
+ * __host__ cudaError_t cudaMemAdvise(const void* devPtr, size_t count,
+ *                                    cudaMemoryAdvise advice,
+ *                                    cudaMemLocation location);
+ * HPCC 2.33.1
+ * hcError_t hcMemAdvise(const void *dev_ptr, size_t count,
+ *                       hcMemoryAdvise_t advice,
+ *                       int device);
+ */
+#define cudaMemAdvise(ptr, count, advice, location_or_device)	__pfx(MemAdvise(ptr, count, advice, location_or_device))
+#define cudaMemoryAdvise	__pfx(MemoryAdvise)	/* enum */
+#define cudaMemAdviseSetReadMostly	__pfx(MemAdviseSetReadMostly)
+#define cudaMemAdviseUnsetReadMostly	__pfx(MemAdviseUnsetReadMostly)
+#define cudaMemAdviseSetPreferredLocation	__pfx(MemAdviseSetPreferredLocation)
+#define cudaMemAdviseUnsetPreferredLocation	__pfx(MemAdviseUnsetPreferredLocation)
+#define cudaMemAdviseSetAccessedBy	__pfx(MemAdviseSetAccessedBy)
+#define cudaMemAdviseUnsetAccessedBy	__pfx(MemAdviseUnsetAccessedBy)
+#define cudaMemLocation	__pfx(MemLocation)	/* struct */
+#define cudaMemLocationType	__pfx(MemLocationType)	/* enum */
+#define cudaMemLocationTypeInvalid	__pfx(MemLocationTypeInvalid)
+#define cudaMemLocationTypeNone	__pfx(MemLocationTypeNone)
+#define cudaMemLocationTypeDevice	__pfx(MemLocationTypeDevice)
+#define cudaMemLocationTypeHost	__pfx(MemLocationTypeHost)
+#define cudaMemLocationTypeHostNuma	__pfx(MemLocationTypeHostNuma)
+#define cudaMemLocationTypeHostNumaCurrent	__pfx(MemLocationTypeHostNumaCurrent)
+
 #define cudaEvent_t	__pfx(Event_t)
 #define cudaEventCreate(pe)	__pfx(EventCreate(pe))
 #define cudaEventDestroy(ev)	__pfx(EventDestroy(ev))
