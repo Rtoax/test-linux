@@ -17,6 +17,7 @@ and this project adheres to
 #### Changed
 #### Deprecated
 #### Removed
+- Remove `samples/sys_affinity_bind.c`;
 #### Fixed
 #### Security
 #### Docs

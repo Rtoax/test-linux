@@ -95,7 +95,7 @@ sched_helpers.o: sched_helpers.h
 create_thread.o: create_thread.h
 
 foobar: ${OUTPUT}foobar.o
-create_thread: ${OUTPUT}create_thread.o sys_affinity_bind.o
+create_thread: ${OUTPUT}create_thread.o pthread_helpers.o
 multi_thread_stress: ${OUTPUT}multi_thread_stress.o
 dead_lock-1: ${OUTPUT}dead_lock-1.o
 dead_lock-2: ${OUTPUT}dead_lock-2.o

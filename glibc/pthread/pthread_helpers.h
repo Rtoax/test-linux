@@ -3,3 +3,4 @@
 #include <pthread.h>
 
 pthread_t start_thread(void *(*routine)(void *), int cpu, void *arg);
+int sys_affinity_bind(int cpu);

@@ -17,8 +17,8 @@
 #include <math.h>
 #include <stdbool.h>
 
+#include "pthread_helpers.h"
 #include "create_thread.h"
-#include "sys_affinity_bind.h"
 
 #define HAS_PRIORITY_INHERIT 1
 
