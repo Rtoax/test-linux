@@ -164,7 +164,8 @@ void *map_base = mmap(0, map_size, PROT_READ|PROT_WRITE, MAP_SHARED, fd, 0);
 
 ## Git Links
 
-- https://github.com/pciutils/pciutils
+- [GitHub pciutils](https://github.com/pciutils/pciutils)
+- [GitHub hwdata](https://github.com/vcrhonek/hwdata)
 - git://git.kernel.org/pub/scm/utils/pciutils/pciutils.git
 
 ## Other Links
