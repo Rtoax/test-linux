@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: GPL-3.0
 /* Copyright (c) 2025 Rong Tao */
 #include <stdio.h>
+#include <string.h>
+#include <sys/types.h>
 #if defined(HAVE_HCCL)
 #include <hc_runtime.h>
 #include "hpcc_helpers.h"
@@ -10,15 +12,34 @@
 #include "cuda_helpers.h"
 #endif
 
+__global__ void kernel_set1(int *mem, size_t nmemb)
+{
+	size_t i;
+	for (i = 0; i < nmemb; i++)
+		mem[i] = 1;
+}
 
 int main(void)
 {
-	int num= 1024;
-	float *ptr;
+	int *ptr;
+	size_t i, nmemb = 128;
+	size_t size = nmemb * sizeof(*ptr);
 
 	gpu_init(0);
 
-	cudaMallocManaged(&ptr, sizeof(*ptr) * num);
+	cudaMallocManaged(&ptr, size);
+
+	memset(ptr, 0, size);
+
+	kernel_set1<<<1, 1>>>(ptr, size);
+
+#if !defined(ERROR)
+	cudaDeviceSynchronize();
+#endif
+
+	for (i = 0; i < nmemb; i++)
+		if (ptr[i] != 1)
+			fprintf(stderr, "Bad ptr[%ld] = %d\n", i, ptr[i]);
 
 	cudaFree(ptr);
 
