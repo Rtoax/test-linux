@@ -1,5 +1,11 @@
 # SPDX-License-Identifier: GPL-3.0
 _TARGET_NVIDIA = 1
+_SYSTEM_HAVE_NVIDIA_GPU :=
+
+# Your system has Nvidia GPU card
+ifneq ($(shell lspci | grep -oi nvidia),)
+  _SYSTEM_HAVE_NVIDIA_GPU := 1
+endif
 
 NVCC := $(shell which nvcc 2>/dev/null)
 CUOBJDUMP := $(shell which cuobjdump 2>/dev/null)
@@ -49,8 +55,13 @@ CFLAGS_NVCC += -DCUDA_VERSION_PATCH=${CUDA_VERSION_PATCH}
 # Ampere (sm_80+)
 # Ada Lovelace (sm_89+)
 # Hopper (sm_90+)
-CFLAGS_NVCC += -arch=native
-LDFLAGS_NVCC += -arch=native
+ifneq (${_SYSTEM_HAVE_NVIDIA_GPU},)
+  CFLAGS_NVCC += -arch=native
+  LDFLAGS_NVCC += -arch=native
+else
+  CFLAGS_NVCC += -arch=sm_80
+  LDFLAGS_NVCC += -arch=sm_80
+endif
 
 CFLAGS_NVCC += -Wno-deprecated-gpu-targets
 LDFLAGS_NVCC += -Wno-deprecated-gpu-targets
