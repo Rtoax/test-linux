@@ -3,6 +3,7 @@
 /**
  * - NVIDIA H800
  *   commit b8164f610bdb ("hpc: DeviceProp: display multiProcessorCount and maxThreadsPerMultiProcessor")
+ *
  * - NVIDIA GeForce RTX 3060
  *   commit 3dfdd4a370f2 ("hpc: DeviceProp: NVIDIA GeForce RTX 3060")
  * - MetaX Mars 03
