@@ -7,7 +7,7 @@ CXX ?= g++
 Q ?= @
 SHELL := bash
 
-OS := $(shell grep ^ID= /etc/os-release | sed 's/ID=//g' | sed 's/"//g')
+OS := $(shell grep ^ID= /etc/os-release | sed 's/ID=//g' | tr -d '"')
 ifeq ($(shell uname -m),x86_64)
 else ifeq ($(shell uname -m),aarch64)
 endif

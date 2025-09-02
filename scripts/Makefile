@@ -7,6 +7,8 @@ include ../template/git.mk
 include ../template/success.mk
 include ../template/wow.mk
 include ../template/logo.mk
+include ../template/cpu.mk
+include ../template/os.mk
 include ../gnu/gnu.mk
 include ../bpf/bpf.mk
 

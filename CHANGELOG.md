@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- template: add os.mk;
 - kinstall: Install init/kernel/install.sh to /usr/bin/kinstall;
 - cuda: add cudaMallocManaged.cu;
 - oom: add `oom_minimal.c`;

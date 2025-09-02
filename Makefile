@@ -26,6 +26,7 @@ include template/emoji.mk
 include template/git.mk
 include template/ansi.mk
 include template/logo.mk
+include template/os.mk
 include kconfig.mk
 include kernel.mk
 
@@ -50,6 +51,7 @@ help:
 	$(call tl_logo1,*** )
 	@echo >&2 -e "***"
 	@echo >&2 -e "*** ${MOONLIGHT} ${MOONLIGHT}"
+	@echo >&2 -e "*** OS ${OS}"
 	@echo >&2 -e "*** TOPDIR ${TOPDIR}"
 	@echo >&2 -e "*** GIT_TOPDIR ${GIT_TOPDIR}"
 	@echo >&2 -e "***    core.hooksPath = ${GIT_CONFIG_CORE_HOOKSPATH}"
