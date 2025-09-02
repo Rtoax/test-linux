@@ -19,6 +19,7 @@ int main(void)
 	gpu_init(0);
 
 	cudaMalloc(&ptr, sizeof(*ptr) * num);
+	cudaMemset(ptr, 0, sizeof(*ptr) * num);
 	cudaFree(ptr);
 
 	return 0;
