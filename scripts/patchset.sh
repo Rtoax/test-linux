@@ -123,6 +123,9 @@ __main__()
 		--subject-prefix)
 			shift
 			subject_prefix="$1"
+			if ! [[ " ${subject_prefix} " =~ " PATCH " ]]; then
+				error "Not found 'PATCH' in subject prefix"
+			fi
 			shift
 			;;
 		--from)
