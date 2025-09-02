@@ -89,12 +89,12 @@ targets-shell := list-tunables.sh
 
 include ../../../template/main.mk
 
-pthread_helpers.o: pthread_helpers.h
-sched_helpers.o: sched_helpers.h
+${OUTPUT}pthread_helpers.o: pthread_helpers.h
+${OUTPUT}sched_helpers.o: sched_helpers.h
 create_thread.o: create_thread.h
 
 foobar: ${OUTPUT}foobar.o
-create_thread: ${OUTPUT}create_thread.o pthread_helpers.o
+create_thread: ${OUTPUT}create_thread.o ${OUTPUT}pthread_helpers.o
 multi_thread_stress: ${OUTPUT}multi_thread_stress.o
 dead_lock-1: ${OUTPUT}dead_lock-1.o
 dead_lock-2: ${OUTPUT}dead_lock-2.o
@@ -119,7 +119,7 @@ cleanup_push: ${OUTPUT}cleanup_push.o
 cleanup_push-deadlock: ${OUTPUT}cleanup_push-deadlock.o
 cleanup_push_defer_np: ${OUTPUT}cleanup_push_defer_np.o
 create: ${OUTPUT}create.o
-create-deadline: ${OUTPUT}create-deadline.o pthread_helpers.o sched_helpers.o
+create-deadline: ${OUTPUT}create-deadline.o ${OUTPUT}pthread_helpers.o ${OUTPUT}sched_helpers.o
 equal: ${OUTPUT}equal.o
 exit: ${OUTPUT}exit.o
 key_create: ${OUTPUT}key_create.o
@@ -163,7 +163,7 @@ condattr_init: ${OUTPUT}condattr_init.o
 condattr_getclock: ${OUTPUT}condattr_getclock.o
 condattr_setpshared: ${OUTPUT}condattr_setpshared.o
 getcpuclockid: ${OUTPUT}getcpuclockid.o
-taskset_example: ${OUTPUT}taskset_example.o sched_helpers.o
+taskset_example: ${OUTPUT}taskset_example.o ${OUTPUT}sched_helpers.o
 tls: ${OUTPUT}tls.o
 taskset: ${OUTPUT}taskset.o
 rt_thread: ${OUTPUT}rt_thread.o
