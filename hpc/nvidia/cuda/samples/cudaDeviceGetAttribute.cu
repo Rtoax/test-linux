@@ -25,14 +25,14 @@ int main(void)
 		printf("%-64s %d\n", #attr, value);	\
 	} while (0)
 
+	Attr(cudaDevAttrEccEnabled);
+	Attr(cudaDevAttrManagedMemory);
+	Attr(cudaDevAttrL2CacheSize);
 	Attr(cudaDevAttrClockRate);
 	Attr(cudaDevAttrMaxThreadsPerBlock);
-	Attr(cudaDevAttrClockRate);
 	Attr(cudaDevAttrMaxThreadsPerMultiProcessor);
 	Attr(cudaDevAttrHostNumaId);
-	Attr(cudaDevAttrEccEnabled);
 	Attr(cudaDevAttrWarpSize);
-	Attr(cudaDevAttrL2CacheSize);
 
 	return 0;
 }
