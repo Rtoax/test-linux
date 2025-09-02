@@ -200,6 +200,12 @@ int tracepoint__syscalls__sys_exit_execve(struct syscall_trace_exit *ctx)
 
 #if defined(BPF_SEND_SIGNAL)
 	bool should_kill = false;
+# if defined(SUPPORT_BPF_STRCMP)
+	should_kill |= !bpf_strcmp(pevent->comm, "free");
+# endif
+# if defined(SUPPORT_BPF_STRCASECMP)
+	should_kill |= !bpf_strcasecmp(pevent->comm, "PWD");
+# endif
 # if defined(SUPPORT_BPF_STRNCMP)
 	should_kill |= !bpf_strncmp(pevent->comm, 3, "topxxx");
 # else

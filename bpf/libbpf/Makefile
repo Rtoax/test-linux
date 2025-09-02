@@ -140,7 +140,16 @@ endif
 # v5.16-rc4-1160-gc5fb19937455
 ifeq ($(call kernel_newer_than,5,16,0),y)
   CFLAGS_BPF += -DSUPPORT_BPF_STRNCMP=1
-  $(info Found bpf_strncmp)
+  $(info Found bpf_strncmp())
+endif
+ifeq ($(call vmlinux_has_sym,bpf_strcmp),y)
+  CFLAGS_BPF += -DSUPPORT_BPF_STRCMP=1
+  $(info Found bpf_strcmp())
+endif
+# FIXME: i'm working on bpf_strcasecmp()
+ifeq ($(call vmlinux_has_sym,bpf_strcasecmp),y)
+  CFLAGS_BPF += -DSUPPORT_BPF_STRCASECMP=1
+  $(info Found bpf_strcasecmp())
 endif
 # linux >= v6.15 commit e91370550f1f ("bpf: Add kfuncs for read-only string
 # operations") add string kfunc.
