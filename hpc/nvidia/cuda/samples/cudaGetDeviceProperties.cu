@@ -89,7 +89,11 @@ int main(void)
 		printf("Pascal");
 	else if (prop.major == 5)
 		printf("Maxwell");
-	else
+	else if (prop.major == 1) {
+		printf("Tesla");
+		if (prop.minor == 0)
+			printf(" C870");
+	} else
 		printf("[Unknown]");
 	printf("\n");
 
