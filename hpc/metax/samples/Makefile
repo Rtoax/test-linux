@@ -19,6 +19,7 @@ targets-htcc += __GNUC__
 targets-htcc += __STDC__
 targets-htcc += float
 targets-htcc += cooperative
+targets-htcc += module
 
 targets-post := $(patsubst %,${OUTPUT}%.E.hpcc,$(targets-htcc))
 
@@ -60,6 +61,7 @@ ${OUTPUT}hcblasLtMatmul.hpcc.o: cuda2hccl.h hpcc_helpers.h
 ${OUTPUT}rand.hpcc.o: cuda2hccl.h hpcc_helpers.h
 
 hello: ${OUTPUT}hello.hpcc.o ${HPCC_HELPERS}
+module: ${OUTPUT}module.hpcc.o ${HPCC_HELPERS}
 dim3: ${OUTPUT}dim3.hpcc.o ${HPCC_HELPERS}
 parallel: ${OUTPUT}parallel.hpcc.o ${HPCC_HELPERS}
 cooperative: ${OUTPUT}cooperative.hpcc.o ${HPCC_HELPERS}

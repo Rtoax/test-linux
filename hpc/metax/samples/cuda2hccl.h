@@ -789,3 +789,8 @@
 #define CURAND_STATUS_NOT_IMPLEMENTED	__PFX(RAND_STATUS_NOT_IMPLEMENTED)
 
 #define curandGetVersion(version)	__pfx(randGetVersion(version))
+
+#define CUmodule	__PFX(module)
+#define cuModuleLoad(pmodule, name)	__pfx(ModuleLoad(pmodule, name))
+#define CUfunction	__PFX(function)
+#define cuModuleGetFunction(pfunc, mod, name)	__pfx(ModuleGetFunction(pfunc, mod, name))

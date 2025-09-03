@@ -15,7 +15,7 @@ and this project adheres to
 - cuda_helpers: add gpu_compute_cap_str();
 - template: add os.mk;
 - kinstall: Install init/kernel/install.sh to /usr/bin/kinstall;
-- cuda: add cudaMallocManaged.cu;
+- cuda: add cudaMallocManaged.cu, module.cu;
 - oom: add `oom_minimal.c`;
 #### Changed
 #### Deprecated
