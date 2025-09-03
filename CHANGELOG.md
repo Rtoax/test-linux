@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- bpftrace: add macro.bt test;
 - target-metax.mk: support .devbin and .fatbin target;
 - target-nvidia.mk: support .cubin and .fatbin target;
 - hpc: add amd/README.md;

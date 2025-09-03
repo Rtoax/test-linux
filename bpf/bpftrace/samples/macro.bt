@@ -1,0 +1,14 @@
+#!/bin/env bpftrace
+
+config = {
+	unstable_macro = enable
+}
+
+macro hello() {
+	printf("Hello\n");
+}
+
+BEGIN
+{
+	hello();
+}
