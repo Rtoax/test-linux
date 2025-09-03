@@ -28,6 +28,8 @@ readonly REVERSE="\033[7m"
 
 readonly RST="\033[m"
 
+readonly VERSION="v1.0.0"
+
 __usage__()
 {
 	echo -e "
@@ -51,6 +53,7 @@ ${BOLD}ARGUMENT${RST}
 	-n, --dry-run            dump command instead execute
 	-h, --help               show this help information
 	-v, --verbose            show detail during running
+	-V, --version            show version
 
 ${BOLD}DEVELOPE GIT PATCHSET${RST}
 	$ git rebase ${BOLD}<parent commit of modified commit>${RST} --interactive
@@ -103,7 +106,7 @@ warning() {
 __main__()
 {
 	local TEMP=$(getopt \
-		--options o:nv:h \
+		--options o:nv:hV \
 		--long subject-prefix: \
 		--long from: \
 		--long to: \
@@ -111,6 +114,7 @@ __main__()
 		--long output: \
 		--long dry-run \
 		--long verbose: \
+		--long version \
 		--long help \
 		-n patchset -- "$@")
 
@@ -162,6 +166,11 @@ __main__()
 			shift
 			export PS4='+${BASH_SOURCE}:${LINENO}:${FUNCNAME[0]}: '
 			set -x
+			;;
+		-V|--version)
+			shift
+			echo "${VERSION}"
+			exit 0
 			;;
 		--)
 			shift
