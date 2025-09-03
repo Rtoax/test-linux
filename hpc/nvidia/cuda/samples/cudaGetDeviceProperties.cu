@@ -80,20 +80,17 @@ int main(void)
 	else if (prop.major == 8)
 		printf("Ampere");
 	else if (prop.major == 7) {
-		if (prop.minor == 5)
-			printf("Turing");
-		else
-			printf("Volta");
+		printf("Turing");
 	}
 	else if (prop.major == 6)
 		printf("Pascal");
 	else if (prop.major == 5)
 		printf("Maxwell");
 	else if (prop.major == 3) {
-		printf("Tesla");
-		if (prop.minor == 0)
+		printf("Kepler");
+		if (prop.minor == 0)	/* 3.0 */
 			printf(" K10");
-		else if (prop.minor == 5)
+		else if (prop.minor == 5)	/* 3.5 */
 			printf(" K20");
 	} else if (prop.major == 2) {
 		printf("Tesla C2050");
