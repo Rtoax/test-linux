@@ -7,12 +7,16 @@
 #include <string.h>
 #if defined(HAVE_HCCL)
 #include <hc_runtime.h>
+#include <hpcc_cooperative_groups.h>
 #include "hpcc_helpers.h"
 #include "cuda2hccl.h"
 #else
 #include <cuda_runtime.h>
+#include <cooperative_groups.h>
 #include "cuda_helpers.h"
 #endif
+
+namespace cg = cooperative_groups;
 
 __global__ void checkInfo(void)
 {
@@ -31,6 +35,11 @@ __global__ void checkInfo(void)
 
 __global__ void checkIndex(int it)
 {
+	cg::thread_group g = cg::this_thread_block();
+
+	int rank = g.thread_rank();
+	int size = g.size();
+
 	int ix = threadIdx.x + blockDim.x * blockIdx.x;
 	int iy = threadIdx.y + blockDim.y * blockIdx.y;
 	int iz = threadIdx.z + blockDim.z * blockIdx.z;
@@ -40,11 +49,13 @@ __global__ void checkIndex(int it)
 
 	__syncthreads();
 
-	printf("threadIdx(%d,%d,%d), blockIdx(%d,%d,%d), blockDim(%d,%d,%d), gridDim(%d,%d,%d) (%d,%d,%d)\n",
+	printf("threadIdx(%d,%d,%d), blockIdx(%d,%d,%d), blockDim(%d,%d,%d), gridDim(%d,%d,%d) " \
+		"(rank=%d,size=%d) (x=%d,y=%d,z=%d)\n",
 		threadIdx.x, threadIdx.y, threadIdx.z,
 		blockDim.x, blockDim.y, blockDim.z,
 		blockIdx.x, blockIdx.y, blockIdx.z,
 		gridDim.x, gridDim.y, gridDim.z,
+		rank, size,
 		ix, iy, iz);
 
 	/* FIXME: printf display wrong/zero %d, add printf could fix it. */
