@@ -11,7 +11,7 @@
 #include "cuda_helpers.h"
 #endif
 
-#define MODULE_CUBIN	"hello"
+#define MODULE_CUBIN	".output/hello.cubin"
 #define MODULE_FUNC	"dev_foo"
 
 int main(void)

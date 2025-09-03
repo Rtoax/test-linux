@@ -18,8 +18,13 @@ targets-nvcc += rand
 targets-nvcc += __GNUC__ __STDC__
 targets-nvcc += module
 
+obj-cubin := hello.cubin
+obj-fatbin := hello.fatbin
+
 targets-post := $(patsubst %,${OUTPUT}%.E.cu,$(targets-nvcc))
 targets-post += $(patsubst %,${OUTPUT}%.sass.dump,$(targets-nvcc))
+targets-post += $(patsubst %,${OUTPUT}%,$(obj-cubin))
+targets-post += $(patsubst %,${OUTPUT}%,$(obj-fatbin))
 
 targets := matrix-c-fp32 matrix-c-fp64
 

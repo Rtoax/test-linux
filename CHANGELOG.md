@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- target-nvidia.mk: support .cubin and .fatbin target;
 - hpc: add amd/README.md;
 - cuda_helpers: add gpu_compute_cap_str();
 - template: add os.mk;
