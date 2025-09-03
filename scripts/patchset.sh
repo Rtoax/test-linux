@@ -191,10 +191,11 @@ file2commits() {
 patchset()
 {
 	if [[ -z ${downer_commit} ]] || [[ -z ${upper_commit} ]]; then
+		__usage__ | cat
 		error "Must specify --from and --to"
 	fi
 	if [[ -e ${output_dir} ]] && [[ ! -d ${output_dir} ]]; then
-		error "${output_dir} exist but is not directory"
+		error "${output_dir} is already exist and is not directory"
 	fi
 
 	local args
