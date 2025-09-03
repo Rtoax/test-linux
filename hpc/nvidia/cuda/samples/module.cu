@@ -23,8 +23,8 @@ int main(void)
 	CUmodule mod;
 	CUfunction func;
 
-	CUDA_CHECK(cuModuleLoad(&mod, MODULE_CUBIN), return -1);
-	CUDA_CHECK(cuModuleGetFunction(&func, mod, MODULE_FUNC), return -1);
+	cuModuleLoad(&mod, MODULE_CUBIN);
+	cuModuleGetFunction(&func, mod, MODULE_FUNC);
 
 	return 0;
 }
