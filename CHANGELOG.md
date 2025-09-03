@@ -23,6 +23,7 @@ and this project adheres to
 #### Changed
 #### Deprecated
 #### Removed
+- bpftrace: remove runqlat.bt;
 - pthread/samples: Remove `sys_affinity_bind.c`, `create_thread.h`;
 #### Fixed
 #### Security
