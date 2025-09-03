@@ -14,6 +14,7 @@
 - HBM: High Bandwidth Memory (高带宽内存)
 - HBM2: HBM 2 generation (第二代 HBM) @HBM
 - HBM2E: HBM2E
+- HIP: C++ Heterogeneous-Compute Interface for Portability (C++异构计算接口的可移植性)
 - HPC: High Performance Compute (高性能计算)
 - MFLOPS: Mega FLOPS (每秒一百万次的浮点运算)
 - MPI: Message Passing Interface (消息传递接口)

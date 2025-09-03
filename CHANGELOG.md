@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- hpc: add amd/README.md;
 - cuda_helpers: add gpu_compute_cap_str();
 - template: add os.mk;
 - kinstall: Install init/kernel/install.sh to /usr/bin/kinstall;
