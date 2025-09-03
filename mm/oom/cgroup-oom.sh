@@ -4,7 +4,7 @@ set -e
 readonly pid=$$
 readonly CGROUP_NAME=oom-test
 
-[[ -z ${OOMer} ]] && OOMer=oom_minimal
+[[ -z ${OOMer} ]] && OOMer=oom
 
 cleanup() {
 	printf "\n"
