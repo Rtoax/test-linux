@@ -73,35 +73,54 @@ int main(void)
 
 	/* Information about device */
 	printf("Compute Capability: major.minor %d.%d, ", prop.major, prop.minor);
-	if (prop.major == 10)
+	switch (prop.major) {
+	case 10:
 		printf("Blackwell");
-	else if (prop.major == 9)
+		break;
+	case 9:
 		printf("Hopper");
-	else if (prop.major == 8)
+		break;
+	case 8:
 		printf("Ampere");
-	else if (prop.major == 7) {
+		break;
+	case 7:
 		printf("Turing");
-	}
-	else if (prop.major == 6)
+		break;
+	case 6:
 		printf("Pascal");
-	else if (prop.major == 5)
+		break;
+	case 5:
 		printf("Maxwell");
-	else if (prop.major == 3) {
+		break;
+	case 3:
 		printf("Kepler");
-		if (prop.minor == 0)	/* 3.0 */
+		switch (prop.minor) {
+		case 0:	/* 3.0 */
 			printf(" K10");
-		else if (prop.minor == 5)	/* 3.5 */
+			break;
+		case 5:	/* 3.5 */
 			printf(" K20");
-	} else if (prop.major == 2) {
+			break;
+		}
+		break;
+	case 2:
 		printf("Tesla C2050");
-	} else if (prop.major == 1) {
+		break;
+	case 1:
 		printf("Tesla");
-		if (prop.minor == 0)
+		switch (prop.minor) {
+		case 0:	/* 1.0 */
 			printf(" C870");
-		else if (prop.minor == 3)
+			break;
+		case 3:	/* 3.3 */
 			printf(" C1060");
-	} else
+			break;
+		}
+		break;
+	default:
 		printf("[Unknown]");
+		break;
+	}
 	printf("\n");
 
 #ifdef DEVPROP_HAVE_CLOCK_REATE
