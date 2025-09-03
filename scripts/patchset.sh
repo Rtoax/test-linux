@@ -1,6 +1,9 @@
 #!/bin/bash
+# Generate patch set in git repo. With this script, you can easily obtain a
+# patchset that can be used for Linux kernel development.
+#
 # Copyright (c) 2022-2025 Rong Tao
-# Generate patch set in git repo.
+#
 set -e
 
 subject_prefix=
@@ -30,7 +33,7 @@ readonly RST="\033[m"
 
 readonly VERSION="v1.0.0"
 
-__usage__()
+__patchset_usage__()
 {
 	echo -e "
 ${BOLD}NAME${RST}
@@ -103,7 +106,7 @@ warning() {
 	echo -e >&2 "${RED}WARNING: ${@}${RST}"
 }
 
-__main__()
+__patchset_getopt__()
 {
 	local TEMP=$(getopt \
 		--options o:nv:hV \
@@ -118,7 +121,7 @@ __main__()
 		--long help \
 		-n patchset -- "$@")
 
-	test $? != 0 && __usage__ 1
+	test $? != 0 && __patchset_usage__ 1
 
 	eval set -- "$TEMP"
 
@@ -160,7 +163,7 @@ __main__()
 			;;
 		-h|--help)
 			shift
-			__usage__
+			__patchset_usage__
 			;;
 		-v|--verbose)
 			shift
@@ -200,7 +203,7 @@ file2commits() {
 patchset()
 {
 	if [[ -z ${downer_commit} ]] || [[ -z ${upper_commit} ]]; then
-		__usage__ | cat
+		__patchset_usage__ | cat
 		error "Must specify --from and --to"
 	fi
 	if [[ -e ${output_dir} ]] && [[ ! -d ${output_dir} ]]; then
@@ -225,7 +228,7 @@ patchset()
 		-o ${output_dir}
 }
 
-__main__ "$@"
+__patchset_getopt__ "$@"
 
 # If the -- parameter is specified, a summary of the
 # commit is displayed.
