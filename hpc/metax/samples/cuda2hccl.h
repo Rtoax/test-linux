@@ -88,6 +88,18 @@
 #define cudaStreamSynchronize(stream)	__pfx(StreamSynchronize(stream))
 #define cudaStreamDestroy(stream)	__pfx(StreamDestroy(stream))
 
+/**
+ * HPCC 3.0.0
+ * hcError_t hcDeviceGet(hcDevice_t *device, int ordinal);
+ *
+ * CUDA V13.0.48
+ * CUresult CUDAAPI cuDeviceGet(CUdevice *device, int ordinal);
+ */
+#define CUdevice	__pfx(Device_t)
+#define cuDeviceGet(pdevice, dev_id)	__pfx(DeviceGet(pdevice, dev_id))
+#define cuDeviceComputeCapability(pmajor, pminor, pdev) \
+	__pfx(DeviceComputeCapability(pmajor, pminor, pdev))
+
 #define cudaGetDeviceCount(pgpus)	__pfx(GetDeviceCount(pgpus))
 #define cudaGetDevice(p_id)	__pfx(GetDevice(p_id))
 #define cudaSetDevice(dev_id)	__pfx(SetDevice(dev_id))

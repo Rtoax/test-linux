@@ -33,6 +33,7 @@ CFLAGS_NVCC_matrix-int8 := -DTEST_INT8=1
 LDFLAGS_NVCC_blas := -lcublas -lcublasLt
 LDFLAGS_NVCC_cublasLtMatmul := -lcublas -lcublasLt
 LDFLAGS_NVCC_rand := -lcurand
+LDFLAGS_NVCC_cudaGetDeviceProperties := -lcuda
 
 CUDA_HELPERS := ${OUTPUT}cuda_helpers.cu.o
 

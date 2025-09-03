@@ -22,6 +22,7 @@
 #include "hpcc_helpers.h"
 #include "cuda2hccl.h"
 #else
+#include <cuda.h>
 #include <cuda_runtime.h>
 #include "cuda_helpers.h"
 #endif
@@ -72,6 +73,14 @@ int main(void)
 			prop.maxGridSize[i], "x\0y\0z\0" + (2 * i));
 
 	/* Information about device */
+	{
+		CUdevice cuDevice;
+		cuDeviceGet(&cuDevice, dev_id);
+		int major, minor;
+		cuDeviceComputeCapability(&major, &minor, cuDevice);
+		printf("Compute Capability: major.minor %d.%d\n", major, minor);
+	}
+
 	printf("Compute Capability: major.minor %d.%d, ", prop.major, prop.minor);
 	switch (prop.major) {
 	case 10:
