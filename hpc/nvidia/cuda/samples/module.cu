@@ -16,7 +16,7 @@
 #else
 #define MODULE_CUBIN	".output/hello.cubin"
 #endif
-#define MODULE_FUNC	"dev_foo"
+#define MODULE_FUNC	"kern_func"
 
 int main(void)
 {
