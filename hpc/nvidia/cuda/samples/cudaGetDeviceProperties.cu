@@ -78,59 +78,12 @@ int main(void)
 		cuDeviceGet(&cuDevice, dev_id);
 		int major, minor;
 		cuDeviceComputeCapability(&major, &minor, cuDevice);
-		printf("Compute Capability: major.minor %d.%d\n", major, minor);
+		printf("Compute Capability: major.minor %d.%d %s\n", major, minor,
+			gpu_compute_cap_str(major, minor));
 	}
 
-	printf("Compute Capability: major.minor %d.%d, ", prop.major, prop.minor);
-	switch (prop.major) {
-	case 10:
-		printf("Blackwell");
-		break;
-	case 9:
-		printf("Hopper");
-		break;
-	case 8:
-		printf("Ampere");
-		break;
-	case 7:
-		printf("Turing");
-		break;
-	case 6:
-		printf("Pascal");
-		break;
-	case 5:
-		printf("Maxwell");
-		break;
-	case 3:
-		printf("Kepler");
-		switch (prop.minor) {
-		case 0:	/* 3.0 */
-			printf(" K10");
-			break;
-		case 5:	/* 3.5 */
-			printf(" K20");
-			break;
-		}
-		break;
-	case 2:
-		printf("Tesla C2050");
-		break;
-	case 1:
-		printf("Tesla");
-		switch (prop.minor) {
-		case 0:	/* 1.0 */
-			printf(" C870");
-			break;
-		case 3:	/* 3.3 */
-			printf(" C1060");
-			break;
-		}
-		break;
-	default:
-		printf("[Unknown]");
-		break;
-	}
-	printf("\n");
+	printf("Compute Capability: major.minor %d.%d, %s\n", prop.major, prop.minor,
+		gpu_compute_cap_str(prop.major, prop.minor));
 
 #ifdef DEVPROP_HAVE_CLOCK_REATE
 	printf("clockRate %d Hz\n", prop.clockRate);

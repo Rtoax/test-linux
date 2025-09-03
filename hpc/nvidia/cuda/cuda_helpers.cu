@@ -7,6 +7,7 @@
 #include "hpcc_helpers.h"
 #include "cuda2hccl.h"
 #else
+#include <cuda.h>
 #include <cuda_runtime.h>
 #include "cuda_helpers.h"
 #endif
@@ -70,4 +71,52 @@ int gpu_max_threads_per_block(int dev_id)
 	cudaDeviceProp prop;
 	CUDA_CHECK(cudaGetDeviceProperties(&prop, dev_id), return 0);
 	return prop.maxThreadsPerBlock;
+}
+
+const char *gpu_compute_cap_str(int major, int minor)
+{
+	switch (major) {
+	case 10:
+		return "Blackwell";
+		break;
+	case 9:
+		return "Hopper";
+		break;
+	case 8:
+		return "Ampere";
+		break;
+	case 7:
+		return "Turing";
+		break;
+	case 6:
+		return "Pascal";
+		break;
+	case 5:
+		return "Maxwell";
+		break;
+	case 3:
+		switch (minor) {
+		case 0:	/* 3.0 */
+			return "Kepler K10";
+			break;
+		case 5:	/* 3.5 */
+			return "Kepler K20";
+			break;
+		}
+		break;
+	case 2:
+		return "Tesla C2050";
+		break;
+	case 1:
+		switch (minor) {
+		case 0:	/* 1.0 */
+			return "Tesla C870";
+			break;
+		case 3:	/* 3.3 */
+			return "Tesla C1060";
+			break;
+		}
+		break;
+	}
+	return "[Unknown]";
 }
