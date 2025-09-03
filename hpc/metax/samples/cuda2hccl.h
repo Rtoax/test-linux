@@ -95,7 +95,7 @@
  * CUDA V13.0.48
  * CUresult CUDAAPI cuDeviceGet(CUdevice *device, int ordinal);
  */
-#define CUdevice	__pfx(Device_t)
+#define CUdevice	__pfx(device)
 #define cuDeviceGet(pdevice, dev_id)	__pfx(DeviceGet(pdevice, dev_id))
 #define cuDeviceComputeCapability(pmajor, pminor, pdev) \
 	__pfx(DeviceComputeCapability(pmajor, pminor, pdev))
