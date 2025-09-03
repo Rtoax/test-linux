@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- target-metax.mk: support .devbin and .fatbin target;
 - target-nvidia.mk: support .cubin and .fatbin target;
 - hpc: add amd/README.md;
 - cuda_helpers: add gpu_compute_cap_str();

@@ -11,7 +11,11 @@
 #include "cuda_helpers.h"
 #endif
 
+#if defined(HAVE_HCCL)
+#define MODULE_CUBIN	".output/hello.devbin"
+#else
 #define MODULE_CUBIN	".output/hello.cubin"
+#endif
 #define MODULE_FUNC	"dev_foo"
 
 int main(void)

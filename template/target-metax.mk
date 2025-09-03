@@ -19,6 +19,9 @@ ifeq ($(HTCC),)
   endif
 endif
 
+CFLAGS_HTCC_DEVBIN := -device-bin
+CFLAGS_HTCC_FATBIN := -fatbin
+
 ifneq ($(wildcard ${HPCC_CU_BRIDGE}),)
   CFLAGS_HTCC += -I${HPCC_CU_BRIDGE} -DHPCC_CU_BRIDGE=1
 endif
@@ -76,6 +79,14 @@ ${OUTPUT}%.E.hpcc: %.hpcc | ${OUTPUT}
 ${OUTPUT}%.hpcc.o: %.hpcc | ${OUTPUT}
 	$(call log_tgt_obj,HTCC,$(<),$(@))
 	${Q}$(HTCC) -o $(@) -c $(<) $(CFLAGS_HTCC) $(CFLAGS_HTCC_$(*))
+
+${OUTPUT}%.devbin: %.hpcc | ${OUTPUT}
+	$(call log_tgt_obj,DEVBIN,$(<),$(@))
+	${Q}$(HTCC) -o $(@) -c $(<) $(CFLAGS_HTCC_DEVBIN) $(CFLAGS_HTCC) $(CFLAGS_HTCC_$(*))
+
+${OUTPUT}%.fatbin: %.hpcc | ${OUTPUT}
+	$(call log_tgt_obj,FATBIN,$(<),$(@))
+	${Q}$(HTCC) -o $(@) -c $(<) $(CFLAGS_HTCC_FATBIN) $(CFLAGS_HTCC) $(CFLAGS_HTCC_$(*))
 
 $(targets-htcc): %:
 	$(call log_tgt_exe,HTCC LD,$(<),$(@))

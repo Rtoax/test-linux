@@ -21,7 +21,12 @@ targets-htcc += float
 targets-htcc += cooperative
 targets-htcc += module
 
+obj-devbin := hello.devbin
+obj-fatbin := hello.fatbin
+
 targets-post := $(patsubst %,${OUTPUT}%.E.hpcc,$(targets-htcc))
+targets-post += $(patsubst %,${OUTPUT}%,$(obj-devbin))
+targets-post += $(patsubst %,${OUTPUT}%,$(obj-fatbin))
 
 targets := matrix-c-fp32 matrix-c-fp64
 targets += float-c
