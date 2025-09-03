@@ -52,6 +52,15 @@ ${BOLD}ARGUMENT${RST}
 	-h, --help               show this help information
 	-v, --verbose            show detail during running
 
+${BOLD}DEVELOPE GIT PATCHSET${RST}
+	$ git rebase ${BOLD}<parent commit of modified commit>${RST} --interactive
+	${GRAY}# Then, change the '${RST}${GREEN}pick${RST}${GRAY}' in front of the commit that needs to be
+	# changed to '${RST}${GREEN}edit${RST}${GRAY}', then, save and exit;${RST}
+	${GRAY}# Then, modify the code.${RST}
+	$ git add ${BOLD}<files>${RST} ${GRAY}[--all]${RST}
+	$ git commit --amend
+	$ git rebase --continue
+
 ${BOLD}BARE GIT EXAMPLES${RST}
 	${GRAY}# Generate single one pretty patch${RST}
 	$ git format-patch ${UL}-1${RST} --pretty=fuller HEAD
@@ -62,21 +71,12 @@ ${BOLD}BARE GIT EXAMPLES${RST}
 	$ git format-patch ${UL}-2${RST} -s --cover-letter --thread \\
 			--subject-prefix=\"${UL}PATCH v3${RST}\"
 
-${BOLD}EXAMPLES${RST}
+${BOLD}PATCHSET EXAMPLES${RST}
 	${GRAY}# Submit a patchset:${RST}
-	$ patchset --from [commit1] --to [commit2]
+	$ patchset --from ${UL}[commit1]${RST} --to ${UL}[commit2]${RST} --subject-prefix=\"${UL}PATCH bpf-next v3${RST}\"
 	${GRAY}# Then, modify 0000-cover-letter.patch${RST}
 	${GRAY}# check patches (scripts/checkpatch.pl if linux)${RST}
 	$ git send-email ${dry_run:+--dry-run} ${GRAY}[--to|--cc|--to-cmd=] --confirm=[always|never|cc|compose|auto]${RST} ${output_dir}/*.patch
-
-${BOLD}DEVELOPE GIT PATCHSET${RST}
-	$ git rebase ${BOLD}<parent commit of modified commit>${RST} --interactive
-	${GRAY}# Then, change the 'pick' in front of the commit that needs to be
-	# changed to 'edit', then, save and exit;${RST}
-	${GRAY}# Then, modify the code.${RST}
-	$ git add ${BOLD}<files>${RST} ${GRAY}[--all]${RST}
-	$ git commit --amend
-	$ git rebase --continue
 
 ${BOLD}SEE ALSO${RST}
 	git(1), git‐format‐patch(1), git‐send‐email(1)
