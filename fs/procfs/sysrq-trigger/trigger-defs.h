@@ -15,17 +15,21 @@ trigger('6', "loglevel 6 (info)");
 trigger('7', "loglevel 7 (debug)");
 trigger('8', "loglevel 8");
 trigger('9', "loglevel 9");
-trigger('h', "help");
 trigger('b', "reboot");
 trigger('c', "crash");
 trigger('e', "terminate all tasks");
 trigger('f', "memory full OOM kill");
+/* g: May be registered for the kernel debugger */
+trigger('g', "kernel debugger");
+/* h: reserved for help */
+trigger('h', "help");
 trigger('i', "Kill all tasks");
 trigger('j', "thaw filesystems");
 trigger('k', "sak");
 trigger('l', "show basktrace all active cpus");
 trigger('m', "show memory usage");
 trigger('n', "nice all RT tasks");
+/* o: This will often be registered as 'Off' at init time */
 trigger('o', "poweroff");
 trigger('p', "show registers");
 trigger('q', "show all timers");
