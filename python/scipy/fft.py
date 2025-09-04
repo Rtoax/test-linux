@@ -9,7 +9,10 @@ freq = 50
 
 t = np.linspace(0.0, duration, int(sampling_rate * duration), endpoint=False)
 
-signal = np.sin(2 * np.pi * freq * t)
+signal1 = np.sin(2 * np.pi * freq * t)
+signal2 = np.sin(2 * np.pi * freq * 0.5 * t)
+signal3 = np.sin(2 * np.pi * freq * 1.5 * t)
+signal = signal1 + signal2 + signal3
 
 yf = fft(signal)
 xf = fftfreq(len(signal), 1 / sampling_rate)
