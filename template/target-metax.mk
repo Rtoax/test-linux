@@ -37,6 +37,8 @@ ifneq ($(wildcard ${HPCC_REALPATH}),)
   CFLAGS_HTCC += -DHPCC_VERSION_PATCH=${HPCC_VERSION_PATCH}
 endif
 
+LDFLAGS_HTCC += -lhcfft
+
 ifdef ERROR
   CFLAGS_MXCC += -DERROR=1
   CFLAGS_HTCC += -DERROR=1

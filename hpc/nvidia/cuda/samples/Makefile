@@ -41,7 +41,6 @@ CFLAGS_NVCC_matrix-int8 := -DTEST_INT8=1
 LDFLAGS_NVCC_blas := -lcublas -lcublasLt
 LDFLAGS_NVCC_cublasLtMatmul := -lcublas -lcublasLt
 LDFLAGS_NVCC_rand := -lcurand
-LDFLAGS_NVCC_fft := -lcufft
 LDFLAGS_NVCC_sparse := -lcusparse
 LDFLAGS_NVCC_cudaGetDeviceProperties := -lcuda
 LDFLAGS_NVCC_module := -lcuda

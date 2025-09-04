@@ -4,11 +4,13 @@
 #include <string.h>
 #if defined(HAVE_HCCL)
 #include <hc_runtime.h>
+#include <hcfft/hcfft.h>
 #include "hpcc_helpers.h"
 #include "cuda_adapter.h"
 #else
 #include <cuda.h>
 #include <cuda_runtime.h>
+#include <cufft.h>
 #include "cuda_helpers.h"
 #endif
 
@@ -119,4 +121,19 @@ const char *gpu_compute_cap_str(int major, int minor)
 		break;
 	}
 	return "[Unknown]";
+}
+
+int cufft_version(int *_major, int *_minor, int *_patch)
+{
+	int major, minor, patch;
+
+	CUFFT_CHECK(cufftGetProperty(MAJOR_VERSION, &major), return -1);
+	CUFFT_CHECK(cufftGetProperty(MINOR_VERSION, &minor), return -1);
+	CUFFT_CHECK(cufftGetProperty(PATCH_LEVEL, &patch), return -1);
+
+	*_major = major;
+	*_minor = minor;
+	*_patch = patch;
+
+	return 0;
 }

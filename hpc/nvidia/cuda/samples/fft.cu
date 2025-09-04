@@ -18,10 +18,7 @@
 int main(int argc, char *argv[])
 {
 	int major, minor, patch;
-
-	CUFFT_CHECK(cufftGetProperty(MAJOR_VERSION, &major), return -1);
-	CUFFT_CHECK(cufftGetProperty(MINOR_VERSION, &minor), return -1);
-	CUFFT_CHECK(cufftGetProperty(PATCH_LEVEL, &patch), return -1);
+	cufft_version(&major, &minor, &patch);
 
 	printf("cuFFT version %d.%d.%d\n", major, minor, patch);
 
