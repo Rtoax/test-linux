@@ -15,6 +15,7 @@ include ../bpf/bpf.mk
 targets-prep := test_call
 targets-shell := moonlight.sh
 targets-shell += gotoxy.sh
+targets-shell += termplot.sh
 targets-shell += kconfig_compare.sh
 targets-shell += patchset_examples.sh
 
