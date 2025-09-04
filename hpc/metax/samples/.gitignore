@@ -19,6 +19,7 @@
 /matrix-c-fp64
 /blas
 /rand
+/fft
 /__GNUC__
 /__STDC__
 /float

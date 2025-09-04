@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- hpc: add fft.cu demo;
 - svr: add svr directory;
 - Add debug/kconfig;
 - Add virt directory;

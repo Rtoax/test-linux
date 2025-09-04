@@ -47,6 +47,18 @@
 	}								\
 }
 
+#define CUFFT_CHECK(CALL, ERROR_DO)	{				\
+	cufftResult __status = CALL;					\
+	if (unlikely(__status != CUFFT_SUCCESS)) {			\
+		fprintf(stderr, "\033[31m");				\
+		fprintf(stderr, "ERROR: %s:%d Rand %s failed, %d\n",	\
+			__func__, __LINE__,				\
+			#CALL, __status);				\
+		fprintf(stderr, "\033[m");				\
+		ERROR_DO;						\
+	}								\
+}
+
 #ifdef CUDA_VERSION_MAJOR
 # if CUDA_VERSION_MAJOR < 13
 #  define DEVPROP_HAVE_CLOCK_REATE	1
