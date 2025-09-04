@@ -222,4 +222,8 @@ gotoxy ${THEIGHT} 0
 echo
 drawline --xstart ${bnd} --ystart ${bnd} \
 	--xend $((${TWIDTH} - ${bnd})) --yend $((${THEIGHT} - ${bnd}))
+drawline --xstart ${bnd} --ystart ${bnd} \
+	--xend $((${TWIDTH} / 2 - ${bnd})) --yend $((${THEIGHT} - ${bnd}))
+drawline --xstart ${bnd} --ystart ${bnd} \
+	--xend $((${TWIDTH} - ${bnd})) --yend $((${THEIGHT} / 2 - ${bnd}))
 drawcurve -x 1 -y 1 -x 2 -y 2
