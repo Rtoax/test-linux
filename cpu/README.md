@@ -1,5 +1,5 @@
-cpu
-===
+CPU - Central Processor Units
+=============================
 
 # Kernel Commandline
 
@@ -22,4 +22,3 @@ cpu
 - /proc/cpuinfo
 - /sys/devices/system/cpu
 - /sys/devices/system/cpu/online
-

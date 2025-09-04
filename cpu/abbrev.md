@@ -1,5 +1,5 @@
 - ALU: Arithmetic Logic Unit (算术逻辑单元)
-- AMD: Advanced Micro Devices ()
+- AMD: Advanced Micro Devices (超微公司)
 - CPU: Central Processor Units (中央处理器)
 - DPU: Data Processing Unit (数据处理单元)
 - FPU: Floating Point Unit (浮点单元)
