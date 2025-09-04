@@ -51,13 +51,6 @@ LDFLAGS_HTCC_blas := -lhcblas -lhcblasLt
 CFLAGS_HTCC_hcblasLtMatmul := ${CFLAGS_HTCC_blas}
 LDFLAGS_HTCC_hcblasLtMatmul := ${LDFLAGS_HTCC_blas}
 LDFLAGS_HTCC_rand := -lhcrand
-# FIXME: In file included from sparse.hpcc:6:
-# In file included from /opt/hpcc/include/hcsparse/hcsparse.h:9:
-# /opt/hpcc/include/hcsparse/interface/hcsp_conversion.h:8:10: fatal error: 'common/hcsp_types.h' file not found
-# #include "common/hcsp_types.h"
-#          ^~~~~~~~~~~~~~~~~~~~~
-CFLAGS_HTCC_sparse := -I/opt/hpcc/include/hcsparse/
-LDFLAGS_HTCC_sparse := -lhcsparse
 LDFLAGS_float-c := -lm
 
 HPCC_HELPERS := ${OUTPUT}hpcc_helpers.hpcc.o

@@ -5,12 +5,14 @@
 #if defined(HAVE_HCCL)
 #include <hc_runtime.h>
 #include <hcfft/hcfft.h>
+#include <hcsparse/hcsparse.h>
 #include "hpcc_helpers.h"
 #include "cuda_adapter.h"
 #else
 #include <cuda.h>
 #include <cuda_runtime.h>
 #include <cufft.h>
+#include <cusparse.h>
 #include "cuda_helpers.h"
 #endif
 
@@ -130,6 +132,21 @@ int cufft_version(int *_major, int *_minor, int *_patch)
 	CUFFT_CHECK(cufftGetProperty(MAJOR_VERSION, &major), return -1);
 	CUFFT_CHECK(cufftGetProperty(MINOR_VERSION, &minor), return -1);
 	CUFFT_CHECK(cufftGetProperty(PATCH_LEVEL, &patch), return -1);
+
+	*_major = major;
+	*_minor = minor;
+	*_patch = patch;
+
+	return 0;
+}
+
+int cusparse_version(int *_major, int *_minor, int *_patch)
+{
+	int major, minor, patch;
+
+	cusparseGetProperty(MAJOR_VERSION, &major);
+	cusparseGetProperty(MINOR_VERSION, &minor);
+	cusparseGetProperty(PATCH_LEVEL, &patch);
 
 	*_major = major;
 	*_minor = minor;

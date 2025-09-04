@@ -69,6 +69,7 @@ endif
 CFLAGS_NVCC += -Wno-deprecated-gpu-targets
 LDFLAGS_NVCC += -Wno-deprecated-gpu-targets
 LDFLAGS_NVCC += -lcufft
+LDFLAGS_NVCC += -lcusparse
 
 ifdef DEBUG
   CFLAGS_NVCC += -DDEBUG=${DEBUG}

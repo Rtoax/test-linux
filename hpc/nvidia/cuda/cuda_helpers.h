@@ -78,3 +78,4 @@ int gpu_max_threads_per_block(int dev_id);
 const char *gpu_compute_cap_str(int major, int minor);
 
 int cufft_version(int *_major, int *_minor, int *_patch);
+int cusparse_version(int *_major, int *_minor, int *_patch);

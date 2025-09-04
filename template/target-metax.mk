@@ -37,7 +37,14 @@ ifneq ($(wildcard ${HPCC_REALPATH}),)
   CFLAGS_HTCC += -DHPCC_VERSION_PATCH=${HPCC_VERSION_PATCH}
 endif
 
+# FIXME: In file included from sparse.hpcc:6:
+# In file included from /opt/hpcc/include/hcsparse/hcsparse.h:9:
+# /opt/hpcc/include/hcsparse/interface/hcsp_conversion.h:8:10: fatal error: 'common/hcsp_types.h' file not found
+# #include "common/hcsp_types.h"
+#          ^~~~~~~~~~~~~~~~~~~~~
+CFLAGS_HTCC += -I/opt/hpcc/include/hcsparse/
 LDFLAGS_HTCC += -lhcfft
+LDFLAGS_HTCC += -lhcsparse
 
 ifdef ERROR
   CFLAGS_MXCC += -DERROR=1
