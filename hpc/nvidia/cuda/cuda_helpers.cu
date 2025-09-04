@@ -5,7 +5,7 @@
 #if defined(HAVE_HCCL)
 #include <hc_runtime.h>
 #include "hpcc_helpers.h"
-#include "cuda2hccl.h"
+#include "cuda_adapter.h"
 #else
 #include <cuda.h>
 #include <cuda_runtime.h>

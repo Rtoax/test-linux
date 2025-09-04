@@ -6,7 +6,7 @@
 # include <hcblas/hcblas.h>
 # include <hcblas/hcblasLt.h>
 # include "hpcc_helpers.h"
-# include "cuda2hccl.h"
+# include "cuda_adapter.h"
 #else
 # include <cuda_runtime.h>
 # include <cublas_v2.h>

@@ -5,7 +5,7 @@
 # include <hc_runtime.h>
 # include <hcrand/hcrand.h>
 # include "hpcc_helpers.h"
-# include "cuda2hccl.h"
+# include "cuda_adapter.h"
 # define NAME	"MetaX RAND"
 #else
 # include <cuda_runtime.h>

@@ -7,7 +7,7 @@
 #if defined(HAVE_HCCL)
 #include <hc_runtime.h>
 #include "hpcc_helpers.h"
-#include "cuda2hccl.h"
+#include "cuda_adapter.h"
 #else
 /**
  * Actually, nvcc will add -include cuda_runtime.h during compile, thus, we

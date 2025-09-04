@@ -5,7 +5,7 @@
 # include <hc_runtime.h>
 # include <hcfft/hcfft.h>
 # include "hpcc_helpers.h"
-# include "cuda2hccl.h"
+# include "cuda_adapter.h"
 # define NAME	"MetaX FFT"
 #else
 # include <cuda_runtime.h>

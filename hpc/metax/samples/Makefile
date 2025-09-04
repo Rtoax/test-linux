@@ -59,14 +59,14 @@ include ../../../template/main.mk
 
 ${HPCC_HELPERS}: hpcc_helpers.h
 
-${OUTPUT}matrix-fp16.hpcc.o: cuda2hccl.h hpcc_helpers.h
-${OUTPUT}matrix-fp32.hpcc.o: cuda2hccl.h hpcc_helpers.h
-${OUTPUT}matrix-fp64.hpcc.o: cuda2hccl.h hpcc_helpers.h
-${OUTPUT}matrix-int8.hpcc.o: cuda2hccl.h hpcc_helpers.h
-${OUTPUT}blas.hpcc.o: cuda2hccl.h hpcc_helpers.h
-${OUTPUT}hcblasLtMatmul.hpcc.o: cuda2hccl.h hpcc_helpers.h
-${OUTPUT}rand.hpcc.o: cuda2hccl.h hpcc_helpers.h
-${OUTPUT}fft.hpcc.o: cuda2hccl.h hpcc_helpers.h
+${OUTPUT}matrix-fp16.hpcc.o: cuda_adapter.h hpcc_helpers.h
+${OUTPUT}matrix-fp32.hpcc.o: cuda_adapter.h hpcc_helpers.h
+${OUTPUT}matrix-fp64.hpcc.o: cuda_adapter.h hpcc_helpers.h
+${OUTPUT}matrix-int8.hpcc.o: cuda_adapter.h hpcc_helpers.h
+${OUTPUT}blas.hpcc.o: cuda_adapter.h hpcc_helpers.h
+${OUTPUT}hcblasLtMatmul.hpcc.o: cuda_adapter.h hpcc_helpers.h
+${OUTPUT}rand.hpcc.o: cuda_adapter.h hpcc_helpers.h
+${OUTPUT}fft.hpcc.o: cuda_adapter.h hpcc_helpers.h
 
 hello: ${OUTPUT}hello.hpcc.o ${HPCC_HELPERS}
 module: ${OUTPUT}module.hpcc.o ${HPCC_HELPERS}

@@ -26,6 +26,7 @@ and this project adheres to
 - cuda: add cudaMallocManaged.cu, module.cu;
 - oom: add `oom_minimal.c`;
 #### Changed
+- cuda: Rename cuda2hccl.h to cuda_adapter.h;
 - Update top README.md;
 #### Deprecated
 #### Removed

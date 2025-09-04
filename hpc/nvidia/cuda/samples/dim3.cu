@@ -9,7 +9,7 @@
 #include <hc_runtime.h>
 #include <hpcc_cooperative_groups.h>
 #include "hpcc_helpers.h"
-#include "cuda2hccl.h"
+#include "cuda_adapter.h"
 #else
 #include <cuda_runtime.h>
 #include <cooperative_groups.h>

@@ -4,7 +4,7 @@
 #include <hc_runtime.h>
 #include <hc_runtime_api.h>
 #include "hpcc_helpers.h"
-#include "cuda2hccl.h"
+#include "cuda_adapter.h"
 #else
 #include <cuda.h>
 #include <cuda_runtime.h>

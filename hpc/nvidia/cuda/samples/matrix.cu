@@ -22,7 +22,7 @@
 # if defined(TEST_FP16)
 #  include <hpcc_fp16.h>
 # endif
-# include "cuda2hccl.h"
+# include "cuda_adapter.h"
 #elif defined(HAVE_CUDA)	/* Nvidia */
 # include <cuda_runtime.h>
 # include "cuda_helpers.h"
