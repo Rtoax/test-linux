@@ -68,10 +68,9 @@ __global__ void checkIndex(int it)
 
 int main(int argc, char *argv[])
 {
-	int i, it, bx, by, bz, gx, gy, gz, dim;
+	int i, it, bx, by, bz, gx, gy, gz, dim, dev_id;
 
-	gpu_init(0);
-
+	dev_id = 0;
 	it = 1;
 	dim = 2;
 	bx = gx = 2;
@@ -81,6 +80,7 @@ int main(int argc, char *argv[])
 	for (i = 1; i < argc; i++) {
 #define arg_eq(v) if (!strncmp(#v"=", argv[i], strlen(#v) + 1)) \
 			v = atoi(argv[i] + strlen(#v) + 1);
+		arg_eq(dev_id);
 		arg_eq(bx);
 		arg_eq(by);
 		arg_eq(bz);
@@ -92,6 +92,8 @@ int main(int argc, char *argv[])
 #undef arg_eq
 	}
 
+	gpu_init(dev_id);
+
 	dim3 block1(bx);
 	dim3 grid1(gx);
 	dim3 block2(bx, by);
@@ -102,7 +104,7 @@ int main(int argc, char *argv[])
 	dim3 grid;
 	dim3 block;
 
-	fprintf(stderr, "Usage: %s [bx|by|bz|gx|gy|gz=<N>] [it=<INTERVAL>] [dim=<1|2|3>]\n", argv[0]);
+	fprintf(stderr, "Usage: %s [dev_id=<N>] [bx|by|bz|gx|gy|gz=<N>] [it=<INTERVAL>] [dim=<1|2|3>]\n", argv[0]);
 
 	switch (dim) {
 	case 3:
@@ -122,6 +124,7 @@ int main(int argc, char *argv[])
 		exit(EXIT_FAILURE);
 	}
 
+	fprintf(stderr, "Running on device %d\n", dev_id);
 	fprintf(stderr, "<<< grid(%d,%d,%d), block(%d,%d,%d) >>>\n",
 		grid.x, grid.y, grid.z, block.x, block.y, block.z);
 
