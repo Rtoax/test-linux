@@ -17,6 +17,7 @@
  * - https://docs.nvidia.com/cuda/cuda-runtime-api/structcudaDeviceProp.html
  */
 #include <stdio.h>
+#include <string.h>
 #if defined(HAVE_HCCL)
 #include <hc_runtime.h>
 #include "hpcc_helpers.h"
@@ -27,12 +28,21 @@
 #include "cuda_helpers.h"
 #endif
 
-int main(void)
+int main(int argc, char *argv[])
 {
 	int i, dev_id, dev_count;
 	cudaDeviceProp prop;
 
 	dev_id = 0;
+
+	fprintf(stderr, "Usage: %s [dev_id=<N>]\n", argv[0]);
+
+	for (i = 1; i < argc; i++) {
+#define arg_eq(v) if (!strncmp(#v"=", argv[i], strlen(#v) + 1)) \
+			v = atoi(argv[i] + strlen(#v) + 1);
+		arg_eq(dev_id);
+#undef arg_eq
+	}
 
 	gpu_init(dev_id);
 
@@ -40,7 +50,7 @@ int main(void)
 
 	cudaGetDeviceProperties(&prop, dev_id);
 
-	printf("name %s, gpu count %d/%d\n", prop.name, dev_id, dev_count);
+	printf("name %s, running on device %d, total %d\n", prop.name, dev_id, dev_count);
 
 	/* Information about memory */
 	printf("totalGlobalMem %ld (%.0lf GiB)\n", prop.totalGlobalMem, prop.totalGlobalMem / 1e9);

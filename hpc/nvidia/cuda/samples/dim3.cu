@@ -77,6 +77,9 @@ int main(int argc, char *argv[])
 	by = gy = 2;
 	bz = gz = 2;
 
+	fprintf(stderr, "Usage: %s [dev_id=<N>] [bx|by|bz|gx|gy|gz=<N>] " \
+		"[it=<INTERVAL>] [dim=<1|2|3>]\n", argv[0]);
+
 	for (i = 1; i < argc; i++) {
 #define arg_eq(v) if (!strncmp(#v"=", argv[i], strlen(#v) + 1)) \
 			v = atoi(argv[i] + strlen(#v) + 1);
@@ -103,8 +106,6 @@ int main(int argc, char *argv[])
 
 	dim3 grid;
 	dim3 block;
-
-	fprintf(stderr, "Usage: %s [dev_id=<N>] [bx|by|bz|gx|gy|gz=<N>] [it=<INTERVAL>] [dim=<1|2|3>]\n", argv[0]);
 
 	switch (dim) {
 	case 3:
