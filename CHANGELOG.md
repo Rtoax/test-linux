@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- Add debug/kconfig;
 - Add virt directory;
 - kgdb: add kconfig;
 - bpftrace: add macro.bt test;
@@ -23,6 +24,7 @@ and this project adheres to
 - cuda: add cudaMallocManaged.cu, module.cu;
 - oom: add `oom_minimal.c`;
 #### Changed
+- Update top README.md;
 #### Deprecated
 #### Removed
 - bpftrace: remove runqlat.bt;

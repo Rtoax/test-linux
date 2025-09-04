@@ -1,4 +1,4 @@
-test-linux README
+Test-Linux README
 =================
 
 This code repository contains **GNU/Linux** related test case codes, scripts and knowledge points, as well as operating system related content.
@@ -12,6 +12,23 @@ You'd better don't rename any of folder and file's name, because of symlinks. If
 It may be that the repository will contain **desktop-related** test code, such as **GNOME**, but that is not the main purpose of the repository. Perhaps researching the **GUI** is also the purpose of this repository, such as **GTK**.
 
 You could always use [man-pages](https://git.kernel.org/pub/scm/docs/man-pages/man-pages.git/) to check what you want to know.
+
+
+# Relative Architecture
+
+- [x] `x86_64`
+- [x] `aarch64`
+- [x] `sw_64`
+- [ ] `riscv64`
+- [ ] `loongarch64`
+
+
+# Linux Kernel Reference
+
+* linux-6.14.2 (fedora40,fedora41,fedora42)
+* linux-5.15.0
+* linux-5.14.0
+* linux-5.10.13
 
 
 # Linux Kernel Development
@@ -29,32 +46,6 @@ Linus Torvalds releases a new kernel and opens a **2-week merge window**.
 - `Fixes`: This tag indicates that the patch fixes an issue in a previous commit referenced by its Commit ID. This tag allows us to track where the bug originated.
 
 
-## Linux Debug Options
-
-```
-CONFIG_KASAN
-CONFIG_KMSAN
-CONFIG_UBSAN
-CONFIG_LOCKDEP
-CONFIG_PROVE_LOCKING
-CONFIG_LOCKUP_DETECTOR
-```
-
-- [Bug hunting](https://www.kernel.org/doc/html/latest/admin-guide/bug-hunting.html)
-- [Bisecting a regression(二分回归)](https://www.kernel.org/doc/html/latest/admin-guide/bug-bisect.html)
-- [Dynamic debug](https://www.kernel.org/doc/html/latest/admin-guide/dynamic-debug-howto.html)
-
-
-# test-linux
-
-## Relative Architecture
-
-- [x] `x86_64`
-- [x] `aarch64`
-- [x] `sw_64`
-- [ ] `riscv64`
-- [ ] `loongarch64`
-
 ## Sub-Directories
 
 * Each `scripts` directory contain scriptions(bpftrace, bcc, shell).
@@ -63,11 +54,12 @@ CONFIG_LOCKUP_DETECTOR
 * Each `commands` directory contain relative command lines.
 * Each `images` directory contains relative images.
 
+
 ## Files
 
 * Each `README.md` is current directory's description.
 * Each `abbrev.md` is current directory's relative abbreviation.
-	- format: **abbreviation: full name (中文全称) @relate1 @relate2**
+	- Syntax: `NAME[,ALIAS1,ALIAS2]: English shotcut (Chinese shotcut) @RELATE1 @RELATE2`
 	- scripts: `./abbrev.sh` to check all abbreviations.
 * Each `history.md` is store history of some technology.
 * Each **drawio** contains relate directory diagrams.
@@ -75,34 +67,17 @@ CONFIG_LOCKUP_DETECTOR
 * Each `kconfig` contains kernel CONFIG, each CONFIG is placed in the kconfig of the corresponding directory, and the public CONFIG is placed in the kconfig of the top-level directory.
 * Each `*_helpers*` is helpers program/script of current directory, better `LGPL-2.1 OR BSD-2-Clause` license.
 * Each `requirements.txt` is Python pip --requirement for each directory.
+* Ignore file (check `.gitignore`).
+* If you want to write a text `Note`, use `.md`(`markdown`).
+* There are so many **symlinks** in this repo, so you better clone this repo in linux system, if windows, oops. You'd better use `make check`(or `./scripts/broken-symlinks.sh`) check invalid links and modify them.
 
 
-## abbrev.md Example
-
-- Syntax: `NAME[,ALIAS1,ALIAS2]: English shotcut (Chinese shotcut) @RELATE1 @RELATE2`
+### abbrev.md Example
 
 ```
 - AB: A Ball (一个球[, RFC|IEEE])
 - ABC[,ALIAS1,ALIAS2]: A Ball Circle (一个球圈[, RFC|IEEE]) @AB
 ```
-
-
-# About
-
-## Symbol Links
-
-There are so many **symlinks** in this repo, so you better clone this repo in linux system, if windows, oops. You'd better use `make check`(or `./scripts/broken-symlinks.sh`) check invalid links and modify them.
-
-## Ignore
-
-This repo ignore file(check `.gitignore`). If you want to write a text `Note`, use `.md`(`markdown`).
-
-## Reference
-
-* linux-6.14.2 (fedora40,fedora41,fedora42)
-* linux-5.15.0
-* linux-5.14.0
-* linux-5.10.13
 
 
 # APIs
