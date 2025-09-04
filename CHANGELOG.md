@@ -30,6 +30,7 @@ and this project adheres to
 - Update top README.md;
 #### Deprecated
 #### Removed
+- nvidia: Remove README.benchmark.md;
 - bpftrace: remove runqlat.bt;
 - pthread/samples: Remove `sys_affinity_bind.c`, `create_thread.h`;
 #### Fixed
