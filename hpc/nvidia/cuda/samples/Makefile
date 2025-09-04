@@ -25,6 +25,7 @@ obj-fatbin := hello.fatbin
 
 targets-post := $(patsubst %,${OUTPUT}%.E.cu,$(targets-nvcc))
 targets-post += $(patsubst %,${OUTPUT}%.sass.dump,$(targets-nvcc))
+targets-post += $(patsubst %,${OUTPUT}%.ptx.dump,$(targets-nvcc))
 targets-post += $(patsubst %,${OUTPUT}%,$(obj-cubin))
 targets-post += $(patsubst %,${OUTPUT}%,$(obj-fatbin))
 

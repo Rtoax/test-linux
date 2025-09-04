@@ -110,6 +110,10 @@ ${OUTPUT}%.sass.dump: ${OUTPUT}%.cu.o | ${OUTPUT}
 	$(call log_tgt_obj,NV SASS,$(<),$(@))
 	${Q}${CUOBJDUMP} --dump-sass $(<) > ${@}
 
+${OUTPUT}%.ptx.dump: ${OUTPUT}%.cu.o | ${OUTPUT}
+	$(call log_tgt_obj,NV PTX,$(<),$(@))
+	${Q}${CUOBJDUMP} --dump-ptx $(<) > ${@}
+
 ${OUTPUT}%.E.cu: %.cu | ${OUTPUT}
 	$(call log_tgt_obj,NVCC E,$(<),$(@))
 	${Q}$(NVCC) -E -o $(@) -c $(<) $(CFLAGS_NVCC) $(CFLAGS_NVCC_$(*))
