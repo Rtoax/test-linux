@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- svr: add svr directory;
 - Add debug/kconfig;
 - Add virt directory;
 - kgdb: add kconfig;

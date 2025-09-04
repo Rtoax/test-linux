@@ -1,0 +1,6 @@
+- SVR1: System V Release 1
+- SVR2: System V Release 2
+- SVR3: System V Release 3
+- SVR4: System V Release 4
+- SVR5: System V Release 5
+- SysV: Unix System V 'System Five' ()
