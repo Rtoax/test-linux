@@ -17,6 +17,7 @@
 - FSF: Free Software Foundation (自由软件基金会)
 - gABI: Generic ABI (通用ABI) @ABI
 - HII: Human Interface Infrastructure (人机界面基础设施)
+- IC: Integrated Circuits (集成电路)
 - IEEE: Institute of Electrical and Electronics Engineers (电气电子工程师协会)
 - IEEE-1003: POSIX Standards (POSIX 标准) @POSIX
 - IMA: Integrity Measurement Architecture (完整性测量架构)
