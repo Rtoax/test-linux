@@ -38,11 +38,6 @@ CFLAGS_NVCC_matrix-fp64 := -DTEST_FP64=1
 CFLAGS_NVCC_matrix-fp32 := -DTEST_FP32=1
 CFLAGS_NVCC_matrix-fp16 := -DTEST_FP16=1
 CFLAGS_NVCC_matrix-int8 := -DTEST_INT8=1
-LDFLAGS_NVCC_blas := -lcublas -lcublasLt
-LDFLAGS_NVCC_cublasLtMatmul := -lcublas -lcublasLt
-LDFLAGS_NVCC_rand := -lcurand
-LDFLAGS_NVCC_cudaGetDeviceProperties := -lcuda
-LDFLAGS_NVCC_module := -lcuda
 
 CUDA_HELPERS := ${OUTPUT}cuda_helpers.cu.o
 

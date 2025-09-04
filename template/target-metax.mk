@@ -43,7 +43,11 @@ endif
 # #include "common/hcsp_types.h"
 #          ^~~~~~~~~~~~~~~~~~~~~
 CFLAGS_HTCC += -I/opt/hpcc/include/hcsparse/
+
+LDFLAGS_HTCC += -lhccl
+LDFLAGS_HTCC += -lhcblas -lhcblasLt
 LDFLAGS_HTCC += -lhcfft
+LDFLAGS_HTCC += -lhcrand
 LDFLAGS_HTCC += -lhcsparse
 
 ifdef ERROR
