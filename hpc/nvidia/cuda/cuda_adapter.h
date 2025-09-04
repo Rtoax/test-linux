@@ -813,6 +813,11 @@
 #define CUFFT_NOT_SUPPORTED	__PFX(FFT_NOT_SUPPORTED)
 #define cufftGetProperty(v, pval)	__pfx(fftGetProperty(v, pval))
 
+/**
+ * SPARSE
+ */
+#define cusparseGetProperty(v, pval)	__pfx(sparseGetProperty(v, pval))
+
 #define CUmodule	__PFX(module)
 #define cuModuleLoad(pmodule, name)	__pfx(ModuleLoad(pmodule, name))
 #define CUfunction	__PFX(function)

@@ -20,6 +20,7 @@
 /blas
 /rand
 /fft
+/sparse
 /__GNUC__
 /__STDC__
 /float

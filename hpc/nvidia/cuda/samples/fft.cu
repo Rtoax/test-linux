@@ -17,12 +17,13 @@
 
 int main(int argc, char *argv[])
 {
-	int major, minor;
+	int major, minor, patch;
 
 	CUFFT_CHECK(cufftGetProperty(MAJOR_VERSION, &major), return -1);
 	CUFFT_CHECK(cufftGetProperty(MINOR_VERSION, &minor), return -1);
+	CUFFT_CHECK(cufftGetProperty(PATCH_LEVEL, &minor), return -1);
 
-	printf("cuFFT version %d.%d\n", major, minor);
+	printf("cuFFT version %d.%d.%d\n", major, minor, patch);
 
 	return 0;
 }

@@ -17,6 +17,7 @@
 /matrix-c-fp64
 /rand
 /fft
+/sparse
 /__GNUC__
 /__STDC__
 /cooperative
