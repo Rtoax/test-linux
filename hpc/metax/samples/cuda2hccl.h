@@ -790,6 +790,29 @@
 
 #define curandGetVersion(version)	__pfx(randGetVersion(version))
 
+/**
+ * FFT
+ */
+#define cufftResult	__pfx(fftResult)
+#define CUFFT_SUCCESS	__PFX(FFT_SUCCESS)
+#define CUFFT_INVALID_PLAN	__PFX(FFT_INVALID_PLAN)
+#define CUFFT_ALLOC_FAILED	__PFX(FFT_ALLOC_FAILED)
+#define CUFFT_INVALID_TYPE	__PFX(FFT_INVALID_TYPE)
+#define CUFFT_INVALID_VALUE	__PFX(FFT_INVALID_VALUE)
+#define CUFFT_INTERNAL_ERROR	__PFX(FFT_INTERNAL_ERROR)
+#define CUFFT_EXEC_FAILED	__PFX(FFT_EXEC_FAILED)
+#define CUFFT_SETUP_FAILED	__PFX(FFT_SETUP_FAILED)
+#define CUFFT_INVALID_SIZE	__PFX(FFT_INVALID_SIZE)
+#define CUFFT_UNALIGNED_DATA	__PFX(FFT_UNALIGNED_DATA)
+#define CUFFT_INCOMPLETE_PARAMETER_LIST	__PFX(FFT_INCOMPLETE_PARAMETER_LIST)
+#define CUFFT_INVALID_DEVICE	__PFX(FFT_INVALID_DEVICE)
+#define CUFFT_PARSE_ERROR	__PFX(FFT_PARSE_ERROR)
+#define CUFFT_NO_WORKSPACE	__PFX(FFT_NO_WORKSPACE)
+#define CUFFT_NOT_IMPLEMENTED	__PFX(FFT_NOT_IMPLEMENTED)
+#define CUFFT_LICENSE_ERROR	__PFX(FFT_LICENSE_ERROR)
+#define CUFFT_NOT_SUPPORTED	__PFX(FFT_NOT_SUPPORTED)
+#define cufftGetProperty(v, pval)	__pfx(fftGetProperty(v, pval))
+
 #define CUmodule	__PFX(module)
 #define cuModuleLoad(pmodule, name)	__pfx(ModuleLoad(pmodule, name))
 #define CUfunction	__PFX(function)

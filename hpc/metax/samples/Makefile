@@ -15,6 +15,7 @@ targets-htcc += matrix-fp16 matrix-fp32 matrix-fp64 matrix-int8
 targets-htcc += blas
 targets-htcc += hcblasLtMatmul
 targets-htcc += rand
+targets-htcc += fft
 targets-htcc += __GNUC__
 targets-htcc += __STDC__
 targets-htcc += float
@@ -49,6 +50,7 @@ LDFLAGS_HTCC_blas := -lhcblas -lhcblasLt
 CFLAGS_HTCC_hcblasLtMatmul := ${CFLAGS_HTCC_blas}
 LDFLAGS_HTCC_hcblasLtMatmul := ${LDFLAGS_HTCC_blas}
 LDFLAGS_HTCC_rand := -lhcrand
+LDFLAGS_HTCC_fft := -lhcfft
 LDFLAGS_float-c := -lm
 
 HPCC_HELPERS := ${OUTPUT}hpcc_helpers.hpcc.o
@@ -64,6 +66,7 @@ ${OUTPUT}matrix-int8.hpcc.o: cuda2hccl.h hpcc_helpers.h
 ${OUTPUT}blas.hpcc.o: cuda2hccl.h hpcc_helpers.h
 ${OUTPUT}hcblasLtMatmul.hpcc.o: cuda2hccl.h hpcc_helpers.h
 ${OUTPUT}rand.hpcc.o: cuda2hccl.h hpcc_helpers.h
+${OUTPUT}fft.hpcc.o: cuda2hccl.h hpcc_helpers.h
 
 hello: ${OUTPUT}hello.hpcc.o ${HPCC_HELPERS}
 module: ${OUTPUT}module.hpcc.o ${HPCC_HELPERS}
@@ -84,6 +87,7 @@ matrix-int8: ${OUTPUT}matrix-int8.hpcc.o ${HPCC_HELPERS}
 blas: ${OUTPUT}blas.hpcc.o ${HPCC_HELPERS}
 hcblasLtMatmul: ${OUTPUT}hcblasLtMatmul.hpcc.o ${HPCC_HELPERS}
 rand: ${OUTPUT}rand.hpcc.o ${HPCC_HELPERS}
+fft: ${OUTPUT}fft.hpcc.o ${HPCC_HELPERS}
 __GNUC__: ${OUTPUT}__GNUC__.hpcc.o ${HPCC_HELPERS}
 __STDC__: ${OUTPUT}__STDC__.hpcc.o ${HPCC_HELPERS}
 float: ${OUTPUT}float.hpcc.o

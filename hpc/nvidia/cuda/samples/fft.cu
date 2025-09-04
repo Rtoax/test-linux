@@ -3,22 +3,26 @@
 #include <stdio.h>
 #if defined(HAVE_HCCL)
 # include <hc_runtime.h>
-# include <hcrand/hcrand.h>
+# include <hcfft/hcfft.h>
 # include "hpcc_helpers.h"
 # include "cuda2hccl.h"
-# define NAME	"MetaX RAND"
+# define NAME	"MetaX FFT"
 #else
 # include <cuda_runtime.h>
-# include <curand.h>
+# include <cufft.h>
 # include "cuda_helpers.h"
-# define NAME	"CUDA RAND"
+# define NAME	"CUDA FFT"
 #endif
 
 
 int main(int argc, char *argv[])
 {
-	int version;
-	CURAND_CHECK(curandGetVersion(&version), exit(1));
-	printf(NAME " version %d\n", version);
+	int major, minor;
+
+	CUFFT_CHECK(cufftGetProperty(MAJOR_VERSION, &major), return -1);
+	CUFFT_CHECK(cufftGetProperty(MINOR_VERSION, &minor), return -1);
+
+	printf("cuFFT version %d.%d\n", major, minor);
+
 	return 0;
 }

@@ -15,6 +15,7 @@ targets-nvcc += cublasLtMatmul
 targets-nvcc += matrix-fp16 matrix-fp32 matrix-fp64 matrix-int8
 targets-nvcc += blas
 targets-nvcc += rand
+targets-nvcc += fft
 targets-nvcc += __GNUC__ __STDC__
 targets-nvcc += module
 
@@ -39,6 +40,7 @@ CFLAGS_NVCC_matrix-int8 := -DTEST_INT8=1
 LDFLAGS_NVCC_blas := -lcublas -lcublasLt
 LDFLAGS_NVCC_cublasLtMatmul := -lcublas -lcublasLt
 LDFLAGS_NVCC_rand := -lcurand
+LDFLAGS_NVCC_fft := -lcufft
 LDFLAGS_NVCC_cudaGetDeviceProperties := -lcuda
 LDFLAGS_NVCC_module := -lcuda
 
@@ -53,6 +55,7 @@ cooperative: ${OUTPUT}cooperative.cu.o ${CUDA_HELPERS}
 blas: ${OUTPUT}blas.cu.o ${CUDA_HELPERS}
 cublasLtMatmul: ${OUTPUT}cublasLtMatmul.cu.o ${CUDA_HELPERS}
 rand: ${OUTPUT}rand.cu.o ${CUDA_HELPERS}
+fft: ${OUTPUT}fft.cu.o ${CUDA_HELPERS}
 hello: ${OUTPUT}hello.cu.o ${CUDA_HELPERS}
 module: ${OUTPUT}module.cu.o ${CUDA_HELPERS}
 parallel: ${OUTPUT}parallel.cu.o ${CUDA_HELPERS}
