@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- Add virt directory;
 - kgdb: add kconfig;
 - bpftrace: add macro.bt test;
 - target-metax.mk: support .devbin and .fatbin target;
