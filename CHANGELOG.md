@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- python: add scipy/fft.py;
 - hpc: add fft.cu, sparse.cu demo;
 - svr: add svr directory;
 - Add debug/kconfig;
