@@ -39,6 +39,8 @@ CFLAGS_NVCC_matrix-fp64 := -DTEST_FP64=1
 CFLAGS_NVCC_matrix-fp32 := -DTEST_FP32=1
 CFLAGS_NVCC_matrix-fp16 := -DTEST_FP16=1
 CFLAGS_NVCC_matrix-int8 := -DTEST_INT8=1
+# NOTE: warning: ‘CUresult cuDeviceComputeCapability(int*, int*, CUdevice)’ is deprecated [-Wdeprecated-declarations]
+CFLAGS_NVCC_cudaGetDeviceProperties := -Wno-deprecated-declarations
 
 CUDA_HELPERS := ${OUTPUT}cuda_helpers.cu.o
 
