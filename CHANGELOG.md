@@ -11,6 +11,19 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+#### Changed
+#### Deprecated
+#### Removed
+#### Fixed
+#### Security
+#### Docs
+#### Tools
+
+
+## [v2.3.5] 2025-09-05
+
+#### Breaking Changes
+#### Added
 - metax: add hcTracer.sh;
 - cuda_helpers: add cufft_version(), cusparse_version() API;
 - python: add scipy/fft.py;
