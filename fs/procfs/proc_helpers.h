@@ -49,3 +49,6 @@ struct proc_mountpoint {
 
 int proc_for_each_mount(void (*callback)(const struct proc_mountpoint *mnt,
 					 void *arg), void *arg);
+
+pid_t get_pid_from_proc_self(void);
+pid_t get_tid_from_proc_thread_self(void);
