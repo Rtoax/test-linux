@@ -1,0 +1,8 @@
+#!/bin/env bpftrace
+
+BEGIN
+{
+	for ($j : ((uint64)0)..((uint64)10)) {
+		printf("j = %d\n", $j);
+	}
+}
