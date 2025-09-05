@@ -123,11 +123,8 @@ If the source code file has a copyright information at the beginning, the copyri
 
 - [linux-test-project](https://github.com/linux-test-project/ltp)
 - [unpbook/unpv13e](https://github.com/unpbook/unpv13e)
-
-## Relate Repos
-
-* [GitHub test-linux(Me)](https://github.com/Rtoax/test-linux)
-* [Gitee test-linux(Me)](https://gitee.com/rtoax/test-linux)
+- [GitHub test-linux](https://github.com/Rtoax/test-linux)
+- [Gitee test-linux](https://gitee.com/rtoax/test-linux)
 
 ## Tools
 
