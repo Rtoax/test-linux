@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- metax: add hcTracer.sh;
 - cuda_helpers: add cufft_version(), cusparse_version() API;
 - python: add scipy/fft.py;
 - hpc: add fft.cu, sparse.cu demo;

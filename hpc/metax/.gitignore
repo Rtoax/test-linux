@@ -1,2 +1,3 @@
-/*.devbin
-/*.hcfb
+*.devbin
+*.hcfb
+tracer_out_*
