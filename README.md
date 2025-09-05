@@ -59,7 +59,6 @@ Linus Torvalds releases a new kernel and opens a **2-week merge window**.
 
 * Each `README.md` is current directory's description.
 * Each `abbrev.md` is current directory's relative abbreviation.
-	- Syntax: `NAME[,ALIAS1,ALIAS2]: English shotcut (Chinese shotcut) @RELATE1 @RELATE2`
 	- scripts: `./abbrev.sh` to check all abbreviations.
 * Each `history.md` is store history of some technology.
 * Each **drawio** contains relate directory diagrams.
@@ -70,14 +69,6 @@ Linus Torvalds releases a new kernel and opens a **2-week merge window**.
 * Ignore file (check `.gitignore`).
 * If you want to write a text `Note`, use `.md`(`markdown`).
 * There are so many **symlinks** in this repo, so you better clone this repo in linux system, if windows, oops. You'd better use `make check`(or `./scripts/broken-symlinks.sh`) check invalid links and modify them.
-
-
-### abbrev.md Example
-
-```
-- AB: A Ball (一个球[, RFC|IEEE])
-- ABC[,ALIAS1,ALIAS2]: A Ball Circle (一个球圈[, RFC|IEEE]) @AB
-```
 
 
 # APIs
