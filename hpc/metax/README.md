@@ -93,6 +93,7 @@ MetaX - 沐曦
 # SMI
 
 - **ht-smi**
+	- commit 19e169e54fe0 ("metax: README: Mars X203: SMI")
 - **ht-smi topo**
 	- commit d74b9ae9bf9b ("metax: README: Mars X203: OAM topo matrix")
 	- commit a7a937db7c36 ("metax: README: Mars X203: OAM topo nic mlx")
