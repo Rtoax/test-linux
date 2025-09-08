@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- kunlunxin: add info.sh;
 - hpc/kunlunxin: Introduce;
 #### Changed
 - kconfig: split CONFIG to seperate files;
