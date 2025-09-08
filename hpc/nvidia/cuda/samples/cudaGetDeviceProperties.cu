@@ -59,6 +59,7 @@ int main(int argc, char *argv[])
 	printf("globalL1CacheSupported %d\n", prop.globalL1CacheSupported);
 	printf("localL1CacheSupported %d\n", prop.localL1CacheSupported);
 	printf("managedMemory %d\n", prop.managedMemory);
+	printf("memoryBusWidth %d\n", prop.memoryBusWidth);
 	/**
 	 * see also $ nvidia-smi -q -d ECC
 	 * - commit 120e7c6f3062 ("cudaGetDeviceProperties: ECC info")
