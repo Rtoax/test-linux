@@ -11,7 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
-- hpc/kunlun: Introduce;
+- hpc/kunlunxin: Introduce;
 #### Changed
 #### Deprecated
 #### Removed
