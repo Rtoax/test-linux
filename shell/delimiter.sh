@@ -46,7 +46,7 @@ Wrote by sudo tee
 EOF
 
 BuildId=121212
-Env=cclinux
+Env=kylin
 Region=Beijing
 NONCE=NONE
 
