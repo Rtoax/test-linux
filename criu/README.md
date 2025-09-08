@@ -1,12 +1,6 @@
 CRIU
 ====
 
-
-# Kernel CONFIG_
-
-- `CONFIG_CHECKPOINT_RESTORE`
-
-
 # Kernel ptrace(2)
 
 - `PR_SET_MM`

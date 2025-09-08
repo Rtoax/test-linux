@@ -13,6 +13,7 @@ and this project adheres to
 #### Added
 - hpc/kunlunxin: Introduce;
 #### Changed
+- kconfig: split CONFIG to seperate files;
 #### Deprecated
 #### Removed
 #### Fixed
