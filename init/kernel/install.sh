@@ -2,6 +2,12 @@
 set -e
 . /etc/os-release
 
+readonly prog=kinstall
+ARGS=$@
+
+verbose=
+kver=
+
 error() {
 	echo -en >&2 "\033[31m"
 	echo -e >&2 "ERROR: ${@}"
@@ -125,19 +131,87 @@ uninstall_kernel()
 	grub2-mkconfig -o /boot/grub2/grub.cfg
 }
 
-case $1 in
-install-from-source)
-	shift
-	install_from_source $@
-	;;
-uninstall)
-	shift
-	uninstall_kernel $@
-	;;
-*)
+__usage__() {
 	echo -e "
-  install-from-source [kver]
-  uninstall [kver]
+NAME
+	${prog} - Install and uninstall kernel from upstream linux
+
+SUBCOMMANDS
+	install-from-source [kver]
+	uninstall [kver]
+
+SEE ALSO
+	gcc(1), etc.
 "
+	exit ${1-0}
+}
+
+__getopt__() {
+	TEMP_ARGS=$(getopt --options k:vh \
+		--long kver: \
+		--long verbose \
+		--long help \
+		--name ${prog} -- "$@")
+
+	test $? != 0 && __usage__ 1
+
+	eval set -- "$TEMP_ARGS"
+
+	while true; do
+		case $1 in
+		-k | --kver)
+			shift
+			kver=$1
+			shift
+			;;
+		-h | --help)
+			shift
+			__usage__
+			;;
+		-v | --verbose)
+			shift
+			verbose=YES
+			;;
+		--)
+			shift
+			break
+			;;
+		esac
+	done
+
+	if [[ ${verbose} ]]; then
+		export PS4='+${BASH_SOURCE}:${LINENO}:${FUNCNAME[0]}: '
+		set -x
+	fi
+	ARGS="$@"
+}
+
+__getopt__ $@
+eval set -- "$ARGS"
+
+while true; do
+	case $1 in
+	install-from-source)
+		shift
+		__getopt__ $@
+		eval set -- "$ARGS"
+		install_from_source $kver
 		;;
-esac
+	uninstall)
+		shift
+		__getopt__ $@
+		eval set -- "$ARGS"
+		uninstall_kernel $kver
+		;;
+	*)
+		if [[ $1 ]]; then
+			__getopt__ $@
+			eval set -- "$ARGS"
+		else
+			__usage__
+			error "no subcommand specified!!!"
+			break;
+		fi
+		;;
+	esac
+done
