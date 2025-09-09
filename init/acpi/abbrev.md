@@ -1,5 +1,6 @@
 - APEI: ACPI Platform Error Interfaces (ACPI 平台错误接口)
 - CDAT: Coherent Device Attribute Table (相干设备属性表) @CXL
+- GHES: Generic Hardware Error Source (通用硬件错误源)
 - HMAT: Heterogeneous Memory Attribute Table (异构内存属性表)
 - RSDP: Root System Description Pointer ()
 - SPCR: Serial Port Console Redirection Table (串行端口控制台重定向表)
