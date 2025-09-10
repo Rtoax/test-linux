@@ -1,4 +1,5 @@
 - ASPM: Active State Power Management (激活状态电源管理) @PCIe
+- DRM: Direct Rendering Manager (直接渲染管理器) @GPU
 - MMIO: Memory Mapping I/O (内存映射I/O) @PIO
 - PCBA: PCBA (PCB 空板经过 SMT 贴片加工或 DIP 插件的成品电路板)
 - PCI: Peripheral Component Interconnect (外围组件互联) @PCIe

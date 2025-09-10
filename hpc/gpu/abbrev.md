@@ -1,0 +1,3 @@
+- GPU: Graphics Processing Unit (图形处理器)
+- sGPU: Sliced GPU (GPU切片)
+- TTM: Translation Table Maps (翻译表映射)

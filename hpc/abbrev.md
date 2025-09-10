@@ -10,7 +10,6 @@
 - GFLOPS: Giga FLOPS (每秒10亿次的浮点运算数) @FLOPS
 - GEMM: General Matrix-Matrix Multiplication (广义矩阵乘法, C=α⋅A⋅B+β⋅C)
 - GPC: Graphics Processing Cluster (图形处理器集合)
-- GPU: Graphics Processing Unit (图形处理器)
 - HBM: High Bandwidth Memory (高带宽内存)
 - HBM2: HBM 2 generation (第二代 HBM) @HBM
 - HBM2E: HBM2E

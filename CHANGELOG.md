@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- hpc: add gpu/abbrev.md;
 - kunlunxin: add info.sh;
 - hpc/kunlunxin: Introduce;
 #### Changed
