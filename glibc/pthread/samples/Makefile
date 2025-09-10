@@ -72,7 +72,7 @@ targets += taskset_example
 
 # glibc >= 2.34, pthread APIs move from libpthread.so to libc.so.
 # ref: https://developers.redhat.com/articles/2021/12/17/why-glibc-234-removed-libpthread
-CFLAGS := -pthread
+LDFLAGS := -pthread
 CFLAGS += -I$(shell realpath .)/../../../
 ifeq ($(CC),clang)
   LDFLAGS += -Wl,-lm

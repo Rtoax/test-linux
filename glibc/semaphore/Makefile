@@ -1,7 +1,6 @@
 targets := h2o
 
-CFLAGS :=
-CFLAGS += -pthread
+LDFLAGS := -pthread
 
 include ../../template/main.mk
 
