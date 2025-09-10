@@ -25,6 +25,14 @@
 # endif
 #endif
 
+/**
+ * FIXME: I don't really know the actual version of GCC support _Float16, but
+ * 'gcc (GCC) 8.5.0 20210514 (Red Hat 8.5.0-15)' don't have _Float16.
+ */
+#if defined(__GNUC__) && ((__GNUC__ == 8) && (__GNUC_MINOR__ > 5) || __GNUC__ > 8)
+# define SUPPORT_FLOAT16	1
+#endif
+
 #define ARRAY_SIZE(arr)	(sizeof(arr) / sizeof(arr[0]))
 const static char *ascii[] = {
 	"\033[32m",
@@ -108,7 +116,9 @@ typedef union fp16 {
 		# define __FP16_INITIALIZER(s, e, f) {s, e, f}
 		#endif
 	};
+#ifdef SUPPORT_FLOAT16
 	_Float16 f16;
+#endif /* SUPPORT_FLOAT16 */
 	uint16_t i16;
 #define FP16_INITIALIZER(s, e, f) {__FP16_INITIALIZER(s, e, f)}
 } __attribute__((packed)) fp16_t;
@@ -234,6 +244,7 @@ void check_fp32(float f)
 	assert(*(uint32_t *)&f == *(uint32_t *)&to && "Failed to check fp32");
 }
 
+#ifdef SUPPORT_FLOAT16
 void float16_to_fp16(const _Float16 f, fp16_t *fp16)
 {
 	_Float16 tmp = f;
@@ -283,16 +294,17 @@ void check_fp16(_Float16 f)
 	assert(*(uint16_t *)&f == *(uint16_t *)&to && "Failed to check fp16");
 }
 
-#ifdef HAVE_CUDA
+# ifdef HAVE_CUDA
 /* CUDA fp16 is totally same as IEEE-754 Half-precision-floating */
 void check_fp16_cuda(_Float16 f)
 {
 	half f16 = *(half *)&f;
 	check_fp16(*(_Float16 *)&f16);
 }
-#else
-# define check_fp16_cuda(f) do {} while (0)
-#endif
+# else
+#  define check_fp16_cuda(f) do {} while (0)
+# endif
+#endif /* SUPPORT_FLOAT16 */
 
 int main(void)
 {
@@ -330,6 +342,7 @@ int main(void)
 	check_fp32(fp32_PosZero.f32);
 	check_fp32(fp32_NegZero.f32);
 
+#ifdef SUPPORT_FLOAT16
 	seperator();
 
 	check_fp16(0);
@@ -360,6 +373,7 @@ int main(void)
 	check_fp16_cuda(fp16_PosZero.f16);
 	check_fp16_cuda(fp16_NegZero.f16);
 	check_fp16_cuda(fp16_NaN.f16);
+#endif
 
 	reset();
 
