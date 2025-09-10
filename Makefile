@@ -88,8 +88,11 @@ ifeq ($(KMOD),0)
   kmod-list :=
 endif
 ifeq ($(USER),0)
-  sub-dir :=
+  user-list :=
 endif
+
+sub-dir := ${kmod-list}
+sub-dir += ${user-list}
 
 include template/main.mk
 
