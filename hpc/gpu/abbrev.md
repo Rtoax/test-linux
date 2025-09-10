@@ -1,3 +1,4 @@
+- BO: Buffer Object (缓冲目标)
 - GART: Graphics Address Remapping Table (图形地址重映射表)
 - GEM: Graphics Execution Manager (图形执行管理器)
 - GPU: Graphics Processing Unit (图形处理器)
