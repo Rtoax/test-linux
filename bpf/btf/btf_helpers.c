@@ -42,6 +42,7 @@ enum {
 #if LINUX_VERSION_CODE < KERNEL_VERSION(5, 18, 0) && !defined(BTF_KIND_ENUM64)
 	BTF_KIND_ENUM64 = 19,
 #endif
+	_____EMPTY_IS_NOT_ALLOW,
 };
 
 /**
