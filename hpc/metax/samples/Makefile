@@ -33,9 +33,7 @@ targets-post += $(patsubst %,${OUTPUT}%,$(obj-fatbin))
 targets := matrix-c-fp32 matrix-c-fp64
 targets += float-c
 
-# some code use this macro test pure C
-CFLAGS_HTCC := -DHAVE_HCCL=1
-CFLAGS_HTCC += -Wno-c99-designator
+CFLAGS_HTCC := -Wno-c99-designator
 
 CFLAGS_HTCC_hcGetDeviceProperties := -Wno-string-plus-int
 

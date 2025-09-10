@@ -31,8 +31,6 @@ targets-post += $(patsubst %,${OUTPUT}%,$(obj-fatbin))
 
 targets := matrix-c-fp32 matrix-c-fp64
 
-CFLAGS_NVCC := -DHAVE_CUDA=1
-
 CFLAGS_matrix-fp64 := -DTEST_FP64=1
 CFLAGS_matrix-fp32 := -DTEST_FP32=1
 CFLAGS_NVCC_matrix-fp64 := -DTEST_FP64=1

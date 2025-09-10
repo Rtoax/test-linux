@@ -22,6 +22,8 @@ endif
 CFLAGS_HTCC_DEVBIN := -device-bin
 CFLAGS_HTCC_FATBIN := -fatbin
 
+CFLAGS_HTCC += -DHAVE_HCCL=1
+
 ifneq ($(wildcard ${HPCC_CU_BRIDGE}),)
   CFLAGS_HTCC += -I${HPCC_CU_BRIDGE} -DHPCC_CU_BRIDGE=1
 endif
