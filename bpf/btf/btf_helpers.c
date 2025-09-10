@@ -11,6 +11,38 @@
 
 #include "btf_helpers.h"
 
+enum {
+	/**
+	 * linux commit 8fd886911a6a ("bpf: Add BTF_KIND_FLOAT to uapi")
+	 * v5.11-4625-g8fd886911a6a
+	 * linux commit 22541a9eeb0d ("libbpf: Add BTF_KIND_FLOAT support")
+	 * v5.11-4627-g22541a9eeb0d
+	 */
+#if LINUX_VERSION_CODE < KERNEL_VERSION(5, 11, 0) && !defined(BTF_KIND_FLOAT)
+	BTF_KIND_FLOAT = 16,
+#endif
+	/**
+	 * linux commit 223f903e9c83 ("bpf: Rename BTF_KIND_TAG to BTF_KIND_DECL_TAG")
+	 * v5.15-rc3-1032-g223f903e9c83
+	 */
+#if LINUX_VERSION_CODE < KERNEL_VERSION(5, 15, 0) && !defined(BTF_KIND_DECL_TAG)
+	BTF_KIND_DECL_TAG = 17,
+#endif
+	/**
+	 * linux commit 8c42d2fa4eea ("bpf: Support BTF_KIND_TYPE_TAG for btf_type_tag attributes")
+	 * v5.15-4637-g8c42d2fa4eea
+	 */
+#if LINUX_VERSION_CODE < KERNEL_VERSION(5, 15, 0) && !defined(BTF_KIND_TYPE_TAG)
+	BTF_KIND_TYPE_TAG = 18,
+#endif
+	/**
+	 * linux commit 6089fb325cf7 ("bpf: Add btf enum64 support")
+	 * v5.18-12137-g6089fb325cf7
+	 */
+#if LINUX_VERSION_CODE < KERNEL_VERSION(5, 18, 0) && !defined(BTF_KIND_ENUM64)
+	BTF_KIND_ENUM64 = 19,
+#endif
+};
 
 /**
  * linux commit 41ced4cd8802 ("btf: Change BTF_KIND_* macros to enums")
@@ -36,40 +68,17 @@ const char *btf_kind_name(int kind)
 	KIND(BTF_KIND_FUNC_PROTO);
 	KIND(BTF_KIND_VAR);
 	KIND(BTF_KIND_DATASEC);
-	/**
-	 * linux commit 8fd886911a6a ("bpf: Add BTF_KIND_FLOAT to uapi")
-	 * v5.11-4625-g8fd886911a6a
-	 * linux commit 22541a9eeb0d ("libbpf: Add BTF_KIND_FLOAT support")
-	 * v5.11-4627-g22541a9eeb0d
-	 */
-#if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 11, 0)
 	KIND(BTF_KIND_FLOAT);
-#endif
 	/**
-	 * linux commit 223f903e9c83 ("bpf: Rename BTF_KIND_TAG to BTF_KIND_DECL_TAG")
-	 * v5.15-rc3-1032-g223f903e9c83
 	 * linux commit b5ea834dde6b ("bpf: Support for new btf kind BTF_KIND_TAG")
 	 * v5.14-9734-gb5ea834dde6b
 	 */
 #if LINUX_VERSION_CODE > KERNEL_VERSION(5, 14, 0) && LINUX_VERSION_CODE < KERNEL_VERSION(5, 15, 0)
 	KIND(BTF_KIND_TAG);
-#elif LINUX_VERSION_CODE >= KERNEL_VERSION(5, 15, 0)
+#endif
 	KIND(BTF_KIND_DECL_TAG);
-#endif
-	/**
-	 * linux commit 8c42d2fa4eea ("bpf: Support BTF_KIND_TYPE_TAG for btf_type_tag attributes")
-	 * v5.15-4637-g8c42d2fa4eea
-	 */
-#if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 15, 0)
 	KIND(BTF_KIND_TYPE_TAG);
-#endif
-	/**
-	 * linux commit 6089fb325cf7 ("bpf: Add btf enum64 support")
-	 * v5.18-12137-g6089fb325cf7
-	 */
-#if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 18, 0)
 	KIND(BTF_KIND_ENUM64);
-#endif
 	}
 #undef KIND
 	fprintf(stderr, "ERROR: Invalid or kernel not support kind %d\n", kind);
