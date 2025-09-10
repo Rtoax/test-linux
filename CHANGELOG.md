@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - Makefile: Rename target installdeps to deps;
 #### Added
+- opencv: Introduce;
 - linker: add LD_SHOW_AUXV.sh;
 - hpc: add gpu/abbrev.md;
 - kunlunxin: add info.sh;
