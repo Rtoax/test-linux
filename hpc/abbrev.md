@@ -1,6 +1,7 @@
 - BLAS: Basic Linear Algebra Subprograms (基本线性代数子程序)
 - CSR: Compressed Sparse Row (压缩稀疏行) @CSC
 - CSC: Compressed Sparse Column (压缩稀疏列) @CSR
+- CUDA: Compute Unified Device Architecture (计算统一设备架构)
 - DP: Double Precision (双精度) @FP64
 - FLOPs: Floating Point of Operations (浮点运算)
 - FLOPS: Floating Point Operations Per Second (每秒浮点运算个数)

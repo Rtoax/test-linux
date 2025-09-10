@@ -4,4 +4,4 @@ OpenCV
 
 # Links
 
-- [](https://github.com/opencv/opencv)
+- [GitHub OpenCV](https://github.com/opencv/opencv)

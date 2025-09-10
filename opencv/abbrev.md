@@ -1,1 +1,2 @@
+- CV: Computer Vision (计算机视觉)
 - OpenCV: Open Computer Vision Library (开放计算机视觉库)
