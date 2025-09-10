@@ -66,7 +66,7 @@ help:
 	@echo >&2 -e "*** make gitconfig"
 	@echo >&2 -e "*** make kconfig-display"
 	@echo >&2 -e "*** make check"
-	@echo >&2 -e "*** make installdeps"
+	@echo >&2 -e "*** make deps"
 	@echo >&2 -e "*** make [install|uninstall]"
 	@echo >&2 -e "*** make docker"
 	@echo >&2 -e "***"
@@ -101,9 +101,9 @@ define builddocker
 	${SHELL} scripts/build-docker.sh
 endef
 
-.PHONY: installdeps
-installdeps:
-	$(call log_info,top-makefile installdeps)
+.PHONY: deps
+deps:
+	$(call log_info,top-makefile install deps)
 	$(call installdeps)
 
 .PHONY: install

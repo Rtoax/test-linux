@@ -10,6 +10,7 @@ and this project adheres to
 ## Unreleased
 
 #### Breaking Changes
+- Makefile: Rename target installdeps to deps;
 #### Added
 - hpc: add gpu/abbrev.md;
 - kunlunxin: add info.sh;
