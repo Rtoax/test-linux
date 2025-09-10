@@ -74,6 +74,10 @@ LDFLAGS_NVCC += -lcufft
 LDFLAGS_NVCC += -lcurand
 LDFLAGS_NVCC += -lcusparse
 
+ifdef ERROR
+  CFLAGS_NVCC += -DERROR=1
+endif
+
 ifdef DEBUG
   CFLAGS_NVCC += -DDEBUG=${DEBUG}
   $(info $(shell ${NVCC} --version))
@@ -86,10 +90,6 @@ ifdef DEBUG
   $(info CFLAGS_NVCC_FATBIN = ${CFLAGS_NVCC_FATBIN})
   $(info CFLAGS_NVCC = ${CFLAGS_NVCC})
   $(info LDFLAGS_NVCC = ${LDFLAGS_NVCC})
-endif
-
-ifdef ERROR
-  CFLAGS_NVCC += -DERROR=1
 endif
 
 # NOTE: NVCC's cflags,ldflags is totally different from gcc/clang, thus, we

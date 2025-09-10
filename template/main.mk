@@ -60,26 +60,30 @@ ifdef STATIC
   MAKEFLAGS += STATIC=1
 endif
 
+CFLAGS_PIE :=
+LDFLAGS_PIE :=
 # Debian 12 default compile PIE EXEC, Fedora40 default compile no-PIE EXEC.
 # Default no-PIE in my case.
 ifdef PIE
   # clang: not support -pie in cflags
   ifeq ($(CC),gcc)
-    CFLAGS += -pie
+    CFLAGS_PIE += -pie
   endif
-  CFLAGS += -fPIE
-  LDFLAGS += -pie -fPIE
+  CFLAGS_PIE += -fPIE
+  LDFLAGS_PIE += -pie -fPIE
   MAKEFLAGS += PIE=1
 endif
 
 ifdef NOPIE
-  CFLAGS += -no-pie
-  LDFLAGS += -no-pie
+  CFLAGS_PIE += -no-pie
+  LDFLAGS_PIE += -no-pie
   MAKEFLAGS += NOPIE=1
   ifdef PIE
     $(error "Could no specify PIE and NOPIE at the same time")
   endif
 endif
+CFLAGS += ${CFLAGS_PIE}
+LDFLAGS += ${LDFLAGS_PIE}
 
 ifdef DEBUG
   $(info CFLAGS = ${CFLAGS})
@@ -88,7 +92,7 @@ ifdef DEBUG
   $(info LDXXFLAGS = ${LDXXFLAGS})
 endif
 
-export CFLAGS LDFLAGS CXXFLAGS LDXXFLAGS
+export CFLAGS LDFLAGS CXXFLAGS LDXXFLAGS CFLAGS_PIE LDFLAGS_PIE MAKEFLAGS
 
 TEMPLATE_DIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 export TEMPLATE_DIR
