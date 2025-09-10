@@ -5,7 +5,7 @@ _LIBCGROUP = 1
 LIBCGROUP_HDR := /usr/include/libcgroup.h
 
 ifneq ($(wildcard $(LIBCGROUP_HDR)),)
-  CFLAGS += -DHAVE_LIBCGROUP
+  CFLAGS += -DHAVE_LIBCGROUP=1
   LDFLAGS += -lcgroup
 else
   $(warning "WARNING: You need to install libcgroup")
