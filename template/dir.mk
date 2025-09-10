@@ -9,8 +9,19 @@ ifeq (${TOPDIR},)
   TOPDIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))/../))
 endif
 
+CURDIR := $(shell realpath .)
+
 ifeq (${TOPDIR},)
-  $(error Could not found topdir in anywhere)
+  $(error Could not found top directory in anywhere)
 endif
 
-export TOPDIR GIT_TOPDIR
+ifeq (${CURDIR},)
+  $(error Could not found current directory in anywhere)
+endif
+
+ifdef DEBUG
+  $(info TOPDIR = ${TOPDIR})
+  $(info CURDIR = ${CURDIR})
+endif
+
+export TOPDIR CURDIR GIT_TOPDIR
