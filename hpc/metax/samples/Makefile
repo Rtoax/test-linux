@@ -52,6 +52,8 @@ LDFLAGS_float-c := -lm
 
 HPCC_HELPERS := ${OUTPUT}hpcc_helpers.hpcc.o
 
+HELPERS := ${HPCC_HELPERS}
+
 include ../../../template/main.mk
 
 ${HPCC_HELPERS}: hpcc_helpers.h
@@ -66,29 +68,29 @@ ${OUTPUT}rand.hpcc.o: cuda_adapter.h hpcc_helpers.h
 ${OUTPUT}fft.hpcc.o: cuda_adapter.h hpcc_helpers.h
 ${OUTPUT}sparse.hpcc.o: cuda_adapter.h hpcc_helpers.h
 
-hello: ${OUTPUT}hello.hpcc.o ${HPCC_HELPERS}
-module: ${OUTPUT}module.hpcc.o ${HPCC_HELPERS}
-dim3: ${OUTPUT}dim3.hpcc.o ${HPCC_HELPERS}
-parallel: ${OUTPUT}parallel.hpcc.o ${HPCC_HELPERS}
-cooperative: ${OUTPUT}cooperative.hpcc.o ${HPCC_HELPERS}
-hcclGetVersion: ${OUTPUT}hcclGetVersion.hpcc.o ${HPCC_HELPERS}
-hcMalloc: ${OUTPUT}hcMalloc.hpcc.o ${HPCC_HELPERS}
-hcMallocManaged: ${OUTPUT}hcMallocManaged.hpcc.o ${HPCC_HELPERS}
-hcGetDeviceProperties: ${OUTPUT}hcGetDeviceProperties.hpcc.o ${HPCC_HELPERS}
-hcDeviceGetAttribute: ${OUTPUT}hcDeviceGetAttribute.hpcc.o ${HPCC_HELPERS}
-hcDeviceGetP2PAttribute: ${OUTPUT}hcDeviceGetP2PAttribute.hpcc.o ${HPCC_HELPERS}
-hcEvent: ${OUTPUT}hcEvent.hpcc.o ${HPCC_HELPERS}
-matrix-fp16: ${OUTPUT}matrix-fp16.hpcc.o ${HPCC_HELPERS}
-matrix-fp32: ${OUTPUT}matrix-fp32.hpcc.o ${HPCC_HELPERS}
-matrix-fp64: ${OUTPUT}matrix-fp64.hpcc.o ${HPCC_HELPERS}
-matrix-int8: ${OUTPUT}matrix-int8.hpcc.o ${HPCC_HELPERS}
-blas: ${OUTPUT}blas.hpcc.o ${HPCC_HELPERS}
-hcblasLtMatmul: ${OUTPUT}hcblasLtMatmul.hpcc.o ${HPCC_HELPERS}
-rand: ${OUTPUT}rand.hpcc.o ${HPCC_HELPERS}
-fft: ${OUTPUT}fft.hpcc.o ${HPCC_HELPERS}
-sparse: ${OUTPUT}sparse.hpcc.o ${HPCC_HELPERS}
-__GNUC__: ${OUTPUT}__GNUC__.hpcc.o ${HPCC_HELPERS}
-__STDC__: ${OUTPUT}__STDC__.hpcc.o ${HPCC_HELPERS}
+hello: ${OUTPUT}hello.hpcc.o ${HELPERS}
+module: ${OUTPUT}module.hpcc.o ${HELPERS}
+dim3: ${OUTPUT}dim3.hpcc.o ${HELPERS}
+parallel: ${OUTPUT}parallel.hpcc.o ${HELPERS}
+cooperative: ${OUTPUT}cooperative.hpcc.o ${HELPERS}
+hcclGetVersion: ${OUTPUT}hcclGetVersion.hpcc.o ${HELPERS}
+hcMalloc: ${OUTPUT}hcMalloc.hpcc.o ${HELPERS}
+hcMallocManaged: ${OUTPUT}hcMallocManaged.hpcc.o ${HELPERS}
+hcGetDeviceProperties: ${OUTPUT}hcGetDeviceProperties.hpcc.o ${HELPERS}
+hcDeviceGetAttribute: ${OUTPUT}hcDeviceGetAttribute.hpcc.o ${HELPERS}
+hcDeviceGetP2PAttribute: ${OUTPUT}hcDeviceGetP2PAttribute.hpcc.o ${HELPERS}
+hcEvent: ${OUTPUT}hcEvent.hpcc.o ${HELPERS}
+matrix-fp16: ${OUTPUT}matrix-fp16.hpcc.o ${HELPERS}
+matrix-fp32: ${OUTPUT}matrix-fp32.hpcc.o ${HELPERS}
+matrix-fp64: ${OUTPUT}matrix-fp64.hpcc.o ${HELPERS}
+matrix-int8: ${OUTPUT}matrix-int8.hpcc.o ${HELPERS}
+blas: ${OUTPUT}blas.hpcc.o ${HELPERS}
+hcblasLtMatmul: ${OUTPUT}hcblasLtMatmul.hpcc.o ${HELPERS}
+rand: ${OUTPUT}rand.hpcc.o ${HELPERS}
+fft: ${OUTPUT}fft.hpcc.o ${HELPERS}
+sparse: ${OUTPUT}sparse.hpcc.o ${HELPERS}
+__GNUC__: ${OUTPUT}__GNUC__.hpcc.o ${HELPERS}
+__STDC__: ${OUTPUT}__STDC__.hpcc.o ${HELPERS}
 float: ${OUTPUT}float.hpcc.o
 
 matrix-c-fp32: ${OUTPUT}matrix-fp32.o
