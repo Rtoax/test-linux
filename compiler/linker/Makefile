@@ -5,8 +5,9 @@ LD_MOLD := $(shell which mold 2>/dev/null)
 sub-dir := linker-script
 sub-dir += LD_PRELOAD
 
-targets :=
-targets += pushsection
+targets-shell := LD_SHOW_AUXV.sh
+
+targets := pushsection
 targets += attribute
 targets += bfd
 targets += gold
