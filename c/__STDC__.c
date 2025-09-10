@@ -38,6 +38,7 @@
  * vim:ts=8
  */
 #include <stdio.h>
+#include <features.h>
 
 int main(void)
 {
@@ -47,6 +48,14 @@ int main(void)
 	 * hosted environment. A hosted environment has the complete facilities
 	 * of the standard C library available. */
 	printf("__STDC_HOSTED__ %d\n", __STDC_HOSTED__);
+
+#ifdef __STRICT_ANSI__
+	printf("__STRICT_ANSI__\n");
+#endif
+
+#ifdef __STDC_WANT_IEC_60559_TYPES_EXT__
+	printf("__STDC_WANT_IEC_60559_TYPES_EXT__ defined\n");
+#endif
 
 	/* This macro expands to the C Standard’s version number, a long integer
 	 * constant of the form yyyymmL where yyyy and mm are the year and month
