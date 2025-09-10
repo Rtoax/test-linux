@@ -156,45 +156,45 @@ clean: $(sub-dir-clean) $(kmod-list-clean) $(targets-clean)
 	${Q}rm -f ${VMLINUX_H}
 	$(call log_tgt_done,clean,$(call git_relative_dir,$(shell realpath .)))
 
-include ${TEMPLATE_DIR}/target-exe.mk
+include ${TEMPLATE_DIR}/targets/exe.mk
 ifneq ($(targets-liba),)
-  include ${TEMPLATE_DIR}/target-liba.mk
+  include ${TEMPLATE_DIR}/targets/liba.mk
 endif
 ifneq ($(targets-libso),)
-  include ${TEMPLATE_DIR}/target-libso.mk
+  include ${TEMPLATE_DIR}/targets/libso.mk
 endif
 ifneq ($(HAVE_LLVM)$(targets-llvm-ll),)
-  include ${TEMPLATE_DIR}/target-llvm.mk
+  include ${TEMPLATE_DIR}/targets/llvm.mk
 endif
 ifneq ($(targets-bpf)$(VMLINUX_H),)
-  include ${TEMPLATE_DIR}/target-bpf.mk
+  include ${TEMPLATE_DIR}/targets/bpf.mk
 endif
 ifneq ($(targets-rust),)
-  include ${TEMPLATE_DIR}/target-rust.mk
+  include ${TEMPLATE_DIR}/targets/rust.mk
 endif
 ifneq ($(targets-nvcc),)
-  include ${TEMPLATE_DIR}/target-nvidia.mk
+  include ${TEMPLATE_DIR}/targets/nvidia.mk
 endif
 ifneq ($(targets-mxcc)$(targets-htcc),)
-  include ${TEMPLATE_DIR}/target-metax.mk
+  include ${TEMPLATE_DIR}/targets/metax.mk
 endif
 ifneq ($(targets-shell),)
-  include ${TEMPLATE_DIR}/target-shell.mk
+  include ${TEMPLATE_DIR}/targets/shell.mk
 endif
 ifneq ($(targets-mk-logs),)
-  include ${TEMPLATE_DIR}/target-make.mk
+  include ${TEMPLATE_DIR}/targets/make.mk
 endif
 ifneq ($(targets-python),)
-  include ${TEMPLATE_DIR}/target-python.mk
+  include ${TEMPLATE_DIR}/targets/python.mk
 endif
 ifneq ($(targets-go),)
-  include ${TEMPLATE_DIR}/target-golang.mk
+  include ${TEMPLATE_DIR}/targets/golang.mk
 endif
 ifneq ($(targets-java),)
-  include ${TEMPLATE_DIR}/target-java.mk
+  include ${TEMPLATE_DIR}/targets/java.mk
 endif
 ifneq (${OUTPUT},)
-  include ${TEMPLATE_DIR}/target-output.mk
+  include ${TEMPLATE_DIR}/targets/output.mk
 endif
 
 ifneq ($(sub-dir)$(kmod-list),)

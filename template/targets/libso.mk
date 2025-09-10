@@ -16,4 +16,4 @@ ${OUTPUT}%.so.o: %.c | ${OUTPUT}
 $(targets-libso): %:
 	$(call log_tgt_exe,SO,$(<),$(@))
 	${Q}${CC_PFX} $(CC) -o $(@) $(^) $(LDFLAGS_SO) $(LDFLAGS_SO_$(*)) -Wl,-soname=$(@)
-	${Q}${SHELL} ${TEMPLATE_DIR}/target-libso.sh multi-version $(@)
+	${Q}${SHELL} ${TEMPLATE_DIR}/targets/libso.sh multi-version $(@)

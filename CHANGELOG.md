@@ -10,6 +10,7 @@ and this project adheres to
 ## Unreleased
 
 #### Breaking Changes
+- template: add targets directory and move all target mk into it;
 - Makefile: Rename target installdeps to deps;
 #### Added
 - opencv: Introduce;
