@@ -44,8 +44,8 @@ CUDA_VERSION_MAJOR := $(shell echo ${CUDA_VERSION_RAW} | awk -F '.' '{print $$1}
 CUDA_VERSION_MINOR := $(shell echo ${CUDA_VERSION_RAW} | awk -F '.' '{print $$2}')
 CUDA_VERSION_PATCH := $(shell echo ${CUDA_VERSION_RAW} | awk -F '.' '{print $$3}')
 
-CFLAGS_NVCC_CUBIN := --cubin
-CFLAGS_NVCC_FATBIN := --fatbin
+cflags-nvcc-cubin := --cubin
+cflags-nvcc-fatbin := --fatbin
 
 CFLAGS_NVCC += -DHAVE_CUDA=1
 CFLAGS_NVCC += -DCUDA_VERSION_MAJOR=${CUDA_VERSION_MAJOR}
@@ -87,8 +87,8 @@ ifdef DEBUG
   $(info CUDA_VERSION_MAJOR = ${CUDA_VERSION_MAJOR})
   $(info CUDA_VERSION_MINOR = ${CUDA_VERSION_MINOR})
   $(info CUDA_VERSION_PATCH = ${CUDA_VERSION_PATCH})
-  $(info CFLAGS_NVCC_CUBIN = ${CFLAGS_NVCC_CUBIN})
-  $(info CFLAGS_NVCC_FATBIN = ${CFLAGS_NVCC_FATBIN})
+  $(info cflags-nvcc-cubin = ${cflags-nvcc-cubin})
+  $(info cflags-nvcc-fatbin = ${cflags-nvcc-fatbin})
   $(info CFLAGS_NVCC = ${CFLAGS_NVCC})
   $(info LDFLAGS_NVCC = ${LDFLAGS_NVCC})
 endif
@@ -101,11 +101,11 @@ ${OUTPUT}%.cu.o: %.cu | ${OUTPUT}
 
 ${OUTPUT}%.cubin: %.cu | ${OUTPUT}
 	$(call log_tgt_obj,CUBIN,$(<),$(@))
-	${Q}$(NVCC) -o $(@) -c $(<) $(CFLAGS_NVCC_CUBIN) $(CFLAGS_NVCC) $(CFLAGS_NVCC_$(*))
+	${Q}$(NVCC) -o $(@) -c $(<) $(cflags-nvcc-cubin) $(CFLAGS_NVCC) $(CFLAGS_NVCC_$(*))
 
 ${OUTPUT}%.fatbin: %.cu | ${OUTPUT}
 	$(call log_tgt_obj,FATBIN,$(<),$(@))
-	${Q}$(NVCC) -o $(@) -c $(<) $(CFLAGS_NVCC_FATBIN) $(CFLAGS_NVCC) $(CFLAGS_NVCC_$(*))
+	${Q}$(NVCC) -o $(@) -c $(<) $(cflags-nvcc-fatbin) $(CFLAGS_NVCC) $(CFLAGS_NVCC_$(*))
 
 ${OUTPUT}%.sass.dump: ${OUTPUT}%.cu.o | ${OUTPUT}
 	$(call log_tgt_obj,NV SASS,$(<),$(@))

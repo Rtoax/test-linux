@@ -19,8 +19,8 @@ ifeq ($(HTCC),)
   endif
 endif
 
-CFLAGS_HTCC_DEVBIN := -device-bin
-CFLAGS_HTCC_FATBIN := -fatbin
+cflags-htcc-devbin := -device-bin
+cflags-htcc-fatbin := -fatbin
 
 CFLAGS_HTCC += -DHAVE_HCCL=1
 
@@ -97,11 +97,11 @@ ${OUTPUT}%.hpcc.o: %.hpcc | ${OUTPUT}
 
 ${OUTPUT}%.devbin: %.hpcc | ${OUTPUT}
 	$(call log_tgt_obj,DEVBIN,$(<),$(@))
-	${Q}$(HTCC) -o $(@) -c $(<) $(CFLAGS_HTCC_DEVBIN) $(CFLAGS_HTCC) $(CFLAGS_HTCC_$(*))
+	${Q}$(HTCC) -o $(@) -c $(<) $(cflags-htcc-devbin) $(CFLAGS_HTCC) $(CFLAGS_HTCC_$(*))
 
 ${OUTPUT}%.fatbin: %.hpcc | ${OUTPUT}
 	$(call log_tgt_obj,FATBIN,$(<),$(@))
-	${Q}$(HTCC) -o $(@) -c $(<) $(CFLAGS_HTCC_FATBIN) $(CFLAGS_HTCC) $(CFLAGS_HTCC_$(*))
+	${Q}$(HTCC) -o $(@) -c $(<) $(cflags-htcc-fatbin) $(CFLAGS_HTCC) $(CFLAGS_HTCC_$(*))
 
 $(targets-htcc): %:
 	$(call log_tgt_exe,HTCC LD,$(<),$(@))
