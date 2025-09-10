@@ -1,3 +1,4 @@
+- GEM: Graphics Execution Manager (图形执行管理器)
 - GPU: Graphics Processing Unit (图形处理器)
 - sGPU: Sliced GPU (GPU切片)
 - TTM: Translation Table Maps (翻译表映射)
