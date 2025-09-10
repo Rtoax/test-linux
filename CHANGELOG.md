@@ -13,6 +13,7 @@ and this project adheres to
 - template: add targets directory and move all target mk into it;
 - Makefile: Rename target installdeps to deps;
 #### Added
+- Add tcp-sysrq-trigger/ from ostools;
 - dir.mk: add CURDIR;
 - opencv: Introduce;
 - linker: add LD_SHOW_AUXV.sh;

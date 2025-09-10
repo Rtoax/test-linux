@@ -1,0 +1,13 @@
+[Unit]
+Description=Trigger SYSRQ Daemon
+DefaultDependencies=no
+Requires=sockets.target
+After=sockets.target
+
+[Service]
+PIDFile=/run/trigger-master.pid
+ExecStart=/usr/bin/trigger-master
+ExecReload=/bin/kill -HUP $MAINPID
+
+[Install]
+WantedBy=multi-user.target

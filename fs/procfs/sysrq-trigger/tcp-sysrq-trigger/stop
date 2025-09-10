@@ -1,0 +1,9 @@
+#!/bin/bash 
+set -euo pipefail
+
+if [[ $(id -u) != 0 ]]; then
+	echo "ERROR: Must run with superuser(root,sudo)"
+	exit 1
+fi
+
+pkill trigger-master
