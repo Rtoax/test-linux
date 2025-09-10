@@ -1,4 +1,3 @@
-
 /* SPDX-License-Identifier: GPL-2.0 */
 #ifndef _LINUX_LIST_H
 #define _LINUX_LIST_H
@@ -6,14 +5,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <stdbool.h>
-
-#ifndef LIST_POISON1
-#define LIST_POISON1  ((void *) 0x00100100)
-#endif
-
-#ifndef LIST_POISON2
-#define LIST_POISON2  ((void *) 0x00200200)
-#endif
+#include "poison.h"
 
 #ifndef _unused
 #define _unused  __attribute__((unused))

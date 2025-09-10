@@ -247,4 +247,3 @@ void list_sort(void *priv, struct list_head *head, int (*cmp)(void *priv, struct
 	/* The final merge, rebuilding prev links */
 	merge_final(priv, (cmp_func)cmp, head, pending, list);
 }
-

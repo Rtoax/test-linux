@@ -1,4 +1,3 @@
-
 /* SPDX-License-Identifier: GPL-2.0-only */
 #ifndef LLIST_H
 #define LLIST_H
@@ -8,7 +7,6 @@
 #ifndef READ_ONCE
 #define READ_ONCE(var) (*((volatile typeof(var) *)(&(var))))
 #endif
-
 
 #ifndef xchg
 #define xchg(ptr,v) ((__typeof__(*(ptr)))__xchg((unsigned long) \
@@ -49,7 +47,6 @@ static inline unsigned long __xchg(unsigned long x, volatile void * ptr, int siz
 	return x;
 }
 #endif //xchg
-
 
 #ifndef offsetof
 #define offsetof(TYPE, MEMBER) ((size_t) &((TYPE *)0)->MEMBER)
