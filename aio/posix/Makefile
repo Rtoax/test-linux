@@ -3,8 +3,7 @@ targets += aio_write
 targets += aio_suspend
 targets += lio_listio
 
-CFLAGS :=
-CFLAGS += -lrt
+LDFLAGS := -lrt
 
 include ../../template/main.mk
 
