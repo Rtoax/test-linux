@@ -13,6 +13,7 @@ and this project adheres to
 - template: add targets directory and move all target mk into it;
 - Makefile: Rename target installdeps to deps;
 #### Added
+- qcow2: add guestmount.sh from ostools;
 - openssh: add scripts from ostools;
 - shell/commands: add sar directory;
 - Add tcp-sysrq-trigger/ from ostools;
