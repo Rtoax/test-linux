@@ -16,7 +16,7 @@ and this project adheres to
 - network: Add snmp directory and speed from ostools;
 - qcow2: add guestmount.sh from ostools;
 - openssh: add scripts from ostools;
-- shell/commands: add sar directory;
+- shell/commands: add sar, nmcli directory;
 - Add tcp-sysrq-trigger/ from ostools;
 - dir.mk: add CURDIR;
 - opencv: Introduce;
