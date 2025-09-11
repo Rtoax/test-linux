@@ -1,0 +1,11 @@
+[connection]
+id=bond0-slave-ens1f1
+uuid=ed53bfa5-0f77-49fe-9092-924cc043d74b
+type=ethernet
+interface-name=ens1f1
+master=bond0
+slave-type=bond
+
+[ethernet]
+
+[bond-port]

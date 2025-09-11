@@ -1,0 +1,16 @@
+[connection]
+id=bond0.51
+uuid=cb4880f0-2e66-4de2-8185-5fd12659c08c
+type=vlan
+master=br0
+slave-type=bridge
+timestamp=1671694704
+
+[ethernet]
+
+[vlan]
+flags=1
+id=51
+parent=bond0
+
+[bridge-port]
