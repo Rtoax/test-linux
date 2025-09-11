@@ -1,0 +1,11 @@
+/*.out
+/*.o
+/fstabd
+/CMakeCache.txt
+/CMakeFiles
+/cmake_install.cmake
+/Makefile
+/build
+/*.txt
+/*perf.data*
+/*perf.fdata*

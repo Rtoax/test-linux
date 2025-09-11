@@ -123,6 +123,7 @@ install: uninstall
 	${Q}ln -s ${TOPDIR}/scripts/termplot.sh /usr/bin/termplot
 	${Q}ln -s ${TOPDIR}/scripts/kconfig_compare.sh /usr/bin/kconfig_compare
 	${Q}ln -s ${TOPDIR}/init/kernel/install.sh /usr/bin/kinstall
+	${Q}ln -s ${TOPDIR}/tools/heatmap/hmctl.sh /usr/bin/hmctl
 
 .PHONY: uninstall
 uninstall:
@@ -137,7 +138,8 @@ uninstall:
 		/usr/bin/patchset \
 		/usr/bin/termplot \
 		/usr/bin/kconfig_compare \
-		/usr/bin/kinstall
+		/usr/bin/kinstall \
+		/usr/bin/hmctl
 
 .PHONY: docker
 docker:
