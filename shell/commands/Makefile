@@ -4,6 +4,7 @@ sub-dir += awk
 sub-dir += bc
 sub-dir += dmesg
 sub-dir += grep
+sub-dir += sar
 sub-dir += sed
 
 targets-shell := tr.sh
