@@ -1,10 +1,5 @@
 /**
  * Memory Heat Map
- *
- * Copyright (C) CESTC, Co.
- *
- * 2023-04-06	Rong Tao	Create this.
- * 2023-05-29	Rong Tao	Add --gran-cl3 argument
  */
 #include <stdio.h>
 #include <sys/stat.h>

@@ -17,15 +17,15 @@ openssl req -new -key server.key -out server.csr
 #  Country Name (2 letter code) [XX]:ch
 #  State or Province Name (full name) []:Beijing
 #  Locality Name (eg, city) [Default City]:Beijing
-#  Organization Name (eg, company) [Default Company Ltd]:CEC
-#  Organizational Unit Name (eg, section) []:CESTC
+#  Organization Name (eg, company) [Default Company Ltd]:RTOAX
+#  Organizational Unit Name (eg, section) []:RTOAX
 #  Common Name (eg, your name or your server's hostname) []:FT-5000C
-#  Email Address []:rongtao@cestc.cn
+#  Email Address []:rtoax@foxmail.com
 #
 #  Please enter the following 'extra' attributes
 #  to be sent with your certificate request
 #  A challenge password []:1q2w3e
-#  An optional company name []:cestc
+#  An optional company name []:rtoax
 openssl x509 -req -days 3650 -in server.csr -signkey server.key -out server.crt
 sudo cp server.crt /etc/pki/tls/certs/
 sudo cp server.key /etc/pki/tls/private/
