@@ -16,7 +16,7 @@ int usage_client(int argc, char *argv[])
 	printf("\033[1m  echo [cmd] > /proc/sysrq-trigger\033[m\n");
 	printf("   [cmd]:\n");
 #define trigger(cmd, discription)    printf("    %c - %s\n", cmd, discription);
-#include "trigger.h"
+#include "trigger-defs.h"
 #undef trigger
 	printf("\033[1m  Extra COMMAND:\033[m\n");
 	printf("    HELP - show this message.\n");
@@ -36,7 +36,7 @@ int parse_cmd(char *line, cmd_fn cfn, writefile_fn wfn, CMD_TYPE *cmd_type, int 
 
 	switch (cmd) {
 #define trigger(cmd, dis) case cmd:
-#include "trigger.h"
+#include "trigger-defs.h"
 #undef trigger
 			/* callback cmd_fn */
 			ret = cfn(cmd, _errno);
