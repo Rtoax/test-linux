@@ -13,6 +13,7 @@ and this project adheres to
 - template: add targets directory and move all target mk into it;
 - Makefile: Rename target installdeps to deps;
 #### Added
+- network: add http directory;
 - network: add dhcp directory;
 - network: add bond config example;
 - network: Add snmp directory and speed from ostools;
