@@ -1,0 +1,14 @@
+# fstabd service
+[Unit]
+Description=/etc/fstab monitor and recover
+
+[Service]
+Type=simple
+ExecStart=/usr/libexec/fstabd/fstabd.sh
+ExecReload=/bin/kill -HUP $MAINPID
+KillMode=mixed
+Restart=on-failure
+RestartSec=10s
+
+[Install]
+WantedBy=multi-user.target

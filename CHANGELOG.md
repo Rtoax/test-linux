@@ -13,6 +13,7 @@ and this project adheres to
 - template: add targets directory and move all target mk into it;
 - Makefile: Rename target installdeps to deps;
 #### Added
+- tools: add fstabd from ostools;
 - tools: add samba directory;
 - shell: add mpstat;
 - initramfs: add README.md;

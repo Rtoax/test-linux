@@ -1,0 +1,19 @@
+#  SPDX-License-Identifier: LGPL-2.1-or-later
+#
+#  This file is part of fstabd.
+#
+#  fstabd use to backup /etc/fstab and restore it from backup if configure
+#  wrong.
+#
+
+[Unit]
+Description=Backup and restore /etc/fstab
+After=systemd-journald.service
+
+[Service]
+Type=exec
+ExecStart=/usr/sbin/fstabd
+ExecReload=/bin/kill -HUP $MAINPID
+KillMode=process
+Restart=on-failure
+RestartSec=42s

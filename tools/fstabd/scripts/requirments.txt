@@ -1,0 +1,3 @@
+coreutils
+inotify-tools
+util-linux-core
