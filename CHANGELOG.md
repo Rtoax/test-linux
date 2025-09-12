@@ -13,6 +13,7 @@ and this project adheres to
 - template: add targets directory and move all target mk into it;
 - Makefile: Rename target installdeps to deps;
 #### Added
+- shell: add mpstat;
 - initramfs: add README.md;
 - shell: add genisoimage from ostools;
 - tools: add heatmap/ from ostools;
