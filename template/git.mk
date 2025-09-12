@@ -7,7 +7,7 @@ endif
 
 define git_config
 	@if [[ ! -z $(TOPDIR) ]]; then \
-		${SHELL} ${TOPDIR}/scripts/git/config.sh; \
+		${SHELL} ${TOPDIR}/scripts/git/hooks/config.sh; \
 	fi
 endef
 
