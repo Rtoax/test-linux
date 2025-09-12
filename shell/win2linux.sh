@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # Replace "\n\r"(^M) to "\n"
 
 function dos2unix_sed()
@@ -8,6 +8,7 @@ function dos2unix_sed()
 		# Skip the symbol link and directory
 		[[ -L $f ]] && continue
 		[[ -d $f ]] && continue
+		echo "Swap $f"
 		sed -i 's/\r$//' $f
 	done
 }
