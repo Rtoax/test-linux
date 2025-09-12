@@ -13,6 +13,7 @@ and this project adheres to
 - template: add targets directory and move all target mk into it;
 - Makefile: Rename target installdeps to deps;
 #### Added
+- kata-containers: add kylin from ostools;
 - kata-containers: add kata-agent-kmod.sh from ostools;
 - tools: add fstabd from ostools;
 - tools: add samba directory;
