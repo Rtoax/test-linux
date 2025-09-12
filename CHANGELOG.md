@@ -39,6 +39,7 @@ and this project adheres to
 - kunlunxin: add info.sh;
 - hpc/kunlunxin: Introduce;
 #### Changed
+- systemtap: Move to tools/;
 - kconfig: split CONFIG to seperate files;
 #### Deprecated
 #### Removed
