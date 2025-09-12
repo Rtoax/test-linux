@@ -2,6 +2,8 @@
 sub-dir := scsi
 sub-dir += lvm
 
+targets-shell := disk_examples.sh
+
 targets := partition-table
 
 include ../template/main.mk
