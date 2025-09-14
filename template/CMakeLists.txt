@@ -20,6 +20,7 @@ link_libraries(${ELF} ${RT} ${LZMA})
 add_definitions(-MD -Wall -g -ggdb -O0 -D_GNU_SOURCE -Wuninitialized -Wreturn-type -pg)
 add_definitions(-D_MAIN_USER=1)
 add_definitions(-DHAVE_PRINTF=1)
+add_definitions(-DCONFIG_MMU=1)
 
 # GNU GCC version
 if (CMAKE_COMPILER_IS_GNUCC)
