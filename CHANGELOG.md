@@ -13,6 +13,8 @@ and this project adheres to
 - template: add targets directory and move all target mk into it;
 - Makefile: Rename target installdeps to deps;
 #### Added
+- python: add crypt/password.py;
+- storage: add disk_helpers.sh;
 - cloud-native: add kubernetes;
 - scripts/git: add config.sh from ostools;
 - qcow2: add qcow2-extend.sh;

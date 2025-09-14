@@ -14,11 +14,11 @@ ${OUTPUT}%.o: %.c | ${OUTPUT}
 
 ${OUTPUT}%.E.c: %.c | ${OUTPUT}
 	$(call log_tgt_obj,CC E,$(<),$(@))
-	${Q}${CC_PFX} $(CC) -E -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
+	${Q}${CC_PFX} $(CC) -E -o $(@) $(<) $(CFLAGS) $(CFLAGS_$(*))
 
 ${OUTPUT}%.c.s: %.c | ${OUTPUT}
 	$(call log_tgt_obj,CC S,$(<),$(@))
-	${Q}${CC_PFX} $(CC) -S -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
+	${Q}${CC_PFX} $(CC) -S -o $(@) $(<) $(CFLAGS) $(CFLAGS_$(*))
 
 ${OUTPUT}%.cpp.o: %.cpp | ${OUTPUT}
 	$(call log_tgt_obj,CXX,$(<),$(@))
@@ -26,7 +26,7 @@ ${OUTPUT}%.cpp.o: %.cpp | ${OUTPUT}
 
 ${OUTPUT}%.cpp.s: %.cpp | ${OUTPUT}
 	$(call log_tgt_obj,CXX S,$(<),$(@))
-	${Q}${CC_PFX} $(CXX) -S -o $(@) -c $(<) $(CXXFLAGS) $(CXXFLAGS_$(*))
+	${Q}${CC_PFX} $(CXX) -S -o $(@) $(<) $(CXXFLAGS) $(CXXFLAGS_$(*))
 
 ${OUTPUT}%.asm.o: %.asm | ${OUTPUT}
 	$(call log_tgt_obj,ASM,$(<),$(@))
