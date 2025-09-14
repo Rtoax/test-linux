@@ -17,7 +17,7 @@ targets += sequentially-consistent-raw
 targets += sequentially-consistent-war
 
 LDFLAGS := -pthread
-CFLAGS += -I$(shell realpath .)/../../../synchronization/barrier/
+CFLAGS += -I$(shell realpath .)/../../../sync/barrier/
 
 CFLAGS_r-barrier := -DHAVE_MRBARRIER=1
 CFLAGS_w-barrier := -DHAVE_MWBARRIER=1

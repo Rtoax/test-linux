@@ -1,1 +1,1 @@
-../../../synchronization/rcu/modules/stall.c
+../../../sync/rcu/modules/stall.c

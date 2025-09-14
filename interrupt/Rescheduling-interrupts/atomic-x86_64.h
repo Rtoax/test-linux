@@ -1,1 +1,1 @@
-../../synchronization/atomic/atomic64.h
+../../sync/atomic/atomic64.h

@@ -10,6 +10,7 @@ and this project adheres to
 ## Unreleased
 
 #### Breaking Changes
+- Rename synchronization/ to sync/;
 - Rename instructions/ to insn/;
 - template: add targets directory and move all target mk into it;
 - Makefile: Rename target installdeps to deps;
