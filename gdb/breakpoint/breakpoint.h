@@ -1,1 +1,1 @@
-../../instructions/examples/breakpoint.h
+../../insn/examples/breakpoint.h

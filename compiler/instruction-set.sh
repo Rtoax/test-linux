@@ -1,1 +1,1 @@
-../instructions/instruction-set.sh
+../insn/instruction-set.sh

@@ -1,1 +1,1 @@
-../../instructions/examples/rdmsr.c
+../../insn/examples/rdmsr.c
