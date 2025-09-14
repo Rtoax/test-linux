@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+    <S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/">
+        <S:Body>
+            <ns4:grtHgetRed xmlns:ns2="http://object" xmlns:ns3="http://object" xmlns:ns4="http://object">
+                <RequestId>lol</RequestId>
+                <MessageDateTime>54.009</MessageDateTime>
+                <SenderId>UH</SenderId>
+                <ReceiverId>GER</ReceiverId>
+                <TrackingNumber>45</TrackingNumber>
+                <ServerName>trewds</ServerName>
+                <ResponseType>success</ResponseType>
+                <StatusInfo>
+                <Status>success</Status>
+                <SystemMessage>Hagert</SystemMessage>
+                <UserMessage>Hgert</UserMessage>
+                <Origination>htref</Origination>
+                </StatusInfo>
+            </ns4:grtHgetRed>
+        </S:Body>
+    </S:Envelope>
