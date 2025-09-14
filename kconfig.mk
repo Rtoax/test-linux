@@ -15,7 +15,7 @@ ifeq ($(wildcard $(CONFIG_KERNEL)),)
   CONFIG_KERNEL := ${CONFIG_TOPDIR}/kconfig
 
   # If current directory has kconfig, include it.
-  CONFIG_CURDIR_KCONFIG ?= kconfig
+  CONFIG_CURDIR_KCONFIG := kconfig
   ifneq ($(wildcard ${CONFIG_CURDIR_KCONFIG}),)
     ifdef DEBUG
       $(info "INFO: current directory include ${CONFIG_CURDIR_KCONFIG} file")
