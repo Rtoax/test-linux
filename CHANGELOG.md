@@ -15,6 +15,7 @@ and this project adheres to
 - template: add targets directory and move all target mk into it;
 - Makefile: Rename target installdeps to deps;
 #### Added
+- tools: add trans/trans.sh;
 - xmllint: Add from ostools;
 - python: add crypt/password.py;
 - storage: add disk_helpers.sh;
