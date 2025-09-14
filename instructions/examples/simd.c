@@ -801,7 +801,7 @@ int main(int argc, char *argv[])
 	fprintf(stderr, "Test nloop = %ld\n", nloop);
 #if defined(CPU_HAVE_SVE)
 	uint64_t lanes = svcntb();
-	printf("SVE vector width is %d bytes (%d bits).\n", lanes, lanes * 8);
+	printf("SVE vector width is %ld bytes (%ld bits).\n", lanes, lanes * 8);
 #endif
 
 	for (j = 0; j < nloop; j++) {
