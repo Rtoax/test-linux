@@ -12,7 +12,7 @@ struct list_test {
 #define LIST_TEST_INITIALIZER(v)   {{NULL, NULL}, v}
 };
 
-int demo_list_1_add_del_swap_for_each()
+static int demo_list_1_add_del_swap_for_each(void)
 {
 	struct list_head lhead;
 
@@ -41,7 +41,7 @@ int demo_list_1_add_del_swap_for_each()
 	return 0;
 }
 
-int demo_list_2_move_and_move_tail()
+static int demo_list_2_move_and_move_tail(void)
 {
 	struct list_head lhead1, lhead2;
 
