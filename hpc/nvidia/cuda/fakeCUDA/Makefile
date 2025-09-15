@@ -18,8 +18,8 @@ CFLAGS_SO += -DCUDA_VERSION_PATCH=${CUDA_VERSION_PATCH}
 
 LDFLAGS_SO_libcuda.so.1 := -Wl,--version-script=libcuda.map
 LDFLAGS_SO_libcudart.so.13 := -Wl,--version-script=libcudart.map
-LDFLAGS_SO_libcublas.so.12 := -Wl,--version-script=libcublas.map
-LDFLAGS_SO_libcublasLt.so.12 := -Wl,--version-script=libcublasLt.map
+LDFLAGS_SO_libcublas.so.13 := -Wl,--version-script=libcublas.map
+LDFLAGS_SO_libcublasLt.so.13 := -Wl,--version-script=libcublasLt.map
 LDFLAGS_SO_libcurand.so.10 := -Wl,--version-script=libcurand.map
 LDFLAGS_SO_libcufft.so.12 := -Wl,--version-script=libcufft.map
 LDFLAGS_SO_libcusparse.so.12 := -Wl,--version-script=libcusparse.map
