@@ -1,6 +1,6 @@
 libcufft.so.12 {
 	global:
-		*;
+		cufftGetProperty;
 	local:
 		*;
 };

@@ -1,6 +1,5 @@
 #define DISABLE_CUSPARSE_DEPRECATED	1
 #include <cusparse.h>
-
 #include "debug.h"
 
 
