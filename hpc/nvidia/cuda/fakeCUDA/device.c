@@ -192,3 +192,45 @@ int dev_get_prop(int device, cudaDeviceProp *prop)
 
 	return cudaSuccess;
 }
+
+int dev_get_attr(int device, cudaDeviceAttr attr, int *value)
+{
+	if (device < 0 || device >= DEV_COUNT)
+		return cudaErrorInvalidValue;
+
+	DEV_LOCK();
+
+	switch (attr) {
+	case cudaDevAttrEccEnabled:
+		*value = all_devices[device].ECCEnabled;
+		break;
+	case cudaDevAttrManagedMemory:
+		*value = all_devices[device].managedMemory;
+		break;
+	case cudaDevAttrL2CacheSize:
+		*value = all_devices[device].l2CacheSize;
+		break;
+	case cudaDevAttrClockRate:
+		*value = all_devices[device].clockRate;
+		break;
+	case cudaDevAttrMaxThreadsPerBlock:
+		*value = all_devices[device].maxThreadsPerBlock;
+		break;
+	case cudaDevAttrMaxThreadsPerMultiProcessor:
+		*value = all_devices[device].maxThreadsPerMultiProcessor;
+		break;
+	case cudaDevAttrHostNumaId:
+		*value = 0;	/* TODO */
+		break;
+	case cudaDevAttrWarpSize:
+		*value = all_devices[device].warpSize;
+		break;
+	default:
+		DEV_UNLOCK();
+		return cudaErrorInvalidValue;
+	}
+
+	DEV_UNLOCK();
+
+	return cudaSuccess;
+}

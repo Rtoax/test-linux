@@ -53,7 +53,7 @@ cudaError_t cudaMemset(void *devPtr, int value, size_t count)
 }
 
 cudaError_t cudaMemcpy(void *dst, const void *src, size_t count,
-		       enum cudaMemcpyKind kind)
+		       cudaMemcpyKind kind)
 {
 	if (!dst || !src)
 		return cudaErrorInvalidValue;

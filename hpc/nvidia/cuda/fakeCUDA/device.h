@@ -11,3 +11,4 @@ int dev_set_current(int device);
 int dev_get_current(int *device);
 
 int dev_get_prop(int device, cudaDeviceProp *prop);
+int dev_get_attr(int device, cudaDeviceAttr attr, int *value);

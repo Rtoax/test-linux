@@ -80,6 +80,11 @@ cudaError_t cudaGetDeviceProperties(cudaDeviceProp *prop, int device)
 	return dev_get_prop(device, prop);
 }
 
+cudaError_t cudaDeviceGetAttribute(int *value, cudaDeviceAttr attr, int device)
+{
+	return dev_get_attr(device, attr, value);
+}
+
 cudaError_t cudaDeviceSynchronize(void)
 {
 	return cudaSuccess;
