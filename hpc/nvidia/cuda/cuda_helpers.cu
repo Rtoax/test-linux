@@ -44,7 +44,7 @@ void gpu_check_gpu_error(const char *msg)
 {
 	cudaError_t err = cudaGetLastError();
 	if (cudaSuccess != err) {
-		printf("Cuda error: %s: %s\n", msg, cudaGetErrorString(err));
+		printf("CUDA error: %s: %s\n", msg, cudaGetErrorString(err));
 		exit(1);
 	}
 }
