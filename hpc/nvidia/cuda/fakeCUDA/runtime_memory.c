@@ -44,3 +44,9 @@ cudaError_t cudaMemset(void *devPtr, int value, size_t count)
 
 	return cudaSuccess;
 }
+
+cudaError_t cudaMallocManaged(void **devPtr, size_t size, unsigned int flags)
+{
+	/* Note: just ignore flags */
+	return cudaMalloc(devPtr, size);
+}

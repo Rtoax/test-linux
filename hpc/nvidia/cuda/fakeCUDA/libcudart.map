@@ -17,6 +17,7 @@ libcudart.so.13 {
 		cudaDeviceSetLimit;
 		cudaDeviceSynchronize;
 		cudaMalloc;
+		cudaMallocManaged;
 		cudaFree;
 		cudaMemset;
 	local:
