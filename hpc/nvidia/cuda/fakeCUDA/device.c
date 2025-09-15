@@ -20,7 +20,7 @@ static struct device *current_device = NULL;
 
 int dev_count(void)
 {
-	return 8;
+	return DEV_COUNT;
 }
 
 int dev_set_current(int device)

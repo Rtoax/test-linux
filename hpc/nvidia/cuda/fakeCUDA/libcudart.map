@@ -8,6 +8,7 @@ libcudart.so.13 {
 		cudaGetErrorString;
 		cudaGetDeviceCount;
 		cudaGetDeviceProperties;
+		cudaDeviceSetLimit;
 	local:
 		*;
 };
