@@ -1,0 +1,13 @@
+libcudart.so.13 {
+	global:
+		__cudaRegisterFatBinary;
+		__cudaRegisterFatBinaryEnd;
+		__cudaUnregisterFatBinary;
+		cudaSetDevice;
+		cudaGetLastError;
+		cudaGetErrorString;
+		cudaGetDeviceCount;
+		cudaGetDeviceProperties;
+	local:
+		*;
+};
