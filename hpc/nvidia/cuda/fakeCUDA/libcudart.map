@@ -3,6 +3,11 @@ libcudart.so.13 {
 		__cudaRegisterFatBinary;
 		__cudaRegisterFatBinaryEnd;
 		__cudaUnregisterFatBinary;
+		__cudaRegisterFunction;
+		__cudaPushCallConfiguration;
+		__cudaGetKernel;
+		__cudaPopCallConfiguration;
+		__cudaLaunchKernel;
 		cudaGetDevice;
 		cudaSetDevice;
 		cudaGetLastError;
