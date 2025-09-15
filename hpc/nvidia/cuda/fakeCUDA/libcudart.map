@@ -15,6 +15,7 @@ libcudart.so.13 {
 		cudaGetDeviceCount;
 		cudaGetDeviceProperties;
 		cudaDeviceSetLimit;
+		cudaDeviceSynchronize;
 	local:
 		*;
 };

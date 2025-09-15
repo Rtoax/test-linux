@@ -79,3 +79,8 @@ cudaError_t cudaGetDeviceProperties(cudaDeviceProp *prop, int device)
 {
 	return dev_get_prop(device, prop);
 }
+
+cudaError_t cudaDeviceSynchronize(void)
+{
+	return cudaSuccess;
+}
