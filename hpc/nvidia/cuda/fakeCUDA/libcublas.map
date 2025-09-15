@@ -3,6 +3,7 @@ libcublas.so.13 {
 		cublasCreate_v2;
 		cublasDestroy_v2;
 		cublasSetMatrix;
+		cublasGetMatrix;
 		cublasSscal_v2;
 	local:
 		*;

@@ -28,6 +28,19 @@ cublasStatus_t cublasSetMatrix(int rows, int cols, int elemSize,
 	return CUBLAS_STATUS_SUCCESS;
 }
 
+cublasStatus_t cublasGetMatrix(int rows, int cols, int elemSize,
+			       const void *A, int lda, void *B, int ldb)
+{
+	const char *src = (const char*)A;
+	char *dst = (char*)B;
+	for (int j = 0; j < cols; ++j) {
+		memcpy(dst + j * ldb * elemSize,
+			src + j * lda * elemSize,
+			rows * elemSize);
+	}
+	return CUBLAS_STATUS_SUCCESS;
+}
+
 cublasStatus_t cublasSscal_v2(cublasHandle_t handle, int n, const float *alpha,
 			   float *x, int incx)
 {
