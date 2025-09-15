@@ -1,6 +1,7 @@
 libcublas.so.13 {
 	global:
 		cublasCreate_v2;
+		cublasDestroy_v2;
 	local:
 		*;
 };
