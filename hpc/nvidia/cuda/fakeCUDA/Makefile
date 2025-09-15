@@ -1,4 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
+OUTPUT = .output/
 
 targets-libso := libcuda.so.1
 targets-libso += libcudart.so.13
@@ -20,10 +21,10 @@ LDFLAGS_SO_libcusparse.so.12 := -Wl,--version-script=libcusparse.map
 
 include ../../../../template/main.mk
 
-libcuda.so.1: cuda.so.o device.so.o
-libcudart.so.13: runtime.so.o runtime_memory.so.o runtime_internal.so.o device.so.o
-libcublas.so.13: blas.so.o
-libcublasLt.so.13: blasLt.so.o
-libcufft.so.12: fft.so.o
-libcurand.so.10: rand.so.o
-libcusparse.so.12: sparse.so.o
+libcuda.so.1: ${OUTPUT}cuda.so.o ${OUTPUT}device.so.o
+libcudart.so.13: ${OUTPUT}runtime.so.o ${OUTPUT}runtime_memory.so.o ${OUTPUT}runtime_internal.so.o ${OUTPUT}device.so.o
+libcublas.so.13: ${OUTPUT}blas.so.o
+libcublasLt.so.13: ${OUTPUT}blasLt.so.o
+libcufft.so.12: ${OUTPUT}fft.so.o
+libcurand.so.10: ${OUTPUT}rand.so.o
+libcusparse.so.12: ${OUTPUT}sparse.so.o
