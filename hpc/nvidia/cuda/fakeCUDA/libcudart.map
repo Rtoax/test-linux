@@ -27,6 +27,14 @@ libcudart.so.13 {
 		cudaStreamDestroy;
 		cudaStreamSynchronize;
 		cudaLaunchCooperativeKernel;
+		cudaEventCreate;
+		cudaEventCreateWithFlags;
+		cudaEventDestroy;
+		cudaEventElapsedTime;
+		cudaEventQuery;
+		cudaEventRecord;
+		cudaEventRecordWithFlags;
+		cudaEventSynchronize;
 	local:
 		*;
 };
