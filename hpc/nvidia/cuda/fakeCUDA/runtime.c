@@ -4,6 +4,7 @@
 #include <sys/types.h>
 #include "device.h"
 #include "debug.h"
+#include "types.h"
 
 
 struct limits {
@@ -15,9 +16,6 @@ struct limits {
 	size_t cudaLimitMaxL2FetchGranularity;
 	size_t cudaLimitPersistingL2CacheSize;
 };
-
-
-typedef struct cudaDeviceProp cudaDeviceProp;
 
 
 static struct limits limits = {
@@ -77,7 +75,7 @@ cudaError_t cudaDeviceSetLimit(enum cudaLimit limit, size_t value)
 	return cudaSuccess;
 }
 
-cudaError_t cudaGetDeviceProperties(cudaDeviceProp* prop, int device)
+cudaError_t cudaGetDeviceProperties(cudaDeviceProp *prop, int device)
 {
-	return cudaSuccess;
+	return dev_get_prop(device, prop);
 }

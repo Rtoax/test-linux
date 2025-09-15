@@ -3,6 +3,7 @@
 #define __unused __attribute__((unused))
 
 struct test {
+	int idx;
 	int a;
 };
 
@@ -35,6 +36,15 @@ struct test tests3[] = {
 	[8 ... 9] = {.a = 4,},
 };
 
+struct test tests4[4] = {
+	[0] = { .idx = 0, },
+	[1] = { .idx = 1, },
+	[2] = { .idx = 2, },
+	[3] = { .idx = 3, },
+	/* idx will be reset to zero */
+	[0 ... 3] = { .a = 10, },
+};
+
 int widths[] = { [0 ... 3] = 1, [5 ... 9] = 2, [10] = 3 };
 
 #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof(arr[0]))
@@ -43,7 +53,7 @@ int widths[] = { [0 ... 3] = 1, [5 ... 9] = 2, [10] = 3 };
 		int i; \
 		printf("------- %s ------\n", #arr); \
 		for (i = 0; i < ARRAY_SIZE(arr); i++) { \
-			printf("%s[%d].a = %d\n", #arr, i, arr[i].a); \
+			printf("%s[%d] idx = %d, a = %d\n", #arr, i, arr[i].idx, arr[i].a); \
 		} \
 	} while (0)
 #define PR_ARR(arr) do { \
@@ -66,6 +76,7 @@ int main(void)
 	PR_S_ARR(tests1);
 	PR_S_ARR(tests2);
 	PR_S_ARR(tests3);
+	PR_S_ARR(tests4);
 	PR_ARR(widths);
 	return 0;
 }
