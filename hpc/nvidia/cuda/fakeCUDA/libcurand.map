@@ -1,6 +1,6 @@
 libcurand.so.10 {
 	global:
-		*;
+		curandGetVersion;
 	local:
 		*;
 };
