@@ -1,0 +1,46 @@
+#include <cuda.h>
+#include <cuda_runtime.h>
+#include <malloc.h>
+#include <string.h>
+#include <sys/types.h>
+#include "device.h"
+#include "debug.h"
+#include "types.h"
+
+
+cudaError_t cudaMalloc(void **devPtr, size_t size)
+{
+	void *mem;
+
+	if (!devPtr || size <= 0)
+		return cudaErrorInvalidValue;
+
+	/* TODO: Limit to total memory of device */
+
+	mem = malloc(size);
+	if (!mem)
+		return cudaErrorMemoryAllocation;
+
+	*devPtr = mem;
+
+	return cudaSuccess;
+}
+
+cudaError_t cudaFree(void *devPtr)
+{
+	if (!devPtr)
+		return cudaErrorInvalidValue;
+
+	free(devPtr);
+	return cudaSuccess;
+}
+
+cudaError_t cudaMemset(void *devPtr, int value, size_t count)
+{
+	if (!devPtr || count <= 0)
+		return cudaErrorInvalidValue;
+
+	memset(devPtr, value, count);
+
+	return cudaSuccess;
+}
