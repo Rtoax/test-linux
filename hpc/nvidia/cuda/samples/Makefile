@@ -41,7 +41,7 @@ CFLAGS_NVCC_matrix-int8 := -DTEST_INT8=1
 # NOTE: warning: ‘CUresult cuDeviceComputeCapability(int*, int*, CUdevice)’ is deprecated [-Wdeprecated-declarations]
 CFLAGS_NVCC_cudaGetDeviceProperties := -Wno-deprecated-declarations
 # Use to test fakeCUDA
-LDFLAGS_cudaGetDeviceCount := --cudart shared
+LDFLAGS_NVCC_cudaGetDeviceCount := --cudart shared
 
 CUDA_HELPERS := ${OUTPUT}cuda_helpers.cu.o
 
