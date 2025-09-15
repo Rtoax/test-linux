@@ -1,0 +1,15 @@
+LIBHELLO_0.0.1 {
+	global:
+		foo;
+		foo1;
+		bar;
+		bar1;
+	local:
+		*;
+};
+
+LIBHELLO_0.0.2 {
+	global:
+		foo2;
+		bar2;
+} LIBHELLO_0.0.1;
