@@ -47,6 +47,7 @@ and this project adheres to
 - kunlunxin: add info.sh;
 - hpc/kunlunxin: Introduce;
 #### Changed
+- linker: Rename linker-script to script;
 - Move SR-IOV into virt/;
 - systemtap: Move to tools/;
 - kconfig: split CONFIG to seperate files;
