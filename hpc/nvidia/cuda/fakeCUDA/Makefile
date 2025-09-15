@@ -21,7 +21,7 @@ LDFLAGS_SO_libcusparse.so.12 := -Wl,--version-script=libcusparse.map
 include ../../../../template/main.mk
 
 libcuda.so.1: cuda.so.o device.so.o
-libcudart.so.13: runtime.so.o device.so.o internal.so.o
+libcudart.so.13: runtime.so.o device.so.o runtime_internal.so.o
 libcublas.so.13: blas.so.o
 libcublasLt.so.13: blasLt.so.o
 libcufft.so.12: fft.so.o
