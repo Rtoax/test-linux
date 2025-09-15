@@ -4,6 +4,7 @@
 /parallel
 /cudaMalloc
 /cudaMallocManaged
+/cudaGetDeviceCount
 /cudaGetDeviceProperties
 /cudaDeviceGetP2PAttribute
 /cudaDeviceGetAttribute

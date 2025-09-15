@@ -7,6 +7,7 @@ targets-nvcc += cooperative
 targets-nvcc += parallel
 targets-nvcc += cudaMalloc
 targets-nvcc += cudaMallocManaged
+targets-nvcc += cudaGetDeviceCount
 targets-nvcc += cudaGetDeviceProperties
 targets-nvcc += cudaDeviceGetP2PAttribute
 targets-nvcc += cudaDeviceGetAttribute
@@ -39,6 +40,8 @@ CFLAGS_NVCC_matrix-fp16 := -DTEST_FP16=1
 CFLAGS_NVCC_matrix-int8 := -DTEST_INT8=1
 # NOTE: warning: ‘CUresult cuDeviceComputeCapability(int*, int*, CUdevice)’ is deprecated [-Wdeprecated-declarations]
 CFLAGS_NVCC_cudaGetDeviceProperties := -Wno-deprecated-declarations
+# Use to test fakeCUDA
+LDFLAGS_cudaGetDeviceCount := --cudart shared
 
 CUDA_HELPERS := ${OUTPUT}cuda_helpers.cu.o
 
@@ -59,6 +62,7 @@ parallel: ${OUTPUT}parallel.cu.o ${CUDA_HELPERS}
 cudaMalloc: ${OUTPUT}cudaMalloc.cu.o ${CUDA_HELPERS}
 cudaMallocManaged: ${OUTPUT}cudaMallocManaged.cu.o ${CUDA_HELPERS}
 cudaGetDeviceProperties: ${OUTPUT}cudaGetDeviceProperties.cu.o ${CUDA_HELPERS}
+cudaGetDeviceCount: ${OUTPUT}cudaGetDeviceCount.cu.o ${CUDA_HELPERS}
 cudaDeviceGetP2PAttribute: ${OUTPUT}cudaDeviceGetP2PAttribute.cu.o ${CUDA_HELPERS}
 cudaDeviceGetAttribute: ${OUTPUT}cudaDeviceGetAttribute.cu.o ${CUDA_HELPERS}
 cudaEvent: ${OUTPUT}cudaEvent.cu.o ${CUDA_HELPERS}

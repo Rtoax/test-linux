@@ -15,6 +15,7 @@ and this project adheres to
 - template: add targets directory and move all target mk into it;
 - Makefile: Rename target installdeps to deps;
 #### Added
+- cuda: add fakeCUDA;
 - tmux: add tmux.md;
 - tools: add trans/trans.sh;
 - xmllint: Add from ostools;
