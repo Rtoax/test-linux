@@ -27,3 +27,12 @@ cublasStatus_t cublasSetMatrix(int rows, int cols, int elemSize,
 	}
 	return CUBLAS_STATUS_SUCCESS;
 }
+
+cublasStatus_t cublasSscal_v2(cublasHandle_t handle, int n, const float *alpha,
+			   float *x, int incx)
+{
+	for (int i = 0; i < n; ++i) {
+		x[i * incx] = (*alpha) * x[i * incx];
+	}
+	return CUBLAS_STATUS_SUCCESS;
+}
