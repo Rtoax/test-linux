@@ -6,6 +6,8 @@ libcublas.so.13 {
 		cublasGetMatrix;
 		cublasSscal_v2;
 		cublasDscal_v2;
+		cublasSaxpy_v2;
+		cublasDaxpy_v2;
 	local:
 		*;
 };

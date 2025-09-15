@@ -58,3 +58,23 @@ cublasStatus_t cublasDscal_v2(cublasHandle_t handle, int n, const double *alpha,
 	}
 	return CUBLAS_STATUS_SUCCESS;
 }
+
+cublasStatus_t cublasSaxpy_v2(cublasHandle_t handle, int n, const float *alpha,
+			      const float *x, int incx,
+			      float *y, int incy)
+{
+	for (int i = 0; i < n; ++i) {
+		y[i * incy] += (*alpha) * x[i * incx];
+	}
+	return CUBLAS_STATUS_SUCCESS;
+}
+
+cublasStatus_t cublasDaxpy_v2(cublasHandle_t handle, int n, const double *alpha,
+			      const double *x, int incx,
+			      double *y, int incy)
+{
+	for (int i = 0; i < n; ++i) {
+		y[i * incy] += (*alpha) * x[i * incx];
+	}
+	return CUBLAS_STATUS_SUCCESS;
+}
