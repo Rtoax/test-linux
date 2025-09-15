@@ -20,6 +20,10 @@ libcudart.so.13 {
 		cudaMallocManaged;
 		cudaFree;
 		cudaMemset;
+		cudaStreamCreate;
+		cudaStreamDestroy;
+		cudaStreamSynchronize;
+		cudaLaunchCooperativeKernel;
 	local:
 		*;
 };
