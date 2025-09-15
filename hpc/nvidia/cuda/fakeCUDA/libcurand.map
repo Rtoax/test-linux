@@ -1,0 +1,6 @@
+libcurand.so.10 {
+	global:
+		*;
+	local:
+		*;
+};
