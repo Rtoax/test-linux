@@ -107,6 +107,34 @@ int dev_count(void)
 	return DEV_COUNT;
 }
 
+int dev_major(int device)
+{
+	int major;
+
+	if (device < 0 || device >= DEV_COUNT)
+		return cudaErrorInvalidValue;
+
+	DEV_LOCK();
+	major = all_devices[device].major;
+	DEV_UNLOCK();
+
+	return major;
+}
+
+int dev_minor(int device)
+{
+	int minor;
+
+	if (device < 0 || device >= DEV_COUNT)
+		return cudaErrorInvalidValue;
+
+	DEV_LOCK();
+	minor = all_devices[device].minor;
+	DEV_UNLOCK();
+
+	return minor;
+}
+
 int dev_set_current(int device)
 {
 	if (device < 0 || device >= DEV_COUNT)
