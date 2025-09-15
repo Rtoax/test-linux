@@ -8,7 +8,7 @@ typedef struct cudaDeviceProp cudaDeviceProp;
 
 cudaError_t cudaSetDevice(int device)
 {
-	return cudaSuccess;
+	return dev_set_current(device);
 }
 
 cudaError_t cudaGetLastError(void)
