@@ -1,6 +1,8 @@
 #include <cuda.h>
 #include <cuda_runtime.h>
 #include <driver_types.h>
+#include "device.h"
+
 
 typedef struct cudaDeviceProp cudaDeviceProp;
 
@@ -21,7 +23,7 @@ const char *cudaGetErrorString(cudaError_t error)
 
 cudaError_t cudaGetDeviceCount(int *count)
 {
-	*count = 1024;
+	*count = dev_count();
 	return cudaSuccess;
 }
 
