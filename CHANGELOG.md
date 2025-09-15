@@ -15,6 +15,7 @@ and this project adheres to
 - template: add targets directory and move all target mk into it;
 - Makefile: Rename target installdeps to deps;
 #### Added
+- cuda: add cuda.mk;
 - fakeCUDA: add libcudart.map, libcusparse.map, libcufft.map, libcublas.map, libcublasLt.map, libcuda.map, libcurand.map;
 - linker: add libhello.map and test --version-script;
 - cuda: add fakeCUDA;
@@ -49,6 +50,7 @@ and this project adheres to
 - kunlunxin: add info.sh;
 - hpc/kunlunxin: Introduce;
 #### Changed
+- targets/nvidia.mk: split some code to cuda.mk;
 - cuda_adapter.h: Rename macros __pfx and __PFX to __cu,__CU;
 - linker: Rename linker-script to script;
 - Move SR-IOV into virt/;
