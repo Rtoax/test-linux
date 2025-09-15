@@ -19,6 +19,7 @@ libcudart.so.13 {
 		cudaMalloc;
 		cudaMallocManaged;
 		cudaFree;
+		cudaMemcpy;
 		cudaMemset;
 		cudaStreamCreate;
 		cudaStreamDestroy;

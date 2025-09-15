@@ -1,5 +1,6 @@
 #include <cuda.h>
 #include <cuda_runtime.h>
+#include <cuda_runtime_api.h>
 #include <malloc.h>
 #include <string.h>
 #include <sys/types.h>
@@ -26,6 +27,12 @@ cudaError_t cudaMalloc(void **devPtr, size_t size)
 	return cudaSuccess;
 }
 
+cudaError_t cudaMallocManaged(void **devPtr, size_t size, unsigned int flags)
+{
+	/* Note: just ignore flags */
+	return cudaMalloc(devPtr, size);
+}
+
 cudaError_t cudaFree(void *devPtr)
 {
 	if (!devPtr)
@@ -45,8 +52,13 @@ cudaError_t cudaMemset(void *devPtr, int value, size_t count)
 	return cudaSuccess;
 }
 
-cudaError_t cudaMallocManaged(void **devPtr, size_t size, unsigned int flags)
+cudaError_t cudaMemcpy(void *dst, const void *src, size_t count,
+		       enum cudaMemcpyKind kind)
 {
-	/* Note: just ignore flags */
-	return cudaMalloc(devPtr, size);
+	if (!dst || !src)
+		return cudaErrorInvalidValue;
+
+	memcpy(dst, src, count);
+
+	return cudaSuccess;
 }
