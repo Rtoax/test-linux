@@ -5,6 +5,7 @@ libcublas.so.13 {
 		cublasSetMatrix;
 		cublasGetMatrix;
 		cublasSscal_v2;
+		cublasDscal_v2;
 	local:
 		*;
 };
