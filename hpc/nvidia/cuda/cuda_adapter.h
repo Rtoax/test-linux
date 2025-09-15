@@ -4,37 +4,37 @@
 
 #if defined(HAVE_HCCL)
 /* Metax has CUDA-compatible APIs */
-# define __pfx(name)	hc##name
-# define __PFX(name)	HC##name
+# define __cu(name)	hc##name
+# define __CU(name)	HC##name
 # define __CUDA(name)	HC_##name
-#elif !defined(__pfx) || !defined(__PFX)
-# error "Must define __pfx() and __PFX() macros, or define HAVE_HCCL"
+#elif !defined(__cu) || !defined(__CU) || !defined(__CUDA)
+# error "Must define __cu(), __CU(), __CUDA() macros, or define HAVE_HCCL"
 #endif
 
 /* typedef hcError_t	cudaError_t; */
-#define cudaError_t	__pfx(Error_t)
-#define cudaSuccess	__pfx(Success)
-#define cudaErrorInvalidValue	__pfx(ErrorInvalidValue)
-#define cudaErrorMemoryAllocation	__pfx(ErrorMemoryAllocation)
+#define cudaError_t	__cu(Error_t)
+#define cudaSuccess	__cu(Success)
+#define cudaErrorInvalidValue	__cu(ErrorInvalidValue)
+#define cudaErrorMemoryAllocation	__cu(ErrorMemoryAllocation)
 
-#define cudaGetLastError()	__pfx(GetLastError())
-#define cudaGetErrorString(err)	__pfx(GetErrorString(err))
+#define cudaGetLastError()	__cu(GetLastError())
+#define cudaGetErrorString(err)	__cu(GetErrorString(err))
 
-#define cudaDeviceSetLimit(limit, value)	__pfx(DeviceSetLimit(limit, value))
-#define cudaLimitPrintfFifoSize	__pfx(LimitPrintfFifoSize)
+#define cudaDeviceSetLimit(limit, value)	__cu(DeviceSetLimit(limit, value))
+#define cudaLimitPrintfFifoSize	__cu(LimitPrintfFifoSize)
 
 /**
  * https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__MEMORY.html
  */
-#define cudaMalloc(pp, sz)	__pfx(Malloc(pp, sz))
-#define cudaFree(ptr)	__pfx(Free(ptr))
-#define cudaMemset(ptr, v, size)	__pfx(Memset(ptr, v, size))
-#define cudaMemcpy(dev, host, size, flag)	__pfx(Memcpy(dev, host, size, flag))
-#define cudaMemcpyHostToDevice	__pfx(MemcpyHostToDevice)
-#define cudaMemcpyDeviceToHost	__pfx(MemcpyDeviceToHost)
-#define cudaMallocManaged(pp, sz)	__pfx(MallocManaged(pp, sz))
-#define cudaMallocAsync(pp, sz, stream)	__pfx(MallocAsync(pp, sz, stream))
-#define cudaFreeAsync(ptr, stream)	__pfx(FreeAsync(ptr, stream))
+#define cudaMalloc(pp, sz)	__cu(Malloc(pp, sz))
+#define cudaFree(ptr)	__cu(Free(ptr))
+#define cudaMemset(ptr, v, size)	__cu(Memset(ptr, v, size))
+#define cudaMemcpy(dev, host, size, flag)	__cu(Memcpy(dev, host, size, flag))
+#define cudaMemcpyHostToDevice	__cu(MemcpyHostToDevice)
+#define cudaMemcpyDeviceToHost	__cu(MemcpyDeviceToHost)
+#define cudaMallocManaged(pp, sz)	__cu(MallocManaged(pp, sz))
+#define cudaMallocAsync(pp, sz, stream)	__cu(MallocAsync(pp, sz, stream))
+#define cudaFreeAsync(ptr, stream)	__cu(FreeAsync(ptr, stream))
 
 /**
  * CUDA V13.0.48
@@ -46,36 +46,36 @@
  *                       hcMemoryAdvise_t advice,
  *                       int device);
  */
-#define cudaMemAdvise(ptr, count, advice, location_or_device)	__pfx(MemAdvise(ptr, count, advice, location_or_device))
-#define cudaMemoryAdvise	__pfx(MemoryAdvise)	/* enum */
-#define cudaMemAdviseSetReadMostly	__pfx(MemAdviseSetReadMostly)
-#define cudaMemAdviseUnsetReadMostly	__pfx(MemAdviseUnsetReadMostly)
-#define cudaMemAdviseSetPreferredLocation	__pfx(MemAdviseSetPreferredLocation)
-#define cudaMemAdviseUnsetPreferredLocation	__pfx(MemAdviseUnsetPreferredLocation)
-#define cudaMemAdviseSetAccessedBy	__pfx(MemAdviseSetAccessedBy)
-#define cudaMemAdviseUnsetAccessedBy	__pfx(MemAdviseUnsetAccessedBy)
-#define cudaMemLocation	__pfx(MemLocation)	/* struct */
-#define cudaMemLocationType	__pfx(MemLocationType)	/* enum */
-#define cudaMemLocationTypeInvalid	__pfx(MemLocationTypeInvalid)
-#define cudaMemLocationTypeNone	__pfx(MemLocationTypeNone)
-#define cudaMemLocationTypeDevice	__pfx(MemLocationTypeDevice)
-#define cudaMemLocationTypeHost	__pfx(MemLocationTypeHost)
-#define cudaMemLocationTypeHostNuma	__pfx(MemLocationTypeHostNuma)
-#define cudaMemLocationTypeHostNumaCurrent	__pfx(MemLocationTypeHostNumaCurrent)
+#define cudaMemAdvise(ptr, count, advice, location_or_device)	__cu(MemAdvise(ptr, count, advice, location_or_device))
+#define cudaMemoryAdvise	__cu(MemoryAdvise)	/* enum */
+#define cudaMemAdviseSetReadMostly	__cu(MemAdviseSetReadMostly)
+#define cudaMemAdviseUnsetReadMostly	__cu(MemAdviseUnsetReadMostly)
+#define cudaMemAdviseSetPreferredLocation	__cu(MemAdviseSetPreferredLocation)
+#define cudaMemAdviseUnsetPreferredLocation	__cu(MemAdviseUnsetPreferredLocation)
+#define cudaMemAdviseSetAccessedBy	__cu(MemAdviseSetAccessedBy)
+#define cudaMemAdviseUnsetAccessedBy	__cu(MemAdviseUnsetAccessedBy)
+#define cudaMemLocation	__cu(MemLocation)	/* struct */
+#define cudaMemLocationType	__cu(MemLocationType)	/* enum */
+#define cudaMemLocationTypeInvalid	__cu(MemLocationTypeInvalid)
+#define cudaMemLocationTypeNone	__cu(MemLocationTypeNone)
+#define cudaMemLocationTypeDevice	__cu(MemLocationTypeDevice)
+#define cudaMemLocationTypeHost	__cu(MemLocationTypeHost)
+#define cudaMemLocationTypeHostNuma	__cu(MemLocationTypeHostNuma)
+#define cudaMemLocationTypeHostNumaCurrent	__cu(MemLocationTypeHostNumaCurrent)
 
-#define cudaEvent_t	__pfx(Event_t)
-#define cudaEventCreate(pe)	__pfx(EventCreate(pe))
-#define cudaEventDestroy(ev)	__pfx(EventDestroy(ev))
-#define cudaEventRecord(ev)	__pfx(EventRecord(ev))
-#define cudaEventElapsedTime(pt, start, stop)	__pfx(EventElapsedTime(pt, start, stop))
+#define cudaEvent_t	__cu(Event_t)
+#define cudaEventCreate(pe)	__cu(EventCreate(pe))
+#define cudaEventDestroy(ev)	__cu(EventDestroy(ev))
+#define cudaEventRecord(ev)	__cu(EventRecord(ev))
+#define cudaEventElapsedTime(pt, start, stop)	__cu(EventElapsedTime(pt, start, stop))
 /**
  * cudaEventSynchronize() will block the CPU until the CPU waits for the GPU
  * calculation to complete the event 'ev'.
  */
-#define cudaEventSynchronize(ev)	__pfx(EventSynchronize(ev))
+#define cudaEventSynchronize(ev)	__cu(EventSynchronize(ev))
 
 #define cudaLaunchCooperativeKernel(kernel, blocks, blksz, kargs, bytes, stream) \
-	__pfx(LaunchCooperativeKernel(kernel, blocks, blksz, kargs, bytes, stream))
+	__cu(LaunchCooperativeKernel(kernel, blocks, blksz, kargs, bytes, stream))
 
 /**
  * cudaStream_t is a data type in CUDA used to represent a stream. A stream in
@@ -84,10 +84,10 @@
  * execution, allowing multiple operations to overlap and improve performance
  * by utilizing GPU resources more efficiently.
  */
-#define cudaStream_t	__pfx(Stream_t)
-#define cudaStreamCreate(pstream)	__pfx(StreamCreate(pstream))
-#define cudaStreamSynchronize(stream)	__pfx(StreamSynchronize(stream))
-#define cudaStreamDestroy(stream)	__pfx(StreamDestroy(stream))
+#define cudaStream_t	__cu(Stream_t)
+#define cudaStreamCreate(pstream)	__cu(StreamCreate(pstream))
+#define cudaStreamSynchronize(stream)	__cu(StreamSynchronize(stream))
+#define cudaStreamDestroy(stream)	__cu(StreamDestroy(stream))
 
 /**
  * HPCC 3.0.0
@@ -96,10 +96,10 @@
  * CUDA V13.0.48
  * CUresult CUDAAPI cuDeviceGet(CUdevice *device, int ordinal);
  */
-#define CUdevice	__PFX(device)
-#define cuDeviceGet(pdevice, dev_id)	__pfx(DeviceGet(pdevice, dev_id))
+#define CUdevice	__CU(device)
+#define cuDeviceGet(pdevice, dev_id)	__cu(DeviceGet(pdevice, dev_id))
 #define cuDeviceComputeCapability(pmajor, pminor, pdev) \
-	__pfx(DeviceComputeCapability(pmajor, pminor, pdev))
+	__cu(DeviceComputeCapability(pmajor, pminor, pdev))
 
 /* CUresult */
 #define CUDA_SUCCESS	__CUDA(SUCCESS);
@@ -204,179 +204,179 @@
 #define CUDA_ERROR_KEY_ROTATION	__CUDA(ERROR_KEY_ROTATION)
 #define CUDA_ERROR_UNKNOWN	__CUDA(ERROR_UNKNOWN)
 
-#define cudaGetDeviceCount(pgpus)	__pfx(GetDeviceCount(pgpus))
-#define cudaGetDevice(p_id)	__pfx(GetDevice(p_id))
-#define cudaSetDevice(dev_id)	__pfx(SetDevice(dev_id))
+#define cudaGetDeviceCount(pgpus)	__cu(GetDeviceCount(pgpus))
+#define cudaGetDevice(p_id)	__cu(GetDevice(p_id))
+#define cudaSetDevice(dev_id)	__cu(SetDevice(dev_id))
 
-#define cudaDeviceProp	__pfx(DeviceProp_t)
-#define cudaGetDeviceProperties(prop, devid)	__pfx(GetDeviceProperties(prop, devid))
+#define cudaDeviceProp	__cu(DeviceProp_t)
+#define cudaGetDeviceProperties(prop, devid)	__cu(GetDeviceProperties(prop, devid))
 
-#define cudaDeviceGetAttribute(pval, attr, dev_id)	__pfx(DeviceGetAttribute(pval, attr, dev_id))
+#define cudaDeviceGetAttribute(pval, attr, dev_id)	__cu(DeviceGetAttribute(pval, attr, dev_id))
 #if defined(HAVE_HCCL)
 /* WARNING: different name */
-#define cudaDevAttrMaxThreadsPerBlock	__pfx(DeviceAttributeMaxThreadsPerBlock)
-#define cudaDevAttrMaxBlockDimX	__pfx(DeviceAttributeMaxBlockDimX)
-#define cudaDevAttrMaxBlockDimY	__pfx(DeviceAttributeMaxBlockDimY)
-#define cudaDevAttrMaxBlockDimZ	__pfx(DeviceAttributeMaxBlockDimZ)
-#define cudaDevAttrMaxGridDimX	__pfx(DeviceAttributeMaxGridDimX)
-#define cudaDevAttrMaxGridDimY	__pfx(DeviceAttributeMaxGridDimY)
-#define cudaDevAttrMaxGridDimZ	__pfx(DeviceAttributeMaxGridDimZ)
-#define cudaDevAttrMaxSharedMemoryPerBlock	__pfx(DeviceAttributeMaxSharedMemoryPerBlock)
-#define cudaDevAttrTotalConstantMemory	__pfx(DeviceAttributeTotalConstantMemory)
-#define cudaDevAttrWarpSize	__pfx(DeviceAttributeWarpSize)
-#define cudaDevAttrMaxPitch	__pfx(DeviceAttributeMaxPitch)
-#define cudaDevAttrMaxRegistersPerBlock	__pfx(DeviceAttributeMaxRegistersPerBlock)
-#define cudaDevAttrClockRate	__pfx(DeviceAttributeClockRate)
-#define cudaDevAttrTextureAlignment	__pfx(DeviceAttributeTextureAlignment)
-#define cudaDevAttrGpuOverlap	__pfx(DeviceAttributeGpuOverlap)
-#define cudaDevAttrMultiProcessorCount	__pfx(DeviceAttributeMultiProcessorCount)
-#define cudaDevAttrKernelExecTimeout	__pfx(DeviceAttributeKernelExecTimeout)
-#define cudaDevAttrIntegrated	__pfx(DeviceAttributeIntegrated)
-#define cudaDevAttrCanMapHostMemory	__pfx(DeviceAttributeCanMapHostMemory)
-#define cudaDevAttrComputeMode	__pfx(DeviceAttributeComputeMode)
-#define cudaDevAttrMaxTexture1DWidth	__pfx(DeviceAttributeMaxTexture1DWidth)
-#define cudaDevAttrMaxTexture2DWidth	__pfx(DeviceAttributeMaxTexture2DWidth)
-#define cudaDevAttrMaxTexture2DHeight	__pfx(DeviceAttributeMaxTexture2DHeight)
-#define cudaDevAttrMaxTexture3DWidth	__pfx(DeviceAttributeMaxTexture3DWidth)
-#define cudaDevAttrMaxTexture3DHeight	__pfx(DeviceAttributeMaxTexture3DHeight)
-#define cudaDevAttrMaxTexture3DDepth	__pfx(DeviceAttributeMaxTexture3DDepth)
-#define cudaDevAttrMaxTexture2DLayeredWidth	__pfx(DeviceAttributeMaxTexture2DLayeredWidth)
-#define cudaDevAttrMaxTexture2DLayeredHeight	__pfx(DeviceAttributeMaxTexture2DLayeredHeight)
-#define cudaDevAttrMaxTexture2DLayeredLayers	__pfx(DeviceAttributeMaxTexture2DLayeredLayers)
-#define cudaDevAttrSurfaceAligement	__pfx(DeviceAttributeSurfaceAligement)
-#define cudaDevAttrConcurrentKernels	__pfx(DeviceAttributeConcurrentKernels)
-#define cudaDevAttrEccEnabled	__pfx(DeviceAttributeEccEnabled)
-#define cudaDevAttrPciBusId	__pfx(DeviceAttributePciBusId)
-#define cudaDevAttrPciDeviceId	__pfx(DeviceAttributePciDeviceId)
-#define cudaDevAttrTccDriver	__pfx(DeviceAttributeTccDriver)
-#define cudaDevAttrMemoryClockRate	__pfx(DeviceAttributeMemoryClockRate)
-#define cudaDevAttrMemoryBusWidth	__pfx(DeviceAttributeMemoryBusWidth)
-#define cudaDevAttrL2CacheSize	__pfx(DeviceAttributeL2CacheSize)
-#define cudaDevAttrMaxThreadsPerMultiProcessor	__pfx(DeviceAttributeMaxThreadsPerMultiProcessor)
-#define cudaDevAttrAsyncEngineCount	__pfx(DeviceAttributeAsyncEngineCount)
-#define cudaDevAttrUnifiedAddressing	__pfx(DeviceAttributeUnifiedAddressing)
-#define cudaDevAttrMaxTexture1DLayeredWidth	__pfx(DeviceAttributeMaxTexture1DLayeredWidth)
-#define cudaDevAttrMaxTexture1DLayeredLayers	__pfx(DeviceAttributeMaxTexture1DLayeredLayers)
-#define cudaDevAttrResvered44	__pfx(DeviceAttributeResvered44)
-#define cudaDevAttrMaxTexture2DGatherWidth	__pfx(DeviceAttributeMaxTexture2DGatherWidth)
-#define cudaDevAttrMaxTexture2DGatherHeight	__pfx(DeviceAttributeMaxTexture2DGatherHeight)
-#define cudaDevAttrMaxTexture3DWidthAlt	__pfx(DeviceAttributeMaxTexture3DWidthAlt)
-#define cudaDevAttrMaxTexture3DHeightAlt	__pfx(DeviceAttributeMaxTexture3DHeightAlt)
-#define cudaDevAttrMaxTexture3DDepthAlt	__pfx(DeviceAttributeMaxTexture3DDepthAlt)
-#define cudaDevAttrPciDomainId	__pfx(DeviceAttributePciDomainId)
-#define cudaDevAttrTexturePitchAlignment	__pfx(DeviceAttributeTexturePitchAlignment)
-#define cudaDevAttrMaxTextureCubemapWidth	__pfx(DeviceAttributeMaxTextureCubemapWidth)
-#define cudaDevAttrMaxTextureCubemapLayeredWidth	__pfx(DeviceAttributeMaxTextureCubemapLayeredWidth)
-#define cudaDevAttrMaxTextureCubemapLayeredLayers	__pfx(DeviceAttributeMaxTextureCubemapLayeredLayers)
-#define cudaDevAttrMaxSurface1DWidth	__pfx(DeviceAttributeMaxSurface1DWidth)
-#define cudaDevAttrMaxSurface2DWidth	__pfx(DeviceAttributeMaxSurface2DWidth)
-#define cudaDevAttrMaxSurface2DHeight	__pfx(DeviceAttributeMaxSurface2DHeight)
-#define cudaDevAttrMaxSurface3DWidth	__pfx(DeviceAttributeMaxSurface3DWidth)
-#define cudaDevAttrMaxSurface3DHeight	__pfx(DeviceAttributeMaxSurface3DHeight)
-#define cudaDevAttrMaxSurface3DDepth	__pfx(DeviceAttributeMaxSurface3DDepth)
-#define cudaDevAttrMaxSurface1DLayeredWidth	__pfx(DeviceAttributeMaxSurface1DLayeredWidth)
-#define cudaDevAttrMaxSurface1DLayeredLayers	__pfx(DeviceAttributeMaxSurface1DLayeredLayers)
-#define cudaDevAttrMaxSurface2DLayeredWidth	__pfx(DeviceAttributeMaxSurface2DLayeredWidth)
-#define cudaDevAttrMaxSurface2DLayeredHeight	__pfx(DeviceAttributeMaxSurface2DLayeredHeight)
-#define cudaDevAttrMaxSurface2DLayeredLayers	__pfx(DeviceAttributeMaxSurface2DLayeredLayers)
-#define cudaDevAttrMaxSurfaceCubemapWidth	__pfx(DeviceAttributeMaxSurfaceCubemapWidth)
-#define cudaDevAttrMaxSurfaceCubemapLayeredWidth	__pfx(DeviceAttributeMaxSurfaceCubemapLayeredWidth)
-#define cudaDevAttrMaxSurfaceCubemapLayeredLayers	__pfx(DeviceAttributeMaxSurfaceCubemapLayeredLayers)
-#define cudaDevAttrTexture1DLinearWidth	__pfx(DeviceAttributeTexture1DLinearWidth)
-#define cudaDevAttrTexture2DLinearWidth	__pfx(DeviceAttributeTexture2DLinearWidth)
-#define cudaDevAttrTexture2DLinearHeight	__pfx(DeviceAttributeTexture2DLinearHeight)
-#define cudaDevAttrTexture2DLinearPitch	__pfx(DeviceAttributeTexture2DLinearPitch)
-#define cudaDevAttrMaxTexture2DMipmappedWidth	__pfx(DeviceAttributeMaxTexture2DMipmappedWidth)
-#define cudaDevAttrMaxTexture2DMipmappedHeight	__pfx(DeviceAttributeMaxTexture2DMipmappedHeight)
-#define cudaDevAttrComputeCapabilityMajor	__pfx(DeviceAttributeComputeCapabilityMajor)
-#define cudaDevAttrComputeCapabilityMinor	__pfx(DeviceAttributeComputeCapabilityMinor)
-#define cudaDevAttrStreamPrioritiesSupported	__pfx(DeviceAttributeStreamPrioritiesSupported)
-#define cudaDevAttrGlobalL1CacheSupported	__pfx(DeviceAttributeGlobalL1CacheSupported)
-#define cudaDevAttrLocalL1CacheSupported	__pfx(DeviceAttributeLocalL1CacheSupported)
-#define cudaDevAttrMaxSharedMemoryPerMultiprocessor	__pfx(DeviceAttributeMaxSharedMemoryPerMultiprocessor)
-#define cudaDevAttrMaxRegistersPerMultiprocessor	__pfx(DeviceAttributeMaxRegistersPerMultiprocessor)
-#define cudaDevAttrManagedMemory	__pfx(DeviceAttributeManagedMemory)
-#define cudaDevAttrIsMultiGpuBoard	__pfx(DeviceAttributeIsMultiGpuBoard)
-#define cudaDevAttrMultiGpuBoardGroupID	__pfx(DeviceAttributeMultiGpuBoardGroupID)
-#define cudaDevAttrHostNativeAtomicSupported	__pfx(DeviceAttributeHostNativeAtomicSupported)
-#define cudaDevAttrSingleToDoublePrecisionPerfRatio	__pfx(DeviceAttributeSingleToDoublePrecisionPerfRatio)
-#define cudaDevAttrPageableMemoryAccess	__pfx(DeviceAttributePageableMemoryAccess)
-#define cudaDevAttrConcurrentManagedAccess	__pfx(DeviceAttributeConcurrentManagedAccess)
-#define cudaDevAttrComputePreemptionSupported	__pfx(DeviceAttributeComputePreemptionSupported)
-#define cudaDevAttrCanUseHostPointerForRegisteredMem	__pfx(DeviceAttributeCanUseHostPointerForRegisteredMem)
-#define cudaDevAttrReserved92	__pfx(DeviceAttributeReserved92)
-#define cudaDevAttrReserved93	__pfx(DeviceAttributeReserved93)
-#define cudaDevAttrReserved94	__pfx(DeviceAttributeReserved94)
-#define cudaDevAttrCooperativeLaunch	__pfx(DeviceAttributeCooperativeLaunch)
-#define cudaDevAttrCooperativeMultiDeviceLaunch	__pfx(DeviceAttributeCooperativeMultiDeviceLaunch)
-#define cudaDevAttrMaxSharedMemoryPerBlockOptin	__pfx(DeviceAttributeMaxSharedMemoryPerBlockOptin)
-#define cudaDevAttrCanFlushRemoteWrites	__pfx(DeviceAttributeCanFlushRemoteWrites)
-#define cudaDevAttrHostRegisterSupported	__pfx(DeviceAttributeHostRegisterSupported)
-#define cudaDevAttrPageableMemoryAccessUsesHostPageTables	__pfx(DeviceAttributePageableMemoryAccessUsesHostPageTables)
-#define cudaDevAttrDirectManagedMemAccessFromHost	__pfx(DeviceAttributeDirectManagedMemAccessFromHost)
-#define cudaDevAttrReserved102	__pfx(DeviceAttributeReserved102)
-#define cudaDevAttrReserved103	__pfx(DeviceAttributeReserved103)
-#define cudaDevAttrReserved104	__pfx(DeviceAttributeReserved104)
-#define cudaDevAttrReserved105	__pfx(DeviceAttributeReserved105)
-#define cudaDevAttrReserved107	__pfx(DeviceAttributeReserved107)
-#define cudaDevAttrMaxPersistingL2CacheSize	__pfx(DeviceAttributeMaxPersistingL2CacheSize)
-#define cudaDevAttrMaxAccessPolicyWindowSize	__pfx(DeviceAttributeMaxAccessPolicyWindowSize)
-#define cudaDevAttrReserved110	__pfx(DeviceAttributeReserved110)
-#define cudaDevAttrReservedSharedMemoryPerBlock	__pfx(DeviceAttributeReservedSharedMemoryPerBlock)
-#define cudaDevAttrSparseHpccArraySupported	__pfx(DeviceAttributeSparseHpccArraySupported)
-#define cudaDevAttrHostRegisterReadOnlySupported	__pfx(DeviceAttributeHostRegisterReadOnlySupported)
-#define cudaDevAttrTimelineSemaphoreInteropSupported	__pfx(DeviceAttributeTimelineSemaphoreInteropSupported)
-#define cudaDevAttrMemoryPoolsSupported	__pfx(DeviceAttributeMemoryPoolsSupported)
-#define cudaDevAttrGPUDirectRDMASupported	__pfx(DeviceAttributeGPUDirectRDMASupported)
-#define cudaDevAttrGPUDirectRDMAFlushWritesOptions	__pfx(DeviceAttributeGPUDirectRDMAFlushWritesOptions)
-#define cudaDevAttrGPUDirectRDMAWritesOrdering	__pfx(DeviceAttributeGPUDirectRDMAWritesOrdering)
-#define cudaDevAttrMemoryPoolSupportedHandleTypes	__pfx(DeviceAttributeMemoryPoolSupportedHandleTypes)
-#define cudaDevAttrClusterLaunch	__pfx(DeviceAttributeClusterLaunch)
-#define cudaDevAttrDeferredMappingHpccArraySupported	__pfx(DeviceAttributeDeferredMappingHpccArraySupported)
-#define cudaDevAttrReserved122	__pfx(DeviceAttributeReserved122)
-#define cudaDevAttrReserved123	__pfx(DeviceAttributeReserved123)
-#define cudaDevAttrReserved124	__pfx(DeviceAttributeReserved124)
-#define cudaDevAttrIpcEventSupport	__pfx(DeviceAttributeIpcEventSupport)
-#define cudaDevAttrMemSyncDomainCount	__pfx(DeviceAttributeMemSyncDomainCount)
-#define cudaDevAttrReserved127	__pfx(DeviceAttributeReserved127)
-#define cudaDevAttrReserved128	__pfx(DeviceAttributeReserved128)
-#define cudaDevAttrReserved129	__pfx(DeviceAttributeReserved129)
-#define cudaDevAttrNumaConfig	__pfx(DeviceAttributeNumaConfig)
-#define cudaDevAttrNumaId	__pfx(DeviceAttributeNumaId)
-#define cudaDevAttrReserved132	__pfx(DeviceAttributeReserved132)
-#define cudaDevAttrMpsEnabled	__pfx(DeviceAttributeMpsEnabled)
-#define cudaDevAttrHostNumaId	__pfx(DeviceAttributeHostNumaId)
-#define cudaDevAttrWaveSize	__pfx(DeviceAttributeWaveSize)
-#define cudaDevAttrHdpMemFlushCntl	__pfx(DeviceAttributeHdpMemFlushCntl)
-#define cudaDevAttrHdpRegFlushCntl	__pfx(DeviceAttributeHdpRegFlushCntl)
-#define cudaDevAttrCooperativeMultiDeviceUnmatchedFunc	__pfx(DeviceAttributeCooperativeMultiDeviceUnmatchedFunc)
-#define cudaDevAttrCooperativeMultiDeviceUnmatchedGridDim	__pfx(DeviceAttributeCooperativeMultiDeviceUnmatchedGridDim)
-#define cudaDevAttrCooperativeMultiDeviceUnmatchedBlockDim	__pfx(DeviceAttributeCooperativeMultiDeviceUnmatchedBlockDim)
-#define cudaDevAttrCooperativeMultiDeviceUnmatchedSharedMem	__pfx(DeviceAttributeCooperativeMultiDeviceUnmatchedSharedMem)
-#define cudaDevAttrAsicRevision	__pfx(DeviceAttributeAsicRevision)
-#define cudaDevAttrVirtualMemoryManagementSupported	__pfx(DeviceAttributeVirtualMemoryManagementSupported)
-#define cudaDevAttrHandleTypePosixFileDescriptorSupported	__pfx(DeviceAttributeHandleTypePosixFileDescriptorSupported)
-#define cudaDevAttrHandleTypeWin32HandleSupported	__pfx(DeviceAttributeHandleTypeWin32HandleSupported)
-#define cudaDevAttrGenericCompressionSupported	__pfx(DeviceAttributeGenericCompressionSupported)
-#define cudaDevAttrCanUseStreamWaitValue	__pfx(DeviceAttributeCanUseStreamWaitValue)
-#define cudaDevAttrCanUseStreamMemOps	__pfx(DeviceAttributeCanUseStreamMemOps)
-#define cudaDevAttrCanUseStreamWaitWaitValueNor	__pfx(DeviceAttributeCanUseStreamWaitWaitValueNor)
-#define cudaDevAttrLocalSocketId	__pfx(DeviceAttributeLocalSocketId)
-#define cudaDevAttrSocketId	__pfx(DeviceAttributeSocketId)
-#define cudaDevAttrPeerSocketId	__pfx(DeviceAttributePeerSocketId)
-#define cudaDevAttrMulticastSupported	__pfx(DeviceAttributeMulticastSupported)
+#define cudaDevAttrMaxThreadsPerBlock	__cu(DeviceAttributeMaxThreadsPerBlock)
+#define cudaDevAttrMaxBlockDimX	__cu(DeviceAttributeMaxBlockDimX)
+#define cudaDevAttrMaxBlockDimY	__cu(DeviceAttributeMaxBlockDimY)
+#define cudaDevAttrMaxBlockDimZ	__cu(DeviceAttributeMaxBlockDimZ)
+#define cudaDevAttrMaxGridDimX	__cu(DeviceAttributeMaxGridDimX)
+#define cudaDevAttrMaxGridDimY	__cu(DeviceAttributeMaxGridDimY)
+#define cudaDevAttrMaxGridDimZ	__cu(DeviceAttributeMaxGridDimZ)
+#define cudaDevAttrMaxSharedMemoryPerBlock	__cu(DeviceAttributeMaxSharedMemoryPerBlock)
+#define cudaDevAttrTotalConstantMemory	__cu(DeviceAttributeTotalConstantMemory)
+#define cudaDevAttrWarpSize	__cu(DeviceAttributeWarpSize)
+#define cudaDevAttrMaxPitch	__cu(DeviceAttributeMaxPitch)
+#define cudaDevAttrMaxRegistersPerBlock	__cu(DeviceAttributeMaxRegistersPerBlock)
+#define cudaDevAttrClockRate	__cu(DeviceAttributeClockRate)
+#define cudaDevAttrTextureAlignment	__cu(DeviceAttributeTextureAlignment)
+#define cudaDevAttrGpuOverlap	__cu(DeviceAttributeGpuOverlap)
+#define cudaDevAttrMultiProcessorCount	__cu(DeviceAttributeMultiProcessorCount)
+#define cudaDevAttrKernelExecTimeout	__cu(DeviceAttributeKernelExecTimeout)
+#define cudaDevAttrIntegrated	__cu(DeviceAttributeIntegrated)
+#define cudaDevAttrCanMapHostMemory	__cu(DeviceAttributeCanMapHostMemory)
+#define cudaDevAttrComputeMode	__cu(DeviceAttributeComputeMode)
+#define cudaDevAttrMaxTexture1DWidth	__cu(DeviceAttributeMaxTexture1DWidth)
+#define cudaDevAttrMaxTexture2DWidth	__cu(DeviceAttributeMaxTexture2DWidth)
+#define cudaDevAttrMaxTexture2DHeight	__cu(DeviceAttributeMaxTexture2DHeight)
+#define cudaDevAttrMaxTexture3DWidth	__cu(DeviceAttributeMaxTexture3DWidth)
+#define cudaDevAttrMaxTexture3DHeight	__cu(DeviceAttributeMaxTexture3DHeight)
+#define cudaDevAttrMaxTexture3DDepth	__cu(DeviceAttributeMaxTexture3DDepth)
+#define cudaDevAttrMaxTexture2DLayeredWidth	__cu(DeviceAttributeMaxTexture2DLayeredWidth)
+#define cudaDevAttrMaxTexture2DLayeredHeight	__cu(DeviceAttributeMaxTexture2DLayeredHeight)
+#define cudaDevAttrMaxTexture2DLayeredLayers	__cu(DeviceAttributeMaxTexture2DLayeredLayers)
+#define cudaDevAttrSurfaceAligement	__cu(DeviceAttributeSurfaceAligement)
+#define cudaDevAttrConcurrentKernels	__cu(DeviceAttributeConcurrentKernels)
+#define cudaDevAttrEccEnabled	__cu(DeviceAttributeEccEnabled)
+#define cudaDevAttrPciBusId	__cu(DeviceAttributePciBusId)
+#define cudaDevAttrPciDeviceId	__cu(DeviceAttributePciDeviceId)
+#define cudaDevAttrTccDriver	__cu(DeviceAttributeTccDriver)
+#define cudaDevAttrMemoryClockRate	__cu(DeviceAttributeMemoryClockRate)
+#define cudaDevAttrMemoryBusWidth	__cu(DeviceAttributeMemoryBusWidth)
+#define cudaDevAttrL2CacheSize	__cu(DeviceAttributeL2CacheSize)
+#define cudaDevAttrMaxThreadsPerMultiProcessor	__cu(DeviceAttributeMaxThreadsPerMultiProcessor)
+#define cudaDevAttrAsyncEngineCount	__cu(DeviceAttributeAsyncEngineCount)
+#define cudaDevAttrUnifiedAddressing	__cu(DeviceAttributeUnifiedAddressing)
+#define cudaDevAttrMaxTexture1DLayeredWidth	__cu(DeviceAttributeMaxTexture1DLayeredWidth)
+#define cudaDevAttrMaxTexture1DLayeredLayers	__cu(DeviceAttributeMaxTexture1DLayeredLayers)
+#define cudaDevAttrResvered44	__cu(DeviceAttributeResvered44)
+#define cudaDevAttrMaxTexture2DGatherWidth	__cu(DeviceAttributeMaxTexture2DGatherWidth)
+#define cudaDevAttrMaxTexture2DGatherHeight	__cu(DeviceAttributeMaxTexture2DGatherHeight)
+#define cudaDevAttrMaxTexture3DWidthAlt	__cu(DeviceAttributeMaxTexture3DWidthAlt)
+#define cudaDevAttrMaxTexture3DHeightAlt	__cu(DeviceAttributeMaxTexture3DHeightAlt)
+#define cudaDevAttrMaxTexture3DDepthAlt	__cu(DeviceAttributeMaxTexture3DDepthAlt)
+#define cudaDevAttrPciDomainId	__cu(DeviceAttributePciDomainId)
+#define cudaDevAttrTexturePitchAlignment	__cu(DeviceAttributeTexturePitchAlignment)
+#define cudaDevAttrMaxTextureCubemapWidth	__cu(DeviceAttributeMaxTextureCubemapWidth)
+#define cudaDevAttrMaxTextureCubemapLayeredWidth	__cu(DeviceAttributeMaxTextureCubemapLayeredWidth)
+#define cudaDevAttrMaxTextureCubemapLayeredLayers	__cu(DeviceAttributeMaxTextureCubemapLayeredLayers)
+#define cudaDevAttrMaxSurface1DWidth	__cu(DeviceAttributeMaxSurface1DWidth)
+#define cudaDevAttrMaxSurface2DWidth	__cu(DeviceAttributeMaxSurface2DWidth)
+#define cudaDevAttrMaxSurface2DHeight	__cu(DeviceAttributeMaxSurface2DHeight)
+#define cudaDevAttrMaxSurface3DWidth	__cu(DeviceAttributeMaxSurface3DWidth)
+#define cudaDevAttrMaxSurface3DHeight	__cu(DeviceAttributeMaxSurface3DHeight)
+#define cudaDevAttrMaxSurface3DDepth	__cu(DeviceAttributeMaxSurface3DDepth)
+#define cudaDevAttrMaxSurface1DLayeredWidth	__cu(DeviceAttributeMaxSurface1DLayeredWidth)
+#define cudaDevAttrMaxSurface1DLayeredLayers	__cu(DeviceAttributeMaxSurface1DLayeredLayers)
+#define cudaDevAttrMaxSurface2DLayeredWidth	__cu(DeviceAttributeMaxSurface2DLayeredWidth)
+#define cudaDevAttrMaxSurface2DLayeredHeight	__cu(DeviceAttributeMaxSurface2DLayeredHeight)
+#define cudaDevAttrMaxSurface2DLayeredLayers	__cu(DeviceAttributeMaxSurface2DLayeredLayers)
+#define cudaDevAttrMaxSurfaceCubemapWidth	__cu(DeviceAttributeMaxSurfaceCubemapWidth)
+#define cudaDevAttrMaxSurfaceCubemapLayeredWidth	__cu(DeviceAttributeMaxSurfaceCubemapLayeredWidth)
+#define cudaDevAttrMaxSurfaceCubemapLayeredLayers	__cu(DeviceAttributeMaxSurfaceCubemapLayeredLayers)
+#define cudaDevAttrTexture1DLinearWidth	__cu(DeviceAttributeTexture1DLinearWidth)
+#define cudaDevAttrTexture2DLinearWidth	__cu(DeviceAttributeTexture2DLinearWidth)
+#define cudaDevAttrTexture2DLinearHeight	__cu(DeviceAttributeTexture2DLinearHeight)
+#define cudaDevAttrTexture2DLinearPitch	__cu(DeviceAttributeTexture2DLinearPitch)
+#define cudaDevAttrMaxTexture2DMipmappedWidth	__cu(DeviceAttributeMaxTexture2DMipmappedWidth)
+#define cudaDevAttrMaxTexture2DMipmappedHeight	__cu(DeviceAttributeMaxTexture2DMipmappedHeight)
+#define cudaDevAttrComputeCapabilityMajor	__cu(DeviceAttributeComputeCapabilityMajor)
+#define cudaDevAttrComputeCapabilityMinor	__cu(DeviceAttributeComputeCapabilityMinor)
+#define cudaDevAttrStreamPrioritiesSupported	__cu(DeviceAttributeStreamPrioritiesSupported)
+#define cudaDevAttrGlobalL1CacheSupported	__cu(DeviceAttributeGlobalL1CacheSupported)
+#define cudaDevAttrLocalL1CacheSupported	__cu(DeviceAttributeLocalL1CacheSupported)
+#define cudaDevAttrMaxSharedMemoryPerMultiprocessor	__cu(DeviceAttributeMaxSharedMemoryPerMultiprocessor)
+#define cudaDevAttrMaxRegistersPerMultiprocessor	__cu(DeviceAttributeMaxRegistersPerMultiprocessor)
+#define cudaDevAttrManagedMemory	__cu(DeviceAttributeManagedMemory)
+#define cudaDevAttrIsMultiGpuBoard	__cu(DeviceAttributeIsMultiGpuBoard)
+#define cudaDevAttrMultiGpuBoardGroupID	__cu(DeviceAttributeMultiGpuBoardGroupID)
+#define cudaDevAttrHostNativeAtomicSupported	__cu(DeviceAttributeHostNativeAtomicSupported)
+#define cudaDevAttrSingleToDoublePrecisionPerfRatio	__cu(DeviceAttributeSingleToDoublePrecisionPerfRatio)
+#define cudaDevAttrPageableMemoryAccess	__cu(DeviceAttributePageableMemoryAccess)
+#define cudaDevAttrConcurrentManagedAccess	__cu(DeviceAttributeConcurrentManagedAccess)
+#define cudaDevAttrComputePreemptionSupported	__cu(DeviceAttributeComputePreemptionSupported)
+#define cudaDevAttrCanUseHostPointerForRegisteredMem	__cu(DeviceAttributeCanUseHostPointerForRegisteredMem)
+#define cudaDevAttrReserved92	__cu(DeviceAttributeReserved92)
+#define cudaDevAttrReserved93	__cu(DeviceAttributeReserved93)
+#define cudaDevAttrReserved94	__cu(DeviceAttributeReserved94)
+#define cudaDevAttrCooperativeLaunch	__cu(DeviceAttributeCooperativeLaunch)
+#define cudaDevAttrCooperativeMultiDeviceLaunch	__cu(DeviceAttributeCooperativeMultiDeviceLaunch)
+#define cudaDevAttrMaxSharedMemoryPerBlockOptin	__cu(DeviceAttributeMaxSharedMemoryPerBlockOptin)
+#define cudaDevAttrCanFlushRemoteWrites	__cu(DeviceAttributeCanFlushRemoteWrites)
+#define cudaDevAttrHostRegisterSupported	__cu(DeviceAttributeHostRegisterSupported)
+#define cudaDevAttrPageableMemoryAccessUsesHostPageTables	__cu(DeviceAttributePageableMemoryAccessUsesHostPageTables)
+#define cudaDevAttrDirectManagedMemAccessFromHost	__cu(DeviceAttributeDirectManagedMemAccessFromHost)
+#define cudaDevAttrReserved102	__cu(DeviceAttributeReserved102)
+#define cudaDevAttrReserved103	__cu(DeviceAttributeReserved103)
+#define cudaDevAttrReserved104	__cu(DeviceAttributeReserved104)
+#define cudaDevAttrReserved105	__cu(DeviceAttributeReserved105)
+#define cudaDevAttrReserved107	__cu(DeviceAttributeReserved107)
+#define cudaDevAttrMaxPersistingL2CacheSize	__cu(DeviceAttributeMaxPersistingL2CacheSize)
+#define cudaDevAttrMaxAccessPolicyWindowSize	__cu(DeviceAttributeMaxAccessPolicyWindowSize)
+#define cudaDevAttrReserved110	__cu(DeviceAttributeReserved110)
+#define cudaDevAttrReservedSharedMemoryPerBlock	__cu(DeviceAttributeReservedSharedMemoryPerBlock)
+#define cudaDevAttrSparseHpccArraySupported	__cu(DeviceAttributeSparseHpccArraySupported)
+#define cudaDevAttrHostRegisterReadOnlySupported	__cu(DeviceAttributeHostRegisterReadOnlySupported)
+#define cudaDevAttrTimelineSemaphoreInteropSupported	__cu(DeviceAttributeTimelineSemaphoreInteropSupported)
+#define cudaDevAttrMemoryPoolsSupported	__cu(DeviceAttributeMemoryPoolsSupported)
+#define cudaDevAttrGPUDirectRDMASupported	__cu(DeviceAttributeGPUDirectRDMASupported)
+#define cudaDevAttrGPUDirectRDMAFlushWritesOptions	__cu(DeviceAttributeGPUDirectRDMAFlushWritesOptions)
+#define cudaDevAttrGPUDirectRDMAWritesOrdering	__cu(DeviceAttributeGPUDirectRDMAWritesOrdering)
+#define cudaDevAttrMemoryPoolSupportedHandleTypes	__cu(DeviceAttributeMemoryPoolSupportedHandleTypes)
+#define cudaDevAttrClusterLaunch	__cu(DeviceAttributeClusterLaunch)
+#define cudaDevAttrDeferredMappingHpccArraySupported	__cu(DeviceAttributeDeferredMappingHpccArraySupported)
+#define cudaDevAttrReserved122	__cu(DeviceAttributeReserved122)
+#define cudaDevAttrReserved123	__cu(DeviceAttributeReserved123)
+#define cudaDevAttrReserved124	__cu(DeviceAttributeReserved124)
+#define cudaDevAttrIpcEventSupport	__cu(DeviceAttributeIpcEventSupport)
+#define cudaDevAttrMemSyncDomainCount	__cu(DeviceAttributeMemSyncDomainCount)
+#define cudaDevAttrReserved127	__cu(DeviceAttributeReserved127)
+#define cudaDevAttrReserved128	__cu(DeviceAttributeReserved128)
+#define cudaDevAttrReserved129	__cu(DeviceAttributeReserved129)
+#define cudaDevAttrNumaConfig	__cu(DeviceAttributeNumaConfig)
+#define cudaDevAttrNumaId	__cu(DeviceAttributeNumaId)
+#define cudaDevAttrReserved132	__cu(DeviceAttributeReserved132)
+#define cudaDevAttrMpsEnabled	__cu(DeviceAttributeMpsEnabled)
+#define cudaDevAttrHostNumaId	__cu(DeviceAttributeHostNumaId)
+#define cudaDevAttrWaveSize	__cu(DeviceAttributeWaveSize)
+#define cudaDevAttrHdpMemFlushCntl	__cu(DeviceAttributeHdpMemFlushCntl)
+#define cudaDevAttrHdpRegFlushCntl	__cu(DeviceAttributeHdpRegFlushCntl)
+#define cudaDevAttrCooperativeMultiDeviceUnmatchedFunc	__cu(DeviceAttributeCooperativeMultiDeviceUnmatchedFunc)
+#define cudaDevAttrCooperativeMultiDeviceUnmatchedGridDim	__cu(DeviceAttributeCooperativeMultiDeviceUnmatchedGridDim)
+#define cudaDevAttrCooperativeMultiDeviceUnmatchedBlockDim	__cu(DeviceAttributeCooperativeMultiDeviceUnmatchedBlockDim)
+#define cudaDevAttrCooperativeMultiDeviceUnmatchedSharedMem	__cu(DeviceAttributeCooperativeMultiDeviceUnmatchedSharedMem)
+#define cudaDevAttrAsicRevision	__cu(DeviceAttributeAsicRevision)
+#define cudaDevAttrVirtualMemoryManagementSupported	__cu(DeviceAttributeVirtualMemoryManagementSupported)
+#define cudaDevAttrHandleTypePosixFileDescriptorSupported	__cu(DeviceAttributeHandleTypePosixFileDescriptorSupported)
+#define cudaDevAttrHandleTypeWin32HandleSupported	__cu(DeviceAttributeHandleTypeWin32HandleSupported)
+#define cudaDevAttrGenericCompressionSupported	__cu(DeviceAttributeGenericCompressionSupported)
+#define cudaDevAttrCanUseStreamWaitValue	__cu(DeviceAttributeCanUseStreamWaitValue)
+#define cudaDevAttrCanUseStreamMemOps	__cu(DeviceAttributeCanUseStreamMemOps)
+#define cudaDevAttrCanUseStreamWaitWaitValueNor	__cu(DeviceAttributeCanUseStreamWaitWaitValueNor)
+#define cudaDevAttrLocalSocketId	__cu(DeviceAttributeLocalSocketId)
+#define cudaDevAttrSocketId	__cu(DeviceAttributeSocketId)
+#define cudaDevAttrPeerSocketId	__cu(DeviceAttributePeerSocketId)
+#define cudaDevAttrMulticastSupported	__cu(DeviceAttributeMulticastSupported)
 #endif	/* HAVE_HCCL */
 
-#define cudaDeviceGetP2PAttribute(v, attr, src, dst)	__pfx(DeviceGetP2PAttribute(v, attr, src, dst))
-#define cudaDevP2PAttrPerformanceRank	__pfx(DevP2PAttrPerformanceRank)
-#define cudaDevP2PAttrAccessSupported	__pfx(DevP2PAttrAccessSupported)
-#define cudaDevP2PAttrNativeAtomicSupported	__pfx(DevP2PAttrNativeAtomicSupported)
+#define cudaDeviceGetP2PAttribute(v, attr, src, dst)	__cu(DeviceGetP2PAttribute(v, attr, src, dst))
+#define cudaDevP2PAttrPerformanceRank	__cu(DevP2PAttrPerformanceRank)
+#define cudaDevP2PAttrAccessSupported	__cu(DevP2PAttrAccessSupported)
+#define cudaDevP2PAttrNativeAtomicSupported	__cu(DevP2PAttrNativeAtomicSupported)
 
-#define cudaDeviceCanAccessPeer(can, devfrom, devto) __pfx(DeviceCanAccessPeer(can, devfrom, devto))
-#define cudaDeviceEnablePeerAccess(peerdev, flag)	__pfx(DeviceEnablePeerAccess(peerdev, flag))
-#define cudaDeviceDisablePeerAccess(dev)	__pfx(DeviceDisablePeerAccess(dev))
+#define cudaDeviceCanAccessPeer(can, devfrom, devto) __cu(DeviceCanAccessPeer(can, devfrom, devto))
+#define cudaDeviceEnablePeerAccess(peerdev, flag)	__cu(DeviceEnablePeerAccess(peerdev, flag))
+#define cudaDeviceDisablePeerAccess(dev)	__cu(DeviceDisablePeerAccess(dev))
 
-#define cudaDeviceSynchronize()	__pfx(DeviceSynchronize())
+#define cudaDeviceSynchronize()	__cu(DeviceSynchronize())
 
 /**
  * BLAS: Basic Linear Algebra Subprograms
@@ -385,70 +385,70 @@
  * refs:
  * - https://docs.nvidia.com/cuda/cublas/index.html
  */
-#define cublasGetStatusString(status)	__pfx(blasGetStatusString(status))
-#define cublasStatus_t	__pfx(blasStatus_t)
-#define CUBLAS_STATUS_SUCCESS	__PFX(BLAS_STATUS_SUCCESS)
-#define CUBLAS_STATUS_NOT_INITIALIZED	__PFX(BLAS_STATUS_NOT_INITIALIZED)
-#define CUBLAS_STATUS_ALLOC_FAILED	__PFX(BLAS_STATUS_ALLOC_FAILED)
-#define CUBLAS_STATUS_INVALID_VALUE	__PFX(BLAS_STATUS_INVALID_VALUE)
-#define CUBLAS_STATUS_ARCH_MISMATCH	__PFX(BLAS_STATUS_ARCH_MISMATCH)
-#define CUBLAS_STATUS_MAPPING_ERROR	__PFX(BLAS_STATUS_MAPPING_ERROR)
-#define CUBLAS_STATUS_EXECUTION_FAILED	__PFX(BLAS_STATUS_EXECUTION_FAILED)
-#define CUBLAS_STATUS_INTERNAL_ERROR	__PFX(BLAS_STATUS_INTERNAL_ERROR)
-#define CUBLAS_STATUS_NOT_SUPPORTED	__PFX(BLAS_STATUS_NOT_SUPPORTED)
+#define cublasGetStatusString(status)	__cu(blasGetStatusString(status))
+#define cublasStatus_t	__cu(blasStatus_t)
+#define CUBLAS_STATUS_SUCCESS	__CU(BLAS_STATUS_SUCCESS)
+#define CUBLAS_STATUS_NOT_INITIALIZED	__CU(BLAS_STATUS_NOT_INITIALIZED)
+#define CUBLAS_STATUS_ALLOC_FAILED	__CU(BLAS_STATUS_ALLOC_FAILED)
+#define CUBLAS_STATUS_INVALID_VALUE	__CU(BLAS_STATUS_INVALID_VALUE)
+#define CUBLAS_STATUS_ARCH_MISMATCH	__CU(BLAS_STATUS_ARCH_MISMATCH)
+#define CUBLAS_STATUS_MAPPING_ERROR	__CU(BLAS_STATUS_MAPPING_ERROR)
+#define CUBLAS_STATUS_EXECUTION_FAILED	__CU(BLAS_STATUS_EXECUTION_FAILED)
+#define CUBLAS_STATUS_INTERNAL_ERROR	__CU(BLAS_STATUS_INTERNAL_ERROR)
+#define CUBLAS_STATUS_NOT_SUPPORTED	__CU(BLAS_STATUS_NOT_SUPPORTED)
 
-#define cublasHandle_t	__pfx(blasHandle_t)
-#define cublasCreate(handle)	__pfx(blasCreate(handle))
-#define cublasDestroy(handle)	__pfx(blasDestroy(handle))
+#define cublasHandle_t	__cu(blasHandle_t)
+#define cublasCreate(handle)	__cu(blasCreate(handle))
+#define cublasDestroy(handle)	__cu(blasDestroy(handle))
 
-#define cublasGetVersion(handle, pversion)	__pfx(blasGetVersion(handle, pversion))
-#define cublasLtGetVersion()	__pfx(blasLtGetVersion())
-#define cublasGetProperty(type, pvalue)	__pfx(blasGetProperty(type, pvalue))
+#define cublasGetVersion(handle, pversion)	__cu(blasGetVersion(handle, pversion))
+#define cublasLtGetVersion()	__cu(blasLtGetVersion())
+#define cublasGetProperty(type, pvalue)	__cu(blasGetProperty(type, pvalue))
 
 /**
  * The cublasOperation_t type indicates which operation needs to be performed
  * with the dense matrix.
  */
-#define cublasOperation_t	__pfx(blasOperation_t)
+#define cublasOperation_t	__cu(blasOperation_t)
 /* The non-transpose operation is selected. */
-#define CUBLAS_OP_N	__PFX(BLAS_OP_N)
+#define CUBLAS_OP_N	__CU(BLAS_OP_N)
 /* The transpose operation is selected. */
-#define CUBLAS_OP_T	__PFX(BLAS_OP_T)
+#define CUBLAS_OP_T	__CU(BLAS_OP_T)
 /* The conjugate transpose operation is selected. */
-#define CUBLAS_OP_C	__PFX(BLAS_OP_C)
-#define CUBLAS_OP_HERMITAN	__PFX(BLAS_OP_HERMITAN)
-#define CUBLAS_OP_CONJG	__PFX(BLAS_OP_CONJG)
+#define CUBLAS_OP_C	__CU(BLAS_OP_C)
+#define CUBLAS_OP_HERMITAN	__CU(BLAS_OP_HERMITAN)
+#define CUBLAS_OP_CONJG	__CU(BLAS_OP_CONJG)
 
-#define cublasFillMode_t	__pfx(blasFillMode_t)
-#define CUBLAS_FILL_MODE_LOWER	__PFX(BLAS_FILL_MODE_LOWER)
-#define CUBLAS_FILL_MODE_UPPER	__PFX(BLAS_FILL_MODE_UPPER)
-#define CUBLAS_FILL_MODE_FULL	__PFX(BLAS_FILL_MODE_FULL)
+#define cublasFillMode_t	__cu(blasFillMode_t)
+#define CUBLAS_FILL_MODE_LOWER	__CU(BLAS_FILL_MODE_LOWER)
+#define CUBLAS_FILL_MODE_UPPER	__CU(BLAS_FILL_MODE_UPPER)
+#define CUBLAS_FILL_MODE_FULL	__CU(BLAS_FILL_MODE_FULL)
 
 #define cublasSetMatrix(rows, cols, elemsize, A, ola, B, ldb)	\
-	__pfx(blasSetMatrix(rows, cols, elemsize, A, ola, B, ldb))
+	__cu(blasSetMatrix(rows, cols, elemsize, A, ola, B, ldb))
 /**
  * cublasStatus_t cublasGetMatrix(int rows, int cols, int elemSize,
  *                                const void *devicePtr, int ldDevice,
  *                                void *hostPtr, int ldHost);
  */
 #define cublasGetMatrix(rows, cols, elemsize, A, ola, B, ldb)	\
-	__pfx(blasGetMatrix(rows, cols, elemsize, A, ola, B, ldb))
+	__cu(blasGetMatrix(rows, cols, elemsize, A, ola, B, ldb))
 
 #define cublasSetVector(n, elemSize, x, incx, y, incy) \
-	__pfx(blasSetVector(n, elemSize, x, incx, y, incy))
+	__cu(blasSetVector(n, elemSize, x, incx, y, incy))
 #define cublasGetVector(n, elemSize, x, incx, y, incy) \
-	__pfx(blasGetVector(n, elemSize, x, incx, y, incy))
+	__cu(blasGetVector(n, elemSize, x, incx, y, incy))
 
 /**
  * The cublasPointerMode_t type indicates whether the scalar values are passed
  * by reference on the host or device.
  */
-#define cublasPointerMode_t	__pfx(blasPointerMode_t)
-#define CUBLAS_POINTER_MODE_HOST	__PFX(BLAS_POINTER_MODE_HOST)
-#define CUBLAS_POINTER_MODE_DEVICE	__PFX(BLAS_POINTER_MODE_DEVICE)
+#define cublasPointerMode_t	__cu(blasPointerMode_t)
+#define CUBLAS_POINTER_MODE_HOST	__CU(BLAS_POINTER_MODE_HOST)
+#define CUBLAS_POINTER_MODE_DEVICE	__CU(BLAS_POINTER_MODE_DEVICE)
 
-#define cublasGetPointerMode(handle, mode)	__pfx(blasGetPointerMode(handle, mode))
-#define cublasSetPointerMode(handle, mode)	__pfx(blasSetPointerMode(handle, mode))
+#define cublasGetPointerMode(handle, mode)	__cu(blasGetPointerMode(handle, mode))
+#define cublasSetPointerMode(handle, mode)	__cu(blasSetPointerMode(handle, mode))
 
 /**
  * x[j] = alpha * x[j]
@@ -457,39 +457,39 @@
  *
  * S-float, D-double, C-Complex, Cs-Complex/float, Z-DoubleComplex, Zd-DoubleComplex/double
  */
-#define cublasSscal(handle, n, alpha, x, incx)	__pfx(blasSscal(handle, n, alpha, x, incx))
-#define cublasDscal(handle, n, alpha, x, incx)	__pfx(blasDscal(handle, n, alpha, x, incx))
-#define cublasCscal(handle, n, alpha, x, incx)	__pfx(blasCscal(handle, n, alpha, x, incx))
-#define cublasCsscal(handle, n, alpha, x, incx)	__pfx(blasCsscal(handle, n, alpha, x, incx))
-#define cublasZscal(handle, n, alpha, x, incx)	__pfx(blasZscal(handle, n, alpha, x, incx))
-#define cublasZdscal(handle, n, alpha, x, incx)	__pfx(blasZdscal(handle, n, alpha, x, incx))
+#define cublasSscal(handle, n, alpha, x, incx)	__cu(blasSscal(handle, n, alpha, x, incx))
+#define cublasDscal(handle, n, alpha, x, incx)	__cu(blasDscal(handle, n, alpha, x, incx))
+#define cublasCscal(handle, n, alpha, x, incx)	__cu(blasCscal(handle, n, alpha, x, incx))
+#define cublasCsscal(handle, n, alpha, x, incx)	__cu(blasCsscal(handle, n, alpha, x, incx))
+#define cublasZscal(handle, n, alpha, x, incx)	__cu(blasZscal(handle, n, alpha, x, incx))
+#define cublasZdscal(handle, n, alpha, x, incx)	__cu(blasZdscal(handle, n, alpha, x, incx))
 
 /**
  * This function finds the (smallest) index of the element of the maximum
  * magnitude.
  */
-#define cublasIsamax(handle, n, x, incx, presult)	__pfx(blasIsamax(handle, n, x, incx, presult))
-#define cublasIdamax(handle, n, x, incx, presult)	__pfx(blasIdamax(handle, n, x, incx, presult))
-#define cublasIcamax(handle, n, x, incx, presult)	__pfx(blasIcamax(handle, n, x, incx, presult))
-#define cublasIzamax(handle, n, x, incx, presult)	__pfx(blasIzamax(handle, n, x, incx, presult))
+#define cublasIsamax(handle, n, x, incx, presult)	__cu(blasIsamax(handle, n, x, incx, presult))
+#define cublasIdamax(handle, n, x, incx, presult)	__cu(blasIdamax(handle, n, x, incx, presult))
+#define cublasIcamax(handle, n, x, incx, presult)	__cu(blasIcamax(handle, n, x, incx, presult))
+#define cublasIzamax(handle, n, x, incx, presult)	__cu(blasIzamax(handle, n, x, incx, presult))
 
 /**
  * This function finds the (smallest) index of the element of the minimum
  * magnitude.
  */
-#define cublasIsamin(handle, n, x, incx, presult)	__pfx(blasIsamin(handle, n, x, incx, presult))
-#define cublasIdamin(handle, n, x, incx, presult)	__pfx(blasIdamin(handle, n, x, incx, presult))
-#define cublasIcamin(handle, n, x, incx, presult)	__pfx(blasIcamin(handle, n, x, incx, presult))
-#define cublasIzamin(handle, n, x, incx, presult)	__pfx(blasIzamin(handle, n, x, incx, presult))
+#define cublasIsamin(handle, n, x, incx, presult)	__cu(blasIsamin(handle, n, x, incx, presult))
+#define cublasIdamin(handle, n, x, incx, presult)	__cu(blasIdamin(handle, n, x, incx, presult))
+#define cublasIcamin(handle, n, x, incx, presult)	__cu(blasIcamin(handle, n, x, incx, presult))
+#define cublasIzamin(handle, n, x, incx, presult)	__cu(blasIzamin(handle, n, x, incx, presult))
 
 /**
  * This function computes the sum of the absolute values of the elements of
  * vector x.
  */
-#define cublasSasum(handle, n, x, incx, presult)	__pfx(blasSasum(handle, n, x, incx, presult))
-#define cublasDasum(handle, n, x, incx, presult)	__pfx(blasDasum(handle, n, x, incx, presult))
-#define cublasScasum(handle, n, x, incx, presult)	__pfx(blasScasum(handle, n, x, incx, presult))
-#define cublasDzasum(handle, n, x, incx, presult)	__pfx(blasDzasum(handle, n, x, incx, presult))
+#define cublasSasum(handle, n, x, incx, presult)	__cu(blasSasum(handle, n, x, incx, presult))
+#define cublasDasum(handle, n, x, incx, presult)	__cu(blasDasum(handle, n, x, incx, presult))
+#define cublasScasum(handle, n, x, incx, presult)	__cu(blasScasum(handle, n, x, incx, presult))
+#define cublasDzasum(handle, n, x, incx, presult)	__cu(blasDzasum(handle, n, x, incx, presult))
 
 /**
  * This function multiplies the vector x by the scalar alpha and adds it to
@@ -500,10 +500,10 @@
  * k = 1 + (i − 1) * incx
  * j = 1 + (i − 1) * incy
  */
-#define cublasSaxpy(handle, n, alpha, x, incx, y, incy)	__pfx(blasSaxpy(handle, n, alpha, x, incx, y, incy))
-#define cublasDaxpy(handle, n, alpha, x, incx, y, incy)	__pfx(blasDaxpy(handle, n, alpha, x, incx, y, incy))
-#define cublasCaxpy(handle, n, alpha, x, incx, y, incy)	__pfx(blasCaxpy(handle, n, alpha, x, incx, y, incy))
-#define cublasZaxpy(handle, n, alpha, x, incx, y, incy)	__pfx(blasZaxpy(handle, n, alpha, x, incx, y, incy))
+#define cublasSaxpy(handle, n, alpha, x, incx, y, incy)	__cu(blasSaxpy(handle, n, alpha, x, incx, y, incy))
+#define cublasDaxpy(handle, n, alpha, x, incx, y, incy)	__cu(blasDaxpy(handle, n, alpha, x, incx, y, incy))
+#define cublasCaxpy(handle, n, alpha, x, incx, y, incy)	__cu(blasCaxpy(handle, n, alpha, x, incx, y, incy))
+#define cublasZaxpy(handle, n, alpha, x, incx, y, incy)	__cu(blasZaxpy(handle, n, alpha, x, incx, y, incy))
 
 /**
  * This function copies the vector x into the vector y.
@@ -513,49 +513,49 @@
  * k = 1 + (i − 1) * incx
  * j = 1 + (i − 1) * incy
  */
-#define cublasScopy(handle, n, x, incx, y, incy)	__pfx(blasScopy(handle, n, x, incx, y, incy))
-#define cublasDcopy(handle, n, x, incx, y, incy)	__pfx(blasDcopy(handle, n, x, incx, y, incy))
-#define cublasCcopy(handle, n, x, incx, y, incy)	__pfx(blasCcopy(handle, n, x, incx, y, incy))
-#define cublasZcopy(handle, n, x, incx, y, incy)	__pfx(blasZcopy(handle, n, x, incx, y, incy))
+#define cublasScopy(handle, n, x, incx, y, incy)	__cu(blasScopy(handle, n, x, incx, y, incy))
+#define cublasDcopy(handle, n, x, incx, y, incy)	__cu(blasDcopy(handle, n, x, incx, y, incy))
+#define cublasCcopy(handle, n, x, incx, y, incy)	__cu(blasCcopy(handle, n, x, incx, y, incy))
+#define cublasZcopy(handle, n, x, incx, y, incy)	__cu(blasZcopy(handle, n, x, incx, y, incy))
 
 /**
  * This function computes the dot product of vectors x and y.
  */
-#define cublasSdot(handle, n, x, incx, y, incy, presult)	__pfx(blasSdot(handle, n, x, incx, y, incy, presult))
-#define cublasDdot(handle, n, x, incx, y, incy, presult)	__pfx(blasDdot(handle, n, x, incx, y, incy, presult))
-#define cublasCdotu(handle, n, x, incx, y, incy, presult)	__pfx(blasCdotu(handle, n, x, incx, y, incy, presult))
-#define cublasCdotc(handle, n, x, incx, y, incy, presult)	__pfx(blasCdotc(handle, n, x, incx, y, incy, presult))
-#define cublasZdotu(handle, n, x, incx, y, incy, presult)	__pfx(blasZdotu(handle, n, x, incx, y, incy, presult))
-#define cublasZdotc(handle, n, x, incx, y, incy, presult)	__pfx(blasZdotc(handle, n, x, incx, y, incy, presult))
+#define cublasSdot(handle, n, x, incx, y, incy, presult)	__cu(blasSdot(handle, n, x, incx, y, incy, presult))
+#define cublasDdot(handle, n, x, incx, y, incy, presult)	__cu(blasDdot(handle, n, x, incx, y, incy, presult))
+#define cublasCdotu(handle, n, x, incx, y, incy, presult)	__cu(blasCdotu(handle, n, x, incx, y, incy, presult))
+#define cublasCdotc(handle, n, x, incx, y, incy, presult)	__cu(blasCdotc(handle, n, x, incx, y, incy, presult))
+#define cublasZdotu(handle, n, x, incx, y, incy, presult)	__cu(blasZdotu(handle, n, x, incx, y, incy, presult))
+#define cublasZdotc(handle, n, x, incx, y, incy, presult)	__cu(blasZdotc(handle, n, x, incx, y, incy, presult))
 
 /**
  * This function computes the Euclidean norm of the vector x.
  */
-#define cublasSnrm2(handle, n, x, incx, presult)	__pfx(blasSnrm2(handle, n, x, incx, presult))
-#define cublasDnrm2(handle, n, x, incx, presult)	__pfx(blasDnrm2(handle, n, x, incx, presult))
-#define cublasScnrm2(handle, n, x, incx, presult)	__pfx(blasScnrm2(handle, n, x, incx, presult))
-#define cublasDznrm2(handle, n, x, incx, presult)	__pfx(blasDznrm2(handle, n, x, incx, presult))
+#define cublasSnrm2(handle, n, x, incx, presult)	__cu(blasSnrm2(handle, n, x, incx, presult))
+#define cublasDnrm2(handle, n, x, incx, presult)	__cu(blasDnrm2(handle, n, x, incx, presult))
+#define cublasScnrm2(handle, n, x, incx, presult)	__cu(blasScnrm2(handle, n, x, incx, presult))
+#define cublasDznrm2(handle, n, x, incx, presult)	__cu(blasDznrm2(handle, n, x, incx, presult))
 
 /**
  * This function applies Givens rotation matrix.
  */
-#define cublasSrot(handle, n, x, incx, y, incy, c, s)	__pfx(blasSrot(handle, n, x, incx, y, incy, c, s))
-#define cublasDrot(handle, n, x, incx, y, incy, c, s)	__pfx(blasDrot(handle, n, x, incx, y, incy, c, s))
-#define cublasCrot(handle, n, x, incx, y, incy, c, s)	__pfx(blasCrot(handle, n, x, incx, y, incy, c, s))
-#define cublasCsrot(handle, n, x, incx, y, incy, c, s)	__pfx(blasCsrot(handle, n, x, incx, y, incy, c, s))
-#define cublasZrot(handle, n, x, incx, y, incy, c, s)	__pfx(blasZrot(handle, n, x, incx, y, incy, c, s))
-#define cublasZdrot(handle, n, x, incx, y, incy, c, s)	__pfx(blasZdrot(handle, n, x, incx, y, incy, c, s))
+#define cublasSrot(handle, n, x, incx, y, incy, c, s)	__cu(blasSrot(handle, n, x, incx, y, incy, c, s))
+#define cublasDrot(handle, n, x, incx, y, incy, c, s)	__cu(blasDrot(handle, n, x, incx, y, incy, c, s))
+#define cublasCrot(handle, n, x, incx, y, incy, c, s)	__cu(blasCrot(handle, n, x, incx, y, incy, c, s))
+#define cublasCsrot(handle, n, x, incx, y, incy, c, s)	__cu(blasCsrot(handle, n, x, incx, y, incy, c, s))
+#define cublasZrot(handle, n, x, incx, y, incy, c, s)	__cu(blasZrot(handle, n, x, incx, y, incy, c, s))
+#define cublasZdrot(handle, n, x, incx, y, incy, c, s)	__cu(blasZdrot(handle, n, x, incx, y, incy, c, s))
 
 /**
  * This function constructs the Givens rotation matrix.
  */
-#define cublasSrotg(handle, a, b, c, s)	__pfx(blasSrotg(handle, a, b, c, s))
-#define cublasDrotg(handle, a, b, c, s)	__pfx(blasDrotg(handle, a, b, c, s))
-#define cublasCrotg(handle, a, b, c, s)	__pfx(blasCrotg(handle, a, b, c, s))
-#define cublasZrotg(handle, a, b, c, s)	__pfx(blasZrotg(handle, a, b, c, s))
+#define cublasSrotg(handle, a, b, c, s)	__cu(blasSrotg(handle, a, b, c, s))
+#define cublasDrotg(handle, a, b, c, s)	__cu(blasDrotg(handle, a, b, c, s))
+#define cublasCrotg(handle, a, b, c, s)	__cu(blasCrotg(handle, a, b, c, s))
+#define cublasZrotg(handle, a, b, c, s)	__cu(blasZrotg(handle, a, b, c, s))
 
-#define cublasSrotm(handle, n, x, incx, y, incy, param)	__pfx(blasSrotm(handle, n, x, incx, y, incy, param))
-#define cublasDrotm(handle, n, x, incx, y, incy, param)	__pfx(blasDrotm(handle, n, x, incx, y, incy, param))
+#define cublasSrotm(handle, n, x, incx, y, incy, param)	__cu(blasSrotm(handle, n, x, incx, y, incy, param))
+#define cublasDrotm(handle, n, x, incx, y, incy, param)	__cu(blasDrotm(handle, n, x, incx, y, incy, param))
 
 /**
  * This function performs the matrix-matrix multiplication.
@@ -573,18 +573,18 @@
  *                          float           *C, int ldc)
  */
 #define cublasSgemm(handle, transa, transb, m, n, k, alpha, A, lda, B, ldb, beta, C, ldc) \
-	__pfx(blasSgemm(handle, transa, transb, m, n, k, alpha, A, lda, B, ldb, beta, C, ldc))
+	__cu(blasSgemm(handle, transa, transb, m, n, k, alpha, A, lda, B, ldb, beta, C, ldc))
 #define cublasDgemm(handle, transa, transb, m, n, k, alpha, A, lda, B, ldb, beta, C, ldc) \
-	__pfx(blasDgemm(handle, transa, transb, m, n, k, alpha, A, lda, B, ldb, beta, C, ldc))
+	__cu(blasDgemm(handle, transa, transb, m, n, k, alpha, A, lda, B, ldb, beta, C, ldc))
 #define cublasCgemm(handle, transa, transb, m, n, k, alpha, A, lda, B, ldb, beta, C, ldc) \
-	__pfx(blasCgemm(handle, transa, transb, m, n, k, alpha, A, lda, B, ldb, beta, C, ldc))
+	__cu(blasCgemm(handle, transa, transb, m, n, k, alpha, A, lda, B, ldb, beta, C, ldc))
 #define cublasZgemm(handle, transa, transb, m, n, k, alpha, A, lda, B, ldb, beta, C, ldc) \
-	__pfx(blasZgemm(handle, transa, transb, m, n, k, alpha, A, lda, B, ldb, beta, C, ldc))
+	__cu(blasZgemm(handle, transa, transb, m, n, k, alpha, A, lda, B, ldb, beta, C, ldc))
 #define cublasHgemm(handle, transa, transb, m, n, k, alpha, A, lda, B, ldb, beta, C, ldc) \
-	__pfx(blasHgemm(handle, transa, transb, m, n, k, alpha, A, lda, B, ldb, beta, C, ldc))
+	__cu(blasHgemm(handle, transa, transb, m, n, k, alpha, A, lda, B, ldb, beta, C, ldc))
 
 #define cublasDgemv(handle, transa, m, n, alpha, a, lda, x, incx, beta, y, incy) \
-	__pfx(blasDgemv(handle, transa, m, n, alpha, a, lda, x, incx, beta, y, incy))
+	__cu(blasDgemv(handle, transa, m, n, alpha, a, lda, x, incx, beta, y, incy))
 
 /**
  * cublasStatus_t cublasGemmEx(cublasHandle_t handle,
@@ -609,7 +609,7 @@
  */
 #define cublasGemmEx(handle, transa, transb, m, n, k, alpha, A, Atype, lda, \
 		     B, Btype, ldb, beta, C, Ctype, ldc, computeType, algo) \
-	__pfx(blasGemmEx(handle, transa, transb, m, n, k, alpha, A, Atype, lda, \
+	__cu(blasGemmEx(handle, transa, transb, m, n, k, alpha, A, Atype, lda, \
 		     B, Btype, ldb, beta, C, Ctype, ldc, computeType, algo))
 
 /**
@@ -633,14 +633,14 @@
  */
 #define cublasSgemmEx(handle, transa, transb, m, n, k, alpha, A, Atype, lda, \
 		      B, Btype, ldb, beta, C, Ctype, ldc) \
-	__pfx(blasSgemmEx(handle, transa, transb, m, n, k, alpha, A, Atype, lda, \
+	__cu(blasSgemmEx(handle, transa, transb, m, n, k, alpha, A, Atype, lda, \
 		      B, Btype, ldb, beta, C, Ctype, ldc))
 
-#define cublasLtHandle_t	__pfx(blasLtHandle_t)
-#define cublasLtCreate(phandle)	__pfx(blasLtCreate(phandle))
-#define cublasLtDestroy(handle)	__pfx(blasLtDestroy(handle))
+#define cublasLtHandle_t	__cu(blasLtHandle_t)
+#define cublasLtCreate(phandle)	__cu(blasLtCreate(phandle))
+#define cublasLtDestroy(handle)	__cu(blasLtDestroy(handle))
 
-#define cublasLtMatmulDesc_t	__pfx(blasLtMatmulDesc_t)
+#define cublasLtMatmulDesc_t	__cu(blasLtMatmulDesc_t)
 /**
  * cublasStatus_t cublasLtMatmulDescCreate(cublasLtMatmulDesc_t *matmulDesc,
  *                                         cublasComputeType_t computeType,
@@ -650,66 +650,66 @@
  * needed to hold its opaque structure.
  */
 #define cublasLtMatmulDescCreate(pdesc, computeType, scaleType) \
-	__pfx(blasLtMatmulDescCreate(pdesc, computeType, scaleType))
-#define cublasLtMatmulDescDestroy(desc)	__pfx(blasLtMatmulDescDestroy(desc))
+	__cu(blasLtMatmulDescCreate(pdesc, computeType, scaleType))
+#define cublasLtMatmulDescDestroy(desc)	__cu(blasLtMatmulDescDestroy(desc))
 
-#define cublasLtMatmulDescAttributes_t	__pfx(blasLtMatmulDescAttributes_t)
-#define CUBLASLT_MATMUL_DESC_COMPUTE_TYPE	__PFX(BLASLT_MATMUL_DESC_COMPUTE_TYPE)
-#define CUBLASLT_MATMUL_DESC_SCALE_TYPE		__PFX(BLASLT_MATMUL_DESC_SCALE_TYPE)
-#define CUBLASLT_MATMUL_DESC_POINTER_MODE	__PFX(BLASLT_MATMUL_DESC_POINTER_MODE)
+#define cublasLtMatmulDescAttributes_t	__cu(blasLtMatmulDescAttributes_t)
+#define CUBLASLT_MATMUL_DESC_COMPUTE_TYPE	__CU(BLASLT_MATMUL_DESC_COMPUTE_TYPE)
+#define CUBLASLT_MATMUL_DESC_SCALE_TYPE		__CU(BLASLT_MATMUL_DESC_SCALE_TYPE)
+#define CUBLASLT_MATMUL_DESC_POINTER_MODE	__CU(BLASLT_MATMUL_DESC_POINTER_MODE)
 /* more ... */
 
-#define cublasLtMatmulHeuristicResult_t	__pfx(blasLtMatmulHeuristicResult_t)
+#define cublasLtMatmulHeuristicResult_t	__cu(blasLtMatmulHeuristicResult_t)
 
-#define cublasLtMatrixLayout_t	__pfx(blasLtMatrixLayout_t)
+#define cublasLtMatrixLayout_t	__cu(blasLtMatrixLayout_t)
 #define cublasLtMatrixLayoutCreate(playout, type, rows, cols, ld) \
-	__pfx(blasLtMatrixLayoutCreate(playout, type, rows, cols, ld))
-#define cublasLtMatrixLayoutDestroy(layout)	__pfx(blasLtMatrixLayoutDestroy(layout))
+	__cu(blasLtMatrixLayoutCreate(playout, type, rows, cols, ld))
+#define cublasLtMatrixLayoutDestroy(layout)	__cu(blasLtMatrixLayoutDestroy(layout))
 
-#define cublasLtMatrixLayoutAttribute_t	__pfx(blasLtMatrixLayoutAttribute_t)
+#define cublasLtMatrixLayoutAttribute_t	__cu(blasLtMatrixLayoutAttribute_t)
 
 #define cublasLtMatrixLayoutGetAttribute(matLayout, attr, buf, sizeInBytes, sizeWritten) \
-	__pfx(blasLtMatrixLayoutGetAttribute(matLayout, attr, buf, sizeInBytes, sizeWritten))
+	__cu(blasLtMatrixLayoutGetAttribute(matLayout, attr, buf, sizeInBytes, sizeWritten))
 
-#define CUBLASLT_MATRIX_LAYOUT_ROWS	__PFX(BLASLT_MATRIX_LAYOUT_ROWS)
-#define CUBLASLT_MATRIX_LAYOUT_COLS	__PFX(BLASLT_MATRIX_LAYOUT_COLS)
-#define CUBLASLT_MATRIX_LAYOUT_LD	__PFX(BLASLT_MATRIX_LAYOUT_LD)
-#define CUBLASLT_MATRIX_LAYOUT_TYPE	__PFX(BLASLT_MATRIX_LAYOUT_TYPE)
+#define CUBLASLT_MATRIX_LAYOUT_ROWS	__CU(BLASLT_MATRIX_LAYOUT_ROWS)
+#define CUBLASLT_MATRIX_LAYOUT_COLS	__CU(BLASLT_MATRIX_LAYOUT_COLS)
+#define CUBLASLT_MATRIX_LAYOUT_LD	__CU(BLASLT_MATRIX_LAYOUT_LD)
+#define CUBLASLT_MATRIX_LAYOUT_TYPE	__CU(BLASLT_MATRIX_LAYOUT_TYPE)
 
-#define cublasLtMatmulAlgo_t	__pfx(blasLtMatmulAlgo_t)
-#define CUBLASLT_ALGO_CAP_SPLITK_SUPPORT	__PFX(BLASLT_ALGO_CAP_SPLITK_SUPPORT)
-#define CUBLASLT_ALGO_CAP_REDUCTION_SCHEME_MASK	__PFX(BLASLT_ALGO_CAP_REDUCTION_SCHEME_MASK)
-#define CUBLASLT_ALGO_CAP_CTA_SWIZZLING_SUPPORT	__PFX(BLASLT_ALGO_CAP_CTA_SWIZZLING_SUPPORT)
-#define CUBLASLT_ALGO_CAP_STRIDED_BATCH_SUPPORT	__PFX(BLASLT_ALGO_CAP_STRIDED_BATCH_SUPPORT)
-#define CUBLASLT_ALGO_CAP_OUT_OF_PLACE_RESULT_SUPPORT	__PFX(BLASLT_ALGO_CAP_OUT_OF_PLACE_RESULT_SUPPORT)
-#define CUBLASLT_ALGO_CAP_UPLO_SUPPORT	__PFX(BLASLT_ALGO_CAP_UPLO_SUPPORT)
-#define CUBLASLT_ALGO_CAP_TILE_IDS	__PFX(BLASLT_ALGO_CAP_TILE_IDS)
-#define CUBLASLT_ALGO_CAP_CUSTOM_OPTION_MAX	__PFX(BLASLT_ALGO_CAP_CUSTOM_OPTION_MAX)
-#define CUBLASLT_ALGO_CAP_CUSTOM_MEMORY_ORDER	__PFX(BLASLT_ALGO_CAP_CUSTOM_MEMORY_ORDER)
-#define CUBLASLT_ALGO_CAP_POINTER_MODE_MASK	__PFX(BLASLT_ALGO_CAP_POINTER_MODE_MASK)
-#define CUBLASLT_ALGO_CAP_EPILOGUE_MASK	__PFX(BLASLT_ALGO_CAP_EPILOGUE_MASK)
-#define CUBLASLT_ALGO_CAP_STAGES_IDS	__PFX(BLASLT_ALGO_CAP_STAGES_IDS)
-#define CUBLASLT_ALGO_CAP_LD_NEGATIVE	__PFX(BLASLT_ALGO_CAP_LD_NEGATIVE)
-#define CUBLASLT_ALGO_CAP_NUMERICAL_IMPL_FLAGS	__PFX(BLASLT_ALGO_CAP_NUMERICAL_IMPL_FLAGS)
-#define CUBLASLT_ALGO_CAP_MIN_ALIGNMENT_A_BYTES	__PFX(BLASLT_ALGO_CAP_MIN_ALIGNMENT_A_BYTES)
-#define CUBLASLT_ALGO_CAP_MIN_ALIGNMENT_B_BYTES	__PFX(BLASLT_ALGO_CAP_MIN_ALIGNMENT_B_BYTES)
-#define CUBLASLT_ALGO_CAP_MIN_ALIGNMENT_C_BYTES	__PFX(BLASLT_ALGO_CAP_MIN_ALIGNMENT_C_BYTES)
-#define CUBLASLT_ALGO_CAP_MIN_ALIGNMENT_D_BYTES	__PFX(BLASLT_ALGO_CAP_MIN_ALIGNMENT_D_BYTES)
-#define CUBLASLT_ALGO_CAP_ATOMIC_SYNC	__PFX(BLASLT_ALGO_CAP_ATOMIC_SYNC)
+#define cublasLtMatmulAlgo_t	__cu(blasLtMatmulAlgo_t)
+#define CUBLASLT_ALGO_CAP_SPLITK_SUPPORT	__CU(BLASLT_ALGO_CAP_SPLITK_SUPPORT)
+#define CUBLASLT_ALGO_CAP_REDUCTION_SCHEME_MASK	__CU(BLASLT_ALGO_CAP_REDUCTION_SCHEME_MASK)
+#define CUBLASLT_ALGO_CAP_CTA_SWIZZLING_SUPPORT	__CU(BLASLT_ALGO_CAP_CTA_SWIZZLING_SUPPORT)
+#define CUBLASLT_ALGO_CAP_STRIDED_BATCH_SUPPORT	__CU(BLASLT_ALGO_CAP_STRIDED_BATCH_SUPPORT)
+#define CUBLASLT_ALGO_CAP_OUT_OF_PLACE_RESULT_SUPPORT	__CU(BLASLT_ALGO_CAP_OUT_OF_PLACE_RESULT_SUPPORT)
+#define CUBLASLT_ALGO_CAP_UPLO_SUPPORT	__CU(BLASLT_ALGO_CAP_UPLO_SUPPORT)
+#define CUBLASLT_ALGO_CAP_TILE_IDS	__CU(BLASLT_ALGO_CAP_TILE_IDS)
+#define CUBLASLT_ALGO_CAP_CUSTOM_OPTION_MAX	__CU(BLASLT_ALGO_CAP_CUSTOM_OPTION_MAX)
+#define CUBLASLT_ALGO_CAP_CUSTOM_MEMORY_ORDER	__CU(BLASLT_ALGO_CAP_CUSTOM_MEMORY_ORDER)
+#define CUBLASLT_ALGO_CAP_POINTER_MODE_MASK	__CU(BLASLT_ALGO_CAP_POINTER_MODE_MASK)
+#define CUBLASLT_ALGO_CAP_EPILOGUE_MASK	__CU(BLASLT_ALGO_CAP_EPILOGUE_MASK)
+#define CUBLASLT_ALGO_CAP_STAGES_IDS	__CU(BLASLT_ALGO_CAP_STAGES_IDS)
+#define CUBLASLT_ALGO_CAP_LD_NEGATIVE	__CU(BLASLT_ALGO_CAP_LD_NEGATIVE)
+#define CUBLASLT_ALGO_CAP_NUMERICAL_IMPL_FLAGS	__CU(BLASLT_ALGO_CAP_NUMERICAL_IMPL_FLAGS)
+#define CUBLASLT_ALGO_CAP_MIN_ALIGNMENT_A_BYTES	__CU(BLASLT_ALGO_CAP_MIN_ALIGNMENT_A_BYTES)
+#define CUBLASLT_ALGO_CAP_MIN_ALIGNMENT_B_BYTES	__CU(BLASLT_ALGO_CAP_MIN_ALIGNMENT_B_BYTES)
+#define CUBLASLT_ALGO_CAP_MIN_ALIGNMENT_C_BYTES	__CU(BLASLT_ALGO_CAP_MIN_ALIGNMENT_C_BYTES)
+#define CUBLASLT_ALGO_CAP_MIN_ALIGNMENT_D_BYTES	__CU(BLASLT_ALGO_CAP_MIN_ALIGNMENT_D_BYTES)
+#define CUBLASLT_ALGO_CAP_ATOMIC_SYNC	__CU(BLASLT_ALGO_CAP_ATOMIC_SYNC)
 
 #define cublasLtMatmulAlgoGetHeuristic(ltHandle, matmulDesc, layoutA, layoutB, \
 				       layoutC, layoutD, pref, n, heuristic_result, rslt) \
-	__pfx(blasLtMatmulAlgoGetHeuristic(ltHandle, matmulDesc, layoutA, layoutB, \
+	__cu(blasLtMatmulAlgoGetHeuristic(ltHandle, matmulDesc, layoutA, layoutB, \
 				       layoutC, layoutD, pref, n, heuristic_result, rslt))
-#define cublasLtMatmulPreferenceDestroy(pref)	__pfx(blasLtMatmulPreferenceDestroy(pref))
+#define cublasLtMatmulPreferenceDestroy(pref)	__cu(blasLtMatmulPreferenceDestroy(pref))
 
-#define cublasLtMatmulPreference_t	__pfx(blasLtMatmulPreference_t)
-#define cublasLtMatmulPreferenceCreate(preference)	__pfx(blasLtMatmulPreferenceCreate(preference))
+#define cublasLtMatmulPreference_t	__cu(blasLtMatmulPreference_t)
+#define cublasLtMatmulPreferenceCreate(preference)	__cu(blasLtMatmulPreferenceCreate(preference))
 
 #define cublasLtMatmulPreferenceSetAttribute(pref, arg1, ptr, size) \
-	__pfx(blasLtMatmulPreferenceSetAttribute(pref, arg1, ptr, size))
+	__cu(blasLtMatmulPreferenceSetAttribute(pref, arg1, ptr, size))
 
-#define CUBLASLT_MATMUL_PREF_MAX_WORKSPACE_BYTES	__PFX(BLASLT_MATMUL_PREF_MAX_WORKSPACE_BYTES)
+#define CUBLASLT_MATMUL_PREF_MAX_WORKSPACE_BYTES	__CU(BLASLT_MATMUL_PREF_MAX_WORKSPACE_BYTES)
 
 /**
  * D = alpha*(A*B) + beta*(C)
@@ -717,7 +717,7 @@
 #define cublasLtMatmul(lightHandle, computeDesc, alpha, A, Adesc, B, Bdesc, \
 		       beta, C, Cdesc, D, Ddesc, algo, workspace, \
 		       workspaceSizeInBytes, stream) \
-	__pfx(blasLtMatmul(lightHandle, computeDesc, alpha, A, Adesc, B, Bdesc, \
+	__cu(blasLtMatmul(lightHandle, computeDesc, alpha, A, Adesc, B, Bdesc, \
 		       beta, C, Cdesc, D, Ddesc, algo, workspace, \
 		       workspaceSizeInBytes, stream))
 
@@ -725,96 +725,96 @@
  * cublasGemmAlgo_t type is an enumerant to specify the algorithm for
  * matrix-matrix multiplication.
  */
-#define cublasGemmAlgo_t	__pfx(blasGemmAlgo_t)
-#define CUBLAS_GEMM_DEFAULT	__PFX(BLAS_GEMM_DEFAULT)
-#define CUBLAS_GEMM_ALGO0	__PFX(BLAS_GEMM_ALGO0)
-#define CUBLAS_GEMM_ALGO1	__PFX(BLAS_GEMM_ALGO1)
-#define CUBLAS_GEMM_ALGO2	__PFX(BLAS_GEMM_ALGO2)
-#define CUBLAS_GEMM_ALGO3	__PFX(BLAS_GEMM_ALGO3)
-#define CUBLAS_GEMM_ALGO4	__PFX(BLAS_GEMM_ALGO4)
-#define CUBLAS_GEMM_ALGO5	__PFX(BLAS_GEMM_ALGO5)
-#define CUBLAS_GEMM_ALGO6	__PFX(BLAS_GEMM_ALGO6)
-#define CUBLAS_GEMM_ALGO7	__PFX(BLAS_GEMM_ALGO7)
-#define CUBLAS_GEMM_ALGO8	__PFX(BLAS_GEMM_ALGO8)
-#define CUBLAS_GEMM_ALGO9	__PFX(BLAS_GEMM_ALGO9)
-#define CUBLAS_GEMM_ALGO10	__PFX(BLAS_GEMM_ALGO10)
-#define CUBLAS_GEMM_ALGO11	__PFX(BLAS_GEMM_ALGO11)
-#define CUBLAS_GEMM_ALGO12	__PFX(BLAS_GEMM_ALGO12)
-#define CUBLAS_GEMM_ALGO13	__PFX(BLAS_GEMM_ALGO13)
-#define CUBLAS_GEMM_ALGO14	__PFX(BLAS_GEMM_ALGO14)
-#define CUBLAS_GEMM_ALGO15	__PFX(BLAS_GEMM_ALGO15)
-#define CUBLAS_GEMM_ALGO16	__PFX(BLAS_GEMM_ALGO16)
-#define CUBLAS_GEMM_ALGO17	__PFX(BLAS_GEMM_ALGO17)
-#define CUBLAS_GEMM_ALGO18	__PFX(BLAS_GEMM_ALGO18)
-#define CUBLAS_GEMM_ALGO19	__PFX(BLAS_GEMM_ALGO19)
-#define CUBLAS_GEMM_ALGO20	__PFX(BLAS_GEMM_ALGO20)
-#define CUBLAS_GEMM_ALGO21	__PFX(BLAS_GEMM_ALGO21)
-#define CUBLAS_GEMM_ALGO22	__PFX(BLAS_GEMM_ALGO22)
-#define CUBLAS_GEMM_ALGO23	__PFX(BLAS_GEMM_ALGO23)
-#define CUBLAS_GEMM_DEFAULT_TENSOR_OP	__PFX(BLAS_GEMM_DEFAULT_TENSOR_OP)
-#define CUBLAS_GEMM_ALGO0_TENSOR_OP	__PFX(BLAS_GEMM_ALGO0_TENSOR_OP)
-#define CUBLAS_GEMM_ALGO1_TENSOR_OP	__PFX(BLAS_GEMM_ALGO1_TENSOR_OP)
-#define CUBLAS_GEMM_ALGO2_TENSOR_OP	__PFX(BLAS_GEMM_ALGO2_TENSOR_OP)
-#define CUBLAS_GEMM_ALGO3_TENSOR_OP	__PFX(BLAS_GEMM_ALGO3_TENSOR_OP)
-#define CUBLAS_GEMM_ALGO4_TENSOR_OP	__PFX(BLAS_GEMM_ALGO4_TENSOR_OP)
-#define CUBLAS_GEMM_ALGO5_TENSOR_OP	__PFX(BLAS_GEMM_ALGO5_TENSOR_OP)
-#define CUBLAS_GEMM_ALGO6_TENSOR_OP	__PFX(BLAS_GEMM_ALGO6_TENSOR_OP)
-#define CUBLAS_GEMM_ALGO7_TENSOR_OP	__PFX(BLAS_GEMM_ALGO7_TENSOR_OP)
-#define CUBLAS_GEMM_ALGO8_TENSOR_OP	__PFX(BLAS_GEMM_ALGO8_TENSOR_OP)
-#define CUBLAS_GEMM_ALGO9_TENSOR_OP	__PFX(BLAS_GEMM_ALGO9_TENSOR_OP)
-#define CUBLAS_GEMM_ALGO10_TENSOR_OP	__PFX(BLAS_GEMM_ALGO10_TENSOR_OP)
-#define CUBLAS_GEMM_ALGO11_TENSOR_OP	__PFX(BLAS_GEMM_ALGO11_TENSOR_OP)
-#define CUBLAS_GEMM_ALGO12_TENSOR_OP	__PFX(BLAS_GEMM_ALGO12_TENSOR_OP)
-#define CUBLAS_GEMM_ALGO13_TENSOR_OP	__PFX(BLAS_GEMM_ALGO13_TENSOR_OP)
-#define CUBLAS_GEMM_ALGO14_TENSOR_OP	__PFX(BLAS_GEMM_ALGO14_TENSOR_OP)
-#define CUBLAS_GEMM_ALGO15_TENSOR_OP	__PFX(BLAS_GEMM_ALGO15_TENSOR_OP)
-#define CUBLAS_GEMM_AUTOTUNE	__PFX(BLAS_GEMM_AUTOTUNE)
+#define cublasGemmAlgo_t	__cu(blasGemmAlgo_t)
+#define CUBLAS_GEMM_DEFAULT	__CU(BLAS_GEMM_DEFAULT)
+#define CUBLAS_GEMM_ALGO0	__CU(BLAS_GEMM_ALGO0)
+#define CUBLAS_GEMM_ALGO1	__CU(BLAS_GEMM_ALGO1)
+#define CUBLAS_GEMM_ALGO2	__CU(BLAS_GEMM_ALGO2)
+#define CUBLAS_GEMM_ALGO3	__CU(BLAS_GEMM_ALGO3)
+#define CUBLAS_GEMM_ALGO4	__CU(BLAS_GEMM_ALGO4)
+#define CUBLAS_GEMM_ALGO5	__CU(BLAS_GEMM_ALGO5)
+#define CUBLAS_GEMM_ALGO6	__CU(BLAS_GEMM_ALGO6)
+#define CUBLAS_GEMM_ALGO7	__CU(BLAS_GEMM_ALGO7)
+#define CUBLAS_GEMM_ALGO8	__CU(BLAS_GEMM_ALGO8)
+#define CUBLAS_GEMM_ALGO9	__CU(BLAS_GEMM_ALGO9)
+#define CUBLAS_GEMM_ALGO10	__CU(BLAS_GEMM_ALGO10)
+#define CUBLAS_GEMM_ALGO11	__CU(BLAS_GEMM_ALGO11)
+#define CUBLAS_GEMM_ALGO12	__CU(BLAS_GEMM_ALGO12)
+#define CUBLAS_GEMM_ALGO13	__CU(BLAS_GEMM_ALGO13)
+#define CUBLAS_GEMM_ALGO14	__CU(BLAS_GEMM_ALGO14)
+#define CUBLAS_GEMM_ALGO15	__CU(BLAS_GEMM_ALGO15)
+#define CUBLAS_GEMM_ALGO16	__CU(BLAS_GEMM_ALGO16)
+#define CUBLAS_GEMM_ALGO17	__CU(BLAS_GEMM_ALGO17)
+#define CUBLAS_GEMM_ALGO18	__CU(BLAS_GEMM_ALGO18)
+#define CUBLAS_GEMM_ALGO19	__CU(BLAS_GEMM_ALGO19)
+#define CUBLAS_GEMM_ALGO20	__CU(BLAS_GEMM_ALGO20)
+#define CUBLAS_GEMM_ALGO21	__CU(BLAS_GEMM_ALGO21)
+#define CUBLAS_GEMM_ALGO22	__CU(BLAS_GEMM_ALGO22)
+#define CUBLAS_GEMM_ALGO23	__CU(BLAS_GEMM_ALGO23)
+#define CUBLAS_GEMM_DEFAULT_TENSOR_OP	__CU(BLAS_GEMM_DEFAULT_TENSOR_OP)
+#define CUBLAS_GEMM_ALGO0_TENSOR_OP	__CU(BLAS_GEMM_ALGO0_TENSOR_OP)
+#define CUBLAS_GEMM_ALGO1_TENSOR_OP	__CU(BLAS_GEMM_ALGO1_TENSOR_OP)
+#define CUBLAS_GEMM_ALGO2_TENSOR_OP	__CU(BLAS_GEMM_ALGO2_TENSOR_OP)
+#define CUBLAS_GEMM_ALGO3_TENSOR_OP	__CU(BLAS_GEMM_ALGO3_TENSOR_OP)
+#define CUBLAS_GEMM_ALGO4_TENSOR_OP	__CU(BLAS_GEMM_ALGO4_TENSOR_OP)
+#define CUBLAS_GEMM_ALGO5_TENSOR_OP	__CU(BLAS_GEMM_ALGO5_TENSOR_OP)
+#define CUBLAS_GEMM_ALGO6_TENSOR_OP	__CU(BLAS_GEMM_ALGO6_TENSOR_OP)
+#define CUBLAS_GEMM_ALGO7_TENSOR_OP	__CU(BLAS_GEMM_ALGO7_TENSOR_OP)
+#define CUBLAS_GEMM_ALGO8_TENSOR_OP	__CU(BLAS_GEMM_ALGO8_TENSOR_OP)
+#define CUBLAS_GEMM_ALGO9_TENSOR_OP	__CU(BLAS_GEMM_ALGO9_TENSOR_OP)
+#define CUBLAS_GEMM_ALGO10_TENSOR_OP	__CU(BLAS_GEMM_ALGO10_TENSOR_OP)
+#define CUBLAS_GEMM_ALGO11_TENSOR_OP	__CU(BLAS_GEMM_ALGO11_TENSOR_OP)
+#define CUBLAS_GEMM_ALGO12_TENSOR_OP	__CU(BLAS_GEMM_ALGO12_TENSOR_OP)
+#define CUBLAS_GEMM_ALGO13_TENSOR_OP	__CU(BLAS_GEMM_ALGO13_TENSOR_OP)
+#define CUBLAS_GEMM_ALGO14_TENSOR_OP	__CU(BLAS_GEMM_ALGO14_TENSOR_OP)
+#define CUBLAS_GEMM_ALGO15_TENSOR_OP	__CU(BLAS_GEMM_ALGO15_TENSOR_OP)
+#define CUBLAS_GEMM_AUTOTUNE	__CU(BLAS_GEMM_AUTOTUNE)
 
 /**
  * cublasComputeType_t enumerate type is used in cublasGemmEx() and
  * cublasLtMatmul() (including all batched and strided batched variants) to
  * choose compute precision modes as defined below.
  */
-#define cublasComputeType_t	__pfx(blasComputeType_t)
+#define cublasComputeType_t	__cu(blasComputeType_t)
 /**
  * This is the default and highest-performance mode for 16-bit half precision
  * floating point and all compute and intermediate storage precisions with at
  * least 16-bit half precision. Tensor Cores will be used whenever possible.
  */
-#define CUBLAS_COMPUTE_16F	__PFX(BLAS_COMPUTE_16F)
+#define CUBLAS_COMPUTE_16F	__CU(BLAS_COMPUTE_16F)
 /**
  * This mode uses 16-bit half precision floating point standardized arithmetic
  * for all phases of calculations and is primarily intended for numerical
  * robustness studies, testing, and debugging. This mode might not be as
  * performant as the other modes since it disables use of tensor cores.
  */
-#define CUBLAS_COMPUTE_16F_PEDANTIC	__PFX(BLAS_COMPUTE_16F_PEDANTIC)
+#define CUBLAS_COMPUTE_16F_PEDANTIC	__CU(BLAS_COMPUTE_16F_PEDANTIC)
 /**
  * This is the default 32-bit single precision floating point and uses compute
  * and intermediate storage precisions of at least 32-bits.
  */
-#define CUBLAS_COMPUTE_32F	__PFX(BLAS_COMPUTE_32F)
-#define CUBLAS_COMPUTE_32F_PEDANTIC	__PFX(BLAS_COMPUTE_32F_PEDANTIC)
+#define CUBLAS_COMPUTE_32F	__CU(BLAS_COMPUTE_32F)
+#define CUBLAS_COMPUTE_32F_PEDANTIC	__CU(BLAS_COMPUTE_32F_PEDANTIC)
 /**
  * Allows the library to use Tensor Cores with automatic down-conversion and
  * 16-bit half-precision compute for 32-bit input and output matrices.
  */
-#define CUBLAS_COMPUTE_32F_FAST_16F	__PFX(BLAS_COMPUTE_32F_FAST_16F)
-#define CUBLAS_COMPUTE_32F_FAST_16BF	__PFX(BLAS_COMPUTE_32F_FAST_16BF)
-#define CUBLAS_COMPUTE_32F_FAST_TF32	__PFX(BLAS_COMPUTE_32F_FAST_TF32)
-#define CUBLAS_COMPUTE_32F_EMULATED_16BFX9	__PFX(BLAS_COMPUTE_32F_EMULATED_16BFX9)
+#define CUBLAS_COMPUTE_32F_FAST_16F	__CU(BLAS_COMPUTE_32F_FAST_16F)
+#define CUBLAS_COMPUTE_32F_FAST_16BF	__CU(BLAS_COMPUTE_32F_FAST_16BF)
+#define CUBLAS_COMPUTE_32F_FAST_TF32	__CU(BLAS_COMPUTE_32F_FAST_TF32)
+#define CUBLAS_COMPUTE_32F_EMULATED_16BFX9	__CU(BLAS_COMPUTE_32F_EMULATED_16BFX9)
 /**
  * This is the default 64-bit double precision floating point and uses compute
  * and intermediate storage precisions of at least 64-bits.
  */
-#define CUBLAS_COMPUTE_64F	__PFX(BLAS_COMPUTE_64F)
-#define CUBLAS_COMPUTE_64F_PEDANTIC	__PFX(BLAS_COMPUTE_64F_PEDANTIC)
+#define CUBLAS_COMPUTE_64F	__CU(BLAS_COMPUTE_64F)
+#define CUBLAS_COMPUTE_64F_PEDANTIC	__CU(BLAS_COMPUTE_64F_PEDANTIC)
 /**
  * This is the default 32-bit integer mode and uses compute and intermediate
  * storage precisions of at least 32-bits.
  */
-#define CUBLAS_COMPUTE_32I	__PFX(BLAS_COMPUTE_32I)
-#define CUBLAS_COMPUTE_32I_PEDANTIC	__PFX(BLAS_COMPUTE_32I_PEDANTIC)
+#define CUBLAS_COMPUTE_32I	__CU(BLAS_COMPUTE_32I)
+#define CUBLAS_COMPUTE_32I_PEDANTIC	__CU(BLAS_COMPUTE_32I_PEDANTIC)
 
 /**
  * see /usr/local/cuda-12.9/targets/x86_64-linux/include/library_types.h
@@ -868,61 +868,61 @@
  * cuComplex - c, C, complex single-precision
  * cuDoubleComplex - z, Z, complex double-precision
  */
-#define cuComplex	__pfx(Complex)
-#define cuDoubleComplex	__pfx(DoubleComplex)
+#define cuComplex	__cu(Complex)
+#define cuDoubleComplex	__cu(DoubleComplex)
 
 /**
  * refs
  * - https://docs.nvidia.com/cuda/curand/group__HOST.html
  */
-#define curandStatus_t	__pfx(randStatus_t)
-#define CURAND_STATUS_SUCCESS	__PFX(RAND_STATUS_SUCCESS)
-#define CURAND_STATUS_SUCCESS	__PFX(RAND_STATUS_SUCCESS)
-#define CURAND_STATUS_VERSION_MISMATCH	__PFX(RAND_STATUS_VERSION_MISMATCH)
-#define CURAND_STATUS_NOT_INITIALIZED	__PFX(RAND_STATUS_NOT_INITIALIZED)
-#define CURAND_STATUS_ALLOCATION_FAILED	__PFX(RAND_STATUS_ALLOCATION_FAILED)
-#define CURAND_STATUS_TYPE_ERROR	__PFX(RAND_STATUS_TYPE_ERROR)
-#define CURAND_STATUS_OUT_OF_RANGE	__PFX(RAND_STATUS_OUT_OF_RANGE)
-#define CURAND_STATUS_LENGTH_NOT_MULTIPLE	__PFX(RAND_STATUS_LENGTH_NOT_MULTIPLE)
-#define CURAND_STATUS_DOUBLE_PRECISION_REQUIRED	__PFX(RAND_STATUS_DOUBLE_PRECISION_REQUIRED)
-#define CURAND_STATUS_LAUNCH_FAILURE	__PFX(RAND_STATUS_LAUNCH_FAILURE)
-#define CURAND_STATUS_PREEXISTING_FAILURE	__PFX(RAND_STATUS_PREEXISTING_FAILURE)
-#define CURAND_STATUS_INITIALIZATION_FAILED	__PFX(RAND_STATUS_INITIALIZATION_FAILED)
-#define CURAND_STATUS_ARCH_MISMATCH	__PFX(RAND_STATUS_ARCH_MISMATCH)
-#define CURAND_STATUS_INTERNAL_ERROR	__PFX(RAND_STATUS_INTERNAL_ERROR)
-#define CURAND_STATUS_NOT_IMPLEMENTED	__PFX(RAND_STATUS_NOT_IMPLEMENTED)
+#define curandStatus_t	__cu(randStatus_t)
+#define CURAND_STATUS_SUCCESS	__CU(RAND_STATUS_SUCCESS)
+#define CURAND_STATUS_SUCCESS	__CU(RAND_STATUS_SUCCESS)
+#define CURAND_STATUS_VERSION_MISMATCH	__CU(RAND_STATUS_VERSION_MISMATCH)
+#define CURAND_STATUS_NOT_INITIALIZED	__CU(RAND_STATUS_NOT_INITIALIZED)
+#define CURAND_STATUS_ALLOCATION_FAILED	__CU(RAND_STATUS_ALLOCATION_FAILED)
+#define CURAND_STATUS_TYPE_ERROR	__CU(RAND_STATUS_TYPE_ERROR)
+#define CURAND_STATUS_OUT_OF_RANGE	__CU(RAND_STATUS_OUT_OF_RANGE)
+#define CURAND_STATUS_LENGTH_NOT_MULTIPLE	__CU(RAND_STATUS_LENGTH_NOT_MULTIPLE)
+#define CURAND_STATUS_DOUBLE_PRECISION_REQUIRED	__CU(RAND_STATUS_DOUBLE_PRECISION_REQUIRED)
+#define CURAND_STATUS_LAUNCH_FAILURE	__CU(RAND_STATUS_LAUNCH_FAILURE)
+#define CURAND_STATUS_PREEXISTING_FAILURE	__CU(RAND_STATUS_PREEXISTING_FAILURE)
+#define CURAND_STATUS_INITIALIZATION_FAILED	__CU(RAND_STATUS_INITIALIZATION_FAILED)
+#define CURAND_STATUS_ARCH_MISMATCH	__CU(RAND_STATUS_ARCH_MISMATCH)
+#define CURAND_STATUS_INTERNAL_ERROR	__CU(RAND_STATUS_INTERNAL_ERROR)
+#define CURAND_STATUS_NOT_IMPLEMENTED	__CU(RAND_STATUS_NOT_IMPLEMENTED)
 
-#define curandGetVersion(version)	__pfx(randGetVersion(version))
+#define curandGetVersion(version)	__cu(randGetVersion(version))
 
 /**
  * FFT
  */
-#define cufftResult	__pfx(fftResult)
-#define CUFFT_SUCCESS	__PFX(FFT_SUCCESS)
-#define CUFFT_INVALID_PLAN	__PFX(FFT_INVALID_PLAN)
-#define CUFFT_ALLOC_FAILED	__PFX(FFT_ALLOC_FAILED)
-#define CUFFT_INVALID_TYPE	__PFX(FFT_INVALID_TYPE)
-#define CUFFT_INVALID_VALUE	__PFX(FFT_INVALID_VALUE)
-#define CUFFT_INTERNAL_ERROR	__PFX(FFT_INTERNAL_ERROR)
-#define CUFFT_EXEC_FAILED	__PFX(FFT_EXEC_FAILED)
-#define CUFFT_SETUP_FAILED	__PFX(FFT_SETUP_FAILED)
-#define CUFFT_INVALID_SIZE	__PFX(FFT_INVALID_SIZE)
-#define CUFFT_UNALIGNED_DATA	__PFX(FFT_UNALIGNED_DATA)
-#define CUFFT_INCOMPLETE_PARAMETER_LIST	__PFX(FFT_INCOMPLETE_PARAMETER_LIST)
-#define CUFFT_INVALID_DEVICE	__PFX(FFT_INVALID_DEVICE)
-#define CUFFT_PARSE_ERROR	__PFX(FFT_PARSE_ERROR)
-#define CUFFT_NO_WORKSPACE	__PFX(FFT_NO_WORKSPACE)
-#define CUFFT_NOT_IMPLEMENTED	__PFX(FFT_NOT_IMPLEMENTED)
-#define CUFFT_LICENSE_ERROR	__PFX(FFT_LICENSE_ERROR)
-#define CUFFT_NOT_SUPPORTED	__PFX(FFT_NOT_SUPPORTED)
-#define cufftGetProperty(v, pval)	__pfx(fftGetProperty(v, pval))
+#define cufftResult	__cu(fftResult)
+#define CUFFT_SUCCESS	__CU(FFT_SUCCESS)
+#define CUFFT_INVALID_PLAN	__CU(FFT_INVALID_PLAN)
+#define CUFFT_ALLOC_FAILED	__CU(FFT_ALLOC_FAILED)
+#define CUFFT_INVALID_TYPE	__CU(FFT_INVALID_TYPE)
+#define CUFFT_INVALID_VALUE	__CU(FFT_INVALID_VALUE)
+#define CUFFT_INTERNAL_ERROR	__CU(FFT_INTERNAL_ERROR)
+#define CUFFT_EXEC_FAILED	__CU(FFT_EXEC_FAILED)
+#define CUFFT_SETUP_FAILED	__CU(FFT_SETUP_FAILED)
+#define CUFFT_INVALID_SIZE	__CU(FFT_INVALID_SIZE)
+#define CUFFT_UNALIGNED_DATA	__CU(FFT_UNALIGNED_DATA)
+#define CUFFT_INCOMPLETE_PARAMETER_LIST	__CU(FFT_INCOMPLETE_PARAMETER_LIST)
+#define CUFFT_INVALID_DEVICE	__CU(FFT_INVALID_DEVICE)
+#define CUFFT_PARSE_ERROR	__CU(FFT_PARSE_ERROR)
+#define CUFFT_NO_WORKSPACE	__CU(FFT_NO_WORKSPACE)
+#define CUFFT_NOT_IMPLEMENTED	__CU(FFT_NOT_IMPLEMENTED)
+#define CUFFT_LICENSE_ERROR	__CU(FFT_LICENSE_ERROR)
+#define CUFFT_NOT_SUPPORTED	__CU(FFT_NOT_SUPPORTED)
+#define cufftGetProperty(v, pval)	__cu(fftGetProperty(v, pval))
 
 /**
  * SPARSE
  */
-#define cusparseGetProperty(v, pval)	__pfx(sparseGetProperty(v, pval))
+#define cusparseGetProperty(v, pval)	__cu(sparseGetProperty(v, pval))
 
-#define CUmodule	__PFX(module)
-#define cuModuleLoad(pmodule, name)	__pfx(ModuleLoad(pmodule, name))
-#define CUfunction	__PFX(function)
-#define cuModuleGetFunction(pfunc, mod, name)	__pfx(ModuleGetFunction(pfunc, mod, name))
+#define CUmodule	__CU(module)
+#define cuModuleLoad(pmodule, name)	__cu(ModuleLoad(pmodule, name))
+#define CUfunction	__CU(function)
+#define cuModuleGetFunction(pfunc, mod, name)	__cu(ModuleGetFunction(pfunc, mod, name))

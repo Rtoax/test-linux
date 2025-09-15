@@ -49,6 +49,7 @@ and this project adheres to
 - kunlunxin: add info.sh;
 - hpc/kunlunxin: Introduce;
 #### Changed
+- cuda_adapter.h: Rename macros __pfx and __PFX to __cu,__CU;
 - linker: Rename linker-script to script;
 - Move SR-IOV into virt/;
 - systemtap: Move to tools/;
