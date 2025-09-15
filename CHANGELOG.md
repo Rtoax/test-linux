@@ -15,7 +15,7 @@ and this project adheres to
 - template: add targets directory and move all target mk into it;
 - Makefile: Rename target installdeps to deps;
 #### Added
-- fakeCUDA: add libcudart.map;
+- fakeCUDA: add libcudart.map, libcusparse.map, libcufft.map;
 - linker: add libhello.map and test --version-script;
 - cuda: add fakeCUDA;
 - tmux: add tmux.md;
