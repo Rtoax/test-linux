@@ -36,6 +36,11 @@ cudaError_t cudaSetDevice(int device)
 	return dev_set_current(device);
 }
 
+cudaError_t cudaGetDevice(int *device)
+{
+	return dev_get_current(device);
+}
+
 cudaError_t cudaGetLastError(void)
 {
 	LOG_DEBUG("\n");
