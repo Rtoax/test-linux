@@ -152,3 +152,69 @@ cublasStatus_t cublasDnrm2_v2(cublasHandle_t handle, int n,
 
 	return CUBLAS_STATUS_SUCCESS;
 }
+
+cublasStatus_t cublasSgemm_v2(cublasHandle_t handle,
+			      cublasOperation_t transa, cublasOperation_t transb,
+			      int m, int n, int k,
+			      const float *alpha,
+			      const float *A, int lda,
+			      const float *B, int ldb,
+			      const float *beta,
+			      float *C, int ldc)
+{
+	for (int row = 0; row < m; ++row) {
+		for (int col = 0; col < n; ++col) {
+			float sum = 0.0f;
+			for (int i = 0; i < k; ++i) {
+				sum += A[row + i * lda] * B[i + col * ldb];
+			}
+			C[row + col * ldc] = (*alpha) * sum + (*beta) * C[row + col * ldc];
+		}
+	}
+	return CUBLAS_STATUS_SUCCESS;
+}
+
+cublasStatus_t cublasDgemm_v2(cublasHandle_t handle,
+			      cublasOperation_t transa, cublasOperation_t transb,
+			      int m, int n, int k,
+			      const double *alpha,
+			      const double *A, int lda,
+			      const double *B, int ldb,
+			      const double *beta,
+			      double *C, int ldc)
+{
+	for (int row = 0; row < m; ++row) {
+		for (int col = 0; col < n; ++col) {
+			double sum = 0.0f;
+			for (int i = 0; i < k; ++i) {
+				sum += A[row + i * lda] * B[i + col * ldb];
+			}
+			C[row + col * ldc] = (*alpha) * sum + (*beta) * C[row + col * ldc];
+		}
+	}
+	return CUBLAS_STATUS_SUCCESS;
+}
+
+/* TODO: _Float32 may not supported */
+typedef _Float32 __half;
+
+cublasStatus_t cublasHgemm(cublasHandle_t handle,
+			   cublasOperation_t transa, cublasOperation_t transb,
+			   int m, int n, int k,
+			   const __half *alpha,
+			   const __half *A, int lda,
+			   const __half *B, int ldb,
+			   const __half *beta,
+			   __half *C, int ldc)
+{
+	for (int row = 0; row < m; ++row) {
+		for (int col = 0; col < n; ++col) {
+			__half sum = 0.0f;
+			for (int i = 0; i < k; ++i) {
+				sum += A[row + i * lda] * B[i + col * ldb];
+			}
+			C[row + col * ldc] = (*alpha) * sum + (*beta) * C[row + col * ldc];
+		}
+	}
+	return CUBLAS_STATUS_SUCCESS;
+}

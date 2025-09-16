@@ -14,6 +14,9 @@ libcublas.so.13 {
 		cublasDdot_v2;
 		cublasSnrm2_v2;
 		cublasDnrm2_v2;
+		cublasSgemm_v2;
+		cublasDgemm_v2;
+		cublasHgemm;
 	local:
 		*;
 };
