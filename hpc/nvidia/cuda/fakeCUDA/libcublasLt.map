@@ -2,6 +2,15 @@ libcublasLt.so.13 {
 	global:
 		cublasLtCreate;
 		cublasLtDestroy;
+		cublasLtMatmulDescCreate;
+		cublasLtMatmulDescDestroy;
+		cublasLtMatrixLayoutCreate;
+		cublasLtMatrixLayoutDestroy;
+		cublasLtMatmulPreferenceCreate;
+		cublasLtMatmulPreferenceDestroy;
+		cublasLtMatmulPreferenceSetAttribute;
+		cublasLtMatmulAlgoGetHeuristic;
+		cublasLtMatmul;
 	local:
 		*;
 };
