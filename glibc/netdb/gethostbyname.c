@@ -1,5 +1,6 @@
 /**
  * struct hostent *gethostbyname(const char *name);
+ * struct hostent *gethostbyname2(const char *name, int af);
  */
 #include <unistd.h>
 #include <stdlib.h>
@@ -21,6 +22,13 @@ int main(int argc, char* argv[])
 	host = gethostbyname(name);
 	if (!host) {
 		perror("gethostbyname() error!");
+		exit(1);
+	}
+	print_hostent(host);
+
+	host = gethostbyname2(name, AF_INET);
+	if (!host) {
+		perror("gethostbyname2() error!");
 		exit(1);
 	}
 	print_hostent(host);
