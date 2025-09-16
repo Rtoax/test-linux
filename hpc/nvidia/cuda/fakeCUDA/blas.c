@@ -1,3 +1,6 @@
+/**
+ * https://docs.nvidia.com/cuda/cublas/
+ */
 #include <cuda.h>
 #include <cuda_runtime.h>
 #include <cublas.h>
@@ -342,5 +345,28 @@ cublasStatus_t cublasHgemm(cublasHandle_t handle,
 			C[row + col * ldc] = (*alpha) * sum + (*beta) * C[row + col * ldc];
 		}
 	}
+	return CUBLAS_STATUS_SUCCESS;
+}
+
+cublasStatus_t cublasGemmEx(cublasHandle_t handle,
+			    cublasOperation_t transa,
+			    cublasOperation_t transb,
+			    int m,
+			    int n,
+			    int k,
+			    const void *alpha,
+			    const void *A,
+			    cudaDataType_t Atype,
+			    int lda,
+			    const void *B,
+			    cudaDataType_t Btype,
+			    int ldb,
+			    const void *beta,
+			    void *C,
+			    cudaDataType_t Ctype,
+			    int ldc,
+			    cublasComputeType_t computeType,
+			    cublasGemmAlgo_t algo)
+{
 	return CUBLAS_STATUS_SUCCESS;
 }

@@ -25,6 +25,7 @@ libcublas.so.13 {
 		cublasSgemm_v2;
 		cublasDgemm_v2;
 		cublasHgemm;
+		cublasGemmEx;
 	local:
 		*;
 };
