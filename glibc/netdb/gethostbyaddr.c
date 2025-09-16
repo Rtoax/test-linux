@@ -1,3 +1,7 @@
+/**
+ * struct hostent *gethostbyaddr(const void addr[.len],
+ *                               socklen_t len, int type);
+ */
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -14,8 +18,13 @@ int main(int argc, char* argv[])
 {
 	struct hostent *host;
 	char ip[] = "127.0.0.1";
+	struct in_addr addr;
+	socklen_t sklen;
 
-	host = gethostbyaddr(ip, sizeof(ip), AF_INET);
+	sklen = sizeof(addr);
+	inet_pton(AF_INET, ip, &addr);
+
+	host = gethostbyaddr(&addr, sklen, AF_INET);
 	if (!host) {
 		perror("gethostbyaddr() error!");
 		exit(1);
