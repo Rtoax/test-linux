@@ -15,6 +15,10 @@ CFLAGS_SO := -I/usr/local/cuda/include/
 CFLAGS_SO += -DCUDA_VERSION_MAJOR=${CUDA_VERSION_MAJOR}
 CFLAGS_SO += -DCUDA_VERSION_MINOR=${CUDA_VERSION_MINOR}
 CFLAGS_SO += -DCUDA_VERSION_PATCH=${CUDA_VERSION_PATCH}
+ifdef HAVE_CUDA
+  $(info HAVE_CUDA)
+  CFLAGS_SO += -DHAVE_CUDA=1
+endif
 
 LDFLAGS_SO_libcuda.so.1 := -Wl,--version-script=libcuda.map
 LDFLAGS_SO_libcudart.so.13 := -Wl,--version-script=libcudart.map

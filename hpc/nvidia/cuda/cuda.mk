@@ -51,6 +51,9 @@ else
   CUDA_VERSION_MAJOR := $(shell echo ${CUDA_VERSION_RAW} | awk -F '.' '{print $$1}')
   CUDA_VERSION_MINOR := $(shell echo ${CUDA_VERSION_RAW} | awk -F '.' '{print $$2}')
   CUDA_VERSION_PATCH := $(shell echo ${CUDA_VERSION_RAW} | awk -F '.' '{print $$3}')
+
+  HAVE_CUDA := 1
+  export HAVE_CUDA
 endif
 
 export NVCC CUOBJDUMP NVDISASM CUDA_ROOT
