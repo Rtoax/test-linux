@@ -261,7 +261,7 @@ _nvdso_start(void)
 	unsigned long size;
 	char *vdsoelf = "vdso.elf";
 
-	if (getenv("NVDSO_DEBUG")) {
+	if (atoi(getenv("NVDSO_DEBUG") ?: "0")) {
 		nvdso_debug = 1;
 		LOG_DEBUG("Start debug mode.\n");
 	}

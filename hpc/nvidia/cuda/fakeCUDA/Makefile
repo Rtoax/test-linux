@@ -26,16 +26,17 @@ LDFLAGS_SO_libcusparse.so.12 := -Wl,--version-script=libcusparse.map
 
 include ../../../../template/main.mk
 
+common-objs := ${OUTPUT}common.so.o
 runtime-objs := ${OUTPUT}runtime.so.o
 runtime-objs += ${OUTPUT}runtime_event.so.o
 runtime-objs += ${OUTPUT}runtime_memory.so.o
 runtime-objs += ${OUTPUT}runtime_internal.so.o
 runtime-objs += ${OUTPUT}device.so.o
 
-libcuda.so.1: ${OUTPUT}cuda.so.o ${OUTPUT}cuda-module-mgmt.so.o ${OUTPUT}device.so.o
-libcudart.so.13: ${runtime-objs}
-libcublas.so.13: ${OUTPUT}blas.so.o
-libcublasLt.so.13: ${OUTPUT}blasLt.so.o
-libcufft.so.12: ${OUTPUT}fft.so.o
-libcurand.so.10: ${OUTPUT}rand.so.o
-libcusparse.so.12: ${OUTPUT}sparse.so.o
+libcuda.so.1: ${common-objs} ${OUTPUT}cuda.so.o ${OUTPUT}cuda-module-mgmt.so.o ${OUTPUT}device.so.o
+libcudart.so.13: ${common-objs} ${runtime-objs}
+libcublas.so.13: ${common-objs} ${OUTPUT}blas.so.o
+libcublasLt.so.13: ${common-objs} ${OUTPUT}blasLt.so.o
+libcufft.so.12: ${common-objs} ${OUTPUT}fft.so.o
+libcurand.so.10: ${common-objs} ${OUTPUT}rand.so.o
+libcusparse.so.12: ${common-objs} ${OUTPUT}sparse.so.o
