@@ -2,6 +2,8 @@ libcuda.so.1 {
 	global:
 		cuDeviceGet;
 		cuDeviceComputeCapability;
+		cuModuleLoad;
+		cuModuleGetFunction;
 	local:
 		*;
 };

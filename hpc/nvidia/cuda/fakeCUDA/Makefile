@@ -32,7 +32,7 @@ runtime-objs += ${OUTPUT}runtime_memory.so.o
 runtime-objs += ${OUTPUT}runtime_internal.so.o
 runtime-objs += ${OUTPUT}device.so.o
 
-libcuda.so.1: ${OUTPUT}cuda.so.o ${OUTPUT}device.so.o
+libcuda.so.1: ${OUTPUT}cuda.so.o ${OUTPUT}cuda-module-mgmt.so.o ${OUTPUT}device.so.o
 libcudart.so.13: ${runtime-objs}
 libcublas.so.13: ${OUTPUT}blas.so.o
 libcublasLt.so.13: ${OUTPUT}blasLt.so.o
