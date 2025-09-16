@@ -11,6 +11,9 @@
 #include "debug.h"
 
 
+static unsigned __hipFatMAGIC2 = 0x48495046;  // "HIPF"
+static unsigned __cudaFatMAGIC2 = 0x466243b1;
+
 /**
  * /usr/local/cuda-13.0/targets/x86_64-linux/include/driver_types.h
  * typedef __device_builtin__ struct CUkern_st *cudaKernel_t;
@@ -18,6 +21,16 @@
 struct CUkern_st {
 };
 
+/**
+ * https://github.com/ROCm/rocm-systems.git
+ * clr/hipamd/src/hip_platform.cpp
+ */
+struct __CudaFatBinaryWrapper {
+	unsigned int magic;
+	unsigned int version;
+	void *binary;
+	void *dummy1;
+};
 
 /**
  * - https://github.com/ROCm/rocm-systems.git
@@ -25,7 +38,22 @@ struct CUkern_st {
  */
 void **__cudaRegisterFatBinary(void *fatCubin)
 {
-	LOG_DEBUG("fatCubin %p\n", fatCubin);
+	struct __CudaFatBinaryWrapper *wrapper = (void *)fatCubin;
+	LOG_DEBUG("fatCubin %p, magic 0x%x(%c%c%c%c), version %d, binary %p\n",
+		  fatCubin, wrapper->magic,
+		  (wrapper->magic >> 24) & 0xff,
+		  (wrapper->magic >> 16) & 0xff,
+		  (wrapper->magic >> 8) & 0xff,
+		  wrapper->magic & 0xff,
+		  wrapper->version, wrapper->binary,
+		  wrapper->dummy1);
+
+	if ((wrapper->magic != __cudaFatMAGIC2 && wrapper->magic != __hipFatMAGIC2) ||
+	    wrapper->version != 1) {
+		LOG_ERROR("Cannot Register fat binary. FatMagic: %u version: %u\n",
+			  wrapper->magic, wrapper->version);
+	}
+
 	return NULL;
 }
 
