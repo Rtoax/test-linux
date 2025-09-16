@@ -5,6 +5,12 @@
 #include "debug.h"
 
 
+cublasStatus_t cublasGetVersion_v2(cublasHandle_t handle, int *version)
+{
+	*version = 1300;
+	return CUBLAS_STATUS_SUCCESS;
+}
+
 cublasStatus_t cublasCreate_v2(cublasHandle_t *handle)
 {
 	return CUBLAS_STATUS_SUCCESS;

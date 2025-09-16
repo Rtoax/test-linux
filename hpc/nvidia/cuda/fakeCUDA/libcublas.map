@@ -1,5 +1,6 @@
 libcublas.so.13 {
 	global:
+		cublasGetVersion_v2;
 		cublasCreate_v2;
 		cublasDestroy_v2;
 		cublasGetProperty;
