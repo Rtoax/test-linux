@@ -8,6 +8,11 @@
 #include "types.h"
 
 
+size_t cublasLtGetVersion(void)
+{
+	return 13;
+}
+
 cublasStatus_t cublasLtCreate(cublasLtHandle_t *lighthandle)
 {
 	return CUBLAS_STATUS_SUCCESS;

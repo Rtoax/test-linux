@@ -480,7 +480,7 @@ int default_create_blasLt_type(struct test *test, cublasComputeType_t computeTyp
 		} else {
 			printf("Found %d heuristic algorithms\n", rslt);
 		}
-		printf("BLAS version %zu\n", cublasLtGetVersion());
+		printf("BLASLt version %zu\n", cublasLtGetVersion());
 	}
 
 	return 0;
