@@ -10,6 +10,8 @@ libcublas.so.13 {
 		cublasDaxpy_v2;
 		cublasScopy_v2;
 		cublasDcopy_v2;
+		cublasSdot_v2;
+		cublasDdot_v2;
 	local:
 		*;
 };

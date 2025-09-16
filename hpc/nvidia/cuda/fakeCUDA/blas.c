@@ -98,3 +98,31 @@ cublasStatus_t cublasDcopy_v2(cublasHandle_t handle, int n,
 	}
 	return CUBLAS_STATUS_SUCCESS;
 }
+
+cublasStatus_t cublasSdot_v2(cublasHandle_t handle, int n,
+			     const float *x, int incx,
+			     const float *y, int incy,
+			     float *result)
+{
+	float _result = 0.0f;
+	for (int i = 0; i < n; ++i) {
+		_result += x[i * incx] * y[i * incy];
+	}
+	*result = _result;
+
+	return CUBLAS_STATUS_SUCCESS;
+}
+
+cublasStatus_t cublasDdot_v2(cublasHandle_t handle, int n,
+			     const double *x, int incx,
+			     const double *y, int incy,
+			     double *result)
+{
+	double _result = 0.0f;
+	for (int i = 0; i < n; ++i) {
+		_result += x[i * incx] * y[i * incy];
+	}
+	*result = _result;
+
+	return CUBLAS_STATUS_SUCCESS;
+}
