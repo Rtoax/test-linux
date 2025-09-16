@@ -1,3 +1,7 @@
+/**
+ * Refs:
+ * - https://github.com/ROCm/rocm-systems.git
+ */
 #include <cuda.h>
 #include <cuda_runtime.h>
 #include <sys/types.h>
@@ -13,6 +17,10 @@ struct CUkern_st {
 };
 
 
+/**
+ * - https://github.com/ROCm/rocm-systems.git
+ *   void** __hipRegisterFatBinary(const void* data);
+ */
 void **__cudaRegisterFatBinary(void *fatCubin)
 {
 	LOG_DEBUG("fatCubin %p\n", fatCubin);
@@ -29,6 +37,12 @@ void __cudaUnregisterFatBinary(void **fatCubinHandle)
 	LOG_DEBUG("\n");
 }
 
+/**
+ * - https://github.com/ROCm/rocm-systems.git
+ *   void __hipRegisterFunction(hip::FatBinaryInfo** modules, const void* hostFunction,
+ *                              char* deviceFunction, const char* deviceName, unsigned int threadLimit,
+ *                              uint3* tid, uint3* bid, dim3* blockDim, dim3* gridDim, int* wSize);
+ */
 void __cudaRegisterFunction(void **fatCubinHandle, const char *hostFun,
 			    char *deviceFun, const char *deviceName,
 			    int thread_limit, uint3 *tid, uint3 *bid,
