@@ -1,6 +1,7 @@
 libcublasLt.so.13 {
 	global:
-		*;
+		cublasLtCreate;
+		cublasLtDestroy;
 	local:
 		*;
 };
