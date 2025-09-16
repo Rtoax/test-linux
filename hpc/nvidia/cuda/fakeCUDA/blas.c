@@ -126,3 +126,29 @@ cublasStatus_t cublasDdot_v2(cublasHandle_t handle, int n,
 
 	return CUBLAS_STATUS_SUCCESS;
 }
+
+cublasStatus_t cublasSnrm2_v2(cublasHandle_t handle, int n,
+			      const float *x, int incx, float *result)
+{
+	float sum = 0.0f;
+	for (int i = 0; i < n; ++i) {
+		float val = x[i * incx];
+		sum += val * val;
+	}
+	*result = sqrtf(sum);
+
+	return CUBLAS_STATUS_SUCCESS;
+}
+
+cublasStatus_t cublasDnrm2_v2(cublasHandle_t handle, int n,
+			      const double *x, int incx, double *result)
+{
+	double sum = 0.0f;
+	for (int i = 0; i < n; ++i) {
+		double val = x[i * incx];
+		sum += val * val;
+	}
+	*result = sqrtf(sum);
+
+	return CUBLAS_STATUS_SUCCESS;
+}
