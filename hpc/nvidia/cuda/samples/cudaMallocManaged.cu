@@ -13,6 +13,10 @@
 #endif
 
 __managed__ __device__ int dev_managed_a = 0;
+#ifdef ERROR
+/* error: __managed__ variables cannot be marked __shared__ or __constant__ */
+__managed__ __constant__ __device__ int dev_managed_const_a = 0;
+#endif
 
 __global__ void kernel_set1(int *mem, size_t nmemb)
 {

@@ -58,14 +58,18 @@ void __cudaRegisterVar(void **fatCubinHandle, char *hostVar,
 		       char *deviceAddress, const char *deviceName,
 		       int ext, size_t size, int constant, int global)
 {
-	LOG_DEBUG("\n");
+	LOG_DEBUG("hostVar %p, deviceAddress %p, deviceName %s, ext %d, size %ld, constant %d, global %d\n",
+		  hostVar, deviceAddress, deviceName, ext, size, constant,
+		  global);
 }
 
 void __cudaRegisterManagedVar(void **fatCubinHandle, void **hostVarPtrAddress,
 			      char *deviceAddress, const char *deviceName,
 			      int ext, size_t size, int constant, int global)
 {
-	LOG_DEBUG("\n");
+	LOG_DEBUG("hostVarPtrAddress %p, deviceAddress %p, deviceName %s, ext %d, size %ld, constant %d, global %d\n",
+		  hostVarPtrAddress, deviceAddress, deviceName, ext, size,
+		  constant, global);
 }
 
 unsigned __cudaPushCallConfiguration(dim3 gridDim, dim3 blockDim,

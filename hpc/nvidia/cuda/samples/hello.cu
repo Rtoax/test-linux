@@ -18,6 +18,7 @@
 #endif
 
 __device__ int dev_a = 0;
+__constant__ __device__ int dev_const_a = 0;
 
 /* call by kernel/device, run by device */
 __device__ void dev_foo(void)
