@@ -6,6 +6,7 @@ libcublas.so.13 {
 		cublasGetProperty;
 		cublasSetMatrix;
 		cublasGetMatrix;
+		cublasIsamax_v2;
 		cublasSscal_v2;
 		cublasDscal_v2;
 		cublasSaxpy_v2;

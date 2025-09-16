@@ -1,6 +1,7 @@
 #include <cuda.h>
 #include <cuda_runtime.h>
 #include <cublas.h>
+#include <math.h>
 #include <string.h>
 #include "debug.h"
 #include "types.h"
@@ -66,6 +67,25 @@ cublasStatus_t cublasGetMatrix(int rows, int cols, int elemSize,
 			src + j * lda * elemSize,
 			rows * elemSize);
 	}
+	return CUBLAS_STATUS_SUCCESS;
+}
+
+cublasStatus_t cublasIsamax_v2(cublasHandle_t handle, int n,
+			       const float *x, int incx, int *result)
+{
+	if (n <= 0)
+		return CUBLAS_STATUS_INVALID_VALUE;
+
+	int idx_max = 0;
+	float max_val = fabsf(x[0]);
+	for (int i = 1; i < n; ++i) {
+		float val = fabsf(x[i * incx]);
+		if (val > max_val) {
+			max_val = val;
+			idx_max = i;
+		}
+	}
+	*result = idx_max;
 	return CUBLAS_STATUS_SUCCESS;
 }
 
