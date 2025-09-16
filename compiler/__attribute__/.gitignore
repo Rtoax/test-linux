@@ -27,3 +27,4 @@
 /__has_attribute
 /preserve_access_index
 /__mode__
+/no_instrument_function

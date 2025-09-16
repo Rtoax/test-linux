@@ -26,6 +26,7 @@ targets += noplt noplt-plt
 targets += kernel_helper
 targets += __has_attribute
 targets += __mode__
+targets += no_instrument_function
 
 targets-bpf := preserve_access_index.bpf.o
 
@@ -54,6 +55,8 @@ else
   # clang error: unknown warning option '-Werror=nonnull-compare'
   CFLAGS_nonnull += -Wno-error=nonnull-compare
 endif
+
+CFLAGS_no_instrument_function := -pg -DTEST_MAIN=1
 
 include ../../template/main.mk
 
@@ -84,3 +87,4 @@ noplt-plt: noplt-plt.o
 kernel_helper: kernel_helper.o
 __has_attribute: __has_attribute.o
 __mode__: __mode__.o
+no_instrument_function: no_instrument_function.o

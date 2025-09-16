@@ -1,0 +1,1 @@
+../../ftrace/samples/mcount-nop.c
