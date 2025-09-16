@@ -141,6 +141,8 @@ int dev_get_prop(int device, cudaDeviceProp *prop)
 	if (device < 0 || device >= DEV_COUNT)
 		return cudaErrorInvalidValue;
 
+	set_default_current_device_lock();
+
 	DEV_LOCK();
 	strncpy(prop->name, current_device->name, sizeof(prop->name));
 #define SET(v)	prop->v = current_device->v;
