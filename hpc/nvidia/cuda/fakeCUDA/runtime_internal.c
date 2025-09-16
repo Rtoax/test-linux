@@ -59,6 +59,13 @@ void __cudaRegisterVar(void **fatCubinHandle, char *hostVar,
 	LOG_DEBUG("\n");
 }
 
+void __cudaRegisterManagedVar(void **fatCubinHandle, void **hostVarPtrAddress,
+			      char *deviceAddress, const char *deviceName,
+			      int ext, size_t size, int constant, int global)
+{
+	LOG_DEBUG("\n");
+}
+
 unsigned __cudaPushCallConfiguration(dim3 gridDim, dim3 blockDim,
 				     size_t sharedMem,
 				     struct CUstream_st *stream)

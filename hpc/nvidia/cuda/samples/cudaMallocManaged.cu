@@ -12,6 +12,8 @@
 #include "cuda_helpers.h"
 #endif
 
+__managed__ __device__ int dev_managed_a = 0;
+
 __global__ void kernel_set1(int *mem, size_t nmemb)
 {
 	size_t i;
