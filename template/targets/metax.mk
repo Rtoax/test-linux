@@ -2,22 +2,7 @@
 # https://www.metax-tech.com/
 _TARGET_METAX = 1
 
-MXCC := $(shell which mxcc 2>/dev/null)
-HTCC := $(shell which htcc 2>/dev/null)
-
-HPCC_REALPATH := $(shell readlink /opt/hpcc 2>/dev/null || true)
-HPCC_CU_BRIDGE := /opt/hpcc/tools/cu-bridge/include/
-
-ifeq ($(MXCC),)
-  ifneq ($(targets-mxcc),)
-    $(error Not found mxcc, install MetaX Toolkit first)
-  endif
-endif
-ifeq ($(HTCC),)
-  ifneq ($(targets-htcc),)
-    $(error Not found htcc, install MetaX hpcc first)
-  endif
-endif
+include ${TEMPLATE_DIR}/../hpc/metax/hpcc.mk
 
 cflags-htcc-devbin := -device-bin
 cflags-htcc-fatbin := -fatbin
@@ -28,12 +13,7 @@ ifneq ($(wildcard ${HPCC_CU_BRIDGE}),)
   CFLAGS_HTCC += -I${HPCC_CU_BRIDGE} -DHPCC_CU_BRIDGE=1
 endif
 
-ifneq ($(wildcard ${HPCC_REALPATH}),)
-  GREP := grep -Eo '[0-9]+\.[0-9]+\.[0-9]+'
-  HPCC_VERSION_RAW := $(shell echo ${HPCC_REALPATH} | ${GREP} | head -1)
-  HPCC_VERSION_MAJOR := $(shell echo ${HPCC_VERSION_RAW} | awk -F '.' '{print $$1}')
-  HPCC_VERSION_MINOR := $(shell echo ${HPCC_VERSION_RAW} | awk -F '.' '{print $$2}')
-  HPCC_VERSION_PATCH := $(shell echo ${HPCC_VERSION_RAW} | awk -F '.' '{print $$3}')
+ifneq ($(HPCC_VERSION_MAJOR}),)
   CFLAGS_HTCC += -DHPCC_VERSION_MAJOR=${HPCC_VERSION_MAJOR}
   CFLAGS_HTCC += -DHPCC_VERSION_MINOR=${HPCC_VERSION_MINOR}
   CFLAGS_HTCC += -DHPCC_VERSION_PATCH=${HPCC_VERSION_PATCH}
@@ -62,20 +42,12 @@ ifdef DEBUG
   CFLAGS_HTCC += -DDEBUG=${DEBUG}
 
   ifneq ($(targets-mxcc),)
-    $(info $(shell ${MXCC} --version))
-    $(info MXCC = ${MXCC})
     $(info CFLAGS_MXCC = ${CFLAGS_MXCC})
     $(info LDFLAGS_MXCC = ${LDFLAGS_MXCC})
   endif
   ifneq ($(targets-htcc),)
-    $(info $(shell ${HTCC} --version))
-    $(info HTCC = ${HTCC})
     $(info CFLAGS_HTCC = ${CFLAGS_HTCC})
     $(info LDFLAGS_HTCC = ${LDFLAGS_HTCC})
-    $(info HPCC_VERSION_RAW = ${HPCC_VERSION_RAW})
-    $(info HPCC_VERSION_MAJOR = ${HPCC_VERSION_MAJOR})
-    $(info HPCC_VERSION_MINOR = ${HPCC_VERSION_MINOR})
-    $(info HPCC_VERSION_PATCH = ${HPCC_VERSION_PATCH})
   endif
 endif
 
