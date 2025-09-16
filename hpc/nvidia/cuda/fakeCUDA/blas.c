@@ -89,6 +89,87 @@ cublasStatus_t cublasIsamax_v2(cublasHandle_t handle, int n,
 	return CUBLAS_STATUS_SUCCESS;
 }
 
+cublasStatus_t cublasIdamax_v2(cublasHandle_t handle, int n,
+			       const double *x, int incx, int *result)
+{
+	if (n <= 0)
+		return CUBLAS_STATUS_INVALID_VALUE;
+
+	int idx_max = 0;
+	double max_val = fabsf(x[0]);
+	for (int i = 1; i < n; ++i) {
+		double val = fabsf(x[i * incx]);
+		if (val > max_val) {
+			max_val = val;
+			idx_max = i;
+		}
+	}
+	*result = idx_max;
+	return CUBLAS_STATUS_SUCCESS;
+}
+
+cublasStatus_t cublasIsamin_v2(cublasHandle_t handle, int n,
+			       const float *x, int incx, int *result)
+{
+	if (n <= 0)
+		return CUBLAS_STATUS_INVALID_VALUE;
+
+	int idx_min = 0;
+	float min_val = fabsf(x[0]);
+	for (int i = 1; i < n; ++i) {
+		float val = fabsf(x[i * incx]);
+		if (val < min_val) {
+			min_val = val;
+			idx_min = i;
+		}
+	}
+	*result = idx_min;
+	return CUBLAS_STATUS_SUCCESS;
+}
+
+cublasStatus_t cublasIdamin_v2(cublasHandle_t handle, int n,
+			       const double *x, int incx, int *result)
+{
+	if (n <= 0)
+		return CUBLAS_STATUS_INVALID_VALUE;
+
+	int idx_min = 0;
+	double min_val = fabsf(x[0]);
+	for (int i = 1; i < n; ++i) {
+		double val = fabsf(x[i * incx]);
+		if (val < min_val) {
+			min_val = val;
+			idx_min = i;
+		}
+	}
+	*result = idx_min;
+	return CUBLAS_STATUS_SUCCESS;
+}
+
+cublasStatus_t cublasSasum_v2(cublasHandle_t handle, int n,
+			      const float *x, int incx, float *result)
+{
+	float sum = 0.0f;
+	for (int i = 0; i < n; ++i) {
+		sum += fabsf(x[i * incx]);
+	}
+	*result = sum;
+
+	return CUBLAS_STATUS_SUCCESS;
+}
+
+cublasStatus_t cublasDasum_v2(cublasHandle_t handle, int n,
+			      const double *x, int incx, double *result)
+{
+	double sum = 0.0f;
+	for (int i = 0; i < n; ++i) {
+		sum += fabsf(x[i * incx]);
+	}
+	*result = sum;
+
+	return CUBLAS_STATUS_SUCCESS;
+}
+
 cublasStatus_t cublasSscal_v2(cublasHandle_t handle, int n, const float *alpha,
 			   float *x, int incx)
 {
