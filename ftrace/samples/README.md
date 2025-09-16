@@ -1,1 +1,0 @@
-See linux/samples/ftrace/

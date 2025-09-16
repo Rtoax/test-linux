@@ -49,6 +49,7 @@ and this project adheres to
 - hpc: add gpu/abbrev.md;
 - kunlunxin: add info.sh;
 - hpc/kunlunxin: Introduce;
+- ftrace: Move ftrace/demos to ftrace/samples;
 #### Changed
 - targets/nvidia.mk: split some code to cuda.mk;
 - cuda_adapter.h: Rename macros __pfx and __PFX to __cu,__CU;
