@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: GPL-3.0
+/* Copyright (c) 2025 Rong Tao */
 /**
  * Refs:
  * - https://github.com/ROCm/rocm-systems.git

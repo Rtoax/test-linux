@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: GPL-3.0
+/* Copyright (c) 2025 Rong Tao */
 #define DISABLE_CUSPARSE_DEPRECATED	1
 #include <cusparse.h>
 #include "debug.h"
