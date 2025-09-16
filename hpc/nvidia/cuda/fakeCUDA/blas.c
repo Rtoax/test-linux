@@ -3,6 +3,7 @@
 #include <cublas.h>
 #include <string.h>
 #include "debug.h"
+#include "types.h"
 
 
 cublasStatus_t cublasGetVersion_v2(cublasHandle_t handle, int *version)
@@ -221,9 +222,6 @@ cublasStatus_t cublasDgemm_v2(cublasHandle_t handle,
 	}
 	return CUBLAS_STATUS_SUCCESS;
 }
-
-/* TODO: _Float32 may not supported */
-typedef _Float32 __half;
 
 cublasStatus_t cublasHgemm(cublasHandle_t handle,
 			   cublasOperation_t transa, cublasOperation_t transb,
