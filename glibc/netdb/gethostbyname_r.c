@@ -1,9 +1,19 @@
+/**
+ * int gethostbyname_r(const char *restrict name,
+ *                     struct hostent *restrict ret,
+ *                     char buf[restrict .buflen], size_t buflen,
+ *                     struct hostent **restrict result,
+ *                     int *restrict h_errnop);
+ */
 #include <netdb.h>
 #include <stdio.h>
 #include <errno.h>
 #include <malloc.h>
 #include <string.h>
 #include <sys/socket.h>
+
+#include "netdb_helpers.h"
+
 
 struct hostent *tl_gethostname(char *host)
 {
@@ -32,5 +42,12 @@ struct hostent *tl_gethostname(char *host)
 
 int main(void)
 {
+	struct hostent *host, hostbuf;
+	const char name[] = "www.baidu.com";
+	char buffer[1024];
+	int err;
+
+	gethostbyname_r(name, &hostbuf, buffer, sizeof(buffer), &host, &err);
+	print_hostent(host);
 	return 0;
 }

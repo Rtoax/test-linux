@@ -1,3 +1,12 @@
+/**
+ * int getaddrinfo(const char *restrict node,
+ *                 const char *restrict service,
+ *                 const struct addrinfo *restrict hints,
+ *                 struct addrinfo **restrict res);
+ *
+ * int getaddrinfo_a(int mode, struct gaicb *list[restrict],
+ *                   int nitems, struct sigevent *restrict sevp);
+ */
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>

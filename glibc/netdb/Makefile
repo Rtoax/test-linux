@@ -1,5 +1,4 @@
-targets :=
-targets += gai_strerror
+targets := gai_strerror
 targets += getaddrinfo
 targets += gethostbyaddr
 targets += gethostbyname gethostbyname_r gethostbyname-2
@@ -14,10 +13,6 @@ targets += getnetbyname
 targets += getipnodebyname
 targets += herror
 targets += getnameinfo
-
-CFLAGS :=
-
-LDFLAGS :=
 
 include ../../template/main.mk
 

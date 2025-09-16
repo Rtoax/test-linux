@@ -1,3 +1,6 @@
+/**
+ * struct hostent *gethostbyname(const char *name);
+ */
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -13,14 +16,13 @@
 int main(int argc, char* argv[])
 {
 	struct hostent *host;
-	char name[] = "www.baidu.com";
+	const char name[] = "www.baidu.com";
 
 	host = gethostbyname(name);
 	if (!host) {
 		perror("gethostbyname() error!");
 		exit(1);
 	}
-
 	print_hostent(host);
 
 	return 0;
