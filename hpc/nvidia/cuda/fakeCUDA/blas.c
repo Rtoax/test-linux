@@ -2,6 +2,7 @@
 #include <cuda_runtime.h>
 #include <cublas.h>
 #include <string.h>
+#include "debug.h"
 
 
 cublasStatus_t cublasCreate_v2(cublasHandle_t *handle)
@@ -11,6 +12,26 @@ cublasStatus_t cublasCreate_v2(cublasHandle_t *handle)
 
 cublasStatus_t cublasDestroy_v2(cublasHandle_t handle)
 {
+	return CUBLAS_STATUS_SUCCESS;
+}
+
+cublasStatus_t cublasGetProperty(libraryPropertyType type, int *value)
+{
+	LOG_DEBUG("type %d\n", type);
+
+	switch (type) {
+	case MAJOR_VERSION:
+		*value = 13;
+		break;
+	case MINOR_VERSION:
+		*value = 0;
+		break;
+	case PATCH_LEVEL:
+		*value = 0;
+		break;
+	default:
+		return CUBLAS_STATUS_INVALID_VALUE;
+	}
 	return CUBLAS_STATUS_SUCCESS;
 }
 
