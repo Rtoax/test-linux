@@ -4,4 +4,6 @@ set -e
 readonly FAKECUDA_ROOT=$(dirname $(readlink $0))
 make -C ${FAKECUDA_ROOT} --no-print-directory --silent 1>/dev/null
 
-LD_LIBRARY_PATH=${FAKECUDA_ROOT} "$@"
+[[ -f $1 ]] && [[ -x $1 ]] && PREFIX=./
+
+LD_LIBRARY_PATH=${FAKECUDA_ROOT} "${PREFIX}$@"
