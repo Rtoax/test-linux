@@ -1,6 +1,13 @@
 /**
  * struct hostent *gethostbyaddr(const void addr[.len],
  *                               socklen_t len, int type);
+ *
+ * int gethostbyaddr_r(const void addr[restrict .len], socklen_t len,
+ *                     int type,
+ *                     struct hostent *restrict ret,
+ *                     char buf[restrict .buflen], size_t buflen,
+ *                     struct hostent **restrict result,
+ *                     int *restrict h_errnop);
  */
 #include <unistd.h>
 #include <stdlib.h>
@@ -16,10 +23,12 @@
 
 int main(int argc, char* argv[])
 {
-	struct hostent *host;
+	struct hostent *host, hostbuf;
 	char ip[] = "127.0.0.1";
 	struct in_addr addr;
 	socklen_t sklen;
+	char buffer[1024];
+	int err;
 
 	sklen = sizeof(addr);
 	inet_pton(AF_INET, ip, &addr);
@@ -29,7 +38,10 @@ int main(int argc, char* argv[])
 		perror("gethostbyaddr() error!");
 		exit(1);
 	}
+	print_hostent(host);
 
+	gethostbyaddr_r(&addr, sklen, AF_INET, &hostbuf, buffer, sizeof(buffer),
+			&host, &err);
 	print_hostent(host);
 
 	return 0;
