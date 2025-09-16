@@ -4,6 +4,12 @@
  *                     char buf[restrict .buflen], size_t buflen,
  *                     struct hostent **restrict result,
  *                     int *restrict h_errnop);
+ *
+ * int gethostbyname2_r(const char *restrict name, int af,
+ *                      struct hostent *restrict ret,
+ *                      char buf[restrict .buflen], size_t buflen,
+ *                      struct hostent **restrict result,
+ *                      int *restrict h_errnop);
  */
 #include <netdb.h>
 #include <stdio.h>
@@ -49,5 +55,10 @@ int main(void)
 
 	gethostbyname_r(name, &hostbuf, buffer, sizeof(buffer), &host, &err);
 	print_hostent(host);
+
+	gethostbyname2_r(name, AF_INET, &hostbuf, buffer, sizeof(buffer), &host,
+			 &err);
+	print_hostent(host);
+
 	return 0;
 }
