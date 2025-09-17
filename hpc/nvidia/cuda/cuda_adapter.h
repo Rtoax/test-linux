@@ -747,6 +747,7 @@
 #define cublasLtMatmulPreference_t	__cu(blasLtMatmulPreference_t)
 #define cublasLtMatmulPreferenceCreate(preference)	__cu(blasLtMatmulPreferenceCreate(preference))
 
+#define cublasLtMatmulPreferenceAttributes_t	__cu(blasLtMatmulPreferenceAttributes_t)
 #define cublasLtMatmulPreferenceSetAttribute(pref, arg1, ptr, size) \
 	__cu(blasLtMatmulPreferenceSetAttribute(pref, arg1, ptr, size))
 
