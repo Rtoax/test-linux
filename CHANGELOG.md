@@ -15,6 +15,7 @@ and this project adheres to
 - template: add targets directory and move all target mk into it;
 - Makefile: Rename target installdeps to deps;
 #### Added
+- fakeCUDA: add libhcblas.map,libhcblasLt.map,libhccl.map,libhcfft.map,libhcrand.map,libhcruntime.map,libhcsparse.map;
 - fakeCUDA: add libhccompiler.map for hpcc;
 - targets/libso.mk: support C++;
 - hpc: add ROCm;

@@ -6,6 +6,13 @@ include ../../../metax/hpcc.mk
 
 ifdef HAVE_HPCC
   targets-libso-cpp := libhccompiler.so
+  targets-libso-cpp += libhccl.so
+  targets-libso-cpp += libhcruntime.so
+  targets-libso-cpp += libhcblas.so
+  targets-libso-cpp += libhcblasLt.so
+  targets-libso-cpp += libhcfft.so
+  targets-libso-cpp += libhcrand.so
+  targets-libso-cpp += libhcsparse.so
 else ifdef HAVE_CUDA
   targets-libso-cpp := libcuda.so.1
   targets-libso-cpp += libcudart.so.13
@@ -38,6 +45,13 @@ endif
 
 # HPCC
 LDXXFLAGS_SO_libhccompiler.so := -Wl,--version-script=libhccompiler.map
+LDXXFLAGS_SO_libhccl.so := -Wl,--version-script=libhccl.map
+LDXXFLAGS_SO_libhcruntime.so := -Wl,--version-script=libhcruntime.map
+LDXXFLAGS_SO_libhcblas.so := -Wl,--version-script=libhcblas.map
+LDXXFLAGS_SO_libhcblasLt.so := -Wl,--version-script=libhcblasLt.map
+LDXXFLAGS_SO_libhcfft.so := -Wl,--version-script=libhcfft.map
+LDXXFLAGS_SO_libhcrand.so := -Wl,--version-script=libhcrand.map
+LDXXFLAGS_SO_libhcsparse.so := -Wl,--version-script=libhcsparse.map
 
 # CUDA
 LDXXFLAGS_SO_libcuda.so.1 := -Wl,--version-script=libcuda.map
@@ -59,6 +73,13 @@ runtime-objs += ${OUTPUT}device.cpp.so.o
 
 # HPCC
 libhccompiler.so: ${common-objs} ${runtime-objs}
+libhccl.so: ${common-objs} ${runtime-objs}
+libhcruntime.so: ${common-objs} ${runtime-objs}
+libhcblas.so: ${common-objs} ${OUTPUT}blas.cpp.so.o
+libhcblasLt.so: ${common-objs} ${OUTPUT}blasLt.cpp.so.o
+libhcfft.so: ${common-objs} ${OUTPUT}fft.cpp.so.o
+libhcrand.so: ${common-objs} ${OUTPUT}rand.cpp.so.o
+libhcsparse.so: ${common-objs} ${OUTPUT}sparse.cpp.so.o
 
 # CUDA
 libcuda.so.1: ${common-objs} ${OUTPUT}cuda.cpp.so.o ${OUTPUT}cuda-module-mgmt.cpp.so.o ${OUTPUT}device.cpp.so.o

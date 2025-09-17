@@ -1,0 +1,6 @@
+libhcruntime.so {
+	global:
+		*;
+	local:
+		*;
+};

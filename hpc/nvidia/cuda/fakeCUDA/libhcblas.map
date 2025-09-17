@@ -1,0 +1,6 @@
+libhcblas.so {
+	global:
+		*;
+	local:
+		*;
+};
