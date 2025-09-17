@@ -4,6 +4,9 @@
 #include "device.h"
 
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 CUresult cuDeviceGet(CUdevice *device, int ordinal)
 {
 	if (ordinal < 0 || ordinal >= dev_count())
@@ -27,3 +30,6 @@ CUresult cuDeviceComputeCapability(int *major, int *minor, CUdevice dev)
 
 	return CUDA_SUCCESS;
 }
+#ifdef __cplusplus
+}
+#endif

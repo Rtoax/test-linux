@@ -32,13 +32,16 @@ struct __CudaFatBinaryWrapper {
 	void *dummy1;
 };
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 /**
  * - https://github.com/ROCm/rocm-systems.git
  *   void** __hipRegisterFatBinary(const void* data);
  */
 void **__cudaRegisterFatBinary(void *fatCubin)
 {
-	struct __CudaFatBinaryWrapper *wrapper = (void *)fatCubin;
+	struct __CudaFatBinaryWrapper *wrapper = (struct __CudaFatBinaryWrapper *)fatCubin;
 	LOG_DEBUG("fatCubin %p, magic 0x%x(%c%c%c%c), version %d, binary %p\n",
 		  fatCubin, wrapper->magic,
 		  (wrapper->magic >> 24) & 0xff,
@@ -131,3 +134,6 @@ cudaError_t __cudaLaunchKernel(cudaKernel_t kernel, dim3 gridDim, dim3 blockDim,
 	LOG_DEBUG("kernel %p\n", kernel);
 	return cudaSuccess;
 }
+#ifdef __cplusplus
+}
+#endif

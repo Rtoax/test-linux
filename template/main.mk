@@ -156,6 +156,9 @@ clean: $(sub-dir-clean) $(kmod-list-clean) $(targets-clean)
 	${Q}rm -f ${VMLINUX_H}
 	$(call log_tgt_done,clean,$(call git_relative_dir,$(shell realpath .)))
 
+ifneq (${OUTPUT},)
+  include ${TEMPLATE_DIR}/targets/output.mk
+endif
 include ${TEMPLATE_DIR}/targets/exe.mk
 ifneq ($(targets-liba),)
   include ${TEMPLATE_DIR}/targets/liba.mk
@@ -192,9 +195,6 @@ ifneq ($(targets-go),)
 endif
 ifneq ($(targets-java),)
   include ${TEMPLATE_DIR}/targets/java.mk
-endif
-ifneq (${OUTPUT},)
-  include ${TEMPLATE_DIR}/targets/output.mk
 endif
 
 ifneq ($(sub-dir)$(kmod-list),)

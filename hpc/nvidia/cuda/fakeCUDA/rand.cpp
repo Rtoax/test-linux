@@ -4,8 +4,15 @@
 #include <curand.h>
 #include <cuda_runtime.h>
 
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 curandStatus_t curandGetVersion(int *version)
 {
 	*version = 10;
 	return CURAND_STATUS_SUCCESS;
 }
+#ifdef __cplusplus
+}
+#endif

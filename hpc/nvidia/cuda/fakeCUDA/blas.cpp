@@ -12,6 +12,9 @@
 #include "types.h"
 
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 cublasStatus_t cublasGetVersion_v2(cublasHandle_t handle, int *version)
 {
 	*version = 1300;
@@ -372,3 +375,6 @@ cublasStatus_t cublasGemmEx(cublasHandle_t handle,
 {
 	return CUBLAS_STATUS_SUCCESS;
 }
+#ifdef __cplusplus
+}
+#endif

@@ -30,15 +30,19 @@ static struct limits limits = {
 	.cudaLimitPersistingL2CacheSize = 1024,
 };
 
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 cudaError_t cudaSetDevice(int device)
 {
 	LOG_DEBUG("set dev to %d\n", device);
-	return dev_set_current(device);
+	return (cudaError_t)dev_set_current(device);
 }
 
 cudaError_t cudaGetDevice(int *device)
 {
-	return dev_get_current(device);
+	return (cudaError_t)dev_get_current(device);
 }
 
 cudaError_t cudaGetLastError(void)
@@ -79,12 +83,12 @@ cudaError_t cudaDeviceSetLimit(enum cudaLimit limit, size_t value)
 
 cudaError_t cudaGetDeviceProperties(cudaDeviceProp *prop, int device)
 {
-	return dev_get_prop(device, prop);
+	return (cudaError_t)dev_get_prop(device, prop);
 }
 
 cudaError_t cudaDeviceGetAttribute(int *value, cudaDeviceAttr attr, int device)
 {
-	return dev_get_attr(device, attr, value);
+	return (cudaError_t)dev_get_attr(device, attr, value);
 }
 
 cudaError_t cudaDeviceSynchronize(void)
@@ -116,3 +120,6 @@ cudaError_t cudaLaunchCooperativeKernel(const void *func,
 	LOG_DEBUG("\n");
 	return cudaSuccess;
 }
+#ifdef __cplusplus
+}
+#endif

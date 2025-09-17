@@ -28,9 +28,12 @@ static inline unsigned long nsecs(void)
 	return ts.tv_sec * 1000000000UL + ts.tv_nsec;
 }
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 cudaError_t cudaEventCreate(cudaEvent_t *event)
 {
-	cudaEvent_t ev = malloc(sizeof(struct CUevent_st));
+	cudaEvent_t ev = (cudaEvent_t)malloc(sizeof(struct CUevent_st));
 	memset(ev, 0, sizeof(struct CUevent_st));
 	*event = ev;
 	return cudaSuccess;
@@ -75,3 +78,6 @@ cudaError_t cudaEventSynchronize(cudaEvent_t event)
 {
 	return cudaSuccess;
 }
+#ifdef __cplusplus
+}
+#endif

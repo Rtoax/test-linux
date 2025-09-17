@@ -7,6 +7,10 @@ ifeq ($(filter %/,$(OUTPUT)),)
   $(error OUTPUT must end with '/', now is ${OUTPUT})
 endif
 
+ifdef DEBUG
+  $(info OUTPUT = ${OUTPUT})
+endif
+
 ${OUTPUT}:
 	$(call log_tgt_exe,MKDIR,$(<),$(@))
 	${Q}${MKDIR} -p $(@)

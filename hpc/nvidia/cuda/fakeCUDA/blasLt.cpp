@@ -10,6 +10,9 @@
 #include "types.h"
 
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 size_t cublasLtGetVersion(void)
 {
 	return 13;
@@ -102,3 +105,6 @@ cublasStatus_t cublasLtMatmul(cublasLtHandle_t lightHandle,
 {
 	return CUBLAS_STATUS_SUCCESS;
 }
+#ifdef __cplusplus
+}
+#endif

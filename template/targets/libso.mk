@@ -24,7 +24,7 @@ ${OUTPUT}%.so.o: %.c | ${OUTPUT}
 	$(call log_tgt_obj,CC SO.o,$(<),$(@))
 	${Q}${CC_PFX} $(CC) -o $(@) -c $(<) $(CFLAGS_SO) $(CFLAGS_SO_$(*))
 
-${OUTPUT}%.cpp.so.o: %.c | ${OUTPUT}
+${OUTPUT}%.cpp.so.o: %.cpp | ${OUTPUT}
 	$(call log_tgt_obj,CXX SO.o,$(<),$(@))
 	${Q}${CC_PFX} $(CXX) -o $(@) -c $(<) $(CXXFLAGS_SO) $(CXXFLAGS_SO_$(*))
 

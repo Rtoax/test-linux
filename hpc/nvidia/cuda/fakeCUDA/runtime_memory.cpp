@@ -11,6 +11,9 @@
 #include "types.h"
 
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 cudaError_t cudaMalloc(void **devPtr, size_t size)
 {
 	void *mem;
@@ -70,3 +73,6 @@ cudaError_t cudaMemcpy(void *dst, const void *src, size_t count,
 
 	return cudaSuccess;
 }
+#ifdef __cplusplus
+}
+#endif

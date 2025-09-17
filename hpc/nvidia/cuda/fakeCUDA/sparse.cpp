@@ -5,6 +5,9 @@
 #include "debug.h"
 
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 cusparseStatus_t cusparseGetProperty(libraryPropertyType type, int *value)
 {
 	LOG_DEBUG("type %d\n", type);
@@ -24,3 +27,6 @@ cusparseStatus_t cusparseGetProperty(libraryPropertyType type, int *value)
 	}
 	return CUSPARSE_STATUS_SUCCESS;
 }
+#ifdef __cplusplus
+}
+#endif

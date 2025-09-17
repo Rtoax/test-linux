@@ -3,6 +3,10 @@
 #include <cufft.h>
 #include "debug.h"
 
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 cufftResult cufftGetProperty(libraryPropertyType type, int *value)
 {
 	LOG_DEBUG("type %d\n", type);
@@ -22,3 +26,6 @@ cufftResult cufftGetProperty(libraryPropertyType type, int *value)
 	}
 	return CUFFT_SUCCESS;
 }
+#ifdef __cplusplus
+}
+#endif

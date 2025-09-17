@@ -53,6 +53,7 @@ and this project adheres to
 - kunlunxin: add info.sh;
 - hpc/kunlunxin: Introduce;
 #### Changed
+- fakeCUDA: Swap to C++, use g++ compile it;
 - ftrace: Move mcount-nop.c to ftrace/samples/;
 - ftrace: Move ftrace/demos to ftrace/samples;
 - targets/nvidia.mk: split some code to cuda.mk;
