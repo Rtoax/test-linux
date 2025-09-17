@@ -1,6 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
-targets :=
-targets += libc
+targets := libc
 targets += main
 targets += main-a
 targets += main-a-ctors
@@ -8,20 +7,13 @@ targets += latency
 targets += latency-got latency-got-llc
 targets += latency-a latency-a-llc
 
-targets-libso :=
-targets-libso += libfoo.so.1.10
+targets-libso := libfoo.so.1.10
 targets-libso += libadd.so
 targets-libso += libcall0.so
 
-targets-liba :=
-targets-liba += libfoo.a
+targets-liba := libfoo.a
 targets-liba += libadd.a
 targets-liba += libcall0.a
-
-CC := gcc
-
-CFLAGS :=
-LDFLAGS :=
 
 ifdef VERBOSE
   CFLAGS += -Q
