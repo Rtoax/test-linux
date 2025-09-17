@@ -34,7 +34,7 @@ int main(void)
 
 	gpu_init(gpu_id);
 
-	cudaMallocManaged(&ptr, size);
+	cudaMallocManaged(&ptr, size, cudaMemAttachGlobal);
 
 #if defined(HAVE_HCCL)
 	cudaMemAdvise(ptr, size, cudaMemAdviseSetReadMostly, gpu_id);

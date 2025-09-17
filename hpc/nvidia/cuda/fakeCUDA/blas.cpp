@@ -3,9 +3,17 @@
 /**
  * https://docs.nvidia.com/cuda/cublas/
  */
+#ifdef HAVE_HPCC
+#include <hc_runtime.h>
+#include <hcc/hcc_internal.h>
+#include <hcblas/hcblas.h>
+#include <hpcc_fp16.h>
+#include <cuda_adapter.h>
+#else
 #include <cuda.h>
 #include <cuda_runtime.h>
 #include <cublas.h>
+#endif
 #include <math.h>
 #include <string.h>
 #include "debug.h"
@@ -343,9 +351,12 @@ cublasStatus_t cublasHgemm(cublasHandle_t handle,
 {
 	for (int row = 0; row < m; ++row) {
 		for (int col = 0; col < n; ++col) {
-			__half sum = 0.0f;
+			__half sum = __float2half(0.0f);
 			for (int i = 0; i < k; ++i) {
-				sum += A[row + i * lda] * B[i + col * ldb];
+				float fA = __half2float(A[row + i * lda]);
+				float fB = __half2float(B[i + col * ldb]);
+				float fSum = fA * fB + __half2float(sum);
+				sum = __float2half(fSum);
 			}
 			C[row + col * ldc] = (*alpha) * sum + (*beta) * C[row + col * ldc];
 		}

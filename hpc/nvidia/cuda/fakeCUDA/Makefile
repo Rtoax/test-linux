@@ -2,6 +2,7 @@
 OUTPUT = .output/
 
 include ../cuda.mk
+include ../../../metax/hpcc.mk
 
 targets-libso-cpp := libcuda.so.1
 targets-libso-cpp += libcudart.so.13
@@ -11,12 +12,22 @@ targets-libso-cpp += libcufft.so.12
 targets-libso-cpp += libcurand.so.10
 targets-libso-cpp += libcusparse.so.12
 
-CXXFLAGS_SO := -I/usr/local/cuda/include/
-CXXFLAGS_SO += -DCUDA_VERSION_MAJOR=${CUDA_VERSION_MAJOR}
-CXXFLAGS_SO += -DCUDA_VERSION_MINOR=${CUDA_VERSION_MINOR}
-CXXFLAGS_SO += -DCUDA_VERSION_PATCH=${CUDA_VERSION_PATCH}
-ifdef HAVE_CUDA
+ifdef HAVE_HPCC
+  $(info HAVE_HPCC)
+  # need cuda_adapter.h
+  CXXFLAGS_SO += -I../
+  CXXFLAGS_SO += -I${HPCC_ROOT}/include/
+  CXXFLAGS_SO += -I${HPCC_ROOT}/include/common/
+  CXXFLAGS_SO += -I${HPCC_ROOT}/include/hcr/
+  CXXFLAGS_SO += -DHAVE_HCCL=1
+  CXXFLAGS_SO += -DHAVE_HPCC=1
+else ifdef HAVE_CUDA
   $(info HAVE_CUDA)
+  CXXFLAGS_SO := -I/usr/local/cuda/include/
+  CXXFLAGS_SO += -DCUDA_VERSION_MAJOR=${CUDA_VERSION_MAJOR}
+  CXXFLAGS_SO += -DCUDA_VERSION_MINOR=${CUDA_VERSION_MINOR}
+  CXXFLAGS_SO += -DCUDA_VERSION_PATCH=${CUDA_VERSION_PATCH}
+
   CXXFLAGS_SO += -DHAVE_CUDA=1
 endif
 

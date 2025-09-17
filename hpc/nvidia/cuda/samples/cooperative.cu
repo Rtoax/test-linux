@@ -61,7 +61,7 @@ int main(void)
 	nblks = (n + blksz - 1) / blksz;
 	sharebytes = blksz * sizeof(int);
 
-	cudaMallocManaged(&val, n * sizeof(int));
+	cudaMallocManaged(&val, n * sizeof(int), cudaMemAttachGlobal);
 
 	cudaStreamCreate(&stream);
 

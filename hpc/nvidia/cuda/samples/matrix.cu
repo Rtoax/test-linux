@@ -506,7 +506,7 @@ int main(int argc, char *argv[])
 
 	start = nsecs();
 #if defined(HAVE_HCCL) || defined(HAVE_CUDA)
-	cudaEventRecord(ev_start);
+	cudaEventRecord(ev_start, NULL);
 #endif
 
 	/* Stress test */
@@ -541,7 +541,7 @@ int main(int argc, char *argv[])
 	}
 
 #if defined(HAVE_HCCL) || defined(HAVE_CUDA)
-	cudaEventRecord(ev_stop);
+	cudaEventRecord(ev_stop, NULL);
 	cudaEventSynchronize(ev_stop);
 	float t_ms;
 	cudaEventElapsedTime(&t_ms, ev_start, ev_stop);
@@ -553,7 +553,7 @@ int main(int argc, char *argv[])
 	/**
 	 * The call of GPU kernel function will have a large overhead.
 	 */
-	cudaEventRecord(ev_start);
+	cudaEventRecord(ev_start, NULL);
 
 	for (iloop = 0; iloop < env.nloop; iloop++) {
 		if (env.vector)
@@ -572,7 +572,7 @@ int main(int argc, char *argv[])
 		}
 	}
 
-	cudaEventRecord(ev_stop);
+	cudaEventRecord(ev_stop, NULL);
 	cudaEventSynchronize(ev_stop);
 	cudaEventElapsedTime(&t_ms, ev_start, ev_stop);
 	kern_nocal_ns = t_ms * 1e6;

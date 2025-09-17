@@ -1,8 +1,14 @@
 // SPDX-License-Identifier: GPL-3.0
 /* Copyright (c) 2025 Rong Tao */
+#ifdef HAVE_HPCC
+#include <hc_runtime.h>
+#include <hcc/hcc_internal.h>
+#include <cuda_adapter.h>
+#else
 #include <cuda.h>
 #include <cuda_runtime.h>
 #include <driver_types.h>
+#endif
 #include <sys/types.h>
 #include "device.h"
 #include "debug.h"
@@ -45,7 +51,7 @@ cudaError_t cudaGetDevice(int *device)
 	return (cudaError_t)dev_get_current(device);
 }
 
-cudaError_t cudaGetLastError(void)
+cudaError_t cudaGetLastError()
 {
 	LOG_DEBUG("\n");
 	return cudaSuccess;
@@ -62,7 +68,7 @@ cudaError_t cudaGetDeviceCount(int *count)
 	return cudaSuccess;
 }
 
-cudaError_t cudaDeviceSetLimit(enum cudaLimit limit, size_t value)
+cudaError_t cudaDeviceSetLimit(cudaLimit limit, size_t value)
 {
 	switch (limit) {
 #define CASE(v)	case v: limits. v = value; break
@@ -91,7 +97,7 @@ cudaError_t cudaDeviceGetAttribute(int *value, cudaDeviceAttr attr, int device)
 	return (cudaError_t)dev_get_attr(device, attr, value);
 }
 
-cudaError_t cudaDeviceSynchronize(void)
+cudaError_t cudaDeviceSynchronize()
 {
 	return cudaSuccess;
 }
@@ -114,7 +120,11 @@ cudaError_t cudaStreamSynchronize(cudaStream_t stream)
 cudaError_t cudaLaunchCooperativeKernel(const void *func,
 					dim3 gridDim, dim3 blockDim,
 					void **args,
+					#ifdef HAVE_HPCC
+					unsigned int sharedMem,
+					#else
 					size_t sharedMem,
+					#endif
 					cudaStream_t stream)
 {
 	LOG_DEBUG("\n");

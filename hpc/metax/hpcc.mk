@@ -5,7 +5,7 @@ _HPCC = 1
 MXCC := $(shell which mxcc 2>/dev/null)
 HTCC := $(shell which htcc 2>/dev/null)
 
-HPCC_REALPATH := $(shell readlink /opt/hpcc 2>/dev/null || true)
+HPCC_ROOT := $(shell readlink /opt/hpcc 2>/dev/null || true)
 HPCC_CU_BRIDGE := /opt/hpcc/tools/cu-bridge/include/
 
 ifeq ($(MXCC),)
@@ -19,9 +19,9 @@ ifeq ($(HTCC),)
   endif
 endif
 
-ifneq ($(wildcard ${HPCC_REALPATH}),)
+ifneq ($(wildcard ${HPCC_ROOT}),)
   GREP := grep -Eo '[0-9]+\.[0-9]+\.[0-9]+'
-  HPCC_VERSION_RAW := $(shell echo ${HPCC_REALPATH} | ${GREP} | head -1)
+  HPCC_VERSION_RAW := $(shell echo ${HPCC_ROOT} | ${GREP} | head -1)
   HPCC_VERSION_MAJOR := $(shell echo ${HPCC_VERSION_RAW} | awk -F '.' '{print $$1}')
   HPCC_VERSION_MINOR := $(shell echo ${HPCC_VERSION_RAW} | awk -F '.' '{print $$2}')
   HPCC_VERSION_PATCH := $(shell echo ${HPCC_VERSION_RAW} | awk -F '.' '{print $$3}')
@@ -34,6 +34,7 @@ else
   HPCC_VERSION_PATCH :=
 endif
 
+export HPCC_ROOT
 export MXCC HTCC
 export HPCC_VERSION_MAJOR HPCC_VERSION_MINOR HPCC_VERSION_PATCH
 

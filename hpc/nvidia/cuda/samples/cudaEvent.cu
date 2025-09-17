@@ -54,7 +54,7 @@ int main(int argc, char *argv[])
 	cudaEventCreate(&ev_start);
 	cudaEventCreate(&ev_stop);
 
-	cudaEventRecord(ev_start);
+	cudaEventRecord(ev_start, NULL);
 	start = nsecs();
 
 	/* do some thing */
@@ -63,7 +63,7 @@ int main(int argc, char *argv[])
 
 	elapse1 = nsecs() - start;
 
-	cudaEventRecord(ev_stop);
+	cudaEventRecord(ev_stop, NULL);
 	cudaEventSynchronize(ev_stop);
 
 	elapse2 = nsecs() - start;

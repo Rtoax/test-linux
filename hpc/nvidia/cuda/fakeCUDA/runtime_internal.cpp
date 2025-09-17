@@ -4,11 +4,18 @@
  * Refs:
  * - https://github.com/ROCm/rocm-systems.git
  */
+#ifdef HAVE_HPCC
+#include <hc_runtime.h>
+#include <hcc/hcc_internal.h>
+#include <cuda_adapter.h>
+#else
 #include <cuda.h>
 #include <cuda_runtime.h>
+#endif
 #include <sys/types.h>
 
 #include "debug.h"
+#include "types.h"
 
 
 static unsigned __hipFatMAGIC2 = 0x48495046;  // "HIPF"
