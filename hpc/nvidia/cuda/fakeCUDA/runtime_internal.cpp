@@ -23,6 +23,7 @@
 #define __cudaLaunchKernel	__hcLaunchKernel
 #define __cudaPopCallConfiguration	__hcPopCallConfiguration
 #define __cudaPushCallConfiguration	__hcPushCallConfiguration
+#define __cudaRegisterFatBinary	__hcRegisterFatBinary
 #define __cudaRegisterFatBinaryEnd	__hcRegisterFatBinaryEnd
 #define __cudaRegisterFunction	__hcRegisterFunction
 #define __cudaRegisterVar	__hcRegisterVar
