@@ -37,7 +37,8 @@ struct device {
 	int warpSize;
 	int major, minor;
 #define DEV_INITIALIZER(idx)	{	\
-		.name = DEV_NAME,	\
+		/* error: C99 designator 'name' outside aggregate initializer
+		 * .name = { DEV_NAME }, */	\
 		.id = idx,	\
 		.totalGlobalMem = DEV_TOTAL_GLOBAL_MEM,	\
 		.totalConstMem = DEV_TOTAL_CONST_MEM,	\
