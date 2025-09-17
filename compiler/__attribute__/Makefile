@@ -57,6 +57,7 @@ else
 endif
 
 CFLAGS_no_instrument_function := -pg -DTEST_MAIN=1
+CFLAGS_no_instrument_function += -Wno-error=frame-address
 
 include ../../template/main.mk
 

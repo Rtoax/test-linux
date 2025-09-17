@@ -8,7 +8,8 @@
 #define TRACE_DEBUG() do {	\
 		void *__return_addr = __builtin_return_address(0);	\
 		void *__caller_addr = __builtin_return_address(1);	\
-		fprintf(stderr, "[%s:%d] %p %p\n", __func__, __LINE__, __return_addr, __caller_addr);	\
+		fprintf(stderr, "[%s:%d] %p %p\n", __func__, __LINE__,	\
+			__return_addr, __caller_addr);	\
 	} while (0)
 
 void __pg_ mcount(void)
