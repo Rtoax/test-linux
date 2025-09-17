@@ -114,7 +114,7 @@ endif
 
 build-targets := $(targets-prep)
 build-targets += $(OUTPUT)
-build-targets += $(targets-liba) $(targets-libso)
+build-targets += $(targets-liba) $(targets-libso) $(targets-libso-cpp)
 build-targets += $(targets)
 build-targets += $(targets-asm)
 build-targets += $(targets-cpp)
@@ -160,7 +160,7 @@ include ${TEMPLATE_DIR}/targets/exe.mk
 ifneq ($(targets-liba),)
   include ${TEMPLATE_DIR}/targets/liba.mk
 endif
-ifneq ($(targets-libso),)
+ifneq ($(targets-libso)$(targets-libso-cpp),)
   include ${TEMPLATE_DIR}/targets/libso.mk
 endif
 ifneq ($(HAVE_LLVM)$(targets-llvm-ll),)

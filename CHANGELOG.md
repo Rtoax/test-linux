@@ -15,6 +15,7 @@ and this project adheres to
 - template: add targets directory and move all target mk into it;
 - Makefile: Rename target installdeps to deps;
 #### Added
+- targets/libso.mk: support C++;
 - hpc: add ROCm;
 - metax: add hpcc.mk from template/targets/metax.mk;
 - cuda: add cuda.mk;

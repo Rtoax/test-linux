@@ -11,6 +11,8 @@ targets-libso := libfoo.so.1.10
 targets-libso += libadd.so
 targets-libso += libcall0.so
 
+targets-libso-cpp := libadd_cpp.so.0.1
+
 targets-liba := libfoo.a
 targets-liba += libadd.a
 targets-liba += libcall0.a
@@ -57,6 +59,7 @@ latency-a-llc: latency-a-llc.o libcall0.a
 libfoo.so.1.10: foo.so.o ctors.so.o
 libfoo.a: foo.a.o ctors.a.o
 libadd.so: add.so.o
+libadd_cpp.so.0.1: add.cpp.so.o
 libadd.a: add.a.o
 libcall0.so: call0.so.o
 libcall0.a: call0.a.o
