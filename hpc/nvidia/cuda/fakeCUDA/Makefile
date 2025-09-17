@@ -19,6 +19,7 @@ ifdef HAVE_HPCC
   CXXFLAGS_SO += -I${HPCC_ROOT}/include/
   CXXFLAGS_SO += -I${HPCC_ROOT}/include/common/
   CXXFLAGS_SO += -I${HPCC_ROOT}/include/hcr/
+  CXXFLAGS_SO += -I${HPCC_ROOT}/include/hcsparse/
   CXXFLAGS_SO += -DHAVE_HCCL=1
   CXXFLAGS_SO += -DHAVE_HPCC=1
 else ifdef HAVE_CUDA
