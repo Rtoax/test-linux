@@ -6,6 +6,7 @@
 #include <cuda_adapter.h>
 #else
 #include <cuda.h>
+#include <cuda_runtime.h>
 #endif
 #include "device.h"
 
