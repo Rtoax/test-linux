@@ -24,6 +24,10 @@ endif
 
 CFLAGS_main := -lfoo
 LDFLAGS_main := libfoo.so
+# Note: Add a directory to the runtime library search path.
+# $ readelf -d main
+# 0x000000000000000f (RPATH)              Library rpath: [/home/rongtao/Git/tst-linux/elf/library]
+LDFLAGS_main += -Wl,-rpath,$(shell pwd)
 
 CFLAGS_latency := -lcall0
 LDFLAGS_latency := libcall0.so
