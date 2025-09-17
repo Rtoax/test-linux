@@ -20,7 +20,7 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-size_t cublasLtGetVersion(void)
+size_t cublasLtGetVersion()
 {
 	return 13;
 }
