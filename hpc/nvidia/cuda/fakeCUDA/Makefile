@@ -4,13 +4,17 @@ OUTPUT = .output/
 include ../cuda.mk
 include ../../../metax/hpcc.mk
 
-targets-libso-cpp := libcuda.so.1
-targets-libso-cpp += libcudart.so.13
-targets-libso-cpp += libcublas.so.13
-targets-libso-cpp += libcublasLt.so.13
-targets-libso-cpp += libcufft.so.12
-targets-libso-cpp += libcurand.so.10
-targets-libso-cpp += libcusparse.so.12
+ifdef HAVE_HPCC
+  targets-libso-cpp := libhccompiler.so
+else ifdef HAVE_CUDA
+  targets-libso-cpp := libcuda.so.1
+  targets-libso-cpp += libcudart.so.13
+  targets-libso-cpp += libcublas.so.13
+  targets-libso-cpp += libcublasLt.so.13
+  targets-libso-cpp += libcufft.so.12
+  targets-libso-cpp += libcurand.so.10
+  targets-libso-cpp += libcusparse.so.12
+endif
 
 ifdef HAVE_HPCC
   $(info HAVE_HPCC)
@@ -32,6 +36,10 @@ else ifdef HAVE_CUDA
   CXXFLAGS_SO += -DHAVE_CUDA=1
 endif
 
+# HPCC
+LDXXFLAGS_SO_libhccompiler.so := -Wl,--version-script=libhccompiler.map
+
+# CUDA
 LDXXFLAGS_SO_libcuda.so.1 := -Wl,--version-script=libcuda.map
 LDXXFLAGS_SO_libcudart.so.13 := -Wl,--version-script=libcudart.map
 LDXXFLAGS_SO_libcublas.so.13 := -Wl,--version-script=libcublas.map
@@ -49,6 +57,10 @@ runtime-objs += ${OUTPUT}runtime_memory.cpp.so.o
 runtime-objs += ${OUTPUT}runtime_internal.cpp.so.o
 runtime-objs += ${OUTPUT}device.cpp.so.o
 
+# HPCC
+libhccompiler.so: ${common-objs} ${runtime-objs}
+
+# CUDA
 libcuda.so.1: ${common-objs} ${OUTPUT}cuda.cpp.so.o ${OUTPUT}cuda-module-mgmt.cpp.so.o ${OUTPUT}device.cpp.so.o
 libcudart.so.13: ${common-objs} ${runtime-objs}
 libcublas.so.13: ${common-objs} ${OUTPUT}blas.cpp.so.o

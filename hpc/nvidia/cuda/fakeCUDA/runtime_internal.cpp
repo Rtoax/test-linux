@@ -18,6 +18,17 @@
 #include "types.h"
 
 
+#ifdef HAVE_HPCC
+#define __cudaGetKernel	__hcGetKernel
+#define __cudaLaunchKernel	__hcLaunchKernel
+#define __cudaPopCallConfiguration	__hcPopCallConfiguration
+#define __cudaPushCallConfiguration	__hcPushCallConfiguration
+#define __cudaRegisterFatBinaryEnd	__hcRegisterFatBinaryEnd
+#define __cudaRegisterFunction	__hcRegisterFunction
+#define __cudaRegisterVar	__hcRegisterVar
+#define __cudaUnregisterFatBinary	__hcUnregisterFatBinary
+#endif
+
 static unsigned __hipFatMAGIC2 = 0x48495046;  // "HIPF"
 static unsigned __cudaFatMAGIC2 = 0x466243b1;
 
@@ -101,6 +112,19 @@ void __cudaRegisterVar(void **fatCubinHandle, char *hostVar,
 		  global);
 }
 
+/**
+ * void __hipRegisterManagedVar(void* hipModule, void** pointer, void* init_value,
+ *                              const char* name, size_t size, unsigned align);
+ */
+#ifdef HAVE_HPCC
+hcError_t __hcRegisterManagedVar(void *fatCubinHandle, void **hostVarPtrAddress,
+				 void *deviceAddress, const char *deviceName,
+				 size_t size, unsigned int align)
+{
+	LOG_DEBUG("\n");
+	return hcSuccess;
+}
+#else
 void __cudaRegisterManagedVar(void **fatCubinHandle, void **hostVarPtrAddress,
 			      char *deviceAddress, const char *deviceName,
 			      int ext, size_t size, int constant, int global)
@@ -109,6 +133,7 @@ void __cudaRegisterManagedVar(void **fatCubinHandle, void **hostVarPtrAddress,
 		  hostVarPtrAddress, deviceAddress, deviceName, ext, size,
 		  constant, global);
 }
+#endif
 
 unsigned __cudaPushCallConfiguration(dim3 gridDim, dim3 blockDim,
 				     size_t sharedMem,
