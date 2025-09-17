@@ -15,6 +15,7 @@ and this project adheres to
 - template: add targets directory and move all target mk into it;
 - Makefile: Rename target installdeps to deps;
 #### Added
+- hpc: add ROCm;
 - metax: add hpcc.mk from template/targets/metax.mk;
 - cuda: add cuda.mk;
 - fakeCUDA: add libcudart.map, libcusparse.map, libcufft.map, libcublas.map, libcublasLt.map, libcuda.map, libcurand.map;
