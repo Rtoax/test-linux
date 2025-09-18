@@ -5,4 +5,5 @@
 - cBPF: classic BPF (传统 BPF) @eBPF
 - eBPF: extended Berkeley Packet Filter (增强 BSD 包过滤) @BPF
 - HID-BPF: ()
+- interop: Interoperability (互操作性)
 - XDP: eXpress Data Path (表达数据路径)
