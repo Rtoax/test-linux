@@ -417,6 +417,7 @@
 #define cudaDevAttrMulticastSupported	__cu(DeviceAttributeMulticastSupported)
 #endif	/* HAVE_HCCL */
 
+#define cudaDeviceP2PAttr	__cu(DeviceP2PAttr)
 /**
  * cudaError_t cudaDeviceGetP2PAttribute(int *value, enum cudaDeviceP2PAttr attr,
  *                                       int srcDevice, int dstDevice);
