@@ -69,7 +69,7 @@ common-objs += ${OUTPUT}utils.cpp.so.o
 runtime-objs := ${OUTPUT}runtime.cpp.so.o
 runtime-objs += ${OUTPUT}runtime_event.cpp.so.o
 runtime-objs += ${OUTPUT}runtime_memory.cpp.so.o
-runtime-objs += ${OUTPUT}runtime_internal.cpp.so.o
+runtime-objs += ${OUTPUT}runtime_internal.cpp.so.o ${OUTPUT}fatbin.cpp.so.o
 runtime-objs += ${OUTPUT}device.cpp.so.o
 
 ${OUTPUT}common.cpp.so.o: debug.h

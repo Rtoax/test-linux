@@ -11,7 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
-- fakeCUDA: add fatbin.hpp;
+- fakeCUDA: add fatbin.hpp, fatbin.cpp;
 - fakeCUDA: add runtime.hpp;
 - fakeCUDA: add utils.cpp;
 #### Changed

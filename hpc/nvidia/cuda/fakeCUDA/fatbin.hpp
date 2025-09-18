@@ -64,3 +64,6 @@ struct fatBinaryTextHeader {
 	 * than size. */
 	uint64_t decompressed_size;
 } __attribute__((__packed__));
+
+
+void fatbinParser(const struct fatBinaryHeader *fatbin);
