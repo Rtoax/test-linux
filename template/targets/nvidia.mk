@@ -70,6 +70,8 @@ ${OUTPUT}%.fatbin: %.cu | ${OUTPUT}
 	$(call log_tgt_obj,FATBIN,$(<),$(@))
 	${Q}$(NVCC) -o $(@) -c $(<) $(cflags-nvcc-fatbin) $(CFLAGS_NVCC) $(CFLAGS_NVCC_$(*))
 
+# Example format of nv_fatbin and nvFatBinSegment, see:
+# commit 0f8f83ac8109 ("targets/nvidia.mk: add .nv_fatbin and .nvFatBinSegment targets")
 ${OUTPUT}%.nv_fatbin: % | ${OUTPUT}
 	$(call log_tgt_obj,NV FATBIN,$(<),$(@))
 	${Q}$(OBJCOPY) -O binary --only-section=.nv_fatbin $(<) $(@)
