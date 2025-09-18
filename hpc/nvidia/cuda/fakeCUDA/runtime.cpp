@@ -1,18 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0
 /* Copyright (c) 2025 Rong Tao */
-#ifdef HAVE_HPCC
-#include <hc_runtime.h>
-#include <hcc/hcc_internal.h>
-#include <cuda_adapter.h>
-#else
-#include <cuda.h>
-#include <cuda_runtime.h>
-#include <driver_types.h>
-#endif
-#include <sys/types.h>
-#include "device.h"
-#include "debug.h"
-#include "types.h"
+#include "runtime.hpp"
 
 
 struct limits {
@@ -37,9 +25,6 @@ static struct limits limits = {
 };
 
 
-#ifdef __cplusplus
-extern "C" {
-#endif
 cudaError_t cudaSetDevice(int device)
 {
 	LOG_DEBUG("set dev to %d\n", device);
@@ -137,7 +122,8 @@ cudaError_t cudaLaunchKernel(const void *func, dim3 gridDim, dim3 blockDim,
 			     void **args, size_t sharedMem, cudaStream_t stream)
 {
 	LOG_DEBUG("\n");
-	return cudaSuccess;
+	return __cudaLaunchKernel((cudaKernel_t)func, gridDim, blockDim, args,
+			   sharedMem, stream);
 }
 
 cudaError_t cudaLaunchCooperativeKernel(const void *func,
@@ -153,6 +139,3 @@ cudaError_t cudaLaunchCooperativeKernel(const void *func,
 	LOG_DEBUG("\n");
 	return cudaSuccess;
 }
-#ifdef __cplusplus
-}
-#endif

@@ -1,22 +1,11 @@
 // SPDX-License-Identifier: GPL-3.0
 /* Copyright (c) 2025 Rong Tao */
-#ifdef HAVE_HPCC
-#include <hc_runtime.h>
-#include <hcc/hcc_internal.h>
-#include <cuda_adapter.h>
-#else
-#include <cuda.h>
-#include <cuda_runtime.h>
-#include <driver_types.h>
-#endif
 #include <sys/types.h>
 #include <string.h>
 #include <malloc.h>
 #include <time.h>
 
-#include "device.h"
-#include "debug.h"
-#include "types.h"
+#include "runtime.hpp"
 
 
 /**
@@ -34,9 +23,6 @@ static inline unsigned long nsecs(void)
 	return ts.tv_sec * 1000000000UL + ts.tv_nsec;
 }
 
-#ifdef __cplusplus
-extern "C" {
-#endif
 cudaError_t cudaEventCreate(cudaEvent_t *event)
 {
 	cudaEvent_t ev = (cudaEvent_t)malloc(sizeof(struct CUevent_st));
@@ -84,6 +70,3 @@ cudaError_t cudaEventSynchronize(cudaEvent_t event)
 {
 	return cudaSuccess;
 }
-#ifdef __cplusplus
-}
-#endif

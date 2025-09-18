@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- fakeCUDA: add runtime.hpp;
 #### Changed
 #### Deprecated
 #### Removed

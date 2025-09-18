@@ -1,0 +1,109 @@
+// SPDX-License-Identifier: GPL-3.0
+/* Copyright (c) 2025 Rong Tao */
+/**
+ * Refs:
+ * - https://github.com/ROCm/rocm-systems.git
+ */
+#ifdef HAVE_HPCC
+#include <hc_runtime.h>
+#include <hcc/hcc_internal.h>
+#include <cuda_adapter.h>
+#else
+#include <cuda.h>
+#include <cuda_runtime.h>
+#endif
+#include <sys/types.h>
+
+#include "device.h"
+#include "debug.h"
+#include "types.h"
+
+
+#ifdef HAVE_HPCC
+#define __cudaGetKernel	__hcGetKernel
+#define __cudaLaunchKernel	__hcLaunchKernel
+#define __cudaPopCallConfiguration	__hcPopCallConfiguration
+#define __cudaPushCallConfiguration	__hcPushCallConfiguration
+#define __cudaRegisterFatBinary	__hcRegisterFatBinary
+#define __cudaRegisterFatBinaryEnd	__hcRegisterFatBinaryEnd
+#define __cudaRegisterFunction	__hcRegisterFunction
+#define __cudaRegisterVar	__hcRegisterVar
+#define __cudaUnregisterFatBinary	__hcUnregisterFatBinary
+#endif
+
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+void **__cudaRegisterFatBinary(void *fatCubin);
+void __cudaRegisterFatBinaryEnd(void **fatCubinHandle);
+void __cudaUnregisterFatBinary(void **fatCubinHandle);
+void __cudaRegisterFunction(void **fatCubinHandle, const char *hostFun,
+			    char *deviceFun, const char *deviceName,
+			    int thread_limit, uint3 *tid, uint3 *bid,
+			    dim3 *bDim, dim3 *gDim, int *wSize);
+void __cudaRegisterVar(void **fatCubinHandle, char *hostVar,
+		       char *deviceAddress, const char *deviceName,
+		       int ext, size_t size, int constant, int global);
+#ifdef HAVE_HPCC
+hcError_t __hcRegisterManagedVar(void *fatCubinHandle, void **hostVarPtrAddress,
+				 void *deviceAddress, const char *deviceName,
+				 size_t size, unsigned int align);
+#else
+void __cudaRegisterManagedVar(void **fatCubinHandle, void **hostVarPtrAddress,
+			      char *deviceAddress, const char *deviceName,
+			      int ext, size_t size, int constant, int global);
+#endif
+
+unsigned __cudaPushCallConfiguration(dim3 gridDim, dim3 blockDim,
+				     size_t sharedMem,
+				     struct CUstream_st *stream);
+cudaError_t __cudaGetKernel(cudaKernel_t *kernel, const void *v);
+cudaError_t __cudaPopCallConfiguration(dim3 *gridDim, dim3 *blockDim,
+				       size_t *sharedMem, void *stream);
+cudaError_t __cudaLaunchKernel(cudaKernel_t kernel, dim3 gridDim, dim3 blockDim,
+			       void **args, size_t sharedMem,
+			       cudaStream_t stream);
+
+cudaError_t cudaSetDevice(int device);
+cudaError_t cudaGetDevice(int *device);
+cudaError_t cudaGetLastError();
+const char *cudaGetErrorString(cudaError_t error);
+cudaError_t cudaGetDeviceCount(int *count);
+cudaError_t cudaDeviceSetLimit(cudaLimit limit, size_t value);
+cudaError_t cudaGetDeviceProperties(cudaDeviceProp *prop, int device);
+cudaError_t cudaDeviceGetAttribute(int *value, cudaDeviceAttr attr, int device);
+cudaError_t cudaDeviceDisablePeerAccess(int peerDevice);
+cudaError_t cudaDeviceCanAccessPeer(int *canAccessPeer, int device, int peerDevice);
+cudaError_t cudaDeviceGetP2PAttribute(int *value, enum cudaDeviceP2PAttr attr,
+				      int srcDevice, int dstDevice);
+cudaError_t cudaDeviceSynchronize();
+cudaError_t cudaStreamCreate(cudaStream_t *pStream);
+cudaError_t cudaStreamDestroy(cudaStream_t stream);
+cudaError_t cudaStreamSynchronize(cudaStream_t stream);
+cudaError_t cudaLaunchKernel(const void *func, dim3 gridDim, dim3 blockDim,
+			     void **args, size_t sharedMem, cudaStream_t stream);
+cudaError_t cudaLaunchCooperativeKernel(const void *func,
+					dim3 gridDim, dim3 blockDim,
+					void **args,
+					#ifdef HAVE_HPCC
+					unsigned int sharedMem,
+					#else
+					size_t sharedMem,
+					#endif
+					cudaStream_t stream);
+
+cudaError_t cudaEventCreate(cudaEvent_t *event);
+cudaError_t cudaEventCreateWithFlags(cudaEvent_t *event, unsigned int flags);
+cudaError_t cudaEventDestroy(cudaEvent_t event);
+cudaError_t cudaEventElapsedTime(float *ms, cudaEvent_t start, cudaEvent_t end);
+cudaError_t cudaEventQuery(cudaEvent_t event);
+cudaError_t cudaEventRecord(cudaEvent_t event, cudaStream_t stream);
+cudaError_t cudaEventRecordWithFlags(cudaEvent_t event, cudaStream_t stream,
+				     unsigned int flags);
+cudaError_t cudaEventSynchronize(cudaEvent_t event);
+
+#ifdef __cplusplus
+}
+#endif

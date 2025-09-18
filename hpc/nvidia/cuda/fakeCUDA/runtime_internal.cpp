@@ -4,31 +4,8 @@
  * Refs:
  * - https://github.com/ROCm/rocm-systems.git
  */
-#ifdef HAVE_HPCC
-#include <hc_runtime.h>
-#include <hcc/hcc_internal.h>
-#include <cuda_adapter.h>
-#else
-#include <cuda.h>
-#include <cuda_runtime.h>
-#endif
-#include <sys/types.h>
+#include "runtime.hpp"
 
-#include "debug.h"
-#include "types.h"
-
-
-#ifdef HAVE_HPCC
-#define __cudaGetKernel	__hcGetKernel
-#define __cudaLaunchKernel	__hcLaunchKernel
-#define __cudaPopCallConfiguration	__hcPopCallConfiguration
-#define __cudaPushCallConfiguration	__hcPushCallConfiguration
-#define __cudaRegisterFatBinary	__hcRegisterFatBinary
-#define __cudaRegisterFatBinaryEnd	__hcRegisterFatBinaryEnd
-#define __cudaRegisterFunction	__hcRegisterFunction
-#define __cudaRegisterVar	__hcRegisterVar
-#define __cudaUnregisterFatBinary	__hcUnregisterFatBinary
-#endif
 
 static unsigned __hipFatMAGIC2 = 0x48495046;	// "HIPF"
 static unsigned __cudaFatMAGIC2 = 0x466243b1;
@@ -52,9 +29,6 @@ struct __CudaFatBinaryWrapper {
 	void *dummy1;
 };
 
-#ifdef __cplusplus
-extern "C" {
-#endif
 /**
  * - https://github.com/ROCm/rocm-systems.git
  *   void** __hipRegisterFatBinary(const void* data);
@@ -170,6 +144,3 @@ cudaError_t __cudaLaunchKernel(cudaKernel_t kernel, dim3 gridDim, dim3 blockDim,
 	LOG_DEBUG("kernel %p\n", kernel);
 	return cudaSuccess;
 }
-#ifdef __cplusplus
-}
-#endif

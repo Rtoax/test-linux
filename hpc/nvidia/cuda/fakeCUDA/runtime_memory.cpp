@@ -1,20 +1,10 @@
 // SPDX-License-Identifier: GPL-3.0
 /* Copyright (c) 2025 Rong Tao */
-#ifdef HAVE_HPCC
-#include <hc_runtime.h>
-#include <hcc/hcc_internal.h>
-#include <cuda_adapter.h>
-#else
-#include <cuda.h>
-#include <cuda_runtime.h>
-#include <cuda_runtime_api.h>
-#endif
 #include <malloc.h>
 #include <string.h>
 #include <sys/types.h>
-#include "device.h"
-#include "debug.h"
-#include "types.h"
+
+#include "runtime.hpp"
 
 
 #ifdef __cplusplus
