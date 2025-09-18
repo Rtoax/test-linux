@@ -75,6 +75,14 @@ ${OUTPUT}%.fatbin: %.hpcc | ${OUTPUT}
 	$(call log_tgt_obj,FATBIN,$(<),$(@))
 	${Q}$(HTCC) -o $(@) -c $(<) $(cflags-htcc-fatbin) $(CFLAGS_HTCC) $(CFLAGS_HTCC_$(*))
 
+${OUTPUT}%.hc_fatbin: % | ${OUTPUT}
+	$(call log_tgt_obj,HC FATBIN,$(<),$(@))
+	${Q}$(OBJCOPY) -O binary --only-section=.hc_fatbin $(<) $(@)
+
+${OUTPUT}%.hcFatBinSegment: % | ${OUTPUT}
+	$(call log_tgt_obj,HC FATBIN SEG,$(<),$(@))
+	${Q}$(OBJCOPY) -O binary --only-section=.hcFatBinSegment $(<) $(@)
+
 $(targets-htcc): %:
 	$(call log_tgt_exe,HTCC LD,$(<),$(@))
 	${Q}$(HTCC) -o $(@) $(^) $(LDFLAGS_HTCC) $(LDFLAGS_HTCC_$(*))

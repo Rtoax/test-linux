@@ -24,7 +24,9 @@ targets-htcc += cooperative
 targets-htcc += module
 
 obj-devbin := hello.devbin
+obj-devbin += parallel.devbin
 obj-fatbin := hello.fatbin
+obj-fatbin += parallel.fatbin parallel.hc_fatbin parallel.hcFatBinSegment
 
 targets-post := $(patsubst %,${OUTPUT}%.E.hpcc,$(targets-htcc))
 targets-post += $(patsubst %,${OUTPUT}%,$(obj-devbin))
