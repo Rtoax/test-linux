@@ -55,7 +55,7 @@ void **__cudaRegisterFatBinary(void *fatCubin)
 	}
 
 	debug_memdump(wrapper, sizeof(struct __CudaFatBinaryWrapper));
-	debug_memdump(wrapper->binary, 64);
+	debug_memdump(wrapper->binary, 55);
 
 	return NULL;
 }

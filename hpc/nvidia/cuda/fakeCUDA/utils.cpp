@@ -15,6 +15,10 @@ void memdump(const void *mem, size_t size)
 	const int width = 8;
 	int nr_newline = 0;
 	int nr_startline = 0;
+	size_t align_size = 0;
+
+	while (align_size < size)
+		align_size += width;
 
 	for (size_t i = 0; i < size; i++) {
 		bool startline = i % width == 0;
@@ -43,6 +47,21 @@ void memdump(const void *mem, size_t size)
 			nr_newline++;
 		if (startline)
 			nr_startline++;
+	}
+
+	if (align_size > size) {
+		for (size_t i = 0; i < align_size - size; i++)
+			printf("   ");
+		printf("|");
+
+		const void *memlastrow = (uint8_t *)mem + width * nr_newline;
+		for (size_t i = 0; i < width - (align_size - size); i++) {
+			uint8_t c8 = *(uint8_t *)((uint8_t *)memlastrow + i);
+			printf("%c", isprint(c8) ? c8 : '.');
+		}
+		for (size_t i = 0; i < align_size - size; i++)
+			printf(" ");
+		printf("|");
 	}
 
 	if (nr_newline != nr_startline)
