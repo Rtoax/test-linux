@@ -1,8 +1,14 @@
 // SPDX-License-Identifier: GPL-3.0
 /* Copyright (c) 2025 Rong Tao */
+#ifdef HAVE_HPCC
+#include <hc_runtime.h>
+#include <hcc/hcc_internal.h>
+#include <cuda_adapter.h>
+#else
 #include <cuda.h>
 #include <cuda_runtime.h>
 #include <cuda_runtime_api.h>
+#endif
 #include <malloc.h>
 #include <string.h>
 #include <sys/types.h>
@@ -48,7 +54,13 @@ cudaError_t cudaFree(void *devPtr)
 }
 
 cudaError_t cudaMemAdvise(const void *devPtr, size_t count,
-			  cudaMemoryAdvise advice, cudaMemLocation location)
+			  cudaMemoryAdvise advice,
+			  #ifdef HAVE_HPCC
+			  int device
+			  #else
+			  cudaMemLocation location
+			  #endif
+			  )
 {
 	return cudaSuccess;
 }

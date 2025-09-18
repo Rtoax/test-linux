@@ -1,0 +1,6 @@
+libhcrand.so {
+	global:
+		hcrandGetVersion;
+	local:
+		*;
+};

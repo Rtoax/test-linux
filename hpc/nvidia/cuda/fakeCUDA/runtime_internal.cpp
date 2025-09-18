@@ -4,15 +4,35 @@
  * Refs:
  * - https://github.com/ROCm/rocm-systems.git
  */
+#ifdef HAVE_HPCC
+#include <hc_runtime.h>
+#include <hcc/hcc_internal.h>
+#include <cuda_adapter.h>
+#else
 #include <cuda.h>
 #include <cuda_runtime.h>
+#endif
 #include <sys/types.h>
 
 #include "debug.h"
+#include "types.h"
 
 
-static unsigned __hipFatMAGIC2 = 0x48495046;  // "HIPF"
+#ifdef HAVE_HPCC
+#define __cudaGetKernel	__hcGetKernel
+#define __cudaLaunchKernel	__hcLaunchKernel
+#define __cudaPopCallConfiguration	__hcPopCallConfiguration
+#define __cudaPushCallConfiguration	__hcPushCallConfiguration
+#define __cudaRegisterFatBinary	__hcRegisterFatBinary
+#define __cudaRegisterFatBinaryEnd	__hcRegisterFatBinaryEnd
+#define __cudaRegisterFunction	__hcRegisterFunction
+#define __cudaRegisterVar	__hcRegisterVar
+#define __cudaUnregisterFatBinary	__hcUnregisterFatBinary
+#endif
+
+static unsigned __hipFatMAGIC2 = 0x48495046;	// "HIPF"
 static unsigned __cudaFatMAGIC2 = 0x466243b1;
+static unsigned __hcFatMAGIC2 = 0x48504343;	// "HPCC"
 
 /**
  * /usr/local/cuda-13.0/targets/x86_64-linux/include/driver_types.h
@@ -51,7 +71,9 @@ void **__cudaRegisterFatBinary(void *fatCubin)
 		  wrapper->version, wrapper->binary,
 		  wrapper->dummy1);
 
-	if ((wrapper->magic != __cudaFatMAGIC2 && wrapper->magic != __hipFatMAGIC2) ||
+	if ((wrapper->magic != __cudaFatMAGIC2 &&
+	     wrapper->magic != __hipFatMAGIC2 &&
+	     wrapper->magic != __hcFatMAGIC2) ||
 	    wrapper->version != 1) {
 		LOG_ERROR("Cannot Register fat binary. FatMagic: %u version: %u\n",
 			  wrapper->magic, wrapper->version);
@@ -94,6 +116,19 @@ void __cudaRegisterVar(void **fatCubinHandle, char *hostVar,
 		  global);
 }
 
+/**
+ * void __hipRegisterManagedVar(void* hipModule, void** pointer, void* init_value,
+ *                              const char* name, size_t size, unsigned align);
+ */
+#ifdef HAVE_HPCC
+hcError_t __hcRegisterManagedVar(void *fatCubinHandle, void **hostVarPtrAddress,
+				 void *deviceAddress, const char *deviceName,
+				 size_t size, unsigned int align)
+{
+	LOG_DEBUG("\n");
+	return hcSuccess;
+}
+#else
 void __cudaRegisterManagedVar(void **fatCubinHandle, void **hostVarPtrAddress,
 			      char *deviceAddress, const char *deviceName,
 			      int ext, size_t size, int constant, int global)
@@ -102,6 +137,7 @@ void __cudaRegisterManagedVar(void **fatCubinHandle, void **hostVarPtrAddress,
 		  hostVarPtrAddress, deviceAddress, deviceName, ext, size,
 		  constant, global);
 }
+#endif
 
 unsigned __cudaPushCallConfiguration(dim3 gridDim, dim3 blockDim,
 				     size_t sharedMem,

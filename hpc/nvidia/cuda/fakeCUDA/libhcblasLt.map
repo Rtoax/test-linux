@@ -1,0 +1,18 @@
+libhcblasLt.so {
+	global:
+		hcblasLtGetVersion;
+		hcblasLtCreate;
+		hcblasLtDestroy;
+		hcblasLtMatmulDescCreate;
+		hcblasLtMatmulDescDestroy;
+		hcblasLtMatrixLayoutCreate;
+		hcblasLtMatrixLayoutDestroy;
+		hcblasLtMatrixLayoutGetAttribute;
+		hcblasLtMatmulPreferenceCreate;
+		hcblasLtMatmulPreferenceDestroy;
+		hcblasLtMatmulPreferenceSetAttribute;
+		hcblasLtMatmulAlgoGetHeuristic;
+		hcblasLtMatmul;
+	local:
+		*;
+};

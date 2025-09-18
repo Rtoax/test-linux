@@ -2,7 +2,6 @@
 /* Copyright (c) 2025 Rong Tao */
 #pragma once
 
-#define DEV_COUNT	8
 #define DEV_NAME	"NVIDIA H800"
 #define DEV_TOTAL_GLOBAL_MEM	8321499136	/* 8GiB */
 #define DEV_TOTAL_CONST_MEM	65536

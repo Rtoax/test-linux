@@ -1,0 +1,12 @@
+libhccompiler.so {
+	global:
+		__hcPopCallConfiguration;
+		__hcPushCallConfiguration;
+		__hcRegisterFatBinary;
+		__hcRegisterFatBinaryEnd;
+		__hcRegisterFunction;
+		__hcRegisterVar;
+		__hcUnregisterFatBinary;
+	local:
+		*;
+};

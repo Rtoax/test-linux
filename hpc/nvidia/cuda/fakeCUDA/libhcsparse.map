@@ -1,0 +1,6 @@
+libhcsparse.so {
+	global:
+		hcsparseGetProperty;
+	local:
+		*;
+};

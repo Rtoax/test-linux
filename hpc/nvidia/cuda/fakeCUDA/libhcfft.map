@@ -1,0 +1,6 @@
+libhcfft.so {
+	global:
+		hcfftGetProperty;
+	local:
+		*;
+};

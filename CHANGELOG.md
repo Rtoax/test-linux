@@ -15,6 +15,9 @@ and this project adheres to
 - template: add targets directory and move all target mk into it;
 - Makefile: Rename target installdeps to deps;
 #### Added
+- fakeCUDA: add hccl.cpp;
+- fakeCUDA: add libhcblas.map,libhcblasLt.map,libhccl.map,libhcfft.map,libhcrand.map,libhcruntime.map,libhcsparse.map;
+- fakeCUDA: add libhccompiler.map for hpcc;
 - targets/libso.mk: support C++;
 - hpc: add ROCm;
 - metax: add hpcc.mk from template/targets/metax.mk;
@@ -54,6 +57,7 @@ and this project adheres to
 - hpc/kunlunxin: Introduce;
 #### Changed
 - fakeCUDA: Swap to C++, use g++ compile it;
+- fakeCUDA: adaptive to hpcc 3.0.0;
 - ftrace: Move mcount-nop.c to ftrace/samples/;
 - ftrace: Move ftrace/demos to ftrace/samples;
 - targets/nvidia.mk: split some code to cuda.mk;

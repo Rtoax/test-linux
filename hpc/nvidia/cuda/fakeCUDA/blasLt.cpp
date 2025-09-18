@@ -1,9 +1,16 @@
 // SPDX-License-Identifier: GPL-3.0
 /* Copyright (c) 2025 Rong Tao */
+#ifdef HAVE_HPCC
+#include <hc_runtime.h>
+#include <hcc/hcc_internal.h>
+#include <hcblas/hcblasLt.h>
+#include <cuda_adapter.h>
+#else
 #include <cuda.h>
 #include <cuda_runtime.h>
 #include <cublas.h>
 #include <cublasLt.h>
+#endif
 #include <math.h>
 #include <string.h>
 #include "debug.h"
@@ -13,7 +20,7 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-size_t cublasLtGetVersion(void)
+size_t cublasLtGetVersion()
 {
 	return 13;
 }
@@ -50,6 +57,15 @@ cublasStatus_t cublasLtMatrixLayoutCreate(cublasLtMatrixLayout_t *matLayout,
 }
 
 cublasStatus_t cublasLtMatrixLayoutDestroy(cublasLtMatrixLayout_t matLayout)
+{
+	return CUBLAS_STATUS_SUCCESS;
+}
+
+cublasStatus_t cublasLtMatrixLayoutGetAttribute(cublasLtMatrixLayout_t matLayout,
+						cublasLtMatrixLayoutAttribute_t attr,
+						void* buf,
+						size_t sizeInBytes,
+						size_t* sizeWritten)
 {
 	return CUBLAS_STATUS_SUCCESS;
 }

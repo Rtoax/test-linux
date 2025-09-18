@@ -34,6 +34,8 @@ targets := matrix-c-fp32 matrix-c-fp64
 targets += float-c
 
 CFLAGS_HTCC := -Wno-c99-designator
+# Remove default so search directory, see ldflags: -Wl,-rpath,/path/to/so/
+LDFLAGS_HTCC := -nodefaultrpath
 
 CFLAGS_HTCC_hcGetDeviceProperties := -Wno-string-plus-int
 

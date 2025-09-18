@@ -1669,13 +1669,13 @@ void exec_one_test(struct test *test)
 
 	cudaEventCreate(&test->run.start);
 	cudaEventCreate(&test->run.end);
-	cudaEventRecord(test->run.start);
+	cudaEventRecord(test->run.start, NULL);
 	for (n = 0; n < env.nloop; n++) {
 		err = test->ops.run_blas(test);
 		if (err)
 			break;
 	}
-	cudaEventRecord(test->run.end);
+	cudaEventRecord(test->run.end, NULL);
 	cudaEventSynchronize(test->run.end);
 	cudaEventElapsedTime(&test->run.elapsed, test->run.start, test->run.end);
 	if (err) {

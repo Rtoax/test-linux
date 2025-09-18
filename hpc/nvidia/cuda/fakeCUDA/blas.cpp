@@ -3,14 +3,45 @@
 /**
  * https://docs.nvidia.com/cuda/cublas/
  */
+#ifdef HAVE_HPCC
+#include <hc_runtime.h>
+#include <hcc/hcc_internal.h>
+#include <hcblas/hcblas.h>
+#include <hpcc_fp16.h>
+#include <cuda_adapter.h>
+#else
 #include <cuda.h>
 #include <cuda_runtime.h>
 #include <cublas.h>
+#endif
 #include <math.h>
 #include <string.h>
 #include "debug.h"
 #include "types.h"
 
+#ifdef HAVE_HPCC
+#define cublasGetVersion_v2	hcblasGetVersion
+#define cublasCreate_v2	hcblasCreate
+#define cublasDestroy_v2	hcblasDestroy
+#define cublasIsamax_v2	hcblasIsamax
+#define cublasIdamax_v2	hcblasIdamax
+#define cublasIsamin_v2	hcblasIsamin
+#define cublasIdamin_v2	hcblasIdamin
+#define cublasSasum_v2	hcblasSasum
+#define cublasDasum_v2	hcblasDasum
+#define cublasSscal_v2	hcblasSscal
+#define cublasDscal_v2	hcblasDscal
+#define cublasSaxpy_v2	hcblasSaxpy
+#define cublasDaxpy_v2	hcblasDaxpy
+#define cublasScopy_v2	hcblasScopy
+#define cublasDcopy_v2	hcblasDcopy
+#define cublasSdot_v2	hcblasSdot
+#define cublasDdot_v2	hcblasDdot
+#define cublasSnrm2_v2	hcblasSnrm2
+#define cublasDnrm2_v2	hcblasDnrm2
+#define cublasSgemm_v2	hcblasSgemm
+#define cublasDgemm_v2	hcblasDgemm
+#endif
 
 #ifdef __cplusplus
 extern "C" {
@@ -343,9 +374,12 @@ cublasStatus_t cublasHgemm(cublasHandle_t handle,
 {
 	for (int row = 0; row < m; ++row) {
 		for (int col = 0; col < n; ++col) {
-			__half sum = 0.0f;
+			__half sum = __float2half(0.0f);
 			for (int i = 0; i < k; ++i) {
-				sum += A[row + i * lda] * B[i + col * ldb];
+				float fA = __half2float(A[row + i * lda]);
+				float fB = __half2float(B[i + col * ldb]);
+				float fSum = fA * fB + __half2float(sum);
+				sum = __float2half(fSum);
 			}
 			C[row + col * ldc] = (*alpha) * sum + (*beta) * C[row + col * ldc];
 		}

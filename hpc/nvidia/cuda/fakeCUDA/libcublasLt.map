@@ -7,6 +7,7 @@ libcublasLt.so.13 {
 		cublasLtMatmulDescDestroy;
 		cublasLtMatrixLayoutCreate;
 		cublasLtMatrixLayoutDestroy;
+		cublasLtMatrixLayoutGetAttribute;
 		cublasLtMatmulPreferenceCreate;
 		cublasLtMatmulPreferenceDestroy;
 		cublasLtMatmulPreferenceSetAttribute;

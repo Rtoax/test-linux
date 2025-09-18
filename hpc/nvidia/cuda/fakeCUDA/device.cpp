@@ -1,7 +1,13 @@
 // SPDX-License-Identifier: GPL-3.0
 /* Copyright (c) 2025 Rong Tao */
+#ifdef HAVE_HPCC
+#include <hc_runtime.h>
+#include <hcc/hcc_internal.h>
+#include <cuda_adapter.h>
+#else
 #include <cuda.h>
 #include <cuda_runtime.h>
+#endif
 #include <pthread.h>
 #include <stdbool.h>
 #include <string.h>
@@ -9,6 +15,8 @@
 #include "device.h"
 #include "device-nvidia-h800.h"
 
+
+#define DEV_COUNT	8
 
 struct device {
 	char name[64];
@@ -29,7 +37,8 @@ struct device {
 	int warpSize;
 	int major, minor;
 #define DEV_INITIALIZER(idx)	{	\
-		.name = DEV_NAME,	\
+		/* error: C99 designator 'name' outside aggregate initializer
+		 * .name = { DEV_NAME }, */	\
 		.id = idx,	\
 		.totalGlobalMem = DEV_TOTAL_GLOBAL_MEM,	\
 		.totalConstMem = DEV_TOTAL_CONST_MEM,	\
