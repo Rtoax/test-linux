@@ -75,6 +75,8 @@ ${OUTPUT}%.fatbin: %.hpcc | ${OUTPUT}
 	$(call log_tgt_obj,FATBIN,$(<),$(@))
 	${Q}$(HTCC) -o $(@) -c $(<) $(cflags-htcc-fatbin) $(CFLAGS_HTCC) $(CFLAGS_HTCC_$(*))
 
+# Example format of hc_fatbin and hcFatBinSegment, see:
+# commit 798dd703bcc9 ("targets/metax.mk: add .hc_fatbin and .hcFatBinSegment targets")
 ${OUTPUT}%.hc_fatbin: % | ${OUTPUT}
 	$(call log_tgt_obj,HC FATBIN,$(<),$(@))
 	${Q}$(OBJCOPY) -O binary --only-section=.hc_fatbin $(<) $(@)
