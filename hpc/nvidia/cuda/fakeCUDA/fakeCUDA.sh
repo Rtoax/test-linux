@@ -40,7 +40,7 @@ if [[ "$1" == "ALL" ]]; then
 		exec_one $f $@
 	done
 
-	echo "TEST: ${ALL_X_ELFs[@]}"
+	echo -e "\033[32mTEST: ${ALL_X_ELFs[@]}\033[m"
 elif [[ $1 ]]; then
 	exec_one $@
 else
