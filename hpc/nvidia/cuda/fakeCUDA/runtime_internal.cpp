@@ -51,6 +51,31 @@ struct fatBinaryHeader {
 	uint64_t data_size;
 } __attribute__((__packed__));
 
+/**
+ * https://github.com/n-eiling/cuda-fatbin-decompression/blob/master/fatbin-decompress.h
+ */
+struct fatBinaryTextHeader {
+	uint16_t kind;
+	uint16_t unknown1;
+	uint32_t header_size;
+	uint64_t size;
+	uint32_t compressed_size;
+	/* Address size for PTX? */
+	uint32_t unknown2;
+	uint16_t minor;
+	uint16_t major;
+	uint32_t arch;
+	uint32_t obj_name_offset;
+	uint32_t obj_name_len;
+	uint64_t flags;
+	/* Alignment for compression? */
+	uint64_t zero;
+	/* Length of compressed data in decompressed representation.
+	 * There is an uncompressed footer so this is generally smaller
+	 * than size. */
+	uint64_t decompressed_size;
+} __attribute__((__packed__));
+
 
 /**
  * - https://github.com/ROCm/rocm-systems.git
@@ -59,6 +84,9 @@ struct fatBinaryHeader {
 void **__cudaRegisterFatBinary(void *fatCubin)
 {
 	struct __CudaFatBinaryWrapper *wrapper = (struct __CudaFatBinaryWrapper *)fatCubin;
+	struct fatBinaryHeader *fatBinHdr;
+	struct fatBinaryTextHeader *textHdr;
+
 	LOG_DEBUG("fatCubin %p, magic 0x%x(%c%c%c%c), version %d, fatbin %p\n",
 		  fatCubin, wrapper->magic,
 		  (wrapper->magic >> 24) & 0xff,
@@ -77,12 +105,27 @@ void **__cudaRegisterFatBinary(void *fatCubin)
 	}
 
 	debug_memdump(wrapper, sizeof(struct __CudaFatBinaryWrapper));
-	debug_memdump(wrapper->fatbin, 128);
 
-	struct fatBinaryHeader *fatBinHdr = (struct fatBinaryHeader *)wrapper->fatbin;
+	fatBinHdr = (struct fatBinaryHeader *)wrapper->fatbin;
 	LOG_DEBUG("fatbin: magic %x, version %d, header_size %d, data_size %d\n",
 		  fatBinHdr->magic, fatBinHdr->version, fatBinHdr->header_size,
 		  fatBinHdr->data_size);
+
+	debug_memdump(fatBinHdr, fatBinHdr->header_size);
+
+	textHdr = (struct fatBinaryTextHeader *)((uint8_t *)fatBinHdr + fatBinHdr->header_size);
+	LOG_DEBUG("textHdr: kind %d, header_size %d, size %ld, "
+		  "compressed_size %d, decompressed_size %d, "
+		  "minor %d, major %d, arch %d, obj_name_offset %d, obj_name_len %d, "
+		  "flags 0x%lx\n",
+		  textHdr->kind, textHdr->header_size, textHdr->size,
+		  textHdr->compressed_size, textHdr->decompressed_size,
+		  textHdr->minor, textHdr->major,
+		  textHdr->arch,
+		  textHdr->obj_name_offset, textHdr->obj_name_len,
+		  textHdr->flags);
+
+	debug_memdump(textHdr, textHdr->header_size);
 
 	return NULL;
 }
