@@ -1,6 +1,8 @@
 libhcruntime.so {
 	global:
 		hcLaunchKernel;
+		hcDeviceGet;
+		hcDeviceComputeCapability;
 	local:
 		*;
 };
