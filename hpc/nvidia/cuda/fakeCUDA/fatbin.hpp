@@ -28,11 +28,17 @@
 struct __CudaFatBinaryWrapper {
 	unsigned int magic;
 	unsigned int version;
+	/**
+	 * CUDA ELF .nv_fatbin section
+	 * HPCC ELF .hc_fatbin section
+	 */
 	void *fatbin;
 	void *dummy1;
 };
 
 /**
+ * CUDA ELF .nv_fatbin section
+ *
  * https://docs.nvidia.com/cuda/cuda-binary-utilities/index.html
  * https://github.com/n-eiling/cuda-fatbin-decompression/blob/master/fatbin-decompress.h
  */

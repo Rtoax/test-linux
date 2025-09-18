@@ -11,6 +11,8 @@ struct ClangOffloadBundleInfo {
 };
 
 /**
+ * HPCC ELF .hc_fatbin section
+ *
  * https://github.com/ROCm/rocm-systems
  * ROCm/rocm-systems/projects/clr/hipamd/src/hip_code_object.hpp
  */
