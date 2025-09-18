@@ -10,6 +10,19 @@ and this project adheres to
 ## Unreleased
 
 #### Breaking Changes
+#### Added
+#### Changed
+#### Deprecated
+#### Removed
+#### Fixed
+#### Security
+#### Docs
+#### Tools
+
+
+## [v2.3.6] 2025-09-18
+
+#### Breaking Changes
 - Rename synchronization/ to sync/;
 - Rename instructions/ to insn/;
 - template: add targets directory and move all target mk into it;
