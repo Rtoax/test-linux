@@ -35,39 +35,46 @@ void **__cudaRegisterFatBinary(void *fatCubin)
 
 	wrapper = (struct __CudaFatBinaryWrapper *)fatCubin;
 
-	if ((wrapper->magic != __cudaFatMAGIC2 &&
-	     wrapper->magic != __hipFatMAGIC2 &&
-	     wrapper->magic != __hcFatMAGIC2) ||
-	    wrapper->version != FATBINC_VERSION) {
-		LOG_ERROR("Cannot Register fat binary. FatMagic: %u version: %u\n",
-			  wrapper->magic, wrapper->version);
+	for (;;) {
+		/* Check magic */
+		if ((wrapper->magic != __cudaFatMAGIC2 &&
+		     wrapper->magic != __hipFatMAGIC2 &&
+		     wrapper->magic != __hcFatMAGIC2) ||
+		    wrapper->version != FATBINC_VERSION) {
+			DEBUG_WARN("Cannot Register fat binary. FatMagic: %u version: %u\n",
+				   wrapper->magic, wrapper->version);
+			break;
+		}
+
+		DEBUG_DBG("fatCubin %p, magic 0x%x(%c%c%c%c), version %d, fatbin %p\n",
+			  fatCubin, wrapper->magic,
+			  (wrapper->magic >> 24) & 0xff,
+			  (wrapper->magic >> 16) & 0xff,
+			  (wrapper->magic >> 8) & 0xff,
+			  wrapper->magic & 0xff,
+			  wrapper->version, wrapper->fatbin,
+			  wrapper->dummy1);
+
+		debug_memdump(wrapper, sizeof(struct __CudaFatBinaryWrapper));
+
+		fatBinHdr = (struct fatBinaryHeader *)wrapper->fatbin;
+		fatbinParser(fatBinHdr);
+
+		/* For next */
+		wrapper++;
 	}
-
-	LOG_DEBUG("fatCubin %p, magic 0x%x(%c%c%c%c), version %d, fatbin %p\n",
-		  fatCubin, wrapper->magic,
-		  (wrapper->magic >> 24) & 0xff,
-		  (wrapper->magic >> 16) & 0xff,
-		  (wrapper->magic >> 8) & 0xff,
-		  wrapper->magic & 0xff,
-		  wrapper->version, wrapper->fatbin,
-		  wrapper->dummy1);
-
-	debug_memdump(wrapper, sizeof(struct __CudaFatBinaryWrapper));
-
-	fatBinHdr = (struct fatBinaryHeader *)wrapper->fatbin;
-	fatbinParser(fatBinHdr);
 
 	return NULL;
 }
 
 void __cudaRegisterFatBinaryEnd(void **fatCubinHandle)
 {
-	LOG_DEBUG("\n");
+	DEBUG_DBG("\n");
 }
 
 void __cudaUnregisterFatBinary(void **fatCubinHandle)
 {
-	LOG_DEBUG("\n");
+	DEBUG_DBG("\n");
 }
 
 /**
@@ -81,16 +88,15 @@ void __cudaRegisterFunction(void **fatCubinHandle, const char *hostFun,
 			    int thread_limit, uint3 *tid, uint3 *bid,
 			    dim3 *bDim, dim3 *gDim, int *wSize)
 {
-	LOG_DEBUG("hostFun %p, deviceFun %p, deviceName %s, thread_limit %d\n",
+	DEBUG_DBG("hostFun %p, deviceFun %p, deviceName %s, thread_limit %d\n",
 		  hostFun, deviceFun, deviceName, thread_limit);
-	debug_memdump(hostFun, 128);
 }
 
 void __cudaRegisterVar(void **fatCubinHandle, char *hostVar,
 		       char *deviceAddress, const char *deviceName,
 		       int ext, size_t size, int constant, int global)
 {
-	LOG_DEBUG("hostVar %p, deviceAddress %p, deviceName %s, ext %d, size %ld, constant %d, global %d\n",
+	DEBUG_DBG("hostVar %p, deviceAddress %p, deviceName %s, ext %d, size %ld, constant %d, global %d\n",
 		  hostVar, deviceAddress, deviceName, ext, size, constant,
 		  global);
 }
@@ -104,7 +110,7 @@ hcError_t __hcRegisterManagedVar(void *fatCubinHandle, void **hostVarPtrAddress,
 				 void *deviceAddress, const char *deviceName,
 				 size_t size, unsigned int align)
 {
-	LOG_DEBUG("\n");
+	DEBUG_DBG("\n");
 	return hcSuccess;
 }
 #else
@@ -112,7 +118,7 @@ void __cudaRegisterManagedVar(void **fatCubinHandle, void **hostVarPtrAddress,
 			      char *deviceAddress, const char *deviceName,
 			      int ext, size_t size, int constant, int global)
 {
-	LOG_DEBUG("hostVarPtrAddress %p, deviceAddress %p, deviceName %s, ext %d, size %ld, constant %d, global %d\n",
+	DEBUG_DBG("hostVarPtrAddress %p, deviceAddress %p, deviceName %s, ext %d, size %ld, constant %d, global %d\n",
 		  hostVarPtrAddress, deviceAddress, deviceName, ext, size,
 		  constant, global);
 }
@@ -122,7 +128,7 @@ unsigned __cudaPushCallConfiguration(dim3 gridDim, dim3 blockDim,
 				     size_t sharedMem,
 				     struct CUstream_st *stream)
 {
-	LOG_DEBUG("grid(%d,%d,%d), block(%d,%d,%d), sharedMem %ld\n",
+	DEBUG_DBG("grid(%d,%d,%d), block(%d,%d,%d), sharedMem %ld\n",
 		  gridDim.x, gridDim.y, gridDim.z,
 		  blockDim.x, blockDim.y, blockDim.z,
 		  sharedMem);
@@ -131,15 +137,14 @@ unsigned __cudaPushCallConfiguration(dim3 gridDim, dim3 blockDim,
 
 cudaError_t __cudaGetKernel(cudaKernel_t *kernel, const void *v)
 {
-	LOG_DEBUG("kernel %p, v %p\n", kernel, v);
-	debug_memdump(v, 64);
+	DEBUG_DBG("kernel %p, v %p\n", kernel, v);
 	return cudaSuccess;
 }
 
 cudaError_t __cudaPopCallConfiguration(dim3 *gridDim, dim3 *blockDim,
 				       size_t *sharedMem, void *stream)
 {
-	LOG_DEBUG("\n");
+	DEBUG_DBG("\n");
 	return cudaSuccess;
 }
 
@@ -147,6 +152,6 @@ cudaError_t __cudaLaunchKernel(cudaKernel_t kernel, dim3 gridDim, dim3 blockDim,
 			       void **args, size_t sharedMem,
 			       cudaStream_t stream)
 {
-	LOG_DEBUG("kernel %p\n", kernel);
+	DEBUG_DBG("kernel %p\n", kernel);
 	return cudaSuccess;
 }

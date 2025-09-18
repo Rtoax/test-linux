@@ -15,7 +15,7 @@ extern "C" {
 #endif
 cufftResult cufftGetProperty(libraryPropertyType type, int *value)
 {
-	LOG_DEBUG("type %d\n", type);
+	DEBUG_DBG("type %d\n", type);
 
 	switch (type) {
 	case MAJOR_VERSION:

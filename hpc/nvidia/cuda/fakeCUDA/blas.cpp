@@ -64,7 +64,7 @@ cublasStatus_t cublasDestroy_v2(cublasHandle_t handle)
 
 cublasStatus_t cublasGetProperty(libraryPropertyType type, int *value)
 {
-	LOG_DEBUG("type %d\n", type);
+	DEBUG_DBG("type %d\n", type);
 
 	switch (type) {
 	case MAJOR_VERSION:

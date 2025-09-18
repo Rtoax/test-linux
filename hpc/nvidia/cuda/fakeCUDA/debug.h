@@ -8,7 +8,7 @@
 # define DEBUG	1
 #endif
 #ifdef DEBUG
-# define LOG_DEBUG(fmt...) do {	\
+# define DEBUG_DBG(fmt...) do {	\
 		if (!fakecuda_debug)	\
 			break;	\
 		fprintf(stderr, "\033[2m");	\
@@ -16,8 +16,17 @@
 		fprintf(stderr, fmt);	\
 		fprintf(stderr, "\033[m");	\
 	} while (0)
+# define DEBUG_WARN(fmt...) do {	\
+		if (!fakecuda_debug)	\
+			break;	\
+		fprintf(stderr, "\033[33m");	\
+		fprintf(stderr, "fakeCUDA: WARNING: [%s:%d] ", __func__, __LINE__);	\
+		fprintf(stderr, fmt);	\
+		fprintf(stderr, "\033[m");	\
+	} while (0)
 #else
-# define LOG_DEBUG(fmt...) do {} while (0)
+# define DEBUG_DBG(fmt...) do {} while (0)
+# define DEBUG_WARN(fmt...) do {} while (0)
 #endif
 
 #define LOG_ERROR(fmt...) do {	\
@@ -28,3 +37,4 @@
 	} while (0)
 
 extern bool fakecuda_debug;
+extern bool fakecuda_dump;

@@ -27,7 +27,7 @@ static struct limits limits = {
 
 cudaError_t cudaSetDevice(int device)
 {
-	LOG_DEBUG("set dev to %d\n", device);
+	DEBUG_DBG("set dev to %d\n", device);
 	return (cudaError_t)dev_set_current(device);
 }
 
@@ -38,7 +38,7 @@ cudaError_t cudaGetDevice(int *device)
 
 cudaError_t cudaGetLastError()
 {
-	LOG_DEBUG("\n");
+	DEBUG_DBG("\n");
 	return cudaSuccess;
 }
 
@@ -121,7 +121,7 @@ cudaError_t cudaStreamSynchronize(cudaStream_t stream)
 cudaError_t cudaLaunchKernel(const void *func, dim3 gridDim, dim3 blockDim,
 			     void **args, size_t sharedMem, cudaStream_t stream)
 {
-	LOG_DEBUG("\n");
+	DEBUG_DBG("\n");
 	return __cudaLaunchKernel((cudaKernel_t)func, gridDim, blockDim, args,
 			   sharedMem, stream);
 }
@@ -136,6 +136,6 @@ cudaError_t cudaLaunchCooperativeKernel(const void *func,
 					#endif
 					cudaStream_t stream)
 {
-	LOG_DEBUG("\n");
+	DEBUG_DBG("\n");
 	return cudaSuccess;
 }
