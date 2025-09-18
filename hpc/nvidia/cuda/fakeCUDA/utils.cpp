@@ -11,9 +11,22 @@ extern bool fakecuda_debug;
 
 void memdump(void *mem, size_t size)
 {
+	const int width = 8;
+	int nr_newline = 0;
+
 	for (size_t i = 0; i < size; i++) {
+		bool startline = i % width == 0;
+		bool newline = (i + 1) % width == 0;
+
+		if (startline) {
+			printf("%#016x | ", (uint64_t)mem + width * nr_newline);
+		}
+
+		if (newline)
+			nr_newline++;
+
 		uint8_t c = *(uint8_t *)((uint8_t *)mem + i);
-		printf("%02x%c", c, i % 8 == 0 ? '\n' : ' ');
+		printf("%02x%c", c, newline ? '\n' : ' ');
 	}
 }
 
