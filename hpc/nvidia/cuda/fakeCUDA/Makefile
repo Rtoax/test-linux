@@ -74,7 +74,7 @@ runtime-objs += ${OUTPUT}device.cpp.so.o
 # HPCC
 libhccompiler.so: ${common-objs} ${runtime-objs}
 libhccl.so: ${OUTPUT}hccl.cpp.so.o
-libhcruntime.so: ${common-objs} ${runtime-objs} ${OUTPUT}cuda.cpp.so.o
+libhcruntime.so: ${common-objs} ${runtime-objs} ${OUTPUT}cuda.cpp.so.o ${OUTPUT}cuda-module-mgmt.cpp.so.o
 libhcblas.so: ${common-objs} ${OUTPUT}blas.cpp.so.o
 libhcblasLt.so: ${common-objs} ${OUTPUT}blasLt.cpp.so.o
 libhcfft.so: ${common-objs} ${OUTPUT}fft.cpp.so.o
