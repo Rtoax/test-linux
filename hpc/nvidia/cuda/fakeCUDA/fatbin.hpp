@@ -17,6 +17,9 @@
 
 
 /**
+ * CUDA ELF .nvFatBinSegment section
+ * HPCC ELF .hcFatBinSegment section
+ *
  * https://github.com/ROCm/rocm-systems.git
  * clr/hipamd/src/hip_platform.cpp
  *

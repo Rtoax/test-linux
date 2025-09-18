@@ -15,18 +15,6 @@
 void fakeCudaFatbinParser(const struct fatBinaryHeader *fatbin)
 {
 	const struct fatBinaryTextHeader *textHdr;
-	const struct ClangOffloadBundleUncompressedHeader *hipHdr;
-
-	/**
-	 * The Fatbin is HIP like format.
-	 */
-	hipHdr = (struct ClangOffloadBundleUncompressedHeader *)fatbin;
-	if (!strncmp(hipHdr->magic, kOffloadBundleUncompressedMagicStr,
-		     kOffloadBundleUncompressedMagicStrSize - 1)) {
-		DEBUG_WARN("Found HIP Fatbin, %s\n", hipHdr->magic);
-		fakeHipFatbinParser(hipHdr);
-		return;
-	}
 
 	DEBUG_DBG("fatbin: magic %x, version %d, header_size %d, data_size %d\n",
 		  fatbin->magic, fatbin->version, fatbin->header_size,
@@ -93,6 +81,8 @@ void fakeHipFatbinParser(const struct ClangOffloadBundleUncompressedHeader *obhe
 			debug_memdump(image, sizeof(Elf64_Ehdr));
 			elf64_dump_ehdr((Elf64_Ehdr *)image);
 			break;
+		} else {
+			debug_memdump(image, 32);
 		}
 	}
 

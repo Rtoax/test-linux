@@ -6,9 +6,11 @@
  * - https://docs.nvidia.com/cuda/cuda-binary-utilities/index.html
  */
 #include <elf.h>
+#include <string.h>
 #include "runtime.hpp"
 #include "utils.hpp"
 #include "fatbin.hpp"
+#include "fatbin-hip.hpp"
 
 
 static unsigned __hipFatMAGIC2 = 0x48495046;	// "HIPF"
@@ -31,6 +33,7 @@ struct CUkern_st {
 void **__cudaRegisterFatBinary(void *fatCubin)
 {
 	struct __CudaFatBinaryWrapper *wrapper;
+	const struct ClangOffloadBundleUncompressedHeader *hipHdr;
 
 	wrapper = (struct __CudaFatBinaryWrapper *)fatCubin;
 
@@ -56,7 +59,17 @@ void **__cudaRegisterFatBinary(void *fatCubin)
 
 		debug_memdump(wrapper, sizeof(struct __CudaFatBinaryWrapper));
 
-		fakeCudaFatbinParser((struct fatBinaryHeader *)wrapper->fatbin);
+		/**
+		 * The Fatbin is HIP like format.
+		 */
+		hipHdr = (struct ClangOffloadBundleUncompressedHeader *)wrapper->fatbin;
+		if (!strncmp(hipHdr->magic, kOffloadBundleUncompressedMagicStr,
+			     kOffloadBundleUncompressedMagicStrSize - 1)) {
+			DEBUG_WARN("Found HIP Fatbin, %s\n", hipHdr->magic);
+			fakeHipFatbinParser(hipHdr);
+		} else {
+			fakeCudaFatbinParser((struct fatBinaryHeader *)wrapper->fatbin);
+		}
 
 		/* For next */
 		wrapper++;
