@@ -10,32 +10,41 @@
 #include "cuda_helpers.h"
 #endif
 
-__device__ void device1(int id)
+__device__ void kernel_device1(int id)
 {
 	printf("1 %d\n", id);
 }
 
-__device__ void device2(int id)
+__device__ void kernel_device2(int id)
 {
 	printf("2 %d\n", id);
 }
 
-__global__ void foo(int count)
+__device__ void kernel_device3(int id)
+{
+	printf("2 %d\n", id);
+}
+
+__global__ void kernel_foo(int count)
 {
 	int id = threadIdx.x + blockDim.x * blockIdx.x;
 	if (id >= count)
 		return;
 
-	device1(id);
+	kernel_device1(id);
 
 #ifdef __HPCC__
 	cudaDeviceSynchronize();
 #endif
 
-	device2(id);
+	kernel_device2(id);
+	kernel_device3(id);
 
 	__syncthreads();
 }
+
+__global__ void kernel_bar(int count)
+{}
 
 int main(void)
 {
@@ -43,7 +52,8 @@ int main(void)
 
 	gpu_init(0);
 
-	foo<<<(count + 511) / 512, 512>>>(count);
+	kernel_foo<<<(count + 511) / 512, 512>>>(count);
+	kernel_bar<<<(count + 511) / 512, 512>>>(count);
 
 	/* flush printf */
 	cudaDeviceSynchronize();

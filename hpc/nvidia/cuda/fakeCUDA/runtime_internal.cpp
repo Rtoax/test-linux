@@ -3,6 +3,7 @@
 /**
  * Refs:
  * - https://github.com/ROCm/rocm-systems.git
+ * - https://docs.nvidia.com/cuda/cuda-binary-utilities/index.html
  */
 #include "runtime.hpp"
 #include "utils.hpp"
@@ -11,6 +12,13 @@
 static unsigned __hipFatMAGIC2 = 0x48495046;	// "HIPF"
 static unsigned __cudaFatMAGIC2 = 0x466243b1;
 static unsigned __hcFatMAGIC2 = 0x48504343;	// "HPCC"
+
+/**
+ * /usr/local/cuda-13.0/targets/x86_64-linux/include/fatbinary_section.h
+ */
+#define FATBINC_MAGIC   0x466243B1
+#define FATBINC_VERSION 1
+#define FATBINC_LINK_VERSION 2
 
 /**
  * /usr/local/cuda-13.0/targets/x86_64-linux/include/driver_types.h
@@ -22,13 +30,27 @@ struct CUkern_st {
 /**
  * https://github.com/ROCm/rocm-systems.git
  * clr/hipamd/src/hip_platform.cpp
+ *
+ * /usr/local/cuda-13.0/targets/x86_64-linux/include/fatbinary_section.h
  */
 struct __CudaFatBinaryWrapper {
 	unsigned int magic;
 	unsigned int version;
-	void *binary;
+	void *fatbin;
 	void *dummy1;
-};
+} __attribute__((__packed__));
+
+/**
+ * https://docs.nvidia.com/cuda/cuda-binary-utilities/index.html
+ * https://github.com/n-eiling/cuda-fatbin-decompression/blob/master/fatbin-decompress.h
+ */
+struct fatBinaryHeader {
+	uint32_t magic;
+	uint16_t version;
+	uint16_t header_size;
+	uint64_t data_size;
+} __attribute__((__packed__));
+
 
 /**
  * - https://github.com/ROCm/rocm-systems.git
@@ -37,25 +59,30 @@ struct __CudaFatBinaryWrapper {
 void **__cudaRegisterFatBinary(void *fatCubin)
 {
 	struct __CudaFatBinaryWrapper *wrapper = (struct __CudaFatBinaryWrapper *)fatCubin;
-	LOG_DEBUG("fatCubin %p, magic 0x%x(%c%c%c%c), version %d, binary %p\n",
+	LOG_DEBUG("fatCubin %p, magic 0x%x(%c%c%c%c), version %d, fatbin %p\n",
 		  fatCubin, wrapper->magic,
 		  (wrapper->magic >> 24) & 0xff,
 		  (wrapper->magic >> 16) & 0xff,
 		  (wrapper->magic >> 8) & 0xff,
 		  wrapper->magic & 0xff,
-		  wrapper->version, wrapper->binary,
+		  wrapper->version, wrapper->fatbin,
 		  wrapper->dummy1);
 
 	if ((wrapper->magic != __cudaFatMAGIC2 &&
 	     wrapper->magic != __hipFatMAGIC2 &&
 	     wrapper->magic != __hcFatMAGIC2) ||
-	    wrapper->version != 1) {
+	    wrapper->version != FATBINC_VERSION) {
 		LOG_ERROR("Cannot Register fat binary. FatMagic: %u version: %u\n",
 			  wrapper->magic, wrapper->version);
 	}
 
 	debug_memdump(wrapper, sizeof(struct __CudaFatBinaryWrapper));
-	debug_memdump(wrapper->binary, 55);
+	debug_memdump(wrapper->fatbin, 128);
+
+	struct fatBinaryHeader *fatBinHdr = (struct fatBinaryHeader *)wrapper->fatbin;
+	LOG_DEBUG("fatbin: magic %x, version %d, header_size %d, data_size %d\n",
+		  fatBinHdr->magic, fatBinHdr->version, fatBinHdr->header_size,
+		  fatBinHdr->data_size);
 
 	return NULL;
 }
@@ -83,6 +110,7 @@ void __cudaRegisterFunction(void **fatCubinHandle, const char *hostFun,
 {
 	LOG_DEBUG("hostFun %p, deviceFun %p, deviceName %s, thread_limit %d\n",
 		  hostFun, deviceFun, deviceName, thread_limit);
+	debug_memdump(hostFun, 128);
 }
 
 void __cudaRegisterVar(void **fatCubinHandle, char *hostVar,
