@@ -718,6 +718,13 @@
 
 #define cublasLtMatrixLayoutAttribute_t	__cu(blasLtMatrixLayoutAttribute_t)
 
+/**
+ * cublasStatus_t cublasLtMatrixLayoutGetAttribute(cublasLtMatrixLayout_t matLayout,
+ *                                                 cublasLtMatrixLayoutAttribute_t attr,
+ *                                                 void* buf,
+ *                                                 size_t sizeInBytes,
+ *                                                 size_t* sizeWritten);
+ */
 #define cublasLtMatrixLayoutGetAttribute(matLayout, attr, buf, sizeInBytes, sizeWritten) \
 	__cu(blasLtMatrixLayoutGetAttribute(matLayout, attr, buf, sizeInBytes, sizeWritten))
 

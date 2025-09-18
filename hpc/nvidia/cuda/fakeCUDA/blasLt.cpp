@@ -61,6 +61,15 @@ cublasStatus_t cublasLtMatrixLayoutDestroy(cublasLtMatrixLayout_t matLayout)
 	return CUBLAS_STATUS_SUCCESS;
 }
 
+cublasStatus_t cublasLtMatrixLayoutGetAttribute(cublasLtMatrixLayout_t matLayout,
+						cublasLtMatrixLayoutAttribute_t attr,
+						void* buf,
+						size_t sizeInBytes,
+						size_t* sizeWritten)
+{
+	return CUBLAS_STATUS_SUCCESS;
+}
+
 cublasStatus_t cublasLtMatmulPreferenceCreate(cublasLtMatmulPreference_t *pref)
 {
 	return CUBLAS_STATUS_SUCCESS;
