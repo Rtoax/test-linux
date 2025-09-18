@@ -12,7 +12,7 @@ and this project adheres to
 #### Breaking Changes
 #### Added
 - targets/nvidia.mk: add .nv_fatbin and .nvFatBinSegment targets;
-- fakeCUDA: add fatbin.hpp, fatbin.cpp;
+- fakeCUDA: add fatbin.hpp, fatbin.cpp, fatbin-hip.hpp;
 - fakeCUDA: add runtime.hpp;
 - fakeCUDA: add utils.cpp;
 #### Changed

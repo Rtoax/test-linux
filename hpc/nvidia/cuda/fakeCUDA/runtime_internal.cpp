@@ -31,7 +31,6 @@ struct CUkern_st {
 void **__cudaRegisterFatBinary(void *fatCubin)
 {
 	struct __CudaFatBinaryWrapper *wrapper;
-	struct fatBinaryHeader *fatBinHdr;
 
 	wrapper = (struct __CudaFatBinaryWrapper *)fatCubin;
 
@@ -57,8 +56,7 @@ void **__cudaRegisterFatBinary(void *fatCubin)
 
 		debug_memdump(wrapper, sizeof(struct __CudaFatBinaryWrapper));
 
-		fatBinHdr = (struct fatBinaryHeader *)wrapper->fatbin;
-		fatbinParser(fatBinHdr);
+		fatbinParser((struct fatBinaryHeader *)wrapper->fatbin);
 
 		/* For next */
 		wrapper++;

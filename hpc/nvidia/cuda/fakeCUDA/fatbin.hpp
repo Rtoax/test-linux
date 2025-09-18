@@ -5,8 +5,8 @@
  * - https://github.com/ROCm/rocm-systems.git
  * - https://docs.nvidia.com/cuda/cuda-binary-utilities/index.html
  */
+#pragma once
 #include <stdint.h>
-
 
 /**
  * /usr/local/cuda-13.0/targets/x86_64-linux/include/fatbinary_section.h

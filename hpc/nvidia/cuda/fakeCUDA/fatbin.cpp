@@ -5,14 +5,28 @@
  * - https://docs.nvidia.com/cuda/cuda-binary-utilities/index.html
  */
 #include <elf.h>
+#include <string.h>
 #include "utils.hpp"
 #include "fatbin.hpp"
+#include "fatbin-hip.hpp"
 #include "debug.h"
 
 
 void fatbinParser(const struct fatBinaryHeader *fatbin)
 {
 	const struct fatBinaryTextHeader *textHdr;
+	const struct ClangOffloadBundleUncompressedHeader *hipHdr;
+
+	/**
+	 * The Fatbin is HIP like format.
+	 */
+	hipHdr = (struct ClangOffloadBundleUncompressedHeader *)fatbin;
+	if (!strncmp(hipHdr->magic, kOffloadBundleUncompressedMagicStr,
+		     kOffloadBundleUncompressedMagicStrSize - 1)) {
+		DEBUG_WARN("Found HIP Fatbin, %s\n", hipHdr->magic);
+		hipFatbinParser(hipHdr);
+		return;
+	}
 
 	DEBUG_DBG("fatbin: magic %x, version %d, header_size %d, data_size %d\n",
 		  fatbin->magic, fatbin->version, fatbin->header_size,
@@ -52,6 +66,14 @@ void fatbinParser(const struct fatBinaryHeader *fatbin)
 
 	debug_memdump(ehdr, sizeof(*ehdr));
 skip_elf:
+
+	return;
+}
+
+void hipFatbinParser(const struct ClangOffloadBundleUncompressedHeader *offload)
+{
+	DEBUG_DBG("HIP offload: magic %s, numOfCodeObjects %d\n",
+		  offload->magic, offload->numOfCodeObjects);
 
 	return;
 }
