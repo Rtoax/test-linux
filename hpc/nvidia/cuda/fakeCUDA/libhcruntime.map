@@ -33,6 +33,9 @@ libhcruntime.so {
 		hcStreamCreate;
 		hcStreamDestroy;
 		hcStreamSynchronize;
+		hcDeviceDisablePeerAccess;
+		hcDeviceCanAccessPeer;
+		hcDeviceGetP2PAttribute;
 	local:
 		*;
 };
