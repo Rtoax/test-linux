@@ -65,6 +65,7 @@ LDXXFLAGS_SO_libcusparse.so.12 := -Wl,--version-script=libcusparse.map
 include ../../../../template/main.mk
 
 common-objs := ${OUTPUT}common.cpp.so.o
+common-objs += ${OUTPUT}utils.cpp.so.o
 runtime-objs := ${OUTPUT}runtime.cpp.so.o
 runtime-objs += ${OUTPUT}runtime_event.cpp.so.o
 runtime-objs += ${OUTPUT}runtime_memory.cpp.so.o

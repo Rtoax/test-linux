@@ -5,6 +5,7 @@
  * - https://github.com/ROCm/rocm-systems.git
  */
 #include "runtime.hpp"
+#include "utils.hpp"
 
 
 static unsigned __hipFatMAGIC2 = 0x48495046;	// "HIPF"
@@ -52,6 +53,9 @@ void **__cudaRegisterFatBinary(void *fatCubin)
 		LOG_ERROR("Cannot Register fat binary. FatMagic: %u version: %u\n",
 			  wrapper->magic, wrapper->version);
 	}
+
+	if (fakecuda_debug)
+		memdump(wrapper->binary, 64);
 
 	return NULL;
 }
