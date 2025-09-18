@@ -97,6 +97,22 @@ cudaError_t cudaDeviceGetAttribute(int *value, cudaDeviceAttr attr, int device)
 	return (cudaError_t)dev_get_attr(device, attr, value);
 }
 
+cudaError_t cudaDeviceDisablePeerAccess(int peerDevice)
+{
+	return cudaSuccess;
+}
+
+cudaError_t cudaDeviceCanAccessPeer(int *canAccessPeer, int device, int peerDevice)
+{
+	return cudaSuccess;
+}
+ 
+cudaError_t cudaDeviceGetP2PAttribute(int *value, enum cudaDeviceP2PAttr attr,
+				      int srcDevice, int dstDevice)
+{
+	return cudaSuccess;
+}
+
 cudaError_t cudaDeviceSynchronize()
 {
 	return cudaSuccess;

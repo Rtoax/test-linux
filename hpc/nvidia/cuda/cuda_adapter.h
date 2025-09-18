@@ -417,13 +417,23 @@
 #define cudaDevAttrMulticastSupported	__cu(DeviceAttributeMulticastSupported)
 #endif	/* HAVE_HCCL */
 
+/**
+ * cudaError_t cudaDeviceGetP2PAttribute(int *value, enum cudaDeviceP2PAttr attr,
+ *                                       int srcDevice, int dstDevice);
+ */
 #define cudaDeviceGetP2PAttribute(v, attr, src, dst)	__cu(DeviceGetP2PAttribute(v, attr, src, dst))
 #define cudaDevP2PAttrPerformanceRank	__cu(DevP2PAttrPerformanceRank)
 #define cudaDevP2PAttrAccessSupported	__cu(DevP2PAttrAccessSupported)
 #define cudaDevP2PAttrNativeAtomicSupported	__cu(DevP2PAttrNativeAtomicSupported)
 
+/**
+ * cudaError_t cudaDeviceCanAccessPeer(int *canAccessPeer, int device, int peerDevice);
+ */
 #define cudaDeviceCanAccessPeer(can, devfrom, devto) __cu(DeviceCanAccessPeer(can, devfrom, devto))
 #define cudaDeviceEnablePeerAccess(peerdev, flag)	__cu(DeviceEnablePeerAccess(peerdev, flag))
+/**
+ * cudaError_t cudaDeviceDisablePeerAccess(int peerDevice);
+ */
 #define cudaDeviceDisablePeerAccess(dev)	__cu(DeviceDisablePeerAccess(dev))
 
 #define cudaDeviceSynchronize()	__cu(DeviceSynchronize())

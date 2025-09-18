@@ -17,6 +17,9 @@ libcudart.so.13 {
 		cudaGetDeviceCount;
 		cudaGetDeviceProperties;
 		cudaDeviceGetAttribute;
+		cudaDeviceDisablePeerAccess;
+		cudaDeviceCanAccessPeer;
+		cudaDeviceGetP2PAttribute;
 		cudaDeviceSetLimit;
 		cudaDeviceSynchronize;
 		cudaMalloc;
