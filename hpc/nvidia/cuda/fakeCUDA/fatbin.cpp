@@ -12,16 +12,15 @@
 
 void fatbinParser(const struct fatBinaryHeader *fatbin)
 {
-	const struct fatBinaryHeader *fatBinHdr = fatbin;
 	const struct fatBinaryTextHeader *textHdr;
 
 	DEBUG_DBG("fatbin: magic %x, version %d, header_size %d, data_size %d\n",
-		  fatBinHdr->magic, fatBinHdr->version, fatBinHdr->header_size,
-		  fatBinHdr->data_size);
+		  fatbin->magic, fatbin->version, fatbin->header_size,
+		  fatbin->data_size);
 
-	debug_memdump(fatBinHdr, fatBinHdr->header_size);
+	debug_memdump(fatbin, fatbin->header_size);
 
-	textHdr = (struct fatBinaryTextHeader *)((uint8_t *)fatBinHdr + fatBinHdr->header_size);
+	textHdr = (struct fatBinaryTextHeader *)((uint8_t *)fatbin + fatbin->header_size);
 	DEBUG_DBG("textHdr: kind %d, header_size %d, size %ld, "
 		  "compressed_size %d, decompressed_size %d, "
 		  "minor %d, major %d, arch %d, obj_name_offset %d, obj_name_len %d, "
