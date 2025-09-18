@@ -1,6 +1,6 @@
 libhcruntime.so {
 	global:
-		*;
+		hcLaunchKernel;
 	local:
 		*;
 };

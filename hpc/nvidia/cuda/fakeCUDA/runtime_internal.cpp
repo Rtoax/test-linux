@@ -30,8 +30,9 @@
 #define __cudaUnregisterFatBinary	__hcUnregisterFatBinary
 #endif
 
-static unsigned __hipFatMAGIC2 = 0x48495046;  // "HIPF"
+static unsigned __hipFatMAGIC2 = 0x48495046;	// "HIPF"
 static unsigned __cudaFatMAGIC2 = 0x466243b1;
+static unsigned __hcFatMAGIC2 = 0x48504343;	// "HPCC"
 
 /**
  * /usr/local/cuda-13.0/targets/x86_64-linux/include/driver_types.h
@@ -70,7 +71,9 @@ void **__cudaRegisterFatBinary(void *fatCubin)
 		  wrapper->version, wrapper->binary,
 		  wrapper->dummy1);
 
-	if ((wrapper->magic != __cudaFatMAGIC2 && wrapper->magic != __hipFatMAGIC2) ||
+	if ((wrapper->magic != __cudaFatMAGIC2 &&
+	     wrapper->magic != __hipFatMAGIC2 &&
+	     wrapper->magic != __hcFatMAGIC2) ||
 	    wrapper->version != 1) {
 		LOG_ERROR("Cannot Register fat binary. FatMagic: %u version: %u\n",
 			  wrapper->magic, wrapper->version);

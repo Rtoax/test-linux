@@ -103,6 +103,15 @@
 #define cudaEventSynchronize(ev)	__cu(EventSynchronize(ev))
 
 /**
+ * cudaError_t cudaLaunchKernel(const void *func, dim3 gridDim, dim3 blockDim,
+ *                              void **args, size_t sharedMem, cudaStream_t stream);
+ * hcError_t hcLaunchKernel(const void *function_address, dim3 numBlocks, dim3 dimBlocks,
+ *                          void **args, size_t sharedMemBytes), hcStream_t stream);
+ */
+#define cudaLaunchKernel(func, g, b, args, mem, stream) \
+	__cu(LaunchKernel(func, g, b, args, mem, stream))
+
+/**
  * HPCC 3.0.0:
  * hcError_t hcLaunchCooperativeKernel(const void *f, dim3 gridDim, dim3 blockDim,
  *                                     void **kernelParams, unsigned int sharedMemBytes,
