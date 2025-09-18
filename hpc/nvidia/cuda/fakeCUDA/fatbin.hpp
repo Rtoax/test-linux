@@ -27,7 +27,7 @@ struct __CudaFatBinaryWrapper {
 	unsigned int version;
 	void *fatbin;
 	void *dummy1;
-} __attribute__((__packed__));
+};
 
 /**
  * https://docs.nvidia.com/cuda/cuda-binary-utilities/index.html
@@ -38,7 +38,7 @@ struct fatBinaryHeader {
 	uint16_t version;
 	uint16_t header_size;
 	uint64_t data_size;
-} __attribute__((__packed__));
+};
 
 /**
  * https://github.com/n-eiling/cuda-fatbin-decompression/blob/master/fatbin-decompress.h
@@ -63,7 +63,7 @@ struct fatBinaryTextHeader {
 	 * There is an uncompressed footer so this is generally smaller
 	 * than size. */
 	uint64_t decompressed_size;
-} __attribute__((__packed__));
+};
 
 
 void fatbinParser(const struct fatBinaryHeader *fatbin);
