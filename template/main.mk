@@ -4,6 +4,7 @@ _MAIN = 1
 
 CC ?= gcc
 CXX ?= g++
+OBJCOPY ?= objcopy
 Q ?= @
 SHELL := bash
 

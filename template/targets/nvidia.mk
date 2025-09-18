@@ -70,6 +70,14 @@ ${OUTPUT}%.fatbin: %.cu | ${OUTPUT}
 	$(call log_tgt_obj,FATBIN,$(<),$(@))
 	${Q}$(NVCC) -o $(@) -c $(<) $(cflags-nvcc-fatbin) $(CFLAGS_NVCC) $(CFLAGS_NVCC_$(*))
 
+${OUTPUT}%.nv_fatbin: % | ${OUTPUT}
+	$(call log_tgt_obj,NV FATBIN,$(<),$(@))
+	${Q}$(OBJCOPY) -O binary --only-section=.nv_fatbin $(<) $(@)
+
+${OUTPUT}%.nvFatBinSegment: % | ${OUTPUT}
+	$(call log_tgt_obj,NV FATBIN SEG,$(<),$(@))
+	${Q}$(OBJCOPY) -O binary --only-section=.nvFatBinSegment $(<) $(@)
+
 ${OUTPUT}%.sass.dump: ${OUTPUT}%.cu.o | ${OUTPUT}
 	$(call log_tgt_obj,NV SASS,$(<),$(@))
 	${Q}${CUOBJDUMP} --dump-sass $(<) > ${@}
