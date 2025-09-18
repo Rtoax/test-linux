@@ -36,4 +36,4 @@ struct ClangOffloadBundleCompressedHeader {
 };
 
 
-void hipFatbinParser(const struct ClangOffloadBundleUncompressedHeader *offload);
+void fakeHipFatbinParser(const struct ClangOffloadBundleUncompressedHeader *offload);

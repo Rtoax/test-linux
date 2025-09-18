@@ -66,4 +66,4 @@ struct fatBinaryTextHeader {
 };
 
 
-void fatbinParser(const struct fatBinaryHeader *fatbin);
+void fakeCudaFatbinParser(const struct fatBinaryHeader *fatbin);

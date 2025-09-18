@@ -56,7 +56,7 @@ void **__cudaRegisterFatBinary(void *fatCubin)
 
 		debug_memdump(wrapper, sizeof(struct __CudaFatBinaryWrapper));
 
-		fatbinParser((struct fatBinaryHeader *)wrapper->fatbin);
+		fakeCudaFatbinParser((struct fatBinaryHeader *)wrapper->fatbin);
 
 		/* For next */
 		wrapper++;

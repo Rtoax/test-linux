@@ -12,7 +12,7 @@
 #include "debug.h"
 
 
-void fatbinParser(const struct fatBinaryHeader *fatbin)
+void fakeCudaFatbinParser(const struct fatBinaryHeader *fatbin)
 {
 	const struct fatBinaryTextHeader *textHdr;
 	const struct ClangOffloadBundleUncompressedHeader *hipHdr;
@@ -24,7 +24,7 @@ void fatbinParser(const struct fatBinaryHeader *fatbin)
 	if (!strncmp(hipHdr->magic, kOffloadBundleUncompressedMagicStr,
 		     kOffloadBundleUncompressedMagicStrSize - 1)) {
 		DEBUG_WARN("Found HIP Fatbin, %s\n", hipHdr->magic);
-		hipFatbinParser(hipHdr);
+		fakeHipFatbinParser(hipHdr);
 		return;
 	}
 
@@ -70,7 +70,7 @@ skip_elf:
  * https://github.com/ROCm/rocm-systems
  * ROCm/rocm-systems/projects/clr/hipamd/src/hip_comgr_helper.cpp
  */
-void hipFatbinParser(const struct ClangOffloadBundleUncompressedHeader *obheader)
+void fakeHipFatbinParser(const struct ClangOffloadBundleUncompressedHeader *obheader)
 {
 	DEBUG_DBG("HIP obheader: magic %s, numOfCodeObjects %d\n",
 		  obheader->magic, obheader->numOfCodeObjects);
