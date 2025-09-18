@@ -214,6 +214,10 @@ int tracepoint__syscalls__sys_exit_execve(struct syscall_trace_exit *ctx)
 # if defined(SUPPORT_BPF_STRNSTR)
 	should_kill |= bpf_strnstr(pevent->comm, "ls", 3) >= 0;
 # endif
+# if defined(SUPPORT_BPF_STRNLEN)
+	/* $ ./aaaaaaaaaa */
+	should_kill |= bpf_strnlen(pevent->comm, 100) >= 10;
+# endif
 # if defined(SUPPORT_BPF_STRSTR)
 	should_kill |= bpf_strstr(pevent->comm, "openat") >= 0;
 # endif

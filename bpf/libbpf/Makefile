@@ -151,6 +151,10 @@ ifeq ($(call vmlinux_has_sym,bpf_strcasecmp),y)
   CFLAGS_BPF += -DSUPPORT_BPF_STRCASECMP=1
   $(info Found bpf_strcasecmp())
 endif
+ifeq ($(call vmlinux_has_sym,bpf_strnlen),y)
+  CFLAGS_BPF += -DSUPPORT_BPF_STRNLEN=1
+  $(info Found bpf_strnlen())
+endif
 # linux >= v6.15 commit e91370550f1f ("bpf: Add kfuncs for read-only string
 # operations") add string kfunc.
 ifeq ($(call kernel_newer_than,6,16,0),y)
