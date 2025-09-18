@@ -19,6 +19,29 @@
 #include "debug.h"
 #include "types.h"
 
+#ifdef HAVE_HPCC
+#define cublasGetVersion_v2	hcblasGetVersion
+#define cublasCreate_v2	hcblasCreate
+#define cublasDestroy_v2	hcblasDestroy
+#define cublasIsamax_v2	hcblasIsamax
+#define cublasIdamax_v2	hcblasIdamax
+#define cublasIsamin_v2	hcblasIsamin
+#define cublasIdamin_v2	hcblasIdamin
+#define cublasSasum_v2	hcblasSasum
+#define cublasDasum_v2	hcblasDasum
+#define cublasSscal_v2	hcblasSscal
+#define cublasDscal_v2	hcblasDscal
+#define cublasSaxpy_v2	hcblasSaxpy
+#define cublasDaxpy_v2	hcblasDaxpy
+#define cublasScopy_v2	hcblasScopy
+#define cublasDcopy_v2	hcblasDcopy
+#define cublasSdot_v2	hcblasSdot
+#define cublasDdot_v2	hcblasDdot
+#define cublasSnrm2_v2	hcblasSnrm2
+#define cublasDnrm2_v2	hcblasDnrm2
+#define cublasSgemm_v2	hcblasSgemm
+#define cublasDgemm_v2	hcblasDgemm
+#endif
 
 #ifdef __cplusplus
 extern "C" {
