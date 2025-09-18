@@ -10,7 +10,7 @@ get_all_elf() {
 		if [[ ${bin} == $'\x7f'ELF* ]]; then
 			ALL_X_ELFs+=( $f )
 		fi
-	done <<< $(find . -type f -perm -u=x)
+	done <<< $(find . -maxdepth 1 -type f -perm -u=x)
 }
 
 
