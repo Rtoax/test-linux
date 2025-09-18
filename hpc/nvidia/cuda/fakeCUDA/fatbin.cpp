@@ -70,10 +70,29 @@ skip_elf:
 	return;
 }
 
-void hipFatbinParser(const struct ClangOffloadBundleUncompressedHeader *offload)
+/**
+ * https://github.com/ROCm/rocm-systems
+ * ROCm/rocm-systems/projects/clr/hipamd/src/hip_comgr_helper.cpp
+ */
+void hipFatbinParser(const struct ClangOffloadBundleUncompressedHeader *obheader)
 {
-	DEBUG_DBG("HIP offload: magic %s, numOfCodeObjects %d\n",
-		  offload->magic, offload->numOfCodeObjects);
+	DEBUG_DBG("HIP obheader: magic %s, numOfCodeObjects %d\n",
+		  obheader->magic, obheader->numOfCodeObjects);
+
+	const struct ClangOffloadBundleInfo *desc = &obheader->desc[0];
+
+	for (int i = 0; i < obheader->numOfCodeObjects; i++) {
+		DEBUG_DBG("entry %d: offset 0x%lx, size %ld, bundleEntryIdSize %ld\n",
+			  i, desc->offset, desc->size, desc->bundleEntryIdSize);
+
+		/* Getn next desc */
+		desc = (const struct ClangOffloadBundleInfo *)(&desc->bundleEntryId[0] + desc->bundleEntryIdSize);
+
+		const void *image = (const uint8_t *)obheader + desc->offset;
+		const size_t image_size = desc->size;
+
+		DEBUG_DBG("image %p, image_size %ld\n", image, image_size);
+	}
 
 	return;
 }

@@ -8,7 +8,7 @@ struct ClangOffloadBundleInfo {
 	uint64_t size;
 	uint64_t bundleEntryIdSize;
 	const char bundleEntryId[1];
-} __attribute__((__packed__));
+};
 
 /**
  * https://github.com/ROCm/rocm-systems
@@ -20,14 +20,7 @@ struct ClangOffloadBundleUncompressedHeader {
 	const char magic[kOffloadBundleUncompressedMagicStrSize - 1];
 	uint64_t numOfCodeObjects;
 	struct ClangOffloadBundleInfo desc[1];
-	/* some time i'll use this code
-	for (int i = 0; i < offload->numOfCodeObjects; i++) {
-		const struct ClangOffloadBundleInfo *info = &offload->desc[i];
-		DEBUG_DBG("entry %d: offset 0x%lx, size %ld, bundleEntryIdSize %ld\n",
-			  i, info->offset, info->size, info->bundleEntryIdSize);
-	}
-	*/
-} __attribute__((__packed__));
+};
 
 // Clang Offload bundler description & Header in compressed mode.
 struct ClangOffloadBundleCompressedHeader {
@@ -40,7 +33,7 @@ struct ClangOffloadBundleCompressedHeader {
 	uint32_t uncompressedBinarySize;
 	uint64_t Hash;
 	const char compressedBinarydesc[1];
-} __attribute__((__packed__));
+};
 
 
 void hipFatbinParser(const struct ClangOffloadBundleUncompressedHeader *offload);
