@@ -73,6 +73,9 @@ runtime-objs += ${OUTPUT}runtime_internal.cpp.so.o ${OUTPUT}fatbin.cpp.so.o
 runtime-objs += ${OUTPUT}device.cpp.so.o
 
 ${OUTPUT}common.cpp.so.o: debug.h
+${OUTPUT}utils.cpp.so.o: utils.hpp
+${OUTPUT}fatbin.cpp.so.o: fatbin.hpp fatbin-hip.hpp
+${runtime-objs}: runtime.hpp
 
 # HPCC
 libhccompiler.so: ${common-objs} ${runtime-objs}
