@@ -4,10 +4,9 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <ctype.h>
+#include <elf.h>
 #include "utils.hpp"
-
-
-extern bool fakecuda_debug;
+#include "debug.h"
 
 
 void memdump(const void *mem, size_t size)
@@ -73,4 +72,53 @@ void debug_memdump(const void *mem, size_t size)
 	if (!fakecuda_debug)
 		return;
 	memdump(mem, size);
+}
+
+bool elf64_magic(const Elf64_Ehdr *ehdr)
+{
+	if (ehdr->e_ident[EI_MAG0] != ELFMAG0 ||
+	    ehdr->e_ident[EI_MAG1] != ELFMAG1 ||
+	    ehdr->e_ident[EI_MAG2] != ELFMAG2 ||
+	    ehdr->e_ident[EI_MAG3] != ELFMAG3)
+		return false;
+	return true;
+}
+
+static const struct {
+	Elf64_Half	e_machine;
+	const char	*name;
+} string_e_machines[] = {
+	{ EM_CUDA, "NVIDIA CUDA" },
+	{ EM_AMDGPU, "AMDGPU" },
+/**
+ * FIXME: Not found 253 anywhere, just dump from ELF file.
+ */
+#ifndef EM_HPCC_GPU
+#define EM_HPCC_GPU	253
+#endif
+	{ EM_HPCC_GPU, "HPCC GPU" },
+};
+
+static const char *str_e_machine(Elf64_Half machine)
+{
+	for (int i = 0; i < ARRAY_SIZE(string_e_machines); i++)
+		if (string_e_machines[i].e_machine == machine)
+			return string_e_machines[i].name;
+	return "unknown";
+}
+
+void elf64_dump_ehdr(const Elf64_Ehdr *ehdr)
+{
+	DEBUG_DBG("ehdr: ABI version %d, type %ld, machine %s(%ld), version %ld, "
+		  "entry %ld, phoff 0x%lx, "
+		  "shoff 0x%lx, flags 0x%lx, ehsize %ld, phentsize %ld, phnum %ld, "
+		  "shentsize %ld, shnum %ld, shstrndx %ld\n",
+		  ehdr->e_ident[EI_ABIVERSION],
+		  ehdr->e_type,
+		  str_e_machine(ehdr->e_machine), ehdr->e_machine,
+		  ehdr->e_version, ehdr->e_entry,
+		  ehdr->e_phoff, ehdr->e_shoff, ehdr->e_flags, ehdr->e_ehsize,
+		  ehdr->e_phentsize, ehdr->e_phnum,
+		  ehdr->e_shentsize, ehdr->e_shnum,
+		  ehdr->e_shstrndx);
 }

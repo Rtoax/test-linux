@@ -50,19 +50,15 @@ void fatbinParser(const struct fatBinaryHeader *fatbin)
 
 	Elf64_Ehdr *ehdr = (Elf64_Ehdr *)((uint8_t *)textHdr + textHdr->header_size);
 
-	if (ehdr->e_machine != 190) {
+	/**
+	 * Here, we got CUDA machine
+	 */
+	if (ehdr->e_machine != EM_CUDA) {
 		DEBUG_DBG("Fatbin elf is not NVIDIA CUDA architecture\n");
 		goto skip_elf;
 	}
 
-	DEBUG_DBG("ehdr: type %ld, machine %ld, version %ld, entry %ld, phoff 0x%lx, "
-		  "shoff 0x%lx, flags 0x%lx, ehsize %ld, phentsize %ld, phnum %ld, "
-		  "shentsize %ld, shnum %ld, shstrndx %ld\n",
-		  ehdr->e_type, ehdr->e_machine, ehdr->e_version, ehdr->e_entry,
-		  ehdr->e_phoff, ehdr->e_shoff, ehdr->e_flags, ehdr->e_ehsize,
-		  ehdr->e_phentsize, ehdr->e_phnum,
-		  ehdr->e_shentsize, ehdr->e_shnum,
-		  ehdr->e_shstrndx);
+	elf64_dump_ehdr(ehdr);
 
 	debug_memdump(ehdr, sizeof(*ehdr));
 skip_elf:
@@ -92,6 +88,12 @@ void hipFatbinParser(const struct ClangOffloadBundleUncompressedHeader *obheader
 		const size_t image_size = desc->size;
 
 		DEBUG_DBG("image %p, image_size %ld\n", image, image_size);
+
+		if (elf64_magic((const Elf64_Ehdr *)image)) {
+			debug_memdump(image, sizeof(Elf64_Ehdr));
+			elf64_dump_ehdr((Elf64_Ehdr *)image);
+			break;
+		}
 	}
 
 	return;
