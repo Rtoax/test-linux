@@ -8,9 +8,8 @@ CONFIG_CURDIR_KCONFIG := ${CONFIG_KERNEL}
 
 # If don't have kernel config, include default kconfig file.
 ifeq ($(wildcard $(CONFIG_KERNEL)),)
-  ifdef DEBUG
-    $(warning "WARNING: Not found ${CONFIG_KERNEL}, use ${CONFIG_TOPDIR}/kconfig")
-  endif
+  $(warning "WARNING: Not found ${CONFIG_KERNEL}, use ${TOPDIR}/kconfig instead")
+
   CONFIG_KERNEL := ${CONFIG_TOPDIR}/kconfig
 
   # If current directory has kconfig, include it.
