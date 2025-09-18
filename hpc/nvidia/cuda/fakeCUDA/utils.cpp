@@ -9,7 +9,7 @@
 extern bool fakecuda_debug;
 
 
-void memdump(void *mem, size_t size)
+void memdump(const void *mem, size_t size)
 {
 	const int width = 8;
 	int nr_newline = 0;
@@ -30,7 +30,7 @@ void memdump(void *mem, size_t size)
 	}
 }
 
-void debug_memdump(void *mem, size_t size)
+void debug_memdump(const void *mem, size_t size)
 {
 	if (!fakecuda_debug)
 		return;

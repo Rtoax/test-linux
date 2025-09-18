@@ -3,5 +3,5 @@
 #include <sys/types.h>
 
 
-void memdump(void *mem, size_t size);
-void debug_memdump(void *mem, size_t size);
+void memdump(const void *mem, size_t size);
+void debug_memdump(const void *mem, size_t size);

@@ -129,7 +129,8 @@ unsigned __cudaPushCallConfiguration(dim3 gridDim, dim3 blockDim,
 
 cudaError_t __cudaGetKernel(cudaKernel_t *kernel, const void *v)
 {
-	LOG_DEBUG("\n");
+	LOG_DEBUG("kernel %p, v %p\n", kernel, v);
+	debug_memdump(v, 64);
 	return cudaSuccess;
 }
 
