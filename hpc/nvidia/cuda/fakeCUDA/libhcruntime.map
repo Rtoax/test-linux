@@ -1,5 +1,6 @@
 libhcruntime.so {
 	global:
+		__hcRegisterManagedVar;
 		hcDeviceComputeCapability;
 		hcDeviceGet;
 		hcDeviceGetAttribute;
