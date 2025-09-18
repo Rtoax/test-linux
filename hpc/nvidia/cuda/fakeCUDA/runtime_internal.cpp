@@ -7,18 +7,13 @@
  */
 #include "runtime.hpp"
 #include "utils.hpp"
+#include "fatbin.hpp"
 
 
 static unsigned __hipFatMAGIC2 = 0x48495046;	// "HIPF"
-static unsigned __cudaFatMAGIC2 = 0x466243b1;
+static unsigned __cudaFatMAGIC2 = FATBINC_MAGIC;
 static unsigned __hcFatMAGIC2 = 0x48504343;	// "HPCC"
 
-/**
- * /usr/local/cuda-13.0/targets/x86_64-linux/include/fatbinary_section.h
- */
-#define FATBINC_MAGIC   0x466243B1
-#define FATBINC_VERSION 1
-#define FATBINC_LINK_VERSION 2
 
 /**
  * /usr/local/cuda-13.0/targets/x86_64-linux/include/driver_types.h
@@ -26,55 +21,6 @@ static unsigned __hcFatMAGIC2 = 0x48504343;	// "HPCC"
  */
 struct CUkern_st {
 };
-
-/**
- * https://github.com/ROCm/rocm-systems.git
- * clr/hipamd/src/hip_platform.cpp
- *
- * /usr/local/cuda-13.0/targets/x86_64-linux/include/fatbinary_section.h
- */
-struct __CudaFatBinaryWrapper {
-	unsigned int magic;
-	unsigned int version;
-	void *fatbin;
-	void *dummy1;
-} __attribute__((__packed__));
-
-/**
- * https://docs.nvidia.com/cuda/cuda-binary-utilities/index.html
- * https://github.com/n-eiling/cuda-fatbin-decompression/blob/master/fatbin-decompress.h
- */
-struct fatBinaryHeader {
-	uint32_t magic;
-	uint16_t version;
-	uint16_t header_size;
-	uint64_t data_size;
-} __attribute__((__packed__));
-
-/**
- * https://github.com/n-eiling/cuda-fatbin-decompression/blob/master/fatbin-decompress.h
- */
-struct fatBinaryTextHeader {
-	uint16_t kind;
-	uint16_t unknown1;
-	uint32_t header_size;
-	uint64_t size;
-	uint32_t compressed_size;
-	/* Address size for PTX? */
-	uint32_t unknown2;
-	uint16_t minor;
-	uint16_t major;
-	uint32_t arch;
-	uint32_t obj_name_offset;
-	uint32_t obj_name_len;
-	uint64_t flags;
-	/* Alignment for compression? */
-	uint64_t zero;
-	/* Length of compressed data in decompressed representation.
-	 * There is an uncompressed footer so this is generally smaller
-	 * than size. */
-	uint64_t decompressed_size;
-} __attribute__((__packed__));
 
 
 /**
