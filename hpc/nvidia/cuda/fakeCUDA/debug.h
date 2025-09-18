@@ -11,16 +11,20 @@
 # define LOG_DEBUG(fmt...) do {	\
 		if (!fakecuda_debug)	\
 			break;	\
+		fprintf(stderr, "\033[2m");	\
 		fprintf(stderr, "fakeCUDA: DEBUG: [%s:%d] ", __func__, __LINE__);	\
 		fprintf(stderr, fmt);	\
+		fprintf(stderr, "\033[m");	\
 	} while (0)
 #else
 # define LOG_DEBUG(fmt...) do {} while (0)
 #endif
 
 #define LOG_ERROR(fmt...) do {	\
+		fprintf(stderr, "\033[31m");	\
 		fprintf(stderr, "fakeCUDA: ERROR: [%s:%d] ", __func__, __LINE__);	\
 		fprintf(stderr, fmt);	\
+		fprintf(stderr, "\033[m");	\
 	} while (0)
 
 extern bool fakecuda_debug;

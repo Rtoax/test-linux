@@ -72,6 +72,8 @@ runtime-objs += ${OUTPUT}runtime_memory.cpp.so.o
 runtime-objs += ${OUTPUT}runtime_internal.cpp.so.o
 runtime-objs += ${OUTPUT}device.cpp.so.o
 
+${OUTPUT}common.cpp.so.o: debug.h
+
 # HPCC
 libhccompiler.so: ${common-objs} ${runtime-objs}
 libhccl.so: ${common-objs} ${OUTPUT}hccl.cpp.so.o
