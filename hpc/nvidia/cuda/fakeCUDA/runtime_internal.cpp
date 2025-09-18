@@ -54,8 +54,7 @@ void **__cudaRegisterFatBinary(void *fatCubin)
 			  wrapper->magic, wrapper->version);
 	}
 
-	if (fakecuda_debug)
-		memdump(wrapper->binary, 64);
+	debug_memdump(wrapper->binary, 64);
 
 	return NULL;
 }

@@ -4,3 +4,4 @@
 
 
 void memdump(void *mem, size_t size);
+void debug_memdump(void *mem, size_t size);
