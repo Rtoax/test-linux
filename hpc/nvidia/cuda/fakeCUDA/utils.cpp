@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <ctype.h>
+#include <sys/types.h>
 #include <elf.h>
 #include "utils.hpp"
 #include "debug.h"
@@ -72,6 +73,18 @@ void debug_memdump(const void *mem, size_t size)
 	if (!fakecuda_debug)
 		return;
 	memdump(mem, size);
+}
+
+void output_memory_to_file(const char *file, void *mem, size_t size)
+{
+	// TODO
+}
+
+void dump_memory_to_file(const char *file, void *mem, size_t size)
+{
+	if (!fakecuda_dump)
+		return;
+	output_memory_to_file(file, mem, size);
 }
 
 bool elf64_magic(const Elf64_Ehdr *ehdr)

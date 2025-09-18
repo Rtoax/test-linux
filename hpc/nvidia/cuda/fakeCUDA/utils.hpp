@@ -8,5 +8,8 @@
 void memdump(const void *mem, size_t size);
 void debug_memdump(const void *mem, size_t size);
 
+void output_memory_to_file(const char *file, void *mem, size_t size);
+void dump_memory_to_file(const char *file, void *mem, size_t size);
+
 bool elf64_magic(const Elf64_Ehdr *ehdr);
 void elf64_dump_ehdr(const Elf64_Ehdr *ehdr);
