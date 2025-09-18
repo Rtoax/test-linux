@@ -5,6 +5,7 @@
  * - https://github.com/ROCm/rocm-systems.git
  * - https://docs.nvidia.com/cuda/cuda-binary-utilities/index.html
  */
+#include <elf.h>
 #include "runtime.hpp"
 #include "utils.hpp"
 #include "fatbin.hpp"
@@ -72,6 +73,25 @@ void **__cudaRegisterFatBinary(void *fatCubin)
 		  textHdr->flags);
 
 	debug_memdump(textHdr, textHdr->header_size);
+
+	Elf64_Ehdr *ehdr = (Elf64_Ehdr *)((uint8_t *)textHdr + textHdr->header_size);
+
+	if (ehdr->e_machine != 190) {
+		LOG_ERROR("Fatbin elf is not NVIDIA CUDA architecture\n");
+		goto skip_elf;
+	}
+
+	LOG_DEBUG("ehdr: type %ld, machine %ld, version %ld, entry %ld, phoff 0x%lx, "
+		  "shoff 0x%lx, flags 0x%lx, ehsize %ld, phentsize %ld, phnum %ld, "
+		  "shentsize %ld, shnum %ld, shstrndx %ld\n",
+		  ehdr->e_type, ehdr->e_machine, ehdr->e_version, ehdr->e_entry,
+		  ehdr->e_phoff, ehdr->e_shoff, ehdr->e_flags, ehdr->e_ehsize,
+		  ehdr->e_phentsize, ehdr->e_phnum,
+		  ehdr->e_shentsize, ehdr->e_shnum,
+		  ehdr->e_shstrndx);
+
+	debug_memdump(ehdr, sizeof(*ehdr));
+skip_elf:
 
 	return NULL;
 }
