@@ -66,6 +66,21 @@ cudaError_t __cudaLaunchKernel(cudaKernel_t kernel, dim3 gridDim, dim3 blockDim,
 			       void **args, size_t sharedMem,
 			       cudaStream_t stream);
 
+cudaError_t cudaMalloc(void **devPtr, size_t size);
+cudaError_t cudaMallocManaged(void **devPtr, size_t size, unsigned int flags);
+cudaError_t cudaFree(void *devPtr);
+cudaError_t cudaMemAdvise(const void *devPtr, size_t count,
+			  cudaMemoryAdvise advice,
+			  #ifdef HAVE_HPCC
+			  int device
+			  #else
+			  cudaMemLocation location
+			  #endif
+			  );
+cudaError_t cudaMemset(void *devPtr, int value, size_t count);
+cudaError_t cudaMemcpy(void *dst, const void *src, size_t count,
+		       cudaMemcpyKind kind);
+
 cudaError_t cudaSetDevice(int device);
 cudaError_t cudaGetDevice(int *device);
 cudaError_t cudaGetLastError();
