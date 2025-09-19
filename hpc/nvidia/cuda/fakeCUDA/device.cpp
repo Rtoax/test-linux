@@ -36,28 +36,28 @@ struct device {
 		.id = idx,	\
 		.totalGlobalMem = DEV_TOTAL_GLOBAL_MEM,	\
 		.totalConstMem = DEV_TOTAL_CONST_MEM,	\
-		.l2CacheSize = DEV_L22CACHESIZE,	\
-		.globalL1CacheSupported = DEV_globalL1CacheSupported,	\
-		.localL1CacheSupported = DEV_localL1CacheSupported,	\
-		.managedMemory = DEV_managedMemory,	\
-		.ECCEnabled = DEV_ECCEnabled,	\
-		.memoryBusWidth = DEV_memoryBusWidth,	\
-		.multiProcessorCount = DEV_multiProcessorCount,	\
-		.maxThreadsPerMultiProcessor = DEV_maxThreadsPerMultiProcessor,	\
+		.l2CacheSize = DEV_L2CACHESIZE,	\
+		.globalL1CacheSupported = DEV_GLOBALL1CACHESUPPORTED,	\
+		.localL1CacheSupported = DEV_LOCALL1CACHESUPPORTED,	\
+		.managedMemory = DEV_MANAGEDMEMORY,	\
+		.ECCEnabled = DEV_ECCENABLED,	\
+		.memoryBusWidth = DEV_MEMORYBUSWIDTH,	\
+		.multiProcessorCount = DEV_MULTIPROCESSORCOUNT,	\
+		.maxThreadsPerMultiProcessor = DEV_MAXTHREADSPERMULTIPROCESSOR,	\
 		.maxThreadsDim = {	\
-			DEV_maxThreadsDimX,	\
-			DEV_maxThreadsDimY,	\
-			DEV_maxThreadsDimZ,	\
+			DEV_MAXTHREADSDIMX,	\
+			DEV_MAXTHREADSDIMY,	\
+			DEV_MAXTHREADSDIMZ,	\
 		},	\
 		.maxGridSize = {	\
-			DEV_maxGridSizeX,	\
-			DEV_maxGridSizeY,	\
-			DEV_maxGridSizeZ,	\
+			DEV_MAXGRIDSIZEX,	\
+			DEV_MAXGRIDSIZEY,	\
+			DEV_MAXGRIDSIZEZ,	\
 		},	\
-		.clockRate = DEV_clockRate,	\
-		.warpSize = DEV_warpSize,	\
-		.major = DEV_major,	\
-		.minor = DEV_minor,	\
+		.clockRate = DEV_CLOCKRATE,	\
+		.warpSize = DEV_WARPSIZE,	\
+		.major = DEV_MAJOR,	\
+		.minor = DEV_MINOR,	\
 	}
 };
 
