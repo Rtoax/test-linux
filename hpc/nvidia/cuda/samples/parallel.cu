@@ -46,7 +46,9 @@ __global__ void kernel_foo(int count)
 }
 
 __global__ void kernel_bar(int count)
-{}
+{
+	int a = 3;
+}
 
 int main(void)
 {

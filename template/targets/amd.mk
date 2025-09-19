@@ -19,6 +19,14 @@ ${OUTPUT}%.hip.o: %.hip | ${OUTPUT}
 	$(call log_tgt_obj,HIPCC,$(<),$(@))
 	${Q}$(HIPCC) -o $(@) -c $(<) $(CFLAGS_HIPCC) $(CFLAGS_HIPCC_$(*))
 
+${OUTPUT}%.hip_fatbin: % | ${OUTPUT}
+	$(call log_tgt_obj,HIP FATBIN,$(<),$(@))
+	${Q}$(OBJCOPY) -O binary --only-section=.hip_fatbin $(<) $(@)
+
+${OUTPUT}%.hipFatBinSegment: % | ${OUTPUT}
+	$(call log_tgt_obj,HIP FATBIN SEG,$(<),$(@))
+	${Q}$(OBJCOPY) -O binary --only-section=.hipFatBinSegment $(<) $(@)
+
 $(targets-hipcc): %:
 	$(call log_tgt_exe,HIPCC LD,$(<),$(@))
 	${Q}$(HIPCC) -o $(@) $(^) $(LDFLAGS_HIPCC) $(LDFLAGS_HIPCC_$(*))
