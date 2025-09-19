@@ -9,6 +9,7 @@ enum devError_t {
 	devErrorInvalidValue,
 };
 
+
 int devCount(void);
 int devMajor(int device);
 int devMinor(int device);

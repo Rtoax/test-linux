@@ -4,10 +4,11 @@
 #include <stdbool.h>
 #include <string.h>
 
-#include "device.h"
-#include "device-nvidia-h800.h"
 #include "debug.h"
 #include "utils.hpp"
+#include "device.h"
+#include "device-nvidia-h800.h"
+#include "device-mars-x203.h"
 
 
 struct device {
@@ -44,6 +45,14 @@ static struct device all_devices[] = {
 	[5] = DEV_NVIDIA_H800_INITIALIZER(5),
 	[6] = DEV_NVIDIA_H800_INITIALIZER(6),
 	[7] = DEV_NVIDIA_H800_INITIALIZER(7),
+	[8] = DEV_MARS_X203_INITIALIZER(8),
+	[9] = DEV_MARS_X203_INITIALIZER(9),
+	[10] = DEV_MARS_X203_INITIALIZER(10),
+	[11] = DEV_MARS_X203_INITIALIZER(11),
+	[12] = DEV_MARS_X203_INITIALIZER(12),
+	[13] = DEV_MARS_X203_INITIALIZER(13),
+	[14] = DEV_MARS_X203_INITIALIZER(14),
+	[15] = DEV_MARS_X203_INITIALIZER(15),
 };
 
 static struct device *current_device = NULL;
