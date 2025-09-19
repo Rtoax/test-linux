@@ -5,6 +5,10 @@ include ${TEMPLATE_DIR}/../hpc/amd/rocm/rocm.mk
 
 CFLAGS_HIPCC += -DHAVE_HIP=1
 
+ifneq ($(HIPCONFIG),)
+  CFLAGS_HIPCC += $(shell ${HIPCONFIG} --cpp_config)
+endif
+
 ifdef ERROR
   CFLAGS_HIPCC += -DERROR=1
 endif
