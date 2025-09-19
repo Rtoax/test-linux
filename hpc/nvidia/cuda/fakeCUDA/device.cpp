@@ -94,12 +94,12 @@ static void set_default_current_device_lock(void)
 	DEV_UNLOCK();
 }
 
-int dev_count(void)
+int devCount(void)
 {
 	return DEV_COUNT;
 }
 
-int dev_major(int device)
+int devMajor(int device)
 {
 	int major;
 
@@ -112,7 +112,7 @@ int dev_major(int device)
 	return major;
 }
 
-int dev_minor(int device)
+int devMinor(int device)
 {
 	int minor;
 
@@ -125,7 +125,7 @@ int dev_minor(int device)
 	return minor;
 }
 
-int dev_set_current(int device)
+int devSetCurrent(int device)
 {
 	CHECK_DEV(device);
 
@@ -136,7 +136,7 @@ int dev_set_current(int device)
 	return devSuccess;
 }
 
-int dev_get_current(int *device)
+int devGetCurrent(int *device)
 {
 	set_default_current_device_lock();
 
@@ -147,7 +147,7 @@ int dev_get_current(int *device)
 	return devSuccess;
 }
 
-int dev_get_name(int device, char *name, size_t name_len)
+int devGetName(int device, char *name, size_t name_len)
 {
 	CHECK_DEV(device);
 	strncpy(name, DEVICE->name, name_len);
@@ -155,7 +155,7 @@ int dev_get_name(int device, char *name, size_t name_len)
 	return devSuccess;
 }
 
-int dev_get_prop(int device, cudaDeviceProp *prop)
+int devGetProp(int device, cudaDeviceProp *prop)
 {
 	CHECK_DEV(device);
 
@@ -188,7 +188,7 @@ int dev_get_prop(int device, cudaDeviceProp *prop)
 	return devSuccess;
 }
 
-int dev_get_attr(int device, cudaDeviceAttr attr, int *value)
+int devGetAttr(int device, cudaDeviceAttr attr, int *value)
 {
 	CHECK_DEV(device);
 

@@ -9,13 +9,13 @@ enum devError_t {
 	devErrorInvalidValue,
 };
 
-int dev_count(void);
-int dev_major(int device);
-int dev_minor(int device);
+int devCount(void);
+int devMajor(int device);
+int devMinor(int device);
 
-int dev_set_current(int device);
-int dev_get_current(int *device);
+int devSetCurrent(int device);
+int devGetCurrent(int *device);
 
-int dev_get_name(int device, char *name, size_t name_len);
-int dev_get_prop(int device, cudaDeviceProp *prop);
-int dev_get_attr(int device, cudaDeviceAttr attr, int *value);
+int devGetName(int device, char *name, size_t name_len);
+int devGetProp(int device, cudaDeviceProp *prop);
+int devGetAttr(int device, cudaDeviceAttr attr, int *value);

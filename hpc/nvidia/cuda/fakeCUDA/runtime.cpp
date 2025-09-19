@@ -28,12 +28,12 @@ static struct limits limits = {
 cudaError_t cudaSetDevice(int device)
 {
 	DEBUG_DBG("set dev to %d\n", device);
-	return (cudaError_t)dev_set_current(device);
+	return (cudaError_t)devSetCurrent(device);
 }
 
 cudaError_t cudaGetDevice(int *device)
 {
-	return (cudaError_t)dev_get_current(device);
+	return (cudaError_t)devGetCurrent(device);
 }
 
 cudaError_t cudaGetLastError()
@@ -49,7 +49,7 @@ const char *cudaGetErrorString(cudaError_t error)
 
 cudaError_t cudaGetDeviceCount(int *count)
 {
-	*count = dev_count();
+	*count = devCount();
 	return cudaSuccess;
 }
 
@@ -74,13 +74,13 @@ cudaError_t cudaDeviceSetLimit(cudaLimit limit, size_t value)
 
 cudaError_t cudaGetDeviceProperties(cudaDeviceProp *prop, int device)
 {
-	dev_get_name(device, prop->name, sizeof(prop->name));
-	return (cudaError_t)dev_get_prop(device, prop);
+	devGetName(device, prop->name, sizeof(prop->name));
+	return (cudaError_t)devGetProp(device, prop);
 }
 
 cudaError_t cudaDeviceGetAttribute(int *value, cudaDeviceAttr attr, int device)
 {
-	return (cudaError_t)dev_get_attr(device, attr, value);
+	return (cudaError_t)devGetAttr(device, attr, value);
 }
 
 cudaError_t cudaDeviceDisablePeerAccess(int peerDevice)

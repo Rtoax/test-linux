@@ -6,7 +6,7 @@
 
 CUresult cuDeviceGet(CUdevice *device, int ordinal)
 {
-	if (ordinal < 0 || ordinal >= dev_count())
+	if (ordinal < 0 || ordinal >= devCount())
 		return CUDA_ERROR_INVALID_VALUE;
 	/**
 	 * Note: CUdevice/CUdevice_v1 is type of 'int'
@@ -19,11 +19,11 @@ CUresult cuDeviceGet(CUdevice *device, int ordinal)
 
 CUresult cuDeviceComputeCapability(int *major, int *minor, CUdevice dev)
 {
-	if (dev < 0 || dev >= dev_count())
+	if (dev < 0 || dev >= devCount())
 		return CUDA_ERROR_INVALID_VALUE;
 
-	*major = dev_major(dev);
-	*minor = dev_minor(dev);
+	*major = devMajor(dev);
+	*minor = devMinor(dev);
 
 	return CUDA_SUCCESS;
 }
