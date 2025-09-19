@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0
 /* Copyright (c) 2025 Rong Tao */
+#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
@@ -10,12 +11,17 @@
 #include "debug.h"
 
 
+/**
+ * like $ hexdump --canonical $FILE
+ */
 void hexdump(const void *mem, size_t size)
 {
-	const int width = 8;
+	const int width = 16;
 	int nr_newline = 0;
 	int nr_startline = 0;
 	size_t align_size = 0;
+
+	assert(!(width % 8) && "width must align of 8");
 
 	while (align_size < size)
 		align_size += width;
@@ -30,6 +36,9 @@ void hexdump(const void *mem, size_t size)
 
 		uint8_t u8 = *(uint8_t *)((uint8_t *)mem + i);
 		printf("%02x%s", u8, newline ? " |" : " ");
+
+		if ((i + 1) % 8 == 0 && !newline)
+			printf(" ");
 
 		/**
 		 * Display memory as character
