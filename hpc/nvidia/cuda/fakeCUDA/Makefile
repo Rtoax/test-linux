@@ -72,20 +72,21 @@ include ../../../../template/main.mk
 
 common-objs := ${OUTPUT}common.cpp.so.o
 common-objs += ${OUTPUT}utils.cpp.so.o
+common-objs += ${OUTPUT}device.cpp.so.o
+
 rt-objs := ${OUTPUT}runtime.cpp.so.o
 rt-objs += ${OUTPUT}runtime_event.cpp.so.o
 rt-objs += ${OUTPUT}runtime_memory.cpp.so.o
 rt-objs += ${OUTPUT}runtime_internal.cpp.so.o ${OUTPUT}fatbin.cpp.so.o
-rt-objs += ${OUTPUT}device.cpp.so.o
 
 rt-hpcc-objs := ${OUTPUT}runtime-hpcc.cpp.so.o
 rt-hpcc-objs += ${OUTPUT}runtime_event-hpcc.cpp.so.o
 rt-hpcc-objs += ${OUTPUT}runtime_memory-hpcc.cpp.so.o
 rt-hpcc-objs += ${OUTPUT}runtime_internal-hpcc.cpp.so.o ${OUTPUT}fatbin.cpp.so.o
-rt-hpcc-objs += ${OUTPUT}device.cpp.so.o
 
 ${rt-objs}: runtime.hpp
-${rt-hpcc-objs}: runtime.hpp
+${rt-hpcc-objs}: runtime.hpp compat.hpp
+
 ${OUTPUT}common.cpp.so.o: debug.h
 ${OUTPUT}utils.cpp.so.o: utils.hpp
 ${OUTPUT}fatbin.cpp.so.o: fatbin.hpp fatbin-hip.hpp
@@ -117,7 +118,7 @@ libhcrand.so: ${common-objs} ${OUTPUT}rand-hpcc.cpp.so.o
 libhcsparse.so: ${common-objs} ${OUTPUT}sparse-hpcc.cpp.so.o
 
 # CUDA
-libcuda.so.1: ${common-objs} ${OUTPUT}cuda.cpp.so.o ${OUTPUT}cuda-module-mgmt.cpp.so.o ${OUTPUT}device.cpp.so.o
+libcuda.so.1: ${common-objs} ${OUTPUT}cuda.cpp.so.o ${OUTPUT}cuda-module-mgmt.cpp.so.o
 libcudart.so.13: ${common-objs} ${rt-objs}
 libcublas.so.13: ${common-objs} ${OUTPUT}blas.cpp.so.o
 libcublasLt.so.13: ${common-objs} ${OUTPUT}blasLt.cpp.so.o
