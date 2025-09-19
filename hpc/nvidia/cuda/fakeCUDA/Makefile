@@ -82,7 +82,7 @@ rt-hpcc-objs := ${OUTPUT}runtime-hpcc.cpp.so.o
 rt-hpcc-objs += ${OUTPUT}runtime_event-hpcc.cpp.so.o
 rt-hpcc-objs += ${OUTPUT}runtime_memory-hpcc.cpp.so.o
 rt-hpcc-objs += ${OUTPUT}runtime_internal-hpcc.cpp.so.o ${OUTPUT}fatbin.cpp.so.o
-rt-hpcc-objs += ${OUTPUT}device-hpcc.cpp.so.o
+rt-hpcc-objs += ${OUTPUT}device.cpp.so.o
 
 ${rt-objs}: runtime.hpp
 ${rt-hpcc-objs}: runtime.hpp
@@ -105,7 +105,6 @@ ${OUTPUT}cuda-hpcc.cpp.so.o: cuda.hpp cuda.cpp
 ${OUTPUT}cuda-module-mgmt.cpp.so.o: cuda.hpp
 ${OUTPUT}cuda-module-mgmt-hpcc.cpp.so.o: cuda.hpp cuda-module-mgmt.cpp
 ${OUTPUT}device.cpp.so.o: device.h
-${OUTPUT}device-hpcc.cpp.so.o: device.h device.cpp
 
 # HPCC
 libhccompiler.so: ${common-objs} ${rt-hpcc-objs}
