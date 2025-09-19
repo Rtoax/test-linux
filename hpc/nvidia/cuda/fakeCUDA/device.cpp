@@ -7,9 +7,8 @@
 #include "device.h"
 #include "device-nvidia-h800.h"
 #include "debug.h"
+#include "utils.hpp"
 
-
-#define DEV_COUNT	8
 
 struct device {
 	char name[64];
@@ -65,7 +64,7 @@ static pthread_mutex_t mutex_dev = PTHREAD_MUTEX_INITIALIZER;
 #define DEV_LOCK()	pthread_mutex_lock(&mutex_dev)
 #define DEV_UNLOCK()	pthread_mutex_unlock(&mutex_dev)
 
-static struct device all_devices[DEV_COUNT] = {
+static struct device all_devices[] = {
 	[0] = DEV_INITIALIZER(0),
 	[1] = DEV_INITIALIZER(1),
 	[2] = DEV_INITIALIZER(2),
@@ -79,7 +78,7 @@ static struct device all_devices[DEV_COUNT] = {
 static struct device *current_device = NULL;
 
 #define CHECK_DEV(device)	\
-	if (device < 0 || device >= DEV_COUNT) {	\
+	if (device < 0 || device >= ARRAY_SIZE(all_devices)) {	\
 		fprintf(stderr, "ERROR: bad device id %d\n", device);	\
 		return devErrorInvalidValue;	\
 	}	\
@@ -98,7 +97,7 @@ static void set_default_current_device_lock(void)
 
 int devCount(void)
 {
-	return DEV_COUNT;
+	return ARRAY_SIZE(all_devices);
 }
 
 int devMajor(int device)
