@@ -4,23 +4,27 @@ OUTPUT = .output/
 include ../cuda.mk
 include ../../../metax/hpcc.mk
 
+libso-hpcc := libhccompiler.so
+libso-hpcc += libhccl.so
+libso-hpcc += libhcruntime.so
+libso-hpcc += libhcblas.so
+libso-hpcc += libhcblasLt.so
+libso-hpcc += libhcfft.so
+libso-hpcc += libhcrand.so
+libso-hpcc += libhcsparse.so
+libso-cuda := libcuda.so.1
+libso-cuda += libcudart.so.13
+libso-cuda += libcublas.so.13
+libso-cuda += libcublasLt.so.13
+libso-cuda += libcufft.so.12
+libso-cuda += libcurand.so.10
+libso-cuda += libcusparse.so.12
+
+ifdef HAVE_CUDA
+  targets-libso-cpp += ${libso-cuda}
+endif
 ifdef HAVE_HPCC
-  targets-libso-cpp := libhccompiler.so
-  targets-libso-cpp += libhccl.so
-  targets-libso-cpp += libhcruntime.so
-  targets-libso-cpp += libhcblas.so
-  targets-libso-cpp += libhcblasLt.so
-  targets-libso-cpp += libhcfft.so
-  targets-libso-cpp += libhcrand.so
-  targets-libso-cpp += libhcsparse.so
-else ifdef HAVE_CUDA
-  targets-libso-cpp := libcuda.so.1
-  targets-libso-cpp += libcudart.so.13
-  targets-libso-cpp += libcublas.so.13
-  targets-libso-cpp += libcublasLt.so.13
-  targets-libso-cpp += libcufft.so.12
-  targets-libso-cpp += libcurand.so.10
-  targets-libso-cpp += libcusparse.so.12
+  targets-libso-cpp += ${libso-hpcc}
 endif
 
 ifdef HAVE_HPCC
@@ -33,9 +37,11 @@ ifdef HAVE_HPCC
   CXXFLAGS_SO += -I${HPCC_ROOT}/include/hcsparse/
   CXXFLAGS_SO += -DHAVE_HCCL=1
   CXXFLAGS_SO += -DHAVE_HPCC=1
-else ifdef HAVE_CUDA
+endif
+
+ifdef HAVE_CUDA
   $(info HAVE_CUDA)
-  CXXFLAGS_SO := -I/usr/local/cuda/include/
+  CXXFLAGS_SO += -I/usr/local/cuda/include/
   CXXFLAGS_SO += -DCUDA_VERSION_MAJOR=${CUDA_VERSION_MAJOR}
   CXXFLAGS_SO += -DCUDA_VERSION_MINOR=${CUDA_VERSION_MINOR}
   CXXFLAGS_SO += -DCUDA_VERSION_PATCH=${CUDA_VERSION_PATCH}
@@ -66,38 +72,52 @@ include ../../../../template/main.mk
 
 common-objs := ${OUTPUT}common.cpp.so.o
 common-objs += ${OUTPUT}utils.cpp.so.o
-runtime-objs := ${OUTPUT}runtime.cpp.so.o
-runtime-objs += ${OUTPUT}runtime_event.cpp.so.o
-runtime-objs += ${OUTPUT}runtime_memory.cpp.so.o
-runtime-objs += ${OUTPUT}runtime_internal.cpp.so.o ${OUTPUT}fatbin.cpp.so.o
-runtime-objs += ${OUTPUT}device.cpp.so.o
+rt-objs := ${OUTPUT}runtime.cpp.so.o
+rt-objs += ${OUTPUT}runtime_event.cpp.so.o
+rt-objs += ${OUTPUT}runtime_memory.cpp.so.o
+rt-objs += ${OUTPUT}runtime_internal.cpp.so.o ${OUTPUT}fatbin.cpp.so.o
+rt-objs += ${OUTPUT}device.cpp.so.o
 
+rt-hpcc-objs := ${OUTPUT}runtime-hpcc.cpp.so.o
+rt-hpcc-objs += ${OUTPUT}runtime_event-hpcc.cpp.so.o
+rt-hpcc-objs += ${OUTPUT}runtime_memory-hpcc.cpp.so.o
+rt-hpcc-objs += ${OUTPUT}runtime_internal-hpcc.cpp.so.o ${OUTPUT}fatbin.cpp.so.o
+rt-hpcc-objs += ${OUTPUT}device-hpcc.cpp.so.o
+
+${rt-objs}: runtime.hpp
+${rt-hpcc-objs}: runtime.hpp
 ${OUTPUT}common.cpp.so.o: debug.h
 ${OUTPUT}utils.cpp.so.o: utils.hpp
 ${OUTPUT}fatbin.cpp.so.o: fatbin.hpp fatbin-hip.hpp
-${runtime-objs}: runtime.hpp
 ${OUTPUT}fft.cpp.so.o: fft.hpp
+${OUTPUT}fft-hpcc.cpp.so.o: fft.hpp
 ${OUTPUT}blas.cpp.so.o: blas.hpp
+${OUTPUT}blas-hpcc.cpp.so.o: blas.hpp
 ${OUTPUT}blasLt.cpp.so.o: blasLt.hpp
+${OUTPUT}blasLt-hpcc.cpp.so.o: blasLt.hpp
 ${OUTPUT}sparse.cpp.so.o: sparse.hpp
+${OUTPUT}sparse-hpcc.cpp.so.o: sparse.hpp
 ${OUTPUT}rand.cpp.so.o: rand.hpp
+${OUTPUT}rand-hpcc.cpp.so.o: rand.hpp
 ${OUTPUT}hccl.cpp.so.o: hccl.hpp
 ${OUTPUT}cuda.cpp.so.o: cuda.hpp
+${OUTPUT}cuda-hpcc.cpp.so.o: cuda.hpp
 ${OUTPUT}cuda-module-mgmt.cpp.so.o: cuda.hpp
+${OUTPUT}cuda-module-mgmt-hpcc.cpp.so.o: cuda.hpp
 
 # HPCC
-libhccompiler.so: ${common-objs} ${runtime-objs}
+libhccompiler.so: ${common-objs} ${rt-hpcc-objs}
 libhccl.so: ${common-objs} ${OUTPUT}hccl.cpp.so.o
-libhcruntime.so: ${common-objs} ${runtime-objs} ${OUTPUT}cuda.cpp.so.o ${OUTPUT}cuda-module-mgmt.cpp.so.o
-libhcblas.so: ${common-objs} ${OUTPUT}blas.cpp.so.o
-libhcblasLt.so: ${common-objs} ${OUTPUT}blasLt.cpp.so.o
-libhcfft.so: ${common-objs} ${OUTPUT}fft.cpp.so.o
-libhcrand.so: ${common-objs} ${OUTPUT}rand.cpp.so.o
-libhcsparse.so: ${common-objs} ${OUTPUT}sparse.cpp.so.o
+libhcruntime.so: ${common-objs} ${rt-hpcc-objs} ${OUTPUT}cuda-hpcc.cpp.so.o ${OUTPUT}cuda-module-mgmt-hpcc.cpp.so.o
+libhcblas.so: ${common-objs} ${OUTPUT}blas-hpcc.cpp.so.o
+libhcblasLt.so: ${common-objs} ${OUTPUT}blasLt-hpcc.cpp.so.o
+libhcfft.so: ${common-objs} ${OUTPUT}fft-hpcc.cpp.so.o
+libhcrand.so: ${common-objs} ${OUTPUT}rand-hpcc.cpp.so.o
+libhcsparse.so: ${common-objs} ${OUTPUT}sparse-hpcc.cpp.so.o
 
 # CUDA
 libcuda.so.1: ${common-objs} ${OUTPUT}cuda.cpp.so.o ${OUTPUT}cuda-module-mgmt.cpp.so.o ${OUTPUT}device.cpp.so.o
-libcudart.so.13: ${common-objs} ${runtime-objs}
+libcudart.so.13: ${common-objs} ${rt-objs}
 libcublas.so.13: ${common-objs} ${OUTPUT}blas.cpp.so.o
 libcublasLt.so.13: ${common-objs} ${OUTPUT}blasLt.cpp.so.o
 libcufft.so.12: ${common-objs} ${OUTPUT}fft.cpp.so.o

@@ -1,13 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0
 /* Copyright (c) 2025 Rong Tao */
 #pragma once
-#ifdef HAVE_HPCC
-#include <hc_runtime.h>
-#include <cuda_adapter.h>
-#else
-#include <cuda.h>
-#include <cuda_runtime.h>
-#endif
+#include "compat.hpp"
 #include "types.h"
 
 int dev_count(void);

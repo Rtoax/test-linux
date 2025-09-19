@@ -1,0 +1,27 @@
+// SPDX-License-Identifier: GPL-3.0
+/* Copyright (c) 2025 Rong Tao */
+#ifndef __FAKECUDA_COMPAT
+#define __FAKECUDA_COMPAT 1
+
+#ifdef __USE_HPCC__
+#include <hcr/hc_runtime.h>
+#include <hcc/hcc_internal.h>
+#include <hcblas/hcblas.h>
+#include <hcblas/hcblasLt.h>
+#include <hcsparse/hcsparse.h>
+#include <hcrand/hcrand.h>
+#include <hcfft/hcfft.h>
+#include <hpcc_fp16.h>
+#include <cuda_adapter.h>
+#else /* fallback to CUDA */
+#include <cuda.h>
+#include <cuda_runtime.h>
+#include <cublas.h>
+#include <cublasLt.h>
+#include <cufft.h>
+#include <curand.h>
+#define DISABLE_CUSPARSE_DEPRECATED	1
+#include <cusparse.h>
+#endif
+
+#endif /* __FAKECUDA_COMPAT */

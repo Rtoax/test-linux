@@ -2,7 +2,7 @@
 /* Copyright (c) 2025 Rong Tao */
 #pragma once
 
-#ifdef HAVE_HPCC
+#if defined(HAVE_HPCC) && defined(__USE_HPCC__)
 #define CUresult	hcError_t
 typedef enum hcLimit_t hcLimit_t;
 typedef enum cudaDeviceAttr cudaDeviceAttr;

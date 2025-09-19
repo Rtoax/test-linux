@@ -122,7 +122,7 @@ void __cudaRegisterVar(void **fatCubinHandle, char *hostVar,
  * void __hipRegisterManagedVar(void* hipModule, void** pointer, void* init_value,
  *                              const char* name, size_t size, unsigned align);
  */
-#ifdef HAVE_HPCC
+#if defined(HAVE_HPCC) && defined(__USE_HPCC__)
 hcError_t __hcRegisterManagedVar(void *fatCubinHandle, void **hostVarPtrAddress,
 				 void *deviceAddress, const char *deviceName,
 				 size_t size, unsigned int align)

@@ -4,22 +4,14 @@
  * Refs:
  * - https://github.com/ROCm/rocm-systems.git
  */
-#ifdef HAVE_HPCC
-#include <hc_runtime.h>
-#include <hcc/hcc_internal.h>
-#include <cuda_adapter.h>
-#else
-#include <cuda.h>
-#include <cuda_runtime.h>
-#endif
 #include <sys/types.h>
-
+#include "compat.hpp"
 #include "device.h"
 #include "debug.h"
 #include "types.h"
 
 
-#ifdef HAVE_HPCC
+#if defined(HAVE_HPCC) && defined(__USE_HPCC__)
 #define __cudaGetKernel	__hcGetKernel
 #define __cudaLaunchKernel	__hcLaunchKernel
 #define __cudaPopCallConfiguration	__hcPopCallConfiguration
@@ -46,7 +38,7 @@ void __cudaRegisterFunction(void **fatCubinHandle, const char *hostFun,
 void __cudaRegisterVar(void **fatCubinHandle, char *hostVar,
 		       char *deviceAddress, const char *deviceName,
 		       int ext, size_t size, int constant, int global);
-#ifdef HAVE_HPCC
+#if defined(HAVE_HPCC) && defined(__USE_HPCC__)
 hcError_t __hcRegisterManagedVar(void *fatCubinHandle, void **hostVarPtrAddress,
 				 void *deviceAddress, const char *deviceName,
 				 size_t size, unsigned int align);
@@ -71,7 +63,7 @@ cudaError_t cudaMallocManaged(void **devPtr, size_t size, unsigned int flags);
 cudaError_t cudaFree(void *devPtr);
 cudaError_t cudaMemAdvise(const void *devPtr, size_t count,
 			  cudaMemoryAdvise advice,
-			  #ifdef HAVE_HPCC
+			  #if defined(HAVE_HPCC) && defined(__USE_HPCC__)
 			  int device
 			  #else
 			  cudaMemLocation location
@@ -102,7 +94,7 @@ cudaError_t cudaLaunchKernel(const void *func, dim3 gridDim, dim3 blockDim,
 cudaError_t cudaLaunchCooperativeKernel(const void *func,
 					dim3 gridDim, dim3 blockDim,
 					void **args,
-					#ifdef HAVE_HPCC
+					#if defined(HAVE_HPCC) && defined(__USE_HPCC__)
 					unsigned int sharedMem,
 					#else
 					size_t sharedMem,

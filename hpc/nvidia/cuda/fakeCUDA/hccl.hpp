@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0
 /* Copyright (c) 2025 Rong Tao */
 #include <hccl.h>
-#include <hc_runtime.h>
+#include <hcr/hc_runtime.h>
 #include <hcc/hcc_internal.h>
 
 

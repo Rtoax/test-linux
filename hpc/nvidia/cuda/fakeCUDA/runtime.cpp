@@ -129,7 +129,7 @@ cudaError_t cudaLaunchKernel(const void *func, dim3 gridDim, dim3 blockDim,
 cudaError_t cudaLaunchCooperativeKernel(const void *func,
 					dim3 gridDim, dim3 blockDim,
 					void **args,
-					#ifdef HAVE_HPCC
+					#if defined(HAVE_HPCC) && defined(__USE_HPCC__)
 					unsigned int sharedMem,
 					#else
 					size_t sharedMem,

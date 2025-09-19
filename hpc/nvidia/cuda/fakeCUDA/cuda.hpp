@@ -1,21 +1,14 @@
 // SPDX-License-Identifier: GPL-3.0
 /* Copyright (c) 2025 Rong Tao */
-#ifdef HAVE_HPCC
-#include <hc_runtime.h>
-#include <hcc/hcc_internal.h>
-#include <cuda_adapter.h>
-#else
-#include <cuda.h>
-#include <cuda_runtime.h>
-#endif
 #include "device.h"
+#include "compat.hpp"
 
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-#ifdef HAVE_HPCC
+#if defined(HAVE_HPCC) && defined(__USE_HPCC__)
 # define CUresult	hcError_t
 # undef CUDA_ERROR_INVALID_VALUE
 # define CUDA_ERROR_INVALID_VALUE	cudaErrorInvalidValue

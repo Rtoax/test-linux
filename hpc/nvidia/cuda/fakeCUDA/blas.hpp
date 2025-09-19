@@ -3,20 +3,10 @@
 /**
  * https://docs.nvidia.com/cuda/cublas/
  */
-#ifdef HAVE_HPCC
-#include <hc_runtime.h>
-#include <hcc/hcc_internal.h>
-#include <hcblas/hcblas.h>
-#include <hpcc_fp16.h>
-#include <cuda_adapter.h>
-#else
-#include <cuda.h>
-#include <cuda_runtime.h>
-#include <cublas.h>
-#endif
+#include "compat.hpp"
 #include "types.h"
 
-#ifdef HAVE_HPCC
+#if defined(HAVE_HPCC) && defined(__USE_HPCC__)
 #define cublasGetVersion_v2	hcblasGetVersion
 #define cublasCreate_v2	hcblasCreate
 #define cublasDestroy_v2	hcblasDestroy
