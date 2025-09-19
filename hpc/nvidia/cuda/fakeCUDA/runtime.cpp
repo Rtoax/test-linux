@@ -102,7 +102,35 @@ cudaError_t cudaGetDeviceProperties(cudaDeviceProp *prop, int device)
 
 cudaError_t cudaDeviceGetAttribute(int *value, cudaDeviceAttr attr, int device)
 {
-	return (cudaError_t)devGetAttr(device, attr, value);
+	switch (attr) {
+	case cudaDevAttrEccEnabled:
+		*value = devECCEnabled(device);
+		break;
+	case cudaDevAttrManagedMemory:
+		*value = devManagedMemory(device);
+		break;
+	case cudaDevAttrL2CacheSize:
+		*value = devL2CacheSize(device);
+		break;
+	case cudaDevAttrClockRate:
+		*value = devClockRate(device);
+		break;
+	case cudaDevAttrMaxThreadsPerBlock:
+		*value = devMaxThreadsPerBlock(device);
+		break;
+	case cudaDevAttrMaxThreadsPerMultiProcessor:
+		*value = devMaxThreadsPerMultiProcessor(device);
+		break;
+	case cudaDevAttrHostNumaId:
+		*value = 0;	/* TODO */
+		break;
+	case cudaDevAttrWarpSize:
+		*value = devWarpSize(device);
+		break;
+	default:
+		return cudaErrorInvalidValue;
+	}
+	return cudaSuccess;
 }
 
 cudaError_t cudaDeviceDisablePeerAccess(int peerDevice)

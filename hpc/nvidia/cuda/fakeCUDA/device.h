@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: GPL-3.0
 /* Copyright (c) 2025 Rong Tao */
 #pragma once
-#include "compat.hpp"
-#include "types.h"
+#include <sys/types.h>
+
 
 enum devError_t {
 	devSuccess,
@@ -37,4 +37,3 @@ long devClockRate(int device);
 long devWarpSize(int device);
 
 int devGetName(int device, char *name, size_t name_len);
-int devGetAttr(int device, cudaDeviceAttr attr, int *value);
