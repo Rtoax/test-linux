@@ -54,12 +54,45 @@ FakeCUDA
 
 ## FAKECUDA_DEBUG
 
+Enable fakeCUDA debug mode, this mode will enable fakeCUDA console log.
+
 ```bash
 $ FAKECUDA_DEBUG=1 ./fakeCUDA.sh sparse
 ```
 
 ## FAKECUDA_DUMP
 
+Enable fakeCUDA dump mode. This mode will dump some memory to files.
+
 ```bash
 $ FAKECUDA_DUMP=1 ./fakeCUDA.sh sparse
+```
+
+# Example
+
+## CUDA
+
+```c
+#include <stdio.h>
+#include <curand.h>
+
+
+int main(int argc, char *argv[])
+{
+	int version;
+	curandGetVersion(&version);
+	printf("curand version %d\n", version);
+	return 0;
+}
+```
+
+```
+$ nvcc rand.cu -lcurand -o rand
+```
+
+```
+$ ./rand
+curand version 10400
+$ ./fakeCUDA.sh ./rand
+curand version 10
 ```
