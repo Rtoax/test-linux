@@ -17,8 +17,8 @@ FakeCUDA
 ┃  ┌┼──────────────────────────────────────────────────────────────────┐  ┃
 ┃  ││      Nvidia                  AMD                  Huawei         │  ┃
 ┃  ││ ┌────────────────┐     ┌───────────────┐    ┌─────────────────┐  │  ┃
-┃  │└─▶libcublas.so.12 │     │libhipblas.so.1│    │libcannblas.so.x │  │  ┃
-┃  │  │libcublas.so.13 │     │libhipblas.so.2│    │libcannblas.so.y │  │  ┃
+┃  │└─▶libcublas.so.12 │     │libhipblas.so.1│    │libaclblas.so.x  │  │  ┃
+┃  │  │libcublas.so.13 │     │libhipblas.so.2│    │libaclblas.so.y  │  │  ┃
 ┃  │  └────────────────┘     └───────────────┘    └─────────────────┘  │  ┃
 ┃  └───────────────────────────────────────────────────────────────────┘  ┃
 ┃                                                                         ┃

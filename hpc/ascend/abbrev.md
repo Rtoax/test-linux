@@ -1,2 +1,2 @@
-- AscendCL: Ascend Computing Language (Ascend计算语言)
+- ACL/AscendCL: Ascend Computing Language (Ascend计算语言)
 - CANN: Compute Architecture for Neural Networks (神经网络计算架构)
