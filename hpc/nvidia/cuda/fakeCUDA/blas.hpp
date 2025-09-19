@@ -4,7 +4,7 @@
  * https://docs.nvidia.com/cuda/cublas/
  */
 #include "compat.hpp"
-#include "types.h"
+
 
 #if defined(__USE_HPCC__)
 #define cublasGetVersion_v2	hcblasGetVersion

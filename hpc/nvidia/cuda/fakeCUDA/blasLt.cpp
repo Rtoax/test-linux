@@ -4,7 +4,6 @@
 #include <string.h>
 #include "blasLt.hpp"
 #include "debug.h"
-#include "types.h"
 
 
 size_t cublasLtGetVersion()

@@ -104,7 +104,7 @@ ${OUTPUT}cuda.cpp.so.o: cuda.hpp
 ${OUTPUT}cuda-hpcc.cpp.so.o: cuda.hpp cuda.cpp
 ${OUTPUT}cuda-module-mgmt.cpp.so.o: cuda.hpp
 ${OUTPUT}cuda-module-mgmt-hpcc.cpp.so.o: cuda.hpp cuda-module-mgmt.cpp
-${OUTPUT}device.cpp.so.o: device.h
+${OUTPUT}device.cpp.so.o: device.h device-mars-x203.h device-nvidia-h800.h
 
 # HPCC
 libhccompiler.so: ${common-objs} ${rt-hpcc-objs}

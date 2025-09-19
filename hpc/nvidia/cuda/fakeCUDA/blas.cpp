@@ -7,7 +7,6 @@
 #include <string.h>
 #include "blas.hpp"
 #include "debug.h"
-#include "types.h"
 
 
 #if defined(__USE_HPCC__)
