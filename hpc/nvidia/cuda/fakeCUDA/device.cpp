@@ -93,7 +93,7 @@ int dev_major(int device)
 	int major;
 
 	if (device < 0 || device >= DEV_COUNT)
-		return cudaErrorInvalidValue;
+		return devErrorInvalidValue;
 
 	DEV_LOCK();
 	major = all_devices[device].major;
@@ -107,7 +107,7 @@ int dev_minor(int device)
 	int minor;
 
 	if (device < 0 || device >= DEV_COUNT)
-		return cudaErrorInvalidValue;
+		return devErrorInvalidValue;
 
 	DEV_LOCK();
 	minor = all_devices[device].minor;
@@ -119,13 +119,13 @@ int dev_minor(int device)
 int dev_set_current(int device)
 {
 	if (device < 0 || device >= DEV_COUNT)
-		return cudaErrorInvalidValue;
+		return devErrorInvalidValue;
 
 	DEV_LOCK();
 	current_device = &all_devices[device];
 	DEV_UNLOCK();
 
-	return cudaSuccess;
+	return devSuccess;
 }
 
 int dev_get_current(int *device)
@@ -136,13 +136,13 @@ int dev_get_current(int *device)
 	*device = current_device->id;
 	DEV_UNLOCK();
 
-	return cudaSuccess;
+	return devSuccess;
 }
 
 int dev_get_prop(int device, cudaDeviceProp *prop)
 {
 	if (device < 0 || device >= DEV_COUNT)
-		return cudaErrorInvalidValue;
+		return devErrorInvalidValue;
 
 	set_default_current_device_lock();
 
@@ -173,13 +173,13 @@ int dev_get_prop(int device, cudaDeviceProp *prop)
 #undef SET
 	DEV_UNLOCK();
 
-	return cudaSuccess;
+	return devSuccess;
 }
 
 int dev_get_attr(int device, cudaDeviceAttr attr, int *value)
 {
 	if (device < 0 || device >= DEV_COUNT)
-		return cudaErrorInvalidValue;
+		return devErrorInvalidValue;
 
 	DEV_LOCK();
 
@@ -210,10 +210,10 @@ int dev_get_attr(int device, cudaDeviceAttr attr, int *value)
 		break;
 	default:
 		DEV_UNLOCK();
-		return cudaErrorInvalidValue;
+		return devErrorInvalidValue;
 	}
 
 	DEV_UNLOCK();
 
-	return cudaSuccess;
+	return devSuccess;
 }

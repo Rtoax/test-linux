@@ -4,6 +4,11 @@
 #include "compat.hpp"
 #include "types.h"
 
+enum devError_t {
+	devSuccess,
+	devErrorInvalidValue,
+};
+
 int dev_count(void);
 int dev_major(int device);
 int dev_minor(int device);
