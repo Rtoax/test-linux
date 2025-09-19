@@ -2,7 +2,7 @@
 /* Copyright (c) 2025 Rong Tao */
 #pragma once
 
-#if defined(__USE_HPCC__)
+#if defined(__USE_HPCC__) || defined(__USE_HIP__)
 typedef void *cudaKernel_t;
 #endif
 

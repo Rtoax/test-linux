@@ -153,7 +153,11 @@ __cudaPushCallConfiguration(dim3 gridDim, dim3 blockDim, size_t sharedMem,
 		  gridDim.x, gridDim.y, gridDim.z,
 		  blockDim.x, blockDim.y, blockDim.z,
 		  sharedMem);
+#if defined(__USE_HIP__)
+	return cudaSuccess;
+#else
 	return 0;
+#endif
 }
 
 cudaError_t __cudaGetKernel(cudaKernel_t *kernel, const void *v)
@@ -163,7 +167,13 @@ cudaError_t __cudaGetKernel(cudaKernel_t *kernel, const void *v)
 }
 
 cudaError_t __cudaPopCallConfiguration(dim3 *gridDim, dim3 *blockDim,
-				       size_t *sharedMem, void *stream)
+				       size_t *sharedMem,
+				       #if defined(__USE_HIP__)
+				       cudaStream_t *stream
+				       #else
+				       void *stream
+				       #endif
+				      )
 {
 	DEBUG_DBG("\n");
 	return cudaSuccess;

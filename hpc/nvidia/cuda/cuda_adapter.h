@@ -70,9 +70,18 @@
  * hcError_t hcMemAdvise(const void *dev_ptr, size_t count,
  *                       hcMemoryAdvise_t advice,
  *                       int device);
+ *
+ * HIP
+ * hipError_t hipMemAdvise(const void* devPtr, size_t count,
+ *                         hipMemoryAdvise advice,
+ *                         int device);
  */
 #define cudaMemAdvise(ptr, count, advice, location_or_device)	__cu(MemAdvise(ptr, count, advice, location_or_device))
+#ifdef HAVE_HIP
+#define cudaMemoryAdvise	__cu(MemoryAdvise)	/* enum */
+#else
 #define cudaMemoryAdvise	__cu(MemoryAdvise_t)	/* enum */
+#endif
 #define cudaMemAdviseSetReadMostly	__cu(MemAdviseSetReadMostly)
 #define cudaMemAdviseUnsetReadMostly	__cu(MemAdviseUnsetReadMostly)
 #define cudaMemAdviseSetPreferredLocation	__cu(MemAdviseSetPreferredLocation)
@@ -91,8 +100,13 @@
 /**
  * CUDA: typedef __attribute__((device_builtin)) struct CUevent_st *cudaEvent_t;
  * HPCC: typedef struct HCevent_st *hcEvent_t;
+ * HIP: typedef struct ihipEvent_t* hipEvent_t;
  */
+#ifdef HAVE_HIP
+#define CUevent_st	ihipEvent_t
+#else
 #define CUevent_st	__CU(event_st)
+#endif
 #define cudaEvent_t	__cu(Event_t)
 #define cudaEventCreate(pe)	__cu(EventCreate(pe))
 #define cudaEventDestroy(ev)	__cu(EventDestroy(ev))
@@ -265,9 +279,18 @@
 #define cudaDeviceProp	__cu(DeviceProp_t)
 #define cudaGetDeviceProperties(prop, devid)	__cu(GetDeviceProperties(prop, devid))
 
+/**
+ * HIP
+ * hipError_t hipDeviceGetAttribute(int *value, hipDeviceAttribute_t attr,
+ *                                  int dev_id);
+ */
 #define cudaDeviceGetAttribute(pval, attr, dev_id)	__cu(DeviceGetAttribute(pval, attr, dev_id))
-#if defined(HAVE_HCCL)
+#if defined(HAVE_HCCL) || defined(HAVE_HIP)
 /* WARNING: different name */
+/**
+ * CUDA 13.0.0: enum __device_builtin__ cudaDeviceAttr
+ * HIP: typedef enum hipDeviceAttribute_t {} hipDeviceAttribute_t;
+ */
 #define cudaDeviceAttr	__cu(DeviceAttribute_t)
 #define cudaDevAttrMaxThreadsPerBlock	__cu(DeviceAttributeMaxThreadsPerBlock)
 #define cudaDevAttrMaxBlockDimX	__cu(DeviceAttributeMaxBlockDimX)

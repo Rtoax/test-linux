@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- fakeCUDA: support ROCm HIP;
 - fakeCUDA: add libamdhip64.map;
 - targets: add amd.mk;
 - amd: add ROCm samples;

@@ -64,10 +64,16 @@ hipError_t
 unsigned
 #endif
 __cudaPushCallConfiguration(dim3 gridDim, dim3 blockDim, size_t sharedMem,
-			    struct CUstream_st *stream);
+			    cudaStream_t stream);
 cudaError_t __cudaGetKernel(cudaKernel_t *kernel, const void *v);
 cudaError_t __cudaPopCallConfiguration(dim3 *gridDim, dim3 *blockDim,
-				       size_t *sharedMem, void *stream);
+				       size_t *sharedMem,
+				       #if defined(__USE_HIP__)
+				       cudaStream_t *stream
+				       #else
+				       void *stream
+				       #endif
+				      );
 cudaError_t __cudaLaunchKernel(cudaKernel_t kernel, dim3 gridDim, dim3 blockDim,
 			       void **args, size_t sharedMem,
 			       cudaStream_t stream);
@@ -77,7 +83,7 @@ cudaError_t cudaMallocManaged(void **devPtr, size_t size, unsigned int flags);
 cudaError_t cudaFree(void *devPtr);
 cudaError_t cudaMemAdvise(const void *devPtr, size_t count,
 			  cudaMemoryAdvise advice,
-			  #if defined(__USE_HPCC__)
+			  #if defined(__USE_HPCC__) || defined(__USE_HIP__)
 			  int device
 			  #else
 			  cudaMemLocation location
@@ -108,7 +114,7 @@ cudaError_t cudaLaunchKernel(const void *func, dim3 gridDim, dim3 blockDim,
 cudaError_t cudaLaunchCooperativeKernel(const void *func,
 					dim3 gridDim, dim3 blockDim,
 					void **args,
-					#if defined(__USE_HPCC__)
+					#if defined(__USE_HPCC__) || defined(__USE_HIP__)
 					unsigned int sharedMem,
 					#else
 					size_t sharedMem,

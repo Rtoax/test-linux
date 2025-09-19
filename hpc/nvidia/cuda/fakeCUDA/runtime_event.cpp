@@ -8,9 +8,6 @@
 #include "runtime.hpp"
 
 
-/**
- * typedef __attribute__((device_builtin)) struct CUevent_st *cudaEvent_t;
- */
 struct CUevent_st {
 	size_t ns;
 };

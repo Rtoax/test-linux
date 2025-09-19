@@ -7,10 +7,12 @@ struct limits {
 	size_t cudaLimitStackSize;
 	size_t cudaLimitPrintfFifoSize;
 	size_t cudaLimitMallocHeapSize;
+	#ifndef __USE_HIP__
 	size_t cudaLimitDevRuntimeSyncDepth;
 	size_t cudaLimitDevRuntimePendingLaunchCount;
 	size_t cudaLimitMaxL2FetchGranularity;
 	size_t cudaLimitPersistingL2CacheSize;
+	#endif
 };
 
 
@@ -18,10 +20,12 @@ static struct limits limits = {
 	.cudaLimitStackSize = 1024,
 	.cudaLimitPrintfFifoSize = 1024,
 	.cudaLimitMallocHeapSize = 1024,
+	#ifndef __USE_HIP__
 	.cudaLimitDevRuntimeSyncDepth = 1024,
 	.cudaLimitDevRuntimePendingLaunchCount = 1024,
 	.cudaLimitMaxL2FetchGranularity = 1024,
 	.cudaLimitPersistingL2CacheSize = 1024,
+	#endif
 };
 
 
@@ -60,10 +64,12 @@ cudaError_t cudaDeviceSetLimit(cudaLimit limit, size_t value)
 	CASE(cudaLimitStackSize);
 	CASE(cudaLimitPrintfFifoSize);
 	CASE(cudaLimitMallocHeapSize);
+	#ifndef __USE_HIP__
 	CASE(cudaLimitDevRuntimeSyncDepth);
 	CASE(cudaLimitDevRuntimePendingLaunchCount);
 	CASE(cudaLimitMaxL2FetchGranularity);
 	CASE(cudaLimitPersistingL2CacheSize);
+	#endif
 #undef CASE
 	default:
 		return cudaErrorInvalidValue;
@@ -121,9 +127,11 @@ cudaError_t cudaDeviceGetAttribute(int *value, cudaDeviceAttr attr, int device)
 	case cudaDevAttrMaxThreadsPerMultiProcessor:
 		*value = devMaxThreadsPerMultiProcessor(device);
 		break;
+	#ifndef __USE_HIP__
 	case cudaDevAttrHostNumaId:
 		*value = 0;	/* TODO */
 		break;
+	#endif
 	case cudaDevAttrWarpSize:
 		*value = devWarpSize(device);
 		break;
@@ -180,7 +188,7 @@ cudaError_t cudaLaunchKernel(const void *func, dim3 gridDim, dim3 blockDim,
 cudaError_t cudaLaunchCooperativeKernel(const void *func,
 					dim3 gridDim, dim3 blockDim,
 					void **args,
-					#if defined(__USE_HPCC__)
+					#if defined(__USE_HPCC__) || defined(__USE_HIP__)
 					unsigned int sharedMem,
 					#else
 					size_t sharedMem,

@@ -56,6 +56,7 @@ ifdef HAVE_HIP
   $(info HAVE_HIP)
   targets-libso-cpp += ${libso-hip}
 
+  CXXFLAGS_SO += -I.
   CXXFLAGS_SO += -DHAVE_HIP=1
 endif
 
@@ -98,6 +99,9 @@ rt-hpcc-objs += ${OUTPUT}runtime_memory-hpcc.cpp.so.o
 rt-hpcc-objs += ${OUTPUT}runtime_internal-hpcc.cpp.so.o ${OUTPUT}fatbin.cpp.so.o
 
 rt-hip-objs := ${OUTPUT}runtime-hip.cpp.so.o
+rt-hip-objs += ${OUTPUT}runtime_event-hip.cpp.so.o
+rt-hip-objs += ${OUTPUT}runtime_memory-hip.cpp.so.o
+rt-hip-objs += ${OUTPUT}runtime_internal-hip.cpp.so.o ${OUTPUT}fatbin.cpp.so.o
 
 ${rt-objs}: runtime.hpp
 ${rt-hpcc-objs}: runtime.hpp compat.hpp
