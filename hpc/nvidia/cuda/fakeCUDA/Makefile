@@ -12,6 +12,7 @@ libso-hpcc += libhcblasLt.so
 libso-hpcc += libhcfft.so
 libso-hpcc += libhcrand.so
 libso-hpcc += libhcsparse.so
+
 libso-cuda := libcuda.so.1
 libso-cuda += libcudart.so.13
 libso-cuda += libcublas.so.13
@@ -20,27 +21,25 @@ libso-cuda += libcufft.so.12
 libso-cuda += libcurand.so.10
 libso-cuda += libcusparse.so.12
 
-ifdef HAVE_CUDA
-  targets-libso-cpp += ${libso-cuda}
-endif
-ifdef HAVE_HPCC
-  targets-libso-cpp += ${libso-hpcc}
-endif
-
 ifdef HAVE_HPCC
   $(info HAVE_HPCC)
+  targets-libso-cpp += ${libso-hpcc}
+
   # need cuda_adapter.h
   CXXFLAGS_SO += -I../
   CXXFLAGS_SO += -I${HPCC_ROOT}/include/
   CXXFLAGS_SO += -I${HPCC_ROOT}/include/common/
   CXXFLAGS_SO += -I${HPCC_ROOT}/include/hcr/
   CXXFLAGS_SO += -I${HPCC_ROOT}/include/hcsparse/
+
   CXXFLAGS_SO += -DHAVE_HCCL=1
   CXXFLAGS_SO += -DHAVE_HPCC=1
 endif
 
 ifdef HAVE_CUDA
   $(info HAVE_CUDA)
+  targets-libso-cpp += ${libso-cuda}
+
   CXXFLAGS_SO += -I/usr/local/cuda/include/
   CXXFLAGS_SO += -DCUDA_VERSION_MAJOR=${CUDA_VERSION_MAJOR}
   CXXFLAGS_SO += -DCUDA_VERSION_MINOR=${CUDA_VERSION_MINOR}
