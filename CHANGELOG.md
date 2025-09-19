@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- fakeCUDA: add libamdhip64.map;
 - targets: add amd.mk;
 - amd: add ROCm samples;
 - fakeCUDA: add device-mars-x203.h;

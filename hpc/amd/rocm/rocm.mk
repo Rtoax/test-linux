@@ -3,8 +3,11 @@ _ROCm = 1
 
 HIPCC := $(shell which hipcc 2>/dev/null)
 
-HAVE_HIP := 1
-export HIPCC HAVE_HIP
+ifneq ($(HIPCC),)
+  HAVE_HIP := 1
+
+  export HIPCC HAVE_HIP
+endif
 
 ifdef DEBUG
   ifneq (${HIPCC},)

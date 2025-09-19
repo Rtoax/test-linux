@@ -3,6 +3,7 @@ OUTPUT = .output/
 
 include ../cuda.mk
 include ../../../metax/hpcc.mk
+include ../../../amd/rocm/rocm.mk
 
 libso-hpcc := libhccompiler.so
 libso-hpcc += libhccl.so
@@ -20,6 +21,9 @@ libso-cuda += libcublasLt.so.13
 libso-cuda += libcufft.so.12
 libso-cuda += libcurand.so.10
 libso-cuda += libcusparse.so.12
+
+libso-hip := libamdhip64.so.6
+
 
 ifdef HAVE_HPCC
   $(info HAVE_HPCC)
@@ -48,6 +52,13 @@ ifdef HAVE_CUDA
   CXXFLAGS_SO += -DHAVE_CUDA=1
 endif
 
+ifdef HAVE_HIP
+  $(info HAVE_HIP)
+  targets-libso-cpp += ${libso-hip}
+
+  CXXFLAGS_SO += -DHAVE_HIP=1
+endif
+
 # HPCC
 LDXXFLAGS_SO_libhccompiler.so := -Wl,--version-script=libhccompiler.map
 LDXXFLAGS_SO_libhccl.so := -Wl,--version-script=libhccl.map
@@ -66,6 +77,9 @@ LDXXFLAGS_SO_libcublasLt.so.13 := -Wl,--version-script=libcublasLt.map
 LDXXFLAGS_SO_libcurand.so.10 := -Wl,--version-script=libcurand.map
 LDXXFLAGS_SO_libcufft.so.12 := -Wl,--version-script=libcufft.map
 LDXXFLAGS_SO_libcusparse.so.12 := -Wl,--version-script=libcusparse.map
+
+# ROCm HIP
+LDXXFLAGS_SO_libamdhip64.so.6 := -Wl,--version-script=libamdhip64.map
 
 include ../../../../template/main.mk
 
@@ -124,3 +138,6 @@ libcublasLt.so.13: ${common-objs} ${OUTPUT}blasLt.cpp.so.o
 libcufft.so.12: ${common-objs} ${OUTPUT}fft.cpp.so.o
 libcurand.so.10: ${common-objs} ${OUTPUT}rand.cpp.so.o
 libcusparse.so.12: ${common-objs} ${OUTPUT}sparse.cpp.so.o
+
+# ROCm HIP
+libamdhip64.so.6: ${common-objs}
