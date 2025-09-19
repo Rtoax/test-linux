@@ -10,6 +10,7 @@
 #define DEV_localL1CacheSupported	1
 #define DEV_managedMemory	1
 #define DEV_ECCEnabled	1
+#define DEV_memoryBusWidth	4096
 #define DEV_multiProcessorCount	132
 #define DEV_maxThreadsPerMultiProcessor	2048
 #define DEV_maxThreadsPerBlock	1024

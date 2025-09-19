@@ -21,6 +21,7 @@ struct device {
 	bool localL1CacheSupported;
 	bool managedMemory;
 	bool ECCEnabled;
+	size_t memoryBusWidth;
 	size_t multiProcessorCount;
 	size_t maxThreadsPerMultiProcessor;
 	size_t maxThreadsPerBlock;
@@ -40,6 +41,7 @@ struct device {
 		.localL1CacheSupported = DEV_localL1CacheSupported,	\
 		.managedMemory = DEV_managedMemory,	\
 		.ECCEnabled = DEV_ECCEnabled,	\
+		.memoryBusWidth = DEV_memoryBusWidth,	\
 		.multiProcessorCount = DEV_multiProcessorCount,	\
 		.maxThreadsPerMultiProcessor = DEV_maxThreadsPerMultiProcessor,	\
 		.maxThreadsDim = {	\
@@ -155,37 +157,175 @@ int devGetName(int device, char *name, size_t name_len)
 	return devSuccess;
 }
 
-int devGetProp(int device, cudaDeviceProp *prop)
+long devTotalGlobalMem(int device)
 {
 	CHECK_DEV(device);
-
 	DEV_LOCK();
-#define SET(v)	prop->v = current_device->v;
-	SET(totalGlobalMem);
-	SET(totalConstMem);
-	SET(l2CacheSize);
-	SET(globalL1CacheSupported);
-	SET(localL1CacheSupported);
-	SET(managedMemory);
-	//SET(memoryBusWidth);
-	SET(ECCEnabled);
-	SET(multiProcessorCount);
-	SET(maxThreadsPerMultiProcessor);
-	SET(maxThreadsPerBlock);
-	SET(maxThreadsDim[0]);
-	SET(maxThreadsDim[1]);
-	SET(maxThreadsDim[2]);
-	SET(maxGridSize[0]);
-	SET(maxGridSize[1]);
-	SET(maxGridSize[2]);
-	SET(major);
-	SET(minor);
-	//SET(clockRate);
-	SET(warpSize);
-#undef SET
+	long ret = DEVICE->totalGlobalMem;
 	DEV_UNLOCK();
+	return ret;
+}
 
-	return devSuccess;
+long devTotalConstMem(int device)
+{
+	CHECK_DEV(device);
+	DEV_LOCK();
+	long ret = DEVICE->totalConstMem;
+	DEV_UNLOCK();
+	return ret;
+}
+
+long devL2CacheSize(int device)
+{
+	CHECK_DEV(device);
+	DEV_LOCK();
+	long ret = DEVICE->l2CacheSize;
+	DEV_UNLOCK();
+	return ret;
+}
+
+long devGlobalL1CacheSupported(int device)
+{
+	CHECK_DEV(device);
+	DEV_LOCK();
+	long ret = DEVICE->globalL1CacheSupported;
+	DEV_UNLOCK();
+	return ret;
+}
+
+long devLocalL1CacheSupported(int device)
+{
+	CHECK_DEV(device);
+	DEV_LOCK();
+	long ret = DEVICE->localL1CacheSupported;
+	DEV_UNLOCK();
+	return ret;
+}
+
+long devManagedMemory(int device)
+{
+	CHECK_DEV(device);
+	DEV_LOCK();
+	long ret = DEVICE->managedMemory;
+	DEV_UNLOCK();
+	return ret;
+}
+
+long devMemoryBusWidth(int device)
+{
+	CHECK_DEV(device);
+	DEV_LOCK();
+	long ret = DEVICE->memoryBusWidth;
+	DEV_UNLOCK();
+	return ret;
+}
+
+long devECCEnabled(int device)
+{
+	CHECK_DEV(device);
+	DEV_LOCK();
+	long ret = DEVICE->ECCEnabled;
+	DEV_UNLOCK();
+	return ret;
+}
+
+long devMultiProcessorCount(int device)
+{
+	CHECK_DEV(device);
+	DEV_LOCK();
+	long ret = DEVICE->multiProcessorCount;
+	DEV_UNLOCK();
+	return ret;
+}
+
+long devMaxThreadsPerMultiProcessor(int device)
+{
+	CHECK_DEV(device);
+	DEV_LOCK();
+	long ret = DEVICE->maxThreadsPerMultiProcessor;
+	DEV_UNLOCK();
+	return ret;
+}
+
+long devMaxThreadsPerBlock(int device)
+{
+	CHECK_DEV(device);
+	DEV_LOCK();
+	long ret = DEVICE->maxThreadsPerBlock;
+	DEV_UNLOCK();
+	return ret;
+}
+
+long devMaxThreadsDimx(int device)
+{
+	CHECK_DEV(device);
+	DEV_LOCK();
+	long ret = DEVICE->maxThreadsDim[0];
+	DEV_UNLOCK();
+	return ret;
+}
+
+long devMaxThreadsDimy(int device)
+{
+	CHECK_DEV(device);
+	DEV_LOCK();
+	long ret = DEVICE->maxThreadsDim[1];
+	DEV_UNLOCK();
+	return ret;
+}
+
+long devMaxThreadsDimz(int device)
+{
+	CHECK_DEV(device);
+	DEV_LOCK();
+	long ret = DEVICE->maxThreadsDim[2];
+	DEV_UNLOCK();
+	return ret;
+}
+
+long devMaxGridSizex(int device)
+{
+	CHECK_DEV(device);
+	DEV_LOCK();
+	long ret = DEVICE->maxGridSize[0];
+	DEV_UNLOCK();
+	return ret;
+}
+
+long devMaxGridSizey(int device)
+{
+	CHECK_DEV(device);
+	DEV_LOCK();
+	long ret = DEVICE->maxGridSize[1];
+	DEV_UNLOCK();
+	return ret;
+}
+
+long devMaxGridSizez(int device)
+{
+	CHECK_DEV(device);
+	DEV_LOCK();
+	long ret = DEVICE->maxGridSize[2];
+	DEV_UNLOCK();
+	return ret;
+}
+
+long devClockRate(int device)
+{
+	CHECK_DEV(device);
+	DEV_LOCK();
+	long ret = DEVICE->clockRate;
+	DEV_UNLOCK();
+	return ret;
+}
+
+long devWarpSize(int device)
+{
+	CHECK_DEV(device);
+	DEV_LOCK();
+	long ret = DEVICE->warpSize;
+	DEV_UNLOCK();
+	return ret;
 }
 
 int devGetAttr(int device, cudaDeviceAttr attr, int *value)

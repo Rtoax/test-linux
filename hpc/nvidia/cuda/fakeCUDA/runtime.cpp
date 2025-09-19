@@ -75,7 +75,29 @@ cudaError_t cudaDeviceSetLimit(cudaLimit limit, size_t value)
 cudaError_t cudaGetDeviceProperties(cudaDeviceProp *prop, int device)
 {
 	devGetName(device, prop->name, sizeof(prop->name));
-	return (cudaError_t)devGetProp(device, prop);
+	prop->totalGlobalMem = devTotalGlobalMem(device);
+	prop->totalConstMem = devTotalConstMem(device);
+	prop->l2CacheSize = devL2CacheSize(device);
+	prop->globalL1CacheSupported = devGlobalL1CacheSupported(device);
+	prop->localL1CacheSupported = devLocalL1CacheSupported(device);
+	prop->managedMemory = devManagedMemory(device);
+	prop->memoryBusWidth = devMemoryBusWidth(device);
+	prop->ECCEnabled = devECCEnabled(device);
+	prop->multiProcessorCount = devMultiProcessorCount(device);
+	prop->maxThreadsPerMultiProcessor = devMaxThreadsPerMultiProcessor(device);
+	prop->maxThreadsPerBlock = devMaxThreadsPerBlock(device);
+	prop->maxThreadsDim[0] = devMaxThreadsDimx(device);
+	prop->maxThreadsDim[1] = devMaxThreadsDimy(device);
+	prop->maxThreadsDim[2] = devMaxThreadsDimz(device);
+	prop->maxGridSize[0] = devMaxGridSizex(device);
+	prop->maxGridSize[1] = devMaxGridSizey(device);
+	prop->maxGridSize[2] = devMaxGridSizez(device);
+	prop->major = devMajor(device);
+	prop->minor = devMinor(device);
+	//prop->clockRate = devClockRate(device);
+	prop->warpSize = devWarpSize(device);
+
+	return cudaSuccess;
 }
 
 cudaError_t cudaDeviceGetAttribute(int *value, cudaDeviceAttr attr, int device)
