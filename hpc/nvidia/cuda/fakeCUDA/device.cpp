@@ -75,6 +75,12 @@ static struct device all_devices[DEV_COUNT] = {
 
 static struct device *current_device = NULL;
 
+#define CHECK_DEV(device)	\
+	if (device < 0 || device >= DEV_COUNT)	\
+		return devErrorInvalidValue;	\
+	set_default_current_device_lock();	\
+
+
 static void set_default_current_device_lock(void)
 {
 	DEV_LOCK();
@@ -92,8 +98,7 @@ int dev_major(int device)
 {
 	int major;
 
-	if (device < 0 || device >= DEV_COUNT)
-		return devErrorInvalidValue;
+	CHECK_DEV(device);
 
 	DEV_LOCK();
 	major = all_devices[device].major;
@@ -106,8 +111,7 @@ int dev_minor(int device)
 {
 	int minor;
 
-	if (device < 0 || device >= DEV_COUNT)
-		return devErrorInvalidValue;
+	CHECK_DEV(device);
 
 	DEV_LOCK();
 	minor = all_devices[device].minor;
@@ -118,8 +122,7 @@ int dev_minor(int device)
 
 int dev_set_current(int device)
 {
-	if (device < 0 || device >= DEV_COUNT)
-		return devErrorInvalidValue;
+	CHECK_DEV(device);
 
 	DEV_LOCK();
 	current_device = &all_devices[device];
@@ -139,12 +142,16 @@ int dev_get_current(int *device)
 	return devSuccess;
 }
 
+
+int dev_get_name(int device, char *name)
+{
+	CHECK_DEV(device);
+}
+
 int dev_get_prop(int device, cudaDeviceProp *prop)
 {
-	if (device < 0 || device >= DEV_COUNT)
-		return devErrorInvalidValue;
+	CHECK_DEV(device);
 
-	set_default_current_device_lock();
 
 	DEV_LOCK();
 	strncpy(prop->name, current_device->name, sizeof(prop->name));
@@ -178,8 +185,7 @@ int dev_get_prop(int device, cudaDeviceProp *prop)
 
 int dev_get_attr(int device, cudaDeviceAttr attr, int *value)
 {
-	if (device < 0 || device >= DEV_COUNT)
-		return devErrorInvalidValue;
+	CHECK_DEV(device);
 
 	DEV_LOCK();
 
