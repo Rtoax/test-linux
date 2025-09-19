@@ -16,5 +16,6 @@ int dev_minor(int device);
 int dev_set_current(int device);
 int dev_get_current(int *device);
 
+int dev_get_name(int device, char *name, size_t name_len);
 int dev_get_prop(int device, cudaDeviceProp *prop);
 int dev_get_attr(int device, cudaDeviceAttr attr, int *value);

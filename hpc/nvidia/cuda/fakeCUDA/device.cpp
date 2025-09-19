@@ -6,6 +6,7 @@
 
 #include "device.h"
 #include "device-nvidia-h800.h"
+#include "debug.h"
 
 
 #define DEV_COUNT	8
@@ -79,6 +80,8 @@ static struct device *current_device = NULL;
 	if (device < 0 || device >= DEV_COUNT)	\
 		return devErrorInvalidValue;	\
 	set_default_current_device_lock();	\
+	struct device *_____dev = &all_devices[device];
+#define DEVICE	_____dev
 
 
 static void set_default_current_device_lock(void)
@@ -142,19 +145,19 @@ int dev_get_current(int *device)
 	return devSuccess;
 }
 
-
-int dev_get_name(int device, char *name)
+int dev_get_name(int device, char *name, size_t name_len)
 {
 	CHECK_DEV(device);
+	strncpy(name, DEVICE->name, name_len);
+	DEBUG_DBG("name = %s\n", name);
+	return devSuccess;
 }
 
 int dev_get_prop(int device, cudaDeviceProp *prop)
 {
 	CHECK_DEV(device);
 
-
 	DEV_LOCK();
-	strncpy(prop->name, current_device->name, sizeof(prop->name));
 #define SET(v)	prop->v = current_device->v;
 	SET(totalGlobalMem);
 	SET(totalConstMem);

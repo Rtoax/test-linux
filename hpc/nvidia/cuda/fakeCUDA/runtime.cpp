@@ -74,6 +74,7 @@ cudaError_t cudaDeviceSetLimit(cudaLimit limit, size_t value)
 
 cudaError_t cudaGetDeviceProperties(cudaDeviceProp *prop, int device)
 {
+	dev_get_name(device, prop->name, sizeof(prop->name));
 	return (cudaError_t)dev_get_prop(device, prop);
 }
 
