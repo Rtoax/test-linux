@@ -2,6 +2,7 @@
 _ROCm = 1
 
 HIPCC := $(shell which hipcc 2>/dev/null)
+HIPCONFIG := $(shell which hipconfig 2>/dev/null)
 
 ifneq ($(HIPCC),)
   HAVE_HIP := 1
@@ -12,6 +13,9 @@ endif
 ifdef DEBUG
   ifneq (${HIPCC},)
     $(info $(shell ${HIPCC} --version))
+  endif
+  ifneq (${HIPCONFIG},)
+    $(info $(shell ${HIPCONFIG} --full))
   endif
   $(info HIPCC = ${HIPCC})
 endif
