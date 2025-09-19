@@ -77,7 +77,15 @@ void debug_memdump(const void *mem, size_t size)
 
 void output_memory_to_file(const char *file, void *mem, size_t size)
 {
-	// TODO
+	FILE *fp = fopen(file, "w");
+	if (!fp) {
+		LOG_ERROR("Open(%s) failed\n", file);
+		return;
+	}
+
+	fwrite(mem, size, 1, fp);
+
+	fclose(fp);
 }
 
 void dump_memory_to_file(const char *file, void *mem, size_t size)
