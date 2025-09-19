@@ -90,6 +90,15 @@ void fakeHipFatbinParser(const struct ClangOffloadBundleUncompressedHeader *obhe
 		if (elf64_magic((const Elf64_Ehdr *)image)) {
 			debug_memdump(image, sizeof(Elf64_Ehdr));
 			elf64_dump_ehdr((Elf64_Ehdr *)image);
+			/**
+			 * Dump all ELFs to file
+			 */
+			{
+				static int fatbin_number = 0;
+				char fatbin_name[128];
+				snprintf(fatbin_name, 128, "fatbin%d.elf", fatbin_number++);
+				dump_memory_to_file(fatbin_name, image, image_size);
+			}
 			break;
 		} else {
 			debug_memdump(image, 32);

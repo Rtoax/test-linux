@@ -45,6 +45,6 @@ if [[ "$1" == "ALL" ]]; then
 elif [[ $1 ]]; then
 	exec_one $@
 else
-	echo >&2 "USAGE: $0 [ELF FILE] [<args>]"
-	echo >&2 "USAGE: $0 ALL [<args>]"
+	echo >&2 "USAGE: [FAKECUDA_DEBUG=1] [FAKECUDA_DUMP=1] $0 [ELF FILE] [<args>]"
+	echo >&2 "USAGE: [FAKECUDA_DEBUG=1] [FAKECUDA_DUMP=1] $0 ALL [<args>]"
 fi

@@ -75,7 +75,7 @@ void debug_memdump(const void *mem, size_t size)
 	memdump(mem, size);
 }
 
-void output_memory_to_file(const char *file, void *mem, size_t size)
+void output_memory_to_file(const char *file, const void *mem, size_t size)
 {
 	FILE *fp = fopen(file, "w");
 	if (!fp) {
@@ -88,7 +88,7 @@ void output_memory_to_file(const char *file, void *mem, size_t size)
 	fclose(fp);
 }
 
-void dump_memory_to_file(const char *file, void *mem, size_t size)
+void dump_memory_to_file(const char *file, const void *mem, size_t size)
 {
 	if (!fakecuda_dump)
 		return;
