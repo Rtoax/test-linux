@@ -4,9 +4,6 @@
 
 #if defined(__USE_HPCC__)
 #define CUresult	hcError_t
-typedef enum hcLimit_t hcLimit_t;
-typedef enum cudaDeviceAttr cudaDeviceAttr;
-typedef struct hcMemLocation hcMemLocation;
 typedef void *cudaKernel_t;
 #endif
 
