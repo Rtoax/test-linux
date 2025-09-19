@@ -118,10 +118,11 @@ static const struct {
 	Elf64_Half	e_machine;
 	const char	*name;
 } string_e_machines[] = {
-	{ EM_CUDA, "NVIDIA CUDA" },
-	{ EM_AMDGPU, "AMDGPU" },
+	{ EM_CUDA /* 190 */, "NVIDIA CUDA" },
+	{ EM_AMDGPU /* 224, HIP/ROCm */, "AMDGPU" },
 /**
- * FIXME: Not found 253 anywhere, just dump from ELF file.
+ * FIXME: Not found 253 in anywhere, even https://sourceware.org/git/glibc,
+ * 253 just dump from ELF file. By the way, 252 is EM_CSKY, 258 is EM_LOONGARCH.
  */
 #ifndef EM_HPCC_GPU
 #define EM_HPCC_GPU	253
