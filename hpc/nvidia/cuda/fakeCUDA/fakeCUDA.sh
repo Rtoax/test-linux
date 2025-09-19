@@ -1,6 +1,7 @@
 #!/bin/bash
 set -e
 
+# All ELFs who has X permission
 declare -a ALL_X_ELFs
 
 get_all_elf() {

@@ -48,6 +48,16 @@ void fakeCudaFatbinParser(const struct fatBinaryHeader *fatbin)
 
 	elf64_dump_ehdr(ehdr);
 
+	/**
+	 * Dump all ELFs to file
+	 */
+	{
+		static int fatbin_number = 0;
+		char fatbin_name[128];
+		snprintf(fatbin_name, 128, "fatbin%d.elf", fatbin_number++);
+		dump_memory_to_file(fatbin_name, ehdr, textHdr->size);
+	}
+
 	debug_memdump(ehdr, sizeof(*ehdr));
 skip_elf:
 
