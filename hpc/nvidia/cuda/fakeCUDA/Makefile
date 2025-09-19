@@ -97,8 +97,11 @@ rt-hpcc-objs += ${OUTPUT}runtime_event-hpcc.cpp.so.o
 rt-hpcc-objs += ${OUTPUT}runtime_memory-hpcc.cpp.so.o
 rt-hpcc-objs += ${OUTPUT}runtime_internal-hpcc.cpp.so.o ${OUTPUT}fatbin.cpp.so.o
 
+rt-hip-objs := ${OUTPUT}runtime-hip.cpp.so.o
+
 ${rt-objs}: runtime.hpp
 ${rt-hpcc-objs}: runtime.hpp compat.hpp
+${rt-hip-objs}: runtime.hpp compat.hpp
 
 ${OUTPUT}common.cpp.so.o: debug.h
 ${OUTPUT}utils.cpp.so.o: utils.hpp
@@ -140,4 +143,4 @@ libcurand.so.10: ${common-objs} ${OUTPUT}rand.cpp.so.o
 libcusparse.so.12: ${common-objs} ${OUTPUT}sparse.cpp.so.o
 
 # ROCm HIP
-libamdhip64.so.6: ${common-objs}
+libamdhip64.so.6: ${common-objs} ${rt-hip-objs}

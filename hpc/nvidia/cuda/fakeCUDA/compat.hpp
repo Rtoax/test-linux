@@ -16,6 +16,16 @@
 # ifndef HAVE_HPCC
 #  error "Not found HPCC envrioment, but use HPCC"
 # endif
+#elif defined(__USE_HIP__)
+/**
+ * Must define exactly one of __HIP_PLATFORM_AMD__ or __HIP_PLATFORM_NVIDIA__
+ */
+# define __HIP_PLATFORM_AMD__
+#include <hip/hip_runtime.h>
+#include <cuda_adapter.h>
+# ifndef HAVE_HIP
+#  error "Not found ROCm HIP envrioment, but use HIP"
+# endif
 #else /* fallback to CUDA */
 #include <cuda.h>
 #include <cuda_runtime.h>

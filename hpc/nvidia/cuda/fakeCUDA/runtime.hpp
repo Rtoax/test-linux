@@ -21,6 +21,16 @@
 #define __cudaRegisterFunction	__hcRegisterFunction
 #define __cudaRegisterVar	__hcRegisterVar
 #define __cudaUnregisterFatBinary	__hcUnregisterFatBinary
+#elif defined(__USE_HIP__)
+#define __cudaGetKernel	__hipGetKernel
+#define __cudaLaunchKernel	__hipLaunchKernel
+#define __cudaPopCallConfiguration	__hipPopCallConfiguration
+#define __cudaPushCallConfiguration	__hipPushCallConfiguration
+#define __cudaRegisterFatBinary	__hipRegisterFatBinary
+#define __cudaRegisterFatBinaryEnd	__hipRegisterFatBinaryEnd
+#define __cudaRegisterFunction	__hipRegisterFunction
+#define __cudaRegisterVar	__hipRegisterVar
+#define __cudaUnregisterFatBinary	__hipUnregisterFatBinary
 #endif
 
 
@@ -48,9 +58,13 @@ void __cudaRegisterManagedVar(void **fatCubinHandle, void **hostVarPtrAddress,
 			      int ext, size_t size, int constant, int global);
 #endif
 
-unsigned __cudaPushCallConfiguration(dim3 gridDim, dim3 blockDim,
-				     size_t sharedMem,
-				     struct CUstream_st *stream);
+#if defined(__USE_HIP__)
+hipError_t
+#else
+unsigned
+#endif
+__cudaPushCallConfiguration(dim3 gridDim, dim3 blockDim, size_t sharedMem,
+			    struct CUstream_st *stream);
 cudaError_t __cudaGetKernel(cudaKernel_t *kernel, const void *v);
 cudaError_t __cudaPopCallConfiguration(dim3 *gridDim, dim3 *blockDim,
 				       size_t *sharedMem, void *stream);

@@ -1,6 +1,6 @@
 hip_4.2 {
 	global:
-		*;
+		__hipRegisterFatBinary;
 	local:
 		*;
 };

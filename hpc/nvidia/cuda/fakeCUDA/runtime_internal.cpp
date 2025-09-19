@@ -141,9 +141,13 @@ void __cudaRegisterManagedVar(void **fatCubinHandle, void **hostVarPtrAddress,
 }
 #endif
 
-unsigned __cudaPushCallConfiguration(dim3 gridDim, dim3 blockDim,
-				     size_t sharedMem,
-				     struct CUstream_st *stream)
+#if defined(__USE_HIP__)
+hipError_t
+#else
+unsigned
+#endif
+__cudaPushCallConfiguration(dim3 gridDim, dim3 blockDim, size_t sharedMem,
+			    struct CUstream_st *stream)
 {
 	DEBUG_DBG("grid(%d,%d,%d), block(%d,%d,%d), sharedMem %ld\n",
 		  gridDim.x, gridDim.y, gridDim.z,
