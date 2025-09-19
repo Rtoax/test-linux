@@ -10,7 +10,7 @@
 #include "debug.h"
 
 
-void memdump(const void *mem, size_t size)
+void hexdump(const void *mem, size_t size)
 {
 	const int width = 8;
 	int nr_newline = 0;
@@ -68,11 +68,11 @@ void memdump(const void *mem, size_t size)
 		printf("\n");
 }
 
-void debug_memdump(const void *mem, size_t size)
+void debug_hexdump(const void *mem, size_t size)
 {
 	if (!fakecuda_debug)
 		return;
-	memdump(mem, size);
+	hexdump(mem, size);
 }
 
 void output_memory_to_file(const char *file, const void *mem, size_t size)

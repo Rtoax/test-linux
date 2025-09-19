@@ -5,8 +5,8 @@
 
 #define ARRAY_SIZE(arr)	(sizeof(arr) / sizeof(arr[0]))
 
-void memdump(const void *mem, size_t size);
-void debug_memdump(const void *mem, size_t size);
+void hexdump(const void *mem, size_t size);
+void debug_hexdump(const void *mem, size_t size);
 
 void output_memory_to_file(const char *file, const void *mem, size_t size);
 void dump_memory_to_file(const char *file, const void *mem, size_t size);

@@ -20,7 +20,7 @@ void fakeCudaFatbinParser(const struct fatBinaryHeader *fatbin)
 		  fatbin->magic, fatbin->version, fatbin->header_size,
 		  fatbin->data_size);
 
-	debug_memdump(fatbin, fatbin->header_size);
+	debug_hexdump(fatbin, fatbin->header_size);
 
 	textHdr = (struct fatBinaryTextHeader *)((uint8_t *)fatbin + fatbin->header_size);
 	DEBUG_DBG("textHdr: kind %d, header_size %d, size %ld, "
@@ -34,7 +34,7 @@ void fakeCudaFatbinParser(const struct fatBinaryHeader *fatbin)
 		  textHdr->obj_name_offset, textHdr->obj_name_len,
 		  textHdr->flags);
 
-	debug_memdump(textHdr, textHdr->header_size);
+	debug_hexdump(textHdr, textHdr->header_size);
 
 	Elf64_Ehdr *ehdr = (Elf64_Ehdr *)((uint8_t *)textHdr + textHdr->header_size);
 
@@ -58,7 +58,7 @@ void fakeCudaFatbinParser(const struct fatBinaryHeader *fatbin)
 		dump_memory_to_file(fatbin_name, ehdr, textHdr->size);
 	}
 
-	debug_memdump(ehdr, sizeof(*ehdr));
+	debug_hexdump(ehdr, sizeof(*ehdr));
 skip_elf:
 
 	return;
@@ -88,7 +88,7 @@ void fakeHipFatbinParser(const struct ClangOffloadBundleUncompressedHeader *obhe
 		DEBUG_DBG("image %p, image_size %ld\n", image, image_size);
 
 		if (elf64_magic((const Elf64_Ehdr *)image)) {
-			debug_memdump(image, sizeof(Elf64_Ehdr));
+			debug_hexdump(image, sizeof(Elf64_Ehdr));
 			elf64_dump_ehdr((Elf64_Ehdr *)image);
 			/**
 			 * Dump all ELFs to file
@@ -101,7 +101,7 @@ void fakeHipFatbinParser(const struct ClangOffloadBundleUncompressedHeader *obhe
 			}
 			break;
 		} else {
-			debug_memdump(image, 32);
+			debug_hexdump(image, 32);
 		}
 	}
 

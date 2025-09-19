@@ -57,7 +57,7 @@ void **__cudaRegisterFatBinary(void *fatCubin)
 			  wrapper->version, wrapper->fatbin,
 			  wrapper->dummy1);
 
-		debug_memdump(wrapper, sizeof(struct __CudaFatBinaryWrapper));
+		debug_hexdump(wrapper, sizeof(struct __CudaFatBinaryWrapper));
 
 		/**
 		 * The Fatbin is HIP like format.
