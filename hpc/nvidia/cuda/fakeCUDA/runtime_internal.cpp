@@ -70,10 +70,10 @@ void **__cudaRegisterFatBinary(void *fatCubin)
 		hipHdr = (struct ClangOffloadBundleUncompressedHeader *)wrapper->fatbin;
 		if (!strncmp(hipHdr->magic, kOffloadBundleUncompressedMagicStr,
 			     kOffloadBundleUncompressedMagicStrSize - 1)) {
-			DEBUG_WARN("Found HIP/HPCC Fatbin, %s\n", hipHdr->magic);
+			DEBUG_WARN("Found HIP/HPCC Fatbin, magic %s\n", hipHdr->magic);
 			fakeHipFatbinParser(hipHdr);
 		} else {
-			DEBUG_WARN("Found CUDA Fatbin, %s\n", hipHdr->magic);
+			DEBUG_WARN("Found CUDA Fatbin\n");
 			fakeCudaFatbinParser((struct fatBinaryHeader *)wrapper->fatbin);
 		}
 
