@@ -54,6 +54,8 @@ int main(void)
 {
 	int count = 10;
 
+	printf("Startup...\n");
+
 #if !defined(HAVE_HIP) // FIXME:
 	gpu_init(0);
 #endif
@@ -66,5 +68,6 @@ int main(void)
 	cudaDeviceSynchronize();
 #endif
 
+	printf("Bye...\n");
 	return 0;
 }
