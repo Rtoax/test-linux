@@ -13,6 +13,9 @@
 #include <hcfft/hcfft.h>
 #include <hpcc_fp16.h>
 #include <cuda_adapter.h>
+# ifndef HAVE_HPCC
+#  error "Not found HPCC envrioment, but use HPCC"
+# endif
 #else /* fallback to CUDA */
 #include <cuda.h>
 #include <cuda_runtime.h>

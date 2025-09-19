@@ -42,7 +42,7 @@ cudaError_t cudaFree(void *devPtr)
 
 cudaError_t cudaMemAdvise(const void *devPtr, size_t count,
 			  cudaMemoryAdvise advice,
-			  #if defined(HAVE_HPCC) && defined(__USE_HPCC__)
+			  #if defined(__USE_HPCC__)
 			  int device
 			  #else
 			  cudaMemLocation location

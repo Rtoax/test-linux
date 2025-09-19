@@ -6,7 +6,7 @@
 #include "compat.hpp"
 #include "types.h"
 
-#if defined(HAVE_HPCC) && defined(__USE_HPCC__)
+#if defined(__USE_HPCC__)
 #define cublasGetVersion_v2	hcblasGetVersion
 #define cublasCreate_v2	hcblasCreate
 #define cublasDestroy_v2	hcblasDestroy

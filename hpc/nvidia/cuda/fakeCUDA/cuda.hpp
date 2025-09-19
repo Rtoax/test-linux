@@ -8,7 +8,7 @@
 extern "C" {
 #endif
 
-#if defined(HAVE_HPCC) && defined(__USE_HPCC__)
+#if defined(__USE_HPCC__)
 # define CUresult	hcError_t
 # undef CUDA_ERROR_INVALID_VALUE
 # define CUDA_ERROR_INVALID_VALUE	cudaErrorInvalidValue
