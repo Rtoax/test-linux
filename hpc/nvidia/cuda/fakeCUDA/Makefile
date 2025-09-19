@@ -90,20 +90,22 @@ ${OUTPUT}common.cpp.so.o: debug.h
 ${OUTPUT}utils.cpp.so.o: utils.hpp
 ${OUTPUT}fatbin.cpp.so.o: fatbin.hpp fatbin-hip.hpp
 ${OUTPUT}fft.cpp.so.o: fft.hpp
-${OUTPUT}fft-hpcc.cpp.so.o: fft.hpp
+${OUTPUT}fft-hpcc.cpp.so.o: fft.hpp fft.cpp
 ${OUTPUT}blas.cpp.so.o: blas.hpp
-${OUTPUT}blas-hpcc.cpp.so.o: blas.hpp
+${OUTPUT}blas-hpcc.cpp.so.o: blas.hpp blas.cpp
 ${OUTPUT}blasLt.cpp.so.o: blasLt.hpp
-${OUTPUT}blasLt-hpcc.cpp.so.o: blasLt.hpp
+${OUTPUT}blasLt-hpcc.cpp.so.o: blasLt.hpp blasLt.cpp
 ${OUTPUT}sparse.cpp.so.o: sparse.hpp
-${OUTPUT}sparse-hpcc.cpp.so.o: sparse.hpp
+${OUTPUT}sparse-hpcc.cpp.so.o: sparse.hpp sparse.cpp
 ${OUTPUT}rand.cpp.so.o: rand.hpp
-${OUTPUT}rand-hpcc.cpp.so.o: rand.hpp
+${OUTPUT}rand-hpcc.cpp.so.o: rand.hpp rand.cpp
 ${OUTPUT}hccl.cpp.so.o: hccl.hpp
 ${OUTPUT}cuda.cpp.so.o: cuda.hpp
-${OUTPUT}cuda-hpcc.cpp.so.o: cuda.hpp
+${OUTPUT}cuda-hpcc.cpp.so.o: cuda.hpp cuda.cpp
 ${OUTPUT}cuda-module-mgmt.cpp.so.o: cuda.hpp
-${OUTPUT}cuda-module-mgmt-hpcc.cpp.so.o: cuda.hpp
+${OUTPUT}cuda-module-mgmt-hpcc.cpp.so.o: cuda.hpp cuda-module-mgmt.cpp
+${OUTPUT}device.cpp.so.o: device.h
+${OUTPUT}device-hpcc.cpp.so.o: device.h device.cpp
 
 # HPCC
 libhccompiler.so: ${common-objs} ${rt-hpcc-objs}

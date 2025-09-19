@@ -30,8 +30,8 @@ struct device {
 	int warpSize;
 	int major, minor;
 #define DEV_INITIALIZER(idx)	{	\
-		/* error: C99 designator 'name' outside aggregate initializer
-		 * .name = { DEV_NAME }, */	\
+		/* error: C99 designator 'name' outside aggregate initializer */	\
+		.name = { DEV_NAME }, \
 		.id = idx,	\
 		.totalGlobalMem = DEV_TOTAL_GLOBAL_MEM,	\
 		.totalConstMem = DEV_TOTAL_CONST_MEM,	\
@@ -77,8 +77,10 @@ static struct device all_devices[DEV_COUNT] = {
 static struct device *current_device = NULL;
 
 #define CHECK_DEV(device)	\
-	if (device < 0 || device >= DEV_COUNT)	\
+	if (device < 0 || device >= DEV_COUNT) {	\
+		fprintf(stderr, "ERROR: bad device id %d\n", device);	\
 		return devErrorInvalidValue;	\
+	}	\
 	set_default_current_device_lock();	\
 	struct device *_____dev = &all_devices[device];
 #define DEVICE	_____dev
