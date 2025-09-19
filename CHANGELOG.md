@@ -11,6 +11,8 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- targets: add amd.mk;
+- amd: add ROCm samples;
 - fakeCUDA: add device-mars-x203.h;
 - targets/nvidia.mk: add .nv_fatbin and .nvFatBinSegment targets;
 - fakeCUDA: add fatbin.hpp, fatbin.cpp, fatbin-hip.hpp;

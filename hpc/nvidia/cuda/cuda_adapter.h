@@ -8,6 +8,11 @@
 # define __CU(name)	HC##name
 # define __CUDA(name)	HC_##name
 # define __CUDA_ERROR(name)	HCC_STATUS_##name
+#elif defined(HAVE_HIP)
+# define __cu(name)	hip##name
+# define __CU(name)	HIP##name
+# define __CUDA(name)	HIP_##name
+# define __CUDA_ERROR(name)	HIP_STATUS_##name
 #elif !defined(__cu) || !defined(__CU) || !defined(__CUDA)
 # error "Must define __cu(), __CU(), __CUDA(), __CUDA_ERROR() macros, or define HAVE_HCCL"
 #endif

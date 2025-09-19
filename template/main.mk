@@ -123,6 +123,7 @@ build-targets += $(targets-llvm-ll)
 build-targets += $(targets-bpf)
 build-targets += $(targets-rust)
 build-targets += $(targets-nvcc)
+build-targets += $(targets-hipcc)
 build-targets += $(targets-mxcc) $(targets-htcc)
 build-targets += $(targets-go)
 build-targets += $(targets-java)
@@ -178,6 +179,9 @@ ifneq ($(targets-rust),)
 endif
 ifneq ($(targets-nvcc),)
   include ${TEMPLATE_DIR}/targets/nvidia.mk
+endif
+ifneq ($(targets-hipcc),)
+  include ${TEMPLATE_DIR}/targets/amd.mk
 endif
 ifneq ($(targets-mxcc)$(targets-htcc),)
   include ${TEMPLATE_DIR}/targets/metax.mk

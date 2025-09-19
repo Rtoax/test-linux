@@ -5,6 +5,8 @@
 #include <hc_runtime.h>
 #include "hpcc_helpers.h"
 #include "cuda_adapter.h"
+#elif defined(HAVE_HIP)
+#include <hip/hip_runtime.h>
 #else
 #include <cuda_runtime.h>
 #include "cuda_helpers.h"
@@ -50,13 +52,17 @@ int main(void)
 {
 	int count = 10;
 
+#if !defined(HAVE_HIP) // FIXME:
 	gpu_init(0);
+#endif
 
 	kernel_foo<<<(count + 511) / 512, 512>>>(count);
 	kernel_bar<<<(count + 511) / 512, 512>>>(count);
 
+#if !defined(HAVE_HIP) // FIXME:
 	/* flush printf */
 	cudaDeviceSynchronize();
+#endif
 
 	return 0;
 }
