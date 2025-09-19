@@ -29,35 +29,6 @@ struct device {
 	size_t clockRate;
 	int warpSize;
 	int major, minor;
-#define DEV_INITIALIZER(idx)	{	\
-		/* error: C99 designator 'name' outside aggregate initializer */	\
-		.name = { DEV_NAME }, \
-		.id = idx,	\
-		.totalGlobalMem = DEV_TOTAL_GLOBAL_MEM,	\
-		.totalConstMem = DEV_TOTAL_CONST_MEM,	\
-		.l2CacheSize = DEV_L2CACHESIZE,	\
-		.globalL1CacheSupported = DEV_GLOBALL1CACHESUPPORTED,	\
-		.localL1CacheSupported = DEV_LOCALL1CACHESUPPORTED,	\
-		.managedMemory = DEV_MANAGEDMEMORY,	\
-		.ECCEnabled = DEV_ECCENABLED,	\
-		.memoryBusWidth = DEV_MEMORYBUSWIDTH,	\
-		.multiProcessorCount = DEV_MULTIPROCESSORCOUNT,	\
-		.maxThreadsPerMultiProcessor = DEV_MAXTHREADSPERMULTIPROCESSOR,	\
-		.maxThreadsDim = {	\
-			DEV_MAXTHREADSDIMX,	\
-			DEV_MAXTHREADSDIMY,	\
-			DEV_MAXTHREADSDIMZ,	\
-		},	\
-		.maxGridSize = {	\
-			DEV_MAXGRIDSIZEX,	\
-			DEV_MAXGRIDSIZEY,	\
-			DEV_MAXGRIDSIZEZ,	\
-		},	\
-		.clockRate = DEV_CLOCKRATE,	\
-		.warpSize = DEV_WARPSIZE,	\
-		.major = DEV_MAJOR,	\
-		.minor = DEV_MINOR,	\
-	}
 };
 
 static pthread_mutex_t mutex_dev = PTHREAD_MUTEX_INITIALIZER;
@@ -65,14 +36,14 @@ static pthread_mutex_t mutex_dev = PTHREAD_MUTEX_INITIALIZER;
 #define DEV_UNLOCK()	pthread_mutex_unlock(&mutex_dev)
 
 static struct device all_devices[] = {
-	[0] = DEV_INITIALIZER(0),
-	[1] = DEV_INITIALIZER(1),
-	[2] = DEV_INITIALIZER(2),
-	[3] = DEV_INITIALIZER(3),
-	[4] = DEV_INITIALIZER(4),
-	[5] = DEV_INITIALIZER(5),
-	[6] = DEV_INITIALIZER(6),
-	[7] = DEV_INITIALIZER(7),
+	[0] = DEV_NVIDIA_H800_INITIALIZER(0),
+	[1] = DEV_NVIDIA_H800_INITIALIZER(1),
+	[2] = DEV_NVIDIA_H800_INITIALIZER(2),
+	[3] = DEV_NVIDIA_H800_INITIALIZER(3),
+	[4] = DEV_NVIDIA_H800_INITIALIZER(4),
+	[5] = DEV_NVIDIA_H800_INITIALIZER(5),
+	[6] = DEV_NVIDIA_H800_INITIALIZER(6),
+	[7] = DEV_NVIDIA_H800_INITIALIZER(7),
 };
 
 static struct device *current_device = NULL;
