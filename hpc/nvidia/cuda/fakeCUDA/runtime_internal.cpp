@@ -37,14 +37,19 @@ void **__cudaRegisterFatBinary(void *fatCubin)
 
 	wrapper = (struct __CudaFatBinaryWrapper *)fatCubin;
 
-	for (;;) {
+	for (size_t i = 0;; i++) {
 		/* Check magic */
 		if ((wrapper->magic != __cudaFatMAGIC2 &&
 		     wrapper->magic != __hipFatMAGIC2 &&
 		     wrapper->magic != __hcFatMAGIC2) ||
 		    wrapper->version != FATBINC_VERSION) {
-			DEBUG_WARN("Cannot Register fat binary. FatMagic: %u version: %u\n",
-				   wrapper->magic, wrapper->version);
+			/**
+			 * Only the first loop print warning, it's means that
+			 * can't found one fatbin at least.
+			 */
+			if (i == 0)
+				DEBUG_WARN("Cannot Register fat binary. FatMagic: %u version: %u\n",
+					   wrapper->magic, wrapper->version);
 			break;
 		}
 
@@ -65,9 +70,10 @@ void **__cudaRegisterFatBinary(void *fatCubin)
 		hipHdr = (struct ClangOffloadBundleUncompressedHeader *)wrapper->fatbin;
 		if (!strncmp(hipHdr->magic, kOffloadBundleUncompressedMagicStr,
 			     kOffloadBundleUncompressedMagicStrSize - 1)) {
-			DEBUG_WARN("Found HIP Fatbin, %s\n", hipHdr->magic);
+			DEBUG_WARN("Found HIP/HPCC Fatbin, %s\n", hipHdr->magic);
 			fakeHipFatbinParser(hipHdr);
 		} else {
+			DEBUG_WARN("Found CUDA Fatbin, %s\n", hipHdr->magic);
 			fakeCudaFatbinParser((struct fatBinaryHeader *)wrapper->fatbin);
 		}
 
