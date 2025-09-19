@@ -3,21 +3,12 @@
 /**
  * https://docs.nvidia.com/cuda/cublas/
  */
-#ifdef HAVE_HPCC
-#include <hc_runtime.h>
-#include <hcc/hcc_internal.h>
-#include <hcblas/hcblas.h>
-#include <hpcc_fp16.h>
-#include <cuda_adapter.h>
-#else
-#include <cuda.h>
-#include <cuda_runtime.h>
-#include <cublas.h>
-#endif
 #include <math.h>
 #include <string.h>
+#include "blas.hpp"
 #include "debug.h"
 #include "types.h"
+
 
 #ifdef HAVE_HPCC
 #define cublasGetVersion_v2	hcblasGetVersion
@@ -43,9 +34,7 @@
 #define cublasDgemm_v2	hcblasDgemm
 #endif
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+
 cublasStatus_t cublasGetVersion_v2(cublasHandle_t handle, int *version)
 {
 	*version = 1300;
@@ -409,6 +398,3 @@ cublasStatus_t cublasGemmEx(cublasHandle_t handle,
 {
 	return CUBLAS_STATUS_SUCCESS;
 }
-#ifdef __cplusplus
-}
-#endif

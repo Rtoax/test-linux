@@ -1,18 +1,9 @@
 // SPDX-License-Identifier: GPL-3.0
 /* Copyright (c) 2025 Rong Tao */
-#ifdef HAVE_HPCC
-#include <hc_runtime.h>
-#include <hcfft/hcfft.h>
-#include <cuda_adapter.h>
-#else
-#include <cufft.h>
-#endif
+#include "fft.hpp"
 #include "debug.h"
 
 
-#ifdef __cplusplus
-extern "C" {
-#endif
 cufftResult cufftGetProperty(libraryPropertyType type, int *value)
 {
 	DEBUG_DBG("type %d\n", type);
@@ -32,6 +23,3 @@ cufftResult cufftGetProperty(libraryPropertyType type, int *value)
 	}
 	return CUFFT_SUCCESS;
 }
-#ifdef __cplusplus
-}
-#endif

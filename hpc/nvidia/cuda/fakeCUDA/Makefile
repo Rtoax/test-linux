@@ -76,6 +76,14 @@ ${OUTPUT}common.cpp.so.o: debug.h
 ${OUTPUT}utils.cpp.so.o: utils.hpp
 ${OUTPUT}fatbin.cpp.so.o: fatbin.hpp fatbin-hip.hpp
 ${runtime-objs}: runtime.hpp
+${OUTPUT}fft.cpp.so.o: fft.hpp
+${OUTPUT}blas.cpp.so.o: blas.hpp
+${OUTPUT}blasLt.cpp.so.o: blasLt.hpp
+${OUTPUT}sparse.cpp.so.o: sparse.hpp
+${OUTPUT}rand.cpp.so.o: rand.hpp
+${OUTPUT}hccl.cpp.so.o: hccl.hpp
+${OUTPUT}cuda.cpp.so.o: cuda.hpp
+${OUTPUT}cuda-module-mgmt.cpp.so.o: cuda.hpp
 
 # HPCC
 libhccompiler.so: ${common-objs} ${runtime-objs}

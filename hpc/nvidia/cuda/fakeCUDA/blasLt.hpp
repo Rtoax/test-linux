@@ -1,79 +1,54 @@
 // SPDX-License-Identifier: GPL-3.0
 /* Copyright (c) 2025 Rong Tao */
-#include <math.h>
-#include <string.h>
-#include "blasLt.hpp"
-#include "debug.h"
+#ifdef HAVE_HPCC
+#include <hc_runtime.h>
+#include <hcc/hcc_internal.h>
+#include <hcblas/hcblasLt.h>
+#include <cuda_adapter.h>
+#else
+#include <cuda.h>
+#include <cuda_runtime.h>
+#include <cublas.h>
+#include <cublasLt.h>
+#endif
 #include "types.h"
 
 
-size_t cublasLtGetVersion()
-{
-	return 13;
-}
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-cublasStatus_t cublasLtCreate(cublasLtHandle_t *lighthandle)
-{
-	return CUBLAS_STATUS_SUCCESS;
-}
-
-cublasStatus_t cublasLtDestroy(cublasLtHandle_t lightHandle)
-{
-	return CUBLAS_STATUS_SUCCESS;
-}
-
+size_t cublasLtGetVersion();
+cublasStatus_t cublasLtCreate(cublasLtHandle_t *lighthandle);
+cublasStatus_t cublasLtDestroy(cublasLtHandle_t lightHandle);
 cublasStatus_t cublasLtMatmulDescCreate(cublasLtMatmulDesc_t *matmulDesc,
 					cublasComputeType_t computeType,
-					cudaDataType_t scaleType)
-{
-	return CUBLAS_STATUS_SUCCESS;
-}
+					cudaDataType_t scaleType);
 
-cublasStatus_t cublasLtMatmulDescDestroy(cublasLtMatmulDesc_t matmulDesc)
-{
-	return CUBLAS_STATUS_SUCCESS;
-}
+cublasStatus_t cublasLtMatmulDescDestroy(cublasLtMatmulDesc_t matmulDesc);
 
 cublasStatus_t cublasLtMatrixLayoutCreate(cublasLtMatrixLayout_t *matLayout,
 					  cudaDataType type,
 					  uint64_t rows,
 					  uint64_t cols,
-					  int64_t ld)
-{
-	return CUBLAS_STATUS_SUCCESS;
-}
+					  int64_t ld);
 
-cublasStatus_t cublasLtMatrixLayoutDestroy(cublasLtMatrixLayout_t matLayout)
-{
-	return CUBLAS_STATUS_SUCCESS;
-}
+cublasStatus_t cublasLtMatrixLayoutDestroy(cublasLtMatrixLayout_t matLayout);
 
 cublasStatus_t cublasLtMatrixLayoutGetAttribute(cublasLtMatrixLayout_t matLayout,
 						cublasLtMatrixLayoutAttribute_t attr,
 						void* buf,
 						size_t sizeInBytes,
-						size_t* sizeWritten)
-{
-	return CUBLAS_STATUS_SUCCESS;
-}
+						size_t* sizeWritten);
 
-cublasStatus_t cublasLtMatmulPreferenceCreate(cublasLtMatmulPreference_t *pref)
-{
-	return CUBLAS_STATUS_SUCCESS;
-}
+cublasStatus_t cublasLtMatmulPreferenceCreate(cublasLtMatmulPreference_t *pref);
 
-cublasStatus_t cublasLtMatmulPreferenceDestroy(cublasLtMatmulPreference_t pref)
-{
-	return CUBLAS_STATUS_SUCCESS;
-}
+cublasStatus_t cublasLtMatmulPreferenceDestroy(cublasLtMatmulPreference_t pref);
 
 cublasStatus_t cublasLtMatmulPreferenceSetAttribute(cublasLtMatmulPreference_t pref,
 						    cublasLtMatmulPreferenceAttributes_t attr,
 						    const void *buf,
-						    size_t sizeInBytes)
-{
-	return CUBLAS_STATUS_SUCCESS;
-}
+						    size_t sizeInBytes);
 
 cublasStatus_t cublasLtMatmulAlgoGetHeuristic(cublasLtHandle_t lightHandle,
 					      cublasLtMatmulDesc_t operationDesc,
@@ -84,10 +59,7 @@ cublasStatus_t cublasLtMatmulAlgoGetHeuristic(cublasLtHandle_t lightHandle,
 					      cublasLtMatmulPreference_t preference,
 					      int requestedAlgoCount,
 					      cublasLtMatmulHeuristicResult_t heuristicResultsArray[],
-					      int *returnAlgoCount)
-{
-	return CUBLAS_STATUS_SUCCESS;
-}
+					      int *returnAlgoCount);
 
 cublasStatus_t cublasLtMatmul(cublasLtHandle_t lightHandle,
 			      cublasLtMatmulDesc_t computeDesc,
@@ -104,7 +76,8 @@ cublasStatus_t cublasLtMatmul(cublasLtHandle_t lightHandle,
 			      const cublasLtMatmulAlgo_t *algo,
 			      void *workspace,
 			      size_t workspaceSizeInBytes,
-			      cudaStream_t stream)
-{
-	return CUBLAS_STATUS_SUCCESS;
+			      cudaStream_t stream);
+
+#ifdef __cplusplus
 }
+#endif

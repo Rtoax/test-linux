@@ -16,6 +16,7 @@ and this project adheres to
 - fakeCUDA: add runtime.hpp;
 - fakeCUDA: add utils.cpp;
 #### Changed
+- fakeCUDA: only extern "C" in header;
 #### Deprecated
 #### Removed
 #### Fixed

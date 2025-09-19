@@ -1,20 +1,10 @@
 // SPDX-License-Identifier: GPL-3.0
 /* Copyright (c) 2025 Rong Tao */
-#include <hccl.h>
-#include <hc_runtime.h>
-#include <hcc/hcc_internal.h>
+#include "hccl.hpp"
 
-
-#ifdef __cplusplus
-extern "C" {
-#endif
 
 hcclResult_t hcclGetVersion(int *version)
 {
 	*version = 21605;
 	return hcclSuccess;
 }
-
-#ifdef __cplusplus
-}
-#endif
