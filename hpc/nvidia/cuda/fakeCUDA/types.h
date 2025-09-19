@@ -3,7 +3,6 @@
 #pragma once
 
 #if defined(__USE_HPCC__)
-#define CUresult	hcError_t
 typedef void *cudaKernel_t;
 #endif
 
