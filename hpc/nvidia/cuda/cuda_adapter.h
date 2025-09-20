@@ -365,8 +365,16 @@
 /**
  * CUDA V12.2.140 cuda_runtime_api.h
  * #define cudaGetDeviceProperties cudaGetDeviceProperties_v2
+ * cudaError_t cudaGetDeviceProperties(struct cudaDeviceProp *prop, int device);
+ *
+ * HIP
+ * hipError_t hipGetDeviceProperties(hipDeviceProp_t* prop, int deviceId);
  */
+#if defined(HAVE_HCCL) || defined(HAVE_HIP)
 #define cudaGetDeviceProperties(prop, devid)	__cu(GetDeviceProperties(prop, devid))
+#else
+#define cudaGetDeviceProperties(prop, devid)	__cu(GetDeviceProperties_v2(prop, devid))
+#endif
 
 /**
  * HIP 5.7.31921-0

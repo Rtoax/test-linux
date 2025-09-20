@@ -78,9 +78,6 @@ cudaError_t cudaDeviceSetLimit(cudaLimit limit, size_t value)
 	return cudaSuccess;
 }
 
-#ifdef cudaGetDeviceProperties
-#undef cudaGetDeviceProperties
-#endif
 cudaError_t cudaGetDeviceProperties(cudaDeviceProp *prop, int device)
 {
 	devGetName(device, prop->name, sizeof(prop->name));
@@ -109,11 +106,6 @@ cudaError_t cudaGetDeviceProperties(cudaDeviceProp *prop, int device)
 	prop->warpSize = devWarpSize(device);
 
 	return cudaSuccess;
-}
-
-cudaError_t cudaGetDeviceProperties_v2(cudaDeviceProp *prop, int device)
-{
-	return cudaGetDeviceProperties(prop, device);
 }
 
 cudaError_t cudaDeviceGetAttribute(int *value, cudaDeviceAttr attr, int device)
