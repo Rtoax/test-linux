@@ -53,7 +53,7 @@ void **__cudaRegisterFatBinary(void *fatCubin)
 			break;
 		}
 
-		DEBUG_DBG("fatCubin %p, magic 0x%x(%c%c%c%c), version %d, fatbin %p\n",
+		DEBUG_DBG("fatCubin %p, magic 0x%x(%c%c%c%c), version %d, fatbin %p, dummy1 %p\n",
 			  fatCubin, wrapper->magic,
 			  (wrapper->magic >> 24) & 0xff,
 			  (wrapper->magic >> 16) & 0xff,

@@ -16,7 +16,7 @@ void fakeCudaFatbinParser(const struct fatBinaryHeader *fatbin)
 {
 	const struct fatBinaryTextHeader *textHdr;
 
-	DEBUG_DBG("fatbin: magic %x, version %d, header_size %d, data_size %d\n",
+	DEBUG_DBG("fatbin: magic %x, version %d, header_size %d, data_size %ld\n",
 		  fatbin->magic, fatbin->version, fatbin->header_size,
 		  fatbin->data_size);
 
@@ -24,7 +24,7 @@ void fakeCudaFatbinParser(const struct fatBinaryHeader *fatbin)
 
 	textHdr = (struct fatBinaryTextHeader *)((uint8_t *)fatbin + fatbin->header_size);
 	DEBUG_DBG("textHdr: kind %d, header_size %d, size %ld, "
-		  "compressed_size %d, decompressed_size %d, "
+		  "compressed_size %d, decompressed_size %ld, "
 		  "minor %d, major %d, arch %d, obj_name_offset %d, obj_name_len %d, "
 		  "flags 0x%lx\n",
 		  textHdr->kind, textHdr->header_size, textHdr->size,
@@ -70,7 +70,7 @@ skip_elf:
  */
 void fakeHipFatbinParser(const struct ClangOffloadBundleUncompressedHeader *obheader)
 {
-	DEBUG_DBG("HIP obheader: magic %s, numOfCodeObjects %d\n",
+	DEBUG_DBG("HIP obheader: magic %s, numOfCodeObjects %ld\n",
 		  obheader->magic, obheader->numOfCodeObjects);
 
 	const struct ClangOffloadBundleInfo *desc = &obheader->desc[0];

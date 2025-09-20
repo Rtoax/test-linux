@@ -31,7 +31,7 @@ void hexdump(const void *mem, size_t size)
 		bool newline = (i + 1) % width == 0;
 
 		if (startline) {
-			printf("%#016x | ", (uint64_t)mem + width * nr_newline);
+			printf("%#016lx | ", (uint64_t)mem + width * nr_newline);
 		}
 
 		uint8_t u8 = *(uint8_t *)((uint8_t *)mem + i);
@@ -140,10 +140,10 @@ static const char *str_e_machine(Elf64_Half machine)
 
 void elf64_dump_ehdr(const Elf64_Ehdr *ehdr)
 {
-	DEBUG_DBG("ehdr: ABI version %d, type %ld, machine %s(%ld), version %ld, "
+	DEBUG_DBG("ehdr: ABI version %d, type %d, machine %s(%d), version %d, "
 		  "entry %ld, phoff 0x%lx, "
-		  "shoff 0x%lx, flags 0x%lx, ehsize %ld, phentsize %ld, phnum %ld, "
-		  "shentsize %ld, shnum %ld, shstrndx %ld\n",
+		  "shoff 0x%lx, flags 0x%x, ehsize %d, phentsize %d, phnum %d, "
+		  "shentsize %d, shnum %d, shstrndx %d\n",
 		  ehdr->e_ident[EI_ABIVERSION],
 		  ehdr->e_type,
 		  str_e_machine(ehdr->e_machine), ehdr->e_machine,
