@@ -26,6 +26,12 @@ struct CUkern_st {
 };
 
 
+char __cudaInitModule(void **fatCubinHandle)
+{
+	DEBUG_DBG("\n");
+	return 0;
+}
+
 /**
  * - https://github.com/ROCm/rocm-systems.git
  *   void** __hipRegisterFatBinary(const void* data);

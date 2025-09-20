@@ -38,6 +38,7 @@
 extern "C" {
 #endif
 
+char __cudaInitModule(void **fatCubinHandle);
 void **__cudaRegisterFatBinary(void *fatCubin);
 void __cudaRegisterFatBinaryEnd(void **fatCubinHandle);
 void __cudaUnregisterFatBinary(void **fatCubinHandle);
@@ -100,6 +101,7 @@ const char *cudaGetErrorString(cudaError_t error);
 cudaError_t cudaGetDeviceCount(int *count);
 cudaError_t cudaDeviceSetLimit(cudaLimit limit, size_t value);
 cudaError_t cudaGetDeviceProperties(cudaDeviceProp *prop, int device);
+cudaError_t cudaGetDeviceProperties_v2(cudaDeviceProp *prop, int device);
 cudaError_t cudaDeviceGetAttribute(int *value, cudaDeviceAttr attr, int device);
 cudaError_t cudaDeviceDisablePeerAccess(int peerDevice);
 cudaError_t cudaDeviceCanAccessPeer(int *canAccessPeer, int device, int peerDevice);

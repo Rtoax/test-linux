@@ -1,5 +1,6 @@
-libcudart.so.13 {
+libcudart.so.12 {
 	global:
+		__cudaInitModule;
 		__cudaRegisterFatBinary;
 		__cudaRegisterFatBinaryEnd;
 		__cudaUnregisterFatBinary;
@@ -16,6 +17,7 @@ libcudart.so.13 {
 		cudaGetErrorString;
 		cudaGetDeviceCount;
 		cudaGetDeviceProperties;
+		cudaGetDeviceProperties_v2;
 		cudaDeviceGetAttribute;
 		cudaDeviceDisablePeerAccess;
 		cudaDeviceCanAccessPeer;
@@ -44,3 +46,6 @@ libcudart.so.13 {
 	local:
 		*;
 };
+
+libcudart.so.13 {
+} libcudart.so.12;

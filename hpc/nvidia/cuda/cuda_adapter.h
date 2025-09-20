@@ -283,6 +283,10 @@
 #define cudaSetDevice(dev_id)	__cu(SetDevice(dev_id))
 
 #define cudaDeviceProp	__cu(DeviceProp_t)
+/**
+ * CUDA V12.2.140 cuda_runtime_api.h
+ * #define cudaGetDeviceProperties cudaGetDeviceProperties_v2
+ */
 #define cudaGetDeviceProperties(prop, devid)	__cu(GetDeviceProperties(prop, devid))
 
 /**
