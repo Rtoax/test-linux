@@ -53,6 +53,19 @@
  *                           hipStream_t stream);
  */
 #define cudaMemsetAsync(ptr, v, size, stream)	__cu(MemsetAsync(ptr, v, size, stream))
+/**
+ * CUDA 12
+ * cudaError_t cudaMemset2DAsync(void *devPtr, size_t pitch, int value,
+ *                               size_t width, size_t height,
+ *                               cudaStream_t stream __dv(0));
+ *
+ * HIP
+ * hipError_t hipMemset2DAsync(void* dst, size_t pitch, int value,
+ *                             size_t width, size_t height,
+ *                             hipStream_t stream __dparm(0));
+ */
+#define cudaMemset2DAsync(dst, pitch, value, width, height, stream)	\
+	__cu(Memset2DAsync(dst, pitch, value, width, height, stream))
 #define cudaMemcpy(dev, host, size, flag)	__cu(Memcpy(dev, host, size, flag))
 #define cudaMemcpyKind	__cu(MemcpyKind)
 #define cudaMemcpyHostToDevice	__cu(MemcpyHostToDevice)

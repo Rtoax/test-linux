@@ -97,6 +97,9 @@ cudaError_t cudaMemAdvise_v2(const void *devPtr, size_t count,
 cudaError_t cudaMemset(void *devPtr, int value, size_t count);
 cudaError_t cudaMemsetAsync(void *devPtr, int value, size_t count,
 			    cudaStream_t stream);
+cudaError_t cudaMemset2DAsync(void *devPtr, size_t pitch, int value,
+			      size_t width, size_t height,
+			      cudaStream_t stream);
 cudaError_t cudaMemcpy(void *dst, const void *src, size_t count,
 		       cudaMemcpyKind kind);
 
