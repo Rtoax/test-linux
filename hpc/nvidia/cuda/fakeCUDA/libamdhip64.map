@@ -12,6 +12,16 @@ hip_4.2 {
 		__hipPopCallConfiguration;
 		__hipLaunchKernel;
 		hipLaunchKernel;
+		hipStreamSynchronize;
 	local:
 		*;
+};
+
+hip_4.3 {
+};
+
+hip_5.1 {
+};
+
+hip_5.3 {
 };
