@@ -160,7 +160,7 @@ cudaError_t cudaDeviceCanAccessPeer(int *canAccessPeer, int device, int peerDevi
 {
 	return cudaSuccess;
 }
- 
+
 cudaError_t cudaDeviceGetP2PAttribute(int *value, enum cudaDeviceP2PAttr attr,
 				      int srcDevice, int dstDevice)
 {
@@ -183,6 +183,12 @@ cudaError_t cudaStreamDestroy(cudaStream_t stream)
 }
 
 cudaError_t cudaStreamSynchronize(cudaStream_t stream)
+{
+	return cudaSuccess;
+}
+
+cudaError_t cudaStreamIsCapturing(cudaStream_t stream,
+				  enum cudaStreamCaptureStatus *pCaptureStatus)
 {
 	return cudaSuccess;
 }

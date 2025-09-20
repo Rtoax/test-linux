@@ -29,11 +29,13 @@ libcudart.so.12 {
 		cudaFree;
 		cudaMemcpy;
 		cudaMemset;
+		cudaMemsetAsync;
 		cudaMemAdvise;
 		cudaMemAdvise_v2;
 		cudaStreamCreate;
 		cudaStreamDestroy;
 		cudaStreamSynchronize;
+		cudaStreamIsCapturing;
 		cudaLaunchKernel;
 		cudaLaunchCooperativeKernel;
 		cudaEventCreate;

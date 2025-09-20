@@ -94,6 +94,8 @@ cudaError_t cudaMemAdvise_v2(const void *devPtr, size_t count,
 			     cudaMemoryAdvise advice,
 			     cudaMemLocation location);
 cudaError_t cudaMemset(void *devPtr, int value, size_t count);
+cudaError_t cudaMemsetAsync(void *devPtr, int value, size_t count,
+			    cudaStream_t stream);
 cudaError_t cudaMemcpy(void *dst, const void *src, size_t count,
 		       cudaMemcpyKind kind);
 
@@ -111,9 +113,13 @@ cudaError_t cudaDeviceCanAccessPeer(int *canAccessPeer, int device, int peerDevi
 cudaError_t cudaDeviceGetP2PAttribute(int *value, enum cudaDeviceP2PAttr attr,
 				      int srcDevice, int dstDevice);
 cudaError_t cudaDeviceSynchronize();
+
 cudaError_t cudaStreamCreate(cudaStream_t *pStream);
 cudaError_t cudaStreamDestroy(cudaStream_t stream);
 cudaError_t cudaStreamSynchronize(cudaStream_t stream);
+cudaError_t cudaStreamIsCapturing(cudaStream_t stream,
+				  enum cudaStreamCaptureStatus *pCaptureStatus);
+
 cudaError_t cudaLaunchKernel(const void *func, dim3 gridDim, dim3 blockDim,
 			     void **args, size_t sharedMem, cudaStream_t stream);
 cudaError_t cudaLaunchCooperativeKernel(const void *func,

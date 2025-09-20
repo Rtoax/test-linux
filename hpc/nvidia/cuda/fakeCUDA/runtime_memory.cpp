@@ -70,6 +70,12 @@ cudaError_t cudaMemset(void *devPtr, int value, size_t count)
 	return cudaSuccess;
 }
 
+cudaError_t cudaMemsetAsync(void *devPtr, int value, size_t count,
+			    cudaStream_t stream)
+{
+	return cudaMemset(devPtr, value, count);
+}
+
 cudaError_t cudaMemcpy(void *dst, const void *src, size_t count,
 		       cudaMemcpyKind kind)
 {

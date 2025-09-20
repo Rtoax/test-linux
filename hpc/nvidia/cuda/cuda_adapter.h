@@ -43,6 +43,16 @@
 #define cudaMalloc(pp, sz)	__cu(Malloc(pp, sz))
 #define cudaFree(ptr)	__cu(Free(ptr))
 #define cudaMemset(ptr, v, size)	__cu(Memset(ptr, v, size))
+/**
+ * CUDA 12
+ * cudaError_t cudaMemsetAsync(void *devPtr, int value, size_t count,
+ *                             cudaStream_t stream);
+ *
+ * HIP
+ * hipError_t hipMemsetAsync(void* dst, int value, size_t sizeBytes,
+ *                           hipStream_t stream);
+ */
+#define cudaMemset(ptr, v, size)	__cu(Memset(ptr, v, size))
 #define cudaMemcpy(dev, host, size, flag)	__cu(Memcpy(dev, host, size, flag))
 #define cudaMemcpyKind	__cu(MemcpyKind)
 #define cudaMemcpyHostToDevice	__cu(MemcpyHostToDevice)
@@ -169,6 +179,20 @@
 #define cudaStreamCreate(pstream)	__cu(StreamCreate(pstream))
 #define cudaStreamSynchronize(stream)	__cu(StreamSynchronize(stream))
 #define cudaStreamDestroy(stream)	__cu(StreamDestroy(stream))
+
+/**
+ * CUDA 12
+ * cudaError_t cudaStreamIsCapturing(cudaStream_t stream,
+ *                                   cudaStreamCaptureStatus *pCaptureStatus);
+ *
+ * HIP
+ * hipError_t hipStreamIsCapturing(hipStream_t stream,
+ *                                 hipStreamCaptureStatus* pCaptureStatus);
+ */
+#define cudaStreamIsCapturing(stream, pCaptureStatus)	\
+	__cu(StreamIsCapturing(stream, pCaptureStatus))
+
+#define cudaStreamCaptureStatus	__cu(StreamCaptureStatus)
 
 /**
  * HPCC 3.0.0

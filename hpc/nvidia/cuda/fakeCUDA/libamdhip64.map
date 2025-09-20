@@ -11,6 +11,9 @@ hip_4.2 {
 		__hipGetKernel;
 		__hipPopCallConfiguration;
 		__hipLaunchKernel;
+		hipGetDevice;
+		hipMemset;
+		hipMemsetAsync;
 		hipLaunchKernel;
 		hipStreamSynchronize;
 	local:
@@ -18,6 +21,8 @@ hip_4.2 {
 };
 
 hip_4.3 {
+	global:
+		hipStreamIsCapturing;
 };
 
 hip_5.1 {
