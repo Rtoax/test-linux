@@ -11,6 +11,7 @@ hip_4.2 {
 		__hipGetKernel;
 		__hipPopCallConfiguration;
 		__hipLaunchKernel;
+		hipLaunchKernel;
 	local:
 		*;
 };
