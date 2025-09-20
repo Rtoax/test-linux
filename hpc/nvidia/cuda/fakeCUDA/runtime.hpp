@@ -90,6 +90,9 @@ cudaError_t cudaMemAdvise(const void *devPtr, size_t count,
 			  cudaMemLocation location
 			  #endif
 			  );
+cudaError_t cudaMemAdvise_v2(const void *devPtr, size_t count,
+			     cudaMemoryAdvise advice,
+			     cudaMemLocation location);
 cudaError_t cudaMemset(void *devPtr, int value, size_t count);
 cudaError_t cudaMemcpy(void *dst, const void *src, size_t count,
 		       cudaMemcpyKind kind);

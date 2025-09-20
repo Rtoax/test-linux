@@ -52,6 +52,14 @@ cudaError_t cudaMemAdvise(const void *devPtr, size_t count,
 	return cudaSuccess;
 }
 
+cudaError_t cudaMemAdvise_v2(const void *devPtr, size_t count,
+			     cudaMemoryAdvise advice,
+			     cudaMemLocation location)
+{
+	return cudaSuccess;
+}
+
+
 cudaError_t cudaMemset(void *devPtr, int value, size_t count)
 {
 	if (!devPtr || count <= 0)

@@ -30,6 +30,7 @@ libcudart.so.12 {
 		cudaMemcpy;
 		cudaMemset;
 		cudaMemAdvise;
+		cudaMemAdvise_v2;
 		cudaStreamCreate;
 		cudaStreamDestroy;
 		cudaStreamSynchronize;

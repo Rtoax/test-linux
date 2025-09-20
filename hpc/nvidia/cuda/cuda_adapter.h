@@ -71,6 +71,9 @@
  * cudaError_t cudaMemAdvise(const void* devPtr, size_t count,
  *                           cudaMemoryAdvise advice,
  *                           int device);
+ * cudaError_t cudaMemAdvise_v2(const void *devPtr, size_t count,
+ *                              enum cudaMemoryAdvise advice,
+ *                              struct cudaMemLocation location)
  *
  * HPCC 2.33.1, 3.0.0
  * hcError_t hcMemAdvise(const void *dev_ptr, size_t count,
@@ -82,7 +85,11 @@
  *                         hipMemoryAdvise advice,
  *                         int device);
  */
-#define cudaMemAdvise(ptr, count, advice, location_or_device)	__cu(MemAdvise(ptr, count, advice, location_or_device))
+#define cudaMemAdvise(ptr, count, advice, location_or_device)	\
+	__cu(MemAdvise(ptr, count, advice, location_or_device))
+#define cudaMemAdvise_v2(ptr, count, advice, location_or_device)	\
+	__cu(MemAdvise_v2(ptr, count, advice, location_or_device))
+
 #ifdef HAVE_HIP
 #define cudaMemoryAdvise	__cu(MemoryAdvise)	/* enum */
 #else
