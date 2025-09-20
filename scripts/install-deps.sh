@@ -369,6 +369,7 @@ TEMP_ARGS=$(getopt --options uvhfk: \
 	--long boot \
 	--long net \
 	--long cxl \
+	--long 3rd \
 	--long srvs \
 	--long skip-pkg: \
 	--long dry-run \
