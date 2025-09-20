@@ -22,7 +22,7 @@ libso-cuda += libcufft.so.12
 libso-cuda += libcurand.so.10
 libso-cuda += libcusparse.so.12
 
-libso-hip := libamdhip64.so.6
+libso-hip := libamdhip64.so.5 libamdhip64.so.6
 
 
 ifdef HAVE_HPCC
@@ -80,6 +80,7 @@ LDXXFLAGS_SO_libcufft.so.12 := -Wl,--version-script=libcufft.map
 LDXXFLAGS_SO_libcusparse.so.12 := -Wl,--version-script=libcusparse.map
 
 # ROCm HIP
+LDXXFLAGS_SO_libamdhip64.so.5 := -Wl,--version-script=libamdhip64.map
 LDXXFLAGS_SO_libamdhip64.so.6 := -Wl,--version-script=libamdhip64.map
 
 include ../../../../template/main.mk
@@ -147,4 +148,5 @@ libcurand.so.10: ${common-objs} ${OUTPUT}rand.cpp.so.o
 libcusparse.so.12: ${common-objs} ${OUTPUT}sparse.cpp.so.o
 
 # ROCm HIP
+libamdhip64.so.5: ${common-objs} ${rt-hip-objs}
 libamdhip64.so.6: ${common-objs} ${rt-hip-objs}
