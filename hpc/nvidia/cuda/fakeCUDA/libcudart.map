@@ -26,6 +26,7 @@ libcudart.so.12 {
 		cudaDeviceSynchronize;
 		cudaMalloc;
 		cudaMallocManaged;
+		cudaMallocAsync;
 		cudaFree;
 		cudaMemcpy;
 		cudaMemset;

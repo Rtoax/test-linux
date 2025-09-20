@@ -31,6 +31,11 @@ cudaError_t cudaMallocManaged(void **devPtr, size_t size, unsigned int flags)
 	return cudaMalloc(devPtr, size);
 }
 
+cudaError_t cudaMallocAsync(void **devPtr, size_t size, cudaStream_t hStream)
+{
+	return cudaMalloc(devPtr, size);
+}
+
 cudaError_t cudaFree(void *devPtr)
 {
 	if (!devPtr)

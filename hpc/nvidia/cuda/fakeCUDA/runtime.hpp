@@ -81,6 +81,7 @@ cudaError_t __cudaLaunchKernel(cudaKernel_t kernel, dim3 gridDim, dim3 blockDim,
 
 cudaError_t cudaMalloc(void **devPtr, size_t size);
 cudaError_t cudaMallocManaged(void **devPtr, size_t size, unsigned int flags);
+cudaError_t cudaMallocAsync(void **devPtr, size_t size, cudaStream_t hStream);
 cudaError_t cudaFree(void *devPtr);
 cudaError_t cudaMemAdvise(const void *devPtr, size_t count,
 			  cudaMemoryAdvise advice,

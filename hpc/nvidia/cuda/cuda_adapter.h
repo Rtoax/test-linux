@@ -68,6 +68,13 @@
 #define cudaMemAttachHost	__cu(MemAttachHost)
 #define cudaMemAttachSingle	__cu(MemAttachSingle)
 #define cudaMallocManaged(pp, sz, flags)	__cu(MallocManaged(pp, sz, flags))
+/**
+ * CUDA 12
+ * cudaError_t cudaMallocAsync(void **devPtr, size_t size, cudaStream_t hStream);
+ *
+ * HIP
+ * hipError_t hipMallocAsync(void** dev_ptr, size_t size, hipStream_t stream);
+ */
 #define cudaMallocAsync(pp, sz, stream)	__cu(MallocAsync(pp, sz, stream))
 #define cudaFreeAsync(ptr, stream)	__cu(FreeAsync(ptr, stream))
 

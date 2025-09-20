@@ -12,10 +12,39 @@ hip_4.2 {
 		__hipPopCallConfiguration;
 		__hipLaunchKernel;
 		hipGetDevice;
+		hipSetDevice;
+		hipGetLastError;
+		hipGetErrorString;
+		hipGetDeviceCount;
+		hipGetDeviceProperties;
+		hipGetDeviceProperties_v2;
+		hipDeviceGetAttribute;
+		hipDeviceDisablePeerAccess;
+		hipDeviceCanAccessPeer;
+		hipDeviceGetP2PAttribute;
+		hipDeviceSetLimit;
+		hipDeviceSynchronize;
+		hipMalloc;
+		hipMallocManaged;
+		hipFree;
+		hipMemcpy;
 		hipMemset;
 		hipMemsetAsync;
-		hipLaunchKernel;
+		hipMemAdvise;
+		hipMemAdvise_v2;
+		hipStreamCreate;
+		hipStreamDestroy;
 		hipStreamSynchronize;
+		hipLaunchKernel;
+		hipLaunchCooperativeKernel;
+		hipEventCreate;
+		hipEventCreateWithFlags;
+		hipEventDestroy;
+		hipEventElapsedTime;
+		hipEventQuery;
+		hipEventRecord;
+		hipEventRecordWithFlags;
+		hipEventSynchronize;
 	local:
 		*;
 };
@@ -26,6 +55,8 @@ hip_4.3 {
 };
 
 hip_5.1 {
+	global:
+		hipMallocAsync;
 };
 
 hip_5.3 {
