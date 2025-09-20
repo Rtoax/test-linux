@@ -70,6 +70,19 @@
 #define cudaMemcpyKind	__cu(MemcpyKind)
 #define cudaMemcpyHostToDevice	__cu(MemcpyHostToDevice)
 #define cudaMemcpyDeviceToHost	__cu(MemcpyDeviceToHost)
+
+/**
+ * CUDA 12
+ * cudaError_t cudaMemcpyAsync(void *dst, const void *src, size_t count,
+ *                             enum cudaMemcpyKind kind, cudaStream_t stream);
+ *
+ * HIP
+ * hipError_t hipMemcpyAsync(void* dst, const void* src, size_t sizeBytes,
+ *                           hipMemcpyKind kind,
+ *                           hipStream_t stream __dparm(0));
+ */
+#define cudaMemcpyAsync	__cu(MemcpyAsync)
+
 /**
  * CUDA 12
  * cudaError_t cudaMemcpy2DAsync(void *dst, size_t dpitch, const void *src,

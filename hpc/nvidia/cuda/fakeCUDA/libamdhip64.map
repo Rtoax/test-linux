@@ -28,6 +28,7 @@ hip_4.2 {
 		hipMallocManaged;
 		hipFree;
 		hipMemcpy;
+		hipMemcpyAsync;
 		hipMemcpy2DAsync;
 		hipMemset;
 		hipMemsetAsync;
