@@ -7,6 +7,7 @@
 #include "cuda_adapter.h"
 #elif defined(HAVE_HIP)
 #include <hip/hip_runtime.h>
+#include "cuda_adapter.h"
 #else
 #include <cuda_runtime.h>
 #include "cuda_helpers.h"
@@ -63,10 +64,8 @@ int main(void)
 	kernel_foo<<<(count + 511) / 512, 512>>>(count);
 	kernel_bar<<<(count + 511) / 512, 512>>>(count);
 
-#if !defined(HAVE_HIP) // FIXME:
 	/* flush printf */
-	cudaDeviceSynchronize();
-#endif
+	(void)cudaDeviceSynchronize();
 
 	printf("Bye...\n");
 	return 0;

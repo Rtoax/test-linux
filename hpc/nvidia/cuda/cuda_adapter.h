@@ -183,7 +183,9 @@
 	__cu(DeviceComputeCapability(pmajor, pminor, pdev))
 
 /* CUresult */
+#ifndef CUDA_SUCCESS
 #define CUDA_SUCCESS	__CUDA_ERROR(SUCCESS);
+#endif
 #define CUDA_ERROR_INVALID_VALUE	__CUDA_ERROR(ERROR_INVALID_VALUE)
 #define CUDA_ERROR_OUT_OF_MEMORY	__CUDA_ERROR(ERROR_OUT_OF_MEMORY)
 #define CUDA_ERROR_NOT_INITIALIZED	__CUDA_ERROR(ERROR_NOT_INITIALIZED)
@@ -482,6 +484,13 @@
  */
 #define cudaDeviceDisablePeerAccess(dev)	__cu(DeviceDisablePeerAccess(dev))
 
+/**
+ * CUDA 12:
+ * cudaError_t cudaDeviceSynchronize(void);
+ *
+ * HIP:
+ * hipError_t hipDeviceSynchronize(void);
+ */
 #define cudaDeviceSynchronize()	__cu(DeviceSynchronize())
 
 /**
