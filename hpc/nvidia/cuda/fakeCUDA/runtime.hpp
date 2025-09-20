@@ -4,6 +4,7 @@
  * Refs:
  * - https://github.com/ROCm/rocm-systems.git
  */
+#pragma once
 #include <sys/types.h>
 #include "compat.hpp"
 #include "device.h"
