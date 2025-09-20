@@ -32,23 +32,23 @@ CLANG := clang
 CFLAGS :=
 CFLAGS_BPF :=
 
-kconfig-obj-y :=
-kconfig-obj-$(CONFIG_KPROBES) += kprobe
-kconfig-obj-$(CONFIG_TRACEPOINTS) += tracepoint raw_tracepoint tp_btf
-kconfig-obj-$(CONFIG_TRACEPOINTS) += map_hash map_lru_hash map_percpu_hash map_lru_percpu_hash
-kconfig-obj-$(CONFIG_PERF_EVENTS) += perf_event perf_buffer
+kobjs-y :=
+kobjs-$(CONFIG_KPROBES) += kprobe
+kobjs-$(CONFIG_TRACEPOINTS) += tracepoint raw_tracepoint tp_btf
+kobjs-$(CONFIG_TRACEPOINTS) += map_hash map_lru_hash map_percpu_hash map_lru_percpu_hash
+kobjs-$(CONFIG_PERF_EVENTS) += perf_event perf_buffer
 # fentry: -pg -mfentry
 #  fentry + BPF trampoline ~= kprobe hook
-kconfig-obj-$(CONFIG_HAVE_FENTRY) += fentry
-kconfig-obj-$(CONFIG_BPF_LSM) += lsm_bpf
-kconfig-obj-$(CONFIG_BPF_LSM) += lsm_socket_create
-kconfig-obj-$(CONFIG_BPF_LSM) += lsm_socket_sendmsg
-kconfig-obj-$(CONFIG_BPF_LSM) += lsm_file_open
-kconfig-obj-$(CONFIG_RING_BUFFER) += ring_buffer
+kobjs-$(CONFIG_HAVE_FENTRY) += fentry
+kobjs-$(CONFIG_BPF_LSM) += lsm_bpf
+kobjs-$(CONFIG_BPF_LSM) += lsm_socket_create
+kobjs-$(CONFIG_BPF_LSM) += lsm_socket_sendmsg
+kobjs-$(CONFIG_BPF_LSM) += lsm_file_open
+kobjs-$(CONFIG_RING_BUFFER) += ring_buffer
 
 ifdef DEBUG
-  $(info kconfig-obj-y : $(kconfig-obj-y))
-  $(info kconfig-obj-n : $(kconfig-obj-))
+  $(info kobjs-y : $(kobjs-y))
+  $(info kobjs-n : $(kobjs-))
 endif
 
 targets :=
@@ -101,7 +101,7 @@ ifeq ($(call kernel_newer_than,6,12,0),y)
   # commit 4971266e1595 ("bpf: Add kmem_cache iterator")
   targets += iter_kmem_cache
 endif
-targets += $(kconfig-obj-y)
+targets += $(kobjs-y)
 targets += map_array map_percpu_array
 targets += xdp_xskmap
 
