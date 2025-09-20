@@ -52,7 +52,7 @@
  * hipError_t hipMemsetAsync(void* dst, int value, size_t sizeBytes,
  *                           hipStream_t stream);
  */
-#define cudaMemset(ptr, v, size)	__cu(Memset(ptr, v, size))
+#define cudaMemsetAsync(ptr, v, size, stream)	__cu(MemsetAsync(ptr, v, size, stream))
 #define cudaMemcpy(dev, host, size, flag)	__cu(Memcpy(dev, host, size, flag))
 #define cudaMemcpyKind	__cu(MemcpyKind)
 #define cudaMemcpyHostToDevice	__cu(MemcpyHostToDevice)
