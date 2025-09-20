@@ -153,7 +153,7 @@ hipError_t
 unsigned
 #endif
 __cudaPushCallConfiguration(dim3 gridDim, dim3 blockDim, size_t sharedMem,
-			    struct CUstream_st *stream)
+			    cudaStream_t stream)
 {
 	DEBUG_DBG("grid(%d,%d,%d), block(%d,%d,%d), sharedMem %ld\n",
 		  gridDim.x, gridDim.y, gridDim.z,
