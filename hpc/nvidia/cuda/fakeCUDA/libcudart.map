@@ -29,6 +29,7 @@ libcudart.so.12 {
 		cudaMallocAsync;
 		cudaFree;
 		cudaMemcpy;
+		cudaMemcpy2DAsync;
 		cudaMemset;
 		cudaMemsetAsync;
 		cudaMemset2DAsync;

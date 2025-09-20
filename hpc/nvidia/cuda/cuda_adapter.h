@@ -71,6 +71,19 @@
 #define cudaMemcpyHostToDevice	__cu(MemcpyHostToDevice)
 #define cudaMemcpyDeviceToHost	__cu(MemcpyDeviceToHost)
 /**
+ * CUDA 12
+ * cudaError_t cudaMemcpy2DAsync(void *dst, size_t dpitch, const void *src,
+ *                               size_t spitch, size_t width, size_t height,
+ *                               enum cudaMemcpyKind kind, cudaStream_t stream __dv(0));
+ *
+ * HIP
+ * hipError_t hipMemcpy2DAsync(void* dst, size_t dpitch, const void* src,
+ *                             size_t spitch, size_t width, size_t height,
+ *                             hipMemcpyKind kind, hipStream_t stream __dparm(0));
+ */
+#define cudaMemcpy2DAsync	__cu(Memcpy2DAsync)
+
+/**
  * cudaError_t cudaMallocManaged(void **devPtr, size_t size,
  *                               unsigned int flags = cudaMemAttachGlobal);
  * hcError_t hcMallocManaged(void **dev_ptr, size_t size,

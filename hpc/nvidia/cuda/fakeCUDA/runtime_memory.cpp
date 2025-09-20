@@ -98,3 +98,10 @@ cudaError_t cudaMemcpy(void *dst, const void *src, size_t count,
 
 	return cudaSuccess;
 }
+
+cudaError_t cudaMemcpy2DAsync(void *dst, size_t dpitch, const void *src,
+			      size_t spitch, size_t width, size_t height,
+			      cudaMemcpyKind kind, cudaStream_t stream)
+{
+	return cudaMemcpy(dst, src, width * height, kind);
+}
