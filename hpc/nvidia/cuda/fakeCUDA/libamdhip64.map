@@ -1,6 +1,16 @@
 hip_4.2 {
 	global:
+		__hipInitModule;
 		__hipRegisterFatBinary;
+		__hipRegisterFatBinaryEnd;
+		__hipUnregisterFatBinary;
+		__hipRegisterFunction;
+		__hipRegisterVar;
+		__hipRegisterManagedVar;
+		__hipPushCallConfiguration;
+		__hipGetKernel;
+		__hipPopCallConfiguration;
+		__hipLaunchKernel;
 	local:
 		*;
 };
