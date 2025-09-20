@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- libbpf: add string_helpers.bpf.h;
 - fakeCUDA: support ROCm HIP;
 - fakeCUDA: add libamdhip64.map;
 - targets: add amd.mk;

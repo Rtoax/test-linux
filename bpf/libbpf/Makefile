@@ -436,8 +436,8 @@ ${OUTPUT}sockops.o: ${OUTPUT}sockops.skel.h
 kprobe: ${OUTPUT}kprobe.o ${HELPERS}
 ${OUTPUT}kprobe.o: ${OUTPUT}kprobe.skel.h
 tracepoint: ${OUTPUT}tracepoint.o ${HELPERS}
-${OUTPUT}tracepoint.o: ${OUTPUT}tracepoint.skel.h ${OUTPUT}map_hash.skel.h
-${OUTPUT}tracepoint.bpf.o: tracepoint.h bpf_helpers.h
+${OUTPUT}tracepoint.o: ${OUTPUT}tracepoint.skel.h ${OUTPUT}tracepoint.bpf.o ${OUTPUT}map_hash.skel.h
+${OUTPUT}tracepoint.bpf.o: tracepoint.h bpf_helpers.h string_helpers.bpf.h
 raw_tracepoint: ${OUTPUT}raw_tracepoint.o ${HELPERS}
 ${OUTPUT}raw_tracepoint.o: ${OUTPUT}raw_tracepoint.skel.h
 tp_btf: ${OUTPUT}tp_btf.o ${HELPERS}

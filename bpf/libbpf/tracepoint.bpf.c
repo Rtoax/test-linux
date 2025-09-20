@@ -17,6 +17,8 @@
 #include "tracepoint.h"
 #include "bpf_misc.h"
 #include "bpf_helpers.h"
+#include "string_helpers.bpf.h"
+
 
 #ifndef SIGKILL
 #define SIGKILL 9
@@ -226,6 +228,14 @@ int tracepoint__syscalls__sys_exit_execve(struct syscall_trace_exit *ctx)
 		goto cleanup;
 	}
 #endif
+
+	/**
+	 * test string_helpers.bpf.h
+	 */
+	{
+		char src[5] = ".elf";
+		__bpf_str_append(pevent->comm, sizeof(pevent->comm), src, sizeof(src));
+	}
 
 	bpf_perf_event_output(ctx, &events, BPF_F_CURRENT_CPU, pevent,
 			      sizeof(*pevent));
