@@ -613,6 +613,12 @@ pkgs_compiler+=( flex )
 pkgs_compiler+=( gcc )
 pkgs_compiler+=( lld )                    # ELF linker from the LLVM project
 pkgs_compiler+=( llvm )                   # llvm-as llvm-dis llc
+if [[ $(is_os debian:12 ubuntu:25.04 fedora:42) ]]; then
+	pkgs_compiler+=( hipcc )
+fi
+if [[ $(is_os debian:12 ubuntu:25.04) ]]; then
+	pkgs_compiler+=( nvidia-cuda-toolkit )
+fi
 
 pkgs_devel+=( patchelf ) # https://github.com/NixOS/patchelf
 
