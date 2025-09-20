@@ -135,9 +135,14 @@ int cufft_version(int *_major, int *_minor, int *_patch)
 {
 	int major, minor, patch;
 
-	CUFFT_CHECK(cufftGetProperty(HIPFFT_MAJOR_VERSION, &major), return -1);
-	CUFFT_CHECK(cufftGetProperty(HIPFFT_MINOR_VERSION, &minor), return -1);
-	CUFFT_CHECK(cufftGetProperty(HIPFFT_PATCH_LEVEL, &patch), return -1);
+#ifdef HAVE_HIP
+#define MAJOR_VERSION   HIPFFT_MAJOR_VERSION
+#define MINOR_VERSION   HIPFFT_MINOR_VERSION
+#define PATCH_LEVEL     HIPFFT_PATCH_LEVEL
+#endif
+	CUFFT_CHECK(cufftGetProperty(MAJOR_VERSION, &major), return -1);
+	CUFFT_CHECK(cufftGetProperty(MINOR_VERSION, &minor), return -1);
+	CUFFT_CHECK(cufftGetProperty(PATCH_LEVEL, &patch), return -1);
 
 	*_major = major;
 	*_minor = minor;

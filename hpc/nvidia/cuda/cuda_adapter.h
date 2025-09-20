@@ -1060,11 +1060,6 @@
  * cufftResult CUFFTAPI cufftGetProperty(libraryPropertyType type, int *value);
  */
 #define cufftGetProperty(v, pval)	__cu(fftGetProperty(v, pval))
-#ifndef HAVE_HIP
-#define HIPFFT_MAJOR_VERSION	MAJOR_VERSION
-#define HIPFFT_MINOR_VERSION	MINOR_VERSION
-#define HIPFFT_PATCH_LEVEL	PATCH_LEVEL
-#endif
 
 
 /**
