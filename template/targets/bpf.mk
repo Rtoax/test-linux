@@ -21,8 +21,14 @@ include ${TEMPLATE_DIR}/../bpf/btf/btf.mk
 
 OBJDUMP_ARGS :=
 
+CFLAGS_BPF += -I.
 CFLAGS_BPF += -O2 -g
-CFLAGS_BPF += -target bpf
+# Like -target bpfel
+CFLAGS_BPF += -target bpf -mlittle-endian
+CFLAGS_BPF += -mcpu=v3
+# FIXME: vmlinux.h use macro 'restrict'
+# TODO: linux selftests/bpf is -std=gnu11
+CFLAGS_BPF += -std=gnu89 -Drestrict=
 CFLAGS_BPF += $(CFLAG_BPF_TARGET_ARCH)
 
 ifdef DEBUG

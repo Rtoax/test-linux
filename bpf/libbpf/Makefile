@@ -26,12 +26,6 @@ endif
 
 UID := $(shell id -u)
 
-CC := gcc
-CLANG := clang
-
-CFLAGS :=
-CFLAGS_BPF :=
-
 kobjs-y :=
 kobjs-$(CONFIG_KPROBES) += kprobe
 kobjs-$(CONFIG_TRACEPOINTS) += tracepoint raw_tracepoint tp_btf
@@ -51,8 +45,7 @@ ifdef DEBUG
   $(info kobjs-n : $(kobjs-))
 endif
 
-targets :=
-targets += config-map
+targets := config-map
 targets += socket_filter
 targets += tc
 targets += xdp xdp_simple xdp_dos
@@ -69,12 +62,6 @@ endif
 # introduce struct bpf_cpumap_val
 ifeq ($(call kernel_newer_than,5,8,0),y)
   targets += xdp_cpumap
-endif
-
-# linux commit e6f2dd0f8067 ("bpf: Add bpf_loop helper")
-# v5.15-12938-ge6f2dd0f8067
-ifeq ($(call kernel_newer_than,5,15,0),y)
-  CFLAGS_BPF += -DSUPPORT_BPF_LOOP=1
 endif
 
 targets += sockops
@@ -131,10 +118,18 @@ ifeq ($(call kernel_newer_than,5,0,0),y)
   targets += spin_lock
 endif
 
+# linux commit e6f2dd0f8067 ("bpf: Add bpf_loop helper")
+# v5.15-12938-ge6f2dd0f8067
+ifeq ($(call kernel_newer_than,5,15,0),y)
+  CFLAGS_BPF += -DSUPPORT_BPF_LOOP=1
+  $(info Found bpf_loop())
+endif
+
 # linux commit 7b15523a989b ("bpf: Add a bpf_snprintf helper")
 # v5.12-rc4-1654-g7b15523a989b
 ifeq ($(call kernel_newer_than,5,12,0),y)
   CFLAGS_BPF += -DSUPPORT_BPF_SNPRINTF=1
+  $(info Found bpf_snprintf())
 endif
 # linux commit c5fb19937455 ("bpf: Add bpf_strncmp helper")
 # v5.16-rc4-1160-gc5fb19937455
@@ -216,22 +211,11 @@ obj-bpf.o += sched_act.bpf.o
 targets-bpf := $(addprefix ${OUTPUT},${obj-bpf.o})
 targets-post := $(patsubst %.bpf.o,%.bpf.disasm,$(targets-bpf))
 
-# FIXME: vmlinux.h use macro 'restrict'
-# TODO: linux selftests/bpf is -std=gnu11
-CFLAGS_BPF += -std=gnu89 -Drestrict=
-CFLAGS_BPF += -I.
-CFLAGS_BPF += -O2 -g
-# Like -target bpfel
-CFLAGS_BPF += -target bpf -mlittle-endian
-CFLAGS_BPF += -mcpu=v3
 ifeq ($(CONFIG_ARCH_HAS_SYSCALL_WRAPPER),y)
   CFLAGS_BPF += -DCONFIG_ARCH_HAS_SYSCALL_WRAPPER=1
 endif
 
-CFLAGS += -lbpf
-CFLAGS += -O0 -g
 LDFLAGS := -lbpf
-LDFLAGS += -O0 -g
 LDFLAGS += -pthread
 
 CFLAGS += -DCONFIG_BPF_SYSCALL=$(CONFIG_BPF_SYSCALL)
