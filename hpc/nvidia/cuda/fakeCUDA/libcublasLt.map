@@ -1,4 +1,4 @@
-libcublasLt.so.13 {
+libcublasLt.so.12 {
 	global:
 		cublasLtGetVersion;
 		cublasLtCreate;
@@ -16,3 +16,6 @@ libcublasLt.so.13 {
 	local:
 		*;
 };
+
+libcublasLt.so.13 {
+} libcublasLt.so.12;
