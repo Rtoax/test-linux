@@ -622,7 +622,8 @@ add_cross_compiler()
 		pkgs_compiler+=( binutils-aarch64-linux-gnu )
 		pkgs_compiler+=( gcc-aarch64-linux-gnu )
 	fi
-	if [[ ! $(is_arch arm) ]] && [[ ! $(is_os debian:13) ]]; then
+	if [[ ! $(is_arch arm) ]] && [[ ! $(is_os debian:13) ]] &&
+	   [[ ! $(is_os ubuntu:25.04) ]]; then
 		pkgs_compiler+=( binutils-arm-linux-gnu )
 		pkgs_compiler+=( gcc-arm-linux-gnu )
 	fi
@@ -1185,7 +1186,7 @@ if [[ $(is_os opencloudos) ]]; then
 	pkgs_skip+=( perf )
 fi
 
-if [[ $(is_os debian) ]]; then
+if [[ $(is_os debian ubuntu) ]]; then
 	pkgs_skip+=( gcc-multilib libdevmapper-dev )
 fi
 
