@@ -16,7 +16,7 @@ libso-hpcc += libhcsparse.so
 
 libso-cuda := libcuda.so.1
 libso-cuda += libcudart.so.12 libcudart.so.13
-libso-cuda += libcublas.so.13
+libso-cuda += libcublas.so.12 libcublas.so.13
 libso-cuda += libcublasLt.so.13
 libso-cuda += libcufft.so.11 libcufft.so.12
 libso-cuda += libcurand.so.10
@@ -74,6 +74,7 @@ LDXXFLAGS_SO_libhcsparse.so := -Wl,--version-script=libhcsparse.map
 LDXXFLAGS_SO_libcuda.so.1 := -Wl,--version-script=libcuda.map
 LDXXFLAGS_SO_libcudart.so.12 := -Wl,--version-script=libcudart.map
 LDXXFLAGS_SO_libcudart.so.13 := -Wl,--version-script=libcudart.map
+LDXXFLAGS_SO_libcublas.so.12 := -Wl,--version-script=libcublas.map
 LDXXFLAGS_SO_libcublas.so.13 := -Wl,--version-script=libcublas.map
 LDXXFLAGS_SO_libcublasLt.so.13 := -Wl,--version-script=libcublasLt.map
 LDXXFLAGS_SO_libcurand.so.10 := -Wl,--version-script=libcurand.map
@@ -144,6 +145,7 @@ libhcsparse.so: ${common-objs} ${OUTPUT}sparse-hpcc.cpp.so.o
 libcuda.so.1: ${common-objs} ${OUTPUT}cuda.cpp.so.o ${OUTPUT}cuda-module-mgmt.cpp.so.o
 libcudart.so.12: ${common-objs} ${rt-objs}
 libcudart.so.13: ${common-objs} ${rt-objs}
+libcublas.so.12: ${common-objs} ${OUTPUT}blas.cpp.so.o
 libcublas.so.13: ${common-objs} ${OUTPUT}blas.cpp.so.o
 libcublasLt.so.13: ${common-objs} ${OUTPUT}blasLt.cpp.so.o
 libcufft.so.11: ${common-objs} ${OUTPUT}fft.cpp.so.o

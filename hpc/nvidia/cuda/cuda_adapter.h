@@ -490,6 +490,9 @@
  *
  * refs:
  * - https://docs.nvidia.com/cuda/cublas/index.html
+ *
+ * CUDA V12.2.140
+ * const char* cublasGetStatusString(cublasStatus_t status);
  */
 #define cublasGetStatusString(status)	__cu(blasGetStatusString(status))
 #define cublasStatus_t	__cu(blasStatus_t)

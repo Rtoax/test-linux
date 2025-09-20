@@ -1,5 +1,6 @@
-libcublas.so.13 {
+libcublas.so.12 {
 	global:
+		cublasGetStatusString;
 		cublasGetVersion_v2;
 		cublasCreate_v2;
 		cublasDestroy_v2;
@@ -29,3 +30,6 @@ libcublas.so.13 {
 	local:
 		*;
 };
+
+libcublas.so.13 {
+} libcublas.so.12;

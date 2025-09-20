@@ -33,6 +33,10 @@
 #define cublasDgemm_v2	hcblasDgemm
 #endif
 
+const char* cublasGetStatusString(cublasStatus_t status)
+{
+	return "fakeCUDA";
+}
 
 cublasStatus_t cublasGetVersion_v2(cublasHandle_t handle, int *version)
 {

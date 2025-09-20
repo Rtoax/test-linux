@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- fakeCUDA: add libcublas.so.12 and cublasGetStatusString();
 - libbpf: add string_helpers.bpf.h;
 - fakeCUDA: support ROCm HIP;
 - fakeCUDA: add libamdhip64.map;

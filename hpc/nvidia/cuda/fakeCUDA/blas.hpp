@@ -34,6 +34,8 @@
 extern "C" {
 #endif
 
+const char* cublasGetStatusString(cublasStatus_t status);
+
 cublasStatus_t cublasGetVersion_v2(cublasHandle_t handle, int *version);
 
 cublasStatus_t cublasCreate_v2(cublasHandle_t *handle);
