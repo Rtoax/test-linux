@@ -28,6 +28,11 @@
 #  error "Not found ROCm HIP envrioment, but use HIP"
 # endif
 #else /* fallback to CUDA */
+/**
+ * macro:
+ * - CUDA_VERSION
+ *   12020: V12.2.140
+ */
 #include <cuda.h>
 #include <cuda_runtime.h>
 #include <cublas.h>

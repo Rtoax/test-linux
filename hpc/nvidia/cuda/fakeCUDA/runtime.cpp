@@ -84,8 +84,10 @@ cudaError_t cudaGetDeviceProperties(cudaDeviceProp *prop, int device)
 	prop->totalGlobalMem = devTotalGlobalMem(device);
 	prop->totalConstMem = devTotalConstMem(device);
 	prop->l2CacheSize = devL2CacheSize(device);
+	#ifndef __USE_HIP__ /* HIP version: 5.7.31921-0 */
 	prop->globalL1CacheSupported = devGlobalL1CacheSupported(device);
 	prop->localL1CacheSupported = devLocalL1CacheSupported(device);
+	#endif
 	prop->managedMemory = devManagedMemory(device);
 	prop->memoryBusWidth = devMemoryBusWidth(device);
 	prop->ECCEnabled = devECCEnabled(device);

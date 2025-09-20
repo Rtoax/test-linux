@@ -66,12 +66,18 @@
  * cudaError_t cudaMemAdvise(const void* devPtr, size_t count,
  *                           cudaMemoryAdvise advice,
  *                           cudaMemLocation location);
+ *
+ * CUDA V12.2.140 CUDA_VERSION=12020
+ * cudaError_t cudaMemAdvise(const void* devPtr, size_t count,
+ *                           cudaMemoryAdvise advice,
+ *                           int device);
+ *
  * HPCC 2.33.1, 3.0.0
  * hcError_t hcMemAdvise(const void *dev_ptr, size_t count,
  *                       hcMemoryAdvise_t advice,
  *                       int device);
  *
- * HIP
+ * HIP 5.7.31921-0
  * hipError_t hipMemAdvise(const void* devPtr, size_t count,
  *                         hipMemoryAdvise advice,
  *                         int device);
@@ -280,7 +286,7 @@
 #define cudaGetDeviceProperties(prop, devid)	__cu(GetDeviceProperties(prop, devid))
 
 /**
- * HIP
+ * HIP 5.7.31921-0
  * hipError_t hipDeviceGetAttribute(int *value, hipDeviceAttribute_t attr,
  *                                  int dev_id);
  */
