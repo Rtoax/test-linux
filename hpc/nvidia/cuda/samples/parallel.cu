@@ -7,6 +7,7 @@
 #include "cuda_adapter.h"
 #elif defined(HAVE_HIP)
 #include <hip/hip_runtime.h>
+#include "cuda_helpers.h"
 #include "cuda_adapter.h"
 #else
 #include <cuda_runtime.h>
@@ -57,9 +58,7 @@ int main(void)
 
 	printf("Startup...\n");
 
-#if !defined(HAVE_HIP) // FIXME:
 	gpu_init(0);
-#endif
 
 	kernel_foo<<<(count + 511) / 512, 512>>>(count);
 	kernel_bar<<<(count + 511) / 512, 512>>>(count);

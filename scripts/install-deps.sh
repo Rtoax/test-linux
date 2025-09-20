@@ -1118,6 +1118,13 @@ apt_add_packages()
 	pkgs_devel+=( python3-systemd )
 	pkgs_devel+=( systemtap-sdt-dev )
 	pkgs_devel+=( zlib1g-dev )
+	# For ROCm HIP
+	if [[ $(is_os debian:12 ubuntu:25.04 fedora:42) ]]; then
+		pkgs_devel+=( libhipblas-dev )
+		pkgs_devel+=( libhipfft-dev )
+		pkgs_devel+=( libhiprand-dev )
+		pkgs_devel+=( libhipsparse-dev )
+	fi
 
 	pkgs_docs+=( python3-sphinx )
 	pkgs_docs+=( python3-sphinx-rtd-theme )

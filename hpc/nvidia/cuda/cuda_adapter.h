@@ -1041,12 +1041,39 @@
 #define CUFFT_NOT_IMPLEMENTED	__CU(FFT_NOT_IMPLEMENTED)
 #define CUFFT_LICENSE_ERROR	__CU(FFT_LICENSE_ERROR)
 #define CUFFT_NOT_SUPPORTED	__CU(FFT_NOT_SUPPORTED)
+
+/**
+ * HIP:
+ * typedef enum libraryPropertyType_t {
+ *     MAJOR_VERSION,
+ *     MINOR_VERSION,
+ *     PATCH_LEVEL
+ * } libraryPropertyType;
+ * hipfftResult hipfftGetProperty(hipfftLibraryPropertyType type, int* value);
+ *
+ * CUDA:
+ * typedef enum hipfftLibraryPropertyType_t {
+ *     HIPFFT_MAJOR_VERSION,
+ *     HIPFFT_MINOR_VERSION,
+ *     HIPFFT_PATCH_LEVEL
+ * } hipfftLibraryPropertyType;
+ * cufftResult CUFFTAPI cufftGetProperty(libraryPropertyType type, int *value);
+ */
 #define cufftGetProperty(v, pval)	__cu(fftGetProperty(v, pval))
+#ifndef HAVE_HIP
+#define HIPFFT_MAJOR_VERSION	MAJOR_VERSION
+#define HIPFFT_MINOR_VERSION	MINOR_VERSION
+#define HIPFFT_PATCH_LEVEL	PATCH_LEVEL
+#endif
+
 
 /**
  * SPARSE
  */
 #define cusparseStatus_t	__cu(sparseStatus_t)
+/**
+ * HIP 5.7.1 has no hipsparseGetProperty()
+ */
 #define cusparseGetProperty(v, pval)	__cu(sparseGetProperty(v, pval))
 #define CUSPARSE_STATUS_SUCCESS	__CU(SPARSE_STATUS_SUCCESS)
 #define CUSPARSE_STATUS_NOT_INITIALIZED	__CU(SPARSE_STATUS_NOT_INITIALIZED)

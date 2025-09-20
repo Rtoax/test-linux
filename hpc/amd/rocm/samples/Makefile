@@ -12,6 +12,7 @@ CFLAGS_HIPCC := -I/usr/include/c++/15/x86_64-redhat-linux/
 
 include ../../../../template/main.mk
 
+${OUTPUT}cuda_helpers.hip.o: cuda_helpers.h
 ${OUTPUT}%.o: cuda_adapter.h
 
-parallel: ${OUTPUT}parallel.hip.o
+parallel: ${OUTPUT}parallel.hip.o ${OUTPUT}cuda_helpers.hip.o

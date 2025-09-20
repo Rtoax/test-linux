@@ -10,6 +10,8 @@
 #include "cuda_adapter.h"
 #elif defined(HAVE_HIP)
 #include <hip/hip_runtime.h>
+#include <hipfft/hipfft.h>
+#include <hipsparse/hipsparse.h>
 #include "cuda_helpers.h"
 #include "cuda_adapter.h"
 #else
@@ -133,9 +135,9 @@ int cufft_version(int *_major, int *_minor, int *_patch)
 {
 	int major, minor, patch;
 
-	CUFFT_CHECK(cufftGetProperty(MAJOR_VERSION, &major), return -1);
-	CUFFT_CHECK(cufftGetProperty(MINOR_VERSION, &minor), return -1);
-	CUFFT_CHECK(cufftGetProperty(PATCH_LEVEL, &patch), return -1);
+	CUFFT_CHECK(cufftGetProperty(HIPFFT_MAJOR_VERSION, &major), return -1);
+	CUFFT_CHECK(cufftGetProperty(HIPFFT_MINOR_VERSION, &minor), return -1);
+	CUFFT_CHECK(cufftGetProperty(HIPFFT_PATCH_LEVEL, &patch), return -1);
 
 	*_major = major;
 	*_minor = minor;
@@ -148,6 +150,7 @@ int cusparse_version(int *_major, int *_minor, int *_patch)
 {
 	int major, minor, patch;
 
+#ifndef HAVE_HIP
 	cusparseGetProperty(MAJOR_VERSION, &major);
 	cusparseGetProperty(MINOR_VERSION, &minor);
 	cusparseGetProperty(PATCH_LEVEL, &patch);
@@ -155,6 +158,15 @@ int cusparse_version(int *_major, int *_minor, int *_patch)
 	*_major = major;
 	*_minor = minor;
 	*_patch = patch;
+#else
+	/**
+	 * HIP has no hipsparseGetProperty()
+	 * ubuntu25.04 libhipsparse-dev = 5.7.1-1build1
+	 */
+	*_major = 5;
+	*_minor = 7;
+	*_patch = 1;
+#endif
 
 	return 0;
 }

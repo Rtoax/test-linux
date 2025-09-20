@@ -9,6 +9,9 @@ ifneq ($(HIPCONFIG),)
   CFLAGS_HIPCC += $(shell ${HIPCONFIG} --cpp_config)
 endif
 
+LDFLAGS_HIPCC := -lhipfft
+LDFLAGS_HIPCC += -lhipsparse
+
 ifdef ERROR
   CFLAGS_HIPCC += -DERROR=1
 endif
