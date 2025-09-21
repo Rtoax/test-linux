@@ -1,0 +1,16 @@
+#!/bin/env bpftrace
+
+BEGIN
+{
+	@inner_map1[1] = 1;
+	@inner_map1[2] = 2;
+	@inner_map2[3] = 3;
+	@inner_map2[4] = 4;
+
+	@outer_map[1] = @inner_map1;
+	@outer_map[2] = @inner_map2;
+
+	/**
+	 * FIXME: not support yet?
+	 */
+}

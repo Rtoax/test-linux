@@ -199,8 +199,7 @@ obj-bpf.o += syscall.bpf.o
 obj-bpf.o += map_queue.bpf.o
 obj-bpf.o += map_stack.bpf.o
 obj-bpf.o += map_lpm_trie.bpf.o
-obj-bpf.o += map_array_of_maps.bpf.o
-obj-bpf.o += map_hash_of_maps.bpf.o
+obj-bpf.o += map_in_map.bpf.o
 obj-bpf.o += map_ringbuf.bpf.o
 obj-bpf.o += map_devmap.bpf.o
 obj-bpf.o += map_arena.bpf.o
@@ -331,10 +330,6 @@ CFLAGS_map_array := -DSOCKET_FILTER=1 -DRING_BUFFER=1 -DMAP_ARRAY=1
 CFLAGS_BPF_map_array := ${CFLAGS_map_array}
 CFLAGS_map_percpu_array := -DSOCKET_FILTER=1 -DRING_BUFFER=1 -DMAP_PERCPU_ARRAY=1
 CFLAGS_BPF_map_percpu_array := ${CFLAGS_map_percpu_array}
-CFLAGS_map_array_of_maps := -DMAP_ARRAY_OF_MAPS=1
-CFLAGS_BPF_map_array_of_maps := ${CFLAGS_map_array_of_maps}
-CFLAGS_map_hash_of_maps := -DMAP_HASH_OF_MAPS=1
-CFLAGS_BPF_map_hash_of_maps := ${CFLAGS_map_hash_of_maps}
 CFLAGS_BPF_map_ringbuf := -DRING_BUFFER=1 -DMAP_ARRAY=1
 CFLAGS_BPF_map_devmap := ${CFLAGS_BPF_xdp_devmap}
 

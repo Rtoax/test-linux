@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- bpf: test map-in-map;
 - fakeCUDA: hip: add libhipsparse.so.1 librocsparse.so.1;
 - fakeCUDA: hip: add libhipfft.so.0 and librocfft.so.0;
 - fakeCUDA: add libcublas.so.12 and cublasGetStatusString();

@@ -1,5 +1,6 @@
 /**
  * BPF_MAP_TYPE_ARRAY_OF_MAPS
+ * BPF_MAP_TYPE_HASH_OF_MAPS
  *
  * The array of maps map type contains references to other maps.
  *
@@ -22,15 +23,23 @@ struct map_array_t {
 } inner_map SEC(".maps");
 
 struct {
-#if defined(MAP_ARRAY_OF_MAPS)
 	__uint(type, BPF_MAP_TYPE_ARRAY_OF_MAPS);
-#elif defined(MAP_HASH_OF_MAPS)
-	__uint(type, BPF_MAP_TYPE_HASH_OF_MAPS);
-#endif
 	__type(key, int);
 	__type(value, int);
 	__uint(max_entries, 1);
 	__array(values, struct map_array_t);
-} outer_map SEC(".maps");
+} outer_array_map SEC(".maps");
+
+struct {
+	__uint(type, BPF_MAP_TYPE_HASH_OF_MAPS);
+	__type(key, int);
+	__type(value, int);
+	__uint(max_entries, 1);
+	__array(values, struct map_array_t);
+} outer_hash_map SEC(".maps");
+
+/**
+ * TODO
+ */
 
 char __license[] SEC("license") = "GPL";
