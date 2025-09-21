@@ -123,6 +123,14 @@
  * hipError_t hipMallocAsync(void** dev_ptr, size_t size, hipStream_t stream);
  */
 #define cudaMallocAsync(pp, sz, stream)	__cu(MallocAsync(pp, sz, stream))
+
+/**
+ * CUDA 12:
+ * cudaError_t cudaFreeAsync(void *devPtr, cudaStream_t hStream);
+ *
+ * HIP:
+ * hipError_t hipFreeAsync(void* dev_ptr, hipStream_t stream);
+ */
 #define cudaFreeAsync(ptr, stream)	__cu(FreeAsync(ptr, stream))
 
 /**

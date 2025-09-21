@@ -45,6 +45,11 @@ cudaError_t cudaFree(void *devPtr)
 	return cudaSuccess;
 }
 
+cudaError_t cudaFreeAsync(void *devPtr, cudaStream_t hStream)
+{
+	return cudaFree(devPtr);
+}
+
 cudaError_t cudaMemAdvise(const void *devPtr, size_t count,
 			  cudaMemoryAdvise advice,
 			  #if defined(__USE_HPCC__) || defined(__USE_HIP__) || CUDA_VERSION <= 12020

@@ -62,6 +62,7 @@ hip_4.3 {
 hip_5.1 {
 	global:
 		hipMallocAsync;
+		hipFreeAsync;
 };
 
 hip_5.3 {
