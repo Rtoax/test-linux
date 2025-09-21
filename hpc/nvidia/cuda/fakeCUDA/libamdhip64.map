@@ -24,7 +24,6 @@ hip_4.2 {
 		hipDeviceDisablePeerAccess;
 		hipDeviceCanAccessPeer;
 		hipDeviceGetP2PAttribute;
-		hipDeviceSetLimit;
 		hipDeviceSynchronize;
 		hipMalloc;
 		hipMallocManaged;
@@ -91,6 +90,8 @@ hip_5.1 {
 };
 
 hip_5.3 {
+	global:
+		hipDeviceSetLimit;
 };
 
 hip_6.0 {
