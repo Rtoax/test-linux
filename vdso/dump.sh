@@ -10,7 +10,7 @@ readonly vdso_arm=linux-vdso.so.1
 readonly vdso_x86_64=linux-vdso.so.1
 readonly vdso_x86_32=linux-vdso.so.1
 
-readonly pid=$$
+pid=$$
 
 case $(uname -m) in
 x86_64) vdso_so=${vdso_x86_64} ;;
@@ -24,6 +24,7 @@ usage()
 	echo "
 vdso-dump [-s] [-n <name>] [-h] [-v]
 
+-p [PID]    specify pid
 -s          silence running
 -n [NAME]   specify output file name, default: ${vdso_so}
 -h          show help information
@@ -31,9 +32,10 @@ vdso-dump [-s] [-n <name>] [-h] [-v]
 "
 }
 
-while getopts :sn:hv opt
+while getopts sn:p:hv opt
 do
 	case "$opt" in
+	p) pid=$OPTARG ;;
 	s) silence=YES ;;
 	n) vdso_so="$OPTARG" ;;
 	h) usage; exit 0 ;;
