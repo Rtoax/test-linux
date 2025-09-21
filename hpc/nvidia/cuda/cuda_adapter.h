@@ -97,6 +97,14 @@
 #define cudaMemcpy2DAsync	__cu(Memcpy2DAsync)
 
 /**
+ * CUDA 12 don't have cudaMemcpyWithStream()
+ *
+ * HIP
+ * hipError_t hipMemcpyWithStream(void* dst, const void* src, size_t sizeBytes,
+ *                                hipMemcpyKind kind, hipStream_t stream);
+ */
+
+/**
  * cudaError_t cudaMallocManaged(void **devPtr, size_t size,
  *                               unsigned int flags = cudaMemAttachGlobal);
  * hcError_t hcMallocManaged(void **dev_ptr, size_t size,

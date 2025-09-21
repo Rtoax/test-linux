@@ -17,6 +17,9 @@ extern "C" {
 
 int hipGetStreamDeviceId(hipStream_t stream);
 
+hipError_t hipMemcpyWithStream(void* dst, const void* src, size_t sizeBytes,
+                               hipMemcpyKind kind, hipStream_t stream);
+
 #ifdef __cplusplus
 }
 #endif
