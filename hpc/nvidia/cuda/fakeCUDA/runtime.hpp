@@ -111,6 +111,7 @@ cudaError_t cudaMemcpy2DAsync(void *dst, size_t dpitch, const void *src,
 
 cudaError_t cudaSetDevice(int device);
 cudaError_t cudaGetDevice(int *device);
+cudaError_t cudaPeekAtLastError();
 cudaError_t cudaGetLastError();
 const char *cudaGetErrorString(cudaError_t error);
 const char* cudaGetErrorName(cudaError_t error);

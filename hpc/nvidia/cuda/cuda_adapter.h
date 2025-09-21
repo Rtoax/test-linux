@@ -27,6 +27,15 @@
 #define cudaErrorInvalidValue	__cu(ErrorInvalidValue)
 #define cudaErrorMemoryAllocation	__cu(ErrorMemoryAllocation)
 
+/**
+ * CUDA 13
+ * cudaError_t cudaPeekAtLastError(void);
+ *
+ * HIP 6.3.42133-0
+ * hipError_t hipPeekAtLastError(void);
+ */
+#define cudaPeekAtLastError()	__cu(PeekAtLastError())
+
 #define cudaGetLastError()	__cu(GetLastError())
 #define cudaGetErrorString(err)	__cu(GetErrorString(err))
 

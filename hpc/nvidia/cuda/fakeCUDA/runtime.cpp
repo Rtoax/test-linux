@@ -40,6 +40,11 @@ cudaError_t cudaGetDevice(int *device)
 	return (cudaError_t)devGetCurrent(device);
 }
 
+cudaError_t cudaPeekAtLastError()
+{
+	return cudaSuccess;
+}
+
 cudaError_t cudaGetLastError()
 {
 	DEBUG_DBG("\n");

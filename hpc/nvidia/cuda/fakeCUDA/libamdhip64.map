@@ -13,6 +13,7 @@ hip_4.2 {
 		__hipLaunchKernel;
 		hipGetDevice;
 		hipSetDevice;
+		hipPeekAtLastError;
 		hipGetLastError;
 		hipGetErrorString;
 		hipGetErrorName;

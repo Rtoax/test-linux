@@ -13,6 +13,7 @@ libcudart.so.12 {
 		__cudaLaunchKernel;
 		cudaGetDevice;
 		cudaSetDevice;
+		cudaPeekAtLastError;
 		cudaGetLastError;
 		cudaGetErrorString;
 		cudaGetErrorName;
