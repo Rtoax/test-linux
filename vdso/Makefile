@@ -14,4 +14,4 @@ include ../template/main.mk
 
 ${VDSO_NAME}:
 	$(call log_tgt_exe,VDSO,,$(@))
-	$(call gen_vdso_elf)
+	$(call gen_vdso_elf,${@})

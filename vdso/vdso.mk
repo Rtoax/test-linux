@@ -20,8 +20,9 @@ ifeq ($(shell uname -m),aarch64)
   VDSO_NAME := ${VDSO_NAME_AARCH64}
 endif
 
+# $1 - vdso name
 define gen_vdso_elf
-@$(VDSO_ROOT)/dump.sh -s
+${Q}$(VDSO_ROOT)/dump.sh -s -n $1
 endef
 
 KVDSO64 :=
