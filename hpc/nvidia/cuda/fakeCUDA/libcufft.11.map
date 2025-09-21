@@ -1,4 +1,4 @@
-libcufft.so.12 {
+libcufft.so.11 {
 	global:
 		cufftGetProperty;
 	local:
