@@ -374,6 +374,10 @@
  * HIP
  * hipError_t hipStreamIsCapturing(hipStream_t stream,
  *                                 hipStreamCaptureStatus* pCaptureStatus);
+ *
+ * HPCC
+ * hcError_t hcStreamIsCapturing(hcStream_t stream,
+ *                               hcStreamCaptureStatus *pCaptureStatus);
  */
 #define cudaStreamIsCapturing(stream, pCaptureStatus)	\
 	__cuda(StreamIsCapturing(stream, pCaptureStatus))

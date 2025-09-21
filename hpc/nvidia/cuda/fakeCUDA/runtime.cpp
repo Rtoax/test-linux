@@ -190,7 +190,7 @@ cudaError_t cudaStreamSynchronize(cudaStream_t stream)
 }
 
 cudaError_t cudaStreamIsCapturing(cudaStream_t stream,
-				  enum cudaStreamCaptureStatus *pCaptureStatus)
+				  cudaStreamCaptureStatus *pCaptureStatus)
 {
 	return cudaSuccess;
 }

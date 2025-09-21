@@ -139,7 +139,7 @@ cudaError_t cudaStreamCreate(cudaStream_t *pStream);
 cudaError_t cudaStreamDestroy(cudaStream_t stream);
 cudaError_t cudaStreamSynchronize(cudaStream_t stream);
 cudaError_t cudaStreamIsCapturing(cudaStream_t stream,
-				  enum cudaStreamCaptureStatus *pCaptureStatus);
+				  cudaStreamCaptureStatus *pCaptureStatus);
 
 cudaError_t cudaLaunchKernel(const void *func, dim3 gridDim, dim3 blockDim,
 			     void **args, size_t sharedMem, cudaStream_t stream);
