@@ -23,18 +23,21 @@ void sig_handler(int signum)
 	loop = false;
 }
 
-void print_ansi(void)
+/**
+ * color: 0-red
+ */
+void print_ansi(char *msg, size_t us, int color)
 {
-	fprintf(stderr, "\033[31mx\033[m");
+	fprintf(stderr, "\033[%dm%s\033[m", 31 + color, msg);
 	usleep(us);
 }
 
-void *print_xs(void *unused)
+void *thread_print_xs(void *unused)
 {
 	pthread_setname_np(pthread_self(), "pthread-child");
 
 	while (loop)
-		print_ansi();
+		print_ansi("x", us, 0);
 	return NULL;
 }
 
@@ -66,7 +69,7 @@ int main(int argc, char *argv[])
 	int i;
 	pthread_t *threads;
 
-	fprintf(stderr, "%s [nr=<number of threads>] [t=<us>]\n", argv[0]);
+	fprintf(stderr, "%s [nr=<Nthreads>] [t=<us>]\n", argv[0]);
 
 	signal(SIGINT, sig_handler);
 
@@ -76,13 +79,12 @@ int main(int argc, char *argv[])
 	assert(threads && "malloc failed.");
 
 	for (i = 0; i < nr_threads; i++)
-		pthread_create(&threads[i], NULL, &print_xs, NULL);
+		pthread_create(&threads[i], NULL, &thread_print_xs, NULL);
 
 	pthread_setname_np(pthread_self(), "pthread-parent");
 
 	while (loop) {
-		fputc('o', stderr);
-		usleep(us);
+		print_ansi("o", us, 1);
 	}
 
 	for (i = 0; i < nr_threads; i++)
