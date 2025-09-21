@@ -5,6 +5,7 @@
 
 #ifdef __USE_HPCC__
 #include <hcr/hc_runtime.h>
+#include <hcr/hcrtc.h>
 #include <hcc/hcc_internal.h>
 #include <hcblas/hcblas.h>
 #include <hcblas/hcblasLt.h>

@@ -9,8 +9,8 @@
 # define __CU(name)	HC##name
 # define __CUDA(name)	HC_##name
 # define __CUDA_ERROR(name)	HCC_STATUS_##name
-# define __nv(name)	hc##___failed_name__ /* TODO */
-# define __NV(name)	hc##___failed_name__ /* TODO */
+# define __nv(name)	hc##name
+# define __NV(name)	HC##name
 #elif defined(HAVE_HIP)
 # define __cu(name)	hip##name
 # define __cuda(name)	hip##name
