@@ -198,7 +198,7 @@ static int match_cgroupid(const char *path, void *arg)
 	fprintf(stderr, "%ld:%ld %s\n", cgroupid, a->cgroupid, path);
 #endif
 	if (cgroupid == a->cgroupid) {
-		snprintf(a->path, PATH_MAX, path);
+		snprintf(a->path, sizeof(a->path) - 1, "%s", path);
 		return 1;
 	}
 	return 0;
@@ -276,11 +276,11 @@ int cgroup_proc_for_each_cgroup_entry(pid_t pid, cgroup_proc_entry_fn callback,
 		} else {
 			cgrp.cgroup_type = 1;	/* cgroupv1 */
 			snprintf(cgrp.subsystem_list, sizeof(cgrp.subsystem_list),
-				 s_subsys);
+				 "%s", s_subsys);
 		}
 
 		/* Use strlen() to strip '\n' */
-		snprintf(cgrp.cgroup_path, strlen(s_path), s_path);
+		snprintf(cgrp.cgroup_path, strlen(s_path), "%s", s_path);
 
 		lines++;
 		callback(&cgrp, arg);
