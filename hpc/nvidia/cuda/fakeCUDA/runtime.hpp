@@ -164,6 +164,7 @@ nvrtcResult nvrtcCompileProgram(nvrtcProgram prog,
 				const char * const *options
 				#endif
 			       );
+nvrtcResult nvrtcGetProgramLog(nvrtcProgram prog, char *log);
 
 #ifdef __cplusplus
 }

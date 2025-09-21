@@ -53,6 +53,7 @@ libcudart.so.12 {
 		cudaEventSynchronize;
 		nvrtcDestroyProgram;
 		nvrtcCompileProgram;
+		nvrtcGetProgramLog;
 	local:
 		*;
 };

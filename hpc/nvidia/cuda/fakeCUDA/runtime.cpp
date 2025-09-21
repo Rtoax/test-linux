@@ -223,3 +223,8 @@ nvrtcResult nvrtcCompileProgram(nvrtcProgram prog,
 {
 	return NVRTC_SUCCESS;
 }
+
+nvrtcResult nvrtcGetProgramLog(nvrtcProgram prog, char *log)
+{
+	return NVRTC_SUCCESS;
+}

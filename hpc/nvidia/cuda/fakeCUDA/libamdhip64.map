@@ -53,6 +53,7 @@ hip_4.2 {
 		hiprtcDestroyProgram;
 		hiprtcGetCode;
 		hiprtcCompileProgram;
+		hiprtcGetProgramLog;
 	local:
 		*;
 };

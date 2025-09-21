@@ -1236,3 +1236,11 @@
 #define nvrtcCompileProgram(prog, numOptions, options)	\
 	__nv(rtcCompileProgram(prog, numOptions, options))
 
+/**
+ * CUDA 12:
+ * nvrtcResult nvrtcGetProgramLog(nvrtcProgram prog, char *log);
+ *
+ * HIP:
+ * hiprtcResult hiprtcGetProgramLog(hiprtcProgram prog, char* log);
+ */
+#define nvrtcGetProgramLog(prog, log)	__nv(rtcGetProgramLog(prog, log))
