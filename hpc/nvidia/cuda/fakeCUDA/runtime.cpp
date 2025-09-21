@@ -211,3 +211,15 @@ nvrtcResult nvrtcDestroyProgram(nvrtcProgram *prog)
 {
 	return NVRTC_SUCCESS;
 }
+
+nvrtcResult nvrtcCompileProgram(nvrtcProgram prog,
+				int numOptions,
+				#if defined(__USE_HIP__)
+				const char **options
+				#else
+				const char * const *options
+				#endif
+			       )
+{
+	return NVRTC_SUCCESS;
+}

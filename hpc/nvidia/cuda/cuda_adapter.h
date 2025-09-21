@@ -1223,3 +1223,16 @@
  * HIP:
  * hiprtcResult hiprtcGetCode(hiprtcProgram prog, char* code);
  */
+
+/**
+ * CUDA 12:
+ * nvrtcResult nvrtcCompileProgram(nvrtcProgram prog,
+ *                                 int numOptions, const char * const *options);
+ * HIP:
+ * hiprtcResult hiprtcCompileProgram(hiprtcProgram prog,
+ *                                   int numOptions,
+ *                                   const char** options);
+ */
+#define nvrtcCompileProgram(prog, numOptions, options)	\
+	__nv(rtcCompileProgram(prog, numOptions, options))
+

@@ -152,6 +152,19 @@ cudaError_t cudaEventRecordWithFlags(cudaEvent_t event, cudaStream_t stream,
 				     unsigned int flags);
 cudaError_t cudaEventSynchronize(cudaEvent_t event);
 
+/**
+ * RTC
+ */
+nvrtcResult nvrtcDestroyProgram(nvrtcProgram *prog);
+nvrtcResult nvrtcCompileProgram(nvrtcProgram prog,
+				int numOptions,
+				#if defined(__USE_HIP__)
+				const char **options
+				#else
+				const char * const *options
+				#endif
+			       );
+
 #ifdef __cplusplus
 }
 #endif
