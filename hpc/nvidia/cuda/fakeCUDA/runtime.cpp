@@ -206,3 +206,8 @@ cudaError_t cudaLaunchCooperativeKernel(const void *func,
 	DEBUG_DBG("\n");
 	return cudaSuccess;
 }
+
+nvrtcResult nvrtcDestroyProgram(nvrtcProgram *prog)
+{
+	return NVRTC_SUCCESS;
+}

@@ -8,13 +8,17 @@
 # define __CU(name)	HC##name
 # define __CUDA(name)	HC_##name
 # define __CUDA_ERROR(name)	HCC_STATUS_##name
+# define __nv(name)	hc##___failed_name__ /* TODO */
+# define __NV(name)	hc##___failed_name__ /* TODO */
 #elif defined(HAVE_HIP)
 # define __cu(name)	hip##name
 # define __CU(name)	HIP##name
 # define __CUDA(name)	HIP_##name
 # define __CUDA_ERROR(name)	HIP_STATUS_##name
+# define __nv(name)	hip##name
+# define __NV(name)	HIP##name
 #elif !defined(__cu) || !defined(__CU) || !defined(__CUDA)
-# error "Must define __cu(), __CU(), __CUDA(), __CUDA_ERROR() macros, or define HAVE_HCCL"
+# error "Must define __cu(), __CU(), __CUDA(), __CUDA_ERROR(), __nv(), __NV() macros, or define HAVE_HCCL, HAVE_HIP"
 #endif
 
 /* typedef hcError_t	cudaError_t; */
@@ -1184,3 +1188,32 @@
 #define cuModuleLoad(pmodule, name)	__cu(ModuleLoad(pmodule, name))
 #define CUfunction	__CU(function)
 #define cuModuleGetFunction(pfunc, mod, name)	__cu(ModuleGetFunction(pfunc, mod, name))
+
+/**
+ * NV RTC
+ */
+#define nvrtcResult	__nv(rtcResult)
+#define NVRTC_SUCCESS	__NV(RTC_SUCCESS)
+#define NVRTC_ERROR_OUT_OF_MEMORY	__NV(RTC_ERROR_OUT_OF_MEMORY)
+#define NVRTC_ERROR_PROGRAM_CREATION_FAILURE	__NV(RTC_ERROR_PROGRAM_CREATION_FAILURE)
+#define NVRTC_ERROR_INVALID_INPUT	__NV(RTC_ERROR_INVALID_INPUT)
+#define NVRTC_ERROR_INVALID_PROGRAM	__NV(RTC_ERROR_INVALID_PROGRAM)
+#define NVRTC_ERROR_INVALID_OPTION	__NV(RTC_ERROR_INVALID_OPTION)
+#define NVRTC_ERROR_COMPILATION	__NV(RTC_ERROR_COMPILATION)
+#define NVRTC_ERROR_BUILTIN_OPERATION_FAILURE	__NV(RTC_ERROR_BUILTIN_OPERATION_FAILURE)
+#define NVRTC_ERROR_NO_NAME_EXPRESSIONS_AFTER_COMPILATION	__NV(RTC_ERROR_NO_NAME_EXPRESSIONS_AFTER_COMPILATION)
+#define NVRTC_ERROR_NO_LOWERED_NAMES_BEFORE_COMPILATION	__NV(RTC_ERROR_NO_LOWERED_NAMES_BEFORE_COMPILATION)
+#define NVRTC_ERROR_NAME_EXPRESSION_NOT_VALID	__NV(RTC_ERROR_NAME_EXPRESSION_NOT_VALID)
+#define NVRTC_ERROR_INTERNAL_ERROR	__NV(RTC_ERROR_INTERNAL_ERROR)
+#define NVRTC_ERROR_TIME_FILE_WRITE_FAILED	__NV(RTC_ERROR_TIME_FILE_WRITE_FAILED)
+
+#define nvrtcProgram	__nv(rtcProgram)
+
+/**
+ * CUDA 12:
+ * nvrtcResult nvrtcDestroyProgram(nvrtcProgram *prog);
+ *
+ * HIP:
+ * hiprtcResult hiprtcDestroyProgram(hiprtcProgram* prog);
+ */
+#define nvrtcDestroyProgram(prog)	__nv(rtcDestroyProgram(prog))

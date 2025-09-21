@@ -11,6 +11,7 @@
 #include <hcsparse/hcsparse.h>
 #include <hcrand/hcrand.h>
 #include <hcfft/hcfft.h>
+/* TODO: add rtc */
 #include <hpcc_fp16.h>
 #include <cuda_adapter.h>
 # ifndef HAVE_HPCC
@@ -23,6 +24,7 @@
 # define __HIP_PLATFORM_AMD__
 #include <hip/hip_runtime.h>
 #include <hip/hip_runtime_api.h>
+#include <hip/hiprtc.h>
 #include <cuda_adapter.h>
 # ifndef HAVE_HIP
 #  error "Not found ROCm HIP envrioment, but use HIP"
@@ -33,6 +35,7 @@
  * - CUDA_VERSION
  *   12020: V12.2.140
  */
+#include <nvrtc.h>
 #include <cuda.h>
 #include <cuda_runtime.h>
 #include <cublas.h>
