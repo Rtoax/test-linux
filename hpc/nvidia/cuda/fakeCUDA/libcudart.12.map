@@ -1,4 +1,4 @@
-libcudart.so.12 {
+libcudart.so.13 {
 	global:
 		__cudaInitModule;
 		__cudaRegisterFatBinary;
@@ -65,6 +65,3 @@ libcudart.so.12 {
 	local:
 		*;
 };
-
-libcudart.so.13 {
-} libcudart.so.12;

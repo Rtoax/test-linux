@@ -73,15 +73,15 @@ LDXXFLAGS_SO_libhcsparse.so := -Wl,--version-script=libhcsparse.map
 
 # CUDA
 LDXXFLAGS_SO_libcuda.so.1 := -Wl,--version-script=libcuda.map
-LDXXFLAGS_SO_libcudart.so.12 := -Wl,--version-script=libcudart.map
-LDXXFLAGS_SO_libcudart.so.13 := -Wl,--version-script=libcudart.map
-LDXXFLAGS_SO_libcublas.so.12 := -Wl,--version-script=libcublas.map
-LDXXFLAGS_SO_libcublas.so.13 := -Wl,--version-script=libcublas.map
-LDXXFLAGS_SO_libcublasLt.so.12 := -Wl,--version-script=libcublasLt.map
-LDXXFLAGS_SO_libcublasLt.so.13 := -Wl,--version-script=libcublasLt.map
+LDXXFLAGS_SO_libcudart.so.12 := -Wl,--version-script=libcudart.12.map
+LDXXFLAGS_SO_libcudart.so.13 := -Wl,--version-script=libcudart.13.map
+LDXXFLAGS_SO_libcublas.so.12 := -Wl,--version-script=libcublas.12.map
+LDXXFLAGS_SO_libcublas.so.13 := -Wl,--version-script=libcublas.13.map
+LDXXFLAGS_SO_libcublasLt.so.12 := -Wl,--version-script=libcublasLt.12.map
+LDXXFLAGS_SO_libcublasLt.so.13 := -Wl,--version-script=libcublasLt.13.map
 LDXXFLAGS_SO_libcurand.so.10 := -Wl,--version-script=libcurand.map
-LDXXFLAGS_SO_libcufft.so.11 := -Wl,--version-script=libcufft.map
-LDXXFLAGS_SO_libcufft.so.12 := -Wl,--version-script=libcufft.map
+LDXXFLAGS_SO_libcufft.so.11 := -Wl,--version-script=libcufft.11.map
+LDXXFLAGS_SO_libcufft.so.12 := -Wl,--version-script=libcufft.12.map
 LDXXFLAGS_SO_libcusparse.so.12 := -Wl,--version-script=libcusparse.map
 
 # ROCm HIP
