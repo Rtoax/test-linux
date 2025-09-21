@@ -220,6 +220,20 @@
 	__cu(LaunchKernel(func, g, b, args, mem, stream))
 
 /**
+ * CUDA 12:
+ * don't have nvModuleLaunchKernel, cudaModuleLaunchKernel, cuModuleLaunchKernel
+ * but cuLaunchKernel looks like hipModuleLaunchKernel.
+ *
+ * HIP:
+ * hipError_t hipModuleLaunchKernel(hipFunction_t f,
+ *                                  unsigned int gridDimX, unsigned int gridDimY,
+ *                                  unsigned int gridDimZ, unsigned int blockDimX,
+ *                                  unsigned int blockDimY, unsigned int blockDimZ,
+ *                                  unsigned int sharedMemBytes, hipStream_t stream,
+ *                                  void** kernelParams, void** extra);
+ */
+
+/**
  * HPCC 3.0.0:
  * hcError_t hcLaunchCooperativeKernel(const void *f, dim3 gridDim, dim3 blockDim,
  *                                     void **kernelParams, unsigned int sharedMemBytes,

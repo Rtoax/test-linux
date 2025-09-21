@@ -54,6 +54,7 @@ hip_4.2 {
 		hiprtcGetCode;
 		hiprtcCompileProgram;
 		hiprtcGetProgramLog;
+		hipModuleLaunchKernel;
 	local:
 		*;
 };

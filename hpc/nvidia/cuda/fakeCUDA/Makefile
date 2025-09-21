@@ -130,6 +130,7 @@ ${OUTPUT}cuda.cpp.so.o: cuda.hpp
 ${OUTPUT}cuda-hpcc.cpp.so.o: cuda.hpp cuda.cpp
 ${OUTPUT}cuda-module-mgmt.cpp.so.o: cuda.hpp
 ${OUTPUT}cuda-module-mgmt-hpcc.cpp.so.o: cuda.hpp cuda-module-mgmt.cpp
+${OUTPUT}cuda-module-mgmt-hip-private.cpp.so.o: cuda.hpp cuda-module-mgmt.cpp
 ${OUTPUT}device.cpp.so.o: device.h device-mars-x203.h device-nvidia-h800.h
 
 # HPCC
@@ -156,5 +157,5 @@ libcurand.so.10: ${common-objs} ${OUTPUT}rand.cpp.so.o
 libcusparse.so.12: ${common-objs} ${OUTPUT}sparse.cpp.so.o
 
 # ROCm HIP
-libamdhip64.so.5: ${common-objs} ${rt-hip-objs}
-libamdhip64.so.6: ${common-objs} ${rt-hip-objs}
+libamdhip64.so.5: ${common-objs} ${rt-hip-objs} ${OUTPUT}cuda-module-mgmt-hip-private.cpp.so.o
+libamdhip64.so.6: ${common-objs} ${rt-hip-objs} ${OUTPUT}cuda-module-mgmt-hip-private.cpp.so.o
