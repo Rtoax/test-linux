@@ -3,6 +3,14 @@
 # Wrote by Rong Tao
 set -e
 
+# This script require superuser privileges to be executed. Otherwise, EPERM
+# will occur. Here, it is detected whether ordinary users are exempt from
+# sudo passwords. If so, it is necessary to add the "sudo" prefix to the
+# required bpftool command execution.
+if sudo --non-interactive true 2>/dev/null; then
+	_sudo=sudo
+fi
+
 exec >&2
 
 readonly vdso_aarch64=linux-vdso.so.1
@@ -56,10 +64,10 @@ if [[ -z ${silence} ]]; then
 	echo "pid ${pid} [vdso] 0x${addr_range[0]}-0x${addr_range[1]}, size = ${vdso_sz}"
 fi
 
-dd if=/proc/${pid}/mem of=${vdso_so} \
-	ibs=1 skip=$(printf %ld 0x${addr_range[0]}) \
-	count=${vdso_sz} 2>/dev/null
-chmod +x ${vdso_so}
+${_sudo} dd if=/proc/${pid}/mem of=${vdso_so} \
+		ibs=1 skip=$(printf %ld 0x${addr_range[0]}) \
+		count=${vdso_sz} 2>/dev/null
+${_sudo} chmod +x ${vdso_so}
 
 echo ${vdso_so}
 

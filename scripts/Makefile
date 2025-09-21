@@ -5,6 +5,7 @@ include ../template/ansi.mk
 include ../template/dir.mk
 include ../template/git.mk
 include ../template/success.mk
+include ../template/sudo.mk
 include ../template/wow.mk
 include ../template/logo.mk
 include ../template/cpu.mk
