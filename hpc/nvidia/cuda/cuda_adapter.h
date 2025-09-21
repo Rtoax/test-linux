@@ -1217,3 +1217,9 @@
  * hiprtcResult hiprtcDestroyProgram(hiprtcProgram* prog);
  */
 #define nvrtcDestroyProgram(prog)	__nv(rtcDestroyProgram(prog))
+
+/**
+ * CUDA 12 don't have it?
+ * HIP:
+ * hiprtcResult hiprtcGetCode(hiprtcProgram prog, char* code);
+ */

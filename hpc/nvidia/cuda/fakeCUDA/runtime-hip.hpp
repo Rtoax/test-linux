@@ -20,6 +20,8 @@ int hipGetStreamDeviceId(hipStream_t stream);
 hipError_t hipMemcpyWithStream(void* dst, const void* src, size_t sizeBytes,
                                hipMemcpyKind kind, hipStream_t stream);
 
+hiprtcResult hiprtcGetCode(hiprtcProgram prog, char* code);
+
 #ifdef __cplusplus
 }
 #endif

@@ -51,6 +51,7 @@ hip_4.2 {
 		hipEventRecordWithFlags;
 		hipEventSynchronize;
 		hiprtcDestroyProgram;
+		hiprtcGetCode;
 	local:
 		*;
 };

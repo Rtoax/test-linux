@@ -10,3 +10,9 @@ int hipGetStreamDeviceId(hipStream_t stream)
 {
 	return 0;
 }
+
+hiprtcResult hiprtcGetCode(hiprtcProgram prog, char* code)
+{
+	code[0] = 'F';
+	return HIPRTC_SUCCESS;
+}
