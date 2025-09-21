@@ -24,7 +24,7 @@ static void on_button_clicked(GtkWidget* button,gint data)
 			GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
 			type ,
 			GTK_BUTTONS_OK,
-			message);
+			"%s", message);
 
 	gtk_dialog_run(GTK_DIALOG(dialog));
 	gtk_widget_destroy(dialog);
