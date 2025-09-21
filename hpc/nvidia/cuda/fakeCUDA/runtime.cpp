@@ -51,6 +51,11 @@ const char *cudaGetErrorString(cudaError_t error)
 	return "Success";
 }
 
+const char* cudaGetErrorName(cudaError_t error)
+{
+	return "Success";
+}
+
 cudaError_t cudaGetDeviceCount(int *count)
 {
 	*count = devCount();

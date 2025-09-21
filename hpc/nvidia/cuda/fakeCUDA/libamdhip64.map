@@ -15,6 +15,7 @@ hip_4.2 {
 		hipSetDevice;
 		hipGetLastError;
 		hipGetErrorString;
+		hipGetErrorName;
 		hipGetDeviceCount;
 		hipGetDeviceProperties;
 		hipGetDeviceProperties_v2;
@@ -71,4 +72,7 @@ hip_5.1 {
 };
 
 hip_5.3 {
+};
+
+hip_6.0 {
 };

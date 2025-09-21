@@ -30,6 +30,15 @@
 #define cudaGetLastError()	__cu(GetLastError())
 #define cudaGetErrorString(err)	__cu(GetErrorString(err))
 
+/**
+ * CUDA 13:
+ * const char* cudaGetErrorName(cudaError_t error);
+ *
+ * HIP 6.3.42133-0
+ * const char* hipGetErrorName(hipError_t hip_error);
+ */
+#define cudaGetErrorName(error)	__cu(GetErrorName(error))
+
 #define cudaLimit	__cu(Limit_t)
 #define cudaLimitStackSize	__cu(LimitStackSize)
 #define cudaLimitPrintfFifoSize	__cu(LimitPrintfFifoSize)

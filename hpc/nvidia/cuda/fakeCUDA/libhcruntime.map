@@ -20,6 +20,7 @@ libhcruntime.so {
 		hcGetDeviceCount;
 		hcGetDeviceProperties;
 		hcGetErrorString;
+		hcGetErrorName;
 		hcGetLastError;
 		hcLaunchCooperativeKernel;
 		hcLaunchKernel;

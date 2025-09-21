@@ -113,6 +113,7 @@ cudaError_t cudaSetDevice(int device);
 cudaError_t cudaGetDevice(int *device);
 cudaError_t cudaGetLastError();
 const char *cudaGetErrorString(cudaError_t error);
+const char* cudaGetErrorName(cudaError_t error);
 cudaError_t cudaGetDeviceCount(int *count);
 cudaError_t cudaDeviceSetLimit(cudaLimit limit, size_t value);
 cudaError_t cudaGetDeviceProperties(cudaDeviceProp *prop, int device);

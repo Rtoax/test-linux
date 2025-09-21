@@ -15,6 +15,7 @@ libcudart.so.12 {
 		cudaSetDevice;
 		cudaGetLastError;
 		cudaGetErrorString;
+		cudaGetErrorName;
 		cudaGetDeviceCount;
 		cudaGetDeviceProperties;
 		cudaGetDeviceProperties_v2;
