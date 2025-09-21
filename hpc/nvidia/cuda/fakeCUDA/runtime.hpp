@@ -174,6 +174,18 @@ nvrtcResult nvrtcCompileProgram(nvrtcProgram prog,
 				#endif
 			       );
 nvrtcResult nvrtcGetProgramLog(nvrtcProgram prog, char *log);
+nvrtcResult nvrtcCreateProgram(nvrtcProgram *prog,
+			       const char *src,
+			       const char *name,
+			       int numHeaders,
+			       #if defined(__USE_HIP__)
+			       const char **headers,
+			       const char **includeNames
+			       #else
+			       const char * const *headers,
+			       const char * const *includeNames
+			       #endif
+			      );
 
 #ifdef __cplusplus
 }

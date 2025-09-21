@@ -1348,3 +1348,22 @@
  * hiprtcResult hiprtcGetProgramLog(hiprtcProgram prog, char* log);
  */
 #define nvrtcGetProgramLog(prog, log)	__nv(rtcGetProgramLog(prog, log))
+
+/**
+ * CUDA 13
+ * nvrtcResult nvrtcCreateProgram(nvrtcProgram *prog,
+ *                                const char *src,
+ *                                const char *name,
+ *                                int numHeaders,
+ *                                const char * const *headers,
+ *                                const char * const *includeNames);
+ *
+ * HIP
+ * hiprtcResult hiprtcCreateProgram(hiprtcProgram* prog,
+ *                                  const char* src,
+ *                                  const char* name,
+ *                                  int numHeaders,
+ *                                  const char** headers,
+ *                                  const char** includeNames);
+ */
+#define nvrtcCreateProgram	__nv(rtcCreateProgram)

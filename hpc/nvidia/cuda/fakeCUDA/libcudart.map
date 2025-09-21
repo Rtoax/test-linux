@@ -59,6 +59,7 @@ libcudart.so.12 {
 		nvrtcDestroyProgram;
 		nvrtcCompileProgram;
 		nvrtcGetProgramLog;
+		nvrtcCreateProgram;
 	local:
 		*;
 };
