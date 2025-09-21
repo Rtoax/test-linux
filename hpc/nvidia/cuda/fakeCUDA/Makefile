@@ -24,6 +24,7 @@ libso-cuda += libcusparse.so.12
 
 libso-hip := libamdhip64.so.5 libamdhip64.so.6
 libso-hip += libhipfft.so.0 librocfft.so.0
+libso-hip += libhipsparse.so.1 librocsparse.so.1
 
 ifdef HAVE_HPCC
   $(info HAVE_HPCC)
@@ -88,6 +89,8 @@ LDXXFLAGS_SO_libamdhip64.so.5 := -Wl,--version-script=libamdhip64.map
 LDXXFLAGS_SO_libamdhip64.so.6 := -Wl,--version-script=libamdhip64.map
 LDXXFLAGS_SO_librocfft.so.0 := -Wl,--version-script=librocfft.map
 LDXXFLAGS_SO_libhipfft.so.0 := -Wl,--version-script=libhipfft.map
+LDXXFLAGS_SO_librocsparse.so.1 := -Wl,--version-script=librocsparse.map
+LDXXFLAGS_SO_libhipsparse.so.1 := -Wl,--version-script=libhipsparse.map
 
 include ../../../../template/main.mk
 
@@ -126,6 +129,7 @@ ${OUTPUT}blasLt.cpp.so.o: blasLt.hpp
 ${OUTPUT}blasLt-hpcc.cpp.so.o: blasLt.hpp blasLt.cpp
 ${OUTPUT}sparse.cpp.so.o: sparse.hpp
 ${OUTPUT}sparse-hpcc.cpp.so.o: sparse.hpp sparse.cpp
+${OUTPUT}sparse-hip.cpp.so.o: sparse.hpp sparse.cpp
 ${OUTPUT}rand.cpp.so.o: rand.hpp
 ${OUTPUT}rand-hpcc.cpp.so.o: rand.hpp rand.cpp
 ${OUTPUT}hccl.cpp.so.o: hccl.hpp
@@ -170,3 +174,5 @@ libamdhip64.so.5: ${amdhip64-objs}
 libamdhip64.so.6: ${amdhip64-objs}
 librocfft.so.0: ${common-objs} ${OUTPUT}fft-hip.cpp.so.o
 libhipfft.so.0: ${common-objs} ${OUTPUT}fft-hip.cpp.so.o
+librocsparse.so.1: ${common-objs} ${OUTPUT}sparse-hip.cpp.so.o
+libhipsparse.so.1: ${common-objs} ${OUTPUT}sparse-hip.cpp.so.o

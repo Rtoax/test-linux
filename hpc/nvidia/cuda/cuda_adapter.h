@@ -1264,7 +1264,7 @@
 #define CUFFT_NOT_SUPPORTED	__CU(FFT_NOT_SUPPORTED)
 
 /**
- * HIP:
+ * CUDA:
  * typedef enum libraryPropertyType_t {
  *     MAJOR_VERSION,
  *     MINOR_VERSION,
@@ -1272,12 +1272,19 @@
  * } libraryPropertyType;
  * hipfftResult hipfftGetProperty(hipfftLibraryPropertyType type, int* value);
  *
- * CUDA:
+ * HIP:
+ * typedef enum hipLibraryPropertyType {
+ *     HIP_LIBRARY_MAJOR_VERSION,
+ *     HIP_LIBRARY_MINOR_VERSION,
+ *     HIP_LIBRARY_PATCH_LEVEL
+ * } hipLibraryPropertyType;
+ *
  * typedef enum hipfftLibraryPropertyType_t {
  *     HIPFFT_MAJOR_VERSION,
  *     HIPFFT_MINOR_VERSION,
  *     HIPFFT_PATCH_LEVEL
  * } hipfftLibraryPropertyType;
+ *
  * cufftResult CUFFTAPI cufftGetProperty(libraryPropertyType type, int *value);
  */
 #define cufftGetProperty(v, pval)	__cu(fftGetProperty(v, pval))

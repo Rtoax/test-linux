@@ -1,0 +1,6 @@
+librocsparse.so.1 {
+	global:
+		*;
+	local:
+		*;
+};

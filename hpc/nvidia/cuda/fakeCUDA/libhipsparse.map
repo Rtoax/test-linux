@@ -1,0 +1,6 @@
+libhipsparse.so.1 {
+	global:
+		*;
+	local:
+		*;
+};
