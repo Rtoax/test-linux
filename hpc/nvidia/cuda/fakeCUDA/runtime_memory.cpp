@@ -123,3 +123,15 @@ cudaError_t cudaMemcpyFromSymbol(void *dst, const void *symbol,
 {
 	return cudaMemcpy(dst, symbol, count, kind);
 }
+
+cudaError_t cudaMemcpyPeer(void *dst, int dstDevice, const void *src, int srcDevice,
+			   size_t count)
+{
+	return cudaMemcpy(dst, src, count, cudaMemcpyDeviceToDevice);
+}
+
+cudaError_t cudaMemcpyPeerAsync(void *dst, int dstDevice, const void *src, int srcDevice,
+				size_t count, cudaStream_t stream)
+{
+	return cudaMemcpy(dst, src, count, cudaMemcpyDeviceToDevice);
+}

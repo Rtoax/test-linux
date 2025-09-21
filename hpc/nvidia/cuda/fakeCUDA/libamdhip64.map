@@ -34,6 +34,8 @@ hip_4.2 {
 		hipMemcpy2DAsync;
 		hipMemcpyWithStream;
 		hipMemcpyFromSymbol;
+		hipMemcpyPeer;
+		hipMemcpyPeerAsync;
 		hipMemset;
 		hipMemsetAsync;
 		hipMemset2DAsync;

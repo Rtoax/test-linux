@@ -92,6 +92,7 @@
 #define cudaMemcpyKind	__cu(MemcpyKind)
 #define cudaMemcpyHostToDevice	__cu(MemcpyHostToDevice)
 #define cudaMemcpyDeviceToHost	__cu(MemcpyDeviceToHost)
+#define cudaMemcpyDeviceToDevice	__cu(MemcpyDeviceToDevice)
 
 /**
  * CUDA 12
@@ -138,6 +139,28 @@
  *                                hipMemcpyKind kind __dparm(hipMemcpyDeviceToHost));
  */
 #define cudaMemcpyFromSymbol	__cu(MemcpyFromSymbol)
+
+/**
+ * CUDA 13
+ * cudaError_t cudaMemcpyPeer(void *dst, int dstDevice, const void *src, int srcDevice,
+ *                            size_t count);
+ *
+ * HIP
+ * hipError_t hipMemcpyPeer(void* dst, int dstDeviceId, const void* src, int srcDeviceId,
+ *                          size_t sizeBytes);
+ */
+#define cudaMemcpyPeer	__cu(MemcpyPeer)
+
+/**
+ * CUDA 13
+ * cudaError_t cudaMemcpyPeerAsync(void *dst, int dstDevice, const void *src, int srcDevice,
+ *                                 size_t count, cudaStream_t stream __dv(0));
+ *
+ * HIP
+ * hipError_t hipMemcpyPeerAsync(void* dst, int dstDeviceId, const void* src, int srcDevice,
+ *                               size_t sizeBytes, hipStream_t stream __dparm(0));
+ */
+#define cudaMemcpyPeerAsync	__cu(MemcpyPeerAsync)
 
 /**
  * cudaError_t cudaMallocManaged(void **devPtr, size_t size,

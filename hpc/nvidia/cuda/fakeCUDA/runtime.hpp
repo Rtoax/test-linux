@@ -111,6 +111,10 @@ cudaError_t cudaMemcpy2DAsync(void *dst, size_t dpitch, const void *src,
 cudaError_t cudaMemcpyFromSymbol(void *dst, const void *symbol,
 				 size_t count, size_t offset,
 				 cudaMemcpyKind kind);
+cudaError_t cudaMemcpyPeer(void *dst, int dstDevice, const void *src, int srcDevice,
+			   size_t count);
+cudaError_t cudaMemcpyPeerAsync(void *dst, int dstDevice, const void *src, int srcDevice,
+				size_t count, cudaStream_t stream);
 
 cudaError_t cudaSetDevice(int device);
 cudaError_t cudaGetDevice(int *device);
