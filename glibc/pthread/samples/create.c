@@ -12,10 +12,24 @@
 #include <string.h>
 
 
+struct test_routine {
+	void *(*child)(void *arg);
+	void (*parent)(void);
+};
+
 static int nr_threads = 1;
 
 static sig_atomic_t loop = true;
 static int us = 100000;
+
+void *thread_print_xs(void *unused);
+void parent_print_xs(void);
+
+struct test_routine default_print = {
+	.child = thread_print_xs,
+	.parent = parent_print_xs,
+};
+
 
 void sig_handler(int signum)
 {
@@ -39,6 +53,13 @@ void *thread_print_xs(void *unused)
 	while (loop)
 		print_ansi("x", us, 0);
 	return NULL;
+}
+
+void parent_print_xs(void)
+{
+	while (loop) {
+		print_ansi("o", us, 1);
+	}
 }
 
 void parse_args(int argc, char *argv[])
@@ -68,6 +89,7 @@ int main(int argc, char *argv[])
 {
 	int i;
 	pthread_t *threads;
+	struct test_routine *routine = &default_print;
 
 	fprintf(stderr, "%s [nr=<Nthreads>] [t=<us>]\n", argv[0]);
 
@@ -79,13 +101,10 @@ int main(int argc, char *argv[])
 	assert(threads && "malloc failed.");
 
 	for (i = 0; i < nr_threads; i++)
-		pthread_create(&threads[i], NULL, &thread_print_xs, NULL);
+		pthread_create(&threads[i], NULL, routine->child, NULL);
 
 	pthread_setname_np(pthread_self(), "pthread-parent");
-
-	while (loop) {
-		print_ansi("o", us, 1);
-	}
+	routine->parent();
 
 	for (i = 0; i < nr_threads; i++)
 		pthread_join(threads[i], NULL);
