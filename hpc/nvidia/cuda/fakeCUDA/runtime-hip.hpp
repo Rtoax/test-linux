@@ -21,6 +21,9 @@ hipError_t hipMemcpyWithStream(void* dst, const void* src, size_t sizeBytes,
                                hipMemcpyKind kind, hipStream_t stream);
 
 hiprtcResult hiprtcGetCode(hiprtcProgram prog, char* code);
+hiprtcResult hiprtcGetCodeSize(hiprtcProgram prog, size_t* codeSizeRet);
+hiprtcResult hiprtcGetBitcode(hiprtcProgram prog, char* bitcode);
+hiprtcResult hiprtcGetBitcodeSize(hiprtcProgram prog, size_t* bitcode_size);
 
 hipError_t hipGetDevicePropertiesR0600(hipDeviceProp_t *prop, int device);
 

@@ -1323,9 +1323,12 @@
 #define nvrtcDestroyProgram(prog)	__nv(rtcDestroyProgram(prog))
 
 /**
- * CUDA 12 don't have it?
+ * CUDA 12 and 13 don't have it?
  * HIP:
  * hiprtcResult hiprtcGetCode(hiprtcProgram prog, char* code);
+ * hiprtcResult hiprtcGetCodeSize(hiprtcProgram prog, size_t* codeSizeRet);
+ * hiprtcResult hiprtcGetBitcode(hiprtcProgram prog, char* bitcode);
+ * hiprtcResult hiprtcGetBitcodeSize(hiprtcProgram prog, size_t* bitcode_size);
  */
 
 /**
@@ -1376,3 +1379,8 @@
  * hiprtcResult hiprtcGetProgramLogSize(hiprtcProgram prog, size_t* logSizeRet);
  */
 #define nvrtcGetProgramLogSize	__nv(rtcGetProgramLogSize)
+
+/**
+ * HIP:
+ *
+ */

@@ -57,6 +57,9 @@ hip_4.2 {
 		hipEventSynchronize;
 		hiprtcDestroyProgram;
 		hiprtcGetCode;
+		hiprtcGetCodeSize;
+		hiprtcGetBitcode;
+		hiprtcGetBitcodeSize;
 		hiprtcCompileProgram;
 		hiprtcGetProgramLog;
 		hiprtcCreateProgram;
