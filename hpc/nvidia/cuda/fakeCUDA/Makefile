@@ -158,7 +158,8 @@ libcurand.so.10: ${common-objs} ${OUTPUT}rand.cpp.so.o
 libcusparse.so.12: ${common-objs} ${OUTPUT}sparse.cpp.so.o
 
 # ROCm HIP
-amdhip64-objs := ${common-objs} ${rt-hip-objs}
+amdhip64-objs := ${common-objs}
+amdhip64-objs += ${rt-hip-objs}
 amdhip64-objs += ${OUTPUT}cuda.cpp.so.o
 amdhip64-objs += ${OUTPUT}cuda-module-mgmt-hip.cpp.so.o
 amdhip64-objs += ${OUTPUT}cuda-module-mgmt-hip-private.cpp.so.o

@@ -33,6 +33,7 @@ libcudart.so.12 {
 		cudaFreeAsync;
 		cudaMemcpy;
 		cudaMemcpyAsync;
+		cudaMemcpy2D;
 		cudaMemcpy2DAsync;
 		cudaMemcpyFromSymbol;
 		cudaMemcpyPeer;

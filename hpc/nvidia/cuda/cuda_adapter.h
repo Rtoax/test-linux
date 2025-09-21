@@ -109,6 +109,56 @@
 #define cudaMemcpyAsync	__cuda(MemcpyAsync)
 
 /**
+ * CUDA: typedef const struct cudaArray *cudaArray_const_t;
+ * HIP: typedef const struct hipArray* hipArray_const_t;
+ */
+#define cudaArray_const_t	__cuda(Array_const_t)
+
+/**
+ * CUDA
+ * cudaError_t cudaMemcpy2D(void *dst, size_t dpitch, const void *src, size_t spitch, size_t width,
+ *                          size_t height, enum cudaMemcpyKind kind);
+ * cudaError_t cudaMemcpy2DToArray(cudaArray_t dst, size_t wOffset, size_t hOffset, const void *src,
+ *                                 size_t spitch, size_t width, size_t height, enum cudaMemcpyKind kind);
+ * cudaError_t cudaMemcpy2DFromArray(void *dst, size_t dpitch, cudaArray_const_t src,
+ *                                   size_t wOffset, size_t hOffset, size_t width, size_t height,
+ *                                   enum cudaMemcpyKind kind);
+ *
+ * HIP
+ * hipError_t hipMemcpy2D(void* dst, size_t dpitch, const void* src, size_t spitch, size_t width,
+ *                        size_t height, hipMemcpyKind kind);
+ * hipError_t hipMemcpyParam2D(const hip_Memcpy2D* pCopy);
+ * hipError_t hipMemcpyParam2DAsync(const hip_Memcpy2D* pCopy, hipStream_t stream __dparm(0));
+ * hipError_t hipMemcpy2DAsync(void* dst, size_t dpitch, const void* src, size_t spitch, size_t width,
+ *                             size_t height, hipMemcpyKind kind, hipStream_t stream __dparm(0));
+ * hipError_t hipMemcpy2DToArray(hipArray_t dst, size_t wOffset, size_t hOffset, const void* src,
+ *                               size_t spitch, size_t width, size_t height, hipMemcpyKind kind);
+ * hipError_t hipMemcpy2DToArrayAsync(hipArray_t dst, size_t wOffset, size_t hOffset, const void* src,
+ *                                    size_t spitch, size_t width, size_t height, hipMemcpyKind kind,
+ *                                    hipStream_t stream __dparm(0));
+ * hipError_t hipMemcpy2DArrayToArray(hipArray_t dst, size_t wOffsetDst, size_t hOffsetDst,
+ *                                    hipArray_const_t src, size_t wOffsetSrc, size_t hOffsetSrc,
+ *                                    size_t width, size_t height, hipMemcpyKind kind);
+ * hipError_t hipMemcpyToArray(hipArray_t dst, size_t wOffset, size_t hOffset, const void* src,
+ *                             size_t count, hipMemcpyKind kind);
+ * hipError_t hipMemcpyFromArray(void* dst, hipArray_const_t srcArray, size_t wOffset, size_t hOffset,
+ *                               size_t count, hipMemcpyKind kind);
+ * hipError_t hipMemcpy2DFromArray(void* dst, size_t dpitch, hipArray_const_t src,
+ *                                 size_t wOffset, size_t hOffset,
+ *                                 size_t width, size_t height, hipMemcpyKind kind);
+ * hipError_t hipMemcpy2DFromArrayAsync(void* dst, size_t dpitch, hipArray_const_t src,
+ *                                      size_t wOffset, size_t hOffset, size_t width,
+ *                                      size_t height, hipMemcpyKind kind, hipStream_t stream __dparm(0));
+ * hipError_t hipMemcpyAtoH(void* dst, hipArray_t srcArray, size_t srcOffset, size_t count);
+ * hipError_t hipMemcpyHtoA(hipArray_t dstArray, size_t dstOffset, const void* srcHost, size_t count);
+ * hipError_t hipMemcpy3D(const struct hipMemcpy3DParms* p);
+ * hipError_t hipMemcpy3DAsync(const struct hipMemcpy3DParms* p, hipStream_t stream __dparm(0));
+ * hipError_t hipDrvMemcpy3D(const HIP_MEMCPY3D* pCopy);
+ * hipError_t hipDrvMemcpy3DAsync(const HIP_MEMCPY3D* pCopy, hipStream_t stream);
+ */
+#define cudaMemcpy2D	__cuda(Memcpy2D)
+
+/**
  * CUDA 12
  * cudaError_t cudaMemcpy2DAsync(void *dst, size_t dpitch, const void *src,
  *                               size_t spitch, size_t width, size_t height,

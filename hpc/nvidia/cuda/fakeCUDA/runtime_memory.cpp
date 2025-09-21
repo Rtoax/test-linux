@@ -110,6 +110,12 @@ cudaError_t cudaMemcpyAsync(void *dst, const void *src, size_t count,
 	return cudaMemcpy(dst, src, count, kind);
 }
 
+cudaError_t cudaMemcpy2D(void *dst, size_t dpitch, const void *src, size_t spitch,
+			 size_t width, size_t height, cudaMemcpyKind kind)
+{
+	return cudaMemcpy(dst, src, width * height, kind);
+}
+
 cudaError_t cudaMemcpy2DAsync(void *dst, size_t dpitch, const void *src,
 			      size_t spitch, size_t width, size_t height,
 			      cudaMemcpyKind kind, cudaStream_t stream)
