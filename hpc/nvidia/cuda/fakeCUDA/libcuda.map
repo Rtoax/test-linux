@@ -4,6 +4,7 @@ libcuda.so.1 {
 		cuDeviceSet;
 		cuDeviceComputeCapability;
 		cuModuleLoad;
+		cuModuleUnload;
 		cuModuleGetFunction;
 	local:
 		*;

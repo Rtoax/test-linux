@@ -14,7 +14,7 @@
 # define __cu(name)	hip##name
 # define __CU(name)	HIP##name
 # define __CUDA(name)	HIP_##name
-# define __CUDA_ERROR(name)	HIP_STATUS_##name
+# define __CUDA_ERROR(name)	HIP_##name
 # define __nv(name)	hip##name
 # define __NV(name)	HIP##name
 #elif !defined(__cu) || !defined(__CU) || !defined(__CUDA)
@@ -306,11 +306,14 @@
 #define cudaStreamCaptureStatus	__cu(StreamCaptureStatus)
 
 /**
- * HPCC 3.0.0
- * hcError_t hcDeviceGet(hcDevice_t *device, int ordinal);
- *
  * CUDA V13.0.48
  * CUresult cuDeviceGet(CUdevice *device, int ordinal);
+ *
+ * HIP
+ * hipError_t hipDeviceGet(hipDevice_t*, int ordinal);
+ *
+ * HPCC 3.0.0
+ * hcError_t hcDeviceGet(hcDevice_t *device, int ordinal);
  */
 #define CUdevice	__CU(device)
 #define cuDeviceGet(pdevice, dev_id)	__cu(DeviceGet(pdevice, dev_id))
@@ -1229,9 +1232,42 @@
 /**
  * Module Management
  */
+/**
+ * CUDA 13: typedef struct CUmod_st *CUmodule;
+ */
 #define CUmodule	__CU(module)
+
+/**
+ * CUDA 13
+ * CUresult cuModuleLoad(CUmodule* module, const char *fname);
+ *
+ * HIP
+ * hipError_t hipModuleLoad(hipModule_t *module, const char* fname);
+ */
 #define cuModuleLoad(pmodule, name)	__cu(ModuleLoad(pmodule, name))
+
+/**
+ * CUDA 13
+ * CUresult cuModuleUnload(CUmodule hmod);
+ *
+ * HIP
+ * typedef struct ihipModule_t* hipModule_t;
+ * hipError_t hipModuleUnload(hipModule_t module);
+ */
+#define cuModuleUnload(mod)	__cu(ModuleUnload(mod))
 #define CUfunction	__CU(function)
+/**
+ * CUDA 13
+ * CUresult cuModuleGetFunction(CUfunction *hfunc, CUmodule hmod, const char *name);
+ *
+ * HIP
+ * hipError_t hipModuleGetFunction(hipFunction_t* function, hipModule_t module,
+ *                                 const char* kname);
+ *
+ * HPCC
+ * hcError_t hcModuleGetFunction(hcFunction_t *function, hcModule_t module,
+ *                               const char *kname);
+ */
 #define cuModuleGetFunction(pfunc, mod, name)	__cu(ModuleGetFunction(pfunc, mod, name))
 
 /**
