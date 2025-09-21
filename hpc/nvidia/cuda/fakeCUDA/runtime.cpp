@@ -254,3 +254,9 @@ nvrtcResult nvrtcCreateProgram(nvrtcProgram *prog,
 {
 	return NVRTC_SUCCESS;
 }
+
+nvrtcResult nvrtcGetProgramLogSize(nvrtcProgram prog, size_t *logSizeRet)
+{
+	*logSizeRet = 1024;
+	return NVRTC_SUCCESS;
+}

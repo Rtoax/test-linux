@@ -60,6 +60,7 @@ hip_4.2 {
 		hiprtcCompileProgram;
 		hiprtcGetProgramLog;
 		hiprtcCreateProgram;
+		hiprtcGetProgramLogSize;
 		hipModuleLoad;
 		hipModuleUnload;
 		hipModuleLaunchKernel;

@@ -186,6 +186,7 @@ nvrtcResult nvrtcCreateProgram(nvrtcProgram *prog,
 			       const char * const *includeNames
 			       #endif
 			      );
+nvrtcResult nvrtcGetProgramLogSize(nvrtcProgram prog, size_t *logSizeRet);
 
 #ifdef __cplusplus
 }

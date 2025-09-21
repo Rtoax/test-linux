@@ -1367,3 +1367,12 @@
  *                                  const char** includeNames);
  */
 #define nvrtcCreateProgram	__nv(rtcCreateProgram)
+
+/**
+ * CUDA 13
+ * nvrtcResult nvrtcGetProgramLogSize(nvrtcProgram prog, size_t *logSizeRet);
+ *
+ * HIP
+ * hiprtcResult hiprtcGetProgramLogSize(hiprtcProgram prog, size_t* logSizeRet);
+ */
+#define nvrtcGetProgramLogSize	__nv(rtcGetProgramLogSize)
