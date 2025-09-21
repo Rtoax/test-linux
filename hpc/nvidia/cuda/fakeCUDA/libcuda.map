@@ -6,6 +6,8 @@ libcuda.so.1 {
 		cuModuleLoad;
 		cuModuleUnload;
 		cuModuleGetFunction;
+		cuModuleLoadData;
+		cuModuleLoadDataEx;
 	local:
 		*;
 };

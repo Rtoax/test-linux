@@ -68,6 +68,8 @@ hip_4.2 {
 		hipModuleUnload;
 		hipModuleLaunchKernel;
 		hipModuleGetFunction;
+		hipModuleLoadData;
+		hipModuleLoadDataEx;
 	local:
 		*;
 };

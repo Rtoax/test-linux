@@ -1294,6 +1294,29 @@
 #define cuModuleGetFunction(pfunc, mod, name)	__cu(ModuleGetFunction(pfunc, mod, name))
 
 /**
+ * CUDA 13:
+ * CUresult CUDAAPI cuModuleLoadData(CUmodule *module, const void *image);
+ *
+ * HIP
+ * hipError_t hipModuleLoadData(hipModule_t* module, const void* image);
+ */
+#define cuModuleLoadData	__cu(ModuleLoadData)
+
+/**
+ * CUDA 13
+ * CUresult cuModuleLoadDataEx(CUmodule *module, const void *image,
+ *                             unsigned int numOptions, CUjit_option *options,
+ *                             void **optionValues);
+ *
+ * HIP
+ * hipError_t hipModuleLoadDataEx(hipModule_t* module, const void* image,
+ *                                unsigned int numOptions,
+ *                                hipJitOption* options, void** optionValues);
+ */
+#define CUjit_option	__CU(jit_option)
+#define cuModuleLoadDataEx	__cu(ModuleLoadDataEx)
+
+/**
  * NV RTC
  */
 #define nvrtcResult	__nv(rtcResult)

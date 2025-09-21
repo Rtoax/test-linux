@@ -13,6 +13,7 @@ extern "C" {
 # undef CUdevice
 # undef CUmodule
 # undef CUfunction
+# undef CUjit_option
 # undef CUDA_ERROR_INVALID_VALUE
 # undef CUDA_SUCCESS
 
@@ -20,6 +21,7 @@ extern "C" {
 # define CUdevice	hcDevice_t
 # define CUmodule	hcModule_t
 # define CUfunction	hcFunction_t
+# define CUjit_option	hcJitOption
 # define CUDA_ERROR_INVALID_VALUE	cudaErrorInvalidValue
 # define CUDA_SUCCESS	cudaSuccess
 #elif defined(__USE_HIP__)
@@ -27,6 +29,7 @@ extern "C" {
 # undef CUdevice
 # undef CUmodule
 # undef CUfunction
+# undef CUjit_option
 # undef CUDA_ERROR_INVALID_VALUE
 # undef CUDA_SUCCESS
 
@@ -34,6 +37,7 @@ extern "C" {
 # define CUdevice	hipDevice_t
 # define CUmodule	hipModule_t
 # define CUfunction	hipFunction_t
+# define CUjit_option	hipJitOption
 # define CUDA_ERROR_INVALID_VALUE	hipErrorInvalidValue
 # define CUDA_SUCCESS	hipSuccess
 #endif
@@ -46,6 +50,11 @@ CUresult cuModuleLoad(CUmodule* module, const char *fname);
 CUresult cuModuleUnload(CUmodule module);
 
 CUresult cuModuleGetFunction(CUfunction* hfunc, CUmodule hmod, const char *name);
+
+CUresult cuModuleLoadData(CUmodule *module, const void *image);
+CUresult cuModuleLoadDataEx(CUmodule *module, const void *image,
+			    unsigned int numOptions, CUjit_option *options,
+			    void **optionValues);
 
 #ifdef __cplusplus
 }
