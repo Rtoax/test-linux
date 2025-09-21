@@ -34,6 +34,7 @@ libcudart.so.12 {
 		cudaMemcpy;
 		cudaMemcpyAsync;
 		cudaMemcpy2DAsync;
+		cudaMemcpyFromSymbol;
 		cudaMemset;
 		cudaMemsetAsync;
 		cudaMemset2DAsync;

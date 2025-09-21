@@ -116,3 +116,10 @@ cudaError_t cudaMemcpy2DAsync(void *dst, size_t dpitch, const void *src,
 {
 	return cudaMemcpy(dst, src, width * height, kind);
 }
+
+cudaError_t cudaMemcpyFromSymbol(void *dst, const void *symbol,
+				 size_t count, size_t offset,
+				 cudaMemcpyKind kind)
+{
+	return cudaMemcpy(dst, symbol, count, kind);
+}

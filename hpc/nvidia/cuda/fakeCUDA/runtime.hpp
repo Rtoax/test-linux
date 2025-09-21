@@ -108,6 +108,9 @@ cudaError_t cudaMemcpyAsync(void *dst, const void *src, size_t count,
 cudaError_t cudaMemcpy2DAsync(void *dst, size_t dpitch, const void *src,
 			      size_t spitch, size_t width, size_t height,
 			      cudaMemcpyKind kind, cudaStream_t stream);
+cudaError_t cudaMemcpyFromSymbol(void *dst, const void *symbol,
+				 size_t count, size_t offset,
+				 cudaMemcpyKind kind);
 
 cudaError_t cudaSetDevice(int device);
 cudaError_t cudaGetDevice(int *device);

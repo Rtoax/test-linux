@@ -127,6 +127,19 @@
  */
 
 /**
+ * CUDA 13
+ * cudaError_t cudaMemcpyFromSymbol(void *dst, const void *symbol,
+ *                                  size_t count, size_t offset __dv(0),
+ *                                  enum cudaMemcpyKind kind __dv(cudaMemcpyDeviceToHost));
+ *
+ * HIP
+ * hipError_t hipMemcpyFromSymbol(void* dst, const void* symbol,
+ *                                size_t sizeBytes, size_t offset __dparm(0),
+ *                                hipMemcpyKind kind __dparm(hipMemcpyDeviceToHost));
+ */
+#define cudaMemcpyFromSymbol	__cu(MemcpyFromSymbol)
+
+/**
  * cudaError_t cudaMallocManaged(void **devPtr, size_t size,
  *                               unsigned int flags = cudaMemAttachGlobal);
  * hcError_t hcMallocManaged(void **dev_ptr, size_t size,
