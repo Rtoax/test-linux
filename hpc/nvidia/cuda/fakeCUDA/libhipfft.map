@@ -1,0 +1,6 @@
+libhipfft.so.0 {
+	global:
+		hipfftGetProperty;
+	local:
+		*;
+};

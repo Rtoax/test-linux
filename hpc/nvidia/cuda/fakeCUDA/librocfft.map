@@ -1,0 +1,6 @@
+librocfft.so.0 {
+	global:
+		*;
+	local:
+		*;
+};

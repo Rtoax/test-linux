@@ -23,7 +23,7 @@ libso-cuda += libcurand.so.10
 libso-cuda += libcusparse.so.12
 
 libso-hip := libamdhip64.so.5 libamdhip64.so.6
-
+libso-hip += libhipfft.so.0 librocfft.so.0
 
 ifdef HAVE_HPCC
   $(info HAVE_HPCC)
@@ -86,6 +86,8 @@ LDXXFLAGS_SO_libcusparse.so.12 := -Wl,--version-script=libcusparse.map
 # ROCm HIP
 LDXXFLAGS_SO_libamdhip64.so.5 := -Wl,--version-script=libamdhip64.map
 LDXXFLAGS_SO_libamdhip64.so.6 := -Wl,--version-script=libamdhip64.map
+LDXXFLAGS_SO_librocfft.so.0 := -Wl,--version-script=librocfft.map
+LDXXFLAGS_SO_libhipfft.so.0 := -Wl,--version-script=libhipfft.map
 
 include ../../../../template/main.mk
 
@@ -117,6 +119,7 @@ ${OUTPUT}utils.cpp.so.o: utils.hpp
 ${OUTPUT}fatbin.cpp.so.o: fatbin.hpp fatbin-hip.hpp
 ${OUTPUT}fft.cpp.so.o: fft.hpp
 ${OUTPUT}fft-hpcc.cpp.so.o: fft.hpp fft.cpp
+${OUTPUT}fft-hip.cpp.so.o: fft.hpp fft.cpp
 ${OUTPUT}blas.cpp.so.o: blas.hpp
 ${OUTPUT}blas-hpcc.cpp.so.o: blas.hpp blas.cpp
 ${OUTPUT}blasLt.cpp.so.o: blasLt.hpp
@@ -165,3 +168,5 @@ amdhip64-objs += ${OUTPUT}cuda-module-mgmt-hip.cpp.so.o
 amdhip64-objs += ${OUTPUT}cuda-module-mgmt-hip-private.cpp.so.o
 libamdhip64.so.5: ${amdhip64-objs}
 libamdhip64.so.6: ${amdhip64-objs}
+librocfft.so.0: ${common-objs} ${OUTPUT}fft-hip.cpp.so.o
+libhipfft.so.0: ${common-objs} ${OUTPUT}fft-hip.cpp.so.o

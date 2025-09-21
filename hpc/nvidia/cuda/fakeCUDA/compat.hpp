@@ -25,6 +25,7 @@
 #include <hip/hip_runtime.h>
 #include <hip/hip_runtime_api.h>
 #include <hip/hiprtc.h>
+#include <hipfft/hipfft.h>
 #include <cuda_adapter.h>
 # ifndef HAVE_HIP
 #  error "Not found ROCm HIP envrioment, but use HIP"
