@@ -75,4 +75,6 @@ hip_5.3 {
 };
 
 hip_6.0 {
+	global:
+		hipGetDevicePropertiesR0600;
 };

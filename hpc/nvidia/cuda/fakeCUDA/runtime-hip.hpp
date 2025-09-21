@@ -22,6 +22,8 @@ hipError_t hipMemcpyWithStream(void* dst, const void* src, size_t sizeBytes,
 
 hiprtcResult hiprtcGetCode(hiprtcProgram prog, char* code);
 
+hipError_t hipGetDevicePropertiesR0600(hipDeviceProp_t *prop, int device);
+
 #ifdef __cplusplus
 }
 #endif
