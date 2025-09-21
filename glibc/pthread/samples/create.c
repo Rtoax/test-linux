@@ -12,7 +12,12 @@
 #include <string.h>
 
 
+enum op {
+	OP_PRINT,
+};
+
 struct test_routine {
+	enum op op;
 	void *(*child)(void *arg);
 	void (*parent)(void);
 };
@@ -26,6 +31,7 @@ void *thread_print_xs(void *unused);
 void parent_print_xs(void);
 
 struct test_routine default_print = {
+	.op = OP_PRINT,
 	.child = thread_print_xs,
 	.parent = parent_print_xs,
 };
