@@ -27,6 +27,25 @@ hiprtcResult hiprtcGetBitcodeSize(hiprtcProgram prog, size_t* bitcode_size);
 
 hipError_t hipGetDevicePropertiesR0600(hipDeviceProp_t *prop, int device);
 
+hipError_t
+hipModuleOccupancyMaxPotentialBlockSize(int* gridSize, int* blockSize,
+					hipFunction_t f, size_t dynSharedMemPerBlk,
+					int blockSizeLimit);
+
+hipError_t
+hipModuleOccupancyMaxPotentialBlockSizeWithFlags(int* gridSize, int* blockSize,
+						 hipFunction_t f, size_t dynSharedMemPerBlk,
+						 int blockSizeLimit, unsigned int  flags);
+
+hipError_t
+hipModuleOccupancyMaxActiveBlocksPerMultiprocessor(int* numBlocks, hipFunction_t f,
+						   int blockSize, size_t dynSharedMemPerBlk);
+
+hipError_t
+hipModuleOccupancyMaxActiveBlocksPerMultiprocessorWithFlags(int* numBlocks, hipFunction_t f,
+							    int blockSize, size_t dynSharedMemPerBlk,
+							    unsigned int flags);
+
 #ifdef __cplusplus
 }
 #endif

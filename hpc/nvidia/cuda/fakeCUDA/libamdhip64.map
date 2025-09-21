@@ -70,6 +70,10 @@ hip_4.2 {
 		hipModuleGetFunction;
 		hipModuleLoadData;
 		hipModuleLoadDataEx;
+		hipModuleOccupancyMaxPotentialBlockSize;
+		hipModuleOccupancyMaxPotentialBlockSizeWithFlags;
+		hipModuleOccupancyMaxActiveBlocksPerMultiprocessor;
+		hipModuleOccupancyMaxActiveBlocksPerMultiprocessorWithFlags;
 	local:
 		*;
 };
