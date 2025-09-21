@@ -249,7 +249,9 @@
  *                           cudaMemoryAdvise advice,
  *                           cudaMemLocation location);
  *
- * CUDA V12.2.140 CUDA_VERSION=12020
+ * CUDA
+ * V12.2.140 CUDA_VERSION=12020 Ubuntu 25.04
+ * V12.4.131 CUDA_VERSION=12040 Debian 13
  * cudaError_t cudaMemAdvise(const void* devPtr, size_t count,
  *                           cudaMemoryAdvise advice,
  *                           int device);

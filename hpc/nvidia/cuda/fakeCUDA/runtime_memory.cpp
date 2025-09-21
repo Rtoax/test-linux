@@ -52,7 +52,7 @@ cudaError_t cudaFreeAsync(void *devPtr, cudaStream_t hStream)
 
 cudaError_t cudaMemAdvise(const void *devPtr, size_t count,
 			  cudaMemoryAdvise advice,
-			  #if defined(__USE_HPCC__) || defined(__USE_HIP__) || CUDA_VERSION <= 12020
+			  #if defined(__USE_HPCC__) || defined(__USE_HIP__) || CUDA_VERSION <= 12040
 			  int device
 			  #else
 			  cudaMemLocation location
