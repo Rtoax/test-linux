@@ -1,6 +1,7 @@
 OUTPUT := .output/
 
 targets-hipcc := parallel
+targets-hipcc += hello
 targets-hipcc += sparse
 targets-hipcc += rand
 targets-hipcc += module
@@ -21,6 +22,7 @@ include ../../../../template/main.mk
 ${OUTPUT}cuda_helpers.hip.o: cuda_helpers.h
 ${OUTPUT}%.o: cuda_adapter.h
 
+hello: ${OUTPUT}hello.hip.o ${OUTPUT}cuda_helpers.hip.o
 parallel: ${OUTPUT}parallel.hip.o ${OUTPUT}cuda_helpers.hip.o
 sparse: ${OUTPUT}sparse.hip.o ${OUTPUT}cuda_helpers.hip.o
 rand: ${OUTPUT}rand.hip.o ${OUTPUT}cuda_helpers.hip.o
