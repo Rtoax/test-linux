@@ -6,10 +6,18 @@
 #include "debug.h"
 
 
+#ifdef __USE_HIP__
+hipblasStatus_t hipblasLtGetVersion(hipblasLtHandle_t handle, int* version)
+{
+	*version = 6;
+	return CUBLAS_STATUS_SUCCESS;
+}
+#else
 size_t cublasLtGetVersion()
 {
 	return 13;
 }
+#endif
 
 cublasStatus_t cublasLtCreate(cublasLtHandle_t *lighthandle)
 {
@@ -23,7 +31,12 @@ cublasStatus_t cublasLtDestroy(cublasLtHandle_t lightHandle)
 
 cublasStatus_t cublasLtMatmulDescCreate(cublasLtMatmulDesc_t *matmulDesc,
 					cublasComputeType_t computeType,
-					cudaDataType_t scaleType)
+					#ifdef __USE_HIP__
+					hipDataType scaleType
+					#else
+					cudaDataType_t scaleType
+					#endif
+				       )
 {
 	return CUBLAS_STATUS_SUCCESS;
 }

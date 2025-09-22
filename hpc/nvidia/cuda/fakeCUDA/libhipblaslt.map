@@ -1,0 +1,18 @@
+libhipblaslt.so.0 {
+	global:
+		hipblasLtGetVersion;
+		hipblasLtCreate;
+		hipblasLtDestroy;
+		hipblasLtMatmulDescCreate;
+		hipblasLtMatmulDescDestroy;
+		hipblasLtMatrixLayoutCreate;
+		hipblasLtMatrixLayoutDestroy;
+		hipblasLtMatrixLayoutGetAttribute;
+		hipblasLtMatmulPreferenceCreate;
+		hipblasLtMatmulPreferenceDestroy;
+		hipblasLtMatmulPreferenceSetAttribute;
+		hipblasLtMatmulAlgoGetHeuristic;
+		hipblasLtMatmul;
+	local:
+		*;
+};

@@ -754,7 +754,15 @@
 #define cublasDestroy(handle)	__cu(blasDestroy(handle))
 
 #define cublasGetVersion(handle, pversion)	__cu(blasGetVersion(handle, pversion))
+/**
+ * CUDA: size_t CUBLASWINAPI cublasLtGetVersion(void);
+ * HIP: hipblasStatus_t hipblasLtGetVersion(hipblasLtHandle_t handle, int* version);
+ */
+#ifdef HAVE_HIP
+#define cublasLtGetVersion(handle, pv)	__cu(blasLtGetVersion(handle, pv))
+#else
 #define cublasLtGetVersion()	__cu(blasLtGetVersion())
+#endif
 #define cublasGetProperty(type, pvalue)	__cu(blasGetProperty(type, pvalue))
 
 /**
@@ -1038,14 +1046,24 @@
 		      B, Btype, ldb, beta, C, Ctype, ldc))
 
 #define cublasLtHandle_t	__cu(blasLtHandle_t)
+/**
+ * CUDA: cublasStatus_t cublasLtCreate(cublasLtHandle_t* lightHandle);
+ * HIP: hipblasStatus_t hipblasLtCreate(hipblasLtHandle_t* handle);
+ */
 #define cublasLtCreate(phandle)	__cu(blasLtCreate(phandle))
 #define cublasLtDestroy(handle)	__cu(blasLtDestroy(handle))
 
 #define cublasLtMatmulDesc_t	__cu(blasLtMatmulDesc_t)
 /**
+ * CUDA:
  * cublasStatus_t cublasLtMatmulDescCreate(cublasLtMatmulDesc_t *matmulDesc,
  *                                         cublasComputeType_t computeType,
  *                                         cudaDataType_t scaleType);
+ *
+ * HIP:
+ * hipblasStatus_t hipblasLtMatmulDescCreate(hipblasLtMatmulDesc_t* matmulDesc,
+ *                                           hipblasComputeType_t   computeType,
+ *                                           hipDataType            scaleType);
  *
  * This function creates a matrix multiply descriptor by allocating the memory
  * needed to hold its opaque structure.
@@ -1063,6 +1081,17 @@
 #define cublasLtMatmulHeuristicResult_t	__cu(blasLtMatmulHeuristicResult_t)
 
 #define cublasLtMatrixLayout_t	__cu(blasLtMatrixLayout_t)
+/**
+ * CUDA:
+ * cublasStatus_t cublasLtMatrixLayoutCreate(cublasLtMatrixLayout_t* matLayout,
+ *                                           cudaDataType type,
+ *                                             uint64_t rows,  uint64_t cols, int64_t ld);
+ *
+ * HIP:
+ * hipblasStatus_t hipblasLtMatrixLayoutCreate(hipblasLtMatrixLayout_t* matLayout,
+ *                                             hipDataType type,
+ *                                             uint64_t rows, uint64_t cols, int64_t ld);
+ */
 #define cublasLtMatrixLayoutCreate(playout, type, rows, cols, ld) \
 	__cu(blasLtMatrixLayoutCreate(playout, type, rows, cols, ld))
 #define cublasLtMatrixLayoutDestroy(layout)	__cu(blasLtMatrixLayoutDestroy(layout))
@@ -1105,6 +1134,31 @@
 #define CUBLASLT_ALGO_CAP_MIN_ALIGNMENT_D_BYTES	__CU(BLASLT_ALGO_CAP_MIN_ALIGNMENT_D_BYTES)
 #define CUBLASLT_ALGO_CAP_ATOMIC_SYNC	__CU(BLASLT_ALGO_CAP_ATOMIC_SYNC)
 
+/**
+ * CUDA:
+ * cublasStatus_t cublasLtMatmulAlgoGetHeuristic(cublasLtHandle_t lightHandle,
+ *                                               cublasLtMatmulDesc_t operationDesc,
+ *                                               cublasLtMatrixLayout_t Adesc,
+ *                                               cublasLtMatrixLayout_t Bdesc,
+ *                                               cublasLtMatrixLayout_t Cdesc,
+ *                                               cublasLtMatrixLayout_t Ddesc,
+ *                                               cublasLtMatmulPreference_t preference,
+ *                                               int requestedAlgoCount,
+ *                                               cublasLtMatmulHeuristicResult_t heuristicResultsArray[],
+ *                                               int* returnAlgoCount);
+ *
+ * HIP:
+ * hipblasStatus_t hipblasLtMatmulAlgoGetHeuristic(hipblasLtHandle_t                handle,
+ *                                                 hipblasLtMatmulDesc_t            matmulDesc,
+ *                                                 hipblasLtMatrixLayout_t          Adesc,
+ *                                                 hipblasLtMatrixLayout_t          Bdesc,
+ *                                                 hipblasLtMatrixLayout_t          Cdesc,
+ *                                                 hipblasLtMatrixLayout_t          Ddesc,
+ *                                                 hipblasLtMatmulPreference_t      pref,
+ *                                                 int                              requestedAlgoCount,
+ *                                                 hipblasLtMatmulHeuristicResult_t heuristicResultsArray[],
+ *                                                 int*                             returnAlgoCount);
+ */
 #define cublasLtMatmulAlgoGetHeuristic(ltHandle, matmulDesc, layoutA, layoutB, \
 				       layoutC, layoutD, pref, n, heuristic_result, rslt) \
 	__cu(blasLtMatmulAlgoGetHeuristic(ltHandle, matmulDesc, layoutA, layoutB, \

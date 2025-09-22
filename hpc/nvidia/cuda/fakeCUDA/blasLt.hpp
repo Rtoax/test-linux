@@ -7,12 +7,21 @@
 extern "C" {
 #endif
 
+#ifdef __USE_HIP__
+hipblasStatus_t hipblasLtGetVersion(hipblasLtHandle_t handle, int* version);
+#else
 size_t cublasLtGetVersion();
+#endif
 cublasStatus_t cublasLtCreate(cublasLtHandle_t *lighthandle);
 cublasStatus_t cublasLtDestroy(cublasLtHandle_t lightHandle);
 cublasStatus_t cublasLtMatmulDescCreate(cublasLtMatmulDesc_t *matmulDesc,
 					cublasComputeType_t computeType,
-					cudaDataType_t scaleType);
+					#ifdef __USE_HIP__
+					hipDataType scaleType
+					#else
+					cudaDataType_t scaleType
+					#endif
+				       );
 
 cublasStatus_t cublasLtMatmulDescDestroy(cublasLtMatmulDesc_t matmulDesc);
 
