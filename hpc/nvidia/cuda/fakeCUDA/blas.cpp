@@ -33,6 +33,7 @@
 #define cublasDgemm_v2	hcblasDgemm
 #endif
 
+
 const char* cublasGetStatusString(cublasStatus_t status)
 {
 	return "fakeCUDA";
@@ -355,6 +356,39 @@ cublasStatus_t cublasDgemm_v2(cublasHandle_t handle,
 	return CUBLAS_STATUS_SUCCESS;
 }
 
+/**
+ * CUDA:
+ * cublasStatus_t cublasHgemm(cublasHandle_t handle,
+ *                            cublasOperation_t transa,
+ *                            cublasOperation_t transb,
+ *                            int m,
+ *                            int n,
+ *                            int k,
+ *                            const __half* alpha,
+ *                            const __half* A,
+ *                            int lda,
+ *                            const __half* B,
+ *                            int ldb,
+ *                            const __half* beta,
+ *                            __half* C,
+ *                            int ldc);
+ *
+ * HIP:
+ * hipblasStatus_t hipblasHgemm(hipblasHandle_t    handle,
+ *                              hipblasOperation_t transA,
+ *                              hipblasOperation_t transB,
+ *                              int                m,
+ *                              int                n,
+ *                              int                k,
+ *                              const hipblasHalf* alpha,
+ *                              const hipblasHalf* AP,
+ *                              int                lda,
+ *                              const hipblasHalf* BP,
+ *                              int                ldb,
+ *                              const hipblasHalf* beta,
+ *                              hipblasHalf*       CP,
+ *                              int                ldc);
+ */
 cublasStatus_t cublasHgemm(cublasHandle_t handle,
 			   cublasOperation_t transa, cublasOperation_t transb,
 			   int m, int n, int k,
@@ -396,7 +430,11 @@ cublasStatus_t cublasGemmEx(cublasHandle_t handle,
 			    void *C,
 			    cudaDataType_t Ctype,
 			    int ldc,
+			    #ifdef __USE_HIP__
+			    cudaDataType_t computeType,
+			    #else
 			    cublasComputeType_t computeType,
+			    #endif
 			    cublasGemmAlgo_t algo)
 {
 	return CUBLAS_STATUS_SUCCESS;

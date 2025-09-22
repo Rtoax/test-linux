@@ -150,7 +150,11 @@ cublasStatus_t cublasGemmEx(cublasHandle_t handle,
 			    void *C,
 			    cudaDataType_t Ctype,
 			    int ldc,
+			    #ifdef __USE_HIP__
+			    cudaDataType_t computeType,
+			    #else
 			    cublasComputeType_t computeType,
+			    #endif
 			    cublasGemmAlgo_t algo);
 #ifdef __cplusplus
 }

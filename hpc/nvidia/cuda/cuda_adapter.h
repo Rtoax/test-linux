@@ -915,6 +915,7 @@
  * C = alpha op(A) op(B) + beta C
  */
 /**
+ * CUDA:
  * cublasStatus_t cublasSgemm(cublasHandle_t handle,
  *                          cublasOperation_t transa, cublasOperation_t transb,
  *                          int m, int n, int k,
@@ -923,6 +924,21 @@
  *                          const float           *B, int ldb,
  *                          const float           *beta,
  *                          float           *C, int ldc)
+ * HIP:
+ * hipblasStatus_t hipblasSgemm(hipblasHandle_t    handle,
+ *                              hipblasOperation_t transA,
+ *                              hipblasOperation_t transB,
+ *                              int                m,
+ *                              int                n,
+ *                              int                k,
+ *                              const float*       alpha,
+ *                              const float*       AP,
+ *                              int                lda,
+ *                              const float*       BP,
+ *                              int                ldb,
+ *                              const float*       beta,
+ *                              float*             CP,
+ *                              int                ldc);
  */
 #define cublasSgemm(handle, transa, transb, m, n, k, alpha, A, lda, B, ldb, beta, C, ldc) \
 	__cu(blasSgemm(handle, transa, transb, m, n, k, alpha, A, lda, B, ldb, beta, C, ldc))
@@ -932,6 +948,39 @@
 	__cu(blasCgemm(handle, transa, transb, m, n, k, alpha, A, lda, B, ldb, beta, C, ldc))
 #define cublasZgemm(handle, transa, transb, m, n, k, alpha, A, lda, B, ldb, beta, C, ldc) \
 	__cu(blasZgemm(handle, transa, transb, m, n, k, alpha, A, lda, B, ldb, beta, C, ldc))
+/**
+ * CUDA:
+ * cublasStatus_t cublasHgemm(cublasHandle_t handle,
+ *                            cublasOperation_t transa,
+ *                            cublasOperation_t transb,
+ *                            int m,
+ *                            int n,
+ *                            int k,
+ *                            const __half* alpha,
+ *                            const __half* A,
+ *                            int lda,
+ *                            const __half* B,
+ *                            int ldb,
+ *                            const __half* beta,
+ *                            __half* C,
+ *                            int ldc);
+ *
+ * HIP:
+ * hipblasStatus_t hipblasHgemm(hipblasHandle_t    handle,
+ *                              hipblasOperation_t transA,
+ *                              hipblasOperation_t transB,
+ *                              int                m,
+ *                              int                n,
+ *                              int                k,
+ *                              const hipblasHalf* alpha,
+ *                              const hipblasHalf* AP,
+ *                              int                lda,
+ *                              const hipblasHalf* BP,
+ *                              int                ldb,
+ *                              const hipblasHalf* beta,
+ *                              hipblasHalf*       CP,
+ *                              int                ldc);
+ */
 #define cublasHgemm(handle, transa, transb, m, n, k, alpha, A, lda, B, ldb, beta, C, ldc) \
 	__cu(blasHgemm(handle, transa, transb, m, n, k, alpha, A, lda, B, ldb, beta, C, ldc))
 

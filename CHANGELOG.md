@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- fakeCUDA: add libhipblas.map;
 - template: add sudo.mk;
 - bpf: test map-in-map;
 - fakeCUDA: hip: add libhipsparse.so.1 librocsparse.so.1;

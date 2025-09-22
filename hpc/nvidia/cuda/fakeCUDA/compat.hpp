@@ -29,6 +29,8 @@
 #include <hipfft/hipfft.h>
 #include <hipsparse/hipsparse.h>
 #include <hiprand/hiprand.h>
+#include <hipblas/hipblas.h>
+#include <hip/hip_fp16.h>
 #include <cuda_adapter.h>
 # ifndef HAVE_HIP
 #  error "Not found ROCm HIP envrioment, but use HIP"

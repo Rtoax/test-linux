@@ -26,6 +26,7 @@ libso-hip := libamdhip64.so.5 libamdhip64.so.6
 libso-hip += libhipfft.so.0 librocfft.so.0
 libso-hip += libhipsparse.so.1 librocsparse.so.1
 libso-hip += libhiprand.so.1
+libso-hip += libhipblas.so.2
 
 ifdef HAVE_HPCC
   $(info HAVE_HPCC)
@@ -93,6 +94,7 @@ LDXXFLAGS_SO_libhipfft.so.0 := -Wl,--version-script=libhipfft.map
 LDXXFLAGS_SO_librocsparse.so.1 := -Wl,--version-script=librocsparse.map
 LDXXFLAGS_SO_libhipsparse.so.1 := -Wl,--version-script=libhipsparse.map
 LDXXFLAGS_SO_libhiprand.so.1 := -Wl,--version-script=libhiprand.map
+LDXXFLAGS_SO_libhipblas.so.2 := -Wl,--version-script=libhipblas.map
 
 include ../../../../template/main.mk
 
@@ -127,6 +129,7 @@ ${OUTPUT}fft-hpcc.cpp.so.o: fft.hpp fft.cpp
 ${OUTPUT}fft-hip.cpp.so.o: fft.hpp fft.cpp
 ${OUTPUT}blas.cpp.so.o: blas.hpp
 ${OUTPUT}blas-hpcc.cpp.so.o: blas.hpp blas.cpp
+${OUTPUT}blas-hip.cpp.so.o: blas.hpp blas.cpp
 ${OUTPUT}blasLt.cpp.so.o: blasLt.hpp
 ${OUTPUT}blasLt-hpcc.cpp.so.o: blasLt.hpp blasLt.cpp
 ${OUTPUT}sparse.cpp.so.o: sparse.hpp
@@ -182,3 +185,4 @@ libhipfft.so.0: ${common-objs} ${OUTPUT}fft-hip.cpp.so.o
 librocsparse.so.1: ${common-objs} ${OUTPUT}sparse-hip.cpp.so.o
 libhipsparse.so.1: ${common-objs} ${OUTPUT}sparse-hip.cpp.so.o
 libhiprand.so.1: ${common-objs} ${OUTPUT}rand-hip.cpp.so.o
+libhipblas.so.2: ${common-objs} ${OUTPUT}blas-hip.cpp.so.o
