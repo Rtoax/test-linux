@@ -167,10 +167,11 @@ int cusparse_version(int *_major, int *_minor, int *_patch)
 	/**
 	 * HIP has no hipsparseGetProperty()
 	 * ubuntu25.04 libhipsparse-dev = 5.7.1-1build1
+	 * fedora42 hipsparse-6.3.0-4.fc42.x86_64
 	 */
-	*_major = 5;
-	*_minor = 7;
-	*_patch = 1;
+	*_major = 6;
+	*_minor = 3;
+	*_patch = 0;
 #endif
 
 	return 0;

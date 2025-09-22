@@ -1,6 +1,7 @@
 OUTPUT := .output/
 
 targets-hipcc := parallel
+targets-hipcc += sparse
 
 obj-fatbin := parallel.hip_fatbin parallel.hipFatBinSegment
 
@@ -16,3 +17,4 @@ ${OUTPUT}cuda_helpers.hip.o: cuda_helpers.h
 ${OUTPUT}%.o: cuda_adapter.h
 
 parallel: ${OUTPUT}parallel.hip.o ${OUTPUT}cuda_helpers.hip.o
+sparse: ${OUTPUT}sparse.hip.o ${OUTPUT}cuda_helpers.hip.o
