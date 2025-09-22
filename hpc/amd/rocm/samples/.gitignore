@@ -10,3 +10,4 @@
 /hipMalloc
 /hipMallocManaged
 /hipGetDeviceProperties
+/hipGetDeviceCount
