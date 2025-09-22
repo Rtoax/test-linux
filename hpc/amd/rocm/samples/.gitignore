@@ -13,3 +13,4 @@
 /hipGetDeviceProperties
 /hipGetDeviceCount
 /hipDeviceGetP2PAttribute
+/hipblasLtMatmul

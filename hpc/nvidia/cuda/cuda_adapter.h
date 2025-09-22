@@ -729,8 +729,15 @@
  *
  * CUDA V12.2.140
  * const char* cublasGetStatusString(cublasStatus_t status);
+ *
+ * HIP:
+ * const char* hipblasStatusToString(hipblasStatus_t status);
  */
+#ifdef HAVE_HIP
+#define cublasGetStatusString(status)	hipblasStatusToString(status)
+#else
 #define cublasGetStatusString(status)	__cu(blasGetStatusString(status))
+#endif
 #define cublasStatus_t	__cu(blasStatus_t)
 #define CUBLAS_STATUS_SUCCESS	__CU(BLAS_STATUS_SUCCESS)
 #define CUBLAS_STATUS_NOT_INITIALIZED	__CU(BLAS_STATUS_NOT_INITIALIZED)
@@ -1169,6 +1176,7 @@
 #define CUBLAS_COMPUTE_32I	__CU(BLAS_COMPUTE_32I)
 #define CUBLAS_COMPUTE_32I_PEDANTIC	__CU(BLAS_COMPUTE_32I_PEDANTIC)
 
+#ifdef HAVE_HCCL
 /**
  * see /usr/local/cuda-12.9/targets/x86_64-linux/include/library_types.h
  */
@@ -1214,6 +1222,41 @@
 #define CUDA_R_6F_E2M3	HPCC_R_6F_E2M3
 #define CUDA_R_6F_E3M2	HPCC_R_6F_E3M12
 #define CUDA_R_4F_E2M1	HPCC_R_4F_E2M1
+#elif defined(HAVE_HIP)
+#define cudaDataType	__cuda(DataType)
+#define CUDA_R_32F	HIP_R_32F
+#define CUDA_R_64F	HIP_R_64F
+#define CUDA_R_16F	HIP_R_16F
+#define CUDA_R_8I	HIP_R_8I
+#define CUDA_C_32F	HIP_C_32F
+#define CUDA_C_64F	HIP_C_64F
+#define CUDA_C_16F	HIP_C_16F
+#define CUDA_C_8I	HIP_C_8I
+#define CUDA_R_8U	HIP_R_8U
+#define CUDA_C_8U	HIP_C_8U
+#define CUDA_R_32I	HIP_R_32I
+#define CUDA_C_32I	HIP_C_32I
+#define CUDA_R_32U	HIP_R_32U
+#define CUDA_C_32U	HIP_C_32U
+#define CUDA_R_16BF	HIP_R_16BF
+#define CUDA_C_16BF	HIP_C_16BF
+#define CUDA_R_4I	HIP_R_4I
+#define CUDA_C_4I	HIP_C_4I
+#define CUDA_R_4U	HIP_R_4U
+#define CUDA_C_4U	HIP_C_4U
+#define CUDA_R_16I	HIP_R_16I
+#define CUDA_C_16I	HIP_C_16I
+#define CUDA_R_16U	HIP_R_16U
+#define CUDA_C_16U	HIP_C_16U
+#define CUDA_R_64I	HIP_R_64I
+#define CUDA_C_64I	HIP_C_64I
+#define CUDA_R_64U	HIP_R_64U
+#define CUDA_C_64U	HIP_C_64U
+#define CUDA_R_8F_E4M3	HIP_R_8F_E4M3
+#define CUDA_R_8F_E5M2	HIP_R_8F_E5M2
+#define CUDA_R_8F_E4M3_FNUZ	HIP_R_8F_E4M3_FNUZ
+#define CUDA_R_8F_E5M2_FNUZ	HIP_R_8F_E5M2_FNUZ
+#endif
 
 /**
  * float - s, S, real single-precision
