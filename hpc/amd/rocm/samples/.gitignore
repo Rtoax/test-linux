@@ -7,6 +7,7 @@
 /module
 /matrix-fp32
 /dim3
+/cooperative
 /hipEvent
 /hipMalloc
 /hipMallocManaged

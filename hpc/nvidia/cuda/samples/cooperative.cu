@@ -6,6 +6,11 @@
 #include <hpcc_cooperative_groups.h>
 #include "hpcc_helpers.h"
 #include "cuda_adapter.h"
+#elif defined(HAVE_HIP)
+#include <hip/hip_runtime.h>
+#include <hip/hip_cooperative_groups.h>
+#include "cuda_helpers.h"
+#include "cuda_adapter.h"
 #else
 #include <cuda_runtime.h>
 #include <cooperative_groups.h>
