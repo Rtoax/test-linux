@@ -2,6 +2,7 @@ OUTPUT := .output/
 
 targets-hipcc := parallel
 targets-hipcc += sparse
+targets-hipcc += rand
 
 obj-fatbin := parallel.hip_fatbin parallel.hipFatBinSegment
 
@@ -18,3 +19,4 @@ ${OUTPUT}%.o: cuda_adapter.h
 
 parallel: ${OUTPUT}parallel.hip.o ${OUTPUT}cuda_helpers.hip.o
 sparse: ${OUTPUT}sparse.hip.o ${OUTPUT}cuda_helpers.hip.o
+rand: ${OUTPUT}rand.hip.o ${OUTPUT}cuda_helpers.hip.o

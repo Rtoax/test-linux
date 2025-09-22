@@ -11,6 +11,7 @@ endif
 
 LDFLAGS_HIPCC := -lhipfft
 LDFLAGS_HIPCC += -lhipsparse
+LDFLAGS_HIPCC += -lhiprand
 
 ifdef ERROR
   CFLAGS_HIPCC += -DERROR=1
