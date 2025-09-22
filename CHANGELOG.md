@@ -11,6 +11,19 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+#### Changed
+#### Deprecated
+#### Removed
+#### Fixed
+#### Security
+#### Docs
+#### Tools
+
+
+## [v2.3.7] 2025-09-22
+
+#### Breaking Changes
+#### Added
 - fakeCUDA: add libhipblas.map, libhipblaslt.map;
 - template: add sudo.mk;
 - bpf: test map-in-map;
