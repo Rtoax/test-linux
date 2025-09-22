@@ -1,12 +1,19 @@
 #include <elf.h>
 #include <stdio.h>
+#include <stdlib.h>
 
-int main(void)
+
+int main(int argc, char *argv[])
 {
 	Elf64_Ehdr ehdr;
 
-	FILE *fpin = fopen("parallel.hc_fatbin.elf", "r");
-	FILE *fpout = fopen("parallel.hc_fatbin.elf.amdgpu", "w");
+	if (argc < 3) {
+		printf("Usage: %s [in] [out]\n", argv[0]);
+		exit(1);
+	}
+
+	FILE *fpin = fopen(argv[1], "r");
+	FILE *fpout = fopen(argv[2], "w");
 
 
 	fread(&ehdr, sizeof(ehdr), 1, fpin);
