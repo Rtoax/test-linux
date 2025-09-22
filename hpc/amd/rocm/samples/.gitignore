@@ -2,6 +2,7 @@
 /hello
 /parallel
 /sparse
+/fft
 /rand
 /module
 /matrix-fp32

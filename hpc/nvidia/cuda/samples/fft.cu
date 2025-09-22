@@ -7,6 +7,12 @@
 # include "hpcc_helpers.h"
 # include "cuda_adapter.h"
 # define NAME	"MetaX FFT"
+#elif defined(HAVE_HIP)
+#include <hip/hip_runtime.h>
+#include <hipfft/hipfft.h>
+#include "cuda_helpers.h"
+#include "cuda_adapter.h"
+# define NAME	"AMDGPU FFT"
 #else
 # include <cuda_runtime.h>
 # include <cufft.h>
