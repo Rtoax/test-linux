@@ -23,6 +23,16 @@
 # include "hpcc_helpers.h"
 # include "cuda_adapter.h"
 # define NAME	"MetaX BLAS"
+#elif defined(HAVE_HIP)
+# define HIPBLAS_V2
+# define HIPBLAS_USE_HIP_HALF
+# include <hip/hip_runtime.h>
+# include <hipblas/hipblas.h>
+# include <hipblaslt/hipblaslt.h>
+# include "cuda_helpers.h"
+# include "cuda_adapter.h"
+# define NAME	"AMDGPU BLAS"
+# define cudaDataType_t	cudaDataType
 #else
 # include <cuda_runtime.h>
 # include <cublas_v2.h>
@@ -243,9 +253,13 @@ static const struct argp_option opts[] = {
 static void print_blas_version(void)
 {
 	int major, minor, patch;
+#ifdef HAVE_HIP // FIXME
+	major = minor = patch = 1;
+#else
 	cublasGetProperty(MAJOR_VERSION, &major);
 	cublasGetProperty(MINOR_VERSION, &minor);
 	cublasGetProperty(PATCH_LEVEL, &patch);
+#endif
 	printf("%s %d.%d.%d\n", NAME, major, minor, patch);
 }
 
@@ -439,7 +453,11 @@ int default_create_blas(struct test *test)
 	CUBLAS_CHECK(cublasCreate(&test->handle), return -1);
 
 	if (env.verbose) {
+#ifdef HAVE_HIP // FIXME: hip don't have hipblasGetVersion()?
+		version = 1;
+#else
 		CUBLAS_CHECK(cublasGetVersion(test->handle, &version), return -1);
+#endif
 		printf("BLAS version %d\n", version);
 	}
 
@@ -475,12 +493,23 @@ int default_create_blasLt_type(struct test *test, cublasComputeType_t computeTyp
 				test->pref, 1, &test->heuristic_result, &rslt),);
 
 	if (env.verbose) {
+		int version;
+
 		if (rslt == 0) {
 			fprintf(stderr, "No valid algorithm found! Using fallback method.\n");
 		} else {
 			printf("Found %d heuristic algorithms\n", rslt);
 		}
-		printf("BLASLt version %zu\n", cublasLtGetVersion());
+/**
+ * CUDA: size_t CUBLASWINAPI cublasLtGetVersion(void);
+ * HIP: hipblasStatus_t hipblasLtGetVersion(hipblasLtHandle_t handle, int* version);
+ */
+#ifdef HAVE_HIP
+		hipblasLtGetVersion(test->handle, &version);
+#else
+		version = cublasLtGetVersion();
+#endif
+		printf("BLASLt version %d\n", version);
 	}
 
 	return 0;
@@ -864,7 +893,11 @@ int run_blas_GemmEx_int8(struct test *test)
 				test->dev_B.int8, CUDA_R_8I, env.n,
 				&beta,
 				test->dev_C.int32, CUDA_R_32I, env.m,
+				#if defined(HAVE_HIP) && !defined(HIPBLAS_V2)
+				CUDA_R_32I,
+				#else
 				CUBLAS_COMPUTE_32I,
+				#endif
 				CUBLAS_GEMM_DEFAULT),
 			return -1);
 	return 0;
@@ -885,7 +918,11 @@ int run_blas_GemmEx_fp16(struct test *test)
 				test->dev_B.fp16, CUDA_R_16F, env.n,
 				&beta,
 				test->dev_C.fp16, CUDA_R_16F, env.m,
+				#if defined(HAVE_HIP) && !defined(HIPBLAS_V2)
+				CUDA_R_16F,
+				#else
 				CUBLAS_COMPUTE_16F,
+				#endif
 				CUBLAS_GEMM_DEFAULT),
 			return -1);
 	return 0;
@@ -906,7 +943,11 @@ int run_blas_GemmEx_fp32(struct test *test)
 				test->dev_B.fp32, CUDA_R_32F, env.n,
 				&beta,
 				test->dev_C.fp32, CUDA_R_32F, env.m,
+				#if defined(HAVE_HIP) && !defined(HIPBLAS_V2)
+				CUDA_R_32F,
+				#else
 				CUBLAS_COMPUTE_32F,
+				#endif
 				CUBLAS_GEMM_DEFAULT),
 			return -1);
 	return 0;
@@ -927,7 +968,11 @@ int run_blas_GemmEx_fp64(struct test *test)
 				test->dev_B.fp64, CUDA_R_64F, env.n,
 				&beta,
 				test->dev_C.fp64, CUDA_R_64F, env.m,
+				#if defined(HAVE_HIP) && !defined(HIPBLAS_V2)
+				CUDA_R_64F,
+				#else
 				CUBLAS_COMPUTE_64F,
+				#endif
 				CUBLAS_GEMM_DEFAULT),
 			return -1);
 	return 0;

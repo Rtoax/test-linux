@@ -996,6 +996,7 @@
 	__cu(blasDgemv(handle, transa, m, n, alpha, a, lda, x, incx, beta, y, incy))
 
 /**
+ * CUDA:
  * cublasStatus_t cublasGemmEx(cublasHandle_t handle,
  *                          cublasOperation_t transa,
  *                          cublasOperation_t transb,
@@ -1015,11 +1016,33 @@
  *                          int ldc,
  *                          cublasComputeType_t computeType,
  *                          cublasGemmAlgo_t algo)
+ *
+ * HIP:
+ * hipblasStatus_t hipblasGemmEx(hipblasHandle_t    handle,
+ *                               hipblasOperation_t transA,
+ *                               hipblasOperation_t transB,
+ *                               int                m,
+ *                               int                n,
+ *                               int                k,
+ *                               const void*        alpha,
+ *                               const void*        A,
+ *                               hipblasDatatype_t  aType,
+ *                               int                lda,
+ *                               const void*        B,
+ *                               hipblasDatatype_t  bType,
+ *                               int                ldb,
+ *                               const void*        beta,
+ *                               void*              C,
+ *                               hipblasDatatype_t  cType,
+ *                               int                ldc,
+ *                               hipblasDatatype_t  computeType,
+ *                               hipblasGemmAlgo_t  algo);
  */
 #define cublasGemmEx(handle, transa, transb, m, n, k, alpha, A, Atype, lda, \
 		     B, Btype, ldb, beta, C, Ctype, ldc, computeType, algo) \
 	__cu(blasGemmEx(handle, transa, transb, m, n, k, alpha, A, Atype, lda, \
 		     B, Btype, ldb, beta, C, Ctype, ldc, computeType, algo))
+#define cublasGemmEx_v2	__cu(blasGemmEx_v2)
 
 /**
  * cublasStatus_t cublasSgemmEx(cublasHandle_t handle,

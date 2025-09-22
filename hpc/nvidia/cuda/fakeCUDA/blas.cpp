@@ -9,31 +9,6 @@
 #include "debug.h"
 
 
-#if defined(__USE_HPCC__)
-#define cublasGetVersion_v2	hcblasGetVersion
-#define cublasCreate_v2	hcblasCreate
-#define cublasDestroy_v2	hcblasDestroy
-#define cublasIsamax_v2	hcblasIsamax
-#define cublasIdamax_v2	hcblasIdamax
-#define cublasIsamin_v2	hcblasIsamin
-#define cublasIdamin_v2	hcblasIdamin
-#define cublasSasum_v2	hcblasSasum
-#define cublasDasum_v2	hcblasDasum
-#define cublasSscal_v2	hcblasSscal
-#define cublasDscal_v2	hcblasDscal
-#define cublasSaxpy_v2	hcblasSaxpy
-#define cublasDaxpy_v2	hcblasDaxpy
-#define cublasScopy_v2	hcblasScopy
-#define cublasDcopy_v2	hcblasDcopy
-#define cublasSdot_v2	hcblasSdot
-#define cublasDdot_v2	hcblasDdot
-#define cublasSnrm2_v2	hcblasSnrm2
-#define cublasDnrm2_v2	hcblasDnrm2
-#define cublasSgemm_v2	hcblasSgemm
-#define cublasDgemm_v2	hcblasDgemm
-#endif
-
-
 const char* cublasGetStatusString(cublasStatus_t status)
 {
 	return "fakeCUDA";
@@ -436,6 +411,29 @@ cublasStatus_t cublasGemmEx(cublasHandle_t handle,
 			    cublasComputeType_t computeType,
 			    #endif
 			    cublasGemmAlgo_t algo)
+{
+	return CUBLAS_STATUS_SUCCESS;
+}
+
+cublasStatus_t cublasGemmEx_v2(cublasHandle_t handle,
+			       cublasOperation_t transa,
+			       cublasOperation_t transb,
+			       int m,
+			       int n,
+			       int k,
+			       const void *alpha,
+			       const void *A,
+			       cudaDataType Atype,
+			       int lda,
+			       const void *B,
+			       cudaDataType Btype,
+			       int ldb,
+			       const void *beta,
+			       void *C,
+			       cudaDataType Ctype,
+			       int ldc,
+			       cublasComputeType_t computeType,
+			       cublasGemmAlgo_t algo)
 {
 	return CUBLAS_STATUS_SUCCESS;
 }

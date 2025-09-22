@@ -26,6 +26,7 @@ libhipblas.so.2 {
 		hipblasDgemm;
 		hipblasHgemm;
 		hipblasGemmEx;
+		hipblasGemmEx_v2;
 	local:
 		*;
 };

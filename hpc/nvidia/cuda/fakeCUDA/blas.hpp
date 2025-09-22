@@ -28,6 +28,28 @@
 #define cublasDnrm2_v2	hcblasDnrm2
 #define cublasSgemm_v2	hcblasSgemm
 #define cublasDgemm_v2	hcblasDgemm
+#elif defined(__USE_HIP__)
+#define cublasGetVersion_v2	hipblasGetVersion
+#define cublasCreate_v2	hipblasCreate
+#define cublasDestroy_v2	hipblasDestroy
+#define cublasIsamax_v2	hipblasIsamax
+#define cublasIdamax_v2	hipblasIdamax
+#define cublasIsamin_v2	hipblasIsamin
+#define cublasIdamin_v2	hipblasIdamin
+#define cublasSasum_v2	hipblasSasum
+#define cublasDasum_v2	hipblasDasum
+#define cublasSscal_v2	hipblasSscal
+#define cublasDscal_v2	hipblasDscal
+#define cublasSaxpy_v2	hipblasSaxpy
+#define cublasDaxpy_v2	hipblasDaxpy
+#define cublasScopy_v2	hipblasScopy
+#define cublasDcopy_v2	hipblasDcopy
+#define cublasSdot_v2	hipblasSdot
+#define cublasDdot_v2	hipblasDdot
+#define cublasSnrm2_v2	hipblasSnrm2
+#define cublasDnrm2_v2	hipblasDnrm2
+#define cublasSgemm_v2	hipblasSgemm
+#define cublasDgemm_v2	hipblasDgemm
 #endif
 
 #ifdef __cplusplus
@@ -156,6 +178,27 @@ cublasStatus_t cublasGemmEx(cublasHandle_t handle,
 			    cublasComputeType_t computeType,
 			    #endif
 			    cublasGemmAlgo_t algo);
+
+cublasStatus_t cublasGemmEx_v2(cublasHandle_t handle,
+			       cublasOperation_t transa,
+			       cublasOperation_t transb,
+			       int m,
+			       int n,
+			       int k,
+			       const void *alpha,
+			       const void *A,
+			       cudaDataType Atype,
+			       int lda,
+			       const void *B,
+			       cudaDataType Btype,
+			       int ldb,
+			       const void *beta,
+			       void *C,
+			       cudaDataType Ctype,
+			       int ldc,
+			       cublasComputeType_t computeType,
+			       cublasGemmAlgo_t algo);
+
 #ifdef __cplusplus
 }
 #endif
