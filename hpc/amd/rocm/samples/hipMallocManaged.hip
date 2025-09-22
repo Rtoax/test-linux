@@ -1,0 +1,1 @@
+../../../nvidia/cuda/samples/cudaMallocManaged.cu

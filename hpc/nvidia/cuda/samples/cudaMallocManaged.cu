@@ -7,6 +7,10 @@
 #include <hc_runtime.h>
 #include "hpcc_helpers.h"
 #include "cuda_adapter.h"
+#elif defined(HAVE_HIP)
+#include <hip/hip_runtime.h>
+#include "cuda_helpers.h"
+#include "cuda_adapter.h"
 #else
 #include <cuda_runtime.h>
 #include "cuda_helpers.h"
@@ -36,7 +40,7 @@ int main(void)
 
 	cudaMallocManaged(&ptr, size, cudaMemAttachGlobal);
 
-#if defined(HAVE_HCCL)
+#if defined(HAVE_HCCL) || defined(HAVE_HIP)
 	cudaMemAdvise(ptr, size, cudaMemAdviseSetReadMostly, gpu_id);
 #else
 	cudaMemLocation location;

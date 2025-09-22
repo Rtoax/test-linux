@@ -54,6 +54,10 @@ void __cudaRegisterVar(void **fatCubinHandle, char *hostVar,
 hcError_t __hcRegisterManagedVar(void *fatCubinHandle, void **hostVarPtrAddress,
 				 void *deviceAddress, const char *deviceName,
 				 size_t size, unsigned int align);
+#elif defined(__USE_HIP__)
+hipError_t __hipRegisterManagedVar(void *fatCubinHandle, void **hostVarPtrAddress,
+				   void *deviceAddress, const char *deviceName,
+				   size_t size, unsigned int align);
 #else
 void __cudaRegisterManagedVar(void **fatCubinHandle, void **hostVarPtrAddress,
 			      char *deviceAddress, const char *deviceName,

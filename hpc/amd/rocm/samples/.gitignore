@@ -7,3 +7,4 @@
 /module
 /matrix-fp32
 /dim3
+/hipMallocManaged

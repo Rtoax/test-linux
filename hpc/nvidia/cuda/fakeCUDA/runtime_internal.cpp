@@ -124,10 +124,6 @@ void __cudaRegisterVar(void **fatCubinHandle, char *hostVar,
 		  global);
 }
 
-/**
- * void __hipRegisterManagedVar(void* hipModule, void** pointer, void* init_value,
- *                              const char* name, size_t size, unsigned align);
- */
 #if defined(__USE_HPCC__)
 hcError_t __hcRegisterManagedVar(void *fatCubinHandle, void **hostVarPtrAddress,
 				 void *deviceAddress, const char *deviceName,
@@ -135,6 +131,14 @@ hcError_t __hcRegisterManagedVar(void *fatCubinHandle, void **hostVarPtrAddress,
 {
 	DEBUG_DBG("\n");
 	return hcSuccess;
+}
+#elif defined(__USE_HIP__)
+hipError_t __hipRegisterManagedVar(void *fatCubinHandle, void **hostVarPtrAddress,
+				   void *deviceAddress, const char *deviceName,
+				   size_t size, unsigned int align)
+{
+	DEBUG_DBG("\n");
+	return hipSuccess;
 }
 #else
 void __cudaRegisterManagedVar(void **fatCubinHandle, void **hostVarPtrAddress,
