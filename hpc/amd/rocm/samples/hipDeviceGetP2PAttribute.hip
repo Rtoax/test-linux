@@ -1,0 +1,1 @@
+../../../nvidia/cuda/samples/cudaDeviceGetP2PAttribute.cu

@@ -7,8 +7,9 @@
 /module
 /matrix-fp32
 /dim3
+/hipEvent
 /hipMalloc
 /hipMallocManaged
 /hipGetDeviceProperties
 /hipGetDeviceCount
-/hipEvent
+/hipDeviceGetP2PAttribute
