@@ -9,6 +9,7 @@ targets-hipcc += module
 targets-hipcc += matrix-fp32
 targets-hipcc += __GNUC__
 targets-hipcc += dim3
+targets-hipcc += hipMalloc
 targets-hipcc += hipMallocManaged
 
 obj-fatbin := parallel.hip_fatbin parallel.hipFatBinSegment
@@ -35,4 +36,5 @@ dim3: ${OUTPUT}dim3.hip.o ${OUTPUT}cuda_helpers.hip.o
 rand: ${OUTPUT}rand.hip.o ${OUTPUT}cuda_helpers.hip.o
 module: ${OUTPUT}module.hip.o ${OUTPUT}cuda_helpers.hip.o
 matrix-fp32: ${OUTPUT}matrix-fp32.hip.o ${OUTPUT}cuda_helpers.hip.o
+hipMalloc: ${OUTPUT}hipMalloc.hip.o ${OUTPUT}cuda_helpers.hip.o
 hipMallocManaged: ${OUTPUT}hipMallocManaged.hip.o ${OUTPUT}cuda_helpers.hip.o
