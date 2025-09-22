@@ -11,3 +11,4 @@
 /hipMallocManaged
 /hipGetDeviceProperties
 /hipGetDeviceCount
+/hipEvent
