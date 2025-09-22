@@ -32,6 +32,10 @@ int main(void)
 	pfx = "nvcc";
 	printf("%s: __NVCC__ = %d\n", pfx, __NVCC__);
 #endif
+#ifdef __HIPCC__	/* ROCm HIPCC */
+	pfx = "hipcc";
+	printf("%s: __HIPCC__ = %d\n", pfx, __HIPCC__);
+#endif
 #ifdef __HPCC__	/* MetaX htcc */
 	pfx = "htcc";
 	printf("%s: __HPCC__ = %d\n", pfx, __HPCC__);

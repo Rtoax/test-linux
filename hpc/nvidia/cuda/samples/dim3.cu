@@ -10,6 +10,12 @@
 #include <hpcc_cooperative_groups.h>
 #include "hpcc_helpers.h"
 #include "cuda_adapter.h"
+#elif defined(HAVE_HIP)
+#include <hip/hip_runtime.h>
+#include <hip/hip_cooperative_groups.h>
+#include "cuda_helpers.h"
+#include "cuda_adapter.h"
+# define NAME	"AMDGPU FFT"
 #else
 #include <cuda_runtime.h>
 #include <cooperative_groups.h>
@@ -26,7 +32,7 @@ __global__ void checkInfo(void)
 	 * https://flashypixels.wordpress.com/2018/11/10/intro-to-gpu-scalarization-part-1/
 	 */
 	printf("warpSize %d\n", warpSize);
-#if !defined(__CUDACC__)
+#if !defined(__CUDACC__) && !defined(__HIPCC__)
 	printf("waveSize %d\n", waveSize);
 #else
 	printf("waveSize not support on CUDA.\n");
