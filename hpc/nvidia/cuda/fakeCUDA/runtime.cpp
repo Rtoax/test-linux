@@ -160,12 +160,31 @@ cudaError_t cudaDeviceDisablePeerAccess(int peerDevice)
 
 cudaError_t cudaDeviceCanAccessPeer(int *canAccessPeer, int device, int peerDevice)
 {
+	if (device == peerDevice)
+		*canAccessPeer = 0;
+	else
+		*canAccessPeer = 1;
 	return cudaSuccess;
 }
 
 cudaError_t cudaDeviceGetP2PAttribute(int *value, enum cudaDeviceP2PAttr attr,
 				      int srcDevice, int dstDevice)
 {
+	switch (attr) {
+	case cudaDevP2PAttrPerformanceRank:
+		*value = 4;
+		break;
+	case cudaDevP2PAttrAccessSupported:
+	case cudaDevP2PAttrNativeAtomicSupported:
+	#ifdef __USE_HPCC__
+	case hcDevP2PAttrHcArrayAccessSupported:
+	#endif
+		*value = 1;
+		break;
+	default:
+		return cudaErrorInvalidValue;
+		break;
+	}
 	return cudaSuccess;
 }
 
