@@ -49,10 +49,7 @@ __global__ void kernel_foo(int count)
 
 /**
  * CUDA: cuobjdump -sass fatbin0.elf
- *
  * HIP: llvm-objdump -d fatbin0.elf
- * 0000000000006000 <_Z10kernel_bari>:
- *	s_endpgm			// 000000006000: BF810000
  */
 __global__ void kernel_bar(int count)
 {
@@ -60,11 +57,7 @@ __global__ void kernel_bar(int count)
 
 /**
  * CUDA: cuobjdump -sass fatbin0.elf
- *
  * HIP: llvm-objdump -d fatbin0.elf
- * 0000000000006300 <_Z11kernel_bar1i>:
- *	s_barrier			// 000000006300: BF8A0000
- *	s_endpgm			// 000000006304: BF810000
  */
 __global__ void kernel_bar1(int count)
 {

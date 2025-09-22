@@ -123,6 +123,10 @@ static const struct {
 /**
  * FIXME: Not found 253 in anywhere, even https://sourceware.org/git/glibc,
  * 253 just dump from ELF file. By the way, 252 is EM_CSKY, 258 is EM_LOONGARCH.
+ *
+ * WARNING: However, HPCC e_machine be recognized as Synopsys ARCv3 64-bit processor,
+ * see:
+ *      hpc/metax/samples$ readelf -h fatbin0.elf
  */
 #ifndef EM_HPCC_GPU
 #define EM_HPCC_GPU	253
