@@ -10,11 +10,11 @@ libso_multi_version() {
 	if [[ ${name_orig} == ${name_v_v} ]]; then
 		# Remove old symlinks first
 		rm -f ${name_v} ${name}
-		ln -s ${name_orig} ${name_v}
-		ln -s ${name_v} ${name}
+		ln -s --force ${name_orig} ${name_v}
+		ln -s --force ${name_v} ${name}
 	elif [[ ${name_orig} == ${name_v} ]]; then
 		rm -f ${name}
-		ln -s ${name_orig} ${name}
+		ln -s --force ${name_orig} ${name}
 	fi
 }
 
