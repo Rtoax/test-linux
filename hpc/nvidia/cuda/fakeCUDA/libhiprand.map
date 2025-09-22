@@ -1,0 +1,6 @@
+libhiprand.so.1 {
+	global:
+		*;
+	local:
+		*;
+};

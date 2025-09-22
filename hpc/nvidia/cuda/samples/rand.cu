@@ -7,6 +7,12 @@
 # include "hpcc_helpers.h"
 # include "cuda_adapter.h"
 # define NAME	"MetaX RAND"
+#elif defined(HAVE_HIP)
+#include <hip/hip_runtime.h>
+#include <hiprand/hiprand.h>
+#include "cuda_helpers.h"
+#include "cuda_adapter.h"
+# define NAME	"AMDGPU RAND"
 #else
 # include <cuda_runtime.h>
 # include <curand.h>

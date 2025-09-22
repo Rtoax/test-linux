@@ -8,6 +8,7 @@
 # define NAME	"MetaX SPARSE"
 #elif defined(HAVE_HIP)
 #include <hip/hip_runtime.h>
+#include <hipsparse/hipsparse.h>
 #include "cuda_helpers.h"
 #include "cuda_adapter.h"
 # define NAME	"AMDGPU SPARSE"
