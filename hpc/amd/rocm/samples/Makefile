@@ -6,6 +6,7 @@ targets-hipcc += sparse
 targets-hipcc += rand
 targets-hipcc += module
 targets-hipcc += matrix-fp32
+targets-hipcc += __GNUC__
 
 obj-fatbin := parallel.hip_fatbin parallel.hipFatBinSegment
 
@@ -23,6 +24,7 @@ ${OUTPUT}cuda_helpers.hip.o: cuda_helpers.h
 ${OUTPUT}%.o: cuda_adapter.h
 
 hello: ${OUTPUT}hello.hip.o ${OUTPUT}cuda_helpers.hip.o
+__GNUC__: ${OUTPUT}__GNUC__.hip.o
 parallel: ${OUTPUT}parallel.hip.o ${OUTPUT}cuda_helpers.hip.o
 sparse: ${OUTPUT}sparse.hip.o ${OUTPUT}cuda_helpers.hip.o
 rand: ${OUTPUT}rand.hip.o ${OUTPUT}cuda_helpers.hip.o
