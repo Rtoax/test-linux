@@ -31,6 +31,13 @@ FP4  |-|--|-|
 > S-Sign, E-Exponent(指数), F-Fraction(分数)
 
 
+# ISA
+
+## ISA compare
+
+- commit bf095f941a58 ("hpc: isa/elf compare: hip, cuda, hpcc")
+
+
 # Links
 
 - [IEEE 754-2008](https://en.wikipedia.org/wiki/IEEE_754-2008_revision)

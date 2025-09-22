@@ -50,6 +50,8 @@ __global__ void kernel_foo(int count)
 /**
  * CUDA: cuobjdump -sass fatbin0.elf
  * HIP: llvm-objdump -d fatbin0.elf
+ *
+ * - commit bf095f941a58 ("hpc: isa/elf compare: hip, cuda, hpcc")
  */
 __global__ void kernel_bar(int count)
 {
@@ -58,6 +60,8 @@ __global__ void kernel_bar(int count)
 /**
  * CUDA: cuobjdump -sass fatbin0.elf
  * HIP: llvm-objdump -d fatbin0.elf
+ *
+ * - commit bf095f941a58 ("hpc: isa/elf compare: hip, cuda, hpcc")
  */
 __global__ void kernel_bar1(int count)
 {
