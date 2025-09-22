@@ -138,6 +138,7 @@ ${OUTPUT}rand-hip.cpp.so.o: rand.hpp rand.cpp
 ${OUTPUT}hccl.cpp.so.o: hccl.hpp
 ${OUTPUT}cuda.cpp.so.o: cuda.hpp
 ${OUTPUT}cuda-hpcc.cpp.so.o: cuda.hpp cuda.cpp
+${OUTPUT}cuda-hip.cpp.so.o: cuda.hpp cuda.cpp
 ${OUTPUT}cuda-module-mgmt.cpp.so.o: cuda.hpp
 ${OUTPUT}cuda-module-mgmt-hpcc.cpp.so.o: cuda.hpp cuda-module-mgmt.cpp
 ${OUTPUT}cuda-module-mgmt-hip.cpp.so.o: cuda.hpp cuda-module-mgmt.cpp
@@ -171,6 +172,7 @@ libcusparse.so.12: ${common-objs} ${OUTPUT}sparse.cpp.so.o
 amdhip64-objs := ${common-objs}
 amdhip64-objs += ${rt-hip-objs}
 amdhip64-objs += ${OUTPUT}cuda.cpp.so.o
+amdhip64-objs += ${OUTPUT}cuda-hip.cpp.so.o
 amdhip64-objs += ${OUTPUT}cuda-module-mgmt-hip.cpp.so.o
 amdhip64-objs += ${OUTPUT}cuda-module-mgmt-hip-private.cpp.so.o
 libamdhip64.so.5: ${amdhip64-objs}

@@ -9,3 +9,4 @@
 /dim3
 /hipMalloc
 /hipMallocManaged
+/hipGetDeviceProperties

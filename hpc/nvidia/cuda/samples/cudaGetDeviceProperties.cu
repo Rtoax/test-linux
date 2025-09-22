@@ -22,6 +22,11 @@
 #include <hc_runtime.h>
 #include "hpcc_helpers.h"
 #include "cuda_adapter.h"
+#elif defined(HAVE_HIP)
+# define __USE_HIP__	1
+#include <hip/hip_runtime.h>
+#include "cuda_helpers.h"
+#include "cuda_adapter.h"
 #else
 #include <cuda.h>
 #include <cuda_runtime.h>
@@ -110,7 +115,7 @@ int main(int argc, char *argv[])
 	 * MetaX wave/warp size is 64.
 	 */
 	printf("warpSize %d\n", prop.warpSize);
-#if !defined(__CUDACC__)
+#if !defined(__CUDACC__) && !defined(__HIPCC__)
 	printf("waveSize %d\n", prop.waveSize);
 #endif
 

@@ -20,11 +20,13 @@ hip_4.2 {
 		hipGetDeviceCount;
 		hipGetDeviceProperties;
 		hipGetDeviceProperties_v2;
+		hipDeviceGet;
 		hipDeviceGetAttribute;
 		hipDeviceDisablePeerAccess;
 		hipDeviceCanAccessPeer;
 		hipDeviceGetP2PAttribute;
 		hipDeviceSynchronize;
+		hipDeviceComputeCapability;
 		hipMalloc;
 		hipMallocManaged;
 		hipFree;

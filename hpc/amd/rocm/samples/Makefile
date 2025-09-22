@@ -11,6 +11,7 @@ targets-hipcc += __GNUC__
 targets-hipcc += dim3
 targets-hipcc += hipMalloc
 targets-hipcc += hipMallocManaged
+targets-hipcc += hipGetDeviceProperties
 
 obj-fatbin := parallel.hip_fatbin parallel.hipFatBinSegment
 
@@ -38,3 +39,4 @@ module: ${OUTPUT}module.hip.o ${OUTPUT}cuda_helpers.hip.o
 matrix-fp32: ${OUTPUT}matrix-fp32.hip.o ${OUTPUT}cuda_helpers.hip.o
 hipMalloc: ${OUTPUT}hipMalloc.hip.o ${OUTPUT}cuda_helpers.hip.o
 hipMallocManaged: ${OUTPUT}hipMallocManaged.hip.o ${OUTPUT}cuda_helpers.hip.o
+hipGetDeviceProperties: ${OUTPUT}hipGetDeviceProperties.hip.o ${OUTPUT}cuda_helpers.hip.o
