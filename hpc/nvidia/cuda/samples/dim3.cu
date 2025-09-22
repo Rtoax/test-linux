@@ -74,7 +74,7 @@ __global__ void checkIndex(int it)
 
 int main(int argc, char *argv[])
 {
-	int i, it, bx, by, bz, gx, gy, gz, dim, dev;
+	int i, it, bx, by, bz, gx, gy, gz, dim, dev, kn;
 
 	dev = 0;
 	it = 1;
@@ -82,9 +82,10 @@ int main(int argc, char *argv[])
 	bx = gx = 2;
 	by = gy = 2;
 	bz = gz = 2;
+	kn = 1;
 
 	fprintf(stderr, "Usage: %s [dev=<N>] [bx|by|bz|gx|gy|gz=<N>] " \
-		"[it=<INTERVAL>] [dim=<1|2|3>]\n", argv[0]);
+		"[it=<INTERVAL>] [dim=<1|2|3>] [kn=<kernel call times>]\n", argv[0]);
 
 	for (i = 1; i < argc; i++) {
 #define arg_eq(v) if (!strncmp(#v"=", argv[i], strlen(#v) + 1)) \
@@ -98,6 +99,7 @@ int main(int argc, char *argv[])
 		arg_eq(gz);
 		arg_eq(it);
 		arg_eq(dim);
+		arg_eq(kn);
 #undef arg_eq
 	}
 
@@ -131,12 +133,14 @@ int main(int argc, char *argv[])
 		exit(EXIT_FAILURE);
 	}
 
-	fprintf(stderr, "Running on device %d\n", dev);
+	fprintf(stderr, "Running on device %d, kn %d\n", dev, kn);
 	fprintf(stderr, "<<< grid(%d,%d,%d), block(%d,%d,%d) >>>\n",
 		grid.x, grid.y, grid.z, block.x, block.y, block.z);
 
 	checkInfo<<<1, 1>>>();
-	checkIndex<<<grid, block>>>(it);
+
+	for (i = 0; i < kn; i++)
+		checkIndex<<<grid, block>>>(it);
 
 	/* flush printf */
 	cudaDeviceSynchronize();
