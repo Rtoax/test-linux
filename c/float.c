@@ -28,25 +28,31 @@
 #include <math.h>
 #include <byteswap.h>
 #include <float.h>
+#include <string.h>
 
 #if defined(__HPCC__) || defined(__NVCC__)
 # define HAVE_CUDA	1
-  /* Metax has CUDA-compatible APIs */
 # if defined(__HPCC__)	/* MetaX */
 #  include <hccl.h>
 #  include <hpcc_fp16.h>
+#  include <hc_runtime.h>
+#  include "cuda_adapter.h"
 # elif defined(__NVCC__)	/* Nvidia */
 #  include <cuda_fp16.h>
+#  include <cuda_runtime.h>
+#  include "cuda_helpers.h"
 # endif
 # define DIM	<<<1, 1>>>
 # define __mydevice__	__device__
 # define __myglobal__	__global__
 # define __myconst__	__constant__
+# define mysync()	cudaDeviceSynchronize()
 #else
 # define DIM
 # define __mydevice__
 # define __myglobal__
 # define __myconst__	const
+# define mysync()
 #endif
 
 
@@ -61,10 +67,6 @@ const static char *ansi[] = {
 static const char *reset = "\033[m";
 static unsigned long ansi_idx = 0;
 
-#ifdef HAVE_CUDA
-#define seperator() do { } while (0)
-#define reset() do { } while (0)
-#else
 #define seperator() do {	\
 		printf("%s%s", reset, ansi[ansi_idx++ % ARRAY_SIZE(ansi)]);	\
 	} while (0)
@@ -72,7 +74,6 @@ static unsigned long ansi_idx = 0;
 		printf("%s", reset);	\
 		ansi_idx++;	\
 	} while (0)
-#endif
 
 
 typedef union fp64 {
@@ -175,11 +176,11 @@ __myconst__ fp16_t fp16_PosZero = FP16_INITIALIZER(0, 0, 0);
 __myconst__ fp16_t fp16_NegZero = FP16_INITIALIZER(1, 0, 0);
 
 
-void binprint(void *mem, size_t bits)
+void binprint(const void *mem, size_t bits)
 {
 	size_t i;
 	for (i = 0; i < bits; i++) {
-		uint8_t u8 = *(uint8_t *)((int8_t *)mem + i / 8);
+		uint8_t u8 = *(uint8_t *)((const int8_t *)mem + i / 8);
 		uint8_t bit = (u8 >> (i % 8) & 0x1);
 		printf("%c", bit ? '1' : '0');
 	}
@@ -201,7 +202,21 @@ double fraction_value(uint64_t fraction, uint64_t nbits)
 	return fra;
 }
 
-void double_to_fp64(const double d, fp64_t *fp64)
+double __mydevice__ dev_fraction_value(uint64_t fraction, uint64_t nbits)
+{
+	uint32_t tmp, i;
+	double fra = 0.0f;
+
+	for (i = 1; i <= nbits; i++) {
+		tmp = (fraction >> (nbits - i)) & 0x1;
+		if (tmp == 0)
+			continue;
+		fra += exp2f(-1.0f * i);
+	}
+	return fra;
+}
+
+void __mydevice__ double_to_fp64(const double d, fp64_t *fp64)
 {
 	double tmp = d;
 	int64_t i64 = *(int64_t *)&tmp;
@@ -209,7 +224,7 @@ void double_to_fp64(const double d, fp64_t *fp64)
 	*fp64 = *(fp64_t *)&i64;
 }
 
-double fp64_to_double(const fp64_t *fp64)
+double __mydevice__ fp64_to_double(const fp64_t *fp64)
 {
 	double sign = 1 - 2 * (fp64->sign % 2);
 	double e2, fra;
@@ -220,7 +235,7 @@ double fp64_to_double(const fp64_t *fp64)
 						 fp64_NegZero.f64;
 		} else {
 			e2 = exp2(-1022.0);
-			fra = 0 + fraction_value(fp64->fraction, 52);
+			fra = 0 + dev_fraction_value(fp64->fraction, 52);
 		}
 	} else if (fp64->exponent == 0x7ff) {
 		if (fp64->fraction == 0)
@@ -230,14 +245,13 @@ double fp64_to_double(const fp64_t *fp64)
 			return fp64_NaN.f64;
 	} else {
 		e2 = exp2(fp64->exponent - 1023.0);
-		fra = 1 + fraction_value(fp64->fraction, 52);
+		fra = 1 + dev_fraction_value(fp64->fraction, 52);
 	}
 
 	return sign * e2 * fra;
 }
 
-void __check_fp64(const char *name, double f)
-#define check_fp64(v)	__check_fp64(#v, v)
+void __myglobal__ __kernel_check_fp64(double f)
 {
 	double to;
 	fp64_t fp64;
@@ -245,12 +259,21 @@ void __check_fp64(const char *name, double f)
 	double_to_fp64(f, &fp64);
 	to = fp64_to_double(&fp64);
 
-	printf("%s: %lf vs %lf (%x %x %lx) ", name, f, to,
-		fp64.sign, fp64.exponent, (uint64_t)fp64.fraction);
-	binprint(&f, sizeof(f) * 8);
+	printf("%lf vs %lf (%x %x %lx) ", f, to, fp64.sign, fp64.exponent,
+		(uint64_t)fp64.fraction);
 
 	assert(*(uint64_t *)&f == *(uint64_t *)&to && "Failed to check fp64");
 }
+
+#define check_fp64(v)	do {	\
+		printf("%s: ", #v);	\
+		/* FIXME: could not pass __device__ value to temst. */	\
+		typeof(v) ___v = v;	\
+		__kernel_check_fp64 DIM (___v);	\
+		mysync();	\
+		binprint(&___v, sizeof(v) * 8);	\
+	} while (0)
+
 
 void float_to_fp32(const float f, fp32_t *fp32)
 {
