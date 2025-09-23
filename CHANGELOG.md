@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- Add ieee/;
 - Add init/kernel/cmdline.md;
 #### Changed
 - kconfig.mk: Move it into template/;

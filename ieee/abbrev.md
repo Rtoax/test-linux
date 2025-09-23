@@ -1,0 +1,6 @@
+- IEEE: Institute of Electrical and Electronics Engineers (电气电子工程师协会)
+- IEEE-1003: POSIX Standards (POSIX 标准) @POSIX
+- IEEE-754: Floating Point Standards (浮点标准)
+- IEEE-802.3: () @MAC
+- IEEE-802.11: () @WLAN @Wi-Fi
+- IEEE-802.15.4: () @LR-WPAN @IoT

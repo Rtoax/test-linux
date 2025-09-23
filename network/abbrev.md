@@ -8,9 +8,6 @@
 - HTTP: Hypertext Transfer Protocol (超文本传输协议，RFC 2616)
 - IB: InfiniBand
 - ICMP: Internet Control Message Protocol (网络控制消息协议)
-- IEEE-802.3: @MAC
-- IEEE-802.11: @WLAN @Wi-Fi
-- IEEE-802.15.4: @LR-WPAN @IoT
 - IETF: Internet Engineering Task Force (互联网工程任务组) @RFC
 - IP: Internet Protocol (互联网协议, RFC 791)
 - KNI: Kernel Network Interface (内核网络接口) @DPDK
@@ -42,5 +39,5 @@
 - VoIP: Voice over IP ()
 - WAN: Wide Area Network (广域网)
 - WLAN: Wireless Local Area Network (无线局域网) @Wi-Fi
-- Wi-Fi: @WLAN @IEEE-802.11
+- Wi-Fi: () @WLAN @IEEE-802.11
 - WWAN: Wireless Wide Area Network (无线广域网)
