@@ -38,6 +38,15 @@
 # elif defined(__NVCC__)	/* Nvidia */
 #  include <cuda_fp16.h>
 # endif
+# define DIM	<<<1, 1>>>
+# define __mydevice__	__device__
+# define __myglobal__	__global__
+# define __myconstant__	__constant__
+#else
+# define DIM
+# define __mydevice__
+# define __myglobal__
+# define __myconstant__	const
 #endif
 
 
@@ -50,9 +59,14 @@ const static char *ascii[] = {
 	"\033[36m",
 };
 static const char *reset = "\033[m";
-static int ascii_idx = 0;
-#define seperator() printf("%s%s", reset, ascii[ascii_idx++ % ARRAY_SIZE(ascii)])
-#define reset() printf("%s", reset)
+static unsigned long ascii_idx = 0;
+#define seperator() do {	\
+		printf("%s%s", reset, ascii[ascii_idx++ % ARRAY_SIZE(ascii)]);	\
+	} while (0)
+#define reset() do {	\
+		printf("%s", reset);	\
+		ascii_idx++;	\
+	} while (0)
 
 
 typedef union fp64 {
