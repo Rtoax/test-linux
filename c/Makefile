@@ -81,7 +81,9 @@ $(shell echo 'int main(void) { _Float16 f16 = 0; return 0; }' | \
 	gcc -x c -Werror - -o /dev/null 2>/dev/null && echo y)
 endef
 ifeq ($(call support_Float16),y)
-  $(info "${CC} support _Float16")
+  ifdef DEBUG
+    $(info "${CC} support _Float16")
+  endif
   CFLAGS_float := -DSUPPORT_FLOAT16=1
 endif
 LDFLAGS_float := -lm
