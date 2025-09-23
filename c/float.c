@@ -393,6 +393,7 @@ void __myglobal__ __kernel_check_fp16(_Float16 f)
 		mysync();	\
 		binprint(&___v, sizeof(v) * 8);	\
 	} while (0)
+#endif /* SUPPORT_FLOAT16 */
 
 
 void base_test(void)
