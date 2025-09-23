@@ -148,6 +148,17 @@ const fp16_t fp16_PosZero = FP16_INITIALIZER(0, 0, 0);
 const fp16_t fp16_NegZero = FP16_INITIALIZER(1, 0, 0);
 
 
+void binprint(void *mem, size_t bits)
+{
+	size_t i;
+	for (i = 0; i < bits; i++) {
+		uint8_t u8 = *(uint8_t *)(mem + i / 8);
+		uint8_t bit = (u8 >> (i % 8) & 0x1);
+		printf("%c", bit ? '1' : '0');
+	}
+	printf("\n");
+}
+
 /* Could use to both float and double */
 double fraction_value(uint64_t fraction, uint64_t nbits)
 {
@@ -207,8 +218,9 @@ void __check_fp64(const char *name, double f)
 	double_to_fp64(f, &fp64);
 	to = fp64_to_double(&fp64);
 
-	printf("%s: %lf vs %lf (%x %x %lx)\n", name, f, to,
+	printf("%s: %lf vs %lf (%x %x %lx) ", name, f, to,
 		fp64.sign, fp64.exponent, (uint64_t)fp64.fraction);
+	binprint(&f, sizeof(f) * 8);
 
 	assert(*(uint64_t *)&f == *(uint64_t *)&to && "Failed to check fp64");
 }
@@ -257,8 +269,9 @@ void __check_fp32(const char *name, float f)
 	float_to_fp32(f, &fp32);
 	to = fp32_to_float(&fp32);
 
-	printf("%s: %f vs %f (%x %x %x)\n", name, f, to,
+	printf("%s: %f vs %f (%x %x %x) ", name, f, to,
 		fp32.sign, fp32.exponent, fp32.fraction);
+	binprint(&f, sizeof(f) * 8);
 
 	assert(*(uint32_t *)&f == *(uint32_t *)&to && "Failed to check fp32");
 }
@@ -308,8 +321,9 @@ void __check_fp16(const char *name, _Float16 f)
 	float16_to_fp16(f, &fp16);
 	to = fp16_to_float16(&fp16);
 
-	printf("%s: %f vs %f (%x %x %x)\n", name, (float)f, (float)to,
+	printf("%s: %f vs %f (%x %x %x) ", name, (float)f, (float)to,
 		fp16.sign, fp16.exponent, fp16.fraction);
+	binprint(&f, sizeof(f) * 8);
 
 	assert(*(uint16_t *)&f == *(uint16_t *)&to && "Failed to check fp16");
 }
