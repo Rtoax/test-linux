@@ -40,13 +40,6 @@
 # endif
 #endif
 
-/**
- * FIXME: I don't really know the actual version of GCC support _Float16, but
- * 'gcc (GCC) 8.5.0 20210514 (Red Hat 8.5.0-15)' don't have _Float16.
- */
-#if defined(__GNUC__) && ((__GNUC__ == 8) && (__GNUC_MINOR__ > 5) || __GNUC__ > 8)
-# define SUPPORT_FLOAT16	1
-#endif
 
 #define ARRAY_SIZE(arr)	(sizeof(arr) / sizeof(arr[0]))
 const static char *ascii[] = {
@@ -458,7 +451,7 @@ void overflow(void)
 	check_fp32(fp32_PosMax.f32 * 1.0000000595f);
 	check_fp32(fp32_PosMax.f32 * 1.0000000596f);
 	check_fp32(fp32_PosMax.f32 * 1.000000059604f);
-	check_fp32(fp32_PosMax.f32 * 1.00000005961f); /* Intel i7-10710U Inf */
+	check_fp32(fp32_PosMax.f32 * 1.00000005961f); /* Intel i7-10710U, AMD EPYC 7763 = Inf */
 	check_fp32(fp32_PosMax.f32 * 1.00000005963f);
 	check_fp32(fp32_PosMax.f32 * 1.00000005965f);
 	check_fp32(fp32_PosMax.f32 * 1.00000005969f);

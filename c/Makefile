@@ -75,6 +75,15 @@ CFLAGS_struct := -Wno-gnu-designator -Wno-initializer-overrides
 CFLAGS___STDC__c98 := -std=c89 -DSTD_C98=1
 CFLAGS___STDC__gnu98 := -std=gnu89 -DSTD_GNU98=1
 CFLAGS___STDC__c17 := -std=c89 -DSTD_C17=1
+
+define support_Float16
+$(shell echo 'int main(void) { _Float16 f16 = 0; return 0; }' | \
+	gcc -x c -Werror - -o /dev/null 2>/dev/null && echo y)
+endef
+ifeq ($(call support_Float16),y)
+  $(info "${CC} support _Float16")
+  CFLAGS_float := -DSUPPORT_FLOAT16=1
+endif
 LDFLAGS_float := -lm
 
 # preprocessing
