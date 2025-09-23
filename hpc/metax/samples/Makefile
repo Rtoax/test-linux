@@ -1,6 +1,8 @@
 # SPDX-License-Identifier: GPL-3.0
 OUTPUT := .output/
 
+include ../../../compiler/compiler.mk
+
 targets-htcc := hello
 targets-htcc += parallel
 targets-htcc += hcclGetVersion
@@ -50,6 +52,12 @@ CFLAGS_HTCC_matrix-int8 := -DTEST_INT8=1
 CFLAGS_HTCC_blas := -Wno-ignored-attributes
 CFLAGS_HTCC_hcblasLtMatmul := ${CFLAGS_HTCC_blas}
 LDFLAGS_HTCC_hcblasLtMatmul := ${LDFLAGS_HTCC_blas}
+ifeq (${CC__Float32},y)
+  ifdef DEBUG
+    $(info "${CC} support _Float16")
+  endif
+  CFLAGS_float-c := -DSUPPORT_FLOAT16=1
+endif
 LDFLAGS_float-c := -lm
 
 HPCC_HELPERS := ${OUTPUT}hpcc_helpers.hpcc.o
@@ -97,4 +105,4 @@ float: ${OUTPUT}float.hpcc.o
 
 matrix-c-fp32: ${OUTPUT}matrix-fp32.o
 matrix-c-fp64: ${OUTPUT}matrix-fp64.o
-float-c: ${OUTPUT}float.o
+float-c: ${OUTPUT}float-c.o
