@@ -23,6 +23,14 @@ define check_compiler_option_noS
       && echo 1)
 endef
 
+# Check compiler support type
+# $(1) - compiler, gcc, clang, etc.
+# $(2) - type name, _Float16, float, etc.
+define check_compiler_support_type
+$(shell echo 'int main(void) { $(2) v; return 0; }' | \
+	$(1) -x c -Werror - -o /dev/null 2>/dev/null && echo y)
+endef
+
 define check_clang_option
 	$(call check_compiler_option,clang,$(1))
 endef
@@ -51,6 +59,8 @@ CC_STD_GNU17 := $(findstring 1,$(call check_compiler_option,$(CC),-std=gnu17))
 CC_STD_GNU++20 := $(findstring 1,$(call check_compiler_option,$(CC),-std=gnu++20))
 CC_STD_C++20 := $(findstring 1,$(call check_compiler_option,$(CC),-std=c++20))
 
+CC__Float32 := $(findstring y,$(call check_compiler_support_type,$(CC),_Float16))
+
 CC_FULLVERSION := $(shell $(CC) -dumpfullversion -dumpversion)
 CC_VERSION := $(shell $(CC) -dumpversion)
 CC_MAJOR := $(shell echo ${CC_FULLVERSION} | awk -F '.' '{print $$1}')
@@ -77,6 +87,7 @@ ifdef DEBUG
   $(info CC_STD_GNU17: ${CC_STD_GNU17})
   $(info CC_STD_GNU++20: ${CC_STD_GNU++20})
   $(info CC_STD_C++20: ${CC_STD_C++20})
+  $(info CC__Float32: ${CC__Float32})
 
   $(info feature-m32 ${feature-m32})
   $(info feature-sve2 ${feature-sve2})
