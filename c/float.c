@@ -222,7 +222,9 @@ __myconst__ fp16_t fp16_NegMin = FP16_INITIALIZER(1, 0x1, 0);
 		cudaMemcpyFromSymbol(&__v, st, sizeof(st.field), offsetof(typeof(st), field));	\
 		__v;	\
 	})
-/* FIXME: failed trans */
+/* FIXME: failed trans
+ * reference to __device__ variable 'overflow_fp32_rslt' in __host__ function [-Whpcc-compat]
+ */
 # define stset(st, field, v)	do {	\
 		/*typeof(st) __s = { .field = v, }; */	\
 		cudaMemcpyToSymbol(st, &v, sizeof(st.field), offsetof(typeof(st), field));	\
