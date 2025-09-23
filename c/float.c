@@ -4,6 +4,28 @@
  * Test various floating point precisions on various hardware such as CPU and
  * GPU. Different hardware handles precision and overflow differently.
  *
+ * IEEE 754 floating-point formats:
+ *
+ *   16-bit: Half (binary16)
+ *   32-bit: Single (binary32), decimal32
+ *   64-bit: Double (binary64), decimal64
+ *   128-bit: Quadruple (binary128), decimal128
+ *   256-bit: Octuple (binary256)
+ *   Extended precision
+ *  Other:
+ *   Minifloat
+ *   bfloat16
+ *   TensorFloat-32
+ *   Microsoft Binary Format
+ *   IBM hexadecimal floating-point
+ *   PMBus Linear-11
+ *   G.711 8-bit floats
+ *   Alternatives
+ *   Arbitrary precision
+ *   Block floating point
+ *   Tapered floating point
+ *   Posit
+ *
  * Overflow:
  *
  * The IEEE 754 standard specifies that the hardware should perform the
@@ -463,7 +485,6 @@ void overflow(void)
 	seperator();
 
 	check_fp32(tohost(fp32_PosMax, f32));
-	/* Test overflow */
 	check_fp32(tohost(fp32_PosMax, f32) + 0.1f);
 	check_fp32(tohost(fp32_PosMax, f32) - 0.1f);
 	check_fp32(tohost(fp32_PosMax, f32) + 0.2f);
@@ -483,11 +504,17 @@ void overflow(void)
 	check_fp32(tohost(fp32_PosMax, f32) * 1.000000059604f);
 	check_fp32(tohost(fp32_PosMax, f32) * 1.0000000596045f);
 	check_fp32(tohost(fp32_PosMax, f32) * 1.0000000596046f);
+	check_fp32(tohost(fp32_PosMax, f32) * 1.00000005960463f);
+	check_fp32(tohost(fp32_PosMax, f32) * 1.00000005960464f);
+	check_fp32(tohost(fp32_PosMax, f32) * 1.000000059604644f);
+	check_fp32(tohost(fp32_PosMax, f32) * 1.0000000596046445f);
 	/**
 	 * Since here, value become Inf
 	 * CPU: Intel i7-10710U, AMD EPYC 7763
 	 * GPU: Mars X203
 	 */
+	check_fp32(tohost(fp32_PosMax, f32) * 1.0000000596046449f);
+	check_fp32(tohost(fp32_PosMax, f32) * 1.000000059604645f);
 	check_fp32(tohost(fp32_PosMax, f32) * 1.00000005960465f);
 	check_fp32(tohost(fp32_PosMax, f32) * 1.00000005960469f);
 	check_fp32(tohost(fp32_PosMax, f32) * 1.0000000596047f);
