@@ -1,6 +1,20 @@
 // SPDX-License-Identifier: GPL-3.0
 /* Copyright (c) 2025 Rong Tao */
 /**
+ * Test various floating point precisions on various hardware such as CPU and
+ * GPU. Different hardware handles precision and overflow differently.
+ *
+ * Overflow:
+ *
+ * The IEEE 754 standard specifies that the hardware should perform the
+ * following when an overflow occurs:
+ *
+ *   Positive overflow: If the result is a positive number that is too large,
+ *   it is converted to positive infinity (+Inf).
+ *
+ *   Negative overflow: If the result is a negative number that is too large
+ *   in magnitude, it is converted to negative infinity (-Inf).
+ *
  * Refs:
  * - https://en.wikipedia.org/wiki/IEEE_754-2008_revision
  * - https://en.wikipedia.org/wiki/Half-precision_floating-point_format
@@ -340,12 +354,8 @@ void check_fp16_cuda(_Float16 f)
 # endif
 #endif /* SUPPORT_FLOAT16 */
 
-int main(int argc, char *argv[])
+void base_test(void)
 {
-	assert(sizeof(fp64_t) == 8 && "Bad size of fp64");
-	assert(sizeof(fp32_t) == 4 && "Bad size of fp32");
-	assert(sizeof(fp16_t) == 2 && "Bad size of fp16");
-
 	seperator();
 
 	check_fp64(0);
@@ -386,11 +396,6 @@ int main(int argc, char *argv[])
 	check_fp32(fp32_NegMax.f32);
 	check_fp32(fp32_NegMin.f32);
 
-	/* Test big number overflow */
-	float a1 = fp32_PosMax.f32 / 2.0f;
-	float m1 = a1 * 2.0f + 0.1f;
-	check_fp32(m1);
-
 #ifdef SUPPORT_FLOAT16
 	seperator();
 
@@ -425,6 +430,59 @@ int main(int argc, char *argv[])
 #endif
 
 	reset();
+}
+
+void overflow(void)
+{
+	seperator();
+
+	check_fp32(fp32_PosMax.f32);
+	/* Test overflow */
+	check_fp32(fp32_PosMax.f32 + 0.1f);
+	check_fp32(fp32_PosMax.f32 - 0.1f);
+	check_fp32(fp32_PosMax.f32 + 0.2f);
+	check_fp32(fp32_PosMax.f32 / 2.0f);
+	check_fp32(fp32_PosMax.f32 * 1.0f);
+	check_fp32(fp32_PosMax.f32 * 1.00000000001f);
+	check_fp32(fp32_PosMax.f32 * 1.0000000001f);
+	check_fp32(fp32_PosMax.f32 * 1.000000001f);
+	check_fp32(fp32_PosMax.f32 * 1.00000001f);
+	check_fp32(fp32_PosMax.f32 * 1.000000010001f);
+	check_fp32(fp32_PosMax.f32 * 1.00000001001f);
+	check_fp32(fp32_PosMax.f32 * 1.0000000101f);
+	check_fp32(fp32_PosMax.f32 * 1.000000011f);
+	check_fp32(fp32_PosMax.f32 * 1.00000005f);
+	check_fp32(fp32_PosMax.f32 * 1.000000055f);
+	check_fp32(fp32_PosMax.f32 * 1.000000058f);
+	check_fp32(fp32_PosMax.f32 * 1.000000059f);
+	check_fp32(fp32_PosMax.f32 * 1.0000000595f);
+	check_fp32(fp32_PosMax.f32 * 1.0000000596f);
+	check_fp32(fp32_PosMax.f32 * 1.000000059604f);
+	check_fp32(fp32_PosMax.f32 * 1.00000005961f); /* Intel i7-10710U Inf */
+	check_fp32(fp32_PosMax.f32 * 1.00000005963f);
+	check_fp32(fp32_PosMax.f32 * 1.00000005965f);
+	check_fp32(fp32_PosMax.f32 * 1.00000005969f);
+	check_fp32(fp32_PosMax.f32 * 1.0000000597f);
+	check_fp32(fp32_PosMax.f32 * 1.0000000598f);
+	check_fp32(fp32_PosMax.f32 * 1.0000000599f);
+	check_fp32(fp32_PosMax.f32 * 1.000000059999f);
+	check_fp32(fp32_PosMax.f32 * 1.00000006f);
+	check_fp32(fp32_PosMax.f32 * 1.00000007f);
+	check_fp32(fp32_PosMax.f32 * 1.00000009f);
+	check_fp32(fp32_PosMax.f32 * 1.0000001f);
+
+	reset();
+}
+
+int main(int argc, char *argv[])
+{
+	assert(sizeof(fp64_t) == 8 && "Bad size of fp64");
+	assert(sizeof(fp32_t) == 4 && "Bad size of fp32");
+	assert(sizeof(fp16_t) == 2 && "Bad size of fp16");
+
+	base_test();
+
+	overflow();
 
 	return 0;
 }
