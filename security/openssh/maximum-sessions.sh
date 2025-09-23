@@ -4,5 +4,5 @@ set -e
 
 # See /etc/systemd/logind.conf SessionsMax=8192
 for i in $(seq 1 8200); do
-	ssh cclinux2209 sudo sleep 10 &
+	ssh nuc11 sudo sleep 10 &
 done

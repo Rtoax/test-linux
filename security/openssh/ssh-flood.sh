@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-remote=cclinux2209
+remote=nucc11
 num_req=100
 
 for ((i = 0; i < num_req; i++))
