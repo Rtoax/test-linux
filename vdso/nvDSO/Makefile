@@ -1,4 +1,4 @@
-include ../../kconfig.mk
+include ../../template/kconfig.mk
 
 CFLAGS :=
 LDFLAGS :=

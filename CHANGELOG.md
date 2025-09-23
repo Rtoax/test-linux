@@ -13,6 +13,7 @@ and this project adheres to
 #### Added
 - Add init/kernel/cmdline.md;
 #### Changed
+- kconfig.mk: Move it into template/;
 #### Deprecated
 #### Removed
 #### Fixed

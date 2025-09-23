@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
-include ../kconfig.mk
+include ../template/kconfig.mk
 
 $(info CONFIG_CHECKPOINT_RESTORE = $(CONFIG_CHECKPOINT_RESTORE))
 

@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
 include ../../../kernel.mk
-include ../../../kconfig.mk
+include ../../../template/kconfig.mk
 
 targets :=
 # This system call is present only before Linux 2.6. see create_module(2)

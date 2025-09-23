@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
-include ../kconfig.mk
+include ../template/kconfig.mk
 
 sub-dir := aslr
 sub-dir += rss

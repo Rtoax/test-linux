@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
 OUTPUT := .output/
 
-include ../kconfig.mk
+include ../template/kconfig.mk
 CC := gcc
 include ../compiler/compiler.mk
 

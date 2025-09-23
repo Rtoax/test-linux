@@ -6,7 +6,7 @@ include verbose.mk
 include ansi.mk
 include dir.mk
 include log.mk
-include ../kconfig.mk
+include kconfig.mk
 
 STDIO_H := /usr/include/stdio.h
 
