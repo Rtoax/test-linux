@@ -55,6 +55,9 @@
 # define mysync()
 #endif
 
+#ifndef offsetof
+# define offsetof(TYPE, MEMBER)    ((size_t)&((TYPE *)0)->MEMBER)
+#endif
 
 #define ARRAY_SIZE(arr)	(sizeof(arr) / sizeof(arr[0]))
 const static char *ansi[] = {
@@ -176,6 +179,16 @@ __myconst__ fp16_t fp16_PosZero = FP16_INITIALIZER(0, 0, 0);
 __myconst__ fp16_t fp16_NegZero = FP16_INITIALIZER(1, 0, 0);
 
 
+#ifdef HAVE_CUDA
+# define tohost(st, field)	({	\
+		typeof(st.field) __v;	\
+		cudaMemcpyFromSymbol(&__v, st, sizeof(st.field), offsetof(typeof(st), field));	\
+		__v;	\
+	})
+#else
+# define tohost(v, field)	v.field
+#endif
+
 void binprint(const void *mem, size_t bits)
 {
 	size_t i;
@@ -267,7 +280,6 @@ void __myglobal__ __kernel_check_fp64(double f)
 
 #define check_fp64(v)	do {	\
 		printf("%s: ", #v);	\
-		/* FIXME: could not pass __device__ value to temst. */	\
 		typeof(v) ___v = v;	\
 		__kernel_check_fp64 DIM (___v);	\
 		mysync();	\
@@ -401,15 +413,15 @@ void base_test(void)
 	check_fp64(0.23456789);
 	check_fp64(3.14159265);
 	check_fp64(-3.14159265);
-	check_fp64(fp64_NaN.f64);
-	check_fp64(fp64_PosInf.f64);
-	check_fp64(fp64_NegInf.f64);
-	check_fp64(fp64_PosZero.f64);
-	check_fp64(fp64_NegZero.f64);
-	check_fp64(fp64_PosMax.f64);
-	check_fp64(fp64_PosMin.f64);
-	check_fp64(fp64_NegMax.f64);
-	check_fp64(fp64_NegMin.f64);
+	check_fp64(tohost(fp64_NaN, f64));
+	check_fp64(tohost(fp64_PosInf, f64));
+	check_fp64(tohost(fp64_NegInf, f64));
+	check_fp64(tohost(fp64_PosZero, f64));
+	check_fp64(tohost(fp64_NegZero, f64));
+	check_fp64(tohost(fp64_PosMax, f64));
+	check_fp64(tohost(fp64_PosMin, f64));
+	check_fp64(tohost(fp64_NegMax, f64));
+	check_fp64(tohost(fp64_NegMin, f64));
 
 	seperator();
 
