@@ -22,6 +22,12 @@
 #include "cuda_helpers.h"
 #endif
 
+#define LOG_GLOBAL(fmt...) do {	\
+		printf("\033[1m");	\
+		printf(fmt);	\
+		printf("\033[m");	\
+	} while (0)
+
 namespace cg = cooperative_groups;
 
 __global__ void checkInfo(void)
@@ -31,11 +37,11 @@ __global__ void checkInfo(void)
 	 * waves (or warps in Nvidia lingo), see
 	 * https://flashypixels.wordpress.com/2018/11/10/intro-to-gpu-scalarization-part-1/
 	 */
-	printf("warpSize %d\n", warpSize);
+	LOG_GLOBAL("warpSize %d\n", warpSize);
 #if !defined(__CUDACC__) && !defined(__HIPCC__)
-	printf("waveSize %d\n", waveSize);
+	LOG_GLOBAL("waveSize %d\n", waveSize);
 #else
-	printf("waveSize not support on CUDA.\n");
+	LOG_GLOBAL("waveSize not support on CUDA.\n");
 #endif
 }
 
@@ -55,7 +61,7 @@ __global__ void checkIndex(int it)
 
 	__syncthreads();
 
-	printf("threadIdx(%d,%d,%d), blockIdx(%d,%d,%d), blockDim(%d,%d,%d), gridDim(%d,%d,%d) " \
+	LOG_GLOBAL("threadIdx(%d,%d,%d), blockIdx(%d,%d,%d), blockDim(%d,%d,%d), gridDim(%d,%d,%d) " \
 		"(rank=%d,size=%d) (x=%d,y=%d,z=%d)\n",
 		threadIdx.x, threadIdx.y, threadIdx.z,
 		blockDim.x, blockDim.y, blockDim.z,
@@ -70,7 +76,7 @@ __global__ void checkIndex(int it)
 	 */
 	#if defined(HAVE_HCCL)
 	# if HPCC_VERSION_MAJOR < 3
-	printf("");
+	LOG_GLOBAL("");
 	# endif
 	#endif
 
