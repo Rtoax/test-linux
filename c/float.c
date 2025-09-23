@@ -205,6 +205,12 @@ __myconst__ fp16_t fp16_PosInf = FP16_INITIALIZER(0, 0x1f, 0);
 __myconst__ fp16_t fp16_NegInf = FP16_INITIALIZER(1, 0x1f, 0);
 __myconst__ fp16_t fp16_PosZero = FP16_INITIALIZER(0, 0, 0);
 __myconst__ fp16_t fp16_NegZero = FP16_INITIALIZER(1, 0, 0);
+/* ± 65504.0 */
+__myconst__ fp16_t fp16_PosMax = FP16_INITIALIZER(0, 0x1e, 0x3ff);
+__myconst__ fp16_t fp16_NegMax = FP16_INITIALIZER(1, 0x1e, 0x3ff);
+/* ± 2^(-14) ≈ 6.103515625 × 10^(-5) */
+__myconst__ fp16_t fp16_PosMin = FP16_INITIALIZER(0, 0x1, 0);
+__myconst__ fp16_t fp16_NegMin = FP16_INITIALIZER(1, 0x1, 0);
 
 
 #ifdef HAVE_CUDA
@@ -475,6 +481,10 @@ void base_test(void)
 	check_fp16(tohost(fp16_NegInf, f16));
 	check_fp16(tohost(fp16_PosZero, f16));
 	check_fp16(tohost(fp16_NegZero, f16));
+	check_fp16(tohost(fp16_PosMax, f16));
+	check_fp16(tohost(fp16_NegMax, f16));
+	check_fp16(tohost(fp16_PosMin, f16));
+	check_fp16(tohost(fp16_NegMin, f16));
 #endif
 
 	reset();
