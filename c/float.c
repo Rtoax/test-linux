@@ -394,17 +394,6 @@ void __myglobal__ __kernel_check_fp16(_Float16 f)
 		binprint(&___v, sizeof(v) * 8);	\
 	} while (0)
 
-# ifdef HAVE_CUDA
-/* CUDA fp16 is totally same as IEEE-754 Half-precision-floating */
-void check_fp16_cuda(_Float16 f)
-{
-	half f16 = *(half *)&f;
-	check_fp16(*(_Float16 *)&f16);
-}
-# else
-#  define check_fp16_cuda(f) do {} while (0)
-# endif
-#endif /* SUPPORT_FLOAT16 */
 
 void base_test(void)
 {
@@ -463,22 +452,6 @@ void base_test(void)
 	check_fp16(tohost(fp16_NegInf, f16));
 	check_fp16(tohost(fp16_PosZero, f16));
 	check_fp16(tohost(fp16_NegZero, f16));
-
-	seperator();
-
-	check_fp16_cuda(0);
-	check_fp16_cuda(1.2);
-	check_fp16_cuda(0.2);
-	check_fp16_cuda(1.23456789);
-	check_fp16_cuda(0.23456789);
-	check_fp16_cuda(3.14159265);
-	check_fp16_cuda(-3.14159265);
-	check_fp16_cuda(tohost(fp16_NaN, f16));
-	check_fp16_cuda(tohost(fp16_PosInf, f16));
-	check_fp16_cuda(tohost(fp16_NegInf, f16));
-	check_fp16_cuda(tohost(fp16_PosZero, f16));
-	check_fp16_cuda(tohost(fp16_NegZero, f16));
-	check_fp16_cuda(tohost(fp16_NaN, f16));
 #endif
 
 	reset();
