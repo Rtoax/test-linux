@@ -287,7 +287,7 @@ void __myglobal__ __kernel_check_fp64(double f)
 	} while (0)
 
 
-void float_to_fp32(const float f, fp32_t *fp32)
+void __mydevice__ float_to_fp32(const float f, fp32_t *fp32)
 {
 	float tmp = f;
 	int32_t i32 = *(int32_t *)&tmp;
@@ -295,7 +295,7 @@ void float_to_fp32(const float f, fp32_t *fp32)
 	*fp32 = *(fp32_t *)&i32;
 }
 
-float fp32_to_float(const fp32_t *fp32)
+float __mydevice__ fp32_to_float(const fp32_t *fp32)
 {
 	float sign = 1 - 2 * (fp32->sign % 2);
 	float e2, fra;
@@ -306,7 +306,7 @@ float fp32_to_float(const fp32_t *fp32)
 						 fp32_NegZero.f32;
 		} else {
 			e2 = exp2f(-126.0f);
-			fra = 0 + fraction_value(fp32->fraction, 23);
+			fra = 0 + dev_fraction_value(fp32->fraction, 23);
 		}
 	} else if (fp32->exponent == 0xff) {
 		if (fp32->fraction == 0)
@@ -316,27 +316,33 @@ float fp32_to_float(const fp32_t *fp32)
 			return fp32_NaN.f32;
 	} else {
 		e2 = exp2f(fp32->exponent - 127.0f);
-		fra = 1 + fraction_value(fp32->fraction, 23);
+		fra = 1 + dev_fraction_value(fp32->fraction, 23);
 	}
 
 	return sign * e2 * fra;
 }
 
-void __check_fp32(const char *name, float f)
+void __myglobal__ __kernel_check_fp32(float f)
 {
-#define check_fp32(v)	__check_fp32(#v, v)
 	float to;
 	fp32_t fp32;
 
 	float_to_fp32(f, &fp32);
 	to = fp32_to_float(&fp32);
 
-	printf("%s: %f vs %f (%x %x %x) ", name, f, to,
-		fp32.sign, fp32.exponent, fp32.fraction);
-	binprint(&f, sizeof(f) * 8);
+	printf("%f vs %f (%x %x %x) ", f, to, fp32.sign, fp32.exponent,
+		fp32.fraction);
 
 	assert(*(uint32_t *)&f == *(uint32_t *)&to && "Failed to check fp32");
 }
+
+#define check_fp32(v)	do {	\
+		printf("%s: ", #v);	\
+		typeof(v) ___v = v;	\
+		__kernel_check_fp32 DIM (___v);	\
+		mysync();	\
+		binprint(&___v, sizeof(v) * 8);	\
+	} while (0)
 
 #ifdef SUPPORT_FLOAT16
 void float16_to_fp16(const _Float16 f, fp16_t *fp16)
@@ -432,17 +438,17 @@ void base_test(void)
 	check_fp32(0.23456789f);
 	check_fp32(3.14159265f);
 	check_fp32(-3.14159265f);
-	check_fp32(fp32_NaN.f32);
-	check_fp32(fp32_PosInf.f32);
-	check_fp32(fp32_NegInf.f32);
-	check_fp32(fp32_PosZero.f32);
-	check_fp32(fp32_NegZero.f32);
-	check_fp32(fp32_PosMax.f32);
+	check_fp32(tohost(fp32_NaN, f32));
+	check_fp32(tohost(fp32_PosInf, f32));
+	check_fp32(tohost(fp32_NegInf, f32));
+	check_fp32(tohost(fp32_PosZero, f32));
+	check_fp32(tohost(fp32_NegZero, f32));
+	check_fp32(tohost(fp32_PosMax, f32));
 	check_fp32(FLT_MAX);
-	check_fp32(fp32_PosMin.f32);
+	check_fp32(tohost(fp32_PosMin, f32));
 	check_fp32(FLT_MIN);
-	check_fp32(fp32_NegMax.f32);
-	check_fp32(fp32_NegMin.f32);
+	check_fp32(tohost(fp32_NegMax, f32));
+	check_fp32(tohost(fp32_NegMin, f32));
 
 #ifdef SUPPORT_FLOAT16
 	seperator();
@@ -484,40 +490,40 @@ void overflow(void)
 {
 	seperator();
 
-	check_fp32(fp32_PosMax.f32);
+	check_fp32(tohost(fp32_PosMax, f32));
 	/* Test overflow */
-	check_fp32(fp32_PosMax.f32 + 0.1f);
-	check_fp32(fp32_PosMax.f32 - 0.1f);
-	check_fp32(fp32_PosMax.f32 + 0.2f);
-	check_fp32(fp32_PosMax.f32 / 2.0f);
-	check_fp32(fp32_PosMax.f32 * 1.0f);
-	check_fp32(fp32_PosMax.f32 * 1.00000000001f);
-	check_fp32(fp32_PosMax.f32 * 1.0000000001f);
-	check_fp32(fp32_PosMax.f32 * 1.000000001f);
-	check_fp32(fp32_PosMax.f32 * 1.00000001f);
-	check_fp32(fp32_PosMax.f32 * 1.000000010001f);
-	check_fp32(fp32_PosMax.f32 * 1.00000001001f);
-	check_fp32(fp32_PosMax.f32 * 1.0000000101f);
-	check_fp32(fp32_PosMax.f32 * 1.000000011f);
-	check_fp32(fp32_PosMax.f32 * 1.00000005f);
-	check_fp32(fp32_PosMax.f32 * 1.000000055f);
-	check_fp32(fp32_PosMax.f32 * 1.000000058f);
-	check_fp32(fp32_PosMax.f32 * 1.000000059f);
-	check_fp32(fp32_PosMax.f32 * 1.0000000595f);
-	check_fp32(fp32_PosMax.f32 * 1.0000000596f);
-	check_fp32(fp32_PosMax.f32 * 1.000000059604f);
-	check_fp32(fp32_PosMax.f32 * 1.00000005961f); /* Intel i7-10710U, AMD EPYC 7763 = Inf */
-	check_fp32(fp32_PosMax.f32 * 1.00000005963f);
-	check_fp32(fp32_PosMax.f32 * 1.00000005965f);
-	check_fp32(fp32_PosMax.f32 * 1.00000005969f);
-	check_fp32(fp32_PosMax.f32 * 1.0000000597f);
-	check_fp32(fp32_PosMax.f32 * 1.0000000598f);
-	check_fp32(fp32_PosMax.f32 * 1.0000000599f);
-	check_fp32(fp32_PosMax.f32 * 1.000000059999f);
-	check_fp32(fp32_PosMax.f32 * 1.00000006f);
-	check_fp32(fp32_PosMax.f32 * 1.00000007f);
-	check_fp32(fp32_PosMax.f32 * 1.00000009f);
-	check_fp32(fp32_PosMax.f32 * 1.0000001f);
+	check_fp32(tohost(fp32_PosMax, f32) + 0.1f);
+	check_fp32(tohost(fp32_PosMax, f32) - 0.1f);
+	check_fp32(tohost(fp32_PosMax, f32) + 0.2f);
+	check_fp32(tohost(fp32_PosMax, f32) / 2.0f);
+	check_fp32(tohost(fp32_PosMax, f32) * 1.0f);
+	check_fp32(tohost(fp32_PosMax, f32) * 1.00000000001f);
+	check_fp32(tohost(fp32_PosMax, f32) * 1.0000000001f);
+	check_fp32(tohost(fp32_PosMax, f32) * 1.000000001f);
+	check_fp32(tohost(fp32_PosMax, f32) * 1.00000001f);
+	check_fp32(tohost(fp32_PosMax, f32) * 1.000000010001f);
+	check_fp32(tohost(fp32_PosMax, f32) * 1.00000001001f);
+	check_fp32(tohost(fp32_PosMax, f32) * 1.0000000101f);
+	check_fp32(tohost(fp32_PosMax, f32) * 1.000000011f);
+	check_fp32(tohost(fp32_PosMax, f32) * 1.00000005f);
+	check_fp32(tohost(fp32_PosMax, f32) * 1.000000055f);
+	check_fp32(tohost(fp32_PosMax, f32) * 1.000000058f);
+	check_fp32(tohost(fp32_PosMax, f32) * 1.000000059f);
+	check_fp32(tohost(fp32_PosMax, f32) * 1.0000000595f);
+	check_fp32(tohost(fp32_PosMax, f32) * 1.0000000596f);
+	check_fp32(tohost(fp32_PosMax, f32) * 1.000000059604f);
+	check_fp32(tohost(fp32_PosMax, f32) * 1.00000005961f); /* Intel i7-10710U, AMD EPYC 7763 = Inf */
+	check_fp32(tohost(fp32_PosMax, f32) * 1.00000005963f);
+	check_fp32(tohost(fp32_PosMax, f32) * 1.00000005965f);
+	check_fp32(tohost(fp32_PosMax, f32) * 1.00000005969f);
+	check_fp32(tohost(fp32_PosMax, f32) * 1.0000000597f);
+	check_fp32(tohost(fp32_PosMax, f32) * 1.0000000598f);
+	check_fp32(tohost(fp32_PosMax, f32) * 1.0000000599f);
+	check_fp32(tohost(fp32_PosMax, f32) * 1.000000059999f);
+	check_fp32(tohost(fp32_PosMax, f32) * 1.00000006f);
+	check_fp32(tohost(fp32_PosMax, f32) * 1.00000007f);
+	check_fp32(tohost(fp32_PosMax, f32) * 1.00000009f);
+	check_fp32(tohost(fp32_PosMax, f32) * 1.0000001f);
 
 	reset();
 }
