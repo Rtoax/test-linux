@@ -191,6 +191,7 @@
  *                                hipMemcpyKind kind __dparm(hipMemcpyDeviceToHost));
  */
 #define cudaMemcpyFromSymbol	__cuda(MemcpyFromSymbol)
+#define cudaMemcpyToSymbol	__cuda(MemcpyToSymbol)
 
 /**
  * CUDA 13
