@@ -499,6 +499,9 @@ void overflow(void)
 	check_fp32(tohost(fp32_PosMax, f32) - 0.1f);
 	check_fp32(tohost(fp32_PosMax, f32) + 0.2f);
 	check_fp32(tohost(fp32_PosMax, f32) / 2.0f);
+
+	seperator();
+
 	check_fp32(tohost(fp32_PosMax, f32) * 1.0f);
 	check_fp32(tohost(fp32_PosMax, f32) * 1.00000000001f);
 	check_fp32(tohost(fp32_PosMax, f32) * 1.0000000001f);
@@ -518,6 +521,8 @@ void overflow(void)
 	check_fp32(tohost(fp32_PosMax, f32) * 1.00000005960464f);
 	check_fp32(tohost(fp32_PosMax, f32) * 1.000000059604644f);
 	check_fp32(tohost(fp32_PosMax, f32) * 1.0000000596046445f);
+
+	seperator();
 	/**
 	 * Since here, value become Inf
 	 * CPU: Intel i7-10710U, AMD EPYC 7763
