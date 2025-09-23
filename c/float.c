@@ -47,6 +47,9 @@
 # define __myglobal__	__global__
 # define __myconst__	__constant__
 # define mysync()	cudaDeviceSynchronize()
+# ifndef SUPPORT_FLOAT16
+#  define SUPPORT_FLOAT16 /* CUDA always support _Float16 */
+# endif
 #else
 # define DIM
 # define __mydevice__
@@ -136,6 +139,9 @@ typedef union fp16 {
 #ifdef SUPPORT_FLOAT16
 	_Float16 f16;
 #endif /* SUPPORT_FLOAT16 */
+#ifdef HAVE_CUDA
+	half half;
+#endif
 	uint16_t i16;
 #define FP16_INITIALIZER(s, e, f) {__FP16_INITIALIZER(s, e, f)}
 } __attribute__((packed)) fp16_t;
@@ -201,21 +207,7 @@ void binprint(const void *mem, size_t bits)
 }
 
 /* Could use to both float and double */
-double fraction_value(uint64_t fraction, uint64_t nbits)
-{
-	uint32_t tmp, i;
-	double fra = 0.0f;
-
-	for (i = 1; i <= nbits; i++) {
-		tmp = (fraction >> (nbits - i)) & 0x1;
-		if (tmp == 0)
-			continue;
-		fra += exp2f(-1.0f * i);
-	}
-	return fra;
-}
-
-double __mydevice__ dev_fraction_value(uint64_t fraction, uint64_t nbits)
+double __mydevice__ fraction_value(uint64_t fraction, uint64_t nbits)
 {
 	uint32_t tmp, i;
 	double fra = 0.0f;
@@ -248,7 +240,7 @@ double __mydevice__ fp64_to_double(const fp64_t *fp64)
 						 fp64_NegZero.f64;
 		} else {
 			e2 = exp2(-1022.0);
-			fra = 0 + dev_fraction_value(fp64->fraction, 52);
+			fra = 0 + fraction_value(fp64->fraction, 52);
 		}
 	} else if (fp64->exponent == 0x7ff) {
 		if (fp64->fraction == 0)
@@ -258,7 +250,7 @@ double __mydevice__ fp64_to_double(const fp64_t *fp64)
 			return fp64_NaN.f64;
 	} else {
 		e2 = exp2(fp64->exponent - 1023.0);
-		fra = 1 + dev_fraction_value(fp64->fraction, 52);
+		fra = 1 + fraction_value(fp64->fraction, 52);
 	}
 
 	return sign * e2 * fra;
@@ -306,7 +298,7 @@ float __mydevice__ fp32_to_float(const fp32_t *fp32)
 						 fp32_NegZero.f32;
 		} else {
 			e2 = exp2f(-126.0f);
-			fra = 0 + dev_fraction_value(fp32->fraction, 23);
+			fra = 0 + fraction_value(fp32->fraction, 23);
 		}
 	} else if (fp32->exponent == 0xff) {
 		if (fp32->fraction == 0)
@@ -316,7 +308,7 @@ float __mydevice__ fp32_to_float(const fp32_t *fp32)
 			return fp32_NaN.f32;
 	} else {
 		e2 = exp2f(fp32->exponent - 127.0f);
-		fra = 1 + dev_fraction_value(fp32->fraction, 23);
+		fra = 1 + fraction_value(fp32->fraction, 23);
 	}
 
 	return sign * e2 * fra;
@@ -345,7 +337,7 @@ void __myglobal__ __kernel_check_fp32(float f)
 	} while (0)
 
 #ifdef SUPPORT_FLOAT16
-void float16_to_fp16(const _Float16 f, fp16_t *fp16)
+void __mydevice__ float16_to_fp16(const _Float16 f, fp16_t *fp16)
 {
 	_Float16 tmp = f;
 	int16_t i16 = *(int16_t *)&tmp;
@@ -353,7 +345,7 @@ void float16_to_fp16(const _Float16 f, fp16_t *fp16)
 	*fp16 = *(fp16_t *)&i16;
 }
 
-_Float16 fp16_to_float16(const fp16_t *fp16)
+_Float16 __mydevice__ fp16_to_float16(const fp16_t *fp16)
 {
 	_Float16 sign = 1 - 2 * (fp16->sign % 2);
 	_Float16 e2, fra;
@@ -380,21 +372,27 @@ _Float16 fp16_to_float16(const fp16_t *fp16)
 	return sign * e2 * fra;
 }
 
-void __check_fp16(const char *name, _Float16 f)
+void __myglobal__ __kernel_check_fp16(_Float16 f)
 {
-#define check_fp16(v)	__check_fp16(#v, v)
 	_Float16 to;
 	fp16_t fp16;
 
 	float16_to_fp16(f, &fp16);
 	to = fp16_to_float16(&fp16);
 
-	printf("%s: %f vs %f (%x %x %x) ", name, (float)f, (float)to,
+	printf("%f vs %f (%x %x %x) ", (float)f, (float)to,
 		fp16.sign, fp16.exponent, fp16.fraction);
-	binprint(&f, sizeof(f) * 8);
 
 	assert(*(uint16_t *)&f == *(uint16_t *)&to && "Failed to check fp16");
 }
+
+#define check_fp16(v)	do {	\
+		printf("%s: ", #v);	\
+		typeof(v) ___v = v;	\
+		__kernel_check_fp16 DIM (___v);	\
+		mysync();	\
+		binprint(&___v, sizeof(v) * 8);	\
+	} while (0)
 
 # ifdef HAVE_CUDA
 /* CUDA fp16 is totally same as IEEE-754 Half-precision-floating */
@@ -460,11 +458,11 @@ void base_test(void)
 	check_fp16(0.23456789);
 	check_fp16(3.14159265);
 	check_fp16(-3.14159265);
-	check_fp16(fp16_NaN.f16);
-	check_fp16(fp16_PosInf.f16);
-	check_fp16(fp16_NegInf.f16);
-	check_fp16(fp16_PosZero.f16);
-	check_fp16(fp16_NegZero.f16);
+	check_fp16(tohost(fp16_NaN, f16));
+	check_fp16(tohost(fp16_PosInf, f16));
+	check_fp16(tohost(fp16_NegInf, f16));
+	check_fp16(tohost(fp16_PosZero, f16));
+	check_fp16(tohost(fp16_NegZero, f16));
 
 	seperator();
 
@@ -475,12 +473,12 @@ void base_test(void)
 	check_fp16_cuda(0.23456789);
 	check_fp16_cuda(3.14159265);
 	check_fp16_cuda(-3.14159265);
-	check_fp16_cuda(fp16_NaN.f16);
-	check_fp16_cuda(fp16_PosInf.f16);
-	check_fp16_cuda(fp16_NegInf.f16);
-	check_fp16_cuda(fp16_PosZero.f16);
-	check_fp16_cuda(fp16_NegZero.f16);
-	check_fp16_cuda(fp16_NaN.f16);
+	check_fp16_cuda(tohost(fp16_NaN, f16));
+	check_fp16_cuda(tohost(fp16_PosInf, f16));
+	check_fp16_cuda(tohost(fp16_NegInf, f16));
+	check_fp16_cuda(tohost(fp16_PosZero, f16));
+	check_fp16_cuda(tohost(fp16_NegZero, f16));
+	check_fp16_cuda(tohost(fp16_NaN, f16));
 #endif
 
 	reset();
