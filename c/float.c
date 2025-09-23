@@ -152,7 +152,7 @@ void binprint(void *mem, size_t bits)
 {
 	size_t i;
 	for (i = 0; i < bits; i++) {
-		uint8_t u8 = *(uint8_t *)(mem + i / 8);
+		uint8_t u8 = *(uint8_t *)((int8_t *)mem + i / 8);
 		uint8_t bit = (u8 >> (i % 8) & 0x1);
 		printf("%c", bit ? '1' : '0');
 	}
