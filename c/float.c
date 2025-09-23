@@ -190,7 +190,8 @@ double fp64_to_double(const fp64_t *fp64)
 	return sign * e2 * fra;
 }
 
-void check_fp64(double f)
+void __check_fp64(const char *name, double f)
+#define check_fp64(v)	__check_fp64(#v, v)
 {
 	double to;
 	fp64_t fp64;
@@ -198,8 +199,8 @@ void check_fp64(double f)
 	double_to_fp64(f, &fp64);
 	to = fp64_to_double(&fp64);
 
-	printf("%lf vs %lf (%x %x %lx)\n", f, to, fp64.sign, fp64.exponent,
-		(uint64_t)fp64.fraction);
+	printf("%s: %lf vs %lf (%x %x %lx)\n", name, f, to,
+		fp64.sign, fp64.exponent, (uint64_t)fp64.fraction);
 
 	assert(*(uint64_t *)&f == *(uint64_t *)&to && "Failed to check fp64");
 }
@@ -239,16 +240,17 @@ float fp32_to_float(const fp32_t *fp32)
 	return sign * e2 * fra;
 }
 
-void check_fp32(float f)
+void __check_fp32(const char *name, float f)
 {
+#define check_fp32(v)	__check_fp32(#v, v)
 	float to;
 	fp32_t fp32;
 
 	float_to_fp32(f, &fp32);
 	to = fp32_to_float(&fp32);
 
-	printf("%f vs %f (%x %x %x)\n", f, to, fp32.sign, fp32.exponent,
-		fp32.fraction);
+	printf("%s: %f vs %f (%x %x %x)\n", name, f, to,
+		fp32.sign, fp32.exponent, fp32.fraction);
 
 	assert(*(uint32_t *)&f == *(uint32_t *)&to && "Failed to check fp32");
 }
@@ -289,15 +291,16 @@ _Float16 fp16_to_float16(const fp16_t *fp16)
 	return sign * e2 * fra;
 }
 
-void check_fp16(_Float16 f)
+void __check_fp16(const char *name, _Float16 f)
 {
+#define check_fp16(v)	__check_fp16(#v, v)
 	_Float16 to;
 	fp16_t fp16;
 
 	float16_to_fp16(f, &fp16);
 	to = fp16_to_float16(&fp16);
 
-	printf("%f vs %f (%x %x %x)\n", (float)f, (float)to,
+	printf("%s: %f vs %f (%x %x %x)\n", name, (float)f, (float)to,
 		fp16.sign, fp16.exponent, fp16.fraction);
 
 	assert(*(uint16_t *)&f == *(uint16_t *)&to && "Failed to check fp16");
