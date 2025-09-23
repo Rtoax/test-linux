@@ -64,9 +64,14 @@ __global__ void checkIndex(int it)
 		rank, size,
 		ix, iy, iz);
 
-	/* FIXME: printf display wrong/zero %d, add printf could fix it. */
+	/**
+	 * Note: printf display wrong/zero %d under version 3.0.0, add printf
+	 * could fix it.
+	 */
 	#if defined(HAVE_HCCL)
+	# if HPCC_VERSION_MAJOR < 3
 	printf("");
+	# endif
 	#endif
 
 	__syncthreads();
