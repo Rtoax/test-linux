@@ -340,7 +340,7 @@ void check_fp16_cuda(_Float16 f)
 # endif
 #endif /* SUPPORT_FLOAT16 */
 
-int main(void)
+int main(int argc, char *argv[])
 {
 	assert(sizeof(fp64_t) == 8 && "Bad size of fp64");
 	assert(sizeof(fp32_t) == 4 && "Bad size of fp32");
@@ -385,6 +385,11 @@ int main(void)
 	check_fp32(FLT_MIN);
 	check_fp32(fp32_NegMax.f32);
 	check_fp32(fp32_NegMin.f32);
+
+	/* Test big number overflow */
+	float a1 = fp32_PosMax.f32 / 2.0f;
+	float m1 = a1 * 2.0f + 0.1f;
+	check_fp32(m1);
 
 #ifdef SUPPORT_FLOAT16
 	seperator();
