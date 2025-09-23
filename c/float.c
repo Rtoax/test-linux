@@ -214,13 +214,16 @@ __myconst__ fp16_t fp16_NegMin = FP16_INITIALIZER(1, 0x1, 0);
 
 
 #ifdef HAVE_CUDA
-# define tohost(st, field)	({	\
+/**
+ * From struct to host
+ */
+# define st2host(st, field)	({	\
 		typeof(st.field) __v;	\
 		cudaMemcpyFromSymbol(&__v, st, sizeof(st.field), offsetof(typeof(st), field));	\
 		__v;	\
 	})
 #else
-# define tohost(v, field)	v.field
+# define st2host(v, field)	v.field
 #endif
 
 void binprint(const void *mem, size_t bits)
@@ -435,15 +438,15 @@ void base_test(void)
 	check_fp64(0.23456789);
 	check_fp64(3.14159265);
 	check_fp64(-3.14159265);
-	check_fp64(tohost(fp64_NaN, f64));
-	check_fp64(tohost(fp64_PosInf, f64));
-	check_fp64(tohost(fp64_NegInf, f64));
-	check_fp64(tohost(fp64_PosZero, f64));
-	check_fp64(tohost(fp64_NegZero, f64));
-	check_fp64(tohost(fp64_PosMax, f64));
-	check_fp64(tohost(fp64_PosMin, f64));
-	check_fp64(tohost(fp64_NegMax, f64));
-	check_fp64(tohost(fp64_NegMin, f64));
+	check_fp64(st2host(fp64_NaN, f64));
+	check_fp64(st2host(fp64_PosInf, f64));
+	check_fp64(st2host(fp64_NegInf, f64));
+	check_fp64(st2host(fp64_PosZero, f64));
+	check_fp64(st2host(fp64_NegZero, f64));
+	check_fp64(st2host(fp64_PosMax, f64));
+	check_fp64(st2host(fp64_PosMin, f64));
+	check_fp64(st2host(fp64_NegMax, f64));
+	check_fp64(st2host(fp64_NegMin, f64));
 
 	seperator();
 
@@ -454,17 +457,17 @@ void base_test(void)
 	check_fp32(0.23456789f);
 	check_fp32(3.14159265f);
 	check_fp32(-3.14159265f);
-	check_fp32(tohost(fp32_NaN, f32));
-	check_fp32(tohost(fp32_PosInf, f32));
-	check_fp32(tohost(fp32_NegInf, f32));
-	check_fp32(tohost(fp32_PosZero, f32));
-	check_fp32(tohost(fp32_NegZero, f32));
-	check_fp32(tohost(fp32_PosMax, f32));
+	check_fp32(st2host(fp32_NaN, f32));
+	check_fp32(st2host(fp32_PosInf, f32));
+	check_fp32(st2host(fp32_NegInf, f32));
+	check_fp32(st2host(fp32_PosZero, f32));
+	check_fp32(st2host(fp32_NegZero, f32));
+	check_fp32(st2host(fp32_PosMax, f32));
 	check_fp32(FLT_MAX);
-	check_fp32(tohost(fp32_PosMin, f32));
+	check_fp32(st2host(fp32_PosMin, f32));
 	check_fp32(FLT_MIN);
-	check_fp32(tohost(fp32_NegMax, f32));
-	check_fp32(tohost(fp32_NegMin, f32));
+	check_fp32(st2host(fp32_NegMax, f32));
+	check_fp32(st2host(fp32_NegMin, f32));
 
 #ifdef SUPPORT_FLOAT16
 	seperator();
@@ -476,15 +479,15 @@ void base_test(void)
 	check_fp16(0.23456789);
 	check_fp16(3.14159265);
 	check_fp16(-3.14159265);
-	check_fp16(tohost(fp16_NaN, f16));
-	check_fp16(tohost(fp16_PosInf, f16));
-	check_fp16(tohost(fp16_NegInf, f16));
-	check_fp16(tohost(fp16_PosZero, f16));
-	check_fp16(tohost(fp16_NegZero, f16));
-	check_fp16(tohost(fp16_PosMax, f16));
-	check_fp16(tohost(fp16_NegMax, f16));
-	check_fp16(tohost(fp16_PosMin, f16));
-	check_fp16(tohost(fp16_NegMin, f16));
+	check_fp16(st2host(fp16_NaN, f16));
+	check_fp16(st2host(fp16_PosInf, f16));
+	check_fp16(st2host(fp16_NegInf, f16));
+	check_fp16(st2host(fp16_PosZero, f16));
+	check_fp16(st2host(fp16_NegZero, f16));
+	check_fp16(st2host(fp16_PosMax, f16));
+	check_fp16(st2host(fp16_NegMax, f16));
+	check_fp16(st2host(fp16_PosMin, f16));
+	check_fp16(st2host(fp16_NegMin, f16));
 #endif
 
 	reset();
@@ -494,33 +497,33 @@ void overflow(void)
 {
 	seperator();
 
-	check_fp32(tohost(fp32_PosMax, f32));
-	check_fp32(tohost(fp32_PosMax, f32) + 0.1f);
-	check_fp32(tohost(fp32_PosMax, f32) - 0.1f);
-	check_fp32(tohost(fp32_PosMax, f32) + 0.2f);
-	check_fp32(tohost(fp32_PosMax, f32) / 2.0f);
+	check_fp32(st2host(fp32_PosMax, f32));
+	check_fp32(st2host(fp32_PosMax, f32) + 0.1f);
+	check_fp32(st2host(fp32_PosMax, f32) - 0.1f);
+	check_fp32(st2host(fp32_PosMax, f32) + 0.2f);
+	check_fp32(st2host(fp32_PosMax, f32) / 2.0f);
 
 	seperator();
 
-	check_fp32(tohost(fp32_PosMax, f32) * 1.0f);
-	check_fp32(tohost(fp32_PosMax, f32) * 1.00000000001f);
-	check_fp32(tohost(fp32_PosMax, f32) * 1.0000000001f);
-	check_fp32(tohost(fp32_PosMax, f32) * 1.000000001f);
-	check_fp32(tohost(fp32_PosMax, f32) * 1.00000001f);
-	check_fp32(tohost(fp32_PosMax, f32) * 1.000000011f);
-	check_fp32(tohost(fp32_PosMax, f32) * 1.00000005f);
-	check_fp32(tohost(fp32_PosMax, f32) * 1.000000055f);
-	check_fp32(tohost(fp32_PosMax, f32) * 1.000000058f);
-	check_fp32(tohost(fp32_PosMax, f32) * 1.000000059f);
-	check_fp32(tohost(fp32_PosMax, f32) * 1.0000000595f);
-	check_fp32(tohost(fp32_PosMax, f32) * 1.0000000596f);
-	check_fp32(tohost(fp32_PosMax, f32) * 1.000000059604f);
-	check_fp32(tohost(fp32_PosMax, f32) * 1.0000000596045f);
-	check_fp32(tohost(fp32_PosMax, f32) * 1.0000000596046f);
-	check_fp32(tohost(fp32_PosMax, f32) * 1.00000005960463f);
-	check_fp32(tohost(fp32_PosMax, f32) * 1.00000005960464f);
-	check_fp32(tohost(fp32_PosMax, f32) * 1.000000059604644f);
-	check_fp32(tohost(fp32_PosMax, f32) * 1.0000000596046445f);
+	check_fp32(st2host(fp32_PosMax, f32) * 1.0f);
+	check_fp32(st2host(fp32_PosMax, f32) * 1.00000000001f);
+	check_fp32(st2host(fp32_PosMax, f32) * 1.0000000001f);
+	check_fp32(st2host(fp32_PosMax, f32) * 1.000000001f);
+	check_fp32(st2host(fp32_PosMax, f32) * 1.00000001f);
+	check_fp32(st2host(fp32_PosMax, f32) * 1.000000011f);
+	check_fp32(st2host(fp32_PosMax, f32) * 1.00000005f);
+	check_fp32(st2host(fp32_PosMax, f32) * 1.000000055f);
+	check_fp32(st2host(fp32_PosMax, f32) * 1.000000058f);
+	check_fp32(st2host(fp32_PosMax, f32) * 1.000000059f);
+	check_fp32(st2host(fp32_PosMax, f32) * 1.0000000595f);
+	check_fp32(st2host(fp32_PosMax, f32) * 1.0000000596f);
+	check_fp32(st2host(fp32_PosMax, f32) * 1.000000059604f);
+	check_fp32(st2host(fp32_PosMax, f32) * 1.0000000596045f);
+	check_fp32(st2host(fp32_PosMax, f32) * 1.0000000596046f);
+	check_fp32(st2host(fp32_PosMax, f32) * 1.00000005960463f);
+	check_fp32(st2host(fp32_PosMax, f32) * 1.00000005960464f);
+	check_fp32(st2host(fp32_PosMax, f32) * 1.000000059604644f);
+	check_fp32(st2host(fp32_PosMax, f32) * 1.0000000596046445f);
 
 	seperator();
 	/**
@@ -528,30 +531,30 @@ void overflow(void)
 	 * CPU: Intel i7-10710U, AMD EPYC 7763
 	 * GPU: Mars X203
 	 */
-	check_fp32(tohost(fp32_PosMax, f32) * 1.0000000596046449f);
-	check_fp32(tohost(fp32_PosMax, f32) * 1.000000059604645f);
-	check_fp32(tohost(fp32_PosMax, f32) * 1.00000005960465f);
-	check_fp32(tohost(fp32_PosMax, f32) * 1.00000005960469f);
-	check_fp32(tohost(fp32_PosMax, f32) * 1.0000000596047f);
-	check_fp32(tohost(fp32_PosMax, f32) * 1.0000000596049f);
-	check_fp32(tohost(fp32_PosMax, f32) * 1.000000059605f);
-	check_fp32(tohost(fp32_PosMax, f32) * 1.000000059606f);
-	check_fp32(tohost(fp32_PosMax, f32) * 1.000000059609f);
-	check_fp32(tohost(fp32_PosMax, f32) * 1.00000005961f);
-	check_fp32(tohost(fp32_PosMax, f32) * 1.00000005963f);
-	check_fp32(tohost(fp32_PosMax, f32) * 1.00000005965f);
-	check_fp32(tohost(fp32_PosMax, f32) * 1.00000005969f);
-	check_fp32(tohost(fp32_PosMax, f32) * 1.0000000597f);
-	check_fp32(tohost(fp32_PosMax, f32) * 1.0000000598f);
-	check_fp32(tohost(fp32_PosMax, f32) * 1.0000000599f);
-	check_fp32(tohost(fp32_PosMax, f32) * 1.00000006f);
-	check_fp32(tohost(fp32_PosMax, f32) * 1.00000007f);
-	check_fp32(tohost(fp32_PosMax, f32) * 1.00000009f);
-	check_fp32(tohost(fp32_PosMax, f32) * 1.0000001f);
+	check_fp32(st2host(fp32_PosMax, f32) * 1.0000000596046449f);
+	check_fp32(st2host(fp32_PosMax, f32) * 1.000000059604645f);
+	check_fp32(st2host(fp32_PosMax, f32) * 1.00000005960465f);
+	check_fp32(st2host(fp32_PosMax, f32) * 1.00000005960469f);
+	check_fp32(st2host(fp32_PosMax, f32) * 1.0000000596047f);
+	check_fp32(st2host(fp32_PosMax, f32) * 1.0000000596049f);
+	check_fp32(st2host(fp32_PosMax, f32) * 1.000000059605f);
+	check_fp32(st2host(fp32_PosMax, f32) * 1.000000059606f);
+	check_fp32(st2host(fp32_PosMax, f32) * 1.000000059609f);
+	check_fp32(st2host(fp32_PosMax, f32) * 1.00000005961f);
+	check_fp32(st2host(fp32_PosMax, f32) * 1.00000005963f);
+	check_fp32(st2host(fp32_PosMax, f32) * 1.00000005965f);
+	check_fp32(st2host(fp32_PosMax, f32) * 1.00000005969f);
+	check_fp32(st2host(fp32_PosMax, f32) * 1.0000000597f);
+	check_fp32(st2host(fp32_PosMax, f32) * 1.0000000598f);
+	check_fp32(st2host(fp32_PosMax, f32) * 1.0000000599f);
+	check_fp32(st2host(fp32_PosMax, f32) * 1.00000006f);
+	check_fp32(st2host(fp32_PosMax, f32) * 1.00000007f);
+	check_fp32(st2host(fp32_PosMax, f32) * 1.00000009f);
+	check_fp32(st2host(fp32_PosMax, f32) * 1.0000001f);
 
 	seperator();
 
-	float a = tohost(fp32_PosMax, f32) / 2.0f;
+	float a = st2host(fp32_PosMax, f32) / 2.0f;
 	float b;
 	double c;
 	b = c = a;
