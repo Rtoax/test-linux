@@ -41,17 +41,17 @@
 # define DIM	<<<1, 1>>>
 # define __mydevice__	__device__
 # define __myglobal__	__global__
-# define __myconstant__	__constant__
+# define __myconst__	__constant__
 #else
 # define DIM
 # define __mydevice__
 # define __myglobal__
-# define __myconstant__	const
+# define __myconst__	const
 #endif
 
 
 #define ARRAY_SIZE(arr)	(sizeof(arr) / sizeof(arr[0]))
-const static char *ascii[] = {
+const static char *ansi[] = {
 	"\033[32m",
 	"\033[33m",
 	"\033[34m",
@@ -59,14 +59,20 @@ const static char *ascii[] = {
 	"\033[36m",
 };
 static const char *reset = "\033[m";
-static unsigned long ascii_idx = 0;
+static unsigned long ansi_idx = 0;
+
+#ifdef HAVE_CUDA
+#define seperator() do { } while (0)
+#define reset() do { } while (0)
+#else
 #define seperator() do {	\
-		printf("%s%s", reset, ascii[ascii_idx++ % ARRAY_SIZE(ascii)]);	\
+		printf("%s%s", reset, ansi[ansi_idx++ % ARRAY_SIZE(ansi)]);	\
 	} while (0)
 #define reset() do {	\
 		printf("%s", reset);	\
-		ascii_idx++;	\
+		ansi_idx++;	\
 	} while (0)
+#endif
 
 
 typedef union fp64 {
@@ -132,41 +138,41 @@ typedef union fp16 {
 
 
 /* https://en.wikipedia.org/wiki/Double-precision_floating-point_format */
-const fp64_t fp64_NaN = FP64_INITIALIZER(1, 0x7ff, 0xfffffffffffff);
-const fp64_t fp64_PosInf = FP64_INITIALIZER(0, 0x7ff, 0);
-const fp64_t fp64_NegInf = FP64_INITIALIZER(1, 0x7ff, 0);
-const fp64_t fp64_PosZero = FP64_INITIALIZER(0, 0, 0);
-const fp64_t fp64_NegZero = FP64_INITIALIZER(1, 0, 0);
+__myconst__ fp64_t fp64_NaN = FP64_INITIALIZER(1, 0x7ff, 0xfffffffffffff);
+__myconst__ fp64_t fp64_PosInf = FP64_INITIALIZER(0, 0x7ff, 0);
+__myconst__ fp64_t fp64_NegInf = FP64_INITIALIZER(1, 0x7ff, 0);
+__myconst__ fp64_t fp64_PosZero = FP64_INITIALIZER(0, 0, 0);
+__myconst__ fp64_t fp64_NegZero = FP64_INITIALIZER(1, 0, 0);
 /* ≈ 1.7976931348623157 × 10³⁰⁸ */
-const fp64_t fp64_PosMax = FP64_INITIALIZER(0, 0x7fe, 0xFFFFFFFFFFFFF);
-const fp64_t fp64_NegMax = FP64_INITIALIZER(1, 0x7fe, 0xFFFFFFFFFFFFF);
+__myconst__ fp64_t fp64_PosMax = FP64_INITIALIZER(0, 0x7fe, 0xFFFFFFFFFFFFF);
+__myconst__ fp64_t fp64_NegMax = FP64_INITIALIZER(1, 0x7fe, 0xFFFFFFFFFFFFF);
 /* ≈ 2.2250738585072014 × 10⁻³⁰⁸ */
-const fp64_t fp64_PosMin = FP64_INITIALIZER(0, 1, 0);
-const fp64_t fp64_NegMin = FP64_INITIALIZER(1, 1, 0);
+__myconst__ fp64_t fp64_PosMin = FP64_INITIALIZER(0, 1, 0);
+__myconst__ fp64_t fp64_NegMin = FP64_INITIALIZER(1, 1, 0);
 
 /* https://en.wikipedia.org/wiki/Single-precision_floating-point_format */
-const fp32_t fp32_NaN = FP32_INITIALIZER(1, 0xff, 0xff);
-const fp32_t fp32_PosInf = FP32_INITIALIZER(0, 0xff, 0);
-const fp32_t fp32_NegInf = FP32_INITIALIZER(1, 0xff, 0);
-const fp32_t fp32_PosZero = FP32_INITIALIZER(0, 0, 0);
-const fp32_t fp32_NegZero = FP32_INITIALIZER(1, 0, 0);
+__myconst__ fp32_t fp32_NaN = FP32_INITIALIZER(1, 0xff, 0xff);
+__myconst__ fp32_t fp32_PosInf = FP32_INITIALIZER(0, 0xff, 0);
+__myconst__ fp32_t fp32_NegInf = FP32_INITIALIZER(1, 0xff, 0);
+__myconst__ fp32_t fp32_PosZero = FP32_INITIALIZER(0, 0, 0);
+__myconst__ fp32_t fp32_NegZero = FP32_INITIALIZER(1, 0, 0);
 /**
  * See also FLT_MAX and FLT_MIN
  */
 /* ≈ ±3.4028235 × 10³⁸ */
-const fp32_t fp32_PosMax = FP32_INITIALIZER(0, 0xfe, 0x7fffff);
-const fp32_t fp32_NegMax = FP32_INITIALIZER(1, 0xfe, 0x7fffff);
+__myconst__ fp32_t fp32_PosMax = FP32_INITIALIZER(0, 0xfe, 0x7fffff);
+__myconst__ fp32_t fp32_NegMax = FP32_INITIALIZER(1, 0xfe, 0x7fffff);
 /* ≈ ±1.17549435 × 10⁻³⁸ */
-const fp32_t fp32_PosMin = FP32_INITIALIZER(0, 0x1, 0);
-const fp32_t fp32_NegMin = FP32_INITIALIZER(1, 0x1, 0);
-const fp32_t fp32_0dot15625 = FP32_INITIALIZER(0, 0x7c, 0x200000);
+__myconst__ fp32_t fp32_PosMin = FP32_INITIALIZER(0, 0x1, 0);
+__myconst__ fp32_t fp32_NegMin = FP32_INITIALIZER(1, 0x1, 0);
+__myconst__ fp32_t fp32_0dot15625 = FP32_INITIALIZER(0, 0x7c, 0x200000);
 
 /* https://en.wikipedia.org/wiki/Half-precision_floating-point_format */
-const fp16_t fp16_NaN = FP16_INITIALIZER(1, 0x1f, 0x3ff);
-const fp16_t fp16_PosInf = FP16_INITIALIZER(0, 0x1f, 0);
-const fp16_t fp16_NegInf = FP16_INITIALIZER(1, 0x1f, 0);
-const fp16_t fp16_PosZero = FP16_INITIALIZER(0, 0, 0);
-const fp16_t fp16_NegZero = FP16_INITIALIZER(1, 0, 0);
+__myconst__ fp16_t fp16_NaN = FP16_INITIALIZER(1, 0x1f, 0x3ff);
+__myconst__ fp16_t fp16_PosInf = FP16_INITIALIZER(0, 0x1f, 0);
+__myconst__ fp16_t fp16_NegInf = FP16_INITIALIZER(1, 0x1f, 0);
+__myconst__ fp16_t fp16_PosZero = FP16_INITIALIZER(0, 0, 0);
+__myconst__ fp16_t fp16_NegZero = FP16_INITIALIZER(1, 0, 0);
 
 
 void binprint(void *mem, size_t bits)
