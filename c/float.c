@@ -69,19 +69,6 @@ typedef union fp64 {
 		       ((f & 0xfffffffffffffUL)))
 } __attribute__((packed)) fp64_t;
 
-/* https://en.wikipedia.org/wiki/Double-precision_floating-point_format */
-const fp64_t fp64_NaN = FP64_INITIALIZER(1, 0x7ff, 0xfffffffffffff);
-const fp64_t fp64_PosInf = FP64_INITIALIZER(0, 0x7ff, 0);
-const fp64_t fp64_NegInf = FP64_INITIALIZER(1, 0x7ff, 0);
-const fp64_t fp64_PosZero = FP64_INITIALIZER(0, 0, 0);
-const fp64_t fp64_NegZero = FP64_INITIALIZER(1, 0, 0);
-/* ≈ 1.7976931348623157 × 10³⁰⁸ */
-const fp64_t fp64_PosMax = FP64_INITIALIZER(0, 0x7fe, 0xFFFFFFFFFFFFF);
-const fp64_t fp64_NegMax = FP64_INITIALIZER(1, 0x7fe, 0xFFFFFFFFFFFFF);
-/* ≈ 2.2250738585072014 × 10⁻³⁰⁸ */
-const fp64_t fp64_PosMin = FP64_INITIALIZER(0, 1, 0);
-const fp64_t fp64_NegMin = FP64_INITIALIZER(1, 1, 0);
-
 typedef union fp32 {
 	struct {
 		#if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
@@ -100,23 +87,6 @@ typedef union fp32 {
 	uint32_t i32;
 #define FP32_INITIALIZER(s, e, f) {__FP32_INITIALIZER(s, e, f)}
 } __attribute__((packed)) fp32_t;
-
-/* https://en.wikipedia.org/wiki/Single-precision_floating-point_format */
-const fp32_t fp32_NaN = FP32_INITIALIZER(1, 0xff, 0xff);
-const fp32_t fp32_PosInf = FP32_INITIALIZER(0, 0xff, 0);
-const fp32_t fp32_NegInf = FP32_INITIALIZER(1, 0xff, 0);
-const fp32_t fp32_PosZero = FP32_INITIALIZER(0, 0, 0);
-const fp32_t fp32_NegZero = FP32_INITIALIZER(1, 0, 0);
-/**
- * See also FLT_MAX and FLT_MIN
- */
-/* ≈ ±3.4028235 × 10³⁸ */
-const fp32_t fp32_PosMax = FP32_INITIALIZER(0, 0xfe, 0x7fffff);
-const fp32_t fp32_NegMax = FP32_INITIALIZER(1, 0xfe, 0x7fffff);
-/* ≈ ±1.17549435 × 10⁻³⁸ */
-const fp32_t fp32_PosMin = FP32_INITIALIZER(0, 0x1, 0);
-const fp32_t fp32_NegMin = FP32_INITIALIZER(1, 0x1, 0);
-const fp32_t fp32_0dot15625 = FP32_INITIALIZER(0, 0x7c, 0x200000);
 
 typedef union fp16 {
 	struct {
@@ -138,6 +108,37 @@ typedef union fp16 {
 	uint16_t i16;
 #define FP16_INITIALIZER(s, e, f) {__FP16_INITIALIZER(s, e, f)}
 } __attribute__((packed)) fp16_t;
+
+
+/* https://en.wikipedia.org/wiki/Double-precision_floating-point_format */
+const fp64_t fp64_NaN = FP64_INITIALIZER(1, 0x7ff, 0xfffffffffffff);
+const fp64_t fp64_PosInf = FP64_INITIALIZER(0, 0x7ff, 0);
+const fp64_t fp64_NegInf = FP64_INITIALIZER(1, 0x7ff, 0);
+const fp64_t fp64_PosZero = FP64_INITIALIZER(0, 0, 0);
+const fp64_t fp64_NegZero = FP64_INITIALIZER(1, 0, 0);
+/* ≈ 1.7976931348623157 × 10³⁰⁸ */
+const fp64_t fp64_PosMax = FP64_INITIALIZER(0, 0x7fe, 0xFFFFFFFFFFFFF);
+const fp64_t fp64_NegMax = FP64_INITIALIZER(1, 0x7fe, 0xFFFFFFFFFFFFF);
+/* ≈ 2.2250738585072014 × 10⁻³⁰⁸ */
+const fp64_t fp64_PosMin = FP64_INITIALIZER(0, 1, 0);
+const fp64_t fp64_NegMin = FP64_INITIALIZER(1, 1, 0);
+
+/* https://en.wikipedia.org/wiki/Single-precision_floating-point_format */
+const fp32_t fp32_NaN = FP32_INITIALIZER(1, 0xff, 0xff);
+const fp32_t fp32_PosInf = FP32_INITIALIZER(0, 0xff, 0);
+const fp32_t fp32_NegInf = FP32_INITIALIZER(1, 0xff, 0);
+const fp32_t fp32_PosZero = FP32_INITIALIZER(0, 0, 0);
+const fp32_t fp32_NegZero = FP32_INITIALIZER(1, 0, 0);
+/**
+ * See also FLT_MAX and FLT_MIN
+ */
+/* ≈ ±3.4028235 × 10³⁸ */
+const fp32_t fp32_PosMax = FP32_INITIALIZER(0, 0xfe, 0x7fffff);
+const fp32_t fp32_NegMax = FP32_INITIALIZER(1, 0xfe, 0x7fffff);
+/* ≈ ±1.17549435 × 10⁻³⁸ */
+const fp32_t fp32_PosMin = FP32_INITIALIZER(0, 0x1, 0);
+const fp32_t fp32_NegMin = FP32_INITIALIZER(1, 0x1, 0);
+const fp32_t fp32_0dot15625 = FP32_INITIALIZER(0, 0x7c, 0x200000);
 
 /* https://en.wikipedia.org/wiki/Half-precision_floating-point_format */
 const fp16_t fp16_NaN = FP16_INITIALIZER(1, 0x1f, 0x3ff);
