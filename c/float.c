@@ -473,9 +473,6 @@ void overflow(void)
 	check_fp32(tohost(fp32_PosMax, f32) * 1.0000000001f);
 	check_fp32(tohost(fp32_PosMax, f32) * 1.000000001f);
 	check_fp32(tohost(fp32_PosMax, f32) * 1.00000001f);
-	check_fp32(tohost(fp32_PosMax, f32) * 1.000000010001f);
-	check_fp32(tohost(fp32_PosMax, f32) * 1.00000001001f);
-	check_fp32(tohost(fp32_PosMax, f32) * 1.0000000101f);
 	check_fp32(tohost(fp32_PosMax, f32) * 1.000000011f);
 	check_fp32(tohost(fp32_PosMax, f32) * 1.00000005f);
 	check_fp32(tohost(fp32_PosMax, f32) * 1.000000055f);
@@ -484,14 +481,27 @@ void overflow(void)
 	check_fp32(tohost(fp32_PosMax, f32) * 1.0000000595f);
 	check_fp32(tohost(fp32_PosMax, f32) * 1.0000000596f);
 	check_fp32(tohost(fp32_PosMax, f32) * 1.000000059604f);
-	check_fp32(tohost(fp32_PosMax, f32) * 1.00000005961f); /* Intel i7-10710U, AMD EPYC 7763 = Inf */
+	check_fp32(tohost(fp32_PosMax, f32) * 1.0000000596045f);
+	check_fp32(tohost(fp32_PosMax, f32) * 1.0000000596046f);
+	/**
+	 * Since here, value become Inf
+	 * CPU: Intel i7-10710U, AMD EPYC 7763
+	 * GPU: Mars X203
+	 */
+	check_fp32(tohost(fp32_PosMax, f32) * 1.00000005960465f);
+	check_fp32(tohost(fp32_PosMax, f32) * 1.00000005960469f);
+	check_fp32(tohost(fp32_PosMax, f32) * 1.0000000596047f);
+	check_fp32(tohost(fp32_PosMax, f32) * 1.0000000596049f);
+	check_fp32(tohost(fp32_PosMax, f32) * 1.000000059605f);
+	check_fp32(tohost(fp32_PosMax, f32) * 1.000000059606f);
+	check_fp32(tohost(fp32_PosMax, f32) * 1.000000059609f);
+	check_fp32(tohost(fp32_PosMax, f32) * 1.00000005961f);
 	check_fp32(tohost(fp32_PosMax, f32) * 1.00000005963f);
 	check_fp32(tohost(fp32_PosMax, f32) * 1.00000005965f);
 	check_fp32(tohost(fp32_PosMax, f32) * 1.00000005969f);
 	check_fp32(tohost(fp32_PosMax, f32) * 1.0000000597f);
 	check_fp32(tohost(fp32_PosMax, f32) * 1.0000000598f);
 	check_fp32(tohost(fp32_PosMax, f32) * 1.0000000599f);
-	check_fp32(tohost(fp32_PosMax, f32) * 1.000000059999f);
 	check_fp32(tohost(fp32_PosMax, f32) * 1.00000006f);
 	check_fp32(tohost(fp32_PosMax, f32) * 1.00000007f);
 	check_fp32(tohost(fp32_PosMax, f32) * 1.00000009f);
