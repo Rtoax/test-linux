@@ -100,6 +100,8 @@ const fp32_t fp32_PosInf = FP32_INITIALIZER(0, 0xff, 0);
 const fp32_t fp32_NegInf = FP32_INITIALIZER(1, 0xff, 0);
 const fp32_t fp32_PosZero = FP32_INITIALIZER(0, 0, 0);
 const fp32_t fp32_NegZero = FP32_INITIALIZER(1, 0, 0);
+const fp32_t fp32_PosMax = FP32_INITIALIZER(0, 0xfe, 0x7fffff);
+const fp32_t fp32_PosMin = FP32_INITIALIZER(1, 0xfe, 0x7fffff);
 const fp32_t fp32_0dot15625 = FP32_INITIALIZER(0, 0x7c, 0x200000);
 
 typedef union fp16 {
@@ -341,6 +343,8 @@ int main(void)
 	check_fp32(fp32_NegInf.f32);
 	check_fp32(fp32_PosZero.f32);
 	check_fp32(fp32_NegZero.f32);
+	check_fp32(fp32_PosMax.f32);
+	check_fp32(fp32_PosMin.f32);
 
 #ifdef SUPPORT_FLOAT16
 	seperator();
