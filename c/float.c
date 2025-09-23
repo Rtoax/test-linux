@@ -549,6 +549,25 @@ void overflow(void)
 	check_fp32(tohost(fp32_PosMax, f32) * 1.00000009f);
 	check_fp32(tohost(fp32_PosMax, f32) * 1.0000001f);
 
+	seperator();
+
+	float a = tohost(fp32_PosMax, f32) / 2.0f;
+	float b;
+	double c;
+	b = c = a;
+	for (int i = 0; i < 100; i++) {
+#define bias	1.001f
+		b = b * bias;
+		c = c * bias;
+
+		seperator();
+		printf("=========== %d ==========\n", i);
+		check_fp32(a);
+		check_fp32(b);
+		check_fp64(c);
+		reset();
+	}
+
 	reset();
 }
 
