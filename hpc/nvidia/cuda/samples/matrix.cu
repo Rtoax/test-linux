@@ -226,13 +226,14 @@ static inline unsigned long nsecs(void)
 /**
  * alpha * A[m*k] * B[k*n] + beta * C[m*n] = D[m*n]
  *
- * m=2,k=3,n=2
+ * m=2,k=3,n=2 alpha=1,beta=1
+ *
  *                     ┌     ┐
- *         ┌       ┐   │ 1 2 │          ┌     ┐   ┌       ┐
- *         │ 1 2 3 │   │     │          │ 0 0 │   │ 22 28 │
- * alpha * │       │ * │ 3 4 │ + beta * │     │ = │       │
- *         │ 4 5 6 │   │     │          │ 0 0 │   │ 49 64 │
- *         └       ┘   │ 5 6 │          └     ┘   └       ┘
+ *         ┌       ┐   │ 1 2 │       ┌     ┐   ┌       ┐
+ *         │ 1 2 3 │   │     │       │ 1 2 │   │ 23 30 │
+ *     1 * │       │ * │ 3 4 │ + 1 * │     │ = │       │
+ *         │ 4 5 6 │   │     │       │ 3 4 │   │ 52 68 │
+ *         └       ┘   │ 5 6 │       └     ┘   └       ┘
  *                     └     ┘
  *
  * @nocal - The call of GPU kernel function will have a large overhead. When
