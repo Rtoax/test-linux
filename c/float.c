@@ -89,6 +89,9 @@
 # define mysync()
 #endif
 
+/**
+ * Note: Use _Float16 first
+ */
 #ifdef SUPPORT__Float16
 # define SUPPORT_FP16
 # define compat_fp16	_Float16
