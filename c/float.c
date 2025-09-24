@@ -559,6 +559,16 @@ void __myglobal__ __kernel_overflow_add_fp32(void)
 	rslt_fp64.f64 += data_fp32_bias.f32;
 }
 
+void __myglobal__ __kernel_overflow_muladd_fp32(size_t loop, size_t interval)
+{
+	for (size_t i = 0; i < loop; i += interval) {
+		data_fp32.f32 *= data_fp32_bias.f32;
+		data_fp32.f32 += data_fp32_bias.f32;
+		rslt_fp64.f64 *= data_fp32_bias.f32;
+		rslt_fp64.f64 += data_fp32_bias.f32;
+	}
+}
+
 #ifdef __HPCC__
 # pragma clang diagnostic push
 /* warning: reference to __device__ variable 'rslt_fp64' in __host__ function */
@@ -598,6 +608,26 @@ void overflow_add_fp32(void)
 
 		seperator();
 		printf("=========== add %d ==========\n", i);
+		check_fp32(st2host(data_fp32, f32));
+		check_fp64(st2host(rslt_fp64, f64));
+		reset();
+		mysync();
+	}
+}
+
+void overflow_muladd_fp32(void)
+{
+	for (size_t i = 100; i <= 1000; i += 100) {
+		float a = i * 1.123456789f;
+
+		stset(data_fp32, f32, a);
+		stset(data_fp32_bias, f32, 2.123456789f);
+		stset(rslt_fp64, f64, a);
+
+		__kernel_overflow_muladd_fp32 DIM (i, 2);
+
+		seperator();
+		printf("=========== muladd %ld ==========\n", i);
 		check_fp32(st2host(data_fp32, f32));
 		check_fp64(st2host(rslt_fp64, f64));
 		reset();
@@ -671,6 +701,7 @@ void overflow(void)
 
 	overflow_mul_fp32();
 	overflow_add_fp32();
+	overflow_muladd_fp32();
 
 	reset();
 }
