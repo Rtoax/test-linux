@@ -276,6 +276,11 @@ static inline unsigned long nsecs(void)
 	return ts.tv_sec * 1000000000UL + ts.tv_nsec;
 }
 
+/**
+ * Output the calculation results to a file, supporting TXT and BIN formats.
+ * Then compare the md5 value of the output file to check the consistency of
+ * the algorithm.
+ */
 int output_write(struct test *test, void *host_ptr, size_t size, size_t nmemb,
 		 enum data_type type)
 {
