@@ -96,11 +96,13 @@
 # define compat_fp16	_Float16
 # define compat_half2float(v)	((float)v)
 # define compat_float2half(v)	((_Float16)v)
+# define compat_fp16_mul(a, b) (a * b)
 #elif defined(HAVE_CUDA)
 # define SUPPORT_FP16
 # define compat_fp16	half
 # define compat_half2float(v)	__half2float(v)
 # define compat_float2half(v)	__float2half(v)
+# define compat_fp16_mul(a, b) __hmul(a, b)
 #endif
 
 #ifndef offsetof
@@ -425,7 +427,7 @@ compat_fp16 __mydevice__ fp16_to_float16(const fp16_t *fp16)
 		fra = compat_float2half(1 + fraction_value(fp16->fraction, 10));
 	}
 
-	return sign * e2 * fra;
+	return compat_fp16_mul(sign, compat_fp16_mul(e2, fra));
 }
 
 void __myglobal__ __kernel_check_fp16(compat_fp16 f)
