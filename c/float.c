@@ -69,8 +69,8 @@
 # define __myglobal__	__global__
 # define __myconst__	__constant__
 # define mysync()	cudaDeviceSynchronize()
-# ifndef SUPPORT_FLOAT16
-#  define SUPPORT_FLOAT16 /* CUDA always support _Float16 */
+# ifndef SUPPORT__Float16
+#  define SUPPORT__Float16 /* CUDA always support _Float16 */
 # endif
 #else
 # define DIM
@@ -158,9 +158,9 @@ typedef union fp16 {
 		# define __FP16_INITIALIZER(s, e, f) {s, e, f}
 		#endif
 	};
-#ifdef SUPPORT_FLOAT16
+#ifdef SUPPORT__Float16
 	_Float16 f16;
-#endif /* SUPPORT_FLOAT16 */
+#endif /* SUPPORT__Float16 */
 #ifdef HAVE_CUDA
 	half half;
 #endif
@@ -372,7 +372,7 @@ void __myglobal__ __kernel_check_fp32(float f)
 		binprint(&___v, sizeof(v) * 8);	\
 	} while (0)
 
-#ifdef SUPPORT_FLOAT16
+#ifdef SUPPORT__Float16
 void __mydevice__ float16_to_fp16(const _Float16 f, fp16_t *fp16)
 {
 	_Float16 tmp = f;
@@ -429,7 +429,7 @@ void __myglobal__ __kernel_check_fp16(_Float16 f)
 		mysync();	\
 		binprint(&___v, sizeof(v) * 8);	\
 	} while (0)
-#endif /* SUPPORT_FLOAT16 */
+#endif /* SUPPORT__Float16 */
 
 
 void base_test(void)
@@ -474,7 +474,7 @@ void base_test(void)
 	check_fp32(st2host(fp32_NegMax, f32));
 	check_fp32(st2host(fp32_NegMin, f32));
 
-#ifdef SUPPORT_FLOAT16
+#ifdef SUPPORT__Float16
 	seperator();
 
 	check_fp16((_Float16)0.0);

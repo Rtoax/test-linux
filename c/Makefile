@@ -80,7 +80,7 @@ ifeq (${CC__Float32},y)
   ifdef DEBUG
     $(info "${CC} support _Float16")
   endif
-  CFLAGS_float := -DSUPPORT_FLOAT16=1
+  CFLAGS_float := -DSUPPORT__Float16=1
 endif
 LDFLAGS_float := -lm
 
