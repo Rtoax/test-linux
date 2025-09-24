@@ -1797,7 +1797,8 @@ int main(int argc, char *argv[])
 
 	if (env.verbose) {
 		print_version();
-		printf("M = %ld, N = %ld\n", env.m, env.n);
+		printf("M = %ld, N = %ld, K = %ld, alpha = %d, beta %d\n",
+			env.m, env.n, env.k, env.alpha, env.beta);
 		if (env.output.file_suffix)
 			fprintf(stderr, "Output file %s\n", env.output.file_suffix);
 	}
