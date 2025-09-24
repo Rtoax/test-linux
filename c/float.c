@@ -523,19 +523,31 @@ void base_test(void)
  * Testing float precision and overflow from here.
  */
 
+/**
+ * To enable computation on the GPU, we use the __device__ variable to ensure
+ * that all computations occur in the GPU FP rather than on the CPU.
+ *
+ * If testing on the CPU, __mydevice__ is empty.
+ */
 __mydevice__ fp32_t overflow_fp32_rslt;
+__mydevice__ fp32_t overflow_fp32_bias;
+/**
+ * In addition to using fp32 to save the calculation results, fp64 is also
+ * used to save the calculation results in order to obtain the calculation
+ * results when there is no overflow, as a comparison.
+ */
 __mydevice__ fp64_t overflow_fp64_rslt;
 
-void __myglobal__ __kernel_mul_overflow_mul_fp32(float bias)
+void __myglobal__ __kernel_mul_overflow_mul_fp32(void)
 {
-	overflow_fp32_rslt.f32 *= bias;
-	overflow_fp64_rslt.f64 *= bias;
+	overflow_fp32_rslt.f32 *= overflow_fp32_bias.f32;
+	overflow_fp64_rslt.f64 *= overflow_fp32_bias.f32;
 }
 
-void __myglobal__ __kernel_add_overflow_add_fp32(float bias)
+void __myglobal__ __kernel_add_overflow_add_fp32(void)
 {
-	overflow_fp32_rslt.f32 += bias;
-	overflow_fp64_rslt.f64 += bias;
+	overflow_fp32_rslt.f32 += overflow_fp32_bias.f32;
+	overflow_fp64_rslt.f64 += overflow_fp32_bias.f32;
 }
 
 #ifdef __HPCC__
@@ -548,10 +560,11 @@ void overflow_mul_fp32(void)
 	float a = st2host(fp32_PosMax, f32) / 2.0f;
 
 	stset(overflow_fp32_rslt, f32, a);
+	stset(overflow_fp32_bias, f32, 1.1f);
 	stset(overflow_fp64_rslt, f64, a);
 
 	for (int i = 0; i < 100; i++) {
-		__kernel_mul_overflow_mul_fp32 DIM (1.1f);
+		__kernel_mul_overflow_mul_fp32 DIM ();
 
 		seperator();
 		printf("=========== mul %d ==========\n", i);
@@ -568,10 +581,11 @@ void overflow_add_fp32(void)
 	float bias = st2host(fp32_PosMax, f32) / 99.0f;
 
 	stset(overflow_fp32_rslt, f32, a);
+	stset(overflow_fp32_bias, f32, bias);
 	stset(overflow_fp64_rslt, f64, a);
 
 	for (int i = 0; i < 100; i++) {
-		__kernel_add_overflow_add_fp32 DIM (bias);
+		__kernel_add_overflow_add_fp32 DIM ();
 
 		seperator();
 		printf("=========== add %d ==========\n", i);
