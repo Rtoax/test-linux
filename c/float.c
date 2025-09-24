@@ -37,6 +37,10 @@
  *   Negative overflow: If the result is a negative number that is too large
  *   in magnitude, it is converted to negative infinity (-Inf).
  *
+ * Macros:
+ *
+ * - SUPPORT__Float16: compiler support _Float16;
+ *
  * Refs:
  * - https://en.wikipedia.org/wiki/IEEE_754-2008_revision
  * - https://en.wikipedia.org/wiki/Half-precision_floating-point_format
@@ -59,19 +63,23 @@
 #  include <hpcc_fp16.h>
 #  include <hc_runtime.h>
 #  include "cuda_adapter.h"
+#  ifndef SUPPORT__Float16
+#   define SUPPORT__Float16 /* HPCC always support _Float16 */
+#  endif
 # elif defined(__NVCC__)	/* Nvidia */
 #  include <cuda_fp16.h>
 #  include <cuda_runtime.h>
 #  include "cuda_helpers.h"
+#  ifdef SUPPORT__Float16
+#   undef SUPPORT__Float16
+#   warning Error: Internal Compiler Error (codegen): "unsupported float variant!"
+#  endif
 # endif
 # define DIM	<<<1, 1>>>
 # define __mydevice__	__device__
 # define __myglobal__	__global__
 # define __myconst__	__constant__
 # define mysync()	cudaDeviceSynchronize()
-# ifndef SUPPORT__Float16
-#  define SUPPORT__Float16 /* CUDA always support _Float16 */
-# endif
 #else
 # define DIM
 # define __mydevice__
@@ -160,10 +168,11 @@ typedef union fp16 {
 	};
 #ifdef SUPPORT__Float16
 	_Float16 f16;
+#else
+# ifdef HAVE_CUDA
+	half f16;
+# endif
 #endif /* SUPPORT__Float16 */
-#ifdef HAVE_CUDA
-	half half;
-#endif
 	uint16_t i16;
 #define FP16_INITIALIZER(s, e, f) {__FP16_INITIALIZER(s, e, f)}
 } __attribute__((packed)) fp16_t;
