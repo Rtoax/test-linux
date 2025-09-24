@@ -3,11 +3,13 @@
 - DNN: Deep Neural Network (深度神经网络)
 - EP: Execution Provider (执行提供者) @PD
 - Grid: (线程网格)
+- KVCache: Key-Value Cache (键值缓存) @QKV
 - LLM: Large Language Model (大语言模型)
 - MSE: Mean Squared Error (均方误差)
 - NLP: Nature Language Process (自然语言处理)
 - ONNX: Open Neural Network Exchange (开放神经网络交换)
 - PD: Prediction Server (预测服务器) @EP
+- QKV: Query, Key, Value (查询、键、值) @LLM @KVCache
 - SGD: Stochastic Gradient Descent (随机梯度下降)
 - Tensor: (张量，是一种特殊的数据结构)
 - Token: (词元)
