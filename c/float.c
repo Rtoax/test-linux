@@ -578,13 +578,13 @@ void overflow_mul_fp32(void)
 void overflow_add_fp32(void)
 {
 	float a = st2host(fp32_PosMax, f32) / 2.0f;
-	float bias = st2host(fp32_PosMax, f32) / 99.0f;
+	float bias = st2host(fp32_PosMax, f32) / 9.0f;
 
 	stset(overflow_fp32_rslt, f32, a);
 	stset(overflow_fp32_bias, f32, bias);
 	stset(overflow_fp64_rslt, f64, a);
 
-	for (int i = 0; i < 100; i++) {
+	for (int i = 0; i < 10; i++) {
 		__kernel_add_overflow_add_fp32 DIM ();
 
 		seperator();
