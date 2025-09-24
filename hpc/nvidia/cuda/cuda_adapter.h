@@ -194,6 +194,15 @@
 #define cudaMemcpyToSymbol	__cuda(MemcpyToSymbol)
 
 /**
+ * CUDA 13:
+ * cudaError_t cudaGetSymbolAddress(void **devPtr, const void *symbol);
+ *
+ * HPCC:
+ * hcError_t hcGetSymbolAddress(void **devPtr, const void *symbol);
+ */
+#define cudaGetSymbolAddress	__cuda(GetSymbolAddress)
+
+/**
  * CUDA 13
  * cudaError_t cudaMemcpyPeer(void *dst, int dstDevice, const void *src, int srcDevice,
  *                            size_t count);
