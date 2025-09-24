@@ -547,13 +547,13 @@ __mydevice__ fp32_t overflow_fp32_bias;
  */
 __mydevice__ fp64_t overflow_fp64_rslt;
 
-void __myglobal__ __kernel_mul_overflow_mul_fp32(void)
+void __myglobal__ __kernel_overflow_mul_fp32(void)
 {
 	overflow_fp32_rslt.f32 *= overflow_fp32_bias.f32;
 	overflow_fp64_rslt.f64 *= overflow_fp32_bias.f32;
 }
 
-void __myglobal__ __kernel_add_overflow_add_fp32(void)
+void __myglobal__ __kernel_overflow_add_fp32(void)
 {
 	overflow_fp32_rslt.f32 += overflow_fp32_bias.f32;
 	overflow_fp64_rslt.f64 += overflow_fp32_bias.f32;
@@ -573,7 +573,7 @@ void overflow_mul_fp32(void)
 	stset(overflow_fp64_rslt, f64, a);
 
 	for (int i = 0; i < 10; i++) {
-		__kernel_mul_overflow_mul_fp32 DIM ();
+		__kernel_overflow_mul_fp32 DIM ();
 
 		seperator();
 		printf("=========== mul %d ==========\n", i);
@@ -594,7 +594,7 @@ void overflow_add_fp32(void)
 	stset(overflow_fp64_rslt, f64, a);
 
 	for (int i = 0; i < 10; i++) {
-		__kernel_add_overflow_add_fp32 DIM ();
+		__kernel_overflow_add_fp32 DIM ();
 
 		seperator();
 		printf("=========== add %d ==========\n", i);
