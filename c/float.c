@@ -141,13 +141,13 @@ typedef union fp64 {
 		uint64_t fraction:52;
 		# define __FP64_INITIALIZER(s, e, f) {s, e, f}
 		#endif
-	};
+	} __attribute__((packed));
 	double f64;
 	uint64_t i64;
 #define FP64_INITIALIZER(s, e, f) {__FP64_INITIALIZER(s, e, f)}
 #define FP64(s, e, f) (((s & 0x1UL) << 63) | ((e & 0x7ffUL) << 52) | \
 		       ((f & 0xfffffffffffffUL)))
-} __attribute__((packed)) fp64_t;
+} fp64_t;
 
 typedef union fp32 {
 	struct {
@@ -162,11 +162,11 @@ typedef union fp32 {
 		uint32_t fraction:23;
 		# define __FP32_INITIALIZER(s, e, f) {s, e, f}
 		#endif
-	};
+	} __attribute__((packed));
 	float f32;
 	uint32_t i32;
 #define FP32_INITIALIZER(s, e, f) {__FP32_INITIALIZER(s, e, f)}
-} __attribute__((packed)) fp32_t;
+} fp32_t;
 
 typedef union fp16 {
 	struct {
@@ -181,13 +181,13 @@ typedef union fp16 {
 		uint16_t fraction:10;
 		# define __FP16_INITIALIZER(s, e, f) {s, e, f}
 		#endif
-	};
+	} __attribute__((packed));
 #ifdef SUPPORT_FP16
 	compat_fp16 f16;
 #endif
 	uint16_t i16;
 #define FP16_INITIALIZER(s, e, f) {__FP16_INITIALIZER(s, e, f)}
-} __attribute__((packed)) fp16_t;
+} fp16_t;
 
 
 /* https://en.wikipedia.org/wiki/Double-precision_floating-point_format */
