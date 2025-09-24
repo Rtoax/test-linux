@@ -538,47 +538,47 @@ void base_test(void)
  *
  * If testing on the CPU, __mydevice__ is empty.
  */
-__mydevice__ fp32_t overflow_fp32_rslt;
-__mydevice__ fp32_t overflow_fp32_bias;
+__mydevice__ fp32_t data_fp32;
+__mydevice__ fp32_t data_fp32_bias;
 /**
  * In addition to using fp32 to save the calculation results, fp64 is also
  * used to save the calculation results in order to obtain the calculation
  * results when there is no overflow, as a comparison.
  */
-__mydevice__ fp64_t overflow_fp64_rslt;
+__mydevice__ fp64_t rslt_fp64;
 
 void __myglobal__ __kernel_overflow_mul_fp32(void)
 {
-	overflow_fp32_rslt.f32 *= overflow_fp32_bias.f32;
-	overflow_fp64_rslt.f64 *= overflow_fp32_bias.f32;
+	data_fp32.f32 *= data_fp32_bias.f32;
+	rslt_fp64.f64 *= data_fp32_bias.f32;
 }
 
 void __myglobal__ __kernel_overflow_add_fp32(void)
 {
-	overflow_fp32_rslt.f32 += overflow_fp32_bias.f32;
-	overflow_fp64_rslt.f64 += overflow_fp32_bias.f32;
+	data_fp32.f32 += data_fp32_bias.f32;
+	rslt_fp64.f64 += data_fp32_bias.f32;
 }
 
 #ifdef __HPCC__
 # pragma clang diagnostic push
-/* warning: reference to __device__ variable 'overflow_fp64_rslt' in __host__ function */
+/* warning: reference to __device__ variable 'rslt_fp64' in __host__ function */
 # pragma clang diagnostic ignored "-Whpcc-compat"
 #endif
 void overflow_mul_fp32(void)
 {
 	float a = st2host(fp32_PosMax, f32) / 2.0f;
 
-	stset(overflow_fp32_rslt, f32, a);
-	stset(overflow_fp32_bias, f32, 1.15f);
-	stset(overflow_fp64_rslt, f64, a);
+	stset(data_fp32, f32, a);
+	stset(data_fp32_bias, f32, 1.15f);
+	stset(rslt_fp64, f64, a);
 
 	for (int i = 0; i < 10; i++) {
 		__kernel_overflow_mul_fp32 DIM ();
 
 		seperator();
 		printf("=========== mul %d ==========\n", i);
-		check_fp32(st2host(overflow_fp32_rslt, f32));
-		check_fp64(st2host(overflow_fp64_rslt, f64));
+		check_fp32(st2host(data_fp32, f32));
+		check_fp64(st2host(rslt_fp64, f64));
 		reset();
 		mysync();
 	}
@@ -589,17 +589,17 @@ void overflow_add_fp32(void)
 	float a = st2host(fp32_PosMax, f32) / 2.0f;
 	float bias = st2host(fp32_PosMax, f32) / 9.0f;
 
-	stset(overflow_fp32_rslt, f32, a);
-	stset(overflow_fp32_bias, f32, bias);
-	stset(overflow_fp64_rslt, f64, a);
+	stset(data_fp32, f32, a);
+	stset(data_fp32_bias, f32, bias);
+	stset(rslt_fp64, f64, a);
 
 	for (int i = 0; i < 10; i++) {
 		__kernel_overflow_add_fp32 DIM ();
 
 		seperator();
 		printf("=========== add %d ==========\n", i);
-		check_fp32(st2host(overflow_fp32_rslt, f32));
-		check_fp64(st2host(overflow_fp64_rslt, f64));
+		check_fp32(st2host(data_fp32, f32));
+		check_fp64(st2host(rslt_fp64, f64));
 		reset();
 		mysync();
 	}
