@@ -222,9 +222,6 @@ __myconst__ fp16_t fp16_NegMin = FP16_INITIALIZER(1, 0x1, 0);
 		cudaMemcpyFromSymbol(&__v, st, sizeof(st.field), offsetof(typeof(st), field));	\
 		__v;	\
 	})
-/* FIXME: failed trans
- * reference to __device__ variable 'overflow_mul_fp32_rslt' in __host__ function [-Whpcc-compat]
- */
 # define stset(st, field, v)	do {	\
 		typeof(st) __hostst = { .field = v, };	\
 		cudaMemcpyToSymbol(st, &__hostst, sizeof(st));	\
@@ -501,20 +498,29 @@ void base_test(void)
 	reset();
 }
 
-__mydevice__ fp32_t overflow_mul_fp32_rslt;
+/**
+ * Testing float precision and overflow from here.
+ */
+
+__mydevice__ fp32_t overflow_fp32_rslt;
 __mydevice__ fp64_t overflow_fp64_rslt;
 
 void __myglobal__ __kernel_mul_overflow_mul_fp32(float bias)
 {
-	overflow_mul_fp32_rslt.f32 *= bias;
+	overflow_fp32_rslt.f32 *= bias;
 	overflow_fp64_rslt.f64 *= bias;
 }
 
+#ifdef __HPCC__
+# pragma clang diagnostic push
+/* warning: reference to __device__ variable 'overflow_fp64_rslt' in __host__ function */
+# pragma clang diagnostic ignored "-Whpcc-compat"
+#endif
 void overflow_mul_fp32(void)
 {
 	float a = st2host(fp32_PosMax, f32) / 2.0f;
 
-	stset(overflow_mul_fp32_rslt, f32, a);
+	stset(overflow_fp32_rslt, f32, a);
 	stset(overflow_fp64_rslt, f64, a);
 
 	for (int i = 0; i < 100; i++) {
@@ -522,12 +528,15 @@ void overflow_mul_fp32(void)
 
 		seperator();
 		printf("=========== %d ==========\n", i);
-		check_fp32(st2host(overflow_mul_fp32_rslt, f32));
+		check_fp32(st2host(overflow_fp32_rslt, f32));
 		check_fp64(st2host(overflow_fp64_rslt, f64));
 		reset();
 		mysync();
 	}
 }
+#ifdef __HPCC__
+# pragma clang diagnostic pop
+#endif
 
 void overflow(void)
 {
