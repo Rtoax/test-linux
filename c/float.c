@@ -40,6 +40,7 @@
  * Macros:
  *
  * - SUPPORT__Float16: compiler support _Float16;
+ * - SUPPORT_FP16: support _Float16 or cuda's half;
  *
  * Refs:
  * - https://en.wikipedia.org/wiki/IEEE_754-2008_revision
@@ -86,6 +87,14 @@
 # define __myglobal__
 # define __myconst__	const
 # define mysync()
+#endif
+
+#ifdef SUPPORT__Float16
+# define SUPPORT_FP16
+# define compat_fp16	_Float16
+#elif defined(HAVE_CUDA)
+# define SUPPORT_FP16
+# define compat_fp16	half
 #endif
 
 #ifndef offsetof
@@ -166,13 +175,9 @@ typedef union fp16 {
 		# define __FP16_INITIALIZER(s, e, f) {s, e, f}
 		#endif
 	};
-#ifdef SUPPORT__Float16
-	_Float16 f16;
-#else
-# ifdef HAVE_CUDA
-	half f16;
-# endif
-#endif /* SUPPORT__Float16 */
+#ifdef SUPPORT_FP16
+	compat_fp16 f16;
+#endif
 	uint16_t i16;
 #define FP16_INITIALIZER(s, e, f) {__FP16_INITIALIZER(s, e, f)}
 } __attribute__((packed)) fp16_t;
@@ -381,27 +386,27 @@ void __myglobal__ __kernel_check_fp32(float f)
 		binprint(&___v, sizeof(v) * 8);	\
 	} while (0)
 
-#ifdef SUPPORT__Float16
-void __mydevice__ float16_to_fp16(const _Float16 f, fp16_t *fp16)
+#ifdef SUPPORT_FP16
+void __mydevice__ float16_to_fp16(const compat_fp16 f, fp16_t *fp16)
 {
-	_Float16 tmp = f;
+	compat_fp16 tmp = f;
 	int16_t i16 = *(int16_t *)&tmp;
 
 	*fp16 = *(fp16_t *)&i16;
 }
 
-_Float16 __mydevice__ fp16_to_float16(const fp16_t *fp16)
+compat_fp16 __mydevice__ fp16_to_float16(const fp16_t *fp16)
 {
-	_Float16 sign = 1 - 2 * (fp16->sign % 2);
-	_Float16 e2, fra;
+	compat_fp16 sign = 1 - 2 * (fp16->sign % 2);
+	compat_fp16 e2, fra;
 
 	if (fp16->exponent == 0) {
 		if (fp16->fraction == 0) {
 			return fp16->sign == 0 ? fp16_PosZero.f16 :
 						 fp16_NegZero.f16;
 		} else {
-			e2 = (_Float16)exp2f(-14.0f);
-			fra = (_Float16)(0 + fraction_value(fp16->fraction, 10));
+			e2 = (compat_fp16)exp2f(-14.0f);
+			fra = (compat_fp16)(0 + fraction_value(fp16->fraction, 10));
 		}
 	} else if (fp16->exponent == 0x1f) {
 		if (fp16->fraction == 0)
@@ -410,16 +415,16 @@ _Float16 __mydevice__ fp16_to_float16(const fp16_t *fp16)
 		else
 			return fp16_NaN.f16;
 	} else {
-		e2 = (_Float16)exp2f(fp16->exponent - 15.0f);
-		fra = (_Float16)(1 + fraction_value(fp16->fraction, 10));
+		e2 = (compat_fp16)exp2f(fp16->exponent - 15.0f);
+		fra = (compat_fp16)(1 + fraction_value(fp16->fraction, 10));
 	}
 
 	return sign * e2 * fra;
 }
 
-void __myglobal__ __kernel_check_fp16(_Float16 f)
+void __myglobal__ __kernel_check_fp16(compat_fp16 f)
 {
-	_Float16 to;
+	compat_fp16 to;
 	fp16_t fp16;
 
 	float16_to_fp16(f, &fp16);
@@ -438,7 +443,7 @@ void __myglobal__ __kernel_check_fp16(_Float16 f)
 		mysync();	\
 		binprint(&___v, sizeof(v) * 8);	\
 	} while (0)
-#endif /* SUPPORT__Float16 */
+#endif /* SUPPORT_FP16 */
 
 
 void base_test(void)
@@ -483,16 +488,16 @@ void base_test(void)
 	check_fp32(st2host(fp32_NegMax, f32));
 	check_fp32(st2host(fp32_NegMin, f32));
 
-#ifdef SUPPORT__Float16
+#ifdef SUPPORT_FP16
 	seperator();
 
-	check_fp16((_Float16)0.0);
-	check_fp16((_Float16)1.2);
-	check_fp16((_Float16)0.2);
-	check_fp16((_Float16)1.23456789);
-	check_fp16((_Float16)0.23456789);
-	check_fp16((_Float16)3.14159265);
-	check_fp16((_Float16)-3.14159265);
+	check_fp16((compat_fp16)0.0);
+	check_fp16((compat_fp16)1.2);
+	check_fp16((compat_fp16)0.2);
+	check_fp16((compat_fp16)1.23456789);
+	check_fp16((compat_fp16)0.23456789);
+	check_fp16((compat_fp16)3.14159265);
+	check_fp16((compat_fp16)-3.14159265);
 	check_fp16(st2host(fp16_NaN, f16));
 	check_fp16(st2host(fp16_PosInf, f16));
 	check_fp16(st2host(fp16_NegInf, f16));
