@@ -52,6 +52,7 @@
 #include <assert.h>
 #include <stdio.h>
 #include <stdint.h>
+#include <stdbool.h>
 #include <math.h>
 #include <byteswap.h>
 #include <float.h>
@@ -120,10 +121,17 @@ const static char *ansi[] = {
 static const char *reset = "\033[m";
 static unsigned long ansi_idx = 0;
 
+static bool nocolor = false;
+
 #define seperator() do {	\
-		printf("%s%s", reset, ansi[ansi_idx++ % ARRAY_SIZE(ansi)]);	\
+		if (nocolor) {	\
+			printf("-------------------------------------------------------------------------------\n");	\
+		} else {	\
+			printf("%s%s", reset, ansi[ansi_idx++ % ARRAY_SIZE(ansi)]);	\
+		}	\
 	} while (0)
 #define reset() do {	\
+		if (nocolor) break;	\
 		printf("%s", reset);	\
 		ansi_idx++;	\
 	} while (0)
@@ -669,9 +677,20 @@ void overflow(void)
 
 int main(int argc, char *argv[])
 {
+	int i;
+
 	assert(sizeof(fp64_t) == 8 && "Bad size of fp64");
 	assert(sizeof(fp32_t) == 4 && "Bad size of fp32");
 	assert(sizeof(fp16_t) == 2 && "Bad size of fp16");
+
+	fprintf(stderr, "Usage: %s [nocolor]\n", argv[0]);
+
+	for (i = 1; i < argc; i++) {
+#define arg_has(v) if (!strncmp(#v, argv[i], strlen(#v))) \
+			v = true;
+		arg_has(nocolor);
+#undef arg_has
+	}
 
 	base_test();
 
