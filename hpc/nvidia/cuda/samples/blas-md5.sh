@@ -865,6 +865,8 @@ make blas
 
 for x in $(seq 100 100 1000)
 do
+	printf "Testing len=$x\n"
+
 	suffix=bin
 	[[ ${TXT} ]] && suffix=log
 

@@ -137,12 +137,19 @@ fmd5() {
 	fi
 }
 
-for prog in matrix-fp16 matrix-fp32 matrix-fp64 matrix-int8 matrix-c-fp32 matrix-c-fp64
+progs=( matrix-fp16 matrix-fp32 matrix-fp64 matrix-int8 matrix-c-fp32 matrix-c-fp64 )
+
+if [[ -f ${1} ]]; then
+	progs=( $1 )
+fi
+
+for prog in ${progs[@]}
 do
 	prog=$(echo ${prog} | tr -d './')
 
 	for x in $(seq 100 100 1000)
 	do
+		printf "Testing prog=$prog, len=$x\n"
 		suffix=bin
 		[[ ${TXT} ]] && suffix=log
 		./${prog} ${TXT:+-T} -O ${prog}-k${x}_m${x}_n${x}.${suffix} -k $x -m $x -n $x
