@@ -223,11 +223,11 @@ __myconst__ fp16_t fp16_NegMin = FP16_INITIALIZER(1, 0x1, 0);
 		__v;	\
 	})
 /* FIXME: failed trans
- * reference to __device__ variable 'overflow_fp32_rslt' in __host__ function [-Whpcc-compat]
+ * reference to __device__ variable 'overflow_mul_fp32_rslt' in __host__ function [-Whpcc-compat]
  */
 # define stset(st, field, v)	do {	\
-		/*typeof(st) __s = { .field = v, }; */	\
-		cudaMemcpyToSymbol(st, &v, sizeof(st.field), offsetof(typeof(st), field));	\
+		typeof(st) __hostst = { .field = v, };	\
+		cudaMemcpyToSymbol(st, &__hostst, sizeof(st));	\
 	} while (0)
 #else
 # define st2host(st, field)	st.field
@@ -501,28 +501,28 @@ void base_test(void)
 	reset();
 }
 
-__mydevice__ fp32_t overflow_fp32_rslt;
+__mydevice__ fp32_t overflow_mul_fp32_rslt;
 __mydevice__ fp64_t overflow_fp64_rslt;
 
-void __myglobal__ __kernel_overflow_fp32(float bias)
+void __myglobal__ __kernel_mul_overflow_mul_fp32(float bias)
 {
-	overflow_fp32_rslt.f32 *= bias;
+	overflow_mul_fp32_rslt.f32 *= bias;
 	overflow_fp64_rslt.f64 *= bias;
 }
 
-void overflow_fp32(void)
+void overflow_mul_fp32(void)
 {
 	float a = st2host(fp32_PosMax, f32) / 2.0f;
 
-	stset(overflow_fp32_rslt, f32, a);
+	stset(overflow_mul_fp32_rslt, f32, a);
 	stset(overflow_fp64_rslt, f64, a);
 
 	for (int i = 0; i < 100; i++) {
-		__kernel_overflow_fp32 DIM (1.001f);
+		__kernel_mul_overflow_mul_fp32 DIM (1.1f);
 
 		seperator();
 		printf("=========== %d ==========\n", i);
-		check_fp32(st2host(overflow_fp32_rslt, f32));
+		check_fp32(st2host(overflow_mul_fp32_rslt, f32));
 		check_fp64(st2host(overflow_fp64_rslt, f64));
 		reset();
 		mysync();
@@ -590,26 +590,7 @@ void overflow(void)
 
 	seperator();
 
-#if 0
-	float a = st2host(fp32_PosMax, f32) / 2.0f;
-	float b;
-	double c;
-	b = c = a;
-	for (int i = 0; i < 100; i++) {
-#define bias	1.001f
-		b = b * bias;
-		c = c * bias;
-
-		seperator();
-		printf("=========== %d ==========\n", i);
-		check_fp32(a);
-		check_fp32(b);
-		check_fp64(c);
-		reset();
-	}
-#else
-	overflow_fp32();
-#endif
+	overflow_mul_fp32();
 
 	reset();
 }
