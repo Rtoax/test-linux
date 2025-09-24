@@ -621,10 +621,10 @@ void overflow_muladd_fp32(void)
 		float a = i * 1.123456789f;
 
 		stset(data_fp32, f32, a);
-		stset(data_fp32_bias, f32, 2.123456789f);
+		stset(data_fp32_bias, f32, 1.000789f);
 		stset(rslt_fp64, f64, a);
 
-		__kernel_overflow_muladd_fp32 DIM (i, 2);
+		__kernel_overflow_muladd_fp32 DIM (i, 3);
 
 		seperator();
 		printf("=========== muladd %ld ==========\n", i);
