@@ -228,25 +228,25 @@ e73162260dfcd34842ff019f9c38009f  GEMM_FP16-blas-k700_m700_n700-iab.bin
 bac65ddd70861c9f2ab79682f60c3692  GEMM_FP16-blas-k900_m900_n900-i2a2b2.bin
 d3da1a86f2955f637aaa2170bf523f8f  GEMM_FP16-blas-k900_m900_n900-iab.bin
 11c55f255ea96d30e5fe59cca4988225  GEMM_FP32-blas-k1000_m1000_n1000-i2a2b2.bin
-033980949cfb51c04711301df6f1e8b4  GEMM_FP32-blas-k1000_m1000_n1000-iab.bin
+e87358440c9b63b252480c5ef169130d  GEMM_FP32-blas-k1000_m1000_n1000-iab.bin
 0742511ac797be218061ad8c7f1b9898  GEMM_FP32-blas-k100_m100_n100-i2a2b2.bin
-2408da8640eb254b7b3549a33bd459e9  GEMM_FP32-blas-k100_m100_n100-iab.bin
+ba6306c3f6fb5203792257ac617cb800  GEMM_FP32-blas-k100_m100_n100-iab.bin
 a253e2011be684a7695f20cefff4d8e3  GEMM_FP32-blas-k200_m200_n200-i2a2b2.bin
-26376998f77b44565494ed3b66b5ffd3  GEMM_FP32-blas-k200_m200_n200-iab.bin
+cf4f00b53f627b3f9a0750a4b5e040da  GEMM_FP32-blas-k200_m200_n200-iab.bin
 aa3725871b5c321917d7bf0c1ea0ca13  GEMM_FP32-blas-k300_m300_n300-i2a2b2.bin
-7004717224673cc12a7f762644f127e6  GEMM_FP32-blas-k300_m300_n300-iab.bin
+bda708df8946e7b065609cc98ca82e51  GEMM_FP32-blas-k300_m300_n300-iab.bin
 3ade713bd2732a42fe6a72f9bbd97ee2  GEMM_FP32-blas-k400_m400_n400-i2a2b2.bin
-0fe7aa9e04ec3d144ebeb6adaf5e07c9  GEMM_FP32-blas-k400_m400_n400-iab.bin
+b199b0e41a865a1d0e21001846b548ce  GEMM_FP32-blas-k400_m400_n400-iab.bin
 194d79fed22b1c9507b8e7220775c614  GEMM_FP32-blas-k500_m500_n500-i2a2b2.bin
-80aeac7a1812b167b35e41e56a43e137  GEMM_FP32-blas-k500_m500_n500-iab.bin
+3435ebf0518ed3a372f6676606a1b1b1  GEMM_FP32-blas-k500_m500_n500-iab.bin
 18b1126e21508510059ace148b226ef4  GEMM_FP32-blas-k600_m600_n600-i2a2b2.bin
-4b24a29493467cf5dbd9e69202e4b664  GEMM_FP32-blas-k600_m600_n600-iab.bin
+6682b4a06549565bb6f297cf1bd8e1dc  GEMM_FP32-blas-k600_m600_n600-iab.bin
 9ad5545ece7bfc5988227fb536dc425b  GEMM_FP32-blas-k700_m700_n700-i2a2b2.bin
-d277060b81a46e3418a184b7577440e8  GEMM_FP32-blas-k700_m700_n700-iab.bin
+032f617f16e50dc47d498c46bec1afd8  GEMM_FP32-blas-k700_m700_n700-iab.bin
 cd750b084d289abcecb3b2a9bf0092f4  GEMM_FP32-blas-k800_m800_n800-i2a2b2.bin
-2480a53e28b64cf5609ec9bb14f6f01f  GEMM_FP32-blas-k800_m800_n800-iab.bin
+903677c1c3c170ad053830929eeb200a  GEMM_FP32-blas-k800_m800_n800-iab.bin
 7cf867f4b6f394db29ff39f0f8ef2b9a  GEMM_FP32-blas-k900_m900_n900-i2a2b2.bin
-c372e3c969ca166fe6fabca2518f9256  GEMM_FP32-blas-k900_m900_n900-iab.bin
+281d6a905c57120905be09add3d73e0d  GEMM_FP32-blas-k900_m900_n900-iab.bin
 85c3531650176d43b791c82aebec0715  GEMM_FP64-blas-k1000_m1000_n1000-i2a2b2.bin
 c062a759dfb8921737514259eb2cae9d  GEMM_FP64-blas-k1000_m1000_n1000-iab.bin
 70eb28d4bcfd8721137c24129e3aa059  GEMM_FP64-blas-k100_m100_n100-i2a2b2.bin
@@ -651,25 +651,25 @@ af523cf3e2964e6fc17b4ebbb07b23d7  GEMM_FP16-blas-k800_m800_n800-iab.log
 796fed4619a1beeb33b1a8c7ceb6cbc3  GEMM_FP16-blas-k900_m900_n900-i2a2b2.log
 6a3230a9eb6341c77bd52b3d7dc75278  GEMM_FP16-blas-k900_m900_n900-iab.log
 7d5893fc8c1366cc45029efcda3890bb  GEMM_FP32-blas-k1000_m1000_n1000-i2a2b2.log
-6a9c2f72c4df574b84fbce1705481589  GEMM_FP32-blas-k1000_m1000_n1000-iab.log
+757d7832056878e643cb93f7d07f1cea  GEMM_FP32-blas-k1000_m1000_n1000-iab.log
 61fa66fcd3be075e689e3a22cfebe26c  GEMM_FP32-blas-k100_m100_n100-i2a2b2.log
-bebab37d4de6192771075afccd2c3e69  GEMM_FP32-blas-k100_m100_n100-iab.log
+87cec01818507f9b0151ba04d1ab1001  GEMM_FP32-blas-k100_m100_n100-iab.log
 2370a90fc6034fed22adfe085120e386  GEMM_FP32-blas-k200_m200_n200-i2a2b2.log
-c4d0bc99b478e0f94a7c38099ebc206f  GEMM_FP32-blas-k200_m200_n200-iab.log
+c028688f3f21fda06ab867090c96336f  GEMM_FP32-blas-k200_m200_n200-iab.log
 5ededaaa77aea69d3854e6cfd6329b61  GEMM_FP32-blas-k300_m300_n300-i2a2b2.log
-ab286aeae5ce26e14df7da427f9f94c7  GEMM_FP32-blas-k300_m300_n300-iab.log
+31b3789545974545bd674a4cacefbdda  GEMM_FP32-blas-k300_m300_n300-iab.log
 4596a637b6f7a3d67e41e973c12e7060  GEMM_FP32-blas-k400_m400_n400-i2a2b2.log
-3b2ca1059e9d3ecef70020090bdb8dc1  GEMM_FP32-blas-k400_m400_n400-iab.log
+9a60f4c78123059cd8e1e12bd38b5efc  GEMM_FP32-blas-k400_m400_n400-iab.log
 d73ce4375feec5986a7cb367472910ce  GEMM_FP32-blas-k500_m500_n500-i2a2b2.log
-cbb3bb298888ceefac160fb4f2bc171d  GEMM_FP32-blas-k500_m500_n500-iab.log
+1a1ea9061826b7337a66d3df30992f89  GEMM_FP32-blas-k500_m500_n500-iab.log
 e1a62cdedae3c38170226b22c714f3fa  GEMM_FP32-blas-k600_m600_n600-i2a2b2.log
-4f22d4b88855f5030f7ef62a34d28e6c  GEMM_FP32-blas-k600_m600_n600-iab.log
+b204969d0654f2325ffc4b0e82620d2b  GEMM_FP32-blas-k600_m600_n600-iab.log
 f00ea22fa7c1655ecdcf940a89cd5e67  GEMM_FP32-blas-k700_m700_n700-i2a2b2.log
-619548224d7fd5f308528dbee1f8223b  GEMM_FP32-blas-k700_m700_n700-iab.log
+2e2f4832abcc8997869f8878832c061d  GEMM_FP32-blas-k700_m700_n700-iab.log
 37d867eeb805dc796846fc812c2c25f9  GEMM_FP32-blas-k800_m800_n800-i2a2b2.log
-5ecf96e660106acd581a8363fa505e7f  GEMM_FP32-blas-k800_m800_n800-iab.log
+538d6e651bf424eebd2f417fad33f7e0  GEMM_FP32-blas-k800_m800_n800-iab.log
 796fed4619a1beeb33b1a8c7ceb6cbc3  GEMM_FP32-blas-k900_m900_n900-i2a2b2.log
-ea0dbb73ea4c8b5d0b34a564a96229ef  GEMM_FP32-blas-k900_m900_n900-iab.log
+34e9cc4a00ef7dc2aefcea65ce082783  GEMM_FP32-blas-k900_m900_n900-iab.log
 7d5893fc8c1366cc45029efcda3890bb  GEMM_FP64-blas-k1000_m1000_n1000-i2a2b2.log
 0505d51698d147305cce83536db36f9f  GEMM_FP64-blas-k1000_m1000_n1000-iab.log
 61fa66fcd3be075e689e3a22cfebe26c  GEMM_FP64-blas-k100_m100_n100-i2a2b2.log
@@ -874,10 +874,10 @@ do
 
 	# Test for initial parameters
 	./blas ${TXT:+-T} -O ${prefix}-i2a2b2.${suffix} -k $x -m $x -n $x \
-		--init-val 2 --alpha 2 --beta 2
+		--init-val 2 --alpha 2 --beta 2 ${@}
 
 	# Test default increment matrix parameters
-	./blas ${TXT:+-T} -O ${prefix}-iab.${suffix} -k $x -m $x -n $x
+	./blas ${TXT:+-T} -O ${prefix}-iab.${suffix} -k $x -m $x -n $x ${@}
 done
 
 check_md5() {

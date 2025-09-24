@@ -1004,11 +1004,16 @@ int run_blas_Gemm_fp32(struct test *test)
 	float alpha = (float)env.alpha;
 	float beta = (float)env.beta;
 
-	CUBLAS_CHECK(cublasSgemm(test->handle, CUBLAS_OP_T, CUBLAS_OP_T,
+	/**
+	 * C[mxn] = alpha * A[mxk] * B[kxm] + beta * C[mxn]
+	 * C[mxn] = alpha * A[kxm]^T * B[mxk]^T + beta * C[mxn]
+	 * C[mxn] = alpha * A[kxm]^T * B[kxm] + beta * C[mxn]
+	 */
+	CUBLAS_CHECK(cublasSgemm(test->handle, CUBLAS_OP_N, CUBLAS_OP_N,
 				env.m, env.n, env.k,
 				&alpha,
-				test->dev_A.fp32, env.k,
-				test->dev_B.fp32, env.n,
+				test->dev_A.fp32, env.m,
+				test->dev_B.fp32, env.k,
 				&beta,
 				test->dev_C.fp32, env.m),
 			return -1);
