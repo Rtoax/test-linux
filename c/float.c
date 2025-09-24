@@ -391,8 +391,8 @@ _Float16 __mydevice__ fp16_to_float16(const fp16_t *fp16)
 			return fp16->sign == 0 ? fp16_PosZero.f16 :
 						 fp16_NegZero.f16;
 		} else {
-			e2 = exp2f(-14.0f);
-			fra = 0 + fraction_value(fp16->fraction, 10);
+			e2 = (_Float16)exp2f(-14.0f);
+			fra = (_Float16)(0 + fraction_value(fp16->fraction, 10));
 		}
 	} else if (fp16->exponent == 0x1f) {
 		if (fp16->fraction == 0)
@@ -401,8 +401,8 @@ _Float16 __mydevice__ fp16_to_float16(const fp16_t *fp16)
 		else
 			return fp16_NaN.f16;
 	} else {
-		e2 = exp2f(fp16->exponent - 15.0f);
-		fra = 1 + fraction_value(fp16->fraction, 10);
+		e2 = (_Float16)exp2f(fp16->exponent - 15.0f);
+		fra = (_Float16)(1 + fraction_value(fp16->fraction, 10));
 	}
 
 	return sign * e2 * fra;
@@ -477,13 +477,13 @@ void base_test(void)
 #ifdef SUPPORT_FLOAT16
 	seperator();
 
-	check_fp16(0);
-	check_fp16(1.2);
-	check_fp16(0.2);
-	check_fp16(1.23456789);
-	check_fp16(0.23456789);
-	check_fp16(3.14159265);
-	check_fp16(-3.14159265);
+	check_fp16((_Float16)0.0);
+	check_fp16((_Float16)1.2);
+	check_fp16((_Float16)0.2);
+	check_fp16((_Float16)1.23456789);
+	check_fp16((_Float16)0.23456789);
+	check_fp16((_Float16)3.14159265);
+	check_fp16((_Float16)-3.14159265);
 	check_fp16(st2host(fp16_NaN, f16));
 	check_fp16(st2host(fp16_PosInf, f16));
 	check_fp16(st2host(fp16_NegInf, f16));

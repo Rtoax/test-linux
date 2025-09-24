@@ -1,6 +1,8 @@
 # SPDX-License-Identifier: GPL-3.0
 OUTPUT := .output/
 
+include ../../../../compiler/compiler.mk
+
 targets-nvcc := hello
 targets-nvcc += dim3
 targets-nvcc += cooperative
@@ -20,6 +22,7 @@ targets-nvcc += fft
 targets-nvcc += sparse
 targets-nvcc += __GNUC__ __STDC__
 targets-nvcc += module
+targets-nvcc += float
 
 obj-cubin := hello.cubin
 obj-cubin += parallel.cubin
@@ -33,6 +36,7 @@ targets-post += $(patsubst %,${OUTPUT}%,$(obj-cubin))
 targets-post += $(patsubst %,${OUTPUT}%,$(obj-fatbin))
 
 targets := matrix-c-fp32 matrix-c-fp64
+targets += float-c
 
 CFLAGS_matrix-fp64 := -DTEST_FP64=1
 CFLAGS_matrix-fp32 := -DTEST_FP32=1
@@ -44,6 +48,14 @@ CFLAGS_NVCC_matrix-int8 := -DTEST_INT8=1
 CFLAGS_NVCC_cudaGetDeviceProperties := -Wno-deprecated-declarations
 
 CUDA_HELPERS := ${OUTPUT}cuda_helpers.cu.o
+
+ifeq (${CC__Float32},y)
+  ifdef DEBUG
+    $(info "${CC} support _Float16")
+  endif
+  CFLAGS_float-c := -DSUPPORT_FLOAT16=1
+endif
+LDFLAGS_float-c := -lm
 
 include ../../../../template/main.mk
 
@@ -58,6 +70,7 @@ fft: ${OUTPUT}fft.cu.o ${CUDA_HELPERS}
 sparse: ${OUTPUT}sparse.cu.o ${CUDA_HELPERS}
 hello: ${OUTPUT}hello.cu.o ${CUDA_HELPERS}
 module: ${OUTPUT}module.cu.o ${CUDA_HELPERS}
+float: ${OUTPUT}float.cu.o
 parallel: ${OUTPUT}parallel.cu.o ${CUDA_HELPERS}
 cudaMalloc: ${OUTPUT}cudaMalloc.cu.o ${CUDA_HELPERS}
 cudaMallocManaged: ${OUTPUT}cudaMallocManaged.cu.o ${CUDA_HELPERS}
@@ -72,5 +85,6 @@ matrix-fp64: ${OUTPUT}matrix-fp64.cu.o ${CUDA_HELPERS}
 matrix-int8: ${OUTPUT}matrix-int8.cu.o ${CUDA_HELPERS}
 matrix-c-fp32: ${OUTPUT}matrix-fp32.o
 matrix-c-fp64: ${OUTPUT}matrix-fp64.o
+float-c: ${OUTPUT}float-c.o
 __GNUC__: ${OUTPUT}__GNUC__.cu.o
 __STDC__: ${OUTPUT}__STDC__.cu.o
