@@ -70,7 +70,6 @@
 # elif defined(__NVCC__)	/* Nvidia */
 #  include <cuda_fp16.h>
 #  include <cuda_runtime.h>
-#  include "cuda_helpers.h"
 #  ifdef SUPPORT__Float16
 #   undef SUPPORT__Float16
 #   warning Error: Internal Compiler Error (codegen): "unsupported float variant!"
