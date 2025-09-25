@@ -37,6 +37,10 @@
  *   Negative overflow: If the result is a negative number that is too large
  *   in magnitude, it is converted to negative infinity (-Inf).
  *
+ * Precision:
+ *
+ * commit ebff39b53cbf ("float.c: precision compare between CPU and different GPUs")
+ *
  * Macros:
  *
  * - SUPPORT__Float16: compiler support _Float16;
