@@ -94,7 +94,9 @@ int main(int argc, char *argv[])
 	printf("totalGlobalMem %ld (%.0lf GiB)\n", prop.totalGlobalMem, prop.totalGlobalMem / 1e9);
 	printf("totalConstMem %ld (%.0lf GiB)\n", prop.totalConstMem, prop.totalConstMem / 1e9);
 	printf("l2CacheSize %d B (%d MB)\n", prop.l2CacheSize, prop.l2CacheSize / 1024 / 1024);
+#if defined(__HPCC__)
 	PRINT_d(l2CacheLineSize);
+#endif
 	PRINT_d(persistingL2CacheMaxSize);
 	PRINT_d(globalL1CacheSupported);
 	PRINT_d(localL1CacheSupported);
@@ -113,10 +115,12 @@ int main(int argc, char *argv[])
 	PRINT_d(directManagedMemAccessFromHost);
 	PRINT_d(maxBlocksPerMultiProcessor);
 	PRINT_d(accessPolicyMaxWindowSize);
+#if defined(__HPCC__)
 	PRINT_ld(stackMemPerThread);
 	PRINT_d(mqlBarrierValue);
 	PRINT_d(virtualMemoryManagement);
 	PRINT_d(localSocketId);
+#endif
 
 	/**
 	 * see also $ nvidia-smi -q -d ECC
@@ -216,9 +220,15 @@ int main(int argc, char *argv[])
 
 	printf("Compute Capability: major.minor %d.%d, %s\n", prop.major, prop.minor,
 		gpu_compute_cap_str(prop.major, prop.minor));
+#if defined(__HPCC__)
 	PRINT_d(step);
+#endif
 	PRINT_d(asicRevision);
+#ifdef __HIPCC__
+	PRINT_s(gcnArchName);
+#elif defined(__HPCC__)
 	PRINT_s(htArchName);
+#endif
 
 #if !defined(__CUDACC__)
 	PRINT_d(kernelExecTimeoutEnabled);
