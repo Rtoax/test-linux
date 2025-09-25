@@ -56,6 +56,7 @@
 #include <assert.h>
 #include <stdio.h>
 #include <stdint.h>
+#include <stdlib.h>
 #include <stdbool.h>
 #include <math.h>
 #include <byteswap.h>
@@ -125,17 +126,25 @@ const static char *ansi[] = {
 static const char *reset = "\033[m";
 static unsigned long ansi_idx = 0;
 
-static bool nocolor = false;
+static struct {
+	bool nocolor;
+	bool version;
+} env = {
+	.nocolor = false,
+	.version = false,
+};
+
+static const char *const version = "v1.0.0";
 
 #define seperator() do {	\
-		if (nocolor) {	\
+		if (env.nocolor) {	\
 			printf("-------------------------------------------------------------------------------\n");	\
 		} else {	\
 			printf("%s%s", reset, ansi[ansi_idx++ % ARRAY_SIZE(ansi)]);	\
 		}	\
 	} while (0)
 #define reset() do {	\
-		if (nocolor) break;	\
+		if (env.nocolor) break;	\
 		printf("%s", reset);	\
 		ansi_idx++;	\
 	} while (0)
@@ -764,14 +773,20 @@ int main(int argc, char *argv[])
 	assert(sizeof(fp32_t) == 4 && "Bad size of fp32");
 	assert(sizeof(fp16_t) == 2 && "Bad size of fp16");
 
-	fprintf(stderr, "Usage: %s [nocolor]\n", argv[0]);
+	fprintf(stderr, "Usage: %s [version] [nocolor]\n", argv[0]);
 
 	for (i = 1; i < argc; i++) {
 #define arg_has(v) if (!strncmp(#v, argv[i], strlen(#v))) \
-			v = true;
+			env.v = true;
 		arg_has(nocolor);
+		arg_has(version);
 #undef arg_has
 	}
+
+	/* always show the version */
+	printf("version %s\n", version);
+	if (env.version)
+		exit(0);
 
 	base_test();
 
