@@ -20,6 +20,8 @@ deb_pkgs() {
 		libcereal-dev \
 		libdw-dev \
 		libelf-dev \
+		libgtest-dev \
+		libgmock-dev \
 		libiberty-dev \
 		libpcap-dev \
 		llvm-dev \
