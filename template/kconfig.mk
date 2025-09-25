@@ -2,13 +2,13 @@
 # Copyright (C) 2025 Rong Tao
 _KCONFIG = 1
 
-CONFIG_TOPDIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
+CONFIG_TOPDIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))/../))
 CONFIG_KERNEL := /boot/config-$(shell uname -r)
 CONFIG_CURDIR_KCONFIG := ${CONFIG_KERNEL}
 
 # If don't have kernel config, include default kconfig file.
 ifeq ($(wildcard $(CONFIG_KERNEL)),)
-  $(warning "WARNING: Not found ${CONFIG_KERNEL}, use ${TOPDIR}/kconfig instead")
+  $(warning "WARNING: Not found ${CONFIG_KERNEL}, use ${CONFIG_TOPDIR}/kconfig instead")
 
   CONFIG_KERNEL := ${CONFIG_TOPDIR}/kconfig
 
