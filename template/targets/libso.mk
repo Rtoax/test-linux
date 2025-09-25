@@ -9,8 +9,6 @@ CXXFLAGS_SO += ${cflags-so}
 LDFLAGS_SO += ${ldflags-so}
 LDXXFLAGS_SO += ${ldflags-so}
 
-CC_PFX := LD_LIBRARY_PATH=$(shell pwd)
-
 ifdef DEBUG
   CFLAGS_SO += -DDEBUG=${DEBUG}
   CXXFLAGS_SO += -DDEBUG=${DEBUG}

@@ -6,7 +6,7 @@ CXX ?= g++
 LD ?= ld
 AS ?= as
 NASM ?= nasm
-CC_PFX := LD_LIBRARY_PATH=$(shell pwd)
+CC_PFX :=
 
 ${OUTPUT}%.o: %.c | ${OUTPUT}
 	$(call log_tgt_obj,CC,$(<),$(@))

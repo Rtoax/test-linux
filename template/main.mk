@@ -3,6 +3,7 @@
 _MAIN = 1
 
 CC ?= gcc
+CC_PFX ?=
 CXX ?= g++
 OBJCOPY ?= objcopy
 Q ?= @
