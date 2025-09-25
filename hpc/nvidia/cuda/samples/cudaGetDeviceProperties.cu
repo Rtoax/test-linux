@@ -82,8 +82,10 @@ int main(int argc, char *argv[])
 	PRINT_d(pciBusID);
 	PRINT_d(pciDeviceID);
 	PRINT_d(pciDomainID);
+#if !defined(__CUDACC__)
 	/* 1: if it is a large PCI bar device, else 0 */
 	PRINT_d(isLargeBar);
+#endif
 	PRINT_d(tccDriver);
 	PRINT_d(asyncEngineCount);
 	PRINT_d(unifiedAddressing);
@@ -102,15 +104,19 @@ int main(int argc, char *argv[])
 	PRINT_d(localL1CacheSupported);
 	PRINT_d(managedMemory);
 	PRINT_d(memoryBusWidth);
+#if !defined(__CUDACC__)
 	PRINT_d(memoryClockRate);
+#endif
 	PRINT_ld(sharedMemPerBlock);
 	PRINT_ld(sharedMemPerMultiprocessor);
 	PRINT_ld(sharedMemPerBlockOptin);
 	PRINT_ld(reservedSharedMemPerBlock);
+#if !defined(__CUDACC__)
 	PRINT_ld(maxSharedMemoryPerMultiProcessor);
+	PRINT_d(computeMode);
+#endif
 	PRINT_ld(memPitch);
 	PRINT_d(canMapHostMemory);
-	PRINT_d(computeMode);
 	PRINT_d(canUseHostPointerForRegisteredMem);
 	PRINT_d(directManagedMemAccessFromHost);
 	PRINT_d(maxBlocksPerMultiProcessor);
@@ -132,7 +138,9 @@ int main(int argc, char *argv[])
 	PRINT_ld(texturePitchAlignment);
 	PRINT_d(maxTexture1D);
 	PRINT_d(maxTexture1DMipmap);
+#if !defined(__CUDACC__)
 	PRINT_d(maxTexture1DLinear);
+#endif
 	PRINT_d(maxTexture2D[0]);
 	PRINT_d(maxTexture2D[1]);
 	PRINT_d(maxTexture2DMipmap[0]);
@@ -176,19 +184,23 @@ int main(int argc, char *argv[])
 	PRINT_d(concurrentKernels);
 	PRINT_d(concurrentManagedAccess);
 	PRINT_d(cooperativeLaunch);
+#if !defined(__CUDACC__)
 	PRINT_d(cooperativeMultiDeviceLaunch);
 	PRINT_d(cooperativeMultiDeviceUnmatchedFunc);
 	PRINT_d(cooperativeMultiDeviceUnmatchedGridDim);
 	PRINT_d(cooperativeMultiDeviceUnmatchedBlockDim);
 	PRINT_d(cooperativeMultiDeviceUnmatchedSharedMem);
+#endif
 
 	PRINT_d(streamPrioritiesSupported);
 
 	PRINT_d(regsPerBlock);
 	PRINT_d(regsPerMultiprocessor);
+#if !defined(__CUDACC__)
 	PRINT_d(deviceOverlap);
-	PRINT_d(hostNativeAtomicSupported);
 	PRINT_d(singleToDoublePrecisionPerfRatio);
+#endif
+	PRINT_d(hostNativeAtomicSupported);
 	PRINT_d(computePreemptionSupported);
 
 	/* Information about Core/Thread */
@@ -223,7 +235,9 @@ int main(int argc, char *argv[])
 #if defined(__HPCC__)
 	PRINT_d(step);
 #endif
+#if !defined(__CUDACC__)
 	PRINT_d(asicRevision);
+#endif
 #ifdef __HIPCC__
 	PRINT_s(gcnArchName);
 #elif defined(__HPCC__)
@@ -239,7 +253,9 @@ int main(int argc, char *argv[])
 	printf("clockRate %d Hz\n", prop.clockRate);
 #endif
 
+#if !defined(__CUDACC__)
 	PRINT_d(clockInstructionRate);
+#endif
 
 	/**
 	 * Threads are batched in groups that we’ll call Wavefronts or waves
