@@ -66,6 +66,7 @@ int main(int argc, char *argv[])
 
 	cudaGetDeviceProperties(&prop, dev_id);
 
+#define PRINT_s(v)	printf("%s %s\n", #v, prop.v);
 #define PRINT_d(v)	printf("%s %d\n", #v, prop.v);
 #define PRINT_zu(v)	printf("%s %zu\n", #v, prop.v);
 #define PRINT_ld(v)	printf("%s %ld\n", #v, prop.v);
@@ -81,6 +82,8 @@ int main(int argc, char *argv[])
 	PRINT_d(pciBusID);
 	PRINT_d(pciDeviceID);
 	PRINT_d(pciDomainID);
+	/* 1: if it is a large PCI bar device, else 0 */
+	PRINT_d(isLargeBar);
 	PRINT_d(tccDriver);
 	PRINT_d(asyncEngineCount);
 	PRINT_d(unifiedAddressing);
@@ -91,6 +94,7 @@ int main(int argc, char *argv[])
 	printf("totalGlobalMem %ld (%.0lf GiB)\n", prop.totalGlobalMem, prop.totalGlobalMem / 1e9);
 	printf("totalConstMem %ld (%.0lf GiB)\n", prop.totalConstMem, prop.totalConstMem / 1e9);
 	printf("l2CacheSize %d B (%d MB)\n", prop.l2CacheSize, prop.l2CacheSize / 1024 / 1024);
+	PRINT_d(l2CacheLineSize);
 	PRINT_d(persistingL2CacheMaxSize);
 	PRINT_d(globalL1CacheSupported);
 	PRINT_d(localL1CacheSupported);
@@ -101,6 +105,7 @@ int main(int argc, char *argv[])
 	PRINT_ld(sharedMemPerMultiprocessor);
 	PRINT_ld(sharedMemPerBlockOptin);
 	PRINT_ld(reservedSharedMemPerBlock);
+	PRINT_ld(maxSharedMemoryPerMultiProcessor);
 	PRINT_ld(memPitch);
 	PRINT_d(canMapHostMemory);
 	PRINT_d(computeMode);
@@ -108,6 +113,10 @@ int main(int argc, char *argv[])
 	PRINT_d(directManagedMemAccessFromHost);
 	PRINT_d(maxBlocksPerMultiProcessor);
 	PRINT_d(accessPolicyMaxWindowSize);
+	PRINT_ld(stackMemPerThread);
+	PRINT_d(mqlBarrierValue);
+	PRINT_d(virtualMemoryManagement);
+	PRINT_d(localSocketId);
 
 	/**
 	 * see also $ nvidia-smi -q -d ECC
@@ -164,6 +173,10 @@ int main(int argc, char *argv[])
 	PRINT_d(concurrentManagedAccess);
 	PRINT_d(cooperativeLaunch);
 	PRINT_d(cooperativeMultiDeviceLaunch);
+	PRINT_d(cooperativeMultiDeviceUnmatchedFunc);
+	PRINT_d(cooperativeMultiDeviceUnmatchedGridDim);
+	PRINT_d(cooperativeMultiDeviceUnmatchedBlockDim);
+	PRINT_d(cooperativeMultiDeviceUnmatchedSharedMem);
 
 	PRINT_d(streamPrioritiesSupported);
 
@@ -203,6 +216,9 @@ int main(int argc, char *argv[])
 
 	printf("Compute Capability: major.minor %d.%d, %s\n", prop.major, prop.minor,
 		gpu_compute_cap_str(prop.major, prop.minor));
+	PRINT_d(step);
+	PRINT_d(asicRevision);
+	PRINT_s(htArchName);
 
 #if !defined(__CUDACC__)
 	PRINT_d(kernelExecTimeoutEnabled);
@@ -212,6 +228,8 @@ int main(int argc, char *argv[])
 #ifdef DEVPROP_HAVE_CLOCK_REATE
 	printf("clockRate %d Hz\n", prop.clockRate);
 #endif
+
+	PRINT_d(clockInstructionRate);
 
 	/**
 	 * Threads are batched in groups that we’ll call Wavefronts or waves
