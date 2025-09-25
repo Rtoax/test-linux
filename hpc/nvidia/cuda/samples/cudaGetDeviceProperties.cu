@@ -86,6 +86,9 @@ int main(int argc, char *argv[])
 	PRINT_d(memoryBusWidth);
 	PRINT_ld(sharedMemPerBlock);
 	PRINT_ld(memPitch);
+	PRINT_d(canMapHostMemory);
+	PRINT_d(computeMode);
+
 	/**
 	 * see also $ nvidia-smi -q -d ECC
 	 * - commit 120e7c6f3062 ("cudaGetDeviceProperties: ECC info")
@@ -94,6 +97,50 @@ int main(int argc, char *argv[])
 
 	PRINT_ld(textureAlignment);
 	PRINT_ld(texturePitchAlignment);
+	PRINT_d(maxTexture1D);
+	PRINT_d(maxTexture1DMipmap);
+	PRINT_d(maxTexture1DLinear);
+	PRINT_d(maxTexture2D[0]);
+	PRINT_d(maxTexture2D[1]);
+	PRINT_d(maxTexture2DMipmap[0]);
+	PRINT_d(maxTexture2DMipmap[1]);
+	PRINT_d(maxTexture2DLinear[0]);
+	PRINT_d(maxTexture2DLinear[1]);
+	PRINT_d(maxTexture2DLinear[2]);
+	PRINT_d(maxTexture2DGather[0]);
+	PRINT_d(maxTexture2DGather[1]);
+	PRINT_d(maxTexture3D[0]);
+	PRINT_d(maxTexture3D[1]);
+	PRINT_d(maxTexture3D[2]);
+	PRINT_d(maxTexture3DAlt[0]);
+	PRINT_d(maxTexture3DAlt[1]);
+	PRINT_d(maxTexture3DAlt[2]);
+	PRINT_d(maxTextureCubemap);
+	PRINT_d(maxTexture1DLayered[0]);
+	PRINT_d(maxTexture1DLayered[1]);
+	PRINT_d(maxTexture2DLayered[0]);
+	PRINT_d(maxTexture2DLayered[1]);
+	PRINT_d(maxTexture2DLayered[2]);
+	PRINT_d(maxTextureCubemapLayered[0]);
+	PRINT_d(maxTextureCubemapLayered[1]);
+
+	PRINT_d(maxSurface1D);
+	PRINT_d(maxSurface2D[0]);
+	PRINT_d(maxSurface2D[1]);
+	PRINT_d(maxSurface3D[0]);
+	PRINT_d(maxSurface3D[1]);
+	PRINT_d(maxSurface3D[2]);
+	PRINT_d(maxSurface1DLayered[0]);
+	PRINT_d(maxSurface1DLayered[1]);
+	PRINT_d(maxSurface2DLayered[0]);
+	PRINT_d(maxSurface2DLayered[1]);
+	PRINT_d(maxSurfaceCubemap);
+	PRINT_d(maxSurfaceCubemapLayered[0]);
+	PRINT_d(maxSurfaceCubemapLayered[1]);
+	PRINT_ld(surfaceAlignment);
+
+	/* Device can possibly execute multiple kernels concurrently */
+	PRINT_d(concurrentKernels);
 
 	PRINT_d(regsPerBlock);
 	PRINT_d(deviceOverlap);
