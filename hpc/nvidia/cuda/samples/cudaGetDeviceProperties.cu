@@ -131,6 +131,7 @@ int main(int argc, char *argv[])
 	/**
 	 * see also $ nvidia-smi -q -d ECC
 	 * - commit 120e7c6f3062 ("cudaGetDeviceProperties: ECC info")
+	 * -
 	 */
 	PRINT_d(ECCEnabled);
 
