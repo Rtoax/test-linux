@@ -538,14 +538,25 @@ void base_test(void)
  *
  * If testing on the CPU, __mydevice__ is empty.
  */
+#define DATA_ARRAY_SIZE	1000
 __mydevice__ fp32_t data_fp32;
 __mydevice__ fp32_t data_fp32_bias;
+__mydevice__ fp32_t data_fp32_arr[DATA_ARRAY_SIZE];
+__mydevice__ fp32_t data_fp32_bias_arr[DATA_ARRAY_SIZE];
 /**
  * In addition to using fp32 to save the calculation results, fp64 is also
  * used to save the calculation results in order to obtain the calculation
  * results when there is no overflow, as a comparison.
  */
 __mydevice__ fp64_t rslt_fp64;
+
+void __myglobal__ __kernel_init_all_arr(void)
+{
+	for (size_t i = 0; i < DATA_ARRAY_SIZE; i++) {
+		data_fp32_arr[i].f32 = i * 1000.f;
+		data_fp32_bias_arr[i].f32 = i * 1000.f;
+	}
+}
 
 void __myglobal__ __kernel_overflow_mul_fp32(void)
 {
@@ -566,6 +577,14 @@ void __myglobal__ __kernel_overflow_muladd_fp32(size_t loop, size_t interval)
 		data_fp32.f32 += data_fp32_bias.f32;
 		rslt_fp64.f64 *= data_fp32_bias.f32;
 		rslt_fp64.f64 += data_fp32_bias.f32;
+	}
+}
+
+void __myglobal__ __kernel_overflow_muladd_fp32_arr(size_t len, size_t interval)
+{
+	for (size_t j = 0; j < len; j += interval) {
+		data_fp32.f32 += data_fp32_arr[j].f32 * data_fp32_bias_arr[j].f32;
+		rslt_fp64.f64 += data_fp32_arr[j].f32 * data_fp32_bias_arr[j].f32;
 	}
 }
 
@@ -633,6 +652,19 @@ void overflow_muladd_fp32(void)
 		reset();
 		mysync();
 	}
+}
+
+void overflow_muladd_fp32_arr(void)
+{
+	__kernel_init_all_arr DIM ();
+
+	stset(data_fp32, f32, 1);
+	stset(rslt_fp64, f64, 1);
+
+	__kernel_overflow_muladd_fp32_arr DIM (DATA_ARRAY_SIZE, 1);
+	printf("=========== muladd arr ==========\n");
+	check_fp32(st2host(data_fp32, f32));
+	check_fp64(st2host(rslt_fp64, f64));
 }
 #ifdef __HPCC__
 # pragma clang diagnostic pop
@@ -709,6 +741,8 @@ void precision_test(void)
 {
 	seperator();
 	overflow_muladd_fp32();
+	seperator();
+	overflow_muladd_fp32_arr();
 	reset();
 }
 
