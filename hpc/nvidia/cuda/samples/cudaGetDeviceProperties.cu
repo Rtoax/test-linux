@@ -17,6 +17,7 @@
  * - https://docs.nvidia.com/cuda/cuda-runtime-api/structcudaDeviceProp.html
  */
 #include <stdio.h>
+#include <stdint.h>
 #include <string.h>
 #if defined(HAVE_HCCL)
 #include <hc_runtime.h>
@@ -32,6 +33,16 @@
 #include <cuda_runtime.h>
 #include "cuda_helpers.h"
 #endif
+
+void printuuid(const char *pfx, void *uuid, size_t size)
+{
+	uint8_t *u8 = (uint8_t *)uuid;
+	printf("%s ", pfx);
+	for (size_t i = 0; i < size; i++) {
+		uint8_t c = u8[i];
+		printf("%02x%c", c, i == (size - 1) ? '\n' : ' ');
+	}
+}
 
 int main(int argc, char *argv[])
 {
@@ -55,25 +66,41 @@ int main(int argc, char *argv[])
 
 	cudaGetDeviceProperties(&prop, dev_id);
 
+#define PRINT_d(v)	printf("%s %d\n", #v, prop.v);
+#define PRINT_zu(v)	printf("%s %zu\n", #v, prop.v);
+#define PRINT_ld(v)	printf("%s %ld\n", #v, prop.v);
+
 	printf("name %s, running on device %d, total %d\n", prop.name, dev_id, dev_count);
+	/* uuid is 16-byte unique identifier */
+	printuuid("uuid", (void *)&prop.uuid, 16);
+	/* luid 8-byte locally unique identifier */
+	printuuid("luid", (void *)&prop.luid, 8);
 
 	/* Information about memory */
 	printf("totalGlobalMem %ld (%.0lf GiB)\n", prop.totalGlobalMem, prop.totalGlobalMem / 1e9);
 	printf("totalConstMem %ld (%.0lf GiB)\n", prop.totalConstMem, prop.totalConstMem / 1e9);
 	printf("l2CacheSize %d B (%d MB)\n", prop.l2CacheSize, prop.l2CacheSize / 1024 / 1024);
-	printf("globalL1CacheSupported %d\n", prop.globalL1CacheSupported);
-	printf("localL1CacheSupported %d\n", prop.localL1CacheSupported);
-	printf("managedMemory %d\n", prop.managedMemory);
-	printf("memoryBusWidth %d\n", prop.memoryBusWidth);
+	PRINT_d(globalL1CacheSupported);
+	PRINT_d(localL1CacheSupported);
+	PRINT_d(managedMemory);
+	PRINT_d(memoryBusWidth);
+	PRINT_ld(sharedMemPerBlock);
+	PRINT_ld(memPitch);
 	/**
 	 * see also $ nvidia-smi -q -d ECC
 	 * - commit 120e7c6f3062 ("cudaGetDeviceProperties: ECC info")
 	 */
-	printf("ECCEnabled %d\n", prop.ECCEnabled);
+	PRINT_d(ECCEnabled);
+
+	PRINT_ld(textureAlignment);
+	PRINT_ld(texturePitchAlignment);
+
+	PRINT_d(regsPerBlock);
+	PRINT_d(deviceOverlap);
 
 	/* Information about Core/Thread */
-	printf("multiProcessorCount %d\n", prop.multiProcessorCount);
-	printf("maxThreadsPerMultiProcessor %d\n", prop.maxThreadsPerMultiProcessor);
+	PRINT_d(multiProcessorCount);
+	PRINT_d(maxThreadsPerMultiProcessor);
 	printf("Theoretical number of concurrent hardware threads: %d\n",
 		prop.multiProcessorCount * prop.maxThreadsPerMultiProcessor);
 
@@ -101,6 +128,9 @@ int main(int argc, char *argv[])
 	printf("Compute Capability: major.minor %d.%d, %s\n", prop.major, prop.minor,
 		gpu_compute_cap_str(prop.major, prop.minor));
 
+	PRINT_d(kernelExecTimeoutEnabled);
+	PRINT_d(integrated);
+
 #ifdef DEVPROP_HAVE_CLOCK_REATE
 	printf("clockRate %d Hz\n", prop.clockRate);
 #endif
@@ -114,9 +144,9 @@ int main(int argc, char *argv[])
 	 *
 	 * MetaX wave/warp size is 64.
 	 */
-	printf("warpSize %d\n", prop.warpSize);
+	PRINT_d(warpSize);
 #if !defined(__CUDACC__) && !defined(__HIPCC__)
-	printf("waveSize %d\n", prop.waveSize);
+	PRINT_d(waveSize);
 #endif
 
 	return 0;
