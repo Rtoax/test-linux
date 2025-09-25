@@ -5,7 +5,7 @@ set -ex
 
 deb_pkgs() {
 	sudo apt-get install -y \
-		ament-cmake-googletest \
+		googletest \
 		asciidoctor \
 		binutils-dev \
 		bison \
