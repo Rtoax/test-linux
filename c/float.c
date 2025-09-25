@@ -56,6 +56,7 @@
 #include <assert.h>
 #include <stdio.h>
 #include <stdint.h>
+#include <stdlib.h>
 #include <stdbool.h>
 #include <math.h>
 #include <byteswap.h>
@@ -127,9 +128,13 @@ static unsigned long ansi_idx = 0;
 
 static struct {
 	bool nocolor;
+	bool version;
 } env = {
 	.nocolor = false,
+	.version = false,
 };
+
+static const char *const version = "v1.0.0";
 
 #define seperator() do {	\
 		if (env.nocolor) {	\
@@ -768,14 +773,20 @@ int main(int argc, char *argv[])
 	assert(sizeof(fp32_t) == 4 && "Bad size of fp32");
 	assert(sizeof(fp16_t) == 2 && "Bad size of fp16");
 
-	fprintf(stderr, "Usage: %s [nocolor]\n", argv[0]);
+	fprintf(stderr, "Usage: %s [version] [nocolor]\n", argv[0]);
 
 	for (i = 1; i < argc; i++) {
 #define arg_has(v) if (!strncmp(#v, argv[i], strlen(#v))) \
 			env.v = true;
 		arg_has(nocolor);
+		arg_has(version);
 #undef arg_has
 	}
+
+	/* always show the version */
+	printf("version %s\n", version);
+	if (env.version)
+		exit(0);
 
 	base_test();
 
