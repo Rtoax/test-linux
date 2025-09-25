@@ -130,8 +130,8 @@ int main(int argc, char *argv[])
 
 	/**
 	 * see also $ nvidia-smi -q -d ECC
+	 * - commit ee378b727aaf ("nvidia: h800: ECC info")
 	 * - commit 120e7c6f3062 ("cudaGetDeviceProperties: ECC info")
-	 * -
 	 */
 	PRINT_d(ECCEnabled);
 
