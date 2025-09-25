@@ -76,18 +76,38 @@ int main(int argc, char *argv[])
 	/* luid 8-byte locally unique identifier */
 	printuuid("luid", (void *)&prop.luid, 8);
 
+	PRINT_d(isMultiGpuBoard);
+	PRINT_d(multiGpuBoardGroupID);
+	PRINT_d(pciBusID);
+	PRINT_d(pciDeviceID);
+	PRINT_d(pciDomainID);
+	PRINT_d(tccDriver);
+	PRINT_d(asyncEngineCount);
+	PRINT_d(unifiedAddressing);
+
 	/* Information about memory */
+	PRINT_d(pageableMemoryAccess);
+	PRINT_d(pageableMemoryAccessUsesHostPageTables);
 	printf("totalGlobalMem %ld (%.0lf GiB)\n", prop.totalGlobalMem, prop.totalGlobalMem / 1e9);
 	printf("totalConstMem %ld (%.0lf GiB)\n", prop.totalConstMem, prop.totalConstMem / 1e9);
 	printf("l2CacheSize %d B (%d MB)\n", prop.l2CacheSize, prop.l2CacheSize / 1024 / 1024);
+	PRINT_d(persistingL2CacheMaxSize);
 	PRINT_d(globalL1CacheSupported);
 	PRINT_d(localL1CacheSupported);
 	PRINT_d(managedMemory);
 	PRINT_d(memoryBusWidth);
+	PRINT_d(memoryClockRate);
 	PRINT_ld(sharedMemPerBlock);
+	PRINT_ld(sharedMemPerMultiprocessor);
+	PRINT_ld(sharedMemPerBlockOptin);
+	PRINT_ld(reservedSharedMemPerBlock);
 	PRINT_ld(memPitch);
 	PRINT_d(canMapHostMemory);
 	PRINT_d(computeMode);
+	PRINT_d(canUseHostPointerForRegisteredMem);
+	PRINT_d(directManagedMemAccessFromHost);
+	PRINT_d(maxBlocksPerMultiProcessor);
+	PRINT_d(accessPolicyMaxWindowSize);
 
 	/**
 	 * see also $ nvidia-smi -q -d ECC
@@ -141,9 +161,18 @@ int main(int argc, char *argv[])
 
 	/* Device can possibly execute multiple kernels concurrently */
 	PRINT_d(concurrentKernels);
+	PRINT_d(concurrentManagedAccess);
+	PRINT_d(cooperativeLaunch);
+	PRINT_d(cooperativeMultiDeviceLaunch);
+
+	PRINT_d(streamPrioritiesSupported);
 
 	PRINT_d(regsPerBlock);
+	PRINT_d(regsPerMultiprocessor);
 	PRINT_d(deviceOverlap);
+	PRINT_d(hostNativeAtomicSupported);
+	PRINT_d(singleToDoublePrecisionPerfRatio);
+	PRINT_d(computePreemptionSupported);
 
 	/* Information about Core/Thread */
 	PRINT_d(multiProcessorCount);
