@@ -50,6 +50,47 @@ FakeCUDA
 ╚═══════════╝  ╚══════════╝  ╚════════════╝ ╚══════════╝  ╚═══════════════╝
 ```
 
+
+# Support List
+
+# CUDA
+
+- libcuda.so.1
+- libcudart.so.12
+- libcudart.so.13
+- libcublas.so.12
+- libcublas.so.13
+- libcublasLt.so.12
+- libcublasLt.so.13
+- libcufft.so.11
+- libcufft.so.12
+- libcurand.so.10
+- libcusparse.so.12
+
+## ROCm
+
+- libamdhip64.so.5
+- libamdhip64.so.6
+- libhipfft.so.0
+- librocfft.so.0
+- libhipsparse.so.1
+- librocsparse.so.1
+- libhiprand.so.1
+- libhipblas.so.2
+- libhipblaslt.so.0
+
+## HPCC
+
+- libhccompiler.so
+- libhccl.so
+- libhcruntime.so
+- libhcblas.so
+- libhcblasLt.so
+- libhcfft.so
+- libhcrand.so
+- libhcsparse.so
+
+
 # ENVs
 
 ## FAKECUDA_DEBUG
