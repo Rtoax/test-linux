@@ -128,7 +128,9 @@ int main(int argc, char *argv[])
 	printf("Compute Capability: major.minor %d.%d, %s\n", prop.major, prop.minor,
 		gpu_compute_cap_str(prop.major, prop.minor));
 
+#if !defined(__CUDACC__)
 	PRINT_d(kernelExecTimeoutEnabled);
+#endif
 	PRINT_d(integrated);
 
 #ifdef DEVPROP_HAVE_CLOCK_REATE
