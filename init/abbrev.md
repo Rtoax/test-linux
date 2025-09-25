@@ -11,7 +11,6 @@
 - IPMI: Intelligent Platform Management Interface (智能平台管理接口) @BMC
 - PXE: Preboot Execute Environment (预启动执行环境)
 - SMBIOS: System Management BIOS (系统管理BIOS)
-- SMI: System Management Interrupt (系统管理中断)
 - SMM: System Management Mode (系统管理模式) @x86 @arm @SMI
 - SMM: Secure Monitor Mode (安全管理模式) @arm @SMI
 - SMRAM: SMM RAM ()
