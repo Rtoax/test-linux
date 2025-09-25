@@ -550,9 +550,9 @@ __mydevice__ fp32_t data_fp32_bias_arr[DATA_ARRAY_SIZE];
  */
 __mydevice__ fp64_t rslt_fp64;
 
-void __myglobal__ __kernel_init_all_arr(void)
+void __myglobal__ __kernel_init_all_arr(size_t size)
 {
-	for (size_t i = 0; i < DATA_ARRAY_SIZE; i++) {
+	for (size_t i = 0; i < size; i++) {
 		data_fp32_arr[i].f32 = i * 1000.f;
 		data_fp32_bias_arr[i].f32 = i * 1000.f;
 	}
@@ -656,15 +656,21 @@ void overflow_muladd_fp32(void)
 
 void overflow_muladd_fp32_arr(void)
 {
-	__kernel_init_all_arr DIM ();
+	for (size_t i = 100; i <= DATA_ARRAY_SIZE; i += 100) {
+		__kernel_init_all_arr DIM (i);
 
-	stset(data_fp32, f32, 1);
-	stset(rslt_fp64, f64, 1);
+		stset(data_fp32, f32, 1);
+		stset(rslt_fp64, f64, 1);
 
-	__kernel_overflow_muladd_fp32_arr DIM (DATA_ARRAY_SIZE, 1);
-	printf("=========== muladd arr ==========\n");
-	check_fp32(st2host(data_fp32, f32));
-	check_fp64(st2host(rslt_fp64, f64));
+		__kernel_overflow_muladd_fp32_arr DIM (i, 1);
+
+		seperator();
+		printf("=========== muladd arr %ld ==========\n", i);
+		check_fp32(st2host(data_fp32, f32));
+		check_fp64(st2host(rslt_fp64, f64));
+		reset();
+		mysync();
+	}
 }
 #ifdef __HPCC__
 # pragma clang diagnostic pop
