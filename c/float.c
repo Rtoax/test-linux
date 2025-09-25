@@ -125,17 +125,21 @@ const static char *ansi[] = {
 static const char *reset = "\033[m";
 static unsigned long ansi_idx = 0;
 
-static bool nocolor = false;
+static struct {
+	bool nocolor;
+} env = {
+	.nocolor = false,
+};
 
 #define seperator() do {	\
-		if (nocolor) {	\
+		if (env.nocolor) {	\
 			printf("-------------------------------------------------------------------------------\n");	\
 		} else {	\
 			printf("%s%s", reset, ansi[ansi_idx++ % ARRAY_SIZE(ansi)]);	\
 		}	\
 	} while (0)
 #define reset() do {	\
-		if (nocolor) break;	\
+		if (env.nocolor) break;	\
 		printf("%s", reset);	\
 		ansi_idx++;	\
 	} while (0)
@@ -768,7 +772,7 @@ int main(int argc, char *argv[])
 
 	for (i = 1; i < argc; i++) {
 #define arg_has(v) if (!strncmp(#v, argv[i], strlen(#v))) \
-			v = true;
+			env.v = true;
 		arg_has(nocolor);
 #undef arg_has
 	}
