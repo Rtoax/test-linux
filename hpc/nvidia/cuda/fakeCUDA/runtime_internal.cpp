@@ -105,6 +105,10 @@ void __cudaUnregisterFatBinary(void **fatCubinHandle)
  *   void __hipRegisterFunction(hip::FatBinaryInfo** modules, const void* hostFunction,
  *                              char* deviceFunction, const char* deviceName, unsigned int threadLimit,
  *                              uint3* tid, uint3* bid, dim3* blockDim, dim3* gridDim, int* wSize);
+ *
+ * Note: It's a pity that private kernel functions are not supported. Perhaps
+ * in the future, this can be achieved through instruction set translation,
+ * like the GCN instruction set of AMD GPUs.
  */
 void __cudaRegisterFunction(void **fatCubinHandle, const char *hostFun,
 			    char *deviceFun, const char *deviceName,
@@ -189,6 +193,10 @@ cudaError_t __cudaPopCallConfiguration(dim3 *gridDim, dim3 *blockDim,
 	return cudaSuccess;
 }
 
+/**
+ * Note: It's a pity that private kernel functions are not supported. Perhaps
+ * in the future, this can be achieved through instruction set translation.
+ */
 cudaError_t __cudaLaunchKernel(cudaKernel_t kernel, dim3 gridDim, dim3 blockDim,
 			       void **args, size_t sharedMem,
 			       cudaStream_t stream)
