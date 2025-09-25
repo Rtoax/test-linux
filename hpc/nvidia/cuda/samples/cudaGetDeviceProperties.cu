@@ -8,6 +8,7 @@
  *   commit 3dfdd4a370f2 ("hpc: DeviceProp: NVIDIA GeForce RTX 3060")
  *
  * - MetaX Mars 03
+ *
  *   commit 79e92d93846f ("hpc: DeviceProp: MetaX Mars X203")
  *
  * - cuda-12.9 struct cudaDeviceProp
