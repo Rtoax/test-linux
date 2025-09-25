@@ -1,5 +1,5 @@
 #include <stdio.h>
-#if defined(HAVE_HCCL)
+#if defined(HAVE_HPCC)
 #include <hc_runtime.h>
 #include "hpcc_helpers.h"
 #include "cuda_adapter.h"

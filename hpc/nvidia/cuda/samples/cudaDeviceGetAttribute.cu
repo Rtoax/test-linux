@@ -1,5 +1,5 @@
 #include <stdio.h>
-#if defined(HAVE_HCCL)
+#if defined(HAVE_HPCC)
 #include <hccl.h>
 #include <hc_runtime.h>
 #include <hc_runtime_api.h>

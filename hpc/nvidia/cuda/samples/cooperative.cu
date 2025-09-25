@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0
 /* Copyright (c) 2025 Rong Tao */
 #include <stdio.h>
-#if defined(HAVE_HCCL)
+#if defined(HAVE_HPCC)
 #include <hc_runtime.h>
 #include <hpcc_cooperative_groups.h>
 #include "hpcc_helpers.h"
@@ -48,7 +48,7 @@ __global__ void kernel(void)
 	printf("rank %d, size %d, valid %d, temp %d\n", rank, size, valid, temp[rank]);
 
 	/* FIXME: printf display wrong/zero %d, add printf could fix it. */
-	#if defined(HAVE_HCCL)
+	#if defined(HAVE_HPCC)
 	printf("");
 	#endif
 }

@@ -29,7 +29,7 @@ libso-hip += libhiprand.so.1
 libso-hip += libhipblas.so.2 libhipblaslt.so.0
 
 ifdef HAVE_HPCC
-  $(info HAVE_HPCC)
+  $(info HAVE_HPCC=1)
   targets-libso-cpp += ${libso-hpcc}
 
   # need cuda_adapter.h
@@ -39,7 +39,6 @@ ifdef HAVE_HPCC
   CXXFLAGS_SO += -I${HPCC_ROOT}/include/hcr/
   CXXFLAGS_SO += -I${HPCC_ROOT}/include/hcsparse/
 
-  CXXFLAGS_SO += -DHAVE_HCCL=1
   CXXFLAGS_SO += -DHAVE_HPCC=1
 endif
 

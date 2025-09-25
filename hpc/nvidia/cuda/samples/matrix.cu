@@ -15,7 +15,7 @@
 #include <stdbool.h>
 #include <malloc.h>
 #include <time.h>
-#if defined(HAVE_HCCL)	/* MetaX */
+#if defined(HAVE_HPCC)	/* MetaX */
 # include <hccl.h>
 # include <hc_runtime.h>
 # include "hpcc_helpers.h"
@@ -69,7 +69,7 @@
 #endif
 
 /* Compatiable CUDA software stack */
-#if defined(HAVE_HCCL) || defined(HAVE_HIP) || defined(HAVE_CUDA)
+#if defined(HAVE_HPCC) || defined(HAVE_HIP) || defined(HAVE_CUDA)
 # define HAVE_CUDA_LIKE	1
 #endif
 
@@ -118,7 +118,7 @@ struct {
 };
 
 const char *version = "v1.0.3 "
-#if defined(HAVE_HCCL)
+#if defined(HAVE_HPCC)
 	"(GPU MetaX)"
 #elif defined(HAVE_HIP)
 	"(GPU AMD)"

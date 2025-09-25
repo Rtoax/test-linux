@@ -16,7 +16,7 @@
 #include <malloc.h>
 #include <time.h>
 #include <unistd.h>
-#if defined(HAVE_HCCL)
+#if defined(HAVE_HPCC)
 # include <hc_runtime.h>
 # include <hcblas/hcblas.h>
 # include <hcblas/hcblasLt.h>

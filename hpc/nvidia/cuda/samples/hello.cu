@@ -4,7 +4,7 @@
  * elf dump PTX and SASS: commit 306555e1b4e6 ("nvidia: PTX and SASS")
  */
 #include <stdio.h>
-#if defined(HAVE_HCCL)
+#if defined(HAVE_HPCC)
 #include <hc_runtime.h>
 #include "hpcc_helpers.h"
 #include "cuda_adapter.h"

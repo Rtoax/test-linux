@@ -2,7 +2,7 @@
 /* Copyright (c) 2025 Rong Tao */
 #include <stdio.h>
 #include <string.h>
-#if defined(HAVE_HCCL)
+#if defined(HAVE_HPCC)
 #include <hc_runtime.h>
 #include <hcfft/hcfft.h>
 #include <hcsparse/hcsparse.h>

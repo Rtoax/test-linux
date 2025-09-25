@@ -1,5 +1,5 @@
 #include <stdio.h>
-#if defined(HAVE_HCCL)
+#if defined(HAVE_HPCC)
 #include <hc_runtime.h>
 #include "hpcc_helpers.h"
 #include "cuda_adapter.h"
@@ -46,7 +46,7 @@ int main(void)
 	P2PAttr(cudaDevP2PAttrPerformanceRank);
 	P2PAttr(cudaDevP2PAttrAccessSupported);
 	P2PAttr(cudaDevP2PAttrNativeAtomicSupported);
-#if defined(HAVE_HCCL)
+#if defined(HAVE_HPCC)
 	P2PAttr(hcDevP2PAttrHcArrayAccessSupported);
 #endif
 

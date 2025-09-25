@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0
 /* Copyright (c) 2025 Rong Tao */
 #include <stdio.h>
-#if defined(HAVE_HCCL)
+#if defined(HAVE_HPCC)
 # define __USE_HPCC__	1
 #include <hc_runtime.h>
 #include "hpcc_helpers.h"
@@ -17,7 +17,7 @@
 #include "cuda_helpers.h"
 #endif
 
-#if defined(HAVE_HCCL)
+#if defined(HAVE_HPCC)
 #define MODULE_CUBIN	".output/hello.devbin"
 #elif defined(HAVE_HIP)
 #define MODULE_CUBIN	".output/parallel.hip_fatbin"

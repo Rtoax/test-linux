@@ -5,7 +5,7 @@
  */
 #include <stdio.h>
 #include <string.h>
-#if defined(HAVE_HCCL)
+#if defined(HAVE_HPCC)
 #include <hc_runtime.h>
 #include <hpcc_cooperative_groups.h>
 #include "hpcc_helpers.h"
@@ -74,7 +74,7 @@ __global__ void checkIndex(int it)
 	 * Note: printf display wrong/zero %d under version 3.0.0, add printf
 	 * could fix it.
 	 */
-	#if defined(HAVE_HCCL)
+	#if defined(HAVE_HPCC)
 	# if HPCC_VERSION_MAJOR < 3
 	LOG_GLOBAL("");
 	# endif

@@ -2,7 +2,7 @@
 /* Copyright (c) 2025 Rong Tao */
 #pragma once
 
-#if defined(HAVE_HCCL)
+#if defined(HAVE_HPCC)
 /* Metax has CUDA-compatible APIs */
 # define __cu(name)	hc##name
 # define __cuda(name)	hc##name
@@ -20,7 +20,7 @@
 # define __nv(name)	hip##name
 # define __NV(name)	HIP##name
 #elif !defined(__cu) || !defined(__CU) || !defined(__CUDA)
-# error "Must define __cu(), __cuda(), __CU(), __CUDA(), __CUDA_ERROR(), __nv(), __NV() macros, or define HAVE_HCCL, HAVE_HIP"
+# error "Must define __cu(), __cuda(), __CU(), __CUDA(), __CUDA_ERROR(), __nv(), __NV() macros, or define HAVE_HPCC, HAVE_HIP"
 #endif
 
 /* typedef hcError_t	cudaError_t; */
@@ -529,7 +529,7 @@
  * HIP
  * hipError_t hipGetDeviceProperties(hipDeviceProp_t* prop, int deviceId);
  */
-#if defined(HAVE_HCCL) || defined(HAVE_HIP)
+#if defined(HAVE_HPCC) || defined(HAVE_HIP)
 #define cudaGetDeviceProperties(prop, devid)	__cuda(GetDeviceProperties(prop, devid))
 #else
 #define cudaGetDeviceProperties(prop, devid)	__cuda(GetDeviceProperties_v2(prop, devid))
@@ -541,7 +541,7 @@
  *                                  int dev_id);
  */
 #define cudaDeviceGetAttribute(pval, attr, dev_id)	__cuda(DeviceGetAttribute(pval, attr, dev_id))
-#if defined(HAVE_HCCL) || defined(HAVE_HIP)
+#if defined(HAVE_HPCC) || defined(HAVE_HIP)
 /* WARNING: different name */
 /**
  * CUDA 13.0.0: enum __device_builtin__ cudaDeviceAttr
@@ -699,7 +699,7 @@
 #define cudaDevAttrSocketId	__cuda(DeviceAttributeSocketId)
 #define cudaDevAttrPeerSocketId	__cuda(DeviceAttributePeerSocketId)
 #define cudaDevAttrMulticastSupported	__cuda(DeviceAttributeMulticastSupported)
-#endif	/* HAVE_HCCL */
+#endif	/* HAVE_HPCC */
 
 #define cudaDeviceP2PAttr	__cuda(DeviceP2PAttr)
 /**
@@ -1312,7 +1312,7 @@
 #define CUBLAS_COMPUTE_32I	__CU(BLAS_COMPUTE_32I)
 #define CUBLAS_COMPUTE_32I_PEDANTIC	__CU(BLAS_COMPUTE_32I_PEDANTIC)
 
-#ifdef HAVE_HCCL
+#ifdef HAVE_HPCC
 /**
  * see /usr/local/cuda-12.9/targets/x86_64-linux/include/library_types.h
  */
