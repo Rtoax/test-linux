@@ -46,32 +46,32 @@ void printuuid(const char *pfx, void *uuid, size_t size)
 
 int main(int argc, char *argv[])
 {
-	int i, dev_id, dev_count;
+	int i, dev, dev_count;
 	cudaDeviceProp prop;
 
-	dev_id = 0;
+	dev = 0;
 
-	fprintf(stderr, "Usage: %s [dev_id=<N>]\n", argv[0]);
+	fprintf(stderr, "Usage: %s [dev=<N>]\n", argv[0]);
 
 	for (i = 1; i < argc; i++) {
 #define arg_eq(v) if (!strncmp(#v"=", argv[i], strlen(#v) + 1)) \
 			v = atoi(argv[i] + strlen(#v) + 1);
-		arg_eq(dev_id);
+		arg_eq(dev);
 #undef arg_eq
 	}
 
-	gpu_init(dev_id);
+	gpu_init(dev);
 
 	dev_count = gpu_num();
 
-	cudaGetDeviceProperties(&prop, dev_id);
+	cudaGetDeviceProperties(&prop, dev);
 
 #define PRINT_s(v)	printf("%s %s\n", #v, prop.v);
 #define PRINT_d(v)	printf("%s %d\n", #v, prop.v);
 #define PRINT_zu(v)	printf("%s %zu\n", #v, prop.v);
 #define PRINT_ld(v)	printf("%s %ld\n", #v, prop.v);
 
-	printf("name %s, running on device %d, total %d\n", prop.name, dev_id, dev_count);
+	printf("name %s, running on device %d, total %d\n", prop.name, dev, dev_count);
 	/* uuid is 16-byte unique identifier */
 	printuuid("uuid", (void *)&prop.uuid, 16);
 	/* luid 8-byte locally unique identifier */
@@ -223,7 +223,7 @@ int main(int argc, char *argv[])
 	/* Information about device */
 	{
 		CUdevice cuDevice;
-		cuDeviceGet(&cuDevice, dev_id);
+		cuDeviceGet(&cuDevice, dev);
 		int major, minor;
 		cuDeviceComputeCapability(&major, &minor, cuDevice);
 		printf("Compute Capability: major.minor %d.%d %s\n", major, minor,
