@@ -96,3 +96,7 @@ curand version 10400
 $ ./fakeCUDA.sh ./rand
 curand version 10
 ```
+
+# TODO
+
+It's a pity that **private kernel functions are not supported**. Perhaps in the future, this can be achieved through instruction set translation, similar to the GCN instruction set of AMD GPUs.
