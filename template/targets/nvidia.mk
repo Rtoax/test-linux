@@ -1,4 +1,17 @@
 # SPDX-License-Identifier: GPL-3.0
+# This makefile use to compile Nvidia targets.
+#
+# Targets list:
+# .cu.o
+# .cubin
+# .fatbin
+# .nv_fatbin
+# .nvFatBinSegment
+# .cu.ptx.dump
+# .cu.sass.dump
+# .E.cu
+# targets-nvcc
+
 _TARGET_NVIDIA = 1
 _SYSTEM_HAVE_NVIDIA_GPU :=
 
@@ -80,11 +93,11 @@ ${OUTPUT}%.nvFatBinSegment: % | ${OUTPUT}
 	$(call log_tgt_obj,NV FATBIN SEG,$(<),$(@))
 	${Q}$(OBJCOPY) -O binary --only-section=.nvFatBinSegment $(<) $(@)
 
-${OUTPUT}%.sass.dump: ${OUTPUT}%.cu.o | ${OUTPUT}
+${OUTPUT}%.cu.sass.dump: ${OUTPUT}%.cu.o | ${OUTPUT}
 	$(call log_tgt_obj,NV SASS,$(<),$(@))
 	${Q}${CUOBJDUMP} --dump-sass $(<) > ${@}
 
-${OUTPUT}%.ptx.dump: ${OUTPUT}%.cu.o | ${OUTPUT}
+${OUTPUT}%.cu.ptx.dump: ${OUTPUT}%.cu.o | ${OUTPUT}
 	$(call log_tgt_obj,NV PTX,$(<),$(@))
 	${Q}${CUOBJDUMP} --dump-ptx $(<) > ${@}
 

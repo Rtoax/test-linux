@@ -30,8 +30,8 @@ obj-fatbin := hello.fatbin
 obj-fatbin += parallel.fatbin parallel.nv_fatbin parallel.nvFatBinSegment
 
 targets-post := $(patsubst %,${OUTPUT}%.E.cu,$(targets-nvcc))
-targets-post += $(patsubst %,${OUTPUT}%.sass.dump,$(targets-nvcc))
-targets-post += $(patsubst %,${OUTPUT}%.ptx.dump,$(targets-nvcc))
+targets-post += $(patsubst %,${OUTPUT}%.cu.sass.dump,$(targets-nvcc))
+targets-post += $(patsubst %,${OUTPUT}%.cu.ptx.dump,$(targets-nvcc))
 targets-post += $(patsubst %,${OUTPUT}%,$(obj-cubin))
 targets-post += $(patsubst %,${OUTPUT}%,$(obj-fatbin))
 
