@@ -1,5 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
 path := /a/b/c-d.c
+path += /c/d/e.c
 
 $(info path = ${path})
 $(info path obj = ${path:.c=.o})
