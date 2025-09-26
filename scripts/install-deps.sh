@@ -880,6 +880,7 @@ dnf_add_packages()
 	pkgs_fs+=( funionfs )
 
 	# Cross compile packages
+	pkgs_compiler+=( annobin-annocheck )
 	pkgs_compiler+=( binutils-gold )
 	pkgs_compiler+=( compiler-rt )
 	pkgs_compiler+=( gcc-c++ )
