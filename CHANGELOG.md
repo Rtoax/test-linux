@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- fakeCUDA: add fakeCUDA/frontend;
 - compiler: add plugins;
 - Add zluda;
 - Add ieee/;
