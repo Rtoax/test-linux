@@ -109,6 +109,10 @@ void __cudaUnregisterFatBinary(void **fatCubinHandle)
  * Note: It's a pity that private kernel functions are not supported. Perhaps
  * in the future, this can be achieved through instruction set translation,
  * like the GCN instruction set of AMD GPUs.
+ *
+ * If it is just a CUDA program, it is a good choice to use llvm to compile
+ * the PTX intermediate expression into the machine code of the target
+ * hardware, such as ZLUDA.
  */
 void __cudaRegisterFunction(void **fatCubinHandle, const char *hostFun,
 			    char *deviceFun, const char *deviceName,
