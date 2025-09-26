@@ -1,3 +1,5 @@
+include llvm.mk
+
 sub-dir := c
 sub-dir += lr
 sub-dir += samples
