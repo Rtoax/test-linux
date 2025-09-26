@@ -193,7 +193,10 @@ cudaError_t __cudaPopCallConfiguration(dim3 *gridDim, dim3 *blockDim,
 				       #endif
 				      )
 {
-	DEBUG_DBG("\n");
+	DEBUG_DBG("grid(%d,%d,%d), block(%d,%d,%d), sharedMem %ld\n",
+		  gridDim->x, gridDim->y, gridDim->z,
+		  blockDim->x, blockDim->y, blockDim->z,
+		  *sharedMem);
 	return cudaSuccess;
 }
 
