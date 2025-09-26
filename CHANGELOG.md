@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- compiler: add plugins;
 - Add zluda;
 - Add ieee/;
 - Add init/kernel/cmdline.md;
