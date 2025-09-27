@@ -9,4 +9,18 @@ BEGIN
 		printf("cnt %d, j = %d\n", $cnt, $j);
 		$cnt += 1;
 	}
+
+	$str = comm;
+	$strsz = sizeof($str);
+
+	if (comptime is_str($str)) {
+		printf("$str = %s is compile time string.\n", $str);
+	}
+	if (comptime is_array($str)) {
+		printf("$str = %s is compile time array.\n", $str);
+	}
+
+	for ($i : ((uint64)0)..((uint64)$strsz)) {
+		printf("%d\n", $i);
+	}
 }
