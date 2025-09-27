@@ -31,6 +31,6 @@ ifdef DEBUG
 endif
 
 define display_all_kconfig
-	@configs=($$(find ${CONFIG_TOPDIR} -name kconfig)); \
+	@configs=($$(find ${CONFIG_TOPDIR} -name kconfig -type f)); \
 		cat $${configs[@]} | grep -e '^CONFIG_' -e '^# CONFIG_' | sort -u
 endef
