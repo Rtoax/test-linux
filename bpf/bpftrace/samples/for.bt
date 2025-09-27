@@ -20,7 +20,10 @@ BEGIN
 		printf("$str = %s is compile time array.\n", $str);
 	}
 
+	$len = 0;
 	for ($i : ((uint64)0)..((uint64)$strsz)) {
 		printf("%d\n", $i);
+		$len += 1;
 	}
+	printf("strlen(\"%s\") = %d\n", $str, $len);
 }
