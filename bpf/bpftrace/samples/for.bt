@@ -2,7 +2,11 @@
 
 BEGIN
 {
-	for ($j : ((uint64)0)..((uint64)10)) {
-		printf("j = %d\n", $j);
+	$max = 10;
+	$cnt = 0;
+
+	for ($j : ((uint64)0)..((uint64)$max)) {
+		printf("cnt %d, j = %d\n", $cnt, $j);
+		$cnt += 1;
 	}
 }
