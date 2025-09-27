@@ -167,7 +167,17 @@ dnf_install()
 
 apt_install()
 {
-	inst_eval apt install -y ${apt_args[@]} ${@}
+	local apt_pkgs=( ${@} )
+
+	# Filter out non-exist packages
+	if [[ ${force} ]]; then
+		apt_pkgs=( $(echo "${@}" | tr ' ' '\n' | \
+				while read pkg;	\
+				do apt-cache show "$pkg" &>/dev/null && \
+					echo "$pkg"; \
+				done) )
+	fi
+	inst_eval apt install -y ${apt_args[@]} ${apt_pkgs[@]}
 }
 
 zypper_install()
