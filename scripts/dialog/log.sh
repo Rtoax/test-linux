@@ -1,5 +1,6 @@
 #!/bin/bash
 # Copyright (C) 2025 Rong Tao. All rights reserved.
+set -e
 
 mylog() {
 	local prio=$1 # crit, error, warning, info, debug

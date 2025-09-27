@@ -192,6 +192,7 @@ vmlinux.h
 
 # Config
 .config
+.config.old
 !*.ld.so.conf
 
 # PID lock file

@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- add scripts/dialog/config.sh;
 - sw: add README.md;
 - fakeCUDA: add fakeCUDA/frontend;
 - compiler: add plugins;

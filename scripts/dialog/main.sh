@@ -28,6 +28,7 @@ declare -a MAIN_MENU_ITEMS=(
 	)
 
 . ${DIALOG_ROOT}/log.sh
+. ${DIALOG_ROOT}/config.sh
 
 # When switching TTY during the installation process (switching from TTY1
 # to TTY9), the printed information of TTY1 may remain on TTY9, so clean
@@ -56,6 +57,7 @@ __save_and_continue__()
 
 	case ${ret_status} in
 	${DIALOG_OK})
+		write_configs_to_file .config
 		return ${DIALOG_OK}
 		;;
 	${DIALOG_CANCEL})
