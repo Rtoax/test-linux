@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- sw: add README.md;
 - fakeCUDA: add fakeCUDA/frontend;
 - compiler: add plugins;
 - Add zluda;
