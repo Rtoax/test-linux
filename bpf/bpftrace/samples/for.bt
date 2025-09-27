@@ -23,6 +23,13 @@ BEGIN
 	$len = 0;
 	for ($i : ((uint64)0)..((uint64)$strsz)) {
 		printf("%d\n", $i);
+		/**
+		 * ERROR: bpftrace -v
+		 * math between fp pointer and register with unbounded min value is not allowed
+		 */
+		if ($str[$i] == 0) {
+			break;
+		}
 		$len += 1;
 	}
 	printf("strlen(\"%s\") = %d\n", $str, $len);
