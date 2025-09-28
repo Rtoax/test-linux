@@ -18,6 +18,10 @@ ${OUTPUT}hello.o: ${targets-libso-cpp}
 
 ${OUTPUT}lexerExtension.cpp.so.o: syntax.hpp
 
-libfakecuda_plugin.so: ${OUTPUT}lexerExtension.cpp.so.o ${OUTPUT}attribute-device.cpp.so.o
+plugin-objs := ${OUTPUT}attribute-global.cpp.so.o
+plugin-objs += ${OUTPUT}attribute-device.cpp.so.o
+plugin-objs += ${OUTPUT}lexerExtension.cpp.so.o
+
+libfakecuda_plugin.so: ${plugin-objs}
 
 hello: ${OUTPUT}hello.o

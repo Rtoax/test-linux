@@ -3,3 +3,4 @@
 #pragma once
 
 #define DEVICE_ATTR_NAME	"fakecuda_device"
+#define GLOBAL_ATTR_NAME	"fakecuda_global"

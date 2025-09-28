@@ -11,7 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
-- fakeCUDA/frontend: add attribute-device.cpp;
+- fakeCUDA/frontend: add attribute-device.cpp, attribute-global.cpp;
 - add scripts/dialog/config.sh;
 - sw: add README.md;
 - fakeCUDA: add fakeCUDA/frontend;
