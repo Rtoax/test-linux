@@ -15,3 +15,5 @@
 - Tensor: (张量，是一种特殊的数据结构)
 - Token: (词元)
 - Tokenization: (分词)
+- TPOT: Time-Per-Output-Token (生成每个 token 的时间，主要衡量 Decode 阶段性能) @TTFT
+- TTFT: Time-To-First-Token (首 token 的生成时间，主要衡量 Prefill 阶段性能) @TPOT
