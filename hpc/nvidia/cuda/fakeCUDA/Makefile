@@ -1,6 +1,8 @@
 # SPDX-License-Identifier: GPL-3.0
 OUTPUT = .output/
 
+sub-dir := frontend
+
 include ../cuda.mk
 include ../../../metax/hpcc.mk
 include ../../../amd/rocm/rocm.mk

@@ -4,13 +4,13 @@ OUTPUT = .output/
 CC := clang
 CXX := clang++
 
-targets-libso-cpp += libfakecuda_plugin.so
+targets-libso-cpp += fakecuda_plugin.so
 
 test-exe := hello
 
 targets := ${test-exe}
 
-CFLAGS += -fplugin=./libfakecuda_plugin.so
+CFLAGS += -fplugin=./fakecuda_plugin.so
 
 include ../../../../../template/main.mk
 
@@ -24,6 +24,6 @@ plugin-objs := ${OUTPUT}attribute-global.cpp.so.o
 plugin-objs += ${OUTPUT}attribute-device.cpp.so.o
 plugin-objs += ${OUTPUT}lexerExtension.cpp.so.o
 
-libfakecuda_plugin.so: ${plugin-objs}
+fakecuda_plugin.so: ${plugin-objs}
 
 hello: ${OUTPUT}hello.o
