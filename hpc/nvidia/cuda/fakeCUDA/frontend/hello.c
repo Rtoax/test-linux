@@ -1,4 +1,4 @@
-__attribute__((device)) void kernel1(void)
+__attribute__((fakecuda_device)) void kernel1(void)
 {
 }
 

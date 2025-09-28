@@ -5,6 +5,8 @@
 #include "clang/Sema/SemaDiagnostic.h"
 #include "llvm/IR/Attributes.h"
 
+#define DEVICE_ATTR_NAME	"fakecuda_device"
+
 using namespace clang;
 
 namespace {
@@ -21,10 +23,10 @@ struct DeviceAttrInfo : public ParsedAttrInfo {
 		 * GNU-style __attribute__(("device")) and C++/C23-style [[device]]
 		 * and [[plugin::device]] supported.
 		 */
-		static constexpr Spelling S[] = {{ParsedAttr::AS_GNU, "device"},
-						 {ParsedAttr::AS_C23, "device"},
-						 {ParsedAttr::AS_CXX11, "device"},
-						 {ParsedAttr::AS_CXX11, "plugin::device"}};
+		static constexpr Spelling S[] = {{ParsedAttr::AS_GNU, DEVICE_ATTR_NAME},
+						 {ParsedAttr::AS_C23, DEVICE_ATTR_NAME},
+						 {ParsedAttr::AS_CXX11, DEVICE_ATTR_NAME},
+						 {ParsedAttr::AS_CXX11, "plugin::" DEVICE_ATTR_NAME}};
 		Spellings = S;
 	}
 
@@ -44,7 +46,7 @@ struct DeviceAttrInfo : public ParsedAttrInfo {
 		/* Check if the decl is at file scope. */
 		if (!D->getDeclContext()->isFileContext()) {
 			unsigned ID = S.getDiagnostics().getCustomDiagID(DiagnosticsEngine::Error,
-						"'device' attribute only allowed at file scope");
+						"'" DEVICE_ATTR_NAME "' attribute only allowed at file scope");
 			S.Diag(Attr.getLoc(), ID);
 			return AttributeNotApplied;
 		}
@@ -52,7 +54,7 @@ struct DeviceAttrInfo : public ParsedAttrInfo {
 		/* No need arguments */
 		if (Attr.getNumArgs() > 0) {
 			unsigned ID = S.getDiagnostics().getCustomDiagID(DiagnosticsEngine::Error,
-						"'device' attribute no need arguments");
+						"'" DEVICE_ATTR_NAME "' attribute no need arguments");
 			S.Diag(Attr.getLoc(), ID);
 			return AttributeNotApplied;
 		}
@@ -65,11 +67,11 @@ struct DeviceAttrInfo : public ParsedAttrInfo {
 		if (Attr.getNumArgs() > 0) {
 			unsigned ID = S.getDiagnostics().getCustomDiagID(
 						DiagnosticsEngine::Error,
-						"'device' attribute no need arguments");
+						"'" DEVICE_ATTR_NAME "' attribute no need arguments");
 			S.Diag(Attr.getLoc(), ID);
 			return AttributeNotApplied;
 		} else {
-			Result = AnnotateAttr::Create(S.Context, "device", nullptr, 0,
+			Result = AnnotateAttr::Create(S.Context, DEVICE_ATTR_NAME, nullptr, 0,
 						Attr.getRange());
 		}
 		return AttributeApplied;
@@ -78,4 +80,4 @@ struct DeviceAttrInfo : public ParsedAttrInfo {
 
 } // namespace
 
-static ParsedAttrInfoRegistry::Add<DeviceAttrInfo> X("device", "");
+static ParsedAttrInfoRegistry::Add<DeviceAttrInfo> X(DEVICE_ATTR_NAME, "");
