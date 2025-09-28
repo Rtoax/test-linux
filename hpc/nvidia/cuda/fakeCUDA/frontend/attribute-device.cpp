@@ -20,7 +20,7 @@ struct DeviceAttrInfo : public ParsedAttrInfo {
 		 * variadic number of arguments. This just illustrates how many
 		 * arguments a `ParsedAttrInfo` can hold.
 		 */
-		OptArgs = 15;
+		OptArgs = 0;
 		/**
 		 * GNU-style __attribute__(("device")) and C++/C23-style [[device]]
 		 * and [[plugin::device]] supported.
@@ -81,6 +81,75 @@ struct DeviceAttrInfo : public ParsedAttrInfo {
 	}
 };
 
+struct DeviceBuiltinAttrInfo : public ParsedAttrInfo {
+	DeviceBuiltinAttrInfo() {
+		/**
+		 * Can take up to 0 optional arguments, to emulate accepting a
+		 * variadic number of arguments. This just illustrates how many
+		 * arguments a `ParsedAttrInfo` can hold.
+		 */
+		OptArgs = 0;
+		/**
+		 * GNU-style __attribute__(("device_builtin")) and C++/C23-style [[device_builtin]]
+		 * and [[plugin::device_builtin]] supported.
+		 */
+		static constexpr Spelling S[] = {{ParsedAttr::AS_GNU, DEVICE_BUILTIN_ATTR_NAME},
+						 {ParsedAttr::AS_C23, DEVICE_BUILTIN_ATTR_NAME},
+						 {ParsedAttr::AS_CXX11, DEVICE_BUILTIN_ATTR_NAME},
+						 {ParsedAttr::AS_CXX11, "plugin::" DEVICE_BUILTIN_ATTR_NAME}};
+		Spellings = S;
+	}
+
+	bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr,
+				  const Decl *D) const override {
+		/* This attribute appertains to functions, variable. */
+		if (!isa<FunctionDecl>(D) && !isa<VarDecl>(D) && !isa<RecordDecl>(D) && !isa<TypedefDecl>(D)) {
+			unsigned ID = S.getDiagnostics().getCustomDiagID(DiagnosticsEngine::Error,
+						"'" DEVICE_BUILTIN_ATTR_NAME "' attribute only allowed at function, variable or record");
+			S.Diag(Attr.getLoc(), ID);
+			return false;
+		}
+		return true;
+	}
+
+	AttrHandling handleDeclAttribute(Sema &S, Decl *D,
+					 const ParsedAttr &Attr) const override {
+		/* Check if the decl is at file scope. */
+		if (!D->getDeclContext()->isFileContext()) {
+			unsigned ID = S.getDiagnostics().getCustomDiagID(DiagnosticsEngine::Error,
+						"'" DEVICE_BUILTIN_ATTR_NAME "' attribute only allowed at file scope");
+			S.Diag(Attr.getLoc(), ID);
+			return AttributeNotApplied;
+		}
+
+		/* No need arguments */
+		if (Attr.getNumArgs() > 0) {
+			unsigned ID = S.getDiagnostics().getCustomDiagID(DiagnosticsEngine::Error,
+						"'" DEVICE_BUILTIN_ATTR_NAME "' attribute no need arguments");
+			S.Diag(Attr.getLoc(), ID);
+			return AttributeNotApplied;
+		}
+		return AttributeApplied;
+	}
+
+	AttrHandling handleStmtAttribute(Sema &S, Stmt *St, const ParsedAttr &Attr,
+				  class Attr *&Result) const override {
+
+		if (Attr.getNumArgs() > 0) {
+			unsigned ID = S.getDiagnostics().getCustomDiagID(
+						DiagnosticsEngine::Error,
+						"'" DEVICE_BUILTIN_ATTR_NAME "' attribute no need arguments");
+			S.Diag(Attr.getLoc(), ID);
+			return AttributeNotApplied;
+		} else {
+			Result = AnnotateAttr::Create(S.Context, DEVICE_BUILTIN_ATTR_NAME, nullptr, 0,
+						Attr.getRange());
+		}
+		return AttributeApplied;
+	}
+};
+
 } // namespace
 
 static ParsedAttrInfoRegistry::Add<fakecuda::frontend::attribute::DeviceAttrInfo> X(DEVICE_ATTR_NAME, "");
+static ParsedAttrInfoRegistry::Add<fakecuda::frontend::attribute::DeviceBuiltinAttrInfo> Y(DEVICE_BUILTIN_ATTR_NAME, "");

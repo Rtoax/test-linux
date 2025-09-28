@@ -6,10 +6,20 @@
 
 #define __fc_global__	__attribute__((fakecuda_global))
 #define __fc_device__	__attribute__((fakecuda_device))
+#define __fc_device_builtin__	__attribute__((fakecuda_device_builtin))
 
 struct st1 {
 	int a;
 };
+
+struct __fc_device_builtin__ uint3
+{
+	unsigned int x, y, z;
+};
+
+typedef __fc_device_builtin__ struct uint3 uint3;
+
+uint3 __attribute__((device_builtin)) extern const threadIdx;
 
 __fc_device__ int a = 0;
 __fc_device__ struct st1 st1;

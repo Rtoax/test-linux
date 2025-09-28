@@ -17,6 +17,8 @@ include ../../../../../template/main.mk
 ${OUTPUT}hello.o: ${targets-libso-cpp}
 
 ${OUTPUT}lexerExtension.cpp.so.o: syntax.hpp
+${OUTPUT}attribute-global.cpp.so.o: configs.hpp
+${OUTPUT}attribute-device.cpp.so.o: configs.hpp
 
 plugin-objs := ${OUTPUT}attribute-global.cpp.so.o
 plugin-objs += ${OUTPUT}attribute-device.cpp.so.o
