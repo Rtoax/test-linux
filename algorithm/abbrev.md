@@ -3,3 +3,4 @@
 - LPM: Largest Prefix Match (最大前缀匹配)
 - LRU: Least Recently Used ()
 - ML: Machine Learning (机器学习)
+- NaN: Not a Number (不是个数)

@@ -287,6 +287,17 @@ __myconst__ fp16_t fp16_NegMax = FP16_INITIALIZER(1, 0x1e, 0x3ff);
 __myconst__ fp16_t fp16_PosMin = FP16_INITIALIZER(0, 0x1, 0);
 __myconst__ fp16_t fp16_NegMin = FP16_INITIALIZER(1, 0x1, 0);
 
+__myconst__ bf16_t bf16_qNaN = BF16_INITIALIZER(0, 0xff, 0x7f);	/* Quiet NaN */
+__myconst__ bf16_t bf16_sNaN = BF16_INITIALIZER(0, 0xff, 0x3f);	/* Signaling NaN */
+__myconst__ bf16_t bf16_PosZero = BF16_INITIALIZER(0, 0, 0);
+__myconst__ bf16_t bf16_NegZero = BF16_INITIALIZER(1, 0, 0);
+__myconst__ bf16_t bf16_PosInf = BF16_INITIALIZER(0, 0xff, 0);
+__myconst__ bf16_t bf16_NegInf = BF16_INITIALIZER(1, 0xff, 0);
+__myconst__ bf16_t bf16_PosMax = BF16_INITIALIZER(0, 0xfe, 0x7f);
+__myconst__ bf16_t bf16_NegMax = BF16_INITIALIZER(1, 0xfe, 0x7f);
+__myconst__ bf16_t bf16_PosMin = BF16_INITIALIZER(0, 0x1, 0);
+__myconst__ bf16_t bf16_NegMin = BF16_INITIALIZER(1, 0x1, 0);
+
 
 #ifdef HAVE_CUDA
 /**
