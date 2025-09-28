@@ -11,7 +11,7 @@
 
 using namespace clang;
 
-namespace {
+namespace fakecuda::frontend::attribute {
 
 struct DeviceAttrInfo : public ParsedAttrInfo {
 	DeviceAttrInfo() {
@@ -83,4 +83,4 @@ struct DeviceAttrInfo : public ParsedAttrInfo {
 
 } // namespace
 
-static ParsedAttrInfoRegistry::Add<DeviceAttrInfo> X(DEVICE_ATTR_NAME, "");
+static ParsedAttrInfoRegistry::Add<fakecuda::frontend::attribute::DeviceAttrInfo> X(DEVICE_ATTR_NAME, "");
