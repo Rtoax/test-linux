@@ -52,6 +52,7 @@
  * - https://en.wikipedia.org/wiki/Single-precision_floating-point_format
  * - https://en.wikipedia.org/wiki/Double-precision_floating-point_format
  * - https://github.com/Maratyszcza/FP16
+ * - https://clang.llvm.org/docs/LanguageExtensions.html
  */
 #include <assert.h>
 #include <stdio.h>
@@ -207,9 +208,36 @@ typedef union fp16 {
 #ifdef SUPPORT_FP16
 	compat_fp16 f16;
 #endif
+#ifdef __clang__
+	/**
+	 * __fp16 is supported on all targets.
+	 * The special semantics of this type mean that no arithmetic is ever
+	 * performed directly on __fp16 values.
+	 * from: https://clang.llvm.org/docs/LanguageExtensions.html
+	 */
+	__fp16 fp16;
+#endif
 	uint16_t i16;
 #define FP16_INITIALIZER(s, e, f) {__FP16_INITIALIZER(s, e, f)}
 } fp16_t;
+
+typedef union bf16 {
+	struct {
+		#if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
+		uint16_t fraction:7;
+		uint16_t exponent:8;
+		uint16_t sign:1;
+		# define __BF16_INITIALIZER(s, e, f) {f, e, s}
+		#else
+		uint16_t sign:1;
+		uint16_t exponent:8;
+		uint16_t fraction:7;
+		# define __BF16_INITIALIZER(s, e, f) {s, e, f}
+		#endif
+	} __attribute__((packed));
+	uint16_t i16;
+#define BF16_INITIALIZER(s, e, f) {__BF16_INITIALIZER(s, e, f)}
+} bf16_t;
 
 
 /* https://en.wikipedia.org/wiki/Double-precision_floating-point_format */

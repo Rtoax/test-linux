@@ -25,7 +25,7 @@ endef
 
 # Check compiler support type
 # $(1) - compiler, gcc, clang, etc.
-# $(2) - type name, _Float16, float, etc.
+# $(2) - type name, such as _Float16, float, etc.
 define check_compiler_support_type
 $(shell echo 'int main(void) { $(2) v; return 0; }' | \
 	$(1) -x c -Werror - -o /dev/null 2>/dev/null && echo y)
@@ -59,6 +59,7 @@ CC_STD_GNU17 := $(findstring 1,$(call check_compiler_option,$(CC),-std=gnu17))
 CC_STD_GNU++20 := $(findstring 1,$(call check_compiler_option,$(CC),-std=gnu++20))
 CC_STD_C++20 := $(findstring 1,$(call check_compiler_option,$(CC),-std=c++20))
 
+# see https://clang.llvm.org/docs/LanguageExtensions.html
 CC__Float32 := $(findstring y,$(call check_compiler_support_type,$(CC),_Float16))
 
 CC_FULLVERSION := $(shell $(CC) -dumpfullversion -dumpversion)
