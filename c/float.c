@@ -236,6 +236,9 @@ typedef union bfloat16 {
 		# define __BF16_INITIALIZER(s, e, f) {s, e, f}
 		#endif
 	} __attribute__((packed));
+#ifdef SUPPORT___bf16
+	__bf16 f16;
+#endif
 	uint16_t i16;
 #define BF16_INITIALIZER(s, e, f) {__BF16_INITIALIZER(s, e, f)}
 } bf16_t;

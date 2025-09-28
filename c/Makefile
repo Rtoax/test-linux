@@ -88,6 +88,12 @@ ifeq (${CC___fp16},y)
   endif
   CFLAGS_float := -DSUPPORT___fp16=1
 endif
+ifeq (${CC___bf16},y)
+  ifdef DEBUG
+    $(info "${CC} support __bf16")
+  endif
+  CFLAGS_float := -DSUPPORT___bf16=1
+endif
 LDFLAGS_float := -lm
 
 # preprocessing

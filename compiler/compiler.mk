@@ -62,6 +62,7 @@ CC_STD_C++20 := $(findstring 1,$(call check_compiler_option,$(CC),-std=c++20))
 # see https://clang.llvm.org/docs/LanguageExtensions.html
 CC__Float16 := $(findstring y,$(call check_compiler_support_type,$(CC),_Float16))
 CC___fp16 := $(findstring y,$(call check_compiler_support_type,$(CC),__fp16))
+CC___bf16 := $(findstring y,$(call check_compiler_support_type,$(CC),__bf16))
 
 CC_FULLVERSION := $(shell $(CC) -dumpfullversion -dumpversion)
 CC_VERSION := $(shell $(CC) -dumpversion)
@@ -91,6 +92,7 @@ ifdef DEBUG
   $(info CC_STD_C++20: ${CC_STD_C++20})
   $(info CC__Float16: ${CC__Float16})
   $(info CC___fp16: ${CC___fp16})
+  $(info CC___bf16: ${CC___bf16})
 
   $(info feature-m32 ${feature-m32})
   $(info feature-sve2 ${feature-sve2})
