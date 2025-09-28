@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: GPL-3.0
+/* Copyright (c) 2025 Rong Tao */
 #include "clang/AST/ASTContext.h"
 #include "clang/AST/Attr.h"
 #include "clang/Sema/ParsedAttr.h"
@@ -5,7 +7,7 @@
 #include "clang/Sema/SemaDiagnostic.h"
 #include "llvm/IR/Attributes.h"
 
-#define DEVICE_ATTR_NAME	"fakecuda_device"
+#include "configs.hpp"
 
 using namespace clang;
 
@@ -32,10 +34,11 @@ struct DeviceAttrInfo : public ParsedAttrInfo {
 
 	bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr,
 				  const Decl *D) const override {
-		/* This attribute appertains to functions only. */
-		if (!isa<FunctionDecl>(D)) {
-			S.Diag(Attr.getLoc(), diag::warn_attribute_wrong_decl_type)
-				<< Attr << Attr.isRegularKeywordAttribute() << ExpectedFunction;
+		/* This attribute appertains to functions, variable. */
+		if (!isa<FunctionDecl>(D) && !isa<VarDecl>(D)) {
+			unsigned ID = S.getDiagnostics().getCustomDiagID(DiagnosticsEngine::Error,
+						"'" DEVICE_ATTR_NAME "' attribute only allowed at function and variable");
+			S.Diag(Attr.getLoc(), ID);
 			return false;
 		}
 		return true;
