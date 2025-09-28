@@ -259,6 +259,7 @@ __myconst__ fp64_t fp64_NegMin = FP64_INITIALIZER(1, 1, 0);
 
 /* https://en.wikipedia.org/wiki/Single-precision_floating-point_format */
 __myconst__ fp32_t fp32_NaN = FP32_INITIALIZER(1, 0xff, 0xff);
+__myconst__ fp32_t fp32_PosOne = FP32_INITIALIZER(0, 0x7f, 0);
 __myconst__ fp32_t fp32_PosInf = FP32_INITIALIZER(0, 0xff, 0);
 __myconst__ fp32_t fp32_NegInf = FP32_INITIALIZER(1, 0xff, 0);
 __myconst__ fp32_t fp32_PosZero = FP32_INITIALIZER(0, 0, 0);
@@ -289,6 +290,8 @@ __myconst__ fp16_t fp16_NegMin = FP16_INITIALIZER(1, 0x1, 0);
 
 __myconst__ bf16_t bf16_qNaN = BF16_INITIALIZER(0, 0xff, 0x7f);	/* Quiet NaN */
 __myconst__ bf16_t bf16_sNaN = BF16_INITIALIZER(0, 0xff, 0x3f);	/* Signaling NaN */
+__myconst__ bf16_t bf16_NaN = BF16_INITIALIZER(0, 0xff, 0x7f);	/* default use qNaN */
+__myconst__ bf16_t bf16_PosOne = BF16_INITIALIZER(0, 0x7f, 0);
 __myconst__ bf16_t bf16_PosZero = BF16_INITIALIZER(0, 0, 0);
 __myconst__ bf16_t bf16_NegZero = BF16_INITIALIZER(1, 0, 0);
 __myconst__ bf16_t bf16_PosInf = BF16_INITIALIZER(0, 0xff, 0);
@@ -517,6 +520,70 @@ void __myglobal__ __kernel_check_fp16(compat_fp16 f)
 	} while (0)
 #endif /* SUPPORT_FP16 */
 
+void __mydevice__ bfloat16_to_bf16(const __bf16 f, bf16_t *bf16)
+{
+	__bf16 tmp = f;
+	int16_t i16 = *(int16_t *)&tmp;
+
+	*bf16 = *(bf16_t *)&i16;
+}
+
+__bf16 __mydevice__ bf16_to_bfloat16(const bf16_t *bf16)
+{
+	float sign = 1 - 2 * (bf16->sign % 2);
+	float e2, fra;
+
+	if (bf16->exponent == 0) {
+		if (bf16->fraction == 0) {
+			return bf16->sign == 0 ? bf16_PosZero.f16 :
+						 bf16_NegZero.f16;
+		} else {
+			e2 = exp2f(-126.0f);
+			fra = 0 + fraction_value(bf16->fraction, 7);
+		}
+	} else if (bf16->exponent == 0xff) {
+		if (bf16->fraction == 0)
+			return bf16->sign == 0 ? bf16_PosInf.f16 :
+						 bf16_NegInf.f16;
+		else
+			return bf16_NaN.f16;
+	} else {
+		e2 = exp2f(bf16->exponent - 127.0f);
+		fra = 1 + fraction_value(bf16->fraction, 7);
+	}
+
+	return sign * e2 * fra;
+}
+
+float __bf16tofloat(__bf16 bf16)
+{
+	uint32_t float_bits = (uint32_t)bf16 << 16;
+	float float_val = *(float *)&float_bits;
+	return float_val;
+}
+
+void __myglobal__ __kernel_check_bf16(__bf16 f)
+{
+	__bf16 to;
+	bf16_t bf16;
+
+	bfloat16_to_bf16(f, &bf16);
+	to = bf16_to_bfloat16(&bf16);
+
+	printf("%f vs %f (%x %x %x) ", __bf16tofloat(f), __bf16tofloat(to),
+		bf16.sign, bf16.exponent, bf16.fraction);
+
+	assert(*(uint16_t *)&f == *(uint16_t *)&to && "Failed to check bf16");
+}
+
+#define check_bf16(v)	do {	\
+		printf("%s: ", #v);	\
+		typeof(v) ___v = v;	\
+		__kernel_check_bf16 DIM (___v);	\
+		mysync();	\
+		binprint(&___v, sizeof(v) * 8);	\
+	} while (0)
+
 
 void base_test(void)
 {
@@ -542,12 +609,14 @@ void base_test(void)
 	seperator();
 
 	check_fp32(0);
+	check_fp32(1);
 	check_fp32(1.2f);
 	check_fp32(0.2f);
 	check_fp32(1.23456789f);
 	check_fp32(0.23456789f);
 	check_fp32(3.14159265f);
 	check_fp32(-3.14159265f);
+	check_fp32(st2host(fp32_PosOne, f32));
 	check_fp32(st2host(fp32_NaN, f32));
 	check_fp32(st2host(fp32_PosInf, f32));
 	check_fp32(st2host(fp32_NegInf, f32));
@@ -580,6 +649,18 @@ void base_test(void)
 	check_fp16(st2host(fp16_PosMin, f16));
 	check_fp16(st2host(fp16_NegMin, f16));
 #endif
+
+	seperator();
+
+	/**
+	 * FIXME: all 0.000000????????
+	 */
+	check_bf16(st2host(bf16_PosOne, f16));
+	check_bf16(st2host(bf16_NaN, f16));
+	check_bf16(st2host(bf16_PosZero, f16));
+	check_bf16(st2host(bf16_NegZero, f16));
+	check_bf16(st2host(bf16_PosInf, f16));
+	check_bf16(st2host(bf16_NegInf, f16));
 
 	reset();
 }
