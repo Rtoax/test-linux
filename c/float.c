@@ -209,7 +209,7 @@ typedef union fp16 {
 #ifdef SUPPORT_FP16
 	compat_fp16 f16;
 #endif
-#ifdef __clang__
+#if defined(__clang__) || defined(SUPPORT___fp16)
 	/**
 	 * __fp16 is supported on all targets.
 	 * The special semantics of this type mean that no arithmetic is ever
