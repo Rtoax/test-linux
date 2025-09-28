@@ -1,5 +1,5 @@
 #ifdef TEST_ATTRIBUTE
-#define __example	__attribute__(("example"))
+#define __example	__attribute__((example))
 #else
 #define __example
 #endif
