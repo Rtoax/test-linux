@@ -20,6 +20,7 @@ targets-prep := ${SRCS}
 targets-libso-cpp := PrintFunctionNames.so
 targets-libso-cpp += AnnotateFunctions.so
 targets-libso-cpp += Attribute.so
+targets-libso-cpp += pid.so
 
 targets-post := test-plugins
 
@@ -38,6 +39,9 @@ AnnotateFunctions.so: ${OUTPUT}AnnotateFunctions.cpp.so.o
 
 ${OUTPUT}Attribute.cpp.so.o: Attribute.cpp
 Attribute.so: ${OUTPUT}Attribute.cpp.so.o
+
+${OUTPUT}pid.cpp.so.o: pid.cpp
+pid.so: ${OUTPUT}pid.cpp.so.o
 
 test-plugins:
 	${Q}${SHELL} test-plugins.sh

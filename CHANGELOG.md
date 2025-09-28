@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- clang: plugins: add pid.cpp;
 - fakeCUDA/frontend: add attribute-device.cpp, attribute-global.cpp;
 - add scripts/dialog/config.sh;
 - sw: add README.md;
