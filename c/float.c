@@ -49,6 +49,7 @@
  * Refs:
  * - https://en.wikipedia.org/wiki/IEEE_754-2008_revision
  * - https://en.wikipedia.org/wiki/Half-precision_floating-point_format
+ * - https://en.wikipedia.org/wiki/Bfloat16_floating-point_format
  * - https://en.wikipedia.org/wiki/Single-precision_floating-point_format
  * - https://en.wikipedia.org/wiki/Double-precision_floating-point_format
  * - https://github.com/Maratyszcza/FP16
@@ -221,7 +222,7 @@ typedef union fp16 {
 #define FP16_INITIALIZER(s, e, f) {__FP16_INITIALIZER(s, e, f)}
 } fp16_t;
 
-typedef union bf16 {
+typedef union bfloat16 {
 	struct {
 		#if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
 		uint16_t fraction:7;
