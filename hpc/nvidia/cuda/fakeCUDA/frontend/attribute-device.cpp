@@ -1,0 +1,81 @@
+#include "clang/AST/ASTContext.h"
+#include "clang/AST/Attr.h"
+#include "clang/Sema/ParsedAttr.h"
+#include "clang/Sema/Sema.h"
+#include "clang/Sema/SemaDiagnostic.h"
+#include "llvm/IR/Attributes.h"
+
+using namespace clang;
+
+namespace {
+
+struct DeviceAttrInfo : public ParsedAttrInfo {
+	DeviceAttrInfo() {
+		/**
+		 * Can take up to 0 optional arguments, to emulate accepting a
+		 * variadic number of arguments. This just illustrates how many
+		 * arguments a `ParsedAttrInfo` can hold.
+		 */
+		OptArgs = 15;
+		/**
+		 * GNU-style __attribute__(("device")) and C++/C23-style [[device]]
+		 * and [[plugin::device]] supported.
+		 */
+		static constexpr Spelling S[] = {{ParsedAttr::AS_GNU, "device"},
+						 {ParsedAttr::AS_C23, "device"},
+						 {ParsedAttr::AS_CXX11, "device"},
+						 {ParsedAttr::AS_CXX11, "plugin::device"}};
+		Spellings = S;
+	}
+
+	bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr,
+				  const Decl *D) const override {
+		/* This attribute appertains to functions only. */
+		if (!isa<FunctionDecl>(D)) {
+			S.Diag(Attr.getLoc(), diag::warn_attribute_wrong_decl_type)
+				<< Attr << Attr.isRegularKeywordAttribute() << ExpectedFunction;
+			return false;
+		}
+		return true;
+	}
+
+	AttrHandling handleDeclAttribute(Sema &S, Decl *D,
+					 const ParsedAttr &Attr) const override {
+		/* Check if the decl is at file scope. */
+		if (!D->getDeclContext()->isFileContext()) {
+			unsigned ID = S.getDiagnostics().getCustomDiagID(DiagnosticsEngine::Error,
+						"'device' attribute only allowed at file scope");
+			S.Diag(Attr.getLoc(), ID);
+			return AttributeNotApplied;
+		}
+
+		/* No need arguments */
+		if (Attr.getNumArgs() > 0) {
+			unsigned ID = S.getDiagnostics().getCustomDiagID(DiagnosticsEngine::Error,
+						"'device' attribute no need arguments");
+			S.Diag(Attr.getLoc(), ID);
+			return AttributeNotApplied;
+		}
+		return AttributeApplied;
+	}
+
+	AttrHandling handleStmtAttribute(Sema &S, Stmt *St, const ParsedAttr &Attr,
+				  class Attr *&Result) const override {
+
+		if (Attr.getNumArgs() > 0) {
+			unsigned ID = S.getDiagnostics().getCustomDiagID(
+						DiagnosticsEngine::Error,
+						"'device' attribute no need arguments");
+			S.Diag(Attr.getLoc(), ID);
+			return AttributeNotApplied;
+		} else {
+			Result = AnnotateAttr::Create(S.Context, "device", nullptr, 0,
+						Attr.getRange());
+		}
+		return AttributeApplied;
+	}
+};
+
+} // namespace
+
+static ParsedAttrInfoRegistry::Add<DeviceAttrInfo> X("device", "");
