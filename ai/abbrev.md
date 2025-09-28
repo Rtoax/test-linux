@@ -9,6 +9,7 @@
 - NLP: Nature Language Process (自然语言处理)
 - ONNX: Open Neural Network Exchange (开放神经网络交换)
 - PD: Prediction Server (预测服务器) @EP
+- PDS: Prefill-Decode Separation (PD分离)
 - QKV: Query, Key, Value (查询、键、值) @LLM @KVCache
 - SGD: Stochastic Gradient Descent (随机梯度下降)
 - Tensor: (张量，是一种特殊的数据结构)
