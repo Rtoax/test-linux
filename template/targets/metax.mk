@@ -7,7 +7,7 @@ include ${TEMPLATE_DIR}/../hpc/metax/hpcc.mk
 cflags-htcc-devbin := -device-bin
 cflags-htcc-fatbin := -fatbin
 
-CFLAGS_HTCC += -DHAVE_HCCL=1
+CFLAGS_HTCC += -DHAVE_HPCC=1
 
 ifneq ($(wildcard ${HPCC_CU_BRIDGE}),)
   CFLAGS_HTCC += -I${HPCC_CU_BRIDGE} -DHPCC_CU_BRIDGE=1
