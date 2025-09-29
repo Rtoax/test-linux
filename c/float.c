@@ -803,13 +803,13 @@ void __myglobal__ __kernel_init_all_fp16_arr(size_t size, float init)
 void __myglobal__ __kernel_overflow_mul_fp16(void)
 {
 	data_fp16.f16 = compat_fp16_mul(data_fp16.f16, data_fp16_bias.f16);
-	rslt_fp32.f32 = compat_half2float(compat_fp16_mul(rslt_fp32.f32, data_fp16_bias.f16));
+	rslt_fp32.f32 += compat_half2float(data_fp16_bias.f16);
 }
 
 void __myglobal__ __kernel_overflow_add_fp16(void)
 {
 	data_fp16.f16 = compat_fp16_add(data_fp16.f16, data_fp16_bias.f16);
-	rslt_fp32.f32 = compat_fp16_add(rslt_fp32.f32, data_fp16_bias.f16);
+	rslt_fp32.f32 += compat_half2float(data_fp16_bias.f16);
 }
 
 void __myglobal__ __kernel_overflow_muladd_fp16(size_t loop, size_t interval)
