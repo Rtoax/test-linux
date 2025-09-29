@@ -98,7 +98,7 @@
 # define __mydevice__	__device__
 # define __myglobal__	__global__
 # define __myconst__	__constant__
-# define mysync()	cudaDeviceSynchronize()
+# define mysync()	(void)cudaDeviceSynchronize()
 #else
 # define DIM
 # define __mydevice__
@@ -363,12 +363,12 @@ __myconst__ bf16_t bf16_NegMin = BF16_INITIALIZER(1, 0x1, 0);
  */
 # define st2host(st, field)	({	\
 		typeof(st.field) __v;	\
-		cudaMemcpyFromSymbol(&__v, st, sizeof(st.field), offsetof(typeof(st), field));	\
+		(void)cudaMemcpyFromSymbol(&__v, st, sizeof(st.field), offsetof(typeof(st), field));	\
 		__v;	\
 	})
 # define stset(st, field, v)	do {	\
 		typeof(st) __hostst = { .field = v, };	\
-		cudaMemcpyToSymbol(st, &__hostst, sizeof(st));	\
+		(void)cudaMemcpyToSymbol(st, &__hostst, sizeof(st));	\
 	} while (0)
 #else
 # define st2host(st, field)	st.field
