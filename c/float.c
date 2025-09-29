@@ -120,14 +120,6 @@
 #endif
 
 #ifdef SUPPORT___bf16
-# define SUPPORT_BF16
-# define compat_bf16	__bf16
-/**
- * The compiler natively supports the __bf16 format, so the conversion
- * can be done directly.
- */
-# define compat_bf16tofloat(v)	((float)v)
-# define compat_floattobf16(v)	((__bf16)v)
 /**
  * Note: gcc >= 13 __bf16 arithmetic support.
  *
@@ -140,11 +132,14 @@
  * - commit a7a7e9572022 ("[AMDGPU][Clang] Support bfloat16 arithmetic. (#147541)")
  * - commit e62175736551 ("[Clang][BFloat16] Upgrade __bf16 to arithmetic type, change mangling, and extend excess precision support")
  */
-#if (defined(__clang__) && (__clang_major__ < 20)) && \
-    (defined(__GNUC__) && (__GNUC__ < 13))
-#  pragma message "Not support bfloat16 arithmetic"
-#  undef SUPPORT_BF16
+# if (defined(__clang__) && (__clang_major__ >= 20)) || \
+     (defined(__GNUC__) && (__GNUC__ >= 13))
+#  pragma message "Support bfloat16 arithmetic"
+#  define SUPPORT_BF16
 # endif
+# define compat_bf16	__bf16
+# define compat_bf16tofloat(v)	((float)v)
+# define compat_floattobf16(v)	((__bf16)v)
 # define compat_bf16_mul(a, b)	(a * b)
 #elif defined(HAVE_CUDA)
 # define SUPPORT_BF16
