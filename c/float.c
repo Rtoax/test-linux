@@ -193,7 +193,7 @@ static struct {
 	.bf16 = true,
 };
 
-static const char *const version = "v1.2.0";
+static const char *const version = "v1.3.0";
 
 #define seperator() do {	\
 		if (env.nocolor) {	\
@@ -753,6 +753,7 @@ __mydevice__ fp16_t data_fp16_bias_arr[DATA_ARRAY_SIZE];
 __mydevice__ fp64_t rslt_fp64;
 __mydevice__ fp32_t rslt_fp32;
 
+
 void __myglobal__ __kernel_init_all_arr_fp32(size_t size)
 {
 	for (size_t i = 0; i < size; i++) {
@@ -791,11 +792,11 @@ void __myglobal__ __kernel_overflow_muladd_fp32_arr(size_t len, size_t interval)
 	}
 }
 
-void __myglobal__ __kernel_init_all_arr_fp16(size_t size)
+void __myglobal__ __kernel_init_all_fp16_arr(size_t size)
 {
 	for (size_t i = 0; i < size; i++) {
-		data_fp16_arr[i].f16 = compat_float2half(i * 1000.f);
-		data_fp16_bias_arr[i].f16 = compat_float2half(i * 1000.f);
+		data_fp16_arr[i].f16 = compat_float2half(1.123f);
+		data_fp16_bias_arr[i].f16 = compat_float2half(1.123f);
 	}
 }
 
@@ -813,12 +814,14 @@ void __myglobal__ __kernel_overflow_add_fp16(void)
 
 void __myglobal__ __kernel_overflow_muladd_fp16(size_t loop, size_t interval)
 {
-	for (size_t i = 0; i < loop; i += interval) {
-		data_fp16.f16 = compat_fp16_mul(data_fp16.f16, data_fp16_bias.f16);
-		data_fp16.f16 = compat_fp16_add(data_fp16.f16, data_fp16_bias.f16);
+	compat_fp16 tmp;
 
-		rslt_fp32.f32 = compat_half2float(compat_fp16_mul(compat_float2half(rslt_fp32.f32), data_fp16_bias.f16));
-		rslt_fp32.f32 = compat_half2float(compat_fp16_add(compat_float2half(rslt_fp32.f32), data_fp16_bias.f16));
+	for (size_t i = 0; i < loop; i += interval) {
+		tmp = compat_fp16_mul(data_fp16.f16, data_fp16_bias.f16);
+
+		data_fp16.f16 = compat_fp16_add(data_fp16.f16, tmp);
+
+		rslt_fp32.f32 += compat_half2float(tmp);
 	}
 }
 
@@ -828,10 +831,10 @@ void __myglobal__ __kernel_overflow_muladd_fp16_arr(size_t len, size_t interval)
 
 	for (size_t j = 0; j < len; j += interval) {
 		tmp = compat_fp16_mul(data_fp16_arr[j].f16, data_fp16_bias_arr[j].f16);
+
 		data_fp16.f16 = compat_fp16_add(data_fp16.f16, tmp);
 
-		tmp = compat_fp16_mul(data_fp16_arr[j].f16, data_fp16_bias_arr[j].f16);
-		rslt_fp32.f32 += compat_half2float(compat_fp16_add(compat_float2half(rslt_fp32.f32), tmp));
+		rslt_fp32.f32 += compat_half2float(tmp);
 	}
 }
 
@@ -939,6 +942,25 @@ void overflow_muladd_fp16(void)
 		mysync();
 	}
 }
+
+void overflow_muladd_fp16_arr(void)
+{
+	for (size_t i = 100; i <= DATA_ARRAY_SIZE; i += 100) {
+		__kernel_init_all_fp16_arr DIM (i);
+
+		stset(data_fp16, f16, compat_float2half(1.f));
+		stset(rslt_fp32, f32, 1.f);
+
+		__kernel_overflow_muladd_fp16_arr DIM (i, 1);
+
+		seperator();
+		printf("=========== fp16 muladd arr %ld ==========\n", i);
+		check_fp16(st2host(data_fp16, f16));
+		check_fp32(st2host(rslt_fp32, f32));
+		reset();
+		mysync();
+	}
+}
 #ifdef __HPCC__
 # pragma clang diagnostic pop
 #endif
@@ -1023,6 +1045,8 @@ void fp16_precision_test(void)
 {
 	seperator();
 	overflow_muladd_fp16();
+	seperator();
+	overflow_muladd_fp16_arr();
 	reset();
 }
 
