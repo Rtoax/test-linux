@@ -33,6 +33,7 @@ targets-post := $(patsubst %,${OUTPUT}%.E.cu,$(targets-nvcc))
 targets-post += $(patsubst %,${OUTPUT}%.cu.sass.dump,$(targets-nvcc))
 targets-post += $(patsubst %,${OUTPUT}%.cu.ptx.dump,$(targets-nvcc))
 targets-post += $(patsubst %,${OUTPUT}%.ptx,$(targets-nvcc))
+targets-post += $(patsubst %,${OUTPUT}%.cu.cpp.ii,$(targets-nvcc))
 targets-post += $(patsubst %,${OUTPUT}%,$(obj-cubin))
 targets-post += $(patsubst %,${OUTPUT}%,$(obj-fatbin))
 

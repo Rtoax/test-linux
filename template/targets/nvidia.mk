@@ -4,6 +4,7 @@
 # Targets list:
 # .cu.o
 # .ptx
+# .cu.cpp.ii
 # .cubin
 # .fatbin
 # .nv_fatbin
@@ -78,7 +79,11 @@ ${OUTPUT}%.cu.o: %.cu | ${OUTPUT}
 
 ${OUTPUT}%.ptx: %.cu | ${OUTPUT}
 	$(call log_tgt_obj,PTX,$(<),$(@))
-	${Q}$(NVCC) -ptx -o $(@) -c $(<) $(cflags-nvcc-fatbin) $(CFLAGS_NVCC) $(CFLAGS_NVCC_$(*))
+	${Q}$(NVCC) -ptx -o $(@) -c $(<) $(CFLAGS_NVCC) $(CFLAGS_NVCC_$(*))
+
+${OUTPUT}%.cu.cpp.ii: %.cu | ${OUTPUT}
+	$(call log_tgt_obj,II,$(<),$(@))
+	${Q}$(NVCC) -cuda -o $(@) -c $(<) $(CFLAGS_NVCC) $(CFLAGS_NVCC_$(*))
 
 ${OUTPUT}%.cubin: %.cu | ${OUTPUT}
 	$(call log_tgt_obj,CUBIN,$(<),$(@))
