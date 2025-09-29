@@ -71,6 +71,7 @@ help:
 	@echo >&2 -e "*** make docker"
 	@echo >&2 -e "***"
 	@echo >&2 -e "*** make menuconfig"
+	@echo >&2 -e "*** make config"
 	@echo >&2 -e "***"
 	@echo >&2 -e "*** make version"
 	@echo >&2 -e "***"
@@ -172,6 +173,12 @@ menuconfig:
 	$(call log_info,top-makefile menuconfig)
 	@echo "=== menuconfig"
 	$(SHELL) ./scripts/config/dialog.sh
+
+.PHONY: config
+config:
+	$(call log_info,top-makefile config)
+	@echo "=== config"
+	$(SHELL) ./scripts/config/no-interaction.sh
 
 define check_links
 	@echo "Check invalid symbol link start"

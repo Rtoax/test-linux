@@ -13,6 +13,7 @@ declare -a configs
 [[ -e /opt/hpcc/ ]] && configs+=( HAVE_HPCC=y )
 [[ -e /usr/include/hip/ ]] && configs+=( HAVE_HIP=y )
 [[ -e /usr/include/hipblas/ ]] && configs+=( HAVE_HIP_BLAS=y )
+[[ -e /usr/include/libcgroup.h ]] && configs+=( HAVE_LIBCGROUP=y )
 
 if [[ -e /usr/local/cuda/include/cuda.h ]] || [[ -e /usr/include/cuda.h ]]; then
 	configs+=( HAVE_CUDA=y )
