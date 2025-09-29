@@ -1,6 +1,6 @@
 - CCCL: CUDA Core Compute Libraries (CUDA 核心计算库)
 - NCCL: NVIDIA Collective Communication Library (NVIDIA 集体通信库) @HCCL @RCCL
 - NVLINK: () @NVIDIA @CXL
-- PTX: Parallel Thread eXecution (并行线程执行,GPU汇编代码)
-- SASS: Shader Assembly (GPU机器码)
+- PTX: Parallel Thread eXecution (并行线程执行，NVIDIA GPU中间表示) @SASS
+- SASS: Shader Assembly (NVIDIA GPU机器码) @PTX
 - UM: Unified Memory (统一内存)

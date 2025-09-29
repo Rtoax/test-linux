@@ -11,6 +11,8 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- nvidia: add ptx/;
+- amd: add amdgcn/;
 - c: add `__bf16.c`;
 - clang: plugins: add pid.cpp;
 - fakeCUDA/frontend: add attribute-device.cpp, attribute-global.cpp;

@@ -1,5 +1,5 @@
 - CLR: Compute Language Runtimes (计算语言运行时)
-- GCN:  AMD Graphics Core Next (AMD 为 GPU 设计的新一代计算架构)
+- GCN: AMD Graphics Core Next (AMD 为 GPU 设计的新一代计算架构)
 - RCCL: ROCm Communication Collectives Library (ROCm 计算通信集体库) @HCCL @NCCL
 - RDNA: Radeon DNA (2019年推出的新架构，专注于游戏和能效，如RX 5000系列)
 - ROC/ROCm: Radeon Open Compute (Radeon 开放计算) @AMD

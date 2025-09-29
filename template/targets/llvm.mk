@@ -1,13 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
 _TARGET_LLVM = 1
 
-CLANG := $(shell which clang 2>/dev/null)
-CLANG_CXX := $(shell which clang++ 2>/dev/null)
-
-LLVM_CONFIG := $(shell which llvm-config 2>/dev/null)
-LLVM_AS := $(shell which llvm-as 2>/dev/null)
-LLVM_DIS := $(shell which llvm-dis 2>/dev/null)
-LLC := $(shell which llc 2>/dev/null)
+include ${TEMPLATE_DIR}/../compiler/llvm/llvm.mk
 
 ifeq ($(CLANG),)
   $(error Not found clang, please install clang first)
