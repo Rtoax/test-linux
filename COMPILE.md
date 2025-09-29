@@ -3,16 +3,22 @@ Test-Linux Compile
 
 The purpose of compilation is to compile the code of this directory and subdirectories directly in each level of directory.
 
-## Config First
+## GIT Config
 
 ```
-$ make config
+$ make gitconfig
 ```
 
 ## Install depends
 
 ```
 $ sudo make deps
+```
+
+## Config
+
+```
+$ make config
 ```
 
 ## Compile in Top Directory
@@ -43,4 +49,4 @@ $ make build V=1
 
 ## Create Makefile
 
-You should better use `template/main.mk`.
+You'd better use `template/main.mk`.
