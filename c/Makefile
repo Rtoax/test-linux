@@ -22,7 +22,7 @@ targets += compat
 targets += compare
 targets += _Generic
 targets += goto
-targets += float
+targets += float __bf16
 targets += ptr-dim
 targets += struct
 targets += string
@@ -99,6 +99,7 @@ compat: ${OUTPUT}compat.o
 compare: ${OUTPUT}compare.o
 dummy: ${OUTPUT}dummy.o
 float: ${OUTPUT}float.o
+__bf16: ${OUTPUT}__bf16.o
 _Generic: ${OUTPUT}_Generic.o
 goto: ${OUTPUT}goto.o
 ptr-dim: ${OUTPUT}ptr-dim.o ${OUTPUT}c_helpers.o

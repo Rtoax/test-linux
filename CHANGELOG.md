@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- c: add `__bf16.c`;
 - clang: plugins: add pid.cpp;
 - fakeCUDA/frontend: add attribute-device.cpp, attribute-global.cpp;
 - add scripts/dialog/config.sh;
