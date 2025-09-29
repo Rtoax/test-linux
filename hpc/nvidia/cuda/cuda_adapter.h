@@ -19,7 +19,8 @@
 # define __CUDA_ERROR(name)	HIP_##name
 # define __nv(name)	hip##name
 # define __NV(name)	HIP##name
-#elif !defined(__cu) || !defined(__CU) || !defined(__CUDA)
+#elif !defined(__cu) || !defined(__cuda) || !defined(__CU) || \
+	!defined(__CUDA) || !defined(__nv) || !defined(__NV)
 # error "Must define __cu(), __cuda(), __CU(), __CUDA(), __CUDA_ERROR(), __nv(), __NV() macros, or define HAVE_HPCC, HAVE_HIP"
 #endif
 
