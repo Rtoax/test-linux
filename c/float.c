@@ -129,9 +129,17 @@
 # define compat_bf16tofloat(v)	((float)v)
 # define compat_floattobf16(v)	((__bf16)v)
 /**
- * FIXME: __bf16 could not calculate multiply on CPU.
+ * Note: gcc >= 13 __bf16 arithmetic support.
+ *
+ * gcc git://gcc.gnu.org/git/gcc.git
+ * - commit 0a329ecf1137 ("libgcc, Darwin: Update symbol exports to include bitint and bf.")
+ * - commit 13071c3c7d1b ("aarch64: Add bfloat16_t support for aarch64")
+ * - commit c2565a31c162 ("middle-end, c++, i386, libgcc: std::bfloat16_t and __bf16 arithmetic support")
  */
-# undef SUPPORT_BF16
+# if defined(__GNUC__) && (__GNUC__ < 13)
+   /* FIXME: support clang, not only __GNUC__ */
+#  undef SUPPORT_BF16
+# endif
 # define compat_bf16_mul(a, b)	(a * b)
 #elif defined(HAVE_CUDA)
 # define SUPPORT_BF16
