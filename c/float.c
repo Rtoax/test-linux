@@ -131,9 +131,14 @@ static unsigned long ansi_idx = 0;
 static struct {
 	bool nocolor;
 	bool version;
+	bool fp64, fp32, fp16, bf16;
 } env = {
 	.nocolor = false,
 	.version = false,
+	.fp64 = true,
+	.fp32 = true,
+	.fp16 = true,
+	.bf16 = true,
 };
 
 static const char *const version = "v1.0.0";
@@ -587,80 +592,84 @@ void __myglobal__ __kernel_check_bf16(__bf16 f)
 
 void base_test(void)
 {
-	seperator();
+	if (env.fp64) {
+		seperator();
+		check_fp64(0);
+		check_fp64(1.2);
+		check_fp64(0.2);
+		check_fp64(1.23456789);
+		check_fp64(0.23456789);
+		check_fp64(3.14159265);
+		check_fp64(-3.14159265);
+		check_fp64(st2host(fp64_NaN, f64));
+		check_fp64(st2host(fp64_PosInf, f64));
+		check_fp64(st2host(fp64_NegInf, f64));
+		check_fp64(st2host(fp64_PosZero, f64));
+		check_fp64(st2host(fp64_NegZero, f64));
+		check_fp64(st2host(fp64_PosMax, f64));
+		check_fp64(st2host(fp64_PosMin, f64));
+		check_fp64(st2host(fp64_NegMax, f64));
+		check_fp64(st2host(fp64_NegMin, f64));
+	}
 
-	check_fp64(0);
-	check_fp64(1.2);
-	check_fp64(0.2);
-	check_fp64(1.23456789);
-	check_fp64(0.23456789);
-	check_fp64(3.14159265);
-	check_fp64(-3.14159265);
-	check_fp64(st2host(fp64_NaN, f64));
-	check_fp64(st2host(fp64_PosInf, f64));
-	check_fp64(st2host(fp64_NegInf, f64));
-	check_fp64(st2host(fp64_PosZero, f64));
-	check_fp64(st2host(fp64_NegZero, f64));
-	check_fp64(st2host(fp64_PosMax, f64));
-	check_fp64(st2host(fp64_PosMin, f64));
-	check_fp64(st2host(fp64_NegMax, f64));
-	check_fp64(st2host(fp64_NegMin, f64));
-
-	seperator();
-
-	check_fp32(0);
-	check_fp32(1);
-	check_fp32(1.2f);
-	check_fp32(0.2f);
-	check_fp32(1.23456789f);
-	check_fp32(0.23456789f);
-	check_fp32(3.14159265f);
-	check_fp32(-3.14159265f);
-	check_fp32(st2host(fp32_PosOne, f32));
-	check_fp32(st2host(fp32_NaN, f32));
-	check_fp32(st2host(fp32_PosInf, f32));
-	check_fp32(st2host(fp32_NegInf, f32));
-	check_fp32(st2host(fp32_PosZero, f32));
-	check_fp32(st2host(fp32_NegZero, f32));
-	check_fp32(st2host(fp32_PosMax, f32));
-	check_fp32(FLT_MAX);
-	check_fp32(st2host(fp32_PosMin, f32));
-	check_fp32(FLT_MIN);
-	check_fp32(st2host(fp32_NegMax, f32));
-	check_fp32(st2host(fp32_NegMin, f32));
+	if (env.fp32) {
+		seperator();
+		check_fp32(0);
+		check_fp32(1);
+		check_fp32(1.2f);
+		check_fp32(0.2f);
+		check_fp32(1.23456789f);
+		check_fp32(0.23456789f);
+		check_fp32(3.14159265f);
+		check_fp32(-3.14159265f);
+		check_fp32(st2host(fp32_PosOne, f32));
+		check_fp32(st2host(fp32_NaN, f32));
+		check_fp32(st2host(fp32_PosInf, f32));
+		check_fp32(st2host(fp32_NegInf, f32));
+		check_fp32(st2host(fp32_PosZero, f32));
+		check_fp32(st2host(fp32_NegZero, f32));
+		check_fp32(st2host(fp32_PosMax, f32));
+		check_fp32(FLT_MAX);
+		check_fp32(st2host(fp32_PosMin, f32));
+		check_fp32(FLT_MIN);
+		check_fp32(st2host(fp32_NegMax, f32));
+		check_fp32(st2host(fp32_NegMin, f32));
+	}
 
 #ifdef SUPPORT_FP16
-	seperator();
-
-	check_fp16(compat_float2half(0.0));
-	check_fp16(compat_float2half(1.2));
-	check_fp16(compat_float2half(0.2));
-	check_fp16(compat_float2half(1.23456789));
-	check_fp16(compat_float2half(0.23456789));
-	check_fp16(compat_float2half(3.14159265));
-	check_fp16(compat_float2half(-3.14159265));
-	check_fp16(st2host(fp16_NaN, f16));
-	check_fp16(st2host(fp16_PosInf, f16));
-	check_fp16(st2host(fp16_NegInf, f16));
-	check_fp16(st2host(fp16_PosZero, f16));
-	check_fp16(st2host(fp16_NegZero, f16));
-	check_fp16(st2host(fp16_PosMax, f16));
-	check_fp16(st2host(fp16_NegMax, f16));
-	check_fp16(st2host(fp16_PosMin, f16));
-	check_fp16(st2host(fp16_NegMin, f16));
+	if (env.fp16) {
+		seperator();
+		check_fp16(compat_float2half(0.0));
+		check_fp16(compat_float2half(1.2));
+		check_fp16(compat_float2half(0.2));
+		check_fp16(compat_float2half(1.23456789));
+		check_fp16(compat_float2half(0.23456789));
+		check_fp16(compat_float2half(3.14159265));
+		check_fp16(compat_float2half(-3.14159265));
+		check_fp16(st2host(fp16_NaN, f16));
+		check_fp16(st2host(fp16_PosInf, f16));
+		check_fp16(st2host(fp16_NegInf, f16));
+		check_fp16(st2host(fp16_PosZero, f16));
+		check_fp16(st2host(fp16_NegZero, f16));
+		check_fp16(st2host(fp16_PosMax, f16));
+		check_fp16(st2host(fp16_NegMax, f16));
+		check_fp16(st2host(fp16_PosMin, f16));
+		check_fp16(st2host(fp16_NegMin, f16));
+	}
 #endif
 
-	seperator();
-
-	/**
-	 * FIXME: all 0.000000????????
-	 */
-	check_bf16(st2host(bf16_PosOne, f16));
-	check_bf16(st2host(bf16_NaN, f16));
-	check_bf16(st2host(bf16_PosZero, f16));
-	check_bf16(st2host(bf16_NegZero, f16));
-	check_bf16(st2host(bf16_PosInf, f16));
-	check_bf16(st2host(bf16_NegInf, f16));
+	if (env.bf16) {
+		seperator();
+		/**
+		 * FIXME: all 0.000000????????
+		 */
+		check_bf16(st2host(bf16_PosOne, f16));
+		check_bf16(st2host(bf16_NaN, f16));
+		check_bf16(st2host(bf16_PosZero, f16));
+		check_bf16(st2host(bf16_NegZero, f16));
+		check_bf16(st2host(bf16_PosInf, f16));
+		check_bf16(st2host(bf16_NegInf, f16));
+	}
 
 	reset();
 }
@@ -896,14 +905,19 @@ int main(int argc, char *argv[])
 	assert(sizeof(fp64_t) == 8 && "Bad size of fp64");
 	assert(sizeof(fp32_t) == 4 && "Bad size of fp32");
 	assert(sizeof(fp16_t) == 2 && "Bad size of fp16");
+	assert(sizeof(bf16_t) == 2 && "Bad size of bf16");
 
-	fprintf(stderr, "Usage: %s [version] [nocolor]\n", argv[0]);
+	fprintf(stderr, "Usage: %s [fp64|fp32|fp16|bf16] [version] [nocolor]\n", argv[0]);
 
 	for (i = 1; i < argc; i++) {
-#define arg_has(v) if (!strncmp(#v, argv[i], strlen(#v))) \
-			env.v = true;
-		arg_has(nocolor);
-		arg_has(version);
+#define arg_has(v, OP) if (!strncmp(#v, argv[i], strlen(#v))) \
+			OP;
+		arg_has(nocolor, env.nocolor = true);
+		arg_has(version, env.version = true);
+		arg_has(fp64, env.fp32 = env.fp16 = env.bf16 = false);
+		arg_has(fp32, env.fp64 = env.fp16 = env.bf16 = false);
+		arg_has(fp16, env.fp32 = env.fp64 = env.bf16 = false);
+		arg_has(bf16, env.fp32 = env.fp64 = env.fp16 = false);
 #undef arg_has
 	}
 
