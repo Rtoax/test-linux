@@ -48,6 +48,7 @@
  * - SUPPORT___bf16: compiler support __bf16
  *
  * - SUPPORT_FP16: support _Float16 or cuda's half;
+ * - SUPPORT_BF16: support __bf16 or cuda's __nv_bfloat16;
  *
  * Refs:
  * - https://en.wikipedia.org/wiki/IEEE_754-2008_revision
@@ -80,6 +81,7 @@
 #  endif
 # elif defined(__NVCC__)	/* Nvidia */
 #  include <cuda_fp16.h>
+#  include <cuda_bf16.h>
 #  include <cuda_runtime.h>
 #  ifdef SUPPORT__Float16
 #   undef SUPPORT__Float16
@@ -114,6 +116,28 @@
 # define compat_half2float(v)	__half2float(v)
 # define compat_float2half(v)	__float2half(v)
 # define compat_fp16_mul(a, b) __hmul(a, b)
+#endif
+
+#ifdef SUPPORT___bf16
+# define SUPPORT_BF16
+# define compat_bf16	__bf16
+/**
+ * The compiler natively supports the __bf16 format, so the conversion
+ * can be done directly.
+ */
+# define compat_bf16tofloat(v)	((float)v)
+# define compat_floattobf16(v)	((__bf16)v)
+/**
+ * FIXME: __bf16 could not calculate multiply on CPU.
+ */
+# undef SUPPORT_BF16
+# define compat_bf16_mul(a, b)	(a * b)
+#elif defined(HAVE_CUDA)
+# define SUPPORT_BF16
+# define compat_bf16	__nv_bfloat16
+# define compat_bf16tofloat(v)	__bfloat162float(v)
+# define compat_floattobf16(v)	__float2bfloat16(v)
+# define compat_bf16_mul(a, b)	__hmul(a, b)
 #endif
 
 #ifndef offsetof
@@ -247,10 +271,8 @@ typedef union bfloat16 {
 		# define __BF16_INITIALIZER(s, e, f) {s, e, f}
 		#endif
 	} __attribute__((packed));
-#ifdef SUPPORT___bf16
-	__bf16 f16;
-#elif defined(__NVCC__)
-	__nv_bfloat16 f16;
+#ifdef SUPPORT_BF16
+	compat_bf16 f16;
 #endif
 	uint16_t i16;
 #define BF16_INITIALIZER(s, e, f) {__BF16_INITIALIZER(s, e, f)}
@@ -533,41 +555,27 @@ void __myglobal__ __kernel_check_fp16(compat_fp16 f)
 	} while (0)
 #endif /* SUPPORT_FP16 */
 
-
-/**
- * The compiler natively supports the __bf16 format, so the conversion can be
- * done directly.
- */
-float __bf16tofloat(__bf16 bf16)
+#ifdef SUPPORT_BF16
+void __mydevice__ bfloat16_to_bf16(const compat_bf16 f, bf16_t *bf16)
 {
-	return bf16;
-}
-
-__bf16 __floattobf16(float fp32)
-{
-	return fp32;
-}
-
-void __mydevice__ bfloat16_to_bf16(const __bf16 f, bf16_t *bf16)
-{
-	__bf16 tmp = f;
+	compat_bf16 tmp = f;
 	int16_t i16 = *(int16_t *)&tmp;
 
 	*bf16 = *(bf16_t *)&i16;
 }
 
-__bf16 __mydevice__ bf16_to_bfloat16(const bf16_t *bf16)
+compat_bf16 __mydevice__ bf16_to_bfloat16(const bf16_t *bf16)
 {
-	float sign = 1 - 2 * (bf16->sign % 2);
-	float e2, fra;
+	compat_bf16 sign = compat_floattobf16(1 - 2 * (bf16->sign % 2));
+	compat_bf16 e2, fra;
 
 	if (bf16->exponent == 0) {
 		if (bf16->fraction == 0) {
 			return bf16->sign == 0 ? bf16_PosZero.f16 :
 						 bf16_NegZero.f16;
 		} else {
-			e2 = exp2f(-126.0f);
-			fra = 0 + fraction_value(bf16->fraction, 7);
+			e2 = compat_floattobf16(exp2f(-126.0f));
+			fra = compat_floattobf16(0 + fraction_value(bf16->fraction, 7));
 		}
 	} else if (bf16->exponent == 0xff) {
 		if (bf16->fraction == 0)
@@ -576,22 +584,23 @@ __bf16 __mydevice__ bf16_to_bfloat16(const bf16_t *bf16)
 		else
 			return bf16_NaN.f16;
 	} else {
-		e2 = exp2f(bf16->exponent - 127.0f);
-		fra = 1 + fraction_value(bf16->fraction, 7);
+		e2 = compat_floattobf16(exp2f(bf16->exponent - 127.0f));
+		fra = compat_floattobf16(1 + fraction_value(bf16->fraction, 7));
 	}
 
-	return sign * e2 * fra;
+	return compat_bf16_mul(sign, compat_bf16_mul(e2, fra));
 }
 
-void __myglobal__ __kernel_check_bf16(__bf16 f)
+void __myglobal__ __kernel_check_bf16(compat_bf16 f)
 {
-	__bf16 to;
+	compat_bf16 to;
 	bf16_t bf16;
 
 	bfloat16_to_bf16(f, &bf16);
 	to = bf16_to_bfloat16(&bf16);
 
-	printf("%f vs %f (%x %x %x) ", __bf16tofloat(f), __bf16tofloat(to),
+	printf("%f vs %f (%x %x %x) ", compat_bf16tofloat(f),
+		compat_bf16tofloat(to),
 		bf16.sign, bf16.exponent, bf16.fraction);
 
 	assert(*(uint16_t *)&f == *(uint16_t *)&to && "Failed to check bf16");
@@ -604,7 +613,7 @@ void __myglobal__ __kernel_check_bf16(__bf16 f)
 		mysync();	\
 		binprint(&___v, sizeof(v) * 8);	\
 	} while (0)
-
+#endif /* SUPPORT_BF16 */
 
 void base_test(void)
 {
@@ -674,12 +683,13 @@ void base_test(void)
 	}
 #endif
 
+#ifdef SUPPORT_BF16
 	if (env.bf16) {
 		seperator();
-		check_bf16(__floattobf16(0));
-		check_bf16(__floattobf16(1.0));
-		check_bf16(__floattobf16(3.141592653f));
-		check_bf16(__floattobf16(-3.141592653f));
+		check_bf16(compat_floattobf16(0));
+		check_bf16(compat_floattobf16(1.0));
+		check_bf16(compat_floattobf16(3.141592653f));
+		check_bf16(compat_floattobf16(-3.141592653f));
 		check_bf16(st2host(bf16_PosOne, f16));
 		check_bf16(st2host(bf16_NaN, f16));
 		check_bf16(st2host(bf16_PosZero, f16));
@@ -687,7 +697,7 @@ void base_test(void)
 		check_bf16(st2host(bf16_PosInf, f16));
 		check_bf16(st2host(bf16_NegInf, f16));
 	}
-
+#endif
 	reset();
 }
 
