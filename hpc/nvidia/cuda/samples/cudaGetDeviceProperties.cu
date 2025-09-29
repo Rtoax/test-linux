@@ -213,13 +213,15 @@ int main(int argc, char *argv[])
 	printf("maxThreadsPerBlock %d >= blockDim.x * blockDim.y * blockDim.z\n",
 		prop.maxThreadsPerBlock);
 
+	char dim_s[] = "x\0y\0z\0";
+
 	for (i = 0; i < 3; i++)
 		printf("maxThreadsDim[%d] = %-8d >= blockDim.%s\n", i,
-			prop.maxThreadsDim[i], "x\0y\0z\0" + (2 * i));
+			prop.maxThreadsDim[i], dim_s + 2 * i);
 
 	for (i = 0; i < 3; i++)
 		printf("maxGridSize[%d] = %-16d >= gridDim.%s\n", i,
-			prop.maxGridSize[i], "x\0y\0z\0" + (2 * i));
+			prop.maxGridSize[i], dim_s + 2 * i);
 
 	/* Information about device */
 	{
