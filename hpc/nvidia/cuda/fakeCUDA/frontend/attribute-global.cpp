@@ -68,8 +68,11 @@ struct GlobalAttrInfo : public ParsedAttrInfo {
 	}
 
 	AttrHandling handleStmtAttribute(Sema &S, Stmt *St, const ParsedAttr &Attr,
-				  class Attr *&Result) const override {
-
+				  class Attr *&Result) const
+#if LLVM_VERSION_MAJOR >= 20
+								override
+#endif
+	{
 		if (Attr.getNumArgs() > 0) {
 			unsigned ID = S.getDiagnostics().getCustomDiagID(
 						DiagnosticsEngine::Error,
