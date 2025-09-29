@@ -822,7 +822,7 @@ void overflow_muladd_fp32_arr(void)
 # pragma clang diagnostic pop
 #endif
 
-void overflow_test(void)
+void fp32_overflow_test(void)
 {
 	seperator();
 
@@ -889,7 +889,7 @@ void overflow_test(void)
 	reset();
 }
 
-void precision_test(void)
+void fp32_precision_test(void)
 {
 	seperator();
 	overflow_muladd_fp32();
@@ -928,9 +928,10 @@ int main(int argc, char *argv[])
 
 	base_test();
 
-	overflow_test();
-
-	precision_test();
+	if (env.fp32) {
+		fp32_overflow_test();
+		fp32_precision_test();
+	}
 
 	return 0;
 }
