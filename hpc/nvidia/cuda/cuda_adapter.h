@@ -11,7 +11,7 @@
 # define __CUDA_ERROR(name)	HCC_STATUS_##name
 # define __nv(name)	hc##name
 # define __NV(name)	HC##name
-#elif defined(HAVE_HIP)
+#elif defined(__USE_HIP__)
 # define __cu(name)	hip##name
 # define __cuda(name)	hip##name
 # define __CU(name)	HIP##name
@@ -21,7 +21,7 @@
 # define __NV(name)	HIP##name
 #elif !defined(__cu) || !defined(__cuda) || !defined(__CU) || \
 	!defined(__CUDA) || !defined(__nv) || !defined(__NV)
-# error "Must define __cu(), __cuda(), __CU(), __CUDA(), __CUDA_ERROR(), __nv(), __NV() macros, or define __USE_HPCC__, HAVE_HIP"
+# error "Must define __cu(), __cuda(), __CU(), __CUDA(), __CUDA_ERROR(), __nv(), __NV() macros, or define __USE_HPCC__, __USE_HIP__"
 #endif
 
 /* typedef hcError_t	cudaError_t; */
@@ -285,7 +285,7 @@
 #define cudaMemAdvise_v2(ptr, count, advice, location_or_device)	\
 	__cuda(MemAdvise_v2(ptr, count, advice, location_or_device))
 
-#ifdef HAVE_HIP
+#ifdef __USE_HIP__
 #define cudaMemoryAdvise	__cuda(MemoryAdvise)	/* enum */
 #else
 #define cudaMemoryAdvise	__cuda(MemoryAdvise_t)	/* enum */
@@ -310,7 +310,7 @@
  * HPCC: typedef struct HCevent_st *hcEvent_t;
  * HIP: typedef struct ihipEvent_t* hipEvent_t;
  */
-#ifdef HAVE_HIP
+#ifdef __USE_HIP__
 #define CUevent_st	ihipEvent_t
 #else
 #define CUevent_st	__CU(event_st)
@@ -530,7 +530,7 @@
  * HIP
  * hipError_t hipGetDeviceProperties(hipDeviceProp_t* prop, int deviceId);
  */
-#if defined(__USE_HPCC__) || defined(HAVE_HIP)
+#if defined(__USE_HPCC__) || defined(__USE_HIP__)
 #define cudaGetDeviceProperties(prop, devid)	__cuda(GetDeviceProperties(prop, devid))
 #else
 #define cudaGetDeviceProperties(prop, devid)	__cuda(GetDeviceProperties_v2(prop, devid))
@@ -542,7 +542,7 @@
  *                                  int dev_id);
  */
 #define cudaDeviceGetAttribute(pval, attr, dev_id)	__cuda(DeviceGetAttribute(pval, attr, dev_id))
-#if defined(__USE_HPCC__) || defined(HAVE_HIP)
+#if defined(__USE_HPCC__) || defined(__USE_HIP__)
 /* WARNING: different name */
 /**
  * CUDA 13.0.0: enum __device_builtin__ cudaDeviceAttr
@@ -744,7 +744,7 @@
  * HIP:
  * const char* hipblasStatusToString(hipblasStatus_t status);
  */
-#ifdef HAVE_HIP
+#ifdef __USE_HIP__
 #define cublasGetStatusString(status)	hipblasStatusToString(status)
 #else
 #define cublasGetStatusString(status)	__cu(blasGetStatusString(status))
@@ -769,7 +769,7 @@
  * CUDA: size_t CUBLASWINAPI cublasLtGetVersion(void);
  * HIP: hipblasStatus_t hipblasLtGetVersion(hipblasLtHandle_t handle, int* version);
  */
-#ifdef HAVE_HIP
+#ifdef __USE_HIP__
 #define cublasLtGetVersion(handle, pv)	__cu(blasLtGetVersion(handle, pv))
 #else
 #define cublasLtGetVersion()	__cu(blasLtGetVersion())
@@ -1359,7 +1359,7 @@
 #define CUDA_R_6F_E2M3	HPCC_R_6F_E2M3
 #define CUDA_R_6F_E3M2	HPCC_R_6F_E3M12
 #define CUDA_R_4F_E2M1	HPCC_R_4F_E2M1
-#elif defined(HAVE_HIP)
+#elif defined(__USE_HIP__)
 #define cudaDataType	__cuda(DataType)
 #define CUDA_R_32F	HIP_R_32F
 #define CUDA_R_64F	HIP_R_64F

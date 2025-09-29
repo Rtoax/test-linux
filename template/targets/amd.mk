@@ -4,6 +4,7 @@ _TARGET_AMD = 1
 include ${TEMPLATE_DIR}/../hpc/amd/rocm/rocm.mk
 
 CFLAGS_HIPCC += -DHAVE_HIP=1
+CFLAGS_HIPCC += -D__USE_HIP__=1
 
 ifneq ($(HIPCONFIG),)
   CFLAGS_HIPCC += $(shell ${HIPCONFIG} --cpp_config)
