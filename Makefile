@@ -171,7 +171,7 @@ kconfig-display:
 menuconfig:
 	$(call log_info,top-makefile menuconfig)
 	@echo "=== menuconfig"
-	$(SHELL) ./scripts/dialog/main.sh
+	$(SHELL) ./scripts/config/dialog.sh
 
 define check_links
 	@echo "Check invalid symbol link start"
