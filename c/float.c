@@ -48,7 +48,7 @@
  * - SUPPORT___bf16: compiler support __bf16
  *
  * - SUPPORT_FP16: support _Float16 or cuda's half;
- * - SUPPORT_BF16: support __bf16 or cuda's __nv_bfloat16;
+ * - SUPPORT_BF16: support __bf16 or cuda's __nv_bfloat16, or hpcc's __hpcc_bfloat16;
  *
  * Refs:
  * - https://en.wikipedia.org/wiki/IEEE_754-2008_revision
@@ -74,6 +74,7 @@
 # if defined(__HPCC__)	/* MetaX */
 #  include <hccl.h>
 #  include <hpcc_fp16.h>
+#  include <hpcc_bfloat16.h>
 #  include <hc_runtime.h>
 #  include "cuda_adapter.h"
 #  ifndef SUPPORT__Float16
@@ -134,7 +135,11 @@
 # define compat_bf16_mul(a, b)	(a * b)
 #elif defined(HAVE_CUDA)
 # define SUPPORT_BF16
-# define compat_bf16	__nv_bfloat16
+# if defined(__NVCC__)	/* Nvidia */
+#  define compat_bf16	__nv_bfloat16
+# elif defined(__HPCC__)
+#  define compat_bf16	__hpcc_bfloat16
+# endif
 # define compat_bf16tofloat(v)	__bfloat162float(v)
 # define compat_floattobf16(v)	__float2bfloat16(v)
 # define compat_bf16_mul(a, b)	__hmul(a, b)
