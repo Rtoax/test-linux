@@ -5,3 +5,6 @@
 #define DEVICE_ATTR_NAME	"fakecuda_device"
 #define DEVICE_BUILTIN_ATTR_NAME	"fakecuda_device_builtin"
 #define GLOBAL_ATTR_NAME	"fakecuda_global"
+
+namespace fakecuda::frontend::configs {
+}
