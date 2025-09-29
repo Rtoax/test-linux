@@ -76,24 +76,7 @@ CFLAGS___STDC__c98 := -std=c89 -DSTD_C98=1
 CFLAGS___STDC__gnu98 := -std=gnu89 -DSTD_GNU98=1
 CFLAGS___STDC__c17 := -std=c89 -DSTD_C17=1
 
-ifeq (${CC__Float16},y)
-  ifdef DEBUG
-    $(info "${CC} support _Float16")
-  endif
-  CFLAGS_float := -DSUPPORT__Float16=1
-endif
-ifeq (${CC___fp16},y)
-  ifdef DEBUG
-    $(info "${CC} support __fp16")
-  endif
-  CFLAGS_float := -DSUPPORT___fp16=1
-endif
-ifeq (${CC___bf16},y)
-  ifdef DEBUG
-    $(info "${CC} support __bf16")
-  endif
-  CFLAGS_float := -DSUPPORT___bf16=1
-endif
+CFLAGS_float := ${cflags-support-types}
 LDFLAGS_float := -lm
 
 # preprocessing

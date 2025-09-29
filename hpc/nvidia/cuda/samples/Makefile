@@ -49,12 +49,7 @@ CFLAGS_NVCC_cudaGetDeviceProperties := -Wno-deprecated-declarations
 
 CUDA_HELPERS := ${OUTPUT}cuda_helpers.cu.o
 
-ifeq (${CC__Float32},y)
-  ifdef DEBUG
-    $(info "${CC} support _Float16")
-  endif
-  CFLAGS_float-c := -DSUPPORT__Float16=1
-endif
+CFLAGS_float-c := ${cflags-support-types}
 LDFLAGS_float-c := -lm
 
 include ../../../../template/main.mk

@@ -64,6 +64,17 @@ CC__Float16 := $(findstring y,$(call check_compiler_support_type,$(CC),_Float16)
 CC___fp16 := $(findstring y,$(call check_compiler_support_type,$(CC),__fp16))
 CC___bf16 := $(findstring y,$(call check_compiler_support_type,$(CC),__bf16))
 
+cflags-support-types :=
+ifeq (${CC__Float16},y)
+  cflags-support-types += -DSUPPORT__Float16=1
+endif
+ifeq (${CC___fp16},y)
+  cflags-support-types += -DSUPPORT___fp16=1
+endif
+ifeq (${CC___bf16},y)
+  cflags-support-types += -DSUPPORT___bf16=1
+endif
+
 CC_FULLVERSION := $(shell $(CC) -dumpfullversion -dumpversion)
 CC_VERSION := $(shell $(CC) -dumpversion)
 CC_MAJOR := $(shell echo ${CC_FULLVERSION} | awk -F '.' '{print $$1}')
@@ -93,6 +104,7 @@ ifdef DEBUG
   $(info CC__Float16: ${CC__Float16})
   $(info CC___fp16: ${CC___fp16})
   $(info CC___bf16: ${CC___bf16})
+  $(info cflags-support-types: ${cflags-support-types})
 
   $(info feature-m32 ${feature-m32})
   $(info feature-sve2 ${feature-sve2})
