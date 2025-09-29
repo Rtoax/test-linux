@@ -16,3 +16,4 @@
 /hipGetDeviceCount
 /hipDeviceGetP2PAttribute
 /hipblasLtMatmul
+/float

@@ -69,7 +69,7 @@
 #include <float.h>
 #include <string.h>
 
-#if defined(__HPCC__) || defined(__NVCC__)
+#if defined(__HPCC__) || defined(__NVCC__) || defined(__HIPCC__)
 # define HAVE_CUDA	1
 # if defined(__HPCC__)	/* MetaX */
 #  include <hccl.h>
@@ -88,6 +88,11 @@
 #   undef SUPPORT__Float16
 #   warning Error: Internal Compiler Error (codegen): "unsupported float variant!"
 #  endif
+# elif defined(__HIPCC__)	/* AMD ROCm HIP */
+#  include <hip/hip_runtime.h>
+#  include <hip/hip_bf16.h>
+#  include <hip/hip_fp16.h>
+#  include "cuda_adapter.h"
 # endif
 # define DIM	<<<1, 1>>>
 # define __mydevice__	__device__
@@ -145,6 +150,8 @@
 # define SUPPORT_BF16
 # if defined(__NVCC__)	/* Nvidia */
 #  define compat_bf16	__nv_bfloat16
+# elif defined(__HIPCC__)
+#  define compat_bf16	__hip_bfloat16
 # elif defined(__HPCC__)
 #  define compat_bf16	__hpcc_bfloat16
 # endif
@@ -184,7 +191,7 @@ static struct {
 	.bf16 = true,
 };
 
-static const char *const version = "v1.0.0";
+static const char *const version = "v1.1.0";
 
 #define seperator() do {	\
 		if (env.nocolor) {	\
