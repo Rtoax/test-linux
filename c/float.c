@@ -116,12 +116,14 @@
 # define compat_half2float(v)	((float)v)
 # define compat_float2half(v)	((_Float16)v)
 # define compat_fp16_mul(a, b) (a * b)
+# define compat_fp16_add(a, b) (a + b)
 #elif defined(HAVE_CUDA)
 # define SUPPORT_FP16
 # define compat_fp16	half
 # define compat_half2float(v)	__half2float(v)
 # define compat_float2half(v)	__float2half(v)
 # define compat_fp16_mul(a, b) __hmul(a, b)
+# define compat_fp16_add(a, b) __hadd(a, b)
 #endif
 
 #ifdef SUPPORT___bf16
@@ -191,7 +193,7 @@ static struct {
 	.bf16 = true,
 };
 
-static const char *const version = "v1.1.0";
+static const char *const version = "v1.2.0";
 
 #define seperator() do {	\
 		if (env.nocolor) {	\
@@ -732,18 +734,26 @@ void base_test(void)
  * If testing on the CPU, __mydevice__ is empty.
  */
 #define DATA_ARRAY_SIZE	1000
+
 __mydevice__ fp32_t data_fp32;
 __mydevice__ fp32_t data_fp32_bias;
 __mydevice__ fp32_t data_fp32_arr[DATA_ARRAY_SIZE];
 __mydevice__ fp32_t data_fp32_bias_arr[DATA_ARRAY_SIZE];
+
+__mydevice__ fp16_t data_fp16;
+__mydevice__ fp16_t data_fp16_bias;
+__mydevice__ fp16_t data_fp16_arr[DATA_ARRAY_SIZE];
+__mydevice__ fp16_t data_fp16_bias_arr[DATA_ARRAY_SIZE];
+
 /**
  * In addition to using fp32 to save the calculation results, fp64 is also
  * used to save the calculation results in order to obtain the calculation
  * results when there is no overflow, as a comparison.
  */
 __mydevice__ fp64_t rslt_fp64;
+__mydevice__ fp32_t rslt_fp32;
 
-void __myglobal__ __kernel_init_all_arr(size_t size)
+void __myglobal__ __kernel_init_all_arr_fp32(size_t size)
 {
 	for (size_t i = 0; i < size; i++) {
 		data_fp32_arr[i].f32 = i * 1000.f;
@@ -781,6 +791,50 @@ void __myglobal__ __kernel_overflow_muladd_fp32_arr(size_t len, size_t interval)
 	}
 }
 
+void __myglobal__ __kernel_init_all_arr_fp16(size_t size)
+{
+	for (size_t i = 0; i < size; i++) {
+		data_fp16_arr[i].f16 = compat_float2half(i * 1000.f);
+		data_fp16_bias_arr[i].f16 = compat_float2half(i * 1000.f);
+	}
+}
+
+void __myglobal__ __kernel_overflow_mul_fp16(void)
+{
+	data_fp16.f16 = compat_fp16_mul(data_fp16.f16, data_fp16_bias.f16);
+	rslt_fp32.f32 = compat_half2float(compat_fp16_mul(rslt_fp32.f32, data_fp16_bias.f16));
+}
+
+void __myglobal__ __kernel_overflow_add_fp16(void)
+{
+	data_fp16.f16 = compat_fp16_add(data_fp16.f16, data_fp16_bias.f16);
+	rslt_fp32.f32 = compat_fp16_add(rslt_fp32.f32, data_fp16_bias.f16);
+}
+
+void __myglobal__ __kernel_overflow_muladd_fp16(size_t loop, size_t interval)
+{
+	for (size_t i = 0; i < loop; i += interval) {
+		data_fp16.f16 = compat_fp16_mul(data_fp16.f16, data_fp16_bias.f16);
+		data_fp16.f16 = compat_fp16_add(data_fp16.f16, data_fp16_bias.f16);
+
+		rslt_fp32.f32 = compat_half2float(compat_fp16_mul(compat_float2half(rslt_fp32.f32), data_fp16_bias.f16));
+		rslt_fp32.f32 = compat_half2float(compat_fp16_add(compat_float2half(rslt_fp32.f32), data_fp16_bias.f16));
+	}
+}
+
+void __myglobal__ __kernel_overflow_muladd_fp16_arr(size_t len, size_t interval)
+{
+	compat_fp16 tmp;
+
+	for (size_t j = 0; j < len; j += interval) {
+		tmp = compat_fp16_mul(data_fp16_arr[j].f16, data_fp16_bias_arr[j].f16);
+		data_fp16.f16 = compat_fp16_add(data_fp16.f16, tmp);
+
+		tmp = compat_fp16_mul(data_fp16_arr[j].f16, data_fp16_bias_arr[j].f16);
+		rslt_fp32.f32 += compat_half2float(compat_fp16_add(compat_float2half(rslt_fp32.f32), tmp));
+	}
+}
+
 #ifdef __HPCC__
 # pragma clang diagnostic push
 /* warning: reference to __device__ variable 'rslt_fp64' in __host__ function */
@@ -798,7 +852,7 @@ void overflow_mul_fp32(void)
 		__kernel_overflow_mul_fp32 DIM ();
 
 		seperator();
-		printf("=========== mul %d ==========\n", i);
+		printf("=========== fp32 mul %d ==========\n", i);
 		check_fp32(st2host(data_fp32, f32));
 		check_fp64(st2host(rslt_fp64, f64));
 		reset();
@@ -819,7 +873,7 @@ void overflow_add_fp32(void)
 		__kernel_overflow_add_fp32 DIM ();
 
 		seperator();
-		printf("=========== add %d ==========\n", i);
+		printf("=========== fp32 add %d ==========\n", i);
 		check_fp32(st2host(data_fp32, f32));
 		check_fp64(st2host(rslt_fp64, f64));
 		reset();
@@ -839,7 +893,7 @@ void overflow_muladd_fp32(void)
 		__kernel_overflow_muladd_fp32 DIM (i, 3);
 
 		seperator();
-		printf("=========== muladd %ld ==========\n", i);
+		printf("=========== fp32 muladd %ld ==========\n", i);
 		check_fp32(st2host(data_fp32, f32));
 		check_fp64(st2host(rslt_fp64, f64));
 		reset();
@@ -850,7 +904,7 @@ void overflow_muladd_fp32(void)
 void overflow_muladd_fp32_arr(void)
 {
 	for (size_t i = 100; i <= DATA_ARRAY_SIZE; i += 100) {
-		__kernel_init_all_arr DIM (i);
+		__kernel_init_all_arr_fp32 DIM (i);
 
 		stset(data_fp32, f32, 1);
 		stset(rslt_fp64, f64, 1);
@@ -858,9 +912,29 @@ void overflow_muladd_fp32_arr(void)
 		__kernel_overflow_muladd_fp32_arr DIM (i, 1);
 
 		seperator();
-		printf("=========== muladd arr %ld ==========\n", i);
+		printf("=========== fp32 muladd arr %ld ==========\n", i);
 		check_fp32(st2host(data_fp32, f32));
 		check_fp64(st2host(rslt_fp64, f64));
+		reset();
+		mysync();
+	}
+}
+
+void overflow_muladd_fp16(void)
+{
+	for (size_t i = 100; i <= 1000; i += 100) {
+		compat_fp16 a = compat_float2half(i * 1.123456789f);
+
+		stset(data_fp16, f16, a);
+		stset(data_fp16_bias, f16, compat_float2half(1.000789f));
+		stset(rslt_fp32, f32, a);
+
+		__kernel_overflow_muladd_fp16 DIM (i, 3);
+
+		seperator();
+		printf("=========== fp16 muladd %ld ==========\n", i);
+		check_fp16(st2host(data_fp16, f16));
+		check_fp32(st2host(rslt_fp32, f32));
 		reset();
 		mysync();
 	}
@@ -945,6 +1019,13 @@ void fp32_precision_test(void)
 	reset();
 }
 
+void fp16_precision_test(void)
+{
+	seperator();
+	overflow_muladd_fp16();
+	reset();
+}
+
 int main(int argc, char *argv[])
 {
 	int i;
@@ -978,6 +1059,10 @@ int main(int argc, char *argv[])
 	if (env.fp32) {
 		fp32_overflow_test();
 		fp32_precision_test();
+	}
+
+	if (env.fp16) {
+		fp16_precision_test();
 	}
 
 	return 0;
