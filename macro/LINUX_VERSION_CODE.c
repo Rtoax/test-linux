@@ -24,7 +24,7 @@ int main(void)
 	printf("%s < 6.1.0\n", pfx);
 #endif
 
-/* from ../kernel.mk */
+/* from kernel.mk */
 #ifdef KVERSION
 	printf("%s: KVERSION = %d.\n", pfx, KVERSION);
 #endif

@@ -28,7 +28,7 @@ include template/ansi.mk
 include template/logo.mk
 include template/os.mk
 include template/kconfig.mk
-include kernel.mk
+include template/kernel.mk
 
 GIT_CONFIG_CORE_HOOKSPATH := $(shell git config get core.hooksPath 2>/dev/null \
 	|| git config core.hooksPath 2>/dev/null \

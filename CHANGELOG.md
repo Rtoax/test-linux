@@ -25,6 +25,7 @@ and this project adheres to
 - Add ieee/;
 - Add init/kernel/cmdline.md;
 #### Changed
+- Move kernel.mk into template/;
 - menuconfig: rename scripts/dialog/main.sh to scripts/config/dialog.sh;
 - hpc: Rename `HAVE_HCCL` to `HAVE_HPCC`;
 - targets: don't use `LD_LIBRARY_PATH` CC PFX;

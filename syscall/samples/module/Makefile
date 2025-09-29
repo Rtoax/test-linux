@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
-include ../../../kernel.mk
+include ../../../template/kernel.mk
 include ../../../template/kconfig.mk
 
 targets :=

@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
-include ../../kernel.mk
+include ../../template/kernel.mk
 ifndef NO_PAHOLE
   include ../../pahole/pahole.mk
 endif
