@@ -41,9 +41,12 @@
  *
  * commit ebff39b53cbf ("float.c: precision compare between CPU and different GPUs")
  *
- * Macros:
+ * Macros in this source code file:
  *
  * - SUPPORT__Float16: compiler support _Float16;
+ * - SUPPORT___fp16: compiler support __fp16
+ * - SUPPORT___bf16: compiler support __bf16
+ *
  * - SUPPORT_FP16: support _Float16 or cuda's half;
  *
  * Refs:
@@ -131,6 +134,9 @@ static unsigned long ansi_idx = 0;
 static struct {
 	bool nocolor;
 	bool version;
+	/**
+	 * Testing types, default test all
+	 */
 	bool fp64, fp32, fp16, bf16;
 } env = {
 	.nocolor = false,
