@@ -6,9 +6,14 @@
  * - commit 0a329ecf1137 ("libgcc, Darwin: Update symbol exports to include bitint and bf.")
  * - commit 13071c3c7d1b ("aarch64: Add bfloat16_t support for aarch64")
  * - commit c2565a31c162 ("middle-end, c++, i386, libgcc: std::bfloat16_t and __bf16 arithmetic support")
+ *
+ * llvm https://github.com/llvm/llvm-project
+ * - commit a7a7e9572022 ("[AMDGPU][Clang] Support bfloat16 arithmetic. (#147541)")
+ * - commit e62175736551 ("[Clang][BFloat16] Upgrade __bf16 to arithmetic type, change mangling, and extend excess precision support")
  */
-#if defined(__GNUC__) && (__GNUC__ >= 13)
-/* FIXME: support clang, not only __GNUC__ */
+#if (defined(__clang__) && (__clang_major__ >= 20)) || \
+    (defined(__GNUC__) && (__GNUC__ >= 13))
+# pragma message "Support bfloat16 arithmetic"
 # define SUPPORT_BF16_ARITHMETIC	1
 #endif
 
