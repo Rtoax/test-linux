@@ -8,12 +8,14 @@ declare -a configs
 
 [[ -f ${kconfig} ]] && source ${kconfig}
 
-if [[ ${CONFIG_DEBUG_INFO_BTF} ]]; then
-	configs+=( HAVE_BTF=y )
-fi
+[[ ${CONFIG_DEBUG_INFO_BTF} ]] && configs+=( HAVE_BTF=y )
+[[ -e /usr/include/bpf/libbpf.h ]] && configs+=( HAVE_LIBBPF=y )
+[[ -e /opt/hpcc/ ]] && configs+=( HAVE_HPCC=y )
+[[ -e /usr/include/hip/ ]] && configs+=( HAVE_HIP=y )
+[[ -e /usr/include/hipblas/ ]] && configs+=( HAVE_HIP_BLAS=y )
 
-if [[ -e /usr/include/bpf/libbpf.h ]]; then
-	configs+=( HAVE_LIBBPF=y )
+if [[ -e /usr/local/cuda/include/cuda.h ]] || [[ -e /usr/include/cuda.h ]]; then
+	configs+=( HAVE_CUDA=y )
 fi
 
 # $1 - filename
@@ -27,6 +29,6 @@ write_configs_to_file() {
 
 	for config in "${configs[@]}"
 	do
-		echo "$config" >> $file
-	done
+		echo "$config"
+	done >> $file
 }
