@@ -2,7 +2,7 @@
 _GIT = 1
 
 ifeq (${TOPDIR},)
-  $(error Not define TOPDIR)
+  $(error Not define TOPDIR, include dir.mk)
 endif
 
 define git_config

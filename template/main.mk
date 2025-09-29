@@ -105,10 +105,6 @@ include ${TEMPLATE_DIR}/arch.mk
 include ${TEMPLATE_DIR}/dir.mk
 include ${TEMPLATE_DIR}/log.mk
 
-define git_relative_dir
-$(patsubst ${GIT_TOPDIR}/%,%,$(1))
-endef
-
 include ${TEMPLATE_DIR}/../elf/pie.mk
 ifneq ($(sub-dir)$(kmod-list),)
   include ${TEMPLATE_DIR}/subdir-header.mk
