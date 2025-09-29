@@ -193,7 +193,7 @@ static struct {
 	.bf16 = true,
 };
 
-static const char *const version = "v1.3.0";
+static const char *const version = "v1.5.0";
 
 #define seperator() do {	\
 		if (env.nocolor) {	\
@@ -792,11 +792,11 @@ void __myglobal__ __kernel_overflow_muladd_fp32_arr(size_t len, size_t interval)
 	}
 }
 
-void __myglobal__ __kernel_init_all_fp16_arr(size_t size)
+void __myglobal__ __kernel_init_all_fp16_arr(size_t size, float init)
 {
 	for (size_t i = 0; i < size; i++) {
-		data_fp16_arr[i].f16 = compat_float2half(1.123f);
-		data_fp16_bias_arr[i].f16 = compat_float2half(1.123f);
+		data_fp16_arr[i].f16 = compat_float2half(init);
+		data_fp16_bias_arr[i].f16 = compat_float2half(init);
 	}
 }
 
@@ -926,13 +926,14 @@ void overflow_muladd_fp32_arr(void)
 void overflow_muladd_fp16(void)
 {
 	for (size_t i = 100; i <= 1000; i += 100) {
-		compat_fp16 a = compat_float2half(i * 1.123456789f);
+		float fa = 1.2345f;
+		compat_fp16 a = compat_float2half(fa);
 
 		stset(data_fp16, f16, a);
-		stset(data_fp16_bias, f16, compat_float2half(1.000789f));
-		stset(rslt_fp32, f32, a);
+		stset(data_fp16_bias, f16, a);
+		stset(rslt_fp32, f32, fa);
 
-		__kernel_overflow_muladd_fp16 DIM (i, 3);
+		__kernel_overflow_muladd_fp16 DIM (10, 3);
 
 		seperator();
 		printf("=========== fp16 muladd %ld ==========\n", i);
@@ -946,7 +947,7 @@ void overflow_muladd_fp16(void)
 void overflow_muladd_fp16_arr(void)
 {
 	for (size_t i = 100; i <= DATA_ARRAY_SIZE; i += 100) {
-		__kernel_init_all_fp16_arr DIM (i);
+		__kernel_init_all_fp16_arr DIM (i, 5.5f);
 
 		stset(data_fp16, f16, compat_float2half(1.f));
 		stset(rslt_fp32, f32, 1.f);
