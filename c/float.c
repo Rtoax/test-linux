@@ -533,6 +533,16 @@ void __myglobal__ __kernel_check_fp16(compat_fp16 f)
 	} while (0)
 #endif /* SUPPORT_FP16 */
 
+
+/**
+ * The compiler natively supports the __bf16 format, so the conversion can be
+ * done directly.
+ */
+float __bf16tofloat(__bf16 bf16)
+{
+	return bf16;
+}
+
 void __mydevice__ bfloat16_to_bf16(const __bf16 f, bf16_t *bf16)
 {
 	__bf16 tmp = f;
@@ -566,13 +576,6 @@ __bf16 __mydevice__ bf16_to_bfloat16(const bf16_t *bf16)
 	}
 
 	return sign * e2 * fra;
-}
-
-float __bf16tofloat(__bf16 bf16)
-{
-	uint32_t float_bits = (uint32_t)bf16 << 16;
-	float float_val = *(float *)&float_bits;
-	return float_val;
 }
 
 void __myglobal__ __kernel_check_bf16(__bf16 f)
