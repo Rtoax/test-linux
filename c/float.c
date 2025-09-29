@@ -543,6 +543,11 @@ float __bf16tofloat(__bf16 bf16)
 	return bf16;
 }
 
+__bf16 __floattobf16(float fp32)
+{
+	return fp32;
+}
+
 void __mydevice__ bfloat16_to_bf16(const __bf16 f, bf16_t *bf16)
 {
 	__bf16 tmp = f;
@@ -671,9 +676,10 @@ void base_test(void)
 
 	if (env.bf16) {
 		seperator();
-		/**
-		 * FIXME: all 0.000000????????
-		 */
+		check_bf16(__floattobf16(0));
+		check_bf16(__floattobf16(1.0));
+		check_bf16(__floattobf16(3.141592653f));
+		check_bf16(__floattobf16(-3.141592653f));
 		check_bf16(st2host(bf16_PosOne, f16));
 		check_bf16(st2host(bf16_NaN, f16));
 		check_bf16(st2host(bf16_PosZero, f16));
