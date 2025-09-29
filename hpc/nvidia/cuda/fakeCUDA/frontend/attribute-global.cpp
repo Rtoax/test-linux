@@ -26,8 +26,11 @@ struct GlobalAttrInfo : public ParsedAttrInfo {
 		 * and [[plugin::global]] supported.
 		 */
 		static constexpr Spelling S[] = {{ParsedAttr::AS_GNU, GLOBAL_ATTR_NAME},
+#if LLVM_VERSION_MAJOR >= 18
 						 {ParsedAttr::AS_C23, GLOBAL_ATTR_NAME},
+#else
 						 {ParsedAttr::AS_CXX11, GLOBAL_ATTR_NAME},
+#endif
 						 {ParsedAttr::AS_CXX11, "plugin::" GLOBAL_ATTR_NAME}};
 		Spellings = S;
 	}

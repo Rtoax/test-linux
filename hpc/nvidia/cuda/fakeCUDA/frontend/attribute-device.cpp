@@ -26,7 +26,11 @@ struct DeviceAttrInfo : public ParsedAttrInfo {
 		 * and [[plugin::device]] supported.
 		 */
 		static constexpr Spelling S[] = {{ParsedAttr::AS_GNU, DEVICE_ATTR_NAME},
+#if LLVM_VERSION_MAJOR >= 18
 						 {ParsedAttr::AS_C23, DEVICE_ATTR_NAME},
+#else
+						 {ParsedAttr::AS_C2x, DEVICE_ATTR_NAME},
+#endif
 						 {ParsedAttr::AS_CXX11, DEVICE_ATTR_NAME},
 						 {ParsedAttr::AS_CXX11, "plugin::" DEVICE_ATTR_NAME}};
 		Spellings = S;
@@ -94,7 +98,11 @@ struct DeviceBuiltinAttrInfo : public ParsedAttrInfo {
 		 * and [[plugin::device_builtin]] supported.
 		 */
 		static constexpr Spelling S[] = {{ParsedAttr::AS_GNU, DEVICE_BUILTIN_ATTR_NAME},
+#if LLVM_VERSION_MAJOR >= 18
 						 {ParsedAttr::AS_C23, DEVICE_BUILTIN_ATTR_NAME},
+#else
+						 {ParsedAttr::AS_C2x, DEVICE_BUILTIN_ATTR_NAME},
+#endif
 						 {ParsedAttr::AS_CXX11, DEVICE_BUILTIN_ATTR_NAME},
 						 {ParsedAttr::AS_CXX11, "plugin::" DEVICE_BUILTIN_ATTR_NAME}};
 		Spellings = S;
