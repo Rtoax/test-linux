@@ -76,6 +76,10 @@ __global__ void k_half_arithmetic(void)
 	PHALF(__hsub_sat(h1, h2));
 }
 
+/**
+ * FIXME: HIP don't have atomicAdd() of half type?
+ */
+#if !defined(__HIPCC__)
 __global__ void k_half_arithmetic_atomicAdd(void)
 {
 	extern __shared__ half shareHalf[1];
@@ -90,6 +94,7 @@ __global__ void k_half_arithmetic_atomicAdd(void)
 		PHALF(shareHalf[0]);
 	}
 }
+#endif
 
 __global__ void k_half_math(void)
 {
@@ -124,8 +129,10 @@ int main(int argc, char *argv[])
 
 	k_half_constants<<<1, 1>>>();
 	k_half_arithmetic<<<1, 1>>>();
+#if !defined(__HIPCC__)
 	(void)cudaLaunchKernel((void *)k_half_arithmetic_atomicAdd, grid, block, NULL,
 				sizeof(half), NULL);
+#endif
 	k_half_math<<<1, 1>>>();
 
 	(void)cudaDeviceSynchronize();
