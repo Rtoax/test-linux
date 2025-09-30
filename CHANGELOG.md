@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- Add hpc/nvidia/cuda/intrinsics/;
 - Makefile: add config target to no interaction configuration;
 - nvidia: add ptx/;
 - amd: add amdgcn/;
