@@ -9,11 +9,12 @@ include ../../../metax/hpcc.mk
 targets-post :=
 
 ifdef HAVE_CUDA
+  # WARNING: must have -nv suffix.
   targets-nvcc := half-nv
 
-  targets-post += $(patsubst %,${OUTPUT}%.E.cu,$(targets-nvcc))
-  targets-post += $(patsubst %,${OUTPUT}%.ptx,$(targets-nvcc))
-  targets-post += $(patsubst %,${OUTPUT}%.cu.cpp.ii,$(targets-nvcc))
+  targets-post += $(patsubst %-nv,${OUTPUT}%.E.cu,$(targets-nvcc))
+  targets-post += $(patsubst %-nv,${OUTPUT}%.ptx,$(targets-nvcc))
+  targets-post += $(patsubst %-nv,${OUTPUT}%.cu.cpp.ii,$(targets-nvcc))
 endif
 
 ifdef HAVE_HIP
