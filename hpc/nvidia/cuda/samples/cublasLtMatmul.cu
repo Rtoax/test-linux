@@ -1,21 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0
 /* Copyright (c) 2025 Rong Tao */
 #include <stdio.h>
-#if defined(HAVE_HPCC)
-# include <hc_runtime.h>
-# include <hcblas/hcblas.h>
-# include <hcblas/hcblasLt.h>
-# include "cuda_adapter.h"
-#elif defined(HAVE_HIP)
-# include <hip/hip_runtime.h>
-# include <hipblas/hipblas.h>
-# include <hipblaslt/hipblaslt.h>
-# include "cuda_adapter.h"
-#else
-# include <cuda_runtime.h>
-# include <cublas_v2.h>
-# include <cublasLt.h>
-#endif
+#include "cuda_compat.h"
 #include "cuda_helpers.h"
 
 #define m	2

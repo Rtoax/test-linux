@@ -28,6 +28,7 @@ and this project adheres to
 - Add ieee/;
 - Add init/kernel/cmdline.md;
 #### Changed
+- cuda/samples: all apply `cuda_compat.h`;
 - fakeCUDA: Move compat.hpp to cuda/`cuda_compat.h`;
 - Move kernel.mk into template/;
 - menuconfig: rename scripts/dialog/main.sh to scripts/config/dialog.sh;

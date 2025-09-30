@@ -19,17 +19,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <string.h>
-#if defined(HAVE_HPCC)
-#include <hc_runtime.h>
-#include "cuda_adapter.h"
-#elif defined(HAVE_HIP)
-# define __USE_HIP__	1
-#include <hip/hip_runtime.h>
-#include "cuda_adapter.h"
-#else
-#include <cuda.h>
-#include <cuda_runtime.h>
-#endif
+#include "cuda_compat.h"
 #include "cuda_helpers.h"
 
 

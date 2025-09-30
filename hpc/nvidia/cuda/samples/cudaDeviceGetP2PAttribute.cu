@@ -1,13 +1,5 @@
 #include <stdio.h>
-#if defined(HAVE_HPCC)
-#include <hc_runtime.h>
-#include "cuda_adapter.h"
-#elif defined(HAVE_HIP)
-#include <hip/hip_runtime.h>
-#include "cuda_adapter.h"
-#else
-#include <cuda_runtime.h>
-#endif
+#include "cuda_compat.h"
 #include "cuda_helpers.h"
 
 

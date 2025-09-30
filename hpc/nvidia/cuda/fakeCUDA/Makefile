@@ -34,8 +34,6 @@ ifdef HAVE_HPCC
   $(info HAVE_HPCC=1)
   targets-libso-cpp += ${libso-hpcc}
 
-  # need cuda_adapter.h
-  CXXFLAGS_SO += -I../
   CXXFLAGS_SO += -I${HPCC_ROOT}/include/
   CXXFLAGS_SO += -I${HPCC_ROOT}/include/common/
   CXXFLAGS_SO += -I${HPCC_ROOT}/include/hcr/

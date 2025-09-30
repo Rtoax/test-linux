@@ -2,22 +2,7 @@
 /* Copyright (c) 2025 Rong Tao */
 #include <stdio.h>
 #include <string.h>
-#if defined(HAVE_HPCC)
-#include <hc_runtime.h>
-#include <hcfft/hcfft.h>
-#include <hcsparse/hcsparse.h>
-#include "cuda_adapter.h"
-#elif defined(HAVE_HIP)
-#include <hip/hip_runtime.h>
-#include <hipfft/hipfft.h>
-#include <hipsparse/hipsparse.h>
-#include "cuda_adapter.h"
-#else
-#include <cuda.h>
-#include <cuda_runtime.h>
-#include <cufft.h>
-#include <cusparse.h>
-#endif
+#include "cuda_compat.h"
 #include "cuda_helpers.h"
 
 
