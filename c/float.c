@@ -115,6 +115,7 @@
 # define compat_fp16	_Float16
 # define compat_half2float(v)	((float)v)
 # define compat_float2half(v)	((_Float16)v)
+# define compat_fp16_exp2(v) exp2f(v)
 # define compat_fp16_mul(a, b) (a * b)
 # define compat_fp16_add(a, b) (a + b)
 #elif defined(HAVE_CUDA)
@@ -122,6 +123,7 @@
 # define compat_fp16	half
 # define compat_half2float(v)	__half2float(v)
 # define compat_float2half(v)	__float2half(v)
+# define compat_fp16_exp2(v) hexp2(v)
 # define compat_fp16_mul(a, b) __hmul(a, b)
 # define compat_fp16_add(a, b) __hadd(a, b)
 #endif
@@ -551,7 +553,7 @@ compat_fp16 __mydevice__ fp16_to_float16(const fp16_t *fp16)
 			return fp16->sign == 0 ? fp16_PosZero.f16 :
 						 fp16_NegZero.f16;
 		} else {
-			e2 = compat_float2half(exp2f(-14.0f));
+			e2 = compat_fp16_exp2(compat_float2half(-14.0f));
 			fra = compat_float2half(0 + fraction_value(fp16->fraction, 10));
 		}
 	} else if (fp16->exponent == 0x1f) {
@@ -561,7 +563,7 @@ compat_fp16 __mydevice__ fp16_to_float16(const fp16_t *fp16)
 		else
 			return fp16_NaN.f16;
 	} else {
-		e2 = compat_float2half(exp2f(fp16->exponent - 15.0f));
+		e2 = compat_fp16_exp2(compat_float2half(fp16->exponent - 15.0f));
 		fra = compat_float2half(1 + fraction_value(fp16->fraction, 10));
 	}
 

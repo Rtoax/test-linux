@@ -9,10 +9,11 @@
 #include <string.h>
 #include "cuda_compat.h"
 
+
 #ifndef __NVCC__
 /**
  * Half Arithmetic Constants
- * https://docs.nvidia.com/cuda/cuda-math-api/cuda_math_api/group__CUDA__MATH__INTRINSIC__HALF__CONSTANTS.html
+ * https://docs.nvidia.com/cuda/cuda-math-api/cuda_math_api/group__CUDA__MATH__INTRINSIC__HALF__PHALFS.html
  */
 #define CUDART_INF_FP16 __ushort_as_half((unsigned short)0x7C00U)
 #define CUDART_MAX_NORMAL_FP16 __ushort_as_half((unsigned short)0x7BFFU)
@@ -23,32 +24,34 @@
 #define CUDART_ONE_FP16 __ushort_as_half((unsigned short)0x3C00U)
 #endif
 
+/* Print definitions */
+#define PHALF(v)	printf("%s : %f\n", #v, __half2float(v));
+
+
 __global__ void k_half_constants(void)
 {
-#define CONSTANT(v)	printf("%s : %f\n", #v, __half2float(v));
-	CONSTANT(CUDART_INF_FP16);
-	CONSTANT(CUDART_INF_FP16);
-	CONSTANT(CUDART_MAX_NORMAL_FP16);
-	CONSTANT(CUDART_MIN_DENORM_FP16);
-	CONSTANT(CUDART_NAN_FP16);
-	CONSTANT(CUDART_NEG_ZERO_FP16);
-	CONSTANT(CUDART_ZERO_FP16);
-	CONSTANT(CUDART_ONE_FP16);
-#undef CONSTANT
+	PHALF(CUDART_INF_FP16);
+	PHALF(CUDART_INF_FP16);
+	PHALF(CUDART_MAX_NORMAL_FP16);
+	PHALF(CUDART_MIN_DENORM_FP16);
+	PHALF(CUDART_NAN_FP16);
+	PHALF(CUDART_NEG_ZERO_FP16);
+	PHALF(CUDART_ZERO_FP16);
+	PHALF(CUDART_ONE_FP16);
 }
 
 __global__ void k_half_arithmetic(void)
 {
 	half h1, h2, h3;
-	float f1;
 
 	h1 = __float2half(3.14);
 	h2 = __float2half(3.14);
 
 	h3 = __hmul(h1, h2);
-	f1 = __half2float(h3);
+	PHALF(h3);
 
-	printf("%f\n", f1);
+	PHALF(hexp2(h3));
+	PHALF(hceil(h3));
 }
 
 int main(int argc, char *argv[])
