@@ -27,6 +27,6 @@ __global__ void kmul(void)
 int main(int argc, char *argv[])
 {
 	kmul<<<1, 1>>>();
-	cudaDeviceSynchronize();
+	(void)cudaDeviceSynchronize();
 	return 0;
 }

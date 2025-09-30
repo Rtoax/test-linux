@@ -11,7 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
-- hpc/nvidia/cuda/intrinsics/ support HPCC;
+- hpc/nvidia/cuda/intrinsics/ support HPCC, HIP;
 - Add hpc/nvidia/cuda/intrinsics/;
 - Makefile: add config target to no interaction configuration;
 - nvidia: add ptx/;

@@ -1,4 +1,12 @@
 # SPDX-License-Identifier: GPL-3.0
+# Copyright (c) 2025 Rong Tao
+#
+# Input definitions:
+#
+# Output macros:
+# - HAVE_HIP
+# - HIPCC
+
 _ROCm = 1
 
 HIPCC := $(shell which hipcc 2>/dev/null)
