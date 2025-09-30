@@ -4,21 +4,19 @@
 #if defined(HAVE_HPCC)
 # include <hc_runtime.h>
 # include <hcfft/hcfft.h>
-# include "hpcc_helpers.h"
 # include "cuda_adapter.h"
 # define NAME	"MetaX FFT"
 #elif defined(HAVE_HIP)
 #include <hip/hip_runtime.h>
 #include <hipfft/hipfft.h>
-#include "cuda_helpers.h"
 #include "cuda_adapter.h"
 # define NAME	"AMDGPU FFT"
 #else
 # include <cuda_runtime.h>
 # include <cufft.h>
-# include "cuda_helpers.h"
 # define NAME	"CUDA FFT"
 #endif
+#include "cuda_helpers.h"
 
 
 int main(int argc, char *argv[])

@@ -3,13 +3,12 @@
 #include <hccl.h>
 #include <hc_runtime.h>
 #include <hc_runtime_api.h>
-#include "hpcc_helpers.h"
 #include "cuda_adapter.h"
 #else
 #include <cuda.h>
 #include <cuda_runtime.h>
-#include "cuda_helpers.h"
 #endif
+#include "cuda_helpers.h"
 
 
 int main(void)

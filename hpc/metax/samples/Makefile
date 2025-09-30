@@ -56,23 +56,23 @@ LDFLAGS_HTCC_hcblasLtMatmul := ${LDFLAGS_HTCC_blas}
 CFLAGS_float-c := ${cflags-support-types}
 LDFLAGS_float-c := -lm
 
-HPCC_HELPERS := ${OUTPUT}hpcc_helpers.hpcc.o
+HPCC_HELPERS := ${OUTPUT}cuda_helpers.hpcc.o
 
 HELPERS := ${HPCC_HELPERS}
 
 include ../../../template/main.mk
 
-${HPCC_HELPERS}: hpcc_helpers.h
+${HPCC_HELPERS}: cuda_helpers.h
 
-${OUTPUT}matrix-fp16.hpcc.o: cuda_adapter.h hpcc_helpers.h
-${OUTPUT}matrix-fp32.hpcc.o: cuda_adapter.h hpcc_helpers.h
-${OUTPUT}matrix-fp64.hpcc.o: cuda_adapter.h hpcc_helpers.h
-${OUTPUT}matrix-int8.hpcc.o: cuda_adapter.h hpcc_helpers.h
-${OUTPUT}blas.hpcc.o: cuda_adapter.h hpcc_helpers.h
-${OUTPUT}hcblasLtMatmul.hpcc.o: cuda_adapter.h hpcc_helpers.h
-${OUTPUT}rand.hpcc.o: cuda_adapter.h hpcc_helpers.h
-${OUTPUT}fft.hpcc.o: cuda_adapter.h hpcc_helpers.h
-${OUTPUT}sparse.hpcc.o: cuda_adapter.h hpcc_helpers.h
+${OUTPUT}matrix-fp16.hpcc.o: cuda_adapter.h cuda_helpers.h
+${OUTPUT}matrix-fp32.hpcc.o: cuda_adapter.h cuda_helpers.h
+${OUTPUT}matrix-fp64.hpcc.o: cuda_adapter.h cuda_helpers.h
+${OUTPUT}matrix-int8.hpcc.o: cuda_adapter.h cuda_helpers.h
+${OUTPUT}blas.hpcc.o: cuda_adapter.h cuda_helpers.h
+${OUTPUT}hcblasLtMatmul.hpcc.o: cuda_adapter.h cuda_helpers.h
+${OUTPUT}rand.hpcc.o: cuda_adapter.h cuda_helpers.h
+${OUTPUT}fft.hpcc.o: cuda_adapter.h cuda_helpers.h
+${OUTPUT}sparse.hpcc.o: cuda_adapter.h cuda_helpers.h
 
 hello: ${OUTPUT}hello.hpcc.o ${HELPERS}
 module: ${OUTPUT}module.hpcc.o ${HELPERS}

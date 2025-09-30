@@ -6,21 +6,19 @@
 #include <hc_runtime.h>
 #include <hcfft/hcfft.h>
 #include <hcsparse/hcsparse.h>
-#include "hpcc_helpers.h"
 #include "cuda_adapter.h"
 #elif defined(HAVE_HIP)
 #include <hip/hip_runtime.h>
 #include <hipfft/hipfft.h>
 #include <hipsparse/hipsparse.h>
-#include "cuda_helpers.h"
 #include "cuda_adapter.h"
 #else
 #include <cuda.h>
 #include <cuda_runtime.h>
 #include <cufft.h>
 #include <cusparse.h>
-#include "cuda_helpers.h"
 #endif
+#include "cuda_helpers.h"
 
 
 void gpu_init(int dev_id)

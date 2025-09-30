@@ -4,21 +4,19 @@
 #if defined(HAVE_HPCC)
 # include <hc_runtime.h>
 # include <hcrand/hcrand.h>
-# include "hpcc_helpers.h"
 # include "cuda_adapter.h"
 # define NAME	"MetaX RAND"
 #elif defined(HAVE_HIP)
 #include <hip/hip_runtime.h>
 #include <hiprand/hiprand.h>
-#include "cuda_helpers.h"
 #include "cuda_adapter.h"
 # define NAME	"AMDGPU RAND"
 #else
 # include <cuda_runtime.h>
 # include <curand.h>
-# include "cuda_helpers.h"
 # define NAME	"CUDA RAND"
 #endif
+#include "cuda_helpers.h"
 
 
 int main(int argc, char *argv[])

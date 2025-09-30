@@ -5,20 +5,18 @@
 # include <hc_runtime.h>
 # include <hcblas/hcblas.h>
 # include <hcblas/hcblasLt.h>
-# include "hpcc_helpers.h"
 # include "cuda_adapter.h"
 #elif defined(HAVE_HIP)
 # include <hip/hip_runtime.h>
 # include <hipblas/hipblas.h>
 # include <hipblaslt/hipblaslt.h>
-# include "cuda_helpers.h"
 # include "cuda_adapter.h"
 #else
 # include <cuda_runtime.h>
 # include <cublas_v2.h>
 # include <cublasLt.h>
-# include "cuda_helpers.h"
 #endif
+#include "cuda_helpers.h"
 
 #define m	2
 #define n	3

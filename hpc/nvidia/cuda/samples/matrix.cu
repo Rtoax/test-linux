@@ -18,21 +18,19 @@
 #if defined(HAVE_HPCC)	/* MetaX */
 # include <hccl.h>
 # include <hc_runtime.h>
-# include "hpcc_helpers.h"
 # if defined(TEST_FP16)
 #  include <hpcc_fp16.h>
 # endif
 # include "cuda_adapter.h"
 #elif defined(HAVE_HIP)
 #include <hip/hip_runtime.h>
-#include "cuda_helpers.h"
 #include "cuda_adapter.h"
 #elif defined(HAVE_CUDA)	/* Nvidia */
 # include <cuda_runtime.h>
-# include "cuda_helpers.h"
 # if defined(TEST_FP16)
 #  include <cuda_fp16.h>
 # endif
+#include "cuda_helpers.h"
 #else	/* pure C */
 # define __global__
 # define __device__

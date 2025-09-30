@@ -5,16 +5,15 @@
 #include <sys/types.h>
 #if defined(HAVE_HPCC)
 #include <hc_runtime.h>
-#include "hpcc_helpers.h"
 #include "cuda_adapter.h"
 #elif defined(HAVE_HIP)
 #include <hip/hip_runtime.h>
-#include "cuda_helpers.h"
 #include "cuda_adapter.h"
 #else
 #include <cuda_runtime.h>
-#include "cuda_helpers.h"
 #endif
+#include "cuda_helpers.h"
+
 
 __managed__ __device__ int dev_managed_a = 0;
 #ifdef ERROR

@@ -6,11 +6,9 @@
 #include <stdio.h>
 #if defined(HAVE_HPCC)
 #include <hc_runtime.h>
-#include "hpcc_helpers.h"
 #include "cuda_adapter.h"
 #elif defined(HAVE_HIP)
 #include <hip/hip_runtime.h>
-#include "cuda_helpers.h"
 #include "cuda_adapter.h"
 #else
 /**
@@ -18,8 +16,9 @@
  * don't need this include line
  */
 #include <cuda_runtime.h>
-#include "cuda_helpers.h"
 #endif
+#include "cuda_helpers.h"
+
 
 __device__ int dev_a = 0;
 __constant__ __device__ int dev_const_a = 0;

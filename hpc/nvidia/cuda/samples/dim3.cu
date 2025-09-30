@@ -8,19 +8,17 @@
 #if defined(HAVE_HPCC)
 #include <hc_runtime.h>
 #include <hpcc_cooperative_groups.h>
-#include "hpcc_helpers.h"
 #include "cuda_adapter.h"
 #elif defined(HAVE_HIP)
 #include <hip/hip_runtime.h>
 #include <hip/hip_cooperative_groups.h>
-#include "cuda_helpers.h"
 #include "cuda_adapter.h"
 # define NAME	"AMDGPU FFT"
 #else
 #include <cuda_runtime.h>
 #include <cooperative_groups.h>
-#include "cuda_helpers.h"
 #endif
+#include "cuda_helpers.h"
 
 #define LOG_GLOBAL(fmt...) do {	\
 		printf("\033[1m");	\

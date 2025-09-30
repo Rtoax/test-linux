@@ -3,20 +3,18 @@
 #include <stdio.h>
 #if defined(HAVE_HPCC)
 # include <hc_runtime.h>
-# include "hpcc_helpers.h"
 # include "cuda_adapter.h"
 # define NAME	"MetaX SPARSE"
 #elif defined(HAVE_HIP)
 #include <hip/hip_runtime.h>
 #include <hipsparse/hipsparse.h>
-#include "cuda_helpers.h"
 #include "cuda_adapter.h"
 # define NAME	"AMDGPU SPARSE"
 #else
 # include <cuda_runtime.h>
-# include "cuda_helpers.h"
 # define NAME	"CUDA SPARSE"
 #endif
+#include "cuda_helpers.h"
 
 
 int main(int argc, char *argv[])
