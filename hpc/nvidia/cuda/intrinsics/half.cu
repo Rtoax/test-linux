@@ -54,17 +54,25 @@ __global__ void k_half_arithmetic(void)
 
 	PHALF(__habs(h1));
 	PHALF(__hadd(h1, h2));
+#if !defined(__HIPCC__)
 	PHALF(__hadd_rn(h1, h2));
+#endif
 	PHALF(__hdiv(h1, h2));
 	PHALF(__hfma(h1, h2, h3));	/* (a x b) + c */
+#if !defined(__HIPCC__)
 	PHALF(__hfma_relu(h1, h2, h3));
+#endif
 	PHALF(__hfma_sat(h1, h2, h3));
 	PHALF(__hmul(h1, h2));
+#if !defined(__HIPCC__)
 	PHALF(__hmul_rn(h1, h2));
+#endif
 	PHALF(__hmul_sat(h1, h2));
 	PHALF(__hneg(h1));
 	PHALF(__hsub(h1, h2));
+#if !defined(__HIPCC__)
 	PHALF(__hsub_rn(h1, h2));
+#endif
 	PHALF(__hsub_sat(h1, h2));
 }
 
