@@ -296,6 +296,7 @@ __global__ void k_half_precision_conversion(void)
 	PHALF((h = __ldg(&h))); /* ld.global.nc */
 	PHALF2((h2 = __ldg(&h2)));
 
+#if !defined(__HIPCC__)
 	/* st.global.cg */
 	__stcg(&h, h);
 	__stcg(&h2, h2);
@@ -308,6 +309,7 @@ __global__ void k_half_precision_conversion(void)
 	/* st.global.wt */
 	__stwt(&h, h);
 	__stwt(&h2, h2);
+#endif
 }
 
 __global__ void k_half_precision_conversion_sync(void)
