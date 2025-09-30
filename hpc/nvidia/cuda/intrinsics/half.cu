@@ -76,6 +76,21 @@ __global__ void k_half_arithmetic(void)
 	PHALF(__hsub_sat(h1, h2));
 }
 
+__global__ void k_half_arithmetic_atomicAdd(void)
+{
+	extern __shared__ half shareHalf[1];
+
+	__syncthreads();
+
+	atomicAdd(shareHalf, CUDART_ONE_FP16);
+
+	__syncthreads();
+
+	if (threadIdx.x + blockDim.x * blockIdx.x == 0) {
+		PHALF(shareHalf[0]);
+	}
+}
+
 __global__ void k_half_math(void)
 {
 	half f16 = __float2half(3.14);
@@ -104,8 +119,13 @@ __global__ void k_half_math(void)
 
 int main(int argc, char *argv[])
 {
+	dim3 grid(10);
+	dim3 block(32);
+
 	k_half_constants<<<1, 1>>>();
 	k_half_arithmetic<<<1, 1>>>();
+	(void)cudaLaunchKernel((void *)k_half_arithmetic_atomicAdd, grid, block, NULL,
+				sizeof(half), NULL);
 	k_half_math<<<1, 1>>>();
 
 	(void)cudaDeviceSynchronize();
