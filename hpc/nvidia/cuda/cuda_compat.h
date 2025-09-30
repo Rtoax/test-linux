@@ -17,6 +17,7 @@
 # ifndef HAVE_HPCC
 #  error "Not found HPCC envrioment, but use HPCC"
 # endif
+#define CUNAME	"MetaX"
 #elif defined(__USE_HIP__)
 /**
  * Must define exactly one of __HIP_PLATFORM_AMD__ or __HIP_PLATFORM_NVIDIA__
@@ -28,6 +29,8 @@
 #include <hipfft/hipfft.h>
 #include <hipsparse/hipsparse.h>
 #include <hiprand/hiprand.h>
+#define HIPBLAS_V2
+#define HIPBLAS_USE_HIP_HALF
 #include <hipblas/hipblas.h>
 #include <hipblaslt/hipblaslt.h>
 #include <hip/hip_fp16.h>
@@ -35,6 +38,7 @@
 # ifndef HAVE_HIP
 #  error "Not found ROCm HIP envrioment, but use HIP"
 # endif
+#define CUNAME	"ROCm HIP"
 #else /* fallback to CUDA */
 /**
  * macro:
@@ -50,4 +54,5 @@
 #include <curand.h>
 #define DISABLE_CUSPARSE_DEPRECATED	1
 #include <cusparse.h>
+#define CUNAME	"NVIDIA CUDA"
 #endif
