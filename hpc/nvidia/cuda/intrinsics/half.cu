@@ -207,6 +207,7 @@ __global__ void k_half_precision_conversion(void)
 	PHALF((h = __float2half(3.1415926f)));
 	PFLOAT((f = __half2float(h)));
 	PHALF2((h2 = __half2half2(h)));
+	PHALF2((h2 = make_half2(h, h)));
 	PHALF2((h2 = __halves2half2(h, h)));
 	PFLOAT((f = __low2float(h2)));
 	PHALF((h = __low2half(h2)));
@@ -225,6 +226,10 @@ __global__ void k_half_precision_conversion(void)
 	PLONGLONG((ull = __half2ull_rn(h)));
 	PLONGLONG((ull = __half2ull_ru(h)));
 	PLONGLONG((ull = __half2ull_rz(h)));
+	PHALF((h = __ull2half_rd(ull)));
+	PHALF((h = __ull2half_rn(ull)));
+	PHALF((h = __ull2half_ru(ull)));
+	PHALF((h = __ull2half_rz(ull)));
 	PSHORT((si = __half2short_rd(h)));
 	PSHORT((si = __half2short_rn(h)));
 	PSHORT((si = __half2short_ru(h)));
@@ -239,6 +244,11 @@ __global__ void k_half_precision_conversion(void)
 	PSHORT((usi = __half2ushort_ru(h)));
 	PSHORT((usi = __half2ushort_rz(h)));
 	PSHORT((usi = __half_as_ushort(h)));
+	PHALF((h = __ushort2half_rd(usi)));
+	PHALF((h = __ushort2half_rn(usi)));
+	PHALF((h = __ushort2half_ru(usi)));
+	PHALF((h = __ushort2half_rz(usi)));
+	PHALF((h = __ushort_as_half(usi)));
 	PINT((i = __half2int_rd(h))); /* round-down */
 	PINT((i = __half2int_rn(h))); /* round-to-nearest-even */
 	PINT((i = __half2int_ru(h))); /* round-up */
@@ -247,6 +257,10 @@ __global__ void k_half_precision_conversion(void)
 	PINT((ui = __half2uint_rn(h)));
 	PINT((ui = __half2uint_ru(h)));
 	PINT((ui = __half2uint_rz(h)));
+	PHALF((h = __uint2half_rd(ui)));
+	PHALF((h = __uint2half_rn(ui)));
+	PHALF((h = __uint2half_ru(ui)));
+	PHALF((h = __uint2half_rz(ui)));
 
 	PHALF(__float2half_rn(3.1415926f)); /* round-to-nearest-even */
 	PHALF(__float2half_ru(3.1415926f)); /* round-up */
@@ -281,6 +295,19 @@ __global__ void k_half_precision_conversion(void)
 #endif
 	PHALF((h = __ldg(&h))); /* ld.global.nc */
 	PHALF2((h2 = __ldg(&h2)));
+
+	/* st.global.cg */
+	__stcg(&h, h);
+	__stcg(&h2, h2);
+	/* st.global.cs */
+	__stcs(&h, h);
+	__stcs(&h2, h2);
+	/* st.global.wb */
+	__stwb(&h, h);
+	__stwb(&h2, h2);
+	/* st.global.wt */
+	__stwt(&h, h);
+	__stwt(&h2, h2);
 }
 
 __global__ void k_half_precision_conversion_sync(void)
