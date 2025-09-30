@@ -6,7 +6,7 @@
  */
 #pragma once
 #include <sys/types.h>
-#include "compat.hpp"
+#include "cuda_compat.h"
 #include "device.h"
 #include "debug.h"
 #include "types.h"

@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- cuda: add `cuda_compat.h`;
 - hpc/nvidia/cuda/intrinsics/ support HPCC, HIP;
 - Add hpc/nvidia/cuda/intrinsics/;
 - Makefile: add config target to no interaction configuration;
@@ -27,6 +28,7 @@ and this project adheres to
 - Add ieee/;
 - Add init/kernel/cmdline.md;
 #### Changed
+- fakeCUDA: Move compat.hpp to cuda/`cuda_compat.h`;
 - Move kernel.mk into template/;
 - menuconfig: rename scripts/dialog/main.sh to scripts/config/dialog.sh;
 - hpc: Rename `HAVE_HCCL` to `HAVE_HPCC`;

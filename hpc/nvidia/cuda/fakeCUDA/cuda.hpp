@@ -2,7 +2,7 @@
 /* Copyright (c) 2025 Rong Tao */
 #pragma once
 #include "device.h"
-#include "compat.hpp"
+#include "cuda_compat.h"
 
 
 #ifdef __cplusplus

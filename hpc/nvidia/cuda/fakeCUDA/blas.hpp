@@ -3,7 +3,7 @@
 /**
  * https://docs.nvidia.com/cuda/cublas/
  */
-#include "compat.hpp"
+#include "cuda_compat.h"
 
 
 #if defined(__USE_HPCC__)

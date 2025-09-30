@@ -120,8 +120,8 @@ rt-hip-objs += ${OUTPUT}runtime_memory-hip.cpp.so.o
 rt-hip-objs += ${OUTPUT}runtime_internal-hip.cpp.so.o ${OUTPUT}fatbin.cpp.so.o
 
 ${rt-objs}: runtime.hpp
-${rt-hpcc-objs}: runtime.hpp compat.hpp
-${rt-hip-objs}: runtime.hpp compat.hpp
+${rt-hpcc-objs}: runtime.hpp cuda_compat.h
+${rt-hip-objs}: runtime.hpp cuda_compat.h
 
 ${OUTPUT}common.cpp.so.o: debug.h
 ${OUTPUT}utils.cpp.so.o: utils.hpp

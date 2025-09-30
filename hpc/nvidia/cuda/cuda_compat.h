@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0
 /* Copyright (c) 2025 Rong Tao */
-#ifndef __FAKECUDA_COMPAT
-#define __FAKECUDA_COMPAT 1
+#pragma once
 
 #ifdef __USE_HPCC__
 #include <hcr/hc_runtime.h>
@@ -52,5 +51,3 @@
 #define DISABLE_CUSPARSE_DEPRECATED	1
 #include <cusparse.h>
 #endif
-
-#endif /* __FAKECUDA_COMPAT */
