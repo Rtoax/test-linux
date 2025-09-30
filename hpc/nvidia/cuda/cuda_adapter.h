@@ -1053,6 +1053,28 @@
 		     B, Btype, ldb, beta, C, Ctype, ldc, computeType, algo) \
 	__cu(blasGemmEx(handle, transa, transb, m, n, k, alpha, A, Atype, lda, \
 		     B, Btype, ldb, beta, C, Ctype, ldc, computeType, algo))
+/**
+ * HIP:
+ * hipblasStatus_t hipblasGemmEx_v2(hipblasHandle_t      handle,
+ *                                  hipblasOperation_t   transA,
+ *                                  hipblasOperation_t   transB,
+ *                                  int                  m,
+ *                                  int                  n,
+ *                                  int                  k,
+ *                                  const void*          alpha,
+ *                                  const void*          A,
+ *                                  hipDataType          aType,
+ *                                  int                  lda,
+ *                                  const void*          B,
+ *                                  hipDataType          bType,
+ *                                  int                  ldb,
+ *                                  const void*          beta,
+ *                                  void*                C,
+ *                                  hipDataType          cType,
+ *                                  int                  ldc,
+ *                                  hipblasComputeType_t computeType,
+ *                                  hipblasGemmAlgo_t    algo);
+ */
 #define cublasGemmEx_v2	__cu(blasGemmEx_v2)
 
 /**
@@ -1360,7 +1382,6 @@
 #define CUDA_R_6F_E3M2	HPCC_R_6F_E3M12
 #define CUDA_R_4F_E2M1	HPCC_R_4F_E2M1
 #elif defined(__USE_HIP__)
-#define cudaDataType_t	cudaDataType
 #define cudaDataType	__cuda(DataType)
 #define CUDA_R_32F	HIP_R_32F
 #define CUDA_R_64F	HIP_R_64F
