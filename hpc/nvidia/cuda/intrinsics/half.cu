@@ -9,6 +9,9 @@
 #include <string.h>
 #include "cuda_compat.h"
 
+#ifndef __unused
+#define __unused	__attribute__((unused))
+#endif
 
 #ifndef __NVCC__
 /**
@@ -175,20 +178,20 @@ __global__ void k_half_math(void)
 
 __global__ void k_half_precision_conversion(void)
 {
-	double d;
-	float f;
+	double __unused d;
+	float __unused f;
 	half h;
 	half2 h2;
 	/* {x, y} */
 	float2 f2;
-	signed char sc;
-	unsigned char uc;
-	short int si;
-	unsigned short int usi;
-	int i;
-	unsigned int ui;
-	long long int ll;
-	unsigned long long int ull;
+	signed char __unused sc;
+	unsigned char __unused uc;
+	short int __unused si;
+	unsigned short int __unused usi;
+	int __unused i;
+	unsigned int __unused ui;
+	long long int __unused ll;
+	unsigned long long int __unused ull;
 
 	PHALF((h = __int2half_rd(3)));
 	PHALF((h = __int2half_rn(3)));
