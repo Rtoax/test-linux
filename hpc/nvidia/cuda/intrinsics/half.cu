@@ -50,8 +50,25 @@ __global__ void k_half_arithmetic(void)
 	h3 = __hmul(h1, h2);
 	PHALF(h3);
 
-	PHALF(hexp2(h3));
 	PHALF(hceil(h3));
+	PHALF(hfloor(h3));
+	PHALF(hcos(h3));
+	PHALF(hsin(h3));
+#if !defined(__HPCC__) /* FIXME: hpcc don't have them */
+	PHALF(htanh(h3));
+	PHALF(htanh_approx(h3));
+#endif
+	PHALF(hexp(h3));
+	PHALF(hexp2(h3));
+	PHALF(hexp10(h3));
+	PHALF(hlog(h3));
+	PHALF(hlog2(h3));
+	PHALF(hlog10(h3));
+	PHALF(hrcp(h3));
+	PHALF(hrint(h3));
+	PHALF(hsqrt(h3));
+	PHALF(hrsqrt(h3));
+	PHALF(htrunc(h3));
 }
 
 int main(int argc, char *argv[])
