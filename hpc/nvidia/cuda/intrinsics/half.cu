@@ -1,5 +1,9 @@
 // SPDX-License-Identifier: GPL-3.0
 /* Copyright (c) 2025 Rong Tao */
+/**
+ * https://docs.nvidia.com/cuda/cuda-math-api/index.html
+ * https://docs.nvidia.com/cuda/cuda-math-api/cuda_math_api/group__CUDA__MATH____HALF__MISC.html
+ */
 #include <assert.h>
 #include <stdio.h>
 #include <stdint.h>
@@ -226,6 +230,10 @@ __global__ void k_half_precision_conversion(void)
 	PSHORT((si = __half2short_ru(h)));
 	PSHORT((si = __half2short_rz(h)));
 	PSHORT((si = __half_as_short(h)));
+	PHALF((h = __short2half_rd(si)));
+	PHALF((h = __short2half_rn(si)));
+	PHALF((h = __short2half_ru(si)));
+	PHALF((h = __short2half_rz(si)));
 	PSHORT((usi = __half2ushort_rd(h)));
 	PSHORT((usi = __half2ushort_rn(h)));
 	PSHORT((usi = __half2ushort_ru(h)));
