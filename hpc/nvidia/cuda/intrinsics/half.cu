@@ -322,6 +322,16 @@ __global__ void k_half_precision_conversion_sync(void)
 	 */
 }
 
+__global__ void k_half2_arithmetic(void)
+{
+	half h;
+	half2 h2_1, h2_2;
+
+	PHALF((h = __float2half(3.1415926f)));
+	PHALF2((h2_1 = __half2half2(h)));
+	PHALF2((h2_2 = __half2half2(h)));
+}
+
 int main(int argc, char *argv[])
 {
 	dim3 grid(10);
@@ -341,6 +351,8 @@ int main(int argc, char *argv[])
 	k_half_math<<<1, 1>>>();
 	k_half_precision_conversion<<<1, 1>>>();
 	k_half_precision_conversion_sync<<<1, 1>>>();
+
+	k_half2_arithmetic<<<1, 1>>>();
 
 	(void)cudaDeviceSynchronize();
 	return 0;
