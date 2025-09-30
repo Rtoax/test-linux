@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: GPL-3.0
 /* Copyright (c) 2025 Rong Tao */
 /**
- * blas: default use V2
+ * Input definitions:
+ * - __USE_HIP_V2__: use V2 API, default: disable
  */
 #pragma once
 
@@ -23,6 +24,9 @@
 # endif
 #define CUNAME	"MetaX"
 #elif defined(__USE_HIP__)
+# ifdef __USE_HIP_V2__
+#  define HIPBLAS_V2
+# endif
 /**
  * Must define exactly one of __HIP_PLATFORM_AMD__ or __HIP_PLATFORM_NVIDIA__
  */
@@ -34,7 +38,6 @@
 #include <hipsparse/hipsparse.h>
 #include <hiprand/hiprand.h>
 #include <hip/hip_cooperative_groups.h>
-#define HIPBLAS_V2
 #define HIPBLAS_USE_HIP_HALF
 #include <hipblas/hipblas.h>
 #include <hipblaslt/hipblaslt.h>

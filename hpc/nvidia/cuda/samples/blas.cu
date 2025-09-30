@@ -17,6 +17,7 @@
 #include <time.h>
 #include <unistd.h>
 
+#define __USE_HIP_V2__
 #include "cuda_compat.h"
 #include "cuda_helpers.h"
 
