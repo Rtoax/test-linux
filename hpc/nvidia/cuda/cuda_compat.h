@@ -16,6 +16,7 @@
 #include <hcfft/hcfft.h>
 /* TODO: add rtc */
 #include <hpcc_fp16.h>
+#include <hpcc_cooperative_groups.h>
 #include <cuda_adapter.h>
 # ifndef HAVE_HPCC
 #  error "Not found HPCC envrioment, but use HPCC"
@@ -32,6 +33,7 @@
 #include <hipfft/hipfft.h>
 #include <hipsparse/hipsparse.h>
 #include <hiprand/hiprand.h>
+#include <hip/hip_cooperative_groups.h>
 #define HIPBLAS_V2
 #define HIPBLAS_USE_HIP_HALF
 #include <hipblas/hipblas.h>
@@ -57,5 +59,6 @@
 #include <curand.h>
 #define DISABLE_CUSPARSE_DEPRECATED	1
 #include <cusparse.h>
+#include <cooperative_groups.h>
 #define CUNAME	"NVIDIA CUDA"
 #endif
