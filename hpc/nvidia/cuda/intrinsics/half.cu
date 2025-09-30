@@ -190,12 +190,26 @@ __global__ void k_half_precision_conversion(void)
 	long long int ll;
 	unsigned long long int ull;
 
+	PHALF((h = __int2half_rd(3)));
+	PHALF((h = __int2half_rn(3)));
+	PHALF((h = __int2half_ru(3)));
+	PHALF((h = __int2half_rz(3)));
 #if !defined(__HIPCC__)
 	PHALF((h = __double2half(3.1415926)));
 #endif
 	PHALF((h = __float2half(3.1415926f)));
 	PFLOAT((f = __half2float(h)));
 	PHALF2((h2 = __half2half2(h)));
+	PHALF2((h2 = __halves2half2(h, h)));
+	PFLOAT((f = __low2float(h2)));
+	PHALF((h = __low2half(h2)));
+	PHALF2((h2 = __low2half2(h2)));
+	PHALF2((h2 = __lows2half2(h2, h2)));
+	PHALF2((h2 = __lowhigh2highlow(h2)));
+	PHALF((h = __ll2half_rd(314159L)));
+	PHALF((h = __ll2half_rn(314159L)));
+	PHALF((h = __ll2half_ru(314159L)));
+	PHALF((h = __ll2half_rz(314159L)));
 	PLONGLONG((ll = __half2ll_rd(h)));
 	PLONGLONG((ll = __half2ll_rn(h)));
 	PLONGLONG((ll = __half2ll_ru(h)));
@@ -230,6 +244,10 @@ __global__ void k_half_precision_conversion(void)
 	PHALF2(__float2half2_rn(3.1415926f)); /* round-to-nearest-even */
 
 	PHALF2((h2 = __floats2half2_rn(3.1415926f, 3.1415926f))); /* round-to-nearest-even */
+	PFLOAT((f = __high2float(h2)))
+	PHALF((h = __high2half(h2)));
+	PHALF2((h2 = __high2half2(h2)));
+	PHALF2((h2 = __highs2half2(h2, h2)));
 	PFLOAT2((f2 = __half22float2(h2)));
 	PHALF2(__float22half2_rn(f2));
 
@@ -237,6 +255,19 @@ __global__ void k_half_precision_conversion(void)
 	PCHAR((sc = __half2char_rz(3.1415926f)));
 	PCHAR((uc = __half2uchar_rz(3.1415926f)));
 #endif
+
+	PHALF((h = __ldca(&h))); /* Generates a ld.global.ca load instruction */
+	PHALF2((h2 = __ldca(&h2)));
+	PHALF((h = __ldcg(&h))); /* Generates a ld.global.cg load instruction. */
+	PHALF2((h2 = __ldcg(&h2)));
+	PHALF((h = __ldcs(&h))); /* ld.global.cv */
+	PHALF2((h2 = __ldcs(&h2)));
+	PHALF((h = __ldcv(&h))); /* ld.global.cv */
+	PHALF2((h2 = __ldcv(&h2)));
+	PHALF((h = __ldg(&h))); /* ld.global.nc */
+	PHALF2((h2 = __ldg(&h2)));
+	PHALF((h = __ldlu(&h))); /* ld.global.lu */
+	PHALF2((h2 = __ldlu(&h2)));
 }
 
 int main(int argc, char *argv[])
