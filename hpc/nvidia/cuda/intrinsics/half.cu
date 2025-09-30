@@ -190,7 +190,10 @@ __global__ void k_half_precision_conversion(void)
 	long long int ll;
 	unsigned long long int ull;
 
+#if !defined(__HIPCC__)
 	PHALF((h = __double2half(3.1415926)));
+#endif
+	PHALF((h = __float2half(3.1415926f)));
 	PFLOAT((f = __half2float(h)));
 	PHALF2((h2 = __half2half2(h)));
 	PLONGLONG((ll = __half2ll_rd(h)));
@@ -219,19 +222,18 @@ __global__ void k_half_precision_conversion(void)
 	PINT((ui = __half2uint_rn(h)));
 	PINT((ui = __half2uint_ru(h)));
 	PINT((ui = __half2uint_rz(h)));
-	PHALF(__float2half(3.1415926f));
+
 	PHALF(__float2half_rn(3.1415926f)); /* round-to-nearest-even */
 	PHALF(__float2half_ru(3.1415926f)); /* round-up */
 	PHALF(__float2half_rd(3.1415926f)); /* round-down */
 	PHALF(__float2half_rz(3.1415926f)); /* round-zero */
-
 	PHALF2(__float2half2_rn(3.1415926f)); /* round-to-nearest-even */
 
 	PHALF2((h2 = __floats2half2_rn(3.1415926f, 3.1415926f))); /* round-to-nearest-even */
 	PFLOAT2((f2 = __half22float2(h2)));
 	PHALF2(__float22half2_rn(f2));
 
-#if !defined(__HPCC__)
+#if !defined(__HPCC__) && !defined(__HIPCC__)
 	PCHAR((sc = __half2char_rz(3.1415926f)));
 	PCHAR((uc = __half2uchar_rz(3.1415926f)));
 #endif
