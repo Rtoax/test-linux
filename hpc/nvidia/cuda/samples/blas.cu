@@ -16,30 +16,9 @@
 #include <malloc.h>
 #include <time.h>
 #include <unistd.h>
-#if defined(HAVE_HPCC)
-# include <hc_runtime.h>
-# include <hcblas/hcblas.h>
-# include <hcblas/hcblasLt.h>
-# include "hpcc_helpers.h"
-# include "cuda_adapter.h"
-# define NAME	"MetaX BLAS"
-#elif defined(HAVE_HIP)
-# define HIPBLAS_V2
-# define HIPBLAS_USE_HIP_HALF
-# include <hip/hip_runtime.h>
-# include <hipblas/hipblas.h>
-# include <hipblaslt/hipblaslt.h>
-# include "cuda_helpers.h"
-# include "cuda_adapter.h"
-# define NAME	"AMDGPU BLAS"
-# define cudaDataType_t	cudaDataType
-#else
-# include <cuda_runtime.h>
-# include <cublas_v2.h>
-# include <cublasLt.h>
-# include "cuda_helpers.h"
-# define NAME	"CUDA BLAS"
-#endif
+
+#include "cuda_compat.h"
+#include "cuda_helpers.h"
 
 #define IDX2C(i, j, ld)	(((j) * (ld)) + (i))
 #define ARRAY_SIZE(arr)	(sizeof(arr) / sizeof(arr[0]))
@@ -222,7 +201,7 @@ struct test {
 	struct test_operations ops;
 };
 
-const char *version = "v0.0.7 (" NAME ")";
+const char *version = "v0.0.7 (" CUNAME ")";
 
 const char argp_prog_doc[] =
 	"USAGE: [-g <GPU>] [-v] [=t=<TYPE>]\n"
@@ -260,7 +239,7 @@ static void print_blas_version(void)
 	cublasGetProperty(MINOR_VERSION, &minor);
 	cublasGetProperty(PATCH_LEVEL, &patch);
 #endif
-	printf("%s %d.%d.%d\n", NAME, major, minor, patch);
+	printf("%s %d.%d.%d\n", CUNAME, major, minor, patch);
 }
 
 static void print_version(void)
