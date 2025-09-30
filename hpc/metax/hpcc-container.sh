@@ -8,5 +8,7 @@ IMAGE=sw-harbor-lg.mxcr.io/ai-release/hpcc/modelzoo.llm.vllm:hpcc.ai3.0.0-torch2
 #IMAGE=registry.cn-shanghai.aliyuncs.com/insight-tech/x-deepspeed:hpcc2.32.0.5-torch2.4-py310-kylin2309a-arm64
 
 sudo podman run --rm -ti --network=host --privileged \
-	-v /home/rongtao/:/root/ ${IMAGE} \
+	-v /home/rongtao/:/root/ \
+	-v /home/g/:/root/g/ \
+	${IMAGE} \
 	bash
