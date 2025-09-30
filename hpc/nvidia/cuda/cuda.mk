@@ -1,4 +1,19 @@
 # SPDX-License-Identifier: GPL-3.0
+# Copyright (c) 2025 Rong Tao
+#
+# Input definitions:
+# - __IGNORE_NOTFOUND_ERROR__
+#
+# Output macros:
+# - HAVE_CUDA
+# - NVCC
+# - CUOBJDUMP
+# - NVDISASM
+# - CUDA_ROOT
+# - CUDA_VERSION_MAJOR
+# - CUDA_VERSION_MINOR
+# - CUDA_VERSION_PATCH
+
 _CUDA = 1
 
 NVCC := $(shell which nvcc 2>/dev/null)
@@ -30,7 +45,11 @@ endif
 # If not found NVCC
 ifeq ($(wildcard $(NVCC)),)
   ifneq ($(targets-nvcc),)
-    $(error Not found nvcc, install cuda first)
+    ifdef __IGNORE_NOTFOUND_ERROR__
+      $(warning Not found nvcc with targets-nvcc not empty, but __IGNORE_NOTFOUND_ERROR__)
+    else
+      $(error Not found nvcc with targets-nvcc not empty, install cuda first)
+    endif
   else
     $(warning Although not found nvcc, but you don't have targets-nvcc)
   endif

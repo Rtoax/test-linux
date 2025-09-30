@@ -1,5 +1,18 @@
 # SPDX-License-Identifier: GPL-3.0
 # https://www.metax-tech.com/
+# Copyright (c) 2025 Rong Tao
+#
+# Input definitions:
+# - __IGNORE_NOTFOUND_ERROR__
+#
+# Output macros:
+# - HAVE_HPCC
+# - HPCC_ROOT
+# - MXCC HTCC
+# - HPCC_VERSION_MAJOR
+# - HPCC_VERSION_MINOR
+# - HPCC_VERSION_PATCH
+
 _HPCC = 1
 
 MXCC := $(shell which mxcc 2>/dev/null)
@@ -10,12 +23,20 @@ HPCC_CU_BRIDGE := /opt/hpcc/tools/cu-bridge/include/
 
 ifeq ($(MXCC),)
   ifneq ($(targets-mxcc),)
-    $(error Not found mxcc, install MetaX Toolkit first)
+    ifdef __IGNORE_NOTFOUND_ERROR__
+      $(warning Not found mxcc with targets-mxcc not empty, but __IGNORE_NOTFOUND_ERROR__)
+    else
+      $(error Not found mxcc with targets-mxcc not empty, install MetaX Toolkit first)
+    endif
   endif
 endif
 ifeq ($(HTCC),)
   ifneq ($(targets-htcc),)
-    $(error Not found htcc, install MetaX hpcc first)
+    ifdef __IGNORE_NOTFOUND_ERROR__
+      $(warning Not found htcc with targets-htcc not empty, but __IGNORE_NOTFOUND_ERROR__)
+    else
+      $(error Not found htcc with targets-htcc not empty, install MetaX hpcc first)
+    endif
   endif
 endif
 
