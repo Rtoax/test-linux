@@ -262,12 +262,14 @@ __global__ void k_half_precision_conversion(void)
 	PHALF2((h2 = __ldcg(&h2)));
 	PHALF((h = __ldcs(&h))); /* ld.global.cv */
 	PHALF2((h2 = __ldcs(&h2)));
+#if !defined(__HIPCC__)
 	PHALF((h = __ldcv(&h))); /* ld.global.cv */
 	PHALF2((h2 = __ldcv(&h2)));
-	PHALF((h = __ldg(&h))); /* ld.global.nc */
-	PHALF2((h2 = __ldg(&h2)));
 	PHALF((h = __ldlu(&h))); /* ld.global.lu */
 	PHALF2((h2 = __ldlu(&h2)));
+#endif
+	PHALF((h = __ldg(&h))); /* ld.global.nc */
+	PHALF2((h2 = __ldg(&h2)));
 }
 
 int main(int argc, char *argv[])
