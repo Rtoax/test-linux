@@ -26,7 +26,20 @@
 
 /* Print definitions */
 #define PHALF(v)	printf("%s : %f\n", #v, __half2float(v));
-#define PBOOL(v)	printf("%s : %d\n", #v, v);
+#define PHALF2(v) do {	\
+		half2 __h2 = v;	\
+		printf("%s : {%f, %f}\n", #v, __half2float(__h2.x), __half2float(__h2.y));	\
+	} while (0)
+#define PFLOAT(v)	printf("%s : %f\n", #v, v);
+#define PFLOAT2(v) do {	\
+		float2 __f2 = v;	\
+		printf("%s : {%f, %f}\n", #v, __f2.x, __f2.y);	\
+	} while (0)
+#define PINT(v)	printf("%s : %d\n", #v, v);
+#define PSHORT(v)	printf("%s : %d\n", #v, v);
+#define PLONGLONG(v)	printf("%s : %lld\n", #v, v);
+#define PBOOL(v)	printf("%s : %s\n", #v, v ? "true" : "false");
+#define PCHAR(v)	printf("%s : %u (%c)\n", #v, v, v);
 
 
 __global__ void k_half_constants(void)
@@ -160,10 +173,78 @@ __global__ void k_half_math(void)
 	PHALF(htrunc(f16));
 }
 
+__global__ void k_half_precision_conversion(void)
+{
+	double d;
+	float f;
+	half h;
+	half2 h2;
+	/* {x, y} */
+	float2 f2;
+	signed char sc;
+	unsigned char uc;
+	short int si;
+	unsigned short int usi;
+	int i;
+	unsigned int ui;
+	long long int ll;
+	unsigned long long int ull;
+
+	PHALF((h = __double2half(3.1415926)));
+	PFLOAT((f = __half2float(h)));
+	PHALF2((h2 = __half2half2(h)));
+	PLONGLONG((ll = __half2ll_rd(h)));
+	PLONGLONG((ll = __half2ll_rn(h)));
+	PLONGLONG((ll = __half2ll_ru(h)));
+	PLONGLONG((ll = __half2ll_rz(h)));
+	PLONGLONG((ull = __half2ull_rd(h)));
+	PLONGLONG((ull = __half2ull_rn(h)));
+	PLONGLONG((ull = __half2ull_ru(h)));
+	PLONGLONG((ull = __half2ull_rz(h)));
+	PSHORT((si = __half2short_rd(h)));
+	PSHORT((si = __half2short_rn(h)));
+	PSHORT((si = __half2short_ru(h)));
+	PSHORT((si = __half2short_rz(h)));
+	PSHORT((si = __half_as_short(h)));
+	PSHORT((usi = __half2ushort_rd(h)));
+	PSHORT((usi = __half2ushort_rn(h)));
+	PSHORT((usi = __half2ushort_ru(h)));
+	PSHORT((usi = __half2ushort_rz(h)));
+	PSHORT((usi = __half_as_ushort(h)));
+	PINT((i = __half2int_rd(h))); /* round-down */
+	PINT((i = __half2int_rn(h))); /* round-to-nearest-even */
+	PINT((i = __half2int_ru(h))); /* round-up */
+	PINT((i = __half2int_rz(h))); /* round-zero */
+	PINT((ui = __half2uint_rd(h)));
+	PINT((ui = __half2uint_rn(h)));
+	PINT((ui = __half2uint_ru(h)));
+	PINT((ui = __half2uint_rz(h)));
+	PHALF(__float2half(3.1415926f));
+	PHALF(__float2half_rn(3.1415926f)); /* round-to-nearest-even */
+	PHALF(__float2half_ru(3.1415926f)); /* round-up */
+	PHALF(__float2half_rd(3.1415926f)); /* round-down */
+	PHALF(__float2half_rz(3.1415926f)); /* round-zero */
+
+	PHALF2(__float2half2_rn(3.1415926f)); /* round-to-nearest-even */
+
+	PHALF2((h2 = __floats2half2_rn(3.1415926f, 3.1415926f))); /* round-to-nearest-even */
+	PFLOAT2((f2 = __half22float2(h2)));
+	PHALF2(__float22half2_rn(f2));
+
+#if !defined(__HPCC__)
+	PCHAR((sc = __half2char_rz(3.1415926f)));
+	PCHAR((uc = __half2uchar_rz(3.1415926f)));
+#endif
+}
+
 int main(int argc, char *argv[])
 {
 	dim3 grid(10);
 	dim3 block(32);
+
+	assert(sizeof(half) == 2 && "bad size of half");
+	assert(sizeof(half2) == 4 && "bad size of half2");
+	assert(sizeof(float2) == 8 && "bad size of float2");
 
 	k_half_constants<<<1, 1>>>();
 	k_half_arithmetic<<<1, 1>>>();
@@ -173,6 +254,7 @@ int main(int argc, char *argv[])
 #endif
 	k_half_comparision<<<1, 1>>>();
 	k_half_math<<<1, 1>>>();
+	k_half_precision_conversion<<<1, 1>>>();
 
 	(void)cudaDeviceSynchronize();
 	return 0;
