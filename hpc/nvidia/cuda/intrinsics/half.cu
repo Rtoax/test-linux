@@ -49,33 +49,39 @@ __global__ void k_half_arithmetic(void)
 
 	h3 = __hmul(h1, h2);
 	PHALF(h3);
+}
 
-	PHALF(hceil(h3));
-	PHALF(hfloor(h3));
-	PHALF(hcos(h3));
-	PHALF(hsin(h3));
+__global__ void k_half_math(void)
+{
+	half f16 = __float2half(3.14);
+
+	PHALF(hceil(f16));
+	PHALF(hfloor(f16));
+	PHALF(hcos(f16));
+	PHALF(hsin(f16));
 /* FIXME: hpcc don't have them */
 #if !defined(__HPCC__) && !defined(__HIPCC__)
-	PHALF(htanh(h3));
-	PHALF(htanh_approx(h3));
+	PHALF(htanh(f16));
+	PHALF(htanh_approx(f16));
 #endif
-	PHALF(hexp(h3));
-	PHALF(hexp2(h3));
-	PHALF(hexp10(h3));
-	PHALF(hlog(h3));
-	PHALF(hlog2(h3));
-	PHALF(hlog10(h3));
-	PHALF(hrcp(h3));
-	PHALF(hrint(h3));
-	PHALF(hsqrt(h3));
-	PHALF(hrsqrt(h3));
-	PHALF(htrunc(h3));
+	PHALF(hexp(f16));
+	PHALF(hexp2(f16));
+	PHALF(hexp10(f16));
+	PHALF(hlog(f16));
+	PHALF(hlog2(f16));
+	PHALF(hlog10(f16));
+	PHALF(hrcp(f16));
+	PHALF(hrint(f16));
+	PHALF(hsqrt(f16));
+	PHALF(hrsqrt(f16));
+	PHALF(htrunc(f16));
 }
 
 int main(int argc, char *argv[])
 {
 	k_half_constants<<<1, 1>>>();
 	k_half_arithmetic<<<1, 1>>>();
+	k_half_math<<<1, 1>>>();
 
 	(void)cudaDeviceSynchronize();
 	return 0;
