@@ -7,7 +7,7 @@
 #include <stdbool.h>
 #include <math.h>
 #include <string.h>
-#include "compat.hpp"
+#include "cuda_compat.h"
 
 
 __global__ void kmul(void)
