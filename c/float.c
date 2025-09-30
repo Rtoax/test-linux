@@ -333,11 +333,25 @@ __myconst__ fp32_t fp32_NegMin = FP32_INITIALIZER(1, 0x1, 0);
 __myconst__ fp32_t fp32_0dot15625 = FP32_INITIALIZER(0, 0x7c, 0x200000);
 
 /* https://en.wikipedia.org/wiki/Half-precision_floating-point_format */
+/**
+ * #define CUDART_NAN_FP16 __ushort_as_half((unsigned short)0x7FFFU)
+ */
 __myconst__ fp16_t fp16_NaN = FP16_INITIALIZER(1, 0x1f, 0x3ff);
+/**
+ * #define CUDART_INF_FP16 __ushort_as_half((unsigned short)0x7C00U)
+ */
 __myconst__ fp16_t fp16_PosInf = FP16_INITIALIZER(0, 0x1f, 0);
 __myconst__ fp16_t fp16_NegInf = FP16_INITIALIZER(1, 0x1f, 0);
+/**
+ * #define CUDART_ZERO_FP16 __ushort_as_half((unsigned short)0x0000U)
+ * #define CUDART_NEG_ZERO_FP16 __ushort_as_half((unsigned short)0x8000U)
+ */
 __myconst__ fp16_t fp16_PosZero = FP16_INITIALIZER(0, 0, 0);
 __myconst__ fp16_t fp16_NegZero = FP16_INITIALIZER(1, 0, 0);
+/**
+ * #define CUDART_MAX_NORMAL_FP16 __ushort_as_half((unsigned short)0x7BFFU)
+ * #define CUDART_MIN_DENORM_FP16 __ushort_as_half((unsigned short)0x0001U)
+ */
 /* ± 65504.0 */
 __myconst__ fp16_t fp16_PosMax = FP16_INITIALIZER(0, 0x1e, 0x3ff);
 __myconst__ fp16_t fp16_NegMax = FP16_INITIALIZER(1, 0x1e, 0x3ff);
