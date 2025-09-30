@@ -15,21 +15,9 @@
 #include <stdbool.h>
 #include <malloc.h>
 #include <time.h>
-#if defined(HAVE_HPCC)	/* MetaX */
-# include <hccl.h>
-# include <hc_runtime.h>
-# if defined(TEST_FP16)
-#  include <hpcc_fp16.h>
-# endif
-# include "cuda_adapter.h"
-#elif defined(HAVE_HIP)
-#include <hip/hip_runtime.h>
-#include "cuda_adapter.h"
-#elif defined(HAVE_CUDA)	/* Nvidia */
-# include <cuda_runtime.h>
-# if defined(TEST_FP16)
-#  include <cuda_fp16.h>
-# endif
+
+#if defined(HAVE_HPCC) || defined(HAVE_HIP) || defined(HAVE_CUDA)
+#include "cuda_compat.h"
 #include "cuda_helpers.h"
 #else	/* pure C */
 # define __global__
