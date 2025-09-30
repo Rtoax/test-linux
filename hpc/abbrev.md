@@ -5,7 +5,7 @@
 - DP: Double Precision (双精度) @FP64
 - FLOPs: Floating Point of Operations (浮点运算)
 - FLOPS: Floating Point Operations Per Second (每秒浮点运算个数)
-- FMA: Fused Multiply-Add ()
+- FMA: Fused Multiply-Add ((a x b) + c)
 - FP: Float Point (浮点, IEEE 754-2008) @TF
 - FP64: FP 64-bit (双精度浮点) @DP
 - GFLOPS: Giga FLOPS (每秒10亿次的浮点运算数) @FLOPS

@@ -44,11 +44,28 @@ __global__ void k_half_arithmetic(void)
 {
 	half h1, h2, h3;
 
-	h1 = __float2half(3.14);
-	h2 = __float2half(3.14);
+	h1 = __float2half(1);
+	h2 = __float2half(2);
+	h3 = __float2half(3);
 
-	h3 = __hmul(h1, h2);
+	PHALF(h1);
+	PHALF(h2);
 	PHALF(h3);
+
+	PHALF(__habs(h1));
+	PHALF(__hadd(h1, h2));
+	PHALF(__hadd_rn(h1, h2));
+	PHALF(__hdiv(h1, h2));
+	PHALF(__hfma(h1, h2, h3));	/* (a x b) + c */
+	PHALF(__hfma_relu(h1, h2, h3));
+	PHALF(__hfma_sat(h1, h2, h3));
+	PHALF(__hmul(h1, h2));
+	PHALF(__hmul_rn(h1, h2));
+	PHALF(__hmul_sat(h1, h2));
+	PHALF(__hneg(h1));
+	PHALF(__hsub(h1, h2));
+	PHALF(__hsub_rn(h1, h2));
+	PHALF(__hsub_sat(h1, h2));
 }
 
 __global__ void k_half_math(void)
