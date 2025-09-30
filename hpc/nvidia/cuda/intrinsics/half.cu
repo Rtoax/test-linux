@@ -54,7 +54,8 @@ __global__ void k_half_arithmetic(void)
 	PHALF(hfloor(h3));
 	PHALF(hcos(h3));
 	PHALF(hsin(h3));
-#if !defined(__HPCC__) /* FIXME: hpcc don't have them */
+/* FIXME: hpcc don't have them */
+#if !defined(__HPCC__) && !defined(__HIPCC__)
 	PHALF(htanh(h3));
 	PHALF(htanh_approx(h3));
 #endif
