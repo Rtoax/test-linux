@@ -26,6 +26,7 @@
 
 /* Print definitions */
 #define PHALF(v)	printf("%s : %f\n", #v, __half2float(v));
+#define PBOOL(v)	printf("%s : %d\n", #v, v);
 
 
 __global__ void k_half_constants(void)
@@ -96,6 +97,43 @@ __global__ void k_half_arithmetic_atomicAdd(void)
 }
 #endif
 
+__global__ void k_half_comparision(void)
+{
+	half h1, h2, h3;
+
+	h1 = __float2half(1);
+	h2 = __float2half(2);
+	h3 = __float2half(3);
+
+	PHALF(h1);
+	PHALF(h2);
+	PHALF(h3);
+
+	PBOOL(__heq(h1, h2));
+	PBOOL(__heq(h1, h1));
+	PBOOL(__hequ(h1, h1));
+	PBOOL(__hequ(h1, h2));
+	PBOOL(__hge(h1, h2));
+	PBOOL(__hgeu(h1, h2));
+	PBOOL(__hgt(h1, h2));
+	PBOOL(__hgtu(h1, h2));
+	PBOOL(__hle(h1, h2));
+	PBOOL(__hleu(h1, h2));
+	PBOOL(__hlt(h1, h2));
+	PBOOL(__hltu(h1, h2));
+	PBOOL(__hne(h1, h2));
+	PBOOL(__hneu(h1, h2));
+	PBOOL(__hisinf(h1));
+	PBOOL(__hisinf(CUDART_INF_FP16));
+	PBOOL(__hisnan(h1));
+	PBOOL(__hisnan(CUDART_NAN_FP16));
+
+	PHALF(__hmax(h1, h2));
+	PHALF(__hmax_nan(h1, h2));
+	PHALF(__hmin(h1, h2));
+	PHALF(__hmin_nan(h1, h2));
+}
+
 __global__ void k_half_math(void)
 {
 	half f16 = __float2half(3.14);
@@ -133,6 +171,7 @@ int main(int argc, char *argv[])
 	(void)cudaLaunchKernel((void *)k_half_arithmetic_atomicAdd, grid, block, NULL,
 				sizeof(half), NULL);
 #endif
+	k_half_comparision<<<1, 1>>>();
 	k_half_math<<<1, 1>>>();
 
 	(void)cudaDeviceSynchronize();
