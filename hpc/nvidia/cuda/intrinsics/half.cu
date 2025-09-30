@@ -10,21 +10,23 @@
 #include "compat.hpp"
 
 
-void mul(void)
+__global__ void kmul(void)
 {
 	half h1, h2, h3;
 	float f1;
 
-	h1 = __float2half(1);
-	h2 = __float2half(1);
+	h1 = __float2half(3.14);
+	h2 = __float2half(3.14);
 
 	h3 = __hmul(h1, h2);
 	f1 = __half2float(h3);
+
 	printf("%f\n", f1);
 }
 
 int main(int argc, char *argv[])
 {
-	mul();
+	kmul<<<1, 1>>>();
+	cudaDeviceSynchronize();
 	return 0;
 }

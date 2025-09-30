@@ -23,5 +23,6 @@ include ../../../../template/main.mk
 ifdef HAVE_CUDA
 half: ${OUTPUT}half.cu.o
 else ifdef HAVE_HPCC
+${OUTPUT}half.hpcc.o: half.cu
 half: ${OUTPUT}half.hpcc.o
 endif
