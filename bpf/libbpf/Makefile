@@ -141,7 +141,6 @@ ifeq ($(call vmlinux_has_sym,bpf_strcmp),y)
   CFLAGS_BPF += -DSUPPORT_BPF_STRCMP=1
   $(info Found bpf_strcmp())
 endif
-# FIXME: i'm working on bpf_strcasecmp()
 ifeq ($(call vmlinux_has_sym,bpf_strcasecmp),y)
   CFLAGS_BPF += -DSUPPORT_BPF_STRCASECMP=1
   $(info Found bpf_strcasecmp())
