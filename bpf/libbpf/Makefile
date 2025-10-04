@@ -51,7 +51,7 @@ targets += tc
 targets += xdp xdp_simple xdp_dos
 # kernel v4.12-11037-g546ac1ffb70d
 # commit 546ac1ffb70d ("bpf: add devmap, a map for storing net device references")
-ifeq ($(call kernel_newer_than,4,12,0),y)
+ifeq ($(call kver_gt,4,12,0),y)
   targets += xdp_devmap
 endif
 # kernel v5.8-rc4-1449-g9216477449f3
@@ -60,7 +60,7 @@ endif
 # kernel v5.8-rc4-1448-g644bfe51fa49
 # commit 644bfe51fa49 ("cpumap: Formalize map value as a named struct")
 # introduce struct bpf_cpumap_val
-ifeq ($(call kernel_newer_than,5,8,0),y)
+ifeq ($(call kver_gt,5,8,0),y)
   targets += xdp_cpumap
 endif
 
@@ -70,7 +70,7 @@ targets += sk_msg
 targets += cgroup_device
 targets += cgroup_sysctl
 targets += fmod_ret
-ifeq ($(call kernel_newer_than,5,7,0),y)
+ifeq ($(call kver_gt,5,7,0),y)
   # linux v5.7-rc2-1180-geaaacd23910f
   # commit eaaacd23910f ("bpf: Add task and task/file iterator targets")
   targets += iter_task iter_task_file
@@ -78,12 +78,12 @@ ifeq ($(call kernel_newer_than,5,7,0),y)
   # commit 6086d29def80 ("bpf: Add bpf_map iterator")
   targets += iter_bpf_map
 endif
-ifeq ($(call kernel_newer_than,5,11,0),y)
+ifeq ($(call kver_gt,5,11,0),y)
   # linux v5.11-rc4-606-g3a7b35b899de
   # commit 3a7b35b899de ("bpf: Introduce task_vma bpf_iter")
   targets += iter_task_vma
 endif
-ifeq ($(call kernel_newer_than,6,12,0),y)
+ifeq ($(call kver_gt,6,12,0),y)
   # linux v6.12-rc1-177-g4971266e1595
   # commit 4971266e1595 ("bpf: Add kmem_cache iterator")
   targets += iter_kmem_cache
@@ -94,10 +94,10 @@ targets += xdp_xskmap
 
 # linux commit bd1279ae8a69 ("bpf: Add bpf_rbtree_{add,remove,first} kfuncs")
 # v6.2-rc7-1572-gbd1279ae8a69
-ifeq ($(call kernel_newer_than,6,2,0),y)
+ifeq ($(call kver_gt,6,2,0),y)
   # linux commit 9c395c1b99bd ("bpf: Add basic bpf_rb_{root,node} support")
   # v6.2-rc7-1571-g9c395c1b99bd add bpf_rb_root to uapi/linux/bpf.h
-  ifeq ($(call kuapi_lower_than,6,2,0),y)
+  ifeq ($(call kver_uapi_lt,6,2,0),y)
     $(warning "kuapi not support bpf_rb_root")
     CFLAGS += -DKAPI_NO_BPF_RB_ROOT=1
   endif
@@ -105,7 +105,7 @@ ifeq ($(call kernel_newer_than,6,2,0),y)
   targets += rbtree-raw-map
   # linux commit 9e3e66c553f7 ("bpf: Add bpf_rbtree_{root,left,right} kfunc")
   # v6.15-rc4-68-g9e3e66c553f7
-  ifeq ($(call kernel_newer_than,6,14,0),y)
+  ifeq ($(call kver_gt,6,14,0),y)
     CFLAGS_BPF += -DSUPPORT_BPF_RBTREE_ROOT=1
     CFLAGS_BPF += -DSUPPORT_BPF_RBTREE_LEFT=1
     CFLAGS_BPF += -DSUPPORT_BPF_RBTREE_RIGHT=1
@@ -114,26 +114,26 @@ endif
 
 # linux commit d83525ca62cf ("bpf: introduce bpf_spin_lock")
 # v5.0-rc4-620-gd83525ca62cf
-ifeq ($(call kernel_newer_than,5,0,0),y)
+ifeq ($(call kver_gt,5,0,0),y)
   targets += spin_lock
 endif
 
 # linux commit e6f2dd0f8067 ("bpf: Add bpf_loop helper")
 # v5.15-12938-ge6f2dd0f8067
-ifeq ($(call kernel_newer_than,5,15,0),y)
+ifeq ($(call kver_gt,5,15,0),y)
   CFLAGS_BPF += -DSUPPORT_BPF_LOOP=1
   $(info Found bpf_loop())
 endif
 
 # linux commit 7b15523a989b ("bpf: Add a bpf_snprintf helper")
 # v5.12-rc4-1654-g7b15523a989b
-ifeq ($(call kernel_newer_than,5,12,0),y)
+ifeq ($(call kver_gt,5,12,0),y)
   CFLAGS_BPF += -DSUPPORT_BPF_SNPRINTF=1
   $(info Found bpf_snprintf())
 endif
 # linux commit c5fb19937455 ("bpf: Add bpf_strncmp helper")
 # v5.16-rc4-1160-gc5fb19937455
-ifeq ($(call kernel_newer_than,5,16,0),y)
+ifeq ($(call kver_gt,5,16,0),y)
   CFLAGS_BPF += -DSUPPORT_BPF_STRNCMP=1
   $(info Found bpf_strncmp())
 endif
@@ -157,7 +157,7 @@ ifeq ($(call vmlinux_has_sym,bpf_strnlen),y)
 endif
 # linux >= v6.15 commit e91370550f1f ("bpf: Add kfuncs for read-only string
 # operations") add string kfunc.
-ifeq ($(call kernel_newer_than,6,16,0),y)
+ifeq ($(call kver_gt,6,16,0),y)
   ifeq ($(call vmlinux_has_sym,bpf_strnstr),y)
     CFLAGS_BPF += -DSUPPORT_BPF_STRNSTR=1
     $(info Found bpf_strnstr())
@@ -169,21 +169,21 @@ ifeq ($(call kernel_newer_than,6,16,0),y)
 endif
 # linux commit d08e2045ebf0 ("bpf: introduce new VFS based BPF kfuncs")
 # v6.10-12667-gd08e2045ebf0
-ifeq ($(call kernel_newer_than,6,10,0),y)
+ifeq ($(call kver_gt,6,10,0),y)
   # bpf_path_d_path()
   ifeq ($(call vmlinux_has_sym,bpf_path_d_path),y)
     CFLAGS_BPF += -DSUPPORT_BPF_PATH_D_PATH=1
-    $(info Found bpf_path_d_path)
+    $(info Found bpf_path_d_path())
   endif
   # bpf_get_task_exe_file()
   ifeq ($(call vmlinux_has_sym,bpf_get_task_exe_file),y)
     CFLAGS_BPF += -DSUPPORT_BPF_GET_TASK_EXE_FILE=1
-    $(info Found bpf_get_task_exe_file)
+    $(info Found bpf_get_task_exe_file())
   endif
   # bpf_put_file()
   ifeq ($(call vmlinux_has_sym,bpf_put_file),y)
     CFLAGS_BPF += -DSUPPORT_BPF_PUT_FILE=1
-    $(info Found bpf_put_file)
+    $(info Found bpf_put_file())
   endif
 endif
 
@@ -290,7 +290,7 @@ CFLAGS_BPF_xdp := ${CFLAGS_xdp}
 CFLAGS_xdp_devmap := -DXDP_DEVMAP=1
 ifeq ($(call vmlinux_has_struct,bpf_devmap_val),y)
   CFLAGS_xdp_devmap += -DHAVE_STRUCT_BPF_DEVMAP_VAL=1
-  $(info Found bpf_devmap_val)
+  $(info Found bpf_devmap_val())
 else
   $(warning not found struct bpf_devmap_val {})
 endif

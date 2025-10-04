@@ -28,6 +28,7 @@ and this project adheres to
 - Add ieee/;
 - Add init/kernel/cmdline.md;
 #### Changed
+- kernel.mk: Rename kernel version compare functions.
 - cuda/samples: all apply `cuda_compat.h`;
 - fakeCUDA: Move compat.hpp to cuda/`cuda_compat.h`;
 - Move kernel.mk into template/;

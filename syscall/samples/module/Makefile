@@ -4,7 +4,7 @@ include ../../../template/kconfig.mk
 
 targets :=
 # This system call is present only before Linux 2.6. see create_module(2)
-ifeq ($(call kernel_lower_than,2,7,0),y)
+ifeq ($(call kver_lt,2,7,0),y)
   targets += create_module
 endif
 targets += init_module

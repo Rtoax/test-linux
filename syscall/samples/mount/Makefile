@@ -3,7 +3,7 @@ include ../../../template/kernel.mk
 targets :=
 targets += mount
 targets += mount-tmpfs
-ifeq ($(call kernel_newer_than,5,1,0),y)
+ifeq ($(call kver_gt,5,1,0),y)
   targets += fsmount
 endif
 targets += ramdisk tmpfs

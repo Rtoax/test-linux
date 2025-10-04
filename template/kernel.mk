@@ -1,6 +1,23 @@
 # SPDX-License-Identifier: GPL-3.0
-#
 # Copyright (c) 2025 Rong Tao
+#
+# Exports:
+# - KVERSION
+# - KPATCHLEVEL
+# - KSUBLEVEL
+# - KVERSION_CODE
+# - KUAPIVERSION
+# - KUAPIPATCHLEVEL
+# - KUAPISUBLEVEL
+# - KUAPIVERSION_CODE
+#
+# Functions:
+# - kver_gt
+# - kver_eq
+# - kver_lt
+# - kver_uapi_gt
+# - kver_uapi_eq
+# - kver_uapi_lt
 #
 # WARNING: If you are inside a container, the kernel version queried by uame -r
 # may not match the environment inside the container, so it is normal if
@@ -48,22 +65,22 @@ $(shell if [[ ${1} ${2} $(call kernel_version,${3},${4},${5}) ]]; then \
 	fi)
 endef
 
-define kernel_newer_than
+define kver_gt
 $(call kernel_compare,${KVERSION_CODE},-gt,${1},${2},${3})
 endef
-define kernel_equal_to
+define kver_eq
 $(call kernel_compare,${KVERSION_CODE},-eq,${1},${2},${3})
 endef
-define kernel_lower_than
+define kver_lt
 $(call kernel_compare,${KVERSION_CODE},-lt,${1},${2},${3})
 endef
-define kuapi_newer_than
+define kver_uapi_gt
 $(call kernel_compare,${KUAPIVERSION_CODE},-gt,${1},${2},${3})
 endef
-define kuapi_equal_to
+define kver_uapi_eq
 $(call kernel_compare,${KUAPIVERSION_CODE},-eq,${1},${2},${3})
 endef
-define kuapi_lower_than
+define kver_uapi_lt
 $(call kernel_compare,${KUAPIVERSION_CODE},-lt,${1},${2},${3})
 endef
 
@@ -74,24 +91,24 @@ ifneq (${KUAPIVERSION_CODE},$(call kernel_version,${KUAPIVERSION},${KUAPIPATCHLE
   $(error "Bad KUAPIVERSION_CODE ${KUAPIVERSION_CODE}")
 endif
 # no body use linux-1.1.1 i think
-ifneq ($(call kernel_newer_than,1,1,1),y)
-  $(error "call kernel_newer_than failed")
+ifneq ($(call kver_gt,1,1,1),y)
+  $(error "call kver_gt failed")
 endif
-ifneq ($(call kuapi_newer_than,1,1,1),y)
-  $(error "call kuapi_newer_than failed")
+ifneq ($(call kver_uapi_gt,1,1,1),y)
+  $(error "call kver_uapi_gt failed")
 endif
-ifneq ($(call kernel_equal_to,${KVERSION},${KPATCHLEVEL},${KSUBLEVEL}),y)
-  $(error "call kernel_equal_to failed")
+ifneq ($(call kver_eq,${KVERSION},${KPATCHLEVEL},${KSUBLEVEL}),y)
+  $(error "call kver_eq failed")
 endif
-ifneq ($(call kuapi_equal_to,${KUAPIVERSION},${KUAPIPATCHLEVEL},${KUAPISUBLEVEL}),y)
-  $(error "call kuapi_equal_to failed")
+ifneq ($(call kver_uapi_eq,${KUAPIVERSION},${KUAPIPATCHLEVEL},${KUAPISUBLEVEL}),y)
+  $(error "call kver_uapi_eq failed")
 endif
 # newest kernel is v6.14 right now
-ifneq ($(call kernel_lower_than,7,0,0),y)
-  $(error "call kernel_lower_than failed")
+ifneq ($(call kver_lt,7,0,0),y)
+  $(error "call kver_lt failed")
 endif
-ifneq ($(call kuapi_lower_than,7,0,0),y)
-  $(error "call kuapi_lower_than failed")
+ifneq ($(call kver_uapi_lt,7,0,0),y)
+  $(error "call kver_uapi_lt failed")
 endif
 
 export KVERSION KPATCHLEVEL KSUBLEVEL KVERSION_CODE
@@ -102,8 +119,8 @@ ifdef DEBUG
   $(info KUAPIVERSION = ${KUAPIVERSION}.${KUAPIPATCHLEVEL}.${KUAPISUBLEVEL}, CODE ${KUAPIVERSION_CODE})
   $(info kernel_version(${KVERSION},${KPATCHLEVEL},${KSUBLEVEL}) = \
 	  $(call kernel_version,${KVERSION},${KPATCHLEVEL},${KSUBLEVEL}))
-  $(info kernel_newer_than(1,1,1) = $(call kernel_newer_than,1,1,1))
-  $(info kernel_equal_to(${KVERSION},${KPATCHLEVEL},${KSUBLEVEL}) = \
-	  $(call kernel_equal_to,${KVERSION},${KPATCHLEVEL},${KSUBLEVEL}))
-  $(info kernel_lower_than(7,0,0) = $(call kernel_lower_than,7,0,0))
+  $(info kver_gt(1,1,1) = $(call kver_gt,1,1,1))
+  $(info kver_eq(${KVERSION},${KPATCHLEVEL},${KSUBLEVEL}) = \
+	  $(call kver_eq,${KVERSION},${KPATCHLEVEL},${KSUBLEVEL}))
+  $(info kver_lt(7,0,0) = $(call kver_lt,7,0,0))
 endif
