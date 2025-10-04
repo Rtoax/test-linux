@@ -145,6 +145,12 @@ ifeq ($(call vmlinux_has_sym,bpf_strcasecmp),y)
   CFLAGS_BPF += -DSUPPORT_BPF_STRCASECMP=1
   $(info Found bpf_strcasecmp())
 endif
+# NOTE: I'm working on bpf_strcasestr() and bpf_strncasestr()
+ifeq ($(call vmlinux_has_sym,bpf_strcasestr),y)
+  CFLAGS_BPF += -DSUPPORT_BPF_STRCASESTR=1
+  CFLAGS_BPF += -DSUPPORT_BPF_STRNCASESTR=1
+  $(info Found bpf_strcasestr() and bpf_strncasestr())
+endif
 ifeq ($(call vmlinux_has_sym,bpf_strnlen),y)
   CFLAGS_BPF += -DSUPPORT_BPF_STRNLEN=1
   $(info Found bpf_strnlen())
