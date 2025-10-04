@@ -68,7 +68,6 @@ help:
 	@echo >&2 -e "*** make check"
 	@echo >&2 -e "*** make deps"
 	@echo >&2 -e "*** make [install|uninstall]"
-	@echo >&2 -e "*** make docker"
 	@echo >&2 -e "***"
 	@echo >&2 -e "*** make menuconfig"
 	@echo >&2 -e "*** make config"
@@ -101,10 +100,6 @@ include template/main.mk
 
 define installdeps
 	${SHELL} scripts/install-deps.sh --all --force --noupgrade
-endef
-
-define builddocker
-	${SHELL} scripts/build-docker.sh
 endef
 
 .PHONY: deps
@@ -143,10 +138,6 @@ uninstall:
 		/usr/bin/kconfig_compare \
 		/usr/bin/kinstall \
 		/usr/bin/hmctl
-
-.PHONY: docker
-docker:
-	$(call builddocker)
 
 .PHONY: version
 version:

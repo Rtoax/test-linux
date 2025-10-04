@@ -38,6 +38,7 @@ and this project adheres to
 - kconfig.mk: Move it into template/;
 #### Deprecated
 #### Removed
+- Remove Dockerfile of test-linux and docker target of Makefile;
 - hpc: remove HAVE_HCCL;
 #### Fixed
 #### Security
