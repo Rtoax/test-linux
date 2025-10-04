@@ -23,8 +23,8 @@
 #include <sys/resource.h>
 #include <sys/time.h>
 #include <unistd.h>
-#include "adaptive-oom-score.skel.h"
-#include "adaptive-oom-score.h"
+#include "memory.skel.h"
+#include "memory.h"
 #include "oom_helpers.h"
 #include "proc_helpers.h"
 
@@ -480,7 +480,7 @@ static int handle_event(void *ctx, void *data, size_t data_sz)
 int main(int argc, char *argv[])
 {
 	int err;
-	struct adaptive_oom_score_bpf *skel;
+	struct memory_bpf *skel;
 	struct ring_buffer *rb = NULL;
 
 	libbpf_set_strict_mode(LIBBPF_STRICT_ALL);
@@ -495,7 +495,7 @@ int main(int argc, char *argv[])
 		return -err;
 	}
 
-	skel = adaptive_oom_score_bpf__open_and_load();
+	skel = memory_bpf__open_and_load();
 	if (!skel) {
 		fprintf(stderr, "Failed to open BPF object\n");
 		return 1;
@@ -510,7 +510,7 @@ int main(int argc, char *argv[])
 		goto cleanup;
 	}
 
-	err = adaptive_oom_score_bpf__attach(skel);
+	err = memory_bpf__attach(skel);
 	if (err) {
 		fprintf(stderr, "Attach bpf failed\n");
 		goto cleanup;
@@ -548,8 +548,8 @@ cleanup:
 	pthread_join(thread, NULL);
 	pthread_spin_destroy(&info_lock);
 	ring_buffer__free(rb);
-	adaptive_oom_score_bpf__detach(skel);
-	adaptive_oom_score_bpf__destroy(skel);
+	memory_bpf__detach(skel);
+	memory_bpf__destroy(skel);
 	tdestroy(all_procs, free_info);
 	return 0;
 }
