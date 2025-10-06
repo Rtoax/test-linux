@@ -1,6 +1,7 @@
 #!/bin/bash
 # Copyright (C) 2025 Rong Tao. All rights reserved.
 set -e
+
 readonly THEIGHT=$(stty size | awk '{print $1}')
 readonly TWIDTH=$(stty size | awk '{print $2}')
 
@@ -40,21 +41,27 @@ warning() {
 	echo -e >&2 "${RED}WARNING: ${@}${RST}"
 }
 
+verbose() {
+	export PS4='+${BASH_SOURCE}:${LINENO}:${FUNCNAME[0]}: '
+	set -x
+}
+
 abs() {
 	echo $(( $1 < 0 ? -$1 : $1 ));
 }
 
 gotoxy() {
 	local x=$2 y=$1
-	# or could use $ tput cup $y $x
+	# Note: or could use 'tput cup $y $x' too
 	printf "\033[%d;%df" ${y} ${x}
 }
 
+# Goto some place and print $3
 pgotoxy() {
 	local x=$2 y=$1
 	shift 2
-	printf "\033[%d;%df" ${y} ${x}
-	printf "$@"
+	gotoxy ${y} ${x}
+	[[ ! -z "${@}" ]] && printf "$@"
 }
 
 drawline() {
@@ -210,20 +217,8 @@ drawcurve() {
 
 	[[ ${#X[@]} -ne ${#Y[@]} ]] && error "$0: Number -x != -y"
 
+	for ((i = 0; i < ${#X[@]} - 1; i++)); do
+		drawline --xstart ${X[i]} --xend ${X[$((i + 1))]} \
+			--ystart ${Y[i]} --yend ${Y[$((i + 1))]}
+	done
 }
-
-clear
-readonly bnd=5
-drawline --xstart ${bnd} --xend $((${TWIDTH} - ${bnd})) --yy $((${THEIGHT} - ${bnd})) --arrow
-drawline --xx $((${TWIDTH} - ${bnd})) --ystart $((${THEIGHT} - ${bnd})) --yend ${bnd} --arrow
-drawline --xstart $((${TWIDTH} - ${bnd})) --xend ${bnd} --yy ${bnd} --arrow
-drawline --xx ${bnd} --ystart ${bnd} --yend $((${THEIGHT} - ${bnd})) --arrow
-gotoxy ${THEIGHT} 0
-echo
-drawline --xstart ${bnd} --ystart ${bnd} \
-	--xend $((${TWIDTH} - ${bnd})) --yend $((${THEIGHT} - ${bnd}))
-drawline --xstart ${bnd} --ystart ${bnd} \
-	--xend $((${TWIDTH} / 2 - ${bnd})) --yend $((${THEIGHT} - ${bnd}))
-drawline --xstart ${bnd} --ystart ${bnd} \
-	--xend $((${TWIDTH} - ${bnd})) --yend $((${THEIGHT} / 2 - ${bnd}))
-drawcurve -x 1 -y 1 -x 2 -y 2
