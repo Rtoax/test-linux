@@ -54,6 +54,7 @@ gotoxy() {
 	local x=$2 y=$1
 	# Note: or could use 'tput cup $y $x' too
 	printf "\033[%d;%df" ${y} ${x}
+	return 0
 }
 
 # Goto some place and print $3
@@ -62,6 +63,7 @@ pgotoxy() {
 	shift 2
 	gotoxy ${y} ${x}
 	[[ ! -z "${@}" ]] && printf "$@"
+	return 0
 }
 
 drawline() {
@@ -162,6 +164,7 @@ drawline() {
 		do
 			pgotoxy $ystart $ix ${B8}
 		done
+		#printf "@@@$ystart $ix $(($ix ${arrow_inc})) ${arrow}\n"
 		pgotoxy $ystart $(($ix ${arrow_inc})) ${arrow}
 	# Draw a diagonal line
 	else

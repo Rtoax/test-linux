@@ -4,8 +4,8 @@ set -e
 . ./termplot.sh
 
 test_drawline_1() {
-	clear
 	readonly bnd=5
+	clear
 	drawline --xstart ${bnd} --xend $((${TWIDTH} - ${bnd})) --yy $((${THEIGHT} - ${bnd})) --arrow
 	drawline --xx $((${TWIDTH} - ${bnd})) --ystart $((${THEIGHT} - ${bnd})) --yend ${bnd} --arrow
 	drawline --xstart $((${TWIDTH} - ${bnd})) --xend ${bnd} --yy ${bnd} --arrow
@@ -26,10 +26,12 @@ test_drawline_2() {
 }
 
 test_drawcurve_1() {
+	clear
 	drawcurve -x 1 -y 1 \
 		-x 2 -y 2 \
-		-x 9 -y 2 \
-		-x 9 -y 20
+		-x 20 -y 2 \
+		-x 20 -y 20 \
+		-x 30 -y 30
 }
 
 #verbose
