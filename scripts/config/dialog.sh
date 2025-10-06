@@ -48,8 +48,7 @@ __save_and_continue__()
 	exec 3>&1
 	${DIALOG} --backtitle "${BACKTITLE}" \
 		--title "${MENU_Save_and_Continue}" \
-		--yesno \
-"Save and Continue? \n" \
+		--yesno "Save and Continue?" \
 		0 0 2>&1 1>&3
 
 	ret_status=$?
