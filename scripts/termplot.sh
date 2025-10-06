@@ -66,13 +66,15 @@ pgotoxy() {
 	return 0
 }
 
+# Draw a line
 drawline() {
 	local ix xstart xend
 	local iy ystart yend
+	local char
 	local arrow
 	local seq_args arrow_inc
 
-	local ARGS=$(getopt --options x:X:y:Y:a \
+	local ARGS=$(getopt --options x:X:y:Y:ac: \
 		--long xstart: \
 		--long xend: \
 		--long xx: \
@@ -80,6 +82,7 @@ drawline() {
 		--long yend: \
 		--long yy: \
 		--long arrow \
+		--long char: \
 		-n drawline -- "$@")
 
 	test $? != 0 && error "$0: getopt failed"
@@ -124,6 +127,11 @@ drawline() {
 			shift
 			arrow=YES
 			;;
+		-c | --char)
+			shift
+			char=$1
+			shift
+			;;
 		--)
 			shift
 			break
@@ -143,9 +151,11 @@ drawline() {
 			[[ ${arrow} ]] && arrow=${ARROW_UP}
 		fi
 
+		[[ -z ${char} ]] && char=${B2}
+
 		for iy in $(seq $seq_args)
 		do
-			pgotoxy $iy $xstart ${B2}
+			pgotoxy $iy $xstart ${char}
 		done
 		pgotoxy $(($iy ${arrow_inc})) $xstart ${arrow}
 	# y doesn't change, which means draw a horizontal line.
@@ -160,9 +170,11 @@ drawline() {
 			[[ ${arrow} ]] && arrow=${ARROW_LEFT}
 		fi
 
+		[[ -z ${char} ]] && char=${B8}
+
 		for ix in $(seq $seq_args)
 		do
-			pgotoxy $ystart $ix ${B8}
+			pgotoxy $ystart $ix ${char}
 		done
 		#printf "@@@$ystart $ix $(($ix ${arrow_inc})) ${arrow}\n"
 		pgotoxy $ystart $(($ix ${arrow_inc})) ${arrow}
@@ -180,10 +192,13 @@ drawline() {
 		else
 			steps=$abs_dy
 		fi
+
+		[[ -z ${char} ]] && char='@'
+
 		for (( i = 0; i <= steps; i++ )); do
 			local x=$(( xstart + i * dx / steps ))
 			local y=$(( ystart + i * dy / steps ))
-			pgotoxy $y $x '*'
+			pgotoxy $y $x ${char}
 		done
 	fi
 }
@@ -191,8 +206,8 @@ drawline() {
 drawcurve() {
 	local X=()
 	local Y=()
-
-	local ARGS=$(getopt --options x:y: \
+	local char
+	local ARGS=$(getopt --options x:y:c: \
 		-n drawcurve -- "$@")
 
 	test $? != 0 && error "$0: getopt failed"
@@ -211,6 +226,11 @@ drawcurve() {
 			Y+=( $1 )
 			shift
 			;;
+		-c)
+			shift
+			char=$1
+			shift
+			;;
 		--)
 			shift
 			break
@@ -219,9 +239,11 @@ drawcurve() {
 	done
 
 	[[ ${#X[@]} -ne ${#Y[@]} ]] && error "$0: Number -x != -y"
+	[[ -z "${char}" ]] && char=@
 
 	for ((i = 0; i < ${#X[@]} - 1; i++)); do
 		drawline --xstart ${X[i]} --xend ${X[$((i + 1))]} \
-			--ystart ${Y[i]} --yend ${Y[$((i + 1))]}
+			--ystart ${Y[i]} --yend ${Y[$((i + 1))]} \
+			--char ${char}
 	done
 }
