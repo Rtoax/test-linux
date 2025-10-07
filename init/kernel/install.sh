@@ -1,5 +1,15 @@
 #!/bin/bash
+# Install and uninstall kernel from upstream linux
+#
+# Refs:
+# - https://github.com/torvalds/linux
+# - https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next
+# - https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf
+#
+# Copyright (c) 2024-2025 Rong Tao
+#
 set -e
+
 . /etc/os-release
 
 readonly prog=kinstall
@@ -24,6 +34,12 @@ warning() {
 check_root() {
 	if [[ $(id -u) -ne 0 ]]; then
 		error "Must run with root(sudo)"
+	fi
+}
+
+check_kver() {
+	if [[ -z ${kver} ]]; then
+		error "Must specify kernel version"
 	fi
 }
 
@@ -75,13 +91,8 @@ compile()
 
 install_from_source()
 {
-	# https://github.com/torvalds/linux
-	# https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next
-	local kver="6.17.0-rc6+"
-
 	check_root
-
-	[[ $1 ]] && kver=$1
+	check_kver
 
 	# install
 	make modules_install
@@ -116,6 +127,7 @@ uninstall_kernel()
 	local curr_version=$(uname -r)
 
 	check_root
+	check_kver
 
 	[[ $version == $curr_version ]] && error "Can't remove running kernel"
 
@@ -136,9 +148,17 @@ __usage__() {
 NAME
 	${prog} - Install and uninstall kernel from upstream linux
 
+SYNOPSIS
+	${prog} [OPTION]... [SUBCOMMANDS] [OPTION]...
+
+OPTIONS
+	-k, --kver [VERSION]            set kernel version
+	-h, --help                      display this info
+	-v, --verbose                   run with verbose mode
+
 SUBCOMMANDS
-	install-from-source [kver]
-	uninstall [kver]
+	install-from-source
+	uninstall
 
 SEE ALSO
 	gcc(1), etc.
@@ -195,13 +215,13 @@ while true; do
 		shift
 		__getopt__ $@
 		eval set -- "$ARGS"
-		install_from_source $kver
+		install_from_source
 		;;
 	uninstall)
 		shift
 		__getopt__ $@
 		eval set -- "$ARGS"
-		uninstall_kernel $kver
+		uninstall_kernel
 		;;
 	*)
 		if [[ $1 ]]; then
