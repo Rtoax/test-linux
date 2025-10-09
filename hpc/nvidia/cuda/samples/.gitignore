@@ -1,4 +1,5 @@
 /dim3
+/dim3-hip
 /blas
 /blas-hip
 /hello
@@ -19,10 +20,13 @@
 /matrix-c-fp64
 /rand
 /fft
+/fft-hip
 /sparse
 /__GNUC__
 /__STDC__
 /cooperative
+/cooperative-hip
 /module
 /float
+/float-hip
 /float-c

@@ -3,14 +3,10 @@ OUTPUT := .output/
 targets-hipcc := parallel
 targets-hipcc += hello
 targets-hipcc += sparse
-targets-hipcc += fft
 targets-hipcc += rand
 targets-hipcc += module
 targets-hipcc += matrix-fp32
 targets-hipcc += __GNUC__
-targets-hipcc += dim3
-targets-hipcc += float
-targets-hipcc += cooperative
 targets-hipcc += hipEvent
 targets-hipcc += hipMalloc
 targets-hipcc += hipMallocManaged
@@ -38,12 +34,8 @@ ${OUTPUT}%.o: cuda_adapter.h
 
 hello: ${OUTPUT}hello.hip.o ${OUTPUT}cuda_helpers.hip.o
 __GNUC__: ${OUTPUT}__GNUC__.hip.o
-float: ${OUTPUT}float.hip.o
 parallel: ${OUTPUT}parallel.hip.o ${OUTPUT}cuda_helpers.hip.o
 sparse: ${OUTPUT}sparse.hip.o ${OUTPUT}cuda_helpers.hip.o
-fft: ${OUTPUT}fft.hip.o ${OUTPUT}cuda_helpers.hip.o
-dim3: ${OUTPUT}dim3.hip.o ${OUTPUT}cuda_helpers.hip.o
-cooperative: ${OUTPUT}cooperative.hip.o ${OUTPUT}cuda_helpers.hip.o
 rand: ${OUTPUT}rand.hip.o ${OUTPUT}cuda_helpers.hip.o
 module: ${OUTPUT}module.hip.o ${OUTPUT}cuda_helpers.hip.o
 matrix-fp32: ${OUTPUT}matrix-fp32.hip.o ${OUTPUT}cuda_helpers.hip.o

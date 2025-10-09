@@ -9,7 +9,13 @@ ifdef HAVE_CUDA
 endif
 
 ifdef HAVE_HIP
-  targets-hipcc := blas-hip
+  rocm-hipcc := blas
+  rocm-hipcc += dim3
+  rocm-hipcc += fft
+  rocm-hipcc += float
+  rocm-hipcc += cooperative
+
+  targets-hipcc := $(patsubst %,%-hip,$(rocm-hipcc))
 endif
 
 targets-nvcc := hello
@@ -73,8 +79,6 @@ dim3: ${OUTPUT}dim3.cu.o ${CUDA_HELPERS}
 cooperative: ${OUTPUT}cooperative.cu.o ${CUDA_HELPERS}
 blas: ${OUTPUT}blas.cu.o ${CUDA_HELPERS}
 cublasLtMatmul: ${OUTPUT}cublasLtMatmul.cu.o ${CUDA_HELPERS}
-${OUTPUT}blas.hip.o: blas.cu
-blas-hip: ${OUTPUT}blas.hip.o ${HIP_HELPERS}
 rand: ${OUTPUT}rand.cu.o ${CUDA_HELPERS}
 fft: ${OUTPUT}fft.cu.o ${CUDA_HELPERS}
 sparse: ${OUTPUT}sparse.cu.o ${CUDA_HELPERS}
@@ -98,3 +102,15 @@ matrix-c-fp64: ${OUTPUT}matrix-fp64.o
 float-c: ${OUTPUT}float-c.o
 __GNUC__: ${OUTPUT}__GNUC__.cu.o
 __STDC__: ${OUTPUT}__STDC__.cu.o
+
+# ROCm HIP
+${OUTPUT}dim3.hip.o: dim3.cu
+dim3-hip: ${OUTPUT}dim3.hip.o ${HIP_HELPERS}
+${OUTPUT}fft.hip.o: fft.cu
+fft-hip: ${OUTPUT}fft.hip.o ${HIP_HELPERS}
+${OUTPUT}blas.hip.o: blas.cu
+blas-hip: ${OUTPUT}blas.hip.o ${HIP_HELPERS}
+${OUTPUT}cooperative.hip.o: cooperative.cu
+cooperative-hip: ${OUTPUT}cooperative.hip.o ${HIP_HELPERS}
+${OUTPUT}float.hip.o: float.cu
+float-hip: ${OUTPUT}float.hip.o ${HIP_HELPERS}
