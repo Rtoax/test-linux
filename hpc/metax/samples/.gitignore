@@ -17,7 +17,6 @@
 /matrix-int8
 /matrix-c-fp32
 /matrix-c-fp64
-/blas
 /rand
 /fft
 /sparse

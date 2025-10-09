@@ -2,6 +2,7 @@
 /dim3-hip
 /blas
 /blas-hip
+/blas-hpcc
 /hello
 /hello-hip
 /parallel

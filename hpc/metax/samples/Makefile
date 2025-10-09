@@ -14,7 +14,6 @@ targets-htcc += hcDeviceGetP2PAttribute
 targets-htcc += hcEvent
 targets-htcc += dim3
 targets-htcc += matrix-fp16 matrix-fp32 matrix-fp64 matrix-int8
-targets-htcc += blas
 targets-htcc += hcblasLtMatmul
 targets-htcc += rand
 targets-htcc += fft
@@ -49,9 +48,7 @@ CFLAGS_HTCC_matrix-fp64 := -DTEST_FP64=1
 CFLAGS_HTCC_matrix-fp32 := -DTEST_FP32=1
 CFLAGS_HTCC_matrix-fp16 := -DTEST_FP16=1
 CFLAGS_HTCC_matrix-int8 := -DTEST_INT8=1
-CFLAGS_HTCC_blas := -Wno-ignored-attributes
 CFLAGS_HTCC_hcblasLtMatmul := ${CFLAGS_HTCC_blas}
-LDFLAGS_HTCC_hcblasLtMatmul := ${LDFLAGS_HTCC_blas}
 
 CFLAGS_float-c := ${cflags-support-types}
 LDFLAGS_float-c := -lm
@@ -68,7 +65,6 @@ ${OUTPUT}matrix-fp16.hpcc.o: cuda_adapter.h cuda_helpers.h
 ${OUTPUT}matrix-fp32.hpcc.o: cuda_adapter.h cuda_helpers.h
 ${OUTPUT}matrix-fp64.hpcc.o: cuda_adapter.h cuda_helpers.h
 ${OUTPUT}matrix-int8.hpcc.o: cuda_adapter.h cuda_helpers.h
-${OUTPUT}blas.hpcc.o: cuda_adapter.h cuda_helpers.h
 ${OUTPUT}hcblasLtMatmul.hpcc.o: cuda_adapter.h cuda_helpers.h
 ${OUTPUT}rand.hpcc.o: cuda_adapter.h cuda_helpers.h
 ${OUTPUT}fft.hpcc.o: cuda_adapter.h cuda_helpers.h
@@ -90,7 +86,6 @@ matrix-fp16: ${OUTPUT}matrix-fp16.hpcc.o ${HELPERS}
 matrix-fp32: ${OUTPUT}matrix-fp32.hpcc.o ${HELPERS}
 matrix-fp64: ${OUTPUT}matrix-fp64.hpcc.o ${HELPERS}
 matrix-int8: ${OUTPUT}matrix-int8.hpcc.o ${HELPERS}
-blas: ${OUTPUT}blas.hpcc.o ${HELPERS}
 hcblasLtMatmul: ${OUTPUT}hcblasLtMatmul.hpcc.o ${HELPERS}
 rand: ${OUTPUT}rand.hpcc.o ${HELPERS}
 fft: ${OUTPUT}fft.hpcc.o ${HELPERS}

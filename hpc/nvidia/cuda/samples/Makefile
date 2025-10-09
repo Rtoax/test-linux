@@ -6,6 +6,7 @@ __IGNORE_NOTFOUND_ERROR__ := 1
 include ../../../../compiler/compiler.mk
 include ../cuda.mk
 include ../../../amd/rocm/rocm.mk
+include ../../../metax/hpcc.mk
 
 ifdef HAVE_CUDA
 endif
@@ -34,6 +35,12 @@ ifdef HAVE_HIP
   rocm-fatbin := parallel.hip_fatbin parallel.hipFatBinSegment
 
   targets-hipcc := $(patsubst %,%-hip,$(rocm-hipcc))
+endif
+
+ifdef HAVE_HPCC
+  metax-htcc += blas
+
+  targets-htcc := $(patsubst %,%-hpcc,$(metax-htcc))
 endif
 
 targets-nvcc := hello
@@ -85,6 +92,7 @@ CFLAGS_NVCC_cudaGetDeviceProperties := -Wno-deprecated-declarations
 
 CUDA_HELPERS := ${OUTPUT}cuda_helpers.cu.o
 HIP_HELPERS := ${OUTPUT}cuda_helpers.hip.o
+HPCC_HELPERS := ${OUTPUT}cuda_helpers.hpcc.o
 
 CFLAGS_float-c := ${cflags-support-types}
 LDFLAGS_float-c := -lm
@@ -97,10 +105,14 @@ CFLAGS_HIPCC += -Wno-unused-result
 
 CFLAGS_HIPCC_matrix-fp32 := -DTEST_FP32=1
 
+CFLAGS_HTCC_blas := -Wno-ignored-attributes
+CFLAGS_HTCC_hcblasLtMatmul := ${CFLAGS_HTCC_blas}
+
 include ../../../../template/main.mk
 
 ${CUDA_HELPERS}: cuda_helpers.h
 ${HIP_HELPERS}: cuda_helpers.h
+${HPCC_HELPERS}: cuda_helpers.h
 
 dim3: ${OUTPUT}dim3.cu.o ${CUDA_HELPERS}
 cooperative: ${OUTPUT}cooperative.cu.o ${CUDA_HELPERS}
@@ -168,3 +180,7 @@ ${OUTPUT}hipGetDeviceCount.hip.o: cudaGetDeviceCount.cu
 hipGetDeviceCount-hip: ${OUTPUT}hipGetDeviceCount.hip.o ${HIP_HELPERS}
 ${OUTPUT}hipDeviceGetP2PAttribute.hip.o: cudaDeviceGetP2PAttribute.cu
 hipDeviceGetP2PAttribute-hip: ${OUTPUT}hipDeviceGetP2PAttribute.hip.o ${HIP_HELPERS}
+
+# MetaX HPCC
+${OUTPUT}blas.hpcc.o: blas.cu
+blas-hpcc: ${OUTPUT}blas.hpcc.o ${HPCC_HELPERS}
