@@ -1021,6 +1021,7 @@ apt_add_packages()
 		pkgs_base+=( libc6-dev-i386 )
 	fi
 	pkgs_base+=( acpica-tools )
+	pkgs_base+=( auditd )
 	pkgs_base+=( bcc )
 	pkgs_base+=( binutils-dev )
 	pkgs_base+=( bpfcc-tools )
@@ -1060,6 +1061,7 @@ apt_add_packages()
 	pkgs_base+=( python3-dbus ) # D-Bus
 	pkgs_base+=( python3-scapy )
 	pkgs_base+=( sg3-utils )            # sg_inq, etc.
+	pkgs_base+=( selinux-basics selinux-utils )
 	pkgs_base+=( systemtap-sdt-dev )    # sdt.h
 	pkgs_base+=( systemd-dev )
 	if [[ $(is_os ubuntu) ]]; then
