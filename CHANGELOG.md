@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- trace: add kconfig;
 - cuda: add `cuda_compat.h`;
 - hpc/nvidia/cuda/intrinsics/ support HPCC, HIP;
 - Add hpc/nvidia/cuda/intrinsics/;
