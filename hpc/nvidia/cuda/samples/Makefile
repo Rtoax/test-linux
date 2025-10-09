@@ -9,11 +9,15 @@ ifdef HAVE_CUDA
 endif
 
 ifdef HAVE_HIP
-  rocm-hipcc := blas
+  rocm-hipcc := hello
+  rocm-hipcc += blas
   rocm-hipcc += dim3
   rocm-hipcc += fft
+  rocm-hipcc += sparse
+  rocm-hipcc += rand
   rocm-hipcc += float
   rocm-hipcc += cooperative
+  rocm-hipcc += __GNUC__
 
   targets-hipcc := $(patsubst %,%-hip,$(rocm-hipcc))
 endif
@@ -104,8 +108,11 @@ __GNUC__: ${OUTPUT}__GNUC__.cu.o
 __STDC__: ${OUTPUT}__STDC__.cu.o
 
 # ROCm HIP
+${OUTPUT}hello.hip.o: hello.cu
+hello-hip: ${OUTPUT}hello.hip.o ${HIP_HELPERS}
 ${OUTPUT}dim3.hip.o: dim3.cu
 dim3-hip: ${OUTPUT}dim3.hip.o ${HIP_HELPERS}
+__GNUC__-hip: ${OUTPUT}__GNUC__.hip.o ${HIP_HELPERS}
 ${OUTPUT}fft.hip.o: fft.cu
 fft-hip: ${OUTPUT}fft.hip.o ${HIP_HELPERS}
 ${OUTPUT}blas.hip.o: blas.cu
@@ -114,3 +121,7 @@ ${OUTPUT}cooperative.hip.o: cooperative.cu
 cooperative-hip: ${OUTPUT}cooperative.hip.o ${HIP_HELPERS}
 ${OUTPUT}float.hip.o: float.cu
 float-hip: ${OUTPUT}float.hip.o ${HIP_HELPERS}
+${OUTPUT}rand.hip.o: rand.cu
+rand-hip: ${OUTPUT}rand.hip.o ${HIP_HELPERS}
+${OUTPUT}sparse.hip.o: sparse.cu
+sparse-hip: ${OUTPUT}sparse.hip.o ${HIP_HELPERS}

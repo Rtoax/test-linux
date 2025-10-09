@@ -3,6 +3,7 @@
 /blas
 /blas-hip
 /hello
+/hello-hip
 /parallel
 /cudaMalloc
 /cudaMallocManaged
@@ -19,10 +20,13 @@
 /matrix-c-fp32
 /matrix-c-fp64
 /rand
+/rand-hip
 /fft
 /fft-hip
 /sparse
+/sparse-hip
 /__GNUC__
+/__GNUC__-hip
 /__STDC__
 /cooperative
 /cooperative-hip

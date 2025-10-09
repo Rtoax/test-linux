@@ -1,1 +1,0 @@
-../../../nvidia/cuda/samples/__GNUC__.cu

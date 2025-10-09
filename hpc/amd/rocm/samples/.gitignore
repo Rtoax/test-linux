@@ -1,8 +1,4 @@
-/__GNUC__
-/hello
 /parallel
-/sparse
-/rand
 /module
 /matrix-fp32
 /hipEvent
