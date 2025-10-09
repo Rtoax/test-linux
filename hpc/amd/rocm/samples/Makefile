@@ -5,7 +5,6 @@ targets-hipcc += hello
 targets-hipcc += sparse
 targets-hipcc += fft
 targets-hipcc += rand
-targets-hipcc += blas
 targets-hipcc += module
 targets-hipcc += matrix-fp32
 targets-hipcc += __GNUC__
@@ -46,7 +45,6 @@ fft: ${OUTPUT}fft.hip.o ${OUTPUT}cuda_helpers.hip.o
 dim3: ${OUTPUT}dim3.hip.o ${OUTPUT}cuda_helpers.hip.o
 cooperative: ${OUTPUT}cooperative.hip.o ${OUTPUT}cuda_helpers.hip.o
 rand: ${OUTPUT}rand.hip.o ${OUTPUT}cuda_helpers.hip.o
-blas: ${OUTPUT}blas.hip.o ${OUTPUT}cuda_helpers.hip.o
 module: ${OUTPUT}module.hip.o ${OUTPUT}cuda_helpers.hip.o
 matrix-fp32: ${OUTPUT}matrix-fp32.hip.o ${OUTPUT}cuda_helpers.hip.o
 hipEvent: ${OUTPUT}hipEvent.hip.o ${OUTPUT}cuda_helpers.hip.o

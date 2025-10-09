@@ -2,6 +2,15 @@
 OUTPUT := .output/
 
 include ../../../../compiler/compiler.mk
+include ../cuda.mk
+include ../../../amd/rocm/rocm.mk
+
+ifdef HAVE_CUDA
+endif
+
+ifdef HAVE_HIP
+  targets-hipcc := blas-hip
+endif
 
 targets-nvcc := hello
 targets-nvcc += dim3
@@ -50,6 +59,7 @@ CFLAGS_NVCC_matrix-int8 := -DTEST_INT8=1
 CFLAGS_NVCC_cudaGetDeviceProperties := -Wno-deprecated-declarations
 
 CUDA_HELPERS := ${OUTPUT}cuda_helpers.cu.o
+HIP_HELPERS := ${OUTPUT}cuda_helpers.hip.o
 
 CFLAGS_float-c := ${cflags-support-types}
 LDFLAGS_float-c := -lm
@@ -57,11 +67,14 @@ LDFLAGS_float-c := -lm
 include ../../../../template/main.mk
 
 ${CUDA_HELPERS}: cuda_helpers.h
+${HIP_HELPERS}: cuda_helpers.h
 
 dim3: ${OUTPUT}dim3.cu.o ${CUDA_HELPERS}
 cooperative: ${OUTPUT}cooperative.cu.o ${CUDA_HELPERS}
 blas: ${OUTPUT}blas.cu.o ${CUDA_HELPERS}
 cublasLtMatmul: ${OUTPUT}cublasLtMatmul.cu.o ${CUDA_HELPERS}
+${OUTPUT}blas.hip.o: blas.cu
+blas-hip: ${OUTPUT}blas.hip.o ${HIP_HELPERS}
 rand: ${OUTPUT}rand.cu.o ${CUDA_HELPERS}
 fft: ${OUTPUT}fft.cu.o ${CUDA_HELPERS}
 sparse: ${OUTPUT}sparse.cu.o ${CUDA_HELPERS}

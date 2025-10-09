@@ -4,7 +4,6 @@
 /sparse
 /fft
 /rand
-/blas
 /module
 /matrix-fp32
 /dim3

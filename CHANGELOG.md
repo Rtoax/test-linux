@@ -28,6 +28,7 @@ and this project adheres to
 - Add ieee/;
 - Add init/kernel/cmdline.md;
 #### Changed
+- hpc: compile blas.cu for ROCm HIP directly, not for symlink;
 - oom: add adaptive-oom-score sub-dir;
 - kernel.mk: Rename kernel version compare functions.
 - cuda/samples: all apply `cuda_compat.h`;
