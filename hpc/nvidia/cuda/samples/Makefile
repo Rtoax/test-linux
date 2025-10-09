@@ -15,9 +15,21 @@ ifdef HAVE_HIP
   rocm-hipcc += fft
   rocm-hipcc += sparse
   rocm-hipcc += rand
+  rocm-hipcc += parallel
+  rocm-hipcc += module
   rocm-hipcc += float
   rocm-hipcc += cooperative
+  rocm-hipcc += matrix-fp32
+  rocm-hipcc += hipEvent
+  rocm-hipcc += hipMalloc
+  rocm-hipcc += hipMallocManaged
+  rocm-hipcc += hipblasLtMatmul
+  rocm-hipcc += hipGetDeviceProperties
+  rocm-hipcc += hipGetDeviceCount
+  rocm-hipcc += hipDeviceGetP2PAttribute
   rocm-hipcc += __GNUC__
+
+  rocm-fatbin := parallel.hip_fatbin parallel.hipFatBinSegment
 
   targets-hipcc := $(patsubst %,%-hip,$(rocm-hipcc))
 endif
@@ -55,6 +67,7 @@ targets-post += $(patsubst %,${OUTPUT}%.ptx,$(targets-nvcc))
 targets-post += $(patsubst %,${OUTPUT}%.cu.cpp.ii,$(targets-nvcc))
 targets-post += $(patsubst %,${OUTPUT}%,$(obj-cubin))
 targets-post += $(patsubst %,${OUTPUT}%,$(obj-fatbin))
+targets-post += $(patsubst %,${OUTPUT}%,$(rocm-fatbin))
 
 targets := matrix-c-fp32 matrix-c-fp64
 targets += float-c
@@ -73,6 +86,14 @@ HIP_HELPERS := ${OUTPUT}cuda_helpers.hip.o
 
 CFLAGS_float-c := ${cflags-support-types}
 LDFLAGS_float-c := -lm
+
+# FIXME: on my fedora 42 env:
+# fatal error: 'bits/c++config.h' file not found
+CFLAGS_HIPCC := -I/usr/include/c++/15/x86_64-redhat-linux/
+CFLAGS_HIPCC += -I.
+CFLAGS_HIPCC += -Wno-unused-result
+
+CFLAGS_HIPCC_matrix-fp32 := -DTEST_FP32=1
 
 include ../../../../template/main.mk
 
@@ -125,3 +146,23 @@ ${OUTPUT}rand.hip.o: rand.cu
 rand-hip: ${OUTPUT}rand.hip.o ${HIP_HELPERS}
 ${OUTPUT}sparse.hip.o: sparse.cu
 sparse-hip: ${OUTPUT}sparse.hip.o ${HIP_HELPERS}
+${OUTPUT}parallel.hip.o: parallel.cu
+parallel-hip: ${OUTPUT}parallel.hip.o ${HIP_HELPERS}
+${OUTPUT}module.hip.o: module.cu
+module-hip: ${OUTPUT}module.hip.o ${HIP_HELPERS}
+${OUTPUT}hipblasLtMatmul.hip.o: cublasLtMatmul.cu
+hipblasLtMatmul-hip: ${OUTPUT}hipblasLtMatmul.hip.o ${HIP_HELPERS}
+${OUTPUT}hipEvent.hip.o: cudaEvent.cu
+hipEvent-hip: ${OUTPUT}hipEvent.hip.o ${HIP_HELPERS}
+${OUTPUT}hipMalloc.hip.o: cudaMalloc.cu
+hipMalloc-hip: ${OUTPUT}hipMalloc.hip.o ${HIP_HELPERS}
+${OUTPUT}hipMallocManaged.hip.o: cudaMallocManaged.cu
+hipMallocManaged-hip: ${OUTPUT}hipMallocManaged.hip.o ${HIP_HELPERS}
+${OUTPUT}matrix-fp32.hip.o: matrix.cu
+matrix-fp32-hip: ${OUTPUT}matrix-fp32.hip.o ${HIP_HELPERS}
+${OUTPUT}hipGetDeviceProperties.hip.o: matrix.cu
+hipGetDeviceProperties-hip: ${OUTPUT}hipGetDeviceProperties.hip.o ${HIP_HELPERS}
+${OUTPUT}hipGetDeviceCount.hip.o: cudaGetDeviceCount.cu
+hipGetDeviceCount-hip: ${OUTPUT}hipGetDeviceCount.hip.o ${HIP_HELPERS}
+${OUTPUT}hipDeviceGetP2PAttribute.hip.o: cudaDeviceGetP2PAttribute.cu
+hipDeviceGetP2PAttribute-hip: ${OUTPUT}hipDeviceGetP2PAttribute.hip.o ${HIP_HELPERS}
