@@ -28,6 +28,9 @@ cflags-nvcc-cubin := --cubin
 cflags-nvcc-fatbin := --fatbin
 
 CFLAGS_NVCC += -DHAVE_CUDA=1
+ifdef HAVE_NCCL
+  CFLAGS_NVCC += -DHAVE_NCCL=1
+endif
 CFLAGS_NVCC += -DCUDA_VERSION_MAJOR=${CUDA_VERSION_MAJOR}
 CFLAGS_NVCC += -DCUDA_VERSION_MINOR=${CUDA_VERSION_MINOR}
 CFLAGS_NVCC += -DCUDA_VERSION_PATCH=${CUDA_VERSION_PATCH}
@@ -57,6 +60,9 @@ LDFLAGS_NVCC += -lcuda
 LDFLAGS_NVCC += -lcufft
 LDFLAGS_NVCC += -lcurand
 LDFLAGS_NVCC += -lcusparse
+ifdef HAVE_NCCL
+  LDFLAGS_NVCC += -lnccl
+endif
 LDFLAGS_NVCC += ${ldflags-cudart}
 
 ifdef ERROR

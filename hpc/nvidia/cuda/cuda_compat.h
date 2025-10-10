@@ -67,5 +67,8 @@
 #define DISABLE_CUSPARSE_DEPRECATED	1
 #include <cusparse.h>
 #include <cooperative_groups.h>
+#ifdef HAVE_NCCL
+# include <nccl.h>
+#endif
 #define CUNAME	"NVIDIA CUDA"
 #endif

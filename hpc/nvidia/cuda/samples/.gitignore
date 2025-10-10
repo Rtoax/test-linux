@@ -72,3 +72,4 @@
 /float-hpcc
 /cooperative-hpcc
 /module-hpcc
+/ncclGetVersion

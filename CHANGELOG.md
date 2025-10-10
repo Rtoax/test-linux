@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- nvidia: introduce NCCL;
 - rccl: try test ncclGetVersion.hip;
 - nccl: try test ncclGetVersion.cu;
 - trace: add kconfig;

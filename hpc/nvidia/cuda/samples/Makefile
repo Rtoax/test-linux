@@ -30,6 +30,11 @@ ifdef HAVE_CUDA
   targets-nvcc += module
   targets-nvcc += float
 
+  # NCCL
+  ifdef HAVE_NCCL
+    targets-nvcc += ncclGetVersion
+  endif
+
   obj-cubin := hello.cubin
   obj-cubin += parallel.cubin
   obj-fatbin := hello.fatbin
@@ -169,6 +174,7 @@ cooperative: ${OUTPUT}cooperative.cu.o ${CUDA_HELPERS}
 blas: ${OUTPUT}blas.cu.o ${CUDA_HELPERS}
 cublasLtMatmul: ${OUTPUT}cublasLtMatmul.cu.o ${CUDA_HELPERS}
 rand: ${OUTPUT}rand.cu.o ${CUDA_HELPERS}
+ncclGetVersion: ${OUTPUT}ncclGetVersion.cu.o ${CUDA_HELPERS}
 fft: ${OUTPUT}fft.cu.o ${CUDA_HELPERS}
 sparse: ${OUTPUT}sparse.cu.o ${CUDA_HELPERS}
 hello: ${OUTPUT}hello.cu.o ${CUDA_HELPERS}
