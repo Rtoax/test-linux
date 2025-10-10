@@ -11,6 +11,19 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+#### Changed
+#### Deprecated
+#### Removed
+#### Fixed
+#### Security
+#### Docs
+#### Tools
+
+
+## [v2.3.8] 2025-10-10
+
+#### Breaking Changes
+#### Added
 - amd/rocm: introduce RCCL;
 - nvidia: introduce NCCL;
 - rccl: try test ncclGetVersion.hip;

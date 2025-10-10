@@ -8,9 +8,9 @@
 # cloc will be better (add cloc output to commit message).
 VERSION = 2
 PATCHLEVEL = 3
-SUBLEVEL = 7
+SUBLEVEL = 8
 EXTRAVERSION =
-NAME = VM
+NAME = Windows
 
 TEST_LINUX_VERSION := $(VERSION)$(if $(PATCHLEVEL),.$(PATCHLEVEL)$(if $(SUBLEVEL),.$(SUBLEVEL)))$(EXTRAVERSION)
 TEST_LINUX_GIT_VERSION := $(shell git describe --abbrev=6 --dirty --tags 2>/dev/null || :)
