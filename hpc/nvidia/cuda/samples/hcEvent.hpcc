@@ -1,0 +1,2 @@
+#define __USE_HPCC__	1
+#include "cudaEvent.cu"

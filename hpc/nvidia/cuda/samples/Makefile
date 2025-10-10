@@ -9,6 +9,31 @@ include ../../../amd/rocm/rocm.mk
 include ../../../metax/hpcc.mk
 
 ifdef HAVE_CUDA
+  targets-nvcc := hello
+  targets-nvcc += dim3
+  targets-nvcc += cooperative
+  targets-nvcc += parallel
+  targets-nvcc += cudaMalloc
+  targets-nvcc += cudaMallocManaged
+  targets-nvcc += cudaGetDeviceCount
+  targets-nvcc += cudaGetDeviceProperties
+  targets-nvcc += cudaDeviceGetP2PAttribute
+  targets-nvcc += cudaDeviceGetAttribute
+  targets-nvcc += cudaEvent
+  targets-nvcc += cublasLtMatmul
+  targets-nvcc += matrix-fp16 matrix-fp32 matrix-fp64 matrix-int8
+  targets-nvcc += blas
+  targets-nvcc += rand
+  targets-nvcc += fft
+  targets-nvcc += sparse
+  targets-nvcc += __GNUC__ __STDC__
+  targets-nvcc += module
+  targets-nvcc += float
+
+  obj-cubin := hello.cubin
+  obj-cubin += parallel.cubin
+  obj-fatbin := hello.fatbin
+  obj-fatbin += parallel.fatbin parallel.nv_fatbin parallel.nvFatBinSegment
 endif
 
 ifdef HAVE_HIP
@@ -38,36 +63,38 @@ ifdef HAVE_HIP
 endif
 
 ifdef HAVE_HPCC
-  metax-htcc += blas
+  metax-htcc := blas
+  metax-htcc += hello
+  metax-htcc += parallel
+  # TODO: nccl??
+  #metax-htcc += hcclGetVersion
+  metax-htcc += hcMalloc
+  metax-htcc += hcMallocManaged
+  metax-htcc += hcGetDeviceProperties
+  metax-htcc += hcDeviceGetAttribute
+  metax-htcc += hcDeviceGetP2PAttribute
+  metax-htcc += hcEvent
+  metax-htcc += dim3
+  metax-htcc += matrix-fp16 matrix-fp32 matrix-fp64 matrix-int8
+  metax-htcc += hcblasLtMatmul
+  metax-htcc += rand
+  metax-htcc += fft
+  metax-htcc += sparse
+  metax-htcc += __GNUC__
+  metax-htcc += __STDC__
+  metax-htcc += float
+  metax-htcc += cooperative
+  metax-htcc += module
+
+  metax-devbin := hello.devbin
+  metax-devbin += parallel.devbin
+  metax-fatbin := hello.hpcc.fatbin
+  metax-fatbin += parallel.hpcc.fatbin
+  metax-fatbin += parallel-hpcc.hc_fatbin
+  metax-fatbin += parallel-hpcc.hcFatBinSegment
 
   targets-htcc := $(patsubst %,%-hpcc,$(metax-htcc))
 endif
-
-targets-nvcc := hello
-targets-nvcc += dim3
-targets-nvcc += cooperative
-targets-nvcc += parallel
-targets-nvcc += cudaMalloc
-targets-nvcc += cudaMallocManaged
-targets-nvcc += cudaGetDeviceCount
-targets-nvcc += cudaGetDeviceProperties
-targets-nvcc += cudaDeviceGetP2PAttribute
-targets-nvcc += cudaDeviceGetAttribute
-targets-nvcc += cudaEvent
-targets-nvcc += cublasLtMatmul
-targets-nvcc += matrix-fp16 matrix-fp32 matrix-fp64 matrix-int8
-targets-nvcc += blas
-targets-nvcc += rand
-targets-nvcc += fft
-targets-nvcc += sparse
-targets-nvcc += __GNUC__ __STDC__
-targets-nvcc += module
-targets-nvcc += float
-
-obj-cubin := hello.cubin
-obj-cubin += parallel.cubin
-obj-fatbin := hello.fatbin
-obj-fatbin += parallel.fatbin parallel.nv_fatbin parallel.nvFatBinSegment
 
 targets-post := $(patsubst %,${OUTPUT}%.E.cu,$(targets-nvcc))
 targets-post += $(patsubst %,${OUTPUT}%.cu.sass.dump,$(targets-nvcc))
@@ -76,8 +103,14 @@ targets-post += $(patsubst %,${OUTPUT}%.ptx,$(targets-nvcc))
 targets-post += $(patsubst %,${OUTPUT}%.cu.cpp.ii,$(targets-nvcc))
 targets-post += $(patsubst %,${OUTPUT}%,$(obj-cubin))
 targets-post += $(patsubst %,${OUTPUT}%,$(obj-fatbin))
+# ROCm HIP
 targets-post += $(patsubst %,${OUTPUT}%,$(rocm-fatbin))
+# MetaX
+targets-post += $(patsubst %,${OUTPUT}%.E.hpcc,$(metax-htcc))
+targets-post += $(patsubst %,${OUTPUT}%,$(metax-devbin))
+targets-post += $(patsubst %,${OUTPUT}%,$(metax-fatbin))
 
+# Pure C
 targets := matrix-c-fp32 matrix-c-fp64
 targets += float-c
 
@@ -104,6 +137,18 @@ CFLAGS_HIPCC += -I.
 CFLAGS_HIPCC += -Wno-unused-result
 
 CFLAGS_HIPCC_matrix-fp32 := -DTEST_FP32=1
+
+CFLAGS_HTCC := -Wno-c99-designator
+# Remove default so search directory, see ldflags: -Wl,-rpath,/path/to/so/
+LDFLAGS_HTCC := -nodefaultrpath
+
+CFLAGS_HTCC_hcGetDeviceProperties := -Wno-string-plus-int
+
+CFLAGS_HTCC_matrix-fp64 := -DTEST_FP64=1
+CFLAGS_HTCC_matrix-fp32 := -DTEST_FP32=1
+CFLAGS_HTCC_matrix-fp16 := -DTEST_FP16=1
+CFLAGS_HTCC_matrix-int8 := -DTEST_INT8=1
+CFLAGS_HTCC_hcblasLtMatmul := ${CFLAGS_HTCC_blas}
 
 CFLAGS_HTCC_blas := -Wno-ignored-attributes
 CFLAGS_HTCC_hcblasLtMatmul := ${CFLAGS_HTCC_blas}
@@ -182,5 +227,36 @@ ${OUTPUT}hipDeviceGetP2PAttribute.hip.o: cudaDeviceGetP2PAttribute.cu
 hipDeviceGetP2PAttribute-hip: ${OUTPUT}hipDeviceGetP2PAttribute.hip.o ${HIP_HELPERS}
 
 # MetaX HPCC
+${OUTPUT}matrix-fp16.hpcc.o: cuda_adapter.h cuda_helpers.h
+${OUTPUT}matrix-fp32.hpcc.o: cuda_adapter.h cuda_helpers.h
+${OUTPUT}matrix-fp64.hpcc.o: cuda_adapter.h cuda_helpers.h
+${OUTPUT}matrix-int8.hpcc.o: cuda_adapter.h cuda_helpers.h
+${OUTPUT}hcblasLtMatmul.hpcc.o: cuda_adapter.h cuda_helpers.h
+${OUTPUT}rand.hpcc.o: cuda_adapter.h cuda_helpers.h
+${OUTPUT}fft.hpcc.o: cuda_adapter.h cuda_helpers.h
+${OUTPUT}sparse.hpcc.o: cuda_adapter.h cuda_helpers.h
 ${OUTPUT}blas.hpcc.o: blas.cu
 blas-hpcc: ${OUTPUT}blas.hpcc.o ${HPCC_HELPERS}
+hello-hpcc: ${OUTPUT}hello.hpcc.o ${HPCC_HELPERS}
+module-hpcc: ${OUTPUT}module.hpcc.o ${HPCC_HELPERS}
+dim3-hpcc: ${OUTPUT}dim3.hpcc.o ${HPCC_HELPERS}
+parallel-hpcc: ${OUTPUT}parallel.hpcc.o ${HPCC_HELPERS}
+cooperative-hpcc: ${OUTPUT}cooperative.hpcc.o ${HPCC_HELPERS}
+hcclGetVersion-hpcc: ${OUTPUT}hcclGetVersion.hpcc.o ${HPCC_HELPERS}
+hcMalloc-hpcc: ${OUTPUT}hcMalloc.hpcc.o ${HPCC_HELPERS}
+hcMallocManaged-hpcc: ${OUTPUT}hcMallocManaged.hpcc.o ${HPCC_HELPERS}
+hcGetDeviceProperties-hpcc: ${OUTPUT}hcGetDeviceProperties.hpcc.o ${HPCC_HELPERS}
+hcDeviceGetAttribute-hpcc: ${OUTPUT}hcDeviceGetAttribute.hpcc.o ${HPCC_HELPERS}
+hcDeviceGetP2PAttribute-hpcc: ${OUTPUT}hcDeviceGetP2PAttribute.hpcc.o ${HPCC_HELPERS}
+hcEvent-hpcc: ${OUTPUT}hcEvent.hpcc.o ${HPCC_HELPERS}
+matrix-fp16-hpcc: ${OUTPUT}matrix-fp16.hpcc.o ${HPCC_HELPERS}
+matrix-fp32-hpcc: ${OUTPUT}matrix-fp32.hpcc.o ${HPCC_HELPERS}
+matrix-fp64-hpcc: ${OUTPUT}matrix-fp64.hpcc.o ${HPCC_HELPERS}
+matrix-int8-hpcc: ${OUTPUT}matrix-int8.hpcc.o ${HPCC_HELPERS}
+hcblasLtMatmul-hpcc: ${OUTPUT}hcblasLtMatmul.hpcc.o ${HPCC_HELPERS}
+rand-hpcc: ${OUTPUT}rand.hpcc.o ${HPCC_HELPERS}
+fft-hpcc: ${OUTPUT}fft.hpcc.o ${HPCC_HELPERS}
+sparse-hpcc: ${OUTPUT}sparse.hpcc.o ${HPCC_HELPERS}
+__GNUC__-hpcc: ${OUTPUT}__GNUC__.hpcc.o ${HPCC_HELPERS}
+__STDC__-hpcc: ${OUTPUT}__STDC__.hpcc.o ${HPCC_HELPERS}
+float-hpcc: ${OUTPUT}float.hpcc.o

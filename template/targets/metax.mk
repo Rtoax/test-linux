@@ -72,7 +72,7 @@ ${OUTPUT}%.devbin: %.hpcc | ${OUTPUT}
 	$(call log_tgt_obj,DEVBIN,$(<),$(@))
 	${Q}$(HTCC) -o $(@) -c $(<) $(cflags-htcc-devbin) $(CFLAGS_HTCC) $(CFLAGS_HTCC_$(*))
 
-${OUTPUT}%.fatbin: %.hpcc | ${OUTPUT}
+${OUTPUT}%.hpcc.fatbin: %.hpcc | ${OUTPUT}
 	$(call log_tgt_obj,FATBIN,$(<),$(@))
 	${Q}$(HTCC) -o $(@) -c $(<) $(cflags-htcc-fatbin) $(CFLAGS_HTCC) $(CFLAGS_HTCC_$(*))
 

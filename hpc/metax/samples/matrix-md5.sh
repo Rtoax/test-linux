@@ -1,1 +1,0 @@
-../../nvidia/cuda/samples/matrix-md5.sh
