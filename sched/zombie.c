@@ -13,9 +13,11 @@
 
 
 static struct env {
+	int child_sleep_secs;
 	int parent_sleep_secs;
 	int verbose;
 } env = {
+	.child_sleep_secs = 0,
 	.parent_sleep_secs = 60,
 	.verbose = false,
 };
@@ -24,6 +26,7 @@ static const char argp_prog_doc[] =
 	"USAGE: [-v|--verbose]\n";
 
 static const struct argp_option opts[] = {
+	{ "child-sleep-secs", 's', "SECS", 0, "Child sleep seconds, default: 0" },
 	{ "parent-sleep-secs", 'S', "SECS", 0, "Parent sleep seconds, default: 60" },
 	{ "verbose", 'v', NULL, 1, "Run with verbose mode" },
 	{},
@@ -36,6 +39,13 @@ static error_t parse_arg(int key, char *arg, struct argp_state *state)
 		env.parent_sleep_secs = atoi(arg);
 		if (env.parent_sleep_secs <= 0) {
 			fprintf(stderr, "Bad value of -S.\n");
+			exit(EXIT_FAILURE);
+		}
+		break;
+	case 's':
+		env.child_sleep_secs = atoi(arg);
+		if (env.child_sleep_secs <= 0) {
+			fprintf(stderr, "Bad value of -s.\n");
 			exit(EXIT_FAILURE);
 		}
 		break;
@@ -75,8 +85,20 @@ int main(int argc, char *argv[])
 	}
 
 	/* Child exit immediatly */
-	if (child == 0)
+	if (child == 0) {
+		if (env.child_sleep_secs > 0) {
+			for (i = 0; i < env.child_sleep_secs; i++) {
+				sleep(1);
+				if (env.verbose) {
+					printf("[%d] child sleeping...\n", getpid());
+				}
+			}
+		}
+		if (env.verbose) {
+			printf("[%d] child exit.\n", getpid());
+		}
 		exit(0);
+	}
 
 	/**
 	 * Parent
@@ -86,7 +108,7 @@ int main(int argc, char *argv[])
 		sleep(1);
 		if (env.verbose) {
 			char state = proc_pid_state(child);
-			printf("[%d] state %c\n", child, state);
+			printf("[%d] child state %c\n", child, state);
 		}
 	}
 
