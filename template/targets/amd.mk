@@ -1,10 +1,15 @@
 # SPDX-License-Identifier: GPL-3.0
+# Copyright (c) 2025 Rong Tao
+
 _TARGET_AMD = 1
 
 include ${TEMPLATE_DIR}/../hpc/amd/rocm/rocm.mk
 
 CFLAGS_HIPCC += -DHAVE_HIP=1
 CFLAGS_HIPCC += -D__USE_HIP__=1
+ifdef HAVE_RCCL
+  CFLAGS_HIPCC += -DHAVE_RCCL=1
+endif
 
 ifneq ($(HIPCONFIG),)
   CFLAGS_HIPCC += $(shell ${HIPCONFIG} --cpp_config)
@@ -15,7 +20,9 @@ LDFLAGS_HIPCC += -lhipsparse
 LDFLAGS_HIPCC += -lhiprand
 LDFLAGS_HIPCC += -lhipblas
 LDFLAGS_HIPCC += -lhipblaslt
-LDFLAGS_HIPCC += -lrccl
+ifdef HAVE_RCCL
+  LDFLAGS_HIPCC += -lrccl
+endif
 
 ifdef ERROR
   CFLAGS_HIPCC += -DERROR=1

@@ -6,6 +6,7 @@
 #
 # Output macros:
 # - HAVE_HIP
+# - HAVE_RCCL
 # - HIPCC
 # - HIPCONFIG
 
@@ -13,6 +14,8 @@ _ROCm = 1
 
 HIPCC := $(shell which hipcc 2>/dev/null)
 HIPCONFIG := $(shell which hipconfig 2>/dev/null)
+
+RCCL_H := /usr/include/rccl/rccl.h
 
 ifneq ($(HIPCC),)
   HAVE_HIP := 1
@@ -35,7 +38,16 @@ endif
 
 export HIPCC HIPCONFIG
 
+ifneq ($(wildcard $(RCCL_H)),)
+  HAVE_RCCL := 1
+  export HAVE_RCCL
+else
+  $(warning Not found AMD ROCm RCCL)
+endif
+
 ifdef DEBUG
+  $(info HAVE_HIP = ${HAVE_HIP})
+  $(info HAVE_RCCL = ${HAVE_RCCL})
   $(info HIPCC = ${HIPCC})
   $(info HIPCONFIG = ${HIPCONFIG})
   ifneq (${HIPCC},)

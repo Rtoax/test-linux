@@ -63,7 +63,9 @@ ifdef HAVE_HIP
   rocm-hipcc += __GNUC__
 
   # RCCL
-  rocm-hipcc += ncclGetVersion
+  ifdef HAVE_RCCL
+    rocm-hipcc += ncclGetVersion
+  endif
 
   rocm-fatbin := parallel.hip_fatbin parallel.hipFatBinSegment
 

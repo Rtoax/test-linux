@@ -45,7 +45,9 @@
 #include <hipblas/hipblas.h>
 #include <hipblaslt/hipblaslt.h>
 #include <hip/hip_fp16.h>
-#include <rccl/rccl.h>
+#ifdef HAVE_RCCL
+# include <rccl/rccl.h>
+#endif
 #include "cuda_adapter.h"
 # ifndef HAVE_HIP
 #  error "Not found ROCm HIP envrioment, but use HIP"
