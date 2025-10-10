@@ -7,8 +7,6 @@ targets += proc_examples
 targets += self thread-self
 targets += auxv
 targets += stat
-targets += statm
-targets += status
 targets += uptime
 
 targets-shell := mounts.sh
@@ -22,6 +20,4 @@ self: self.o proc_helpers.o
 thread-self: thread-self.o proc_helpers.o
 auxv: auxv.o
 stat: stat.o
-statm: statm.o
-status: status.o
 uptime: uptime.o

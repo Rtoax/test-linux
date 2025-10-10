@@ -6,3 +6,5 @@
 /mem
 /pagemap
 /stat
+/statm
+/status

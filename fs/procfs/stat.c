@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+
 int main(void)
 {
 	long double a[4], b[4], loadavg;
@@ -36,4 +37,3 @@ int main(void)
 
 	return(0);
 }
-

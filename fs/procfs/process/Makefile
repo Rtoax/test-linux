@@ -8,6 +8,8 @@ targets += pagemap
 targets += mem
 targets += maps
 targets += stat
+targets += statm
+targets += status
 
 CFLAGS_pagemap := -DHAVE_MAIN=1
 LDFLAGS_pagemap += -lnuma
@@ -22,3 +24,5 @@ pagemap: pagemap.o
 mem: mem.o
 maps: maps.o
 stat: stat.o
+statm: statm.o
+status: status.o
