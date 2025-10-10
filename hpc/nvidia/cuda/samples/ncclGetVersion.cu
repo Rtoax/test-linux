@@ -5,7 +5,7 @@
 int main(void)
 {
 	int version = 0;
-	hcclGetVersion(&version);
+	ncclGetVersion(&version);
 	printf("version %d\n", version);
 	return 0;
 }

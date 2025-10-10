@@ -52,6 +52,7 @@
 /dim3-hpcc
 /parallel-hpcc
 /hcclGetVersion-hpcc
+/ncclGetVersion-hip
 /hcMalloc-hpcc
 /hcMallocManaged-hpcc
 /hcGetDeviceProperties-hpcc

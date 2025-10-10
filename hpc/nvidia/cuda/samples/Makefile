@@ -57,6 +57,9 @@ ifdef HAVE_HIP
   rocm-hipcc += hipDeviceGetP2PAttribute
   rocm-hipcc += __GNUC__
 
+  # RCCL
+  rocm-hipcc += ncclGetVersion
+
   rocm-fatbin := parallel.hip_fatbin parallel.hipFatBinSegment
 
   targets-hipcc := $(patsubst %,%-hip,$(rocm-hipcc))
@@ -66,8 +69,6 @@ ifdef HAVE_HPCC
   metax-htcc := blas
   metax-htcc += hello
   metax-htcc += parallel
-  # TODO: nccl??
-  #metax-htcc += hcclGetVersion
   metax-htcc += hcMalloc
   metax-htcc += hcMallocManaged
   metax-htcc += hcGetDeviceCount
@@ -229,6 +230,8 @@ ${OUTPUT}hipGetDeviceCount.hip.o: cudaGetDeviceCount.cu
 hipGetDeviceCount-hip: ${OUTPUT}hipGetDeviceCount.hip.o ${HIP_HELPERS}
 ${OUTPUT}hipDeviceGetP2PAttribute.hip.o: cudaDeviceGetP2PAttribute.cu
 hipDeviceGetP2PAttribute-hip: ${OUTPUT}hipDeviceGetP2PAttribute.hip.o ${HIP_HELPERS}
+${OUTPUT}ncclGetVersion.hip.o: ncclGetVersion.cu
+ncclGetVersion-hip: ${OUTPUT}ncclGetVersion.hip.o
 
 # MetaX HPCC
 ${OUTPUT}matrix-fp16.hpcc.o: cuda_adapter.h cuda_helpers.h
