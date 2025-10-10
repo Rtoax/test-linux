@@ -9,6 +9,7 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <signal.h>
+#include "proc_helpers.h"
 
 
 static struct env {
@@ -59,8 +60,8 @@ static const struct argp argp = {
 
 int main(int argc, char *argv[])
 {
-	pid_t pid;
-	int status, err;
+	pid_t child;
+	int status, err, i;
 
 	err = argp_parse(&argp, argc, argv, 0, NULL, NULL);
 	if (err) {
@@ -68,29 +69,35 @@ int main(int argc, char *argv[])
 		return -err;
 	}
 
-	if ((pid = fork()) < 0) {
+	if ((child = fork()) < 0) {
 		perror("fork");
 		exit(1);
 	}
 
 	/* Child exit immediatly */
-	if (pid == 0)
+	if (child == 0)
 		exit(0);
 
 	/**
 	 * Parent
 	 * Gives children time to observe the zombie using ps(1)
 	 */
-	sleep(env.parent_sleep_secs);
+	for (i = 0; i < env.parent_sleep_secs; i++) {
+		sleep(1);
+		if (env.verbose) {
+			char state = proc_pid_state(child);
+			printf("[%d] state %c\n", child, state);
+		}
+	}
 
 	/**
 	 * After that, parent wait(2)s its child's exit status, and prints a
 	 * relevant message.
 	 */
-	pid = wait(&status);
+	child = wait(&status);
 	if (WIFEXITED(status))
 		fprintf(stderr, "\n\t[%d]\tProcess %d exited with status %d.\n",
-				(int)getpid(), pid, WEXITSTATUS(status));
+				(int)getpid(), child, WEXITSTATUS(status));
 
 	return 0;
 }

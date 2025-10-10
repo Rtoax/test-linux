@@ -1,3 +1,5 @@
+OUTPUT := .output/
+
 targets :=
 targets += current
 targets += uninterruptible
@@ -7,8 +9,10 @@ targets += stopped
 
 include ../template/main.mk
 
-current: current.o
-uninterruptible: uninterruptible.o
-hung: hung.o
-zombie: zombie.o
-stopped: stopped.o
+HELPERS := ${OUTPUT}proc_helpers.o
+
+current: ${OUTPUT}current.o
+uninterruptible: ${OUTPUT}uninterruptible.o
+hung: ${OUTPUT}hung.o
+zombie: ${OUTPUT}zombie.o ${HELPERS}
+stopped: ${OUTPUT}stopped.o
