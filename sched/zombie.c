@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <unistd.h>
+#include <sys/prctl.h>
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <signal.h>
@@ -25,7 +26,10 @@ static struct env {
 #define LOG_VERBOSE(fmt...) do {	\
 		if (!env.verbose)	\
 			break;	\
-		fprintf(stderr, "[%d] ", getpid());	\
+		char ___buf[64];	\
+		prctl(PR_GET_NAME, ___buf, 0, 0, 0);	\
+		char __state = proc_state();	\
+		fprintf(stderr, "[%-16s %-8d %c] ", ___buf, getpid(), __state);	\
 		fprintf(stderr, fmt);	\
 	} while (0)
 
@@ -91,17 +95,21 @@ int main(int argc, char *argv[])
 		exit(1);
 	}
 
-	/* Child exit immediatly */
+	/* Child exit after sleep */
 	if (child == 0) {
+		prctl(PR_SET_NAME, "zombie-child", 0, 0, 0);
+
 		if (env.child_sleep_secs > 0) {
 			for (i = 0; i < env.child_sleep_secs; i++) {
 				sleep(1);
-				LOG_VERBOSE("child sleeping...\n");
+				LOG_VERBOSE("sleeping %d s...\n", i + 1);
 			}
 		}
-		LOG_VERBOSE("child exit.\n");
+		LOG_VERBOSE("exit.\n");
 		exit(0);
 	}
+
+	prctl(PR_SET_NAME, "zombie-parent", 0, 0, 0);
 
 	/**
 	 * Parent
@@ -109,10 +117,8 @@ int main(int argc, char *argv[])
 	 */
 	for (i = 0; i < env.parent_sleep_secs; i++) {
 		sleep(1);
-		if (env.verbose) {
-			char state = proc_pid_state(child);
-			LOG_VERBOSE("child state %c\n", state);
-		}
+		char state = proc_pid_state(child);
+		LOG_VERBOSE("sleeping %d s, child state %c.\n", i + 1, state);
 	}
 
 	/**
@@ -121,8 +127,8 @@ int main(int argc, char *argv[])
 	 */
 	child = wait(&status);
 	if (WIFEXITED(status))
-		fprintf(stderr, "\n\t[%d]\tProcess %d exited with status %d.\n",
-				(int)getpid(), child, WEXITSTATUS(status));
+		LOG_VERBOSE("Process %d exited with status %d.\n",
+			    child, WEXITSTATUS(status));
 
 	return 0;
 }
