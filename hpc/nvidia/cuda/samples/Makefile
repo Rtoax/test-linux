@@ -87,6 +87,9 @@ ifdef HAVE_HPCC
   metax-htcc += cooperative
   metax-htcc += module
 
+  # HCCL
+  metax-htcc += hcclGetVersion
+
   metax-devbin := hello.devbin
   metax-devbin += parallel.devbin
   metax-fatbin := hello.hpcc.fatbin
@@ -237,6 +240,8 @@ ${OUTPUT}rand.hpcc.o: cuda_adapter.h cuda_helpers.h
 ${OUTPUT}fft.hpcc.o: cuda_adapter.h cuda_helpers.h
 ${OUTPUT}sparse.hpcc.o: cuda_adapter.h cuda_helpers.h
 ${OUTPUT}blas.hpcc.o: blas.cu
+${OUTPUT}hcGetDeviceCount.hpcc.o: cudaGetDeviceCount.cu
+${OUTPUT}hcclGetVersion.hpcc.o: ncclGetVersion.cu
 blas-hpcc: ${OUTPUT}blas.hpcc.o ${HPCC_HELPERS}
 hello-hpcc: ${OUTPUT}hello.hpcc.o ${HPCC_HELPERS}
 module-hpcc: ${OUTPUT}module.hpcc.o ${HPCC_HELPERS}
@@ -246,7 +251,7 @@ cooperative-hpcc: ${OUTPUT}cooperative.hpcc.o ${HPCC_HELPERS}
 hcclGetVersion-hpcc: ${OUTPUT}hcclGetVersion.hpcc.o ${HPCC_HELPERS}
 hcMalloc-hpcc: ${OUTPUT}hcMalloc.hpcc.o ${HPCC_HELPERS}
 hcMallocManaged-hpcc: ${OUTPUT}hcMallocManaged.hpcc.o ${HPCC_HELPERS}
-${OUTPUT}hcGetDeviceCount.hpcc.o: cudaGetDeviceCount.cu
+hcclGetVersion-hpcc: ${OUTPUT}hcclGetVersion.hpcc.o ${HPCC_HELPERS}
 hcGetDeviceCount-hpcc: ${OUTPUT}hcGetDeviceCount.hpcc.o ${HPCC_HELPERS}
 hcGetDeviceProperties-hpcc: ${OUTPUT}hcGetDeviceProperties.hpcc.o ${HPCC_HELPERS}
 hcDeviceGetAttribute-hpcc: ${OUTPUT}hcDeviceGetAttribute.hpcc.o ${HPCC_HELPERS}

@@ -18,6 +18,7 @@
 /* TODO: add rtc */
 #include <hpcc_fp16.h>
 #include <hpcc_cooperative_groups.h>
+#include <hccl.h>
 #include "cuda_adapter.h"
 # ifndef HAVE_HPCC
 #  error "Not found HPCC envrioment, but use HPCC"

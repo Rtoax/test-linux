@@ -1,6 +1,6 @@
 #include <stdio.h>
-#include <hc_runtime.h>
-#include <hccl.h>
+#include "cuda_compat.h"
+
 
 int main(void)
 {

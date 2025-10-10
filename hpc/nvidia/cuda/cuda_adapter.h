@@ -11,6 +11,7 @@
 # define __CUDA_ERROR(name)	HCC_STATUS_##name
 # define __nv(name)	hc##name
 # define __NV(name)	HC##name
+# define __nccl(name)	hccl##name
 #elif defined(__USE_HIP__)
 # define __cu(name)	hip##name
 # define __cuda(name)	hip##name
@@ -1711,3 +1712,8 @@
 # define CUDA_ERROR_INVALID_VALUE	hipErrorInvalidValue
 # define CUDA_SUCCESS	hipSuccess
 #endif
+
+/**
+ * NCCL: NVIDIA Collective Communication Library
+ */
+#define ncclGetVersion(version)	__nccl(GetVersion(version))
