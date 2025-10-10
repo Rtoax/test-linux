@@ -21,11 +21,16 @@ int main(void)
 	if (pid == 0)
 		exit(0);
 
-	/* Parent, Gives you time to observe the zombie using ps(1) */
+	/**
+	 * Parent
+	 * Gives children time to observe the zombie using ps(1)
+	 */
 	sleep(60);
 
-	/* After that, parent wait(2)s its child's
-	 * exit status, and prints a relevant message. */
+	/**
+	 * After that, parent wait(2)s its child's exit status, and prints a
+	 * relevant message.
+	 */
 	pid = wait(&status);
 	if (WIFEXITED(status))
 		fprintf(stderr, "\n\t[%d]\tProcess %d exited with status %d.\n",
