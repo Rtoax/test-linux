@@ -705,7 +705,7 @@ if [[ $(is_rhel_like) ]] && [[ ${have_3rd_party} ]]; then
 		cat <<-EOF | tee /etc/yum.repos.d/scootersoftware.repo
 		[scootersoftware]
 		name=Scooter Software
-		baseurl=https://www.scootersoftware.com/bcompare4
+		baseurl=https://www.scootersoftware.com/bcompare5
 		enabled=1
 		gpgcheck=1
 		gpgkey=https://www.scootersoftware.com/RPM-GPG-KEY-scootersoftware
