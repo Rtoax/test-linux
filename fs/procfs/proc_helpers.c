@@ -66,6 +66,40 @@ const char *proc_comm(char *buf, size_t buf_len)
 	return proc_pid_comm(getpid(), buf, buf_len);
 }
 
+/**
+ * proc_state - Return the process state like '$ ps -eo state'.
+ *
+ * @return: return character of state like 'S' if success, return -errno if
+ *          failed.
+ */
+int proc_pid_state(pid_t pid)
+{
+	char buffer[128], status[128];
+	FILE *file;
+	char state = '?';
+
+	snprintf(status, sizeof(status) - 1, "/proc/%d/status", pid);
+
+	file = fopen(status, "r");
+	if (!file)
+		return -errno;
+
+	while (fscanf(file, " %127s", buffer) == 1) {
+		if (strcmp(buffer, "State:") == 0) {
+			fscanf(file, " %c", &state);
+		}
+	}
+
+	fclose(file);
+
+	return state;
+}
+
+int proc_state(void)
+{
+	return proc_pid_state(getpid());
+}
+
 enum vma_type {
 	VT_COMM,
 	VT_LIBC,
