@@ -17,7 +17,9 @@
 #include <hcfft/hcfft.h>
 /* TODO: add rtc */
 #include <hpcc_fp16.h>
-#include <hpcc_cooperative_groups.h>
+#ifdef __HPCC__
+# include <hpcc_cooperative_groups.h>
+#endif
 #include <hccl.h>
 #include "cuda_adapter.h"
 # ifndef HAVE_HPCC
