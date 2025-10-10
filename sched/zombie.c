@@ -22,6 +22,13 @@ static struct env {
 	.verbose = false,
 };
 
+#define LOG_VERBOSE(fmt...) do {	\
+		if (!env.verbose)	\
+			break;	\
+		fprintf(stderr, "[%d] ", getpid());	\
+		fprintf(stderr, fmt);	\
+	} while (0)
+
 static const char argp_prog_doc[] =
 	"USAGE: [-v|--verbose]\n";
 
@@ -89,14 +96,10 @@ int main(int argc, char *argv[])
 		if (env.child_sleep_secs > 0) {
 			for (i = 0; i < env.child_sleep_secs; i++) {
 				sleep(1);
-				if (env.verbose) {
-					printf("[%d] child sleeping...\n", getpid());
-				}
+				LOG_VERBOSE("child sleeping...\n");
 			}
 		}
-		if (env.verbose) {
-			printf("[%d] child exit.\n", getpid());
-		}
+		LOG_VERBOSE("child exit.\n");
 		exit(0);
 	}
 
@@ -108,7 +111,7 @@ int main(int argc, char *argv[])
 		sleep(1);
 		if (env.verbose) {
 			char state = proc_pid_state(child);
-			printf("[%d] child state %c\n", child, state);
+			LOG_VERBOSE("child state %c\n", state);
 		}
 	}
 
