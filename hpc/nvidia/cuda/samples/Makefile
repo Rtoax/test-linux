@@ -70,6 +70,7 @@ ifdef HAVE_HPCC
   #metax-htcc += hcclGetVersion
   metax-htcc += hcMalloc
   metax-htcc += hcMallocManaged
+  metax-htcc += hcGetDeviceCount
   metax-htcc += hcGetDeviceProperties
   metax-htcc += hcDeviceGetAttribute
   metax-htcc += hcDeviceGetP2PAttribute
@@ -245,6 +246,8 @@ cooperative-hpcc: ${OUTPUT}cooperative.hpcc.o ${HPCC_HELPERS}
 hcclGetVersion-hpcc: ${OUTPUT}hcclGetVersion.hpcc.o ${HPCC_HELPERS}
 hcMalloc-hpcc: ${OUTPUT}hcMalloc.hpcc.o ${HPCC_HELPERS}
 hcMallocManaged-hpcc: ${OUTPUT}hcMallocManaged.hpcc.o ${HPCC_HELPERS}
+${OUTPUT}hcGetDeviceCount.hpcc.o: cudaGetDeviceCount.cu
+hcGetDeviceCount-hpcc: ${OUTPUT}hcGetDeviceCount.hpcc.o ${HPCC_HELPERS}
 hcGetDeviceProperties-hpcc: ${OUTPUT}hcGetDeviceProperties.hpcc.o ${HPCC_HELPERS}
 hcDeviceGetAttribute-hpcc: ${OUTPUT}hcDeviceGetAttribute.hpcc.o ${HPCC_HELPERS}
 hcDeviceGetP2PAttribute-hpcc: ${OUTPUT}hcDeviceGetP2PAttribute.hpcc.o ${HPCC_HELPERS}

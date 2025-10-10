@@ -13,6 +13,7 @@
 /hipMallocManaged-hip
 /cudaGetDeviceCount
 /hipGetDeviceCount-hip
+/hcGetDeviceCount-hpcc
 /cudaGetDeviceProperties
 /hipGetDeviceProperties-hip
 /cudaDeviceGetP2PAttribute

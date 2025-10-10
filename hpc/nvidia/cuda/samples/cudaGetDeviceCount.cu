@@ -5,8 +5,18 @@
 
 int main(void)
 {
-	int count;
+	int dev_id, count;
+
+	/**
+	 * TODO: how to choice default device
+	 */
+	cudaGetDevice(&dev_id);
 	cudaGetDeviceCount(&count);
-	printf("count %d\n", count);
+	printf("dev %d, count %d\n", dev_id, count);
+
+	cudaSetDevice(1);
+	cudaGetDevice(&dev_id);
+	printf("dev %d\n", dev_id);
+
 	return 0;
 }
