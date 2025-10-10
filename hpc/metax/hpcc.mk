@@ -8,7 +8,8 @@
 # Output macros:
 # - HAVE_HPCC
 # - HPCC_ROOT
-# - MXCC HTCC
+# - MXCC
+# - HTCC
 # - HPCC_VERSION_MAJOR
 # - HPCC_VERSION_MINOR
 # - HPCC_VERSION_PATCH
@@ -25,15 +26,18 @@ ifeq ($(MXCC),)
   ifneq ($(targets-mxcc),)
     ifdef __IGNORE_NOTFOUND_ERROR__
       $(warning Not found mxcc with targets-mxcc not empty, but __IGNORE_NOTFOUND_ERROR__)
+      targets-mxcc :=
     else
       $(error Not found mxcc with targets-mxcc not empty, install MetaX Toolkit first)
     endif
   endif
 endif
+
 ifeq ($(HTCC),)
   ifneq ($(targets-htcc),)
     ifdef __IGNORE_NOTFOUND_ERROR__
       $(warning Not found htcc with targets-htcc not empty, but __IGNORE_NOTFOUND_ERROR__)
+      targets-htcc :=
     else
       $(error Not found htcc with targets-htcc not empty, install MetaX hpcc first)
     endif
@@ -53,6 +57,12 @@ else
   HPCC_VERSION_MAJOR :=
   HPCC_VERSION_MINOR :=
   HPCC_VERSION_PATCH :=
+endif
+
+ifneq (${HPCC_ROOT},)
+  ifeq (${HTCC},)
+    $(error Found ${HPCC_ROOT}, but not found htcc, do you set ENV correctly???)
+  endif
 endif
 
 export HPCC_ROOT
