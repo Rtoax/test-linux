@@ -26,8 +26,7 @@
 #define DEV_NV_H800_MINOR	0
 
 #define DEV_NVIDIA_H800_INITIALIZER(idx)	{	\
-		/* error: C99 designator 'name' outside aggregate initializer */	\
-		.name = { DEV_NV_H800_NAME }, \
+		DEV_NV_H800_NAME, \
 		.id = idx,	\
 		.totalGlobalMem = DEV_NV_H800_TOTAL_GLOBAL_MEM,	\
 		.totalConstMem = DEV_NV_H800_TOTAL_CONST_MEM,	\

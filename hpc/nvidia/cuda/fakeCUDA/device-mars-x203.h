@@ -27,8 +27,7 @@
 #define DEV_MARS_X203_MINOR	64
 
 #define DEV_MARS_X203_INITIALIZER(idx)	{	\
-		/* error: C99 designator 'name' outside aggregate initializer */	\
-		.name = { DEV_MARS_X203_NAME }, \
+		DEV_MARS_X203_NAME, \
 		.id = idx,	\
 		.totalGlobalMem = DEV_MARS_X203_TOTAL_GLOBAL_MEM,	\
 		.totalConstMem = DEV_MARS_X203_TOTAL_CONST_MEM,	\
