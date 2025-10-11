@@ -1,6 +1,6 @@
 #!/bin/env bpftrace
 /**
- * clone.bt - Tracing clone(2) latency
+ * clone.bt - Tracing clone(2), clone3(2) latency
  *
  * Copyright (C) Rong Tao 2024
  *
@@ -17,13 +17,15 @@ BEGIN
 		"TIME", "PID", "COMM", "LAT(us)", "CHILD_PID", "ROLE");
 }
 
-tracepoint:syscalls:sys_enter_clone
+tracepoint:syscalls:sys_enter_clone,
+tracepoint:syscalls:sys_enter_clone3
 {
 	@start[tid] = nsecs;
 	@comm[tid] = comm;
 }
 
-tracepoint:syscalls:sys_exit_clone
+tracepoint:syscalls:sys_exit_clone,
+tracepoint:syscalls:sys_exit_clone3
 / @start[tid] /
 {
 	$us = (nsecs - @start[tid]) / 1000;

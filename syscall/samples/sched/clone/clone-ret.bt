@@ -1,6 +1,6 @@
 #!/bin/env bpftrace
 /**
- * clone.bt - Tracing clone(2)
+ * clone-ret.bt - Tracing clone(2), clone3(2)
  *
  * Copyright (C) Rong Tao 2024
  *
