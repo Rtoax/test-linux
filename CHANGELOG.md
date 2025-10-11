@@ -11,7 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
-- make: add MAKECMDGOALS.mk;
+- make: add MAKECMDGOALS.mk, filter-out.mk;
 #### Changed
 #### Deprecated
 #### Removed
