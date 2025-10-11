@@ -52,6 +52,7 @@
  *
  * Refs:
  * - https://en.wikipedia.org/wiki/IEEE_754-2008_revision
+ * - https://en.wikipedia.org/wiki/Minifloat
  * - https://en.wikipedia.org/wiki/Half-precision_floating-point_format
  * - https://en.wikipedia.org/wiki/Bfloat16_floating-point_format
  * - https://en.wikipedia.org/wiki/Single-precision_floating-point_format

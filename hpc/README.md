@@ -32,7 +32,7 @@ FP6  |-|--|---| E2M3
 FP6  |-|---|--| E3M2
 
      S1 E2 F1
-FP4  |-|--|-|
+FP4  |-|--|-| E2M1
 ```
 
 > S-Sign, E-Exponent(指数), F-Fraction(分数)
