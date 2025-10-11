@@ -16,10 +16,12 @@
 static struct env {
 	int child_sleep_secs;
 	int parent_sleep_secs;
+	int nr_children;
 	int verbose;
 } env = {
 	.child_sleep_secs = 0,
 	.parent_sleep_secs = 60,
+	.nr_children = 1,
 	.verbose = false,
 };
 
@@ -39,6 +41,7 @@ static const char argp_prog_doc[] =
 static const struct argp_option opts[] = {
 	{ "child-sleep-secs", 's', "SECS", 0, "Child sleep seconds, default: 0" },
 	{ "parent-sleep-secs", 'S', "SECS", 0, "Parent sleep seconds, default: 60" },
+	{ "nr-children", 'n', "NUM", 0, "Number of children, default: 1" },
 	{ "verbose", 'v', NULL, 1, "Run with verbose mode" },
 	{},
 };
@@ -57,6 +60,13 @@ static error_t parse_arg(int key, char *arg, struct argp_state *state)
 		env.child_sleep_secs = atoi(arg);
 		if (env.child_sleep_secs <= 0) {
 			fprintf(stderr, "Bad value of -s.\n");
+			exit(EXIT_FAILURE);
+		}
+		break;
+	case 'n':
+		env.nr_children = atoi(arg);
+		if (env.nr_children <= 0) {
+			fprintf(stderr, "Bad value of -n.\n");
 			exit(EXIT_FAILURE);
 		}
 		break;
@@ -81,7 +91,7 @@ static const struct argp argp = {
 
 int main(int argc, char *argv[])
 {
-	pid_t child;
+	pid_t child, *children;
 	int status, err, i;
 
 	err = argp_parse(&argp, argc, argv, 0, NULL, NULL);
@@ -90,23 +100,31 @@ int main(int argc, char *argv[])
 		return -err;
 	}
 
-	if ((child = fork()) < 0) {
-		perror("fork");
-		exit(1);
-	}
+	children = malloc(sizeof(pid_t) * env.nr_children);
 
-	/* Child exit after sleep */
-	if (child == 0) {
-		prctl(PR_SET_NAME, "zombie-child", 0, 0, 0);
-
-		if (env.child_sleep_secs > 0) {
-			for (i = 0; i < env.child_sleep_secs; i++) {
-				sleep(1);
-				LOG_VERBOSE("sleeping %d s...\n", i + 1);
-			}
+	for (i = 0; i < env.nr_children; i++) {
+		if ((child = fork()) < 0) {
+			perror("fork");
+			exit(1);
 		}
-		LOG_VERBOSE("exit.\n");
-		exit(0);
+
+		/* Child exit after sleep */
+		if (child == 0) {
+			char buf[64];
+			snprintf(buf, sizeof(buf) - 1, "zombie-child/%d", i);
+			prctl(PR_SET_NAME, buf, 0, 0, 0);
+
+			if (env.child_sleep_secs > 0) {
+				for (i = 0; i < env.child_sleep_secs; i++) {
+					sleep(1);
+					LOG_VERBOSE("sleeping %d s...\n", i + 1);
+				}
+			}
+			LOG_VERBOSE("exit.\n");
+			exit(0);
+		} else {
+			children[i] = child;
+		}
 	}
 
 	prctl(PR_SET_NAME, "zombie-parent", 0, 0, 0);
@@ -125,10 +143,14 @@ int main(int argc, char *argv[])
 	 * After that, parent wait(2)s its child's exit status, and prints a
 	 * relevant message.
 	 */
-	child = wait(&status);
-	if (WIFEXITED(status))
-		LOG_VERBOSE("Process %d exited with status %d.\n",
-			    child, WEXITSTATUS(status));
+	for (i = 0; i < env.nr_children; i++) {
+		child = wait(&status);
+		if (WIFEXITED(status))
+			LOG_VERBOSE("Process %d exited with status %d.\n",
+				    child, WEXITSTATUS(status));
+	}
+
+	free(children);
 
 	return 0;
 }
