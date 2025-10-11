@@ -418,64 +418,66 @@ __global__ void k_half2_comparision(void)
 
 	PHALF2(__heq2(h2_1, h2_1));
 	PHALF2(__heq2(h2_1, h2_2));
-#if !defined(__HPCC__)
+#if !defined(__HPCC__) && !defined(__HIPCC__)
 	PINT(__heq2_mask(h2_1, h2_1));
 	PINT(__heq2_mask(h2_1, h2_2));
 #endif
 	PHALF2(__hequ2(h2_1, h2_1));
-#if !defined(__HPCC__)
+#if !defined(__HPCC__) && !defined(__HIPCC__)
 	PINT(__hequ2_mask(h2_1, h2_1));
 #endif
 	PHALF2(__hge2(h2_1, h2_1));
-#if !defined(__HPCC__)
+#if !defined(__HPCC__) && !defined(__HIPCC__)
 	PINT(__hge2_mask(h2_1, h2_1));
 #endif
 	PHALF2(__hgeu2(h2_1, h2_1));
-#if !defined(__HPCC__)
+#if !defined(__HPCC__) && !defined(__HIPCC__)
 	PINT(__hgeu2_mask(h2_1, h2_1));
 #endif
 	PHALF2(__hgt2(h2_1, h2_1));
-#if !defined(__HPCC__)
+#if !defined(__HPCC__) && !defined(__HIPCC__)
 	PINT(__hgt2_mask(h2_1, h2_1));
 #endif
 	PHALF2(__hgtu2(h2_1, h2_1));
-#if !defined(__HPCC__)
+#if !defined(__HPCC__) && !defined(__HIPCC__)
 	PINT(__hgtu2_mask(h2_1, h2_1));
 #endif
 	PHALF2(__hle2(h2_1, h2_1));
-#if !defined(__HPCC__)
+#if !defined(__HPCC__) && !defined(__HIPCC__)
 	PINT(__hle2_mask(h2_1, h2_1));
 #endif
 	PHALF2(__hleu2(h2_1, h2_1));
-#if !defined(__HPCC__)
+#if !defined(__HPCC__) && !defined(__HIPCC__)
 	PINT(__hleu2_mask(h2_1, h2_1));
 #endif
 	PHALF2(__hlt2(h2_1, h2_1));
-#if !defined(__HPCC__)
+#if !defined(__HPCC__) && !defined(__HIPCC__)
 	PINT(__hlt2_mask(h2_1, h2_1));
 #endif
 	PHALF2(__hltu2(h2_1, h2_1));
-#if !defined(__HPCC__)
+#if !defined(__HPCC__) && !defined(__HIPCC__)
 	PINT(__hltu2_mask(h2_1, h2_1));
 #endif
 	PHALF2(__hne2(h2_1, h2_1));
-#if !defined(__HPCC__)
+#if !defined(__HPCC__) && !defined(__HIPCC__)
 	PINT(__hne2_mask(h2_1, h2_1));
 #endif
 	PHALF2(__hneu2(h2_1, h2_1));
-#if !defined(__HPCC__)
+#if !defined(__HPCC__) && !defined(__HIPCC__)
 	PINT(__hneu2_mask(h2_1, h2_1));
 #endif
 
 	PHALF2(__hisnan2(h2_1));
 	PHALF2(__hisnan2(h2_nan));
 
+#if !defined(__HIPCC__)
 	PHALF2(__hmax2(h2_1, h2_2));
 	PHALF2(__hmax2(h2_1, h2_nan));
 	PHALF2(__hmax2_nan(h2_1, h2_nan));
 	PHALF2(__hmin2(h2_1, h2_2));
 	PHALF2(__hmin2(h2_1, h2_nan));
 	PHALF2(__hmin2_nan(h2_1, h2_nan));
+#endif
 }
 
 int main(int argc, char *argv[])
