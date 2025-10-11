@@ -328,17 +328,57 @@ __global__ void k_half_precision_conversion_sync(void)
 __global__ void k_half2_arithmetic(void)
 {
 	half h;
-	half2 h2_1, h2_2;
+	half2 h2_1, h2_2, h2_3;
 
 	PHALF((h = __float2half(3.1415926f)));
 	PHALF2((h2_1 = __half2half2(h)));
 	PHALF2((h2_2 = __half2half2(h)));
+	PHALF2((h2_3 = __half2half2(h)));
+
+	PHALF2(__h2div(h2_1, h2_2));
+	PHALF2(__habs2(h2_1));
+	PHALF2(__hadd2(h2_1, h2_2));
+	PHALF2(__hadd2_rn(h2_1, h2_2)); /* rn: round-to-nearest-even */
+	PHALF2(__hadd2_sat(h2_1, h2_2)); /* round-to-nearest-even mode, with saturation to [0.0, 1.0]. */
+	PHALF2(__hcmadd(h2_1, h2_2, h2_3));
+	PHALF2(__hfma2(h2_1, h2_2, h2_3));
+	PHALF2(__hfma2_relu(h2_1, h2_2, h2_3));
+	PHALF2(__hfma2_sat(h2_1, h2_2, h2_3));
+	PHALF2(__hmul2(h2_1, h2_2));
+	PHALF2(__hmul2_rn(h2_1, h2_2));
+	PHALF2(__hmul2_sat(h2_1, h2_2));
+	PHALF2(__hneg2(h2_1));
+	PHALF2(__hsub2(h2_1, h2_2));
+	PHALF2(__hsub2_rn(h2_1, h2_2));
+	PHALF2(__hsub2_sat(h2_1, h2_2));
+}
+
+__global__ void k_half2_arithmetic_atomicAdd(void)
+{
+	extern __shared__ half2 shareHalf2[1];
+	half h;
+	half2 h2;
+
+	h = __float2half(3.1415926f);
+	h2 = __half2half2(h);
+	shareHalf2[0] = h2;
+
+	__syncthreads();
+
+	atomicAdd(shareHalf2, h2);
+
+	__syncthreads();
+
+	if (threadIdx.x + blockDim.x * blockIdx.x == 0) {
+		PHALF2(h2);
+		PHALF2(shareHalf2[0]);
+	}
 }
 
 int main(int argc, char *argv[])
 {
-	dim3 grid(10);
-	dim3 block(32);
+	dim3 grid1(1), grid(10);
+	dim3 block1(1), block(32);
 
 	assert(sizeof(half) == 2 && "bad size of half");
 	assert(sizeof(half2) == 4 && "bad size of half2");
@@ -356,6 +396,9 @@ int main(int argc, char *argv[])
 	k_half_precision_conversion_sync<<<1, 1>>>();
 
 	k_half2_arithmetic<<<1, 1>>>();
+
+	(void)cudaLaunchKernel((void *)k_half2_arithmetic_atomicAdd, grid1, block1, NULL,
+				sizeof(half2), NULL);
 
 	(void)cudaDeviceSynchronize();
 	return 0;
