@@ -440,6 +440,30 @@ __global__ void k_half2_comparision(void)
 #if !defined(__HPCC__)
 	PINT(__hgtu2_mask(h2_1, h2_1));
 #endif
+	PHALF2(__hle2(h2_1, h2_1));
+#if !defined(__HPCC__)
+	PINT(__hle2_mask(h2_1, h2_1));
+#endif
+	PHALF2(__hleu2(h2_1, h2_1));
+#if !defined(__HPCC__)
+	PINT(__hleu2_mask(h2_1, h2_1));
+#endif
+	PHALF2(__hlt2(h2_1, h2_1));
+#if !defined(__HPCC__)
+	PINT(__hlt2_mask(h2_1, h2_1));
+#endif
+	PHALF2(__hltu2(h2_1, h2_1));
+#if !defined(__HPCC__)
+	PINT(__hltu2_mask(h2_1, h2_1));
+#endif
+	PHALF2(__hne2(h2_1, h2_1));
+#if !defined(__HPCC__)
+	PINT(__hne2_mask(h2_1, h2_1));
+#endif
+	PHALF2(__hneu2(h2_1, h2_1));
+#if !defined(__HPCC__)
+	PINT(__hneu2_mask(h2_1, h2_1));
+#endif
 }
 
 int main(int argc, char *argv[])
