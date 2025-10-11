@@ -2,7 +2,7 @@
 #pragma once
 #include <unistd.h>
 
-void try_fork(int vf, char *argv[]);
+void try_fork(int is_vfork, char *argv[]);
 void try_popen(char *cmd_buf);
 
 void save_pid(const char *filename, pid_t pid);

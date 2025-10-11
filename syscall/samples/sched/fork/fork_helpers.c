@@ -14,11 +14,11 @@
 #include "fork_helpers.h"
 
 
-void try_fork(int vf, char *argv[])
+void try_fork(int is_vfork, char *argv[])
 {
 	pid_t pid;
 
-	pid = vf ? vfork() : fork();
+	pid = is_vfork ? vfork() : fork();
 	if (pid == -1) {
 		perror("fork");
 		return;
@@ -68,4 +68,3 @@ int load_pid(const char *filename)
 	fclose(fp);
 	return pid;
 }
-
