@@ -28,7 +28,7 @@ tracepoint:syscalls:sys_exit_clone
 {
 	$us = (nsecs - @start[tid]) / 1000;
 	@latency_us = hist($us);
-	$pid = args->ret;
+	$pid = (uint32)args->ret;
 	$role = "CHILD";
 
 	/* Parent */
