@@ -480,6 +480,33 @@ __global__ void k_half2_comparision(void)
 #endif
 }
 
+__global__ void k_half2_math(void)
+{
+	half2 h2_pi;
+
+	PHALF2((h2_pi = __half2half2(__float2half(3.1415926f))));
+
+	PHALF2(h2ceil(h2_pi));
+	PHALF2(h2floor(h2_pi));
+	PHALF2(h2cos(h2_pi));
+	PHALF2(h2sin(h2_pi));
+#if !defined(__HPCC__)
+	PHALF2(h2tanh(h2_pi));
+	PHALF2(h2tanh_approx(h2_pi)); /* approximate hyperbolic tangent */
+#endif
+	PHALF2(h2exp(h2_pi));
+	PHALF2(h2exp10(h2_pi));
+	PHALF2(h2exp2(h2_pi));
+	PHALF2(h2log(h2_pi));
+	PHALF2(h2log10(h2_pi));
+	PHALF2(h2log2(h2_pi));
+	PHALF2(h2rcp(h2_pi)); /* reciprocal */
+	PHALF2(h2rint(h2_pi)); /* nearest integer value */
+	PHALF2(h2sqrt(h2_pi));
+	PHALF2(h2rsqrt(h2_pi)); /* reciprocal square root */
+	PHALF2(h2trunc(h2_pi));
+}
+
 int main(int argc, char *argv[])
 {
 	dim3 grid1(1), grid(10);
@@ -507,6 +534,7 @@ int main(int argc, char *argv[])
 				sizeof(half2), NULL);
 #endif
 	k_half2_comparision<<<1, 1>>>();
+	k_half2_math<<<1, 1>>>();
 
 	(void)cudaDeviceSynchronize();
 	return 0;
