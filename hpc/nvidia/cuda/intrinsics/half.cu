@@ -387,6 +387,61 @@ __global__ void k_half2_arithmetic_atomicAdd(void)
 }
 #endif
 
+__global__ void k_half2_comparision(void)
+{
+	half h_1, h_2, h_3;
+	half2 h2_1, h2_2, h2_3;
+
+	PHALF((h_1 = __float2half(1)));
+	PHALF((h_2 = __float2half(2)));
+	PHALF((h_3 = __float2half(3)));
+	PHALF2((h2_1 = __half2half2(h_1)));
+	PHALF2((h2_2 = __half2half2(h_2)));
+	PHALF2((h2_3 = __half2half2(h_3)));
+
+	PBOOL(__hbeq2(h2_1, h2_1)); /* if-equal comparison */
+	PBOOL(__hbeq2(h2_1, h2_2));
+	PBOOL(__hbequ2(h2_1, h2_1)); /* unordered if-equal comparison */
+	PBOOL(__hbequ2(h2_1, h2_2));
+	PBOOL(__hbge2(h2_1, h2_2));
+	PBOOL(__hbgeu2(h2_2, h2_1));
+	PBOOL(__hbgt2(h2_1, h2_2));
+	PBOOL(__hbgtu2(h2_2, h2_1));
+	PBOOL(__hble2(h2_1, h2_2));
+	PBOOL(__hbleu2(h2_2, h2_1));
+	PBOOL(__hblt2(h2_1, h2_2));
+	PBOOL(__hbltu2(h2_2, h2_1));
+	PBOOL(__hbne2(h2_1, h2_2));
+	PBOOL(__hbneu2(h2_2, h2_1));
+
+	PHALF2(__heq2(h2_1, h2_1));
+	PHALF2(__heq2(h2_1, h2_2));
+#if !defined(__HPCC__)
+	PINT(__heq2_mask(h2_1, h2_1));
+	PINT(__heq2_mask(h2_1, h2_2));
+#endif
+	PHALF2(__hequ2(h2_1, h2_1));
+#if !defined(__HPCC__)
+	PINT(__hequ2_mask(h2_1, h2_1));
+#endif
+	PHALF2(__hge2(h2_1, h2_1));
+#if !defined(__HPCC__)
+	PINT(__hge2_mask(h2_1, h2_1));
+#endif
+	PHALF2(__hgeu2(h2_1, h2_1));
+#if !defined(__HPCC__)
+	PINT(__hgeu2_mask(h2_1, h2_1));
+#endif
+	PHALF2(__hgt2(h2_1, h2_1));
+#if !defined(__HPCC__)
+	PINT(__hgt2_mask(h2_1, h2_1));
+#endif
+	PHALF2(__hgtu2(h2_1, h2_1));
+#if !defined(__HPCC__)
+	PINT(__hgtu2_mask(h2_1, h2_1));
+#endif
+}
+
 int main(int argc, char *argv[])
 {
 	dim3 grid1(1), grid(10);
@@ -413,6 +468,7 @@ int main(int argc, char *argv[])
 	(void)cudaLaunchKernel((void *)k_half2_arithmetic_atomicAdd, grid1, block1, NULL,
 				sizeof(half2), NULL);
 #endif
+	k_half2_comparision<<<1, 1>>>();
 
 	(void)cudaDeviceSynchronize();
 	return 0;
