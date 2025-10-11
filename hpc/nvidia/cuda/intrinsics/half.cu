@@ -390,14 +390,16 @@ __global__ void k_half2_arithmetic_atomicAdd(void)
 __global__ void k_half2_comparision(void)
 {
 	half h_1, h_2, h_3;
-	half2 h2_1, h2_2, h2_3;
+	half2 h2_1, h2_2, h2_3, h2_nan;
 
 	PHALF((h_1 = __float2half(1)));
 	PHALF((h_2 = __float2half(2)));
 	PHALF((h_3 = __float2half(3)));
+
 	PHALF2((h2_1 = __half2half2(h_1)));
 	PHALF2((h2_2 = __half2half2(h_2)));
 	PHALF2((h2_3 = __half2half2(h_3)));
+	PHALF2((h2_nan = __half2half2(CUDART_NAN_FP16)));
 
 	PBOOL(__hbeq2(h2_1, h2_1)); /* if-equal comparison */
 	PBOOL(__hbeq2(h2_1, h2_2));
@@ -464,6 +466,16 @@ __global__ void k_half2_comparision(void)
 #if !defined(__HPCC__)
 	PINT(__hneu2_mask(h2_1, h2_1));
 #endif
+
+	PHALF2(__hisnan2(h2_1));
+	PHALF2(__hisnan2(h2_nan));
+
+	PHALF2(__hmax2(h2_1, h2_2));
+	PHALF2(__hmax2(h2_1, h2_nan));
+	PHALF2(__hmax2_nan(h2_1, h2_nan));
+	PHALF2(__hmin2(h2_1, h2_2));
+	PHALF2(__hmin2(h2_1, h2_nan));
+	PHALF2(__hmin2_nan(h2_1, h2_nan));
 }
 
 int main(int argc, char *argv[])
