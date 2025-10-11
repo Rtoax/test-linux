@@ -12,11 +12,11 @@ int main(void)
 	 */
 	cudaGetDevice(&dev_id);
 	cudaGetDeviceCount(&count);
-	printf("dev %d, count %d\n", dev_id, count);
+	printf("default running on dev %d/%d\n", dev_id, count);
 
 	cudaSetDevice(1);
 	cudaGetDevice(&dev_id);
-	printf("dev %d\n", dev_id);
+	printf("running on dev %d\n", dev_id);
 
 	return 0;
 }
