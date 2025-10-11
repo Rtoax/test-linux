@@ -338,21 +338,32 @@ __global__ void k_half2_arithmetic(void)
 	PHALF2(__h2div(h2_1, h2_2));
 	PHALF2(__habs2(h2_1));
 	PHALF2(__hadd2(h2_1, h2_2));
+#if !defined(__HIPCC__)
 	PHALF2(__hadd2_rn(h2_1, h2_2)); /* rn: round-to-nearest-even */
+#endif
 	PHALF2(__hadd2_sat(h2_1, h2_2)); /* round-to-nearest-even mode, with saturation to [0.0, 1.0]. */
+#if !defined(__HIPCC__)
 	PHALF2(__hcmadd(h2_1, h2_2, h2_3));
+#endif
 	PHALF2(__hfma2(h2_1, h2_2, h2_3));
+#if !defined(__HIPCC__)
 	PHALF2(__hfma2_relu(h2_1, h2_2, h2_3));
+#endif
 	PHALF2(__hfma2_sat(h2_1, h2_2, h2_3));
 	PHALF2(__hmul2(h2_1, h2_2));
+#if !defined(__HIPCC__)
 	PHALF2(__hmul2_rn(h2_1, h2_2));
+#endif
 	PHALF2(__hmul2_sat(h2_1, h2_2));
 	PHALF2(__hneg2(h2_1));
 	PHALF2(__hsub2(h2_1, h2_2));
+#if !defined(__HIPCC__)
 	PHALF2(__hsub2_rn(h2_1, h2_2));
+#endif
 	PHALF2(__hsub2_sat(h2_1, h2_2));
 }
 
+#if !defined(__HIPCC__)
 __global__ void k_half2_arithmetic_atomicAdd(void)
 {
 	extern __shared__ half2 shareHalf2[1];
@@ -374,6 +385,7 @@ __global__ void k_half2_arithmetic_atomicAdd(void)
 		PHALF2(shareHalf2[0]);
 	}
 }
+#endif
 
 int main(int argc, char *argv[])
 {
@@ -397,8 +409,10 @@ int main(int argc, char *argv[])
 
 	k_half2_arithmetic<<<1, 1>>>();
 
+#if !defined(__HIPCC__)
 	(void)cudaLaunchKernel((void *)k_half2_arithmetic_atomicAdd, grid1, block1, NULL,
 				sizeof(half2), NULL);
+#endif
 
 	(void)cudaDeviceSynchronize();
 	return 0;
