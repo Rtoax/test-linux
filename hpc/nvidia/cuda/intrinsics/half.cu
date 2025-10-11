@@ -490,7 +490,7 @@ __global__ void k_half2_math(void)
 	PHALF2(h2floor(h2_pi));
 	PHALF2(h2cos(h2_pi));
 	PHALF2(h2sin(h2_pi));
-#if !defined(__HPCC__)
+#if !defined(__HPCC__) && !defined(__HIPCC__)
 	PHALF2(h2tanh(h2_pi));
 	PHALF2(h2tanh_approx(h2_pi)); /* approximate hyperbolic tangent */
 #endif
