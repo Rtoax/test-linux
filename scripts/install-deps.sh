@@ -658,6 +658,7 @@ pkgs_container+=( containerd )
 pkgs_container+=( crun )
 pkgs_container+=( debootstrap ) # make rootfs
 pkgs_container+=( lxc )
+pkgs_container+=( multistrap ) # make rootfs
 pkgs_container+=( podman )
 pkgs_container+=( podman-docker )
 pkgs_container+=( runc )

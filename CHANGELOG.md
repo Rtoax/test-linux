@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 #### Added
 - make: add MAKECMDGOALS.mk, filter-out.mk;
+- rootfs: add multistrap.sh to build rootfs for ubuntu;
 #### Changed
 #### Deprecated
 #### Removed
