@@ -19,9 +19,9 @@ readonly RST="\033[m"
 
 readonly WHERE_AM_I=$(dirname $(realpath $0))
 
-. ${WHERE_AM_I}/../../qemu/libqemu.sh
+. ${WHERE_AM_I}/libqemu.sh
 
-readonly prog=qemu-rootfs.sh
+readonly prog=qemu-vm.sh
 readonly qemu=$(get_qemu_kvm_emulator)
 
 q_vm_name=$(mktemp -u vm-XXXXXX)

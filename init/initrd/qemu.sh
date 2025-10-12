@@ -1,1 +1,1 @@
-../rootfs/qemu.sh
+../../qemu/qemu-vm.sh

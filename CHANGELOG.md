@@ -15,6 +15,7 @@ and this project adheres to
 - make: add MAKECMDGOALS.mk, filter-out.mk;
 - rootfs: add multistrap.sh to build rootfs for ubuntu;
 #### Changed
+- Move rootfs/qemu.sh to qemu/qemu-vm.sh;
 #### Deprecated
 #### Removed
 #### Fixed

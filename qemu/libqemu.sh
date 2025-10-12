@@ -51,4 +51,3 @@ get_qemu_kvm_emulator_arch()
 	find_qemu_emulator ${qemu_kvm_possible_emulators[@]}
 	return 0
 }
-
