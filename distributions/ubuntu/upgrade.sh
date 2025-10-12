@@ -13,3 +13,6 @@ sudo do-release-upgrade -c
 # It is recommended to upgrade the system using the do-release-upgrade command
 # on Server edition and cloud images.
 sudo do-release-upgrade -d
+
+# Then, do the upgrade
+sudo apt upgrade --fix-broken
