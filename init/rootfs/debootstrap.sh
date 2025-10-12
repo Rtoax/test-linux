@@ -7,7 +7,12 @@ set -ex
 # amd64, arm64, loong64, etc.
 darch=
 [[ ${DARCH} ]] && darch=${DARCH}
-[[ -z ${darch} ]] && darch=arm64
+if [[ -z ${darch} ]]; then
+	case $(uname -m) in
+	x86_64) darch=amd64 ;;
+	aarch64) darch=arm64 ;;
+	esac
+fi
 
 mkdir rootfs-${darch}
 
