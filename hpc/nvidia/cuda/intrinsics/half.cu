@@ -143,8 +143,7 @@ __global__ void k_half_math(void)
 	PHALF(hfloor(f16));
 	PHALF(hcos(f16));
 	PHALF(hsin(f16));
-/* FIXME: hpcc don't have them */
-#if !defined(__HPCC__) && !defined(__HIPCC__)
+#if !defined(__HPCC__) && !defined(__HIPCC__) && CUDA_VERSION >= 13000
 	PHALF(htanh(f16));
 	PHALF(htanh_approx(f16));
 #endif
@@ -468,7 +467,7 @@ __global__ void k_half2_math(void)
 	PHALF2(h2floor(h2_pi));
 	PHALF2(h2cos(h2_pi));
 	PHALF2(h2sin(h2_pi));
-#if !defined(__HPCC__) && !defined(__HIPCC__)
+#if !defined(__HPCC__) && !defined(__HIPCC__) && CUDA_VERSION >= 13000
 	PHALF2(h2tanh(h2_pi));
 	PHALF2(h2tanh_approx(h2_pi)); /* approximate hyperbolic tangent */
 #endif
