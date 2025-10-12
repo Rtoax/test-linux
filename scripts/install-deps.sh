@@ -144,7 +144,7 @@ dnf_upgrade()
 apt_upgrade()
 {
 	inst_eval apt update -y || :
-	inst_eval apt list --upgradable || :
+	inst_eval apt list --upgradable | cat || :
 	inst_eval apt upgrade --fix-missing -y || {
 		echo "WARNING: Failed to upgrade"
 		true
@@ -582,7 +582,7 @@ pkgs_base+=( jq )
 pkgs_base+=( lshw )                 # lshw
 pkgs_base+=( make cmake )
 pkgs_base+=( nasm )                 # nasm
-if [[ $(is_os fedora:40 fedora:41 fedora:42) ]]; then
+if [[ $(is_os fedora:40 fedora:41 fedora:42 ubuntu:25.10) ]]; then
 	pkgs_base+=( fastfetch )
 	if [[ $(is_os fedora:42) ]]; then
 		pkgs_skip+=( neofetch )
