@@ -26,7 +26,8 @@ raw2qcow2()
 	qemu-img convert -f raw -O qcow2 disk.raw disk.qcow2
 }
 
-qcow2_installer()
+# Write qcow2 to target disk
+qcow2_ironic_deployer()
 {
 	local target_disk_dev=/dev/vdb
 	local src_qcow2=a.qcow2
