@@ -2,6 +2,7 @@
  * CXL Fixed Memory Window Structure (CFMWS)
  * Since CXL 3.0
  */
+#pragma once
 #include <stdint.h>
 
 struct cfmws {
