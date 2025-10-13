@@ -61,6 +61,7 @@ ifdef HAVE_HIP
   rocm-hipcc += hipGetDeviceCount
   rocm-hipcc += hipDeviceGetP2PAttribute
   rocm-hipcc += __GNUC__
+  rocm-hipcc += __STDC__
 
   # RCCL
   ifdef HAVE_RCCL
@@ -206,6 +207,7 @@ hello-hip: ${OUTPUT}hello.hip.o ${HIP_HELPERS}
 ${OUTPUT}dim3.hip.o: dim3.cu
 dim3-hip: ${OUTPUT}dim3.hip.o ${HIP_HELPERS}
 __GNUC__-hip: ${OUTPUT}__GNUC__.hip.o ${HIP_HELPERS}
+__STDC__-hip: ${OUTPUT}__STDC__.hip.o ${HIP_HELPERS}
 ${OUTPUT}fft.hip.o: fft.cu
 fft-hip: ${OUTPUT}fft.hip.o ${HIP_HELPERS}
 ${OUTPUT}blas.hip.o: blas.cu
