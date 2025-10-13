@@ -204,7 +204,7 @@ __global__ void k_bfloat16_precision_conversion(void)
 #endif
 	__nv_bfloat16 bf16_5((short)5U);
 	__nv_bfloat16 bf16_51((unsigned short)5U);
-#if !defined(__HPCC__)
+#if !defined(__HIPCC__) && !defined(__HPCC__)
 	__nv_bfloat16 bf16_6(half_pi);
 #endif
 
