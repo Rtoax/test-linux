@@ -56,16 +56,19 @@ __global__ void k_half_arithmetic(void)
 
 	PHALF(__habs(h1));
 	PHALF(__hadd(h1, h2));
+	PHALF((h1 + h2));
 #if !defined(__HIPCC__)
 	PHALF(__hadd_rn(h1, h2));
 #endif
 	PHALF(__hdiv(h1, h2));
+	PHALF((h1 / h2));
 	PHALF(__hfma(h1, h2, h3));	/* (a x b) + c */
 #if !defined(__HIPCC__)
 	PHALF(__hfma_relu(h1, h2, h3));
 #endif
 	PHALF(__hfma_sat(h1, h2, h3));
 	PHALF(__hmul(h1, h2));
+	PHALF((h1 * h2));
 #if !defined(__HIPCC__)
 	PHALF(__hmul_rn(h1, h2));
 #endif
@@ -313,8 +316,10 @@ __global__ void k_half2_arithmetic(void)
 	PHALF2((h2_3 = __half2half2(h)));
 
 	PHALF2(__h2div(h2_1, h2_2));
+	PHALF2((h2_1 / h2_2));
 	PHALF2(__habs2(h2_1));
 	PHALF2(__hadd2(h2_1, h2_2));
+	PHALF2((h2_1 + h2_2));
 #if !defined(__HIPCC__)
 	PHALF2(__hadd2_rn(h2_1, h2_2)); /* rn: round-to-nearest-even */
 #endif
@@ -328,6 +333,7 @@ __global__ void k_half2_arithmetic(void)
 #endif
 	PHALF2(__hfma2_sat(h2_1, h2_2, h2_3));
 	PHALF2(__hmul2(h2_1, h2_2));
+	PHALF2((h2_1 * h2_2));
 #if !defined(__HIPCC__)
 	PHALF2(__hmul2_rn(h2_1, h2_2));
 #endif
