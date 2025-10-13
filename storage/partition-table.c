@@ -1,6 +1,8 @@
 /**
  * Read and parse block information
  *
+ * Copyright (c) 2023-2025 Rong Tao
+ *
  * table:
  * - MBR: master boot record
  * - gpt: GUID partition table
