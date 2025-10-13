@@ -1,3 +1,5 @@
 /half-nv
 /half-hip
 /half-hpcc
+/bfloat16-nv
+/bfloat16-hip

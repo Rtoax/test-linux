@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- cuda/intrinsics: add test bfloat16.cu;
 - ubuntu: add sources.list.d/ubuntu25.04.sources;
 - make: add MAKECMDGOALS.mk, filter-out.mk;
 - rootfs: add multistrap.sh to build rootfs for ubuntu;
