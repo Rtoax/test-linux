@@ -278,4 +278,5 @@ fft-hpcc: ${OUTPUT}fft.hpcc.o ${HPCC_HELPERS}
 sparse-hpcc: ${OUTPUT}sparse.hpcc.o ${HPCC_HELPERS}
 __GNUC__-hpcc: ${OUTPUT}__GNUC__.hpcc.o ${HPCC_HELPERS}
 __STDC__-hpcc: ${OUTPUT}__STDC__.hpcc.o ${HPCC_HELPERS}
+${OUTPUT}float.hpcc.o: float.cu
 float-hpcc: ${OUTPUT}float.hpcc.o

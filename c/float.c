@@ -117,16 +117,12 @@
 # define compat_half2float(v)	((float)v)
 # define compat_float2half(v)	((_Float16)v)
 # define compat_fp16_exp2(v) exp2f(v)
-# define compat_fp16_mul(a, b) (a * b)
-# define compat_fp16_add(a, b) (a + b)
 #elif defined(HAVE_CUDA)
 # define SUPPORT_FP16
 # define compat_fp16	half
 # define compat_half2float(v)	__half2float(v)
 # define compat_float2half(v)	__float2half(v)
 # define compat_fp16_exp2(v) hexp2(v)
-# define compat_fp16_mul(a, b) __hmul(a, b)
-# define compat_fp16_add(a, b) __hadd(a, b)
 #endif
 
 #ifdef SUPPORT___bf16
@@ -566,7 +562,7 @@ compat_fp16 __mydevice__ fp16_to_float16(const fp16_t *fp16)
 		fra = compat_float2half(1 + fraction_value(fp16->fraction, 10));
 	}
 
-	return compat_fp16_mul(sign, compat_fp16_mul(e2, fra));
+	return sign * e2 * fra;
 }
 
 void __myglobal__ __kernel_check_fp16(compat_fp16 f)
@@ -817,13 +813,13 @@ void __myglobal__ __kernel_init_all_fp16_arr(size_t size, float init)
 
 void __myglobal__ __kernel_overflow_mul_fp16(void)
 {
-	data_fp16.f16 = compat_fp16_mul(data_fp16.f16, data_fp16_bias.f16);
+	data_fp16.f16 *= data_fp16_bias.f16;
 	rslt_fp32.f32 += compat_half2float(data_fp16_bias.f16);
 }
 
 void __myglobal__ __kernel_overflow_add_fp16(void)
 {
-	data_fp16.f16 = compat_fp16_add(data_fp16.f16, data_fp16_bias.f16);
+	data_fp16.f16 += data_fp16_bias.f16;
 	rslt_fp32.f32 += compat_half2float(data_fp16_bias.f16);
 }
 
@@ -832,9 +828,9 @@ void __myglobal__ __kernel_overflow_muladd_fp16(size_t loop, size_t interval)
 	compat_fp16 tmp;
 
 	for (size_t i = 0; i < loop; i += interval) {
-		tmp = compat_fp16_mul(data_fp16.f16, data_fp16_bias.f16);
+		tmp = data_fp16.f16 * data_fp16_bias.f16;
 
-		data_fp16.f16 = compat_fp16_add(data_fp16.f16, tmp);
+		data_fp16.f16 += tmp;
 
 		rslt_fp32.f32 += compat_half2float(tmp);
 	}
@@ -845,9 +841,9 @@ void __myglobal__ __kernel_overflow_muladd_fp16_arr(size_t len, size_t interval)
 	compat_fp16 tmp;
 
 	for (size_t j = 0; j < len; j += interval) {
-		tmp = compat_fp16_mul(data_fp16_arr[j].f16, data_fp16_bias_arr[j].f16);
+		tmp = data_fp16_arr[j].f16 * data_fp16_bias_arr[j].f16;
 
-		data_fp16.f16 = compat_fp16_add(data_fp16.f16, tmp);
+		data_fp16.f16 += tmp;
 
 		rslt_fp32.f32 += compat_half2float(tmp);
 	}
