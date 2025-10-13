@@ -52,7 +52,7 @@ ifdef HAVE_HIP
   rocm-hipcc += module
   rocm-hipcc += float
   rocm-hipcc += cooperative
-  rocm-hipcc += matrix-fp32
+  rocm-hipcc += matrix-fp16 matrix-fp32 matrix-fp64 matrix-int8
   rocm-hipcc += hipEvent
   rocm-hipcc += hipMalloc
   rocm-hipcc += hipMallocManaged
@@ -150,7 +150,10 @@ CFLAGS_HIPCC := -I/usr/include/c++/15/x86_64-redhat-linux/
 CFLAGS_HIPCC += -I.
 CFLAGS_HIPCC += -Wno-unused-result
 
+CFLAGS_HIPCC_matrix-fp64 := -DTEST_FP64=1
 CFLAGS_HIPCC_matrix-fp32 := -DTEST_FP32=1
+CFLAGS_HIPCC_matrix-fp16 := -DTEST_FP16=1
+CFLAGS_HIPCC_matrix-int8 := -DTEST_INT8=1
 
 CFLAGS_HTCC := -Wno-c99-designator
 # Remove default so search directory, see ldflags: -Wl,-rpath,/path/to/so/
@@ -233,8 +236,14 @@ ${OUTPUT}hipMalloc.hip.o: cudaMalloc.cu
 hipMalloc-hip: ${OUTPUT}hipMalloc.hip.o ${HIP_HELPERS}
 ${OUTPUT}hipMallocManaged.hip.o: cudaMallocManaged.cu
 hipMallocManaged-hip: ${OUTPUT}hipMallocManaged.hip.o ${HIP_HELPERS}
+${OUTPUT}matrix-fp16.hip.o: matrix.cu
+matrix-fp16-hip: ${OUTPUT}matrix-fp16.hip.o ${HIP_HELPERS}
 ${OUTPUT}matrix-fp32.hip.o: matrix.cu
 matrix-fp32-hip: ${OUTPUT}matrix-fp32.hip.o ${HIP_HELPERS}
+${OUTPUT}matrix-fp64.hip.o: matrix.cu
+matrix-fp64-hip: ${OUTPUT}matrix-fp64.hip.o ${HIP_HELPERS}
+${OUTPUT}matrix-int8.hip.o: matrix.cu
+matrix-int8-hip: ${OUTPUT}matrix-int8.hip.o ${HIP_HELPERS}
 ${OUTPUT}hipGetDeviceProperties.hip.o: matrix.cu
 hipGetDeviceProperties-hip: ${OUTPUT}hipGetDeviceProperties.hip.o ${HIP_HELPERS}
 ${OUTPUT}hipGetDeviceCount.hip.o: cudaGetDeviceCount.cu
