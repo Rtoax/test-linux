@@ -251,6 +251,19 @@ __global__ void k_bfloat16_precision_conversion(void)
 	PBF16(__int2bfloat16_ru(1)); /* round-up */
 	PBF16(__int2bfloat16_rz(1)); /* round-towards-zero */
 #endif
+
+	PBF162(__ldca(&bf162));
+	PBF16((bf16 = __ldca(&pi)));
+	PBF162(__ldcg(&bf162));
+	PBF16((bf16 = __ldcg(&pi)));
+	PBF162(__ldcs(&bf162));
+	PBF16((bf16 = __ldcs(&pi)));
+	PBF162(__ldcv(&bf162));
+	PBF16((bf16 = __ldcv(&pi)));
+	PBF162(__ldg(&bf162));
+	PBF16((bf16 = __ldg(&pi)));
+	PBF162(__ldlu(&bf162));
+	PBF16((bf16 = __ldlu(&pi)));
 }
 
 int main(int argc, char *argv[])
