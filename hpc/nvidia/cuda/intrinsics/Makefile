@@ -30,15 +30,20 @@ endif
 
 include ../../../../template/main.mk
 
+HDRS := print.h compiler.h
+
+${OUTPUT}half.cu.o: ${HDRS}
+${OUTPUT}bfloat16.cu.o: ${HDRS}
+
 half-nv: ${OUTPUT}half.cu.o
 bfloat16-nv: ${OUTPUT}bfloat16.cu.o
 
-${OUTPUT}half.hip.o: half.cu
+${OUTPUT}half.hip.o: half.cu ${HDRS}
 half-hip: ${OUTPUT}half.hip.o
-${OUTPUT}bfloat16.hip.o: bfloat16.cu
+${OUTPUT}bfloat16.hip.o: bfloat16.cu ${HDRS}
 bfloat16-hip: ${OUTPUT}bfloat16.hip.o
 
-${OUTPUT}half.hpcc.o: half.cu
+${OUTPUT}half.hpcc.o: half.cu ${HDRS}
 half-hpcc: ${OUTPUT}half.hpcc.o
-${OUTPUT}bfloat16.hpcc.o: bfloat16.cu
+${OUTPUT}bfloat16.hpcc.o: bfloat16.cu ${HDRS}
 bfloat16-hpcc: ${OUTPUT}bfloat16.hpcc.o

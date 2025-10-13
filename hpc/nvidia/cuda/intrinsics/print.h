@@ -2,8 +2,10 @@
 #pragma once
 #include <stdio.h>
 
+#define SEP	"│" /* good looking */
+
 /* Print definitions */
-#define PPFX()	printf("L%-4d: ", __LINE__);
+#define PPFX()	printf("L%-4d" SEP " ", __LINE__);
 #define PHALF(v)	PPFX();printf("%s : %f\n", #v, __half2float(v));
 #define PHALF2(v) do {	\
 		half2 __h2 = v;	\
