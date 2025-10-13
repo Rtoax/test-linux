@@ -21,17 +21,36 @@ common-objs += __GNUC__ __STDC__
 common-objs += module
 common-objs += float
 
-ifdef HAVE_CUDA
-  targets-nvcc += cudaMalloc
-  targets-nvcc += cudaMallocManaged
-  targets-nvcc += cudaGetDeviceCount
-  targets-nvcc += cudaGetDeviceProperties
-  targets-nvcc += cudaDeviceGetP2PAttribute
-  targets-nvcc += cudaDeviceGetAttribute
-  targets-nvcc += cudaEvent
-  targets-nvcc += cublasLtMatmul
+cuda-objs := cudaMalloc
+cuda-objs += cudaMallocManaged
+cuda-objs += cudaGetDeviceCount
+cuda-objs += cudaGetDeviceProperties
+cuda-objs += cudaDeviceGetP2PAttribute
+cuda-objs += cudaDeviceGetAttribute
+cuda-objs += cudaEvent
+cuda-objs += cublasLtMatmul
 
-  targets-nvcc += ${common-objs}
+rocm-objs := hipEvent
+rocm-objs += hipMalloc
+rocm-objs += hipMallocManaged
+rocm-objs += hipblasLtMatmul
+rocm-objs += hipGetDeviceProperties
+rocm-objs += hipGetDeviceCount
+rocm-objs += hipDeviceGetAttribute
+rocm-objs += hipDeviceGetP2PAttribute
+
+htcc-objs := hcMalloc
+htcc-objs += hcMallocManaged
+htcc-objs += hcGetDeviceCount
+htcc-objs += hcGetDeviceProperties
+htcc-objs += hcDeviceGetAttribute
+htcc-objs += hcDeviceGetP2PAttribute
+htcc-objs += hcEvent
+htcc-objs += hcblasLtMatmul
+
+ifdef HAVE_CUDA
+  targets-nvcc := ${common-objs}
+  targets-nvcc += ${cuda-objs}
 
   # NCCL
   ifdef HAVE_NCCL
@@ -45,16 +64,8 @@ ifdef HAVE_CUDA
 endif
 
 ifdef HAVE_HIP
-  rocm-hipcc += hipEvent
-  rocm-hipcc += hipMalloc
-  rocm-hipcc += hipMallocManaged
-  rocm-hipcc += hipblasLtMatmul
-  rocm-hipcc += hipGetDeviceProperties
-  rocm-hipcc += hipGetDeviceCount
-  rocm-hipcc += hipDeviceGetAttribute
-  rocm-hipcc += hipDeviceGetP2PAttribute
-
-  rocm-hipcc += ${common-objs}
+  rocm-hipcc := ${common-objs}
+  rocm-hipcc += ${rocm-objs}
 
   # RCCL
   ifdef HAVE_RCCL
@@ -67,16 +78,8 @@ ifdef HAVE_HIP
 endif
 
 ifdef HAVE_HPCC
-  metax-htcc += hcMalloc
-  metax-htcc += hcMallocManaged
-  metax-htcc += hcGetDeviceCount
-  metax-htcc += hcGetDeviceProperties
-  metax-htcc += hcDeviceGetAttribute
-  metax-htcc += hcDeviceGetP2PAttribute
-  metax-htcc += hcEvent
-  metax-htcc += hcblasLtMatmul
-
-  metax-htcc += ${common-objs}
+  metax-htcc := ${common-objs}
+  metax-htcc += ${htcc-objs}
 
   # HCCL
   metax-htcc += hcclGetVersion
