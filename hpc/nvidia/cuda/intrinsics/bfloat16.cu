@@ -58,28 +58,37 @@ __global__ void k_bfloat16_arithmetic(void)
 	PBF16(__habs(neg_one));
 	PBF16(__hadd(one, pi));
 	PBF16((two + pi));
+#if !defined(__HIPCC__)
 	PBF16(__hadd_rn(one, pi)); /* round-to-nearest-even */
 	PBF16(__hadd_sat(one, pi)); /* round-to-nearest-even mode, with saturation to [0.0, 1.0] */
+#endif
 	PBF16(__hdiv(one, pi));
 	PBF16((one / pi));
 	PBF16((tmp /= pi));
 	/* FMA: x * y + z */
 	PBF16(__hfma(one, two, three)); /* fused multiply-add in round-to-nearest-even mode */
+#if !defined(__HIPCC__)
 	PBF16(__hfma_relu(one, two, three));
 	PBF16(__hfma_sat(one, two, three));
+#endif
 	PBF16(__hmul(one, pi));
 	PBF16((two * pi));
 	PBF16((tmp *= pi));
+#if !defined(__HIPCC__)
 	PBF16(__hmul_rn(one, pi));
 	PBF16(__hmul_sat(one, pi));
+#endif
 	PBF16(__hneg(one));
 	PBF16(__hsub(two, one));
 	PBF16((two - one));
 	PBF16((tmp -= one));
+#if !defined(__HIPCC__)
 	PBF16(__hsub_rn(two, one));
 	PBF16(__hsub_sat(two, one));
+#endif
 }
 
+#if !defined(__HIPCC__)
 __global__ void k_bfloat16_arithmetic_atomicAdd(void)
 {
 	extern __shared__ __nv_bfloat16 shareBfloat16[1];
@@ -94,6 +103,7 @@ __global__ void k_bfloat16_arithmetic_atomicAdd(void)
 		PBF16(shareBfloat16[0]);
 	}
 }
+#endif
 
 int main(int argc, char *argv[])
 {
@@ -104,8 +114,10 @@ int main(int argc, char *argv[])
 
 	k_bfloat16_constants<<<1, 1>>>();
 	k_bfloat16_arithmetic<<<1, 1>>>();
+#if !defined(__HIPCC__)
 	(void)cudaLaunchKernel((void *)k_bfloat16_arithmetic_atomicAdd, grid, block, NULL,
 				sizeof(__nv_bfloat16), NULL);
+#endif
 
 	(void)cudaDeviceSynchronize();
 	return 0;
