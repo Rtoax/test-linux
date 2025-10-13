@@ -142,6 +142,31 @@ __global__ void k_bfloat16_comparision(void)
 	PBOOL(__hisnan(CUDART_NAN_BF16));
 }
 
+__global__ void k_bfloat16_math(void)
+{
+	__nv_bfloat16 pi = __float2bfloat16(3.141592653f);
+
+	PBF16(hceil(pi));
+	PBF16(hfloor(pi));
+	PBF16(hcos(pi));
+	PBF16(hsin(pi));
+#if !defined(__HPCC__) && !defined(__HIPCC__) && CUDA_VERSION >= 13000
+	PBF16(htanh(pi));
+	PBF16(htanh_approx(pi));
+#endif
+	PBF16(hexp(pi));
+	PBF16(hexp2(pi));
+	PBF16(hexp10(pi));
+	PBF16(hlog(pi));
+	PBF16(hlog2(pi));
+	PBF16(hlog10(pi));
+	PBF16(hrcp(pi));
+	PBF16(hrint(pi));
+	PBF16(hsqrt(pi));
+	PBF16(hrsqrt(pi));
+	PBF16(htrunc(pi));
+}
+
 int main(int argc, char *argv[])
 {
 	dim3 grid1(1), grid(10);
@@ -156,6 +181,7 @@ int main(int argc, char *argv[])
 				sizeof(__nv_bfloat16), NULL);
 #endif
 	k_bfloat16_comparision<<<1, 1>>>();
+	k_bfloat16_math<<<1, 1>>>();
 
 	(void)cudaDeviceSynchronize();
 	return 0;
