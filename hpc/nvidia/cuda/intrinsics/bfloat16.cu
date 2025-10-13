@@ -105,6 +105,39 @@ __global__ void k_bfloat16_arithmetic_atomicAdd(void)
 }
 #endif
 
+__global__ void k_bfloat16_comparision(void)
+{
+	__nv_bfloat16 one = __float2bfloat16(1);
+	__nv_bfloat16 two = __float2bfloat16(2);
+	__nv_bfloat16 three = __float2bfloat16(3);
+	__nv_bfloat16 pi = __float2bfloat16(3.141592653f);
+
+	PBOOL(__heq(one, one));
+	PBOOL((one == one));
+	PBOOL(__hequ(one, one)); /* unordered */
+	PBOOL(__hge(one, one));
+	PBOOL((one >= one));
+	PBOOL(__hgeu(one, one));
+	PBOOL(__hgt(one, one));
+	PBOOL((one > one));
+	PBOOL(__hgtu(one, one));
+	PBOOL(__hle(one, one));
+	PBOOL((one <= one));
+	PBOOL(__hleu(one, one));
+	PBOOL(__hlt(one, one));
+	PBOOL((one < one));
+	PBOOL(__hltu(one, one));
+	PBOOL(__hne(one, one));
+	PBOOL((one != one));
+	PBOOL(__hneu(one, one));
+	PBOOL(__hmax(one, two));
+	PBOOL(__hmax_nan(one, two));
+	PBOOL(__hmin(one, two));
+	PBOOL(__hmin_nan(one, two));
+	PBOOL(__hisinf(CUDART_INF_BF16)); /* is infinite */
+	PBOOL(__hisnan(CUDART_NAN_BF16));
+}
+
 int main(int argc, char *argv[])
 {
 	dim3 grid1(1), grid(10);
@@ -118,6 +151,7 @@ int main(int argc, char *argv[])
 	(void)cudaLaunchKernel((void *)k_bfloat16_arithmetic_atomicAdd, grid, block, NULL,
 				sizeof(__nv_bfloat16), NULL);
 #endif
+	k_bfloat16_comparision<<<1, 1>>>();
 
 	(void)cudaDeviceSynchronize();
 	return 0;
