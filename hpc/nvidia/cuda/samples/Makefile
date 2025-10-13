@@ -8,45 +8,45 @@ include ../cuda.mk
 include ../../../amd/rocm/rocm.mk
 include ../../../metax/hpcc.mk
 
-common-objs := hello
-common-objs += dim3
+common-objs := blas
 common-objs += cooperative
-common-objs += parallel
-common-objs += matrix-fp16 matrix-fp32 matrix-fp64 matrix-int8
-common-objs += blas
-common-objs += rand
+common-objs += dim3
 common-objs += fft
-common-objs += sparse
-common-objs += __GNUC__ __STDC__
-common-objs += module
 common-objs += float
+common-objs += __GNUC__ __STDC__
+common-objs += hello
+common-objs += matrix-fp16 matrix-fp32 matrix-fp64 matrix-int8
+common-objs += module
+common-objs += parallel
+common-objs += rand
+common-objs += sparse
 
-cuda-objs := cudaMalloc
-cuda-objs += cudaMallocManaged
+cuda-objs := cublasLtMatmul
+cuda-objs += cudaDeviceGetAttribute
+cuda-objs += cudaDeviceGetP2PAttribute
+cuda-objs += cudaEvent
 cuda-objs += cudaGetDeviceCount
 cuda-objs += cudaGetDeviceProperties
-cuda-objs += cudaDeviceGetP2PAttribute
-cuda-objs += cudaDeviceGetAttribute
-cuda-objs += cudaEvent
-cuda-objs += cublasLtMatmul
+cuda-objs += cudaMalloc
+cuda-objs += cudaMallocManaged
 
-rocm-objs := hipEvent
-rocm-objs += hipMalloc
-rocm-objs += hipMallocManaged
-rocm-objs += hipblasLtMatmul
-rocm-objs += hipGetDeviceProperties
-rocm-objs += hipGetDeviceCount
+rocm-objs := hipblasLtMatmul
 rocm-objs += hipDeviceGetAttribute
 rocm-objs += hipDeviceGetP2PAttribute
+rocm-objs += hipEvent
+rocm-objs += hipGetDeviceCount
+rocm-objs += hipGetDeviceProperties
+rocm-objs += hipMalloc
+rocm-objs += hipMallocManaged
 
-htcc-objs := hcMalloc
-htcc-objs += hcMallocManaged
-htcc-objs += hcGetDeviceCount
-htcc-objs += hcGetDeviceProperties
+htcc-objs := hcblasLtMatmul
 htcc-objs += hcDeviceGetAttribute
 htcc-objs += hcDeviceGetP2PAttribute
 htcc-objs += hcEvent
-htcc-objs += hcblasLtMatmul
+htcc-objs += hcGetDeviceCount
+htcc-objs += hcGetDeviceProperties
+htcc-objs += hcMalloc
+htcc-objs += hcMallocManaged
 
 ifdef HAVE_CUDA
   targets-nvcc := ${common-objs}
