@@ -189,10 +189,16 @@ __global__ void k_bfloat16_precision_conversion(void)
 	__nv_bfloat16 bf16_12((unsigned int)1);
 	__nv_bfloat16 bf16_2((float)2.0f);
 	__nv_bfloat16 bf16_3((double)3.0);
-#if !defined(__HIPCC__)
+#if !defined(__HIPCC__) && !defined(__HPCC__)
 	__nv_bfloat16 bf16_4((long)4UL);
+#endif
+#if !defined(__HIPCC__)
 	__nv_bfloat16 bf16_41((long long)4UL);
+#endif
+#if !defined(__HIPCC__) && !defined(__HPCC__)
 	__nv_bfloat16 bf16_42((unsigned long)4UL);
+#endif
+#if !defined(__HIPCC__)
 	__nv_bfloat16 bf16_43((unsigned long long)4UL);
 #endif
 	__nv_bfloat16 bf16_5((short)5U);
