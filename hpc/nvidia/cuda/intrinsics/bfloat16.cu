@@ -48,6 +48,7 @@ __global__ void k_bfloat16_arithmetic(void)
 	__nv_bfloat16 three = __float2bfloat16(3);
 	__nv_bfloat16 pi = __float2bfloat16(3.141592653f);
 	__nv_bfloat16 neg_pi = __float2bfloat16(-3.141592653f);
+	__nv_bfloat16 tmp = one;
 
 	PBF16(one);
 	PBF16(neg_one);
@@ -56,18 +57,25 @@ __global__ void k_bfloat16_arithmetic(void)
 
 	PBF16(__habs(neg_one));
 	PBF16(__hadd(one, pi));
+	PBF16((two + pi));
 	PBF16(__hadd_rn(one, pi)); /* round-to-nearest-even */
 	PBF16(__hadd_sat(one, pi)); /* round-to-nearest-even mode, with saturation to [0.0, 1.0] */
 	PBF16(__hdiv(one, pi));
+	PBF16((one / pi));
+	PBF16((tmp /= pi));
 	/* FMA: x * y + z */
 	PBF16(__hfma(one, two, three)); /* fused multiply-add in round-to-nearest-even mode */
 	PBF16(__hfma_relu(one, two, three));
 	PBF16(__hfma_sat(one, two, three));
 	PBF16(__hmul(one, pi));
+	PBF16((two * pi));
+	PBF16((tmp *= pi));
 	PBF16(__hmul_rn(one, pi));
 	PBF16(__hmul_sat(one, pi));
 	PBF16(__hneg(one));
 	PBF16(__hsub(two, one));
+	PBF16((two - one));
+	PBF16((tmp -= one));
 	PBF16(__hsub_rn(two, one));
 	PBF16(__hsub_sat(two, one));
 }
