@@ -262,8 +262,10 @@ __global__ void k_bfloat16_precision_conversion(void)
 	/**
 	 * FIXME: on HPCC 3.0.0 running error, just skip it right now, see:
 	 * commit 15831f87320e ("bfloat16.cu: test ld.global.{ca,cg,cs,cv,nc,lu}")
+	 *
+	 * HIP 6.3.42133-0 don't have these functions.
 	 */
-#if !defined(__HPCC__)
+#if !defined(__HPCC__) && !defined(__HIPCC__)
 	PBF162(__ldca(&bf162));
 	PBF16((bf16 = __ldca(&pi)));
 	PBF162(__ldcg(&bf162));
@@ -278,10 +280,12 @@ __global__ void k_bfloat16_precision_conversion(void)
 	PBF16((bf16 = __ldlu(&pi)));
 #endif
 
+#if !defined(__HIPCC__)
 	PBF16(__ll2bfloat16_rd(3UL));
 	PBF16(__ll2bfloat16_rn(3UL));
 	PBF16(__ll2bfloat16_ru(3UL));
 	PBF16(__ll2bfloat16_rz(3UL));
+#endif
 }
 
 int main(int argc, char *argv[])
