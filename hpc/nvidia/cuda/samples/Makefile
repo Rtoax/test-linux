@@ -8,11 +8,20 @@ include ../cuda.mk
 include ../../../amd/rocm/rocm.mk
 include ../../../metax/hpcc.mk
 
+common-objs := hello
+common-objs += dim3
+common-objs += cooperative
+common-objs += parallel
+common-objs += matrix-fp16 matrix-fp32 matrix-fp64 matrix-int8
+common-objs += blas
+common-objs += rand
+common-objs += fft
+common-objs += sparse
+common-objs += __GNUC__ __STDC__
+common-objs += module
+common-objs += float
+
 ifdef HAVE_CUDA
-  targets-nvcc := hello
-  targets-nvcc += dim3
-  targets-nvcc += cooperative
-  targets-nvcc += parallel
   targets-nvcc += cudaMalloc
   targets-nvcc += cudaMallocManaged
   targets-nvcc += cudaGetDeviceCount
@@ -21,14 +30,8 @@ ifdef HAVE_CUDA
   targets-nvcc += cudaDeviceGetAttribute
   targets-nvcc += cudaEvent
   targets-nvcc += cublasLtMatmul
-  targets-nvcc += matrix-fp16 matrix-fp32 matrix-fp64 matrix-int8
-  targets-nvcc += blas
-  targets-nvcc += rand
-  targets-nvcc += fft
-  targets-nvcc += sparse
-  targets-nvcc += __GNUC__ __STDC__
-  targets-nvcc += module
-  targets-nvcc += float
+
+  targets-nvcc += ${common-objs}
 
   # NCCL
   ifdef HAVE_NCCL
@@ -42,17 +45,6 @@ ifdef HAVE_CUDA
 endif
 
 ifdef HAVE_HIP
-  rocm-hipcc := hello
-  rocm-hipcc += blas
-  rocm-hipcc += dim3
-  rocm-hipcc += fft
-  rocm-hipcc += sparse
-  rocm-hipcc += rand
-  rocm-hipcc += parallel
-  rocm-hipcc += module
-  rocm-hipcc += float
-  rocm-hipcc += cooperative
-  rocm-hipcc += matrix-fp16 matrix-fp32 matrix-fp64 matrix-int8
   rocm-hipcc += hipEvent
   rocm-hipcc += hipMalloc
   rocm-hipcc += hipMallocManaged
@@ -61,8 +53,8 @@ ifdef HAVE_HIP
   rocm-hipcc += hipGetDeviceCount
   rocm-hipcc += hipDeviceGetAttribute
   rocm-hipcc += hipDeviceGetP2PAttribute
-  rocm-hipcc += __GNUC__
-  rocm-hipcc += __STDC__
+
+  rocm-hipcc += ${common-objs}
 
   # RCCL
   ifdef HAVE_RCCL
@@ -75,9 +67,6 @@ ifdef HAVE_HIP
 endif
 
 ifdef HAVE_HPCC
-  metax-htcc := blas
-  metax-htcc += hello
-  metax-htcc += parallel
   metax-htcc += hcMalloc
   metax-htcc += hcMallocManaged
   metax-htcc += hcGetDeviceCount
@@ -85,17 +74,9 @@ ifdef HAVE_HPCC
   metax-htcc += hcDeviceGetAttribute
   metax-htcc += hcDeviceGetP2PAttribute
   metax-htcc += hcEvent
-  metax-htcc += dim3
-  metax-htcc += matrix-fp16 matrix-fp32 matrix-fp64 matrix-int8
   metax-htcc += hcblasLtMatmul
-  metax-htcc += rand
-  metax-htcc += fft
-  metax-htcc += sparse
-  metax-htcc += __GNUC__
-  metax-htcc += __STDC__
-  metax-htcc += float
-  metax-htcc += cooperative
-  metax-htcc += module
+
+  metax-htcc += ${common-objs}
 
   # HCCL
   metax-htcc += hcclGetVersion
