@@ -16,3 +16,6 @@ sudo do-release-upgrade -d
 
 # Then, do the upgrade
 sudo apt upgrade --fix-broken
+
+# If you can't enter the GUI after reboot, then:
+sudo apt install ubuntu-desktop
