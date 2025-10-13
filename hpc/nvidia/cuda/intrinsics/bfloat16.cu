@@ -131,9 +131,13 @@ __global__ void k_bfloat16_comparision(void)
 	PBOOL((one != one));
 	PBOOL(__hneu(one, one));
 	PBOOL(__hmax(one, two));
+#if !defined(__HIPCC__)
 	PBOOL(__hmax_nan(one, two));
+#endif
 	PBOOL(__hmin(one, two));
+#if !defined(__HIPCC__)
 	PBOOL(__hmin_nan(one, two));
+#endif
 	PBOOL(__hisinf(CUDART_INF_BF16)); /* is infinite */
 	PBOOL(__hisnan(CUDART_NAN_BF16));
 }
