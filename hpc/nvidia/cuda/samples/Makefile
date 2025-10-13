@@ -59,6 +59,7 @@ ifdef HAVE_HIP
   rocm-hipcc += hipblasLtMatmul
   rocm-hipcc += hipGetDeviceProperties
   rocm-hipcc += hipGetDeviceCount
+  rocm-hipcc += hipDeviceGetAttribute
   rocm-hipcc += hipDeviceGetP2PAttribute
   rocm-hipcc += __GNUC__
   rocm-hipcc += __STDC__
@@ -238,6 +239,8 @@ ${OUTPUT}hipGetDeviceProperties.hip.o: matrix.cu
 hipGetDeviceProperties-hip: ${OUTPUT}hipGetDeviceProperties.hip.o ${HIP_HELPERS}
 ${OUTPUT}hipGetDeviceCount.hip.o: cudaGetDeviceCount.cu
 hipGetDeviceCount-hip: ${OUTPUT}hipGetDeviceCount.hip.o ${HIP_HELPERS}
+${OUTPUT}hipDeviceGetAttribute.hip.o: cudaDeviceGetAttribute.cu
+hipDeviceGetAttribute-hip: ${OUTPUT}hipDeviceGetAttribute.hip.o ${HIP_HELPERS}
 ${OUTPUT}hipDeviceGetP2PAttribute.hip.o: cudaDeviceGetP2PAttribute.cu
 hipDeviceGetP2PAttribute-hip: ${OUTPUT}hipDeviceGetP2PAttribute.hip.o ${HIP_HELPERS}
 ${OUTPUT}ncclGetVersion.hip.o: ncclGetVersion.cu

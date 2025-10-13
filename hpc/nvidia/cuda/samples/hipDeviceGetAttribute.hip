@@ -1,2 +1,2 @@
-#define __USE_HPCC__	1
+#define __USE_HIP__	1
 #include "cudaDeviceGetAttribute.cu"

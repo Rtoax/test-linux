@@ -43,6 +43,7 @@
 /hipDeviceGetP2PAttribute-hip
 /hipEvent-hip
 /hipGetDeviceCount-hip
+/hipDeviceGetAttribute-hip
 /hipGetDeviceProperties-hip
 /hipMalloc-hip
 /hipMallocManaged-hip
