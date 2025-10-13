@@ -45,7 +45,6 @@
 #include <hipblas/hipblas.h>
 #include <hipblaslt/hipblaslt.h>
 #include <hip/hip_fp16.h>
-#include <hip/hip_bf16.h>
 #ifdef HAVE_RCCL
 # include <rccl/rccl.h>
 #endif
