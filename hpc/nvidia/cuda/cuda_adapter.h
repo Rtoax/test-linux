@@ -1722,11 +1722,24 @@
 
 /**
  * bfloat16
+ *
+ * typedef struct __CUDA_ALIGN__(2) {
+ *   unsigned short x;
+ * } __nv_bfloat16_raw;
+ *
+ * typedef struct __CUDA_ALIGN__(4) {
+ *   unsigned short x;
+ *   unsigned short y;
+ * } __nv_bfloat162_raw;
  */
 #if defined(__USE_HPCC__)
 # define __nv_bfloat16	__hpcc_bfloat16
+# define __nv_bfloat16_raw	__hpcc_bfloat16_raw
 # define __nv_bfloat162	__hpcc_bfloat162
+# define __nv_bfloat162_raw	__hpcc_bfloat162_raw
 #elif defined(__USE_HIP__)
 # define __nv_bfloat16	__hip_bfloat16
+# define __nv_bfloat16_raw	__hip_bfloat16_raw
 # define __nv_bfloat162	__hip_bfloat162
+# define __nv_bfloat162_raw	__hip_bfloat162_raw
 #endif
