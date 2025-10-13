@@ -16,7 +16,9 @@
 #include <malloc.h>
 #include <time.h>
 
-#if defined(HAVE_HPCC) || defined(HAVE_HIP) || defined(HAVE_CUDA)
+/* Compatiable CUDA software stack */
+#if defined(__NVCC__) || defined(__HIPCC__) || defined(__HPCC__)
+# define SUPPORT_CUDA_SYNOPSIS	1
 #include "cuda_compat.h"
 #include "cuda_helpers.h"
 #else	/* pure C */
@@ -52,11 +54,6 @@
 # define TRVAL(v)	(v * 1.0f)
 #else
 # error "ERROR: Must define one of TEST_FP16, TEST_FP32, TEST_FP64, TEST_INT8"
-#endif
-
-/* Compatiable CUDA software stack */
-#if defined(HAVE_HPCC) || defined(HAVE_HIP) || defined(HAVE_CUDA)
-# define HAVE_CUDA_LIKE	1
 #endif
 
 #define NS2US	1000UL
@@ -104,11 +101,11 @@ struct {
 };
 
 const char *version = "v1.0.3 "
-#if defined(HAVE_HPCC)
+#if defined(__HPCC__)
 	"(GPU MetaX)"
-#elif defined(HAVE_HIP)
+#elif defined(__HIPCC__)
 	"(GPU AMD)"
-#elif defined(HAVE_CUDA)
+#elif defined(__NVCC__)
 	"(GPU Nvidia)"
 #else
 	"(CPU)"
@@ -268,7 +265,7 @@ __global__ void matrix_mul(TYPE *A, TYPE *B, TYPE *C, TYPE *D,
 {
 	unsigned long ic, in, im;
 
-#if defined(HAVE_CUDA_LIKE)
+#if defined(SUPPORT_CUDA_SYNOPSIS)
 	ic = threadIdx.x + blockDim.x * blockIdx.x;
 	if (ic >= m * n)
 		return;
@@ -281,7 +278,7 @@ __global__ void matrix_mul(TYPE *A, TYPE *B, TYPE *C, TYPE *D,
 
 		dev_matrix_mul_inner(A, B, C, D, alpha, beta, m, im, k, n, in, nocal);
 	}
-#if defined(HAVE_CUDA_LIKE)
+#if defined(SUPPORT_CUDA_SYNOPSIS)
 	__syncthreads();
 #endif
 }
@@ -293,7 +290,7 @@ __global__ void matrix_mul_2d(TYPE *A, TYPE *B, TYPE *C, TYPE *D,
 {
 	unsigned long in, im;
 
-#if defined(HAVE_CUDA_LIKE)
+#if defined(SUPPORT_CUDA_SYNOPSIS)
 	in = threadIdx.x + blockDim.x * blockIdx.x;
 	im = threadIdx.y + blockDim.y * blockIdx.y;
 	if (in >= n || im >= m)
@@ -307,7 +304,7 @@ __global__ void matrix_mul_2d(TYPE *A, TYPE *B, TYPE *C, TYPE *D,
 #endif
 		dev_matrix_mul_inner(A, B, C, D, alpha, beta, m, im, k, n, in, nocal);
 	}
-#if defined(HAVE_CUDA_LIKE)
+#if defined(SUPPORT_CUDA_SYNOPSIS)
 	__syncthreads();
 #endif
 }
@@ -336,7 +333,7 @@ __global__ void vector_mul(TYPE *A, TYPE *B, TYPE *C, TYPE alpha,
 {
 	unsigned long i;
 
-#if defined(HAVE_CUDA_LIKE)
+#if defined(SUPPORT_CUDA_SYNOPSIS)
 	i = threadIdx.x + blockDim.x * blockIdx.x;
 	if (i >= N)
 		return;
@@ -352,7 +349,7 @@ __global__ void vector_mul(TYPE *A, TYPE *B, TYPE *C, TYPE alpha,
 #endif
 		}
 	}
-#if defined(HAVE_CUDA_LIKE)
+#if defined(SUPPORT_CUDA_SYNOPSIS)
 	__syncthreads();
 #endif
 }
@@ -403,7 +400,7 @@ int main(int argc, char *argv[])
 	unsigned long start, cal_ns, total_ns;
 	int err = 0;
 	double flops;
-#if defined(HAVE_CUDA_LIKE)
+#if defined(SUPPORT_CUDA_SYNOPSIS)
 	unsigned long malloc_ns, h2d_ns, d2h_ns, kern_gpu_ns, kern_nocal_ns;
 	TYPE *dev_A, *dev_B, *dev_C, *dev_D;
 	cudaEvent_t ev_start, ev_stop;
@@ -460,7 +457,7 @@ int main(int argc, char *argv[])
 	print_matrix(host_C, env.n, env.m);
 #endif
 
-#if defined(HAVE_CUDA_LIKE)
+#if defined(SUPPORT_CUDA_SYNOPSIS)
 
 	block1.x = 512;
 	grid1.x = (env.m * env.n + block1.x - 1) / block1.x;
@@ -503,13 +500,13 @@ int main(int argc, char *argv[])
 #endif
 
 	start = nsecs();
-#if defined(HAVE_CUDA_LIKE)
+#if defined(SUPPORT_CUDA_SYNOPSIS)
 	cudaEventRecord(ev_start, NULL);
 #endif
 
 	/* Stress test */
 	for (iloop = 0; iloop < env.nloop; iloop++) {
-#if defined(HAVE_CUDA_LIKE)
+#if defined(SUPPORT_CUDA_SYNOPSIS)
 # define DIM	<<<grid1, block1>>>
 # define DIM2	<<<grid2, block2>>>
 
@@ -538,7 +535,7 @@ int main(int argc, char *argv[])
 #endif
 	}
 
-#if defined(HAVE_CUDA_LIKE)
+#if defined(SUPPORT_CUDA_SYNOPSIS)
 	cudaEventRecord(ev_stop, NULL);
 	cudaEventSynchronize(ev_stop);
 	float t_ms;
@@ -547,7 +544,7 @@ int main(int argc, char *argv[])
 #endif
 	cal_ns = nsecs() - start;
 
-#if defined(HAVE_CUDA_LIKE)
+#if defined(SUPPORT_CUDA_SYNOPSIS)
 	/**
 	 * The call of GPU kernel function will have a large overhead.
 	 */
@@ -577,7 +574,7 @@ int main(int argc, char *argv[])
 #endif
 
 
-#if defined(HAVE_CUDA_LIKE)
+#if defined(SUPPORT_CUDA_SYNOPSIS)
 	start = nsecs();
 	cudaMemcpy(host_C, dev_C, sizeof(TYPE) * env.m * env.n, cudaMemcpyDeviceToHost);
 	cudaMemcpy(host_D, dev_D, sizeof(TYPE) * env.m * env.n, cudaMemcpyDeviceToHost);
@@ -616,7 +613,7 @@ int main(int argc, char *argv[])
 		}
 	}
 
-#if defined(HAVE_CUDA_LIKE)
+#if defined(SUPPORT_CUDA_SYNOPSIS)
 	cudaFree(dev_A);
 	cudaFree(dev_B);
 	cudaFree(dev_C);
@@ -654,11 +651,11 @@ int main(int argc, char *argv[])
 
 	if (env.verbose) {
 		printf("%-4s %-4s %-4s %-8s ", "M", "K", "N", "NLOOP");
-#if defined(HAVE_CUDA_LIKE)
+#if defined(SUPPORT_CUDA_SYNOPSIS)
 		printf("%-8s %-8s ", "ALLOC", "H2D");
 #endif
 		printf("%-12s ", "CAL");
-#if defined(HAVE_CUDA_LIKE)
+#if defined(SUPPORT_CUDA_SYNOPSIS)
 		printf("%-12s ", "KERN_NOCAL");
 		printf("%-12s ", "KERN_GPU");
 		printf("%-12s ", "D2H");
@@ -668,13 +665,13 @@ int main(int argc, char *argv[])
 
 	total_ns = 0;
 	printf("%-4ld %-4ld %-4ld %-8ld ", env.m, env.k, env.n, env.nloop);
-#if defined(HAVE_CUDA_LIKE)
+#if defined(SUPPORT_CUDA_SYNOPSIS)
 	total_ns += malloc_ns + h2d_ns;
 	printf("%-8ld %-8ld ", malloc_ns / env.unit_time, h2d_ns / env.unit_time);
 #endif
 	total_ns += cal_ns;
 	printf("%-12ld ", cal_ns / env.unit_time);
-#if defined(HAVE_CUDA_LIKE)
+#if defined(SUPPORT_CUDA_SYNOPSIS)
 	printf("%-12ld ", kern_nocal_ns / env.unit_time);
 	printf("%-12ld ", kern_gpu_ns / env.unit_time);
 	total_ns += d2h_ns;
@@ -683,7 +680,7 @@ int main(int argc, char *argv[])
 	printf("%-12ld ", total_ns / env.unit_time);
 
 	unsigned long flops_ns;
-#if defined(HAVE_CUDA_LIKE)
+#if defined(SUPPORT_CUDA_SYNOPSIS)
 	flops_ns = kern_gpu_ns; /* Contain kernel call latency */
 #else
 	flops_ns = cal_ns;
