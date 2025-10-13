@@ -25,6 +25,7 @@ endif
 
 ifdef HAVE_HPCC
   targets-htcc := half-hpcc
+  targets-htcc += bfloat16-hpcc
 endif
 
 include ../../../../template/main.mk
@@ -39,3 +40,5 @@ bfloat16-hip: ${OUTPUT}bfloat16.hip.o
 
 ${OUTPUT}half.hpcc.o: half.cu
 half-hpcc: ${OUTPUT}half.hpcc.o
+${OUTPUT}bfloat16.hpcc.o: bfloat16.cu
+bfloat16-hpcc: ${OUTPUT}bfloat16.hpcc.o
