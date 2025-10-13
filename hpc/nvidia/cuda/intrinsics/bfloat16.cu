@@ -332,6 +332,48 @@ __global__ void k_bfloat16_precision_conversion(void)
 #endif
 }
 
+__global__ void k_bfloat162_arithmetic(void)
+{
+	__nv_bfloat162 one(__float2bfloat16(1), __float2bfloat16(1));
+	__nv_bfloat162 neg_one(__float2bfloat16(-1), __float2bfloat16(-1));
+	__nv_bfloat162 two(__float2bfloat16(2), __float2bfloat16(2));
+	__nv_bfloat162 three(__float2bfloat16(3), __float2bfloat16(3));
+
+	PBF162(__h2div(one, two));
+	PBF162(__habs2(neg_one));
+	PBF162(__hneg2(neg_one));
+	PBF162(__hadd2(one, two));
+	PBF162(__hadd2_rn(one, two));
+	PBF162(__hadd2_sat(one, two));
+	PBF162(__hcmadd(one, two, three)); /* fast complex multiply-accumulate */
+	PBF162(__hsub2(one, two));
+	PBF162(__hsub2_rn(one, two));
+	PBF162(__hsub2_sat(one, two));
+	PBF162(__hmul2(one, two));
+	PBF162(__hmul2_rn(one, two));
+	PBF162(__hmul2_sat(one, two));
+	PBF162(__hfma2(one, two, three));
+	PBF162(__hfma2_relu(one, two, three));
+	PBF162(__hfma2_sat(one, two, three));
+}
+
+__global__ void k_bfloat162_arithmetic_atomicAdd(void)
+{
+	extern __shared__ __nv_bfloat162 shareBfloat162[1];
+
+	const __nv_bfloat162 one(__float2bfloat16(1), __float2bfloat16(1));
+
+	__syncthreads();
+
+	atomicAdd(shareBfloat162, one);
+
+	__syncthreads();
+
+	if (threadIdx.x + blockDim.x * blockIdx.x == 0) {
+		PBF162(shareBfloat162[0]);
+	}
+}
+
 int main(int argc, char *argv[])
 {
 	dim3 grid1(1), grid(10);
@@ -348,6 +390,10 @@ int main(int argc, char *argv[])
 	k_bfloat16_comparision<<<1, 1>>>();
 	k_bfloat16_math<<<1, 1>>>();
 	k_bfloat16_precision_conversion<<<1, 1>>>();
+
+	k_bfloat162_arithmetic<<<1, 1>>>();
+	(void)cudaLaunchKernel((void *)k_bfloat162_arithmetic_atomicAdd, grid, block, NULL,
+				sizeof(__nv_bfloat162), NULL);
 
 	(void)cudaDeviceSynchronize();
 	return 0;
