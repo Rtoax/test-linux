@@ -394,6 +394,42 @@ __global__ void k_bfloat162_arithmetic_atomicAdd(void)
 }
 #endif
 
+__global__ void k_bfloat162_comparision(void)
+{
+	__nv_bfloat162 one(__float2bfloat16(1), __float2bfloat16(1));
+	__nv_bfloat162 neg_one(__float2bfloat16(-1), __float2bfloat16(-1));
+	__nv_bfloat162 two(__float2bfloat16(2), __float2bfloat16(2));
+	__nv_bfloat162 three(__float2bfloat16(3), __float2bfloat16(3));
+	__nv_bfloat162 tmp = one;
+
+	PBOOL(__hbeq2(one, one));
+	PBOOL(__hbequ2(one, one));
+	PBOOL(__hbge2(one, one));
+	PBOOL((one >= one));
+	PBOOL(__hbgeu2(one, one));
+	PBOOL(__hbgt2(one, one));
+	PBOOL((one > one));
+	PBOOL(__hbgtu2(one, one));
+	PBOOL(__hble2(one, one));
+	PBOOL((one <= one));
+	PBOOL(__hbleu2(one, one));
+	PBOOL(__hblt2(one, one));
+	PBOOL((one < one));
+	PBOOL(__hbltu2(one, one));
+	PBOOL(__hbne2(one, one));
+	PBOOL((one != one));
+	PBOOL(__hbneu2(one, one));
+	PBF162(__heq2(one, one));
+	PBOOL((one == one));
+#if !defined(__HPCC__)
+	PBOOL(__heq2_mask(one, one));
+#endif
+	PBF162(__hequ2(one, one));
+#if !defined(__HPCC__)
+	PBOOL(__hequ2_mask(one, one));
+#endif
+}
+
 int main(int argc, char *argv[])
 {
 	dim3 grid1(1), grid(10);
@@ -416,6 +452,7 @@ int main(int argc, char *argv[])
 	(void)cudaLaunchKernel((void *)k_bfloat162_arithmetic_atomicAdd, grid, block, NULL,
 				sizeof(__nv_bfloat162), NULL);
 #endif
+	k_bfloat162_comparision<<<1, 1>>>();
 
 	(void)cudaDeviceSynchronize();
 	return 0;
