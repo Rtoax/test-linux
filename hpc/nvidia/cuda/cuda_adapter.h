@@ -1725,6 +1725,8 @@
  */
 #if defined(__USE_HPCC__)
 # define __nv_bfloat16	__hpcc_bfloat16
+# define __nv_bfloat162	__hpcc_bfloat162
 #elif defined(__USE_HIP__)
 # define __nv_bfloat16	__hip_bfloat16
+# define __nv_bfloat162	__hip_bfloat162
 #endif

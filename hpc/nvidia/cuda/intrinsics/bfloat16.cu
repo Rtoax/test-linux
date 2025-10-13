@@ -167,6 +167,23 @@ __global__ void k_bfloat16_math(void)
 	PBF16(htrunc(pi));
 }
 
+__global__ void k_bfloat16_precision_conversion(void)
+{
+	const __nv_bfloat16 one = __float2bfloat16(1);
+	const __nv_bfloat16 two = __float2bfloat16(2);
+	const __nv_bfloat16 three = __float2bfloat16(3);
+	const __nv_bfloat16 pi = __float2bfloat16(3.141592653f);
+
+	__nv_bfloat16 bf16;
+
+	PBF162(__bfloat162bfloat162(pi));
+
+	PBF16(__int2bfloat16_rd(1)); /* round-down */
+	PBF16(__int2bfloat16_rn(1)); /* round-to-nearest-even */
+	PBF16(__int2bfloat16_ru(1)); /* round-up */
+	PBF16(__int2bfloat16_rz(1)); /* round-towards-zero */
+}
+
 int main(int argc, char *argv[])
 {
 	dim3 grid1(1), grid(10);
@@ -182,6 +199,7 @@ int main(int argc, char *argv[])
 #endif
 	k_bfloat16_comparision<<<1, 1>>>();
 	k_bfloat16_math<<<1, 1>>>();
+	k_bfloat16_precision_conversion<<<1, 1>>>();
 
 	(void)cudaDeviceSynchronize();
 	return 0;

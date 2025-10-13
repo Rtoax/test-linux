@@ -169,8 +169,7 @@ __global__ void k_half_precision_conversion(void)
 	float __unused f;
 	half h;
 	half2 h2;
-	/* {x, y} */
-	float2 f2;
+	float2 f2; /* float2: {x, y} */
 	signed char __unused sc;
 	unsigned char __unused uc;
 	short int __unused si;
