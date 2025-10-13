@@ -172,11 +172,68 @@ __global__ void k_bfloat16_precision_conversion(void)
 	const __nv_bfloat16 one = __float2bfloat16(1);
 	const __nv_bfloat16 two = __float2bfloat16(2);
 	const __nv_bfloat16 three = __float2bfloat16(3);
+	const __nv_bfloat16 A = __float2bfloat16('A');
 	const __nv_bfloat16 pi = __float2bfloat16(3.141592653f);
 
 	__nv_bfloat16 bf16;
+	__nv_bfloat162 bf162;
+	float2 f2;
 
-	PBF162(__bfloat162bfloat162(pi));
+	PBF162((bf162 = __bfloat162bfloat162(pi)));
+	PFLOAT2((f2 = __bfloat1622float2(bf162)));
+#if !defined(__HPCC__)
+	PCHAR(__bfloat162char_rz(A));
+	PCHAR(__bfloat162uchar_rz(A));
+#endif
+
+	PFLOAT(__bfloat162float(pi));
+
+	PINT(__bfloat162int_rd(pi))
+	PINT(__bfloat162int_rn(pi))
+	PINT(__bfloat162int_ru(pi))
+	PINT(__bfloat162int_rz(pi))
+	PINT(__bfloat162uint_rd(pi))
+	PINT(__bfloat162uint_rn(pi))
+	PINT(__bfloat162uint_ru(pi))
+	PINT(__bfloat162uint_rz(pi))
+
+	PLONGLONG(__bfloat162ll_rd(pi));
+	PLONGLONG(__bfloat162ll_rn(pi));
+	PLONGLONG(__bfloat162ll_ru(pi));
+	PLONGLONG(__bfloat162ll_rz(pi));
+	PLONGLONG(__bfloat162ull_rd(pi));
+	PLONGLONG(__bfloat162ull_rn(pi));
+	PLONGLONG(__bfloat162ull_ru(pi));
+	PLONGLONG(__bfloat162ull_rz(pi));
+
+	PSHORT(__bfloat162short_rd(pi));
+	PSHORT(__bfloat162short_rn(pi));
+	PSHORT(__bfloat162short_ru(pi));
+	PSHORT(__bfloat162short_rz(pi));
+	PSHORT(__bfloat162ushort_rd(pi));
+	PSHORT(__bfloat162ushort_rn(pi));
+	PSHORT(__bfloat162ushort_ru(pi));
+	PSHORT(__bfloat162ushort_rz(pi));
+
+	PSHORT(__bfloat16_as_short(pi));
+	PSHORT(__bfloat16_as_ushort(pi));
+
+	PBF16(__double2bfloat16(3.14));
+	PBF16(__float2bfloat16(3.14f));
+	PBF16(__float2bfloat16_rd(3.14f));
+	PBF16(__float2bfloat16_rn(3.14f));
+	PBF16(__float2bfloat16_ru(3.14f));
+	PBF16(__float2bfloat16_rz(3.14f));
+	PBF16(__high2bfloat16(bf162));
+
+	PBF162(__float22bfloat162_rn(f2));
+	PBF162(__float2bfloat162_rn(3.14f));
+	PBF162((bf162 = __floats2bfloat162_rn(3.14f, 1.23f)));
+	PBF162(__halves2bfloat162(one, pi));
+	PBF162(__high2bfloat162(bf162));
+	PBF162(__highs2bfloat162(bf162, bf162));
+
+	PFLOAT(__high2float(bf162));
 
 	PBF16(__int2bfloat16_rd(1)); /* round-down */
 	PBF16(__int2bfloat16_rn(1)); /* round-to-nearest-even */
