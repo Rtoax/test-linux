@@ -421,11 +421,13 @@ __global__ void k_bfloat162_comparision(void)
 	PBOOL(__hbneu2(one, one));
 	PBF162(__heq2(one, one));
 	PBOOL((one == one));
-#if !defined(__HPCC__)
+#if !defined(__HPCC__) && !defined(__HIPCC__)
 	PBOOL(__heq2_mask(one, one));
 #endif
+#if !defined(__HIPCC__)
 	PBF162(__hequ2(one, one));
-#if !defined(__HPCC__)
+#endif
+#if !defined(__HPCC__) && !defined(__HIPCC__)
 	PBOOL(__hequ2_mask(one, one));
 #endif
 }
