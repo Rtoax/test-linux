@@ -252,6 +252,10 @@ __global__ void k_bfloat16_precision_conversion(void)
 	PBF16(__int2bfloat16_rz(1)); /* round-towards-zero */
 #endif
 
+	/**
+	 * FIXME: on HPCC 3.0.0 running error, see:
+	 * commit 15831f87320e ("bfloat16.cu: test ld.global.{ca,cg,cs,cv,nc,lu}")
+	 */
 	PBF162(__ldca(&bf162));
 	PBF16((bf16 = __ldca(&pi)));
 	PBF162(__ldcg(&bf162));
