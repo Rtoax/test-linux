@@ -150,7 +150,6 @@
 # define compat_bf16	__bf16
 # define compat_bf16tofloat(v)	((float)v)
 # define compat_floattobf16(v)	((__bf16)v)
-# define compat_bf16_mul(a, b)	(a * b)
 #elif defined(HAVE_CUDA)
 # define SUPPORT_BF16
 # if defined(__NVCC__)	/* Nvidia */
@@ -162,7 +161,6 @@
 # endif
 # define compat_bf16tofloat(v)	__bfloat162float(v)
 # define compat_floattobf16(v)	__float2bfloat16(v)
-# define compat_bf16_mul(a, b)	__hmul(a, b)
 #endif
 
 #ifndef offsetof
@@ -627,7 +625,7 @@ compat_bf16 __mydevice__ bf16_to_bfloat16(const bf16_t *bf16)
 		fra = compat_floattobf16(1 + fraction_value(bf16->fraction, 7));
 	}
 
-	return compat_bf16_mul(sign, compat_bf16_mul(e2, fra));
+	return sign * e2 * fra;
 }
 
 void __myglobal__ __kernel_check_bf16(compat_bf16 f)
