@@ -184,6 +184,7 @@ __global__ void k_bfloat16_precision_conversion(void)
 	__nv_bfloat16_raw bf16_2_raw = { .x = 2, };
 	__nv_bfloat162_raw bf162_1_raw = { .x = 1, .y = 1, };
 	__nv_bfloat162_raw bf162_2_raw = { .x = 2, .y = 2, };
+	const half half_pi = __float2half(3.141592653f);
 
 	__nv_bfloat16 bf16_1((int)1);
 	__nv_bfloat16 bf16_12((unsigned int)1);
@@ -203,6 +204,9 @@ __global__ void k_bfloat16_precision_conversion(void)
 #endif
 	__nv_bfloat16 bf16_5((short)5U);
 	__nv_bfloat16 bf16_51((unsigned short)5U);
+#if !defined(__HPCC__)
+	__nv_bfloat16 bf16_6(half_pi);
+#endif
 
 	__nv_bfloat162 bf162_1(bf16_1, bf16_2);
 	__nv_bfloat162 bf162_2(bf162_1);
