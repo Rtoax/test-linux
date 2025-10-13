@@ -338,22 +338,32 @@ __global__ void k_bfloat162_arithmetic(void)
 	__nv_bfloat162 neg_one(__float2bfloat16(-1), __float2bfloat16(-1));
 	__nv_bfloat162 two(__float2bfloat16(2), __float2bfloat16(2));
 	__nv_bfloat162 three(__float2bfloat16(3), __float2bfloat16(3));
+	__nv_bfloat162 tmp = one;
 
 	PBF162(__h2div(one, two));
+	PBF162((one / two));
+	PBF162((tmp /= two));
 	PBF162(__habs2(neg_one));
 	PBF162(__hneg2(neg_one));
 	PBF162(__hadd2(one, two));
+	PBF162((one + two));
+	PBF162((tmp++));
+	PBF162((tmp += one));
 #if !defined(__HIPCC__)
 	PBF162(__hadd2_rn(one, two));
 	PBF162(__hadd2_sat(one, two));
 	PBF162(__hcmadd(one, two, three)); /* fast complex multiply-accumulate */
 #endif
 	PBF162(__hsub2(one, two));
+	PBF162((one - two));
+	PBF162((tmp -= two));
 #if !defined(__HIPCC__)
 	PBF162(__hsub2_rn(one, two));
 	PBF162(__hsub2_sat(one, two));
 #endif
 	PBF162(__hmul2(one, two));
+	PBF162((one * two));
+	PBF162((tmp *= two));
 #if !defined(__HIPCC__)
 	PBF162(__hmul2_rn(one, two));
 	PBF162(__hmul2_sat(one, two));
