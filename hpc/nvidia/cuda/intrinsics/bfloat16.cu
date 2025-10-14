@@ -443,7 +443,7 @@ __global__ void k_bfloat162_math(void)
 	PBF162(h2floor(pi));
 	PBF162(h2cos(pi));
 	PBF162(h2sin(pi));
-#if !defined(__HPCC__) && !defined(__HIPCC__)
+#if !defined(__HPCC__) && !defined(__HIPCC__) && CUDA_VERSION >= 13000
 	PBF162(h2tanh(pi));
 	PBF162(h2tanh_approx(pi));
 #endif
