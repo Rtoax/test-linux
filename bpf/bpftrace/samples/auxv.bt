@@ -15,9 +15,9 @@ macro auxv(pfx) {
 uprobe:/bin/bash:readline
 {
 	auxv("bash");
+	$ps1 = uaddr("ps1_prompt");
 
-	printf("bash: pid %d, ps1_prompt: 0x%lx <%s>\n",
-		pid, uaddr("ps1_prompt"), str(*uaddr("ps1_prompt")));
+	printf("bash: pid %d, ps1_prompt: 0x%lx <%s>\n", pid, $ps1, str(*$ps1));
 
 	printf("bash: pid %d, environ: 0x%lx\n", pid, uaddr("environ"));
 }
@@ -34,6 +34,6 @@ uprobe:../../../elf/pie/samples/hello-pie:readline
 uprobe:libc:printf
 {
 	auxv("libc");
-	$addr = uaddr("__wprintf_chk");
-	printf("libc: __wprintf_chk addr: 0x%lx\n", $addr);
+	$version = uaddr("__libc_version");
+	printf("libc: __libc_version addr: 0x%lx <%s>\n", $version, str(*$version));
 }

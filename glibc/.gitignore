@@ -2,5 +2,6 @@
 /environ
 /lib-names
 /ftm
+/__progname
 /_GNU_SOURCE
 /_XOPEN_SOURCE

@@ -1,3 +1,8 @@
+/**
+ * glibc:
+ * char *__libc_version;
+ * char *__libc_release;
+ */
 #include <stdio.h>
 #include <gnu/libc-version.h>
 

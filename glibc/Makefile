@@ -71,6 +71,7 @@ targets := environ
 targets += gnu_get_libc_version
 targets += lib-names
 targets += ftm _GNU_SOURCE _XOPEN_SOURCE
+targets += __progname
 
 CFLAGS := -pthread
 
@@ -88,5 +89,6 @@ gnu_get_libc_version: gnu_get_libc_version.o
 environ: environ.o
 lib-names: lib-names.o
 ftm: ftm.o
+__progname: __progname.o
 _GNU_SOURCE: _GNU_SOURCE.o
 _XOPEN_SOURCE: _XOPEN_SOURCE.o
