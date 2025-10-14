@@ -18,6 +18,7 @@ common-objs += hello
 common-objs += matrix-fp16 matrix-fp32 matrix-fp64 matrix-int8
 common-objs += module
 common-objs += parallel
+common-objs += properties
 common-objs += rand
 common-objs += sparse
 
@@ -26,7 +27,6 @@ cuda-objs += cudaDeviceGetAttribute
 cuda-objs += cudaDeviceGetP2PAttribute
 cuda-objs += cudaEvent
 cuda-objs += cudaGetDeviceCount
-cuda-objs += cudaGetDeviceProperties
 cuda-objs += cudaMalloc
 cuda-objs += cudaMallocManaged
 
@@ -35,7 +35,6 @@ rocm-objs += hipDeviceGetAttribute
 rocm-objs += hipDeviceGetP2PAttribute
 rocm-objs += hipEvent
 rocm-objs += hipGetDeviceCount
-rocm-objs += hipGetDeviceProperties
 rocm-objs += hipMalloc
 rocm-objs += hipMallocManaged
 
@@ -44,7 +43,6 @@ htcc-objs += hcDeviceGetAttribute
 htcc-objs += hcDeviceGetP2PAttribute
 htcc-objs += hcEvent
 htcc-objs += hcGetDeviceCount
-htcc-objs += hcGetDeviceProperties
 htcc-objs += hcMalloc
 htcc-objs += hcMallocManaged
 
@@ -119,7 +117,7 @@ CFLAGS_NVCC_matrix-fp32 := -DTEST_FP32=1
 CFLAGS_NVCC_matrix-fp16 := -DTEST_FP16=1
 CFLAGS_NVCC_matrix-int8 := -DTEST_INT8=1
 # NOTE: warning: ‘CUresult cuDeviceComputeCapability(int*, int*, CUdevice)’ is deprecated [-Wdeprecated-declarations]
-CFLAGS_NVCC_cudaGetDeviceProperties := -Wno-deprecated-declarations
+CFLAGS_NVCC_properties := -Wno-deprecated-declarations
 
 CUDA_HELPERS := ${OUTPUT}cuda_helpers.cu.o
 HIP_HELPERS := ${OUTPUT}cuda_helpers.hip.o
@@ -143,7 +141,7 @@ CFLAGS_HTCC := -Wno-c99-designator
 # Remove default so search directory, see ldflags: -Wl,-rpath,/path/to/so/
 LDFLAGS_HTCC := -nodefaultrpath
 
-CFLAGS_HTCC_hcGetDeviceProperties := -Wno-string-plus-int
+CFLAGS_HTCC_properties := -Wno-string-plus-int
 
 CFLAGS_HTCC_matrix-fp64 := -DTEST_FP64=1
 CFLAGS_HTCC_matrix-fp32 := -DTEST_FP32=1
@@ -174,7 +172,7 @@ float: ${OUTPUT}float.cu.o
 parallel: ${OUTPUT}parallel.cu.o ${CUDA_HELPERS}
 cudaMalloc: ${OUTPUT}cudaMalloc.cu.o ${CUDA_HELPERS}
 cudaMallocManaged: ${OUTPUT}cudaMallocManaged.cu.o ${CUDA_HELPERS}
-cudaGetDeviceProperties: ${OUTPUT}cudaGetDeviceProperties.cu.o ${CUDA_HELPERS}
+properties: ${OUTPUT}properties.cu.o ${CUDA_HELPERS}
 cudaGetDeviceCount: ${OUTPUT}cudaGetDeviceCount.cu.o ${CUDA_HELPERS}
 cudaDeviceGetP2PAttribute: ${OUTPUT}cudaDeviceGetP2PAttribute.cu.o ${CUDA_HELPERS}
 cudaDeviceGetAttribute: ${OUTPUT}cudaDeviceGetAttribute.cu.o ${CUDA_HELPERS}
@@ -228,8 +226,8 @@ ${OUTPUT}matrix-fp64.hip.o: matrix.cu
 matrix-fp64-hip: ${OUTPUT}matrix-fp64.hip.o ${HIP_HELPERS}
 ${OUTPUT}matrix-int8.hip.o: matrix.cu
 matrix-int8-hip: ${OUTPUT}matrix-int8.hip.o ${HIP_HELPERS}
-${OUTPUT}hipGetDeviceProperties.hip.o: matrix.cu
-hipGetDeviceProperties-hip: ${OUTPUT}hipGetDeviceProperties.hip.o ${HIP_HELPERS}
+${OUTPUT}properties.hip.o: matrix.cu
+properties-hip: ${OUTPUT}properties.hip.o ${HIP_HELPERS}
 ${OUTPUT}hipGetDeviceCount.hip.o: cudaGetDeviceCount.cu
 hipGetDeviceCount-hip: ${OUTPUT}hipGetDeviceCount.hip.o ${HIP_HELPERS}
 ${OUTPUT}hipDeviceGetAttribute.hip.o: cudaDeviceGetAttribute.cu
@@ -262,7 +260,7 @@ hcMalloc-hpcc: ${OUTPUT}hcMalloc.hpcc.o ${HPCC_HELPERS}
 hcMallocManaged-hpcc: ${OUTPUT}hcMallocManaged.hpcc.o ${HPCC_HELPERS}
 hcclGetVersion-hpcc: ${OUTPUT}hcclGetVersion.hpcc.o ${HPCC_HELPERS}
 hcGetDeviceCount-hpcc: ${OUTPUT}hcGetDeviceCount.hpcc.o ${HPCC_HELPERS}
-hcGetDeviceProperties-hpcc: ${OUTPUT}hcGetDeviceProperties.hpcc.o ${HPCC_HELPERS}
+properties-hpcc: ${OUTPUT}properties.hpcc.o ${HPCC_HELPERS}
 hcDeviceGetAttribute-hpcc: ${OUTPUT}hcDeviceGetAttribute.hpcc.o ${HPCC_HELPERS}
 hcDeviceGetP2PAttribute-hpcc: ${OUTPUT}hcDeviceGetP2PAttribute.hpcc.o ${HPCC_HELPERS}
 hcEvent-hpcc: ${OUTPUT}hcEvent.hpcc.o ${HPCC_HELPERS}
