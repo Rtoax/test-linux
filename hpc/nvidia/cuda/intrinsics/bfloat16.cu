@@ -432,6 +432,34 @@ __global__ void k_bfloat162_comparision(void)
 #endif
 }
 
+__global__ void k_bfloat162_math(void)
+{
+	__nv_bfloat162 one(__float2bfloat16(1), __float2bfloat16(1));
+	__nv_bfloat162 two(__float2bfloat16(2), __float2bfloat16(2));
+	__nv_bfloat162 three(__float2bfloat16(3), __float2bfloat16(3));
+	__nv_bfloat162 pi(__float2bfloat16(3.141592653f), __float2bfloat16(3.141592653f));
+
+	PBF162(h2ceil(pi));
+	PBF162(h2floor(pi));
+	PBF162(h2cos(pi));
+	PBF162(h2sin(pi));
+#if !defined(__HPCC__) && !defined(__HIPCC__)
+	PBF162(h2tanh(pi));
+	PBF162(h2tanh_approx(pi));
+#endif
+	PBF162(h2exp(pi));
+	PBF162(h2exp10(pi));
+	PBF162(h2exp2(pi));
+	PBF162(h2log(pi));
+	PBF162(h2log10(pi));
+	PBF162(h2log2(pi));
+	PBF162(h2rcp(pi)); /* reciprocal in round-to-nearest-even */
+	PBF162(h2rint(pi));
+	PBF162(h2rsqrt(pi));
+	PBF162(h2sqrt(pi));
+	PBF162(h2trunc(pi));
+}
+
 int main(int argc, char *argv[])
 {
 	dim3 grid1(1), grid(10);
@@ -455,6 +483,7 @@ int main(int argc, char *argv[])
 				sizeof(__nv_bfloat162), NULL);
 #endif
 	k_bfloat162_comparision<<<1, 1>>>();
+	k_bfloat162_math<<<1, 1>>>();
 
 	(void)cudaDeviceSynchronize();
 	return 0;
