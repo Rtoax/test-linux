@@ -6,6 +6,7 @@
 
 /* Print definitions */
 #define PPFX()	printf("L%-4d" SEP " ", __LINE__);
+#define PEXPR(expr)	PPFX();printf("%s\n", #expr); expr;
 #define PHALF(v)	PPFX();printf("%s : %f\n", #v, __half2float(v));
 #define PHALF2(v) do {	\
 		half2 __h2 = v;	\
@@ -26,6 +27,7 @@
 	} while (0)
 #define PINT(v)	PPFX();printf("%s : %d\n", #v, v);
 #define PSHORT(v)	PPFX();printf("%s : %d\n", #v, v);
+#define PLONG(v)	PPFX();printf("%s : %ld\n", #v, v);
 #define PLONGLONG(v)	PPFX();printf("%s : %lld\n", #v, v);
 #define PBOOL(v)	PPFX();printf("%s : %s\n", #v, v ? "true" : "false");
 #define PCHAR(v)	PPFX();printf("%s : %u (%c)\n", #v, v, v);
