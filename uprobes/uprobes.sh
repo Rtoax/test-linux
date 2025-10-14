@@ -30,7 +30,7 @@ echo 1 | sudo tee ${TRACEFS}/events/uprobes/enable
 cleanup() {
 	local ret=$?
 	echo 0 | sudo tee ${TRACEFS}/events/uprobes/enable
-	echo 0 | sudo tee ${TRACEFS}/uprobe_events
+	echo | sudo tee ${TRACEFS}/uprobe_events
 	exit ${ret}
 }
 trap cleanup EXIT
