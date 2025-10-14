@@ -175,15 +175,15 @@ __global__ void k_bfloat16_precision_conversion(void)
 	const __nv_bfloat16 A = __float2bfloat16('A');
 	const __nv_bfloat16 pi = __float2bfloat16(3.141592653f);
 
-	__nv_bfloat16 bf16;
+	__nv_bfloat16 __unused bf16;
 	__nv_bfloat162 bf162;
 	float2 f2;
 
 #ifdef __cplusplus
-	__nv_bfloat16_raw bf16_1_raw = { .x = 1, };
-	__nv_bfloat16_raw bf16_2_raw = { .x = 2, };
-	__nv_bfloat162_raw bf162_1_raw = { .x = 1, .y = 1, };
-	__nv_bfloat162_raw bf162_2_raw = { .x = 2, .y = 2, };
+	__nv_bfloat16_raw __unused bf16_1_raw = { .x = 1, };
+	__nv_bfloat16_raw __unused bf16_2_raw = { .x = 2, };
+	__nv_bfloat162_raw __unused bf162_1_raw = { .x = 1, .y = 1, };
+	__nv_bfloat162_raw __unused bf162_2_raw = { .x = 2, .y = 2, };
 	const half half_pi = __float2half(3.141592653f);
 
 	__nv_bfloat16 bf16_1((int)1);
@@ -462,8 +462,8 @@ __global__ void k_bfloat162_math(void)
 
 int main(int argc, char *argv[])
 {
-	dim3 grid1(1), grid(10);
-	dim3 block1(1), block(32);
+	dim3 grid(10);
+	dim3 block(32);
 
 	assert(sizeof(__nv_bfloat16) == 2 && "bad size of half");
 
