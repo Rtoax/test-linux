@@ -69,7 +69,13 @@ int BPF_KPROBE(do_execveat_common, int fd, struct filename *name)
 	bpf_iter_task_vma_new(&vma_it, cur_task, 0);
 
 	while ((vma_ptr = bpf_iter_task_vma_next(&vma_it))) {
-		bpf_printk("vma: %lx~%lx", vma_ptr->vm_start, vma_ptr->vm_end);
+		struct file *file = vma_ptr->vm_file;
+		unsigned long i_ino = 0;
+		if (file) {
+			struct inode *ino = file->f_inode;
+			i_ino = ino->i_ino;
+		}
+		bpf_printk("vma: %lx~%lx %ld", vma_ptr->vm_start, vma_ptr->vm_end, i_ino);
 	}
 
 	bpf_iter_task_vma_destroy(&vma_it);
