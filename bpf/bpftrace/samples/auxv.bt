@@ -1,0 +1,39 @@
+#!/usr/bin/env bpftrace
+#ifndef BPFTRACE_HAVE_BTF
+#endif
+
+macro auxv(pfx) {
+	$saved_auxv = curtask->mm->saved_auxv;
+
+	for ($j : ((uint64)0)..((uint64)8)) {
+		$id = $saved_auxv[2 * $j];
+		$val = $saved_auxv[2 * $j + 1];
+		printf("%s: %ld %lx\n", pfx, $id, $val);
+	}
+}
+
+uprobe:/bin/bash:readline
+{
+	auxv("bash");
+
+	printf("bash: pid %d, ps1_prompt: 0x%lx <%s>\n",
+		pid, uaddr("ps1_prompt"), str(*uaddr("ps1_prompt")));
+
+	printf("bash: pid %d, environ: 0x%lx\n", pid, uaddr("environ"));
+}
+
+uprobe:../../../elf/pie/samples/hello:readline,
+uprobe:../../../elf/pie/samples/hello-pie:readline
+{
+	auxv("hello");
+
+	printf("hello: pid %d, ps1_prompt: 0x%lx <%s>\n",
+		pid, uaddr("ps1_prompt"), str(*uaddr("ps1_prompt")));
+}
+
+uprobe:libc:printf
+{
+	auxv("libc");
+	$addr = uaddr("__wprintf_chk");
+	printf("libc: __wprintf_chk addr: 0x%lx\n", $addr);
+}
