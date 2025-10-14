@@ -8,47 +8,29 @@ include ../cuda.mk
 include ../../../amd/rocm/rocm.mk
 include ../../../metax/hpcc.mk
 
-common-objs := blas
+common-objs := attribute
+common-objs += blas
+common-objs += blasLtMatmul
 common-objs += cooperative
+common-objs += device
 common-objs += dim3
+common-objs += event
 common-objs += fft
 common-objs += float
 common-objs += __GNUC__ __STDC__
 common-objs += hello
+common-objs += malloc
+common-objs += mallocManaged
 common-objs += matrix-fp16 matrix-fp32 matrix-fp64 matrix-int8
 common-objs += module
+common-objs += p2p
 common-objs += parallel
 common-objs += properties
 common-objs += rand
 common-objs += sparse
 
-cuda-objs := cublasLtMatmul
-cuda-objs += cudaDeviceGetAttribute
-cuda-objs += cudaDeviceGetP2PAttribute
-cuda-objs += cudaEvent
-cuda-objs += cudaGetDeviceCount
-cuda-objs += cudaMalloc
-cuda-objs += cudaMallocManaged
-
-rocm-objs := hipblasLtMatmul
-rocm-objs += hipDeviceGetAttribute
-rocm-objs += hipDeviceGetP2PAttribute
-rocm-objs += hipEvent
-rocm-objs += hipGetDeviceCount
-rocm-objs += hipMalloc
-rocm-objs += hipMallocManaged
-
-htcc-objs := hcblasLtMatmul
-htcc-objs += hcDeviceGetAttribute
-htcc-objs += hcDeviceGetP2PAttribute
-htcc-objs += hcEvent
-htcc-objs += hcGetDeviceCount
-htcc-objs += hcMalloc
-htcc-objs += hcMallocManaged
-
 ifdef HAVE_CUDA
   targets-nvcc := ${common-objs}
-  targets-nvcc += ${cuda-objs}
 
   # NCCL
   ifdef HAVE_NCCL
@@ -63,7 +45,6 @@ endif
 
 ifdef HAVE_HIP
   rocm-hipcc := ${common-objs}
-  rocm-hipcc += ${rocm-objs}
 
   # RCCL
   ifdef HAVE_RCCL
@@ -77,7 +58,6 @@ endif
 
 ifdef HAVE_HPCC
   metax-htcc := ${common-objs}
-  metax-htcc += ${htcc-objs}
 
   # HCCL
   metax-htcc += hcclGetVersion
@@ -147,10 +127,10 @@ CFLAGS_HTCC_matrix-fp64 := -DTEST_FP64=1
 CFLAGS_HTCC_matrix-fp32 := -DTEST_FP32=1
 CFLAGS_HTCC_matrix-fp16 := -DTEST_FP16=1
 CFLAGS_HTCC_matrix-int8 := -DTEST_INT8=1
-CFLAGS_HTCC_hcblasLtMatmul := ${CFLAGS_HTCC_blas}
+CFLAGS_HTCC_blasLtMatmul := ${CFLAGS_HTCC_blas}
 
 CFLAGS_HTCC_blas := -Wno-ignored-attributes
-CFLAGS_HTCC_hcblasLtMatmul := ${CFLAGS_HTCC_blas}
+CFLAGS_HTCC_blasLtMatmul := ${CFLAGS_HTCC_blas}
 
 include ../../../../template/main.mk
 
@@ -158,121 +138,121 @@ ${CUDA_HELPERS}: cuda_helpers.h
 ${HIP_HELPERS}: cuda_helpers.h
 ${HPCC_HELPERS}: cuda_helpers.h
 
-dim3: ${OUTPUT}dim3.cu.o ${CUDA_HELPERS}
-cooperative: ${OUTPUT}cooperative.cu.o ${CUDA_HELPERS}
+# CUDA
+attribute: ${OUTPUT}attribute.cu.o ${CUDA_HELPERS}
 blas: ${OUTPUT}blas.cu.o ${CUDA_HELPERS}
-cublasLtMatmul: ${OUTPUT}cublasLtMatmul.cu.o ${CUDA_HELPERS}
-rand: ${OUTPUT}rand.cu.o ${CUDA_HELPERS}
-ncclGetVersion: ${OUTPUT}ncclGetVersion.cu.o ${CUDA_HELPERS}
+blasLtMatmul: ${OUTPUT}blasLtMatmul.cu.o ${CUDA_HELPERS}
+cooperative: ${OUTPUT}cooperative.cu.o ${CUDA_HELPERS}
+device: ${OUTPUT}device.cu.o ${CUDA_HELPERS}
+dim3: ${OUTPUT}dim3.cu.o ${CUDA_HELPERS}
+event: ${OUTPUT}event.cu.o ${CUDA_HELPERS}
 fft: ${OUTPUT}fft.cu.o ${CUDA_HELPERS}
-sparse: ${OUTPUT}sparse.cu.o ${CUDA_HELPERS}
-hello: ${OUTPUT}hello.cu.o ${CUDA_HELPERS}
-module: ${OUTPUT}module.cu.o ${CUDA_HELPERS}
 float: ${OUTPUT}float.cu.o
-parallel: ${OUTPUT}parallel.cu.o ${CUDA_HELPERS}
-cudaMalloc: ${OUTPUT}cudaMalloc.cu.o ${CUDA_HELPERS}
-cudaMallocManaged: ${OUTPUT}cudaMallocManaged.cu.o ${CUDA_HELPERS}
-properties: ${OUTPUT}properties.cu.o ${CUDA_HELPERS}
-cudaGetDeviceCount: ${OUTPUT}cudaGetDeviceCount.cu.o ${CUDA_HELPERS}
-cudaDeviceGetP2PAttribute: ${OUTPUT}cudaDeviceGetP2PAttribute.cu.o ${CUDA_HELPERS}
-cudaDeviceGetAttribute: ${OUTPUT}cudaDeviceGetAttribute.cu.o ${CUDA_HELPERS}
-cudaEvent: ${OUTPUT}cudaEvent.cu.o ${CUDA_HELPERS}
+float-c: ${OUTPUT}float-c.o
+__GNUC__: ${OUTPUT}__GNUC__.cu.o
+hello: ${OUTPUT}hello.cu.o ${CUDA_HELPERS}
+malloc: ${OUTPUT}malloc.cu.o ${CUDA_HELPERS}
+mallocManaged: ${OUTPUT}mallocManaged.cu.o ${CUDA_HELPERS}
+matrix-c-fp32: ${OUTPUT}matrix-fp32.o
+matrix-c-fp64: ${OUTPUT}matrix-fp64.o
 matrix-fp16: ${OUTPUT}matrix-fp16.cu.o ${CUDA_HELPERS}
 matrix-fp32: ${OUTPUT}matrix-fp32.cu.o ${CUDA_HELPERS}
 matrix-fp64: ${OUTPUT}matrix-fp64.cu.o ${CUDA_HELPERS}
 matrix-int8: ${OUTPUT}matrix-int8.cu.o ${CUDA_HELPERS}
-matrix-c-fp32: ${OUTPUT}matrix-fp32.o
-matrix-c-fp64: ${OUTPUT}matrix-fp64.o
-float-c: ${OUTPUT}float-c.o
-__GNUC__: ${OUTPUT}__GNUC__.cu.o
+module: ${OUTPUT}module.cu.o ${CUDA_HELPERS}
+ncclGetVersion: ${OUTPUT}ncclGetVersion.cu.o ${CUDA_HELPERS}
+p2p: ${OUTPUT}p2p.cu.o ${CUDA_HELPERS}
+parallel: ${OUTPUT}parallel.cu.o ${CUDA_HELPERS}
+properties: ${OUTPUT}properties.cu.o ${CUDA_HELPERS}
+rand: ${OUTPUT}rand.cu.o ${CUDA_HELPERS}
+sparse: ${OUTPUT}sparse.cu.o ${CUDA_HELPERS}
 __STDC__: ${OUTPUT}__STDC__.cu.o
 
 # ROCm HIP
-${OUTPUT}hello.hip.o: hello.cu
-hello-hip: ${OUTPUT}hello.hip.o ${HIP_HELPERS}
-${OUTPUT}dim3.hip.o: dim3.cu
-dim3-hip: ${OUTPUT}dim3.hip.o ${HIP_HELPERS}
-__GNUC__-hip: ${OUTPUT}__GNUC__.hip.o ${HIP_HELPERS}
-__STDC__-hip: ${OUTPUT}__STDC__.hip.o ${HIP_HELPERS}
-${OUTPUT}fft.hip.o: fft.cu
-fft-hip: ${OUTPUT}fft.hip.o ${HIP_HELPERS}
+${OUTPUT}attribute.hip.o: attribute.cu
 ${OUTPUT}blas.hip.o: blas.cu
-blas-hip: ${OUTPUT}blas.hip.o ${HIP_HELPERS}
+${OUTPUT}blasLtMatmul.hip.o: blasLtMatmul.cu
 ${OUTPUT}cooperative.hip.o: cooperative.cu
-cooperative-hip: ${OUTPUT}cooperative.hip.o ${HIP_HELPERS}
+${OUTPUT}device.hip.o: device.cu
+${OUTPUT}dim3.hip.o: dim3.cu
+${OUTPUT}event.hip.o: event.cu
+${OUTPUT}fft.hip.o: fft.cu
 ${OUTPUT}float.hip.o: float.cu
-float-hip: ${OUTPUT}float.hip.o ${HIP_HELPERS}
-${OUTPUT}rand.hip.o: rand.cu
-rand-hip: ${OUTPUT}rand.hip.o ${HIP_HELPERS}
-${OUTPUT}sparse.hip.o: sparse.cu
-sparse-hip: ${OUTPUT}sparse.hip.o ${HIP_HELPERS}
-${OUTPUT}parallel.hip.o: parallel.cu
-parallel-hip: ${OUTPUT}parallel.hip.o ${HIP_HELPERS}
-${OUTPUT}module.hip.o: module.cu
-module-hip: ${OUTPUT}module.hip.o ${HIP_HELPERS}
-${OUTPUT}hipblasLtMatmul.hip.o: cublasLtMatmul.cu
-hipblasLtMatmul-hip: ${OUTPUT}hipblasLtMatmul.hip.o ${HIP_HELPERS}
-${OUTPUT}hipEvent.hip.o: cudaEvent.cu
-hipEvent-hip: ${OUTPUT}hipEvent.hip.o ${HIP_HELPERS}
-${OUTPUT}hipMalloc.hip.o: cudaMalloc.cu
-hipMalloc-hip: ${OUTPUT}hipMalloc.hip.o ${HIP_HELPERS}
-${OUTPUT}hipMallocManaged.hip.o: cudaMallocManaged.cu
-hipMallocManaged-hip: ${OUTPUT}hipMallocManaged.hip.o ${HIP_HELPERS}
+${OUTPUT}hello.hip.o: hello.cu
+${OUTPUT}malloc.hip.o: malloc.cu
+${OUTPUT}mallocManaged.hip.o: mallocManaged.cu
 ${OUTPUT}matrix-fp16.hip.o: matrix.cu
-matrix-fp16-hip: ${OUTPUT}matrix-fp16.hip.o ${HIP_HELPERS}
 ${OUTPUT}matrix-fp32.hip.o: matrix.cu
-matrix-fp32-hip: ${OUTPUT}matrix-fp32.hip.o ${HIP_HELPERS}
 ${OUTPUT}matrix-fp64.hip.o: matrix.cu
-matrix-fp64-hip: ${OUTPUT}matrix-fp64.hip.o ${HIP_HELPERS}
 ${OUTPUT}matrix-int8.hip.o: matrix.cu
-matrix-int8-hip: ${OUTPUT}matrix-int8.hip.o ${HIP_HELPERS}
-${OUTPUT}properties.hip.o: matrix.cu
-properties-hip: ${OUTPUT}properties.hip.o ${HIP_HELPERS}
-${OUTPUT}hipGetDeviceCount.hip.o: cudaGetDeviceCount.cu
-hipGetDeviceCount-hip: ${OUTPUT}hipGetDeviceCount.hip.o ${HIP_HELPERS}
-${OUTPUT}hipDeviceGetAttribute.hip.o: cudaDeviceGetAttribute.cu
-hipDeviceGetAttribute-hip: ${OUTPUT}hipDeviceGetAttribute.hip.o ${HIP_HELPERS}
-${OUTPUT}hipDeviceGetP2PAttribute.hip.o: cudaDeviceGetP2PAttribute.cu
-hipDeviceGetP2PAttribute-hip: ${OUTPUT}hipDeviceGetP2PAttribute.hip.o ${HIP_HELPERS}
+${OUTPUT}module.hip.o: module.cu
 ${OUTPUT}ncclGetVersion.hip.o: ncclGetVersion.cu
+${OUTPUT}p2p.hip.o: p2p.cu
+${OUTPUT}parallel.hip.o: parallel.cu
+${OUTPUT}properties.hip.o: matrix.cu
+${OUTPUT}rand.hip.o: rand.cu
+${OUTPUT}sparse.hip.o: sparse.cu
+attribute-hip: ${OUTPUT}attribute.hip.o ${HIP_HELPERS}
+blas-hip: ${OUTPUT}blas.hip.o ${HIP_HELPERS}
+blasLtMatmul-hip: ${OUTPUT}blasLtMatmul.hip.o ${HIP_HELPERS}
+cooperative-hip: ${OUTPUT}cooperative.hip.o ${HIP_HELPERS}
+device-hip: ${OUTPUT}device.hip.o ${HIP_HELPERS}
+dim3-hip: ${OUTPUT}dim3.hip.o ${HIP_HELPERS}
+event-hip: ${OUTPUT}event.hip.o ${HIP_HELPERS}
+fft-hip: ${OUTPUT}fft.hip.o ${HIP_HELPERS}
+float-hip: ${OUTPUT}float.hip.o ${HIP_HELPERS}
+__GNUC__-hip: ${OUTPUT}__GNUC__.hip.o ${HIP_HELPERS}
+hello-hip: ${OUTPUT}hello.hip.o ${HIP_HELPERS}
+malloc-hip: ${OUTPUT}malloc.hip.o ${HIP_HELPERS}
+mallocManaged-hip: ${OUTPUT}mallocManaged.hip.o ${HIP_HELPERS}
+matrix-fp16-hip: ${OUTPUT}matrix-fp16.hip.o ${HIP_HELPERS}
+matrix-fp32-hip: ${OUTPUT}matrix-fp32.hip.o ${HIP_HELPERS}
+matrix-fp64-hip: ${OUTPUT}matrix-fp64.hip.o ${HIP_HELPERS}
+matrix-int8-hip: ${OUTPUT}matrix-int8.hip.o ${HIP_HELPERS}
+module-hip: ${OUTPUT}module.hip.o ${HIP_HELPERS}
 ncclGetVersion-hip: ${OUTPUT}ncclGetVersion.hip.o
+p2p-hip: ${OUTPUT}p2p.hip.o ${HIP_HELPERS}
+parallel-hip: ${OUTPUT}parallel.hip.o ${HIP_HELPERS}
+properties-hip: ${OUTPUT}properties.hip.o ${HIP_HELPERS}
+rand-hip: ${OUTPUT}rand.hip.o ${HIP_HELPERS}
+sparse-hip: ${OUTPUT}sparse.hip.o ${HIP_HELPERS}
+__STDC__-hip: ${OUTPUT}__STDC__.hip.o ${HIP_HELPERS}
 
 # MetaX HPCC
+${OUTPUT}blas.hpcc.o: blas.cu
+${OUTPUT}blasLtMatmul.hpcc.o: cuda_adapter.h cuda_helpers.h
+${OUTPUT}device.hpcc.o: device.cu
+${OUTPUT}fft.hpcc.o: cuda_adapter.h cuda_helpers.h
+${OUTPUT}float.hpcc.o: float.cu
+${OUTPUT}hcclGetVersion.hpcc.o: ncclGetVersion.cu
 ${OUTPUT}matrix-fp16.hpcc.o: cuda_adapter.h cuda_helpers.h
 ${OUTPUT}matrix-fp32.hpcc.o: cuda_adapter.h cuda_helpers.h
 ${OUTPUT}matrix-fp64.hpcc.o: cuda_adapter.h cuda_helpers.h
 ${OUTPUT}matrix-int8.hpcc.o: cuda_adapter.h cuda_helpers.h
-${OUTPUT}hcblasLtMatmul.hpcc.o: cuda_adapter.h cuda_helpers.h
 ${OUTPUT}rand.hpcc.o: cuda_adapter.h cuda_helpers.h
-${OUTPUT}fft.hpcc.o: cuda_adapter.h cuda_helpers.h
 ${OUTPUT}sparse.hpcc.o: cuda_adapter.h cuda_helpers.h
-${OUTPUT}blas.hpcc.o: blas.cu
-${OUTPUT}hcGetDeviceCount.hpcc.o: cudaGetDeviceCount.cu
-${OUTPUT}hcclGetVersion.hpcc.o: ncclGetVersion.cu
+attribute-hpcc: ${OUTPUT}attribute.hpcc.o ${HPCC_HELPERS}
 blas-hpcc: ${OUTPUT}blas.hpcc.o ${HPCC_HELPERS}
-hello-hpcc: ${OUTPUT}hello.hpcc.o ${HPCC_HELPERS}
-module-hpcc: ${OUTPUT}module.hpcc.o ${HPCC_HELPERS}
-dim3-hpcc: ${OUTPUT}dim3.hpcc.o ${HPCC_HELPERS}
-parallel-hpcc: ${OUTPUT}parallel.hpcc.o ${HPCC_HELPERS}
+blasLtMatmul-hpcc: ${OUTPUT}blasLtMatmul.hpcc.o ${HPCC_HELPERS}
 cooperative-hpcc: ${OUTPUT}cooperative.hpcc.o ${HPCC_HELPERS}
+device-hpcc: ${OUTPUT}device.hpcc.o ${HPCC_HELPERS}
+dim3-hpcc: ${OUTPUT}dim3.hpcc.o ${HPCC_HELPERS}
+event-hpcc: ${OUTPUT}event.hpcc.o ${HPCC_HELPERS}
+fft-hpcc: ${OUTPUT}fft.hpcc.o ${HPCC_HELPERS}
+float-hpcc: ${OUTPUT}float.hpcc.o
+__GNUC__-hpcc: ${OUTPUT}__GNUC__.hpcc.o ${HPCC_HELPERS}
 hcclGetVersion-hpcc: ${OUTPUT}hcclGetVersion.hpcc.o ${HPCC_HELPERS}
-hcMalloc-hpcc: ${OUTPUT}hcMalloc.hpcc.o ${HPCC_HELPERS}
-hcMallocManaged-hpcc: ${OUTPUT}hcMallocManaged.hpcc.o ${HPCC_HELPERS}
-hcclGetVersion-hpcc: ${OUTPUT}hcclGetVersion.hpcc.o ${HPCC_HELPERS}
-hcGetDeviceCount-hpcc: ${OUTPUT}hcGetDeviceCount.hpcc.o ${HPCC_HELPERS}
-properties-hpcc: ${OUTPUT}properties.hpcc.o ${HPCC_HELPERS}
-hcDeviceGetAttribute-hpcc: ${OUTPUT}hcDeviceGetAttribute.hpcc.o ${HPCC_HELPERS}
-hcDeviceGetP2PAttribute-hpcc: ${OUTPUT}hcDeviceGetP2PAttribute.hpcc.o ${HPCC_HELPERS}
-hcEvent-hpcc: ${OUTPUT}hcEvent.hpcc.o ${HPCC_HELPERS}
+hello-hpcc: ${OUTPUT}hello.hpcc.o ${HPCC_HELPERS}
+malloc-hpcc: ${OUTPUT}malloc.hpcc.o ${HPCC_HELPERS}
+mallocManaged-hpcc: ${OUTPUT}mallocManaged.hpcc.o ${HPCC_HELPERS}
 matrix-fp16-hpcc: ${OUTPUT}matrix-fp16.hpcc.o ${HPCC_HELPERS}
 matrix-fp32-hpcc: ${OUTPUT}matrix-fp32.hpcc.o ${HPCC_HELPERS}
 matrix-fp64-hpcc: ${OUTPUT}matrix-fp64.hpcc.o ${HPCC_HELPERS}
 matrix-int8-hpcc: ${OUTPUT}matrix-int8.hpcc.o ${HPCC_HELPERS}
-hcblasLtMatmul-hpcc: ${OUTPUT}hcblasLtMatmul.hpcc.o ${HPCC_HELPERS}
+module-hpcc: ${OUTPUT}module.hpcc.o ${HPCC_HELPERS}
+p2p-hpcc: ${OUTPUT}p2p.hpcc.o ${HPCC_HELPERS}
+parallel-hpcc: ${OUTPUT}parallel.hpcc.o ${HPCC_HELPERS}
+properties-hpcc: ${OUTPUT}properties.hpcc.o ${HPCC_HELPERS}
 rand-hpcc: ${OUTPUT}rand.hpcc.o ${HPCC_HELPERS}
-fft-hpcc: ${OUTPUT}fft.hpcc.o ${HPCC_HELPERS}
 sparse-hpcc: ${OUTPUT}sparse.hpcc.o ${HPCC_HELPERS}
-__GNUC__-hpcc: ${OUTPUT}__GNUC__.hpcc.o ${HPCC_HELPERS}
 __STDC__-hpcc: ${OUTPUT}__STDC__.hpcc.o ${HPCC_HELPERS}
-${OUTPUT}float.hpcc.o: float.cu
-float-hpcc: ${OUTPUT}float.hpcc.o

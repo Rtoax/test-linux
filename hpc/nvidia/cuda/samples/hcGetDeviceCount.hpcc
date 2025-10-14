@@ -1,2 +1,0 @@
-#define __USE_HPCC__	1
-#include "cudaGetDeviceCount.cu"
