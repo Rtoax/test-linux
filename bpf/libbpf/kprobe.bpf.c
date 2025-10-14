@@ -53,6 +53,28 @@ int BPF_KPROBE(do_execveat_common, int fd, struct filename *name)
 	}
 #endif
 
+/**
+ * See also linux >= v6.6-rc2-737-g4ac454682158
+ * commit 4ac454682158 ("bpf: Introduce task_vma open-coded iterator kfuncs")
+ *
+ * bpf_iter_task_vma_new()
+ * bpf_iter_task_vma_next()
+ * bpf_iter_task_vma_destroy()
+ */
+#if defined(SUPPORT_BPF_ITER_TASK_VMA_NEW)
+	struct bpf_iter_task_vma vma_it;
+	struct vm_area_struct *vma_ptr;
+	struct task_struct *cur_task = bpf_get_current_task_btf();
+
+	bpf_iter_task_vma_new(&vma_it, cur_task, 0);
+
+	while ((vma_ptr = bpf_iter_task_vma_next(&vma_it))) {
+		bpf_printk("vma: %lx~%lx", vma_ptr->vm_start, vma_ptr->vm_end);
+	}
+
+	bpf_iter_task_vma_destroy(&vma_it);
+#endif
+
 	bpf_printk("KPROBE ENTRY pid = %d, filename = %s", pid, filename);
 	return 0;
 }

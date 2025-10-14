@@ -66,6 +66,14 @@ struct {
 	__type(value, struct task_vma_info);
 } task_vma_info_buf SEC(".maps");
 
+/**
+ * See also linux >= v6.6-rc2-737-g4ac454682158
+ * commit 4ac454682158 ("bpf: Introduce task_vma open-coded iterator kfuncs")
+ *
+ * bpf_iter_task_vma_new()
+ * bpf_iter_task_vma_next()
+ * bpf_iter_task_vma_destroy()
+ */
 SEC("iter/task_vma")
 int dump_task_vma(struct bpf_iter__task_vma *ctx)
 {
