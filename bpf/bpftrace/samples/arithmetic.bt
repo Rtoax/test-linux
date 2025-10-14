@@ -1,0 +1,11 @@
+#!/bin/env bpftrace
+
+BEGIN
+{
+	let $addr = 0x155148;
+	let $bias = 0x564f61f77000;
+
+	printf("addr %lx\n", $addr);
+	printf("bias %lx\n", $bias);
+	printf("addr + bias %lx\n", $addr + $bias);
+}
