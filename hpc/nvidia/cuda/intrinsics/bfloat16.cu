@@ -469,7 +469,8 @@ int main(int argc, char *argv[])
 	dim3 grid(10);
 	dim3 block(32);
 
-	assert(sizeof(__nv_bfloat16) == 2 && "bad size of half");
+	assert(sizeof(__nv_bfloat16) == 2 && "bad size of __nv_bfloat16");
+	assert(sizeof(__nv_bfloat162) == 4 && "bad size of __nv_bfloat162");
 
 	k_bfloat16_constants<<<1, 1>>>();
 	k_bfloat16_arithmetic<<<1, 1>>>();
