@@ -13,8 +13,10 @@
 #
 # Functions:
 # - kver_gt
+# - kver_ge
 # - kver_eq
 # - kver_lt
+# - kver_le
 # - kver_uapi_gt
 # - kver_uapi_eq
 # - kver_uapi_lt
@@ -57,7 +59,7 @@ define kernel_version
 $(shell echo "$$(( (${1}<<16) + (${2}<<8) + (${3}>255?255:${3}) ))")
 endef
 
-# argument: kcode,[-gt|-eq|-lt],x,y,z
+# argument: kcode,[-gt|-ge|-eq|-lt|-le],x,y,z
 define kernel_compare
 $(shell if [[ ${1} ${2} $(call kernel_version,${3},${4},${5}) ]]; then \
 		echo y; \
@@ -68,11 +70,17 @@ endef
 define kver_gt
 $(call kernel_compare,${KVERSION_CODE},-gt,${1},${2},${3})
 endef
+define kver_ge
+$(call kernel_compare,${KVERSION_CODE},-ge,${1},${2},${3})
+endef
 define kver_eq
 $(call kernel_compare,${KVERSION_CODE},-eq,${1},${2},${3})
 endef
 define kver_lt
 $(call kernel_compare,${KVERSION_CODE},-lt,${1},${2},${3})
+endef
+define kver_le
+$(call kernel_compare,${KVERSION_CODE},-le,${1},${2},${3})
 endef
 define kver_uapi_gt
 $(call kernel_compare,${KUAPIVERSION_CODE},-gt,${1},${2},${3})
