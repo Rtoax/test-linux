@@ -8,4 +8,7 @@ BEGIN
 	printf("addr %lx\n", $addr);
 	printf("bias %lx\n", $bias);
 	printf("addr + bias %lx\n", $addr + $bias);
+
+	$addr += $bias;
+	printf("addr %lx\n", $addr);
 }
