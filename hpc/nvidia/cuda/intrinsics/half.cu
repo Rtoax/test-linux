@@ -89,6 +89,8 @@ __global__ void k_half_arithmetic_atomicAdd(void)
 {
 	extern __shared__ half shareHalf[1];
 
+	shareHalf[0] = CUDART_ONE_FP16;
+
 	__syncthreads();
 
 	atomicAdd(shareHalf, CUDART_ONE_FP16);
@@ -491,8 +493,8 @@ __global__ void k_half2_math(void)
 
 int main(int argc, char *argv[])
 {
-	dim3 grid1(1), grid(10);
-	dim3 block1(1), block(32);
+	dim3 grid(10);
+	dim3 block(32);
 
 	assert(sizeof(half) == 2 && "bad size of half");
 	assert(sizeof(half2) == 4 && "bad size of half2");
@@ -512,7 +514,7 @@ int main(int argc, char *argv[])
 	k_half2_arithmetic<<<1, 1>>>();
 
 #if !defined(__HIPCC__)
-	(void)cudaLaunchKernel((void *)k_half2_arithmetic_atomicAdd, grid1, block1, NULL,
+	(void)cudaLaunchKernel((void *)k_half2_arithmetic_atomicAdd, grid, block, NULL,
 				sizeof(half2), NULL);
 #endif
 	k_half2_comparision<<<1, 1>>>();
