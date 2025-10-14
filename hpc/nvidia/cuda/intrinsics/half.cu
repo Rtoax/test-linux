@@ -87,7 +87,7 @@ __global__ void k_half_arithmetic(void)
 #if !defined(__HIPCC__)
 __global__ void k_half_arithmetic_atomicAdd(void)
 {
-	extern __shared__ half shareHalf[1];
+	extern __shared__ half shareHalf[];
 
 	shareHalf[0] = CUDART_ONE_FP16;
 
@@ -350,7 +350,7 @@ __global__ void k_half2_arithmetic(void)
 #if !defined(__HIPCC__)
 __global__ void k_half2_arithmetic_atomicAdd(void)
 {
-	extern __shared__ half2 shareHalf2[1];
+	extern __shared__ half2 shareHalf2[];
 	half h;
 	half2 h2;
 

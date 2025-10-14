@@ -91,7 +91,7 @@ __global__ void k_bfloat16_arithmetic(void)
 #if !defined(__HIPCC__)
 __global__ void k_bfloat16_arithmetic_atomicAdd(void)
 {
-	extern __shared__ __nv_bfloat16 shareBfloat16[1];
+	extern __shared__ __nv_bfloat16 shareBfloat16[];
 
 	shareBfloat16[0] = CUDART_ONE_BF16;
 
@@ -380,7 +380,7 @@ __global__ void k_bfloat162_arithmetic(void)
 #if !defined(__HIPCC__)
 __global__ void k_bfloat162_arithmetic_atomicAdd(void)
 {
-	extern __shared__ __nv_bfloat162 shareBfloat162[1];
+	extern __shared__ __nv_bfloat162 shareBfloat162[];
 
 	const __nv_bfloat162 one(__float2bfloat16(1), __float2bfloat16(1));
 
