@@ -33,7 +33,7 @@ endif
 
 include ../../../../template/main.mk
 
-HDRS := print.h compiler.h
+HDRS := print.h compiler.h types.h
 
 ${OUTPUT}fp8.cu.o: ${HDRS}
 ${OUTPUT}half.cu.o: ${HDRS}

@@ -25,28 +25,8 @@
 #include "cuda_compat.h"
 #include "compiler.h"
 #include "print.h"
+#include "types.h"
 
-#define USHORT_INF_FP16		0x7C00U
-#define USHORT_MAX_NORMAL_FP16	0x7BFFU
-#define USHORT_MIN_DENORM_FP16	0x0001U
-#define USHORT_NAN_FP16		0x7FFFU
-#define USHORT_NEG_ZERO_FP16	0x8000U
-#define USHORT_ZERO_FP16	0x0000U
-#define USHORT_ONE_FP16		0x3C00U
-
-#ifndef __NVCC__
-/**
- * Half Arithmetic Constants
- * https://docs.nvidia.com/cuda/cuda-math-api/cuda_math_api/group__CUDA__MATH__INTRINSIC__HALF__PHALFS.html
- */
-#define CUDART_INF_FP16 __ushort_as_half((unsigned short)USHORT_INF_FP16)
-#define CUDART_MAX_NORMAL_FP16 __ushort_as_half((unsigned short)USHORT_MAX_NORMAL_FP16)
-#define CUDART_MIN_DENORM_FP16 __ushort_as_half((unsigned short)USHORT_MIN_DENORM_FP16)
-#define CUDART_NAN_FP16 __ushort_as_half((unsigned short)USHORT_NAN_FP16)
-#define CUDART_NEG_ZERO_FP16 __ushort_as_half((unsigned short)USHORT_NEG_ZERO_FP16)
-#define CUDART_ZERO_FP16 __ushort_as_half((unsigned short)USHORT_ZERO_FP16)
-#define CUDART_ONE_FP16 __ushort_as_half((unsigned short)USHORT_ONE_FP16)
-#endif
 
 __global__ void k_types(void)
 {
