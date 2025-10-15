@@ -160,11 +160,52 @@ __global__ void k_double_precision_mathematical(void)
 	PDOUBLE(yn(2, pi));
 }
 
+__global__ void k_double_precision_intrinsics(void)
+{
+	double pi = 3.141592653;
+
+	PDOUBLE(__dadd_rd(pi, pi));
+	PDOUBLE(__dadd_rn(pi, pi));
+	PDOUBLE(__dadd_ru(pi, pi));
+	PDOUBLE(__dadd_rz(pi, pi));
+
+	PDOUBLE(__dsub_rd(pi, pi));
+	PDOUBLE(__dsub_rn(pi, pi));
+	PDOUBLE(__dsub_ru(pi, pi));
+	PDOUBLE(__dsub_rz(pi, pi));
+
+	PDOUBLE(__ddiv_rd(pi, pi));
+	PDOUBLE(__ddiv_rn(pi, pi));
+	PDOUBLE(__ddiv_ru(pi, pi));
+	PDOUBLE(__ddiv_rz(pi, pi));
+
+	PDOUBLE(__dmul_rd(pi, pi));
+	PDOUBLE(__dmul_rn(pi, pi));
+	PDOUBLE(__dmul_ru(pi, pi));
+	PDOUBLE(__dmul_rz(pi, pi));
+
+	PDOUBLE(__drcp_rd(pi));
+	PDOUBLE(__drcp_rn(pi));
+	PDOUBLE(__drcp_ru(pi));
+	PDOUBLE(__drcp_rz(pi));
+
+	PDOUBLE(__dsqrt_rd(pi));
+	PDOUBLE(__dsqrt_rn(pi));
+	PDOUBLE(__dsqrt_ru(pi));
+	PDOUBLE(__dsqrt_rz(pi));
+
+	PDOUBLE(__fma_rd(pi, pi, pi));
+	PDOUBLE(__fma_rn(pi, pi, pi));
+	PDOUBLE(__fma_ru(pi, pi, pi));
+	PDOUBLE(__fma_rz(pi, pi, pi));
+}
+
 int main(int argc, char *argv[])
 {
 	assert(sizeof(double) == 8 && "bad size of double");
 
 	k_double_precision_mathematical<<<1, 1>>>();
+	k_double_precision_intrinsics<<<1, 1>>>();
 
 	(void)cudaDeviceSynchronize();
 	return 0;
