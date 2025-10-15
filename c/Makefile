@@ -47,6 +47,7 @@ targets += unsigned
 targets += restrict
 targets += ternary
 targets += return
+targets += overflow
 
 define arch_strip
   ${Q}${STRIP} $(1) -o $(1).strip
@@ -131,3 +132,4 @@ unsigned: ${OUTPUT}unsigned.o
 restrict: ${OUTPUT}restrict.o
 ternary: ${OUTPUT}ternary.o
 return: ${OUTPUT}return.o
+overflow: ${OUTPUT}overflow.o

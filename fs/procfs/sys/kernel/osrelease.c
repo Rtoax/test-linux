@@ -8,7 +8,7 @@ void parse_version(void)
 	if (fp == NULL || fscanf(fp, "%d.%d.%d", &a1, &a2, &a3) != 3)
 		return;
 
-	printf("actual %d %d %d\n", a1, a2,a3);
+	printf("actual %d %d %d\n", a1, a2, a3);
 
 	fclose(fp);
 }
