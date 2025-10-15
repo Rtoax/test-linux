@@ -11,6 +11,7 @@
 # define __CUDA_ERROR(name)	HCC_STATUS_##name
 # define __nv(name)	hc##name
 # define ____nv_(name)	__hpcc_##name
+# define ____NV_(name)	__HPCC_##name
 # define __NV(name)	HC##name
 # define __nccl(name)	hccl##name
 #elif defined(__USE_HIP__)
@@ -20,7 +21,8 @@
 # define __CUDA(name)	HIP_##name
 # define __CUDA_ERROR(name)	HIP_##name
 # define __nv(name)	hip##name
-# define ____nv_(name)	____hip_##name
+# define ____nv_(name)	__hip_##name
+# define ____NV_(name)	__HIP_##name
 # define __NV(name)	HIP##name
 /* ROCm rccl use 'nccl' prefix, see /usr/include/rccl/rccl.h */
 # define __nccl(name)	nccl##name
@@ -1734,6 +1736,12 @@
  *   unsigned short y;
  * } __nv_bfloat162_raw;
  */
+#define __nv_fp8_interpretation_t	____nv_(fp8_interpretation_t)
+#define __NV_E4M3	____NV_(E4M3)
+#define __NV_E5M2	____NV_(E5M2)
+#define __nv_saturation_t	____nv_(saturation_t)
+#define __NV_NOSAT	____NV_(NOSAT)
+#define __NV_SATFINITE	____NV_(SATFINITE)
 #define __nv_fp8_e4m3	____nv_(fp8_e4m3)
 #define __nv_fp8_e5m2	____nv_(fp8_e5m2)
 #define __nv_fp8x2_e4m3	____nv_(fp8x2_e4m3)
