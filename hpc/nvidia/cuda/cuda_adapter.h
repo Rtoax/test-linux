@@ -1724,33 +1724,83 @@
  */
 #define ncclGetVersion(version)	__nccl(GetVersion(version))
 
+/* enum cudaRoundMode */
+#define cudaRoundMode	__cuda(RoundMode)
+#define cudaRoundNearest	__cuda(RoundNearest)
+#define cudaRoundZero	__cuda(RoundZero)
+#define cudaRoundPosInf	__cuda(RoundPosInf)
+#define cudaRoundMinInf	__cuda(RoundMinInf)
+
 /**
+ * fp8
+ *   typedef unsigned char __nv_fp8_storage_t;
+ *
+ *   typedef unsigned short int __nv_fp8x2_storage_t;
+ *   typedef __nv_fp8x2_storage_t __nv_fp4x4_storage_t;
+ *
+ *   typedef unsigned int __nv_fp8x4_storage_t;
+ *   typedef __nv_fp8x4_storage_t __nv_fp6x4_storage_t;
+ *
  * bfloat16
  *
- * typedef struct __CUDA_ALIGN__(2) {
- *   unsigned short x;
- * } __nv_bfloat16_raw;
+ *   typedef struct __CUDA_ALIGN__(2) {
+ *     unsigned short x;
+ *   } __nv_bfloat16_raw;
  *
- * typedef struct __CUDA_ALIGN__(4) {
- *   unsigned short x;
- *   unsigned short y;
- * } __nv_bfloat162_raw;
+ *   typedef struct __CUDA_ALIGN__(4) {
+ *     unsigned short x;
+ *     unsigned short y;
+ *   } __nv_bfloat162_raw;
  */
+#define __nv_fp8_storage_t	____nv_(fp8_storage_t)
+#define __nv_fp8x2_storage_t	____nv_(fp8x2_storage_t)
+#define __nv_fp8x4_storage_t	____nv_(fp8x4_storage_t)
+
 #define __nv_fp8_interpretation_t	____nv_(fp8_interpretation_t)
 #define __NV_E4M3	____NV_(E4M3)
 #define __NV_E5M2	____NV_(E5M2)
+
 #define __nv_saturation_t	____nv_(saturation_t)
 #define __NV_NOSAT	____NV_(NOSAT)
 #define __NV_SATFINITE	____NV_(SATFINITE)
+
 #define __nv_fp8_e4m3	____nv_(fp8_e4m3)
 #define __nv_fp8_e5m2	____nv_(fp8_e5m2)
+#define __nv_fp8_e8m0	____nv_(fp8_e8m0)
 #define __nv_fp8x2_e4m3	____nv_(fp8x2_e4m3)
-#define __nv_fp8x4_e4m3	____nv_(fp8x4_e4m3)
 #define __nv_fp8x2_e5m2	____nv_(fp8x2_e5m2)
-#define __nv_fp8x4_e5m2	____nv_(fp8x4_e5m2)
 #define __nv_fp8x2_e8m0	____nv_(fp8x2_e8m0)
+#define __nv_fp8x4_e4m3	____nv_(fp8x4_e4m3)
+#define __nv_fp8x4_e5m2	____nv_(fp8x4_e5m2)
 #define __nv_fp8x4_e8m0	____nv_(fp8x4_e8m0)
+
 #define __nv_bfloat16	____nv_(bfloat16)
 #define __nv_bfloat16_raw	____nv_(bfloat16_raw)
 #define __nv_bfloat162	____nv_(bfloat162)
 #define __nv_bfloat162_raw	____nv_(bfloat162_raw)
+
+#define __nv_cvt_halfraw_to_fp8		____nv_(cvt_halfraw_to_fp8)
+#define __nv_cvt_halfraw2_to_fp8x2	____nv_(cvt_halfraw2_to_fp8x2)
+
+#define __nv_cvt_bfloat16raw_to_e8m0	____nv_(cvt_bfloat16raw_to_e8m0)
+#define __nv_cvt_bfloat16raw_to_fp8	____nv_(cvt_bfloat16raw_to_fp8)
+
+#define __nv_cvt_bfloat162raw_to_e8m0x2	____nv_(cvt_bfloat162raw_to_e8m0x2)
+#define __nv_cvt_bfloat16raw2_to_fp8x2	____nv_(cvt_bfloat16raw2_to_fp8x2)
+
+#define __nv_cvt_double2_to_e8m0x2	____nv_(cvt_double2_to_e8m0x2)
+#define __nv_cvt_double2_to_fp8x2	____nv_(cvt_double2_to_fp8x2)
+#define __nv_cvt_double_to_e8m0		____nv_(cvt_double_to_e8m0)
+#define __nv_cvt_double_to_fp8		____nv_(cvt_double_to_fp8)
+
+#define __nv_cvt_e8m0_to_bf16raw	____nv_(cvt_e8m0_to_bf16raw)
+#define __nv_cvt_e8m0x2_to_bf162raw	____nv_(cvt_e8m0x2_to_bf162raw)
+
+#define __nv_cvt_float2_to_e8m0x2	____nv_(cvt_float2_to_e8m0x2)
+#define __nv_cvt_float2_to_fp8x2	____nv_(cvt_float2_to_fp8x2)
+
+#define __nv_cvt_float_to_e8m0		____nv_(cvt_float_to_e8m0)
+#define __nv_cvt_float_to_fp8		____nv_(cvt_float_to_fp8)
+
+#define __nv_cvt_fp8_to_halfraw		____nv_(cvt_fp8_to_halfraw)
+#define __nv_cvt_fp8x2_to_halfraw2	____nv_(cvt_fp8x2_to_halfraw2)
