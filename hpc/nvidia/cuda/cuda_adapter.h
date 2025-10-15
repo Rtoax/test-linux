@@ -10,6 +10,7 @@
 # define __CUDA(name)	HC_##name
 # define __CUDA_ERROR(name)	HCC_STATUS_##name
 # define __nv(name)	hc##name
+# define ____nv_(name)	__hpcc_##name
 # define __NV(name)	HC##name
 # define __nccl(name)	hccl##name
 #elif defined(__USE_HIP__)
@@ -19,6 +20,7 @@
 # define __CUDA(name)	HIP_##name
 # define __CUDA_ERROR(name)	HIP_##name
 # define __nv(name)	hip##name
+# define ____nv_(name)	____hip_##name
 # define __NV(name)	HIP##name
 /* ROCm rccl use 'nccl' prefix, see /usr/include/rccl/rccl.h */
 # define __nccl(name)	nccl##name
@@ -1732,30 +1734,15 @@
  *   unsigned short y;
  * } __nv_bfloat162_raw;
  */
-#if defined(__USE_HPCC__)
-# define __nv_fp8_e4m3	__hpcc_fp8_e4m3
-# define __nv_fp8_e5m2	__hpcc_fp8_e5m2
-# define __nv_fp8x2_e4m3	__hpcc_fp8x2_e4m3
-# define __nv_fp8x4_e4m3	__hpcc_fp8x4_e4m3
-# define __nv_fp8x2_e5m2	__hpcc_fp8x2_e5m2
-# define __nv_fp8x4_e5m2	__hpcc_fp8x4_e5m2
-# define __nv_fp8x2_e8m0	__hpcc_fp8x2_e8m0
-# define __nv_fp8x4_e8m0	__hpcc_fp8x4_e8m0
-# define __nv_bfloat16	__hpcc_bfloat16
-# define __nv_bfloat16_raw	__hpcc_bfloat16_raw
-# define __nv_bfloat162	__hpcc_bfloat162
-# define __nv_bfloat162_raw	__hpcc_bfloat162_raw
-#elif defined(__USE_HIP__)
-# define __nv_fp8_e4m3	__hip_fp8_e4m3
-# define __nv_fp8_e5m2	__hip_fp8_e5m2
-# define __nv_fp8x2_e4m3	__hip_fp8x2_e4m3
-# define __nv_fp8x4_e4m3	__hip_fp8x4_e4m3
-# define __nv_fp8x2_e5m2	__hip_fp8x2_e5m2
-# define __nv_fp8x4_e5m2	__hip_fp8x4_e5m2
-# define __nv_fp8x2_e8m0	__hip_fp8x2_e8m0
-# define __nv_fp8x4_e8m0	__hip_fp8x4_e8m0
-# define __nv_bfloat16	__hip_bfloat16
-# define __nv_bfloat16_raw	__hip_bfloat16_raw
-# define __nv_bfloat162	__hip_bfloat162
-# define __nv_bfloat162_raw	__hip_bfloat162_raw
-#endif
+#define __nv_fp8_e4m3	____nv_(fp8_e4m3)
+#define __nv_fp8_e5m2	____nv_(fp8_e5m2)
+#define __nv_fp8x2_e4m3	____nv_(fp8x2_e4m3)
+#define __nv_fp8x4_e4m3	____nv_(fp8x4_e4m3)
+#define __nv_fp8x2_e5m2	____nv_(fp8x2_e5m2)
+#define __nv_fp8x4_e5m2	____nv_(fp8x4_e5m2)
+#define __nv_fp8x2_e8m0	____nv_(fp8x2_e8m0)
+#define __nv_fp8x4_e8m0	____nv_(fp8x4_e8m0)
+#define __nv_bfloat16	____nv_(bfloat16)
+#define __nv_bfloat16_raw	____nv_(bfloat16_raw)
+#define __nv_bfloat162	____nv_(bfloat162)
+#define __nv_bfloat162_raw	____nv_(bfloat162_raw)
