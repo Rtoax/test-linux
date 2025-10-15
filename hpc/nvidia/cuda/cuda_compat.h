@@ -16,6 +16,7 @@
 #include <hcrand/hcrand.h>
 #include <hcfft/hcfft.h>
 /* TODO: add rtc */
+#include <hpcc_fp8.h>
 #include <hpcc_fp16.h>
 #ifdef __HPCC__
 # include <hpcc_cooperative_groups.h>
