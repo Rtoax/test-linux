@@ -1,6 +1,17 @@
 // SPDX-License-Identifier: GPL-3.0
 /* Copyright (c) 2025 Rong Tao */
 /**
+ * TYPES:
+ *
+ * typedef struct __CUDA_ALIGN__(2) {
+ *   unsigned short x;
+ * } __half_raw;
+ *
+ * typedef struct __CUDA_ALIGN__(4) {
+ *   unsigned short x;
+ *   unsigned short y;
+ * } __half2_raw;
+ *
  * https://docs.nvidia.com/cuda/cuda-math-api/index.html
  * https://docs.nvidia.com/cuda/cuda-math-api/cuda_math_api/group__CUDA__MATH____HALF__MISC.html
  */
@@ -15,20 +26,36 @@
 #include "compiler.h"
 #include "print.h"
 
+#define USHORT_INF_FP16		0x7C00U
+#define USHORT_MAX_NORMAL_FP16	0x7BFFU
+#define USHORT_MIN_DENORM_FP16	0x0001U
+#define USHORT_NAN_FP16		0x7FFFU
+#define USHORT_NEG_ZERO_FP16	0x8000U
+#define USHORT_ZERO_FP16	0x0000U
+#define USHORT_ONE_FP16		0x3C00U
+
 #ifndef __NVCC__
 /**
  * Half Arithmetic Constants
  * https://docs.nvidia.com/cuda/cuda-math-api/cuda_math_api/group__CUDA__MATH__INTRINSIC__HALF__PHALFS.html
  */
-#define CUDART_INF_FP16 __ushort_as_half((unsigned short)0x7C00U)
-#define CUDART_MAX_NORMAL_FP16 __ushort_as_half((unsigned short)0x7BFFU)
-#define CUDART_MIN_DENORM_FP16 __ushort_as_half((unsigned short)0x0001U)
-#define CUDART_NAN_FP16 __ushort_as_half((unsigned short)0x7FFFU)
-#define CUDART_NEG_ZERO_FP16 __ushort_as_half((unsigned short)0x8000U)
-#define CUDART_ZERO_FP16 __ushort_as_half((unsigned short)0x0000U)
-#define CUDART_ONE_FP16 __ushort_as_half((unsigned short)0x3C00U)
+#define CUDART_INF_FP16 __ushort_as_half((unsigned short)USHORT_INF_FP16)
+#define CUDART_MAX_NORMAL_FP16 __ushort_as_half((unsigned short)USHORT_MAX_NORMAL_FP16)
+#define CUDART_MIN_DENORM_FP16 __ushort_as_half((unsigned short)USHORT_MIN_DENORM_FP16)
+#define CUDART_NAN_FP16 __ushort_as_half((unsigned short)USHORT_NAN_FP16)
+#define CUDART_NEG_ZERO_FP16 __ushort_as_half((unsigned short)USHORT_NEG_ZERO_FP16)
+#define CUDART_ZERO_FP16 __ushort_as_half((unsigned short)USHORT_ZERO_FP16)
+#define CUDART_ONE_FP16 __ushort_as_half((unsigned short)USHORT_ONE_FP16)
 #endif
 
+__global__ void k_types(void)
+{
+	__half_raw hraw = { .x = USHORT_ONE_FP16, };
+	__half2_raw h2raw = { .x = USHORT_ONE_FP16, .y = USHORT_ONE_FP16, };
+
+	PHALFRAW(hraw);
+	PHALF2RAW(h2raw);
+}
 
 __global__ void k_half_constants(void)
 {
@@ -497,8 +524,12 @@ int main(int argc, char *argv[])
 	dim3 block(32);
 
 	assert(sizeof(half) == 2 && "bad size of half");
+	assert(sizeof(__half_raw) == 2 && "bad size of __half_raw");
 	assert(sizeof(half2) == 4 && "bad size of half2");
+	assert(sizeof(__half2_raw) == 4 && "bad size of __half2_raw");
 	assert(sizeof(float2) == 8 && "bad size of float2");
+
+	k_types<<<1, 1>>>();
 
 	k_half_constants<<<1, 1>>>();
 	k_half_arithmetic<<<1, 1>>>();

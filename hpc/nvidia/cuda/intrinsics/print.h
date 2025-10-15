@@ -8,11 +8,13 @@
 #define PPFX()	printf("L%-4d" SEP " ", __LINE__);
 #define PEXPR(expr)	PPFX();printf("%s\n", #expr); expr;
 #define PHALF(v)	PPFX();printf("%s : %f\n", #v, __half2float(v));
+#define PHALFRAW(v)	PHALF(v)
 #define PHALF2(v) do {	\
 		half2 __h2 = v;	\
 		PPFX();	\
 		printf("%s : {%f, %f}\n", #v, __half2float(__h2.x), __half2float(__h2.y));	\
 	} while (0)
+#define PHALF2RAW(v)	PHALF2(v)
 #define PFLOAT(v)	PPFX();printf("%s : %f\n", #v, v);
 #define PFLOAT2(v) do {	\
 		float2 __f2 = v;	\
