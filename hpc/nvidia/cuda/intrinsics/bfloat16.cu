@@ -212,10 +212,12 @@ __global__ void k_bfloat16_precision_conversion(void)
 
 	__nv_bfloat162 bf162_1(bf16_1, bf16_2);
 	__nv_bfloat162 bf162_2(bf162_1);
-	__nv_bfloat162 bf162_3(bf162_1_raw);
+	__nv_bfloat162 bf162_3(bf162_1_raw); /* init failed */
 	__nv_bfloat162 bf162_4 = bf162_3;
-	__nv_bfloat162 bf162_5 = bf162_1_raw;
+	__nv_bfloat162 bf162_5 = bf162_1_raw; /* init failed */
 
+	PBF162RAW(bf162_1_raw);
+	PBF162RAW(bf162_2_raw);
 	PBF162(bf162_1);
 	PBF162(bf162_2);
 	PBF162(bf162_3);
