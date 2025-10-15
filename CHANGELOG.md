@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - cuda/samples: Rename code to remove cuda,hip,hc prefix;
 #### Added
+- cuda/intrinsics: add double.cu;
 - bpftrace/samples: add auxv.bt;
 - cuda/intrinsics: add test bfloat16.cu;
 - ubuntu: add sources.list.d/ubuntu25.04.sources;

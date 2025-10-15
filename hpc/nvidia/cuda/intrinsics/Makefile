@@ -9,6 +9,7 @@ include ../../../metax/hpcc.mk
 common-objs := half
 common-objs += bfloat16
 common-objs += float
+common-objs += double
 
 targets-post :=
 
@@ -36,10 +37,12 @@ HDRS := print.h compiler.h
 ${OUTPUT}half.cu.o: ${HDRS}
 ${OUTPUT}bfloat16.cu.o: ${HDRS}
 ${OUTPUT}float.cu.o: ${HDRS}
+${OUTPUT}double.cu.o: ${HDRS}
 
 half-nv: ${OUTPUT}half.cu.o
 bfloat16-nv: ${OUTPUT}bfloat16.cu.o
 float-nv: ${OUTPUT}float.cu.o
+double-nv: ${OUTPUT}double.cu.o
 
 ${OUTPUT}half.hip.o: half.cu ${HDRS}
 half-hip: ${OUTPUT}half.hip.o
@@ -47,6 +50,8 @@ ${OUTPUT}bfloat16.hip.o: bfloat16.cu ${HDRS}
 bfloat16-hip: ${OUTPUT}bfloat16.hip.o
 ${OUTPUT}float.hip.o: float.cu ${HDRS}
 float-hip: ${OUTPUT}float.hip.o
+${OUTPUT}double.hip.o: double.cu ${HDRS}
+double-hip: ${OUTPUT}double.hip.o
 
 ${OUTPUT}half.hpcc.o: half.cu ${HDRS}
 half-hpcc: ${OUTPUT}half.hpcc.o
@@ -54,3 +59,5 @@ ${OUTPUT}bfloat16.hpcc.o: bfloat16.cu ${HDRS}
 bfloat16-hpcc: ${OUTPUT}bfloat16.hpcc.o
 ${OUTPUT}float.hpcc.o: float.cu ${HDRS}
 float-hpcc: ${OUTPUT}float.hpcc.o
+${OUTPUT}double.hpcc.o: double.cu ${HDRS}
+double-hpcc: ${OUTPUT}double.hpcc.o

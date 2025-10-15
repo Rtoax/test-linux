@@ -25,6 +25,7 @@
 		PPFX();	\
 		printf("%s : {%f, %f}\n", #v, __bfloat162float(__bf162.x), __bfloat162float(__bf162.y));	\
 	} while (0)
+#define PDOUBLE(v)	PPFX();printf("%s : %lf\n", #v, v);
 #define PINT(v)	PPFX();printf("%s : %d\n", #v, v);
 #define PSHORT(v)	PPFX();printf("%s : %d\n", #v, v);
 #define PLONG(v)	PPFX();printf("%s : %ld\n", #v, v);
