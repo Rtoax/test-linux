@@ -153,45 +153,64 @@ __global__ void k_float_precision_intrinsics(void)
 	PFLOAT2(__ffma2_ru(pi2, pi2, pi2));
 	PFLOAT2(__ffma2_rz(pi2, pi2, pi2));
 #endif
-	PFLOAT(__fadd_rd(pi, pi));
 	PFLOAT(__fadd_rn(pi, pi));
+#if !defined(__HIPCC__)
+	PFLOAT(__fadd_rd(pi, pi));
 	PFLOAT(__fadd_ru(pi, pi));
 	PFLOAT(__fadd_rz(pi, pi));
-	PFLOAT(__fdiv_rd(pi, pi));
+#endif
+
 	PFLOAT(__fdiv_rn(pi, pi));
+#if !defined(__HIPCC__)
+	PFLOAT(__fdiv_rd(pi, pi));
 	PFLOAT(__fdiv_ru(pi, pi));
 	PFLOAT(__fdiv_rz(pi, pi));
+#endif
+
 	PFLOAT(__fdividef(pi, pi));
 
+#if !defined(__HIPCC__)
 	PFLOAT(__fmaf_ieee_rd(pi, pi, pi));
 	PFLOAT(__fmaf_ieee_rn(pi, pi, pi));
 	PFLOAT(__fmaf_ieee_ru(pi, pi, pi));
 	PFLOAT(__fmaf_ieee_rz(pi, pi, pi));
-	PFLOAT(__fmaf_rd(pi, pi, pi));
+#endif
+
 	PFLOAT(__fmaf_rn(pi, pi, pi));
+#if !defined(__HIPCC__)
+	PFLOAT(__fmaf_rd(pi, pi, pi));
 	PFLOAT(__fmaf_ru(pi, pi, pi));
 	PFLOAT(__fmaf_rz(pi, pi, pi));
+#endif
 
-	PFLOAT(__fmul_rd(pi, pi));
 	PFLOAT(__fmul_rn(pi, pi));
+#if !defined(__HIPCC__)
+	PFLOAT(__fmul_rd(pi, pi));
 	PFLOAT(__fmul_ru(pi, pi));
 	PFLOAT(__fmul_rz(pi, pi));
+#endif
 
-	PFLOAT(__frcp_rd(pi));
 	PFLOAT(__frcp_rn(pi));
+#if !defined(__HIPCC__)
+	PFLOAT(__frcp_rd(pi));
 	PFLOAT(__frcp_ru(pi));
 	PFLOAT(__frcp_rz(pi));
+#endif
 
 	PFLOAT(__frsqrt_rn(pi));
-	PFLOAT(__fsqrt_rd(pi));
 	PFLOAT(__fsqrt_rn(pi));
+#if !defined(__HIPCC__)
+	PFLOAT(__fsqrt_rd(pi));
 	PFLOAT(__fsqrt_ru(pi));
 	PFLOAT(__fsqrt_rz(pi));
+#endif
 
-	PFLOAT(__fsub_rd(pi, pi));
 	PFLOAT(__fsub_rn(pi, pi));
+#if !defined(__HIPCC__)
+	PFLOAT(__fsub_rd(pi, pi));
 	PFLOAT(__fsub_ru(pi, pi));
 	PFLOAT(__fsub_rz(pi, pi));
+#endif
 
 	PFLOAT(__log10f(pi));
 	PFLOAT(__log2f(pi));
@@ -207,7 +226,7 @@ __global__ void k_float_precision_intrinsics(void)
 
 	PFLOAT(__sinf(pi));
 	PFLOAT(__tanf(pi));
-#if !defined(__HPCC__)
+#if !defined(__HPCC__) && !defined(__HIPCC__)
 	PFLOAT(__tanhf(pi));
 #endif
 }
