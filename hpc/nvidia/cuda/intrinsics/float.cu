@@ -226,7 +226,7 @@ __global__ void k_float_precision_intrinsics(void)
 
 	PFLOAT(__sinf(pi));
 	PFLOAT(__tanf(pi));
-#if !defined(__HPCC__) && !defined(__HIPCC__)
+#if !defined(__HPCC__) && !defined(__HIPCC__) && CUDA_VERSION >= 13000
 	PFLOAT(__tanhf(pi));
 #endif
 }

@@ -68,6 +68,9 @@
 #include <cublasLt.h>
 #include <cufft.h>
 #include <curand.h>
+#include <cuda_fp8.h>
+#include <cuda_fp16.h>
+#include <cuda_bf16.h>
 #define DISABLE_CUSPARSE_DEPRECATED	1
 #include <cusparse.h>
 #include <cooperative_groups.h>
