@@ -34,7 +34,7 @@ int is_pie_raw(const char *path)
 	for (i = 0; i < ehdr->e_shnum; i++) {
 		Elf64_Shdr *shdr = &shdrs[i];
 
-		if (shdr->sh_type != SHT_DYNAMIC)
+		if (!shdr || shdr->sh_type != SHT_DYNAMIC)
 			continue;
 
 		fprintf(stderr, "%s found SHT_DYNAMIC.\n", path);
@@ -80,7 +80,7 @@ int is_pie_libelf(const char *path)
 		Elf64_Shdr *shdr = elf64_getshdr(scn);
 		Elf_Data *data = elf_getdata(scn, NULL);
 
-		if (shdr->sh_type != SHT_DYNAMIC)
+		if (!shdr || shdr->sh_type != SHT_DYNAMIC)
 			continue;
 
 		fprintf(stderr, "%s found SHT_DYNAMIC.\n", path);
