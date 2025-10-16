@@ -7,6 +7,8 @@
  * - NVIDIA GeForce RTX 3060
  *   commit 3dfdd4a370f2 ("hpc: DeviceProp: NVIDIA GeForce RTX 3060")
  *
+ * - NVIDIA A40
+ *
  * - MetaX Mars 03
  *   commit 0fba063e1fae ("hpc: DeviceProp: Metax Mars X203")
  *
