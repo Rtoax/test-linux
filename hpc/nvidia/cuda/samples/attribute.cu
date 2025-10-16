@@ -22,7 +22,7 @@ int main(void)
 	Attr(cudaDevAttrClockRate);
 	Attr(cudaDevAttrMaxThreadsPerBlock);
 	Attr(cudaDevAttrMaxThreadsPerMultiProcessor);
-#if !defined(__HIPCC__)
+#if !defined(__HIPCC__) && (CUDA_VERSION >= 12000)
 	Attr(cudaDevAttrHostNumaId);
 #endif
 	Attr(cudaDevAttrWarpSize);
