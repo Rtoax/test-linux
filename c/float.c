@@ -112,13 +112,13 @@
  * Note: Use _Float16 first
  */
 #ifdef SUPPORT__Float16
-# define SUPPORT_FP16
+# define SUPPORT_FP16	1
 # define compat_fp16	_Float16
 # define compat_half2float(v)	((float)v)
 # define compat_float2half(v)	((_Float16)v)
 # define compat_fp16_exp2(v) exp2f(v)
 #elif defined(HAVE_CUDA)
-# define SUPPORT_FP16
+# define SUPPORT_FP16	1
 # define compat_fp16	half
 # define compat_half2float(v)	__half2float(v)
 # define compat_float2half(v)	__float2half(v)
@@ -803,6 +803,7 @@ void __myglobal__ __kernel_overflow_muladd_fp32_arr(size_t len, size_t interval)
 	}
 }
 
+#ifdef SUPPORT_FP16
 void __myglobal__ __kernel_init_all_fp16_arr(size_t size, float init)
 {
 	for (size_t i = 0; i < size; i++) {
@@ -848,6 +849,7 @@ void __myglobal__ __kernel_overflow_muladd_fp16_arr(size_t len, size_t interval)
 		rslt_fp32.f32 += compat_half2float(tmp);
 	}
 }
+#endif /* SUPPORT_FP16 */
 
 #ifdef __HPCC__
 # pragma clang diagnostic push
@@ -934,6 +936,7 @@ void overflow_muladd_fp32_arr(void)
 	}
 }
 
+#ifdef SUPPORT_FP16
 void overflow_muladd_fp16(void)
 {
 	for (size_t i = 100; i <= 1000; i += 100) {
@@ -973,6 +976,8 @@ void overflow_muladd_fp16_arr(void)
 		mysync();
 	}
 }
+#endif /* SUPPORT_FP16 */
+
 #ifdef __HPCC__
 # pragma clang diagnostic pop
 #endif
@@ -1036,10 +1041,11 @@ void fp32_overflow_test(void)
 	check_fp32(st2host(fp32_PosMax, f32) * 1.00000009f);
 	check_fp32(st2host(fp32_PosMax, f32) * 1.0000001f);
 
+#ifdef SUPPORT_FP16
 	seperator();
-
 	overflow_mul_fp32();
 	overflow_add_fp32();
+#endif
 
 	reset();
 }
@@ -1055,11 +1061,13 @@ void fp32_precision_test(void)
 
 void fp16_precision_test(void)
 {
+#ifdef SUPPORT_FP16
 	seperator();
 	overflow_muladd_fp16();
 	seperator();
 	overflow_muladd_fp16_arr();
 	reset();
+#endif
 }
 
 int main(int argc, char *argv[])
