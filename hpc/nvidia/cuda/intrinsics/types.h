@@ -19,7 +19,7 @@
 #define USHORT_ONE_BF16		0x3F80U
 #define USHORT_ZERO_BF16	0x0000U
 
-#ifndef __NVCC__
+#if !defined(__NVCC__) || (defined(CUDA_VERSION) && CUDA_VERSION < 12000)
 /**
  * Half Arithmetic Constants
  * https://docs.nvidia.com/cuda/cuda-math-api/cuda_math_api/group__CUDA__MATH__INTRINSIC__HALF__PHALFS.html
