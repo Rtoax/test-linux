@@ -24,13 +24,17 @@ __global__ void k_fp8_functions(void)
 	const __nv_bfloat162_raw __unused bf162_2_raw = { .x = 2, .y = 2, };
 
 	__half_raw halfraw;
-	__half2_raw half2raw;
+	__half_raw halfraw_one = { .x = USHORT_ONE_FP16, };
 
 	__nv_fp8_storage_t __unused fp8_1;
 	__nv_fp8x2_storage_t __unused fp8x2_1;
 
 	PBF162RAW(bf162_1_raw);
 	PBF162RAW(bf162_2_raw);
+
+	PHALFRAW(halfraw_one);
+	PEXPR(fp8_1 = __nv_cvt_halfraw_to_fp8(halfraw_one, __NV_NOSAT, __NV_E4M3));
+	PFP8(fp8_1, __NV_E4M3);
 
 	/**
 	 * FIXME: Why print fp8_1 <__NV_E4M3> : inf??
