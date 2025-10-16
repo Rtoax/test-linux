@@ -63,6 +63,12 @@ ARGUMENT
 	-c, --cmake             execute the cmake to generate Makefile
 	-v, --verbose           run with verbose mode
 	-h, --help              show this info
+
+LINKS
+	https://github.com/bpftrace/bpftrace
+
+SEE ALSO
+	bpftrace(8)
 "
 	exit ${1-0}
 }
@@ -131,3 +137,6 @@ fi
 # Must execute make command at least
 make -j$(nproc)
 sudo make install
+
+# Check for the clang-format
+git clang-format --diff origin/master --extensions cpp,h
