@@ -68,7 +68,9 @@
 #include <cublasLt.h>
 #include <cufft.h>
 #include <curand.h>
-#include <cuda_fp6.h>
+#if CUDA_VERSION >= 12000
+# include <cuda_fp6.h>
+#endif
 #include <cuda_fp8.h>
 #include <cuda_fp16.h>
 #include <cuda_bf16.h>
