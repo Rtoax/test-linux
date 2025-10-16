@@ -180,13 +180,13 @@ __global__ void k_bfloat16_precision_conversion(void)
 	__nv_bfloat16 bf16_12((unsigned int)1);
 	__nv_bfloat16 bf16_2((float)2.0f);
 	__nv_bfloat16 bf16_3((double)3.0);
-#if !defined(__HIPCC__) && !defined(__HPCC__)
+#if !defined(__HIPCC__) && !defined(__HPCC__) && (CUDA_VERSION >= 12000)
 	__nv_bfloat16 bf16_4((long)4UL);
 #endif
 #if !defined(__HIPCC__)
 	__nv_bfloat16 bf16_41((long long)4UL);
 #endif
-#if !defined(__HIPCC__) && !defined(__HPCC__)
+#if !defined(__HIPCC__) && !defined(__HPCC__) && (CUDA_VERSION >= 12000)
 	__nv_bfloat16 bf16_42((unsigned long)4UL);
 #endif
 #if !defined(__HIPCC__)
@@ -194,7 +194,7 @@ __global__ void k_bfloat16_precision_conversion(void)
 #endif
 	__nv_bfloat16 bf16_5((short)5U);
 	__nv_bfloat16 bf16_51((unsigned short)5U);
-#if !defined(__HIPCC__) && !defined(__HPCC__)
+#if !defined(__HIPCC__) && !defined(__HPCC__) && (CUDA_VERSION >= 12000)
 	__nv_bfloat16 bf16_6(half_pi);
 #endif
 
@@ -217,7 +217,7 @@ __global__ void k_bfloat16_precision_conversion(void)
 
 	PBF162((bf162 = __bfloat162bfloat162(pi)));
 	PFLOAT2((f2 = __bfloat1622float2(bf162)));
-#if !defined(__HPCC__) && !defined(__HIPCC__)
+#if !defined(__HPCC__) && !defined(__HIPCC__) && (CUDA_VERSION >= 12000)
 	PCHAR(__bfloat162char_rz(A));
 	PCHAR(__bfloat162uchar_rz(A));
 #endif
@@ -415,13 +415,13 @@ __global__ void k_bfloat162_comparision(void)
 	PBOOL(__hbneu2(one, one));
 	PBF162(__heq2(one, one));
 	PBOOL((one == one));
-#if !defined(__HPCC__) && !defined(__HIPCC__)
+#if !defined(__HPCC__) && !defined(__HIPCC__) && (CUDA_VERSION >= 12000)
 	PBOOL(__heq2_mask(one, one));
 #endif
 #if !defined(__HIPCC__)
 	PBF162(__hequ2(one, one));
 #endif
-#if !defined(__HPCC__) && !defined(__HIPCC__)
+#if !defined(__HPCC__) && !defined(__HIPCC__) && (CUDA_VERSION >= 12000)
 	PBOOL(__hequ2_mask(one, one));
 #endif
 }
