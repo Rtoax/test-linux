@@ -50,6 +50,16 @@
 #define PBOOL(v)	PPFX();printf("%s : %s\n", #v, v ? "true" : "false");
 #define PCHAR(v)	PPFX();printf("%s : %u (%c)\n", #v, v, v);
 
+#define PBITS(mem, nbits) do {	\
+		PPFX();		\
+		printf("%s(%s) : ", #mem, #nbits);	\
+		for (size_t i = 0; i < nbits; i++) {	\
+			uint8_t u8 = *(uint8_t *)((const int8_t *)mem + i / 8);	\
+			uint8_t bit = (u8 >> (i % 8) & 0x1);	\
+			printf("%c", bit ? '1' : '0');	\
+		}	\
+		printf("\n");	\
+	} while (0)
 
 static void fpbits(FILE *fp, const void *mem, size_t bits)
 {

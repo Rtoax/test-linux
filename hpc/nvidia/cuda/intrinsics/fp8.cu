@@ -37,6 +37,7 @@ __global__ void k_fp8_functions(void)
 	 */
 	PEXPR(fp8_1 = __nv_cvt_double_to_fp8(PI_DOUBLE, __NV_NOSAT, __NV_E4M3));
 	PFP8(fp8_1, __NV_E4M3);
+	PBITS(&fp8_1, 8);
 
 	halfraw = __nv_cvt_fp8_to_halfraw(fp8_1, __NV_E4M3);
 	fp8_1 = __nv_cvt_bfloat16raw_to_fp8(bf16_1_raw, __NV_NOSAT, __NV_E4M3);
