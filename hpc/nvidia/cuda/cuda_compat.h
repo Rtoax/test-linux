@@ -45,7 +45,6 @@
 #define HIPBLAS_USE_HIP_HALF
 #include <hipblas/hipblas.h>
 #include <hipblaslt/hipblaslt.h>
-#include <hip/hip_fp6.h>
 #include <hip/hip_fp8.h>
 #include <hip/hip_fp16.h>
 #ifdef HAVE_RCCL

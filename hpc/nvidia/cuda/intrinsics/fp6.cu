@@ -18,7 +18,7 @@
 
 __global__ void k_fp6_types(void)
 {
-#if !defined(__HPCC__)
+#if !defined(__HPCC__) && !defined(__HIPCC__)
 	__nv_fp6_storage_t __unused fp6;
 	__nv_fp6x2_storage_t __unused fp6x2;
 	__nv_fp6x4_storage_t __unused fp6x4;
