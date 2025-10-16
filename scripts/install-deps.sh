@@ -340,7 +340,7 @@ ARGUMENT
 	-k, --skip-pkg     skip package (maybe list mutiple)
 	-u, --dry-run      only show commands
 
-	-v, --verbose      show verbose information
+	-v, --verbose      run with verbose mode
 	-h, --help         show this help information
 	-f, --force        force install
 

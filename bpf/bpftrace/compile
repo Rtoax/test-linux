@@ -1,5 +1,13 @@
 #!/bin/bash
-set -ex
+set -e
+
+readonly prog=bpftrace-compile
+
+flags_deps=
+flags_cmake=
+verbose=
+
+declare -a cmake_args
 
 . /etc/os-release
 
@@ -38,23 +46,88 @@ rpm_pkgs() {
 		rubygem-asciidoctor
 }
 
-declare -a cmake_args
+__usage__()
+{
+	echo -e "
+NAME
+	${prog} - Compile bpftrace
 
-if [[ " debian ubuntu " =~ " ${ID} " ]]; then
-	deb_pkgs
-	# FIXME: update Debian 12 llvm version here
-	cmake_args+=( -DLLVM_REQUESTED_VERSION=19.1.14 )
-	cmake_args+=( -DLLVM_DIR=/usr/lib/llvm-19/cmake/ )
-elif [[ " rhel centos fedora " =~ " ${ID} " ]]; then
-	rpm_pkgs
+SYNOPSIS
+	${prog} [--deps] [--cmake] [--help] [--verbose]
+
+DESCRIPTION
+	Compile bpftrace.
+
+ARGUMENT
+	-d, --deps              install depends
+	-c, --cmake             execute the cmake to generate Makefile
+	-v, --verbose           run with verbose mode
+	-h, --help              show this info
+"
+	exit ${1-0}
+}
+
+TEMP_ARGS=$(getopt --options dcvh \
+	--long deps \
+	--long cmake \
+	--long verbose \
+	--long help \
+	--name ${prog} -- "$@")
+
+test $? != 0 && __usage__ 1
+
+eval set -- "$TEMP_ARGS"
+
+while true; do
+	case $1 in
+	-d | --deps)
+		shift
+		flags_deps=YES
+		;;
+	-c | --cmake)
+		shift
+		flags_cmake=YES
+		;;
+	-v | --verbose)
+		shift
+		verbose=YES
+		;;
+	-h | --help)
+		shift
+		__usage__
+		;;
+	--)
+		shift
+		break
+		;;
+	esac
+done
+
+if [[ ${verbose} ]]; then
+	export PS4='+${BASH_SOURCE}:${LINENO}:${FUNCNAME[0]}: '
+	set -x
 fi
 
-cmake \
-	-DCMAKE_INSTALL_PREFIX=/usr/ \
-	-DCMAKE_BUILD_TYPE=Debug \
-	-DBUILD_TESTING=ON \
-	${cmake_args[@]} \
-	..
+if [[ ${flags_deps} ]]; then
+	if [[ " debian ubuntu " =~ " ${ID} " ]]; then
+		deb_pkgs
+		# FIXME: update Debian 12 llvm version here
+		cmake_args+=( -DLLVM_REQUESTED_VERSION=19.1.14 )
+		cmake_args+=( -DLLVM_DIR=/usr/lib/llvm-19/cmake/ )
+	elif [[ " rhel centos fedora " =~ " ${ID} " ]]; then
+		rpm_pkgs
+	fi
+fi
 
+if [[ ${flags_cmake} ]]; then
+	cmake \
+		-DCMAKE_INSTALL_PREFIX=/usr/ \
+		-DCMAKE_BUILD_TYPE=Debug \
+		-DBUILD_TESTING=ON \
+		${cmake_args[@]} \
+		..
+fi
+
+# Must execute make command at least
 make -j$(nproc)
 sudo make install
