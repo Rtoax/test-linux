@@ -45,6 +45,7 @@
 #define HIPBLAS_USE_HIP_HALF
 #include <hipblas/hipblas.h>
 #include <hipblaslt/hipblaslt.h>
+#include <hip/hip_fp6.h>
 #include <hip/hip_fp8.h>
 #include <hip/hip_fp16.h>
 #ifdef HAVE_RCCL
@@ -68,6 +69,7 @@
 #include <cublasLt.h>
 #include <cufft.h>
 #include <curand.h>
+#include <cuda_fp6.h>
 #include <cuda_fp8.h>
 #include <cuda_fp16.h>
 #include <cuda_bf16.h>

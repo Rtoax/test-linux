@@ -6,7 +6,8 @@ include ../cuda.mk
 include ../../../amd/rocm/rocm.mk
 include ../../../metax/hpcc.mk
 
-common-objs := fp8
+common-objs := fp6
+common-objs += fp8
 common-objs += half
 common-objs += bfloat16
 common-objs += float
@@ -35,18 +36,22 @@ include ../../../../template/main.mk
 
 HDRS := print.h compiler.h types.h
 
+${OUTPUT}fp6.cu.o: ${HDRS}
 ${OUTPUT}fp8.cu.o: ${HDRS}
 ${OUTPUT}half.cu.o: ${HDRS}
 ${OUTPUT}bfloat16.cu.o: ${HDRS}
 ${OUTPUT}float.cu.o: ${HDRS}
 ${OUTPUT}double.cu.o: ${HDRS}
 
+fp6-nv: ${OUTPUT}fp6.cu.o
 fp8-nv: ${OUTPUT}fp8.cu.o
 half-nv: ${OUTPUT}half.cu.o
 bfloat16-nv: ${OUTPUT}bfloat16.cu.o
 float-nv: ${OUTPUT}float.cu.o
 double-nv: ${OUTPUT}double.cu.o
 
+${OUTPUT}fp6.hip.o: fp6.cu ${HDRS}
+fp6-hip: ${OUTPUT}fp6.hip.o
 ${OUTPUT}fp8.hip.o: fp8.cu ${HDRS}
 fp8-hip: ${OUTPUT}fp8.hip.o
 ${OUTPUT}half.hip.o: half.cu ${HDRS}
@@ -58,6 +63,8 @@ float-hip: ${OUTPUT}float.hip.o
 ${OUTPUT}double.hip.o: double.cu ${HDRS}
 double-hip: ${OUTPUT}double.hip.o
 
+${OUTPUT}fp6.hpcc.o: fp6.cu ${HDRS}
+fp6-hpcc: ${OUTPUT}fp6.hpcc.o
 ${OUTPUT}fp8.hpcc.o: fp8.cu ${HDRS}
 fp8-hpcc: ${OUTPUT}fp8.hpcc.o
 ${OUTPUT}half.hpcc.o: half.cu ${HDRS}
