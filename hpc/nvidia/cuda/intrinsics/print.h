@@ -52,7 +52,7 @@
 
 #define PBITS(mem, nbits) do {	\
 		PPFX();		\
-		printf("%s(%s) : ", #mem, #nbits);	\
+		printf("%s[1~%ld] : ", #mem, (size_t)nbits);	\
 		for (size_t i = 0; i < nbits; i++) {	\
 			uint8_t u8 = *(uint8_t *)((const int8_t *)mem + i / 8);	\
 			uint8_t bit = (u8 >> (i % 8) & 0x1);	\

@@ -40,6 +40,9 @@ __global__ void k_fp8_functions(void)
 	PBITS(&fp8_1, 8);
 
 	halfraw = __nv_cvt_fp8_to_halfraw(fp8_1, __NV_E4M3);
+	PBITS(&halfraw, 16);
+	PHALFRAW(halfraw);
+
 	fp8_1 = __nv_cvt_bfloat16raw_to_fp8(bf16_1_raw, __NV_NOSAT, __NV_E4M3);
 	fp8x2_1 = __nv_cvt_bfloat16raw2_to_fp8x2(bf162_1_raw, __NV_NOSAT, __NV_E4M3);
 #if !defined(__HPCC__) && !defined(__HIPCC__) && CUDA_VERSION >= 13000

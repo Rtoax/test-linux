@@ -30,10 +30,13 @@
 
 __global__ void k_types(void)
 {
-	__half_raw hraw = { .x = USHORT_ONE_FP16, };
+	__half_raw hraw_one = { .x = USHORT_ONE_FP16, };
+	__half_raw hraw_inf = { .x = USHORT_INF_FP16, };
 	__half2_raw h2raw = { .x = USHORT_ONE_FP16, .y = USHORT_ONE_FP16, };
 
-	PHALFRAW(hraw);
+	PHALFRAW(hraw_one);
+	PHALFRAW(hraw_inf);
+	PBITS(&hraw_inf, 16);
 	PHALF2RAW(h2raw);
 }
 
