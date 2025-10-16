@@ -1,6 +1,9 @@
 /* This header must used to CUDA like compiler. */
 #pragma once
 #include <stdio.h>
+#include <stdint.h>
+#include <sys/types.h>
+
 
 #define SEP	"│" /* good looking */
 
@@ -10,7 +13,8 @@
 
 #define PFP8(v, interpretation) do {	\
 		__half_raw ___hraw = __nv_cvt_fp8_to_halfraw(v, interpretation);	\
-		PPFX();printf("%s <%s> : %f\n", #v, #interpretation, __half2float(___hraw));	\
+		PPFX();	\
+		printf("%s <%s> : %f\n", #v, #interpretation, __half2float(___hraw));	\
 	} while (0)
 
 #define PHALF(v)	PPFX();printf("%s : %f\n", #v, __half2float(v));
@@ -45,3 +49,19 @@
 #define PLONGLONG(v)	PPFX();printf("%s : %lld\n", #v, v);
 #define PBOOL(v)	PPFX();printf("%s : %s\n", #v, v ? "true" : "false");
 #define PCHAR(v)	PPFX();printf("%s : %u (%c)\n", #v, v, v);
+
+
+static void fpbits(FILE *fp, const void *mem, size_t bits)
+{
+	size_t i;
+	for (i = 0; i < bits; i++) {
+		uint8_t u8 = *(uint8_t *)((const int8_t *)mem + i / 8);
+		uint8_t bit = (u8 >> (i % 8) & 0x1);
+		fprintf(fp, "%c", bit ? '1' : '0');
+	}
+}
+
+static void pbits(const void *mem, size_t bits)
+{
+	fpbits(stdout, mem, bits);
+}
