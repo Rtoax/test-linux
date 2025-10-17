@@ -11,6 +11,19 @@
 #define PPFX()	printf("L%-4d" SEP " ", __LINE__);
 #define PEXPR(expr)	PPFX();printf("%s\n", #expr); expr;
 
+#define PFP8E8M0(v) do {	\
+		__nv_bfloat16_raw ___bf16raw = __nv_cvt_e8m0_to_bf16raw(v);	\
+		PPFX();	\
+		printf("E8M0: %s : %f\n", #v, __bfloat162float(___bf16raw));	\
+	} while (0)
+
+#define PFP8x2E8M0(v) do {	\
+		__nv_bfloat162_raw ___bf162raw = __nv_cvt_e8m0x2_to_bf162raw(v);	\
+		PPFX();	\
+		printf("E8M0: %s : {%f, %f}\n", #v, \
+			__bfloat162float(___bf162raw.x), __bfloat162float(___bf162raw.y));	\
+	} while (0)
+
 #define PFP8E4M3(v) do {	\
 		__half_raw ___hraw = __nv_cvt_fp8_to_halfraw(v, __NV_E4M3);	\
 		PPFX();	\

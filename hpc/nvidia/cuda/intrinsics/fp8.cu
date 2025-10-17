@@ -53,9 +53,11 @@ __global__ void k_fp8_functions(void)
 	PFP8x2E4M3((fp8x2_1 = __nv_cvt_bfloat16raw2_to_fp8x2(bf162_one_raw, __NV_NOSAT, __NV_E4M3)));
 
 #ifdef SUPPORT_FP8_E8M0
-	fp8_1 = __nv_cvt_bfloat16raw_to_e8m0(bf16_one_raw, __NV_NOSAT, cudaRoundZero);
-	fp8x2_1 = __nv_cvt_bfloat162raw_to_e8m0x2(bf162_1_raw, __NV_NOSAT, cudaRoundZero);
-	fp8x2_1 = __nv_cvt_bfloat162raw_to_e8m0x2(bf162_one_raw, __NV_NOSAT, cudaRoundZero);
+	PFP8E8M0((fp8_1 = __nv_cvt_bfloat16raw_to_e8m0(bf16_one_raw, __NV_NOSAT, cudaRoundZero)));
+	PFP8x2E8M0((fp8x2_1 = __nv_cvt_bfloat162raw_to_e8m0x2(bf162_1_raw, __NV_NOSAT, cudaRoundZero)));
+	PFP8x2E8M0((fp8x2_1 = __nv_cvt_bfloat162raw_to_e8m0x2(bf162_one_raw, __NV_NOSAT, cudaRoundZero)));
+	PFP8E8M0((fp8_1 = __nv_cvt_float_to_e8m0(999, __NV_NOSAT, cudaRoundZero)));
+	PFP8E8M0((fp8_1 = __nv_cvt_double_to_e8m0(999, __NV_NOSAT, cudaRoundZero)));
 #endif
 }
 
