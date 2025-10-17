@@ -17,6 +17,12 @@
 		printf("E4M3: %s : %f\n", #v, __half2float(___hraw));	\
 	} while (0)
 
+#define PFP8x2E4M3(v) do {	\
+		__half2_raw ___h2raw = __nv_cvt_fp8x2_to_halfraw2(v, __NV_E4M3);	\
+		PPFX();	\
+		printf("E4M3: %s : {%f, %f}\n", #v, __half2float(___h2raw.x), __half2float(___h2raw.y));	\
+	} while (0)
+
 #define PHALF(v)	PPFX();printf("%s : %f\n", #v, __half2float(v));
 #define PHALFRAW(v)	PHALF(v)
 #define PHALF2(v) do {	\
@@ -34,6 +40,7 @@
 	} while (0)
 
 #define PBF16(v)	PPFX();printf("%s : %f\n", #v, __bfloat162float(v));
+#define PBF16RAW(v)	PBF16(v)
 #define __PBF162(type, v) do {	\
 		type __bf162 = v;	\
 		PPFX();	\
