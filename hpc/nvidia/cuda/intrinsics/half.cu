@@ -1,16 +1,28 @@
 // SPDX-License-Identifier: GPL-3.0
 /* Copyright (c) 2025 Rong Tao */
 /**
- * TYPES:
+ * CUDA:
  *
- * typedef struct __CUDA_ALIGN__(2) {
- *   unsigned short x;
- * } __half_raw;
+ *   typedef struct __CUDA_ALIGN__(2) {
+ *     unsigned short x;
+ *   } __half_raw;
  *
- * typedef struct __CUDA_ALIGN__(4) {
- *   unsigned short x;
- *   unsigned short y;
- * } __half2_raw;
+ *   typedef struct __CUDA_ALIGN__(4) {
+ *     unsigned short x;
+ *     unsigned short y;
+ *   } __half2_raw;
+ *
+ * HPCC:
+ *
+ *   struct __half2_raw {
+ *     union {
+ *       _Float16_2 data;
+ *       struct {
+ *         unsigned short x;
+ *         unsigned short y;
+ *       }
+ *     }
+ *   }
  *
  * https://docs.nvidia.com/cuda/cuda-math-api/index.html
  * https://docs.nvidia.com/cuda/cuda-math-api/cuda_math_api/group__CUDA__MATH____HALF__MISC.html
@@ -35,7 +47,9 @@ __global__ void k_types(void)
 
 	__half2_raw h2raw_1 = { .x = USHORT_ONE_FP16, .y = USHORT_ONE_FP16, };
 	__half2_raw h2raw_2;
+#if !defined(__HPCC__)
 	__half2_raw h2raw_3{USHORT_ONE_FP16, USHORT_ONE_FP16};
+#endif
 
 	float2 f_val = make_float2(1.0f, 2.0f);
 	__half2 h2_val = __float22half2_rn(f_val);
@@ -50,7 +64,9 @@ __global__ void k_types(void)
 
 	PHALF2RAW(h2raw_1);
 	PHALF2RAW(h2raw_2);
+#if !defined(__HPCC__)
 	PHALF2RAW(h2raw_3);
+#endif
 	PHALF2RAW(h2raw_4);
 }
 
