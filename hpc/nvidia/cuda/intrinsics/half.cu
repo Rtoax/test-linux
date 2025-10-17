@@ -32,12 +32,26 @@ __global__ void k_types(void)
 {
 	__half_raw hraw_one = { .x = USHORT_ONE_FP16, };
 	__half_raw hraw_inf = { .x = USHORT_INF_FP16, };
-	__half2_raw h2raw = { .x = USHORT_ONE_FP16, .y = USHORT_ONE_FP16, };
+
+	__half2_raw h2raw_1 = { .x = USHORT_ONE_FP16, .y = USHORT_ONE_FP16, };
+	__half2_raw h2raw_2;
+	__half2_raw h2raw_3{USHORT_ONE_FP16, USHORT_ONE_FP16};
+
+	float2 f_val = make_float2(1.0f, 2.0f);
+	__half2 h2_val = __float22half2_rn(f_val);
+	__half2_raw h2raw_4 = *reinterpret_cast<__half2_raw *>(&h2_val);
+
+	h2raw_2.x = __float2half(1.f);
+	h2raw_2.y = __float2half(1.f);
 
 	PHALFRAW(hraw_one);
 	PHALFRAW(hraw_inf);
 	PBITS(&hraw_inf, 16);
-	PHALF2RAW(h2raw);
+
+	PHALF2RAW(h2raw_1);
+	PHALF2RAW(h2raw_2);
+	PHALF2RAW(h2raw_3);
+	PHALF2RAW(h2raw_4);
 }
 
 __global__ void k_half_constants(void)
