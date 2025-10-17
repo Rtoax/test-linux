@@ -12,6 +12,36 @@
  *     unsigned short y;
  *   } __half2_raw;
  *
+ * ROCm HIP:
+ *
+ * #if defined(__clang__) && defined(__HIP__)
+ *   struct __half_raw {
+ *     union {
+ *       _Float16 data;
+ *       unsigned short x;
+ *     };
+ *   };
+ *
+ *   struct __half2_raw {
+ *     union {
+ *       struct {
+ *         __half_raw x;
+ *         __half_raw y;
+ *       }
+ *       _Float16_2 data;
+ *     };
+ *   };
+ * #elif defined(__GNUC__) || defined(_MSC_VER)
+ *   struct __half_raw {
+ *     unsigned short x;
+ *   };
+ *
+ *   struct __half2_raw {
+ *     unsigned short x;
+ *     unsigned short y;
+ *   };
+ * #endif
+ *
  * HPCC:
  *
  *   struct __half2_raw {
@@ -22,7 +52,7 @@
  *         unsigned short y;
  *       }
  *     }
- *   }
+ *   };
  *
  * https://docs.nvidia.com/cuda/cuda-math-api/index.html
  * https://docs.nvidia.com/cuda/cuda-math-api/cuda_math_api/group__CUDA__MATH____HALF__MISC.html
