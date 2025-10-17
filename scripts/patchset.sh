@@ -4,6 +4,8 @@
 #
 # Copyright (c) 2022-2025 Rong Tao
 #
+# https://gist.github.com/Rtoax/15abb95b38ba3d4fbb5e7271f2502c61
+#
 set -e
 
 subject_prefix=
