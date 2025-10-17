@@ -37,7 +37,7 @@ __global__ void k_fp8_functions(void)
 	PFP8(fp8_1, __NV_E4M3);
 
 	/**
-	 * FIXME: Why print fp8_1 <__NV_E4M3> : inf??
+	 * HPCC 3.0.0 BUG: Why print fp8_1 <__NV_E4M3> : inf??
 	 */
 	PEXPR(fp8_1 = __nv_cvt_double_to_fp8(PI_DOUBLE, __NV_NOSAT, __NV_E4M3));
 	PFP8(fp8_1, __NV_E4M3);
