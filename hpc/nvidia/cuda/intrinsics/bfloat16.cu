@@ -170,11 +170,14 @@ __global__ void k_bfloat16_precision_conversion(void)
 	float2 f2;
 
 #ifdef __cplusplus
-	__nv_bfloat16_raw __unused bf16_1_raw = { .x = 1, };
-	__nv_bfloat16_raw __unused bf16_2_raw = { .x = 2, };
+	__nv_bfloat16_raw __unused bf16_1_raw = { .x = 1, }; /* wrong? */
+	__nv_bfloat16_raw __unused bf16_2_raw = { .x = 2, }; /* wrong? */
+	__nv_bfloat16_raw __unused bf16_one_raw = { .x = USHORT_ONE_BF16, };
+	__nv_bfloat16_raw __unused bf16_inf_raw = { .x = USHORT_INF_BF16, };
 	__nv_bfloat162_raw __unused bf162_1_raw = { .x = 1, .y = 1, };
 	__nv_bfloat162_raw __unused bf162_2_raw = { .x = 2, .y = 2, };
-	const half half_pi = __float2half(3.141592653f);
+	__nv_bfloat162_raw __unused bf162_one_raw = { .x = USHORT_ONE_BF16, .y = USHORT_ONE_BF16, }; /* wrong? */
+	const half half_pi = __float2half(PI_FLOAT);
 
 	__nv_bfloat16 bf16_1((int)1);
 	__nv_bfloat16 bf16_12((unsigned int)1);
@@ -204,8 +207,13 @@ __global__ void k_bfloat16_precision_conversion(void)
 	__nv_bfloat162 bf162_4 = bf162_3;
 	__nv_bfloat162 bf162_5 = bf162_1_raw; /* init failed */
 
+	PBF16RAW(bf16_1_raw);
+	PBF16RAW(bf16_2_raw);
+	PBF16RAW(bf16_one_raw);
+	PBF16RAW(bf16_inf_raw);
 	PBF162RAW(bf162_1_raw);
 	PBF162RAW(bf162_2_raw);
+	PBF162RAW(bf162_one_raw);
 	PBF162(bf162_1);
 	PBF162(bf162_2);
 	PBF162(bf162_3);
