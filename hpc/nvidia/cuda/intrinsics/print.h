@@ -11,10 +11,10 @@
 #define PPFX()	printf("L%-4d" SEP " ", __LINE__);
 #define PEXPR(expr)	PPFX();printf("%s\n", #expr); expr;
 
-#define PFP8(v, interpretation) do {	\
-		__half_raw ___hraw = __nv_cvt_fp8_to_halfraw(v, interpretation);	\
+#define PFP8E4M3(v) do {	\
+		__half_raw ___hraw = __nv_cvt_fp8_to_halfraw(v, __NV_E4M3);	\
 		PPFX();	\
-		printf("%s <%s> : %f\n", #v, #interpretation, __half2float(___hraw));	\
+		printf("E4M3: %s : %f\n", #v, __half2float(___hraw));	\
 	} while (0)
 
 #define PHALF(v)	PPFX();printf("%s : %f\n", #v, __half2float(v));

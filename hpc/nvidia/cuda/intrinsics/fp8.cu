@@ -15,6 +15,9 @@
 #include "print.h"
 #include "types.h"
 
+#if !defined(__HPCC__) && !defined(__HIPCC__) && CUDA_VERSION >= 13000
+# define SUPPORT_FP8_E8M0	1
+#endif
 
 __global__ void k_fp8_functions(void)
 {
@@ -34,14 +37,14 @@ __global__ void k_fp8_functions(void)
 
 	PHALFRAW(halfraw_one);
 	PEXPR(fp8_1 = __nv_cvt_halfraw_to_fp8(halfraw_one, __NV_NOSAT, __NV_E4M3));
-	PFP8(fp8_1, __NV_E4M3);
+	PFP8E4M3(fp8_1);
 
 	/**
 	 * HPCC 3.0.0 BUG: Why print fp8_1 <__NV_E4M3> : inf??
 	 * commit f44b19db66fb ("fp8.cu: Report HPCC 3.0.0 BUG")
 	 */
 	PEXPR(fp8_1 = __nv_cvt_double_to_fp8(PI_DOUBLE, __NV_NOSAT, __NV_E4M3));
-	PFP8(fp8_1, __NV_E4M3);
+	PFP8E4M3(fp8_1);
 	PBITS(&fp8_1, 8);
 
 	halfraw = __nv_cvt_fp8_to_halfraw(fp8_1, __NV_E4M3);
@@ -50,7 +53,8 @@ __global__ void k_fp8_functions(void)
 
 	fp8_1 = __nv_cvt_bfloat16raw_to_fp8(bf16_1_raw, __NV_NOSAT, __NV_E4M3);
 	fp8x2_1 = __nv_cvt_bfloat16raw2_to_fp8x2(bf162_1_raw, __NV_NOSAT, __NV_E4M3);
-#if !defined(__HPCC__) && !defined(__HIPCC__) && CUDA_VERSION >= 13000
+
+#ifdef SUPPORT_FP8_E8M0
 	fp8_1 = __nv_cvt_bfloat16raw_to_e8m0(bf16_1_raw, __NV_NOSAT, cudaRoundZero);
 	fp8x2_1 = __nv_cvt_bfloat162raw_to_e8m0x2(bf162_1_raw, __NV_NOSAT, cudaRoundZero);
 #endif
@@ -66,7 +70,7 @@ int main(int argc, char *argv[])
 	assert(sizeof(__nv_fp8x4_e4m3) == 4 && "bad size of __nv_fp8x4_e4m3");
 	assert(sizeof(__nv_fp8x2_e5m2) == 2 && "bad size of __nv_fp8x2_e5m2");
 	assert(sizeof(__nv_fp8x4_e5m2) == 4 && "bad size of __nv_fp8x4_e5m2");
-#if !defined(__HPCC__) && !defined(__HIPCC__) && CUDA_VERSION >= 13000
+#ifdef SUPPORT_FP8_E8M0
 	assert(sizeof(__nv_fp8x2_e8m0) == 2 && "bad size of __nv_fp8x2_e8m0");
 	assert(sizeof(__nv_fp8x4_e8m0) == 4 && "bad size of __nv_fp8x4_e8m0");
 #endif
