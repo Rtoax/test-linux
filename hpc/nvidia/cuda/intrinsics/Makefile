@@ -32,6 +32,11 @@ ifdef HAVE_HPCC
   targets-htcc := $(patsubst %,%-hpcc,$(common-objs))
 endif
 
+# Skip warnings
+# warning: designated initializers are a C++20 extension [-Wc++20-designator]
+# warning: brace elision for designated initializer is a C99 extension [-Wc99-designator]
+CFLAGS_HIPCC_half := -Wno-c99-designator -Wno-c++20-designator
+
 include ../../../../template/main.mk
 
 HDRS := print.h compiler.h types.h
