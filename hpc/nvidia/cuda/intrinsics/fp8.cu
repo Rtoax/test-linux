@@ -24,9 +24,12 @@ __global__ void k_fp8_functions(void)
 	const __nv_bfloat16_raw __unused bf16_one_raw = { .x = USHORT_ONE_BF16, };
 	const __nv_bfloat162_raw __unused bf162_1_raw = { .x = 1, .y = 1, };
 	const __nv_bfloat162_raw __unused bf162_one_raw = { .x = USHORT_ONE_BF16, .y = USHORT_ONE_BF16, };
+	const double2 d2_pi = make_double2(PI_DOUBLE, PI_DOUBLE);
+	const float2 f2_pi = make_float2(PI_FLOAT, PI_FLOAT);
 
 	__half_raw halfraw;
 	__half_raw halfraw_one = { .x = USHORT_ONE_FP16, };
+	__half2_raw half2raw;
 
 	__nv_fp8_storage_t __unused fp8_1;
 	__nv_fp8x2_storage_t __unused fp8x2_1;
@@ -48,14 +51,32 @@ __global__ void k_fp8_functions(void)
 	PHALFRAW((halfraw = __nv_cvt_fp8_to_halfraw(fp8_1, __NV_E4M3)));
 	PBITS(&halfraw, 16);
 
+	PFP8E4M3((fp8_1 = __nv_cvt_float_to_fp8(PI_FLOAT, __NV_NOSAT, __NV_E4M3)));
+
 	PFP8E4M3((fp8_1 = __nv_cvt_bfloat16raw_to_fp8(bf16_one_raw, __NV_NOSAT, __NV_E4M3)));
 	PFP8x2E4M3((fp8x2_1 = __nv_cvt_bfloat16raw2_to_fp8x2(bf162_1_raw, __NV_NOSAT, __NV_E4M3)));
 	PFP8x2E4M3((fp8x2_1 = __nv_cvt_bfloat16raw2_to_fp8x2(bf162_one_raw, __NV_NOSAT, __NV_E4M3)));
+	PFP8x2E4M3((fp8x2_1 = __nv_cvt_double2_to_fp8x2(d2_pi, __NV_NOSAT, __NV_E4M3)));
+	PFP8x2E4M3((fp8x2_1 = __nv_cvt_float2_to_fp8x2(f2_pi, __NV_NOSAT, __NV_E4M3)));
+
+	PHALF2RAW((half2raw = __nv_cvt_fp8x2_to_halfraw2(fp8x2_1, __NV_E4M3)));
+	PFP8x2E4M3((__nv_cvt_halfraw2_to_fp8x2(half2raw, __NV_NOSAT, __NV_E4M3)));
 
 #ifdef SUPPORT_FP8_E8M0
 	PFP8E8M0((fp8_1 = __nv_cvt_bfloat16raw_to_e8m0(bf16_one_raw, __NV_NOSAT, cudaRoundZero)));
+	PBF16RAW(__nv_cvt_e8m0_to_bf16raw(fp8_1));
+
+	PFP8E8M0((fp8_1 = __nv_cvt_float_to_e8m0(PI_FLOAT, __NV_NOSAT, cudaRoundZero)));
+
+	PFP8x2E8M0((fp8x2_1 = __nv_cvt_double2_to_e8m0x2(d2_pi, __NV_NOSAT, cudaRoundZero)));
+	PBF162RAW(__nv_cvt_e8m0x2_to_bf162raw(fp8x2_1));
+
+	PFP8x2E8M0((fp8x2_1 = __nv_cvt_float2_to_e8m0x2(f2_pi, __NV_NOSAT, cudaRoundZero)));
+
 	PFP8x2E8M0((fp8x2_1 = __nv_cvt_bfloat162raw_to_e8m0x2(bf162_1_raw, __NV_NOSAT, cudaRoundZero)));
 	PFP8x2E8M0((fp8x2_1 = __nv_cvt_bfloat162raw_to_e8m0x2(bf162_one_raw, __NV_NOSAT, cudaRoundZero)));
+	PBF162RAW(__nv_cvt_e8m0x2_to_bf162raw(fp8x2_1));
+
 	PFP8E8M0((fp8_1 = __nv_cvt_float_to_e8m0(999, __NV_NOSAT, cudaRoundZero)));
 	PFP8E8M0((fp8_1 = __nv_cvt_double_to_e8m0(999, __NV_NOSAT, cudaRoundZero)));
 #endif

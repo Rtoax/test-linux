@@ -13,11 +13,12 @@
 #include "cuda_compat.h"
 #include "compiler.h"
 #include "print.h"
+#include "types.h"
 
 
 __global__ void k_float_precision_mathematical(void)
 {
-	float pi = 3.141592653f;
+	float pi = PI_FLOAT;
 	float tmp, tmp2, tmp3;
 	int i = 1;
 
@@ -128,7 +129,7 @@ __global__ void k_float_precision_mathematical(void)
 
 __global__ void k_float_precision_intrinsics(void)
 {
-	float pi = 3.141592653f;
+	float pi = PI_FLOAT;
 	float2 pi2 = make_float2(pi, pi);
 	float tmp, tmp2;
 
