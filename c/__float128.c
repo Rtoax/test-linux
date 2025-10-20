@@ -1,0 +1,25 @@
+#include <stdio.h>
+#include <stdint.h>
+
+/**
+ * GCC Additional Floating Types: https://gcc.gnu.org/onlinedocs/gcc/Floating-Types.html
+ * - NVRTC on Linux
+ * - GCC version 4.1 or later on x86_64/amd64
+ * - Clang version 3.9 or later on x86_64/amd64
+ * - NVHPC version 21.1 or later on x86_64/amd64
+ */
+#if (defined(__clang__) && (__clang_major__ >= 3 && __clang_minor__ >= 9)) || \
+    (defined(__GNUC__) && (__GNUC__ >= 4))
+# pragma message "Support __float128 arithmetic"
+# define SUPPORT_FLOAT128_ARITHMETIC	1
+#endif
+
+
+int main(void)
+{
+	__float128 f128 = 3.14;
+
+	(void)f128;
+
+	return 0;
+}

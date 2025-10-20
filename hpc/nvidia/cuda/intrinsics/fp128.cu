@@ -18,6 +18,7 @@
 
 __global__ void k_float128_types(void)
 {
+	//__float128 fp128 = make_float128(1.0);
 }
 
 int main(int argc, char *argv[])

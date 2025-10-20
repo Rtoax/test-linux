@@ -47,4 +47,5 @@
 /xor
 /float
 /__bf16
+/__float128
 /overflow

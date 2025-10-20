@@ -46,6 +46,7 @@
  * - SUPPORT__Float16: compiler support _Float16;
  * - SUPPORT___fp16: compiler support __fp16
  * - SUPPORT___bf16: compiler support __bf16
+ * - SUPPORT___float128: compiler support __float128
  *
  * - SUPPORT_FP16: support _Float16 or cuda's half;
  * - SUPPORT_BF16: support __bf16 or cuda's __nv_bfloat16, or hpcc's __hpcc_bfloat16;
@@ -57,6 +58,7 @@
  * - https://en.wikipedia.org/wiki/Bfloat16_floating-point_format
  * - https://en.wikipedia.org/wiki/Single-precision_floating-point_format
  * - https://en.wikipedia.org/wiki/Double-precision_floating-point_format
+ * - https://en.wikipedia.org/wiki/Quadruple-precision_floating-point_format
  * - https://github.com/Maratyszcza/FP16
  * - https://clang.llvm.org/docs/LanguageExtensions.html
  */
@@ -205,6 +207,25 @@ static const char *const version = "v1.5.0";
 		ansi_idx++;	\
 	} while (0)
 
+
+typedef union fp128 {
+	struct {
+		#if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
+		__uint128_t fraction:112;
+		uint64_t exponent:15;
+		uint64_t sign:1;
+		# define __FP128_INITIALIZER(s, e, f) {f, e, s}
+		#else
+		uint64_t sign:1;
+		uint64_t exponent:15;
+		__uint128_t fraction:112;
+		# define __F128_INITIALIZER(s, e, f) {s, e, f}
+		#endif
+	} __attribute__((packed));
+#ifdef SUPPORT___float128
+	__float128 f128;
+#endif
+} fp128_t;
 
 typedef union fp64 {
 	struct {
