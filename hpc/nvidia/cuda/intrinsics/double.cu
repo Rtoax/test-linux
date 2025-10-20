@@ -13,11 +13,18 @@
 #include "cuda_compat.h"
 #include "compiler.h"
 #include "print.h"
+#include "types.h"
 
+
+__global__ void k_double_types(void)
+{
+	double2 d2_pi = make_double2(PI_DOUBLE, PI_DOUBLE);
+	PDOUBLE2(d2_pi);
+}
 
 __global__ void k_double_precision_mathematical(void)
 {
-	double pi = 3.141592653, tmp, tmp2;
+	double pi = PI_DOUBLE, tmp, tmp2;
 	int i;
 
 	PDOUBLE(pi);
@@ -162,7 +169,7 @@ __global__ void k_double_precision_mathematical(void)
 
 __global__ void k_double_precision_intrinsics(void)
 {
-	double pi = 3.141592653;
+	double pi = PI_DOUBLE;
 
 	PDOUBLE(__dadd_rn(pi, pi));
 #if !defined(__HIPCC__)
@@ -217,7 +224,9 @@ __global__ void k_double_precision_intrinsics(void)
 int main(int argc, char *argv[])
 {
 	assert(sizeof(double) == 8 && "bad size of double");
+	assert(sizeof(double2) == 16 && "bad size of double2");
 
+	k_double_types<<<1, 1>>>();
 	k_double_precision_mathematical<<<1, 1>>>();
 	k_double_precision_intrinsics<<<1, 1>>>();
 

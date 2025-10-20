@@ -63,6 +63,7 @@
 #define PBF162RAW(v)	__PBF162(__nv_bfloat162_raw, v)
 
 #define PDOUBLE(v)	PPFX();printf("%s : %lf\n", #v, v);
+#define PDOUBLE2(v)	PPFX();printf("%s : {%lf, %lf}\n", #v, v.x, v.y);
 #define PINT(v)		PPFX();printf("%s : %d\n", #v, v);
 #define PSHORT(v)	PPFX();printf("%s : %d\n", #v, v);
 #define PLONG(v)	PPFX();printf("%s : %ld\n", #v, v);
