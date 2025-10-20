@@ -16,3 +16,6 @@
 /double-nv
 /double-hip
 /double-hpcc
+/fp128-nv
+/fp128-hip
+/fp128-hpcc

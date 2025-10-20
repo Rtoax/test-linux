@@ -14,7 +14,7 @@ and this project adheres to
 #### Added
 - procfs: add sys/kernel/random/uuid.sh;
 - c: add overflow.c;
-- cuda/intrinsics: add double.cu, fp8.cu, fp6.cu, types.h;
+- cuda/intrinsics: add fp128.cu, double.cu, fp8.cu, fp6.cu, types.h;
 - bpftrace/samples: add auxv.bt;
 - cuda/intrinsics: add test bfloat16.cu;
 - ubuntu: add sources.list.d/ubuntu25.04.sources;

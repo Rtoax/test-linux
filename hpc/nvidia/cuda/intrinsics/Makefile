@@ -12,6 +12,7 @@ common-objs += half
 common-objs += bfloat16
 common-objs += float
 common-objs += double
+common-objs += fp128
 
 targets-post :=
 
@@ -47,6 +48,7 @@ ${OUTPUT}half.cu.o: ${HDRS}
 ${OUTPUT}bfloat16.cu.o: ${HDRS}
 ${OUTPUT}float.cu.o: ${HDRS}
 ${OUTPUT}double.cu.o: ${HDRS}
+${OUTPUT}fp128.cu.o: ${HDRS}
 
 fp6-nv: ${OUTPUT}fp6.cu.o
 fp8-nv: ${OUTPUT}fp8.cu.o
@@ -54,6 +56,7 @@ half-nv: ${OUTPUT}half.cu.o
 bfloat16-nv: ${OUTPUT}bfloat16.cu.o
 float-nv: ${OUTPUT}float.cu.o
 double-nv: ${OUTPUT}double.cu.o
+fp128-nv: ${OUTPUT}fp128.cu.o
 
 ${OUTPUT}fp6.hip.o: fp6.cu ${HDRS}
 fp6-hip: ${OUTPUT}fp6.hip.o
@@ -67,6 +70,8 @@ ${OUTPUT}float.hip.o: float.cu ${HDRS}
 float-hip: ${OUTPUT}float.hip.o
 ${OUTPUT}double.hip.o: double.cu ${HDRS}
 double-hip: ${OUTPUT}double.hip.o
+${OUTPUT}fp128.hip.o: fp128.cu ${HDRS}
+fp128-hip: ${OUTPUT}fp128.hip.o
 
 ${OUTPUT}fp6.hpcc.o: fp6.cu ${HDRS}
 fp6-hpcc: ${OUTPUT}fp6.hpcc.o
@@ -80,3 +85,5 @@ ${OUTPUT}float.hpcc.o: float.cu ${HDRS}
 float-hpcc: ${OUTPUT}float.hpcc.o
 ${OUTPUT}double.hpcc.o: double.cu ${HDRS}
 double-hpcc: ${OUTPUT}double.hpcc.o
+${OUTPUT}fp128.hpcc.o: fp128.cu ${HDRS}
+fp128-hpcc: ${OUTPUT}fp128.hpcc.o
