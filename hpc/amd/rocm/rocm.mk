@@ -51,9 +51,9 @@ ifdef DEBUG
   $(info HIPCC = ${HIPCC})
   $(info HIPCONFIG = ${HIPCONFIG})
   ifneq (${HIPCC},)
-    $(info $(shell ${HIPCC} --version))
+    $(info HIPCC: $(shell ${HIPCC} --version))
   endif
   ifneq (${HIPCONFIG},)
-    $(info $(shell ${HIPCONFIG} --full))
+    $(info HIPCONFIG: $(shell ${HIPCONFIG} --full))
   endif
 endif

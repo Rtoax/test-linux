@@ -17,10 +17,12 @@
 _HPCC = 1
 
 MXCC := $(shell which mxcc 2>/dev/null)
-HTCC := $(shell which htcc 2>/dev/null)
 
-HPCC_ROOT := $(shell readlink /opt/hpcc 2>/dev/null || true)
-HPCC_CU_BRIDGE := /opt/hpcc/tools/cu-bridge/include/
+HPCC_ROOT := /opt/hpcc
+HPCC_ROOT := $(shell realpath ${HPCC_ROOT} 2>/dev/null || true)
+HPCC_CU_BRIDGE := ${HPCC_ROOT}/tools/cu-bridge/include/
+HPCC_LLVM := ${HPCC_ROOT}/htgpu_llvm/
+HTCC := ${HPCC_LLVM}/bin/htcc
 
 ifeq ($(MXCC),)
   ifneq ($(targets-mxcc),)
@@ -54,6 +56,7 @@ ifneq ($(wildcard ${HPCC_ROOT}),)
   HAVE_HPCC := 1
   export HAVE_HPCC
 else
+  $(warning Not found HPCC_ROOT="${HPCC_ROOT}")
   HPCC_VERSION_MAJOR :=
   HPCC_VERSION_MINOR :=
   HPCC_VERSION_PATCH :=
@@ -71,12 +74,13 @@ export HPCC_VERSION_MAJOR HPCC_VERSION_MINOR HPCC_VERSION_PATCH
 
 ifdef DEBUG
   ifneq ($(targets-mxcc),)
-    $(info $(shell ${MXCC} --version))
     $(info MXCC = ${MXCC})
+    $(info $(shell ${MXCC} --version))
   endif
   ifneq ($(targets-htcc),)
-    $(info $(shell ${HTCC} --version))
+    $(info HPCC_ROOT = ${HPCC_ROOT})
     $(info HTCC = ${HTCC})
+    $(info $(shell ${HTCC} --version))
     $(info HPCC_VERSION_RAW = ${HPCC_VERSION_RAW})
     $(info HPCC_VERSION_MAJOR = ${HPCC_VERSION_MAJOR})
     $(info HPCC_VERSION_MINOR = ${HPCC_VERSION_MINOR})
