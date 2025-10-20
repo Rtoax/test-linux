@@ -5,7 +5,7 @@
 # Input definitions:
 # - __IGNORE_NOTFOUND_ERROR__
 #
-# Output macros:
+# Output definitions:
 # - HAVE_HPCC
 # - HPCC_ROOT
 # - MXCC
