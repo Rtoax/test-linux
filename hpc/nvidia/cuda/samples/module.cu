@@ -5,7 +5,7 @@
 #include "cuda_helpers.h"
 
 #if defined(HAVE_HPCC)
-#define MODULE_CUBIN	".output/hello.devbin"
+#define MODULE_CUBIN	".output/hello.hpcc.devbin"
 #elif defined(HAVE_HIP)
 #define MODULE_CUBIN	".output/parallel.hip_fatbin"
 #else

@@ -27,6 +27,20 @@
 #  error "Not found HPCC envrioment, but use HPCC"
 # endif
 #define CUNAME	"MetaX"
+#elif defined(__USE_LUCA__)
+/* FIXME: luca has it's own headers */
+#include <hcr/hc_runtime.h>
+#include <hcr/hcrtc.h>
+#include <hcc/hcc_internal.h>
+#include <hcblas/hcblas.h>
+#include <hcblas/hcblasLt.h>
+#include <hcsparse/hcsparse.h>
+#include <hcrand/hcrand.h>
+#include <hcfft/hcfft.h>
+#include <luca_fp8.h>
+#include <luca_fp16.h>
+#include <hccl.h>
+#include "cuda_adapter.h"
 #elif defined(__USE_HIP__)
 # ifdef __USE_HIP_V2__
 #  define HIPBLAS_V2

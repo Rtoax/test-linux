@@ -122,6 +122,7 @@ build-targets += $(targets-rust)
 build-targets += $(targets-nvcc)
 build-targets += $(targets-hipcc)
 build-targets += $(targets-mxcc) $(targets-htcc)
+build-targets += $(targets-lscc)
 build-targets += $(targets-go)
 build-targets += $(targets-java)
 targets-shell-logs := $(patsubst %.sh,%.sh.log,$(targets-shell))
@@ -182,6 +183,9 @@ ifneq ($(targets-hipcc),)
 endif
 ifneq ($(targets-mxcc)$(targets-htcc),)
   include ${TEMPLATE_DIR}/targets/metax.mk
+endif
+ifneq ($(targets-lscc),)
+  include ${TEMPLATE_DIR}/targets/cestc.mk
 endif
 ifneq ($(targets-shell),)
   include ${TEMPLATE_DIR}/targets/shell.mk

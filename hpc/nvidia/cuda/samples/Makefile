@@ -7,6 +7,7 @@ include ../../../../compiler/compiler.mk
 include ../cuda.mk
 include ../../../amd/rocm/rocm.mk
 include ../../../metax/hpcc.mk
+include ../../../cestc/luca.mk
 
 common-objs := attribute
 common-objs += blas
@@ -62,14 +63,18 @@ ifdef HAVE_HPCC
   # HCCL
   metax-htcc += hcclGetVersion
 
-  metax-devbin := hello.devbin
-  metax-devbin += parallel.devbin
+  metax-devbin := hello.hpcc.devbin
+  metax-devbin += parallel.hpcc.devbin
   metax-fatbin := hello.hpcc.fatbin
   metax-fatbin += parallel.hpcc.fatbin
-  metax-fatbin += parallel-hpcc.hc_fatbin
-  metax-fatbin += parallel-hpcc.hcFatBinSegment
+  metax-fatbin += parallel-hpcc.hpcc.hc_fatbin
+  metax-fatbin += parallel-hpcc.hpcc.hcFatBinSegment
 
   targets-htcc := $(patsubst %,%-hpcc,$(metax-htcc))
+endif
+
+ifdef HAVE_LUCA
+  targets-lscc := hello-luca
 endif
 
 targets-post := $(patsubst %,${OUTPUT}%.E.cu,$(targets-nvcc))
@@ -102,6 +107,7 @@ CFLAGS_NVCC_properties := -Wno-deprecated-declarations
 CUDA_HELPERS := ${OUTPUT}cuda_helpers.cu.o
 HIP_HELPERS := ${OUTPUT}cuda_helpers.hip.o
 HPCC_HELPERS := ${OUTPUT}cuda_helpers.hpcc.o
+LUCA_HELPERS := ${OUTPUT}cuda_helpers.luca.o
 
 CFLAGS_float-c := ${cflags-support-types}
 LDFLAGS_float-c := -lm
@@ -256,3 +262,6 @@ properties-hpcc: ${OUTPUT}properties.hpcc.o ${HPCC_HELPERS}
 rand-hpcc: ${OUTPUT}rand.hpcc.o ${HPCC_HELPERS}
 sparse-hpcc: ${OUTPUT}sparse.hpcc.o ${HPCC_HELPERS}
 __STDC__-hpcc: ${OUTPUT}__STDC__.hpcc.o ${HPCC_HELPERS}
+
+# CESTC
+hello-luca: ${OUTPUT}hello.luca.o ${LUCA_HELPERS}

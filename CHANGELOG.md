@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - cuda/samples: Rename code to remove cuda,hip,hc prefix;
 #### Added
+- hpc: introduce luca;
 - compiler: test `__float128`, `__float80/_Float64x`;
 - procfs: add sys/kernel/random/uuid.sh;
 - c: add overflow.c;

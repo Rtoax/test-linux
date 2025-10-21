@@ -2,7 +2,8 @@
 /* Copyright (c) 2025 Rong Tao */
 #pragma once
 
-#if defined(__USE_HPCC__)
+/* FIXME: LUCA has it's own prefix macros */
+#if defined(__USE_HPCC__) || defined(__USE_LUCA__)
 /* Metax has CUDA-compatible APIs */
 # define __cu(name)	hc##name
 # define __cuda(name)	hc##name
@@ -28,7 +29,7 @@
 # define __nccl(name)	nccl##name
 #elif !defined(__cu) || !defined(__cuda) || !defined(__CU) || \
 	!defined(__CUDA) || !defined(__nv) || !defined(__NV)
-# error "Must define __cu(), __cuda(), __CU(), __CUDA(), __CUDA_ERROR(), __nv(), __NV() macros, or define __USE_HPCC__, __USE_HIP__"
+# error "Must define __cu(), __cuda(), __CU(), __CUDA(), __CUDA_ERROR(), __nv(), __NV() macros, or define __USE_HPCC__, __USE_HIP__, __USE_LUCA__"
 #endif
 
 /* typedef hcError_t	cudaError_t; */
@@ -537,7 +538,7 @@
  * HIP
  * hipError_t hipGetDeviceProperties(hipDeviceProp_t* prop, int deviceId);
  */
-#if defined(__USE_HPCC__) || defined(__USE_HIP__)
+#if defined(__USE_HPCC__) || defined(__USE_LUCA__) || defined(__USE_HIP__)
 #define cudaGetDeviceProperties(prop, devid)	__cuda(GetDeviceProperties(prop, devid))
 #else
 #define cudaGetDeviceProperties(prop, devid)	__cuda(GetDeviceProperties_v2(prop, devid))
@@ -549,7 +550,7 @@
  *                                  int dev_id);
  */
 #define cudaDeviceGetAttribute(pval, attr, dev_id)	__cuda(DeviceGetAttribute(pval, attr, dev_id))
-#if defined(__USE_HPCC__) || defined(__USE_HIP__)
+#if defined(__USE_HPCC__) || defined(__USE_LUCA__) || defined(__USE_HIP__)
 /* WARNING: different name */
 /**
  * CUDA 13.0.0: enum __device_builtin__ cudaDeviceAttr
@@ -1342,7 +1343,8 @@
 #define CUBLAS_COMPUTE_32I	__CU(BLAS_COMPUTE_32I)
 #define CUBLAS_COMPUTE_32I_PEDANTIC	__CU(BLAS_COMPUTE_32I_PEDANTIC)
 
-#ifdef __USE_HPCC__
+/* FIXME: luca has it's own definitions */
+#if defined(__USE_HPCC__) || defined(__USE_LUCA__)
 /**
  * see /usr/local/cuda-12.9/targets/x86_64-linux/include/library_types.h
  */
@@ -1685,7 +1687,8 @@
 /**
  * There are store some special macros from here.
  */
-#if defined(__USE_HPCC__)
+/* FIXME: luca has it's own definitions */
+#if defined(__USE_HPCC__) || defined(__USE_LUCA__)
 # undef CUresult
 # undef CUdevice
 # undef CUmodule

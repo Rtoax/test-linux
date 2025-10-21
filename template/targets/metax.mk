@@ -1,5 +1,21 @@
 # SPDX-License-Identifier: GPL-3.0
+# Copyright (c) 2025 Rong Tao
+#
+# This makefile use to compile MetaX targets.
+#
 # https://www.metax-tech.com/
+#
+# Targets list:
+# - .maca.o
+# - .E.hpcc
+# - .hpcc.o
+# - .hpcc.devbin
+# - .hpcc.fatbin
+# - .hpcc.hc_fatbin
+# - .hpcc.hcFatBinSegment
+# - targets-mxcc
+# - targets-htcc
+
 _TARGET_METAX = 1
 
 include ${TEMPLATE_DIR}/../hpc/metax/hpcc.mk
@@ -68,7 +84,7 @@ ${OUTPUT}%.hpcc.o: %.hpcc | ${OUTPUT}
 	$(call log_tgt_obj,HTCC,$(<),$(@))
 	${Q}$(HTCC) -o $(@) -c $(<) $(CFLAGS_HTCC) $(CFLAGS_HTCC_$(*))
 
-${OUTPUT}%.devbin: %.hpcc | ${OUTPUT}
+${OUTPUT}%.hpcc.devbin: %.hpcc | ${OUTPUT}
 	$(call log_tgt_obj,DEVBIN,$(<),$(@))
 	${Q}$(HTCC) -o $(@) -c $(<) $(cflags-htcc-devbin) $(CFLAGS_HTCC) $(CFLAGS_HTCC_$(*))
 
@@ -78,11 +94,11 @@ ${OUTPUT}%.hpcc.fatbin: %.hpcc | ${OUTPUT}
 
 # Example format of hc_fatbin and hcFatBinSegment, see:
 # commit 798dd703bcc9 ("targets/metax.mk: add .hc_fatbin and .hcFatBinSegment targets")
-${OUTPUT}%.hc_fatbin: % | ${OUTPUT}
+${OUTPUT}%.hpcc.hc_fatbin: % | ${OUTPUT}
 	$(call log_tgt_obj,HC FATBIN,$(<),$(@))
 	${Q}$(OBJCOPY) -O binary --only-section=.hc_fatbin $(<) $(@)
 
-${OUTPUT}%.hcFatBinSegment: % | ${OUTPUT}
+${OUTPUT}%.hpcc.hcFatBinSegment: % | ${OUTPUT}
 	$(call log_tgt_obj,HC FATBIN SEG,$(<),$(@))
 	${Q}$(OBJCOPY) -O binary --only-section=.hcFatBinSegment $(<) $(@)
 
