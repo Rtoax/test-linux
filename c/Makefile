@@ -26,8 +26,12 @@ targets += float
 ifneq (${CC___bf16},)
   targets += __bf16
 endif
-targets += __float128
-targets += __float80
+ifneq (${CC___float128},)
+  targets += __float128
+endif
+ifneq (${CC___float80},)
+  targets += __float80
+endif
 targets += ptr-dim
 targets += struct
 targets += string

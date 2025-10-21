@@ -94,5 +94,6 @@
 #ifdef HAVE_NCCL
 # include <nccl.h>
 #endif
+#include <crt/device_fp128_functions.h>
 #define CUNAME	"NVIDIA CUDA"
 #endif
