@@ -28,7 +28,9 @@ __global__ void k_float128_types(void)
 
 int main(int argc, char *argv[])
 {
+#if !defined(__HPCC__)
 	assert(sizeof(__float128) == 16 && "bad size of __float128");
+#endif
 
 	k_float128_types<<<1, 1>>>();
 
