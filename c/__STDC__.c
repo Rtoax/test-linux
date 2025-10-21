@@ -106,7 +106,10 @@ int main(void)
 #ifdef __HPCC__
 	printf("__HPCC__ = %d\n", __HPCC__);
 #endif
-/* TODO: add luca's lscc, ROCm's hipcc */
+#ifdef __HIPCC__	/* ROCm HIPCC */
+	printf("__HIPCC__ = %d\n", __HIPCC__);
+#endif
+/* TODO: add luca's lscc */
 
 	return 0;
 }
