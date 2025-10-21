@@ -15,7 +15,7 @@
 #include "print.h"
 #include "types.h"
 
-#if !defined(__HPCC__) && !defined(__HIPCC__) && defined(__CUDACC__) && CUDA_VERSION >= 13000
+#if !defined(__HPCC__) && !defined(__LUCA__) && !defined(__HIPCC__) && defined(__CUDACC__) && CUDA_VERSION >= 13000
 # define SUPPORT_FP8_E8M0	1
 #endif
 

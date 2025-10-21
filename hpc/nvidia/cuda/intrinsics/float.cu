@@ -31,7 +31,7 @@ __global__ void k_float_precision_mathematical(void)
 	PFLOAT(cbrtf(pi)); /* cube root */
 	PFLOAT(ceilf(pi));
 	PFLOAT(floorf(pi));
-#if !defined(__HPCC__)
+#if !defined(__HPCC__) && !defined(__LUCA__)
 	PFLOAT(copysignf(pi, pi));
 #endif
 	PFLOAT(cosf(pi));
@@ -227,7 +227,7 @@ __global__ void k_float_precision_intrinsics(void)
 
 	PFLOAT(__sinf(pi));
 	PFLOAT(__tanf(pi));
-#if !defined(__HPCC__) && !defined(__HIPCC__) && CUDA_VERSION >= 13000
+#if !defined(__HPCC__) && !defined(__LUCA__) && !defined(__HIPCC__) && CUDA_VERSION >= 13000
 	PFLOAT(__tanhf(pi));
 #endif
 }

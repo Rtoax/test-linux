@@ -11,8 +11,13 @@
 # define __CUDA(name)	HC_##name
 # define __CUDA_ERROR(name)	HCC_STATUS_##name
 # define __nv(name)	hc##name
-# define ____nv_(name)	__hpcc_##name
-# define ____NV_(name)	__HPCC_##name
+# ifdef __USE_HPCC__
+#  define ____nv_(name)	__hpcc_##name
+#  define ____NV_(name)	__HPCC_##name
+# elif defined(__USE_LUCA__)
+#  define ____nv_(name)	__luca_##name
+#  define ____NV_(name)	__LUCA_##name
+# endif
 # define __NV(name)	HC##name
 # define __nccl(name)	hccl##name
 #elif defined(__USE_HIP__)

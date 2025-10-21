@@ -5,6 +5,7 @@ __IGNORE_NOTFOUND_ERROR__ := 1
 include ../cuda.mk
 include ../../../amd/rocm/rocm.mk
 include ../../../metax/hpcc.mk
+include ../../../cestc/luca.mk
 
 common-objs := fp6
 common-objs += fp8
@@ -31,6 +32,10 @@ endif
 
 ifdef HAVE_HPCC
   target-htcc-y := $(patsubst %,%-hpcc,$(common-objs))
+endif
+
+ifdef HAVE_LUCA
+  target-lscc-y := $(patsubst %,%-luca,$(common-objs))
 endif
 
 # Skip warnings
@@ -87,3 +92,18 @@ ${OUTPUT}double.hpcc.o: double.cu ${HDRS}
 double-hpcc: ${OUTPUT}double.hpcc.o
 ${OUTPUT}fp128.hpcc.o: fp128.cu ${HDRS}
 fp128-hpcc: ${OUTPUT}fp128.hpcc.o
+
+${OUTPUT}fp6.luca.o: fp6.cu ${HDRS}
+fp6-luca: ${OUTPUT}fp6.luca.o
+${OUTPUT}fp8.luca.o: fp8.cu ${HDRS}
+fp8-luca: ${OUTPUT}fp8.luca.o
+${OUTPUT}half.luca.o: half.cu ${HDRS}
+half-luca: ${OUTPUT}half.luca.o
+${OUTPUT}bfloat16.luca.o: bfloat16.cu ${HDRS}
+bfloat16-luca: ${OUTPUT}bfloat16.luca.o
+${OUTPUT}float.luca.o: float.cu ${HDRS}
+float-luca: ${OUTPUT}float.luca.o
+${OUTPUT}double.luca.o: double.cu ${HDRS}
+double-luca: ${OUTPUT}double.luca.o
+${OUTPUT}fp128.luca.o: fp128.cu ${HDRS}
+fp128-luca: ${OUTPUT}fp128.luca.o
