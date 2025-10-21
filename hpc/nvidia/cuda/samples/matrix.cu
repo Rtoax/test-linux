@@ -17,7 +17,7 @@
 #include <time.h>
 
 /* Compatiable CUDA software stack */
-#if defined(__NVCC__) || defined(__HIPCC__) || defined(__HPCC__)
+#if defined(__NVCC__) || defined(__HIPCC__) || defined(__HPCC__) || defined(__LUCA__)
 # define SUPPORT_CUDA_SYNOPSIS	1
 #include "cuda_compat.h"
 #include "cuda_helpers.h"
@@ -103,6 +103,8 @@ struct {
 const char *version = "v1.0.3 "
 #if defined(__HPCC__)
 	"(GPU MetaX)"
+#elif defined(__LUCA__)
+	"(GPU CESTC)"
 #elif defined(__HIPCC__)
 	"(GPU AMD)"
 #elif defined(__NVCC__)

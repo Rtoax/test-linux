@@ -13,6 +13,7 @@ and this project adheres to
 - mk: Rename all `targets` to `target-y`;
 - cuda/samples: Rename code to remove cuda,hip,hc prefix;
 #### Added
+- luca: align all cuda/samples;
 - hpc: introduce luca;
 - compiler: test `__float128`, `__float80/_Float64x`;
 - procfs: add sys/kernel/random/uuid.sh;

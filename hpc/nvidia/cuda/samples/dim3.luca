@@ -1,0 +1,2 @@
+#define __USE_LUCA__	1
+#include "dim3.cu"

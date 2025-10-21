@@ -43,8 +43,10 @@
 # include <hcfft/hcfft.h>
 # include <luca_fp8.h>
 # include <luca_fp16.h>
+# include <luca_cooperative_groups.h>
 # include <hccl.h>
 # include "cuda_adapter.h"
+# define CUNAME	"CESTC"
 #elif defined(__USE_HIP__)
 # ifdef __USE_HIP_V2__
 #  define HIPBLAS_V2

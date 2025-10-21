@@ -31,7 +31,7 @@ int main(void)
 
 	cudaMallocManaged(&ptr, size, cudaMemAttachGlobal);
 
-#if defined(HAVE_HPCC) || defined(HAVE_HIP)
+#if defined(HAVE_HPCC) || defined(HAVE_HIP) || defined(HAVE_LUCA)
 	cudaMemAdvise(ptr, size, cudaMemAdviseSetReadMostly, gpu_id);
 #else
 	cudaMemLocation location;

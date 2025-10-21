@@ -74,10 +74,7 @@ ifdef HAVE_HPCC
 endif
 
 ifdef HAVE_LUCA
-  target-lscc-y := hello-luca
-  target-lscc-y += __GNUC__-luca
-  target-lscc-y += __STDC__-luca
-  target-lscc-y += attribute-luca
+  target-lscc-y := $(patsubst %,%-luca,$(common-objs))
 endif
 
 target-post-y := $(patsubst %,${OUTPUT}%.E.cu,$(target-nvcc-y))
@@ -140,6 +137,11 @@ CFLAGS_HTCC_blasLtMatmul := ${CFLAGS_HTCC_blas}
 
 CFLAGS_HTCC_blas := -Wno-ignored-attributes
 CFLAGS_HTCC_blasLtMatmul := ${CFLAGS_HTCC_blas}
+
+CFLAGS_LSCC_matrix-fp64 := -DTEST_FP64=1
+CFLAGS_LSCC_matrix-fp32 := -DTEST_FP32=1
+CFLAGS_LSCC_matrix-fp16 := -DTEST_FP16=1
+CFLAGS_LSCC_matrix-int8 := -DTEST_INT8=1
 
 include ../../../../template/main.mk
 
@@ -266,8 +268,41 @@ rand-hpcc: ${OUTPUT}rand.hpcc.o ${HPCC_HELPERS}
 sparse-hpcc: ${OUTPUT}sparse.hpcc.o ${HPCC_HELPERS}
 __STDC__-hpcc: ${OUTPUT}__STDC__.hpcc.o ${HPCC_HELPERS}
 
-# CESTC
-hello-luca: ${OUTPUT}hello.luca.o ${LUCA_HELPERS}
-__GNUC__-luca: ${OUTPUT}__GNUC__.luca.o ${LUCA_HELPERS}
-__STDC__-luca: ${OUTPUT}__STDC__.luca.o ${LUCA_HELPERS}
+# CESTC LUCA
+${OUTPUT}blas.luca.o: blas.cu
+${OUTPUT}blasLtMatmul.luca.o: cuda_adapter.h cuda_helpers.h
+${OUTPUT}device.luca.o: device.cu
+${OUTPUT}fft.luca.o: cuda_adapter.h cuda_helpers.h
+${OUTPUT}float.luca.o: float.cu
+${OUTPUT}hcclGetVersion.luca.o: ncclGetVersion.cu
+${OUTPUT}matrix-fp16.luca.o: cuda_adapter.h cuda_helpers.h
+${OUTPUT}matrix-fp32.luca.o: cuda_adapter.h cuda_helpers.h
+${OUTPUT}matrix-fp64.luca.o: cuda_adapter.h cuda_helpers.h
+${OUTPUT}matrix-int8.luca.o: cuda_adapter.h cuda_helpers.h
+${OUTPUT}rand.luca.o: cuda_adapter.h cuda_helpers.h
+${OUTPUT}sparse.luca.o: cuda_adapter.h cuda_helpers.h
 attribute-luca: ${OUTPUT}attribute.luca.o ${LUCA_HELPERS}
+blas-luca: ${OUTPUT}blas.luca.o ${LUCA_HELPERS}
+blasLtMatmul-luca: ${OUTPUT}blasLtMatmul.luca.o ${LUCA_HELPERS}
+cooperative-luca: ${OUTPUT}cooperative.luca.o ${LUCA_HELPERS}
+device-luca: ${OUTPUT}device.luca.o ${LUCA_HELPERS}
+dim3-luca: ${OUTPUT}dim3.luca.o ${LUCA_HELPERS}
+event-luca: ${OUTPUT}event.luca.o ${LUCA_HELPERS}
+fft-luca: ${OUTPUT}fft.luca.o ${LUCA_HELPERS}
+float-luca: ${OUTPUT}float.luca.o
+__GNUC__-luca: ${OUTPUT}__GNUC__.luca.o ${LUCA_HELPERS}
+hcclGetVersion-luca: ${OUTPUT}hcclGetVersion.luca.o ${LUCA_HELPERS}
+hello-luca: ${OUTPUT}hello.luca.o ${LUCA_HELPERS}
+malloc-luca: ${OUTPUT}malloc.luca.o ${LUCA_HELPERS}
+mallocManaged-luca: ${OUTPUT}mallocManaged.luca.o ${LUCA_HELPERS}
+matrix-fp16-luca: ${OUTPUT}matrix-fp16.luca.o ${LUCA_HELPERS}
+matrix-fp32-luca: ${OUTPUT}matrix-fp32.luca.o ${LUCA_HELPERS}
+matrix-fp64-luca: ${OUTPUT}matrix-fp64.luca.o ${LUCA_HELPERS}
+matrix-int8-luca: ${OUTPUT}matrix-int8.luca.o ${LUCA_HELPERS}
+module-luca: ${OUTPUT}module.luca.o ${LUCA_HELPERS}
+p2p-luca: ${OUTPUT}p2p.luca.o ${LUCA_HELPERS}
+parallel-luca: ${OUTPUT}parallel.luca.o ${LUCA_HELPERS}
+properties-luca: ${OUTPUT}properties.luca.o ${LUCA_HELPERS}
+rand-luca: ${OUTPUT}rand.luca.o ${LUCA_HELPERS}
+sparse-luca: ${OUTPUT}sparse.luca.o ${LUCA_HELPERS}
+__STDC__-luca: ${OUTPUT}__STDC__.luca.o ${LUCA_HELPERS}

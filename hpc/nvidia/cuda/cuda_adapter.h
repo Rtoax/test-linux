@@ -1343,8 +1343,7 @@
 #define CUBLAS_COMPUTE_32I	__CU(BLAS_COMPUTE_32I)
 #define CUBLAS_COMPUTE_32I_PEDANTIC	__CU(BLAS_COMPUTE_32I_PEDANTIC)
 
-/* FIXME: luca has it's own definitions */
-#if defined(__USE_HPCC__) || defined(__USE_LUCA__)
+#if defined(__USE_HPCC__)
 /**
  * see /usr/local/cuda-12.9/targets/x86_64-linux/include/library_types.h
  */
@@ -1390,6 +1389,49 @@
 #define CUDA_R_6F_E2M3	HPCC_R_6F_E2M3
 #define CUDA_R_6F_E3M2	HPCC_R_6F_E3M12
 #define CUDA_R_4F_E2M1	HPCC_R_4F_E2M1
+#elif defined(__USE_LUCA__)
+#define cudaDataType_t	lucaDataType_t
+#define cudaDataType	lucaDataType
+/* The data type is a 16-bit real half precision floating-point */
+#define CUDA_R_16F	LUCA_R_16F
+/* The data type is a 32-bit structure comprised of two half precision
+ * floating-points representing a complex number. */
+#define CUDA_C_16F	LUCA_C_16F
+/* The data type is a 16-bit real bfloat16 floating-point */
+#define CUDA_R_16BF	LUCA_R_16BF
+#define CUDA_C_16BF	LUCA_C_16BF
+#define CUDA_R_32F	LUCA_R_32F
+#define CUDA_C_32F	LUCA_C_32F
+#define CUDA_R_64F	LUCA_R_64F
+#define CUDA_C_64F	LUCA_C_64F
+/* The data type is a 8-bit real signed integer */
+#define CUDA_R_4I	LUCA_R_4I
+#define CUDA_C_4I	LUCA_C_4I
+#define CUDA_R_4U	LUCA_R_4U
+#define CUDA_C_4U	LUCA_C_4U
+#define CUDA_R_8I	LUCA_R_8I
+#define CUDA_C_8I	LUCA_C_8I
+#define CUDA_R_8U	LUCA_R_8U
+#define CUDA_C_8U	LUCA_C_8U
+#define CUDA_R_16I	LUCA_R_16I
+#define CUDA_C_16I	LUCA_C_16I
+#define CUDA_R_16U	LUCA_R_16U
+#define CUDA_C_16U	LUCA_C_16U
+#define CUDA_R_32I	LUCA_R_32I
+#define CUDA_C_32I	LUCA_C_32I
+#define CUDA_R_32U	LUCA_R_32U
+#define CUDA_C_32U	LUCA_C_32U
+#define CUDA_R_64I	LUCA_R_64I
+#define CUDA_C_64I	LUCA_C_64I
+#define CUDA_R_64U	LUCA_R_64U
+#define CUDA_C_64U	LUCA_C_64U
+#define CUDA_R_8F_E4M3	LUCA_R_8F_E4M3
+#define CUDA_R_8F_UE4M3	LUCA_R_8F_UE4M3
+#define CUDA_R_8F_E5M2	LUCA_R_8F_E5M2
+#define CUDA_R_8F_UE8M0	LUCA_R_8F_UE8M0
+#define CUDA_R_6F_E2M3	LUCA_R_6F_E2M3
+#define CUDA_R_6F_E3M2	LUCA_R_6F_E3M12
+#define CUDA_R_4F_E2M1	LUCA_R_4F_E2M1
 #elif defined(__USE_HIP__)
 #define cudaDataType	__cuda(DataType)
 #define CUDA_R_32F	HIP_R_32F
