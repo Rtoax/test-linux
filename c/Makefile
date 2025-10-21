@@ -27,6 +27,7 @@ ifneq (${CC___bf16},)
   targets += __bf16
 endif
 targets += __float128
+targets += __float80
 targets += ptr-dim
 targets += struct
 targets += string
@@ -106,6 +107,7 @@ dummy: ${OUTPUT}dummy.o
 float: ${OUTPUT}float.o
 __bf16: ${OUTPUT}__bf16.o
 __float128: ${OUTPUT}__float128.o
+__float80: ${OUTPUT}__float80.o
 _Generic: ${OUTPUT}_Generic.o
 goto: ${OUTPUT}goto.o
 ptr-dim: ${OUTPUT}ptr-dim.o ${OUTPUT}c_helpers.o

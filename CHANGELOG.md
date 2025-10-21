@@ -12,7 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - cuda/samples: Rename code to remove cuda,hip,hc prefix;
 #### Added
-- compiler: test `__float128`;
+- compiler: test `__float128`, `__float80/_Float64x`;
 - procfs: add sys/kernel/random/uuid.sh;
 - c: add overflow.c;
 - cuda/intrinsics: add fp128.cu, double.cu, fp8.cu, fp6.cu, types.h;
