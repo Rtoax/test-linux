@@ -72,8 +72,8 @@
 #include <float.h>
 #include <string.h>
 
-#if defined(__HPCC__) || defined(__NVCC__) || defined(__HIPCC__)
-# define HAVE_CUDA	1
+#if defined(__HPCC__) || defined(__LUCA__) || defined(__NVCC__) || defined(__HIPCC__)
+# define IS_CUDA_COMPAT_COMPILER	1
 # if defined(__HPCC__)	/* MetaX */
 #  include <hccl.h>
 #  include <hpcc_fp16.h>
@@ -82,6 +82,16 @@
 #  include "cuda_adapter.h"
 #  ifndef SUPPORT__Float16
 #   define SUPPORT__Float16 /* HPCC always support _Float16 */
+#  endif
+# elif defined(__LUCA__)	/* CESTC */
+/* TODO: luca has own name prefix. */
+#  include <hccl.h>
+#  include <luca_fp16.h>
+#  include <luca_bfloat16.h>
+#  include <hc_runtime.h>
+#  include "cuda_adapter.h"
+#  ifndef SUPPORT__Float16
+#   define SUPPORT__Float16 /* LUCA always support _Float16 */
 #  endif
 # elif defined(__NVCC__)	/* Nvidia */
 #  include <cuda_fp16.h>
@@ -119,7 +129,7 @@
 # define compat_half2float(v)	((float)v)
 # define compat_float2half(v)	((_Float16)v)
 # define compat_fp16_exp2(v) exp2f(v)
-#elif defined(HAVE_CUDA)
+#elif defined(IS_CUDA_COMPAT_COMPILER)
 # define SUPPORT_FP16	1
 # define compat_fp16	half
 # define compat_half2float(v)	__half2float(v)
@@ -148,7 +158,7 @@
 # define compat_bf16	__bf16
 # define compat_bf16tofloat(v)	((float)v)
 # define compat_floattobf16(v)	((__bf16)v)
-#elif defined(HAVE_CUDA)
+#elif defined(IS_CUDA_COMPAT_COMPILER)
 # define SUPPORT_BF16
 # if defined(__NVCC__)	/* Nvidia */
 #  define compat_bf16	__nv_bfloat16
@@ -391,7 +401,7 @@ __myconst__ bf16_t bf16_PosMin = BF16_INITIALIZER(0, 0x1, 0);
 __myconst__ bf16_t bf16_NegMin = BF16_INITIALIZER(1, 0x1, 0);
 
 
-#ifdef HAVE_CUDA
+#ifdef IS_CUDA_COMPAT_COMPILER
 /**
  * From struct to host
  */
