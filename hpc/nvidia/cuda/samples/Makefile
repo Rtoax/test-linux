@@ -109,7 +109,7 @@ HIP_HELPERS := ${OUTPUT}cuda_helpers.hip.o
 HPCC_HELPERS := ${OUTPUT}cuda_helpers.hpcc.o
 LUCA_HELPERS := ${OUTPUT}cuda_helpers.luca.o
 
-CFLAGS_float-c := ${cflags-support-types}
+CFLAGS_float-c := ${cflags-support-types-y}
 LDFLAGS_float-c := -lm
 
 # FIXME: on my fedora 42 env:

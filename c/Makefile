@@ -23,15 +23,9 @@ target-y += compare
 target-y += _Generic
 target-y += goto
 target-y += float
-ifneq (${CC___bf16},)
-  target-y += __bf16
-endif
-ifneq (${CC___float128},)
-  target-y += __float128
-endif
-ifneq (${CC___float80},)
-  target-y += __float80
-endif
+target-${CC___bf16} += __bf16
+target-${CC___float128} += __float128
+target-${CC___float80} += __float80
 target-y += ptr-dim
 target-y += struct
 target-y += string
@@ -86,7 +80,7 @@ CFLAGS___STDC__c98 := -std=c89 -DSTD_C98=1
 CFLAGS___STDC__gnu98 := -std=gnu89 -DSTD_GNU98=1
 CFLAGS___STDC__c17 := -std=c89 -DSTD_C17=1
 
-CFLAGS_float := ${cflags-support-types}
+CFLAGS_float := ${cflags-support-types-y}
 LDFLAGS_float := -lm
 
 # preprocessing

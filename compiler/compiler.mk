@@ -1,4 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
+# Export:
+# cflags-support-types-y
+#
 _COMPILER = 1
 
 SHELL := bash
@@ -72,25 +75,13 @@ CC___float128 := $(findstring y,$(call check_compiler_support_type,$(CC),__float
 CC___float80 := $(findstring y,$(call check_compiler_support_type,$(CC),__float80))
 CC___uint128_t := $(findstring y,$(call check_compiler_support_type,$(CC),__uint128_t))
 
-cflags-support-types :=
-ifeq (${CC__Float16},y)
-  cflags-support-types += -DSUPPORT__Float16=1
-endif
-ifeq (${CC___fp16},y)
-  cflags-support-types += -DSUPPORT___fp16=1
-endif
-ifeq (${CC___bf16},y)
-  cflags-support-types += -DSUPPORT___bf16=1
-endif
-ifeq (${CC___float128},y)
-  cflags-support-types += -DSUPPORT___float128=1
-endif
-ifeq (${CC___float80},y)
-  cflags-support-types += -DSUPPORT___float80=1
-endif
-ifeq (${CC___uint128_t},y)
-  cflags-support-types += -DSUPPORT___uint128_t=1
-endif
+cflags-support-types-y :=
+cflags-support-types-${CC__Float16} += -DSUPPORT__Float16=1
+cflags-support-types-${CC___fp16} += -DSUPPORT___fp16=1
+cflags-support-types-${CC___bf16} += -DSUPPORT___bf16=1
+cflags-support-types-${CC___float128} += -DSUPPORT___float128=1
+cflags-support-types-${CC___float80} += -DSUPPORT___float80=1
+cflags-support-types-${CC___uint128_t} += -DSUPPORT___uint128_t=1
 
 CC_FULLVERSION := $(shell $(CC) -dumpfullversion -dumpversion)
 CC_VERSION := $(shell $(CC) -dumpversion)
@@ -124,7 +115,7 @@ ifdef DEBUG
   $(info CC___float128: ${CC___float128})
   $(info CC___float80: ${CC___float80})
   $(info CC___uint128_t: ${CC___uint128_t})
-  $(info cflags-support-types: ${cflags-support-types})
+  $(info cflags-support-types-y: ${cflags-support-types-y})
 
   $(info feature-m32 ${feature-m32})
   $(info feature-sve2 ${feature-sve2})
