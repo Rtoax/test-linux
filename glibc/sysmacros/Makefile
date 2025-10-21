@@ -1,5 +1,5 @@
-targets :=
-targets += major
+target-y :=
+target-y += major
 
 CFLAGS :=
 

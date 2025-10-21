@@ -1,6 +1,6 @@
-targets :=
-targets += syslog
-targets += syslog-benchmark
+target-y :=
+target-y += syslog
+target-y += syslog-benchmark
 
 CFLAGS :=
 

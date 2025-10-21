@@ -1,3 +1,3 @@
 sub-dir := ip
-targets-shell := unshare.sh
+target-shell-y := unshare.sh
 include ../../template/main.mk

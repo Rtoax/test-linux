@@ -25,23 +25,23 @@ HPCC_LLVM := ${HPCC_ROOT}/htgpu_llvm/
 HTCC := ${HPCC_LLVM}/bin/htcc
 
 ifeq ($(MXCC),)
-  ifneq ($(targets-mxcc),)
+  ifneq ($(target-mxcc-y),)
     ifdef __IGNORE_NOTFOUND_ERROR__
-      $(warning Not found mxcc with targets-mxcc not empty, but __IGNORE_NOTFOUND_ERROR__)
-      targets-mxcc :=
+      $(warning Not found mxcc with target-mxcc-y not empty, but __IGNORE_NOTFOUND_ERROR__)
+      target-mxcc-y :=
     else
-      $(error Not found mxcc with targets-mxcc not empty, install MetaX Toolkit first)
+      $(error Not found mxcc with target-mxcc-y not empty, install MetaX Toolkit first)
     endif
   endif
 endif
 
 ifeq ($(HTCC),)
-  ifneq ($(targets-htcc),)
+  ifneq ($(target-htcc-y),)
     ifdef __IGNORE_NOTFOUND_ERROR__
-      $(warning Not found htcc with targets-htcc not empty, but __IGNORE_NOTFOUND_ERROR__)
-      targets-htcc :=
+      $(warning Not found htcc with target-htcc-y not empty, but __IGNORE_NOTFOUND_ERROR__)
+      target-htcc-y :=
     else
-      $(error Not found htcc with targets-htcc not empty, install MetaX hpcc first)
+      $(error Not found htcc with target-htcc-y not empty, install MetaX hpcc first)
     endif
   endif
 endif
@@ -73,11 +73,11 @@ export MXCC HTCC
 export HPCC_VERSION_MAJOR HPCC_VERSION_MINOR HPCC_VERSION_PATCH
 
 ifdef DEBUG
-  ifneq ($(targets-mxcc),)
+  ifneq ($(target-mxcc-y),)
     $(info MXCC = ${MXCC})
     $(info $(shell ${MXCC} --version))
   endif
-  ifneq ($(targets-htcc),)
+  ifneq ($(target-htcc-y),)
     $(info HPCC_ROOT = ${HPCC_ROOT})
     $(info HTCC = ${HTCC})
     $(info $(shell ${HTCC} --version))

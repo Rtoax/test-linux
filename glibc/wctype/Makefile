@@ -1,7 +1,7 @@
-targets := wchar_t
-targets += iswctype
-targets += wcstol
-targets += demo-1
+target-y := wchar_t
+target-y += iswctype
+target-y += wcstol
+target-y += demo-1
 
 CFLAGS :=
 CFLAGS += -pthread

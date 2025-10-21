@@ -2,8 +2,8 @@ include ../../../template/kconfig.mk
 
 sub-dir := samples
 
-targets :=
-targets += vsock
+target-y :=
+target-y += vsock
 
 include ../../../template/main.mk
 

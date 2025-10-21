@@ -1,6 +1,6 @@
 sub-dir :=
 
-targets := cpu_relax
+target-y := cpu_relax
 ifeq ($(shell uname -m),x86_64)
   sub-dir += x86_32
   sub-dir += x86_64
@@ -14,7 +14,7 @@ else ifeq ($(shell uname -m),riscv64)
   sub-dir += riscv64
 endif
 
-targets-post := $(patsubst %,%.c.s,${targets})
+target-post-y := $(patsubst %,%.c.s,${target-y})
 
 include ../template/main.mk
 

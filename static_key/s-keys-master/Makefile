@@ -1,5 +1,5 @@
-targets := main
-targets += jl
+target-y := main
+target-y += jl
 
 CFLAGS += -Iinclude
 CFLAGS += -O1 -g

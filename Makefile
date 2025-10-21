@@ -83,8 +83,8 @@ help:
 
 include make.list
 
-targets-prep := reset
-targets-post := done
+target-prep-y := reset
+target-post-y := done
 
 ifeq ($(KMOD),0)
   kmod-list :=

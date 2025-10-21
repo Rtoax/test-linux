@@ -1,6 +1,6 @@
-targets := semaphore
-targets += latency
-targets += pthread-semaphore
+target-y := semaphore
+target-y += latency
+target-y += pthread-semaphore
 
 CFLAGS :=
 CFLAGS += -lpthread

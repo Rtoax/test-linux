@@ -1,4 +1,4 @@
-targets-liba := bpf_helpers.a
+target-liba-y := bpf_helpers.a
 
 include ../../../template/main.mk
 

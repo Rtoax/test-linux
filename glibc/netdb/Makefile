@@ -1,18 +1,18 @@
-targets := gai_strerror
-targets += getaddrinfo
-targets += gethostbyaddr
-targets += gethostbyname gethostbyname_r gethostbyname-2
-targets += getservbyport getservbyname
-targets += hstrerror
-targets += setservent
-targets += setnetent
-targets += sethostent
-targets += innetgr
-targets += getprotoent getprotobyname getprotobynumber
-targets += getnetbyname
-targets += getipnodebyname
-targets += herror
-targets += getnameinfo
+target-y := gai_strerror
+target-y += getaddrinfo
+target-y += gethostbyaddr
+target-y += gethostbyname gethostbyname_r gethostbyname-2
+target-y += getservbyport getservbyname
+target-y += hstrerror
+target-y += setservent
+target-y += setnetent
+target-y += sethostent
+target-y += innetgr
+target-y += getprotoent getprotobyname getprotobynumber
+target-y += getnetbyname
+target-y += getipnodebyname
+target-y += herror
+target-y += getnameinfo
 
 include ../../template/main.mk
 

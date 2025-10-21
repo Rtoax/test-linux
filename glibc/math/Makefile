@@ -1,17 +1,17 @@
-targets :=
-targets += ceil
-targets += copysign
-targets += exp
-targets += exp2
-targets += fpclassify
-targets += finite
-targets += sqrt sqrt-stress
-targets += nan
-targets += isgreater
-targets += log log-stress
-targets += sin
-targets += signbit
-targets += nextafter
+target-y :=
+target-y += ceil
+target-y += copysign
+target-y += exp
+target-y += exp2
+target-y += fpclassify
+target-y += finite
+target-y += sqrt sqrt-stress
+target-y += nan
+target-y += isgreater
+target-y += log log-stress
+target-y += sin
+target-y += signbit
+target-y += nextafter
 
 CC := gcc
 
@@ -23,7 +23,7 @@ LDFLAGS := ${CFLAGS}
 CFLAGS_sqrt-stress := -DSTRESS=1
 CFLAGS_log-stress := -DSTRESS=1
 
-targets-clean := clean-tmp
+target-clean-y := clean-tmp
 
 include ../../template/main.mk
 

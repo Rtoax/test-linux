@@ -1,18 +1,18 @@
 include ../glibc.mk
 
-targets := nr_errno
-targets += __errno_location
-targets += EDOM
-targets += ENOENT
-targets += EAFNOSUPPORT
+target-y := nr_errno
+target-y += __errno_location
+target-y += EDOM
+target-y += ENOENT
+target-y += EAFNOSUPPORT
 
 CC := gcc
 
 CFLAGS := -pthread
 CFLAGS += -DLIBC___ERRNO_LOCATION_SYMADDR=${LIBC___ERRNO_LOCATION_SYMADDR}
 
-targets-prep := nr_errno.h
-targets-clean := clean-more
+target-prep-y := nr_errno.h
+target-clean-y := clean-more
 
 include ../../template/main.mk
 

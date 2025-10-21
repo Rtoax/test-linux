@@ -4,7 +4,7 @@ _TARGET_SHELL = 1
 SHELL ?= bash
 Q ?= @
 
-# see targets-shell-logs
+# see target-shell-logs
 %.sh.log: %.sh
 	$(call log_tgt_exe,SHELL,$(<),$(@))
 	$(Q)${SHELL} $(<) $(ARGS_$(*)) $(SHELL_ARGS_$(<)) | tee $(@)

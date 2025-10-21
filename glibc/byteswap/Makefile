@@ -1,4 +1,4 @@
-targets := byteswap
+target-y := byteswap
 
 CFLAGS :=
 CFLAGS += -I../../

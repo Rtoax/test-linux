@@ -1,8 +1,8 @@
-targets :=
-targets += server
-targets += client
+target-y :=
+target-y += server
+target-y += client
 
-targets-shell := gen-key.sh
+target-shell-y := gen-key.sh
 
 CFLAGS :=
 CFLAGS += -I../macro/

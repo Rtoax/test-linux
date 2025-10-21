@@ -1,5 +1,5 @@
-targets := writev
-targets += readv
+target-y := writev
+target-y += readv
 
 include ../../../template/main.mk
 

@@ -1,7 +1,7 @@
-targets :=
-targets += hello
+target-y :=
+target-y += hello
 
-targets-post := test0
+target-post-y := test0
 
 CFLAGS :=
 CFLAGS += -specs=$(shell pwd)/definitions

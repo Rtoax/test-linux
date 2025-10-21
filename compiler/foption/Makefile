@@ -7,26 +7,26 @@ sub-dir += lto
 sub-dir += ipa
 sub-dir += sanitizer
 
-targets :=
-targets += fwhole-program
-targets += fstack-protector fstack-protector-all fstack-protector-strong fstack-protector-explicit
-targets += fdump-tree-gimple
-targets += fdump-tree-all-raw fdump-tree-all
-targets += finput-charset
-targets += fno-zero-initialized-in-bss fzero-initialized-in-bss
-targets += fplt fno-plt
-targets += fuse-ld
+target-y :=
+target-y += fwhole-program
+target-y += fstack-protector fstack-protector-all fstack-protector-strong fstack-protector-explicit
+target-y += fdump-tree-gimple
+target-y += fdump-tree-all-raw fdump-tree-all
+target-y += finput-charset
+target-y += fno-zero-initialized-in-bss fzero-initialized-in-bss
+target-y += fplt fno-plt
+target-y += fuse-ld
 
 ifeq ($(CC_-fcf-protection),1)
-  targets += fcf-protection
+  target-y += fcf-protection
 endif
 
 # command-line option ‘-fwpa’ is valid for LTO but not for C
-# targets += fwpa
-# targets += fltrans
+# target-y += fwpa
+# target-y += fltrans
 
 ifeq ($(CC_-fpatchable-function-entry),1)
-  targets += fpatchable-function-entry
+  target-y += fpatchable-function-entry
 endif
 
 CFLAGS :=
@@ -56,7 +56,7 @@ CFLAGS_fno-plt := -fno-plt
 # mold, etc. optional linkers.
 LDFLAGS_fuse-ld := -fuse-ld=bfd
 
-targets-clean := clean0
+target-clean-y := clean0
 
 include ../../template/main.mk
 

@@ -1,9 +1,9 @@
 # SPDX-License-Identifier: GPL-3.0
-targets :=
-targets += setxattr
-targets += getxattr
-targets += listxattr
-targets += demo-1
+target-y :=
+target-y += setxattr
+target-y += getxattr
+target-y += listxattr
+target-y += demo-1
 
 include ../../../template/main.mk
 

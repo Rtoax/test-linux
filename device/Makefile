@@ -2,9 +2,9 @@ sub-dir := block
 sub-dir += udev
 sub-dir += input
 
-targets :=
-targets += cpu_dma_latency
-targets += random
+target-y :=
+target-y += cpu_dma_latency
+target-y += random
 
 include ../template/main.mk
 

@@ -1,13 +1,13 @@
-targets :=
-targets += fgetgrent
-targets += getgrent
-targets += getgrgid
-targets += getgrnam
-targets += getgrouplist
-targets += initgroups
-targets += setgrent
-targets += getgroups
-targets += demo-pwd-grp
+target-y :=
+target-y += fgetgrent
+target-y += getgrent
+target-y += getgrgid
+target-y += getgrnam
+target-y += getgrouplist
+target-y += initgroups
+target-y += setgrent
+target-y += getgroups
+target-y += demo-pwd-grp
 
 CFLAGS :=
 

@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
 sub-dir := single-header
-targets := list_test
+target-y := list_test
 
 include ../../../template/main.mk
 

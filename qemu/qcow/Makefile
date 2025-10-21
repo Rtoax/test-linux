@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: GPL-3.0
 include qcow2.mk
 
-targets := qcow2
+target-y := qcow2
 QCOW2S := a.qcow2
 
-targets-prep := ${QCOW2S}
-targets-test := test-qcow2
+target-prep-y := ${QCOW2S}
+target-test-y := test-qcow2
 
 include ../../template/main.mk
 

@@ -1,6 +1,6 @@
 sub-dir := examples
 sub-dir += translations
 
-targets-shell := instruction-set.sh
+target-shell-y := instruction-set.sh
 
 include ../template/main.mk

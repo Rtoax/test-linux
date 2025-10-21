@@ -1,5 +1,5 @@
-targets := test_file
-targets += test_string
+target-y := test_file
+target-y += test_string
 
 include ../../template/main.mk
 

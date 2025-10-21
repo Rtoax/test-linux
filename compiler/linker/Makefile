@@ -5,19 +5,19 @@ LD_MOLD := $(shell which mold 2>/dev/null)
 sub-dir := script
 sub-dir += LD_PRELOAD
 
-targets-shell := LD_SHOW_AUXV.sh
+target-shell-y := LD_SHOW_AUXV.sh
 
-targets := pushsection
-targets += attribute
-targets += bfd
-targets += gold
+target-y := pushsection
+target-y += attribute
+target-y += bfd
+target-y += gold
 ifneq ($(wildcard $(LD_LLD)),)
-  targets += lld
+  target-y += lld
 else
   $(warning "WARNING: not found mold lld")
 endif
 ifneq ($(wildcard $(LD_MOLD)),)
-  targets += mold
+  target-y += mold
 else
   $(warning "WARNING: not found mold linker")
 endif

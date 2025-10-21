@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: GPL-3.0
-targets-asm :=
-targets := main-c
-targets-libso := libhello.so
-targets-prep := default.lds
+target-asm-y :=
+target-y := main-c
+target-libso-y := libhello.so
+target-prep-y := default.lds
 
 ifeq ($(shell uname -m),x86_64)
-  targets-asm += hello-as
+  target-asm-y += hello-as
 endif
 
 # ld --verbose argument can print linker script

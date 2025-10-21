@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
-targets := rss
-targets-shell := info.sh
+target-y := rss
+target-shell-y := info.sh
 
 include ../../../template/main.mk
 

@@ -1,7 +1,7 @@
-targets := getfsent
-targets += getfsfile
-targets += getfsspec
-targets += setfsent
+target-y := getfsent
+target-y += getfsfile
+target-y += getfsspec
+target-y += setfsent
 
 CC := gcc
 

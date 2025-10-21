@@ -1,8 +1,8 @@
 # SPDX-License-Identifier: GPL-3.0
-targets :=
-targets += if_indextoname
-targets += if_nametoindex
-targets += if_nameindex
+target-y :=
+target-y += if_indextoname
+target-y += if_nametoindex
+target-y += if_nameindex
 
 CFLAGS :=
 

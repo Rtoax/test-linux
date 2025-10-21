@@ -3,10 +3,10 @@ OUTPUT := .output/
 
 CXX := clang++
 
-targets-cpp :=
-targets-cpp += ParseCommandLineOptions
-targets-cpp += ParseCommandLineOptions-2
-targets-cpp += LLVM_VERSION_MAJOR
+target-cpp-y :=
+target-cpp-y += ParseCommandLineOptions
+target-cpp-y += ParseCommandLineOptions-2
+target-cpp-y += LLVM_VERSION_MAJOR
 
 CXXFLAGS := -Wno-error=unused-command-line-argument
 CXXFLAGS += $(shell llvm-config --cxxflags --system-libs --libs core mc mcjit ExecutionEngine)

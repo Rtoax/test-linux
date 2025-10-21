@@ -1,4 +1,4 @@
-targets := helloworld
+target-y := helloworld
 
 LDFLAGS := -lwayland-client
 

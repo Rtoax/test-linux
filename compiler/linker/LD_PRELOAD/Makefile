@@ -4,18 +4,18 @@ include ../../compiler.mk
 # Compile to dynamic library.
 CFLAGS_PIC := -fPIC
 
-targets :=
-targets-libso :=
+target-y :=
+target-libso-y :=
 
-targets += main
+target-y += main
 ifeq ($(CC_-mfentry),1)
-  targets += fentry
+  target-y += fentry
 endif
 
-targets-libso += libmcount-nop.so
-targets-libso += libconstructor-obj.so
+target-libso-y += libmcount-nop.so
+target-libso-y += libconstructor-obj.so
 
-targets-test := test0
+target-test-y := test0
 
 CFLAGS_main := -pg
 CFLAGS_fentry := -pg -mfentry

@@ -1,15 +1,15 @@
 include ../../../template/kernel.mk
 
-targets := eventfd
-targets += eventfd-epoll_pwait
+target-y := eventfd
+target-y += eventfd-epoll_pwait
 # kernel commit 58169a52ebc9 ("epoll: add syscall epoll_pwait2")
 # v5.10-11840-g58169a52ebc9
 ifeq ($(call kver_gt,5,10,0),y)
   $(info Kernel support epoll_pwait2)
-  targets += eventfd-epoll_pwait2
+  target-y += eventfd-epoll_pwait2
 endif
-targets += level-triggered edge-triggered
-targets += tcp-echo
+target-y += level-triggered edge-triggered
+target-y += tcp-echo
 
 CFLAGS += -pthread
 LDFLAGS := -pthread

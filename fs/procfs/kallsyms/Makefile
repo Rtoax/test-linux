@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
-targets := ksym_examples
+target-y := ksym_examples
 
 include ../../../template/main.mk
 

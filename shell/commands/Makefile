@@ -7,6 +7,6 @@ sub-dir += grep
 sub-dir += sar
 sub-dir += sed
 
-targets-shell := tr.sh
+target-shell-y := tr.sh
 
 include ../../template/main.mk

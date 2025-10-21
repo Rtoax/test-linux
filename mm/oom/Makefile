@@ -1,10 +1,10 @@
 sub-dir := adaptive-oom-score
 
-targets := oom
-targets += oom_minimal
+target-y := oom
+target-y += oom_minimal
 
 VMLINUX_H := vmlinux.h
-targets-prep := ${VMLINUX_H}
+target-prep-y := ${VMLINUX_H}
 
 include ../../cgroup/libcgroup/libcgroup.mk
 include ../../template/main.mk

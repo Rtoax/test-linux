@@ -4,17 +4,17 @@ OUTPUT = .output/
 CC := clang
 CXX := clang++
 
-targets-libso-cpp += fakecuda_plugin.so
+target-libso-cpp-y += fakecuda_plugin.so
 
 test-exe := hello
 
-targets := ${test-exe}
+target-y := ${test-exe}
 
 CFLAGS += -fplugin=./fakecuda_plugin.so
 
 include ../../../../../template/main.mk
 
-${OUTPUT}hello.o: ${targets-libso-cpp}
+${OUTPUT}hello.o: ${target-libso-cpp-y}
 
 ${OUTPUT}lexerExtension.cpp.so.o: syntax.hpp
 ${OUTPUT}attribute-global.cpp.so.o: configs.hpp

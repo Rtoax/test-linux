@@ -13,8 +13,8 @@
 # - .hpcc.fatbin
 # - .hpcc.hc_fatbin
 # - .hpcc.hcFatBinSegment
-# - targets-mxcc
-# - targets-htcc
+# - target-mxcc-y$
+# - target-htcc-y$
 
 _TARGET_METAX = 1
 
@@ -58,11 +58,11 @@ ifdef DEBUG
   CFLAGS_MXCC += -DDEBUG=${DEBUG}
   CFLAGS_HTCC += -DDEBUG=${DEBUG}
 
-  ifneq ($(targets-mxcc),)
+  ifneq ($(target-mxcc-y),)
     $(info CFLAGS_MXCC = ${CFLAGS_MXCC})
     $(info LDFLAGS_MXCC = ${LDFLAGS_MXCC})
   endif
-  ifneq ($(targets-htcc),)
+  ifneq ($(target-htcc-y),)
     $(info CFLAGS_HTCC = ${CFLAGS_HTCC})
     $(info LDFLAGS_HTCC = ${LDFLAGS_HTCC})
   endif
@@ -72,7 +72,7 @@ ${OUTPUT}%.maca.o: %.maca | ${OUTPUT}
 	$(call log_tgt_obj,MXCC,$(<),$(@))
 	${Q}$(MXCC) -o $(@) -c $(<) $(CFLAGS_MXCC) $(CFLAGS_MXCC_$(*))
 
-$(targets-mxcc): %:
+$(target-mxcc-y): %:
 	$(call log_tgt_exe,MXCC LD,$(<),$(@))
 	${Q}$(MXCC) -o $(@) $(^) $(LDFLAGS_MXCC) $(LDFLAGS_MXCC_$(*))
 
@@ -102,6 +102,6 @@ ${OUTPUT}%.hpcc.hcFatBinSegment: % | ${OUTPUT}
 	$(call log_tgt_obj,HC FATBIN SEG,$(<),$(@))
 	${Q}$(OBJCOPY) -O binary --only-section=.hcFatBinSegment $(<) $(@)
 
-$(targets-htcc): %:
+$(target-htcc-y): %:
 	$(call log_tgt_exe,HTCC LD,$(<),$(@))
 	${Q}$(HTCC) -o $(@) $(^) $(LDFLAGS_HTCC) $(LDFLAGS_HTCC_$(*))

@@ -1,7 +1,7 @@
-targets :=
+target-y :=
 ifeq ($(shell uname -m),x86_64)
-  targets += ARCH_SET_FS
-  targets += fsgsbase
+  target-y += ARCH_SET_FS
+  target-y += fsgsbase
 endif
 
 include ../../../template/main.mk

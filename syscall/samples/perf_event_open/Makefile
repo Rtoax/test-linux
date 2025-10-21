@@ -1,6 +1,6 @@
-targets :=
-targets += perf_event_open
-targets += perf_event_open-2
+target-y :=
+target-y += perf_event_open
+target-y += perf_event_open-2
 
 include ../../../template/main.mk
 

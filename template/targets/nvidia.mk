@@ -14,7 +14,7 @@
 # .cu.ptx.dump
 # .cu.sass.dump
 # .E.cu
-# targets-nvcc
+# target-nvcc-y$
 
 _TARGET_NVIDIA = 1
 _SYSTEM_HAVE_NVIDIA_GPU :=
@@ -123,6 +123,6 @@ ${OUTPUT}%.E.cu: %.cu | ${OUTPUT}
 	$(call log_tgt_obj,NVCC E,$(<),$(@))
 	${Q}$(NVCC) -E -o $(@) -c $(<) $(CFLAGS_NVCC) $(CFLAGS_NVCC_$(*))
 
-$(targets-nvcc): %:
+$(target-nvcc-y): %:
 	$(call log_tgt_exe,NVCC LD,$(<),$(@))
 	${Q}$(NVCC) -o $(@) $(^) $(LDFLAGS_NVCC) $(LDFLAGS_NVCC_$(*))

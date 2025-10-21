@@ -10,6 +10,7 @@ and this project adheres to
 ## Unreleased
 
 #### Breaking Changes
+- mk: Rename all `targets` to `target-y`;
 - cuda/samples: Rename code to remove cuda,hip,hc prefix;
 #### Added
 - hpc: introduce luca;

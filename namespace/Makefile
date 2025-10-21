@@ -5,7 +5,7 @@ sub-dir += nsfs
 sub-dir += pid
 sub-dir += syscalls
 
-targets := unshare
+target-y := unshare
 
 include ../template/main.mk
 

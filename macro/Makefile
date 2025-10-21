@@ -5,55 +5,55 @@ include ../template/kernel.mk
 include ../compiler/cross-compile.mk
 include ../compiler/compiler.mk
 
-targets :=
-targets += align
-targets += alias
-targets += arch
-targets += bit
-targets += likely
-targets += offsetof
-targets += container_of
-targets += __clang__
-targets += __nonnull
-targets += __restrict__
-targets += __func__
-targets += __linux__
-targets += __WORDSIZE
+target-y :=
+target-y += align
+target-y += alias
+target-y += arch
+target-y += bit
+target-y += likely
+target-y += offsetof
+target-y += container_of
+target-y += __clang__
+target-y += __nonnull
+target-y += __restrict__
+target-y += __func__
+target-y += __linux__
+target-y += __WORDSIZE
 ifeq ($(CC_M32),1)
-  targets += __WORDSIZE-32
+  target-y += __WORDSIZE-32
 endif
-targets += __TIME__
-targets += __VERSION__
-targets += __FILE__
-targets += machine
-targets += __ASSEMBLER__
-targets += ident
-targets += __GNUC__ __GNUC_PREREQ
-targets += __has_include
-targets += __user
-targets += __stringify
-targets += __STDC__
-targets += _XOPEN_SOURCE
-targets += _POSIX_SOURCE _POSIX_C_SOURCE
-targets += LINUX_VERSION_CODE
-targets += __GLIBC__ __GLIBC_MINOR__ __GLIBC_PREREQ
+target-y += __TIME__
+target-y += __VERSION__
+target-y += __FILE__
+target-y += machine
+target-y += __ASSEMBLER__
+target-y += ident
+target-y += __GNUC__ __GNUC_PREREQ
+target-y += __has_include
+target-y += __user
+target-y += __stringify
+target-y += __STDC__
+target-y += _XOPEN_SOURCE
+target-y += _POSIX_SOURCE _POSIX_C_SOURCE
+target-y += LINUX_VERSION_CODE
+target-y += __GLIBC__ __GLIBC_MINOR__ __GLIBC_PREREQ
 
-targets-cpp :=
-targets-cpp += __cplusplus __cplusplus-std98
+target-cpp-y :=
+target-cpp-y += __cplusplus __cplusplus-std98
 
 ifeq ($(shell uname -m),x86_64)
-  targets += __x86_64__
+  target-y += __x86_64__
 ifeq ($(CC_M32),1)
-  targets += __i386__
+  target-y += __i386__
 endif
 endif
 ifeq ($(shell uname -m),aarch64)
-  targets += __aarch64__
+  target-y += __aarch64__
 endif
 ifeq ($(shell uname -m),sw_64)
 endif
 ifeq ($(shell uname -m),loongarch64)
-  targets += __loongarch64
+  target-y += __loongarch64
 endif
 
 CFLAGS += ${KFLAGS}
@@ -74,8 +74,8 @@ CFLAGS_machine := -Wno-error=deprecated -Wno-deprecated
 CFLAGS___user := -Wno-error=attributes
 CFLAGS___cplusplus-std98 := -std=c++98
 
-targets-prep := compiler-macros.h
-targets-shell := likely.sh
+target-prep-y := compiler-macros.h
+target-shell-y := likely.sh
 
 include ../template/main.mk
 

@@ -1,12 +1,12 @@
 BCC_SYMS_HDR := /usr/include/bcc/bcc_syms.h
 
-targets := symcache
-targets += bcc_elf_is_shared_obj
+target-y := symcache
+target-y += bcc_elf_is_shared_obj
 
 LDFLAGS := -lbcc
 
 ifeq ($(wildcard $(BCC_SYMS_HDR)),)
-  targets :=
+  target-y :=
   $(warning "WARNING: You need to install bcc dev headers")
 endif
 

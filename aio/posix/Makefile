@@ -1,7 +1,7 @@
-targets := aio_read
-targets += aio_write
-targets += aio_suspend
-targets += lio_listio
+target-y := aio_read
+target-y += aio_write
+target-y += aio_suspend
+target-y += lio_listio
 
 LDFLAGS := -lrt
 

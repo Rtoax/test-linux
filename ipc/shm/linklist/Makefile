@@ -1,5 +1,5 @@
-targets :=
-targets += consumer producer
+target-y :=
+target-y += consumer producer
 
 CFLAGS :=
 CFLAGS += -I. -ggdb

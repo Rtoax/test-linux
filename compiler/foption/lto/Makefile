@@ -1,8 +1,8 @@
 include ../../compiler.mk
 
-targets :=
-targets += ffat-lto-objects
-targets += flto
+target-y :=
+target-y += ffat-lto-objects
+target-y += flto
 
 CFLAGS_ffat-lto-objects := -flto -ffat-lto-objects
 CFLAGS_flto := -flto=auto

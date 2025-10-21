@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
-targets-rust :=
-targets-rust += data-type
+target-rust-y :=
+target-rust-y += data-type
 
 include ../../template/main.mk
 

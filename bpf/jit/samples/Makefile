@@ -1,3 +1,3 @@
-targets := add
+target-y := add
 include ../../../template/main.mk
 add: add.o

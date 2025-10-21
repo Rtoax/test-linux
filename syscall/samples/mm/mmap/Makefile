@@ -1,14 +1,14 @@
 include ../../../../template/kconfig.mk
 
-targets :=
-targets += msync
-targets += fexecve
-targets += mmap-anon
-targets += mmap-file mremap-file
-targets += remap_file_pages
-targets += get_unmapped_page
-targets += mmap-multi-thread-copy
-targets += mmap-exec
+target-y :=
+target-y += msync
+target-y += fexecve
+target-y += mmap-anon
+target-y += mmap-file mremap-file
+target-y += remap_file_pages
+target-y += get_unmapped_page
+target-y += mmap-multi-thread-copy
+target-y += mmap-exec
 
 CFLAGS := -pthread
 CFLAGS += -lrt

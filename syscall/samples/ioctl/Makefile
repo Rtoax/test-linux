@@ -1,12 +1,12 @@
-targets :=
-targets += TIOCGWINSZ
-targets += TIOCSWINSZ
-targets += TCSETS TCGETS
-targets += SIOCETHTOOL
-targets += SIOCGIFCONF
-targets += CDROMEJECT
-targets += ifconfig
-targets += num
+target-y :=
+target-y += TIOCGWINSZ
+target-y += TIOCSWINSZ
+target-y += TCSETS TCGETS
+target-y += SIOCETHTOOL
+target-y += SIOCGIFCONF
+target-y += CDROMEJECT
+target-y += ifconfig
+target-y += num
 
 include ../../../template/main.mk
 

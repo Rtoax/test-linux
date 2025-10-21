@@ -1,4 +1,4 @@
-targets-python := np.random.py
-targets-python += np.linspace.py
+target-python-y := np.random.py
+target-python-y += np.linspace.py
 
 include ../../template/main.mk

@@ -32,7 +32,7 @@ libso-hip += libhipblas.so.2 libhipblaslt.so.0
 
 ifdef HAVE_HPCC
   $(info HAVE_HPCC=1)
-  targets-libso-cpp += ${libso-hpcc}
+  target-libso-cpp-y += ${libso-hpcc}
 
   CXXFLAGS_SO += -I${HPCC_ROOT}/include/
   CXXFLAGS_SO += -I${HPCC_ROOT}/include/common/
@@ -44,7 +44,7 @@ endif
 
 ifdef HAVE_CUDA
   $(info HAVE_CUDA)
-  targets-libso-cpp += ${libso-cuda}
+  target-libso-cpp-y += ${libso-cuda}
 
   CXXFLAGS_SO += -I/usr/local/cuda/include/
   CXXFLAGS_SO += -DCUDA_VERSION_MAJOR=${CUDA_VERSION_MAJOR}
@@ -56,7 +56,7 @@ endif
 
 ifdef HAVE_HIP
   $(info HAVE_HIP)
-  targets-libso-cpp += ${libso-hip}
+  target-libso-cpp-y += ${libso-hip}
 
   CXXFLAGS_SO += -I.
   CXXFLAGS_SO += -DHAVE_HIP=1

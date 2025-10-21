@@ -1,10 +1,10 @@
-targets := adaptive-oom-score
+target-y := adaptive-oom-score
 
-targets-bpf := memory.bpf.o
-targets-post := memory.skel.h
+target-bpf-y := memory.bpf.o
+target-post-y := memory.skel.h
 
 VMLINUX_H := vmlinux.h
-targets-prep := ${VMLINUX_H}
+target-prep-y := ${VMLINUX_H}
 
 LDFLAGS_adaptive-oom-score := -lbpf
 

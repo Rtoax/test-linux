@@ -14,23 +14,23 @@ common-objs += float
 common-objs += double
 common-objs += fp128
 
-targets-post :=
+target-post-y :=
 
 ifdef HAVE_CUDA
   # WARNING: must have -nv suffix.
-  targets-nvcc := $(patsubst %,%-nv,$(common-objs))
+  target-nvcc-y := $(patsubst %,%-nv,$(common-objs))
 
-  targets-post += $(patsubst %-nv,${OUTPUT}%.E.cu,$(targets-nvcc))
-  targets-post += $(patsubst %-nv,${OUTPUT}%.ptx,$(targets-nvcc))
-  targets-post += $(patsubst %-nv,${OUTPUT}%.cu.cpp.ii,$(targets-nvcc))
+  target-post-y += $(patsubst %-nv,${OUTPUT}%.E.cu,$(target-nvcc-y))
+  target-post-y += $(patsubst %-nv,${OUTPUT}%.ptx,$(target-nvcc-y))
+  target-post-y += $(patsubst %-nv,${OUTPUT}%.cu.cpp.ii,$(target-nvcc-y))
 endif
 
 ifdef HAVE_HIP
-  targets-hipcc := $(patsubst %,%-hip,$(common-objs))
+  target-hipcc-y := $(patsubst %,%-hip,$(common-objs))
 endif
 
 ifdef HAVE_HPCC
-  targets-htcc := $(patsubst %,%-hpcc,$(common-objs))
+  target-htcc-y := $(patsubst %,%-hpcc,$(common-objs))
 endif
 
 # Skip warnings

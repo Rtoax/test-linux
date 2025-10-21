@@ -1,8 +1,8 @@
 # SPDX-License-Identifier: GPL-3.0
 OUTPUT := .output/
 
-targets := hello
-targets += acc_get_num_devices
+target-y := hello
+target-y += acc_get_num_devices
 
 CFLAGS := -fopenacc
 LDFLAGS := -fopenacc

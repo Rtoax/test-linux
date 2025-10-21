@@ -1,4 +1,4 @@
-targets := main
+target-y := main
 
 CFLAGS += -lpthread
 

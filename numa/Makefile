@@ -3,9 +3,9 @@ include numactl.mk
 
 sub-dir := samples
 
-targets := numa_mem
-targets-liba := numa.a
-targets-prep := numa_mem.h
+target-y := numa_mem
+target-liba-y := numa.a
+target-prep-y := numa_mem.h
 
 CFLAGS += -g
 LDFLAGS += -lnuma

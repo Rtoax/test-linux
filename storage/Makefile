@@ -2,9 +2,9 @@
 sub-dir := scsi
 sub-dir += lvm
 
-targets-shell := disk_examples.sh
+target-shell-y := disk_examples.sh
 
-targets := partition-table
+target-y := partition-table
 
 include ../template/main.mk
 

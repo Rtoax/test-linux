@@ -45,14 +45,14 @@ ifdef DEBUG
   $(info kobjs-n : $(kobjs-))
 endif
 
-targets := config-map
-targets += socket_filter
-targets += tc
-targets += xdp xdp_simple xdp_dos
+target-y := config-map
+target-y += socket_filter
+target-y += tc
+target-y += xdp xdp_simple xdp_dos
 # kernel v4.12-11037-g546ac1ffb70d
 # commit 546ac1ffb70d ("bpf: add devmap, a map for storing net device references")
 ifeq ($(call kver_gt,4,12,0),y)
-  targets += xdp_devmap
+  target-y += xdp_devmap
 endif
 # kernel v5.8-rc4-1449-g9216477449f3
 # commit 9216477449f3 ("bpf: cpumap: Add the possibility to attach an eBPF program to cpumap")
@@ -61,36 +61,36 @@ endif
 # commit 644bfe51fa49 ("cpumap: Formalize map value as a named struct")
 # introduce struct bpf_cpumap_val
 ifeq ($(call kver_gt,5,8,0),y)
-  targets += xdp_cpumap
+  target-y += xdp_cpumap
 endif
 
-targets += sockops
-targets += sk_skb
-targets += sk_msg
-targets += cgroup_device
-targets += cgroup_sysctl
-targets += fmod_ret
+target-y += sockops
+target-y += sk_skb
+target-y += sk_msg
+target-y += cgroup_device
+target-y += cgroup_sysctl
+target-y += fmod_ret
 ifeq ($(call kver_gt,5,7,0),y)
   # linux v5.7-rc2-1180-geaaacd23910f
   # commit eaaacd23910f ("bpf: Add task and task/file iterator targets")
-  targets += iter_task iter_task_file
+  target-y += iter_task iter_task_file
   # linux v5.7-rc2-1178-g6086d29def80
   # commit 6086d29def80 ("bpf: Add bpf_map iterator")
-  targets += iter_bpf_map
+  target-y += iter_bpf_map
 endif
 ifeq ($(call kver_gt,5,11,0),y)
   # linux v5.11-rc4-606-g3a7b35b899de
   # commit 3a7b35b899de ("bpf: Introduce task_vma bpf_iter")
-  targets += iter_task_vma
+  target-y += iter_task_vma
 endif
 ifeq ($(call kver_gt,6,12,0),y)
   # linux v6.12-rc1-177-g4971266e1595
   # commit 4971266e1595 ("bpf: Add kmem_cache iterator")
-  targets += iter_kmem_cache
+  target-y += iter_kmem_cache
 endif
-targets += $(kobjs-y)
-targets += map_array map_percpu_array
-targets += xdp_xskmap
+target-y += $(kobjs-y)
+target-y += map_array map_percpu_array
+target-y += xdp_xskmap
 
 # linux commit bd1279ae8a69 ("bpf: Add bpf_rbtree_{add,remove,first} kfuncs")
 # v6.2-rc7-1572-gbd1279ae8a69
@@ -101,8 +101,8 @@ ifeq ($(call kver_gt,6,2,0),y)
     $(warning "kuapi not support bpf_rb_root")
     CFLAGS += -DKAPI_NO_BPF_RB_ROOT=1
   endif
-  targets += rbtree
-  targets += rbtree-raw-map
+  target-y += rbtree
+  target-y += rbtree-raw-map
   # linux commit 9e3e66c553f7 ("bpf: Add bpf_rbtree_{root,left,right} kfunc")
   # v6.15-rc4-68-g9e3e66c553f7
   ifeq ($(call kver_gt,6,14,0),y)
@@ -115,7 +115,7 @@ endif
 # linux commit d83525ca62cf ("bpf: introduce bpf_spin_lock")
 # v5.0-rc4-620-gd83525ca62cf
 ifeq ($(call kver_gt,5,0,0),y)
-  targets += spin_lock
+  target-y += spin_lock
 endif
 
 # linux commit e6f2dd0f8067 ("bpf: Add bpf_loop helper")
@@ -198,7 +198,7 @@ ifeq ($(call kver_ge,6,6,0),y)
 endif
 
 # _if_ there are no user mode code, append to bpf target only
-obj-bpf.o := ${targets:=.bpf.o}
+obj-bpf.o := ${target-y:=.bpf.o}
 obj-bpf.o += cgroup_skb.bpf.o
 obj-bpf.o += cgroup_sock.bpf.o
 obj-bpf.o += cgroup_sock_addr.bpf.o
@@ -222,8 +222,8 @@ obj-bpf.o += map_bloom_filter.bpf.o
 obj-bpf.o += sched_cls.bpf.o
 obj-bpf.o += sched_act.bpf.o
 
-targets-bpf := $(addprefix ${OUTPUT},${obj-bpf.o})
-targets-post := $(patsubst %.bpf.o,%.bpf.disasm,$(targets-bpf))
+target-bpf-y := $(addprefix ${OUTPUT},${obj-bpf.o})
+target-post-y := $(patsubst %.bpf.o,%.bpf.disasm,$(target-bpf-y))
 
 ifeq ($(CONFIG_ARCH_HAS_SYSCALL_WRAPPER),y)
   CFLAGS_BPF += -DCONFIG_ARCH_HAS_SYSCALL_WRAPPER=1
@@ -374,10 +374,10 @@ HELPERS := ${LIBXDP_HELPERS} ${TRACE_HELPERS} \
 	   ${TASK_HELPERS} ${SOCKET_HELPERS} ${LIBBPF_WRAPPER} \
 	   ${KSYM_HELPERS}
 
-targets += libbpf_version
-targets-prep += libbpf_version
-targets-prep += test-libbpf_version
-targets-prep += ${HELPERS}
+target-y += libbpf_version
+target-prep-y += libbpf_version
+target-prep-y += test-libbpf_version
+target-prep-y += ${HELPERS}
 
 include ../../template/main.mk
 

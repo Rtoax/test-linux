@@ -47,14 +47,14 @@ endif
 
 # If not found NVCC
 ifeq ($(wildcard $(NVCC)),)
-  ifneq ($(targets-nvcc),)
+  ifneq ($(target-nvcc-y),)
     ifdef __IGNORE_NOTFOUND_ERROR__
-      $(warning Not found nvcc with targets-nvcc not empty, but __IGNORE_NOTFOUND_ERROR__)
+      $(warning Not found nvcc with target-nvcc-y not empty, but __IGNORE_NOTFOUND_ERROR__)
     else
-      $(error Not found nvcc with targets-nvcc not empty, install cuda first)
+      $(error Not found nvcc with target-nvcc-y not empty, install cuda first)
     endif
   else
-    $(warning Although not found nvcc, but you don't have targets-nvcc)
+    $(warning Although not found nvcc, but you don't have target-nvcc-y)
   endif
 
   NVCC :=

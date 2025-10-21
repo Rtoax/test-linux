@@ -1,74 +1,74 @@
 # SPDX-License-Identifier: GPL-3.0
 OUTPUT := .output/
 
-targets :=
-targets += foobar
-targets += atfork
-targets += create_thread
-targets += multi_thread_stress
-targets += dead_lock-1
-targets += dead_lock-2
-targets += attr_setstacksize
-targets += attr_setstack-1
-targets += attr_setstack-2
-targets += attr_setstack-3
-targets += attr_setdetachstate
-targets += attr_getstack
-targets += attr_getstacksize
-targets += attr_getdetachstate
-targets += attr_getinheritsched
-targets += attr_getschedpolicy
-targets += attr_init
-targets += barrier_init
-targets += cancel testcancel setcancelstate
-targets += create
-targets += create-deadline
-targets += cleanup_push
-targets += cleanup_push-deadlock
-targets += cleanup_push_defer_np
-targets += equal
-targets += exit
-targets += getschedparam
-targets += key_create setspecific getspecific
-targets += join-coredump
-targets += join tryjoin_np timedjoin_np detach
-targets += getname_np setname_np
-targets += rwlock_init rwlock_rdlock rwlockattr_setpshared
-targets += self
-targets += spin_lock
-targets += spin-latency spin-latency-loop
-targets += setaffinity_np
-targets += sigmask
-targets += kill
-targets += once
-targets += yield
-targets += mutexattr_setprioceiling
-targets += mutexattr_setprotocol
-targets += mutexattr_setpshared
-targets += mutexattr_setrobust
-targets += mutexattr_settype
-targets += mutex_consistent
-targets += mutex_getprioceiling
-targets += mutex_init
-targets += setconcurrency
-targets += cond_init
-targets += cond_wait
-targets += cond_broadcast cond_broadcast-1
-targets += cond_signal
-targets += condattr_init
-targets += condattr_getclock
-targets += condattr_setpshared
-targets += getcpuclockid
-targets += tls
-targets += taskset
-targets += rt_thread
-targets += cond-demo1 cond-demo2 cond-demo3-latency
+target-y :=
+target-y += foobar
+target-y += atfork
+target-y += create_thread
+target-y += multi_thread_stress
+target-y += dead_lock-1
+target-y += dead_lock-2
+target-y += attr_setstacksize
+target-y += attr_setstack-1
+target-y += attr_setstack-2
+target-y += attr_setstack-3
+target-y += attr_setdetachstate
+target-y += attr_getstack
+target-y += attr_getstacksize
+target-y += attr_getdetachstate
+target-y += attr_getinheritsched
+target-y += attr_getschedpolicy
+target-y += attr_init
+target-y += barrier_init
+target-y += cancel testcancel setcancelstate
+target-y += create
+target-y += create-deadline
+target-y += cleanup_push
+target-y += cleanup_push-deadlock
+target-y += cleanup_push_defer_np
+target-y += equal
+target-y += exit
+target-y += getschedparam
+target-y += key_create setspecific getspecific
+target-y += join-coredump
+target-y += join tryjoin_np timedjoin_np detach
+target-y += getname_np setname_np
+target-y += rwlock_init rwlock_rdlock rwlockattr_setpshared
+target-y += self
+target-y += spin_lock
+target-y += spin-latency spin-latency-loop
+target-y += setaffinity_np
+target-y += sigmask
+target-y += kill
+target-y += once
+target-y += yield
+target-y += mutexattr_setprioceiling
+target-y += mutexattr_setprotocol
+target-y += mutexattr_setpshared
+target-y += mutexattr_setrobust
+target-y += mutexattr_settype
+target-y += mutex_consistent
+target-y += mutex_getprioceiling
+target-y += mutex_init
+target-y += setconcurrency
+target-y += cond_init
+target-y += cond_wait
+target-y += cond_broadcast cond_broadcast-1
+target-y += cond_signal
+target-y += condattr_init
+target-y += condattr_getclock
+target-y += condattr_setpshared
+target-y += getcpuclockid
+target-y += tls
+target-y += taskset
+target-y += rt_thread
+target-y += cond-demo1 cond-demo2 cond-demo3-latency
 
 ifeq ($(shell uname -m),x86_64)
-  targets += mutex_latency
+  target-y += mutex_latency
 endif
 
-targets += taskset_example
+target-y += taskset_example
 
 # glibc >= 2.34, pthread APIs move from libpthread.so to libc.so.
 # ref: https://developers.redhat.com/articles/2021/12/17/why-glibc-234-removed-libpthread
@@ -84,8 +84,8 @@ CFLAGS_cond_broadcast := -DCOND_ATTR=1
 CFLAGS_cond_signal := -DCOND_ATTR=1
 CFLAGS_create := -DNR_THREADS=5
 
-targets-post := $(addprefix ${OUTPUT},$(patsubst %,%.c.s,${targets}))
-targets-shell := list-tunables.sh
+target-post-y := $(addprefix ${OUTPUT},$(patsubst %,%.c.s,${target-y}))
+target-shell-y := list-tunables.sh
 
 include ../../../template/main.mk
 

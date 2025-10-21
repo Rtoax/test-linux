@@ -1,17 +1,17 @@
-targets :=
-targets += set-value
-targets += set-value-func
-targets += set-value-volatile
-targets += pthread-gdb
-targets += hello
-targets += linklist
-targets += daxpy
+target-y :=
+target-y += set-value
+target-y += set-value-func
+target-y += set-value-volatile
+target-y += pthread-gdb
+target-y += hello
+target-y += linklist
+target-y += daxpy
 
-targets-cpp := global-var
+target-cpp-y := global-var
 
-targets-prep := hello.strip
+target-prep-y := hello.strip
 
-targets-shell := $(shell ls *.sh)
+target-shell-y := $(shell ls *.sh)
 
 CFLAGS :=
 CFLAGS += -O0 -ggdb

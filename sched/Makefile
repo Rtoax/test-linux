@@ -1,11 +1,11 @@
 OUTPUT := .output/
 
-targets :=
-targets += current
-targets += uninterruptible
-targets += hung
-targets += zombie
-targets += stopped
+target-y :=
+target-y += current
+target-y += uninterruptible
+target-y += hung
+target-y += zombie
+target-y += stopped
 
 include ../template/main.mk
 

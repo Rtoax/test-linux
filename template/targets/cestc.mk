@@ -40,7 +40,7 @@ endif
 ifdef DEBUG
   CFLAGS_LSCC += -DDEBUG=${DEBUG}
 
-  ifneq ($(targets-lscc),)
+  ifneq ($(target-lscc-y),)
     $(info CFLAGS_LSCC = ${CFLAGS_LSCC})
     $(info LDFLAGS_LSCC = ${LDFLAGS_LSCC})
   endif
@@ -74,6 +74,6 @@ ${OUTPUT}%.luca.hcFatBinSegment: % | ${OUTPUT}
 	$(call log_tgt_obj,HC FATBIN SEG,$(<),$(@))
 	${Q}$(OBJCOPY) -O binary --only-section=.hcFatBinSegment $(<) $(@)
 
-$(targets-lscc): %:
+$(target-lscc-y): %:
 	$(call log_tgt_exe,LSCC LD,$(<),$(@))
 	${Q}$(LSCC) -o $(@) $(^) $(LDFLAGS_LSCC) $(LDFLAGS_LSCC_$(*))

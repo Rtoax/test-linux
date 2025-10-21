@@ -4,10 +4,10 @@ ifeq ($(wildcard $(NUMAIF_HDR)),)
   $(error Not found ${NUMAIF_HDR})
 endif
 
-targets :=
-targets += mbind
-targets += migrate_pages
-targets += get_mempolicy
+target-y :=
+target-y += mbind
+target-y += migrate_pages
+target-y += get_mempolicy
 
 CFLAGS :=
 CFLAGS += -pthread

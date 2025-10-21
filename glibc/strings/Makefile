@@ -1,5 +1,5 @@
-targets :=
-targets += index
+target-y :=
+target-y += index
 
 CFLAGS :=
 

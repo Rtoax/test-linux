@@ -1,8 +1,8 @@
 sub-dir := tcg/samples/
 sub-dir += qcow2
 
-targets-test := test0
-targets-clean := clean0
+target-test-y := test0
+target-clean-y := clean0
 
 include ../template/main.mk
 

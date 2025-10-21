@@ -1,14 +1,14 @@
-targets :=
-targets += time
-targets += alarm
-targets += stime
-targets += clock_getres
-targets += clock_gettime clock_gettime-CLOCK_BOOTTIME
-targets += clock_nanosleep
-targets += nanosleep
-targets += timeval
-targets += getitimer setitimer setitimer-1
-targets += gettimeofday settimeofday
+target-y :=
+target-y += time
+target-y += alarm
+target-y += stime
+target-y += clock_getres
+target-y += clock_gettime clock_gettime-CLOCK_BOOTTIME
+target-y += clock_nanosleep
+target-y += nanosleep
+target-y += timeval
+target-y += getitimer setitimer setitimer-1
+target-y += gettimeofday settimeofday
 
 CFLAGS :=
 CFLAGS += -pthread

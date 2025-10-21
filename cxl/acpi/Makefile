@@ -1,4 +1,4 @@
-targets := CEDT
+target-y := CEDT
 
 include ../../template/main.mk
 

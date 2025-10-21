@@ -1,6 +1,6 @@
-targets :=
-targets += scsi_command
-targets += serial_number
+target-y :=
+target-y += scsi_command
+target-y += serial_number
 
 include ../../template/main.mk
 

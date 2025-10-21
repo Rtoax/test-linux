@@ -1,10 +1,10 @@
 # SPDX-License-Identifier: GPL-3.0
-targets := kprobe
+target-y := kprobe
 
-targets-bpf := foo.bpf.o
+target-bpf-y := foo.bpf.o
 
-targets-post := $(patsubst %.bpf.o,%.bpf.disasm,$(targets-bpf))
-targets-post += foo.c.s foo.o
+target-post-y := $(patsubst %.bpf.o,%.bpf.disasm,$(target-bpf-y))
+target-post-y += foo.c.s foo.o
 
 CFLAGS += -DBCC=1
 LDFLAGS := -lbpf -lbcc

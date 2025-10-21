@@ -1,4 +1,4 @@
 # SPDX-License-Identifier: GPL-3.0
-targets-shell := crypt.sh
+target-shell-y := crypt.sh
 
 include ../../template/main.mk

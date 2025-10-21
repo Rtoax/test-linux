@@ -1,18 +1,18 @@
-targets :=
-targets += list_tables
-targets += PQconnectdb
-targets += PQdb
-targets += PQexec
-targets += PQexecParams
-targets += PQfname
-targets += PQgetvalue
-targets += PQlibVersion
-targets += PQnfields
-targets += PQntuples
-targets += PQpass
-targets += PQserverVersion
-targets += PQuser
-targets += transaction
+target-y :=
+target-y += list_tables
+target-y += PQconnectdb
+target-y += PQdb
+target-y += PQexec
+target-y += PQexecParams
+target-y += PQfname
+target-y += PQgetvalue
+target-y += PQlibVersion
+target-y += PQnfields
+target-y += PQntuples
+target-y += PQpass
+target-y += PQserverVersion
+target-y += PQuser
+target-y += transaction
 
 CFLAGS += -lpq
 LDFLAGS += -lpq
@@ -20,7 +20,7 @@ LDFLAGS += -lpq
 # Compile nothing if not install libpq.
 ifeq ($(wildcard /usr/include/libpq-fe.h),)
   $(warning Not install libpq develope header)
-  targets :=
+  target-y :=
 endif
 
 include ../../../template/main.mk

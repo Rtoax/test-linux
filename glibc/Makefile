@@ -67,18 +67,18 @@ sub-dir += utmp
 sub-dir += wctype
 sub-dir += wordexp
 
-targets := environ
-targets += gnu_get_libc_version
-targets += lib-names
-targets += ftm _GNU_SOURCE _XOPEN_SOURCE
-targets += __progname
+target-y := environ
+target-y += gnu_get_libc_version
+target-y += lib-names
+target-y += ftm _GNU_SOURCE _XOPEN_SOURCE
+target-y += __progname
 
 CFLAGS := -pthread
 
 CFLAGS__GNU_SOURCE := -D_GNU_SOURCE=1
 CFLAGS__XOPEN_SOURCE := -D_XOPEN_SOURCE=1
 
-targets-post := post
+target-post-y := post
 
 include ../template/main.mk
 

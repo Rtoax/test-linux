@@ -1,9 +1,9 @@
 CC := gcc
 
-targets := hello
-targets-post := hello.dwz hello.strip
+target-y := hello
+target-post-y := hello.dwz hello.strip
 
-targets-clean := clean0
+target-clean-y := clean0
 
 CFLAGS := -g
 CFLAGS += -ggdb -O0

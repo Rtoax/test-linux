@@ -31,11 +31,11 @@ common-objs += rand
 common-objs += sparse
 
 ifdef HAVE_CUDA
-  targets-nvcc := ${common-objs}
+  target-nvcc-y := ${common-objs}
 
   # NCCL
   ifdef HAVE_NCCL
-    targets-nvcc += ncclGetVersion
+    target-nvcc-y += ncclGetVersion
   endif
 
   obj-cubin := hello.cubin
@@ -54,7 +54,7 @@ ifdef HAVE_HIP
 
   rocm-fatbin := parallel.hip_fatbin parallel.hipFatBinSegment
 
-  targets-hipcc := $(patsubst %,%-hip,$(rocm-hipcc))
+  target-hipcc-y := $(patsubst %,%-hip,$(rocm-hipcc))
 endif
 
 ifdef HAVE_HPCC
@@ -70,30 +70,30 @@ ifdef HAVE_HPCC
   metax-fatbin += parallel-hpcc.hpcc.hc_fatbin
   metax-fatbin += parallel-hpcc.hpcc.hcFatBinSegment
 
-  targets-htcc := $(patsubst %,%-hpcc,$(metax-htcc))
+  target-htcc-y := $(patsubst %,%-hpcc,$(metax-htcc))
 endif
 
 ifdef HAVE_LUCA
-  targets-lscc := hello-luca
+  target-lscc-y := hello-luca
 endif
 
-targets-post := $(patsubst %,${OUTPUT}%.E.cu,$(targets-nvcc))
-targets-post += $(patsubst %,${OUTPUT}%.cu.sass.dump,$(targets-nvcc))
-targets-post += $(patsubst %,${OUTPUT}%.cu.ptx.dump,$(targets-nvcc))
-targets-post += $(patsubst %,${OUTPUT}%.ptx,$(targets-nvcc))
-targets-post += $(patsubst %,${OUTPUT}%.cu.cpp.ii,$(targets-nvcc))
-targets-post += $(patsubst %,${OUTPUT}%,$(obj-cubin))
-targets-post += $(patsubst %,${OUTPUT}%,$(obj-fatbin))
+target-post-y := $(patsubst %,${OUTPUT}%.E.cu,$(target-nvcc-y))
+target-post-y += $(patsubst %,${OUTPUT}%.cu.sass.dump,$(target-nvcc-y))
+target-post-y += $(patsubst %,${OUTPUT}%.cu.ptx.dump,$(target-nvcc-y))
+target-post-y += $(patsubst %,${OUTPUT}%.ptx,$(target-nvcc-y))
+target-post-y += $(patsubst %,${OUTPUT}%.cu.cpp.ii,$(target-nvcc-y))
+target-post-y += $(patsubst %,${OUTPUT}%,$(obj-cubin))
+target-post-y += $(patsubst %,${OUTPUT}%,$(obj-fatbin))
 # ROCm HIP
-targets-post += $(patsubst %,${OUTPUT}%,$(rocm-fatbin))
+target-post-y += $(patsubst %,${OUTPUT}%,$(rocm-fatbin))
 # MetaX
-targets-post += $(patsubst %,${OUTPUT}%.E.hpcc,$(metax-htcc))
-targets-post += $(patsubst %,${OUTPUT}%,$(metax-devbin))
-targets-post += $(patsubst %,${OUTPUT}%,$(metax-fatbin))
+target-post-y += $(patsubst %,${OUTPUT}%.E.hpcc,$(metax-htcc))
+target-post-y += $(patsubst %,${OUTPUT}%,$(metax-devbin))
+target-post-y += $(patsubst %,${OUTPUT}%,$(metax-fatbin))
 
 # Pure C
-targets := matrix-c-fp32 matrix-c-fp64
-targets += float-c
+target-y := matrix-c-fp32 matrix-c-fp64
+target-y += float-c
 
 CFLAGS_matrix-fp64 := -DTEST_FP64=1
 CFLAGS_matrix-fp32 := -DTEST_FP32=1

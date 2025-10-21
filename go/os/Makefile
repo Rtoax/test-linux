@@ -1,3 +1,3 @@
 # SPDX-License-Identifier: GPL-3.0
-targets-go := exec
+target-go-y := exec
 include ../../template/main.mk

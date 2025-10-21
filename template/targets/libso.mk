@@ -14,8 +14,8 @@ ifdef DEBUG
   CXXFLAGS_SO += -DDEBUG=${DEBUG}
   $(info CFLAGS_SO = ${CFLAGS_SO})
   $(info CXXFLAGS_SO = ${CXXFLAGS_SO})
-  $(info targets-libso = ${targets-libso})
-  $(info targets-libso-cpp = ${targets-libso-cpp})
+  $(info target-libso-y = ${target-libso-y})
+  $(info target-libso-cpp-y = ${target-libso-cpp-y})
 endif
 
 ${OUTPUT}%.so.o: %.c | ${OUTPUT}
@@ -26,12 +26,12 @@ ${OUTPUT}%.cpp.so.o: %.cpp | ${OUTPUT}
 	$(call log_tgt_obj,CXX SO.o,$(<),$(@))
 	${Q}${CC_PFX} $(CXX) -o $(@) -c $(<) $(CXXFLAGS_SO) $(CXXFLAGS_SO_$(*))
 
-$(targets-libso): %:
+$(target-libso-y): %:
 	$(call log_tgt_exe,SO,$(<),$(@))
 	${Q}${CC_PFX} $(CC) -o $(@) $(^) $(LDFLAGS_SO) $(LDFLAGS_SO_$(*)) -Wl,-soname=$(@)
 	${Q}${SHELL} ${TEMPLATE_DIR}/targets/libso.sh multi-version $(@)
 
-$(targets-libso-cpp): %:
+$(target-libso-cpp-y): %:
 	$(call log_tgt_exe,SO CPP,$(<),$(@))
 	${Q}${CC_PFX} $(CXX) -o $(@) $(^) $(LDXXFLAGS_SO) $(LDXXFLAGS_SO_$(*)) -Wl,-soname=$(@)
 	${Q}${SHELL} ${TEMPLATE_DIR}/targets/libso.sh multi-version $(@)

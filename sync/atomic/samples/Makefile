@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
-targets :=
-targets += atomic_fetch_add
+target-y :=
+target-y += atomic_fetch_add
 
 CFLAGS :=
 CFLAGS += -lpthread

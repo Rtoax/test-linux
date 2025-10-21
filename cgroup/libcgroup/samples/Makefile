@@ -1,7 +1,7 @@
-targets :=
-targets += cgroup_version
-targets += cgroup_get_subsys_mount_point
-targets += cgroup_new_cgroup
+target-y :=
+target-y += cgroup_version
+target-y += cgroup_get_subsys_mount_point
+target-y += cgroup_new_cgroup
 
 include ../libcgroup.mk
 include ../../../template/main.mk

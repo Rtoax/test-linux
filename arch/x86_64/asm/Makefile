@@ -1,22 +1,22 @@
 # SPDX-License-Identifier: GPL-3.0
 RUN_PFX =
 
-targets-asm := hello
-targets-asm += hello-stack
-targets-asm += while
-targets-asm += out
-targets-asm += nanosleep
+target-asm-y := hello
+target-asm-y += hello-stack
+target-asm-y += while
+target-asm-y += out
+target-asm-y += nanosleep
 
-targets := printf-main
-targets += read-main write-main
-targets += puts-main
-targets += putchar-main
+target-y := printf-main
+target-y += read-main write-main
+target-y += puts-main
+target-y += putchar-main
 
 # TODO
-targets-todo += sum_cal
+target-todo += sum_cal
 
 ifeq ($(shell uname -m),x86_64)
-  targets += cr3
+  target-y += cr3
 endif
 
 ifneq ($(shell uname -m),x86_64)
@@ -25,21 +25,21 @@ ifneq ($(shell uname -m),x86_64)
   RUN_PFX = qemu-x86_64
   LDFLAGS += --sysroot /home/rongtao/rootfs-x86_64
 else
-  targets += echo
-  targets += hello-puts
-  targets += hola
-  targets += fibonacci
-  targets += power
-  targets += factorial_call
-  targets += maxofthree_call
-  targets += hello-c
-  targets += nanosleep-c
-  targets += exit-c
-  targets += write-c write-c-loop
-  targets += out-c
-  targets += puts-c puts-c-loop
-  targets += atomic_forced_read
-  targets += time
+  target-y += echo
+  target-y += hello-puts
+  target-y += hola
+  target-y += fibonacci
+  target-y += power
+  target-y += factorial_call
+  target-y += maxofthree_call
+  target-y += hello-c
+  target-y += nanosleep-c
+  target-y += exit-c
+  target-y += write-c write-c-loop
+  target-y += out-c
+  target-y += puts-c puts-c-loop
+  target-y += atomic_forced_read
+  target-y += time
 endif
 
 CFLAGS_write-c-loop := -DINFINITE_LOOP=1
@@ -79,6 +79,6 @@ out: out.asm.o
 atomic_forced_read: atomic_forced_read.o
 time: time.o
 
-test0: ${targets}
+test0: ${target-y}
 	$(call log_tgt_exe,TEST,,$(@))
 	$(Q)$(RUN_PFX) ./hello

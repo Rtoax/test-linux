@@ -1,3 +1,3 @@
 # SPDX-License-Identifier: GPL-3.0
-targets-shell := disassemble.sh
+target-shell-y := disassemble.sh
 include ../../template/main.mk

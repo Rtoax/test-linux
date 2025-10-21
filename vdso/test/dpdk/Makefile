@@ -1,6 +1,6 @@
-targets :=
+target-y :=
 ifeq ($(shell uname -m), x86_64)
-  targets += tsc_freq_arch tsc_freq
+  target-y += tsc_freq_arch tsc_freq
 endif
 
 CFLAGS := -DTEST=1

@@ -1,4 +1,4 @@
-targets := pthread_self
+target-y := pthread_self
 
 LDFLAGS := -pthread
 

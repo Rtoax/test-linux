@@ -1,8 +1,8 @@
-targets := coredump
+target-y := coredump
 
-targets-shell := prlimit.sh
-targets-shell += list.sh
-targets-shell += info.sh
+target-shell-y := prlimit.sh
+target-shell-y += list.sh
+target-shell-y += info.sh
 
 include ../template/main.mk
 

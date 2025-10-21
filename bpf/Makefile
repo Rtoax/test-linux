@@ -14,12 +14,12 @@ sub-dir += seccomp
 sub-dir += usdt
 sub-dir += xdp
 
-targets := tcpdump
-targets-shell := tcpdump.sh
-targets-bpf := tcpdump.bpf.o
+target-y := tcpdump
+target-shell-y := tcpdump.sh
+target-bpf-y := tcpdump.bpf.o
 
-targets-post := post0
-targets-post += $(patsubst %.bpf.o,%.bpf.disasm,$(targets-bpf))
+target-post-y := post0
+target-post-y += $(patsubst %.bpf.o,%.bpf.disasm,$(target-bpf-y))
 
 CFLAGS_BPF_tcpdump := -DVERIFER=1
 

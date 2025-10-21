@@ -1,5 +1,5 @@
-targets :=
-targets += getpidcon
+target-y :=
+target-y += getpidcon
 
 LDFLAGS := -lselinux
 

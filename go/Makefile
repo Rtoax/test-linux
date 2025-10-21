@@ -3,13 +3,13 @@ sub-dir := coroutine
 sub-dir += os
 sub-dir += C
 
-targets-go :=
-targets-go += hello
-targets-go += io.Copy io.Copy.Pipe io.Copy.Std
-targets-go += fibonacci
-targets-go += pi
-#targets-go += ignition
-targets-go += write
-targets-go += sleep
+target-go-y :=
+target-go-y += hello
+target-go-y += io.Copy io.Copy.Pipe io.Copy.Std
+target-go-y += fibonacci
+target-go-y += pi
+#target-go-y += ignition
+target-go-y += write
+target-go-y += sleep
 
 include ../template/main.mk

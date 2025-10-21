@@ -1,4 +1,4 @@
 sub-dir := samples
-targets-shell := README.sh
+target-shell-y := README.sh
 
 include ../template/main.mk

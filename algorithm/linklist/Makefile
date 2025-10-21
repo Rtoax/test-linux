@@ -1,5 +1,5 @@
-targets += reverse_list
-targets += list_del
+target-y += reverse_list
+target-y += list_del
 
 include ../../template/main.mk
 

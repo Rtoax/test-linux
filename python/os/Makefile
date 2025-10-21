@@ -1,5 +1,5 @@
 sub-dir := path
 
-targets-python := environ.py
+target-python-y := environ.py
 
 include ../../template/main.mk

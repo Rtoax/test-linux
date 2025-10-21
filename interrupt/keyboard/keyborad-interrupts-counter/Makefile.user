@@ -1,9 +1,5 @@
-targets := key-handler-user
+target-y := key-handler-user
+
+include ../../../template/main.mk
 
 key-handler-user: key-handler-user.o
-
-all: @{targets}
-
-.PHONY : clean
-clean:
-	@rm -f ${targets} *.o

@@ -3,10 +3,10 @@ include ../template/kconfig.mk
 sub-dir := libcgroup
 sub-dir += tools
 
-targets := cgroup_examples
+target-y := cgroup_examples
 
-targets-post := info
-targets-clean := info_clean
+target-post-y := info
+target-clean-y := info_clean
 
 include ../template/main.mk
 

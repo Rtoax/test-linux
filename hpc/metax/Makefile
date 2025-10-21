@@ -2,6 +2,6 @@
 sub-dir := samples
 sub-dir += intrinsics
 
-targets-shell := smi.sh
+target-shell-y := smi.sh
 
 include ../../template/main.mk

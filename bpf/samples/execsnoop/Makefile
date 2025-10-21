@@ -1,6 +1,6 @@
-targets := execsnoop
-targets-bpf := bpf_program.bpf.o
-targets-prep := vmlinux.h
+target-y := execsnoop
+target-bpf-y := bpf_program.bpf.o
+target-prep-y := vmlinux.h
 
 LDFLAGS := -lelf -lbpf
 

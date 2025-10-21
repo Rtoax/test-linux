@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
-targets :=
-targets += argp_parse
+target-y :=
+target-y += argp_parse
 
 CFLAGS :=
 

@@ -1,21 +1,21 @@
 # SPDX-License-Identifier: GPL-3.0
-targets := libc
-targets += main
-targets += main-a
-targets += main-a-ctors
-targets += latency
-targets += latency-got latency-got-llc
-targets += latency-a latency-a-llc
+target-y := libc
+target-y += main
+target-y += main-a
+target-y += main-a-ctors
+target-y += latency
+target-y += latency-got latency-got-llc
+target-y += latency-a latency-a-llc
 
-targets-libso := libfoo.so.1.10
-targets-libso += libadd.so
-targets-libso += libcall0.so
+target-libso-y := libfoo.so.1.10
+target-libso-y += libadd.so
+target-libso-y += libcall0.so
 
-targets-libso-cpp := libadd_cpp.so.0.1
+target-libso-cpp-y := libadd_cpp.so.0.1
 
-targets-liba := libfoo.a
-targets-liba += libadd.a
-targets-liba += libcall0.a
+target-liba-y := libfoo.a
+target-liba-y += libadd.a
+target-liba-y += libcall0.a
 
 ifdef VERBOSE
   CFLAGS += -Q

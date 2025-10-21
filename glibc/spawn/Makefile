@@ -1,4 +1,4 @@
-targets += posix_spawn
+target-y += posix_spawn
 
 CFLAGS := -pthread
 CFLAGS += -lm

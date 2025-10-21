@@ -1,7 +1,7 @@
-targets := mq_open
-targets += mq_getattr
-targets += mq_notify
-targets += multi-thread-minimal multi-thread
+target-y := mq_open
+target-y += mq_getattr
+target-y += mq_notify
+target-y += multi-thread-minimal multi-thread
 
 CFLAGS :=
 CFLAGS += -lrt

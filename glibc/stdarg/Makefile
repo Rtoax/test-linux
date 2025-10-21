@@ -1,9 +1,9 @@
-targets := delete_files
-targets += sum_int
-targets += __VA_ARGS__
-targets += va_arg
-targets += va_start
-targets += va_copy
+target-y := delete_files
+target-y += sum_int
+target-y += __VA_ARGS__
+target-y += va_arg
+target-y += va_start
+target-y += va_copy
 
 CFLAGS :=
 

@@ -1,4 +1,4 @@
-targets := fanotify
+target-y := fanotify
 
 include ../../../template/main.mk
 

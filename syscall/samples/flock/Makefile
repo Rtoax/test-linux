@@ -1,5 +1,5 @@
-targets :=
-targets += flock flock-fork flock-unlink flock-thread
+target-y :=
+target-y += flock flock-fork flock-unlink flock-thread
 
 CFLAGS :=
 

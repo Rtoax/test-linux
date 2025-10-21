@@ -6,8 +6,8 @@ sub-dir += library
 sub-dir += plt
 sub-dir += pie
 
-targets := macro
-targets += rewrite-elf64
+target-y := macro
+target-y += rewrite-elf64
 
 include ../template/main.mk
 

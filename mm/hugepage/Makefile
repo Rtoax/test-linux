@@ -1,5 +1,5 @@
 sub-dir := samples
 
-targets-shell := check.sh
+target-shell-y := check.sh
 
 include ../../template/main.mk

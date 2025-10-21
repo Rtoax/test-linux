@@ -2,9 +2,9 @@ CC := gcc
 NASM := nasm
 
 # Include '_start' function
-targets-asm += call-func call-func-ret
-targets-asm += jmp jg jl
-targets-asm += write write-2 write-3
+target-asm-y += call-func call-func-ret
+target-asm-y += jmp jg jl
+target-asm-y += write write-2 write-3
 
 define m32_build
   $(shell $(NASM) average.asm -felf32 -o a.o && \
@@ -15,11 +15,11 @@ feature-m32 := $(findstring 1,$(call m32_build,))
 
 # Include 'main' function
 ifeq ($(feature-m32),1)
-  targets += average
-  targets += echo
-  targets += power
-  targets += factorial_call
-  targets += maxofthree_call
+  target-y += average
+  target-y += echo
+  target-y += power
+  target-y += factorial_call
+  target-y += maxofthree_call
 else
   $(warning "WARNING: Not support 32bit")
 endif

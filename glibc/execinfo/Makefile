@@ -1,5 +1,5 @@
-targets :=
-targets += backtrace
+target-y :=
+target-y += backtrace
 
 CFLAGS :=
 LDFLAGS :=

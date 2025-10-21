@@ -1,9 +1,9 @@
 LDS := ld-alternative.lds
 
-targets :=
+target-y :=
 
 ifeq ($(shell uname -m),x86_64)
-  targets += main
+  target-y += main
 else
   $(warning Not support arch except x86_64)
 endif

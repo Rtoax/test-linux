@@ -46,6 +46,6 @@ ${OUTPUT}%.hipFatBinSegment: % | ${OUTPUT}
 	$(call log_tgt_obj,HIP FATBIN SEG,$(<),$(@))
 	${Q}$(OBJCOPY) -O binary --only-section=.hipFatBinSegment $(<) $(@)
 
-$(targets-hipcc): %:
+$(target-hipcc-y): %:
 	$(call log_tgt_exe,HIPCC LD,$(<),$(@))
 	${Q}$(HIPCC) -o $(@) $(^) $(LDFLAGS_HIPCC) $(LDFLAGS_HIPCC_$(*))

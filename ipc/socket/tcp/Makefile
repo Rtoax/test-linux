@@ -6,7 +6,7 @@ sub-dir += splice
 sub-dir += ftp
 sub-dir += ipv6
 
-targets += tcp-syn-flood
+target-y += tcp-syn-flood
 
 include ../../../template/main.mk
 

@@ -1,8 +1,8 @@
 # SPDX-License-Identifier: GPL-3.0
-targets-go :=
-targets-go += hello
-targets-go += add
-targets-go += loop
-targets-go += mutex
+target-go-y :=
+target-go-y += hello
+target-go-y += add
+target-go-y += loop
+target-go-y += mutex
 
 include ../../template/main.mk

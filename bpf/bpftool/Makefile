@@ -5,6 +5,6 @@ sub-dir := scripts
 
 VMLINUX_H := vmlinux.h
 
-targets-prep := ${VMLINUX_H}
+target-prep-y := ${VMLINUX_H}
 
 include ../../template/main.mk

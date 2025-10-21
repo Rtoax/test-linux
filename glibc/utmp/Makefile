@@ -1,11 +1,11 @@
-targets :=
-targets += getutent getutid
-targets += getutline pututline
-targets += utmpname
-targets += updwtmp
-targets += setutent endutent
-targets += login logwtmp
-targets += login_tty
+target-y :=
+target-y += getutent getutid
+target-y += getutline pututline
+target-y += utmpname
+target-y += updwtmp
+target-y += setutent endutent
+target-y += login logwtmp
+target-y += login_tty
 
 CFLAGS :=
 CFLAGS += -lutil

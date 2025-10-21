@@ -1,7 +1,7 @@
-targets :=
-targets += timerfd_create
-targets += timerfd_select
-targets += demo
+target-y :=
+target-y += timerfd_create
+target-y += timerfd_select
+target-y += demo
 
 include ../../../template/main.mk
 

@@ -1,7 +1,7 @@
-targets :=
-targets += sendfile
-targets += sendfile-tcp-server
-targets += sendfile-socket
+target-y :=
+target-y += sendfile
+target-y += sendfile-tcp-server
+target-y += sendfile-socket
 
 CFLAGS :=
 CFLAGS += -pthread

@@ -1,5 +1,5 @@
-targets-shell := array_culling.sh
-targets-shell += array_elem_replace.sh
-targets-shell += array_pair.sh
-targets-shell += array.sh
+target-shell-y := array_culling.sh
+target-shell-y += array_elem_replace.sh
+target-shell-y += array_pair.sh
+target-shell-y += array.sh
 include ../../template/main.mk

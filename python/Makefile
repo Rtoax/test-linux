@@ -3,11 +3,11 @@ sub-dir += numpy
 sub-dir += os
 sub-dir += sys
 
-targets-shell := calendar.sh
+target-shell-y := calendar.sh
 
-targets-python := hexdump.py
-targets-python += listdir.py
-targets-python += print.py
-targets-python += split.py
+target-python-y := hexdump.py
+target-python-y += listdir.py
+target-python-y += print.py
+target-python-y += split.py
 
 include ../template/main.mk

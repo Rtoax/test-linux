@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
-targets :=
-targets += overwrite-plt
+target-y :=
+target-y += overwrite-plt
 
 CFLAGS :=
 CFLAGS_overwrite-plt := -DOVERWRITE=1

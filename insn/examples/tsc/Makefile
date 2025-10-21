@@ -1,8 +1,8 @@
-targets :=
-targets += rdtsc_user
-targets += rdtscp_user
-targets += rdtsc_cmp
-targets += rdtsc_evil
+target-y :=
+target-y += rdtsc_user
+target-y += rdtscp_user
+target-y += rdtsc_cmp
+target-y += rdtsc_evil
 
 CFLAGS :=
 ARCH_LIB_CPUID :=

@@ -1,34 +1,34 @@
 # SPDX-License-Identifier: GPL-3.0
-targets :=
-targets += alias
-targets += always_inline
-targets += noinline
-targets += cleanup
-targets += const
-targets += constructor
-targets += deprecated
-targets += error
-targets += format
-targets += __gnu_inline__
-targets += __naked__
-targets += nocf_check
-targets += nonnull
-targets += noreturn
-targets += optimize
-targets += optimize_omit-frame-pointer
-targets += __pure__
-targets += randomize_layout
-targets += section-initcall
-targets += section-readmostly
-targets += vector_size
-targets += weak
-targets += noplt noplt-plt
-targets += kernel_helper
-targets += __has_attribute
-targets += __mode__
-targets += no_instrument_function
+target-y :=
+target-y += alias
+target-y += always_inline
+target-y += noinline
+target-y += cleanup
+target-y += const
+target-y += constructor
+target-y += deprecated
+target-y += error
+target-y += format
+target-y += __gnu_inline__
+target-y += __naked__
+target-y += nocf_check
+target-y += nonnull
+target-y += noreturn
+target-y += optimize
+target-y += optimize_omit-frame-pointer
+target-y += __pure__
+target-y += randomize_layout
+target-y += section-initcall
+target-y += section-readmostly
+target-y += vector_size
+target-y += weak
+target-y += noplt noplt-plt
+target-y += kernel_helper
+target-y += __has_attribute
+target-y += __mode__
+target-y += no_instrument_function
 
-targets-bpf := preserve_access_index.bpf.o
+target-bpf-y := preserve_access_index.bpf.o
 
 include ../compiler.mk
 

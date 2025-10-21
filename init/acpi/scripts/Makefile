@@ -1,3 +1,3 @@
-targets-shell := acpi.sh
+target-shell-y := acpi.sh
 
 include ../../../template/main.mk

@@ -1,6 +1,6 @@
-targets :=
-targets += iconv_open
-targets += file2wcs
+target-y :=
+target-y += iconv_open
+target-y += file2wcs
 
 CFLAGS :=
 

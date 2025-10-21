@@ -24,17 +24,17 @@ ifdef DEBUG
   $(info - INFO MPIRUN = ${MPIRUN})
 endif
 
-targets :=
-targets += MPI_Abort
-targets += MPI_Init
-targets += MPI_Initialized
-targets += MPI_Get_processor_name
-targets += MPI_Send MPI_Send-2 MPI_Send-3
-targets += MPI_Sendrecv MPI_Sendrecv_replace
-targets += MPI_Wtime MPI_Wtick
+target-y :=
+target-y += MPI_Abort
+target-y += MPI_Init
+target-y += MPI_Initialized
+target-y += MPI_Get_processor_name
+target-y += MPI_Send MPI_Send-2 MPI_Send-3
+target-y += MPI_Sendrecv MPI_Sendrecv_replace
+target-y += MPI_Wtime MPI_Wtick
 
 ifeq ($(wildcard $(CC)),)
-  targets :=
+  target-y :=
   $(warning Not install mpich or openmpi development software)
 endif
 
@@ -47,7 +47,7 @@ LDFLAGS :=
 CFLAGS += -Wno-error=unused-result
 CFLAGS_MPI_Sendrecv_replace := -DCONFIG_MPI_Sendrecv_replace=1
 
-targets-test := test0
+target-test-y := test0
 
 include ../../../../template/main.mk
 

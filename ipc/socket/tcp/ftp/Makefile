@@ -1,6 +1,6 @@
-targets :=
-targets += ftpserv
-targets += ftpclnt
+target-y :=
+target-y += ftpserv
+target-y += ftpclnt
 
 include ../../../../template/main.mk
 

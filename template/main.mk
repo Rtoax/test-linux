@@ -110,29 +110,29 @@ ifneq ($(sub-dir)$(kmod-list),)
   include ${TEMPLATE_DIR}/subdir-header.mk
 endif
 
-build-targets := $(targets-prep)
+build-targets := $(target-prep-y)
 build-targets += $(OUTPUT)
-build-targets += $(targets-liba) $(targets-libso) $(targets-libso-cpp)
-build-targets += $(targets)
-build-targets += $(targets-asm)
-build-targets += $(targets-cpp)
-build-targets += $(targets-llvm-ll)
-build-targets += $(targets-bpf)
-build-targets += $(targets-rust)
-build-targets += $(targets-nvcc)
-build-targets += $(targets-hipcc)
-build-targets += $(targets-mxcc) $(targets-htcc)
-build-targets += $(targets-lscc)
-build-targets += $(targets-go)
-build-targets += $(targets-java)
-targets-shell-logs := $(patsubst %.sh,%.sh.log,$(targets-shell))
-build-targets += $(targets-shell-logs)
-targets-python-logs := $(patsubst %.py,%.py.log,$(targets-python))
-build-targets += $(targets-python-logs)
-targets-mk-logs := $(patsubst %.mk,%.mk.log,$(targets-mk))
-build-targets += $(targets-mk-logs)
+build-targets += $(target-liba-y) $(target-libso-y) $(target-libso-cpp-y)
+build-targets += $(target-y)
+build-targets += $(target-asm-y)
+build-targets += $(target-cpp-y)
+build-targets += $(target-llvm-ll-y)
+build-targets += $(target-bpf-y)
+build-targets += $(target-rust-y)
+build-targets += $(target-nvcc-y)
+build-targets += $(target-hipcc-y)
+build-targets += $(target-mxcc-y) $(target-htcc-y)
+build-targets += $(target-lscc-y)
+build-targets += $(target-go-y)
+build-targets += $(target-java-y)
+target-shell-logs := $(patsubst %.sh,%.sh.log,$(target-shell-y))
+build-targets += $(target-shell-logs)
+target-python-logs := $(patsubst %.py,%.py.log,$(target-python-y))
+build-targets += $(target-python-logs)
+target-mk-logs := $(patsubst %.mk,%.mk.log,$(target-mk-y))
+build-targets += $(target-mk-logs)
 build-targets += $(sub-dir-build) $(kmod-list-build)
-build-targets += $(targets-post)
+build-targets += $(target-post-y)
 
 ifdef DEBUG
   $(info build-targets = ${build-targets})
@@ -143,12 +143,12 @@ build: $(build-targets)
 	$(call log_tgt_done,build,$(call git_relative_dir,$(shell realpath .)))
 
 .PHONY: test
-test: $(build-targets) $(sub-dir-test) $(kmod-list-test) $(targets-test)
+test: $(build-targets) $(sub-dir-test) $(kmod-list-test) $(target-test-y)
 	$(call log_tgt_done,test,$(call git_relative_dir,$(shell realpath .)))
 
 .PHONY: clean
-clean: $(sub-dir-clean) $(kmod-list-clean) $(targets-clean)
-	$(call log_tgt_start,clean,${build-targets} ${targets-clean})
+clean: $(sub-dir-clean) $(kmod-list-clean) $(target-clean-y)
+	$(call log_tgt_start,clean,${build-targets} ${target-clean-y})
 	${Q}rm -rf ${build-targets}
 	${Q}rm -f *.o *.log *.out *.class
 	${Q}rm -f *.so *.so.* *.a
@@ -160,46 +160,46 @@ ifneq (${OUTPUT},)
   include ${TEMPLATE_DIR}/targets/output.mk
 endif
 include ${TEMPLATE_DIR}/targets/exe.mk
-ifneq ($(targets-liba),)
+ifneq ($(target-liba-y),)
   include ${TEMPLATE_DIR}/targets/liba.mk
 endif
-ifneq ($(targets-libso)$(targets-libso-cpp),)
+ifneq ($(target-libso-y)$(target-libso-cpp-y),)
   include ${TEMPLATE_DIR}/targets/libso.mk
 endif
-ifneq ($(HAVE_LLVM)$(targets-llvm-ll),)
+ifneq ($(HAVE_LLVM)$(target-llvm-ll-y),)
   include ${TEMPLATE_DIR}/targets/llvm.mk
 endif
-ifneq ($(targets-bpf)$(VMLINUX_H),)
+ifneq ($(target-bpf-y)$(VMLINUX_H),)
   include ${TEMPLATE_DIR}/targets/bpf.mk
 endif
-ifneq ($(targets-rust),)
+ifneq ($(target-rust-y),)
   include ${TEMPLATE_DIR}/targets/rust.mk
 endif
-ifneq ($(targets-nvcc),)
+ifneq ($(target-nvcc-y),)
   include ${TEMPLATE_DIR}/targets/nvidia.mk
 endif
-ifneq ($(targets-hipcc),)
+ifneq ($(target-hipcc-y),)
   include ${TEMPLATE_DIR}/targets/amd.mk
 endif
-ifneq ($(targets-mxcc)$(targets-htcc),)
+ifneq ($(target-mxcc-y)$(target-htcc-y),)
   include ${TEMPLATE_DIR}/targets/metax.mk
 endif
-ifneq ($(targets-lscc),)
+ifneq ($(target-lscc-y),)
   include ${TEMPLATE_DIR}/targets/cestc.mk
 endif
-ifneq ($(targets-shell),)
+ifneq ($(target-shell-y),)
   include ${TEMPLATE_DIR}/targets/shell.mk
 endif
-ifneq ($(targets-mk-logs),)
+ifneq ($(target-mk-y),)
   include ${TEMPLATE_DIR}/targets/make.mk
 endif
-ifneq ($(targets-python),)
+ifneq ($(target-python-y),)
   include ${TEMPLATE_DIR}/targets/python.mk
 endif
-ifneq ($(targets-go),)
+ifneq ($(target-go-y),)
   include ${TEMPLATE_DIR}/targets/golang.mk
 endif
-ifneq ($(targets-java),)
+ifneq ($(target-java-y),)
   include ${TEMPLATE_DIR}/targets/java.mk
 endif
 

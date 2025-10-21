@@ -1,5 +1,5 @@
-targets :=
-targets += IN6ADDR_ANY_INIT IN6ADDR_LOOPBACK_INIT
+target-y :=
+target-y += IN6ADDR_ANY_INIT IN6ADDR_LOOPBACK_INIT
 
 include ../../../template/main.mk
 

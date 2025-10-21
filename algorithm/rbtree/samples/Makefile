@@ -1,4 +1,4 @@
-targets := rbtree_test
+target-y := rbtree_test
 
 include ../../../template/main.mk
 

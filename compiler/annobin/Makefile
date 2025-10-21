@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
 include ../../compiler/compiler.mk
 
-targets :=
+target-y :=
 ANNOBIN := $(shell pwd)/annobin-cc1
 ANNOCHECK := annocheck
 
@@ -15,10 +15,10 @@ feature-annobin := $(findstring 1,$(call check_compiler_option,$(CC),-specs=${AN
 $(info feature-annobin ${feature-annobin})
 ifeq (${feature-annobin},1)
   $(info Support ANNOBIN)
-  targets += hello
+  target-y += hello
 endif
 
-targets-post := $(patsubst %,%.annocheck.log,$(targets))
+target-post-y := $(patsubst %,%.annocheck.log,$(target-y))
 
 CFLAGS += -specs=$(ANNOBIN)
 

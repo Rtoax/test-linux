@@ -1,2 +1,2 @@
-targets-shell := info.sh
+target-shell-y := info.sh
 include ../template/main.mk

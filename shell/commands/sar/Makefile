@@ -1,4 +1,4 @@
 # SPDX-License-Identifier: GPL-3.0
-targets-shell := sar.sh
+target-shell-y := sar.sh
 
 include ../../../template/main.mk

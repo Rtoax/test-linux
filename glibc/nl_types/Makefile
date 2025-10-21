@@ -1,4 +1,4 @@
-targets := catgets
+target-y := catgets
 
 CFLAGS :=
 CFLAGS += -pthread

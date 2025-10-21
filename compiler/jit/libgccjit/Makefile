@@ -1,4 +1,4 @@
-targets := hello
+target-y := hello
 
 LDFLAGS := -lgccjit
 

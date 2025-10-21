@@ -1,5 +1,5 @@
-targets := owner
-targets += pidns
+target-y := owner
+target-y += pidns
 
 include ../../template/main.mk
 

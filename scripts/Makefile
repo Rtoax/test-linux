@@ -14,12 +14,12 @@ include ../gnu/gnu.mk
 include ../bpf/bpf.mk
 
 sub-dir := git
-targets-prep := test_call
-targets-shell := moonlight.sh
-targets-shell += gotoxy.sh
-targets-shell += termplot_examples.sh
-targets-shell += kconfig_compare.sh
-targets-shell += patchset_examples.sh
+target-prep-y := test_call
+target-shell-y := moonlight.sh
+target-shell-y += gotoxy.sh
+target-shell-y += termplot_examples.sh
+target-shell-y += kconfig_compare.sh
+target-shell-y += patchset_examples.sh
 
 SHELL_ARGS_kconfig_compare.sh := --base ../kconfig --config ../kconfig --display all
 

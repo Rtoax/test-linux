@@ -3,7 +3,7 @@ sub-dir := samples
 sub-dir += fakeCUDA
 sub-dir += intrinsics
 
-targets := driver-version
+target-y := driver-version
 
 include ../../../template/main.mk
 

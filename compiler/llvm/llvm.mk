@@ -15,7 +15,7 @@ CLANG_SRC_ROOT := ${LLVM_SRC_ROOT}/clang/
 
 # $1 - target name
 define llvm_support_target
-$(shell if [[ $$(${CLANG} -print-targets | grep -ow $1) == $1 ]]; then echo y; fi)
+$(shell if [[ $$(${CLANG} -print-target-y | grep -ow $1) == $1 ]]; then echo y; fi)
 endef
 
 ifdef DEBUG

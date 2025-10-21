@@ -1,4 +1,4 @@
-targets := pam_authenticate
+target-y := pam_authenticate
 
 LDFLAGS := -lpam -lpam_misc
 

@@ -1,5 +1,5 @@
 sub-dir :=
-targets := dummy_init
+target-y := dummy_init
 
 LDFLAGS += -static
 

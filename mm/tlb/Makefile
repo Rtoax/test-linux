@@ -1,5 +1,5 @@
-targets :=
-targets += native_flush_tlb_one_user
+target-y :=
+target-y += native_flush_tlb_one_user
 
 include ../../template/main.mk
 

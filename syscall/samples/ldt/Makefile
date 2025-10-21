@@ -1,8 +1,8 @@
-targets :=
+target-y :=
 ifeq ($(shell uname -m),x86_64)
-  targets += get_thread_area
-  targets += set_thread_area
-  targets += modify_ldt
+  target-y += get_thread_area
+  target-y += set_thread_area
+  target-y += modify_ldt
 endif
 
 include ../../../template/main.mk

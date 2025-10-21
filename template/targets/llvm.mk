@@ -38,6 +38,6 @@ CLANG_AST_CFLAGS := -Xclang -ast-dump -fsyntax-only
 	$(call log_tgt_obj,LLC,$(<),$(@))
 	${Q}$(LLC) $(<) -o $(@)
 
-${targets-llvm-ll}: %:
+${target-llvm-ll-y}: %:
 	$(call log_tgt_exe,LLVM LL,$(<),$(@))
 	${Q}$(CLANG) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*))

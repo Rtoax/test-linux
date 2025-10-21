@@ -7,13 +7,13 @@ ifeq ($(shell uname -m),aarch64)
   sub-dir += aarch64
 endif
 
-targets :=
-targets += relocation-truncated-to-fit
-targets += nostdlib
-targets += reloc-types
-targets += testcase
-targets += testcase-now
-targets += relocs
+target-y :=
+target-y += relocation-truncated-to-fit
+target-y += nostdlib
+target-y += reloc-types
+target-y += testcase
+target-y += testcase-now
+target-y += relocs
 
 CFLAGS_reloc-types := -Wno-error=unused-variable
 CFLAGS_reloc-types += -Wno-error=unused-function
@@ -25,7 +25,7 @@ CFLAGS_testcase-now := -Wl,-z,relro,-z,now
 
 LDFLAGS_nostdlib := -nostdlib
 
-targets-prep := relocs-gen.h
+target-prep-y := relocs-gen.h
 
 include ../../../template/main.mk
 

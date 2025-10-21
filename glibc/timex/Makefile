@@ -1,6 +1,6 @@
-targets :=
-targets += ntp_adjtime
-targets += ntp_gettime
+target-y :=
+target-y += ntp_adjtime
+target-y += ntp_gettime
 
 CFLAGS :=
 

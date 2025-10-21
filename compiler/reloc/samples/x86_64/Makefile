@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
-targets :=
+target-y :=
 obj-o :=
 obj-s-o :=
 
@@ -9,14 +9,14 @@ AS := as
 CFLAGS :=
 LDFLAGS :=
 
-targets += R_X86_64
-targets += R_X86_64_64
-targets += R_X86_64_32S
-targets += R_X86_64_PC32
-targets += R_X86_64_PLT32
-targets += R_X86_64_COPY
-targets += R_X86_64_JUMP_SLOT
-targets += R_X86_64_GLOB_DAT
+target-y += R_X86_64
+target-y += R_X86_64_64
+target-y += R_X86_64_32S
+target-y += R_X86_64_PC32
+target-y += R_X86_64_PLT32
+target-y += R_X86_64_COPY
+target-y += R_X86_64_JUMP_SLOT
+target-y += R_X86_64_GLOB_DAT
 
 obj-o += R_X86_64_32.o
 obj-o += R_X86_64_PLT32.o
@@ -31,9 +31,9 @@ obj-s-o += R_X86_64_REX_GOTPCRELX.S.o
 obj-s-o += R_X86_64_PLT32.S.o
 obj-s-o += R_X86_64_PLTOFF64.S.o
 
-targets-prep := ${obj-o} ${obj-s-o}
-targets-shell := R_X86_64_64.sh
-targets-shell += R_X86_64_PC32.sh
+target-prep-y := ${obj-o} ${obj-s-o}
+target-shell-y := R_X86_64_64.sh
+target-shell-y += R_X86_64_PC32.sh
 
 CFLAGS += -O0
 CFLAGS += -I..

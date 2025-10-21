@@ -1,20 +1,20 @@
 # SPDX-License-Identifier: GPL-3.0
-targets :=
-targets += r-barrier
-targets += w-barrier
-targets += rw-barrier
-targets += no-barrier
-targets += __sync_synchronize
-targets += __atomic_thread_fence__ATOMIC_RELAXED
-targets += __atomic_thread_fence__ATOMIC_CONSUME
-targets += __atomic_thread_fence__ATOMIC_ACQUIRE
-targets += __atomic_thread_fence__ATOMIC_RELEASE
-targets += __atomic_thread_fence__ATOMIC_ACQ_REL
-targets += __atomic_thread_fence__ATOMIC_SEQ_CST
-targets += sequentially-consistent-waw
-targets += sequentially-consistent-waw-2
-targets += sequentially-consistent-raw
-targets += sequentially-consistent-war
+target-y :=
+target-y += r-barrier
+target-y += w-barrier
+target-y += rw-barrier
+target-y += no-barrier
+target-y += __sync_synchronize
+target-y += __atomic_thread_fence__ATOMIC_RELAXED
+target-y += __atomic_thread_fence__ATOMIC_CONSUME
+target-y += __atomic_thread_fence__ATOMIC_ACQUIRE
+target-y += __atomic_thread_fence__ATOMIC_RELEASE
+target-y += __atomic_thread_fence__ATOMIC_ACQ_REL
+target-y += __atomic_thread_fence__ATOMIC_SEQ_CST
+target-y += sequentially-consistent-waw
+target-y += sequentially-consistent-waw-2
+target-y += sequentially-consistent-raw
+target-y += sequentially-consistent-war
 
 LDFLAGS := -pthread
 CFLAGS += -I$(shell realpath .)/../../../sync/barrier/

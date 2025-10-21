@@ -1,18 +1,18 @@
 # SPDX-License-Identifier: GPL-3.0
-targets :=
-targets += cfsetspeed cfsetospeed cfsetispeed cfgetispeed cfgetospeed
-targets += cfmakeraw
-targets += NCCS
-targets += tcsetattr tcgetattr
-targets += tcgetsid
-targets += password
-targets += set_istrip set_input_mode
-targets += get_cursor_position
+target-y :=
+target-y += cfsetspeed cfsetospeed cfsetispeed cfgetispeed cfgetospeed
+target-y += cfmakeraw
+target-y += NCCS
+target-y += tcsetattr tcgetattr
+target-y += tcgetsid
+target-y += password
+target-y += set_istrip set_input_mode
+target-y += get_cursor_position
 
 CFLAGS += -I../../../
 CFLAGS += -lm
 
-targets-test := test-tcsetattr
+target-test-y := test-tcsetattr
 
 include ../../template/main.mk
 

@@ -6,50 +6,50 @@ SYMADDR___memcpy_generic := $(call libc_sym_addr,__memcpy_generic)
 SYMADDR___memcpy_simd := $(call libc_sym_addr,__memcpy_simd)
 SYMADDR___memcpy_a64fx := $(call libc_sym_addr,__memcpy_a64fx)
 
-targets :=
-targets += bcopy
-targets += index
-targets += memchr
-targets += memcpy memcpy-stress
+target-y :=
+target-y += bcopy
+target-y += index
+target-y += memchr
+target-y += memcpy memcpy-stress
 ifneq ($(SYMADDR___memcpy_ssse3),)
-  targets += __memcpy_ssse3-stress
+  target-y += __memcpy_ssse3-stress
 else
   $(warning Not found __memcpy_ssse3())
 endif
 ifneq ($(SYMADDR___memcpy_generic),)
-  targets += __memcpy_generic-stress
+  target-y += __memcpy_generic-stress
 else
   $(warning Not found __memcpy_generic)
 endif
 ifneq ($(SYMADDR___memcpy_simd),)
-  targets += __memcpy_simd-stress
+  target-y += __memcpy_simd-stress
 else
   $(warning Not found __memcpy_simd)
 endif
 ifneq ($(SYMADDR___memcpy_a64fx),)
-  targets += __memcpy_a64fx-stress
+  target-y += __memcpy_a64fx-stress
 else
   $(warning Not found __memcpy_a64fx)
 endif
-targets += memset memset-stress
-targets += memmove
-targets += stpcpy
-targets += strcmp
-targets += strcat
-targets += strchr
-targets += strcpy
-targets += strdupa
-targets += strdup
-targets += strlen
-targets += strncpy
-targets += strpbrk
-targets += strsep
-targets += strtok
-targets += strtol
-targets += strsignal
-targets += strerror strerror_r
-targets += strstr
-targets += strspn
+target-y += memset memset-stress
+target-y += memmove
+target-y += stpcpy
+target-y += strcmp
+target-y += strcat
+target-y += strchr
+target-y += strcpy
+target-y += strdupa
+target-y += strdup
+target-y += strlen
+target-y += strncpy
+target-y += strpbrk
+target-y += strsep
+target-y += strtok
+target-y += strtol
+target-y += strsignal
+target-y += strerror strerror_r
+target-y += strstr
+target-y += strspn
 
 CFLAGS :=
 CFLAGS += -I../../../
@@ -80,8 +80,8 @@ include ../../compiler/cross-compile.mk
 ARM_SOFTWARE_OPTIMIZED_ROUTINES_LIBSTRINGLIB_A ?= /usr/lib/libstringlib.a
 ifneq ($(wildcard $(ARM_SOFTWARE_OPTIMIZED_ROUTINES_LIBSTRINGLIB_A)),)
   LDFLAGS += /usr/lib/libstringlib.a
-  targets += __memcpy_aarch64-stress
-  targets += __memcpy_aarch64_sve-stress
+  target-y += __memcpy_aarch64-stress
+  target-y += __memcpy_aarch64_sve-stress
 else
   $(warning "WARNING: Not found ARM-software/optimized-routines in your system")
   $(warning "         Need https://github.com/ARM-software/optimized-routines")
@@ -100,7 +100,7 @@ CFLAGS___memcpy_a64fx-stress := -DSYMADDR___memcpy_a64fx=$(SYMADDR___memcpy_a64f
 CFLAGS___memcpy_aarch64-stress := -DARM_SOFTWARE___memcpy_aarch64=1
 CFLAGS___memcpy_aarch64_sve-stress := -DARM_SOFTWARE___memcpy_aarch64_sve=1
 
-targets-prep := sig.h
+target-prep-y := sig.h
 
 include ../../template/main.mk
 

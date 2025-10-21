@@ -10,6 +10,6 @@ ${OUTPUT}%.a.o: %.c | ${OUTPUT}
 	$(call log_tgt_obj,CC A.o,$(<),$(@))
 	${Q}$(CC) -o $(@) -c $(<) $(CFLAGS_A) $(CFLAGS_A_$(*))
 
-$(targets-liba): %:
+$(target-liba-y): %:
 	$(call log_tgt_exe,AR,$(<),$(@))
 	${Q}ar rcs $(@) $(^)

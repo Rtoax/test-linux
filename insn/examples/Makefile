@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
 sub-dir :=
 
-targets :=
+target-y :=
 CC := gcc
 CFLAGS :=
 LDFLAGS :=
@@ -21,22 +21,22 @@ ifeq ($(shell uname -m),x86_64)
     CFLAGS += -mavx512f -mfma
     CFLAGS += -DCPU_HAVE_AVX512F=1
   endif
-  targets += add-x86
-  targets += bts
-  targets += fsin
-  targets += bswapl
-  targets += _mm_clflush
-  targets += prefetch
-  targets += rte_memcpy
-  targets += vgetbv
-  targets += stosb memset
-  targets += nop
-  targets += rdmsr
+  target-y += add-x86
+  target-y += bts
+  target-y += fsin
+  target-y += bswapl
+  target-y += _mm_clflush
+  target-y += prefetch
+  target-y += rte_memcpy
+  target-y += vgetbv
+  target-y += stosb memset
+  target-y += nop
+  target-y += rdmsr
   ifneq ($(shell lscpu | grep -w rdrand),)
-    targets += rdrand
+    target-y += rdrand
   endif
   ifneq ($(shell lscpu | grep -w rdseed),)
-    targets += rdseed
+    target-y += rdseed
   endif
 
   ARCH_LIB_CPUID += cpuid-x86.o
@@ -55,7 +55,7 @@ else ifeq ($(shell uname -m),aarch64)
   endif
 
   CFLAGS += -DCPU_HAVE_NEON=1
-  targets += mrs
+  target-y += mrs
 
   ARCH_LIB_CPUID += cpuid-arm64.o
 endif
@@ -65,12 +65,12 @@ ifdef BFD
   $(info User linker bfd)
 endif
 
-targets += breakpoint
-targets += ret
-targets += udiv div
-targets += simd
-targets += cpuid_user
-targets += invalid_opcode_user
+target-y += breakpoint
+target-y += ret
+target-y += udiv div
+target-y += simd
+target-y += cpuid_user
+target-y += invalid_opcode_user
 
 # Get GNU assembler version
 include $(shell pwd)/../../binutils/binutils.mk

@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
-targets-shell := archive.sh
-targets-shell += diff.sh
-targets-shell += file-change.sh
+target-shell-y := archive.sh
+target-shell-y += diff.sh
+target-shell-y += file-change.sh
 
 include ../../template/main.mk

@@ -1,7 +1,7 @@
-targets := unix-server
-targets += unix-client
-targets += unix-client-memfd_create
-targets += socketpair
+target-y := unix-server
+target-y += unix-client
+target-y += unix-client-memfd_create
+target-y += socketpair
 
 CFLAGS_unix-client-memfd_create := -DMEMFD=1
 

@@ -1,4 +1,4 @@
 # SPDX-License-Identifier: GPL-3.0
-targets-go := malloc
-targets-go += mmap
+target-go-y := malloc
+target-go-y += mmap
 include ../../template/main.mk

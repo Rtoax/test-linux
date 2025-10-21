@@ -1,21 +1,21 @@
 # SPDX-License-Identifier: GPL-3.0
 include ../../compiler/compiler.mk
 
-targets :=
-targets += malloc overflow use-after-free double-free
-targets += mallinfo
-targets += mallopt
-targets += malloc_get_state
-targets += malloc_info
-targets += malloc_stats
-targets += posix_memalign
-targets += aligned_alloc
-targets += valloc
-targets += realloc
-targets += malloc_trim corrupted-size-vs.prev_size
-targets += malloc_usable_size
-targets += memalign
-targets += pvalloc
+target-y :=
+target-y += malloc overflow use-after-free double-free
+target-y += mallinfo
+target-y += mallopt
+target-y += malloc_get_state
+target-y += malloc_info
+target-y += malloc_stats
+target-y += posix_memalign
+target-y += aligned_alloc
+target-y += valloc
+target-y += realloc
+target-y += malloc_trim corrupted-size-vs.prev_size
+target-y += malloc_usable_size
+target-y += memalign
+target-y += pvalloc
 
 CC := gcc
 
@@ -37,7 +37,7 @@ ifeq (${CC_-use-after-free},1)
   CFLAGS_double-free += -Wno-error=use-after-free
 endif
 
-targets-post := ld-list-tunables
+target-post-y := ld-list-tunables
 
 include ../../template/main.mk
 

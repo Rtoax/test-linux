@@ -1,26 +1,26 @@
-targets :=
+target-y :=
 ifeq ($(shell uname -m),x86_64)
-  targets += PTRACE_GETREGS
-  targets += PTRACE_PEEKDATA
-  targets += PTRACE_POKEDATA
-  targets += ptrace-breakpoint
-  targets += ptrace-breakpoint-2
-  targets += ptrace-execve
+  target-y += PTRACE_GETREGS
+  target-y += PTRACE_PEEKDATA
+  target-y += PTRACE_POKEDATA
+  target-y += ptrace-breakpoint
+  target-y += ptrace-breakpoint-2
+  target-y += ptrace-execve
 else ifeq ($(shell uname -m),aarch64)
 endif
-targets += PTRACE_GETREGSET
-targets += PTRACE_PEEKUSER
-targets += PTRACE_PEEKTEXT
-targets += PTRACE_SINGLESTEP
-targets += peeksiginfo
-targets += pthread_create
-targets += multi-thread
-targets += ptrace-strace
+target-y += PTRACE_GETREGSET
+target-y += PTRACE_PEEKUSER
+target-y += PTRACE_PEEKTEXT
+target-y += PTRACE_SINGLESTEP
+target-y += peeksiginfo
+target-y += pthread_create
+target-y += multi-thread
+target-y += ptrace-strace
 
 CFLAGS :=
 CFLAGS += -pthread
 
-targets-prep := nr.h
+target-prep-y := nr.h
 
 include ../../../template/main.mk
 

@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
-targets :=
-targets += madvise-MADV_MERGEABLE
-targets += madvise-MADV_HUGEPAGE
+target-y :=
+target-y += madvise-MADV_MERGEABLE
+target-y += madvise-MADV_HUGEPAGE
 
 CFLAGS :=
 CFLAGS += -pthread

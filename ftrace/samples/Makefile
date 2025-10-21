@@ -1,10 +1,10 @@
 # SPDX-License-Identifier: GPL-3.0
 include ../../compiler/compiler.mk
-targets := main
-targets += main-pg
+target-y := main
+target-y += main-pg
 # FIXME: aarch64 seems like don't support -mfentry
 ifeq ($(CC_-mfentry),1)
-  targets += main-pg-fentry
+  target-y += main-pg-fentry
 endif
 
 CFLAGS_main-pg := -pg

@@ -1,9 +1,9 @@
 # SPDX-License-Identifier: GPL-3.0
-targets :=
-targets += setjmp
-targets += sigsetjmp
-targets += getline
-targets += signal
+target-y :=
+target-y += setjmp
+target-y += sigsetjmp
+target-y += getline
+target-y += signal
 
 CFLAGS :=
 

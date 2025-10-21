@@ -1,9 +1,9 @@
-targets :=
-targets += waitpid
-targets += waitpid-sig
-targets += waitpid-kill
-targets += waitpid-status
-targets += wait
+target-y :=
+target-y += waitpid
+target-y += waitpid-sig
+target-y += waitpid-kill
+target-y += waitpid-status
+target-y += wait
 
 CFLAGS_waitpid-status := -DTEST_MAIN_WAITPID_STATUS=1
 

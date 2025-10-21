@@ -2,10 +2,10 @@
 include ../../../template/ansi.mk
 include ../../bpf.mk
 
-targets := xsk_user
+target-y := xsk_user
 
-targets-bpf := xdp_drop.bpf.o
-targets-bpf += xdp_xsk.bpf.o
+target-bpf-y := xdp_drop.bpf.o
+target-bpf-y += xdp_xsk.bpf.o
 
 CFLAGS :=
 CFLAGS += -lxdp -lbpf -pthread

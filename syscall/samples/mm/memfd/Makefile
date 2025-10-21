@@ -1,8 +1,8 @@
-targets :=
-targets += memfd_create
-targets += memfd_create-dup2
-targets += MFD_ALLOW_SEALING
-targets += memfd_secret
+target-y :=
+target-y += memfd_create
+target-y += memfd_create-dup2
+target-y += MFD_ALLOW_SEALING
+target-y += memfd_secret
 
 CFLAGS :=
 CFLAGS += -pthread

@@ -1,6 +1,6 @@
-targets :=
-targets += server
-targets += client
+target-y :=
+target-y += server
+target-y += client
 
 CFLAGS := -pthread
 

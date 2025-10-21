@@ -1,5 +1,5 @@
-targets := getspent
-targets += getspnam
+target-y := getspent
+target-y += getspnam
 
 CFLAGS :=
 CFLAGS += -I../../

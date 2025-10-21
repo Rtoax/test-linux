@@ -1,38 +1,38 @@
 TCMALLOC_HDR = /usr/include/gperftools/tcmalloc.h
 
-targets :=
-targets += tc_malloc tc_malloc_skip_new_handler
-targets += tc_calloc
-targets += tc_valloc
-targets += tc_pvalloc
-targets += tc_realloc
-targets += tc_version
-targets += tc_posix_memalign
-targets += tc_nallocx
-targets += tc_memalign
-targets += tc_mallopt
-targets += tc_malloc_stats
-targets += tc_mallinfo
-targets += tc_free_sized
-targets += tc_cfree
+target-y :=
+target-y += tc_malloc tc_malloc_skip_new_handler
+target-y += tc_calloc
+target-y += tc_valloc
+target-y += tc_pvalloc
+target-y += tc_realloc
+target-y += tc_version
+target-y += tc_posix_memalign
+target-y += tc_nallocx
+target-y += tc_memalign
+target-y += tc_mallopt
+target-y += tc_malloc_stats
+target-y += tc_mallinfo
+target-y += tc_free_sized
+target-y += tc_cfree
 
-targets-profile += GetHeapProfile
-targets-profile += GetStackFrames
-targets-profile += GetStackTrace
-targets-profile += HeapProfilerStart
-targets-profile += IsHeapProfilerRunning
-targets-profile += MallocExtension_VerifyNewMemory
-targets-profile += ProfilerStart
-targets-profile += ProfilerStartWithOptions
+profiles += GetHeapProfile
+profiles += GetStackFrames
+profiles += GetStackTrace
+profiles += HeapProfilerStart
+profiles += IsHeapProfilerRunning
+profiles += MallocExtension_VerifyNewMemory
+profiles += ProfilerStart
+profiles += ProfilerStartWithOptions
 
 ifdef PROFILE
-  targets += $(targets-profile)
+  target-y += $(profiles)
 endif
 
 ifeq ($(wildcard $(TCMALLOC_HDR)),)
   $(warning "WARNING: Must install gperftools/tcmalloc development header")
   # Compile nothing
-  targets :=
+  target-y :=
 endif
 
 LDFLAGS :=

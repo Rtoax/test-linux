@@ -1,8 +1,8 @@
-targets :=
-targets += addchild
-targets += parsexml
-targets += newformatxml
-targets += modifyxml
+target-y :=
+target-y += addchild
+target-y += parsexml
+target-y += newformatxml
+target-y += modifyxml
 
 CC := gcc
 

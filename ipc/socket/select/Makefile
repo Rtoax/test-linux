@@ -1,8 +1,8 @@
 sub-dir := tcp
 sub-dir += unix
 
-targets :=
-targets += fd_set
+target-y :=
+target-y += fd_set
 
 include ../../../template/main.mk
 

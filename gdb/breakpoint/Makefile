@@ -1,10 +1,10 @@
 sub-dir := breakfast
 
-targets :=
+target-y :=
 ifeq ($(shell uname -m),x86_64)
-  targets += int3
+  target-y += int3
 else ifeq ($(shell uname -m),aarch64)
-  targets += brk
+  target-y += brk
 endif
 
 include ../../template/main.mk

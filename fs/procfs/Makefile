@@ -2,14 +2,14 @@
 sub-dir := process
 sub-dir += kallsyms
 
-targets :=
-targets += proc_examples
-targets += self thread-self
-targets += auxv
-targets += stat
-targets += uptime
+target-y :=
+target-y += proc_examples
+target-y += self thread-self
+target-y += auxv
+target-y += stat
+target-y += uptime
 
-targets-shell := mounts.sh
+target-shell-y := mounts.sh
 
 include ../../template/main.mk
 

@@ -2,14 +2,14 @@
 include ../../../template/kernel.mk
 include ../../../template/kconfig.mk
 
-targets :=
+target-y :=
 # This system call is present only before Linux 2.6. see create_module(2)
 ifeq ($(call kver_lt,2,7,0),y)
-  targets += create_module
+  target-y += create_module
 endif
-targets += init_module
-targets += finit_module
-targets += delete_module
+target-y += init_module
+target-y += finit_module
+target-y += delete_module
 
 ifeq (${CONFIG_MODULE_FORCE_LOAD},y)
   CFLAGS += -DCONFIG_MODULE_FORCE_LOAD=1

@@ -49,77 +49,77 @@ sub-dir += ldt
 sub-dir += xattr
 sub-dir += truncate
 
-targets :=
-targets += acct
-targets += chdir fchdir
-targets += chown fchown fchownat
-targets += fdopen
-targets += kcmp
-targets += execve execve-fork
-targets += nr
-targets += opendir
-targets += pause
-targets += personality
-targets += readlink
-targets += rename
-targets += getcwd
-targets += gettid
-targets += getpid getpgid
-targets += setpgid setpgid-fork
-targets += setgid setegid setregid
-targets += getuid setuid seteuid setreuid
-targets += setpgrp
-targets += tee tee2
-targets += close
+target-y :=
+target-y += acct
+target-y += chdir fchdir
+target-y += chown fchown fchownat
+target-y += fdopen
+target-y += kcmp
+target-y += execve execve-fork
+target-y += nr
+target-y += opendir
+target-y += pause
+target-y += personality
+target-y += readlink
+target-y += rename
+target-y += getcwd
+target-y += gettid
+target-y += getpid getpgid
+target-y += setpgid setpgid-fork
+target-y += setgid setegid setregid
+target-y += getuid setuid seteuid setreuid
+target-y += setpgrp
+target-y += tee tee2
+target-y += close
 ifneq ($(wildcard /usr/include/linux/close_range.h),)
-  targets += close_range
+  target-y += close_range
 else
   $(warning "WARNING: not found /usr/include/linux/close_range.h")
 endif
-targets += setitimer
-targets += unlink
-targets += rmdir
-targets += uname
-targets += userfaultfd
-targets += symlink
-targets += readdir
-targets += write write-EBADF
-targets += read
-targets += getdents
-targets += getgroups
-targets += gethostname sethostname
-targets += gethostid sethostid
-targets += vhangup
-targets += syscall
-targets += sync syncfs
-targets += getsid setsid
-targets += getdomainname
-targets += lseek
-targets += link
-targets += fsync fdatasync
-targets += sync_file_range
-targets += getpagesize
-targets += ioprio_get ioprio_set
+target-y += setitimer
+target-y += unlink
+target-y += rmdir
+target-y += uname
+target-y += userfaultfd
+target-y += symlink
+target-y += readdir
+target-y += write write-EBADF
+target-y += read
+target-y += getdents
+target-y += getgroups
+target-y += gethostname sethostname
+target-y += gethostid sethostid
+target-y += vhangup
+target-y += syscall
+target-y += sync syncfs
+target-y += getsid setsid
+target-y += getdomainname
+target-y += lseek
+target-y += link
+target-y += fsync fdatasync
+target-y += sync_file_range
+target-y += getpagesize
+target-y += ioprio_get ioprio_set
 
-targets-cpp :=
+target-cpp-y :=
 ifndef NOCPP
-  targets-cpp += readlink2
+  target-cpp-y += readlink2
 endif
 
 ifeq ($(shell uname -m),x86_64)
-  targets += sysctl
+  target-y += sysctl
 endif
 ifeq ($(shell uname -m),aarch64)
 # TODO: Remove openat2 from targets
-  targets := $(filter-out pause, $(targets))
+  target-y := $(filter-out pause, $(target-y))
 endif
 ifeq ($(shell uname -m),sw_64)
-  targets := $(filter-out pause, $(targets))
+  target-y := $(filter-out pause, $(target-y))
 endif
 ifeq ($(shell uname -m),riscv64)
-  targets := $(filter-out pause, $(targets))
-  targets := $(filter-out chmod, $(targets))
-  targets := $(filter-out getdents, $(targets))
+  target-y := $(filter-out pause, $(target-y))
+  target-y := $(filter-out chmod, $(target-y))
+  target-y := $(filter-out getdents, $(target-y))
 endif
 
 CFLAGS += -I../../
@@ -128,8 +128,8 @@ CFLAGS += -pthread
 CFLAGS_write := -Wno-error=unused-variable
 CXXFLAGS_readlink2 := -std=c++17 -lstdc++
 
-targets-prep := nr.h
-targets-clean := clean0
+target-prep-y := nr.h
+target-clean-y := clean0
 
 include ../../template/main.mk
 

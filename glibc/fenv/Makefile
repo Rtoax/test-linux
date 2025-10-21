@@ -1,12 +1,12 @@
 # SPDX-License-Identifier: GPL-3.0
-targets :=
-targets += fegetenv
-targets += feclearexcept
-targets += fegetround
-targets += feraiseexcept
-targets += fesetround
-targets += fetestexcept
-targets += demo-exception
+target-y :=
+target-y += fegetenv
+target-y += feclearexcept
+target-y += fegetround
+target-y += feraiseexcept
+target-y += fesetround
+target-y += fetestexcept
+target-y += demo-exception
 
 CFLAGS :=
 CFLAGS += -Wno-unused-variable -Wno-unused-but-set-variable

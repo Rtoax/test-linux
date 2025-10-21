@@ -1,4 +1,4 @@
-targets := getrandom
+target-y := getrandom
 
 include ../../../template/main.mk
 

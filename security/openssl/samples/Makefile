@@ -1,6 +1,6 @@
-targets :=
-targets += bignum
-targets += md5 md5_evp
+target-y :=
+target-y += bignum
+target-y += md5 md5_evp
 
 CFLAGS :=
 CFLAGS += -I../macro/

@@ -1,5 +1,5 @@
-targets := echo-server
-targets += fork-client-server
+target-y := echo-server
+target-y += fork-client-server
 
 include ../../../template/main.mk
 

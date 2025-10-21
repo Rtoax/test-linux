@@ -8,16 +8,16 @@ include ../../../compiler/cross-compile.mk
 # All CC set done here
 include ../../../compiler/compiler.mk
 
-targets :=
-targets += neon-sve
+target-y :=
+target-y += neon-sve
 
 feature-sve2 := $(findstring 1,$(call check_compiler_option,$(CC),-march=armv8-a+sve+sve2))
 ifeq (${feature-sve2},1)
   $(info feature-sve2 = ${feature-sve2})
 
-  targets += sve-width
-  targets += add_array
-  targets += svaddlb
+  target-y += sve-width
+  target-y += add_array
+  target-y += svaddlb
 
   CFLAGS += -march=armv8-a+sve+sve2
   CFLAGS += -DCPU_HAVE_NEON=1

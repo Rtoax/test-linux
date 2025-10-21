@@ -1,8 +1,8 @@
 # SPDX-License-Identifier: GPL-3.0
-targets :=
-targets += fork vfork fork-share
-targets += fork-ENOMEM fork-ENOMEM-2
-targets += fork_twice
+target-y :=
+target-y += fork vfork fork-share
+target-y += fork-ENOMEM fork-ENOMEM-2
+target-y += fork_twice
 
 CFLAGS := -D__USE_GNU
 CFLAGS += -pthread

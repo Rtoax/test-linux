@@ -1,5 +1,5 @@
-targets :=
-targets += cgroup_event_listener
+target-y :=
+target-y += cgroup_event_listener
 
 CFLAGS :=
 

@@ -1,24 +1,24 @@
 # SPDX-License-Identifier: GPL-3.0
-targets := atomic_test
-targets += __sync_fetch_and_add
-targets += __sync_fetch_and_sub
-targets += __sync_fetch_and_or
-targets += __sync_fetch_and_and
-targets += __sync_fetch_and_xor
-targets += __sync_fetch_and_nand
-targets += __sync_add_and_fetch
-targets += __sync_sub_and_fetch
-targets += __sync_or_and_fetch
-targets += __sync_and_and_fetch
-targets += __sync_xor_and_fetch
-targets += __sync_nand_and_fetch
-targets += __sync_val_compare_and_swap
-targets += __sync_bool_compare_and_swap
-targets += __sync_lock_test_and_set
-targets += __sync_lock_release
-targets += __sync_synchronize
+target-y := atomic_test
+target-y += __sync_fetch_and_add
+target-y += __sync_fetch_and_sub
+target-y += __sync_fetch_and_or
+target-y += __sync_fetch_and_and
+target-y += __sync_fetch_and_xor
+target-y += __sync_fetch_and_nand
+target-y += __sync_add_and_fetch
+target-y += __sync_sub_and_fetch
+target-y += __sync_or_and_fetch
+target-y += __sync_and_and_fetch
+target-y += __sync_xor_and_fetch
+target-y += __sync_nand_and_fetch
+target-y += __sync_val_compare_and_swap
+target-y += __sync_bool_compare_and_swap
+target-y += __sync_lock_test_and_set
+target-y += __sync_lock_release
+target-y += __sync_synchronize
 ifeq ($(shell uname -m),x86_64)
-  targets += spin-demo3 spin-demo3-nonlock
+  target-y += spin-demo3 spin-demo3-nonlock
 endif
 
 CFLAGS :=

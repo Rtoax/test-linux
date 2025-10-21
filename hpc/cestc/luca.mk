@@ -22,12 +22,12 @@ LUCA_LLVM := ${LUCA_ROOT}/htgpu_llvm/
 LSCC := ${LUCA_LLVM}/bin/htcc
 
 ifeq ($(LSCC),)
-  ifneq ($(targets-lscc),)
+  ifneq ($(target-lscc-y),)
     ifdef __IGNORE_NOTFOUND_ERROR__
-      $(warning Not found lscc with targets-lscc not empty, but __IGNORE_NOTFOUND_ERROR__)
-      targets-lscc :=
+      $(warning Not found lscc with target-lscc-y not empty, but __IGNORE_NOTFOUND_ERROR__)
+      target-lscc-y :=
     else
-      $(error Not found lscc with targets-lscc not empty, install MetaX hpcc first)
+      $(error Not found lscc with target-lscc-y not empty, install MetaX hpcc first)
     endif
   endif
 endif

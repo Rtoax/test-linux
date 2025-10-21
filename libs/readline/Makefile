@@ -1,12 +1,12 @@
 READLINE_HDR = /usr/include/readline/readline.h
 
-targets :=
-targets += rlversion
-targets += rltest
+target-y :=
+target-y += rlversion
+target-y += rltest
 
 ifeq ($(wildcard $(READLINE_HDR)),)
   $(warning "WARNING: Must install readline development header")
-  targets :=
+  target-y :=
 endif
 
 CFLAGS :=

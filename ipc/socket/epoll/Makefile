@@ -1,4 +1,4 @@
-targets := echo-server
+target-y := echo-server
 
 include ../../../template/main.mk
 

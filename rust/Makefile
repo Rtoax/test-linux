@@ -3,9 +3,9 @@ sub-dir :=
 sub-dir += types
 sub-dir += thread
 
-targets-rust :=
-targets-rust += hello
-targets-rust += if-let
+target-rust-y :=
+target-rust-y += hello
+target-rust-y += if-let
 
 include ../template/main.mk
 

@@ -5,58 +5,58 @@ include ../template/kconfig.mk
 CC := gcc
 include ../compiler/compiler.mk
 
-targets :=
-targets += arg
-targets += argv
-targets += auto
-targets += approaching
-targets += array
-targets += ascii
-targets += arch-unsigned-signed
-targets += alignas
-targets += case
-targets += const
-targets += dummy
-targets += param-pass
-targets += compat
-targets += compare
-targets += _Generic
-targets += goto
-targets += float
+target-y :=
+target-y += arg
+target-y += argv
+target-y += auto
+target-y += approaching
+target-y += array
+target-y += ascii
+target-y += arch-unsigned-signed
+target-y += alignas
+target-y += case
+target-y += const
+target-y += dummy
+target-y += param-pass
+target-y += compat
+target-y += compare
+target-y += _Generic
+target-y += goto
+target-y += float
 ifneq (${CC___bf16},)
-  targets += __bf16
+  target-y += __bf16
 endif
 ifneq (${CC___float128},)
-  targets += __float128
+  target-y += __float128
 endif
 ifneq (${CC___float80},)
-  targets += __float80
+  target-y += __float80
 endif
-targets += ptr-dim
-targets += struct
-targets += string
-targets += union
-targets += xor
-targets += __alignof__
-targets += __has_include __has_feature
-targets += __label__
-targets += __typeof__
-targets += NULL
-targets += _Nullable
-targets += _Nonnull
-targets += BUILD_BUG_ON_ZERO
-targets += macro
-targets += while while-sleep
-targets += stub
-targets += if
-targets += enum
-targets += __STDC__ __STDC__gnu98 __STDC__c98 __STDC__c17
-targets += include_next
-targets += unsigned
-targets += restrict
-targets += ternary
-targets += return
-targets += overflow
+target-y += ptr-dim
+target-y += struct
+target-y += string
+target-y += union
+target-y += xor
+target-y += __alignof__
+target-y += __has_include __has_feature
+target-y += __label__
+target-y += __typeof__
+target-y += NULL
+target-y += _Nullable
+target-y += _Nonnull
+target-y += BUILD_BUG_ON_ZERO
+target-y += macro
+target-y += while while-sleep
+target-y += stub
+target-y += if
+target-y += enum
+target-y += __STDC__ __STDC__gnu98 __STDC__c98 __STDC__c17
+target-y += include_next
+target-y += unsigned
+target-y += restrict
+target-y += ternary
+target-y += return
+target-y += overflow
 
 define arch_strip
   ${Q}${STRIP} $(1) -o $(1).strip
@@ -90,7 +90,7 @@ CFLAGS_float := ${cflags-support-types}
 LDFLAGS_float := -lm
 
 # preprocessing
-targets-prep := $(patsubst %,${OUTPUT}%.E.c,$(targets))
+target-prep-y := $(patsubst %,${OUTPUT}%.E.c,$(target-y))
 
 include ../template/main.mk
 

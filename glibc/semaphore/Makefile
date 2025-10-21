@@ -1,4 +1,4 @@
-targets := h2o
+target-y := h2o
 
 LDFLAGS := -pthread
 

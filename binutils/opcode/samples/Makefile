@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
-targets := disassemble_init_for_target
+target-y := disassemble_init_for_target
 
 CFLAGS :=
 CFLAGS += -Wno-unused-label

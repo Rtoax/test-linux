@@ -1,6 +1,6 @@
-targets := NPROCESSORS
-targets += PAGESIZE
-targets += sysconf
+target-y := NPROCESSORS
+target-y += PAGESIZE
+target-y += sysconf
 
 OS := $(shell grep ^ID= /etc/os-release | sed 's/ID=//g' | sed 's/"//g')
 
@@ -18,8 +18,8 @@ CFLAGS_NPROCESSORS := -D_NPROCESSORS=1
 LDFLAGS_NPROCESSORS :=
 CFLAGS_sysconf := -Wno-error
 
-targets-prep := confs_def.h
-targets-clean := cleans
+target-prep-y := confs_def.h
+target-clean-y := cleans
 
 include ../../../template/main.mk
 

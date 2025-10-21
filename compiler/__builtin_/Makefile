@@ -2,37 +2,37 @@
 include ../../template/ansi.mk
 include ../../bpf/bpf.mk
 
-targets := __has_builtin
-targets += apply_args
-targets += apply
-targets += bswap16
-targets += bswap32
-targets += bswap64
-targets += clz
-targets += constant_p
-targets += cpu_supports
-targets += expect
-targets += frame_address
-targets += index
-targets += object_size
-targets += offsetof
-targets += popcount
-targets += prefetch
-targets += return_address
-targets += return_address-2
-targets += rindex
-targets += thread_pointer
-targets += __clear_cache
-targets += types_compatible_p
-targets += clzl
-targets += memcpy
-targets += strlen strcmp
+target-y := __has_builtin
+target-y += apply_args
+target-y += apply
+target-y += bswap16
+target-y += bswap32
+target-y += bswap64
+target-y += clz
+target-y += constant_p
+target-y += cpu_supports
+target-y += expect
+target-y += frame_address
+target-y += index
+target-y += object_size
+target-y += offsetof
+target-y += popcount
+target-y += prefetch
+target-y += return_address
+target-y += return_address-2
+target-y += rindex
+target-y += thread_pointer
+target-y += __clear_cache
+target-y += types_compatible_p
+target-y += clzl
+target-y += memcpy
+target-y += strlen strcmp
 
-targets-bpf := preserve_field_info.bpf.o
+target-bpf-y := preserve_field_info.bpf.o
 
-targets-todo := read8
-targets-todo += va_arg_pack
-targets-todo += preserve_enum_value
+target-todo := read8
+target-todo += va_arg_pack
+target-todo += preserve_enum_value
 
 # TODO: Fix this warning skip
 CFLAGS_apply_args := -Wno-incompatible-pointer-types

@@ -1,11 +1,11 @@
-targets :=
-targets += regcomp
-targets += re_search
-targets += re_match
-targets += email
-targets += getprocessruntime-regex
-targets += printf-format-arg-split
-targets += tr069
+target-y :=
+target-y += regcomp
+target-y += re_search
+target-y += re_match
+target-y += email
+target-y += getprocessruntime-regex
+target-y += printf-format-arg-split
+target-y += tr069
 
 CFLAGS :=
 CFLAGS += -D__USE_GNU=1

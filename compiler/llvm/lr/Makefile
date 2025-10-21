@@ -1,6 +1,6 @@
 HAVE_LLVM := yes
 
-targets-llvm-ll := main
+target-llvm-ll-y := main
 
 CFLAGS += -Wno-override-module
 

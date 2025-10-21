@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: GPL-3.0
-targets :=
-targets += swapcontext
-targets += getcontext
-targets += setcontext
-targets += ucontext_t
-targets += makecontext
-targets += demo1
+target-y :=
+target-y += swapcontext
+target-y += getcontext
+target-y += setcontext
+target-y += ucontext_t
+target-y += makecontext
+target-y += demo1
 
 CFLAGS :=
 

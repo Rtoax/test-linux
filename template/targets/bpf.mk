@@ -66,7 +66,7 @@ ${OUTPUT}%.bpf.btf: ${OUTPUT}%.bpf.o | ${OUTPUT}
 	$(call log_tgt_obj,BTF,$(<),$(@))
 	${Q}$(PAHOLE) -JV $(<) > $(@)
 
-#$(targets-bpf): %:
+#$(target-bpf-y): %:
 #	$(call log_tgt_exe,LD BPF,$(<),$(@))
 #	${Q}$(CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*))
 

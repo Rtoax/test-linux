@@ -1,5 +1,5 @@
-targets += huiwen
-targets += reverse_string_words
+target-y += huiwen
+target-y += reverse_string_words
 
 include ../../template/main.mk
 

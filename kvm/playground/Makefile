@@ -1,18 +1,18 @@
 ARCH := $(shell uname -m)
 
-targets-prep :=
+target-prep-y :=
 LIBS :=
 
 ifeq (${ARCH},x86_64)
-  targets-prep += hello
-  targets-prep += basic-vm
-  targets-prep += load-payload01
-  targets-prep += load-payload02
-  targets-prep += cpuid
-  targets-prep += assemly-compiling
-  targets-prep += ia32e-paging
-  targets-prep += protected-mode-with-paging
-  targets-prep += exceptions
+  target-prep-y += hello
+  target-prep-y += basic-vm
+  target-prep-y += load-payload01
+  target-prep-y += load-payload02
+  target-prep-y += cpuid
+  target-prep-y += assemly-compiling
+  target-prep-y += ia32e-paging
+  target-prep-y += protected-mode-with-paging
+  target-prep-y += exceptions
 else ifeq (${ARCH},aarch64)
 endif
 

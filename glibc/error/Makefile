@@ -1,7 +1,7 @@
-targets :=
-targets += error
-targets += error_print_progname
-targets += error_at_line
+target-y :=
+target-y += error
+target-y += error_print_progname
+target-y += error_at_line
 
 ifdef M32
   CFLAGS += -m32 -DM32=1

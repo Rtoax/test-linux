@@ -1,14 +1,14 @@
 include ../../../template/kernel.mk
 
-targets :=
-targets += mount
-targets += mount-tmpfs
+target-y :=
+target-y += mount
+target-y += mount-tmpfs
 ifeq ($(call kver_gt,5,1,0),y)
-  targets += fsmount
+  target-y += fsmount
 endif
-targets += ramdisk tmpfs
+target-y += ramdisk tmpfs
 
-targets-prep := fs.ext4
+target-prep-y := fs.ext4
 
 CFLAGS :=
 CFLAGS += -pthread

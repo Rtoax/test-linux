@@ -1,4 +1,4 @@
-targets := setup-if-addr
+target-y := setup-if-addr
 
 include ../../template/main.mk
 

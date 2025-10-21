@@ -1,7 +1,7 @@
-targets :=
-targets += parse_printf_format
-targets += register_printf_function
-targets += register_printf_specifier
+target-y :=
+target-y += parse_printf_format
+target-y += register_printf_function
+target-y += register_printf_specifier
 
 CFLAGS :=
 CFLAGS_register_printf_function := -Wno-error=deprecated-declarations

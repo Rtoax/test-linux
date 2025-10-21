@@ -1,7 +1,7 @@
-targets := pipe-size
-targets += pipe
-targets += pipe-fork
-targets += pipe-broken-pipe shutdown-broken-pipe
+target-y := pipe-size
+target-y += pipe
+target-y += pipe-fork
+target-y += pipe-broken-pipe shutdown-broken-pipe
 
 CFLAGS += -lpthread
 

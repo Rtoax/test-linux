@@ -3,21 +3,21 @@ AS := as
 LD := ld
 LDFLAGS :=
 
-targets :=
+target-y :=
 
-targets-asm := hello
-targets-asm += hello-stack
-targets-asm += paciasp
-targets-asm += exit
-targets-asm += ldr
-targets-asm += while
-targets-asm += add
-targets-asm += mov
-targets-asm += nanosleep
+target-asm-y := hello
+target-asm-y += hello-stack
+target-asm-y += paciasp
+target-asm-y += exit
+target-asm-y += ldr
+target-asm-y += while
+target-asm-y += add
+target-asm-y += mov
+target-asm-y += nanosleep
 
 ifneq ($(shell lscpu | grep -w -e sve -e sve2),)
-  targets-asm += hello_sve
-  targets += daxpy
+  target-asm-y += hello_sve
+  target-y += daxpy
   ASCFLAGS := -march=armv8-a+sve2
 endif
 
@@ -32,25 +32,25 @@ ifneq ($(shell uname -m),aarch64)
   RUN_PFX := qemu-aarch64
   ASMLDFLAGS += --sysroot /home/rongtao/rootfs-aarch64/
 else ifeq ($(shell uname -m),aarch64)
-  targets += add-c
-  targets += loop-c
-  targets += puts
-  targets += paciasp-c
-  targets += nanosleep-c
-  targets += write-c write-c-loop
-  targets += exit-c
+  target-y += add-c
+  target-y += loop-c
+  target-y += puts
+  target-y += paciasp-c
+  target-y += nanosleep-c
+  target-y += write-c write-c-loop
+  target-y += exit-c
 
-  targets-asm += branch
+  target-asm-y += branch
 
-  targets += main
-  targets += say_hello
-  targets += hello-puts
-  targets += hello-puts-infinite-loop
-  targets += hello-main
-  targets += read-main
-  targets += exit-main
-  targets += puts-main
-  targets += printf-main
+  target-y += main
+  target-y += say_hello
+  target-y += hello-puts
+  target-y += hello-puts-infinite-loop
+  target-y += hello-main
+  target-y += read-main
+  target-y += exit-main
+  target-y += puts-main
+  target-y += printf-main
 
   LDFLAGS += -lc
 
@@ -64,7 +64,7 @@ ifdef STATIC
   LDFLAGS += -static
   # FIXME: branch.asm no main() but call libc::printf(), I try 'gcc -nostdlib'
   # but it not works.
-  targets-asm := $(filter-out branch, $(targets-asm))
+  target-asm-y := $(filter-out branch, $(target-asm-y))
 endif
 
 ASFLAGS_paciasp := -march=armv8.3-a

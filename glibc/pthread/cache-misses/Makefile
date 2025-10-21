@@ -1,4 +1,4 @@
-targets := struct
+target-y := struct
 
 CFLAGS := -pthread
 LDFLAGS := -pthread

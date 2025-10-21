@@ -1,6 +1,6 @@
-targets :=
-targets += basename
-targets += dirname
+target-y :=
+target-y += basename
+target-y += dirname
 
 include ../../template/main.mk
 

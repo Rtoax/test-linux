@@ -1,20 +1,20 @@
 JEMALLOC_HEADER=/usr/include/jemalloc/jemalloc.h
 
-targets :=
-targets += dallocx
-targets += mallctl
-targets += malloc_stats_print
-targets += malloc_usable_size
-targets += mallocx
-targets += nallocx
-targets += rallocx
-targets += sallocx
-targets += sdallocx
-targets += xallocx
-targets += stress
+target-y :=
+target-y += dallocx
+target-y += mallctl
+target-y += malloc_stats_print
+target-y += malloc_usable_size
+target-y += mallocx
+target-y += nallocx
+target-y += rallocx
+target-y += sallocx
+target-y += sdallocx
+target-y += xallocx
+target-y += stress
 
 ifeq ($(wildcard $(JEMALLOC_HEADER)),)
-  targets :=
+  target-y :=
   $(warning "WARNING: Maybe install jemalloc development package")
 endif
 

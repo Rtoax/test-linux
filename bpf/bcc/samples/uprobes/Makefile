@@ -1,2 +1,2 @@
-targets-go := main
+target-go-y := main
 include ../../../../template/main.mk

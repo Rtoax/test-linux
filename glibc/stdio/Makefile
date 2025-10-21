@@ -1,30 +1,30 @@
 # SPDX-License-Identifier: GPL-3.0
 include ../glibc.mk
 
-targets :=
-targets += ansi_ascii
-targets += ctermid
-targets += asprintf vasprintf
-targets += snprintf sprintf
-targets += vfprintf
-targets += vsprintf
-targets += printf vprintf
-targets += puts
-targets += __freadable
-targets += open_memstream
-targets += remove
-targets += popen
-targets += fwrite
-targets += getchar
-targets += getline getdelim
-targets += scanf sscanf
-targets += perror
-targets += tmpfile tmpnam tempnam
-targets += setbuf setvbuf
-targets += fgets
-targets += fopen
-targets += fread
-targets += fopencookie
+target-y :=
+target-y += ansi_ascii
+target-y += ctermid
+target-y += asprintf vasprintf
+target-y += snprintf sprintf
+target-y += vfprintf
+target-y += vsprintf
+target-y += printf vprintf
+target-y += puts
+target-y += __freadable
+target-y += open_memstream
+target-y += remove
+target-y += popen
+target-y += fwrite
+target-y += getchar
+target-y += getline getdelim
+target-y += scanf sscanf
+target-y += perror
+target-y += tmpfile tmpnam tempnam
+target-y += setbuf setvbuf
+target-y += fgets
+target-y += fopen
+target-y += fread
+target-y += fopencookie
 
 ifneq ($(LIBC_PRINTF_SYMADDR),)
   CFLAGS += -DLIBC_PRINTF_SYMADDR=${LIBC_PRINTF_SYMADDR}
@@ -34,7 +34,7 @@ CFLAGS_getdelim := -DTEST_getdelim=1
 CFLAGS_sprintf := -Wno-error=format-overflow
 CFLAGS_snprintf := -Wno-error=format-truncation
 
-targets-post := os-release
+target-post-y := os-release
 
 include ../../template/main.mk
 

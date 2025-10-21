@@ -1,9 +1,9 @@
 # SPDX-License-Identifier: GPL-3.0
 include ../../../compiler/compiler.mk
 
-targets :=
-targets += gthread
-targets += size
+target-y :=
+target-y += gthread
+target-y += size
 
 CC := gcc
 

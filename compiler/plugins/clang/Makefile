@@ -15,14 +15,14 @@ clang-codes += ${CLANG_SRC_ROOT}/examples/Attribute/Attribute.cpp
 
 SRCS := $(notdir $(clang-codes))
 
-targets-prep := ${SRCS}
+target-prep-y := ${SRCS}
 
-targets-libso-cpp := PrintFunctionNames.so
-targets-libso-cpp += AnnotateFunctions.so
-targets-libso-cpp += Attribute.so
-targets-libso-cpp += pid.so
+target-libso-cpp-y := PrintFunctionNames.so
+target-libso-cpp-y += AnnotateFunctions.so
+target-libso-cpp-y += Attribute.so
+target-libso-cpp-y += pid.so
 
-targets-post := test-plugins
+target-post-y := test-plugins
 
 
 include ../../../template/main.mk

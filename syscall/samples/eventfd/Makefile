@@ -1,8 +1,8 @@
-targets :=
-targets += epoll
-targets += eventfd_read
-targets += eventfd-irq
-targets += eventfd-latency
+target-y :=
+target-y += epoll
+target-y += eventfd_read
+target-y += eventfd-irq
+target-y += eventfd-latency
 
 include ../../../template/main.mk
 

@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: GPL-3.0
-targets :=
-targets += R_AARCH64
-targets += R_AARCH64_JUMP_SLOT
-targets += R_AARCH64_ABS64
-targets += R_AARCH64_PREL64
-targets += R_AARCH64_CALL26
-targets += R_AARCH64_ADR_PREL_PG_HI21
+target-y :=
+target-y += R_AARCH64
+target-y += R_AARCH64_JUMP_SLOT
+target-y += R_AARCH64_ABS64
+target-y += R_AARCH64_PREL64
+target-y += R_AARCH64_CALL26
+target-y += R_AARCH64_ADR_PREL_PG_HI21
 
 CC := gcc
 

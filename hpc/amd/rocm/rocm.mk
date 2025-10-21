@@ -22,14 +22,14 @@ ifneq ($(HIPCC),)
 
   export HAVE_HIP
 else
-  ifneq ($(targets-hipcc),)
+  ifneq ($(target-hipcc-y),)
     ifdef __IGNORE_NOTFOUND_ERROR__
-      $(warning Not found hipcc with targets-hipcc not empty, but __IGNORE_NOTFOUND_ERROR__)
+      $(warning Not found hipcc with target-hipcc-y not empty, but __IGNORE_NOTFOUND_ERROR__)
     else
-      $(error Not found hipcc with targets-hipcc not empty, install cuda first)
+      $(error Not found hipcc with target-hipcc-y not empty, install cuda first)
     endif
   else
-    $(warning Although not found hipcc, but you don't have targets-hipcc)
+    $(warning Although not found hipcc, but you don't have target-hipcc-y)
   endif
 
   HIPCC :=
