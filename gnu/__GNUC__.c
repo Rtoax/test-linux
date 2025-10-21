@@ -43,6 +43,10 @@ int main(void)
 	pfx = "htcc";
 	printf("%s: __HPCC__ = %d\n", pfx, __HPCC__);
 #endif
+#ifdef __LUCA__	/* CESTC LUCA */
+	pfx = "lscc";
+	printf("%s: __LUCA__ = %d\n", pfx, __LUCA__);
+#endif
 
 	printf("%s: __GNUC__ = %d.\n", pfx, __GNUC__);
 	printf("%s: __GNUC_MINOR__ = %d.\n", pfx, __GNUC_MINOR__);

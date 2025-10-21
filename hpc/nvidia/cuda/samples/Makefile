@@ -75,6 +75,7 @@ endif
 
 ifdef HAVE_LUCA
   target-lscc-y := hello-luca
+  target-lscc-y += __GNUC__-luca
 endif
 
 target-post-y := $(patsubst %,${OUTPUT}%.E.cu,$(target-nvcc-y))
@@ -265,3 +266,4 @@ __STDC__-hpcc: ${OUTPUT}__STDC__.hpcc.o ${HPCC_HELPERS}
 
 # CESTC
 hello-luca: ${OUTPUT}hello.luca.o ${LUCA_HELPERS}
+__GNUC__-luca: ${OUTPUT}__GNUC__.luca.o ${LUCA_HELPERS}

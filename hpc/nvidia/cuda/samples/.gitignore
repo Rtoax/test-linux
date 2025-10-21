@@ -30,6 +30,7 @@
 /__GNUC__
 /__GNUC__-hip
 /__GNUC__-hpcc
+/__GNUC__-luca
 /hcclGetVersion-hpcc
 /*.hcfb
 /hello
