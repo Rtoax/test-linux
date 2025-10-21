@@ -82,6 +82,7 @@
 # include <nvrtc.h>
 # include <cuda.h>
 # include <cuda_runtime.h>
+# include <cuda_runtime_api.h>
 # include <cublas_v2.h>
 # include <cublasLt.h>
 # include <cufft.h>
@@ -98,7 +99,6 @@
 # ifdef HAVE_NCCL
 #  include <nccl.h>
 # endif
-# include <crt/device_fp128_functions.h>
 # define CUNAME	"NVIDIA CUDA"
 #endif
 
