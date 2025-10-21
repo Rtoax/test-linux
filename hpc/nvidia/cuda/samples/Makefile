@@ -30,19 +30,13 @@ common-objs += properties
 common-objs += rand
 common-objs += sparse
 
-ifdef HAVE_CUDA
-  target-nvcc-y := ${common-objs}
+target-nvcc-${HAVE_CUDA} := ${common-objs}
+target-nvcc-${HAVE_NCCL} += ncclGetVersion
 
-  # NCCL
-  ifdef HAVE_NCCL
-    target-nvcc-y += ncclGetVersion
-  endif
-
-  obj-cubin := hello.cubin
-  obj-cubin += parallel.cubin
-  obj-fatbin := hello.fatbin
-  obj-fatbin += parallel.fatbin parallel.nv_fatbin parallel.nvFatBinSegment
-endif
+nvidia-cubin := hello.cubin
+nvidia-cubin += parallel.cubin
+nvidia-fatbin := hello.fatbin
+nvidia-fatbin += parallel.fatbin parallel.nv_fatbin parallel.nvFatBinSegment
 
 ifdef HAVE_HIP
   rocm-hipcc := ${common-objs}
@@ -82,8 +76,8 @@ target-post-y += $(patsubst %,${OUTPUT}%.cu.sass.dump,$(target-nvcc-y))
 target-post-y += $(patsubst %,${OUTPUT}%.cu.ptx.dump,$(target-nvcc-y))
 target-post-y += $(patsubst %,${OUTPUT}%.ptx,$(target-nvcc-y))
 target-post-y += $(patsubst %,${OUTPUT}%.cu.cpp.ii,$(target-nvcc-y))
-target-post-y += $(patsubst %,${OUTPUT}%,$(obj-cubin))
-target-post-y += $(patsubst %,${OUTPUT}%,$(obj-fatbin))
+target-post-${HAVE_CUDA} += $(patsubst %,${OUTPUT}%,$(nvidia-cubin))
+target-post-${HAVE_CUDA} += $(patsubst %,${OUTPUT}%,$(nvidia-fatbin))
 # ROCm HIP
 target-post-y += $(patsubst %,${OUTPUT}%,$(rocm-fatbin))
 # MetaX

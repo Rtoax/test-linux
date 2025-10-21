@@ -5,8 +5,8 @@
 # - __IGNORE_NOTFOUND_ERROR__
 #
 # Output macros:
-# - HAVE_CUDA
-# - HAVE_NCCL
+# - HAVE_CUDA=y
+# - HAVE_NCCL=y
 # - NVCC
 # - CUOBJDUMP
 # - NVDISASM
@@ -74,12 +74,12 @@ else
   CUDA_VERSION_MINOR := $(shell echo ${CUDA_VERSION_RAW} | awk -F '.' '{print $$2}')
   CUDA_VERSION_PATCH := $(shell echo ${CUDA_VERSION_RAW} | awk -F '.' '{print $$3}')
 
-  HAVE_CUDA := 1
+  HAVE_CUDA := y
   export HAVE_CUDA
 endif
 
 ifneq ($(wildcard $(NCCL_H)),)
-  HAVE_NCCL := 1
+  HAVE_NCCL := y
   export HAVE_NCCL
 else
   $(warning Not found NVIDIA NCCL)
