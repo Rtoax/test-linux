@@ -166,6 +166,8 @@
 #  define compat_bf16	__hip_bfloat16
 # elif defined(__HPCC__)
 #  define compat_bf16	__hpcc_bfloat16
+# elif defined(__LUCA__)
+#  define compat_bf16	__luca_bfloat16
 # endif
 # define compat_bf16tofloat(v)	__bfloat162float(v)
 # define compat_floattobf16(v)	__float2bfloat16(v)
@@ -882,10 +884,13 @@ void __myglobal__ __kernel_overflow_muladd_fp16_arr(size_t len, size_t interval)
 }
 #endif /* SUPPORT_FP16 */
 
-#ifdef __HPCC__
+#if defined(__HPCC__)
 # pragma clang diagnostic push
 /* warning: reference to __device__ variable 'rslt_fp64' in __host__ function */
 # pragma clang diagnostic ignored "-Whpcc-compat"
+#elif defined(__LUCA__)
+# pragma clang diagnostic push
+# pragma clang diagnostic ignored "-Wluca-compat"
 #endif
 void overflow_mul_fp32(void)
 {
@@ -1009,7 +1014,7 @@ void overflow_muladd_fp16_arr(void)
 }
 #endif /* SUPPORT_FP16 */
 
-#ifdef __HPCC__
+#if defined(__HPCC__) || defined(__LUCA__)
 # pragma clang diagnostic pop
 #endif
 
