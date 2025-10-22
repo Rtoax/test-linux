@@ -9,12 +9,12 @@ target-asm-y += write write-2 write-3
 define m32_build
   $(shell $(NASM) average.asm -felf32 -o a.o && \
 	  $(CC) -Wall -m32 a.o -o /dev/null >/dev/null 2>&1 \
-      && echo 1)
+      && echo y)
 endef
-feature-m32 := $(findstring 1,$(call m32_build,))
+nasm-m32 := $(findstring y,$(call m32_build,))
 
 # Include 'main' function
-ifeq ($(feature-m32),1)
+ifeq ($(nasm-m32),y)
   target-y += average
   target-y += echo
   target-y += power

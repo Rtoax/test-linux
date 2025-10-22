@@ -16,21 +16,13 @@ target-cpp-y += return
 target-cpp-y += this
 target-cpp-y += string
 target-cpp-y += __cplusplus
-ifeq (${CC_STD_C++20},1)
-  target-cpp-y += format
-endif
+target-cpp-${CC_STD_C++20} += format
 target-cpp-y += fmt
 target-cpp-y += __STDC__ __STDC__c++98 __STDC__gnu++98
 target-cpp-y += expired
 
 CXXFLAGS :=
 CXXFLAGS += -DCPP
-
-ifdef M32
-  CXXFLAGS += -m32 -DM32=1
-  CXXFLAGS += -m32 -DM32=1
-  $(info Compile 32bit ELF)
-endif
 
 CXXFLAGS_return := -Wno-error=return-type
 CXXFLAGS_format := -std=c++20

@@ -32,7 +32,7 @@ target-bpf-y := preserve_access_index.bpf.o
 
 include ../compiler.mk
 
-ifeq ($(CC_-fcf-protection),1)
+ifeq ($(CC_-fcf-protection),y)
   CFLAGS_nocf_check := -fcf-protection
 else
   $(warning WARNING: ${CC} not support -fcf-protection=full)

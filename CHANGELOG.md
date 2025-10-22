@@ -26,6 +26,7 @@ and this project adheres to
 - make: add MAKECMDGOALS.mk, filter-out.mk;
 - rootfs: add multistrap.sh to build rootfs for ubuntu;
 #### Changed
+- compiler.mk: Set all definitions to 'y';
 - cuda/samples: Rename cudaGetDeviceProperties.cu to properties.cu;
 - Move rootfs/qemu.sh to qemu/qemu-vm.sh;
 #### Deprecated

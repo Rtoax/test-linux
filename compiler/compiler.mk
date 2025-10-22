@@ -17,13 +17,13 @@ GCC ?= gcc
 define check_compiler_option
   $(shell echo 'int main(void) { return 0; }' | \
     $(1) -x c -Wall - $(2) -S -o /dev/null >/dev/null 2>&1 \
-      && echo 1)
+      && echo y)
 endef
 
 define check_compiler_option_noS
   $(shell echo 'int main(void) { return 0; }' | \
     $(1) -x c -Wall - $(2) -o /dev/null >/dev/null 2>&1 \
-      && echo 1)
+      && echo y)
 endef
 
 # Check compiler support type
@@ -56,11 +56,11 @@ define gen_compiler_macro_hdr
 $(call __gen_compiler_macro_hdr,$(CC),$(1))
 endef
 
-CC_M32 := $(findstring 1,$(call check_compiler_option_noS,$(CC),-m32))
-CC_STD_GNU11 := $(findstring 1,$(call check_compiler_option,$(CC),-std=gnu11))
-CC_STD_GNU17 := $(findstring 1,$(call check_compiler_option,$(CC),-std=gnu17))
-CC_STD_GNU++20 := $(findstring 1,$(call check_compiler_option,$(CC),-std=gnu++20))
-CC_STD_C++20 := $(findstring 1,$(call check_compiler_option,$(CC),-std=c++20))
+CC_M32 := $(findstring y,$(call check_compiler_option_noS,$(CC),-m32))
+CC_STD_GNU11 := $(findstring y,$(call check_compiler_option,$(CC),-std=gnu11))
+CC_STD_GNU17 := $(findstring y,$(call check_compiler_option,$(CC),-std=gnu17))
+CC_STD_GNU++20 := $(findstring y,$(call check_compiler_option,$(CC),-std=gnu++20))
+CC_STD_C++20 := $(findstring y,$(call check_compiler_option,$(CC),-std=c++20))
 
 # see https://clang.llvm.org/docs/LanguageExtensions.html
 CC__Float16 := $(findstring y,$(call check_compiler_support_type,$(CC),_Float16))
@@ -88,17 +88,17 @@ CC_VERSION := $(shell $(CC) -dumpversion)
 CC_MAJOR := $(shell echo ${CC_FULLVERSION} | awk -F '.' '{print $$1}')
 CC_MINOR := $(shell echo ${CC_FULLVERSION} | awk -F '.' '{print $$2}')
 
-CC_-fcf-protection := $(findstring 1,$(call check_compiler_option,$(CC),-fcf-protection))
-CC_-fpatchable-function-entry := $(findstring 1,$(call check_compiler_option,$(CC),-fpatchable-function-entry=5,2))
-CC_-mfentry := $(findstring 1,$(call check_compiler_option,$(CC),-mfentry))
+CC_-fcf-protection := $(findstring y,$(call check_compiler_option,$(CC),-fcf-protection))
+CC_-fpatchable-function-entry := $(findstring y,$(call check_compiler_option,$(CC),-fpatchable-function-entry=5,2))
+CC_-mfentry := $(findstring y,$(call check_compiler_option,$(CC),-mfentry))
 
-feature-m32 := $(findstring 1,$(call check_compiler_option,$(CC),-m32))
-feature-sve2 := $(findstring 1,$(call check_compiler_option,$(CC),-march=armv8-a+sve+sve2))
-feature-avx2 := $(findstring 1,$(call check_compiler_option,$(CC),-mavx2))
-feature-avx512 := $(findstring 1,$(call check_compiler_option,$(CC),-mavx512))
-feature-lse := $(findstring 1,$(call check_compiler_option,$(CC),-march=armv8-a+lse))
-feature-fcf-protection1 := $(findstring 1,$(call check_compiler_option,$(CC),-fcf-protection))
-feature-fcf-protection2 := $(findstring 1,$(call check_clang_option,-fcf-protection))
+feature-m32 := $(findstring y,$(call check_compiler_option,$(CC),-m32))
+feature-sve2 := $(findstring y,$(call check_compiler_option,$(CC),-march=armv8-a+sve+sve2))
+feature-avx2 := $(findstring y,$(call check_compiler_option,$(CC),-mavx2))
+feature-avx512 := $(findstring y,$(call check_compiler_option,$(CC),-mavx512))
+feature-lse := $(findstring y,$(call check_compiler_option,$(CC),-march=armv8-a+lse))
+feature-fcf-protection1 := $(findstring y,$(call check_compiler_option,$(CC),-fcf-protection))
+feature-fcf-protection2 := $(findstring y,$(call check_clang_option,-fcf-protection))
 
 ifdef DEBUG
   $(info fcf-protection: ${CC_-fcf-protection})
@@ -124,8 +124,4 @@ ifdef DEBUG
   $(info feature-lse ${feature-lse})
   $(info feature-fcf-protection1 ${feature-fcf-protection1})
   $(info feature-fcf-protection2 ${feature-fcf-protection2})
-
-  ifeq (${feature-sve2},1)
-    $(info CPU support SVE2)
-  endif
 endif

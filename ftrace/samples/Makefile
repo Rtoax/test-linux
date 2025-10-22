@@ -3,9 +3,7 @@ include ../../compiler/compiler.mk
 target-y := main
 target-y += main-pg
 # FIXME: aarch64 seems like don't support -mfentry
-ifeq ($(CC_-mfentry),1)
-  target-y += main-pg-fentry
-endif
+target-${CC_-mfentry} += main-pg-fentry
 
 CFLAGS_main-pg := -pg
 CFLAGS_main-pg-fentry := -pg -mfentry

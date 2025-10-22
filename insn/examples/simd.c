@@ -807,7 +807,7 @@ int main(int argc, char *argv[])
 	for (j = 0; j < nloop; j++) {
 #ifdef DEBUG
 		if (j % 1000 == 0)
-			printf("Testing %d/%d\n", j, nloop);
+			printf("Testing %d/%ld\n", j, nloop);
 #endif
 		if (j % 1000 == 0)
 			fprintf(stderr, ".");

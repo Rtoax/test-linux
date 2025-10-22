@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
 OUTPUT := .output/
 
+include ../template/arch.mk
 include ../template/kernel.mk
 include ../compiler/cross-compile.mk
 include ../compiler/compiler.mk
@@ -19,9 +20,7 @@ target-y += __restrict__
 target-y += __func__
 target-y += __linux__
 target-y += __WORDSIZE
-ifeq ($(CC_M32),1)
-  target-y += __WORDSIZE-32
-endif
+target-${CC_M32} += __WORDSIZE-32
 target-y += __TIME__
 target-y += __VERSION__
 target-y += __FILE__
@@ -38,29 +37,19 @@ target-y += _POSIX_SOURCE _POSIX_C_SOURCE
 target-y += LINUX_VERSION_CODE
 target-y += __GLIBC__ __GLIBC_MINOR__ __GLIBC_PREREQ
 
+target-${IS_X86_64} += __x86_64__
+target-${CC_M32} += __i386__
+target-${IS_AARCH64} += __aarch64__
+
 target-cpp-y :=
 target-cpp-y += __cplusplus __cplusplus-std98
 
-ifeq ($(shell uname -m),x86_64)
-  target-y += __x86_64__
-ifeq ($(CC_M32),1)
-  target-y += __i386__
-endif
-endif
-ifeq ($(shell uname -m),aarch64)
-  target-y += __aarch64__
-endif
-ifeq ($(shell uname -m),sw_64)
-endif
+
 ifeq ($(shell uname -m),loongarch64)
   target-y += __loongarch64
 endif
 
 CFLAGS += ${KFLAGS}
-
-ifdef STATIC
-  LDFLAGS += -static
-endif
 
 CFLAGS___stringify := -DSTDBOOL_HDR=stdbool.h
 CFLAGS___i386__ := -m32

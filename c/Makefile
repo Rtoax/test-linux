@@ -66,7 +66,7 @@ CFLAGS += -I../macro/
 CFLAGS_auto := -Wno-error=implicit-int
 CFLAGS_param-pass := -O0 -I../macro/
 CFLAGS_param-pass += -Wno-error=strict-prototypes
-ifeq (${CC_STD_GNU17},1)
+ifeq (${CC_STD_GNU17},y)
   CFLAGS_alignas := -std=gnu17
 endif
 CFLAGS_if := -Wno-error=unused-value -Wno-unused-value

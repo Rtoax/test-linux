@@ -1,7 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
 CC := gcc
 CFLAGS :=
-RUN_PFX :=
 
 # Cross compile
 include ../../../compiler/cross-compile.mk
@@ -11,18 +10,13 @@ include ../../../compiler/compiler.mk
 target-y :=
 target-y += neon-sve
 
-feature-sve2 := $(findstring 1,$(call check_compiler_option,$(CC),-march=armv8-a+sve+sve2))
-ifeq (${feature-sve2},1)
-  $(info feature-sve2 = ${feature-sve2})
+target-${feature-sve2} += sve-width
+target-${feature-sve2} += add_array
+target-${feature-sve2} += svaddlb
 
-  target-y += sve-width
-  target-y += add_array
-  target-y += svaddlb
-
-  CFLAGS += -march=armv8-a+sve+sve2
-  CFLAGS += -DCPU_HAVE_NEON=1
-  CFLAGS += -DCPU_HAVE_SVE=1
-endif
+CFLAGS += -march=armv8-a+sve+sve2
+CFLAGS += -DCPU_HAVE_NEON=1
+CFLAGS += -DCPU_HAVE_SVE=1
 
 include ../../../template/main.mk
 

@@ -16,18 +16,12 @@ target-y += finput-charset
 target-y += fno-zero-initialized-in-bss fzero-initialized-in-bss
 target-y += fplt fno-plt
 target-y += fuse-ld
-
-ifeq ($(CC_-fcf-protection),1)
-  target-y += fcf-protection
-endif
+target-${CC_-fcf-protection} += fcf-protection
+target-${CC_-fpatchable-function-entry} += fpatchable-function-entry
 
 # command-line option ‘-fwpa’ is valid for LTO but not for C
 # target-y += fwpa
 # target-y += fltrans
-
-ifeq ($(CC_-fpatchable-function-entry),1)
-  target-y += fpatchable-function-entry
-endif
 
 CFLAGS :=
 
