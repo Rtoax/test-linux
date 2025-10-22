@@ -1,3 +1,4 @@
+OUTPUT := .output/
 CC := gcc
 NASM := nasm
 
@@ -31,16 +32,16 @@ ASMLDFLAGS += -m elf_i386
 
 include ../../../template/main.mk
 
-average: average.asm.o
-echo: echo.asm.o
-call-func: call-func.asm.o
-call-func-ret: call-func-ret.asm.o
-jmp: jmp.asm.o
-jg: jg.asm.o
-jl: jl.asm.o
-power: power.asm.o
-write: write.asm.o
-write-2: write-2.asm.o
-write-3: write-3.asm.o
-factorial_call: factorial_call.o factorial.asm.o
-maxofthree_call: maxofthree_call.o maxofthree.asm.o
+average: ${OUTPUT}average.asm.o
+echo: ${OUTPUT}echo.asm.o
+call-func: ${OUTPUT}call-func.asm.o
+call-func-ret: ${OUTPUT}call-func-ret.asm.o
+jmp: ${OUTPUT}jmp.asm.o
+jg: ${OUTPUT}jg.asm.o
+jl: ${OUTPUT}jl.asm.o
+power: ${OUTPUT}power.asm.o
+write: ${OUTPUT}write.asm.o
+write-2: ${OUTPUT}write-2.asm.o
+write-3: ${OUTPUT}write-3.asm.o
+factorial_call: ${OUTPUT}factorial_call.o ${OUTPUT}factorial.asm.o
+maxofthree_call: ${OUTPUT}maxofthree_call.o ${OUTPUT}maxofthree.asm.o
