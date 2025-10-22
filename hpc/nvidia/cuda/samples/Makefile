@@ -40,26 +40,20 @@ nvidia-fatbin += parallel.fatbin parallel.nv_fatbin parallel.nvFatBinSegment
 
 # AMD ROCm
 rocm-hipcc-${HAVE_HIP} := ${common-objs}
-rocm-hipcc=${HAVE_RCCL} += ncclGetVersion
+rocm-hipcc-${HAVE_RCCL} += ncclGetVersion
 rocm-fatbin := parallel.hip_fatbin parallel.hipFatBinSegment
 target-hipcc-y := $(patsubst %,%-hip,$(rocm-hipcc-y))
 
 # MetaX HPCC
-ifdef HAVE_HPCC
-  metax-htcc := ${common-objs}
-
-  # HCCL
-  metax-htcc += hcclGetVersion
-
-  metax-devbin := hello.hpcc.devbin
-  metax-devbin += parallel.hpcc.devbin
-  metax-fatbin := hello.hpcc.fatbin
-  metax-fatbin += parallel.hpcc.fatbin
-  metax-fatbin += parallel-hpcc.hpcc.hc_fatbin
-  metax-fatbin += parallel-hpcc.hpcc.hcFatBinSegment
-
-  target-htcc-y := $(patsubst %,%-hpcc,$(metax-htcc))
-endif
+metax-htcc-${HAVE_HPCC} := ${common-objs}
+metax-htcc-${HAVE_HPCC} += hcclGetVersion
+metax-devbin := hello.hpcc.devbin
+metax-devbin += parallel.hpcc.devbin
+metax-fatbin := hello.hpcc.fatbin
+metax-fatbin += parallel.hpcc.fatbin
+metax-fatbin += parallel-hpcc.hpcc.hc_fatbin
+metax-fatbin += parallel-hpcc.hpcc.hcFatBinSegment
+target-htcc-y := $(patsubst %,%-hpcc,$(metax-htcc-y))
 
 ifdef HAVE_LUCA
   target-lscc-y := $(patsubst %,%-luca,$(common-objs))
@@ -75,9 +69,9 @@ target-post-${HAVE_CUDA} += $(patsubst %,${OUTPUT}%,$(nvidia-fatbin))
 # ROCm HIP
 target-post-${HAVE_HIP} += $(patsubst %,${OUTPUT}%,$(rocm-fatbin))
 # MetaX
-target-post-y += $(patsubst %,${OUTPUT}%.E.hpcc,$(metax-htcc))
-target-post-y += $(patsubst %,${OUTPUT}%,$(metax-devbin))
-target-post-y += $(patsubst %,${OUTPUT}%,$(metax-fatbin))
+target-post-${HAVE_HPCC} += $(patsubst %,${OUTPUT}%.E.hpcc,$(metax-htcc))
+target-post-${HAVE_HPCC} += $(patsubst %,${OUTPUT}%,$(metax-devbin))
+target-post-${HAVE_HPCC} += $(patsubst %,${OUTPUT}%,$(metax-fatbin))
 
 # Pure C
 target-y := matrix-c-fp32 matrix-c-fp64

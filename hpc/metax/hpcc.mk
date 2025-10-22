@@ -6,7 +6,7 @@
 # - __IGNORE_NOTFOUND_ERROR__
 #
 # Output definitions:
-# - HAVE_HPCC
+# - HAVE_HPCC=y
 # - HPCC_ROOT
 # - MXCC
 # - HTCC
@@ -53,7 +53,7 @@ ifneq ($(wildcard ${HPCC_ROOT}),)
   HPCC_VERSION_MINOR := $(shell echo ${HPCC_VERSION_RAW} | awk -F '.' '{print $$2}')
   HPCC_VERSION_PATCH := $(shell echo ${HPCC_VERSION_RAW} | awk -F '.' '{print $$3}')
 
-  HAVE_HPCC := 1
+  HAVE_HPCC := y
   export HAVE_HPCC
 else
   $(warning Not found HPCC_ROOT="${HPCC_ROOT}")
