@@ -1,18 +1,41 @@
 # SPDX-License-Identifier: GPL-3.0
+include ../../template/arch.mk
+include ../../compiler/compiler.mk
+include ../../binutils/binutils.mk
+
 subdir-y :=
+subdir-${IS_X86_64} += avx
+subdir-${IS_X86_64} += tsc
+subdir-${IS_X86_64} += pku
+subdir-${IS_X86_64} += sse
+subdir-${IS_AARCH64} += neon
+subdir-${IS_AARCH64} += sve
 
 target-y :=
-CC := gcc
-CFLAGS :=
-LDFLAGS :=
+target-${IS_X86_64} += add-x86
+target-${IS_X86_64} += bts
+target-${IS_X86_64} += fsin
+target-${IS_X86_64} += bswapl
+target-${IS_X86_64} += _mm_clflush
+target-${IS_X86_64} += prefetch
+target-${IS_X86_64} += rte_memcpy
+target-${IS_X86_64} += vgetbv
+target-${IS_X86_64} += stosb memset
+target-${IS_X86_64} += nop
+target-${IS_X86_64} += rdmsr
+target-${IS_X86_64} += rdrand
+target-${IS_X86_64} += rdseed
+target-${IS_AARCH64} += mrs
+target-y += breakpoint
+target-y += ret
+target-y += udiv div
+target-y += simd
+target-y += cpuid_user
+target-y += invalid_opcode_user
+
 ARCH_LIB_CPUID :=
 
 ifeq ($(shell uname -m),x86_64)
-  subdir-y += avx
-  subdir-y += tsc
-  subdir-y += pku
-  subdir-y += sse
-
   ifneq ($(shell lscpu | grep -w avx2),)
     CFLAGS += -mavx2 -mfma
     CFLAGS += -DCPU_HAVE_AVX2=1
@@ -21,29 +44,9 @@ ifeq ($(shell uname -m),x86_64)
     CFLAGS += -mavx512f -mfma
     CFLAGS += -DCPU_HAVE_AVX512F=1
   endif
-  target-y += add-x86
-  target-y += bts
-  target-y += fsin
-  target-y += bswapl
-  target-y += _mm_clflush
-  target-y += prefetch
-  target-y += rte_memcpy
-  target-y += vgetbv
-  target-y += stosb memset
-  target-y += nop
-  target-y += rdmsr
-  ifneq ($(shell lscpu | grep -w rdrand),)
-    target-y += rdrand
-  endif
-  ifneq ($(shell lscpu | grep -w rdseed),)
-    target-y += rdseed
-  endif
 
   ARCH_LIB_CPUID += cpuid-x86.o
 else ifeq ($(shell uname -m),aarch64)
-  subdir-y += neon
-  subdir-y += sve
-
   # Check cpu flags
   ifneq ($(shell lscpu | grep -w sve),)
     CFLAGS += -DCPU_HAVE_SVE=1
@@ -55,7 +58,6 @@ else ifeq ($(shell uname -m),aarch64)
   endif
 
   CFLAGS += -DCPU_HAVE_NEON=1
-  target-y += mrs
 
   ARCH_LIB_CPUID += cpuid-arm64.o
 endif
@@ -65,15 +67,7 @@ ifdef BFD
   $(info User linker bfd)
 endif
 
-target-y += breakpoint
-target-y += ret
-target-y += udiv div
-target-y += simd
-target-y += cpuid_user
-target-y += invalid_opcode_user
-
 # Get GNU assembler version
-include $(shell pwd)/../../binutils/binutils.mk
 CFLAGS += -DBINUTILS_VERSION_MAJOR=${BINUTILS_VERSION_MAJOR}
 CFLAGS += -DBINUTILS_VERSION_MINOR=${BINUTILS_VERSION_MINOR}
 
