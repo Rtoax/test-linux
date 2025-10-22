@@ -30,9 +30,9 @@ CFLAGS_use-after-free := -DUSE_AFTER_FREE=1
 CFLAGS_double-free := -DDOUBLE_FREE=1
 CFLAGS_corrupted-size-vs.prev_size := -DCORRUPTED_SIZE_VS_PREV_SIZE=1
 
-CC_-use-after-free := $(findstring 1,$(call check_compiler_option,$(CC),-Werror=use-after-free))
+CC_-use-after-free := $(findstring y,$(call check_compiler_option,$(CC),-Werror=use-after-free))
 $(info CC_-use-after-free: ${CC_-use-after-free})
-ifeq (${CC_-use-after-free},1)
+ifeq (${CC_-use-after-free},y)
   CFLAGS_use-after-free += -Wno-error=use-after-free
   CFLAGS_double-free += -Wno-error=use-after-free
 endif
