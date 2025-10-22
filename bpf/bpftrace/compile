@@ -5,6 +5,7 @@ readonly prog=bpftrace-compile
 
 flags_deps=
 flags_cmake=
+flags_install=
 verbose=
 
 declare -a cmake_args
@@ -61,6 +62,7 @@ DESCRIPTION
 ARGUMENT
 	-d, --deps              install depends
 	-c, --cmake             execute the cmake to generate Makefile
+	-i, --install           execute the make install
 	-v, --verbose           run with verbose mode
 	-h, --help              show this info
 
@@ -73,9 +75,10 @@ SEE ALSO
 	exit ${1-0}
 }
 
-TEMP_ARGS=$(getopt --options dcvh \
+TEMP_ARGS=$(getopt --options dcivh \
 	--long deps \
 	--long cmake \
+	--long install \
 	--long verbose \
 	--long help \
 	--name ${prog} -- "$@")
@@ -93,6 +96,10 @@ while true; do
 	-c | --cmake)
 		shift
 		flags_cmake=YES
+		;;
+	-i | --install)
+		shift
+		flags_install=YES
 		;;
 	-v | --verbose)
 		shift
@@ -136,7 +143,8 @@ fi
 
 # Must execute make command at least
 make -j$(nproc)
-sudo make install
+
+[[ ${flags_install} ]] && sudo make install
 
 # Check for the clang-format
 git clang-format --diff origin/master --extensions cpp,h
