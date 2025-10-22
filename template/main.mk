@@ -15,7 +15,6 @@ else ifeq ($(shell uname -m),aarch64)
 endif
 
 sub-dir ?=
-kmod-list ?=
 
 CFLAGS += -D_GNU_SOURCE
 CFLAGS += -Werror -Wall
@@ -106,7 +105,7 @@ include ${TEMPLATE_DIR}/dir.mk
 include ${TEMPLATE_DIR}/log.mk
 
 include ${TEMPLATE_DIR}/../elf/pie.mk
-ifneq ($(sub-dir)$(kmod-list),)
+ifneq ($(sub-dir),)
   include ${TEMPLATE_DIR}/subdir-header.mk
 endif
 
@@ -131,7 +130,7 @@ target-python-logs := $(patsubst %.py,%.py.log,$(target-python-y))
 build-targets += $(target-python-logs)
 target-mk-logs := $(patsubst %.mk,%.mk.log,$(target-mk-y))
 build-targets += $(target-mk-logs)
-build-targets += $(sub-dir-build) $(kmod-list-build)
+build-targets += $(sub-dir-build)
 build-targets += $(target-post-y)
 
 ifdef DEBUG
@@ -143,11 +142,11 @@ build: $(build-targets)
 	$(call log_tgt_done,build,$(call git_relative_dir,$(shell realpath .)))
 
 .PHONY: test
-test: $(build-targets) $(sub-dir-test) $(kmod-list-test) $(target-test-y)
+test: $(build-targets) $(sub-dir-test) $(target-test-y)
 	$(call log_tgt_done,test,$(call git_relative_dir,$(shell realpath .)))
 
 .PHONY: clean
-clean: $(sub-dir-clean) $(kmod-list-clean) $(target-clean-y)
+clean: $(sub-dir-clean) $(target-clean-y)
 	$(call log_tgt_start,clean,${build-targets} ${target-clean-y})
 	${Q}rm -rf ${build-targets}
 	${Q}rm -f *.o *.log *.out *.class
@@ -203,6 +202,6 @@ ifneq ($(target-java-y),)
   include ${TEMPLATE_DIR}/targets/java.mk
 endif
 
-ifneq ($(sub-dir)$(kmod-list),)
+ifneq ($(sub-dir),)
   include ${TEMPLATE_DIR}/subdir-footer.mk
 endif
