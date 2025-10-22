@@ -1,4 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
+OUTPUT := .output/
+
 RUN_PFX =
 
 target-asm-y := hello
@@ -49,35 +51,35 @@ LDFLAGS += -z noexecstack
 
 include ../../../template/main.mk
 
-cr3: cr3.o
-echo: echo.asm.o
-hello-puts: hello-puts.asm.o
-hello: hello.asm.o
-hello-c: hello-c.o
-nanosleep-c: nanosleep-c.o
-exit-c: exit-c.o
-write-c: write-c.o
-write-c-loop: write-c-loop.o
-out-c: out-c.o
-puts-c: puts-c.o
-puts-c-loop: puts-c-loop.o
-hello-stack: hello-stack.asm.o
-nanosleep: nanosleep.asm.o
-printf-main: printf-main.S.o
-read-main: read-main.S.o
-write-main: write-main.S.o
-puts-main: puts-main.S.o
-putchar-main: putchar-main.S.o
-fibonacci: fibonacci.asm.o
-hola: hola.asm.o
-sum_cal: sum_cal.o sum.o
-factorial_call: factorial_call.o factorial.asm.o
-maxofthree_call: maxofthree_call.o maxofthree.asm.o
-power: power.asm.o
-while: while.asm.o
-out: out.asm.o
-atomic_forced_read: atomic_forced_read.o
-time: time.o
+cr3: ${OUTPUT}cr3.o
+echo: ${OUTPUT}echo.asm.o
+hello-puts: ${OUTPUT}hello-puts.asm.o
+hello: ${OUTPUT}hello.asm.o
+hello-c: ${OUTPUT}hello-c.o
+nanosleep-c: ${OUTPUT}nanosleep-c.o
+exit-c: ${OUTPUT}exit-c.o
+write-c: ${OUTPUT}write-c.o
+write-c-loop: ${OUTPUT}write-c-loop.o
+out-c: ${OUTPUT}out-c.o
+puts-c: ${OUTPUT}puts-c.o
+puts-c-loop: ${OUTPUT}puts-c-loop.o
+hello-stack: ${OUTPUT}hello-stack.asm.o
+nanosleep: ${OUTPUT}nanosleep.asm.o
+printf-main: ${OUTPUT}printf-main.S.o
+read-main: ${OUTPUT}read-main.S.o
+write-main: ${OUTPUT}write-main.S.o
+puts-main: ${OUTPUT}puts-main.S.o
+putchar-main: ${OUTPUT}putchar-main.S.o
+fibonacci: ${OUTPUT}fibonacci.asm.o
+hola: ${OUTPUT}hola.asm.o
+sum_cal: ${OUTPUT}sum_cal.o ${OUTPUT}sum.o
+factorial_call: ${OUTPUT}factorial_call.o ${OUTPUT}factorial.asm.o
+maxofthree_call: ${OUTPUT}maxofthree_call.o ${OUTPUT}maxofthree.asm.o
+power: ${OUTPUT}power.asm.o
+while: ${OUTPUT}while.asm.o
+out: ${OUTPUT}out.asm.o
+atomic_forced_read: ${OUTPUT}atomic_forced_read.o
+time: ${OUTPUT}time.o
 
 test0: ${target-y}
 	$(call log_tgt_exe,TEST,,$(@))
