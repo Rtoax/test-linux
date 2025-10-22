@@ -1,4 +1,4 @@
-sub-dir := bpf
-sub-dir += libgccjit
+subdir-y := bpf
+subdir-y += libgccjit
 
 include ../../template/main.mk

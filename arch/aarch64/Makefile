@@ -1,2 +1,2 @@
-sub-dir := asm
+subdir-y := asm
 include ../../template/main.mk

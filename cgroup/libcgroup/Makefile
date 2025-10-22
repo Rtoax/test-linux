@@ -1,4 +1,4 @@
 include libcgroup.mk
 
-sub-dir := samples
+subdir-y := samples
 include ../../template/main.mk

@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
-sub-dir :=
+subdir-y :=
 
 target-y :=
 CC := gcc
@@ -8,10 +8,10 @@ LDFLAGS :=
 ARCH_LIB_CPUID :=
 
 ifeq ($(shell uname -m),x86_64)
-  sub-dir += avx
-  sub-dir += tsc
-  sub-dir += pku
-  sub-dir += sse
+  subdir-y += avx
+  subdir-y += tsc
+  subdir-y += pku
+  subdir-y += sse
 
   ifneq ($(shell lscpu | grep -w avx2),)
     CFLAGS += -mavx2 -mfma
@@ -41,8 +41,8 @@ ifeq ($(shell uname -m),x86_64)
 
   ARCH_LIB_CPUID += cpuid-x86.o
 else ifeq ($(shell uname -m),aarch64)
-  sub-dir += neon
-  sub-dir += sve
+  subdir-y += neon
+  subdir-y += sve
 
   # Check cpu flags
   ifneq ($(shell lscpu | grep -w sve),)

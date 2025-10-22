@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: GPL-3.0
-sub-dir :=
-sub-dir += alias
-sub-dir += array
-sub-dir += commands
-sub-dir += math
-sub-dir += network
-sub-dir += string
+subdir-y :=
+subdir-y += alias
+subdir-y += array
+subdir-y += commands
+subdir-y += math
+subdir-y += network
+subdir-y += string
 
 target-shell-y :=
 target-shell-y += args.sh

@@ -1,10 +1,10 @@
-sub-dir := simple
-sub-dir += select
-sub-dir += epoll
-sub-dir += poll
-sub-dir += splice
-sub-dir += ftp
-sub-dir += ipv6
+subdir-y := simple
+subdir-y += select
+subdir-y += epoll
+subdir-y += poll
+subdir-y += splice
+subdir-y += ftp
+subdir-y += ipv6
 
 target-y += tcp-syn-flood
 

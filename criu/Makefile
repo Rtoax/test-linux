@@ -3,7 +3,7 @@ include ../template/kconfig.mk
 
 $(info CONFIG_CHECKPOINT_RESTORE = $(CONFIG_CHECKPOINT_RESTORE))
 
-sub-dir :=
+subdir-y :=
 target-y :=
 
 CFLAGS :=

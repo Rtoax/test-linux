@@ -1,10 +1,10 @@
 # SPDX-License-Identifier: GPL-3.0
 include ./elf.mk
 
-sub-dir := got
-sub-dir += library
-sub-dir += plt
-sub-dir += pie
+subdir-y := got
+subdir-y += library
+subdir-y += plt
+subdir-y += pie
 
 target-y := macro
 target-y += rewrite-elf64

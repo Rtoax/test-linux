@@ -1,4 +1,4 @@
-sub-dir := adaptive-oom-score
+subdir-y := adaptive-oom-score
 
 target-y := oom
 target-y += oom_minimal

@@ -1,3 +1,3 @@
 # SPDX-License-Identifier: GPL-3.0
-sub-dir := playground
+subdir-y := playground
 include ../template/main.mk

@@ -1,5 +1,5 @@
-sub-dir := examples
-sub-dir += translations
+subdir-y := examples
+subdir-y += translations
 
 target-shell-y := instruction-set.sh
 

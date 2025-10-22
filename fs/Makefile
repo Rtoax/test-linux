@@ -1,9 +1,9 @@
 # SPDX-License-Identifier: GPL-3.0
-sub-dir := procfs
-sub-dir += ext4
-sub-dir += xfs
-sub-dir += fat
-sub-dir += debugfs tracefs
-sub-dir += overlayfs
+subdir-y := procfs
+subdir-y += ext4
+subdir-y += xfs
+subdir-y += fat
+subdir-y += debugfs tracefs
+subdir-y += overlayfs
 
 include ../template/main.mk

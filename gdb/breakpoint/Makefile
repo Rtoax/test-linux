@@ -1,4 +1,4 @@
-sub-dir := breakfast
+subdir-y := breakfast
 
 target-y :=
 ifeq ($(shell uname -m),x86_64)

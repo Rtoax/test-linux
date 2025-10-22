@@ -1,8 +1,8 @@
 include llvm.mk
 
-sub-dir := c
-sub-dir += lr
-sub-dir += samples
+subdir-y := c
+subdir-y += lr
+subdir-y += samples
 
 target-shell-y := info.sh
 

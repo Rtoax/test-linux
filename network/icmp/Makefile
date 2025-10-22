@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
-sub-dir :=
-sub-dir += icmpping
+subdir-y :=
+subdir-y += icmpping
 
 target-y :=
 target-y += ping

@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
 include ../template/kconfig.mk
 
-sub-dir := readline
+subdir-y := readline
 
 target-libso-y :=
 target-liba-y :=

@@ -1,2 +1,2 @@
-sub-dir := fftw
+subdir-y := fftw
 include ../../template/main.mk

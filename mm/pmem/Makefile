@@ -1,2 +1,2 @@
-sub-dir := libpmem
+subdir-y := libpmem
 include ../../template/main.mk

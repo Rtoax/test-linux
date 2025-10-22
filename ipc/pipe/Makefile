@@ -1,4 +1,4 @@
-sub-dir := async-latency
-sub-dir += samples
+subdir-y := async-latency
+subdir-y += samples
 
 include ../../template/main.mk

@@ -93,8 +93,8 @@ ifeq ($(USER),0)
   user-list-y :=
 endif
 
-sub-dir := ${kmod-list-y}
-sub-dir += ${user-list-y}
+subdir-y := ${kmod-list-y}
+subdir-y += ${user-list-y}
 
 include template/main.mk
 

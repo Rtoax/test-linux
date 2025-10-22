@@ -1,4 +1,4 @@
-sub-dir := samples
-sub-dir += libseccomp
+subdir-y := samples
+subdir-y += libseccomp
 
 include ../../template/main.mk

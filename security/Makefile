@@ -1,8 +1,8 @@
 # SPDX-License-Identifier: GPL-3.0
-sub-dir := openssl
-sub-dir += openssh
-sub-dir += pam
-sub-dir += access
-sub-dir += seccomp
+subdir-y := openssl
+subdir-y += openssh
+subdir-y += pam
+subdir-y += access
+subdir-y += seccomp
 
 include ../template/main.mk

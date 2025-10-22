@@ -1,5 +1,5 @@
-sub-dir :=
-sub-dir += eh_frame
-sub-dir += libunwind
+subdir-y :=
+subdir-y += eh_frame
+subdir-y += libunwind
 
 include ../template/main.mk

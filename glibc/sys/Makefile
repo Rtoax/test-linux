@@ -1,5 +1,5 @@
-sub-dir := auxv
-sub-dir += time
-sub-dir += timeb
+subdir-y := auxv
+subdir-y += time
+subdir-y += timeb
 
 include ../../template/main.mk

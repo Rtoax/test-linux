@@ -1,8 +1,8 @@
 # SPDX-License-Identifier: GPL-3.0
-sub-dir :=
-sub-dir += clone
-sub-dir += fork
-sub-dir += namespace
+subdir-y :=
+subdir-y += clone
+subdir-y += fork
+subdir-y += namespace
 
 target-y :=
 target-y += cpuset CPU_SETSIZE CPU_ALLOC str2cpuset

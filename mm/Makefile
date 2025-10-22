@@ -1,16 +1,16 @@
 # SPDX-License-Identifier: GPL-3.0
 include ../template/kconfig.mk
 
-sub-dir := aslr
-sub-dir += rss
-sub-dir += cache
-sub-dir += hugepage
-sub-dir += oom
-sub-dir += tcmalloc
-sub-dir += tlb
-sub-dir += jemalloc
-sub-dir += vmalloc
-sub-dir += pmem
+subdir-y := aslr
+subdir-y += rss
+subdir-y += cache
+subdir-y += hugepage
+subdir-y += oom
+subdir-y += tcmalloc
+subdir-y += tlb
+subdir-y += jemalloc
+subdir-y += vmalloc
+subdir-y += pmem
 
 target-y := virt2phy
 target-liba-y := libtest-linux-mm.a

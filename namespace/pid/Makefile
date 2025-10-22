@@ -1,4 +1,4 @@
-sub-dir :=
+subdir-y :=
 target-y := dummy_init
 
 LDFLAGS += -static

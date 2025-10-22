@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
-sub-dir := make
-sub-dir += glibc
-sub-dir += gnupg
+subdir-y := make
+subdir-y += glibc
+subdir-y += gnupg
 
 target-y := __GNUC__
 

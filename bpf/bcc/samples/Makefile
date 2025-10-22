@@ -1,2 +1,2 @@
-sub-dir := usdt
+subdir-y := usdt
 include ../../../template/main.mk

@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
-sub-dir := scsi
-sub-dir += lvm
+subdir-y := scsi
+subdir-y += lvm
 
 target-shell-y := disk_examples.sh
 

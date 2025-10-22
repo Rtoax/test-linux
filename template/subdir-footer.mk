@@ -4,7 +4,7 @@ _SUBDIR_FOOTER = 1
 Q ?= @
 
 # $1: build, test, clean
-# $2: sub-dir
+# $2: subdir-y
 define make_sub_dir
 	$(call log_info,${1} $(call git_relative_dir,$(2)))
 	$(Q)pushd $(2) >/dev/null; \
@@ -27,14 +27,14 @@ define make_sub_dir_clean
 	$(call make_sub_dir,clean,${1})
 endef
 
-$(sub-dir-build):
+$(subdir-y-build):
 	$(call log_tgt_start,sub-build,$(call git_relative_dir,$(patsubst %.build,%,$(@))))
 	$(call make_sub_dir_build,$(@:.build=))
 
-$(sub-dir-test):
+$(subdir-y-test):
 	$(call log_tgt_start,sub-test,$(call git_relative_dir,$(patsubst %.test,%,$(@))))
 	$(call make_sub_dir_test,$(@:.test=))
 
-$(sub-dir-clean):
+$(subdir-y-clean):
 	$(call log_tgt_start,sub-clean,$(call git_relative_dir,$(patsubst %.clean,%,$(@))))
 	$(call make_sub_dir_clean,$(@:.clean=))

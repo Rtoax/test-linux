@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
 include pahole.mk
 
-sub-dir :=
+subdir-y :=
 
 include ../template/main.mk

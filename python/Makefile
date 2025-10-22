@@ -1,7 +1,7 @@
-sub-dir := mkdocs
-sub-dir += numpy
-sub-dir += os
-sub-dir += sys
+subdir-y := mkdocs
+subdir-y += numpy
+subdir-y += os
+subdir-y += sys
 
 target-shell-y := calendar.sh
 

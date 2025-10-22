@@ -1,5 +1,5 @@
-sub-dir := simple
-sub-dir += multicast
-sub-dir += broadcast
+subdir-y := simple
+subdir-y += multicast
+subdir-y += broadcast
 
 include ../../../template/main.mk

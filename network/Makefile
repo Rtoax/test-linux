@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
-sub-dir := icmp
-sub-dir += netlink
-sub-dir += nic
+subdir-y := icmp
+subdir-y += netlink
+subdir-y += nic
 
 target-y := ethtool
 target-y += tcpdump

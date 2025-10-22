@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
-sub-dir := samples
-sub-dir += intrinsics
+subdir-y := samples
+subdir-y += intrinsics
 
 include ../../../template/main.mk

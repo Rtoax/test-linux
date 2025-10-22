@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: GPL-3.0
-sub-dir :=
-sub-dir += awk
-sub-dir += bc
-sub-dir += dmesg
-sub-dir += grep
-sub-dir += sar
-sub-dir += sed
+subdir-y :=
+subdir-y += awk
+subdir-y += bc
+subdir-y += dmesg
+subdir-y += grep
+subdir-y += sar
+subdir-y += sed
 
 target-shell-y := tr.sh
 

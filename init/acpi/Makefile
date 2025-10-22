@@ -1,6 +1,6 @@
-sub-dir := cxl
-sub-dir += dmidecode
-sub-dir += scripts
+subdir-y := cxl
+subdir-y += dmidecode
+subdir-y += scripts
 
 target-shell-y := dmidecode.sh
 target-shell-y += support.sh

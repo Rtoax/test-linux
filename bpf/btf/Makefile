@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
 OUTPUT := .output/
-sub-dir := examples
+subdir-y := examples
 
 VMLINUX_H := vmlinux.h
 target-prep-y := ${VMLINUX_H}

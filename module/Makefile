@@ -1,2 +1,2 @@
-sub-dir := kmod
+subdir-y := kmod
 include ../template/main.mk

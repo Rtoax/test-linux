@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
-sub-dir := acl
-sub-dir += lsm
+subdir-y := acl
+subdir-y += lsm
 
 include ../../template/main.mk

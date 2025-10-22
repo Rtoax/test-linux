@@ -1,4 +1,4 @@
-sub-dir := Rescheduling-interrupts
+subdir-y := Rescheduling-interrupts
 
 x86 := cli
 

@@ -1,2 +1,2 @@
-sub-dir := syscall
+subdir-y := syscall
 include ../../template/main.mk

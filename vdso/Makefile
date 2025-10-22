@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: GPL-3.0
 include vdso.mk
 
-sub-dir := abi
-sub-dir += scripts
-sub-dir += test
-sub-dir += nvDSO
-sub-dir += vvar/scripts/
+subdir-y := abi
+subdir-y += scripts
+subdir-y += test
+subdir-y += nvDSO
+subdir-y += vvar/scripts/
 
 target-prep-y := ${VDSO_NAME}
 target-shell-y := layout.sh

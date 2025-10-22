@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
-sub-dir :=
-sub-dir += samples
+subdir-y :=
+subdir-y += samples
 
 target-shell-y := info.sh
 

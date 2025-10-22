@@ -1,2 +1,2 @@
-sub-dir := posix sysv
+subdir-y := posix sysv
 include ../../../template/main.mk

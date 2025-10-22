@@ -1,5 +1,5 @@
-sub-dir := rate
-sub-dir += simple
-sub-dir += select
+subdir-y := rate
+subdir-y += simple
+subdir-y += select
 
 include ../../../template/main.mk

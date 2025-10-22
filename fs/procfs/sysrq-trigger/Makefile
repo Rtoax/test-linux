@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
-sub-dir := tcp-sysrq-trigger
+subdir-y := tcp-sysrq-trigger
 target-y := sysrq-trigger
 
 include ../../../template/main.mk

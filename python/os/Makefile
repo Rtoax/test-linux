@@ -1,4 +1,4 @@
-sub-dir := path
+subdir-y := path
 
 target-python-y := environ.py
 

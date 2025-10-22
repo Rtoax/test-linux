@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
-sub-dir := acpi
-sub-dir += kernel
-sub-dir += initrd
+subdir-y := acpi
+subdir-y += kernel
+subdir-y += initrd
 
 include ../template/main.mk

@@ -1,4 +1,4 @@
-sub-dir := cuda
-sub-dir += ptx
+subdir-y := cuda
+subdir-y += ptx
 
 include ../../template/main.mk

@@ -1,4 +1,4 @@
-sub-dir := dev
-sub-dir += samples
+subdir-y := dev
+subdir-y += samples
 
 include ../../template/main.mk

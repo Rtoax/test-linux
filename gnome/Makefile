@@ -1,8 +1,8 @@
-sub-dir :=
-sub-dir += glib
-sub-dir += gtk
-sub-dir += libxml2/samples/
-sub-dir += wayland
+subdir-y :=
+subdir-y += glib
+subdir-y += gtk
+subdir-y += libxml2/samples/
+subdir-y += wayland
 
 target-shell-y := info.sh
 

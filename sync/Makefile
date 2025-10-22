@@ -1,5 +1,5 @@
-sub-dir := atomic
-sub-dir += semaphore
-sub-dir += mcs_spinlock/dpdk
+subdir-y := atomic
+subdir-y += semaphore
+subdir-y += mcs_spinlock/dpdk
 
 include ../template/main.mk

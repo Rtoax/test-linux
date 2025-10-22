@@ -1,3 +1,3 @@
 # SPDX-License-Identifier: GPL-3.0
-sub-dir := samples
+subdir-y := samples
 include ../template/main.mk

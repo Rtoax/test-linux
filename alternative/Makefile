@@ -1,4 +1,4 @@
-sub-dir := samples
-sub-dir += initpatch
+subdir-y := samples
+subdir-y += initpatch
 
 include ../template/main.mk

@@ -1,4 +1,4 @@
-sub-dir := samples
-sub-dir += breakpoint
+subdir-y := samples
+subdir-y += breakpoint
 
 include ../template/main.mk

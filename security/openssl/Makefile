@@ -1,9 +1,9 @@
 # SPDX-License-Identifier: GPL-3.0
 include openssl.mk
 
-sub-dir := asn.1
-sub-dir += commands
-sub-dir += hello
-sub-dir += samples
+subdir-y := asn.1
+subdir-y += commands
+subdir-y += hello
+subdir-y += samples
 
 include ../../template/main.mk

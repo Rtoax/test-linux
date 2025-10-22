@@ -1,5 +1,5 @@
-sub-dir := vhost-user
-sub-dir += vsock
+subdir-y := vhost-user
+subdir-y += vsock
 
 target-shell-y := check.sh
 

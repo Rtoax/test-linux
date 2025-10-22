@@ -2,10 +2,10 @@ CC := gcc
 
 include ../compiler.mk
 
-sub-dir := bss
-sub-dir += lto
-sub-dir += ipa
-sub-dir += sanitizer
+subdir-y := bss
+subdir-y += lto
+subdir-y += ipa
+subdir-y += sanitizer
 
 target-y :=
 target-y += fwhole-program

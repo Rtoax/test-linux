@@ -1,4 +1,4 @@
-sub-dir := hacking
+subdir-y := hacking
 
 target-y := hello
 target-y += socket

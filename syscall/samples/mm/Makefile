@@ -1,9 +1,9 @@
 # SPDX-License-Identifier: GPL-3.0
-sub-dir :=
-sub-dir += mmap
-sub-dir += madvise
-sub-dir += memfd
-sub-dir += numa
+subdir-y :=
+subdir-y += mmap
+subdir-y += madvise
+subdir-y += memfd
+subdir-y += numa
 
 target-y :=
 target-y += brk sbrk sbrk-bss

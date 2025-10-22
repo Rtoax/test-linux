@@ -1,3 +1,3 @@
 # SPDX-License-Identifier: GPL-3.0
-sub-dir := minimal
+subdir-y := minimal
 include ../../template/main.mk

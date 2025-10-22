@@ -1,3 +1,3 @@
 # SPDX-License-Identifier: GPL-3.0
-sub-dir := sysctl.d
+subdir-y := sysctl.d
 include ../template/main.mk

@@ -1,14 +1,14 @@
-sub-dir := poll
-sub-dir += epoll
-sub-dir += iovec
-sub-dir += proxy
-sub-dir += syscall
-sub-dir += unix
-sub-dir += tcp
-sub-dir += sctp
-sub-dir += udp
-sub-dir += vsock
-sub-dir += ipv6
+subdir-y := poll
+subdir-y += epoll
+subdir-y += iovec
+subdir-y += proxy
+subdir-y += syscall
+subdir-y += unix
+subdir-y += tcp
+subdir-y += sctp
+subdir-y += udp
+subdir-y += vsock
+subdir-y += ipv6
 
 target-y := sockaddr-size
 target-liba-y := socket_helpers.a

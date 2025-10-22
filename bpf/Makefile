@@ -2,17 +2,17 @@
 include ../template/ansi.mk
 include bpf.mk
 
-sub-dir := bcc
-sub-dir += bpftrace
-sub-dir += bpftool
-sub-dir += btf
-sub-dir += c
-sub-dir += jit
-sub-dir += libbpf
-sub-dir += samples
-sub-dir += seccomp
-sub-dir += usdt
-sub-dir += xdp
+subdir-y := bcc
+subdir-y += bpftrace
+subdir-y += bpftool
+subdir-y += btf
+subdir-y += c
+subdir-y += jit
+subdir-y += libbpf
+subdir-y += samples
+subdir-y += seccomp
+subdir-y += usdt
+subdir-y += xdp
 
 target-y := tcpdump
 target-shell-y := tcpdump.sh

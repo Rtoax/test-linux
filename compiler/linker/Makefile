@@ -2,8 +2,8 @@
 LD_LLD := $(shell which lld 2>/dev/null)
 LD_MOLD := $(shell which mold 2>/dev/null)
 
-sub-dir := script
-sub-dir += LD_PRELOAD
+subdir-y := script
+subdir-y += LD_PRELOAD
 
 target-shell-y := LD_SHOW_AUXV.sh
 

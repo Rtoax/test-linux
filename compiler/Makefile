@@ -2,25 +2,25 @@
 include ../template/ansi.mk
 include ../gnu/gnu.mk
 
-sub-dir := annobin
-sub-dir += ast
-sub-dir += linker
-sub-dir += llvm
-sub-dir += jit
-sub-dir += __atomic
-sub-dir += __attribute__
-sub-dir += __builtin_
-sub-dir += dwarf
-sub-dir += foption option
-sub-dir += machine-option
-sub-dir += openacc
-sub-dir += openmp
-sub-dir += optimize
-sub-dir += pragma
-sub-dir += reloc
-sub-dir += specs
-sub-dir += __sync
-sub-dir += Wwarn
+subdir-y := annobin
+subdir-y += ast
+subdir-y += linker
+subdir-y += llvm
+subdir-y += jit
+subdir-y += __atomic
+subdir-y += __attribute__
+subdir-y += __builtin_
+subdir-y += dwarf
+subdir-y += foption option
+subdir-y += machine-option
+subdir-y += openacc
+subdir-y += openmp
+subdir-y += optimize
+subdir-y += pragma
+subdir-y += reloc
+subdir-y += specs
+subdir-y += __sync
+subdir-y += Wwarn
 
 target-y := __GNUC__
 target-y += __GNUC_PREREQ

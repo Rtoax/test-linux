@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
-sub-dir := samples
-sub-dir += fakeCUDA
-sub-dir += intrinsics
+subdir-y := samples
+subdir-y += fakeCUDA
+subdir-y += intrinsics
 
 target-y := driver-version
 

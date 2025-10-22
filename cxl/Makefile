@@ -1,2 +1,2 @@
-sub-dir := acpi
+subdir-y := acpi
 include ../template/main.mk

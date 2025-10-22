@@ -1,8 +1,8 @@
 # SPDX-License-Identifier: GPL-3.0
 include binutils.mk
 
-sub-dir := bfd
-sub-dir += objdump
-sub-dir += opcode
+subdir-y := bfd
+subdir-y += objdump
+subdir-y += opcode
 
 include ../template/main.mk

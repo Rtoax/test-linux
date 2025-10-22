@@ -13,7 +13,7 @@ include ../template/os.mk
 include ../gnu/gnu.mk
 include ../bpf/bpf.mk
 
-sub-dir := git
+subdir-y := git
 target-prep-y := test_call
 target-shell-y := moonlight.sh
 target-shell-y += gotoxy.sh

@@ -1,2 +1,2 @@
-sub-dir := in
+subdir-y := in
 include ../../template/main.mk

@@ -1,5 +1,5 @@
-sub-dir := tcg/samples/
-sub-dir += qcow2
+subdir-y := tcg/samples/
+subdir-y += qcow2
 
 target-test-y := test0
 target-clean-y := clean0

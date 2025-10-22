@@ -1,7 +1,7 @@
 include ../template/kconfig.mk
 
-sub-dir := libcgroup
-sub-dir += tools
+subdir-y := libcgroup
+subdir-y += tools
 
 target-y := cgroup_examples
 

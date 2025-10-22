@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
 include bpftool.mk
 
-sub-dir := scripts
+subdir-y := scripts
 
 VMLINUX_H := vmlinux.h
 

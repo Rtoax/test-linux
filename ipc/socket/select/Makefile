@@ -1,5 +1,5 @@
-sub-dir := tcp
-sub-dir += unix
+subdir-y := tcp
+subdir-y += unix
 
 target-y :=
 target-y += fd_set

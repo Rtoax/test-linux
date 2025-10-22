@@ -1,9 +1,9 @@
 # SPDX-License-Identifier: GPL-3.0
-sub-dir := uts
-sub-dir += net
-sub-dir += nsfs
-sub-dir += pid
-sub-dir += syscalls
+subdir-y := uts
+subdir-y += net
+subdir-y += nsfs
+subdir-y += pid
+subdir-y += syscalls
 
 target-y := unshare
 

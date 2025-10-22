@@ -1,2 +1,2 @@
-sub-dir := examples
+subdir-y := examples
 include ../template/main.mk

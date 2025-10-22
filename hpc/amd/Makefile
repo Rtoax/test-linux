@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
-sub-dir := rocm
-sub-dir += amdgcn
+subdir-y := rocm
+subdir-y += amdgcn
 
 include ../../template/main.mk

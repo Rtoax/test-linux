@@ -1,2 +1,2 @@
-sub-dir := postgresql/samples/
+subdir-y := postgresql/samples/
 include ../template/main.mk

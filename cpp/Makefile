@@ -5,7 +5,7 @@ include ../compiler/compiler.mk
 
 OUTPUT := .output/
 
-sub-dir := demangle
+subdir-y := demangle
 
 target-cpp-y :=
 target-cpp-y += hello

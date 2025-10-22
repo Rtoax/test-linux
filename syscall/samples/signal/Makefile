@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
 include signal.mk
 
-sub-dir := SIGURG
+subdir-y := SIGURG
 
 target-y := signal
 target-y += sigaction sigaction-2 sigaction-3

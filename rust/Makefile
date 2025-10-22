@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
-sub-dir :=
-sub-dir += types
-sub-dir += thread
+subdir-y :=
+subdir-y += types
+subdir-y += thread
 
 target-rust-y :=
 target-rust-y += hello
