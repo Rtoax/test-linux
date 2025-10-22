@@ -87,14 +87,14 @@ target-prep-y := reset
 target-post-y := done
 
 ifeq ($(KMOD),0)
-  kmod-list :=
+  kmod-list-y :=
 endif
 ifeq ($(USER),0)
-  user-list :=
+  user-list-y :=
 endif
 
-sub-dir := ${kmod-list}
-sub-dir += ${user-list}
+sub-dir := ${kmod-list-y}
+sub-dir += ${user-list-y}
 
 include template/main.mk
 
