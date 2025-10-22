@@ -1,4 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
+OUTPUT := .output/
+
 target-asm-y :=
 target-y := main-c
 target-libso-y := libhello.so
@@ -20,12 +22,13 @@ endif
 
 include ../../../template/main.mk
 
-libhello.so: foo.so.o bar.so.o
-foo.o: foo.h bar.h
-bar.o: foo.h bar.h
-main-c.o: foo.h bar.h
-main-c: main-c.o foo.o bar.o
-hello-as: hello-as.asm.o
+${OUTPUT}foo.o: foo.h bar.h
+${OUTPUT}bar.o: foo.h bar.h
+${OUTPUT}main-c.o: foo.h bar.h
+
+libhello.so: ${OUTPUT}foo.so.o ${OUTPUT}bar.so.o
+main-c: ${OUTPUT}main-c.o ${OUTPUT}foo.o ${OUTPUT}bar.o
+hello-as: ${OUTPUT}hello-as.asm.o
 
 default.lds:
 	$(call log_tgt_exe,LDS,,$(@))
