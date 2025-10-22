@@ -1,16 +1,14 @@
+include ../../template/arch.mk
+
 target-y :=
 target-cpp-y :=
 
 target-y += accuracy
-target-y += clock_gettime.sec
-target-y += clock_gettime.nsec
+target-${IS_X86_64} += clock_gettime.sec
+target-${IS_X86_64} += clock_gettime.nsec
 
-ARCH := $(shell uname -m)
-
-ifeq (${ARCH},x86_64)
-  target-cpp-y += evil-clock-test
-  target-y += time
-endif
+target-cpp-${IS_X86_64} += evil-clock-test
+target-${IS_X86_64} += time
 
 CFLAGS := -O2
 CFLAGS += -pthread
