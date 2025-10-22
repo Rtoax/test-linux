@@ -6,6 +6,8 @@
  * - __USE_HIP__
  * - __USE_LUCA__
  * - __USE_HIP_V2__: use V2 API, default: disable
+ *
+ * - __NOT_USE_FP8__: include fp8 header
  */
 #ifndef __CUDA_COMPAT_H
 #define __CUDA_COMPAT_H	1
@@ -20,7 +22,9 @@
 # include <hcrand/hcrand.h>
 # include <hcfft/hcfft.h>
 /* TODO: add rtc */
-# include <hpcc_fp8.h>
+# ifndef __NOT_USE_FP8__
+#  include <hpcc_fp8.h>
+# endif
 # include <hpcc_fp16.h>
 #ifdef __HPCC__
 #  include <hpcc_cooperative_groups.h>
@@ -41,7 +45,9 @@
 # include <hcsparse/hcsparse.h>
 # include <hcrand/hcrand.h>
 # include <hcfft/hcfft.h>
-# include <luca_fp8.h>
+# ifndef __NOT_USE_FP8__
+#  include <luca_fp8.h>
+# endif
 # include <luca_fp16.h>
 # include <luca_cooperative_groups.h>
 # include <hccl.h>
@@ -65,7 +71,9 @@
 # define HIPBLAS_USE_HIP_HALF
 # include <hipblas/hipblas.h>
 # include <hipblaslt/hipblaslt.h>
-# include <hip/hip_fp8.h>
+# ifndef __NOT_USE_FP8__
+#  include <hip/hip_fp8.h>
+# endif
 # include <hip/hip_fp16.h>
 # ifdef HAVE_RCCL
 #  include <rccl/rccl.h>
@@ -92,7 +100,9 @@
 # if CUDA_VERSION >= 12000
 #  include <cuda_fp6.h>
 # endif
-# include <cuda_fp8.h>
+# ifndef __NOT_USE_FP8__
+#  include <cuda_fp8.h>
+# endif
 # include <cuda_fp16.h>
 # include <cuda_bf16.h>
 # define DISABLE_CUSPARSE_DEPRECATED	1

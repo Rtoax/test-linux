@@ -30,6 +30,8 @@ libso-hip += libhipsparse.so.1 librocsparse.so.1
 libso-hip += libhiprand.so.1
 libso-hip += libhipblas.so.2 libhipblaslt.so.0
 
+CXXFLAGS_SO += -D__NOT_USE_FP8__
+
 ifdef HAVE_HPCC
   $(info HAVE_HPCC=1)
   target-libso-cpp-y += ${libso-hpcc}
