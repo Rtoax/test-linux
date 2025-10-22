@@ -5,7 +5,7 @@
 # - __IGNORE_NOTFOUND_ERROR__
 #
 # Output definitions:
-# - HAVE_LUCA
+# - HAVE_LUCA=y
 # - LUCA_ROOT
 # - LSCC
 # - LUCA_VERSION_MAJOR
@@ -39,7 +39,7 @@ ifneq ($(wildcard ${LUCA_ROOT}),)
   LUCA_VERSION_MINOR := $(shell echo ${LUCA_VERSION_RAW} | awk -F '.' '{print $$2}')
   LUCA_VERSION_PATCH := $(shell echo ${LUCA_VERSION_RAW} | awk -F '.' '{print $$3}')
 
-  HAVE_LUCA := 1
+  HAVE_LUCA := y
   export HAVE_LUCA
 else
   $(warning Not found LUCA_ROOT="${LUCA_ROOT}")

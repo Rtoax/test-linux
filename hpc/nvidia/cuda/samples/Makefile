@@ -37,12 +37,20 @@ nvidia-cubin := hello.cubin
 nvidia-cubin += parallel.cubin
 nvidia-fatbin := hello.fatbin
 nvidia-fatbin += parallel.fatbin parallel.nv_fatbin parallel.nvFatBinSegment
+target-post-${HAVE_CUDA} := $(patsubst %,${OUTPUT}%.E.cu,$(target-nvcc-y))
+target-post-${HAVE_CUDA} += $(patsubst %,${OUTPUT}%.cu.sass.dump,$(target-nvcc-y))
+target-post-${HAVE_CUDA} += $(patsubst %,${OUTPUT}%.cu.ptx.dump,$(target-nvcc-y))
+target-post-${HAVE_CUDA} += $(patsubst %,${OUTPUT}%.ptx,$(target-nvcc-y))
+target-post-${HAVE_CUDA} += $(patsubst %,${OUTPUT}%.cu.cpp.ii,$(target-nvcc-y))
+target-post-${HAVE_CUDA} += $(patsubst %,${OUTPUT}%,$(nvidia-cubin))
+target-post-${HAVE_CUDA} += $(patsubst %,${OUTPUT}%,$(nvidia-fatbin))
 
 # AMD ROCm
 rocm-hipcc-${HAVE_HIP} := ${common-objs}
 rocm-hipcc-${HAVE_RCCL} += ncclGetVersion
 rocm-fatbin := parallel.hip_fatbin parallel.hipFatBinSegment
 target-hipcc-y := $(patsubst %,%-hip,$(rocm-hipcc-y))
+target-post-${HAVE_HIP} += $(patsubst %,${OUTPUT}%,$(rocm-fatbin))
 
 # MetaX HPCC
 metax-htcc-${HAVE_HPCC} := ${common-objs}
@@ -54,24 +62,12 @@ metax-fatbin += parallel.hpcc.fatbin
 metax-fatbin += parallel-hpcc.hpcc.hc_fatbin
 metax-fatbin += parallel-hpcc.hpcc.hcFatBinSegment
 target-htcc-y := $(patsubst %,%-hpcc,$(metax-htcc-y))
-
-ifdef HAVE_LUCA
-  target-lscc-y := $(patsubst %,%-luca,$(common-objs))
-endif
-
-target-post-${HAVE_CUDA} := $(patsubst %,${OUTPUT}%.E.cu,$(target-nvcc-y))
-target-post-${HAVE_CUDA} += $(patsubst %,${OUTPUT}%.cu.sass.dump,$(target-nvcc-y))
-target-post-${HAVE_CUDA} += $(patsubst %,${OUTPUT}%.cu.ptx.dump,$(target-nvcc-y))
-target-post-${HAVE_CUDA} += $(patsubst %,${OUTPUT}%.ptx,$(target-nvcc-y))
-target-post-${HAVE_CUDA} += $(patsubst %,${OUTPUT}%.cu.cpp.ii,$(target-nvcc-y))
-target-post-${HAVE_CUDA} += $(patsubst %,${OUTPUT}%,$(nvidia-cubin))
-target-post-${HAVE_CUDA} += $(patsubst %,${OUTPUT}%,$(nvidia-fatbin))
-# ROCm HIP
-target-post-${HAVE_HIP} += $(patsubst %,${OUTPUT}%,$(rocm-fatbin))
-# MetaX
 target-post-${HAVE_HPCC} += $(patsubst %,${OUTPUT}%.E.hpcc,$(metax-htcc))
 target-post-${HAVE_HPCC} += $(patsubst %,${OUTPUT}%,$(metax-devbin))
 target-post-${HAVE_HPCC} += $(patsubst %,${OUTPUT}%,$(metax-fatbin))
+
+# CESTC LUCA
+target-lscc-${HAVE_LUCA} := $(patsubst %,%-luca,$(common-objs))
 
 # Pure C
 target-y := matrix-c-fp32 matrix-c-fp64
