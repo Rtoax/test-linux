@@ -30,27 +30,21 @@ common-objs += properties
 common-objs += rand
 common-objs += sparse
 
+# NVIDIA CUDA
 target-nvcc-${HAVE_CUDA} := ${common-objs}
 target-nvcc-${HAVE_NCCL} += ncclGetVersion
-
 nvidia-cubin := hello.cubin
 nvidia-cubin += parallel.cubin
 nvidia-fatbin := hello.fatbin
 nvidia-fatbin += parallel.fatbin parallel.nv_fatbin parallel.nvFatBinSegment
 
-ifdef HAVE_HIP
-  rocm-hipcc := ${common-objs}
+# AMD ROCm
+rocm-hipcc-${HAVE_HIP} := ${common-objs}
+rocm-hipcc=${HAVE_RCCL} += ncclGetVersion
+rocm-fatbin := parallel.hip_fatbin parallel.hipFatBinSegment
+target-hipcc-y := $(patsubst %,%-hip,$(rocm-hipcc-y))
 
-  # RCCL
-  ifdef HAVE_RCCL
-    rocm-hipcc += ncclGetVersion
-  endif
-
-  rocm-fatbin := parallel.hip_fatbin parallel.hipFatBinSegment
-
-  target-hipcc-y := $(patsubst %,%-hip,$(rocm-hipcc))
-endif
-
+# MetaX HPCC
 ifdef HAVE_HPCC
   metax-htcc := ${common-objs}
 
@@ -71,15 +65,15 @@ ifdef HAVE_LUCA
   target-lscc-y := $(patsubst %,%-luca,$(common-objs))
 endif
 
-target-post-y := $(patsubst %,${OUTPUT}%.E.cu,$(target-nvcc-y))
-target-post-y += $(patsubst %,${OUTPUT}%.cu.sass.dump,$(target-nvcc-y))
-target-post-y += $(patsubst %,${OUTPUT}%.cu.ptx.dump,$(target-nvcc-y))
-target-post-y += $(patsubst %,${OUTPUT}%.ptx,$(target-nvcc-y))
-target-post-y += $(patsubst %,${OUTPUT}%.cu.cpp.ii,$(target-nvcc-y))
+target-post-${HAVE_CUDA} := $(patsubst %,${OUTPUT}%.E.cu,$(target-nvcc-y))
+target-post-${HAVE_CUDA} += $(patsubst %,${OUTPUT}%.cu.sass.dump,$(target-nvcc-y))
+target-post-${HAVE_CUDA} += $(patsubst %,${OUTPUT}%.cu.ptx.dump,$(target-nvcc-y))
+target-post-${HAVE_CUDA} += $(patsubst %,${OUTPUT}%.ptx,$(target-nvcc-y))
+target-post-${HAVE_CUDA} += $(patsubst %,${OUTPUT}%.cu.cpp.ii,$(target-nvcc-y))
 target-post-${HAVE_CUDA} += $(patsubst %,${OUTPUT}%,$(nvidia-cubin))
 target-post-${HAVE_CUDA} += $(patsubst %,${OUTPUT}%,$(nvidia-fatbin))
 # ROCm HIP
-target-post-y += $(patsubst %,${OUTPUT}%,$(rocm-fatbin))
+target-post-${HAVE_HIP} += $(patsubst %,${OUTPUT}%,$(rocm-fatbin))
 # MetaX
 target-post-y += $(patsubst %,${OUTPUT}%.E.hpcc,$(metax-htcc))
 target-post-y += $(patsubst %,${OUTPUT}%,$(metax-devbin))

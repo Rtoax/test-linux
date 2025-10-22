@@ -5,8 +5,8 @@
 # - __IGNORE_NOTFOUND_ERROR__
 #
 # Output macros:
-# - HAVE_HIP
-# - HAVE_RCCL
+# - HAVE_HIP=y
+# - HAVE_RCCL=y
 # - HIPCC
 # - HIPCONFIG
 
@@ -18,8 +18,7 @@ HIPCONFIG := $(shell which hipconfig 2>/dev/null)
 RCCL_H := /usr/include/rccl/rccl.h
 
 ifneq ($(HIPCC),)
-  HAVE_HIP := 1
-
+  HAVE_HIP := y
   export HAVE_HIP
 else
   ifneq ($(target-hipcc-y),)
@@ -39,7 +38,7 @@ endif
 export HIPCC HIPCONFIG
 
 ifneq ($(wildcard $(RCCL_H)),)
-  HAVE_RCCL := 1
+  HAVE_RCCL := y
   export HAVE_RCCL
 else
   $(warning Not found AMD ROCm RCCL)
