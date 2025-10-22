@@ -1,3 +1,5 @@
+OUTPUT := .output/
+
 LLVM_CONFIG = $(shell which llvm-config 2>/dev/null)
 LLVM_AS = $(shell which llvm-as 2>/dev/null)
 LLVM_DIS = $(shell which llvm-dis 2>/dev/null)
@@ -49,25 +51,25 @@ CFLAGS_mask := -mavx2 -mavx512f -mfma
 
 include ../../../template/main.mk
 
-sum: sum.o
-sum-avx: sum-avx.o
-sum-avx2: sum-avx2.o
-cpu-features: cpu-features.o
-test-asm: test-asm.S.o test-asm.o
-avx512_aux: avx512_aux.o
-mul-avx256: mul-avx256.o
-mul-avx512: mul-avx512.o
-add_pd-avx256: add_pd-avx256.o
-add_pd-avx512: add_pd-avx512.o
-add-2dim: add-2dim.o
-ctrl_flow-f4: ctrl_flow-f4.o
-reducetion-f4: reducetion-f4.o
-add-unalign-f4: add-unalign-f4.o
-cvt-df: cvt-df.o
-mask: mask.o
-vperm2i128: vperm2i128.asm.o
-vfmadd231ps: vfmadd231ps.asm.o
-kxord: kxord.asm.o
+sum: ${OUTPUT}sum.o
+sum-avx: ${OUTPUT}sum-avx.o
+sum-avx2: ${OUTPUT}sum-avx2.o
+cpu-features: ${OUTPUT}cpu-features.o
+test-asm: ${OUTPUT}test-asm.S.o test-asm.o
+avx512_aux: ${OUTPUT}avx512_aux.o
+mul-avx256: ${OUTPUT}mul-avx256.o
+mul-avx512: ${OUTPUT}mul-avx512.o
+add_pd-avx256: ${OUTPUT}add_pd-avx256.o
+add_pd-avx512: ${OUTPUT}add_pd-avx512.o
+add-2dim: ${OUTPUT}add-2dim.o
+ctrl_flow-f4: ${OUTPUT}ctrl_flow-f4.o
+reducetion-f4: ${OUTPUT}reducetion-f4.o
+add-unalign-f4: ${OUTPUT}add-unalign-f4.o
+cvt-df: ${OUTPUT}cvt-df.o
+mask: ${OUTPUT}mask.o
+vperm2i128: ${OUTPUT}vperm2i128.asm.o
+vfmadd231ps: ${OUTPUT}vfmadd231ps.asm.o
+kxord: ${OUTPUT}kxord.asm.o
 
 # FIXME: move to main.mk??
 ifeq ($(CC),clang)

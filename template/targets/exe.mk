@@ -28,6 +28,7 @@ ${OUTPUT}%.cpp.s: %.cpp | ${OUTPUT}
 	$(call log_tgt_obj,CXX S,$(<),$(@))
 	${Q}${CC_PFX} $(CXX) -S -o $(@) $(<) $(CXXFLAGS) $(CXXFLAGS_$(*))
 
+# Better define OUTPUT, to fix make: Circular dependency
 ${OUTPUT}%.asm.o: %.asm | ${OUTPUT}
 	$(call log_tgt_obj,ASM,$(<),$(@))
 	${Q}${NASM} -o $(@) -felf64 $(<) $(ASMCFLAGS) $(ASMCFLAGS_$(*))
