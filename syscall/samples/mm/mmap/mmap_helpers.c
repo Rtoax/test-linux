@@ -16,17 +16,10 @@
 #include <sys/queue.h>
 #include <sys/stat.h>
 #include <sys/syscall.h>
-
 #include <linux/mman.h> /* for hugetlb-related flags */
 
-/* symlink of mmap_helpers.h may be renamed */
-#if defined(MMAP_HELPERS_HDR)
-# define __stringify_1(x...)     #x
-# define __stringify(x...)       __stringify_1(x)
-# include __stringify(MMAP_HELPERS_HDR)
-#else
-# include "mmap_helpers.h"
-#endif
+#include "mmap_helpers.h"
+
 
 void *sys_mmap(void *addr, size_t length, int prot, int flags, int fd,
 	       off_t offset)
