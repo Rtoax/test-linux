@@ -1,6 +1,10 @@
 # SPDX-License-Identifier: GPL-3.0
 # Copyright (c) 2022-2025 Rong Tao
 #
+# Note: _helpers.{c,h} better not use symlinks, you could check with:
+#
+#   $ find -name '*_helpers.c' -exec basename {} \; | sort
+#
 # Input definitions:
 # - __USE_PROC_HELPERS__=y
 # - __USE_SOCKET_HELPERS__=y
