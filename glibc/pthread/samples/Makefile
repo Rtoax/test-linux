@@ -1,4 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
+__USE_PTHREAD_HELPERS__ := 1
 OUTPUT := .output/
 
 target-y :=
@@ -89,12 +90,11 @@ target-shell-y := list-tunables.sh
 
 include ../../../template/main.mk
 
-${OUTPUT}pthread_helpers.o: pthread_helpers.h
 ${OUTPUT}sched_helpers.o: sched_helpers.h
 create_thread.o: create_thread.h
 
 foobar: ${OUTPUT}foobar.o
-create_thread: ${OUTPUT}create_thread.o ${OUTPUT}pthread_helpers.o
+create_thread: ${OUTPUT}create_thread.o ${PTHREAD_HELPERS}
 multi_thread_stress: ${OUTPUT}multi_thread_stress.o
 dead_lock-1: ${OUTPUT}dead_lock-1.o
 dead_lock-2: ${OUTPUT}dead_lock-2.o
@@ -119,7 +119,7 @@ cleanup_push: ${OUTPUT}cleanup_push.o
 cleanup_push-deadlock: ${OUTPUT}cleanup_push-deadlock.o
 cleanup_push_defer_np: ${OUTPUT}cleanup_push_defer_np.o
 create: ${OUTPUT}create.o
-create-deadline: ${OUTPUT}create-deadline.o ${OUTPUT}pthread_helpers.o ${OUTPUT}sched_helpers.o
+create-deadline: ${OUTPUT}create-deadline.o ${PTHREAD_HELPERS} ${OUTPUT}sched_helpers.o
 equal: ${OUTPUT}equal.o
 exit: ${OUTPUT}exit.o
 key_create: ${OUTPUT}key_create.o

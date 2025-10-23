@@ -14,6 +14,7 @@ and this project adheres to
 - mk: Rename all `targets` to `target-y`;
 - cuda/samples: Rename code to remove cuda,hip,hc prefix;
 #### Added
+- helpers.mk: add `libpthread_helpers.so`;
 - helpers.mk: add `libsocket_helpers.so`;
 - template: add helpers.mk;
 - procfs: add `libproc_helpers.{a,so}`;

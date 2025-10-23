@@ -4,9 +4,12 @@
 # Input definitions:
 # - __USE_PROC_HELPERS__
 # - __USE_SOCKET_HELPERS__
+# - __USE_PTHREAD_HELPERS__
 #
 # Output definitions:
 # - PROC_HELPERS
+# - SOCKET_HELPERS
+# - PTHREAD_HELPERS
 #
 # Append definitions:
 # - CFLAGS
@@ -44,8 +47,20 @@ ifdef __USE_SOCKET_HELPERS__
 	$(call make_helper,${TOPDIR}/ipc/socket/,libsocket_helpers.so)
 endif
 
+ifdef __USE_PTHREAD_HELPERS__
+  CFLAGS += -I${TOPDIR}/glibc/pthread/
+  LDFLAGS += -Wl,-rpath,${TOPDIR}/glibc/pthread/
+
+  PTHREAD_HELPERS := ${TOPDIR}/glibc/pthread/libpthread_helpers.so
+  export PTHREAD_HELPERS
+
+  ${PTHREAD_HELPERS}:
+	$(call make_helper,${TOPDIR}/glibc/pthread/,libpthread_helpers.so)
+endif
+
 
 ifdef DEBUG
   $(info PROC_HELPERS = ${PROC_HELPERS})
   $(info SOCKET_HELPERS = ${SOCKET_HELPERS})
+  $(info PTHREAD_HELPERS = ${PTHREAD_HELPERS})
 endif

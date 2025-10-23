@@ -1,1 +1,0 @@
-../../../glibc/pthread/samples/pthread_helpers.h

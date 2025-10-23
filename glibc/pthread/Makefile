@@ -1,8 +1,14 @@
+include ../../template/arch.mk
+
 subdir-y := cache-misses
 subdir-y += out-of-order
 subdir-y += samples
 subdir-y += scripts
-ifeq ($(shell uname -m),x86_64)
-  subdir-y += pthread_self
-endif
+subdir-${IS_X86_64} += pthread_self
+
+target-libso-y := libpthread_helpers.so
+
 include ../../template/main.mk
+
+pthread_helpers.so.o: pthread_helpers.h
+libpthread_helpers.so: pthread_helpers.so.o
