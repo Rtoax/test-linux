@@ -23,55 +23,33 @@ ifeq (${TOPDIR},)
   $(error Not define TOPDIR, include dir.mk)
 endif
 
-define make_helper
-@make --no-print-directory --silent -C ${1} ${2}
+define add_helper_target
+  CFLAGS += -I$(shell dirname ${1})
+  LDFLAGS += -Wl,-rpath,$(shell dirname ${1})
+${1}:
+	@make --no-print-directory --silent -C $(shell dirname ${1}) $(shell basename ${1})
 endef
 
-PROC_HELPERS := ${TOPDIR}/fs/procfs/libproc_helpers.so
-SOCKET_HELPERS := ${TOPDIR}/ipc/socket/libsocket_helpers.so
-PTHREAD_HELPERS := ${TOPDIR}/glibc/pthread/libpthread_helpers.so
-SCHED_HELPERS := ${TOPDIR}/syscall/samples/sched/libsched_helpers.so
+export PROC_HELPERS := ${TOPDIR}/fs/procfs/libproc_helpers.so
+export SOCKET_HELPERS := ${TOPDIR}/ipc/socket/libsocket_helpers.so
+export PTHREAD_HELPERS := ${TOPDIR}/glibc/pthread/libpthread_helpers.so
+export SCHED_HELPERS := ${TOPDIR}/syscall/samples/sched/libsched_helpers.so
 
 ifdef __USE_PROC_HELPERS__
-  CFLAGS += -I${TOPDIR}/fs/procfs/
-  LDFLAGS += -Wl,-rpath,${TOPDIR}/fs/procfs/
-
-  export PROC_HELPERS
-
-  ${PROC_HELPERS}:
-	$(call make_helper,${TOPDIR}/fs/procfs/,libproc_helpers.so)
+$(eval $(call add_helper_target,${PROC_HELPERS}))
 endif
 
 ifdef __USE_SOCKET_HELPERS__
-  CFLAGS += -I${TOPDIR}/ipc/socket/
-  LDFLAGS += -Wl,-rpath,${TOPDIR}/ipc/socket/
-
-  export SOCKET_HELPERS
-
-  ${SOCKET_HELPERS}:
-	$(call make_helper,${TOPDIR}/ipc/socket/,libsocket_helpers.so)
+$(eval $(call add_helper_target,${SOCKET_HELPERS}))
 endif
 
 ifdef __USE_PTHREAD_HELPERS__
-  CFLAGS += -I${TOPDIR}/glibc/pthread/
-  LDFLAGS += -Wl,-rpath,${TOPDIR}/glibc/pthread/
-
-  export PTHREAD_HELPERS
-
-  ${PTHREAD_HELPERS}:
-	$(call make_helper,${TOPDIR}/glibc/pthread/,libpthread_helpers.so)
+$(eval $(call add_helper_target,${PTHREAD_HELPERS}))
 endif
 
 ifdef __USE_SCHED_HELPERS__
-  CFLAGS += -I${TOPDIR}/syscall/samples/sched/
-  LDFLAGS += -Wl,-rpath,${TOPDIR}/syscall/samples/sched/
-
-  export SCHED_HELPERS
-
-  ${SCHED_HELPERS}:
-	$(call make_helper,${TOPDIR}/syscall/samples/sched/,libsched_helpers.so)
+$(eval $(call add_helper_target,${SCHED_HELPERS}))
 endif
-
 
 ifdef DEBUG
   $(info PROC_HELPERS = ${PROC_HELPERS})
