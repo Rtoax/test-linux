@@ -55,7 +55,7 @@ struct ksyms {
 	struct ksyms_array arr_addr;
 };
 
-void print_ksym(const struct ksym *sym);
+static void print_ksym(const struct ksym *sym);
 
 static int ksym_cmp_addr(const void *a1, const void *a2)
 {
@@ -86,7 +86,7 @@ static int ksym_cmp_nkta(const void *a1, const void *a2)
 	return ksym_cmp_addr(s1, s2);
 }
 
-void walk_action(const void *nodep, VISIT which, void *closure)
+static void walk_action(const void *nodep, VISIT which, void *closure)
 {
 	const struct ksym *sym = *(struct ksym **)nodep;
 
@@ -118,7 +118,7 @@ static const struct ksyms default_zero_ksyms = {
 };
 
 
-enum ksym_type c2type(char c_type)
+static enum ksym_type c2type(char c_type)
 {
 	switch (c_type) {
 #define CASE(c, e)	case c: return e; break
@@ -141,7 +141,7 @@ enum ksym_type c2type(char c_type)
 	return KSYM_GLOBAL_UNKNOWN;
 }
 
-char type2c(enum ksym_type type)
+static char type2c(enum ksym_type type)
 {
 	switch (type) {
 #define CASE(c, e)	case e: return c; break
@@ -164,8 +164,8 @@ char type2c(enum ksym_type type)
 	return '?';
 }
 
-struct ksym *alloc_ksym(unsigned long addr, enum ksym_type type, char *name,
-			char *kmod)
+static struct ksym *alloc_ksym(unsigned long addr, enum ksym_type type,
+			       char *name, char *kmod)
 {
 	char module[64];
 	struct ksym *new;
@@ -196,18 +196,18 @@ struct ksym *alloc_ksym(unsigned long addr, enum ksym_type type, char *name,
 	return new;
 }
 
-struct ksym *dup_ksym(struct ksym *old)
+static struct ksym *dup_ksym(struct ksym *old)
 {
 	return alloc_ksym(old->addr, old->type, old->name, old->kmod);
 }
 
-void print_ksym(const struct ksym *sym)
+static void print_ksym(const struct ksym *sym)
 {
 	fprintf(stderr, "%lx %c %s %s\n", sym->addr, type2c(sym->type),
 		sym->name, sym->kmod ?: "");
 }
 
-void free_ksym(struct ksym *ksym)
+static void free_ksym(struct ksym *ksym)
 {
 	if (!ksym)
 		return;
@@ -222,7 +222,7 @@ static void free_ksym_t(void *p)
 	free_ksym(p);
 }
 
-int insert_to_tree(struct ksyms_tree *tree, struct ksym *new)
+static int insert_to_tree(struct ksyms_tree *tree, struct ksym *new)
 {
 	struct ksym *dup, **old;
 
@@ -241,7 +241,7 @@ int insert_to_tree(struct ksyms_tree *tree, struct ksym *new)
 	return 0;
 }
 
-int insert_to_array(struct ksyms_array *arr, struct ksym *new)
+static int insert_to_array(struct ksyms_array *arr, struct ksym *new)
 {
 	size_t new_cap;
 	struct ksym *dup;
@@ -266,13 +266,13 @@ int insert_to_array(struct ksyms_array *arr, struct ksym *new)
 	return 0;
 }
 
-int sort_array(struct ksyms_array *arr)
+static int sort_array(struct ksyms_array *arr)
 {
 	qsort(arr->array, arr->nsyms, sizeof(struct ksym), ksym_cmp_addr);
 	return 0;
 }
 
-void walk_tree(struct ksyms_tree *tree)
+static void __attribute__((unused)) walk_tree(struct ksyms_tree *tree)
 {
 	twalk_r(tree->root, tree->walk, NULL);
 }
