@@ -1,5 +1,7 @@
 include ../../../../template/kconfig.mk
 
+OUTPUT := .output/
+
 target-y :=
 target-y += msync
 target-y += fexecve
@@ -9,6 +11,8 @@ target-y += remap_file_pages
 target-y += get_unmapped_page
 target-y += mmap-multi-thread-copy
 target-y += mmap-exec
+
+target-libso-y := libmmap_helpers.so
 
 CFLAGS := -pthread
 CFLAGS += -lrt
@@ -29,12 +33,15 @@ endif
 
 include ../../../../template/main.mk
 
-msync: msync.o
-fexecve: fexecve.o
-mmap-anon: mmap-anon.o
-mmap-file: mmap-file.o
-mremap-file: mremap-file.o
-remap_file_pages: remap_file_pages.o
-get_unmapped_page: get_unmapped_page.o mmap_helpers.o
-mmap-multi-thread-copy: mmap-multi-thread-copy.o
-mmap-exec: mmap-exec.o
+mmap_helpers.so.o: mmap_helpers.h
+libmmap_helpers.so: ${OUTPUT}mmap_helpers.so.o
+
+msync: ${OUTPUT}msync.o
+fexecve: ${OUTPUT}fexecve.o
+mmap-anon: ${OUTPUT}mmap-anon.o
+mmap-file: ${OUTPUT}mmap-file.o
+mremap-file: ${OUTPUT}mremap-file.o
+remap_file_pages: ${OUTPUT}remap_file_pages.o
+get_unmapped_page: ${OUTPUT}get_unmapped_page.o libmmap_helpers.so
+mmap-multi-thread-copy: ${OUTPUT}mmap-multi-thread-copy.o
+mmap-exec: ${OUTPUT}mmap-exec.o
