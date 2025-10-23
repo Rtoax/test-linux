@@ -1,4 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
+OUTPUT = .output/
+
 subdir-y := process
 subdir-y += kallsyms
 
@@ -13,11 +15,11 @@ target-shell-y := mounts.sh
 
 include ../../template/main.mk
 
-proc_examples: proc_examples.o proc_helpers.o
+proc_examples: ${OUTPUT}proc_examples.o ${OUTPUT}proc_helpers.o
 proc_examples.o: proc_helpers.h
 proc_helpers.o: proc_helpers.h
-self: self.o proc_helpers.o
-thread-self: thread-self.o proc_helpers.o
-auxv: auxv.o
-stat: stat.o
-uptime: uptime.o
+self: ${OUTPUT}self.o ${OUTPUT}proc_helpers.o
+thread-self: ${OUTPUT}thread-self.o ${OUTPUT}proc_helpers.o
+auxv: ${OUTPUT}auxv.o
+stat: ${OUTPUT}stat.o
+uptime: ${OUTPUT}uptime.o
