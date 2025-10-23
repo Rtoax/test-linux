@@ -5,13 +5,18 @@ subdir-y := adaptive-oom-score
 target-y := oom
 target-y += oom_minimal
 
+target-libso-y := liboom_helpers.so
+
 VMLINUX_H := vmlinux.h
 target-prep-y := ${VMLINUX_H}
+
+LDFLAGS += -Wl,-rpath,$(shell pwd)
 
 include ../../cgroup/libcgroup/libcgroup.mk
 include ../../template/main.mk
 
-oom_helpers.o: oom_helpers.h
+oom_helpers.so.o: oom_helpers.h
+liboom_helpers.so: oom_helpers.so.o
 
-oom: oom.o oom_helpers.o ${PROC_HELPERS}
+oom: oom.o liboom_helpers.so ${PROC_HELPERS}
 oom_minimal: oom_minimal.o
