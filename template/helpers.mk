@@ -4,6 +4,13 @@
 # Input definitions:
 # - __USE_PROC_HELPERS__
 #
+# Output definitions:
+# - PROC_HELPERS
+#
+# Append definitions:
+# - CFLAGS
+# - LDFLAGS
+#
 _HELPERS = 1
 
 ifeq (${TOPDIR},)
@@ -11,16 +18,18 @@ ifeq (${TOPDIR},)
 endif
 
 define make_helper
-@make -C ${1} ${2} >/dev/null
+@make --no-print-directory --silent -C ${1} ${2}
 endef
 
 ifdef __USE_PROC_HELPERS__
-  unused := $(call make_helper,${TOPDIR}/fs/procfs/,libproc_helpers.so)
   CFLAGS += -I${TOPDIR}/fs/procfs/
   LDFLAGS += -Wl,-rpath,${TOPDIR}/fs/procfs/
-endif
 
-PROC_HELPERS := ${TOPDIR}/fs/procfs/libproc_helpers.so
+  PROC_HELPERS := ${TOPDIR}/fs/procfs/libproc_helpers.so
+
+  ${PROC_HELPERS}:
+	$(call make_helper,${TOPDIR}/fs/procfs/,libproc_helpers.so)
+endif
 
 ifdef DEBUG
   $(info PROC_HELPERS = ${PROC_HELPERS})
