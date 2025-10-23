@@ -1,5 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
 __USE_PTHREAD_HELPERS__ := 1
+__USE_SCHED_HELPERS__ := 1
 OUTPUT := .output/
 
 target-y :=
@@ -90,7 +91,6 @@ target-shell-y := list-tunables.sh
 
 include ../../../template/main.mk
 
-${OUTPUT}sched_helpers.o: sched_helpers.h
 create_thread.o: create_thread.h
 
 foobar: ${OUTPUT}foobar.o
@@ -119,7 +119,7 @@ cleanup_push: ${OUTPUT}cleanup_push.o
 cleanup_push-deadlock: ${OUTPUT}cleanup_push-deadlock.o
 cleanup_push_defer_np: ${OUTPUT}cleanup_push_defer_np.o
 create: ${OUTPUT}create.o
-create-deadline: ${OUTPUT}create-deadline.o ${PTHREAD_HELPERS} ${OUTPUT}sched_helpers.o
+create-deadline: ${OUTPUT}create-deadline.o ${PTHREAD_HELPERS} ${SCHED_HELPERS}
 equal: ${OUTPUT}equal.o
 exit: ${OUTPUT}exit.o
 key_create: ${OUTPUT}key_create.o
@@ -163,7 +163,7 @@ condattr_init: ${OUTPUT}condattr_init.o
 condattr_getclock: ${OUTPUT}condattr_getclock.o
 condattr_setpshared: ${OUTPUT}condattr_setpshared.o
 getcpuclockid: ${OUTPUT}getcpuclockid.o
-taskset_example: ${OUTPUT}taskset_example.o ${OUTPUT}sched_helpers.o
+taskset_example: ${OUTPUT}taskset_example.o ${SCHED_HELPERS}
 tls: ${OUTPUT}tls.o
 taskset: ${OUTPUT}taskset.o
 rt_thread: ${OUTPUT}rt_thread.o
