@@ -31,6 +31,8 @@ endif
 # change the address.
 # CFLAGS_mmap-exec := -pg
 
+LDFLAGS += -Wl,-rpath,$(shell pwd)
+
 include ../../../../template/main.mk
 
 mmap_helpers.so.o: mmap_helpers.h
