@@ -170,8 +170,11 @@ struct ksym *alloc_ksym(unsigned long addr, enum ksym_type type, char *name,
 	char module[64];
 	struct ksym *new;
 
-	if (addr == 0 || !name || strlen(name) <= 1)
+	/* addr could be 0 */
+
+	if (!name || strlen(name) <= 1)
 		return NULL;
+
 	if (!kmod)
 		kmod = DEFAULT_KMOD;
 
@@ -316,7 +319,9 @@ struct ksyms *load_kallsyms(void)
 		insert_to_array(&ksyms->arr_addr, new);
 		insert_to_tree(&ksyms->nkta, new);
 		insert_to_tree(&ksyms->name, new);
-		insert_to_tree(&ksyms->addr, new);
+		if (new->addr != 0) {
+			insert_to_tree(&ksyms->addr, new);
+		}
 
 		free_ksym(new);
 	}

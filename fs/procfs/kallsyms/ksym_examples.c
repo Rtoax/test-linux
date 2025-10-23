@@ -17,12 +17,18 @@ void assert_find(const char *ksym)
 		return;
 	}
 
+	/* If no permission read /proc/kallsyms, the address is zero */
+	if (addr == 0) {
+		printf("%s 0x%lx\n", ksym, addr);
+		return;
+	}
+
 	name = ksym_name(ksyms, addr + off2, &off);
 
-	printf("%s %lx (%s+%#lx)\n", ksym, addr, name, off);
+	printf("%s 0x%lx (%s+%#lx)\n", ksym, addr, name, off);
 
 	if (strcmp(name, ksym) || off != off2)
-		fprintf(stderr, "ERROR: %s != %s or %lx != %lx\n",
+		fprintf(stderr, "ERROR: %s != %s or 0x%lx != 0x%lx\n",
 			ksym, name, off, off2);
 }
 
@@ -32,6 +38,7 @@ int main(void)
 
 	assert_find("schedule");
 	assert_find("net_tx_action");
+	assert_find("net_rx_action");
 
 	free_kallsyms(ksyms);
 
