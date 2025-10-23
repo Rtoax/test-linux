@@ -10,12 +10,14 @@
 # - __USE_SOCKET_HELPERS__=y
 # - __USE_PTHREAD_HELPERS__=y
 # - __USE_SCHED_HELPERS__=y
+# - __USE_MMAP_HELPERS__=y
 #
 # Output definitions:
 # - PROC_HELPERS
 # - SOCKET_HELPERS
 # - PTHREAD_HELPERS
 # - SCHED_HELPERS
+# - MMAP_HELPERS
 #
 # Append definitions:
 # - CFLAGS
@@ -42,15 +44,18 @@ export PROC_HELPERS := ${TOPDIR}/fs/procfs/libproc_helpers.so
 export SOCKET_HELPERS := ${TOPDIR}/ipc/socket/libsocket_helpers.so
 export PTHREAD_HELPERS := ${TOPDIR}/glibc/pthread/libpthread_helpers.so
 export SCHED_HELPERS := ${TOPDIR}/syscall/samples/sched/libsched_helpers.so
+export MMAP_HELPERS := ${TOPDIR}/syscall/samples/mm/mmap/libmmap_helpers.so
 
 $(eval $(call add_helper_target,${PROC_HELPERS},${__USE_PROC_HELPERS__}))
 $(eval $(call add_helper_target,${SOCKET_HELPERS},${__USE_SOCKET_HELPERS__}))
 $(eval $(call add_helper_target,${PTHREAD_HELPERS},${__USE_PTHREAD_HELPERS__}))
 $(eval $(call add_helper_target,${SCHED_HELPERS},${__USE_SCHED_HELPERS__}))
+$(eval $(call add_helper_target,${MMAP_HELPERS},${__USE_MMAP_HELPERS__}))
 
 ifdef DEBUG
   $(info PROC_HELPERS = ${PROC_HELPERS})
   $(info SOCKET_HELPERS = ${SOCKET_HELPERS})
   $(info PTHREAD_HELPERS = ${PTHREAD_HELPERS})
   $(info SCHED_HELPERS = ${SCHED_HELPERS})
+  $(info MMAP_HELPERS = ${MMAP_HELPERS})
 endif
