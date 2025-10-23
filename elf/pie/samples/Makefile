@@ -7,8 +7,6 @@ target-y := hello
 target-y += hello-pie
 target-y += is_pie
 
-target-liba-y := ${PROC_HELPERS}
-
 CFLAGS_hello += -no-pie
 LDFLAGS_hello += -no-pie
 
