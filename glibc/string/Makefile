@@ -1,4 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
+__USE_PROC_HELPERS__ := 1
+
 include ../glibc.mk
 
 SYMADDR___memcpy_ssse3 := $(call libc_sym_addr,__memcpy_ssse3)
@@ -111,13 +113,13 @@ bcopy: bcopy.o
 index: index.o
 memchr: memchr.o
 memcpy: memcpy.o
-memcpy-stress: memcpy-stress.o proc_helpers.o
-__memcpy_ssse3-stress: __memcpy_ssse3-stress.o proc_helpers.o
-__memcpy_generic-stress: __memcpy_generic-stress.o proc_helpers.o
-__memcpy_simd-stress: __memcpy_simd-stress.o proc_helpers.o
-__memcpy_a64fx-stress: __memcpy_a64fx-stress.o proc_helpers.o
-__memcpy_aarch64-stress: __memcpy_aarch64-stress.o proc_helpers.o
-__memcpy_aarch64_sve-stress: __memcpy_aarch64_sve-stress.o proc_helpers.o
+memcpy-stress: memcpy-stress.o ${PROC_HELPERS}
+__memcpy_ssse3-stress: __memcpy_ssse3-stress.o ${PROC_HELPERS}
+__memcpy_generic-stress: __memcpy_generic-stress.o ${PROC_HELPERS}
+__memcpy_simd-stress: __memcpy_simd-stress.o ${PROC_HELPERS}
+__memcpy_a64fx-stress: __memcpy_a64fx-stress.o ${PROC_HELPERS}
+__memcpy_aarch64-stress: __memcpy_aarch64-stress.o ${PROC_HELPERS}
+__memcpy_aarch64_sve-stress: __memcpy_aarch64_sve-stress.o ${PROC_HELPERS}
 memset: memset.o
 memset-stress: memset-stress.o
 memmove: memmove.o

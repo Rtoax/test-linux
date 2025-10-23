@@ -1,11 +1,13 @@
 # SPDX-License-Identifier: GPL-3.0
+__USE_PROC_HELPERS__ := 1
+
 include ../../elf.mk
 
 target-y := hello
 target-y += hello-pie
 target-y += is_pie
 
-target-liba-y := proc_helpers.a
+target-liba-y := ${PROC_HELPERS}
 
 CFLAGS_hello += -no-pie
 LDFLAGS_hello += -no-pie
@@ -17,9 +19,6 @@ LDFLAGS_is_pie := -lelf
 
 include ../../../template/main.mk
 
-proc_helpers.a.o: proc_helpers.h
-proc_helpers.a: proc_helpers.a.o
-
-hello: hello.o proc_helpers.a
-hello-pie: hello-pie.o proc_helpers.a
+hello: hello.o ${PROC_HELPERS}
+hello-pie: hello-pie.o ${PROC_HELPERS}
 is_pie: is_pie.o

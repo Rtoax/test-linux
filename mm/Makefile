@@ -1,4 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
+__USE_PROC_HELPERS__ := 1
+
 include ../template/kconfig.mk
 
 subdir-y := aslr
@@ -14,7 +16,6 @@ subdir-y += pmem
 
 target-y := virt2phy
 target-liba-y := libtest-linux-mm.a
-target-liba-y += proc_helpers.a
 
 CFLAGS += -DMMAP_HELPERS_HDR=mmap_helpers.h
 
@@ -43,9 +44,8 @@ endif
 
 include ../template/main.mk
 
-virt2phy: virt2phy.o proc_helpers.a numa.a.1 mmap_helpers.o
+virt2phy: virt2phy.o ${PROC_HELPERS} numa.a.1 mmap_helpers.o
 libtest-linux-mm.a: virt2phy.a.o
-proc_helpers.a: proc_helpers.a.o
 numa.a.1:
 	$(Q)make -C ../numa numa.a
 	$(Q)cp ../numa/numa.a numa.a.1

@@ -155,6 +155,9 @@ clean: $(subdir-y-clean) $(target-clean-y)
 	${Q}rm -f ${VMLINUX_H}
 	$(call log_tgt_done,clean,$(call git_relative_dir,$(shell realpath .)))
 
+# Helpers
+include ${TEMPLATE_DIR}/helpers.mk
+
 ifneq (${OUTPUT},)
   include ${TEMPLATE_DIR}/targets/output.mk
 endif

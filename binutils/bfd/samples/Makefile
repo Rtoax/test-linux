@@ -1,5 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
 CC := gcc
+__USE_PROC_HELPERS__ := 1
 
 include ../bfd.mk
 
@@ -18,12 +19,9 @@ target-y += reloc
 target-y += reloc-name
 target-y += bfd_print_symbol_vandf
 
-target-liba-y := proc_helpers.a
-
 CFLAGS :=
 CFLAGS += -Wno-unused-label
 CFLAGS += -Wno-unused-variable
-CFLAGS += -I${LIBPROCFS_DIR}
 
 LDFLAGS += -lbfd
 LDFLAGS += -lpthread
@@ -117,21 +115,19 @@ endef
 include ../../../template/main.mk
 
 bfd_helpers.o: bfd_helpers.h
-proc_helpers.a.o: proc_helpers.h
-proc_helpers.a: proc_helpers.a.o
 
 bfd_init: bfd_init.o bfd_helpers.o
 build_id: build_id.o bfd_helpers.o
-bfd_symbol_info: bfd_symbol_info.o bfd_helpers.o proc_helpers.a
+bfd_symbol_info: bfd_symbol_info.o bfd_helpers.o ${PROC_HELPERS}
 bfd_get_start_address: bfd_get_start_address.o
 bfd_get_flavour: bfd_get_flavour.o
 bfd_elf_bfd_from_remote_memory: bfd_elf_bfd_from_remote_memory.o
 phdr: phdr.o
 sections: sections.o
-symbol: symbol.o bfd_helpers.o proc_helpers.a
-symbol-value: symbol-value.o bfd_helpers.o proc_helpers.a
+symbol: symbol.o bfd_helpers.o ${PROC_HELPERS}
+symbol-value: symbol-value.o bfd_helpers.o ${PROC_HELPERS}
 breakpoint_tst: breakpoint_tst.o
 breakpoint_bfd: breakpoint_bfd.o
 reloc: reloc.o
 reloc-name: reloc-name.o
-bfd_print_symbol_vandf: bfd_print_symbol_vandf.o bfd_helpers.o proc_helpers.a
+bfd_print_symbol_vandf: bfd_print_symbol_vandf.o bfd_helpers.o ${PROC_HELPERS}

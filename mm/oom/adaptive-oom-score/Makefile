@@ -1,3 +1,5 @@
+__USE_PROC_HELPERS__ := 1
+
 target-y := adaptive-oom-score
 
 target-bpf-y := memory.bpf.o
@@ -12,8 +14,7 @@ include ../../../cgroup/libcgroup/libcgroup.mk
 include ../../../template/main.mk
 
 oom_helpers.o: oom_helpers.h
-proc_helpers.o: proc_helpers.h
 
 memory.bpf.o: memory.h
 adaptive-oom-score.o: ${VMLINUX_H} memory.skel.h memory.h
-adaptive-oom-score: adaptive-oom-score.o oom_helpers.o proc_helpers.o
+adaptive-oom-score: adaptive-oom-score.o oom_helpers.o ${PROC_HELPERS}

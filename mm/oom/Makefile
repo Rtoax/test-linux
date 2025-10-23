@@ -1,3 +1,5 @@
+__USE_PROC_HELPERS__ := 1
+
 subdir-y := adaptive-oom-score
 
 target-y := oom
@@ -10,7 +12,6 @@ include ../../cgroup/libcgroup/libcgroup.mk
 include ../../template/main.mk
 
 oom_helpers.o: oom_helpers.h
-proc_helpers.o: proc_helpers.h
 
-oom: oom.o oom_helpers.o proc_helpers.o
+oom: oom.o oom_helpers.o ${PROC_HELPERS}
 oom_minimal: oom_minimal.o

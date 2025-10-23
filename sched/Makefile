@@ -1,3 +1,5 @@
+__USE_PROC_HELPERS__ := 1
+
 OUTPUT := .output/
 
 target-y :=
@@ -9,10 +11,8 @@ target-y += stopped
 
 include ../template/main.mk
 
-HELPERS := ${OUTPUT}proc_helpers.o
-
 current: ${OUTPUT}current.o
 uninterruptible: ${OUTPUT}uninterruptible.o
 hung: ${OUTPUT}hung.o
-zombie: ${OUTPUT}zombie.o ${HELPERS}
+zombie: ${OUTPUT}zombie.o ${PROC_HELPERS}
 stopped: ${OUTPUT}stopped.o
