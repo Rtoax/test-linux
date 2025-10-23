@@ -14,6 +14,7 @@ and this project adheres to
 - mk: Rename all `targets` to `target-y`;
 - cuda/samples: Rename code to remove cuda,hip,hc prefix;
 #### Added
+- distributions: add NixOS;
 - luca: align all cuda/intrinsics;
 - luca: align all cuda/samples;
 - hpc: introduce luca;
