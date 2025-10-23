@@ -6,6 +6,8 @@ readonly prog=bpftrace-compile
 flags_deps=
 flags_cmake=
 flags_install=
+llvm_version=
+llvm_dir=
 verbose=
 
 declare -a cmake_args
@@ -63,8 +65,13 @@ ARGUMENT
 	-d, --deps              install depends
 	-c, --cmake             execute the cmake to generate Makefile
 	-i, --install           execute the make install
+	--llvm-version          specify LLVM Version
+	--llvm-dir              specify LLVM directory, like: /usr/lib/llvm-18/
 	-v, --verbose           run with verbose mode
 	-h, --help              show this info
+
+EXAMPLES
+	$ ./compile -d -c -i --llvm-version=18.1.8 --llvm-dir=/usr/lib/llvm-18/
 
 LINKS
 	https://github.com/bpftrace/bpftrace
@@ -79,6 +86,8 @@ TEMP_ARGS=$(getopt --options dcivh \
 	--long deps \
 	--long cmake \
 	--long install \
+	--long llvm-version: \
+	--long llvm-dir: \
 	--long verbose \
 	--long help \
 	--name ${prog} -- "$@")
@@ -100,6 +109,18 @@ while true; do
 	-i | --install)
 		shift
 		flags_install=YES
+		;;
+	--llvm-version)
+		shift
+		llvm_version=$1
+		cmake_args+=( -DLLVM_REQUESTED_VERSION=${llvm_version} )
+		shift
+		;;
+	--llvm-dir)
+		shift
+		llvm_dir=$1
+		cmake_args+=( -DLLVM_DIR=${llvm_dir}/cmake/ )
+		shift
 		;;
 	-v | --verbose)
 		shift
@@ -124,9 +145,6 @@ fi
 if [[ ${flags_deps} ]]; then
 	if [[ " debian ubuntu " =~ " ${ID} " ]]; then
 		deb_pkgs
-		# FIXME: update Debian 12 llvm version here
-		cmake_args+=( -DLLVM_REQUESTED_VERSION=19.1.14 )
-		cmake_args+=( -DLLVM_DIR=/usr/lib/llvm-19/cmake/ )
 	elif [[ " rhel centos fedora " =~ " ${ID} " ]]; then
 		rpm_pkgs
 	fi
