@@ -1,4 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
+__USE_SOCKET_HELPERS__ := 1
+
 subdir-y := icmp
 subdir-y += netlink
 subdir-y += nic
@@ -10,10 +12,11 @@ target-y += ping
 
 target-shell-y := interface.sh
 
+LDFLAGS := -Wl,-rpath,$(shell pwd)
+
 include ../template/main.mk
 
-socket_helpers.o: socket_helpers.h
 ethtool: ethtool.o
-tcpdump: tcpdump.o socket_helpers.o
+tcpdump: tcpdump.o ${SOCKET_HELPERS}
 ifconfig: ifconfig.o
 ping: ping.o

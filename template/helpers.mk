@@ -3,6 +3,7 @@
 #
 # Input definitions:
 # - __USE_PROC_HELPERS__
+# - __USE_SOCKET_HELPERS__
 #
 # Output definitions:
 # - PROC_HELPERS
@@ -26,11 +27,25 @@ ifdef __USE_PROC_HELPERS__
   LDFLAGS += -Wl,-rpath,${TOPDIR}/fs/procfs/
 
   PROC_HELPERS := ${TOPDIR}/fs/procfs/libproc_helpers.so
+  export PROC_HELPERS
 
   ${PROC_HELPERS}:
 	$(call make_helper,${TOPDIR}/fs/procfs/,libproc_helpers.so)
 endif
 
+ifdef __USE_SOCKET_HELPERS__
+  CFLAGS += -I${TOPDIR}/ipc/socket/
+  LDFLAGS += -Wl,-rpath,${TOPDIR}/ipc/socket/
+
+  SOCKET_HELPERS := ${TOPDIR}/ipc/socket/libsocket_helpers.so
+  export SOCKET_HELPERS
+
+  ${SOCKET_HELPERS}:
+	$(call make_helper,${TOPDIR}/ipc/socket/,libsocket_helpers.so)
+endif
+
+
 ifdef DEBUG
   $(info PROC_HELPERS = ${PROC_HELPERS})
+  $(info SOCKET_HELPERS = ${SOCKET_HELPERS})
 endif

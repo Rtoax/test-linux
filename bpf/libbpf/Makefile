@@ -1,4 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
+__USE_SOCKET_HELPERS__ := 1
+
 include ../../template/kernel.mk
 ifndef NO_PAHOLE
   include ../../pahole/pahole.mk
@@ -363,7 +365,6 @@ libbpf-cflags := $(shell ${CC} libbpf_version.c ${CFLAGS} ${LDFLAGS} -o libbpf_v
 CFLAGS += $(libbpf-cflags)
 CFLAGS_BPF += $(libbpf-cflags)
 
-SOCKET_HELPERS := ${OUTPUT}socket_helpers.o
 TASK_HELPERS := ${OUTPUT}task_helpers.o
 TRACE_HELPERS := ${OUTPUT}trace_helpers.o
 LIBBPF_WRAPPER := ${OUTPUT}libbpf_wrapper.o
@@ -371,7 +372,7 @@ LIBXDP_HELPERS := ${OUTPUT}libxdp_helpers.o
 KSYM_HELPERS := ${OUTPUT}ksym_helpers.o
 
 HELPERS := ${LIBXDP_HELPERS} ${TRACE_HELPERS} \
-	   ${TASK_HELPERS} ${SOCKET_HELPERS} ${LIBBPF_WRAPPER} \
+	   ${TASK_HELPERS} ${LIBBPF_WRAPPER} \
 	   ${KSYM_HELPERS}
 
 target-y += libbpf_version
@@ -381,12 +382,13 @@ target-prep-y += ${HELPERS}
 
 include ../../template/main.mk
 
+HELPERS += ${SOCKET_HELPERS}
+
 test-libbpf_version: libbpf_version
 	${Q}./libbpf_version cflags >/dev/null
 	${Q}./libbpf_version env >/dev/null
 	${Q}./libbpf_version >/dev/null
 
-${OUTPUT}socket_helpers.o: socket_helpers.h
 ${OUTPUT}trace_helpers.o: trace_helpers.h
 ${OUTPUT}task_helpers.o: task_helpers.h
 ${OUTPUT}libbpf_wrapper.o: libbpf_wrapper.h
