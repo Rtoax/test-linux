@@ -284,8 +284,10 @@ struct ksyms *load_kallsyms(void)
 	struct ksyms *ksyms;
 
 	fp = fopen(PROC_KALLSYMS, "r");
-	if (!fp)
+	if (!fp) {
+		fprintf(stderr, "open %s failed %m\n", PROC_KALLSYMS);
 		return NULL;
+	}
 
 	ksyms = malloc(sizeof(struct ksyms));
 	if (!ksyms)
@@ -304,8 +306,12 @@ struct ksyms *load_kallsyms(void)
 
 		struct ksym *new = alloc_ksym(addr, c2type(c_type), s_name,
 				n == 4 ? s_kmod : NULL);
-		if (!new)
+		if (!new) {
+#ifdef DEBUG
+			fprintf(stderr, "Failed alloc symbol %s\n", s_name);
+#endif
 			continue;
+		}
 
 		insert_to_array(&ksyms->arr_addr, new);
 		insert_to_tree(&ksyms->nkta, new);
