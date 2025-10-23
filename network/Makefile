@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
-__USE_SOCKET_HELPERS__ := 1
+__USE_SOCKET_HELPERS__ = y
 
 subdir-y := icmp
 subdir-y += netlink

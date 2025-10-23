@@ -2,10 +2,10 @@
 # Copyright (c) 2022-2025 Rong Tao
 #
 # Input definitions:
-# - __USE_PROC_HELPERS__
-# - __USE_SOCKET_HELPERS__
-# - __USE_PTHREAD_HELPERS__
-# - __USE_SCHED_HELPERS__
+# - __USE_PROC_HELPERS__=y
+# - __USE_SOCKET_HELPERS__=y
+# - __USE_PTHREAD_HELPERS__=y
+# - __USE_SCHED_HELPERS__=y
 #
 # Output definitions:
 # - PROC_HELPERS
@@ -23,9 +23,13 @@ ifeq (${TOPDIR},)
   $(error Not define TOPDIR, include dir.mk)
 endif
 
+# $1 - helper library absolute path
+# $2 - turn on with 'y', otherwise turn off
 define add_helper_target
+ifeq ($(2),y)
   CFLAGS += -I$(shell dirname ${1})
   LDFLAGS += -Wl,-rpath,$(shell dirname ${1})
+endif
 ${1}:
 	@make --no-print-directory --silent -C $(shell dirname ${1}) $(shell basename ${1})
 endef
@@ -35,21 +39,10 @@ export SOCKET_HELPERS := ${TOPDIR}/ipc/socket/libsocket_helpers.so
 export PTHREAD_HELPERS := ${TOPDIR}/glibc/pthread/libpthread_helpers.so
 export SCHED_HELPERS := ${TOPDIR}/syscall/samples/sched/libsched_helpers.so
 
-ifdef __USE_PROC_HELPERS__
-$(eval $(call add_helper_target,${PROC_HELPERS}))
-endif
-
-ifdef __USE_SOCKET_HELPERS__
-$(eval $(call add_helper_target,${SOCKET_HELPERS}))
-endif
-
-ifdef __USE_PTHREAD_HELPERS__
-$(eval $(call add_helper_target,${PTHREAD_HELPERS}))
-endif
-
-ifdef __USE_SCHED_HELPERS__
-$(eval $(call add_helper_target,${SCHED_HELPERS}))
-endif
+$(eval $(call add_helper_target,${PROC_HELPERS},${__USE_PROC_HELPERS__}))
+$(eval $(call add_helper_target,${SOCKET_HELPERS},${__USE_SOCKET_HELPERS__}))
+$(eval $(call add_helper_target,${PTHREAD_HELPERS},${__USE_PTHREAD_HELPERS__}))
+$(eval $(call add_helper_target,${SCHED_HELPERS},${__USE_SCHED_HELPERS__}))
 
 ifdef DEBUG
   $(info PROC_HELPERS = ${PROC_HELPERS})

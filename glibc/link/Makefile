@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
-__USE_PROC_HELPERS__ := 1
+__USE_PROC_HELPERS__ = y
 
 target-y := dl_iterate_phdr
 target-y += dl_iterate_phdr-pie

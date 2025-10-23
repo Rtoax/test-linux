@@ -1,4 +1,4 @@
-__USE_PTHREAD_HELPERS__ := 1
+__USE_PTHREAD_HELPERS__ = y
 
 target-y :=
 target-y += rdtsc_user

@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
-__USE_PTHREAD_HELPERS__ := 1
-__USE_SCHED_HELPERS__ := 1
+__USE_PTHREAD_HELPERS__ = y
+__USE_SCHED_HELPERS__ = y
 OUTPUT := .output/
 
 target-y :=

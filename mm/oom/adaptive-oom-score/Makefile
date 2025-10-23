@@ -1,4 +1,4 @@
-__USE_PROC_HELPERS__ := 1
+__USE_PROC_HELPERS__ = y
 
 target-y := adaptive-oom-score
 
