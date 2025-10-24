@@ -4,8 +4,8 @@
  * Input definitions:
  * - __USE_HPCC__
  * - __USE_HIP__
- * - __USE_LUCA__
  * - __USE_HIP_V2__: use V2 API, default: disable
+ * - __USE_LUCA__
  *
  * - __NOT_USE_FP8__: include fp8 header
  */
