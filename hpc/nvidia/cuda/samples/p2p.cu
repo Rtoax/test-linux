@@ -27,7 +27,7 @@ void display_info(void)
 			printf("%-4d", can);
 			if (can) {
 				cudaSetDevice(i);
-				cudaDeviceEnablePeerAccess(j, 0);
+				CUDA_CHECK(cudaDeviceEnablePeerAccess(j, 0),);
 			}
 		}
 		printf("\n");
