@@ -1,4 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
+__USE_TRACE_HELPERS__ := y
+
 include ../../../template/ansi.mk
 include ../../bpf.mk
 
@@ -24,5 +26,5 @@ xdp_xsk.bpf.o: vmlinux.h
 xdp_drop.bpf.o: vmlinux.h
 xdp_xsk.o: xdp_xsk.skel.h
 xsk_user.o: xdp_xsk.skel.h
-xsk_user: xsk_user.o libbpf_wrapper.o libxdp_helpers.o trace_helpers.o \
+xsk_user: xsk_user.o libbpf_wrapper.o libxdp_helpers.o ${TRACE_HELPERS} \
 	net_helpers.o pkt_stream.o

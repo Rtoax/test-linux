@@ -12,6 +12,7 @@
 # - __USE_SCHED_HELPERS__=y
 # - __USE_MMAP_HELPERS__=y
 # - __USE_OOM_HELPERS__=y
+# - __USE_TRACE_HELPERS__=y
 #
 # Output definitions:
 # - PROC_HELPERS
@@ -20,6 +21,7 @@
 # - SCHED_HELPERS
 # - MMAP_HELPERS
 # - OOM_HELPERS
+# - TRACE_HELPERS
 #
 # Append definitions:
 # - CFLAGS
@@ -48,6 +50,7 @@ export PTHREAD_HELPERS := ${TOPDIR}/glibc/pthread/libpthread_helpers.so
 export SCHED_HELPERS := ${TOPDIR}/syscall/samples/sched/libsched_helpers.so
 export MMAP_HELPERS := ${TOPDIR}/syscall/samples/mm/mmap/libmmap_helpers.so
 export OOM_HELPERS := ${TOPDIR}/mm/oom/liboom_helpers.so
+export TRACE_HELPERS := ${TOPDIR}/bpf/libbpf/libtrace_helpers.so
 
 $(eval $(call add_helper_target,${PROC_HELPERS},${__USE_PROC_HELPERS__}))
 $(eval $(call add_helper_target,${SOCKET_HELPERS},${__USE_SOCKET_HELPERS__}))
@@ -55,6 +58,7 @@ $(eval $(call add_helper_target,${PTHREAD_HELPERS},${__USE_PTHREAD_HELPERS__}))
 $(eval $(call add_helper_target,${SCHED_HELPERS},${__USE_SCHED_HELPERS__}))
 $(eval $(call add_helper_target,${MMAP_HELPERS},${__USE_MMAP_HELPERS__}))
 $(eval $(call add_helper_target,${OOM_HELPERS},${__USE_OOM_HELPERS__}))
+$(eval $(call add_helper_target,${TRACE_HELPERS},${__USE_TRACE_HELPERS__}))
 
 ifdef DEBUG
   $(info PROC_HELPERS = ${PROC_HELPERS})
@@ -63,4 +67,5 @@ ifdef DEBUG
   $(info SCHED_HELPERS = ${SCHED_HELPERS})
   $(info MMAP_HELPERS = ${MMAP_HELPERS})
   $(info OOM_HELPERS = ${OOM_HELPERS})
+  $(info TRACE_HELPERS = ${TRACE_HELPERS})
 endif
