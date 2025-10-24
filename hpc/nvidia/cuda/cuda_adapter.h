@@ -729,6 +729,9 @@
  * cudaError_t cudaDeviceCanAccessPeer(int *canAccessPeer, int device, int peerDevice);
  */
 #define cudaDeviceCanAccessPeer(can, devfrom, devto) __cuda(DeviceCanAccessPeer(can, devfrom, devto))
+/**
+ * cudaError_t cudaDeviceEnablePeerAccess(int peerDevice, unsigned int flags);
+ */
 #define cudaDeviceEnablePeerAccess(peerdev, flag)	__cuda(DeviceEnablePeerAccess(peerdev, flag))
 /**
  * cudaError_t cudaDeviceDisablePeerAccess(int peerDevice);

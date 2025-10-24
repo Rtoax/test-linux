@@ -1,3 +1,6 @@
+/**
+ * https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__PEER.html
+ */
 #include <stdio.h>
 #include "cuda_compat.h"
 #include "cuda_helpers.h"
@@ -22,6 +25,10 @@ void display_info(void)
 		for (j = 0; j < nGPUs; j++) {
 			cudaDeviceCanAccessPeer(&can, i, j);
 			printf("%-4d", can);
+			if (can) {
+				cudaSetDevice(i);
+				cudaDeviceEnablePeerAccess(j, 0);
+			}
 		}
 		printf("\n");
 	}
