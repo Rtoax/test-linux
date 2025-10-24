@@ -3,17 +3,8 @@
 #include "cuda_helpers.h"
 
 
-int main(void)
+void display_info(void)
 {
-	int i, j, value, srcDev, dstDev, nGPUs, can;
-
-	srcDev = 0;
-	dstDev = 1;
-
-	nGPUs = gpu_num();
-
-	cudaDeviceDisablePeerAccess(0);
-
 	printf("CanAccessPeer\n");
 	printf("%-4s", "GPU");
 	for (i = 0; i < nGPUs; i++)
@@ -39,6 +30,19 @@ int main(void)
 #if defined(HAVE_HPCC)
 	P2PAttr(hcDevP2PAttrHcArrayAccessSupported);
 #endif
+}
+
+int main(void)
+{
+	int i, j, value, srcDev, dstDev, nGPUs, can;
+
+	srcDev = 0;
+	dstDev = 1;
+
+	nGPUs = gpu_num();
+
+	cudaDeviceDisablePeerAccess(0);
+	display_info();
 
 	return 0;
 }
