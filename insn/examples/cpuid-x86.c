@@ -290,4 +290,3 @@ int detect_vm_cpuid(void)
 	printf("No virtualization found in CPUID\n");
 	return VIRTUALIZATION_NONE;
 }
-

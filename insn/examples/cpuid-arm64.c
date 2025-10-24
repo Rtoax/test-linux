@@ -30,4 +30,3 @@ int cpu_flags(void)
 	/* TODO */
 	return 0;
 }
-
