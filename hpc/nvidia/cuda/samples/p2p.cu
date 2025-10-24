@@ -5,10 +5,11 @@
 #include "cuda_compat.h"
 #include "cuda_helpers.h"
 
+int nGPUs = 0;
 
-void display_info(void)
+void p2p_display_info(void)
 {
-	int i, j, value, srcDev, dstDev, nGPUs, can;
+	int i, j, value, srcDev, dstDev, can;
 
 	srcDev = 0;
 	dstDev = 1;
@@ -46,10 +47,43 @@ void display_info(void)
 #endif
 }
 
+void p2p_memory_transfer(void)
+{
+	int i;
+	float *s, *d;
+	size_t size = 1024 * 1024; /* 1MB */
+	cudaError_t err;
+
+	printf("Memory copy\n");
+
+	printf("%-4s", "GPU");
+	for (i = 0; i < nGPUs; i++)
+		printf("%-4d", i);
+	printf("\n");
+	for (int src = 0; src < nGPUs; src++) {
+		printf("%-4d", src);
+		for (int dst = 0; dst < nGPUs; dst++) {
+			cudaSetDevice(src);
+			cudaMalloc(&s, size);
+
+			cudaSetDevice(dst);
+			cudaMalloc(&d, size);
+
+			err = cudaMemcpyPeer(d, dst, s, src, size);
+			printf("%-4d", err == cudaSuccess ? 1 : 0);
+
+			cudaFree(d);
+			cudaFree(s);
+		}
+		printf("\n");
+	}
+}
+
 int main(void)
 {
 	cudaDeviceDisablePeerAccess(0);
-	display_info();
+	p2p_display_info();
+	p2p_memory_transfer();
 
 	return 0;
 }

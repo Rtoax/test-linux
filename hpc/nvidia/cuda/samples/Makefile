@@ -250,6 +250,7 @@ __STDC__-hpcc: ${OUTPUT}__STDC__.hpcc.o ${HPCC_HELPERS}
 ${OUTPUT}blas.luca.o: blas.cu
 ${OUTPUT}blasLtMatmul.luca.o: cuda_adapter.h cuda_helpers.h
 ${OUTPUT}device.luca.o: device.cu
+${OUTPUT}p2p.luca.o: p2p.cu
 ${OUTPUT}fft.luca.o: cuda_adapter.h cuda_helpers.h
 ${OUTPUT}float.luca.o: float.cu
 ${OUTPUT}hcclGetVersion.luca.o: ncclGetVersion.cu
