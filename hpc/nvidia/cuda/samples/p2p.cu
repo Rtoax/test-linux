@@ -5,6 +5,13 @@
 
 void display_info(void)
 {
+	int i, j, value, srcDev, dstDev, nGPUs, can;
+
+	srcDev = 0;
+	dstDev = 1;
+
+	nGPUs = gpu_num();
+
 	printf("CanAccessPeer\n");
 	printf("%-4s", "GPU");
 	for (i = 0; i < nGPUs; i++)
@@ -34,13 +41,6 @@ void display_info(void)
 
 int main(void)
 {
-	int i, j, value, srcDev, dstDev, nGPUs, can;
-
-	srcDev = 0;
-	dstDev = 1;
-
-	nGPUs = gpu_num();
-
 	cudaDeviceDisablePeerAccess(0);
 	display_info();
 
