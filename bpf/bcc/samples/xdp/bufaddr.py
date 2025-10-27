@@ -9,7 +9,6 @@
 #
 from bcc import BPF
 from bcc.utils import printb
-import pyroute2
 import time
 import sys
 import ctypes as ct
@@ -42,13 +41,9 @@ if ifname == "-1":
 
 flags = 0
 
-ip = pyroute2.IPRoute()
-ifidx_a = ip.link_lookup(ifname=ifname)
-if not ifidx_a:
-    print("ERROR: Not exist nic interface %s!!" % ifname)
+if not ifname:
+    print("ERROR: Not set nic interface %s!!" % ifname)
     exit()
-
-ifidx = ifidx_a[0]
 
 bpf_text = """
 #include <uapi/linux/bpf.h>
