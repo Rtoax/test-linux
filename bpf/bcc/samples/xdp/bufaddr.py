@@ -22,7 +22,7 @@ description = """eBPF adaptive packet filtering
 
 examples = """examples:
   $ sudo ./bufaddr.py -i eno1                      # Handle eno1 interface
-  bufaddr 0xffff004679ec0100
+  buf: addr 0xffff004679ec0100, ....
 
   # Then, you could use crash's kmem check the memory address information
 
@@ -65,7 +65,13 @@ bpf_text = """
 
 struct event_t {
     u64 bufaddr;
+    u64 buflen;
+    int ip_proto;
 };
+
+#ifndef ETH_P_IP
+#define ETH_P_IP	0x0800		/* Internet Protocol packet	*/
+#endif
 
 BPF_RINGBUF_OUTPUT(output, 1);
 
@@ -74,12 +80,24 @@ int xdp_handler(struct xdp_md *ctx)
     void *data_end = (void *)(long)ctx->data_end;
     void *data = (void *)(long)ctx->data;
     struct ethhdr *eth = data;
+	struct iphdr *iphdr;
     struct event_t event = {};
 
     if (eth + 1 > data_end)
         return XDP_PASS;
 
+    /* Only handle ipv4 */
+    if (eth->h_proto != bpf_htons(ETH_P_IP)) {
+        return XDP_PASS;
+    }
+
+	iphdr = data + sizeof(struct ethhdr);
+	if ((void *)(iphdr + 1) > data_end)
+		return XDP_PASS;
+
     event.bufaddr = (u64)data;
+    event.buflen = (unsigned long)(data_end - data);
+	event.ip_proto = iphdr->protocol;
 
     /**
      * could not call virt_to_phys() in xdp prog, could use crash's kmem.
@@ -98,7 +116,7 @@ b.attach_xdp(ifname, fn, flags)
 
 def print_event(cpu, data, size):
     data = b["output"].event(data)
-    printb(b"bufaddr 0x%lx" % data.bufaddr)
+    printb(b"buf: addr 0x%lx, len 0x%lx, ip proto %d" % (data.bufaddr, data.buflen, data.ip_proto))
 
 b["output"].open_ring_buffer(print_event)
 while True:
