@@ -14,6 +14,7 @@ and this project adheres to
 - mk: Rename all `targets` to `target-y`;
 - cuda/samples: Rename code to remove cuda,hip,hc prefix;
 #### Added
+- make: add foreach.mk test;
 - `libproc_helpers.so`: add `proc_helpers.map`;
 - helpers.ko: add `libtrace_helpers.so`;
 - helpers.ko: add `liboom_helpers.so`;
