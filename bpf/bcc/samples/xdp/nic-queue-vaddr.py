@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # @lint-avoid-python-3-compatibility-imports
 #
-# bufaddr.py - Get buffer address
+# nic-queue-vaddr.py - Get NIC queue memory buffer address for each pkt with XDP.
 #
 # Licensed under the Apache License, Version 2.0 (the "License")
 #
@@ -16,12 +16,11 @@ import argparse
 import struct
 from socket import inet_aton, inet_ntop, AF_INET, AF_INET6
 
-description = """eBPF adaptive packet filtering
-
+description = """eBPF NIC queue memory address dump.
 """
 
 examples = """examples:
-  $ sudo ./bufaddr.py -i eno1                      # Handle eno1 interface
+  $ sudo ./nic-queue-vaddr.py -i eno1                      # Handle eno1 interface
   buf: addr 0xffff004679ec0100, ....
 
   # Then, you could use crash's kmem check the memory address information
@@ -41,7 +40,7 @@ parser = argparse.ArgumentParser(
     formatter_class=argparse.RawDescriptionHelpFormatter,
     epilog=examples)
 parser.add_argument("-i", "--interface", default="-1",
-    help="specify ether interface to protection, check with ifconfig, ip addr, etc.")
+    help="specify ether interface to track, check with ifconfig, ip addr, etc.")
 
 args = parser.parse_args()
 ifname = args.interface
@@ -84,9 +83,8 @@ int xdp_handler(struct xdp_md *ctx)
 	struct iphdr *iphdr;
     struct event_t event = {};
 
-    if (eth + 1 > data_end)
+    if ((void *)(eth + 1) > data_end)
         return XDP_PASS;
-
 
     event.bufaddr = (u64)data;
     event.buflen = (unsigned long)(data_end - data);
@@ -102,7 +100,8 @@ int xdp_handler(struct xdp_md *ctx)
     }
 
     /**
-     * could not call virt_to_phys() in xdp prog, could use crash's kmem.
+     * Could not call virt_to_phys() in xdp prog, you should use crash's kmem
+     * to get memory information of bufaddr, not in XDP prog.
      */
 
     output.ringbuf_output(&event, sizeof(event), 0);
