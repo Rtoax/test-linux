@@ -21,7 +21,19 @@ description = """eBPF adaptive packet filtering
 """
 
 examples = """examples:
-  ./bufaddr.py -i eno1                      # Handle eno1 interface
+  $ sudo ./bufaddr.py -i eno1                      # Handle eno1 interface
+  bufaddr 0xffff004679ec0100
+
+  # Then, you could use crash's kmem check the memory address information
+
+    crash> kmem 0xffff004679ec0100
+    NODE
+      1
+    ZONE  NAME        SIZE    FREE      MEM_MAP       START_PADDR  START_MAPNR
+      2   Normal    1572864   92439  ffffffc010000000   4000000000       0
+    AREA    SIZE  FREE_AREA_STRUCT
+      7    8192k  ffff0057ffff72a8
+    ffffffc0119e6000  (ffff004679ec0100 is 109th of 128 pages)
 """
 
 parser = argparse.ArgumentParser(
