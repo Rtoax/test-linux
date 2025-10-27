@@ -60,6 +60,7 @@ static struct mem {
 #endif
 ;
 
+unsigned long vaddr = 0;
 int verbose = false;
 int force = false;
 
@@ -67,6 +68,7 @@ const char argp_prog_doc[] =
 	"USAGE: [-b <NUMA>] [-v|--verbose] [-f|--force]\n";
 
 static const struct argp_option opts[] = {
+	{ "vaddr", 'a', "VADDR", 0, "Input virtual address" },
 	{ "mbind", 'b', "NUMA", 0, "Test mbind" },
 	{ "verbose", 'v', NULL, 1, "Display detail" },
 	{ "force", 'f', NULL, 1, "Execute force" },
@@ -82,6 +84,13 @@ static error_t parse_arg(int key, char *arg, struct argp_state *state)
 			fprintf(stderr, "bad -b value, need 0 - %d\n", numa_max_node());
 			exit(1);
 		}
+		break;
+	case 'a':
+		if (arg[0] != '0' || arg[1] != 'x') {
+			fprintf(stderr, "Must with 0x prefix.\n");
+			exit(1);
+		}
+		vaddr = strtoull(arg + 2, NULL, 16);
 		break;
 	case 'v':
 		verbose = true;
@@ -438,6 +447,15 @@ int main(int argc, char *argv[])
 	if (getuid() != 0) {
 		fprintf(stderr, "ERROR: must run with root (sudo).\n");
 		exit(1);
+	}
+
+	/**
+	 * If i already know the virtual address, could only convert single
+	 * vaddr to physical address.
+	 */
+	if (vaddr) {
+		unsigned long paddr = virt_to_phy(vaddr);
+		fprintf(stderr, "vaddr 0x%lx, paddr 0x%lx\n\n", vaddr, paddr);
 	}
 
 	fprintf(stderr, "\033[1;32mTest\n");
