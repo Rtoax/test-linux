@@ -26,6 +26,8 @@ ${OUTPUT}%.cpp.so.o: %.cpp | ${OUTPUT}
 	$(call log_tgt_obj,CXX SO.o,$(<),$(@))
 	${Q}${CC_PFX} $(CXX) -o $(@) -c $(<) $(CXXFLAGS_SO) $(CXXFLAGS_SO_$(*))
 
+target-purename-libso-y := $(shell ${TEMPLATE_DIR}/targets/libso.sh multi-version-pure-name-list ${target-libso-y})
+
 $(target-libso-y): %:
 	$(call log_tgt_exe,SO,$(<),$(@))
 	${Q}${CC_PFX} $(CC) -o $(@) $(^) $(LDFLAGS_SO) $(LDFLAGS_SO_$(*)) -Wl,-soname=$(@)
