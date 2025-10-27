@@ -6,10 +6,11 @@ error() {
 	exit 1
 }
 
-# $1 - symlinks, purename
+# $1 - symlinks, purename, symlinks-names
 # $2 - library name
 # return/echo:
 #   display purename if $1=purename and $2 is multiversion library name.
+#   display all symlinks name if $1=symlinks-names.
 libso_multi_version() {
 	local operate=$1
 	shift
@@ -49,6 +50,17 @@ libso_multi_version() {
 			return 0
 		fi
 		;;
+	symlinks-names)
+		if [[ ${name_orig} == ${name_v_v_v} ]]; then
+			echo ${name} ${name_v} ${name_v_v}
+		elif [[ ${name_orig} == ${name_v_v} ]]; then
+			echo ${name} ${name_v}
+		elif [[ ${name_orig} == ${name_v} ]]; then
+			echo ${name}
+		else
+			return 0
+		fi
+		;;
 	*)
 		error "not support operate ${operate}"
 	esac
@@ -58,6 +70,14 @@ case $1 in
 multi-version)
 	shift
 	libso_multi_version symlinks ${1}
+	;;
+purename)
+	shift
+	libso_multi_version purename ${1}
+	;;
+symlinks-names)
+	shift
+	libso_multi_version symlinks-names ${1}
 	;;
 # For example:
 # input:  liba.so.1 libb.so.2 libc.so

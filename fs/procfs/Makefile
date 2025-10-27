@@ -11,7 +11,7 @@ target-y += auxv
 target-y += stat
 target-y += uptime
 
-libproc-helpers := libproc_helpers.so
+libproc-helpers := libproc_helpers.so.0.1.0
 
 target-liba-y := libproc_helpers.a
 target-libso-y := ${libproc-helpers}
