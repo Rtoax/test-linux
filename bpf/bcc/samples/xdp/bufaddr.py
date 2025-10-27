@@ -68,6 +68,11 @@ int xdp_handler(struct xdp_md *ctx)
         return XDP_PASS;
 
     event.bufaddr = (u64)data;
+
+    /**
+     * could not call virt_to_phys() in xdp prog, could use crash's kmem.
+     */
+
     output.ringbuf_output(&event, sizeof(event), 0);
 
     return XDP_PASS;
@@ -85,6 +90,10 @@ def print_event(cpu, data, size):
 
 b["output"].open_ring_buffer(print_event)
 while True:
-    b.ring_buffer_poll()
+    try:
+        b.ring_buffer_poll()
+    except KeyboardInterrupt:
+        print("Removing filter from device")
+        break
 
 b.remove_xdp(ifname, flags)

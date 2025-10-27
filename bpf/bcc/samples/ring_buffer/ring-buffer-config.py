@@ -54,4 +54,8 @@ def print_event(cpu, data, size):
 
 b["output"].open_ring_buffer(print_event)
 while True:
-    b.ring_buffer_poll()
+    try:
+        b.ring_buffer_poll()
+    except KeyboardInterrupt:
+        print("Stop tracing")
+        break
