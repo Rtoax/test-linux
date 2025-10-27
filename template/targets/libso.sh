@@ -79,18 +79,6 @@ symlinks-names)
 	shift
 	libso_multi_version symlinks-names ${1}
 	;;
-# For example:
-# input:  liba.so.1 libb.so.2 libc.so
-# output: liba.so libb.so
-multi-version-pure-name-list)
-	shift
-	declare -a namelist
-	for so in ${@}
-	do
-		namelist+=( $(libso_multi_version purename ${so}) )
-	done
-	echo ${namelist[@]}
-	;;
 *)
 	error "$0: unknown parameter $@"
 	;;
