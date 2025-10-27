@@ -66,6 +66,7 @@ bpf_text = """
 struct event_t {
     u64 bufaddr;
     u64 buflen;
+    int h_proto;
     int ip_proto;
 };
 
@@ -86,18 +87,19 @@ int xdp_handler(struct xdp_md *ctx)
     if (eth + 1 > data_end)
         return XDP_PASS;
 
-    /* Only handle ipv4 */
-    if (eth->h_proto != bpf_htons(ETH_P_IP)) {
-        return XDP_PASS;
-    }
-
-	iphdr = data + sizeof(struct ethhdr);
-	if ((void *)(iphdr + 1) > data_end)
-		return XDP_PASS;
 
     event.bufaddr = (u64)data;
     event.buflen = (unsigned long)(data_end - data);
-	event.ip_proto = iphdr->protocol;
+    event.h_proto = eth->h_proto;
+
+    if (eth->h_proto == bpf_htons(ETH_P_IP)) {
+        iphdr = data + sizeof(struct ethhdr);
+        if ((void *)(iphdr + 1) > data_end)
+            return XDP_PASS;
+	    event.ip_proto = iphdr->protocol;
+    } else {
+	    event.ip_proto = -1;
+    }
 
     /**
      * could not call virt_to_phys() in xdp prog, could use crash's kmem.
@@ -116,7 +118,8 @@ b.attach_xdp(ifname, fn, flags)
 
 def print_event(cpu, data, size):
     data = b["output"].event(data)
-    printb(b"buf: addr 0x%lx, len 0x%lx, ip proto %d" % (data.bufaddr, data.buflen, data.ip_proto))
+    printb(b"buf: addr 0x%lx, len 0x%lx, eth proto %d, ip proto %d" %
+           (data.bufaddr, data.buflen, data.h_proto, data.ip_proto))
 
 b["output"].open_ring_buffer(print_event)
 while True:
