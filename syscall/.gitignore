@@ -5,3 +5,4 @@
 /syscalls-mips64.h
 /syscalls-x86_64.h
 /syscalls-ppc64.h
+/syscalls-s390.h
