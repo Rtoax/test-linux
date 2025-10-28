@@ -2,3 +2,6 @@
 /syscalls-arm.h
 /syscalls-arm32.h
 /syscalls-arm64.h
+/syscalls-mips64.h
+/syscalls-x86_64.h
+/syscalls-ppc64.h

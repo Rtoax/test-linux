@@ -18,5 +18,8 @@ if [[ -e ${LINUX_ROOT} ]]; then
 	ausyscall_name arm | tee syscalls-arm-au.h
 	linux_syscalls_name ${LINUX_ROOT}/arch/arm64/tools/syscall_32.tbl | tee syscalls-arm32.h
 	linux_syscalls_name ${LINUX_ROOT}/arch/arm64/tools/syscall_64.tbl | tee syscalls-arm64.h
+	linux_syscalls_name ${LINUX_ROOT}/arch/mips/kernel/syscalls/syscall_n64.tbl | tee syscalls-mips64.h
+	linux_syscalls_name ${LINUX_ROOT}/arch/x86/entry/syscalls/syscall_64.tbl | tee syscalls-x86_64.h
+	linux_syscalls_name ${LINUX_ROOT}/arch/powerpc/kernel/syscalls/syscall.tbl | tee syscalls-ppc64.h
 fi
 
