@@ -24,9 +24,23 @@ __global__ void k_simd_types(void)
 	PSHORT2(s);
 }
 
+__global__ void k_simd_abs2(void)
+{
+	/* -123 and 456 */
+	unsigned int input = (0xFF85u << 16) | 0x01C8u;
+	unsigned int result = __vabs2(input);
+
+	short2 input_short2 = *reinterpret_cast<short2 *>(&input);
+	short2 result_short2 = *reinterpret_cast<short2 *>(&result);
+
+	PSHORT2(input_short2);
+	PSHORT2(result_short2);
+}
+
 int main(int argc, char *argv[])
 {
 	k_simd_types<<<1, 1>>>();
+	k_simd_abs2<<<1, 1>>>();
 
 	(void)cudaDeviceSynchronize();
 	return 0;
