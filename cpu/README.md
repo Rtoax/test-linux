@@ -27,3 +27,4 @@ CPU - Central Processor Units
 # Links
 
 - wikepedia: [Die shot](https://en.wikipedia.org/wiki/Die_shot)
+  - `/sys/devices/system/cpu/cpu0/topology/die_id`
