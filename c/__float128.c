@@ -31,13 +31,13 @@
 #endif
 
 #ifdef HAVE_quadmath_h
-#define fp128_printf(fp128, tfmt, fmt) do {	\
+#define fp128_printf(fp128, tfmt) do {	\
 		char __buf[128];	\
 		quadmath_snprintf(__buf, sizeof(__buf), tfmt, fp128);	\
-		printf(fmt "%s\n", __buf);	\
+		printf(#fp128 " = %s\n", __buf);	\
 	} while (0)
 #else
-#define fp128_printf(fp128, tfmt, fmt) do {	\
+#define fp128_printf(fp128, tfmt) do {	\
 		(void)fp128;	\
 	} while (0)
 #endif
@@ -50,11 +50,11 @@ void test__float128(void)
 	__float128 pi = 3.1415926535897932384626433832795028Q;
 	__float128 e = 2.7182818284590452353602874713526624Q;
 
-	fp128_printf(pi, "%.35Qf", "pi = ");
-	fp128_printf(pi, "%.35Qe", "pi = ");
-	fp128_printf(pi, "%.35Qg", "pi = ");
-	fp128_printf(e, "%.35Qf", "e = ");
-	fp128_printf(pi + e, "%.35Qf", "pi + e = ");
+	fp128_printf(pi, "%.35Qf");
+	fp128_printf(pi, "%.35Qe");
+	fp128_printf(pi, "%.35Qg");
+	fp128_printf(e, "%.35Qf");
+	fp128_printf(pi + e, "%.35Qf");
 #endif
 
 }
@@ -67,9 +67,9 @@ void test_Float128(void)
 	_Float128 pi = 3.1415926535897932384626433832795028Q;
 	_Float128 e = 2.7182818284590452353602874713526624Q;
 
-	fp128_printf(pi, "%.35Qf", "pi = ");
-	fp128_printf(e, "%.35Qf", "e = ");
-	fp128_printf(pi + e, "%.35Qf", "pi + e = ");
+	fp128_printf(pi, "%.35Qf");
+	fp128_printf(e, "%.35Qf");
+	fp128_printf(pi + e, "%.35Qf");
 #endif
 }
 
