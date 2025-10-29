@@ -40,8 +40,10 @@ __global__ void k_integer_mathematical(void)
 	PLONGLONG(abs(-1LL));
 	PLONG(labs(-1L));
 	PLONGLONG(llabs(-1LL));
+#if !defined(__HIPCC__)
 	PLONGLONG(llmax(1LL, 2LL));
 	PLONGLONG(llmin(1LL, 2LL));
+#endif
 	PLONG(max(1L, 2L));
 	PLONGLONG(max(1LL, 2LL));
 	PLONG(max(1ULL, 2ULL));
