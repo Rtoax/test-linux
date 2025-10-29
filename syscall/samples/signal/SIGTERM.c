@@ -5,6 +5,13 @@
  * Processes can handle SIGTERM by defining a signal handler. This allows the
  * process to perform cleanup tasks, such as closing files or releasing
  * resources, before exiting.
+ *
+ * Generate conditions:
+ * - kill -TERM PID.
+ * - Terminator exit.
+ * - System shutdown, halt, reboot.
+ * - docker/podman stop.
+ * - systemctl stop.
  */
 #include <signal.h>
 #include <stdlib.h>
