@@ -37,10 +37,7 @@
 		printf(#fp128 " = %s\n", __buf);	\
 	} while (0)
 #else
-#define fp128_printf(fp128, tfmt) do {	\
-		typeof(fp128) __tmp = fp128;	\
-		(void)__tmp;	\
-	} while (0)
+#define fp128_printf(fp128, tfmt) do {} while (0)
 #endif
 
 void test__float128(void)
