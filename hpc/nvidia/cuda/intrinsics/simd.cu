@@ -16,13 +16,17 @@
 #include "types.h"
 
 
-__global__ void k_simd(void)
+__global__ void k_simd_types(void)
 {
+	short2 s;
+	s.x = 1;
+	s.y = 2;
+	PSHORT2(s);
 }
 
 int main(int argc, char *argv[])
 {
-	k_simd<<<1, 1>>>();
+	k_simd_types<<<1, 1>>>();
 
 	(void)cudaDeviceSynchronize();
 	return 0;

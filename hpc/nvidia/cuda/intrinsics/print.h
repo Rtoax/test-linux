@@ -66,6 +66,7 @@
 #define PDOUBLE2(v)	PPFX();printf("%s : {%lf, %lf}\n", #v, v.x, v.y);
 #define PINT(v)		PPFX();printf("%s : %d\n", #v, v);
 #define PSHORT(v)	PPFX();printf("%s : %d\n", #v, v);
+#define PSHORT2(v)	PPFX();printf("%s : {%d, %d}\n", #v, v.x, v.y);
 #define PLONG(v)	PPFX();printf("%s : %ld\n", #v, v);
 #define PLONGLONG(v)	PPFX();printf("%s : %lld\n", #v, v);
 #define PBOOL(v)	PPFX();printf("%s : %s\n", #v, v ? "true" : "false");
