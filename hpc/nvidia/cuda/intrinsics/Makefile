@@ -2,37 +2,44 @@
 OUTPUT := .output/
 __IGNORE_NOTFOUND_ERROR__ := 1
 
+include ../../../../compiler/compiler.mk
 include ../cuda.mk
 include ../../../amd/rocm/rocm.mk
 include ../../../metax/hpcc.mk
 include ../../../cestc/luca.mk
 
-common-objs := fp6
-common-objs += fp8
-common-objs += half
-common-objs += bfloat16
-common-objs += float
-common-objs += double
-common-objs += fp128
+common-objs-y := fp6
+common-objs-y += fp8
+common-objs-y += half
+common-objs-y += bfloat16
+common-objs-y += float
+common-objs-y += double
+common-objs-${CC__Float128} += fp128
+common-objs-${CC___float128} += fp128
 
 target-post-y :=
 
 # WARNING: must have -nv suffix.
-target-nvcc-${HAVE_CUDA} := $(patsubst %,%-nv,$(common-objs))
+target-nvcc-${HAVE_CUDA} := $(patsubst %,%-nv,$(common-objs-y))
 
 target-post-${HAVE_CUDA} += $(patsubst %-nv,${OUTPUT}%.E.cu,$(target-nvcc-y))
 target-post-${HAVE_CUDA} += $(patsubst %-nv,${OUTPUT}%.ptx,$(target-nvcc-y))
 target-post-${HAVE_CUDA} += $(patsubst %-nv,${OUTPUT}%.cu.cpp.ii,$(target-nvcc-y))
 
-target-hipcc-${HAVE_HIP} := $(patsubst %,%-hip,$(common-objs))
-target-htcc-${HAVE_HPCC} := $(patsubst %,%-hpcc,$(common-objs))
+target-hipcc-${HAVE_HIP} := $(patsubst %,%-hip,$(common-objs-y))
+target-htcc-${HAVE_HPCC} := $(patsubst %,%-hpcc,$(common-objs-y))
 
-target-lscc-${HAVE_LUCA} := $(patsubst %,%-luca,$(common-objs))
+target-lscc-${HAVE_LUCA} := $(patsubst %,%-luca,$(common-objs-y))
 
 # Skip warnings
 # warning: designated initializers are a C++20 extension [-Wc++20-designator]
 # warning: brace elision for designated initializer is a C99 extension [-Wc99-designator]
 CFLAGS_HIPCC_half := -Wno-c99-designator -Wno-c++20-designator
+
+CFLAGS_HIPCC := ${cflags-support-types-y}
+CFLAGS_HTCC := ${cflags-support-types-y}
+CFLAGS_LSCC := ${cflags-support-types-y}
+CFLAGS_NVCC := ${cflags-support-types-y}
 
 include ../../../../template/main.mk
 

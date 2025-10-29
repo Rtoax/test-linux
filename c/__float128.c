@@ -24,15 +24,30 @@
 #endif
 
 
-int main(void)
+void test__float128(void)
 {
+#ifdef SUPPORT___float128
 	assert(sizeof(__float128) == 16 && "size of __float128 is not equal to 16");
 
 	__float128 f128 = 3.14;
-	_Float128 F128 = 3.14;
-
 	printf("size of __float128 %ld\n", sizeof(f128));
-	printf("size of _Float128 %ld\n", sizeof(F128));
+#endif
 
+}
+
+void test_Float128(void)
+{
+#ifdef SUPPORT__Float128
+	assert(sizeof(_Float128) == 16 && "size of _Float128 is not equal to 16");
+
+	_Float128 F128 = 3.14;
+	printf("size of _Float128 %ld\n", sizeof(F128));
+#endif
+}
+
+int main(void)
+{
+	test__float128();
+	test_Float128();
 	return 0;
 }

@@ -72,6 +72,7 @@ CC___bf16 := $(findstring y,$(call check_compiler_support_type,$(CC),__bf16))
 # - Clang version 3.9 or later on x86_64/amd64
 # - NVHPC version 21.1 or later on x86_64/amd64
 CC___float128 := $(findstring y,$(call check_compiler_support_type,$(CC),__float128))
+CC__Float128 := $(findstring y,$(call check_compiler_support_type,$(CC),_Float128))
 CC___float80 := $(findstring y,$(call check_compiler_support_type,$(CC),__float80))
 CC___uint128_t := $(findstring y,$(call check_compiler_support_type,$(CC),__uint128_t))
 
@@ -80,6 +81,7 @@ cflags-support-types-${CC__Float16} += -DSUPPORT__Float16=1
 cflags-support-types-${CC___fp16} += -DSUPPORT___fp16=1
 cflags-support-types-${CC___bf16} += -DSUPPORT___bf16=1
 cflags-support-types-${CC___float128} += -DSUPPORT___float128=1
+cflags-support-types-${CC__Float128} += -DSUPPORT__Float128=1
 cflags-support-types-${CC___float80} += -DSUPPORT___float80=1
 cflags-support-types-${CC___uint128_t} += -DSUPPORT___uint128_t=1
 
@@ -114,6 +116,7 @@ ifdef DEBUG
   $(info CC___fp16: ${CC___fp16})
   $(info CC___bf16: ${CC___bf16})
   $(info CC___float128: ${CC___float128})
+  $(info CC__Float128: ${CC__Float128})
   $(info CC___float80: ${CC___float80})
   $(info CC___uint128_t: ${CC___uint128_t})
   $(info cflags-support-types-y: ${cflags-support-types-y})

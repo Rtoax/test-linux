@@ -25,6 +25,7 @@ target-y += goto
 target-y += float
 target-${CC___bf16} += __bf16
 target-${CC___float128} += __float128
+target-${CC__Float128} += _Float128
 target-${CC___float80} += __float80
 target-y += ptr-dim
 target-y += struct
@@ -81,6 +82,8 @@ CFLAGS___STDC__gnu98 := -std=gnu89 -DSTD_GNU98=1
 CFLAGS___STDC__c17 := -std=c89 -DSTD_C17=1
 
 CFLAGS_float := ${cflags-support-types-y}
+CFLAGS___float128 := ${cflags-support-types-y}
+CFLAGS__Float128 := ${cflags-support-types-y}
 LDFLAGS_float := -lm
 
 # preprocessing
@@ -105,6 +108,7 @@ dummy: ${OUTPUT}dummy.o
 float: ${OUTPUT}float.o
 __bf16: ${OUTPUT}__bf16.o
 __float128: ${OUTPUT}__float128.o
+_Float128: ${OUTPUT}_Float128.o
 __float80: ${OUTPUT}__float80.o
 _Generic: ${OUTPUT}_Generic.o
 goto: ${OUTPUT}goto.o

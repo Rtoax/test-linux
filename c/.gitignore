@@ -48,5 +48,6 @@
 /float
 /__bf16
 /__float128
+/_Float128
 /__float80
 /overflow

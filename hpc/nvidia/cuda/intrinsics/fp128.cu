@@ -19,18 +19,29 @@
 #include "print.h"
 #include "types.h"
 
+#if !defined(__HPCC__) && !defined(__LUCA__)
+# define SUPPORT_FP128
+#endif
 
+#ifdef SUPPORT___float128
+# define fp128	__float128
+#elif defined(SUPPORT__Float128)
+# define fp128	_Float128
+#endif
+
+/**
+ * error: "__float128" is a 128-bit floating-point, which is not supported in device code
+ */
 __global__ void k_float128_types(void)
 {
-	// error: "__float128" is a 128-bit floating-point, which is not supported in device code
-	//__float128 fp128 = 3.14;
+	fp128 f128 = 3.14;
 }
 
 int main(int argc, char *argv[])
 {
-#if !defined(__HPCC__) && !defined(__LUCA__)
-	assert(sizeof(_Float128) == 16 && "bad size of _Float128");
-#endif
+	assert(sizeof(fp128) == 16 && "bad size of fp128");
+
+	fp128 f128 = 3.14;
 
 	k_float128_types<<<1, 1>>>();
 
