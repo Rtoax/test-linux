@@ -23,10 +23,10 @@
 # define SUPPORT_FP128
 #endif
 
-#ifdef SUPPORT___float128
-# define fp128	__float128
-#elif defined(SUPPORT__Float128)
+#if defined(SUPPORT__Float128)
 # define fp128	_Float128
+#elif defined(SUPPORT___float128)
+# define fp128	__float128
 #endif
 
 /**
