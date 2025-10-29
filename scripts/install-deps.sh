@@ -908,6 +908,7 @@ dnf_add_packages()
 	pkgs_compiler+=( mold )                   # a modern linker
 	pkgs_compiler+=( java-1.8.0-openjdk-devel )
 	pkgs_compiler+=( libgccjit-devel )
+	pkgs_compiler+=( libquadmath-devel ) # for __float128
 	pkgs_compiler+=( rust )
 
 	add_cross_compiler

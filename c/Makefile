@@ -83,7 +83,11 @@ CFLAGS___STDC__c17 := -std=c89 -DSTD_C17=1
 
 CFLAGS_float := ${cflags-support-types-y}
 CFLAGS___float128 := ${cflags-support-types-y}
+CFLAGS___float128 += ${cflags-support-headers-y}
+LDFLAGS___float128 += ${ldflags-support-headers-y}
 CFLAGS__Float128 := ${cflags-support-types-y}
+CFLAGS__Float128 += ${cflags-support-headers-y}
+LDFLAGS__Float128 += ${ldflags-support-headers-y}
 LDFLAGS_float := -lm
 
 # preprocessing

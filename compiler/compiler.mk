@@ -1,6 +1,8 @@
 # SPDX-License-Identifier: GPL-3.0
 # Export:
 # cflags-support-types-y
+# cflags-support-headers-y
+# ldflags-support-headers-y
 #
 _COMPILER = 1
 
@@ -31,6 +33,14 @@ endef
 # $(2) - type name, such as _Float16, float, etc.
 define check_compiler_support_type
 $(shell echo 'int main(void) { $(2) v; return 0; }' | \
+	$(1) -x c -Werror - -o /dev/null 2>/dev/null && echo y)
+endef
+
+# Check compiler have header
+# $(1) - compiler, gcc, clang, etc.
+# $(2) - header name, like quadmath.h
+define check_compiler_support_header
+$(shell echo -e '#include <$(2)> \nint main(void) { return 0; }' | \
 	$(1) -x c -Werror - -o /dev/null 2>/dev/null && echo y)
 endef
 
@@ -76,6 +86,8 @@ CC__Float128 := $(findstring y,$(call check_compiler_support_type,$(CC),_Float12
 CC___float80 := $(findstring y,$(call check_compiler_support_type,$(CC),__float80))
 CC___uint128_t := $(findstring y,$(call check_compiler_support_type,$(CC),__uint128_t))
 
+CC_H_quadmath_h := $(findstring y,$(call check_compiler_support_header,$(CC),quadmath.h))
+
 cflags-support-types-y :=
 cflags-support-types-${CC__Float16} += -DSUPPORT__Float16=1
 cflags-support-types-${CC___fp16} += -DSUPPORT___fp16=1
@@ -84,6 +96,11 @@ cflags-support-types-${CC___float128} += -DSUPPORT___float128=1
 cflags-support-types-${CC__Float128} += -DSUPPORT__Float128=1
 cflags-support-types-${CC___float80} += -DSUPPORT___float80=1
 cflags-support-types-${CC___uint128_t} += -DSUPPORT___uint128_t=1
+
+cflags-support-headers-y :=
+cflags-support-headers-${CC_H_quadmath_h} += -DSUPPORT_quadmath_h=1
+ldflags-support-headers-y :=
+ldflags-support-headers-${CC_H_quadmath_h} += -lquadmath
 
 CC_FULLVERSION := $(shell $(CC) -dumpfullversion -dumpversion)
 CC_VERSION := $(shell $(CC) -dumpversion)
@@ -120,6 +137,8 @@ ifdef DEBUG
   $(info CC___float80: ${CC___float80})
   $(info CC___uint128_t: ${CC___uint128_t})
   $(info cflags-support-types-y: ${cflags-support-types-y})
+  $(info cflags-support-headers-y: ${cflags-support-headers-y})
+  $(info ldflags-support-headers-y: ${ldflags-support-headers-y})
 
   $(info feature-m32 ${feature-m32})
   $(info feature-sve2 ${feature-sve2})
@@ -127,4 +146,6 @@ ifdef DEBUG
   $(info feature-lse ${feature-lse})
   $(info feature-fcf-protection1 ${feature-fcf-protection1})
   $(info feature-fcf-protection2 ${feature-fcf-protection2})
+
+  $(info CC_H_quadmath_h ${CC_H_quadmath_h})
 endif

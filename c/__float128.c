@@ -9,6 +9,13 @@
 #include <assert.h>
 #include <stdio.h>
 #include <stdint.h>
+#ifdef __has_include
+# if __has_include (<quadmath.h>)
+#  include <quadmath.h>
+#  pragma message "compiler support quadmath.h"
+#  define HAVE_quadmath_h	1
+# endif
+#endif
 
 /**
  * GCC Additional Floating Types: https://gcc.gnu.org/onlinedocs/gcc/Floating-Types.html
@@ -23,14 +30,31 @@
 # define SUPPORT_FLOAT128_ARITHMETIC	1
 #endif
 
+#ifdef HAVE_quadmath_h
+#define fp128_printf(fp128, tfmt, fmt) do {	\
+		char __buf[128];	\
+		quadmath_snprintf(__buf, sizeof(__buf), tfmt, fp128);	\
+		printf(fmt "%s\n", __buf);	\
+	} while (0)
+#else
+#define fp128_printf(fp128, tfmt, fmt) do {	\
+		(void)fp128;	\
+	} while (0)
+#endif
 
 void test__float128(void)
 {
 #ifdef SUPPORT___float128
 	assert(sizeof(__float128) == 16 && "size of __float128 is not equal to 16");
 
-	__float128 f128 = 3.14;
-	printf("size of __float128 %ld\n", sizeof(f128));
+	__float128 pi = 3.1415926535897932384626433832795028Q;
+	__float128 e = 2.7182818284590452353602874713526624Q;
+
+	fp128_printf(pi, "%.35Qf", "pi = ");
+	fp128_printf(pi, "%.35Qe", "pi = ");
+	fp128_printf(pi, "%.35Qg", "pi = ");
+	fp128_printf(e, "%.35Qf", "e = ");
+	fp128_printf(pi + e, "%.35Qf", "pi + e = ");
 #endif
 
 }
@@ -40,8 +64,12 @@ void test_Float128(void)
 #ifdef SUPPORT__Float128
 	assert(sizeof(_Float128) == 16 && "size of _Float128 is not equal to 16");
 
-	_Float128 F128 = 3.14;
-	printf("size of _Float128 %ld\n", sizeof(F128));
+	_Float128 pi = 3.1415926535897932384626433832795028Q;
+	_Float128 e = 2.7182818284590452353602874713526624Q;
+
+	fp128_printf(pi, "%.35Qf", "pi = ");
+	fp128_printf(e, "%.35Qf", "e = ");
+	fp128_printf(pi + e, "%.35Qf", "pi + e = ");
 #endif
 }
 
