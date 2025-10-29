@@ -42,7 +42,10 @@ __global__ void k_simd_abs2(void)
 __global__ void k_simd_abs4(void)
 {
 #if !defined(__HIPCC__)
-	int8_t s8_1 = -1, s8_2 = -2, s8_3 = -3, s8_4 = -4;
+	uint8_t s8_1 = (uint8_t)-1;
+	uint8_t s8_2 = (uint8_t)-2;
+	uint8_t s8_3 = (uint8_t)-3;
+	uint8_t s8_4 = (uint8_t)-4;
 	unsigned int input = s8_1 << 24 | s8_2 << 16 | s8_3 << 8 | s8_4;
 	unsigned int result = __vabs4(input);
 	PINT(result >> 24 & 0xff);
