@@ -16,12 +16,13 @@
 #include <signal.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 #include <unistd.h>
 
 
 void sig_handler(int signum)
 {
-	psignal(signum, "Signal");
+	fprintf(stderr, "pid %d get %s\n", getpid(), strsignal(signum));
 	exit(1);
 }
 
@@ -37,6 +38,7 @@ int main(void)
 		sleep(100);
 	}
 
+	sleep(1);
 	printf("parent %d kill %d\n", getpid(), pid);
 	kill(pid, SIGTERM);
 
