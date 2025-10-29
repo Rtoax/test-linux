@@ -16,6 +16,7 @@ common-objs-y += float
 common-objs-y += double
 common-objs-${CC__Float128} += fp128
 common-objs-${CC___float128} += fp128
+common-objs-y += int
 
 target-post-y :=
 
@@ -52,6 +53,7 @@ ${OUTPUT}bfloat16.cu.o: ${HDRS}
 ${OUTPUT}float.cu.o: ${HDRS}
 ${OUTPUT}double.cu.o: ${HDRS}
 ${OUTPUT}fp128.cu.o: ${HDRS}
+${OUTPUT}int.cu.o: ${HDRS}
 
 fp6-nv: ${OUTPUT}fp6.cu.o
 fp8-nv: ${OUTPUT}fp8.cu.o
@@ -60,6 +62,7 @@ bfloat16-nv: ${OUTPUT}bfloat16.cu.o
 float-nv: ${OUTPUT}float.cu.o
 double-nv: ${OUTPUT}double.cu.o
 fp128-nv: ${OUTPUT}fp128.cu.o
+int-nv: ${OUTPUT}int.cu.o
 
 ${OUTPUT}fp6.hip.o: fp6.cu ${HDRS}
 fp6-hip: ${OUTPUT}fp6.hip.o
@@ -75,6 +78,8 @@ ${OUTPUT}double.hip.o: double.cu ${HDRS}
 double-hip: ${OUTPUT}double.hip.o
 ${OUTPUT}fp128.hip.o: fp128.cu ${HDRS}
 fp128-hip: ${OUTPUT}fp128.hip.o
+${OUTPUT}int.hip.o: int.cu ${HDRS}
+int-hip: ${OUTPUT}int.hip.o
 
 ${OUTPUT}fp6.hpcc.o: fp6.cu ${HDRS}
 fp6-hpcc: ${OUTPUT}fp6.hpcc.o
@@ -90,6 +95,8 @@ ${OUTPUT}double.hpcc.o: double.cu ${HDRS}
 double-hpcc: ${OUTPUT}double.hpcc.o
 ${OUTPUT}fp128.hpcc.o: fp128.cu ${HDRS}
 fp128-hpcc: ${OUTPUT}fp128.hpcc.o
+${OUTPUT}int.hpcc.o: int.cu ${HDRS}
+int-hpcc: ${OUTPUT}int.hpcc.o
 
 ${OUTPUT}fp6.luca.o: fp6.cu ${HDRS}
 fp6-luca: ${OUTPUT}fp6.luca.o
@@ -105,3 +112,5 @@ ${OUTPUT}double.luca.o: double.cu ${HDRS}
 double-luca: ${OUTPUT}double.luca.o
 ${OUTPUT}fp128.luca.o: fp128.cu ${HDRS}
 fp128-luca: ${OUTPUT}fp128.luca.o
+${OUTPUT}int.luca.o: int.cu ${HDRS}
+int-luca: ${OUTPUT}int.luca.o
