@@ -2,6 +2,7 @@
 /* Copyright (c) 2025 Rong Tao */
 /**
  * https://docs.nvidia.com/cuda/cuda-math-api/cuda_math_api/group__CUDA__MATH__INT.html
+ * https://docs.nvidia.com/cuda/cuda-math-api/cuda_math_api/group__CUDA__MATH__INTRINSIC__INT.html
  */
 #include <assert.h>
 #include <stdio.h>
