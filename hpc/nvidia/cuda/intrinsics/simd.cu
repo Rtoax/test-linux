@@ -26,6 +26,7 @@ __global__ void k_simd_types(void)
 
 __global__ void k_simd_abs2(void)
 {
+#if !defined(__HIPCC__)
 	/* -123 and 456 */
 	unsigned int input = (0xFF85u << 16) | 0x01C8u;
 	unsigned int result = __vabs2(input);
@@ -35,10 +36,12 @@ __global__ void k_simd_abs2(void)
 
 	PSHORT2(input_short2);
 	PSHORT2(result_short2);
+#endif
 }
 
 __global__ void k_simd_abs4(void)
 {
+#if !defined(__HIPCC__)
 	int8_t s8_1 = -1, s8_2 = -2, s8_3 = -3, s8_4 = -4;
 	unsigned int input = s8_1 << 24 | s8_2 << 16 | s8_3 << 8 | s8_4;
 	unsigned int result = __vabs4(input);
@@ -46,6 +49,7 @@ __global__ void k_simd_abs4(void)
 	PINT(result >> 16 & 0xff);
 	PINT(result >> 8 & 0xff);
 	PINT(result & 0xff);
+#endif
 }
 
 int main(int argc, char *argv[])
