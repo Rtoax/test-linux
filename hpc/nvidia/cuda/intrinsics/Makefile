@@ -17,26 +17,17 @@ common-objs += fp128
 
 target-post-y :=
 
-ifdef HAVE_CUDA
-  # WARNING: must have -nv suffix.
-  target-nvcc-y := $(patsubst %,%-nv,$(common-objs))
+# WARNING: must have -nv suffix.
+target-nvcc-${HAVE_CUDA} := $(patsubst %,%-nv,$(common-objs))
 
-  target-post-y += $(patsubst %-nv,${OUTPUT}%.E.cu,$(target-nvcc-y))
-  target-post-y += $(patsubst %-nv,${OUTPUT}%.ptx,$(target-nvcc-y))
-  target-post-y += $(patsubst %-nv,${OUTPUT}%.cu.cpp.ii,$(target-nvcc-y))
-endif
+target-post-${HAVE_CUDA} += $(patsubst %-nv,${OUTPUT}%.E.cu,$(target-nvcc-y))
+target-post-${HAVE_CUDA} += $(patsubst %-nv,${OUTPUT}%.ptx,$(target-nvcc-y))
+target-post-${HAVE_CUDA} += $(patsubst %-nv,${OUTPUT}%.cu.cpp.ii,$(target-nvcc-y))
 
-ifdef HAVE_HIP
-  target-hipcc-y := $(patsubst %,%-hip,$(common-objs))
-endif
+target-hipcc-${HAVE_HIP} := $(patsubst %,%-hip,$(common-objs))
+target-htcc-${HAVE_HPCC} := $(patsubst %,%-hpcc,$(common-objs))
 
-ifdef HAVE_HPCC
-  target-htcc-y := $(patsubst %,%-hpcc,$(common-objs))
-endif
-
-ifdef HAVE_LUCA
-  target-lscc-y := $(patsubst %,%-luca,$(common-objs))
-endif
+target-lscc-${HAVE_LUCA} := $(patsubst %,%-luca,$(common-objs))
 
 # Skip warnings
 # warning: designated initializers are a C++20 extension [-Wc++20-designator]
