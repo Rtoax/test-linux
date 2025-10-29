@@ -30,3 +30,7 @@
 /int-hip
 /int-hpcc
 /int-luca
+/simd-nv
+/simd-hip
+/simd-hpcc
+/simd-luca
