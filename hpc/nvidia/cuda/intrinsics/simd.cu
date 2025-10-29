@@ -37,10 +37,23 @@ __global__ void k_simd_abs2(void)
 	PSHORT2(result_short2);
 }
 
+__global__ void k_simd_abs4(void)
+{
+	int8_t s8_1 = -1, s8_2 = -2, s8_3 = -3, s8_4 = -4;
+	unsigned int input = s8_1 << 24 | s8_2 << 16 | s8_3 << 8 | s8_4;
+	unsigned int result = __vabs4(input);
+	PINT(result >> 24 & 0xff);
+	PINT(result >> 16 & 0xff);
+	PINT(result >> 8 & 0xff);
+	PINT(result & 0xff);
+}
+
 int main(int argc, char *argv[])
 {
 	k_simd_types<<<1, 1>>>();
+
 	k_simd_abs2<<<1, 1>>>();
+	k_simd_abs4<<<1, 1>>>();
 
 	(void)cudaDeviceSynchronize();
 	return 0;
