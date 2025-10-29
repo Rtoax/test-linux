@@ -19,6 +19,9 @@
 
 __global__ void k_integer_types(void)
 {
+	short2 s;
+	s.x = 1;
+	s.y = 2;
 }
 
 __global__ void k_integer_mathematical(void)
@@ -47,6 +50,7 @@ __global__ void k_integer_mathematical(void)
 int main(int argc, char *argv[])
 {
 	assert(sizeof(int) == 4 && "bad size of int");
+	assert(sizeof(short2) == 4 && "bad size of short2");
 
 	k_integer_types<<<1, 1>>>();
 	k_integer_mathematical<<<1, 1>>>();
