@@ -22,3 +22,8 @@ CPU - Central Processor Units
 - /proc/cpuinfo
 - /sys/devices/system/cpu
 - /sys/devices/system/cpu/online
+
+
+# Links
+
+- wikepedia: [Die shot](https://en.wikipedia.org/wiki/Die_shot)
