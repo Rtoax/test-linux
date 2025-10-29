@@ -52,6 +52,7 @@ target-y += restrict
 target-y += ternary
 target-y += return
 target-y += overflow
+target-y += typeof
 
 define arch_strip
   ${Q}${STRIP} $(1) -o $(1).strip
@@ -146,3 +147,4 @@ restrict: ${OUTPUT}restrict.o
 ternary: ${OUTPUT}ternary.o
 return: ${OUTPUT}return.o
 overflow: ${OUTPUT}overflow.o
+typeof: ${OUTPUT}typeof.o

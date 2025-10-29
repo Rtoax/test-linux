@@ -38,7 +38,8 @@
 	} while (0)
 #else
 #define fp128_printf(fp128, tfmt) do {	\
-		(void)fp128;	\
+		typeof(fp128) __tmp = fp128;	\
+		(void)__tmp;	\
 	} while (0)
 #endif
 
