@@ -29,12 +29,14 @@
 # define fp128	__float128
 #endif
 
+__global__ void k_float128_types(void)
+{
 /**
  * error: "__float128" is a 128-bit floating-point, which is not supported in device code
  */
-__global__ void k_float128_types(void)
-{
+#if !defined(__NVCC__)
 	fp128 f128 = 3.14;
+#endif
 }
 
 int main(int argc, char *argv[])
