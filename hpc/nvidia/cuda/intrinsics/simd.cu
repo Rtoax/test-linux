@@ -24,11 +24,26 @@ __global__ void k_simd_types(void)
 	PSHORT2(s);
 }
 
+#define UINT16x2toUINT32(s1, s2) ({	\
+		unsigned short __s1 = (unsigned short)s1;	\
+		unsigned short __s2 = (unsigned short)s2;	\
+		unsigned int __v = __s1 << 16 | __s2;	\
+		__v;	\
+	})
+
+#define UINT8x4toUINT32(u1, u2, u3, u4) ({	\
+		uint8_t __u1 = (uint8_t)u1;	\
+		uint8_t __u2 = (uint8_t)u2;	\
+		uint8_t __u3 = (uint8_t)u3;	\
+		uint8_t __u4 = (uint8_t)u4;	\
+		unsigned int __v = __u1 << 24 | __u2 << 16 | __u3 << 8 | __u4;	\
+		__v;	\
+	})
+
 __global__ void k_simd_abs2(void)
 {
 #if !defined(__HIPCC__)
-	/* -123 and 456 */
-	unsigned int input = (0xFF85u << 16) | 0x01C8u;
+	unsigned int input = UINT16x2toUINT32(-123, 456);
 	unsigned int result = __vabs2(input);
 
 	short2 input_short2 = *reinterpret_cast<short2 *>(&input);
@@ -42,11 +57,7 @@ __global__ void k_simd_abs2(void)
 __global__ void k_simd_abs4(void)
 {
 #if !defined(__HIPCC__)
-	uint8_t s8_1 = (uint8_t)-1;
-	uint8_t s8_2 = (uint8_t)-2;
-	uint8_t s8_3 = (uint8_t)-3;
-	uint8_t s8_4 = (uint8_t)-4;
-	unsigned int input = s8_1 << 24 | s8_2 << 16 | s8_3 << 8 | s8_4;
+	unsigned int input = UINT8x4toUINT32(-1, -2, -3, -4);
 	unsigned int result = __vabs4(input);
 	PINT(result >> 24 & 0xff);
 	PINT(result >> 16 & 0xff);
