@@ -49,6 +49,8 @@ __global__ void k_simd_u16x2(void)
 	PUINT32toINT16x2(input2);
 	PUINT32toSHORT2(__vabs2(input));
 	PUINT32toSHORT2(__vabsdiffs2(input, input2));
+	PUINT32toSHORT2(__vabsdiffu2(input, input2));
+	PUINT32toSHORT2(__vabsss2(input));
 #endif
 }
 
