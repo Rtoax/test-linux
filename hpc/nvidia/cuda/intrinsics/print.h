@@ -87,6 +87,12 @@
 		uint8_t u4 = v & 0xff;	\
 		printf("%s : {%u, %u, %u, %u}\n", #v, u1, u2, u3, u4);	\
 	} while (0)
+#define PUINT32toSHORT2(v) do {	\
+		unsigned int __v = v;	\
+		short2 s2 = *reinterpret_cast<short2 *>(&__v);	\
+		PPFX();printf("%s : {%d, %d}\n", #v, s2.x, s2.y);	\
+	} while (0)
+
 #define PSHORT(v)	PPFX();printf("%s : %d\n", #v, v);
 #define PSHORT2(v)	PPFX();printf("%s : {%d, %d}\n", #v, v.x, v.y);
 #define PLONG(v)	PPFX();printf("%s : %ld\n", #v, v);

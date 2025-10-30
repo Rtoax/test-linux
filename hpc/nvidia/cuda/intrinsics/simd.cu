@@ -40,19 +40,15 @@ __global__ void k_simd_types(void)
 		__v;	\
 	})
 
-__global__ void k_simd_abs2(void)
+__global__ void k_simd_u16x2(void)
 {
 #if !defined(__HIPCC__)
 	unsigned int input = UINT16x2toUINT32(-123, 456);
-	unsigned int result = __vabs2(input);
-
-	short2 input_short2 = *reinterpret_cast<short2 *>(&input);
-	short2 result_short2 = *reinterpret_cast<short2 *>(&result);
-
+	unsigned int input2 = UINT16x2toUINT32(1, 2);
 	PUINT32toINT16x2(input);
-	PUINT32toINT16x2(result);
-	PSHORT2(input_short2);
-	PSHORT2(result_short2);
+	PUINT32toINT16x2(input2);
+	PUINT32toSHORT2(__vabs2(input));
+	PUINT32toSHORT2(__vabsdiffs2(input, input2));
 #endif
 }
 
@@ -72,7 +68,7 @@ int main(int argc, char *argv[])
 {
 	k_simd_types<<<1, 1>>>();
 
-	k_simd_abs2<<<1, 1>>>();
+	k_simd_u16x2<<<1, 1>>>();
 	k_simd_u8x4<<<1, 1>>>();
 
 	(void)cudaDeviceSynchronize();
