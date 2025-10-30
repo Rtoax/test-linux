@@ -59,10 +59,10 @@ __global__ void k_simd_abs4(void)
 #if !defined(__HIPCC__)
 	unsigned int input = UINT8x4toUINT32(-1, -2, -3, -4);
 	unsigned int result = __vabs4(input);
-	PINT(result >> 24 & 0xff);
-	PINT(result >> 16 & 0xff);
-	PINT(result >> 8 & 0xff);
-	PINT(result & 0xff);
+	PUINT32(result >> 24 & 0xff);
+	PUINT32(result >> 16 & 0xff);
+	PUINT32(result >> 8 & 0xff);
+	PUINT32(result & 0xff);
 #endif
 }
 

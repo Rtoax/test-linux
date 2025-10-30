@@ -303,14 +303,14 @@ __global__ void k_half_precision_conversion(void)
 	PHALF((h = __ushort2half_ru(usi)));
 	PHALF((h = __ushort2half_rz(usi)));
 	PHALF((h = __ushort_as_half(usi)));
-	PINT((i = __half2int_rd(h))); /* round-down */
-	PINT((i = __half2int_rn(h))); /* round-to-nearest-even */
-	PINT((i = __half2int_ru(h))); /* round-up */
-	PINT((i = __half2int_rz(h))); /* round-zero */
-	PINT((ui = __half2uint_rd(h)));
-	PINT((ui = __half2uint_rn(h)));
-	PINT((ui = __half2uint_ru(h)));
-	PINT((ui = __half2uint_rz(h)));
+	PUINT32((i = __half2int_rd(h))); /* round-down */
+	PUINT32((i = __half2int_rn(h))); /* round-to-nearest-even */
+	PUINT32((i = __half2int_ru(h))); /* round-up */
+	PUINT32((i = __half2int_rz(h))); /* round-zero */
+	PUINT32((ui = __half2uint_rd(h)));
+	PUINT32((ui = __half2uint_rn(h)));
+	PUINT32((ui = __half2uint_ru(h)));
+	PUINT32((ui = __half2uint_rz(h)));
 	PHALF((h = __uint2half_rd(ui)));
 	PHALF((h = __uint2half_rn(ui)));
 	PHALF((h = __uint2half_ru(ui)));
@@ -473,52 +473,52 @@ __global__ void k_half2_comparision(void)
 	PHALF2(__heq2(h2_1, h2_1));
 	PHALF2(__heq2(h2_1, h2_2));
 #if !defined(__HPCC__) && !defined(__LUCA__) && !defined(__HIPCC__) && (CUDA_VERSION >= 12000)
-	PINT(__heq2_mask(h2_1, h2_1));
-	PINT(__heq2_mask(h2_1, h2_2));
+	PUINT32(__heq2_mask(h2_1, h2_1));
+	PUINT32(__heq2_mask(h2_1, h2_2));
 #endif
 	PHALF2(__hequ2(h2_1, h2_1));
 #if !defined(__HPCC__)  && !defined(__LUCA__)&& !defined(__HIPCC__) && (CUDA_VERSION >= 12000)
-	PINT(__hequ2_mask(h2_1, h2_1));
+	PUINT32(__hequ2_mask(h2_1, h2_1));
 #endif
 	PHALF2(__hge2(h2_1, h2_1));
 #if !defined(__HPCC__) && !defined(__LUCA__) && !defined(__HIPCC__) && (CUDA_VERSION >= 12000)
-	PINT(__hge2_mask(h2_1, h2_1));
+	PUINT32(__hge2_mask(h2_1, h2_1));
 #endif
 	PHALF2(__hgeu2(h2_1, h2_1));
 #if !defined(__HPCC__) && !defined(__LUCA__) && !defined(__HIPCC__) && (CUDA_VERSION >= 12000)
-	PINT(__hgeu2_mask(h2_1, h2_1));
+	PUINT32(__hgeu2_mask(h2_1, h2_1));
 #endif
 	PHALF2(__hgt2(h2_1, h2_1));
 #if !defined(__HPCC__) && !defined(__LUCA__) && !defined(__HIPCC__) && (CUDA_VERSION >= 12000)
-	PINT(__hgt2_mask(h2_1, h2_1));
+	PUINT32(__hgt2_mask(h2_1, h2_1));
 #endif
 	PHALF2(__hgtu2(h2_1, h2_1));
 #if !defined(__HPCC__) && !defined(__LUCA__) && !defined(__HIPCC__) && (CUDA_VERSION >= 12000)
-	PINT(__hgtu2_mask(h2_1, h2_1));
+	PUINT32(__hgtu2_mask(h2_1, h2_1));
 #endif
 	PHALF2(__hle2(h2_1, h2_1));
 #if !defined(__HPCC__) && !defined(__LUCA__) && !defined(__HIPCC__) && (CUDA_VERSION >= 12000)
-	PINT(__hle2_mask(h2_1, h2_1));
+	PUINT32(__hle2_mask(h2_1, h2_1));
 #endif
 	PHALF2(__hleu2(h2_1, h2_1));
 #if !defined(__HPCC__) && !defined(__LUCA__) && !defined(__HIPCC__) && (CUDA_VERSION >= 12000)
-	PINT(__hleu2_mask(h2_1, h2_1));
+	PUINT32(__hleu2_mask(h2_1, h2_1));
 #endif
 	PHALF2(__hlt2(h2_1, h2_1));
 #if !defined(__HPCC__) && !defined(__LUCA__) && !defined(__HIPCC__) && (CUDA_VERSION >= 12000)
-	PINT(__hlt2_mask(h2_1, h2_1));
+	PUINT32(__hlt2_mask(h2_1, h2_1));
 #endif
 	PHALF2(__hltu2(h2_1, h2_1));
 #if !defined(__HPCC__) && !defined(__LUCA__) && !defined(__HIPCC__) && (CUDA_VERSION >= 12000)
-	PINT(__hltu2_mask(h2_1, h2_1));
+	PUINT32(__hltu2_mask(h2_1, h2_1));
 #endif
 	PHALF2(__hne2(h2_1, h2_1));
 #if !defined(__HPCC__) && !defined(__LUCA__) && !defined(__HIPCC__) && (CUDA_VERSION >= 12000)
-	PINT(__hne2_mask(h2_1, h2_1));
+	PUINT32(__hne2_mask(h2_1, h2_1));
 #endif
 	PHALF2(__hneu2(h2_1, h2_1));
 #if !defined(__HPCC__) && !defined(__LUCA__) && !defined(__HIPCC__) && (CUDA_VERSION >= 12000)
-	PINT(__hneu2_mask(h2_1, h2_1));
+	PUINT32(__hneu2_mask(h2_1, h2_1));
 #endif
 
 	PHALF2(__hisnan2(h2_1));

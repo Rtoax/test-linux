@@ -30,12 +30,12 @@ __global__ void k_integer_mathematical(void)
 	long int li = 1L;
 	long long int lli_a = 1LL, lli_b = 2LL;
 
-	PINT(i);
+	PUINT32(i);
 	PLONG(li);
 	PLONGLONG(lli_a);
 	PLONGLONG(lli_b);
 
-	PINT(abs(-1));
+	PUINT32(abs(-1));
 	PLONG(abs(-1L));
 	PLONGLONG(abs(-1LL));
 	PLONG(labs(-1L));

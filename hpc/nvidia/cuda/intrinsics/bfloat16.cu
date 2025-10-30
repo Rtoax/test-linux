@@ -233,14 +233,14 @@ __global__ void k_bfloat16_precision_conversion(void)
 	PFLOAT(__bfloat162float(pi));
 
 #if !defined(__HIPCC__)
-	PINT(__bfloat162int_rd(pi))
-	PINT(__bfloat162int_rn(pi))
-	PINT(__bfloat162int_ru(pi))
-	PINT(__bfloat162int_rz(pi))
-	PINT(__bfloat162uint_rd(pi))
-	PINT(__bfloat162uint_rn(pi))
-	PINT(__bfloat162uint_ru(pi))
-	PINT(__bfloat162uint_rz(pi))
+	PUINT32(__bfloat162int_rd(pi))
+	PUINT32(__bfloat162int_rn(pi))
+	PUINT32(__bfloat162int_ru(pi))
+	PUINT32(__bfloat162int_rz(pi))
+	PUINT32(__bfloat162uint_rd(pi))
+	PUINT32(__bfloat162uint_rn(pi))
+	PUINT32(__bfloat162uint_ru(pi))
+	PUINT32(__bfloat162uint_rz(pi))
 #endif
 
 #if !defined(__HIPCC__)

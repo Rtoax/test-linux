@@ -74,11 +74,11 @@ __global__ void k_double_precision_mathematical(void)
 	PDOUBLE(fmod(pi, 1.));
 
 	PDOUBLE(frexp(pi, &i));
-	PINT(i);
+	PUINT32(i);
 
 	PDOUBLE(hypot(pi, 1.));
 
-	PINT(ilogb(pi));
+	PUINT32(ilogb(pi));
 
 	PBOOL(isfinite(pi));
 	PBOOL(isinf(pi));
@@ -133,7 +133,7 @@ __global__ void k_double_precision_mathematical(void)
 	PDOUBLE(rcbrt(pi));
 	PDOUBLE(remainder(pi, pi));
 	PDOUBLE(remquo(pi, pi, &i));
-	PINT(i);
+	PUINT32(i);
 
 	PDOUBLE(rhypot(pi, pi));
 	PDOUBLE(rint(pi));

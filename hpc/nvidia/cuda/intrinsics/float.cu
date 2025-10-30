@@ -60,9 +60,9 @@ __global__ void k_float_precision_mathematical(void)
 	PFLOAT(fminf(pi, pi));
 	PFLOAT(fmodf(pi, pi));
 	PFLOAT(frexpf(pi, &i));
-	PINT(i);
+	PUINT32(i);
 	PFLOAT(hypotf(pi, pi));
-	PINT(ilogbf(pi));
+	PUINT32(ilogbf(pi));
 	PBOOL(isfinite(pi));
 	PBOOL(isinf(pi));
 	PBOOL(isnan(pi));
@@ -109,8 +109,8 @@ __global__ void k_float_precision_mathematical(void)
 	PFLOAT(rsqrtf(pi));
 	PFLOAT(scalblnf(pi, 2));
 	PFLOAT(scalbnf(pi, 2));
-	PINT(signbit(pi));
-	PINT(signbit(-pi));
+	PUINT32(signbit(pi));
+	PUINT32(signbit(-pi));
 	PEXPR(sincosf(pi, &tmp2, &tmp3));
 	PFLOAT(tmp2);
 	PFLOAT(tmp3);
