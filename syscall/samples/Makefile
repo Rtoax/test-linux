@@ -48,6 +48,7 @@ subdir-y += random
 subdir-y += ldt
 subdir-y += xattr
 subdir-y += truncate
+subdir-y += write
 
 target-y :=
 target-y += acct
@@ -83,7 +84,6 @@ target-y += uname
 target-y += userfaultfd
 target-y += symlink
 target-y += readdir
-target-y += write write-EBADF
 target-y += read
 target-y += getdents
 target-y += getgroups
@@ -125,7 +125,6 @@ endif
 CFLAGS += -I../../
 CFLAGS += -pthread
 
-CFLAGS_write := -Wno-error=unused-variable
 CXXFLAGS_readlink2 := -std=c++17 -lstdc++
 
 target-prep-y := nr.h
@@ -183,8 +182,6 @@ userfaultfd: userfaultfd.o
 sysctl: sysctl.o
 symlink: symlink.o
 readdir: readdir.o
-write: write.o
-write-EBADF: write-EBADF.o
 read: read.o
 getdents: getdents.o
 getgroups: getgroups.o

@@ -43,8 +43,6 @@
 /syscall
 /kcmp
 /readdir
-/write
-/write-EBADF
 /read
 /getdents
 /*.txt
