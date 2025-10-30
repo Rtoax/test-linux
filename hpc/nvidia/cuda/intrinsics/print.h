@@ -79,6 +79,14 @@
 		int8_t u4 = v & 0xff;	\
 		printf("%s : {%d, %d, %d, %d}\n", #v, u1, u2, u3, u4);	\
 	} while (0)
+#define PUINT32toUINT8x4(v) do {	\
+		PPFX();	\
+		uint8_t u1 = v >> 24 & 0xff;	\
+		uint8_t u2 = v >> 16 & 0xff;	\
+		uint8_t u3 = v >> 8 & 0xff;	\
+		uint8_t u4 = v & 0xff;	\
+		printf("%s : {%u, %u, %u, %u}\n", #v, u1, u2, u3, u4);	\
+	} while (0)
 #define PSHORT(v)	PPFX();printf("%s : %d\n", #v, v);
 #define PSHORT2(v)	PPFX();printf("%s : {%d, %d}\n", #v, v.x, v.y);
 #define PLONG(v)	PPFX();printf("%s : %ld\n", #v, v);

@@ -60,8 +60,11 @@ __global__ void k_simd_u8x4(void)
 {
 #if !defined(__HIPCC__)
 	unsigned int input = UINT8x4toUINT32(-1, -2, -3, -4);
+	unsigned int input2 = UINT8x4toUINT32(1, 2, 3, 4);
 	PUINT32toINT8x4(input);
 	PUINT32toINT8x4(__vabs4(input));
+	PUINT32toINT8x4(__vabsdiffs4(input, input2));
+	PUINT32toUINT8x4(__vabsdiffu4(input2, input));
 #endif
 }
 
