@@ -2,7 +2,7 @@
 # ref: https://www.linuxcapable.com/how-to-upgrade-fedora-release/
 set -e
 
-newest_fedora=42
+newest_fedora=43
 
 # update your system to ensure all packages are current
 sudo dnf upgrade --refresh -y
