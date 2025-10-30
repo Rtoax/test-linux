@@ -65,6 +65,12 @@
 #define PDOUBLE(v)	PPFX();printf("%s : %lf\n", #v, v);
 #define PDOUBLE2(v)	PPFX();printf("%s : {%lf, %lf}\n", #v, v.x, v.y);
 #define PUINT32(v)	PPFX();printf("%s : %d\n", #v, v);
+#define PUINT32toINT16x2(v) do {	\
+		PPFX();	\
+		short __s1 = v >> 16 & 0xffff;	\
+		short __s2 = v & 0xffff;	\
+		printf("%s : {%d, %d}\n", #v, __s1, __s2);	\
+	} while (0)
 #define PUINT32toUINT8x4(v) do {	\
 		PPFX();	\
 		printf("%s : {%u, %u, %u, %u}\n",	\

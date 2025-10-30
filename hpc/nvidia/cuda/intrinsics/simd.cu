@@ -49,6 +49,8 @@ __global__ void k_simd_abs2(void)
 	short2 input_short2 = *reinterpret_cast<short2 *>(&input);
 	short2 result_short2 = *reinterpret_cast<short2 *>(&result);
 
+	PUINT32toINT16x2(input);
+	PUINT32toINT16x2(result);
 	PSHORT2(input_short2);
 	PSHORT2(result_short2);
 #endif
