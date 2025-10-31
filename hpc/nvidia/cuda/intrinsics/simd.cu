@@ -51,6 +51,15 @@ __global__ void k_simd_u16x2(void)
 	PUINT32toSHORT2(__vabsdiffs2(input, input2));
 	PUINT32toSHORT2(__vabsdiffu2(input, input2));
 	PUINT32toSHORT2(__vabsss2(input));
+	PUINT32toSHORT2(__vadd2(input, input2));
+	PUINT32toSHORT2(__vaddss2(input, input2));
+	PUINT32toSHORT2(__vaddus2(input, input2));
+	PUINT32toSHORT2(__vavgs2(input, input2));
+	PUINT32toSHORT2(__vavgu2(input, input2));
+	PUINT32toSHORT2(__vcmpeq2(input, input2));
+	PUINT32toSHORT2(__vcmpges2(input, input2));
+	PUINT32toSHORT2(__vcmpgeu2(input, input2));
+	PUINT32toSHORT2(__vcmpgts2(input, input2));
 #endif
 }
 
@@ -60,9 +69,20 @@ __global__ void k_simd_u8x4(void)
 	unsigned int input = UINT8x4toUINT32(-1, -2, -3, -4);
 	unsigned int input2 = UINT8x4toUINT32(1, 2, 3, 4);
 	PUINT32toINT8x4(input);
+	PUINT32toINT8x4(input2);
 	PUINT32toINT8x4(__vabs4(input));
 	PUINT32toINT8x4(__vabsdiffs4(input, input2));
 	PUINT32toUINT8x4(__vabsdiffu4(input2, input));
+	PUINT32toINT8x4(__vabsss4(input));
+	PUINT32toUINT8x4(__vadd4(input2, input2));
+	PUINT32toUINT8x4(__vaddss4(input2, input2));
+	PUINT32toUINT8x4(__vaddus4(input2, input2));
+	PUINT32toUINT8x4(__vavgs4(input2, input2));
+	PUINT32toUINT8x4(__vavgu4(input2, input2));
+	PUINT32toUINT8x4(__vcmpeq4(input2, input2));
+	PUINT32toUINT8x4(__vcmpges4(input2, input2));
+	PUINT32toUINT8x4(__vcmpgeu4(input2, input2));
+	PUINT32toUINT8x4(__vcmpgts2(input2, input2));
 #endif
 }
 
