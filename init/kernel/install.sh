@@ -18,6 +18,10 @@ ARGS=$@
 verbose=
 kver=
 
+readonly DISTS_RHEL_LIKE=( fedora centos rhel almalinux openEuler cclinux
+			opencloudos kylin tencentos )
+readonly DISTS_DEBIAN_LIKE=( debian ubuntu )
+
 error() {
 	echo -en >&2 "\033[31m"
 	echo -e >&2 "ERROR: ${@}"
@@ -101,7 +105,7 @@ install_from_source()
 
 	# Update grub
 	# If RHEL like OS:
-	if [[ " fedora " =~ " ${ID} " ]]; then
+	if [[ " ${DISTS_RHEL_LIKE[@]} " =~ " ${ID} " ]]; then
 		grub2-mkconfig -o /boot/grub2/grub.cfg
 		grubby --set-default /boot/vmlinuz-${kver}
 
@@ -109,7 +113,7 @@ install_from_source()
 		grubby --default-index
 		grubby --default-kernel
 	# If Debian like OS:
-	elif [[ " debian " =~ " ${ID} " ]]; then
+	elif [[ " ${DISTS_DEBIAN_LIKE[@]} " =~ " ${ID} " ]]; then
 		update-grub
 	fi
 
