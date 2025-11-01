@@ -97,7 +97,7 @@
 # include <cublasLt.h>
 # include <cufft.h>
 # include <curand.h>
-# if CUDA_VERSION >= 12000
+# if CUDA_VERSION > 12020
 #  include <cuda_fp6.h>
 # endif
 # ifndef __NOT_USE_FP8__
