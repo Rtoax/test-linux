@@ -14,6 +14,7 @@ and this project adheres to
 - mk: Rename all `targets` to `target-y`;
 - cuda/samples: Rename code to remove cuda,hip,hc prefix;
 #### Added
+- bpftrace: add `is_kprobe.bt` test;
 - syscall/samples: add write subdirectory;
 - cuda/intrinsics: add int.cu, simd.cu;
 - c: add `_Float128.c` test;

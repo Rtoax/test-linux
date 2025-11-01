@@ -1,0 +1,69 @@
+#!/bin/env bpftrace
+
+config = {
+	missing_probes=warn;
+	unstable_macro=enable;
+}
+
+macro in_tracepoint() {
+	strstr(probe, "tracepoint:") == 0
+}
+
+macro in_kprobe() {
+	strstr(probe, "kprobe:") == 0 + strstr(probe, "kretprobe:") == 0
+}
+
+macro in_uprobe() {
+	strstr(probe, "uprobe:") == 0 + strstr(probe, "uretprobe:") == 0
+}
+
+macro in_usdt() {
+	strstr(probe, "usdt:") == 0
+}
+
+macro once() {
+	if comptime in_tracepoint() {
+		printf("%s is tracepoint\n", probe);
+	}
+	if comptime in_kprobe() {
+		printf("%s is kprobe\n", probe);
+	}
+	if comptime in_uprobe() {
+		printf("%s is uprobe\n", probe);
+	}
+	if comptime in_usdt() {
+		printf("%s is usdt\n", probe);
+	}
+	exit();
+}
+
+/*
+tracepoint:syscalls:sys_enter_write {
+	once();
+}
+*/
+
+/*
+kprobe:__x64_sys_write {
+	once();
+}
+
+kretprobe:__x64_sys_write {
+	once();
+}
+*/
+
+/*
+uprobe:../../../elf/pie/samples/hello:readline {
+	once();
+}
+uretprobe:../../../elf/pie/samples/hello:readline {
+	once();
+}
+*/
+
+/*
+usdt:../../usdt/samples/usdt_hello:hello-usdt:probe-main {
+	once();
+}
+*/
