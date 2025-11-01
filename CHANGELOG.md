@@ -51,6 +51,7 @@ and this project adheres to
 - Move rootfs/qemu.sh to qemu/qemu-vm.sh;
 #### Deprecated
 #### Removed
+- bpftrace/samples: remove macro.bt;
 #### Fixed
 #### Security
 #### Docs
