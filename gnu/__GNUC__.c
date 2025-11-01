@@ -72,7 +72,7 @@ int main(void)
 	printf("%s: __VERSION__ = %s\n", pfx, __VERSION__);
 
 #ifdef CUDA_VERSION
-	printf("%s: CUDA_VERSION = %ld\n", pfx, CUDA_VERSION);
+	printf("%s: CUDA_VERSION = %d\n", pfx, CUDA_VERSION);
 #endif
 #ifdef __CUDA__
 	printf("%s: __CUDA__ = %d\n", pfx, __CUDA__);
