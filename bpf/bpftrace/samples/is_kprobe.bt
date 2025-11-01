@@ -21,7 +21,7 @@ macro in_usdt() {
 	strstr(probe, "usdt:") == 0
 }
 
-macro once() {
+macro check_once() {
 	if comptime in_tracepoint() {
 		printf("%s is tracepoint\n", probe);
 	}
@@ -37,33 +37,31 @@ macro once() {
 	exit();
 }
 
-/*
-tracepoint:syscalls:sys_enter_write {
-	once();
+macro test(str) {
+	if (getopt(str)) {
+		check_once();
+	}
 }
-*/
 
-/*
+tracepoint:syscalls:sys_enter_write {
+	test("tracepoint");
+}
+
 kprobe:__x64_sys_write {
-	once();
+	test("kprobe");
 }
 
 kretprobe:__x64_sys_write {
-	once();
+	test("kretprobe");
 }
-*/
 
-/*
 uprobe:../../../elf/pie/samples/hello:readline {
-	once();
+	test("uprobe");
 }
 uretprobe:../../../elf/pie/samples/hello:readline {
-	once();
+	test("uretprobe");
 }
-*/
 
-/*
 usdt:../../usdt/samples/usdt_hello:hello-usdt:probe-main {
-	once();
+	test("usdt");
 }
-*/
