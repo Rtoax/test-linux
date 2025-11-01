@@ -31,6 +31,7 @@ test_call:
 	$(call wow,PREFIX)
 	$(call tl_logo1,===)
 	$(call bpf_logo_summit_2021)
+	$(call bpf_logo_summit_2021_nocolor)
 	$(call gnu_logo)
 	$(call git_config)
 	$(call git_archive)
