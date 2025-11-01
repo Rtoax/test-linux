@@ -1,10 +1,10 @@
 #!/bin/env bpftrace
 /**
- * NAME.bt - description
+ * bpftrace.bt - DESCRIPTION
  *
  * Copyright (C) Rong Tao 2025
  *
- * 2025-04-30	Rong Tao	Create this.
+ * 2025-11-01	Rong Tao	Create this.
  */
 #ifndef BPFTRACE_HAVE_BTF
 #include <linux/sched.h>
@@ -16,7 +16,7 @@ BEGIN
 	printf("%-8s %-8s %-16s\n", "TIME", "PID", "COMM");
 }
 
-/* kprobe/kretprobe/kfunc/kretfunc/tracepoint/usdt/uprobe/uretprobe, etc. */
+/* kprobe/kretprobe/kfunc/kretfunc/tracepoint/usdt/uprobe/uretprobe/fentry/fexit, etc. */
 interval:s:1
 {
 	time("%H:%M:%S ");
