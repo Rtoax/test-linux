@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
 include ../template/ansi.mk
 include bpf.mk
+include logo.mk
 
 subdir-y := bcc
 subdir-y += bpftrace
