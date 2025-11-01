@@ -1,4 +1,5 @@
 #!/bin/env bpftrace
+# see bpftrace keyword `probetype`
 
 config = {
 	missing_probes=warn;
@@ -24,8 +25,7 @@ macro in_usdt() {
 macro check_once() {
 	if comptime in_tracepoint() {
 		printf("%s is tracepoint\n", probe);
-	}
-	if comptime in_kprobe() {
+	} else if comptime in_kprobe() {
 		printf("%s is kprobe\n", probe);
 	}
 	if comptime in_uprobe() {
