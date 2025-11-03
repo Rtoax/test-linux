@@ -17,10 +17,10 @@ libso_multi_version() {
 	local operate=$1
 	shift
 	local name_orig=$1
-	local name_v_v_v=$(echo ${name_orig} | grep -oE "lib[0-9a-zA-Z_\+\-]+\.so\.[0-9]+\.[0-9]+\.[0-9]+")
-	local name_v_v=$(echo ${name_orig} | grep -oE "lib[0-9a-zA-Z_\+\-]+\.so\.[0-9]+\.[0-9]+")
-	local name_v=$(echo ${name_orig} | grep -oE "lib[0-9a-zA-Z_\+\-]+\.so\.[0-9]+")
-	local name=$(echo ${name_orig} | grep -oE "lib[0-9a-zA-Z_\+\-]+\.so")
+	local name_v_v_v=$(echo ${name_orig} | grep -oE "[0-9a-zA-Z_\+\-]+\.so\.[0-9]+\.[0-9]+\.[0-9]+")
+	local name_v_v=$(echo ${name_orig} | grep -oE "[0-9a-zA-Z_\+\-]+\.so\.[0-9]+\.[0-9]+")
+	local name_v=$(echo ${name_orig} | grep -oE "[0-9a-zA-Z_\+\-]+\.so\.[0-9]+")
+	local name=$(echo ${name_orig} | grep -oE "[0-9a-zA-Z_\+\-]+\.so")
 
 	case $operate in
 	symlinks)
