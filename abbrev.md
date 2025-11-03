@@ -18,9 +18,9 @@
 - gABI: Generic ABI (通用ABI) @ABI
 - HII: Human Interface Infrastructure (人机界面基础设施)
 - IC: Integrated Circuits (集成电路)
+- IEC: International Electrotechnical Commission (国际电工委员会)
 - IMA: Integrity Measurement Architecture (完整性测量架构)
 - IOPS: Input/Output operations Per Second (IO 操作数每秒)
-- ISO: International Organization for Standardization (国际标准化组织)
 - KRR: Kernel Record and Replay (内核记录重演)
 - KSPP: Kernel Self-Protection Project ()
 - LaTeX: Lamport TeX (一种文档准备系统，广泛应用于学术界) @TeX

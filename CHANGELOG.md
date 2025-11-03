@@ -14,6 +14,7 @@ and this project adheres to
 - mk: Rename all `targets` to `target-y`;
 - cuda/samples: Rename code to remove cuda,hip,hc prefix;
 #### Added
+- iso: add ISO/IEC 9899 and ISO/IEC 14882;
 - network: add README.OSI.md;
 - bpf: add logo.mk;
 - bpftrace: add `is_kprobe.bt` test;

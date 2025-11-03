@@ -1,0 +1,3 @@
+- ISO: International Organization for Standardization (国际标准化组织)
+- ISO/IEC 14882: C++ (C++11, etc.)
+- ISO/IEC 9899: C standard revision (C98, etc.)
