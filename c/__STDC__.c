@@ -24,7 +24,7 @@
  * GNU C++98			1998			-std=gnu++98	199711L
  * C++03			2003			-std=c++03
  * GNU C++03			2003			-std=gnu++03
- * C++11(C++0x)	ISO/IEC 14882	2011	4.8+		-std=c++11
+ * C++11(C++0x)	ISO/IEC 14882	2011	4.8.1	3.3	-std=c++11
  * GNU C++11			2011			-std=gnu++11
  * C++14(C++1y)	ISO/IEC 14882	2014	5+		-std=c++14
  * GNU C++14			2014			-std=gnu++14
