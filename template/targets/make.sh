@@ -26,5 +26,6 @@ LOG=$1
 shift
 make $@ | tee ${LOG}
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
+	rm -f ${LOG}
 	error "make failed: make $@"
 fi
