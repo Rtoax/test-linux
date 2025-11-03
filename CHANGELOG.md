@@ -14,6 +14,7 @@ and this project adheres to
 - mk: Rename all `targets` to `target-y`;
 - cuda/samples: Rename code to remove cuda,hip,hc prefix;
 #### Added
+- template/targets: add make.sh
 - stdc: test c11, c++03, c++11, c++14, c++17, c++20, c++23;
 - iso: add ISO/IEC 9899 and ISO/IEC 14882 and symlinks;
 - network: add README.OSI.md;
