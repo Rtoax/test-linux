@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e
 
+verbose=
+
 error() {
 	echo >&2 "ERROR: $@"
 	exit 1
@@ -65,6 +67,20 @@ libso_multi_version() {
 		error "not support operate ${operate}"
 	esac
 }
+
+while true;
+do
+	case $1 in
+	-v | --verbose)
+		shift 1
+		set -x
+		verbose=YES
+		;;
+	*)
+		break
+		;;
+	esac
+done
 
 case $1 in
 multi-version)

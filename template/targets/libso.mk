@@ -9,7 +9,10 @@ CXXFLAGS_SO += ${cflags-so}
 LDFLAGS_SO += ${ldflags-so}
 LDXXFLAGS_SO += ${ldflags-so}
 
+LIBSO_SH := ${TEMPLATE_DIR}/targets/libso.sh
+
 ifdef DEBUG
+  LIBSO_SH += --verbose
   CFLAGS_SO += -DDEBUG=${DEBUG}
   CXXFLAGS_SO += -DDEBUG=${DEBUG}
   $(info CFLAGS_SO = ${CFLAGS_SO})
@@ -17,8 +20,6 @@ ifdef DEBUG
   $(info target-libso-y = ${target-libso-y})
   $(info target-libso-cpp-y = ${target-libso-cpp-y})
 endif
-
-LIBSO := ${TEMPLATE_DIR}/targets/libso.sh
 
 ${OUTPUT}%.so.o: %.c | ${OUTPUT}
 	$(call log_tgt_obj,CC SO.o,$(<),$(@))
@@ -31,17 +32,17 @@ ${OUTPUT}%.cpp.so.o: %.cpp | ${OUTPUT}
 # All symlinks depends on original dynamic target, thus, if some one need the
 # symlinks, the dynamic library will be compiled.
 $(foreach so,${target-libso-y} ${target-libso-cpp-y},	\
-$(if $(shell ${LIBSO} symlinks-names ${so}),	\
-$(eval $(shell ${LIBSO} symlinks-names ${so}): ${so}	;)	\
+$(if $(shell ${LIBSO_SH} symlinks-names ${so}),	\
+$(eval $(shell ${LIBSO_SH} symlinks-names ${so}): ${so}	;)	\
 )	\
 )
 
 $(target-libso-y): %:
 	$(call log_tgt_exe,SO,$(<),$(@))
 	${Q}${CC_PFX} $(CC) -o $(@) $(^) $(LDFLAGS_SO) $(LDFLAGS_SO_$(*)) -Wl,-soname=$(@)
-	${Q}${SHELL} ${LIBSO} multi-version $(@)
+	${Q}${SHELL} ${LIBSO_SH} multi-version $(@)
 
 $(target-libso-cpp-y): %:
 	$(call log_tgt_exe,SO CPP,$(<),$(@))
 	${Q}${CC_PFX} $(CXX) -o $(@) $(^) $(LDXXFLAGS_SO) $(LDXXFLAGS_SO_$(*)) -Wl,-soname=$(@)
-	${Q}${SHELL} ${LIBSO} multi-version $(@)
+	${Q}${SHELL} ${LIBSO_SH} multi-version $(@)
