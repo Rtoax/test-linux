@@ -7,8 +7,8 @@
 # Output macros:
 # - HAVE_HIP=y
 # - HAVE_RCCL=y
-# - HIPCC
-# - HIPCONFIG
+# - HIPCC=$(which hipcc)
+# - HIPCONFIG=$(which hipconfig)
 
 _ROCm = 1
 
