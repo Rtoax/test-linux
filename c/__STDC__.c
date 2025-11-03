@@ -86,11 +86,15 @@ int main(void)
 	 */
 	printf("__cplusplus %ld\n", __cplusplus);
 #endif
+
+#if defined(__STDC_VERSION__)
 	/**
-	 * FIXME: Why __STDC_VERSION__ not defined
+	 * C98/C90: not defined
+	 * C94/C95: 199409L
+	 * C99: 199901L
+	 * C11: 201112L
+	 * C17/C18: 201710L
 	 */
-#if defined(__STDC_VERSION__) || \
-	(!defined(__cplusplus) && !defined(STD_C98) && !defined(STD_GNU98) && !defined(STD_C17))
 	printf("__STDC_VERSION__ %ld\n", __STDC_VERSION__);
 #endif
 

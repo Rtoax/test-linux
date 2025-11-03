@@ -45,7 +45,7 @@ target-y += while while-sleep
 target-y += stub
 target-y += if
 target-y += enum
-target-y += __STDC__ __STDC__gnu98 __STDC__c98 __STDC__c17
+target-y += __STDC__ __STDC__gnu98 __STDC__c98 __STDC__c11 __STDC__c17
 target-y += include_next
 target-y += unsigned
 target-y += restrict
@@ -80,7 +80,8 @@ CFLAGS_macro := -DCONFIG_MMU=$(CONFIG_MMU)
 CFLAGS_struct := -Wno-gnu-designator -Wno-initializer-overrides
 CFLAGS___STDC__c98 := -std=c89 -DSTD_C98=1
 CFLAGS___STDC__gnu98 := -std=gnu89 -DSTD_GNU98=1
-CFLAGS___STDC__c17 := -std=c89 -DSTD_C17=1
+CFLAGS___STDC__c11 := -std=c11 -DSTD_C11=1
+CFLAGS___STDC__c17 := -std=c17 -DSTD_C17=1
 
 CFLAGS_float := ${cflags-support-types-y}
 CFLAGS___float128 := ${cflags-support-types-y}
@@ -142,6 +143,7 @@ enum: ${OUTPUT}enum.o
 __STDC__: ${OUTPUT}__STDC__.o
 __STDC__c98: ${OUTPUT}__STDC__c98.o
 __STDC__gnu98: ${OUTPUT}__STDC__gnu98.o
+__STDC__c11: ${OUTPUT}__STDC__c11.o
 __STDC__c17: ${OUTPUT}__STDC__c17.o
 include_next: ${OUTPUT}include_next.o
 unsigned: ${OUTPUT}unsigned.o

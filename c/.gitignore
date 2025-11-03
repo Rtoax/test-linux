@@ -32,6 +32,7 @@
 /return
 /*.s
 /__STDC__
+/__STDC__c11
 /__STDC__c17
 /__STDC__c98
 /__STDC__gnu98
