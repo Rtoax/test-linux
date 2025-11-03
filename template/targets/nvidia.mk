@@ -14,7 +14,7 @@
 # .cu.ptx.dump
 # .cu.sass.dump
 # .E.cu
-# target-nvcc-y$
+# target-nvcc-y
 
 _TARGET_NVIDIA = 1
 _SYSTEM_HAVE_NVIDIA_GPU :=
@@ -55,6 +55,7 @@ endif
 # Use to test fakeCUDA
 ldflags-cudart := --cudart shared
 
+CFLAGS_NVCC += -std=c++17
 CFLAGS_NVCC += -Wno-deprecated-gpu-targets
 LDFLAGS_NVCC += -Wno-deprecated-gpu-targets
 LDFLAGS_NVCC += -lcublas -lcublasLt
