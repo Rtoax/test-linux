@@ -10,6 +10,12 @@
 /__STDC__
 /__STDC__c++98
 /__STDC__gnu++98
+/__STDC__c++03
+/__STDC__c++11
+/__STDC__c++14
+/__STDC__c++17
+/__STDC__c++20
+/__STDC__c++23
 /format
 /fmt
 /expired

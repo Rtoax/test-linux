@@ -18,7 +18,14 @@ target-cpp-y += string
 target-cpp-y += __cplusplus
 target-cpp-${CC_STD_C++20} += format
 target-cpp-y += fmt
-target-cpp-y += __STDC__ __STDC__c++98 __STDC__gnu++98
+target-cpp-y += __STDC__
+target-cpp-y += __STDC__c++98 __STDC__gnu++98
+target-cpp-y += __STDC__c++03
+target-cpp-y += __STDC__c++11
+target-cpp-y += __STDC__c++14
+target-cpp-y += __STDC__c++17
+target-cpp-y += __STDC__c++20
+target-cpp-y += __STDC__c++23
 target-cpp-y += expired
 
 CXXFLAGS :=
@@ -43,6 +50,12 @@ ifeq ($(has-std_format),y)
 endif
 CXXFLAGS___STDC__c++98 := -std=c++98
 CXXFLAGS___STDC__gnu++98 := -std=gnu++98
+CXXFLAGS___STDC__c++03 := -std=c++03
+CXXFLAGS___STDC__c++11 := -std=c++11
+CXXFLAGS___STDC__c++14 := -std=c++14
+CXXFLAGS___STDC__c++17 := -std=c++17
+CXXFLAGS___STDC__c++20 := -std=c++20
+CXXFLAGS___STDC__c++23 := -std=c++23
 LDXXFLAGS_fmt := -lfmt
 
 target-post-y := $(addprefix ${OUTPUT},$(patsubst %,%.cpp.s,${target-cpp-y}))
@@ -60,6 +73,12 @@ __cplusplus: ${OUTPUT}__cplusplus.cpp.o
 __STDC__: ${OUTPUT}__STDC__.cpp.o
 __STDC__c++98: ${OUTPUT}__STDC__c++98.cpp.o
 __STDC__gnu++98: ${OUTPUT}__STDC__gnu++98.cpp.o
+__STDC__c++03: ${OUTPUT}__STDC__c++03.cpp.o
+__STDC__c++11: ${OUTPUT}__STDC__c++11.cpp.o
+__STDC__c++14: ${OUTPUT}__STDC__c++14.cpp.o
+__STDC__c++17: ${OUTPUT}__STDC__c++17.cpp.o
+__STDC__c++20: ${OUTPUT}__STDC__c++20.cpp.o
+__STDC__c++23: ${OUTPUT}__STDC__c++23.cpp.o
 format: ${OUTPUT}format.cpp.o
 fmt: ${OUTPUT}fmt.cpp.o
 expired: ${OUTPUT}expired.cpp.o

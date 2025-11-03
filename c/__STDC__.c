@@ -22,17 +22,17 @@
  * Name		Standard	Year	GCC	LLVM	CFLAGS		__cplusplus
  * C++98	ISO/IEC 14882	1998			-std=c++98	199711L
  * GNU C++98			1998			-std=gnu++98	199711L
- * C++03			2003			-std=c++03
+ * C++03			2003			-std=c++03	199711L
  * GNU C++03			2003			-std=gnu++03
- * C++11(C++0x)	ISO/IEC 14882	2011	4.8.1	3.3	-std=c++11
+ * C++11(C++0x)	ISO/IEC 14882	2011	4.8.1	3.3	-std=c++11	201103L
  * GNU C++11			2011			-std=gnu++11
- * C++14(C++1y)	ISO/IEC 14882	2014	5+		-std=c++14
+ * C++14(C++1y)	ISO/IEC 14882	2014	5+		-std=c++14	201402L
  * GNU C++14			2014			-std=gnu++14
- * C++17(C++1z)	ISO/IEC 14882	2017	7+		-std=c++17
+ * C++17(C++1z)	ISO/IEC 14882	2017	7+		-std=c++17	201703L
  * GNU C++17			2017			-std=gnu++17
- * C++20(C++2a)	ISO/IEC 14882	2020	11+		-std=c++20
+ * C++20(C++2a)	ISO/IEC 14882	2020	11+		-std=c++20	202002L
  * GNU C++20			2020			-std=gnu++20
- * C++23(C++2b)			2023			-std=c++23
+ * C++23(C++2b)			2023			-std=c++23	202302L
  * GNU C++23			2023			-std=gnu++23
  * C++26			2026*			-std=c++26	dev
  *
