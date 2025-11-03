@@ -93,6 +93,8 @@
 		PPFX();printf("%s : {%d, %d}\n", #v, s2.x, s2.y);	\
 	} while (0)
 
+#define PINT32(v)	PPFX();printf("%s : %d\n", #v, v);
+
 #define PSHORT(v)	PPFX();printf("%s : %d\n", #v, v);
 #define PSHORT2(v)	PPFX();printf("%s : {%d, %d}\n", #v, v.x, v.y);
 #define PLONG(v)	PPFX();printf("%s : %ld\n", #v, v);

@@ -46,6 +46,8 @@ __global__ void k_simd_u16x2(void)
 	unsigned int input = UINT16x2toUINT32(-123, 456);
 	unsigned int input2 = UINT16x2toUINT32(1, 2);
 	unsigned int input3 = UINT16x2toUINT32(3, 4);
+	bool pred_hi, pred_lo;
+
 	PUINT32toINT16x2(input);
 	PUINT32toINT16x2(input2);
 	PUINT32toINT16x2(input3);
@@ -71,6 +73,32 @@ __global__ void k_simd_u16x2(void)
 	PUINT32toSHORT2(__vhaddu2(input, input2));
 	PUINT32toSHORT2(__viaddmax_s16x2(input, input2, input3)); /* max(a + b, c) */
 	PUINT32toSHORT2(__viaddmax_s16x2_relu(input, input2, input3)); /* max(max(a + b, c), 0) */
+	PUINT32toSHORT2(__viaddmin_s16x2_relu(input, input2, input3)); /* max(min(a + b, c), 0) */
+	PUINT32toSHORT2(__viaddmax_u16x2(input, input2, input3)); /* max(a + b, c) */
+	PUINT32toSHORT2(__viaddmin_u16x2(input, input2, input3)); /* min(a + b, c) */
+	/**
+	 * Performs per-halfword max(a, b), also sets the value pointed to by
+	 * pred_hi and pred_lo to the per-halfword result of (a >= b).
+	 */
+	PUINT32toSHORT2(__vibmax_s16x2(input, input2, &pred_hi, &pred_lo));
+		PBOOL(pred_hi);
+		PBOOL(pred_lo);
+	PUINT32toSHORT2(__vibmax_u16x2(input, input2, &pred_hi, &pred_lo));
+		PBOOL(pred_hi);
+		PBOOL(pred_lo);
+	/**
+	 * Performs per-halfword min(a, b), also sets the value pointed to by
+	 * pred_hi and pred_lo to the per-halfword result of (a <= b).
+	 */
+	PUINT32toSHORT2(__vibmin_u16x2(input, input2, &pred_hi, &pred_lo));
+		PBOOL(pred_hi);
+		PBOOL(pred_lo);
+
+	PUINT32toSHORT2(__vimax3_s16x2(input, input2, input3)); /* max(max(a, b), c) */
+	PUINT32toSHORT2(__vimax3_s16x2_relu(input, input2, input3)); /* max(max(max(a, b), c), 0) */
+	PUINT32toSHORT2(__vimax3_u16x2(input, input2, input3)); /* max(max(a, b), c) */
+	PUINT32toSHORT2(__vimax_s16x2_relu(input, input2)); /* max(max(a, b), 0) */
+	PUINT32toSHORT2(__vimin3_s16x2(input, input2, input3)); /* min(min(a, b), c) */
 #endif
 }
 
@@ -104,12 +132,39 @@ __global__ void k_simd_u8x4(void)
 #endif
 }
 
+__global__ void k_simd_i32(void)
+{
+	bool pred;
+
+	PINT32(__viaddmax_s32(1, 2, 3)); /* max(a + b, c) */
+	PINT32(__viaddmax_s32_relu(1, 2, 3)); /* max(max(a + b, c), 0) */
+	PINT32(__viaddmin_s32(1, 2, 3)); /* min(a + b, c) */
+	PINT32(__viaddmin_s32_relu(1, 2, 3)); /* max(min(a + b, c), 0) */
+	PUINT32(__viaddmax_u32(1, 2, 3)); /* max(a + b, c) */
+	PUINT32(__viaddmin_u32(1, 2, 3)); /* min(a + b, c) */
+	/* Computes max(a, b), also sets the value pointed to by pred to (a >= b). */
+	PINT32(__vibmax_s32(1, 2, &pred));
+		PBOOL(pred);
+	PINT32(__vibmax_u32(1, 2, &pred));
+		PBOOL(pred);
+	/* Computes min(a, b), also sets the value pointed to by pred to (a <= b). */
+	PINT32(__vibmin_s32(1, 2, &pred));
+		PBOOL(pred);
+	PINT32(__vibmin_u32(1, 2, &pred));
+		PBOOL(pred);
+	PUINT32(__vimax3_s32(1, 2, 3)); /* max(max(a, b), c) */
+	PUINT32(__vimax3_s32_relu(1, 2, 3)); /* max(max(max(a, b), c), 0) */
+	PUINT32(__vimax3_u32(1, 2, 3)); /* max(max(a, b), c) */
+	PUINT32(__vimax_s32_relu(1, 2)); /* max(max(a, b), 0) */
+}
+
 int main(int argc, char *argv[])
 {
 	k_simd_types<<<1, 1>>>();
 
 	k_simd_u16x2<<<1, 1>>>();
 	k_simd_u8x4<<<1, 1>>>();
+	k_simd_i32<<<1, 1>>>();
 
 	(void)cudaDeviceSynchronize();
 	return 0;
