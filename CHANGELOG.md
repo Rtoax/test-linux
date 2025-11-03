@@ -15,7 +15,7 @@ and this project adheres to
 - cuda/samples: Rename code to remove cuda,hip,hc prefix;
 #### Added
 - stdc: test c11;
-- iso: add ISO/IEC 9899 and ISO/IEC 14882;
+- iso: add ISO/IEC 9899 and ISO/IEC 14882 and symlinks;
 - network: add README.OSI.md;
 - bpf: add logo.mk;
 - bpftrace: add `is_kprobe.bt` test;
