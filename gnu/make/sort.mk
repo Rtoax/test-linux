@@ -9,7 +9,7 @@ $(info srcs = ${srcs})
 $(info srcs_sort = ${srcs_sort})
 
 # TODO: why !=
-ifneq (${srcs},${srcs_expect})
+ifneq (${srcs_sort},${srcs_expect})
   $(error <${srcs_expect}> != <${srcs_sort}>)
 endif
 
