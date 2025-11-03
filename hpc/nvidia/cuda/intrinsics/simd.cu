@@ -51,15 +51,40 @@ __global__ void k_simd_u16x2(void)
 	PUINT32toINT16x2(input);
 	PUINT32toINT16x2(input2);
 	PUINT32toINT16x2(input3);
+
+	PUINT32toINT16x2(__vneg2(input));
+	PUINT32toINT16x2(__vnegss2(input)); /* signed saturation */
+
+	PINT32(__vseteq2(input, input));
+	PINT32(__vsetges2(input, input));
+	PINT32(__vsetgeu2(input, input));
+	PINT32(__vsetgts2(input, input));
+	PINT32(__vsetgtu2(input, input));
+	PINT32(__vsetles2(input, input));
+	PINT32(__vsetleu2(input, input));
+	PINT32(__vsetlts2(input, input));
+	PINT32(__vsetltu2(input, input));
+	PINT32(__vsetne2(input, input));
+
 	PUINT32toSHORT2(__vabs2(input));
 	PUINT32toSHORT2(__vabsdiffs2(input, input2));
 	PUINT32toSHORT2(__vabsdiffu2(input, input2));
 	PUINT32toSHORT2(__vabsss2(input));
+
+	PUINT32toSHORT2(__vsub2(input, input2));
+	PUINT32toSHORT2(__vsubss2(input, input2));
+	PUINT32toSHORT2(__vsubus2(input, input2));
+
 	PUINT32toSHORT2(__vadd2(input, input2));
 	PUINT32toSHORT2(__vaddss2(input, input2));
 	PUINT32toSHORT2(__vaddus2(input, input2));
+	PUINT32toSHORT2(__vhaddu2(input, input2));
+	PUINT32toSHORT2(__vsads2(input, input2));
+	PUINT32toSHORT2(__vsadu2(input, input2));
+
 	PUINT32toSHORT2(__vavgs2(input, input2));
 	PUINT32toSHORT2(__vavgu2(input, input2));
+
 	PUINT32toSHORT2(__vcmpeq2(input, input2));
 	PUINT32toSHORT2(__vcmpges2(input, input2));
 	PUINT32toSHORT2(__vcmpgeu2(input, input2));
@@ -70,7 +95,12 @@ __global__ void k_simd_u16x2(void)
 	PUINT32toSHORT2(__vcmplts2(input, input2));
 	PUINT32toSHORT2(__vcmpltu2(input, input2));
 	PUINT32toSHORT2(__vcmpne2(input, input2));
-	PUINT32toSHORT2(__vhaddu2(input, input2));
+
+	PUINT32toSHORT2(__vmaxs2(input, input2));
+	PUINT32toSHORT2(__vmaxu2(input, input2));
+	PUINT32toSHORT2(__vmins2(input, input2));
+	PUINT32toSHORT2(__vminu2(input, input2));
+
 	PUINT32toSHORT2(__viaddmax_s16x2(input, input2, input3)); /* max(a + b, c) */
 	PUINT32toSHORT2(__viaddmax_s16x2_relu(input, input2, input3)); /* max(max(a + b, c), 0) */
 	PUINT32toSHORT2(__viaddmin_s16x2_relu(input, input2, input3)); /* max(min(a + b, c), 0) */
@@ -97,8 +127,13 @@ __global__ void k_simd_u16x2(void)
 	PUINT32toSHORT2(__vimax3_s16x2(input, input2, input3)); /* max(max(a, b), c) */
 	PUINT32toSHORT2(__vimax3_s16x2_relu(input, input2, input3)); /* max(max(max(a, b), c), 0) */
 	PUINT32toSHORT2(__vimax3_u16x2(input, input2, input3)); /* max(max(a, b), c) */
-	PUINT32toSHORT2(__vimax_s16x2_relu(input, input2)); /* max(max(a, b), 0) */
+
 	PUINT32toSHORT2(__vimin3_s16x2(input, input2, input3)); /* min(min(a, b), c) */
+	PUINT32toSHORT2(__vimin3_s16x2_relu(input, input2, input3)); /* max(min(min(a, b), c), 0) */
+	PUINT32toSHORT2(__vimin3_u16x2(input, input2, input3)); /* min(min(a, b), c) */
+
+	PUINT32toSHORT2(__vimax_s16x2_relu(input, input2)); /* max(max(a, b), 0) */
+	PUINT32toSHORT2(__vimin_s16x2_relu(input, input2)); /* max(min(a, b), 0) */
 #endif
 }
 
@@ -107,17 +142,42 @@ __global__ void k_simd_u8x4(void)
 #if !defined(__HIPCC__)
 	unsigned int input = UINT8x4toUINT32(-1, -2, -3, -4);
 	unsigned int input2 = UINT8x4toUINT32(1, 2, 3, 4);
+
 	PUINT32toINT8x4(input);
 	PUINT32toINT8x4(input2);
+
+	PUINT32toINT8x4(__vneg4(input));
+	PUINT32toINT8x4(__vnegss4(input)); /* signed saturation */
+
+	PINT32(__vseteq4(input, input));
+	PINT32(__vsetges4(input, input));
+	PINT32(__vsetgeu4(input, input));
+	PINT32(__vsetgts4(input, input));
+	PINT32(__vsetgtu4(input, input));
+	PINT32(__vsetles4(input, input));
+	PINT32(__vsetleu4(input, input));
+	PINT32(__vsetlts4(input, input));
+	PINT32(__vsetltu4(input, input));
+	PINT32(__vsetne4(input, input));
+
 	PUINT32toINT8x4(__vabs4(input));
 	PUINT32toINT8x4(__vabsdiffs4(input, input2));
 	PUINT32toUINT8x4(__vabsdiffu4(input2, input));
 	PUINT32toINT8x4(__vabsss4(input));
+
 	PUINT32toUINT8x4(__vadd4(input2, input2));
 	PUINT32toUINT8x4(__vaddss4(input2, input2));
 	PUINT32toUINT8x4(__vaddus4(input2, input2));
+	PUINT32toUINT8x4(__vsads4(input2, input2));
+	PUINT32toUINT8x4(__vsadu4(input2, input2));
+
+	PUINT32toUINT8x4(__vsub4(input2, input2));
+	PUINT32toUINT8x4(__vsubss4(input2, input2));
+	PUINT32toUINT8x4(__vsubus4(input2, input2));
+
 	PUINT32toUINT8x4(__vavgs4(input2, input2));
 	PUINT32toUINT8x4(__vavgu4(input2, input2));
+
 	PUINT32toUINT8x4(__vcmpeq4(input2, input2));
 	PUINT32toUINT8x4(__vcmpges4(input2, input2));
 	PUINT32toUINT8x4(__vcmpgeu4(input2, input2));
@@ -128,7 +188,13 @@ __global__ void k_simd_u8x4(void)
 	PUINT32toUINT8x4(__vcmplts4(input2, input2));
 	PUINT32toUINT8x4(__vcmpltu4(input2, input2));
 	PUINT32toUINT8x4(__vcmpne4(input2, input2));
+
 	PUINT32toUINT8x4(__vhaddu4(input2, input2));
+
+	PUINT32toUINT8x4(__vmaxs4(input2, input2));
+	PUINT32toUINT8x4(__vmaxu4(input2, input2));
+	PUINT32toUINT8x4(__vmins4(input2, input2));
+	PUINT32toUINT8x4(__vminu4(input2, input2));
 #endif
 }
 
@@ -152,10 +218,16 @@ __global__ void k_simd_i32(void)
 		PBOOL(pred);
 	PINT32(__vibmin_u32(1, 2, &pred));
 		PBOOL(pred);
+
 	PUINT32(__vimax3_s32(1, 2, 3)); /* max(max(a, b), c) */
 	PUINT32(__vimax3_s32_relu(1, 2, 3)); /* max(max(max(a, b), c), 0) */
+	PUINT32(__vimin3_s32(1, 2, 3)); /* min(min(a, b), c) */
+	PUINT32(__vimin3_s32_relu(1, 2, 3)); /* max(min(min(a, b), c), 0) */
 	PUINT32(__vimax3_u32(1, 2, 3)); /* max(max(a, b), c) */
+	PUINT32(__vimin3_u32(1, 2, 3)); /* min(min(a, b), c) */
+
 	PUINT32(__vimax_s32_relu(1, 2)); /* max(max(a, b), 0) */
+	PUINT32(__vimin_s32_relu(1, 2)); /* max(min(a, b), 0) */
 }
 
 int main(int argc, char *argv[])
