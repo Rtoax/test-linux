@@ -45,8 +45,10 @@ __global__ void k_simd_u16x2(void)
 #if !defined(__HIPCC__)
 	unsigned int input = UINT16x2toUINT32(-123, 456);
 	unsigned int input2 = UINT16x2toUINT32(1, 2);
+	unsigned int input3 = UINT16x2toUINT32(3, 4);
 	PUINT32toINT16x2(input);
 	PUINT32toINT16x2(input2);
+	PUINT32toINT16x2(input3);
 	PUINT32toSHORT2(__vabs2(input));
 	PUINT32toSHORT2(__vabsdiffs2(input, input2));
 	PUINT32toSHORT2(__vabsdiffu2(input, input2));
@@ -60,6 +62,15 @@ __global__ void k_simd_u16x2(void)
 	PUINT32toSHORT2(__vcmpges2(input, input2));
 	PUINT32toSHORT2(__vcmpgeu2(input, input2));
 	PUINT32toSHORT2(__vcmpgts2(input, input2));
+	PUINT32toSHORT2(__vcmpgtu2(input, input2));
+	PUINT32toSHORT2(__vcmples2(input, input2));
+	PUINT32toSHORT2(__vcmpleu2(input, input2));
+	PUINT32toSHORT2(__vcmplts2(input, input2));
+	PUINT32toSHORT2(__vcmpltu2(input, input2));
+	PUINT32toSHORT2(__vcmpne2(input, input2));
+	PUINT32toSHORT2(__vhaddu2(input, input2));
+	PUINT32toSHORT2(__viaddmax_s16x2(input, input2, input3)); /* max(a + b, c) */
+	PUINT32toSHORT2(__viaddmax_s16x2_relu(input, input2, input3)); /* max(max(a + b, c), 0) */
 #endif
 }
 
@@ -82,7 +93,14 @@ __global__ void k_simd_u8x4(void)
 	PUINT32toUINT8x4(__vcmpeq4(input2, input2));
 	PUINT32toUINT8x4(__vcmpges4(input2, input2));
 	PUINT32toUINT8x4(__vcmpgeu4(input2, input2));
-	PUINT32toUINT8x4(__vcmpgts2(input2, input2));
+	PUINT32toUINT8x4(__vcmpgts4(input2, input2));
+	PUINT32toUINT8x4(__vcmpgtu4(input2, input2));
+	PUINT32toUINT8x4(__vcmples4(input2, input2));
+	PUINT32toUINT8x4(__vcmpleu4(input2, input2));
+	PUINT32toUINT8x4(__vcmplts4(input2, input2));
+	PUINT32toUINT8x4(__vcmpltu4(input2, input2));
+	PUINT32toUINT8x4(__vcmpne4(input2, input2));
+	PUINT32toUINT8x4(__vhaddu4(input2, input2));
 #endif
 }
 
