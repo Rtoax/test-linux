@@ -200,6 +200,7 @@ __global__ void k_simd_u8x4(void)
 
 __global__ void k_simd_i32(void)
 {
+#if !defined(__HIPCC__)
 	bool pred;
 
 	PINT32(__viaddmax_s32(1, 2, 3)); /* max(a + b, c) */
@@ -228,6 +229,7 @@ __global__ void k_simd_i32(void)
 
 	PUINT32(__vimax_s32_relu(1, 2)); /* max(max(a, b), 0) */
 	PUINT32(__vimin_s32_relu(1, 2)); /* max(min(a, b), 0) */
+#endif
 }
 
 int main(int argc, char *argv[])
