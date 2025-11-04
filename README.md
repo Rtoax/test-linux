@@ -58,6 +58,7 @@ Linus Torvalds releases a new kernel and opens a **2-week merge window**.
 ## Files
 
 * Each `README.md` is current directory's description.
+* Each `FAQ.md` is current directory's FAQs.
 * Each `abbrev.md` is current directory's relative abbreviation.
 	- scripts: `./abbrev.sh` to check all abbreviations.
 * Each `history.md` is store history of some technology.
