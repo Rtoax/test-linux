@@ -1,38 +1,12 @@
 BPF Kernel Functions (kfuncs)
 =============================
 
-`Kfuncs` allow kernel modules to define their own helper functions for BPF, providing a more flexible and extensible interface.
-
-- kfunc: `BPF_TRACE_FENTRY`
-- kretfunc: `BPF_TRACE_FEXIT`
-
-
-# Example
-
-```c
-/* Disables missing prototype warnings */
-__bpf_kfunc_start_defs();
-
-__bpf_kfunc struct task_struct *bpf_find_get_task_by_vpid(pid_t nr)
-{
-        return find_get_task_by_vpid(nr);
-}
-
-__bpf_kfunc_end_defs();
-```
-
-
-# Annotating kfunc parameters suffix
-
-- `__sz`: `__bpf_kfunc void bpf_memzero(void *mem, int mem__sz)`
-- `__k`
-- `__uninit`
-- `__opt`
-- `__str`
+BPF Kernel Functions or more commonly known as kfuncs are functions in the Linux kernel which are exposed for use by BPF programs. Unlike normal BPF helpers, kfuncs do not have a stable interface and can change from one kernel release to another.
 
 
 # Links
 
 - https://www.kernel.org/doc/html/latest/bpf/kfuncs.html
 - https://docs.kernel.org/bpf/kfuncs.html
+- https://docs.ebpf.io/linux/concepts/kfuncs/
 - https://eunomia.dev/tutorials/43-kfuncs/
