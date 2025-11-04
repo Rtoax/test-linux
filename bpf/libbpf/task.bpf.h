@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0
+#include "vmlinux.h"
+#include <linux/version.h>
 
 int task_comm_from_pid(int pid, char *comm, size_t size)
 {
