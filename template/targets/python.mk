@@ -2,9 +2,16 @@
 _TARGET_PYTHON = 1
 
 PYTHON ?= python
-Q ?= @
+
+RUN_PYTHON := ${TEMPLATE_DIR}/targets/run_prog.sh
+
+ifdef DEBUG
+  RUN_PYTHON += --verbose
+endif
+
+RUN_PYTHON += ${PYTHON}
 
 # see target-python-logs
 %.py.log: %.py
 	$(call log_tgt_exe,PYTHON,$(<),$(@))
-	$(Q)${PYTHON} $(<) $(ARGS_$(*)) $(PY_ARGS_$(<)) | tee $(@)
+	$(Q)$(RUN_PYTHON) $(@) $(<) $(ARGS_$(*)) $(PY_ARGS_$(<))
