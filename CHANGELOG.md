@@ -14,6 +14,7 @@ and this project adheres to
 - mk: Rename all `targets` to `target-y`;
 - cuda/samples: Rename code to remove cuda,hip,hc prefix;
 #### Added
+- module: add abbrev.md;
 - compiler/runtime: add FAQ.md;
 - compiler: add info.sh;
 - compiler: add runtime/;
