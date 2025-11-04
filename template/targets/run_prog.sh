@@ -1,4 +1,6 @@
 #!/bin/bash
+# Usage: run_prog.sh [-v|--verbose] [LOG_FILE] [EXE] {EXE ARGS}
+
 set -e
 
 verbose=
@@ -22,9 +24,9 @@ do
 	esac
 done
 
-EXE=$1
-shift
 LOG=$1
+shift
+EXE=$1
 shift
 
 ${EXE} $@ | tee ${LOG}

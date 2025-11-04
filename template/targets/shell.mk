@@ -10,9 +10,7 @@ ifdef DEBUG
   RUN_SHELL += --verbose
 endif
 
-RUN_SHELL += ${SHELL}
-
 # see target-shell-logs
 %.sh.log: %.sh
 	$(call log_tgt_exe,SHELL,$(<),$(@))
-	$(Q)$(RUN_SHELL) $(@) $(<) $(ARGS_$(*)) $(SHELL_ARGS_$(<))
+	$(Q)$(RUN_SHELL) $(@) ${SHELL} $(<) $(ARGS_$(*)) $(SHELL_ARGS_$(<))
