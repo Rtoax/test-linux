@@ -14,6 +14,7 @@ and this project adheres to
 - mk: Rename all `targets` to `target-y`;
 - cuda/samples: Rename code to remove cuda,hip,hc prefix;
 #### Added
+- compiler: add gnu/pushsection/;
 - template: add user.mk and apply to libbpf/Makefile;
 - libbpf: add task.bpf.h;
 - module: add abbrev.md;

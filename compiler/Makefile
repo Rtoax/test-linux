@@ -4,6 +4,7 @@ include ../gnu/gnu.mk
 
 subdir-y := annobin
 subdir-y += ast
+subdir-y += gnu
 subdir-y += linker
 subdir-y += llvm
 subdir-y += jit

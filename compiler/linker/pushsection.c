@@ -1,3 +1,6 @@
+/**
+ * .pushsection is GNU extensions
+ */
 #if 1
 asm(
 	".pushsection .interp.my,\"a\"\n"
