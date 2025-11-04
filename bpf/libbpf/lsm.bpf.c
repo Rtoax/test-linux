@@ -63,12 +63,14 @@ int BPF_PROG(socket_create, int family, int type, int protocol, int kern,
 	if (ret != 0)
 		return ret;
 
-#if defined(CONFIG_UID)
+#if defined(UID)
 # pragma message "lsm/socket_create only for current UID"
 	u64 uid;
 	uid = bpf_get_current_uid_gid() & 0xFFFFFFFF;
-	if (uid != CONFIG_UID)
+	if (uid != UID)
 		return 0;
+#else
+# error "Must define UID"
 #endif
 
 	bpf_printk("LSM: block socket_create() worked");

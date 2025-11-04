@@ -26,8 +26,6 @@ ifdef DEBUG
   $(info KSYM_DO_EXECVEAT_COMMON = ${KSYM_DO_EXECVEAT_COMMON})
 endif
 
-UID := $(shell id -u)
-
 kobjs-y :=
 kobjs-$(CONFIG_KPROBES) += kprobe
 kobjs-$(CONFIG_TRACEPOINTS) += tracepoint raw_tracepoint tp_btf
@@ -235,8 +233,6 @@ LDFLAGS := -lbpf
 LDFLAGS += -pthread
 
 CFLAGS += -DCONFIG_BPF_SYSCALL=$(CONFIG_BPF_SYSCALL)
-CFLAGS += -DCONFIG_UID=$(UID)
-CFLAGS_BPF += -DCONFIG_UID=$(UID)
 
 CFLAGS += $(KFLAGS)
 CFLAGS_BPF += $(KFLAGS)
