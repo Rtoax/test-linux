@@ -3,14 +3,14 @@ _TARGET_MAKE = 1
 
 MAKE := make
 
-MAKE_SH := ${TEMPLATE_DIR}/targets/run_prog.sh
+RUN_MAKE := ${TEMPLATE_DIR}/targets/run_prog.sh
 
 ifdef DEBUG
-  MAKE_SH += --verbose
+  RUN_MAKE += --verbose
 endif
 
-MAKE_SH += make
+RUN_MAKE += ${MAKE}
 
 %.mk.log: %.mk
 	$(call log_tgt_exe,MAKE,$(<),$(@))
-	$(Q)$(MAKE_SH) $(@) -f $(<) $(ARGS_$(*))
+	$(Q)$(RUN_MAKE) $(@) -f $(<) $(ARGS_$(*))
