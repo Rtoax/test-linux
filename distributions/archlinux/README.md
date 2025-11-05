@@ -24,3 +24,8 @@ $ pacman -Qs [name]
 $ sudo pacman -Syu
 $ sudo pacman -Syyu
 ```
+
+
+# Links
+
+- https://wiki.archlinux.org/title/Realtime_kernel
