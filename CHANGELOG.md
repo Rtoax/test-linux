@@ -14,7 +14,7 @@ and this project adheres to
 - mk: Rename all `targets` to `target-y`;
 - cuda/samples: Rename code to remove cuda,hip,hc prefix;
 #### Added
-- ioctl: test BLKGETSIZE;
+- ioctl: test BLKGETSIZE, BLKZEROOUT;
 - rtos/rtlinux: first commit;
 - pushsection: add `btf_ids.c`;
 - compiler: add gnu/pushsection/;
