@@ -1,3 +1,7 @@
+/**
+ * Tests:
+ * - commit 84ad22e4987e ("ioctl: test BLKZEROOUT")
+ */
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/ioctl.h>
