@@ -5,6 +5,7 @@ target-y += TCSETS TCGETS
 target-y += SIOCETHTOOL
 target-y += SIOCGIFCONF
 target-y += CDROMEJECT
+target-y += BLKGETSIZE
 target-y += ifconfig
 target-y += num
 
@@ -17,5 +18,6 @@ TCSETS: TCSETS.o
 TCGETS: TCGETS.o
 SIOCGIFCONF: SIOCGIFCONF.o
 CDROMEJECT: CDROMEJECT.o
+BLKGETSIZE: BLKGETSIZE.o
 ifconfig: ifconfig.o
 num: num.o
