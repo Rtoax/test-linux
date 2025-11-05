@@ -6,6 +6,7 @@
 # Licensed under the Apache License, Version 2.0 (the "License")
 #
 # 27-Oct-2025   Rong Tao    Create this.
+# 05-Nov-2025   Rong Tao    Use native XDP.
 #
 from bcc import BPF
 from bcc.utils import printb
@@ -50,7 +51,7 @@ if ifname == "-1":
     print("Must specify interface with -i")
     exit()
 
-flags = 0
+flags = BPF.XDP_FLAGS_DRV_MODE
 
 if not ifname:
     print("ERROR: Not set nic interface %s!!" % ifname)
