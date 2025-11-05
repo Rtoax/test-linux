@@ -1,7 +1,11 @@
 # SPDX-License-Identifier: GPL-3.0
 # Copyright (c) 2025 Rong Tao
+#
+# Output:
+# CONFIG_UID=$(id -u)
+#
 _USER = 1
 
-UID := $(shell id -u)
+CONFIG_UID := $(shell id -u)
 
-CFLAGS += -DUID=${UID}
+CFLAGS += -DCONFIG_UID=${CONFIG_UID}
