@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # @lint-avoid-python-3-compatibility-imports
 #
-# nic-queue-vaddr.py - Get NIC queue memory buffer address for each pkt with XDP.
+# nic-ring-vaddr.py - Get NIC ring memory buffer address for each pkt with XDP.
 #
 # Licensed under the Apache License, Version 2.0 (the "License")
 #
@@ -17,11 +17,11 @@ import argparse
 import struct
 from socket import inet_aton, inet_ntop, AF_INET, AF_INET6
 
-description = """eBPF NIC queue memory address dump.
+description = """eBPF NIC ring memory address dump.
 """
 
 examples = """examples:
-  $ sudo ./nic-queue-vaddr.py -i eno1                      # Handle eno1 interface
+  $ sudo ./nic-ring-vaddr.py -i eno1                      # Handle eno1 interface
   buf: addr 0xffff004679ec0100, ....
 
   # Then, you could use crash's kmem check the memory address information
