@@ -3,10 +3,15 @@ XDP - eXpress Data Path
 
 # XDP Type
 
-- `Native XDP`: Runs directly on the network driver, providing higher performance.
-- `Offloaded XDP`:
+1. `Native XDP`: Runs directly on the network driver, providing higher performance.
+  - BCC: `b.attach_xdp("eth0", fn, flags=BPF.XDP_FLAGS_DRV_MODE)`
+  - `ip link set dev eth0 xdp obj xdp_program.o sec xdp`
+2. `Offloaded XDP`:
+  - BCC: `b.attach_xdp("eth0", fn, flags=BPF.XDP_FLAGS_HW_MODE)`
   - `ip link set dev [IF] xdp offload obj xdp_program.o sec xdp`
-- `Generic XDP`: Runs on the kernel's network stack, providing compatibility with all network drivers but with lower performance.
+3. `Generic XDP`: Runs on the kernel's network stack, providing compatibility with all network drivers but with lower performance.
+  - BCC: `b.attach_xdp("eth0", fn, flags=BPF.XDP_FLAGS_SKB_MODE)`
+  - `ip link set dev eth0 xdpgeneric obj xdp_program.o sec xdp`
 
 
 # XDP action

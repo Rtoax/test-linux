@@ -25,7 +25,7 @@ if device == "-1":
 
 b = BPF(src_file="loader.c")
 fn = b.load_func("myprogram", BPF.XDP)
-b.attach_xdp(device, fn, 0)
+b.attach_xdp(device, fn, flags=BPF.XDP_FLAGS_SKB_MODE)
 packetcnt = b.get_table("packetcnt")
 
 prev = [0] * 256

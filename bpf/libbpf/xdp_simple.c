@@ -128,6 +128,11 @@ int main(int argc, char *argv[])
 	int err, i, prog_fd, map_fd, events_fd;
 	struct struct_bpf *skel;
 	struct perf_buffer *perf_buf = NULL;
+	/**
+	 * XDP_FLAGS_SKB_MODE
+	 * XDP_FLAGS_DRV_MODE
+	 * XDP_FLAGS_HW_MODE
+	 */
 	int xdp_flags = XDP_FLAGS_UPDATE_IF_NOEXIST;
 
 	libbpf_set_strict_mode(LIBBPF_STRICT_ALL);
