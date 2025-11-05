@@ -13,6 +13,7 @@ int main(int argc, char *argv[])
 {
 	int err, fd;
 	unsigned long long range[2] = {0, 0};
+	unsigned int sector_size;
 	char *dev;
 
 	if (argc < 2) {
@@ -28,21 +29,28 @@ int main(int argc, char *argv[])
 		exit(1);
 	}
 
-	/**
-	 * Get number of 512B blocks
-	 */
+	err = ioctl(fd, BLKSSZGET, &sector_size);
+	if (err == -1) {
+		fprintf(stderr, "ioctl(%s, BLKSSZGET): %m\n", dev);
+		goto out;
+	}
+
 	err = ioctl(fd, BLKGETSIZE, &range[1]);
 	if (err == -1) {
 		fprintf(stderr, "ioctl(%s, BLKGETSIZE): %m\n", dev);
+		goto out;
 	}
 
-	printf("device %s size %lld GB\n", dev, range[1] * 512 / 1024 / 1024 / 1024);
+	printf("device %s sector size %d, total size %lld GB\n", dev,
+		sector_size,
+		range[1] * sector_size / 1024 / 1024 / 1024);
 
 	err = ioctl(fd, BLKZEROOUT, range);
 	if (err == -1) {
 		fprintf(stderr, "ioctl(%s, BLKZEROOUT): %m\n", dev);
 	}
 
+out:
 	close(fd);
 	return 0;
 }
