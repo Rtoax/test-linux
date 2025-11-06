@@ -74,6 +74,8 @@ help:
 	@echo >&2 -e "***"
 	@echo >&2 -e "***  V=1        compile with verbose mode"
 	@echo >&2 -e "***  DEBUG=1    compile with debug mode"
+	@echo >&2 -e "***  ERROR=1    compile with error mode"
+	@echo >&2 -e "***  FORCE=1    compile with force mode"
 	@echo >&2 -e "***  M32=1      compile with -m32 if possible"
 	@echo >&2 -e "***"
 
