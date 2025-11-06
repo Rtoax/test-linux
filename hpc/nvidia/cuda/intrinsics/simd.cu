@@ -101,6 +101,7 @@ __global__ void k_simd_u16x2(void)
 	PUINT32toSHORT2(__vmins2(input, input2));
 	PUINT32toSHORT2(__vminu2(input, input2));
 
+# if !defined(__HPCC__)
 	PUINT32toSHORT2(__viaddmax_s16x2(input, input2, input3)); /* max(a + b, c) */
 	PUINT32toSHORT2(__viaddmax_s16x2_relu(input, input2, input3)); /* max(max(a + b, c), 0) */
 	PUINT32toSHORT2(__viaddmin_s16x2_relu(input, input2, input3)); /* max(min(a + b, c), 0) */
@@ -134,12 +135,13 @@ __global__ void k_simd_u16x2(void)
 
 	PUINT32toSHORT2(__vimax_s16x2_relu(input, input2)); /* max(max(a, b), 0) */
 	PUINT32toSHORT2(__vimin_s16x2_relu(input, input2)); /* max(min(a, b), 0) */
-#endif
+# endif /* __HPCC__ */
+#endif /* __HIPCC__ */
 }
 
 __global__ void k_simd_u8x4(void)
 {
-#if !defined(__HIPCC__)
+#if !defined(__HIPCC__) && !defined(__HPCC__)
 	unsigned int input = UINT8x4toUINT32(-1, -2, -3, -4);
 	unsigned int input2 = UINT8x4toUINT32(1, 2, 3, 4);
 
@@ -200,7 +202,7 @@ __global__ void k_simd_u8x4(void)
 
 __global__ void k_simd_i32(void)
 {
-#if !defined(__HIPCC__)
+#if !defined(__HIPCC__) && !defined(__HPCC__)
 	bool pred;
 
 	PINT32(__viaddmax_s32(1, 2, 3)); /* max(a + b, c) */
