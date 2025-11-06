@@ -682,7 +682,7 @@ pkgs_media_3rd+=()
 # Desktop Packages
 pkgs_desktop+=( gimp )
 pkgs_desktop+=( gitk )
-pkgs_desktop+=( gnome-extensions-app )
+pkgs_desktop+=( gnome-extensions-app ) # Make wechat could minimal to toolbar.
 pkgs_desktop+=( gnome-remote-desktop )
 pkgs_desktop+=( gnome-shell-extension-appindicator )
 pkgs_desktop+=( gnome-tweaks )
