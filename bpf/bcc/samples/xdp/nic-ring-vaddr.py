@@ -64,8 +64,8 @@ bpf_text = """
 #include <linux/if_ether.h>
 
 struct event_t {
-    u64 bufaddr;
-    u64 buflen;
+    u64 rx_ring_vaddr;
+    u64 rx_data_len;
     int h_proto;
     int ip_proto;
 };
@@ -87,8 +87,8 @@ int xdp_handler(struct xdp_md *ctx)
     if ((void *)(eth + 1) > data_end)
         return XDP_PASS;
 
-    event.bufaddr = (u64)data;
-    event.buflen = (unsigned long)(data_end - data);
+    event.rx_ring_vaddr = (u64)data;
+    event.rx_data_len = (unsigned long)(data_end - data);
     event.h_proto = eth->h_proto;
 
     if (eth->h_proto == bpf_htons(ETH_P_IP)) {
@@ -102,7 +102,7 @@ int xdp_handler(struct xdp_md *ctx)
 
     /**
      * Could not call virt_to_phys() in xdp prog, you should use crash's kmem
-     * to get memory information of bufaddr, not in XDP prog.
+     * to get memory information of rx_ring_vaddr, not in XDP prog.
      */
 
     output.ringbuf_output(&event, sizeof(event), 0);
@@ -118,8 +118,8 @@ b.attach_xdp(ifname, fn, flags)
 
 def print_event(cpu, data, size):
     data = b["output"].event(data)
-    printb(b"buf: addr 0x%lx, len 0x%lx, eth proto %d, ip proto %d" %
-           (data.bufaddr, data.buflen, data.h_proto, data.ip_proto))
+    printb(b"rx_ring: vaddr 0x%lx, len 0x%lx, eth proto %d, ip proto %d" %
+           (data.rx_ring_vaddr, data.rx_data_len, data.h_proto, data.ip_proto))
 
 b["output"].open_ring_buffer(print_event)
 while True:
