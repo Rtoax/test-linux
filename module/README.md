@@ -7,25 +7,18 @@ Linux Kernel Module
 $ strip --strip-debug input.ko -o output-no-debug.ko
 ```
 
-# cmdline
+# grub cmdline
 
-## rd.driver.blacklist=MOD
-```
-rd.driver.blacklist=nouveau
-```
-
-## modprobe.blacklist=MOD
-```
-modprobe.blacklist=nouveau
-```
+* rd.driver.blacklist=MOD
+  - `rd.driver.blacklist=nouveau`
+* modprobe.blacklist=MOD1,MOD2
+  - `modprobe.blacklist=nouveau`
 
 # /etc/modprobe.d/
 
-## MOD.blacklist=1
+* MOD.blacklist=1
+  - nouveau.blacklist = 1
 
-```
-nouveau.blacklist = 1
-```
 
 # Links
 
