@@ -30,7 +30,7 @@ CFLAGS_BPF += -mcpu=v3
 # TODO: linux selftests/bpf is -std=gnu11
 CFLAGS_BPF += -std=gnu89 -Drestrict=
 CFLAGS_BPF += $(CFLAG_BPF_TARGET_ARCH)
-CFLAGS_BPF += -DUID=${UID}
+CFLAGS_BPF += -DCONFIG_UID=${CONFIG_UID}
 
 ifdef DEBUG
   CFLAGS_BPF += -DDEBUG=${DEBUG}
