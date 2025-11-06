@@ -9,7 +9,6 @@ ifdef DEBUG
   RUN_PYTHON += --verbose
 endif
 
-# see target-python-logs
 %.py.log: %.py
 	$(call log_tgt_exe,PYTHON,$(<),$(@))
 	$(Q)$(RUN_PYTHON) $(@) ${PYTHON} $(<) $(ARGS_$(*)) $(PY_ARGS_$(<))
