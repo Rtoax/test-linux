@@ -30,10 +30,6 @@ include template/os.mk
 include template/kconfig.mk
 include template/kernel.mk
 
-GIT_CONFIG_CORE_HOOKSPATH := $(shell git config get core.hooksPath 2>/dev/null \
-	|| git config core.hooksPath 2>/dev/null \
-	|| echo "UnsupportGetHooks")
-
 # If in git-tree, need check something already config.
 ifneq (${GIT_TOPDIR},)
   ifneq (${GIT_CONFIG_CORE_HOOKSPATH},scripts/git/hooks/)
