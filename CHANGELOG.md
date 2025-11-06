@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- shell: add some from ostools;
 #### Changed
 #### Deprecated
 #### Removed
