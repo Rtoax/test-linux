@@ -86,15 +86,6 @@ endif
 CFLAGS += ${CFLAGS_PIE}
 LDFLAGS += ${LDFLAGS_PIE}
 
-ifdef DEBUG
-  $(info CFLAGS = ${CFLAGS})
-  $(info LDFLAGS = ${LDFLAGS})
-  $(info CXXFLAGS = ${CXXFLAGS})
-  $(info LDXXFLAGS = ${LDXXFLAGS})
-endif
-
-export CFLAGS LDFLAGS CXXFLAGS LDXXFLAGS CFLAGS_PIE LDFLAGS_PIE MAKEFLAGS
-
 TEMPLATE_DIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 export TEMPLATE_DIR
 
@@ -135,8 +126,14 @@ build-targets += $(subdir-y-build)
 build-targets += $(target-post-y)
 
 ifdef DEBUG
+  $(info CFLAGS = ${CFLAGS})
+  $(info LDFLAGS = ${LDFLAGS})
+  $(info CXXFLAGS = ${CXXFLAGS})
+  $(info LDXXFLAGS = ${LDXXFLAGS})
   $(info build-targets = ${build-targets})
 endif
+
+export CFLAGS LDFLAGS CXXFLAGS LDXXFLAGS CFLAGS_PIE LDFLAGS_PIE MAKEFLAGS
 
 .PHONY: build
 build: $(build-targets)
