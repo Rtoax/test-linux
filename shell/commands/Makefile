@@ -7,6 +7,7 @@ subdir-y += grep
 subdir-y += sar
 subdir-y += sed
 subdir-y += split
+subdir-y += stat
 
 target-shell-y := tr.sh
 
