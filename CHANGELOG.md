@@ -15,6 +15,7 @@ and this project adheres to
 #### Changed
 #### Deprecated
 #### Removed
+- Remove symlinks of hpc/{amd/rocm,metax}/{samples,intrinsics};
 #### Fixed
 #### Security
 #### Docs
