@@ -3,13 +3,7 @@
 /**
  * https://docs.nvidia.com/cuda/cuda-math-api/cuda_math_api/group__CUDA__MATH__INTRINSIC__FP6.html
  */
-#include <assert.h>
 #include <stdio.h>
-#include <stdint.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include <math.h>
-#include <string.h>
 #include "cuda_compat.h"
 #include "compiler.h"
 #include "print.h"
