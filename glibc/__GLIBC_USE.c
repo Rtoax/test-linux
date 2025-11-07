@@ -2,6 +2,9 @@
 
 void test_isoc(void)
 {
+#if __GLIBC_USE(ISOC89)
+	printf("ISOC89\n");
+#endif
 #if __GLIBC_USE(ISOC11)
 	printf("ISOC11\n");
 #endif
@@ -19,6 +22,7 @@ void test_isoc(void)
 
 void test_deprecated(void)
 {
+/* -std=c89|c90 */
 #if __GLIBC_USE(DEPRECATED_GETS)
 	printf("gets() is available (deprecated)\n");
 #endif
