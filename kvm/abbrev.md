@@ -1,3 +1,4 @@
+- AMD-Vi: () @VT-d
 - ASID：Address Space ID (地址空间标识符)
 - CD：Context Descriptor (上下文描述符)
 - CTP：Context-table pointer (上下文表指针)
@@ -20,5 +21,5 @@
 - VMX: Virtual Machine Extensions (虚拟机扩展)
 - VPID: Virtual Processor Id (虚拟处理器ID) @VMCS
 - VT-C: Virtualization Technology for Connectify (基于网络的虚拟化技术)
-- VT-d: Virtualization Technology for Directed I/O (直接I/O虚拟化技术,Intel)
+- VT-d: Virtualization Technology for Directed I/O (直接I/O虚拟化技术,Intel) @AMD-Vi
 - VT-x: Virtualization Technology for x86 (基于处理器的虚拟化技术)

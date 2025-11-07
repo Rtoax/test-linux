@@ -31,6 +31,7 @@
 - NVMe/RoCE: NVMe over RoCE ()
 - NVMe/TCP: NVMe over TCP ()
 - NVRAM: Non-Volatile Random-Access Memory (非易失性随机存取存储器)
+- OFED: OpenFabrics Enterprise Distribution (OpenFabrics企业分发)
 - PD: Physical Disk (物理磁盘)
 - RAID: Redundant Arrays of Independent Disks (独立磁盘冗余阵列)
 - RDMA: Remote Direct Memory Access (远程直接内存访问)

@@ -1,2 +1,3 @@
 - PF: Pysical Function (物理功能)
+- SR-IOV: Single Root I/O Virtualization (单根IO虚拟化)
 - VF: Virtual Function (虚拟功能)
