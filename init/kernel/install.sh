@@ -122,24 +122,24 @@ install_from_source()
 
 uninstall_kernel()
 {
-	local version=$1
-	local modules=/lib/modules/$version
-	local vmlinuz=/boot/vmlinuz-$version
-	local initramfs=/boot/initramfs-$version.img
-	local config=/boot/config-$version
-
-	local curr_version=$(uname -r)
-
 	check_root
 	check_kver
 
-	[[ $version == $curr_version ]] && error "Can't remove running kernel"
+	local modules=/lib/modules/$kver
+	local vmlinuz=/boot/vmlinuz-$kver
+	local initramfs=/boot/initramfs-$kver.img
+	local config=/boot/config-$kver
+
+	local curr_version=$(uname -r)
+
+
+	[[ $kver == $curr_version ]] && error "Can't remove running kernel"
 
 	test ! -d $modules && warning "$modules not exist"
 	test ! -f $vmlinuz && warning "$vmlinuz not exist"
 	test ! -f $initramfs && warning "$initramfs not exist"
 
-	grubby --remove-kernel /boot/vmlinuz-${version}
+	grubby --remove-kernel /boot/vmlinuz-${kver}
 
 	rm -rf $modules
 	rm -f $vmlinuz $initramfs $config
