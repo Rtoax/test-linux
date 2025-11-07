@@ -3,6 +3,8 @@ include ../template/ansi.mk
 include ../gnu/gnu.mk
 include glibc.mk
 
+OUTPUT := .output/
+
 subdir-y := alloca
 subdir-y += arpa
 subdir-y += byteswap
@@ -87,11 +89,11 @@ include ../template/main.mk
 post:
 	@$(call gnu_logo)
 
-gnu_get_libc_version: gnu_get_libc_version.o
-environ: environ.o
-lib-names: lib-names.o
-ftm: ftm.o
-__progname: __progname.o
-_GNU_SOURCE: _GNU_SOURCE.o
-_XOPEN_SOURCE: _XOPEN_SOURCE.o
-__GLIBC_USE: __GLIBC_USE.o
+gnu_get_libc_version: ${OUTPUT}gnu_get_libc_version.o
+environ: ${OUTPUT}environ.o
+lib-names: ${OUTPUT}lib-names.o
+ftm: ${OUTPUT}ftm.o
+__progname: ${OUTPUT}__progname.o
+_GNU_SOURCE: ${OUTPUT}_GNU_SOURCE.o
+_XOPEN_SOURCE: ${OUTPUT}_XOPEN_SOURCE.o
+__GLIBC_USE: ${OUTPUT}__GLIBC_USE.o
