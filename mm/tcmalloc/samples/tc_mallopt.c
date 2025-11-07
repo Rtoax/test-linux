@@ -1,11 +1,12 @@
-#include <gperftools/tcmalloc.h>
 #include <stdio.h>
 #include <string.h>
+#include <malloc.h>
+#include <gperftools/tcmalloc.h>
 
 int main(int argc, char * argv[])
 {
-	int ret = mallopt(M_CHECK_ACTION, 3);
-	printf("mallopt ret = %d\n", ret);
+	int ret = tc_mallopt(M_CHECK_ACTION, 3);
+	printf("tc_mallopt ret = %d\n", ret);
 
 	const char *src = "mcheck test";
 	char *ptr = (char *)tc_malloc(sizeof(char) * 32);
@@ -22,4 +23,3 @@ int main(int argc, char * argv[])
 
 	return 0;
 }
-

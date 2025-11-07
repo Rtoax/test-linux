@@ -1,3 +1,4 @@
+#define GPERFTOOLS_HAS_MALLINFO	1
 #include <gperftools/tcmalloc.h>
 #include <stdio.h>
 
