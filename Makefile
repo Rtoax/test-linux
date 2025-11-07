@@ -77,6 +77,7 @@ help:
 	@echo >&2 -e "***  ERROR=1    compile with error mode"
 	@echo >&2 -e "***  FORCE=1    compile with force mode"
 	@echo >&2 -e "***  M32=1      compile with -m32 if possible"
+	@echo >&2 -e "***  NOSUBDIR=1 skip all sub-directory"
 	@echo >&2 -e "***"
 
 include make.list

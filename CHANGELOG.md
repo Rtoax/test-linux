@@ -13,6 +13,7 @@ and this project adheres to
 #### Added
 - shell: add some commands from ostools;
 #### Changed
+- make: Support NOSUBDIR definition;
 #### Deprecated
 #### Removed
 - Remove symlinks of hpc/{amd/rocm,metax}/{samples,intrinsics};
