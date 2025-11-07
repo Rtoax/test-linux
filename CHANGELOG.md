@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- glibc: test `__GLIBC_USE()`;
 - shell: add some commands from ostools;
 #### Changed
 - make: Support NOSUBDIR definition;

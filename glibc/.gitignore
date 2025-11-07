@@ -5,3 +5,4 @@
 /__progname
 /_GNU_SOURCE
 /_XOPEN_SOURCE
+/__GLIBC_USE

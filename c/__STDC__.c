@@ -43,6 +43,17 @@
 
 int main(void)
 {
+#ifdef __GLIBC_USE
+# if __GLIBC_USE(ISOC11)
+	printf("ISOC11\n");
+# endif
+# if __GLIBC_USE(ISOC2X)
+	printf("ISOC2X\n");
+# endif
+# if __GLIBC_USE(ISOC23)
+	printf("ISOC23\n");
+# endif
+#endif
 	printf("__STDC__ %d\n", __STDC__);
 
 	/* This macro is defned, with value 1, if the compiler’s target is a

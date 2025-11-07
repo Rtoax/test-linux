@@ -72,11 +72,13 @@ target-y += gnu_get_libc_version
 target-y += lib-names
 target-y += ftm _GNU_SOURCE _XOPEN_SOURCE
 target-y += __progname
+target-y += __GLIBC_USE
 
 CFLAGS := -pthread
 
 CFLAGS__GNU_SOURCE := -D_GNU_SOURCE=1
 CFLAGS__XOPEN_SOURCE := -D_XOPEN_SOURCE=1
+CFLAGS___GLIBC_USE := -DTEST_MAIN=1
 
 target-post-y := post
 
@@ -92,3 +94,4 @@ ftm: ftm.o
 __progname: __progname.o
 _GNU_SOURCE: _GNU_SOURCE.o
 _XOPEN_SOURCE: _XOPEN_SOURCE.o
+__GLIBC_USE: __GLIBC_USE.o

@@ -36,6 +36,7 @@ target-y += _XOPEN_SOURCE
 target-y += _POSIX_SOURCE _POSIX_C_SOURCE
 target-y += LINUX_VERSION_CODE
 target-y += __GLIBC__ __GLIBC_MINOR__ __GLIBC_PREREQ
+target-y += __GLIBC_USE
 
 target-${IS_X86_64} += __x86_64__
 target-${CC_M32} += __i386__
@@ -109,6 +110,7 @@ LINUX_VERSION_CODE: $(OUTPUT)LINUX_VERSION_CODE.o
 __GLIBC__: $(OUTPUT)__GLIBC__.o
 __GLIBC_MINOR__: $(OUTPUT)__GLIBC_MINOR__.o
 __GLIBC_PREREQ: $(OUTPUT)__GLIBC_PREREQ.o
+__GLIBC_USE: $(OUTPUT)__GLIBC_USE.o
 
 compiler-macros.h:
 	$(call log_tgt_obj,HDR,,$(@))
