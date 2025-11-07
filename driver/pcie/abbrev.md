@@ -1,0 +1,9 @@
+- ASPM: Active State Power Management (激活状态电源管理) @PCIe
+- PCI: Peripheral Component Interconnect (外围组件互联) @PCIe
+- PCIe: PCI-Express () @PCI
+- PCIe ACS: Access Control Services (访问控制服务)
+- PCIe AER: Advanced Error Reporting (增强错误上报)
+- PCIe BAR: Base Address Register (基址寄存器)
+- PEC: Packet Error Code (包错误码) @PCIe
+- PIO: Port I/O (端口IO) @MMIO
+- PPB: PCI-to-PCI Bridge (PCI到PCI桥)
