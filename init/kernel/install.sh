@@ -153,7 +153,7 @@ NAME
 	${prog} - Install and uninstall kernel from upstream linux
 
 SYNOPSIS
-	${prog} [OPTION]... [SUBCOMMANDS] [OPTION]...
+	${prog} [OPTION] SUBCOMMANDS [OPTION]
 
 OPTIONS
 	-k, --kver [VERSION]            set kernel version
