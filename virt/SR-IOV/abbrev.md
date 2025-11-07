@@ -1,0 +1,2 @@
+- PF: Pysical Function (物理功能)
+- VF: Virtual Function (虚拟功能)
