@@ -4,7 +4,11 @@
  * Test various floating point precisions on various hardware such as CPU and
  * GPU. Different hardware handles precision and overflow differently.
  *
- * IEEE 754 floating-point formats:
+ * Standard:
+ * - ISO/IEC 60559
+ * - IEEE 754
+ *
+ * Floating-point formats:
  *
  *   16-bit: Half (binary16)
  *   32-bit: Single (binary32), decimal32

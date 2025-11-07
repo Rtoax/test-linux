@@ -1,3 +1,5 @@
 - ISO: International Organization for Standardization (国际标准化组织)
-- ISO/IEC 14882: C++ (C++11, etc.)
-- ISO/IEC 9899: C standard revision (C98, etc.)
+- ISO/IEC-14882: C++ (C++11, etc.)
+- ISO/IEC-60559:1982: Floating-Point Arithmetic (浮点运算, Replaced) @ISO/IEC-60559-2020
+- ISO/IEC-60559:2020: Floating-Point Arithmetic (浮点运算) @IEEE-754-2019
+- ISO/IEC-9899: C standard revision (C98, etc.)
