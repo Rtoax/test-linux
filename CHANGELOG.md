@@ -15,6 +15,7 @@ and this project adheres to
 - glibc: test `__GLIBC_USE()`;
 - shell: add some commands from ostools;
 #### Changed
+- Move vfio into virt/;
 - make: Support NOSUBDIR definition;
 #### Deprecated
 #### Removed
