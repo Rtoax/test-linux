@@ -165,7 +165,11 @@ _eval()
 {
 	if [[ -z ${dry_run} ]]; then
 		echo >&2 -e "\033[1;32m$@\033[m"
-		eval "$@"
+		eval "$@" || {
+			local ret=$?
+			echo -e >&2 "\033[31mERROR: ${@}\033[m = $ret"
+			return $ret
+		}
 	else
 		echo "$@"
 	fi
