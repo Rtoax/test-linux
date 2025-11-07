@@ -207,10 +207,10 @@ cleanup()
 trap cleanup EXIT
 
 _eval sudo ${BPFTOOL} map show name ${NAME_truncate}
-_eval sudo ${BPFTOOL} map dump name ${NAME_truncate}
 
 case ${TYPE} in
 array | percpu_array | hash | percpu_hash)
+	_eval sudo ${BPFTOOL} map dump name ${NAME_truncate}
 	for ((i = 0; i < ${ENTRIES}; i++))
 	do
 		_eval sudo ${BPFTOOL} map update name ${NAME_truncate} key $i 0 0 0 value $i 0 0 0
@@ -226,6 +226,7 @@ array | percpu_array | hash | percpu_hash)
 			_eval sudo ${BPFTOOL} map delete name ${NAME_truncate} key $i 0 0 0
 		done
 	fi
+	_eval sudo ${BPFTOOL} map dump name ${NAME_truncate}
 	;;
 array_of_maps | hash_of_maps)
 	for ((i = 0; i < ${#INNER_MAP_NAMES[@]}; i++))
@@ -243,8 +244,6 @@ queue)
 		_eval sudo ${BPFTOOL} map enqueue name ${NAME_truncate} value hex $i 0 0 0
 	done
 
-	_eval sudo ${BPFTOOL} map dump name ${NAME_truncate}
-
 	for ((i = 0; i < ${ENTRIES}; i++))
 	do
 		_eval sudo ${BPFTOOL} map dequeue name ${NAME_truncate}
@@ -256,7 +255,6 @@ stack)
 		_eval sudo ${BPFTOOL} map push name ${NAME_truncate} value hex $i 0 0 0
 	done
 
-	_eval sudo ${BPFTOOL} map dump name ${NAME_truncate}
 
 	for ((i = 0; i < ${ENTRIES}; i++))
 	do
@@ -265,6 +263,5 @@ stack)
 	;;
 esac
 
-_eval sudo ${BPFTOOL} map dump name ${NAME_truncate}
 
 # Unlink pinned file use trap EXIT above.
