@@ -15,7 +15,7 @@
  * region info may contain capability headers, so we need to keep reallocating
  * the memory until we match allocated memory size with argsz.
  */
-static int
+int
 pci_vfio_get_region_info(int vfio_dev_fd, struct vfio_region_info **info,
 		int region)
 {
