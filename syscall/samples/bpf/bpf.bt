@@ -43,17 +43,25 @@ BEGIN
 	@CMD[36] = "BPF_TOKEN_CREATE";
 
 	printf("Tracing bpf(2) syscall, hit ctrl-c to end.\n");
-	printf("%-8s %-8s %-16s %-8s\n", "TIME", "PID", "COMM", "CMD");
+	printf("%-8s %-8s %-16s %-4s %-8s\n", "TIME", "PID", "COMM", "RET", "CMD");
 }
 
 tracepoint:syscalls:sys_enter_bpf
 {
+	@cmds[tid] = args->cmd;
+}
+
+tracepoint:syscalls:sys_exit_bpf
+/ @cmds[tid] /
+{
 	time("%H:%M:%S ");
-	printf("%-8d %-16s %s\n", pid, comm, @CMD[args->cmd]);
+	printf("%-8d %-16s %-4d %s\n", pid, comm, args->ret, @CMD[@cmds[tid]]);
+	delete(@cmds[tid]);
 }
 
 END
 {
 	clear(@CMD);
+	clear(@cmds);
 	printf("Bye.\n");
 }
