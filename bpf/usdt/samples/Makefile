@@ -5,6 +5,7 @@ target-y += usdt_inlined
 target-y += usdt_quoted_probe
 target-y += usdt_semaphore_test
 target-y += usdt_sized_args
+target-y += libbpf
 
 target-post-y := help
 
@@ -20,3 +21,4 @@ usdt_inlined: usdt_inlined.o
 usdt_quoted_probe: usdt_quoted_probe.o
 usdt_semaphore_test: usdt_semaphore_test.o
 usdt_sized_args: usdt_sized_args.o
+libbpf: libbpf.o
