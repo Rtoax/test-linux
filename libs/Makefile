@@ -1,4 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
+OUTPUT := .output/
 include ../template/kconfig.mk
 
 subdir-y := readline
@@ -49,28 +50,30 @@ test1:
 
 %.so.o: %.h
 
-byteswap: byteswap.o
+byteswap: ${OUTPUT}byteswap.o
 byteswap.o: byteswap.h
-endian: endian.o
+endian: ${OUTPUT}endian.o
 endian.o: endian.h
-gotoxy: gotoxy.o
-goprint: goprint.o
-file: file.o
+gotoxy: ${OUTPUT}gotoxy.o
+goprint: ${OUTPUT}goprint.o
+file: ${OUTPUT}file.o
 file.o: file.h
-fd: fd.o
+fd: ${OUTPUT}fd.o
 fd.o: fd.h
-log: log.o
+log: ${OUTPUT}log.o
 log.o: log.h
-memshow: memshow.o
-mac: mac.o
+memshow: ${OUTPUT}memshow.o
+mac: ${OUTPUT}mac.o
 mac.o: mac.h
-progress: progress.o
+progress: ${OUTPUT}progress.o
 progress.o: progress.h
-str: str.o
-ipaddr: ipaddr.o
+str: ${OUTPUT}str.o
+ipaddr: ${OUTPUT}ipaddr.o
 ipaddr.o: ipaddr.h
 
-objs-dynamic := ipaddr.so.o readline.so.o memshow.so.o
+objs-dynamic := ${OUTPUT}ipaddr.so.o
+objs-dynamic += ${OUTPUT}readline.so.o
+objs-dynamic += ${OUTPUT}memshow.so.o
 objs-static := $(patsubst %.so.o,%.a.o,${objs-dynamic})
 
 libtest-linux-c.so.0.1: ${objs-dynamic}
