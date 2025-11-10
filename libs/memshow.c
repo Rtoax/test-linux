@@ -19,7 +19,7 @@
 /**
  * like $ hexdump --canonical $FILE
  */
-void fhexdump(FILE *fp, const void *mem, size_t size)
+void fhexdump(FILE *fp, const char *pfx, const void *mem, size_t size)
 {
 	const int width = 16;
 	int nr_newline = 0;
@@ -36,7 +36,7 @@ void fhexdump(FILE *fp, const void *mem, size_t size)
 		bool newline = (i + 1) % width == 0;
 
 		if (startline) {
-			fprintf(fp, "%#016lx | ", (uint64_t)mem + width * nr_newline);
+			fprintf(fp, "%s%#016lx | ", pfx, (uint64_t)mem + width * nr_newline);
 		}
 
 		uint8_t u8 = *(uint8_t *)((uint8_t *)mem + i);
@@ -84,7 +84,7 @@ void fhexdump(FILE *fp, const void *mem, size_t size)
 
 void hexdump(const void *mem, size_t size)
 {
-	fhexdump(stdout, mem, size);
+	fhexdump(stdout, "", mem, size);
 }
 
 void memdump(FILE *f, const char *title, const void *buf, unsigned int len)
@@ -124,6 +124,7 @@ int main(void)
 	memshow(">>  ", str, sizeof(str));
 	memshow(">>>>", str, sizeof(str));
 
+	fhexdump(stderr, ">>>", str, sizeof(str));
 	hexdump(str, sizeof(str));
 	memdump(stdout, "memdump", str, sizeof(str));
 }
