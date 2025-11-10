@@ -19,8 +19,8 @@ int main(void)
 
 	gpu_init(0);
 
-	cudaMallocHost(&ptr, sizeof(*ptr) * num, 0);
-	cudaMemset(ptr, 0, sizeof(*ptr) * num);
+	CUDA_CHECK(cudaMallocHost(&ptr, sizeof(*ptr) * num, 0), exit(1));
+	CUDA_CHECK(cudaMemset(ptr, 0, sizeof(*ptr) * num), exit(1));
 
 	hexdump(ptr, sizeof(*ptr) * num);
 
@@ -28,7 +28,9 @@ int main(void)
 
 	hexdump(ptr, sizeof(*ptr) * num);
 
-	cudaFreeHost(ptr);
+	CUDA_CHECK(cudaFreeHost(ptr), exit(1));
 
+	/* flush printf */
+	cudaDeviceSynchronize();
 	return 0;
 }

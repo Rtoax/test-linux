@@ -222,6 +222,8 @@ ${OUTPUT}device.hpcc.o: device.cu
 ${OUTPUT}fft.hpcc.o: cuda_adapter.h cuda_helpers.h
 ${OUTPUT}float.hpcc.o: float.cu
 ${OUTPUT}memory.hpcc.o: memory.cu
+${OUTPUT}malloc.hpcc.o: malloc.cu
+${OUTPUT}mallocHost.hpcc.o: mallocHost.cu
 ${OUTPUT}hcclGetVersion.hpcc.o: ncclGetVersion.cu
 ${OUTPUT}matrix-fp16.hpcc.o: cuda_adapter.h cuda_helpers.h
 ${OUTPUT}matrix-fp32.hpcc.o: cuda_adapter.h cuda_helpers.h
@@ -271,6 +273,8 @@ ${OUTPUT}matrix-fp64.luca.o: cuda_adapter.h cuda_helpers.h
 ${OUTPUT}matrix-int8.luca.o: cuda_adapter.h cuda_helpers.h
 ${OUTPUT}rand.luca.o: cuda_adapter.h cuda_helpers.h
 ${OUTPUT}sparse.luca.o: cuda_adapter.h cuda_helpers.h
+${OUTPUT}malloc.luca.o: malloc.cu
+${OUTPUT}mallocHost.luca.o: mallocHost.cu
 ${OUTPUT}memory.luca.o: memory.cu
 attribute-luca: ${OUTPUT}attribute.luca.o ${LUCA_HELPERS}
 blas-luca: ${OUTPUT}blas.luca.o ${LUCA_HELPERS}
