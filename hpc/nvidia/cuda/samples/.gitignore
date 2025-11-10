@@ -72,6 +72,10 @@
 /matrix-int8-hip
 /matrix-int8-hpcc
 /matrix-int8-luca
+/memory
+/memory-hip
+/memory-hpcc
+/memory-luca
 /module
 /module-hip
 /module-hpcc

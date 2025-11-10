@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- cuda/samples: add memory.cu;
 - SR-IOV: add abbrev.md;
 - glibc: test `__GLIBC_USE()`;
 - shell: add some commands from ostools;

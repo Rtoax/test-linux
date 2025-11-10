@@ -7,7 +7,7 @@
 
 int main(void)
 {
-	int num= 1024;
+	int num = 1024;
 	float *ptr;
 
 	gpu_init(0);
