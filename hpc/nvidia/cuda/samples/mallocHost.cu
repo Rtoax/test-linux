@@ -4,6 +4,12 @@
 #include "cuda_compat.h"
 #include "cuda_helpers.h"
 
+__global__ void kernel_write_mem(void *mem, size_t sz)
+{
+	for (size_t i = 0; i < sz; i++) {
+		*(char *)(mem + i)  = 'a';
+	}
+}
 
 int main(void)
 {
@@ -14,6 +20,9 @@ int main(void)
 
 	cudaMallocHost(&ptr, sizeof(*ptr) * num, 0);
 	cudaMemset(ptr, 0, sizeof(*ptr) * num);
+
+	kernel_write_mem<<<1, 1>>>(ptr, sizeof(*ptr) * num);
+
 	cudaFreeHost(ptr);
 
 	return 0;
