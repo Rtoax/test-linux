@@ -19,7 +19,7 @@
 /**
  * like $ hexdump --canonical $FILE
  */
-void hexdump(const void *mem, size_t size)
+void fhexdump(FILE *fp, const void *mem, size_t size)
 {
 	const int width = 16;
 	int nr_newline = 0;
@@ -36,14 +36,14 @@ void hexdump(const void *mem, size_t size)
 		bool newline = (i + 1) % width == 0;
 
 		if (startline) {
-			printf("%#016lx | ", (uint64_t)mem + width * nr_newline);
+			fprintf(fp, "%#016lx | ", (uint64_t)mem + width * nr_newline);
 		}
 
 		uint8_t u8 = *(uint8_t *)((uint8_t *)mem + i);
-		printf("%02x%s", u8, newline ? " |" : " ");
+		fprintf(fp, "%02x%s", u8, newline ? " |" : " ");
 
 		if ((i + 1) % 8 == 0 && !newline)
-			printf(" ");
+			fprintf(fp, " ");
 
 		/**
 		 * Display memory as character
@@ -52,9 +52,9 @@ void hexdump(const void *mem, size_t size)
 			const void *memch = (uint8_t *)mem + width * nr_newline;
 			for (size_t j = 0; j < width; j++) {
 				uint8_t c8 = *(uint8_t *)((uint8_t *)memch + j);
-				printf("%c", isprint(c8) ? c8 : '.');
+				fprintf(fp, "%c", isprint(c8) ? c8 : '.');
 			}
-			printf("|\n");
+			fprintf(fp, "|\n");
 		}
 
 		if (newline)
@@ -65,21 +65,26 @@ void hexdump(const void *mem, size_t size)
 
 	if (align_size > size) {
 		for (size_t i = 0; i < align_size - size; i++)
-			printf("   ");
-		printf("|");
+			fprintf(fp, "   ");
+		fprintf(fp, "|");
 
 		const void *memlastrow = (uint8_t *)mem + width * nr_newline;
 		for (size_t i = 0; i < width - (align_size - size); i++) {
 			uint8_t c8 = *(uint8_t *)((uint8_t *)memlastrow + i);
-			printf("%c", isprint(c8) ? c8 : '.');
+			fprintf(fp, "%c", isprint(c8) ? c8 : '.');
 		}
 		for (size_t i = 0; i < align_size - size; i++)
-			printf(" ");
-		printf("|");
+			fprintf(fp, " ");
+		fprintf(fp, "|");
 	}
 
 	if (nr_newline != nr_startline)
-		printf("\n");
+		fprintf(fp, "\n");
+}
+
+void hexdump(const void *mem, size_t size)
+{
+	fhexdump(stdout, mem, size);
 }
 
 void memdump(FILE *f, const char *title, const void *buf, unsigned int len)
