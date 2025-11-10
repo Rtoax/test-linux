@@ -12,9 +12,9 @@ int main(void)
 
 	gpu_init(0);
 
-	cudaMalloc(&ptr, sizeof(*ptr) * num);
+	cudaMallocHost(&ptr, sizeof(*ptr) * num, 0);
 	cudaMemset(ptr, 0, sizeof(*ptr) * num);
-	cudaFree(ptr);
+	cudaFreeHost(ptr);
 
 	return 0;
 }

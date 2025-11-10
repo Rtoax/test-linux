@@ -50,6 +50,10 @@
 /malloc-hip
 /malloc-hpcc
 /malloc-luca
+/mallocHost
+/mallocHost-hip
+/mallocHost-hpcc
+/mallocHost-luca
 /mallocManaged
 /mallocManaged-hip
 /mallocManaged-hpcc

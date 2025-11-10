@@ -21,6 +21,7 @@ common-objs += float
 common-objs += __GNUC__ __STDC__
 common-objs += hello
 common-objs += malloc
+common-objs += mallocHost
 common-objs += mallocManaged
 common-objs += memory
 common-objs += matrix-fp16 matrix-fp32 matrix-fp64 matrix-int8
@@ -142,6 +143,7 @@ float-c: ${OUTPUT}float-c.o
 __GNUC__: ${OUTPUT}__GNUC__.cu.o
 hello: ${OUTPUT}hello.cu.o ${CUDA_HELPERS}
 malloc: ${OUTPUT}malloc.cu.o ${CUDA_HELPERS}
+mallocHost: ${OUTPUT}mallocHost.cu.o ${CUDA_HELPERS}
 mallocManaged: ${OUTPUT}mallocManaged.cu.o ${CUDA_HELPERS}
 memory: ${OUTPUT}memory.cu.o ${CUDA_HELPERS}
 matrix-c-fp32: ${OUTPUT}matrix-fp32.o
@@ -171,6 +173,7 @@ ${OUTPUT}fft.hip.o: fft.cu
 ${OUTPUT}float.hip.o: float.cu
 ${OUTPUT}hello.hip.o: hello.cu
 ${OUTPUT}malloc.hip.o: malloc.cu
+${OUTPUT}mallocHost.hip.o: mallocHost.cu
 ${OUTPUT}mallocManaged.hip.o: mallocManaged.cu
 ${OUTPUT}memory.hip.o: memory.cu
 ${OUTPUT}matrix-fp16.hip.o: matrix.cu
@@ -196,6 +199,7 @@ float-hip: ${OUTPUT}float.hip.o ${HIP_HELPERS}
 __GNUC__-hip: ${OUTPUT}__GNUC__.hip.o ${HIP_HELPERS}
 hello-hip: ${OUTPUT}hello.hip.o ${HIP_HELPERS}
 malloc-hip: ${OUTPUT}malloc.hip.o ${HIP_HELPERS}
+mallocHost-hip: ${OUTPUT}mallocHost.hip.o ${HIP_HELPERS}
 mallocManaged-hip: ${OUTPUT}mallocManaged.hip.o ${HIP_HELPERS}
 memory-hip: ${OUTPUT}memory.hip.o ${HIP_HELPERS}
 matrix-fp16-hip: ${OUTPUT}matrix-fp16.hip.o ${HIP_HELPERS}
@@ -238,6 +242,7 @@ __GNUC__-hpcc: ${OUTPUT}__GNUC__.hpcc.o ${HPCC_HELPERS}
 hcclGetVersion-hpcc: ${OUTPUT}hcclGetVersion.hpcc.o ${HPCC_HELPERS}
 hello-hpcc: ${OUTPUT}hello.hpcc.o ${HPCC_HELPERS}
 malloc-hpcc: ${OUTPUT}malloc.hpcc.o ${HPCC_HELPERS}
+mallocHost-hpcc: ${OUTPUT}mallocHost.hpcc.o ${HPCC_HELPERS}
 mallocManaged-hpcc: ${OUTPUT}mallocManaged.hpcc.o ${HPCC_HELPERS}
 memory-hpcc: ${OUTPUT}memory.hpcc.o ${HPCC_HELPERS}
 matrix-fp16-hpcc: ${OUTPUT}matrix-fp16.hpcc.o ${HPCC_HELPERS}
@@ -280,6 +285,7 @@ __GNUC__-luca: ${OUTPUT}__GNUC__.luca.o ${LUCA_HELPERS}
 hcclGetVersion-luca: ${OUTPUT}hcclGetVersion.luca.o ${LUCA_HELPERS}
 hello-luca: ${OUTPUT}hello.luca.o ${LUCA_HELPERS}
 malloc-luca: ${OUTPUT}malloc.luca.o ${LUCA_HELPERS}
+mallocHost-luca: ${OUTPUT}mallocHost.luca.o ${LUCA_HELPERS}
 mallocManaged-luca: ${OUTPUT}mallocManaged.luca.o ${LUCA_HELPERS}
 memory-luca: ${OUTPUT}memory.luca.o ${LUCA_HELPERS}
 matrix-fp16-luca: ${OUTPUT}matrix-fp16.luca.o ${LUCA_HELPERS}
