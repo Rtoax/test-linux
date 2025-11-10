@@ -1,5 +1,13 @@
 // SPDX-License-Identifier: GPL-3.0
 /* Copyright (c) 2025 Rong Tao */
+/**
+ * cudaMallocManaged:
+ * When ease of programming is more important than extreme performance, or
+ * when data access patterns alternate between CPU and GPU and are
+ * unpredictable.
+ *
+ * see also cudaMallocHost()
+ */
 #include <stdio.h>
 #include <string.h>
 #include <sys/types.h>

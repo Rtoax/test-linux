@@ -1,5 +1,12 @@
 // SPDX-License-Identifier: GPL-3.0
 /* Copyright (c) 2025 Rong Tao */
+/**
+ * cudaMallocHost():
+ * When you need to perform frequent data transfers, where data transfer
+ * performance is critical, and you can manage explicit data transfers.
+ *
+ * see also cudaMallocManaged().
+ */
 #include <stdio.h>
 #include "cuda_compat.h"
 #include "cuda_helpers.h"
