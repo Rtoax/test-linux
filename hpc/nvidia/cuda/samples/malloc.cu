@@ -16,5 +16,9 @@ int main(void)
 	cudaMemset(ptr, 0, sizeof(*ptr) * num);
 	cudaFree(ptr);
 
+	cudaMallocHost(&ptr, sizeof(*ptr) * num);
+	cudaMemset(ptr, 0, sizeof(*ptr) * num);
+	cudaFreeHost(ptr);
+
 	return 0;
 }

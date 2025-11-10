@@ -80,6 +80,8 @@
  */
 #define cudaMalloc(pp, sz)	__cuda(Malloc(pp, sz))
 #define cudaFree(ptr)	__cuda(Free(ptr))
+#define cudaMallocHost(ptr, sz, flags)	__cuda(MallocHost(ptr, sz, flags))
+#define cudaFreeHost(ptr, sz, flags)	__cuda(FreeHost(ptr, sz, flags))
 #define cudaMemset(ptr, v, size)	__cuda(Memset(ptr, v, size))
 /**
  * CUDA 12
