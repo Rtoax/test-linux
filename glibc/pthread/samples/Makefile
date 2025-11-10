@@ -1,4 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
+__USE_C_HELPERS__ = y
 __USE_PTHREAD_HELPERS__ = y
 __USE_SCHED_HELPERS__ = y
 OUTPUT := .output/
@@ -106,7 +107,7 @@ attr_setstack-3: ${OUTPUT}attr_setstack-3.o
 attr_setdetachstate: ${OUTPUT}attr_setdetachstate.o
 attr_getstack: ${OUTPUT}attr_getstack.o
 attr_getstacksize: ${OUTPUT}attr_getstacksize.o
-attr_getdetachstate: ${OUTPUT}attr_getdetachstate.o
+attr_getdetachstate: ${OUTPUT}attr_getdetachstate.o ${C_HELPERS}
 attr_getinheritsched: ${OUTPUT}attr_getinheritsched.o
 attr_getschedpolicy: ${OUTPUT}attr_getschedpolicy.o
 attr_init: ${OUTPUT}attr_init.o

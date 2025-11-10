@@ -21,8 +21,8 @@ target-y += progress
 target-y += str
 target-y += ipaddr
 
-LIB_OBJS := ipaddr.so.o readline.so.o
-LIB_OBJS_A := ipaddr.a.o readline.a.o
+LIB_OBJS := ipaddr.so.o readline.so.o memshow.so.o
+LIB_OBJS_A := ipaddr.a.o readline.a.o memshow.a.o
 
 target-libso-y += libtest-linux-c.so.0.1
 target-liba-y += libtest-linux-c.a

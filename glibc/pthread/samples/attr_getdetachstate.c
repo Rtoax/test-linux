@@ -9,16 +9,16 @@ void *test_task_fn(void *unused)
 {
 	printf("test_task_fn.\n");
 	static int status = 12121;
-	pthread_attr_t attr;
+	pthread_attr_t attr = {};
 	int detachstate;
 
-	memshow("pthread_attr_t before init ", &attr, sizeof(pthread_attr_t));
+	fhexdump(stdout, "pthread_attr_t before init ", &attr, sizeof(pthread_attr_t));
 
 	pthread_attr_init(&attr);
-	memshow("pthread_attr_t after init  ", &attr, sizeof(pthread_attr_t));
+	fhexdump(stdout, "pthread_attr_t after init  ", &attr, sizeof(pthread_attr_t));
 
 	pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_DETACHED);
-	memshow("pthread_attr_t after detach", &attr, sizeof(pthread_attr_t));
+	fhexdump(stdout, "pthread_attr_t after detach", &attr, sizeof(pthread_attr_t));
 
 	pthread_attr_getdetachstate(&attr, &detachstate);
 

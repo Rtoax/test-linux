@@ -6,6 +6,7 @@
 #   $ find -name '*_helpers.c' -exec basename {} \; | sort
 #
 # Input definitions:
+# - __USE_C_HELPERS__=y
 # - __USE_PROC_HELPERS__=y
 # - __USE_SOCKET_HELPERS__=y
 # - __USE_PTHREAD_HELPERS__=y
@@ -44,6 +45,7 @@ ${1}:
 	@make --no-print-directory --silent -C $(shell dirname ${1}) $(shell basename ${1})
 endef
 
+export C_HELPERS := ${TOPDIR}/libs/libtest-linux-c.so
 export PROC_HELPERS := ${TOPDIR}/fs/procfs/libproc_helpers.so
 export SOCKET_HELPERS := ${TOPDIR}/ipc/socket/libsocket_helpers.so
 export PTHREAD_HELPERS := ${TOPDIR}/glibc/pthread/libpthread_helpers.so
@@ -52,6 +54,7 @@ export MMAP_HELPERS := ${TOPDIR}/syscall/samples/mm/mmap/libmmap_helpers.so
 export OOM_HELPERS := ${TOPDIR}/mm/oom/liboom_helpers.so
 export TRACE_HELPERS := ${TOPDIR}/bpf/libbpf/libtrace_helpers.so
 
+$(eval $(call add_helper_target,${C_HELPERS},${__USE_C_HELPERS__}))
 $(eval $(call add_helper_target,${PROC_HELPERS},${__USE_PROC_HELPERS__}))
 $(eval $(call add_helper_target,${SOCKET_HELPERS},${__USE_SOCKET_HELPERS__}))
 $(eval $(call add_helper_target,${PTHREAD_HELPERS},${__USE_PTHREAD_HELPERS__}))
@@ -61,6 +64,7 @@ $(eval $(call add_helper_target,${OOM_HELPERS},${__USE_OOM_HELPERS__}))
 $(eval $(call add_helper_target,${TRACE_HELPERS},${__USE_TRACE_HELPERS__}))
 
 ifdef DEBUG
+  $(info C_HELPERS = ${C_HELPERS})
   $(info PROC_HELPERS = ${PROC_HELPERS})
   $(info SOCKET_HELPERS = ${SOCKET_HELPERS})
   $(info PTHREAD_HELPERS = ${PTHREAD_HELPERS})

@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- helpers: add libtest-linux-c.so;
 - cuda/samples: add memory.cu, mallocHost.cu;
 - SR-IOV: add abbrev.md;
 - glibc: test `__GLIBC_USE()`;
