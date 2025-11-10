@@ -21,9 +21,6 @@ target-y += progress
 target-y += str
 target-y += ipaddr
 
-LIB_OBJS := ipaddr.so.o readline.so.o memshow.so.o
-LIB_OBJS_A := ipaddr.a.o readline.a.o memshow.a.o
-
 target-libso-y += libtest-linux-c.so.0.1
 target-liba-y += libtest-linux-c.a
 
@@ -73,5 +70,8 @@ str: str.o
 ipaddr: ipaddr.o
 ipaddr.o: ipaddr.h
 
-libtest-linux-c.so.0.1: ${LIB_OBJS}
-libtest-linux-c.a: ${LIB_OBJS_A}
+objs-dynamic := ipaddr.so.o readline.so.o memshow.so.o
+objs-static := $(patsubst %.so.o,%.a.o,${objs-dynamic})
+
+libtest-linux-c.so.0.1: ${objs-dynamic}
+libtest-linux-c.a: ${objs-static}
