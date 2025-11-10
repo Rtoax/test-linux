@@ -1,54 +1,91 @@
-#include <stdlib.h>
-#include <stdio.h>
+// SPDX-License-Identifier: GPL-3.0
+/* Copyright (c) 2025 Rong Tao */
+#include <assert.h>
+#include <ctype.h>
 #include <errno.h>
 #include <stdint.h>
+#include <stdint.h>
+#include <stdio.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdlib.h>
 #include <string.h>
+#include <sys/types.h>
 
 #include "memshow.h"
 
 #define LINE_LEN 128
 
-void hexdump(FILE *f, const char *title, const void *buf, unsigned int len)
+/**
+ * like $ hexdump --canonical $FILE
+ */
+void hexdump(const void *mem, size_t size)
 {
-	unsigned int i, out, ofs;
-	const unsigned char *data = buf;
-	char line[LINE_LEN];	/* space needed 8+16*3+3+16 == 75 */
+	const int width = 16;
+	int nr_newline = 0;
+	int nr_startline = 0;
+	size_t align_size = 0;
 
-	fprintf(f, "%s at [%p], len=%u\n",
-		title ? : "  Dump data", data, len);
-	ofs = 0;
-	while (ofs < len) {
-		/* format the line in the buffer */
-		out = snprintf(line, LINE_LEN, "%08X:", ofs);
-		for (i = 0; i < 16; i++) {
-			if (ofs + i < len)
-				snprintf(line + out, LINE_LEN - out,
-					 " %02X", (data[ofs + i] & 0xff));
-			else
-				strcpy(line + out, "   ");
-			out += 3;
+	assert(!(width % 8) && "width must align of 8");
+
+	while (align_size < size)
+		align_size += width;
+
+	for (size_t i = 0; i < size; i++) {
+		bool startline = i % width == 0;
+		bool newline = (i + 1) % width == 0;
+
+		if (startline) {
+			printf("%#016lx | ", (uint64_t)mem + width * nr_newline);
 		}
 
+		uint8_t u8 = *(uint8_t *)((uint8_t *)mem + i);
+		printf("%02x%s", u8, newline ? " |" : " ");
 
-		for (; i <= 16; i++)
-			out += snprintf(line + out, LINE_LEN - out, " | ");
+		if ((i + 1) % 8 == 0 && !newline)
+			printf(" ");
 
-		for (i = 0; ofs < len && i < 16; i++, ofs++) {
-			unsigned char c = data[ofs];
-
-			if (c < ' ' || c > '~')
-				c = '.';
-			out += snprintf(line + out, LINE_LEN - out, "%c", c);
+		/**
+		 * Display memory as character
+		 */
+		if (newline) {
+			const void *memch = (uint8_t *)mem + width * nr_newline;
+			for (size_t j = 0; j < width; j++) {
+				uint8_t c8 = *(uint8_t *)((uint8_t *)memch + j);
+				printf("%c", isprint(c8) ? c8 : '.');
+			}
+			printf("|\n");
 		}
-		fprintf(f, "%s\n", line);
+
+		if (newline)
+			nr_newline++;
+		if (startline)
+			nr_startline++;
 	}
-	fflush(f);
+
+	if (align_size > size) {
+		for (size_t i = 0; i < align_size - size; i++)
+			printf("   ");
+		printf("|");
+
+		const void *memlastrow = (uint8_t *)mem + width * nr_newline;
+		for (size_t i = 0; i < width - (align_size - size); i++) {
+			uint8_t c8 = *(uint8_t *)((uint8_t *)memlastrow + i);
+			printf("%c", isprint(c8) ? c8 : '.');
+		}
+		for (size_t i = 0; i < align_size - size; i++)
+			printf(" ");
+		printf("|");
+	}
+
+	if (nr_newline != nr_startline)
+		printf("\n");
 }
 
 void memdump(FILE *f, const char *title, const void *buf, unsigned int len)
 {
 	unsigned int i, out;
-	const unsigned char *data = buf;
+	const unsigned char *data = (const unsigned char *)buf;
 	char line[LINE_LEN];
 
 	if (title)
@@ -82,7 +119,7 @@ int main(void)
 	memshow(">>  ", str, sizeof(str));
 	memshow(">>>>", str, sizeof(str));
 
-	hexdump(stdout, "hexdump", str, sizeof(str));
+	hexdump(str, sizeof(str));
 	memdump(stdout, "memdump", str, sizeof(str));
 }
 #endif

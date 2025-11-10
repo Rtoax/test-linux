@@ -40,5 +40,4 @@ memshow(const char *prefix, void *ptr, ssize_t size)
 }
 
 void memdump(FILE *f, const char *title, const void *buf, unsigned int len);
-void hexdump(FILE *f, const char *title, const void *buf, unsigned int len);
-
+void hexdump(const void *mem, size_t size);
