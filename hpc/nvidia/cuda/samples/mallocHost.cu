@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include "cuda_compat.h"
 #include "cuda_helpers.h"
+#include "memshow.c"
 
 __global__ void kernel_write_mem(void *mem, size_t sz)
 {
@@ -13,7 +14,7 @@ __global__ void kernel_write_mem(void *mem, size_t sz)
 
 int main(void)
 {
-	int num = 1024;
+	int num = 10;
 	float *ptr;
 
 	gpu_init(0);
@@ -21,7 +22,11 @@ int main(void)
 	cudaMallocHost(&ptr, sizeof(*ptr) * num, 0);
 	cudaMemset(ptr, 0, sizeof(*ptr) * num);
 
+	hexdump(ptr, sizeof(*ptr) * num);
+
 	kernel_write_mem<<<1, 1>>>(ptr, sizeof(*ptr) * num);
+
+	hexdump(ptr, sizeof(*ptr) * num);
 
 	cudaFreeHost(ptr);
 
