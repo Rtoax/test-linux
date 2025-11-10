@@ -103,14 +103,14 @@ atfork: ${OUTPUT}atfork.o
 attr_setstacksize: ${OUTPUT}attr_setstacksize.o
 attr_setstack-1: ${OUTPUT}attr_setstack-1.o
 attr_setstack-2: ${OUTPUT}attr_setstack-2.o
-attr_setstack-3: ${OUTPUT}attr_setstack-3.o
+attr_setstack-3: ${OUTPUT}attr_setstack-3.o ${C_HELPERS}
 attr_setdetachstate: ${OUTPUT}attr_setdetachstate.o
 attr_getstack: ${OUTPUT}attr_getstack.o
 attr_getstacksize: ${OUTPUT}attr_getstacksize.o
 attr_getdetachstate: ${OUTPUT}attr_getdetachstate.o ${C_HELPERS}
-attr_getinheritsched: ${OUTPUT}attr_getinheritsched.o
-attr_getschedpolicy: ${OUTPUT}attr_getschedpolicy.o
-attr_init: ${OUTPUT}attr_init.o
+attr_getinheritsched: ${OUTPUT}attr_getinheritsched.o ${C_HELPERS}
+attr_getschedpolicy: ${OUTPUT}attr_getschedpolicy.o ${C_HELPERS}
+attr_init: ${OUTPUT}attr_init.o ${C_HELPERS}
 getschedparam: ${OUTPUT}getschedparam.o
 barrier_init: ${OUTPUT}barrier_init.o
 cancel: ${OUTPUT}cancel.o

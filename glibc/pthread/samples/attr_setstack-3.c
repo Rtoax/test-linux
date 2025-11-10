@@ -7,8 +7,8 @@
 #include <errno.h>
 #include <ctype.h>
 
-#include <libs/memshow.h>
-#include <macro/unused.h>
+#include "libs/memshow.h"
+#include "macro/unused.h"
 
 #ifndef PTHREAD_STACK_MIN
 #define PTHREAD_STACK_MIN 16384
@@ -69,7 +69,7 @@ int main(void)
 		size_t __stacksize;
 		pthread_attr_getstack(&attr, (void *)&__stack, &__stacksize);
 		printf(">>>>>>>>>>>>>>stacksize:%lu\n", __stacksize);
-		memshow("[Stack]", __stack, __stacksize);
+		fhexdump(stdout, "[Stack]", __stack, __stacksize);
 	}
 	sleep(2);
 	return 0;

@@ -2,21 +2,21 @@
 #include <stdio.h>
 #include <ctype.h>
 
-#include <libs/memshow.h>
+#include "libs/memshow.h"
 
 void *test_task_fn(void *unused)
 {
-	pthread_attr_t attr;
+	pthread_attr_t attr = {};
 
-	memshow("before init > ", &attr, sizeof(pthread_attr_t));
+	fhexdump(stdout, "before init > ", &attr, sizeof(pthread_attr_t));
 
 	pthread_attr_init(&attr);
 
-	memshow("after  init > ", &attr, sizeof(pthread_attr_t));
+	fhexdump(stdout, "after  init > ", &attr, sizeof(pthread_attr_t));
 
 	pthread_attr_destroy(&attr);
 
-	memshow("after destroy > ", &attr, sizeof(pthread_attr_t));
+	fhexdump(stdout, "after destroy > ", &attr, sizeof(pthread_attr_t));
 
 	return NULL;
 }

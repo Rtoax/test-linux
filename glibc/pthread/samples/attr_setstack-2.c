@@ -9,7 +9,6 @@
 #include <sys/prctl.h>
 #include <ctype.h>
 
-#include <libs/memshow.h>
 #include <macro/unused.h>
 
 #define DBG_PRINT(fmt, args...) { \
