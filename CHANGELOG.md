@@ -23,6 +23,7 @@ and this project adheres to
 - make: Support NOSUBDIR definition;
 #### Deprecated
 #### Removed
+- libs/memshow.h: remove memshow() api;
 - Remove symlinks of hpc/{amd/rocm,metax}/{samples,intrinsics};
 #### Fixed
 #### Security

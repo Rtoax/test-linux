@@ -121,9 +121,6 @@ int main(void)
 		"1234567890abcdefghijklmnopqrstuvwxyz:;,."
 	};
 
-	memshow(">>  ", str, sizeof(str));
-	memshow(">>>>", str, sizeof(str));
-
 	fhexdump(stderr, ">>>", str, sizeof(str));
 	hexdump(str, sizeof(str));
 	memdump(stdout, "memdump", str, sizeof(str));

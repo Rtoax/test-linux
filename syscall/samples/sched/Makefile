@@ -1,4 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
+__USE_C_HELPERS__ = y
+
 subdir-y :=
 subdir-y += clone
 subdir-y += fork
@@ -46,7 +48,7 @@ sched_getscheduler: sched_getscheduler.o libsched_helpers.so
 policy: policy.o
 sched_get_priority_max: sched_get_priority_max.o
 sched_get_priority_min: sched_get_priority_min.o
-sched_getaffinity: sched_getaffinity.o
+sched_getaffinity: sched_getaffinity.o ${C_HELPERS}
 sched_rr_get_interval: sched_rr_get_interval.o
 sched_getcpu: sched_getcpu.o libsched_helpers.so
 sched_yield: sched_yield.o

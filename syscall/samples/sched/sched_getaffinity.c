@@ -3,7 +3,7 @@
 #include <sys/types.h>
 #include <unistd.h>
 
-#include <libs/memshow.h>
+#include "libs/memshow.h"
 
 int main(void)
 {
@@ -21,7 +21,7 @@ int main(void)
 		perror("sched_getaffinity");
 		return ret;
 	}
-	memshow("cpuset > ", &cpuset, sizeof(cpu_set_t));
+	fhexdump(stdout, "cpuset > ", &cpuset, sizeof(cpu_set_t));
 
 	CPU_ZERO(&cpuset);
 	CPU_SET(bindcpu, &cpuset);
@@ -30,7 +30,7 @@ int main(void)
 		perror("sched_setaffinity");
 		return ret;
 	}
-	memshow("cpuset > ", &cpuset, sizeof(cpu_set_t));
+	fhexdump(stdout, "cpuset > ", &cpuset, sizeof(cpu_set_t));
 
 	return 0;
 }

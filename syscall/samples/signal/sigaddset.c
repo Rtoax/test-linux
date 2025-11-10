@@ -8,17 +8,17 @@ int main(void)
 	sigset_t st;
 
 	sigemptyset(&st);
-	memshow("Empty: ", &st, sizeof(st));
+	fhexdump(stdout, "Empty: ", &st, sizeof(st));
 
 	sigaddset(&st, SIGINT);
 	sigaddset(&st, SIGSTOP);
-	memshow("  Add: ", &st, sizeof(st));
+	fhexdump(stdout, "  Add: ", &st, sizeof(st));
 
 	sigdelset(&st, SIGINT);
-	memshow("  Del: ", &st, sizeof(st));
+	fhexdump(stdout, "  Del: ", &st, sizeof(st));
 
 	sigfillset(&st);
-	memshow(" Fill: ", &st, sizeof(st));
+	fhexdump(stdout, " Fill: ", &st, sizeof(st));
 
 	if (sigismember(&st, SIGSTOP)) {
 		printf("Setted SIGSTOP\n");
