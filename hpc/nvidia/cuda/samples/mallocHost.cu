@@ -7,8 +7,9 @@
 
 __global__ void kernel_write_mem(void *mem, size_t sz)
 {
+	char *str = (char *)mem;
 	for (size_t i = 0; i < sz; i++) {
-		*(char *)(mem + i)  = 'a';
+		str[i]  = 'a';
 	}
 }
 
