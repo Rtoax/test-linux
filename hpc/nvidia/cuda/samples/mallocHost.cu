@@ -27,6 +27,8 @@ int main(void)
 
 	kernel_write_mem<<<1, 1>>>(ptr, sizeof(*ptr) * num);
 
+	cudaDeviceSynchronize();
+
 	hexdump(ptr, sizeof(*ptr) * num);
 
 	CUDA_CHECK(cudaFreeHost(ptr), exit(1));
