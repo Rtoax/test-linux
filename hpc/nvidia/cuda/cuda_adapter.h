@@ -109,7 +109,7 @@
  */
 #define cudaMemset2DAsync(dst, pitch, value, width, height, stream)	\
 	__cuda(Memset2DAsync(dst, pitch, value, width, height, stream))
-#define cudaMemcpy(dev, host, size, flag)	__cuda(Memcpy(dev, host, size, flag))
+#define cudaMemcpy(dst, src, size, flag)	__cuda(Memcpy(dst, src, size, flag))
 #define cudaMemcpyKind	__cuda(MemcpyKind)
 #define cudaMemcpyHostToHost	__cuda(MemcpyHostToHost)	/* 0 */
 #define cudaMemcpyHostToDevice	__cuda(MemcpyHostToDevice)	/* 1 */

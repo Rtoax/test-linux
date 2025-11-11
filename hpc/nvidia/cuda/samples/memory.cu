@@ -54,7 +54,7 @@ void dev_mem_copy(struct device *from, struct device *to, cudaMemcpyKind kind)
 		return;
 	}
 
-	CUDA_CHECK(cudaMemcpy(from_mem, to_mem, SZ_MEM, kind),);
+	CUDA_CHECK(cudaMemcpy(to_mem, from_mem, SZ_MEM, kind),);
 }
 
 int main(void)
