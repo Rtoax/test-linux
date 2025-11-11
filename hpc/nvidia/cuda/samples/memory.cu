@@ -1,5 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0
 /* Copyright (c) 2025 Rong Tao */
+#include <argp.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <malloc.h>
 #include "cuda_compat.h"
@@ -11,15 +13,63 @@ struct device {
 	void *host_mem;
 };
 
-#define SZ_MEM	(1024 * 1024 * 1024)
+struct {
+	bool verbose;
+	unsigned long size;
+} env = {
+	.verbose = false,
+	.size = 1024 * 1024 * 512,
+};
+
+const char *version = "v0.0.1";
+
+const char argp_prog_doc[] =
+	"USAGE: [-v]\n"
+	"\n";
+
+static const struct argp_option opts[] = {
+	{ "size", 'S', "SIZE", 0, "Memory size" },
+	{ "verbose", 'v', NULL, 1, "Display detail" },
+	{ "version", 'V', NULL, 1, "Display version" },
+	{},
+};
+
+static error_t parse_arg(int key, char *arg, struct argp_state *state)
+{
+	switch (key) {
+	case 'S':
+		env.size = strtoul(arg, NULL, 10);
+		break;
+	case 'v':
+		env.verbose = true;
+		break;
+	case 'V':
+		printf("%s\n", version);
+		exit(EXIT_SUCCESS);
+		break;
+	case ARGP_KEY_ARG:
+		break;
+	case ARGP_KEY_END:
+		break;
+	default:
+		return ARGP_ERR_UNKNOWN;
+	}
+	return 0;
+}
+
+static const struct argp argp = {
+	.options = opts,
+	.parser = parse_arg,
+	.doc = argp_prog_doc,
+};
 
 void dev_mem_alloc(int dev_id, struct device *dev)
 {
 	dev->dev_id = dev_id;
 	cudaSetDevice(dev_id);
-	cudaMalloc(&dev->dev_mem, SZ_MEM);
-	cudaMemset(dev->dev_mem, 0, SZ_MEM);
-	dev->host_mem = malloc(SZ_MEM);
+	cudaMalloc(&dev->dev_mem, env.size);
+	cudaMemset(dev->dev_mem, 0, env.size);
+	dev->host_mem = malloc(env.size);
 }
 
 void dev_mem_free(struct device *dev)
@@ -58,7 +108,7 @@ void dev_mem_copy(struct device *from, struct device *to, cudaMemcpyKind kind,
 
 	cudaEventRecord(start, NULL);
 
-	CUDA_CHECK(cudaMemcpy(to_mem, from_mem, SZ_MEM, kind),);
+	CUDA_CHECK(cudaMemcpy(to_mem, from_mem, env.size, kind),);
 
 	cudaEventRecord(end, NULL);
 	cudaEventSynchronize(end);
@@ -87,10 +137,16 @@ void test_memcpy(struct device *devices, int devNum, cudaMemcpyKind kind)
 	}
 }
 
-int main(void)
+int main(int argc, char *argv[])
 {
-	int i, devNum;
+	int i, err, devNum;
 	struct device *devices;
+
+	err = argp_parse(&argp, argc, argv, 0, NULL, NULL);
+	if (err) {
+		fprintf(stderr, "argp_parse return %d\n", err);
+		return -err;
+	}
 
 	devNum = gpu_num();
 	devices = (struct device *)malloc(devNum * sizeof(struct device));
