@@ -16,4 +16,10 @@ NVIDIA
 - [Turing Instruction Set](https://docs.nvidia.com/cuda/cuda-binary-utilities/index.html#turing-instruction-set)
 - [NVIDIA Ampere GPU and Ada Instruction Set](https://docs.nvidia.com/cuda/cuda-binary-utilities/index.html#nvidia-ampere-gpu-and-ada-instruction-set)
 - [Hopper Instruction Set](https://docs.nvidia.com/cuda/cuda-binary-utilities/index.html#hopper-instruction-set)
+  - https://www.nvidia.com/en-us/data-center/technologies/hopper-architecture/
 - [Blackwell Instruction Set](https://docs.nvidia.com/cuda/cuda-binary-utilities/index.html#blackwell-instruction-set)
+  - https://www.nvidia.com/en-us/data-center/technologies/blackwell-architecture/
+
+## Tensor
+
+- [NVIDIA Tensor Cores](https://www.nvidia.com/en-us/data-center/tensor-cores/)

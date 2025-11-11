@@ -69,9 +69,15 @@ int gpu_max_threads_per_block(int dev_id)
 const char *gpu_compute_cap_str(int major, int minor)
 {
 	switch (major) {
+	/**
+	 * https://www.nvidia.com/en-us/data-center/technologies/blackwell-architecture/
+	 */
 	case 10:
 		return "Blackwell";
 		break;
+	/**
+	 * https://www.nvidia.com/en-us/data-center/technologies/hopper-architecture/
+	 */
 	case 9:
 		return "Hopper";
 		break;
