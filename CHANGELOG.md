@@ -11,7 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
-- libs: add str.h;
+- libs: add str.h, constants.h;
 - helpers: add libtest-linux-c.so;
 - cuda/samples: add memory.cu, mallocHost.cu;
 - SR-IOV: add abbrev.md;

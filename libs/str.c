@@ -6,10 +6,7 @@
 #include <errno.h>
 
 #include "str.h"
-
-#define KB 1024UL
-#define MB (KB * 1024UL)
-#define GB (MB * 1024UL)
+#include "constants.h"
 
 void *memcpy_c(void *dest, const void *src, size_t n)
 {
