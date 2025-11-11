@@ -8,13 +8,26 @@
 int main(void)
 {
 	int num = 1024;
-	float *ptr;
+	float *ptr, *host_ptr;
+	size_t size;
 
 	gpu_init(0);
 
-	cudaMalloc(&ptr, sizeof(*ptr) * num);
-	cudaMemset(ptr, 0, sizeof(*ptr) * num);
+	size = sizeof(*ptr) * num;
+
+	host_ptr = (float *)malloc(size);
+	memset(host_ptr, 0, size);
+
+	cudaMalloc(&ptr, size);
+	cudaMemset(ptr, 0, size);
+
+	cudaMemcpy(ptr, host_ptr, size, cudaMemcpyHostToDevice);
+	cudaMemcpy(ptr, ptr, size, cudaMemcpyDeviceToDevice);
+	cudaMemcpy(host_ptr, ptr, size, cudaMemcpyDeviceToHost);
+	cudaMemcpy(host_ptr, host_ptr, size, cudaMemcpyHostToHost);
+
 	cudaFree(ptr);
+	free(host_ptr);
 
 	return 0;
 }
