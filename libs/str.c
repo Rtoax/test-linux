@@ -3,6 +3,8 @@
 #include <string.h>
 #include <sys/types.h>
 
+#include "str.h"
+
 void *memcpy_c(void *dest, const void *src, size_t n)
 {
 	char *d = (char *)dest;
