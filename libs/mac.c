@@ -32,7 +32,7 @@ int strtomacaddr(unsigned char *mac, char *str)
 	return 0;
 }
 
-#ifdef TEST
+#ifdef TEST_MAIN
 #include <stdio.h>
 
 int main(void)

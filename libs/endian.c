@@ -3,6 +3,7 @@
 
 #include "endian.h"
 
+#ifdef TEST_MAIN
 int main(void)
 {
 	if (is_little_endian())
@@ -11,3 +12,4 @@ int main(void)
 		printf("Big Endian\n");
 	return 0;
 }
+#endif

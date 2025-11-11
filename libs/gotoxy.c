@@ -41,6 +41,7 @@ void fang(unsigned short row, unsigned short col, int bnd, int color, int us)
 	}
 }
 
+#ifdef TEST_MAIN
 int main(void)
 {
 	int bnd, i;
@@ -61,3 +62,4 @@ int main(void)
 	printf("\n");
 	return 0;
 }
+#endif

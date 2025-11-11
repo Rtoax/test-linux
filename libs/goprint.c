@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include "gotoxy.h"
 
+#ifdef TEST_MAIN
 int main(int argc, char *argv[])
 {
 	if (argc < 4) {
@@ -11,3 +12,4 @@ int main(int argc, char *argv[])
 	printf("%s", argv[3]);
 	return 0;
 }
+#endif

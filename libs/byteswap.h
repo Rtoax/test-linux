@@ -40,4 +40,3 @@
 #ifndef byteswap16
 #define byteswap16(x) ___constant_swab16(x)
 #endif
-

@@ -17,6 +17,7 @@ and this project adheres to
 - glibc: test `__GLIBC_USE()`;
 - shell: add some commands from ostools;
 #### Changed
+- libs: Rename macro `TEST` to `TEST_MAIN`;
 - pthread: use fhexdump() instead of memshow();
 - Move hexdump() from fakeCUDA to libs/memshow.c;
 - Move vfio into virt/;

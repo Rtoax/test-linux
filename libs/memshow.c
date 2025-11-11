@@ -114,7 +114,7 @@ void memdump(FILE *f, const char *title, const void *buf, unsigned int len)
 	fflush(f);
 }
 
-#ifdef TEST
+#ifdef TEST_MAIN
 int main(void)
 {
 	char str[] = {

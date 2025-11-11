@@ -1,5 +1,6 @@
 #include "log.h"
 
+#ifdef TEST_MAIN
 int main(void)
 {
 	log_err("Hello\n");
@@ -10,3 +11,4 @@ int main(void)
 
 	return 0;
 }
+#endif

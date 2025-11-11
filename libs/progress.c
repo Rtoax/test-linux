@@ -63,9 +63,8 @@ extern void progress_destroy(progress_t *bar)
 	free(bar->pro);
 }
 
-#ifdef TEST
+#ifdef TEST_MAIN
 #include <unistd.h>
-#include "progress.h"
 
 int main(int argc, char *argv[])
 {

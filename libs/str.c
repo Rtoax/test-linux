@@ -65,7 +65,7 @@ const char *vstrcat_r(char buf[], int nstr, ...)
 	return (char *)buf;
 }
 
-#ifdef TEST
+#ifdef TEST_MAIN
 int main(void)
 {
 	char buf[1024];

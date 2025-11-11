@@ -36,7 +36,7 @@ int secure_temp_file(char filename[128])
 	return fd;
 }
 
-#if defined(TEST)
+#if defined(TEST_MAIN)
 int main(void)
 {
 	char filename[128];

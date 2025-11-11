@@ -21,7 +21,7 @@ int setnonblock(int fd)
 	return 0;
 }
 
-#ifdef TEST
+#ifdef TEST_MAIN
 int main(void)
 {
 	setnonblock(0);

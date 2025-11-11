@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include "ipaddr.h"
 
-#if defined(TEST)
+#if defined(TEST_MAIN)
 int main(void)
 {
 	int i = __S2I("12113");

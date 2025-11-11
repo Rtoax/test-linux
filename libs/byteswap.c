@@ -2,6 +2,7 @@
 #include <stdint.h>
 #include "byteswap.h"
 
+#ifdef TEST_MAIN
 int main(void)
 {
 	uint64_t u64 = 0xffff000012345678UL;
@@ -13,3 +14,4 @@ int main(void)
 	printf("%x -> %x\n", u16, byteswap16(u16));
 	return 0;
 }
+#endif
