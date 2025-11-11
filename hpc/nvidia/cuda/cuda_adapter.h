@@ -82,6 +82,10 @@
 #define cudaFree(ptr)	__cuda(Free(ptr))
 /**
  * Pinned memory, on CPU memory, GPU accessable, DMA copy
+ *
+ * HIPCC 6.4
+ * hipError_t hipMallocHost(void** ptr, size_t size);
+ * hipError_t hipHostMalloc(void** ptr, size_t size, unsigned int flags);
  */
 #define cudaMallocHost(ptr, sz, flags)	__cuda(MallocHost(ptr, sz, flags))
 #define cudaFreeHost(ptr)	__cuda(FreeHost(ptr))
