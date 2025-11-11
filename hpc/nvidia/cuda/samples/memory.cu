@@ -101,6 +101,10 @@ void dev_mem_copy(struct device *from, struct device *to, cudaMemcpyKind kind,
 		from_mem = from->host_mem;
 		to_mem = to->dev_mem;
 		break;
+	case cudaMemcpyHostToHost:
+		from_mem = from->host_mem;
+		to_mem = to->host_mem;
+		break;
 	case cudaMemcpyDeviceToDevice:
 		from_mem = from->dev_mem;
 		to_mem = to->dev_mem;
@@ -168,6 +172,8 @@ int main(int argc, char *argv[])
 		dev_mem_alloc(i, &devices[i]);
 	}
 
+	printf("cudaMemcpyHostToHost\n");
+	test_memcpy(devices, devNum, cudaMemcpyHostToHost);
 	printf("cudaMemcpyHostToDevice\n");
 	test_memcpy(devices, devNum, cudaMemcpyHostToDevice);
 	printf("cudaMemcpyDeviceToHost\n");
