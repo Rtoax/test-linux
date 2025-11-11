@@ -12,13 +12,14 @@ subdir-y += ipv6
 
 target-y := sockaddr-size
 
-target-liba-y := socket_helpers.a
+target-liba-y := libsocket_helpers.a
 target-libso-y := libsocket_helpers.so
 
 include ../../template/main.mk
 
 socket_helpers.so.o: socket_helpers.h
+socket_helpers.a.o: socket_helpers.h
 libsocket_helpers.so: socket_helpers.so.o
+libsocket_helpers.a: socket_helpers.a.o
 
 sockaddr-size: sockaddr-size.o
-socket_helpers.a: socket_helpers.a.o
