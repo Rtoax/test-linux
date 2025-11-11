@@ -15,6 +15,7 @@
 - HBM2: HBM 2 generation (第二代 HBM) @HBM
 - HBM2E: HBM2E
 - HC: Heterogeneous Computing (异构计算)
+- HCC: HPC Cluster (高性能计算集群)
 - HIP: C++ Heterogeneous-Compute Interface for Portability (C++异构计算接口的可移植性)
 - HPC: High Performance Compute (高性能计算)
 - MFLOPS: Mega FLOPS (每秒一百万次的浮点运算)
