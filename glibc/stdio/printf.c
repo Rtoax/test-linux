@@ -15,6 +15,7 @@ int main(void)
 {
 	int i;
 	double d = 1234.5678f;
+	float pi = 3.1415926f;
 	void *p = (void *)0;
 	void *p2 = p + 1;
 
@@ -44,6 +45,7 @@ int main(void)
 	printf("Hello %.*d %.*d|\n", 5, 2, 5, 3);
 
 	printf("%-8.2f|\n", d);
+	printf("%-10.2f|\n", pi);
 
 	return 0;
 }

@@ -9,14 +9,12 @@ struct device {
 	int dev_id;
 	void *dev_mem;
 	void *host_mem;
-	cudaEvent_t ev_start[cudaMemcpyDefault], ev_end[cudaMemcpyDefault];
 };
 
-#define SZ_MEM	(1024 * 1024 * 512)
+#define SZ_MEM	(1024 * 1024 * 1024)
 
 void dev_mem_alloc(int dev_id, struct device *dev)
 {
-	printf("Alloc memory for device %d\n", dev_id);
 	dev->dev_id = dev_id;
 	cudaSetDevice(dev_id);
 	cudaMalloc(&dev->dev_mem, SZ_MEM);
@@ -26,14 +24,15 @@ void dev_mem_alloc(int dev_id, struct device *dev)
 
 void dev_mem_free(struct device *dev)
 {
-	printf("Free memory of device %d\n", dev->dev_id);
 	cudaFree(dev->dev_mem);
 	free(dev->host_mem);
 }
 
-void dev_mem_copy(struct device *from, struct device *to, cudaMemcpyKind kind)
+void dev_mem_copy(struct device *from, struct device *to, cudaMemcpyKind kind,
+		  float *elapse_ms)
 {
 	void *from_mem, *to_mem;
+	cudaEvent_t start, end;
 
 	switch (kind) {
 	case cudaMemcpyDeviceToHost:
@@ -54,12 +53,43 @@ void dev_mem_copy(struct device *from, struct device *to, cudaMemcpyKind kind)
 		return;
 	}
 
+	cudaEventCreate(&start);
+	cudaEventCreate(&end);
+
+	cudaEventRecord(start, NULL);
+
 	CUDA_CHECK(cudaMemcpy(to_mem, from_mem, SZ_MEM, kind),);
+
+	cudaEventRecord(end, NULL);
+	cudaEventSynchronize(end);
+
+	cudaEventElapsedTime(elapse_ms, start, end);
+	cudaDeviceSynchronize();
+}
+
+void test_memcpy(struct device *devices, int devNum, cudaMemcpyKind kind)
+{
+	int i, j;
+
+	printf("%-5s ", "\0");
+	for (i = 0; i < devNum; i++) {
+		printf("GPU%-5d", i);
+	}
+	printf("\n");
+	for (i = 0; i < devNum; i++) {
+		printf("GPU%-2d ", i);
+		for (j = 0; j < devNum; j++) {
+			float ms = 0;
+			dev_mem_copy(&devices[i], &devices[j], kind, &ms);
+			printf("%-7.2f ", ms);
+		}
+		printf("\n");
+	}
 }
 
 int main(void)
 {
-	int i, j, devNum;
+	int i, devNum;
 	struct device *devices;
 
 	devNum = gpu_num();
@@ -69,11 +99,12 @@ int main(void)
 		dev_mem_alloc(i, &devices[i]);
 	}
 
-	for (i = 0; i < devNum; i++) {
-		for (j = 0; j < devNum; j++) {
-			dev_mem_copy(&devices[i], &devices[j], cudaMemcpyHostToDevice);
-		}
-	}
+	printf("cudaMemcpyHostToDevice\n");
+	test_memcpy(devices, devNum, cudaMemcpyHostToDevice);
+	printf("cudaMemcpyDeviceToHost\n");
+	test_memcpy(devices, devNum, cudaMemcpyDeviceToHost);
+	printf("cudaMemcpyDeviceToDevice\n");
+	test_memcpy(devices, devNum, cudaMemcpyDeviceToDevice);
 
 	for (i = 0; i < devNum; i++) {
 		dev_mem_free(&devices[i]);
