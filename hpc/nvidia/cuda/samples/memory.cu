@@ -30,8 +30,19 @@ void dev_mem_free(struct device *dev)
 	free(dev->host_mem);
 }
 
-void dev_mem_copy(struct device *from, struct device *to, int flags)
+void dev_mem_copy(struct device *from, struct device *to, cudaMemcpyKind kind)
 {
+	switch (kind) {
+	case cudaMemcpyDeviceToHost:
+		break;
+	case cudaMemcpyHostToDevice:
+		break;
+	case cudaMemcpyDeviceToDevice:
+		break;
+	default:
+		fprintf(stderr, "ERROR: unknown kind\n");
+		return;
+	}
 }
 
 int main(void)
