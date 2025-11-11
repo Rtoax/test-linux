@@ -15,6 +15,7 @@
 # - __USE_MMAP_HELPERS__=y
 # - __USE_OOM_HELPERS__=y
 # - __USE_TRACE_HELPERS__=y
+# - __USE_KSYM_HELPERS__=y
 #
 # Output definitions:
 # - PROC_HELPERS
@@ -24,6 +25,7 @@
 # - MMAP_HELPERS
 # - OOM_HELPERS
 # - TRACE_HELPERS
+# - KSYM_HELPERS
 #
 # Append definitions:
 # - CFLAGS
@@ -64,6 +66,7 @@ export SCHED_HELPERS := ${TOPDIR}/syscall/samples/sched/libsched_helpers.${LIB_T
 export MMAP_HELPERS := ${TOPDIR}/syscall/samples/mm/mmap/libmmap_helpers.${LIB_TYPE}
 export OOM_HELPERS := ${TOPDIR}/mm/oom/liboom_helpers.${LIB_TYPE}
 export TRACE_HELPERS := ${TOPDIR}/bpf/libbpf/libtrace_helpers.${LIB_TYPE}
+export KSYM_HELPERS := ${TOPDIR}/fs/procfs/kallsyms/libksym_helpers.${LIB_TYPE}
 
 $(eval $(call add_helper_target,${C_HELPERS},${__USE_C_HELPERS__}))
 $(eval $(call add_helper_target,${PROC_HELPERS},${__USE_PROC_HELPERS__}))
@@ -73,6 +76,7 @@ $(eval $(call add_helper_target,${SCHED_HELPERS},${__USE_SCHED_HELPERS__}))
 $(eval $(call add_helper_target,${MMAP_HELPERS},${__USE_MMAP_HELPERS__}))
 $(eval $(call add_helper_target,${OOM_HELPERS},${__USE_OOM_HELPERS__}))
 $(eval $(call add_helper_target,${TRACE_HELPERS},${__USE_TRACE_HELPERS__}))
+$(eval $(call add_helper_target,${KSYM_HELPERS},${__USE_KSYM_HELPERS__}))
 
 ifdef DEBUG
   $(info C_HELPERS = ${C_HELPERS})
@@ -83,4 +87,5 @@ ifdef DEBUG
   $(info MMAP_HELPERS = ${MMAP_HELPERS})
   $(info OOM_HELPERS = ${OOM_HELPERS})
   $(info TRACE_HELPERS = ${TRACE_HELPERS})
+  $(info KSYM_HELPERS = ${KSYM_HELPERS})
 endif

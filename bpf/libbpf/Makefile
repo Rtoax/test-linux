@@ -1,5 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
 __USE_SOCKET_HELPERS__ = y
+__USE_KSYM_HELPERS__ = y
 
 include ../../template/kernel.mk
 ifndef NO_PAHOLE
@@ -366,7 +367,6 @@ TASK_HELPERS := ${OUTPUT}task_helpers.o
 TRACE_HELPERS := libtrace_helpers.so
 LIBBPF_WRAPPER := ${OUTPUT}libbpf_wrapper.o
 LIBXDP_HELPERS := ${OUTPUT}libxdp_helpers.o
-KSYM_HELPERS := ${OUTPUT}ksym_helpers.o
 target-libso-y := libtrace_helpers.so
 
 HELPERS := ${LIBXDP_HELPERS} ${TRACE_HELPERS} \
@@ -381,6 +381,7 @@ target-prep-y += ${HELPERS}
 include ../../template/main.mk
 
 HELPERS += ${SOCKET_HELPERS}
+HELPERS += ${KSYM_HELPERS}
 
 test-libbpf_version: libbpf_version
 	${Q}./libbpf_version cflags >/dev/null
