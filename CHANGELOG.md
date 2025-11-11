@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- oom: Makefile: add `liboom_helpers.a`;
 - libs: add str.h, constants.h;
 - helpers: add libtest-linux-c.so;
 - cuda/samples: add memory.cu, mallocHost.cu;
