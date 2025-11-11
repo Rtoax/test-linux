@@ -65,6 +65,8 @@ static const struct argp argp = {
 
 void dev_mem_alloc(int dev_id, struct device *dev)
 {
+	if (env.verbose)
+		printf("Alloc memory for device %d\n", dev_id);
 	dev->dev_id = dev_id;
 	cudaSetDevice(dev_id);
 	cudaMalloc(&dev->dev_mem, env.size);
@@ -74,6 +76,8 @@ void dev_mem_alloc(int dev_id, struct device *dev)
 
 void dev_mem_free(struct device *dev)
 {
+	if (env.verbose)
+		printf("Free memory of device %d\n", dev->dev_id);
 	cudaFree(dev->dev_mem);
 	free(dev->host_mem);
 }
@@ -150,6 +154,11 @@ int main(int argc, char *argv[])
 
 	devNum = gpu_num();
 	devices = (struct device *)malloc(devNum * sizeof(struct device));
+
+	if (env.verbose) {
+		printf("Total %d GPUs\n", devNum);
+		printf("Memory size %ld\n", env.size);
+	}
 
 	for (i = 0; i < devNum; i++) {
 		dev_mem_alloc(i, &devices[i]);
