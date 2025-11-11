@@ -6,6 +6,7 @@
 #   $ find -name '*_helpers.c' -exec basename {} \; | sort
 #
 # Input definitions:
+# - STATIC=1			Compile static library instead of dynamic library.
 # - __USE_C_HELPERS__=y
 # - __USE_PROC_HELPERS__=y
 # - __USE_SOCKET_HELPERS__=y
@@ -39,20 +40,30 @@ endif
 define add_helper_target
 ifeq ($(2),y)
   CFLAGS += -I$(shell dirname ${1})
-  LDFLAGS += -Wl,-rpath,$(shell dirname ${1})
+  ifdef STATIC
+    LDFLAGS += ${1}
+  else
+    LDFLAGS += -Wl,-rpath,$(shell dirname ${1})
+  endif
 endif
 ${1}:
 	@make --no-print-directory --silent -C $(shell dirname ${1}) $(shell basename ${1})
 endef
 
-export C_HELPERS := ${TOPDIR}/libs/libtest-linux-c.so
-export PROC_HELPERS := ${TOPDIR}/fs/procfs/libproc_helpers.so
-export SOCKET_HELPERS := ${TOPDIR}/ipc/socket/libsocket_helpers.so
-export PTHREAD_HELPERS := ${TOPDIR}/glibc/pthread/libpthread_helpers.so
-export SCHED_HELPERS := ${TOPDIR}/syscall/samples/sched/libsched_helpers.so
-export MMAP_HELPERS := ${TOPDIR}/syscall/samples/mm/mmap/libmmap_helpers.so
-export OOM_HELPERS := ${TOPDIR}/mm/oom/liboom_helpers.so
-export TRACE_HELPERS := ${TOPDIR}/bpf/libbpf/libtrace_helpers.so
+ifdef STATIC
+  LIB_TYPE = a
+else
+  LIB_TYPE = so
+endif
+
+export C_HELPERS := ${TOPDIR}/libs/libtest-linux-c.${LIB_TYPE}
+export PROC_HELPERS := ${TOPDIR}/fs/procfs/libproc_helpers.${LIB_TYPE}
+export SOCKET_HELPERS := ${TOPDIR}/ipc/socket/libsocket_helpers.${LIB_TYPE}
+export PTHREAD_HELPERS := ${TOPDIR}/glibc/pthread/libpthread_helpers.${LIB_TYPE}
+export SCHED_HELPERS := ${TOPDIR}/syscall/samples/sched/libsched_helpers.${LIB_TYPE}
+export MMAP_HELPERS := ${TOPDIR}/syscall/samples/mm/mmap/libmmap_helpers.${LIB_TYPE}
+export OOM_HELPERS := ${TOPDIR}/mm/oom/liboom_helpers.${LIB_TYPE}
+export TRACE_HELPERS := ${TOPDIR}/bpf/libbpf/libtrace_helpers.${LIB_TYPE}
 
 $(eval $(call add_helper_target,${C_HELPERS},${__USE_C_HELPERS__}))
 $(eval $(call add_helper_target,${PROC_HELPERS},${__USE_PROC_HELPERS__}))

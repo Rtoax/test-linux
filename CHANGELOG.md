@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- helpers.mk and oom support STATIC;
 - oom: Makefile: add `liboom_helpers.a`;
 - libs: add str.h, constants.h;
 - helpers: add libtest-linux-c.so;

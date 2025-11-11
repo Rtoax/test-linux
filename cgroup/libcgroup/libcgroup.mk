@@ -5,8 +5,12 @@ _LIBCGROUP = 1
 LIBCGROUP_HDR := /usr/include/libcgroup.h
 
 ifneq ($(wildcard $(LIBCGROUP_HDR)),)
-  CFLAGS += -DHAVE_LIBCGROUP=1
-  LDFLAGS += -lcgroup
+  ifdef STATIC
+    $(warning "WARNING: libcgroup not support STATIC yet!!!")
+  else
+    CFLAGS += -DHAVE_LIBCGROUP=1
+    LDFLAGS += -lcgroup
+  endif
 else
   $(warning "WARNING: You need to install libcgroup")
 endif

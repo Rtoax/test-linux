@@ -1,7 +1,12 @@
 __USE_C_HELPERS__ = y
 __USE_PROC_HELPERS__ = y
+__USE_OOM_HELPERS__ = y
 
-subdir-y := adaptive-oom-score
+ifdef STATIC
+  $(warning "WARNING: subdir adaptive-oom-score not support STATIC!!!")
+else
+  subdir-y := adaptive-oom-score
+endif
 
 target-y := oom
 target-y += oom_minimal
@@ -21,5 +26,5 @@ oom_helpers.so.o: oom_helpers.h
 liboom_helpers.so: oom_helpers.so.o
 liboom_helpers.a: oom_helpers.a.o
 
-oom: oom.o liboom_helpers.so ${PROC_HELPERS} ${C_HELPERS}
+oom: oom.o ${OOM_HELPERS} ${PROC_HELPERS} ${C_HELPERS}
 oom_minimal: oom_minimal.o
