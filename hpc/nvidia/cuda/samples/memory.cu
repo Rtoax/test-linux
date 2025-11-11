@@ -9,6 +9,7 @@ struct device {
 	int dev_id;
 	void *dev_mem;
 	void *host_mem;
+	cudaEvent_t ev_start[cudaMemcpyDefault], ev_end[cudaMemcpyDefault];
 };
 
 #define SZ_MEM	(1024 * 1024 * 512)
@@ -32,17 +33,28 @@ void dev_mem_free(struct device *dev)
 
 void dev_mem_copy(struct device *from, struct device *to, cudaMemcpyKind kind)
 {
+	void *from_mem, *to_mem;
+
 	switch (kind) {
 	case cudaMemcpyDeviceToHost:
+		from_mem = from->dev_mem;
+		to_mem = to->host_mem;
 		break;
 	case cudaMemcpyHostToDevice:
+		from_mem = from->host_mem;
+		to_mem = to->dev_mem;
 		break;
 	case cudaMemcpyDeviceToDevice:
+		from_mem = from->dev_mem;
+		to_mem = to->dev_mem;
 		break;
+	case cudaMemcpyDefault:
 	default:
 		fprintf(stderr, "ERROR: unknown kind\n");
 		return;
 	}
+
+	CUDA_CHECK(cudaMemcpy(from_mem, to_mem, SZ_MEM, kind),);
 }
 
 int main(void)
@@ -59,6 +71,7 @@ int main(void)
 
 	for (i = 0; i < devNum; i++) {
 		for (j = 0; j < devNum; j++) {
+			dev_mem_copy(&devices[i], &devices[j], cudaMemcpyHostToDevice);
 		}
 	}
 

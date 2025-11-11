@@ -111,9 +111,11 @@
 	__cuda(Memset2DAsync(dst, pitch, value, width, height, stream))
 #define cudaMemcpy(dev, host, size, flag)	__cuda(Memcpy(dev, host, size, flag))
 #define cudaMemcpyKind	__cuda(MemcpyKind)
-#define cudaMemcpyHostToDevice	__cuda(MemcpyHostToDevice)
-#define cudaMemcpyDeviceToHost	__cuda(MemcpyDeviceToHost)
-#define cudaMemcpyDeviceToDevice	__cuda(MemcpyDeviceToDevice)
+#define cudaMemcpyHostToHost	__cuda(MemcpyHostToHost)	/* 0 */
+#define cudaMemcpyHostToDevice	__cuda(MemcpyHostToDevice)	/* 1 */
+#define cudaMemcpyDeviceToHost	__cuda(MemcpyDeviceToHost)	/* 2 */
+#define cudaMemcpyDeviceToDevice	__cuda(MemcpyDeviceToDevice)	/* 3 */
+#define cudaMemcpyDefault	__cuda(MemcpyDefault)	/* 4 */
 
 /**
  * CUDA 12
