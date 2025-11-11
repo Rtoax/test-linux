@@ -2,7 +2,7 @@
 /* Copyright (c) 2025 Rong Tao */
 /**
  * Memory copy tests:
- * -
+ * - commit b4a41493a8a1 ("memory.cu: Memcpy: LingSpeed X710-M OAM 10GB")
  */
 #include <argp.h>
 #include <stdbool.h>
