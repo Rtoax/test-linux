@@ -123,30 +123,6 @@ int get_oom_score_adj(pid_t pid)
 	return get_int_from_file(buf);
 }
 
-unsigned long str2size(const char *str)
-{
-	unsigned long size = 0;
-
-	if (!str) {
-		errno = EINVAL;
-		return 0;
-	}
-
-	if (str[0] == '0' && str[1] == 'x')
-		size = strtoull(str, NULL, 16);
-	else
-		size = strtoull(str, NULL, 10);
-
-	if (strstr(str, "G") || strstr(str, "GB") || strstr(str, "GiB"))
-		size *= GB;
-	else if (strstr(str, "M") || strstr(str, "MB") || strstr(str, "MiB"))
-		size *= MB;
-	else if (strstr(str, "K") || strstr(str, "KB") || strstr(str, "KiB"))
-		size *= KB;
-
-	return size;
-}
-
 #define SYSINFO(field) do {	\
 		struct sysinfo ___si;	\
 		sysinfo(&___si);	\

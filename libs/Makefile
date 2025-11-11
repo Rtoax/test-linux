@@ -74,6 +74,7 @@ ipaddr.o: ipaddr.h
 objs-dynamic := ${OUTPUT}ipaddr.so.o
 objs-dynamic += ${OUTPUT}readline.so.o
 objs-dynamic += ${OUTPUT}memshow.so.o
+objs-dynamic += ${OUTPUT}str.so.o
 objs-static := $(patsubst %.so.o,%.a.o,${objs-dynamic})
 
 libtest-linux-c.so.0.1: ${objs-dynamic}

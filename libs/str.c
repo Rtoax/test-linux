@@ -1,9 +1,15 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <stdarg.h>
 #include <string.h>
 #include <sys/types.h>
+#include <errno.h>
 
 #include "str.h"
+
+#define KB 1024UL
+#define MB (KB * 1024UL)
+#define GB (MB * 1024UL)
 
 void *memcpy_c(void *dest, const void *src, size_t n)
 {
@@ -67,12 +73,38 @@ const char *vstrcat_r(char buf[], int nstr, ...)
 	return (char *)buf;
 }
 
+unsigned long str2size(const char *str)
+{
+	unsigned long size = 0;
+
+	if (!str) {
+		errno = EINVAL;
+		return 0;
+	}
+
+	if (str[0] == '0' && str[1] == 'x')
+		size = strtoull(str, NULL, 16);
+	else
+		size = strtoull(str, NULL, 10);
+
+	if (strstr(str, "G") || strstr(str, "GB") || strstr(str, "GiB"))
+		size *= GB;
+	else if (strstr(str, "M") || strstr(str, "MB") || strstr(str, "MiB"))
+		size *= MB;
+	else if (strstr(str, "K") || strstr(str, "KB") || strstr(str, "KiB"))
+		size *= KB;
+
+	return size;
+}
+
 #ifdef TEST_MAIN
 int main(void)
 {
 	char buf[1024];
 	char str[] = {"AbasdADDadLJ"};
 	printf("%s->%s\n", str, strcaseswap(str, strlen(str)));
+
+	printf("%ld\n", str2size("1MB"));
 
 	char cmd[256];
 	memset(cmd, 0, 256);

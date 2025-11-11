@@ -1,3 +1,4 @@
+__USE_C_HELPERS__ = y
 __USE_PROC_HELPERS__ = y
 __USE_OOM_HELPERS__ = y
 
@@ -16,4 +17,4 @@ include ../../../template/main.mk
 
 memory.bpf.o: memory.h
 adaptive-oom-score.o: ${VMLINUX_H} memory.skel.h memory.h
-adaptive-oom-score: adaptive-oom-score.o ${OOM_HELPERS} ${PROC_HELPERS}
+adaptive-oom-score: adaptive-oom-score.o ${OOM_HELPERS} ${PROC_HELPERS} ${C_HELPERS}
