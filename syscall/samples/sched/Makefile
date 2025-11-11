@@ -21,6 +21,7 @@ target-y += taskset
 target-y += daemon
 
 target-libso-y := libsched_helpers.so
+target-liba-y := libsched_helpers.a
 
 CFLAGS := -D__USE_GNU
 CFLAGS += -I../../../
@@ -33,24 +34,27 @@ include ../../../template/main.mk
 sched_helpers.so.o: sched_helpers.h
 libsched_helpers.so: sched_helpers.so.o
 
+sched_helpers.a.o: sched_helpers.h
+libsched_helpers.a: sched_helpers.a.o
+
 cpuset: cpuset.o
 CPU_SETSIZE: CPU_SETSIZE.o
 CPU_ALLOC: CPU_ALLOC.o
-str2cpuset: str2cpuset.o libsched_helpers.so
+str2cpuset: str2cpuset.o libsched_helpers.a
 nice: nice.o
 nice-latency: nice-latency.o
-getcpu: getcpu.o libsched_helpers.so
-sched_setattr: sched_setattr.o libsched_helpers.so
+getcpu: getcpu.o libsched_helpers.a
+sched_setattr: sched_setattr.o libsched_helpers.a
 sched_getparam: sched_getparam.o
 sched_setparam: sched_setparam.o
-sched_setscheduler: sched_setscheduler.o libsched_helpers.so
-sched_getscheduler: sched_getscheduler.o libsched_helpers.so
+sched_setscheduler: sched_setscheduler.o libsched_helpers.a
+sched_getscheduler: sched_getscheduler.o libsched_helpers.a
 policy: policy.o
 sched_get_priority_max: sched_get_priority_max.o
 sched_get_priority_min: sched_get_priority_min.o
 sched_getaffinity: sched_getaffinity.o ${C_HELPERS}
 sched_rr_get_interval: sched_rr_get_interval.o
-sched_getcpu: sched_getcpu.o libsched_helpers.so
+sched_getcpu: sched_getcpu.o libsched_helpers.a
 sched_yield: sched_yield.o
 setns: setns.o
 taskset: taskset.o

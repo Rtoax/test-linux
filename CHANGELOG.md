@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- sched: add `libsched_helpers.a`;
 - pthread: add `libpthread_helpers.a`;
 - helpers.mk and oom support STATIC;
 - oom: Makefile: add `liboom_helpers.a`;
