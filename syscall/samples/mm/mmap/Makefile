@@ -13,6 +13,7 @@ target-y += mmap-multi-thread-copy
 target-y += mmap-exec
 
 target-libso-y := libmmap_helpers.so
+target-liba-y := libmmap_helpers.a
 
 CFLAGS := -pthread
 CFLAGS += -lrt
@@ -38,12 +39,15 @@ include ../../../../template/main.mk
 mmap_helpers.so.o: mmap_helpers.h
 libmmap_helpers.so: ${OUTPUT}mmap_helpers.so.o
 
+mmap_helpers.a.o: mmap_helpers.h
+libmmap_helpers.a: ${OUTPUT}mmap_helpers.a.o
+
 msync: ${OUTPUT}msync.o
 fexecve: ${OUTPUT}fexecve.o
 mmap-anon: ${OUTPUT}mmap-anon.o
 mmap-file: ${OUTPUT}mmap-file.o
 mremap-file: ${OUTPUT}mremap-file.o
 remap_file_pages: ${OUTPUT}remap_file_pages.o
-get_unmapped_page: ${OUTPUT}get_unmapped_page.o libmmap_helpers.so
+get_unmapped_page: ${OUTPUT}get_unmapped_page.o libmmap_helpers.a
 mmap-multi-thread-copy: ${OUTPUT}mmap-multi-thread-copy.o
 mmap-exec: ${OUTPUT}mmap-exec.o

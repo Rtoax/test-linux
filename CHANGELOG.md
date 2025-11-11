@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- mmap: add `libmmap_helpers.a`;
 - sched: add `libsched_helpers.a`;
 - pthread: add `libpthread_helpers.a`;
 - helpers.mk and oom support STATIC;
