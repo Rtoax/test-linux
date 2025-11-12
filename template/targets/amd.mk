@@ -35,6 +35,7 @@ ifdef DEBUG
 endif
 
 # AMD ROCm HIP support .cu and .hip suffix.
+# $1 - suffix of file: hip, cu
 define hip_obj
 $${OUTPUT}%.hip.o: %.${1} | $${OUTPUT}
 	$(call log_tgt_obj,HIPCC,$$(<),$$(@))

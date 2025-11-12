@@ -10,6 +10,7 @@ and this project adheres to
 ## Unreleased
 
 #### Breaking Changes
+- metax hpcc support .cu suffix.
 - amd rocm hip support .cu suffix.
 #### Added
 - kallsyms: add `libksym_helpers.{so,a}` and apply to libbpf;

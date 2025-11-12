@@ -76,21 +76,27 @@ $(target-mxcc-y): %:
 	$(call log_tgt_exe,MXCC LD,$(<),$(@))
 	${Q}$(MXCC) -o $(@) $(^) $(LDFLAGS_MXCC) $(LDFLAGS_MXCC_$(*))
 
-${OUTPUT}%.E.hpcc: %.hpcc | ${OUTPUT}
-	$(call log_tgt_obj,HTCC E,$(<),$(@))
-	${Q}$(HTCC) -E -o $(@) -c $(<) $(CFLAGS_HTCC) $(CFLAGS_HTCC_$(*))
+# MetaX HPCC support .cu and .hpcc suffix
+# $1 - suffix of file: hpcc, cu
+define hpcc_obj
+$${OUTPUT}%.E.hpcc: %.${1} | $${OUTPUT}
+	$(call log_tgt_obj,HTCC E,$$(<),$$(@))
+	$${Q}$$(HTCC) -E -o $$(@) -c $$(<) $$(CFLAGS_HTCC) $$(CFLAGS_HTCC_$$(*))
 
-${OUTPUT}%.hpcc.o: %.hpcc | ${OUTPUT}
-	$(call log_tgt_obj,HTCC,$(<),$(@))
-	${Q}$(HTCC) -o $(@) -c $(<) $(CFLAGS_HTCC) $(CFLAGS_HTCC_$(*))
+$${OUTPUT}%.hpcc.o: %.${1} | $${OUTPUT}
+	$(call log_tgt_obj,HTCC,$$(<),$$(@))
+	$${Q}$$(HTCC) -o $$(@) -c $$(<) $$(CFLAGS_HTCC) $$(CFLAGS_HTCC_$$(*))
 
-${OUTPUT}%.hpcc.devbin: %.hpcc | ${OUTPUT}
-	$(call log_tgt_obj,DEVBIN,$(<),$(@))
-	${Q}$(HTCC) -o $(@) -c $(<) $(cflags-htcc-devbin) $(CFLAGS_HTCC) $(CFLAGS_HTCC_$(*))
+$${OUTPUT}%.hpcc.devbin: %.${1} | $${OUTPUT}
+	$(call log_tgt_obj,DEVBIN,$$(<),$$(@))
+	$${Q}$$(HTCC) -o $$(@) -c $$(<) $$(cflags-htcc-devbin) $$(CFLAGS_HTCC) $$(CFLAGS_HTCC_$$(*))
 
-${OUTPUT}%.hpcc.fatbin: %.hpcc | ${OUTPUT}
-	$(call log_tgt_obj,FATBIN,$(<),$(@))
-	${Q}$(HTCC) -o $(@) -c $(<) $(cflags-htcc-fatbin) $(CFLAGS_HTCC) $(CFLAGS_HTCC_$(*))
+$${OUTPUT}%.hpcc.fatbin: %.${1} | $${OUTPUT}
+	$(call log_tgt_obj,FATBIN,$$(<),$$(@))
+	$${Q}$$(HTCC) -o $$(@) -c $$(<) $$(cflags-htcc-fatbin) $$(CFLAGS_HTCC) $$(CFLAGS_HTCC_$$(*))
+endef
+$(eval $(call hpcc_obj,cu))
+$(eval $(call hpcc_obj,hpcc))
 
 # Example format of hc_fatbin and hcFatBinSegment, see:
 # commit 798dd703bcc9 ("targets/metax.mk: add .hc_fatbin and .hcFatBinSegment targets")
