@@ -14,6 +14,7 @@ and this project adheres to
 - metax hpcc support .cu suffix.
 - amd rocm hip support .cu suffix.
 #### Added
+- cloud-native: add Containerfile/;
 - luca: add luca-container.sh;
 - compiler: test attribute visibility;
 - kallsyms: add `libksym_helpers.{so,a}` and apply to libbpf;
