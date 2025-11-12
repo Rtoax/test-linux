@@ -10,6 +10,7 @@ and this project adheres to
 ## Unreleased
 
 #### Breaking Changes
+- amd rocm hip support .cu suffix.
 #### Added
 - kallsyms: add `libksym_helpers.{so,a}` and apply to libbpf;
 - mmap: add `libmmap_helpers.a`;

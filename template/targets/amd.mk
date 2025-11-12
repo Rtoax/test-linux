@@ -34,9 +34,14 @@ ifdef DEBUG
   $(info LDFLAGS_HIPCC = ${LDFLAGS_HIPCC})
 endif
 
-${OUTPUT}%.hip.o: %.hip | ${OUTPUT}
-	$(call log_tgt_obj,HIPCC,$(<),$(@))
-	${Q}$(HIPCC) -o $(@) -c $(<) $(CFLAGS_HIPCC) $(CFLAGS_HIPCC_$(*))
+# AMD ROCm HIP support .cu and .hip suffix.
+define hip_obj
+$${OUTPUT}%.hip.o: %.${1} | $${OUTPUT}
+	$(call log_tgt_obj,HIPCC,$$(<),$$(@))
+	$${Q}$$(HIPCC) -o $$(@) -c $$(<) $$(CFLAGS_HIPCC) $$(CFLAGS_HIPCC_$$(*))
+endef
+$(eval $(call hip_obj,cu))
+$(eval $(call hip_obj,hip))
 
 ${OUTPUT}%.hip_fatbin: % | ${OUTPUT}
 	$(call log_tgt_obj,HIP FATBIN,$(<),$(@))
