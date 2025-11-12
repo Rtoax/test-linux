@@ -20,6 +20,7 @@
 # endif
 # define __NV(name)	HC##name
 # define __nccl(name)	hccl##name
+# define __pnccl(name)	phccl##name
 #elif defined(__USE_HIP__)
 # define __cu(name)	hip##name
 # define __cuda(name)	hip##name
@@ -32,6 +33,7 @@
 # define __NV(name)	HIP##name
 /* ROCm rccl use 'nccl' prefix, see /usr/include/rccl/rccl.h */
 # define __nccl(name)	nccl##name
+# define __pnccl(name)	pnccl##name
 #elif !defined(__cu) || !defined(__cuda) || !defined(__CU) || \
 	!defined(__CUDA) || !defined(__nv) || !defined(__NV)
 # error "Must define __cu(), __cuda(), __CU(), __CUDA(), __CUDA_ERROR(), __nv(), __NV() macros, or define __USE_HPCC__, __USE_HIP__, __USE_LUCA__"
@@ -1784,11 +1786,6 @@
 # define CUDA_SUCCESS	hipSuccess
 #endif
 
-/**
- * NCCL: NVIDIA Collective Communication Library
- */
-#define ncclGetVersion(version)	__nccl(GetVersion(version))
-
 /* enum cudaRoundMode */
 #define cudaRoundMode	__cuda(RoundMode)
 #define cudaRoundNearest	__cuda(RoundNearest)
@@ -1889,3 +1886,25 @@
 
 #define __nv_cvt_fp8_to_halfraw		____nv_(cvt_fp8_to_halfraw)
 #define __nv_cvt_fp8x2_to_halfraw2	____nv_(cvt_fp8x2_to_halfraw2)
+
+
+/******************************************************************************\
+ *             NCCL: NVIDIA Collective Communication Library                  *
+\******************************************************************************/
+/* /usr/include/nccl.h, /opt/luca/include/hccl.h */
+#define ncclResult_t		__nccl(Result_t)
+#define ncclSuccess	__nccl(Success)	/* 0 */
+#define ncclUnhandledLucaError	__nccl(UnhandledLucaError)	/* 1 */
+#define ncclSystemError		__nccl(SystemError)	/* 2 */
+#define ncclInternalError	__nccl(InternalError)
+#define ncclInvalidArgument	__nccl(InvalidArgument)
+#define ncclInvalidUsage	__nccl(InvalidUsage)
+#define ncclRemoteError		__nccl(RemoteError)
+#define ncclInProgress		__nccl(InProgress)
+#define ncclNumResults		__nccl(NumResults)	/* 8 */
+
+/* const char*  ncclGetErrorString(ncclResult_t result); */
+#define ncclGetErrorString(result)	__nccl(GetErrorString(result))
+
+#define ncclGetVersion(version)	__nccl(GetVersion(version))
+#define pncclGetVersion(version)	__pnccl(GetVersion(version))

@@ -4,8 +4,11 @@
 
 int main(void)
 {
+	ncclResult_t result;
 	int version = 0;
-	ncclGetVersion(&version);
-	printf("version %d\n", version);
+
+	result = ncclGetVersion(&version);
+	printf("version %d, %s\n", version, ncclGetErrorString(result));
+
 	return 0;
 }
