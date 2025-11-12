@@ -1,4 +1,4 @@
-/ncclGetVersion
-/ncclGetVersion-hip
-/hcclGetVersion-hpcc
-/hcclGetVersion-luca
+/version
+/version-hip
+/version-hpcc
+/version-luca

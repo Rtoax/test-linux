@@ -8,30 +8,17 @@ include ../../../amd/rocm/rocm.mk
 include ../../../metax/hpcc.mk
 include ../../../cestc/luca.mk
 
+common-objs := version
+
 # NVIDIA CUDA
-target-nvcc-${HAVE_NCCL} := ncclGetVersion
-
-# AMD ROCm
-rocm-hipcc-${HAVE_RCCL} := ncclGetVersion
-target-hipcc-y := $(patsubst %,%-hip,$(rocm-hipcc-y))
-
-# MetaX HPCC
-metax-htcc-${HAVE_HPCC} := hcclGetVersion
-target-htcc-y := $(patsubst %,%-hpcc,$(metax-htcc-y))
-
-# CESTC LUCA
-luca-lscc-${HAVE_LUCA} := hcclGetVersion
-target-lscc-y := $(patsubst %,%-luca,$(luca-lscc-y))
+target-nvcc-${HAVE_NCCL} := ${common-objs}
+target-hipcc-${HAVE_RCCL} := $(patsubst %,%-hip,$(common-objs))
+target-htcc-${HAVE_HPCC} := $(patsubst %,%-hpcc,$(common-objs))
+target-lscc-${HAVE_LUCA} := $(patsubst %,%-luca,$(common-objs))
 
 include ../../../../template/main.mk
 
-ncclGetVersion: ${OUTPUT}ncclGetVersion.cu.o
-
-# ROCm HIP
-ncclGetVersion-hip: ${OUTPUT}ncclGetVersion.hip.o
-
-# MetaX HPCC
-hcclGetVersion-hpcc: ${OUTPUT}ncclGetVersion.hpcc.o
-
-# CESTC LUCA
-hcclGetVersion-luca: ${OUTPUT}ncclGetVersion.luca.o
+version: ${OUTPUT}version.cu.o
+version-hip: ${OUTPUT}version.hip.o
+version-hpcc: ${OUTPUT}version.hpcc.o
+version-luca: ${OUTPUT}version.luca.o
