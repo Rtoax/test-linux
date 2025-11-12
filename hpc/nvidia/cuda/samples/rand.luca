@@ -1,2 +1,0 @@
-#define __USE_LUCA__	1
-#include "rand.cu"

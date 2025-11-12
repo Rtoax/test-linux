@@ -10,6 +10,7 @@ and this project adheres to
 ## Unreleased
 
 #### Breaking Changes
+- luca support .cu suffix.
 - metax hpcc support .cu suffix.
 - amd rocm hip support .cu suffix.
 #### Added

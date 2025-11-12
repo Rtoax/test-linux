@@ -46,21 +46,27 @@ ifdef DEBUG
   endif
 endif
 
-${OUTPUT}%.E.luca: %.luca | ${OUTPUT}
-	$(call log_tgt_obj,LSCC E,$(<),$(@))
-	${Q}$(LSCC) -E -o $(@) -c $(<) $(CFLAGS_LSCC) $(CFLAGS_LSCC_$(*))
+# LUCA support .cu and .luca suffix
+# $1 - suffix of file: cu, luca
+define luca_obj
+$${OUTPUT}%.E.luca: %.${1} | $${OUTPUT}
+	$(call log_tgt_obj,LSCC E,$$(<),$$(@))
+	$${Q}$$(LSCC) -E -o $$(@) -c $$(<) $$(CFLAGS_LSCC) $$(CFLAGS_LSCC_$$(*))
 
-${OUTPUT}%.luca.o: %.luca | ${OUTPUT}
-	$(call log_tgt_obj,LSCC,$(<),$(@))
-	${Q}$(LSCC) -o $(@) -c $(<) $(CFLAGS_LSCC) $(CFLAGS_LSCC_$(*))
+$${OUTPUT}%.luca.o: %.${1} | $${OUTPUT}
+	$(call log_tgt_obj,LSCC,$$(<),$$(@))
+	$${Q}$$(LSCC) -o $$(@) -c $$(<) $$(CFLAGS_LSCC) $$(CFLAGS_LSCC_$$(*))
 
-${OUTPUT}%.luca.devbin: %.luca | ${OUTPUT}
-	$(call log_tgt_obj,DEVBIN,$(<),$(@))
-	${Q}$(LSCC) -o $(@) -c $(<) $(cflags-lscc-devbin) $(CFLAGS_LSCC) $(CFLAGS_LSCC_$(*))
+$${OUTPUT}%.luca.devbin: %.${1} | $${OUTPUT}
+	$(call log_tgt_obj,DEVBIN,$$(<),$$(@))
+	$${Q}$$(LSCC) -o $$(@) -c $$(<) $$(cflags-lscc-devbin) $$(CFLAGS_LSCC) $$(CFLAGS_LSCC_$$(*))
 
-${OUTPUT}%.luca.fatbin: %.luca | ${OUTPUT}
-	$(call log_tgt_obj,FATBIN,$(<),$(@))
-	${Q}$(LSCC) -o $(@) -c $(<) $(cflags-lscc-fatbin) $(CFLAGS_LSCC) $(CFLAGS_LSCC_$(*))
+$${OUTPUT}%.luca.fatbin: %.${1} | $${OUTPUT}
+	$(call log_tgt_obj,FATBIN,$$(<),$$(@))
+	$${Q}$$(LSCC) -o $$(@) -c $$(<) $$(cflags-lscc-fatbin) $$(CFLAGS_LSCC) $$(CFLAGS_LSCC_$(*))
+endef
+$(eval $(call luca_obj,cu))
+$(eval $(call luca_obj,luca))
 
 # Example format of hc_fatbin and hcFatBinSegment, see:
 # commit 798dd703bcc9 ("targets/metax.mk: add .hc_fatbin and .hcFatBinSegment targets")
