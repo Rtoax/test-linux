@@ -12,7 +12,7 @@ include ../../../cestc/luca.mk
 target-nvcc-${HAVE_NCCL} := ncclGetVersion
 
 # AMD ROCm
-rocm-hipcc-${HAVE_RCCL} := hcclGetVersion
+rocm-hipcc-${HAVE_RCCL} := ncclGetVersion
 target-hipcc-y := $(patsubst %,%-hip,$(rocm-hipcc-y))
 
 # MetaX HPCC
