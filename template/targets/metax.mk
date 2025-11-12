@@ -43,6 +43,9 @@ endif
 #          ^~~~~~~~~~~~~~~~~~~~~
 CFLAGS_HTCC += -I/opt/hpcc/include/hcsparse/
 
+# FIXME: warning: 'visibility' attribute ignored
+CFLAGS_HTCC += -Wno-ignored-attributes
+
 LDFLAGS_HTCC += -lhccl
 LDFLAGS_HTCC += -lhcblas -lhcblasLt
 LDFLAGS_HTCC += -lhcfft
