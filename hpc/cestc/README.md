@@ -1,6 +1,20 @@
 LUCA
 ====
 
+# SMI
+
+- **ht-smi**
+- **ht-smi topo**
+
+# Benchmark
+
+- **htvs devices**
+- **htvs marslink benchmark [--mode=<ingress|egress>]**
+- **htvs marslink parallel unidirection**
+- **htvs memory benchmark**
+- **htvs ops**
+
+
 # Basic Informations
 
 * LingSpeed X710-M
