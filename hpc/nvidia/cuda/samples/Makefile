@@ -34,7 +34,6 @@ common-objs += sparse
 
 # NVIDIA CUDA
 target-nvcc-${HAVE_CUDA} := ${common-objs}
-target-nvcc-${HAVE_NCCL} += ncclGetVersion
 nvidia-cubin := hello.cubin
 nvidia-cubin += parallel.cubin
 nvidia-fatbin := hello.fatbin
@@ -49,14 +48,12 @@ target-post-${HAVE_CUDA} += $(patsubst %,${OUTPUT}%,$(nvidia-fatbin))
 
 # AMD ROCm
 rocm-hipcc-${HAVE_HIP} := ${common-objs}
-rocm-hipcc-${HAVE_RCCL} += hcclGetVersion
 rocm-fatbin := parallel.hip_fatbin parallel.hipFatBinSegment
 target-hipcc-y := $(patsubst %,%-hip,$(rocm-hipcc-y))
 target-post-${HAVE_HIP} += $(patsubst %,${OUTPUT}%,$(rocm-fatbin))
 
 # MetaX HPCC
 metax-htcc-${HAVE_HPCC} := ${common-objs}
-metax-htcc-${HAVE_HPCC} += hcclGetVersion
 metax-devbin := hello.hpcc.devbin
 metax-devbin += parallel.hpcc.devbin
 metax-fatbin := hello.hpcc.fatbin
@@ -153,7 +150,6 @@ matrix-fp32: ${OUTPUT}matrix-fp32.cu.o ${CUDA_HELPERS}
 matrix-fp64: ${OUTPUT}matrix-fp64.cu.o ${CUDA_HELPERS}
 matrix-int8: ${OUTPUT}matrix-int8.cu.o ${CUDA_HELPERS}
 module: ${OUTPUT}module.cu.o ${CUDA_HELPERS}
-ncclGetVersion: ${OUTPUT}ncclGetVersion.cu.o ${CUDA_HELPERS}
 p2p: ${OUTPUT}p2p.cu.o ${CUDA_HELPERS}
 parallel: ${OUTPUT}parallel.cu.o ${CUDA_HELPERS}
 properties: ${OUTPUT}properties.cu.o ${CUDA_HELPERS}
@@ -186,7 +182,6 @@ matrix-fp32-hip: ${OUTPUT}matrix-fp32.hip.o ${HIP_HELPERS}
 matrix-fp64-hip: ${OUTPUT}matrix-fp64.hip.o ${HIP_HELPERS}
 matrix-int8-hip: ${OUTPUT}matrix-int8.hip.o ${HIP_HELPERS}
 module-hip: ${OUTPUT}module.hip.o ${HIP_HELPERS}
-ncclGetVersion-hip: ${OUTPUT}ncclGetVersion.hip.o
 p2p-hip: ${OUTPUT}p2p.hip.o ${HIP_HELPERS}
 parallel-hip: ${OUTPUT}parallel.hip.o ${HIP_HELPERS}
 properties-hip: ${OUTPUT}properties.hip.o ${HIP_HELPERS}
@@ -209,7 +204,6 @@ event-hpcc: ${OUTPUT}event.hpcc.o ${HPCC_HELPERS}
 fft-hpcc: ${OUTPUT}fft.hpcc.o ${HPCC_HELPERS}
 float-hpcc: ${OUTPUT}float.hpcc.o
 __GNUC__-hpcc: ${OUTPUT}__GNUC__.hpcc.o ${HPCC_HELPERS}
-hcclGetVersion-hpcc: ${OUTPUT}ncclGetVersion.hpcc.o ${HPCC_HELPERS}
 hello-hpcc: ${OUTPUT}hello.hpcc.o ${HPCC_HELPERS}
 malloc-hpcc: ${OUTPUT}malloc.hpcc.o ${HPCC_HELPERS}
 mallocHost-hpcc: ${OUTPUT}mallocHost.hpcc.o ${HPCC_HELPERS}
@@ -243,7 +237,6 @@ event-luca: ${OUTPUT}event.luca.o ${LUCA_HELPERS}
 fft-luca: ${OUTPUT}fft.luca.o ${LUCA_HELPERS}
 float-luca: ${OUTPUT}float.luca.o
 __GNUC__-luca: ${OUTPUT}__GNUC__.luca.o ${LUCA_HELPERS}
-hcclGetVersion-luca: ${OUTPUT}ncclGetVersion.luca.o ${LUCA_HELPERS}
 hello-luca: ${OUTPUT}hello.luca.o ${LUCA_HELPERS}
 malloc-luca: ${OUTPUT}malloc.luca.o ${LUCA_HELPERS}
 mallocHost-luca: ${OUTPUT}mallocHost.luca.o ${LUCA_HELPERS}

@@ -28,6 +28,7 @@ and this project adheres to
 - glibc: test `__GLIBC_USE()`;
 - shell: add some commands from ostools;
 #### Changed
+- Split NCCL from cuda/samples/;
 - Rename `socket_helpers.a` to `libsocket_helpers.a`;
 - Move str2size() from `oom_helpers.c` to libs/str.c;
 - libs: Rename macro `TEST` to `TEST_MAIN`;

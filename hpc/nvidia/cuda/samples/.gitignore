@@ -40,7 +40,6 @@
 /__GNUC__-hip
 /__GNUC__-hpcc
 /__GNUC__-luca
-/hcclGetVersion-hpcc
 /*.hcfb
 /hello
 /hello-hip
@@ -84,8 +83,6 @@
 /module-hip
 /module-hpcc
 /module-luca
-/ncclGetVersion
-/ncclGetVersion-hip
 /p2p
 /p2p-hip
 /p2p-hpcc
