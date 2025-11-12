@@ -46,79 +46,31 @@ include ../../../../template/main.mk
 
 HDRS := print.h compiler.h types.h
 
-${OUTPUT}fp6.cu.o: ${HDRS}
-${OUTPUT}fp8.cu.o: ${HDRS}
-${OUTPUT}half.cu.o: ${HDRS}
-${OUTPUT}bfloat16.cu.o: ${HDRS}
-${OUTPUT}float.cu.o: ${HDRS}
-${OUTPUT}double.cu.o: ${HDRS}
-${OUTPUT}fp128.cu.o: ${HDRS}
-${OUTPUT}int.cu.o: ${HDRS}
-${OUTPUT}simd.cu.o: ${HDRS}
+# $1 - cu, hip, hpcc, luca
+# $2 - nv, hip, hpcc, luca
+define cuda_intrinsics_objs
+$${OUTPUT}fp6.${1}.o: $${HDRS}
+$${OUTPUT}fp8.${1}.o: $${HDRS}
+$${OUTPUT}half.${1}.o: $${HDRS}
+$${OUTPUT}bfloat16.${1}.o: $${HDRS}
+$${OUTPUT}float.${1}.o: $${HDRS}
+$${OUTPUT}double.${1}.o: $${HDRS}
+$${OUTPUT}fp128.${1}.o: $${HDRS}
+$${OUTPUT}int.${1}.o: $${HDRS}
+$${OUTPUT}simd.${1}.o: $${HDRS}
 
-fp6-nv: ${OUTPUT}fp6.cu.o
-fp8-nv: ${OUTPUT}fp8.cu.o
-half-nv: ${OUTPUT}half.cu.o
-bfloat16-nv: ${OUTPUT}bfloat16.cu.o
-float-nv: ${OUTPUT}float.cu.o
-double-nv: ${OUTPUT}double.cu.o
-fp128-nv: ${OUTPUT}fp128.cu.o
-int-nv: ${OUTPUT}int.cu.o
-simd-nv: ${OUTPUT}simd.cu.o
+fp6-${2}: $${OUTPUT}fp6.${1}.o
+fp8-${2}: $${OUTPUT}fp8.${1}.o
+half-${2}: $${OUTPUT}half.${1}.o
+bfloat16-${2}: $${OUTPUT}bfloat16.${1}.o
+float-${2}: $${OUTPUT}float.${1}.o
+double-${2}: $${OUTPUT}double.${1}.o
+fp128-${2}: $${OUTPUT}fp128.${1}.o
+int-${2}: $${OUTPUT}int.${1}.o
+simd-${2}: $${OUTPUT}simd.${1}.o
+endef
 
-${OUTPUT}fp6.hip.o: fp6.cu ${HDRS}
-fp6-hip: ${OUTPUT}fp6.hip.o
-${OUTPUT}fp8.hip.o: fp8.cu ${HDRS}
-fp8-hip: ${OUTPUT}fp8.hip.o
-${OUTPUT}half.hip.o: half.cu ${HDRS}
-half-hip: ${OUTPUT}half.hip.o
-${OUTPUT}bfloat16.hip.o: bfloat16.cu ${HDRS}
-bfloat16-hip: ${OUTPUT}bfloat16.hip.o
-${OUTPUT}float.hip.o: float.cu ${HDRS}
-float-hip: ${OUTPUT}float.hip.o
-${OUTPUT}double.hip.o: double.cu ${HDRS}
-double-hip: ${OUTPUT}double.hip.o
-${OUTPUT}fp128.hip.o: fp128.cu ${HDRS}
-fp128-hip: ${OUTPUT}fp128.hip.o
-${OUTPUT}int.hip.o: int.cu ${HDRS}
-int-hip: ${OUTPUT}int.hip.o
-${OUTPUT}simd.hip.o: simd.cu ${HDRS}
-simd-hip: ${OUTPUT}simd.hip.o
-
-${OUTPUT}fp6.hpcc.o: fp6.cu ${HDRS}
-fp6-hpcc: ${OUTPUT}fp6.hpcc.o
-${OUTPUT}fp8.hpcc.o: fp8.cu ${HDRS}
-fp8-hpcc: ${OUTPUT}fp8.hpcc.o
-${OUTPUT}half.hpcc.o: half.cu ${HDRS}
-half-hpcc: ${OUTPUT}half.hpcc.o
-${OUTPUT}bfloat16.hpcc.o: bfloat16.cu ${HDRS}
-bfloat16-hpcc: ${OUTPUT}bfloat16.hpcc.o
-${OUTPUT}float.hpcc.o: float.cu ${HDRS}
-float-hpcc: ${OUTPUT}float.hpcc.o
-${OUTPUT}double.hpcc.o: double.cu ${HDRS}
-double-hpcc: ${OUTPUT}double.hpcc.o
-${OUTPUT}fp128.hpcc.o: fp128.cu ${HDRS}
-fp128-hpcc: ${OUTPUT}fp128.hpcc.o
-${OUTPUT}int.hpcc.o: int.cu ${HDRS}
-int-hpcc: ${OUTPUT}int.hpcc.o
-${OUTPUT}simd.hpcc.o: simd.cu ${HDRS}
-simd-hpcc: ${OUTPUT}simd.hpcc.o
-
-${OUTPUT}fp6.luca.o: fp6.cu ${HDRS}
-fp6-luca: ${OUTPUT}fp6.luca.o
-${OUTPUT}fp8.luca.o: fp8.cu ${HDRS}
-fp8-luca: ${OUTPUT}fp8.luca.o
-${OUTPUT}half.luca.o: half.cu ${HDRS}
-half-luca: ${OUTPUT}half.luca.o
-${OUTPUT}bfloat16.luca.o: bfloat16.cu ${HDRS}
-bfloat16-luca: ${OUTPUT}bfloat16.luca.o
-${OUTPUT}float.luca.o: float.cu ${HDRS}
-float-luca: ${OUTPUT}float.luca.o
-${OUTPUT}double.luca.o: double.cu ${HDRS}
-double-luca: ${OUTPUT}double.luca.o
-${OUTPUT}fp128.luca.o: fp128.cu ${HDRS}
-fp128-luca: ${OUTPUT}fp128.luca.o
-${OUTPUT}int.luca.o: int.cu ${HDRS}
-int-luca: ${OUTPUT}int.luca.o
-${OUTPUT}simd.luca.o: simd.cu ${HDRS}
-simd-luca: ${OUTPUT}simd.luca.o
+$(eval $(call cuda_intrinsics_objs,cu,nv))
+$(eval $(call cuda_intrinsics_objs,hip,hip))
+$(eval $(call cuda_intrinsics_objs,hpcc,hpcc))
+$(eval $(call cuda_intrinsics_objs,luca,luca))

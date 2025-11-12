@@ -49,7 +49,7 @@ target-post-${HAVE_CUDA} += $(patsubst %,${OUTPUT}%,$(nvidia-fatbin))
 
 # AMD ROCm
 rocm-hipcc-${HAVE_HIP} := ${common-objs}
-rocm-hipcc-${HAVE_RCCL} += ncclGetVersion
+rocm-hipcc-${HAVE_RCCL} += hcclGetVersion
 rocm-fatbin := parallel.hip_fatbin parallel.hipFatBinSegment
 target-hipcc-y := $(patsubst %,%-hip,$(rocm-hipcc-y))
 target-post-${HAVE_HIP} += $(patsubst %,${OUTPUT}%,$(rocm-fatbin))
@@ -162,31 +162,10 @@ sparse: ${OUTPUT}sparse.cu.o ${CUDA_HELPERS}
 __STDC__: ${OUTPUT}__STDC__.cu.o
 
 # ROCm HIP
-${OUTPUT}attribute.hip.o: attribute.cu
-${OUTPUT}blas.hip.o: blas.cu
-${OUTPUT}blasLtMatmul.hip.o: blasLtMatmul.cu
-${OUTPUT}cooperative.hip.o: cooperative.cu
-${OUTPUT}device.hip.o: device.cu
-${OUTPUT}dim3.hip.o: dim3.cu
-${OUTPUT}event.hip.o: event.cu
-${OUTPUT}fft.hip.o: fft.cu
-${OUTPUT}float.hip.o: float.cu
-${OUTPUT}hello.hip.o: hello.cu
-${OUTPUT}malloc.hip.o: malloc.cu
-${OUTPUT}mallocHost.hip.o: mallocHost.cu
-${OUTPUT}mallocManaged.hip.o: mallocManaged.cu
-${OUTPUT}memory.hip.o: memory.cu
 ${OUTPUT}matrix-fp16.hip.o: matrix.cu
 ${OUTPUT}matrix-fp32.hip.o: matrix.cu
 ${OUTPUT}matrix-fp64.hip.o: matrix.cu
 ${OUTPUT}matrix-int8.hip.o: matrix.cu
-${OUTPUT}module.hip.o: module.cu
-${OUTPUT}ncclGetVersion.hip.o: ncclGetVersion.cu
-${OUTPUT}p2p.hip.o: p2p.cu
-${OUTPUT}parallel.hip.o: parallel.cu
-${OUTPUT}properties.hip.o: matrix.cu
-${OUTPUT}rand.hip.o: rand.cu
-${OUTPUT}sparse.hip.o: sparse.cu
 attribute-hip: ${OUTPUT}attribute.hip.o ${HIP_HELPERS}
 blas-hip: ${OUTPUT}blas.hip.o ${HIP_HELPERS}
 blasLtMatmul-hip: ${OUTPUT}blasLtMatmul.hip.o ${HIP_HELPERS}
@@ -216,21 +195,10 @@ sparse-hip: ${OUTPUT}sparse.hip.o ${HIP_HELPERS}
 __STDC__-hip: ${OUTPUT}__STDC__.hip.o ${HIP_HELPERS}
 
 # MetaX HPCC
-${OUTPUT}blas.hpcc.o: blas.cu
-${OUTPUT}blasLtMatmul.hpcc.o: cuda_adapter.h cuda_helpers.h
-${OUTPUT}device.hpcc.o: device.cu
-${OUTPUT}fft.hpcc.o: cuda_adapter.h cuda_helpers.h
-${OUTPUT}float.hpcc.o: float.cu
-${OUTPUT}memory.hpcc.o: memory.cu
-${OUTPUT}malloc.hpcc.o: malloc.cu
-${OUTPUT}mallocHost.hpcc.o: mallocHost.cu
-${OUTPUT}hcclGetVersion.hpcc.o: ncclGetVersion.cu
 ${OUTPUT}matrix-fp16.hpcc.o: cuda_adapter.h cuda_helpers.h
 ${OUTPUT}matrix-fp32.hpcc.o: cuda_adapter.h cuda_helpers.h
 ${OUTPUT}matrix-fp64.hpcc.o: cuda_adapter.h cuda_helpers.h
 ${OUTPUT}matrix-int8.hpcc.o: cuda_adapter.h cuda_helpers.h
-${OUTPUT}rand.hpcc.o: cuda_adapter.h cuda_helpers.h
-${OUTPUT}sparse.hpcc.o: cuda_adapter.h cuda_helpers.h
 attribute-hpcc: ${OUTPUT}attribute.hpcc.o ${HPCC_HELPERS}
 blas-hpcc: ${OUTPUT}blas.hpcc.o ${HPCC_HELPERS}
 blasLtMatmul-hpcc: ${OUTPUT}blasLtMatmul.hpcc.o ${HPCC_HELPERS}
@@ -260,22 +228,11 @@ sparse-hpcc: ${OUTPUT}sparse.hpcc.o ${HPCC_HELPERS}
 __STDC__-hpcc: ${OUTPUT}__STDC__.hpcc.o ${HPCC_HELPERS}
 
 # CESTC LUCA
-${OUTPUT}blas.luca.o: blas.cu
-${OUTPUT}blasLtMatmul.luca.o: cuda_adapter.h cuda_helpers.h
-${OUTPUT}device.luca.o: device.cu
-${OUTPUT}p2p.luca.o: p2p.cu
-${OUTPUT}fft.luca.o: cuda_adapter.h cuda_helpers.h
-${OUTPUT}float.luca.o: float.cu
-${OUTPUT}hcclGetVersion.luca.o: ncclGetVersion.cu
 ${OUTPUT}matrix-fp16.luca.o: cuda_adapter.h cuda_helpers.h
 ${OUTPUT}matrix-fp32.luca.o: cuda_adapter.h cuda_helpers.h
 ${OUTPUT}matrix-fp64.luca.o: cuda_adapter.h cuda_helpers.h
 ${OUTPUT}matrix-int8.luca.o: cuda_adapter.h cuda_helpers.h
-${OUTPUT}rand.luca.o: cuda_adapter.h cuda_helpers.h
 ${OUTPUT}sparse.luca.o: cuda_adapter.h cuda_helpers.h
-${OUTPUT}malloc.luca.o: malloc.cu
-${OUTPUT}mallocHost.luca.o: mallocHost.cu
-${OUTPUT}memory.luca.o: memory.cu
 attribute-luca: ${OUTPUT}attribute.luca.o ${LUCA_HELPERS}
 blas-luca: ${OUTPUT}blas.luca.o ${LUCA_HELPERS}
 blasLtMatmul-luca: ${OUTPUT}blasLtMatmul.luca.o ${LUCA_HELPERS}
@@ -286,7 +243,7 @@ event-luca: ${OUTPUT}event.luca.o ${LUCA_HELPERS}
 fft-luca: ${OUTPUT}fft.luca.o ${LUCA_HELPERS}
 float-luca: ${OUTPUT}float.luca.o
 __GNUC__-luca: ${OUTPUT}__GNUC__.luca.o ${LUCA_HELPERS}
-hcclGetVersion-luca: ${OUTPUT}hcclGetVersion.luca.o ${LUCA_HELPERS}
+hcclGetVersion-luca: ${OUTPUT}ncclGetVersion.luca.o ${LUCA_HELPERS}
 hello-luca: ${OUTPUT}hello.luca.o ${LUCA_HELPERS}
 malloc-luca: ${OUTPUT}malloc.luca.o ${LUCA_HELPERS}
 mallocHost-luca: ${OUTPUT}mallocHost.luca.o ${LUCA_HELPERS}
