@@ -19,7 +19,6 @@
 - HIP: C++ Heterogeneous-Compute Interface for Portability (C++异构计算接口的可移植性)
 - HPC: High Performance Compute (高性能计算)
 - MFLOPS: Mega FLOPS (每秒一百万次的浮点运算)
-- MPI: Message Passing Interface (消息传递接口)
 - OAI: Open Accelerator Infrastructure (开放加速器基础设施) @OCP
 - OAM: Open Accelerator Module (开放加速器模组) @OCP
 - OCP: Open Compute Project (开放计算项目)

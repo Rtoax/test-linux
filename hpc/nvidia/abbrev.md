@@ -1,6 +1,5 @@
 - CCCL: CUDA Core Compute Libraries (CUDA 核心计算库)
 - MIG: Multi-Instance GPU (多实例 GPU)
-- NCCL: NVIDIA Collective Communication Library (NVIDIA 集体通信库) @HCCL @RCCL
 - NVLINK/NVL: (Nvidia Link) @NVIDIA @CXL
 - PTX: Parallel Thread eXecution (并行线程执行，NVIDIA GPU中间表示) @SASS
 - SASS: Shader Assembly (NVIDIA GPU机器码) @PTX

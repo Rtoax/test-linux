@@ -1,6 +1,8 @@
 NVIDIA NCCL (NVIDIA Collective Communication Library)
 =====================================================
 
+Support **PCIe**, **NVLinks**, **InfiniBand Verbs**, **IP Sockets**.
+
 
 # Links
 
