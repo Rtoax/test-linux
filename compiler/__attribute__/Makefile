@@ -29,6 +29,7 @@ target-y += kernel_helper
 target-y += __has_attribute
 target-y += __mode__
 target-y += no_instrument_function
+target-y += visibility
 
 target-bpf-y := preserve_access_index.bpf.o
 
@@ -91,3 +92,4 @@ kernel_helper: ${OUTPUT}kernel_helper.o
 __has_attribute: ${OUTPUT}__has_attribute.o
 __mode__: ${OUTPUT}__mode__.o
 no_instrument_function: ${OUTPUT}no_instrument_function.o
+visibility: ${OUTPUT}visibility.o

@@ -14,6 +14,7 @@ and this project adheres to
 - metax hpcc support .cu suffix.
 - amd rocm hip support .cu suffix.
 #### Added
+- compiler: test attribute visibility;
 - kallsyms: add `libksym_helpers.{so,a}` and apply to libbpf;
 - mmap: add `libmmap_helpers.a`;
 - sched: add `libsched_helpers.a`;
