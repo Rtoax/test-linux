@@ -1916,3 +1916,10 @@
  */
 #define ncclUniqueId		__nccl(UniqueId)
 #define ncclGetUniqueId(id)	__nccl(GetUniqueId(id))
+
+/* Communicator */
+#define ncclComm_t	__nccl(Comm_t)
+/**
+ * ncclResult_t ncclCommInitAll(ncclComm_t* comms, int ndev, const int* devlist);
+ */
+#define ncclCommInitAll(comm, ndev, devlist)	__nccl(CommInitAll(comm, ndev, devlist))
