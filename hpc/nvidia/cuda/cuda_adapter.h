@@ -1908,3 +1908,11 @@
 
 #define ncclGetVersion(version)	__nccl(GetVersion(version))
 #define pncclGetVersion(version)	__pnccl(GetVersion(version))
+
+/**
+ * typedef struct {
+ *   char internal[128];
+ * } ncclUniqueId;
+ */
+#define ncclUniqueId		__nccl(UniqueId)
+#define ncclGetUniqueId(id)	__nccl(GetUniqueId(id))

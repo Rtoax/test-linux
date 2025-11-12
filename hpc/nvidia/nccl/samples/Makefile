@@ -18,7 +18,12 @@ target-lscc-${HAVE_LUCA} := $(patsubst %,%-luca,$(common-objs))
 
 include ../../../../template/main.mk
 
-version: ${OUTPUT}version.cu.o
-version-hip: ${OUTPUT}version.hip.o
-version-hpcc: ${OUTPUT}version.hpcc.o
-version-luca: ${OUTPUT}version.luca.o
+# $1 - program name
+define nccl_obj
+${1}: $${OUTPUT}${1}.cu.o
+${1}-hip: $${OUTPUT}${1}.hip.o
+${1}-hpcc: $${OUTPUT}${1}.hpcc.o
+${1}-luca: $${OUTPUT}${1}.luca.o
+endef
+
+$(eval $(call nccl_obj,version))
