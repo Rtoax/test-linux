@@ -241,7 +241,7 @@ event-hpcc: ${OUTPUT}event.hpcc.o ${HPCC_HELPERS}
 fft-hpcc: ${OUTPUT}fft.hpcc.o ${HPCC_HELPERS}
 float-hpcc: ${OUTPUT}float.hpcc.o
 __GNUC__-hpcc: ${OUTPUT}__GNUC__.hpcc.o ${HPCC_HELPERS}
-hcclGetVersion-hpcc: ${OUTPUT}hcclGetVersion.hpcc.o ${HPCC_HELPERS}
+hcclGetVersion-hpcc: ${OUTPUT}ncclGetVersion.hpcc.o ${HPCC_HELPERS}
 hello-hpcc: ${OUTPUT}hello.hpcc.o ${HPCC_HELPERS}
 malloc-hpcc: ${OUTPUT}malloc.hpcc.o ${HPCC_HELPERS}
 mallocHost-hpcc: ${OUTPUT}mallocHost.hpcc.o ${HPCC_HELPERS}
