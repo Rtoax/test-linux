@@ -364,6 +364,7 @@ CFLAGS_BPF += $(libbpf-cflags)
 LDFLAGS += -Wl,-rpath,$(shell pwd)
 
 TASK_HELPERS := ${OUTPUT}task_helpers.o
+STACK_HELPERS := ${OUTPUT}stack_helpers.o
 TRACE_HELPERS := libtrace_helpers.so
 LIBBPF_WRAPPER := ${OUTPUT}libbpf_wrapper.o
 LIBXDP_HELPERS := ${OUTPUT}libxdp_helpers.o
@@ -371,7 +372,7 @@ target-libso-y := libtrace_helpers.so
 
 HELPERS := ${LIBXDP_HELPERS} ${TRACE_HELPERS} \
 	   ${TASK_HELPERS} ${LIBBPF_WRAPPER} \
-	   ${KSYM_HELPERS}
+	   ${KSYM_HELPERS} ${STACK_HELPERS}
 
 target-y += libbpf_version
 target-prep-y += libbpf_version
@@ -391,6 +392,7 @@ test-libbpf_version: libbpf_version
 libtrace_helpers.so: ${OUTPUT}trace_helpers.so.o
 ${OUTPUT}trace_helpers.so.o: trace_helpers.h
 ${OUTPUT}task_helpers.o: task_helpers.h
+${OUTPUT}stack_helpers.o: stack_helpers.h
 ${OUTPUT}libbpf_wrapper.o: libbpf_wrapper.h
 ${OUTPUT}libxdp_helpers.o: libxdp_helpers.h
 

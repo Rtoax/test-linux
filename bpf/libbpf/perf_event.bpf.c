@@ -17,6 +17,7 @@
 #include <bpf/bpf_core_read.h>
 #include "perf_event.h"
 #include "bpf_misc.h"
+#include "stack_helpers.bpf.h"
 
 
 struct {
@@ -26,21 +27,12 @@ struct {
 	__uint(max_entries, MAX_IPS);
 } vaddr_map SEC(".maps");
 
-struct {
-	__uint(type, BPF_MAP_TYPE_STACK_TRACE);
-	__uint(max_entries, 1024);
-	__type(key, __u32);
-	__type(value, sizeof(unsigned long) * PERF_MAX_STACK_DEPTH);
-} stackmap SEC(".maps");
-
 
 SEC("perf_event")
 int do_sample(struct bpf_perf_event_data *ctx)
 {
 	u64 ip;
 	u32 *value, init_val = 1;
-	int user_stack_id;
-	int kern_stack_id;
 
 	ip = PT_REGS_IP(&ctx->regs);
 	value = bpf_map_lookup_elem(&vaddr_map, &ip);
@@ -52,14 +44,7 @@ int do_sample(struct bpf_perf_event_data *ctx)
 		/* E2BIG not tested for this example only */
 		bpf_map_update_elem(&vaddr_map, &ip, &init_val, BPF_NOEXIST);
 
-	/* Walk a kernel stack and return its id. */
-	kern_stack_id = bpf_get_stackid(&ctx->regs, &stackmap, 0);
-	/* Collect a user space stack instead of a kernel stack. */
-	user_stack_id = bpf_get_stackid(&ctx->regs, &stackmap, BPF_F_USER_STACK);
-
-	if (kern_stack_id >= 0 && user_stack_id >= 0) {
-		bpf_printk("Stack kernel %d, user %d", kern_stack_id, user_stack_id);
-	}
+	__get_stack(&ctx->regs);
 
 	return 0;
 }

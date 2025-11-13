@@ -1,3 +1,4 @@
+#define __USER__
 #include <argp.h>
 #include <stdio.h>
 #include <unistd.h>
@@ -14,6 +15,7 @@
 #include "trace_helpers.h"
 #include "libbpf_wrapper.h"
 #include "ksym_helpers.h"
+#include "stack_helpers.h"
 
 #define DEFAULT_FREQ	99
 
@@ -22,8 +24,6 @@ static int cpu = 0;
 static int pid = -1;
 static int freq = DEFAULT_FREQ;
 static int verbose = 0;
-
-static struct ksyms *ksyms = NULL;
 
 static const char argp_prog_doc[] =
 	"USAGE: [-c <cpu>] [-p <pid>] [-f <FREQ>] [-v]\n"
@@ -81,34 +81,6 @@ void sig_handler(int sig)
 	stop = 1;
 }
 
-static void print_stack(int fd)
-{
-	int kern_stack_id, next_kern_stack_id, i;
-	unsigned long *IPs;
-
-	kern_stack_id = 0;
-	IPs = malloc(sizeof(unsigned long) * PERF_MAX_STACK_DEPTH);
-
-	while (bpf_map_get_next_key(fd, &kern_stack_id, &next_kern_stack_id) == 0) {
-		bpf_map_lookup_elem(fd, &next_kern_stack_id, IPs);
-		printf("-----------\n");
-		for (i = 0; i < PERF_MAX_STACK_DEPTH && IPs[i]; i++) {
-			unsigned long off = 0;
-			const char *name = ksym_name(ksyms, IPs[i], &off);
-			printf("\t%#016lx %s", IPs[i], name ?: "[unknown]");
-			if (off > 0)
-				printf("+0x%lx\n", off);
-			else if (off < 0)
-				printf("-0x%lx\n", -off);
-			else
-				printf("\n");
-		}
-		kern_stack_id = next_kern_stack_id;
-	}
-
-	free(IPs);
-}
-
 static void print_ip_map(int fd)
 {
 	unsigned long key, next_key;
@@ -156,7 +128,7 @@ int main(int argc, char *argv[])
 
 	/* init stackmap */
 	bpf_map__set_value_size(skel->maps.stackmap,
-			sizeof(unsigned long) * PERF_MAX_STACK_DEPTH);
+			sizeof(unsigned long) * STACK_MAX_DEPTH);
 	bpf_map__set_max_entries(skel->maps.stackmap, 1024);
 
 	if (perf_event_bpf__load(skel)) {
@@ -180,6 +152,8 @@ int main(int argc, char *argv[])
 		.inherit = 1,
 	};
 
+	struct ksyms *ksyms = load_kallsyms();
+
 	pmu_fd = sys_perf_event_open(&pe_sample_attr, pid, cpu,
 				     -1 /* group_fd */, 0 /* flags */);
 	if (pmu_fd < 0) {
@@ -187,8 +161,6 @@ int main(int argc, char *argv[])
 		err = -1;
 		goto cleanup;
 	}
-
-	ksyms = load_kallsyms();
 
 	fprintf(stderr, "CPU %d, PID %d, PMU fd %d, freq %d\n", cpu, pid,
 		pmu_fd, freq);
@@ -207,7 +179,7 @@ int main(int argc, char *argv[])
 cleanup:
 	printf("Exiting...\n");
 	if (!err) {
-		print_stack(bpf_map__fd(skel->maps.stackmap));
+		print_stack(bpf_map__fd(skel->maps.stackmap), ksyms);
 		print_ip_map(bpf_map__fd(skel->maps.vaddr_map));
 	}
 	close(pmu_fd);
