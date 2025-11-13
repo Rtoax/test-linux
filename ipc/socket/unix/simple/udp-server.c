@@ -66,6 +66,8 @@ int main(void)
 		}
 		/* Give a diagnostic message. */
 		fprintf(stderr, "Server: got message: %s\n", message);
+		message[0] = 'X';
+
 		/* Bounce the message back to the sender. */
 		nbytes = sendto(sock, message, nbytes, 0,
 				(struct sockaddr *)&name, size);
