@@ -1,5 +1,5 @@
 #include <stdio.h>
-
+#include <unistd.h>
 #include "foo.h"
 #include "thread.h"
 
@@ -14,5 +14,8 @@ int main(void)
 	foo_ctor();
 #endif
 	thread_hello();
+
+	getchar();
+
 	return 0;
 }
