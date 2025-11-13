@@ -19,6 +19,7 @@ LUCA
 	- commit f4874c020e89 ("Lingspeed X710-M: htvs marslink benchmark egress")
 - **htvs marslink parallel unidirection**
 - **htvs memory benchmark**
+	- commit 99ff1ee3f597 ("Lingspeed X710-M: htvs memory benchmark")
 - **htvs ops**
 	- commit 44114c3d66f5 ("Lingspeed X710-M: htvs ops")
 
