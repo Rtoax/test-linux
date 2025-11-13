@@ -1454,7 +1454,9 @@
 #define CUDA_R_6F_E3M2	LUCA_R_6F_E3M12
 #define CUDA_R_4F_E2M1	LUCA_R_4F_E2M1
 #elif defined(__USE_HIP__)
-#define cudaDataType_t cudaDataType
+# ifndef cudaDataType_t
+#  define cudaDataType_t cudaDataType
+# endif
 #define cudaDataType	__cuda(DataType)
 #define CUDA_R_32F	HIP_R_32F
 #define CUDA_R_64F	HIP_R_64F
