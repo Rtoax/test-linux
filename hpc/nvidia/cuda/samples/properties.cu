@@ -215,7 +215,7 @@ int main(int argc, char *argv[])
 		printf("maxGridSize[%d] = %-16d >= gridDim.%s\n", i,
 			prop.maxGridSize[i], dim_s + 2 * i);
 
-	/* Information about device */
+	/* Information about Compute Capability */
 	{
 		CUdevice cuDevice;
 		cuDeviceGet(&cuDevice, dev);
@@ -223,10 +223,12 @@ int main(int argc, char *argv[])
 		cuDeviceComputeCapability(&major, &minor, cuDevice);
 		printf("Compute Capability: major.minor %d.%d %s\n", major, minor,
 			gpu_compute_cap_str(major, minor));
+
+		printf("Compute Capability: major.minor %d.%d, %s\n",
+			prop.major, prop.minor,
+			gpu_compute_cap_str(prop.major, prop.minor));
 	}
 
-	printf("Compute Capability: major.minor %d.%d, %s\n", prop.major, prop.minor,
-		gpu_compute_cap_str(prop.major, prop.minor));
 #if defined(__HPCC__)
 	PRINT_d(step);
 #endif
