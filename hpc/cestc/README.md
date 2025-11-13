@@ -12,6 +12,7 @@ LUCA
 # Benchmark
 
 - **htvs devices**
+	- commit
 - **htvs marslink benchmark [--mode=<ingress|egress>]**
 - **htvs marslink parallel unidirection**
 - **htvs memory benchmark**
