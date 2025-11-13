@@ -5,7 +5,7 @@ set -ex
 
 pkgs_deb+=(
 	libclang-cpp-dev libclang-dev
-	libclang-cpp19-dev libclang-19-dev
+	libclang-cpp20-dev libclang-20-dev
 	libdebuginfod-dev
 )
 
