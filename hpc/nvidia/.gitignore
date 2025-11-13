@@ -1,3 +1,4 @@
+/driver-version
 *.cu.cpp.ii
 *.nv_fatbin
 *.nvFatBinSegment
