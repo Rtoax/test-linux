@@ -39,7 +39,12 @@
 #error "Must define TRACEPOINT and one of MAP_HASH MAP_PERCPU_HASH MAP_LRU_HASH MAP_LRU_PERCPU_HASH PERF_BUFFER"
 #endif
 
-sig_atomic_t exiting = false;
+static volatile sig_atomic_t exiting = false;
+
+void sig_handler(int signum)
+{
+	exiting = true;
+}
 
 void handle_event(void *ctx, int cpu, void *event, unsigned int event_sz)
 {
@@ -56,11 +61,6 @@ void handle_event(void *ctx, int cpu, void *event, unsigned int event_sz)
 void lost_event(void *ctx, int cpu, long long unsigned int event_sz)
 {
 	printf("lost event\n");
-}
-
-void sig_handler(int signum)
-{
-	exiting = true;
 }
 
 int main(void)
