@@ -1,12 +1,15 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <errno.h>
+#include <signal.h>
 #include <string.h>
 #include <linux/bpf.h>
 #include <bpf/libbpf.h>
 #include "tracepoint.h"
 #include "trace_helpers.h"
 #include "libbpf_wrapper.h"
+#define __USER__
+#include "stack_helpers.h"
 
 #if defined(TRACEPOINT) && (!defined(MAP_HASH) && !defined(MAP_PERCPU_HASH))
 #include "tracepoint.skel.h"
@@ -36,6 +39,7 @@
 #error "Must define TRACEPOINT and one of MAP_HASH MAP_PERCPU_HASH MAP_LRU_HASH MAP_LRU_PERCPU_HASH PERF_BUFFER"
 #endif
 
+sig_atomic_t exiting = false;
 
 void handle_event(void *ctx, int cpu, void *event, unsigned int event_sz)
 {
@@ -54,6 +58,11 @@ void lost_event(void *ctx, int cpu, long long unsigned int event_sz)
 	printf("lost event\n");
 }
 
+void sig_handler(int signum)
+{
+	exiting = true;
+}
+
 int main(void)
 {
 	int err, events_map_fd;
@@ -63,8 +72,13 @@ int main(void)
 	libbpf_set_strict_mode(LIBBPF_STRICT_ALL);
 	libbpf_set_print(libbpf_print_fn);
 
+	signal(SIGINT, sig_handler);
+
 	skel = BPF__OPEN_AND_LOAD(_bpf__open_and_load, _bpf__open_opts,
 			_bpf__load, _bpf__destroy);
+
+	struct ksyms *ksyms = load_kallsyms();
+	init_stackmap(skel->maps.stackmap, 1024);
 
 	err = _bpf__attach(skel);
 	if (err) {
@@ -85,7 +99,7 @@ int main(void)
 
 	printf("Tracing execve(2) syscall, and kill 'top' command.\n");
 
-	while (true) {
+	while (!exiting) {
 		err = perf_buffer__poll(pb, 100 /* timeout, ms */);
 		/* Ctrl-C gives -EINTR */
 		if (err == -EINTR) {
@@ -98,7 +112,11 @@ int main(void)
 		}
 	}
 
+	printf("Exiting....\n");
+	print_stack(bpf_map__fd(skel->maps.stackmap), ksyms);
+
 	perf_buffer__free(pb);
 	_bpf__destroy(skel);
+	free_kallsyms(ksyms);
 	return -err;
 }

@@ -1,4 +1,3 @@
-#define __USER__
 #include <argp.h>
 #include <stdio.h>
 #include <unistd.h>
@@ -15,6 +14,7 @@
 #include "trace_helpers.h"
 #include "libbpf_wrapper.h"
 #include "ksym_helpers.h"
+#define __USER__
 #include "stack_helpers.h"
 
 #define DEFAULT_FREQ	99
@@ -126,10 +126,7 @@ int main(int argc, char *argv[])
 		return 1;
 	}
 
-	/* init stackmap */
-	bpf_map__set_value_size(skel->maps.stackmap,
-			sizeof(unsigned long) * STACK_MAX_DEPTH);
-	bpf_map__set_max_entries(skel->maps.stackmap, 1024);
+	init_stackmap(skel->maps.stackmap, 1024);
 
 	if (perf_event_bpf__load(skel)) {
 		printf("Failed to load BPF object\n");

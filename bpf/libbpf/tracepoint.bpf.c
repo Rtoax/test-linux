@@ -19,6 +19,7 @@
 #include "bpf_helpers.h"
 #include "string_helpers.bpf.h"
 #include "task.bpf.h"
+#include "stack_helpers.bpf.h"
 
 
 #ifndef SIGKILL
@@ -107,6 +108,8 @@ int tracepoint__syscalls__sys_enter_execve(struct syscall_trace_enter *ctx)
 
 	pevent->pid = pid;
 	pevent->uid = uid;
+
+	__get_stack(ctx);
 
 	bpf_core_read_user(&pevent->filename, sizeof(pevent->filename),
 			   filename);

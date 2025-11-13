@@ -11,6 +11,14 @@
 #include "stack_helpers.h"
 
 
+/* init stackmap */
+void init_stackmap(struct bpf_map *stackmap, size_t size)
+{
+	bpf_map__set_value_size(stackmap,
+			sizeof(unsigned long) * STACK_MAX_DEPTH);
+	bpf_map__set_max_entries(stackmap, 1024);
+}
+
 void print_stack(int stack_map_fd, struct ksyms *ksyms)
 {
 	int kern_stack_id, next_kern_stack_id, i;

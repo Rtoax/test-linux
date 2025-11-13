@@ -6,5 +6,6 @@
 
 #ifdef __USER__
 #include "ksym_helpers.h"
+void init_stackmap(struct bpf_map *stackmap, size_t size);
 void print_stack(int stack_map_fd, struct ksyms *ksyms);
 #endif
