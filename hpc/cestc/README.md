@@ -20,6 +20,7 @@ LUCA
 - **htvs marslink parallel unidirection**
 - **htvs memory benchmark**
 - **htvs ops**
+	- commit 44114c3d66f5 ("Lingspeed X710-M: htvs ops")
 
 
 # Basic Informations
