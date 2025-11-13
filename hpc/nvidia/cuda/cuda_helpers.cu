@@ -68,44 +68,52 @@ int gpu_max_threads_per_block(int dev_id)
 
 /**
  * https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html
+ * https://www.nvidia.com/en-us/data-center/technologies/blackwell-architecture/
+ * https://www.nvidia.com/en-us/data-center/technologies/hopper-architecture/
+ * https://www.nvidia.com/en-us/data-center/ampere-architecture/
  */
 const char *gpu_compute_cap_str(int major, int minor)
 {
 	switch (major) {
-	/**
-	 * https://www.nvidia.com/en-us/data-center/technologies/blackwell-architecture/
-	 */
+	/* Year 2024 */
 	case 10:
 		return "Blackwell";
 		break;
-	/**
-	 * https://www.nvidia.com/en-us/data-center/technologies/hopper-architecture/
-	 */
+	/* Year 2022 */
 	case 9:
 		return "Hopper";
 		break;
-	/**
-	 * https://www.nvidia.com/en-us/data-center/ampere-architecture/
-	 */
+	/* Year 2020 */
 	case 8:
 		switch (minor) {
 		case 0:
+		case 6:
+		case 7:
 			return "Ampere A100";
+			break;
+		/* Year 2022 */
+		case 9:
+			return "Ada Lovelace";
 			break;
 		default:
 			return "Ampere";
 		}
 		break;
+	/* Year 2017 */
 	case 7:
 		switch (minor) {
 		case 0:
 			return "Volta V100";
 			break;
+		case 5:
+			return "Turing";
+			break;
 		default:
-			return "Volta";
+			return "Volta/Turing";
 			break;
 		}
 		break;
+	/* Year 2016 */
 	case 6:
 		switch (minor) {
 		case 0:
@@ -116,28 +124,44 @@ const char *gpu_compute_cap_str(int major, int minor)
 			break;
 		}
 		break;
+	/* Year 2014 */
 	case 5:
 		return "Maxwell";
 		break;
+	/* Year 2012 */
 	case 3:
 		switch (minor) {
-		case 0:	/* 3.0 */
+		case 0:
 			return "Kepler K10";
 			break;
-		case 5:	/* 3.5 */
+		case 5:
 			return "Kepler K20";
+			break;
+		default:
+			return "Kepler";
 			break;
 		}
 		break;
+	/* Year 2010 */
 	case 2:
-		return "Tesla C2050";
+		switch (minor) {
+		case 0:
+			return "Fermi GeForce 400/Quadro 600";
+			break;
+		case 1:
+			return "Fermi GeForce 500/Quadro 600";
+			break;
+		default:
+			return "Fermi";
+			break;
+		}
 		break;
 	case 1:
 		switch (minor) {
-		case 0:	/* 1.0 */
+		case 0:
 			return "Tesla C870";
 			break;
-		case 3:	/* 3.3 */
+		case 3:
 			return "Tesla C1060";
 			break;
 		}
