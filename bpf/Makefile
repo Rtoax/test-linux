@@ -4,6 +4,7 @@ include bpf.mk
 include logo.mk
 
 subdir-y := bcc
+subdir-y += blazesym
 subdir-y += bpftrace
 subdir-y += bpftool
 subdir-y += btf
