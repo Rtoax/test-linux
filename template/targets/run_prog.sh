@@ -1,5 +1,5 @@
 #!/bin/bash
-# Usage: run_prog.sh [-v|--verbose] [LOG_FILE] [EXE] {EXE ARGS}
+# Usage: run_prog.sh [-v|--verbose] LOG_FILE EXE [EXE ARGS]
 
 set -e
 
@@ -24,13 +24,13 @@ do
 	esac
 done
 
-LOG=$1
+readonly LOG_FILE=$1
 shift
-EXE=$1
+readonly EXE=$1
 shift
 
-${EXE} $@ | tee ${LOG}
+${EXE} $@ | tee ${LOG_FILE}
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-	rm -f ${LOG}
+	rm -f ${LOG_FILE}
 	error "${EXE} $@: run failed"
 fi
