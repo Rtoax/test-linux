@@ -15,7 +15,7 @@ struct mlx5_ifc_mbox_in_bits {
 	u8         reserved_at_40[0x40];
 };
 
-struct data {
+struct data_bigendian {
 	u16 opcode;
 	u16 uid;
 	u16 reserved_at_20;
@@ -25,13 +25,13 @@ struct data {
 
 static int kernel_init(void)
 {
-	struct data in = {
+	struct data_bigendian in = {
 		.opcode = 0x1122,
 		.uid = 0x3344,
 		.op_mod = 0x5566,
 	};
 	printk(KERN_INFO "size of bits %ld vs original %ld\n",
-		sizeof(struct mlx5_ifc_mbox_in_bits), sizeof(struct data));
+		sizeof(struct mlx5_ifc_mbox_in_bits), sizeof(struct data_bigendian));
 	printk(KERN_INFO "uid %x\n", MLX5_GET(mbox_in, &in, uid));
 	printk(KERN_INFO "op_mod %x\n", MLX5_GET(mbox_in, &in, op_mod));
 	return -EINVAL;
