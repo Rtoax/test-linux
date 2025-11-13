@@ -12,7 +12,7 @@ LUCA
 # Benchmark
 
 - **htvs devices**
-	- commit
+	- commit 9e34db9890eb ("Lingspeed X710-M: htvs devices")
 - **htvs marslink benchmark [--mode=<ingress|egress>]**
 - **htvs marslink parallel unidirection**
 - **htvs memory benchmark**
