@@ -14,6 +14,7 @@ and this project adheres to
 - metax hpcc support .cu suffix.
 - amd rocm hip support .cu suffix.
 #### Added
+- syscall: add samples/execve/;
 - mlx5: test macro `MLX5_GET()`;
 - virt: add virt-manager/virt-install/uefi.sh;
 - cloud-native: add Containerfile/;

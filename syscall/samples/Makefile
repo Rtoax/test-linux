@@ -56,7 +56,6 @@ target-y += chdir fchdir
 target-y += chown fchown fchownat
 target-y += fdopen
 target-y += kcmp
-target-y += execve execve-fork
 target-y += nr
 target-y += opendir
 target-y += pause
@@ -145,8 +144,6 @@ chdir: chdir.o
 fchdir: fchdir.o
 kcmp: kcmp.o
 fdopen: fdopen.o
-execve: execve.o
-execve-fork: execve-fork.o
 nr: nr.o
 nr.o: nr2s.h nr.h
 opendir: opendir.o

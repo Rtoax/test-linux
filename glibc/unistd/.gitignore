@@ -3,8 +3,6 @@
 /execle
 /execlp
 /execv
-/execve-fork
-/execve
 /execvp-fork
 /execvp-timedrun
 /execvp

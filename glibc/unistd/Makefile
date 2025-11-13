@@ -5,8 +5,6 @@ target-y += execl
 target-y += execle
 target-y += execlp
 target-y += execv
-target-y += execve-fork
-target-y += execve
 target-y += execvp-fork
 target-y += execvp-timedrun
 target-y += execvp
@@ -49,8 +47,6 @@ execl: execl.o
 execle: execle.o
 execlp: execlp.o
 execv: execv.o
-execve-fork: execve-fork.o
-execve: execve.o
 execvp-fork: execvp-fork.o
 execvp-timedrun: execvp-timedrun.o
 execvp: execvp.o unistd_helpers.o

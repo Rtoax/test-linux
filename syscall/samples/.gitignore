@@ -37,8 +37,6 @@
 /uname
 /userfaultfd
 /symlink
-/execve
-/execve-fork
 /sysctl
 /syscall
 /kcmp
