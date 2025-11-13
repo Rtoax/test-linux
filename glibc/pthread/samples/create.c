@@ -23,7 +23,7 @@ struct test_routine {
 };
 
 static int nr_threads = 1;
-
+static int verbose = 0;
 static sig_atomic_t loop = true;
 static int us = 100000;
 
@@ -84,6 +84,8 @@ void parse_args(int argc, char *argv[])
 				fprintf(stderr, "ERROR: bad us %s\n", argv[i]);
 				exit(1);
 			}
+		} else if (!strcmp(argv[i], "verbose")) {
+			verbose = 1;
 		} else {
 			fprintf(stderr, "ERROR: unknown %s\n", argv[i]);
 			exit(1);
@@ -97,11 +99,16 @@ int main(int argc, char *argv[])
 	pthread_t *threads;
 	struct test_routine *routine = &default_print;
 
-	fprintf(stderr, "%s [nr=<Nthreads>] [t=<us>]\n", argv[0]);
+	fprintf(stderr, "%s [nr=<Nthreads>] [t=<us>] [verbose]\n", argv[0]);
 
 	signal(SIGINT, sig_handler);
 
 	parse_args(argc - 1, argv + 1);
+
+	if (verbose) {
+		printf("parent_print_xs %p\n", parent_print_xs);
+		printf("thread_print_xs %p\n", thread_print_xs);
+	}
 
 	threads = malloc(sizeof(pthread_t) * nr_threads);
 	assert(threads && "malloc failed.");
