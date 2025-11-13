@@ -1,6 +1,6 @@
 #!/bin/bash
 # Bugfix:
-#
+# - commit 24bac376d705 ("hpcc-envs.sh: fix libhcruntime.so: undefined reference to `VL1_CACHE_POLICY'")
 
 export HPCC_PATH=/opt/hpcc
 export HPCC_CLANG_PATH=/opt/hpcc/htgpu_llvm/bin
