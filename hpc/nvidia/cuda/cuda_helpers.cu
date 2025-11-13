@@ -66,6 +66,9 @@ int gpu_max_threads_per_block(int dev_id)
 	return prop.maxThreadsPerBlock;
 }
 
+/**
+ * https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html
+ */
 const char *gpu_compute_cap_str(int major, int minor)
 {
 	switch (major) {
@@ -81,14 +84,37 @@ const char *gpu_compute_cap_str(int major, int minor)
 	case 9:
 		return "Hopper";
 		break;
+	/**
+	 * https://www.nvidia.com/en-us/data-center/ampere-architecture/
+	 */
 	case 8:
-		return "Ampere";
+		switch (minor) {
+		case 0:
+			return "Ampere A100";
+			break;
+		default:
+			return "Ampere";
+		}
 		break;
 	case 7:
-		return "Turing";
+		switch (minor) {
+		case 0:
+			return "Volta V100";
+			break;
+		default:
+			return "Volta";
+			break;
+		}
 		break;
 	case 6:
-		return "Pascal";
+		switch (minor) {
+		case 0:
+			return "Pascal P100";
+			break;
+		default:
+			return "Pascal";
+			break;
+		}
 		break;
 	case 5:
 		return "Maxwell";
