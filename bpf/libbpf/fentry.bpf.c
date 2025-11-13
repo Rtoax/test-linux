@@ -20,6 +20,13 @@
 #define NANOSLEEP	1
 #define OPENAT		1
 
+#ifndef O_CREAT
+#define O_CREAT		00000100
+#endif
+#ifndef O_TMPFILE
+#define O_TMPFILE	020200000
+#endif
+
 #ifdef NANOSLEEP
 struct nanosleep_args {
 	struct timespec64 duration;
@@ -106,12 +113,6 @@ int BPF_PROG(test_sys_openat, struct pt_regs *regs)
 	int flags = (int)PT_REGS_PARM3(regs);
 	umode_t mode = 0;
 
-#ifndef O_CREAT
-#define O_CREAT		00000100
-#endif
-#ifndef O_TMPFILE
-#define O_TMPFILE	020200000
-#endif
 	/**
 	 * The mode parameter is only present when the flags parameter includes
 	 * the O_CREAT flag. This means that the mode parameter is the fourth
