@@ -6,6 +6,7 @@ LUCA
 - **ht-smi**
 	- commit 11a97301832e ("LingSpeed X710-M: SMI")
 - **ht-smi topo**
+	-
 
 # Benchmark
 
