@@ -14,6 +14,7 @@ and this project adheres to
 - metax hpcc support .cu suffix.
 - amd rocm hip support .cu suffix.
 #### Added
+- blazesym: add capi to subdir;
 - bpf: add blazesym to subdir;
 - luca: add luca-envs.sh;
 - syscall: add samples/execve/;
