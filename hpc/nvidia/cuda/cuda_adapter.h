@@ -1,5 +1,11 @@
 // SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
 /* Copyright (c) 2025 Rong Tao */
+/**
+ * Input definitions:
+ * - __USE_HIP__	AMD ROCm HIP
+ * - __USE_HPCC__	Mars
+ * - __USE_LUCA__	Luca
+ */
 #pragma once
 
 /* FIXME: LUCA has it's own prefix macros */
@@ -34,9 +40,8 @@
 /* ROCm rccl use 'nccl' prefix, see /usr/include/rccl/rccl.h */
 # define __nccl(name)	nccl##name
 # define __pnccl(name)	pnccl##name
-#elif !defined(__cu) || !defined(__cuda) || !defined(__CU) || \
-	!defined(__CUDA) || !defined(__nv) || !defined(__NV)
-# error "Must define __cu(), __cuda(), __CU(), __CUDA(), __CUDA_ERROR(), __nv(), __NV() macros, or define __USE_HPCC__, __USE_HIP__, __USE_LUCA__"
+#else
+# error "Must define __USE_HPCC__, __USE_HIP__, __USE_LUCA__"
 #endif
 
 /* typedef hcError_t	cudaError_t; */
