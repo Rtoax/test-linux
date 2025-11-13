@@ -1,6 +1,7 @@
 #include <stdio.h>
 
 #include "foo.h"
+#include "thread.h"
 
 int main(void)
 {
@@ -12,5 +13,6 @@ int main(void)
 	 */
 	foo_ctor();
 #endif
+	thread_hello();
 	return 0;
 }

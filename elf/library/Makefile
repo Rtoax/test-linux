@@ -10,10 +10,12 @@ target-y += latency-a latency-a-llc
 target-libso-y := libfoo.so.1.10
 target-libso-y += libadd.so
 target-libso-y += libcall0.so
+target-libso-y += libthread.so
 
 target-libso-cpp-y := libadd_cpp.so.0.1
 
 target-liba-y := libfoo.a
+target-liba-y += libthread.a
 target-liba-y += libadd.a
 target-liba-y += libcall0.a
 
@@ -22,8 +24,8 @@ ifdef VERBOSE
   LDFLAGS += -Q
 endif
 
-CFLAGS_main := -lfoo
-LDFLAGS_main := libfoo.so
+CFLAGS_main := -lfoo -lthread
+LDFLAGS_main := libfoo.so libthread.so
 # Note: Add a directory to the runtime library search path.
 # $ readelf -d main
 # 0x000000000000000f (RPATH)              Library rpath: [/home/rongtao/Git/tst-linux/elf/library]
@@ -52,8 +54,8 @@ include ../../template/main.mk
 
 libc: libc.o
 main: main.o libfoo.so.1.10
-main-a: main-a.o libfoo.a
-main-a-ctors: main-a-ctors.o libfoo.a
+main-a: main-a.o libfoo.a libthread.a
+main-a-ctors: main-a-ctors.o libfoo.a libthread.a
 latency: latency.o libcall0.so
 latency-got: latency-got.o libcall0.so
 latency-got-llc: latency-got-llc.o libcall0.so
@@ -65,5 +67,7 @@ libfoo.a: foo.a.o ctors.a.o
 libadd.so: add.so.o
 libadd_cpp.so.0.1: add.cpp.so.o
 libadd.a: add.a.o
+libthread.so: thread.so.o
+libthread.a: thread.a.o
 libcall0.so: call0.so.o
 libcall0.a: call0.a.o
