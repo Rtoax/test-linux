@@ -121,9 +121,11 @@ endif
 
 # linux commit e6f2dd0f8067 ("bpf: Add bpf_loop helper")
 # v5.15-12938-ge6f2dd0f8067
-ifeq ($(call kver_gt,5,15,0),y)
-  CFLAGS_BPF += -DSUPPORT_BPF_LOOP=1
-  $(info Found bpf_loop())
+ifeq ($(call kver_gt,5,15,0),y) # failed on 5.15.131
+  ifeq ($(call vmlinux_has_sym,bpf_loop),y)
+    CFLAGS_BPF += -DSUPPORT_BPF_LOOP=1
+    $(info Found bpf_loop())
+  endif
 endif
 
 # linux commit 7b15523a989b ("bpf: Add a bpf_snprintf helper")
