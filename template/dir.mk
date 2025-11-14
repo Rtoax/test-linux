@@ -1,12 +1,18 @@
 # SPDX-License-Identifier: GPL-3.0
 # Copyright (c) 2025 Rong Tao
+#
+# Output definitions:
+# - TOPDIR
+# - GIT_TOPDIR
+# - CURDIR
+#
 _DIR = 1
 
 GIT_TOPDIR := $(shell git rev-parse --show-toplevel 2>/dev/null || :)
 
 TOPDIR := ${GIT_TOPDIR}
 ifeq (${TOPDIR},)
-  TOPDIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))/../))
+  TOPDIR := $(dir $(shell realpath $(abspath $(lastword $(MAKEFILE_LIST))/../)))
 endif
 
 CURDIR := $(shell realpath .)
@@ -26,6 +32,7 @@ endef
 ifdef DEBUG
   $(info TOPDIR = ${TOPDIR})
   $(info CURDIR = ${CURDIR})
+  $(info GIT_TOPDIR = ${GIT_TOPDIR})
 endif
 
 export TOPDIR CURDIR GIT_TOPDIR
