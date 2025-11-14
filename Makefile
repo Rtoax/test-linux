@@ -22,7 +22,6 @@ export VERSION PATCHLEVEL SUBLEVEL NAME TEST_LINUX_VERSION TEST_LINUX_GIT_VERSIO
 
 include template/verbose.mk
 include template/dir.mk
-include template/emoji.mk
 include template/git.mk
 include template/ansi.mk
 include template/logo.mk
@@ -51,7 +50,6 @@ help:
 	@echo >&2 -e "***"
 	$(call tl_logo1,*** )
 	@echo >&2 -e "***"
-	@echo >&2 -e "*** ${MOONLIGHT} ${MOONLIGHT}"
 	@echo >&2 -e "*** OS ${OS}"
 	@echo >&2 -e "*** TOPDIR ${TOPDIR}"
 	@echo >&2 -e "*** GIT_TOPDIR ${GIT_TOPDIR}"
