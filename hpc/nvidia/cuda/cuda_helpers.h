@@ -59,11 +59,11 @@
 	}								\
 }
 
-#ifdef CUDA_VERSION_MAJOR
-# if CUDA_VERSION_MAJOR < 13
+#ifdef __NVCC__
+# if CUDA_VERSION < 13000
 #  define DEVPROP_HAVE_CLOCK_REATE	1
 # endif
-#else
+#else /* HIP, HPCC, LUCA */
 # define DEVPROP_HAVE_CLOCK_REATE	1
 #endif
 
