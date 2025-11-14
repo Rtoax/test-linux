@@ -35,20 +35,20 @@ RG := ${ANSI_RST}${ANSI_GRE}${ANSI_GRAY}
 RST := ${ANSI_RST}
 
 define green
-${ANSI_GRE}$1${ANSI_RST}
+${ANSI_GRE}${1}${ANSI_RST}
 endef
 define bgreen
-${ANSI_BOLD}${ANSI_GRE}$1${ANSI_RST}
+${ANSI_BOLD}${ANSI_GRE}${1}${ANSI_RST}
 endef
 define red
-${ANSI_RED}$1${ANSI_RST}
+${ANSI_RED}${1}${ANSI_RST}
 endef
 define yellow
-${ANSI_YEL}$1${ANSI_RST}
+${ANSI_YEL}${1}${ANSI_RST}
 endef
 define byellow
-${ANSI_BOLD}${ANSI_YEL}$1${ANSI_RST}
+${ANSI_BOLD}${ANSI_YEL}${1}${ANSI_RST}
 endef
 define bold
-${ANSI_BOLD}$1${ANSI_RST}
+${ANSI_BOLD}${1}${ANSI_RST}
 endef
