@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
-include ./elf.mk
+include elf.mk
 
 subdir-y := got
 subdir-y += library

@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
 __USE_PROC_HELPERS__ = y
 
-include ../../elf.mk
+include elf.mk
 
 target-y := hello
 target-y += hello-pie
