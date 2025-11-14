@@ -24,7 +24,6 @@ include template/verbose.mk
 include template/dir.mk
 include template/git.mk
 include template/ansi.mk
-include template/logo.mk
 include template/os.mk
 include template/kconfig.mk
 include template/kernel.mk
@@ -47,8 +46,6 @@ endif
 # Default help
 .PHONY: help
 help:
-	@echo >&2 -e "***"
-	$(call tl_logo1,*** )
 	@echo >&2 -e "***"
 	@echo >&2 -e "*** OS ${OS}"
 	@echo >&2 -e "*** TOPDIR ${TOPDIR}"
