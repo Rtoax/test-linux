@@ -14,8 +14,8 @@ include kconfig.mk
 include ansi.mk
 include bpf/bpf.mk
 include ldconfig.mk
-include ./libbpf.mk
 include bpf/btf.mk
+include bpf/libbpf.mk
 include ../bpftool/bpftool.mk
 
 KSYM_DO_EXECVEAT_COMMON := $(shell grep -w 't do_execveat_common' /proc/kallsyms \
