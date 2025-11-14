@@ -112,6 +112,7 @@ build-targets += $(target-bpf-y)
 build-targets += $(target-rust-y)
 build-targets += $(target-nvcc-y)
 build-targets += $(target-nvcc-libso-y)
+build-targets += $(target-nvcc-liba-y)
 build-targets += $(target-hipcc-y)
 build-targets += $(target-mxcc-y) $(target-htcc-y)
 build-targets += $(target-lscc-y)
@@ -173,7 +174,7 @@ endif
 ifneq ($(target-rust-y),)
   include ${TEMPLATE_DIR}/targets/rust.mk
 endif
-ifneq ($(target-nvcc-y)$(target-nvcc-libso-y),)
+ifneq ($(target-nvcc-y)$(target-nvcc-libso-y)$(target-nvcc-liba-y),)
   include ${TEMPLATE_DIR}/targets/nvidia.mk
 endif
 ifneq ($(target-hipcc-y),)

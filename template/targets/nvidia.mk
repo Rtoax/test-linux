@@ -6,6 +6,7 @@
 # Targets list:
 # .cu.o
 # .cu.so.o
+# .cu.a.o
 # .ptx
 # .cu.cpp.ii
 # .cubin
@@ -17,6 +18,7 @@
 # .E.cu
 # target-nvcc-y
 # target-nvcc-libso-y
+# target-nvcc-liba-y
 
 _TARGET_NVIDIA = 1
 _SYSTEM_HAVE_NVIDIA_GPU :=
@@ -138,8 +140,8 @@ ${OUTPUT}%.E.cu: %.cu | ${OUTPUT}
 	$(call log_tgt_obj,NVCC E,$(<),$(@))
 	${Q}$(NVCC) -E -o $(@) -c $(<) $(CFLAGS_NVCC) $(CFLAGS_NVCC_$(*))
 
-${OUTPUT}%.cu.so.o: %.cu | ${OUTPUT}
-	$(call log_tgt_obj,NVCC SO.o,$(<),$(@))
+${OUTPUT}%.cu.so.o ${OUTPUT}%.cu.a.o: %.cu | ${OUTPUT}
+	$(call log_tgt_obj,NVCC LIB.o,$(<),$(@))
 	${Q}$(NVCC) -o $(@) -c $(<) $(CFLAGS_NVCC_SO) $(CFLAGS_NVCC_SO_$(*))
 
 $(target-nvcc-y): %:
@@ -149,3 +151,7 @@ $(target-nvcc-y): %:
 $(target-nvcc-libso-y): %:
 	$(call log_tgt_exe,NVCC SO,$(<),$(@))
 	${Q}$(NVCC) -o $(@) $(^) $(LDFLAGS_NVCC_SO) $(LDFLAGS_NVCC_SO$(*))
+
+$(target-nvcc-liba-y): %:
+	$(call log_tgt_exe,NVCC AR,$(<),$(@))
+	${Q}ar rcs $(@) $(^)

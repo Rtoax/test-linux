@@ -14,7 +14,7 @@ and this project adheres to
 - metax hpcc support .cu suffix.
 - amd rocm hip support .cu suffix.
 #### Added
-- targets/nvidia.mk: support dynamic library and add `libcuda_helper.so`;
+- targets/nvidia.mk: support static/dynamic library and add `libcuda_helper.so`, `libcuda_helper.a`;
 - insn/examples: add syscall.c from libbpf-bootstrap;
 - libbpf: `stack_helpers`: add `init_stackmap()` and apply to tracepoint test;
 - libbpf: add `stack_helpers`.{c,h,bpf.h}
