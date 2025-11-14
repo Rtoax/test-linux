@@ -13,7 +13,7 @@ VMLINUX_H := ${OUTPUT}vmlinux.h
 include kconfig.mk
 include ansi.mk
 include bpf/bpf.mk
-include ../../glibc/ldconfig.mk
+include ldconfig.mk
 include ./libbpf.mk
 include bpf/btf.mk
 include ../bpftool/bpftool.mk
