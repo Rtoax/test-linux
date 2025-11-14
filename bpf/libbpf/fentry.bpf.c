@@ -16,6 +16,7 @@
 #include <bpf/bpf_helpers.h>
 #include "bpf_misc.h"
 #include "bpf_debug.h"
+#include "stack_helpers.bpf.h"
 
 #define NANOSLEEP	1
 #define OPENAT		1
@@ -67,6 +68,8 @@ int BPF_PROG(test_sys_nanosleep, const struct timespec64 *duration,
 	     struct timespec64 *rem)
 {
 #endif
+
+	__get_stack(ctx);
 
 	bpf_printk("nanosleep({.tv_sec = %ld, .tv_nsec = %ld})",
 		   duration->tv_sec, duration->tv_nsec);

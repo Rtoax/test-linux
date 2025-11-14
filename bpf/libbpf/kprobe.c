@@ -8,6 +8,8 @@
 #include <bpf/libbpf.h>
 #include "trace_helpers.h"
 #include "libbpf_wrapper.h"
+#define __USER__
+#include "stack_helpers.h"
 
 #if defined(KPROBE)
 #include "kprobe.skel.h"
@@ -42,6 +44,10 @@ int main(int argc, char **argv)
 	skel = BPF__OPEN_AND_LOAD(_bpf__open_and_load, _bpf__open_opts,
 			_bpf__load, _bpf__destroy);
 
+	struct ksyms *ksyms = load_kallsyms();
+
+	init_stackmap(skel->maps.stackmap, 1024);
+
 	err = _bpf__attach(skel);
 	if (err) {
 		fprintf(stderr, "Failed to attach BPF skeleton\n");
@@ -54,6 +60,8 @@ int main(int argc, char **argv)
 
 cleanup:
 	printf("Goodbye!!\n");
+	print_stack(bpf_map__fd(skel->maps.stackmap), ksyms);
 	_bpf__destroy(skel);
+	free_kallsyms(ksyms);
 	return -err;
 }

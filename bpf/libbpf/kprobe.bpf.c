@@ -13,6 +13,7 @@
 #include <bpf/bpf_tracing.h>
 #include <bpf/bpf_core_read.h>
 #include "bpf_misc.h"
+#include "stack_helpers.bpf.h"
 
 #ifndef EINVAL
 #define EINVAL 22
@@ -25,6 +26,8 @@ int BPF_KPROBE(do_execveat_common, int fd, struct filename *name)
 	const char *filename = NULL;
 	pid = bpf_get_current_pid_tgid() >> 32;
 	filename = BPF_CORE_READ(name, name);
+
+	__get_stack(ctx);
 
 /**
  * static long (* const bpf_override_return)(struct pt_regs *regs, __u64 rc) = (void *) 58;

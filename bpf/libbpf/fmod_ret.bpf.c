@@ -7,10 +7,12 @@
 #include <bpf/bpf_tracing.h>
 #include <bpf/bpf_helpers.h>
 #include "bpf_misc.h"
+#include "stack_helpers.bpf.h"
 
 SEC("fmod_ret/" SYS_PREFIX "sys_getpgid")
 int fmodret_sys_getpgid(void *ctx)
 {
+	__get_stack(ctx);
 	return -22;
 }
 

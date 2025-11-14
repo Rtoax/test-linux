@@ -7,6 +7,14 @@
  * needs ctx, which is a pointer to the context on which the tracing program is
  * executed, and a pointer to a map of type.
  *
+ * Program types:
+ * - BPF_PROG_TYPE_KPROBE
+ * - BPF_PROG_TYPE_PERF_EVENT
+ * - BPF_PROG_TYPE_RAW_TRACEPOINT
+ * - BPF_PROG_TYPE_RAW_TRACEPOINT_WRITABLE
+ * - BPF_PROG_TYPE_TRACEPOINT
+ * - BPF_PROG_TYPE_TRACING
+ *
  * Refs:
  * - https://docs.ebpf.io/linux/helper-function/bpf_get_stackid/
  */
