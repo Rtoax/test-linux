@@ -19,7 +19,7 @@ ifeq (${CURDIR},)
 endif
 
 define relative_path
-$(patsubst ${TOPDIR}/%,%,$(1))
+$(patsubst ${TOPDIR}%,%,$(1))
 endef
 
 ifdef DEBUG
