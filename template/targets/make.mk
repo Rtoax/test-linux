@@ -9,6 +9,6 @@ ifdef DEBUG
   RUN_MAKE += --verbose
 endif
 
-%.mk.log: %.mk
+%.make.log: %.make
 	$(call log_tgt_exe,MAKE,$(<),$(@))
 	$(Q)$(RUN_MAKE) $(@) $(MAKE) -f $(<) $(ARGS_$(*))

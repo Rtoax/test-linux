@@ -120,7 +120,7 @@ build-targets += $(target-go-y)
 build-targets += $(target-java-y)
 build-targets += $(patsubst %.sh,%.sh.log,$(target-shell-y))
 build-targets += $(patsubst %.py,%.py.log,$(target-python-y))
-build-targets += $(patsubst %.mk,%.mk.log,$(target-mk-y))
+build-targets += $(patsubst %.make,%.make.log,$(target-mk-y))
 build-targets += $(subdir-y-build)
 build-targets += $(target-post-y)
 
