@@ -1,4 +1,4 @@
-include ../../template/arch.mk
+include arch.mk
 
 target-y :=
 target-cpp-y :=

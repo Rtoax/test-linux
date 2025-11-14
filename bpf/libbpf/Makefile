@@ -2,7 +2,7 @@
 __USE_SOCKET_HELPERS__ = y
 __USE_KSYM_HELPERS__ = y
 
-include ../../template/kernel.mk
+include kernel.mk
 ifndef NO_PAHOLE
   include ../../pahole/pahole.mk
 endif
@@ -10,8 +10,8 @@ endif
 OUTPUT := .output/
 VMLINUX_H := ${OUTPUT}vmlinux.h
 
-include ../../template/kconfig.mk
-include ../../template/ansi.mk
+include kconfig.mk
+include ansi.mk
 include ../bpf.mk
 include ../../glibc/ldconfig.mk
 include ./libbpf.mk

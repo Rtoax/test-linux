@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
-include ../../template/ansi.mk
+include ansi.mk
 include ../../bpf/bpf.mk
 
 target-y := __has_builtin

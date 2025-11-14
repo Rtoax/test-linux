@@ -1,4 +1,4 @@
-include ../../template/arch.mk
+include arch.mk
 
 subdir-y := cache-misses
 subdir-y += out-of-order

@@ -1,4 +1,4 @@
-include ../../../template/kernel.mk
+include kernel.mk
 
 target-y := eventfd
 target-y += eventfd-epoll_pwait

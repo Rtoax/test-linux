@@ -1,8 +1,8 @@
 # SPDX-License-Identifier: GPL-3.0
 OUTPUT := .output/
 
-include ../template/arch.mk
-include ../template/kernel.mk
+include arch.mk
+include kernel.mk
 include ../compiler/cross-compile.mk
 include ../compiler/compiler.mk
 

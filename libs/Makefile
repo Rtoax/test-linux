@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
 OUTPUT := .output/
-include ../template/kconfig.mk
+include kconfig.mk
 
 subdir-y := readline
 

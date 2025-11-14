@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
-include ../../../template/kconfig.mk
+include kconfig.mk
 
 target-y := PR_CAPBSET_DROP
 target-y += PR_GET_NAME

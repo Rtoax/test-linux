@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
 __USE_TRACE_HELPERS__ := y
 
-include ../../../template/ansi.mk
+include ansi.mk
 include ../../bpf.mk
 
 target-y := xsk_user

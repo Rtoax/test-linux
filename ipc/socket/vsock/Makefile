@@ -1,4 +1,4 @@
-include ../../../template/kconfig.mk
+include kconfig.mk
 
 subdir-y := samples
 

@@ -2,7 +2,7 @@
 __USE_PROC_HELPERS__ = y
 __USE_MMAP_HELPERS__ = y
 
-include ../template/kconfig.mk
+include kconfig.mk
 
 subdir-y := aslr
 subdir-y += rss

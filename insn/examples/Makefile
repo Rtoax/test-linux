@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
-include ../../template/arch.mk
+include arch.mk
 include ../../compiler/compiler.mk
 include ../../binutils/binutils.mk
 
