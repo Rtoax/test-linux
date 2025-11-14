@@ -23,7 +23,6 @@ export VERSION PATCHLEVEL SUBLEVEL NAME TEST_LINUX_VERSION TEST_LINUX_GIT_VERSIO
 include template/verbose.mk
 include template/dir.mk
 include template/git.mk
-include template/ansi.mk
 
 # If in git-tree, need check something already config.
 ifneq (${GIT_TOPDIR},)
