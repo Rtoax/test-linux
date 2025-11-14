@@ -3,8 +3,8 @@ OUTPUT := .output/
 __IGNORE_NOTFOUND_ERROR__ := 1
 
 include cuda.mk
+include rocm.mk
 include ../../../../compiler/compiler.mk
-include ../../../amd/rocm/rocm.mk
 include ../../../metax/hpcc.mk
 include ../../../cestc/luca.mk
 

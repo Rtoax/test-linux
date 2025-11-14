@@ -3,7 +3,7 @@
 
 _TARGET_AMD = 1
 
-include ${TEMPLATE_DIR}/../hpc/amd/rocm/rocm.mk
+include rocm.mk
 
 CFLAGS_HIPCC += -DHAVE_HIP=1
 CFLAGS_HIPCC += -D__USE_HIP__=1

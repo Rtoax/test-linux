@@ -4,8 +4,8 @@ OUTPUT = .output/
 subdir-y := frontend
 
 include cuda.mk
+include rocm.mk
 include ../../../metax/hpcc.mk
-include ../../../amd/rocm/rocm.mk
 
 libso-hpcc := libhccompiler.so
 libso-hpcc += libhccl.so
