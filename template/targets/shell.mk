@@ -2,9 +2,12 @@
 _TARGET_SHELL = 1
 
 SHELL ?= bash
-Q ?= @
 
-RUN_SHELL := ${TEMPLATE_DIR}/targets/run_prog.sh
+ifeq (${TOPDIR},)
+  $(error Not define TOPDIR, include dir.mk)
+endif
+
+RUN_SHELL := ${TOPDIR}/template/targets/run_prog.sh
 
 ifdef DEBUG
   RUN_SHELL += --verbose

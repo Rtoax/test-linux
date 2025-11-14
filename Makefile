@@ -25,6 +25,7 @@ include template/dir.mk
 include template/emoji.mk
 include template/git.mk
 include template/ansi.mk
+include template/log.mk
 include template/logo.mk
 include template/os.mk
 include template/kconfig.mk
@@ -101,7 +102,9 @@ endif
 subdir-y := ${kmod-list-y}
 subdir-y += ${user-list-y}
 
-include template/main.mk
+ifeq ($(filter $(MAKECMDGOALS),install uninstall),)
+  include template/main.mk
+endif
 
 define installdeps
 	${SHELL} scripts/install-deps.sh --all --force --noupgrade

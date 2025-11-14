@@ -3,7 +3,11 @@ _TARGET_PYTHON = 1
 
 PYTHON ?= python
 
-RUN_PYTHON := ${TEMPLATE_DIR}/targets/run_prog.sh
+ifeq (${TOPDIR},)
+  $(error Not define TOPDIR, include dir.mk)
+endif
+
+RUN_PYTHON := ${TOPDIR}/template/targets/run_prog.sh
 
 ifdef DEBUG
   RUN_PYTHON += --verbose

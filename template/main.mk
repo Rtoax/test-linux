@@ -86,19 +86,16 @@ endif
 CFLAGS += ${CFLAGS_PIE}
 LDFLAGS += ${LDFLAGS_PIE}
 
-TEMPLATE_DIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
-export TEMPLATE_DIR
+include ansi.mk
+include user.mk
+include verbose.mk
+include arch.mk
+include dir.mk
+include log.mk
 
-include ${TEMPLATE_DIR}/ansi.mk
-include ${TEMPLATE_DIR}/user.mk
-include ${TEMPLATE_DIR}/verbose.mk
-include ${TEMPLATE_DIR}/arch.mk
-include ${TEMPLATE_DIR}/dir.mk
-include ${TEMPLATE_DIR}/log.mk
-
-include ${TEMPLATE_DIR}pie.mk
+include pie.mk
 ifneq ($(subdir-y),)
-  include ${TEMPLATE_DIR}/subdir-header.mk
+  include subdir-header.mk
 endif
 
 build-targets := $(target-prep-y)
@@ -153,55 +150,55 @@ clean: $(subdir-y-clean) $(target-clean-y)
 	$(call log_tgt_done,clean,$(call git_relative_dir,$(shell realpath .)))
 
 # Helpers
-include ${TEMPLATE_DIR}/helpers.mk
+include helpers.mk
 
 ifneq (${OUTPUT},)
-  include ${TEMPLATE_DIR}/targets/output.mk
+  include targets/output.mk
 endif
-include ${TEMPLATE_DIR}/targets/exe.mk
+include targets/exe.mk
 ifneq ($(target-liba-y),)
-  include ${TEMPLATE_DIR}/targets/liba.mk
+  include targets/liba.mk
 endif
 ifneq ($(target-libso-y)$(target-libso-cpp-y),)
-  include ${TEMPLATE_DIR}/targets/libso.mk
+  include targets/libso.mk
 endif
 ifneq ($(HAVE_LLVM)$(target-llvm-ll-y),)
-  include ${TEMPLATE_DIR}/targets/llvm.mk
+  include targets/llvm.mk
 endif
 ifneq ($(target-bpf-y)$(VMLINUX_H),)
-  include ${TEMPLATE_DIR}/targets/bpf.mk
+  include targets/bpf.mk
 endif
 ifneq ($(target-rust-y),)
-  include ${TEMPLATE_DIR}/targets/rust.mk
+  include targets/rust.mk
 endif
 ifneq ($(target-nvcc-y)$(target-nvcc-libso-y)$(target-nvcc-liba-y),)
-  include ${TEMPLATE_DIR}/targets/nvidia.mk
+  include targets/nvidia.mk
 endif
 ifneq ($(target-hipcc-y),)
-  include ${TEMPLATE_DIR}/targets/amd.mk
+  include targets/amd.mk
 endif
 ifneq ($(target-mxcc-y)$(target-htcc-y),)
-  include ${TEMPLATE_DIR}/targets/metax.mk
+  include targets/metax.mk
 endif
 ifneq ($(target-lscc-y),)
-  include ${TEMPLATE_DIR}/targets/cestc.mk
+  include targets/cestc.mk
 endif
 ifneq ($(target-shell-y),)
-  include ${TEMPLATE_DIR}/targets/shell.mk
+  include targets/shell.mk
 endif
 ifneq ($(target-mk-y),)
-  include ${TEMPLATE_DIR}/targets/make.mk
+  include targets/make.mk
 endif
 ifneq ($(target-python-y),)
-  include ${TEMPLATE_DIR}/targets/python.mk
+  include targets/python.mk
 endif
 ifneq ($(target-go-y),)
-  include ${TEMPLATE_DIR}/targets/golang.mk
+  include targets/golang.mk
 endif
 ifneq ($(target-java-y),)
-  include ${TEMPLATE_DIR}/targets/java.mk
+  include targets/java.mk
 endif
 
 ifneq ($(subdir-y),)
-  include ${TEMPLATE_DIR}/subdir-footer.mk
+  include subdir-footer.mk
 endif

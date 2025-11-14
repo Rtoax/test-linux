@@ -9,7 +9,11 @@ CXXFLAGS_SO += ${cflags-so}
 LDFLAGS_SO += ${ldflags-so}
 LDXXFLAGS_SO += ${ldflags-so}
 
-LIBSO_SH := ${TEMPLATE_DIR}/targets/libso.sh
+ifeq (${TOPDIR},)
+  $(error Not define TOPDIR, include dir.mk)
+endif
+
+LIBSO_SH := ${TOPDIR}/template/targets/libso.sh
 
 ifdef DEBUG
   LIBSO_SH += --verbose
