@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
 _VDSO = 1
 
-VDSO_ROOT := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
+VDSO_ROOT := $(shell realpath $(dir $(abspath $(lastword $(MAKEFILE_LIST))))/../vdso/)
 
 # kernel command line 'vdso=0' could disable vDSO
 CMDLINE_VDSO := $(shell grep -o vdso=0 /proc/cmdline)

@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
-include ../vdso.mk
+include vdso.mk
 
 VDSO_CFLAGS :=
 VDSO_CFLAGS += -nolibc
