@@ -25,6 +25,7 @@ target-${IS_X86_64} += nop
 target-${IS_X86_64} += rdmsr
 target-${IS_X86_64} += rdrand
 target-${IS_X86_64} += rdseed
+target-${IS_X86_64} += syscall
 target-${IS_AARCH64} += mrs
 target-y += breakpoint
 target-y += ret
@@ -91,6 +92,7 @@ ifdef IGNORE_RETURN_VALUE
 endif
 
 CFLAGS_ret := -Wno-error=return-type
+LDFLAGS_syscall := -nostdlib
 
 include ../../template/main.mk
 
@@ -116,3 +118,4 @@ ret: ret.o
 simd: simd.o
 rdrand: rdrand.o
 rdseed: rdseed.o
+syscall: syscall.o
