@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
 _TARGET_LLVM = 1
 
-include ${TEMPLATE_DIR}/../compiler/llvm/llvm.mk
+include llvm.mk
 
 ifeq ($(CLANG),)
   $(error Not found clang, please install clang first)

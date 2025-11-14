@@ -1,4 +1,4 @@
-include ../../llvm/llvm.mk
+include llvm.mk
 
 OUTPUT := .output/
 

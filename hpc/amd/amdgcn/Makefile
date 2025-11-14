@@ -1,3 +1,3 @@
-include ../../../compiler/llvm/llvm.mk
+include llvm.mk
 
 include main.mk

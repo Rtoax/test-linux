@@ -1,4 +1,4 @@
-include ../../../compiler/llvm/llvm.mk
+include llvm.mk
 
 $(info See ../cuda/samples/)
 
