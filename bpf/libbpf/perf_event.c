@@ -81,19 +81,29 @@ void sig_handler(int sig)
 	stop = 1;
 }
 
-static void print_ip_map(int fd)
+static void print_ip_map(int fd, struct ksyms *ksyms)
 {
 	unsigned long key, next_key;
 	unsigned int value;
 	int max;
 
-	printf("%-19s %-16s\n", "ADDR", "COUNT");
+	printf("%-19s %-16s %s\n", "ADDR", "COUNT", "SYMBOL");
 
 	key = 0;
 	max = 0;
 	while (bpf_map_get_next_key(fd, &key, &next_key) == 0) {
 		bpf_map_lookup_elem(fd, &next_key, &value);
-		printf("%-19lx %-16d\n", next_key, value);
+		unsigned long off;
+		const char *name = ksym_name(ksyms, next_key, &off);
+		printf("%-19lx %-16d %s", next_key, value, name ?: "[unknown]\n");
+		if (name) {
+			if (off > 0)
+				printf("+0x%lx\n", off);
+			else if (off < 0)
+				printf("-0x%lx\n", -off);
+			else
+				printf("\n");
+		}
 		key = next_key;
 		max++;
 	}
@@ -177,7 +187,7 @@ cleanup:
 	printf("Exiting...\n");
 	if (!err) {
 		print_stack(bpf_map__fd(skel->maps.stackmap), ksyms);
-		print_ip_map(bpf_map__fd(skel->maps.vaddr_map));
+		print_ip_map(bpf_map__fd(skel->maps.vaddr_map), ksyms);
 	}
 	close(pmu_fd);
 	perf_event_bpf__destroy(skel);
