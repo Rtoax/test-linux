@@ -73,7 +73,11 @@ static __always_inline int __bpf_getcwd(char *buf, u32 buf_len)
 	}
 # else
 	unsigned long long args[2] = {10, 11};
+#  if LIBBPF_MAJOR_VERSION > 0 || (LIBBPF_MAJOR_VERSION == 0 && LIBBPF_MINOR_VERSION > 6)
 	bpf_snprintf(buf, buf_len, "<%ld,%ld>", (__u64 *)&args, sizeof(args));
+#  else
+#   pragma message "Skip error: bad map relo against '.rodata.cst16' in section '.rodata.cst16'"
+#  endif
 # endif
 #else
 # pragma message "cwd=N/A"
