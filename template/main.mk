@@ -96,7 +96,7 @@ include ${TEMPLATE_DIR}/arch.mk
 include ${TEMPLATE_DIR}/dir.mk
 include ${TEMPLATE_DIR}/log.mk
 
-include pie.mk
+include ${TEMPLATE_DIR}pie.mk
 ifneq ($(subdir-y),)
   include ${TEMPLATE_DIR}/subdir-header.mk
 endif
