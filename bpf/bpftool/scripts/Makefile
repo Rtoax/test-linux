@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
-include ../bpftool.mk
+include bpftool.mk
 
 subdir-y := map
 

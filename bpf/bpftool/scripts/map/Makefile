@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
-include ../../bpftool.mk
+include bpftool.mk
 
 target-shell-y := $(shell find -maxdepth 1 -type f -name '*.sh' -executable)
 
