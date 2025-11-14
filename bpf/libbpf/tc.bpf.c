@@ -201,15 +201,16 @@ int tc_ingress(struct __sk_buff *ctx)
 #if defined(TEST_SPIN_LOCK)
 	struct spin_lock_hmap_elem *val;
 	char *str = "";
+	int flag = 0;
 
 	val = bpf_map_lookup_elem(&spin_lock_hash_map, &zero);
 	if (!val)
 		return 1;
 
 	bpf_spin_lock(&val->lock);
-	str = "HELLO";
+	flag = 2;
 	bpf_spin_unlock(&val->lock);
-	bpf_printk("test spin lock, %s", str);
+	bpf_printk("test spin lock, %d", flag);
 
 #elif defined(TEST_RBTREE)
 	int err = 0, cnt = 0;
