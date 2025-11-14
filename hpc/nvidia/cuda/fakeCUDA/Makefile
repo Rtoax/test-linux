@@ -5,7 +5,7 @@ subdir-y := frontend
 
 include cuda.mk
 include rocm.mk
-include ../../../metax/hpcc.mk
+include hpcc.mk
 
 libso-hpcc := libhccompiler.so
 libso-hpcc += libhccl.so

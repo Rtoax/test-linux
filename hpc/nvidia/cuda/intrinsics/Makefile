@@ -5,8 +5,8 @@ __IGNORE_NOTFOUND_ERROR__ := 1
 include cuda.mk
 include rocm.mk
 include luca.mk
+include hpcc.mk
 include ../../../../compiler/compiler.mk
-include ../../../metax/hpcc.mk
 
 common-objs-y := fp6
 common-objs-y += fp8

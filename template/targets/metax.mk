@@ -18,7 +18,7 @@
 
 _TARGET_METAX = 1
 
-include ${TEMPLATE_DIR}/../hpc/metax/hpcc.mk
+include hpcc.mk
 
 cflags-htcc-devbin := -device-bin
 cflags-htcc-fatbin := -fatbin
