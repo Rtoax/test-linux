@@ -13,6 +13,7 @@ and this project adheres to
 - luca support .cu suffix.
 - metax hpcc support .cu suffix.
 - amd rocm hip support .cu suffix.
+- profile.d: add `make_tl.sh` to alias system make command;
 #### Added
 - syscall: test `move_pages(2)`;
 - targets/nvidia.mk: support static/dynamic library and add `libcuda_helper.so`, `libcuda_helper.a`;

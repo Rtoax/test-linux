@@ -39,6 +39,12 @@ ifneq (${GIT_TOPDIR},)
   endif
 endif
 
+ifeq ($(wildcard /etc/profile.d/make_tl.sh),)
+  ifneq ($(firstword $(MAKECMDGOALS)),install)
+    $(error You MUST run 'make install' first!!)
+  endif
+endif
+
 # Default help
 .PHONY: help
 help:
@@ -121,6 +127,7 @@ install: uninstall
 	${Q}ln -s ${TOPDIR}/scripts/kconfig_compare.sh /usr/bin/kconfig_compare
 	${Q}ln -s ${TOPDIR}/init/kernel/install.sh /usr/bin/kinstall
 	${Q}ln -s ${TOPDIR}/tools/heatmap/hmctl.sh /usr/bin/hmctl
+	${Q}ln -s ${TOPDIR}/scripts/profile.d/make_tl.sh /etc/profile.d/make_tl.sh
 
 .PHONY: uninstall
 uninstall:
@@ -136,7 +143,8 @@ uninstall:
 		/usr/bin/termplot \
 		/usr/bin/kconfig_compare \
 		/usr/bin/kinstall \
-		/usr/bin/hmctl
+		/usr/bin/hmctl \
+		/etc/profile.d/make_tl.sh
 
 .PHONY: version
 version:
