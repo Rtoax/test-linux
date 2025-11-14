@@ -5,9 +5,9 @@ __IGNORE_NOTFOUND_ERROR__ := 1
 
 include cuda.mk
 include rocm.mk
+include luca.mk
 include ../../../../compiler/compiler.mk
 include ../../../metax/hpcc.mk
-include ../../../cestc/luca.mk
 
 common-objs := attribute
 common-objs += blas

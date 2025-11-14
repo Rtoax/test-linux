@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
 _TARGET_CESTC = 1
 
-include ${TEMPLATE_DIR}/../hpc/cestc/luca.mk
+include luca.mk
 
 cflags-lscc-devbin := -device-bin
 cflags-lscc-fatbin := -fatbin
