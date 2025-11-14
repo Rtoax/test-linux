@@ -16,8 +16,8 @@ endif
 
 include ${TEMPLATE_DIR}/../pahole/pahole.mk
 include bpf/bpf.mk
+include bpf/btf.mk
 include ${TEMPLATE_DIR}/../bpf/bpftool/bpftool.mk
-include ${TEMPLATE_DIR}/../bpf/btf/btf.mk
 
 OBJDUMP_ARGS :=
 
