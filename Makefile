@@ -25,7 +25,6 @@ include template/dir.mk
 include template/git.mk
 include template/ansi.mk
 include template/os.mk
-include template/kconfig.mk
 include template/kernel.mk
 
 # If in git-tree, need check something already config.
@@ -60,7 +59,6 @@ help:
 	@echo >&2 -e "***"
 	@echo >&2 -e "*** make archive"
 	@echo >&2 -e "*** make gitconfig"
-	@echo >&2 -e "*** make kconfig-display"
 	@echo >&2 -e "*** make check"
 	@echo >&2 -e "*** make deps"
 	@echo >&2 -e "*** make [install|uninstall]"
@@ -153,10 +151,6 @@ archive:
 gitconfig:
 	@echo "=== gitconfig"
 	$(call git_config)
-
-.PHONY: kconfig-display
-kconfig-display:
-	$(call display_all_kconfig)
 
 .PHONY: menuconfig
 menuconfig:
