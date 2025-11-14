@@ -18,7 +18,7 @@ int main(int argc, char *argv[])
 {
 	int i, ret, mode, flags;
 	void *mem;
-	size_t msize;
+	size_t msize, pages;
 	int maxnode;
 	struct bitmask *nodemask;
 
@@ -42,7 +42,8 @@ int main(int argc, char *argv[])
 	if (ret != 0)
 		perror("mbind");
 
-	msize = getpagesize() * 10;
+	pages = 10;
+	msize = getpagesize() * pages;
 
 	/**
 	 * mem must be page alignment.
@@ -58,10 +59,11 @@ int main(int argc, char *argv[])
 # error "Must define one of ALLOC_WITH_MMAP,ALLOC_WITH_MALLOC,ALLOC_WITH_POSIX_MEMALIGN"
 #endif
 
+#if 1
 	/* _need_ pagefault */
 	for (i = 0; i < msize; i += getpagesize())
 		*((char *)mem + i) = 'a';
-
+#endif
 
 	maxnode = numa_max_node() + 1;
 	nodemask = numa_bitmask_alloc(maxnode);
@@ -92,6 +94,40 @@ int main(int argc, char *argv[])
 			perror("mbind");
 
 		printf("Pages now on node %d\n", get_addr_node(mem));
+	}
+
+	/**
+	 * Test move_pages(2)
+	 */
+	if (maxnode > 2) {
+		int *nodes = (int *)malloc(sizeof(int) * pages);
+		int *status = (int *)malloc(sizeof(int) * pages);
+		void **pages_ptr = (void **)malloc(sizeof(void *) * pages);
+		for (i = 0; i < pages; i++) {
+			nodes[i] = i % maxnode;
+			status[i] = 0;
+			pages_ptr[i] = mem + i * getpagesize();
+
+			printf("Moving page %p to numa %d\n", pages_ptr[i], nodes[i]);
+		}
+		ret = move_pages(0, pages, pages_ptr, nodes, status, MPOL_MF_MOVE | MPOL_MF_MOVE_ALL);
+		if (ret != 0) {
+			fprintf(stderr, "move_pages failed: %m\n");
+			goto move_pages_failed;
+		}
+		for (i = 0; i < pages; i++) {
+			if (status[i] < 0)
+				printf("move page %p: %s\n", pages_ptr[i], strerror(-status[i]));
+			else {
+				int policy_node = get_addr_node(pages_ptr[i]);
+				printf("move page %p to numa %d (%d)\n",
+					pages_ptr[i], status[i], policy_node);
+			}
+		}
+move_pages_failed:
+		free(pages_ptr);
+		free(nodes);
+		free(status);
 	}
 
 #if defined(ALLOC_WITH_MMAP)

@@ -83,4 +83,3 @@ int get_addr_node(void *vaddr)
 		perror("get_mempolicy");
 	return mode;
 }
-
