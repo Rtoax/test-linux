@@ -13,24 +13,20 @@ VDSO_NAME_ARM = linux-vdso.so.1
 VDSO_NAME_X86_64 = linux-vdso.so.1
 VDSO_NAME_X86_32 = linux-vdso.so.1
 
+KVDSO64 :=
+
 ifeq ($(shell uname -m),x86_64)
   VDSO_NAME := ${VDSO_NAME_X86_64}
-endif
-ifeq ($(shell uname -m),aarch64)
+  KVDSO64 := /lib/modules/$(shell uname -r)/vdso/vdso64.so
+else ifeq ($(shell uname -m),aarch64)
   VDSO_NAME := ${VDSO_NAME_AARCH64}
+  KVDSO64 := /lib/modules/$(shell uname -r)/vdso/vdso.so
 endif
 
 # $1 - vdso name
 define gen_vdso_elf
 ${Q}$(VDSO_ROOT)/dump.sh -s -n $1
 endef
-
-KVDSO64 :=
-ifeq ($(shell uname -m),x86_64)
-  KVDSO64 := /lib/modules/$(shell uname -r)/vdso/vdso64.so
-else ifeq ($(shell uname -m),aarch64)
-  KVDSO64 := /lib/modules/$(shell uname -r)/vdso/vdso.so
-endif
 
 ifeq ($(wildcard $(KVDSO64)),)
   $(warning "WARNING: Not found ${KVDSO64}, use dump")
