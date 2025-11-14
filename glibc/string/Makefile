@@ -69,7 +69,7 @@ ifdef LD_BFD
   $(info User linker bfd)
 endif
 
-include ../../compiler/cross-compile.mk
+include cross-compile.mk
 
 # https://github.com/ARM-software/optimized-routines
 #

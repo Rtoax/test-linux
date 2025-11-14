@@ -8,7 +8,7 @@ ifeq ($(wildcard $(LIBAIO_HDR)),)
   $(error "ERROR: Must install libaio development header")
 endif
 
-include ../../../compiler/cross-compile.mk
+include cross-compile.mk
 
 ifneq ($(wildcard $(LIBAIO_HDR)),)
   CFLAGS += -laio

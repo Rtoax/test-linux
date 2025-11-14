@@ -24,7 +24,7 @@ endif
 # Cross compile
 # If cross compile, you could use binfmt_misc to running aarch64 on x86_64, ..
 ifneq ($(shell uname -m),aarch64)
-  include ../../../compiler/cross-compile.mk
+  include cross-compile.mk
   CC := aarch64-linux-gnu-gcc
   AS := aarch64-linux-gnu-as
   LD := aarch64-linux-gnu-ld

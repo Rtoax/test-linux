@@ -3,7 +3,7 @@ OUTPUT := .output/
 
 include arch.mk
 include kernel.mk
-include ../compiler/cross-compile.mk
+include cross-compile.mk
 include ../compiler/compiler.mk
 
 target-y :=

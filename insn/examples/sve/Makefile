@@ -2,8 +2,7 @@
 CC := gcc
 CFLAGS :=
 
-# Cross compile
-include ../../../compiler/cross-compile.mk
+include cross-compile.mk
 # All CC set done here
 include ../../../compiler/compiler.mk
 

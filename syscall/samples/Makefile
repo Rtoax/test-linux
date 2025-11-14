@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
-include ../../compiler/cross-compile.mk
+include cross-compile.mk
 
 subdir-y :=
 subdir-y += access

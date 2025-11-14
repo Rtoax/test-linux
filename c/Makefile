@@ -58,10 +58,7 @@ define arch_strip
   ${Q}${STRIP} $(1) -o $(1).strip
 endef
 
-CFLAGS :=
-LDFLAGS :=
-
-include ../compiler/cross-compile.mk
+include cross-compile.mk
 
 CFLAGS += -I../macro/
 
