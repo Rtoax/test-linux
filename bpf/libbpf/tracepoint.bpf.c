@@ -26,6 +26,14 @@
 #define SIGKILL 9
 #endif
 
+#if defined(SEC_DEF_TRACEPOINT)
+# define SEC_TRACEPOINT	"tracepoint"
+#elif defined(SEC_DEF_TP)
+# define SEC_TRACEPOINT	"tp"
+#else
+# error "Not define SEC_DEF_TRACEPOINT or SEC_DEF_TP"
+#endif
+
 struct {
 /**
  * BPF_MAP_TYPE_PERCPU_HASH
@@ -82,13 +90,7 @@ static const struct event_t zero_event = {};
  * };
  */
 
-#if defined(SEC_DEF_TRACEPOINT)
-SEC("tracepoint/syscalls/sys_enter_execve")
-#elif defined(SEC_DEF_TP)
-SEC("tp/syscalls/sys_enter_execve")
-#else
-# error "Not define SEC_DEF_TRACEPOINT or SEC_DEF_TP"
-#endif
+SEC(SEC_TRACEPOINT "/syscalls/sys_enter_execve")
 int tracepoint__syscalls__sys_enter_execve(struct syscall_trace_enter *ctx)
 {
 	uid_t uid;
@@ -126,11 +128,7 @@ int tracepoint__syscalls__sys_enter_execve(struct syscall_trace_enter *ctx)
  */
 
 /* see /sys/kernel/debug/tracing/events/syscalls/sys_enter_execve/ */
-#if defined(SEC_DEF_TRACEPOINT)
-SEC("tracepoint/syscalls/sys_exit_execve")
-#elif defined(SEC_DEF_TP)
-SEC("tp/syscalls/sys_exit_execve")
-#endif
+SEC(SEC_TRACEPOINT "/syscalls/sys_exit_execve")
 int tracepoint__syscalls__sys_exit_execve(struct syscall_trace_exit *ctx)
 {
 	pid_t pid;
