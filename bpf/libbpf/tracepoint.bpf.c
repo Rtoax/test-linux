@@ -16,7 +16,7 @@
 #include <linux/version.h>
 #include "tracepoint.h"
 #include "bpf_misc.h"
-#include "bpf_helpers.h"
+#include "bpf_helpers.bpf.h"
 #include "string_helpers.bpf.h"
 #include "task.bpf.h"
 #include "stack_helpers.bpf.h"

@@ -435,7 +435,7 @@ kprobe: ${OUTPUT}kprobe.o ${HELPERS}
 ${OUTPUT}kprobe.o: ${OUTPUT}kprobe.skel.h
 tracepoint: ${OUTPUT}tracepoint.o ${HELPERS}
 ${OUTPUT}tracepoint.o: ${OUTPUT}tracepoint.skel.h ${OUTPUT}tracepoint.bpf.o ${OUTPUT}map_hash.skel.h
-${OUTPUT}tracepoint.bpf.o: tracepoint.h bpf_helpers.h string_helpers.bpf.h
+${OUTPUT}tracepoint.bpf.o: tracepoint.h bpf_helpers.bpf.h string_helpers.bpf.h
 raw_tracepoint: ${OUTPUT}raw_tracepoint.o ${HELPERS}
 ${OUTPUT}raw_tracepoint.o: ${OUTPUT}raw_tracepoint.skel.h
 tp_btf: ${OUTPUT}tp_btf.o ${HELPERS}
@@ -472,13 +472,13 @@ ${OUTPUT}lsm_file_open.bpf.o: lsm_file_open.bpf.c
 ${OUTPUT}lsm_file_open.o: ${OUTPUT}lsm_file_open.skel.h
 ${OUTPUT}lsm_file_open.skel.h: ${OUTPUT}lsm_file_open.bpf.o
 lsm_file_open: ${OUTPUT}lsm_file_open.o ${HELPERS}
-${OUTPUT}lsm_bpf.bpf.o: bpf_helpers.h
+${OUTPUT}lsm_bpf.bpf.o: bpf_helpers.bpf.h
 lsm_socket_create: ${OUTPUT}lsm_socket_create.o ${HELPERS}
 ${OUTPUT}lsm_socket_create.o: ${OUTPUT}lsm_socket_create.skel.h
-${OUTPUT}lsm_socket_create.bpf.o: bpf_helpers.h
+${OUTPUT}lsm_socket_create.bpf.o: bpf_helpers.bpf.h
 lsm_socket_sendmsg: ${OUTPUT}lsm_socket_sendmsg.o ${HELPERS}
 ${OUTPUT}lsm_socket_sendmsg.o: ${OUTPUT}lsm_socket_sendmsg.skel.h
-${OUTPUT}lsm_socket_sendmsg.bpf.o: bpf_helpers.h
+${OUTPUT}lsm_socket_sendmsg.bpf.o: bpf_helpers.bpf.h
 map_hash: ${OUTPUT}map_hash.o ${HELPERS}
 ${OUTPUT}map_hash.o: ${OUTPUT}map_hash.skel.h
 map_percpu_hash: ${OUTPUT}map_percpu_hash.o ${HELPERS}
