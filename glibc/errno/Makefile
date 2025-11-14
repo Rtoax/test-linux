@@ -1,4 +1,4 @@
-include ../glibc.mk
+include glibc.mk
 
 target-y := nr_errno
 target-y += __errno_location

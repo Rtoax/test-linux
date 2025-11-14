@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
-include ../glibc.mk
+include glibc.mk
 
 target-y :=
 target-y += ansi_ascii

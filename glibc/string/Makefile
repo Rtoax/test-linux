@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
 __USE_PROC_HELPERS__ = y
 
-include ../glibc.mk
+include glibc.mk
 
 SYMADDR___memcpy_ssse3 := $(call libc_sym_addr,__memcpy_ssse3)
 SYMADDR___memcpy_generic := $(call libc_sym_addr,__memcpy_generic)
