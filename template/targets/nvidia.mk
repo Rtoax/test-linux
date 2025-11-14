@@ -5,6 +5,7 @@
 #
 # Targets list:
 # .cu.o
+# .cu.so.o
 # .ptx
 # .cu.cpp.ii
 # .cubin
@@ -15,6 +16,7 @@
 # .cu.sass.dump
 # .E.cu
 # target-nvcc-y
+# target-nvcc-libso-y
 
 _TARGET_NVIDIA = 1
 _SYSTEM_HAVE_NVIDIA_GPU :=
@@ -28,6 +30,8 @@ include ${TEMPLATE_DIR}/../hpc/nvidia/cuda/cuda.mk
 
 cflags-nvcc-cubin := --cubin
 cflags-nvcc-fatbin := --fatbin
+cflags-nvcc-so := -Xcompiler -fPIC
+ldflags-nvcc-so := -shared -Xcompiler -fPIC
 
 CFLAGS_NVCC += -DHAVE_CUDA=1
 ifdef HAVE_NCCL
@@ -74,10 +78,20 @@ endif
 
 ifdef DEBUG
   CFLAGS_NVCC += -DDEBUG=${DEBUG}
+endif
+
+CFLAGS_NVCC_SO += ${CFLAGS_NVCC}
+CFLAGS_NVCC_SO += ${cflags-nvcc-so}
+LDFLAGS_NVCC_SO += ${LDFLAGS_NVCC}
+LDFLAGS_NVCC_SO += ${ldflags-nvcc-so}
+
+ifdef DEBUG
   $(info cflags-nvcc-cubin = ${cflags-nvcc-cubin})
   $(info cflags-nvcc-fatbin = ${cflags-nvcc-fatbin})
   $(info CFLAGS_NVCC = ${CFLAGS_NVCC})
   $(info LDFLAGS_NVCC = ${LDFLAGS_NVCC})
+  $(info CFLAGS_NVCC_SO = ${CFLAGS_NVCC_SO})
+  $(info LDFLAGS_NVCC_SO = ${LDFLAGS_NVCC_SO})
 endif
 
 # NOTE: NVCC's cflags,ldflags is totally different from gcc/clang, thus, we
@@ -124,6 +138,14 @@ ${OUTPUT}%.E.cu: %.cu | ${OUTPUT}
 	$(call log_tgt_obj,NVCC E,$(<),$(@))
 	${Q}$(NVCC) -E -o $(@) -c $(<) $(CFLAGS_NVCC) $(CFLAGS_NVCC_$(*))
 
+${OUTPUT}%.cu.so.o: %.cu | ${OUTPUT}
+	$(call log_tgt_obj,NVCC SO.o,$(<),$(@))
+	${Q}$(NVCC) -o $(@) -c $(<) $(CFLAGS_NVCC_SO) $(CFLAGS_NVCC_SO_$(*))
+
 $(target-nvcc-y): %:
 	$(call log_tgt_exe,NVCC LD,$(<),$(@))
 	${Q}$(NVCC) -o $(@) $(^) $(LDFLAGS_NVCC) $(LDFLAGS_NVCC_$(*))
+
+$(target-nvcc-libso-y): %:
+	$(call log_tgt_exe,NVCC SO,$(<),$(@))
+	${Q}$(NVCC) -o $(@) $(^) $(LDFLAGS_NVCC_SO) $(LDFLAGS_NVCC_SO$(*))
