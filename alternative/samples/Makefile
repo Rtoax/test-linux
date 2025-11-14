@@ -6,6 +6,6 @@ else
   $(warning Not support arch except x86_64)
 endif
 
-include ../../template/main.mk
+include main.mk
 
 macro: macro.o

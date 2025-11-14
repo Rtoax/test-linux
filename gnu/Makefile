@@ -5,6 +5,6 @@ subdir-y += gnupg
 
 target-y := __GNUC__
 
-include ../template/main.mk
+include main.mk
 
 __GNUC__: __GNUC__.o

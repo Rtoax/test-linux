@@ -1,2 +1,2 @@
 subdir-y := examples
-include ../template/main.mk
+include main.mk

@@ -8,7 +8,7 @@ target-y += demo-pwd-grp
 
 CFLAGS :=
 
-include ../../template/main.mk
+include main.mk
 
 setpwent: setpwent.o
 getpwent: getpwent.o

@@ -5,7 +5,7 @@ CFLAGS :=
 CFLAGS += -I../../
 CFLAGS += -pthread
 
-include ../../template/main.mk
+include main.mk
 
 getspent: getspent.o shadow_helpers.o
 getspnam: getspnam.o shadow_helpers.o

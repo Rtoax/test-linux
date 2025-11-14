@@ -6,7 +6,7 @@ ifeq ($(shell uname -m),x86_64)
 else ifeq ($(shell uname -m),aarch64)
 endif
 
-include ../../template/main.mk
+include main.mk
 
 demo-eventfd: demo-eventfd.o common.o
 demo-select_eventfd: demo-select_eventfd.o common.o

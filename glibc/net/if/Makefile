@@ -8,7 +8,7 @@ CFLAGS :=
 
 LDFLAGS :=
 
-include ../../../template/main.mk
+include main.mk
 
 if_indextoname: if_indextoname.o
 if_nametoindex: if_nametoindex.o

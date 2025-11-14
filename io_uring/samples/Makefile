@@ -9,7 +9,7 @@ target-y += io_uring-test
 
 LDFLAGS := -luring
 
-include ../../template/main.mk
+include main.mk
 
 io_uring-cat: io_uring-cat.o
 io_uring-cat-liburing: io_uring-cat-liburing.o

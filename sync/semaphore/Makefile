@@ -1,4 +1,4 @@
 subdir-y := posix
 subdir-y += syscalls
 
-include ../../template/main.mk
+include main.mk

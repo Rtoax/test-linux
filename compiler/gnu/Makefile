@@ -1,3 +1,3 @@
 subdir-y := pushsection
 
-include ../../template/main.mk
+include main.mk

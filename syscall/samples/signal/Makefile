@@ -34,7 +34,7 @@ CFLAGS_SIGRTMAX := ${SIGRT_CFLAGS}
 target-prep-y := sig.h
 target-test-y := test0
 
-include ../../../template/main.mk
+include main.mk
 
 sig.h:
 	$(shell bash signo.sh)

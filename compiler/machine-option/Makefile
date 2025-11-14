@@ -38,7 +38,7 @@ else
   $(warning CPU Vendor ID: ${CPU_VENDOR_ID})
 endif
 
-include ../../template/main.mk
+include main.mk
 
 
 helloworld: helloworld.o

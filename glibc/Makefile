@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
-include ../template/ansi.mk
+include ansi.mk
 include ../gnu/gnu.mk
 include glibc.mk
 
@@ -84,7 +84,7 @@ CFLAGS___GLIBC_USE := -DTEST_MAIN=1
 
 target-post-y := post
 
-include ../template/main.mk
+include main.mk
 
 post:
 	@$(call gnu_logo)

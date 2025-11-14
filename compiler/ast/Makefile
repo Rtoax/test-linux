@@ -7,6 +7,6 @@ target-prep-y += hello.ast
 
 CC := clang
 
-include ../../template/main.mk
+include main.mk
 
 hello: hello.o

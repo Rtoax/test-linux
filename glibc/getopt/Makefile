@@ -7,7 +7,7 @@ target-y += demo-clr
 
 CFLAGS :=
 
-include ../../template/main.mk
+include main.mk
 
 getopt: getopt.o
 getopt_long: getopt_long.o

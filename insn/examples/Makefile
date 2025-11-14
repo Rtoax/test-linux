@@ -94,7 +94,7 @@ endif
 CFLAGS_ret := -Wno-error=return-type
 LDFLAGS_syscall := -nostdlib
 
-include ../../template/main.mk
+include main.mk
 
 add-x86: add-x86.o
 breakpoint: breakpoint.o

@@ -3,6 +3,6 @@ target-y += index
 
 CFLAGS :=
 
-include ../../template/main.mk
+include main.mk
 
 index: index.o

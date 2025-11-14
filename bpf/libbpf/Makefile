@@ -381,7 +381,7 @@ target-prep-y += libbpf_version
 target-prep-y += test-libbpf_version
 target-prep-y += ${HELPERS}
 
-include ../../template/main.mk
+include main.mk
 
 HELPERS += ${SOCKET_HELPERS}
 HELPERS += ${KSYM_HELPERS}

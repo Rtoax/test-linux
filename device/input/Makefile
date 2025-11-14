@@ -5,7 +5,7 @@ target-y += event0 keyboard
 
 CFLAGS_mouse0 := -DDEV_INPUT_MOUSE0=1
 
-include ../../template/main.mk
+include main.mk
 
 mice: mice.o
 mouse0: mouse0.o

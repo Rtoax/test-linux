@@ -60,7 +60,7 @@ LDXXFLAGS_fmt := -lfmt
 
 target-post-y := $(addprefix ${OUTPUT},$(patsubst %,%.cpp.s,${target-cpp-y}))
 
-include ../template/main.mk
+include main.mk
 
 hello: ${OUTPUT}hello.cpp.o
 alignas: ${OUTPUT}alignas.cpp.o

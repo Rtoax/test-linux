@@ -1,5 +1,5 @@
 target-y := slabinfo
 
-include ../../../template/main.mk
+include main.mk
 
 slabinfo: slabinfo.o

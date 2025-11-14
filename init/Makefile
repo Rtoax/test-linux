@@ -3,4 +3,4 @@ subdir-y := acpi
 subdir-y += kernel
 subdir-y += initrd
 
-include ../template/main.mk
+include main.mk

@@ -12,7 +12,7 @@ obj-dis.ll := $(addsuffix .dis.ll, $(target-y))
 
 target-post-y := ${obj-ast} ${obj-ll} ${obj-ll.s} ${obj-bc} ${obj-dis.ll}
 
-include ../../../template/main.mk
+include main.mk
 
 hello: hello.o
 hello_ll: hello.ll

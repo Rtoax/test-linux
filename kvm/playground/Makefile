@@ -25,7 +25,7 @@ CFLAGS :=
 
 LIBS += common.o
 
-include ../../template/main.mk
+include main.mk
 
 hello: hello.c common.o
 	$(call log_tgt_exe,LD,$(<),$(@))

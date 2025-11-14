@@ -1,2 +1,2 @@
 subdir-y := postgresql/samples/
-include ../template/main.mk
+include main.mk

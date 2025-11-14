@@ -13,7 +13,7 @@ CFLAGS_dummy-popen := -static -DTRY_POPEN=1
 
 target-test-y := test0
 
-include ../../../../template/main.mk
+include main.mk
 
 fork_helpers.o: fork_helpers.h
 

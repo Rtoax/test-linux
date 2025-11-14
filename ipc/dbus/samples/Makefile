@@ -4,7 +4,7 @@ target-y += dbus_malloc
 CFLAGS += $(shell pkg-config --cflags dbus-1)
 LDFLAGS += $(shell pkg-config --libs dbus-1)
 
-include ../../../template/main.mk
+include main.mk
 
 hello: hello.o
 dbus_malloc: dbus_malloc.o

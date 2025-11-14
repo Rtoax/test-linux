@@ -4,7 +4,7 @@ target-y += times-cnt times-cal
 
 CFLAGS :=
 
-include ../../template/main.mk
+include main.mk
 
 times: times.o
 times-cal: times-cal.o

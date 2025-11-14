@@ -34,7 +34,7 @@ endif
 
 LDFLAGS += -Wl,-rpath,$(shell pwd)
 
-include ../../../../template/main.mk
+include main.mk
 
 mmap_helpers.so.o: mmap_helpers.h
 libmmap_helpers.so: ${OUTPUT}mmap_helpers.so.o

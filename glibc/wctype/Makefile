@@ -6,7 +6,7 @@ target-y += demo-1
 CFLAGS :=
 CFLAGS += -pthread
 
-include ../../template/main.mk
+include main.mk
 
 iswctype: iswctype.o
 wchar_t: wchar_t.o

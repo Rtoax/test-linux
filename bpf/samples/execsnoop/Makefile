@@ -6,6 +6,6 @@ target-prep-y := vmlinux.h
 
 LDFLAGS := -lelf -lbpf
 
-include ../../../template/main.mk
+include main.mk
 
 execsnoop: ${TRACE_HELPERS} bpf_load.o loader.o

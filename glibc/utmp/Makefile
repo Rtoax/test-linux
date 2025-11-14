@@ -13,7 +13,7 @@ CFLAGS += -lutil
 LDFLAGS :=
 LDFLAGS += -lutil
 
-include ../../template/main.mk
+include main.mk
 
 utmp_helpers.o: utmp_helpers.h
 

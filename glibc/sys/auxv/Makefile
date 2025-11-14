@@ -10,7 +10,7 @@ target-y += AT_SYSINFO_EHDR
 
 CFLAGS := -lm
 
-include ../../../template/main.mk
+include main.mk
 
 getauxval: getauxval.o
 AT_ENTRY: AT_ENTRY.o

@@ -36,7 +36,7 @@ CFLAGS_snprintf := -Wno-error=format-truncation
 
 target-post-y := os-release
 
-include ../../template/main.mk
+include main.mk
 
 os-release:
 	@cp /etc/os-release os-release

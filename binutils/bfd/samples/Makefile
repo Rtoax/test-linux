@@ -112,7 +112,7 @@ define bfd_strip
   @strip $(1) -o $(1).strip
 endef
 
-include ../../../template/main.mk
+include main.mk
 
 bfd_helpers.o: bfd_helpers.h
 

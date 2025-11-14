@@ -6,7 +6,7 @@ target-y += private
 
 CFLAGS_writer-hugetlb := -DHAVE_HUGETLB=1
 
-include ../../../template/main.mk
+include main.mk
 
 shmctl: shmctl.o
 reader: reader.o

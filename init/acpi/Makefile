@@ -5,4 +5,4 @@ subdir-y += scripts
 target-shell-y := dmidecode.sh
 target-shell-y += support.sh
 
-include ../../template/main.mk
+include main.mk

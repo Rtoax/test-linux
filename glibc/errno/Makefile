@@ -14,7 +14,7 @@ CFLAGS += -DLIBC___ERRNO_LOCATION_SYMADDR=${LIBC___ERRNO_LOCATION_SYMADDR}
 target-prep-y := nr_errno.h
 target-clean-y := clean-more
 
-include ../../template/main.mk
+include main.mk
 
 nr_errno.h: errno.sh
 	$(shell bash errno.sh)

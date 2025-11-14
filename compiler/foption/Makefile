@@ -52,7 +52,7 @@ LDFLAGS_fuse-ld := -fuse-ld=bfd
 
 target-clean-y := clean0
 
-include ../../template/main.mk
+include main.mk
 
 fcf-protection: fcf-protection.o
 fpatchable-function-entry: fpatchable-function-entry.o

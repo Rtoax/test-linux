@@ -1,3 +1,3 @@
 subdir-y := execsnoop
 
-include ../../template/main.mk
+include main.mk

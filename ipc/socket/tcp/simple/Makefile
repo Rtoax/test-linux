@@ -5,7 +5,7 @@ target-y += server-pthread
 target-y += client
 target-y += client-pthread
 
-include ../../../../template/main.mk
+include main.mk
 
 server: server.o tcp_helpers.o
 server-pthread: server-pthread.o

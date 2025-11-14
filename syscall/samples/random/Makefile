@@ -1,5 +1,5 @@
 target-y := getrandom
 
-include ../../../template/main.mk
+include main.mk
 
 getrandom: getrandom.o

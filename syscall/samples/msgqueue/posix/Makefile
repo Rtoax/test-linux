@@ -8,7 +8,7 @@ CFLAGS += -lrt
 
 CFLAGS_multi-thread := -pthread
 
-include ../../../../template/main.mk
+include main.mk
 
 mq_open: mq_open.o
 mq_getattr: mq_getattr.o

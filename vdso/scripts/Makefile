@@ -1,3 +1,3 @@
 target-y := getauxval
-include ../../template/main.mk
+include main.mk
 getauxval: getauxval.o

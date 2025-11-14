@@ -20,7 +20,7 @@ endif
 
 LDFLAGS += -ljemalloc
 
-include ../../../template/main.mk
+include main.mk
 
 dallocx: dallocx.o
 mallctl: mallctl.o

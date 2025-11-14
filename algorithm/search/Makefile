@@ -1,3 +1,3 @@
 target-y += bsearch
-include ../../template/main.mk
+include main.mk
 bsearch: bsearch.o

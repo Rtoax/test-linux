@@ -9,7 +9,7 @@ CFLAGS_pthread_none := -DSPIN_NONE
 CFLAGS_pthread_orig := -DSPIN_ORIG
 CFLAGS_pthread_pthread := -DSPIN_PTHREAD
 
-include ../../../template/main.mk
+include main.mk
 
 pthread_none: pthread_none.o
 pthread_orig: pthread_orig.o

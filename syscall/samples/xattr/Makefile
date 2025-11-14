@@ -5,7 +5,7 @@ target-y += getxattr
 target-y += listxattr
 target-y += demo-1
 
-include ../../../template/main.mk
+include main.mk
 
 setxattr: setxattr.o
 getxattr: getxattr.o

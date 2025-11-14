@@ -4,7 +4,7 @@ target-y += insert
 target-y += merge
 target-y += quick-1 quick-2
 
-include ../../template/main.mk
+include main.mk
 
 select: select.o
 heap-1: heap-1.o

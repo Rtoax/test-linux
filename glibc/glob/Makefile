@@ -3,6 +3,6 @@ target-y += glob
 
 CFLAGS :=
 
-include ../../template/main.mk
+include main.mk
 
 glob: glob.o

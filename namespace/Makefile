@@ -7,6 +7,6 @@ subdir-y += syscalls
 
 target-y := unshare
 
-include ../template/main.mk
+include main.mk
 
 unshare: unshare.o

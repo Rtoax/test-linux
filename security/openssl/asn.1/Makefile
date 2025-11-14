@@ -23,7 +23,7 @@ CFLAGS += -Wno-error=deprecated-declarations
 
 LDFLAGS += $(shell pkg-config --libs --cflags openssl)
 
-include ../../../template/main.mk
+include main.mk
 
 a2d_ASN1_OBJECT: a2d_ASN1_OBJECT.o
 a2i_ASN1_INTEGER: a2i_ASN1_INTEGER.o

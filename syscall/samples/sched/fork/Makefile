@@ -9,7 +9,7 @@ CFLAGS += -pthread
 
 CFLAGS_vfork := -DVFORK=1
 
-include ../../../../template/main.mk
+include main.mk
 
 fork_helpers.o: fork_helpers.h
 

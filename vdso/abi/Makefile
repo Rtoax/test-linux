@@ -27,7 +27,7 @@ target-prep-y += lib${VDSO_NAME}.copy.so
 target-prep-y += ${VDSO_NAME}
 target-prep-y += main-custom main-kernel
 
-include ../../template/main.mk
+include main.mk
 
 lib${VDSO_NAME}.custom.so:
 	$(call log_tgt_exe,VDSO,,$(@))

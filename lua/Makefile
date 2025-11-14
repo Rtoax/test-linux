@@ -1,2 +1,2 @@
 # todo
-include ../template/main.mk
+include main.mk

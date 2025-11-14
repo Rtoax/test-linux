@@ -23,7 +23,7 @@ target-shell-y += patchset_examples.sh
 
 SHELL_ARGS_kconfig_compare.sh := --base ../kconfig --config ../kconfig --display all
 
-include ../template/main.mk
+include main.mk
 
 test_call:
 	$(call success)

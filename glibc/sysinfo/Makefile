@@ -7,7 +7,7 @@ CFLAGS :=
 CFLAGS += -I../../../
 CFLAGS += -lm
 
-include ../../template/main.mk
+include main.mk
 
 sysinfo: sysinfo.o
 get_avphys_pages: get_avphys_pages.o

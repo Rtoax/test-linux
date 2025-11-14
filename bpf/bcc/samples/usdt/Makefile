@@ -1,5 +1,5 @@
 target-y := hello_usdt
 
-include ../../../../template/main.mk
+include main.mk
 
 hello_usdt: hello_usdt.o

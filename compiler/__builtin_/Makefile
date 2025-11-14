@@ -50,7 +50,7 @@ CFLAGS_BPF += -O2 -g
 CFLAGS_BPF += -target bpf
 CFLAGS_BPF += $(CFLAG_BPF_TARGET_ARCH)
 
-include ../../template/main.mk
+include main.mk
 
 __has_builtin: __has_builtin.o
 apply_args: apply_args.o

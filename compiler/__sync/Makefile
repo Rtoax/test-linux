@@ -28,7 +28,7 @@ CFLAGS_spin-demo3-nonlock := -DNONLOCK=1
 # functions are used.  These functions changed semantics in GCC 4.4.
 CFLAGS___sync_nand_and_fetch := -Wsync-nand
 
-include ../../template/main.mk
+include main.mk
 
 __sync_fetch_and_add: __sync_fetch_and_add.o
 __sync_fetch_and_sub: __sync_fetch_and_sub.o

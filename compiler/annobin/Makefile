@@ -22,7 +22,7 @@ target-post-y := $(patsubst %,%.annocheck.log,$(target-y))
 
 CFLAGS += -specs=$(ANNOBIN)
 
-include ../../template/main.mk
+include main.mk
 
 hello: hello.o
 

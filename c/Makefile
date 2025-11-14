@@ -97,7 +97,7 @@ LDFLAGS_float := -lm
 # preprocessing
 target-prep-y := $(patsubst %,${OUTPUT}%.E.c,$(target-y))
 
-include ../template/main.mk
+include main.mk
 
 arg: ${OUTPUT}arg.o
 argv: ${OUTPUT}argv.o

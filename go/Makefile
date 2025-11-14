@@ -12,4 +12,4 @@ target-go-y += pi
 target-go-y += write
 target-go-y += sleep
 
-include ../template/main.mk
+include main.mk

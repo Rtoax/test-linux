@@ -49,7 +49,7 @@ CFLAGS_puts-c-loop := -DINFINITE_LOOP=1
 
 LDFLAGS += -z noexecstack
 
-include ../../../template/main.mk
+include main.mk
 
 cr3: ${OUTPUT}cr3.o
 echo: ${OUTPUT}echo.asm.o

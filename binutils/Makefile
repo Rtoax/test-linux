@@ -5,4 +5,4 @@ subdir-y := bfd
 subdir-y += objdump
 subdir-y += opcode
 
-include ../template/main.mk
+include main.mk

@@ -8,7 +8,7 @@ CFLAGS :=
 CFLAGS += -pthread
 CFLAGS += -DTEST_MEMFD=1
 
-include ../../../../template/main.mk
+include main.mk
 
 memfd_create: memfd_create.o memfd_helpers.o
 memfd_create-dup2: memfd_create-dup2.o memfd_helpers.o

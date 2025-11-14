@@ -13,7 +13,7 @@ target-y += recv
 target-y += tcp-srv-1 tcp-clt-1
 target-y += AF_XDP
 
-include ../../../template/main.mk
+include main.mk
 
 socketpair: socketpair.o
 getsockopt: getsockopt.o

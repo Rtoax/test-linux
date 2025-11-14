@@ -15,7 +15,7 @@ target-y := sockaddr-size
 target-liba-y := libsocket_helpers.a
 target-libso-y := libsocket_helpers.so
 
-include ../../template/main.mk
+include main.mk
 
 socket_helpers.so.o: socket_helpers.h
 socket_helpers.a.o: socket_helpers.h

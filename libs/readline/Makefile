@@ -15,7 +15,7 @@ ifneq ($(wildcard $(READLINE_HDR)),)
   LDFLAGS += -lreadline -lutil -ltermcap -lhistory
 endif
 
-include ../../template/main.mk
+include main.mk
 
 rlversion: rlversion.o
 rltest: rltest.o

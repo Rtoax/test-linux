@@ -29,7 +29,7 @@ target-post-y := virt2phy
 target-test-y := test-nvdso
 target-clean-y := clean-nvdso
 
-include ../../template/main.mk
+include main.mk
 
 main: main.o
 libnvdso.so: nvdso.so.o

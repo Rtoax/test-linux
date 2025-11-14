@@ -3,4 +3,4 @@ subdir-y := selinux/libselinux/samples/
 
 target-shell-y := info.sh
 
-include ../../../template/main.mk
+include main.mk

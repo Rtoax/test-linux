@@ -3,7 +3,7 @@ target-y += server
 target-y += client
 target-y += SO_OOBINLINE
 
-include ../../../template/main.mk
+include main.mk
 
 server: server.o
 client: client.o

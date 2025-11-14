@@ -43,7 +43,7 @@ LDFLAGS += -ltcmalloc_minimal
 LDFLAGS += -ltcmalloc_minimal_debug
 LDFLAGS += -lpthread
 
-include ../../../template/main.mk
+include main.mk
 
 tc_malloc: tc_malloc.o
 tc_malloc_skip_new_handler: tc_malloc_skip_new_handler.o

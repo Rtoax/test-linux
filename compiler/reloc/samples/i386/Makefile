@@ -9,6 +9,6 @@ CFLAGS += -I../
 CFLAGS += -m32
 LDFLAGS += -m32
 
-include ../../../../template/main.mk
+include main.mk
 
 R_386_32: R_386_32.o

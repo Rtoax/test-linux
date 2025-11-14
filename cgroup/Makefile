@@ -8,7 +8,7 @@ target-y := cgroup_examples
 target-post-y := info
 target-clean-y := info_clean
 
-include ../template/main.mk
+include main.mk
 
 cgroup_helpers.o: cgroup_helpers.h
 cgroup_examples.o: cgroup_helpers.h

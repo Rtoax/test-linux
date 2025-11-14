@@ -11,7 +11,7 @@ ifeq ($(CONFIG_ANON_VMA_NAME),y)
   CFLAGS += -DCONFIG_ANON_VMA_NAME=1
 endif
 
-include ../../../template/main.mk
+include main.mk
 
 PR_CAPBSET_DROP: PR_CAPBSET_DROP.o
 PR_GET_NAME: PR_GET_NAME.o

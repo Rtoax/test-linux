@@ -18,7 +18,7 @@ target-y += O_TMPFILE
 
 CFLAGS :=
 
-include ../../../template/main.mk
+include main.mk
 
 fcntl_helpers.o: fcntl_helpers.h
 fallocate: fallocate.o

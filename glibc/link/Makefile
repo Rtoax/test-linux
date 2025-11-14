@@ -10,7 +10,7 @@ LDFLAGS_dl_iterate_phdr := -no-pie
 CFLAGS_dl_iterate_phdr-pie := -fpie
 LDFLAGS_dl_iterate_phdr-pie := -pie
 
-include ../../template/main.mk
+include main.mk
 
 dl_iterate_phdr: dl_iterate_phdr.o ${PROC_HELPERS}
 dl_iterate_phdr-pie: dl_iterate_phdr-pie.o ${PROC_HELPERS}

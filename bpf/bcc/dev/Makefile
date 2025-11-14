@@ -10,7 +10,7 @@ ifeq ($(wildcard $(BCC_SYMS_HDR)),)
   $(warning "WARNING: You need to install bcc dev headers")
 endif
 
-include ../../../template/main.mk
+include main.mk
 
 symcache: symcache.o
 bcc_elf_is_shared_obj: bcc_elf_is_shared_obj.o

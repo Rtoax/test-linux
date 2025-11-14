@@ -6,4 +6,4 @@ subdir-y += fat
 subdir-y += debugfs tracefs
 subdir-y += overlayfs
 
-include ../template/main.mk
+include main.mk

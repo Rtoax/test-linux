@@ -7,7 +7,7 @@ CFLAGS += -lrt
 
 target-test-y += test0
 
-include ../../../template/main.mk
+include main.mk
 
 shm-reader: shm-reader.o
 shm-writer: shm-writer.o

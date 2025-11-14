@@ -6,4 +6,4 @@ target-shell-y += serial-number.sh
 target-shell-y += string.sh
 target-shell-y += type.sh
 
-include ../../../template/main.mk
+include main.mk

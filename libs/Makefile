@@ -38,7 +38,7 @@ ifdef LINK_LIB
   LDFLAGS += libtest-linux-c.so.0.1
 endif
 
-include ../template/main.mk
+include main.mk
 
 test1:
 	$(call log_tgt_exe,TEST,,$(@))

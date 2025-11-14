@@ -18,7 +18,7 @@ CXXFLAGS := $(CFLAGS)
 CFLAGS_clock_gettime.sec := -DHAVE_DPDK_TSC_FREQ -DACCURATE_TO_SEC
 CFLAGS_clock_gettime.nsec := -DHAVE_DPDK_TSC_FREQ
 
-include ../../template/main.mk
+include main.mk
 
 evil-clock-test: evil-clock-test.cpp.o
 accuracy: accuracy.o

@@ -4,7 +4,7 @@ target-java-y += hello.class
 target-java-y += malloc.class
 target-java-y += url_GET.class
 
-include ../template/main.mk
+include main.mk
 
 hello.class: hello.java
 malloc.class: malloc.java

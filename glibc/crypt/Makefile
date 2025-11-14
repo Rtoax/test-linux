@@ -9,7 +9,7 @@ CFLAGS += -Wno-error=implicit-function-declaration
 LDFLAGS := -lcrypt
 CFLAGS_crypt := -lcrypt
 
-include ../../template/main.mk
+include main.mk
 
 crypt: crypt.o
 encrypt: encrypt.o

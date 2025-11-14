@@ -2,6 +2,6 @@
 subdir-y := tcp-sysrq-trigger
 target-y := sysrq-trigger
 
-include ../../../template/main.mk
+include main.mk
 
 sysrq-trigger: sysrq-trigger.o

@@ -1,2 +1,2 @@
 subdir-y := posix
-include ../template/main.mk
+include main.mk

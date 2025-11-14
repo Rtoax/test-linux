@@ -5,6 +5,6 @@ target-y += mount
 CFLAGS_mount := -DTEST_MAIN=1
 LDFLAGS :=
 
-include ../../template/main.mk
+include main.mk
 
 mount: mount.o

@@ -6,7 +6,7 @@ CC := gcc
 
 CFLAGS :=
 
-include ../../template/main.mk
+include main.mk
 
 getmntent: getmntent.o
 getmntent_r: getmntent_r.o

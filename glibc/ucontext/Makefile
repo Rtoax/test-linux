@@ -11,7 +11,7 @@ CFLAGS :=
 
 CFLAGS_setcontext := -DTEST_SETCONTEXT=1
 
-include ../../template/main.mk
+include main.mk
 
 swapcontext: swapcontext.o
 getcontext: getcontext.o

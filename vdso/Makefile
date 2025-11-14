@@ -10,7 +10,7 @@ subdir-y += vvar/scripts/
 target-prep-y := ${VDSO_NAME}
 target-shell-y := layout.sh
 
-include ../template/main.mk
+include main.mk
 
 ${VDSO_NAME}:
 	$(call log_tgt_exe,VDSO,,$(@))

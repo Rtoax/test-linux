@@ -90,7 +90,7 @@ CFLAGS_create := -DNR_THREADS=5
 target-post-y := $(addprefix ${OUTPUT},$(patsubst %,%.c.s,${target-y}))
 target-shell-y := list-tunables.sh
 
-include ../../../template/main.mk
+include main.mk
 
 create_thread.o: create_thread.h
 

@@ -14,6 +14,7 @@ and this project adheres to
 - metax hpcc support .cu suffix.
 - amd rocm hip support .cu suffix.
 - profile.d: add `make_tl.sh` to alias system make command;
+- template: include pure header for main.mk;
 #### Added
 - syscall: test `move_pages(2)`;
 - targets/nvidia.mk: support static/dynamic library and add `libcuda_helper.so`, `libcuda_helper.a`;

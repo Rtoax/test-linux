@@ -13,6 +13,6 @@ ifneq ($(shell ld --help | grep -o no-warn-rwx-segments),)
   LDFLAGS += -Wl,--no-warn-rwx-segments
 endif
 
-include ../../template/main.mk
+include main.mk
 
 main: main.o

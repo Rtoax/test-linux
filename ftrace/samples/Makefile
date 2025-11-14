@@ -11,7 +11,7 @@ CFLAGS_main-pg-fentry := -pg -mfentry
 CFLAGS_foo-pg := -pg
 CFLAGS_foo-pg-fentry := -pg -mfentry
 
-include ../../template/main.mk
+include main.mk
 
 main: main.o foo.o
 main-pg: main-pg.o foo-pg.o

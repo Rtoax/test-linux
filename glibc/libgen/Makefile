@@ -2,7 +2,7 @@ target-y :=
 target-y += basename
 target-y += dirname
 
-include ../../template/main.mk
+include main.mk
 
 basename: basename.o
 dirname: dirname.o

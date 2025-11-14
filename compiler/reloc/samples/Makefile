@@ -27,7 +27,7 @@ LDFLAGS_nostdlib := -nostdlib
 
 target-prep-y := relocs-gen.h
 
-include ../../../template/main.mk
+include main.mk
 
 relocs-gen.h:
 	$(call log_tgt_exe,HDR,,$(@))

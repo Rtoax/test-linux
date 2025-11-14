@@ -3,6 +3,6 @@ target-y := catgets
 CFLAGS :=
 CFLAGS += -pthread
 
-include ../../template/main.mk
+include main.mk
 
 catgets: catgets.o

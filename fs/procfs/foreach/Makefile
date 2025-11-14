@@ -1,5 +1,5 @@
 target-y := main
 
-include ../../../template/main.mk
+include main.mk
 
 main: main.o

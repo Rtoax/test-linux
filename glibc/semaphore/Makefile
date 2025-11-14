@@ -2,6 +2,6 @@ target-y := h2o
 
 LDFLAGS := -pthread
 
-include ../../template/main.mk
+include main.mk
 
 h2o: h2o.o

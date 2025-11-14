@@ -5,6 +5,6 @@ target-y += overwrite-plt
 CFLAGS :=
 CFLAGS_overwrite-plt := -DOVERWRITE=1
 
-include ../../template/main.mk
+include main.mk
 
 overwrite-plt: overwrite-plt.o

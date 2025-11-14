@@ -7,7 +7,7 @@ QCOW2S := a.qcow2
 target-prep-y := ${QCOW2S}
 target-test-y := test-qcow2
 
-include ../../template/main.mk
+include main.mk
 
 qcow2_helpers.o: qcow2_helpers.h qcow2.h
 qcow2: qcow2.o qcow2_helpers.o

@@ -3,6 +3,6 @@ target-y += major
 
 CFLAGS :=
 
-include ../../template/main.mk
+include main.mk
 
 major: major.o

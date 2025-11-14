@@ -10,7 +10,7 @@ LDFLAGS_main += -no-pie
 CFLAGS_main-pie := -fpie
 LDFLAGS_main-pie := -pie
 
-include ../../../../template/main.mk
+include main.mk
 
 main.o: init.h log.h
 main: main.o

@@ -34,7 +34,7 @@ CFLAGS__Pragma := -Wno-error
 
 CFLAGS_GCC_diagnostic := -pg -Wno-error=pragmas -Wno-error=uninitialized
 
-include ../../template/main.mk
+include main.mk
 
 GCC_poison: GCC_poison.o
 GCC_diagnostic: GCC_diagnostic.o

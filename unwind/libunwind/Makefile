@@ -39,7 +39,7 @@ CXXFLAGS += -Wno-error=nonnull
 
 CFLAGS_tst := -g -ggdb -O0
 
-include ../../template/main.mk
+include main.mk
 
 tst: tst.o
 unw_regname: unw_regname.o

@@ -99,7 +99,7 @@ LDXXFLAGS_SO_libhiprand.so.1 := -Wl,--version-script=libhiprand.map
 LDXXFLAGS_SO_libhipblas.so.2 := -Wl,--version-script=libhipblas.map
 LDXXFLAGS_SO_libhipblaslt.so.0 := -Wl,--version-script=libhipblaslt.map
 
-include ../../../../template/main.mk
+include main.mk
 
 common-objs := ${OUTPUT}common.cpp.so.o
 common-objs += ${OUTPUT}utils.cpp.so.o

@@ -6,7 +6,7 @@ target-post-y := help
 IF := lo
 $(warning "Specify IF=[Interface] like IF=lo")
 
-include ../../../template/main.mk
+include main.mk
 
 help:
 	@echo >&2 ""

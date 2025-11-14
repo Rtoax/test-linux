@@ -7,4 +7,4 @@ VMLINUX_H := vmlinux.h
 
 target-prep-y := ${VMLINUX_H}
 
-include ../../template/main.mk
+include main.mk

@@ -9,7 +9,7 @@ subdir-y += pie
 target-y := macro
 target-y += rewrite-elf64
 
-include ../template/main.mk
+include main.mk
 
 macro: macro.o
 rewrite-elf64: rewrite-elf64.o

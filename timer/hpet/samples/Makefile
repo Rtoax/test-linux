@@ -1,3 +1,3 @@
 target-y := hpet_example
-include ../../../template/main.mk
+include main.mk
 hpet_example: hpet_example.o

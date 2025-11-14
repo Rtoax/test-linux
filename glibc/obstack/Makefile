@@ -21,7 +21,7 @@ ifneq ($(wildcard /usr/include/gperftools/tcmalloc.h),)
   LDFLAGS += -ltcmalloc
 endif
 
-include ../../template/main.mk
+include main.mk
 
 obstack: obstack.o
 alloc-performance-cmp: alloc-performance-cmp.o

@@ -2,6 +2,6 @@ target-y := helloworld
 
 LDFLAGS := -lwayland-client
 
-include ../../../template/main.mk
+include main.mk
 
 helloworld: helloworld.o

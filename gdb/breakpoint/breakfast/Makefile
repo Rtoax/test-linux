@@ -5,6 +5,6 @@ endif
 
 CFLAGS := -O0
 
-include ../../../template/main.mk
+include main.mk
 
 tst: tst.o breakfast.o

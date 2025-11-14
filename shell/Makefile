@@ -29,4 +29,4 @@ target-shell-y += c_code.sh
 
 SHELL_ARGS_stat.sh := /etc/os-release /etc/hosts
 
-include ../template/main.mk
+include main.mk

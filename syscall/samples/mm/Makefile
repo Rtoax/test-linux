@@ -21,7 +21,7 @@ CFLAGS :=
 CFLAGS += -pthread
 CFLAGS += -lrt
 
-include ../../../template/main.mk
+include main.mk
 
 brk: brk.o
 sbrk: sbrk.o

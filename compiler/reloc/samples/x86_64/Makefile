@@ -54,7 +54,7 @@ CFLAGS_R_X86_64_JUMP_SLOT := -fplt
 CFLAGS_R_X86_64_GOTPCRELX := -fpic -fno-plt
 CFLAGS_R_X86_64_GLOB_DAT := -fpic -fno-plt
 
-include ../../../../template/main.mk
+include main.mk
 
 R_X86_64: R_X86_64.o
 

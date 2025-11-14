@@ -1,5 +1,5 @@
 target-y := echo-server
 
-include ../../../template/main.mk
+include main.mk
 
 echo-server: echo-server.o

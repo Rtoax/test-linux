@@ -22,7 +22,7 @@ CFLAGS += -pthread
 
 target-prep-y := nr.h
 
-include ../../../template/main.mk
+include main.mk
 
 nr.h: ../nr.sh
 	$(shell bash ../nr.sh)

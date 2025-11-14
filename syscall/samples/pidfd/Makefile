@@ -1,6 +1,6 @@
 target-y :=
 target-y += pidfd_open
 
-include ../../../template/main.mk
+include main.mk
 
 pidfd_open: pidfd_open.o

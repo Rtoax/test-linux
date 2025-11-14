@@ -17,7 +17,7 @@ CFLAGS_addchild := -Wno-error=pointer-sign
 
 LDFLAGS += $(LIBXML2_LIBS)
 
-include ../../../template/main.mk
+include main.mk
 
 addchild: addchild.o
 parsexml: parsexml.o

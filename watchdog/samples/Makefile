@@ -1,5 +1,5 @@
 target-y := watchdog-simple
 
-include ../../template/main.mk
+include main.mk
 
 watchdog-simple: watchdog-simple.o

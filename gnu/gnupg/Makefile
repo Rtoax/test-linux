@@ -1,2 +1,2 @@
 target-shell-y := list-keys.sh
-include ../../template/main.mk
+include main.mk

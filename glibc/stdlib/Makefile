@@ -38,7 +38,7 @@ CFLAGS_srandom := -DSRANDOM=1
 CFLAGS_aligned_alloc := -DALIGNED_ALLOC=1
 CFLAGS_valloc := -DVALLOC=1
 
-include ../../template/main.mk
+include main.mk
 
 abort: abort.o
 atof: atof.o

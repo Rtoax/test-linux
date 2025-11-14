@@ -3,4 +3,4 @@ include pahole.mk
 
 subdir-y :=
 
-include ../template/main.mk
+include main.mk

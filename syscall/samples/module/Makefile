@@ -22,7 +22,7 @@ ifdef STATIC
   LDFLAGS += -static
 endif
 
-include ../../../template/main.mk
+include main.mk
 
 mod_helpers.o: mod_helpers.h
 

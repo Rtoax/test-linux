@@ -2,6 +2,6 @@
 target-rust-y :=
 target-rust-y += data-type
 
-include ../../template/main.mk
+include main.mk
 
 data-type: data-type.rs

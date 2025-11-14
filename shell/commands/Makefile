@@ -11,4 +11,4 @@ subdir-y += stat
 
 target-shell-y := tr.sh
 
-include ../../template/main.mk
+include main.mk

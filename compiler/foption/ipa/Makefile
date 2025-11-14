@@ -12,7 +12,7 @@ endif
 
 target-clean-y := clean0
 
-include ../../../template/main.mk
+include main.mk
 
 fdump-ipa-all: fdump-ipa-all.o
 fdump-ipa-clones: fdump-ipa-clones.o

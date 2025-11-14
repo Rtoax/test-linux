@@ -19,7 +19,7 @@ CFLAGS += -pthread
 
 CFLAGS_futimens := -DFUTIMENS=1
 
-include ../../../template/main.mk
+include main.mk
 
 stat_helpers.o: stat_helpers.h
 

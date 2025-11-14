@@ -1,3 +1,3 @@
 target-y := bss
-include ../../template/main.mk
+include main.mk
 bss: bss.o

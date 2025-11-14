@@ -23,7 +23,7 @@ LDXXFLAGS += -pthread
 
 CFLAGS_hello := -Wno-error=unused-function
 
-include ../../template/main.mk
+include main.mk
 
 set-value: set-value.o
 set-value-func: set-value-func.o

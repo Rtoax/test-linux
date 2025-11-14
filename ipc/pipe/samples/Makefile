@@ -5,7 +5,7 @@ target-y += pipe-broken-pipe shutdown-broken-pipe
 
 CFLAGS += -lpthread
 
-include ../../../template/main.mk
+include main.mk
 
 pipe-size: pipe-size.o
 pipe: pipe.o

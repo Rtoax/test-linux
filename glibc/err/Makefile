@@ -1,6 +1,6 @@
 target-y :=
 target-y += warn
 
-include ../../template/main.mk
+include main.mk
 
 warn: warn.o

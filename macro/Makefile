@@ -67,7 +67,7 @@ CFLAGS___cplusplus-std98 := -std=c++98
 target-prep-y := compiler-macros.h
 target-shell-y := likely.sh
 
-include ../template/main.mk
+include main.mk
 
 arch: $(OUTPUT)arch.o
 align: $(OUTPUT)align.o

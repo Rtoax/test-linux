@@ -4,6 +4,6 @@ target-llvm-ll-y := main
 
 CFLAGS += -Wno-override-module
 
-include ../../../template/main.mk
+include main.mk
 
 main: main.ll

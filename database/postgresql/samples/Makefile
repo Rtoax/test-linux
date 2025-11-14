@@ -23,7 +23,7 @@ ifeq ($(wildcard /usr/include/libpq-fe.h),)
   target-y :=
 endif
 
-include ../../../template/main.mk
+include main.mk
 
 list_tables: list_tables.o
 PQconnectdb: PQconnectdb.o

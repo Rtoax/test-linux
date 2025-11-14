@@ -7,4 +7,4 @@ subdir-y += mpi
 subdir-y += openmp
 subdir-y += openacc
 
-include ../template/main.mk
+include main.mk

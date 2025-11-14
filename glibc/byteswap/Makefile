@@ -4,6 +4,6 @@ CFLAGS :=
 CFLAGS += -I../../
 CFLAGS += -pthread
 
-include ../../template/main.mk
+include main.mk
 
 byteswap: byteswap.o

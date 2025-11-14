@@ -4,7 +4,7 @@ ifeq ($(shell uname -m),x86_64)
   target-y += fsgsbase
 endif
 
-include ../../../template/main.mk
+include main.mk
 
 ARCH_SET_FS: ARCH_SET_FS.o
 fsgsbase: fsgsbase.o

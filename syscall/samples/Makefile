@@ -129,7 +129,7 @@ CXXFLAGS_readlink2 := -std=c++17 -lstdc++
 target-prep-y := nr.h
 target-clean-y := clean0
 
-include ../../template/main.mk
+include main.mk
 
 nr.h: nr.sh
 	$(shell bash nr.sh)

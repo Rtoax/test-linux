@@ -12,7 +12,7 @@ LDFLAGS :=
 
 CFLAGS_mprobe := -Wno-error=use-after-free
 
-include ../../template/main.mk
+include main.mk
 
 mtrace: mtrace.o
 mprobe: mprobe.o

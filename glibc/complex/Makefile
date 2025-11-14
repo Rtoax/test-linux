@@ -14,7 +14,7 @@ CFLAGS += -Wno-unused-variable
 
 LDFLAGS := -lm
 
-include ../../template/main.mk
+include main.mk
 
 _Complex_I: _Complex_I.o
 _Complex: _Complex.o

@@ -5,4 +5,4 @@ subdir-y += pam
 subdir-y += access
 subdir-y += seccomp
 
-include ../template/main.mk
+include main.mk

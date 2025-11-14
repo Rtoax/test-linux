@@ -6,4 +6,4 @@ subdir-y += commands
 subdir-y += hello
 subdir-y += samples
 
-include ../../template/main.mk
+include main.mk

@@ -6,7 +6,7 @@ CFLAGS += -O3
 CFLAGS += -pthread
 CFLAGS += -march=armv8.1-a
 
-include ../../../template/main.mk
+include main.mk
 
 kernel:
 	${Q}make -C ${KERNELDIR} M=$(PWD) modules

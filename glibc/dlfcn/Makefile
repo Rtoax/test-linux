@@ -18,7 +18,7 @@ LDFLAGS := -ldl
 CFLAGS += -I../../
 CFLAGS += -I../../fs/procfs/
 
-include ../../template/main.mk
+include main.mk
 
 hello: hello.o
 socket: socket.o libc.o

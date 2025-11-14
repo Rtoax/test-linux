@@ -9,7 +9,7 @@ target-y += BLKGETSIZE
 target-y += ifconfig
 target-y += num
 
-include ../../../template/main.mk
+include main.mk
 
 SIOCETHTOOL: SIOCETHTOOL.o
 TIOCGWINSZ: TIOCGWINSZ.o

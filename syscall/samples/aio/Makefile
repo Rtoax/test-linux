@@ -15,7 +15,7 @@ ifneq ($(wildcard $(LIBAIO_HDR)),)
   LDFLAGS += -laio
 endif
 
-include ../../../template/main.mk
+include main.mk
 
 libaio: libaio.o aio_helpers.o
 epoll: epoll.o

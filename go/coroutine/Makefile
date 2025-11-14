@@ -5,4 +5,4 @@ target-go-y += add
 target-go-y += loop
 target-go-y += mutex
 
-include ../../template/main.mk
+include main.mk

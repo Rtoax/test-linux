@@ -13,7 +13,7 @@ target-prep-y := ${VMLINUX_H}
 LDFLAGS_adaptive-oom-score := -lbpf
 
 include ../../../cgroup/libcgroup/libcgroup.mk
-include ../../../template/main.mk
+include main.mk
 
 memory.bpf.o: memory.h
 adaptive-oom-score.o: ${VMLINUX_H} memory.skel.h memory.h

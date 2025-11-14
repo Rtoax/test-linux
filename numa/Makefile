@@ -12,7 +12,7 @@ LDFLAGS += -lnuma
 
 CFLAGS_numa_mem := -DTEST_MAIN=1
 
-include ../template/main.mk
+include main.mk
 
 numa_mem.h:
 	${Q}./info.sh c

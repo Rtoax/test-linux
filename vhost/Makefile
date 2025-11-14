@@ -3,4 +3,4 @@ subdir-y += vsock
 
 target-shell-y := check.sh
 
-include ../template/main.mk
+include main.mk

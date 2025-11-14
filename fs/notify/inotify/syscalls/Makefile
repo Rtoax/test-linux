@@ -1,3 +1,3 @@
 target-y := inotify
-include ../../../../template/main.mk
+include main.mk
 inotify: inotify.o

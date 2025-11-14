@@ -1,3 +1,3 @@
 target-y := clock_gettime
-include ../../../template/main.mk
+include main.mk
 clock_gettime: clock_gettime.o

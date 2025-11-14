@@ -41,7 +41,7 @@ LDFLAGS += $(GTK_LIBS)
 # TODO: no deprecated
 CFLAGS += -Wno-error=deprecated-declarations
 
-include ../../../template/main.mk
+include main.mk
 
 builder: builder.o
 builder-menu: builder-menu.o

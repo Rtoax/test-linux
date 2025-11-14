@@ -14,7 +14,7 @@ target-shell-y := interface.sh
 
 LDFLAGS := -Wl,-rpath,$(shell pwd)
 
-include ../template/main.mk
+include main.mk
 
 ethtool: ethtool.o
 tcpdump: tcpdump.o ${SOCKET_HELPERS}

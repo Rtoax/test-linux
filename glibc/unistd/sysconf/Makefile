@@ -21,7 +21,7 @@ CFLAGS_sysconf := -Wno-error
 target-prep-y := confs_def.h
 target-clean-y := cleans
 
-include ../../../template/main.mk
+include main.mk
 
 confs_def.h: sysconf.sh
 	$(shell bash sysconf.sh)

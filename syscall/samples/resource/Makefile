@@ -6,7 +6,7 @@ target-y += getrusage vlimit
 CFLAGS :=
 CFLAGS += -pthread
 
-include ../../../template/main.mk
+include main.mk
 
 getrlimit: getrlimit.o resource_helpers.o
 setrlimit: setrlimit.o resource_helpers.o

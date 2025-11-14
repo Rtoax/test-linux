@@ -11,7 +11,7 @@ CFLAGS += -g -ggdb
 CFLAGS += -pthread
 CFLAGS += -O3
 
-include ../../../template/main.mk
+include main.mk
 
 pthread_helpers.o: pthread_helpers.h
 rdtsc_user: rdtsc_user.o

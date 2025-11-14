@@ -16,7 +16,7 @@ else
   CFLAGS += -march=armv8-a+sve2
 endif
 
-include ../../../template/main.mk
+include main.mk
 
 vrsqrtsq_f32: vrsqrtsq_f32.o
 vst1q_u8: vst1q_u8.o

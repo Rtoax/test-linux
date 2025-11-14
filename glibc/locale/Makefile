@@ -3,6 +3,6 @@ target-y += setlocale
 
 CFLAGS :=
 
-include ../../template/main.mk
+include main.mk
 
 setlocale: setlocale.o

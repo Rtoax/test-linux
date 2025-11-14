@@ -12,7 +12,7 @@ target-y := ${test-exe}
 
 CFLAGS += -fplugin=./fakecuda_plugin.so
 
-include ../../../../../template/main.mk
+include main.mk
 
 ${OUTPUT}hello.o: ${target-libso-cpp-y}
 

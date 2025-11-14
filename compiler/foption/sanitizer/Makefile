@@ -30,7 +30,7 @@ else
   $(warning Define LOCK=1 to running with lock for SAN)
 endif
 
-include ../../../template/main.mk
+include main.mk
 
 address: address.o
 address_cpp: address_cpp.cpp.o

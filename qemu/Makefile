@@ -4,7 +4,7 @@ subdir-y += qcow2
 target-test-y := test0
 target-clean-y := clean0
 
-include ../template/main.mk
+include main.mk
 
 test0:
 	${Q}$(SHELL) support-cpu.sh

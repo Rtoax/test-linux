@@ -14,7 +14,7 @@ target-y += status
 CFLAGS_pagemap := -DHAVE_MAIN=1
 LDFLAGS_pagemap += -lnuma
 
-include ../../../template/main.mk
+include main.mk
 
 cmdline: cmdline.o
 environ: environ.o

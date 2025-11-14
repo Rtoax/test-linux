@@ -29,7 +29,7 @@ CFLAGS += -pthread
 
 target-test-y := test0
 
-include ../../../template/main.mk
+include main.mk
 
 sched_helpers.so.o: sched_helpers.h
 libsched_helpers.so: sched_helpers.so.o

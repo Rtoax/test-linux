@@ -1,3 +1,3 @@
 target-y := mmap
-include ../../../template/main.mk
+include main.mk
 mmap: mmap.o

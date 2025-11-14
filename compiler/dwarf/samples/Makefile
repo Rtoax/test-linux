@@ -15,7 +15,7 @@ endif
 
 CFLAGS_hello += -Wno-error=unused-variable
 
-include ../../../template/main.mk
+include main.mk
 
 hello: hello.o
 

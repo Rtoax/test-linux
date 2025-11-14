@@ -5,7 +5,7 @@ target-y += filter-write
 
 CFLAGS_mode_filter-no-scmp := -DCONFIG_NO_SECCOMP=1
 
-include ../../../template/main.mk
+include main.mk
 
 seccomp_helpers.o: seccomp_helpers.h
 

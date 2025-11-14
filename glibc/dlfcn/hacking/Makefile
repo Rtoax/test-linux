@@ -14,7 +14,7 @@ LDFLAGS_dev := libdev.so
 
 target-test-y := run0
 
-include ../../../template/main.mk
+include main.mk
 
 libdev.so.1: libdev.so.o
 dev: dev.o libdev.so.1

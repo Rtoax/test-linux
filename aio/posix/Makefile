@@ -5,7 +5,7 @@ target-y += lio_listio
 
 LDFLAGS := -lrt
 
-include ../../template/main.mk
+include main.mk
 
 aio_read: aio_read.o
 aio_write: aio_write.o

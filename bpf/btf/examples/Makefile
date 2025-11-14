@@ -7,4 +7,4 @@ target-bpf-y += t2.bpf.o
 target-post-y := t1.bpf.btf
 target-post-y += t2.bpf.s
 
-include ../../../template/main.mk
+include main.mk

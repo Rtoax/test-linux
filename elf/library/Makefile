@@ -50,7 +50,7 @@ else
   $(warning CPU Vendor ID: ${CPU_VENDOR_ID})
 endif
 
-include ../../template/main.mk
+include main.mk
 
 libc: libc.o
 main: main.o libfoo.so.1.10

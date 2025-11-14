@@ -2,6 +2,6 @@
 subdir-y := single-header
 target-y := list_test
 
-include ../../../template/main.mk
+include main.mk
 
 list_test: list_test.o list.o llist.o

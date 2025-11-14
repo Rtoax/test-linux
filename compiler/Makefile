@@ -33,7 +33,7 @@ target-prep-y := $(CC)-macros.h
 
 include compiler.mk
 
-include ../template/main.mk
+include main.mk
 
 $(CC)-macros.h:
 	$(call log_tgt_exe,HDR,,$(@))

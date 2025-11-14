@@ -41,7 +41,7 @@ ifeq ($(CONFIG_MEMFD_CREATE),y)
   CFLAGS_virt2phy += -DCONFIG_MEMFD_CREATE=1
 endif
 
-include ../template/main.mk
+include main.mk
 
 virt2phy: virt2phy.o ${PROC_HELPERS} numa.a.1 ${MMAP_HELPERS}
 libtest-linux-mm.a: virt2phy.a.o

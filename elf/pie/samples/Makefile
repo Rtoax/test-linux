@@ -15,7 +15,7 @@ LDFLAGS_hello-pie := -pie
 
 LDFLAGS_is_pie := -lelf
 
-include ../../../template/main.mk
+include main.mk
 
 hello: hello.o ${PROC_HELPERS}
 hello-pie: hello-pie.o ${PROC_HELPERS}

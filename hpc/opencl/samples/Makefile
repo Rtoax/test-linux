@@ -11,6 +11,6 @@ LDFLAGS := -lOpenCL
 
 CFLAGS += -DCL_TARGET_OPENCL_VERSION=100
 
-include ../../../template/main.mk
+include main.mk
 
 clGetPlatformIDs: clGetPlatformIDs.o

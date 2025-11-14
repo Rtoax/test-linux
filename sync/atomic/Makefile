@@ -3,4 +3,4 @@ subdir-y :=
 subdir-y += __atomic
 subdir-y += samples
 
-include ../../template/main.mk
+include main.mk

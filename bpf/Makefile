@@ -25,7 +25,7 @@ target-post-y += $(patsubst %.bpf.o,%.bpf.disasm,$(target-bpf-y))
 
 CFLAGS_BPF_tcpdump := -DVERIFER=1
 
-include ../template/main.mk
+include main.mk
 
 tcpdump: tcpdump.o
 tcpdump.bpf.o: vmlinux.h

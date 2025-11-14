@@ -1,2 +1,2 @@
 subdir-y := scripts
-include ../../template/main.mk
+include main.mk

@@ -12,6 +12,6 @@ CFLAGS += -DBINUTILS_VERSION_MINOR=${BINUTILS_VERSION_MINOR}
 
 LDFLAGS += -lopcodes -lbfd
 
-include ../../../template/main.mk
+include main.mk
 
 disassemble_init_for_target: disassemble_init_for_target.o

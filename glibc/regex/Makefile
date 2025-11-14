@@ -14,7 +14,7 @@ CFLAGS += -D__USE_GNU=1
 CFLAGS_re_search := -Wno-error=implicit-function-declaration
 CFLAGS_re_match := -Wno-error=implicit-function-declaration
 
-include ../../template/main.mk
+include main.mk
 
 regcomp: regcomp.o
 re_search: re_search.o

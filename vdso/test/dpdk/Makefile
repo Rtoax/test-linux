@@ -5,7 +5,7 @@ endif
 
 CFLAGS := -DTEST=1
 
-include ../../../template/main.mk
+include main.mk
 
 tsc_freq_arch: tsc_freq_arch.o
 tsc_freq: tsc_freq.o

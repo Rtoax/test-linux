@@ -3,6 +3,6 @@ ifeq ($(shell uname -m),x86_64)
   target-y := ioctl_values
 endif
 
-include ../../template/main.mk
+include main.mk
 
 ioctl_values: ioctl_values.o

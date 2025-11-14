@@ -6,7 +6,7 @@ target-y :=
 target-y += ping
 target-y += icmp_checksum
 
-include ../../template/main.mk
+include main.mk
 
 ping: ping.o
 icmp_checksum: icmp_checksum.o

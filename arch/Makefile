@@ -16,6 +16,6 @@ endif
 
 target-post-y := $(patsubst %,%.c.s,${target-y})
 
-include ../template/main.mk
+include main.mk
 
 cpu_relax: cpu_relax.o

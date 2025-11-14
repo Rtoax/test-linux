@@ -12,7 +12,7 @@ ifeq ($(wildcard $(SYS_IO_HEADER)),)
   $(warning "WARNING: Maybe you need to install glibc-headers")
 endif
 
-include ../../../template/main.mk
+include main.mk
 
 outb: outb.o
 outw: outw.o

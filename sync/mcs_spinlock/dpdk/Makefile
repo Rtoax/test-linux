@@ -6,6 +6,6 @@ endif
 CFLAGS :=
 CFLAGS += -pthread
 
-include ../../../template/main.mk
+include main.mk
 
 main: main.o

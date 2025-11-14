@@ -9,7 +9,7 @@ target-y += libbpf
 
 target-post-y := help
 
-include ../../../template/main.mk
+include main.mk
 
 help:
 	@echo -e "CHECK USDT: \033[1;33msudo bpftrace -l usdt:./usdt_xxx:*\033[m"

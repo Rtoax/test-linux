@@ -14,7 +14,7 @@ target-y += getipnodebyname
 target-y += herror
 target-y += getnameinfo
 
-include ../../template/main.mk
+include main.mk
 
 netdb_helpers.o: netdb_helpers.h
 

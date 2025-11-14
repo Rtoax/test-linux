@@ -8,6 +8,6 @@ subdir-y += ipv6
 
 target-y += tcp-syn-flood
 
-include ../../../template/main.mk
+include main.mk
 
 tcp-syn-flood: tcp-syn-flood.o

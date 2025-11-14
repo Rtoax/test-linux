@@ -30,7 +30,7 @@ CFLAGS += -DNUMACTL_VERSION_PATCH=${NUMACTL_VERSION_PATCH}
 CFLAGS_numa_node_size := -Wno-incompatible-pointer-types
 CFLAGS_numa_node_size64 := -Wno-incompatible-pointer-types
 
-include ../../template/main.mk
+include main.mk
 
 numa_alloc: numa_alloc.o
 numa_available: numa_available.o

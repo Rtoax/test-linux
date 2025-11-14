@@ -1,3 +1,3 @@
 subdir-y := if
 
-include ../../template/main.mk
+include main.mk

@@ -4,4 +4,4 @@ subdir-y += shm
 subdir-y += pipe
 subdir-y += dbus
 
-include ../template/main.mk
+include main.mk

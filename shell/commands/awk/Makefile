@@ -6,4 +6,4 @@ target-shell-y += match.sh
 target-shell-y += strtonum.sh
 target-shell-y += swap-two-words.sh
 
-include ../../../template/main.mk
+include main.mk

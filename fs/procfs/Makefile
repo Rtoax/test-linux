@@ -21,7 +21,7 @@ target-shell-y := mounts.sh
 LDFLAGS := -Wl,-rpath,$(shell pwd)
 LDFLAGS_SO_${libproc-helpers} := -Wl,--version-script=proc_helpers.map
 
-include ../../template/main.mk
+include main.mk
 
 proc_examples.o: proc_helpers.h
 proc_examples: ${OUTPUT}proc_examples.o ${libproc-helpers}

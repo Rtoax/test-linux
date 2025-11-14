@@ -4,6 +4,6 @@ target-y += backtrace
 CFLAGS :=
 LDFLAGS :=
 
-include ../../template/main.mk
+include main.mk
 
 backtrace: backtrace.o

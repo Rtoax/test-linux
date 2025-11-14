@@ -4,6 +4,6 @@ CFLAGS :=
 
 LDFLAGS :=
 
-include ../../template/main.mk
+include main.mk
 
 mkfifo: mkfifo.o

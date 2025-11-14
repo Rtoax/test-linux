@@ -7,7 +7,7 @@ CC := gcc
 
 CFLAGS :=
 
-include ../../template/main.mk
+include main.mk
 
 getfsent: getfsent.o
 getfsfile: getfsfile.o

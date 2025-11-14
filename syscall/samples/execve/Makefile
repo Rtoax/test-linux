@@ -5,7 +5,7 @@ target-y += fork
 CFLAGS += -I../../
 CFLAGS += -pthread
 
-include ../../../template/main.mk
+include main.mk
 
 execve: execve.o
 fork: fork.o

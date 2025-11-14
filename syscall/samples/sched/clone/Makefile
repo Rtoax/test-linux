@@ -20,7 +20,7 @@ CFLAGS_parent_tid := -DPARENT_TID=1
 
 target-prep-y := CLONE_.h
 
-include ../../../../template/main.mk
+include main.mk
 
 CLONE_.h:
 	${Q}./CLONE_.sh

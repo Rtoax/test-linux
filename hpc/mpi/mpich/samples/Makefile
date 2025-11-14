@@ -49,7 +49,7 @@ CFLAGS_MPI_Sendrecv_replace := -DCONFIG_MPI_Sendrecv_replace=1
 
 target-test-y := test0
 
-include ../../../../template/main.mk
+include main.mk
 
 MPI_Abort: MPI_Abort.o
 MPI_Init: MPI_Init.o

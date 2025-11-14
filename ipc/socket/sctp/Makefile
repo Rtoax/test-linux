@@ -11,7 +11,7 @@ endif
 CFLAGS += -lsctp
 LDFLAGS := $(CFLAGS)
 
-include ../../../template/main.mk
+include main.mk
 
 IPPROTO_SCTP: IPPROTO_SCTP.o
 client: client.o

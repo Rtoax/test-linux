@@ -21,7 +21,7 @@ endif
 CFLAGS_eventfd-epoll_pwait := -DEPOLL_PWAIT=1
 CFLAGS_eventfd-epoll_pwait2 := -DEPOLL_PWAIT2=1
 
-include ../../../template/main.mk
+include main.mk
 
 epoll_helpers.o: epoll_helpers.h
 

@@ -9,7 +9,7 @@ subdir-${IS_X86_64} += pthread_self
 target-libso-y := libpthread_helpers.so
 target-liba-y := libpthread_helpers.a
 
-include ../../template/main.mk
+include main.mk
 
 pthread_helpers.so.o: pthread_helpers.h
 libpthread_helpers.so: pthread_helpers.so.o

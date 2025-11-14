@@ -4,7 +4,7 @@ target-y += stress-send stress-recv
 
 target-cpp-y := client_cc
 
-include ../../../../template/main.mk
+include main.mk
 
 server: server.o
 client: client.o

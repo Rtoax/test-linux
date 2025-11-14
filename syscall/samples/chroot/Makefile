@@ -1,6 +1,6 @@
 target-y :=
 target-y += clone
 
-include ../../../template/main.mk
+include main.mk
 
 clone: clone.o

@@ -3,7 +3,7 @@ target-y += access
 target-y += faccessat2
 target-y += eaccess
 
-include ../../../template/main.mk
+include main.mk
 
 access: access.o
 eaccess: eaccess.o

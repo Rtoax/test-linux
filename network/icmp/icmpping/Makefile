@@ -2,6 +2,6 @@
 target-y :=
 target-y += icmping
 
-include ../../../template/main.mk
+include main.mk
 
 icmping: main.o icmpping.o

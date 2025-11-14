@@ -22,7 +22,7 @@ CFLAGS_fentry := -pg -mfentry
 CFLAGS_mcount-nop := ${CFLAGS_PIC}
 CFLAGS_constructor-obj := ${CFLAGS_PIC}
 
-include ../../../template/main.mk
+include main.mk
 
 main: main.o
 fentry: fentry.o

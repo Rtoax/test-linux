@@ -5,7 +5,7 @@ target-y += tsearch
 
 CFLAGS :=
 
-include ../../template/main.mk
+include main.mk
 
 hsearch: hsearch.o
 lfind: lfind.o

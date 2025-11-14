@@ -16,7 +16,7 @@ CFLAGS += -O0 -g
 
 LDFLAGS := ${CFLAGS}
 
-include ../../template/main.mk
+include main.mk
 
 fegetenv: fegetenv.o
 feclearexcept: feclearexcept.o

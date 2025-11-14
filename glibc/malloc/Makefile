@@ -39,7 +39,7 @@ endif
 
 target-post-y := ld-list-tunables
 
-include ../../template/main.mk
+include main.mk
 
 ld-list-tunables:
 	${Q}ld.so --list-tunables 2>/dev/null | grep -i malloc || true

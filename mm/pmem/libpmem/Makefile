@@ -4,7 +4,7 @@ target-y += pmem_map_file
 
 LDFLAGS := -lpmem
 
-include ../../../template/main.mk
+include main.mk
 
 mmap: mmap.o
 pmem_map_file: pmem_map_file.o

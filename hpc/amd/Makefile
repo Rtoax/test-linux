@@ -2,4 +2,4 @@
 subdir-y := rocm
 subdir-y += amdgcn
 
-include ../../template/main.mk
+include main.mk

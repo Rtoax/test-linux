@@ -1,6 +1,6 @@
 target-y :=
 target-y += utime
 
-include ../../../template/main.mk
+include main.mk
 
 utime: utime.o

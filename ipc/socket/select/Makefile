@@ -4,6 +4,6 @@ subdir-y += unix
 target-y :=
 target-y += fd_set
 
-include ../../../template/main.mk
+include main.mk
 
 fd_set: fd_set.o

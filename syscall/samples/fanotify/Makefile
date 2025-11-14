@@ -1,5 +1,5 @@
 target-y := fanotify
 
-include ../../../template/main.mk
+include main.mk
 
 fanotify: fanotify.o

@@ -30,7 +30,7 @@ CFLAGS___atomic_thread_fence := -DHAVE___atomic_thread_fence__ATOMIC_ACQ_REL=1
 LDFLAGS___atomic_always_lock_free := -latomic
 LDFLAGS___atomic_is_lock_free := -latomic
 
-include ../../template/main.mk
+include main.mk
 
 test1: test1.o
 load-store: load-store.o

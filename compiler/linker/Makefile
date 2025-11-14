@@ -36,7 +36,7 @@ LDFLAGS_mold := -fuse-ld=mold
 LDFLAGS_pushsection := -nostdlib
 LDFLAGS_attribute := -nostdlib
 
-include ../../template/main.mk
+include main.mk
 
 pushsection: pushsection.o
 attribute: attribute.o

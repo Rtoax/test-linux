@@ -2,4 +2,4 @@ target-python-y := argv.py
 
 PY_ARGS_argv.py := 12
 
-include ../../template/main.mk
+include main.mk

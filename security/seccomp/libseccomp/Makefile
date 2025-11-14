@@ -11,7 +11,7 @@ endif
 
 LDFLAGS := -lseccomp
 
-include ../../../template/main.mk
+include main.mk
 
 seccomp_rule_add: seccomp_rule_add.o
 seccomp_syscall_resolve_name: seccomp_syscall_resolve_name.o

@@ -1,2 +1,2 @@
 target-shell-y := info.sh
-include ../../template/main.mk
+include main.mk

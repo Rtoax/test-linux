@@ -1,7 +1,7 @@
 target-y := semget
 target-y += fork-pv
 
-include ../../../template/main.mk
+include main.mk
 
 semget: semget.o
 fork-pv: fork-pv.o

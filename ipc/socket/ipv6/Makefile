@@ -1,7 +1,7 @@
 target-y :=
 target-y += IN6ADDR_ANY_INIT IN6ADDR_LOOPBACK_INIT
 
-include ../../../template/main.mk
+include main.mk
 
 IN6ADDR_ANY_INIT: IN6ADDR_ANY_INIT.o
 IN6ADDR_LOOPBACK_INIT: IN6ADDR_LOOPBACK_INIT.o

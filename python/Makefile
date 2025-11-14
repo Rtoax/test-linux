@@ -10,4 +10,4 @@ target-python-y += listdir.py
 target-python-y += print.py
 target-python-y += split.py
 
-include ../template/main.mk
+include main.mk

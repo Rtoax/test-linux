@@ -17,7 +17,7 @@ CFLAGS :=
 CFLAGS += -lcapstone
 LDFLAGS := -lcapstone
 
-include ../../template/main.mk
+include main.mk
 
 version: version.o
 detail: detail.o

@@ -25,7 +25,7 @@ target-libso-cpp-y += pid.so
 target-post-y := test-plugins
 
 
-include ../../../template/main.mk
+include main.mk
 
 ${SRCS}:
 	$(call log_tgt_obj,COPY,,$(@))

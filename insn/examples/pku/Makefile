@@ -3,6 +3,6 @@ ifeq ($(shell uname -m),x86_64)
   target-y += rdpkru
 endif
 
-include ../../../template/main.mk
+include main.mk
 
 rdpkru: rdpkru.o

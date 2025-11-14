@@ -30,7 +30,7 @@ LDFLAGS += -m32
 ASMCFLAGS += -felf32
 ASMLDFLAGS += -m elf_i386
 
-include ../../../template/main.mk
+include main.mk
 
 average: ${OUTPUT}average.asm.o
 echo: ${OUTPUT}echo.asm.o

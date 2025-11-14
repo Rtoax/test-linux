@@ -7,7 +7,7 @@ else ifeq ($(shell uname -m),aarch64)
   target-y += brk
 endif
 
-include ../../template/main.mk
+include main.mk
 
 int3: int3.o
 brk: brk.o

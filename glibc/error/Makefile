@@ -9,7 +9,7 @@ ifdef M32
   $(info Compile 32bit ELF)
 endif
 
-include ../../template/main.mk
+include main.mk
 
 error: error.o
 error_print_progname: error_print_progname.o

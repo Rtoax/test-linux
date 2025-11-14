@@ -21,7 +21,7 @@ CFLAGS_mbind := -DALLOC_WITH_MMAP=1
 
 CFLAGS_move_pages := -DALLOC_WITH_MALLOC=1
 
-include ../../../../template/main.mk
+include main.mk
 
 numa_helpers.o: numa_helpers.h
 mbind: mbind.o numa_helpers.o

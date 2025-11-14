@@ -4,7 +4,7 @@ target-y += inet6_rth_
 
 CFLAGS :=
 
-include ../../../template/main.mk
+include main.mk
 
 IPPORT_: IPPORT_.o
 inet6_opt_: inet6_opt_.o

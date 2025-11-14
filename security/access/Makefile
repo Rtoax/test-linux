@@ -2,4 +2,4 @@
 subdir-y := acl
 subdir-y += lsm
 
-include ../../template/main.mk
+include main.mk

@@ -17,7 +17,7 @@ CFLAGS :=
 target-post-y := generate-dir
 target-clean-y := remove-dir
 
-include ../../template/main.mk
+include main.mk
 
 generate-dir:
 	@mkdir -p a.dir/a/b/c/d/e

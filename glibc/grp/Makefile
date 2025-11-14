@@ -11,7 +11,7 @@ target-y += demo-pwd-grp
 
 CFLAGS :=
 
-include ../../template/main.mk
+include main.mk
 
 fgetgrent: fgetgrent.o
 getgrent: getgrent.o

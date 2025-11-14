@@ -25,7 +25,7 @@ CFLAGS_log-stress := -DSTRESS=1
 
 target-clean-y := clean-tmp
 
-include ../../template/main.mk
+include main.mk
 
 ceil: ceil.o
 exp: exp.o

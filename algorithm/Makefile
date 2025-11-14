@@ -19,6 +19,6 @@ target-y += pi
 CFLAGS :=
 CFLAGS += -I../macro/
 
-include ../template/main.mk
+include main.mk
 
 pi: pi.o

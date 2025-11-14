@@ -7,7 +7,7 @@ target-y += acc_get_num_devices
 CFLAGS := -fopenacc
 LDFLAGS := -fopenacc
 
-include ../../../template/main.mk
+include main.mk
 
 hello: ${OUTPUT}hello.o
 acc_get_num_devices: ${OUTPUT}acc_get_num_devices.o

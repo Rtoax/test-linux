@@ -1,5 +1,5 @@
 target-y := setup-if-addr
 
-include ../../template/main.mk
+include main.mk
 
 setup-if-addr: setup-if-addr.o

@@ -7,7 +7,7 @@ target-rust-y :=
 target-rust-y += hello
 target-rust-y += if-let
 
-include ../template/main.mk
+include main.mk
 
 hello: hello.rs
 if-let: if-let.rs

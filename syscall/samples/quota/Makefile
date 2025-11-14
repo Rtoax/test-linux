@@ -1,5 +1,5 @@
 target-y := quotactl
 
-include ../../../template/main.mk
+include main.mk
 
 quotactl: quotactl.o

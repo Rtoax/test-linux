@@ -19,7 +19,7 @@ CFLAGS_btf_kfunc := -DTEST_BTF_KIND_FUNC=1
 CFLAGS_btf_struct := -DTEST_BTF_KIND_STRUCT=1
 CFLAGS_btf_decl_tag := -DTEST_BTF_KIND_DECL_TAG=1
 
-include ../../template/main.mk
+include main.mk
 
 ${OUTPUT}btf_helpers.o: btf_helpers.h
 

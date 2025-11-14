@@ -34,7 +34,7 @@ CFLAGS_sequentially-consistent-raw := ${CFLAGS_no-barrier}
 CFLAGS_sequentially-consistent-waw := -Wno-error=cpp
 CFLAGS_sequentially-consistent-waw-2 := ${CFLAGS_sequentially-consistent-waw}
 
-include ../../../template/main.mk
+include main.mk
 
 r-barrier: r-barrier.o
 w-barrier: w-barrier.o

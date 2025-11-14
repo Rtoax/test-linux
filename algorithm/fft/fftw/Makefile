@@ -13,7 +13,7 @@ endif
 
 LDFLAGS += -lm
 
-include ../../../template/main.mk
+include main.mk
 
 fftw_plan_dft_1d: fftw_plan_dft_1d.o
 fftw_plan_dft_1d-1: fftw_plan_dft_1d-1.o

@@ -4,7 +4,7 @@ target-y += TIMEVAL_TO_TIMESPEC
 
 CFLAGS :=
 
-include ../../../template/main.mk
+include main.mk
 
 adjtime: adjtime.o
 TIMEVAL_TO_TIMESPEC: TIMEVAL_TO_TIMESPEC.o

@@ -37,7 +37,7 @@ CFLAGS_getwd += -Wno-deprecated-declarations
 
 CFLAGS_lockf-nolock := -DNO_LOCK=1
 
-include ../../template/main.mk
+include main.mk
 
 unistd_helpers.o: unistd_helpers.h
 

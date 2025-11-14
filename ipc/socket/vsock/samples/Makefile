@@ -4,7 +4,7 @@ target-y += client
 
 CFLAGS := -pthread
 
-include ../../../../template/main.mk
+include main.mk
 
 ../vsock_helpers.o: ../vsock_helpers.h
 server.o: config.h

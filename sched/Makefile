@@ -9,7 +9,7 @@ target-y += hung
 target-y += zombie
 target-y += stopped
 
-include ../template/main.mk
+include main.mk
 
 current: ${OUTPUT}current.o
 uninterruptible: ${OUTPUT}uninterruptible.o

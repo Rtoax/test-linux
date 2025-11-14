@@ -4,7 +4,7 @@ target-y += to
 
 CFLAGS :=
 
-include ../../template/main.mk
+include main.mk
 
 is: is.o
 to: to.o

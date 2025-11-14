@@ -20,7 +20,7 @@ ifdef PIE
   LDS_PIE := PIE
 endif
 
-include ../../../template/main.mk
+include main.mk
 
 ${OUTPUT}foo.o: foo.h bar.h
 ${OUTPUT}bar.o: foo.h bar.h

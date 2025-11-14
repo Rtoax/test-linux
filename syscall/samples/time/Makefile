@@ -13,7 +13,7 @@ target-y += gettimeofday settimeofday
 CFLAGS :=
 CFLAGS += -pthread
 
-include ../../../template/main.mk
+include main.mk
 
 time: time.o
 alarm: alarm.o

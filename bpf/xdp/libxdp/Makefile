@@ -20,7 +20,7 @@ CFLAGS_BPF += $(CFLAG_BPF_TARGET_ARCH)
 LDFLAGS :=
 LDFLAGS += -lxdp -lbpf
 
-include ../../../template/main.mk
+include main.mk
 
 xdp_xsk.bpf.o: vmlinux.h
 xdp_drop.bpf.o: vmlinux.h

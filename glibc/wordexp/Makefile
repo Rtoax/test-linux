@@ -1,6 +1,6 @@
 target-y :=
 target-y += wordexp
 
-include ../../template/main.mk
+include main.mk
 
 wordexp: wordexp.o

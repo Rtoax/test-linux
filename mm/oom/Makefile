@@ -20,7 +20,7 @@ target-prep-y := ${VMLINUX_H}
 LDFLAGS += -Wl,-rpath,$(shell pwd)
 
 include ../../cgroup/libcgroup/libcgroup.mk
-include ../../template/main.mk
+include main.mk
 
 oom_helpers.so.o: oom_helpers.h
 liboom_helpers.so: oom_helpers.so.o

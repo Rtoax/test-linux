@@ -28,7 +28,7 @@ CFLAGS += -pthread -lrt
 
 LDFLAGS := -pthread -lrt
 
-include ../../template/main.mk
+include main.mk
 
 time_helpers.o: time_helpers.h
 

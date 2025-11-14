@@ -73,7 +73,7 @@ CFLAGS_paciasp-c := -march=armv8.3-a
 CFLAGS_hello-puts-infinite-loop := -DINFINITE_LOOP=1
 CFLAGS_write-c-loop := -DINFINITE_LOOP=1
 
-include ../../../template/main.mk
+include main.mk
 
 add: add.as.o
 branch: branch.as.o

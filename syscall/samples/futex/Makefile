@@ -4,7 +4,7 @@ target-y += h2o
 target-y += spin
 target-y += latency
 
-include ../../../template/main.mk
+include main.mk
 
 requeue: requeue.o
 wait-wake: wait-wake.o

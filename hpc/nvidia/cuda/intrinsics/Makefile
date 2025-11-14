@@ -42,7 +42,7 @@ CFLAGS_HTCC := ${cflags-support-types-y}
 CFLAGS_LSCC := ${cflags-support-types-y}
 CFLAGS_NVCC := ${cflags-support-types-y}
 
-include ../../../../template/main.mk
+include main.mk
 
 HDRS := print.h compiler.h types.h
 

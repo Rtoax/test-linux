@@ -49,7 +49,7 @@ CFLAGS_add-unalign-f4 := -mavx2 -mfma
 CFLAGS_cvt-df := -mavx2 -mfma
 CFLAGS_mask := -mavx2 -mavx512f -mfma
 
-include ../../../template/main.mk
+include main.mk
 
 sum: ${OUTPUT}sum.o
 sum-avx: ${OUTPUT}sum-avx.o

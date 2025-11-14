@@ -1,6 +1,6 @@
 target-y := CEDT
 
-include ../../template/main.mk
+include main.mk
 
 chbs.o: chbs.h
 cfmws.o: cfmws.h

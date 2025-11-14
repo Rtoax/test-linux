@@ -7,7 +7,7 @@ target-y += va_copy
 
 CFLAGS :=
 
-include ../../template/main.mk
+include main.mk
 
 delete_files: delete_files.o
 sum_int: sum_int.o

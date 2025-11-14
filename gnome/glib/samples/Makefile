@@ -17,7 +17,7 @@ CFLAGS += $(GLIB_LIBS)
 
 LDFLAGS += $(GLIB_LIBS)
 
-include ../../../template/main.mk
+include main.mk
 
 gthread: gthread.o
 size: size.o

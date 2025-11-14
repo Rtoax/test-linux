@@ -2,6 +2,6 @@ target-y := latency
 
 CFLAGS_multi-thread := -pthread
 
-include ../../template/main.mk
+include main.mk
 
 latency: latency.o

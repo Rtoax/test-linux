@@ -12,7 +12,7 @@ LDFLAGS := -lbpf -lbcc
 CFLAGS_BPF_foo := -DBPF=1 -O0
 CFLAGS_foo := -fomit-frame-pointer
 
-include ../../template/main.mk
+include main.mk
 
 bpf_helpers.o: bpf_helpers.h
 kprobe: kprobe.o bpf_helpers.o

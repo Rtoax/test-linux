@@ -25,7 +25,7 @@ define print_elf_reloc
   @readelf --relocs --wide $(1) >> ${1}.reloc
 endef
 
-include ../../../../template/main.mk
+include main.mk
 
 R_AARCH64: R_AARCH64.o
 R_AARCH64_JUMP_SLOT: R_AARCH64_JUMP_SLOT.o

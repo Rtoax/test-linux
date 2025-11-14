@@ -15,7 +15,7 @@ LDXXFLAGS += $(shell llvm-config --ldflags --system-libs --libs core mc mcjit Ex
 CXXFLAGS_ParseCommandLineOptions := -Wno-unused-command-line-argument
 CXXFLAGS_ParseCommandLineOptions-2 := -Wno-unused-command-line-argument
 
-include ../../../template/main.mk
+include main.mk
 
 ParseCommandLineOptions: ${OUTPUT}ParseCommandLineOptions.cpp.o
 ParseCommandLineOptions-2: ${OUTPUT}ParseCommandLineOptions-2.cpp.o

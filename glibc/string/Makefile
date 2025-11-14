@@ -104,7 +104,7 @@ CFLAGS___memcpy_aarch64_sve-stress := -DARM_SOFTWARE___memcpy_aarch64_sve=1
 
 target-prep-y := sig.h
 
-include ../../template/main.mk
+include main.mk
 
 sig.h:
 	$(shell bash signo.sh)

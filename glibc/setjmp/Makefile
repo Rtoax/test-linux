@@ -10,7 +10,7 @@ CFLAGS :=
 CFLAGS_sigsetjmp := -DSIGJMP=1
 CFLAGS_setjmp := -DJMP=1
 
-include ../../template/main.mk
+include main.mk
 
 setjmp: setjmp.o
 sigsetjmp: sigsetjmp.o

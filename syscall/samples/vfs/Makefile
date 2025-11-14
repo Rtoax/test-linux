@@ -5,7 +5,7 @@ target-y += fstatfs
 
 CFLAGS := -pthread
 
-include ../../../template/main.mk
+include main.mk
 
 statfs: statfs.o ${PROC_HELPERS}
 fstatfs: fstatfs.o

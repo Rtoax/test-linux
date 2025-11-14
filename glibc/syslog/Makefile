@@ -4,7 +4,7 @@ target-y += syslog-benchmark
 
 CFLAGS :=
 
-include ../../template/main.mk
+include main.mk
 
 syslog: syslog.o
 syslog-benchmark: syslog-benchmark.o

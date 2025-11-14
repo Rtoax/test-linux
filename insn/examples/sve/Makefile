@@ -18,7 +18,7 @@ CFLAGS += -march=armv8-a+sve+sve2
 CFLAGS += -DCPU_HAVE_NEON=1
 CFLAGS += -DCPU_HAVE_SVE=1
 
-include ../../../template/main.mk
+include main.mk
 
 sve-width: sve-width.o
 add_array: add_array.o

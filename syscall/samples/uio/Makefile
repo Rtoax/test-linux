@@ -1,7 +1,7 @@
 target-y := writev
 target-y += readv
 
-include ../../../template/main.mk
+include main.mk
 
 writev: writev.o
 readv: readv.o

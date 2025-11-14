@@ -6,7 +6,7 @@ target-y += register_printf_specifier
 CFLAGS :=
 CFLAGS_register_printf_function := -Wno-error=deprecated-declarations
 
-include ../../template/main.mk
+include main.mk
 
 parse_printf_format: parse_printf_format.o
 register_printf_function: register_printf_function.o

@@ -62,7 +62,7 @@ CFLAGS :=  -fopenmp
 CFLAGS += -Wno-error=unused-variable
 LDFLAGS := -fopenmp
 
-include ../../../template/main.mk
+include main.mk
 
 atomic: ${OUTPUT}atomic.o
 barrier: ${OUTPUT}barrier.o

@@ -4,7 +4,7 @@ target-y += ntp_gettime
 
 CFLAGS :=
 
-include ../../template/main.mk
+include main.mk
 
 ntp_adjtime: ntp_adjtime.o
 ntp_gettime: ntp_gettime.o

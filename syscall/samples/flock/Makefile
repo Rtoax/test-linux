@@ -3,7 +3,7 @@ target-y += flock flock-fork flock-unlink flock-thread
 
 CFLAGS :=
 
-include ../../../template/main.mk
+include main.mk
 
 flock_helpers.o: flock_helpers.h
 flock: flock.o

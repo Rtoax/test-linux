@@ -1,7 +1,7 @@
 target-y := owner
 target-y += pidns
 
-include ../../template/main.mk
+include main.mk
 
 owner: owner.o
 pidns: pidns.o

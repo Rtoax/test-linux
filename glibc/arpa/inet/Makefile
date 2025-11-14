@@ -13,7 +13,7 @@ target-y += inet_network
 CFLAGS :=
 CFLAGS += -pthread
 
-include ../../../template/main.mk
+include main.mk
 
 htonl: htonl.o
 htons: htons.o

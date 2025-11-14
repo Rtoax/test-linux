@@ -2,6 +2,6 @@ target-y := nftw
 
 CFLAGS :=
 
-include ../../template/main.mk
+include main.mk
 
 nftw: nftw.o

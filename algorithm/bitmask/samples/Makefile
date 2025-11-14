@@ -1,5 +1,5 @@
 target-y := test-1
 
-include ../../../template/main.mk
+include main.mk
 
 test-1: test-1.o bitmask.o

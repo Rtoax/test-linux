@@ -6,6 +6,6 @@ CFLAGS :=
 
 LDFLAGS := -pthread -lrt
 
-include ../../template/main.mk
+include main.mk
 
 argp_parse: argp_parse.o

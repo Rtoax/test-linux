@@ -14,7 +14,7 @@ CFLAGS :=
 CFLAGS += -pthread
 CFLAGS += -I../../libs/
 
-include ../../../template/main.mk
+include main.mk
 
 mnt_helpers.o: mnt_helpers.h
 mount.o: mnt_helpers.h

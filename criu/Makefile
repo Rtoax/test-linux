@@ -14,4 +14,4 @@ CFLAGS__XOPEN_SOURCE := -D_XOPEN_SOURCE=1
 
 target-shell-y := check.sh
 
-include ../template/main.mk
+include main.mk

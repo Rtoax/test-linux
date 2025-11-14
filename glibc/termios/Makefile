@@ -14,7 +14,7 @@ CFLAGS += -lm
 
 target-test-y := test-tcsetattr
 
-include ../../template/main.mk
+include main.mk
 
 termios_helpers.o: termios_helpers.h
 

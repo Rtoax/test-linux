@@ -7,7 +7,7 @@ LDFLAGS_hello += -no-pie
 CFLAGS_hello-pie := -fpie
 LDFLAGS_hello-pie := -pie
 
-include ../../template/main.mk
+include main.mk
 
 hello: hello.o
 hello-pie: hello-pie.o

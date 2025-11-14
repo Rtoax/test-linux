@@ -1,3 +1,3 @@
 target-python-y := main.py
 
-include ../../template/main.mk
+include main.mk

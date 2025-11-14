@@ -3,7 +3,7 @@ target-y := ksym_examples
 target-libso-y := libksym_helpers.so
 target-liba-y := libksym_helpers.a
 
-include ../../../template/main.mk
+include main.mk
 
 ksym_helpers.o: ksym_helpers.h
 ksym_helpers.so.o: ksym_helpers.h

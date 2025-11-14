@@ -3,4 +3,4 @@ subdir-y += deprecated
 
 target-shell-y := syscalls.sh
 
-include ../template/main.mk
+include main.mk

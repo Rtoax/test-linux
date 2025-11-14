@@ -1,6 +1,6 @@
 target-y :=
 target-y += fnmatch
 
-include ../../template/main.mk
+include main.mk
 
 fnmatch: fnmatch.o

@@ -1,2 +1,2 @@
 subdir-y := libkmod
-include ../../template/main.mk
+include main.mk

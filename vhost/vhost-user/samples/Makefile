@@ -1,6 +1,6 @@
 target-y :=
 target-y += vhost-user
 
-include ../../../template/main.mk
+include main.mk
 
 vhost-user: vhost-user.o

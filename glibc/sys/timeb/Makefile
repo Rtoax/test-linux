@@ -4,6 +4,6 @@ target-y += ftime
 CFLAGS :=
 CFLAGS_ftime := -Wno-deprecated-declarations
 
-include ../../../template/main.mk
+include main.mk
 
 ftime: ftime.o

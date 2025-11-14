@@ -4,7 +4,7 @@ target-y += dup2
 target-y += dup-dup2
 target-y += fork-pipe
 
-include ../../../template/main.mk
+include main.mk
 
 dup: dup.o
 dup2: dup2.o

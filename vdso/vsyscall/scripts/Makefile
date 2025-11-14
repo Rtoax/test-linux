@@ -1,3 +1,3 @@
 target-y := vsyscall-vma
-include ../../../template/main.mk
+include main.mk
 vsyscall-vma: vsyscall-vma.o

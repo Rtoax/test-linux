@@ -1,3 +1,3 @@
 target-y := add
-include ../../../template/main.mk
+include main.mk
 add: add.o
