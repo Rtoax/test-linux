@@ -99,7 +99,7 @@ ifeq ($(has-bfd_get_symbol_version_string),1)
   CFLAGS += -DBFD_HAS_BFD_GET_SYMBOL_VERSION_STRING=1
 endif
 
-include ../../binutils.mk
+include binutils.mk
 
 CFLAGS += -DBINUTILS_VERSION_MAJOR=${BINUTILS_VERSION_MAJOR}
 CFLAGS += -DBINUTILS_VERSION_MINOR=${BINUTILS_VERSION_MINOR}

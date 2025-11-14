@@ -5,7 +5,7 @@ CFLAGS :=
 CFLAGS += -Wno-unused-label
 CFLAGS += -Wno-unused-variable
 
-include ../../binutils.mk
+include binutils.mk
 
 CFLAGS += -DBINUTILS_VERSION_MAJOR=${BINUTILS_VERSION_MAJOR}
 CFLAGS += -DBINUTILS_VERSION_MINOR=${BINUTILS_VERSION_MINOR}

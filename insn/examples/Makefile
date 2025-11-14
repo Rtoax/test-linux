@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
 include arch.mk
 include compiler.mk
-include ../../binutils/binutils.mk
+include binutils.mk
 
 subdir-y :=
 subdir-${IS_X86_64} += avx
