@@ -44,7 +44,13 @@ printf '$(call TS) $(call red,$1)\n' | tee --append ${LOG_FILE_FAILED}
 endef
 
 define log_reset_files
-	${Q}rm -f $(LOG_FILE_FAILED) $(LOG_FILE_INFO)
+	${Q}if [[ -e $(LOG_FILE_FAILED) ]]; then \
+		mv $(LOG_FILE_FAILED) $(LOG_FILE_FAILED).old; \
+	fi; \
+	if [[ -e $(LOG_FILE_INFO) ]]; then \
+		mv $(LOG_FILE_INFO) $(LOG_FILE_INFO).old; \
+	fi; \
+	rm -f $(LOG_FILE_FAILED) $(LOG_FILE_INFO)
 endef
 
 define log_display_failed
