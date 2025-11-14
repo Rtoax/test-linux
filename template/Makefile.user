@@ -46,7 +46,7 @@ ifdef STATIC
   $(info Defined STATIC)
 endif
 
-include ../elf/pie.mk
+include pie.mk
 
 ifdef M32
   CFLAGS += -m32 -DM32=1
