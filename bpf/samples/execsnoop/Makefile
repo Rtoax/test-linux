@@ -8,4 +8,4 @@ LDFLAGS := -lelf -lbpf
 
 include main.mk
 
-execsnoop: ${TRACE_HELPERS} bpf_load.o loader.o
+execsnoop: loader.o bpf_load.o ${TRACE_HELPERS}
