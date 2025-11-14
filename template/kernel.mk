@@ -26,6 +26,7 @@
 # compilation errors occur.
 _KERNEL = 1
 
+SHELL := /bin/bash
 KVER_GREP_CMD := grep -Eo '[0-9]+\.[0-9]+\.[0-9]+'
 
 KVERSION_RAW := $(shell uname -r | ${KVER_GREP_CMD} | head -1)
