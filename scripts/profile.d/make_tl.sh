@@ -9,7 +9,6 @@ make_tl() {
 	local TEST_LINUX_ROOT=$(realpath $(dirname $(realpath ${BASH_SOURCE[0]}))/../../)
 	if [[ " $(realpath .)" =~ " ${TEST_LINUX_ROOT}" ]]; then
 		local args
-		args+=( -I${TEST_LINUX_ROOT} )
 		args+=( -I${TEST_LINUX_ROOT}/template/ )
 
 		make ${args[@]} $@
