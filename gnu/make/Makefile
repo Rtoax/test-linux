@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
-include ../../template/dir.mk
+include dir.mk
 
 target-mk-y := $(shell ls *.mk)
 

@@ -2,12 +2,12 @@
 include ../compiler/compiler.mk
 include ../glibc/glibc.mk
 include ansi.mk
-include ../template/dir.mk
+include dir.mk
 include git.mk
 include success.mk
 include sudo.mk
 include wow.mk
-include ../template/logo.mk
+include logo.mk
 include cpu.mk
 include os.mk
 include ../gnu/gnu.mk
