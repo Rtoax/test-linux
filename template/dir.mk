@@ -3,18 +3,11 @@
 #
 # Output definitions:
 # - TOPDIR
-# - GIT_TOPDIR
 # - CURDIR
 #
 _DIR = 1
 
-GIT_TOPDIR := $(shell git rev-parse --show-toplevel 2>/dev/null || :)
-
-TOPDIR := ${GIT_TOPDIR}
-ifeq (${TOPDIR},)
-  TOPDIR := $(dir $(shell realpath $(abspath $(lastword $(MAKEFILE_LIST))/../)))
-endif
-
+TOPDIR := $(dir $(shell realpath $(abspath $(lastword $(MAKEFILE_LIST))/../)))
 CURDIR := $(shell realpath .)
 
 ifeq (${TOPDIR},)
@@ -32,7 +25,6 @@ endef
 ifdef DEBUG
   $(info TOPDIR = ${TOPDIR})
   $(info CURDIR = ${CURDIR})
-  $(info GIT_TOPDIR = ${GIT_TOPDIR})
 endif
 
-export TOPDIR CURDIR GIT_TOPDIR
+export TOPDIR CURDIR
