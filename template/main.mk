@@ -149,6 +149,14 @@ clean: $(subdir-y-clean) $(target-clean-y)
 	${Q}rm -f ${VMLINUX_H}
 	$(call log_tgt_done,clean,$(call git_relative_dir,$(shell realpath .)))
 
+reset:
+	@echo "Reset"
+	$(call log_reset_files)
+
+done:
+	@echo "Done"
+	$(call log_display_failed)
+
 # Helpers
 include helpers.mk
 

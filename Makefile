@@ -25,7 +25,6 @@ include template/dir.mk
 include template/emoji.mk
 include template/git.mk
 include template/ansi.mk
-include template/log.mk
 include template/logo.mk
 include template/os.mk
 include template/kconfig.mk
@@ -49,7 +48,6 @@ endif
 # Default help
 .PHONY: help
 help:
-	$(call log_info,top-makefile help)
 	@echo >&2 -e "***"
 	$(call tl_logo1,*** )
 	@echo >&2 -e "***"
@@ -112,12 +110,11 @@ endef
 
 .PHONY: deps
 deps:
-	$(call log_info,top-makefile install deps)
+	@echo "Deps"
 	$(call installdeps)
 
 .PHONY: install
 install: uninstall
-	$(call log_info,top-makefile install)
 	@echo "Install"
 	${Q}ln -s ${TOPDIR}/scripts/git/bigfile.sh /usr/bin/git-bigfile
 	${Q}ln -s ${TOPDIR}/scripts/git/statistic.sh /usr/bin/git-statistic
@@ -134,7 +131,6 @@ install: uninstall
 
 .PHONY: uninstall
 uninstall:
-	$(call log_info,top-makefile uninstall)
 	@echo "Uninstall"
 	${Q}rm -f /usr/bin/git-bigfile \
 		/usr/bin/git-statistic \
@@ -155,13 +151,11 @@ version:
 
 .PHONY: archive
 archive:
-	$(call log_info,top-makefile archive)
 	@echo "=== archive"
 	$(call git_archive)
 
 .PHONY: gitconfig
 gitconfig:
-	$(call log_info,top-makefile gitconfig)
 	@echo "=== gitconfig"
 	$(call git_config)
 
@@ -171,13 +165,11 @@ kconfig-display:
 
 .PHONY: menuconfig
 menuconfig:
-	$(call log_info,top-makefile menuconfig)
 	@echo "=== menuconfig"
 	$(SHELL) ./scripts/config/dialog.sh
 
 .PHONY: config
 config:
-	$(call log_info,top-makefile config)
 	@echo "=== config"
 	$(SHELL) ./scripts/config/no-interaction.sh
 
@@ -189,17 +181,10 @@ endef
 
 .PHONY: check
 check:
-	$(call log_info,top-makefile check)
+	@echo "Check"
 	$(call check_links)
 
 # Clean git repo useless file and directory
 cleangit:
-	$(call log_info,top-makefile cleangit)
 	@echo "=== clean git repo"
 	$(call git_clean)
-
-reset:
-	$(call log_reset_files)
-
-done:
-	$(call log_display_failed)
