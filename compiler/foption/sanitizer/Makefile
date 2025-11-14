@@ -1,6 +1,6 @@
 CC := gcc
 
-include ../../compiler.mk
+include compiler.mk
 
 target-y += leak
 target-y += address

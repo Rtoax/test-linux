@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
-include ../../compiler/compiler.mk
+include compiler.mk
 
 target-y :=
 ANNOBIN := $(shell pwd)/annobin-cc1

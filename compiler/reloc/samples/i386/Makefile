@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
 
 CC := gcc
-include ../../../../compiler/compiler.mk
+include compiler.mk
 
 target-${CC_M32} := R_386_32
 

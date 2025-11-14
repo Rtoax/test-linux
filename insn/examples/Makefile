@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
 include arch.mk
-include ../../compiler/compiler.mk
+include compiler.mk
 include ../../binutils/binutils.mk
 
 subdir-y :=

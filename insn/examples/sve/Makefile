@@ -4,7 +4,7 @@ CFLAGS :=
 
 include cross-compile.mk
 # All CC set done here
-include ../../../compiler/compiler.mk
+include compiler.mk
 
 target-y :=
 target-y += neon-sve

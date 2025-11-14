@@ -18,7 +18,7 @@ target-shell-y := info.sh
 CC := gcc
 CFLAGS :=
 
-include ../../compiler/compiler.mk
+include compiler.mk
 
 pac-ret := $(findstring 1,$(call check_compiler_option,$(CC),-mbranch-protection=pac-ret))
 

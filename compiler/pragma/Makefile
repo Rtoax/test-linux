@@ -15,7 +15,7 @@ target-y += push_macro
 target-y += message
 target-y += _Pragma
 
-include ../compiler.mk
+include compiler.mk
 
 CFLAGS :=
 CFLAGS += -Werror=unknown-pragmas

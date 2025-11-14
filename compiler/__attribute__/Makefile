@@ -33,7 +33,7 @@ target-y += visibility
 
 target-bpf-y := preserve_access_index.bpf.o
 
-include ../compiler.mk
+include compiler.mk
 
 ifeq ($(CC_-fcf-protection),y)
   CFLAGS_nocf_check := -fcf-protection

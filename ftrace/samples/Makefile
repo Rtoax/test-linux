@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
-include ../../compiler/compiler.mk
+include compiler.mk
 target-y := main
 target-y += main-pg
 # FIXME: aarch64 seems like don't support -mfentry

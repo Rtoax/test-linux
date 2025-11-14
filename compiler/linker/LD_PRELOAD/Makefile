@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
-include ../../compiler.mk
+include compiler.mk
 
 # Compile to dynamic library.
 CFLAGS_PIC := -fPIC

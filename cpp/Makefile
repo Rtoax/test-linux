@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
 CXX := g++
 
-include ../compiler/compiler.mk
+include compiler.mk
 
 OUTPUT := .output/
 

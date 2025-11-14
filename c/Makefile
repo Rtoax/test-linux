@@ -3,7 +3,7 @@ OUTPUT := .output/
 
 include kconfig.mk
 CC := gcc
-include ../compiler/compiler.mk
+include compiler.mk
 
 target-y :=
 target-y += arg

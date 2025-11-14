@@ -7,7 +7,7 @@ include cuda.mk
 include rocm.mk
 include luca.mk
 include hpcc.mk
-include ../../../../compiler/compiler.mk
+include compiler.mk
 
 common-objs := attribute
 common-objs += blas

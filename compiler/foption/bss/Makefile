@@ -1,5 +1,5 @@
 CC := gcc
-include ../../compiler.mk
+include compiler.mk
 
 target-y :=
 # Default

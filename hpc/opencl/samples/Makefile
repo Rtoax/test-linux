@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
-include ../../../compiler/compiler.mk
+include compiler.mk
 target-y := clGetPlatformIDs
 
 have_libopencl := $(findstring 1,$(call check_compiler_option,$(CC),-lOpenCL))

@@ -4,7 +4,7 @@ OUTPUT := .output/
 include arch.mk
 include kernel.mk
 include cross-compile.mk
-include ../compiler/compiler.mk
+include compiler.mk
 
 target-y :=
 target-y += align

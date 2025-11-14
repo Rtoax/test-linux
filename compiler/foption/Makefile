@@ -1,6 +1,6 @@
 CC := gcc
 
-include ../compiler.mk
+include compiler.mk
 
 subdir-y := bss
 subdir-y += lto

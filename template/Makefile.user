@@ -30,7 +30,7 @@ OS := $(shell grep ^ID= /etc/os-release | sed 's/ID=//g' | sed 's/"//g')
 DEBUG := yes
 CC := gcc
 
-include ../compiler/compiler.mk
+include compiler.mk
 
 CFLAGS := -Werror -Wall
 CFLAGS += -Wstrict-prototypes

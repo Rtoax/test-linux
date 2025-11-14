@@ -1,4 +1,4 @@
-include ../../compiler.mk
+include compiler.mk
 
 target-y :=
 target-y += ffat-lto-objects

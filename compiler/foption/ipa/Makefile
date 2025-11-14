@@ -1,6 +1,6 @@
 CC := gcc
 
-include ../../compiler.mk
+include compiler.mk
 
 target-y :=
 target-y += fdump-ipa-all fdump-ipa-clones
