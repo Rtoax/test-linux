@@ -4,7 +4,7 @@ __USE_KSYM_HELPERS__ = y
 
 include kernel.mk
 ifndef NO_PAHOLE
-  include ../../pahole/pahole.mk
+  include pahole.mk
 endif
 
 OUTPUT := .output/

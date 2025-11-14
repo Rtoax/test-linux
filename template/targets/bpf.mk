@@ -14,7 +14,7 @@ ifeq ($(LLVM_OBJDUMP),)
   $(error Not found llvm-objdump, please install llvm first)
 endif
 
-include ${TEMPLATE_DIR}/../pahole/pahole.mk
+include pahole.mk
 include bpf/bpf.mk
 include bpf/btf.mk
 include ${TEMPLATE_DIR}/../bpf/bpftool/bpftool.mk
