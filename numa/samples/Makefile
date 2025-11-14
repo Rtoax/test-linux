@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
-include ../numactl.mk
+include numactl.mk
 
 LIBNUMA_HDR = /usr/include/numa.h
 
