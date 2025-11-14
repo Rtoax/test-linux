@@ -24,7 +24,6 @@ include template/verbose.mk
 include template/dir.mk
 include template/git.mk
 include template/ansi.mk
-include template/os.mk
 
 # If in git-tree, need check something already config.
 ifneq (${GIT_TOPDIR},)
@@ -45,7 +44,6 @@ endif
 .PHONY: help
 help:
 	@echo >&2 -e "***"
-	@echo >&2 -e "*** OS ${OS}"
 	@echo >&2 -e "*** TOPDIR ${TOPDIR}"
 	@echo >&2 -e "*** GIT_TOPDIR ${GIT_TOPDIR}"
 	@echo >&2 -e "***    core.hooksPath = ${GIT_CONFIG_CORE_HOOKSPATH}"
