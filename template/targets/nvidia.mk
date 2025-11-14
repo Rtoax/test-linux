@@ -87,6 +87,8 @@ CFLAGS_NVCC_SO += ${cflags-nvcc-so}
 LDFLAGS_NVCC_SO += ${LDFLAGS_NVCC}
 LDFLAGS_NVCC_SO += ${ldflags-nvcc-so}
 
+CFLAGS_NVCC_A += ${CFLAGS_NVCC_SO}
+
 ifdef DEBUG
   $(info cflags-nvcc-cubin = ${cflags-nvcc-cubin})
   $(info cflags-nvcc-fatbin = ${cflags-nvcc-fatbin})
@@ -94,6 +96,7 @@ ifdef DEBUG
   $(info LDFLAGS_NVCC = ${LDFLAGS_NVCC})
   $(info CFLAGS_NVCC_SO = ${CFLAGS_NVCC_SO})
   $(info LDFLAGS_NVCC_SO = ${LDFLAGS_NVCC_SO})
+  $(info CFLAGS_NVCC_A = ${CFLAGS_NVCC_A})
 endif
 
 # NOTE: NVCC's cflags,ldflags is totally different from gcc/clang, thus, we
@@ -140,9 +143,13 @@ ${OUTPUT}%.E.cu: %.cu | ${OUTPUT}
 	$(call log_tgt_obj,NVCC E,$(<),$(@))
 	${Q}$(NVCC) -E -o $(@) -c $(<) $(CFLAGS_NVCC) $(CFLAGS_NVCC_$(*))
 
-${OUTPUT}%.cu.so.o ${OUTPUT}%.cu.a.o: %.cu | ${OUTPUT}
-	$(call log_tgt_obj,NVCC LIB.o,$(<),$(@))
+${OUTPUT}%.cu.so.o: %.cu | ${OUTPUT}
+	$(call log_tgt_obj,NVCC SO.o,$(<),$(@))
 	${Q}$(NVCC) -o $(@) -c $(<) $(CFLAGS_NVCC_SO) $(CFLAGS_NVCC_SO_$(*))
+
+${OUTPUT}%.cu.a.o: %.cu | ${OUTPUT}
+	$(call log_tgt_obj,NVCC A.o,$(<),$(@))
+	${Q}$(NVCC) -o $(@) -c $(<) $(CFLAGS_NVCC_A) $(CFLAGS_NVCC_A_$(*))
 
 $(target-nvcc-y): %:
 	$(call log_tgt_exe,NVCC LD,$(<),$(@))
