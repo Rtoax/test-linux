@@ -4,11 +4,9 @@
 #include <ctype.h>
 #include <errno.h>
 #include <stdint.h>
-#include <stdint.h>
-#include <stdio.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdlib.h>
+#include <stdbool.h>
 #include <string.h>
 #include <sys/types.h>
 
