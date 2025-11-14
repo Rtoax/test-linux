@@ -10,7 +10,7 @@ include wow.mk
 include logo.mk
 include cpu.mk
 include os.mk
-include ../gnu/gnu.mk
+include gnu.mk
 include bpf/logo.mk
 
 subdir-y := git

@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
 include ansi.mk
-include ../gnu/gnu.mk
+include gnu.mk
 
 subdir-y := annobin
 subdir-y += ast
