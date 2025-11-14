@@ -3,7 +3,7 @@ OUTPUT = .output/
 
 subdir-y := frontend
 
-include ../cuda.mk
+include cuda.mk
 include ../../../metax/hpcc.mk
 include ../../../amd/rocm/rocm.mk
 
