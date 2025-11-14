@@ -2,7 +2,7 @@
 CC := gcc
 __USE_PROC_HELPERS__ = y
 
-include ../bfd.mk
+include bfd.mk
 
 target-y :=
 target-y += bfd_init
