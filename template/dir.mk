@@ -25,8 +25,8 @@ ifeq (${CURDIR},)
   $(error Could not found current directory in anywhere)
 endif
 
-define git_relative_dir
-$(patsubst ${GIT_TOPDIR}/%,%,$(1))
+define relative_path
+$(patsubst ${TOPDIR}/%,%,$(1))
 endef
 
 ifdef DEBUG

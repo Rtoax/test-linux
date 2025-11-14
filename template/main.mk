@@ -133,11 +133,11 @@ export CFLAGS LDFLAGS CXXFLAGS LDXXFLAGS CFLAGS_PIE LDFLAGS_PIE MAKEFLAGS
 
 .PHONY: build
 build: $(build-targets)
-	$(call log_tgt_done,build,$(call git_relative_dir,$(shell realpath .)))
+	$(call log_tgt_done,build,$(call relative_path,$(shell realpath .)))
 
 .PHONY: test
 test: $(build-targets) $(subdir-y-test) $(target-test-y)
-	$(call log_tgt_done,test,$(call git_relative_dir,$(shell realpath .)))
+	$(call log_tgt_done,test,$(call relative_path,$(shell realpath .)))
 
 .PHONY: clean
 clean: $(subdir-y-clean) $(target-clean-y)
@@ -147,7 +147,7 @@ clean: $(subdir-y-clean) $(target-clean-y)
 	${Q}rm -f *.so *.so.* *.a
 	${Q}rm -f *.dat *.bin
 	${Q}rm -f ${VMLINUX_H}
-	$(call log_tgt_done,clean,$(call git_relative_dir,$(shell realpath .)))
+	$(call log_tgt_done,clean,$(call relative_path,$(shell realpath .)))
 
 reset:
 	@echo "Reset"

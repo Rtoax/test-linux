@@ -6,11 +6,11 @@ Q ?= @
 # $1: build, test, clean
 # $2: subdir-y
 define make_sub_dir
-	$(call log_info,${1} $(call git_relative_dir,$(2)))
+	$(call log_info,${1} $(call relative_path,$(2)))
 	$(Q)pushd $(2) >/dev/null; \
 	make ${1}; \
 	if [ $$? -ne 0 ]; then \
-		$(call log_failed,Failed ${1} $(call git_relative_dir,$(2))); \
+		$(call log_failed,Failed ${1} $(call relative_path,$(2))); \
 	fi; \
 	popd >/dev/null
 endef
@@ -28,13 +28,13 @@ define make_sub_dir_clean
 endef
 
 $(subdir-y-build):
-	$(call log_tgt_start,sub-build,$(call git_relative_dir,$(patsubst %.build,%,$(@))))
+	$(call log_tgt_start,sub-build,$(call relative_path,$(patsubst %.build,%,$(@))))
 	$(call make_sub_dir_build,$(@:.build=))
 
 $(subdir-y-test):
-	$(call log_tgt_start,sub-test,$(call git_relative_dir,$(patsubst %.test,%,$(@))))
+	$(call log_tgt_start,sub-test,$(call relative_path,$(patsubst %.test,%,$(@))))
 	$(call make_sub_dir_test,$(@:.test=))
 
 $(subdir-y-clean):
-	$(call log_tgt_start,sub-clean,$(call git_relative_dir,$(patsubst %.clean,%,$(@))))
+	$(call log_tgt_start,sub-clean,$(call relative_path,$(patsubst %.clean,%,$(@))))
 	$(call make_sub_dir_clean,$(@:.clean=))
