@@ -15,7 +15,7 @@ ifeq ($(LLVM_OBJDUMP),)
 endif
 
 include ${TEMPLATE_DIR}/../pahole/pahole.mk
-include ${TEMPLATE_DIR}/../bpf/bpf.mk
+include bpf/bpf.mk
 include ${TEMPLATE_DIR}/../bpf/bpftool/bpftool.mk
 include ${TEMPLATE_DIR}/../bpf/btf/btf.mk
 

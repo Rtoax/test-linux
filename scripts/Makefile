@@ -11,7 +11,7 @@ include ../template/logo.mk
 include cpu.mk
 include os.mk
 include ../gnu/gnu.mk
-include ../bpf/logo.mk
+include bpf/logo.mk
 
 subdir-y := git
 target-prep-y := test_call

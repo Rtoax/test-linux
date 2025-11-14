@@ -43,6 +43,7 @@ and this project adheres to
 - glibc: test `__GLIBC_USE()`;
 - shell: add some commands from ostools;
 #### Changed
+- Move bpf/{bpf.mk,logo.mk} to template/bpf/;
 - Move libvirt directory into virt/;
 - Split NCCL from cuda/samples/;
 - Rename `socket_helpers.a` to `libsocket_helpers.a`;

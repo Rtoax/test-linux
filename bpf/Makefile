@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
 include ansi.mk
-include bpf.mk
-include logo.mk
+include bpf/bpf.mk
+include bpf/logo.mk
 
 subdir-y := bcc
 subdir-y += blazesym
