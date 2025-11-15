@@ -108,7 +108,10 @@ int main(int argc, char *argv[])
 			status[i] = 0;
 			pages_ptr[i] = mem + i * getpagesize();
 
-			printf("Moving page %p to numa %d\n", pages_ptr[i], nodes[i]);
+			printf("Moving page %p from numa %d to %d\n",
+				pages_ptr[i],
+				get_addr_node(pages_ptr[i]),
+				nodes[i]);
 		}
 		ret = move_pages(0, pages, pages_ptr, nodes, status, MPOL_MF_MOVE | MPOL_MF_MOVE_ALL);
 		if (ret != 0) {
@@ -117,10 +120,10 @@ int main(int argc, char *argv[])
 		}
 		for (i = 0; i < pages; i++) {
 			if (status[i] < 0)
-				printf("move page %p: %s\n", pages_ptr[i], strerror(-status[i]));
+				printf("Move page %p failed: %s\n", pages_ptr[i], strerror(-status[i]));
 			else {
 				int policy_node = get_addr_node(pages_ptr[i]);
-				printf("move page %p to numa %d (%d)\n",
+				printf("Move page %p to numa %d (%d) success\n",
 					pages_ptr[i], status[i], policy_node);
 			}
 		}
