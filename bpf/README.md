@@ -1,7 +1,7 @@
 eBPF: extended Berkeley Packet Filter
 =====================================
 
-# [BPF Instruction Set Architecture (ISA)](README.ISA.md)
+# [BPF Instruction Set Architecture (ISA)](insn/README.md)
 
 # Projects
 

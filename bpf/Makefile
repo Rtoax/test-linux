@@ -9,6 +9,7 @@ subdir-y += bpftrace
 subdir-y += bpftool
 subdir-y += btf
 subdir-y += c
+subdir-y += insn
 subdir-y += jit
 subdir-y += libbpf
 subdir-y += samples

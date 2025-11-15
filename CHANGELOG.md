@@ -16,6 +16,7 @@ and this project adheres to
 - profile.d: add `make_tl.sh` to alias system make command;
 - template: include pure header for main.mk, etc.;
 #### Added
+- bpf: add insn subdir;
 - template: add bpftrace.mk;
 - syscall: test `move_pages(2)`;
 - targets/nvidia.mk: support static/dynamic library and add `libcuda_helper.so`, `libcuda_helper.a`;
