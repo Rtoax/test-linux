@@ -8,8 +8,8 @@ target-bpf-y := foo.bpf.o
 target-post-y := $(patsubst %.bpf.o,%.bpf.disasm,$(target-bpf-y))
 target-post-y += foo.c.s foo.o
 
-CFLAGS += -DBCC=1
-LDFLAGS := -lbpf -lbcc
+CFLAGS += $(bcc-cflags)
+LDFLAGS += -lbpf $(bcc-ldflags)
 
 CFLAGS_BPF_foo := -DBPF=1 -O0
 CFLAGS_foo := -fomit-frame-pointer

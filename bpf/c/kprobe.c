@@ -122,7 +122,7 @@ int main(void)
 		printf("%c", bpf_log_buf[i]);
 	}
 
-#if defined(BCC)
+#if defined(HAVE_BCC)
 	int probe_fd;
 	/**
 	 * bcc function bpf_attach_kprobe()
