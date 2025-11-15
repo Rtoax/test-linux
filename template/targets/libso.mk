@@ -27,11 +27,11 @@ endif
 
 ${OUTPUT}%.so.o: %.c | ${OUTPUT}
 	$(call log_tgt_obj,CC SO.o,$(<),$(@))
-	${Q}${CC_PFX} $(CC) -o $(@) -c $(<) $(CFLAGS_SO) $(CFLAGS_SO_$(*))
+	${Q}$(CC) -o $(@) -c $(<) $(CFLAGS_SO) $(CFLAGS_SO_$(*))
 
 ${OUTPUT}%.cpp.so.o: %.cpp | ${OUTPUT}
 	$(call log_tgt_obj,CXX SO.o,$(<),$(@))
-	${Q}${CC_PFX} $(CXX) -o $(@) -c $(<) $(CXXFLAGS_SO) $(CXXFLAGS_SO_$(*))
+	${Q}$(CXX) -o $(@) -c $(<) $(CXXFLAGS_SO) $(CXXFLAGS_SO_$(*))
 
 # All symlinks depends on original dynamic target, thus, if some one need the
 # symlinks, the dynamic library will be compiled.
@@ -43,10 +43,10 @@ $(eval $(shell ${LIBSO_SH} symlinks-names ${so}): ${so}	;)	\
 
 $(target-libso-y): %:
 	$(call log_tgt_exe,SO,$(<),$(@))
-	${Q}${CC_PFX} $(CC) -o $(@) $(^) $(LDFLAGS_SO) $(LDFLAGS_SO_$(*)) -Wl,-soname=$(@)
+	${Q}$(CC) -o $(@) $(^) $(LDFLAGS_SO) $(LDFLAGS_SO_$(*)) -Wl,-soname=$(@)
 	${Q}${SHELL} ${LIBSO_SH} multi-version $(@)
 
 $(target-libso-cpp-y): %:
 	$(call log_tgt_exe,SO CPP,$(<),$(@))
-	${Q}${CC_PFX} $(CXX) -o $(@) $(^) $(LDXXFLAGS_SO) $(LDXXFLAGS_SO_$(*)) -Wl,-soname=$(@)
+	${Q}$(CXX) -o $(@) $(^) $(LDXXFLAGS_SO) $(LDXXFLAGS_SO_$(*)) -Wl,-soname=$(@)
 	${Q}${SHELL} ${LIBSO_SH} multi-version $(@)

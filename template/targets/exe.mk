@@ -6,27 +6,26 @@ CXX ?= g++
 LD ?= ld
 AS ?= as
 NASM ?= nasm
-CC_PFX :=
 
 ${OUTPUT}%.o: %.c | ${OUTPUT}
 	$(call log_tgt_obj,CC,$(<),$(@))
-	${Q}${CC_PFX} $(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
+	${Q}$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
 
 ${OUTPUT}%.E.c: %.c | ${OUTPUT}
 	$(call log_tgt_obj,CC E,$(<),$(@))
-	${Q}${CC_PFX} $(CC) -E -o $(@) $(<) $(CFLAGS) $(CFLAGS_$(*))
+	${Q}$(CC) -E -o $(@) $(<) $(CFLAGS) $(CFLAGS_$(*))
 
 ${OUTPUT}%.c.s: %.c | ${OUTPUT}
 	$(call log_tgt_obj,CC S,$(<),$(@))
-	${Q}${CC_PFX} $(CC) -S -o $(@) $(<) $(CFLAGS) $(CFLAGS_$(*))
+	${Q}$(CC) -S -o $(@) $(<) $(CFLAGS) $(CFLAGS_$(*))
 
 ${OUTPUT}%.cpp.o: %.cpp | ${OUTPUT}
 	$(call log_tgt_obj,CXX,$(<),$(@))
-	${Q}${CC_PFX} $(CXX) -o $(@) -c $(<) $(CXXFLAGS) $(CXXFLAGS_$(*))
+	${Q}$(CXX) -o $(@) -c $(<) $(CXXFLAGS) $(CXXFLAGS_$(*))
 
 ${OUTPUT}%.cpp.s: %.cpp | ${OUTPUT}
 	$(call log_tgt_obj,CXX S,$(<),$(@))
-	${Q}${CC_PFX} $(CXX) -S -o $(@) $(<) $(CXXFLAGS) $(CXXFLAGS_$(*))
+	${Q}$(CXX) -S -o $(@) $(<) $(CXXFLAGS) $(CXXFLAGS_$(*))
 
 # Better define OUTPUT, to fix make: Circular dependency
 ${OUTPUT}%.asm.o: %.asm | ${OUTPUT}
@@ -44,11 +43,11 @@ ${OUTPUT}%.S.o: %.S | ${OUTPUT}
 
 $(target-y): %:
 	$(call log_tgt_exe,LD,$(<),$(@))
-	${Q}${CC_PFX} $(CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*))
+	${Q}$(CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*))
 
 ${target-cpp-y}: %:
 	$(call log_tgt_exe,LD CXX,$(<),$(@))
-	${Q}${CC_PFX} $(CXX) -o $(@) $(^) $(LDXXFLAGS) $(LDXXFLAGS_$(*))
+	${Q}$(CXX) -o $(@) $(^) $(LDXXFLAGS) $(LDXXFLAGS_$(*))
 
 # Same as: ld -m elf_i386 a.o -o a
 ${target-asm-y}: %:
