@@ -17,7 +17,7 @@ and this project adheres to
 - template: include pure header for main.mk, etc.;
 #### Added
 - template: add bcc.mk;
-- git/hooks: add prepare-commit-msg;
+- git/hooks: add prepare-commit-msg, get-commit-file-list;
 - bpf: add insn subdir;
 - template: add bpftrace.mk;
 - syscall: test `move_pages(2)`;

@@ -1,0 +1,10 @@
+#!/bin/bash
+
+readonly GIT_TOPDIR=$(git rev-parse --show-toplevel 2>/dev/null || :)
+
+files=( $(realpath `git status --short | grep -v ^? | awk '{print $NF}'`) )
+
+for f in ${files[@]}
+do
+	echo ${f#$GIT_TOPDIR}
+done
