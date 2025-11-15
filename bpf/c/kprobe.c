@@ -21,23 +21,22 @@ char bpf_log_buf[BPF_LOG_BUF_SIZE];
 
 #include "../insn/samples/trace_printk.c"
 
-int main(void)
+int main(int argc, char *argv[])
 {
 	int i, prog_fd;
+	int prog_type = BPF_PROG_TYPE_KPROBE;
 
 	char license[] = "GPL";
-
 	size_t insns_cnt = sizeof(insns) / sizeof(struct bpf_insn);
-	unsigned char *p = (void *)&insns;
-	for (i = 0; i < insns_cnt * sizeof(struct bpf_insn); i++) {
-		unsigned char c = *(p + i);
-		printf("%02x ", c);
-		if ((i + 1) % 8 == 0)
-			printf("\n");
+
+	printf("%s [tracepoint]\n", argv[0]);
+	for (i = 1; i < argc; i++) {
+		if (!strcmp("tracepoint", argv[i]))
+			prog_type = BPF_PROG_TYPE_TRACEPOINT;
 	}
 
 	union bpf_attr prog_load_attr = {
-		.prog_type = BPF_PROG_TYPE_KPROBE,
+		.prog_type = prog_type,
 		.insns = (long)insns,
 		.insn_cnt = insns_cnt,
 		.license = (long)license,
@@ -52,24 +51,34 @@ int main(void)
 		return 1;
 	}
 
+	unsigned char *p = (void *)&insns;
+	for (i = 0; i < insns_cnt * sizeof(struct bpf_insn); i++) {
+		unsigned char c = *(p + i);
+		printf("%02x ", c);
+		if ((i + 1) % 8 == 0)
+			printf("\n");
+	}
+
 	for (i = 0; i < sizeof(bpf_log_buf); i++) {
-		if (bpf_log_buf[i] == 0 && bpf_log_buf[i+1] == 0)
+		if (bpf_log_buf[i] == 0 && bpf_log_buf[i + 1] == 0)
 			break;
 		printf("%c", bpf_log_buf[i]);
 	}
 
 #if defined(HAVE_BCC)
 	int probe_fd;
-	/**
-	 * bcc function bpf_attach_kprobe()
-	 */
-	probe_fd = bpf_attach_kprobe(prog_fd, BPF_PROBE_ENTRY, "hello_world", "do_nanosleep", 0, 0);
+	if (prog_type == BPF_PROG_TYPE_TRACEPOINT) {
+		probe_fd = bpf_attach_tracepoint(prog_fd, "syscalls", "sys_enter_nanosleep");
+		fprintf(stdout, "Tracepoint sys_enter_nanosleep(), test with 'sleep 0.1'.\n");
+	} else {
+		probe_fd = bpf_attach_kprobe(prog_fd, BPF_PROBE_ENTRY, "hello_world", "do_nanosleep", 0, 0);
+		fprintf(stdout, "Kprobe do_nanosleep(), test with 'sleep 0.1'.\n");
+	}
 	if (prog_fd < 0) {
 		printf("ERROR: failed to attach kprobe to do_nanosleep.\n");
 		return 2;
 	}
 
-	fprintf(stdout, "Kprobe do_nanosleep(), test with 'sleep 0.1'.\n");
 	system("cat " DEBUGFS "/trace_pipe");
 	close(probe_fd);
 	bpf_detach_kprobe("hello_world");
