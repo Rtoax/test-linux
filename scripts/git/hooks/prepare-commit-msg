@@ -9,6 +9,7 @@ readonly GIT_TOPDIR=$(git rev-parse --show-toplevel 2>/dev/null || :)
 readonly first_nonempyline=$(sed -n '/[^[:space:]]/ { =; q }' ${COMMIT_MSG_FILE})
 readonly signed_off_by_line=$(awk '/^Signed-off-by:/{print NR; exit}' ${COMMIT_MSG_FILE})
 readonly environment_line=$(awk '/^Env:/{print NR; exit}' ${COMMIT_MSG_FILE})
+# Changed file list
 readonly FILES=( $( ${MY_DIRECTORY}/get-commit-file-list ) )
 
 Environment=""
@@ -18,6 +19,11 @@ add_env() {
 	[[ ${Environment} ]] && Environment+=", "
 	Environment+="$@"
 }
+
+if [[ -z ${signed_off_by_line} ]]; then
+	echo >&2 "ERROR: must signed with -s/--signoff"
+	exit 1
+fi
 
 # OS version
 if [[ -e /etc/os-release ]]; then
