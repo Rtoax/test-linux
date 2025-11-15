@@ -286,10 +286,9 @@ static int get_struct_btf(struct btf *btf, const char *name)
 	return btf_id;
 }
 
-static int __btf_has_ksym(const char *ksym, int kind)
+struct btf *btf_load_vmlinux(void)
 {
 	struct btf *btf;
-	int btf_id;
 
 #if (LIBBPF_MAJOR_VERSION == 0 && LIBBPF_MINOR_VERSION > 5) || (LIBBPF_MAJOR_VERSION >= 1)
 	/**
@@ -305,10 +304,18 @@ static int __btf_has_ksym(const char *ksym, int kind)
 	 */
 	btf = btf__parse(SYSFS_VMLINUX, NULL);
 #endif
+
 	if (!btf) {
 		fprintf(stderr, "Failed to parse BTF\n");
-		return -1;
+		return NULL;
 	}
+	return btf;
+}
+
+static int __btf_has_ksym(const char *ksym, int kind)
+{
+	int btf_id;
+	struct btf *btf = btf_load_vmlinux();
 
 	switch (kind) {
 	case BTF_KIND_FUNC:

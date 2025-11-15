@@ -47,6 +47,8 @@ struct bpf_rb_node {
 };
 #endif
 
+struct btf *btf_load_vmlinux(void);
+
 /**
  * bpftool btf dump generated vmlinux.h will not contains kfuncs if pahole
  * version less than v1.26 and kernel must newer than v6.10.
