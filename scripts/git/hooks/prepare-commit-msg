@@ -1,4 +1,5 @@
 #!/bin/bash
+# Copyright (c) 2025 Rong Tao
 
 COMMIT_MSG_FILE=$1
 COMMIT_SOURCE=$2
