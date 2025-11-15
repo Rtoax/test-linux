@@ -11,6 +11,7 @@ sed -i '/^Env:/d' ${COMMIT_MSG_FILE}
 readonly MY_DIRECTORY=$(dirname $(realpath $0))
 readonly GIT_TOPDIR=$(git rev-parse --show-toplevel 2>/dev/null || :)
 readonly first_nonempyline=$(sed -n '/[^[:space:]]/ { =; q }' ${COMMIT_MSG_FILE})
+readonly first_commentline=$(sed -n '/^#/ { =; q }' ${COMMIT_MSG_FILE})
 readonly signed_off_by_line=$(awk '/^Signed-off-by:/{print NR; exit}' ${COMMIT_MSG_FILE})
 
 # Changed file list (new, deleted, added, modified)
@@ -89,5 +90,5 @@ fi
 
 # Add lines
 if [[ ${Environment} ]]; then
-	sed -i "${signed_off_by_line}i Env: ${Environment}" ${COMMIT_MSG_FILE}
+	sed -i "$((${signed_off_by_line}+1))i Env: ${Environment}" ${COMMIT_MSG_FILE}
 fi
