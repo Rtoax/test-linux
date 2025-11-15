@@ -78,7 +78,7 @@ int main(int argc, char *argv[])
 
 	printf("Pages now on node %d\n", get_addr_node(mem));
 
-	printf("Moving pages via mbind to node %d ...\n", cpu_numa);
+	printf("Moving pages via mbind() to node %d ...\n", cpu_numa);
 	ret = mbind(mem, msize, mode, nodemask->maskp, nodemask->size, flags);
 	if (ret != 0)
 		perror("mbind");
@@ -88,7 +88,7 @@ int main(int argc, char *argv[])
 	if (maxnode > 1) {
 		numa_bitmask_clearall(nodemask);
 		numa_bitmask_setbit(nodemask, 1);
-		printf("Moving pages via mbind to node 1 ...\n");
+		printf("Moving pages via mbind() to node 1 ...\n");
 		ret = mbind(mem, msize, mode, nodemask->maskp, nodemask->size, flags);
 		if (ret != 0)
 			perror("mbind");
@@ -99,23 +99,31 @@ int main(int argc, char *argv[])
 	/**
 	 * Test move_pages(2)
 	 */
-	if (maxnode > 2) {
+	if (maxnode > 1) {
 		int *nodes = (int *)malloc(sizeof(int) * pages);
 		int *status = (int *)malloc(sizeof(int) * pages);
 		void **pages_ptr = (void **)malloc(sizeof(void *) * pages);
 		for (i = 0; i < pages; i++) {
 			nodes[i] = i % maxnode;
 			status[i] = 0;
-			pages_ptr[i] = mem + i * getpagesize();
 
-			printf("Moving page %p from numa %d to %d\n",
+			/* Bad address */
+			if (i == 1)
+				pages_ptr[i] = NULL;
+			/* OK */
+			else if (i == 2)
+				pages_ptr[i] = main;
+			else
+				pages_ptr[i] = mem + i * getpagesize();
+
+			printf("Moving page %p via move_pages() from numa %d to %d\n",
 				pages_ptr[i],
 				get_addr_node(pages_ptr[i]),
 				nodes[i]);
 		}
 		ret = move_pages(0, pages, pages_ptr, nodes, status, MPOL_MF_MOVE | MPOL_MF_MOVE_ALL);
 		if (ret != 0) {
-			fprintf(stderr, "move_pages failed: %m\n");
+			fprintf(stderr, "move_pages failed(ret=%d): %m\n", ret);
 			goto move_pages_failed;
 		}
 		for (i = 0; i < pages; i++) {
