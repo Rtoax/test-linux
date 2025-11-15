@@ -4,13 +4,21 @@ COMMIT_MSG_FILE=$1
 COMMIT_SOURCE=$2
 SHA1=$3
 
+# Remove old Env first.
+sed -i '/^Env:/d' ${COMMIT_MSG_FILE}
+
 readonly MY_DIRECTORY=$(dirname $(realpath $0))
 readonly GIT_TOPDIR=$(git rev-parse --show-toplevel 2>/dev/null || :)
 readonly first_nonempyline=$(sed -n '/[^[:space:]]/ { =; q }' ${COMMIT_MSG_FILE})
 readonly signed_off_by_line=$(awk '/^Signed-off-by:/{print NR; exit}' ${COMMIT_MSG_FILE})
-readonly environment_line=$(awk '/^Env:/{print NR; exit}' ${COMMIT_MSG_FILE})
-# Changed file list
-readonly FILES=( $( ${MY_DIRECTORY}/get-commit-file-list ) )
+
+# Changed file list (new, deleted, added, modified)
+CHANGED_FILES=( $( ${MY_DIRECTORY}/get-commit-file-list ) )
+
+# git commit --amend
+if [ "$COMMIT_SOURCE" = "commit" ] && [ "$SHA1" = "HEAD" ]; then
+	CHANGED_FILES+=( $(git log -1 --oneline --name-only --pretty=format:) )
+fi
 
 Environment=""
 
@@ -18,6 +26,20 @@ add_env() {
 	[[ -z "${@}" ]] && return 0
 	[[ ${Environment} ]] && Environment+=", "
 	Environment+="$@"
+}
+
+# input some key words.
+# echo "YES" if any key matched.
+files_have_key() {
+	local key
+	for key in ${@}
+	do
+		if [[ "$(echo ${CHANGED_FILES[@]} | grep -o ${key})" ]]; then
+			echo "YES"
+			return 0
+		fi
+	done
+	return 0
 }
 
 if [[ -z ${signed_off_by_line} ]]; then
@@ -58,7 +80,13 @@ if [[ ${LLVM_CONFIG} ]]; then
 	add_env "LLVM ${llvm_ver}"
 fi
 
+if [[ "$(files_have_key cuda nvidia)" ]]; then
+	cuda_ver=$(${GIT_TOPDIR}/hpc/nvidia/cuda/version.sh)
+	add_env "CUDA ${cuda_ver}"
+	# TODO: add ROCm hipcc, metax, hpcc, luca, etc.
+fi
+
 # Add lines
-if [[ ${Environment} ]] && [[ -z ${environment_line} ]]; then
+if [[ ${Environment} ]]; then
 	sed -i "${signed_off_by_line}i Env: ${Environment}" ${COMMIT_MSG_FILE}
 fi

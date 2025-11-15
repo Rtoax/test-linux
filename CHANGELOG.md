@@ -16,6 +16,7 @@ and this project adheres to
 - profile.d: add `make_tl.sh` to alias system make command;
 - template: include pure header for main.mk, etc.;
 #### Added
+- cuda: add version.mk and used in git/hooks/prepare-commit-msg;
 - template: add bcc.mk;
 - git/hooks: add prepare-commit-msg, get-commit-file-list;
 - bpf: add insn subdir;

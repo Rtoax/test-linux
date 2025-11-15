@@ -7,6 +7,7 @@ subdir-y := samples
 subdir-y += fakeCUDA
 subdir-y += intrinsics
 
+target-shell-${HAVE_CUDA} := version.sh
 target-nvcc-libso-${HAVE_CUDA} := libcuda_helper.so
 target-nvcc-liba-${HAVE_CUDA} := libcuda_helper.a
 
