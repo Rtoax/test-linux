@@ -48,6 +48,7 @@ and this project adheres to
 - glibc: test `__GLIBC_USE()`;
 - shell: add some commands from ostools;
 #### Changed
+- bpf: add `insn/samples/trace_printk.c` from kprobe.c;
 - Move bpf/{bpf.mk,logo.mk} to template/bpf/;
 - Move libvirt directory into virt/;
 - Split NCCL from cuda/samples/;
