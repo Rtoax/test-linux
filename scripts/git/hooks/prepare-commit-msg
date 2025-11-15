@@ -6,7 +6,7 @@ COMMIT_SOURCE=$2
 SHA1=$3
 
 # Remove old Env first.
-sed -i '/^Env:/d' ${COMMIT_MSG_FILE}
+sed -i '/^Versions:/d' ${COMMIT_MSG_FILE}
 
 readonly MY_DIRECTORY=$(dirname $(realpath $0))
 readonly GIT_TOPDIR=$(git rev-parse --show-toplevel 2>/dev/null || :)
@@ -22,12 +22,12 @@ if [ "$COMMIT_SOURCE" = "commit" ] && [ "$SHA1" = "HEAD" ]; then
 	CHANGED_FILES+=( $(git log -1 --oneline --name-only --pretty=format:) )
 fi
 
-Environment=""
+Versions=""
 
 add_env() {
 	[[ -z "${@}" ]] && return 0
-	[[ ${Environment} ]] && Environment+=", "
-	Environment+="$@"
+	[[ ${Versions} ]] && Versions+=", "
+	Versions+="$@"
 }
 
 # input some key words.
@@ -95,6 +95,6 @@ if [[ "$(files_have_key bcc bpf)" ]]; then
 fi
 
 # Add lines
-if [[ ${Environment} ]]; then
-	sed -i "$((${signed_off_by_line}+1))i Env: ${Environment}" ${COMMIT_MSG_FILE}
+if [[ ${Versions} ]]; then
+	sed -i "$((${signed_off_by_line}+1))i Versions: ${Versions}" ${COMMIT_MSG_FILE}
 fi
