@@ -3,6 +3,7 @@
 #endif
 #include <stdio.h>
 #include <malloc.h>
+#include <pthread.h>
 #include <numa.h>
 #include <numaif.h>
 #include <unistd.h>
@@ -13,6 +14,24 @@
 
 static int run_on_cpu;
 static int cpu_numa;
+
+void *task_busy_write_page(void *arg)
+{
+	int i;
+	char *mem = arg;
+	size_t pagesz = getpagesize();
+	while (1) {
+		for (i = 0; i < pagesz; i++) {
+			mem[i] = 'a';
+		}
+	}
+}
+
+void busy_write(void *mem)
+{
+	pthread_t thread;
+	pthread_create(&thread, NULL, task_busy_write_page, mem);
+}
 
 int main(int argc, char *argv[])
 {
@@ -115,6 +134,12 @@ int main(int argc, char *argv[])
 				pages_ptr[i] = main;
 			else
 				pages_ptr[i] = mem + i * getpagesize();
+
+			/* busy write the 4th page */
+			if (i == 3) {
+				busy_write(pages_ptr[i]);
+				usleep(100000);
+			}
 
 			printf("Moving page %p via move_pages() from numa %d to %d\n",
 				pages_ptr[i],
