@@ -27,6 +27,8 @@ if [[ -e /etc/os-release ]]; then
 	add_env "${os_env}"
 fi
 
+add_env "Kernel $(uname -r)"
+
 GCC=$(which gcc 2>/dev/null || :)
 if [[ ${GCC} ]]; then
 	gcc_ver=$(${GCC} -dumpfullversion -dumpversion)
