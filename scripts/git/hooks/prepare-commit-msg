@@ -1,0 +1,34 @@
+#!/bin/bash
+
+COMMIT_MSG_FILE=$1
+COMMIT_SOURCE=$2
+SHA1=$3
+
+readonly first_nonempyline=$(sed -n '/[^[:space:]]/ { =; q }' ${COMMIT_MSG_FILE})
+readonly signed_off_by_line=$(awk '/^Signed-off-by:/{print NR; exit}' ${COMMIT_MSG_FILE})
+readonly environment_line=$(awk '/^Env:/{print NR; exit}' ${COMMIT_MSG_FILE})
+
+Environment=""
+
+add_env() {
+	[[ ${Environment} ]] && Environment+=", "
+	Environment+="$@"
+}
+
+if [[ -e /etc/os-release ]]; then
+	os_env=
+	. /etc/os-release
+	os_env+="${NAME}"
+	if [[ ${VERSION_ID} ]]; then
+		os_env+=":${VERSION_ID}"
+	elif [[ ${VERSION} ]]; then
+		os_env+=":${VERSION}"
+	fi
+	add_env "${os_env}"
+fi
+
+
+# Add lines
+if [[ ${Environment} ]] && [[ -z ${environment_line} ]]; then
+	sed -i "${signed_off_by_line}i Env: ${Environment}" ${COMMIT_MSG_FILE}
+fi
