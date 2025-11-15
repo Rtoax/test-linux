@@ -94,7 +94,7 @@ include log.mk
 
 include pie.mk
 ifneq ($(subdir-y),)
-  include subdir-header.mk
+  include targets/subdir-header.mk
 endif
 
 build-targets := $(target-prep-y)
@@ -207,5 +207,5 @@ ifneq ($(target-java-y),)
 endif
 
 ifneq ($(subdir-y),)
-  include subdir-footer.mk
+  include targets/subdir-footer.mk
 endif

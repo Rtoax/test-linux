@@ -76,7 +76,7 @@ define user_strip
   $(Q)strip $(1) -o $(1).strip
 endef
 
-include subdir-header.mk
+include targets/subdir-header.mk
 
 .PHONY: build
 build: ${targets} $(sub-dir-build)
@@ -111,4 +111,4 @@ clean: $(sub-dir-clean)
 	@echo -e "  CLEAN  \033[1;32m$(targets)\033[m"
 	$(Q)rm -f ${targets} *.s *.o *.strip *.d
 
-include subdir-footer.mk
+include targets/subdir-footer.mk
