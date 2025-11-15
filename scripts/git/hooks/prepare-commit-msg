@@ -11,10 +11,12 @@ readonly environment_line=$(awk '/^Env:/{print NR; exit}' ${COMMIT_MSG_FILE})
 Environment=""
 
 add_env() {
+	[[ -z "${@}" ]] && return 0
 	[[ ${Environment} ]] && Environment+=", "
 	Environment+="$@"
 }
 
+# OS version
 if [[ -e /etc/os-release ]]; then
 	os_env=
 	. /etc/os-release
@@ -27,14 +29,20 @@ if [[ -e /etc/os-release ]]; then
 	add_env "${os_env}"
 fi
 
+# Kernel version
 add_env "Kernel $(uname -r)"
 
+# GCC version
 GCC=$(which gcc 2>/dev/null || :)
 if [[ ${GCC} ]]; then
 	gcc_ver=$(${GCC} -dumpfullversion -dumpversion)
 	add_env "GCC ${gcc_ver}"
 fi
 
+# Glibc version
+add_env "$(getconf GNU_LIBC_VERSION 2>/dev/null || :)"
+
+# LLVM version
 LLVM_CONFIG=$(which llvm-config 2>/dev/null || :)
 if [[ ${LLVM_CONFIG} ]]; then
 	llvm_ver=$(${LLVM_CONFIG} --version)
