@@ -1,9 +1,5 @@
-#include <linux/bpf.h>
-#include <linux/if_ether.h>
-#include <linux/in.h>
-#include <linux/ip.h>
-
-#define SEC(NAME) __attribute__((section(NAME), used))
+#include "vmlinux.h"
+#include <bpf/bpf_helpers.h>
 
 SEC("mysection")
 int myprogram(struct xdp_md *ctx)

@@ -1,10 +1,6 @@
 #define KBUILD_MODNAME "kmyprogram"
 
-#include <linux/bpf.h>
-#include <linux/if_ether.h>
-#include <linux/tcp.h>
-#include <linux/in.h>
-#include <linux/ip.h>
+#include "vmlinux.h"
 
 #ifndef htons
 extern short htons(short hostshort);

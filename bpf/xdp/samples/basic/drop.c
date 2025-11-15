@@ -1,8 +1,5 @@
-#include <linux/bpf.h>
-
-#ifndef SEC
-# define SEC(NAME) __attribute__((section(NAME), used))
-#endif
+#include "vmlinux.h"
+#include <bpf/bpf_helpers.h>
 
 SEC("prog")
 int xdp_drop(struct xdp_md *ctx)
