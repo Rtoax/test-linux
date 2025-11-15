@@ -35,6 +35,12 @@ if [[ ${GCC} ]]; then
 	add_env "GCC ${gcc_ver}"
 fi
 
+LLVM_CONFIG=$(which llvm-config 2>/dev/null || :)
+if [[ ${LLVM_CONFIG} ]]; then
+	llvm_ver=$(${LLVM_CONFIG} --version)
+	add_env "LLVM ${llvm_ver}"
+fi
+
 # Add lines
 if [[ ${Environment} ]] && [[ -z ${environment_line} ]]; then
 	sed -i "${signed_off_by_line}i Env: ${Environment}" ${COMMIT_MSG_FILE}
