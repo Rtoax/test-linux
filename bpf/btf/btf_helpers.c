@@ -205,7 +205,7 @@ static char *value_to_str(struct btf *btf, struct value *val, char *str)
 	return str;
 }
 
-static int get_func_btf(struct btf *btf, const char *name)
+static int get_func_btf_id(struct btf *btf, const char *name)
 {
 	int i, btf_id;
 	const struct btf_type *type;
@@ -312,6 +312,9 @@ struct btf *btf_load_vmlinux(void)
 	return btf;
 }
 
+/**
+ * Return btf id if exist, -1 if non-exist.
+ */
 static int __btf_has_ksym(const char *ksym, int kind)
 {
 	int btf_id;
@@ -319,7 +322,7 @@ static int __btf_has_ksym(const char *ksym, int kind)
 
 	switch (kind) {
 	case BTF_KIND_FUNC:
-		btf_id = get_func_btf(btf, ksym);
+		btf_id = get_func_btf_id(btf, ksym);
 		break;
 	case BTF_KIND_DECL_TAG:
 		btf_id = btf__find_by_name_kind(btf, ksym, BTF_KIND_DECL_TAG);
@@ -332,12 +335,13 @@ static int __btf_has_ksym(const char *ksym, int kind)
 		btf_id = btf__find_by_name(btf, ksym);
 		break;
 	}
+
 	if (btf_id < 0) {
 #ifdef DEBUG
 		fprintf(stderr, "ksym '%s' does not exist\n", ksym);
 #endif
 		btf__free(btf);
-		return 0;
+		return -1;
 	}
 
 #ifdef DEBUG
@@ -348,7 +352,7 @@ static int __btf_has_ksym(const char *ksym, int kind)
 #endif
 
 	btf__free(btf);
-	return 1;
+	return btf_id;
 }
 
 int btf_has_ksym(const char *ksym)
