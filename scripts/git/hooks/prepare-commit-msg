@@ -27,6 +27,11 @@ if [[ -e /etc/os-release ]]; then
 	add_env "${os_env}"
 fi
 
+GCC=$(which gcc 2>/dev/null || :)
+if [[ ${GCC} ]]; then
+	gcc_ver=$(${GCC} -dumpfullversion -dumpversion)
+	add_env "GCC ${gcc_ver}"
+fi
 
 # Add lines
 if [[ ${Environment} ]] && [[ -z ${environment_line} ]]; then
