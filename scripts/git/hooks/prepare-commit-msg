@@ -88,6 +88,12 @@ if [[ "$(files_have_key cuda nvidia)" ]]; then
 	# TODO: add ROCm hipcc, metax, hpcc, luca, etc.
 fi
 
+if [[ "$(files_have_key bcc bpf)" ]]; then
+	bcc_ver=$(${GIT_TOPDIR}/bpf/bcc/version.sh)
+	add_env "BCC ${bcc_ver}"
+	# TODO: add libbpf, bpftools, etc.
+fi
+
 # Add lines
 if [[ ${Environment} ]]; then
 	sed -i "$((${signed_off_by_line}+1))i Env: ${Environment}" ${COMMIT_MSG_FILE}

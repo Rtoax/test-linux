@@ -1,5 +1,5 @@
 #!/bin/bash
-# This script only display CUDA version, do not display other anything, becuase
+# This script only display CUDA version, do not display other anything, because
 # the git/hooks will use it.
 set -e
 NVCC=$(which nvcc 2>/dev/null || :)
