@@ -88,7 +88,7 @@ endif
 subdir-y := ${kmod-list-y}
 subdir-y += ${user-list-y}
 
-ifeq ($(filter $(MAKECMDGOALS),install uninstall),)
+ifeq ($(filter $(MAKECMDGOALS),install uninstall deps),)
   include template/main.mk
 endif
 
