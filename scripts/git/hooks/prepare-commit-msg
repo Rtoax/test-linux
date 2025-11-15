@@ -22,9 +22,9 @@ if [[ -e /etc/os-release ]]; then
 	. /etc/os-release
 	os_env+="${NAME}"
 	if [[ ${VERSION_ID} ]]; then
-		os_env+=":${VERSION_ID}"
+		os_env+=" ${VERSION_ID}"
 	elif [[ ${VERSION} ]]; then
-		os_env+=":${VERSION}"
+		os_env+=" ${VERSION}"
 	fi
 	add_env "${os_env}"
 fi
