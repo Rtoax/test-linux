@@ -3,6 +3,12 @@
 #include <bpf/bpf.h>
 #include <bpf/libbpf.h>
 
+#ifdef DEBUG
+# define LOG_LVL	LIBBPF_DEBUG
+#else
+# define LOG_LVL	LIBBPF_WARN
+#endif
+
 /**
  * Failed add _bpf__open_and_load_opts()
  * https://lore.kernel.org/lkml/tencent_FB1D31D70047E82DCBF3D257C5ED75653405@qq.com/
@@ -16,7 +22,7 @@
 	LIBBPF_OPTS(bpf_object_open_opts, ___opts,				\
 		.kernel_log_buf = __log_buf,					\
 		.kernel_log_size = __log_buf_sz,				\
-		.kernel_log_level = LIBBPF_DEBUG,				\
+		.kernel_log_level = LOG_LVL,					\
 	);									\
 										\
 	__skel = open_opts(&___opts);						\
