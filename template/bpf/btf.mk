@@ -1,7 +1,8 @@
 # SPDX-License-Identifier: GPL-3.0
 # Provide the following macro definitions:
 #
-# HAVE_BTF: Check your system support BTF or not
+# Output definitions:
+# - HAVE_BTF: Check your system support BTF or not
 #
 _BTF = 1
 
@@ -9,7 +10,7 @@ SHELL := bash
 BPFTOOL := bpftool
 VMLINUX_H := vmlinux.h
 BTF_ROOT := /sys/kernel/btf
-HAVE_BTF := yes
+HAVE_BTF := y
 
 ifeq ($(wildcard ${BTF_ROOT}),)
   $(warning Not found BTF in your system, see CONFIG_DEBUG_INFO_BTF in your kernel config!!)
@@ -25,7 +26,7 @@ ${BPFTOOL} btf dump file ${BTF_ROOT}/${1} format c > ${2}
 endef
 else
 define bpf_gen_btf_h
-$(error You system not support BTF, see CONFIG_DEBUG_INFO_BTF)
+$(error Your system not support BTF, see CONFIG_DEBUG_INFO_BTF)
 endef
 endif
 
