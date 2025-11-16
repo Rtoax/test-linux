@@ -79,33 +79,3 @@ struct bpf_cpumap_val {
 };
 # endif
 #endif
-
-/**
- * use bpf_strncmp() first
- */
-static __always_inline bool str_eq(const char *a, const char *b, int len)
-{
-	int i;
-	for (i = 0; i < len; i++) {
-		if (a[i] != b[i])
-			return false;
-		if (a[i] == '\0')
-			break;
-	}
-	return true;
-}
-
-/**
- * FIXME: Use __builtin_strlen() instead?
- */
-static __always_inline int str_len(char *s, int max_len)
-{
-	int i;
-	for (i = 0; i < max_len; i++) {
-		if (s[i] == '\0')
-			return i;
-	}
-	if (s[max_len - 1] != '\0')
-		return max_len;
-	return 0;
-}
