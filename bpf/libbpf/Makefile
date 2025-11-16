@@ -8,7 +8,6 @@ ifndef NO_PAHOLE
 endif
 
 OUTPUT := .output/
-VMLINUX_H := ${OUTPUT}vmlinux.h
 
 include kconfig.mk
 include ansi.mk
@@ -388,7 +387,7 @@ target-libso-y := libtrace_helpers.so
 
 HELPERS := ${LIBXDP_HELPERS} ${TRACE_HELPERS} \
 	   ${TASK_HELPERS} ${LIBBPF_WRAPPER} \
-	   ${KSYM_HELPERS} ${STACK_HELPERS}
+	   ${STACK_HELPERS}
 
 target-y += libbpf_version
 target-prep-y += libbpf_version

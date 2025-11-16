@@ -16,6 +16,7 @@ and this project adheres to
 - profile.d: add `make_tl.sh` to alias system make command;
 - template: include pure header for main.mk, etc.;
 #### Added
+- main.mk: add target-btf-y target;
 - bpf: add `libbpf_helpers.so`;
 - bpf/insn: add `libbpf_insn_samples.so`;
 - bcc: add version.sh;

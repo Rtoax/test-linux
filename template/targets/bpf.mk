@@ -3,7 +3,6 @@ _TARGET_BPF = 1
 
 CLANG := $(shell which clang 2>/dev/null)
 LLVM_OBJDUMP := $(shell which llvm-objdump 2>/dev/null)
-VMLINUX_H := vmlinux.h
 
 ifeq ($(CLANG),)
   $(error Not found clang, please install clang first)
@@ -67,6 +66,11 @@ ${OUTPUT}%.bpf.btf: ${OUTPUT}%.bpf.o | ${OUTPUT}
 	$(call log_obj,BTF,$(<),$(@))
 	${Q}$(PAHOLE) -JV $(<) > $(@)
 
+${target-btf-y}: | ${OUTPUT}
+	$(call log_tgt,BTF_H,$(@))
+	$(call bpf_gen_btf_h,$(@:.h=),$(@))
+
+# Special btf header, this may duplicate of target-btf-y.
 ${VMLINUX_H}: | ${OUTPUT}
 	$(call log_tgt,BTF_H,$(@))
-	$(call bpf_gen_vmlinux_h,${VMLINUX_H})
+	$(call bpf_gen_vmlinux_h)

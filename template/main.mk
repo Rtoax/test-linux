@@ -105,6 +105,7 @@ build-targets += $(target-asm-y)
 build-targets += $(target-cpp-y)
 build-targets += $(target-llvm-ll-y)
 build-targets += $(target-bpf-y)
+build-targets += $(target-btf-y)
 build-targets += $(target-rust-y)
 build-targets += $(target-nvcc-y)
 build-targets += $(target-nvcc-libso-y)
@@ -145,7 +146,6 @@ clean: $(subdir-y-clean) $(target-clean-y)
 	${Q}rm -f *.o *.log *.out *.class
 	${Q}rm -f *.so *.so.* *.a
 	${Q}rm -f *.dat *.bin
-	${Q}rm -f ${VMLINUX_H}
 	$(call log_end,clean,$(call relative_path,$(shell realpath .)))
 
 reset:
@@ -172,7 +172,7 @@ endif
 ifneq ($(HAVE_LLVM)$(target-llvm-ll-y),)
   include targets/llvm.mk
 endif
-ifneq ($(target-bpf-y)$(VMLINUX_H),)
+ifneq ($(target-bpf-y)$(target-btf-y),)
   include targets/bpf.mk
 endif
 ifneq ($(target-rust-y),)

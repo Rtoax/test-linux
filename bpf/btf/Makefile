@@ -2,13 +2,12 @@
 OUTPUT := .output/
 subdir-y := examples
 
-VMLINUX_H := vmlinux.h
-target-prep-y := ${VMLINUX_H}
-
 target-y := btf_ksym
 target-y += btf_kfunc
 target-y += btf_struct
 target-y += btf_decl_tag
+
+target-btf-y := kvm.h
 
 BTF_HELPERS := ${OUTPUT}btf_helpers.o
 

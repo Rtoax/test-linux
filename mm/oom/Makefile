@@ -14,9 +14,6 @@ target-y += oom_minimal
 target-libso-y := liboom_helpers.so
 target-liba-y := liboom_helpers.a
 
-VMLINUX_H := vmlinux.h
-target-prep-y := ${VMLINUX_H}
-
 LDFLAGS += -Wl,-rpath,$(shell pwd)
 
 include libcgroup.mk
