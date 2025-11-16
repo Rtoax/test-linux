@@ -4,7 +4,6 @@ _TARGET_BPF = 1
 CLANG := $(shell which clang 2>/dev/null)
 LLVM_OBJDUMP := $(shell which llvm-objdump 2>/dev/null)
 VMLINUX_H := vmlinux.h
-BPFTOOL := bpftool
 
 ifeq ($(CLANG),)
   $(error Not found clang, please install clang first)
@@ -72,5 +71,5 @@ ${OUTPUT}%.bpf.btf: ${OUTPUT}%.bpf.o | ${OUTPUT}
 #	${Q}$(CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*))
 
 ${VMLINUX_H}: | ${OUTPUT}
-	$(call log_obj,BTF_H,$(@))
+	$(call log_tgt,BTF_H,$(@))
 	$(call bpf_gen_vmlinux_h,${VMLINUX_H})
