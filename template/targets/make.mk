@@ -14,5 +14,5 @@ ifdef DEBUG
 endif
 
 %.make.log: %.make
-	$(call log_tgt_exe,MAKE,$(<),$(@))
+	$(call log_exe,MAKE,$(<),$(@))
 	$(Q)$(RUN_MAKE) $(@) $(MAKE) -f $(<) $(ARGS_$(*))

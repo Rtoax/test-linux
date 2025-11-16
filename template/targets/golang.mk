@@ -9,5 +9,5 @@ ifneq ($(target-go-y),)
 endif
 
 ${target-go-y}: %:
-	$(call log_tgt_exe,GO,$(@).go,$(@))
+	$(call log_exe,GO,$(@).go,$(@))
 	${Q}$(GO) build $(@).go

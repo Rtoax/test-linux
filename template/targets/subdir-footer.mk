@@ -28,13 +28,13 @@ define make_sub_dir_clean
 endef
 
 $(subdir-y-build):
-	$(call log_tgt_start,sub-build,$(call relative_path,$(patsubst %.build,%,$(@))))
+	$(call log_start,sub-build,$(call relative_path,$(patsubst %.build,%,$(@))))
 	$(call make_sub_dir_build,$(@:.build=))
 
 $(subdir-y-test):
-	$(call log_tgt_start,sub-test,$(call relative_path,$(patsubst %.test,%,$(@))))
+	$(call log_start,sub-test,$(call relative_path,$(patsubst %.test,%,$(@))))
 	$(call make_sub_dir_test,$(@:.test=))
 
 $(subdir-y-clean):
-	$(call log_tgt_start,sub-clean,$(call relative_path,$(patsubst %.clean,%,$(@))))
+	$(call log_start,sub-clean,$(call relative_path,$(patsubst %.clean,%,$(@))))
 	$(call make_sub_dir_clean,$(@:.clean=))

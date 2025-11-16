@@ -102,63 +102,63 @@ endif
 # NOTE: NVCC's cflags,ldflags is totally different from gcc/clang, thus, we
 # don't use CFLAGS and LDFLAGS.
 ${OUTPUT}%.cu.o: %.cu | ${OUTPUT}
-	$(call log_tgt_obj,NVCC,$(<),$(@))
+	$(call log_obj,NVCC,$(<),$(@))
 	${Q}$(NVCC) -o $(@) -c $(<) $(CFLAGS_NVCC) $(CFLAGS_NVCC_$(*))
 
 ${OUTPUT}%.ptx: %.cu | ${OUTPUT}
-	$(call log_tgt_obj,PTX,$(<),$(@))
+	$(call log_obj,PTX,$(<),$(@))
 	${Q}$(NVCC) -ptx -o $(@) -c $(<) $(CFLAGS_NVCC) $(CFLAGS_NVCC_$(*))
 
 ${OUTPUT}%.cu.cpp.ii: %.cu | ${OUTPUT}
-	$(call log_tgt_obj,II,$(<),$(@))
+	$(call log_obj,II,$(<),$(@))
 	${Q}$(NVCC) -cuda -o $(@) -c $(<) $(CFLAGS_NVCC) $(CFLAGS_NVCC_$(*))
 
 ${OUTPUT}%.cubin: %.cu | ${OUTPUT}
-	$(call log_tgt_obj,CUBIN,$(<),$(@))
+	$(call log_obj,CUBIN,$(<),$(@))
 	${Q}$(NVCC) -o $(@) -c $(<) $(cflags-nvcc-cubin) $(CFLAGS_NVCC) $(CFLAGS_NVCC_$(*))
 
 ${OUTPUT}%.fatbin: %.cu | ${OUTPUT}
-	$(call log_tgt_obj,FATBIN,$(<),$(@))
+	$(call log_obj,FATBIN,$(<),$(@))
 	${Q}$(NVCC) -o $(@) -c $(<) $(cflags-nvcc-fatbin) $(CFLAGS_NVCC) $(CFLAGS_NVCC_$(*))
 
 # Example format of nv_fatbin and nvFatBinSegment, see:
 # commit 0f8f83ac8109 ("targets/nvidia.mk: add .nv_fatbin and .nvFatBinSegment targets")
 ${OUTPUT}%.nv_fatbin: % | ${OUTPUT}
-	$(call log_tgt_obj,NV FATBIN,$(<),$(@))
+	$(call log_obj,NV FATBIN,$(<),$(@))
 	${Q}$(OBJCOPY) -O binary --only-section=.nv_fatbin $(<) $(@)
 
 ${OUTPUT}%.nvFatBinSegment: % | ${OUTPUT}
-	$(call log_tgt_obj,NV FATBIN SEG,$(<),$(@))
+	$(call log_obj,NV FATBIN SEG,$(<),$(@))
 	${Q}$(OBJCOPY) -O binary --only-section=.nvFatBinSegment $(<) $(@)
 
 ${OUTPUT}%.cu.sass.dump: ${OUTPUT}%.cu.o | ${OUTPUT}
-	$(call log_tgt_obj,NV SASS,$(<),$(@))
+	$(call log_obj,NV SASS,$(<),$(@))
 	${Q}${CUOBJDUMP} --dump-sass $(<) > ${@}
 
 ${OUTPUT}%.cu.ptx.dump: ${OUTPUT}%.cu.o | ${OUTPUT}
-	$(call log_tgt_obj,NV PTX,$(<),$(@))
+	$(call log_obj,NV PTX,$(<),$(@))
 	${Q}${CUOBJDUMP} --dump-ptx $(<) > ${@}
 
 ${OUTPUT}%.E.cu: %.cu | ${OUTPUT}
-	$(call log_tgt_obj,NVCC E,$(<),$(@))
+	$(call log_obj,NVCC E,$(<),$(@))
 	${Q}$(NVCC) -E -o $(@) -c $(<) $(CFLAGS_NVCC) $(CFLAGS_NVCC_$(*))
 
 ${OUTPUT}%.cu.so.o: %.cu | ${OUTPUT}
-	$(call log_tgt_obj,NVCC SO.o,$(<),$(@))
+	$(call log_obj,NVCC SO.o,$(<),$(@))
 	${Q}$(NVCC) -o $(@) -c $(<) $(CFLAGS_NVCC_SO) $(CFLAGS_NVCC_SO_$(*))
 
 ${OUTPUT}%.cu.a.o: %.cu | ${OUTPUT}
-	$(call log_tgt_obj,NVCC A.o,$(<),$(@))
+	$(call log_obj,NVCC A.o,$(<),$(@))
 	${Q}$(NVCC) -o $(@) -c $(<) $(CFLAGS_NVCC_A) $(CFLAGS_NVCC_A_$(*))
 
 $(target-nvcc-y): %:
-	$(call log_tgt_exe,NVCC LD,$(<),$(@))
+	$(call log_exe,NVCC LD,$(<),$(@))
 	${Q}$(NVCC) -o $(@) $(^) $(LDFLAGS_NVCC) $(LDFLAGS_NVCC_$(*))
 
 $(target-nvcc-libso-y): %:
-	$(call log_tgt_exe,NVCC SO,$(<),$(@))
+	$(call log_exe,NVCC SO,$(<),$(@))
 	${Q}$(NVCC) -o $(@) $(^) $(LDFLAGS_NVCC_SO) $(LDFLAGS_NVCC_SO$(*))
 
 $(target-nvcc-liba-y): %:
-	$(call log_tgt_exe,NVCC AR,$(<),$(@))
+	$(call log_exe,NVCC AR,$(<),$(@))
 	${Q}ar rcs $(@) $(^)

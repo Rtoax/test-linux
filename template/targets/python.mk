@@ -14,5 +14,5 @@ ifdef DEBUG
 endif
 
 %.py.log: %.py
-	$(call log_tgt_exe,PYTHON,$(<),$(@))
+	$(call log_exe,PYTHON,$(<),$(@))
 	$(Q)$(RUN_PYTHON) $(@) ${PYTHON} $(<) $(ARGS_$(*)) $(PY_ARGS_$(<))

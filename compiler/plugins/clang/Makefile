@@ -28,7 +28,7 @@ target-post-y := test-plugins
 include main.mk
 
 ${SRCS}:
-	$(call log_tgt_tgt,COPY,$(@))
+	$(call log_tgt,COPY,$(@))
 	${Q}cp ${clang-codes} $(shell pwd)
 
 ${OUTPUT}PrintFunctionNames.cpp.so.o: PrintFunctionNames.cpp

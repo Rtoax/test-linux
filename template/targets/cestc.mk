@@ -50,19 +50,19 @@ endif
 # $1 - suffix of file: cu, luca
 define luca_obj
 $${OUTPUT}%.E.luca: %.${1} | $${OUTPUT}
-	$(call log_tgt_obj,LSCC E,$$(<),$$(@))
+	$(call log_obj,LSCC E,$$(<),$$(@))
 	$${Q}$$(LSCC) -E -o $$(@) -c $$(<) $$(CFLAGS_LSCC) $$(CFLAGS_LSCC_$$(*))
 
 $${OUTPUT}%.luca.o: %.${1} | $${OUTPUT}
-	$(call log_tgt_obj,LSCC,$$(<),$$(@))
+	$(call log_obj,LSCC,$$(<),$$(@))
 	$${Q}$$(LSCC) -o $$(@) -c $$(<) $$(CFLAGS_LSCC) $$(CFLAGS_LSCC_$$(*))
 
 $${OUTPUT}%.luca.devbin: %.${1} | $${OUTPUT}
-	$(call log_tgt_obj,DEVBIN,$$(<),$$(@))
+	$(call log_obj,DEVBIN,$$(<),$$(@))
 	$${Q}$$(LSCC) -o $$(@) -c $$(<) $$(cflags-lscc-devbin) $$(CFLAGS_LSCC) $$(CFLAGS_LSCC_$$(*))
 
 $${OUTPUT}%.luca.fatbin: %.${1} | $${OUTPUT}
-	$(call log_tgt_obj,FATBIN,$$(<),$$(@))
+	$(call log_obj,FATBIN,$$(<),$$(@))
 	$${Q}$$(LSCC) -o $$(@) -c $$(<) $$(cflags-lscc-fatbin) $$(CFLAGS_LSCC) $$(CFLAGS_LSCC_$(*))
 endef
 $(eval $(call luca_obj,cu))
@@ -72,14 +72,14 @@ $(eval $(call luca_obj,luca))
 # commit 798dd703bcc9 ("targets/metax.mk: add .hc_fatbin and .hcFatBinSegment targets")
 # TODO: section name .hc_fatbin will be renamed.
 ${OUTPUT}%.luca.hc_fatbin: % | ${OUTPUT}
-	$(call log_tgt_obj,HC FATBIN,$(<),$(@))
+	$(call log_obj,HC FATBIN,$(<),$(@))
 	${Q}$(OBJCOPY) -O binary --only-section=.hc_fatbin $(<) $(@)
 
 # TODO: section name .hcFatBinSegment will be renamed.
 ${OUTPUT}%.luca.hcFatBinSegment: % | ${OUTPUT}
-	$(call log_tgt_obj,HC FATBIN SEG,$(<),$(@))
+	$(call log_obj,HC FATBIN SEG,$(<),$(@))
 	${Q}$(OBJCOPY) -O binary --only-section=.hcFatBinSegment $(<) $(@)
 
 $(target-lscc-y): %:
-	$(call log_tgt_exe,LSCC LD,$(<),$(@))
+	$(call log_exe,LSCC LD,$(<),$(@))
 	${Q}$(LSCC) -o $(@) $(^) $(LDFLAGS_LSCC) $(LDFLAGS_LSCC_$(*))

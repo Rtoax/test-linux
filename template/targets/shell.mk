@@ -14,5 +14,5 @@ ifdef DEBUG
 endif
 
 %.sh.log: %.sh
-	$(call log_tgt_exe,SHELL,$(<),$(@))
+	$(call log_exe,SHELL,$(<),$(@))
 	$(Q)$(RUN_SHELL) $(@) ${SHELL} $(<) $(ARGS_$(*)) $(SHELL_ARGS_$(<))

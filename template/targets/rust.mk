@@ -7,5 +7,5 @@ ifeq ($(RUSTC),)
 endif
 
 $(target-rust-y): %:
-	$(call log_tgt_exe,RUSTC,$(<),$(@))
+	$(call log_exe,RUSTC,$(<),$(@))
 	${Q}$(RUSTC) -o $(@) $(^)

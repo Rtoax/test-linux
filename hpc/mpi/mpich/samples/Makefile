@@ -64,7 +64,7 @@ MPI_Wtime: MPI_Wtime.o
 MPI_Wtick: MPI_Wtick.o
 
 test0:
-	$(call log_tgt_tgt,TEST,$(@))
+	$(call log_tgt,TEST,$(@))
 	$(Q)$(MPIRUN) -n 2 ./MPI_Init
 	$(Q)$(MPIRUN) -n 2 ./MPI_Send
 	$(Q)$(MPIRUN) -n 10 ./MPI_Send-2

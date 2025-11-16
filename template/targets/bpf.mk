@@ -38,19 +38,19 @@ ifdef DEBUG
 endif
 
 ${OUTPUT}%.bpf.o: %.bpf.c | ${OUTPUT}
-	$(call log_tgt_obj,BPF,$(<),$(@))
+	$(call log_obj,BPF,$(<),$(@))
 	${Q}$(CLANG) -c $(<) -o $(@) ${CFLAGS_BPF} $(CFLAGS_BPF_$(*))
 
 ${OUTPUT}%.bpf.disasm: ${OUTPUT}%.bpf.o | ${OUTPUT}
-	$(call log_tgt_obj,BPF DIS,$(<),$(@))
+	$(call log_obj,BPF DIS,$(<),$(@))
 	${Q}${LLVM_OBJDUMP} --disassemble --source ${OBJDUMP_ARGS} $(<) > $(@)
 
 ${OUTPUT}%.bpf.s: %.bpf.c | ${OUTPUT}
-	$(call log_tgt_obj,BPF S,$(<),$(@))
+	$(call log_obj,BPF S,$(<),$(@))
 	${Q}$(CLANG) -c $(<) -o $(@) ${CFLAGS_BPF} $(CFLAGS_BPF_$(*))
 
 ${OUTPUT}%.skel.h: ${OUTPUT}%.bpf.o | ${OUTPUT}
-	$(call log_tgt_obj,SKEL,$(<),$(@))
+	$(call log_obj,SKEL,$(<),$(@))
 	${Q}$(BPFTOOL) gen object $(<:.o=.linked1.o) $(<)
 	${Q}$(BPFTOOL) gen object $(<:.o=.linked2.o) $(<:.o=.linked1.o)
 	${Q}$(BPFTOOL) gen object $(<:.o=.linked3.o) $(<:.o=.linked2.o)
@@ -64,13 +64,13 @@ ${OUTPUT}%.skel.h: ${OUTPUT}%.bpf.o | ${OUTPUT}
 	#	$(<:.o=.linked3.o) name $(subst -,_,$(notdir $(<:.bpf.o=)))_bpf > $(@:.skel.h=.subskel.h)
 
 ${OUTPUT}%.bpf.btf: ${OUTPUT}%.bpf.o | ${OUTPUT}
-	$(call log_tgt_obj,BTF,$(<),$(@))
+	$(call log_obj,BTF,$(<),$(@))
 	${Q}$(PAHOLE) -JV $(<) > $(@)
 
 #$(target-bpf-y): %:
-#	$(call log_tgt_exe,LD BPF,$(<),$(@))
+#	$(call log_exe,LD BPF,$(<),$(@))
 #	${Q}$(CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*))
 
 ${VMLINUX_H}: | ${OUTPUT}
-	$(call log_tgt_obj,BTF_H,$(@))
+	$(call log_obj,BTF_H,$(@))
 	$(call bpf_gen_vmlinux_h,${VMLINUX_H})

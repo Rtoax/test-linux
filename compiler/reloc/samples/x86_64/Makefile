@@ -77,5 +77,5 @@ define print_elf_reloc
 endef
 
 %.reloc:
-	$(call log_tgt_exe,READELF,,$(@))
+	$(call log_exe,READELF,,$(@))
 	@$(call print_elf_reloc,$(@))

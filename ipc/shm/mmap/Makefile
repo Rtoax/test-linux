@@ -15,6 +15,6 @@ mmap-reader: mmap-reader.o
 mmap-writer: mmap-writer.o
 
 test0:
-	$(call log_tgt_exe,TEST,,$(@))
+	$(call log_exe,TEST,,$(@))
 	$(Q)./shm-writer && ./shm-reader
 	$(Q)./mmap-writer && ./mmap-reader

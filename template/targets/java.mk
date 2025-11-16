@@ -11,5 +11,5 @@ ifneq (${target-java-y},)
 endif
 
 ${target-java-y}:
-	$(call log_tgt_exe,JAVAC,$(<),$(@))
+	$(call log_exe,JAVAC,$(<),$(@))
 	${Q}$(JAVAC) $(^)

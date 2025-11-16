@@ -22,19 +22,19 @@ endif
 define TS
 [$(shell date '+%H:%M:%S')]
 endef
-define log_tgt_obj
+define log_obj
 @printf '$(call TS) %-8s $(call bold,%s) -> $(call bold,%s)\n' "${1}" "$(2)" "$(3)"
 endef
-define log_tgt_exe
+define log_exe
 @printf '$(call TS) %-8s $(call bold,%s) -> $(call bgreen,%s)\n' "${1}" "$(2)" "$(3)"
 endef
-define log_tgt_start
+define log_start
 @echo -e "$(call TS) [$(1)] $(call bgreen,$(2)) start"
 endef
-define log_tgt_done
+define log_end
 @echo -e "$(call TS) [$(1)] $(call byellow,$(2)) done"
 endef
-define log_tgt_tgt
+define log_tgt
 @printf '$(call TS) %-8s $(call bold,%s)\n' "${1}" "$(2)"
 endef
 

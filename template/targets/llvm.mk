@@ -19,25 +19,25 @@ CLANG_AST_CFLAGS := -Xclang -ast-dump -fsyntax-only
 
 # AST: Abstract Syntax Tree
 %.ast: %.c
-	$(call log_tgt_obj,CLANG AST,$(<),$(@))
+	$(call log_obj,CLANG AST,$(<),$(@))
 	${Q}$(CLANG) $(<) ${CLANG_AST_CFLAGS} $(CFLAGS) $(CFLAGS_$(*)) > $(@)
 
 %.ll: %.c
-	$(call log_tgt_obj,CLANG LL,$(<),$(@))
+	$(call log_obj,CLANG LL,$(<),$(@))
 	${Q}$(CLANG) -S -emit-llvm $(<) -o $(@) $(CFLAGS) $(CFLAGS_$(*))
 
 %.bc: %.ll
-	$(call log_tgt_obj,LLVM AS,$(<),$(@))
+	$(call log_obj,LLVM AS,$(<),$(@))
 	${Q}$(LLVM_AS) $(<) -o $(@)
 
 %.dis.ll: %.bc
-	$(call log_tgt_obj,LLVM DIS,$(<),$(@))
+	$(call log_obj,LLVM DIS,$(<),$(@))
 	${Q}$(LLVM_DIS) $(<) -o $(@)
 
 %.ll.s: %.ll
-	$(call log_tgt_obj,LLC,$(<),$(@))
+	$(call log_obj,LLC,$(<),$(@))
 	${Q}$(LLC) $(<) -o $(@)
 
 ${target-llvm-ll-y}: %:
-	$(call log_tgt_exe,LLVM LL,$(<),$(@))
+	$(call log_exe,LLVM LL,$(<),$(@))
 	${Q}$(CLANG) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*))
