@@ -178,11 +178,7 @@ int tracepoint__syscalls__sys_exit_execve(struct syscall_trace_exit *ctx)
 # if defined(SUPPORT_BPF_STRCASECMP)
 	should_kill |= !bpf_strcasecmp(pevent->comm, "FIND");
 # endif
-# if defined(SUPPORT_BPF_STRNCMP)
-	should_kill |= !bpf_strncmp(pevent->comm, 3, "topxxx");
-# else
 	should_kill |= str_eq(pevent->comm, "top", 3);
-# endif
 # if defined(SUPPORT_BPF_STRNSTR)
 	should_kill |= bpf_strnstr(pevent->comm, "ls", 2) >= 0;
 # endif

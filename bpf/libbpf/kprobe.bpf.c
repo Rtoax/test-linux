@@ -95,15 +95,9 @@ int BPF_KRETPROBE(do_execveat_common_exit, long ret)
 	pid = bpf_get_current_pid_tgid() >> 32;
 	bpf_printk("KPROBE EXIT: pid = %d, ret = %ld", pid, ret);
 
-	#if defined(SUPPORT_BPF_STRNCMP)
-	# if 1
 	char s1[5] = {"test"};
 	const static char s2[5] = {"test"};
-	bpf_strncmp(s1, 5, s2);
-	# else
-	bpf_strncmp("top", 3, "topxxx");
-	# endif
-	#endif
+	str_eq(s1, s2, 5);
 	return 0;
 }
 

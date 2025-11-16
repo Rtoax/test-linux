@@ -7,6 +7,9 @@
  */
 static __always_inline bool str_eq(const char *a, const char *b, int len)
 {
+#if defined(SUPPORT_BPF_STRNCMP)
+	return !bpf_strncmp(a, len, b);
+#else
 	int i;
 	for (i = 0; i < len; i++) {
 		if (a[i] != b[i])
@@ -15,6 +18,7 @@ static __always_inline bool str_eq(const char *a, const char *b, int len)
 			break;
 	}
 	return true;
+#endif
 }
 
 /**
