@@ -1,10 +1,6 @@
-#include <sys/types.h>
-#include <bpf/bpf.h>
-#include <bcc/libbpf.h>
-#include <linux/bpf.h>
+#include "bpf_insn_samples.h"
 
-
-static struct bpf_insn trace_printk_insns[] = {
+static struct bpf_insn insns[] = {
 	BPF_MOV64_IMM(BPF_REG_1, 0x21),        /* '!' */
 	BPF_STX_MEM(BPF_H, BPF_REG_10, BPF_REG_1, -4),
 	BPF_MOV64_IMM(BPF_REG_1, 0x646c726f),   /* 'orld' */
@@ -23,4 +19,9 @@ static struct bpf_insn trace_printk_insns[] = {
 	BPF_EXIT_INSN(),
 };
 
-static size_t trace_printk_insns_cnt = sizeof(trace_printk_insns) / sizeof(struct bpf_insn);
+
+struct bpf_insn *trace_printk_insns(size_t *cnt)
+{
+	*cnt = sizeof(insns) / sizeof(struct bpf_insn);
+	return insns;
+}

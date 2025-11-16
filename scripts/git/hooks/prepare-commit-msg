@@ -88,10 +88,12 @@ if [[ "$(files_have_key cuda nvidia)" ]]; then
 	# TODO: add ROCm hipcc, metax, hpcc, luca, etc.
 fi
 
-if [[ "$(files_have_key bcc bpf)" ]]; then
+if [[ "$(files_have_key libbpf bcc bpf)" ]]; then
 	bcc_ver=$(${GIT_TOPDIR}/bpf/bcc/version.sh)
 	add_env "BCC ${bcc_ver}"
-	# TODO: add libbpf, bpftools, etc.
+	libbpf_ver=$(${GIT_TOPDIR}/bpf/libbpf/version.sh)
+	add_env "LIBBPF ${libbpf_ver}"
+	# TODO: add bpftools, etc.
 fi
 
 # Add lines
