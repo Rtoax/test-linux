@@ -12,5 +12,5 @@ ifdef DEBUG
 endif
 
 ${OUTPUT}:
-	$(call log_tgt_exe,MKDIR,$(<),$(@))
+	$(call log_tgt_tgt,MKDIR,$(@))
 	${Q}${MKDIR} -p $(@)

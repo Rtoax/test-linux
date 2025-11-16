@@ -72,5 +72,5 @@ ${OUTPUT}%.bpf.btf: ${OUTPUT}%.bpf.o | ${OUTPUT}
 #	${Q}$(CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*))
 
 ${VMLINUX_H}: | ${OUTPUT}
-	$(call log_tgt_obj,BTF_H,,$(@))
+	$(call log_tgt_obj,BTF_H,$(@))
 	$(call bpf_gen_vmlinux_h,${VMLINUX_H})

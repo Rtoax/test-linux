@@ -34,6 +34,9 @@ endef
 define log_tgt_done
 @echo -e "$(call TS) [$(1)] $(call byellow,$(2)) done"
 endef
+define log_tgt_tgt
+@printf '$(call TS) %-8s $(call bold,%s)\n' "${1}" "$(2)"
+endef
 
 define log_info
 printf '$(call TS) $1\n' | tee --append ${LOG_FILE_INFO}

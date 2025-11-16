@@ -113,5 +113,5 @@ __GLIBC_PREREQ: $(OUTPUT)__GLIBC_PREREQ.o
 __GLIBC_USE: $(OUTPUT)__GLIBC_USE.o
 
 compiler-macros.h:
-	$(call log_tgt_obj,HDR,,$(@))
+	$(call log_tgt_tgt,HDR,$(@))
 	$(call gen_compiler_macro_hdr,$(@))
