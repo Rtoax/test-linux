@@ -263,7 +263,21 @@ CFLAGS_BPF += ${CFLAGS_PAHOLE}
 ifneq ($(call vmlinux_has_sym,bpf_task_from_pid),y)
   # FIXME: some day use CFLAGS_PAHOLE replace this macro
   CFLAGS_BPF += -DBPF_NO_KFUNC_PROTOTYPES=1
-  $(info Found bpf_task_from_pid)
+  $(info Found bpf_task_from_pid())
+endif
+
+# linux v5.16-11512-g376040e47334
+# commit 376040e47334 ("bpf: Add bpf_copy_from_user_task() helper")
+ifneq ($(call vmlinux_has_sym,bpf_copy_from_user_task),y)
+  CFLAGS_BPF += -DSUPPORT_BPF_COPY_FROM_USER_TASK=1
+  $(info Found bpf_copy_from_user_task())
+endif
+
+# linux v6.14-rc1-81-gf0f8a5b58f78
+# commit f0f8a5b58f78 ("bpf: Add bpf_copy_from_user_task_str() kfunc")
+ifneq ($(call vmlinux_has_sym,bpf_copy_from_user_task_str),y)
+  CFLAGS_BPF += -DSUPPORT_BPF_COPY_FROM_USER_TASK_STR=1
+  $(info Found bpf_copy_from_user_task_str())
 endif
 
 CFLAGS_kprobe := -D'KSYM_DO_EXECVEAT_COMMON="${KSYM_DO_EXECVEAT_COMMON}"' -DKPROBE=1
