@@ -36,6 +36,7 @@ ifdef DEBUG
   $(info CFLAGS_BPF := ${CFLAGS_BPF})
 endif
 
+# This is target-bpf-y
 ${OUTPUT}%.bpf.o: %.bpf.c | ${OUTPUT}
 	$(call log_obj,BPF,$(<),$(@))
 	${Q}$(CLANG) -c $(<) -o $(@) ${CFLAGS_BPF} $(CFLAGS_BPF_$(*))
@@ -65,10 +66,6 @@ ${OUTPUT}%.skel.h: ${OUTPUT}%.bpf.o | ${OUTPUT}
 ${OUTPUT}%.bpf.btf: ${OUTPUT}%.bpf.o | ${OUTPUT}
 	$(call log_obj,BTF,$(<),$(@))
 	${Q}$(PAHOLE) -JV $(<) > $(@)
-
-#$(target-bpf-y): %:
-#	$(call log_exe,LD BPF,$(<),$(@))
-#	${Q}$(CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*))
 
 ${VMLINUX_H}: | ${OUTPUT}
 	$(call log_tgt,BTF_H,$(@))
