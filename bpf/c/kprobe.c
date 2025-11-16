@@ -27,7 +27,6 @@ int main(int argc, char *argv[])
 	int prog_type = BPF_PROG_TYPE_KPROBE;
 
 	char license[] = "GPL";
-	size_t insns_cnt = sizeof(insns) / sizeof(struct bpf_insn);
 
 	printf("%s [tracepoint]\n", argv[0]);
 	for (i = 1; i < argc; i++) {
@@ -37,8 +36,8 @@ int main(int argc, char *argv[])
 
 	union bpf_attr prog_load_attr = {
 		.prog_type = prog_type,
-		.insns = (long)insns,
-		.insn_cnt = insns_cnt,
+		.insns = (long)trace_printk_insns,
+		.insn_cnt = trace_printk_insns_cnt,
 		.license = (long)license,
 		.log_buf = (long)bpf_log_buf,
 		.log_size = sizeof(bpf_log_buf),
@@ -51,8 +50,8 @@ int main(int argc, char *argv[])
 		return 1;
 	}
 
-	unsigned char *p = (void *)&insns;
-	for (i = 0; i < insns_cnt * sizeof(struct bpf_insn); i++) {
+	unsigned char *p = (void *)&trace_printk_insns;
+	for (i = 0; i < trace_printk_insns_cnt * sizeof(struct bpf_insn); i++) {
 		unsigned char c = *(p + i);
 		printf("%02x ", c);
 		if ((i + 1) % 8 == 0)
