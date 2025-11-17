@@ -50,8 +50,9 @@ void handle_event(void *ctx, int cpu, void *event, unsigned int event_sz)
 {
 	struct event_t *m = event;
 
-	printf("%d %d %s(from pid %s) file=%s cwd=%s ret=%d",
-		m->pid, m->uid, m->comm, m->comm2, m->filename, m->cwd, m->ret);
+	printf("%d %d %s(from pid %s) file=%s cgrp_level=0x%lx cwd=%s ret=%d",
+		m->pid, m->uid, m->comm, m->comm2, m->filename, m->cgrp_level,
+		m->cwd, m->ret);
 #ifdef PARSE_AUXV
 	printf(" auxv(type=%ld, val=0x%lx)", m->auxv.type, m->auxv.val);
 #endif

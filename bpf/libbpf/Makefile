@@ -127,6 +127,13 @@ ifeq ($(call kver_gt,5,15,0),y) # failed on 5.15.131
   endif
 endif
 
+# linux v6.2-5267-g332ea1f697be
+# commit 332ea1f697be ("bpf: Add bpf_cgroup_from_id() kfunc")
+ifeq ($(call vmlinux_has_sym,bpf_cgroup_from_id),y)
+  CFLAGS_BPF += -DSUPPORT_BPF_CGROUP_FROM_ID=1
+  $(info Found bpf_cgroup_from_id())
+endif
+
 # linux commit 7b15523a989b ("bpf: Add a bpf_snprintf helper")
 # v5.12-rc4-1654-g7b15523a989b
 ifeq ($(call kver_gt,5,12,0),y)

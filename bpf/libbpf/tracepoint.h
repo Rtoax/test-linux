@@ -22,5 +22,6 @@ struct event_t {
 #ifdef PARSE_AUXV
 	struct auxv_entry auxv;
 #endif
+	unsigned long cgrp_level;
 	int ret;
 };

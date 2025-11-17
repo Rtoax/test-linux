@@ -18,6 +18,7 @@
 #include "bpf_misc.h"
 #include "bpf_helpers.bpf.h"
 #include "string_helpers.bpf.h"
+#include "cgroup.bpf.h"
 #include "task.bpf.h"
 #include "stack_helpers.bpf.h"
 
@@ -153,6 +154,10 @@ int tracepoint__syscalls__sys_exit_execve(struct syscall_trace_exit *ctx)
 	}
 #endif
 
+/* bpf_cgroup_from_id() since v6.12 support tracepoint */
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(6, 12, 0)
+	pevent->cgrp_level = cgroup_level();
+#endif
 	task_comm_from_pid(pid, pevent->comm2, sizeof(pevent->comm2));
 
 #if defined(SUPPORT_BPF_TASK_CWD_FROM_PID)
