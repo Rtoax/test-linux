@@ -17,6 +17,7 @@
 # - __USE_TRACE_HELPERS__=y
 # - __USE_KSYM_HELPERS__=y
 # - __USE_BPF_HELPERS__=y
+# - __USE_BTF_HELPERS__=y
 # - __USE_BPF_INSN_SAMPLES__=y
 #
 # Output definitions:
@@ -29,6 +30,7 @@
 # - TRACE_HELPERS
 # - KSYM_HELPERS
 # - BPF_HELPERS
+# - BTF_HELPERS
 # - BPF_INSN_SAMPLES
 #
 # Append definitions:
@@ -72,6 +74,7 @@ export OOM_HELPERS := ${TOPDIR}/mm/oom/liboom_helpers.${LIB_TYPE}
 export TRACE_HELPERS := ${TOPDIR}/bpf/libbpf/libtrace_helpers.${LIB_TYPE}
 export KSYM_HELPERS := ${TOPDIR}/fs/procfs/kallsyms/libksym_helpers.${LIB_TYPE}
 export BPF_HELPERS := ${TOPDIR}/syscall/samples/bpf/libbpf_helpers.${LIB_TYPE}
+export BTF_HELPERS := ${TOPDIR}/bpf/btf/libbtf_helpers.${LIB_TYPE}
 export BPF_INSN_SAMPLES := ${TOPDIR}/bpf/insn/samples/libbpf_insn_samples.${LIB_TYPE}
 
 $(eval $(call add_helper_target,${C_HELPERS},${__USE_C_HELPERS__}))
@@ -84,6 +87,7 @@ $(eval $(call add_helper_target,${OOM_HELPERS},${__USE_OOM_HELPERS__}))
 $(eval $(call add_helper_target,${TRACE_HELPERS},${__USE_TRACE_HELPERS__}))
 $(eval $(call add_helper_target,${KSYM_HELPERS},${__USE_KSYM_HELPERS__}))
 $(eval $(call add_helper_target,${BPF_HELPERS},${__USE_BPF_HELPERS__}))
+$(eval $(call add_helper_target,${BTF_HELPERS},${__USE_BTF_HELPERS__}))
 $(eval $(call add_helper_target,${BPF_INSN_SAMPLES},${__USE_BPF_INSN_SAMPLES__}))
 
 ifdef DEBUG
@@ -97,5 +101,6 @@ ifdef DEBUG
   $(info TRACE_HELPERS = ${TRACE_HELPERS})
   $(info KSYM_HELPERS = ${KSYM_HELPERS})
   $(info BPF_HELPERS = ${BPF_HELPERS})
+  $(info BTF_HELPERS = ${BTF_HELPERS})
   $(info BPF_INSN_SAMPLES = ${BPF_INSN_SAMPLES})
 endif
