@@ -6,6 +6,7 @@ kfuncs += cgroup_from_id
 helpers := trace_printk
 helpers += strncmp
 helpers += cgrp_storage_get
+helpers += get_func_ip
 
 target-bpf-y := $(patsubst %,%.bpf.o,${kfuncs})
 target-bpf-y += $(patsubst %,%.bpf.o,${helpers})

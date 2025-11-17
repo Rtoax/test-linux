@@ -11,6 +11,7 @@ helpers += strncmp
 helpers += cgroup_from_id
 helpers += task_from_pid
 helpers += cgrp_storage_get
+helpers += get_func_ip
 
 static-objs := $(patsubst %,${OUTPUT}%.a.o,${helpers})
 dynamic-objs := $(patsubst %,${OUTPUT}%.so.o,${helpers})
