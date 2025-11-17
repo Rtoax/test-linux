@@ -9,6 +9,7 @@ target-libso-y := libbpf_insn_samples.so
 helpers := trace_printk
 helpers += strncmp
 helpers += cgroup_from_id
+helpers += task_from_pid
 
 static-objs := $(patsubst %,${OUTPUT}%.a.o,${helpers})
 dynamic-objs := $(patsubst %,${OUTPUT}%.so.o,${helpers})
