@@ -44,6 +44,8 @@ struct bpf_insn *cgroup_from_id_insns(size_t *cnt)
 	*insn++ = BPF_JMP_IMM(BPF_JA, 0, 0, 2);
 	*insn++ = BPF_MOV64_REG(BPF_REG_1, BPF_REG_0);
 	*insn++ = BPF_CALL_KFUNC(0, bpf_cgroup_release_id);
+	*insn++ = BPF_MOV64_IMM(BPF_REG_0, 0);
+	*insn++ = BPF_EXIT_INSN();
 
 	*cnt = insn - insns_buf;
 	return insns_buf;
