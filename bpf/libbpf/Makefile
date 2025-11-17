@@ -192,11 +192,13 @@ endif
 # linux commit 4ac454682158 ("bpf: Introduce task_vma open-coded iterator kfuncs")
 # v6.6-rc2-737-g4ac454682158
 ifeq ($(call kver_ge,6,6,0),y)
-  $(info Found bpf_iter_task_vma_new())
-  $(info Found bpf_iter_task_vma_next())
-  $(info Found bpf_iter_task_vma_destroy())
-  # Only one macro is enough
-  CFLAGS_BPF += -DSUPPORT_BPF_ITER_TASK_VMA_NEW=1
+  ifeq ($(call vmlinux_has_sym,bpf_iter_task_vma_new),y)
+    $(info Found bpf_iter_task_vma_new())
+    $(info Found bpf_iter_task_vma_next())
+    $(info Found bpf_iter_task_vma_destroy())
+    # Only one macro is enough
+    CFLAGS_BPF += -DSUPPORT_BPF_ITER_TASK_VMA_NEW=1
+  endif
 endif
 
 # _if_ there are no user mode code, append to bpf target only
