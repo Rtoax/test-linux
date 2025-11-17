@@ -80,7 +80,11 @@ int main(int argc, char *argv[])
 
 	system("cat " DEBUGFS "/trace_pipe");
 	close(probe_fd);
-	bpf_detach_kprobe("hello_world");
+	if (prog_type == BPF_PROG_TYPE_TRACEPOINT) {
+		bpf_detach_tracepoint("syscalls", "sys_enter_nanosleep");
+	} else {
+		bpf_detach_kprobe("hello_world");
+	}
 #else
 	// TODO
 	union bpf_attr prog_run_attr;
