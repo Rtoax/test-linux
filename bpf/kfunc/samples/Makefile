@@ -2,6 +2,7 @@
 target-prep-y := vmlinux.h
 
 kfuncs := bpf_task_from_pid
+kfuncs += bpf_cgroup_from_id
 helpers := bpf_trace_printk
 helpers += bpf_strncmp
 
