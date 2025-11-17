@@ -1,3 +1,4 @@
+/fadvise
 /fallocate
 /open
 /openat

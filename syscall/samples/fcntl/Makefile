@@ -1,5 +1,6 @@
 target-y :=
 target-y += fallocate
+target-y += fadvise
 target-y += open openat openat2
 target-y += splice splice-read
 target-y += O_ flags S_ mode
@@ -21,6 +22,7 @@ CFLAGS :=
 include main.mk
 
 fcntl_helpers.o: fcntl_helpers.h
+fadvise: fadvise.o
 fallocate: fallocate.o
 open: open.o fcntl_helpers.o
 openat: openat.o fcntl_helpers.o
