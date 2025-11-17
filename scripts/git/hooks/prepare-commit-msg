@@ -72,7 +72,7 @@ fi
 
 # Kernel version
 add_versions "Kernel $(uname -r)"
-add_envs "CPU: $(lscpu | grep "Model name" | cut -d' ' -f3-)"
+add_envs "CPU: $(lscpu | grep "Model name" | awk '{ for(i=3; i<=NF; i++) printf "%s", $i (i==NF ? "\n" : " ") }')"
 add_envs "Arch $(uname -m)"
 
 # GCC version
