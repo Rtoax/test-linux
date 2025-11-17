@@ -107,6 +107,6 @@ fi
 
 # Add lines
 if [[ ${Versions} ]]; then
-	sed -i "$((${signed_off_by_line}+1))i Envs: ${Environments}" ${COMMIT_MSG_FILE}
 	sed -i "$((${signed_off_by_line}+1))i Versions: ${Versions}" ${COMMIT_MSG_FILE}
+	sed -i "$((${signed_off_by_line}+1))i Envs: ${Environments}" ${COMMIT_MSG_FILE}
 fi
