@@ -16,6 +16,7 @@ and this project adheres to
 - profile.d: add `make_tl.sh` to alias system make command;
 - template: include pure header for main.mk, etc.;
 #### Added
+- bpf/kfunc: add `bpf_strncmp()` test;
 - syscall: add empty fadvise(2) to test;
 - fs: add f2fs, lustre;
 - bpf/kfunc: add samples;
