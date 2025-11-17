@@ -1,6 +1,8 @@
 - CIFS: Common Internet File System (通用互联网文件系统)
 - EROFS: Enhanced ROM File System (增强 ROM 文件系统)
+- F2FS: Flash-Friendly File System (闪存友好文件系统)
 - FAT: File Allocation Table (文件分配表)
+- LFS: Log-structured File System (日志结构文件系统)
 - NFS: Network File System (网络文件系统)
 - NTFS: NT File System / New Technology File System (新技术文件系统)
 - OCFS2: Oracle Cluster File System Version 2 ()
