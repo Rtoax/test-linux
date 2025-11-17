@@ -22,6 +22,7 @@ enum insn_type {
 	INSN_TRACE_PRINTK,
 	INSN_CGROUP_FROM_ID,
 	INSN_TASK_FROM_PID,
+	INSN_CGRP_STORAGE_GET,
 };
 
 char bpf_log_buf[BPF_LOG_BUF_SIZE];
@@ -36,12 +37,14 @@ int main(int argc, char *argv[])
 	char license[] = "GPL";
 	struct bpf_insn *insns;
 
-	printf("%s [trace_printk|cgroup_from_id|task_from_pid] [tracepoint]\n", argv[0]);
+	printf("%s [trace_printk|cgroup_from_id|task_from_pid|cgrp_storage_get] [tracepoint]\n", argv[0]);
 	for (i = 1; i < argc; i++) {
 		if (!strcmp("cgroup_from_id", argv[i]))
 			insn_type = INSN_CGROUP_FROM_ID;
 		if (!strcmp("task_from_pid", argv[i]))
 			insn_type = INSN_TASK_FROM_PID;
+		if (!strcmp("cgrp_storage_get", argv[i]))
+			insn_type = INSN_CGRP_STORAGE_GET;
 		if (!strcmp("tracepoint", argv[i]))
 			prog_type = BPF_PROG_TYPE_TRACEPOINT;
 	}
@@ -54,6 +57,10 @@ int main(int argc, char *argv[])
 	case INSN_TASK_FROM_PID:
 		insns = task_from_pid_insns(&insns_cnt);
 		insn_name = "task_from_pid";
+		break;
+	case INSN_CGRP_STORAGE_GET:
+		insns = cgrp_storage_get_insns(&insns_cnt);
+		insn_name = "cgrp_storage_get";
 		break;
 	case INSN_TRACE_PRINTK:
 	default:

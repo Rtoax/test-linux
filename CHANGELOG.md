@@ -16,6 +16,7 @@ and this project adheres to
 - profile.d: add `make_tl.sh` to alias system make command;
 - template: include pure header for main.mk, etc.;
 #### Added
+- bpf/{insn,kfunc}/samples: test `bpf_cgrp_storage_get()`;
 - bpf/insn/samples: add `bpf_task_from_pid()` test;
 - bpf/insn/samples: add `bpf_cgroup_from_id()` test;
 - libbpf: add cgroup.bpf.h to test `bpf_cgroup_from_id()`;

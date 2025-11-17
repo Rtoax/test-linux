@@ -18,7 +18,7 @@ static struct bpf_insn insns[] = {
 	BPF_MOV64_REG(BPF_REG_1, BPF_REG_10),
 	BPF_ALU64_IMM(BPF_ADD, BPF_REG_1, -16),
 	BPF_MOV64_IMM(BPF_REG_2, 0xf), /* fmt_size=15 */
-	BPF_RAW_INSN(BPF_JMP|BPF_CALL, 0, 0, 0, BPF_FUNC_trace_printk),
+	BPF_RAW_INSN(BPF_JMP | BPF_CALL, 0, 0, 0, BPF_FUNC_trace_printk),
 	BPF_MOV64_IMM(BPF_REG_0, 0),
 	BPF_EXIT_INSN(),
 };
