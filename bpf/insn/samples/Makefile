@@ -1,14 +1,17 @@
 # SPDX-License-Identifier: GPL-3.0
+__USE_BTF_HELPERS__ = y
+
 OUTPUT := .output/
 
 target-liba-y := libbpf_insn_samples.a
 target-libso-y := libbpf_insn_samples.so
 
-helplers := trace_printk
-helplers += strncmp
+helpers := trace_printk
+helpers += strncmp
+helpers += cgroup_from_id
 
-static-objs := $(patsubst %,${OUTPUT}%.a.o,${helplers})
-dynamic-objs := $(patsubst %,${OUTPUT}%.so.o,${helplers})
+static-objs := $(patsubst %,${OUTPUT}%.a.o,${helpers})
+dynamic-objs := $(patsubst %,${OUTPUT}%.so.o,${helpers})
 
 include main.mk
 
