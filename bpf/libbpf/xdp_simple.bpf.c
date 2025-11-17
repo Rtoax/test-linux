@@ -5,6 +5,7 @@
 #include <bpf/bpf_core_read.h>
 #include "bpf_misc.h"
 #include "xdp_simple.h"
+#include "task.bpf.h"
 
 
 #define ETH_P_IP	0x0800
@@ -32,6 +33,8 @@ int xdp_dummy_prog(struct xdp_md *ctx)
 	struct iphdr *iphdr;
 	struct ipv4_addr_t *black;
 	struct event_t event = {};
+	char comm[64];
+	pid_t pid;
 
 	if ((void *)(ethhdr + 1) > data_end)
 		return XDP_PASS;
@@ -54,9 +57,12 @@ int xdp_dummy_prog(struct xdp_md *ctx)
 		return XDP_DROP;
 	}
 
-	bpf_printk("xdp rx pkt from ifindex %d, saddr 0x%x, len %ld",
+	pid = (pid_t)(bpf_get_current_pid_tgid() >> 32);
+	task_comm_from_pid(pid, comm, sizeof(comm));
+
+	bpf_printk("xdp rx pkt from ifindex %d, saddr 0x%x, len %ld, pid %d, comm %s",
 		   ctx->ingress_ifindex, iphdr->saddr,
-		   (u64)(ctx->data_end - ctx->data));
+		   (u64)(ctx->data_end - ctx->data), pid, comm);
 
 	event.xdp_action = XDP_PASS;
 	bpf_perf_event_output(ctx, &events, BPF_F_CURRENT_CPU, &event, sizeof(event));

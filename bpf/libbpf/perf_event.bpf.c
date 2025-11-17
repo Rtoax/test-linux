@@ -18,6 +18,7 @@
 #include "perf_event.h"
 #include "bpf_misc.h"
 #include "stack_helpers.bpf.h"
+#include "task.bpf.h"
 
 
 struct {
@@ -38,8 +39,13 @@ int do_sample(struct bpf_perf_event_data *ctx)
 	value = bpf_map_lookup_elem(&vaddr_map, &ip);
 	if (value) {
 		*value += 1;
-		if (*value % 100 == 0)
-			bpf_printk("IP 0x%lx sample %ld", ip, *value);
+		if (*value % 100 == 0) {
+			char comm[64];
+			pid_t pid = (pid_t)(bpf_get_current_pid_tgid() >> 32);
+			task_comm_from_pid(pid, comm, sizeof(comm));
+			bpf_printk("IP 0x%lx sample %ld, pid %d, comm %s",
+				ip, *value, pid, comm);
+		}
 	} else
 		/* E2BIG not tested for this example only */
 		bpf_map_update_elem(&vaddr_map, &ip, &init_val, BPF_NOEXIST);

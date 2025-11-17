@@ -15,15 +15,9 @@ int task_comm_from_pid(int pid, char *comm, size_t size)
  */
 #if LINUX_VERSION_CODE >= KERNEL_VERSION(6, 12, 0)
 	if (bpf_ksym_exists(bpf_task_from_pid)) {
-		/**
-		 * struct task_struct *bpf_task_from_pid(s32 pid)
-		 */
 		struct task_struct *task = bpf_task_from_pid(pid);
 		if (task) {
 			bpf_probe_read_kernel(comm, size, task->comm);
-			/**
-			 * void bpf_task_release(struct task_struct *p)
-			 */
 			bpf_task_release(task);
 		}
 	}
