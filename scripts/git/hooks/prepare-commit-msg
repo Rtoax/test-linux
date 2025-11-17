@@ -7,6 +7,7 @@ SHA1=$3
 
 # Remove old Env first.
 sed -i '/^Versions:/d' ${COMMIT_MSG_FILE}
+sed -i '/^Envs:/d' ${COMMIT_MSG_FILE}
 
 readonly MY_DIRECTORY=$(dirname $(realpath $0))
 readonly GIT_TOPDIR=$(git rev-parse --show-toplevel 2>/dev/null || :)
@@ -23,11 +24,18 @@ if [ "$COMMIT_SOURCE" = "commit" ] && [ "$SHA1" = "HEAD" ]; then
 fi
 
 Versions=""
+Environments=""
 
-add_env() {
+add_versions() {
 	[[ -z "${@}" ]] && return 0
 	[[ ${Versions} ]] && Versions+=", "
 	Versions+="$@"
+}
+
+add_envs() {
+	[[ -z "${@}" ]] && return 0
+	[[ ${Environments} ]] && Environments+=", "
+	Environments+="$@"
 }
 
 # input some key words.
@@ -59,44 +67,46 @@ if [[ -e /etc/os-release ]]; then
 	elif [[ ${VERSION} ]]; then
 		os_env+=" ${VERSION}"
 	fi
-	add_env "${os_env}"
+	add_versions "${os_env}"
 fi
 
 # Kernel version
-add_env "Kernel $(uname -r)"
+add_versions "Kernel $(uname -r)"
+add_envs "Arch $(uname -m)"
 
 # GCC version
 GCC=$(which gcc 2>/dev/null || :)
 if [[ ${GCC} ]]; then
 	gcc_ver=$(${GCC} -dumpfullversion -dumpversion)
-	add_env "GCC ${gcc_ver}"
+	add_versions "GCC ${gcc_ver}"
 fi
 
 # Glibc version
-add_env "$(getconf GNU_LIBC_VERSION 2>/dev/null || :)"
+add_versions "$(getconf GNU_LIBC_VERSION 2>/dev/null || :)"
 
 # LLVM version
 LLVM_CONFIG=$(which llvm-config 2>/dev/null || :)
 if [[ ${LLVM_CONFIG} ]]; then
 	llvm_ver=$(${LLVM_CONFIG} --version)
-	add_env "LLVM ${llvm_ver}"
+	add_versions "LLVM ${llvm_ver}"
 fi
 
 if [[ "$(files_have_key cuda nvidia)" ]]; then
 	cuda_ver=$(${GIT_TOPDIR}/hpc/nvidia/cuda/version.sh)
-	add_env "CUDA ${cuda_ver}"
+	add_versions "CUDA ${cuda_ver}"
 	# TODO: add ROCm hipcc, metax, hpcc, luca, etc.
 fi
 
 if [[ "$(files_have_key libbpf bcc bpf)" ]]; then
 	bcc_ver=$(${GIT_TOPDIR}/bpf/bcc/version.sh)
-	add_env "BCC ${bcc_ver}"
+	add_versions "BCC ${bcc_ver}"
 	libbpf_ver=$(${GIT_TOPDIR}/bpf/libbpf/version.sh)
-	add_env "LIBBPF ${libbpf_ver}"
+	add_versions "LIBBPF ${libbpf_ver}"
 	# TODO: add bpftools, etc.
 fi
 
 # Add lines
 if [[ ${Versions} ]]; then
+	sed -i "$((${signed_off_by_line}+1))i Envs: ${Environments}" ${COMMIT_MSG_FILE}
 	sed -i "$((${signed_off_by_line}+1))i Versions: ${Versions}" ${COMMIT_MSG_FILE}
 fi
