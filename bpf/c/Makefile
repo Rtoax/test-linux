@@ -1,5 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
 __USE_BPF_HELPERS__ = y
+__USE_BTF_HELPERS__ = y
 __USE_BPF_INSN_SAMPLES__ = y
 
 include bpf/bcc.mk
@@ -19,4 +20,4 @@ CFLAGS_foo := -fomit-frame-pointer
 
 include main.mk
 
-kprobe: kprobe.o ${BPF_INSN_SAMPLES} ${BPF_HELPERS}
+kprobe: kprobe.o ${BPF_INSN_SAMPLES} ${BPF_HELPERS} ${BTF_HELPERS}

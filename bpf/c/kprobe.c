@@ -18,21 +18,44 @@
 	(offsetof(TYPE, MEMBER)	+ sizeof((((TYPE *)0)->MEMBER)))
 #endif
 
+enum insn_type {
+	INSN_TRACE_PRINTK,
+	INSN_CGROUP_FROM_ID,
+};
+
 char bpf_log_buf[BPF_LOG_BUF_SIZE];
 
 int main(int argc, char *argv[])
 {
 	int i, prog_fd;
 	int prog_type = BPF_PROG_TYPE_KPROBE;
+	enum insn_type insn_type = INSN_TRACE_PRINTK;
+	char *insn_name = "";
 	size_t insns_cnt;
 	char license[] = "GPL";
-	struct bpf_insn *insns = trace_printk_insns(&insns_cnt);
+	struct bpf_insn *insns;
 
-	printf("%s [tracepoint]\n", argv[0]);
+	printf("%s [trace_printk|cgroup_from_id] [tracepoint]\n", argv[0]);
 	for (i = 1; i < argc; i++) {
+		if (!strcmp("cgroup_from_id", argv[i]))
+			insn_type = INSN_CGROUP_FROM_ID;
 		if (!strcmp("tracepoint", argv[i]))
 			prog_type = BPF_PROG_TYPE_TRACEPOINT;
 	}
+
+	switch (insn_type) {
+	case INSN_CGROUP_FROM_ID:
+		insns = cgroup_from_id_insns(&insns_cnt);
+		insn_name = "cgroup_from_id";
+		break;
+	case INSN_TRACE_PRINTK:
+	default:
+		insns = trace_printk_insns(&insns_cnt);
+		insn_name = "trace_printk";
+		break;
+	}
+
+	printf("Prog %s has %ld insns\n", insn_name, insns_cnt);
 
 	union bpf_attr prog_load_attr = {
 		.prog_type = prog_type,
