@@ -1,10 +1,10 @@
 # SPDX-License-Identifier: GPL-3.0
 target-prep-y := vmlinux.h
 
-kfuncs := bpf_task_from_pid
-kfuncs += bpf_cgroup_from_id
-helpers := bpf_trace_printk
-helpers += bpf_strncmp
+kfuncs := task_from_pid
+kfuncs += cgroup_from_id
+helpers := trace_printk
+helpers += strncmp
 
 target-bpf-y := $(patsubst %,%.bpf.o,${kfuncs})
 target-bpf-y += $(patsubst %,%.bpf.o,${helpers})
