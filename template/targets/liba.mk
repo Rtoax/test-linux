@@ -6,6 +6,10 @@ Q ?= @
 
 CFLAGS_A += -fPIC
 
+ifdef DEBUG
+  $(info CFLAGS_A = ${CFLAGS_A})
+endif
+
 ${OUTPUT}%.a.o: %.c | ${OUTPUT}
 	$(call log_obj,CC A.o,$(<),$(@))
 	${Q}$(CC) -o $(@) -c $(<) $(CFLAGS_A) $(CFLAGS_A_$(*))

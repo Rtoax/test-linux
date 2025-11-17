@@ -17,8 +17,6 @@ LIBSO_SH := ${TOPDIR}/template/targets/libso.sh
 
 ifdef DEBUG
   LIBSO_SH += --verbose
-  CFLAGS_SO += -DDEBUG=${DEBUG}
-  CXXFLAGS_SO += -DDEBUG=${DEBUG}
   $(info CFLAGS_SO = ${CFLAGS_SO})
   $(info CXXFLAGS_SO = ${CXXFLAGS_SO})
   $(info target-libso-y = ${target-libso-y})

@@ -35,6 +35,8 @@
 #
 # Append definitions:
 # - CFLAGS
+# - CFLAGS_A
+# - CFLAGS_SO
 # - LDFLAGS
 #
 _HELPERS = 1
@@ -48,6 +50,8 @@ endif
 define add_helper_target
 ifeq ($(2),y)
   CFLAGS += -I$(shell dirname ${1})
+  CFLAGS_A += -I$(shell dirname ${1})
+  CFLAGS_SO += -I$(shell dirname ${1})
   ifdef STATIC
     LDFLAGS += ${1}
   else
