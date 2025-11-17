@@ -3,10 +3,12 @@ target-prep-y := vmlinux.h
 
 kfuncs := task_from_pid
 kfuncs += cgroup_from_id
+
 helpers := trace_printk
 helpers += strncmp
 helpers += cgrp_storage_get
 helpers += get_func_ip
+helpers += loop
 
 target-bpf-y := $(patsubst %,%.bpf.o,${kfuncs})
 target-bpf-y += $(patsubst %,%.bpf.o,${helpers})
