@@ -26,13 +26,19 @@ CXXFLAGS += -Werror -Wall
 ifdef DEBUG
   $(info Compile with DEBUG=1)
   CFLAGS += -DDEBUG=${DEBUG} -O0 -g -ggdb
+  CFLAGS_A += -DDEBUG=${DEBUG} -O0 -g -ggdb
+  CFLAGS_SO += -DDEBUG=${DEBUG} -O0 -g -ggdb
   CXXFLAGS += -DDEBUG=${DEBUG} -O0 -g -ggdb
+  CXXFLAGS_A += -DDEBUG=${DEBUG} -O0 -g -ggdb
+  CXXFLAGS_SO += -DDEBUG=${DEBUG} -O0 -g -ggdb
   MAKEFLAGS += DEBUG=${DEBUG}
 endif
 
 ifdef ERROR
   $(info Compile with ERROR=${ERROR})
   CFLAGS += -DERROR=${ERROR}
+  CFLAGS_A += -DERROR=${ERROR}
+  CFLAGS_SO += -DERROR=${ERROR}
   CXXFLAGS += -DERROR=${ERROR}
   MAKEFLAGS += ERROR=${ERROR}
 endif
