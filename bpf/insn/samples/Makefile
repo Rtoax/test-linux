@@ -4,7 +4,13 @@ OUTPUT := .output/
 target-liba-y := libbpf_insn_samples.a
 target-libso-y := libbpf_insn_samples.so
 
+helplers := trace_printk
+helplers += strncmp
+
+static-objs := $(patsubst %,${OUTPUT}%.a.o,${helplers})
+dynamic-objs := $(patsubst %,${OUTPUT}%.so.o,${helplers})
+
 include main.mk
 
-libbpf_insn_samples.a: ${OUTPUT}trace_printk.a.o
-libbpf_insn_samples.so: ${OUTPUT}trace_printk.so.o
+libbpf_insn_samples.a: ${static-objs}
+libbpf_insn_samples.so: ${dynamic-objs}

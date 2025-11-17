@@ -51,3 +51,9 @@ struct bpf_insn insns[] = {
 	BPF_MOV64_IMM(BPF_REG_0, 0),
 	BPF_EXIT_INSN(),
 };
+
+struct bpf_insn *strncmp_insns(size_t *cnt)
+{
+	*cnt = sizeof(insns) / sizeof(struct bpf_insn);
+	return insns;
+}
