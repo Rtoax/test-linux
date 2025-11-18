@@ -6,4 +6,5 @@
 - eBPF: extended Berkeley Packet Filter (增强 BSD 包过滤) @BPF
 - HID-BPF: ()
 - interop: Interoperability (互操作性)
+- SCX: Sched-ext,Extensible Scheduler Class (扩展调度器类)
 - XDP: eXpress Data Path (表达数据路径)

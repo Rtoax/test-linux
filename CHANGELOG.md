@@ -62,6 +62,7 @@ and this project adheres to
 - glibc: test `__GLIBC_USE()`;
 - shell: add some commands from ostools;
 #### Changed
+- Move `sched_ext` to bpf/;
 - bpf/insn/samples: add `bpf_samples_get_insns_from_string()`;
 - log.mk: rename log functions name;
 - bpf: add `insn/samples/trace_printk.c` from kprobe.c;
