@@ -1,4 +1,6 @@
+#include <argp.h>
 #include <stdio.h>
+#include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
@@ -26,60 +28,121 @@ enum insn_type {
 	INSN_GET_FUNC_IP,
 };
 
+struct env {
+	enum bpf_prog_type prog_type;
+	enum insn_type insn_type;
+	char *insn_name;
+	int verbose;
+} env = {
+	.prog_type = BPF_PROG_TYPE_KPROBE,
+	.insn_type = INSN_TRACE_PRINTK,
+	.insn_name = "trace_printk",
+	.verbose = false,
+};
+
 char bpf_log_buf[BPF_LOG_BUF_SIZE];
+
+const char argp_prog_doc[] =
+	"USAGE: [-t <prog-type>] [-h <helper>] [-v|--verbose]\n";
+
+static const struct argp_option opts[] = {
+	{ "progtype", 't', "PROG_TYPE", 0, "bpf prog type" },
+	{ "helper", 'h', "HELPER", 0, "Specify bpf helper or kfunc name" },
+	{ "verbose", 'v', NULL, 1, "Display detail" },
+	{},
+};
+
+enum bpf_prog_type bpf_prog_type_from_string(const char *str)
+{
+	/* TODO */
+	return BPF_PROG_TYPE_TRACEPOINT;
+}
+
+enum insn_type bpf_samples_insn_type_from_string(const char *str)
+{
+	enum insn_type type;
+	if (!strcmp("cgroup_from_id", str))
+		type = INSN_CGROUP_FROM_ID;
+	else if (!strcmp("task_from_pid", str))
+		type = INSN_TASK_FROM_PID;
+	else if (!strcmp("cgrp_storage_get", str))
+		type = INSN_CGRP_STORAGE_GET;
+	else if (!strcmp("get_func_ip", str))
+		type = INSN_GET_FUNC_IP;
+	else
+		type = INSN_TRACE_PRINTK;
+	return type;
+}
+
+static error_t parse_arg(int key, char *arg, struct argp_state *state)
+{
+	switch (key) {
+	case 't':
+		env.prog_type = bpf_prog_type_from_string(arg);
+		break;
+	case 'h':
+		env.insn_type = bpf_samples_insn_type_from_string(arg);
+		env.insn_name = arg;
+		break;
+	case 'v':
+		env.verbose = true;
+		break;
+	case ARGP_KEY_ARG:
+		break;
+	case ARGP_KEY_END:
+		break;
+	default:
+		return ARGP_ERR_UNKNOWN;
+	}
+	return 0;
+}
+
+static const struct argp argp = {
+	.options = opts,
+	.parser = parse_arg,
+	.doc = argp_prog_doc,
+};
 
 int main(int argc, char *argv[])
 {
-	int i, prog_fd;
-	int prog_type = BPF_PROG_TYPE_KPROBE;
-	enum insn_type insn_type = INSN_TRACE_PRINTK;
-	char *insn_name = "";
+	int i, err, prog_fd;
 	size_t insns_cnt;
 	char license[] = "GPL";
 	struct bpf_insn *insns;
 
-	printf("%s [trace_printk|cgroup_from_id|task_from_pid|get_func_ip|cgrp_storage_get] [tracepoint]\n", argv[0]);
-	for (i = 1; i < argc; i++) {
-		if (!strcmp("cgroup_from_id", argv[i]))
-			insn_type = INSN_CGROUP_FROM_ID;
-		if (!strcmp("task_from_pid", argv[i]))
-			insn_type = INSN_TASK_FROM_PID;
-		if (!strcmp("cgrp_storage_get", argv[i]))
-			insn_type = INSN_CGRP_STORAGE_GET;
-		if (!strcmp("get_func_ip", argv[i]))
-			insn_type = INSN_GET_FUNC_IP;
-		if (!strcmp("tracepoint", argv[i]))
-			prog_type = BPF_PROG_TYPE_TRACEPOINT;
+	err = argp_parse(&argp, argc, argv, 0, NULL, NULL);
+	if (err) {
+		fprintf(stderr, "argp_parse return %d\n", err);
+		return -err;
 	}
 
-	switch (insn_type) {
+	printf("%s [trace_printk|cgroup_from_id|task_from_pid|get_func_ip|cgrp_storage_get] [tracepoint]\n", argv[0]);
+	for (i = 1; i < argc; i++) {
+	}
+
+	switch (env.insn_type) {
 	case INSN_CGROUP_FROM_ID:
 		insns = cgroup_from_id_insns(&insns_cnt);
-		insn_name = "cgroup_from_id";
 		break;
 	case INSN_TASK_FROM_PID:
 		insns = task_from_pid_insns(&insns_cnt);
-		insn_name = "task_from_pid";
 		break;
 	case INSN_CGRP_STORAGE_GET:
 		insns = cgrp_storage_get_insns(&insns_cnt);
-		insn_name = "cgrp_storage_get";
 		break;
 	case INSN_GET_FUNC_IP:
 		insns = get_func_ip_insns(&insns_cnt);
-		insn_name = "get_func_ip";
 		break;
 	case INSN_TRACE_PRINTK:
 	default:
 		insns = trace_printk_insns(&insns_cnt);
-		insn_name = "trace_printk";
 		break;
 	}
 
-	printf("Prog %s has %ld insns\n", insn_name, insns_cnt);
+	printf("Prog %s has %ld insns\n", env.insn_name, insns_cnt);
 
 	union bpf_attr prog_load_attr = {
-		.prog_type = prog_type,
+		.prog_type = env.prog_type,
 		.insns = (long)insns,
 		.insn_cnt = insns_cnt,
 		.license = (long)license,
@@ -110,7 +173,7 @@ int main(int argc, char *argv[])
 
 #if defined(HAVE_BCC)
 	int probe_fd;
-	if (prog_type == BPF_PROG_TYPE_TRACEPOINT) {
+	if (env.prog_type == BPF_PROG_TYPE_TRACEPOINT) {
 		probe_fd = bpf_attach_tracepoint(prog_fd, "syscalls", "sys_enter_nanosleep");
 		fprintf(stdout, "Tracepoint sys_enter_nanosleep(), test with 'sleep 0.1'.\n");
 	} else {
@@ -123,8 +186,7 @@ int main(int argc, char *argv[])
 	}
 
 	system("cat " DEBUGFS "/trace_pipe");
-	close(probe_fd);
-	if (prog_type == BPF_PROG_TYPE_TRACEPOINT) {
+	if (env.prog_type == BPF_PROG_TYPE_TRACEPOINT) {
 		bpf_detach_tracepoint("syscalls", "sys_enter_nanosleep");
 	} else {
 		bpf_detach_kprobe("hello_world");
@@ -147,6 +209,8 @@ int main(int argc, char *argv[])
 				prog_run_attr.test.retval);
 	}
 #endif
+
+	close(probe_fd);
 	close(prog_fd);
 	return 0;
 }
