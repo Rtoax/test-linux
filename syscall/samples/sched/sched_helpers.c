@@ -136,7 +136,7 @@ const char *sched_policy_string(int policy)
 {
 	switch (policy) {
 #define CASE(P)	case P: return #P; break
-# include "sched_policy.h"
+# include "sched_policy_defs.h"
 	default:
 		return "Unknown";
 #undef CASE
