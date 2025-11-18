@@ -20,11 +20,12 @@ Process Schedule
 +-----------------------------------------+----------------------+
 |                  1 ~ 99                 |       100 ~ 139      |  Priority
 +-----------------------------------------+----------------------+
-                 SCHED_FIFO                 SCHED_NORMAL
-                                            (SCHED_OTHER)
-                 SCHED_RR                   SCHED_BATCH
-                                            SCHED_IDLE
+|                SCHED_FIFO               | SCHED_NORMAL (SCHED_OTHER)
+|                SCHED_RR                 | SCHED_BATCH          |
+|                                         | SCHED_IDLE           |
 
+|                       sched_setattr(2)                         |
+|                       sched_getattr(2)                         |
 |                       sched_setscheduler(2)                    |
 |                       sched_getscheduler(2)                    |
 
