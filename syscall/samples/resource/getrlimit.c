@@ -27,5 +27,8 @@ int main(void)
 	getrlimit(RLIMIT_NICE, &rlimit);
 	print_rlimit("RLIMIT_NICE", &rlimit);
 
+	getrlimit(RLIMIT_RTTIME, &rlimit);
+	print_rlimit("RLIMIT_RTTIME", &rlimit);
+
 	return 0;
 }
