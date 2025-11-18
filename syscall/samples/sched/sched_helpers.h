@@ -57,5 +57,5 @@ const char *sched_policy_string(int policy);
 
 int sys_sched_getattr(pid_t pid, struct __sched_attr *attr, unsigned int size,
 		      unsigned int flags);
-int sys_sched_setattr(pid_t pid, const struct __sched_attr *attr, unsigned int flags);
-
+int sys_sched_setattr(pid_t pid, const struct __sched_attr *attr,
+		      unsigned int flags);

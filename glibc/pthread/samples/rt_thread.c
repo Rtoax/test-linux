@@ -8,7 +8,8 @@
 
 void *thread_func(void *arg)
 {
-	sleep(2);
+	while (1);
+	//sleep(2);
 	/* Do RT specific stuff here */
 	return NULL;
 }
@@ -63,4 +64,3 @@ int main(int argc, char *argv[])
 out:
 	return ret;
 }
-

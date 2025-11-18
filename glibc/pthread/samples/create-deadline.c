@@ -64,7 +64,7 @@ int main(int argc, char **argv)
 
 	pthread_create(&thread, NULL, run_deadline, NULL);
 
-	sleep(2);
+	sleep(10);
 
 	done = 1;
 	pthread_join(thread, NULL);
