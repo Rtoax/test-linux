@@ -14,8 +14,10 @@ void *loop(void *arg)
 	struct args *a = (struct args *)t->arg;
 
 	fprintf(stderr, "Try set cpu affinity %d\n", a->cpu);
-	sys_affinity_bind(a->cpu);
-	while (true) ;
+	thread_affinity_bind_cpu(a->cpu);
+
+	while (true);
+
 	return NULL;
 }
 
@@ -38,6 +40,7 @@ int main(void)
 	threads[0] = thread_create_fifo(loop, &args[0], 99);
 	threads[1] = thread_create_rr(loop, &args[1], 99);
 	threads[2] = thread_create_other(loop, &args[2]);
+
 	if (!threads[0] || !threads[1] || !threads[2])
 		goto failed;
 

@@ -30,4 +30,4 @@ struct thread *thread_create_other(void *(*func)(void *), void *arg);
 
 int destroy_thread(struct thread *thread);
 
-int sys_affinity_bind(int cpu);
+int thread_affinity_bind_cpu(int cpu);

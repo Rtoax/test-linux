@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 #### Added
 #### Changed
+- `pthread_helpers`: rename `sys_affinity_bind` to `thread_affinity_bind_cpu`;
 #### Deprecated
 #### Removed
 #### Fixed

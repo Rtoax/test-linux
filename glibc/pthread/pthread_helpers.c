@@ -5,7 +5,6 @@
 #endif
 #include <sched.h>
 #include <unistd.h>
-
 #include <stdbool.h>
 #include <err.h>
 #include <errno.h>
@@ -134,7 +133,7 @@ int destroy_thread(struct thread *thread)
 	return 0;
 }
 
-int sys_affinity_bind(int cpu)
+int thread_affinity_bind_cpu(int cpu)
 {
 	cpu_set_t cpuset;
 	int i, rc;
