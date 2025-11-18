@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- sched: add ext.c test;
 - sched-ext: add hello.c sample;
 - sched: add deadline.c, rr.c, fifo.c;
 #### Changed

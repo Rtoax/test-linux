@@ -3,6 +3,8 @@ __USE_SCHED_HELPERS__ = y
 
 OUTPUT := .output/
 
+include kconfig.mk
+
 target-y :=
 target-y += current
 target-y += uninterruptible
@@ -12,6 +14,7 @@ target-y += stopped
 target-y += fifo
 target-y += rr
 target-y += deadline
+target-$(CONFIG_SCHED_CLASS_EXT) += ext
 
 CFLAGS_fifo := -DTEST_FIFO=1
 
@@ -25,3 +28,4 @@ stopped: ${OUTPUT}stopped.o
 fifo: ${OUTPUT}fifo.o ${SCHED_HELPERS}
 rr: ${OUTPUT}rr.o ${SCHED_HELPERS}
 deadline: ${OUTPUT}deadline.o ${SCHED_HELPERS}
+ext: ${OUTPUT}ext.o ${SCHED_HELPERS}
