@@ -18,7 +18,7 @@ static volatile int done;
 
 void *run_deadline(void *data)
 {
-	struct __sched_attr attr;
+	struct sched_attr attr;
 	unsigned long x = 0;
 	int ret;
 	unsigned int flags = 0;

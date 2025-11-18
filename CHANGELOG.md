@@ -16,6 +16,7 @@ and this project adheres to
 - `pthread_helpers`: rename `sys_affinity_bind` to `thread_affinity_bind_cpu`;
 #### Deprecated
 #### Removed
+- `sched_helpers`: remove `struct __sched_attr`;
 #### Fixed
 #### Security
 #### Docs
