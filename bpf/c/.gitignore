@@ -1,2 +1,2 @@
 /*.c.s
-/kprobe
+/bpfprobe

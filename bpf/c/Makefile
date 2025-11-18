@@ -5,7 +5,7 @@ __USE_BPF_INSN_SAMPLES__ = y
 
 include bpf/bcc.mk
 
-target-y := kprobe
+target-y := bpfprobe
 
 target-bpf-y := foo.bpf.o
 
@@ -20,4 +20,4 @@ CFLAGS_foo := -fomit-frame-pointer
 
 include main.mk
 
-kprobe: kprobe.o ${BPF_INSN_SAMPLES} ${BPF_HELPERS} ${BTF_HELPERS}
+bpfprobe: bpfprobe.o ${BPF_INSN_SAMPLES} ${BPF_HELPERS} ${BTF_HELPERS}
