@@ -19,7 +19,7 @@
 
 static struct bpf_insn insns_buf[1024];
 
-struct bpf_insn *task_from_pid_insns(size_t *cnt)
+BPF_INSN_SAMPLE_FUNC_PROTO(task_from_pid)
 {
 	int bpf_task_from_pid_id;
 	int bpf_task_release_id;

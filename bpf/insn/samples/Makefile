@@ -19,5 +19,5 @@ dynamic-objs := $(patsubst %,${OUTPUT}%.so.o,${helpers})
 
 include main.mk
 
-libbpf_insn_samples.a: ${static-objs}
-libbpf_insn_samples.so: ${dynamic-objs}
+libbpf_insn_samples.a: ${static-objs} ${OUTPUT}bpf_insn_samples.a.o
+libbpf_insn_samples.so: ${dynamic-objs} ${OUTPUT}bpf_insn_samples.so.o

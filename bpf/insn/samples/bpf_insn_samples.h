@@ -4,10 +4,17 @@
 #include <bcc/libbpf.h>
 #include <linux/bpf.h>
 
-struct bpf_insn *trace_printk_insns(size_t *cnt);
-struct bpf_insn *strncmp_insns(size_t *cnt);
+typedef struct bpf_insn *(*bpf_get_insns_fn)(size_t *cnt);
 
-struct bpf_insn *cgroup_from_id_insns(size_t *cnt);
-struct bpf_insn *task_from_pid_insns(size_t *cnt);
-struct bpf_insn *cgrp_storage_get_insns(size_t *cnt);
-struct bpf_insn *get_func_ip_insns(size_t *cnt);
+#define BPF_INSN_SAMPLE_FUNC_NAME(helper)	bpf_insn_sample_##helper##_insns
+#define BPF_INSN_SAMPLE_FUNC_PROTO(helper)	struct bpf_insn *BPF_INSN_SAMPLE_FUNC_NAME(helper)(size_t *cnt)
+
+BPF_INSN_SAMPLE_FUNC_PROTO(trace_printk);
+BPF_INSN_SAMPLE_FUNC_PROTO(strncmp);
+BPF_INSN_SAMPLE_FUNC_PROTO(loop);
+BPF_INSN_SAMPLE_FUNC_PROTO(cgroup_from_id);
+BPF_INSN_SAMPLE_FUNC_PROTO(task_from_pid);
+BPF_INSN_SAMPLE_FUNC_PROTO(cgrp_storage_get);
+BPF_INSN_SAMPLE_FUNC_PROTO(get_func_ip);
+
+bpf_get_insns_fn bpf_samples_get_insns_from_string(const char *helper_str);

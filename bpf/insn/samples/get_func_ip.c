@@ -12,7 +12,7 @@ static struct bpf_insn insns[] = {
 	BPF_EXIT_INSN(),
 };
 
-struct bpf_insn *get_func_ip_insns(size_t *cnt)
+BPF_INSN_SAMPLE_FUNC_PROTO(get_func_ip)
 {
 	*cnt = sizeof(insns) / sizeof(struct bpf_insn);
 	return insns;

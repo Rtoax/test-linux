@@ -122,20 +122,20 @@ int main(int argc, char *argv[])
 
 	switch (env.insn_type) {
 	case INSN_CGROUP_FROM_ID:
-		insns = cgroup_from_id_insns(&insns_cnt);
+		insns = bpf_insn_sample_cgroup_from_id_insns(&insns_cnt);
 		break;
 	case INSN_TASK_FROM_PID:
-		insns = task_from_pid_insns(&insns_cnt);
+		insns = bpf_insn_sample_task_from_pid_insns(&insns_cnt);
 		break;
 	case INSN_CGRP_STORAGE_GET:
-		insns = cgrp_storage_get_insns(&insns_cnt);
+		insns = bpf_insn_sample_cgrp_storage_get_insns(&insns_cnt);
 		break;
 	case INSN_GET_FUNC_IP:
-		insns = get_func_ip_insns(&insns_cnt);
+		insns = bpf_insn_sample_get_func_ip_insns(&insns_cnt);
 		break;
 	case INSN_TRACE_PRINTK:
 	default:
-		insns = trace_printk_insns(&insns_cnt);
+		insns = bpf_insn_sample_trace_printk_insns(&insns_cnt);
 		break;
 	}
 

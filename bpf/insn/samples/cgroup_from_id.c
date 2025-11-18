@@ -22,7 +22,7 @@
 
 static struct bpf_insn insns_buf[1024];
 
-struct bpf_insn *cgroup_from_id_insns(size_t *cnt)
+BPF_INSN_SAMPLE_FUNC_PROTO(cgroup_from_id)
 {
 	int bpf_cgroup_from_id_id;
 	int bpf_cgroup_release_id;

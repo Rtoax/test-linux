@@ -14,7 +14,7 @@ static struct bpf_insn insns[] = {
 };
 
 
-struct bpf_insn *loop_insns(size_t *cnt)
+BPF_INSN_SAMPLE_FUNC_PROTO(loop)
 {
 	*cnt = sizeof(insns) / sizeof(struct bpf_insn);
 	return insns;

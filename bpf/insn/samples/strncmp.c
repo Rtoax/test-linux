@@ -1,6 +1,7 @@
 #include <bpf/bpf.h>
 #include <bcc/libbpf.h>
 #include <linux/bpf.h>
+#include "bpf_insn_samples.h"
 
 
 /* TODO: load failed */
@@ -52,7 +53,7 @@ struct bpf_insn insns[] = {
 	BPF_EXIT_INSN(),
 };
 
-struct bpf_insn *strncmp_insns(size_t *cnt)
+BPF_INSN_SAMPLE_FUNC_PROTO(strncmp)
 {
 	*cnt = sizeof(insns) / sizeof(struct bpf_insn);
 	return insns;

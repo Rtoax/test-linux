@@ -11,7 +11,7 @@ static struct bpf_insn insns[] = {
 	BPF_EXIT_INSN(),
 };
 
-struct bpf_insn *cgrp_storage_get_insns(size_t *cnt)
+BPF_INSN_SAMPLE_FUNC_PROTO(cgrp_storage_get)
 {
 	*cnt = sizeof(insns) / sizeof(struct bpf_insn);
 	return insns;
