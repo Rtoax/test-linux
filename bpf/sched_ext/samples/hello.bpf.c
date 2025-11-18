@@ -49,6 +49,7 @@ void hello_exit(struct scx_exit_info *ei)
 SEC(".struct_ops.link")
 struct sched_ext_ops hello_ops = {
 	.name		= "hello",
+	.flags		= SCX_OPS_SWITCH_PARTIAL,
 	.select_cpu	= (void *)hello_select_cpu,
 	.enqueue	= (void *)hello_enqueue,
 	.dispatch	= (void *)hello_dispatch,
