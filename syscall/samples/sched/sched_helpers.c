@@ -151,11 +151,17 @@ long int sys_getcpu(unsigned *cpu, unsigned *node)
 int sys_sched_setattr(pid_t pid, const struct sched_attr *attr,
 		      unsigned int flags)
 {
-	return syscall(__NR_sched_setattr, pid, attr, flags);
+	int err = syscall(__NR_sched_setattr, pid, attr, flags);
+	if (err)
+		errno = -err;
+	return err;
 }
 
 int sys_sched_getattr(pid_t pid, struct sched_attr *attr, unsigned int size,
 		      unsigned int flags)
 {
-	return syscall(__NR_sched_getattr, pid, attr, size, flags);
+	int err = syscall(__NR_sched_getattr, pid, attr, size, flags);
+	if (err)
+		errno = -err;
+	return err;
 }
