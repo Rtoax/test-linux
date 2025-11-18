@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <assert.h>
 
 #define __unused __attribute__((unused))
 
@@ -70,6 +71,7 @@ int widths[] = { [0 ... 3] = 1, [5 ... 9] = 2, [10] = 3 };
 
 int main(void)
 {
+	size_t size;
 	struct test __unused t1 = { .a = 0 };
 	struct test __unused t2 = { 0 };
 #if !defined(__clang__)
@@ -82,5 +84,9 @@ int main(void)
 	PR_S_ARR(tests3);
 	PR_S_ARR(tests4);
 	PR_ARR(widths);
+
+	size = &tests3[2] - &tests3[0];
+	assert(size == 2);
+
 	return 0;
 }
