@@ -4,3 +4,5 @@
 /zombie
 /stopped
 /deadline
+/fifo
+/rr

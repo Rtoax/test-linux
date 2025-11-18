@@ -38,6 +38,7 @@ Process Schedule
 
 > see also 'chrt --max'
 
+```
 |       Policy      |  Priority   |   Nice   |  top PR    |
 | ----------------- | ----------- | -------- | ---------- |
 | `SCHED_FIFO`      |   0 - 99    |          |  -1 - P    |
@@ -46,7 +47,7 @@ Process Schedule
 | `SCHED_NORMAL`    | 100 - 139   | -20 - 10 | 20 + Nice  |
 | `SCHED_BATCH`     | 100 - 139   | -20 - 10 | 20 + Nice  |
 | `SCHED_IDLE`      | 100 - 139   | -20 - 10 | 20 + Nice  |
-
+```
 
 ```bash
 $ ps -eo state,uid,pid,ppid,pri,rtprio,time,comm

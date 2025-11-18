@@ -9,6 +9,8 @@ target-y += uninterruptible
 target-y += hung
 target-y += zombie
 target-y += stopped
+target-y += fifo
+target-y += rr
 target-y += deadline
 
 include main.mk
@@ -18,4 +20,6 @@ uninterruptible: ${OUTPUT}uninterruptible.o
 hung: ${OUTPUT}hung.o
 zombie: ${OUTPUT}zombie.o ${PROC_HELPERS}
 stopped: ${OUTPUT}stopped.o
+fifo: ${OUTPUT}fifo.o
+rr: ${OUTPUT}rr.o
 deadline: ${OUTPUT}deadline.o ${SCHED_HELPERS}
