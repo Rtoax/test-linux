@@ -15,6 +15,7 @@ subdir-y += jit
 subdir-y += libbpf
 subdir-y += samples
 subdir-y += seccomp
+subdir-y += sched_ext
 subdir-y += usdt
 subdir-y += xdp
 
