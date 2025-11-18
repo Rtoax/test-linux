@@ -5,6 +5,9 @@ target-y := hello
 
 target-bpf-y := $(patsubst %,${OUTPUT}%.bpf.o,${target-y})
 
+CFLAGS += -I${OUTPUT}
+LDFLAGS += -lbpf
+
 include main.mk
 
 define define_target
