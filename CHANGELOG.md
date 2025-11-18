@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- sched-ext: add hello.c sample;
 - sched: add deadline.c, rr.c, fifo.c;
 #### Changed
 - `pthread_helpers`: rename `sys_affinity_bind` to `thread_affinity_bind_cpu`;

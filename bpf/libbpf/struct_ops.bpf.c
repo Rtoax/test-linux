@@ -27,6 +27,11 @@
  * [4] linux commit f6be98d19985 ("bpf, net: switch to dynamic registration")
  */
 
-/**
- * TODO
- */
+/* TODO */
+SEC("struct_ops/test")
+int test(void)
+{
+	return 0;
+}
+
+char LICENSE[] SEC("license") = "Dual BSD/GPL";
