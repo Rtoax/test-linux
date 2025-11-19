@@ -247,7 +247,7 @@ static int get_func_btf_id(struct btf *btf, const char *name)
 	if (func.nr_args > MAX_ARGS)
 		printf("/* and %d more args that are not traceable */",
 			func.nr_args - MAX_ARGS);
-	printf(");\n");
+	printf(") = btf_id %d;\n", btf_id);
 	return btf_id;
 }
 
