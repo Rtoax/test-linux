@@ -5,6 +5,7 @@
 - Grid: (线程网格)
 - KVCache: Key-Value Cache (键值缓存) @QKV
 - LLM: Large Language Model (大语言模型)
+- MFU: Model FLOPs Utilization (模型FLOPS利用率)
 - MSE: Mean Squared Error (均方误差)
 - NLP: Nature Language Process (自然语言处理)
 - ONNX: Open Neural Network Exchange (开放神经网络交换)
