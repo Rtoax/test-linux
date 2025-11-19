@@ -12,7 +12,9 @@ target-y += btf_kfunc
 target-y += btf_struct
 target-y += btf_decl_tag
 
-target-btf-y := kvm.h
+ifneq ($(wildcard /sys/kernel/btf/kvm),)
+  target-btf-y := kvm.h
+endif
 
 LDFLAGS := -lbpf
 CFLAGS_btf_kfunc := -DTEST_BTF_KIND_FUNC=1
