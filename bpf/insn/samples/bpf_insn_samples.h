@@ -17,4 +17,5 @@ BPF_INSN_SAMPLE_FUNC_PROTO(task_from_pid);
 BPF_INSN_SAMPLE_FUNC_PROTO(cgrp_storage_get);
 BPF_INSN_SAMPLE_FUNC_PROTO(get_func_ip);
 
+void bpf_samples_insns_list(void);
 bpf_samples_get_insns_fn bpf_samples_get_insns_from_string(const char *helper_str);

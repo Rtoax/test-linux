@@ -20,14 +20,6 @@
 	(offsetof(TYPE, MEMBER)	+ sizeof((((TYPE *)0)->MEMBER)))
 #endif
 
-enum insn_type {
-	INSN_TRACE_PRINTK,
-	INSN_CGROUP_FROM_ID,
-	INSN_TASK_FROM_PID,
-	INSN_CGRP_STORAGE_GET,
-	INSN_GET_FUNC_IP,
-};
-
 enum load_engine {
 	ENGINE_BCC,
 	ENGINE_LIBBPF,
@@ -36,13 +28,13 @@ enum load_engine {
 
 struct env {
 	enum bpf_prog_type prog_type;
-	enum insn_type insn_type;
 	char *insn_name;
+	bpf_samples_get_insns_fn insns_fn;
 	enum load_engine engine;
 	int verbose;
 } env = {
 	.prog_type = BPF_PROG_TYPE_KPROBE,
-	.insn_type = INSN_TRACE_PRINTK,
+	.insns_fn = bpf_insn_sample_trace_printk_insns,
 	.insn_name = "trace_printk",
 	.engine = ENGINE_BCC,
 	.verbose = false,
@@ -67,22 +59,6 @@ enum bpf_prog_type bpf_prog_type_from_string(const char *str)
 	return BPF_PROG_TYPE_TRACEPOINT;
 }
 
-enum insn_type bpf_samples_insn_type_from_string(const char *str)
-{
-	enum insn_type type;
-	if (!strcmp("cgroup_from_id", str))
-		type = INSN_CGROUP_FROM_ID;
-	else if (!strcmp("task_from_pid", str))
-		type = INSN_TASK_FROM_PID;
-	else if (!strcmp("cgrp_storage_get", str))
-		type = INSN_CGRP_STORAGE_GET;
-	else if (!strcmp("get_func_ip", str))
-		type = INSN_GET_FUNC_IP;
-	else
-		type = INSN_TRACE_PRINTK;
-	return type;
-}
-
 static error_t parse_arg(int key, char *arg, struct argp_state *state)
 {
 	switch (key) {
@@ -90,7 +66,13 @@ static error_t parse_arg(int key, char *arg, struct argp_state *state)
 		env.prog_type = bpf_prog_type_from_string(arg);
 		break;
 	case 'h':
-		env.insn_type = bpf_samples_insn_type_from_string(arg);
+		env.insns_fn = bpf_samples_get_insns_from_string(arg);
+		if (!env.insns_fn) {
+			bpf_samples_insns_list();
+			printf("\n");
+			fprintf(stderr, "ERROR: not found %s\n", arg);
+			exit(1);
+		}
 		env.insn_name = arg;
 		break;
 	case 'e':
@@ -137,28 +119,11 @@ int main(int argc, char *argv[])
 		return -err;
 	}
 
-	printf("%s [trace_printk|cgroup_from_id|task_from_pid|get_func_ip|cgrp_storage_get] [tracepoint]\n", argv[0]);
-	for (i = 1; i < argc; i++) {
-	}
+	printf("%s -h [", argv[0]);
+	bpf_samples_insns_list();
+	printf("] -t [tracepoint|kprobe]\n");
 
-	switch (env.insn_type) {
-	case INSN_CGROUP_FROM_ID:
-		insns = bpf_insn_sample_cgroup_from_id_insns(&insns_cnt);
-		break;
-	case INSN_TASK_FROM_PID:
-		insns = bpf_insn_sample_task_from_pid_insns(&insns_cnt);
-		break;
-	case INSN_CGRP_STORAGE_GET:
-		insns = bpf_insn_sample_cgrp_storage_get_insns(&insns_cnt);
-		break;
-	case INSN_GET_FUNC_IP:
-		insns = bpf_insn_sample_get_func_ip_insns(&insns_cnt);
-		break;
-	case INSN_TRACE_PRINTK:
-	default:
-		insns = bpf_insn_sample_trace_printk_insns(&insns_cnt);
-		break;
-	}
+	insns = env.insns_fn(&insns_cnt);
 
 	printf("Prog %s has %ld insns\n", env.insn_name, insns_cnt);
 
