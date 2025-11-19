@@ -11,6 +11,12 @@ unsigned long cgroup_level(void)
 	struct cgroup *cgrp = bpf_cgroup_from_id(cgrpid);
 	if (cgrp) {
 		level = cgrp->level;
+# if defined(SUPPORT_BPF_CGROUP_ACQUIRE)
+		struct cgroup *cgrp2 = bpf_cgroup_acquire(cgrp);
+		if (cgrp2) {
+			bpf_cgroup_release(cgrp2);
+		}
+# endif
 		bpf_cgroup_release(cgrp);
 	}
 #endif
