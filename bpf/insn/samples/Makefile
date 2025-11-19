@@ -14,7 +14,7 @@ helpers := trace_printk
 ifeq ($(call kver_ge,5,16,0),y)
   helpers += strncmp
 endif
-helpers += cgroup_from_id
+helpers += cgroup_acquire cgroup_from_id
 helpers += task_from_pid
 # linux v6.0-11954-gc4bcfb38a95e
 # commit c4bcfb38a95e ("bpf: Implement cgroup storage available to non-cgroup-attached bpf progs")

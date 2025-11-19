@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- bpf/insn/samples: add `cgroup_acquire.c`;
 - bpf/insn/samples: check for helper supported or not.
 - template/bpf: add helper.mk;
 - sched: add ext.c test;

@@ -14,6 +14,7 @@ BPF_INSN_SAMPLE(strncmp)
 BPF_INSN_SAMPLE(loop)
 #endif
 BPF_INSN_SAMPLE(cgroup_from_id)
+BPF_INSN_SAMPLE(cgroup_acquire)
 BPF_INSN_SAMPLE(task_from_pid)
 /**
  * linux v6.0-11954-gc4bcfb38a95e
