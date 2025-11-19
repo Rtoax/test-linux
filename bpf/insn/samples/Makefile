@@ -9,6 +9,7 @@ target-liba-y := libbpf_insn_samples.a
 target-libso-y := libbpf_insn_samples.so
 
 helpers := trace_printk
+helpers += get_current_cgroup_id
 # linux v5.16-rc4-1160-gc5fb19937455
 # commit c5fb19937455 ("bpf: Add bpf_strncmp helper")
 ifeq ($(call kver_ge,5,16,0),y)
