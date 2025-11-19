@@ -14,5 +14,12 @@ unsigned long cgroup_level(void)
 		bpf_cgroup_release(cgrp);
 	}
 #endif
+#if defined(SUPPORT_BPF_CGROUP_ACQUIRE) && defined(ERROR)
+	struct cgroup *cgrp2 = bpf_cgroup_acquire(0);
+	if (cgrp2) {
+		bpf_cgroup_release(cgrp2);
+	}
+#endif
 	return level;
 }
+

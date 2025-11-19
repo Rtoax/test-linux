@@ -28,6 +28,7 @@ ifdef DEBUG
   CFLAGS += -DDEBUG=${DEBUG} -O0 -g -ggdb
   CFLAGS_A += -DDEBUG=${DEBUG} -O0 -g -ggdb
   CFLAGS_SO += -DDEBUG=${DEBUG} -O0 -g -ggdb
+  CFLAGS_BPF += -DDEBUG=${DEBUG} -O0 -g -ggdb
   CXXFLAGS += -DDEBUG=${DEBUG} -O0 -g -ggdb
   CXXFLAGS_A += -DDEBUG=${DEBUG} -O0 -g -ggdb
   CXXFLAGS_SO += -DDEBUG=${DEBUG} -O0 -g -ggdb
@@ -39,6 +40,7 @@ ifdef ERROR
   CFLAGS += -DERROR=${ERROR}
   CFLAGS_A += -DERROR=${ERROR}
   CFLAGS_SO += -DERROR=${ERROR}
+  CFLAGS_BPF += -DERROR=${ERROR}
   CXXFLAGS += -DERROR=${ERROR}
   MAKEFLAGS += ERROR=${ERROR}
 endif

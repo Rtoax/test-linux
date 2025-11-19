@@ -32,7 +32,7 @@ CFLAGS_BPF += -DCONFIG_UID=${CONFIG_UID}
 
 ifdef DEBUG
   CFLAGS_BPF += -DDEBUG=${DEBUG}
-  $(info CFLAGS_BPF := ${CFLAGS_BPF})
+  $(info CFLAGS_BPF = ${CFLAGS_BPF})
 endif
 
 # This is target-bpf-y

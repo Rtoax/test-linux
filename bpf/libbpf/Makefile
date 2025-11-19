@@ -134,6 +134,11 @@ ifeq ($(call vmlinux_has_sym,bpf_cgroup_from_id),y)
   $(info Found bpf_cgroup_from_id())
 endif
 
+ifeq ($(call vmlinux_has_sym,bpf_cgroup_acquire),y)
+  CFLAGS_BPF += -DSUPPORT_BPF_CGROUP_ACQUIRE=1
+  $(info Found bpf_cgroup_acquire())
+endif
+
 # linux commit 7b15523a989b ("bpf: Add a bpf_snprintf helper")
 # v5.12-rc4-1654-g7b15523a989b
 ifeq ($(call kver_gt,5,12,0),y)

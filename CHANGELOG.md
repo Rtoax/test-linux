@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- libbpf: test `bpf_cgroup_acquire()` kfunc must pass a good ptr;
 - bpf/insn/samples: add `cgroup_acquire.c`, `get_current_cgroup_id.c`;
 - bpf/insn/samples: check for helper supported or not.
 - template/bpf: add helper.mk;

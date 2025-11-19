@@ -28,7 +28,7 @@ BPF_INSN_SAMPLE_FUNC_PROTO(cgroup_acquire)
 
 	struct bpf_insn *insn = insns_buf;
 
-	/* 1ULL: EINVAL, 0ULL: EPERM */
+	/* bpf_prog_load(): 1ULL: EINVAL, 0ULL: EPERM */
 	uint64_t cgroup = 0ULL;
 	*insn++ = BPF_MOV64_IMM(BPF_REG_1, cgroup);
 	*insn++ = BPF_CALL_KFUNC(0, bpf_cgroup_acquire_id);
