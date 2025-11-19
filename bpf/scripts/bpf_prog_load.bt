@@ -28,12 +28,14 @@ kprobe:bpf_prog_load
 	printf("kernel: %-8d %-8s %-16s\n", pid, comm, @Type[$type]);
 }
 
-uprobe:libbpf:bpf_prog_load
+uprobe:libbpf:bpf_prog_load,
+uprobe:/usr/bin/bpftrace:bpf_prog_load
 {
 	@libbpf_prog_type[tid] = arg0;
 }
 
-uretprobe:libbpf:bpf_prog_load
+uretprobe:libbpf:bpf_prog_load,
+uretprobe:/usr/bin/bpftrace:bpf_prog_load
 / @libbpf_prog_type[tid] /
 {
 	printf("libbpf: %-8d %-8s %-16s %d\n", pid, comm,
