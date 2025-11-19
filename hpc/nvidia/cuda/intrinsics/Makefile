@@ -37,10 +37,10 @@ target-lscc-${HAVE_LUCA} := $(patsubst %,%-luca,$(common-objs-y))
 # warning: brace elision for designated initializer is a C99 extension [-Wc99-designator]
 CFLAGS_HIPCC_half := -Wno-c99-designator -Wno-c++20-designator
 
-CFLAGS_HIPCC := ${cflags-support-types-y}
-CFLAGS_HTCC := ${cflags-support-types-y}
-CFLAGS_LSCC := ${cflags-support-types-y}
-CFLAGS_NVCC := ${cflags-support-types-y}
+CFLAGS_HIPCC := ${cflags-support-types-y} -I..
+CFLAGS_HTCC := ${cflags-support-types-y} -I..
+CFLAGS_LSCC := ${cflags-support-types-y} -I..
+CFLAGS_NVCC := ${cflags-support-types-y} -I..
 
 include main.mk
 
