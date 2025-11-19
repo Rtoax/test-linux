@@ -3,7 +3,7 @@
 
 struct bpf_insn_sample {
 	const char name[64];
-	bpf_get_insns_fn get_insns;
+	bpf_samples_get_insns_fn get_insns;
 };
 
 #define ARRAY_SIZE(arr)	(sizeof(arr) / sizeof(arr[0]))
@@ -19,7 +19,7 @@ static struct bpf_insn_sample samples[] = {
 	SAMPLE(get_func_ip),
 };
 
-bpf_get_insns_fn bpf_samples_get_insns_from_string(const char *helper_str)
+bpf_samples_get_insns_fn bpf_samples_get_insns_from_string(const char *helper_str)
 {
 	int i;
 	for (i = 0; i < ARRAY_SIZE(samples); i++) {
