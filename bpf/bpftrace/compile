@@ -67,6 +67,7 @@ ARGUMENT
 	-i, --install           execute the make install
 	--llvm-version          specify LLVM Version
 	--llvm-dir              specify LLVM directory, like: /usr/lib/llvm-18/
+	--use-system-libbpf     use system libbpf instead of submodule
 	-v, --verbose           run with verbose mode
 	-h, --help              show this info
 
@@ -88,6 +89,7 @@ TEMP_ARGS=$(getopt --options dcivh \
 	--long install \
 	--long llvm-version: \
 	--long llvm-dir: \
+	--long use-system-libbpf \
 	--long verbose \
 	--long help \
 	--name ${prog} -- "$@")
@@ -120,6 +122,11 @@ while true; do
 		shift
 		llvm_dir=$1
 		cmake_args+=( -DLLVM_DIR=${llvm_dir}/cmake/ )
+		shift
+		;;
+	--use-system-libbpf)
+		shift
+		cmake_args+=( -DUSE_SYSTEM_LIBBPF=ON )
 		shift
 		;;
 	-v | --verbose)
