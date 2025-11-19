@@ -1,5 +1,4 @@
 #!/usr/bin/env bpftrace
-
 #include <linux/filter.h>
 #include <uapi/linux/bpf.h>
 
@@ -17,9 +16,8 @@ BEGIN
 	@Type[BPF_PROG_TYPE_LWT_XMIT] = "LWT XMIT";
 	@Type[BPF_PROG_TYPE_RAW_TRACEPOINT] = "RawTracePoint";
 
-
-	printf("Tracing bpf_prog_load,\n");
-	printf("%-8s %-8s %-16s\n", "PID", "COMM", "TYPE");
+	printf("Tracing bpf_prog_load(), end with ctrl+c\n");
+	printf("%-7s %-8s %-8s %-16s\n", "K/U", "PID", "COMM", "TYPE");
 }
 
 kprobe:bpf_prog_load
@@ -27,10 +25,24 @@ kprobe:bpf_prog_load
 	$attr = (union bpf_attr *)arg0;
 	$type = $attr->prog_type;
 
-	printf("%-8d %-8s %-16s\n", pid, comm, @Type[$type]);
+	printf("kernel: %-8d %-8s %-16s\n", pid, comm, @Type[$type]);
+}
+
+uprobe:libbpf:bpf_prog_load
+{
+	@libbpf_prog_type[tid] = arg0;
+}
+
+uretprobe:libbpf:bpf_prog_load
+/ @libbpf_prog_type[tid] /
+{
+	printf("libbpf: %-8d %-8s %-16s %d\n", pid, comm,
+		@Type[@libbpf_prog_type[tid]], retval);
+	delete(@libbpf_prog_type[tid]);
 }
 
 END
 {
+	clear(@libbpf_prog_type);
 	clear(@Type);
 }

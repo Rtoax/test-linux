@@ -53,17 +53,18 @@ static const struct argp_option opts[] = {
 	{},
 };
 
-enum bpf_prog_type bpf_prog_type_from_string(const char *str)
-{
-	/* TODO */
-	return BPF_PROG_TYPE_TRACEPOINT;
-}
-
 static error_t parse_arg(int key, char *arg, struct argp_state *state)
 {
 	switch (key) {
 	case 't':
-		env.prog_type = bpf_prog_type_from_string(arg);
+		if (!strcmp(arg, "tracepoint"))
+			env.prog_type = BPF_PROG_TYPE_TRACEPOINT;
+		else if (!strcmp(arg, "kprobe"))
+			env.prog_type = BPF_PROG_TYPE_KPROBE;
+		else {
+			fprintf(stderr, "ERROR: Unknown prog type %s\n", arg);
+			exit(1);
+		}
 		break;
 	case 'h':
 		env.insns_fn = bpf_samples_get_insns_from_string(arg);
