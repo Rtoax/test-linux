@@ -108,7 +108,7 @@ static const struct argp argp = {
 
 int main(int argc, char *argv[])
 {
-	int i, err, prog_fd;
+	int i, err, prog_fd, probe_fd;
 	size_t insns_cnt;
 	char license[] = "GPL";
 	struct bpf_insn *insns;
@@ -127,18 +127,30 @@ int main(int argc, char *argv[])
 
 	printf("Prog %s has %ld insns\n", env.insn_name, insns_cnt);
 
-	union bpf_attr prog_load_attr = {
-		.prog_type = env.prog_type,
-		.insns = (long)insns,
-		.insn_cnt = insns_cnt,
-		.license = (long)license,
-		.log_buf = (long)bpf_log_buf,
-		.log_size = sizeof(bpf_log_buf),
-		.log_level = 1,
-	};
+	if (env.engine == ENGINE_LIBBPF) {
+		DECLARE_LIBBPF_OPTS(bpf_prog_load_opts, opts);
+		opts.log_buf = bpf_log_buf;
+		opts.log_size = sizeof(bpf_log_buf);
+		opts.log_level = 1;
 
-	prog_fd = bpf(BPF_PROG_LOAD, &prog_load_attr, sizeof(prog_load_attr));
-	if (prog_fd < 0) {
+		prog_fd = bpf_prog_load(env.prog_type, "TEST", "GPL", insns, insns_cnt, &opts);
+		printf("Libbpf: load %s, fd %d\n", env.insn_name, prog_fd);
+	} else {
+		union bpf_attr prog_load_attr = {
+			.prog_type = env.prog_type,
+			.insns = (long)insns,
+			.insn_cnt = insns_cnt,
+			.license = (long)license,
+			.log_buf = (long)bpf_log_buf,
+			.log_size = sizeof(bpf_log_buf),
+			.log_level = 1,
+		};
+
+		prog_fd = bpf(BPF_PROG_LOAD, &prog_load_attr, sizeof(prog_load_attr));
+		printf("bpf(2): load %s, fd %d\n", env.insn_name, prog_fd);
+	}
+
+	if (prog_fd <= 0) {
 		printf("ERROR: failed to load prog '%s'\n", strerror(errno));
 		return 1;
 	}
@@ -156,8 +168,6 @@ int main(int argc, char *argv[])
 			break;
 		printf("%c", bpf_log_buf[i]);
 	}
-
-	int probe_fd;
 
 	if (env.engine == ENGINE_BCC) {
 		if (env.prog_type == BPF_PROG_TYPE_TRACEPOINT) {
