@@ -133,7 +133,7 @@ int main(int argc, char *argv[])
 		opts.log_size = sizeof(bpf_log_buf);
 		opts.log_level = 1;
 
-		prog_fd = bpf_prog_load(env.prog_type, "TEST", "GPL", insns, insns_cnt, &opts);
+		prog_fd = bpf_prog_load(env.prog_type, NULL, "GPL", insns, insns_cnt, &opts);
 		printf("Libbpf: load %s, fd %d\n", env.insn_name, prog_fd);
 	} else {
 		union bpf_attr prog_load_attr = {
