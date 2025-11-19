@@ -28,15 +28,23 @@ enum insn_type {
 	INSN_GET_FUNC_IP,
 };
 
+enum load_engine {
+	ENGINE_BCC,
+	ENGINE_LIBBPF,
+	ENGINE_BPF_SYSCALL,
+};
+
 struct env {
 	enum bpf_prog_type prog_type;
 	enum insn_type insn_type;
 	char *insn_name;
+	enum load_engine engine;
 	int verbose;
 } env = {
 	.prog_type = BPF_PROG_TYPE_KPROBE,
 	.insn_type = INSN_TRACE_PRINTK,
 	.insn_name = "trace_printk",
+	.engine = ENGINE_BCC,
 	.verbose = false,
 };
 
@@ -48,6 +56,7 @@ const char argp_prog_doc[] =
 static const struct argp_option opts[] = {
 	{ "progtype", 't', "PROG_TYPE", 0, "bpf prog type" },
 	{ "helper", 'h', "HELPER", 0, "Specify bpf helper or kfunc name" },
+	{ "engine", 'e', "ENGINE", 0, "Specify load engine: bcc, libbpf, syscall" },
 	{ "verbose", 'v', NULL, 1, "Display detail" },
 	{},
 };
@@ -83,6 +92,18 @@ static error_t parse_arg(int key, char *arg, struct argp_state *state)
 	case 'h':
 		env.insn_type = bpf_samples_insn_type_from_string(arg);
 		env.insn_name = arg;
+		break;
+	case 'e':
+		if (!strcmp(arg, "bcc"))
+			env.engine = ENGINE_BCC;
+		else if (!strcmp(arg, "libbpf"))
+			env.engine = ENGINE_LIBBPF;
+		else if (!strcmp(arg, "syscall"))
+			env.engine = ENGINE_BPF_SYSCALL;
+		else {
+			fprintf(stderr, "ERROR: Unknown engine %s\n", arg);
+			exit(1);
+		}
 		break;
 	case 'v':
 		env.verbose = true;
@@ -171,44 +192,47 @@ int main(int argc, char *argv[])
 		printf("%c", bpf_log_buf[i]);
 	}
 
-#if defined(HAVE_BCC)
 	int probe_fd;
-	if (env.prog_type == BPF_PROG_TYPE_TRACEPOINT) {
-		probe_fd = bpf_attach_tracepoint(prog_fd, "syscalls", "sys_enter_nanosleep");
-		fprintf(stdout, "Tracepoint sys_enter_nanosleep(), test with 'sleep 0.1'.\n");
-	} else {
-		probe_fd = bpf_attach_kprobe(prog_fd, BPF_PROBE_ENTRY, "hello_world", "do_nanosleep", 0, 0);
-		fprintf(stdout, "Kprobe do_nanosleep(), test with 'sleep 0.1'.\n");
-	}
-	if (prog_fd < 0) {
-		printf("ERROR: failed to attach kprobe to do_nanosleep.\n");
-		return 2;
-	}
 
-	system("cat " DEBUGFS "/trace_pipe");
-	if (env.prog_type == BPF_PROG_TYPE_TRACEPOINT) {
-		bpf_detach_tracepoint("syscalls", "sys_enter_nanosleep");
-	} else {
-		bpf_detach_kprobe("hello_world");
-	}
-#else
-	// TODO
-	union bpf_attr prog_run_attr;
-	size_t attr_sz = offsetofend(union bpf_attr, test);
+	if (env.engine == ENGINE_BCC) {
+		if (env.prog_type == BPF_PROG_TYPE_TRACEPOINT) {
+			probe_fd = bpf_attach_tracepoint(prog_fd, "syscalls", "sys_enter_nanosleep");
+			fprintf(stdout, "Tracepoint sys_enter_nanosleep(), test with 'sleep 0.1'.\n");
+		} else {
+			probe_fd = bpf_attach_kprobe(prog_fd, BPF_PROBE_ENTRY, "hello_world", "do_nanosleep", 0, 0);
+			fprintf(stdout, "Kprobe do_nanosleep(), test with 'sleep 0.1'.\n");
+		}
+		if (prog_fd < 0) {
+			printf("ERROR: failed to attach kprobe to do_nanosleep.\n");
+			return 2;
+		}
 
-	memset(&prog_run_attr, 0x0, sizeof(prog_run_attr));
-	prog_run_attr.test.prog_fd = prog_fd;
-	prog_run_attr.test.ctx_in = 0;
+		system("cat " DEBUGFS "/trace_pipe");
+		if (env.prog_type == BPF_PROG_TYPE_TRACEPOINT) {
+			bpf_detach_tracepoint("syscalls", "sys_enter_nanosleep");
+		} else {
+			bpf_detach_kprobe("hello_world");
+		}
+	} else if (env.engine == ENGINE_LIBBPF) {
+		// TODO
+	} else if (env.engine == ENGINE_BPF_SYSCALL) {
+		// TODO
+		union bpf_attr prog_run_attr;
+		size_t attr_sz = offsetofend(union bpf_attr, test);
 
-	int err = bpf(BPF_PROG_TEST_RUN, &prog_run_attr, attr_sz);
-	if (err < 0 || (int)prog_run_attr.test.retval < 0) {
-		if (err < 0)
-			fprintf(stderr, "failed to execute loader prog, err = %d\n", err);
-		else
-			fprintf(stderr, "error returned by loader prog, retval = %d\n",
-				prog_run_attr.test.retval);
+		memset(&prog_run_attr, 0x0, sizeof(prog_run_attr));
+		prog_run_attr.test.prog_fd = prog_fd;
+		prog_run_attr.test.ctx_in = 0;
+
+		int err = bpf(BPF_PROG_TEST_RUN, &prog_run_attr, attr_sz);
+		if (err < 0 || (int)prog_run_attr.test.retval < 0) {
+			if (err < 0)
+				fprintf(stderr, "failed to execute loader prog, err = %d\n", err);
+			else
+				fprintf(stderr, "error returned by loader prog, retval = %d\n",
+					prog_run_attr.test.retval);
+		}
 	}
-#endif
 
 	close(probe_fd);
 	close(prog_fd);
