@@ -127,7 +127,6 @@ while true; do
 	--use-system-libbpf)
 		shift
 		cmake_args+=( -DUSE_SYSTEM_LIBBPF=ON )
-		shift
 		;;
 	-v | --verbose)
 		shift
