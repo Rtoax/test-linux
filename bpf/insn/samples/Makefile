@@ -28,7 +28,7 @@ helpers += get_func_ip
 ifeq ($(call kver_ge,5,16,0),y)
   helpers += loop
 endif
-helpers += arena_alloc_pages
+helpers += arena_alloc_pages arena_reserve_pages
 
 $(info helpers = ${helpers})
 

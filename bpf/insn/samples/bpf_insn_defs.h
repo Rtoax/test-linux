@@ -26,3 +26,4 @@ BPF_INSN_SAMPLE(cgrp_storage_get)
 #endif
 BPF_INSN_SAMPLE(get_func_ip)
 BPF_INSN_SAMPLE(arena_alloc_pages)
+BPF_INSN_SAMPLE(arena_reserve_pages)
