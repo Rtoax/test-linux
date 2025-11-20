@@ -7,8 +7,25 @@ typedef void (*fn1_t)(void);
 
 class func_map {
 private:
+	struct PairHash {
+		size_t operator()(const std::pair<std::string, std::string>& key) const noexcept {
+			size_t hash1 = std::hash<std::string>{}(key.first);
+			size_t hash2 = std::hash<std::string>{}(key.second);
+			auto hash_combine = [](size_t seed, size_t val) {
+				seed ^= val + 0x9e3779b9 + (seed << 6) + (seed >> 2);
+			};
+			hash_combine(hash1, hash2);
+			return hash1;
+		}
+	};
+	struct PairEqual {
+		bool operator()(const std::pair<std::string, std::string>& lhs,
+			 const std::pair<std::string, std::string>& rhs) const noexcept {
+			return lhs.first == rhs.first && lhs.second == rhs.second;
+		}
+	};
 	std::unordered_map<std::string, fn1_t> fn1_map_;
-	std::unordered_map<std::pair<std::string, std::string>, fn1_t> fn1_map2_;
+	std::unordered_map<std::pair<std::string, std::string>, fn1_t, PairHash, PairEqual> fn1_map2_;
 public:
 	func_map() = default;
 
