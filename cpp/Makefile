@@ -27,6 +27,7 @@ target-cpp-y += __STDC__c++17
 target-cpp-y += __STDC__c++20
 target-cpp-y += __STDC__c++23
 target-cpp-y += expired
+target-cpp-y += unordered_map
 
 CXXFLAGS :=
 CXXFLAGS += -DCPP
@@ -82,3 +83,4 @@ __STDC__c++23: ${OUTPUT}__STDC__c++23.cpp.o
 format: ${OUTPUT}format.cpp.o
 fmt: ${OUTPUT}fmt.cpp.o
 expired: ${OUTPUT}expired.cpp.o
+unordered_map: ${OUTPUT}unordered_map.cpp.o
