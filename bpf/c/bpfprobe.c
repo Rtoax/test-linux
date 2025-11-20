@@ -107,6 +107,16 @@ static const struct argp argp = {
 	.doc = argp_prog_doc,
 };
 
+void print_logbuf(const char *logbuf, size_t size)
+{
+	int i;
+	for (i = 0; i < size; i++) {
+		if (logbuf[i] == 0 && logbuf[i + 1] == 0)
+			break;
+		printf("%c", logbuf[i]);
+	}
+}
+
 int main(int argc, char *argv[])
 {
 	int i, err, prog_fd, probe_fd;
@@ -153,6 +163,7 @@ int main(int argc, char *argv[])
 
 	if (prog_fd <= 0) {
 		printf("ERROR: failed to load prog '%s'\n", strerror(errno));
+		print_logbuf(bpf_log_buf, sizeof(bpf_log_buf));
 		return 1;
 	}
 
@@ -164,11 +175,7 @@ int main(int argc, char *argv[])
 			printf("\n");
 	}
 
-	for (i = 0; i < sizeof(bpf_log_buf); i++) {
-		if (bpf_log_buf[i] == 0 && bpf_log_buf[i + 1] == 0)
-			break;
-		printf("%c", bpf_log_buf[i]);
-	}
+	print_logbuf(bpf_log_buf, sizeof(bpf_log_buf));
 
 	if (env.engine == ENGINE_BCC) {
 		if (env.prog_type == BPF_PROG_TYPE_TRACEPOINT) {
