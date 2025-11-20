@@ -25,3 +25,4 @@ BPF_INSN_SAMPLE(task_from_pid)
 BPF_INSN_SAMPLE(cgrp_storage_get)
 #endif
 BPF_INSN_SAMPLE(get_func_ip)
+BPF_INSN_SAMPLE(arena_alloc_pages)
