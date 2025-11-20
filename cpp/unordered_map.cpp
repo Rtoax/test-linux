@@ -32,7 +32,9 @@ private:
 	std::unordered_map<std::pair<std::string, std::string>, fn1_t, PairHash, PairEqual> fn1_map2_;
 	std::unordered_map<std::string, fn2_t> fn2_map_;
 public:
-	func_map() = default;
+	func_map() {
+	}
+	virtual ~func_map() = default;
 
 	void register_fn1(const std::string& key, fn1_t func) {
 		fn1_map_[key] = func;
