@@ -8,7 +8,7 @@ _GLIBC = 1
 GLIBC_VERSION := $(shell getconf GNU_LIBC_VERSION)
 
 # Get libc.so.6 abs-path
-LIBC_SO_PATH=$(shell ldconfig -p | grep libc.so.6 | grep 64 | awk '{printf $$NF}')
+LIBC_SO_PATH=$(shell ldconfig -p | grep libc.so.6 | awk '{printf $$NF"\n"}' | head -1)
 
 LIBC_PRINTF_SYMADDR=0x$(shell readelf --syms --wide ${LIBC_SO_PATH} \
 				| grep -w printf | head -1 \
