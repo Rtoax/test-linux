@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- add arch/aarch64/abbrev.md;
 - cpp: test `unordered_map.cpp`;
 - template/bpf: symlink kfunc.mk to helpers.mk;
 - libbpf: test `bpf_cgroup_acquire()` kfunc must pass a good ptr;
