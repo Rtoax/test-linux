@@ -68,9 +68,9 @@ ${OUTPUT}%.bpf.btf: ${OUTPUT}%.bpf.o | ${OUTPUT}
 
 ${target-btf-y}: | ${OUTPUT}
 	$(call log_tgt,BTF_H,$(@))
-	$(call bpf_gen_btf_h,$(@:.h=),$(@))
+	$(call btf_gen_hdr,$(@:.h=),$(@))
 
 # Special btf header, this may duplicate of target-btf-y.
 ${VMLINUX_H}: | ${OUTPUT}
 	$(call log_tgt,BTF_H,$(@))
-	$(call bpf_gen_vmlinux_h)
+	$(call btf_gen_hdr,vmlinux,${VMLINUX_H})
