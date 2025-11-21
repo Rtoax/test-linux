@@ -6,7 +6,7 @@
 #
 _LIBBPF = 1
 
-LDCONFIG ?= ldconfig
+include ldconfig.mk
 
 private-libbpf-paths ?= $(shell ${LDCONFIG} -p | grep libbpf.so | awk '{print $$NF}' || true)
 private-libpf-path ?= $(shell dirname $(private-libbpf-paths) | sort -u || true)

@@ -1,9 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
 _BPF_LOGO = 1
 
-ifndef _ANSI
-  $(error Not define _ANSI, include ansi.mk)
-endif
+include ansi.mk
 
 b := ${ANSI_BLK}${ANSI_REVE}
 w := ${ANSI_BRIGHT_BLACK}${ANSI_REVE}

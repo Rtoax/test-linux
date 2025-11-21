@@ -1,7 +1,12 @@
 # SPDX-License-Identifier: GPL-3.0
+#
+# Output definitions:
+# - BPF_TARGET_ARCH=
+# - CFLAG_BPF_TARGET_ARCH=
+#
 _BPF = 1
 
-BPF_TARGET_ARCH ?= $(shell uname -m | sed 's/x86_64/x86/' \
+BPF_TARGET_ARCH := $(shell uname -m | sed 's/x86_64/x86/' \
 			 | sed 's/arm.*/arm/' \
 			 | sed 's/aarch64/arm64/' \
 			 | sed 's/ppc64le/powerpc/' \
@@ -10,3 +15,8 @@ BPF_TARGET_ARCH ?= $(shell uname -m | sed 's/x86_64/x86/' \
 			 | sed 's/loongarch64/loongarch/')
 
 CFLAG_BPF_TARGET_ARCH := -D__TARGET_ARCH_$(BPF_TARGET_ARCH)
+
+ifdef DEBUG
+  $(info BPF_TARGET_ARCH = ${BPF_TARGET_ARCH})
+  $(info CFLAG_BPF_TARGET_ARCH = ${CFLAG_BPF_TARGET_ARCH})
+endif

@@ -1,4 +1,8 @@
 # SPDX-License-Identifier: GPL-3.0
+#
+# Output definitions
+# - LDCONFIG=
+#
 _LDCONFIG = 1
 
 LDCONFIG := $(shell which ldconfig 2>/dev/null || true)

@@ -1,4 +1,10 @@
 # SPDX-License-Identifier: GPL-3.0
+#
+# Output definitions:
+# - BPFTRACE=
+# - BPFTRACE_VERSION_MAJOR=
+# - BPFTRACE_VERSION_MINOR=
+#
 _BPFTRACE = 1
 
 BPFTRACE := $(shell which bpftrace 2>/dev/null)
@@ -14,7 +20,8 @@ BPFTRACE_VERSION := $(shell ${BPFTRACE} --version | grep -o v[0-9].[0-9]\. | sed
 BPFTRACE_VERSION_MAJOR := $(shell echo ${BPFTRACE_VERSION} | awk -F '.' '{print $$1}')
 BPFTRACE_VERSION_MINOR := $(shell echo ${BPFTRACE_VERSION} | awk -F '.' '{print $$2}')
 
+export BPFTRACE BPFTRACE_VERSION_MAJOR BPFTRACE_VERSION_MINOR
+
 ifdef DEBUG
   $(info ${BPFTRACE} version ${BPFTRACE_VERSION_MAJOR}.${BPFTRACE_VERSION_MINOR})
 endif
-export BPFTRACE BPFTRACE_VERSION_MAJOR BPFTRACE_VERSION_MINOR
