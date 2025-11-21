@@ -3,9 +3,7 @@ _TARGET_PYTHON = 1
 
 PYTHON ?= python
 
-ifeq (${TOPDIR},)
-  $(error Not define TOPDIR, include dir.mk)
-endif
+include dir.mk
 
 RUN_PYTHON := ${TOPDIR}/template/targets/run_prog.sh
 

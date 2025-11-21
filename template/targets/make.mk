@@ -3,9 +3,7 @@ _TARGET_MAKE = 1
 
 MAKE := make
 
-ifeq (${TOPDIR},)
-  $(error Not define TOPDIR, include dir.mk)
-endif
+include dir.mk
 
 RUN_MAKE := ${TOPDIR}/template/targets/run_prog.sh
 

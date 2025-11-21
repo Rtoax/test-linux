@@ -2,10 +2,7 @@
 _TARGET_SHELL = 1
 
 include shell.mk
-
-ifeq (${TOPDIR},)
-  $(error Not define TOPDIR, include dir.mk)
-endif
+include dir.mk
 
 RUN_SHELL := ${TOPDIR}/template/targets/run_prog.sh
 
