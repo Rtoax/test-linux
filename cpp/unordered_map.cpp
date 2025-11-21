@@ -31,8 +31,18 @@ private:
 	std::unordered_map<std::string, fn1_t> fn1_map_;
 	std::unordered_map<std::pair<std::string, std::string>, fn1_t, PairHash, PairEqual> fn1_map2_;
 	std::unordered_map<std::string, fn2_t> fn2_map_;
+
+	static void foo1(void)
+	{
+		FUNC_DEBUG();
+	}
 public:
 	func_map() {
+		register_fn1("foo1.0", foo1);
+		register_fn1("foo1.1", foo1);
+		register_fn1("foo1.2", foo1);
+		register_fn1("foo1.3", "key2", foo1);
+		register_fn2("foo1.4", "key2", foo1);
 	}
 	virtual ~func_map() = default;
 
@@ -98,20 +108,9 @@ public:
 	}
 };
 
-void foo1(void)
-{
-	FUNC_DEBUG();
-}
-
 int main(void)
 {
 	func_map funcMap;
-
-	funcMap.register_fn1("foo1.0", foo1);
-	funcMap.register_fn1("foo1.1", foo1);
-	funcMap.register_fn1("foo1.2", foo1);
-	funcMap.register_fn1("foo1.3", "key2", foo1);
-	funcMap.register_fn2("foo1.4", "key2", foo1);
 
 	funcMap.call_fn1("foo1.1");
 	funcMap.call_fn1("__not_exist__");
