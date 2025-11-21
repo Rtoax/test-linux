@@ -3,7 +3,7 @@
 include template/ansi.mk
 include template/emoji.mk
 
-$(info MOONLIGHT = ${MOONLIGHT})
+$(info EMOJI_MOONS = ${EMOJI_MOONS})
 $(info MAKEFILE_LIST = ${MAKEFILE_LIST})
 $(info MAKEFLAGS = ${MAKEFLAGS})
 
