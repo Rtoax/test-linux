@@ -8,3 +8,6 @@ EMOJI_UNLOCK := 🔓
 EMOJI_KEY := 🔑
 
 EMOJI_WARNING := ⚠️
+
+EMOJI_CHECK := ✅
+EMOJI_WRONG := ❎
