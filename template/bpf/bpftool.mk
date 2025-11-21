@@ -1,4 +1,10 @@
 # SPDX-License-Identifier: GPL-3.0
+#
+# Output defintions:
+# - BPFTOOL=
+# - BPFTOOL_VERSION_MAJOR=
+# - BPFTOOL_VERSION_MINOR=
+#
 _BPFTOOL = 1
 
 BPFTOOL := $(shell which bpftool 2>/dev/null)
@@ -14,7 +20,8 @@ BPFTOOL_VERSION := $(shell ${BPFTOOL} --version | grep -w bpftool | grep -o [0-9
 BPFTOOL_VERSION_MAJOR := $(shell echo ${BPFTOOL_VERSION} | awk -F '.' '{print $$1}')
 BPFTOOL_VERSION_MINOR := $(shell echo ${BPFTOOL_VERSION} | awk -F '.' '{print $$2}')
 
+export BPFTOOL BPFTOOL_VERSION_MAJOR BPFTOOL_VERSION_MINOR
+
 ifdef DEBUG
   $(info ${BPFTOOL} version ${BPFTOOL_VERSION_MAJOR}.${BPFTOOL_VERSION_MINOR})
 endif
-export BPFTOOL BPFTOOL_VERSION_MAJOR BPFTOOL_VERSION_MINOR
