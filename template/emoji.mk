@@ -6,3 +6,5 @@ MOONLIGHT := 🌑 🌒 🌓 🌔 🌕 🌖 🌗 🌘 🌑
 LOCK_LOCK := 🔒
 LOCK_KEY := 🔑
 LOCK_UNLOCK := 🔓
+
+EMOJI_WARNING := ⚠️
