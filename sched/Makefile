@@ -17,6 +17,7 @@ target-y += deadline
 target-$(CONFIG_SCHED_CLASS_EXT) += ext
 
 CFLAGS_fifo := -DTEST_FIFO=1
+CFLAGS_rr := -DTEST_RR=1
 
 include main.mk
 

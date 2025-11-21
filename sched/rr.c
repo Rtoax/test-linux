@@ -17,8 +17,10 @@ int main(void)
 
 #ifdef TEST_FIFO
 	policy = SCHED_FIFO;
-#else
+#elif defined(TEST_RR)
 	policy = SCHED_RR;
+#else
+# error "Must define TEST_FIFO or TEST_RR"
 #endif
 	param.sched_priority = 1;
 	err = sched_setscheduler(0, policy, &param);
