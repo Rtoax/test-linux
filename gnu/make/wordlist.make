@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
-SHELL = bash
+include shell.mk
 
 text := 1.txt
 text += 2.txt

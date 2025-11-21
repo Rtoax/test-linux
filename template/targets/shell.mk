@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
 _TARGET_SHELL = 1
 
-SHELL ?= bash
+include shell.mk
 
 ifeq (${TOPDIR},)
   $(error Not define TOPDIR, include dir.mk)

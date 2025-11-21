@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
-SHELL := bash
+include shell.mk
 
 $(info INFO: This is info)
 $(warning WARNING: This is warning)

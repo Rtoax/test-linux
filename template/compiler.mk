@@ -6,7 +6,7 @@
 #
 _COMPILER = 1
 
-SHELL := bash
+include shell.mk
 
 CC ?= gcc
 CXX ?= c++

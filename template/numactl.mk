@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
 _NUMACTL = 1
 
-SHELL := bash
+include shell.mk
 
 NUMACTL := numactl
 

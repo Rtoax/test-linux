@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
-SHELL = bash
+include shell.mk
 
 .PHONY: build
 build:

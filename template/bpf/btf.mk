@@ -6,12 +6,12 @@
 #
 _BTF = 1
 
-SHELL := bash
+include shell.mk
+include bpf/bpftool.mk
+
 VMLINUX_H := vmlinux.h
 BTF_ROOT := /sys/kernel/btf
 HAVE_BTF := y
-
-include bpf/bpftool.mk
 
 ifeq ($(wildcard ${BTF_ROOT}),)
   $(warning Not found BTF in your system, see CONFIG_DEBUG_INFO_BTF in your kernel config!!)

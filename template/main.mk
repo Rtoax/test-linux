@@ -6,7 +6,6 @@ CC ?= gcc
 CXX ?= g++
 OBJCOPY ?= objcopy
 Q ?= @
-SHELL := bash
 
 OS := $(shell grep ^ID= /etc/os-release | sed 's/ID=//g' | tr -d '"')
 ifeq ($(shell uname -m),x86_64)
@@ -93,6 +92,7 @@ endif
 CFLAGS += ${CFLAGS_PIE}
 LDFLAGS += ${LDFLAGS_PIE}
 
+include shell.mk
 include ansi.mk
 include user.mk
 include verbose.mk
