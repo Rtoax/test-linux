@@ -27,14 +27,14 @@ include template/git.mk
 # If in git-tree, need check something already config.
 ifneq (${GIT_TOPDIR},)
   ifneq (${GIT_CONFIG_CORE_HOOKSPATH},scripts/git/hooks/)
-    ifneq ($(firstword $(MAKECMDGOALS)),gitconfig)
+    ifeq ($(filter $(MAKECMDGOALS),install uninstall gitconfig deps),)
       $(error You MUST run 'make gitconfig' first!!)
     endif
   endif
 endif
 
 ifeq ($(wildcard /etc/profile.d/make_tl.sh),)
-  ifneq ($(firstword $(MAKECMDGOALS)),install)
+  ifeq ($(filter $(MAKECMDGOALS),install gitconfig deps),)
     $(error You MUST run 'make install' first!!)
   endif
 endif
@@ -88,7 +88,7 @@ endif
 subdir-y := ${kmod-list-y}
 subdir-y += ${user-list-y}
 
-ifeq ($(filter $(MAKECMDGOALS),install uninstall deps),)
+ifeq ($(filter $(MAKECMDGOALS),install uninstall gitconfig deps),)
   include template/main.mk
 endif
 
