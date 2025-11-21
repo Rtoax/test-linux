@@ -1,4 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
+OUTPUT := .output/
+
 target-prep-y := vmlinux.h
 
 kfuncs := task_from_pid
@@ -10,9 +12,9 @@ helpers += cgrp_storage_get
 helpers += get_func_ip
 helpers += loop
 
-target-bpf-y := $(patsubst %,%.bpf.o,${kfuncs})
-target-bpf-y += $(patsubst %,%.bpf.o,${helpers})
+target-bpf-y := $(patsubst %,${OUTPUT}%.bpf.o,${kfuncs})
+target-bpf-y += $(patsubst %,${OUTPUT}%.bpf.o,${helpers})
 
-target-post-y := $(patsubst %.bpf.o,%.bpf.disasm,$(target-bpf-y))
+target-post-y := $(patsubst ${OUTPUT}%.bpf.o,${OUTPUT}%.bpf.disasm,$(target-bpf-y))
 
 include main.mk
