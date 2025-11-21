@@ -121,7 +121,7 @@ endif
 # linux commit e6f2dd0f8067 ("bpf: Add bpf_loop helper")
 # v5.15-12938-ge6f2dd0f8067
 ifeq ($(call kver_gt,5,15,0),y) # failed on 5.15.131
-  ifeq ($(call vmlinux_has_sym,bpf_loop),y)
+  ifeq ($(call vmlinux_has_sym_shell,bpf_loop),y)
     CFLAGS_BPF += -DSUPPORT_BPF_LOOP=1
     $(info Found bpf_loop())
   endif
@@ -129,12 +129,12 @@ endif
 
 # linux v6.2-5267-g332ea1f697be
 # commit 332ea1f697be ("bpf: Add bpf_cgroup_from_id() kfunc")
-ifeq ($(call vmlinux_has_sym,bpf_cgroup_from_id),y)
+ifeq ($(call vmlinux_has_sym_shell,bpf_cgroup_from_id),y)
   CFLAGS_BPF += -DSUPPORT_BPF_CGROUP_FROM_ID=1
   $(info Found bpf_cgroup_from_id())
 endif
 
-ifeq ($(call vmlinux_has_sym,bpf_cgroup_acquire),y)
+ifeq ($(call vmlinux_has_sym_shell,bpf_cgroup_acquire),y)
   CFLAGS_BPF += -DSUPPORT_BPF_CGROUP_ACQUIRE=1
   $(info Found bpf_cgroup_acquire())
 endif
@@ -151,32 +151,32 @@ ifeq ($(call kver_gt,5,16,0),y)
   CFLAGS_BPF += -DSUPPORT_BPF_STRNCMP=1
   $(info Found bpf_strncmp())
 endif
-ifeq ($(call vmlinux_has_sym,bpf_strcmp),y)
+ifeq ($(call vmlinux_has_sym_shell,bpf_strcmp),y)
   CFLAGS_BPF += -DSUPPORT_BPF_STRCMP=1
   $(info Found bpf_strcmp())
 endif
-ifeq ($(call vmlinux_has_sym,bpf_strcasecmp),y)
+ifeq ($(call vmlinux_has_sym_shell,bpf_strcasecmp),y)
   CFLAGS_BPF += -DSUPPORT_BPF_STRCASECMP=1
   $(info Found bpf_strcasecmp())
 endif
 # NOTE: I'm working on bpf_strcasestr() and bpf_strncasestr()
-ifeq ($(call vmlinux_has_sym,bpf_strcasestr),y)
+ifeq ($(call vmlinux_has_sym_shell,bpf_strcasestr),y)
   CFLAGS_BPF += -DSUPPORT_BPF_STRCASESTR=1
   CFLAGS_BPF += -DSUPPORT_BPF_STRNCASESTR=1
   $(info Found bpf_strcasestr() and bpf_strncasestr())
 endif
-ifeq ($(call vmlinux_has_sym,bpf_strnlen),y)
+ifeq ($(call vmlinux_has_sym_shell,bpf_strnlen),y)
   CFLAGS_BPF += -DSUPPORT_BPF_STRNLEN=1
   $(info Found bpf_strnlen())
 endif
 # linux >= v6.15 commit e91370550f1f ("bpf: Add kfuncs for read-only string
 # operations") add string kfunc.
 ifeq ($(call kver_gt,6,16,0),y)
-  ifeq ($(call vmlinux_has_sym,bpf_strnstr),y)
+  ifeq ($(call vmlinux_has_sym_shell,bpf_strnstr),y)
     CFLAGS_BPF += -DSUPPORT_BPF_STRNSTR=1
     $(info Found bpf_strnstr())
   endif
-  ifeq ($(call vmlinux_has_sym,bpf_strstr),y)
+  ifeq ($(call vmlinux_has_sym_shell,bpf_strstr),y)
     CFLAGS_BPF += -DSUPPORT_BPF_STRSTR=1
     $(info Found bpf_strstr())
   endif
@@ -185,17 +185,17 @@ endif
 # v6.10-12667-gd08e2045ebf0
 ifeq ($(call kver_gt,6,10,0),y)
   # bpf_path_d_path()
-  ifeq ($(call vmlinux_has_sym,bpf_path_d_path),y)
+  ifeq ($(call vmlinux_has_sym_shell,bpf_path_d_path),y)
     CFLAGS_BPF += -DSUPPORT_BPF_PATH_D_PATH=1
     $(info Found bpf_path_d_path())
   endif
   # bpf_get_task_exe_file()
-  ifeq ($(call vmlinux_has_sym,bpf_get_task_exe_file),y)
+  ifeq ($(call vmlinux_has_sym_shell,bpf_get_task_exe_file),y)
     CFLAGS_BPF += -DSUPPORT_BPF_GET_TASK_EXE_FILE=1
     $(info Found bpf_get_task_exe_file())
   endif
   # bpf_put_file()
-  ifeq ($(call vmlinux_has_sym,bpf_put_file),y)
+  ifeq ($(call vmlinux_has_sym_shell,bpf_put_file),y)
     CFLAGS_BPF += -DSUPPORT_BPF_PUT_FILE=1
     $(info Found bpf_put_file())
   endif
@@ -204,7 +204,7 @@ endif
 # linux commit 4ac454682158 ("bpf: Introduce task_vma open-coded iterator kfuncs")
 # v6.6-rc2-737-g4ac454682158
 ifeq ($(call kver_ge,6,6,0),y)
-  ifeq ($(call vmlinux_has_sym,bpf_iter_task_vma_new),y)
+  ifeq ($(call vmlinux_has_sym_shell,bpf_iter_task_vma_new),y)
     $(info Found bpf_iter_task_vma_new())
     $(info Found bpf_iter_task_vma_next())
     $(info Found bpf_iter_task_vma_destroy())
@@ -273,7 +273,7 @@ CFLAGS_PAHOLE += -DPAHOLE_VERSION_MINOR=${PAHOLE_VERSION_MINOR}
 CFLAGS += ${CFLAGS_PAHOLE}
 CFLAGS_BPF += ${CFLAGS_PAHOLE}
 
-ifneq ($(call vmlinux_has_sym,bpf_task_from_pid),y)
+ifneq ($(call vmlinux_has_sym_shell,bpf_task_from_pid),y)
   # FIXME: some day use CFLAGS_PAHOLE replace this macro
   CFLAGS_BPF += -DBPF_NO_KFUNC_PROTOTYPES=1
   $(info Found bpf_task_from_pid())
@@ -281,14 +281,14 @@ endif
 
 # linux v5.16-11512-g376040e47334
 # commit 376040e47334 ("bpf: Add bpf_copy_from_user_task() helper")
-ifneq ($(call vmlinux_has_sym,bpf_copy_from_user_task),y)
+ifneq ($(call vmlinux_has_sym_shell,bpf_copy_from_user_task),y)
   CFLAGS_BPF += -DSUPPORT_BPF_COPY_FROM_USER_TASK=1
   $(info Found bpf_copy_from_user_task())
 endif
 
 # linux v6.14-rc1-81-gf0f8a5b58f78
 # commit f0f8a5b58f78 ("bpf: Add bpf_copy_from_user_task_str() kfunc")
-ifneq ($(call vmlinux_has_sym,bpf_copy_from_user_task_str),y)
+ifneq ($(call vmlinux_has_sym_shell,bpf_copy_from_user_task_str),y)
   CFLAGS_BPF += -DSUPPORT_BPF_COPY_FROM_USER_TASK_STR=1
   $(info Found bpf_copy_from_user_task_str())
 endif
@@ -326,9 +326,9 @@ CFLAGS_BPF_tp_btf := ${CFLAGS_tp_btf}
 CFLAGS_xdp := -DXDP_BASIC=1 -DXDP_BASIC_DUMMY=1 -DXDP_BASIC_TX=1 -DXDP_BASIC_PRINTK=1
 CFLAGS_BPF_xdp := ${CFLAGS_xdp}
 CFLAGS_xdp_devmap := -DXDP_DEVMAP=1
-ifeq ($(call vmlinux_has_struct,bpf_devmap_val),y)
+ifeq ($(call vmlinux_has_struct_shell,bpf_devmap_val),y)
   CFLAGS_xdp_devmap += -DHAVE_STRUCT_BPF_DEVMAP_VAL=1
-  $(info Found bpf_devmap_val())
+  $(info Found struct bpf_devmap_val{})
 else
   $(warning not found struct bpf_devmap_val {})
 endif
