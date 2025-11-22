@@ -59,6 +59,8 @@ static error_t parse_arg(int key, char *arg, struct argp_state *state)
 	case 't':
 		if (!strcmp(arg, "tracepoint"))
 			env.prog_type = BPF_PROG_TYPE_TRACEPOINT;
+		else if (!strcmp(arg, "raw_tracepoint"))
+			env.prog_type = BPF_PROG_TYPE_RAW_TRACEPOINT;
 		else if (!strcmp(arg, "kprobe"))
 			env.prog_type = BPF_PROG_TYPE_KPROBE;
 		else {
@@ -117,9 +119,21 @@ void print_logbuf(const char *logbuf, size_t size)
 	}
 }
 
+void print_insns_bits(void *insns, size_t insns_cnt)
+{
+	int i;
+	unsigned char *p = (void *)insns;
+	for (i = 0; i < insns_cnt * sizeof(struct bpf_insn); i++) {
+		unsigned char c = *(p + i);
+		printf("%02x ", c);
+		if ((i + 1) % 8 == 0)
+			printf("\n");
+	}
+}
+
 int main(int argc, char *argv[])
 {
-	int i, err, prog_fd, probe_fd;
+	int err, prog_fd, probe_fd;
 	size_t insns_cnt;
 	char license[] = "GPL";
 	struct bpf_insn *insns;
@@ -163,24 +177,21 @@ int main(int argc, char *argv[])
 
 	if (prog_fd <= 0) {
 		printf("ERROR: failed to load prog '%s'\n", strerror(errno));
+		print_insns_bits(insns, insns_cnt);
 		print_logbuf(bpf_log_buf, sizeof(bpf_log_buf));
 		return 1;
 	}
 
-	unsigned char *p = (void *)&insns;
-	for (i = 0; i < insns_cnt * sizeof(struct bpf_insn); i++) {
-		unsigned char c = *(p + i);
-		printf("%02x ", c);
-		if ((i + 1) % 8 == 0)
-			printf("\n");
-	}
-
+	print_insns_bits(insns, insns_cnt);
 	print_logbuf(bpf_log_buf, sizeof(bpf_log_buf));
 
 	if (env.engine == ENGINE_BCC) {
 		if (env.prog_type == BPF_PROG_TYPE_TRACEPOINT) {
 			probe_fd = bpf_attach_tracepoint(prog_fd, "syscalls", "sys_enter_nanosleep");
 			fprintf(stdout, "Tracepoint sys_enter_nanosleep(), test with 'sleep 0.1'.\n");
+		} else if (env.prog_type == BPF_PROG_TYPE_TRACEPOINT) {
+			probe_fd = bpf_attach_raw_tracepoint(prog_fd, "cgroup_mkdir");
+			fprintf(stdout, "Raw tracepoint rawtracepoint:vmlinux:cgroup_mkdir().\n");
 		} else {
 			probe_fd = bpf_attach_kprobe(prog_fd, BPF_PROBE_ENTRY, "hello_world", "do_nanosleep", 0, 0);
 			fprintf(stdout, "Kprobe do_nanosleep(), test with 'sleep 0.1'.\n");

@@ -28,9 +28,21 @@ BPF_INSN_SAMPLE_FUNC_PROTO(cgroup_acquire)
 
 	struct bpf_insn *insn = insns_buf;
 
-	/* bpf_prog_load(): 1ULL: EINVAL, 0ULL: EPERM */
-	uint64_t cgroup = 0ULL;
-	*insn++ = BPF_MOV64_IMM(BPF_REG_1, cgroup);
+	/**
+	 * Only for rawtracepoint:vmlinux:cgroup_mkdir:
+	 *
+	 * $ sudo bpftrace -lv rawtracepoint:vmlinux:cgroup_mkdir
+	 * rawtracepoint:vmlinux:cgroup_mkdir
+	 *   struct cgroup * cgrp  ->   args[0]
+	 *   const char * path     ->   args[1]
+	 *
+	 * struct bpf_raw_tracepoint_args {
+	 *     __u64 args[0];
+	 * };
+	 */
+	*insn++ = BPF_MOV64_IMM(BPF_REG_6, BPF_REG_1);
+	*insn++ = BPF_LDX_MEM(0x18, BPF_REG_8, BPF_REG_6, 0);
+	*insn++ = BPF_MOV64_REG(BPF_REG_1, BPF_REG_8);
 	*insn++ = BPF_CALL_KFUNC(0, bpf_cgroup_acquire_id);
 	*insn++ = BPF_JMP_IMM(BPF_JNE, BPF_REG_0, 0, 1);
 	*insn++ = BPF_JMP_IMM(BPF_JA, 0, 0, 2);
