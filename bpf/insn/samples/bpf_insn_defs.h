@@ -17,6 +17,7 @@ BPF_INSN_SAMPLE(loop)
 BPF_INSN_SAMPLE(cgroup_from_id)
 BPF_INSN_SAMPLE(cgroup_acquire)
 BPF_INSN_SAMPLE(task_from_pid)
+BPF_INSN_SAMPLE(task_acquire)
 /**
  * linux v6.0-11954-gc4bcfb38a95e
  * commit c4bcfb38a95e ("bpf: Implement cgroup storage available to non-cgroup-attached bpf progs")

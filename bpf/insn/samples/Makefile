@@ -17,6 +17,7 @@ ifeq ($(call kver_ge,5,16,0),y)
 endif
 helpers += cgroup_acquire cgroup_from_id
 helpers += task_from_pid
+helpers += task_acquire
 # linux v6.0-11954-gc4bcfb38a95e
 # commit c4bcfb38a95e ("bpf: Implement cgroup storage available to non-cgroup-attached bpf progs")
 ifeq ($(call kver_ge,6,0,0),y)
