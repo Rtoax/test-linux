@@ -46,7 +46,6 @@ BPF_INSN_SAMPLE_FUNC_PROTO(iter_task_vma_new)
 	*insn++ = BPF_CALL_KFUNC(0, bpf_iter_task_vma_destroy_id);
 	*insn++ = BPF_MOV64_IMM(BPF_REG_0, 0);
 	*insn++ = BPF_EXIT_INSN();
-	// TODO
 
 	*cnt = insn - insns_buf;
 	return insns_buf;
