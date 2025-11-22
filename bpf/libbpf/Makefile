@@ -94,6 +94,7 @@ target-y += map_array map_percpu_array
 target-y += xdp_xskmap
 
 CFLAGS_BPF += ${bpf-helper-cflags}
+
 # linux commit bd1279ae8a69 ("bpf: Add bpf_rbtree_{add,remove,first} kfuncs")
 # v6.2-rc7-1572-gbd1279ae8a69
 ifeq ($(call kver_gt,6,2,0),y)
@@ -118,15 +119,6 @@ endif
 # v5.0-rc4-620-gd83525ca62cf
 ifeq ($(call kver_gt,5,0,0),y)
   target-y += spin_lock
-endif
-
-# linux commit e6f2dd0f8067 ("bpf: Add bpf_loop helper")
-# v5.15-12938-ge6f2dd0f8067
-ifeq ($(call kver_gt,5,15,0),y) # failed on 5.15.131
-  ifeq ($(call vmlinux_has_sym_shell,bpf_loop),y)
-    CFLAGS_BPF += -DSUPPORT_BPF_LOOP=1
-    $(info Found bpf_loop())
-  endif
 endif
 
 # linux v6.2-5267-g332ea1f697be
