@@ -3,6 +3,10 @@
  * struct vm_area_struct *bpf_iter_task_vma_next(struct bpf_iter_task_vma *it);
  * void bpf_iter_task_vma_destroy(struct bpf_iter_task_vma *it);
  *
+ * Developing procedures:
+ * 2. commit a9bfa6b3454d ("todo: bpf/insn/samples: call bpf_iter_task_vma_new with NULL args")
+ * 1. commit 6a4323ae2d0a ("todo: bpf/insn/samples: test bpf_iter_task_vma_new()")
+ *
  * Refs:
  * - https://docs.ebpf.io/linux/kfuncs/bpf_iter_task_vma_new/
  */
