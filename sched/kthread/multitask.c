@@ -129,7 +129,15 @@ static __exit void share_exit(void)
 
 	printk("\nshare list exit\n");
 
+/**
+ * linux v6.14-13424-g8fa7292fee5c
+ * commit 8fa7292fee5c ("treewide: Switch/rename to timer_delete[_sync]()")
+ */
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(6, 14, 0)
+	timer_delete(&mytimer);
+#else
 	del_timer(&mytimer);
+#endif
 
 	spin_lock(&my_lock);
 
