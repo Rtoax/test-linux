@@ -11,6 +11,7 @@ target-libso-y := libbpf_insn_samples.so
 
 helpers-y := trace_printk
 helpers-y += get_current_cgroup_id
+helpers-y += get_current_task_btf
 helpers-$(SUPPORT_BPF_STRNCMP) += strncmp
 helpers-y += cgroup_acquire cgroup_from_id
 helpers-y += task_from_pid

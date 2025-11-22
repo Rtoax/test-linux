@@ -1,5 +1,6 @@
 BPF_INSN_SAMPLE(trace_printk)
 BPF_INSN_SAMPLE(get_current_cgroup_id)
+BPF_INSN_SAMPLE(get_current_task_btf)
 /**
  * linux v5.16-rc4-1160-gc5fb19937455
  * commit c5fb19937455 ("bpf: Add bpf_strncmp helper")
