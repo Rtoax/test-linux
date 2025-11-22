@@ -27,6 +27,7 @@ and this project adheres to
 - `pthread_helpers`: rename `sys_affinity_bind` to `thread_affinity_bind_cpu`;
 #### Deprecated
 #### Removed
+- remove algorithm/crc32/modules/, it's not my code;
 - `sched_helpers`: remove `struct __sched_attr`;
 #### Fixed
 #### Security

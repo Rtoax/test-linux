@@ -63,7 +63,6 @@ kmod-list-y :=
 kmod-list-y += algorithm/bitmap/modules
 kmod-list-y += algorithm/bitops/modules
 kmod-list-y += algorithm/bits/modules
-kmod-list-y += algorithm/crypto/crc32/modules
 kmod-list-y += algorithm/hash/modules
 kmod-list-y += algorithm/hweight/modules
 kmod-list-y += algorithm/ida/modules
