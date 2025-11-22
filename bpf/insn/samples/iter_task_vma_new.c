@@ -29,6 +29,12 @@ BPF_INSN_SAMPLE_FUNC_PROTO(iter_task_vma_new)
 
 	struct bpf_insn *insn = insns_buf;
 
+	*insn++ = BPF_MOV64_IMM(BPF_REG_1, 0);
+	*insn++ = BPF_MOV64_IMM(BPF_REG_2, 0);
+	*insn++ = BPF_MOV64_IMM(BPF_REG_3, 0);
+	*insn++ = BPF_CALL_KFUNC(0, bpf_iter_task_vma_new_id);
+	*insn++ = BPF_MOV64_IMM(BPF_REG_0, 0);
+	*insn++ = BPF_EXIT_INSN();
 	// TODO
 
 	*cnt = insn - insns_buf;
