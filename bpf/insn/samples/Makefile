@@ -31,6 +31,7 @@ ifeq ($(call kver_ge,5,16,0),y)
 endif
 helpers += arena_alloc_pages arena_reserve_pages
 helpers += strnstr
+helpers += iter_task_vma_new
 
 $(info helpers = ${helpers})
 
