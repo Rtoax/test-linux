@@ -1,0 +1,22 @@
+#!/bin/env bpftrace
+
+kprobe:do_sched_setscheduler
+{
+	@pids[tid] = arg0;
+	@policies[tid] = arg1;
+}
+
+kretprobe:do_sched_setscheduler
+/ has_key(@pids, tid) /
+{
+	printf("comm %s, ret %d, pid %d, policy %d\n",
+		comm, retval, @pids[tid], @policies[tid]);
+	delete(@pids, tid);
+	delete(@policies, tid);
+}
+
+END
+{
+	clear(@pids);
+	clear(@policies);
+}
