@@ -7,6 +7,7 @@ BPF_INSN_SAMPLE(get_current_cgroup_id)
 #if LINUX_VERSION_CODE > KERNEL_VERSION(5, 16, 0)
 BPF_INSN_SAMPLE(strncmp)
 #endif
+BPF_INSN_SAMPLE(strnstr)
 /**
  * linux v5.15-12938-ge6f2dd0f8067
  * commit e6f2dd0f8067 ("bpf: Add bpf_loop helper")

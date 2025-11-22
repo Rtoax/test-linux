@@ -30,6 +30,7 @@ ifeq ($(call kver_ge,5,16,0),y)
   helpers += loop
 endif
 helpers += arena_alloc_pages arena_reserve_pages
+helpers += strnstr
 
 $(info helpers = ${helpers})
 
