@@ -106,99 +106,12 @@ ifeq ($(call kver_gt,6,2,0),y)
   endif
   target-y += rbtree
   target-y += rbtree-raw-map
-  # linux commit 9e3e66c553f7 ("bpf: Add bpf_rbtree_{root,left,right} kfunc")
-  # v6.15-rc4-68-g9e3e66c553f7
-  ifeq ($(call kver_gt,6,14,0),y)
-    CFLAGS_BPF += -DSUPPORT_BPF_RBTREE_ROOT=1
-    CFLAGS_BPF += -DSUPPORT_BPF_RBTREE_LEFT=1
-    CFLAGS_BPF += -DSUPPORT_BPF_RBTREE_RIGHT=1
-  endif
 endif
 
 # linux commit d83525ca62cf ("bpf: introduce bpf_spin_lock")
 # v5.0-rc4-620-gd83525ca62cf
 ifeq ($(call kver_gt,5,0,0),y)
   target-y += spin_lock
-endif
-
-# linux v6.2-5267-g332ea1f697be
-# commit 332ea1f697be ("bpf: Add bpf_cgroup_from_id() kfunc")
-ifeq ($(call vmlinux_has_sym_shell,bpf_cgroup_from_id),y)
-  CFLAGS_BPF += -DSUPPORT_BPF_CGROUP_FROM_ID=1
-  $(info Found bpf_cgroup_from_id())
-endif
-
-ifeq ($(call vmlinux_has_sym_shell,bpf_cgroup_acquire),y)
-  CFLAGS_BPF += -DSUPPORT_BPF_CGROUP_ACQUIRE=1
-  $(info Found bpf_cgroup_acquire())
-endif
-
-# linux commit 7b15523a989b ("bpf: Add a bpf_snprintf helper")
-# v5.12-rc4-1654-g7b15523a989b
-ifeq ($(call kver_gt,5,12,0),y)
-  CFLAGS_BPF += -DSUPPORT_BPF_SNPRINTF=1
-  $(info Found bpf_snprintf())
-endif
-ifeq ($(call vmlinux_has_sym_shell,bpf_strcmp),y)
-  CFLAGS_BPF += -DSUPPORT_BPF_STRCMP=1
-  $(info Found bpf_strcmp())
-endif
-ifeq ($(call vmlinux_has_sym_shell,bpf_strcasecmp),y)
-  CFLAGS_BPF += -DSUPPORT_BPF_STRCASECMP=1
-  $(info Found bpf_strcasecmp())
-endif
-# NOTE: I'm working on bpf_strcasestr() and bpf_strncasestr()
-ifeq ($(call vmlinux_has_sym_shell,bpf_strcasestr),y)
-  CFLAGS_BPF += -DSUPPORT_BPF_STRCASESTR=1
-  CFLAGS_BPF += -DSUPPORT_BPF_STRNCASESTR=1
-  $(info Found bpf_strcasestr() and bpf_strncasestr())
-endif
-ifeq ($(call vmlinux_has_sym_shell,bpf_strnlen),y)
-  CFLAGS_BPF += -DSUPPORT_BPF_STRNLEN=1
-  $(info Found bpf_strnlen())
-endif
-# linux >= v6.15 commit e91370550f1f ("bpf: Add kfuncs for read-only string
-# operations") add string kfunc.
-ifeq ($(call kver_gt,6,16,0),y)
-  ifeq ($(call vmlinux_has_sym_shell,bpf_strnstr),y)
-    CFLAGS_BPF += -DSUPPORT_BPF_STRNSTR=1
-    $(info Found bpf_strnstr())
-  endif
-  ifeq ($(call vmlinux_has_sym_shell,bpf_strstr),y)
-    CFLAGS_BPF += -DSUPPORT_BPF_STRSTR=1
-    $(info Found bpf_strstr())
-  endif
-endif
-# linux commit d08e2045ebf0 ("bpf: introduce new VFS based BPF kfuncs")
-# v6.10-12667-gd08e2045ebf0
-ifeq ($(call kver_gt,6,10,0),y)
-  # bpf_path_d_path()
-  ifeq ($(call vmlinux_has_sym_shell,bpf_path_d_path),y)
-    CFLAGS_BPF += -DSUPPORT_BPF_PATH_D_PATH=1
-    $(info Found bpf_path_d_path())
-  endif
-  # bpf_get_task_exe_file()
-  ifeq ($(call vmlinux_has_sym_shell,bpf_get_task_exe_file),y)
-    CFLAGS_BPF += -DSUPPORT_BPF_GET_TASK_EXE_FILE=1
-    $(info Found bpf_get_task_exe_file())
-  endif
-  # bpf_put_file()
-  ifeq ($(call vmlinux_has_sym_shell,bpf_put_file),y)
-    CFLAGS_BPF += -DSUPPORT_BPF_PUT_FILE=1
-    $(info Found bpf_put_file())
-  endif
-endif
-
-# linux commit 4ac454682158 ("bpf: Introduce task_vma open-coded iterator kfuncs")
-# v6.6-rc2-737-g4ac454682158
-ifeq ($(call kver_ge,6,6,0),y)
-  ifeq ($(call vmlinux_has_sym_shell,bpf_iter_task_vma_new),y)
-    $(info Found bpf_iter_task_vma_new())
-    $(info Found bpf_iter_task_vma_next())
-    $(info Found bpf_iter_task_vma_destroy())
-    # Only one macro is enough
-    CFLAGS_BPF += -DSUPPORT_BPF_ITER_TASK_VMA_NEW=1
-  endif
 endif
 
 # _if_ there are no user mode code, append to bpf target only
@@ -265,20 +178,6 @@ ifneq ($(call vmlinux_has_sym_shell,bpf_task_from_pid),y)
   # FIXME: some day use CFLAGS_PAHOLE replace this macro
   CFLAGS_BPF += -DBPF_NO_KFUNC_PROTOTYPES=1
   $(info Found bpf_task_from_pid())
-endif
-
-# linux v5.16-11512-g376040e47334
-# commit 376040e47334 ("bpf: Add bpf_copy_from_user_task() helper")
-ifneq ($(call vmlinux_has_sym_shell,bpf_copy_from_user_task),y)
-  CFLAGS_BPF += -DSUPPORT_BPF_COPY_FROM_USER_TASK=1
-  $(info Found bpf_copy_from_user_task())
-endif
-
-# linux v6.14-rc1-81-gf0f8a5b58f78
-# commit f0f8a5b58f78 ("bpf: Add bpf_copy_from_user_task_str() kfunc")
-ifneq ($(call vmlinux_has_sym_shell,bpf_copy_from_user_task_str),y)
-  CFLAGS_BPF += -DSUPPORT_BPF_COPY_FROM_USER_TASK_STR=1
-  $(info Found bpf_copy_from_user_task_str())
 endif
 
 CFLAGS_kprobe := -D'KSYM_DO_EXECVEAT_COMMON="${KSYM_DO_EXECVEAT_COMMON}"' -DKPROBE=1

@@ -56,7 +56,7 @@ endef
 # return: n if failed, y if success
 define vmlinux_has_sym
   $(call auto_gen_vmlinux_h); \
-  if [[ "$$(grep -wo '${1}' ${VMLINUX_H})" ]]; then \
+  if [[ "$$(grep -wo '${1}' ${VMLINUX_H} 2>/dev/null)" ]]; then \
     echo y; \
   else \
     echo n; \
