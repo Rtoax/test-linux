@@ -2,7 +2,7 @@ obj-m += myproc.o
 obj-m += baseproc.o
 obj-m += cmdline.o
 
-all:
+build:
 	${Q}make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
 
 test:
