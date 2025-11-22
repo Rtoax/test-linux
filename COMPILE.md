@@ -47,6 +47,12 @@ Compile with verbose:
 $ make build V=1
 ```
 
+Stop immediately when an error occurs:
+
+```
+$ make build CHECK_ERROR=1
+```
+
 ## Create Makefile
 
 You'd better use `template/main.mk`.

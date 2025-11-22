@@ -1,7 +1,11 @@
 # SPDX-License-Identifier: GPL-3.0
 _SUBDIR_FOOTER = 1
 
-Q ?= @
+include verbose.mk
+
+ifneq ($(CHECK_ERROR),)
+  CHECK_ERROR_EXIT = exit 1;
+endif
 
 # $1: build, test, clean
 # $2: subdir-y
@@ -11,6 +15,7 @@ define make_sub_dir
 	make ${1}; \
 	if [ $$? -ne 0 ]; then \
 		$(call log_failed,Failed ${1} $(call relative_path,$(2))); \
+		${CHECK_ERROR_EXIT} \
 	fi; \
 	popd >/dev/null
 endef
