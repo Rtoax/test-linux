@@ -8,6 +8,7 @@
  */
 #include <linux/module.h>
 #include <linux/slab.h>
+#include <linux/version.h>
 #include <asm-generic/delay.h>
 
 static int stop = 1;
@@ -41,7 +42,15 @@ struct wrapper *wr;
  */
 static void timer_func(struct timer_list *t)
 {
+/**
+ * linux v6.15-13744-g41cb08555c41
+ * commit 41cb08555c41 ("treewide, timers: Rename from_timer() to timer_container_of()")
+ */
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(6, 3, 0)
+	struct wrapper *w = timer_container_of(w, t, timer);
+#else
 	struct wrapper *w = from_timer(w, t, timer);
+#endif
 
 	spin_lock_bh(&(w->lock));
 	if (stop == 0) {
@@ -80,7 +89,15 @@ static void __exit maint_exit(void)
 	udelay(100);
 	for (i = 0; i < nr; i++) {
 		struct wrapper *w = &wr[i];
+/**
+ * linux v6.14-13424-g8fa7292fee5c
+ * commit 8fa7292fee5c ("treewide: Switch/rename to timer_delete[_sync]()")
+ */
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(6, 14, 0)
+		timer_delete_sync(&w->timer);
+#else
 		del_timer_sync(&w->timer);
+#endif
 	}
 	kfree(wr);
 }
