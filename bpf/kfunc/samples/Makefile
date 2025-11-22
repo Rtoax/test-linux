@@ -5,6 +5,7 @@ target-prep-y := vmlinux.h
 
 kfuncs := task_from_pid
 kfuncs += cgroup_from_id
+kfuncs += cgroup_acquire
 
 helpers := trace_printk
 helpers += strncmp
