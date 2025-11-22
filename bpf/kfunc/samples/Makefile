@@ -13,6 +13,7 @@ helpers += strncmp
 helpers += cgrp_storage_get
 helpers += get_func_ip
 helpers += loop
+helpers += get_current_task_btf
 
 target-bpf-y := $(patsubst %,${OUTPUT}%.bpf.o,${kfuncs})
 target-bpf-y += $(patsubst %,${OUTPUT}%.bpf.o,${helpers})
