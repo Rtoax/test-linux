@@ -1,4 +1,10 @@
 # SPDX-License-Identifier: GPL-3.0
+#
+# Output definitions:
+# - PAHOLE=
+# - PAHOLE_VERSION_MAJOR=DWARVES_MINOR_VERSION=
+# - PAHOLE_VERSION_MINOR=DWARVES_MINOR_VERSION=
+#
 _PAHOLE = 1
 
 PAHOLE := $(shell which pahole 2>/dev/null)
@@ -29,5 +35,5 @@ endif
 # https://git.kernel.org/pub/scm/devel/pahole/pahole.git use dwarves cmake macros
 DWARVES_MINOR_VERSION := ${PAHOLE_VERSION_MAJOR}
 DWARVES_MINOR_VERSION := ${PAHOLE_VERSION_MINOR}
-export DWARVES_MINOR_VERSION DWARVES_MINOR_VERSION
 
+export DWARVES_MINOR_VERSION DWARVES_MINOR_VERSION
