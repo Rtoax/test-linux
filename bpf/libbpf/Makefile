@@ -14,6 +14,7 @@ include ansi.mk
 include bpf/bpf.mk
 include ldconfig.mk
 include bpf/btf.mk
+include bpf/helper.mk
 include bpf/libbpf.mk
 include bpf/bpftool.mk
 
@@ -92,6 +93,7 @@ target-y += $(kobjs-y)
 target-y += map_array map_percpu_array
 target-y += xdp_xskmap
 
+CFLAGS_BPF += ${bpf-helper-cflags}
 # linux commit bd1279ae8a69 ("bpf: Add bpf_rbtree_{add,remove,first} kfuncs")
 # v6.2-rc7-1572-gbd1279ae8a69
 ifeq ($(call kver_gt,6,2,0),y)
@@ -144,12 +146,6 @@ endif
 ifeq ($(call kver_gt,5,12,0),y)
   CFLAGS_BPF += -DSUPPORT_BPF_SNPRINTF=1
   $(info Found bpf_snprintf())
-endif
-# linux commit c5fb19937455 ("bpf: Add bpf_strncmp helper")
-# v5.16-rc4-1160-gc5fb19937455
-ifeq ($(call kver_gt,5,16,0),y)
-  CFLAGS_BPF += -DSUPPORT_BPF_STRNCMP=1
-  $(info Found bpf_strncmp())
 endif
 ifeq ($(call vmlinux_has_sym_shell,bpf_strcmp),y)
   CFLAGS_BPF += -DSUPPORT_BPF_STRCMP=1

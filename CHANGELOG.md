@@ -11,7 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
-- template: add shell.mk;
+- template: add shell.mk, string.mk;
 - add arch/aarch64/abbrev.md;
 - cpp: test `unordered_map.cpp`;
 - template/bpf: symlink kfunc.mk to helpers.mk;
