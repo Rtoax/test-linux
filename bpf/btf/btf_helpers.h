@@ -37,45 +37,7 @@ struct func {
 	struct value args[MAX_VALUES];
 };
 
-#if defined(KAPI_NO_BPF_RB_ROOT) && defined(TEST_RBTREE)
-struct bpf_rb_root {
-	__u64 __opaque[2];
-};
-
-struct bpf_rb_node {
-	__u64 __opaque[4];
-};
-#endif
-
 struct btf *btf_load_vmlinux(void);
-
-/**
- * bpftool btf dump generated vmlinux.h will not contains kfuncs if pahole
- * version less than v1.26 and kernel must newer than v6.10.
- *
- * linux commit ebb79e96f1ea ("kbuild: bpf: Tell pahole to DECL_TAG kfuncs")
- * v6.10-rc2-724-gebb79e96f1ea [0]
- * pahole commit 72e88f29c6f7 ("pahole: Inject kfunc decl tags into BTF")
- * v1.26-34-g72e88f29c6f7 [1]
- *
- * see bpftool:src/btf.c
- * [0] https://lore.kernel.org/all/324aac5c627bddb80d9968c30df6382846994cc8.1718207789.git.dxu@dxuuu.xyz/
- * [1] https://git.kernel.org/pub/scm/devel/pahole/pahole.git/commit/?id=72e88f29c6f7e14201756e65bd66157427a61aaf
- * [2] https://lore.kernel.org/all/cover.1718207789.git.dxu@dxuuu.xyz/
- */
-#ifdef BPF_NO_KFUNC_PROTOTYPES
-#pragma message "Defined BPF_NO_KFUNC_PROTOTYPES"
-extern struct task_struct *bpf_task_from_pid(s32 pid) __weak __ksym;
-extern void bpf_task_release(struct task_struct *p) __weak __ksym;
-/* https://github.com/Rtoax/linux/tree/p056-bpf_task_cwd */
-extern int bpf_task_cwd_from_pid(pid_t pid, char *buf, u32 buf_len) __weak __ksym;
-# ifdef TEST_RBTREE
-extern int bpf_rbtree_add_impl(struct bpf_rb_root *root, struct bpf_rb_node *node, bool (*less)(struct bpf_rb_node *, const struct bpf_rb_node *), void *meta__ign, u64 off) __weak __ksym;
-extern struct bpf_rb_node *bpf_rbtree_first(struct bpf_rb_root *root) __weak __ksym;
-extern struct bpf_rb_node *bpf_rbtree_remove(struct bpf_rb_root *root, struct bpf_rb_node *node) __weak __ksym;
-# endif
-/* Add more kfuncs here */
-#endif
 
 const char *btf_kind_name(int kind);
 
