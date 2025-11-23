@@ -23,6 +23,7 @@
  *
  * [1] https://lwn.net/Articles/809092/
  * [2] https://docs.ebpf.io/linux/program-type/BPF_PROG_TYPE_STRUCT_OPS/
+ *     https://docs.ebpf.io/linux/program-type/BPF_PROG_TYPE_STRUCT_OPS/sched_ext_ops/
  * [3] https://www.ebpf.top/post/ebpf_struct_ops/
  * [4] linux commit f6be98d19985 ("bpf, net: switch to dynamic registration")
  */
