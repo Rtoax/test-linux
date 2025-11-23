@@ -21,6 +21,7 @@ target-y += param-pass
 target-y += compat
 target-y += compare
 target-y += _Generic
+target-y += _Static_assert
 target-y += goto
 target-y += float
 target-${CC___bf16} += __bf16
@@ -116,6 +117,7 @@ __float128: ${OUTPUT}__float128.o
 _Float128: ${OUTPUT}_Float128.o
 __float80: ${OUTPUT}__float80.o
 _Generic: ${OUTPUT}_Generic.o
+_Static_assert: ${OUTPUT}_Static_assert.o
 goto: ${OUTPUT}goto.o
 ptr-dim: ${OUTPUT}ptr-dim.o ${OUTPUT}c_helpers.o
 struct: ${OUTPUT}struct.o

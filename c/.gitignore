@@ -16,6 +16,7 @@
 /*.E.c
 /enum
 /_Generic
+/_Static_assert
 /goto
 /__has_feature
 /__has_include
