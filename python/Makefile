@@ -4,6 +4,7 @@ subdir-y += os
 subdir-y += sys
 
 target-shell-y := calendar.sh
+target-shell-y += version.sh
 
 target-python-y := hexdump.py
 target-python-y += listdir.py

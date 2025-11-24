@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- python: add version.sh;
 - top Makefile: add `CHECK_ERROR`;
 - template: add shell.mk, string.mk;
 - add arch/aarch64/abbrev.md;
