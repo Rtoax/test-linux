@@ -49,6 +49,7 @@
 - RTLA: Real-time Linux Analysis tool (实时分析工具)
 - SDK: Software Development Kit (软件开发工具包)
 - SMT: Satisfiability Modulo Theories (基于模理论的可满足性)
+- SOAT: State Of The Art (技术水平)
 - STL: Standard Template Library (标准模板库，C++模板库)
 - Tex: () @LaTeX
 - TOC: The Technical Oversight Committee (技术监督委员会)
