@@ -11,6 +11,7 @@
 int main(int argc, char *argv[])
 {
 	int err, policy;
+	unsigned int cpu, numa;
 	unsigned long count = 0;
 
 	policy = SCHED_EXT;
@@ -36,7 +37,10 @@ int main(int argc, char *argv[])
 
 	while (1) {
 		sleep(1);
-		printf("Count %ld\n", count++);
+		if (getcpu(&cpu, &numa))
+			continue;
+		printf("Pid %d running on CPU %d NUMA %d, count %ld\n",
+			getpid(), cpu, numa, count++);
 	}
 
 	return 0;
