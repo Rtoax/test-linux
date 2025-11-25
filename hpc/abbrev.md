@@ -10,6 +10,7 @@
 - FP64: FP 64-bit (双精度浮点) @DP
 - GFLOPS: Giga FLOPS (每秒10亿次的浮点运算数) @FLOPS
 - GEMM: General Matrix-Matrix Multiplication (广义矩阵乘法, C=α⋅A⋅B+β⋅C)
+- GEMV: Generalized Matrix-Vector Multiplication (广义矩阵向量乘法, y=α⋅A⋅x+β⋅y)
 - GPC: Graphics Processing Cluster (图形处理器集合)
 - HBM: High Bandwidth Memory (高带宽内存)
 - HBM2: HBM 2 generation (第二代 HBM) @HBM
