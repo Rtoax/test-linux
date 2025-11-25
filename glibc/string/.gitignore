@@ -30,4 +30,5 @@
 /strerror
 /strerror_r
 /strstr
+/strstr-cpp
 /strspn

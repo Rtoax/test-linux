@@ -53,6 +53,8 @@ target-y += strerror strerror_r
 target-y += strstr
 target-y += strspn
 
+target-cpp-y := strstr-cpp
+
 CFLAGS :=
 CFLAGS += -I../../../
 CFLAGS += -lm
@@ -141,3 +143,4 @@ strerror: strerror.o
 strerror_r: strerror_r.o
 strstr: strstr.o
 strspn: strspn.o
+strstr-cpp: strstr.cpp.o
