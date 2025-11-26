@@ -27,10 +27,6 @@
 /event-hpcc
 /event-luca
 /*.fatbin
-/fft
-/fft-hip
-/fft-hpcc
-/fft-luca
 /float
 /float-c
 /float-hip

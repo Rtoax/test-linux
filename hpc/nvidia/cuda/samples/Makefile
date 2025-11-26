@@ -16,7 +16,6 @@ common-objs += cooperative
 common-objs += device
 common-objs += dim3
 common-objs += event
-common-objs += fft
 common-objs += float
 common-objs += __GNUC__ __STDC__
 common-objs += hello
@@ -81,11 +80,6 @@ CFLAGS_NVCC_matrix-int8 := -DTEST_INT8=1
 # NOTE: warning: ‘CUresult cuDeviceComputeCapability(int*, int*, CUdevice)’ is deprecated [-Wdeprecated-declarations]
 CFLAGS_NVCC_properties := -Wno-deprecated-declarations
 
-CUDA_HELPERS := ${OUTPUT}cuda_helpers.cu.o
-HIP_HELPERS := ${OUTPUT}cuda_helpers.hip.o
-HPCC_HELPERS := ${OUTPUT}cuda_helpers.hpcc.o
-LUCA_HELPERS := ${OUTPUT}cuda_helpers.luca.o
-
 CFLAGS_float-c := ${cflags-support-types-y}
 LDFLAGS_float-c := -lm
 
@@ -122,9 +116,15 @@ CFLAGS_LSCC_matrix-int8 := -DTEST_INT8=1
 
 include main.mk
 
+CUDA_HELPERS := ${OUTPUT}cuda_helpers.cu.o
+HIP_HELPERS := ${OUTPUT}cuda_helpers.hip.o
+HPCC_HELPERS := ${OUTPUT}cuda_helpers.hpcc.o
+LUCA_HELPERS := ${OUTPUT}cuda_helpers.luca.o
+
 ${CUDA_HELPERS}: cuda_helpers.h
 ${HIP_HELPERS}: cuda_helpers.h
 ${HPCC_HELPERS}: cuda_helpers.h
+${LUCA_HELPERS}: cuda_helpers.h
 
 # CUDA
 attribute: ${OUTPUT}attribute.cu.o ${CUDA_HELPERS}
@@ -134,7 +134,6 @@ cooperative: ${OUTPUT}cooperative.cu.o ${CUDA_HELPERS}
 device: ${OUTPUT}device.cu.o ${CUDA_HELPERS}
 dim3: ${OUTPUT}dim3.cu.o ${CUDA_HELPERS}
 event: ${OUTPUT}event.cu.o ${CUDA_HELPERS}
-fft: ${OUTPUT}fft.cu.o ${CUDA_HELPERS}
 float: ${OUTPUT}float.cu.o
 float-c: ${OUTPUT}float-c.o
 __GNUC__: ${OUTPUT}__GNUC__.cu.o
@@ -169,7 +168,6 @@ cooperative-hip: ${OUTPUT}cooperative.hip.o ${HIP_HELPERS}
 device-hip: ${OUTPUT}device.hip.o ${HIP_HELPERS}
 dim3-hip: ${OUTPUT}dim3.hip.o ${HIP_HELPERS}
 event-hip: ${OUTPUT}event.hip.o ${HIP_HELPERS}
-fft-hip: ${OUTPUT}fft.hip.o ${HIP_HELPERS}
 float-hip: ${OUTPUT}float.hip.o ${HIP_HELPERS}
 __GNUC__-hip: ${OUTPUT}__GNUC__.hip.o ${HIP_HELPERS}
 hello-hip: ${OUTPUT}hello.hip.o ${HIP_HELPERS}
@@ -201,7 +199,6 @@ cooperative-hpcc: ${OUTPUT}cooperative.hpcc.o ${HPCC_HELPERS}
 device-hpcc: ${OUTPUT}device.hpcc.o ${HPCC_HELPERS}
 dim3-hpcc: ${OUTPUT}dim3.hpcc.o ${HPCC_HELPERS}
 event-hpcc: ${OUTPUT}event.hpcc.o ${HPCC_HELPERS}
-fft-hpcc: ${OUTPUT}fft.hpcc.o ${HPCC_HELPERS}
 float-hpcc: ${OUTPUT}float.hpcc.o
 __GNUC__-hpcc: ${OUTPUT}__GNUC__.hpcc.o ${HPCC_HELPERS}
 hello-hpcc: ${OUTPUT}hello.hpcc.o ${HPCC_HELPERS}
@@ -234,7 +231,6 @@ cooperative-luca: ${OUTPUT}cooperative.luca.o ${LUCA_HELPERS}
 device-luca: ${OUTPUT}device.luca.o ${LUCA_HELPERS}
 dim3-luca: ${OUTPUT}dim3.luca.o ${LUCA_HELPERS}
 event-luca: ${OUTPUT}event.luca.o ${LUCA_HELPERS}
-fft-luca: ${OUTPUT}fft.luca.o ${LUCA_HELPERS}
 float-luca: ${OUTPUT}float.luca.o
 __GNUC__-luca: ${OUTPUT}__GNUC__.luca.o ${LUCA_HELPERS}
 hello-luca: ${OUTPUT}hello.luca.o ${LUCA_HELPERS}

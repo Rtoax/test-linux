@@ -4,8 +4,9 @@ OUTPUT := .output/
 include cuda.mk
 
 subdir-y := samples
-subdir-y += fakeCUDA
+subdir-y += fft
 subdir-y += intrinsics
+subdir-y += fakeCUDA
 
 target-shell-${HAVE_CUDA} := version.sh
 target-nvcc-libso-${HAVE_CUDA} := libcuda_helper.so
