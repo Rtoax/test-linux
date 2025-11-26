@@ -9,12 +9,16 @@
 # - .maca.o
 # - .E.hpcc
 # - .hpcc.o
+# - .hpcc.so.o
+# - .hpcc.a.o
 # - .hpcc.devbin
 # - .hpcc.fatbin
 # - .hpcc.hc_fatbin
 # - .hpcc.hcFatBinSegment
-# - target-mxcc-y$
-# - target-htcc-y$
+# - target-mxcc-y
+# - target-htcc-y
+# - target-htcc-libso-y
+# - target-htcc-liba-y
 
 _TARGET_METAX = 1
 
@@ -22,6 +26,9 @@ include hpcc.mk
 
 cflags-htcc-devbin := -device-bin
 cflags-htcc-fatbin := -fatbin
+cflags-htcc-so := -Xcompiler -fPIC
+ldflags-htcc-so := -shared -Xcompiler -fPIC
+
 
 CFLAGS_HTCC += -DHAVE_HPCC=1
 CFLAGS_HTCC += -D__USE_HPCC__=1
@@ -56,11 +63,19 @@ ifdef ERROR
   CFLAGS_MXCC += -DERROR=1
   CFLAGS_HTCC += -DERROR=1
 endif
-
 ifdef DEBUG
   CFLAGS_MXCC += -DDEBUG=${DEBUG}
   CFLAGS_HTCC += -DDEBUG=${DEBUG}
+endif
 
+CFLAGS_HTCC_SO += ${CFLAGS_HTCC}
+CFLAGS_HTCC_SO += ${cflags-htcc-so}
+LDFLAGS_HTCC_SO += ${LDFLAGS_HTCC}
+LDFLAGS_HTCC_SO += ${ldflags-htcc-so}
+
+CFLAGS_HTCC_A += ${CFLAGS_HTCC_SO}
+
+ifdef DEBUG
   ifneq ($(target-mxcc-y),)
     $(info CFLAGS_MXCC = ${CFLAGS_MXCC})
     $(info LDFLAGS_MXCC = ${LDFLAGS_MXCC})
@@ -98,8 +113,24 @@ $${OUTPUT}%.hpcc.fatbin: %.${1} | $${OUTPUT}
 	$(call log_obj,FATBIN,$$(<),$$(@))
 	$${Q}$$(HTCC) -o $$(@) -c $$(<) $$(cflags-htcc-fatbin) $$(CFLAGS_HTCC) $$(CFLAGS_HTCC_$$(*))
 endef
+# $1 - suffix of file: hpcc, cu
+define hpcc_obj_so
+$${OUTPUT}%.hpcc.so.o: %.${1} | $${OUTPUT}
+	$(call log_obj,HTCC CC SO,$$(<),$$(@))
+	$${Q}$$(HTCC) -o $$(@) -c $$(<) $$(CFLAGS_HTCC_SO) $$(CFLAGS_HTCC_SO_$$(*))
+endef
+# $1 - suffix of file: hpcc, cu
+define hpcc_obj_a
+$${OUTPUT}%.hpcc.a.o: %.${1} | $${OUTPUT}
+	$(call log_obj,HTCC CC A,$$(<),$$(@))
+	$${Q}$$(HTCC) -o $$(@) -c $$(<) $$(CFLAGS_HTCC_A) $$(CFLAGS_HTCC_A_$$(*))
+endef
 $(eval $(call hpcc_obj,cu))
 $(eval $(call hpcc_obj,hpcc))
+$(eval $(call hpcc_obj_so,cu))
+$(eval $(call hpcc_obj_so,hpcc))
+$(eval $(call hpcc_obj_a,cu))
+$(eval $(call hpcc_obj_a,hpcc))
 
 # Example format of hc_fatbin and hcFatBinSegment, see:
 # commit 798dd703bcc9 ("targets/metax.mk: add .hc_fatbin and .hcFatBinSegment targets")
@@ -114,3 +145,11 @@ ${OUTPUT}%.hpcc.hcFatBinSegment: % | ${OUTPUT}
 $(target-htcc-y): %:
 	$(call log_exe,HTCC LD,$(<),$(@))
 	${Q}$(HTCC) -o $(@) $(^) $(LDFLAGS_HTCC) $(LDFLAGS_HTCC_$(*))
+
+$(target-htcc-libso-y): %:
+	$(call log_exe,HTCC SO,$(<),$(@))
+	${Q}$(HTCC) -o $(@) $(^) $(LDFLAGS_HTCC_SO) $(LDFLAGS_HTCC_SO$(*))
+
+$(target-htcc-liba-y): %:
+	$(call log_exe,HTCC AR,$(<),$(@))
+	${Q}ar rcs $(@) $(^)
