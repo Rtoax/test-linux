@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- amd/rocm: add `libhip_helper.so`;
 - cuda: add fft subdir;
 - makeself: introduce and test;
 - template: add bpf/scx.mk;

@@ -119,6 +119,8 @@ build-targets += $(target-nvcc-y)
 build-targets += $(target-nvcc-libso-y)
 build-targets += $(target-nvcc-liba-y)
 build-targets += $(target-hipcc-y)
+build-targets += $(target-hipcc-libso-y)
+build-targets += $(target-hipcc-liba-y)
 build-targets += $(target-mxcc-y) $(target-htcc-y)
 build-targets += $(target-lscc-y)
 build-targets += $(target-go-y)
@@ -189,7 +191,7 @@ endif
 ifneq ($(target-nvcc-y)$(target-nvcc-libso-y)$(target-nvcc-liba-y),)
   include targets/nvidia.mk
 endif
-ifneq ($(target-hipcc-y),)
+ifneq ($(target-hipcc-y)$(target-hipcc-libso-y)$(target-hipcc-liba-y),)
   include targets/amd.mk
 endif
 ifneq ($(target-mxcc-y)$(target-htcc-y),)
