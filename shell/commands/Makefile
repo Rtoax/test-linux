@@ -8,6 +8,7 @@ subdir-y += sar
 subdir-y += sed
 subdir-y += split
 subdir-y += stat
+subdir-y += makeself
 
 target-shell-y := tr.sh
 

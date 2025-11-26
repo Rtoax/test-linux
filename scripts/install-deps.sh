@@ -650,6 +650,7 @@ add_cross_compiler()
 	fi
 }
 
+pkgs_build+=( makeself )
 pkgs_build+=( meson )
 
 pkgs_container+=( buildah )

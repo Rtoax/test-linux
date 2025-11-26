@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- makeself: introduce and test;
 - template: add bpf/scx.mk;
 - template: add python.mk;
 - python: add version.sh;
