@@ -55,16 +55,12 @@ target-hipcc-${HAVE_HIP} := $(patsubst %,%-hip,$(common-objs))
 target-post-${HAVE_HIP} += $(patsubst %,${OUTPUT}%,$(rocm-fatbin-y))
 
 # HPCC
-hpcc-devbin-${HAVE_HPCC} := hello.hpcc.devbin
-hpcc-devbin-${HAVE_HPCC} += parallel.hpcc.devbin
-hpcc-fatbin-${HAVE_HPCC} := hello.hpcc.fatbin
-hpcc-fatbin-${HAVE_HPCC} += parallel.hpcc.fatbin
-hpcc-fatbin-${HAVE_HPCC} += parallel-hpcc.hpcc.hc_fatbin
-hpcc-fatbin-${HAVE_HPCC} += parallel-hpcc.hpcc.hcFatBinSegment
 target-htcc-${HAVE_HPCC} := $(patsubst %,%-hpcc,$(common-objs))
-target-post-${HAVE_HPCC} += $(patsubst %,${OUTPUT}%.E.hpcc,$(hpcc-htcc))
-target-post-${HAVE_HPCC} += $(patsubst %,${OUTPUT}%,$(hpcc-devbin-y))
-target-post-${HAVE_HPCC} += $(patsubst %,${OUTPUT}%,$(hpcc-fatbin-y))
+target-post-${HAVE_HPCC} += $(patsubst %,${OUTPUT}%.E.hpcc,$(common-objs))
+target-post-${HAVE_HPCC} += $(patsubst %,${OUTPUT}%.hpcc.devbin,$(common-objs))
+target-post-${HAVE_HPCC} += $(patsubst %,${OUTPUT}%.hpcc.fatbin,$(common-objs))
+target-post-${HAVE_HPCC} += $(patsubst %,${OUTPUT}%-hpcc.hpcc.hc_fatbin,$(common-objs))
+target-post-${HAVE_HPCC} += $(patsubst %,${OUTPUT}%-hpcc.hpcc.hcFatBinSegment,$(common-objs))
 
 # LUCA
 target-lscc-${HAVE_LUCA} := $(patsubst %,%-luca,$(common-objs))
