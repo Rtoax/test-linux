@@ -35,7 +35,7 @@ common-objs += rand
 common-objs += sparse
 
 # NVIDIA CUDA
-target-nvcc-${HAVE_CUDA} := ${common-objs}
+target-nvcc-${HAVE_CUDA} := $(patsubst %,%-nv,$(common-objs))
 nvidia-cubin-${HAVE_CUDA} := hello.cubin
 nvidia-cubin-${HAVE_CUDA} += parallel.cubin
 nvidia-fatbin-${HAVE_CUDA} := hello.fatbin
@@ -116,33 +116,34 @@ CFLAGS_LSCC_matrix-int8 := -DTEST_INT8=1
 
 include main.mk
 
-# CUDA
-attribute: ${OUTPUT}attribute.cu.o ${CUDA_HELPERS}
-cooperative: ${OUTPUT}cooperative.cu.o ${CUDA_HELPERS}
-device: ${OUTPUT}device.cu.o ${CUDA_HELPERS}
-dim3: ${OUTPUT}dim3.cu.o ${CUDA_HELPERS}
-event: ${OUTPUT}event.cu.o ${CUDA_HELPERS}
-float: ${OUTPUT}float.cu.o
 float-c: ${OUTPUT}float-c.o
-__GNUC__: ${OUTPUT}__GNUC__.cu.o
-hello: ${OUTPUT}hello.cu.o ${CUDA_HELPERS}
-malloc: ${OUTPUT}malloc.cu.o ${CUDA_HELPERS}
-mallocHost: ${OUTPUT}mallocHost.cu.o ${CUDA_HELPERS}
-mallocManaged: ${OUTPUT}mallocManaged.cu.o ${CUDA_HELPERS}
-memory: ${OUTPUT}memory.cu.o ${CUDA_HELPERS}
 matrix-c-fp32: ${OUTPUT}matrix-fp32.o
 matrix-c-fp64: ${OUTPUT}matrix-fp64.o
-matrix-fp16: ${OUTPUT}matrix-fp16.cu.o ${CUDA_HELPERS}
-matrix-fp32: ${OUTPUT}matrix-fp32.cu.o ${CUDA_HELPERS}
-matrix-fp64: ${OUTPUT}matrix-fp64.cu.o ${CUDA_HELPERS}
-matrix-int8: ${OUTPUT}matrix-int8.cu.o ${CUDA_HELPERS}
-module: ${OUTPUT}module.cu.o ${CUDA_HELPERS}
-p2p: ${OUTPUT}p2p.cu.o ${CUDA_HELPERS}
-parallel: ${OUTPUT}parallel.cu.o ${CUDA_HELPERS}
-properties: ${OUTPUT}properties.cu.o ${CUDA_HELPERS}
-rand: ${OUTPUT}rand.cu.o ${CUDA_HELPERS}
-sparse: ${OUTPUT}sparse.cu.o ${CUDA_HELPERS}
-__STDC__: ${OUTPUT}__STDC__.cu.o
+
+# CUDA
+attribute-nv: ${OUTPUT}attribute.cu.o ${CUDA_HELPERS}
+cooperative-nv: ${OUTPUT}cooperative.cu.o ${CUDA_HELPERS}
+device-nv: ${OUTPUT}device.cu.o ${CUDA_HELPERS}
+dim3-nv: ${OUTPUT}dim3.cu.o ${CUDA_HELPERS}
+event-nv: ${OUTPUT}event.cu.o ${CUDA_HELPERS}
+float-nv: ${OUTPUT}float.cu.o
+__GNUC__-nv: ${OUTPUT}__GNUC__.cu.o
+hello-nv: ${OUTPUT}hello.cu.o ${CUDA_HELPERS}
+malloc-nv: ${OUTPUT}malloc.cu.o ${CUDA_HELPERS}
+mallocHost-nv: ${OUTPUT}mallocHost.cu.o ${CUDA_HELPERS}
+mallocManaged-nv: ${OUTPUT}mallocManaged.cu.o ${CUDA_HELPERS}
+memory-nv: ${OUTPUT}memory.cu.o ${CUDA_HELPERS}
+matrix-fp16-nv: ${OUTPUT}matrix-fp16.cu.o ${CUDA_HELPERS}
+matrix-fp32-nv: ${OUTPUT}matrix-fp32.cu.o ${CUDA_HELPERS}
+matrix-fp64-nv: ${OUTPUT}matrix-fp64.cu.o ${CUDA_HELPERS}
+matrix-int8-nv: ${OUTPUT}matrix-int8.cu.o ${CUDA_HELPERS}
+module-nv: ${OUTPUT}module.cu.o ${CUDA_HELPERS}
+p2p-nv: ${OUTPUT}p2p.cu.o ${CUDA_HELPERS}
+parallel-nv: ${OUTPUT}parallel.cu.o ${CUDA_HELPERS}
+properties-nv: ${OUTPUT}properties.cu.o ${CUDA_HELPERS}
+rand-nv: ${OUTPUT}rand.cu.o ${CUDA_HELPERS}
+sparse-nv: ${OUTPUT}sparse.cu.o ${CUDA_HELPERS}
+__STDC__-nv: ${OUTPUT}__STDC__.cu.o
 
 # ROCm HIP
 ${OUTPUT}matrix-fp16.hip.o: matrix.cu
