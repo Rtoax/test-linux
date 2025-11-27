@@ -10,6 +10,7 @@ include hpcc.mk
 include compiler.mk
 
 __USE_CUDA_HELPERS__ = ${HAVE_CUDA}
+__USE_LUCA_HELPERS__ = ${HAVE_LUCA}
 
 common-objs := fft
 
@@ -29,11 +30,9 @@ include main.mk
 
 HIP_HELPERS := ${OUTPUT}cuda_helpers.hip.o
 HPCC_HELPERS := ${OUTPUT}cuda_helpers.hpcc.o
-LUCA_HELPERS := ${OUTPUT}cuda_helpers.luca.o
 
 ${HIP_HELPERS}: cuda_helpers.h
 ${HPCC_HELPERS}: cuda_helpers.h
-${LUCA_HELPERS}: cuda_helpers.h
 
 # CUDA
 fft: ${OUTPUT}fft.cu.o ${CUDA_HELPERS}
