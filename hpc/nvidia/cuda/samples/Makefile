@@ -9,6 +9,11 @@ include luca.mk
 include hpcc.mk
 include compiler.mk
 
+__USE_CUDA_HELPERS__ = ${HAVE_CUDA}
+__USE_HIP_HELPERS__ = ${HAVE_HIP}
+__USE_LUCA_HELPERS__ = ${HAVE_LUCA}
+__USE_HPCC_HELPERS__ = ${HAVE_HPCC}
+
 common-objs := attribute
 common-objs += blas
 common-objs += blasLtMatmul
@@ -71,6 +76,7 @@ target-lscc-${HAVE_LUCA} := $(patsubst %,%-luca,$(common-objs))
 target-y := matrix-c-fp32 matrix-c-fp64
 target-y += float-c
 
+CFLAGS += -I..
 CFLAGS_matrix-fp64 := -DTEST_FP64=1
 CFLAGS_matrix-fp32 := -DTEST_FP32=1
 CFLAGS_NVCC_matrix-fp64 := -DTEST_FP64=1
@@ -115,16 +121,6 @@ CFLAGS_LSCC_matrix-fp16 := -DTEST_FP16=1
 CFLAGS_LSCC_matrix-int8 := -DTEST_INT8=1
 
 include main.mk
-
-CUDA_HELPERS := ${OUTPUT}cuda_helpers.cu.o
-HIP_HELPERS := ${OUTPUT}cuda_helpers.hip.o
-HPCC_HELPERS := ${OUTPUT}cuda_helpers.hpcc.o
-LUCA_HELPERS := ${OUTPUT}cuda_helpers.luca.o
-
-${CUDA_HELPERS}: cuda_helpers.h
-${HIP_HELPERS}: cuda_helpers.h
-${HPCC_HELPERS}: cuda_helpers.h
-${LUCA_HELPERS}: cuda_helpers.h
 
 # CUDA
 attribute: ${OUTPUT}attribute.cu.o ${CUDA_HELPERS}
@@ -188,10 +184,10 @@ sparse-hip: ${OUTPUT}sparse.hip.o ${HIP_HELPERS}
 __STDC__-hip: ${OUTPUT}__STDC__.hip.o ${HIP_HELPERS}
 
 # MetaX HPCC
-${OUTPUT}matrix-fp16.hpcc.o: cuda_adapter.h cuda_helpers.h
-${OUTPUT}matrix-fp32.hpcc.o: cuda_adapter.h cuda_helpers.h
-${OUTPUT}matrix-fp64.hpcc.o: cuda_adapter.h cuda_helpers.h
-${OUTPUT}matrix-int8.hpcc.o: cuda_adapter.h cuda_helpers.h
+${OUTPUT}matrix-fp16.hpcc.o: cuda_adapter.h
+${OUTPUT}matrix-fp32.hpcc.o: cuda_adapter.h
+${OUTPUT}matrix-fp64.hpcc.o: cuda_adapter.h
+${OUTPUT}matrix-int8.hpcc.o: cuda_adapter.h
 attribute-hpcc: ${OUTPUT}attribute.hpcc.o ${HPCC_HELPERS}
 blas-hpcc: ${OUTPUT}blas.hpcc.o ${HPCC_HELPERS}
 blasLtMatmul-hpcc: ${OUTPUT}blasLtMatmul.hpcc.o ${HPCC_HELPERS}
@@ -219,11 +215,11 @@ sparse-hpcc: ${OUTPUT}sparse.hpcc.o ${HPCC_HELPERS}
 __STDC__-hpcc: ${OUTPUT}__STDC__.hpcc.o ${HPCC_HELPERS}
 
 # CESTC LUCA
-${OUTPUT}matrix-fp16.luca.o: cuda_adapter.h cuda_helpers.h
-${OUTPUT}matrix-fp32.luca.o: cuda_adapter.h cuda_helpers.h
-${OUTPUT}matrix-fp64.luca.o: cuda_adapter.h cuda_helpers.h
-${OUTPUT}matrix-int8.luca.o: cuda_adapter.h cuda_helpers.h
-${OUTPUT}sparse.luca.o: cuda_adapter.h cuda_helpers.h
+${OUTPUT}matrix-fp16.luca.o: cuda_adapter.h
+${OUTPUT}matrix-fp32.luca.o: cuda_adapter.h
+${OUTPUT}matrix-fp64.luca.o: cuda_adapter.h
+${OUTPUT}matrix-int8.luca.o: cuda_adapter.h
+${OUTPUT}sparse.luca.o: cuda_adapter.h
 attribute-luca: ${OUTPUT}attribute.luca.o ${LUCA_HELPERS}
 blas-luca: ${OUTPUT}blas.luca.o ${LUCA_HELPERS}
 blasLtMatmul-luca: ${OUTPUT}blasLtMatmul.luca.o ${LUCA_HELPERS}

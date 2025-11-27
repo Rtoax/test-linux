@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- cuda/samples: apply template/helpers.mk;
 - template/helpers.mk: add `LUCA_HELPERS`, `HPCC_HELPERS`, `HIP_HELPERS`;
 - luca: add `libluca_helper.so`;
 - hpcc: add `libhpcc_helper.so`;
