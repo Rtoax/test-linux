@@ -7,8 +7,9 @@ include hpcc.mk
 include luca.mk
 
 subdir-y := samples
-subdir-y += fft
 subdir-y += blas
+subdir-y += fft
+subdir-y += rand
 subdir-y += intrinsics
 subdir-y += fakeCUDA
 

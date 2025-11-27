@@ -83,10 +83,6 @@
 /properties-hip
 /properties-hpcc
 /properties-luca
-/rand-nv
-/rand-hip
-/rand-hpcc
-/rand-luca
 /sparse-nv
 /sparse-hip
 /sparse-hpcc
