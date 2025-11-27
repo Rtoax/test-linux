@@ -4,11 +4,15 @@
 # Targets list:
 # - .E.luca
 # - .luca.o
+# - .luca.so.o
+# - .luca.a.o
 # - .luca.devbin
 # - .luca.fatbin
 # - .luca.hc_fatbin
 # - .luca.hcFatBinSegment
 # - target-lscc-y
+# - target-lscc-libso-y
+# - target-lscc-liba-y
 
 _TARGET_CESTC = 1
 
@@ -16,6 +20,8 @@ include luca.mk
 
 cflags-lscc-devbin := -device-bin
 cflags-lscc-fatbin := -fatbin
+cflags-lscc-so := -Xcompiler -fPIC
+ldflags-lscc-so := -shared -Xcompiler -fPIC
 
 CFLAGS_LSCC += -DHAVE_LUCA=1
 CFLAGS_LSCC += -D__USE_LUCA__=1
@@ -47,10 +53,18 @@ LDFLAGS_LSCC += -lhcsparse
 ifdef ERROR
   CFLAGS_LSCC += -DERROR=1
 endif
-
 ifdef DEBUG
   CFLAGS_LSCC += -DDEBUG=${DEBUG}
+endif
 
+CFLAGS_LSCC_SO += ${CFLAGS_LSCC}
+CFLAGS_LSCC_SO += ${cflags-lscc-so}
+LDFLAGS_LSCC_SO += ${LDFLAGS_LSCC}
+LDFLAGS_LSCC_SO += ${ldflags-lscc-so}
+
+CFLAGS_LSCC_A += ${CFLAGS_LSCC_SO}
+
+ifdef DEBUG
   ifneq ($(target-lscc-y),)
     $(info CFLAGS_LSCC = ${CFLAGS_LSCC})
     $(info LDFLAGS_LSCC = ${LDFLAGS_LSCC})
@@ -76,8 +90,24 @@ $${OUTPUT}%.luca.fatbin: %.${1} | $${OUTPUT}
 	$(call log_obj,FATBIN,$$(<),$$(@))
 	$${Q}$$(LSCC) -o $$(@) -c $$(<) $$(cflags-lscc-fatbin) $$(CFLAGS_LSCC) $$(CFLAGS_LSCC_$(*))
 endef
+# $1 - suffix of file: cu, luca
+define luca_obj_so
+$${OUTPUT}%.luca.so.o: %.${1} | $${OUTPUT}
+	$(call log_obj,LSCC CC SO,$$(<),$$(@))
+	$${Q}$$(LSCC) -o $$(@) -c $$(<) $$(CFLAGS_LSCC_SO) $$(CFLAGS_LSCC_SO_$$(*))
+endef
+# $1 - suffix of file: cu, luca
+define luca_obj_a
+$${OUTPUT}%.luca.a.o: %.${1} | $${OUTPUT}
+	$(call log_obj,LSCC CC A,$$(<),$$(@))
+	$${Q}$$(LSCC) -o $$(@) -c $$(<) $$(CFLAGS_LSCC_A) $$(CFLAGS_LSCC_A_$$(*))
+endef
 $(eval $(call luca_obj,cu))
 $(eval $(call luca_obj,luca))
+$(eval $(call luca_obj_so,cu))
+$(eval $(call luca_obj_so,luca))
+$(eval $(call luca_obj_a,cu))
+$(eval $(call luca_obj_a,luca))
 
 # Example format of hc_fatbin and hcFatBinSegment, see:
 # commit 798dd703bcc9 ("targets/metax.mk: add .hc_fatbin and .hcFatBinSegment targets")
@@ -94,3 +124,11 @@ ${OUTPUT}%.luca.hcFatBinSegment: % | ${OUTPUT}
 $(target-lscc-y): %:
 	$(call log_exe,LSCC LD,$(<),$(@))
 	${Q}$(LSCC) -o $(@) $(^) $(LDFLAGS_LSCC) $(LDFLAGS_LSCC_$(*))
+
+$(target-lscc-libso-y): %:
+	$(call log_exe,LSCC SO,$(<),$(@))
+	${Q}$(LSCC) -o $(@) $(^) $(LDFLAGS_LSCC_SO) $(LDFLAGS_LSCC_SO_$(*))
+
+$(target-lscc-liba-y): %:
+	$(call log_exe,LSCC AR,$(<),$(@))
+	${Q}ar rcs $(@) $(^)

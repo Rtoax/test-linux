@@ -126,6 +126,8 @@ build-targets += $(target-htcc-y)
 build-targets += $(target-htcc-libso-y)
 build-targets += $(target-htcc-liba-y)
 build-targets += $(target-lscc-y)
+build-targets += $(target-lscc-libso-y)
+build-targets += $(target-lscc-liba-y)
 build-targets += $(target-go-y)
 build-targets += $(target-java-y)
 build-targets += $(patsubst %.sh,%.sh.log,$(target-shell-y))
@@ -200,7 +202,7 @@ endif
 ifneq ($(target-mxcc-y)$(target-htcc-y)$(target-htcc-libso-y)$(target-htcc-liba-y),)
   include targets/metax.mk
 endif
-ifneq ($(target-lscc-y),)
+ifneq ($(target-lscc-y)$(target-lscc-libso-y)$(target-lscc-liba-y),)
   include targets/cestc.mk
 endif
 ifneq ($(target-shell-y),)

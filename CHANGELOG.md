@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- luca: add `libluca_helper.so`;
 - hpcc: add `libhpcc_helper.so`;
 - amd/rocm: add `libhip_helper.so`;
 - cuda: add fft subdir;
