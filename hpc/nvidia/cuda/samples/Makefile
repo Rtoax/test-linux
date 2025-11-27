@@ -54,19 +54,19 @@ rocm-fatbin-${HAVE_HIP} += parallel-hip.hipFatBinSegment
 target-hipcc-${HAVE_HIP} := $(patsubst %,%-hip,$(common-objs))
 target-post-${HAVE_HIP} += $(patsubst %,${OUTPUT}%,$(rocm-fatbin-y))
 
-# MetaX HPCC
-metax-devbin-${HAVE_HPCC} := hello.hpcc.devbin
-metax-devbin-${HAVE_HPCC} += parallel.hpcc.devbin
-metax-fatbin-${HAVE_HPCC} := hello.hpcc.fatbin
-metax-fatbin-${HAVE_HPCC} += parallel.hpcc.fatbin
-metax-fatbin-${HAVE_HPCC} += parallel-hpcc.hpcc.hc_fatbin
-metax-fatbin-${HAVE_HPCC} += parallel-hpcc.hpcc.hcFatBinSegment
+# HPCC
+hpcc-devbin-${HAVE_HPCC} := hello.hpcc.devbin
+hpcc-devbin-${HAVE_HPCC} += parallel.hpcc.devbin
+hpcc-fatbin-${HAVE_HPCC} := hello.hpcc.fatbin
+hpcc-fatbin-${HAVE_HPCC} += parallel.hpcc.fatbin
+hpcc-fatbin-${HAVE_HPCC} += parallel-hpcc.hpcc.hc_fatbin
+hpcc-fatbin-${HAVE_HPCC} += parallel-hpcc.hpcc.hcFatBinSegment
 target-htcc-${HAVE_HPCC} := $(patsubst %,%-hpcc,$(common-objs))
-target-post-${HAVE_HPCC} += $(patsubst %,${OUTPUT}%.E.hpcc,$(metax-htcc))
-target-post-${HAVE_HPCC} += $(patsubst %,${OUTPUT}%,$(metax-devbin-y))
-target-post-${HAVE_HPCC} += $(patsubst %,${OUTPUT}%,$(metax-fatbin-y))
+target-post-${HAVE_HPCC} += $(patsubst %,${OUTPUT}%.E.hpcc,$(hpcc-htcc))
+target-post-${HAVE_HPCC} += $(patsubst %,${OUTPUT}%,$(hpcc-devbin-y))
+target-post-${HAVE_HPCC} += $(patsubst %,${OUTPUT}%,$(hpcc-fatbin-y))
 
-# CESTC LUCA
+# LUCA
 target-lscc-${HAVE_LUCA} := $(patsubst %,%-luca,$(common-objs))
 
 # Pure C
@@ -169,7 +169,7 @@ parallel-hip: ${OUTPUT}parallel.hip.o ${HIP_HELPERS}
 properties-hip: ${OUTPUT}properties.hip.o ${HIP_HELPERS}
 __STDC__-hip: ${OUTPUT}__STDC__.hip.o ${HIP_HELPERS}
 
-# MetaX HPCC
+# HPCC
 ${OUTPUT}matrix-fp16.hpcc.o: cuda_adapter.h
 ${OUTPUT}matrix-fp32.hpcc.o: cuda_adapter.h
 ${OUTPUT}matrix-fp64.hpcc.o: cuda_adapter.h
@@ -196,7 +196,7 @@ parallel-hpcc: ${OUTPUT}parallel.hpcc.o ${HPCC_HELPERS}
 properties-hpcc: ${OUTPUT}properties.hpcc.o ${HPCC_HELPERS}
 __STDC__-hpcc: ${OUTPUT}__STDC__.hpcc.o ${HPCC_HELPERS}
 
-# CESTC LUCA
+# LUCA
 ${OUTPUT}matrix-fp16.luca.o: cuda_adapter.h
 ${OUTPUT}matrix-fp32.luca.o: cuda_adapter.h
 ${OUTPUT}matrix-fp64.luca.o: cuda_adapter.h
