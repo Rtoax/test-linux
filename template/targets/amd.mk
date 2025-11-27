@@ -38,6 +38,7 @@ LDFLAGS_HIPCC += -lhipsparse
 LDFLAGS_HIPCC += -lhiprand
 LDFLAGS_HIPCC += -lhipblas
 LDFLAGS_HIPCC += -lhipblaslt
+LDFLAGS_HIPCC += -lhipsolver
 ifdef HAVE_RCCL
   LDFLAGS_HIPCC += -lrccl
 endif

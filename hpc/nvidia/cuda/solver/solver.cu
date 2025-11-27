@@ -9,7 +9,11 @@ int main(int argc, char *argv[])
 {
 	int version = 0;
 
+#ifdef __HIPCC__
+	version = hipsolverVersionMajor;
+#else
 	cusolverGetVersion(&version);
+#endif
 	printf("Solver version %d\n", version);
 
 	return 0;

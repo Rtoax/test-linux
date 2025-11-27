@@ -69,6 +69,7 @@
 # include <hipfft/hipfft.h>
 # include <hipsparse/hipsparse.h>
 # include <hiprand/hiprand.h>
+# include <hipsolver/hipsolver.h>
 # include <hip/hip_cooperative_groups.h>
 # define HIPBLAS_USE_HIP_HALF
 # include <hipblas/hipblas.h>
