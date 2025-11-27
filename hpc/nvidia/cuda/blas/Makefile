@@ -14,13 +14,13 @@ __USE_HIP_HELPERS__ = ${HAVE_HIP}
 __USE_LUCA_HELPERS__ = ${HAVE_LUCA}
 __USE_HPCC_HELPERS__ = ${HAVE_HPCC}
 
-common-objs-y := blas
-common-objs-${HAVE_HIPBLASLT} += blasLtMatmul
+common-objs := blas
+common-objs += blasLtMatmul
 
-target-nvcc-${HAVE_CUDA} := ${common-objs-y}
-target-hipcc-${HAVE_HIP} := $(patsubst %,%-hip,$(common-objs-y))
-target-htcc-${HAVE_HPCC} := $(patsubst %,%-hpcc,$(common-objs-y))
-target-lscc-${HAVE_LUCA} := $(patsubst %,%-luca,$(common-objs-y))
+target-nvcc-${HAVE_CUDA} := ${common-objs}
+target-hipcc-${HAVE_HIP} := $(patsubst %,%-hip,$(common-objs))
+target-htcc-${HAVE_HPCC} := $(patsubst %,%-hpcc,$(common-objs))
+target-lscc-${HAVE_LUCA} := $(patsubst %,%-luca,$(common-objs))
 
 include main.mk
 
