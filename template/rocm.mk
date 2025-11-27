@@ -8,6 +8,7 @@
 # - HAVE_HIP=y
 # - HAVE_HIPSOLVER=y
 # - HAVE_HIPBLASLT=y
+# - HAVE_HIP_FP8=y
 # - HAVE_RCCL=y
 # - HIPCC=$(which hipcc)
 # - HIPCONFIG=$(which hipconfig)
@@ -18,10 +19,6 @@ include values.mk
 
 HIPCC := $(shell which hipcc 2>/dev/null)
 HIPCONFIG := $(shell which hipconfig 2>/dev/null)
-
-RCCL_H := /usr/include/rccl/rccl.h
-HIPSOLVER_H := /usr/include/hipsolver/hipsolver.h
-HIPBLASLT_H := /usr/include/hipblaslt/hipblaslt.h
 
 ifneq ($(HIPCC),)
   HAVE_HIP := y
@@ -43,15 +40,13 @@ endif
 
 export HIPCC HIPCONFIG
 
-$(call check_file_and_def,$(RCCL_H),HAVE_RCCL)
-$(call check_file_and_def,$(HIPSOLVER_H),HAVE_HIPSOLVER)
-$(call check_file_and_def,$(HIPBLASLT_H),HAVE_HIPBLASLT)
+$(call check_file_and_def,/usr/include/rccl/rccl.h,HAVE_RCCL)
+$(call check_file_and_def,/usr/include/hipsolver/hipsolver.h,HAVE_HIPSOLVER)
+$(call check_file_and_def,/usr/include/hipblaslt/hipblaslt.h,HAVE_HIPBLASLT)
+$(call check_file_and_def,/usr/include/hip/hip_fp8.h,HAVE_HIP_FP8)
 
 ifdef DEBUG
   $(info HAVE_HIP = ${HAVE_HIP})
-  $(info HAVE_HIPSOLVER = ${HAVE_HIPSOLVER})
-  $(info HAVE_HIPBLASLT = ${HAVE_HIPBLASLT})
-  $(info HAVE_RCCL = ${HAVE_RCCL})
   $(info HIPCC = ${HIPCC})
   $(info HIPCONFIG = ${HIPCONFIG})
   ifneq (${HIPCC},)

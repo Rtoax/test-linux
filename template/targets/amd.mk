@@ -3,6 +3,8 @@
 #
 # Targets list:
 # %.hip.o
+# %.hip.a.o
+# %.hip.so.o
 # %.hip_fatbin
 # %.hipFatBinSegment
 # target-hipcc-y
@@ -11,6 +13,8 @@
 #
 # Input definitions:
 # - HAVE_HIPSOLVER=
+# - HAVE_HIPBLASLT=
+# - HAVE_HIP_FP8=
 # - HAVE_RCCL=
 # - CFLAGS_HIPCC=
 # - CFLAGS_HIPCC_SO=
@@ -32,6 +36,9 @@ ifdef HAVE_HIPSOLVER
 endif
 ifdef HAVE_HIPBLASLT
   CFLAGS_HIPCC += -DHAVE_HIPBLASLT=1
+endif
+ifdef HAVE_HIP_FP8
+  CFLAGS_HIPCC += -DHAVE_HIP_FP8=1
 endif
 ifdef HAVE_RCCL
   CFLAGS_HIPCC += -DHAVE_RCCL=1

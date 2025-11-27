@@ -14,6 +14,7 @@
  * - HAVE_HPCC
  * - HAVE_HIP
  * - HAVE_HIPBLASLT
+ * - HAVE_HIP_FP8
  */
 #ifndef __CUDA_COMPAT_H
 #define __CUDA_COMPAT_H	1
@@ -82,7 +83,7 @@
 # ifdef HAVE_HIPBLASLT
 #   include <hipblaslt/hipblaslt.h>
 # endif
-# ifndef __NOT_USE_FP8__
+# ifdef HAVE_HIP_FP8
 #  include <hip/hip_fp8.h>
 # endif
 # include <hip/hip_fp16.h>
