@@ -74,13 +74,17 @@ else
   CUDA_VERSION_MINOR := $(shell echo ${CUDA_VERSION_RAW} | awk -F '.' '{print $$2}')
   CUDA_VERSION_PATCH := $(shell echo ${CUDA_VERSION_RAW} | awk -F '.' '{print $$3}')
 
-  HAVE_CUDA := y
-  export HAVE_CUDA
+  ifndef HAVE_CUDA
+    HAVE_CUDA := y
+    export HAVE_CUDA
+  endif
 endif
 
 ifneq ($(wildcard $(NCCL_H)),)
-  HAVE_NCCL := y
-  export HAVE_NCCL
+  ifndef HAVE_NCCL
+    HAVE_NCCL := y
+    export HAVE_NCCL
+  endif
 else
   $(warning Not found NVIDIA NCCL)
 endif

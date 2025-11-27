@@ -97,6 +97,7 @@ ifdef DEBUG
   $(info CFLAGS_NVCC_SO = ${CFLAGS_NVCC_SO})
   $(info LDFLAGS_NVCC_SO = ${LDFLAGS_NVCC_SO})
   $(info CFLAGS_NVCC_A = ${CFLAGS_NVCC_A})
+  $(info target-nvcc-y = ${target-nvcc-y})
 endif
 
 # NOTE: NVCC's cflags,ldflags is totally different from gcc/clang, thus, we
