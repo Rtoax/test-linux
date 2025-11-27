@@ -42,11 +42,11 @@ nvidia-fatbin-${HAVE_CUDA} := hello.cu.fatbin
 nvidia-fatbin-${HAVE_CUDA} += parallel.cu.fatbin
 nvidia-fatbin-${HAVE_CUDA} += parallel-nv.nv_fatbin
 nvidia-fatbin-${HAVE_CUDA} += parallel-nv.nvFatBinSegment
-target-post-${HAVE_CUDA} := $(patsubst %,${OUTPUT}%.E.cu,$(target-nvcc-y))
-target-post-${HAVE_CUDA} += $(patsubst %,${OUTPUT}%.cu.sass.dump,$(target-nvcc-y))
-target-post-${HAVE_CUDA} += $(patsubst %,${OUTPUT}%.cu.ptx.dump,$(target-nvcc-y))
-target-post-${HAVE_CUDA} += $(patsubst %,${OUTPUT}%.ptx,$(target-nvcc-y))
-target-post-${HAVE_CUDA} += $(patsubst %,${OUTPUT}%.cu.cpp.ii,$(target-nvcc-y))
+target-post-${HAVE_CUDA} := $(patsubst %,${OUTPUT}%.E.cu,$(common-objs))
+target-post-${HAVE_CUDA} += $(patsubst %,${OUTPUT}%.cu.sass.dump,$(common-objs))
+target-post-${HAVE_CUDA} += $(patsubst %,${OUTPUT}%.cu.ptx.dump,$(common-objs))
+target-post-${HAVE_CUDA} += $(patsubst %,${OUTPUT}%.cu.ptx,$(common-objs))
+target-post-${HAVE_CUDA} += $(patsubst %,${OUTPUT}%.cu.cpp.ii,$(common-objs))
 target-post-${HAVE_CUDA} += $(patsubst %,${OUTPUT}%,$(nvidia-cubin-y))
 target-post-${HAVE_CUDA} += $(patsubst %,${OUTPUT}%,$(nvidia-fatbin-y))
 

@@ -7,7 +7,7 @@
 # .cu.o
 # .cu.so.o
 # .cu.a.o
-# .ptx
+# .cu.ptx
 # .cu.cpp.ii
 # .cu.cubin
 # .cu.fatbin
@@ -106,7 +106,7 @@ ${OUTPUT}%.cu.o: %.cu | ${OUTPUT}
 	$(call log_obj,NVCC,$(<),$(@))
 	${Q}$(NVCC) -o $(@) -c $(<) $(CFLAGS_NVCC) $(CFLAGS_NVCC_$(*))
 
-${OUTPUT}%.ptx: %.cu | ${OUTPUT}
+${OUTPUT}%.cu.ptx: %.cu | ${OUTPUT}
 	$(call log_obj,PTX,$(<),$(@))
 	${Q}$(NVCC) -ptx -o $(@) -c $(<) $(CFLAGS_NVCC) $(CFLAGS_NVCC_$(*))
 
