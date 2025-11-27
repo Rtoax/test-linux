@@ -11,7 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
-- template/helpers.mk: add `LUCA_HELPERS`;
+- template/helpers.mk: add `LUCA_HELPERS`, `HPCC_HELPERS`;
 - luca: add `libluca_helper.so`;
 - hpcc: add `libhpcc_helper.so`;
 - amd/rocm: add `libhip_helper.so`;
