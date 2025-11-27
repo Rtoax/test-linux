@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- template: add values.mk;
 - amd/rocm.mk: add `HAVE_HIPSOLVER`;
 - cuda.mk: add `HAVE_CUDNN`;
 - cuda: introduce solver;

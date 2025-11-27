@@ -18,6 +18,8 @@
 
 _CUDA = 1
 
+include values.mk
+
 NCCL_H := /usr/include/nccl.h
 CUDNN_H := /usr/include/cudnn.h
 
@@ -82,23 +84,8 @@ else
   endif
 endif
 
-ifneq ($(wildcard $(NCCL_H)),)
-  ifndef HAVE_NCCL
-    HAVE_NCCL := y
-    export HAVE_NCCL
-  endif
-else
-  $(warning Not found NVIDIA NCCL)
-endif
-
-ifneq ($(wildcard $(CUDNN_H)),)
-  ifndef HAVE_CUDNN
-    HAVE_CUDNN := y
-    export HAVE_CUDNN
-  endif
-else
-  $(warning Not found NVIDIA CUDNN)
-endif
+$(call check_file_and_def,$(NCCL_H),HAVE_NCCL)
+$(call check_file_and_def,$(CUDNN_H),HAVE_CUDNN)
 
 export NVCC CUOBJDUMP NVDISASM CUDA_ROOT
 export CUDA_VERSION_MAJOR CUDA_VERSION_MINOR CUDA_VERSION_PATCH

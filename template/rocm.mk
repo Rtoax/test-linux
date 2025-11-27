@@ -13,6 +13,8 @@
 
 _ROCm = 1
 
+include values.mk
+
 HIPCC := $(shell which hipcc 2>/dev/null)
 HIPCONFIG := $(shell which hipconfig 2>/dev/null)
 
@@ -39,19 +41,8 @@ endif
 
 export HIPCC HIPCONFIG
 
-ifneq ($(wildcard $(RCCL_H)),)
-  HAVE_RCCL := y
-  export HAVE_RCCL
-else
-  $(warning Not found AMD ROCm RCCL)
-endif
-
-ifneq ($(wildcard $(HIPSOLVER_H)),)
-  HAVE_HIPSOLVER := y
-  export HAVE_HIPSOLVER
-else
-  $(warning Not found AMD ROCm HIP Solver)
-endif
+$(call check_file_and_def,$(RCCL_H),HAVE_RCCL)
+$(call check_file_and_def,$(HIPSOLVER_H),HAVE_HIPSOLVER)
 
 ifdef DEBUG
   $(info HAVE_HIP = ${HAVE_HIP})
