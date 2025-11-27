@@ -83,10 +83,6 @@
 /properties-hip
 /properties-hpcc
 /properties-luca
-/sparse-nv
-/sparse-hip
-/sparse-hpcc
-/sparse-luca
 /__STDC__-nv
 /__STDC__-hip
 /__STDC__-hpcc

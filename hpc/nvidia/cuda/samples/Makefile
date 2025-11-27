@@ -31,7 +31,6 @@ common-objs += module
 common-objs += p2p
 common-objs += parallel
 common-objs += properties
-common-objs += sparse
 
 # NVIDIA CUDA
 target-nvcc-${HAVE_CUDA} := $(patsubst %,%-nv,$(common-objs))
@@ -141,7 +140,6 @@ module-nv: ${OUTPUT}module.cu.o ${CUDA_HELPERS}
 p2p-nv: ${OUTPUT}p2p.cu.o ${CUDA_HELPERS}
 parallel-nv: ${OUTPUT}parallel.cu.o ${CUDA_HELPERS}
 properties-nv: ${OUTPUT}properties.cu.o ${CUDA_HELPERS}
-sparse-nv: ${OUTPUT}sparse.cu.o ${CUDA_HELPERS}
 __STDC__-nv: ${OUTPUT}__STDC__.cu.o
 
 # ROCm HIP
@@ -169,7 +167,6 @@ module-hip: ${OUTPUT}module.hip.o ${HIP_HELPERS}
 p2p-hip: ${OUTPUT}p2p.hip.o ${HIP_HELPERS}
 parallel-hip: ${OUTPUT}parallel.hip.o ${HIP_HELPERS}
 properties-hip: ${OUTPUT}properties.hip.o ${HIP_HELPERS}
-sparse-hip: ${OUTPUT}sparse.hip.o ${HIP_HELPERS}
 __STDC__-hip: ${OUTPUT}__STDC__.hip.o ${HIP_HELPERS}
 
 # MetaX HPCC
@@ -197,7 +194,6 @@ module-hpcc: ${OUTPUT}module.hpcc.o ${HPCC_HELPERS}
 p2p-hpcc: ${OUTPUT}p2p.hpcc.o ${HPCC_HELPERS}
 parallel-hpcc: ${OUTPUT}parallel.hpcc.o ${HPCC_HELPERS}
 properties-hpcc: ${OUTPUT}properties.hpcc.o ${HPCC_HELPERS}
-sparse-hpcc: ${OUTPUT}sparse.hpcc.o ${HPCC_HELPERS}
 __STDC__-hpcc: ${OUTPUT}__STDC__.hpcc.o ${HPCC_HELPERS}
 
 # CESTC LUCA
@@ -205,7 +201,6 @@ ${OUTPUT}matrix-fp16.luca.o: cuda_adapter.h
 ${OUTPUT}matrix-fp32.luca.o: cuda_adapter.h
 ${OUTPUT}matrix-fp64.luca.o: cuda_adapter.h
 ${OUTPUT}matrix-int8.luca.o: cuda_adapter.h
-${OUTPUT}sparse.luca.o: cuda_adapter.h
 attribute-luca: ${OUTPUT}attribute.luca.o ${LUCA_HELPERS}
 cooperative-luca: ${OUTPUT}cooperative.luca.o ${LUCA_HELPERS}
 device-luca: ${OUTPUT}device.luca.o ${LUCA_HELPERS}
@@ -226,5 +221,4 @@ module-luca: ${OUTPUT}module.luca.o ${LUCA_HELPERS}
 p2p-luca: ${OUTPUT}p2p.luca.o ${LUCA_HELPERS}
 parallel-luca: ${OUTPUT}parallel.luca.o ${LUCA_HELPERS}
 properties-luca: ${OUTPUT}properties.luca.o ${LUCA_HELPERS}
-sparse-luca: ${OUTPUT}sparse.luca.o ${LUCA_HELPERS}
 __STDC__-luca: ${OUTPUT}__STDC__.luca.o ${LUCA_HELPERS}

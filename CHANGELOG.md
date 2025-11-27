@@ -34,6 +34,7 @@ and this project adheres to
 - sched-ext: add hello.c sample;
 - sched: add deadline.c, rr.c, fifo.c;
 #### Changed
+- cuda: Split sparse from samples;
 - cuda: Split rand from samples;
 - cuda: Split blas from samples;
 - `pthread_helpers`: rename `sys_affinity_bind` to `thread_affinity_bind_cpu`;

@@ -10,6 +10,7 @@ subdir-y := samples
 subdir-y += blas
 subdir-y += fft
 subdir-y += rand
+subdir-y += sparse
 subdir-y += intrinsics
 subdir-y += fakeCUDA
 
