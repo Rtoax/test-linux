@@ -121,6 +121,11 @@ if [[ "$(files_have_key cuda nvidia rocm amd ROCm AMD)" ]]; then
 	[[ ${rocm_ver} ]] && add_versions "ROCm ${rocm_ver}"
 fi
 
+if [[ "$(files_have_key cuda nvidia luca LUCA cestc CESTC)" ]]; then
+	luca_ver=$(${GIT_TOPDIR}/hpc/cestc/version.sh)
+	[[ ${luca_ver} ]] && add_versions "LUCA ${luca_ver}"
+fi
+
 if [[ "$(files_have_key libbpf bcc bpf)" ]]; then
 	bcc_ver=$(${GIT_TOPDIR}/bpf/bcc/version.sh)
 	add_versions "BCC ${bcc_ver}"

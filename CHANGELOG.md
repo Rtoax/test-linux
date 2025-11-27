@@ -11,7 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
-- git/hooks/prepare-commit-msg: get ROCm version;
+- git/hooks/prepare-commit-msg: get ROCm, LUCA version;
 - cuda/samples: apply template/helpers.mk;
 - template/helpers.mk: add `LUCA_HELPERS`, `HPCC_HELPERS`, `HIP_HELPERS`;
 - luca: add `libluca_helper.so`;

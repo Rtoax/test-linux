@@ -1,5 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
 subdir-y := amd
+subdir-y += cestc
 subdir-y += nvidia
 subdir-y += metax
 subdir-y += kunlunxin
