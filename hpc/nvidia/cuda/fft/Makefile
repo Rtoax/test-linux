@@ -9,6 +9,8 @@ include luca.mk
 include hpcc.mk
 include compiler.mk
 
+__USE_CUDA_HELPERS__ = ${HAVE_CUDA}
+
 common-objs := fft
 
 # NVIDIA CUDA
@@ -25,12 +27,10 @@ target-lscc-${HAVE_LUCA} := $(patsubst %,%-luca,$(common-objs))
 
 include main.mk
 
-CUDA_HELPERS := ${OUTPUT}cuda_helpers.cu.o
 HIP_HELPERS := ${OUTPUT}cuda_helpers.hip.o
 HPCC_HELPERS := ${OUTPUT}cuda_helpers.hpcc.o
 LUCA_HELPERS := ${OUTPUT}cuda_helpers.luca.o
 
-${CUDA_HELPERS}: cuda_helpers.h
 ${HIP_HELPERS}: cuda_helpers.h
 ${HPCC_HELPERS}: cuda_helpers.h
 ${LUCA_HELPERS}: cuda_helpers.h

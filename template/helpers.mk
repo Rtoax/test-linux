@@ -19,6 +19,7 @@
 # - __USE_BPF_HELPERS__=y
 # - __USE_BTF_HELPERS__=y
 # - __USE_BPF_INSN_SAMPLES__=y
+# - __USE_CUDA_HELPERS__=y
 #
 # Output definitions:
 # - PROC_HELPERS
@@ -29,6 +30,7 @@
 # - OOM_HELPERS
 # - TRACE_HELPERS
 # - KSYM_HELPERS
+# - CUDA_HELPERS
 # - BPF_HELPERS
 # - BTF_HELPERS
 # - BPF_INSN_SAMPLES
@@ -37,6 +39,7 @@
 # - CFLAGS
 # - CFLAGS_A
 # - CFLAGS_SO
+# - CFLAGS_NVCC
 # - LDFLAGS
 #
 _HELPERS = 1
@@ -52,6 +55,7 @@ ifeq ($(2),y)
   CFLAGS += -I$(shell dirname ${1})
   CFLAGS_A += -I$(shell dirname ${1})
   CFLAGS_SO += -I$(shell dirname ${1})
+  CFLAGS_NVCC += -I$(shell dirname ${1})
   ifdef STATIC
     LDFLAGS += ${1}
   else
@@ -77,6 +81,7 @@ export MMAP_HELPERS := ${TOPDIR}/syscall/samples/mm/mmap/libmmap_helpers.${LIB_T
 export OOM_HELPERS := ${TOPDIR}/mm/oom/liboom_helpers.${LIB_TYPE}
 export TRACE_HELPERS := ${TOPDIR}/bpf/libbpf/libtrace_helpers.${LIB_TYPE}
 export KSYM_HELPERS := ${TOPDIR}/fs/procfs/kallsyms/libksym_helpers.${LIB_TYPE}
+export CUDA_HELPERS := ${TOPDIR}/hpc/nvidia/cuda/libcuda_helper.${LIB_TYPE}
 export BPF_HELPERS := ${TOPDIR}/syscall/samples/bpf/libbpf_helpers.${LIB_TYPE}
 export BTF_HELPERS := ${TOPDIR}/bpf/btf/libbtf_helpers.${LIB_TYPE}
 export BPF_INSN_SAMPLES := ${TOPDIR}/bpf/insn/samples/libbpf_insn_samples.${LIB_TYPE}
@@ -90,6 +95,7 @@ $(eval $(call add_helper_target,${MMAP_HELPERS},${__USE_MMAP_HELPERS__}))
 $(eval $(call add_helper_target,${OOM_HELPERS},${__USE_OOM_HELPERS__}))
 $(eval $(call add_helper_target,${TRACE_HELPERS},${__USE_TRACE_HELPERS__}))
 $(eval $(call add_helper_target,${KSYM_HELPERS},${__USE_KSYM_HELPERS__}))
+$(eval $(call add_helper_target,${CUDA_HELPERS},${__USE_CUDA_HELPERS__}))
 $(eval $(call add_helper_target,${BPF_HELPERS},${__USE_BPF_HELPERS__}))
 $(eval $(call add_helper_target,${BTF_HELPERS},${__USE_BTF_HELPERS__}))
 $(eval $(call add_helper_target,${BPF_INSN_SAMPLES},${__USE_BPF_INSN_SAMPLES__}))
@@ -104,6 +110,7 @@ ifdef DEBUG
   $(info OOM_HELPERS = ${OOM_HELPERS})
   $(info TRACE_HELPERS = ${TRACE_HELPERS})
   $(info KSYM_HELPERS = ${KSYM_HELPERS})
+  $(info CUDA_HELPERS = ${CUDA_HELPERS})
   $(info BPF_HELPERS = ${BPF_HELPERS})
   $(info BTF_HELPERS = ${BTF_HELPERS})
   $(info BPF_INSN_SAMPLES = ${BPF_INSN_SAMPLES})
