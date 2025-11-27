@@ -1,4 +1,15 @@
 # SPDX-License-Identifier: GPL-3.0
+# Copyright (c) 2025 Rong Tao
+#
+# Targets list:
+# - .E.luca
+# - .luca.o
+# - .luca.devbin
+# - .luca.fatbin
+# - .luca.hc_fatbin
+# - .luca.hcFatBinSegment
+# - target-lscc-y
+
 _TARGET_CESTC = 1
 
 include luca.mk
