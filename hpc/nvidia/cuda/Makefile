@@ -8,6 +8,7 @@ include luca.mk
 
 subdir-y := samples
 subdir-y += fft
+subdir-y += blas
 subdir-y += intrinsics
 subdir-y += fakeCUDA
 

@@ -2,14 +2,6 @@
 /attribute-hip
 /attribute-hpcc
 /attribute-luca
-/blas
-/blas-hip
-/blas-hpcc
-/blas-luca
-/blasLtMatmul
-/blasLtMatmul-hip
-/blasLtMatmul-hpcc
-/blasLtMatmul-luca
 /cooperative
 /cooperative-hip
 /cooperative-hpcc

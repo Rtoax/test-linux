@@ -15,8 +15,6 @@ __USE_LUCA_HELPERS__ = ${HAVE_LUCA}
 __USE_HPCC_HELPERS__ = ${HAVE_HPCC}
 
 common-objs := attribute
-common-objs += blas
-common-objs += blasLtMatmul
 common-objs += cooperative
 common-objs += device
 common-objs += dim3
@@ -110,10 +108,6 @@ CFLAGS_HTCC_matrix-fp64 := -DTEST_FP64=1
 CFLAGS_HTCC_matrix-fp32 := -DTEST_FP32=1
 CFLAGS_HTCC_matrix-fp16 := -DTEST_FP16=1
 CFLAGS_HTCC_matrix-int8 := -DTEST_INT8=1
-CFLAGS_HTCC_blasLtMatmul := ${CFLAGS_HTCC_blas}
-
-CFLAGS_HTCC_blas := -Wno-ignored-attributes
-CFLAGS_HTCC_blasLtMatmul := ${CFLAGS_HTCC_blas}
 
 CFLAGS_LSCC_matrix-fp64 := -DTEST_FP64=1
 CFLAGS_LSCC_matrix-fp32 := -DTEST_FP32=1
@@ -124,8 +118,6 @@ include main.mk
 
 # CUDA
 attribute: ${OUTPUT}attribute.cu.o ${CUDA_HELPERS}
-blas: ${OUTPUT}blas.cu.o ${CUDA_HELPERS}
-blasLtMatmul: ${OUTPUT}blasLtMatmul.cu.o ${CUDA_HELPERS}
 cooperative: ${OUTPUT}cooperative.cu.o ${CUDA_HELPERS}
 device: ${OUTPUT}device.cu.o ${CUDA_HELPERS}
 dim3: ${OUTPUT}dim3.cu.o ${CUDA_HELPERS}
@@ -158,8 +150,6 @@ ${OUTPUT}matrix-fp32.hip.o: matrix.cu
 ${OUTPUT}matrix-fp64.hip.o: matrix.cu
 ${OUTPUT}matrix-int8.hip.o: matrix.cu
 attribute-hip: ${OUTPUT}attribute.hip.o ${HIP_HELPERS}
-blas-hip: ${OUTPUT}blas.hip.o ${HIP_HELPERS}
-blasLtMatmul-hip: ${OUTPUT}blasLtMatmul.hip.o ${HIP_HELPERS}
 cooperative-hip: ${OUTPUT}cooperative.hip.o ${HIP_HELPERS}
 device-hip: ${OUTPUT}device.hip.o ${HIP_HELPERS}
 dim3-hip: ${OUTPUT}dim3.hip.o ${HIP_HELPERS}
@@ -189,8 +179,6 @@ ${OUTPUT}matrix-fp32.hpcc.o: cuda_adapter.h
 ${OUTPUT}matrix-fp64.hpcc.o: cuda_adapter.h
 ${OUTPUT}matrix-int8.hpcc.o: cuda_adapter.h
 attribute-hpcc: ${OUTPUT}attribute.hpcc.o ${HPCC_HELPERS}
-blas-hpcc: ${OUTPUT}blas.hpcc.o ${HPCC_HELPERS}
-blasLtMatmul-hpcc: ${OUTPUT}blasLtMatmul.hpcc.o ${HPCC_HELPERS}
 cooperative-hpcc: ${OUTPUT}cooperative.hpcc.o ${HPCC_HELPERS}
 device-hpcc: ${OUTPUT}device.hpcc.o ${HPCC_HELPERS}
 dim3-hpcc: ${OUTPUT}dim3.hpcc.o ${HPCC_HELPERS}
@@ -221,8 +209,6 @@ ${OUTPUT}matrix-fp64.luca.o: cuda_adapter.h
 ${OUTPUT}matrix-int8.luca.o: cuda_adapter.h
 ${OUTPUT}sparse.luca.o: cuda_adapter.h
 attribute-luca: ${OUTPUT}attribute.luca.o ${LUCA_HELPERS}
-blas-luca: ${OUTPUT}blas.luca.o ${LUCA_HELPERS}
-blasLtMatmul-luca: ${OUTPUT}blasLtMatmul.luca.o ${LUCA_HELPERS}
 cooperative-luca: ${OUTPUT}cooperative.luca.o ${LUCA_HELPERS}
 device-luca: ${OUTPUT}device.luca.o ${LUCA_HELPERS}
 dim3-luca: ${OUTPUT}dim3.luca.o ${LUCA_HELPERS}

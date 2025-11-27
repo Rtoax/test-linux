@@ -14,7 +14,8 @@ __USE_HIP_HELPERS__ = ${HAVE_HIP}
 __USE_LUCA_HELPERS__ = ${HAVE_LUCA}
 __USE_HPCC_HELPERS__ = ${HAVE_HPCC}
 
-common-objs := fft
+common-objs := blas
+common-objs += blasLtMatmul
 
 target-nvcc-${HAVE_CUDA} := ${common-objs}
 target-hipcc-${HAVE_HIP} := $(patsubst %,%-hip,$(common-objs))
@@ -23,11 +24,12 @@ target-lscc-${HAVE_LUCA} := $(patsubst %,%-luca,$(common-objs))
 
 include main.mk
 
-define obj
+define blas_obj
 ${1}: ${OUTPUT}${1}.cu.o ${CUDA_HELPERS}
 ${1}-hip: ${OUTPUT}${1}.hip.o ${HIP_HELPERS}
 ${1}-hpcc: ${OUTPUT}${1}.hpcc.o ${HPCC_HELPERS}
 ${1}-luca: ${OUTPUT}${1}.luca.o ${LUCA_HELPERS}
 endef
 
-$(eval $(call obj,fft))
+$(eval $(call blas_obj,blas))
+$(eval $(call blas_obj,blasLtMatmul))
