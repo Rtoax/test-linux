@@ -48,6 +48,7 @@ endif
 # #include "common/hcsp_types.h"
 #          ^~~~~~~~~~~~~~~~~~~~~
 CFLAGS_HTCC += -I/opt/hpcc/include/hcsparse/
+CFLAGS_HTCC += -I/opt/hpcc/include/hcblas/
 
 # FIXME: warning: 'visibility' attribute ignored
 CFLAGS_HTCC += -Wno-ignored-attributes
@@ -57,6 +58,7 @@ LDFLAGS_HTCC += -lhcblas -lhcblasLt
 LDFLAGS_HTCC += -lhcfft
 LDFLAGS_HTCC += -lhcrand
 LDFLAGS_HTCC += -lhcsparse
+LDFLAGS_HTCC += -lhcsolver
 
 ifdef ERROR
   CFLAGS_HTCC += -DERROR=1

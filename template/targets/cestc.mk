@@ -42,6 +42,7 @@ endif
 # #include "common/hcsp_types.h"
 #          ^~~~~~~~~~~~~~~~~~~~~
 CFLAGS_LSCC += -I/opt/luca/include/hcsparse/
+CFLAGS_LSCC += -I/opt/luca/include/hcblas/
 
 # TODO: prefix 'hc' will be renamed.
 LDFLAGS_LSCC += -lhccl
@@ -49,6 +50,7 @@ LDFLAGS_LSCC += -lhcblas -lhcblasLt
 LDFLAGS_LSCC += -lhcfft
 LDFLAGS_LSCC += -lhcrand
 LDFLAGS_LSCC += -lhcsparse
+LDFLAGS_LSCC += -lhcsolver
 
 ifdef ERROR
   CFLAGS_LSCC += -DERROR=1

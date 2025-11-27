@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- cuda: introduce solver;
 - git/hooks/prepare-commit-msg: get ROCm, LUCA, HPCC version;
 - cuda/samples: apply template/helpers.mk;
 - template/helpers.mk: add `LUCA_HELPERS`, `HPCC_HELPERS`, `HIP_HELPERS`;

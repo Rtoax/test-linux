@@ -1894,6 +1894,11 @@
 #define __nv_cvt_fp8_to_halfraw		____nv_(cvt_fp8_to_halfraw)
 #define __nv_cvt_fp8x2_to_halfraw2	____nv_(cvt_fp8x2_to_halfraw2)
 
+/******************************************************************************\
+ *             Solver: LAPACK-marshalling library                             *
+\******************************************************************************/
+#define cusolverStatus_t	__nv(solverStatus_t)
+#define cusolverGetVersion(v)	__nv(solverGetVersion(v))
 
 /******************************************************************************\
  *             NCCL: NVIDIA Collective Communication Library                  *

@@ -21,6 +21,7 @@
 # include <hcsparse/hcsparse.h>
 # include <hcrand/hcrand.h>
 # include <hcfft/hcfft.h>
+# include <hcsolver/hcsolver_common.h>
 /* TODO: add rtc */
 # ifndef __NOT_USE_FP8__
 #  include <hpcc_fp8.h>
@@ -45,6 +46,7 @@
 # include <hcsparse/hcsparse.h>
 # include <hcrand/hcrand.h>
 # include <hcfft/hcfft.h>
+# include <hcsolver/hcsolver_common.h>
 # ifndef __NOT_USE_FP8__
 #  include <luca_fp8.h>
 # endif
@@ -97,6 +99,7 @@
 # include <cublasLt.h>
 # include <cufft.h>
 # include <curand.h>
+# include <cusolver_common.h>
 # if CUDA_VERSION > 12040
 #  include <cuda_fp6.h>
 # endif
