@@ -1,5 +1,4 @@
 # SPDX-License-Identifier: GPL-3.0
-# https://www.metax-tech.com/
 # Copyright (c) 2025 Rong Tao
 #
 # Input definitions:
@@ -58,14 +57,14 @@ export HPCC_ROOT HTCC
 export HPCC_VERSION_MAJOR HPCC_VERSION_MINOR HPCC_VERSION_PATCH
 
 ifdef DEBUG
-  ifneq ($(target-htcc-y),)
-    $(info HAVE_HPCC = ${HAVE_HPCC})
-    $(info HPCC_ROOT = ${HPCC_ROOT})
-    $(info HTCC = ${HTCC})
+  $(info HAVE_HPCC = ${HAVE_HPCC})
+  $(info HPCC_ROOT = ${HPCC_ROOT})
+  $(info HTCC = ${HTCC})
+  ifneq ($(HTCC),)
     $(info $(shell ${HTCC} --version))
-    $(info HPCC_VERSION_RAW = ${HPCC_VERSION_RAW})
-    $(info HPCC_VERSION_MAJOR = ${HPCC_VERSION_MAJOR})
-    $(info HPCC_VERSION_MINOR = ${HPCC_VERSION_MINOR})
-    $(info HPCC_VERSION_PATCH = ${HPCC_VERSION_PATCH})
   endif
+  $(info HPCC_VERSION_RAW = ${HPCC_VERSION_RAW})
+  $(info HPCC_VERSION_MAJOR = ${HPCC_VERSION_MAJOR})
+  $(info HPCC_VERSION_MINOR = ${HPCC_VERSION_MINOR})
+  $(info HPCC_VERSION_PATCH = ${HPCC_VERSION_PATCH})
 endif
