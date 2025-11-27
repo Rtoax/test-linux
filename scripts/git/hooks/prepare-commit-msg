@@ -26,6 +26,11 @@ fi
 Versions=""
 Environments=""
 
+fatal() {
+	echo >&2 "FATAL: "${@}
+	exit 1
+}
+
 add_versions() {
 	[[ -z "${@}" ]] && return 0
 	[[ ${Versions} ]] && Versions+=", "
@@ -52,6 +57,20 @@ files_have_key() {
 	return 0
 }
 
+cpu_info() {
+	readonly CPU_MODEL=$(lscpu | grep "Model name" | \
+			awk '{ for(i=3; i<=NF; i++) printf "%s", $i (i==NF ? "\n" : " ") }')
+	readonly CPU_VENDOR=$(lscpu | grep "^Vendor ID" | \
+			awk '{ for(i=3; i<=NF; i++) printf "%s", $i (i==NF ? "\n" : " ") }')
+	if [[ ${CPU_MODEL} ]]; then
+		echo ${CPU_MODEL}
+	elif [[ ${CPU_VENDOR} ]]; then
+		echo ${CPU_VENDOR}
+	else
+		fatal "Can't get cpu info from lscpu"
+	fi
+}
+
 if [[ -z ${signed_off_by_line} ]]; then
 	echo >&2 "ERROR: must signed with -s/--signoff"
 	exit 1
@@ -72,7 +91,7 @@ fi
 
 # Kernel version
 add_versions "Kernel $(uname -r)"
-add_envs "CPU: $(lscpu | grep "Model name" | awk '{ for(i=3; i<=NF; i++) printf "%s", $i (i==NF ? "\n" : " ") }')"
+add_envs "CPU: $(cpu_info)"
 add_envs "Arch $(uname -m)"
 
 # GCC version
