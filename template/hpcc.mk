@@ -8,7 +8,6 @@
 # Output definitions:
 # - HAVE_HPCC=y
 # - HPCC_ROOT
-# - MXCC
 # - HTCC
 # - HPCC_VERSION_MAJOR
 # - HPCC_VERSION_MINOR
@@ -16,24 +15,11 @@
 
 _HPCC = 1
 
-MXCC := $(shell which mxcc 2>/dev/null)
-
 HPCC_ROOT := /opt/hpcc
 HPCC_ROOT := $(shell realpath ${HPCC_ROOT} 2>/dev/null || true)
 HPCC_CU_BRIDGE := ${HPCC_ROOT}/tools/cu-bridge/include/
 HPCC_LLVM := ${HPCC_ROOT}/htgpu_llvm/
 HTCC := ${HPCC_LLVM}/bin/htcc
-
-ifeq ($(MXCC),)
-  ifneq ($(target-mxcc-y),)
-    ifdef __IGNORE_NOTFOUND_ERROR__
-      $(warning Not found mxcc with target-mxcc-y not empty, but __IGNORE_NOTFOUND_ERROR__)
-      target-mxcc-y :=
-    else
-      $(error Not found mxcc with target-mxcc-y not empty, install MetaX Toolkit first)
-    endif
-  endif
-endif
 
 ifeq ($(HTCC),)
   ifneq ($(target-htcc-y),)
@@ -68,16 +54,12 @@ ifneq (${HPCC_ROOT},)
   endif
 endif
 
-export HPCC_ROOT
-export MXCC HTCC
+export HPCC_ROOT HTCC
 export HPCC_VERSION_MAJOR HPCC_VERSION_MINOR HPCC_VERSION_PATCH
 
 ifdef DEBUG
-  ifneq ($(target-mxcc-y),)
-    $(info MXCC = ${MXCC})
-    $(info $(shell ${MXCC} --version))
-  endif
   ifneq ($(target-htcc-y),)
+    $(info HAVE_HPCC = ${HAVE_HPCC})
     $(info HPCC_ROOT = ${HPCC_ROOT})
     $(info HTCC = ${HTCC})
     $(info $(shell ${HTCC} --version))

@@ -15,7 +15,6 @@
 # - .hpcc.fatbin
 # - .hpcc.hc_fatbin
 # - .hpcc.hcFatBinSegment
-# - target-mxcc-y
 # - target-htcc-y
 # - target-htcc-libso-y
 # - target-htcc-liba-y
@@ -60,11 +59,9 @@ LDFLAGS_HTCC += -lhcrand
 LDFLAGS_HTCC += -lhcsparse
 
 ifdef ERROR
-  CFLAGS_MXCC += -DERROR=1
   CFLAGS_HTCC += -DERROR=1
 endif
 ifdef DEBUG
-  CFLAGS_MXCC += -DDEBUG=${DEBUG}
   CFLAGS_HTCC += -DDEBUG=${DEBUG}
 endif
 
@@ -76,23 +73,11 @@ LDFLAGS_HTCC_SO += ${ldflags-htcc-so}
 CFLAGS_HTCC_A += ${CFLAGS_HTCC_SO}
 
 ifdef DEBUG
-  ifneq ($(target-mxcc-y),)
-    $(info CFLAGS_MXCC = ${CFLAGS_MXCC})
-    $(info LDFLAGS_MXCC = ${LDFLAGS_MXCC})
-  endif
   ifneq ($(target-htcc-y),)
     $(info CFLAGS_HTCC = ${CFLAGS_HTCC})
     $(info LDFLAGS_HTCC = ${LDFLAGS_HTCC})
   endif
 endif
-
-${OUTPUT}%.maca.o: %.maca | ${OUTPUT}
-	$(call log_obj,MXCC,$(<),$(@))
-	${Q}$(MXCC) -o $(@) -c $(<) $(CFLAGS_MXCC) $(CFLAGS_MXCC_$(*))
-
-$(target-mxcc-y): %:
-	$(call log_exe,MXCC LD,$(<),$(@))
-	${Q}$(MXCC) -o $(@) $(^) $(LDFLAGS_MXCC) $(LDFLAGS_MXCC_$(*))
 
 # MetaX HPCC support .cu and .hpcc suffix
 # $1 - suffix of file: hpcc, cu
