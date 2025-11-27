@@ -8,6 +8,12 @@
  * - __USE_LUCA__
  *
  * - __NOT_USE_FP8__: include fp8 header
+ *
+ * - HAVE_NCCL
+ * - HAVE_RCCL
+ * - HAVE_HPCC
+ * - HAVE_HIP
+ * - HAVE_HIPBLASLT
  */
 #ifndef __CUDA_COMPAT_H
 #define __CUDA_COMPAT_H	1
@@ -73,7 +79,9 @@
 # include <hip/hip_cooperative_groups.h>
 # define HIPBLAS_USE_HIP_HALF
 # include <hipblas/hipblas.h>
-# include <hipblaslt/hipblaslt.h>
+# ifdef HAVE_HIPBLASLT
+#   include <hipblaslt/hipblaslt.h>
+# endif
 # ifndef __NOT_USE_FP8__
 #  include <hip/hip_fp8.h>
 # endif

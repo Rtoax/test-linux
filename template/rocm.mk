@@ -7,6 +7,7 @@
 # Output macros:
 # - HAVE_HIP=y
 # - HAVE_HIPSOLVER=y
+# - HAVE_HIPBLASLT=y
 # - HAVE_RCCL=y
 # - HIPCC=$(which hipcc)
 # - HIPCONFIG=$(which hipconfig)
@@ -20,6 +21,7 @@ HIPCONFIG := $(shell which hipconfig 2>/dev/null)
 
 RCCL_H := /usr/include/rccl/rccl.h
 HIPSOLVER_H := /usr/include/hipsolver/hipsolver.h
+HIPBLASLT_H := /usr/include/hipblaslt/hipblaslt.h
 
 ifneq ($(HIPCC),)
   HAVE_HIP := y
@@ -43,10 +45,12 @@ export HIPCC HIPCONFIG
 
 $(call check_file_and_def,$(RCCL_H),HAVE_RCCL)
 $(call check_file_and_def,$(HIPSOLVER_H),HAVE_HIPSOLVER)
+$(call check_file_and_def,$(HIPBLASLT_H),HAVE_HIPBLASLT)
 
 ifdef DEBUG
   $(info HAVE_HIP = ${HAVE_HIP})
   $(info HAVE_HIPSOLVER = ${HAVE_HIPSOLVER})
+  $(info HAVE_HIPBLASLT = ${HAVE_HIPBLASLT})
   $(info HAVE_RCCL = ${HAVE_RCCL})
   $(info HIPCC = ${HIPCC})
   $(info HIPCONFIG = ${HIPCONFIG})
