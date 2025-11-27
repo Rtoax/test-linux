@@ -7,6 +7,7 @@
 # Output macros:
 # - HAVE_CUDA=y
 # - HAVE_NCCL=y
+# - HAVE_CUDNN=y
 # - NVCC=
 # - CUOBJDUMP=
 # - NVDISASM=
@@ -18,6 +19,7 @@
 _CUDA = 1
 
 NCCL_H := /usr/include/nccl.h
+CUDNN_H := /usr/include/cudnn.h
 
 NVCC := $(shell which nvcc 2>/dev/null)
 CUOBJDUMP := $(shell which cuobjdump 2>/dev/null)
@@ -89,12 +91,22 @@ else
   $(warning Not found NVIDIA NCCL)
 endif
 
+ifneq ($(wildcard $(CUDNN_H)),)
+  ifndef HAVE_CUDNN
+    HAVE_CUDNN := y
+    export HAVE_CUDNN
+  endif
+else
+  $(warning Not found NVIDIA CUDNN)
+endif
+
 export NVCC CUOBJDUMP NVDISASM CUDA_ROOT
 export CUDA_VERSION_MAJOR CUDA_VERSION_MINOR CUDA_VERSION_PATCH
 
 ifdef DEBUG
   $(info HAVE_CUDA = ${HAVE_CUDA})
   $(info HAVE_NCCL = ${HAVE_NCCL})
+  $(info HAVE_CUDNN = ${HAVE_CUDNN})
   ifneq (${NVCC},)
     $(info $(shell ${NVCC} --version))
   endif
