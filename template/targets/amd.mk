@@ -10,11 +10,13 @@
 # target-hipcc-liba-y
 #
 # Input definitions:
-# CFLAGS_HIPCC=
-# CFLAGS_HIPCC_SO=
-# CFLAGS_HIPCC_A=
-# LDFLAGS_HIPCC=
-# LDFLAGS_HIPCC_SO=
+# - HAVE_HIPSOLVER=
+# - HAVE_RCCL=
+# - CFLAGS_HIPCC=
+# - CFLAGS_HIPCC_SO=
+# - CFLAGS_HIPCC_A=
+# - LDFLAGS_HIPCC=
+# - LDFLAGS_HIPCC_SO=
 
 _TARGET_AMD = 1
 
@@ -25,6 +27,9 @@ ldflags-hipcc-so := -shared -Xcompiler -fPIC
 
 CFLAGS_HIPCC += -DHAVE_HIP=1
 CFLAGS_HIPCC += -D__USE_HIP__=1
+ifdef HAVE_HIPSOLVER
+  CFLAGS_HIPCC += -DHAVE_HIPSOLVER=1
+endif
 ifdef HAVE_RCCL
   CFLAGS_HIPCC += -DHAVE_RCCL=1
 endif

@@ -6,6 +6,7 @@
 #
 # Output macros:
 # - HAVE_HIP=y
+# - HAVE_HIPSOLVER=y
 # - HAVE_RCCL=y
 # - HIPCC=$(which hipcc)
 # - HIPCONFIG=$(which hipconfig)
@@ -16,6 +17,7 @@ HIPCC := $(shell which hipcc 2>/dev/null)
 HIPCONFIG := $(shell which hipconfig 2>/dev/null)
 
 RCCL_H := /usr/include/rccl/rccl.h
+HIPSOLVER_H := /usr/include/hipsolver/hipsolver.h
 
 ifneq ($(HIPCC),)
   HAVE_HIP := y
@@ -44,8 +46,16 @@ else
   $(warning Not found AMD ROCm RCCL)
 endif
 
+ifneq ($(wildcard $(HIPSOLVER_H)),)
+  HAVE_HIPSOLVER := y
+  export HAVE_HIPSOLVER
+else
+  $(warning Not found AMD ROCm HIP Solver)
+endif
+
 ifdef DEBUG
   $(info HAVE_HIP = ${HAVE_HIP})
+  $(info HAVE_HIPSOLVER = ${HAVE_HIPSOLVER})
   $(info HAVE_RCCL = ${HAVE_RCCL})
   $(info HIPCC = ${HIPCC})
   $(info HIPCONFIG = ${HIPCONFIG})

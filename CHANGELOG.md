@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- amd/rocm.mk: add `HAVE_HIPSOLVER`;
 - cuda.mk: add `HAVE_CUDNN`;
 - cuda: introduce solver;
 - git/hooks/prepare-commit-msg: get ROCm, LUCA, HPCC version;
