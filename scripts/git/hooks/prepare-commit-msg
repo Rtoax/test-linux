@@ -126,6 +126,11 @@ if [[ "$(files_have_key cuda nvidia luca LUCA cestc CESTC)" ]]; then
 	[[ ${luca_ver} ]] && add_versions "LUCA ${luca_ver}"
 fi
 
+if [[ "$(files_have_key cuda nvidia hpcc HPCC metax MetaX)" ]]; then
+	hpcc_ver=$(${GIT_TOPDIR}/hpc/metax/version.sh)
+	[[ ${hpcc_ver} ]] && add_versions "HPCC ${hpcc_ver}"
+fi
+
 if [[ "$(files_have_key libbpf bcc bpf)" ]]; then
 	bcc_ver=$(${GIT_TOPDIR}/bpf/bcc/version.sh)
 	add_versions "BCC ${bcc_ver}"
