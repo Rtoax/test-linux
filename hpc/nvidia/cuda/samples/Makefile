@@ -49,10 +49,9 @@ target-post-${HAVE_CUDA} += $(patsubst %,${OUTPUT}%,$(nvidia-cubin-y))
 target-post-${HAVE_CUDA} += $(patsubst %,${OUTPUT}%,$(nvidia-fatbin-y))
 
 # AMD ROCm
-rocm-fatbin-${HAVE_HIP} := parallel-hip.hip_fatbin
-rocm-fatbin-${HAVE_HIP} += parallel-hip.hipFatBinSegment
 target-hipcc-${HAVE_HIP} := $(patsubst %,%-hip,$(common-objs))
-target-post-${HAVE_HIP} += $(patsubst %,${OUTPUT}%,$(rocm-fatbin-y))
+target-post-${HAVE_HIP} += $(patsubst %,${OUTPUT}%-hip.hip_fatbin,$(common-objs))
+target-post-${HAVE_HIP} += $(patsubst %,${OUTPUT}%-hip.hipFatBinSegment,$(common-objs))
 
 # HPCC
 target-htcc-${HAVE_HPCC} := $(patsubst %,%-hpcc,$(common-objs))

@@ -114,7 +114,11 @@ fi
 if [[ "$(files_have_key cuda nvidia)" ]]; then
 	cuda_ver=$(${GIT_TOPDIR}/hpc/nvidia/cuda/version.sh)
 	add_versions "CUDA ${cuda_ver}"
-	# TODO: add ROCm hipcc, metax, hpcc, luca, etc.
+fi
+
+if [[ "$(files_have_key cuda nvidia rocm amd ROCm AMD)" ]]; then
+	rocm_ver=$(${GIT_TOPDIR}/hpc/amd/rocm/version.sh)
+	[[ ${rocm_ver} ]] && add_versions "ROCm ${rocm_ver}"
 fi
 
 if [[ "$(files_have_key libbpf bcc bpf)" ]]; then
