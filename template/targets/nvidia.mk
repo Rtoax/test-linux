@@ -9,8 +9,8 @@
 # .cu.a.o
 # .ptx
 # .cu.cpp.ii
-# .cubin
-# .fatbin
+# .cu.cubin
+# .cu.fatbin
 # .nv_fatbin
 # .nvFatBinSegment
 # .cu.ptx.dump
@@ -114,11 +114,11 @@ ${OUTPUT}%.cu.cpp.ii: %.cu | ${OUTPUT}
 	$(call log_obj,II,$(<),$(@))
 	${Q}$(NVCC) -cuda -o $(@) -c $(<) $(CFLAGS_NVCC) $(CFLAGS_NVCC_$(*))
 
-${OUTPUT}%.cubin: %.cu | ${OUTPUT}
+${OUTPUT}%.cu.cubin: %.cu | ${OUTPUT}
 	$(call log_obj,CUBIN,$(<),$(@))
 	${Q}$(NVCC) -o $(@) -c $(<) $(cflags-nvcc-cubin) $(CFLAGS_NVCC) $(CFLAGS_NVCC_$(*))
 
-${OUTPUT}%.fatbin: %.cu | ${OUTPUT}
+${OUTPUT}%.cu.fatbin: %.cu | ${OUTPUT}
 	$(call log_obj,FATBIN,$(<),$(@))
 	${Q}$(NVCC) -o $(@) -c $(<) $(cflags-nvcc-fatbin) $(CFLAGS_NVCC) $(CFLAGS_NVCC_$(*))
 
