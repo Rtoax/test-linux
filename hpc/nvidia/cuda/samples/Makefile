@@ -114,106 +114,11 @@ float-c: ${OUTPUT}float-c.o
 matrix-c-fp32: ${OUTPUT}matrix-fp32.o
 matrix-c-fp64: ${OUTPUT}matrix-fp64.o
 
-# CUDA
-attribute-nv: ${OUTPUT}attribute.cu.o ${CUDA_HELPERS}
-cooperative-nv: ${OUTPUT}cooperative.cu.o ${CUDA_HELPERS}
-device-nv: ${OUTPUT}device.cu.o ${CUDA_HELPERS}
-dim3-nv: ${OUTPUT}dim3.cu.o ${CUDA_HELPERS}
-event-nv: ${OUTPUT}event.cu.o ${CUDA_HELPERS}
-float-nv: ${OUTPUT}float.cu.o
-__GNUC__-nv: ${OUTPUT}__GNUC__.cu.o
-hello-nv: ${OUTPUT}hello.cu.o ${CUDA_HELPERS}
-malloc-nv: ${OUTPUT}malloc.cu.o ${CUDA_HELPERS}
-mallocHost-nv: ${OUTPUT}mallocHost.cu.o ${CUDA_HELPERS}
-mallocManaged-nv: ${OUTPUT}mallocManaged.cu.o ${CUDA_HELPERS}
-memory-nv: ${OUTPUT}memory.cu.o ${CUDA_HELPERS}
-matrix-fp16-nv: ${OUTPUT}matrix-fp16.cu.o ${CUDA_HELPERS}
-matrix-fp32-nv: ${OUTPUT}matrix-fp32.cu.o ${CUDA_HELPERS}
-matrix-fp64-nv: ${OUTPUT}matrix-fp64.cu.o ${CUDA_HELPERS}
-matrix-int8-nv: ${OUTPUT}matrix-int8.cu.o ${CUDA_HELPERS}
-module-nv: ${OUTPUT}module.cu.o ${CUDA_HELPERS}
-p2p-nv: ${OUTPUT}p2p.cu.o ${CUDA_HELPERS}
-parallel-nv: ${OUTPUT}parallel.cu.o ${CUDA_HELPERS}
-properties-nv: ${OUTPUT}properties.cu.o ${CUDA_HELPERS}
-__STDC__-nv: ${OUTPUT}__STDC__.cu.o
+define cuda_obj
+${1}-nv: ${OUTPUT}${1}.cu.o ${CUDA_HELPERS}
+${1}-hip: ${OUTPUT}${1}.hip.o ${HIP_HELPERS}
+${1}-hpcc: ${OUTPUT}${1}.hpcc.o ${HPCC_HELPERS}
+${1}-luca: ${OUTPUT}${1}.luca.o ${LUCA_HELPERS}
+endef
 
-# ROCm HIP
-${OUTPUT}matrix-fp16.hip.o: matrix.cu
-${OUTPUT}matrix-fp32.hip.o: matrix.cu
-${OUTPUT}matrix-fp64.hip.o: matrix.cu
-${OUTPUT}matrix-int8.hip.o: matrix.cu
-attribute-hip: ${OUTPUT}attribute.hip.o ${HIP_HELPERS}
-cooperative-hip: ${OUTPUT}cooperative.hip.o ${HIP_HELPERS}
-device-hip: ${OUTPUT}device.hip.o ${HIP_HELPERS}
-dim3-hip: ${OUTPUT}dim3.hip.o ${HIP_HELPERS}
-event-hip: ${OUTPUT}event.hip.o ${HIP_HELPERS}
-float-hip: ${OUTPUT}float.hip.o ${HIP_HELPERS}
-__GNUC__-hip: ${OUTPUT}__GNUC__.hip.o ${HIP_HELPERS}
-hello-hip: ${OUTPUT}hello.hip.o ${HIP_HELPERS}
-malloc-hip: ${OUTPUT}malloc.hip.o ${HIP_HELPERS}
-mallocHost-hip: ${OUTPUT}mallocHost.hip.o ${HIP_HELPERS}
-mallocManaged-hip: ${OUTPUT}mallocManaged.hip.o ${HIP_HELPERS}
-memory-hip: ${OUTPUT}memory.hip.o ${HIP_HELPERS}
-matrix-fp16-hip: ${OUTPUT}matrix-fp16.hip.o ${HIP_HELPERS}
-matrix-fp32-hip: ${OUTPUT}matrix-fp32.hip.o ${HIP_HELPERS}
-matrix-fp64-hip: ${OUTPUT}matrix-fp64.hip.o ${HIP_HELPERS}
-matrix-int8-hip: ${OUTPUT}matrix-int8.hip.o ${HIP_HELPERS}
-module-hip: ${OUTPUT}module.hip.o ${HIP_HELPERS}
-p2p-hip: ${OUTPUT}p2p.hip.o ${HIP_HELPERS}
-parallel-hip: ${OUTPUT}parallel.hip.o ${HIP_HELPERS}
-properties-hip: ${OUTPUT}properties.hip.o ${HIP_HELPERS}
-__STDC__-hip: ${OUTPUT}__STDC__.hip.o ${HIP_HELPERS}
-
-# HPCC
-${OUTPUT}matrix-fp16.hpcc.o: cuda_adapter.h
-${OUTPUT}matrix-fp32.hpcc.o: cuda_adapter.h
-${OUTPUT}matrix-fp64.hpcc.o: cuda_adapter.h
-${OUTPUT}matrix-int8.hpcc.o: cuda_adapter.h
-attribute-hpcc: ${OUTPUT}attribute.hpcc.o ${HPCC_HELPERS}
-cooperative-hpcc: ${OUTPUT}cooperative.hpcc.o ${HPCC_HELPERS}
-device-hpcc: ${OUTPUT}device.hpcc.o ${HPCC_HELPERS}
-dim3-hpcc: ${OUTPUT}dim3.hpcc.o ${HPCC_HELPERS}
-event-hpcc: ${OUTPUT}event.hpcc.o ${HPCC_HELPERS}
-float-hpcc: ${OUTPUT}float.hpcc.o
-__GNUC__-hpcc: ${OUTPUT}__GNUC__.hpcc.o ${HPCC_HELPERS}
-hello-hpcc: ${OUTPUT}hello.hpcc.o ${HPCC_HELPERS}
-malloc-hpcc: ${OUTPUT}malloc.hpcc.o ${HPCC_HELPERS}
-mallocHost-hpcc: ${OUTPUT}mallocHost.hpcc.o ${HPCC_HELPERS}
-mallocManaged-hpcc: ${OUTPUT}mallocManaged.hpcc.o ${HPCC_HELPERS}
-memory-hpcc: ${OUTPUT}memory.hpcc.o ${HPCC_HELPERS}
-matrix-fp16-hpcc: ${OUTPUT}matrix-fp16.hpcc.o ${HPCC_HELPERS}
-matrix-fp32-hpcc: ${OUTPUT}matrix-fp32.hpcc.o ${HPCC_HELPERS}
-matrix-fp64-hpcc: ${OUTPUT}matrix-fp64.hpcc.o ${HPCC_HELPERS}
-matrix-int8-hpcc: ${OUTPUT}matrix-int8.hpcc.o ${HPCC_HELPERS}
-module-hpcc: ${OUTPUT}module.hpcc.o ${HPCC_HELPERS}
-p2p-hpcc: ${OUTPUT}p2p.hpcc.o ${HPCC_HELPERS}
-parallel-hpcc: ${OUTPUT}parallel.hpcc.o ${HPCC_HELPERS}
-properties-hpcc: ${OUTPUT}properties.hpcc.o ${HPCC_HELPERS}
-__STDC__-hpcc: ${OUTPUT}__STDC__.hpcc.o ${HPCC_HELPERS}
-
-# LUCA
-${OUTPUT}matrix-fp16.luca.o: cuda_adapter.h
-${OUTPUT}matrix-fp32.luca.o: cuda_adapter.h
-${OUTPUT}matrix-fp64.luca.o: cuda_adapter.h
-${OUTPUT}matrix-int8.luca.o: cuda_adapter.h
-attribute-luca: ${OUTPUT}attribute.luca.o ${LUCA_HELPERS}
-cooperative-luca: ${OUTPUT}cooperative.luca.o ${LUCA_HELPERS}
-device-luca: ${OUTPUT}device.luca.o ${LUCA_HELPERS}
-dim3-luca: ${OUTPUT}dim3.luca.o ${LUCA_HELPERS}
-event-luca: ${OUTPUT}event.luca.o ${LUCA_HELPERS}
-float-luca: ${OUTPUT}float.luca.o
-__GNUC__-luca: ${OUTPUT}__GNUC__.luca.o ${LUCA_HELPERS}
-hello-luca: ${OUTPUT}hello.luca.o ${LUCA_HELPERS}
-malloc-luca: ${OUTPUT}malloc.luca.o ${LUCA_HELPERS}
-mallocHost-luca: ${OUTPUT}mallocHost.luca.o ${LUCA_HELPERS}
-mallocManaged-luca: ${OUTPUT}mallocManaged.luca.o ${LUCA_HELPERS}
-memory-luca: ${OUTPUT}memory.luca.o ${LUCA_HELPERS}
-matrix-fp16-luca: ${OUTPUT}matrix-fp16.luca.o ${LUCA_HELPERS}
-matrix-fp32-luca: ${OUTPUT}matrix-fp32.luca.o ${LUCA_HELPERS}
-matrix-fp64-luca: ${OUTPUT}matrix-fp64.luca.o ${LUCA_HELPERS}
-matrix-int8-luca: ${OUTPUT}matrix-int8.luca.o ${LUCA_HELPERS}
-module-luca: ${OUTPUT}module.luca.o ${LUCA_HELPERS}
-p2p-luca: ${OUTPUT}p2p.luca.o ${LUCA_HELPERS}
-parallel-luca: ${OUTPUT}parallel.luca.o ${LUCA_HELPERS}
-properties-luca: ${OUTPUT}properties.luca.o ${LUCA_HELPERS}
-__STDC__-luca: ${OUTPUT}__STDC__.luca.o ${LUCA_HELPERS}
+$(foreach name,${common-objs},$(eval $(call cuda_obj,$(name))))
