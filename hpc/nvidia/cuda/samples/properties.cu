@@ -2,8 +2,7 @@
 /* Copyright (c) 2025 Rong Tao */
 /**
  * - NVIDIA H800
- *
- *   commit 4aa4dfa57336 ("hpc: DeviceProp: Nvidia H800 v3")
+ *   commit 3a493a9a9a88 ("cuda: NVIDIA H800: properties")
  *
  * - NVIDIA GeForce RTX 3060
  *   commit 3dfdd4a370f2 ("hpc: DeviceProp: NVIDIA GeForce RTX 3060")
