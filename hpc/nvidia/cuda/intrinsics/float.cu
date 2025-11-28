@@ -106,7 +106,11 @@ __global__ void k_float_precision_mathematical(void)
 	PFLOAT(rnorm4df(1.f, 2.f, 3.f, 4.f));
 	PFLOAT(rnormf(1, &pi));
 	PFLOAT(roundf(pi));
+#ifdef OS_IS_FEDORA43
+# warning "fedora 43 not support cuda13.0 rsqrtf() yet"
+#else
 	PFLOAT(rsqrtf(pi));
+#endif
 	PFLOAT(scalblnf(pi, 2));
 	PFLOAT(scalbnf(pi, 2));
 	PUINT32(signbit(pi));

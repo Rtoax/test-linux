@@ -139,7 +139,11 @@ __global__ void k_double_precision_mathematical(void)
 	PDOUBLE(rint(pi));
 
 	PDOUBLE(sqrt(pi));
+#ifdef OS_IS_FEDORA43
+# warning "fedora 43 not support cuda13.0 rsqrt() yet"
+#else
 	PDOUBLE(rsqrt(pi));
+#endif
 
 	PDOUBLE(scalbln(pi, 2));
 	PDOUBLE(scalbn(pi, 2));
