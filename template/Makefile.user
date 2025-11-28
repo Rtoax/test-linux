@@ -9,6 +9,7 @@ include dir.mk
 include log.mk
 include kconfig.mk
 include values.mk
+include os.mk
 
 STDIO_H := /usr/include/stdio.h
 
@@ -25,8 +26,6 @@ endif
 ifeq ($(shell uname -m),x86_64)
 else ifeq ($(shell uname -m),aarch64)
 endif
-
-OS := $(shell grep ^ID= /etc/os-release | sed 's/ID=//g' | sed 's/"//g')
 
 DEBUG := yes
 CC := gcc

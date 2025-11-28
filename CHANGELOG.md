@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- os.mk: add `OS_ID` and `OS_VERSION_ID`;
 - template: add values.mk;
 - amd/rocm.mk: add `HAVE_HIPSOLVER`;
 - cuda.mk: add `HAVE_CUDNN`;
@@ -45,6 +46,7 @@ and this project adheres to
 - `pthread_helpers`: rename `sys_affinity_bind` to `thread_affinity_bind_cpu`;
 #### Deprecated
 #### Removed
+- os.mk: Remove OS var;
 - remove algorithm/crc32/modules/, it's not my code;
 - `sched_helpers`: remove `struct __sched_attr`;
 #### Fixed

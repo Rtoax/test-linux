@@ -7,7 +7,6 @@ CXX ?= g++
 OBJCOPY ?= objcopy
 Q ?= @
 
-OS := $(shell grep ^ID= /etc/os-release | sed 's/ID=//g' | tr -d '"')
 ifeq ($(shell uname -m),x86_64)
 else ifeq ($(shell uname -m),aarch64)
 endif
