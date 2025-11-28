@@ -1,8 +1,7 @@
-target-y :=
-target-y += getpidcon
+target-y := getpidcon
 
 LDFLAGS := -lselinux
 
-include ../../../../../../template/main.mk
+include main.mk
 
 getpidcon: getpidcon.o
