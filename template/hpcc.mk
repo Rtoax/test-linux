@@ -11,6 +11,11 @@
 # - HPCC_VERSION_MAJOR
 # - HPCC_VERSION_MINOR
 # - HPCC_VERSION_PATCH
+#
+# Modify definitions:
+# - target-htcc-y
+# - target-htcc-liba-y
+# - target-htcc-libso-y
 
 _HPCC = 1
 
@@ -20,13 +25,15 @@ HPCC_CU_BRIDGE := ${HPCC_ROOT}/tools/cu-bridge/include/
 HPCC_LLVM := ${HPCC_ROOT}/htgpu_llvm/
 HTCC := ${HPCC_LLVM}/bin/htcc
 
-ifeq ($(HTCC),)
-  ifneq ($(target-htcc-y),)
+ifeq ($(wildcard $(HTCC)),)
+  ifneq ($(target-htcc-y)$(target-htcc-liba-y)$(target-htcc-libso-y),)
     ifdef __IGNORE_NOTFOUND_ERROR__
-      $(warning Not found htcc with target-htcc-y not empty, but __IGNORE_NOTFOUND_ERROR__)
+      $(warning Not found htcc with target htcc not empty, but __IGNORE_NOTFOUND_ERROR__)
       target-htcc-y :=
+      target-htcc-liba-y :=
+      target-htcc-libso-y :=
     else
-      $(error Not found htcc with target-htcc-y not empty, install MetaX hpcc first)
+      $(error Not found htcc with target htcc not empty, install hpcc first)
     endif
   endif
 endif

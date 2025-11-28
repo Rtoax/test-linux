@@ -15,6 +15,11 @@
 # - CUDA_VERSION_MAJOR=
 # - CUDA_VERSION_MINOR=
 # - CUDA_VERSION_PATCH=
+#
+# Modify definitions:
+# - target-nvcc-y
+# - target-nvcc-liba-y
+# - target-nvcc-libso-y
 
 _CUDA = 1
 
@@ -51,14 +56,14 @@ endif
 
 # If not found NVCC
 ifeq ($(wildcard $(NVCC)),)
-  ifneq ($(target-nvcc-y),)
+  ifneq ($(target-nvcc-y)$(target-nvcc-libs-y)$(target-nvcc-libso-y),)
     ifdef __IGNORE_NOTFOUND_ERROR__
-      $(warning Not found nvcc with target-nvcc-y not empty, but __IGNORE_NOTFOUND_ERROR__)
+      $(warning Not found nvcc with target nvcc not empty, but __IGNORE_NOTFOUND_ERROR__)
     else
-      $(error Not found nvcc with target-nvcc-y not empty, install cuda first)
+      $(error Not found nvcc with target nvcc not empty, install cuda first)
     endif
   else
-    $(warning Although not found nvcc, but you don't have target-nvcc-y)
+    $(warning Although not found nvcc, but you don't have target nvcc)
   endif
 
   NVCC :=

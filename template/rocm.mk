@@ -12,6 +12,11 @@
 # - HAVE_RCCL=y
 # - HIPCC=$(which hipcc)
 # - HIPCONFIG=$(which hipconfig)
+#
+# Modify definitions:
+# - target-hipcc-y
+# - target-hipcc-liba-y
+# - target-hipcc-libso-y
 
 _ROCm = 1
 
@@ -24,14 +29,14 @@ ifneq ($(HIPCC),)
   HAVE_HIP := y
   export HAVE_HIP
 else
-  ifneq ($(target-hipcc-y),)
+  ifneq ($(target-hipcc-y)$(target-hipcc-liba-y)$(target-hipcc-libso-y),)
     ifdef __IGNORE_NOTFOUND_ERROR__
-      $(warning Not found hipcc with target-hipcc-y not empty, but __IGNORE_NOTFOUND_ERROR__)
+      $(warning Not found hipcc with target hipcc not empty, but __IGNORE_NOTFOUND_ERROR__)
     else
-      $(error Not found hipcc with target-hipcc-y not empty, install cuda first)
+      $(error Not found hipcc with target hipcc not empty, install cuda first)
     endif
   else
-    $(warning Although not found hipcc, but you don't have target-hipcc-y)
+    $(warning Although not found hipcc, but you don't have target hipcc)
   endif
 
   HIPCC :=
