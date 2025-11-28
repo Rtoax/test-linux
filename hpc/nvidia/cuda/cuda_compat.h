@@ -90,7 +90,7 @@
 # define HIPBLAS_USE_HIP_HALF
 # include <hipblas/hipblas.h>
 # ifdef HAVE_HIPBLASLT
-#   include <hipblaslt/hipblaslt.h>
+#  include <hipblaslt/hipblaslt.h>
 # endif
 # ifdef HAVE_HIP_FP8
 #  include <hip/hip_fp8.h>
