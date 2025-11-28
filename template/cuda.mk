@@ -25,7 +25,6 @@ _CUDA = 1
 
 include values.mk
 
-NCCL_H := /usr/include/nccl.h
 CUDNN_H := /usr/include/cudnn.h
 
 NVCC := $(shell which nvcc 2>/dev/null)
@@ -89,16 +88,14 @@ else
   endif
 endif
 
-$(call check_file_and_def,$(NCCL_H),HAVE_NCCL)
-$(call check_file_and_def,$(CUDNN_H),HAVE_CUDNN)
+$(call check_file_and_def,/usr/include/nccl.h,HAVE_NCCL)
+$(call check_file_and_def,/usr/include/cudnn.h,HAVE_CUDNN)
 
 export NVCC CUOBJDUMP NVDISASM CUDA_ROOT
 export CUDA_VERSION_MAJOR CUDA_VERSION_MINOR CUDA_VERSION_PATCH
 
 ifdef DEBUG
   $(info HAVE_CUDA = ${HAVE_CUDA})
-  $(info HAVE_NCCL = ${HAVE_NCCL})
-  $(info HAVE_CUDNN = ${HAVE_CUDNN})
   ifneq (${NVCC},)
     $(info $(shell ${NVCC} --version))
   endif
