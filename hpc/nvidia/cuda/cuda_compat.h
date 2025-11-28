@@ -19,6 +19,9 @@
 #ifndef __CUDA_COMPAT_H
 #define __CUDA_COMPAT_H	1
 
+/******************************************************************************\
+ * HPCC: High Performance Computing Communications                            *
+\******************************************************************************/
 #ifdef __USE_HPCC__
 # include <hcr/hc_runtime.h>
 # include <hcr/hcrtc.h>
@@ -43,6 +46,9 @@
 #  error "Not found HPCC envrioment, but use HPCC"
 # endif
 # define CUNAME	"MetaX"
+/******************************************************************************\
+ * LUCA                                                                       *
+\******************************************************************************/
 #elif defined(__USE_LUCA__)
 /* FIXME: luca has it's own headers */
 # include <hcr/hc_runtime.h>
@@ -62,6 +68,9 @@
 # include <hccl.h>
 # include "cuda_adapter.h"
 # define CUNAME	"CESTC"
+/******************************************************************************\
+ * AMD ROCm HIP                                                               *
+\******************************************************************************/
 #elif defined(__USE_HIP__)
 # ifdef __USE_HIP_V2__
 #  define HIPBLAS_V2
@@ -95,6 +104,9 @@
 #  error "Not found ROCm HIP envrioment, but use HIP"
 # endif
 # define CUNAME	"ROCm HIP"
+/******************************************************************************\
+ * CUDA                                                                       *
+\******************************************************************************/
 #else /* fallback to CUDA */
 /**
  * macro:
