@@ -13,6 +13,7 @@
  * - HAVE_CUDNN
  * - HAVE_RCCL
  * - HAVE_HPCC
+ * - HAVE_HCDNN
  * - HAVE_HIP
  * - HAVE_HIPBLASLT
  * - HAVE_HIP_FP8
@@ -33,6 +34,9 @@
 # include <hcrand/hcrand.h>
 # include <hcfft/hcfft.h>
 # include <hcsolver/hcsolver_common.h>
+# ifdef HAVE_HCDNN
+#  include <hcdnn/hcdnn.h>
+# endif
 /* TODO: add rtc */
 # ifndef __NOT_USE_FP8__
 #  include <hpcc_fp8.h>

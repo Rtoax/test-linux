@@ -1935,3 +1935,8 @@
  * ncclResult_t ncclCommInitAll(ncclComm_t* comms, int ndev, const int* devlist);
  */
 #define ncclCommInitAll(comm, ndev, devlist)	__nccl(CommInitAll(comm, ndev, devlist))
+
+/******************************************************************************\
+ *             DNN                                                            *
+\******************************************************************************/
+// TODO

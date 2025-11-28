@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- cuda/dnn: support HPCC;
 - cuda: add dnn subdir;
 - os.mk: add `OS_ID` and `OS_VERSION_ID`;
 - template: add values.mk;

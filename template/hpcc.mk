@@ -6,6 +6,7 @@
 #
 # Output definitions:
 # - HAVE_HPCC=y
+# - HAVE_HCDNN=y
 # - HPCC_ROOT
 # - HTCC
 # - HPCC_VERSION_MAJOR
@@ -18,6 +19,8 @@
 # - target-htcc-libso-y
 
 _HPCC = 1
+
+include values.mk
 
 HPCC_ROOT := /opt/hpcc
 HPCC_ROOT := $(shell realpath ${HPCC_ROOT} 2>/dev/null || true)
@@ -59,6 +62,8 @@ ifneq (${HPCC_ROOT},)
     $(error Found ${HPCC_ROOT}, but not found htcc, do you set ENV correctly???)
   endif
 endif
+
+$(call check_file_and_def,${HPCC_ROOT}/include/hcdnn/hcdnn.h,HAVE_HCDNN)
 
 export HPCC_ROOT HTCC
 export HPCC_VERSION_MAJOR HPCC_VERSION_MINOR HPCC_VERSION_PATCH
