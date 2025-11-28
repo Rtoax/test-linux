@@ -8,6 +8,7 @@ include luca.mk
 
 subdir-y := samples
 subdir-y += blas
+subdir-y += dnn
 subdir-y += fft
 subdir-y += rand
 subdir-y += sparse

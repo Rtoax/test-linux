@@ -10,6 +10,7 @@
  * - __NOT_USE_FP8__: include fp8 header
  *
  * - HAVE_NCCL
+ * - HAVE_CUDNN
  * - HAVE_RCCL
  * - HAVE_HPCC
  * - HAVE_HIP
@@ -135,6 +136,9 @@
 # include <cooperative_groups.h>
 # ifdef HAVE_NCCL
 #  include <nccl.h>
+# endif
+# ifdef HAVE_CUDNN
+#  include <cudnn.h>
 # endif
 # define CUNAME	"NVIDIA CUDA"
 #endif

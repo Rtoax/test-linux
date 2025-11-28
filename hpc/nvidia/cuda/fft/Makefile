@@ -7,7 +7,6 @@ include cuda.mk
 include rocm.mk
 include luca.mk
 include hpcc.mk
-include compiler.mk
 
 __USE_CUDA_HELPERS__ = ${HAVE_CUDA}
 __USE_HIP_HELPERS__ = ${HAVE_HIP}
