@@ -6,6 +6,7 @@
 #
 # Output definitions:
 # - HAVE_LUCA=y
+# - HAVE_LCDNN=y
 # - LUCA_ROOT=
 # - LSCC=
 # - LUCA_VERSION_MAJOR=
@@ -13,6 +14,8 @@
 # - LUCA_VERSION_PATCH=
 
 _LUCA = 1
+
+include values.mk
 
 LUCA_ROOT := /opt/luca
 LUCA_ROOT := $(shell realpath ${LUCA_ROOT} 2>/dev/null || true)
@@ -53,6 +56,8 @@ ifneq (${LUCA_ROOT},)
     $(error Found ${LUCA_ROOT}, but not found lscc, do you set ENV correctly???)
   endif
 endif
+
+$(call check_file_and_def,${LUCA_ROOT}/include/hcdnn/hcdnn.h,HAVE_LCDNN)
 
 export LUCA_ROOT
 export LSCC

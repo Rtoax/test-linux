@@ -14,6 +14,7 @@
  * - HAVE_RCCL
  * - HAVE_HPCC
  * - HAVE_HCDNN
+ * - HAVE_LCDNN
  * - HAVE_HIP
  * - HAVE_HIPBLASLT
  * - HAVE_HIP_FP8
@@ -67,6 +68,9 @@
 # include <hcsolver/hcsolver_common.h>
 # ifndef __NOT_USE_FP8__
 #  include <luca_fp8.h>
+# endif
+# ifdef HAVE_LCDNN
+#  include <hcdnn/hcdnn.h>
 # endif
 # include <luca_fp16.h>
 # include <luca_cooperative_groups.h>
