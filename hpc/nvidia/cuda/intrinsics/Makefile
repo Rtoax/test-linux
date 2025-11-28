@@ -25,7 +25,7 @@ target-post-y :=
 target-nvcc-${HAVE_CUDA} := $(patsubst %,%-nv,$(common-objs-y))
 
 target-post-${HAVE_CUDA} += $(patsubst %-nv,${OUTPUT}%.E.cu,$(target-nvcc-y))
-target-post-${HAVE_CUDA} += $(patsubst %-nv,${OUTPUT}%.ptx,$(target-nvcc-y))
+target-post-${HAVE_CUDA} += $(patsubst %-nv,${OUTPUT}%.cu.ptx,$(target-nvcc-y))
 target-post-${HAVE_CUDA} += $(patsubst %-nv,${OUTPUT}%.cu.cpp.ii,$(target-nvcc-y))
 
 target-hipcc-${HAVE_HIP} := $(patsubst %,%-hip,$(common-objs-y))
