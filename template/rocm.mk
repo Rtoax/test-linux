@@ -43,6 +43,11 @@ else
   HIPCONFIG :=
 endif
 
+# $(1) - output file name
+define gen_hipcc_macro_hdr
+$(Q)${HIPCC} -E -dM - </dev/null -o $(1)
+endef
+
 export HIPCC HIPCONFIG
 
 $(call check_file_and_def,/usr/include/rccl/rccl.h,HAVE_RCCL)

@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- rocm.mk: add `gen_hipcc_macro_hdr()`;
 - cuda/dnn: support LUCA;
 - cuda/dnn: support HPCC;
 - cuda: add dnn subdir;
