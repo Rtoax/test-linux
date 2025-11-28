@@ -114,7 +114,13 @@ float-c: ${OUTPUT}float-c.o
 matrix-c-fp32: ${OUTPUT}matrix-fp32.o
 matrix-c-fp64: ${OUTPUT}matrix-fp64.o
 
+HDRS := cuda_adapter.h cuda_compat.h
+
 define cuda_obj
+${OUTPUT}${1}.cu.o: ${HDRS}
+${OUTPUT}${1}.hip.o: ${HDRS}
+${OUTPUT}${1}.hpcc.o: ${HDRS}
+${OUTPUT}${1}.luca.o: ${HDRS}
 ${1}-nv: ${OUTPUT}${1}.cu.o ${CUDA_HELPERS}
 ${1}-hip: ${OUTPUT}${1}.hip.o ${HIP_HELPERS}
 ${1}-hpcc: ${OUTPUT}${1}.hpcc.o ${HPCC_HELPERS}
