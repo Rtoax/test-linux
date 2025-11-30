@@ -76,6 +76,17 @@ if [[ -z ${signed_off_by_line} ]]; then
 	exit 1
 fi
 
+add_envs "CPU: $(cpu_info)"
+add_envs "Arch $(uname -m)"
+
+SYSTEMD_DETECT_VIRT=$(which systemd-detect-virt 2>/dev/null || :)
+if [[ ${SYSTEMD_DETECT_VIRT} ]]; then
+	virt=$( ${SYSTEMD_DETECT_VIRT} )
+	if [[ ${virt} != none ]]; then
+		add_envs "VIRT-${virt}"
+	fi
+fi
+
 # OS version
 if [[ -e /etc/os-release ]]; then
 	os_env=
@@ -91,8 +102,6 @@ fi
 
 # Kernel version
 add_versions "Kernel $(uname -r)"
-add_envs "CPU: $(cpu_info)"
-add_envs "Arch $(uname -m)"
 
 # GCC version
 GCC=$(which gcc 2>/dev/null || :)
