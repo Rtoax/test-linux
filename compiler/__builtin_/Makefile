@@ -5,6 +5,7 @@ include bpf/bpf.mk
 target-y := __has_builtin
 target-y += apply_args
 target-y += apply
+target-y += abs
 target-y += bswap16
 target-y += bswap32
 target-y += bswap64
@@ -83,3 +84,4 @@ memcpy: memcpy.o
 strlen: strlen.o
 strcmp: strcmp.o
 trap: trap.o
+abs: abs.o

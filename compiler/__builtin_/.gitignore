@@ -1,4 +1,5 @@
 /__has_builtin
+/abs
 /apply_args
 /apply
 /bswap16
