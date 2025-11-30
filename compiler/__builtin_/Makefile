@@ -27,6 +27,7 @@ target-y += types_compatible_p
 target-y += clzl
 target-y += memcpy
 target-y += strlen strcmp
+target-y += trap
 
 target-bpf-y := preserve_field_info.bpf.o
 
@@ -81,3 +82,4 @@ preserve_enum_value: preserve_enum_value.o
 memcpy: memcpy.o
 strlen: strlen.o
 strcmp: strcmp.o
+trap: trap.o
