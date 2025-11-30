@@ -1,4 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
+OUTPUT := .output/
+
 include ansi.mk
 include bpf/bpf.mk
 
@@ -54,34 +56,34 @@ CFLAGS_BPF += $(CFLAG_BPF_TARGET_ARCH)
 
 include main.mk
 
-__has_builtin: __has_builtin.o
-apply_args: apply_args.o
-apply: apply.o
-bswap16: bswap16.o
-bswap32: bswap32.o
-bswap64: bswap64.o
-clz: clz.o
-constant_p: constant_p.o
-cpu_supports: cpu_supports.o
-expect: expect.o
-frame_address: frame_address.o
-index: index.o
-object_size: object_size.o
-offsetof: offsetof.o
-popcount: popcount.o
-prefetch: prefetch.o
-read8: read8.o
-return_address-2: return_address-2.o
-return_address: return_address.o
-rindex: rindex.o
-thread_pointer: thread_pointer.o
-va_arg_pack: va_arg_pack.o
-__clear_cache: __clear_cache.o
-types_compatible_p: types_compatible_p.o
-clzl: clzl.o
-preserve_enum_value: preserve_enum_value.o
-memcpy: memcpy.o
-strlen: strlen.o
-strcmp: strcmp.o
-trap: trap.o
-abs: abs.o
+__has_builtin: ${OUTPUT}__has_builtin.o
+apply_args: ${OUTPUT}apply_args.o
+apply: ${OUTPUT}apply.o
+bswap16: ${OUTPUT}bswap16.o
+bswap32: ${OUTPUT}bswap32.o
+bswap64: ${OUTPUT}bswap64.o
+clz: ${OUTPUT}clz.o
+constant_p: ${OUTPUT}constant_p.o
+cpu_supports: ${OUTPUT}cpu_supports.o
+expect: ${OUTPUT}expect.o
+frame_address: ${OUTPUT}frame_address.o
+index: ${OUTPUT}index.o
+object_size: ${OUTPUT}object_size.o
+offsetof: ${OUTPUT}offsetof.o
+popcount: ${OUTPUT}popcount.o
+prefetch: ${OUTPUT}prefetch.o
+read8: ${OUTPUT}read8.o
+return_address-2: ${OUTPUT}return_address-2.o
+return_address: ${OUTPUT}return_address.o
+rindex: ${OUTPUT}rindex.o
+thread_pointer: ${OUTPUT}thread_pointer.o
+va_arg_pack: ${OUTPUT}va_arg_pack.o
+__clear_cache: ${OUTPUT}__clear_cache.o
+types_compatible_p: ${OUTPUT}types_compatible_p.o
+clzl: ${OUTPUT}clzl.o
+preserve_enum_value: ${OUTPUT}preserve_enum_value.o
+memcpy: ${OUTPUT}memcpy.o
+strlen: ${OUTPUT}strlen.o
+strcmp: ${OUTPUT}strcmp.o
+trap: ${OUTPUT}trap.o
+abs: ${OUTPUT}abs.o
