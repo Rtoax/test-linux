@@ -337,6 +337,7 @@ typedef union bfloat16 {
 
 /* https://en.wikipedia.org/wiki/Double-precision_floating-point_format */
 __myconst__ fp64_t fp64_NaN = FP64_INITIALIZER(1, 0x7ff, 0xfffffffffffff);
+/* See also __builtin_huge_val() */
 __myconst__ fp64_t fp64_PosInf = FP64_INITIALIZER(0, 0x7ff, 0);
 __myconst__ fp64_t fp64_NegInf = FP64_INITIALIZER(1, 0x7ff, 0);
 __myconst__ fp64_t fp64_PosZero = FP64_INITIALIZER(0, 0, 0);
@@ -699,6 +700,8 @@ void base_test(void)
 		check_fp64(st2host(fp64_NaN, f64));
 		check_fp64(st2host(fp64_PosInf, f64));
 		check_fp64(st2host(fp64_NegInf, f64));
+		check_fp64(__builtin_huge_val());
+		check_fp64(__builtin_inf());
 		check_fp64(st2host(fp64_PosZero, f64));
 		check_fp64(st2host(fp64_NegZero, f64));
 		check_fp64(st2host(fp64_PosMax, f64));

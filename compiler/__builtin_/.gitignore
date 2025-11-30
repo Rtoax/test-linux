@@ -30,3 +30,7 @@
 /strlen
 /strcmp
 /trap
+/exp
+/huge_val
+/nan
+/inf

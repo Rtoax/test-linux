@@ -14,6 +14,7 @@ target-y += bswap64
 target-y += clz
 target-y += constant_p
 target-y += cpu_supports
+target-y += exp
 target-y += expect
 target-y += frame_address
 target-y += index
@@ -31,6 +32,9 @@ target-y += clzl
 target-y += memcpy
 target-y += strlen strcmp
 target-y += trap
+target-y += nan
+target-y += inf
+target-y += huge_val
 
 target-bpf-y := preserve_field_info.bpf.o
 
@@ -65,6 +69,7 @@ bswap64: ${OUTPUT}bswap64.o
 clz: ${OUTPUT}clz.o
 constant_p: ${OUTPUT}constant_p.o
 cpu_supports: ${OUTPUT}cpu_supports.o
+exp: ${OUTPUT}exp.o
 expect: ${OUTPUT}expect.o
 frame_address: ${OUTPUT}frame_address.o
 index: ${OUTPUT}index.o
@@ -87,3 +92,6 @@ strlen: ${OUTPUT}strlen.o
 strcmp: ${OUTPUT}strcmp.o
 trap: ${OUTPUT}trap.o
 abs: ${OUTPUT}abs.o
+nan: ${OUTPUT}nan.o
+inf: ${OUTPUT}inf.o
+huge_val: ${OUTPUT}huge_val.o
