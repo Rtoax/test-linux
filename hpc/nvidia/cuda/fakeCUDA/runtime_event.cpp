@@ -22,14 +22,14 @@ static inline unsigned long nsecs(void)
 
 cudaError_t cudaEventCreate(cudaEvent_t *event)
 {
-	cudaEvent_t ev = (cudaEvent_t)malloc(sizeof(struct CUevent_st));
-	memset(ev, 0, sizeof(struct CUevent_st));
-	*event = ev;
-	return cudaSuccess;
+	return cudaEventCreateWithFlags(event, 0);
 }
 
 cudaError_t cudaEventCreateWithFlags(cudaEvent_t *event, unsigned int flags)
 {
+	cudaEvent_t ev = (cudaEvent_t)malloc(sizeof(struct CUevent_st));
+	memset(ev, 0, sizeof(struct CUevent_st));
+	*event = ev;
 	return cudaSuccess;
 }
 

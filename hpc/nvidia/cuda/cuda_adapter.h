@@ -382,6 +382,7 @@
 #endif
 #define cudaEvent_t	__cuda(Event_t)
 #define cudaEventCreate(pe)	__cuda(EventCreate(pe))
+#define cudaEventCreateWithFlags(pe, f)	__cuda(EventCreateWithFlags(pe, f))
 #define cudaEventDestroy(ev)	__cuda(EventDestroy(ev))
 /**
  * cudaError_t cudaEventRecord(cudaEvent_t event, cudaStream_t stream);
