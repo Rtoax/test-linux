@@ -579,6 +579,27 @@
  */
 #define cudaThreadExchangeStreamCaptureMode(m)	__cuda(ThreadExchangeStreamCaptureMode(m))
 
+#define cudaUserObject_t	__cuda(UserObject_t)
+#define cudaUserObjectFlags	__cuda(UserObjectFlags)
+/* typedef void (*cudaHostFn_t)(void *userData); */
+#define cudaHostFn_t	__cuda(HostFn_t)
+/**
+ * CUDA 13.0
+ * cudaError_t cudaUserObjectCreate(cudaUserObject_t *object_out, T *objectToWrap,
+ *                                  unsigned int initialRefcount, unsigned int flags);
+ * cudaError_t cudaUserObjectCreate(cudaUserObject_t *object_out, T *objectToWrap,
+ *                                  unsigned int initialRefcount, cudaUserObjectFlags flags);
+ * cudaError_t cudaUserObjectCreate(cudaUserObject_t *object_out, void *ptr,
+ *                                  cudaHostFn_t destroy,
+ *                                  unsigned int initialRefcount, unsigned int flags);
+ *
+ * HIP 6.4
+ * hipError_t hipUserObjectCreate(hipUserObject_t* object_out, void* ptr,
+ *                                hipHostFn_t destroy,
+ *                                unsigned int initialRefcount, unsigned int flags);
+ */
+#define cudaUserObjectCreate	__cuda(UserObjectCreate)
+
 /**
  * CUDA V13.0.48
  * CUresult cuDeviceGet(CUdevice *device, int ordinal);

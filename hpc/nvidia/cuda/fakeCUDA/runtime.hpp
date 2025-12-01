@@ -237,6 +237,10 @@ cudaError_t cudaHostRegister(void *ptr, size_t size, unsigned int flags);
 cudaError_t cudaHostUnregister(void *ptr);
 cudaError_t cudaHostGetDevicePointer(void **pDevice, void *pHost, unsigned int flags);
 
+cudaError_t cudaUserObjectCreate(cudaUserObject_t *object_out, void *objectToWrap,
+				 cudaHostFn_t destroy,
+				 unsigned int initialRefcount, unsigned int flags);
+
 #ifdef __cplusplus
 }
 #endif

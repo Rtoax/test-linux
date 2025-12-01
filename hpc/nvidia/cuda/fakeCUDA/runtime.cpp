@@ -378,3 +378,10 @@ cudaError_t cudaHostGetDevicePointer(void **pDevice, void *pHost, unsigned int f
 {
 	return cudaSuccess;
 }
+
+cudaError_t cudaUserObjectCreate(cudaUserObject_t *object_out, void *objectToWrap,
+				 cudaHostFn_t destroy,
+				 unsigned int initialRefcount, unsigned int flags)
+{
+	return cudaSuccess;
+}
