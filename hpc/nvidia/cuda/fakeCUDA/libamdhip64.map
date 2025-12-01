@@ -85,6 +85,12 @@ hip_4.3 {
 		hipStreamIsCapturing;
 };
 
+hip_4.5 {
+};
+
+hip_5.0 {
+};
+
 hip_5.1 {
 	global:
 		hipMallocAsync;
