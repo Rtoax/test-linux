@@ -94,6 +94,8 @@ hip_4.5 {
 };
 
 hip_5.0 {
+	global:
+		hipThreadExchangeStreamCaptureMode;
 };
 
 hip_5.1 {

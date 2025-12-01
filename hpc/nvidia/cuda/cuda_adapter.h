@@ -470,6 +470,16 @@
 
 #define cudaStreamCaptureStatus	__cuda(StreamCaptureStatus)
 
+#define cudaStreamCaptureMode	__cuda(StreamCaptureMode)
+/**
+ * CUDA 13.0
+ * cudaError_t cudaThreadExchangeStreamCaptureMode(enum cudaStreamCaptureMode *mode);
+ *
+ * HIP 6.4
+ * hipError_t hipThreadExchangeStreamCaptureMode(hipStreamCaptureMode* mode);
+ */
+#define cudaThreadExchangeStreamCaptureMode(m)	__cuda(ThreadExchangeStreamCaptureMode(m))
+
 /**
  * CUDA V13.0.48
  * CUresult cuDeviceGet(CUdevice *device, int ordinal);

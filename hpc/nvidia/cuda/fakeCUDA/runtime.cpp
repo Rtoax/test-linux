@@ -219,6 +219,11 @@ cudaError_t cudaStreamQuery(cudaStream_t stream)
 	return cudaSuccess;
 }
 
+cudaError_t cudaThreadExchangeStreamCaptureMode(cudaStreamCaptureMode *mode)
+{
+	return cudaSuccess;
+}
+
 cudaError_t cudaLaunchKernel(const void *func, dim3 gridDim, dim3 blockDim,
 			     void **args, size_t sharedMem, cudaStream_t stream)
 {
