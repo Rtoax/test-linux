@@ -46,6 +46,11 @@ hipModuleOccupancyMaxActiveBlocksPerMultiprocessorWithFlags(int* numBlocks, hipF
 							    int blockSize, size_t dynSharedMemPerBlk,
 							    unsigned int flags);
 
+hipError_t hipExtLaunchKernel(const void* function_address, dim3 numBlocks,
+			      dim3 dimBlocks, void** args, size_t sharedMemBytes,
+			      hipStream_t stream, hipEvent_t startEvent,
+			      hipEvent_t stopEvent, int flags);
+
 #ifdef __cplusplus
 }
 #endif

@@ -85,6 +85,7 @@ hip_4.2 {
 		hipPointerGetAttributes;
 		hipFuncGetAttributes;
 		hipFuncSetAttribute;
+		hipExtLaunchKernel;
 	local:
 		*;
 };
