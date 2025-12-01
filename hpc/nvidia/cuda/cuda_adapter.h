@@ -344,7 +344,7 @@
  * HIP 6.4
  * hipError_t hipDeviceGetDefaultMemPool(hipMemPool_t* mem_pool, int device);
  */
-#define cudaDeviceGetDefaultMemPool(pool, dev)	__cu(DeviceGetDefaultMemPool(pool, dev))
+#define cudaDeviceGetDefaultMemPool(pool, dev)	__cuda(DeviceGetDefaultMemPool(pool, dev))
 
 /**
  * CUDA
@@ -353,7 +353,21 @@
  * HIP
  * hipError_t hipMemPoolTrimTo(hipMemPool_t mem_pool, size_t min_bytes_to_hold);
  */
-#define cudaMemPoolTrimTo(p, b)	__cu(MemPoolTrimTo(p, b))
+#define cudaMemPoolTrimTo(p, b)	__cuda(MemPoolTrimTo(p, b))
+
+#ifdef __USE_HIP__
+#define cudaPointerAttributes	__cuda(PointerAttribute_t) /* for HIP */
+#else
+#define cudaPointerAttributes	__cuda(PointerAttributes)
+#endif
+/**
+ * CUDA V13.0
+ * cudaError_t cudaPointerGetAttributes(struct cudaPointerAttributes *attributes, const void *ptr);
+ *
+ * HIP 6.4
+ * hipError_t hipPointerGetAttributes(hipPointerAttribute_t* attributes, const void* ptr);
+ */
+#define cudaPointerGetAttributes(a, p)	__cuda(PointerGetAttributes(a, p))
 
 /**
  * CUDA: typedef __attribute__((device_builtin)) struct CUevent_st *cudaEvent_t;

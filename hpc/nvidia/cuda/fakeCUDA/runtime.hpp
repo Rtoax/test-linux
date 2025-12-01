@@ -197,6 +197,8 @@ nvrtcResult nvrtcGetProgramLogSize(nvrtcProgram prog, size_t *logSizeRet);
 cudaError_t cudaDeviceGetDefaultMemPool(cudaMemPool_t *memPool, int device);
 cudaError_t cudaMemPoolTrimTo(cudaMemPool_t memPool, size_t minBytesToKeep);
 
+cudaError_t cudaPointerGetAttributes(cudaPointerAttributes *attributes, const void *ptr);
+
 #ifdef __cplusplus
 }
 #endif

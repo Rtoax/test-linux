@@ -289,3 +289,8 @@ cudaError_t cudaMemPoolTrimTo(cudaMemPool_t memPool, size_t minBytesToKeep)
 {
 	return cudaSuccess;
 }
+
+cudaError_t cudaPointerGetAttributes(cudaPointerAttributes *attributes, const void *ptr)
+{
+	return cudaSuccess;
+}
