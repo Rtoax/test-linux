@@ -214,6 +214,7 @@ cudaError_t cudaDeviceGetPCIBusId(char *pciBusId, int len, int device);
 cudaError_t cudaDeviceGetByPCIBusId(int *device, const char *pciBusId);
 
 cudaError_t cudaHostRegister(void *ptr, size_t size, unsigned int flags);
+cudaError_t cudaHostGetDevicePointer(void **pDevice, void *pHost, unsigned int flags);
 
 #ifdef __cplusplus
 }

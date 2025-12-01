@@ -151,6 +151,15 @@
 #define cudaHostRegister(p,s,f)	__cuda(HostRegister(p,s,f))
 
 /**
+ * CUDA 13.0
+ * cudaError_t cudaHostGetDevicePointer(T **pDevice, void *pHost, unsigned int flags);
+ *
+ * HIP 6.4
+ * hipError_t hipHostGetDevicePointer(void** devPtr, void* hstPtr, unsigned int flags);
+ */
+#define cudaHostGetDevicePointer(d,h,f)	__cuda(HostGetDevicePointer(d,h,f))
+
+/**
  * CUDA: typedef const struct cudaArray *cudaArray_const_t;
  * HIP: typedef const struct hipArray* hipArray_const_t;
  */

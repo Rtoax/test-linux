@@ -91,6 +91,7 @@ hip_4.2 {
 		hipExtLaunchKernel;
 		hipIpcCloseMemHandle;
 		hipHostRegister;
+		hipHostGetDevicePointer;
 	local:
 		*;
 };
