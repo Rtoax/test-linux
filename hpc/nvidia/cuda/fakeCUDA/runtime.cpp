@@ -304,3 +304,13 @@ cudaError_t cudaPointerGetAttributes(cudaPointerAttributes *attributes, const vo
 {
 	return cudaSuccess;
 }
+
+cudaError_t cudaFuncGetAttributes(struct cudaFuncAttributes *attr, const void *func)
+{
+	return cudaSuccess;
+}
+
+cudaError_t cudaFuncSetAttribute(const void* func, cudaFuncAttribute attr, int value)
+{
+	return cudaSuccess;
+}

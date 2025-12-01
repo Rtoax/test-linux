@@ -82,6 +82,8 @@ hip_4.2 {
 		hipExtModuleLaunchKernel;
 		hipExtMallocWithFlags;
 		hipPointerGetAttributes;
+		hipFuncGetAttributes;
+		hipFuncSetAttribute;
 	local:
 		*;
 };

@@ -431,6 +431,26 @@
 #define cudaLaunchCooperativeKernel(kernel, blocks, blksz, kargs, bytes, stream) \
 	__cuda(LaunchCooperativeKernel(kernel, blocks, blksz, kargs, bytes, stream))
 
+#define cudaFuncAttributes	__cuda(FuncAttributes)
+#define cudaFuncAttribute	__cuda(FuncAttribute)
+/**
+ * CUDA V13.0
+ * cudaError_t cudaFuncGetAttributes(struct cudaFuncAttributes *attr, const void *func);
+ *
+ * HIP 6.4
+ * hipError_t hipFuncGetAttributes(struct hipFuncAttributes* attr, const void* func);
+ */
+#define cudaFuncGetAttributes(a, f)	__cuda(FuncGetAttributes(a, f))
+
+/**
+ * CUDA V13.0
+ * cudaError_t cudaFuncSetAttribute(T *func, enum cudaFuncAttribute a, int value);
+ *
+ * HIP 6.4
+ * hipError_t hipFuncSetAttribute(const void* func, hipFuncAttribute attr, int value);
+ */
+#define cudaFuncSetAttribute(f, a, v)	__cuda(FuncSetAttribute(f, a, v))
+
 /**
  * cudaStream_t is a data type in CUDA used to represent a stream. A stream in
  * CUDA is a sequence of operations (such as kernel launches or memory

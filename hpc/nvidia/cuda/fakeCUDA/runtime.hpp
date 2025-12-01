@@ -202,6 +202,9 @@ cudaError_t cudaMemPoolTrimTo(cudaMemPool_t memPool, size_t minBytesToKeep);
 
 cudaError_t cudaPointerGetAttributes(cudaPointerAttributes *attributes, const void *ptr);
 
+cudaError_t cudaFuncGetAttributes(struct cudaFuncAttributes *attr, const void *func);
+cudaError_t cudaFuncSetAttribute(const void* func, cudaFuncAttribute attr, int value);
+
 #ifdef __cplusplus
 }
 #endif
