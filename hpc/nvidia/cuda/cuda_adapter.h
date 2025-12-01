@@ -142,6 +142,15 @@
 #define cudaMemcpyAsync	__cuda(MemcpyAsync)
 
 /**
+ * CUDA 13.0
+ * cudaError_t cudaHostRegister(void *ptr, size_t size, unsigned int flags);
+ *
+ * HIP 6.4
+ * hipError_t hipHostRegister(void* hostPtr, size_t sizeBytes, unsigned int flags);
+ */
+#define cudaHostRegister(p,s,f)	__cuda(HostRegister(p,s,f))
+
+/**
  * CUDA: typedef const struct cudaArray *cudaArray_const_t;
  * HIP: typedef const struct hipArray* hipArray_const_t;
  */

@@ -213,6 +213,8 @@ cudaError_t cudaIpcCloseMemHandle(void *devPtr);
 cudaError_t cudaDeviceGetPCIBusId(char *pciBusId, int len, int device);
 cudaError_t cudaDeviceGetByPCIBusId(int *device, const char *pciBusId);
 
+cudaError_t cudaHostRegister(void *ptr, size_t size, unsigned int flags);
+
 #ifdef __cplusplus
 }
 #endif
