@@ -30,6 +30,8 @@ hip_4.2 {
 		hipMalloc;
 		hipMallocManaged;
 		hipFree;
+		hipHostMalloc;
+		hipHostFree;
 		hipMemcpy;
 		hipMemcpyAsync;
 		hipMemcpy2D;

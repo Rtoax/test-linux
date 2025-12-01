@@ -3,24 +3,38 @@ set -e
 
 declare -a UPROBES URETPROBES
 
+# HPCC
 if [[ -e /opt/hpcc/lib/libhcruntime.so ]]; then
 	UPROBES+=( uprobe:/opt/hpcc/lib/libhcruntime.so:hcLaunchKernel )
 	URETPROBES+=( uretprobe:/opt/hpcc/lib/libhcruntime.so:hcLaunchKernel )
 fi
 
+# LUCA
 if [[ -e /opt/luca/lib/libhcruntime.so ]]; then
 	UPROBES+=( uprobe:/opt/luca/lib/libhcruntime.so:hcLaunchKernel )
 	URETPROBES+=( uretprobe:/opt/luca/lib/libhcruntime.so:hcLaunchKernel )
 fi
 
+# ROCm
+if [[ -e /lib64/libamdhip64.so.6 ]]; then
+	UPROBES+=( uprobe:/lib64/libamdhip64.so.6:hipLaunchKernel )
+	URETPROBES+=( uretprobe:/lib64/libamdhip64.so.6:hipLaunchKernel )
+fi
+
+# CUDA
 if [[ -e /lib64/libcuda.so ]]; then
 	UPROBES+=( uprobe:/lib64/libcuda.so:cuLaunchKernel )
 	URETPROBES+=( uretprobe:/lib64/libcuda.so:cuLaunchKernel )
 fi
 
+# FakeCUDA
 if [[ -e ../fakeCUDA/libhcruntime.so ]]; then
 	UPROBES+=( uprobe:../fakeCUDA/libhcruntime.so:hcLaunchKernel )
 	URETPROBES+=( uretprobe:../fakeCUDA/libhcruntime.so:hcLaunchKernel )
+fi
+if [[ -e ../fakeCUDA/libamdhip64.so.6 ]]; then
+	UPROBES+=( uprobe:../fakeCUDA/libamdhip64.so.6:hipLaunchKernel )
+	URETPROBES+=( uretprobe:../fakeCUDA/libamdhip64.so.6:hipLaunchKernel )
 fi
 
 probes() {

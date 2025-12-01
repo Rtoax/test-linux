@@ -97,6 +97,7 @@
 #define cudaMallocHost(ptr, sz, flags)	__cuda(MallocHost(ptr, sz, flags))
 #define cudaFreeHost(ptr)	__cuda(FreeHost(ptr))
 #define cudaMemset(ptr, v, size)	__cuda(Memset(ptr, v, size))
+
 /**
  * CUDA 12
  * cudaError_t cudaMemsetAsync(void *devPtr, int value, size_t count,

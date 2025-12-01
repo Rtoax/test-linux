@@ -7,3 +7,13 @@ hipError_t hipMemcpyWithStream(void* dst, const void* src, size_t sizeBytes,
 {
 	return hipSuccess;
 }
+
+hipError_t hipHostMalloc(void** ptr, size_t size, unsigned int flags)
+{
+	return hipSuccess;
+}
+
+hipError_t hipHostFree(void* ptr)
+{
+	return hipSuccess;
+}
