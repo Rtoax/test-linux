@@ -47,6 +47,7 @@ hip_4.2 {
 		hipStreamDestroy;
 		hipStreamSynchronize;
 		hipGetStreamDeviceId;
+		hipStreamQuery;
 		hipLaunchKernel;
 		hipLaunchCooperativeKernel;
 		hipEventCreate;

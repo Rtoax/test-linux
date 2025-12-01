@@ -442,6 +442,14 @@
 #define cudaStreamCreate(pstream)	__cuda(StreamCreate(pstream))
 #define cudaStreamSynchronize(stream)	__cuda(StreamSynchronize(stream))
 #define cudaStreamDestroy(stream)	__cuda(StreamDestroy(stream))
+/**
+ * CUDA V13.0:
+ * cudaError_t CUDARTAPI cudaStreamQuery(cudaStream_t stream);
+ *
+ * HIP 6.4
+ * hipError_t hipStreamQuery(hipStream_t stream);
+ */
+#define cudaStreamQuery(s)	__cuda(StreamQuery(s))
 
 /**
  * CUDA 12
