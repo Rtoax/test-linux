@@ -80,6 +80,7 @@ hip_4.2 {
 		hipModuleOccupancyMaxActiveBlocksPerMultiprocessor;
 		hipModuleOccupancyMaxActiveBlocksPerMultiprocessorWithFlags;
 		hipExtModuleLaunchKernel;
+		hipExtMallocWithFlags;
 		hipPointerGetAttributes;
 	local:
 		*;

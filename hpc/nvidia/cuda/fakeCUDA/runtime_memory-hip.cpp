@@ -17,3 +17,8 @@ hipError_t hipHostFree(void* ptr)
 {
 	return hipSuccess;
 }
+
+hipError_t hipExtMallocWithFlags(void** ptr, size_t sizeBytes, unsigned int flags)
+{
+	return hipSuccess;
+}
