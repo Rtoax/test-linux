@@ -836,6 +836,15 @@
 #define cudaDeviceGetPCIBusId(p,l,d)	__cuda(DeviceGetPCIBusId(p,l,d))
 
 /**
+ * CUDA 13.0
+ * cudaError_t cudaDeviceGetByPCIBusId(int *device, const char *pciBusId);
+ *
+ * HIP 6.4
+ * hipError_t hipDeviceGetByPCIBusId(int* device, const char* pciBusId);
+ */
+#define cudaDeviceGetByPCIBusId(d,p)	__cuda(DeviceGetByPCIBusId(d,p))
+
+/**
  * cudaError_t cudaDeviceCanAccessPeer(int *canAccessPeer, int device, int peerDevice);
  */
 #define cudaDeviceCanAccessPeer(can, devfrom, devto) __cuda(DeviceCanAccessPeer(can, devfrom, devto))

@@ -211,6 +211,7 @@ cudaError_t cudaFuncSetAttribute(const void* func, cudaFuncAttribute attr, int v
 cudaError_t cudaIpcCloseMemHandle(void *devPtr);
 
 cudaError_t cudaDeviceGetPCIBusId(char *pciBusId, int len, int device);
+cudaError_t cudaDeviceGetByPCIBusId(int *device, const char *pciBusId);
 
 #ifdef __cplusplus
 }

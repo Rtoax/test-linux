@@ -334,3 +334,8 @@ cudaError_t cudaDeviceGetPCIBusId(char *pciBusId, int len, int device)
 {
 	return cudaSuccess;
 }
+
+cudaError_t cudaDeviceGetByPCIBusId(int *device, const char *pciBusId)
+{
+	return cudaSuccess;
+}
