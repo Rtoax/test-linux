@@ -31,13 +31,13 @@ probes() {
 	IFS=$old_IFS
 }
 
-cat >tmp-klaunch.bt<<-EOF
+cat | sudo tee tmp-klaunch.bt<<-EOF
 #!/bin/env bpftrace
 
 BEGIN
 {
 	printf("Tracing CUDA Kernel Launch, hit ctrl-c to end.\n");
-	printf("%-8s %-8s %-16s\n", "TIME", "PID", "COMM");
+	printf("%-8s %-8s %-16s %s\n", "TIME", "PID", "COMM", "PROBE");
 }
 
 $(probes ${UPROBES[@]})
@@ -48,7 +48,8 @@ $(probes ${UPROBES[@]})
 
 $(probes ${URETPROBES[@]})
 {
-	printf("%s return\n", probe);
+	time("%H:%M:%S ");
+	printf("%-8d %-16s %s %d\n", pid, comm, probe, retval);
 }
 
 END
