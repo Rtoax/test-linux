@@ -849,6 +849,15 @@
 #define cudaDeviceSynchronize()	__cuda(DeviceSynchronize())
 
 /**
+ * CUDA 13.0
+ * cudaError_t cudaIpcCloseMemHandle(void *devPtr);
+ *
+ * HIP 6.4
+ * hipError_t hipIpcCloseMemHandle(void* devPtr);
+ */
+#define cudaIpcCloseMemHandle(p)	__cuda(IpcCloseMemHandle(p))
+
+/**
  * BLAS: Basic Linear Algebra Subprograms
  * see /usr/local/cuda-12.9/targets/x86_64-linux/include/cublas_api.h
  *

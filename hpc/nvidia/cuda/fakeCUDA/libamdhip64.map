@@ -87,6 +87,7 @@ hip_4.2 {
 		hipFuncGetAttributes;
 		hipFuncSetAttribute;
 		hipExtLaunchKernel;
+		hipIpcCloseMemHandle;
 	local:
 		*;
 };
