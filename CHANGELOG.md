@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- ai: add os subdir;
 #### Changed
 #### Deprecated
 #### Removed
