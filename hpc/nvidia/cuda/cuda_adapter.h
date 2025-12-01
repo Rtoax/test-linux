@@ -144,11 +144,13 @@
 /**
  * CUDA 13.0
  * cudaError_t cudaHostRegister(void *ptr, size_t size, unsigned int flags);
+ * cudaError_t cudaHostUnregister(void *ptr);
  *
  * HIP 6.4
  * hipError_t hipHostRegister(void* hostPtr, size_t sizeBytes, unsigned int flags);
  */
 #define cudaHostRegister(p,s,f)	__cuda(HostRegister(p,s,f))
+#define cudaHostUnregister(p)	__cuda(HostUnregister(p))
 
 /**
  * CUDA 13.0

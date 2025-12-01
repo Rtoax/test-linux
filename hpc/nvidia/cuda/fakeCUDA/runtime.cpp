@@ -345,6 +345,11 @@ cudaError_t cudaHostRegister(void *ptr, size_t size, unsigned int flags)
 	return cudaSuccess;
 }
 
+cudaError_t cudaHostUnregister(void *ptr)
+{
+	return cudaSuccess;
+}
+
 cudaError_t cudaHostGetDevicePointer(void **pDevice, void *pHost, unsigned int flags)
 {
 	return cudaSuccess;
