@@ -152,6 +152,13 @@ cudaError_t cudaStreamWaitEvent(cudaStream_t stream, cudaEvent_t event, unsigned
 cudaError_t cudaStreamGetCaptureInfo(cudaStream_t stream,
 				     cudaStreamCaptureStatus *captureStatus_out,
 				     unsigned long long *id_out);
+#elif defined(__USE_HPCC__) || defined(__USE_LUCA__)
+cudaError_t cudaStreamGetCaptureInfo(cudaStream_t stream,
+				     cudaStreamCaptureStatus *captureStatus_out,
+				     unsigned long long *id_out,
+				     cudaGraph_t *graph_out,
+				     const cudaGraphNode_t **dependencies_out,
+				     size_t *numDependencies_out);
 #else
 cudaError_t cudaStreamGetCaptureInfo(cudaStream_t stream,
 				     cudaStreamCaptureStatus *captureStatus_out,

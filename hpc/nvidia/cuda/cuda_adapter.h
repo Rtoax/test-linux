@@ -376,7 +376,7 @@
  */
 #define cudaMemPoolTrimTo(p, b)	__cuda(MemPoolTrimTo(p, b))
 
-#ifdef __USE_HIP__
+#if defined(__USE_HIP__) || defined(__USE_LUCA__) || defined(__USE_HPCC__)
 #define cudaPointerAttributes	__cuda(PointerAttribute_t) /* for HIP */
 #else
 #define cudaPointerAttributes	__cuda(PointerAttributes)
@@ -387,6 +387,9 @@
  *
  * HIP 6.4
  * hipError_t hipPointerGetAttributes(hipPointerAttribute_t* attributes, const void* ptr);
+ *
+ * LUCA 3.1.3
+ * hcError_t hcPointerGetAttributes(hcPointerAttribute_t *attributes, const void *ptr);
  */
 #define cudaPointerGetAttributes(a, p)	__cuda(PointerGetAttributes(a, p))
 
@@ -555,6 +558,14 @@
  *                                           hipGraph_t* graph_out,
  *                                           const hipGraphNode_t** dependencies_out,
  *                                           size_t* numDependencies_out);
+ *
+ * LUCA 3.1.3
+ * hcError_t hcStreamGetCaptureInfo(hcStream_t stream,
+ *                                  hcStreamCaptureStatus *captureStatus_out,
+ *                                  unsigned long long *id_out __dparm(0),
+ *                                  hcGraph_t *graph_out __dparm(0),
+ *                                  const hcGraphNode_t **dependencies_out __dparm(0),
+ *                                  size_t *numDependencies_out __dparm(0));
  */
 #define cudaStreamGetCaptureInfo	__cuda(StreamGetCaptureInfo)
 
