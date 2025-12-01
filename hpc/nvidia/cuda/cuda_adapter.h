@@ -336,6 +336,25 @@
 #define cudaMemLocationTypeHostNuma	__cuda(MemLocationTypeHostNuma)
 #define cudaMemLocationTypeHostNumaCurrent	__cuda(MemLocationTypeHostNumaCurrent)
 
+#define cudaMemPool_t	__cuda(MemPool_t)
+/**
+ * CUDA V13.0.48
+ * cudaError_t cudaDeviceGetDefaultMemPool(cudaMemPool_t *memPool, int device);
+ *
+ * HIP 6.4
+ * hipError_t hipDeviceGetDefaultMemPool(hipMemPool_t* mem_pool, int device);
+ */
+#define cudaDeviceGetDefaultMemPool(pool, dev)	__cu(DeviceGetDefaultMemPool(pool, dev))
+
+/**
+ * CUDA
+ * cudaError_t cudaMemPoolTrimTo(cudaMemPool_t memPool, size_t minBytesToKeep);
+ *
+ * HIP
+ * hipError_t hipMemPoolTrimTo(hipMemPool_t mem_pool, size_t min_bytes_to_hold);
+ */
+#define cudaMemPoolTrimTo(p, b)	__cu(MemPoolTrimTo(p, b))
+
 /**
  * CUDA: typedef __attribute__((device_builtin)) struct CUevent_st *cudaEvent_t;
  * HPCC: typedef struct HCevent_st *hcEvent_t;

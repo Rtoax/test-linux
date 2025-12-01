@@ -279,3 +279,13 @@ nvrtcResult nvrtcGetProgramLogSize(nvrtcProgram prog, size_t *logSizeRet)
 	*logSizeRet = 1024;
 	return NVRTC_SUCCESS;
 }
+
+cudaError_t cudaDeviceGetDefaultMemPool(cudaMemPool_t *memPool, int device)
+{
+	return cudaSuccess;
+}
+
+cudaError_t cudaMemPoolTrimTo(cudaMemPool_t memPool, size_t minBytesToKeep)
+{
+	return cudaSuccess;
+}

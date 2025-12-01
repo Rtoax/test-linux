@@ -95,6 +95,8 @@ hip_5.1 {
 	global:
 		hipMallocAsync;
 		hipFreeAsync;
+		hipDeviceGetDefaultMemPool;
+		hipMemPoolTrimTo;
 };
 
 hip_5.3 {
