@@ -93,8 +93,6 @@ CFLAGS_HIPCC_matrix-fp16 := -DTEST_FP16=1
 CFLAGS_HIPCC_matrix-int8 := -DTEST_INT8=1
 
 CFLAGS_HTCC := -Wno-c99-designator
-# Remove default so search directory, see ldflags: -Wl,-rpath,/path/to/so/
-LDFLAGS_HTCC := -nodefaultrpath
 
 CFLAGS_HTCC_properties := -Wno-string-plus-int
 

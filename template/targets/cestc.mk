@@ -55,6 +55,9 @@ LDFLAGS_LSCC += -lhcrand
 LDFLAGS_LSCC += -lhcsparse
 LDFLAGS_LSCC += -lhcsolver
 
+# Remove default so search directory, see ldflags: -Wl,-rpath,/path/to/so/
+LDFLAGS_LSCC := -nodefaultrpath
+
 ifdef ERROR
   CFLAGS_LSCC += -DERROR=1
 endif
