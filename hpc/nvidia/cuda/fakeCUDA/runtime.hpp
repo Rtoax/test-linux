@@ -140,6 +140,7 @@ cudaError_t cudaDeviceGetP2PAttribute(int *value, enum cudaDeviceP2PAttr attr,
 cudaError_t cudaDeviceSynchronize();
 
 cudaError_t cudaStreamCreate(cudaStream_t *pStream);
+cudaError_t cudaStreamCreateWithFlags(cudaStream_t *pStream, unsigned int flags);
 cudaError_t cudaStreamDestroy(cudaStream_t stream);
 cudaError_t cudaStreamSynchronize(cudaStream_t stream);
 cudaError_t cudaStreamIsCapturing(cudaStream_t stream,

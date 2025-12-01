@@ -46,6 +46,7 @@ hip_4.2 {
 		hipMemAdvise;
 		hipMemAdvise_v2;
 		hipStreamCreate;
+		hipStreamCreateWithFlags;
 		hipStreamDestroy;
 		hipStreamSynchronize;
 		hipGetStreamDeviceId;

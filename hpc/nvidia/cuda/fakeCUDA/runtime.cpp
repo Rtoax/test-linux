@@ -195,6 +195,11 @@ cudaError_t cudaDeviceSynchronize()
 
 cudaError_t cudaStreamCreate(cudaStream_t *pStream)
 {
+	return cudaStreamCreateWithFlags(pStream, 0);
+}
+
+cudaError_t cudaStreamCreateWithFlags(cudaStream_t *pStream, unsigned int flags)
+{
 	return cudaSuccess;
 }
 

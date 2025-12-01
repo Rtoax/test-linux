@@ -461,6 +461,7 @@
 #define CUstream_st	__CU(stream_st)
 #define cudaStream_t	__cuda(Stream_t)
 #define cudaStreamCreate(pstream)	__cuda(StreamCreate(pstream))
+#define cudaStreamCreateWithFlags(s, f)	__cuda(StreamCreateWithFlags(s, f))
 #define cudaStreamSynchronize(stream)	__cuda(StreamSynchronize(stream))
 #define cudaStreamDestroy(stream)	__cuda(StreamDestroy(stream))
 /**
