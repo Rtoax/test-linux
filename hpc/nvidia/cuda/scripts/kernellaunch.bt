@@ -7,10 +7,18 @@ BEGIN
 }
 
 uprobe:/opt/hpcc/lib/libhcruntime.so:hcLaunchKernel,
+uprobe:/opt/luca/lib/libhcruntime.so:hcLaunchKernel,
 uprobe:/lib64/libcuda.so:cuLaunchKernel
 {
 	time("%H:%M:%S ");
-	printf("%-8d %-16s\n", pid, comm);
+	printf("%-8d %-16s %s\n", pid, comm, probe);
+}
+
+uretprobe:/opt/hpcc/lib/libhcruntime.so:hcLaunchKernel,
+uretprobe:/opt/luca/lib/libhcruntime.so:hcLaunchKernel,
+uretprobe:/lib64/libcuda.so:cuLaunchKernel
+{
+	printf("%s return\n", probe);
 }
 
 END
