@@ -827,6 +827,15 @@
 #define cudaDevP2PAttrNativeAtomicSupported	__cuda(DevP2PAttrNativeAtomicSupported)
 
 /**
+ * CUDA 13.0
+ * cudaError_t cudaDeviceGetPCIBusId(char *pciBusId, int len, int device);
+ *
+ * HIP 6.4
+ * hipError_t hipDeviceGetPCIBusId(char* pciBusId, int len, int device);
+ */
+#define cudaDeviceGetPCIBusId(p,l,d)	__cuda(DeviceGetPCIBusId(p,l,d))
+
+/**
  * cudaError_t cudaDeviceCanAccessPeer(int *canAccessPeer, int device, int peerDevice);
  */
 #define cudaDeviceCanAccessPeer(can, devfrom, devto) __cuda(DeviceCanAccessPeer(can, devfrom, devto))

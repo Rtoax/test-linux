@@ -27,6 +27,7 @@ hip_4.2 {
 		hipDeviceGetP2PAttribute;
 		hipDeviceSynchronize;
 		hipDeviceComputeCapability;
+		hipDeviceGetPCIBusId;
 		hipMalloc;
 		hipMallocManaged;
 		hipFree;

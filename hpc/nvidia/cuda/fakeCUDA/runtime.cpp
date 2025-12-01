@@ -329,3 +329,8 @@ cudaError_t cudaIpcCloseMemHandle(void *devPtr)
 {
 	return cudaSuccess;
 }
+
+cudaError_t cudaDeviceGetPCIBusId(char *pciBusId, int len, int device)
+{
+	return cudaSuccess;
+}
