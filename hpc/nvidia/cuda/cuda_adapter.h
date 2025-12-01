@@ -613,6 +613,23 @@
 #define cudaGraphRetainUserObject	__cuda(GraphRetainUserObject)
 
 /**
+ * CUDA 13.0
+ * cudaError_t cudaGraphAddEventWaitNode(cudaGraphNode_t *pGraphNode,
+ *                                       cudaGraph_t graph,
+ *                                       const cudaGraphNode_t *pDependencies,
+ *                                       size_t numDependencies,
+ *                                       cudaEvent_t event);
+ *
+ * HIP 6.4
+ * hipError_t hipGraphAddEventWaitNode(hipGraphNode_t* pGraphNode,
+ *                                     hipGraph_t graph,
+ *                                     const hipGraphNode_t* pDependencies,
+ *                                     size_t numDependencies,
+ *                                     hipEvent_t event);
+ */
+#define cudaGraphAddEventWaitNode	__cuda(GraphAddEventWaitNode)
+
+/**
  * CUDA V13.0.48
  * CUresult cuDeviceGet(CUdevice *device, int ordinal);
  *

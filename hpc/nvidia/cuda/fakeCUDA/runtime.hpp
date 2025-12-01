@@ -244,6 +244,11 @@ cudaError_t cudaUserObjectCreate(cudaUserObject_t *object_out, void *objectToWra
 cudaError_t cudaGraphRetainUserObject(cudaGraph_t graph, cudaUserObject_t object,
 				      unsigned int count,
 				      unsigned int flags);
+cudaError_t cudaGraphAddEventWaitNode(cudaGraphNode_t *pGraphNode,
+				      cudaGraph_t graph,
+				      const cudaGraphNode_t *pDependencies,
+				      size_t numDependencies,
+				      cudaEvent_t event);
 
 #ifdef __cplusplus
 }

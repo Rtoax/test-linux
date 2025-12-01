@@ -392,3 +392,12 @@ cudaError_t cudaGraphRetainUserObject(cudaGraph_t graph, cudaUserObject_t object
 {
 	return cudaSuccess;
 }
+
+cudaError_t cudaGraphAddEventWaitNode(cudaGraphNode_t *pGraphNode,
+				      cudaGraph_t graph,
+				      const cudaGraphNode_t *pDependencies,
+				      size_t numDependencies,
+				      cudaEvent_t event)
+{
+	return cudaSuccess;
+}
