@@ -385,3 +385,10 @@ cudaError_t cudaUserObjectCreate(cudaUserObject_t *object_out, void *objectToWra
 {
 	return cudaSuccess;
 }
+
+cudaError_t cudaGraphRetainUserObject(cudaGraph_t graph, cudaUserObject_t object,
+				      unsigned int count,
+				      unsigned int flags)
+{
+	return cudaSuccess;
+}

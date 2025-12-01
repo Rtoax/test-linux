@@ -601,6 +601,18 @@
 #define cudaUserObjectCreate	__cuda(UserObjectCreate)
 
 /**
+ * CUDA 13.0
+ * cudaError_t cudaGraphRetainUserObject(cudaGraph_t graph, cudaUserObject_t object,
+ *                                       unsigned int count __dv(1),
+ *                                       unsigned int flags __dv(0));
+ *
+ * HIP 6.4
+ * hipError_t hipGraphRetainUserObject(hipGraph_t graph, hipUserObject_t object,
+ *                                     unsigned int count, unsigned int flags);
+ */
+#define cudaGraphRetainUserObject	__cuda(GraphRetainUserObject)
+
+/**
  * CUDA V13.0.48
  * CUresult cuDeviceGet(CUdevice *device, int ordinal);
  *

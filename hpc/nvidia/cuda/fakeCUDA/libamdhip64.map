@@ -127,6 +127,7 @@ hip_5.3 {
 		hipStreamGetCaptureInfo_spt;
 		hipStreamGetCaptureInfo_v2_spt;
 		hipUserObjectCreate;
+		hipGraphRetainUserObject;
 };
 
 hip_6.0 {
