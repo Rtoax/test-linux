@@ -146,6 +146,8 @@ cudaError_t cudaStreamIsCapturing(cudaStream_t stream,
 				  cudaStreamCaptureStatus *pCaptureStatus);
 cudaError_t cudaStreamQuery(cudaStream_t stream);
 
+cudaError_t cudaStreamWaitEvent(cudaStream_t stream, cudaEvent_t event, unsigned int flags);
+
 cudaError_t cudaThreadExchangeStreamCaptureMode(cudaStreamCaptureMode *mode);
 
 cudaError_t cudaLaunchKernel(const void *func, dim3 gridDim, dim3 blockDim,

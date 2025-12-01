@@ -219,6 +219,11 @@ cudaError_t cudaStreamQuery(cudaStream_t stream)
 	return cudaSuccess;
 }
 
+cudaError_t cudaStreamWaitEvent(cudaStream_t stream, cudaEvent_t event, unsigned int flags)
+{
+	return cudaSuccess;
+}
+
 cudaError_t cudaThreadExchangeStreamCaptureMode(cudaStreamCaptureMode *mode)
 {
 	return cudaSuccess;

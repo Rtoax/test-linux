@@ -488,6 +488,15 @@
 #define cudaStreamIsCapturing(stream, pCaptureStatus)	\
 	__cuda(StreamIsCapturing(stream, pCaptureStatus))
 
+/**
+ * CUDA V13.0
+ * cudaError_t cudaStreamWaitEvent(cudaStream_t stream, cudaEvent_t event, unsigned int flags);
+ *
+ * HIP 6.4
+ * hipError_t hipStreamWaitEvent(hipStream_t stream, hipEvent_t event, unsigned int flags);
+ */
+#define cudaStreamWaitEvent(s, e, f)	__cuda(StreamWaitEvent(s, e, f))
+
 #define cudaStreamCaptureStatus	__cuda(StreamCaptureStatus)
 
 #define cudaStreamCaptureMode	__cuda(StreamCaptureMode)
