@@ -75,3 +75,30 @@ hipError_t hipExtLaunchKernel(const void* function_address, dim3 numBlocks,
 {
 	return hipSuccess;
 }
+
+hipError_t hipStreamGetCaptureInfo_v2(hipStream_t stream,
+				      hipStreamCaptureStatus* captureStatus_out,
+				      unsigned long long* id_out,
+				      hipGraph_t* graph_out,
+				      const hipGraphNode_t** dependencies_out,
+				      size_t* numDependencies_out)
+{
+	return hipSuccess;
+}
+
+hipError_t hipStreamGetCaptureInfo_spt(hipStream_t stream,
+				       hipStreamCaptureStatus* pCaptureStatus,
+				       unsigned long long* pId)
+{
+	return hipSuccess;
+}
+
+hipError_t hipStreamGetCaptureInfo_v2_spt(hipStream_t stream,
+					  hipStreamCaptureStatus* captureStatus_out,
+					  unsigned long long* id_out,
+					  hipGraph_t* graph_out,
+					  const hipGraphNode_t** dependencies_out,
+					  size_t* numDependencies_out)
+{
+	return hipSuccess;
+}

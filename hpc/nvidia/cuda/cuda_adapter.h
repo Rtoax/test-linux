@@ -521,6 +521,43 @@
 
 #define cudaStreamCaptureStatus	__cuda(StreamCaptureStatus)
 
+#define cudaGraph_t		__cuda(Graph_t)
+#define cudaGraphNode_t		__cuda(GraphNode_t)
+#define cudaGraphEdgeData	__cuda(GraphEdgeData)
+
+/**
+ * CUDA 13.0
+ * cudaError_t cudaStreamGetCaptureInfo(cudaStream_t stream,
+ *                                      enum cudaStreamCaptureStatus *captureStatus_out,
+ *                                      unsigned long long *id_out __dv(0),
+ *                                      cudaGraph_t *graph_out __dv(0),
+ *                                      const cudaGraphNode_t **dependencies_out __dv(0),
+ *                                      const cudaGraphEdgeData **edgeData_out __dv(0),
+ *                                      size_t *numDependencies_out __dv(0));
+ * cudaError_t cudaStreamGetCaptureInfo_ptsz(...);
+ *
+ * HIP 6.4
+ * hipError_t hipStreamGetCaptureInfo(hipStream_t stream,
+ *                                    hipStreamCaptureStatus* pCaptureStatus,
+ *                                    unsigned long long* pId);
+ * hipError_t hipStreamGetCaptureInfo_v2(hipStream_t stream,
+ *                                       hipStreamCaptureStatus* captureStatus_out,
+ *                                       unsigned long long* id_out,
+ *                                       hipGraph_t* graph_out,
+ *                                       const hipGraphNode_t** dependencies_out,
+ *                                       size_t* numDependencies_out);
+ * hipError_t hipStreamGetCaptureInfo_spt(hipStream_t stream,
+ *                                        hipStreamCaptureStatus* pCaptureStatus,
+ *                                        unsigned long long* pId);
+ * hipError_t hipStreamGetCaptureInfo_v2_spt(hipStream_t stream,
+ *                                           hipStreamCaptureStatus* captureStatus_out,
+ *                                           unsigned long long* id_out,
+ *                                           hipGraph_t* graph_out,
+ *                                           const hipGraphNode_t** dependencies_out,
+ *                                           size_t* numDependencies_out);
+ */
+#define cudaStreamGetCaptureInfo	__cuda(StreamGetCaptureInfo)
+
 #define cudaStreamCaptureMode	__cuda(StreamCaptureMode)
 /**
  * CUDA 13.0

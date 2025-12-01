@@ -148,6 +148,19 @@ cudaError_t cudaStreamIsCapturing(cudaStream_t stream,
 cudaError_t cudaStreamQuery(cudaStream_t stream);
 
 cudaError_t cudaStreamWaitEvent(cudaStream_t stream, cudaEvent_t event, unsigned int flags);
+#ifdef __USE_HIP__
+cudaError_t cudaStreamGetCaptureInfo(cudaStream_t stream,
+				     cudaStreamCaptureStatus *captureStatus_out,
+				     unsigned long long *id_out);
+#else
+cudaError_t cudaStreamGetCaptureInfo(cudaStream_t stream,
+				     cudaStreamCaptureStatus *captureStatus_out,
+				     unsigned long long *id_out,
+				     cudaGraph_t *graph_out,
+				     const cudaGraphNode_t **dependencies_out,
+				     const cudaGraphEdgeData **edgeData_out,
+				     size_t *numDependencies_out);
+#endif
 
 cudaError_t cudaThreadExchangeStreamCaptureMode(cudaStreamCaptureMode *mode);
 
