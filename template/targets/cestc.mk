@@ -118,7 +118,7 @@ $(eval $(call luca_obj_a,cu))
 $(eval $(call luca_obj_a,luca))
 
 # Example format of hc_fatbin and hcFatBinSegment, see:
-# commit 798dd703bcc9 ("targets/metax.mk: add .hc_fatbin and .hcFatBinSegment targets")
+# commit 798dd703bcc9 ("targets/hpcc.mk: add .hc_fatbin and .hcFatBinSegment targets")
 # TODO: section name .hc_fatbin will be renamed.
 ${OUTPUT}%.luca.hc_fatbin: % | ${OUTPUT}
 	$(call log_obj,HC FATBIN,$(<),$(@))

@@ -198,7 +198,7 @@ ifneq ($(target-hipcc-y)$(target-hipcc-libso-y)$(target-hipcc-liba-y),)
   include targets/amd.mk
 endif
 ifneq ($(target-htcc-y)$(target-htcc-libso-y)$(target-htcc-liba-y),)
-  include targets/metax.mk
+  include targets/hpcc.mk
 endif
 ifneq ($(target-lscc-y)$(target-lscc-libso-y)$(target-lscc-liba-y),)
   include targets/cestc.mk

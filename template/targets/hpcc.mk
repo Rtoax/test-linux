@@ -126,7 +126,7 @@ $(eval $(call hpcc_obj_a,cu))
 $(eval $(call hpcc_obj_a,hpcc))
 
 # Example format of hc_fatbin and hcFatBinSegment, see:
-# commit 798dd703bcc9 ("targets/metax.mk: add .hc_fatbin and .hcFatBinSegment targets")
+# commit 798dd703bcc9 ("targets/hpcc.mk: add .hc_fatbin and .hcFatBinSegment targets")
 ${OUTPUT}%.hpcc.hc_fatbin: % | ${OUTPUT}
 	$(call log_obj,HC FATBIN,$(<),$(@))
 	${Q}$(OBJCOPY) -O binary --only-section=.hc_fatbin $(<) $(@)
