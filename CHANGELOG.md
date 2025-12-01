@@ -13,6 +13,7 @@ and this project adheres to
 #### Added
 - ai: add os subdir;
 #### Changed
+- template/targets: rename cestc.mk to luca.mk;
 - template/targets: rename metax.mk to hpcc.mk;
 #### Deprecated
 #### Removed

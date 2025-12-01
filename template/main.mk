@@ -201,7 +201,7 @@ ifneq ($(target-htcc-y)$(target-htcc-libso-y)$(target-htcc-liba-y),)
   include targets/hpcc.mk
 endif
 ifneq ($(target-lscc-y)$(target-lscc-libso-y)$(target-lscc-liba-y),)
-  include targets/cestc.mk
+  include targets/luca.mk
 endif
 ifneq ($(target-shell-y),)
   include targets/shell.mk
