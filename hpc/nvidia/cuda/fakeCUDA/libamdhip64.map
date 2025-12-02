@@ -110,6 +110,7 @@ hip_4.5 {
 		hipGraphAddEventWaitNode;
 		hipGraphAddEventRecordNode;
 		hipGraphAddHostNode;
+		hipStreamUpdateCaptureDependencies;
 };
 
 hip_5.0 {

@@ -578,6 +578,19 @@
  */
 #define cudaStreamGetCaptureInfo	__cuda(StreamGetCaptureInfo)
 
+/**
+ * CUDA 13.0
+ * cudaError_t cudaStreamUpdateCaptureDependencies(cudaStream_t stream, cudaGraphNode_t *dependencies,
+ *                                                 const cudaGraphEdgeData *dependencyData,
+ *                                                 size_t numDependencies, unsigned int flags __dv(0));
+ *
+ * HIP 6.4
+ * hipError_t hipStreamUpdateCaptureDependencies(hipStream_t stream, hipGraphNode_t* dependencies,
+ *                                               size_t numDependencies,
+ *                                               unsigned int flags __dparm(0));
+ */
+#define cudaStreamUpdateCaptureDependencies	__cuda(StreamUpdateCaptureDependencies)
+
 #define cudaStreamCaptureMode	__cuda(StreamCaptureMode)
 /**
  * CUDA 13.0

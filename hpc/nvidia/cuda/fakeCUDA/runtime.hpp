@@ -168,6 +168,12 @@ cudaError_t cudaStreamGetCaptureInfo(cudaStream_t stream,
 				     const cudaGraphEdgeData **edgeData_out,
 				     size_t *numDependencies_out);
 #endif
+cudaError_t cudaStreamUpdateCaptureDependencies(cudaStream_t stream,
+						cudaGraphNode_t *dependencies,
+						#ifndef __USE_HIP__
+                                                const cudaGraphEdgeData *dependencyData,
+						#endif
+                                                size_t numDependencies, unsigned int flags);
 
 cudaError_t cudaThreadExchangeStreamCaptureMode(cudaStreamCaptureMode *mode);
 
