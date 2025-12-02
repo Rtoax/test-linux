@@ -195,7 +195,7 @@ ifneq ($(target-nvcc-y)$(target-nvcc-libso-y)$(target-nvcc-liba-y),)
   include targets/nvidia.mk
 endif
 ifneq ($(target-hipcc-y)$(target-hipcc-libso-y)$(target-hipcc-liba-y),)
-  include targets/amd.mk
+  include targets/hip.mk
 endif
 ifneq ($(target-htcc-y)$(target-htcc-libso-y)$(target-htcc-liba-y),)
   include targets/hpcc.mk
