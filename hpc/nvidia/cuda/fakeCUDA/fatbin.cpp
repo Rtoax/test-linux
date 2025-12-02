@@ -68,7 +68,7 @@ skip_elf:
  * https://github.com/ROCm/rocm-systems
  * ROCm/rocm-systems/projects/clr/hipamd/src/hip_comgr_helper.cpp
  */
-void fakeHipFatbinParser(const struct ClangOffloadBundleUncompressedHeader *obheader)
+void fakeHipFatbinParserWithUncompressedHdr(const struct ClangOffloadBundleUncompressedHeader *obheader)
 {
 	DEBUG_DBG("HIP obheader: magic %s, numOfCodeObjects %ld\n",
 		  obheader->magic, obheader->numOfCodeObjects);
