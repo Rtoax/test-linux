@@ -254,6 +254,10 @@ cudaError_t cudaGraphAddEventRecordNode(cudaGraphNode_t *pGraphNode,
 					const cudaGraphNode_t *pDependencies,
 					size_t numDependencies,
 					cudaEvent_t event);
+cudaError_t cudaGraphAddHostNode(cudaGraphNode_t *pGraphNode, cudaGraph_t graph,
+				 const cudaGraphNode_t *pDependencies,
+				 size_t numDependencies,
+				 const struct cudaHostNodeParams *pNodeParams);
 
 #ifdef __cplusplus
 }

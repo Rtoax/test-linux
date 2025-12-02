@@ -410,3 +410,11 @@ cudaError_t cudaGraphAddEventRecordNode(cudaGraphNode_t *pGraphNode,
 {
 	return cudaSuccess;
 }
+
+cudaError_t cudaGraphAddHostNode(cudaGraphNode_t *pGraphNode, cudaGraph_t graph,
+				 const cudaGraphNode_t *pDependencies,
+				 size_t numDependencies,
+				 const struct cudaHostNodeParams *pNodeParams)
+{
+	return cudaSuccess;
+}
