@@ -16,6 +16,7 @@
 #
 # Input definitions:
 # - LUCA_ROOT=
+# - NODEFAULTRPATH
 
 _TARGET_CESTC = 1
 
@@ -70,8 +71,10 @@ else
   LDFLAGS_LSCC += -lhcsolver
 endif
 
-# Remove default so search directory, see ldflags: -Wl,-rpath,/path/to/so/
-LDFLAGS_LSCC += -nodefaultrpath
+ifdef NODEFAULTRPATH
+  # Remove default so search directory, see ldflags: -Wl,-rpath,/path/to/so/
+  LDFLAGS_LSCC += -nodefaultrpath
+endif
 
 ifdef ERROR
   CFLAGS_LSCC += -DERROR=1

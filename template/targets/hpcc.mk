@@ -21,6 +21,7 @@
 #
 # Input definitions:
 # - HPCC_ROOT
+# - NODEFAULTRPATH
 
 _TARGET_METAX = 1
 
@@ -66,8 +67,10 @@ LDFLAGS_HTCC += -lhcrand
 LDFLAGS_HTCC += -lhcsparse
 LDFLAGS_HTCC += -lhcsolver
 
-# Remove default so search directory, see ldflags: -Wl,-rpath,/path/to/so/
-LDFLAGS_HTCC += -nodefaultrpath
+ifdef NODEFAULTRPATH
+  # Remove default so search directory, see ldflags: -Wl,-rpath,/path/to/so/
+  LDFLAGS_HTCC += -nodefaultrpath
+endif
 
 ifdef ERROR
   CFLAGS_HTCC += -DERROR=1
