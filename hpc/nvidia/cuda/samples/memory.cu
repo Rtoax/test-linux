@@ -160,6 +160,8 @@ int main(int argc, char *argv[])
 		return -err;
 	}
 
+	gpu_init(0);
+
 	devNum = gpu_num();
 	devices = (struct device *)malloc(devNum * sizeof(struct device));
 
