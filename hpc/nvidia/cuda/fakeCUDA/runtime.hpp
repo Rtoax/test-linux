@@ -182,6 +182,7 @@ cudaError_t cudaLaunchCooperativeKernel(const void *func,
 					size_t sharedMem,
 					#endif
 					cudaStream_t stream);
+cudaError_t cudaLaunchHostFunc(cudaStream_t stream, cudaHostFn_t fn, void *userData);
 
 cudaError_t cudaEventCreate(cudaEvent_t *event);
 cudaError_t cudaEventCreateWithFlags(cudaEvent_t *event, unsigned int flags);

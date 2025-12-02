@@ -455,6 +455,15 @@
 #define cudaLaunchCooperativeKernel(kernel, blocks, blksz, kargs, bytes, stream) \
 	__cuda(LaunchCooperativeKernel(kernel, blocks, blksz, kargs, bytes, stream))
 
+/**
+ * CUDA 13.0
+ * cudaError_t cudaLaunchHostFunc(cudaStream_t stream, cudaHostFn_t fn, void *userData);
+ *
+ * HIP 6.4
+ * hipError_t hipLaunchHostFunc(hipStream_t stream, hipHostFn_t fn, void* userData);
+ */
+#define cudaLaunchHostFunc	__cuda(LaunchHostFunc)
+
 #define cudaFuncAttributes	__cuda(FuncAttributes)
 #define cudaFuncAttribute	__cuda(FuncAttribute)
 /**

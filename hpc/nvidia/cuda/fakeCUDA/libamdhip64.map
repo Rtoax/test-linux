@@ -131,6 +131,7 @@ hip_5.3 {
 		hipStreamGetCaptureInfo_v2_spt;
 		hipUserObjectCreate;
 		hipGraphRetainUserObject;
+		hipLaunchHostFunc;
 };
 
 hip_6.0 {

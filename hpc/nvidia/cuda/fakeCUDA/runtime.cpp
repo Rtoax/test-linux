@@ -280,6 +280,11 @@ cudaError_t cudaLaunchCooperativeKernel(const void *func,
 	return cudaSuccess;
 }
 
+cudaError_t cudaLaunchHostFunc(cudaStream_t stream, cudaHostFn_t fn, void *userData)
+{
+	return cudaSuccess;
+}
+
 nvrtcResult nvrtcDestroyProgram(nvrtcProgram *prog)
 {
 	return NVRTC_SUCCESS;
