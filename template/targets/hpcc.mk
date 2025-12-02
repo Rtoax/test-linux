@@ -18,6 +18,9 @@
 # - target-htcc-y
 # - target-htcc-libso-y
 # - target-htcc-liba-y
+#
+# Input definitions:
+# - HPCC_ROOT
 
 _TARGET_METAX = 1
 
@@ -50,8 +53,8 @@ endif
 # /opt/hpcc/include/hcsparse/interface/hcsp_conversion.h:8:10: fatal error: 'common/hcsp_types.h' file not found
 # #include "common/hcsp_types.h"
 #          ^~~~~~~~~~~~~~~~~~~~~
-CFLAGS_HTCC += -I/opt/hpcc/include/hcsparse/
-CFLAGS_HTCC += -I/opt/hpcc/include/hcblas/
+CFLAGS_HTCC += -I${HPCC_ROOT}/include/hcsparse/
+CFLAGS_HTCC += -I${HPCC_ROOT}/include/hcblas/
 
 # FIXME: warning: 'visibility' attribute ignored
 CFLAGS_HTCC += -Wno-ignored-attributes
