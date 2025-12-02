@@ -235,6 +235,7 @@ cudaError_t cudaPointerGetAttributes(cudaPointerAttributes *attributes, const vo
 cudaError_t cudaFuncGetAttributes(struct cudaFuncAttributes *attr, const void *func);
 cudaError_t cudaFuncSetAttribute(const void* func, cudaFuncAttribute attr, int value);
 
+cudaError_t cudaIpcGetMemHandle(cudaIpcMemHandle_t *handle, void *devPtr);
 cudaError_t cudaIpcCloseMemHandle(void *devPtr);
 
 cudaError_t cudaDeviceGetPCIBusId(char *pciBusId, int len, int device);

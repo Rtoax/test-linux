@@ -364,6 +364,11 @@ cudaError_t cudaFuncSetAttribute(const void* func, cudaFuncAttribute attr, int v
 	return cudaSuccess;
 }
 
+cudaError_t cudaIpcGetMemHandle(cudaIpcMemHandle_t *handle, void *devPtr)
+{
+	return cudaSuccess;
+}
+
 cudaError_t cudaIpcCloseMemHandle(void *devPtr)
 {
 	return cudaSuccess;

@@ -90,6 +90,7 @@ hip_4.2 {
 		hipFuncGetAttributes;
 		hipFuncSetAttribute;
 		hipExtLaunchKernel;
+		hipIpcGetMemHandle;
 		hipIpcCloseMemHandle;
 		hipHostRegister;
 		hipHostUnregister;

@@ -1063,6 +1063,16 @@
  */
 #define cudaDeviceSynchronize()	__cuda(DeviceSynchronize())
 
+#define cudaIpcMemHandle_t	__cuda(IpcMemHandle_t)
+/**
+ * CUDA 13.0
+ * cudaError_t cudaIpcGetMemHandle(cudaIpcMemHandle_t *handle, void *devPtr);
+ *
+ * HIP 6.4
+ * hipError_t hipIpcGetMemHandle(hipIpcMemHandle_t* handle, void* devPtr);
+ */
+#define cudaIpcGetMemHandle	__cuda(IpcGetMemHandle)
+
 /**
  * CUDA 13.0
  * cudaError_t cudaIpcCloseMemHandle(void *devPtr);
