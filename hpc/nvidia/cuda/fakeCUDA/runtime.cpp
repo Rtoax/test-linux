@@ -369,6 +369,11 @@ cudaError_t cudaIpcGetMemHandle(cudaIpcMemHandle_t *handle, void *devPtr)
 	return cudaSuccess;
 }
 
+cudaError_t cudaIpcOpenMemHandle(void **devPtr, cudaIpcMemHandle_t handle, unsigned int flags)
+{
+	return cudaSuccess;
+}
+
 cudaError_t cudaIpcCloseMemHandle(void *devPtr)
 {
 	return cudaSuccess;
