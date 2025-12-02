@@ -249,6 +249,11 @@ cudaError_t cudaGraphAddEventWaitNode(cudaGraphNode_t *pGraphNode,
 				      const cudaGraphNode_t *pDependencies,
 				      size_t numDependencies,
 				      cudaEvent_t event);
+cudaError_t cudaGraphAddEventRecordNode(cudaGraphNode_t *pGraphNode,
+					cudaGraph_t graph,
+					const cudaGraphNode_t *pDependencies,
+					size_t numDependencies,
+					cudaEvent_t event);
 
 #ifdef __cplusplus
 }

@@ -401,3 +401,12 @@ cudaError_t cudaGraphAddEventWaitNode(cudaGraphNode_t *pGraphNode,
 {
 	return cudaSuccess;
 }
+
+cudaError_t cudaGraphAddEventRecordNode(cudaGraphNode_t *pGraphNode,
+					cudaGraph_t graph,
+					const cudaGraphNode_t *pDependencies,
+					size_t numDependencies,
+					cudaEvent_t event)
+{
+	return cudaSuccess;
+}
