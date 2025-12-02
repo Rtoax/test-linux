@@ -379,6 +379,11 @@ cudaError_t cudaDeviceGetByPCIBusId(int *device, const char *pciBusId)
 	return cudaSuccess;
 }
 
+cudaError_t cudaDeviceEnablePeerAccess(int peerDevice, unsigned int flags)
+{
+	return cudaSuccess;
+}
+
 cudaError_t cudaHostRegister(void *ptr, size_t size, unsigned int flags)
 {
 	return cudaSuccess;

@@ -29,6 +29,7 @@ hip_4.2 {
 		hipDeviceComputeCapability;
 		hipDeviceGetPCIBusId;
 		hipDeviceGetByPCIBusId;
+		hipDeviceEnablePeerAccess;
 		hipMalloc;
 		hipMallocManaged;
 		hipFree;

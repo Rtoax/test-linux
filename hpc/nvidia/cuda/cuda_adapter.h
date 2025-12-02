@@ -1041,9 +1041,14 @@
  */
 #define cudaDeviceCanAccessPeer(can, devfrom, devto) __cuda(DeviceCanAccessPeer(can, devfrom, devto))
 /**
+ * CUDA 13.0
  * cudaError_t cudaDeviceEnablePeerAccess(int peerDevice, unsigned int flags);
+ *
+ * HIP 6.4
+ * hipError_t hipDeviceEnablePeerAccess(int peerDeviceId, unsigned int flags);
  */
 #define cudaDeviceEnablePeerAccess(peerdev, flag)	__cuda(DeviceEnablePeerAccess(peerdev, flag))
+
 /**
  * cudaError_t cudaDeviceDisablePeerAccess(int peerDevice);
  */
