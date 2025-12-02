@@ -423,3 +423,10 @@ cudaError_t cudaGraphAddHostNode(cudaGraphNode_t *pGraphNode, cudaGraph_t graph,
 {
 	return cudaSuccess;
 }
+
+cudaError_t cudaGraphAddKernelNode(cudaGraphNode_t *pGraphNode, cudaGraph_t graph,
+				   const cudaGraphNode_t *pDependencies, size_t numDependencies,
+				   const struct cudaKernelNodeParams *pNodeParams)
+{
+	return cudaSuccess;
+}

@@ -259,6 +259,9 @@ cudaError_t cudaGraphAddHostNode(cudaGraphNode_t *pGraphNode, cudaGraph_t graph,
 				 const cudaGraphNode_t *pDependencies,
 				 size_t numDependencies,
 				 const struct cudaHostNodeParams *pNodeParams);
+cudaError_t cudaGraphAddKernelNode(cudaGraphNode_t *pGraphNode, cudaGraph_t graph,
+				   const cudaGraphNode_t *pDependencies, size_t numDependencies,
+				   const struct cudaKernelNodeParams *pNodeParams);
 
 #ifdef __cplusplus
 }

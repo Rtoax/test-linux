@@ -676,6 +676,20 @@
  */
 #define cudaGraphAddHostNode	__cuda(GraphAddHostNode)
 
+#define cudaKernelNodeParams	__cuda(KernelNodeParams)
+/**
+ * CUDA 13.0
+ * cudaError_t cudaGraphAddKernelNode(cudaGraphNode_t *pGraphNode, cudaGraph_t graph,
+ *                                    const cudaGraphNode_t *pDependencies, size_t numDependencies,
+ *                                    const struct cudaKernelNodeParams *pNodeParams);
+ *
+ * HIP 6.4
+ * hipError_t hipGraphAddKernelNode(hipGraphNode_t* pGraphNode, hipGraph_t graph,
+ *                                  const hipGraphNode_t* pDependencies, size_t numDependencies,
+ *                                  const hipKernelNodeParams* pNodeParams);
+ */
+#define cudaGraphAddKernelNode	__cuda(GraphAddKernelNode)
+
 /**
  * CUDA V13.0.48
  * CUresult cuDeviceGet(CUdevice *device, int ordinal);
