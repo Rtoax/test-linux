@@ -65,6 +65,7 @@ hip_4.2 {
 		hipEventRecord;
 		hipEventRecordWithFlags;
 		hipEventSynchronize;
+		hipEventQuery;
 		hiprtcDestroyProgram;
 		hiprtcGetCode;
 		hiprtcGetCodeSize;

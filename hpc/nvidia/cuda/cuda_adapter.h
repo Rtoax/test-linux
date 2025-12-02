@@ -452,6 +452,15 @@
 #define cudaEventSynchronize(ev)	__cuda(EventSynchronize(ev))
 
 /**
+ * CUDA 13.0
+ * cudaError_t cudaEventQuery(cudaEvent_t event);
+ *
+ * HIP 6.4
+ * hipError_t hipEventQuery(hipEvent_t event);
+ */
+#define cudaEventQuery	__cuda(EventQuery)
+
+/**
  * cudaError_t cudaLaunchKernel(const void *func, dim3 gridDim, dim3 blockDim,
  *                              void **args, size_t sharedMem, cudaStream_t stream);
  * hcError_t hcLaunchKernel(const void *function_address, dim3 numBlocks, dim3 dimBlocks,

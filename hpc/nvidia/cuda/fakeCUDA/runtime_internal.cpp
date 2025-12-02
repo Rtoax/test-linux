@@ -39,7 +39,8 @@ char __cudaInitModule(void **fatCubinHandle)
 void **__cudaRegisterFatBinary(void *fatCubin)
 {
 	struct __CudaFatBinaryWrapper *wrapper;
-	const struct ClangOffloadBundleUncompressedHeader *hipHdr;
+	const struct ClangOffloadBundleUncompressedHeader *hipUncompressedHdr;
+	const struct ClangOffloadBundleCompressedHeader *hipCompressedHdr;
 
 	wrapper = (struct __CudaFatBinaryWrapper *)fatCubin;
 
@@ -73,11 +74,24 @@ void **__cudaRegisterFatBinary(void *fatCubin)
 		/**
 		 * The Fatbin is HIP like format.
 		 */
-		hipHdr = (struct ClangOffloadBundleUncompressedHeader *)wrapper->fatbin;
-		if (!strncmp(hipHdr->magic, kOffloadBundleUncompressedMagicStr,
+		hipUncompressedHdr = (struct ClangOffloadBundleUncompressedHeader *)wrapper->fatbin;
+		hipCompressedHdr = (struct ClangOffloadBundleCompressedHeader *)wrapper->fatbin;
+
+		debug_hexdump(hipUncompressedHdr, sizeof(*hipUncompressedHdr));
+		debug_hexdump(hipCompressedHdr, sizeof(*hipCompressedHdr));
+
+		if (!strncmp(hipUncompressedHdr->magic, kOffloadBundleUncompressedMagicStr,
 			     kOffloadBundleUncompressedMagicStrSize - 1)) {
-			DEBUG_WARN("Found HIP/HPCC Fatbin, magic %s\n", hipHdr->magic);
-			fakeHipFatbinParser(hipHdr);
+			DEBUG_WARN("Found HIP/HPCC Fatbin with Uncompressed Hdr, magic %s\n",
+				hipUncompressedHdr->magic);
+			fakeHipFatbinParserWithUncompressedHdr(hipUncompressedHdr);
+		} else if (!strncmp(hipCompressedHdr->magic, kOffloadBundleCompressedMagicStr,
+			     kOffloadBundleCompressedMagicStrSize - 1)) {
+			DEBUG_WARN("Found HIP/HPCC Fatbin with Compressed Hdr, magic %s\n",
+				hipUncompressedHdr->magic);
+			/**
+			 * TODO: parse the compressed header
+			 */
 		} else {
 			DEBUG_WARN("Found CUDA Fatbin\n");
 			fakeCudaFatbinParser((struct fatBinaryHeader *)wrapper->fatbin);
