@@ -88,11 +88,15 @@
 #   define SUPPORT__Float16 /* HPCC always support _Float16 */
 #  endif
 # elif defined(__LUCA__)	/* CESTC */
-/* TODO: luca has own name prefix. */
-#  include <hccl.h>
+#  ifdef LUCA_PHASE_II_PROJECT
+#   include <lccl.h>
+#   include <lc_runtime.h>
+#  else
+#   include <hccl.h>
+#   include <hc_runtime.h>
+#  endif
 #  include <luca_fp16.h>
 #  include <luca_bfloat16.h>
-#  include <hc_runtime.h>
 #  include "cuda_adapter.h"
 #  ifndef SUPPORT__Float16
 #   define SUPPORT__Float16 /* LUCA always support _Float16 */

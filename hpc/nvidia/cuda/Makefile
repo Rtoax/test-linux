@@ -1,6 +1,8 @@
 # SPDX-License-Identifier: GPL-3.0
 OUTPUT := .output/
 
+__IGNORE_NOTFOUND_ERROR__ = y
+
 include cuda.mk
 include rocm.mk
 include hpcc.mk

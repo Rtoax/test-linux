@@ -6,6 +6,7 @@
  * - __USE_HIP__
  * - __USE_HIP_V2__: use V2 API, default: disable
  * - __USE_LUCA__
+ * - LUCA_PHASE_II_PROJECT:
  *
  * - __NOT_USE_FP8__: include fp8 header
  *
@@ -56,25 +57,49 @@
  * LUCA                                                                       *
 \******************************************************************************/
 #elif defined(__USE_LUCA__)
-/* FIXME: luca has it's own headers */
-# include <hcr/hc_runtime.h>
-# include <hcr/hcrtc.h>
-# include <hcc/hcc_internal.h>
-# include <hcblas/hcblas.h>
-# include <hcblas/hcblasLt.h>
-# include <hcsparse/hcsparse.h>
-# include <hcrand/hcrand.h>
-# include <hcfft/hcfft.h>
-# include <hcsolver/hcsolver_common.h>
-# ifndef __NOT_USE_FP8__
-#  include <luca_fp8.h>
-# endif
-# ifdef HAVE_LCDNN
-#  include <hcdnn/hcdnn.h>
-# endif
-# include <luca_fp16.h>
-# include <luca_cooperative_groups.h>
-# include <hccl.h>
+/**
+ * In the second phase of LUCA development, the filename changed, and the
+ * definition was deleted once development was completed.
+ */
+# ifdef LUCA_PHASE_II_PROJECT
+#  include <lcr/lc_runtime.h>
+#  include <lcr/lcrtc.h>
+#  include <lcc/lcc_internal.h>
+#  include <lcblas/lcblas.h>
+#  include <lcblas/lcblasLt.h>
+#  include <lcsparse/lcsparse.h>
+#  include <lcrand/lcrand.h>
+#  include <lcfft/lcfft.h>
+#  include <lcsolver/lcsolver_common.h>
+#  ifndef __NOT_USE_FP8__
+#   include <luca_fp8.h>
+#  endif
+#  ifdef HAVE_LCDNN
+#   include <lcdnn/lcdnn.h>
+#  endif
+#  include <luca_fp16.h>
+#  include <luca_cooperative_groups.h>
+#  include <lccl.h>
+# else /* LUCA_PHASE_II_PROJECT */
+#  include <hcr/hc_runtime.h>
+#  include <hcr/hcrtc.h>
+#  include <hcc/hcc_internal.h>
+#  include <hcblas/hcblas.h>
+#  include <hcblas/hcblasLt.h>
+#  include <hcsparse/hcsparse.h>
+#  include <hcrand/hcrand.h>
+#  include <hcfft/hcfft.h>
+#  include <hcsolver/hcsolver_common.h>
+#  ifndef __NOT_USE_FP8__
+#   include <luca_fp8.h>
+#  endif
+#  ifdef HAVE_LCDNN
+#   include <hcdnn/hcdnn.h>
+#  endif
+#  include <luca_fp16.h>
+#  include <luca_cooperative_groups.h>
+#  include <hccl.h>
+#  endif /* LUCA_PHASE_II_PROJECT */
 # include "cuda_adapter.h"
 # define CUNAME	"CESTC"
 /******************************************************************************\

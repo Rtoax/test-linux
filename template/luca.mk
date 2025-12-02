@@ -8,6 +8,9 @@
 # - HAVE_LUCA=y
 # - HAVE_LCDNN=y
 # - LUCA_ROOT=
+# - LUCA_PHASE_II_PROJECT=  In the second phase of LUCA development, the
+#                           filename changed, and the definition was deleted
+#                           once development was completed.
 # - LSCC=
 # - LUCA_VERSION_MAJOR=
 # - LUCA_VERSION_MINOR=
@@ -21,16 +24,23 @@ LUCA_ROOT := /opt/luca
 LUCA_ROOT := $(shell realpath ${LUCA_ROOT} 2>/dev/null || true)
 LUCA_CU_BRIDGE := ${LUCA_ROOT}/tools/cu-bridge/include/
 LUCA_LLVM := ${LUCA_ROOT}/htgpu_llvm/
-# FIXME: Need rename htcc to lscc
+# Note: During the LUCA development process, the path and file name changed.
+ifeq ($(wildcard ${LUCA_LLVM}),)
+  LUCA_LLVM := ${LUCA_ROOT}/lsgpu_llvm/
+  LUCA_PHASE_II_PROJECT := y
+  export LUCA_PHASE_II_PROJECT
+endif
 LSCC := ${LUCA_LLVM}/bin/htcc
+ifeq ($(wildcard ${LSCC}),)
+  LSCC := ${LUCA_LLVM}/bin/lscc
+endif
 
-ifeq ($(LSCC),)
-  ifneq ($(target-lscc-y),)
+ifeq ($(wildcard ${LSCC}),)
+  ifneq ($(target-lscc-y)$(target-lscc-libso-y)$(target-lscc-liba-y),)
     ifdef __IGNORE_NOTFOUND_ERROR__
-      $(warning Not found lscc with target-lscc-y not empty, but __IGNORE_NOTFOUND_ERROR__)
-      target-lscc-y :=
+      $(warning Not found lscc with target lscc not empty, but __IGNORE_NOTFOUND_ERROR__)
     else
-      $(error Not found lscc with target-lscc-y not empty, install MetaX hpcc first)
+      $(error Not found lscc with target lscc not empty, install LUCA first)
     endif
   endif
 endif

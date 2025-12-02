@@ -10,6 +10,7 @@ and this project adheres to
 ## Unreleased
 
 #### Breaking Changes
+- luca: Phase II project tested;
 #### Added
 - ai: add os subdir;
 #### Changed

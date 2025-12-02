@@ -13,6 +13,9 @@
 # - target-lscc-y
 # - target-lscc-libso-y
 # - target-lscc-liba-y
+#
+# Input definitions:
+# - LUCA_ROOT=
 
 _TARGET_CESTC = 1
 
@@ -39,21 +42,33 @@ ifneq ($(LUCA_VERSION_MAJOR}),)
   CFLAGS_LSCC += -DLUCA_VERSION_PATCH=${LUCA_VERSION_PATCH}
 endif
 
-# FIXME: In file included from sparse.luca:6:
-# In file included from /opt/luca/include/hcsparse/hcsparse.h:9:
-# /opt/luca/include/hcsparse/interface/hcsp_conversion.h:8:10: fatal error: 'common/hcsp_types.h' file not found
-# #include "common/hcsp_types.h"
-#          ^~~~~~~~~~~~~~~~~~~~~
-CFLAGS_LSCC += -I/opt/luca/include/hcsparse/
-CFLAGS_LSCC += -I/opt/luca/include/hcblas/
+ifdef LUCA_PHASE_II_PROJECT
+  CFLAGS_LSCC += -DLUCA_PHASE_II_PROJECT=1
+  CFLAGS_LSCC += -I${LUCA_ROOT}/include/lcsparse/
+  CFLAGS_LSCC += -I${LUCA_ROOT}/include/lcblas/
 
-# TODO: prefix 'hc' will be renamed.
-LDFLAGS_LSCC += -lhccl
-LDFLAGS_LSCC += -lhcblas -lhcblasLt
-LDFLAGS_LSCC += -lhcfft
-LDFLAGS_LSCC += -lhcrand
-LDFLAGS_LSCC += -lhcsparse
-LDFLAGS_LSCC += -lhcsolver
+  LDFLAGS_LSCC += -llccl
+  LDFLAGS_LSCC += -llcblas -llcblasLt
+  LDFLAGS_LSCC += -llcfft
+  LDFLAGS_LSCC += -llcrand
+  LDFLAGS_LSCC += -llcsparse
+  LDFLAGS_LSCC += -llcsolver
+else
+  # FIXME: In file included from sparse.luca:6:
+  # In file included from /opt/luca/include/hcsparse/hcsparse.h:9:
+  # /opt/luca/include/hcsparse/interface/hcsp_conversion.h:8:10: fatal error: 'common/hcsp_types.h' file not found
+  # #include "common/hcsp_types.h"
+  #          ^~~~~~~~~~~~~~~~~~~~~
+  CFLAGS_LSCC += -I${LUCA_ROOT}/include/hcsparse/
+  CFLAGS_LSCC += -I${LUCA_ROOT}/include/hcblas/
+
+  LDFLAGS_LSCC += -lhccl
+  LDFLAGS_LSCC += -lhcblas -lhcblasLt
+  LDFLAGS_LSCC += -lhcfft
+  LDFLAGS_LSCC += -lhcrand
+  LDFLAGS_LSCC += -lhcsparse
+  LDFLAGS_LSCC += -lhcsolver
+endif
 
 # Remove default so search directory, see ldflags: -Wl,-rpath,/path/to/so/
 LDFLAGS_LSCC += -nodefaultrpath

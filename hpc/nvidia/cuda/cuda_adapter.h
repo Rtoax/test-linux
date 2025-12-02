@@ -2,31 +2,64 @@
 /* Copyright (c) 2025 Rong Tao */
 /**
  * Input definitions:
- * - __USE_HIP__	AMD ROCm HIP
- * - __USE_HPCC__	Mars
- * - __USE_LUCA__	Luca
+ * - __USE_HIP__		AMD ROCm HIP
+ * - __USE_HPCC__		Mars
+ * - __USE_LUCA__		Luca
+ *   LUCA_PHASE_II_PROJECT
  */
 #pragma once
 
+/******************************************************************************\
+ * HPCC: High Performance Computing Communications                            *
+\******************************************************************************/
 /* FIXME: LUCA has it's own prefix macros */
-#if defined(__USE_HPCC__) || defined(__USE_LUCA__)
-/* Metax has CUDA-compatible APIs */
+#if defined(__USE_HPCC__)
+/* HPCC has CUDA-compatible APIs */
 # define __cu(name)	hc##name
 # define __cuda(name)	hc##name
 # define __CU(name)	HC##name
 # define __CUDA(name)	HC_##name
 # define __CUDA_ERROR(name)	HCC_STATUS_##name
 # define __nv(name)	hc##name
-# ifdef __USE_HPCC__
-#  define ____nv_(name)	__hpcc_##name
-#  define ____NV_(name)	__HPCC_##name
-# elif defined(__USE_LUCA__)
-#  define ____nv_(name)	__luca_##name
-#  define ____NV_(name)	__LUCA_##name
-# endif
+# define ____nv_(name)	__hpcc_##name
+# define ____NV_(name)	__HPCC_##name
 # define __NV(name)	HC##name
 # define __nccl(name)	hccl##name
 # define __pnccl(name)	phccl##name
+/******************************************************************************\
+ * LUCA                                                                       *
+\******************************************************************************/
+#elif defined(__USE_LUCA__)
+/**
+ * In the second phase of LUCA development, the filename changed, and the
+ * definition was deleted once development was completed.
+ */
+# ifdef LUCA_PHASE_II_PROJECT
+#  define __cu(name)	lc##name
+#  define __cuda(name)	lc##name
+#  define __CU(name)	LC##name
+#  define __CUDA(name)	LC_##name
+#  define __CUDA_ERROR(name)	LCC_STATUS_##name
+#  define __nv(name)	lc##name
+#  define __NV(name)	LC##name
+#  define __nccl(name)	lccl##name
+#  define __pnccl(name)	plccl##name
+# else /* LUCA_PHASE_II_PROJECT */
+#  define __cu(name)	hc##name
+#  define __cuda(name)	hc##name
+#  define __CU(name)	HC##name
+#  define __CUDA(name)	HC_##name
+#  define __CUDA_ERROR(name)	HCC_STATUS_##name
+#  define __nv(name)	hc##name
+#  define __NV(name)	HC##name
+#  define __nccl(name)	hccl##name
+#  define __pnccl(name)	phccl##name
+# endif /* LUCA_PHASE_II_PROJECT */
+# define ____nv_(name)	__luca_##name
+# define ____NV_(name)	__LUCA_##name
+/******************************************************************************\
+ * AMD ROCm HIP                                                               *
+\******************************************************************************/
 #elif defined(__USE_HIP__)
 # define __cu(name)	hip##name
 # define __cuda(name)	hip##name
@@ -2084,7 +2117,6 @@
 /**
  * There are store some special macros from here.
  */
-/* FIXME: luca has it's own definitions */
 #if defined(__USE_HPCC__) || defined(__USE_LUCA__)
 # undef CUresult
 # undef CUdevice
@@ -2094,13 +2126,29 @@
 # undef CUDA_ERROR_INVALID_VALUE
 # undef CUDA_SUCCESS
 
-# define CUresult	hcError_t
-# define CUdevice	hcDevice_t
-# define CUmodule	hcModule_t
-# define CUfunction	hcFunction_t
-# define CUjit_option	hcJitOption
+# if defined(__USE_HPCC__)
+#  define CUresult	hcError_t
+#  define CUdevice	hcDevice_t
+#  define CUmodule	hcModule_t
+#  define CUfunction	hcFunction_t
+#  define CUjit_option	hcJitOption
+# elif defined(__USE_LUCA__)
+#  ifdef LUCA_PHASE_II_PROJECT
+#   define CUresult	lcError_t
+#   define CUdevice	lcDevice_t
+#   define CUmodule	lcModule_t
+#   define CUfunction	lcFunction_t
+#   define CUjit_option	lcJitOption
+#  else
+#   define CUresult	hcError_t
+#   define CUdevice	hcDevice_t
+#   define CUmodule	hcModule_t
+#   define CUfunction	hcFunction_t
+#   define CUjit_option	hcJitOption
+#  endif
 # define CUDA_ERROR_INVALID_VALUE	cudaErrorInvalidValue
 # define CUDA_SUCCESS	cudaSuccess
+# endif
 #elif defined(__USE_HIP__)
 # undef CUresult
 # undef CUdevice
