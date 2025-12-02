@@ -13,9 +13,10 @@ Register with `register_bpf_struct_ops(&bpf_sched_ext_ops, ...)`.
 - https://docs.kernel.org/scheduler/sched-ext.html
   - https://www.kernel.org/doc/html/next/scheduler/sched-ext.html
 - https://docs.ebpf.io/linux/program-type/BPF_PROG_TYPE_STRUCT_OPS/sched_ext_ops/
+- https://sched-ext.com/
 
 ## Code
 
 - https://github.com/sched-ext/scx.git
-  - https://sched-ext.com/
+- read-only: [sched-ext-release-v6.6](https://github.com/sched-ext/sched_ext/tree/sched_ext-release-v6.6)
 - https://git.kernel.org/pub/scm/linux/kernel/git/tj/sched_ext.git/
