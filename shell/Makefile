@@ -26,6 +26,7 @@ target-shell-y += while.sh
 target-shell-y += cmdline.sh
 target-shell-y += sudo.sh
 target-shell-y += c_code.sh
+target-shell-y += version.sh
 
 SHELL_ARGS_stat.sh := /etc/os-release /etc/hosts
 
