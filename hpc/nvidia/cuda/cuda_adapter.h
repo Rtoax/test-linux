@@ -630,6 +630,10 @@
  * hipError_t hipStreamUpdateCaptureDependencies(hipStream_t stream, hipGraphNode_t* dependencies,
  *                                               size_t numDependencies,
  *                                               unsigned int flags __dparm(0));
+ *
+ * HPCC 3.0.0
+ * hcError_t hcStreamUpdateCaptureDependencies(hcStream_t stream, hcGraphNode_t *dependencies,
+ *                                             size_t numDependencies, unsigned int flags __dparm(0));
  */
 #define cudaStreamUpdateCaptureDependencies	__cuda(StreamUpdateCaptureDependencies)
 
@@ -728,6 +732,12 @@
  *                                const hipGraphNode_t* pDependencies,
  *                                size_t numDependencies,
  *                                const hipHostNodeParams* pNodeParams);
+ *
+ * HPCC 3.0.0
+ * hcError_t hcGraphAddHostNode(hcGraphNode_t *pGraphNode, hcGraph_t graph,
+ *                              const hcGraphNode_t *pDependencies,
+ *                              size_t numDependencies,
+ *                              const hcHostNodeParams *pNodeParams);
  */
 #define cudaGraphAddHostNode	__cuda(GraphAddHostNode)
 
@@ -2155,9 +2165,9 @@
 #   define CUfunction	hcFunction_t
 #   define CUjit_option	hcJitOption
 #  endif
+# endif
 # define CUDA_ERROR_INVALID_VALUE	cudaErrorInvalidValue
 # define CUDA_SUCCESS	cudaSuccess
-# endif
 #elif defined(__USE_HIP__)
 # undef CUresult
 # undef CUdevice

@@ -43,7 +43,7 @@ ifdef HAVE_RCCL
 endif
 
 ifdef HAVE_HPCC
-  $(info HAVE_HPCC=1)
+  $(info HAVE_HPCC)
   target-libso-cpp-y += ${libso-hpcc}
 
   CXXFLAGS_SO += -I${HPCC_ROOT}/include/
