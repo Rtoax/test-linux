@@ -10,8 +10,10 @@
  * - NVIDIA A40
  *   commit fb9553a10493 ("cuda: NVIDIA A40: properties")
  *
- * - MetaX Mars 03
- *   commit 0fba063e1fae ("hpc: DeviceProp: Metax Mars X203")
+ * - LingSpeed X710
+ *
+ * - Mars
+ *   commit 0fba063e1fae ("hpc: DeviceProp: Mars X203")
  *
  * - cuda-12.9 struct cudaDeviceProp
  *   commit d072d32dcb00 ("cuda: cudaGetDeviceProperties.cu: display more")
