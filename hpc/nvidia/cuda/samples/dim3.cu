@@ -47,12 +47,17 @@ __global__ void checkIndex(int it)
 
 	__syncthreads();
 
+	int tix = threadIdx.x, tiy = threadIdx.y, tiz = threadIdx.z, \
+		bdx = blockDim.x, bdy = blockDim.y, bdz = blockDim.z, \
+		bix = blockIdx.x, biy = blockIdx.y, biz = blockIdx.z, \
+		gdx = gridDim.x, gdy = gridDim.y, gdz = gridDim.z;
+
 	LOG_GLOBAL("threadIdx(%d,%d,%d), blockIdx(%d,%d,%d), blockDim(%d,%d,%d), gridDim(%d,%d,%d) " \
 		"(rank=%d,size=%d) (x=%d,y=%d,z=%d)\n",
-		threadIdx.x, threadIdx.y, threadIdx.z,
-		blockDim.x, blockDim.y, blockDim.z,
-		blockIdx.x, blockIdx.y, blockIdx.z,
-		gridDim.x, gridDim.y, gridDim.z,
+		tix, tiy, tiz,
+		bdx, bdy, bdz,
+		bix, biy, biz,
+		gdx, gdy, gdz,
 		rank, size,
 		ix, iy, iz);
 
