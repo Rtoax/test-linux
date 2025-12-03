@@ -154,6 +154,14 @@ hcError_t __hcRegisterManagedVar(void *fatCubinHandle, void **hostVarPtrAddress,
 	DEBUG_DBG("\n");
 	return hcSuccess;
 }
+#elif defined(__USE_LUCA__)
+lcError_t __lcRegisterManagedVar(void *fatCubinHandle, void **hostVarPtrAddress,
+				 void *deviceAddress, const char *deviceName,
+				 size_t size, unsigned int align)
+{
+	DEBUG_DBG("\n");
+	return lcSuccess;
+}
 #elif defined(__USE_HIP__)
 hipError_t __hipRegisterManagedVar(void *fatCubinHandle, void **hostVarPtrAddress,
 				   void *deviceAddress, const char *deviceName,

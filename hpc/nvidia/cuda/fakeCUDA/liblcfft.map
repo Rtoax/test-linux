@@ -1,0 +1,6 @@
+liblcfft.so {
+	global:
+		lcfftGetProperty;
+	local:
+		*;
+};

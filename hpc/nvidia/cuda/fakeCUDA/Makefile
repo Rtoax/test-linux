@@ -6,6 +6,7 @@ subdir-y := frontend
 include cuda.mk
 include rocm.mk
 include hpcc.mk
+include luca.mk
 
 libso-hpcc := libhccompiler.so
 libso-hpcc += libhccl.so
@@ -15,6 +16,14 @@ libso-hpcc += libhcblasLt.so
 libso-hpcc += libhcfft.so
 libso-hpcc += libhcrand.so
 libso-hpcc += libhcsparse.so
+
+libso-luca := liblccompiler.so
+libso-luca += liblcruntime.so
+libso-luca += liblcblas.so
+libso-luca += liblcblasLt.so
+libso-luca += liblcfft.so
+libso-luca += liblcrand.so
+libso-luca += liblcsparse.so
 
 libso-cuda := libcuda.so.1
 libso-cuda += libcudart.so.12 libcudart.so.13
@@ -55,6 +64,22 @@ ifdef HAVE_HPCC
   CXXFLAGS_SO += -DHAVE_HPCC=1
 endif
 
+ifdef HAVE_LUCA
+  $(info HAVE_LUCA)
+  target-libso-cpp-y += ${libso-luca}
+
+  CXXFLAGS_SO += -I${LUCA_ROOT}/include/
+  CXXFLAGS_SO += -I${LUCA_ROOT}/include/common/
+  CXXFLAGS_SO += -I${LUCA_ROOT}/include/lcr/
+  CXXFLAGS_SO += -I${LUCA_ROOT}/include/lcsparse/
+  CXXFLAGS_SO += -I${LUCA_ROOT}/include/lcblas/
+
+  CXXFLAGS_SO += -DHAVE_LUCA=1
+  ifdef LUCA_PHASE_II_PROJECT
+    CXXFLAGS_SO += -DLUCA_PHASE_II_PROJECT=1
+  endif
+endif
+
 ifdef HAVE_CUDA
   $(info HAVE_CUDA)
   target-libso-cpp-y += ${libso-cuda}
@@ -84,6 +109,15 @@ LDXXFLAGS_SO_libhcblasLt.so := -Wl,--version-script=libhcblasLt.map
 LDXXFLAGS_SO_libhcfft.so := -Wl,--version-script=libhcfft.map
 LDXXFLAGS_SO_libhcrand.so := -Wl,--version-script=libhcrand.map
 LDXXFLAGS_SO_libhcsparse.so := -Wl,--version-script=libhcsparse.map
+
+# LUCA
+LDXXFLAGS_SO_liblccompiler.so := -Wl,--version-script=liblccompiler.map
+LDXXFLAGS_SO_liblcruntime.so := -Wl,--version-script=liblcruntime.map
+LDXXFLAGS_SO_liblcblas.so := -Wl,--version-script=liblcblas.map
+LDXXFLAGS_SO_liblcblasLt.so := -Wl,--version-script=liblcblasLt.map
+LDXXFLAGS_SO_liblcfft.so := -Wl,--version-script=liblcfft.map
+LDXXFLAGS_SO_liblcrand.so := -Wl,--version-script=liblcrand.map
+LDXXFLAGS_SO_liblcsparse.so := -Wl,--version-script=liblcsparse.map
 
 # CUDA
 LDXXFLAGS_SO_libcuda.so.1 := -Wl,--version-script=libcuda.map
@@ -125,6 +159,11 @@ rt-hpcc-objs += ${OUTPUT}runtime_event-hpcc.cpp.so.o
 rt-hpcc-objs += ${OUTPUT}runtime_memory-hpcc.cpp.so.o
 rt-hpcc-objs += ${OUTPUT}runtime_internal-hpcc.cpp.so.o ${OUTPUT}fatbin.cpp.so.o
 
+rt-luca-objs := ${OUTPUT}runtime-luca.cpp.so.o
+rt-luca-objs += ${OUTPUT}runtime_event-luca.cpp.so.o
+rt-luca-objs += ${OUTPUT}runtime_memory-luca.cpp.so.o
+rt-luca-objs += ${OUTPUT}runtime_internal-luca.cpp.so.o ${OUTPUT}fatbin.cpp.so.o
+
 rt-hip-objs := ${OUTPUT}runtime-hip.cpp.so.o
 rt-hip-objs += ${OUTPUT}runtime_event-hip.cpp.so.o
 rt-hip-objs += ${OUTPUT}runtime_memory-hip.cpp.so.o
@@ -132,6 +171,7 @@ rt-hip-objs += ${OUTPUT}runtime_internal-hip.cpp.so.o ${OUTPUT}fatbin.cpp.so.o
 
 ${rt-objs}: runtime.hpp
 ${rt-hpcc-objs}: runtime.hpp cuda_compat.h
+${rt-luca-objs}: runtime.hpp cuda_compat.h
 ${rt-hip-objs}: runtime.hpp cuda_compat.h
 
 ${OUTPUT}common.cpp.so.o: debug.h
@@ -171,6 +211,15 @@ libhcblasLt.so: ${common-objs} ${OUTPUT}blasLt-hpcc.cpp.so.o
 libhcfft.so: ${common-objs} ${OUTPUT}fft-hpcc.cpp.so.o
 libhcrand.so: ${common-objs} ${OUTPUT}rand-hpcc.cpp.so.o
 libhcsparse.so: ${common-objs} ${OUTPUT}sparse-hpcc.cpp.so.o
+
+# LUCA
+liblccompiler.so: ${common-objs} ${rt-luca-objs}
+liblcruntime.so: ${common-objs} ${rt-luca-objs} ${OUTPUT}cuda-luca.cpp.so.o ${OUTPUT}cuda-module-mgmt-luca.cpp.so.o
+liblcblas.so: ${common-objs} ${OUTPUT}blas-luca.cpp.so.o
+liblcblasLt.so: ${common-objs} ${OUTPUT}blasLt-luca.cpp.so.o
+liblcfft.so: ${common-objs} ${OUTPUT}fft-luca.cpp.so.o
+liblcrand.so: ${common-objs} ${OUTPUT}rand-luca.cpp.so.o
+liblcsparse.so: ${common-objs} ${OUTPUT}sparse-luca.cpp.so.o
 
 # CUDA
 libcuda.so.1: ${common-objs} ${OUTPUT}cuda.cpp.so.o ${OUTPUT}cuda-module-mgmt.cpp.so.o

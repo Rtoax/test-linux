@@ -176,8 +176,12 @@ cudaError_t cudaDeviceGetP2PAttribute(int *value, enum cudaDeviceP2PAttr attr,
 		break;
 	case cudaDevP2PAttrAccessSupported:
 	case cudaDevP2PAttrNativeAtomicSupported:
-	#ifdef __USE_HPCC__
+	#if defined(__USE_HPCC__)
 	case hcDevP2PAttrHcArrayAccessSupported:
+	#elif defined(__USE_LUCA__)
+	case lcDevP2PAttrLcArrayAccessSupported:
+	#else
+	case cudaDevP2PAttrCudaArrayAccessSupported:
 	#endif
 		*value = 1;
 		break;
@@ -255,7 +259,7 @@ cudaError_t cudaStreamGetCaptureInfo(cudaStream_t stream,
 
 cudaError_t cudaStreamUpdateCaptureDependencies(cudaStream_t stream,
 						cudaGraphNode_t *dependencies,
-						#if !defined(__USE_HIP__) && !defined(__USE_HPCC__)
+						#if !defined(__USE_HIP__) && !defined(__USE_HPCC__) && !defined(__USE_LUCA__)
                                                 const cudaGraphEdgeData *dependencyData,
 						#endif
                                                 size_t numDependencies, unsigned int flags)
@@ -279,7 +283,7 @@ cudaError_t cudaLaunchKernel(const void *func, dim3 gridDim, dim3 blockDim,
 cudaError_t cudaLaunchCooperativeKernel(const void *func,
 					dim3 gridDim, dim3 blockDim,
 					void **args,
-					#if defined(__USE_HPCC__) || defined(__USE_HIP__)
+					#if defined(__USE_HPCC__) || defined(__USE_LUCA__) || defined(__USE_HIP__)
 					unsigned int sharedMem,
 					#else
 					size_t sharedMem,

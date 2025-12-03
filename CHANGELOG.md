@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - luca: Phase II project tested;
 #### Added
+- fakeCUDA: support LUCA phase II;
 - ai: add os subdir;
 #### Changed
 - template/targets: rename amd.mk to hip.mk;

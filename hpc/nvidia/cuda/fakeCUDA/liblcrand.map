@@ -1,0 +1,6 @@
+liblcrand.so {
+	global:
+		lcrandGetVersion;
+	local:
+		*;
+};

@@ -22,6 +22,16 @@
 #define __cudaRegisterFunction	__hcRegisterFunction
 #define __cudaRegisterVar	__hcRegisterVar
 #define __cudaUnregisterFatBinary	__hcUnregisterFatBinary
+#elif defined(__USE_LUCA__)
+#define __cudaGetKernel	__lcGetKernel
+#define __cudaLaunchKernel	__lcLaunchKernel
+#define __cudaPopCallConfiguration	__lcPopCallConfiguration
+#define __cudaPushCallConfiguration	__lcPushCallConfiguration
+#define __cudaRegisterFatBinary	__lcRegisterFatBinary
+#define __cudaRegisterFatBinaryEnd	__lcRegisterFatBinaryEnd
+#define __cudaRegisterFunction	__lcRegisterFunction
+#define __cudaRegisterVar	__lcRegisterVar
+#define __cudaUnregisterFatBinary	__lcUnregisterFatBinary
 #elif defined(__USE_HIP__)
 #define __cudaGetKernel	__hipGetKernel
 #define __cudaLaunchKernel	__hipLaunchKernel
@@ -52,6 +62,10 @@ void __cudaRegisterVar(void **fatCubinHandle, char *hostVar,
 		       int ext, size_t size, int constant, int global);
 #if defined(__USE_HPCC__)
 hcError_t __hcRegisterManagedVar(void *fatCubinHandle, void **hostVarPtrAddress,
+				 void *deviceAddress, const char *deviceName,
+				 size_t size, unsigned int align);
+#elif defined(__USE_LUCA__)
+lcError_t __lcRegisterManagedVar(void *fatCubinHandle, void **hostVarPtrAddress,
 				 void *deviceAddress, const char *deviceName,
 				 size_t size, unsigned int align);
 #elif defined(__USE_HIP__)
@@ -90,7 +104,7 @@ cudaError_t cudaMallocAsync(void **devPtr, size_t size, cudaStream_t hStream);
 cudaError_t cudaFree(void *devPtr);
 cudaError_t cudaMemAdvise(const void *devPtr, size_t count,
 			  cudaMemoryAdvise advice,
-			  #if defined(__USE_HPCC__) || defined(__USE_HIP__) || CUDA_VERSION <= 12040
+			  #if defined(__USE_HPCC__) || defined(__USE_LUCA__) || defined(__USE_HIP__) || CUDA_VERSION <= 12040
 			  int device
 			  #else
 			  cudaMemLocation location
@@ -170,7 +184,7 @@ cudaError_t cudaStreamGetCaptureInfo(cudaStream_t stream,
 #endif
 cudaError_t cudaStreamUpdateCaptureDependencies(cudaStream_t stream,
 						cudaGraphNode_t *dependencies,
-						#if !defined(__USE_HIP__) && !defined(__USE_HPCC__)
+						#if !defined(__USE_HIP__) && !defined(__USE_HPCC__) && !defined(__USE_LUCA__)
                                                 const cudaGraphEdgeData *dependencyData,
 						#endif
                                                 size_t numDependencies, unsigned int flags);
@@ -182,7 +196,7 @@ cudaError_t cudaLaunchKernel(const void *func, dim3 gridDim, dim3 blockDim,
 cudaError_t cudaLaunchCooperativeKernel(const void *func,
 					dim3 gridDim, dim3 blockDim,
 					void **args,
-					#if defined(__USE_HPCC__) || defined(__USE_HIP__)
+					#if defined(__USE_HPCC__) || defined(__USE_LUCA__) || defined(__USE_HIP__)
 					unsigned int sharedMem,
 					#else
 					size_t sharedMem,

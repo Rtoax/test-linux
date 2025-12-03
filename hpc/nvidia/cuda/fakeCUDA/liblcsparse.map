@@ -1,0 +1,6 @@
+liblcsparse.so {
+	global:
+		lcsparseGetProperty;
+	local:
+		*;
+};

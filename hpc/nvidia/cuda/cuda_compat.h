@@ -44,9 +44,9 @@
 #  include <hpcc_fp8.h>
 # endif
 # include <hpcc_fp16.h>
-#ifdef __HPCC__
+# ifdef __HPCC__
 #  include <hpcc_cooperative_groups.h>
-#endif
+# endif
 # include <hccl.h>
 # include "cuda_adapter.h"
 # ifndef HAVE_HPCC
@@ -71,14 +71,9 @@
 #  include <lcrand/lcrand.h>
 #  include <lcfft/lcfft.h>
 #  include <lcsolver/lcsolver_common.h>
-#  ifndef __NOT_USE_FP8__
-#   include <luca_fp8.h>
-#  endif
 #  ifdef HAVE_LCDNN
 #   include <lcdnn/lcdnn.h>
 #  endif
-#  include <luca_fp16.h>
-#  include <luca_cooperative_groups.h>
 #  include <lccl.h>
 # else /* LUCA_PHASE_II_PROJECT */
 #  include <hcr/hc_runtime.h>
@@ -90,16 +85,18 @@
 #  include <hcrand/hcrand.h>
 #  include <hcfft/hcfft.h>
 #  include <hcsolver/hcsolver_common.h>
-#  ifndef __NOT_USE_FP8__
-#   include <luca_fp8.h>
-#  endif
 #  ifdef HAVE_LCDNN
 #   include <hcdnn/hcdnn.h>
 #  endif
-#  include <luca_fp16.h>
-#  include <luca_cooperative_groups.h>
 #  include <hccl.h>
-#  endif /* LUCA_PHASE_II_PROJECT */
+# endif /* LUCA_PHASE_II_PROJECT */
+# ifndef __NOT_USE_FP8__
+#  include <luca_fp8.h>
+# endif
+# include <luca_fp16.h>
+# ifdef __LUCA__
+#  include <luca_cooperative_groups.h>
+# endif
 # include "cuda_adapter.h"
 # define CUNAME	"CESTC"
 /******************************************************************************\

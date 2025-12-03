@@ -1,0 +1,12 @@
+liblccompiler.so {
+	global:
+		__lcPopCallConfiguration;
+		__lcPushCallConfiguration;
+		__lcRegisterFatBinary;
+		__lcRegisterFatBinaryEnd;
+		__lcRegisterFunction;
+		__lcRegisterVar;
+		__lcUnregisterFatBinary;
+	local:
+		*;
+};
