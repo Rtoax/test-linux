@@ -57,6 +57,21 @@ files_have_key() {
 	return 0
 }
 
+# input some key words, such as c, cpp, sh, cu
+# echo "YES" if any file type matched.
+files_have_type() {
+	local key
+	for key in ${@}
+	do
+		# a.c b.sh -> c sh
+		if [[ " ${CHANGED_FILES[@]##*.} " =~ " ${key} " ]]; then
+			echo "YES"
+			return 0
+		fi
+	done
+	return 0
+}
+
 cpu_info() {
 	readonly CPU_MODEL=$(lscpu | grep "Model name" | \
 			awk '{ for(i=3; i<=NF; i++) printf "%s", $i (i==NF ? "\n" : " ") }')
@@ -112,6 +127,11 @@ fi
 
 # Glibc version
 add_versions "$(getconf GNU_LIBC_VERSION 2>/dev/null || :)"
+
+if [[ "$(files_have_type sh bash)$(files_have_key bash shell)" ]]; then
+	bash_ver=$(${GIT_TOPDIR}/shell/version.sh)
+	add_versions "BASH ${bash_ver}"
+fi
 
 # LLVM version
 LLVM_CONFIG=$(which llvm-config 2>/dev/null || :)
