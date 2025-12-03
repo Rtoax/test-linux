@@ -11,6 +11,7 @@
  *   commit fb9553a10493 ("cuda: NVIDIA A40: properties")
  *
  * - LingSpeed X710
+ *   commit e96201a12949 ("Lingspeed X710-E: properties")
  *
  * - Mars
  *   commit 0fba063e1fae ("hpc: DeviceProp: Mars X203")
