@@ -45,7 +45,7 @@ probes() {
 	IFS=$old_IFS
 }
 
-cat | sudo tee tmp-klaunch.bt<<-EOF
+sudo tee tmp-klaunch.bt <<-EOF
 #!/bin/env bpftrace
 
 BEGIN
