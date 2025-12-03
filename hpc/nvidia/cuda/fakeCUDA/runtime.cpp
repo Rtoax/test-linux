@@ -176,15 +176,7 @@ cudaError_t cudaDeviceGetP2PAttribute(int *value, enum cudaDeviceP2PAttr attr,
 		break;
 	case cudaDevP2PAttrAccessSupported:
 	case cudaDevP2PAttrNativeAtomicSupported:
-	#if defined(__USE_HPCC__)
-	case hcDevP2PAttrHcArrayAccessSupported:
-	#elif defined(__USE_LUCA__)
-	case lcDevP2PAttrLcArrayAccessSupported:
-	#elif defined(__USE_HIP__)
-	case hipDevP2PAttrHipArrayAccessSupported:
-	#else
 	case cudaDevP2PAttrCudaArrayAccessSupported:
-	#endif
 		*value = 1;
 		break;
 	default:

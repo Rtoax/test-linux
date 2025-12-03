@@ -42,9 +42,7 @@ void p2p_display_info(void)
 	P2PAttr(cudaDevP2PAttrPerformanceRank);
 	P2PAttr(cudaDevP2PAttrAccessSupported);
 	P2PAttr(cudaDevP2PAttrNativeAtomicSupported);
-#if defined(HAVE_HPCC)
-	P2PAttr(hcDevP2PAttrHcArrayAccessSupported);
-#endif
+	P2PAttr(cudaDevP2PAttrCudaArrayAccessSupported);
 }
 
 void p2p_memory_transfer(void)
