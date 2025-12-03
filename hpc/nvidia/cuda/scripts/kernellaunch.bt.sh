@@ -14,6 +14,10 @@ if [[ -e /opt/luca/lib/libhcruntime.so ]]; then
 	UPROBES+=( uprobe:/opt/luca/lib/libhcruntime.so:hcLaunchKernel )
 	URETPROBES+=( uretprobe:/opt/luca/lib/libhcruntime.so:hcLaunchKernel )
 fi
+if [[ -e /opt/luca/lib/liblcruntime.so ]]; then
+	UPROBES+=( uprobe:/opt/luca/lib/liblcruntime.so:lcLaunchKernel )
+	URETPROBES+=( uretprobe:/opt/luca/lib/liblcruntime.so:lcLaunchKernel )
+fi
 
 # ROCm
 if [[ -e /lib64/libamdhip64.so.6 ]]; then
