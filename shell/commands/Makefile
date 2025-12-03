@@ -4,6 +4,7 @@ subdir-y += awk
 subdir-y += bc
 subdir-y += dmesg
 subdir-y += grep
+subdir-y += lstopo
 subdir-y += sar
 subdir-y += sed
 subdir-y += split
