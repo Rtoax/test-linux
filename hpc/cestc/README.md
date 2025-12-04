@@ -1,17 +1,17 @@
 LUCA
 ====
 
-# SMI
+# SMI Informations
 
 - **ht-smi**
 	- commit 8d1bcc8c1667 ("LingSpeed X710-M: SMI with LUCA 3.2.1.18")
 	- commit 11a97301832e ("LingSpeed X710-M: SMI") LUCA 3.1.3.4
-	-
+	- commit 2b840df91018 ("LingSpeed X710-E: SMI with LUCA 3.2.1.18")
 - **ht-smi topo**
 	- commit 94c2f4dea425 ("Lingspeed X710-M: SMI topo matrix")
 	- commit 3651b4d81e8e ("Lingspeed X710-M: SMI topo nic")
 
-# Benchmark
+# Benchmarks
 
 - **htvs devices**
 	- commit 9e34db9890eb ("Lingspeed X710-M: htvs devices")
@@ -27,9 +27,3 @@ LUCA
 		- commit 77bf78e41723 ("Lingspeed X710-M: htvs memory bandwidth")
 - **htvs ops**
 	- commit 44114c3d66f5 ("Lingspeed X710-M: htvs ops")
-
-
-# Basic Informations
-
-* LingSpeed X710-M
-  - commit fbed69b2b31c ("luca: smi: LingSpeed X710-M with luca version 3.1.3.4")
