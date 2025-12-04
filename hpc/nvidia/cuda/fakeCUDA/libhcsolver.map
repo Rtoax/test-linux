@@ -1,0 +1,6 @@
+libhcsolver.so {
+	global:
+		hcsolverGetVersion;
+	local:
+		*;
+};

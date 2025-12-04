@@ -16,6 +16,7 @@ libso-hpcc += libhcblasLt.so
 libso-hpcc += libhcfft.so
 libso-hpcc += libhcrand.so
 libso-hpcc += libhcsparse.so
+libso-hpcc += libhcsolver.so
 
 libso-luca := liblccompiler.so
 libso-luca += liblcruntime.so
@@ -111,6 +112,7 @@ LDXXFLAGS_SO_libhcblasLt.so := -Wl,--version-script=libhcblasLt.map
 LDXXFLAGS_SO_libhcfft.so := -Wl,--version-script=libhcfft.map
 LDXXFLAGS_SO_libhcrand.so := -Wl,--version-script=libhcrand.map
 LDXXFLAGS_SO_libhcsparse.so := -Wl,--version-script=libhcsparse.map
+LDXXFLAGS_SO_libhcsolver.so := -Wl,--version-script=libhcsolver.map
 
 # LUCA
 LDXXFLAGS_SO_liblccompiler.so := -Wl,--version-script=liblccompiler.map
@@ -215,6 +217,7 @@ libhcblasLt.so: ${common-objs} ${OUTPUT}blasLt-hpcc.cpp.so.o
 libhcfft.so: ${common-objs} ${OUTPUT}fft-hpcc.cpp.so.o
 libhcrand.so: ${common-objs} ${OUTPUT}rand-hpcc.cpp.so.o
 libhcsparse.so: ${common-objs} ${OUTPUT}sparse-hpcc.cpp.so.o
+libhcsolver.so: ${common-objs} ${OUTPUT}solver-hpcc.cpp.so.o
 
 # LUCA
 liblccompiler.so: ${common-objs} ${rt-luca-objs}
