@@ -55,6 +55,22 @@ add_llvm_ver() {
 		add_ver "LLVM ${llvm_ver}"
 	fi
 }
+add_cuda_ver() {
+	local cuda_ver=$(${GIT_TOPDIR}/hpc/nvidia/cuda/version.sh)
+	add_ver "CUDA ${cuda_ver}"
+}
+add_rocm_ver() {
+	local rocm_ver=$(${GIT_TOPDIR}/hpc/amd/rocm/version.sh)
+	[[ ${rocm_ver} ]] && add_ver "ROCm ${rocm_ver}"
+}
+add_luca_ver() {
+	local luca_ver=$(${GIT_TOPDIR}/hpc/cestc/version.sh)
+	[[ ${luca_ver} ]] && add_ver "LUCA ${luca_ver}"
+}
+add_hpcc_ver() {
+	local hpcc_ver=$(${GIT_TOPDIR}/hpc/metax/version.sh)
+	[[ ${hpcc_ver} ]] && add_ver "HPCC ${hpcc_ver}"
+}
 add_glibc_ver() {
 	add_ver "$(getconf GNU_LIBC_VERSION 2>/dev/null || :)"
 }
@@ -180,23 +196,23 @@ if [[ "$(files_have_key llvm bt nvidia)" ]]; then
 fi
 
 if [[ "$(files_have_key cuda nvidia)" ]]; then
-	cuda_ver=$(${GIT_TOPDIR}/hpc/nvidia/cuda/version.sh)
-	add_ver "CUDA ${cuda_ver}"
+	add_cuda_ver
+	add_llvm_ver
 fi
 
 if [[ "$(files_have_key cuda nvidia rocm amd ROCm AMD)" ]]; then
-	rocm_ver=$(${GIT_TOPDIR}/hpc/amd/rocm/version.sh)
-	[[ ${rocm_ver} ]] && add_ver "ROCm ${rocm_ver}"
+	add_rocm_ver
+	add_llvm_ver
 fi
 
 if [[ "$(files_have_key cuda nvidia luca LUCA cestc CESTC)" ]]; then
-	luca_ver=$(${GIT_TOPDIR}/hpc/cestc/version.sh)
-	[[ ${luca_ver} ]] && add_ver "LUCA ${luca_ver}"
+	add_luca_ver
+	add_llvm_ver
 fi
 
 if [[ "$(files_have_key cuda nvidia hpcc HPCC metax MetaX)" ]]; then
-	hpcc_ver=$(${GIT_TOPDIR}/hpc/metax/version.sh)
-	[[ ${hpcc_ver} ]] && add_ver "HPCC ${hpcc_ver}"
+	add_hpcc_ver
+	add_llvm_ver
 fi
 
 if [[ "$(files_have_key libbpf bcc bpf)" ]]; then
