@@ -1,6 +1,8 @@
 libhccl.so {
 	global:
 		hcclGetVersion;
+		hcclGetErrorString;
+		hcclGetUniqueId;
 	local:
 		*;
 };
