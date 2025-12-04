@@ -226,5 +226,7 @@ fi
 # Add lines
 if [[ ${Versions} ]]; then
 	sed -i "$((${signed_off_by_line}+1))i Vers: ${Versions}" ${COMMIT_MSG_FILE}
+fi
+if [[ ${Environments} ]]; then
 	sed -i "$((${signed_off_by_line}+1))i Envs: ${Environments}" ${COMMIT_MSG_FILE}
 fi
