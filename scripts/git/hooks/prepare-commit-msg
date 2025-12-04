@@ -1,12 +1,12 @@
 #!/bin/bash
 # Copyright (c) 2025 Rong Tao
 
-COMMIT_MSG_FILE=$1
-COMMIT_SOURCE=$2
-SHA1=$3
+readonly COMMIT_MSG_FILE=$1
+readonly COMMIT_SOURCE=$2
+readonly COMMIT_SHA1=$3
 
 # Remove old Env first.
-sed -i '/^Versions:/d' ${COMMIT_MSG_FILE}
+sed -i '/^Vers:/d' ${COMMIT_MSG_FILE}
 sed -i '/^Envs:/d' ${COMMIT_MSG_FILE}
 
 readonly MY_DIRECTORY=$(dirname $(realpath $0))
@@ -19,7 +19,7 @@ readonly signed_off_by_line=$(awk '/^Signed-off-by:/{print NR; exit}' ${COMMIT_M
 CHANGED_FILES=( $( ${MY_DIRECTORY}/get-commit-file-list ) )
 
 # git commit --amend
-if [ "$COMMIT_SOURCE" = "commit" ] && [ "$SHA1" = "HEAD" ]; then
+if [ "$COMMIT_SOURCE" = "commit" ] && [ "$COMMIT_SHA1" = "HEAD" ]; then
 	CHANGED_FILES+=( $(git log -1 --oneline --name-only --pretty=format:) )
 fi
 
@@ -116,17 +116,20 @@ if [[ -e /etc/os-release ]]; then
 fi
 
 # Kernel version
-add_versions "Kernel $(uname -r)"
+add_versions "Linux $(uname -r)"
 
-# GCC version
-GCC=$(which gcc 2>/dev/null || :)
-if [[ ${GCC} ]]; then
-	gcc_ver=$(${GCC} -dumpfullversion -dumpversion)
-	add_versions "GCC ${gcc_ver}"
+if [[ "$(files_have_type c cpp c++ h hpp)" ]]; then
+	readonly GCC=$(which gcc 2>/dev/null || :)
+	if [[ ${GCC} ]]; then
+		gcc_ver=$(${GCC} -dumpfullversion -dumpversion)
+		add_versions "GCC ${gcc_ver}"
+	fi
 fi
 
 # Glibc version
-add_versions "$(getconf GNU_LIBC_VERSION 2>/dev/null || :)"
+if [[ "$(files_have_type c cpp c++ h hpp)$(files_have_key glibc)" ]]; then
+	add_versions "$(getconf GNU_LIBC_VERSION 2>/dev/null || :)"
+fi
 
 if [[ "$(files_have_type sh bash)$(files_have_key bash shell)" ]]; then
 	bash_ver=$(${GIT_TOPDIR}/shell/version.sh)
@@ -138,11 +141,12 @@ if [[ "$(files_have_type bt)$(files_have_key bpftrace)" ]]; then
 	add_versions "BPFTrace ${bpftrace_ver}"
 fi
 
-# LLVM version
-LLVM_CONFIG=$(which llvm-config 2>/dev/null || :)
-if [[ ${LLVM_CONFIG} ]]; then
-	llvm_ver=$(${LLVM_CONFIG} --version)
-	add_versions "LLVM ${llvm_ver}"
+if [[ "$(files_have_key llvm bt nvidia)" ]]; then
+	readonly LLVM_CONFIG=$(which llvm-config 2>/dev/null || :)
+	if [[ ${LLVM_CONFIG} ]]; then
+		llvm_ver=$(${LLVM_CONFIG} --version)
+		add_versions "LLVM ${llvm_ver}"
+	fi
 fi
 
 if [[ "$(files_have_key cuda nvidia)" ]]; then
@@ -180,6 +184,6 @@ fi
 
 # Add lines
 if [[ ${Versions} ]]; then
-	sed -i "$((${signed_off_by_line}+1))i Versions: ${Versions}" ${COMMIT_MSG_FILE}
+	sed -i "$((${signed_off_by_line}+1))i Vers: ${Versions}" ${COMMIT_MSG_FILE}
 	sed -i "$((${signed_off_by_line}+1))i Envs: ${Environments}" ${COMMIT_MSG_FILE}
 fi
