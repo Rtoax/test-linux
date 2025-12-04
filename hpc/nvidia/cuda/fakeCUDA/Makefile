@@ -192,7 +192,7 @@ ${OUTPUT}sparse-hip.cpp.so.o: sparse.hpp sparse.cpp
 ${OUTPUT}rand.cpp.so.o: rand.hpp
 ${OUTPUT}rand-hpcc.cpp.so.o: rand.hpp rand.cpp
 ${OUTPUT}rand-hip.cpp.so.o: rand.hpp rand.cpp
-${OUTPUT}hccl.cpp.so.o: hccl.hpp
+${OUTPUT}nccl-hpcc.cpp.so.o: nccl.hpp
 ${OUTPUT}cuda.cpp.so.o: cuda.hpp
 ${OUTPUT}cuda-hpcc.cpp.so.o: cuda.hpp cuda.cpp
 ${OUTPUT}cuda-hip.cpp.so.o: cuda.hpp cuda.cpp
@@ -204,7 +204,7 @@ ${OUTPUT}device.cpp.so.o: device.h device-mars-x203.h device-nvidia-h800.h
 
 # HPCC
 libhccompiler.so: ${common-objs} ${rt-hpcc-objs}
-libhccl.so: ${common-objs} ${OUTPUT}hccl.cpp.so.o
+libhccl.so: ${common-objs} ${OUTPUT}nccl-hpcc.cpp.so.o
 libhcruntime.so: ${common-objs} ${rt-hpcc-objs} ${OUTPUT}cuda-hpcc.cpp.so.o ${OUTPUT}cuda-module-mgmt-hpcc.cpp.so.o
 libhcblas.so: ${common-objs} ${OUTPUT}blas-hpcc.cpp.so.o
 libhcblasLt.so: ${common-objs} ${OUTPUT}blasLt-hpcc.cpp.so.o

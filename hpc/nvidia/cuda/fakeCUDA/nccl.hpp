@@ -1,15 +1,12 @@
 // SPDX-License-Identifier: GPL-3.0
 /* Copyright (c) 2025 Rong Tao */
-#include <hccl.h>
-#include <hcr/hc_runtime.h>
-#include <hcc/hcc_internal.h>
-
+#include "cuda_compat.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-hcclResult_t hcclGetVersion(int *version);
+ncclResult_t ncclGetVersion(int *version);
 
 #ifdef __cplusplus
 }
