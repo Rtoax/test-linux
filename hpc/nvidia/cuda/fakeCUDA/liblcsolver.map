@@ -1,0 +1,6 @@
+liblcsolver.so {
+	global:
+		lcsolverGetVersion;
+	local:
+		*;
+};

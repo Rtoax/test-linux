@@ -25,6 +25,7 @@ libso-luca += liblcblasLt.so
 libso-luca += liblcfft.so
 libso-luca += liblcrand.so
 libso-luca += liblcsparse.so
+libso-luca += liblcsolver.so
 
 libso-cuda := libcuda.so.1
 libso-cuda += libcudart.so.12 libcudart.so.13
@@ -122,6 +123,7 @@ LDXXFLAGS_SO_liblcblasLt.so := -Wl,--version-script=liblcblasLt.map
 LDXXFLAGS_SO_liblcfft.so := -Wl,--version-script=liblcfft.map
 LDXXFLAGS_SO_liblcrand.so := -Wl,--version-script=liblcrand.map
 LDXXFLAGS_SO_liblcsparse.so := -Wl,--version-script=liblcsparse.map
+LDXXFLAGS_SO_liblcsolver.so := -Wl,--version-script=liblcsolver.map
 
 # CUDA
 LDXXFLAGS_SO_libcuda.so.1 := -Wl,--version-script=libcuda.map
@@ -227,6 +229,7 @@ liblcblasLt.so: ${common-objs} ${OUTPUT}blasLt-luca.cpp.so.o
 liblcfft.so: ${common-objs} ${OUTPUT}fft-luca.cpp.so.o
 liblcrand.so: ${common-objs} ${OUTPUT}rand-luca.cpp.so.o
 liblcsparse.so: ${common-objs} ${OUTPUT}sparse-luca.cpp.so.o
+liblcsolver.so: ${common-objs} ${OUTPUT}solver-luca.cpp.so.o
 
 # CUDA
 libcuda.so.1: ${common-objs} ${OUTPUT}cuda.cpp.so.o ${OUTPUT}cuda-module-mgmt.cpp.so.o
