@@ -236,6 +236,8 @@ patchset()
 			error "Pure diff must without cover letter"
 		fi
 		args+=( --pretty=format:'' --no-prefix --no-stat )
+		# Git 2.11+, disable seperator '--' in the end of patch.
+		args+=( --no-signature )
 	fi
 
 	my_eval git format-patch \
