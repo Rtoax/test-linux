@@ -7,3 +7,4 @@
 - PEC: Packet Error Code (包错误码) @PCIe
 - PIO: Port I/O (端口IO) @MMIO
 - PPB: PCI-to-PCI Bridge (PCI到PCI桥)
+- `pswiotlb`/`pci_swiotlb`: PCI Software IO Translation Lookaside Buffer (软件IO转换后备缓冲区) @swiotlb

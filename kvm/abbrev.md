@@ -15,6 +15,7 @@
 - S2TTB：Stage 2 Translate Table Base (第二阶段翻译表库)
 - SMMU: System MMU (系统内存管理单元) @MMU @IOMMU
 - SVM: Secure Virtual Machine (安全虚拟机)
+- SWIOMMU: Software IOMMU (软件IO内存管理单元) @IOMMU
 - VM: Virtual Machine (虚拟机)
 - VMCS: Virtual Machine Control Structure (虚拟机控制结构)
 - VMM: Virtual Machine Monitor (虚拟机监控器)

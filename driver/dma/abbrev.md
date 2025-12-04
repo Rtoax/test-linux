@@ -1,0 +1,2 @@
+- DMA: Direct Memory Access (直接内存访问)
+- swiotlb: Software IO Translation Lookaside Buffer (软件IO转换后备缓冲区) @pswiotlb
