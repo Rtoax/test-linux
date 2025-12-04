@@ -74,6 +74,10 @@ add_libbpf_ver() {
 	local libbpf_ver=$(${GIT_TOPDIR}/bpf/libbpf/version.sh)
 	add_ver "LIBBPF ${libbpf_ver}"
 }
+add_py_ver() {
+	local py_ver=$(${GIT_TOPDIR}/python/version.sh)
+	add_ver "Python ${py_ver}"
+}
 
 add_env() {
 	[[ -z "${@}" ]] && return 0
@@ -201,8 +205,7 @@ if [[ "$(files_have_key libbpf bcc bpf)" ]]; then
 fi
 
 if [[ "$(files_have_key python py)" ]]; then
-	py_ver=$(${GIT_TOPDIR}/python/version.sh)
-	add_ver "Python ${py_ver}"
+	add_py_ver
 fi
 
 # Add lines
