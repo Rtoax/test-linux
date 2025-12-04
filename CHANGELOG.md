@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - luca: Phase II project tested;
 #### Added
+- git/hooks/prepare-commit-msg: add bpftrace version if need;
 - driver: add swiotlb;
 - fakeCUDA: add libnccl.so.2, liblccl.so;
 - fakeCUDA: add libcusolver.so.12, libhcsolver.so, liblcsolver.so, libhipsolver.so.0;

@@ -133,6 +133,11 @@ if [[ "$(files_have_type sh bash)$(files_have_key bash shell)" ]]; then
 	add_versions "BASH ${bash_ver}"
 fi
 
+if [[ "$(files_have_type bt)$(files_have_key bpftrace)" ]]; then
+	bpftrace_ver=$(${GIT_TOPDIR}/bpf/bpftrace/version.sh)
+	add_versions "BPFTrace ${bpftrace_ver}"
+fi
+
 # LLVM version
 LLVM_CONFIG=$(which llvm-config 2>/dev/null || :)
 if [[ ${LLVM_CONFIG} ]]; then
