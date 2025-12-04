@@ -31,13 +31,13 @@ fatal() {
 	exit 1
 }
 
-add_versions() {
+add_ver() {
 	[[ -z "${@}" ]] && return 0
 	[[ ${Versions} ]] && Versions+=", "
 	Versions+="$@"
 }
 
-add_envs() {
+add_env() {
 	[[ -z "${@}" ]] && return 0
 	[[ ${Environments} ]] && Environments+=", "
 	Environments+="$@"
@@ -91,14 +91,14 @@ if [[ -z ${signed_off_by_line} ]]; then
 	exit 1
 fi
 
-add_envs "CPU: $(cpu_info)"
-add_envs "Arch $(uname -m)"
+add_env "CPU: $(cpu_info)"
+add_env "Arch $(uname -m)"
 
 SYSTEMD_DETECT_VIRT=$(which systemd-detect-virt 2>/dev/null || :)
 if [[ ${SYSTEMD_DETECT_VIRT} ]]; then
 	virt=$( ${SYSTEMD_DETECT_VIRT} )
 	if [[ ${virt} != none ]]; then
-		add_envs "VIRT-${virt}"
+		add_env "VIRT-${virt}"
 	fi
 fi
 
@@ -112,74 +112,74 @@ if [[ -e /etc/os-release ]]; then
 	elif [[ ${VERSION} ]]; then
 		os_env+=" ${VERSION}"
 	fi
-	add_versions "${os_env}"
+	add_ver "${os_env}"
 fi
 
 # Kernel version
-add_versions "Linux $(uname -r)"
+add_ver "Linux $(uname -r)"
 
 if [[ "$(files_have_type c cpp c++ h hpp)" ]]; then
 	readonly GCC=$(which gcc 2>/dev/null || :)
 	if [[ ${GCC} ]]; then
 		gcc_ver=$(${GCC} -dumpfullversion -dumpversion)
-		add_versions "GCC ${gcc_ver}"
+		add_ver "GCC ${gcc_ver}"
 	fi
 fi
 
 # Glibc version
 if [[ "$(files_have_type c cpp c++ h hpp)$(files_have_key glibc)" ]]; then
-	add_versions "$(getconf GNU_LIBC_VERSION 2>/dev/null || :)"
+	add_ver "$(getconf GNU_LIBC_VERSION 2>/dev/null || :)"
 fi
 
 if [[ "$(files_have_type sh bash)$(files_have_key bash shell)" ]]; then
 	bash_ver=$(${GIT_TOPDIR}/shell/version.sh)
-	add_versions "BASH ${bash_ver}"
+	add_ver "BASH ${bash_ver}"
 fi
 
 if [[ "$(files_have_type bt)$(files_have_key bpftrace)" ]]; then
 	bpftrace_ver=$(${GIT_TOPDIR}/bpf/bpftrace/version.sh)
-	add_versions "BPFTrace ${bpftrace_ver}"
+	add_ver "BPFTrace ${bpftrace_ver}"
 fi
 
 if [[ "$(files_have_key llvm bt nvidia)" ]]; then
 	readonly LLVM_CONFIG=$(which llvm-config 2>/dev/null || :)
 	if [[ ${LLVM_CONFIG} ]]; then
 		llvm_ver=$(${LLVM_CONFIG} --version)
-		add_versions "LLVM ${llvm_ver}"
+		add_ver "LLVM ${llvm_ver}"
 	fi
 fi
 
 if [[ "$(files_have_key cuda nvidia)" ]]; then
 	cuda_ver=$(${GIT_TOPDIR}/hpc/nvidia/cuda/version.sh)
-	add_versions "CUDA ${cuda_ver}"
+	add_ver "CUDA ${cuda_ver}"
 fi
 
 if [[ "$(files_have_key cuda nvidia rocm amd ROCm AMD)" ]]; then
 	rocm_ver=$(${GIT_TOPDIR}/hpc/amd/rocm/version.sh)
-	[[ ${rocm_ver} ]] && add_versions "ROCm ${rocm_ver}"
+	[[ ${rocm_ver} ]] && add_ver "ROCm ${rocm_ver}"
 fi
 
 if [[ "$(files_have_key cuda nvidia luca LUCA cestc CESTC)" ]]; then
 	luca_ver=$(${GIT_TOPDIR}/hpc/cestc/version.sh)
-	[[ ${luca_ver} ]] && add_versions "LUCA ${luca_ver}"
+	[[ ${luca_ver} ]] && add_ver "LUCA ${luca_ver}"
 fi
 
 if [[ "$(files_have_key cuda nvidia hpcc HPCC metax MetaX)" ]]; then
 	hpcc_ver=$(${GIT_TOPDIR}/hpc/metax/version.sh)
-	[[ ${hpcc_ver} ]] && add_versions "HPCC ${hpcc_ver}"
+	[[ ${hpcc_ver} ]] && add_ver "HPCC ${hpcc_ver}"
 fi
 
 if [[ "$(files_have_key libbpf bcc bpf)" ]]; then
 	bcc_ver=$(${GIT_TOPDIR}/bpf/bcc/version.sh)
-	add_versions "BCC ${bcc_ver}"
+	add_ver "BCC ${bcc_ver}"
 	libbpf_ver=$(${GIT_TOPDIR}/bpf/libbpf/version.sh)
-	add_versions "LIBBPF ${libbpf_ver}"
+	add_ver "LIBBPF ${libbpf_ver}"
 	# TODO: add bpftools, etc.
 fi
 
 if [[ "$(files_have_key python py)" ]]; then
 	py_ver=$(${GIT_TOPDIR}/python/version.sh)
-	add_versions "Python ${py_ver}"
+	add_ver "Python ${py_ver}"
 fi
 
 # Add lines
