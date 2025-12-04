@@ -35,6 +35,7 @@ libso-cuda += libcufft.so.11 libcufft.so.12
 libso-cuda += libcurand.so.10
 libso-cuda += libcusparse.so.12
 libso-cuda += libcusolver.so.12
+libso-cuda += libnccl.so.2
 
 libso-hip := libamdhip64.so.5 libamdhip64.so.6
 libso-hip += libhipfft.so.0 librocfft.so.0
@@ -54,6 +55,9 @@ ifdef HAVE_HIPBLASLT
 endif
 ifdef HAVE_RCCL
   CXXFLAGS_SO += -DHAVE_RCCL=1
+endif
+ifdef HAVE_NCCL
+  CXXFLAGS_SO += -DHAVE_NCCL=1
 endif
 
 ifdef HAVE_HPCC
@@ -139,6 +143,7 @@ LDXXFLAGS_SO_libcufft.so.11 := -Wl,--version-script=libcufft.11.map
 LDXXFLAGS_SO_libcufft.so.12 := -Wl,--version-script=libcufft.12.map
 LDXXFLAGS_SO_libcusparse.so.12 := -Wl,--version-script=libcusparse.map
 LDXXFLAGS_SO_libcusolver.so.12 := -Wl,--version-script=libcusolver.12.map
+LDXXFLAGS_SO_libnccl.so.2 := -Wl,--version-script=libnccl.map
 
 # ROCm HIP
 LDXXFLAGS_SO_libamdhip64.so.5 := -Wl,--version-script=libamdhip64.map
@@ -246,6 +251,7 @@ libcufft.so.11: ${common-objs} ${OUTPUT}fft.cpp.so.o
 libcufft.so.12: ${common-objs} ${OUTPUT}fft.cpp.so.o
 libcurand.so.10: ${common-objs} ${OUTPUT}rand.cpp.so.o
 libcusparse.so.12: ${common-objs} ${OUTPUT}sparse.cpp.so.o
+libnccl.so.2: ${common-objs} ${OUTPUT}nccl.cpp.so.o
 
 # ROCm HIP
 amdhip64-objs := ${common-objs}
