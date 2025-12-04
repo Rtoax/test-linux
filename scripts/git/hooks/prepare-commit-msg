@@ -33,8 +33,13 @@ fatal() {
 
 add_ver() {
 	[[ -z "${@}" ]] && return 0
-	[[ ${Versions} ]] && Versions+=", "
-	Versions+="$@"
+	# Already exist
+	if [[ "${Versions}" =~ "${@}" ]]; then
+		return 0
+	else
+		[[ ${Versions} ]] && Versions+=", "
+		Versions+="$@"
+	fi
 }
 add_gcc_ver() {
 	readonly GCC=$(which gcc 2>/dev/null || :)
