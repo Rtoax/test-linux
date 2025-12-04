@@ -6,6 +6,7 @@ LUCA
 - **ht-smi**
 	- commit 8d1bcc8c1667 ("LingSpeed X710-M: SMI with LUCA 3.2.1.18")
 	- commit 11a97301832e ("LingSpeed X710-M: SMI") LUCA 3.1.3.4
+	-
 - **ht-smi topo**
 	- commit 94c2f4dea425 ("Lingspeed X710-M: SMI topo matrix")
 	- commit 3651b4d81e8e ("Lingspeed X710-M: SMI topo nic")
