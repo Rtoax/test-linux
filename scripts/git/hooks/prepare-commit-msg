@@ -36,6 +36,31 @@ add_ver() {
 	[[ ${Versions} ]] && Versions+=", "
 	Versions+="$@"
 }
+add_gcc_ver() {
+	readonly GCC=$(which gcc 2>/dev/null || :)
+	if [[ ${GCC} ]]; then
+		local gcc_ver=$(${GCC} -dumpfullversion -dumpversion)
+		add_ver "GCC ${gcc_ver}"
+	fi
+}
+add_llvm_ver() {
+	readonly LLVM_CONFIG=$(which llvm-config 2>/dev/null || :)
+	if [[ ${LLVM_CONFIG} ]]; then
+		local llvm_ver=$(${LLVM_CONFIG} --version)
+		add_ver "LLVM ${llvm_ver}"
+	fi
+}
+add_glibc_ver() {
+	add_ver "$(getconf GNU_LIBC_VERSION 2>/dev/null || :)"
+}
+add_shell_ver() {
+	local bash_ver=$(${GIT_TOPDIR}/shell/version.sh)
+	add_ver "BASH ${bash_ver}"
+}
+add_bpftrace_ver() {
+	local bpftrace_ver=$(${GIT_TOPDIR}/bpf/bpftrace/version.sh)
+	add_ver "BPFTrace ${bpftrace_ver}"
+}
 
 add_env() {
 	[[ -z "${@}" ]] && return 0
@@ -118,35 +143,23 @@ fi
 # Kernel version
 add_ver "Linux $(uname -r)"
 
-if [[ "$(files_have_type c cpp c++ h hpp)" ]]; then
-	readonly GCC=$(which gcc 2>/dev/null || :)
-	if [[ ${GCC} ]]; then
-		gcc_ver=$(${GCC} -dumpfullversion -dumpversion)
-		add_ver "GCC ${gcc_ver}"
-	fi
-fi
+[[ "$(files_have_type c cpp c++ h hpp)" ]] && add_gcc_ver
 
 # Glibc version
 if [[ "$(files_have_type c cpp c++ h hpp)$(files_have_key glibc)" ]]; then
-	add_ver "$(getconf GNU_LIBC_VERSION 2>/dev/null || :)"
+	add_glibc_ver
 fi
 
 if [[ "$(files_have_type sh bash)$(files_have_key bash shell)" ]]; then
-	bash_ver=$(${GIT_TOPDIR}/shell/version.sh)
-	add_ver "BASH ${bash_ver}"
+	add_shell_ver
 fi
 
 if [[ "$(files_have_type bt)$(files_have_key bpftrace)" ]]; then
-	bpftrace_ver=$(${GIT_TOPDIR}/bpf/bpftrace/version.sh)
-	add_ver "BPFTrace ${bpftrace_ver}"
+	add_bpftrace_ver
 fi
 
 if [[ "$(files_have_key llvm bt nvidia)" ]]; then
-	readonly LLVM_CONFIG=$(which llvm-config 2>/dev/null || :)
-	if [[ ${LLVM_CONFIG} ]]; then
-		llvm_ver=$(${LLVM_CONFIG} --version)
-		add_ver "LLVM ${llvm_ver}"
-	fi
+	add_llvm_ver
 fi
 
 if [[ "$(files_have_key cuda nvidia)" ]]; then
