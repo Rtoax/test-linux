@@ -9,6 +9,7 @@ include luca.mk
 include hpcc.mk
 
 common-objs := version
+common-objs += communicator
 
 # NVIDIA CUDA
 target-nvcc-${HAVE_NCCL} := ${common-objs}
@@ -26,4 +27,4 @@ ${1}-hpcc: $${OUTPUT}${1}.hpcc.o
 ${1}-luca: $${OUTPUT}${1}.luca.o
 endef
 
-$(eval $(call nccl_obj,version))
+$(foreach obj, ${common-objs}, $(eval $(call nccl_obj,${obj})))

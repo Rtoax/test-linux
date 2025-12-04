@@ -25,6 +25,7 @@
 # define ____NV_(name)	__HPCC_##name
 # define __NV(name)	HC##name
 # define __nccl(name)	hccl##name
+# define __NCCL(name)	HCCL##name
 # define __pnccl(name)	phccl##name
 /******************************************************************************\
  * LUCA                                                                       *
@@ -43,6 +44,7 @@
 #  define __nv(name)	lc##name
 #  define __NV(name)	LC##name
 #  define __nccl(name)	lccl##name
+#  define __NCCL(name)	LCCL##name
 #  define __pnccl(name)	plccl##name
 # else /* LUCA_PHASE_II_PROJECT */
 #  define __cu(name)	hc##name
@@ -53,6 +55,7 @@
 #  define __nv(name)	hc##name
 #  define __NV(name)	HC##name
 #  define __nccl(name)	hccl##name
+#  define __NCCL(name)	HCCL##name
 #  define __pnccl(name)	phccl##name
 # endif /* LUCA_PHASE_II_PROJECT */
 # define ____nv_(name)	__luca_##name
@@ -72,6 +75,7 @@
 # define __NV(name)	HIP##name
 /* ROCm rccl use 'nccl' prefix, see /usr/include/rccl/rccl.h */
 # define __nccl(name)	nccl##name
+# define __NCCL(name)	NCCL##name
 # define __pnccl(name)	pnccl##name
 #else
 # error "Must define __USE_HPCC__, __USE_HIP__, __USE_LUCA__"
@@ -2334,8 +2338,20 @@
  *             NCCL: NVIDIA Collective Communication Library                  *
 \******************************************************************************/
 /* /usr/include/nccl.h, /opt/luca/include/hccl.h */
+/**
+ * HPCC 3.0.0
+ * LUCA 3.2.1
+ *   struct {
+ *     size_t size;
+ *     unsigned int magic;
+ *     unsigned int version;
+ *     int blocking;
+ *   };
+ */
+#define ncclConfig_t		__nccl(Config_t)
+#define NCCL_CONFIG_INITIALIZER	__NCCL(_CONFIG_INITIALIZER)
 #define ncclResult_t		__nccl(Result_t)
-#define ncclSuccess	__nccl(Success)	/* 0 */
+#define ncclSuccess		__nccl(Success)	/* 0 */
 #ifdef __USE_HPCC__
 #define ncclUnhandledCudaError	__nccl(UnhandledHpccError)	/* 1 */
 #elif defined(__USE_LUCA__)

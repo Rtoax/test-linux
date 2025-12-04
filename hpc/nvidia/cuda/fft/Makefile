@@ -29,4 +29,4 @@ ${1}-hpcc: ${OUTPUT}${1}.hpcc.o ${HPCC_HELPERS}
 ${1}-luca: ${OUTPUT}${1}.luca.o ${LUCA_HELPERS}
 endef
 
-$(eval $(call fft_obj,fft))
+$(foreach obj, ${common-objs}, $(eval $(call fft_obj,${obj})))
