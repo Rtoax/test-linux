@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <malloc.h>
+#include <unistd.h>
 
 #if defined(__aarch64__)
 extern void __aarch64_sync_cache_range(void *, void *);
@@ -10,8 +11,17 @@ extern void __aarch64_sync_cache_range(void *, void *);
 
 int main(void)
 {
-	char *str = malloc(sizeof(char) * 1024);
-	flush_cache(str, str + 1024);
+	size_t i, size = getpagesize() * 1024;
+	char *str = malloc(size);
+
+	/* Maybe generate lots of Cache */
+	for (i = 0; i < size; i += getpagesize()) {
+		str[i] = 'a';
+	}
+
+	/* Flushing */
+	flush_cache(str, str + size - 1);
+
 	free(str);
 	return 0;
 }
