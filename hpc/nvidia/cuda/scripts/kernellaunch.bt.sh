@@ -10,6 +10,8 @@ readonly TRACING_TYPE_LAUNCH=launch
 readonly TRACING_TYPES=( ${TRACING_TYPE_LATENCY} ${TRACING_TYPE_LAUNCH} )
 TRACING_TYPE=${TRACING_TYPE_LAUNCH}
 
+tmp_file=tmp-klaunch.bt
+
 __usage__()
 {
 	echo -e "
@@ -106,7 +108,7 @@ if [[ -e ../fakeCUDA/libamdhip64.so.6 ]]; then
 	URETPROBES+=( uretprobe:../fakeCUDA/libamdhip64.so.6:hipLaunchKernel )
 fi
 
-probes() {
+probe_list() {
 	local arr=( ${@} )
 	old_IFS=$IFS
 	IFS=","
@@ -114,28 +116,27 @@ probes() {
 	IFS=$old_IFS
 }
 
+goodbye() {
+	sudo rm -f ${tmp_file}
+}
+trap goodbye EXIT
 
 case ${TRACING_TYPE} in
 ${TRACING_TYPE_LAUNCH})
-	sudo tee tmp-klaunch.bt <<-EOF
+	sudo tee ${tmp_file} <<-EOF
 	#!/bin/env bpftrace
 	BEGIN {
 		printf("Tracing CUDA Kernel Launch, hit ctrl-c to end.\n");
 		printf("%-8s %-8s %-16s %s\n", "TIME", "PID", "COMM", "PROBE");
 	}
-	EOF
-	sudo tee --append tmp-klaunch.bt <<-EOF
-	$(probes ${UPROBES[@]}) {
+	$(probe_list ${UPROBES[@]}) {
 		time("%H:%M:%S ");
 		printf("%-8d %-16s %s\n", pid, comm, probe);
 	}
-	$(probes ${URETPROBES[@]}) {
+	$(probe_list ${URETPROBES[@]}) {
 		time("%H:%M:%S ");
 		printf("%-8d %-16s %s %d\n", pid, comm, probe, retval);
 	}
-	EOF
-
-	sudo tee --append tmp-klaunch.bt <<-EOF
 	END {
 		printf("Bye.\n");
 	}
@@ -146,4 +147,4 @@ ${TRACING_TYPE_LATENCY})
 	;;
 esac
 
-sudo bpftrace tmp-klaunch.bt
+sudo bpftrace ${tmp_file}
