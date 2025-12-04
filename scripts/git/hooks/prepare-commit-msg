@@ -41,6 +41,19 @@ add_ver() {
 		Versions+="$@"
 	fi
 }
+add_os_ver() {
+	local os_env
+	[[ ! -e /etc/os-release ]] && fatal "Not found /etc/os-release"
+
+	. /etc/os-release
+	os_env+="${NAME}"
+	if [[ ${VERSION_ID} ]]; then
+		os_env+=" ${VERSION_ID}"
+	elif [[ ${VERSION} ]]; then
+		os_env+=" ${VERSION}"
+	fi
+	add_ver "${os_env}"
+}
 add_gcc_ver() {
 	readonly GCC=$(which gcc 2>/dev/null || :)
 	if [[ ${GCC} ]]; then
@@ -160,25 +173,11 @@ if [[ ${SYSTEMD_DETECT_VIRT} ]]; then
 	fi
 fi
 
-# OS version
-if [[ -e /etc/os-release ]]; then
-	os_env=
-	. /etc/os-release
-	os_env+="${NAME}"
-	if [[ ${VERSION_ID} ]]; then
-		os_env+=" ${VERSION_ID}"
-	elif [[ ${VERSION} ]]; then
-		os_env+=" ${VERSION}"
-	fi
-	add_ver "${os_env}"
-fi
-
-# Kernel version
+add_os_ver
 add_ver "Linux $(uname -r)"
 
 [[ "$(files_have_type c cpp c++ h hpp)" ]] && add_gcc_ver
 
-# Glibc version
 if [[ "$(files_have_type c cpp c++ h hpp)$(files_have_key glibc)" ]]; then
 	add_glibc_ver
 fi
