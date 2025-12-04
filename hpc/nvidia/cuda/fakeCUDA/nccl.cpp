@@ -8,3 +8,33 @@ ncclResult_t ncclGetVersion(int *version)
 	*version = 21605;
 	return ncclSuccess;
 }
+
+const char* ncclGetErrorString(ncclResult_t result)
+{
+	switch (result) {
+#define CASE(n)	case n: return ""#n
+	CASE(ncclSuccess);
+	CASE(ncclUnhandledCudaError);
+	CASE(ncclSystemError);
+	CASE(ncclInternalError);
+	CASE(ncclInvalidArgument);
+	CASE(ncclInvalidUsage);
+	CASE(ncclRemoteError);
+	CASE(ncclInProgress);
+	CASE(ncclNumResults);
+	default:
+		return "Unknown";
+	}
+#undef CASE
+}
+
+/**
+ * typedef struct {
+ *   char internal[128];
+ * } ncclUniqueId;
+ */
+ncclResult_t ncclGetUniqueId(ncclUniqueId* uniqueId)
+{
+	memset(uniqueId->internal, 'x', sizeof(*uniqueId));
+	return ncclSuccess;
+}

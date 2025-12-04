@@ -38,6 +38,7 @@ libso-hip += libhipfft.so.0 librocfft.so.0
 libso-hip += libhipsparse.so.1 librocsparse.so.1
 libso-hip += libhiprand.so.1
 libso-hip += libhipblas.so.2 libhipblaslt.so.0
+libso-hip += librccl.so.1
 
 # See commit d3d0fe465313 ("fakeCUDA: cuda_compat.h: add __NOT_USE_FP8__ macro to fix HIP compile errors")
 CXXFLAGS_SO += -D__NOT_USE_FP8__
@@ -142,6 +143,7 @@ LDXXFLAGS_SO_libhipsparse.so.1 := -Wl,--version-script=libhipsparse.map
 LDXXFLAGS_SO_libhiprand.so.1 := -Wl,--version-script=libhiprand.map
 LDXXFLAGS_SO_libhipblas.so.2 := -Wl,--version-script=libhipblas.map
 LDXXFLAGS_SO_libhipblaslt.so.0 := -Wl,--version-script=libhipblaslt.map
+LDXXFLAGS_SO_librccl.so.1 := -Wl,--version-script=librccl.map
 
 include main.mk
 
@@ -250,3 +252,4 @@ libhipsparse.so.1: ${common-objs} ${OUTPUT}sparse-hip.cpp.so.o
 libhiprand.so.1: ${common-objs} ${OUTPUT}rand-hip.cpp.so.o
 libhipblas.so.2: ${common-objs} ${OUTPUT}blas-hip.cpp.so.o
 libhipblaslt.so.0: ${common-objs} ${OUTPUT}blasLt-hip.cpp.so.o
+librccl.so.1: ${common-objs} ${OUTPUT}nccl-hip.cpp.so.o

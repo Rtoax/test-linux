@@ -2308,7 +2308,7 @@
 /* /usr/include/nccl.h, /opt/luca/include/hccl.h */
 #define ncclResult_t		__nccl(Result_t)
 #define ncclSuccess	__nccl(Success)	/* 0 */
-#define ncclUnhandledLucaError	__nccl(UnhandledLucaError)	/* 1 */
+#define ncclUnhandledCudaError	__nccl(UnhandledCudaError)	/* 1 */
 #define ncclSystemError		__nccl(SystemError)	/* 2 */
 #define ncclInternalError	__nccl(InternalError)
 #define ncclInvalidArgument	__nccl(InvalidArgument)
@@ -2329,6 +2329,9 @@
  * } ncclUniqueId;
  */
 #define ncclUniqueId		__nccl(UniqueId)
+/**
+ * ncclResult_t ncclGetUniqueId(ncclUniqueId* uniqueId);
+ */
 #define ncclGetUniqueId(id)	__nccl(GetUniqueId(id))
 
 /* Communicator */

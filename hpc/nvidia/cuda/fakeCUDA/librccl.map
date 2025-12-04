@@ -1,0 +1,8 @@
+librccl.so.1 {
+	global:
+		ncclGetVersion;
+		ncclGetErrorString;
+		ncclGetUniqueId;
+	local:
+		*;
+};
