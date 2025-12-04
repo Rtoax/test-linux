@@ -1,0 +1,6 @@
+libhipsolver.so.0 {
+	global:
+		hipsolverGetVersion;
+	local:
+		*;
+};

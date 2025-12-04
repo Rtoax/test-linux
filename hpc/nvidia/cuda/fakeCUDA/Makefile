@@ -39,6 +39,7 @@ libso-cuda += libcusolver.so.12
 libso-hip := libamdhip64.so.5 libamdhip64.so.6
 libso-hip += libhipfft.so.0 librocfft.so.0
 libso-hip += libhipsparse.so.1 librocsparse.so.1
+libso-hip += libhipsolver.so.0
 libso-hip += libhiprand.so.1
 libso-hip += libhipblas.so.2 libhipblaslt.so.0
 libso-hip += librccl.so.1
@@ -149,6 +150,7 @@ LDXXFLAGS_SO_libhipsparse.so.1 := -Wl,--version-script=libhipsparse.map
 LDXXFLAGS_SO_libhiprand.so.1 := -Wl,--version-script=libhiprand.map
 LDXXFLAGS_SO_libhipblas.so.2 := -Wl,--version-script=libhipblas.map
 LDXXFLAGS_SO_libhipblaslt.so.0 := -Wl,--version-script=libhipblaslt.map
+LDXXFLAGS_SO_libhipsolver.so.0 := -Wl,--version-script=libhipsolver.map
 LDXXFLAGS_SO_librccl.so.1 := -Wl,--version-script=librccl.map
 
 include main.mk
@@ -258,6 +260,7 @@ librocfft.so.0: ${common-objs} ${OUTPUT}fft-hip.cpp.so.o
 libhipfft.so.0: ${common-objs} ${OUTPUT}fft-hip.cpp.so.o
 librocsparse.so.1: ${common-objs} ${OUTPUT}sparse-hip.cpp.so.o
 libhipsparse.so.1: ${common-objs} ${OUTPUT}sparse-hip.cpp.so.o
+libhipsolver.so.0: ${common-objs} ${OUTPUT}solver-hip.cpp.so.o
 libhiprand.so.1: ${common-objs} ${OUTPUT}rand-hip.cpp.so.o
 libhipblas.so.2: ${common-objs} ${OUTPUT}blas-hip.cpp.so.o
 libhipblaslt.so.0: ${common-objs} ${OUTPUT}blasLt-hip.cpp.so.o
