@@ -2342,11 +2342,34 @@
  * HPCC 3.0.0
  * LUCA 3.2.1
  *   struct {
+ *     // attributes that users should never touch.
  *     size_t size;
  *     unsigned int magic;
  *     unsigned int version;
+ *     // attributes that users are able to customize.
  *     int blocking;
  *   };
+ *
+ * NCCL 2.27.7
+ *   struct ncclConfig_v22700 {
+ *     // attributes that users should never touch.
+ *     size_t size;
+ *     unsigned int magic;
+ *     unsigned int version;
+ *     // attributes that users are able to customize.
+ *     int blocking;
+ *     int cgaClusterSize;
+ *     int minCTAs;
+ *     int maxCTAs;
+ *     const char *netName;
+ *     int splitShare;
+ *     int trafficClass;
+ *     const char *commName;
+ *     int collnetEnable;
+ *     int CTAPolicy;
+ *     int shrinkShare;
+ *     int nvlsCTAs;
+ *   } ncclConfig_t;
  */
 #define ncclConfig_t		__nccl(Config_t)
 #define NCCL_CONFIG_INITIALIZER	__NCCL(_CONFIG_INITIALIZER)
