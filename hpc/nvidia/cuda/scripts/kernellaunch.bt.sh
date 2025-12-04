@@ -5,6 +5,48 @@ set -e
 
 declare -a UPROBES URETPROBES
 
+__usage__()
+{
+	echo -e "
+${BOLD}NAME${RST}
+	Kernellaunch.bt.sh - Tracing CUDA kernel Launch
+
+${BOLD}ARGUMENT${RST}
+	-h, --help               show this help information
+	-v, --verbose            show detail during running
+
+" | more
+	exit ${1-0}
+}
+
+TEMP_ARGS=$(getopt \
+	--options vh \
+	--long verbose: \
+	--long help \
+	-n patchset -- "$@")
+
+test $? != 0 && __usage__ 1
+
+eval set -- "$TEMP_ARGS"
+
+while true; do
+	case $1 in
+	-h|--help)
+		shift
+		__usage__
+		;;
+	-v|--verbose)
+		shift
+		export PS4='+${BASH_SOURCE}:${LINENO}:${FUNCNAME[0]}: '
+		set -x
+		;;
+	--)
+		shift
+		break
+		;;
+	esac
+done
+
 # HPCC
 if [[ -e /opt/hpcc/lib/libhcruntime.so ]]; then
 	UPROBES+=( uprobe:/opt/hpcc/lib/libhcruntime.so:hcLaunchKernel )
