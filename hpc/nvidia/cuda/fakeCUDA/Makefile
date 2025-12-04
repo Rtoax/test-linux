@@ -32,6 +32,7 @@ libso-cuda += libcublasLt.so.12 libcublasLt.so.13
 libso-cuda += libcufft.so.11 libcufft.so.12
 libso-cuda += libcurand.so.10
 libso-cuda += libcusparse.so.12
+libso-cuda += libcusolver.so.12
 
 libso-hip := libamdhip64.so.5 libamdhip64.so.6
 libso-hip += libhipfft.so.0 librocfft.so.0
@@ -132,6 +133,7 @@ LDXXFLAGS_SO_libcurand.so.10 := -Wl,--version-script=libcurand.map
 LDXXFLAGS_SO_libcufft.so.11 := -Wl,--version-script=libcufft.11.map
 LDXXFLAGS_SO_libcufft.so.12 := -Wl,--version-script=libcufft.12.map
 LDXXFLAGS_SO_libcusparse.so.12 := -Wl,--version-script=libcusparse.map
+LDXXFLAGS_SO_libcusolver.so.12 := -Wl,--version-script=libcusolver.12.map
 
 # ROCm HIP
 LDXXFLAGS_SO_libamdhip64.so.5 := -Wl,--version-script=libamdhip64.map
@@ -231,6 +233,7 @@ libcublas.so.12: ${common-objs} ${OUTPUT}blas.cpp.so.o
 libcublas.so.13: ${common-objs} ${OUTPUT}blas.cpp.so.o
 libcublasLt.so.12: ${common-objs} ${OUTPUT}blasLt.cpp.so.o
 libcublasLt.so.13: ${common-objs} ${OUTPUT}blasLt.cpp.so.o
+libcusolver.so.12: ${common-objs} ${OUTPUT}solver.cpp.so.o
 libcufft.so.11: ${common-objs} ${OUTPUT}fft.cpp.so.o
 libcufft.so.12: ${common-objs} ${OUTPUT}fft.cpp.so.o
 libcurand.so.10: ${common-objs} ${OUTPUT}rand.cpp.so.o

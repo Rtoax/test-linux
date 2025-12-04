@@ -1,0 +1,6 @@
+libcusolver.so.12 {
+	global:
+		cusolverGetVersion;
+	local:
+		*;
+};
