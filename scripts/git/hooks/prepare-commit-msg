@@ -66,6 +66,14 @@ add_bpftrace_ver() {
 	local bpftrace_ver=$(${GIT_TOPDIR}/bpf/bpftrace/version.sh)
 	add_ver "BPFTrace ${bpftrace_ver}"
 }
+add_bcc_ver() {
+	local bcc_ver=$(${GIT_TOPDIR}/bpf/bcc/version.sh)
+	add_ver "BCC ${bcc_ver}"
+}
+add_libbpf_ver() {
+	local libbpf_ver=$(${GIT_TOPDIR}/bpf/libbpf/version.sh)
+	add_ver "LIBBPF ${libbpf_ver}"
+}
 
 add_env() {
 	[[ -z "${@}" ]] && return 0
@@ -188,11 +196,8 @@ if [[ "$(files_have_key cuda nvidia hpcc HPCC metax MetaX)" ]]; then
 fi
 
 if [[ "$(files_have_key libbpf bcc bpf)" ]]; then
-	bcc_ver=$(${GIT_TOPDIR}/bpf/bcc/version.sh)
-	add_ver "BCC ${bcc_ver}"
-	libbpf_ver=$(${GIT_TOPDIR}/bpf/libbpf/version.sh)
-	add_ver "LIBBPF ${libbpf_ver}"
-	# TODO: add bpftools, etc.
+	add_bcc_ver
+	add_libbpf_ver
 fi
 
 if [[ "$(files_have_key python py)" ]]; then
