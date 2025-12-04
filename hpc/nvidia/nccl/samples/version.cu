@@ -14,7 +14,7 @@ int main(void)
 	result = ncclGetUniqueId(&uniqueid);
 	printf("uniqueid ");
 	for (int i = 0; i < sizeof(uniqueid); i++) {
-		char ch = uniqueid.internal[i];
+		unsigned char ch = uniqueid.internal[i];
 		printf("%02x", ch);
 	}
 	printf("\n");

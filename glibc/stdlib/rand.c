@@ -18,6 +18,8 @@ int main(void)
 {
 #ifdef SRAND
 	srand(nsecs());
+#else
+#pragma message "Need seed"
 #endif
 
 	int i, j;

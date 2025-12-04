@@ -9,6 +9,8 @@ int main(void)
 
 #ifdef SRANDOM
 	srandom((int)time(0));
+#else
+#pragma message "Need seed"
 #endif
 
 	for (i = 1; i <= 3000; i++) {

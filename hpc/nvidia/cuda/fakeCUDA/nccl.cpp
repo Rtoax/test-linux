@@ -1,5 +1,8 @@
 // SPDX-License-Identifier: GPL-3.0
 /* Copyright (c) 2025 Rong Tao */
+#include <stdlib.h>
+#include <stdint.h>
+#include <time.h>
 #include "nccl.hpp"
 
 
@@ -35,6 +38,10 @@ const char* ncclGetErrorString(ncclResult_t result)
  */
 ncclResult_t ncclGetUniqueId(ncclUniqueId* uniqueId)
 {
-	memset(uniqueId->internal, 'x', sizeof(*uniqueId));
+	int i;
+	srandom((int)time(0));
+	for (i = 0; i < sizeof(*uniqueId); i++) {
+		*(uint8_t *)&uniqueId->internal[i] = (int)(256.0 * random() / RAND_MAX + 1.0) % 256;
+	}
 	return ncclSuccess;
 }
