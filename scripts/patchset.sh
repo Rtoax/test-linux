@@ -122,7 +122,7 @@ __patchset_getopt__()
 		--long pure-diff \
 		--long output: \
 		--long dry-run \
-		--long verbose: \
+		--long verbose \
 		--long version \
 		--long help \
 		-n patchset -- "$@")
