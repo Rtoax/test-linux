@@ -143,7 +143,25 @@ ${TRACING_TYPE_LAUNCH})
 	EOF
 	;;
 ${TRACING_TYPE_LATENCY})
-	error TODO
+	sudo tee ${tmp_file} <<-EOF
+	#!/bin/env bpftrace
+	BEGIN {
+		printf("Tracing CUDA Kernel Launch Latency, hit ctrl-c to end.\n");
+	}
+	$(probe_list ${UPROBES[@]}) {
+		@start[tid] = nsecs;
+	}
+	$(probe_list ${URETPROBES[@]})
+	/ @start[tid] /
+	{
+		@latency_ns_hist = hist(nsecs - @start[tid]);
+		delete(@start[tid]);
+	}
+	END {
+		clear(@start);
+		printf("Bye.\n");
+	}
+	EOF
 	;;
 esac
 
