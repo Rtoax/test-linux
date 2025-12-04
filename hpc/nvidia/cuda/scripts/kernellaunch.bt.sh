@@ -1,4 +1,6 @@
 #!/bin/bash
+# Tracing CUDA liked kernel launching.
+
 set -e
 
 declare -a UPROBES URETPROBES
@@ -52,12 +54,13 @@ probes() {
 sudo tee tmp-klaunch.bt <<-EOF
 #!/bin/env bpftrace
 
-BEGIN
-{
+BEGIN {
 	printf("Tracing CUDA Kernel Launch, hit ctrl-c to end.\n");
 	printf("%-8s %-8s %-16s %s\n", "TIME", "PID", "COMM", "PROBE");
 }
+EOF
 
+sudo tee --append tmp-klaunch.bt <<-EOF
 $(probes ${UPROBES[@]})
 {
 	time("%H:%M:%S ");
@@ -69,9 +72,10 @@ $(probes ${URETPROBES[@]})
 	time("%H:%M:%S ");
 	printf("%-8d %-16s %s %d\n", pid, comm, probe, retval);
 }
+EOF
 
-END
-{
+sudo tee --append tmp-klaunch.bt <<-EOF
+END {
 	printf("Bye.\n");
 }
 EOF
