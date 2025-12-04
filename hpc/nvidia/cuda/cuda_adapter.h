@@ -2336,7 +2336,11 @@
 /* /usr/include/nccl.h, /opt/luca/include/hccl.h */
 #define ncclResult_t		__nccl(Result_t)
 #define ncclSuccess	__nccl(Success)	/* 0 */
+#ifdef __USE_HPCC__
+#define ncclUnhandledCudaError	__nccl(UnhandledHpccError)	/* 1 */
+#else /* for HIP and CUDA */
 #define ncclUnhandledCudaError	__nccl(UnhandledCudaError)	/* 1 */
+#endif
 #define ncclSystemError		__nccl(SystemError)	/* 2 */
 #define ncclInternalError	__nccl(InternalError)
 #define ncclInvalidArgument	__nccl(InvalidArgument)
