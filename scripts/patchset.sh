@@ -12,6 +12,7 @@ subject_prefix=
 downer_commit=
 upper_commit=
 
+pure_diff=
 no_cover_letter=
 
 dry_run=
@@ -33,7 +34,7 @@ readonly REVERSE="\033[7m"
 
 readonly RST="\033[m"
 
-readonly VERSION="v1.0.0"
+readonly VERSION="v1.0.1"
 
 __patchset_usage__()
 {
@@ -53,6 +54,8 @@ ${BOLD}ARGUMENT${RST}
 	--to   [COMMIT]          specify upper/newer commit, see git log --oneline
 
 	--no-cover-letter        no cover letter
+
+	--pure-diff              Output pure 'diff' format.
 
 	-o, --output [DIR]       specify output directory, default: ${output_dir}
 	-n, --dry-run            dump command instead execute
@@ -116,6 +119,7 @@ __patchset_getopt__()
 		--long from: \
 		--long to: \
 		--long no-cover-letter \
+		--long pure-diff \
 		--long output: \
 		--long dry-run \
 		--long verbose: \
@@ -153,6 +157,10 @@ __patchset_getopt__()
 		--no-cover-letter)
 			shift
 			no_cover_letter=YES
+			;;
+		--pure-diff)
+			shift
+			pure_diff=YES
 			;;
 		-o|--output)
 			shift
@@ -221,6 +229,13 @@ patchset()
 		args+=( --no-cover-letter )
 	else
 		args+=( --cover-letter )
+	fi
+
+	if [[ ${pure_diff} ]]; then
+		if [[ -z ${no_cover_letter} ]]; then
+			error "Pure diff must without cover letter"
+		fi
+		args+=( --pretty=format:'' --no-prefix --no-stat )
 	fi
 
 	my_eval git format-patch \
