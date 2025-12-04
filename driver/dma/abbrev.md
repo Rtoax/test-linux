@@ -1,2 +1,3 @@
 - DMA: Direct Memory Access (直接内存访问)
-- swiotlb: Software IO Translation Lookaside Buffer (软件IO转换后备缓冲区) @pswiotlb
+- pswiotlb: Phytium software IO TLB (飞腾 swiotlb)
+- swiotlb: Software IO TLB (软件IO TLB) @pswiotlb
