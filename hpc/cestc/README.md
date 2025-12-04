@@ -10,6 +10,7 @@ LUCA
 - **ht-smi topo**
 	- commit 94c2f4dea425 ("Lingspeed X710-M: SMI topo matrix")
 	- commit 3651b4d81e8e ("Lingspeed X710-M: SMI topo nic")
+	- commit a17ec5ff0ee9 ("Lingspeed X710-E: SMI topo matrix (2-Card)")
 
 # Benchmarks
 
