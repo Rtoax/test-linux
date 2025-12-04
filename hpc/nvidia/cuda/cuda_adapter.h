@@ -2338,6 +2338,8 @@
 #define ncclSuccess	__nccl(Success)	/* 0 */
 #ifdef __USE_HPCC__
 #define ncclUnhandledCudaError	__nccl(UnhandledHpccError)	/* 1 */
+#elif defined(__USE_LUCA__)
+#define ncclUnhandledCudaError	__nccl(UnhandledLucaError)	/* 1 */
 #else /* for HIP and CUDA */
 #define ncclUnhandledCudaError	__nccl(UnhandledCudaError)	/* 1 */
 #endif

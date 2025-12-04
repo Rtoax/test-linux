@@ -1,0 +1,8 @@
+liblccl.so {
+	global:
+		lcclGetVersion;
+		lcclGetErrorString;
+		lcclGetUniqueId;
+	local:
+		*;
+};

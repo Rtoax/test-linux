@@ -12,7 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - luca: Phase II project tested;
 #### Added
-- fakeCUDA: add libnccl.so.2;
+- fakeCUDA: add libnccl.so.2, liblccl.so;
 - fakeCUDA: add libcusolver.so.12, libhcsolver.so, liblcsolver.so, libhipsolver.so.0;
 - fakeCUDA: add librccl.so.1;
 - fakeCUDA: support LUCA phase II;

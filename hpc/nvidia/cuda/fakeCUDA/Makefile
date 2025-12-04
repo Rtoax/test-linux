@@ -9,7 +9,6 @@ include hpcc.mk
 include luca.mk
 
 libso-hpcc := libhccompiler.so
-libso-hpcc += libhccl.so
 libso-hpcc += libhcruntime.so
 libso-hpcc += libhcblas.so
 libso-hpcc += libhcblasLt.so
@@ -17,6 +16,7 @@ libso-hpcc += libhcfft.so
 libso-hpcc += libhcrand.so
 libso-hpcc += libhcsparse.so
 libso-hpcc += libhcsolver.so
+libso-hpcc += libhccl.so
 
 libso-luca := liblccompiler.so
 libso-luca += liblcruntime.so
@@ -26,6 +26,7 @@ libso-luca += liblcfft.so
 libso-luca += liblcrand.so
 libso-luca += liblcsparse.so
 libso-luca += liblcsolver.so
+libso-luca += liblccl.so
 
 libso-cuda := libcuda.so.1
 libso-cuda += libcudart.so.12 libcudart.so.13
@@ -129,6 +130,7 @@ LDXXFLAGS_SO_liblcfft.so := -Wl,--version-script=liblcfft.map
 LDXXFLAGS_SO_liblcrand.so := -Wl,--version-script=liblcrand.map
 LDXXFLAGS_SO_liblcsparse.so := -Wl,--version-script=liblcsparse.map
 LDXXFLAGS_SO_liblcsolver.so := -Wl,--version-script=liblcsolver.map
+LDXXFLAGS_SO_liblccl.so := -Wl,--version-script=liblccl.map
 
 # CUDA
 LDXXFLAGS_SO_libcuda.so.1 := -Wl,--version-script=libcuda.map
@@ -219,7 +221,6 @@ ${OUTPUT}device.cpp.so.o: device.h device-mars-x203.h device-nvidia-h800.h
 
 # HPCC
 libhccompiler.so: ${common-objs} ${rt-hpcc-objs}
-libhccl.so: ${common-objs} ${OUTPUT}nccl-hpcc.cpp.so.o
 libhcruntime.so: ${common-objs} ${rt-hpcc-objs} ${OUTPUT}cuda-hpcc.cpp.so.o ${OUTPUT}cuda-module-mgmt-hpcc.cpp.so.o
 libhcblas.so: ${common-objs} ${OUTPUT}blas-hpcc.cpp.so.o
 libhcblasLt.so: ${common-objs} ${OUTPUT}blasLt-hpcc.cpp.so.o
@@ -227,6 +228,7 @@ libhcfft.so: ${common-objs} ${OUTPUT}fft-hpcc.cpp.so.o
 libhcrand.so: ${common-objs} ${OUTPUT}rand-hpcc.cpp.so.o
 libhcsparse.so: ${common-objs} ${OUTPUT}sparse-hpcc.cpp.so.o
 libhcsolver.so: ${common-objs} ${OUTPUT}solver-hpcc.cpp.so.o
+libhccl.so: ${common-objs} ${OUTPUT}nccl-hpcc.cpp.so.o
 
 # LUCA
 liblccompiler.so: ${common-objs} ${rt-luca-objs}
@@ -237,6 +239,7 @@ liblcfft.so: ${common-objs} ${OUTPUT}fft-luca.cpp.so.o
 liblcrand.so: ${common-objs} ${OUTPUT}rand-luca.cpp.so.o
 liblcsparse.so: ${common-objs} ${OUTPUT}sparse-luca.cpp.so.o
 liblcsolver.so: ${common-objs} ${OUTPUT}solver-luca.cpp.so.o
+liblccl.so: ${common-objs} ${OUTPUT}nccl-luca.cpp.so.o
 
 # CUDA
 libcuda.so.1: ${common-objs} ${OUTPUT}cuda.cpp.so.o ${OUTPUT}cuda-module-mgmt.cpp.so.o
