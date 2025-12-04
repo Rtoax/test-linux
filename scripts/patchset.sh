@@ -34,7 +34,7 @@ readonly REVERSE="\033[7m"
 
 readonly RST="\033[m"
 
-readonly VERSION="v1.0.1"
+readonly VERSION="v1.0.2"
 
 __patchset_usage__()
 {
@@ -114,7 +114,7 @@ warning() {
 __patchset_getopt__()
 {
 	local TEMP=$(getopt \
-		--options o:nv:hV \
+		--options o:nvhV \
 		--long subject-prefix: \
 		--long from: \
 		--long to: \
