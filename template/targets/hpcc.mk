@@ -66,6 +66,7 @@ LDFLAGS_HTCC += -lhcfft
 LDFLAGS_HTCC += -lhcrand
 LDFLAGS_HTCC += -lhcsparse
 LDFLAGS_HTCC += -lhcsolver
+LDFLAGS_HTCC += -lhcfile
 
 ifdef NODEFAULTRPATH
   # Remove default so search directory, see ldflags: -Wl,-rpath,/path/to/so/

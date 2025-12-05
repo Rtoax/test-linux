@@ -50,6 +50,7 @@
 #  include <hpcc_cooperative_groups.h>
 # endif
 # include <hccl.h>
+# include <hcfile.h>
 # include <hcc/hcc_internal.h>
 # include "cuda_adapter.h"
 # ifndef HAVE_HPCC

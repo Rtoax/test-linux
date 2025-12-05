@@ -12,7 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - luca: Phase II project tested;
 #### Added
-- cuda/file: compile for LUCA;
+- cuda/file: compile for LUCA and HPCC;
 - cuda/file: add hello.cpp test;
 - nvidia: introduce GPUDirect Storage;
 - nccl: add communicator.cu test;
