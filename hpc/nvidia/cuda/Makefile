@@ -12,6 +12,7 @@ subdir-y := samples
 subdir-y += blas
 subdir-y += dnn
 subdir-y += fft
+subdir-y += file
 subdir-y += rand
 subdir-y += sparse
 subdir-y += solver

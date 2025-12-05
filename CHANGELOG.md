@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - luca: Phase II project tested;
 #### Added
+- cuda/file: add hello.cpp test;
 - nvidia: introduce GPUDirect Storage;
 - nccl: add communicator.cu test;
 - git/hooks/prepare-commit-msg: add bpftrace version if need;

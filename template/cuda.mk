@@ -8,6 +8,7 @@
 # - HAVE_CUDA=y
 # - HAVE_NCCL=y
 # - HAVE_CUDNN=y
+# - HAVE_CUFILE=y
 # - NVCC=
 # - CUOBJDUMP=
 # - NVDISASM=
@@ -40,11 +41,17 @@ CUDA_ROOT := /usr/local/cuda/
 ifneq ($(wildcard ${CUDA_ROOT}),)
   CUDA_ROOT := $(shell realpath ${CUDA_ROOT})
 else
-  CUDA_ROOT :=
+  ifneq ($(wildcard /usr/include/cuda.h),)
+    CUDA_ROOT := /usr/
+  else
+    # Not found cuda in anywhere
+    CUDA_ROOT :=
+  endif
 endif
 
+# Use env's nvcc first
 ifeq ($(NVCC),)
-  ifneq ($(wildcard ${CUDA_ROOT}),)
+  ifneq (${CUDA_ROOT},)
     NVCC := ${CUDA_ROOT}/bin/nvcc
     CUOBJDUMP := ${CUDA_ROOT}/bin/cuobjdump
   endif
@@ -90,6 +97,8 @@ endif
 
 $(call check_file_and_def,/usr/include/nccl.h,HAVE_NCCL)
 $(call check_file_and_def,/usr/include/cudnn.h,HAVE_CUDNN)
+# For GPUDirect Storage
+$(call check_file_and_def,${CUDA_ROOT}/include/cufile.h,HAVE_CUFILE)
 
 export NVCC CUOBJDUMP NVDISASM CUDA_ROOT
 export CUDA_VERSION_MAJOR CUDA_VERSION_MINOR CUDA_VERSION_PATCH
