@@ -19,6 +19,11 @@
 # target-nvcc-y
 # target-nvcc-libso-y
 # target-nvcc-liba-y
+#
+# Input definitions:
+# - HAVE_NCCL
+# - HAVE_CUDNN
+# - HAVE_CUFILE
 
 _TARGET_NVIDIA = 1
 _SYSTEM_HAVE_NVIDIA_GPU :=
@@ -41,6 +46,9 @@ ifdef HAVE_NCCL
 endif
 ifdef HAVE_CUDNN
   CFLAGS_NVCC += -DHAVE_CUDNN=1
+endif
+ifdef HAVE_CUFILE
+  CFLAGS_NVCC += -DHAVE_CUFILE=1
 endif
 CFLAGS_NVCC += -DCUDA_VERSION_MAJOR=${CUDA_VERSION_MAJOR}
 CFLAGS_NVCC += -DCUDA_VERSION_MINOR=${CUDA_VERSION_MINOR}
@@ -78,6 +86,9 @@ ifdef HAVE_NCCL
 endif
 ifdef HAVE_CUDNN
   LDFLAGS_NVCC += -lcudnn
+endif
+ifdef HAVE_CUFILE
+  LDFLAGS_NVCC += -lcufile
 endif
 LDFLAGS_NVCC += ${ldflags-cudart}
 
