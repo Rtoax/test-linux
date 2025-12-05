@@ -36,6 +36,9 @@ endif
 ifdef HAVE_LCDNN
   CFLAGS_LSCC += -DHAVE_LCDNN=1
 endif
+ifdef HAVE_LCFILE
+  CFLAGS_LSCC += -DHAVE_LCFILE=1
+endif
 
 ifneq ($(LUCA_VERSION_MAJOR}),)
   CFLAGS_LSCC += -DLUCA_VERSION_MAJOR=${LUCA_VERSION_MAJOR}
@@ -54,6 +57,9 @@ ifdef LUCA_PHASE_II_PROJECT
   LDFLAGS_LSCC += -llcrand
   LDFLAGS_LSCC += -llcsparse
   LDFLAGS_LSCC += -llcsolver
+  ifdef HAVE_LCFILE
+    LDFLAGS_LSCC += -llcfile
+  endif
 else
   # FIXME: In file included from sparse.luca:6:
   # In file included from /opt/luca/include/hcsparse/hcsparse.h:9:
@@ -69,6 +75,9 @@ else
   LDFLAGS_LSCC += -lhcrand
   LDFLAGS_LSCC += -lhcsparse
   LDFLAGS_LSCC += -lhcsolver
+  ifdef HAVE_LCFILE
+    LDFLAGS_LSCC += -lhcfile
+  endif
 endif
 
 ifdef NODEFAULTRPATH

@@ -2418,3 +2418,21 @@
  *             DNN                                                            *
 \******************************************************************************/
 // TODO
+
+/******************************************************************************\
+ * GPUDirect Storage, cuFile                                                  *
+\******************************************************************************/
+#define CUfileHandle_t	__CU(fileHandle_t)
+#define CU_FILE_HANDLE_TYPE_OPAQUE_FD	__CU(_FILE_HANDLE_TYPE_OPAQUE_FD)
+
+#define CUfileDescr_t	__CU(fileDescr_t)
+#define CUfileError_t	__CU(fileError_t)
+#define CU_FILE_SUCCESS	__CU(_FILE_SUCCESS)
+
+/**
+ * LUCA 3.2.1
+ * LCfileError_t lcFileHandleRegister(LCfileHandle_t *fh, LCfileDescr_t *descr);
+ */
+#define cuFileHandleRegister	__cu(FileHandleRegister)
+#define cuFileHandleDeregister	__cu(FileHandleDeregister)
+#define cuFileWrite	__cu(FileWrite)

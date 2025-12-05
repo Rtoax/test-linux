@@ -4,8 +4,7 @@
 #include <iostream>
 #include <fcntl.h>
 #include <unistd.h>
-#include <cuda_runtime.h>
-#include <cufile.h>
+#include "cuda_compat.h"
 
 int main(void)
 {
