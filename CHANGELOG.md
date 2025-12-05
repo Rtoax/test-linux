@@ -23,6 +23,7 @@ and this project adheres to
 - fakeCUDA: support LUCA phase II;
 - ai: add os subdir;
 #### Changed
+- template/targets: rename nvidia.mk to cuda.mk;
 - template/targets: rename amd.mk to hip.mk;
 - template/targets: rename cestc.mk to luca.mk;
 - template/targets: rename metax.mk to hpcc.mk;

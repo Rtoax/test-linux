@@ -192,7 +192,7 @@ ifneq ($(target-rust-y),)
   include targets/rust.mk
 endif
 ifneq ($(target-nvcc-y)$(target-nvcc-libso-y)$(target-nvcc-liba-y),)
-  include targets/nvidia.mk
+  include targets/cuda.mk
 endif
 ifneq ($(target-hipcc-y)$(target-hipcc-libso-y)$(target-hipcc-liba-y),)
   include targets/hip.mk
