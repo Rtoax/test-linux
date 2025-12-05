@@ -91,6 +91,10 @@ add_shell_ver() {
 	local bash_ver=$(${GIT_TOPDIR}/shell/version.sh)
 	add_ver "BASH ${bash_ver}"
 }
+add_make_ver() {
+	local make_ver=$(${GIT_TOPDIR}/gnu/make/version.sh)
+	add_ver "MAKE ${make_ver}"
+}
 add_bpftrace_ver() {
 	local bpftrace_ver=$(${GIT_TOPDIR}/bpf/bpftrace/version.sh)
 	add_ver "BPFTrace ${bpftrace_ver}"
@@ -184,6 +188,10 @@ fi
 
 if [[ "$(files_have_type sh bash)$(files_have_key bash shell)" ]]; then
 	add_shell_ver
+fi
+
+if [[ "$(files_have_type mk make)$(files_have_key make)" ]]; then
+	add_make_ver
 fi
 
 if [[ "$(files_have_type bt)$(files_have_key bpftrace)" ]]; then

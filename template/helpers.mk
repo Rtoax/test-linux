@@ -61,24 +61,24 @@ endif
 # $2 - turn on with 'y', otherwise turn off
 define add_helper_target
 ifeq ($(2),y)
-  CFLAGS += -I$(shell dirname ${1})
-  CFLAGS_A += -I$(shell dirname ${1})
-  CFLAGS_SO += -I$(shell dirname ${1})
-  CFLAGS_NVCC += -I$(shell dirname ${1})
-  CFLAGS_HIPCC += -I$(shell dirname ${1})
-  CFLAGS_LSCC += -I$(shell dirname ${1})
-  CFLAGS_HTCC += -I$(shell dirname ${1})
+  CFLAGS += -I$$(shell dirname ${1})
+  CFLAGS_A += -I$$(shell dirname ${1})
+  CFLAGS_SO += -I$$(shell dirname ${1})
+  CFLAGS_NVCC += -I$$(shell dirname ${1})
+  CFLAGS_HIPCC += -I$$(shell dirname ${1})
+  CFLAGS_LSCC += -I$$(shell dirname ${1})
+  CFLAGS_HTCC += -I$$(shell dirname ${1})
   ifdef DEBUG
-    $(info Use helper $1)
+    $$(info Use helper $1)
   endif
   ifdef STATIC
     LDFLAGS += ${1}
   else
-    LDFLAGS += -Wl,-rpath,$(shell dirname ${1})
+    LDFLAGS += -Wl,-rpath,$$(shell dirname ${1})
   endif
 endif
 ${1}:
-	@make --no-print-directory --silent -C $(shell dirname ${1}) $(shell basename ${1})
+	@make --no-print-directory --silent -C $$(shell dirname ${1}) $$(shell basename ${1})
 endef
 
 ifdef STATIC
