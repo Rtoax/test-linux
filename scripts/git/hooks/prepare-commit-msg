@@ -14,6 +14,8 @@ readonly GIT_TOPDIR=$(git rev-parse --show-toplevel 2>/dev/null || :)
 readonly first_nonempyline=$(sed -n '/[^[:space:]]/ { =; q }' ${COMMIT_MSG_FILE})
 readonly first_commentline=$(sed -n '/^#/ { =; q }' ${COMMIT_MSG_FILE})
 readonly signed_off_by_line=$(awk '/^Signed-off-by:/{print NR; exit}' ${COMMIT_MSG_FILE})
+readonly GCC=$(which gcc 2>/dev/null || :)
+readonly LLVM_CONFIG=$(which llvm-config 2>/dev/null || :)
 
 # Changed file list (new, deleted, added, modified)
 CHANGED_FILES=( $( ${MY_DIRECTORY}/get-commit-file-list ) )
@@ -55,14 +57,12 @@ add_os_ver() {
 	add_ver "${os_env}"
 }
 add_gcc_ver() {
-	readonly GCC=$(which gcc 2>/dev/null || :)
 	if [[ ${GCC} ]]; then
 		local gcc_ver=$(${GCC} -dumpfullversion -dumpversion)
 		add_ver "GCC ${gcc_ver}"
 	fi
 }
 add_llvm_ver() {
-	readonly LLVM_CONFIG=$(which llvm-config 2>/dev/null || :)
 	if [[ ${LLVM_CONFIG} ]]; then
 		local llvm_ver=$(${LLVM_CONFIG} --version)
 		add_ver "LLVM ${llvm_ver}"
