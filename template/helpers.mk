@@ -68,6 +68,9 @@ ifeq ($(2),y)
   CFLAGS_HIPCC += -I$(shell dirname ${1})
   CFLAGS_LSCC += -I$(shell dirname ${1})
   CFLAGS_HTCC += -I$(shell dirname ${1})
+  ifdef DEBUG
+    $(info Use helper $1)
+  endif
   ifdef STATIC
     LDFLAGS += ${1}
   else
