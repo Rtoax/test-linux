@@ -1,4 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
+OUTPUT := .output/
+
 include glibc.mk
 
 target-y :=
@@ -39,36 +41,36 @@ target-post-y := os-release
 include main.mk
 
 os-release:
-	@cp /etc/os-release os-release
+	${Q}cp /etc/os-release os-release
 
-ansi_ascii: ansi_ascii.o
-ctermid: ctermid.o
-asprintf: asprintf.o
-vasprintf: vasprintf.o
-vfprintf: vfprintf.o
-vsprintf: vsprintf.o
-printf: printf.o
-vprintf: vprintf.o
-__freadable: __freadable.o
-open_memstream: open_memstream.o
-remove: remove.o
-popen: popen.o
-fwrite: fwrite.o
-getchar: getchar.o
-getline: getline.o
-getdelim: getdelim.o
-puts: puts.o
-scanf: scanf.o
-sscanf: sscanf.o
-perror: perror.o
-tmpfile: tmpfile.o
-tmpnam: tmpnam.o
-tempnam: tempnam.o
-sprintf: sprintf.o
-snprintf: snprintf.o
-setbuf: setbuf.o
-setvbuf: setvbuf.o
-fgets: fgets.o
-fopen: fopen.o
-fread: fread.o
-fopencookie: fopencookie.o
+ansi_ascii: ${OUTPUT}ansi_ascii.o
+ctermid: ${OUTPUT}ctermid.o
+asprintf: ${OUTPUT}asprintf.o
+vasprintf: ${OUTPUT}vasprintf.o
+vfprintf: ${OUTPUT}vfprintf.o
+vsprintf: ${OUTPUT}vsprintf.o
+printf: ${OUTPUT}printf.o
+vprintf: ${OUTPUT}vprintf.o
+__freadable: ${OUTPUT}__freadable.o
+open_memstream: ${OUTPUT}open_memstream.o
+remove: ${OUTPUT}remove.o
+popen: ${OUTPUT}popen.o
+fwrite: ${OUTPUT}fwrite.o
+getchar: ${OUTPUT}getchar.o
+getline: ${OUTPUT}getline.o
+getdelim: ${OUTPUT}getdelim.o
+puts: ${OUTPUT}puts.o
+scanf: ${OUTPUT}scanf.o
+sscanf: ${OUTPUT}sscanf.o
+perror: ${OUTPUT}perror.o
+tmpfile: ${OUTPUT}tmpfile.o
+tmpnam: ${OUTPUT}tmpnam.o
+tempnam: ${OUTPUT}tempnam.o
+sprintf: ${OUTPUT}sprintf.o
+snprintf: ${OUTPUT}snprintf.o
+setbuf: ${OUTPUT}setbuf.o
+setvbuf: ${OUTPUT}setvbuf.o
+fgets: ${OUTPUT}fgets.o
+fopen: ${OUTPUT}fopen.o
+fread: ${OUTPUT}fread.o
+fopencookie: ${OUTPUT}fopencookie.o
