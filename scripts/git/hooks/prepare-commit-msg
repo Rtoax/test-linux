@@ -162,8 +162,7 @@ cpu_info() {
 }
 
 if [[ -z ${signed_off_by_line} ]]; then
-	echo >&2 "ERROR: must signed with -s/--signoff"
-	exit 1
+	fatal "must signed with -s/--signoff"
 fi
 
 add_env "CPU: $(cpu_info)"
