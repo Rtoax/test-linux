@@ -1,6 +1,14 @@
 GPUDirect Storage
 =================
 
+# Enable GDS
+
+## Lingspeed
+
+```
+$ sudo modprobe lingspeed mas=1
+```
+
 
 # Links
 
