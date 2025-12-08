@@ -2474,7 +2474,13 @@
  * GPUDirect Storage, cuFile                                                  *
 \******************************************************************************/
 #define CUfileHandle_t	__CU(fileHandle_t)
+#define CUfileFileHandleType	__CU(fileFileHandleType)
+/* Linux based fd */
 #define CU_FILE_HANDLE_TYPE_OPAQUE_FD	__CU(_FILE_HANDLE_TYPE_OPAQUE_FD)
+/* Windows based handle (unsupported) */
+#define CU_FILE_HANDLE_TYPE_OPAQUE_WIN32	__CU(_FILE_HANDLE_TYPE_OPAQUE_WIN32)
+/* Userspace based FS */
+#define CU_FILE_HANDLE_TYPE_USERSPACE_FS	__CU(_FILE_HANDLE_TYPE_USERSPACE_FS)
 
 #define CUfileDescr_t	__CU(fileDescr_t)
 #define CUfileError_t	__CU(fileError_t)
