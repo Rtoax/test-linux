@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - luca: Phase II project tested;
 #### Added
+- procfs: add Makefiles for subdirs;
 - nccl: add `nccl_helpers.h`;
 - cuda/file: compile for LUCA and HPCC;
 - cuda/file: add hello.cpp test;

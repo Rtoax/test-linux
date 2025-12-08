@@ -3,6 +3,7 @@ OUTPUT = .output/
 
 subdir-y := process
 subdir-y += kallsyms
+subdir-y += sys
 
 target-y :=
 target-y += proc_examples
