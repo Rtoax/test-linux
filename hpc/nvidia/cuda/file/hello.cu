@@ -34,7 +34,7 @@ int main(int argc, char *argv[])
 
 	fprintf(stderr, "Usage: %s [filepath]\n", argv[0]);
 
-	fd = open(filename, O_CREAT | O_RDWR, 0664);
+	fd = open(filename, O_CREAT | O_RDWR | O_DIRECT, 0664);
 	if (fd < 0) {
 		fprintf(stderr, "Open %s failed\n", filename);
 		return 1;
