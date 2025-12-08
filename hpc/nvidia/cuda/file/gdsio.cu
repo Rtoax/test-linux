@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include <fcntl.h>
 #include <unistd.h>
+#include <pthread.h>
 #include "cuda_compat.h"
 
 const char *version = "v0.0.1";
@@ -18,9 +19,13 @@ const char *version = "v0.0.1";
 struct {
 	int gpu;
 	const char *filename;
+	int nr_threads;
+	size_t size;
 } env = {
 	.gpu = 0,
 	.filename = "./testfile.out",
+	.nr_threads = 1,	/* TODO */
+	.size = 8192,
 };
 
 const char argp_prog_doc[] =
@@ -29,10 +34,38 @@ const char argp_prog_doc[] =
 static const struct argp_option opts[] = {
 	{ "file", 'f', "FILE", 0, "file name" },
 	{ "device", 'd', "DEVICE", 0, "gpu index" },
+	{ "size", 's', "SIZE", 0, "file size (K|M|G)" },
 	{ "verify", 'V', NULL, 1, "verify IO" },
 	{ "version", 'v', NULL, 1, "display version" },
 	{},
 };
+
+static unsigned long str2size(const char *str)
+{
+	unsigned long size = 0;
+
+	if (!str) {
+		errno = EINVAL;
+		return 0;
+	}
+
+	if (str[0] == '0' && str[1] == 'x')
+		size = strtoull(str, NULL, 16);
+	else
+		size = strtoull(str, NULL, 10);
+
+#define KB 1024UL
+#define MB (KB * 1024UL)
+#define GB (MB * 1024UL)
+	if (strstr(str, "G") || strstr(str, "GB") || strstr(str, "GiB"))
+		size *= GB;
+	else if (strstr(str, "M") || strstr(str, "MB") || strstr(str, "MiB"))
+		size *= MB;
+	else if (strstr(str, "K") || strstr(str, "KB") || strstr(str, "KiB"))
+		size *= KB;
+
+	return size;
+}
 
 static error_t parse_arg(int key, char *arg, struct argp_state *state)
 {
@@ -42,6 +75,9 @@ static error_t parse_arg(int key, char *arg, struct argp_state *state)
 		break;
 	case 'd':
 		env.gpu = strtoul(arg, NULL, 10);
+		break;
+	case 's':
+		env.size = str2size(arg);
 		break;
 	case 'v':
 		printf("gpsio %s\n", version);
@@ -95,12 +131,11 @@ int main(int argc, char *argv[])
 
 	/* Alloc GPU memory and fill GPU memory with data */
 	void *devPtr;
-	size_t bufferSize = 8192;
-	cudaMalloc(&devPtr, bufferSize);
-	cudaMemset(devPtr, 0xAB, bufferSize);
+	cudaMalloc(&devPtr, env.size);
+	cudaMemset(devPtr, 0xAB, env.size);
 
 	/* Perform the write */
-	ssize_t writtenBytes = cuFileWrite(cfHandle, devPtr, bufferSize, 0, 0);
+	ssize_t writtenBytes = cuFileWrite(cfHandle, devPtr, env.size, 0, 0);
 	if (writtenBytes < 0) {
 		perror("cuFileWrite failed");
 	} else {
