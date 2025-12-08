@@ -2409,10 +2409,24 @@
 
 /* Communicator */
 #define ncclComm_t	__nccl(Comm_t)
+
+/**
+ * ncclResult_t ncclCommInitRank(ncclComm_t* comm, int nranks, ncclUniqueId commId, int rank);
+ */
+#define ncclCommInitRank	__nccl(CommInitRank)
+
+/**
+ * ncclResult_t ncclCommInitRankConfig(ncclComm_t* comm, int nranks,
+ *                                     ncclUniqueId commId, int rank,
+ *                                     ncclConfig_t* config);
+ */
+#define ncclCommInitRankConfig	__nccl(CommInitRankConfig)
+
 /**
  * ncclResult_t ncclCommInitAll(ncclComm_t* comms, int ndev, const int* devlist);
  */
 #define ncclCommInitAll(comm, ndev, devlist)	__nccl(CommInitAll(comm, ndev, devlist))
+#define ncclCommDestroy	__nccl(CommDestroy)
 
 /******************************************************************************\
  *             DNN                                                            *
