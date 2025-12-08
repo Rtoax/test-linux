@@ -21,14 +21,22 @@
 #include <unistd.h>
 #include "cuda_compat.h"
 
-int main(void)
+int main(int argc, char *argv[])
 {
 	CUfileHandle_t cfHandle;
 	CUfileDescr_t cfDescr = {};
+	int fd;
 	const char *filename = "./testfile.out";
-	int fd = open(filename, O_CREAT | O_RDWR, 0664);
+
+	if (argc > 1) {
+		filename = argv[1];
+	}
+
+	fprintf(stderr, "Usage: %s [filepath]\n", argv[0]);
+
+	fd = open(filename, O_CREAT | O_RDWR, 0664);
 	if (fd < 0) {
-		perror("File open failed");
+		fprintf(stderr, "Open %s failed\n", filename);
 		return 1;
 	}
 
