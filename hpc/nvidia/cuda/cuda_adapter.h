@@ -2458,6 +2458,13 @@
 #define ncclBfloat16	__nccl(Bfloat16)
 #define ncclNumTypes	__nccl(NumTypes)
 
+/**
+ * ncclResult_t  ncclAllReduce(const void* sendbuff, void* recvbuff, size_t count,
+ *                             ncclDataType_t datatype, ncclRedOp_t op,
+ *                             ncclComm_t comm, cudaStream_t stream);
+ */
+#define ncclAllReduce	__nccl(AllReduce)
+
 /******************************************************************************\
  *             DNN                                                            *
 \******************************************************************************/
