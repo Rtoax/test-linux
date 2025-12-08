@@ -2,6 +2,7 @@
  * gdsio - GPUDirect Storage IO
  *
  * See also /usr/local/cuda/gds/tools/gdsio
+ *          commit 998aaea56a78 ("cufile: add gpsio.cu")
  *
  * Refs:
  * - https://docs.nvidia.com/gpudirect-storage/getting-started/index.html
