@@ -1,20 +1,10 @@
 /**
- * Original code:
- * https://docs.nvidia.com/gpudirect-storage/getting-started/index.html
+ * gdsio - GPUDirect Storage IO
  *
- * Example 1:
- * The simplest GDSIO command performs a GPU-to-storage write operation. The
- * following command writes 8 KB (-s 8K) of data from GPU 0 (-d 0) to the file.
- * The data is written in two 4 KB blocks (-i 4K), and the -I 1 flag specifies
- * a single iteration.
+ * See also /usr/local/cuda/gds/tools/gdsio
  *
- *   $ /usr/local/cuda/gds/tools/gdsio -x 0 -d 0 -s 8K -i 4K -f $PWD/testfile.out -I 1
- *
- * Example 2:
- * To compare GPU-Direct transfers (GPUD) with traditional GPU ↔ CPU ↔ Storage
- * transfers, simply switch to the -x 2 mode:
- *
- *   $ /usr/local/cuda/gds/tools/gdsio -x 2 -d 0 -s 8K -i 4K -f $PWD/testfile.out -I 1
+ * Refs:
+ * - https://docs.nvidia.com/gpudirect-storage/getting-started/index.html
  */
 #include <stdio.h>
 #include <fcntl.h>
@@ -42,15 +32,7 @@ int main(int argc, char *argv[])
 
 	/* Set up GDS descriptor */
 	cfDescr.handle.fd = fd;
-#ifdef __LUCA__
-	/**
-	 * FIXME: luca must use window type???
-	 * see commit e5400f2496b1 ("cufile: luca: cuFileHandleRegister failed: unsupported file open flags")
-	 */
-	cfDescr.type = CU_FILE_HANDLE_TYPE_OPAQUE_WIN32;
-#else
 	cfDescr.type = CU_FILE_HANDLE_TYPE_OPAQUE_FD;
-#endif
 
 	CUfileError_t status = cuFileHandleRegister(&cfHandle, &cfDescr);
 	if (status.err != CU_FILE_SUCCESS) {

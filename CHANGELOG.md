@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - luca: Phase II project tested;
 #### Added
+- cufile: add gpsio.cu;
 - procfs: add Makefiles for subdirs;
 - nccl: add `nccl_helpers.h`;
 - cuda/file: compile for LUCA and HPCC;

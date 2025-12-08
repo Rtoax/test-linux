@@ -6,6 +6,7 @@ include luca.mk
 include hpcc.mk
 
 common-objs := hello
+common-objs += gdsio
 
 target-nvcc-${HAVE_CUFILE} := ${common-objs}
 target-lscc-${HAVE_LCFILE} := $(patsubst %,%-luca,$(common-objs))
