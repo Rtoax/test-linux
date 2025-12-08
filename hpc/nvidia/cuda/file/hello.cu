@@ -35,6 +35,10 @@ int main(void)
 	// Set up GDS descriptor
 	cfDescr.handle.fd = fd;
 #ifdef __LUCA__
+	/**
+	 * FIXME: luca must use window type???
+	 * see commit e5400f2496b1 ("cufile: luca: cuFileHandleRegister failed: unsupported file open flags")
+	 */
 	cfDescr.type = CU_FILE_HANDLE_TYPE_OPAQUE_WIN32;
 #else
 	cfDescr.type = CU_FILE_HANDLE_TYPE_OPAQUE_FD;
