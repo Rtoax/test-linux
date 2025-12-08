@@ -40,7 +40,7 @@ int main(int argc, char *argv[])
 		return 1;
 	}
 
-	// Set up GDS descriptor
+	/* Set up GDS descriptor */
 	cfDescr.handle.fd = fd;
 #ifdef __LUCA__
 	/**
@@ -51,6 +51,7 @@ int main(int argc, char *argv[])
 #else
 	cfDescr.type = CU_FILE_HANDLE_TYPE_OPAQUE_FD;
 #endif
+
 	CUfileError_t status = cuFileHandleRegister(&cfHandle, &cfDescr);
 	if (status.err != CU_FILE_SUCCESS) {
 		fprintf(stderr, "cuFileHandleRegister failed: %s\n",
@@ -59,20 +60,21 @@ int main(int argc, char *argv[])
 		return 1;
 	}
 
-	// Alloc GPU memory and fill GPU memory with data
+	/* Alloc GPU memory and fill GPU memory with data */
 	void *devPtr;
 	size_t bufferSize = 8192;
 	cudaMalloc(&devPtr, bufferSize);
 	cudaMemset(devPtr, 0xAB, bufferSize);
 
-	// Perform the write
+	/* Perform the write */
 	ssize_t writtenBytes = cuFileWrite(cfHandle, devPtr, bufferSize, 0, 0);
 	if (writtenBytes < 0) {
 		perror("cuFileWrite failed");
 	} else {
 		std::cout << "Wrote " << writtenBytes << " bytes to the file." << std::endl;
 	}
-	// Clean up
+
+	/* Clean up */
 	cuFileHandleDeregister(cfHandle);
 	close(fd);
 	cudaFree(devPtr);
