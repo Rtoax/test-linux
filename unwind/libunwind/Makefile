@@ -1,16 +1,13 @@
-target-y :=
-target-cpp-y :=
+include arch.mk
 
-target-y += tst
+target-y := tst
 target-y += unw_regname
 target-y += unw_create_addr_space
 target-y += do_backtrace
 target-y += unwind-backtrace
+target-${IS_X86_64} += backtrace
 
 target-cpp-y += backtrace-pid
-ifeq ($(shell uname -m),x86_64)
-  target-y += backtrace
-endif
 
 UNWIND_PTRACE :=
 UNWIND_PTRACE1 := /lib64/libunwind-ptrace.a
