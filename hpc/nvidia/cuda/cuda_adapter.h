@@ -2428,6 +2428,36 @@
 #define ncclCommInitAll(comm, ndev, devlist)	__nccl(CommInitAll(comm, ndev, devlist))
 #define ncclCommDestroy	__nccl(CommDestroy)
 
+#define ncclGroupStart	__nccl(GroupStart)
+#define ncclGroupEnd	__nccl(GroupEnd)
+
+#define ncclRedOp_t	__nccl(RedOp_t)
+#define ncclSum		__nccl(Sum)
+#define ncclProd	__nccl(Prod)
+#define ncclMax		__nccl(Max)
+#define ncclMin		__nccl(Min)
+#define ncclAvg		__nccl(Avg)
+#define ncclNumOps	__nccl(NumOps)
+#define ncclMaxRedOp	__nccl(MaxRedOp)
+
+#define ncclDataType_t	__nccl(DataType_t)
+#define ncclInt8	__nccl(Int8)
+#define ncclChar	__nccl(Char)
+#define ncclUint8	__nccl(Uint8)
+#define ncclInt32	__nccl(Int32)
+#define ncclInt		__nccl(Int)
+#define ncclUint32	__nccl(Uint32)
+#define ncclInt64	__nccl(Int64)
+#define ncclUint64	__nccl(Uint64)
+#define ncclFloat16	__nccl(Float16)
+#define ncclHalf	__nccl(Half)
+#define ncclFloat32	__nccl(Float32)
+#define ncclFloat	__nccl(Float)
+#define ncclFloat64	__nccl(Float64)
+#define ncclDouble	__nccl(Double)
+#define ncclBfloat16	__nccl(Bfloat16)
+#define ncclNumTypes	__nccl(NumTypes)
+
 /******************************************************************************\
  *             DNN                                                            *
 \******************************************************************************/
