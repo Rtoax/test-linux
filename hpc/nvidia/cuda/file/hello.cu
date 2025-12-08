@@ -34,7 +34,11 @@ int main(void)
 
 	// Set up GDS descriptor
 	cfDescr.handle.fd = fd;
+#ifdef __LUCA__
+	cfDescr.type = CU_FILE_HANDLE_TYPE_OPAQUE_WIN32;
+#else
 	cfDescr.type = CU_FILE_HANDLE_TYPE_OPAQUE_FD;
+#endif
 	CUfileError_t status = cuFileHandleRegister(&cfHandle, &cfDescr);
 	if (status.err != CU_FILE_SUCCESS) {
 		fprintf(stderr, "cuFileHandleRegister failed: %s\n",
