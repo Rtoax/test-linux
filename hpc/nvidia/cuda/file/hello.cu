@@ -1,6 +1,20 @@
 /**
  * Original code:
  * https://docs.nvidia.com/gpudirect-storage/getting-started/index.html
+ *
+ * Example 1:
+ * The simplest GDSIO command performs a GPU-to-storage write operation. The
+ * following command writes 8 KB (-s 8K) of data from GPU 0 (-d 0) to the file.
+ * The data is written in two 4 KB blocks (-i 4K), and the -I 1 flag specifies
+ * a single iteration.
+ *
+ *   $ /usr/local/cuda/gds/tools/gdsio -x 0 -d 0 -s 8K -i 4K -f $PWD/testfile.out -I 1
+ *
+ * Example 2:
+ * To compare GPU-Direct transfers (GPUD) with traditional GPU ↔ CPU ↔ Storage
+ * transfers, simply switch to the -x 2 mode:
+ *
+ *   $ /usr/local/cuda/gds/tools/gdsio -x 2 -d 0 -s 8K -i 4K -f $PWD/testfile.out -I 1
  */
 #include <iostream>
 #include <fcntl.h>
