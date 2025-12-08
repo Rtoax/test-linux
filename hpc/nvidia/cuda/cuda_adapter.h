@@ -2429,6 +2429,12 @@
 #define CUfileError_t	__CU(fileError_t)
 #define CU_FILE_SUCCESS	__CU(_FILE_SUCCESS)
 
+#define CUfileOpError	__CU(fileOpError)
+/**
+ * static inline const char *cufileop_status_error(CUfileOpError status)
+ */
+#define cufileop_status_error	__cu(fileop_status_error)
+
 /**
  * LUCA 3.2.1
  * LCfileError_t lcFileHandleRegister(LCfileHandle_t *fh, LCfileDescr_t *descr);
@@ -2436,3 +2442,11 @@
 #define cuFileHandleRegister	__cu(FileHandleRegister)
 #define cuFileHandleDeregister	__cu(FileHandleDeregister)
 #define cuFileWrite	__cu(FileWrite)
+
+/**
+ * CUDA/HPCC/LUCA all have this macro
+ * #define CUFILEOP_STATUS_ENTRIES \
+ *     CUFILE_OP(0, LC_FILE_SUCCESS, lcfile success) \
+ *     ....
+ */
+#define CUFILEOP_STATUS_ENTRIES	__CU(FILEOP_STATUS_ENTRIES)

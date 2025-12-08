@@ -1,4 +1,5 @@
 /**
+ * Original code:
  * https://docs.nvidia.com/gpudirect-storage/getting-started/index.html
  */
 #include <iostream>
@@ -22,7 +23,8 @@ int main(void)
 	cfDescr.type = CU_FILE_HANDLE_TYPE_OPAQUE_FD;
 	CUfileError_t status = cuFileHandleRegister(&cfHandle, &cfDescr);
 	if (status.err != CU_FILE_SUCCESS) {
-		std::cerr << "cuFileHandleRegister failed: " << status.err << std::endl;
+		fprintf(stderr, "cuFileHandleRegister failed: %s\n",
+			cufileop_status_error(status.err));
 		close(fd);
 		return 1;
 	}
