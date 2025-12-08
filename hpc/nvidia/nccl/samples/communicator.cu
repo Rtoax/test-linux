@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <malloc.h>
 #include "cuda_compat.h"
+#include "../nccl_helpers.h"
 
 
 int main(int argc, char *argv[])
@@ -41,17 +42,18 @@ int main(int argc, char *argv[])
 		devs[i] = i;
 	}
 
-	ncclCommInitAll(comms, ngpu, devs);
+	NCCL_CHECK_EXIT(ncclCommInitAll(comms, ngpu, devs));
 
-	ncclGroupStart();
+	NCCL_CHECK_EXIT(ncclGroupStart());
 
 	for (i = 0; i < ngpu; i++) {
-		ncclAllReduce((const void*)sendbuff[i], (void*)recvbuff[i],
+		NCCL_CHECK_EXIT(ncclAllReduce((const void*)sendbuff[i],
+				(void*)recvbuff[i],
 				datasz, ncclFloat, ncclSum,
-				comms[i], streams[i]);
+				comms[i], streams[i]));
 	}
 
-	ncclGroupEnd();
+	NCCL_CHECK_EXIT(ncclGroupEnd());
 
 	for (i = 0; i < ngpu; i++) {
 		cudaSetDevice(i);
@@ -78,7 +80,7 @@ int main(int argc, char *argv[])
 	free(cpu_recvbuff);
 
 	for (i = 0; i < ngpu; i++) {
-		ncclCommDestroy(comms[i]);
+		NCCL_CHECK_EXIT(ncclCommDestroy(comms[i]));
 	}
 	free(comms);
 	return 0;

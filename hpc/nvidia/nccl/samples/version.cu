@@ -1,17 +1,17 @@
 #include <stdio.h>
 #include "cuda_compat.h"
+#include "../nccl_helpers.h"
 
 
 int main(void)
 {
-	ncclResult_t result;
 	ncclUniqueId uniqueid;
 	int version = 0;
 
-	result = ncclGetVersion(&version);
-	printf("version %d, %s\n", version, ncclGetErrorString(result));
+	NCCL_CHECK_EXIT(ncclGetVersion(&version));
+	printf("NCCL version %d\n", version);
 
-	result = ncclGetUniqueId(&uniqueid);
+	NCCL_CHECK_EXIT(ncclGetUniqueId(&uniqueid));
 	printf("uniqueid ");
 	for (int i = 0; i < sizeof(uniqueid); i++) {
 		unsigned char ch = uniqueid.internal[i];
