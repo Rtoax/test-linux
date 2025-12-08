@@ -70,7 +70,7 @@ add_llvm_ver() {
 }
 add_cuda_ver() {
 	local cuda_ver=$(${GIT_TOPDIR}/hpc/nvidia/cuda/version.sh)
-	add_ver "CUDA ${cuda_ver}"
+	[[ ${cuda_ver} ]] && add_ver "CUDA ${cuda_ver}"
 }
 add_rocm_ver() {
 	local rocm_ver=$(${GIT_TOPDIR}/hpc/amd/rocm/version.sh)
