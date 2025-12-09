@@ -18,6 +18,8 @@ target-liba-y := libproc_helpers.a
 target-libso-y := ${libproc-helpers}
 
 target-shell-y := mounts.sh
+target-shell-y += cmdline.sh
+target-shell-y += version.sh
 
 LDFLAGS := -Wl,-rpath,$(shell pwd)
 LDFLAGS_SO_${libproc-helpers} := -Wl,--version-script=proc_helpers.map
