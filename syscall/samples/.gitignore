@@ -54,7 +54,6 @@
 /setsid
 /getsid
 /getdomainname
-/lseek
 /link
 /fsync
 /fdatasync

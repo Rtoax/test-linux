@@ -10,7 +10,6 @@
 /getpagesize
 /ttyname
 /ttyname_r
-/lseek-huge
 /daemon
 /getdents64
 /ualarm

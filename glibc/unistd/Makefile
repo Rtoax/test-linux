@@ -11,7 +11,6 @@ target-y += execvp
 target-y += getcwd
 target-y += getpagesize
 target-y += ttyname ttyname_r
-target-y += lseek-huge
 target-y += getdents64
 target-y += ualarm
 target-y += tcgetpgrp tcsetpgrp
@@ -55,7 +54,6 @@ getcwd: getcwd.o
 getpagesize: getpagesize.o
 ttyname: ttyname.o
 ttyname_r: ttyname_r.o
-lseek-huge: lseek-huge.o
 getdents64: getdents64.o
 ualarm: ualarm.o
 tcgetpgrp: tcgetpgrp.o

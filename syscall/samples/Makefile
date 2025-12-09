@@ -49,6 +49,7 @@ subdir-y += ldt
 subdir-y += xattr
 subdir-y += truncate
 subdir-y += write
+subdir-y += lseek
 
 target-y :=
 target-y += acct
@@ -93,7 +94,6 @@ target-y += syscall
 target-y += sync syncfs
 target-y += getsid setsid
 target-y += getdomainname
-target-y += lseek
 target-y += link
 target-y += fsync fdatasync
 target-y += sync_file_range
@@ -149,7 +149,6 @@ nr.o: nr2s.h nr.h
 opendir: opendir.o
 pause: pause.o
 personality: personality.o
-lseek: lseek.o
 rename: rename.o
 readlink: readlink.o
 readlink2: readlink2.cpp.o
