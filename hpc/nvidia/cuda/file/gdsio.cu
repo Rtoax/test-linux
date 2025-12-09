@@ -158,6 +158,10 @@ static error_t parse_arg(int key, char *arg, struct argp_state *state)
 		break;
 	case 's':
 		env.size = str2size(arg);
+		if (env.size % getpagesize()) {
+			fprintf(stderr, "ERROR: size must page aliged.\n");
+			exit(EXIT_FAILURE);
+		}
 		break;
 	case 'w':
 		env.nr_threads = atoi(arg);
