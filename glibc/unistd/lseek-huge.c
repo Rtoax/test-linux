@@ -6,17 +6,18 @@
 
 int main(int argc, char* argv[])
 {
-	int zero = 0;
+	int fd, ff = 0xff;
 	const int megabyte = 1024 * 1024;
-	char* filename = "tmp.txt";
 	size_t length =(size_t)megabyte * 1024;
+	char *filename = "tmp.bin";
 
-	int fd = open(filename, O_WRONLY | O_CREAT | O_EXCL, 0666);
+	fd = open(filename, O_WRONLY | O_CREAT | O_EXCL, 0666);
 
 	/* Jump to 1 byte short of where we want the file to end. */
 	lseek(fd, length - 1, SEEK_SET);
-	/* Write a single 0 byte. */
-	write(fd, &zero, 1);
+
+	/* Write a single byte. */
+	write(fd, &ff, 1);
 
 	close(fd);
 	return 0;
