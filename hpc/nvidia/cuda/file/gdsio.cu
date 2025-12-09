@@ -92,6 +92,7 @@ static const struct argp_option opts[] = {
 	{ "DIR", 'D', "DIR", 0, "directory name" },
 	{ "device", 'd', "DEVICE", 0, "gpu index" },
 	{ "size", 's', "SIZE", 0, "file size (K|M|G)" },
+	{ "nthreads", 'w', "NTHREADS", 0, "number of threads for a job" },
 	{ "xfer_type", 'x', "XFER_TYPE", 0, "transfer type [0(GPU_DIRECT), 1(CPU_ONLY), 2(CPU_GPU), 3(CPU_ASYNC_GPU), 4(CPU_CACHED_GPU), 5(GPU_DIRECT_ASYNC), 6(GPU_BATCH), 7(GPU_BATCH_STREAM)]" },
 	{ "op_type", 'I', "OP_TYPE", 0, "[0(read), 1(write), 2(randread), 3(randwrite)]" },
 	{ "verify", 'V', NULL, 1, "verify IO" },
@@ -154,6 +155,13 @@ static error_t parse_arg(int key, char *arg, struct argp_state *state)
 		break;
 	case 's':
 		env.size = str2size(arg);
+		break;
+	case 'w':
+		env.nr_threads = atoi(arg);
+		if (env.nr_threads <= 0) {
+			fprintf(stderr, "ERROR: bad number of threads\n");
+			exit(EXIT_FAILURE);
+		}
 		break;
 	case 'x':
 		env.xtype = (enum xfer_type)atoi(arg);
