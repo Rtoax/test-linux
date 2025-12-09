@@ -71,7 +71,8 @@ struct {
 	.otype = OP_WRITE,
 };
 
-CUfileHandle_t cfHandle;
+static int fd = -1;
+CUfileHandle_t cfHandle = NULL;
 CUfileDescr_t cfDescr = {};
 
 const char argp_prog_doc[] =
@@ -169,7 +170,6 @@ void xfer_storage_to_gpu(void)
 	cudaMalloc(&devPtr, env.size);
 	cudaMemset(devPtr, 0xAB, env.size);
 
-	/* Perform the write */
 	switch (env.otype) {
 	case OP_READ:
 		bytes = cuFileRead(cfHandle, devPtr, env.size, 0, 0);
@@ -192,9 +192,58 @@ void xfer_storage_to_gpu(void)
 	cudaFree(devPtr);
 }
 
+void xfer_storage_to_cpu(void)
+{
+	void *ptr;
+	ssize_t bytes = 0;
+	ptr = malloc(env.size);
+	memset(ptr, 0xAB, env.size);
+
+	switch (env.otype) {
+	case OP_READ:
+		bytes = read(fd, ptr, env.size);
+		break;
+	case OP_WRITE:
+		bytes = write(fd, ptr, env.size);
+		break;
+	case OP_RANDREAD:
+	case OP_RANDWRITE:
+	default:
+		fprintf(stderr, "WARNING: not support %s yet.\n", op_name[env.otype]);
+		break;
+	}
+
+	if (bytes < 0) {
+		fprintf(stderr, "%s(fd=%d,buf=%p,count=%ld) failed, %m\n",
+			op_name[env.otype], fd, ptr, env.size);
+	} else {
+		printf("%s %ld bytes to the file.\n", op_name[env.otype], bytes);
+	}
+	free(ptr);
+}
+
+void cufile_init(void)
+{
+	/* Set up GDS descriptor */
+	cfDescr.handle.fd = fd;
+	cfDescr.type = CU_FILE_HANDLE_TYPE_OPAQUE_FD;
+
+	CUfileError_t status = cuFileHandleRegister(&cfHandle, &cfDescr);
+	if (status.err != CU_FILE_SUCCESS) {
+		fprintf(stderr, "cuFileHandleRegister failed: %s\n",
+			cufileop_status_error(status.err));
+		exit(EXIT_FAILURE);
+	}
+}
+
+void cufile_destroy(void)
+{
+	cuFileHandleDeregister(cfHandle);
+}
+
 int main(int argc, char *argv[])
 {
-	int err, fd;
+	int err;
 
 	err = argp_parse(&argp, argc, argv, 0, NULL, NULL);
 	if (err) {
@@ -208,23 +257,15 @@ int main(int argc, char *argv[])
 		return 1;
 	}
 
-	/* Set up GDS descriptor */
-	cfDescr.handle.fd = fd;
-	cfDescr.type = CU_FILE_HANDLE_TYPE_OPAQUE_FD;
-
-	CUfileError_t status = cuFileHandleRegister(&cfHandle, &cfDescr);
-	if (status.err != CU_FILE_SUCCESS) {
-		fprintf(stderr, "cuFileHandleRegister failed: %s\n",
-			cufileop_status_error(status.err));
-		close(fd);
-		return 1;
-	}
-
 	switch (env.xtype) {
 	case XFER_STORAGE_TO_GPU:
+		cufile_init();
 		xfer_storage_to_gpu();
+		cufile_destroy();
 		break;
 	case XFER_STORAGE_TO_CPU:
+		xfer_storage_to_cpu();
+		break;
 	case XFER_STORAGE_TO_CPU_TO_GPU:
 	case XFER_STORAGE_TO_CPU_TO_GPU_ASYNC:
 	case XFER_STORAGE_TO_PAGECACHE_TO_CPU_TO_GPU:
@@ -237,8 +278,6 @@ int main(int argc, char *argv[])
 		break;
 	}
 
-	/* Clean up */
-	cuFileHandleDeregister(cfHandle);
 	close(fd);
 	return 0;
 }
