@@ -217,7 +217,7 @@ struct thread_arg {
 	size_t size;
 	enum op_type otype;
 	off_t file_offset;
-	off_t devPtr_offset;
+	off_t mem_offset;
 };
 
 static pthread_t *threads;
@@ -243,7 +243,7 @@ void multithread_create(void *mem, enum op_type otype,
 		thread_args[i].size = tsize;
 		thread_args[i].otype = otype;
 		thread_args[i].file_offset = tsize * i;
-		thread_args[i].devPtr_offset = tsize * i;
+		thread_args[i].mem_offset = tsize * i;
 
 		pthread_create(&threads[i], NULL, thread_fn, &thread_args[i]);
 #ifdef DEBUG
@@ -286,7 +286,7 @@ void *thread_cufile(void *targ)
 	enum op_type otype = arg->otype;
 	size_t size = arg->size;
 	off_t foff = arg->file_offset;
-	off_t doff = arg->devPtr_offset;
+	off_t doff = arg->mem_offset;
 
 	pthread_mutex_lock(&mutex);
 #ifdef DEBUG
