@@ -264,11 +264,20 @@ void* xfer_between_storage__cpu(void *ptr, bool alloc, enum op_type otype)
 
 void cufile_init(void)
 {
+	CUfileError_t status;
+
+	status = cuFileDriverOpen();
+	if (status.err != CU_FILE_SUCCESS) {
+		fprintf(stderr, "cuFileDriverOpen failed: %s\n",
+			cufileop_status_error(status.err));
+		exit(EXIT_FAILURE);
+	}
+
 	/* Set up GDS descriptor */
 	cfDescr.handle.fd = fd;
 	cfDescr.type = CU_FILE_HANDLE_TYPE_OPAQUE_FD;
 
-	CUfileError_t status = cuFileHandleRegister(&cfHandle, &cfDescr);
+	status = cuFileHandleRegister(&cfHandle, &cfDescr);
 	if (status.err != CU_FILE_SUCCESS) {
 		fprintf(stderr, "cuFileHandleRegister failed: %s\n",
 			cufileop_status_error(status.err));
