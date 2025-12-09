@@ -220,6 +220,8 @@ struct thread_cufile_arg {
 	off_t devPtr_offset;
 };
 
+static pthread_t *threads;
+static struct thread_cufile_arg *thread_args;
 static pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 static pthread_cond_t cond = PTHREAD_COND_INITIALIZER;
 
@@ -262,23 +264,8 @@ void *thread_cufile(void *targ)
 	pthread_exit(0);
 }
 
-void* xfer_between_storage__gpu(void *devPtr, bool alloc, enum op_type otype,
-				uint8_t init)
+void multithread_create(void *mem, enum op_type otype)
 {
-	bool allocated = false;
-	unsigned long start;
-	pthread_t *threads;
-	struct thread_cufile_arg *thread_args;
-
-	if (!devPtr) {
-		CUDA_CHECK_EXIT(cudaMalloc(&devPtr, env.size));
-		CUDA_CHECK_EXIT(cudaMemset(devPtr, init, env.size));
-		allocated = true;
-	}
-
-	if (env.bufregister)
-		CUFILE_CHECK_EXIT(cuFileBufRegister(devPtr, env.size, 0));
-
 	threads = (pthread_t *)malloc(sizeof(pthread_t) * env.nr_threads);
 	assert(threads && "Malloc fatal");
 	thread_args = (struct thread_cufile_arg *)malloc(sizeof(struct thread_cufile_arg) * env.nr_threads);
@@ -287,7 +274,7 @@ void* xfer_between_storage__gpu(void *devPtr, bool alloc, enum op_type otype,
 	for (int i = 0; i < env.nr_threads; i++) {
 		size_t tsize = env.size / env.nr_threads;
 		thread_args[i].idx = i;
-		thread_args[i].devPtr = devPtr;
+		thread_args[i].devPtr = mem;
 		thread_args[i].size = tsize;
 		thread_args[i].otype = otype;
 		thread_args[i].file_offset = tsize * i;
@@ -301,8 +288,11 @@ void* xfer_between_storage__gpu(void *devPtr, bool alloc, enum op_type otype,
 
 	/* Make sure all child threads are running */
 	sleep(1);
+}
 
-	start = nsecs();
+void multithread_execute(void)
+{
+	unsigned long start = nsecs();
 
 	/* Wakeup all threads */
 	pthread_cond_broadcast(&cond);
@@ -315,6 +305,31 @@ void* xfer_between_storage__gpu(void *devPtr, bool alloc, enum op_type otype,
 	}
 
 	total_consuming_ns += nsecs() - start;
+}
+
+void multithread_destroy(void)
+{
+	free(threads);
+	free(thread_args);
+}
+
+void* xfer_between_storage__gpu(void *devPtr, bool alloc, enum op_type otype,
+				uint8_t init)
+{
+	bool allocated = false;
+
+	if (!devPtr) {
+		CUDA_CHECK_EXIT(cudaMalloc(&devPtr, env.size));
+		CUDA_CHECK_EXIT(cudaMemset(devPtr, init, env.size));
+		allocated = true;
+	}
+
+	if (env.bufregister)
+		CUFILE_CHECK_EXIT(cuFileBufRegister(devPtr, env.size, 0));
+
+	multithread_create(devPtr, otype);
+	multithread_execute();
+	multithread_destroy();
 
 	if (env.verify)
 		verify_io_devmem(devPtr, env.size, init);
@@ -326,9 +341,6 @@ void* xfer_between_storage__gpu(void *devPtr, bool alloc, enum op_type otype,
 		CUDA_CHECK_EXIT(cudaFree(devPtr));
 		devPtr = NULL;
 	}
-
-	free(threads);
-	free(thread_args);
 
 	return devPtr;
 }
