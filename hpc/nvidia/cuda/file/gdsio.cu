@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0
 /**
  * gdsio - GPUDirect Storage IO
  *
@@ -28,18 +29,35 @@ enum xfer_type {
 	XFER_NUM,
 };
 
+enum op_type {
+	OP_READ,
+	OP_WRITE,
+	OP_RANDREAD,
+	OP_RANDWRITE,
+	OP_NUM,
+};
+
+const char *op_name[OP_NUM] = {
+	[OP_READ] = "READ",
+	[OP_WRITE] = "WRITE",
+	[OP_RANDREAD] = "RANDREAD",
+	[OP_RANDWRITE] = "RANDWRITE",
+};
+
 struct {
 	int gpu;
 	const char *filename;
 	int nr_threads;
 	size_t size;
 	enum xfer_type xtype;
+	enum op_type otype;
 } env = {
 	.gpu = 0,
 	.filename = "./testfile.out",
 	.nr_threads = 1,	/* TODO */
 	.size = 8192,
 	.xtype = XFER_STORAGE_TO_GPU,
+	.otype = OP_WRITE,
 };
 
 CUfileHandle_t cfHandle;
@@ -53,6 +71,7 @@ static const struct argp_option opts[] = {
 	{ "device", 'd', "DEVICE", 0, "gpu index" },
 	{ "size", 's', "SIZE", 0, "file size (K|M|G)" },
 	{ "xfer_type", 'x', "XFER_TYPE", 0, "transfer type [0(GPU_DIRECT), 1(CPU_ONLY), 2(CPU_GPU), 3(CPU_ASYNC_GPU), 4(CPU_CACHED_GPU), 5(GPU_DIRECT_ASYNC), 6(GPU_BATCH), 7(GPU_BATCH_STREAM)]" },
+	{ "op_type", 'I', "OP_TYPE", 0, "[0(read), 1(write), 2(randread), 3(randwrite)]" },
 	{ "verify", 'V', NULL, 1, "verify IO" },
 	{ "version", 'v', NULL, 1, "display version" },
 	{},
@@ -104,6 +123,13 @@ static error_t parse_arg(int key, char *arg, struct argp_state *state)
 			exit(EXIT_FAILURE);
 		}
 		break;
+	case 'I':
+		env.otype = (enum op_type)atoi(arg);
+		if (env.otype < OP_READ || env.otype >= OP_NUM) {
+			fprintf(stderr, "ERROR: bad op type value\n");
+			exit(EXIT_FAILURE);
+		}
+		break;
 	case 'v':
 		printf("gpsio %s\n", version);
 		exit(EXIT_SUCCESS);
@@ -128,15 +154,29 @@ void xfer_storage_to_gpu(void)
 {
 	/* Alloc GPU memory and fill GPU memory with data */
 	void *devPtr;
+	ssize_t bytes = 0;
 	cudaMalloc(&devPtr, env.size);
 	cudaMemset(devPtr, 0xAB, env.size);
 
 	/* Perform the write */
-	ssize_t writtenBytes = cuFileWrite(cfHandle, devPtr, env.size, 0, 0);
-	if (writtenBytes < 0) {
-		perror("cuFileWrite failed");
+	switch (env.otype) {
+	case OP_READ:
+		bytes = cuFileRead(cfHandle, devPtr, env.size, 0, 0);
+		break;
+	case OP_WRITE:
+		bytes = cuFileWrite(cfHandle, devPtr, env.size, 0, 0);
+		break;
+	case OP_RANDREAD:
+	case OP_RANDWRITE:
+	default:
+		fprintf(stderr, "WARNING: not support %s yet.\n", op_name[env.otype]);
+		break;
+	}
+
+	if (bytes < 0) {
+		fprintf(stderr, "cuFile %s failed\n", op_name[env.otype]);
 	} else {
-		printf("Wrote %ld bytes to the file.\n", writtenBytes);
+		printf("%s %ld bytes to the file.\n", op_name[env.otype], bytes);
 	}
 	cudaFree(devPtr);
 }

@@ -2498,7 +2498,16 @@
  */
 #define cuFileHandleRegister	__cu(FileHandleRegister)
 #define cuFileHandleDeregister	__cu(FileHandleDeregister)
+/**
+ * ssize_t cuFileWrite(CUfileHandle_t fh, const void *bufPtr_base, size_t size,
+ *                     off_t file_offset, off_t bufPtr_offset);
+ */
 #define cuFileWrite	__cu(FileWrite)
+/**
+ * ssize_t cuFileRead(CUfileHandle_t fh, void *bufPtr_base, size_t size,
+ *                    off_t file_offset, off_t bufPtr_offset);
+ */
+#define cuFileRead	__cu(FileRead)
 
 /**
  * CUDA/HPCC/LUCA all have this macro
