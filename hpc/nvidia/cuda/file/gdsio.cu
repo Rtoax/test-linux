@@ -162,15 +162,18 @@ static const struct argp argp = {
 	.doc = argp_prog_doc,
 };
 
-void xfer_storage_to_gpu(void)
+void xfer_storage_to_gpu(void *devPtr, enum op_type otype)
 {
-	/* Alloc GPU memory and fill GPU memory with data */
-	void *devPtr;
 	ssize_t bytes = 0;
-	cudaMalloc(&devPtr, env.size);
-	cudaMemset(devPtr, 0xAB, env.size);
+	bool need_free = false;
 
-	switch (env.otype) {
+	if (!devPtr) {
+		cudaMalloc(&devPtr, env.size);
+		cudaMemset(devPtr, 0xAB, env.size);
+		need_free = true;
+	}
+
+	switch (otype) {
 	case OP_READ:
 		bytes = cuFileRead(cfHandle, devPtr, env.size, 0, 0);
 		break;
@@ -180,26 +183,33 @@ void xfer_storage_to_gpu(void)
 	case OP_RANDREAD:
 	case OP_RANDWRITE:
 	default:
-		fprintf(stderr, "WARNING: not support %s yet.\n", op_name[env.otype]);
+		fprintf(stderr, "WARNING: not support %s yet.\n", op_name[otype]);
 		break;
 	}
 
 	if (bytes < 0) {
-		fprintf(stderr, "cuFile %s failed\n", op_name[env.otype]);
+		fprintf(stderr, "cuFile %s failed\n", op_name[otype]);
 	} else {
-		printf("%s %ld bytes to the file.\n", op_name[env.otype], bytes);
+		printf("%s %ld bytes to the file.\n", op_name[otype], bytes);
 	}
-	cudaFree(devPtr);
+
+	if (need_free) {
+		cudaFree(devPtr);
+	}
 }
 
-void xfer_storage_to_cpu(void)
+void xfer_storage_to_cpu(void *ptr, enum op_type otype)
 {
-	void *ptr;
 	ssize_t bytes = 0;
-	posix_memalign(&ptr, getpagesize(), env.size);
-	memset(ptr, 0xAB, env.size);
+	bool need_free = false;
 
-	switch (env.otype) {
+	if (!ptr) {
+		posix_memalign(&ptr, getpagesize(), env.size);
+		memset(ptr, 0xAB, env.size);
+		need_free = true;
+	}
+
+	switch (otype) {
 	case OP_READ:
 		bytes = read(fd, ptr, env.size);
 		break;
@@ -209,17 +219,19 @@ void xfer_storage_to_cpu(void)
 	case OP_RANDREAD:
 	case OP_RANDWRITE:
 	default:
-		fprintf(stderr, "WARNING: not support %s yet.\n", op_name[env.otype]);
+		fprintf(stderr, "WARNING: not support %s yet.\n", op_name[otype]);
 		break;
 	}
 
 	if (bytes < 0) {
 		fprintf(stderr, "%s(fd=%d,buf=%p,count=%ld) failed, %m\n",
-			op_name[env.otype], fd, ptr, env.size);
+			op_name[otype], fd, ptr, env.size);
 	} else {
-		printf("%s %ld bytes to the file.\n", op_name[env.otype], bytes);
+		printf("%s %ld bytes to the file.\n", op_name[otype], bytes);
 	}
-	free(ptr);
+	if (need_free) {
+		free(ptr);
+	}
 }
 
 void cufile_init(void)
@@ -260,11 +272,11 @@ int main(int argc, char *argv[])
 	switch (env.xtype) {
 	case XFER_STORAGE_TO_GPU:
 		cufile_init();
-		xfer_storage_to_gpu();
+		xfer_storage_to_gpu(NULL, env.otype);
 		cufile_destroy();
 		break;
 	case XFER_STORAGE_TO_CPU:
-		xfer_storage_to_cpu();
+		xfer_storage_to_cpu(NULL, env.otype);
 		break;
 	case XFER_STORAGE_TO_CPU_TO_GPU:
 	case XFER_STORAGE_TO_CPU_TO_GPU_ASYNC:
