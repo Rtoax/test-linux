@@ -11,6 +11,7 @@
  * Refs:
  * - https://docs.nvidia.com/gpudirect-storage/getting-started/index.html
  */
+#include <assert.h>
 #include <argp.h>
 #include <stdio.h>
 #include <fcntl.h>
@@ -210,12 +211,64 @@ static const struct argp argp = {
 	.doc = argp_prog_doc,
 };
 
+struct thread_cufile_arg {
+	int idx;
+	void *devPtr;
+	size_t size;
+	enum op_type otype;
+	off_t file_offset;
+	off_t devPtr_offset;
+};
+
+static pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
+static pthread_cond_t cond = PTHREAD_COND_INITIALIZER;
+
+void *thread_cufile(void *targ)
+{
+	struct thread_cufile_arg *arg = (struct thread_cufile_arg *)targ;
+	ssize_t bytes = 0;
+	void *devPtr = arg->devPtr;
+	enum op_type otype = arg->otype;
+	size_t size = arg->size;
+	off_t foff = arg->file_offset;
+	off_t doff = arg->devPtr_offset;
+
+	pthread_mutex_lock(&mutex);
+#ifdef DEBUG
+	fprintf(stderr, "Thread %d waiting.\n", arg->idx);
+#endif
+	pthread_cond_wait(&cond, &mutex);
+
+	switch (otype) {
+	case OP_READ:
+		bytes = cuFileRead(cfHandle, devPtr, size, foff, doff);
+		break;
+	case OP_WRITE:
+		bytes = cuFileWrite(cfHandle, devPtr, size, foff, doff);
+		break;
+	case OP_RANDREAD:
+	case OP_RANDWRITE:
+	default:
+		fprintf(stderr, "WARNING: not support %s yet.\n", op_name[otype]);
+		break;
+	}
+
+	if (bytes < 0) {
+		fprintf(stderr, "ERROR: GPU %s(fd=%d,buf=%p,count=%ld) failed, %m\n",
+			op_name[otype], fd, devPtr, env.size);
+	}
+
+	pthread_mutex_unlock(&mutex);
+	pthread_exit(0);
+}
+
 void* xfer_between_storage__gpu(void *devPtr, bool alloc, enum op_type otype,
 				uint8_t init)
 {
-	ssize_t bytes = 0;
 	bool allocated = false;
 	unsigned long start;
+	pthread_t *threads;
+	struct thread_cufile_arg *thread_args;
 
 	if (!devPtr) {
 		CUDA_CHECK_EXIT(cudaMalloc(&devPtr, env.size));
@@ -226,28 +279,42 @@ void* xfer_between_storage__gpu(void *devPtr, bool alloc, enum op_type otype,
 	if (env.bufregister)
 		CUFILE_CHECK_EXIT(cuFileBufRegister(devPtr, env.size, 0));
 
+	threads = (pthread_t *)malloc(sizeof(pthread_t) * env.nr_threads);
+	assert(threads && "Malloc fatal");
+	thread_args = (struct thread_cufile_arg *)malloc(sizeof(struct thread_cufile_arg) * env.nr_threads);
+	assert(thread_args && "Malloc fatal");
+
+	for (int i = 0; i < env.nr_threads; i++) {
+		size_t tsize = env.size / env.nr_threads;
+		thread_args[i].idx = i;
+		thread_args[i].devPtr = devPtr;
+		thread_args[i].size = tsize;
+		thread_args[i].otype = otype;
+		thread_args[i].file_offset = tsize * i;
+		thread_args[i].devPtr_offset = tsize * i;
+
+		pthread_create(&threads[i], NULL, thread_cufile, &thread_args[i]);
+#ifdef DEBUG
+		fprintf(stderr, "Create thread %d\n", i);
+#endif
+	}
+
+	/* Make sure all child threads are running */
+	sleep(1);
+
 	start = nsecs();
 
-	switch (otype) {
-	case OP_READ:
-		bytes = cuFileRead(cfHandle, devPtr, env.size, 0, 0);
-		break;
-	case OP_WRITE:
-		bytes = cuFileWrite(cfHandle, devPtr, env.size, 0, 0);
-		break;
-	case OP_RANDREAD:
-	case OP_RANDWRITE:
-	default:
-		fprintf(stderr, "WARNING: not support %s yet.\n", op_name[otype]);
-		break;
+	/* Wakeup all threads */
+	pthread_cond_broadcast(&cond);
+#ifdef DEBUG
+	fprintf(stderr, "Wakeup all threads\n");
+#endif
+
+	for (int i = 0; i < env.nr_threads; i++) {
+		pthread_join(threads[i], NULL);
 	}
 
 	total_consuming_ns += nsecs() - start;
-
-	if (bytes < 0) {
-		fprintf(stderr, "ERROR: GPU %s(fd=%d,buf=%p,count=%ld) failed, %m\n",
-			op_name[otype], fd, devPtr, env.size);
-	}
 
 	if (env.verify)
 		verify_io_devmem(devPtr, env.size, init);
@@ -259,6 +326,9 @@ void* xfer_between_storage__gpu(void *devPtr, bool alloc, enum op_type otype,
 		CUDA_CHECK_EXIT(cudaFree(devPtr));
 		devPtr = NULL;
 	}
+
+	free(threads);
+	free(thread_args);
 
 	return devPtr;
 }
