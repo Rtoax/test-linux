@@ -67,6 +67,7 @@ struct {
 	size_t size;
 	enum xfer_type xtype;
 	enum op_type otype;
+	bool verify;
 } env = {
 	.gpu = 0,
 	.filename = "gdsio.out",
@@ -75,6 +76,7 @@ struct {
 	.size = 8192,
 	.xtype = XFER_BETWEEN_STORAGE__GPU,
 	.otype = OP_WRITE,
+	.verify = false,
 };
 
 static int fd = -1;
@@ -168,6 +170,9 @@ static error_t parse_arg(int key, char *arg, struct argp_state *state)
 		printf("gpsio %s\n", version);
 		exit(EXIT_SUCCESS);
 		break;
+	case 'V':
+		env.verify = true;
+		break;
 	case ARGP_KEY_ARG:
 		break;
 	case ARGP_KEY_END:
@@ -184,16 +189,17 @@ static const struct argp argp = {
 	.doc = argp_prog_doc,
 };
 
-void xfer_between_storage__gpu(void *devPtr, enum op_type otype)
+void* xfer_between_storage__gpu(void *devPtr, bool alloc, enum op_type otype,
+				uint8_t init)
 {
 	ssize_t bytes = 0;
-	bool need_free = false;
+	bool allocated = false;
 	unsigned long start;
 
 	if (!devPtr) {
 		CUDA_CHECK_EXIT(cudaMalloc(&devPtr, env.size));
-		CUDA_CHECK_EXIT(cudaMemset(devPtr, 0xAB, env.size));
-		need_free = true;
+		CUDA_CHECK_EXIT(cudaMemset(devPtr, init, env.size));
+		allocated = true;
 	}
 
 	start = nsecs();
@@ -220,15 +226,19 @@ void xfer_between_storage__gpu(void *devPtr, enum op_type otype)
 		printf("%s %ld bytes to the file.\n", op_name[otype], bytes);
 	}
 
-	if (need_free) {
+	if (allocated && !alloc) {
 		CUDA_CHECK_EXIT(cudaFree(devPtr));
+		devPtr = NULL;
 	}
+
+	return devPtr;
 }
 
 /**
  * @alloc: allocate new memory, need free.
  */
-void* xfer_between_storage__cpu(void *ptr, bool alloc, enum op_type otype)
+void* xfer_between_storage__cpu(void *ptr, bool alloc, enum op_type otype,
+				uint8_t init)
 {
 	ssize_t bytes = 0;
 	bool allocated = false;
@@ -236,7 +246,7 @@ void* xfer_between_storage__cpu(void *ptr, bool alloc, enum op_type otype)
 
 	if (!ptr) {
 		posix_memalign(&ptr, getpagesize(), env.size);
-		memset(ptr, 0xAC, env.size);
+		memset(ptr, init, env.size);
 		allocated = true;
 	}
 
@@ -300,6 +310,23 @@ void cufile_destroy(void)
 	cuFileHandleDeregister(cfHandle);
 }
 
+__global__ void __verify_io_kernel(void *devptr, size_t size, uint8_t expect)
+{
+	for (size_t i = 0; i < size; i++) {
+		uint8_t real = *(uint8_t *)((char *)devptr + i);
+		if (real != expect) {
+			printf("Verify IO failed with value 0x%x, expect 0x%x\n",
+				real, expect);
+		}
+	}
+}
+
+void verify_io_devmem(void *devptr, size_t size, uint8_t val)
+{
+	__verify_io_kernel<<<1, 1>>>(devptr, size, val);
+	cudaDeviceSynchronize();
+}
+
 int main(int argc, char *argv[])
 {
 	int err;
@@ -323,11 +350,14 @@ int main(int argc, char *argv[])
 	switch (env.xtype) {
 	case XFER_BETWEEN_STORAGE__GPU:
 		cufile_init();
-		xfer_between_storage__gpu(NULL, env.otype);
+		dev_ptr = xfer_between_storage__gpu(NULL, true, env.otype, 0xAB);
 		cufile_destroy();
+		if (env.verify)
+			verify_io_devmem(dev_ptr, env.size, 0xAB);
+		CUDA_CHECK_EXIT(cudaFree(dev_ptr));
 		break;
 	case XFER_BETWEEN_STORAGE__CPU:
-		xfer_between_storage__cpu(NULL, false, env.otype);
+		xfer_between_storage__cpu(NULL, false, env.otype, 0xAC);
 		break;
 	case XFER_BETWEEN_STORAGE__CPU__GPU:
 		switch (env.otype) {
@@ -335,7 +365,7 @@ int main(int argc, char *argv[])
 		 * Storage->CPU->GPU
 		 */
 		case OP_READ:
-			host_ptr = xfer_between_storage__cpu(NULL, true, OP_READ);
+			host_ptr = xfer_between_storage__cpu(NULL, true, OP_READ, 0xAD);
 			CUDA_CHECK_EXIT(cudaMalloc(&dev_ptr, env.size));
 			start = nsecs();
 			CUDA_CHECK_EXIT(cudaMemcpy(dev_ptr, host_ptr, env.size, cudaMemcpyHostToDevice));
@@ -353,7 +383,7 @@ int main(int argc, char *argv[])
 			start = nsecs();
 			CUDA_CHECK_EXIT(cudaMemcpy(host_ptr, dev_ptr, env.size, cudaMemcpyDeviceToHost));
 			total_consuming_ns += nsecs() - start;
-			xfer_between_storage__cpu(host_ptr, false, OP_WRITE);
+			xfer_between_storage__cpu(host_ptr, false, OP_WRITE, 0);
 			free(host_ptr);
 			CUDA_CHECK_EXIT(cudaFree(dev_ptr));
 			break;
