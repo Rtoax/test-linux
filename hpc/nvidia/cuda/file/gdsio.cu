@@ -62,13 +62,15 @@ const char *op_name[OP_NUM] = {
 struct {
 	int gpu;
 	const char *filename;
+	const char *dir;
 	int nr_threads;
 	size_t size;
 	enum xfer_type xtype;
 	enum op_type otype;
 } env = {
 	.gpu = 0,
-	.filename = "./testfile.out",
+	.filename = "gdsio.out",
+	.dir = ".",
 	.nr_threads = 1,	/* TODO */
 	.size = 8192,
 	.xtype = XFER_BETWEEN_STORAGE__GPU,
@@ -85,6 +87,7 @@ const char argp_prog_doc[] =
 
 static const struct argp_option opts[] = {
 	{ "file", 'f', "FILE", 0, "file name" },
+	{ "DIR", 'D', "DIR", 0, "directory name" },
 	{ "device", 'd', "DEVICE", 0, "gpu index" },
 	{ "size", 's', "SIZE", 0, "file size (K|M|G)" },
 	{ "xfer_type", 'x', "XFER_TYPE", 0, "transfer type [0(GPU_DIRECT), 1(CPU_ONLY), 2(CPU_GPU), 3(CPU_ASYNC_GPU), 4(CPU_CACHED_GPU), 5(GPU_DIRECT_ASYNC), 6(GPU_BATCH), 7(GPU_BATCH_STREAM)]" },
@@ -133,6 +136,13 @@ static error_t parse_arg(int key, char *arg, struct argp_state *state)
 	switch (key) {
 	case 'f':
 		env.filename = arg;
+		break;
+	case 'D':
+		env.dir = arg;
+		if (access(env.dir, F_OK)) {
+			fprintf(stderr, "ERROR: %s is not exist.\n", env.dir);
+			exit(EXIT_FAILURE);
+		}
 		break;
 	case 'd':
 		env.gpu = strtoul(arg, NULL, 10);
@@ -295,6 +305,7 @@ int main(int argc, char *argv[])
 	int err;
 	unsigned long start;
 	void *host_ptr, *dev_ptr;
+	char filepath[256];
 
 	err = argp_parse(&argp, argc, argv, 0, NULL, NULL);
 	if (err) {
@@ -302,9 +313,10 @@ int main(int argc, char *argv[])
 		return -err;
 	}
 
-	fd = open(env.filename, O_CREAT | O_RDWR | O_DIRECT, 0664);
+	snprintf(filepath, sizeof(filepath), "%s/%s", env.dir, env.filename);
+	fd = open(filepath, O_CREAT | O_RDWR | O_DIRECT, 0664);
 	if (fd < 0) {
-		fprintf(stderr, "Open %s failed\n", env.filename);
+		fprintf(stderr, "Open %s failed\n", filepath);
 		return 1;
 	}
 
