@@ -17,6 +17,7 @@
 #include <unistd.h>
 #include <pthread.h>
 #include "cuda_compat.h"
+#include "../cuda_helpers.h"
 
 const char *version = "v0.0.1";
 
@@ -180,8 +181,8 @@ void xfer_between_storage__gpu(void *devPtr, enum op_type otype)
 	unsigned long start;
 
 	if (!devPtr) {
-		cudaMalloc(&devPtr, env.size);
-		cudaMemset(devPtr, 0xAB, env.size);
+		CUDA_CHECK_EXIT(cudaMalloc(&devPtr, env.size));
+		CUDA_CHECK_EXIT(cudaMemset(devPtr, 0xAB, env.size));
 		need_free = true;
 	}
 
@@ -210,20 +211,23 @@ void xfer_between_storage__gpu(void *devPtr, enum op_type otype)
 	}
 
 	if (need_free) {
-		cudaFree(devPtr);
+		CUDA_CHECK_EXIT(cudaFree(devPtr));
 	}
 }
 
-void xfer_between_storage__cpu(void *ptr, enum op_type otype)
+/**
+ * @alloc: allocate new memory, need free.
+ */
+void* xfer_between_storage__cpu(void *ptr, bool alloc, enum op_type otype)
 {
 	ssize_t bytes = 0;
-	bool need_free = false;
+	bool allocated = false;
 	unsigned long start;
 
 	if (!ptr) {
 		posix_memalign(&ptr, getpagesize(), env.size);
 		memset(ptr, 0xAB, env.size);
-		need_free = true;
+		allocated = true;
 	}
 
 	start = nsecs();
@@ -250,9 +254,12 @@ void xfer_between_storage__cpu(void *ptr, enum op_type otype)
 	} else {
 		printf("%s %ld bytes to the file.\n", op_name[otype], bytes);
 	}
-	if (need_free) {
+
+	if (allocated && !alloc) {
 		free(ptr);
+		ptr = NULL;
 	}
+	return ptr;
 }
 
 void cufile_init(void)
@@ -277,6 +284,8 @@ void cufile_destroy(void)
 int main(int argc, char *argv[])
 {
 	int err;
+	unsigned long start;
+	void *host_ptr, *dev_ptr;
 
 	err = argp_parse(&argp, argc, argv, 0, NULL, NULL);
 	if (err) {
@@ -297,9 +306,43 @@ int main(int argc, char *argv[])
 		cufile_destroy();
 		break;
 	case XFER_BETWEEN_STORAGE__CPU:
-		xfer_between_storage__cpu(NULL, env.otype);
+		xfer_between_storage__cpu(NULL, false, env.otype);
 		break;
 	case XFER_BETWEEN_STORAGE__CPU__GPU:
+		switch (env.otype) {
+		/**
+		 * Storage->CPU->GPU
+		 */
+		case OP_READ:
+			host_ptr = xfer_between_storage__cpu(NULL, true, OP_READ);
+			CUDA_CHECK_EXIT(cudaMalloc(&dev_ptr, env.size));
+			start = nsecs();
+			CUDA_CHECK_EXIT(cudaMemcpy(dev_ptr, host_ptr, env.size, cudaMemcpyHostToDevice));
+			total_consuming_ns += nsecs() - start;
+			free(host_ptr);
+			CUDA_CHECK_EXIT(cudaFree(dev_ptr));
+			break;
+		/**
+		 * GPU->CPU->Storage
+		 */
+		case OP_WRITE:
+			CUDA_CHECK_EXIT(cudaMalloc(&dev_ptr, env.size));
+			CUDA_CHECK_EXIT(cudaMemset(dev_ptr, 0xAC, env.size));
+			posix_memalign(&host_ptr, getpagesize(), env.size);
+			start = nsecs();
+			CUDA_CHECK_EXIT(cudaMemcpy(host_ptr, dev_ptr, env.size, cudaMemcpyDeviceToHost));
+			total_consuming_ns += nsecs() - start;
+			xfer_between_storage__cpu(host_ptr, false, OP_WRITE);
+			free(host_ptr);
+			CUDA_CHECK_EXIT(cudaFree(dev_ptr));
+			break;
+		case OP_RANDREAD:
+		case OP_RANDWRITE:
+		default:
+			fprintf(stderr, "WARNING: not support %s yet.\n", op_name[env.otype]);
+			break;
+		}
+		break;
 	case XFER_BETWEEN_STORAGE__CPU__GPU_ASYNC:
 	case XFER_BETWEEN_STORAGE__PAGECACHE__CPU__GPU:
 	case XFER_BETWEEN_STORAGE__GPU_ASYNC:
