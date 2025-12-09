@@ -1,31 +1,33 @@
 #!/bin/bash
 set -e
 
+[[ -z ${GDSIO} ]] && GDSIO=gdsio
+[[ ${VERIFY} ]] && VERIFY=-V
 SIZE=1G
 
 drop_cache() {
-	echo 3 | tee /proc/sys/vm/drop_caches
+	echo 3 > /proc/sys/vm/drop_caches
 }
 
 drop_cache
 
 # GPU->Storage
-./gdsio -f a.out -s ${SIZE} -x 0 -I 1
+./${GDSIO} -f a.out -s ${SIZE} -x 0 -I 1
 drop_cache
 # Storage->GPU
-./gdsio -f a.out -s ${SIZE} -x 0 -I 0 -V
+./${GDSIO} -f a.out -s ${SIZE} -x 0 -I 0 ${VERIFY}
 drop_cache
 
 # CPU->Storage
-./gdsio -f b.out -s ${SIZE} -x 1 -I 1
+./${GDSIO} -f b.out -s ${SIZE} -x 1 -I 1
 drop_cache
 # Storage->CPU
-./gdsio -f b.out -s ${SIZE} -x 1 -I 0 -V
+./${GDSIO} -f b.out -s ${SIZE} -x 1 -I 0 ${VERIFY}
 drop_cache
 
 # GPU->CPU->Storage
-./gdsio -f c.out -s ${SIZE} -x 2 -I 1
+./${GDSIO} -f c.out -s ${SIZE} -x 2 -I 1
 drop_cache
 # Storage->CPU->GPU
-./gdsio -f c.out -s ${SIZE} -x 2 -I 0 -V
+./${GDSIO} -f c.out -s ${SIZE} -x 2 -I 0 ${VERIFY}
 drop_cache

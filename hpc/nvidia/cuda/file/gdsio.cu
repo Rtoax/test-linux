@@ -224,9 +224,8 @@ void* xfer_between_storage__gpu(void *devPtr, bool alloc, enum op_type otype,
 	total_consuming_ns += nsecs() - start;
 
 	if (bytes < 0) {
-		fprintf(stderr, "cuFile %s failed\n", op_name[otype]);
-	} else {
-		printf("%s %ld bytes to the file.\n", op_name[otype], bytes);
+		fprintf(stderr, "ERROR: GPU %s(fd=%d,buf=%p,count=%ld) failed, %m\n",
+			op_name[otype], fd, devPtr, env.size);
 	}
 
 	if (env.verify)
@@ -275,10 +274,8 @@ void* xfer_between_storage__cpu(void *ptr, bool alloc, enum op_type otype,
 	total_consuming_ns += nsecs() - start;
 
 	if (bytes < 0) {
-		fprintf(stderr, "%s(fd=%d,buf=%p,count=%ld) failed, %m\n",
+		fprintf(stderr, "ERROR: %s(fd=%d,buf=%p,count=%ld) failed, %m\n",
 			op_name[otype], fd, ptr, env.size);
-	} else {
-		printf("%s %ld bytes to the file.\n", op_name[otype], bytes);
 	}
 
 	if (env.verify)
