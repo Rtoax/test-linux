@@ -211,9 +211,9 @@ static const struct argp argp = {
 	.doc = argp_prog_doc,
 };
 
-struct thread_cufile_arg {
+struct thread_arg {
 	int idx;
-	void *devPtr;
+	void *mem;
 	size_t size;
 	enum op_type otype;
 	off_t file_offset;
@@ -221,15 +221,68 @@ struct thread_cufile_arg {
 };
 
 static pthread_t *threads;
-static struct thread_cufile_arg *thread_args;
+static struct thread_arg *thread_args;
 static pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 static pthread_cond_t cond = PTHREAD_COND_INITIALIZER;
 
+/**
+ * Distribute memory @mem evenly among each thread.
+ */
+void multithread_create(void *mem, enum op_type otype,
+			void *(*thread_fn)(void *targ))
+{
+	threads = (pthread_t *)malloc(sizeof(pthread_t) * env.nr_threads);
+	assert(threads && "Malloc fatal");
+	thread_args = (struct thread_arg *)malloc(sizeof(struct thread_arg) * env.nr_threads);
+	assert(thread_args && "Malloc fatal");
+
+	for (int i = 0; i < env.nr_threads; i++) {
+		size_t tsize = env.size / env.nr_threads;
+		thread_args[i].idx = i;
+		thread_args[i].mem = mem;
+		thread_args[i].size = tsize;
+		thread_args[i].otype = otype;
+		thread_args[i].file_offset = tsize * i;
+		thread_args[i].devPtr_offset = tsize * i;
+
+		pthread_create(&threads[i], NULL, thread_fn, &thread_args[i]);
+#ifdef DEBUG
+		fprintf(stderr, "Create thread %d\n", i);
+#endif
+	}
+
+	/* Make sure all child threads are running */
+	sleep(1);
+}
+
+void multithread_execute(void)
+{
+	unsigned long start = nsecs();
+
+	/* Wakeup all threads */
+	pthread_cond_broadcast(&cond);
+#ifdef DEBUG
+	fprintf(stderr, "Wakeup all threads\n");
+#endif
+
+	for (int i = 0; i < env.nr_threads; i++) {
+		pthread_join(threads[i], NULL);
+	}
+
+	total_consuming_ns += nsecs() - start;
+}
+
+void multithread_destroy(void)
+{
+	free(threads);
+	free(thread_args);
+}
+
 void *thread_cufile(void *targ)
 {
-	struct thread_cufile_arg *arg = (struct thread_cufile_arg *)targ;
+	struct thread_arg *arg = (struct thread_arg *)targ;
 	ssize_t bytes = 0;
-	void *devPtr = arg->devPtr;
+	void *devPtr = arg->mem;
 	enum op_type otype = arg->otype;
 	size_t size = arg->size;
 	off_t foff = arg->file_offset;
@@ -264,55 +317,6 @@ void *thread_cufile(void *targ)
 	pthread_exit(0);
 }
 
-void multithread_create(void *mem, enum op_type otype)
-{
-	threads = (pthread_t *)malloc(sizeof(pthread_t) * env.nr_threads);
-	assert(threads && "Malloc fatal");
-	thread_args = (struct thread_cufile_arg *)malloc(sizeof(struct thread_cufile_arg) * env.nr_threads);
-	assert(thread_args && "Malloc fatal");
-
-	for (int i = 0; i < env.nr_threads; i++) {
-		size_t tsize = env.size / env.nr_threads;
-		thread_args[i].idx = i;
-		thread_args[i].devPtr = mem;
-		thread_args[i].size = tsize;
-		thread_args[i].otype = otype;
-		thread_args[i].file_offset = tsize * i;
-		thread_args[i].devPtr_offset = tsize * i;
-
-		pthread_create(&threads[i], NULL, thread_cufile, &thread_args[i]);
-#ifdef DEBUG
-		fprintf(stderr, "Create thread %d\n", i);
-#endif
-	}
-
-	/* Make sure all child threads are running */
-	sleep(1);
-}
-
-void multithread_execute(void)
-{
-	unsigned long start = nsecs();
-
-	/* Wakeup all threads */
-	pthread_cond_broadcast(&cond);
-#ifdef DEBUG
-	fprintf(stderr, "Wakeup all threads\n");
-#endif
-
-	for (int i = 0; i < env.nr_threads; i++) {
-		pthread_join(threads[i], NULL);
-	}
-
-	total_consuming_ns += nsecs() - start;
-}
-
-void multithread_destroy(void)
-{
-	free(threads);
-	free(thread_args);
-}
-
 void* xfer_between_storage__gpu(void *devPtr, bool alloc, enum op_type otype,
 				uint8_t init)
 {
@@ -327,7 +331,7 @@ void* xfer_between_storage__gpu(void *devPtr, bool alloc, enum op_type otype,
 	if (env.bufregister)
 		CUFILE_CHECK_EXIT(cuFileBufRegister(devPtr, env.size, 0));
 
-	multithread_create(devPtr, otype);
+	multithread_create(devPtr, otype, thread_cufile);
 	multithread_execute();
 	multithread_destroy();
 
