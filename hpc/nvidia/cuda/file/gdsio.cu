@@ -21,26 +21,26 @@
 const char *version = "v0.0.1";
 
 enum xfer_type {
-	XFER_STORAGE_TO_GPU,
-	XFER_STORAGE_TO_CPU,
-	XFER_STORAGE_TO_CPU_TO_GPU,
-	XFER_STORAGE_TO_CPU_TO_GPU_ASYNC,
-	XFER_STORAGE_TO_PAGECACHE_TO_CPU_TO_GPU,
-	XFER_STORAGE_TO_GPU_ASYNC,
-	XFER_STORAGE_TO_GPU_BATCH,
-	XFER_STORAGE_TO_GPU_BATCH_STREAM,
+	XFER_BETWEEN_STORAGE__GPU,
+	XFER_BETWEEN_STORAGE__CPU,
+	XFER_BETWEEN_STORAGE__CPU__GPU,
+	XFER_BETWEEN_STORAGE__CPU__GPU_ASYNC,
+	XFER_BETWEEN_STORAGE__PAGECACHE__CPU__GPU,
+	XFER_BETWEEN_STORAGE__GPU_ASYNC,
+	XFER_BETWEEN_STORAGE__GPU_BATCH,
+	XFER_BETWEEN_STORAGE__GPU_BATCH_STREAM,
 	XFER_NUM,
 };
 
 const char *xfer_name[XFER_NUM] = {
-	[XFER_STORAGE_TO_GPU] = "Storage->GPU",
-	[XFER_STORAGE_TO_CPU] = "Storage->CPU",
-	[XFER_STORAGE_TO_CPU_TO_GPU] = "Storage->CPU->GPU",
-	[XFER_STORAGE_TO_CPU_TO_GPU_ASYNC] = "Storage->CPU->GPU_ASYNC",
-	[XFER_STORAGE_TO_PAGECACHE_TO_CPU_TO_GPU] = "Storage->PageCache->CPU->GPU",
-	[XFER_STORAGE_TO_GPU_ASYNC] = "Storage->GPU_ASYNC",
-	[XFER_STORAGE_TO_GPU_BATCH] = "Storage->GPU_BATCH",
-	[XFER_STORAGE_TO_GPU_BATCH_STREAM] = "Storage->GPU_BATCH_STREAM",
+	[XFER_BETWEEN_STORAGE__GPU] = "Storage<->GPU",
+	[XFER_BETWEEN_STORAGE__CPU] = "Storage<->CPU",
+	[XFER_BETWEEN_STORAGE__CPU__GPU] = "Storage<->CPU<->GPU",
+	[XFER_BETWEEN_STORAGE__CPU__GPU_ASYNC] = "Storage<->CPU<->GPU_ASYNC",
+	[XFER_BETWEEN_STORAGE__PAGECACHE__CPU__GPU] = "Storage<->PageCache<->CPU<->GPU",
+	[XFER_BETWEEN_STORAGE__GPU_ASYNC] = "Storage<->GPU_ASYNC",
+	[XFER_BETWEEN_STORAGE__GPU_BATCH] = "Storage<->GPU_BATCH",
+	[XFER_BETWEEN_STORAGE__GPU_BATCH_STREAM] = "Storage<->GPU_BATCH_STREAM",
 };
 
 enum op_type {
@@ -70,7 +70,7 @@ struct {
 	.filename = "./testfile.out",
 	.nr_threads = 1,	/* TODO */
 	.size = 8192,
-	.xtype = XFER_STORAGE_TO_GPU,
+	.xtype = XFER_BETWEEN_STORAGE__GPU,
 	.otype = OP_WRITE,
 };
 
@@ -141,7 +141,7 @@ static error_t parse_arg(int key, char *arg, struct argp_state *state)
 		break;
 	case 'x':
 		env.xtype = (enum xfer_type)atoi(arg);
-		if (env.xtype < XFER_STORAGE_TO_GPU || env.xtype >= XFER_NUM) {
+		if (env.xtype < XFER_BETWEEN_STORAGE__GPU || env.xtype >= XFER_NUM) {
 			fprintf(stderr, "ERROR: bad xfer type value\n");
 			exit(EXIT_FAILURE);
 		}
@@ -173,7 +173,7 @@ static const struct argp argp = {
 	.doc = argp_prog_doc,
 };
 
-void xfer_storage_to_gpu(void *devPtr, enum op_type otype)
+void xfer_between_storage__gpu(void *devPtr, enum op_type otype)
 {
 	ssize_t bytes = 0;
 	bool need_free = false;
@@ -214,7 +214,7 @@ void xfer_storage_to_gpu(void *devPtr, enum op_type otype)
 	}
 }
 
-void xfer_storage_to_cpu(void *ptr, enum op_type otype)
+void xfer_between_storage__cpu(void *ptr, enum op_type otype)
 {
 	ssize_t bytes = 0;
 	bool need_free = false;
@@ -291,20 +291,20 @@ int main(int argc, char *argv[])
 	}
 
 	switch (env.xtype) {
-	case XFER_STORAGE_TO_GPU:
+	case XFER_BETWEEN_STORAGE__GPU:
 		cufile_init();
-		xfer_storage_to_gpu(NULL, env.otype);
+		xfer_between_storage__gpu(NULL, env.otype);
 		cufile_destroy();
 		break;
-	case XFER_STORAGE_TO_CPU:
-		xfer_storage_to_cpu(NULL, env.otype);
+	case XFER_BETWEEN_STORAGE__CPU:
+		xfer_between_storage__cpu(NULL, env.otype);
 		break;
-	case XFER_STORAGE_TO_CPU_TO_GPU:
-	case XFER_STORAGE_TO_CPU_TO_GPU_ASYNC:
-	case XFER_STORAGE_TO_PAGECACHE_TO_CPU_TO_GPU:
-	case XFER_STORAGE_TO_GPU_ASYNC:
-	case XFER_STORAGE_TO_GPU_BATCH:
-	case XFER_STORAGE_TO_GPU_BATCH_STREAM:
+	case XFER_BETWEEN_STORAGE__CPU__GPU:
+	case XFER_BETWEEN_STORAGE__CPU__GPU_ASYNC:
+	case XFER_BETWEEN_STORAGE__PAGECACHE__CPU__GPU:
+	case XFER_BETWEEN_STORAGE__GPU_ASYNC:
+	case XFER_BETWEEN_STORAGE__GPU_BATCH:
+	case XFER_BETWEEN_STORAGE__GPU_BATCH_STREAM:
 	case XFER_NUM:
 	default:
 		fprintf(stderr, "WARNING: not support %s yet.\n", xfer_name[env.xtype]);
