@@ -29,6 +29,17 @@ enum xfer_type {
 	XFER_NUM,
 };
 
+const char *xfer_name[XFER_NUM] = {
+	[XFER_STORAGE_TO_GPU] = "Storage->GPU",
+	[XFER_STORAGE_TO_CPU] = "Storage->CPU",
+	[XFER_STORAGE_TO_CPU_TO_GPU] = "Storage->CPU->GPU",
+	[XFER_STORAGE_TO_CPU_TO_GPU_ASYNC] = "Storage->CPU->GPU_ASYNC",
+	[XFER_STORAGE_TO_PAGECACHE_TO_CPU_TO_GPU] = "Storage->PageCache->CPU->GPU",
+	[XFER_STORAGE_TO_GPU_ASYNC] = "Storage->GPU_ASYNC",
+	[XFER_STORAGE_TO_GPU_BATCH] = "Storage->GPU_BATCH",
+	[XFER_STORAGE_TO_GPU_BATCH_STREAM] = "Storage->GPU_BATCH_STREAM",
+};
+
 enum op_type {
 	OP_READ,
 	OP_WRITE,
@@ -222,7 +233,7 @@ int main(int argc, char *argv[])
 	case XFER_STORAGE_TO_GPU_BATCH_STREAM:
 	case XFER_NUM:
 	default:
-		fprintf(stderr, "WARNING: not support xfer type %d yet.\n", env.xtype);
+		fprintf(stderr, "WARNING: not support %s yet.\n", xfer_name[env.xtype]);
 		break;
 	}
 
