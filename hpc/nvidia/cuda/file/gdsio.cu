@@ -369,6 +369,16 @@ int main(int argc, char *argv[])
 		return -err;
 	}
 
+	if (env.size % env.nr_threads) {
+		fprintf(stderr, "ERROR: The total size needs to be evenly distributed among all threads.\n");
+		exit(EXIT_FAILURE);
+	}
+
+	if ((env.size / env.nr_threads) % getpagesize()) {
+		fprintf(stderr, "ERROR: Each thread should page-align the memory block it processes.\n");
+		exit(EXIT_FAILURE);
+	}
+
 	snprintf(filepath, sizeof(filepath), "%s/%s", env.dir, env.filename);
 	fd = open(filepath, O_CREAT | O_RDWR | O_DIRECT, 0664);
 	if (fd < 0) {
