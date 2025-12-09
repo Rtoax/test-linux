@@ -196,7 +196,7 @@ void xfer_storage_to_cpu(void)
 {
 	void *ptr;
 	ssize_t bytes = 0;
-	ptr = malloc(env.size);
+	posix_memalign(&ptr, getpagesize(), env.size);
 	memset(ptr, 0xAB, env.size);
 
 	switch (env.otype) {
