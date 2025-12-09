@@ -3,7 +3,7 @@ set -e
 
 [[ -z ${GDSIO} ]] && GDSIO=gdsio
 [[ ${VERIFY} ]] && VERIFY=-V
-SIZE=1G
+[[ -z ${SIZE} ]] && SIZE=1G
 
 drop_cache() {
 	echo 3 > /proc/sys/vm/drop_caches
