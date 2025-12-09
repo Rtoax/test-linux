@@ -99,7 +99,8 @@ static const struct argp_option opts[] = {
 	{},
 };
 
-void verify_io_devmem(void *devptr, size_t size, uint8_t val);
+void verify_io_devmem(void *devptr, size_t size, uint8_t expect);
+void verify_io_cpumem(void *ptr, size_t size, uint8_t expect);
 
 static unsigned long str2size(const char *str)
 {
@@ -280,6 +281,9 @@ void* xfer_between_storage__cpu(void *ptr, bool alloc, enum op_type otype,
 		printf("%s %ld bytes to the file.\n", op_name[otype], bytes);
 	}
 
+	if (env.verify)
+		verify_io_cpumem(ptr, env.size, init);
+
 	if (allocated && !alloc) {
 		free(ptr);
 		ptr = NULL;
@@ -320,16 +324,27 @@ __global__ void __verify_io_kernel(void *devptr, size_t size, uint8_t expect)
 	for (size_t i = 0; i < size; i++) {
 		uint8_t real = *(uint8_t *)((char *)devptr + i);
 		if (real != expect) {
-			printf("Verify IO failed with value 0x%x, expect 0x%x\n",
+			printf("GPU: Verify IO failed with value 0x%x, expect 0x%x\n",
 				real, expect);
 		}
 	}
 }
 
-void verify_io_devmem(void *devptr, size_t size, uint8_t val)
+void verify_io_devmem(void *devptr, size_t size, uint8_t expect)
 {
-	__verify_io_kernel<<<1, 1>>>(devptr, size, val);
+	__verify_io_kernel<<<1, 1>>>(devptr, size, expect);
 	cudaDeviceSynchronize();
+}
+
+void verify_io_cpumem(void *ptr, size_t size, uint8_t expect)
+{
+	for (size_t i = 0; i < size; i++) {
+		uint8_t real = *(uint8_t *)((char *)ptr + i);
+		if (real != expect) {
+			printf("CPU: Verify IO failed with value 0x%x, expect 0x%x\n",
+				real, expect);
+		}
+	}
 }
 
 int main(int argc, char *argv[])
