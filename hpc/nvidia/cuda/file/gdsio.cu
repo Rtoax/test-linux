@@ -77,6 +77,7 @@ struct {
 static int fd = -1;
 CUfileHandle_t cfHandle = NULL;
 CUfileDescr_t cfDescr = {};
+unsigned long total_consuming_ns = 0;
 
 const char argp_prog_doc[] =
 	"USAGE: [-d <GPU>] [...]\n";
@@ -117,6 +118,13 @@ static unsigned long str2size(const char *str)
 		size *= KB;
 
 	return size;
+}
+
+unsigned long nsecs(void)
+{
+	struct timespec start;
+	clock_gettime(CLOCK_MONOTONIC, &start);
+	return (start.tv_sec * 1E9 + start.tv_nsec);
 }
 
 static error_t parse_arg(int key, char *arg, struct argp_state *state)
@@ -169,12 +177,15 @@ void xfer_storage_to_gpu(void *devPtr, enum op_type otype)
 {
 	ssize_t bytes = 0;
 	bool need_free = false;
+	unsigned long start;
 
 	if (!devPtr) {
 		cudaMalloc(&devPtr, env.size);
 		cudaMemset(devPtr, 0xAB, env.size);
 		need_free = true;
 	}
+
+	start = nsecs();
 
 	switch (otype) {
 	case OP_READ:
@@ -189,6 +200,8 @@ void xfer_storage_to_gpu(void *devPtr, enum op_type otype)
 		fprintf(stderr, "WARNING: not support %s yet.\n", op_name[otype]);
 		break;
 	}
+
+	total_consuming_ns += nsecs() - start;
 
 	if (bytes < 0) {
 		fprintf(stderr, "cuFile %s failed\n", op_name[otype]);
@@ -205,12 +218,15 @@ void xfer_storage_to_cpu(void *ptr, enum op_type otype)
 {
 	ssize_t bytes = 0;
 	bool need_free = false;
+	unsigned long start;
 
 	if (!ptr) {
 		posix_memalign(&ptr, getpagesize(), env.size);
 		memset(ptr, 0xAB, env.size);
 		need_free = true;
 	}
+
+	start = nsecs();
 
 	switch (otype) {
 	case OP_READ:
@@ -225,6 +241,8 @@ void xfer_storage_to_cpu(void *ptr, enum op_type otype)
 		fprintf(stderr, "WARNING: not support %s yet.\n", op_name[otype]);
 		break;
 	}
+
+	total_consuming_ns += nsecs() - start;
 
 	if (bytes < 0) {
 		fprintf(stderr, "%s(fd=%d,buf=%p,count=%ld) failed, %m\n",
@@ -292,6 +310,14 @@ int main(int argc, char *argv[])
 		fprintf(stderr, "WARNING: not support %s yet.\n", xfer_name[env.xtype]);
 		break;
 	}
+
+	printf("IoType: %s, XferType: %s,", op_name[env.otype], xfer_name[env.xtype]);
+	printf(" Threads: %d,", env.nr_threads);
+	printf(" DataSetSize: %ld B,", env.size);
+	//printf(" OSize: ?,", );
+	printf(" Throughput: %f GiB/sec,", env.size * 1.f / total_consuming_ns);
+	//printf(" Avg_Latency: ? usecs,");
+	printf(" total_time %f secs\n", total_consuming_ns * 1.f / 1E9);
 
 	close(fd);
 	return 0;
