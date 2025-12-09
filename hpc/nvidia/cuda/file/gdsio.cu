@@ -226,7 +226,7 @@ void* xfer_between_storage__cpu(void *ptr, bool alloc, enum op_type otype)
 
 	if (!ptr) {
 		posix_memalign(&ptr, getpagesize(), env.size);
-		memset(ptr, 0xAB, env.size);
+		memset(ptr, 0xAC, env.size);
 		allocated = true;
 	}
 
@@ -336,7 +336,7 @@ int main(int argc, char *argv[])
 		 */
 		case OP_WRITE:
 			CUDA_CHECK_EXIT(cudaMalloc(&dev_ptr, env.size));
-			CUDA_CHECK_EXIT(cudaMemset(dev_ptr, 0xAC, env.size));
+			CUDA_CHECK_EXIT(cudaMemset(dev_ptr, 0xAD, env.size));
 			posix_memalign(&host_ptr, getpagesize(), env.size);
 			start = nsecs();
 			CUDA_CHECK_EXIT(cudaMemcpy(host_ptr, dev_ptr, env.size, cudaMemcpyDeviceToHost));
