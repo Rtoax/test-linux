@@ -2493,6 +2493,12 @@
 #define cufileop_status_error	__cu(fileop_status_error)
 
 /**
+ * CUfileError_t cuFileDriverOpen(void);
+ * LCfileError_t lcFileDriverOpen(void);
+ */
+#define cuFileDriverOpen	__cu(FileDriverOpen)
+
+/**
  * LUCA 3.2.1
  * LCfileError_t lcFileHandleRegister(LCfileHandle_t *fh, LCfileDescr_t *descr);
  */

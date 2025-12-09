@@ -25,6 +25,7 @@ int main(int argc, char *argv[])
 {
 	CUfileHandle_t cfHandle;
 	CUfileDescr_t cfDescr = {};
+	CUfileError_t status;
 	int fd;
 	const char *filename = "./testfile.out";
 
@@ -33,6 +34,13 @@ int main(int argc, char *argv[])
 	}
 
 	fprintf(stderr, "Usage: %s [filepath]\n", argv[0]);
+
+	status = cuFileDriverOpen();
+	if (status.err != CU_FILE_SUCCESS) {
+		fprintf(stderr, "cuFileDriverOpen failed: %s\n",
+			cufileop_status_error(status.err));
+		return 1;
+	}
 
 	fd = open(filename, O_CREAT | O_RDWR | O_DIRECT, 0664);
 	if (fd < 0) {
@@ -52,7 +60,7 @@ int main(int argc, char *argv[])
 	cfDescr.type = CU_FILE_HANDLE_TYPE_OPAQUE_FD;
 #endif
 
-	CUfileError_t status = cuFileHandleRegister(&cfHandle, &cfDescr);
+	status = cuFileHandleRegister(&cfHandle, &cfDescr);
 	if (status.err != CU_FILE_SUCCESS) {
 		fprintf(stderr, "cuFileHandleRegister failed: %s\n",
 			cufileop_status_error(status.err));
