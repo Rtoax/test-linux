@@ -51,13 +51,26 @@
 	cufftResult __status = CALL;					\
 	if (unlikely(__status != CUFFT_SUCCESS)) {			\
 		fprintf(stderr, "\033[31m");				\
-		fprintf(stderr, "ERROR: %s:%d Rand %s failed, %d\n",	\
+		fprintf(stderr, "ERROR: %s:%d FFT %s failed, %d\n",	\
 			__func__, __LINE__,				\
 			#CALL, __status);				\
 		fprintf(stderr, "\033[m");				\
 		ERROR_DO;						\
 	}								\
 }
+
+#define CUFILE_CHECK(CALL, ERROR_DO)	{				\
+	CUfileError_t __status = CALL;					\
+	if (unlikely(__status.err != CU_FILE_SUCCESS)) {		\
+		fprintf(stderr, "\033[31m");				\
+		fprintf(stderr, "ERROR: %s:%d FILE %s failed, %d\n",	\
+			__func__, __LINE__,				\
+			#CALL, __status.err);				\
+		fprintf(stderr, "\033[m");				\
+		ERROR_DO;						\
+	}								\
+}
+#define CUFILE_CHECK_EXIT(CALL)	CUFILE_CHECK(CALL, exit(-1))
 
 #ifdef __NVCC__
 # if CUDA_VERSION < 13000

@@ -68,6 +68,7 @@ struct {
 	enum xfer_type xtype;
 	enum op_type otype;
 	bool verify;
+	bool bufregister;
 } env = {
 	.gpu = 0,
 	.filename = "gdsio.out",
@@ -77,6 +78,7 @@ struct {
 	.xtype = XFER_BETWEEN_STORAGE__GPU,
 	.otype = OP_WRITE,
 	.verify = false,
+	.bufregister = true,
 };
 
 static int fd = -1;
@@ -96,6 +98,7 @@ static const struct argp_option opts[] = {
 	{ "xfer_type", 'x', "XFER_TYPE", 0, "transfer type [0(GPU_DIRECT), 1(CPU_ONLY), 2(CPU_GPU), 3(CPU_ASYNC_GPU), 4(CPU_CACHED_GPU), 5(GPU_DIRECT_ASYNC), 6(GPU_BATCH), 7(GPU_BATCH_STREAM)]" },
 	{ "op_type", 'I', "OP_TYPE", 0, "[0(read), 1(write), 2(randread), 3(randwrite)]" },
 	{ "verify", 'V', NULL, 1, "verify IO" },
+	{ "bufregister", 'b', NULL, 1, "skip bufregister" },
 	{ "version", 'v', NULL, 1, "display version" },
 	{},
 };
@@ -181,6 +184,9 @@ static error_t parse_arg(int key, char *arg, struct argp_state *state)
 		printf("gpsio %s\n", version);
 		exit(EXIT_SUCCESS);
 		break;
+	case 'b':
+		env.bufregister = false;
+		break;
 	case 'V':
 		env.verify = true;
 		break;
@@ -213,6 +219,9 @@ void* xfer_between_storage__gpu(void *devPtr, bool alloc, enum op_type otype,
 		allocated = true;
 	}
 
+	if (env.bufregister)
+		CUFILE_CHECK_EXIT(cuFileBufRegister(devPtr, env.size, 0));
+
 	start = nsecs();
 
 	switch (otype) {
@@ -238,6 +247,9 @@ void* xfer_between_storage__gpu(void *devPtr, bool alloc, enum op_type otype,
 
 	if (env.verify)
 		verify_io_devmem(devPtr, env.size, init);
+
+	if (env.bufregister)
+		CUFILE_CHECK_EXIT(cuFileBufDeregister(devPtr));
 
 	if (allocated && !alloc) {
 		CUDA_CHECK_EXIT(cudaFree(devPtr));
@@ -300,23 +312,13 @@ void cufile_init(void)
 {
 	CUfileError_t status;
 
-	status = cuFileDriverOpen();
-	if (status.err != CU_FILE_SUCCESS) {
-		fprintf(stderr, "cuFileDriverOpen failed: %s\n",
-			cufileop_status_error(status.err));
-		exit(EXIT_FAILURE);
-	}
+	CUFILE_CHECK_EXIT(cuFileDriverOpen());
 
 	/* Set up GDS descriptor */
 	cfDescr.handle.fd = fd;
 	cfDescr.type = CU_FILE_HANDLE_TYPE_OPAQUE_FD;
 
-	status = cuFileHandleRegister(&cfHandle, &cfDescr);
-	if (status.err != CU_FILE_SUCCESS) {
-		fprintf(stderr, "cuFileHandleRegister failed: %s\n",
-			cufileop_status_error(status.err));
-		exit(EXIT_FAILURE);
-	}
+	CUFILE_CHECK_EXIT(cuFileHandleRegister(&cfHandle, &cfDescr));
 }
 
 void cufile_destroy(void)

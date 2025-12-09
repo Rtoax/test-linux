@@ -2504,6 +2504,16 @@
  */
 #define cuFileHandleRegister	__cu(FileHandleRegister)
 #define cuFileHandleDeregister	__cu(FileHandleDeregister)
+
+/**
+ * LCfileError_t lcFileBufRegister(const void *devPtr_base, size_t length, int flags);
+ */
+#define cuFileBufRegister	__cu(FileBufRegister)
+/**
+ * LCfileError_t lcFileBufDeregister(const void *devPtr_base);
+ */
+#define cuFileBufDeregister	__cu(FileBufDeregister)
+
 /**
  * ssize_t cuFileWrite(CUfileHandle_t fh, const void *bufPtr_base, size_t size,
  *                     off_t file_offset, off_t bufPtr_offset);
