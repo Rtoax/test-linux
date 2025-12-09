@@ -2,6 +2,9 @@
 /**
  * gdsio - GPUDirect Storage IO
  *
+ * This program will be developed to resemble Nvidia's GDSIO tool as closely
+ * as possible.
+ *
  * See also /usr/local/cuda/gds/tools/gdsio
  *          commit 998aaea56a78 ("cufile: add gpsio.cu")
  *
