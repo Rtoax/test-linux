@@ -99,6 +99,8 @@ static const struct argp_option opts[] = {
 	{},
 };
 
+void verify_io_devmem(void *devptr, size_t size, uint8_t val);
+
 static unsigned long str2size(const char *str)
 {
 	unsigned long size = 0;
@@ -226,6 +228,9 @@ void* xfer_between_storage__gpu(void *devPtr, bool alloc, enum op_type otype,
 		printf("%s %ld bytes to the file.\n", op_name[otype], bytes);
 	}
 
+	if (env.verify)
+		verify_io_devmem(devPtr, env.size, init);
+
 	if (allocated && !alloc) {
 		CUDA_CHECK_EXIT(cudaFree(devPtr));
 		devPtr = NULL;
@@ -350,11 +355,8 @@ int main(int argc, char *argv[])
 	switch (env.xtype) {
 	case XFER_BETWEEN_STORAGE__GPU:
 		cufile_init();
-		dev_ptr = xfer_between_storage__gpu(NULL, true, env.otype, 0xAB);
+		xfer_between_storage__gpu(NULL, false, env.otype, 0xAB);
 		cufile_destroy();
-		if (env.verify)
-			verify_io_devmem(dev_ptr, env.size, 0xAB);
-		CUDA_CHECK_EXIT(cudaFree(dev_ptr));
 		break;
 	case XFER_BETWEEN_STORAGE__CPU:
 		xfer_between_storage__cpu(NULL, false, env.otype, 0xAC);
