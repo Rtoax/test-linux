@@ -1,5 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
 target-y :=
+target-y += auxv
 target-y += cmdline
 target-y += environ
 target-y += exe
@@ -16,6 +17,7 @@ LDFLAGS_pagemap += -lnuma
 
 include main.mk
 
+auxv: auxv.o
 cmdline: cmdline.o
 environ: environ.o
 exe: exe.o

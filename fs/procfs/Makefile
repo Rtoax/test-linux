@@ -8,7 +8,6 @@ subdir-y += sys
 target-y :=
 target-y += proc_examples
 target-y += self thread-self
-target-y += auxv
 target-y += stat
 target-y += uptime
 
@@ -30,7 +29,6 @@ proc_examples.o: proc_helpers.h
 proc_examples: ${OUTPUT}proc_examples.o ${libproc-helpers}
 self: ${OUTPUT}self.o ${libproc-helpers}
 thread-self: ${OUTPUT}thread-self.o ${libproc-helpers}
-auxv: ${OUTPUT}auxv.o
 stat: ${OUTPUT}stat.o
 uptime: ${OUTPUT}uptime.o
 

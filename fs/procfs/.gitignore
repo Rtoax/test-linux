@@ -1,5 +1,4 @@
 /proc-*
-/auxv
 /self
 /thread-self
 /stat
