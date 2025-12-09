@@ -310,8 +310,6 @@ void* xfer_between_storage__cpu(void *ptr, bool alloc, enum op_type otype,
 
 void cufile_init(void)
 {
-	CUfileError_t status;
-
 	CUFILE_CHECK_EXIT(cuFileDriverOpen());
 
 	/* Set up GDS descriptor */
