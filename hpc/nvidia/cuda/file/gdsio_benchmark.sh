@@ -16,26 +16,27 @@ runprog() {
 	eval ${@}
 }
 
-for thread in 1 2 4 8 16
-do
-	# GPU write to Storage
-	runprog ./${GDSIO} ${DIR} -f a.out -s ${SIZE} -x 0 -I 1 -w ${thread}
-	# GPU read from Storage
-	runprog ./${GDSIO} ${DIR} -f a.out -s ${SIZE} -x 0 -I 0 -w ${thread}
-done
+readonly XFER_BETWEEN_STORAGE__GPU=0
+readonly XFER_BETWEEN_STORAGE__CPU=1
+readonly XFER_BETWEEN_STORAGE__CPU__GPU=2
+readonly XFER_TYPES=(
+		${XFER_BETWEEN_STORAGE__GPU}
+		${XFER_BETWEEN_STORAGE__CPU}
+		${XFER_BETWEEN_STORAGE__CPU__GPU}
+	)
 
-for thread in 1 2 4 8 16
-do
-	# CPU write to Storage
-	runprog ./${GDSIO} ${DIR} -f b.out -s ${SIZE} -x 1 -I 1 -w ${thread}
-	# CPU read from Storage
-	runprog ./${GDSIO} ${DIR} -f b.out -s ${SIZE} -x 1 -I 0 -w ${thread}
-done
+readonly OP_READ=0
+readonly OP_WRITE=1
 
-for thread in 1 2 4 8 16
+for xfer in ${XFER_TYPES[@]}
 do
-	# GPU->CPU->Storage
-	runprog ./${GDSIO} ${DIR} -f c.out -s ${SIZE} -x 2 -I 1 -w ${thread}
-	# Storage->CPU->GPU
-	runprog ./${GDSIO} ${DIR} -f c.out -s ${SIZE} -x 2 -I 0 -w ${thread}
+	for thread in 1 2 4 8 16
+	do
+		for op in ${OP_WRITE} ${OP_READ}
+		do
+			runprog ./${GDSIO} ${DIR} -f a.out \
+				-s ${SIZE} \
+				-x ${xfer} -I ${op} -w ${thread}
+		done
+	done
 done
