@@ -213,11 +213,17 @@ static const struct argp argp = {
 
 struct thread_arg {
 	int idx;
-	void *mem;
+	/**
+	 * Maybe mem1 is host memory, mem2 is device memory, or in the other
+	 * way.
+	 */
+	void *mem1;
+	void *mem2;
 	size_t size;
 	enum op_type otype;
 	off_t file_offset;
-	off_t mem_offset;
+	off_t mem1_offset;
+	off_t mem2_offset;
 	int (*workload)(struct thread_arg *arg);
 };
 
@@ -243,9 +249,10 @@ void *thread_func(void *targ)
 	pthread_exit((void *)(uintptr_t)err);
 }
 /**
- * Distribute memory @mem evenly among each thread.
+ * Distribute memory @mem1 evenly among each thread.
  */
-void multithread_create(void *mem, enum op_type otype, const char *namepfx,
+void multithread_create(void *mem1, void *mem2, enum op_type otype,
+			const char *namepfx,
 			int (*workload)(struct thread_arg *arg))
 {
 	threads = (pthread_t *)malloc(sizeof(pthread_t) * env.nr_threads);
@@ -258,11 +265,13 @@ void multithread_create(void *mem, enum op_type otype, const char *namepfx,
 		char name[128];
 
 		thread_args[i].idx = i;
-		thread_args[i].mem = mem;
+		thread_args[i].mem1 = mem1;
+		thread_args[i].mem2 = mem2;
 		thread_args[i].size = tsize;
 		thread_args[i].otype = otype;
 		thread_args[i].file_offset = tsize * i;
-		thread_args[i].mem_offset = tsize * i;
+		thread_args[i].mem1_offset = tsize * i;
+		thread_args[i].mem2_offset = tsize * i;
 		thread_args[i].workload = workload;
 
 		pthread_create(&threads[i], NULL, thread_func, &thread_args[i]);
@@ -303,11 +312,11 @@ void multithread_destroy(void)
 int workload_cufile(struct thread_arg *arg)
 {
 	ssize_t bytes = 0;
-	void *devPtr = arg->mem;
+	void *devPtr = arg->mem1;
 	enum op_type otype = arg->otype;
 	size_t size = arg->size;
 	off_t foff = arg->file_offset;
-	off_t doff = arg->mem_offset;
+	off_t doff = arg->mem1_offset;
 
 	switch (otype) {
 	case OP_READ:
@@ -344,7 +353,8 @@ void* xfer_between_storage__gpu(void *devPtr, bool alloc, enum op_type otype,
 	if (env.bufregister)
 		CUFILE_CHECK_EXIT(cuFileBufRegister(devPtr, env.size, 0));
 
-	multithread_create(devPtr, otype, op_name[otype], workload_cufile);
+	multithread_create(devPtr, NULL, otype, op_name[otype],
+			   workload_cufile);
 	multithread_execute();
 	multithread_destroy();
 
@@ -389,11 +399,11 @@ ssize_t pos_write(int fd, off_t pos, void *buf, size_t count)
 int workload_cpu_rw(struct thread_arg *arg)
 {
 	ssize_t bytes = 0;
-	void *ptr = arg->mem;
+	void *ptr = arg->mem1;
 	enum op_type otype = arg->otype;
 	size_t size = arg->size;
 	off_t foff = arg->file_offset;
-	off_t doff = arg->mem_offset;
+	off_t doff = arg->mem1_offset;
 
 	switch (otype) {
 	case OP_READ:
@@ -430,7 +440,8 @@ void* xfer_between_storage__cpu(void *ptr, bool alloc, enum op_type otype,
 		allocated = true;
 	}
 
-	multithread_create(ptr, otype, op_name[otype], workload_cpu_rw);
+	multithread_create(ptr, NULL, otype, op_name[otype],
+			   workload_cpu_rw);
 	multithread_execute();
 	multithread_destroy();
 
