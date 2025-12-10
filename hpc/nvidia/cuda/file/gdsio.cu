@@ -66,6 +66,7 @@ static struct {
 	const char *dir;
 	int nr_threads;
 	size_t size;
+	size_t iosize;
 	enum xfer_type xtype;
 	enum op_type otype;
 	bool verify;
@@ -74,8 +75,9 @@ static struct {
 	.gpu = 0,
 	.filename = "gdsio.out",
 	.dir = ".",
-	.nr_threads = 1,	/* TODO */
+	.nr_threads = 1,
 	.size = 8192,
+	.iosize = 4096,	/* default pagesize */
 	.xtype = XFER_BETWEEN_STORAGE__GPU,
 	.otype = OP_WRITE,
 	.verify = false,
@@ -104,6 +106,7 @@ static const struct argp_option opts[] = {
 	{ "DIR", 'D', "DIR", 0, "directory name" },
 	{ "device", 'd', "DEVICE", 0, "gpu index" },
 	{ "size", 's', "SIZE", 0, "file size (K|M|G)" },
+	{ "iosize", 'i', "IOSIZE", 0, "io_size(K|M|G) <min_size:max_size:step_size>" },
 	{ "nthreads", 'w', "NTHREADS", 0, "number of threads for a job" },
 	{ "xfer_type", 'x', "XFER_TYPE", 0, "transfer type [0(GPU_DIRECT), 1(CPU_ONLY), 2(CPU_GPU), 3(CPU_ASYNC_GPU), 4(CPU_CACHED_GPU), 5(GPU_DIRECT_ASYNC), 6(GPU_BATCH), 7(GPU_BATCH_STREAM)]" },
 	{ "op_type", 'I', "OP_TYPE", 0, "[0(read), 1(write), 2(randread), 3(randwrite)]" },
@@ -170,6 +173,13 @@ static error_t parse_arg(int key, char *arg, struct argp_state *state)
 		env.size = str2size(arg);
 		if (env.size % getpagesize()) {
 			fprintf(stderr, "ERROR: size must page aliged.\n");
+			exit(EXIT_FAILURE);
+		}
+		break;
+	case 'i':
+		env.iosize = str2size(arg);
+		if (env.iosize % getpagesize()) {
+			fprintf(stderr, "ERROR: iosize do not support unaligned offsets or block sizes.\n");
 			exit(EXIT_FAILURE);
 		}
 		break;
@@ -668,7 +678,7 @@ int main(int argc, char *argv[])
 	printf(" File: %s,", filepath);
 	printf(" Threads: %d,", env.nr_threads);
 	printf(" DataSetSize: %ld B,", env.size);
-	//printf(" OSize: ?,", );
+	printf(" IOSize: %ld B,", env.iosize);
 	printf(" Throughput: \033[1;31m%f GiB/sec\033[m,", env.size * 1.f / consumed_ns());
 	//printf(" Avg_Latency: ? usecs,");
 	printf(" total_time %f secs\n", consumed_ns() * 1.f / 1E9);
