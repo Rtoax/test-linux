@@ -333,7 +333,7 @@ void multithread_destroy(void)
 int workload_cufile(struct thread_arg *arg)
 {
 	unsigned long start;
-	ssize_t bytes = 0;
+	ssize_t i, bytes = 0;
 	void *devPtr = arg->mem1;
 	enum op_type otype = arg->otype;
 	size_t size = arg->size;
@@ -344,10 +344,16 @@ int workload_cufile(struct thread_arg *arg)
 
 	switch (otype) {
 	case OP_READ:
-		bytes = cuFileRead(cfHandle, devPtr, size, foff, doff);
+		for (i = 0; i < size; i += env.iosize) {
+			bytes += cuFileRead(cfHandle, devPtr, env.iosize,
+					    foff + i, doff + i);
+		}
 		break;
 	case OP_WRITE:
-		bytes = cuFileWrite(cfHandle, devPtr, size, foff, doff);
+		for (i = 0; i < size; i += env.iosize) {
+			bytes += cuFileWrite(cfHandle, devPtr, env.iosize,
+					     foff + i, doff + i);
+		}
 		break;
 	case OP_RANDREAD:
 	case OP_RANDWRITE:
@@ -703,8 +709,8 @@ int main(int argc, char *argv[])
 	printf("IoType: %s, XferType: %s,", op_name[env.otype], xfer_name[env.xtype]);
 	printf(" File: %s,", filepath);
 	printf(" Threads: %d,", env.nr_threads);
-	printf(" DataSetSize: %ld B,", env.fsize);
-	printf(" IOSize: %ld B,", env.iosize);
+	printf(" DataSetSize: %ld B (%ld KiB),", env.fsize, env.fsize / KiB);
+	printf(" IOSize: %ld B (%ld KiB),", env.iosize, env.iosize / KiB);
 	printf(" Throughput: \033[1;31m%f GiB/sec\033[m,", env.fsize * 1.f / consumed_ns());
 	//printf(" Avg_Latency: ? usecs,");
 	printf(" total_time %f secs\n", consumed_ns() * 1.f / 1E9);
