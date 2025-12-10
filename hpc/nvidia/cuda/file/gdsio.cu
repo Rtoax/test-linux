@@ -20,7 +20,9 @@
 #include "cuda_compat.h"
 #include "../cuda_helpers.h"
 
-const char *version = "v0.0.1";
+#define KiB 1024UL
+#define MiB (KiB * 1024UL)
+#define GiB (MiB * 1024UL)
 
 enum xfer_type {
 	XFER_BETWEEN_STORAGE__GPU,
@@ -76,14 +78,15 @@ static struct {
 	.filename = "gdsio.out",
 	.dir = ".",
 	.nr_threads = 1,
-	.fsize = 8192,
-	.iosize = 4096,	/* default pagesize */
+	.fsize = 1024 * KiB,
+	.iosize = 1024 * KiB,
 	.xtype = XFER_BETWEEN_STORAGE__GPU,
 	.otype = OP_WRITE,
 	.verify = false,
 	.bufregister = true,
 };
 
+static const char *version = "v0.0.1";
 static int fd = -1;
 static CUfileHandle_t cfHandle = NULL;
 static CUfileDescr_t cfDescr = {};
@@ -133,15 +136,12 @@ static unsigned long str2size(const char *str)
 	else
 		size = strtoull(str, NULL, 10);
 
-#define KB 1024UL
-#define MB (KB * 1024UL)
-#define GB (MB * 1024UL)
 	if (strstr(str, "G") || strstr(str, "GB") || strstr(str, "GiB"))
-		size *= GB;
+		size *= GiB;
 	else if (strstr(str, "M") || strstr(str, "MB") || strstr(str, "MiB"))
-		size *= MB;
+		size *= MiB;
 	else if (strstr(str, "K") || strstr(str, "KB") || strstr(str, "KiB"))
-		size *= KB;
+		size *= KiB;
 
 	return size;
 }
