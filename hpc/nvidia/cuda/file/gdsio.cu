@@ -218,6 +218,7 @@ struct thread_arg {
 	enum op_type otype;
 	off_t file_offset;
 	off_t mem_offset;
+	int (*workload)(struct thread_arg *arg);
 };
 
 static pthread_t *threads;
@@ -225,11 +226,27 @@ static struct thread_arg *thread_args;
 static pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 static pthread_cond_t cond = PTHREAD_COND_INITIALIZER;
 
+void *thread_func(void *targ)
+{
+	int err;
+	struct thread_arg *arg = (struct thread_arg *)targ;
+
+	pthread_mutex_lock(&mutex);
+#ifdef DEBUG
+	fprintf(stderr, "Thread %d waiting.\n", arg->idx);
+#endif
+	pthread_cond_wait(&cond, &mutex);
+
+	err = arg->workload(arg);
+
+	pthread_mutex_unlock(&mutex);
+	pthread_exit(err);
+}
 /**
  * Distribute memory @mem evenly among each thread.
  */
 void multithread_create(void *mem, enum op_type otype, const char *namepfx,
-			void *(*thread_fn)(void *targ))
+			int (*workload)(struct thread_arg *arg))
 {
 	threads = (pthread_t *)malloc(sizeof(pthread_t) * env.nr_threads);
 	assert(threads && "Malloc fatal");
@@ -246,8 +263,9 @@ void multithread_create(void *mem, enum op_type otype, const char *namepfx,
 		thread_args[i].otype = otype;
 		thread_args[i].file_offset = tsize * i;
 		thread_args[i].mem_offset = tsize * i;
+		thread_args[i].workload = workload;
 
-		pthread_create(&threads[i], NULL, thread_fn, &thread_args[i]);
+		pthread_create(&threads[i], NULL, thread_func, &thread_args[i]);
 		snprintf(name, sizeof(name) - 1, "%s/%d", namepfx, i);
 		pthread_setname_np(threads[i], name);
 #ifdef DEBUG
@@ -282,21 +300,14 @@ void multithread_destroy(void)
 	free(thread_args);
 }
 
-void *thread_cufile(void *targ)
+int workload_cufile(struct thread_arg *arg)
 {
-	struct thread_arg *arg = (struct thread_arg *)targ;
 	ssize_t bytes = 0;
 	void *devPtr = arg->mem;
 	enum op_type otype = arg->otype;
 	size_t size = arg->size;
 	off_t foff = arg->file_offset;
 	off_t doff = arg->mem_offset;
-
-	pthread_mutex_lock(&mutex);
-#ifdef DEBUG
-	fprintf(stderr, "Thread %d waiting.\n", arg->idx);
-#endif
-	pthread_cond_wait(&cond, &mutex);
 
 	switch (otype) {
 	case OP_READ:
@@ -316,9 +327,7 @@ void *thread_cufile(void *targ)
 		fprintf(stderr, "ERROR: GPU %s(fd=%d,buf=%p,count=%ld) failed, %m\n",
 			op_name[otype], fd, devPtr, env.size);
 	}
-
-	pthread_mutex_unlock(&mutex);
-	pthread_exit(0);
+	return 0;
 }
 
 void* xfer_between_storage__gpu(void *devPtr, bool alloc, enum op_type otype,
@@ -335,7 +344,7 @@ void* xfer_between_storage__gpu(void *devPtr, bool alloc, enum op_type otype,
 	if (env.bufregister)
 		CUFILE_CHECK_EXIT(cuFileBufRegister(devPtr, env.size, 0));
 
-	multithread_create(devPtr, otype, op_name[otype], thread_cufile);
+	multithread_create(devPtr, otype, op_name[otype], workload_cufile);
 	multithread_execute();
 	multithread_destroy();
 
@@ -377,21 +386,14 @@ ssize_t pos_write(int fd, off_t pos, void *buf, size_t count)
 	return bytes;
 }
 
-void *thread_cpu_rw(void *targ)
+int workload_cpu_rw(struct thread_arg *arg)
 {
-	struct thread_arg *arg = (struct thread_arg *)targ;
 	ssize_t bytes = 0;
 	void *ptr = arg->mem;
 	enum op_type otype = arg->otype;
 	size_t size = arg->size;
 	off_t foff = arg->file_offset;
 	off_t doff = arg->mem_offset;
-
-	pthread_mutex_lock(&mutex);
-#ifdef DEBUG
-	fprintf(stderr, "Thread %d waiting.\n", arg->idx);
-#endif
-	pthread_cond_wait(&cond, &mutex);
 
 	switch (otype) {
 	case OP_READ:
@@ -411,9 +413,7 @@ void *thread_cpu_rw(void *targ)
 		fprintf(stderr, "ERROR: %s(fd=%d,buf=%p,count=%ld) failed, %m\n",
 			op_name[otype], fd, ptr, env.size);
 	}
-
-	pthread_mutex_unlock(&mutex);
-	pthread_exit(0);
+	return 0;
 }
 
 /**
@@ -430,7 +430,7 @@ void* xfer_between_storage__cpu(void *ptr, bool alloc, enum op_type otype,
 		allocated = true;
 	}
 
-	multithread_create(ptr, otype, op_name[otype], thread_cpu_rw);
+	multithread_create(ptr, otype, op_name[otype], workload_cpu_rw);
 	multithread_execute();
 	multithread_destroy();
 
@@ -546,7 +546,7 @@ int main(int argc, char *argv[])
 		 */
 		case OP_WRITE:
 			CUDA_CHECK_EXIT(cudaMalloc(&dev_ptr, env.size));
-			CUDA_CHECK_EXIT(cudaMemset(dev_ptr, 0xAD, env.size));
+			CUDA_CHECK_EXIT(cudaMemset(dev_ptr, 0xAE, env.size));
 			posix_memalign(&host_ptr, getpagesize(), env.size);
 			start = nsecs();
 			CUDA_CHECK_EXIT(cudaMemcpy(host_ptr, dev_ptr, env.size, cudaMemcpyDeviceToHost));
