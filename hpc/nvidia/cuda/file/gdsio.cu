@@ -298,8 +298,6 @@ void multithread_create(void *mem1, void *mem2, enum op_type otype,
 
 void multithread_execute(void)
 {
-	unsigned long start = nsecs();
-
 	/* Wakeup all threads */
 	pthread_cond_broadcast(&cond);
 #ifdef DEBUG
@@ -309,8 +307,6 @@ void multithread_execute(void)
 	for (int i = 0; i < env.nr_threads; i++) {
 		pthread_join(threads[i], NULL);
 	}
-
-	consuming_ns(nsecs() - start);
 }
 
 void multithread_destroy(void)
@@ -321,12 +317,15 @@ void multithread_destroy(void)
 
 int workload_cufile(struct thread_arg *arg)
 {
+	unsigned long start;
 	ssize_t bytes = 0;
 	void *devPtr = arg->mem1;
 	enum op_type otype = arg->otype;
 	size_t size = arg->size;
 	off_t foff = arg->file_offset;
 	off_t doff = arg->mem1_offset;
+
+	start = nsecs();
 
 	switch (otype) {
 	case OP_READ:
@@ -341,6 +340,8 @@ int workload_cufile(struct thread_arg *arg)
 		fprintf(stderr, "WARNING: not support %s yet.\n", op_name[otype]);
 		break;
 	}
+
+	consuming_ns(nsecs() - start);
 
 	if (bytes < 0) {
 		fprintf(stderr, "ERROR: GPU %s(fd=%d,buf=%p,count=%ld) failed, %m\n",
@@ -408,12 +409,15 @@ ssize_t pos_write(int fd, off_t pos, void *buf, size_t count)
 
 int workload_cpu_rw(struct thread_arg *arg)
 {
+	unsigned long start;
 	ssize_t bytes = 0;
 	void *ptr = arg->mem1;
 	enum op_type otype = arg->otype;
 	size_t size = arg->size;
 	off_t foff = arg->file_offset;
 	off_t doff = arg->mem1_offset;
+
+	start = nsecs();
 
 	switch (otype) {
 	case OP_READ:
@@ -428,6 +432,8 @@ int workload_cpu_rw(struct thread_arg *arg)
 		fprintf(stderr, "WARNING: not support %s yet.\n", op_name[otype]);
 		break;
 	}
+
+	consuming_ns(nsecs() - start);
 
 	if (bytes < 0) {
 		fprintf(stderr, "ERROR: %s(fd=%d,buf=%p,count=%ld) failed, %m\n",
