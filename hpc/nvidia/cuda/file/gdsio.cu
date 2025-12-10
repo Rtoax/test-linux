@@ -624,6 +624,7 @@ int main(int argc, char *argv[])
 	}
 
 	printf("IoType: %s, XferType: %s,", op_name[env.otype], xfer_name[env.xtype]);
+	printf(" File: %s,", filepath);
 	printf(" Threads: %d,", env.nr_threads);
 	printf(" DataSetSize: %ld B,", env.size);
 	//printf(" OSize: ?,", );
