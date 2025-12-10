@@ -511,6 +511,8 @@ int main(int argc, char *argv[])
 		exit(EXIT_FAILURE);
 	}
 
+	CUDA_CHECK_EXIT(cudaSetDevice(env.gpu));
+
 	snprintf(filepath, sizeof(filepath), "%s/%s", env.dir, env.filename);
 	fd = open(filepath, O_CREAT | O_RDWR | O_DIRECT, 0664);
 	if (fd < 0) {
