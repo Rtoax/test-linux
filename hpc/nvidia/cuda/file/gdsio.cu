@@ -240,7 +240,7 @@ void *thread_func(void *targ)
 	err = arg->workload(arg);
 
 	pthread_mutex_unlock(&mutex);
-	pthread_exit(err);
+	pthread_exit((void *)(uintptr_t)err);
 }
 /**
  * Distribute memory @mem evenly among each thread.
