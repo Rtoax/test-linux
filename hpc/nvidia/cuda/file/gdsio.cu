@@ -399,25 +399,35 @@ void* xfer_between_storage__gpu(void *devPtr, bool alloc, enum op_type otype,
 }
 
 /**
- * read(2) from a specified postion
+ * read(2) from a specified postion with iosize
  */
 ssize_t pos_read(int fd, off_t pos, void *buf, size_t count)
 {
+	ssize_t i, bytes = 0;
 	off_t cur_pos = lseek(fd, 0, SEEK_CUR);
+
 	lseek(fd, pos, SEEK_SET);
-	ssize_t bytes = read(fd, buf, count);
+
+	for (i = 0; i < count; i += env.iosize)
+		bytes += read(fd, (char *)buf + i, env.iosize);
+
 	lseek(fd, cur_pos, SEEK_SET);
 	return bytes;
 }
 
 /**
- * write(2) to a specified postion
+ * write(2) to a specified postion with iosize
  */
 ssize_t pos_write(int fd, off_t pos, void *buf, size_t count)
 {
+	ssize_t i, bytes = 0;
 	off_t cur_pos = lseek(fd, 0, SEEK_CUR);
+
 	lseek(fd, pos, SEEK_SET);
-	ssize_t bytes = write(fd, buf, count);
+
+	for (i = 0; i < count; i += env.iosize)
+		bytes += write(fd, (char *)buf + i, env.iosize);
+
 	lseek(fd, cur_pos, SEEK_SET);
 	return bytes;
 }
