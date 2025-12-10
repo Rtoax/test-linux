@@ -17,7 +17,9 @@ int main(int argc, char *argv[])
 	/* Get current position of fd */
 	pos = lseek(d1, 0, SEEK_CUR);
 	printf("current position %ld\n", pos);
+
 	lseek(d1, 64, SEEK_SET);
+
 	pos = lseek(d1, 0, SEEK_CUR);
 	printf("current position %ld\n", pos);
 

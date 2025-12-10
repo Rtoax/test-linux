@@ -350,6 +350,30 @@ void* xfer_between_storage__gpu(void *devPtr, bool alloc, enum op_type otype,
 }
 
 /**
+ * read(2) from a specified postion
+ */
+ssize_t pos_read(int fd, off_t pos, void *buf, size_t count)
+{
+	off_t cur_pos = lseek(fd, 0, SEEK_CUR);
+	lseek(fd, pos, SEEK_SET);
+	ssize_t bytes = read(fd, buf, count);
+	lseek(fd, cur_pos, SEEK_SET);
+	return bytes;
+}
+
+/**
+ * write(2) to a specified postion
+ */
+ssize_t pos_write(int fd, off_t pos, void *buf, size_t count)
+{
+	off_t cur_pos = lseek(fd, 0, SEEK_CUR);
+	lseek(fd, pos, SEEK_SET);
+	ssize_t bytes = write(fd, buf, count);
+	lseek(fd, cur_pos, SEEK_SET);
+	return bytes;
+}
+
+/**
  * @alloc: allocate new memory, need free.
  */
 void* xfer_between_storage__cpu(void *ptr, bool alloc, enum op_type otype,
@@ -369,10 +393,10 @@ void* xfer_between_storage__cpu(void *ptr, bool alloc, enum op_type otype,
 
 	switch (otype) {
 	case OP_READ:
-		bytes = read(fd, ptr, env.size);
+		bytes = pos_read(fd, 0, ptr, env.size);
 		break;
 	case OP_WRITE:
-		bytes = write(fd, ptr, env.size);
+		bytes = pos_write(fd, 0, ptr, env.size);
 		break;
 	case OP_RANDREAD:
 	case OP_RANDWRITE:
