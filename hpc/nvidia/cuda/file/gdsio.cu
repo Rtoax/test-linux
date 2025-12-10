@@ -87,6 +87,16 @@ CUfileHandle_t cfHandle = NULL;
 CUfileDescr_t cfDescr = {};
 unsigned long total_consuming_ns = 0;
 
+static inline unsigned long consuming_ns(unsigned long ns)
+{
+	return __atomic_fetch_add(&total_consuming_ns, ns, __ATOMIC_SEQ_CST);
+}
+
+static inline unsigned long consumed_ns(void)
+{
+	return consuming_ns(0);
+}
+
 const char argp_prog_doc[] =
 	"USAGE: [-d <GPU>] [...]\n";
 
@@ -300,7 +310,7 @@ void multithread_execute(void)
 		pthread_join(threads[i], NULL);
 	}
 
-	total_consuming_ns += nsecs() - start;
+	consuming_ns(nsecs() - start);
 }
 
 void multithread_destroy(void)
@@ -479,7 +489,7 @@ int workload_gpu_cpu(struct thread_arg *arg)
 		break;
 	}
 
-	total_consuming_ns += nsecs() - start;
+	consuming_ns(nsecs() - start);
 
 	return 0;
 }
@@ -654,9 +664,9 @@ int main(int argc, char *argv[])
 	printf(" Threads: %d,", env.nr_threads);
 	printf(" DataSetSize: %ld B,", env.size);
 	//printf(" OSize: ?,", );
-	printf(" Throughput: %f GiB/sec,", env.size * 1.f / total_consuming_ns);
+	printf(" Throughput: %f GiB/sec,", env.size * 1.f / consumed_ns());
 	//printf(" Avg_Latency: ? usecs,");
-	printf(" total_time %f secs\n", total_consuming_ns * 1.f / 1E9);
+	printf(" total_time %f secs\n", consumed_ns() * 1.f / 1E9);
 
 	close(fd);
 	return 0;
