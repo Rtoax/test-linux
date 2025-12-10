@@ -232,17 +232,23 @@ static const struct argp argp = {
 
 struct thread_arg {
 	int idx;
+
+	enum op_type otype;
+
 	/**
 	 * Maybe mem1 is host memory, mem2 is device memory, or in the other
 	 * way.
 	 */
 	void *mem1;
 	void *mem2;
-	size_t size;
-	enum op_type otype;
-	off_t file_offset;
 	off_t mem1_offset;
 	off_t mem2_offset;
+
+	/* size of memory/file that current thread need to operate */
+	size_t size;
+
+	off_t file_offset;
+
 	int (*workload)(struct thread_arg *arg);
 };
 
@@ -615,6 +621,11 @@ int main(int argc, char *argv[])
 
 	if ((env.fsize / env.nr_threads) % getpagesize()) {
 		fprintf(stderr, "ERROR: Each thread should page-align the memory block it processes.\n");
+		exit(EXIT_FAILURE);
+	}
+
+	if (env.fsize < env.nr_threads * env.iosize) {
+		fprintf(stderr, "ERROR: File size cannot be evenly distributed among all threads.\n");
 		exit(EXIT_FAILURE);
 	}
 
