@@ -7,12 +7,12 @@ set -e
 
 [[ -z ${GDSIO} ]] && GDSIO=gdsio
 [[ -z ${SIZE} ]] && SIZE=4G
-[[ ${DIR} ]] && DIR="-D ${DIR}"
+[[ -z ${DIR} ]] && DIR="."
 
 runprog() {
 	# drop cache for each test
 	echo 3 > /proc/sys/vm/drop_caches
-	echo -e "\033[1;32m${@}\033[m"
+	echo >&2 -e "\033[1;32m${@}\033[m"
 	eval ${@}
 }
 
@@ -34,9 +34,12 @@ do
 	do
 		for op in ${OP_WRITE} ${OP_READ}
 		do
-			runprog ./${GDSIO} ${DIR} -f a.out \
-				-s ${SIZE} \
-				-x ${xfer} -I ${op} -w ${thread}
+			for iosize in 4K 32K 64K 128K 512K 1M 2M
+			do
+				runprog ./${GDSIO} -D ${DIR} -f a.out \
+					-s ${SIZE} -i ${iosize} \
+					-x ${xfer} -I ${op} -w ${thread}
+			done
 		done
 	done
 done
