@@ -228,7 +228,7 @@ static pthread_cond_t cond = PTHREAD_COND_INITIALIZER;
 /**
  * Distribute memory @mem evenly among each thread.
  */
-void multithread_create(void *mem, enum op_type otype,
+void multithread_create(void *mem, enum op_type otype, const char *namepfx,
 			void *(*thread_fn)(void *targ))
 {
 	threads = (pthread_t *)malloc(sizeof(pthread_t) * env.nr_threads);
@@ -238,6 +238,8 @@ void multithread_create(void *mem, enum op_type otype,
 
 	for (int i = 0; i < env.nr_threads; i++) {
 		size_t tsize = env.size / env.nr_threads;
+		char name[128];
+
 		thread_args[i].idx = i;
 		thread_args[i].mem = mem;
 		thread_args[i].size = tsize;
@@ -246,6 +248,8 @@ void multithread_create(void *mem, enum op_type otype,
 		thread_args[i].mem_offset = tsize * i;
 
 		pthread_create(&threads[i], NULL, thread_fn, &thread_args[i]);
+		snprintf(name, sizeof(name) - 1, "%s/%d", namepfx, i);
+		pthread_setname_np(threads[i], name);
 #ifdef DEBUG
 		fprintf(stderr, "Create thread %d\n", i);
 #endif
@@ -331,7 +335,7 @@ void* xfer_between_storage__gpu(void *devPtr, bool alloc, enum op_type otype,
 	if (env.bufregister)
 		CUFILE_CHECK_EXIT(cuFileBufRegister(devPtr, env.size, 0));
 
-	multithread_create(devPtr, otype, thread_cufile);
+	multithread_create(devPtr, otype, op_name[otype], thread_cufile);
 	multithread_execute();
 	multithread_destroy();
 
@@ -418,9 +422,7 @@ void *thread_cpu_rw(void *targ)
 void* xfer_between_storage__cpu(void *ptr, bool alloc, enum op_type otype,
 				uint8_t init)
 {
-	ssize_t bytes = 0;
 	bool allocated = false;
-	unsigned long start;
 
 	if (!ptr) {
 		posix_memalign(&ptr, getpagesize(), env.size);
@@ -428,7 +430,7 @@ void* xfer_between_storage__cpu(void *ptr, bool alloc, enum op_type otype,
 		allocated = true;
 	}
 
-	multithread_create(ptr, otype, thread_cpu_rw);
+	multithread_create(ptr, otype, op_name[otype], thread_cpu_rw);
 	multithread_execute();
 	multithread_destroy();
 
