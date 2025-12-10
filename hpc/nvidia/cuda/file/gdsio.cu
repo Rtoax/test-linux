@@ -670,11 +670,11 @@ int main(int argc, char *argv[])
 	switch (env.xtype) {
 	case XFER_BETWEEN_STORAGE__GPU:
 		cufile_init();
-		xfer_between_storage__gpu(NULL, false, env.otype, 0xAB);
+		xfer_between_storage__gpu(NULL, false, env.otype, 'A');
 		cufile_destroy();
 		break;
 	case XFER_BETWEEN_STORAGE__CPU:
-		xfer_between_storage__cpu(NULL, false, env.otype, 0xAC);
+		xfer_between_storage__cpu(NULL, false, env.otype, 'B');
 		break;
 	case XFER_BETWEEN_STORAGE__CPU__GPU:
 		switch (env.otype) {
@@ -682,8 +682,8 @@ int main(int argc, char *argv[])
 		 * Storage->CPU->GPU
 		 */
 		case OP_READ:
-			host_ptr = xfer_between_storage__cpu(NULL, true, OP_READ, 0xAD);
-			xfer_between_gpu__cpu(&host_ptr, NULL, false, OP_WRITE, 0xAD);
+			host_ptr = xfer_between_storage__cpu(NULL, true, OP_READ, 0);
+			xfer_between_gpu__cpu(&host_ptr, NULL, false, OP_WRITE, 'C');
 			free(host_ptr);
 			break;
 		/**
@@ -691,7 +691,7 @@ int main(int argc, char *argv[])
 		 */
 		case OP_WRITE:
 			host_ptr = dev_ptr = NULL;
-			xfer_between_gpu__cpu(&host_ptr, &dev_ptr, true, OP_READ, 0xAE);
+			xfer_between_gpu__cpu(&host_ptr, &dev_ptr, true, OP_READ, 'D');
 			xfer_between_storage__cpu(host_ptr, false, OP_WRITE, 0);
 			free(host_ptr);
 			CUDA_CHECK_EXIT(cudaFree(dev_ptr));
