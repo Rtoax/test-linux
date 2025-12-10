@@ -455,13 +455,41 @@ void* xfer_between_storage__cpu(void *ptr, bool alloc, enum op_type otype,
 	return ptr;
 }
 
+int workload_gpu_cpu(struct thread_arg *arg)
+{
+	unsigned long start;
+	void *dev_ptr = arg->mem1;
+	void *host_ptr = arg->mem2;
+	enum op_type otype = arg->otype;
+	size_t size = arg->size;
+
+	start = nsecs();
+
+	switch (otype) {
+	case OP_READ:
+		CUDA_CHECK_EXIT(cudaMemcpy(host_ptr, dev_ptr, size, cudaMemcpyDeviceToHost));
+		break;
+	case OP_WRITE:
+		CUDA_CHECK_EXIT(cudaMemcpy(dev_ptr, host_ptr, size, cudaMemcpyHostToDevice));
+		break;
+	case OP_RANDREAD:
+	case OP_RANDWRITE:
+	default:
+		fprintf(stderr, "WARNING: not support %s yet.\n", op_name[otype]);
+		break;
+	}
+
+	total_consuming_ns += nsecs() - start;
+
+	return 0;
+}
+
 /**
  * @otype: READ is memory copy from GPU to CPU, WRITE is from CPU to GPU.
  */
 int xfer_between_gpu__cpu(void **hostptr, void **devptr, bool alloc,
 			  enum op_type otype, uint8_t init)
 {
-	unsigned long start;
 	bool allocated_host = false;
 	bool allocated_device = false;
 	void *host_ptr = hostptr ? *hostptr : NULL;
@@ -479,23 +507,10 @@ int xfer_between_gpu__cpu(void **hostptr, void **devptr, bool alloc,
 		allocated_device = true;
 	}
 
-	start = nsecs();
-
-	switch (otype) {
-	case OP_READ:
-		CUDA_CHECK_EXIT(cudaMemcpy(host_ptr, dev_ptr, env.size, cudaMemcpyDeviceToHost));
-		break;
-	case OP_WRITE:
-		CUDA_CHECK_EXIT(cudaMemcpy(dev_ptr, host_ptr, env.size, cudaMemcpyHostToDevice));
-		break;
-	case OP_RANDREAD:
-	case OP_RANDWRITE:
-	default:
-		fprintf(stderr, "WARNING: not support %s yet.\n", op_name[otype]);
-		break;
-	}
-
-	total_consuming_ns += nsecs() - start;
+	multithread_create(dev_ptr, host_ptr, otype, op_name[otype],
+			   workload_gpu_cpu);
+	multithread_execute();
+	multithread_destroy();
 
 	if (allocated_host && (!alloc || !hostptr)) {
 		free(host_ptr);
