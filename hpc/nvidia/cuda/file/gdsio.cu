@@ -373,6 +373,45 @@ ssize_t pos_write(int fd, off_t pos, void *buf, size_t count)
 	return bytes;
 }
 
+void *thread_cpu_rw(void *targ)
+{
+	struct thread_arg *arg = (struct thread_arg *)targ;
+	ssize_t bytes = 0;
+	void *ptr = arg->mem;
+	enum op_type otype = arg->otype;
+	size_t size = arg->size;
+	off_t foff = arg->file_offset;
+	off_t doff = arg->mem_offset;
+
+	pthread_mutex_lock(&mutex);
+#ifdef DEBUG
+	fprintf(stderr, "Thread %d waiting.\n", arg->idx);
+#endif
+	pthread_cond_wait(&cond, &mutex);
+
+	switch (otype) {
+	case OP_READ:
+		bytes = pos_read(fd, foff, (char *)ptr + doff, size);
+		break;
+	case OP_WRITE:
+		bytes = pos_write(fd, foff, (char *)ptr + doff, size);
+		break;
+	case OP_RANDREAD:
+	case OP_RANDWRITE:
+	default:
+		fprintf(stderr, "WARNING: not support %s yet.\n", op_name[otype]);
+		break;
+	}
+
+	if (bytes < 0) {
+		fprintf(stderr, "ERROR: %s(fd=%d,buf=%p,count=%ld) failed, %m\n",
+			op_name[otype], fd, ptr, env.size);
+	}
+
+	pthread_mutex_unlock(&mutex);
+	pthread_exit(0);
+}
+
 /**
  * @alloc: allocate new memory, need free.
  */
@@ -389,28 +428,9 @@ void* xfer_between_storage__cpu(void *ptr, bool alloc, enum op_type otype,
 		allocated = true;
 	}
 
-	start = nsecs();
-
-	switch (otype) {
-	case OP_READ:
-		bytes = pos_read(fd, 0, ptr, env.size);
-		break;
-	case OP_WRITE:
-		bytes = pos_write(fd, 0, ptr, env.size);
-		break;
-	case OP_RANDREAD:
-	case OP_RANDWRITE:
-	default:
-		fprintf(stderr, "WARNING: not support %s yet.\n", op_name[otype]);
-		break;
-	}
-
-	total_consuming_ns += nsecs() - start;
-
-	if (bytes < 0) {
-		fprintf(stderr, "ERROR: %s(fd=%d,buf=%p,count=%ld) failed, %m\n",
-			op_name[otype], fd, ptr, env.size);
-	}
+	multithread_create(ptr, otype, thread_cpu_rw);
+	multithread_execute();
+	multithread_destroy();
 
 	if (env.verify)
 		verify_io_cpumem(ptr, env.size, init);
