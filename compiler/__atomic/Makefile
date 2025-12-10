@@ -1,5 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
-HAVE_LIBATOMIC := $(shell ldconfig -p | grep -w libatomic.so 2>/dev/null)
+include libatomic.mk
+
 target-y :=
 target-y += test1
 target-y += load-store
@@ -13,12 +14,8 @@ target-y += test_and_set
 target-y += clear
 target-y += thread_fence
 target-y += signal_fence
-
-ifneq (${HAVE_LIBATOMIC},)
-  $(info Found libatomic.so)
-  target-y += always_lock_free
-  target-y += is_lock_free
-endif
+target-${HAVE_LIBATOMIC} += always_lock_free
+target-${HAVE_LIBATOMIC} += is_lock_free
 
 CFLAGS += -pthread
 
