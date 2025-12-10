@@ -12,6 +12,7 @@ set -e
 runprog() {
 	# drop cache for each test
 	echo 3 > /proc/sys/vm/drop_caches
+	echo -e "\033[1;32m${@}\033[m"
 	eval ${@}
 }
 
