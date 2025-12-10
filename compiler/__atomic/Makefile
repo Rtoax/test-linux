@@ -9,15 +9,15 @@ target-y += exchange
 target-y += compare_exchange
 target-y += fetch
 target-y += __ATOMIC_
-target-y += __atomic_test_and_set
-target-y += __atomic_clear
-target-y += __atomic_thread_fence
-target-y += __atomic_signal_fence
+target-y += test_and_set
+target-y += clear
+target-y += thread_fence
+target-y += signal_fence
 
 ifneq (${HAVE_LIBATOMIC},)
   $(info Found libatomic.so)
-  target-y += __atomic_always_lock_free
-  target-y += __atomic_is_lock_free
+  target-y += always_lock_free
+  target-y += is_lock_free
 endif
 
 CFLAGS += -pthread
@@ -26,9 +26,9 @@ CFLAGS_load-store := -DTEST_C_RAW=1
 CFLAGS_load-store-atomic-relaxed := -DTEST_ATOMIC_RELAXED=1
 CFLAGS_load-store-atomic-strict := -DTEST_ATOMIC_STRICT=1
 # Choice this macro
-CFLAGS___atomic_thread_fence := -DHAVE___atomic_thread_fence__ATOMIC_ACQ_REL=1
-LDFLAGS___atomic_always_lock_free := -latomic
-LDFLAGS___atomic_is_lock_free := -latomic
+CFLAGS_thread_fence := -DHAVE_thread_fence__ATOMIC_ACQ_REL=1
+LDFLAGS_always_lock_free := -latomic
+LDFLAGS_is_lock_free := -latomic
 
 include main.mk
 
@@ -40,9 +40,9 @@ exchange: exchange.o
 compare_exchange: compare_exchange.o
 fetch: fetch.o
 __ATOMIC_: __ATOMIC_.o
-__atomic_test_and_set: __atomic_test_and_set.o
-__atomic_clear: __atomic_clear.o
-__atomic_thread_fence: __atomic_thread_fence.o
-__atomic_signal_fence: __atomic_signal_fence.o
-__atomic_always_lock_free: __atomic_always_lock_free.o
-__atomic_is_lock_free: __atomic_is_lock_free.o
+test_and_set: test_and_set.o
+clear: clear.o
+thread_fence: thread_fence.o
+signal_fence: signal_fence.o
+always_lock_free: always_lock_free.o
+is_lock_free: is_lock_free.o

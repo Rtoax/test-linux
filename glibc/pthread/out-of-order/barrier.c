@@ -21,24 +21,24 @@
 #elif defined(HAVE___sync_synchronize)
 /* Could avoid out-of-order */
 #define __test_barrier() __sync_synchronize()
-#elif defined(HAVE___atomic_thread_fence__ATOMIC_RELAXED)
+#elif defined(HAVE_thread_fence__ATOMIC_RELAXED)
 /* Could out-of-order */
 #define __test_barrier() __atomic_thread_fence(__ATOMIC_RELAXED)
-#elif defined(HAVE___atomic_thread_fence__ATOMIC_CONSUME)
+#elif defined(HAVE_thread_fence__ATOMIC_CONSUME)
 /* Could out-of-order */
 #define __test_barrier() __atomic_thread_fence(__ATOMIC_CONSUME)
-#elif defined(HAVE___atomic_thread_fence__ATOMIC_ACQUIRE)
+#elif defined(HAVE_thread_fence__ATOMIC_ACQUIRE)
 /* load barrier, could out-of-order */
 #define __test_barrier() __atomic_thread_fence(__ATOMIC_ACQUIRE)
-#elif defined(HAVE___atomic_thread_fence__ATOMIC_RELEASE)
+#elif defined(HAVE_thread_fence__ATOMIC_RELEASE)
 /* store barrier, could out-of-order */
 #define __test_barrier() __atomic_thread_fence(__ATOMIC_RELEASE)
-#elif defined(HAVE___atomic_thread_fence__ATOMIC_ACQ_REL)
+#elif defined(HAVE_thread_fence__ATOMIC_ACQ_REL)
 /**
  * store-load barrier, could out-of-order on x86_64, but aarch64 it's OK.
  */
 #define __test_barrier() __atomic_thread_fence(__ATOMIC_ACQ_REL)
-#elif defined(HAVE___atomic_thread_fence__ATOMIC_SEQ_CST)
+#elif defined(HAVE_thread_fence__ATOMIC_SEQ_CST)
 /* Could avoid out-of-order */
 #define __test_barrier() __atomic_thread_fence(__ATOMIC_SEQ_CST)
 #elif defined(HAVE_NO_BARRIER)
