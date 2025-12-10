@@ -60,7 +60,7 @@ const char *op_name[OP_NUM] = {
 	[OP_RANDWRITE] = "RANDWRITE",
 };
 
-struct {
+static struct {
 	int gpu;
 	const char *filename;
 	const char *dir;
@@ -83,13 +83,13 @@ struct {
 };
 
 static int fd = -1;
-CUfileHandle_t cfHandle = NULL;
-CUfileDescr_t cfDescr = {};
-unsigned long total_consuming_ns = 0;
+static CUfileHandle_t cfHandle = NULL;
+static CUfileDescr_t cfDescr = {};
+static unsigned long total_consumed_ns = 0;
 
 static inline unsigned long consuming_ns(unsigned long ns)
 {
-	return __atomic_fetch_add(&total_consuming_ns, ns, __ATOMIC_SEQ_CST);
+	return __atomic_fetch_add(&total_consumed_ns, ns, __ATOMIC_SEQ_CST);
 }
 
 static inline unsigned long consumed_ns(void)
@@ -97,8 +97,7 @@ static inline unsigned long consumed_ns(void)
 	return consuming_ns(0);
 }
 
-const char argp_prog_doc[] =
-	"USAGE: [-d <GPU>] [...]\n";
+const char argp_prog_doc[] = "USAGE: [-d <GPU>] [...]\n";
 
 static const struct argp_option opts[] = {
 	{ "file", 'f', "FILE", 0, "file name" },
@@ -670,7 +669,7 @@ int main(int argc, char *argv[])
 	printf(" Threads: %d,", env.nr_threads);
 	printf(" DataSetSize: %ld B,", env.size);
 	//printf(" OSize: ?,", );
-	printf(" Throughput: %f GiB/sec,", env.size * 1.f / consumed_ns());
+	printf(" Throughput: \033[1;31m%f GiB/sec\033[m,", env.size * 1.f / consumed_ns());
 	//printf(" Avg_Latency: ? usecs,");
 	printf(" total_time %f secs\n", consumed_ns() * 1.f / 1E9);
 
