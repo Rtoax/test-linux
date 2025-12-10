@@ -65,7 +65,7 @@ static struct {
 	const char *filename;
 	const char *dir;
 	int nr_threads;
-	size_t size;
+	size_t fsize;
 	size_t iosize;
 	enum xfer_type xtype;
 	enum op_type otype;
@@ -76,7 +76,7 @@ static struct {
 	.filename = "gdsio.out",
 	.dir = ".",
 	.nr_threads = 1,
-	.size = 8192,
+	.fsize = 8192,
 	.iosize = 4096,	/* default pagesize */
 	.xtype = XFER_BETWEEN_STORAGE__GPU,
 	.otype = OP_WRITE,
@@ -105,7 +105,7 @@ static const struct argp_option opts[] = {
 	{ "file", 'f', "FILE", 0, "file name" },
 	{ "DIR", 'D', "DIR", 0, "directory name" },
 	{ "device", 'd', "DEVICE", 0, "gpu index" },
-	{ "size", 's', "SIZE", 0, "file size (K|M|G)" },
+	{ "fsize", 's', "SIZE", 0, "file size (K|M|G)" },
 	{ "iosize", 'i', "IOSIZE", 0, "io_size(K|M|G) <min_size:max_size:step_size>" },
 	{ "nthreads", 'w', "NTHREADS", 0, "number of threads for a job" },
 	{ "xfer_type", 'x', "XFER_TYPE", 0, "transfer type [0(GPU_DIRECT), 1(CPU_ONLY), 2(CPU_GPU), 3(CPU_ASYNC_GPU), 4(CPU_CACHED_GPU), 5(GPU_DIRECT_ASYNC), 6(GPU_BATCH), 7(GPU_BATCH_STREAM)]" },
@@ -170,8 +170,8 @@ static error_t parse_arg(int key, char *arg, struct argp_state *state)
 		env.gpu = strtoul(arg, NULL, 10);
 		break;
 	case 's':
-		env.size = str2size(arg);
-		if (env.size % getpagesize()) {
+		env.fsize = str2size(arg);
+		if (env.fsize % getpagesize()) {
 			fprintf(stderr, "ERROR: size must page aliged.\n");
 			exit(EXIT_FAILURE);
 		}
@@ -280,7 +280,7 @@ void multithread_create(void *mem1, void *mem2, enum op_type otype,
 	assert(thread_args && "Malloc fatal");
 
 	for (int i = 0; i < env.nr_threads; i++) {
-		size_t tsize = env.size / env.nr_threads;
+		size_t tsize = env.fsize / env.nr_threads;
 		char name[128];
 
 		thread_args[i].idx = i;
@@ -354,7 +354,7 @@ int workload_cufile(struct thread_arg *arg)
 
 	if (bytes < 0) {
 		fprintf(stderr, "ERROR: GPU %s(fd=%d,buf=%p,count=%ld) failed, %m\n",
-			op_name[otype], fd, devPtr, env.size);
+			op_name[otype], fd, devPtr, env.fsize);
 	}
 	return 0;
 }
@@ -365,13 +365,13 @@ void* xfer_between_storage__gpu(void *devPtr, bool alloc, enum op_type otype,
 	bool allocated = false;
 
 	if (!devPtr) {
-		CUDA_CHECK_EXIT(cudaMalloc(&devPtr, env.size));
-		CUDA_CHECK_EXIT(cudaMemset(devPtr, init, env.size));
+		CUDA_CHECK_EXIT(cudaMalloc(&devPtr, env.fsize));
+		CUDA_CHECK_EXIT(cudaMemset(devPtr, init, env.fsize));
 		allocated = true;
 	}
 
 	if (env.bufregister)
-		CUFILE_CHECK_EXIT(cuFileBufRegister(devPtr, env.size, 0));
+		CUFILE_CHECK_EXIT(cuFileBufRegister(devPtr, env.fsize, 0));
 
 	multithread_create(devPtr, NULL, otype, op_name[otype],
 			   workload_cufile);
@@ -379,7 +379,7 @@ void* xfer_between_storage__gpu(void *devPtr, bool alloc, enum op_type otype,
 	multithread_destroy();
 
 	if (env.verify)
-		verify_io_devmem(devPtr, env.size, init);
+		verify_io_devmem(devPtr, env.fsize, init);
 
 	if (env.bufregister)
 		CUFILE_CHECK_EXIT(cuFileBufDeregister(devPtr));
@@ -446,7 +446,7 @@ int workload_cpu_rw(struct thread_arg *arg)
 
 	if (bytes < 0) {
 		fprintf(stderr, "ERROR: %s(fd=%d,buf=%p,count=%ld) failed, %m\n",
-			op_name[otype], fd, ptr, env.size);
+			op_name[otype], fd, ptr, env.fsize);
 	}
 	return 0;
 }
@@ -460,8 +460,8 @@ void* xfer_between_storage__cpu(void *ptr, bool alloc, enum op_type otype,
 	bool allocated = false;
 
 	if (!ptr) {
-		posix_memalign(&ptr, getpagesize(), env.size);
-		memset(ptr, init, env.size);
+		posix_memalign(&ptr, getpagesize(), env.fsize);
+		memset(ptr, init, env.fsize);
 		allocated = true;
 	}
 
@@ -471,7 +471,7 @@ void* xfer_between_storage__cpu(void *ptr, bool alloc, enum op_type otype,
 	multithread_destroy();
 
 	if (env.verify)
-		verify_io_cpumem(ptr, env.size, init);
+		verify_io_cpumem(ptr, env.fsize, init);
 
 	if (allocated && !alloc) {
 		free(ptr);
@@ -521,14 +521,14 @@ int xfer_between_gpu__cpu(void **hostptr, void **devptr, bool alloc,
 	void *dev_ptr = devptr ? *devptr : NULL;
 
 	if (!host_ptr) {
-		posix_memalign(&host_ptr, getpagesize(), env.size);
-		memset(host_ptr, init, env.size);
+		posix_memalign(&host_ptr, getpagesize(), env.fsize);
+		memset(host_ptr, init, env.fsize);
 		allocated_host = true;
 	}
 
 	if (!dev_ptr) {
-		CUDA_CHECK_EXIT(cudaMalloc(&dev_ptr, env.size));
-		CUDA_CHECK_EXIT(cudaMemset(dev_ptr, init, env.size));
+		CUDA_CHECK_EXIT(cudaMalloc(&dev_ptr, env.fsize));
+		CUDA_CHECK_EXIT(cudaMemset(dev_ptr, init, env.fsize));
 		allocated_device = true;
 	}
 
@@ -608,12 +608,12 @@ int main(int argc, char *argv[])
 		return -err;
 	}
 
-	if (env.size % env.nr_threads) {
+	if (env.fsize % env.nr_threads) {
 		fprintf(stderr, "ERROR: The total size needs to be evenly distributed among all threads.\n");
 		exit(EXIT_FAILURE);
 	}
 
-	if ((env.size / env.nr_threads) % getpagesize()) {
+	if ((env.fsize / env.nr_threads) % getpagesize()) {
 		fprintf(stderr, "ERROR: Each thread should page-align the memory block it processes.\n");
 		exit(EXIT_FAILURE);
 	}
@@ -677,9 +677,9 @@ int main(int argc, char *argv[])
 	printf("IoType: %s, XferType: %s,", op_name[env.otype], xfer_name[env.xtype]);
 	printf(" File: %s,", filepath);
 	printf(" Threads: %d,", env.nr_threads);
-	printf(" DataSetSize: %ld B,", env.size);
+	printf(" DataSetSize: %ld B,", env.fsize);
 	printf(" IOSize: %ld B,", env.iosize);
-	printf(" Throughput: \033[1;31m%f GiB/sec\033[m,", env.size * 1.f / consumed_ns());
+	printf(" Throughput: \033[1;31m%f GiB/sec\033[m,", env.fsize * 1.f / consumed_ns());
 	//printf(" Avg_Latency: ? usecs,");
 	printf(" total_time %f secs\n", consumed_ns() * 1.f / 1E9);
 
