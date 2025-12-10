@@ -1,8 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
 include numactl.mk
 
-LIBNUMA_HDR = /usr/include/numa.h
-
 target-y :=
 target-y += numa_alloc
 target-y += numa_available
@@ -14,12 +12,6 @@ target-y += numa_pagesize
 target-y += numa_preferred
 target-y += migrate_pages
 
-ifeq ($(wildcard $(LIBNUMA_HDR)),)
-  target-y :=
-  $(warning "ERROR: Must install numactl development header")
-endif
-
-CFLAGS :=
 LDFLAGS += -lnuma
 
 CFLAGS += -DNUMACTL_VERSION_MAJOR=${NUMACTL_VERSION_MAJOR}

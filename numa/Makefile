@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
 include numactl.mk
 
-subdir-y := samples
+subdir-${HAVE_LIBNUMA} := samples
 
 target-y := numa_mem
 target-liba-y := numa.a
