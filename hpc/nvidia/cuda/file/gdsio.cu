@@ -444,6 +444,63 @@ void* xfer_between_storage__cpu(void *ptr, bool alloc, enum op_type otype,
 	return ptr;
 }
 
+/**
+ * @otype: READ is memory copy from GPU to CPU, WRITE is from CPU to GPU.
+ */
+int xfer_between_gpu__cpu(void **hostptr, void **devptr, bool alloc,
+			  enum op_type otype, uint8_t init)
+{
+	unsigned long start;
+	bool allocated_host = false;
+	bool allocated_device = false;
+	void *host_ptr = hostptr ? *hostptr : NULL;
+	void *dev_ptr = devptr ? *devptr : NULL;
+
+	if (!host_ptr) {
+		posix_memalign(&host_ptr, getpagesize(), env.size);
+		memset(host_ptr, init, env.size);
+		allocated_host = true;
+	}
+
+	if (!dev_ptr) {
+		CUDA_CHECK_EXIT(cudaMalloc(&dev_ptr, env.size));
+		CUDA_CHECK_EXIT(cudaMemset(dev_ptr, init, env.size));
+		allocated_device = true;
+	}
+
+	start = nsecs();
+
+	switch (otype) {
+	case OP_READ:
+		CUDA_CHECK_EXIT(cudaMemcpy(host_ptr, dev_ptr, env.size, cudaMemcpyDeviceToHost));
+		break;
+	case OP_WRITE:
+		CUDA_CHECK_EXIT(cudaMemcpy(dev_ptr, host_ptr, env.size, cudaMemcpyHostToDevice));
+		break;
+	case OP_RANDREAD:
+	case OP_RANDWRITE:
+	default:
+		fprintf(stderr, "WARNING: not support %s yet.\n", op_name[otype]);
+		break;
+	}
+
+	total_consuming_ns += nsecs() - start;
+
+	if (allocated_host && (!alloc || !hostptr)) {
+		free(host_ptr);
+	} else if (alloc && allocated_host && hostptr) {
+		*hostptr = host_ptr;
+	}
+
+	if (allocated_device && (!alloc || !devptr)) {
+		CUDA_CHECK_EXIT(cudaFree(dev_ptr));
+	} else if (alloc && allocated_device && devptr) {
+		*devptr = dev_ptr;
+	}
+
+	return 0;
+}
+
 void cufile_init(void)
 {
 	CUFILE_CHECK_EXIT(cuFileDriverOpen());
@@ -491,7 +548,6 @@ void verify_io_cpumem(void *ptr, size_t size, uint8_t expect)
 int main(int argc, char *argv[])
 {
 	int err;
-	unsigned long start;
 	void *host_ptr, *dev_ptr;
 	char filepath[256];
 
@@ -536,23 +592,15 @@ int main(int argc, char *argv[])
 		 */
 		case OP_READ:
 			host_ptr = xfer_between_storage__cpu(NULL, true, OP_READ, 0xAD);
-			CUDA_CHECK_EXIT(cudaMalloc(&dev_ptr, env.size));
-			start = nsecs();
-			CUDA_CHECK_EXIT(cudaMemcpy(dev_ptr, host_ptr, env.size, cudaMemcpyHostToDevice));
-			total_consuming_ns += nsecs() - start;
+			xfer_between_gpu__cpu(&host_ptr, NULL, false, OP_WRITE, 0xAD);
 			free(host_ptr);
-			CUDA_CHECK_EXIT(cudaFree(dev_ptr));
 			break;
 		/**
 		 * GPU->CPU->Storage
 		 */
 		case OP_WRITE:
-			CUDA_CHECK_EXIT(cudaMalloc(&dev_ptr, env.size));
-			CUDA_CHECK_EXIT(cudaMemset(dev_ptr, 0xAE, env.size));
-			posix_memalign(&host_ptr, getpagesize(), env.size);
-			start = nsecs();
-			CUDA_CHECK_EXIT(cudaMemcpy(host_ptr, dev_ptr, env.size, cudaMemcpyDeviceToHost));
-			total_consuming_ns += nsecs() - start;
+			host_ptr = dev_ptr = NULL;
+			xfer_between_gpu__cpu(&host_ptr, &dev_ptr, true, OP_READ, 0xAE);
 			xfer_between_storage__cpu(host_ptr, false, OP_WRITE, 0);
 			free(host_ptr);
 			CUDA_CHECK_EXIT(cudaFree(dev_ptr));
