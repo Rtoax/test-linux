@@ -5,7 +5,8 @@
 
 set -e
 
-[[ -z ${GDSIO} ]] && GDSIO=gdsio
+[[ -z ${GDSIO} ]] && GDSIO=gdsio # 1st choice
+[[ ! -e ${GDSIO} ]] && GDSIO=gdsio-luca # 2nd choice
 [[ -z ${SIZE} ]] && SIZE=4G
 [[ -z ${DIR} ]] && DIR="."
 
