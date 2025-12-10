@@ -91,6 +91,7 @@ static int fd = -1;
 static CUfileHandle_t cfHandle = NULL;
 static CUfileDescr_t cfDescr = {};
 static unsigned long total_consumed_ns = 0;
+static unsigned long total_ops = 0;
 
 static inline unsigned long consuming_ns(unsigned long ns)
 {
@@ -100,6 +101,11 @@ static inline unsigned long consuming_ns(unsigned long ns)
 static inline unsigned long consumed_ns(void)
 {
 	return consuming_ns(0);
+}
+
+static inline unsigned long increment_ops(void)
+{
+	return __atomic_fetch_add(&total_ops, 1, __ATOMIC_SEQ_CST);
 }
 
 const char argp_prog_doc[] = "USAGE: [-d <GPU>] [...]\n";
@@ -353,12 +359,14 @@ int workload_cufile(struct thread_arg *arg)
 		for (i = 0; i < size; i += env.iosize) {
 			bytes += cuFileRead(cfHandle, devPtr, env.iosize,
 					    foff + i, doff + i);
+			increment_ops();
 		}
 		break;
 	case OP_WRITE:
 		for (i = 0; i < size; i += env.iosize) {
 			bytes += cuFileWrite(cfHandle, devPtr, env.iosize,
 					     foff + i, doff + i);
+			increment_ops();
 		}
 		break;
 	case OP_RANDREAD:
@@ -423,6 +431,7 @@ ssize_t pos_read(int fd, off_t pos, void *buf, size_t count)
 		printf("read(%d, %p, %ld)\n", fd, (char *)buf + i, env.iosize);
 #endif
 		bytes += read(fd, (char *)buf + i, env.iosize);
+		increment_ops();
 	}
 
 	lseek(fd, old_pos, SEEK_SET);
@@ -444,6 +453,7 @@ ssize_t pos_write(int fd, off_t pos, void *buf, size_t count)
 		printf("write(%d, %p, %ld)\n", fd, (char *)buf + i, env.iosize);
 #endif
 		bytes += write(fd, (char *)buf + i, env.iosize);
+		increment_ops();
 	}
 
 	lseek(fd, old_pos, SEEK_SET);
@@ -724,7 +734,8 @@ int main(int argc, char *argv[])
 	printf(" DataSetSize: %ld B (%ld KiB),", env.fsize, env.fsize / KiB);
 	printf(" IOSize: %ld B (%ld KiB),", env.iosize, env.iosize / KiB);
 	printf(" Throughput: \033[1;31m%f GiB/sec\033[m,", env.fsize * 1.f / consumed_ns());
-	//printf(" Avg_Latency: ? usecs,");
+	printf(" Avg_Latency: %f usecs,", consumed_ns() * 1.f / 1e3 / total_ops);
+	printf(" ops: %ld,", total_ops);
 	printf(" total_time %f secs\n", consumed_ns() * 1.f / 1E9);
 
 	close(fd);
