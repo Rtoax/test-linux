@@ -76,7 +76,7 @@ static struct {
 } env = {
 	.gpu = 0,
 	.filename = "gdsio.out",
-	.dir = ".",
+	.dir = NULL, /* default to "." */
 	.nr_threads = 1,
 	.fsize = 1024 * KiB,
 	.iosize = 1024 * KiB,
@@ -652,9 +652,19 @@ int main(int argc, char *argv[])
 		exit(EXIT_FAILURE);
 	}
 
+	if (env.filename[0] == '/' && env.dir) {
+		fprintf(stderr, "ERROR: Absolute file name don't need extra directory.\n");
+		exit(EXIT_FAILURE);
+	}
+
+	if (!env.dir) {
+		snprintf(filepath, sizeof(filepath), "%s", env.filename);
+	} else if (env.dir) {
+		snprintf(filepath, sizeof(filepath), "%s/%s", env.dir, env.filename);
+	}
+
 	CUDA_CHECK_EXIT(cudaSetDevice(env.gpu));
 
-	snprintf(filepath, sizeof(filepath), "%s/%s", env.dir, env.filename);
 	fd = open(filepath, O_CREAT | O_RDWR | O_DIRECT, 0664);
 	if (fd < 0) {
 		fprintf(stderr, "Open %s failed\n", filepath);
