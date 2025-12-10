@@ -624,6 +624,11 @@ int main(int argc, char *argv[])
 		exit(EXIT_FAILURE);
 	}
 
+	if ((env.fsize / env.nr_threads) % env.iosize) {
+		fprintf(stderr, "ERROR: Each thread's memory block should iosize-align.\n");
+		exit(EXIT_FAILURE);
+	}
+
 	if (env.fsize < env.nr_threads * env.iosize) {
 		fprintf(stderr, "ERROR: File size cannot be evenly distributed among all threads.\n");
 		exit(EXIT_FAILURE);
