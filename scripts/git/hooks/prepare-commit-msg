@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copyright (c) 2025 Rong Tao
+# Copyright (C) 2025 Rong Tao
 
 readonly COMMIT_MSG_FILE=$1
 readonly COMMIT_SOURCE=$2

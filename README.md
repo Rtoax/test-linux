@@ -99,6 +99,8 @@ If the source code file has a copyright information at the beginning, the copyri
 
 If the code does not specify, then it follows GPLv3. Of course, BPF programs always follow GPLv2.
 
+The copyright line must be `Copyright (C)`.
+
 
 # Links
 

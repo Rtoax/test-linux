@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copyright (c) 2025 Rong Tao
+# Copyright (C) 2025 Rong Tao
 set -e
 
 readonly prog=$0

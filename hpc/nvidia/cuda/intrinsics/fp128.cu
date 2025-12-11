@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0
-/* Copyright (c) 2025 Rong Tao */
+/* Copyright (C) 2025 Rong Tao */
 /**
  * Note that FP128 CUDA Math functions are only available to device programs on
  * platforms where host compiler supports the basic quad precision datatype

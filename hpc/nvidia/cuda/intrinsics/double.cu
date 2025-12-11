@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0
-/* Copyright (c) 2025 Rong Tao */
+/* Copyright (C) 2025 Rong Tao */
 /**
  * https://docs.nvidia.com/cuda/cuda-math-api/cuda_math_api/group__CUDA__MATH__DOUBLE.html
  */

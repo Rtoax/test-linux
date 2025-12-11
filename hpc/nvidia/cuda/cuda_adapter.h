@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
-/* Copyright (c) 2025 Rong Tao */
+/* Copyright (C) 2025 Rong Tao */
 /**
  * Input definitions:
  * - __USE_HIP__		AMD ROCm HIP

@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copyright (c) 2025 Rong Tao
+# Copyright (C) 2025 Rong Tao
 set -e
 
 readonly GIT_TOPDIR=$(git rev-parse --show-toplevel 2>/dev/null || :)

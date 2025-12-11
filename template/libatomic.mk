@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
-# Copyright (c) 2025 Rong Tao
+# Copyright (C) 2025 Rong Tao
 #
 # Output definitions:
 # - HAVE_LIBATOMIC=y

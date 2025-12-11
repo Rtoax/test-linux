@@ -1,5 +1,5 @@
 #!/bin/env python
-# Copyright (c) 2025 Rong Tao
+# Copyright (C) 2025 Rong Tao
 
 import argparse
 import numpy as np

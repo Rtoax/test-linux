@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copyright (c) 2022-2025 Rong Tao
+# Copyright (C) 2022-2025 Rong Tao
 # This script use to install packages on Debian/RHEL like operate system.
 #
 # This script is part of test-linux [1], of course, you could run this script
