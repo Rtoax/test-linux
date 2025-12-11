@@ -18,10 +18,10 @@ def load_data(filename="test_data.txt"):
 
 def plot_3d_scatter(x, y, z):
     """Plot scatter"""
-    fig = plt.figure(figsize=(14, 10))
+    fig = plt.figure(1)
 
     # Create scatter
-    ax1 = fig.add_subplot(221, projection='3d')
+    ax1 = fig.add_subplot(projection='3d')
     scatter = ax1.scatter(x, y, z, c=z, cmap='viridis', s=30, alpha=0.8)
     ax1.set_xlabel('IOSize (KB)', fontsize=10, labelpad=10)
     ax1.set_ylabel('Threads', fontsize=10, labelpad=10)
@@ -30,7 +30,8 @@ def plot_3d_scatter(x, y, z):
     plt.colorbar(scatter, ax=ax1, shrink=0.5, label='Throughput (G/s)')
 
     # 创建曲面图（需要网格化数据）
-    ax2 = fig.add_subplot(222, projection='3d')
+    fig = plt.figure(2)
+    ax2 = fig.add_subplot(projection='3d')
     # 创建网格数据
     xi = np.linspace(min(x), max(x), 50)
     yi = np.linspace(min(y), max(y), 50)
@@ -48,7 +49,8 @@ def plot_3d_scatter(x, y, z):
     fig.colorbar(surf, ax=ax2, shrink=0.5, label='Throughput (G/s)')
 
     # 创建线框图
-    ax3 = fig.add_subplot(223, projection='3d')
+    fig = plt.figure(3)
+    ax3 = fig.add_subplot(projection='3d')
     wire = ax3.plot_wireframe(xi, yi, zi, rstride=3, cstride=3,
                               color='blue', alpha=0.6, linewidth=0.5)
     ax3.scatter(x, y, z, color='red', s=10, alpha=0.5)
@@ -58,7 +60,8 @@ def plot_3d_scatter(x, y, z):
     ax3.set_title('scatter + wireframe', fontsize=12, pad=15)
 
     # 创建等高线投影图
-    ax4 = fig.add_subplot(224, projection='3d')
+    fig = plt.figure(4)
+    ax4 = fig.add_subplot(projection='3d')
     cont = ax4.contour(xi, yi, zi, 20, cmap='hot',
                        offset=np.min(zi) - 1, linewidths=0.5)
     surf2 = ax4.plot_surface(xi, yi, zi, cmap='viridis',
@@ -71,7 +74,6 @@ def plot_3d_scatter(x, y, z):
     plt.tight_layout()
     plt.show()
 
-    return fig
 
 def main():
     if not os.path.exists("test_data.txt"):
