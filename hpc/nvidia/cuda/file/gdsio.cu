@@ -673,6 +673,11 @@ int main(int argc, char *argv[])
 		snprintf(filepath, sizeof(filepath), "%s/%s", env.dir, env.filename);
 	}
 
+	if (env.otype == OP_READ && access(filepath, F_OK)) {
+		fprintf(stderr, "ERROR: %s is not exist in %s mode.\n", op_name[OP_READ]);
+		exit(EXIT_FAILURE);
+	}
+
 	CUDA_CHECK_EXIT(cudaSetDevice(env.gpu));
 
 	fd = open(filepath, O_CREAT | O_RDWR | O_DIRECT, 0664);
