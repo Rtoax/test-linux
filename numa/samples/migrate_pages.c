@@ -18,7 +18,7 @@ int main(void)
 
 	cpu = sched_getcpu();
 	numa = numa_node_of_cpu(cpu);
-	nr_nodes = numa_max_node();
+	nr_nodes = numa_num_configured_nodes();
 
 	size = numa_pagesize() * 1024;
 
