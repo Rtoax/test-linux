@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: GPL-3.0
 /* Copyright (C) 2025 Rong Tao */
 /**
+ * Device's properties:
+ *
  * - NVIDIA H800
  *   commit 3a493a9a9a88 ("cuda: NVIDIA H800: properties")
  *
@@ -16,8 +18,15 @@
  * - Mars
  *   commit 0fba063e1fae ("hpc: DeviceProp: Mars X203")
  *
- * - cuda-12.9 struct cudaDeviceProp
+ *
+ * Structures:
+ *
+ * - CUDA V12.9 struct cudaDeviceProp
  *   commit d072d32dcb00 ("cuda: cudaGetDeviceProperties.cu: display more")
+ *
+ * - ROCm HIP 5.7.31921 hipDeviceProp_t
+ *   commit e62aabb690bb ("properties.cu: hip 5.7.31921: fix non-exist fields error")
+ *
  *
  * Links
  * - https://docs.nvidia.com/cuda/cuda-runtime-api/structcudaDeviceProp.html
