@@ -94,6 +94,7 @@ endif
 CFLAGS_ret := -Wno-error=return-type
 CFLAGS_syscall := -nostdlib
 LDFLAGS_syscall := -nostdlib
+LDFLAGS_invalid_opcode_user := -no-pie
 
 include main.mk
 
