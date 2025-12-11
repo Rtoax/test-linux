@@ -17,6 +17,8 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <pthread.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 #include "cuda_compat.h"
 #include "../cuda_helpers.h"
 
@@ -674,8 +676,22 @@ int main(int argc, char *argv[])
 	}
 
 	if (env.otype == OP_READ && access(filepath, F_OK)) {
-		fprintf(stderr, "ERROR: %s is not exist in %s mode.\n", op_name[OP_READ]);
+		fprintf(stderr, "ERROR: %s is not exist in %s mode.\n",
+			filepath, op_name[OP_READ]);
 		exit(EXIT_FAILURE);
+	}
+
+	if (env.otype == OP_READ) {
+		struct stat st;
+		if (stat(filepath, &st) != 0) {
+			fprintf(stderr, "ERROR: could not stat(%s), %m\n", filepath);
+			exit(EXIT_FAILURE);
+		}
+		if (env.fsize > st.st_size) {
+			fprintf(stderr, "ERROR: size of %s is smaller than %ld\n",
+				filepath, env.fsize);
+			exit(EXIT_FAILURE);
+		}
 	}
 
 	CUDA_CHECK_EXIT(cudaSetDevice(env.gpu));
