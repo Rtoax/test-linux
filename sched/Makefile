@@ -5,6 +5,8 @@ OUTPUT := .output/
 
 include kconfig.mk
 
+subdir-y := scripts
+
 target-y :=
 target-y += current
 target-y += uninterruptible
