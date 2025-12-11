@@ -12,6 +12,10 @@ target-y += stat
 target-y += statm
 target-y += status
 
+target-shell-y := environ.sh
+target-shell-y += numa_maps.sh
+target-shell-y += stat.sh
+
 CFLAGS_pagemap := -DHAVE_MAIN=1
 LDFLAGS_pagemap += -lnuma
 
