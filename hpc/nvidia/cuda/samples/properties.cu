@@ -67,13 +67,82 @@ int main(int argc, char *argv[])
 #define PRINT_ld(v)	printf("%s %ld\n", #v, prop.v);
 
 	printf("name %s, running on device %d, total %d\n", prop.name, dev, dev_count);
+
+/* ROCm HIP old version doesn't have lots of fields */
+#if !defined(__HIPCC__) || HIP_VERSION_MAJOR > 5 || (HIP_VERSION_MAJOR == 5 && HIP_VERSION_MINOR > 7)
 	/* uuid is 16-byte unique identifier */
 	printuuid("uuid", (void *)&prop.uuid, 16);
 	/* luid 8-byte locally unique identifier */
 	printuuid("luid", (void *)&prop.luid, 8);
 
-	PRINT_d(isMultiGpuBoard);
 	PRINT_d(multiGpuBoardGroupID);
+	PRINT_d(asyncEngineCount);
+	PRINT_d(unifiedAddressing);
+
+	PRINT_d(persistingL2CacheMaxSize);
+	PRINT_d(globalL1CacheSupported);
+	PRINT_d(localL1CacheSupported);
+
+	PRINT_ld(sharedMemPerMultiprocessor);
+	PRINT_ld(sharedMemPerBlockOptin);
+	PRINT_ld(reservedSharedMemPerBlock);
+
+	PRINT_d(canUseHostPointerForRegisteredMem);
+	PRINT_d(maxBlocksPerMultiProcessor);
+	PRINT_d(accessPolicyMaxWindowSize);
+
+	PRINT_d(maxTexture1DMipmap);
+	PRINT_d(maxTexture2DMipmap[0]);
+	PRINT_d(maxTexture2DMipmap[1]);
+	PRINT_d(maxTexture2DLinear[0]);
+	PRINT_d(maxTexture2DLinear[1]);
+	PRINT_d(maxTexture2DLinear[2]);
+
+	PRINT_d(maxTexture2DGather[0]);
+	PRINT_d(maxTexture2DGather[1]);
+	PRINT_d(maxTexture3DAlt[0]);
+	PRINT_d(maxTexture3DAlt[1]);
+	PRINT_d(maxTexture3DAlt[2]);
+
+	PRINT_d(maxTextureCubemap);
+	PRINT_d(maxTexture1DLayered[0]);
+	PRINT_d(maxTexture1DLayered[1]);
+	PRINT_d(maxTexture2DLayered[0]);
+	PRINT_d(maxTexture2DLayered[1]);
+	PRINT_d(maxTexture2DLayered[2]);
+	PRINT_d(maxTextureCubemapLayered[0]);
+	PRINT_d(maxTextureCubemapLayered[1]);
+
+	PRINT_d(maxSurface1D);
+	PRINT_d(maxSurface2D[0]);
+	PRINT_d(maxSurface2D[1]);
+	PRINT_d(maxSurface3D[0]);
+	PRINT_d(maxSurface3D[1]);
+	PRINT_d(maxSurface3D[2]);
+
+	PRINT_d(maxSurface1DLayered[0]);
+	PRINT_d(maxSurface1DLayered[1]);
+	PRINT_d(maxSurface2DLayered[0]);
+	PRINT_d(maxSurface2DLayered[1]);
+	PRINT_d(maxSurfaceCubemap);
+	PRINT_d(maxSurfaceCubemapLayered[0]);
+	PRINT_d(maxSurfaceCubemapLayered[1]);
+
+	PRINT_ld(surfaceAlignment);
+
+	PRINT_d(streamPrioritiesSupported);
+
+	PRINT_d(regsPerMultiprocessor);
+# if !defined(__CUDACC__)
+	PRINT_d(deviceOverlap);
+	PRINT_d(singleToDoublePrecisionPerfRatio);
+# endif
+
+	PRINT_d(hostNativeAtomicSupported);
+	PRINT_d(computePreemptionSupported);
+#endif
+
+	PRINT_d(isMultiGpuBoard);
 	PRINT_d(pciBusID);
 	PRINT_d(pciDeviceID);
 	PRINT_d(pciDomainID);
@@ -82,8 +151,6 @@ int main(int argc, char *argv[])
 	PRINT_d(isLargeBar);
 #endif
 	PRINT_d(tccDriver);
-	PRINT_d(asyncEngineCount);
-	PRINT_d(unifiedAddressing);
 
 	/* Information about memory */
 	PRINT_d(pageableMemoryAccess);
@@ -94,28 +161,19 @@ int main(int argc, char *argv[])
 #if defined(__HPCC__)
 	PRINT_d(l2CacheLineSize);
 #endif
-	PRINT_d(persistingL2CacheMaxSize);
-	PRINT_d(globalL1CacheSupported);
-	PRINT_d(localL1CacheSupported);
 	PRINT_d(managedMemory);
 	PRINT_d(memoryBusWidth);
 #if !defined(__CUDACC__)
 	PRINT_d(memoryClockRate);
 #endif
 	PRINT_ld(sharedMemPerBlock);
-	PRINT_ld(sharedMemPerMultiprocessor);
-	PRINT_ld(sharedMemPerBlockOptin);
-	PRINT_ld(reservedSharedMemPerBlock);
 #if !defined(__CUDACC__)
 	PRINT_ld(maxSharedMemoryPerMultiProcessor);
 	PRINT_d(computeMode);
 #endif
 	PRINT_ld(memPitch);
 	PRINT_d(canMapHostMemory);
-	PRINT_d(canUseHostPointerForRegisteredMem);
 	PRINT_d(directManagedMemAccessFromHost);
-	PRINT_d(maxBlocksPerMultiProcessor);
-	PRINT_d(accessPolicyMaxWindowSize);
 #if defined(__HPCC__)
 	PRINT_ld(stackMemPerThread);
 	PRINT_d(mqlBarrierValue);
@@ -133,48 +191,14 @@ int main(int argc, char *argv[])
 	PRINT_ld(textureAlignment);
 	PRINT_ld(texturePitchAlignment);
 	PRINT_d(maxTexture1D);
-	PRINT_d(maxTexture1DMipmap);
 #if !defined(__CUDACC__)
 	PRINT_d(maxTexture1DLinear);
 #endif
 	PRINT_d(maxTexture2D[0]);
 	PRINT_d(maxTexture2D[1]);
-	PRINT_d(maxTexture2DMipmap[0]);
-	PRINT_d(maxTexture2DMipmap[1]);
-	PRINT_d(maxTexture2DLinear[0]);
-	PRINT_d(maxTexture2DLinear[1]);
-	PRINT_d(maxTexture2DLinear[2]);
-	PRINT_d(maxTexture2DGather[0]);
-	PRINT_d(maxTexture2DGather[1]);
 	PRINT_d(maxTexture3D[0]);
 	PRINT_d(maxTexture3D[1]);
 	PRINT_d(maxTexture3D[2]);
-	PRINT_d(maxTexture3DAlt[0]);
-	PRINT_d(maxTexture3DAlt[1]);
-	PRINT_d(maxTexture3DAlt[2]);
-	PRINT_d(maxTextureCubemap);
-	PRINT_d(maxTexture1DLayered[0]);
-	PRINT_d(maxTexture1DLayered[1]);
-	PRINT_d(maxTexture2DLayered[0]);
-	PRINT_d(maxTexture2DLayered[1]);
-	PRINT_d(maxTexture2DLayered[2]);
-	PRINT_d(maxTextureCubemapLayered[0]);
-	PRINT_d(maxTextureCubemapLayered[1]);
-
-	PRINT_d(maxSurface1D);
-	PRINT_d(maxSurface2D[0]);
-	PRINT_d(maxSurface2D[1]);
-	PRINT_d(maxSurface3D[0]);
-	PRINT_d(maxSurface3D[1]);
-	PRINT_d(maxSurface3D[2]);
-	PRINT_d(maxSurface1DLayered[0]);
-	PRINT_d(maxSurface1DLayered[1]);
-	PRINT_d(maxSurface2DLayered[0]);
-	PRINT_d(maxSurface2DLayered[1]);
-	PRINT_d(maxSurfaceCubemap);
-	PRINT_d(maxSurfaceCubemapLayered[0]);
-	PRINT_d(maxSurfaceCubemapLayered[1]);
-	PRINT_ld(surfaceAlignment);
 
 	/* Device can possibly execute multiple kernels concurrently */
 	PRINT_d(concurrentKernels);
@@ -188,16 +212,7 @@ int main(int argc, char *argv[])
 	PRINT_d(cooperativeMultiDeviceUnmatchedSharedMem);
 #endif
 
-	PRINT_d(streamPrioritiesSupported);
-
 	PRINT_d(regsPerBlock);
-	PRINT_d(regsPerMultiprocessor);
-#if !defined(__CUDACC__)
-	PRINT_d(deviceOverlap);
-	PRINT_d(singleToDoublePrecisionPerfRatio);
-#endif
-	PRINT_d(hostNativeAtomicSupported);
-	PRINT_d(computePreemptionSupported);
 
 	/* Information about Core/Thread */
 	PRINT_d(multiProcessorCount);

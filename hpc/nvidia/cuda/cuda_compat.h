@@ -120,6 +120,7 @@
  * Must define exactly one of __HIP_PLATFORM_AMD__ or __HIP_PLATFORM_NVIDIA__
  */
 # define __HIP_PLATFORM_AMD__
+# include <hip/hip_version.h>
 # include <hip/hip_runtime.h>
 # include <hip/hip_runtime_api.h>
 # include <hip/hiprtc.h>
