@@ -113,6 +113,7 @@
 #  include <hip/hip_runtime.h>
 #  include <hip/hip_bf16.h>
 #  include <hip/hip_fp16.h>
+#  include <hip/hip_version.h>
 #  include "cuda_adapter.h"
 # endif
 # define DIM	<<<1, 1>>>
@@ -179,6 +180,12 @@
 # endif
 # define compat_bf16tofloat(v)	__bfloat162float(v)
 # define compat_floattobf16(v)	__float2bfloat16(v)
+#endif
+
+#if defined(__HIPCC__) && ((HIP_VERSION_MAJOR < 5) || (HIP_VERSION_MAJOR == 5 && HIP_VERSION_MINOR <= 7))
+# ifdef SUPPORT_BF16
+#  undef SUPPORT_BF16
+# endif
 #endif
 
 #ifndef offsetof
