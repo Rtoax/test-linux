@@ -2,7 +2,7 @@
 # Copyright (C) 2025 Rong Tao
 
 readonly COMMIT_MSG_FILE=$1
-readonly COMMIT_SOURCE=$2
+readonly COMMIT_SOURCE=$2 # commit, merge
 readonly COMMIT_SHA1=$3
 
 # Remove old Env first.
@@ -161,11 +161,11 @@ cpu_info() {
 	fi
 }
 
-if [[ -z ${signed_off_by_line} ]]; then
+if [[ -z ${signed_off_by_line} ]] && [[ ${COMMIT_SOURCE} != merge ]]; then
 	fatal "must signed with -s/--signoff"
 fi
 
-add_env "CPU: $(cpu_info)"
+add_env "CPU $(cpu_info)"
 add_env "Arch $(uname -m)"
 
 SYSTEMD_DETECT_VIRT=$(which systemd-detect-virt 2>/dev/null || :)
