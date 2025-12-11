@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
 OUTPUT := .output/
 
-RUN_PFX =
+include arch.mk
 
 target-asm-y := hello
 target-asm-y += hello-stack
@@ -14,34 +14,31 @@ target-y += read-main write-main
 target-y += puts-main
 target-y += putchar-main
 
+target-${IS_X86_64} += echo
+target-${IS_X86_64} += hello-puts
+target-${IS_X86_64} += hola
+target-${IS_X86_64} += fibonacci
+target-${IS_X86_64} += power
+target-${IS_X86_64} += factorial_call
+target-${IS_X86_64} += maxofthree_call
+target-${IS_X86_64} += hello-c
+target-${IS_X86_64} += nanosleep-c
+target-${IS_X86_64} += exit-c
+target-${IS_X86_64} += write-c write-c-loop
+target-${IS_X86_64} += out-c
+target-${IS_X86_64} += puts-c puts-c-loop
+target-${IS_X86_64} += atomic_forced_read
+target-${IS_X86_64} += time
+target-${IS_X86_64} += cr3
+
 # TODO
 target-todo += sum_cal
-
-ifeq ($(shell uname -m),x86_64)
-  target-y += cr3
-endif
 
 ifneq ($(shell uname -m),x86_64)
   CC = x86_64-linux-gnu-gcc
   LD = x86_64-linux-gnu-ld
   RUN_PFX = qemu-x86_64
   LDFLAGS += --sysroot /home/rongtao/rootfs-x86_64
-else
-  target-y += echo
-  target-y += hello-puts
-  target-y += hola
-  target-y += fibonacci
-  target-y += power
-  target-y += factorial_call
-  target-y += maxofthree_call
-  target-y += hello-c
-  target-y += nanosleep-c
-  target-y += exit-c
-  target-y += write-c write-c-loop
-  target-y += out-c
-  target-y += puts-c puts-c-loop
-  target-y += atomic_forced_read
-  target-y += time
 endif
 
 CFLAGS_write-c-loop := -DINFINITE_LOOP=1
