@@ -1,6 +1,7 @@
 #!/bin/env python
 # Copyright (c) 2025 Rong Tao
 
+import argparse
 import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
@@ -8,6 +9,20 @@ from matplotlib import cm
 import matplotlib
 import os
 import sys
+
+
+description = """Plot 3D
+"""
+
+examples = """examples:
+"""
+
+parser = argparse.ArgumentParser(
+    description=description,
+    formatter_class=argparse.RawDescriptionHelpFormatter,
+    epilog=examples)
+parser.add_argument("-T", "--txt", nargs='*', help="specify the text files.")
+
 
 xlabel = 'IOSize (KB)'
 ylabel = 'Threads'
@@ -98,8 +113,19 @@ def create_figure(txt="test_data.txt", type = 2, fignum = 1):
     plot_3d(x, y, z, type, fignum)
 
 
-for i, a in enumerate(sys.argv[1:]):
+args = parser.parse_args()
+config_txt = args.txt
+
+if not config_txt or len(config_txt) == 0:
+    print("ERROR: Must input txt.")
+    exit()
+
+for i, a in enumerate(config_txt):
     create_figure(txt=a, fignum=i)
 
-plt.tight_layout()
-plt.show()
+try:
+    plt.tight_layout()
+    plt.show()
+except KeyboardInterrupt:
+    print("exit")
+    exit()
