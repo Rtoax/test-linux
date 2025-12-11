@@ -1,0 +1,51 @@
+#!/bin/bash
+# Copyright (C) 2025 Rong Tao
+set -e
+
+for f in $(find -type f)
+do
+	[[ -L $f ]] && continue
+	[[ ${f:0:6} == ./.git ]] && continue
+
+	old=$(grep -o 'Copyright (C) [0-9]\{4\}-[0-9]\{4\} Rong Tao' $f || :)
+	if [[ -z ${old} ]]; then
+		old=$(grep -o 'Copyright (C) [0-9]\{4\} Rong Tao' $f || :)
+	fi
+
+	# Not found copyright line
+	if [[ -z ${old} ]]; then
+		# TODO: try to add one?
+		continue
+	fi
+
+	years=( $(echo "${old}" | grep -o '[0-9]\{4\}') )
+	year=$(date +%Y)
+	startyear=
+	endyear=
+
+	if [[ ${#years[@]} -eq 2 ]]; then
+		startyear=${years[0]}
+		endyear=${years[1]}
+	elif [[ ${#years[@]} -eq 1 ]]; then
+		startyear=${years[0]}
+		endyear=${years[0]}
+	else
+		echo "ERROR: Bad '${old}' in $f"
+		exit 1
+	fi
+
+	if [[ ${endyear} -gt ${year} ]]; then
+		echo "ERROR: Bad year '${endyear}' in $f"
+		exit 1
+	fi
+
+	echo "Handle $f"
+
+	if [[ ${startyear} -eq ${year} ]]; then
+		to="Copyright (C) ${year} Rong Tao"
+	else
+		to="Copyright (C) ${startyear}-${year} Rong Tao"
+	fi
+
+	sed -i 's/'"$old"'/'"$to"'/g' $f
+done

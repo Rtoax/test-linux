@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - luca: Phase II project tested;
 #### Added
+- scripts: add update-copyright;
 - gdsio: add `gdsio_awk.sh`;
 - python/matplotlib: add 3d subdir;
 - template: add libatomic.mk;

@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
-/* Copyright (C) 2024 Rong Tao */
+/* Copyright (C) 2024-2025 Rong Tao */
 /* Copyright (c) 2023 Meta */
 #include <argp.h>
 #include <signal.h>
