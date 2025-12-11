@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0
+/* Copyright (C) 2023-2025 Rong Tao */
 /**
  * https://gcc.gnu.org/wiki/Atomic/GCCMM/AtomicSync
  */
