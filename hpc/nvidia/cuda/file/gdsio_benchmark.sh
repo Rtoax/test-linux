@@ -56,7 +56,7 @@ do
 					size=$(( ${thread} * 512 ))M
 				fi
 				runprog ${logfile} \
-					./${GDSIO} -D ${DIR} -f gdsio-x${xfer}o${op}.out \
+					./${GDSIO} -D ${DIR} -f gdsio-x${xfer}-s${size}.out \
 					-s ${size} -i ${iosize} \
 					-x ${xfer} -I ${op} -w ${thread}
 			done
