@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - luca: Phase II project tested;
 #### Added
+- python/matplotlib: add 3d subdir;
 - template: add libatomic.mk;
 - cufile: add gpsio.cu;
 - procfs: add Makefiles for subdirs;
