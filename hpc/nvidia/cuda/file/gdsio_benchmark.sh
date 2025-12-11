@@ -32,7 +32,7 @@ readonly XFER_BETWEEN_STORAGE__CPU__GPU=2
 
 readonly OP_READ=0
 readonly OP_WRITE=1
-[[ -z ${OP_TYPES} ]] && OP_TYPES=( ${OP_READ} ${OP_WRITE} )
+[[ -z ${OP_TYPES} ]] && OP_TYPES=( ${OP_WRITE} ${OP_READ} )
 
 for xfer in ${XFER_TYPES[@]}
 do
