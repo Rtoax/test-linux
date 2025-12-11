@@ -3,6 +3,8 @@ include arch.mk
 include compiler.mk
 include binutils.mk
 
+OUTPUT := .output/
+
 subdir-y :=
 subdir-${IS_X86_64} += avx
 subdir-${IS_X86_64} += tsc
@@ -46,7 +48,7 @@ ifeq ($(shell uname -m),x86_64)
     CFLAGS += -DCPU_HAVE_AVX512F=1
   endif
 
-  ARCH_LIB_CPUID += cpuid-x86.o
+  ARCH_LIB_CPUID += ${OUTPUT}cpuid-x86.o
 else ifeq ($(shell uname -m),aarch64)
   # Check cpu flags
   ifneq ($(shell lscpu | grep -w sve),)
@@ -60,7 +62,7 @@ else ifeq ($(shell uname -m),aarch64)
 
   CFLAGS += -DCPU_HAVE_NEON=1
 
-  ARCH_LIB_CPUID += cpuid-arm64.o
+  ARCH_LIB_CPUID += ${OUTPUT}cpuid-arm64.o
 endif
 
 ifdef BFD
@@ -72,11 +74,9 @@ endif
 CFLAGS += -DBINUTILS_VERSION_MAJOR=${BINUTILS_VERSION_MAJOR}
 CFLAGS += -DBINUTILS_VERSION_MINOR=${BINUTILS_VERSION_MINOR}
 
-#CFLAGS +=
 CFLAGS += -g -ggdb
 CFLAGS += -O0
 CFLAGS += -pthread
-
 CFLAGS += -no-pie
 
 CFLAGS_rdrand := -mrdrnd
@@ -98,26 +98,26 @@ LDFLAGS_invalid_opcode_user := -no-pie
 
 include main.mk
 
-add-x86: add-x86.o
-breakpoint: breakpoint.o
-bts: bts.o
-bswapl: bswapl.o
-invalid_opcode_user: invalid_opcode_user.o
-cpuid_user: cpuid_user.o ${ARCH_LIB_CPUID}
-_mm_clflush: _mm_clflush.o
-prefetch: prefetch.o
-rte_memcpy: rte_memcpy.o
-fsin: fsin.o
-udiv: udiv.o
-div: div.o
-vgetbv: vgetbv.o
-stosb: stosb.o
-memset: memset.o
-nop: nop.o
-rdmsr: rdmsr.o
-mrs: mrs.o
-ret: ret.o
-simd: simd.o
-rdrand: rdrand.o
-rdseed: rdseed.o
-syscall: syscall.o
+add-x86: ${OUTPUT}add-x86.o
+breakpoint: ${OUTPUT}breakpoint.o
+bts: ${OUTPUT}bts.o
+bswapl: ${OUTPUT}bswapl.o
+invalid_opcode_user: ${OUTPUT}invalid_opcode_user.o
+cpuid_user: ${OUTPUT}cpuid_user.o ${ARCH_LIB_CPUID}
+_mm_clflush: ${OUTPUT}_mm_clflush.o
+prefetch: ${OUTPUT}prefetch.o
+rte_memcpy: ${OUTPUT}rte_memcpy.o
+fsin: ${OUTPUT}fsin.o
+udiv: ${OUTPUT}udiv.o
+div: ${OUTPUT}div.o
+vgetbv: ${OUTPUT}vgetbv.o
+stosb: ${OUTPUT}stosb.o
+memset: ${OUTPUT}memset.o
+nop: ${OUTPUT}nop.o
+rdmsr: ${OUTPUT}rdmsr.o
+mrs: ${OUTPUT}mrs.o
+ret: ${OUTPUT}ret.o
+simd: ${OUTPUT}simd.o
+rdrand: ${OUTPUT}rdrand.o
+rdseed: ${OUTPUT}rdseed.o
+syscall: ${OUTPUT}syscall.o
