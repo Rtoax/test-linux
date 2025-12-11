@@ -756,11 +756,14 @@ int main(int argc, char *argv[])
 		break;
 	}
 
-	printf("IoType: %s, XferType: %s,", op_name[env.otype], xfer_name[env.xtype]);
+	printf("IoType: %s,", op_name[env.otype]);
+	printf(" XferType: %s,", xfer_name[env.xtype]);
 	printf(" File: %s,", filepath);
 	printf(" Threads: %d,", env.nr_threads);
-	printf(" DataSetSize: %ld B (%ld KiB),", env.fsize, env.fsize / KiB);
-	printf(" IOSize: %ld B (%ld KiB),", env.iosize, env.iosize / KiB);
+	printf(" DataSetSize: %ld B (%ld KiB, %ld MiB, %ld GiB),", env.fsize,
+		env.fsize / KiB, env.fsize / MiB, env.fsize / GiB);
+	printf(" IOSize: %ld B (%ld KiB, %ld MiB),", env.iosize,
+		env.iosize / KiB, env.iosize / MiB);
 	printf(" Throughput: %f GiB/sec,", env.fsize * 1.f / consumed_ns());
 	printf(" Avg_Latency: %f usecs,", consumed_ns() * 1.f / 1e3 / total_ops);
 	printf(" ops: %ld,", total_ops);
