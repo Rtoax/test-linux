@@ -33,6 +33,10 @@ fatal() {
 	exit 1
 }
 
+warning() {
+	echo >&2 "WARNING: "${@}
+}
+
 add_ver() {
 	[[ -z "${@}" ]] && return 0
 	# Already exist
@@ -163,6 +167,11 @@ cpu_info() {
 
 if [[ -z ${signed_off_by_line} ]] && [[ ${COMMIT_SOURCE} != merge ]]; then
 	fatal "must signed with -s/--signoff"
+fi
+
+if [[ -z ${signed_off_by_line} ]]; then
+	warning "Skipping git hooks of prepare-commit-msg"
+	return 0
 fi
 
 add_env "CPU $(cpu_info)"
