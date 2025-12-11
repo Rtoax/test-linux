@@ -22,6 +22,8 @@
 #include "cuda_compat.h"
 #include "../cuda_helpers.h"
 
+#define VERSION	"v1.0.0"
+
 #define KiB 1024UL
 #define MiB (KiB * 1024UL)
 #define GiB (MiB * 1024UL)
@@ -90,7 +92,6 @@ static struct {
 	.bufrand = false,
 };
 
-static const char *version = "v0.0.1";
 static int fd = -1;
 static CUfileHandle_t cfHandle = NULL;
 static CUfileDescr_t cfDescr = {};
@@ -112,7 +113,7 @@ static inline unsigned long increment_ops(void)
 	return __atomic_fetch_add(&total_ops, 1, __ATOMIC_SEQ_CST);
 }
 
-const char argp_prog_doc[] = "USAGE: [-d <GPU>] [...]\n";
+const char argp_prog_doc[] = "gdsio version " VERSION "\n";
 
 static const struct argp_option opts[] = {
 	{ "file", 'f', "FILE", 0, "file name" },
@@ -216,7 +217,7 @@ static error_t parse_arg(int key, char *arg, struct argp_state *state)
 		}
 		break;
 	case 'v':
-		printf("gpsio %s\n", version);
+		printf("gpsio %s\n", VERSION);
 		exit(EXIT_SUCCESS);
 		break;
 	case 'b':
