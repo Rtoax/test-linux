@@ -7,6 +7,7 @@ from mpl_toolkits.mplot3d import Axes3D
 from matplotlib import cm
 import matplotlib
 import os
+import sys
 
 xlabel = 'IOSize (KB)'
 ylabel = 'Threads'
@@ -34,8 +35,8 @@ def plot_3d(x, y, z, type = 2, fignum = 1):
     from scipy.interpolate import griddata
     zi = griddata((x, y), z, (xi, yi), method='cubic')
 
+    # Create scatter
     if type == 0:
-        # Create scatter
         fig = plt.figure(fignum)
         ax1 = fig.add_subplot(projection='3d')
         scatter = ax1.scatter(x, y, z, c=z, cmap='viridis', s=30, alpha=0.8)
@@ -44,8 +45,8 @@ def plot_3d(x, y, z, type = 2, fignum = 1):
         ax1.set_zlabel(zlabel, fontsize=10, labelpad=10)
         ax1.set_title('Scatter3d', fontsize=12, pad=15)
         plt.colorbar(scatter, ax=ax1, shrink=0.5, label='Throughput (G/s)')
+    # 创建曲面图（需要网格化数据）
     elif type == 1:
-        # 创建曲面图（需要网格化数据）
         fig = plt.figure(fignum)
         ax2 = fig.add_subplot(projection='3d')
         # 绘制曲面
@@ -56,8 +57,8 @@ def plot_3d(x, y, z, type = 2, fignum = 1):
         ax2.set_zlabel(zlabel, fontsize=10, labelpad=10)
         ax2.set_title('Surface', fontsize=12, pad=15)
         fig.colorbar(surf, ax=ax2, shrink=0.5, label='Throughput (G/s)')
+    # 创建线框图
     elif type == 2:
-        # 创建线框图
         fig = plt.figure(fignum)
         ax3 = fig.add_subplot(projection='3d')
         wire = ax3.plot_wireframe(xi, yi, zi, rstride=3, cstride=3,
@@ -67,8 +68,8 @@ def plot_3d(x, y, z, type = 2, fignum = 1):
         ax3.set_ylabel(ylabel, fontsize=10, labelpad=10)
         ax3.set_zlabel(zlabel, fontsize=10, labelpad=10)
         ax3.set_title('scatter + wireframe', fontsize=12, pad=15)
+    # 创建等高线投影图
     elif type == 3:
-        # 创建等高线投影图
         fig = plt.figure(fignum)
         ax4 = fig.add_subplot(projection='3d')
         cont = ax4.contour(xi, yi, zi, 20, cmap='hot',
@@ -97,8 +98,8 @@ def create_figure(txt="test_data.txt", type = 2, fignum = 1):
     plot_3d(x, y, z, type, fignum)
 
 
-create_figure(type=2, fignum=1)
-create_figure(type=0, fignum=2)
+for i, a in enumerate(sys.argv[1:]):
+    create_figure(txt=a, fignum=i)
 
 plt.tight_layout()
 plt.show()
