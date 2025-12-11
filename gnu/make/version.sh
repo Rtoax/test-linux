@@ -7,4 +7,9 @@ if [[ -z ${make} ]]; then
 	echo >&2 "ERROR: not found make in your system"
 	exit 0
 fi
-${make} --version | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+' 2>/dev/null || true
+
+version=$( ${make} --version | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+' 2>/dev/null || true )
+if [[ -z ${version} ]]; then
+	version=$( ${make} --version | grep -Eo '[0-9]+\.[0-9]+' 2>/dev/null || true )
+fi
+echo ${version}

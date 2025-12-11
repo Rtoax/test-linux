@@ -14,6 +14,7 @@ include values.mk
 
 NUMACTL := $(shell which numactl 2>/dev/null || :)
 LIBNUMA_HDR := /usr/include/numa.h
+LIBNUMAIF_HDR := /usr/include/numaif.h
 
 ifneq (${NUMACTL},)
   # Get numactl version

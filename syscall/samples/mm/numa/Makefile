@@ -1,16 +1,12 @@
 # SPDX-License-Identifier: GPL-3.0
-NUMAIF_HDR := /usr/include/numaif.h
-ifeq ($(wildcard $(NUMAIF_HDR)),)
-  $(error Not found ${NUMAIF_HDR})
-endif
+# Copyright (C) 2024-2025 Rong Tao
+include numactl.mk
 
-target-y :=
-target-y += mbind
-target-y += move_pages
-target-y += migrate_pages
-target-y += get_mempolicy
+target-${HAVE_LIBNUMA} += mbind
+target-${HAVE_LIBNUMA} += move_pages
+target-${HAVE_LIBNUMA} += migrate_pages
+target-${HAVE_LIBNUMA} += get_mempolicy
 
-CFLAGS :=
 CFLAGS += -pthread
 CFLAGS += -O0
 LDFLAGS += -lnuma
