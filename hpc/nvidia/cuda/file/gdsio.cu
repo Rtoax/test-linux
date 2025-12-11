@@ -73,6 +73,7 @@ static struct {
 	int nr_threads;
 	size_t fsize;
 	size_t iosize;
+	int numa;
 	enum xfer_type xtype;
 	enum op_type otype;
 	bool verify;
@@ -85,6 +86,7 @@ static struct {
 	.nr_threads = 1,
 	.fsize = 1024 * KiB,
 	.iosize = 1024 * KiB,
+	.numa = 0,
 	.xtype = XFER_BETWEEN_STORAGE__GPU,
 	.otype = OP_WRITE,
 	.verify = false,
@@ -121,6 +123,7 @@ static const struct argp_option opts[] = {
 	{ "device", 'd', "DEVICE", 0, "gpu index" },
 	{ "fsize", 's', "SIZE", 0, "file size (K|M|G)" },
 	{ "iosize", 'i', "IOSIZE", 0, "io_size(K|M|G) <min_size:max_size:step_size>" },
+	{ "numa", 'n', "NUMA", 0, "numa node" },
 	{ "nthreads", 'w', "NTHREADS", 0, "number of threads for a job" },
 	{ "xfer_type", 'x', "XFER_TYPE", 0, "transfer type [0(GPU_DIRECT), 1(CPU_ONLY), 2(CPU_GPU), 3(CPU_ASYNC_GPU), 4(CPU_CACHED_GPU), 5(GPU_DIRECT_ASYNC), 6(GPU_BATCH), 7(GPU_BATCH_STREAM)]" },
 	{ "op_type", 'I', "OP_TYPE", 0, "[0(read), 1(write), 2(randread), 3(randwrite)]" },
@@ -192,6 +195,13 @@ static error_t parse_arg(int key, char *arg, struct argp_state *state)
 		env.iosize = str2size(arg);
 		if (env.iosize % KiB) {
 			fprintf(stderr, "ERROR: iosize must unaligned 0x%lx.\n", KiB);
+			exit(EXIT_FAILURE);
+		}
+		break;
+	case 'u':
+		env.numa = atoi(arg);
+		if (env.numa < 0) {
+			fprintf(stderr, "ERROR: bad numa %d\n", env.numa);
 			exit(EXIT_FAILURE);
 		}
 		break;
@@ -759,7 +769,6 @@ int main(int argc, char *argv[])
 
 	printf("IoType: %s,", op_name[env.otype]);
 	printf(" XferType: %s,", xfer_name[env.xtype]);
-	printf(" File: %s,", filepath);
 	printf(" Threads: %d,", env.nr_threads);
 	printf(" DataSetSize: %ld B (%ld KiB, %ld MiB, %ld GiB),", env.fsize,
 		env.fsize / KiB, env.fsize / MiB, env.fsize / GiB);
@@ -768,7 +777,9 @@ int main(int argc, char *argv[])
 	printf(" Throughput: %f GiB/sec,", env.fsize * 1.f / consumed_ns());
 	printf(" Avg_Latency: %f usecs,", consumed_ns() * 1.f / 1e3 / total_ops);
 	printf(" ops: %ld,", total_ops);
-	printf(" total_time %f secs\n", consumed_ns() * 1.f / 1E9);
+	printf(" total_time %f secs,", consumed_ns() * 1.f / 1E9);
+	printf(" numa: %d,", env.numa);
+	printf(" File: %s\n", filepath);
 
 	close(fd);
 	return 0;
