@@ -1,9 +1,12 @@
 #!/bin/bash
 set -e
 
-[[ -z ${LOG} ]] && LOG=gdsio.log
+[[ -z ${LOGS} ]] && LOGS=( $(ls gdsio-x*.log) )
 
-cat ${LOG} | awk '{
+for log in ${LOGS[@]}
+do
+	txt=${log%.*}.txt
+	cat ${log} | awk '{
 		for (i=1; i<=NF; i++) {
 			if ($i == "IoType:") {
 				gsub(/,/, "", $(i+1));
@@ -22,4 +25,5 @@ cat ${LOG} | awk '{
 			}
 		}
 		printf("%s %s %s\n", iosize / 1024, threads, throughput);
-	}'
+	}' | tee ${txt}
+done
