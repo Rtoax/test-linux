@@ -590,6 +590,7 @@ int xfer_between_gpu__cpu(void **hostptr, void **devptr, bool alloc,
 
 void cufile_init(void)
 {
+	CUDA_CHECK_EXIT(cudaSetDevice(env.gpu));
 	CUFILE_CHECK_EXIT(cuFileDriverOpen());
 
 	/* Set up GDS descriptor */
@@ -694,8 +695,6 @@ int main(int argc, char *argv[])
 		}
 	}
 
-	CUDA_CHECK_EXIT(cudaSetDevice(env.gpu));
-
 	fd = open(filepath, O_CREAT | O_RDWR | O_DIRECT, 0664);
 	if (fd < 0) {
 		fprintf(stderr, "Open %s failed\n", filepath);
@@ -712,6 +711,7 @@ int main(int argc, char *argv[])
 		xfer_between_storage__cpu(NULL, false, env.otype, 'B');
 		break;
 	case XFER_BETWEEN_STORAGE__CPU__GPU:
+		cufile_init();
 		switch (env.otype) {
 		/**
 		 * Storage->CPU->GPU
@@ -737,6 +737,7 @@ int main(int argc, char *argv[])
 			fprintf(stderr, "WARNING: not support %s yet.\n", op_name[env.otype]);
 			break;
 		}
+		cufile_destroy();
 		break;
 	case XFER_BETWEEN_STORAGE__CPU__GPU_ASYNC:
 	case XFER_BETWEEN_STORAGE__PAGECACHE__CPU__GPU:
