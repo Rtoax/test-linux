@@ -75,6 +75,7 @@ static struct {
 	enum op_type otype;
 	bool verify;
 	bool bufregister;
+	bool bufrand;
 } env = {
 	.gpu = 0,
 	.filename = "gdsio.out",
@@ -86,6 +87,7 @@ static struct {
 	.otype = OP_WRITE,
 	.verify = false,
 	.bufregister = true,
+	.bufrand = false,
 };
 
 static const char *version = "v0.0.1";
@@ -123,6 +125,7 @@ static const struct argp_option opts[] = {
 	{ "op_type", 'I', "OP_TYPE", 0, "[0(read), 1(write), 2(randread), 3(randwrite)]" },
 	{ "verify", 'V', NULL, 1, "verify IO" },
 	{ "bufregister", 'b', NULL, 1, "skip bufregister" },
+	{ "bufrand", 'R', NULL, 1, "fill io buffer with random data" },
 	{ "version", 'v', NULL, 1, "display version" },
 	{},
 };
@@ -218,6 +221,9 @@ static error_t parse_arg(int key, char *arg, struct argp_state *state)
 		break;
 	case 'b':
 		env.bufregister = false;
+		break;
+	case 'R':
+		env.bufrand = false;
 		break;
 	case 'V':
 		env.verify = true;
