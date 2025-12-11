@@ -92,6 +92,7 @@ ifdef IGNORE_RETURN_VALUE
 endif
 
 CFLAGS_ret := -Wno-error=return-type
+CFLAGS_syscall := -nostdlib
 LDFLAGS_syscall := -nostdlib
 
 include main.mk
