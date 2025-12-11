@@ -4,6 +4,7 @@ OUTPUT = .output/
 subdir-y := process
 subdir-y += kallsyms
 subdir-y += sys
+subdir-y += sysrq-trigger
 
 target-y :=
 target-y += proc_examples
