@@ -31,6 +31,7 @@ and this project adheres to
 - fakeCUDA: support LUCA phase II;
 - ai: add os subdir;
 #### Changed
+- Move vhost into virt directory;
 - Move virtio into virt directory;
 - compiler/atomic: remove prefix `__atomic_` of source code files;
 - template/targets: rename nvidia.mk to cuda.mk;
