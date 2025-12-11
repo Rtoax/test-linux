@@ -11,10 +11,11 @@ import os
 import sys
 
 
-description = """Plot 3D
+description = """Plot 3D with python matplotlib
 """
 
 examples = """examples:
+    ./plot.py -T a.txt b.txt
 """
 
 parser = argparse.ArgumentParser(
@@ -22,11 +23,17 @@ parser = argparse.ArgumentParser(
     formatter_class=argparse.RawDescriptionHelpFormatter,
     epilog=examples)
 parser.add_argument("-T", "--txt", nargs='*', help="specify the text files.")
+parser.add_argument("-x", "--xlabel", default="IOSize (KB)", help="specify x coordinate axes label")
+parser.add_argument("-y", "--ylabel", default="Threads", help="specify y coordinate axes label")
+parser.add_argument("-z", "--zlabel", default="Throughput (GiB/s)", help="specify z coordinate axes label")
 
+args = parser.parse_args()
 
-xlabel = 'IOSize (KB)'
-ylabel = 'Threads'
-zlabel = 'Throughput (G/s)'
+config_txt = args.txt
+
+xlabel = args.xlabel
+ylabel = args.ylabel
+zlabel = args.zlabel
 
 
 def load_data(filename="test_data.txt"):
@@ -112,9 +119,6 @@ def create_figure(txt="test_data.txt", type = 2, fignum = 1):
 
     plot_3d(x, y, z, txt, type, fignum)
 
-
-args = parser.parse_args()
-config_txt = args.txt
 
 if not config_txt or len(config_txt) == 0:
     print("ERROR: Must input txt.")
