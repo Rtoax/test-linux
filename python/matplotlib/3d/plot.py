@@ -39,7 +39,7 @@ def load_data(filename="test_data.txt"):
     return x, y, z
 
 
-def plot_3d(x, y, z, type = 2, fignum = 1):
+def plot_3d(x, y, z, title = "plot", type = 2, fignum = 1):
     """Plot scatter"""
 
     # 创建网格数据
@@ -58,7 +58,7 @@ def plot_3d(x, y, z, type = 2, fignum = 1):
         ax1.set_xlabel(xlabel, fontsize=10, labelpad=10)
         ax1.set_ylabel(ylabel, fontsize=10, labelpad=10)
         ax1.set_zlabel(zlabel, fontsize=10, labelpad=10)
-        ax1.set_title('Scatter3d', fontsize=12, pad=15)
+        ax1.set_title(title, fontsize=12, pad=15)
         plt.colorbar(scatter, ax=ax1, shrink=0.5, label='Throughput (G/s)')
     # 创建曲面图（需要网格化数据）
     elif type == 1:
@@ -70,7 +70,7 @@ def plot_3d(x, y, z, type = 2, fignum = 1):
         ax2.set_xlabel(xlabel, fontsize=10, labelpad=10)
         ax2.set_ylabel(ylabel, fontsize=10, labelpad=10)
         ax2.set_zlabel(zlabel, fontsize=10, labelpad=10)
-        ax2.set_title('Surface', fontsize=12, pad=15)
+        ax2.set_title(title, fontsize=12, pad=15)
         fig.colorbar(surf, ax=ax2, shrink=0.5, label='Throughput (G/s)')
     # 创建线框图
     elif type == 2:
@@ -82,7 +82,7 @@ def plot_3d(x, y, z, type = 2, fignum = 1):
         ax3.set_xlabel(xlabel, fontsize=10, labelpad=10)
         ax3.set_ylabel(ylabel, fontsize=10, labelpad=10)
         ax3.set_zlabel(zlabel, fontsize=10, labelpad=10)
-        ax3.set_title('scatter + wireframe', fontsize=12, pad=15)
+        ax3.set_title(title, fontsize=12, pad=15)
     # 创建等高线投影图
     elif type == 3:
         fig = plt.figure(fignum)
@@ -94,7 +94,7 @@ def plot_3d(x, y, z, type = 2, fignum = 1):
         ax4.set_xlabel(xlabel, fontsize=10, labelpad=10)
         ax4.set_ylabel(ylabel, fontsize=10, labelpad=10)
         ax4.set_zlabel(zlabel, fontsize=10, labelpad=10)
-        ax4.set_title('Surface + contour', fontsize=12, pad=15)
+        ax4.set_title(title, fontsize=12, pad=15)
 
 
 def create_figure(txt="test_data.txt", type = 2, fignum = 1):
@@ -110,7 +110,7 @@ def create_figure(txt="test_data.txt", type = 2, fignum = 1):
     print(f"Throughput: {min(z):.4f} - {max(z):.4f} G/s")
     print(f"Avg Throughput: {np.mean(z):.4f} G/s")
 
-    plot_3d(x, y, z, type, fignum)
+    plot_3d(x, y, z, txt, type, fignum)
 
 
 args = parser.parse_args()
