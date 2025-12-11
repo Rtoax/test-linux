@@ -5,6 +5,7 @@ int main(void)
 {
 	printf("numa_available = %d\n", numa_available());
 	printf("numa_max_node = %d\n", numa_max_node());
+	printf("numa_num_configured_nodes = %d\n", numa_num_configured_nodes());
 	printf("numa_max_possible_node = %d\n", numa_max_possible_node());
 	return 0;
 }
