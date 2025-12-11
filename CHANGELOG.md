@@ -38,6 +38,7 @@ and this project adheres to
 - template/targets: rename metax.mk to hpcc.mk;
 #### Deprecated
 #### Removed
+- Remove `fs/configfs/samples/configfs_sample.c`;
 #### Fixed
 #### Security
 #### Docs
