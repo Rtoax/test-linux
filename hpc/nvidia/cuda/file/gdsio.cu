@@ -733,7 +733,7 @@ int main(int argc, char *argv[])
 	printf(" Threads: %d,", env.nr_threads);
 	printf(" DataSetSize: %ld B (%ld KiB),", env.fsize, env.fsize / KiB);
 	printf(" IOSize: %ld B (%ld KiB),", env.iosize, env.iosize / KiB);
-	printf(" Throughput: \033[1;31m%f GiB/sec\033[m,", env.fsize * 1.f / consumed_ns());
+	printf(" Throughput: %f GiB/sec,", env.fsize * 1.f / consumed_ns());
 	printf(" Avg_Latency: %f usecs,", consumed_ns() * 1.f / 1e3 / total_ops);
 	printf(" ops: %ld,", total_ops);
 	printf(" total_time %f secs\n", consumed_ns() * 1.f / 1E9);

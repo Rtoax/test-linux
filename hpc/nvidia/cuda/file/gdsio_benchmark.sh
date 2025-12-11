@@ -14,13 +14,13 @@ runprog() {
 	# drop cache for each test
 	echo 3 > /proc/sys/vm/drop_caches
 	echo >&2 -e "\033[1;32m${@}\033[m"
-	eval ${@}
+	eval ${@} | tee --append gdsio.log
 }
 
 readonly XFER_BETWEEN_STORAGE__GPU=0
 readonly XFER_BETWEEN_STORAGE__CPU=1
 readonly XFER_BETWEEN_STORAGE__CPU__GPU=2
-readonly XFER_TYPES=(
+[[ -z ${XFER_TYPES} ]] && XFER_TYPES=(
 		${XFER_BETWEEN_STORAGE__GPU}
 		${XFER_BETWEEN_STORAGE__CPU}
 		${XFER_BETWEEN_STORAGE__CPU__GPU}
@@ -28,12 +28,15 @@ readonly XFER_TYPES=(
 
 readonly OP_READ=0
 readonly OP_WRITE=1
+[[ -z ${OP_TYPES} ]] && OP_TYPES=( ${OP_READ} ${OP_WRITE} )
+
+[[ -e gdsio.log ]] && mv gdsio.log gdsio.log.old
 
 for xfer in ${XFER_TYPES[@]}
 do
-	for thread in 1 2 4 8 16
+	for thread in 1 2 4 8 16 32
 	do
-		for op in ${OP_WRITE} ${OP_READ}
+		for op in ${OP_TYPES[@]}
 		do
 			for iosize in 4K 32K 64K 128K 512K 1M 2M
 			do
