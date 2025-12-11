@@ -1,7 +1,9 @@
 #!/bin/bash
 set -e
 
-cat gdsio.log | awk '{
+[[ -z ${LOG} ]] && LOG=gdsio.log
+
+cat ${LOG} | awk '{
 		for (i=1; i<=NF; i++) {
 			if ($i == "IoType:") {
 				gsub(/,/, "", $(i+1));
