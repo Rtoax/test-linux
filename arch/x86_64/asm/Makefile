@@ -48,6 +48,11 @@ CFLAGS_write-c-loop := -DINFINITE_LOOP=1
 CFLAGS_puts-c-loop := -DINFINITE_LOOP=1
 
 LDFLAGS += -z noexecstack
+LDFLAGS_echo += -no-pie
+LDFLAGS_hello-puts += -no-pie
+LDFLAGS_hola += -no-pie
+LDFLAGS_fibonacci += -no-pie
+LDFLAGS_power += -no-pie
 
 include main.mk
 
