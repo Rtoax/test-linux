@@ -24,6 +24,12 @@
 #define IDX2C(i, j, ld)	(((j) * (ld)) + (i))
 #define ARRAY_SIZE(arr)	(sizeof(arr) / sizeof(arr[0]))
 
+#if defined(__HIPCC__) && !defined(HAVE_HIPBLASLT)
+# warning "ROCm HIP not found blasLt"
+#else
+# define HAVE_BLASLT
+#endif
+
 enum data_type {
 	TYPE_FP16,
 	TYPE_FP32,
@@ -154,6 +160,7 @@ struct test {
 	 * flexible API.
 	 */
 	struct {
+#ifdef HAVE_BLASLT
 		cublasLtHandle_t ltHandle;
 		cublasLtMatmulDesc_t matmulDesc;
 		cublasLtMatrixLayout_t layoutA, layoutB, layoutC;
@@ -161,8 +168,11 @@ struct test {
 		cublasLtMatmulHeuristicResult_t heuristic_result;
 		void *workspace;
 		size_t workspaceSize;
+# define Z0	{NULL,NULL,NULL,NULL,NULL,NULL,{},NULL,1<<22/*4MB*/}
+#else
+# define Z0	{}
+#endif
 	};
-#define Z0	{NULL,NULL,NULL,NULL,NULL,NULL,{},NULL,1<<22/*4MB*/}
 
 	union {
 		int8_t *int8;
@@ -449,6 +459,7 @@ int default_create_blas(struct test *test)
 	return 0;
 }
 
+#ifdef HAVE_BLASLT
 int default_create_blasLt_type(struct test *test, cublasComputeType_t computeType,
 				cudaDataType_t Atype, cudaDataType_t Btype,
 				cudaDataType_t Ctype, cudaDataType_t scaleType)
@@ -544,6 +555,7 @@ int default_create_blasLt_fp64(struct test *test)
 	return default_create_blasLt_type(test, CUBLAS_COMPUTE_64F,
 		CUDA_R_64F, CUDA_R_64F, CUDA_R_64F, CUDA_R_64F);
 }
+#endif /* HAVE_BLASLT */
 
 int __alloc_matrix_pair_int8(const char *dpfx, int8_t **host, int8_t **dev,
 			     int x, int y)
@@ -1061,6 +1073,7 @@ static inline int run_blas_Matmul_type(struct test *test, int type)
 		break;
 	}
 
+#ifdef HAVE_BLASLT
 	CUBLAS_CHECK(cublasLtMatmul(
 				test->ltHandle,
 				test->matmulDesc,
@@ -1078,6 +1091,7 @@ static inline int run_blas_Matmul_type(struct test *test, int type)
 				test->workspace,
 				test->workspaceSize,
 				NULL /* No stream */), return -1);
+#endif
 	return 0;
 }
 
@@ -1385,6 +1399,7 @@ int default_destroy_blas(struct test *test)
 	return 0;
 }
 
+#ifdef HAVE_BLASLT
 int default_destroy_blasLt(struct test *test)
 {
 	cudaFree(test->workspace);
@@ -1396,6 +1411,7 @@ int default_destroy_blasLt(struct test *test)
 	cublasLtDestroy(test->ltHandle);
 	return 0;
 }
+#endif
 
 struct test alltests[] = {
 	{
@@ -1602,6 +1618,7 @@ struct test alltests[] = {
 			.destroy_blas = default_destroy_blas,
 		}
 	},
+#ifdef HAVE_BLASLT
 	{
 		ZERO_TEST("MATMUL INT8", TEST_MATMUL_INT8),
 		{
@@ -1662,6 +1679,7 @@ struct test alltests[] = {
 			.destroy_blas = default_destroy_blasLt,
 		}
 	},
+#endif /* HAVE_BLASLT */
 };
 
 void exec_one_test(struct test *test)
