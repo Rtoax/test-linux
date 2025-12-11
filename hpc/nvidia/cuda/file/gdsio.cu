@@ -189,8 +189,8 @@ static error_t parse_arg(int key, char *arg, struct argp_state *state)
 		break;
 	case 'i':
 		env.iosize = str2size(arg);
-		if (env.iosize % getpagesize()) {
-			fprintf(stderr, "ERROR: iosize do not support unaligned offsets or block sizes.\n");
+		if (env.iosize % KiB) {
+			fprintf(stderr, "ERROR: iosize must unaligned 0x%lx.\n", KiB);
 			exit(EXIT_FAILURE);
 		}
 		break;
