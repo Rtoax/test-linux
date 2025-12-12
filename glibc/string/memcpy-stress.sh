@@ -1,9 +1,12 @@
 #!/bin/bash
 set -e
 
+source /etc/profile
+export -f make_tl
+
 readonly MiB=1024*1024
 
-make memcpy-stress
+make_tl memcpy-stress
 
 pfx=
 exe=memcpy-stress
