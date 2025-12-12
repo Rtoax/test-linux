@@ -10,4 +10,8 @@ fi
 
 # only numactl v2.0.16-47-gf117290fd85c support --version argument
 # https://github.com/numactl/numactl
-${NUMACTL} --version 2>/dev/null || echo '< 2.0.16'
+# numactl <= 2.0.14 don't has --version argument.
+${NUMACTL} --version 2>/dev/null || \
+	rpm -q --queryformat='%{VERSION}\n' numactl 2>/dev/null || \
+	dpkg-query -W -f='${Version}\n' numactl 2>/dev/null || \
+	false

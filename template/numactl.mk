@@ -9,6 +9,7 @@
 #
 _NUMACTL = 1
 
+include dir.mk
 include shell.mk
 include values.mk
 
@@ -18,24 +19,12 @@ LIBNUMAIF_HDR := /usr/include/numaif.h
 
 ifneq (${NUMACTL},)
   # Get numactl version
-  NUMACTL_VERSION := $(shell ${NUMACTL} --version 2>/dev/null \
-			| grep -o [0-9]*\.[0-9]*\.[0-9]* | sed -n '1p' || true)
+  NUMACTL_VERSION := $(shell ${TOPDIR}/numa/numactl/version.sh)
 else
   $(warning Not found numactl, please install first)
 endif
 
 $(call check_file_and_def,${LIBNUMA_HDR},HAVE_LIBNUMA)
-
-# only numactl v2.0.16-47-gf117290fd85c support --version argument
-# https://github.com/numactl/numactl
-ifeq (${NUMACTL_VERSION},)
-  NUMACTL_VERSION := 2.0.16
-endif
-
-# numactl <= 2.0.14 don't has --version argument.
-ifeq (${NUMACTL_VERSION},)
-  NUMACTL_VERSION := $(shell rpm -q --queryformat=%{VERSION} ${NUMACTL} 2>/dev/null || true)
-endif
 
 NUMACTL_VERSION_MAJOR := $(shell echo ${NUMACTL_VERSION} | awk -F '.' '{print $$1}')
 NUMACTL_VERSION_MINOR := $(shell echo ${NUMACTL_VERSION} | awk -F '.' '{print $$2}')
