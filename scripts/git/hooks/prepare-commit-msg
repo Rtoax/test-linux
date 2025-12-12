@@ -132,7 +132,8 @@ files_have_key() {
 	local key
 	for key in ${@}
 	do
-		if [[ "$(echo ${CHANGED_FILES[@]} | grep -o ${key})" ]]; then
+		# Match the whole word
+		if [[ "$(echo ${CHANGED_FILES[@]} | grep -wo ${key})" ]]; then
 			echo "YES"
 			return 0
 		fi
