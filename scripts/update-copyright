@@ -2,15 +2,17 @@
 # Copyright (C) 2025 Rong Tao
 set -e
 
+AUTHOR='Rong Tao'
+
 for f in $(find -type f)
 do
 	[[ -L $f ]] && continue
 	[[ ${f:0:6} == ./.git ]] && continue
 
-	old=$(grep -o 'Copyright (C) [0-9]\{4\}-[0-9]\{4\} Rong Tao' $f || :)
-	if [[ -z ${old} ]]; then
-		old=$(grep -o 'Copyright (C) [0-9]\{4\} Rong Tao' $f || :)
-	fi
+	old=$(grep -o 'Copyright (C) [0-9]\{4\}-[0-9]\{4\} '"${AUTHOR}"'' $f || :)
+	[[ -z ${old} ]] && old=$(grep -o 'Copyright [0-9]\{4\}-[0-9]\{4\} '"${AUTHOR}"'' $f || :)
+	[[ -z ${old} ]] && old=$(grep -o 'Copyright (C) [0-9]\{4\} '"${AUTHOR}"'' $f || :)
+	[[ -z ${old} ]] && old=$(grep -o 'Copyright [0-9]\{4\} '"${AUTHOR}"'' $f || :)
 
 	# Not found copyright line
 	if [[ -z ${old} ]]; then
@@ -42,9 +44,9 @@ do
 	echo "Handle $f"
 
 	if [[ ${startyear} -eq ${year} ]]; then
-		to="Copyright (C) ${year} Rong Tao"
+		to="Copyright (C) ${year} ${AUTHOR}"
 	else
-		to="Copyright (C) ${startyear}-${year} Rong Tao"
+		to="Copyright (C) ${startyear}-${year} ${AUTHOR}"
 	fi
 
 	sed -i 's/'"$old"'/'"$to"'/g' $f

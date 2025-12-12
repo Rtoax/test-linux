@@ -9,7 +9,7 @@
  *
  * This is a bpftrace version of the bcc tool of the same name.
  *
- * Copyright 2021 Rong Tao.
+ * Copyright (C) 2021-2025 Rong Tao.
  * Licensed under the Apache License, Version 2.0 (the "License")
  *
  * 12-Dec-2021	Rong Tao	Created this.

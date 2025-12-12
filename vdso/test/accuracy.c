@@ -1,7 +1,7 @@
 /**
  * Get syscall/vdso clock_gettime() accuracy
  *
- * Copyright 2024 Rong Tao.
+ * Copyright (C) 2024-2025 Rong Tao.
  *
  * 2024-04-11	Rong Tao	Create this.
  */

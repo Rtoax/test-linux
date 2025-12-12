@@ -4,7 +4,7 @@
 # dirwatch Monitor directory file create and remove.
 #           For Linux, uses BCC, eBPF. Embedded C.
 #
-# Copyright 2023 Rong Tao.
+# Copyright (C) 2023-2025 Rong Tao.
 # Licensed under the Apache License, Version 2.0 (the "License")
 #
 # 23-Aug-2023    Rong Tao    Create this.
