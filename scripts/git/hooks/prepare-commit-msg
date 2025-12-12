@@ -175,7 +175,7 @@ fi
 
 if [[ -z ${signed_off_by_line} ]]; then
 	warning "Skipping git hooks of prepare-commit-msg"
-	return 0
+	exit 0
 fi
 
 add_env "CPU $(cpu_info)"
