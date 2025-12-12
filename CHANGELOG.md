@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - luca: Phase II project tested;
 #### Added
+- dma: add dmaengine directory;
 - numactl: add version.sh;
 - scripts: add update-copyright;
 - gdsio: add `gdsio_awk.sh`;
