@@ -702,11 +702,11 @@ int main(int argc, char *argv[])
 	if (env.otype == OP_READ) {
 		struct stat st;
 		if (stat(filepath, &st) != 0) {
-			fprintf(stderr, "ERROR: could not stat(%s), %m\n", filepath);
+			fprintf(stderr, "ERROR: could not stat file %s, %m\n", filepath);
 			exit(EXIT_FAILURE);
 		}
 		if (env.fsize > st.st_size) {
-			fprintf(stderr, "ERROR: size of %s is smaller than %ld\n",
+			fprintf(stderr, "ERROR: size of file %s is smaller than read size %ld\n",
 				filepath, env.fsize);
 			exit(EXIT_FAILURE);
 		}
