@@ -10,26 +10,14 @@ readonly AUTHOR='Rong Tao'
 FILES=( ${@} )
 [[ -z "${FILES}" ]] && FILES=( $(find -type f) )
 
-for f in ${FILES[@]}
-do
-	[[ -L $f ]] && continue
-	[[ ${f:0:6} == ./.git ]] && continue
-
-	old=$(grep -o 'Copyright (C) [0-9]\{4\}-[0-9]\{4\} '"${AUTHOR}"'' $f || :)
-	[[ -z ${old} ]] && old=$(grep -o 'Copyright [0-9]\{4\}-[0-9]\{4\} '"${AUTHOR}"'' $f || :)
-	[[ -z ${old} ]] && old=$(grep -o 'Copyright (C) [0-9]\{4\} '"${AUTHOR}"'' $f || :)
-	[[ -z ${old} ]] && old=$(grep -o 'Copyright [0-9]\{4\} '"${AUTHOR}"'' $f || :)
-
-	# Not found copyright line
-	if [[ -z ${old} ]]; then
-		# TODO: try to add one?
-		continue
-	fi
-
-	years=( $(echo "${old}" | grep -o '[0-9]\{4\}') )
-	year=$(date +%Y)
-	startyear=
-	endyear=
+# $1: file path
+# $2: format: "Copyright (C) Y-Y AUTHOR"
+gen_copyright() {
+	local file=$1
+	local old="$2"
+	local years=( $(echo "${old}" | grep -o '[0-9]\{4\}') )
+	local year=$(date +%Y)
+	local startyear endyear to
 
 	if [[ ${#years[@]} -eq 2 ]]; then
 		startyear=${years[0]}
@@ -38,22 +26,65 @@ do
 		startyear=${years[0]}
 		endyear=${years[0]}
 	else
-		echo "ERROR: Bad '${old}' in $f"
+		echo >&2 "ERROR: Bad '${old}' in ${file}"
 		exit 1
 	fi
 
 	if [[ ${endyear} -gt ${year} ]]; then
-		echo "ERROR: Bad year '${endyear}' in $f"
-		exit 1
+		echo >&2 "WARNING: Bad year '${endyear}' in ${file}, correct it to ${year}"
+		endyear=${year}
 	fi
-
-	echo "Handle $f"
 
 	if [[ ${startyear} -eq ${year} ]]; then
 		to="Copyright (C) ${year} ${AUTHOR}"
 	else
 		to="Copyright (C) ${startyear}-${year} ${AUTHOR}"
 	fi
+	echo "${to}"
+}
 
-	sed -i 's/'"$old"'/'"$to"'/g' $f
+# $1: file path
+# $2: old copyright, format: "Copyright (C) Y-Y AUTHOR"
+# $3: new copyright, format: "Copyright (C) Y-Y AUTHOR"
+replace_copyright() {
+	local file=$1
+	local old="$2"
+	local new="$3"
+
+	if [[ "${new}" == "${old}" ]]; then
+		return 0
+	fi
+
+	echo "Handle $file: '${old}' -> '${new}'"
+	sed -i 's/'"$old"'/'"$new"'/g' $file
+}
+
+for f in ${FILES[@]}
+do
+	[[ -L $f ]] && continue
+	[[ ${f:0:6} == ./.git ]] && continue
+
+	old=$(grep -o 'Copyright (C) [0-9]\{4\}-[0-9]\{4\} '"${AUTHOR}"'' $f || :)
+	if [[ "${old}" ]]; then
+		new="$(gen_copyright $f "${old}")"
+		replace_copyright "$f" "$old" "$new"
+	fi
+
+	old=$(grep -o 'Copyright [0-9]\{4\}-[0-9]\{4\} '"${AUTHOR}"'' $f || :)
+	if [[ "${old}" ]]; then
+		new="$(gen_copyright $f "${old}")"
+		replace_copyright "$f" "$old" "$new"
+	fi
+
+	old=$(grep -o 'Copyright (C) [0-9]\{4\} '"${AUTHOR}"'' $f || :)
+	if [[ "${old}" ]]; then
+		new="$(gen_copyright $f "${old}")"
+		replace_copyright "$f" "$old" "$new"
+	fi
+
+	old=$(grep -o 'Copyright [0-9]\{4\} '"${AUTHOR}"'' $f || :)
+	if [[ "${old}" ]]; then
+		new="$(gen_copyright $f "${old}")"
+		replace_copyright "$f" "$old" "$new"
+	fi
 done
