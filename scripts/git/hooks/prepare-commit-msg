@@ -99,6 +99,10 @@ add_make_ver() {
 	local make_ver=$(${GIT_TOPDIR}/gnu/make/version.sh)
 	add_ver "MAKE ${make_ver}"
 }
+add_numactl_ver() {
+	local ver=$(${GIT_TOPDIR}/numa/numactl/version.sh)
+	add_ver "NUMACTL ${ver}"
+}
 add_bpftrace_ver() {
 	local bpftrace_ver=$(${GIT_TOPDIR}/bpf/bpftrace/version.sh)
 	add_ver "BPFTrace ${bpftrace_ver}"
@@ -200,6 +204,10 @@ fi
 
 if [[ "$(files_have_type mk make)$(files_have_key make)" ]]; then
 	add_make_ver
+fi
+
+if [[ "$(files_have_key numa numactl)" ]]; then
+	add_numactl_ver
 fi
 
 if [[ "$(files_have_type bt)$(files_have_key bpftrace)" ]]; then
