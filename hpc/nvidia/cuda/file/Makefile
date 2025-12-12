@@ -12,6 +12,9 @@ target-nvcc-${HAVE_CUFILE} := ${common-objs}
 target-lscc-${HAVE_LCFILE} := $(patsubst %,%-luca,$(common-objs))
 target-htcc-${HAVE_HPCC} := $(patsubst %,%-hpcc,$(common-objs))
 
+# Ignore warning: array designators are a C99 extension
+CFLAGS_LSCC += -Wno-c99-designator
+
 include main.mk
 
 # $1: obj name
