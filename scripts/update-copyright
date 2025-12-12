@@ -1,10 +1,16 @@
 #!/bin/bash
 # Copyright (C) 2025 Rong Tao
+#
+# Usage: update-copyright [FILE...]
+#
 set -e
 
-AUTHOR='Rong Tao'
+readonly AUTHOR='Rong Tao'
 
-for f in $(find -type f)
+FILES=( ${@} )
+[[ -z "${FILES}" ]] && FILES=( $(find -type f) )
+
+for f in ${FILES[@]}
 do
 	[[ -L $f ]] && continue
 	[[ ${f:0:6} == ./.git ]] && continue
