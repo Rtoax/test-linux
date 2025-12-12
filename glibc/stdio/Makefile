@@ -26,6 +26,7 @@ target-y += setbuf setvbuf
 target-y += fgets
 target-y += fopen
 target-y += fread
+target-y += fscanf
 target-y += fopencookie
 
 ifneq ($(LIBC_PRINTF_SYMADDR),)
@@ -35,6 +36,7 @@ endif
 CFLAGS_getdelim := -DTEST_getdelim=1
 CFLAGS_sprintf := -Wno-error=format-overflow
 CFLAGS_snprintf := -Wno-error=format-truncation
+CFLAGS_fscanf := -Wno-error=format
 
 target-post-y := os-release
 
@@ -73,4 +75,5 @@ setvbuf: ${OUTPUT}setvbuf.o
 fgets: ${OUTPUT}fgets.o
 fopen: ${OUTPUT}fopen.o
 fread: ${OUTPUT}fread.o
+fscanf: ${OUTPUT}fscanf.o
 fopencookie: ${OUTPUT}fopencookie.o

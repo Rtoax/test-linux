@@ -28,4 +28,5 @@
 /fgets
 /fopen
 /fread
+/fscanf
 /fopencookie
