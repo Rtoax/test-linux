@@ -1,10 +1,9 @@
 #!/bin/bash
-# Print softirqs
-#
 # Copyright 2023 Rong Tao.
 #
-# 2023-08-01	Rong Tao	Create this.
-# 2023-10-11	Rong Tao	Add --no-color argument.
+# Print softirqs
+#
+set -e
 
 declare -a softirqs
 softirq_type=
@@ -101,7 +100,6 @@ print_softirqs()
 		printf "%-4d %-16d\n" $( expr $i + $j ) ${softirqs[$i + $j + 1]}
 	done
 }
-
 
 update_softirqs
 print_softirqs
