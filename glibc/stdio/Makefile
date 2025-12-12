@@ -36,7 +36,6 @@ endif
 CFLAGS_getdelim := -DTEST_getdelim=1
 CFLAGS_sprintf := -Wno-error=format-overflow
 CFLAGS_snprintf := -Wno-error=format-truncation
-CFLAGS_fscanf := -Wno-error=format
 
 target-post-y := os-release
 
