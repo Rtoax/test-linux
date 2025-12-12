@@ -2,6 +2,7 @@
 subdir-y := procfs
 subdir-y += ext4
 subdir-y += xfs
+subdir-y += sysfs
 subdir-y += fat
 subdir-y += debugfs tracefs
 subdir-y += overlayfs
