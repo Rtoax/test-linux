@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - luca: Phase II project tested;
 #### Added
+- nvme: add nvme2pcie.sh;
 - dma: add dmaengine directory;
 - numactl: add version.sh;
 - scripts: add update-copyright;
