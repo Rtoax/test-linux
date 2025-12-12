@@ -19,6 +19,7 @@ target-libso-y := ${libproc-helpers}
 
 target-shell-y := mounts.sh
 target-shell-y += cmdline.sh
+target-shell-y += diskstats.sh
 target-shell-y += version.sh
 
 LDFLAGS := -Wl,-rpath,$(shell pwd)
