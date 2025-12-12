@@ -12,9 +12,6 @@
 
 #include "numa_helpers.h"
 
-static int run_on_cpu;
-static int cpu_numa;
-
 void *task_busy_write_page(void *arg)
 {
 	int i;
@@ -35,14 +32,17 @@ void busy_write(void *mem)
 
 int main(int argc, char *argv[])
 {
-	int i, ret, mode, flags;
+	int i, ret, mode;
 	void *mem;
 	size_t msize, pages;
 	int maxnode;
+	int run_on_cpu;
+	int cpu_numa, page_numa;
+
 	struct bitmask *nodemask;
 
 	fprintf(stderr, "\033[1;32mTest\n");
-	fprintf(stderr, " $ sudo numactl --membind=2 %s\033[m\n",
+	fprintf(stderr, " $ sudo numactl --cpunodebind=1 --membind=2 %s\033[m\n",
 		argv[0]);
 
 	run_on_cpu = sched_getcpu();
@@ -58,8 +58,10 @@ int main(int argc, char *argv[])
 	 */
 	mode = MPOL_LOCAL;
 	ret = mbind(NULL, 0, mode, NULL, 0, 0);
-	if (ret != 0)
+	if (ret != 0) {
 		perror("mbind");
+		exit(1);
+	}
 
 	pages = 10;
 	msize = getpagesize() * pages;
@@ -85,34 +87,26 @@ int main(int argc, char *argv[])
 #endif
 
 	maxnode = numa_max_node() + 1;
-	nodemask = numa_bitmask_alloc(maxnode);
-
 	printf("Number of node %d\n", maxnode);
 
-	numa_bitmask_clearall(nodemask);
-	numa_bitmask_setbit(nodemask, cpu_numa);
+	nodemask = numa_bitmask_alloc(maxnode);
 
-	mode = MPOL_BIND;
-	flags = MPOL_MF_MOVE | MPOL_MF_STRICT;
+	page_numa = get_addr_node(mem);
+	printf("Pages now on node %d\n", page_numa);
 
-	printf("Pages now on node %d\n", get_addr_node(mem));
-
-	printf("Moving pages via mbind() to node %d ...\n", cpu_numa);
-	ret = mbind(mem, msize, mode, nodemask->maskp, nodemask->size, flags);
-	if (ret != 0)
-		perror("mbind");
-
-	printf("Pages now on node %d\n", get_addr_node(mem));
-
-	if (maxnode > 1) {
+	if (cpu_numa != page_numa) {
+		printf("Moving pages via mbind() from node %d to %d ...\n", page_numa, cpu_numa);
 		numa_bitmask_clearall(nodemask);
-		numa_bitmask_setbit(nodemask, 1);
-		printf("Moving pages via mbind() to node 1 ...\n");
-		ret = mbind(mem, msize, mode, nodemask->maskp, nodemask->size, flags);
-		if (ret != 0)
-			perror("mbind");
+		numa_bitmask_setbit(nodemask, cpu_numa);
+		ret = mbind(mem, msize, MPOL_BIND, nodemask->maskp, nodemask->size,
+				MPOL_MF_MOVE | MPOL_MF_STRICT);
+		if (ret != 0) {
+			fprintf(stderr, "mbind() failed, %m\n");
+			goto done;
+		}
 
-		printf("Pages now on node %d\n", get_addr_node(mem));
+		page_numa = get_addr_node(mem);
+		printf("Pages now on node %d\n", page_numa);
 	}
 
 	/**
@@ -166,6 +160,7 @@ move_pages_failed:
 		free(status);
 	}
 
+done:
 #if defined(ALLOC_WITH_MMAP)
 	munmap(mem, msize);
 #else
