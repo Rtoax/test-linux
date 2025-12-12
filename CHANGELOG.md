@@ -31,6 +31,7 @@ and this project adheres to
 - fakeCUDA: support LUCA phase II;
 - ai: add os subdir;
 #### Changed
+- numa: move samples/ to numactl directory;
 - Move vhost into virt directory;
 - Move virtio into virt directory;
 - compiler/atomic: remove prefix `__atomic_` of source code files;

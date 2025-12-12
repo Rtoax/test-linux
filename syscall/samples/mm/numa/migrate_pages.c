@@ -1,1 +1,1 @@
-../../../../numa/samples/migrate_pages.c
+../../../../numa/numactl/samples/migrate_pages.c
