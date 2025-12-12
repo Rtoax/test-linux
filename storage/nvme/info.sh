@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 dev_nvme=( $(sudo nvme list | grep ^/dev/nvme | awk '{print $1}') )
 for dev in ${dev_nvme[@]}
