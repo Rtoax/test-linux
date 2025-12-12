@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - luca: Phase II project tested;
 #### Added
+- sysfs: add mounts.sh;
 - fs: add sysfs to subdir;
 - python/matplotlib: add 3d-demos.py;
 - proc: add diskstats.sh;
