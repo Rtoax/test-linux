@@ -4,7 +4,7 @@ _TARGET_PYTHON = 1
 include python.mk
 include dir.mk
 
-RUN_PYTHON := ${TOPDIR}/template/targets/run_prog.sh
+RUN_PYTHON := ${TOPDIR}/scripts/runprog.sh
 
 ifdef DEBUG
   RUN_PYTHON += --verbose

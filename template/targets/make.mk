@@ -5,7 +5,7 @@ MAKE := make
 
 include dir.mk
 
-RUN_MAKE := ${TOPDIR}/template/targets/run_prog.sh
+RUN_MAKE := ${TOPDIR}/scripts/runprog.sh
 
 ifdef DEBUG
   RUN_MAKE += --verbose

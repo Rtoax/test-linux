@@ -4,7 +4,7 @@ _TARGET_SHELL = 1
 include shell.mk
 include dir.mk
 
-RUN_SHELL := ${TOPDIR}/template/targets/run_prog.sh
+RUN_SHELL := ${TOPDIR}/scripts/runprog.sh
 
 ifdef DEBUG
   RUN_SHELL += --verbose
