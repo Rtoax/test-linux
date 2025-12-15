@@ -38,6 +38,7 @@ and this project adheres to
 - fakeCUDA: support LUCA phase II;
 - ai: add os subdir;
 #### Changed
+- move tracepoint into trace directory;
 - numa: move samples/ to numactl directory;
 - Move vhost into virt directory;
 - Move virtio into virt directory;
