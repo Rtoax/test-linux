@@ -1,18 +1,13 @@
-subdir-y :=
+include arch.mk
 
 target-y := cpu_relax
-ifeq ($(shell uname -m),x86_64)
-  subdir-y += x86_32
-  subdir-y += x86_64
-else ifeq ($(shell uname -m),aarch64)
-  subdir-y += aarch64
-else ifeq ($(shell uname -m),sw_64)
-  subdir-y += sw_64
-else ifeq ($(shell uname -m),loongarch64)
-  subdir-y += loongarch64
-else ifeq ($(shell uname -m),riscv64)
-  subdir-y += riscv64
-endif
+
+subdir-${IS_X86_64} += x86_32
+subdir-${IS_X86_64} += x86_64
+subdir-${IS_AARCH64} += aarch64
+subdir-${IS_SW_64} += sw_64
+subdir-${IS_LOONGARCH64} += loongarch64
+subdir-${IS_RISCV64} += riscv64
 
 target-post-y := $(patsubst %,%.c.s,${target-y})
 
