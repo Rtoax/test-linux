@@ -1,5 +1,5 @@
 #!/bin/bash
-# Usage: run_prog.sh [-v|--verbose] [--maybe-sudo] LOG_FILE EXE [ARGS]
+# Usage: runprog.sh [-v|--verbose] [--maybe-sudo] LOG_FILE EXE [ARGS]
 
 set -e
 
