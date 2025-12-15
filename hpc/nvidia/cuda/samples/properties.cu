@@ -12,6 +12,9 @@
  * - NVIDIA A40
  *   commit fb9553a10493 ("cuda: NVIDIA A40: properties")
  *
+ * - NVIDIA Grace Blackwell GB10 GDX Spark
+ *   commit 3b8fb94304f4 ("cuda: NVIDIA Grace Blackwell: NVIDIA GDX Spark properties")
+ *
  * - LingSpeed X710
  *   commit e96201a12949 ("Lingspeed X710-E: properties")
  *
