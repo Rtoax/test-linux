@@ -23,7 +23,7 @@
 #include "cuda_compat.h"
 #include "../cuda_helpers.h"
 
-#define VERSION	"v1.0.0"
+#define VERSION	"v1.0.1"
 
 #define KiB 1024UL
 #define MiB (KiB * 1024UL)
@@ -85,8 +85,10 @@ static struct {
 	.filename = "gdsio.out",
 	.dir = NULL, /* default to "." */
 	.nr_threads = 1,
-	.fsize = 1024 * KiB,
-	.iosize = 1024 * KiB,
+#define DEFAULT_FSIZE	(1024 * KiB)
+	.fsize = DEFAULT_FSIZE,
+#define DEFAULT_IOSIZE	(1024 * KiB)
+	.iosize = DEFAULT_IOSIZE,
 	.numa = 0,
 	.xtype = XFER_BETWEEN_STORAGE__GPU,
 	.otype = OP_WRITE,
@@ -674,7 +676,8 @@ int main(int argc, char *argv[])
 	}
 
 	if ((env.fsize / env.nr_threads) % env.iosize) {
-		fprintf(stderr, "ERROR: Each thread's memory block should iosize-align.\n");
+		fprintf(stderr, "ERROR: Each thread's memory block (%ld) should iosize-align (%ld).\n",
+			env.fsize / env.nr_threads, env.iosize);
 		exit(EXIT_FAILURE);
 	}
 
