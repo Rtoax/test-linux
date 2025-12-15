@@ -28,15 +28,15 @@ libso-luca += liblcsparse.so
 libso-luca += liblcsolver.so
 libso-luca += liblccl.so
 
-libso-cuda := libcuda.so.1
-libso-cuda += libcudart.so.12 libcudart.so.13
-libso-cuda += libcublas.so.12 libcublas.so.13
-libso-cuda += libcublasLt.so.12 libcublasLt.so.13
-libso-cuda += libcufft.so.11 libcufft.so.12
-libso-cuda += libcurand.so.10
-libso-cuda += libcusparse.so.12
-libso-cuda += libcusolver.so.12
-libso-cuda += libnccl.so.2
+target-libso-cpp-${HAVE_CUDA} := libcuda.so.1
+target-libso-cpp-${HAVE_CUDA} += libcudart.so.12 libcudart.so.13
+target-libso-cpp-${HAVE_CUDA} += libcublas.so.12 libcublas.so.13
+target-libso-cpp-${HAVE_CUDA} += libcublasLt.so.12 libcublasLt.so.13
+target-libso-cpp-${HAVE_CUDA} += libcufft.so.11 libcufft.so.12
+target-libso-cpp-${HAVE_CUDA} += libcurand.so.10
+target-libso-cpp-${HAVE_CUDA} += libcusparse.so.12
+target-libso-cpp-${HAVE_CUDA} += libcusolver.so.12
+target-libso-cpp-${HAVE_NCCL} += libnccl.so.2
 
 libso-hip := libamdhip64.so.5 libamdhip64.so.6
 libso-hip += libhipfft.so.0 librocfft.so.0
@@ -92,13 +92,10 @@ endif
 
 ifdef HAVE_CUDA
   $(info HAVE_CUDA)
-  target-libso-cpp-y += ${libso-cuda}
-
   CXXFLAGS_SO += -I/usr/local/cuda/include/
   CXXFLAGS_SO += -DCUDA_VERSION_MAJOR=${CUDA_VERSION_MAJOR}
   CXXFLAGS_SO += -DCUDA_VERSION_MINOR=${CUDA_VERSION_MINOR}
   CXXFLAGS_SO += -DCUDA_VERSION_PATCH=${CUDA_VERSION_PATCH}
-
   CXXFLAGS_SO += -DHAVE_CUDA=1
 endif
 
