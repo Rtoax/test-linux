@@ -1,9 +1,10 @@
 #!/bin/bash
-# Usage: run_prog.sh [-v|--verbose] LOG_FILE EXE [EXE ARGS]
+# Usage: run_prog.sh [-v|--verbose] [--maybe-sudo] LOG_FILE EXE [ARGS]
 
 set -e
 
 verbose=
+SUDO=
 
 error() {
 	echo >&2 "ERROR: $@"
@@ -18,6 +19,12 @@ do
 		set -x
 		verbose=YES
 		;;
+	--maybe-sudo)
+		shift 1
+		if sudo --non-interactive true 2>/dev/null; then
+			SUDO=sudo
+		fi
+		;;
 	*)
 		break
 		;;
@@ -29,7 +36,7 @@ shift
 readonly EXE=$1
 shift
 
-${EXE} $@ | tee ${LOG_FILE}
+${SUDO} ${EXE} $@ | tee ${LOG_FILE}
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
 	rm -f ${LOG_FILE}
 	error "${EXE} $@: run failed"
