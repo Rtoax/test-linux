@@ -19,6 +19,12 @@ GPU - Graphics Processing Unit
 | P100                 |       |             |             |
 
 
+# SMI Informations
+
+- **nvidia-smi**
+- **nvidia-smi topo**
+
+
 # SM: Streaming Multiprocessors
 
 - `Core`: CUDA Core
