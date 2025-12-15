@@ -38,6 +38,7 @@ and this project adheres to
 - fakeCUDA: support LUCA phase II;
 - ai: add os subdir;
 #### Changed
+- Move kprobes into trace directory;
 - Move {ftrace,fentry} into trace directory;
 - Move uprobes into trace directory;
 - move tracepoint into trace directory;
