@@ -1,5 +1,10 @@
 # SPDX-License-Identifier: GPL-3.0
 # Copyright (C) 2025 Rong Tao
+#
+# Output definitions:
+# - SUDO=sudo
+# - SUDO_NON_INTERACTIVE=y
+#
 _SUDO = 1
 
 # If command require superuser privileges to be executed. Otherwise, EPERM
@@ -9,6 +14,11 @@ _SUDO = 1
 SUDO := $(shell if sudo --non-interactive true 2>/dev/null; then \
 		echo sudo; fi)
 
+ifneq (${SUDO},)
+  SUDO_NON_INTERACTIVE := y
+endif
+
 ifdef DEBUG
   $(info SUDO = ${SUDO})
+  $(info SUDO_NON_INTERACTIVE = ${SUDO_NON_INTERACTIVE})
 endif
