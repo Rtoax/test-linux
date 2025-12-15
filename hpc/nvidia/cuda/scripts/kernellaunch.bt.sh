@@ -10,6 +10,8 @@ readonly TRACING_TYPE_LAUNCH=launch
 readonly TRACING_TYPES=( ${TRACING_TYPE_LATENCY} ${TRACING_TYPE_LAUNCH} )
 TRACING_TYPE=${TRACING_TYPE_LAUNCH}
 
+FILTER_COMM=
+
 tmp_file=tmp-klaunch.bt
 
 __usage__()
@@ -19,6 +21,7 @@ ${BOLD}NAME${RST}
 	Kernellaunch.bt.sh - Tracing CUDA kernel Launch
 
 ${BOLD}ARGUMENT${RST}
+	-C, --comm [COMM]        only tracing COMM
 	-T, --trace-type [T]     tracing type: ${TRACING_TYPES[@]}
 
 	-h, --help               show this help information
@@ -34,7 +37,8 @@ error() {
 }
 
 TEMP_ARGS=$(getopt \
-	--options T:vh \
+	--options C:T:vh \
+	--long comm: \
 	--long trace-type: \
 	--long verbose \
 	--long help \
@@ -52,6 +56,11 @@ while true; do
 		if ! [[ " ${TRACING_TYPES[@]} " =~ " ${TRACING_TYPE} " ]]; then
 			error "Not support ${TRACING_TYPE}, only: ${TRACING_TYPES[@]}"
 		fi
+		shift
+		;;
+	-C|--comm)
+		shift
+		FILTER_COMM="/ comm == \"$1\" /"
 		shift
 		;;
 	-h|--help)
@@ -129,11 +138,11 @@ ${TRACING_TYPE_LAUNCH})
 		printf("Tracing CUDA Kernel Launch, hit ctrl-c to end.\n");
 		printf("%-8s %-8s %-16s %s\n", "TIME", "PID", "COMM", "PROBE");
 	}
-	$(probe_list ${UPROBES[@]}) {
+	$(probe_list ${UPROBES[@]}) ${FILTER_COMM} {
 		time("%H:%M:%S ");
 		printf("%-8d %-16s %s\n", pid, comm, probe);
 	}
-	$(probe_list ${URETPROBES[@]}) {
+	$(probe_list ${URETPROBES[@]}) ${FILTER_COMM} {
 		time("%H:%M:%S ");
 		printf("%-8d %-16s %s %d\n", pid, comm, probe, retval);
 	}
@@ -148,7 +157,7 @@ ${TRACING_TYPE_LATENCY})
 	BEGIN {
 		printf("Tracing CUDA Kernel Launch Latency, hit ctrl-c to end.\n");
 	}
-	$(probe_list ${UPROBES[@]}) {
+	$(probe_list ${UPROBES[@]}) ${FILTER_COMM} {
 		@start[tid] = nsecs;
 	}
 	$(probe_list ${URETPROBES[@]})
