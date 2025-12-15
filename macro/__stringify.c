@@ -20,7 +20,7 @@
 # error include stdbool.h failed
 #endif
 
-#define NUM	3
+#define NUM	(1 + 3)
 
 int main(void)
 {
