@@ -52,7 +52,7 @@ def load_data(filename="test_data.txt"):
     return x, y, z
 
 
-def plot_3d(fig, ax, x, y, z, type = 2, color = 'blue'):
+def plot_3d(fig, ax, x, y, z, label='', type = 2, color = 'blue'):
     """Plot scatter"""
 
     # 创建网格数据
@@ -82,7 +82,8 @@ def plot_3d(fig, ax, x, y, z, type = 2, color = 'blue'):
     # 创建线框图
     elif type == 2:
         wire = ax.plot_wireframe(xi, yi, zi, rstride=3, cstride=3,
-                                  color=color, alpha=0.6, linewidth=0.9)
+                                  color=color, alpha=0.6, linewidth=0.9,
+                                  label=label)
         ax.scatter(x, y, z, color=color, s=10, alpha=0.5)
         ax.set_xlabel(xlabel, fontsize=10, labelpad=10)
         ax.set_ylabel(ylabel, fontsize=10, labelpad=10)
@@ -111,7 +112,7 @@ def fig_add_data(fig, ax, txt="test_data.txt", type = 2, color = 'blue', fignum 
     print(f"Throughput: {min(z):.4f} - {max(z):.4f} G/s")
     print(f"Avg Throughput: {np.mean(z):.4f} G/s")
 
-    plot_3d(fig, ax, x, y, z, type, color)
+    plot_3d(fig, ax, x, y, z, txt, type, color)
 
 
 if not config_txt or len(config_txt) == 0:
@@ -124,6 +125,7 @@ if args.one:
     for i, a in enumerate(config_txt):
         fig_add_data(fig, ax, txt=a, color=basic_colors[i], fignum=0)
     ax.set_title('Plot 3D', fontsize=12, pad=15)
+    ax.legend()
 else:
     for i, a in enumerate(config_txt):
         fig = plt.figure(i)
