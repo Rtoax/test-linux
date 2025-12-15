@@ -4,12 +4,18 @@
 #
 # Example:
 # $ sudo DIR=/mnt/nvme/ SIZE=4G XFER_TYPES=0 OP_TYPES=0 gdsio_benchmark.sh
+# $ sudo DIR=/mnt/nvme/ PERTHREAD_BLKSZ=16 XFER_TYPES=0 OP_TYPES=0 gdsio_benchmark.sh
 
 set -e
 
 [[ -z ${GDSIO} ]] && GDSIO=gdsio # 1st choice
 [[ ! -e ${GDSIO} ]] && GDSIO=gdsio-luca # 2nd choice
 [[ -z ${DIR} ]] && DIR="."
+
+if [[ ${SIZE} ]] && [[ ${PERTHREAD_BLKSZ} ]]; then
+	echo >&2 "ERROR: couldn't specify SIZE and PERTHREAD_BLKSZ at the same time"
+	exit 1
+fi
 
 # $1: logfile
 runprog() {
@@ -49,11 +55,13 @@ do
 				if [[ ${SIZE} ]]; then
 					size=${SIZE}
 				else
+					[[ -z ${PERTHREAD_BLKSZ} ]] && PERTHREAD_BLKSZ=512
+
 					# Each thread operates on the same
 					# amount of data in parallel; this
 					# is how the performance of the DMA
 					# engine can be tested.
-					size=$(( ${thread} * 512 ))M
+					size=$(( ${thread} * ${PERTHREAD_BLKSZ} ))M
 				fi
 				runprog ${logfile} \
 					./${GDSIO} -D ${DIR} -f gdsio-x${xfer}-s${size}.out \
