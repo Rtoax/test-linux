@@ -71,7 +71,6 @@ kmod-list-y += algorithm/string/modules
 kmod-list-y += boot/modules
 kmod-list-y += bpf/kfunc/modules
 kmod-list-y += driver/block/bio/modules
-kmod-list-y += fs/configfs/samples/
 kmod-list-y += fs/debugfs/modules
 kmod-list-y += fs/myfs/myfs
 kmod-list-y += fs/procfs/modules
