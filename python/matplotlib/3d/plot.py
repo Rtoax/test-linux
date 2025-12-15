@@ -16,6 +16,7 @@ description = """Plot 3D with python matplotlib
 
 examples = """examples:
     ./plot.py -T a.txt b.txt
+    ./plot.py -T a.txt b.txt -1
 """
 
 parser = argparse.ArgumentParser(
@@ -26,6 +27,7 @@ parser.add_argument("-T", "--txt", nargs='*', help="specify the text files.")
 parser.add_argument("-x", "--xlabel", default="IOSize (KB)", help="specify x coordinate axes label")
 parser.add_argument("-y", "--ylabel", default="Threads", help="specify y coordinate axes label")
 parser.add_argument("-z", "--zlabel", default="Throughput (GiB/s)", help="specify z coordinate axes label")
+parser.add_argument("-1", "--one", action="store_true", help="plot all in one figure")
 
 args = parser.parse_args()
 
@@ -35,6 +37,10 @@ xlabel = args.xlabel
 ylabel = args.ylabel
 zlabel = args.zlabel
 
+basic_colors = [
+    'blue', 'red', 'green', 'cyan', 'magenta', 'yellow', 'black', 'white',
+    'orange', 'purple', 'brown', 'pink', 'gray', 'olive', 'navy', 'teal'
+]
 
 def load_data(filename="test_data.txt"):
     data = np.loadtxt(filename, comments='#')
@@ -96,7 +102,7 @@ def plot_3d(fig, ax, x, y, z, title = "plot", type = 2, color = 'blue'):
         ax.set_title(title, fontsize=12, pad=15)
 
 
-def create_figure(txt="test_data.txt", type = 2, fignum = 1):
+def fig_add_data(fig, ax, txt="test_data.txt", type = 2, color = 'blue', fignum = 1):
     if not os.path.exists(txt):
         print("Not found {txt}")
         exit()
@@ -109,17 +115,23 @@ def create_figure(txt="test_data.txt", type = 2, fignum = 1):
     print(f"Throughput: {min(z):.4f} - {max(z):.4f} G/s")
     print(f"Avg Throughput: {np.mean(z):.4f} G/s")
 
-    fig = plt.figure(fignum)
-    ax = fig.add_subplot(projection='3d')
-    plot_3d(fig, ax, x, y, z, txt, type)
+    plot_3d(fig, ax, x, y, z, txt, type, color)
 
 
 if not config_txt or len(config_txt) == 0:
     print("ERROR: Must input txt.")
     exit()
 
-for i, a in enumerate(config_txt):
-    create_figure(txt=a, fignum=i)
+if args.one:
+    fig = plt.figure(0)
+    ax = fig.add_subplot(projection='3d')
+    for i, a in enumerate(config_txt):
+        fig_add_data(fig, ax, txt=a, color=basic_colors[i], fignum=0)
+else:
+    for i, a in enumerate(config_txt):
+        fig = plt.figure(i)
+        ax = fig.add_subplot(projection='3d')
+        fig_add_data(fig, ax, txt=a, color=basic_colors[0], fignum=i)
 
 try:
     plt.tight_layout()
