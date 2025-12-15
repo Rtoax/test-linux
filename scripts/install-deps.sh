@@ -767,8 +767,10 @@ pkgs_fs+=( xfsprogs )
 # AI
 pkgs_ai+=( python3-matplotlib )
 pkgs_ai+=( python3-pillow )
-pkgs_ai+=( python3-torch )
-pkgs_ai+=( python3-torchvision )
+if ! [[ $(is_os ubuntu:24.04) ]]; then
+	pkgs_ai+=( python3-torch )
+	pkgs_ai+=( python3-torchvision )
+fi
 
 # Storage
 pkgs_storage+=( lvm2 )
