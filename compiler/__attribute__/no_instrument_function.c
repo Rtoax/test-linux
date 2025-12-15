@@ -1,1 +1,1 @@
-../../ftrace/samples/mcount-nop.c
+../../trace/ftrace/samples/mcount-nop.c

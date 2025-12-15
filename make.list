@@ -20,7 +20,6 @@ user-list-y += device
 user-list-y += driver
 user-list-y += elf
 user-list-y += fs
-user-list-y += ftrace
 user-list-y += gdb
 user-list-y += glibc
 user-list-y += gnome
