@@ -22,6 +22,7 @@ GPU - Graphics Processing Unit
 # SMI Informations
 
 - **nvidia-smi**
+	- commit 91675845aa3b ("SMI: NVIDIA GB10 with CUDA 13.0")
 - **nvidia-smi topo**
 
 
