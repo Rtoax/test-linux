@@ -24,6 +24,7 @@ GPU - Graphics Processing Unit
 - **nvidia-smi**
 	- commit 91675845aa3b ("SMI: NVIDIA GB10 with CUDA 13.0")
 - **nvidia-smi topo**
+	- commit cd1f41dde44f ("SMI: NVIDIA GB10: topo matrix")
 
 
 # SM: Streaming Multiprocessors
