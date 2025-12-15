@@ -75,6 +75,18 @@ int gpu_max_threads_per_block(int dev_id)
 const char *gpu_compute_cap_str(int major, int minor)
 {
 	switch (major) {
+	case 12:
+		switch (minor) {
+		case 1:
+			/**
+			 * FIXME: just give 12.1 to NVIDIA GDX Spark
+			 */
+			return "GB10 Grace Blackwell";
+			break;
+		default:
+			break;
+		}
+		break;
 	/* Year 2024 */
 	case 10:
 		return "Blackwell";
