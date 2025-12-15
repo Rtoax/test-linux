@@ -46,7 +46,7 @@ def load_data(filename="test_data.txt"):
     return x, y, z
 
 
-def plot_3d(fig, x, y, z, title = "plot", type = 2):
+def plot_3d(fig, ax, x, y, z, title = "plot", type = 2):
     """Plot scatter"""
 
     # 创建网格数据
@@ -59,45 +59,41 @@ def plot_3d(fig, x, y, z, title = "plot", type = 2):
 
     # Create scatter
     if type == 0:
-        ax1 = fig.add_subplot(projection='3d')
-        scatter = ax1.scatter(x, y, z, c=z, cmap='viridis', s=30, alpha=0.8)
-        ax1.set_xlabel(xlabel, fontsize=10, labelpad=10)
-        ax1.set_ylabel(ylabel, fontsize=10, labelpad=10)
-        ax1.set_zlabel(zlabel, fontsize=10, labelpad=10)
-        ax1.set_title(title, fontsize=12, pad=15)
-        plt.colorbar(scatter, ax=ax1, shrink=0.5, label='Throughput (G/s)')
+        scatter = ax.scatter(x, y, z, c=z, cmap='viridis', s=30, alpha=0.8)
+        ax.set_xlabel(xlabel, fontsize=10, labelpad=10)
+        ax.set_ylabel(ylabel, fontsize=10, labelpad=10)
+        ax.set_zlabel(zlabel, fontsize=10, labelpad=10)
+        ax.set_title(title, fontsize=12, pad=15)
+        plt.colorbar(scatter, ax=ax, shrink=0.5, label='Throughput (G/s)')
     # 创建曲面图（需要网格化数据）
     elif type == 1:
-        ax2 = fig.add_subplot(projection='3d')
         # 绘制曲面
-        surf = ax2.plot_surface(xi, yi, zi, cmap='plasma',
+        surf = ax.plot_surface(xi, yi, zi, cmap='plasma',
                                alpha=0.8, linewidth=0, antialiased=True)
-        ax2.set_xlabel(xlabel, fontsize=10, labelpad=10)
-        ax2.set_ylabel(ylabel, fontsize=10, labelpad=10)
-        ax2.set_zlabel(zlabel, fontsize=10, labelpad=10)
-        ax2.set_title(title, fontsize=12, pad=15)
-        fig.colorbar(surf, ax=ax2, shrink=0.5, label='Throughput (G/s)')
+        ax.set_xlabel(xlabel, fontsize=10, labelpad=10)
+        ax.set_ylabel(ylabel, fontsize=10, labelpad=10)
+        ax.set_zlabel(zlabel, fontsize=10, labelpad=10)
+        ax.set_title(title, fontsize=12, pad=15)
+        fig.colorbar(surf, ax=ax, shrink=0.5, label='Throughput (G/s)')
     # 创建线框图
     elif type == 2:
-        ax3 = fig.add_subplot(projection='3d')
-        wire = ax3.plot_wireframe(xi, yi, zi, rstride=3, cstride=3,
-                                  color='blue', alpha=0.6, linewidth=0.5)
-        ax3.scatter(x, y, z, color='red', s=10, alpha=0.5)
-        ax3.set_xlabel(xlabel, fontsize=10, labelpad=10)
-        ax3.set_ylabel(ylabel, fontsize=10, labelpad=10)
-        ax3.set_zlabel(zlabel, fontsize=10, labelpad=10)
-        ax3.set_title(title, fontsize=12, pad=15)
+        wire = ax.plot_wireframe(xi, yi, zi, rstride=3, cstride=3,
+                                  color='blue', alpha=0.6, linewidth=0.9)
+        ax.scatter(x, y, z, color='blue', s=10, alpha=0.5)
+        ax.set_xlabel(xlabel, fontsize=10, labelpad=10)
+        ax.set_ylabel(ylabel, fontsize=10, labelpad=10)
+        ax.set_zlabel(zlabel, fontsize=10, labelpad=10)
+        ax.set_title(title, fontsize=12, pad=15)
     # 创建等高线投影图
     elif type == 3:
-        ax4 = fig.add_subplot(projection='3d')
-        cont = ax4.contour(xi, yi, zi, 20, cmap='hot',
-                           offset=np.min(zi) - 1, linewidths=0.5)
-        surf2 = ax4.plot_surface(xi, yi, zi, cmap='viridis',
+        cont = ax.contour(xi, yi, zi, 20, cmap='hot',
+                           offset=np.min(zi) - 1, linewidths=0.9)
+        surf2 = ax.plot_surface(xi, yi, zi, cmap='viridis',
                                 alpha=0.7, linewidth=0)
-        ax4.set_xlabel(xlabel, fontsize=10, labelpad=10)
-        ax4.set_ylabel(ylabel, fontsize=10, labelpad=10)
-        ax4.set_zlabel(zlabel, fontsize=10, labelpad=10)
-        ax4.set_title(title, fontsize=12, pad=15)
+        ax.set_xlabel(xlabel, fontsize=10, labelpad=10)
+        ax.set_ylabel(ylabel, fontsize=10, labelpad=10)
+        ax.set_zlabel(zlabel, fontsize=10, labelpad=10)
+        ax.set_title(title, fontsize=12, pad=15)
 
 
 def create_figure(txt="test_data.txt", type = 2, fignum = 1):
@@ -114,7 +110,8 @@ def create_figure(txt="test_data.txt", type = 2, fignum = 1):
     print(f"Avg Throughput: {np.mean(z):.4f} G/s")
 
     fig = plt.figure(fignum)
-    plot_3d(fig, x, y, z, txt, type)
+    ax = fig.add_subplot(projection='3d')
+    plot_3d(fig, ax, x, y, z, txt, type)
 
 
 if not config_txt or len(config_txt) == 0:
