@@ -52,7 +52,7 @@ def load_data(filename="test_data.txt"):
     return x, y, z
 
 
-def plot_3d(fig, ax, x, y, z, title = "plot", type = 2, color = 'blue'):
+def plot_3d(fig, ax, x, y, z, type = 2, color = 'blue'):
     """Plot scatter"""
 
     # 创建网格数据
@@ -69,7 +69,6 @@ def plot_3d(fig, ax, x, y, z, title = "plot", type = 2, color = 'blue'):
         ax.set_xlabel(xlabel, fontsize=10, labelpad=10)
         ax.set_ylabel(ylabel, fontsize=10, labelpad=10)
         ax.set_zlabel(zlabel, fontsize=10, labelpad=10)
-        ax.set_title(title, fontsize=12, pad=15)
         plt.colorbar(scatter, ax=ax, shrink=0.5, label='Throughput (G/s)')
     # 创建曲面图（需要网格化数据）
     elif type == 1:
@@ -79,7 +78,6 @@ def plot_3d(fig, ax, x, y, z, title = "plot", type = 2, color = 'blue'):
         ax.set_xlabel(xlabel, fontsize=10, labelpad=10)
         ax.set_ylabel(ylabel, fontsize=10, labelpad=10)
         ax.set_zlabel(zlabel, fontsize=10, labelpad=10)
-        ax.set_title(title, fontsize=12, pad=15)
         fig.colorbar(surf, ax=ax, shrink=0.5, label='Throughput (G/s)')
     # 创建线框图
     elif type == 2:
@@ -89,7 +87,6 @@ def plot_3d(fig, ax, x, y, z, title = "plot", type = 2, color = 'blue'):
         ax.set_xlabel(xlabel, fontsize=10, labelpad=10)
         ax.set_ylabel(ylabel, fontsize=10, labelpad=10)
         ax.set_zlabel(zlabel, fontsize=10, labelpad=10)
-        ax.set_title(title, fontsize=12, pad=15)
     # 创建等高线投影图
     elif type == 3:
         cont = ax.contour(xi, yi, zi, 20, cmap='hot',
@@ -99,7 +96,6 @@ def plot_3d(fig, ax, x, y, z, title = "plot", type = 2, color = 'blue'):
         ax.set_xlabel(xlabel, fontsize=10, labelpad=10)
         ax.set_ylabel(ylabel, fontsize=10, labelpad=10)
         ax.set_zlabel(zlabel, fontsize=10, labelpad=10)
-        ax.set_title(title, fontsize=12, pad=15)
 
 
 def fig_add_data(fig, ax, txt="test_data.txt", type = 2, color = 'blue', fignum = 1):
@@ -115,7 +111,7 @@ def fig_add_data(fig, ax, txt="test_data.txt", type = 2, color = 'blue', fignum 
     print(f"Throughput: {min(z):.4f} - {max(z):.4f} G/s")
     print(f"Avg Throughput: {np.mean(z):.4f} G/s")
 
-    plot_3d(fig, ax, x, y, z, txt, type, color)
+    plot_3d(fig, ax, x, y, z, type, color)
 
 
 if not config_txt or len(config_txt) == 0:
@@ -127,10 +123,12 @@ if args.one:
     ax = fig.add_subplot(projection='3d')
     for i, a in enumerate(config_txt):
         fig_add_data(fig, ax, txt=a, color=basic_colors[i], fignum=0)
+    ax.set_title('Plot 3D', fontsize=12, pad=15)
 else:
     for i, a in enumerate(config_txt):
         fig = plt.figure(i)
         ax = fig.add_subplot(projection='3d')
+        ax.set_title(a, fontsize=12, pad=15)
         fig_add_data(fig, ax, txt=a, color=basic_colors[0], fignum=i)
 
 try:
