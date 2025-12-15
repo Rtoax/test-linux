@@ -1,4 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
+# Copyright (C) 2023-2025 Rong Tao
 __USE_PROC_HELPERS__ = y
 __USE_MMAP_HELPERS__ = y
 
