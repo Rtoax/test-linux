@@ -46,7 +46,7 @@ def load_data(filename="test_data.txt"):
     return x, y, z
 
 
-def plot_3d(fig, ax, x, y, z, title = "plot", type = 2):
+def plot_3d(fig, ax, x, y, z, title = "plot", type = 2, color = 'blue'):
     """Plot scatter"""
 
     # 创建网格数据
@@ -78,8 +78,8 @@ def plot_3d(fig, ax, x, y, z, title = "plot", type = 2):
     # 创建线框图
     elif type == 2:
         wire = ax.plot_wireframe(xi, yi, zi, rstride=3, cstride=3,
-                                  color='blue', alpha=0.6, linewidth=0.9)
-        ax.scatter(x, y, z, color='blue', s=10, alpha=0.5)
+                                  color=color, alpha=0.6, linewidth=0.9)
+        ax.scatter(x, y, z, color=color, s=10, alpha=0.5)
         ax.set_xlabel(xlabel, fontsize=10, labelpad=10)
         ax.set_ylabel(ylabel, fontsize=10, labelpad=10)
         ax.set_zlabel(zlabel, fontsize=10, labelpad=10)
