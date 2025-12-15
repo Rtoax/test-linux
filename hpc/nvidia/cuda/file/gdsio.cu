@@ -298,10 +298,13 @@ void *thread_func(void *targ)
 	fprintf(stderr, "Thread %d waiting.\n", arg->idx);
 #endif
 	pthread_cond_wait(&cond, &mutex);
+	pthread_mutex_unlock(&mutex);
 
+#ifdef DEBUG
+	fprintf(stderr, "Thread %d working.\n", arg->idx);
+#endif
 	err = arg->workload(arg);
 
-	pthread_mutex_unlock(&mutex);
 	pthread_exit((void *)(uintptr_t)err);
 }
 /**
@@ -347,7 +350,9 @@ void multithread_execute(void)
 	unsigned long start = nsecs();
 
 	/* Wakeup all threads */
+	pthread_mutex_lock(&mutex);
 	pthread_cond_broadcast(&cond);
+	pthread_mutex_unlock(&mutex);
 
 #ifdef DEBUG
 	fprintf(stderr, "Wakeup all threads\n");
