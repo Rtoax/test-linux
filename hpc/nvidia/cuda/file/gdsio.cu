@@ -121,7 +121,12 @@ static inline unsigned long increment_ops(void)
 	return __atomic_fetch_add(&total_ops, 1, __ATOMIC_SEQ_CST);
 }
 
-const char argp_prog_doc[] = "gdsio version " VERSION "\n";
+const char argp_prog_doc[] =
+	"gdsio version " VERSION "\n"
+	"\n"
+	"Examples:\n"
+	"\t# Validate GDS\n"
+	"\t$ sudo strace --follow-forks -e trace=write,writev gdsio\n";
 
 static const struct argp_option opts[] = {
 	{ "file", 'f', "FILE", 0, "file name" },
