@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
 #
 # Input definitions:
+# - SHELL_ENVS_*=--env ENV=V
 # - SHELL_ARGS_*=
 #
 _TARGET_SHELL = 1
@@ -16,4 +17,4 @@ endif
 
 %.sh.log: %.sh
 	$(call log_exe,SHELL,$(<),$(@))
-	$(Q)$(RUNPROG) --log $(@) -- ${SHELL} $(<) $(SHELL_ARGS_$(<))
+	$(Q)$(RUNPROG) --log $(@) $(SHELL_ENVS_$(<)) -- ${SHELL} $(<) $(SHELL_ARGS_$(<))

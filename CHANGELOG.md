@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - luca: Phase II project tested;
 #### Added
+- targets/shell.mk: support `SHELL_ENVS_`;
 - Support target-bt-y;
 - distributions: add kali;
 - sysfs: add mounts.sh;

@@ -48,7 +48,7 @@ while true; do
 		;;
 	-e | --env)
 		shift
-		ENVS+=( ${env} )
+		ENVS+=( ${1} )
 		shift
 		;;
 	-v | --verbose)
@@ -75,7 +75,7 @@ while true; do
 	esac
 done
 
-${ENVS} ${SUDO} ${@} | tee ${LOG_FILE}
+${ENVS:+env} ${ENVS[@]} ${SUDO} ${@} | tee ${LOG_FILE}
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
 	rm -f ${LOG_FILE}
 	error "${@}: run failed"
