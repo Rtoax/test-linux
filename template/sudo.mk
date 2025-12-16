@@ -17,7 +17,7 @@ SUDO := $(shell if sudo --non-interactive true 2>/dev/null; then \
 ifneq (${SUDO},)
   SUDO_NON_INTERACTIVE := y
 else
-  $(warning "sudo need password, so just skip it")
+  $(warning "sudo need password, you need to edit /etc/sudoers with NOPASSWD:")
 endif
 
 ifdef DEBUG
