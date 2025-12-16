@@ -11,7 +11,7 @@
  * - commit da2b984e6486 ("simd: GenuineIntel Intel(R) Core(TM) i7-10710U CPU @ 1.10GHz")
  * - commit f7d73d7d348a ("simd: Phytium S5000C")
  * - commit 745fb7691dba ("simd: HiSilicon HUAWEI Kunpeng 920 V200 7280Z")
- * - Cortex-X925 Cortex-A725
+ * - commit f8602c7abfd0 ("simd: NVIDIA GB10 Spark Cortex-X925 Cortex-A725")
  */
 #include <stdio.h>
 #include <stdint.h>
