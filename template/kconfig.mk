@@ -8,16 +8,17 @@
 #
 _KCONFIG = 1
 
-CONFIG_TOPDIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))/../))
+include dir.mk
+
 CONFIG_KERNEL := /boot/config-$(shell uname -r)
 AUTOCONFIG_H := /usr/lib/modules/$(shell uname -r)/include/generated/autoconf.h
 CONFIG_CURDIR_KCONFIG := ${CONFIG_KERNEL}
 
 # If don't have kernel config, include default kconfig file.
 ifeq ($(wildcard $(CONFIG_KERNEL)),)
-  $(warning "WARNING: Not found ${CONFIG_KERNEL}, use ${CONFIG_TOPDIR}/kconfig instead")
+  $(warning "WARNING: Not found ${CONFIG_KERNEL}, use ${TOPDIR}/kconfig instead")
 
-  CONFIG_KERNEL := ${CONFIG_TOPDIR}/kconfig
+  CONFIG_KERNEL := ${TOPDIR}/kconfig
 
   # If current directory has kconfig, include it.
   CONFIG_CURDIR_KCONFIG := kconfig
@@ -38,6 +39,6 @@ ifdef DEBUG
 endif
 
 define display_all_kconfig
-	@configs=($$(find ${CONFIG_TOPDIR} -name kconfig -type f)); \
+	@configs=($$(find ${TOPDIR} -name kconfig -type f)); \
 		cat $${configs[@]} | grep -e '^CONFIG_' -e '^# CONFIG_' | sort -u
 endef
