@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - luca: Phase II project tested;
 #### Added
+- Support target-bt-y;
 - distributions: add kali;
 - sysfs: add mounts.sh;
 - fs: add sysfs to subdir;

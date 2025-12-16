@@ -16,9 +16,13 @@ SUDO := $(shell if sudo --non-interactive true 2>/dev/null; then \
 
 ifneq (${SUDO},)
   SUDO_NON_INTERACTIVE := y
+else
+  $(warning "sudo need password, so just skip it")
 endif
 
 ifdef DEBUG
   $(info SUDO = ${SUDO})
   $(info SUDO_NON_INTERACTIVE = ${SUDO_NON_INTERACTIVE})
 endif
+
+export SUDO SUDO_NON_INTERACTIVE

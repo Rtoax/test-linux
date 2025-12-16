@@ -131,6 +131,7 @@ build-targets += $(target-java-y)
 build-targets += $(patsubst %.sh,%.sh.log,$(target-shell-y))
 build-targets += $(patsubst %.py,%.py.log,$(target-python-y))
 build-targets += $(patsubst %.make,%.make.log,$(target-mk-y))
+build-targets += $(patsubst %.bt,%.bt.log,$(target-bt-y))
 build-targets += $(subdir-y-build)
 build-targets += $(target-post-y)
 
@@ -208,6 +209,9 @@ ifneq ($(target-shell-y),)
 endif
 ifneq ($(target-mk-y),)
   include targets/make.mk
+endif
+ifneq ($(target-bt-y),)
+  include targets/bpftrace.mk
 endif
 ifneq ($(target-python-y),)
   include targets/python.mk

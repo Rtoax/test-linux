@@ -1,4 +1,3 @@
-target-prep-y := test0
+target-bt-y := console_printk.bt
+
 include main.mk
-test0:
-	$(Q)sudo ./console_printk.bt
