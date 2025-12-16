@@ -1,39 +1,46 @@
 # SPDX-License-Identifier: GPL-3.0
 # Copyright (C) 2025 Rong Tao
+#
+# Ouput definitions:
+# - CPU_VENDOR_ID=
+# - CPU_L3LINESIZE=[64]
+#
 _CPU = 1
 
 CPU_VENDOR_ID := $(shell lscpu | grep ^Vendor | awk '{print $$3}')
 
-LEVEL3_CACHE_LINESIZE :=
+CPU_L3LINESIZE :=
 
-DEFAULT_LEVEL3_CACHE_LINESIZE := 64
-SYS_DEV_LEVEL3_CACHE_LINESIZE := $(shell cat /sys/devices/system/cpu/cpu1/cache/index3/coherency_line_size 2>/dev/null || true)
-CONF_LEVEL3_CACHE_LINESIZE := $(shell getconf LEVEL3_CACHE_LINESIZE 2>/dev/null || true)
+DEFAULT_L3LINESIZE := 64
+SYS_DEV_L3LINESIZE := $(shell cat /sys/devices/system/cpu/cpu1/cache/index3/coherency_line_size 2>/dev/null || true)
+CONF_L3LINESIZE := $(shell getconf LEVEL3_CACHE_LINESIZE 2>/dev/null || true)
 
-ifeq ($(SYS_DEV_LEVEL3_CACHE_LINESIZE),0)
+ifeq ($(SYS_DEV_L3LINESIZE),0)
   $(warning Not found L3 cache in /sys/devices/system/cpu)
-else ifeq (${SYS_DEV_LEVEL3_CACHE_LINESIZE},)
-  LEVEL3_CACHE_LINESIZE := ${DEFAULT_LEVEL3_CACHE_LINESIZE}
+else ifeq (${SYS_DEV_L3LINESIZE},)
+  CPU_L3LINESIZE := ${DEFAULT_L3LINESIZE}
 else
-  LEVEL3_CACHE_LINESIZE := ${SYS_DEV_LEVEL3_CACHE_LINESIZE}
+  CPU_L3LINESIZE := ${SYS_DEV_L3LINESIZE}
 endif
 
-ifeq ($(CONF_LEVEL3_CACHE_LINESIZE),0)
+ifeq ($(CONF_L3LINESIZE),0)
   $(warning Not found L3 cache with getconf command)
 else
-  LEVEL3_CACHE_LINESIZE := ${CONF_LEVEL3_CACHE_LINESIZE}
+  CPU_L3LINESIZE := ${CONF_L3LINESIZE}
 endif
 
-ifneq ($(SYS_DEV_LEVEL3_CACHE_LINESIZE),$(CONF_LEVEL3_CACHE_LINESIZE))
+ifneq ($(SYS_DEV_L3LINESIZE),$(CONF_L3LINESIZE))
   $(warning Bad L3 cache linesize)
 endif
 
-ifeq ($(LEVEL3_CACHE_LINESIZE),)
-  LEVEL3_CACHE_LINESIZE = $(DEFAULT_LEVEL3_CACHE_LINESIZE)
+ifeq ($(CPU_L3LINESIZE),)
+  CPU_L3LINESIZE = $(DEFAULT_L3LINESIZE)
 endif
 
 ifdef DEBUG
-  $(info LEVEL3_CACHE_LINESIZE = $(LEVEL3_CACHE_LINESIZE))
+  $(info CPU_L3LINESIZE = $(CPU_L3LINESIZE))
 endif
 
-CFLAGS += -DLEVEL3_CACHE_LINESIZE=$(LEVEL3_CACHE_LINESIZE)
+CFLAGS += -DCPU_L3LINESIZE=$(CPU_L3LINESIZE)
+
+export CPU_VENDOR_ID CPU_L3LINESIZE

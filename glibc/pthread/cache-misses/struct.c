@@ -28,8 +28,8 @@ enum op_type {
  */
 struct good_struct {
 	unsigned long t1;
-#if defined(LEVEL3_CACHE_LINESIZE)
-	char pad[LEVEL3_CACHE_LINESIZE];
+#if defined(CPU_L3LINESIZE)
+	char pad[CPU_L3LINESIZE];
 #else
 	/* Usually the LLC cache line size is 64 bytes */
 	unsigned long pad[8];
