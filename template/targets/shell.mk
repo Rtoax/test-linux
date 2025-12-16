@@ -1,4 +1,8 @@
 # SPDX-License-Identifier: GPL-3.0
+#
+# Input definitions:
+# - SHELL_ARGS_*=
+#
 _TARGET_SHELL = 1
 
 include shell.mk
@@ -12,4 +16,4 @@ endif
 
 %.sh.log: %.sh
 	$(call log_exe,SHELL,$(<),$(@))
-	$(Q)$(RUN_SHELL) $(@) ${SHELL} $(<) $(ARGS_$(*)) $(SHELL_ARGS_$(<))
+	$(Q)$(RUN_SHELL) $(@) ${SHELL} $(<) $(SHELL_ARGS_$(<))
