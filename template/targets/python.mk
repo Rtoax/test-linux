@@ -4,12 +4,12 @@ _TARGET_PYTHON = 1
 include python.mk
 include dir.mk
 
-RUN_PYTHON := ${TOPDIR}/scripts/runprog.sh
+RUNPROG := ${TOPDIR}/scripts/runprog.sh
 
 ifdef DEBUG
-  RUN_PYTHON += --verbose
+  RUNPROG += --verbose
 endif
 
 %.py.log: %.py
 	$(call log_exe,PYTHON,$(<),$(@))
-	$(Q)$(RUN_PYTHON) $(@) ${PYTHON} $(<) $(ARGS_$(*)) $(PY_ARGS_$(<))
+	$(Q)$(RUNPROG) --log $(@) -- ${PYTHON} $(<) $(ARGS_$(*)) $(PY_ARGS_$(<))

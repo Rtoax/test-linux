@@ -5,12 +5,12 @@ MAKE := make
 
 include dir.mk
 
-RUN_MAKE := ${TOPDIR}/scripts/runprog.sh
+RUNPROG := ${TOPDIR}/scripts/runprog.sh
 
 ifdef DEBUG
-  RUN_MAKE += --verbose
+  RUNPROG += --verbose
 endif
 
 %.make.log: %.make
 	$(call log_exe,MAKE,$(<),$(@))
-	$(Q)$(RUN_MAKE) $(@) $(MAKE) -f $(<) $(ARGS_$(*))
+	$(Q)$(RUNPROG) --log $(@) -- $(MAKE) -f $(<) $(ARGS_$(*))

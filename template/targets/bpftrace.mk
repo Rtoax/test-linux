@@ -5,12 +5,12 @@ include dir.mk
 include sudo.mk
 include bpf/bpftrace.mk
 
-RUN_BT := ${TOPDIR}/scripts/runprog.sh
+RUNPROG := ${TOPDIR}/scripts/runprog.sh
 
 ifdef DEBUG
-  RUN_BT += --verbose
+  RUNPROG += --verbose
 endif
 
 %.bt.log: %.bt
 	$(call log_exe,BPFTRACE,$(<),$(@))
-	$(Q)${SUDO} $(RUN_BT) $(@) $(BPFTRACE) $(<) $(ARGS_$(*))
+	$(Q)${SUDO} $(RUNPROG) --log $(@) -- $(BPFTRACE) $(<) $(ARGS_$(*))
