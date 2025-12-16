@@ -4,6 +4,7 @@ set -e
 
 readonly prog_name=runprog
 LOG_FILE=runprog.log
+declare -a ENVS
 verbose=
 SUDO=
 
@@ -15,17 +16,20 @@ error() {
 __usage__()
 {
 	echo -e "
---maybe-sudo       running with superuser if possible
--v, --verbose      run verbose mode
--h, --help         show this help information
+-e, --env [ENV=V]      set a env (may be listed multiple times)
+--maybe-sudo           running with superuser if possible
+
+-v, --verbose          run verbose mode
+-h, --help             show this help information
 " | more
 
 	exit ${1-0}
 }
 
 GETOPT_ARGS=$(getopt \
-	--options l:vh \
+	--options l:e:vh \
 	--long log: \
+	--long env: \
 	--long help \
 	--long verbose \
 	--long maybe-sudo \
@@ -42,9 +46,15 @@ while true; do
 		LOG_FILE=$1
 		shift
 		;;
+	-e | --env)
+		shift
+		ENVS+=( ${env} )
+		shift
+		;;
 	-v | --verbose)
 		shift
 		set -x
+		export PS4='+${BASH_SOURCE}:${LINENO}:${FUNCNAME[0]}: '
 		verbose=YES
 		;;
 	-h | --help)
@@ -54,7 +64,8 @@ while true; do
 	--maybe-sudo)
 		shift
 		if sudo --non-interactive true 2>/dev/null; then
-			SUDO=sudo
+			# Pass all ENVS to child process
+			SUDO="sudo -E"
 		fi
 		;;
 	--)
@@ -64,7 +75,7 @@ while true; do
 	esac
 done
 
-${SUDO} ${@} | tee ${LOG_FILE}
+${ENVS} ${SUDO} ${@} | tee ${LOG_FILE}
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
 	rm -f ${LOG_FILE}
 	error "${@}: run failed"
