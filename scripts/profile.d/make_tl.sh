@@ -6,12 +6,13 @@
 #
 
 make_tl() {
+	local make_args
 	local TEST_LINUX_ROOT=$(realpath $(dirname $(realpath ${BASH_SOURCE[0]}))/../../)
-	if [[ " $(realpath .)" =~ " ${TEST_LINUX_ROOT}" ]]; then
-		local args
-		args+=( -I${TEST_LINUX_ROOT}/template/ )
-
-		make ${args[@]} $@
+	if [[ " $(realpath .)" =~ " ${TEST_LINUX_ROOT}" ]] ||
+	   [[ "$(realpath .)" =~ "ostools" ]] ||
+	   [[ "$(realpath .)" =~ "test-linux" ]]; then
+		make_args+=( -I${TEST_LINUX_ROOT}/template/ )
+		make ${make_args[@]} $@
 	else
 		make $@
 	fi
