@@ -6,6 +6,11 @@ set -e
 readonly VENDOR_INTEL=8086
 readonly VENDOR_NVIDIA=10DE
 
+# -n: Show PCI vendor and device codes as numbers
+readonly pcie_slots=( $(lspci -n | awk '{print $1}' | sort -u ) )
+#  gsub: '1234:' -> '1234'
+readonly pcie_vendors=( $(lspci -n | awk '{gsub(":",""); print $2}' | sort -u) )
+
 # $1: slot, for example: 0000:bf:00.0
 pcie_slot_to_numa() {
 	local slot=$1
