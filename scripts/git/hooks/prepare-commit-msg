@@ -68,36 +68,36 @@ add_gcc_ver() {
 }
 add_llvm_ver() {
 	if [[ ${LLVM_CONFIG} ]]; then
-		local llvm_ver=$(${LLVM_CONFIG} --version)
-		add_ver "LLVM ${llvm_ver}"
+		local ver=$(${LLVM_CONFIG} --version)
+		add_ver "LLVM ${ver}"
 	fi
 }
 add_cuda_ver() {
-	local cuda_ver=$(${TOPDIR}/hpc/nvidia/cuda/version.sh)
-	[[ ${cuda_ver} ]] && add_ver "CUDA ${cuda_ver}"
+	local ver=$(${TOPDIR}/hpc/nvidia/cuda/version.sh)
+	add_ver "CUDA ${ver}"
 }
 add_rocm_ver() {
-	local rocm_ver=$(${TOPDIR}/hpc/amd/rocm/version.sh)
-	[[ ${rocm_ver} ]] && add_ver "ROCm ${rocm_ver}"
+	local ver=$(${TOPDIR}/hpc/amd/rocm/version.sh)
+	add_ver "ROCm ${ver}"
 }
 add_luca_ver() {
-	local luca_ver=$(${TOPDIR}/hpc/cestc/version.sh)
-	[[ ${luca_ver} ]] && add_ver "LUCA ${luca_ver}"
+	local ver=$(${TOPDIR}/hpc/cestc/version.sh)
+	add_ver "LUCA ${ver}"
 }
 add_hpcc_ver() {
-	local hpcc_ver=$(${TOPDIR}/hpc/metax/version.sh)
-	[[ ${hpcc_ver} ]] && add_ver "HPCC ${hpcc_ver}"
+	local ver=$(${TOPDIR}/hpc/metax/version.sh)
+	add_ver "HPCC ${ver}"
 }
 add_glibc_ver() {
 	add_ver "$(getconf GNU_LIBC_VERSION 2>/dev/null || :)"
 }
 add_shell_ver() {
-	local bash_ver=$(${TOPDIR}/shell/version.sh)
-	add_ver "BASH ${bash_ver}"
+	local ver=$(${TOPDIR}/shell/version.sh)
+	add_ver "BASH ${ver}"
 }
 add_make_ver() {
-	local make_ver=$(${TOPDIR}/gnu/make/version.sh)
-	add_ver "MAKE ${make_ver}"
+	local ver=$(${TOPDIR}/gnu/make/version.sh)
+	add_ver "MAKE ${ver}"
 }
 add_git_ver() {
 	local ver=$(${TOPDIR}/scripts/git/version.sh)
@@ -108,20 +108,20 @@ add_numactl_ver() {
 	add_ver "NUMACTL ${ver}"
 }
 add_bpftrace_ver() {
-	local bpftrace_ver=$(${TOPDIR}/bpf/bpftrace/version.sh)
-	add_ver "BPFTrace ${bpftrace_ver}"
+	local ver=$(${TOPDIR}/bpf/bpftrace/version.sh)
+	add_ver "BPFTrace ${ver}"
 }
 add_bcc_ver() {
-	local bcc_ver=$(${TOPDIR}/bpf/bcc/version.sh)
-	add_ver "BCC ${bcc_ver}"
+	local ver=$(${TOPDIR}/bpf/bcc/version.sh)
+	add_ver "BCC ${ver}"
 }
 add_libbpf_ver() {
-	local libbpf_ver=$(${TOPDIR}/bpf/libbpf/version.sh)
-	add_ver "LIBBPF ${libbpf_ver}"
+	local ver=$(${TOPDIR}/bpf/libbpf/version.sh)
+	add_ver "LIBBPF ${ver}"
 }
 add_py_ver() {
-	local py_ver=$(${TOPDIR}/python/version.sh)
-	add_ver "Python ${py_ver}"
+	local ver=$(${TOPDIR}/python/version.sh)
+	add_ver "Python ${ver}"
 }
 
 add_env() {
