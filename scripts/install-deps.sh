@@ -592,6 +592,7 @@ if [[ $(is_os fedora:40 fedora:41 fedora:42 ubuntu:25.10) ]]; then
 fi
 pkgs_base+=( neofetch )
 pkgs_base+=( numactl )              # numastat
+pkgs_base+=( nvme-cli )             # nvme
 pkgs_base+=( opencl-headers )
 pkgs_base+=( openssl )
 pkgs_base+=( powertop ) # power consumption and power management diagnosis tool
@@ -862,7 +863,6 @@ dnf_add_packages()
 	pkgs_base+=( mpich mpich-devel )    # mpi
 	pkgs_base+=( mpfr-devel )
 	pkgs_base+=( ncurses-devel )
-	pkgs_base+=( nvme-cli )             # nvme
 	pkgs_base+=( openmpi openmpi-devel )
 	pkgs_base+=( openssl-devel )
 	pkgs_base+=( parallel )
