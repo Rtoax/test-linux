@@ -1,18 +1,10 @@
 #!/bin/bash
 set -e
 
+. ../../driver/pcie/libpcie.sh
+
 NVME=( $(ls /sys/block/ | grep 'nvme[0-9]') )
 declare -a SLOT
-
-pcie_slot_to_numa() {
-	local slot=$1
-	local numa=$(lspci -s ${slot} -v 2>/dev/null | \
-		grep -Eo 'NUMA node [0-9]+' | grep -Eo '[0-9]+')
-	if [[ -z ${numa} ]]; then
-		numa='N/A'
-	fi
-	echo ${numa}
-}
 
 if [[ ${#NVME[@]} -eq 0 ]]; then
 	echo >&2 "ERROR: not found any NVME from /sys/block/"
