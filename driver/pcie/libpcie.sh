@@ -1,7 +1,10 @@
 #!/bin/bash
+# refs:
+# - https://pcisig.com/membership/member-companies
 set -e
 
-VENDOR_INTEL=8086
+readonly VENDOR_INTEL=8086
+readonly VENDOR_NVIDIA=10DE
 
 # $1: slot, for example: 0000:bf:00.0
 pcie_slot_to_numa() {
@@ -12,6 +15,14 @@ pcie_slot_to_numa() {
 		numa='N/A'
 	fi
 	echo ${numa}
+}
+
+# $1: Vendor
+pcie_vendor_slots() {
+	local vendor=$1
+	# Show all intel devices
+	#  -d [<vendor>]:[<device>][:<class>]
+	lspci -d ${vendor}:* 2>/dev/null | awk '{print $1}'
 }
 
 pcie_find_ether() {
