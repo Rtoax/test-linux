@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 #### Added
 #### Changed
+- Move smp into cpu directory;
 #### Deprecated
 #### Removed
 #### Fixed
