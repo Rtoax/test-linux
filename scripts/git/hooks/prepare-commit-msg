@@ -10,7 +10,7 @@ sed -i '/^Vers:/d' ${COMMIT_MSG_FILE}
 sed -i '/^Envs:/d' ${COMMIT_MSG_FILE}
 
 readonly MY_DIRECTORY=$(dirname $(realpath $0))
-readonly GIT_TOPDIR=$(git rev-parse --show-toplevel 2>/dev/null || :)
+readonly TOPDIR=$(realpath ${MY_DIRECTORY}/../../../)
 readonly first_nonempyline=$(sed -n '/[^[:space:]]/ { =; q }' ${COMMIT_MSG_FILE})
 readonly first_commentline=$(sed -n '/^#/ { =; q }' ${COMMIT_MSG_FILE})
 readonly signed_off_by_line=$(awk '/^Signed-off-by:/{print NR; exit}' ${COMMIT_MSG_FILE})
@@ -73,50 +73,50 @@ add_llvm_ver() {
 	fi
 }
 add_cuda_ver() {
-	local cuda_ver=$(${GIT_TOPDIR}/hpc/nvidia/cuda/version.sh)
+	local cuda_ver=$(${TOPDIR}/hpc/nvidia/cuda/version.sh)
 	[[ ${cuda_ver} ]] && add_ver "CUDA ${cuda_ver}"
 }
 add_rocm_ver() {
-	local rocm_ver=$(${GIT_TOPDIR}/hpc/amd/rocm/version.sh)
+	local rocm_ver=$(${TOPDIR}/hpc/amd/rocm/version.sh)
 	[[ ${rocm_ver} ]] && add_ver "ROCm ${rocm_ver}"
 }
 add_luca_ver() {
-	local luca_ver=$(${GIT_TOPDIR}/hpc/cestc/version.sh)
+	local luca_ver=$(${TOPDIR}/hpc/cestc/version.sh)
 	[[ ${luca_ver} ]] && add_ver "LUCA ${luca_ver}"
 }
 add_hpcc_ver() {
-	local hpcc_ver=$(${GIT_TOPDIR}/hpc/metax/version.sh)
+	local hpcc_ver=$(${TOPDIR}/hpc/metax/version.sh)
 	[[ ${hpcc_ver} ]] && add_ver "HPCC ${hpcc_ver}"
 }
 add_glibc_ver() {
 	add_ver "$(getconf GNU_LIBC_VERSION 2>/dev/null || :)"
 }
 add_shell_ver() {
-	local bash_ver=$(${GIT_TOPDIR}/shell/version.sh)
+	local bash_ver=$(${TOPDIR}/shell/version.sh)
 	add_ver "BASH ${bash_ver}"
 }
 add_make_ver() {
-	local make_ver=$(${GIT_TOPDIR}/gnu/make/version.sh)
+	local make_ver=$(${TOPDIR}/gnu/make/version.sh)
 	add_ver "MAKE ${make_ver}"
 }
 add_numactl_ver() {
-	local ver=$(${GIT_TOPDIR}/numa/numactl/version.sh)
+	local ver=$(${TOPDIR}/numa/numactl/version.sh)
 	add_ver "NUMACTL ${ver}"
 }
 add_bpftrace_ver() {
-	local bpftrace_ver=$(${GIT_TOPDIR}/bpf/bpftrace/version.sh)
+	local bpftrace_ver=$(${TOPDIR}/bpf/bpftrace/version.sh)
 	add_ver "BPFTrace ${bpftrace_ver}"
 }
 add_bcc_ver() {
-	local bcc_ver=$(${GIT_TOPDIR}/bpf/bcc/version.sh)
+	local bcc_ver=$(${TOPDIR}/bpf/bcc/version.sh)
 	add_ver "BCC ${bcc_ver}"
 }
 add_libbpf_ver() {
-	local libbpf_ver=$(${GIT_TOPDIR}/bpf/libbpf/version.sh)
+	local libbpf_ver=$(${TOPDIR}/bpf/libbpf/version.sh)
 	add_ver "LIBBPF ${libbpf_ver}"
 }
 add_py_ver() {
-	local py_ver=$(${GIT_TOPDIR}/python/version.sh)
+	local py_ver=$(${TOPDIR}/python/version.sh)
 	add_ver "Python ${py_ver}"
 }
 
