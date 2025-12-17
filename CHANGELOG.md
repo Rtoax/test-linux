@@ -10,6 +10,19 @@ and this project adheres to
 ## Unreleased
 
 #### Breaking Changes
+#### Added
+#### Changed
+#### Deprecated
+#### Removed
+#### Fixed
+#### Security
+#### Docs
+#### Tools
+
+
+## [v2.3.12] 2025-12-17
+
+#### Breaking Changes
 - luca: Phase II project tested;
 #### Added
 - infiniband: add info.sh;
