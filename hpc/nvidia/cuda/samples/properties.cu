@@ -75,6 +75,7 @@ int main(int argc, char *argv[])
 
 #define PRINT_s(v)	printf("%s %s\n", #v, prop.v);
 #define PRINT_d(v)	printf("%s %d\n", #v, prop.v);
+#define PRINT_x(v)	printf("%s %x\n", #v, prop.v);
 #define PRINT_zu(v)	printf("%s %zu\n", #v, prop.v);
 #define PRINT_ld(v)	printf("%s %ld\n", #v, prop.v);
 
@@ -155,9 +156,12 @@ int main(int argc, char *argv[])
 #endif
 
 	PRINT_d(isMultiGpuBoard);
-	PRINT_d(pciBusID);
-	PRINT_d(pciDeviceID);
 	PRINT_d(pciDomainID);
+	PRINT_x(pciBusID);
+	PRINT_d(pciDeviceID);
+	printf("PCIe Slot: %04x:%x:%x\n", prop.pciDomainID,
+		prop.pciBusID, prop.pciDeviceID);
+
 #if !defined(__CUDACC__)
 	/* 1: if it is a large PCI bar device, else 0 */
 	PRINT_d(isLargeBar);
