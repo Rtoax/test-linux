@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - luca: Phase II project tested;
 #### Added
+- nvidia: add gpuinfo.sh;
 - pciutils: add version.sh;
 - pcie: add libpcie.sh;
 - git: add version.sh;
