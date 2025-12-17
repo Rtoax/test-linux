@@ -30,6 +30,10 @@ pcie_vendor_slots() {
 	lspci -d ${vendor}:* 2>/dev/null | awk '{print $1}'
 }
 
+pcie_nvidia_slots() {
+	pcie_vendor_slots ${VENDOR_NVIDIA}
+}
+
 pcie_find_ether() {
 	lspci -d ::0200
 }
