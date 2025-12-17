@@ -1,9 +1,15 @@
 # SPDX-License-Identifier: GPL-3.0
-subdir-y := uts
-subdir-y += net
-subdir-y += nsfs
-subdir-y += pid
+include kconfig.mk
+
+subdir-${CONFIG_UTS_NS} += uts
+subdir-${CONFIG_NET_NS} += net
+subdir-${CONFIG_IPC_NS} += pid
+subdir-${CONFIG_IPC_NS} += ipc
+subdir-${CONFIG_USER_NS} += user
+subdir-y += mnt
 subdir-y += syscalls
+subdir-y += nsfs
+subdir-y += cgroup
 
 target-y := unshare
 

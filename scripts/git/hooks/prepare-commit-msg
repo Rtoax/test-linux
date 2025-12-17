@@ -220,7 +220,7 @@ if [[ "$(files_have_type sh bash)$(files_have_key bash shell)" ]]; then
 	add_shell_ver
 fi
 
-if [[ "$(files_have_type mk make)$(files_have_key make)" ]]; then
+if [[ "$(files_have_type mk make)$(files_have_key make Makefile)" ]]; then
 	add_make_ver
 fi
 
