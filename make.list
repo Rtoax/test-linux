@@ -13,6 +13,7 @@ user-list-y += capstone
 user-list-y += cgroup
 user-list-y += compiler
 user-list-y += cpp
+user-list-y += cpu
 user-list-y += criu
 user-list-y += cxl
 user-list-y += database
