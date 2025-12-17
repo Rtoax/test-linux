@@ -2,6 +2,7 @@
 __USE_SOCKET_HELPERS__ = y
 
 subdir-y := icmp
+subdir-y += infiniband
 subdir-y += netlink
 subdir-y += nic
 

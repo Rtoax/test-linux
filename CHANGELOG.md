@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - luca: Phase II project tested;
 #### Added
+- infiniband: add info.sh;
 - nvidia: add gpuinfo.sh;
 - pciutils: add version.sh;
 - pcie: add libpcie.sh;
