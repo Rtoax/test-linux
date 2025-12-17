@@ -2,5 +2,6 @@
 target-shell-y := archive.sh
 target-shell-y += diff.sh
 target-shell-y += file-change.sh
+target-shell-y += version.sh
 
 include main.mk

@@ -99,6 +99,10 @@ add_make_ver() {
 	local make_ver=$(${TOPDIR}/gnu/make/version.sh)
 	add_ver "MAKE ${make_ver}"
 }
+add_git_ver() {
+	local ver=$(${TOPDIR}/scripts/git/version.sh)
+	add_ver "GIT ${ver}"
+}
 add_numactl_ver() {
 	local ver=$(${TOPDIR}/numa/numactl/version.sh)
 	add_ver "NUMACTL ${ver}"
@@ -205,6 +209,10 @@ fi
 
 if [[ "$(files_have_type mk make)$(files_have_key make)" ]]; then
 	add_make_ver
+fi
+
+if [[ "$(files_have_key git)" ]]; then
+	add_git_ver
 fi
 
 if [[ "$(files_have_key numa numactl)" ]]; then
