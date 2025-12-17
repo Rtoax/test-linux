@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - luca: Phase II project tested;
 #### Added
+- add ai/vllm/nvidia-spark-docker.sh;
 - numa: add memory.c from ostools;
 - targets/shell.mk: support `SHELL_ENVS_`;
 - Support target-bt-y;
