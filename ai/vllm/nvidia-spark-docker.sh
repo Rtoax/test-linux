@@ -3,6 +3,7 @@
 set -e
 
 # sudo podman commit vllm-rt nvcr.io/nvidia/vllm:25.11-py3-rt
+# sudo podman run ... vllm serve "Qwen/Qwen2.5-Math-1.5B-Instruct"
 sudo docker run --rm -ti --privileged \
 	--name vllm-rt \
 	-v /dev:/dev \
