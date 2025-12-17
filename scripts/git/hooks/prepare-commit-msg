@@ -38,14 +38,16 @@ warning() {
 }
 
 add_ver() {
-	[[ -z "${@}" ]] && return 0
+	[[ -z "${@}" ]] && fatal "Bad call of add_ver()"
+	[[ -z "$(echo ${@} | grep -oE '[0-9]')" ]] && fatal "Can't found version in '${@}'"
+
 	# Already exist
 	if [[ "${Versions}" =~ "${@}" ]]; then
 		return 0
-	else
-		[[ ${Versions} ]] && Versions+=", "
-		Versions+="$@"
 	fi
+
+	[[ ${Versions} ]] && Versions+=", "
+	Versions+="$@"
 }
 add_os_ver() {
 	local os_env
