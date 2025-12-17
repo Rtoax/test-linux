@@ -4,6 +4,7 @@ include numactl.mk
 subdir-${HAVE_LIBNUMA} := numactl
 
 target-y := numa_mem
+target-y += memory
 target-liba-y := numa.a
 target-prep-y := numa_mem.h
 
@@ -18,4 +19,5 @@ numa_mem.h:
 	${Q}./info.sh c
 
 numa_mem: numa_mem.o
+memory: memory.o
 numa.a: numa_mem.h numa_mem.a.o
