@@ -1,4 +1,5 @@
 #!/bin/bash
+# compile bpftrace source code
 set -e
 
 readonly prog=bpftrace-compile
@@ -6,6 +7,7 @@ readonly prog=bpftrace-compile
 flags_deps=
 flags_cmake=
 flags_install=
+use_jobs=$(nproc)
 llvm_version=
 llvm_dir=
 verbose=
@@ -65,6 +67,7 @@ ARGUMENT
 	-d, --deps              install depends
 	-c, --cmake             execute the cmake to generate Makefile
 	-i, --install           execute the make install
+	-j, --jobs [N]          set number of jobs, default: ${use_jobs}
 	--llvm-version          specify LLVM Version
 	--llvm-dir              specify LLVM directory, like: /usr/lib/llvm-18/
 	--use-system-libbpf     use system libbpf instead of submodule
@@ -83,10 +86,11 @@ SEE ALSO
 	exit ${1-0}
 }
 
-TEMP_ARGS=$(getopt --options dcivh \
+TEMP_ARGS=$(getopt --options dcij:vh \
 	--long deps \
 	--long cmake \
 	--long install \
+	--long jobs: \
 	--long llvm-version: \
 	--long llvm-dir: \
 	--long use-system-libbpf \
@@ -111,6 +115,11 @@ while true; do
 	-i | --install)
 		shift
 		flags_install=YES
+		;;
+	-j | --jobs)
+		shift
+		use_jobs=$1
+		shift
 		;;
 	--llvm-version)
 		shift
@@ -166,7 +175,7 @@ if [[ ${flags_cmake} ]]; then
 fi
 
 # Must execute make command at least
-make -j$(nproc)
+make -j${use_jobs}
 
 [[ ${flags_install} ]] && sudo make install
 
