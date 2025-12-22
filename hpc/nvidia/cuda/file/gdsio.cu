@@ -134,7 +134,7 @@ static const struct argp_option opts[] = {
 	{ "device", 'd', "DEVICE", 0, "gpu index" },
 	{ "fsize", 's', "SIZE", 0, "file size (K|M|G), default: " __stringify(DEFAULT_FSIZE) },
 	{ "iosize", 'i', "IOSIZE", 0, "io_size(K|M|G) <min_size:max_size:step_size>, default: " __stringify(DEFAULT_IOSIZE) },
-	{ "numa", 'n', "NUMA", 0, "numa node" },
+	{ "numa", 'n', "NUMA", 0, "numa node (not yet been implemented)" },
 	{ "nthreads", 'w', "NTHREADS", 0, "number of threads for a job" },
 	{ "xfer_type", 'x', "XFER_TYPE", 0, "transfer type [0(GPU_DIRECT), 1(CPU_ONLY), 2(CPU_GPU), 3(CPU_ASYNC_GPU), 4(CPU_CACHED_GPU), 5(GPU_DIRECT_ASYNC), 6(GPU_BATCH), 7(GPU_BATCH_STREAM)]" },
 	{ "op_type", 'I', "OP_TYPE", 0, "[0(read), 1(write), 2(randread), 3(randwrite)]" },
