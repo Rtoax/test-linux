@@ -2,6 +2,7 @@
 _SUBDIR_FOOTER = 1
 
 include verbose.mk
+include emoji.mk
 
 ifneq ($(CHECK_ERROR),)
   CHECK_ERROR_EXIT = exit 1;
@@ -14,8 +15,10 @@ define make_sub_dir
 	$(Q)pushd $(2) >/dev/null; \
 	make ${1}; \
 	if [ $$? -ne 0 ]; then \
-		$(call log_failed,Failed ${1} $(call relative_path,$(2))); \
+		$(call log_failed,${EMOJI_CROSS} Failed ${1} $(call relative_path,$(2))); \
 		${CHECK_ERROR_EXIT} \
+	else	\
+		$(call log_success,${EMOJI_CHECK} Success ${1} $(call relative_path,$(2))); \
 	fi; \
 	popd >/dev/null
 endef

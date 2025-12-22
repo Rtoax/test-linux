@@ -9,7 +9,8 @@ EMOJI_KEY := 🔑
 
 EMOJI_WARNING := ⚠️
 
+# MORE: ✓ ✔ ✗ ✘ ☓ ✕ ✖ 〤 √ ☐ ☑ ☒ ✅ ❎ ❌
 EMOJI_CHECK := ✅
-EMOJI_WRONG := ❎
+EMOJI_CROSS := ❌
 
 EMOJI_AIRPLANE := ✈️

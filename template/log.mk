@@ -45,6 +45,9 @@ endef
 define log_failed
 printf '$(call TS) $(call red,$1)\n' | tee --append ${LOG_FILE_FAILED}
 endef
+define log_success
+printf '$(call TS) $(call green,$1)\n' | tee --append ${LOG_FILE_INFO}
+endef
 
 define log_reset_files
 	${Q}if [[ -e $(LOG_FILE_FAILED) ]]; then \
