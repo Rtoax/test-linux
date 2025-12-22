@@ -50,7 +50,14 @@ do
 
 		for thread in 1 2 4 8 16 32
 		do
-			for iosize in 1K 2K 4K 8K 16K 32K 64K 128K 256K 512K 1M 2M 4M
+			# Luca has smallest iosize limit:
+			#   if (pars->size < SZ_4K) ...
+			# LSCD.B20400.D0.IOCTL.ERROR io size too small
+			if ! [[ ${GDSIO} =~ "luca" ]]; then
+				IOSIZE+=( 1K 2K )
+			fi
+			IOSIZE+=( 4K 8K 16K 32K 64K 128K 256K 512K 1M 2M 4M )
+			for iosize in ${IOSIZE[@]}
 			do
 				if [[ ${SIZE} ]]; then
 					size=${SIZE}
