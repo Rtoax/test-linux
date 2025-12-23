@@ -1,5 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
 __USE_PROC_HELPERS__ = y
+OUTPUT := .output/
 
 include glibc.mk
 
@@ -101,39 +102,39 @@ include main.mk
 sig.h:
 	$(shell bash signo.sh)
 
-bcopy: bcopy.o
-index: index.o
-memchr: memchr.o
-memcpy: memcpy.o
-memcpy-stress: memcpy-stress.o ${PROC_HELPERS}
-__memcpy_ssse3-stress: __memcpy_ssse3-stress.o ${PROC_HELPERS}
-__memcpy_erms-stress: __memcpy_erms-stress.o ${PROC_HELPERS}
-__memcpy_generic-stress: __memcpy_generic-stress.o ${PROC_HELPERS}
-__memcpy_simd-stress: __memcpy_simd-stress.o ${PROC_HELPERS}
-__memcpy_a64fx-stress: __memcpy_a64fx-stress.o ${PROC_HELPERS}
-__memcpy_avx512_unaligned-stress: __memcpy_avx512_unaligned-stress.o ${PROC_HELPERS}
-__memcpy_aarch64-stress: __memcpy_aarch64-stress.o ${PROC_HELPERS}
-__memcpy_aarch64_simd-stress: __memcpy_aarch64_simd-stress.o ${PROC_HELPERS}
-__memcpy_aarch64_sve-stress: __memcpy_aarch64_sve-stress.o ${PROC_HELPERS}
-memset: memset.o
-memset-stress: memset-stress.o
-memmove: memmove.o
-stpcpy: stpcpy.o
-strcat: strcat.o
-strchr: strchr.o
-strcpy: strcpy.o
-strcmp: strcmp.o
-strdupa: strdupa.o
-strdup: strdup.o
-strlen: strlen.o
-strncpy: strncpy.o
-strpbrk: strpbrk.o
-strsep: strsep.o
-strtok: strtok.o
-strtol: strtol.o
-strsignal: strsignal.o
-strerror: strerror.o
-strerror_r: strerror_r.o
-strstr: strstr.o
-strspn: strspn.o
-strstr-cpp: strstr.cpp.o
+bcopy: ${OUTPUT}bcopy.o
+index: ${OUTPUT}index.o
+memchr: ${OUTPUT}memchr.o
+memcpy: ${OUTPUT}memcpy.o
+memcpy-stress: ${OUTPUT}memcpy-stress.o ${PROC_HELPERS}
+__memcpy_ssse3-stress: ${OUTPUT}__memcpy_ssse3-stress.o ${PROC_HELPERS}
+__memcpy_erms-stress: ${OUTPUT}__memcpy_erms-stress.o ${PROC_HELPERS}
+__memcpy_generic-stress: ${OUTPUT}__memcpy_generic-stress.o ${PROC_HELPERS}
+__memcpy_simd-stress: ${OUTPUT}__memcpy_simd-stress.o ${PROC_HELPERS}
+__memcpy_a64fx-stress: ${OUTPUT}__memcpy_a64fx-stress.o ${PROC_HELPERS}
+__memcpy_avx512_unaligned-stress: ${OUTPUT}__memcpy_avx512_unaligned-stress.o ${PROC_HELPERS}
+__memcpy_aarch64-stress: ${OUTPUT}__memcpy_aarch64-stress.o ${PROC_HELPERS}
+__memcpy_aarch64_simd-stress: ${OUTPUT}__memcpy_aarch64_simd-stress.o ${PROC_HELPERS}
+__memcpy_aarch64_sve-stress: ${OUTPUT}__memcpy_aarch64_sve-stress.o ${PROC_HELPERS}
+memset: ${OUTPUT}memset.o
+memset-stress: ${OUTPUT}memset-stress.o
+memmove: ${OUTPUT}memmove.o
+stpcpy: ${OUTPUT}stpcpy.o
+strcat: ${OUTPUT}strcat.o
+strchr: ${OUTPUT}strchr.o
+strcpy: ${OUTPUT}strcpy.o
+strcmp: ${OUTPUT}strcmp.o
+strdupa: ${OUTPUT}strdupa.o
+strdup: ${OUTPUT}strdup.o
+strlen: ${OUTPUT}strlen.o
+strncpy: ${OUTPUT}strncpy.o
+strpbrk: ${OUTPUT}strpbrk.o
+strsep: ${OUTPUT}strsep.o
+strtok: ${OUTPUT}strtok.o
+strtol: ${OUTPUT}strtol.o
+strsignal: ${OUTPUT}strsignal.o
+strerror: ${OUTPUT}strerror.o
+strerror_r: ${OUTPUT}strerror_r.o
+strstr: ${OUTPUT}strstr.o
+strspn: ${OUTPUT}strspn.o
+strstr-cpp: ${OUTPUT}strstr.cpp.o
