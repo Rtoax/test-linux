@@ -16,7 +16,7 @@ define add_glibc_obj
     target-y += ${1}-stress
     CFLAGS_${1}-stress += -DSYMADDR_${1}=$(SYMADDR_${1})
   else
-    $(warning Not found ${1}())
+    $$(warning Not found ${1}())
   endif
 endef
 
