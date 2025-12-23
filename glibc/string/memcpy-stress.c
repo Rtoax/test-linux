@@ -23,57 +23,6 @@
 
 typedef void *(*memcpy_fn)(void *, const void *, size_t);
 
-struct memcpy_test {
-	const char *name;
-	memcpy_fn memcpy;
-	bool reloc_libc;
-} tests[] = {
-#ifdef SYMADDR___memcpy_ssse3
-	{
-		.name = "ssse3",
-		.memcpy = (memcpy_fn)SYMADDR___memcpy_ssse3,
-		.reloc_libc = true,
-	},
-#endif
-#ifdef SYMADDR___memcpy_generic
-	{
-		.name = "generic",
-		.memcpy = (memcpy_fn)SYMADDR___memcpy_generic,
-		.reloc_libc = true,
-	},
-#endif
-#ifdef SYMADDR___memcpy_simd
-	{
-		.name = "simd",
-		.memcpy = (memcpy_fn)SYMADDR___memcpy_simd,
-		.reloc_libc = true,
-	},
-#endif
-#ifdef SYMADDR___memcpy_a64fx
-	{
-		.name = "a64fx",
-		.memcpy = (memcpy_fn)SYMADDR___memcpy_a64fx,
-		.reloc_libc = true,
-	},
-#endif
-#ifdef ARM_SOFTWARE___memcpy_aarch64
-	/* https://github.com/ARM-software/optimized-routines */
-	{
-		.name = "aarch64",
-		.memcpy = (memcpy_fn)ARM_SOFTWARE___memcpy_aarch64,
-		.reloc_libc = false,
-	},
-#endif
-#ifdef ARM_SOFTWARE___memcpy_aarch64_sve
-	/* https://github.com/ARM-software/optimized-routines */
-	{
-		.name = "aarch64_sve",
-		.memcpy = (memcpy_fn)ARM_SOFTWARE___memcpy_aarch64_sve,
-		.reloc_libc = false,
-	},
-#endif
-};
-
 #ifdef SYMADDR___memcpy_ssse3
 static memcpy_fn __memcpy_ssse3;
 # define memcpy_stub __memcpy_ssse3
@@ -108,7 +57,7 @@ static size_t block_size = 256;
 static size_t msize = DEFAULT_ALLOC_MSIZE;
 static size_t alloc_msize = DEFAULT_ALLOC_MSIZE;
 static int verbose = false;
-static const char *const version = "v0.0.4";
+static const char *const version = "v0.0.3";
 
 const char argp_prog_doc[] =
 	"USAGE: [-b <block_size>] [-s <bytes>] [-a <bytes>] [-v|--verbose]\n";
