@@ -25,10 +25,11 @@ You could always use [man-pages](https://git.kernel.org/pub/scm/docs/man-pages/m
 
 # Linux Kernel Reference
 
-* linux-6.16.3-200 (fedora42)
-* linux-5.15.0
-* linux-5.14.0
-* linux-5.10.13
+* 6.17.12-300 (fedora43)
+* 6.16.3-200 (fedora42)
+* 5.15.0
+* 5.14.0
+* 5.10.13
 
 
 # Linux Kernel Development
