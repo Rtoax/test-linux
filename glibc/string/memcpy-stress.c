@@ -62,17 +62,17 @@ extern void *__memcpy_aarch64_simd(void *, const void *, size_t);
 # define memcpy_name "memcpy"
 #endif
 
-static size_t block_size = 256;
+static size_t iosize = 256;
 static size_t msize = DEFAULT_ALLOC_MSIZE;
 static size_t alloc_msize = DEFAULT_ALLOC_MSIZE;
 static int verbose = false;
-static const char *const version = "v0.0.3";
+static const char *const version = "v0.0.4";
 
 const char argp_prog_doc[] =
-	"USAGE: [-b <block_size>] [-s <bytes>] [-a <bytes>] [-v|--verbose]\n";
+	"USAGE: [-b <iosize>] [-s <bytes>] [-a <bytes>] [-v|--verbose]\n";
 
 static const struct argp_option opts[] = {
-	{ "block-size", 'b', "BLOCK_SIZE", 0, "block size for each memory copy" },
+	{ "iosize", 'b', "IOSIZE", 0, "block size for each memory copy" },
 	{ "msize", 's', "MSIZE", 0, "total size of memory copy" },
 	{ "alloc", 'a', "ALLOC", 0, "size of memory allocated use to test" },
 	{ "verbose", 'v', NULL, 1, "Display detail" },
@@ -85,7 +85,7 @@ static error_t parse_arg(int key, char *arg, struct argp_state *state)
 {
 	switch (key) {
 	case 'b':
-		block_size = strtoull(arg, NULL, 10);
+		iosize = strtoull(arg, NULL, 10);
 		break;
 	case 's':
 		msize = strtoull(arg, NULL, 10);
@@ -210,10 +210,10 @@ int main(int argc, char *argv[])
 	test_cnt = bytes_cnt = 0;
 	start = usecs();
 	while (1) {
-		for (i = 0; i < alloc_msize - block_size; i += block_size) {
-			rand_idx = getrand(alloc_msize / block_size);
-			pos = rand_idx * block_size;
-			bytes_cnt += block_size;
+		for (i = 0; i < alloc_msize - iosize; i += iosize) {
+			rand_idx = getrand(alloc_msize / iosize);
+			pos = rand_idx * iosize;
+			bytes_cnt += iosize;
 			if (bytes_cnt >= msize)
 				goto rand_cost_done;
 		}
@@ -231,12 +231,12 @@ rand_cost_done:
 	start = usecs();
 
 	while (1) {
-		for (i = 0; i < alloc_msize - block_size; i += block_size) {
+		for (i = 0; i < alloc_msize - iosize; i += iosize) {
 
 #ifdef RAND_MEM_POS
 			/* Get random value */
-			rand_idx = getrand(alloc_msize / block_size);
-			pos = rand_idx * block_size;
+			rand_idx = getrand(alloc_msize / iosize);
+			pos = rand_idx * iosize;
 #else
 			pos = i;
 #endif
@@ -265,9 +265,9 @@ rand_cost_done:
 			 *                 |---|
 			 */
 			/* Replace memcpy_stub here */
-			memcpy_stub(buf2 + pos, buf1 + pos, block_size);
+			memcpy_stub(buf2 + pos, buf1 + pos, iosize);
 
-			bytes_cnt += block_size;
+			bytes_cnt += iosize;
 			test_cnt++;
 
 			/* All test copy same memory size */
@@ -281,12 +281,12 @@ test_done:
 
 	if (verbose) {
 		printf("Test %s\n", memcpy_name);
-		printf("%-16s %-16s %-16s %-16s %-16s %-16s\n",
-			"BLOCK_SIZE(B)", "SPENT(us)", "COUNT", "ALLOC(MB)", "SIZE(MB)", "RATE(MB/s)");
-		printf("%-16s %-16s %-16s %-16s %-16s %-16s\n",
-			"-------------", "---------", "-----", "---------", "--------", "---------");
+		printf("%-10s %-16s %-16s %-16s %-16s %-16s\n",
+			"IOSIZE(B)", "SPENT(us)", "COUNT", "ALLOC(MB)", "SIZE(MB)", "RATE(MB/s)");
+		printf("%-10s %-16s %-16s %-16s %-16s %-16s\n",
+			"---------", "---------", "-----", "---------", "--------", "---------");
 	}
-	printf("%-16ld %-16ld %-16ld %-16ld %-16ld %-13.2f\n", block_size,
+	printf("%-10ld %-16ld %-16ld %-16ld %-16ld %-13.2f\n", iosize,
 		end - start - rand_cost, test_cnt,
 		alloc_msize / MB,
 		bytes_cnt / MB,
