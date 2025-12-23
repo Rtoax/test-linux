@@ -1,7 +1,15 @@
 腾讯 OpenCloudOS
 ==================
 
-# Kernel
+# Links
+
+- https://www.opencloudos.org/
+- https://mirrors.tencent.com/opencloudos/
+	- [9.0](https://mirrors.tencent.com/opencloudos/9.0/)
+	- [9.2](https://mirrors.tencent.com/opencloudos/9.2/)
+- https://gitee.com/OpenCloudOS/
+	- [Kernel](https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel)
+
 
 ## OpenCloudOS 8
 
@@ -23,16 +31,6 @@
 - [9.2](https://mirrors.tencent.com/opencloudos/9.2/)
   - [kernel-6.6.30-4.oc9.src.rpm](https://mirrors.tencent.com/opencloudos/9.2/BaseOS/source/tree/Packages/kernel-6.6.30-4.oc9.src.rpm)
   - [kernel-6.6.34-9.oc9.src.rpm](https://mirrors.tencent.com/opencloudos/9.2/BaseOS/source/tree/Packages/kernel-6.6.34-9.oc9.src.rpm)
-
-
-# Links
-
-- https://www.opencloudos.org/
-- https://mirrors.tencent.com/opencloudos/
-	- [9.0](https://mirrors.tencent.com/opencloudos/9.0/)
-	- [9.2](https://mirrors.tencent.com/opencloudos/9.2/)
-- https://gitee.com/OpenCloudOS/
-	- [Kernel](https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel)
 
 ## Code
 
