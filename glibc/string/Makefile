@@ -3,18 +3,12 @@ __USE_PROC_HELPERS__ = y
 
 include glibc.mk
 
-SYMADDR___memcpy_ssse3 := $(call libc_sym_addr,__memcpy_ssse3)
-SYMADDR___memcpy_erms := $(call libc_sym_addr,__memcpy_erms)
-SYMADDR___memcpy_generic := $(call libc_sym_addr,__memcpy_generic)
-SYMADDR___memcpy_simd := $(call libc_sym_addr,__memcpy_simd)
-SYMADDR___memcpy_a64fx := $(call libc_sym_addr,__memcpy_a64fx)
-
 # $1: memcpy name, like __memcpy_ssse3
 define add_glibc_obj
   SYMADDR_${1} := $(call libc_sym_addr,${1})
-  ifneq ($(SYMADDR_${1}),)
+  ifneq ($$(SYMADDR_${1}),)
     target-y += ${1}-stress
-    CFLAGS_${1}-stress += -DSYMADDR_${1}=$(SYMADDR_${1})
+    CFLAGS_${1}-stress += -DSYMADDR_${1}=$${SYMADDR_${1}}
   else
     $$(warning Not found ${1}())
   endif
@@ -29,6 +23,7 @@ $(eval $(call add_glibc_obj,__memcpy_erms))
 $(eval $(call add_glibc_obj,__memcpy_generic))
 $(eval $(call add_glibc_obj,__memcpy_simd))
 $(eval $(call add_glibc_obj,__memcpy_a64fx))
+$(eval $(call add_glibc_obj,__memcpy_avx512_unaligned))
 target-y += memset memset-stress
 target-y += memmove
 target-y += stpcpy
@@ -116,6 +111,7 @@ __memcpy_erms-stress: __memcpy_erms-stress.o ${PROC_HELPERS}
 __memcpy_generic-stress: __memcpy_generic-stress.o ${PROC_HELPERS}
 __memcpy_simd-stress: __memcpy_simd-stress.o ${PROC_HELPERS}
 __memcpy_a64fx-stress: __memcpy_a64fx-stress.o ${PROC_HELPERS}
+__memcpy_avx512_unaligned-stress: __memcpy_avx512_unaligned-stress.o ${PROC_HELPERS}
 __memcpy_aarch64-stress: __memcpy_aarch64-stress.o ${PROC_HELPERS}
 __memcpy_aarch64_simd-stress: __memcpy_aarch64_simd-stress.o ${PROC_HELPERS}
 __memcpy_aarch64_sve-stress: __memcpy_aarch64_sve-stress.o ${PROC_HELPERS}
