@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- template: add bits/cpu-feature.mk;
 - memcpy-stress.c: add `__memcpy_aarch64_simd()`;
 #### Changed
 - Move smp into cpu directory;
