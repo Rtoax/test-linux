@@ -1,8 +1,10 @@
 # SPDX-License-Identifier: GPL-3.0
-# Export:
-# cflags-support-types-y
-# cflags-support-headers-y
-# ldflags-support-headers-y
+# Copyright (C) 2024-2025 Rong Tao
+#
+# Output definitions:
+# - cflags-support-types-y
+# - cflags-support-headers-y
+# - ldflags-support-headers-y
 #
 _COMPILER = 1
 
