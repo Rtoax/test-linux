@@ -29,10 +29,7 @@ target-y += fread
 target-y += fscanf
 target-y += fopencookie
 
-ifneq ($(LIBC_PRINTF_SYMADDR),)
-  CFLAGS += -DLIBC_PRINTF_SYMADDR=${LIBC_PRINTF_SYMADDR}
-endif
-
+CFLAGS_printf := -DLIBC_PRINTF_SYMADDR=$(call libc_sym_addr,printf)
 CFLAGS_getdelim := -DTEST_getdelim=1
 CFLAGS_sprintf := -Wno-error=format-overflow
 CFLAGS_snprintf := -Wno-error=format-truncation
