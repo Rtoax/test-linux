@@ -176,11 +176,11 @@ files_have_key() {
 # input some key words, such as c, cpp, sh, cu
 # echo "YES" if any file type matched.
 files_have_type() {
-	local key
-	for key in ${@}
+	local ext
+	for ext in ${@}
 	do
 		# a.c b.sh -> c sh
-		if [[ " ${CHANGED_FILES[@]##*.} " =~ " ${key} " ]]; then
+		if [[ " ${CHANGED_FILES[@]##*.} " =~ " ${ext} " ]]; then
 			echo "YES"
 			return 0
 		fi
