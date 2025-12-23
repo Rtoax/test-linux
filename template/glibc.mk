@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
 #
 # Output definitions:
+# - GLIBC_VERSION=
 # - LIBC_SO_PATH=
 #
 # Functions:
@@ -43,4 +44,4 @@ ifdef DEBUG
   $(info printf = <$(call libc_sym_addr,printf)>)
 endif
 
-export LIBC_SO_PATH
+export GLIBC_VERSION LIBC_SO_PATH
