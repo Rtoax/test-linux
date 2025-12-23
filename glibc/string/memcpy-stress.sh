@@ -6,7 +6,7 @@ export -f make_tl
 
 readonly MiB=1024*1024
 
-make_tl
+make_tl >&2
 
 pfx=
 exes=( memcpy-stress
