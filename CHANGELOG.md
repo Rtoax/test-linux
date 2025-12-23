@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- memcpy-stress.c: add `__memcpy_aarch64_simd()`;
 #### Changed
 - Move smp into cpu directory;
 #### Deprecated

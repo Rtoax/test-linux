@@ -52,6 +52,10 @@ extern void *__memcpy_aarch64(void *, const void *, size_t);
 extern void *__memcpy_aarch64_sve(void *, const void *, size_t);
 # define memcpy_stub __memcpy_aarch64_sve
 # define memcpy_name "__memcpy_aarch64_sve"
+#elif defined(ARM_SOFTWARE___memcpy_aarch64_simd) /* https://github.com/ARM-software/optimized-routines */
+extern void *__memcpy_aarch64_simd(void *, const void *, size_t);
+# define memcpy_stub __memcpy_aarch64_simd
+# define memcpy_name "__memcpy_aarch64_simd"
 #else
 /* fallback to glibc's memcpy */
 # define memcpy_stub memcpy
