@@ -31,20 +31,24 @@ int main(int argc, char *argv[])
 	sem_un.val  = 1;
 	semctl(sem_id, 0, SETVAL, sem_un);
 
-	pid_t id = fork();
-	if (id < 0) {
+	pid_t pid = fork();
+	if (pid < 0) {
 		return 1;
-	} else if (id == 0) {
+	}
+
+	/* child */
+	if (pid == 0) {
 		printf("child try to get binary sem\n");
 		/**
-		 * 在父、子进程间共享IPC_PRIVATE信号量的关键就在于二者都可以操作该信号量的标识符
-		 * sem_id
+		 * 在父子进程间共享IPC_PRIVATE信号量的关键就在于二者都可以
+		 * 操作该信号量的标识符 sem_id
 		 */
 		pv(sem_id, -1);
 		printf("child get the sem and would release it after 1 seconds\n");
 		sleep(1);
 		pv(sem_id, 1);
 		exit(0);
+	/* father */
 	} else {
 		printf("parent try to get binary sem\n");
 		pv(sem_id, -1);
@@ -53,7 +57,7 @@ int main(int argc, char *argv[])
 		pv(sem_id, 1);
 	}
 
-	waitpid(id, NULL, 0);
+	waitpid(pid, NULL, 0);
 	semctl(sem_id, 0, IPC_RMID, sem_un);
 	return 0;
 }
