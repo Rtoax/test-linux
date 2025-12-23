@@ -34,7 +34,7 @@ if [[ ${CROSS_COMPILE} ]]; then
 	esac
 fi
 
-for exe in ${exes}
+for exe in ${exes[@]}
 do
 	firstline=YES
 
