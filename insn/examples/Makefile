@@ -53,11 +53,9 @@ ifeq ($(shell uname -m),x86_64)
 else ifeq ($(shell uname -m),aarch64)
   # Check cpu flags
   ifneq ($(shell lscpu | grep -w sve),)
-    CFLAGS += -DCPU_HAVE_SVE=1
     CFLAGS += -march=armv8-a+sve
   endif
   ifneq ($(shell lscpu | grep -w sve2),)
-    CFLAGS += -DCPU_HAVE_SVE2=1
     CFLAGS += -march=armv8-a+sve2
   endif
 

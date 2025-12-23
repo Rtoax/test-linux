@@ -3,8 +3,7 @@
 #
 # Output definitions:
 # - cpu-feature-cflags=
-# - CPU_HAVE_AVX2=y
-# - CPU_HAVE_AVX512F=y
+# - CPU_HAVE_${FEATURE}=y
 #
 _CPU_FEATURE = 1
 
@@ -24,6 +23,8 @@ endef
 
 $(call define_cpufeature,avx2)
 $(call define_cpufeature,avx512f)
+$(call define_cpufeature,sve)
+$(call define_cpufeature,sve2)
 
 ifdef DEBUG
   $(info cpu-feature-cflags = ${cpu-feature-cflags})
