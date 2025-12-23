@@ -1,4 +1,5 @@
 - ASPM: Active State Power Management (激活状态电源管理) @PCIe
+- BDF: Bus:Device.Function (总线:设备.功能) @PCIe
 - PCI: Peripheral Component Interconnect (外围组件互联) @PCIe
 - PCIe: PCI-Express () @PCI
 - PCIe ACS: Access Control Services (访问控制服务)
@@ -8,3 +9,4 @@
 - PIO: Port I/O (端口IO) @MMIO
 - PPB: PCI-to-PCI Bridge (PCI到PCI桥)
 - pswiotlb: Phytium Software IO TLB (软件IO转换后备缓冲区) @swiotlb
+- RC: Root Complex () @PCIe
