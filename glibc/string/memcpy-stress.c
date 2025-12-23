@@ -32,6 +32,10 @@ typedef void *(*memcpy_fn)(void *, const void *, size_t);
 static memcpy_fn __memcpy_ssse3;
 # define memcpy_stub __memcpy_ssse3
 # define memcpy_name "__memcpy_ssse3"
+#elif defined(SYMADDR___memcpy_erms)
+static memcpy_fn __memcpy_erms;
+# define memcpy_stub __memcpy_erms
+# define memcpy_name "__memcpy_erms"
 #elif defined(SYMADDR___memcpy_generic)
 static memcpy_fn __memcpy_generic;
 # define memcpy_stub __memcpy_generic
@@ -124,6 +128,7 @@ static const struct argp argp = {
 };
 
 #if defined(SYMADDR___memcpy_ssse3) || \
+    defined(SYMADDR___memcpy_erms) || \
     defined(SYMADDR___memcpy_generic) || \
     defined(SYMADDR___memcpy_simd) || \
     defined(SYMADDR___memcpy_a64fx)
@@ -133,6 +138,8 @@ static void reloc_addr(void)
 	(void)libc;
 #ifdef SYMADDR___memcpy_ssse3
 	__memcpy_ssse3 = (memcpy_fn)(libc + SYMADDR___memcpy_ssse3);
+#elif defined(SYMADDR___memcpy_erms)
+	__memcpy_erms = (memcpy_fn)(libc + SYMADDR___memcpy_erms);
 #elif defined(SYMADDR___memcpy_generic)
 	__memcpy_generic = (memcpy_fn)(libc + SYMADDR___memcpy_generic);
 #elif defined(SYMADDR___memcpy_simd)

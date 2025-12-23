@@ -4,6 +4,7 @@ __USE_PROC_HELPERS__ = y
 include glibc.mk
 
 SYMADDR___memcpy_ssse3 := $(call libc_sym_addr,__memcpy_ssse3)
+SYMADDR___memcpy_erms := $(call libc_sym_addr,__memcpy_erms)
 SYMADDR___memcpy_generic := $(call libc_sym_addr,__memcpy_generic)
 SYMADDR___memcpy_simd := $(call libc_sym_addr,__memcpy_simd)
 SYMADDR___memcpy_a64fx := $(call libc_sym_addr,__memcpy_a64fx)
@@ -17,6 +18,11 @@ ifneq ($(SYMADDR___memcpy_ssse3),)
   target-y += __memcpy_ssse3-stress
 else
   $(warning Not found __memcpy_ssse3())
+endif
+ifneq ($(SYMADDR___memcpy_erms),)
+  target-y += __memcpy_erms-stress
+else
+  $(warning Not found __memcpy_erms())
 endif
 ifneq ($(SYMADDR___memcpy_generic),)
   target-y += __memcpy_generic-stress
@@ -100,6 +106,7 @@ endif
 CFLAGS_memcpy-stress := -DSTRESS=1
 CFLAGS_memset-stress := -DSTRESS=1
 CFLAGS___memcpy_ssse3-stress := -DSYMADDR___memcpy_ssse3=$(SYMADDR___memcpy_ssse3)
+CFLAGS___memcpy_erms-stress := -DSYMADDR___memcpy_erms=$(SYMADDR___memcpy_erms)
 CFLAGS___memcpy_generic-stress := -DSYMADDR___memcpy_generic=$(SYMADDR___memcpy_generic)
 CFLAGS___memcpy_simd-stress := -DSYMADDR___memcpy_simd=$(SYMADDR___memcpy_simd)
 CFLAGS___memcpy_a64fx-stress := -DSYMADDR___memcpy_a64fx=$(SYMADDR___memcpy_a64fx)
@@ -120,6 +127,7 @@ memchr: memchr.o
 memcpy: memcpy.o
 memcpy-stress: memcpy-stress.o ${PROC_HELPERS}
 __memcpy_ssse3-stress: __memcpy_ssse3-stress.o ${PROC_HELPERS}
+__memcpy_erms-stress: __memcpy_erms-stress.o ${PROC_HELPERS}
 __memcpy_generic-stress: __memcpy_generic-stress.o ${PROC_HELPERS}
 __memcpy_simd-stress: __memcpy_simd-stress.o ${PROC_HELPERS}
 __memcpy_a64fx-stress: __memcpy_a64fx-stress.o ${PROC_HELPERS}
