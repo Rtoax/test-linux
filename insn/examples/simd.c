@@ -20,7 +20,7 @@
 #include <sys/types.h>
 #include <time.h>
 #include <sys/time.h>
-#if defined(CPU_HAVE_NEON)
+#if defined(CPU_HAVE_ASIMD)
 #include <arm_neon.h>
 #endif
 #if defined(CPU_HAVE_SVE)
@@ -168,7 +168,7 @@ void u16_c_X_x_Y(void *_x, void *_y, size_t n)
 		y[i] = x[i] * y[i];
 }
 
-#if defined(CPU_HAVE_NEON)
+#if defined(CPU_HAVE_ASIMD)
 function_attr
 void double_neon_X_x_Y(void *_x, void *_y, size_t n)
 {
@@ -573,7 +573,7 @@ struct test tests[] = {
 		.spent_us = 0,
 		.cmp_with = NULL,
 	},
-#if defined(CPU_HAVE_NEON)
+#if defined(CPU_HAVE_ASIMD)
 	{
 		.name = "y[i] = x[i] * y[i] (u8) lane=128",
 		.cpufeature = "neon",

@@ -1,20 +1,13 @@
-target-y :=
+include arch.mk
+include cpu.mk
 
-ifeq ($(shell uname -m),aarch64)
-  target-y += vrsqrtsq_f32
-  target-y += vst1q_u8
-  target-y += vaddq_s64
-  CFLAGS += -DCPU_HAVE_NEON=1
-endif
-
+target-y += vrsqrtsq_f32
+target-y += vst1q_u8
+target-y += vaddq_s64
 target-y += neon-sve
 
-ifeq ($(shell lscpu | grep -w -e sve -e sve2),)
-  $(warning WARNING: Not support SVE/SVE2 on this CPU)
-else
-  CFLAGS += -DCPU_HAVE_SVE=1
-  CFLAGS += -march=armv8-a+sve2
-endif
+CFLAGS += ${cpu-feature-cflags}
+CFLAGS += -march=armv8-a+sve2
 
 include main.mk
 

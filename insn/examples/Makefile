@@ -59,8 +59,6 @@ else ifeq ($(shell uname -m),aarch64)
     CFLAGS += -march=armv8-a+sve2
   endif
 
-  CFLAGS += -DCPU_HAVE_NEON=1
-
   ARCH_LIB_CPUID += ${OUTPUT}cpuid-arm64.o
 endif
 

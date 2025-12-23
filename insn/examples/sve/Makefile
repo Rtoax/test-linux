@@ -1,12 +1,9 @@
 # SPDX-License-Identifier: GPL-3.0
-CC := gcc
-CFLAGS :=
-
 include cross-compile.mk
 # All CC set done here
 include compiler.mk
+include cpu.mk
 
-target-y :=
 target-y += neon-sve
 
 target-${feature-sve2} += sve-width
@@ -14,8 +11,7 @@ target-${feature-sve2} += add_array
 target-${feature-sve2} += svaddlb
 
 CFLAGS += -march=armv8-a+sve+sve2
-CFLAGS += -DCPU_HAVE_NEON=1
-CFLAGS += -DCPU_HAVE_SVE=1
+CFLAGS += ${cpu-feature-cflags}
 
 include main.mk
 

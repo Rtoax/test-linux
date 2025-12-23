@@ -25,6 +25,7 @@ $(call define_cpufeature,avx2)
 $(call define_cpufeature,avx512f)
 $(call define_cpufeature,sve)
 $(call define_cpufeature,sve2)
+$(call define_cpufeature,asimd) # neon
 
 ifdef DEBUG
   $(info cpu-feature-cflags = ${cpu-feature-cflags})

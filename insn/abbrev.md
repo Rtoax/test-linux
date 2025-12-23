@@ -18,6 +18,7 @@
 - MSR: Module Specific Register ()
 - MTRRs: Memory Type Range Registers () @MSR
 - NEON: ? () @ARM @SIMD
+- ASIMD: Advanced SIMD (增强SIMD，即为ASIMD) @NEON
 - PNI: Prescott New Instructions (Prescott 新指令) @SSE3
 - RISC: Reduced Instruction Set Computer (精简指令集计算机) @CISC
 - SBNI: Sandy Bridge New Instructions () @AVX
