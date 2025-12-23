@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
 include arch.mk
 include compiler.mk
+include cpu.mk
 include binutils.mk
 
 OUTPUT := .output/
@@ -38,14 +39,14 @@ target-y += invalid_opcode_user
 
 ARCH_LIB_CPUID :=
 
+CFLAGS += ${cpu-feature-cflags}
+
 ifeq ($(shell uname -m),x86_64)
   ifneq ($(shell lscpu | grep -w avx2),)
     CFLAGS += -mavx2 -mfma
-    CFLAGS += -DCPU_HAVE_AVX2=1
   endif
   ifneq ($(shell lscpu | grep -w avx512f),)
     CFLAGS += -mavx512f -mfma
-    CFLAGS += -DCPU_HAVE_AVX512F=1
   endif
 
   ARCH_LIB_CPUID += ${OUTPUT}cpuid-x86.o

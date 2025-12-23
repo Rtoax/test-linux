@@ -7,6 +7,8 @@
 #
 _CPU = 1
 
+include bits/cpu-feature.mk
+
 CPU_VENDOR_ID := $(shell lscpu | grep ^Vendor | awk '{print $$3}')
 
 CPU_L3LINESIZE :=
