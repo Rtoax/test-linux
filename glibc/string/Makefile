@@ -9,36 +9,26 @@ SYMADDR___memcpy_generic := $(call libc_sym_addr,__memcpy_generic)
 SYMADDR___memcpy_simd := $(call libc_sym_addr,__memcpy_simd)
 SYMADDR___memcpy_a64fx := $(call libc_sym_addr,__memcpy_a64fx)
 
-target-y :=
+# $1: memcpy name, like __memcpy_ssse3
+define add_glibc_obj
+  SYMADDR_${1} := $(call libc_sym_addr,${1})
+  ifneq ($(SYMADDR_${1}),)
+    target-y += ${1}-stress
+    CFLAGS_${1}-stress += -DSYMADDR_${1}=$(SYMADDR_${1})
+  else
+    $(warning Not found ${1}())
+  endif
+endef
+
 target-y += bcopy
 target-y += index
 target-y += memchr
 target-y += memcpy memcpy-stress
-ifneq ($(SYMADDR___memcpy_ssse3),)
-  target-y += __memcpy_ssse3-stress
-else
-  $(warning Not found __memcpy_ssse3())
-endif
-ifneq ($(SYMADDR___memcpy_erms),)
-  target-y += __memcpy_erms-stress
-else
-  $(warning Not found __memcpy_erms())
-endif
-ifneq ($(SYMADDR___memcpy_generic),)
-  target-y += __memcpy_generic-stress
-else
-  $(warning Not found __memcpy_generic)
-endif
-ifneq ($(SYMADDR___memcpy_simd),)
-  target-y += __memcpy_simd-stress
-else
-  $(warning Not found __memcpy_simd)
-endif
-ifneq ($(SYMADDR___memcpy_a64fx),)
-  target-y += __memcpy_a64fx-stress
-else
-  $(warning Not found __memcpy_a64fx)
-endif
+$(eval $(call add_glibc_obj,__memcpy_ssse3))
+$(eval $(call add_glibc_obj,__memcpy_erms))
+$(eval $(call add_glibc_obj,__memcpy_generic))
+$(eval $(call add_glibc_obj,__memcpy_simd))
+$(eval $(call add_glibc_obj,__memcpy_a64fx))
 target-y += memset memset-stress
 target-y += memmove
 target-y += stpcpy
@@ -105,11 +95,6 @@ endif
 
 CFLAGS_memcpy-stress := -DSTRESS=1
 CFLAGS_memset-stress := -DSTRESS=1
-CFLAGS___memcpy_ssse3-stress := -DSYMADDR___memcpy_ssse3=$(SYMADDR___memcpy_ssse3)
-CFLAGS___memcpy_erms-stress := -DSYMADDR___memcpy_erms=$(SYMADDR___memcpy_erms)
-CFLAGS___memcpy_generic-stress := -DSYMADDR___memcpy_generic=$(SYMADDR___memcpy_generic)
-CFLAGS___memcpy_simd-stress := -DSYMADDR___memcpy_simd=$(SYMADDR___memcpy_simd)
-CFLAGS___memcpy_a64fx-stress := -DSYMADDR___memcpy_a64fx=$(SYMADDR___memcpy_a64fx)
 CFLAGS___memcpy_aarch64-stress := -DARM_SOFTWARE___memcpy_aarch64=1
 CFLAGS___memcpy_aarch64_simd-stress := -DARM_SOFTWARE___memcpy_aarch64_simd=1
 CFLAGS___memcpy_aarch64_sve-stress := -DARM_SOFTWARE___memcpy_aarch64_sve=1
