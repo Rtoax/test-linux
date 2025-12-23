@@ -8,7 +8,9 @@ int main(void)
 	extern int *__errno_location(void);
 	printf("__errno_location = %p\n", __errno_location);
 
-#ifdef LIBC___ERRNO_LOCATION_SYMADDR
+#ifndef LIBC___ERRNO_LOCATION_SYMADDR
+# error "Not define LIBC___ERRNO_LOCATION_SYMADDR"
+#endif
 	printf("LIBC___ERRNO_LOCATION_SYMADDR = 0x%x\n", LIBC___ERRNO_LOCATION_SYMADDR);
 	/**
 	 * We could use this to get libc.so.6 load virtual address, however,
@@ -17,7 +19,6 @@ int main(void)
 	 */
 	printf("libc.so.6 load address 0x%lx\n",
 		(unsigned long)__errno_location - LIBC___ERRNO_LOCATION_SYMADDR);
-#endif
 
 	return 0;
 }

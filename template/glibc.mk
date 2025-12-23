@@ -14,10 +14,6 @@ GLIBC_VERSION := $(shell getconf GNU_LIBC_VERSION)
 # Get libc.so.6 abs-path
 LIBC_SO_PATH := $(shell ldconfig -p | grep libc.so.6 | awk '{printf $$NF"\n"}' | head -1)
 
-LIBC___ERRNO_LOCATION_SYMADDR := 0x$(shell readelf --syms --wide ${LIBC_SO_PATH} \
-				| grep -w __errno_location | head -1 \
-				| awk '{printf $$2}')
-
 # Probe printf(3) with non-output gcc command
 LIBC_PRINTF_PROBE := '\#include <stdio.h>\n'
 LIBC_PRINTF_PROBE += 'int main(void) {\n'
@@ -44,7 +40,6 @@ endef
 ifdef DEBUG
   $(info GLIBC_VERSION = ${GLIBC_VERSION})
   $(info LIBC_SO_PATH = ${LIBC_SO_PATH})
-  $(info LIBC___ERRNO_LOCATION_SYMADDR = ${LIBC___ERRNO_LOCATION_SYMADDR})
   $(info printf = <$(call libc_sym_addr,printf)>)
 endif
 
