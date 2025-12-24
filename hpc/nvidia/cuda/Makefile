@@ -13,6 +13,7 @@ subdir-y += blas
 subdir-y += dnn
 subdir-y += fft
 subdir-y += file
+subdir-y += pti
 subdir-y += rand
 subdir-y += sparse
 subdir-y += solver

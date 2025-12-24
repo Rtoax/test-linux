@@ -25,6 +25,7 @@
 - OCP: Open Compute Project (开放计算项目)
 - OpenCL: Open Computing Language (开放计算语言)
 - OPS: Operations Per Second (每秒操作数)
+- PTI: CUDA Profiling Tools Interface (剖析工具接口)
 - SASS: Streaming ASSembly (原生机器码指令集)
 - SFU: Special Function Unit (特定功能单元)
 - SM: Streaming Multiprocessors (流式多处理器) @SMP

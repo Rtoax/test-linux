@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- cuda: add pti subdir;
 - python: add pip subdir;
 - shell/commands: add arp and ethtool subdir;
 - template: add bits/compiler-feature.mk;
