@@ -2612,6 +2612,8 @@
 #define CUPTI_CB_DOMAIN_SIZE	__CU(PTI_CB_DOMAIN_SIZE)
 #define CUPTI_CB_DOMAIN_FORCE_INT	__CU(PTI_CB_DOMAIN_FORCE_INT)
 
+#define CUcontext	__CU(context)
+
 #define cuptiActivityRegisterCallbacks	__cu(ptiActivityRegisterCallbacks)
 #define cuptiActivityEnable	__cu(ptiActivityEnable)
 #define cuptiActivityFlushAll	__cu(ptiActivityFlushAll)
