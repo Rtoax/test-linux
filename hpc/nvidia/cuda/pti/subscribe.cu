@@ -23,7 +23,9 @@ int main(void)
 	CUPTI_CHECK_EXIT(cuptiSubscribe(&subscriber, callbackFunc, NULL));
 	CUPTI_CHECK_EXIT(cuptiEnableDomain(true, subscriber, CUPTI_CB_DOMAIN_RUNTIME_API));
 	CUPTI_CHECK_EXIT(cuptiEnableDomain(true, subscriber, CUPTI_CB_DOMAIN_DRIVER_API));
+#ifndef __LUCA__
 	CUPTI_CHECK_EXIT(cuptiEnableAllDomains(true, subscriber));
+#endif
 
 	kernel_1<<<1, 1>>>();
 
