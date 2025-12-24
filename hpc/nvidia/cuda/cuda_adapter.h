@@ -2540,6 +2540,12 @@
 #define CUpti_CallbackDomain	__CU(pti_CallbackDomain)
 #define CUpti_CallbackId	__CU(pti_CallbackId)
 
+/**
+ * CUptiResult cuptiGetCallbackName(CUpti_CallbackDomain domain,
+ *                                  uint32_t cbid, const char **name)
+ */
+#define cuptiGetCallbackName	__cu(ptiGetCallbackName)
+
 #define CUptiResult	__CU(ptiResult)
 #define CUPTI_SUCCESS	__CU(PTI_SUCCESS)
 #define cuptiGetResultString(n, pstr)	__cu(ptiGetResultString(n, pstr))
