@@ -22,6 +22,7 @@ and this project adheres to
 - Move smp into cpu directory;
 #### Deprecated
 #### Removed
+- remove all symlinks `cuda_compat.h`, `cuda_adapter.h`;
 #### Fixed
 #### Security
 #### Docs

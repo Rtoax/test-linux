@@ -26,6 +26,7 @@
 _TARGET_HPCC = 1
 
 include hpcc.mk
+include dir.mk
 
 cflags-htcc-devbin := -device-bin
 cflags-htcc-fatbin := -fatbin
@@ -33,6 +34,7 @@ cflags-htcc-so := -Xcompiler -fPIC
 ldflags-htcc-so := -shared -Xcompiler -fPIC
 
 
+CFLAGS_HTCC += -I${TOPDIR}/hpc/nvidia/cuda/
 CFLAGS_HTCC += -DHAVE_HPCC=1
 CFLAGS_HTCC += -D__USE_HPCC__=1
 

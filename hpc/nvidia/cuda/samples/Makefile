@@ -112,7 +112,7 @@ float-c: ${OUTPUT}float-c.o
 matrix-c-fp32: ${OUTPUT}matrix-fp32.o
 matrix-c-fp64: ${OUTPUT}matrix-fp64.o
 
-HDRS := cuda_adapter.h cuda_compat.h
+HDRS := ../cuda_adapter.h ../cuda_compat.h
 
 define cuda_obj
 ${OUTPUT}${1}.cu.o: ${HDRS}

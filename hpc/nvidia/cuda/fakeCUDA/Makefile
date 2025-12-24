@@ -46,6 +46,7 @@ libso-hip += libhiprand.so.1
 libso-hip += libhipblas.so.2 libhipblaslt.so.0
 libso-hip += librccl.so.1
 
+CXXFLAGS_SO += -I../
 # See commit d3d0fe465313 ("fakeCUDA: cuda_compat.h: add __NOT_USE_FP8__ macro to fix HIP compile errors")
 CXXFLAGS_SO += -D__NOT_USE_FP8__
 ifdef HAVE_HIPSOLVER

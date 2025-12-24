@@ -21,12 +21,14 @@
 _TARGET_LUCA = 1
 
 include luca.mk
+include dir.mk
 
 cflags-lscc-devbin := -device-bin
 cflags-lscc-fatbin := -fatbin
 cflags-lscc-so := -Xcompiler -fPIC
 ldflags-lscc-so := -shared -Xcompiler -fPIC
 
+CFLAGS_LSCC += -I${TOPDIR}/hpc/nvidia/cuda/
 CFLAGS_LSCC += -DHAVE_LUCA=1
 CFLAGS_LSCC += -D__USE_LUCA__=1
 

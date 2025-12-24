@@ -35,12 +35,14 @@ ifneq ($(shell lspci | grep -oi nvidia),)
 endif
 
 include cuda.mk
+include dir.mk
 
 cflags-nvcc-cubin := --cubin
 cflags-nvcc-fatbin := --fatbin
 cflags-nvcc-so := -Xcompiler -fPIC
 ldflags-nvcc-so := -shared -Xcompiler -fPIC
 
+CFLAGS_NVCC += -I${TOPDIR}/hpc/nvidia/cuda/
 CFLAGS_NVCC += -DHAVE_CUDA=1
 ifdef HAVE_NCCL
   CFLAGS_NVCC += -DHAVE_NCCL=1
