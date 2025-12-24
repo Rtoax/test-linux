@@ -6,12 +6,10 @@ include cuda.mk
 include luca.mk
 
 common-objs := subscribe
+common-objs += activity
 
 target-nvcc-${HAVE_CUPTI} := ${common-objs}
 target-lscc-${HAVE_LCPTI} := $(patsubst %,%-luca,$(common-objs))
-
-CFLAGS_NVCC := -I../
-CFLAGS_LSCC := -I../
 
 include main.mk
 

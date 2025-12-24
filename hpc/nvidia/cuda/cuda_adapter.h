@@ -2611,3 +2611,10 @@
 #define CUPTI_CB_DOMAIN_STATE	__CU(PTI_CB_DOMAIN_STATE)
 #define CUPTI_CB_DOMAIN_SIZE	__CU(PTI_CB_DOMAIN_SIZE)
 #define CUPTI_CB_DOMAIN_FORCE_INT	__CU(PTI_CB_DOMAIN_FORCE_INT)
+
+#define cuptiActivityRegisterCallbacks	__cu(ptiActivityRegisterCallbacks)
+#define cuptiActivityEnable	__cu(ptiActivityEnable)
+#define cuptiActivityFlushAll	__cu(ptiActivityFlushAll)
+#define cuptiActivityDisable	__cu(ptiActivityDisable)
+
+#define CUPTI_ACTIVITY_KIND_CONCURRENT_KERNEL	__CU(PTI_ACTIVITY_KIND_CONCURRENT_KERNEL)
