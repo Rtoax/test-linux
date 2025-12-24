@@ -1,18 +1,44 @@
 #include "cuda_compat.h"
 #include "cuda_helpers.h"
 
+__device__ void foo(void)
+{
+	printf("foo\n");
+}
+
 __global__ void kernel_1(void)
 {
+	foo();
 	printf("kernel\n");
 }
 
 static void BufferRequested(uint8_t **buffer, size_t *size, size_t *maxNumRecords)
 {
+	*size = 8 * 1024 * 1024; /* 8MB buffer */
+	*maxNumRecords = 0;
+	*buffer = (uint8_t*)malloc(*size);
 }
 
 static void BufferCompleted(CUcontext ctx, uint32_t streamId, uint8_t *buffer,
 			    size_t size, size_t validSize)
 {
+	CUpti_Activity *record = NULL;
+
+	if (validSize > 0) {
+		/**
+		 * Parse CUPTI activity records here, print kernel name and
+		 * duration
+		 */
+		while (cuptiActivityGetNextRecord(buffer, validSize, &record) == CUPTI_SUCCESS) {
+			if (record->kind == CUPTI_ACTIVITY_KIND_CONCURRENT_KERNEL) {
+				CUpti_ActivityKernel10 *kernel = (CUpti_ActivityKernel10 *)record;
+				printf("kernel name = %s\n", kernel->name);
+				printf("kernel duration (ns) = %llu\n",
+					(unsigned long long)(kernel->end - kernel->start));
+			}
+		}
+	}
+	free(buffer);
 }
 
 int main(void)

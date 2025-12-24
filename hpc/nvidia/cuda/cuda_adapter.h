@@ -2618,5 +2618,6 @@
 #define cuptiActivityEnable	__cu(ptiActivityEnable)
 #define cuptiActivityFlushAll	__cu(ptiActivityFlushAll)
 #define cuptiActivityDisable	__cu(ptiActivityDisable)
+#define cuptiActivityGetNextRecord	__cu(ptiActivityGetNextRecord)
 
 #define CUPTI_ACTIVITY_KIND_CONCURRENT_KERNEL	__CU(PTI_ACTIVITY_KIND_CONCURRENT_KERNEL)
