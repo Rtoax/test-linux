@@ -1,6 +1,9 @@
 # SPDX-License-Identifier: GPL-3.0
 # Copyright (C) 2025 Rong Tao
-
+#
+# Functions:
+# - check_file_and_def()
+#
 _VALUE = 1
 
 # $1 - file path, like: /usr/include/stdio.h
@@ -18,4 +21,7 @@ $(call check_file_and_def,/usr/include/notexist.h,HAVE_NOTEXIST)
 
 ifndef HAVE_STDIO_H
   $(error "Not define HAVE_STDIO_H")
+endif
+ifdef HAVE_NOTEXIST
+  $(error "Never found HAVE_NOTEXIST")
 endif

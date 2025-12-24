@@ -8,7 +8,7 @@ include ansi.mk
 include dir.mk
 include log.mk
 include kconfig.mk
-include values.mk
+include define.mk
 include os.mk
 
 STDIO_H := /usr/include/stdio.h

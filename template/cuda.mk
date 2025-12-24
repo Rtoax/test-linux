@@ -24,7 +24,7 @@
 
 _CUDA = 1
 
-include values.mk
+include define.mk
 
 CUDNN_H := /usr/include/cudnn.h
 

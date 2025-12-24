@@ -20,7 +20,7 @@
 
 _HPCC = 1
 
-include values.mk
+include define.mk
 
 HPCC_ROOT := /opt/hpcc
 HPCC_ROOT := $(shell realpath ${HPCC_ROOT} 2>/dev/null || true)

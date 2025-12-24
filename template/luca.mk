@@ -19,7 +19,7 @@
 
 _LUCA = 1
 
-include values.mk
+include define.mk
 
 LUCA_ROOT := /opt/luca
 LUCA_ROOT := $(shell realpath ${LUCA_ROOT} 2>/dev/null || true)

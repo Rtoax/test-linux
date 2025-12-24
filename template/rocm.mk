@@ -20,7 +20,7 @@
 
 _ROCm = 1
 
-include values.mk
+include define.mk
 
 HIPCC := $(shell which hipcc 2>/dev/null)
 HIPCONFIG := $(shell which hipconfig 2>/dev/null)

@@ -11,7 +11,7 @@ _NUMACTL = 1
 
 include dir.mk
 include shell.mk
-include values.mk
+include define.mk
 
 NUMACTL := $(shell which numactl 2>/dev/null || :)
 LIBNUMA_HDR := /usr/include/numa.h
