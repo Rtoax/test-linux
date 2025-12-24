@@ -2613,6 +2613,18 @@
 #define CUPTI_CB_DOMAIN_FORCE_INT	__CU(PTI_CB_DOMAIN_FORCE_INT)
 
 #define CUcontext	__CU(context)
+#define CUpti_Activity	__CU(pti_Activity)
+#define CUpti_ActivityKernel	__CU(pti_ActivityKernel)
+#define CUpti_ActivityKernel1	__CU(pti_ActivityKernel1)
+#define CUpti_ActivityKernel2	__CU(pti_ActivityKernel2)
+#define CUpti_ActivityKernel3	__CU(pti_ActivityKernel3)
+#define CUpti_ActivityKernel4	__CU(pti_ActivityKernel4)
+#define CUpti_ActivityKernel5	__CU(pti_ActivityKernel5)
+#define CUpti_ActivityKernel6	__CU(pti_ActivityKernel6)
+#define CUpti_ActivityKernel7	__CU(pti_ActivityKernel7)
+#define CUpti_ActivityKernel8	__CU(pti_ActivityKernel8)
+#define CUpti_ActivityKernel9	__CU(pti_ActivityKernel9)
+#define CUpti_ActivityKernel10	__CU(pti_ActivityKernel10)
 
 #define cuptiActivityRegisterCallbacks	__cu(ptiActivityRegisterCallbacks)
 #define cuptiActivityEnable	__cu(ptiActivityEnable)

@@ -31,7 +31,11 @@ static void BufferCompleted(CUcontext ctx, uint32_t streamId, uint8_t *buffer,
 		 */
 		while (cuptiActivityGetNextRecord(buffer, validSize, &record) == CUPTI_SUCCESS) {
 			if (record->kind == CUPTI_ACTIVITY_KIND_CONCURRENT_KERNEL) {
+#ifdef __LUCA__
+				CUpti_ActivityKernel8 *kernel = (CUpti_ActivityKernel8 *)record;
+#else
 				CUpti_ActivityKernel10 *kernel = (CUpti_ActivityKernel10 *)record;
+#endif
 				printf("kernel name = %s\n", kernel->name);
 				printf("kernel duration (ns) = %llu\n",
 					(unsigned long long)(kernel->end - kernel->start));
