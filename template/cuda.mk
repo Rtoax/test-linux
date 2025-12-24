@@ -26,8 +26,6 @@ _CUDA = 1
 
 include define.mk
 
-CUDNN_H := /usr/include/cudnn.h
-
 NVCC := $(shell which nvcc 2>/dev/null)
 CUOBJDUMP := $(shell which cuobjdump 2>/dev/null)
 NVDISASM := $(shell which nvdisasm 2>/dev/null)
@@ -95,8 +93,8 @@ else
   endif
 endif
 
-$(call check_file_and_def,/usr/include/nccl.h,HAVE_NCCL)
-$(call check_file_and_def,/usr/include/cudnn.h,HAVE_CUDNN)
+$(call check_file_and_def,${CUDA_ROOT}/include/nccl.h,HAVE_NCCL)
+$(call check_file_and_def,${CUDA_ROOT}/include/cudnn.h,HAVE_CUDNN)
 # For GPUDirect Storage
 $(call check_file_and_def,${CUDA_ROOT}/include/cufile.h,HAVE_CUFILE)
 
