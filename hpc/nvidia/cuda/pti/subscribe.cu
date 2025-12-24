@@ -19,7 +19,7 @@ int main(void)
 	CUpti_SubscriberHandle subscriber;
 
 	CUPTI_CHECK_EXIT(cuptiSubscribe(&subscriber, callbackFunc, NULL));
-	CUPTI_CHECK_EXIT(cuptiEnableDomain(CUPTI_CB_DOMAIN_RUNTIME_API, subscriber, CUPTI_CB_DOMAIN_FORCE_INT));
+	CUPTI_CHECK_EXIT(cuptiEnableDomain(true, subscriber, CUPTI_CB_DOMAIN_RUNTIME_API));
 
 	kernel_1<<<1, 1>>>();
 
