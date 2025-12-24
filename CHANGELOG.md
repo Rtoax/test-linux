@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- python: add pip subdir;
 - shell/commands: add arp and ethtool subdir;
 - template: add bits/compiler-feature.mk;
 - template: add bits/cpu-feature.mk;
