@@ -2581,6 +2581,12 @@
 #define cuptiEnableAllDomains	__cu(ptiEnableAllDomains)
 
 /**
+ * CUptiResult cuptiSupportedDomains(size_t *domainCount,
+ *                                   CUpti_DomainTable *domainTable)
+ */
+#define cuptiSupportedDomains	__cu(ptiSupportedDomains)
+
+/**
  * CUptiResult cuptiEnableCallback(uint32_t enable,
  *                                 CUpti_SubscriberHandle subscriber,
  *                                 CUpti_CallbackDomain domain,
