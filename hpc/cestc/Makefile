@@ -1,2 +1,2 @@
-target-shell-y := version.sh
+subdir-y := luca
 include main.mk

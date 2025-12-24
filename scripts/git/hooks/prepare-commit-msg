@@ -103,7 +103,7 @@ add_rocm_ver() {
 	add_ver "ROCm ${ver}"
 }
 add_luca_ver() {
-	local ver=$(${TOPDIR}/hpc/cestc/version.sh)
+	local ver=$(${TOPDIR}/hpc/cestc/luca/version.sh)
 	add_ver "LUCA ${ver}"
 }
 add_hpcc_ver() {

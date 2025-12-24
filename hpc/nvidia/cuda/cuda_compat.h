@@ -56,7 +56,7 @@
 # ifndef HAVE_HPCC
 #  error "Not found HPCC envrioment, but use HPCC"
 # endif
-# define CUNAME	"MetaX"
+# define CUNAME	"HPCC"
 /******************************************************************************\
  * LUCA                                                                       *
 \******************************************************************************/
@@ -108,7 +108,7 @@
 #  include <luca_cooperative_groups.h>
 # endif
 # include "cuda_adapter.h"
-# define CUNAME	"CESTC"
+# define CUNAME	"LUCA"
 /******************************************************************************\
  * AMD ROCm HIP                                                               *
 \******************************************************************************/

@@ -102,9 +102,9 @@ struct {
 
 const char *version = "v1.0.3 "
 #if defined(__HPCC__)
-	"(GPU MetaX)"
+	"(GPU HPCC)"
 #elif defined(__LUCA__)
-	"(GPU CESTC)"
+	"(GPU LUCA)"
 #elif defined(__HIPCC__)
 	"(GPU AMD)"
 #elif defined(__NVCC__)

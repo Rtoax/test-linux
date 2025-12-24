@@ -87,7 +87,7 @@
 #  ifndef SUPPORT__Float16
 #   define SUPPORT__Float16 /* HPCC always support _Float16 */
 #  endif
-# elif defined(__LUCA__)	/* CESTC */
+# elif defined(__LUCA__)
 #  ifdef LUCA_PHASE_II_PROJECT
 #   include <lccl.h>
 #   include <lc_runtime.h>

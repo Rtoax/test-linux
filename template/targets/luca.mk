@@ -18,7 +18,7 @@
 # - LUCA_ROOT=
 # - NODEFAULTRPATH
 
-_TARGET_CESTC = 1
+_TARGET_LUCA = 1
 
 include luca.mk
 

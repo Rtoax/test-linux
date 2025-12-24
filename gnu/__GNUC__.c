@@ -39,11 +39,11 @@ int main(void)
 	pfx = "hipcc";
 	printf("%s: __HIPCC__ = %d\n", pfx, __HIPCC__);
 #endif
-#ifdef __HPCC__	/* MetaX htcc */
+#ifdef __HPCC__	/* HPCC */
 	pfx = "htcc";
 	printf("%s: __HPCC__ = %d\n", pfx, __HPCC__);
 #endif
-#ifdef __LUCA__	/* CESTC LUCA */
+#ifdef __LUCA__	/* LUCA */
 	pfx = "lscc";
 	printf("%s: __LUCA__ = %d\n", pfx, __LUCA__);
 #endif
