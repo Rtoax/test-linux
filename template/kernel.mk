@@ -2,28 +2,29 @@
 # Copyright (C) 2025 Rong Tao
 #
 # Exports:
-# - KVERSION
-# - KPATCHLEVEL
-# - KSUBLEVEL
-# - KVERSION_CODE
-# - KUAPIVERSION
-# - KUAPIPATCHLEVEL
-# - KUAPISUBLEVEL
-# - KUAPIVERSION_CODE
+# - KVERSION=
+# - KPATCHLEVEL=
+# - KSUBLEVEL=
+# - KVERSION_CODE=
+# - KUAPIVERSION=
+# - KUAPIPATCHLEVEL=
+# - KUAPISUBLEVEL=
+# - KUAPIVERSION_CODE=
 #
 # Functions:
-# - kver_gt
-# - kver_ge
-# - kver_eq
-# - kver_lt
-# - kver_le
-# - kver_uapi_gt
-# - kver_uapi_eq
-# - kver_uapi_lt
+# - kver_gt()
+# - kver_ge()
+# - kver_eq()
+# - kver_lt()
+# - kver_le()
+# - kver_uapi_gt()
+# - kver_uapi_eq()
+# - kver_uapi_lt()
 #
 # WARNING: If you are inside a container, the kernel version queried by uame -r
 # may not match the environment inside the container, so it is normal if
 # compilation errors occur.
+#
 _KERNEL = 1
 
 include shell.mk
@@ -111,7 +112,7 @@ endif
 ifneq ($(call kver_uapi_eq,${KUAPIVERSION},${KUAPIPATCHLEVEL},${KUAPISUBLEVEL}),y)
   $(error "call kver_uapi_eq failed")
 endif
-# newest kernel is v6.14 right now
+# newest kernel is v6.19 right now
 ifneq ($(call kver_lt,7,0,0),y)
   $(error "call kver_lt failed")
 endif
@@ -126,9 +127,9 @@ ifdef DEBUG
   $(info KVERSION = ${KVERSION}.${KPATCHLEVEL}.${KSUBLEVEL}, CODE ${KVERSION_CODE})
   $(info KUAPIVERSION = ${KUAPIVERSION}.${KUAPIPATCHLEVEL}.${KUAPISUBLEVEL}, CODE ${KUAPIVERSION_CODE})
   $(info kernel_version(${KVERSION},${KPATCHLEVEL},${KSUBLEVEL}) = \
-	  $(call kernel_version,${KVERSION},${KPATCHLEVEL},${KSUBLEVEL}))
+         $(call kernel_version,${KVERSION},${KPATCHLEVEL},${KSUBLEVEL}))
   $(info kver_gt(1,1,1) = $(call kver_gt,1,1,1))
   $(info kver_eq(${KVERSION},${KPATCHLEVEL},${KSUBLEVEL}) = \
-	  $(call kver_eq,${KVERSION},${KPATCHLEVEL},${KSUBLEVEL}))
+         $(call kver_eq,${KVERSION},${KPATCHLEVEL},${KSUBLEVEL}))
   $(info kver_lt(7,0,0) = $(call kver_lt,7,0,0))
 endif
