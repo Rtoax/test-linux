@@ -8,7 +8,8 @@
 # - HAVE_CUDA=y
 # - HAVE_NCCL=y
 # - HAVE_CUDNN=y
-# - HAVE_CUFILE=y
+# - HAVE_CUFILE=y	GPUDirect Storage
+# - HAVE_CUPTI=y	CUDA Profiling Tools Interface
 # - NVCC=
 # - CUOBJDUMP=
 # - NVDISASM=
@@ -95,7 +96,7 @@ endif
 
 $(call check_file_and_def,${CUDA_ROOT}/include/nccl.h,HAVE_NCCL)
 $(call check_file_and_def,${CUDA_ROOT}/include/cudnn.h,HAVE_CUDNN)
-# For GPUDirect Storage
+$(call check_file_and_def,${CUDA_ROOT}/include/cupti.h,HAVE_CUPTI)
 $(call check_file_and_def,${CUDA_ROOT}/include/cufile.h,HAVE_CUFILE)
 
 export NVCC CUOBJDUMP NVDISASM CUDA_ROOT
