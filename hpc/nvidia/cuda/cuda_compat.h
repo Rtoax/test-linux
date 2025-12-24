@@ -12,6 +12,7 @@
  *
  * - HAVE_NCCL
  * - HAVE_CUDNN
+ * - HAVE_CUPTI
  * - HAVE_RCCL
  * - HAVE_HPCC
  * - HAVE_HCDNN
@@ -183,6 +184,9 @@
 # endif
 # ifdef HAVE_CUFILE
 #  include <cufile.h>
+# endif
+# ifdef HAVE_CUPTI
+#  include <cupti.h>
 # endif
 # define CUNAME	"NVIDIA CUDA"
 #endif
