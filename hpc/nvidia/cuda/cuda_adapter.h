@@ -2554,8 +2554,14 @@
  * CUptiResult cuptiSubscribe(CUpti_SubscriberHandle *subscriber,
  *                            CUpti_CallbackFunc callback,
  *                            void *userdata);
+ *
+ * CUptiResult cuptiSubscribe_v2(CUpti_SubscriberHandle *subscriber,
+ *                               CUpti_CallbackFunc callback,
+ *                               void *userdata,
+ *                               CUpti_SubscriberParams *pParams)
  */
 #define cuptiSubscribe(s, c, u)	__cu(ptiSubscribe(s, c, u))
+#define cuptiSubscribe_v2	__cu(ptiSubscribe_v2)
 
 /**
  * CUptiResult cuptiUnsubscribe(CUpti_SubscriberHandle subscriber);
@@ -2573,6 +2579,22 @@
  * CUptiResult cuptiEnableAllDomains(uint32_t enable, CUpti_SubscriberHandle subscriber)
  */
 #define cuptiEnableAllDomains	__cu(ptiEnableAllDomains)
+
+/**
+ * CUptiResult cuptiEnableCallback(uint32_t enable,
+ *                                 CUpti_SubscriberHandle subscriber,
+ *                                 CUpti_CallbackDomain domain,
+ *                                 CUpti_CallbackId cbid)
+ */
+#define cuptiEnableCallback	__cu(ptiEnableCallback)
+
+/**
+ * CUptiResult cuptiGetCallbackState(uint32_t *enable,
+ *                                   CUpti_SubscriberHandle subscriber,
+ *                                   CUpti_CallbackDomain domain,
+ *                                   CUpti_CallbackId cbid)
+ */
+#define cuptiGetCallbackState	__cu(ptiGetCallbackState)
 
 #define CUPTI_CB_DOMAIN_INVALID	__CU(PTI_CB_DOMAIN_INVALID)
 #define CUPTI_CB_DOMAIN_DRIVER_API	__CU(PTI_CB_DOMAIN_DRIVER_API)
