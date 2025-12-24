@@ -2569,6 +2569,11 @@
  */
 #define cuptiEnableDomain(e, s, d)	__cu(ptiEnableDomain(e, s, d))
 
+/**
+ * CUptiResult cuptiEnableAllDomains(uint32_t enable, CUpti_SubscriberHandle subscriber)
+ */
+#define cuptiEnableAllDomains	__cu(ptiEnableAllDomains)
+
 #define CUPTI_CB_DOMAIN_INVALID	__CU(PTI_CB_DOMAIN_INVALID)
 #define CUPTI_CB_DOMAIN_DRIVER_API	__CU(PTI_CB_DOMAIN_DRIVER_API)
 #define CUPTI_CB_DOMAIN_RUNTIME_API	__CU(PTI_CB_DOMAIN_RUNTIME_API)
