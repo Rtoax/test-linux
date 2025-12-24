@@ -1,8 +1,10 @@
 # SPDX-License-Identifier: GPL-3.0
 subdir-y :=
 subdir-y += awk
+subdir-y += arp
 subdir-y += bc
 subdir-y += dmesg
+subdir-y += ethtool
 subdir-y += grep
 subdir-y += lstopo
 subdir-y += sar

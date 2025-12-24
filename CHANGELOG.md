@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- shell/commands: add arp and ethtool subdir;
 - template: add bits/compiler-feature.mk;
 - template: add bits/cpu-feature.mk;
 - memcpy-stress.c: add `__memcpy_aarch64_simd()`;
