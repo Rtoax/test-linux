@@ -8,6 +8,7 @@
 # - HAVE_LUCA=y
 # - HAVE_LCDNN=y
 # - HAVE_LCFILE=y
+# - HAVE_LCPTI=y
 # - LUCA_ROOT=
 # - LUCA_PHASE_II_PROJECT=  In the second phase of LUCA development, the
 #                           filename changed, and the definition was deleted
@@ -71,9 +72,11 @@ endif
 ifeq (${LUCA_PHASE_II_PROJECT},y)
   $(call check_file_and_def,${LUCA_ROOT}/include/lcdnn/lcdnn.h,HAVE_LCDNN)
   $(call check_file_and_def,${LUCA_ROOT}/include/lcfile.h,HAVE_LCFILE)
+  $(call check_file_and_def,${LUCA_ROOT}/include/lcpti/lcpti.h,HAVE_LCPTI)
 else
   $(call check_file_and_def,${LUCA_ROOT}/include/hcdnn/hcdnn.h,HAVE_LCDNN)
   $(call check_file_and_def,${LUCA_ROOT}/include/hcfile.h,HAVE_LCFILE)
+  $(call check_file_and_def,${LUCA_ROOT}/include/hcpti/hcpti.h,HAVE_LCPTI)
 endif
 
 export LUCA_ROOT

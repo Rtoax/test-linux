@@ -1,4 +1,5 @@
 #include "cuda_compat.h"
+#include "cuda_helpers.h"
 
 static void callbackFunc(void *userData, CUpti_CallbackDomain domain,
 			 CUpti_CallbackId callbackId,
@@ -17,12 +18,12 @@ int main(void)
 {
 	CUpti_SubscriberHandle subscriber;
 
-	cuptiSubscribe(&subscriber, callbackFunc, NULL);
-	cuptiEnableDomain(CUPTI_CB_DOMAIN_RUNTIME_API, subscriber, CUPTI_CB_DOMAIN_FORCE_INT);
+	CUPTI_CHECK_EXIT(cuptiSubscribe(&subscriber, callbackFunc, NULL));
+	CUPTI_CHECK_EXIT(cuptiEnableDomain(CUPTI_CB_DOMAIN_RUNTIME_API, subscriber, CUPTI_CB_DOMAIN_FORCE_INT));
 
 	kernel_1<<<1, 1>>>();
 
-	cuptiUnsubscribe(subscriber);
+	CUPTI_CHECK_EXIT(cuptiUnsubscribe(subscriber));
 
 	cudaDeviceSynchronize();
 	return 0;

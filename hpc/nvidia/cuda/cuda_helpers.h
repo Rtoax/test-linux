@@ -72,6 +72,21 @@
 }
 #define CUFILE_CHECK_EXIT(CALL)	CUFILE_CHECK(CALL, exit(-1))
 
+#define CUPTI_CHECK(CALL, ERROR_DO)	{				\
+	CUptiResult __err = CALL;					\
+	if (unlikely(__err != CUPTI_SUCCESS)) {				\
+		fprintf(stderr, "\033[31m");				\
+		const char *errstr;					\
+		cuptiGetResultString(__err, &errstr);			\
+		fprintf(stderr, "ERROR: %s:%d PTI %s failed, %s(%d)\n",	\
+			__func__, __LINE__,				\
+			#CALL, errstr, __err);				\
+		fprintf(stderr, "\033[m");				\
+		ERROR_DO;						\
+	}								\
+}
+#define CUPTI_CHECK_EXIT(CALL)	CUPTI_CHECK(CALL, exit(-1))
+
 #ifdef __NVCC__
 # if CUDA_VERSION < 13000
 #  define DEVPROP_HAVE_CLOCK_REATE	1

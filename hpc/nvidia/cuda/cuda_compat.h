@@ -12,13 +12,14 @@
  *
  * - HAVE_NCCL
  * - HAVE_CUDNN
- * - HAVE_CUPTI
  * - HAVE_RCCL
  * - HAVE_HPCC
  * - HAVE_HCDNN
  * - HAVE_LCDNN
  * - HAVE_CUFILE
  * - HAVE_LCFILE
+ * - HAVE_CUPTI
+ * - HAVE_LCPTI
  * - HAVE_HIP
  * - HAVE_HIPBLASLT
  * - HAVE_HIP_FP8
@@ -83,6 +84,9 @@
 #  ifdef HAVE_LCFILE
 #   include <lcfile.h>
 #  endif
+#  ifdef HAVE_LCPTI
+#   include <lcpti/lcpti.h>
+#  endif
 # else /* LUCA_PHASE_II_PROJECT */
 #  include <hcr/hc_runtime.h>
 #  include <hcr/hcrtc.h>
@@ -99,6 +103,9 @@
 #  include <hccl.h>
 #  ifdef HAVE_LCFILE
 #   include <hcfile.h>
+#  endif
+#  ifdef HAVE_LCPTI
+#   include <hcpti/hcpti.h>
 #  endif
 # endif /* LUCA_PHASE_II_PROJECT */
 # ifndef __NOT_USE_FP8__

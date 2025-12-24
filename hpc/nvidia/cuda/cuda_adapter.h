@@ -2532,3 +2532,43 @@
  *     ....
  */
 #define CUFILEOP_STATUS_ENTRIES	__CU(FILEOP_STATUS_ENTRIES)
+
+/******************************************************************************\
+ *             PTI - CUDA Profiling Tools Interface                           *
+\******************************************************************************/
+#define CUpti_SubscriberHandle	__CU(pti_SubscriberHandle)
+#define CUpti_CallbackDomain	__CU(pti_CallbackDomain)
+#define CUpti_CallbackId	__CU(pti_CallbackId)
+
+#define CUptiResult	__CU(ptiResult)
+#define CUPTI_SUCCESS	__CU(PTI_SUCCESS)
+#define cuptiGetResultString(n, pstr)	__cu(ptiGetResultString(n, pstr))
+
+/**
+ * CUptiResult cuptiSubscribe(CUpti_SubscriberHandle *subscriber,
+ *                            CUpti_CallbackFunc callback,
+ *                            void *userdata);
+ */
+#define cuptiSubscribe(s, c, u)	__cu(ptiSubscribe(s, c, u))
+
+/**
+ * CUptiResult cuptiUnsubscribe(CUpti_SubscriberHandle subscriber);
+ */
+#define cuptiUnsubscribe(s)	__cu(ptiUnsubscribe(s))
+
+/**
+ * CUptiResult cuptiEnableDomain(uint32_t enable,
+ *                               CUpti_SubscriberHandle subscriber,
+ *                               CUpti_CallbackDomain domain);
+ */
+#define cuptiEnableDomain(e, s, d)	__cu(ptiEnableDomain(e, s, d))
+
+#define CUPTI_CB_DOMAIN_INVALID	__CU(PTI_CB_DOMAIN_INVALID)
+#define CUPTI_CB_DOMAIN_DRIVER_API	__CU(PTI_CB_DOMAIN_DRIVER_API)
+#define CUPTI_CB_DOMAIN_RUNTIME_API	__CU(PTI_CB_DOMAIN_RUNTIME_API)
+#define CUPTI_CB_DOMAIN_RESOURCE	__CU(PTI_CB_DOMAIN_RESOURCE)
+#define CUPTI_CB_DOMAIN_SYNCHRONIZE	__CU(PTI_CB_DOMAIN_SYNCHRONIZE)
+#define CUPTI_CB_DOMAIN_NVTX	__CU(PTI_CB_DOMAIN_NVTX)
+#define CUPTI_CB_DOMAIN_STATE	__CU(PTI_CB_DOMAIN_STATE)
+#define CUPTI_CB_DOMAIN_SIZE	__CU(PTI_CB_DOMAIN_SIZE)
+#define CUPTI_CB_DOMAIN_FORCE_INT	__CU(PTI_CB_DOMAIN_FORCE_INT)
