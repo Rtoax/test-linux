@@ -43,7 +43,7 @@ Versions=""
 Environments=""
 
 fatal() {
-	echo >&2 "FATAL: "${@}
+	echo >&2 "FATAL: "${@}", use FORCE=1 environment"
 	[[ -z ${FORCE} ]] && exit 1
 }
 
