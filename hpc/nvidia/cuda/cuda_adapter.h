@@ -18,6 +18,7 @@
 # define __cu(name)	hc##name
 # define __cuda(name)	hc##name
 # define __CU(name)	HC##name
+# define __CU_cuda(n1, n2)	HC##n1##hc##n2
 # define __CUDA(name)	HC_##name
 # define __CUDA_ERROR(name)	HCC_STATUS_##name
 # define __nv(name)	hc##name
@@ -39,6 +40,7 @@
 #  define __cu(name)	lc##name
 #  define __cuda(name)	lc##name
 #  define __CU(name)	LC##name
+#  define __CU_cuda(n1, n2)	LC##n1##lc##n2
 #  define __CUDA(name)	LC_##name
 #  define __CUDA_ERROR(name)	LCC_STATUS_##name
 #  define __nv(name)	lc##name
@@ -50,6 +52,7 @@
 #  define __cu(name)	hc##name
 #  define __cuda(name)	hc##name
 #  define __CU(name)	HC##name
+#  define __CU_cuda(n1, n2)	HC##n1##hc##n2
 #  define __CUDA(name)	HC_##name
 #  define __CUDA_ERROR(name)	HCC_STATUS_##name
 #  define __nv(name)	hc##name
@@ -67,6 +70,7 @@
 # define __cu(name)	hip##name
 # define __cuda(name)	hip##name
 # define __CU(name)	HIP##name
+/* TODO: __CU_cuda */
 # define __CUDA(name)	HIP_##name
 # define __CUDA_ERROR(name)	HIP_##name
 # define __nv(name)	hip##name
@@ -2612,6 +2616,27 @@
 #define CUPTI_CB_DOMAIN_STATE	__CU(PTI_CB_DOMAIN_STATE)
 #define CUPTI_CB_DOMAIN_SIZE	__CU(PTI_CB_DOMAIN_SIZE)
 #define CUPTI_CB_DOMAIN_FORCE_INT	__CU(PTI_CB_DOMAIN_FORCE_INT)
+
+#define CUPTI_API_ENTER	__CU(PTI_API_ENTER)
+
+#define CUPTI_RUNTIME_TRACE_CBID_cudaMemcpy_v3020	__CU_cuda(PTI_RUNTIME_TRACE_CBID_, Memcpy)
+#define cudaMemcpy_v3020_params	__cuda(Memcpy_params)
+#define CUPTI_RUNTIME_TRACE_CBID_cudaMalloc_v3020	__CU_cuda(PTI_RUNTIME_TRACE_CBID_, Malloc)
+/**
+ * CUDA 13:
+ * typedef struct cudaMalloc_v3020_params_st {
+ *   void **devPtr;
+ *   size_t size;
+ * } cudaMalloc_v3020_params;
+ *
+ * LUCA:
+ * typedef struct lcMalloc_params_st {
+ *   void** ptr;
+ *   void* ptr__val;
+ *   size_t bytesize;
+ * } lcMalloc_params;
+ */
+#define cudaMalloc_v3020_params	__cuda(Malloc_params)
 
 #define CUcontext	__CU(context)
 #define CUpti_Activity	__CU(pti_Activity)

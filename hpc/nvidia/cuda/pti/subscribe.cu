@@ -25,6 +25,10 @@ static void callbackFunc(void *userData, CUpti_CallbackDomain domain,
 			}
 			/* access parameters passed to cudaMalloc */
 			if (callbackId == CUPTI_RUNTIME_TRACE_CBID_cudaMalloc_v3020) {
+#ifdef __LUCA__
+# define devPtr	ptr
+# define size	bytesize
+#endif
 				printf("cudaMalloc(devPtr=%p, size=%ld)\n",
 					((cudaMalloc_v3020_params *)(callbackData->functionParams))->devPtr,
 					((cudaMalloc_v3020_params *)(callbackData->functionParams))->size);
@@ -59,7 +63,7 @@ int main(void)
 
 	CUPTI_CHECK_EXIT(cuptiUnsubscribe(subscriber));
 
-	cudaFree(&mem);
+	cudaFree(mem);
 	cudaDeviceSynchronize();
 	return 0;
 }
