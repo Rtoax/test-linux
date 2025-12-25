@@ -2539,6 +2539,7 @@
 #define CUpti_SubscriberHandle	__CU(pti_SubscriberHandle)
 #define CUpti_CallbackDomain	__CU(pti_CallbackDomain)
 #define CUpti_CallbackId	__CU(pti_CallbackId)
+#define CUpti_CallbackData	__CU(pti_CallbackData)
 
 /**
  * CUptiResult cuptiGetCallbackName(CUpti_CallbackDomain domain,
