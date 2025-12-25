@@ -5,8 +5,9 @@ OUTPUT := .output/
 include cuda.mk
 include luca.mk
 
-common-objs := subscribe
-common-objs += activity
+common-objs := activity
+common-objs += sampling
+common-objs += subscribe
 
 target-nvcc-${HAVE_CUPTI} := ${common-objs}
 target-lscc-${HAVE_LCPTI} := $(patsubst %,%-luca,$(common-objs))
