@@ -6,10 +6,13 @@ include cuda.mk
 include luca.mk
 
 common-objs := activity
-common-objs += sampling
 common-objs += subscribe
 
+# FIXME: only cuda support right now
+cuda-objs := sampling
+
 target-nvcc-${HAVE_CUPTI} := ${common-objs}
+target-nvcc-${HAVE_CUPTI} += ${cuda-objs}
 target-lscc-${HAVE_LCPTI} := $(patsubst %,%-luca,$(common-objs))
 
 include main.mk
