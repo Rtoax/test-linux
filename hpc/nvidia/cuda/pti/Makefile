@@ -10,6 +10,7 @@ common-objs += subscribe
 
 # FIXME: only cuda support right now
 cuda-objs := sampling
+cuda-objs += range
 
 target-nvcc-${HAVE_CUPTI} := ${common-objs}
 target-nvcc-${HAVE_CUPTI} += ${cuda-objs}
@@ -25,3 +26,4 @@ ${1}-luca: ${OUTPUT}${1}.luca.o ${2}
 endef
 
 $(foreach obj, ${common-objs}, $(eval $(call pti_obj,${obj})))
+$(foreach obj, ${cuda-objs}, $(eval $(call pti_obj,${obj})))

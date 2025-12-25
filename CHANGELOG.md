@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- cupti: add range.cu;
 - cupti: add sampling.cu;
 - cupti: add activity.cu;
 - cuda: add pti subdir;
