@@ -61,6 +61,11 @@ int main(void)
 
 	kernel_1<<<1, 1>>>();
 
+	CUPTI_CHECK_EXIT(cuptiEnableDomain(false, subscriber, CUPTI_CB_DOMAIN_RUNTIME_API));
+	CUPTI_CHECK_EXIT(cuptiEnableDomain(false, subscriber, CUPTI_CB_DOMAIN_DRIVER_API));
+#ifndef __LUCA__
+	CUPTI_CHECK_EXIT(cuptiEnableAllDomains(false, subscriber));
+#endif
 	CUPTI_CHECK_EXIT(cuptiUnsubscribe(subscriber));
 
 	cudaFree(mem);
