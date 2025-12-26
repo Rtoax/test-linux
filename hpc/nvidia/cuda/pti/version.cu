@@ -6,7 +6,10 @@ int main(void)
 {
 	uint32_t version = 0;
 	cuptiGetVersion(&version);
+#ifndef __LUCA__
+	/* FIXME: why not have it? */
 	printf("CUPTI_API_VERSION = %d\n", CUPTI_API_VERSION);
+#endif
 	printf("cupti version %d\n", version);
 	return 0;
 }
