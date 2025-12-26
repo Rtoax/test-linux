@@ -1,2 +1,3 @@
-subdir-y := fstabd
+subdir-y := cmake
+subdir-y += fstabd
 include main.mk

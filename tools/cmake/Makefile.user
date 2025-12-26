@@ -13,7 +13,7 @@ include os.mk
 
 STDIO_H := /usr/include/stdio.h
 
-sub-dir := SUBDIR
+subdir-y := SUBDIR
 
 targets :=
 
@@ -79,7 +79,7 @@ endef
 include targets/subdir-header.mk
 
 .PHONY: build
-build: ${targets} $(sub-dir-build)
+build: ${targets} $(subdir-y-build)
 	@echo -e "  CFLAGS=${CFLAGS}"
 	@echo -e "  LDFLAGS=${LDFLAGS}"
 	@echo -e "  PRINTF  ${feature-printf} "
@@ -107,7 +107,7 @@ test: ${targets}
 	@echo -e "  TEST  \033[1;32m$(targets)\033[m"
 
 .PHONY: clean
-clean: $(sub-dir-clean)
+clean: $(subdir-y-clean)
 	@echo -e "  CLEAN  \033[1;32m$(targets)\033[m"
 	$(Q)rm -f ${targets} *.s *.o *.strip *.d
 
