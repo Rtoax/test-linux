@@ -16,6 +16,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>
+#include <string.h>
 #include <malloc.h>
 #include <sys/types.h>
 #include <time.h>
@@ -789,14 +790,13 @@ int main(int argc, char *argv[])
 	size_t n = 8192;
 	size_t nloop = 10000;
 
-	fprintf(stderr, "USAGE: %s [NLOOP, default %ld]\n", argv[0], nloop);
+	fprintf(stderr, "USAGE: %s [nloop=%ld]\n", argv[0], nloop);
 
-	if (argc > 1) {
-		nloop = strtol(argv[1], NULL, 10);
-		if (!nloop) {
-			fprintf(stderr, "ERROR: invalid argument %s\n", argv[1]);
-			exit(EXIT_FAILURE);
-		}
+	for (i = 1; i < argc; i++) {
+#define arg_eq(v) if (!strncmp(#v"=", argv[i], strlen(#v) + 1)) \
+			v = strtol(argv[i] + strlen(#v) + 1, NULL, 10);
+		arg_eq(nloop);
+#undef arg_eq
 	}
 
 	fprintf(stderr, "Test nloop = %ld\n", nloop);
