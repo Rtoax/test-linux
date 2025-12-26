@@ -13,6 +13,7 @@
  * - commit 745fb7691dba ("simd: HiSilicon HUAWEI Kunpeng 920 V200 7280Z")
  * - commit f8602c7abfd0 ("simd: NVIDIA GB10 Spark Cortex-X925 Cortex-A725")
  */
+#include <sched.h>
 #include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>
@@ -20,6 +21,7 @@
 #include <malloc.h>
 #include <sys/types.h>
 #include <time.h>
+#include <unistd.h>
 #include <sys/time.h>
 #if defined(CPU_HAVE_ASIMD)
 #include <arm_neon.h>
@@ -786,17 +788,30 @@ struct test tests[] = {
 
 int main(int argc, char *argv[])
 {
-	int i, j;
+	int i, j, err;
 	size_t n = 8192;
 	size_t nloop = 10000;
+	int cpu = -1;
 
-	fprintf(stderr, "USAGE: %s [nloop=%ld]\n", argv[0], nloop);
+	fprintf(stderr, "USAGE: %s [nloop=%ld] [cpu=<N>]\n", argv[0], nloop);
 
 	for (i = 1; i < argc; i++) {
 #define arg_eq(v) if (!strncmp(#v"=", argv[i], strlen(#v) + 1)) \
 			v = strtol(argv[i] + strlen(#v) + 1, NULL, 10);
 		arg_eq(nloop);
+		arg_eq(cpu);
 #undef arg_eq
+	}
+
+	if (cpu >= 0) {
+		cpu_set_t set;
+		CPU_ZERO(&set);
+		CPU_SET(cpu, &set);
+		err = sched_setaffinity(getpid(), sizeof(cpu_set_t), &set);
+		if (err) {
+			fprintf(stderr, "ERROR: bind cpu %d failed, %m\n", cpu);
+			exit(EXIT_FAILURE);
+		}
 	}
 
 	fprintf(stderr, "Test nloop = %ld\n", nloop);
