@@ -1,3 +1,6 @@
+/**
+ * https://docs.nvidia.com/cupti/api/group__CUPTI__VERSION__API.html
+ */
 #include <stdio.h>
 #include <stdint.h>
 #include "cuda_compat.h"
