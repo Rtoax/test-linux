@@ -2628,6 +2628,20 @@
 #define CUPTI_RUNTIME_TRACE_CBID_cudaMemcpy_v3020	__CU_cuda(PTI_RUNTIME_TRACE_CBID_, Memcpy)
 #define cudaMemcpy_v3020_params	__cuda(Memcpy_params)
 #define CUPTI_RUNTIME_TRACE_CBID_cudaMalloc_v3020	__CU_cuda(PTI_RUNTIME_TRACE_CBID_, Malloc)
+#define CUPTI_RUNTIME_TRACE_CBID_cudaLaunchKernel_v7000	__CU_cuda(PTI_RUNTIME_TRACE_CBID_, LaunchKernel)
+/**
+ * CUDA 13.0
+ * typedef struct cudaLaunchKernel_v7000_params_st {
+ *   const void *func;
+ *   dim3 gridDim;
+ *   dim3 blockDim;
+ *   void **args;
+ *   size_t sharedMem;
+ *   cudaStream_t stream;
+ * } cudaLaunchKernel_v7000_params;
+ */
+#define cudaLaunchKernel_v7000_params	__cuda(LaunchKernel_params)
+
 /**
  * CUDA 13:
  * typedef struct cudaMalloc_v3020_params_st {

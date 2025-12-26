@@ -33,6 +33,16 @@ static void callbackFunc(void *userData, CUpti_CallbackDomain domain,
 					((cudaMalloc_v3020_params *)(callbackData->functionParams))->devPtr,
 					((cudaMalloc_v3020_params *)(callbackData->functionParams))->size);
 			}
+			if (callbackId == CUPTI_RUNTIME_TRACE_CBID_cudaLaunchKernel_v7000) {
+				cudaLaunchKernel_v7000_params *params =
+					(cudaLaunchKernel_v7000_params *)callbackData->functionParams;
+				printf("cudaLaunchKernel(func=%p, grid={%d,%d,%d}, block={%d,%d,%d}, args=%p, " \
+					"sharedMem=%ld, stream=?)\n",
+					params->func,
+					params->gridDim.x, params->gridDim.y, params->gridDim.z,
+					params->blockDim.x, params->blockDim.y, params->blockDim.z,
+					params->args, params->sharedMem);
+			}
 		}
 		break;
 	default:
@@ -42,6 +52,13 @@ static void callbackFunc(void *userData, CUpti_CallbackDomain domain,
 
 __global__ void kernel_1(void)
 {
+	int ix = threadIdx.x + blockDim.x * blockIdx.x;
+	int iy = threadIdx.y + blockDim.y * blockIdx.y;
+	int iz = threadIdx.z + blockDim.z * blockIdx.z;
+
+	if (ix != 0 || iy != 0 || iz != 0)
+		return;
+
 	printf("kernel\n");
 }
 
@@ -59,7 +76,7 @@ int main(void)
 
 	cudaMalloc(&mem, 1024);
 
-	kernel_1<<<1, 1>>>();
+	kernel_1<<<10, 10>>>();
 
 	CUPTI_CHECK_EXIT(cuptiEnableDomain(false, subscriber, CUPTI_CB_DOMAIN_RUNTIME_API));
 	CUPTI_CHECK_EXIT(cuptiEnableDomain(false, subscriber, CUPTI_CB_DOMAIN_DRIVER_API));
