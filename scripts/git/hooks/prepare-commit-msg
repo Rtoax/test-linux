@@ -107,7 +107,7 @@ add_luca_ver() {
 	add_ver "LUCA ${ver}"
 }
 add_hpcc_ver() {
-	local ver=$(${TOPDIR}/hpc/metax/version.sh)
+	local ver=$(${TOPDIR}/hpc/metax/hpcc/version.sh)
 	add_ver "HPCC ${ver}"
 }
 add_glibc_ver() {
