@@ -36,8 +36,8 @@ Access-capable I/O Bus）和主存（main memory）。传统的内存管理单�
 
 # Kernel cmdline
 
-- `iommu.passthrough=1`
-- `iommu=pt`
+- x86: `iommu=pt/iommu.passthrough=1`, `intel_iommu=on/intel_iommu=on`
+- arm: `iommu.passthrough=1`
 
 
 # 虚拟化
