@@ -817,10 +817,12 @@ int main(int argc, char *argv[])
 			fprintf(stderr, "ERROR: bind cpu %d failed, %m\n", cpu);
 			exit(EXIT_FAILURE);
 		}
-		fprintf(stderr, "Test on cpu = %d\n", cpu);
+		fprintf(stderr, "Bind cpu = %d\n", cpu);
 	}
 
-	fprintf(stderr, "Test nloop = %ld\n", nloop);
+	cpu = -1;
+	getcpu((unsigned int *)&cpu, NULL);
+	fprintf(stderr, "Test nloop = %ld, running on cpu = %d\n", nloop, cpu);
 #if defined(CPU_HAVE_SVE)
 	uint64_t lanes = svcntb();
 	printf("SVE vector width is %ld bytes (%ld bits).\n", lanes, lanes * 8);
