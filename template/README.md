@@ -1,6 +1,4 @@
-Title
-======
+Template of Test-Linux
+======================
 
-# Check Symbols 
-
-
+Store all mk files.
