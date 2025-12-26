@@ -2639,6 +2639,17 @@
  *   size_t sharedMem;
  *   cudaStream_t stream;
  * } cudaLaunchKernel_v7000_params;
+ *
+ * LUCA 3.2.1
+ * typedef struct lcLaunchKernel_params_st {
+ *   const void* function_address;
+ *   dim3 numBlocks;
+ *   dim3 dimBlocks;
+ *   void** args;
+ *   void* args__val;
+ *   size_t sharedMemBytes;
+ *   lcStream_t stream;
+ * } lcLaunchKernel_params;
  */
 #define cudaLaunchKernel_v7000_params	__cuda(LaunchKernel_params)
 

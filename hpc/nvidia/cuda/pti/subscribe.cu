@@ -32,16 +32,32 @@ static void callbackFunc(void *userData, CUpti_CallbackDomain domain,
 				printf("cudaMalloc(devPtr=%p, size=%ld)\n",
 					((cudaMalloc_v3020_params *)(callbackData->functionParams))->devPtr,
 					((cudaMalloc_v3020_params *)(callbackData->functionParams))->size);
+#ifdef __LUCA__
+# undef devPtr
+# undef size
+#endif
 			}
 			if (callbackId == CUPTI_RUNTIME_TRACE_CBID_cudaLaunchKernel_v7000) {
 				cudaLaunchKernel_v7000_params *params =
 					(cudaLaunchKernel_v7000_params *)callbackData->functionParams;
+#ifdef __LUCA__
+# define func	function_address
+# define gridDim	numBlocks
+# define blockDim	dimBlocks
+# define sharedMem	sharedMemBytes
+#endif
 				printf("cudaLaunchKernel(func=%p, grid={%d,%d,%d}, block={%d,%d,%d}, args=%p, " \
 					"sharedMem=%ld, stream=?)\n",
 					params->func,
 					params->gridDim.x, params->gridDim.y, params->gridDim.z,
 					params->blockDim.x, params->blockDim.y, params->blockDim.z,
 					params->args, params->sharedMem);
+#ifdef __LUCA__
+# undef func
+# undef gridDim
+# undef blockDim
+# undef sharedMem
+#endif
 			}
 		}
 		break;
