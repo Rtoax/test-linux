@@ -21,3 +21,9 @@ ARM64(aarch64)
 # ARM64 分为 Secure World 和 Non-Secure World(Normal World)
 
 
+# Cortex
+
+| Cortex       | CPU Part | Nvidia DGX |
+| ------------ | -------- | ---------- |
+| Cortex-X925  | 0xD0F    | 0xD85      |
+| Cortex-A725  | 0xD09    | 0xD87      |
