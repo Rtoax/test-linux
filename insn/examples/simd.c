@@ -812,6 +812,7 @@ int main(int argc, char *argv[])
 			fprintf(stderr, "ERROR: bind cpu %d failed, %m\n", cpu);
 			exit(EXIT_FAILURE);
 		}
+		fprintf(stderr, "Test on cpu = %d\n", cpu);
 	}
 
 	fprintf(stderr, "Test nloop = %ld\n", nloop);
