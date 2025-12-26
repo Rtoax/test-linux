@@ -1,1 +1,0 @@
-../bpf/bcc/samples/kprobes/sched_fork.bt

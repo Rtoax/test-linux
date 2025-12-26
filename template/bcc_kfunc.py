@@ -1,1 +1,0 @@
-../bpf/bcc/samples/kfunc/filesnoop.bt
