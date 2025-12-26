@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- cupti: add version.cu;
 - nvidia: add driver subdir;
 - cupti: add range.cu;
 - cupti: add sampling.cu;

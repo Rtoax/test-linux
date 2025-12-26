@@ -2540,6 +2540,12 @@
 /******************************************************************************\
  *             PTI - CUDA Profiling Tools Interface                           *
 \******************************************************************************/
+#define CUPTI_API_VERSION	__CU(PTI_API_VERSION)
+/**
+ * CUptiResult cuptiGetVersion(uint32_t *version);
+ */
+#define cuptiGetVersion	__cu(ptiGetVersion)
+
 #define CUpti_SubscriberHandle	__CU(pti_SubscriberHandle)
 #define CUpti_CallbackDomain	__CU(pti_CallbackDomain)
 #define CUpti_CallbackId	__CU(pti_CallbackId)

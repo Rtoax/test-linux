@@ -7,6 +7,7 @@ include luca.mk
 
 common-objs := activity
 common-objs += subscribe
+common-objs += version
 
 # FIXME: only cuda support right now
 cuda-objs := sampling
