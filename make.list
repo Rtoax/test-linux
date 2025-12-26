@@ -54,6 +54,7 @@ user-list-y += sync
 user-list-y += syscall
 user-list-y += sysctl
 user-list-y += template
+user-list-y += tools
 user-list-y += trace
 user-list-y += unwind
 user-list-y += vdso
