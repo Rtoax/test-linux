@@ -10,7 +10,7 @@
  * x86_64:
  * - commit 76aff9663c19 ("simd: GenuineIntel 11th Gen Intel(R) Core(TM) i7-1165G7 @ 2.80GHz")
  * - commit da2b984e6486 ("simd: GenuineIntel Intel(R) Core(TM) i7-10710U CPU @ 1.10GHz")
- * - HygonGenuine Hygon C86-4G 7490 64-core Processor
+ * - commit 10a7173b9c50 ("simd: HygonGenuine Hygon C86-4G 7490 64-core Processor")
  *
  * aarch64:
  * - commit f7d73d7d348a ("simd: Phytium S5000C")
