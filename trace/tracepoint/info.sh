@@ -15,4 +15,3 @@ nr_rawtracepoint2=$(sudo bpftrace -l "tracepoint:*" \
 
 echo "Number tracepoint equal to ${nr_tracepoint}"
 echo "Number raw_tracepoint equal to ${nr_rawtracepoint} : ${nr_rawtracepoint2}"
-
