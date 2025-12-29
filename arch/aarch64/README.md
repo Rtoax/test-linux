@@ -23,7 +23,9 @@ ARM64(aarch64)
 
 # Cortex
 
-| Cortex       | CPU Part | Nvidia DGX |
-| ------------ | -------- | ---------- |
-| Cortex-X925  | 0xD0F    | 0xD85      |
-| Cortex-A725  | 0xD09    | 0xD87      |
+| Cortex       | CPU Part |
+| ------------ | -------- |
+| Cortex-X925  | 0xD85    |
+| Cortex-A725  | 0xD87    |
+
+> see also util-linux lscpu-arm.c
