@@ -119,18 +119,18 @@ ifeq ($(call vmlinux_has_sym_shell,bpf_copy_from_user_task_str),y)
   $(call define_helper,bpf_copy_from_user_task_str)
 endif
 
-ifneq ($(call vmlinux_has_sym_shell,bpf_task_from_pid),y)
+ifeq ($(call vmlinux_has_sym_shell,bpf_task_from_pid),y)
   # FIXME: some day use CFLAGS_PAHOLE replace this macro
   bpf-helper-cflags += -DBPF_NO_KFUNC_PROTOTYPES=1
   $(call define_helper,bpf_task_from_pid)
 endif
 
-# From here, store developing kfuncs check
+# From here, store developing kfuncs checks
 
 # https://github.com/Rtoax/linux/tree/p056-bpf_task_cwd
 # lkml: https://lore.kernel.org/lkml/tencent_97F8B56B340F51DB604B482FEBF012460505@qq.com/
 ifeq ($(shell grep -wo -m1 bpf_task_cwd_from_pid /proc/kallsyms),bpf_task_cwd_from_pid)
-  CFLAGS_tracepoint += -DSUPPORT_BPF_TASK_CWD_FROM_PID=1
+  bpf-helper-cflags += -DSUPPORT_BPF_TASK_CWD_FROM_PID=1
 endif
 
 export bpf-helper-cflags
