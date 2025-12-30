@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
-# Provide the following macro definitions:
+# Copyright (C) 2025 Rong Tao
 #
 # Output definitions:
 # - HAVE_BTF: Check your system support BTF or not
