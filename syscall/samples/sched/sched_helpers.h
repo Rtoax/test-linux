@@ -8,6 +8,7 @@
 #include <sched.h>
 #include <syscall.h>
 #include <sys/syscall.h>
+#include <linux/sched/types.h>
 
 #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof(arr[0]))
 
