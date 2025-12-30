@@ -1,4 +1,3 @@
 #!/bin/bash
-
-# block example
-perf list | grep block
+set -e
+perf list
