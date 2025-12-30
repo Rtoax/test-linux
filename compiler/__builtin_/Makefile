@@ -35,6 +35,7 @@ target-y += trap
 target-y += nan
 target-y += inf
 target-y += huge_val
+target-y += unreachable
 
 target-bpf-y := preserve_field_info.bpf.o
 
@@ -95,3 +96,4 @@ abs: ${OUTPUT}abs.o
 nan: ${OUTPUT}nan.o
 inf: ${OUTPUT}inf.o
 huge_val: ${OUTPUT}huge_val.o
+unreachable: ${OUTPUT}unreachable.o
