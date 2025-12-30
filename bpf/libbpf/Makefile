@@ -174,12 +174,6 @@ CFLAGS_PAHOLE += -DPAHOLE_VERSION_MINOR=${PAHOLE_VERSION_MINOR}
 CFLAGS += ${CFLAGS_PAHOLE}
 CFLAGS_BPF += ${CFLAGS_PAHOLE}
 
-ifneq ($(call vmlinux_has_sym_shell,bpf_task_from_pid),y)
-  # FIXME: some day use CFLAGS_PAHOLE replace this macro
-  CFLAGS_BPF += -DBPF_NO_KFUNC_PROTOTYPES=1
-  $(info Found bpf_task_from_pid())
-endif
-
 CFLAGS_kprobe := -D'KSYM_DO_EXECVEAT_COMMON="${KSYM_DO_EXECVEAT_COMMON}"' -DKPROBE=1
 CFLAGS_BPF_kprobe := -D'KSYM_DO_EXECVEAT_COMMON="${KSYM_DO_EXECVEAT_COMMON}"' -DKPROBE=1
 ifeq ($(CONFIG_BPF_KPROBE_OVERRIDE),y)

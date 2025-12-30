@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
 #
 # Output definitions:
-# - SUPPORT_$(kfunc)=[y]
+# - SUPPORT_$(upcase kfunc name)=[y]
 # - bpf-helper-cflags=
 #
 _BPF_HELPER = 1
@@ -117,6 +117,12 @@ endif
 # linux v6.14-rc1-81-gf0f8a5b58f78 commit f0f8a5b58f78 ("bpf: Add bpf_copy_from_user_task_str() kfunc")
 ifeq ($(call vmlinux_has_sym_shell,bpf_copy_from_user_task_str),y)
   $(call define_helper,bpf_copy_from_user_task_str)
+endif
+
+ifneq ($(call vmlinux_has_sym_shell,bpf_task_from_pid),y)
+  # FIXME: some day use CFLAGS_PAHOLE replace this macro
+  bpf-helper-cflags += -DBPF_NO_KFUNC_PROTOTYPES=1
+  $(call define_helper,bpf_task_from_pid)
 endif
 
 # From here, store developing kfuncs check
