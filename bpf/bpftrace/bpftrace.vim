@@ -22,7 +22,7 @@ highlight btstring
 	\ ctermfg=yellow
 	\ guifg=#FFFF00
 
-syntax keyword btkeyword if else for while return break continue
+syntax keyword btkeyword if else for comptime macro while return break continue
 	\ containedin=ALL
 
 syntax match btc_def /#.*/
