@@ -171,7 +171,7 @@ done:
 	$(call log_display_failed)
 
 # Helpers
-include helpers.mk
+include targets/helpers.mk
 
 ifneq (${OUTPUT},)
   include targets/output.mk

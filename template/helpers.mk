@@ -104,23 +104,6 @@ export BPF_HELPERS := ${TOPDIR}/syscall/samples/bpf/libbpf_helpers.${LIB_TYPE}
 export BTF_HELPERS := ${TOPDIR}/bpf/btf/libbtf_helpers.${LIB_TYPE}
 export BPF_INSN_SAMPLES := ${TOPDIR}/bpf/insn/samples/libbpf_insn_samples.${LIB_TYPE}
 
-$(eval $(call add_helper_target,${C_HELPERS},${__USE_C_HELPERS__}))
-$(eval $(call add_helper_target,${PROC_HELPERS},${__USE_PROC_HELPERS__}))
-$(eval $(call add_helper_target,${SOCKET_HELPERS},${__USE_SOCKET_HELPERS__}))
-$(eval $(call add_helper_target,${PTHREAD_HELPERS},${__USE_PTHREAD_HELPERS__}))
-$(eval $(call add_helper_target,${SCHED_HELPERS},${__USE_SCHED_HELPERS__}))
-$(eval $(call add_helper_target,${MMAP_HELPERS},${__USE_MMAP_HELPERS__}))
-$(eval $(call add_helper_target,${OOM_HELPERS},${__USE_OOM_HELPERS__}))
-$(eval $(call add_helper_target,${TRACE_HELPERS},${__USE_TRACE_HELPERS__}))
-$(eval $(call add_helper_target,${KSYM_HELPERS},${__USE_KSYM_HELPERS__}))
-$(eval $(call add_helper_target,${CUDA_HELPERS},${__USE_CUDA_HELPERS__}))
-$(eval $(call add_helper_target,${HIP_HELPERS},${__USE_HIP_HELPERS__}))
-$(eval $(call add_helper_target,${LUCA_HELPERS},${__USE_LUCA_HELPERS__}))
-$(eval $(call add_helper_target,${HPCC_HELPERS},${__USE_HPCC_HELPERS__}))
-$(eval $(call add_helper_target,${BPF_HELPERS},${__USE_BPF_HELPERS__}))
-$(eval $(call add_helper_target,${BTF_HELPERS},${__USE_BTF_HELPERS__}))
-$(eval $(call add_helper_target,${BPF_INSN_SAMPLES},${__USE_BPF_INSN_SAMPLES__}))
-
 ifdef DEBUG
   $(info C_HELPERS = ${C_HELPERS})
   $(info PROC_HELPERS = ${PROC_HELPERS})
