@@ -16,7 +16,7 @@ BEGIN
 	printf("%-8s %-8s %-16s\n", "TIME", "PID", "COMM");
 }
 
-/* kprobe/kretprobe/kfunc/kretfunc/tracepoint/usdt/uprobe/uretprobe/fentry/fexit, etc. */
+/* kprobe/kretprobe/kfunc/kretfunc/tracepoint/usdt/uprobe/uretprobe/fentry/fexit/probe/interval, etc. */
 interval:s:1
 {
 	time("%H:%M:%S ");

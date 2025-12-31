@@ -37,5 +37,6 @@ syntax region btcomment
 	\ containedin=ALL
 	\ fold
 
-syntax keyword btprobe interval kprobe kretprobe BEGIN begin END end kfunc kretfunc tracepoint usdt uprobe uretprobe fentry fexit probe
+syntax match btprobe
+	\ /\v(kprobe|kretprobe|uprobe|uretprobe|BEGIN|begin|END|end|kfunc|kretfunc|tracepoint|usdt|fentry|fexit|probe|interval):.*:.*/
 	\ containedin=ALL
