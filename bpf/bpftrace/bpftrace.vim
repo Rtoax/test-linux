@@ -22,12 +22,6 @@ highlight btstring
 	\ ctermfg=yellow
 	\ guifg=#FFFF00
 
-syntax region btcommentmultiline
-	\ start=/\/\*/
-	\ end=/\*\//
-	\ containedin=ALL
-	\ fold
-
 syntax keyword btkeyword if else for while return break continue
 	\ containedin=ALL
 
@@ -36,6 +30,12 @@ syntax match btc_def /#.*/
 
 syntax match btcomment /\/\/.*/
 	\ containedin=ALL
+
+syntax region btcommentmultiline
+	\ start=/\/\*/
+	\ end=/\*\//
+	\ containedin=ALL
+	\ fold
 
 syntax keyword btprobe interval kprobe kretprobe BEGIN begin END end kfunc kretfunc tracepoint usdt uprobe uretprobe fentry fexit probe
 	\ containedin=ALL
