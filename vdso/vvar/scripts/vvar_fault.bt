@@ -5,11 +5,14 @@
 #include <linux/kernel.h>
 #include <linux/mm.h>
 #if defined(CONFIG_X86_64)
+#define ARCH	1
 /* see arch/x86/include/asm/vdso.h */
 struct vdso_image {
 	void *data;
 	unsigned long size;   /* Always a multiple of PAGE_SIZE */
 };
+#elif defined(CONFIG_ARM64)
+#define ARCH	2
 #else
 # error "Unsupport arch, just x86_64 right now."
 #endif
@@ -29,8 +32,17 @@ kprobe:vvar_fault
 {
 	$vma = (struct vm_area_struct *)arg1;
 	$vmf = (struct vm_fault *)arg2;
-	$vdso_image = (struct vdso_image*)($vma->vm_mm->context.vdso_image);
-	$kaddr = $vdso_image->data + ($vmf->pgoff << PAGE_SHIFT);
+
+	$kaddr = (uint64)0;
+
+	/* x86_64 */
+	if comptime (ARCH == 1) {
+		$vdso_image = (struct vdso_image *)($vma->vm_mm->context.vdso_image);
+		$kaddr = (uint64)$vdso_image->data + ($vmf->pgoff << PAGE_SHIFT);
+	/* aarch64 */
+	} else if comptime (ARCH == 2) {
+		$kaddr = (uint64)$vma->vm_mm->context.vdso;
+	}
 
 	printf("%-8d %-16s %-16lx %-16lx %-16lx\n",
 		 tid, comm, $kaddr, $vma->vm_start, $vma->vm_end);
