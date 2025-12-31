@@ -6,7 +6,9 @@
 #
 _GIT = 1
 
-include dir.mk
+ifndef _DIR
+  include dir.mk
+endif
 
 GIT_TOPDIR := $(shell git rev-parse --show-toplevel 2>/dev/null || :)
 
