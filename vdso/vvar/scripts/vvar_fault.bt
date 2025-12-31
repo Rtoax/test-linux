@@ -6,6 +6,7 @@
 #include <linux/mm.h>
 #if defined(CONFIG_X86_64)
 #define ARCH	1
+#define PAGE_SHIFT	12 /* FIXME: default 4k */
 /* see arch/x86/include/asm/vdso.h */
 struct vdso_image {
 	void *data;
