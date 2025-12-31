@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- template: add Makefile;
 - compiler/builtin: add `__builtin_unreachable`;
 - cupti: add version.cu;
 - nvidia: add driver subdir;

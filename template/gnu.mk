@@ -1,9 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
 _GNU = 1
 
-ifndef _ANSI
-  $(error Not define _ANSI, include ansi.mk)
-endif
+include ansi.mk
 
 define gnu_logo
 	@echo -e '${ANSI_BOLD}${ANSI_GRE}    _-`````-,           ,- `- .${ANSI_RST}'
