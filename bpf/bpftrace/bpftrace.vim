@@ -14,15 +14,15 @@ highlight btcomment
 	\ ctermfg=gray cterm=italic
 	\ guifg=#00FF00 gui=italic
 
+highlight btstring
+	\ ctermfg=yellow
+	\ guifg=#FFFF00
+
 syntax region btcommentmultiline
 	\ start=/\/\*/
 	\ end=/\*\//
 	\ containedin=ALL
 	\ fold
-
-highlight btstring
-	\ ctermfg=yellow
-	\ guifg=#FFFF00
 
 syntax keyword btkeyword if else for while return break continue
 	\ containedin=ALL
