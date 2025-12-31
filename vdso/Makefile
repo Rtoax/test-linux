@@ -6,7 +6,7 @@ subdir-y := abi
 subdir-y += scripts
 subdir-y += test
 subdir-y += nvDSO
-subdir-y += vvar/scripts/
+subdir-y += vvar
 
 target-prep-y := ${VDSO_NAME}
 target-shell-y := layout.sh
