@@ -1,5 +1,25 @@
 # SPDX-License-Identifier: GPL-3.0
 # Copyright (C) 2025 Rong Tao
+#
+# Input definitions:
+# - __USE_C_HELPERS__=y
+# - __USE_PROC_HELPERS__=y
+# - __USE_SOCKET_HELPERS__=y
+# - __USE_PTHREAD_HELPERS__=y
+# - __USE_SCHED_HELPERS__=y
+# - __USE_MMAP_HELPERS__=y
+# - __USE_OOM_HELPERS__=y
+# - __USE_TRACE_HELPERS__=y
+# - __USE_KSYM_HELPERS__=y
+# - __USE_BPF_HELPERS__=y
+# - __USE_BTF_HELPERS__=y
+# - __USE_BPF_INSN_SAMPLES__=y
+# - __USE_CUDA_HELPERS__=y
+# - __USE_HIP_HELPERS__=y
+# - __USE_LUCA_HELPERS__=y
+# - __USE_HPCC_HELPERS__=y
+#
+_TARGETS_HELPERS = 1
 
 include helpers.mk
 

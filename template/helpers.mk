@@ -7,22 +7,6 @@
 #
 # Input definitions:
 # - STATIC=1			Compile static library instead of dynamic library.
-# - __USE_C_HELPERS__=y
-# - __USE_PROC_HELPERS__=y
-# - __USE_SOCKET_HELPERS__=y
-# - __USE_PTHREAD_HELPERS__=y
-# - __USE_SCHED_HELPERS__=y
-# - __USE_MMAP_HELPERS__=y
-# - __USE_OOM_HELPERS__=y
-# - __USE_TRACE_HELPERS__=y
-# - __USE_KSYM_HELPERS__=y
-# - __USE_BPF_HELPERS__=y
-# - __USE_BTF_HELPERS__=y
-# - __USE_BPF_INSN_SAMPLES__=y
-# - __USE_CUDA_HELPERS__=y
-# - __USE_HIP_HELPERS__=y
-# - __USE_LUCA_HELPERS__=y
-# - __USE_HPCC_HELPERS__=y
 #
 # Output definitions:
 # - PROC_HELPERS
