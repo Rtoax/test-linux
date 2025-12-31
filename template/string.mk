@@ -1,6 +1,11 @@
 # SPDX-License-Identifier: GPL-3.0
 # Copyright (C) 2025 Rong Tao
 #
+# Functions:
+# - toupper()
+# - toupper_shell()
+# - tolower()
+#
 _STRING = 1
 
 define toupper
@@ -11,9 +16,15 @@ $(shell $(call toupper,${1}))
 endef
 
 define tolower
-$(shell echo $(1) | tr '[:upper:]' '[:lower:]')
+echo $(1) | tr '[:upper:]' '[:lower:]'
+endef
+define tolower_shell
+$(shell $(call tolower,${1}))
 endef
 
-ifneq ($(call toupper_shell,abc),ABC)
-  $(error "ERROR: toupper failed, $(call toupper_shell,abc)")
+ifneq ($(call toupper_shell,abcDEF),ABCDEF)
+  $(error "ERROR: toupper failed, $(call toupper_shell,abcDEF)")
+endif
+ifneq ($(call tolower_shell,abcDEF),abcdef)
+  $(error "ERROR: toupper failed, $(call tolower_shell,abcDEF)")
 endif
