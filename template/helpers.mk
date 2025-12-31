@@ -37,9 +37,7 @@
 #
 _HELPERS = 1
 
-ifeq (${TOPDIR},)
-  $(error Not define TOPDIR, include dir.mk)
-endif
+include dir.mk
 
 # $1 - helper library absolute path
 # $2 - turn on with 'y', otherwise turn off

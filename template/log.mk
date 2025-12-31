@@ -2,13 +2,8 @@
 # Copyright (C) 2022-2025 Rong Tao
 _LOG = 1
 
-ifeq (${TOPDIR},)
-  $(error Not define TOPDIR, include dir.mk)
-endif
-
-ifeq (${_ANSI},)
-  $(error Not define _ANSI, include ansi.mk)
-endif
+include dir.mk
+include ansi.mk
 
 LOG_FILE_INFO := $(TOPDIR)/info.log
 LOG_FILE_FAILED := $(TOPDIR)/failed.log

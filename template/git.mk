@@ -6,9 +6,7 @@
 #
 _GIT = 1
 
-ifeq (${TOPDIR},)
-  $(error Not define TOPDIR, include dir.mk)
-endif
+include dir.mk
 
 GIT_TOPDIR := $(shell git rev-parse --show-toplevel 2>/dev/null || :)
 

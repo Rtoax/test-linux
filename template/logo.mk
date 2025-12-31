@@ -2,9 +2,7 @@
 # Copyright (C) 2025 Rong Tao
 _LOGO = 1
 
-ifeq ($(_ANSI),)
-  $(error Not define _ANSI, need include ansi.mk)
-endif
+include ansi.mk
 
 define tl_logo1
 @echo >&2 -e "$(1)${GB}88888888${RG}                        ${RGB}  88${RG}${RST}"
