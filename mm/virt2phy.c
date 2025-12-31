@@ -65,6 +65,7 @@ static struct mem {
 unsigned long vaddr = 0;
 int verbose = false;
 int force = false;
+const char * const version = "v1.0.0";
 
 const char argp_prog_doc[] =
 	"USAGE: [-b <NUMA>] [-v|--verbose] [-f|--force]\n";
@@ -73,6 +74,7 @@ static const struct argp_option opts[] = {
 	{ "vaddr", 'a', "VADDR", 0, "Input virtual address" },
 	{ "mbind", 'b', "NUMA", 0, "Test mbind" },
 	{ "verbose", 'v', NULL, 1, "Display detail" },
+	{ "version", 'V', NULL, 1, "Display version" },
 	{ "force", 'f', NULL, 1, "Execute force" },
 	{},
 };
@@ -96,6 +98,10 @@ static error_t parse_arg(int key, char *arg, struct argp_state *state)
 		break;
 	case 'v':
 		verbose = true;
+		break;
+	case 'V':
+		printf("%s\n", version);
+		exit(EXIT_SUCCESS);
 		break;
 	case 'f':
 		force = true;
