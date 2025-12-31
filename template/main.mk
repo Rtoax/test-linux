@@ -162,10 +162,12 @@ clean: $(subdir-y-clean) $(target-clean-y)
 	${Q}rm -f *.dat *.bin
 	$(call log_end,clean,$(call relative_path,$(shell realpath .)))
 
+.PHONY: reset
 reset:
 	@echo "Reset"
 	$(call log_reset_files)
 
+.PHONY: done
 done:
 	@echo "Done"
 	$(call log_display_failed)
