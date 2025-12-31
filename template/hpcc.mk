@@ -18,7 +18,7 @@
 # - target-htcc-liba-y
 # - target-htcc-libso-y
 
-_HPCC = 1
+_HPCC_MK = 1
 
 include define.mk
 

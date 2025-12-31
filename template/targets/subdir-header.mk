@@ -2,7 +2,8 @@
 #
 # Input defintions:
 # - NOSUBDIR: use for skip all sub-directory
-_SUBDIR_HEADER = 1
+#
+_TARGET_SUBDIR_HEADER_MK = 1
 
 subdir-y ?=
 

@@ -1,12 +1,13 @@
 # SPDX-License-Identifier: GPL-3.0
+# Copyright (C) 2025 Rong Tao
 #
 # Output defintions:
 # - GIT_TOPDIR=
 # - GIT_CONFIG_CORE_HOOKSPATH=
 #
-_GIT = 1
+_GIT_MK = 1
 
-ifndef _DIR
+ifndef _DIR_MK
   include dir.mk
 endif
 

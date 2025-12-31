@@ -35,7 +35,7 @@
 # - CFLAGS_HTCC
 # - LDFLAGS
 #
-_HELPERS = 1
+_HELPERS_MK = 1
 
 include dir.mk
 

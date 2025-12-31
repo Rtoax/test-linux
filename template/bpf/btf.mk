@@ -4,7 +4,7 @@
 # Output definitions:
 # - HAVE_BTF: Check your system support BTF or not
 #
-_BTF = 1
+_BPF_BTF_MK = 1
 
 include shell.mk
 include bpf/bpftool.mk

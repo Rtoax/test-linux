@@ -4,7 +4,7 @@
 # Output:
 # CONFIG_UID=$(id -u)
 #
-_USER = 1
+_USER_MK = 1
 
 CONFIG_UID := $(shell id -u)
 

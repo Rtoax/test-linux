@@ -5,7 +5,7 @@
 # - OS_ID=
 # - OS_VERSION_ID=
 #
-_OS = 1
+_OS_MK = 1
 
 OS_ID := $(shell grep ^ID= /etc/os-release | sed 's/ID=//g' | tr -d '"')
 OS_VERSION_ID := $(shell grep ^VERSION_ID= /etc/os-release | sed 's/VERSION_ID=//g' | tr -d '"')

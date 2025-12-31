@@ -9,8 +9,8 @@
 # - IS_LOONGARCH64=y
 # - IS_RISCV64=y
 # - IS_SW_64=y
-
-_ARCH = 1
+#
+_ARCH_MK = 1
 
 CFLAGS_ARCH :=
 

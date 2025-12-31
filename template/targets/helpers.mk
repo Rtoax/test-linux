@@ -19,7 +19,7 @@
 # - __USE_LUCA_HELPERS__=y
 # - __USE_HPCC_HELPERS__=y
 #
-_TARGETS_HELPERS = 1
+_TARGET_HELPERS_MK = 1
 
 include helpers.mk
 

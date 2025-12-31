@@ -18,7 +18,7 @@
 # - LUCA_ROOT=
 # - NODEFAULTRPATH
 
-_TARGET_LUCA = 1
+_TARGET_LUCA_LUCA = 1
 
 include luca.mk
 include dir.mk

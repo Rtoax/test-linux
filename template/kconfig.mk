@@ -6,7 +6,7 @@
 # - CONFIG_CURDIR_KCONFIG=
 # - AUTOCONFIG_H=
 #
-_KCONFIG = 1
+_KCONFIG_MK = 1
 
 include dir.mk
 

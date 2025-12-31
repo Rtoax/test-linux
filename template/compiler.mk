@@ -6,7 +6,7 @@
 # - cflags-support-headers-y
 # - ldflags-support-headers-y
 #
-_COMPILER = 1
+_COMPILER_MK = 1
 
 include shell.mk
 include bits/compiler-feature.mk

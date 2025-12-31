@@ -7,7 +7,7 @@
 # - NUMACTL_VERSION_MINOR=
 # - NUMACTL_VERSION_PATCH=
 #
-_NUMACTL = 1
+_NUMACTL_MK = 1
 
 include dir.mk
 include shell.mk

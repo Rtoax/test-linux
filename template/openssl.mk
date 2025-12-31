@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
-_OPENSSL = 1
+_OPENSSL_MK = 1
 
 OPENSSL := openssl
 

@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
-_GNU = 1
+_GNU_MK = 1
 
 include ansi.mk
 

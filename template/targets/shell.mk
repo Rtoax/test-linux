@@ -4,7 +4,7 @@
 # - SHELL_ENVS_*=--env ENV=V
 # - SHELL_ARGS_*=
 #
-_TARGET_SHELL = 1
+_TARGET_SHELL_MK = 1
 
 include shell.mk
 include dir.mk

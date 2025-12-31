@@ -3,4 +3,4 @@
 #
 # Output definitions:
 #
-_SCHED_EXT = 1
+_BPF_SCHED_EXT_MK = 1

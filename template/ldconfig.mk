@@ -3,7 +3,7 @@
 # Output definitions
 # - LDCONFIG=
 #
-_LDCONFIG = 1
+_LDCONFIG_MK = 1
 
 LDCONFIG := $(shell which ldconfig 2>/dev/null || true)
 ifeq ($(LDCONFIG),)

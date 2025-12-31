@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
-_TARGET_JAVA = 1
+_TARGET_JAVA_MK = 1
 
 JAVA ?= $(shell which java 2>/dev/null)
 JAVAC ?= $(shell which javac 2>/dev/null)

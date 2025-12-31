@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
-_TARGET_LLVM = 1
+_TARGET_LLVM_MK = 1
 
 include llvm.mk
 

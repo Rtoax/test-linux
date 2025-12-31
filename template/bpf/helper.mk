@@ -4,8 +4,8 @@
 # - SUPPORT_$(upcase kfunc name)=[y]
 # - bpf-helper-cflags=
 #
-_BPF_HELPER = 1
-_BPF_KFUNC = 1
+_BPF_HELPER_MK = 1
+_BPF_KFUNC_MK = 1
 
 include kernel.mk
 include string.mk

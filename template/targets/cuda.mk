@@ -26,7 +26,7 @@
 # - HAVE_CUFILE
 # - HAVE_CUPTI
 #
-_TARGET_NVIDIA = 1
+_TARGET_NVIDIA_MK = 1
 _SYSTEM_HAVE_NVIDIA_GPU :=
 
 # Your system has Nvidia GPU card

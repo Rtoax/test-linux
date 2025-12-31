@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
 # Copyright (C) 2025 Rong Tao
-_COMPILER_FEATURE = 1
+_BITS_COMPILER_FEATURE_MK = 1
 
 # Check compiler support option or not
 # $(1) - compiler, for example: gcc, clang, etc.

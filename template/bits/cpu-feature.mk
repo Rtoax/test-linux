@@ -5,7 +5,7 @@
 # - cpu-feature-cflags=
 # - CPU_HAVE_${FEATURE}=y
 #
-_CPU_FEATURE = 1
+_BITS_CPU_FEATURE_MK = 1
 
 include string.mk
 

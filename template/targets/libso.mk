@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
-_TARGET_LIBSO = 1
+_TARGET_LIBSO_MK = 1
 
 cflags-so := -fPIC
 ldflags-so := -shared -fPIC

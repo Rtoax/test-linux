@@ -1,4 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
+# Copyright (C) 2025 Rong Tao
 #
 # Output definitions:
 # - GLIBC_VERSION=
@@ -8,7 +9,7 @@
 # - probe_libc_printf()
 # - libc_sym_addr()
 #
-_GLIBC = 1
+_GLIBC_MK = 1
 
 GLIBC_VERSION := $(shell getconf GNU_LIBC_VERSION)
 

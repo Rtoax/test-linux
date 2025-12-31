@@ -23,7 +23,7 @@
 # - HPCC_ROOT
 # - NODEFAULTRPATH
 
-_TARGET_HPCC = 1
+_TARGET_HPCC_MK = 1
 
 include hpcc.mk
 include dir.mk

@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
 # Copyright (C) 2025 Rong Tao
-_ANSI = 1
+_ANSI_MK = 1
 
 # Black
 ANSI_BLK := \033[30m

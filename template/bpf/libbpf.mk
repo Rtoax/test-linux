@@ -5,7 +5,7 @@
 # - LIBBPF_MAJOR_VERSION=
 # - LIBBPF_MINOR_VERSION=
 #
-_LIBBPF = 1
+_BPF_LIBBPF_MK = 1
 
 include ldconfig.mk
 

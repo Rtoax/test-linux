@@ -1,5 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
-_BFD = 1
+# Copyright (C) 2024-2025 Rong Tao
+#
+_BFD_MK = 1
 
 pound := \#
 

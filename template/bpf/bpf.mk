@@ -5,7 +5,7 @@
 # - BPF_TARGET_ARCH=
 # - CFLAG_BPF_TARGET_ARCH=
 #
-_BPF = 1
+_BPF_BPF_MK = 1
 
 BPF_TARGET_ARCH := $(shell uname -m | sed 's/x86_64/x86/' \
 			 | sed 's/arm.*/arm/' \

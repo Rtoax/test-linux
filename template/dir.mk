@@ -5,7 +5,7 @@
 # - TOPDIR
 # - CURDIR
 #
-_DIR = 1
+_DIR_MK = 1
 
 TOPDIR := $(dir $(shell realpath $(abspath $(lastword $(MAKEFILE_LIST))/../)))
 CURDIR := $(shell realpath .)

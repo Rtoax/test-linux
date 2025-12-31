@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
-_LLVM = 1
+_LLVM_MK = 1
 
 CLANG := $(shell which clang 2>/dev/null)
 CLANG_CXX := $(shell which clang++ 2>/dev/null)

@@ -1,5 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
-_BINUTILS = 1
+# Copyright (C) 2024-2025 Rong Tao
+#
+_BINUTILS_MK = 1
 
 LD_BFD := $(shell which ld.bfd 2>/dev/null)
 ifeq ($(LD_BFD),)

@@ -5,7 +5,7 @@
 # - CPU_VENDOR_ID=
 # - CPU_L3LINESIZE=[64]
 #
-_CPU = 1
+_CPU_MK = 1
 
 include bits/cpu-feature.mk
 

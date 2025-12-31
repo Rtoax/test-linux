@@ -18,7 +18,7 @@
 # - LUCA_VERSION_MINOR=
 # - LUCA_VERSION_PATCH=
 
-_LUCA = 1
+_LUCA_MK = 1
 
 include define.mk
 

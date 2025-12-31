@@ -6,7 +6,7 @@
 # - BPFTOOL_VERSION_MAJOR=
 # - BPFTOOL_VERSION_MINOR=
 #
-_BPFTOOL = 1
+_BPF_BPFTOOL_MK = 1
 
 BPFTOOL := $(shell which bpftool 2>/dev/null)
 ifeq ($(BPFTOOL),)

@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
-_TARGET_RUST = 1
+_TARGET_RUST_MK = 1
 
 RUSTC := $(shell which rustc 2>/dev/null)
 ifeq ($(RUSTC),)

@@ -4,7 +4,7 @@
 # Functions:
 # - check_file_and_def()
 #
-_VALUE = 1
+_DEFINE_MK = 1
 
 # $1 - file path, like: /usr/include/stdio.h
 # $2 - definition name, like HAVE_STDIO

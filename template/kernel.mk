@@ -25,7 +25,7 @@
 # may not match the environment inside the container, so it is normal if
 # compilation errors occur.
 #
-_KERNEL = 1
+_KERNEL_MK = 1
 
 include shell.mk
 

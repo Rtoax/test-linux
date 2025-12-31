@@ -22,7 +22,7 @@
 # - LDFLAGS_HIPCC=
 # - LDFLAGS_HIPCC_SO=
 
-_TARGET_AMD = 1
+_TARGET_HIP_MK = 1
 
 include rocm.mk
 include dir.mk

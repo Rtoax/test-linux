@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
 # Copyright (C) 2022-2025 Rong Tao
-_MAIN = 1
+_MAIN_MK = 1
 
 CC ?= gcc
 CXX ?= g++

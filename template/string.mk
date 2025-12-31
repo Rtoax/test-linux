@@ -6,7 +6,7 @@
 # - toupper_shell()
 # - tolower()
 #
-_STRING = 1
+_STRING_MK = 1
 
 define toupper
 echo $(1) | tr '[:lower:]' '[:upper:]'

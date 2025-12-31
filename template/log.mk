@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
 # Copyright (C) 2022-2025 Rong Tao
-_LOG = 1
+_LOG_MK = 1
 
 include dir.mk
 include ansi.mk

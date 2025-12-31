@@ -7,7 +7,7 @@
 # - bcc-cflags=
 # - bcc-ldflags=
 #
-_BCC = 1
+_BPF_BCC_MK = 1
 
 LIBBCC_PATH := $(shell ldconfig -p | grep libbcc.so 2>/dev/null | awk '{print $$NF}' | head -1)
 LIBBCC_PATH := $(shell realpath ${LIBBCC_PATH})

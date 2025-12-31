@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
-_TARGET_LIBA = 1
+_TARGET_LIBA_MK = 1
 
 CC ?= gcc
 Q ?= @

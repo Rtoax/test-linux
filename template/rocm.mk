@@ -18,7 +18,7 @@
 # - target-hipcc-liba-y
 # - target-hipcc-libso-y
 
-_ROCm = 1
+_ROCM_MK = 1
 
 include define.mk
 
