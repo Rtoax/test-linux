@@ -1,8 +1,4 @@
 /**
- * File: clock_gettime.c
- * Author: Rong Tao
- * Date: 2022.05.10
- *
  * Test with vvar_fault.bt
  */
 #include <time.h>

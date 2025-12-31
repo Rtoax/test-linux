@@ -15,6 +15,7 @@
 #include <assert.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <time.h>
 #include <unistd.h>
 #include <sys/mman.h>
 #include <numa.h>
@@ -351,6 +352,13 @@ void test_mapping_phy_addr(void)
 
 	DISPLAY_VA_PA(proc_maps_vdso_addr(NULL), "vdso text");
 
+	/**
+	 * FIXME: fail to get vvar physical address, although call vdso api.
+	 */
+	if (1) {
+		struct timespec ts;
+		clock_gettime(CLOCK_MONOTONIC, &ts);
+	}
 	DISPLAY_VA_PA(proc_maps_vvar_addr(NULL), "vvar data");
 
 	DISPLAY_VA_PA((unsigned long)map_file_ro.mem, "map_file_ro");
