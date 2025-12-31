@@ -31,7 +31,7 @@ syntax match btc_def /#.*/
 syntax match btcomment /\/\/.*/
 	\ containedin=ALL
 
-syntax region btcommentmultiline
+syntax region btcomment
 	\ start=/\/\*/
 	\ end=/\*\//
 	\ containedin=ALL
