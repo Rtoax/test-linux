@@ -7,6 +7,12 @@ scores["Bob"]=88
 scores["Charlie"]=92
 scores["Mary Ann"]=89
 
-for name in "${!scores[@]}"; do
+for name in 'Rong Tao' 'rtoax'
+do
+	scores[$name]=100
+done
+
+for name in "${!scores[@]}"
+do
 	echo "NAME: $name, SCORE: ${scores[$name]}"
 done
