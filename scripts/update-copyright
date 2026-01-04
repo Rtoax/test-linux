@@ -60,6 +60,7 @@ replace_copyright() {
 __usage__()
 {
 	echo -e "
+-A, --author [AUTHOR]    specify author name
 -h, --help               show this help information
 -v, --verbose            show detail during running
 " | more
@@ -67,16 +68,9 @@ __usage__()
 }
 
 TEMP_ARGS=$(getopt \
-	--options o:nvhV \
-	--long subject-prefix: \
-	--long from: \
-	--long to: \
-	--long no-cover-letter \
-	--long pure-diff \
-	--long output: \
-	--long dry-run \
+	--options A:vh \
+	--long author: \
 	--long verbose \
-	--long version \
 	--long help \
 	-n update-copyright -- "$@")
 
@@ -86,6 +80,11 @@ eval set -- "$TEMP_ARGS"
 
 while true; do
 	case $1 in
+	-A|--author)
+		shift
+		AUTHOR="$1"
+		shift
+		;;
 	-h|--help)
 		shift
 		__usage__
