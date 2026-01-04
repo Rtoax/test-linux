@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- qemu: add support-machine.sh;
 - template: add lingspeed.mk;
 - bpftrace: add bpftrace.vim;
 - template: add targets/helpers.mk;
