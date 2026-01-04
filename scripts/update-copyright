@@ -5,10 +5,8 @@
 #
 set -e
 
-readonly AUTHOR='Rong Tao'
-
-FILES=( ${@} )
-[[ -z "${FILES}" ]] && FILES=( $(find -type f) )
+AUTHOR='Rong Tao'
+declare -a FILES
 
 # $1: file path
 # $2: format: "Copyright (C) Y-Y AUTHOR"
@@ -58,6 +56,54 @@ replace_copyright() {
 	echo "Handle $file: '${old}' -> '${new}'"
 	sed -i 's/'"$old"'/'"$new"'/g' $file
 }
+
+__usage__()
+{
+	echo -e "
+-h, --help               show this help information
+-v, --verbose            show detail during running
+" | more
+	exit ${1-0}
+}
+
+TEMP_ARGS=$(getopt \
+	--options o:nvhV \
+	--long subject-prefix: \
+	--long from: \
+	--long to: \
+	--long no-cover-letter \
+	--long pure-diff \
+	--long output: \
+	--long dry-run \
+	--long verbose \
+	--long version \
+	--long help \
+	-n update-copyright -- "$@")
+
+test $? != 0 && __usage__ 1
+
+eval set -- "$TEMP_ARGS"
+
+while true; do
+	case $1 in
+	-h|--help)
+		shift
+		__usage__
+		;;
+	-v|--verbose)
+		shift
+		export PS4='+${BASH_SOURCE}:${LINENO}:${FUNCNAME[0]}: '
+		set -x
+		;;
+	--)
+		shift
+		break
+		;;
+	esac
+done
+
+FILES=( ${@} )
+[[ -z "${FILES}" ]] && FILES=( $(find -type f) )
 
 for f in ${FILES[@]}
 do
