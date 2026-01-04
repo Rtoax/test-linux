@@ -1,7 +1,9 @@
 #!/bin/bash
 # Use the qemu command to create a virtual machine directly, without using
 # libvirt, but directly use the qemu command line parameters.
-# Wrote by Rong Tao
+#
+# Copyright (C) 2025-2026 Rong Tao
+#
 set -e
 readonly RED="\033[31m"
 readonly GREEN="\033[32m"
