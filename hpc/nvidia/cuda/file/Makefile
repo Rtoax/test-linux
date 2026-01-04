@@ -4,7 +4,7 @@ OUTPUT := .output/
 
 include cuda.mk
 include luca.mk
-include hpcc.mk
+include gpu/hpcc.mk
 
 common-objs := hello
 common-objs += gdsio

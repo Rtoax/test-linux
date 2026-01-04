@@ -5,7 +5,7 @@ __IGNORE_NOTFOUND_ERROR__ = y
 
 include cuda.mk
 include rocm.mk
-include hpcc.mk
+include gpu/hpcc.mk
 include luca.mk
 
 subdir-y := samples

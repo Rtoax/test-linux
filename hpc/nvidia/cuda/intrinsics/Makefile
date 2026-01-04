@@ -6,7 +6,7 @@ include os.mk
 include cuda.mk
 include rocm.mk
 include luca.mk
-include hpcc.mk
+include gpu/hpcc.mk
 include compiler.mk
 
 common-objs-y := fp6

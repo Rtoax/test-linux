@@ -25,7 +25,7 @@
 
 _TARGET_HPCC_MK = 1
 
-include hpcc.mk
+include gpu/hpcc.mk
 include dir.mk
 
 cflags-htcc-devbin := -device-bin
