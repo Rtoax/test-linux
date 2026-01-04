@@ -117,6 +117,10 @@ add_shell_ver() {
 	local ver=$(${TOPDIR}/shell/version.sh)
 	add_ver "BASH ${ver}"
 }
+add_qemu_ver() {
+	local ver=$(${TOPDIR}/qemu/version.sh)
+	add_ver "QEMU ${ver}"
+}
 add_make_ver() {
 	local ver=$(${TOPDIR}/gnu/make/version.sh)
 	add_ver "MAKE ${ver}"
@@ -235,6 +239,10 @@ fi
 
 if [[ "$(files_have_type sh bash)$(files_have_key bash shell)" ]]; then
 	add_shell_ver
+fi
+
+if [[ "$(files_have_key qcow qcow2 qcow3 qemu)" ]]; then
+	add_qemu_ver
 fi
 
 if [[ "$(files_have_type mk make)$(files_have_key make Makefile)" ]]; then
