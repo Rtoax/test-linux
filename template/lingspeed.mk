@@ -13,6 +13,8 @@
 #
 _LINGSPEED_MK = 1
 
+LSSMI := $(shell which ls-smi 2>/dev/null)
+
 ifeq ($(wildcard ${LSSMI}),)
   ifndef __IGNORE_NOTFOUND_ERROR__
     $(error No found ls-smi in anywhere)
