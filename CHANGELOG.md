@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- template: add lingspeed.mk;
 - bpftrace: add bpftrace.vim;
 - template: add targets/helpers.mk;
 - template: add Makefile;
