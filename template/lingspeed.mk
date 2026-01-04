@@ -6,6 +6,7 @@
 #
 # Output definitions:
 # - LSSMI=/usr/bin/ls-smi
+# - HAVE_LINGSPEED_GPU=y
 # - HAVE_LINGSPEED_X710E=y
 # - HAVE_LINGSPEED_X710M=y
 # - HAVE_LINGSPEED_X710P=y
@@ -31,11 +32,15 @@ ifneq ($(LSSMI),)
   ifeq ($(shell ${LSSMI} | grep -oe "X710-P"),X710-P)
     export HAVE_LINGSPEED_X710P := y
   endif
+  ifneq (${HAVE_LINGSPEED_X710E}${HAVE_LINGSPEED_X710M}${HAVE_LINGSPEED_X710P},)
+    export HAVE_LINGSPEED_GPU := y
+  endif
   export LSSMI
 endif
 
 ifdef DEBUG
   $(info LSSMI = ${LSSMI})
+  $(info HAVE_LINGSPEED_GPU = ${HAVE_LINGSPEED_GPU})
   $(info HAVE_LINGSPEED_X710E = ${HAVE_LINGSPEED_X710E})
   $(info HAVE_LINGSPEED_X710M = ${HAVE_LINGSPEED_X710M})
   $(info HAVE_LINGSPEED_X710P = ${HAVE_LINGSPEED_X710P})
