@@ -11,7 +11,7 @@
 # - HAVE_LINGSPEED_X710M=y
 # - HAVE_LINGSPEED_X710P=y
 #
-_LINGSPEED_MK = 1
+_GPU_LINGSPEED_MK = 1
 
 LSSMI := $(shell which ls-smi 2>/dev/null)
 

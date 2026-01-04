@@ -24,7 +24,7 @@
 
 _TARGET_HIP_MK = 1
 
-include rocm.mk
+include gpu/rocm.mk
 include dir.mk
 
 cflags-hipcc-so := -Xcompiler -fPIC

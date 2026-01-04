@@ -3,9 +3,9 @@ OUTPUT := .output/
 
 __IGNORE_NOTFOUND_ERROR__ := 1
 
-include cuda.mk
-include rocm.mk
-include luca.mk
+include gpu/cuda.mk
+include gpu/rocm.mk
+include gpu/luca.mk
 include gpu/hpcc.mk
 
 __USE_CUDA_HELPERS__ = ${HAVE_CUDNN}

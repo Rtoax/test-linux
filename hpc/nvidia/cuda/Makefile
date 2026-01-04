@@ -3,10 +3,10 @@ OUTPUT := .output/
 
 __IGNORE_NOTFOUND_ERROR__ = y
 
-include cuda.mk
-include rocm.mk
+include gpu/cuda.mk
+include gpu/rocm.mk
 include gpu/hpcc.mk
-include luca.mk
+include gpu/luca.mk
 
 subdir-y := samples
 subdir-y += blas

@@ -28,7 +28,7 @@ and this project adheres to
 - template: add bits/cpu-feature.mk;
 - memcpy-stress.c: add `__memcpy_aarch64_simd()`;
 #### Changed
-- template: move hpcc.mk into gpu/;
+- template: move hpcc.mk,cuda.mk,lingspeed.mk,rocm.mk,luca.mk into gpu/;
 - copyright 2026;
 - template: rename values.mk to defined.mk;
 - Move smp into cpu directory;

@@ -20,7 +20,7 @@
 
 _TARGET_LUCA_LUCA = 1
 
-include luca.mk
+include gpu/luca.mk
 include dir.mk
 
 cflags-lscc-devbin := -device-bin

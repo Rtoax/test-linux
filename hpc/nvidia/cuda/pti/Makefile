@@ -2,8 +2,8 @@
 # Copyright (C) 2025-2026 Rong Tao
 OUTPUT := .output/
 
-include cuda.mk
-include luca.mk
+include gpu/cuda.mk
+include gpu/luca.mk
 
 common-objs := activity
 common-objs += subscribe

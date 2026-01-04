@@ -17,8 +17,8 @@
 # - LUCA_VERSION_MAJOR=
 # - LUCA_VERSION_MINOR=
 # - LUCA_VERSION_PATCH=
-
-_LUCA_MK = 1
+#
+_GPU_LUCA_MK = 1
 
 include define.mk
 

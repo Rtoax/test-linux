@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
-include rocm.mk
+include gpu/rocm.mk
 
 target-shell-${HAVE_HIP} := version.sh
 target-post-${HAVE_HIP} := hipcc-macros.h

@@ -3,10 +3,10 @@ OUTPUT = .output/
 
 subdir-y := frontend
 
-include cuda.mk
-include rocm.mk
+include gpu/cuda.mk
+include gpu/rocm.mk
 include gpu/hpcc.mk
-include luca.mk
+include gpu/luca.mk
 
 libso-hpcc := libhccompiler.so
 libso-hpcc += libhcruntime.so

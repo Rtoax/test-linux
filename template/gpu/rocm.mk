@@ -17,8 +17,8 @@
 # - target-hipcc-y
 # - target-hipcc-liba-y
 # - target-hipcc-libso-y
-
-_ROCM_MK = 1
+#
+_GPU_ROCM_MK = 1
 
 include define.mk
 
