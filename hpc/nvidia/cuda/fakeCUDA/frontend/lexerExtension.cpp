@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0
-/* Copyright (C) 2025 Rong Tao */
+/* Copyright (C) 2025-2026 Rong Tao */
 #include "syntax.hpp"
 #include "clang/Basic/TokenKinds.h"
 #include "clang/Lex/Preprocessor.h"

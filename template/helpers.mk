@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
-# Copyright (C) 2022-2025 Rong Tao
+# Copyright (C) 2022-2026 Rong Tao
 #
 # Note: _helpers.{c,h} better not use symlinks, you could check with:
 #

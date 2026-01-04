@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copyright (C) 2025 Rong Tao
+# Copyright (C) 2025-2026 Rong Tao
 # https://windowsloop.com/download-m3u8-video-with-ffmpeg/
 set -e
 

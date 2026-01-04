@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0
-/* Copyright (C) 2025 Rong Tao */
+/* Copyright (C) 2025-2026 Rong Tao */
 /**
  * https://docs.nvidia.com/cupti/api/group__CUPTI__VERSION__API.html
  */

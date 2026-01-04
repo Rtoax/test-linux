@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0
-/* Copyright (C) 2025 Rong Tao */
+/* Copyright (C) 2025-2026 Rong Tao */
 /**
  * Test various floating point precisions on various hardware such as CPU and
  * GPU. Different hardware handles precision and overflow differently.

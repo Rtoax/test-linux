@@ -27,6 +27,7 @@ and this project adheres to
 - template: add bits/cpu-feature.mk;
 - memcpy-stress.c: add `__memcpy_aarch64_simd()`;
 #### Changed
+- copyright 2026;
 - template: rename values.mk to defined.mk;
 - Move smp into cpu directory;
 #### Deprecated

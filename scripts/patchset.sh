@@ -2,7 +2,7 @@
 # Generate patch set in git repo. With this script, you can easily obtain a
 # patchset that can be used for Linux kernel development.
 #
-# Copyright (C) 2022-2025 Rong Tao
+# Copyright (C) 2022-2026 Rong Tao
 #
 # https://gist.github.com/Rtoax/15abb95b38ba3d4fbb5e7271f2502c61
 #

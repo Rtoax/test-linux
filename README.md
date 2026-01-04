@@ -100,7 +100,7 @@ If the source code file has a copyright information at the beginning, the copyri
 
 If the code does not specify, then it follows GPLv3. Of course, BPF programs always follow GPLv2.
 
-The copyright line must be `Copyright (C) 2021-2025 Rong Tao`, where `Rong Tao` is the auther.
+The copyright line must be `Copyright (C) 2021-2026 Rong Tao`, where `Rong Tao` is the auther.
 
 
 # Links

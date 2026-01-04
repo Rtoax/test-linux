@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copyright (C) 2023-2025 Rong Tao.
+# Copyright (C) 2023-2026 Rong Tao.
 #
 # Print softirqs
 #

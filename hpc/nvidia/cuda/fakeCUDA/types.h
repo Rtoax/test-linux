@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0
-/* Copyright (C) 2025 Rong Tao */
+/* Copyright (C) 2025-2026 Rong Tao */
 #pragma once
 
 #if defined(__USE_HPCC__) || defined(__USE_LUCA__) || defined(__USE_HIP__)

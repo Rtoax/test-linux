@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
-# Copyright (C) 2025 Rong Tao
+# Copyright (C) 2025-2026 Rong Tao
 #
 # Input definitions:
 # - __USE_C_HELPERS__=y

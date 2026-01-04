@@ -1,5 +1,5 @@
 #!/usr/bin/env bpftrace
-/* Copyright (C) 2022-2025 Rong Tao */
+/* Copyright (C) 2022-2026 Rong Tao */
 #ifndef BPFTRACE_HAVE_BTF
 #include <linux/mm.h>
 #include <asm/page_types.h>

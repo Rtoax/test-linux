@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copyright (C) 2025 Rong Tao. All rights reserved.
+# Copyright (C) 2025-2026 Rong Tao. All rights reserved.
 #
 
 readonly REAL_ROOT=$(dirname `realpath $0`)

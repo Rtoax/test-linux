@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
-/* Copyright (C) 2024-2025 Rong Tao */
+/* Copyright (C) 2024-2026 Rong Tao */
 #include <stdio.h>
 #include <errno.h>
 #include <fcntl.h>

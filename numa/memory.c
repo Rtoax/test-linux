@@ -1,7 +1,7 @@
 /**
  * Test memory operation across NUMA node.
  *
- * Copyright (C) 2023-2025 Rong Tao
+ * Copyright (C) 2023-2026 Rong Tao
  */
 #include <stdio.h>
 #include <malloc.h>

@@ -1,7 +1,7 @@
 #!/bin/bash
 # This is test-linux dialog config main script
 #
-# Copyright (C) 2025 Rong Tao. All rights reserved.
+# Copyright (C) 2025-2026 Rong Tao. All rights reserved.
 #
 
 readonly DIALOG=$(which dialog 2>/dev/null || :)

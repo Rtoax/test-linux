@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copyright (C) 2022-2025 Rong Tao
+# Copyright (C) 2022-2026 Rong Tao
 set -e
 
 readonly ROOT_DIRECTORY=$(dirname $(realpath $0)/../)
