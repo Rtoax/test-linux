@@ -109,27 +109,30 @@ do
 	[[ -L $f ]] && continue
 	[[ ${f:0:6} == ./.git ]] && continue
 
-	old=$(grep -o 'Copyright (C) [0-9]\{4\}-[0-9]\{4\} '"${AUTHOR}"'' $f || :)
-	if [[ "${old}" ]]; then
-		new="$(gen_copyright $f "${old}")"
-		replace_copyright "$f" "$old" "$new"
-	fi
+	__replace() {
+		if [[ "${old}" ]]; then
+			new="$(gen_copyright $f "${old}")"
+			replace_copyright "$f" "$old" "$new"
+		fi
+		old=
+		new=
+	}
 
-	old=$(grep -o 'Copyright [0-9]\{4\}-[0-9]\{4\} '"${AUTHOR}"'' $f || :)
-	if [[ "${old}" ]]; then
-		new="$(gen_copyright $f "${old}")"
-		replace_copyright "$f" "$old" "$new"
-	fi
+	old=$(grep -o 'Copyright (C) [0-9]\{4\}-[0-9]\{4\} '"${AUTHOR}"'' $f || :)
+	__replace
+
+	old=$(grep -o 'Copyright (c) [0-9]\{4\}-[0-9]\{4\} '"${AUTHOR}"'' $f || :)
+	__replace
 
 	old=$(grep -o 'Copyright (C) [0-9]\{4\} '"${AUTHOR}"'' $f || :)
-	if [[ "${old}" ]]; then
-		new="$(gen_copyright $f "${old}")"
-		replace_copyright "$f" "$old" "$new"
-	fi
+	__replace
+
+	old=$(grep -o 'Copyright (c) [0-9]\{4\} '"${AUTHOR}"'' $f || :)
+	__replace
+
+	old=$(grep -o 'Copyright [0-9]\{4\}-[0-9]\{4\} '"${AUTHOR}"'' $f || :)
+	__replace
 
 	old=$(grep -o 'Copyright [0-9]\{4\} '"${AUTHOR}"'' $f || :)
-	if [[ "${old}" ]]; then
-		new="$(gen_copyright $f "${old}")"
-		replace_copyright "$f" "$old" "$new"
-	fi
+	__replace
 done
