@@ -19,6 +19,7 @@
 # define __cuda(name)	hc##name
 # define __CU(name)	HC##name
 # define __CU_cuda(n1, n2)	HC##n1##hc##n2
+# define __cuda_Cuda(n1, n2)	HC##n1##Hpcc##n2
 # define __CUDA(name)	HC_##name
 # define __CUDA_ERROR(name)	HCC_STATUS_##name
 # define __nv(name)	hc##name
@@ -41,6 +42,7 @@
 #  define __cuda(name)	lc##name
 #  define __CU(name)	LC##name
 #  define __CU_cuda(n1, n2)	LC##n1##lc##n2
+#  define __cuda_Cuda(n1, n2)	LC##n1##Luca##n2
 #  define __CUDA(name)	LC_##name
 #  define __CUDA_ERROR(name)	LCC_STATUS_##name
 #  define __nv(name)	lc##name
@@ -53,6 +55,7 @@
 #  define __cuda(name)	hc##name
 #  define __CU(name)	HC##name
 #  define __CU_cuda(n1, n2)	HC##n1##hc##n2
+#  define __cuda_Cuda(n1, n2)	HC##n1##Hpcc##n2
 #  define __CUDA(name)	HC_##name
 #  define __CUDA_ERROR(name)	HCC_STATUS_##name
 #  define __nv(name)	hc##name
@@ -70,7 +73,7 @@
 # define __cu(name)	hip##name
 # define __cuda(name)	hip##name
 # define __CU(name)	HIP##name
-/* TODO: __CU_cuda */
+/* TODO: __CU_cuda, __cuda_Cuda */
 # define __CUDA(name)	HIP_##name
 # define __CUDA_ERROR(name)	HIP_##name
 # define __nv(name)	hip##name
@@ -1080,7 +1083,7 @@
 #define cudaDevAttrMaxAccessPolicyWindowSize	__cuda(DeviceAttributeMaxAccessPolicyWindowSize)
 #define cudaDevAttrReserved110	__cuda(DeviceAttributeReserved110)
 #define cudaDevAttrReservedSharedMemoryPerBlock	__cuda(DeviceAttributeReservedSharedMemoryPerBlock)
-#define cudaDevAttrSparseHpccArraySupported	__cuda(DeviceAttributeSparseHpccArraySupported)
+#define cudaDevAttrSparseCudaArraySupported	__cuda_Cuda(DeviceAttributeSparse, ArraySupported)
 #define cudaDevAttrHostRegisterReadOnlySupported	__cuda(DeviceAttributeHostRegisterReadOnlySupported)
 #define cudaDevAttrTimelineSemaphoreInteropSupported	__cuda(DeviceAttributeTimelineSemaphoreInteropSupported)
 #define cudaDevAttrMemoryPoolsSupported	__cuda(DeviceAttributeMemoryPoolsSupported)
@@ -1089,7 +1092,7 @@
 #define cudaDevAttrGPUDirectRDMAWritesOrdering	__cuda(DeviceAttributeGPUDirectRDMAWritesOrdering)
 #define cudaDevAttrMemoryPoolSupportedHandleTypes	__cuda(DeviceAttributeMemoryPoolSupportedHandleTypes)
 #define cudaDevAttrClusterLaunch	__cuda(DeviceAttributeClusterLaunch)
-#define cudaDevAttrDeferredMappingHpccArraySupported	__cuda(DeviceAttributeDeferredMappingHpccArraySupported)
+#define cudaDevAttrDeferredMappingCudaArraySupported	__cuda_Cuda(DeviceAttributeDeferredMapping, ArraySupported)
 #define cudaDevAttrReserved122	__cuda(DeviceAttributeReserved122)
 #define cudaDevAttrReserved123	__cuda(DeviceAttributeReserved123)
 #define cudaDevAttrReserved124	__cuda(DeviceAttributeReserved124)

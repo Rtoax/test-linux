@@ -46,9 +46,7 @@ int main(void)
 	Attr(cudaDevAttrCooperativeMultiDeviceUnmatchedFunc);
 	Attr(cudaDevAttrCooperativeMultiDeviceUnmatchedGridDim);
 	Attr(cudaDevAttrCooperativeMultiDeviceUnmatchedSharedMem);
-#if !defined(__LUCA__)
-	Attr(cudaDevAttrDeferredMappingHpccArraySupported);
-#endif
+	Attr(cudaDevAttrDeferredMappingCudaArraySupported);
 	Attr(cudaDevAttrDirectManagedMemAccessFromHost);
 	Attr(cudaDevAttrGenericCompressionSupported);
 	Attr(cudaDevAttrGlobalL1CacheSupported);
@@ -135,29 +133,10 @@ int main(void)
 	Attr(cudaDevAttrPciDeviceId);
 	Attr(cudaDevAttrPciDomainId);
 	Attr(cudaDevAttrPeerSocketId);
-	Attr(cudaDevAttrReserved102);
-	Attr(cudaDevAttrReserved103);
-	Attr(cudaDevAttrReserved104);
-	Attr(cudaDevAttrReserved105);
-	Attr(cudaDevAttrReserved107);
-	Attr(cudaDevAttrReserved110);
-	Attr(cudaDevAttrReserved122);
-	Attr(cudaDevAttrReserved123);
-	Attr(cudaDevAttrReserved124);
-	Attr(cudaDevAttrReserved127);
-	Attr(cudaDevAttrReserved128);
-	Attr(cudaDevAttrReserved129);
-	Attr(cudaDevAttrReserved132);
-	Attr(cudaDevAttrReserved92);
-	Attr(cudaDevAttrReserved93);
-	Attr(cudaDevAttrReserved94);
 	Attr(cudaDevAttrReservedSharedMemoryPerBlock);
-	Attr(cudaDevAttrResvered44);
 	Attr(cudaDevAttrSingleToDoublePrecisionPerfRatio);
 	Attr(cudaDevAttrSocketId);
-#if !defined(__LUCA__)
-	Attr(cudaDevAttrSparseHpccArraySupported);
-#endif
+	Attr(cudaDevAttrSparseCudaArraySupported);
 	Attr(cudaDevAttrStreamPrioritiesSupported);
 	Attr(cudaDevAttrSurfaceAligement);
 	Attr(cudaDevAttrTccDriver);
