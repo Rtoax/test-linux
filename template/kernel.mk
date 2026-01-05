@@ -12,14 +12,14 @@
 # - KUAPIVERSION_CODE=
 #
 # Functions:
-# - kver_gt()
-# - kver_ge()
-# - kver_eq()
-# - kver_lt()
-# - kver_le()
-# - kver_uapi_gt()
-# - kver_uapi_eq()
-# - kver_uapi_lt()
+# - kver_gt()=[y|n]
+# - kver_ge()=[y|n]
+# - kver_eq()=[y|n]
+# - kver_lt()=[y|n]
+# - kver_le()=[y|n]
+# - kver_uapi_gt()=[y|n]
+# - kver_uapi_eq()=[y|n]
+# - kver_uapi_lt()=[y|n]
 #
 # WARNING: If you are inside a container, the kernel version queried by uame -r
 # may not match the environment inside the container, so it is normal if
@@ -99,7 +99,7 @@ endif
 ifneq (${KUAPIVERSION_CODE},$(call kernel_version,${KUAPIVERSION},${KUAPIPATCHLEVEL},${KUAPISUBLEVEL}))
   $(error "Bad KUAPIVERSION_CODE ${KUAPIVERSION_CODE}")
 endif
-# no body use linux-1.1.1 i think
+# no body use linux v1.1.1 i think
 ifneq ($(call kver_gt,1,1,1),y)
   $(error "call kver_gt failed")
 endif
