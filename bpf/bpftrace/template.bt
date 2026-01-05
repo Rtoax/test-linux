@@ -21,6 +21,9 @@ interval:s:1
 {
 	time("%H:%M:%S ");
 	printf("%-8d %-16s\n", pid, comm);
+	if (1) {
+	} else {
+	}
 }
 
 END

@@ -1,9 +1,11 @@
+" Vim syntax file
+" Language:	bpftrace
 autocmd BufRead,BufNewFile *.bt setfiletype bpftrace
 syntax clear
 syntax sync minlines=1000
 
 highlight btkeyword
-	\ ctermfg=red cterm=bold
+	\ ctermfg=red
 	\ guifg=#FF0000 guibg=NONE gui=bold
 
 highlight btprobe
@@ -42,7 +44,7 @@ syntax match btprobe
 	\ containedin=ALL
 
 syntax match btprobe
-	\ /\v(BEGIN|begin|END|end)/
+	\ /\v^(BEGIN|begin|END|end)/
 	\ containedin=ALL
 
 syntax match btprobe
