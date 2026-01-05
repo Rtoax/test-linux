@@ -1,3 +1,4 @@
 - CAM: Content Addressable Memory (内容寻址存储器)
 - CIM: Computing-in-Memory (存内计算,存算一体,处理in内存) @CNM
 - CNM: Compute Near Memory (近内存计算) @CIM
+- PIM: Processing In Memory (存内处理)
