@@ -53,8 +53,8 @@ int main(void)
 	Attr(cudaDevAttrConcurrentKernels);
 	Attr(cudaDevAttrConcurrentManagedAccess);
 	Attr(cudaDevAttrCooperativeLaunch);
-	Attr(cudaDevAttrCooperativeMultiDeviceLaunch);
 #if !defined(__NVCC__)
+	Attr(cudaDevAttrCooperativeMultiDeviceLaunch);
 	Attr(cudaDevAttrCooperativeMultiDeviceUnmatchedBlockDim);
 	Attr(cudaDevAttrCooperativeMultiDeviceUnmatchedFunc);
 	Attr(cudaDevAttrCooperativeMultiDeviceUnmatchedGridDim);
