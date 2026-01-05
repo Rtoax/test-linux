@@ -125,6 +125,10 @@ add_make_ver() {
 	local ver=$(${TOPDIR}/gnu/make/version.sh)
 	add_ver "MAKE ${ver}"
 }
+add_vim_ver() {
+	local ver=$(${TOPDIR}/tools/vim/version.sh)
+	add_ver "Vim ${ver}"
+}
 add_pciutils_ver() {
 	local ver=$(${TOPDIR}/driver/pcie/pciutils/version.sh)
 	add_ver "PCIUtils ${ver}"
@@ -253,8 +257,8 @@ if [[ "$(files_have_key qcow qcow2 qcow3 qemu)" ]]; then
 	add_qemu_ver
 fi
 
-if [[ "$(files_have_type mk make)$(files_have_key make Makefile)" ]]; then
-	add_make_ver
+if [[ "$(files_have_type vim)$(files_have_key vim)" ]]; then
+	add_vim_ver
 fi
 
 if [[ "$(files_have_key pci pcie)" ]]; then
