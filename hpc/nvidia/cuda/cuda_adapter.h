@@ -583,6 +583,45 @@
 	__cuda(StreamIsCapturing(stream, pCaptureStatus))
 
 /**
+ * LUCA:
+ * lcError_t lcStreamCopyAttributes(lcStream_t dst, lcStream_t src);
+ */
+#define cudaStreamCopyAttributes	__cuda(StreamCopyAttributes)
+
+#define cudaStreamAttrID	__cuda(StreamAttrID)
+#define cudaStreamAttributeAccessPolicyWindow	__cuda(StreamAttributeAccessPolicyWindow)
+#define cudaStreamAttributeSynchronizationPolicy	__cuda(StreamAttributeSynchronizationPolicy)
+#define cudaStreamAttributeMemSyncDomainMap	__cuda(StreamAttributeMemSyncDomainMap)
+#define cudaStreamAttributeMemSyncDomain	__cuda(StreamAttributeMemSyncDomain)
+#define cudaStreamAttributePriority	__cuda(StreamAttributePriority)
+
+/**
+ * LUCA:
+ * lcError_t lcStreamGetAttribute(lcStream_t hStream, lcStreamAttrID attr,
+ *                                lcStreamAttrValue *value_out);
+ */
+#define cudaStreamGetAttribute	__cuda(StreamGetAttribute)
+
+/**
+ * LUCA:
+ * lcError_t lcStreamSetAttribute(lcStream_t hStream, lcStreamAttrID attr,
+ *                                const lcStreamAttrValue *value);
+ */
+#define cudaStreamSetAttribute	__cuda(StreamSetAttribute)
+
+/**
+ * LUCA:
+ * lcError_t lcStreamGetPriority(lcStream_t hStream, int *priority);
+ */
+#define cudaStreamGetPriority	__cuda(StreamGetPriority)
+
+/**
+ * LUCA:
+ * lcError_t lcStreamGetFlags(lcStream_t hStream, unsigned int *flags);
+ */
+#define cudaStreamGetFlags	__cuda(StreamGetFlags)
+
+/**
  * CUDA 13
  * cudaError_t cudaStreamAddCallback(cudaStream_t stream, cudaStreamCallback_t callback,
  *                                   void *userData, unsigned int flags);
