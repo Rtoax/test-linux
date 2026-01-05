@@ -38,5 +38,13 @@ syntax region btcomment
 	\ fold
 
 syntax match btprobe
-	\ /\v(kprobe|kretprobe|uprobe|uretprobe|BEGIN|begin|END|end|kfunc|kretfunc|tracepoint|usdt|fentry|fexit|probe|interval):.*:.*/
+	\ /\v(kprobe|kretprobe|k):.*/
+	\ containedin=ALL
+
+syntax match btprobe
+	\ /\v(BEGIN|begin|END|end)/
+	\ containedin=ALL
+
+syntax match btprobe
+	\ /\v(uprobe|uretprobe|kfunc|kretfunc|tracepoint|usdt|fentry|fexit|probe|interval):.*:.*/
 	\ containedin=ALL
