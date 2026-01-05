@@ -21,4 +21,3 @@ ifdef DEBUG
   $(info LD_BFD = ${LD_BFD})
   $(info Binutils version ${BINUTILS_VERSION_MAJOR}.${BINUTILS_VERSION_MINOR})
 endif
-
