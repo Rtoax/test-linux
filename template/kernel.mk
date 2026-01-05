@@ -60,7 +60,10 @@ define kernel_version
 $(shell echo "$$(( (${1}<<16) + (${2}<<8) + (${3}>255?255:${3}) ))")
 endef
 
-# argument: kcode,[-gt|-ge|-eq|-lt|-le],x,y,z
+# Arguments:
+# $1: kcode
+# $2: [-gt|-ge|-eq|-lt|-le]
+# $3,$4,$5: x,y,z
 define kernel_compare
 $(shell if [[ ${1} ${2} $(call kernel_version,${3},${4},${5}) ]]; then \
 		echo y; \

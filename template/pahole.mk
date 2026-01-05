@@ -1,4 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
+# Copyright (C) 2025-2026 Rong Tao
+#
+# https://git.kernel.org/pub/scm/devel/pahole/pahole.git
 #
 # Input definitions:
 # - __IGNORE_NOTFOUND_ERROR__
@@ -7,6 +10,15 @@
 # - PAHOLE=
 # - PAHOLE_VERSION_MAJOR=DWARVES_MINOR_VERSION=
 # - PAHOLE_VERSION_MINOR=DWARVES_MINOR_VERSION=
+#
+# Funtions:
+# - pahole_version_code()=PAHOLE_VERSION_CODE
+# - pahole_version_compare()=[y|n]
+# - pahole_gt()=[y|n]
+# - pahole_ge()=[y|n]
+# - pahole_eq()=[y|n]
+# - pahole_lt()=[y|n]
+# - pahole_le()=[y|n]
 #
 _PAHOLE_MK = 1
 
@@ -18,6 +30,13 @@ ifeq ($(PAHOLE),)
     $(warning "Not found pahole, install first")
   endif
 endif
+
+PAHOLE_VERSION := 0.0
+PAHOLE_VERSION_MAJOR := 0
+PAHOLE_VERSION_MINOR := 0
+DWARVES_MAJOR_VERSION := 0
+DWARVES_MINOR_VERSION := 0
+
 
 ifneq ($(PAHOLE),)
   PAHOLE_VERSION := $(shell ${PAHOLE} --version | grep -o -E '[0-9].[0-9]*?')
@@ -41,8 +60,53 @@ ifneq ($(PAHOLE),)
   endif
 
   # https://git.kernel.org/pub/scm/devel/pahole/pahole.git use dwarves cmake macros
-  DWARVES_MINOR_VERSION := ${PAHOLE_VERSION_MAJOR}
+  DWARVES_MAJOR_VERSION := ${PAHOLE_VERSION_MAJOR}
   DWARVES_MINOR_VERSION := ${PAHOLE_VERSION_MINOR}
 
-  export DWARVES_MINOR_VERSION DWARVES_MINOR_VERSION
+  export DWARVES_MAJOR_VERSION DWARVES_MINOR_VERSION
+endif
+
+define pahole_version_code
+$(shell echo "$$(( (${1}<<16) + (${2}<<8) ))")
+endef
+
+PAHOLE_VERSION_CODE := $(call pahole_version_code,${PAHOLE_VERSION_MAJOR},${PAHOLE_VERSION_MINOR})
+
+# Arguments:
+# $1: [-gt|-ge|-eq|-lt|-le]
+# $2: major
+# $3: minor
+define pahole_version_compare
+$(shell if [[ ${PAHOLE_VERSION_CODE} ${1} $(call pahole_version_code,${2},${3}) ]]; then \
+		echo y; \
+	else echo n; \
+	fi)
+endef
+
+define pahole_gt
+$(call pahole_version_compare,-gt,${1},${2})
+endef
+define pahole_ge
+$(call pahole_version_compare,-ge,${1},${2})
+endef
+define pahole_eq
+$(call pahole_version_compare,-eq,${1},${2})
+endef
+define pahole_lt
+$(call pahole_version_compare,-lt,${1},${2})
+endef
+define pahole_le
+$(call pahole_version_compare,-le,${1},${2})
+endef
+
+# Make sure function works fine.
+ifneq ($(call pahole_eq,${PAHOLE_VERSION_MAJOR},${PAHOLE_VERSION_MINOR}),y)
+  $(error "Call pahole_eq failed")
+endif
+ifneq ($(call pahole_gt,0,0),y)
+  $(error "Call pahole_gt failed")
+endif
+# The newest pahole is v1.31 right now.
+ifneq ($(call pahole_lt,1,32),y)
+  $(error "Call pahole_lt failed")
 endif
