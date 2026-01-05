@@ -34,7 +34,7 @@ syntax keyword btkeyword comptime macro return break continue
 syntax keyword btStatement	break continue
 syntax keyword btConditional	if else
 syntax keyword btRepeat		while for
-syntax keyword btTodo		TODO
+syntax keyword btTodo		contained TODO
 syntax keyword btFunction	assert bswap buf cat
 syntax keyword btFunction	cgroup cgroup_path cgroupid
 syntax keyword btFunction	clear comm cpid cpu curtask
@@ -56,14 +56,13 @@ syntax keyword btFunction	hist lhist max min stats sum tseries
 syntax match btc_def /#.*/
 	\ containedin=ALL
 
-syntax match btComment /\/\/.*/
-	\ contains=@Spell,awkTodo
+syntax match btComment /\/\/.*/ contains=@Spell,btTodo
 
 syntax region btComment
 	\ start=/\/\*/
 	\ end=/\*\//
 	\ fold
-	\ contains=@Spell,awkTodo
+	\ contains=@Spell,btTodo
 
 syntax match btprobe
 	\ /\v(kprobe|kretprobe|k):.*/
