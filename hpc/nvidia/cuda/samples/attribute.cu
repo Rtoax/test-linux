@@ -25,7 +25,7 @@ int main(void)
 #if !defined(__HIPCC__) && (CUDA_VERSION >= 12000)
 	Attr(cudaDevAttrHostNumaId);
 #endif
-#if !defined(__NVCC__) || (CUDA_VERSION != 13000)
+#if !defined(__NVCC__)
 	Attr(cudaDevAttrAsicRevision);
 #endif
 	Attr(cudaDevAttrAsyncEngineCount);
@@ -34,14 +34,14 @@ int main(void)
 #endif
 	Attr(cudaDevAttrCanMapHostMemory);
 	Attr(cudaDevAttrCanUseHostPointerForRegisteredMem);
-#if !defined(__NVCC__) || (CUDA_VERSION != 13000)
-# if !defined(__HIPCC__)
+#if !defined(__NVCC__) && !defined(__HIPCC__)
 	Attr(cudaDevAttrCanUseStreamMemOps);
-# endif
+#endif
+#if !defined(__NVCC__)
 	Attr(cudaDevAttrCanUseStreamWaitValue);
-# if !defined(__HIPCC__)
+#endif
+#if !defined(__NVCC__) && !defined(__HIPCC__)
 	Attr(cudaDevAttrCanUseStreamWaitWaitValueNor);
-# endif
 #endif
 #if !defined(__HIPCC__)
 	Attr(cudaDevAttrClusterLaunch);
@@ -53,8 +53,8 @@ int main(void)
 	Attr(cudaDevAttrConcurrentKernels);
 	Attr(cudaDevAttrConcurrentManagedAccess);
 	Attr(cudaDevAttrCooperativeLaunch);
-#if !defined(__NVCC__) || (CUDA_VERSION != 13000)
 	Attr(cudaDevAttrCooperativeMultiDeviceLaunch);
+#if !defined(__NVCC__)
 	Attr(cudaDevAttrCooperativeMultiDeviceUnmatchedBlockDim);
 	Attr(cudaDevAttrCooperativeMultiDeviceUnmatchedFunc);
 	Attr(cudaDevAttrCooperativeMultiDeviceUnmatchedGridDim);
@@ -64,7 +64,7 @@ int main(void)
 	Attr(cudaDevAttrDeferredMappingCudaArraySupported);
 #endif
 	Attr(cudaDevAttrDirectManagedMemAccessFromHost);
-#if (!defined(__NVCC__) || (CUDA_VERSION != 13000)) && !defined(__HIPCC__)
+#if !defined(__NVCC__) && !defined(__HIPCC__)
 	Attr(cudaDevAttrGenericCompressionSupported);
 #endif
 	Attr(cudaDevAttrGlobalL1CacheSupported);
@@ -74,11 +74,11 @@ int main(void)
 	Attr(cudaDevAttrGPUDirectRDMAWritesOrdering);
 	Attr(cudaDevAttrGpuOverlap);
 #endif
-#if !defined(__NVCC__) || (CUDA_VERSION != 13000)
-# if !defined(__HIPCC__)
+#if !defined(__NVCC__) && !defined(__HIPCC__)
 	Attr(cudaDevAttrHandleTypePosixFileDescriptorSupported);
 	Attr(cudaDevAttrHandleTypeWin32HandleSupported);
-# endif
+#endif
+#if !defined(__NVCC__)
 	Attr(cudaDevAttrHdpMemFlushCntl);
 	Attr(cudaDevAttrHdpRegFlushCntl);
 #endif
@@ -94,7 +94,7 @@ int main(void)
 	Attr(cudaDevAttrIsMultiGpuBoard);
 	Attr(cudaDevAttrKernelExecTimeout);
 	Attr(cudaDevAttrLocalL1CacheSupported);
-#if (!defined(__NVCC__) || (CUDA_VERSION != 13000)) && !defined(__HIPCC__)
+#if !defined(__NVCC__) && !defined(__HIPCC__)
 	Attr(cudaDevAttrLocalSocketId);
 #endif
 #if !defined(__HIPCC__)
@@ -166,7 +166,7 @@ int main(void)
 	Attr(cudaDevAttrMaxTextureCubemapLayeredWidth);
 	Attr(cudaDevAttrMaxTextureCubemapWidth);
 #endif
-#if !defined(__NVCC__) || (CUDA_VERSION != 13000)
+#if !defined(__NVCC__)
 	Attr(cudaDevAttrMemoryBusWidth);
 #endif
 	Attr(cudaDevAttrMemoryClockRate);
@@ -176,7 +176,7 @@ int main(void)
 	Attr(cudaDevAttrMemSyncDomainCount);
 	Attr(cudaDevAttrMpsEnabled);
 #endif
-#if (!defined(__NVCC__) || (CUDA_VERSION != 13000)) && !defined(__HIPCC__)
+#if !defined(__NVCC__) && !defined(__HIPCC__)
 	Attr(cudaDevAttrMulticastSupported);
 #endif
 	Attr(cudaDevAttrMultiGpuBoardGroupID);
@@ -192,25 +192,25 @@ int main(void)
 #if !defined(__HIPCC__)
 	Attr(cudaDevAttrPciDomainId);
 #endif
-#if (!defined(__NVCC__) || (CUDA_VERSION != 13000)) && !defined(__HIPCC__)
+#if !defined(__NVCC__) && !defined(__HIPCC__)
 	Attr(cudaDevAttrPeerSocketId);
 #endif
 #if !defined(__HIPCC__)
 	Attr(cudaDevAttrReservedSharedMemoryPerBlock);
 #endif
 	Attr(cudaDevAttrSingleToDoublePrecisionPerfRatio);
-#if (!defined(__NVCC__) || (CUDA_VERSION != 13000)) && !defined(__HIPCC__)
+#if !defined(__NVCC__) && !defined(__HIPCC__)
 	Attr(cudaDevAttrSocketId);
 #endif
 #if !defined(__HIPCC__)
 	Attr(cudaDevAttrSparseCudaArraySupported);
 #endif
 	Attr(cudaDevAttrStreamPrioritiesSupported);
-#if (!defined(__NVCC__) || (CUDA_VERSION != 13000)) && !defined(__HIPCC__)
+#if !defined(__NVCC__) && !defined(__HIPCC__)
 	Attr(cudaDevAttrSurfaceAligement);
 #endif
 	Attr(cudaDevAttrTccDriver);
-#if (!defined(__NVCC__) || (CUDA_VERSION != 13000)) && !defined(__HIPCC__)
+#if !defined(__NVCC__) && !defined(__HIPCC__)
 	Attr(cudaDevAttrTexture1DLinearWidth);
 	Attr(cudaDevAttrTexture2DLinearHeight);
 	Attr(cudaDevAttrTexture2DLinearPitch);
@@ -223,11 +223,11 @@ int main(void)
 #endif
 	Attr(cudaDevAttrTotalConstantMemory);
 	Attr(cudaDevAttrUnifiedAddressing);
-#if !defined(__NVCC__) || (CUDA_VERSION != 13000)
+#if !defined(__NVCC__)
 	Attr(cudaDevAttrVirtualMemoryManagementSupported);
 #endif
 	Attr(cudaDevAttrWarpSize);
-#if (!defined(__NVCC__) || (CUDA_VERSION != 13000)) && !defined(__HIPCC__)
+#if !defined(__NVCC__) && !defined(__HIPCC__)
 	Attr(cudaDevAttrWaveSize);
 #endif
 
