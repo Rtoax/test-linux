@@ -3,16 +3,25 @@
 #include "cuda_helpers.h"
 
 
-int main(void)
+int main(int argc, char *argv[])
 {
-	int value, dev_id;
+	int i, value, dev;
 
-	dev_id = 0;
+	dev = 0;
 
-	gpu_init(dev_id);
+	fprintf(stderr, "Usage: %s [dev=<N>]\n", argv[0]);
+
+	for (i = 1; i < argc; i++) {
+#define arg_eq(v) if (!strncmp(#v"=", argv[i], strlen(#v) + 1)) \
+			v = atoi(argv[i] + strlen(#v) + 1);
+		arg_eq(dev);
+#undef arg_eq
+	}
+
+	gpu_init(dev);
 
 #define Attr(attr) do {	\
-		cudaDeviceGetAttribute(&value, attr, dev_id);	\
+		cudaDeviceGetAttribute(&value, attr, dev);	\
 		printf("%-64s %d(0x%x)\n", #attr, value, value);	\
 	} while (0)
 
