@@ -655,6 +655,17 @@
 #define cudaGraphEdgeData	__cuda(GraphEdgeData)
 
 /**
+ * CUDA 13
+ * cudaError_t cudaGraphCreate(cudaGraph_t *pGraph, unsigned int flags);
+ *
+ * LUCA
+ * lcError_t lcGraphCreate(lcGraph_t *pGraph, unsigned int flags);
+ * lcError_t lcGraphDestroy(lcGraph_t graph);
+ */
+#define cudaGraphCreate	__cuda(GraphCreate)
+#define cudaGraphDestroy	__cuda(GraphDestroy)
+
+/**
  * CUDA 13.0
  * cudaError_t cudaStreamGetCaptureInfo(cudaStream_t stream,
  *                                      enum cudaStreamCaptureStatus *captureStatus_out,

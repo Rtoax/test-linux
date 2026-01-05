@@ -29,6 +29,10 @@
 /__GNUC__-hpcc
 /__GNUC__-luca
 /*.hcfb
+/graph-nv
+/graph-hip
+/graph-hpcc
+/graph-luca
 /hello-nv
 /hello-hip
 /hello-hpcc

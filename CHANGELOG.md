@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- cuda/samples: add graph.cu;
 - gcc: add version.sh;
 - gnu: add gcc subdir;
 - mm: add cim subdir;
