@@ -72,7 +72,7 @@ int gpu_max_threads_per_block(int dev_id)
  * https://www.nvidia.com/en-us/data-center/technologies/hopper-architecture/
  * https://www.nvidia.com/en-us/data-center/ampere-architecture/
  */
-const char *gpu_compute_cap_str(int major, int minor)
+const char *gpu_compute_cap_str_of_nvidia(int major, int minor)
 {
 	switch (major) {
 	case 12:
@@ -180,6 +180,25 @@ const char *gpu_compute_cap_str(int major, int minor)
 		break;
 	}
 	return "[Unknown]";
+}
+
+const char *gpu_compute_cap_str_of_lingspeed(int major, int minor)
+{
+	switch (major) {
+	case 10:
+		return "LS X710";
+		break;
+	}
+	return "Unknown";
+}
+
+const char *gpu_compute_cap_str(int major, int minor)
+{
+#ifdef __USE_LUCA__
+	return gpu_compute_cap_str_of_lingspeed(major, minor);
+#else
+	return gpu_compute_cap_str_of_nvidia(major, minor);
+#endif
 }
 
 int cufft_version(int *_major, int *_minor, int *_patch)

@@ -7,3 +7,4 @@
 - sGPU: Sliced GPU (GPU切片)
 - TTM: Translation Table Maps (翻译表映射)
 - VRAM: Video RAM (视频RAM)
+- WSM: Workgroup Shared Memory (工作组共享内存)

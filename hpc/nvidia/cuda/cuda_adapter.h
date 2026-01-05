@@ -335,6 +335,9 @@
  *
  * HIP
  * hipError_t hipMallocAsync(void** dev_ptr, size_t size, hipStream_t stream);
+ *
+ * LUCA
+ * lcError_t lcMallocAsync(void **devPtr, size_t size, lcStream_t hStream);
  */
 #define cudaMallocAsync(pp, sz, stream)	__cuda(MallocAsync(pp, sz, stream))
 
@@ -541,7 +544,14 @@
  * execution, allowing multiple operations to overlap and improve performance
  * by utilizing GPU resources more efficiently.
  */
+/**
+ * CUDA: typedef __device_builtin__ struct CUstream_st *cudaStream_t;
+ */
 #define CUstream_st	__CU(stream_st)
+/**
+ * CUDA: typedef struct CUstream_st *CUstream;
+ * LUCA: typedef struct LCstream_st *lcStream_t;
+ */
 #define cudaStream_t	__cuda(Stream_t)
 #define cudaStreamCreate(pstream)	__cuda(StreamCreate(pstream))
 #define cudaStreamCreateWithFlags(s, f)	__cuda(StreamCreateWithFlags(s, f))
@@ -571,6 +581,13 @@
  */
 #define cudaStreamIsCapturing(stream, pCaptureStatus)	\
 	__cuda(StreamIsCapturing(stream, pCaptureStatus))
+
+/**
+ * CUDA 13
+ * cudaError_t cudaStreamAddCallback(cudaStream_t stream, cudaStreamCallback_t callback,
+ *                                   void *userData, unsigned int flags);
+ */
+#define cudaStreamAddCallback	__cuda(StreamAddCallback)
 
 /**
  * CUDA V13.0

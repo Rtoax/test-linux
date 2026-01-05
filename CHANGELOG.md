@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- driver: add dri;
 - abbrev: add GVM;
 - qemu: add version.sh;
 - qemu: add support-machine.sh;

@@ -18,14 +18,14 @@ __device__ void dev_foo(void)
 }
 
 /* call by host, run by device */
-__global__ void kern_func(void)
+__global__ void kern_func(char *str)
 {
 #ifdef __HPCC_ARCH__
 	/* Device code */
 #else
 	/* Host code */
 #endif
-	printf("Hello from GPU.\n");
+	printf("Hello from GPU, %s.\n", str);
 	dev_foo();
 
 	__syncthreads();
@@ -38,19 +38,29 @@ __host__ void host_func(void)
 
 int main(void)
 {
+	char *dev_str;
+	char host_str[128] = {"Rong Tao"};
 	cudaStream_t stream;
 
 	gpu_init(0);
 
 	cudaStreamCreate(&stream);
 
-	kern_func<<<1, 1, 0, stream>>>();
+	cudaMallocAsync((void **)&dev_str, sizeof(host_str), stream);
+	cudaMemcpyAsync(dev_str, host_str, sizeof(host_str),
+			cudaMemcpyHostToDevice, stream);
+
+	kern_func<<<1, 1, 0, stream>>>(dev_str);
 	host_func();
+
+	cudaFreeAsync(dev_str, stream);
 
 	cudaStreamSynchronize(stream);
 
+#ifdef __LUCA__
 	/* flush printf */
 	cudaDeviceSynchronize();
+#endif
 
 	cudaStreamDestroy(stream);
 	return 0;
