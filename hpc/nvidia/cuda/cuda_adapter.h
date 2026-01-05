@@ -85,7 +85,7 @@
 # define __NCCL(name)	NCCL##name
 # define __pnccl(name)	pnccl##name
 #else
-# error "Must define __USE_HPCC__, __USE_HIP__, __USE_LUCA__"
+# error "Must define one of __USE_HPCC__, __USE_HIP__, __USE_LUCA__"
 #endif
 
 /* typedef hcError_t	cudaError_t; */
@@ -307,6 +307,10 @@
  * HIP
  * hipError_t hipMemcpyPeer(void* dst, int dstDeviceId, const void* src, int srcDeviceId,
  *                          size_t sizeBytes);
+ *
+ * LUCA:
+ * lcError_t lcMemcpyPeer(void *dst, int dstDevice, const void *src, int srcDevice,
+ *                        size_t sizeBytes);
  */
 #define cudaMemcpyPeer	__cuda(MemcpyPeer)
 
@@ -318,6 +322,10 @@
  * HIP
  * hipError_t hipMemcpyPeerAsync(void* dst, int dstDeviceId, const void* src, int srcDevice,
  *                               size_t sizeBytes, hipStream_t stream __dparm(0));
+ *
+ * LUCA
+ * lcError_t lcMemcpyPeerAsync(void *dst, int dstDevice, const void *src, int srcDevice,
+ *                             size_t sizeBytes, lcStream_t stream);
  */
 #define cudaMemcpyPeerAsync	__cuda(MemcpyPeerAsync)
 
