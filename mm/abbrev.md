@@ -1,4 +1,6 @@
 - CE: Correctable Error () @ECC
+- CIM: Computing-in-Memory (存内计算,存算一体,处理in内存) @CNM
+- CNM: Compute Near Memory (近内存计算) @CIM
 - DAX: Direct-Access (直接访问) @PMEM
 - DDR: Doubld Date Rate SDRAM (双倍速率 SDRAM) @DIMM @SDRAM
 - DMB: Data Memory Barrier (数据内存屏障) @arm @DSB @ISB
