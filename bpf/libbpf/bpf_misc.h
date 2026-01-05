@@ -92,7 +92,8 @@ struct bpf_rb_node {
 
 /**
  * bpftool btf dump generated vmlinux.h will not contains kfuncs if pahole
- * version less than v1.26 and kernel must newer than v6.10.
+ * version less than v1.26, and if you want to contain kfuncs prototypes in
+ * vmlinux.h, kernel must newer than v6.10.
  *
  * linux commit ebb79e96f1ea ("kbuild: bpf: Tell pahole to DECL_TAG kfuncs")
  * v6.10-rc2-724-gebb79e96f1ea [0]

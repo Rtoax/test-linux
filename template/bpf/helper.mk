@@ -8,6 +8,7 @@ _BPF_HELPER_MK = 1
 _BPF_KFUNC_MK = 1
 
 include kernel.mk
+include pahole.mk
 include string.mk
 include bpf/btf.mk
 
@@ -120,9 +121,12 @@ ifeq ($(call vmlinux_has_sym_shell,bpf_copy_from_user_task_str),y)
 endif
 
 ifeq ($(call vmlinux_has_sym_shell,bpf_task_from_pid),y)
-  # FIXME: some day use CFLAGS_PAHOLE replace this macro
-  bpf-helper-cflags += -DBPF_NO_KFUNC_PROTOTYPES=1
   $(call define_helper,bpf_task_from_pid)
+endif
+
+# See BPF_NO_KFUNC_PROTOTYPES in test-linux/bpf/libbpf/bpf_misc.h
+ifeq ($(call pahole_lt,1,26),y)
+  bpf-helper-cflags += -DBPF_NO_KFUNC_PROTOTYPES=1
 endif
 
 # From here, store developing kfuncs checks
