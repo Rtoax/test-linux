@@ -335,6 +335,9 @@
  *
  * HIP
  * hipError_t hipMallocAsync(void** dev_ptr, size_t size, hipStream_t stream);
+ *
+ * LUCA
+ * lcError_t lcMallocAsync(void **devPtr, size_t size, lcStream_t hStream);
  */
 #define cudaMallocAsync(pp, sz, stream)	__cuda(MallocAsync(pp, sz, stream))
 

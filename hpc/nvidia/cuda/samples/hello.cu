@@ -46,7 +46,7 @@ int main(void)
 
 	cudaStreamCreate(&stream);
 
-	cudaMallocAsync(&dev_str, sizeof(host_str), stream);
+	cudaMallocAsync((void **)&dev_str, sizeof(host_str), stream);
 	cudaMemcpyAsync(dev_str, host_str, sizeof(host_str),
 			cudaMemcpyHostToDevice, stream);
 
