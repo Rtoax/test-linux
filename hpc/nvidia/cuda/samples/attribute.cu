@@ -26,6 +26,7 @@ int main(void)
 	Attr(cudaDevAttrHostNumaId);
 #endif
 	Attr(cudaDevAttrWarpSize);
+	Attr(cudaDevAttrMemoryPoolsSupported);
 
 	return 0;
 }
