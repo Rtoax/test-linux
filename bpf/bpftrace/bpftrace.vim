@@ -32,8 +32,10 @@ highlight btstring
 	\ ctermfg=yellow
 	\ guifg=#FFFF00
 
-syntax keyword btkeyword if else for comptime macro while return break continue
+syntax keyword btkeyword for comptime macro while return break continue
 	\ containedin=ALL
+
+syntax keyword btConditional	if else
 
 syntax match btc_def /#.*/
 	\ containedin=ALL
@@ -58,3 +60,6 @@ syntax match btprobe
 syntax match btprobe
 	\ /\v(uprobe|uretprobe|kfunc|kretfunc|tracepoint|usdt|fentry|fexit|probe|interval):.*:.*/
 	\ containedin=ALL
+
+" Define the default highlighting.
+hi def link btConditional	Conditional
