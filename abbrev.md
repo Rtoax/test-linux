@@ -1,5 +1,6 @@
 - ABI: Application Binary Interface (应用程序二进制接口) @API
 - API: Application Programming Interface (应用程序接口) @ABI
+- ASIC: Application-Specific Integrated Circuits (专用集成电路)
 - BE: big-endian (大端字节序) @LE
 - BSD: Berkeley Software Distribution (伯克利软件分发)
 - CLA: Contributor License Agreement () @DCO

@@ -6,7 +6,7 @@
 - CHBS: CXL Host Bridge Structure (CXL 主机桥结构)
 - CMRK: CXL Memory Resource Kit (CXL 内存资源kit)
 - CXIMS: CXL XOR Interleave Math Structure (CXL XOR 交错数学结构)
-- CXL: Compute Express Link (计算快速链接) @MCTP
+- CXL: Compute Express Link (计算快速链接) @MCTP @CIM
 - DPA: CXL Memory Device Physical Address (内存设备物理地址)
 - EDSFF: Enterprise and Data Center Standard Form Factor (企业和数据中心标准外形尺寸)
 - FM: Fabric Manager ()
