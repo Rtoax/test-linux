@@ -79,7 +79,8 @@ void p2p_memory_transfer(void)
 
 int main(void)
 {
-	cudaDeviceDisablePeerAccess(0);
+	CUDA_CHECK_EXIT(cudaDeviceDisablePeerAccess(0));
+
 	p2p_display_info();
 	p2p_memory_transfer();
 
