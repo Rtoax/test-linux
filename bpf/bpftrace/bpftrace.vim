@@ -31,6 +31,7 @@ highlight btstring
 syntax keyword btkeyword comptime macro return break continue
 	\ containedin=ALL
 
+syntax keyword btStatement	break continue
 syntax keyword btConditional	if else
 syntax keyword btRepeat		while for
 syntax keyword btTodo		TODO
@@ -80,5 +81,6 @@ syntax match btprobe
 hi def link btConditional	Conditional
 hi def link btFunction		Function
 hi def link btRepeat		Repeat
+hi def link btStatement		Statement
 hi def link btComment		Comment
 hi def link btTodo		Todo
