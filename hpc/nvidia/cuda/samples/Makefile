@@ -22,6 +22,7 @@ common-objs += event
 common-objs += float
 common-objs += __GNUC__ __STDC__
 common-objs += hello
+common-objs += stream
 common-objs += malloc
 common-objs += mallocHost
 common-objs += mallocManaged

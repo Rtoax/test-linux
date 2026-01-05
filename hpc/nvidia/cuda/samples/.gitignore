@@ -83,6 +83,10 @@
 /properties-hip
 /properties-hpcc
 /properties-luca
+/stream-nv
+/stream-hip
+/stream-hpcc
+/stream-luca
 /__STDC__-nv
 /__STDC__-hip
 /__STDC__-hpcc
