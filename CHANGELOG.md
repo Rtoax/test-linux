@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- pahole: add version.sh;
 - tools: add vim/version.sh;
 - driver: add dri;
 - abbrev: add GVM;

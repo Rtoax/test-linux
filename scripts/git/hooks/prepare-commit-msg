@@ -129,6 +129,10 @@ add_vim_ver() {
 	local ver=$(${TOPDIR}/tools/vim/version.sh)
 	add_ver "Vim ${ver}"
 }
+add_pahole_ver() {
+	local ver=$(${TOPDIR}/pahole/version.sh)
+	add_ver "Pahole ${ver}"
+}
 add_pciutils_ver() {
 	local ver=$(${TOPDIR}/driver/pcie/pciutils/version.sh)
 	add_ver "PCIUtils ${ver}"
@@ -259,6 +263,10 @@ fi
 
 if [[ "$(files_have_type vim)$(files_have_key vim)" ]]; then
 	add_vim_ver
+fi
+
+if [[ "$(files_have_key pahole)" ]]; then
+	add_pahole_ver
 fi
 
 if [[ "$(files_have_key pci pcie)" ]]; then
