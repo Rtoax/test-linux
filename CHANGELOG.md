@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- gcc: add version.sh;
 - gnu: add gcc subdir;
 - mm: add cim subdir;
 - pahole: add version.sh;

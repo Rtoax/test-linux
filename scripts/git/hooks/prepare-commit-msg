@@ -17,7 +17,6 @@ readonly TOPDIR=$(realpath ${MY_DIRECTORY}/../../../)
 readonly first_nonempyline=$(sed -n '/[^[:space:]]/ { =; q }' ${COMMIT_MSG_FILE})
 readonly first_commentline=$(sed -n '/^#/ { =; q }' ${COMMIT_MSG_FILE})
 readonly signed_off_by_line=$(awk '/^Signed-off-by:/{print NR; exit}' ${COMMIT_MSG_FILE})
-readonly GCC=$(which gcc 2>/dev/null || :)
 readonly LLVM_CONFIG=$(which llvm-config 2>/dev/null || :)
 
 # Changed file list (new, deleted, added, modified)
@@ -83,10 +82,7 @@ add_os_ver() {
 	add_ver "${os_env}"
 }
 add_gcc_ver() {
-	if [[ ${GCC} ]]; then
-		local gcc_ver=$(${GCC} -dumpfullversion -dumpversion)
-		add_ver "GCC ${gcc_ver}"
-	fi
+	add_ver "GCC $(${TOPDIR}/gnu/gcc/version.sh)"
 }
 add_llvm_ver() {
 	if [[ ${LLVM_CONFIG} ]]; then
