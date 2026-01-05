@@ -158,6 +158,12 @@ add_env() {
 	[[ -z ${CHANGED_FILES_FILTEROUT} ]] && return 0
 
 	[[ -z "${@}" ]] && return 0
+
+	# Already exist
+	if [[ "${Environments}" =~ "${@}" ]]; then
+		return 0
+	fi
+
 	[[ ${Environments} ]] && Environments+=", "
 	Environments+="$@"
 }
@@ -231,7 +237,9 @@ fi
 add_os_ver
 add_ver "Linux $(uname -r)"
 
-[[ "$(files_have_type c cpp c++ h hpp)" ]] && add_gcc_ver
+if [[ "$(files_have_type c cpp c++ h hpp)" ]]; then
+	add_gcc_ver
+fi
 
 if [[ "$(files_have_type c cpp c++ h hpp)$(files_have_key glibc)" ]]; then
 	add_glibc_ver
