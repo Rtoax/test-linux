@@ -14,6 +14,7 @@
 #include <bpf/bpf_core_read.h>
 #include "string_helpers.bpf.h"
 #include "stack_helpers.bpf.h"
+#include "bpf_misc.h"
 
 #ifndef EINVAL
 #define EINVAL 22
