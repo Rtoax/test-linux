@@ -14,7 +14,9 @@ include gnu.mk
 include bpf/logo.mk
 
 subdir-y := git
+
 target-prep-y := test_call
+
 target-shell-y := moonlight.sh
 target-shell-y += gotoxy.sh
 target-shell-y += termplot_examples.sh
