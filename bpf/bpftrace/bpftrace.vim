@@ -76,10 +76,13 @@ syntax match btprobe
 	\ /\v(uprobe|uretprobe|kfunc|kretfunc|tracepoint|usdt|fentry|fexit|probe|interval):.*:.*/
 	\ containedin=ALL
 
+syntax match btShebang /\%^#![^[].*/
+
 " Define the default highlighting.
 hi def link btConditional	Conditional
 hi def link btFunction		Function
 hi def link btRepeat		Repeat
 hi def link btStatement		Statement
+hi def link btShebang		Comment
 hi def link btComment		Comment
 hi def link btTodo		Todo
