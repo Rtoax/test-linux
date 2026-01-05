@@ -1,5 +1,11 @@
 # SPDX-License-Identifier: GPL-3.0
 # Copyright (C) 2025-2026 Rong Tao
+#
+# Input definitions:
+# - ANSI_NONE
+#
+# Exports:
+#
 _ANSI_MK = 1
 
 # Black
@@ -33,6 +39,34 @@ GB := ${ANSI_GRE}${ANSI_BOLD}
 RGB := ${ANSI_RST}${ANSI_GRE}${ANSI_BOLD}
 RG := ${ANSI_RST}${ANSI_GRE}${ANSI_GRAY}
 RST := ${ANSI_RST}
+
+ifdef ANSI_NONE
+  ANSI_BLK :=
+  ANSI_RED :=
+  TPUT_RED :=
+  ANSI_GRE :=
+  TPUT_GRE :=
+  ANSI_YEL :=
+  TPUT_YEL :=
+  ANSI_BLU :=
+  TPUT_BLU :=
+  ANSI_PUR :=
+  ANSI_CYAN :=
+  ANSI_DARK_WHITE :=
+  ANSI_BRIGHT_BLACK :=
+  ANSI_BRIGHT_RED :=
+  ANSI_BOLD :=
+  ANSI_GRAY :=
+  ANSI_ITAL :=
+  ANSI_UNDL :=
+  ANSI_REVE :=
+  ANSI_RST :=
+  TPUT_RST :=
+  GB :=
+  RGB :=
+  RG :=
+  RST :=
+endif
 
 define green
 ${ANSI_GRE}${1}${ANSI_RST}
