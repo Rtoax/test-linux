@@ -10,6 +10,10 @@
 #include <linux/sched.h>
 #endif
 
+struct {
+	int a;
+};
+
 BEGIN
 {
 	printf("Tracing xxx, hit ctrl-c to end.\n");

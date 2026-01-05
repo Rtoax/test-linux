@@ -53,6 +53,8 @@ syntax keyword btFunction	tid time uaddr uid unwatch uptr usermode username usta
 syntax keyword btFunction	warnf zero avg count
 syntax keyword btFunction	hist lhist max min stats sum tseries
 
+syntax keyword btType	bool int8 int16 int32 int64 uint8 uint16 uint32 uint64 string union struct
+
 syntax match btc_def /#.*/
 	\ containedin=ALL
 
@@ -86,3 +88,4 @@ hi def link btStatement		Statement
 hi def link btShebang		Comment
 hi def link btComment		Comment
 hi def link btTodo		Todo
+hi def link btType		Type
