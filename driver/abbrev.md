@@ -1,4 +1,5 @@
-- DRM: Direct Rendering Manager (直接渲染管理器) @GPU
+- DRI: Direct Rendering Infrastructure (直接渲染基础设施) @GPU @DRM
+- DRM: Direct Rendering Manager (直接渲染管理器) @GPU @DRI
 - MMIO: Memory Mapping I/O (内存映射I/O) @PIO
 - PCBA: PCBA (PCB 空板经过 SMT 贴片加工或 DIP 插件的成品电路板)
 - SMBus: System Management Bus (系统管理总线)
