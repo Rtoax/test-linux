@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: GPL-3.0
+/* Copyright (C) 2024-2026 Rong Tao */
 /**
  * elf sections of metax: commit 047883bd3538 ("metax: hello.hpcc: ELF section info")
  * elf sections of cuda:  commit bd1c08a6a95f ("cuda: hello.c: see elf sections")
