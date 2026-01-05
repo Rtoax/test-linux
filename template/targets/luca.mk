@@ -15,9 +15,11 @@
 # - target-lscc-liba-y
 #
 # Input definitions:
-# - LUCA_ROOT=
-# - NODEFAULTRPATH
-
+# - LUCA_ROOT=[/opt/luca/]
+# - NODEFAULTRPATH=1
+# - LSCORE1000=1
+# - LSCORE1002=1
+#
 _TARGET_LUCA_LUCA = 1
 
 include gpu/luca.mk
@@ -94,6 +96,11 @@ endif
 ifdef NODEFAULTRPATH
   # Remove default so search directory, see ldflags: -Wl,-rpath,/path/to/so/
   LDFLAGS_LSCC += -nodefaultrpath
+endif
+ifdef LSCORE1000
+  CFLAGS_LSCC += --offload-arch lscore1000
+else ifdef LSCORE1002
+  CFLAGS_LSCC += --offload-arch lscore1002
 endif
 
 ifdef ERROR
