@@ -541,7 +541,14 @@
  * execution, allowing multiple operations to overlap and improve performance
  * by utilizing GPU resources more efficiently.
  */
+/**
+ * CUDA: typedef __device_builtin__ struct CUstream_st *cudaStream_t;
+ */
 #define CUstream_st	__CU(stream_st)
+/**
+ * CUDA: typedef struct CUstream_st *CUstream;
+ * LUCA: typedef struct LCstream_st *lcStream_t;
+ */
 #define cudaStream_t	__cuda(Stream_t)
 #define cudaStreamCreate(pstream)	__cuda(StreamCreate(pstream))
 #define cudaStreamCreateWithFlags(s, f)	__cuda(StreamCreateWithFlags(s, f))
