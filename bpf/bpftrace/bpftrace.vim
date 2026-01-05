@@ -1,5 +1,13 @@
 " Vim syntax file
 " Language:	bpftrace
+" Maintainer:	Rong Tao <rongtao@cestc.cn>
+" Last Chnage:	2026 Jan 5
+
+" Quit when a syntax file was already loaded
+if exists("b:current_syntax")
+	finish
+endif
+
 autocmd BufRead,BufNewFile *.bt setfiletype bpftrace
 syntax clear
 syntax sync minlines=1000
