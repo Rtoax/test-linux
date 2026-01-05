@@ -245,7 +245,7 @@ fi
 add_os_ver
 add_ver "Linux $(uname -r)"
 
-if [[ "$(files_have_type c cpp c++ h hpp)" ]]; then
+if [[ "$(files_have_type c cpp c++ h hpp)$(files_have_key gcc)" ]]; then
 	add_gcc_ver
 fi
 
