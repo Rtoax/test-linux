@@ -24,10 +24,6 @@ highlight btc_def
 	\ ctermfg=red cterm=bold
 	\ guifg=#00FF00 gui=italic
 
-highlight btcomment
-	\ ctermfg=gray cterm=italic
-	\ guifg=#00FF00 gui=italic
-
 highlight btstring
 	\ ctermfg=yellow
 	\ guifg=#FFFF00
@@ -37,18 +33,19 @@ syntax keyword btkeyword comptime macro return break continue
 
 syntax keyword btConditional	if else
 syntax keyword btRepeat		while for
+syntax keyword btTodo		TODO
 
 syntax match btc_def /#.*/
 	\ containedin=ALL
 
-syntax match btcomment /\/\/.*/
-	\ containedin=ALL
+syntax match btComment /\/\/.*/
+	\ contains=@Spell,awkTodo
 
-syntax region btcomment
+syntax region btComment
 	\ start=/\/\*/
 	\ end=/\*\//
-	\ containedin=ALL
 	\ fold
+	\ contains=@Spell,awkTodo
 
 syntax match btprobe
 	\ /\v(kprobe|kretprobe|k):.*/
@@ -65,3 +62,5 @@ syntax match btprobe
 " Define the default highlighting.
 hi def link btConditional	Conditional
 hi def link btRepeat		Repeat
+hi def link btComment		Comment
+hi def link btTodo		Todo
