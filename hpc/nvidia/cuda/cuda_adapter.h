@@ -583,6 +583,13 @@
 	__cuda(StreamIsCapturing(stream, pCaptureStatus))
 
 /**
+ * CUDA 13
+ * cudaError_t cudaStreamAddCallback(cudaStream_t stream, cudaStreamCallback_t callback,
+ *                                   void *userData, unsigned int flags);
+ */
+#define cudaStreamAddCallback	__cuda(StreamAddCallback)
+
+/**
  * CUDA V13.0
  * cudaError_t cudaStreamWaitEvent(cudaStream_t stream, cudaEvent_t event, unsigned int flags);
  *
