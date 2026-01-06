@@ -676,8 +676,9 @@ pkgs_virt+=( virt-manager )
 pkgs_bench+=( iperf )
 pkgs_bench+=( fio )
 
-pkgs_media+=( vlc )
+pkgs_media+=( inkscape ) # vector graphics editor
 pkgs_media+=( translate-shell )
+pkgs_media+=( vlc )
 # https://motrix.app/download
 # https://code.visualstudio.com/docs/setup/linux
 # https://www.drawio.com/, https://github.com/jgraph/drawio-desktop/releases/
