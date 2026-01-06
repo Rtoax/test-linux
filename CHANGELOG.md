@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- add .clang-format from https://raw.githubusercontent.com/torvalds/linux/master/.clang-format
 - tools: add code-formatter from ostools;
 - template: add gcc.mk;
 - cuda/samples: add graph.cu;
