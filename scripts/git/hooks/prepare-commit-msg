@@ -1,7 +1,7 @@
 #!/bin/bash
 # Copyright (C) 2025-2026 Rong Tao
 #
-# Env: [FORCE=1] git commit ...
+# Env: [FORCE2=1] git commit ...
 #
 
 readonly COMMIT_MSG_FILE=$1
@@ -42,8 +42,8 @@ Versions=""
 Environments=""
 
 fatal() {
-	echo >&2 "FATAL: "${@}", use FORCE=1 environment"
-	[[ -z ${FORCE} ]] && exit 1
+	echo >&2 "FATAL: "${@}", use FORCE2=1 environment"
+	[[ -z ${FORCE2} ]] && exit 1
 }
 
 warning() {
@@ -56,7 +56,7 @@ add_ver() {
 
 	if [[ -z "$(echo ${@} | grep -oE '[0-9]')" ]]; then
 		fatal "Can't found version in '${@}'"
-		# Return directly if FORCE
+		# Return directly if FORCE2
 		return 0
 	fi
 
