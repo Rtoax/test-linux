@@ -4,4 +4,6 @@ subdir-y += shm
 subdir-y += pipe
 subdir-y += dbus
 
+target-shell-y := info.sh
+
 include main.mk
