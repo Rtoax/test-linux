@@ -11,6 +11,10 @@ static int a = 1;
 /* Space indent will be removed */
 static int b;
 
+struct test_st
+{
+};
+
 void func(void)
 {
 	return;
@@ -22,9 +26,6 @@ int main(void)
 	printf("Hello.\n");
 	/*  */
 	func();
-	func2();
-	func3();
-	func4();
 
 	if (a > 1)
 		return a;
