@@ -9,14 +9,28 @@
  * https://github.com/NVIDIA/cuda-samples.git
  * Samples/3_CUDA_Features/graphMemoryNodes/graphMemoryNodes.cu
  */
-void graph_memory(void)
+void graph_memory(int device)
 {
 	cudaGraph_t graph;
 	cudaGraphNode_t node;
 	cudaGraphExec_t exec;
+	cudaMemAllocNodeParams allocParams;
+	cudaKernelNodeParams kernelNodeParams = {0};
+
+	allocParams.bytesize = 1024;
+	allocParams.poolProps.allocType = cudaMemAllocationTypePinned;
+	allocParams.poolProps.location.id = device;
+	allocParams.poolProps.location.type = cudaMemLocationTypeDevice;
+
+	kernelNodeParams.gridDim = dim3(512, 1, 1);
+	kernelNodeParams.blockDim = dim3(512, 1, 1);
+	kernelNodeParams.sharedMemBytes = 0;
+	kernelNodeParams.extra = NULL;
 
 	cudaGraphCreate(&graph, 0);
-
+#if 0
+	cudaGraphAddMemAllocNode(&allocNodeInput, graph, NULL, 0, &allocParams)
+#endif
 	//cudaGraphAddMemcpyNode1D();
 
 	cudaGraphDestroy(graph);
@@ -43,6 +57,8 @@ int main(void)
 		printf("Waiving execution as device does not support Memory Pools\n");
 		exit(1);
 	}
+
+	graph_memory(device);
 
 	return 0;
 }

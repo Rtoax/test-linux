@@ -667,6 +667,12 @@
 #define cudaGraphExec_t		__cuda(GraphExec_t)
 #define cudaGraphEdgeData	__cuda(GraphEdgeData)
 
+#define cudaMemAllocNodeParams	__cuda(MemAllocNodeParams)
+#define cudaMemAllocationTypeInvalid	__cuda(MemAllocationTypeInvalid) /* 0 */
+#define cudaMemAllocationTypePinned	__cuda(MemAllocationTypePinned) /* 1 */
+#define cudaMemAllocationTypeManaged	__cuda(MemAllocationTypeManaged) /* 2 */
+#define cudaMemAllocationTypeMax	__cuda(MemAllocationTypeMax) /* 0x7FFFFFFF */
+
 /**
  * CUDA 13
  * cudaError_t cudaGraphCreate(cudaGraph_t *pGraph, unsigned int flags);
