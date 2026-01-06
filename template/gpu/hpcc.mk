@@ -7,16 +7,16 @@
 # Output definitions:
 # - HAVE_HPCC=y
 # - HAVE_HCDNN=y
-# - HPCC_ROOT
-# - HTCC
-# - HPCC_VERSION_MAJOR
-# - HPCC_VERSION_MINOR
-# - HPCC_VERSION_PATCH
+# - HPCC_ROOT=/opt/hpcc/
+# - HTCC=
+# - HPCC_VERSION_MAJOR=
+# - HPCC_VERSION_MINOR=
+# - HPCC_VERSION_PATCH=
 #
 # Modify definitions:
-# - target-htcc-y
-# - target-htcc-liba-y
-# - target-htcc-libso-y
+# - target-htcc-y=
+# - target-htcc-liba-y=
+# - target-htcc-libso-y=
 
 _GPU_HPCC_MK = 1
 
