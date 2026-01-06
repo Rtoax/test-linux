@@ -128,10 +128,10 @@ The copyright line must be `Copyright (C) 2021-2026 Rong Tao`, where `Rong Tao` 
 
 ## Relative Projects
 
-- [linux-test-project](https://github.com/linux-test-project/ltp)
+- [linux-test-project/ltp](https://github.com/linux-test-project/ltp)
 - [unpbook/unpv13e](https://github.com/unpbook/unpv13e)
-- [GitHub test-linux](https://github.com/Rtoax/test-linux)
-- [Gitee test-linux](https://gitee.com/rtoax/test-linux)
+- [GitHub mirror of test-linux](https://github.com/Rtoax/test-linux)
+- [Gitee mirror of test-linux](https://gitee.com/rtoax/test-linux)
 
 ## Tools
 
