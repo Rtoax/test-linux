@@ -1,18 +1,25 @@
 # SPDX-License-Identifier: GPL-3.0
 # Copyright (C) 2024-2026 Rong Tao
 #
+# Input definitions:
+# - CROSS_COMPILE=
+# - CC=gcc
+# - CXX=c++
+#
 # Output definitions:
-# - cflags-support-types-y
-# - cflags-support-headers-y
-# - ldflags-support-headers-y
+# - CC_FULLVERSION=
+# - CC_VERSION=
+# - CC_MAJOR=
+# - CC_MINOR=
+# - CC_PATCHLEVEL=
+# - cflags-support-types-y=
+# - cflags-support-headers-y=
+# - ldflags-support-headers-y=
 #
 _COMPILER_MK = 1
 
 include shell.mk
 include bits/compiler-feature.mk
-
-CC ?= gcc
-CXX ?= c++
 
 ifndef CROSS_COMPILE
   MARCH_NATIVE := -march=native
@@ -46,10 +53,16 @@ CC_FULLVERSION := $(shell $(CC) -dumpfullversion -dumpversion)
 CC_VERSION := $(shell $(CC) -dumpversion)
 CC_MAJOR := $(shell echo ${CC_FULLVERSION} | awk -F '.' '{print $$1}')
 CC_MINOR := $(shell echo ${CC_FULLVERSION} | awk -F '.' '{print $$2}')
+CC_PATCHLEVEL := $(shell echo ${CC_FULLVERSION} | awk -F '.' '{print $$3}')
 
 ifdef DEBUG
-  $(info CC: $(CC) ${CC_MAJOR}.${CC_MINOR} ${CC_FULLVERSION} ${CC_VERSION})
+  $(info CC: $(CC) ${CC_MAJOR}.${CC_MINOR}.${CC_PATCHLEVEL} ${CC_FULLVERSION} ${CC_VERSION})
   $(info cflags-support-types-y: ${cflags-support-types-y})
   $(info cflags-support-headers-y: ${cflags-support-headers-y})
   $(info ldflags-support-headers-y: ${ldflags-support-headers-y})
 endif
+
+export CC_FULLVERSION CC_VERSION CC_MAJOR CC_MINOR CC_PATCHLEVEL
+export cflags-support-types-y
+export cflags-support-headers-y
+export ldflags-support-headers-y

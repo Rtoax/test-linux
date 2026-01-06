@@ -241,7 +241,7 @@ fi
 add_os_ver
 add_ver "Linux $(uname -r)"
 
-if [[ "$(files_have_type c cpp c++ h hpp)$(files_have_key gcc)" ]]; then
+if [[ "$(files_have_type c cpp c++ h hpp)$(files_have_key gcc compiler)" ]]; then
 	add_gcc_ver
 fi
 
@@ -255,6 +255,10 @@ fi
 
 if [[ "$(files_have_key qcow qcow2 qcow3 qemu)" ]]; then
 	add_qemu_ver
+fi
+
+if [[ "$(files_have_type mk make)$(files_have_key make Makefile)" ]]; then
+	add_make_ver
 fi
 
 if [[ "$(files_have_type vim)$(files_have_key vim)" ]]; then
