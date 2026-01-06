@@ -2,7 +2,7 @@
 _LLVM_MK = 1
 
 CLANG := $(shell which clang 2>/dev/null)
-CLANG_CXX := $(shell which clang++ 2>/dev/null)
+CLANGXX := $(shell which clang++ 2>/dev/null)
 
 LLVM_CONFIG := $(shell which llvm-config 2>/dev/null)
 LLVM_AS := $(shell which llvm-as 2>/dev/null)
@@ -20,7 +20,7 @@ endef
 
 ifdef DEBUG
   $(info CLANG = ${CLANG})
-  $(info CLANG_CXX = ${CLANG_CXX})
+  $(info CLANGXX = ${CLANGXX})
   $(info LLVM_CONFIG = ${LLVM_CONFIG})
   $(info LLVM_AS = ${LLVM_AS})
   $(info LLVM_DIS = ${LLVM_DIS})
