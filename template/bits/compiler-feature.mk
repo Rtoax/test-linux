@@ -1,5 +1,10 @@
 # SPDX-License-Identifier: GPL-3.0
 # Copyright (C) 2025-2026 Rong Tao
+#
+# Input definitions:
+# - CC=gcc
+# - CXX=c++
+#
 _BITS_COMPILER_FEATURE_MK = 1
 
 # Check compiler support option or not
