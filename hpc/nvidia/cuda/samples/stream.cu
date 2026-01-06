@@ -19,7 +19,11 @@ int main(void)
 
 	gpu_init(0);
 
-	cudaStreamCreate(&stream);
+	/**
+	 * cudaStreamCreate(&stream);
+	 * cudaStreamCreateWithFlags(&stream, cudaStreamDefault=0);
+	 */
+	cudaStreamCreateWithFlags(&stream, cudaStreamNonBlocking);
 
 	cudaStreamGetPriority(stream, &prio);
 	printf("Prio %d\n", prio);
