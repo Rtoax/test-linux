@@ -554,6 +554,7 @@ pkgs_base+=( autoconf-archive )
 pkgs_base+=( bash-completion )
 pkgs_base+=( bat )                  # highlight cat(1)
 pkgs_base+=( bc )
+pkgs_base+=( black  )
 pkgs_base+=( blktrace )
 if ! [[ $(is_os ubuntu) ]]; then
 	pkgs_base+=( bpftool )
@@ -599,6 +600,7 @@ pkgs_base+=( powertop ) # power consumption and power management diagnosis tool
 pkgs_base+=( python3-pip )          # pip wheel
 pkgs_base+=( python3-psutil )
 pkgs_base+=( python3-pyroute2 )     # pyroute2
+pkgs_base+=( python3-yapf )
 pkgs_base+=( smem )
 pkgs_base+=( socat )
 pkgs_base+=( sparse )               # sparse
