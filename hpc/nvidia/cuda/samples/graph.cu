@@ -12,7 +12,7 @@
 void graph_memory(int device)
 {
 	cudaGraph_t graph;
-	cudaGraphNode_t node;
+	cudaGraphNode_t allocNodeInput;
 	cudaGraphExec_t exec;
 	cudaMemAllocNodeParams allocParams;
 	cudaKernelNodeParams kernelNodeParams = {0};
@@ -28,9 +28,8 @@ void graph_memory(int device)
 	kernelNodeParams.extra = NULL;
 
 	cudaGraphCreate(&graph, 0);
-#if 0
-	cudaGraphAddMemAllocNode(&allocNodeInput, graph, NULL, 0, &allocParams)
-#endif
+	cudaGraphAddMemAllocNode(&allocNodeInput, graph, NULL, 0, &allocParams);
+
 	//cudaGraphAddMemcpyNode1D();
 
 	cudaGraphDestroy(graph);
