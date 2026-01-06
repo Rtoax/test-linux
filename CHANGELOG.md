@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- template: add gcc.mk;
 - cuda/samples: add graph.cu;
 - gcc: add version.sh;
 - gnu: add gcc subdir;
