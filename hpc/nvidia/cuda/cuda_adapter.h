@@ -652,6 +652,7 @@
 
 #define cudaGraph_t		__cuda(Graph_t)
 #define cudaGraphNode_t		__cuda(GraphNode_t)
+#define cudaGraphExec_t		__cuda(GraphExec_t)
 #define cudaGraphEdgeData	__cuda(GraphEdgeData)
 
 /**
@@ -664,6 +665,21 @@
  */
 #define cudaGraphCreate	__cuda(GraphCreate)
 #define cudaGraphDestroy	__cuda(GraphDestroy)
+
+/**
+ * CUDA:
+ * #if __CUDART_API_VERSION >= 11010
+ * cudaError_t cudaGraphAddMemcpyNode1D(cudaGraphNode_t *pGraphNode, cudaGraph_t graph,
+ *                                      const cudaGraphNode_t *pDependencies, size_t numDependencies,
+ *                                      void* dst, const void* src, size_t count, enum cudaMemcpyKind kind);
+ * #endif
+ *
+ * LUCA
+ * lcError_t lcGraphAddMemcpyNode1D(lcGraphNode_t *pGraphNode, lcGraph_t graph,
+ *                                  const lcGraphNode_t *pDependencies, size_t numDependencies,
+ *                                  void *dst, const void *src, size_t count, lcMemcpyKind kind);
+ */
+#define cudaGraphAddMemcpyNode1D	__cuda(GraphAddMemcpyNode1D)
 
 /**
  * CUDA 13.0

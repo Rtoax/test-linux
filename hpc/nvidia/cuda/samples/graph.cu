@@ -8,7 +8,12 @@
 int main(void)
 {
 	cudaGraph_t graph;
+	cudaGraphNode_t node;
+	cudaGraphExec_t exec;
+
 	cudaGraphCreate(&graph, 0);
+
+	//cudaGraphAddMemcpyNode1D();
 
 	cudaGraphDestroy(graph);
 	return 0;
