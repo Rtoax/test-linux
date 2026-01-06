@@ -33,6 +33,7 @@ common-objs += module
 common-objs += p2p
 common-objs += parallel
 common-objs += properties
+common-objs += version
 
 # NVIDIA CUDA
 target-nvcc-${HAVE_CUDA} := $(patsubst %,%-nv,$(common-objs))

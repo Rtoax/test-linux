@@ -127,6 +127,12 @@
 #define cudaDeviceGetLimit(limit, value)	__cuda(DeviceGetLimit(limit, value))
 
 /**
+ * CUDA
+ * cudaError_t cudaDriverGetVersion(int *driverVersion);
+ */
+#define cudaDriverGetVersion	__cuda(DriverGetVersion)
+
+/**
  * https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__MEMORY.html
  */
 #define cudaMalloc(pp, sz)	__cuda(Malloc(pp, sz))
