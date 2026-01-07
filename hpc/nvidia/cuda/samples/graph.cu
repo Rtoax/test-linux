@@ -17,7 +17,7 @@ __global__ void squareArray(const float *input, float *output, int numElements)
  * https://github.com/NVIDIA/cuda-samples.git
  * Samples/3_CUDA_Features/graphMemoryNodes/graphMemoryNodes.cu
  */
-void graph_memory(int device)
+void graph_memory_square(int device)
 {
 	float *d_input, *d_square;
 	float *input, *square;
@@ -44,16 +44,18 @@ void graph_memory(int device)
 	allocParams.poolProps.location.id = device;
 	allocParams.poolProps.location.type = cudaMemLocationTypeDevice;
 
-	cudaGraphCreate(&graph, 0);
-	cudaGraphAddMemAllocNode(&allocNodeInput, graph, NULL, 0, &allocParams);
+	CUDA_CHECK_EXIT(cudaGraphCreate(&graph, 0));
+	CUDA_CHECK_EXIT(cudaGraphAddMemAllocNode(&allocNodeInput, graph, NULL,
+						 0, &allocParams));
 	d_input = (float *)allocParams.dptr;
 
-	cudaGraphAddMemAllocNode(&allocNodeSquare, graph, &allocNodeInput, 1,
-				 &allocParams);
+	CUDA_CHECK_EXIT(cudaGraphAddMemAllocNode(
+		&allocNodeSquare, graph, &allocNodeInput, 1, &allocParams));
 	d_square = (float *)allocParams.dptr;
 
-	cudaGraphAddMemcpyNode1D(&copyNodeInput, graph, &allocNodeSquare, 1,
-				 d_input, input, bytes, cudaMemcpyHostToDevice);
+	CUDA_CHECK_EXIT(cudaGraphAddMemcpyNode1D(
+		&copyNodeInput, graph, &allocNodeSquare, 1, d_input, input,
+		bytes, cudaMemcpyHostToDevice));
 
 	void *squareKernelArgs[3] = { (void *)&d_input, (void *)&d_square,
 				      (void *)&numElements };
@@ -64,26 +66,28 @@ void graph_memory(int device)
 	kernelNodeParams.func = (void *)squareArray;
 	kernelNodeParams.kernelParams = (void **)squareKernelArgs;
 
-	cudaGraphAddKernelNode(&squareKernelNode, graph, &copyNodeInput, 1,
-			       &kernelNodeParams);
+	CUDA_CHECK_EXIT(cudaGraphAddKernelNode(&squareKernelNode, graph,
+					       &copyNodeInput, 1,
+					       &kernelNodeParams));
 
-	cudaGraphAddMemcpyNode1D(&copyNodeSquare, graph, &squareKernelNode, 1,
-				 square, d_square, bytes,
-				 cudaMemcpyDeviceToHost);
+	CUDA_CHECK_EXIT(cudaGraphAddMemcpyNode1D(
+		&copyNodeSquare, graph, &squareKernelNode, 1, square, d_square,
+		bytes, cudaMemcpyDeviceToHost));
 
-	cudaGraphAddMemFreeNode(&freeNodeInput, graph, &squareKernelNode, 1,
-				d_input);
-	cudaGraphAddMemFreeNode(&freeNodeSquare, graph, &squareKernelNode, 1,
-				d_square);
+	CUDA_CHECK_EXIT(cudaGraphAddMemFreeNode(&freeNodeInput, graph,
+						&squareKernelNode, 1, d_input));
+	CUDA_CHECK_EXIT(cudaGraphAddMemFreeNode(
+		&freeNodeSquare, graph, &squareKernelNode, 1, d_square));
 
-	cudaGraphInstantiate(&graphExec, graph, NULL, NULL, 0);
-	cudaGraphDestroy(graph);
+	CUDA_CHECK_EXIT(cudaGraphInstantiate(&graphExec, graph, NULL, NULL, 0));
+	CUDA_CHECK_EXIT(cudaGraphDestroy(graph));
 
-	cudaStreamCreateWithFlags(&stream, cudaStreamNonBlocking);
-	cudaGraphLaunch(graphExec, stream);
-	cudaStreamSynchronize(stream);
-	cudaStreamDestroy(stream);
-	cudaGraphExecDestroy(graphExec);
+	CUDA_CHECK_EXIT(
+		cudaStreamCreateWithFlags(&stream, cudaStreamNonBlocking));
+	CUDA_CHECK_EXIT(cudaGraphLaunch(graphExec, stream));
+	CUDA_CHECK_EXIT(cudaStreamSynchronize(stream));
+	CUDA_CHECK_EXIT(cudaStreamDestroy(stream));
+	CUDA_CHECK_EXIT(cudaGraphExecDestroy(graphExec));
 
 	for (size_t i = 0; i < numElements; i++)
 		printf("input[%ld] ^ 2 = square[%ld] = %f ^ 2 = %f\n", i, i,
@@ -114,7 +118,7 @@ int main(void)
 		exit(1);
 	}
 
-	graph_memory(device);
+	graph_memory_square(device);
 
 	return 0;
 }
