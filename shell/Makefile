@@ -13,6 +13,7 @@ target-shell-y += call.sh
 target-shell-y += digit.sh
 target-shell-y += nested-func.sh
 target-shell-y += num.sh
+target-shell-y += function.sh
 target-shell-y += open-fd.sh
 target-shell-y += parallel.sh
 target-shell-y += replace.sh

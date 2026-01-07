@@ -96,77 +96,26 @@ add_os_ver() {
 	fi
 	add_ver "${os_env}"
 }
-add_gcc_ver() {
-	add_ver "GCC $(${TOPDIR}/gnu/gcc/version.sh)"
-}
-add_llvm_ver() {
-	local ver=$(${TOPDIR}/compiler/llvm/version.sh)
-	add_ver "LLVM ${ver}"
-}
-add_cuda_ver() {
-	local ver=$(${TOPDIR}/hpc/nvidia/cuda/version.sh)
-	add_ver "CUDA ${ver}"
-}
-add_rocm_ver() {
-	add_ver_weak "ROCm $(${TOPDIR}/hpc/amd/rocm/version.sh)"
-}
-add_luca_ver() {
-	add_ver_weak "LUCA $(${TOPDIR}/hpc/cestc/luca/version.sh)"
-}
-add_hpcc_ver() {
-	add_ver_weak "HPCC $(${TOPDIR}/hpc/metax/hpcc/version.sh)"
-}
-add_glibc_ver() {
-	add_ver "$(getconf GNU_LIBC_VERSION 2>/dev/null || :)"
-}
-add_shell_ver() {
-	local ver=$(${TOPDIR}/shell/version.sh)
-	add_ver "BASH ${ver}"
-}
-add_qemu_ver() {
-	local ver=$(${TOPDIR}/qemu/version.sh)
-	add_ver "QEMU ${ver}"
-}
-add_make_ver() {
-	local ver=$(${TOPDIR}/gnu/make/version.sh)
-	add_ver "MAKE ${ver}"
-}
-add_vim_ver() {
-	local ver=$(${TOPDIR}/tools/vim/version.sh)
-	add_ver "Vim ${ver}"
-}
-add_pahole_ver() {
-	local ver=$(${TOPDIR}/pahole/version.sh)
-	add_ver "Pahole ${ver}"
-}
-add_pciutils_ver() {
-	local ver=$(${TOPDIR}/driver/pcie/pciutils/version.sh)
-	add_ver "PCIUtils ${ver}"
-}
-add_git_ver() {
-	local ver=$(${TOPDIR}/scripts/git/version.sh)
-	add_ver "GIT ${ver}"
-}
-add_numactl_ver() {
-	local ver=$(${TOPDIR}/numa/numactl/version.sh)
-	add_ver "NUMACTL ${ver}"
-}
-add_bpftrace_ver() {
-	local ver=$(${TOPDIR}/bpf/bpftrace/version.sh)
-	add_ver "BPFTrace ${ver}"
-}
-add_bcc_ver() {
-	local ver=$(${TOPDIR}/bpf/bcc/version.sh)
-	add_ver "BCC ${ver}"
-}
-add_libbpf_ver() {
-	local ver=$(${TOPDIR}/bpf/libbpf/version.sh)
-	add_ver "LIBBPF ${ver}"
-}
-add_py_ver() {
-	local ver=$(${TOPDIR}/python/version.sh)
-	add_ver "Python ${ver}"
-}
+
+add_gcc_ver() { add_ver "GCC $(${TOPDIR}/gnu/gcc/version.sh)"; }
+add_llvm_ver() { add_ver "LLVM $(${TOPDIR}/compiler/llvm/version.sh)"; }
+add_cuda_ver() { add_ver "CUDA $(${TOPDIR}/hpc/nvidia/cuda/version.sh)"; }
+add_rocm_ver() { add_ver_weak "ROCm $(${TOPDIR}/hpc/amd/rocm/version.sh)"; }
+add_luca_ver() { add_ver_weak "LUCA $(${TOPDIR}/hpc/cestc/luca/version.sh)"; }
+add_hpcc_ver() { add_ver_weak "HPCC $(${TOPDIR}/hpc/metax/hpcc/version.sh)"; }
+add_glibc_ver() { add_ver "$(getconf GNU_LIBC_VERSION 2>/dev/null)"; }
+add_shell_ver() { add_ver "BASH $(${TOPDIR}/shell/version.sh)"; }
+add_qemu_ver() { add_ver "QEMU $(${TOPDIR}/qemu/version.sh)"; }
+add_make_ver() { add_ver "MAKE $(${TOPDIR}/gnu/make/version.sh)"; }
+add_vim_ver() { add_ver "Vim $(${TOPDIR}/tools/vim/version.sh)"; }
+add_pahole_ver() { add_ver "Pahole $(${TOPDIR}/pahole/version.sh)"; }
+add_pciutils_ver() { add_ver "PCIUtils $(${TOPDIR}/driver/pcie/pciutils/version.sh)"; }
+add_git_ver() { add_ver "GIT $(${TOPDIR}/scripts/git/version.sh)"; }
+add_numactl_ver() { add_ver "NUMACTL $(${TOPDIR}/numa/numactl/version.sh)"; }
+add_bpftrace_ver() { add_ver "BPFTrace $(${TOPDIR}/bpf/bpftrace/version.sh)"; }
+add_bcc_ver() { add_ver "BCC $(${TOPDIR}/bpf/bcc/version.sh)"; }
+add_libbpf_ver() { add_ver "LIBBPF $(${TOPDIR}/bpf/libbpf/version.sh)"; }
+add_py_ver() { add_ver "Python $(${TOPDIR}/python/version.sh)"; }
 
 add_env() {
 	[[ -z ${CHANGED_FILES_FILTEROUT} ]] && return 0
