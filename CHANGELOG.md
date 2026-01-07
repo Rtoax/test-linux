@@ -10,6 +10,7 @@ and this project adheres to
 ## Unreleased
 
 #### Breaking Changes
+- Obey the linux [.clang-format](https://raw.githubusercontent.com/torvalds/linux/master/.clang-format) rules;
 #### Added
 - add .clang-format from https://raw.githubusercontent.com/torvalds/linux/master/.clang-format
 - tools: add code-formatter from ostools;
