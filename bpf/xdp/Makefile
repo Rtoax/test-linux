@@ -1,4 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
+include bpf/libxdp.mk
+
 subdir-y := samples
-subdir-y += libxdp
+subdir-${HAVE_LIBXDP} += libxdp
+
 include main.mk

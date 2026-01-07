@@ -3,6 +3,7 @@ __USE_TRACE_HELPERS__ := y
 
 include ansi.mk
 include bpf/bpf.mk
+include bpf/libxdp.mk
 
 target-y := xsk_user
 
