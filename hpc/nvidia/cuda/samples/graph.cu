@@ -8,7 +8,6 @@ __global__ void squareArray(const float *input, float *output, int numElements)
 {
 	int idx = blockIdx.x * blockDim.x + threadIdx.x;
 	if (idx < numElements) {
-		printf("--------------\n");
 		output[idx] = input[idx] * input[idx];
 	}
 }
@@ -39,16 +38,19 @@ void graph_memory_square(int device)
 	for (size_t i = 0; i < numElements; i++)
 		input[i] = 2.f;
 
+	CUDA_CHECK_EXIT(cudaGraphCreate(&graph, 0));
+
+	memset(&allocParams, 0, sizeof(allocParams));
 	allocParams.bytesize = bytes;
 	allocParams.poolProps.allocType = cudaMemAllocationTypePinned;
 	allocParams.poolProps.location.id = device;
 	allocParams.poolProps.location.type = cudaMemLocationTypeDevice;
 
-	CUDA_CHECK_EXIT(cudaGraphCreate(&graph, 0));
 	CUDA_CHECK_EXIT(cudaGraphAddMemAllocNode(&allocNodeInput, graph, NULL,
 						 0, &allocParams));
 	d_input = (float *)allocParams.dptr;
 
+	/* allocNodeSquare should depend on allocNodeInput */
 	CUDA_CHECK_EXIT(cudaGraphAddMemAllocNode(
 		&allocNodeSquare, graph, &allocNodeInput, 1, &allocParams));
 	d_square = (float *)allocParams.dptr;
