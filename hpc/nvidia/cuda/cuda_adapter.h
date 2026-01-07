@@ -589,6 +589,9 @@
  */
 #define cudaStreamQuery(s)	__cuda(StreamQuery(s))
 
+#define cudaStreamBeginCapture __cuda(StreamBeginCapture)
+#define cudaStreamEndCapture __cuda(StreamEndCapture)
+
 /**
  * CUDA 12
  * cudaError_t cudaStreamIsCapturing(cudaStream_t stream,
@@ -765,6 +768,7 @@
 #define cudaStreamUpdateCaptureDependencies	__cuda(StreamUpdateCaptureDependencies)
 
 #define cudaStreamCaptureMode	__cuda(StreamCaptureMode)
+#define cudaStreamCaptureModeGlobal __cuda(StreamCaptureModeGlobal)
 /**
  * CUDA 13.0
  * cudaError_t cudaThreadExchangeStreamCaptureMode(enum cudaStreamCaptureMode *mode);
