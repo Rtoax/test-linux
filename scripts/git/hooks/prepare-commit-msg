@@ -17,7 +17,6 @@ readonly TOPDIR=$(realpath ${MY_DIRECTORY}/../../../)
 readonly first_nonempyline=$(sed -n '/[^[:space:]]/ { =; q }' ${COMMIT_MSG_FILE})
 readonly first_commentline=$(sed -n '/^#/ { =; q }' ${COMMIT_MSG_FILE})
 readonly signed_off_by_line=$(awk '/^Signed-off-by:/{print NR; exit}' ${COMMIT_MSG_FILE})
-readonly LLVM_CONFIG=$(which llvm-config 2>/dev/null || :)
 
 # Changed file list (new, deleted, added, modified)
 CHANGED_FILES=( $( ${MY_DIRECTORY}/get-commit-file-list ) )
@@ -101,10 +100,8 @@ add_gcc_ver() {
 	add_ver "GCC $(${TOPDIR}/gnu/gcc/version.sh)"
 }
 add_llvm_ver() {
-	if [[ ${LLVM_CONFIG} ]]; then
-		local ver=$(${LLVM_CONFIG} --version)
-		add_ver "LLVM ${ver}"
-	fi
+	local ver=$(${TOPDIR}/compiler/llvm/version.sh)
+	add_ver "LLVM ${ver}"
 }
 add_cuda_ver() {
 	local ver=$(${TOPDIR}/hpc/nvidia/cuda/version.sh)
