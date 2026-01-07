@@ -1048,6 +1048,7 @@ apt_add_packages()
 	pkgs_base+=( libcapstone-dev )
 	pkgs_base+=( libc6-dev )
 	pkgs_base+=( libc-bin )
+	pkgs_base+=( libelf-dev )
 	pkgs_base+=( libgmp-dev )
 	pkgs_base+=( libmpfr-dev )
 	pkgs_base+=( libmpich-dev )         # MPI

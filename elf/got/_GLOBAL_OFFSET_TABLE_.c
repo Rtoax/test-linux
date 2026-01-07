@@ -1,4 +1,3 @@
-#include <gelf.h>
 #include <stdio.h>
 #include <link.h>
 #include <sys/auxv.h>
@@ -201,4 +200,3 @@ int main(void)
 	puts("Hello");
 	return 0;
 }
-
