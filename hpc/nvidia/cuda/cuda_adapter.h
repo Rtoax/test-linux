@@ -699,6 +699,13 @@
  */
 #define cudaGraphAddMemcpyNode1D	__cuda(GraphAddMemcpyNode1D)
 
+#define cudaGraphAddMemAllocNode __cuda(GraphAddMemAllocNode)
+#define cudaGraphAddMemFreeNode __cuda(GraphAddMemFreeNode)
+
+#define cudaGraphInstantiate __cuda(GraphInstantiate)
+#define cudaGraphExecDestroy __cuda(GraphExecDestroy)
+#define cudaGraphLaunch __cuda(GraphLaunch)
+
 /**
  * CUDA 13.0
  * cudaError_t cudaStreamGetCaptureInfo(cudaStream_t stream,
