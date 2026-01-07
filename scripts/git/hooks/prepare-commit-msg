@@ -83,6 +83,64 @@ add_ver() {
 	__add_ver STRONG "$@"
 }
 
+add_env() {
+	[[ -z ${CHANGED_FILES_FILTEROUT} ]] && return 0
+
+	[[ -z "${@}" ]] && return 0
+
+	# Already exist
+	if [[ "${Environments}" =~ "${@}" ]]; then
+		return 0
+	fi
+
+	[[ ${Environments} ]] && Environments+=", "
+	Environments+="$@"
+}
+
+# input some key words.
+# echo "YES" if any key matched.
+have_key() {
+	local key
+	for key in ${@}
+	do
+		# Match the whole word
+		if [[ "$(echo ${CHANGED_FILES[@]} | grep -wo ${key})" ]]; then
+			echo "YES"
+			return 0
+		fi
+	done
+	return 0
+}
+
+# input some key words, such as c, cpp, sh, cu
+# echo "YES" if any file type matched.
+have_type() {
+	local ext
+	for ext in ${@}
+	do
+		# a.c b.sh -> c sh
+		if [[ " ${CHANGED_FILES[@]##*.} " =~ " ${ext} " ]]; then
+			echo "YES"
+			return 0
+		fi
+	done
+	return 0
+}
+
+cpu_info() {
+	readonly CPU_MODEL=$(lscpu | grep "Model name" | \
+			awk '{ for(i=3; i<=NF; i++) printf "%s", $i (i==NF ? "\n" : " ") }')
+	readonly CPU_VENDOR=$(lscpu | grep "^Vendor ID" | \
+			awk '{ for(i=3; i<=NF; i++) printf "%s", $i (i==NF ? "\n" : " ") }')
+	if [[ ${CPU_MODEL} ]]; then
+		echo ${CPU_MODEL}
+	elif [[ ${CPU_VENDOR} ]]; then
+		echo ${CPU_VENDOR}
+	else
+		fatal "Can't get cpu info from lscpu"
+	fi
+}
+
 add_os_ver() { add_ver "$(${TOPDIR}/distributions/version.sh)"; }
 add_gcc_ver() { add_ver "GCC $(${TOPDIR}/gnu/gcc/version.sh)"; }
 add_llvm_ver() { add_ver "LLVM $(${TOPDIR}/compiler/llvm/version.sh)"; }
@@ -103,65 +161,6 @@ add_bpftrace_ver() { add_ver "BPFTrace $(${TOPDIR}/bpf/bpftrace/version.sh)"; }
 add_bcc_ver() { add_ver "BCC $(${TOPDIR}/bpf/bcc/version.sh)"; }
 add_libbpf_ver() { add_ver "LIBBPF $(${TOPDIR}/bpf/libbpf/version.sh)"; }
 add_py_ver() { add_ver "Python $(${TOPDIR}/python/version.sh)"; }
-
-add_env() {
-	[[ -z ${CHANGED_FILES_FILTEROUT} ]] && return 0
-
-	[[ -z "${@}" ]] && return 0
-
-	# Already exist
-	if [[ "${Environments}" =~ "${@}" ]]; then
-		return 0
-	fi
-
-	[[ ${Environments} ]] && Environments+=", "
-	Environments+="$@"
-}
-
-# input some key words.
-# echo "YES" if any key matched.
-files_have_key() {
-	local key
-	for key in ${@}
-	do
-		# Match the whole word
-		if [[ "$(echo ${CHANGED_FILES[@]} | grep -wo ${key})" ]]; then
-			echo "YES"
-			return 0
-		fi
-	done
-	return 0
-}
-
-# input some key words, such as c, cpp, sh, cu
-# echo "YES" if any file type matched.
-files_have_type() {
-	local ext
-	for ext in ${@}
-	do
-		# a.c b.sh -> c sh
-		if [[ " ${CHANGED_FILES[@]##*.} " =~ " ${ext} " ]]; then
-			echo "YES"
-			return 0
-		fi
-	done
-	return 0
-}
-
-
-cpu_info() {
-	readonly CPU_MODEL=$(lscpu | grep "Model name" | \
-			awk '{ for(i=3; i<=NF; i++) printf "%s", $i (i==NF ? "\n" : " ") }')
-	readonly CPU_VENDOR=$(lscpu | grep "^Vendor ID" | \
-			awk '{ for(i=3; i<=NF; i++) printf "%s", $i (i==NF ? "\n" : " ") }')
-	if [[ ${CPU_MODEL} ]]; then
-		echo ${CPU_MODEL}
-	elif [[ ${CPU_VENDOR} ]]; then
-		echo ${CPU_VENDOR}
-	else
-		fatal "Can't get cpu info from lscpu"
-	fi
-}
 
 if [[ -z ${signed_off_by_line} ]] && [[ ${COMMIT_SOURCE} != merge ]]; then
 	fatal "must signed with -s/--signoff"
@@ -187,80 +186,80 @@ fi
 add_os_ver
 add_ver "Linux $(uname -r)"
 
-if [[ "$(files_have_type c cpp c++ h hpp)$(files_have_key gcc compiler)" ]]; then
+if [[ "$(have_type c cpp c++ h hpp)$(have_key gcc compiler)" ]]; then
 	add_gcc_ver
 fi
 
-if [[ "$(files_have_type c cpp c++ h hpp)$(files_have_key glibc)" ]]; then
+if [[ "$(have_type c cpp c++ h hpp)$(have_key glibc)" ]]; then
 	add_glibc_ver
 fi
 
-if [[ "$(files_have_type sh bash)$(files_have_key bash shell)" ]]; then
+if [[ "$(have_type sh bash)$(have_key bash shell)" ]]; then
 	add_shell_ver
 fi
 
-if [[ "$(files_have_key qcow qcow2 qcow3 qemu)" ]]; then
+if [[ "$(have_key qcow qcow2 qcow3 qemu)" ]]; then
 	add_qemu_ver
 fi
 
-if [[ "$(files_have_type mk make)$(files_have_key make Makefile)" ]]; then
+if [[ "$(have_type mk make)$(have_key make Makefile)" ]]; then
 	add_make_ver
 fi
 
-if [[ "$(files_have_type vim)$(files_have_key vim)" ]]; then
+if [[ "$(have_type vim)$(have_key vim)" ]]; then
 	add_vim_ver
 fi
 
-if [[ "$(files_have_key libbpf pahole)" ]]; then
+if [[ "$(have_key libbpf pahole)" ]]; then
 	add_pahole_ver
 fi
 
-if [[ "$(files_have_key pci pcie)" ]]; then
+if [[ "$(have_key pci pcie)" ]]; then
 	add_pciutils_ver
 fi
 
-if [[ "$(files_have_key git)" ]]; then
+if [[ "$(have_key git)" ]]; then
 	add_git_ver
 fi
 
-if [[ "$(files_have_key numa numactl)" ]]; then
+if [[ "$(have_key numa numactl)" ]]; then
 	add_numactl_ver
 fi
 
-if [[ "$(files_have_type bt)$(files_have_key bpftrace)" ]]; then
+if [[ "$(have_type bt)$(have_key bpftrace)" ]]; then
 	add_bpftrace_ver
 fi
 
-if [[ "$(files_have_key llvm bt nvidia)" ]]; then
+if [[ "$(have_key llvm bt nvidia)" ]]; then
 	add_llvm_ver
 fi
 
-if [[ "$(files_have_key cuda nvidia)" ]]; then
+if [[ "$(have_key cuda nvidia)" ]]; then
 	add_cuda_ver
 	add_llvm_ver
 fi
 
-if [[ "$(files_have_key cuda nvidia rocm amd ROCm AMD)" ]]; then
+if [[ "$(have_key cuda nvidia rocm amd ROCm AMD)" ]]; then
 	add_rocm_ver
 	add_llvm_ver
 fi
 
-if [[ "$(files_have_key cuda nvidia luca LUCA cestc CESTC)" ]]; then
+if [[ "$(have_key cuda nvidia luca LUCA cestc CESTC)" ]]; then
 	add_luca_ver
 	add_llvm_ver
 fi
 
-if [[ "$(files_have_key cuda nvidia hpcc HPCC metax MetaX)" ]]; then
+if [[ "$(have_key cuda nvidia hpcc HPCC metax MetaX)" ]]; then
 	add_hpcc_ver
 	add_llvm_ver
 fi
 
-if [[ "$(files_have_key libbpf bcc bpf)" ]]; then
+if [[ "$(have_key libbpf bcc bpf)" ]]; then
 	add_bcc_ver
 	add_libbpf_ver
 fi
 
-if [[ "$(files_have_key python py)" ]]; then
+if [[ "$(have_key python py)" ]]; then
 	add_py_ver
 fi
 
