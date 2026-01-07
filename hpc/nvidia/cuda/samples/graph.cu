@@ -4,6 +4,11 @@
 #include "cuda_compat.h"
 #include "cuda_helpers.h"
 
+__global__ void kernelHello(char *str)
+{
+	printf("Hello from GPU, %s.\n", str);
+}
+
 __global__ void squareArray(const float *input, float *output, int numElements)
 {
 	int idx = blockIdx.x * blockDim.x + threadIdx.x;
@@ -98,6 +103,32 @@ void graph_memory_square(int device)
 	free(square);
 }
 
+void graph_from_stream(void)
+{
+	char *dev_str;
+	char host_str[128] = { "Rong Tao" };
+	cudaStream_t stream;
+	cudaGraph_t graph;
+
+	CUDA_CHECK_EXIT(
+		cudaStreamCreateWithFlags(&stream, cudaStreamNonBlocking));
+
+	CUDA_CHECK_EXIT(
+		cudaStreamBeginCapture(stream, cudaStreamCaptureModeGlobal));
+
+	CUDA_CHECK_EXIT(
+		cudaMallocAsync((void **)&dev_str, sizeof(host_str), stream));
+	CUDA_CHECK_EXIT(cudaMemcpyAsync(dev_str, host_str, sizeof(host_str),
+					cudaMemcpyHostToDevice, stream));
+
+	kernelHello<<<1, 1, 0, stream>>>(dev_str);
+
+	CUDA_CHECK_EXIT(cudaFreeAsync(dev_str, stream));
+
+	CUDA_CHECK_EXIT(cudaStreamDestroy(stream));
+	CUDA_CHECK_EXIT(cudaStreamEndCapture(stream, &graph));
+}
+
 int main(void)
 {
 	int device = 0;
@@ -121,6 +152,7 @@ int main(void)
 	}
 
 	graph_memory_square(device);
+	graph_from_stream();
 
 	return 0;
 }
