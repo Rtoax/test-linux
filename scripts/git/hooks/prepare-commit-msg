@@ -83,20 +83,7 @@ add_ver() {
 	__add_ver STRONG "$@"
 }
 
-add_os_ver() {
-	local os_env
-	[[ ! -e /etc/os-release ]] && fatal "Not found /etc/os-release"
-
-	. /etc/os-release
-	os_env+="${NAME}"
-	if [[ ${VERSION_ID} ]]; then
-		os_env+=" ${VERSION_ID}"
-	elif [[ ${VERSION} ]]; then
-		os_env+=" ${VERSION}"
-	fi
-	add_ver "${os_env}"
-}
-
+add_os_ver() { add_ver "$(${TOPDIR}/distributions/version.sh)"; }
 add_gcc_ver() { add_ver "GCC $(${TOPDIR}/gnu/gcc/version.sh)"; }
 add_llvm_ver() { add_ver "LLVM $(${TOPDIR}/compiler/llvm/version.sh)"; }
 add_cuda_ver() { add_ver "CUDA $(${TOPDIR}/hpc/nvidia/cuda/version.sh)"; }
