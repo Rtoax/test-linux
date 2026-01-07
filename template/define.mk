@@ -7,7 +7,7 @@
 _DEFINE_MK = 1
 
 # $1 - file path, like: /usr/include/stdio.h
-# $2 - definition name, like HAVE_STDIO
+# $2 - definition name, like HAVE_STDIO=y
 define check_file_and_def
 $(if $(wildcard $(1)), \
   $(eval export $(2) = y); \
