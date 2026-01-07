@@ -40,7 +40,6 @@
 #include "cuda_compat.h"
 #include "cuda_helpers.h"
 
-
 void printuuid(const char *pfx, void *uuid, size_t size)
 {
 	uint8_t *u8 = (uint8_t *)uuid;

@@ -50,13 +50,22 @@ warning() {
 	echo >&2 "WARNING: "${@}
 }
 
-add_ver() {
+# $1: specify mode, values: WEAK, STRONG
+__add_ver() {
+	local mode=$1
+	shift
+
 	[[ -z "${@}" ]] && fatal "Bad call of add_ver()"
 	[[ -z ${CHANGED_FILES_FILTEROUT} ]] && return 0
 
 	if [[ -z "$(echo ${@} | grep -oE '[0-9]')" ]]; then
-		fatal "Can't found version in '${@}'"
-		# Return directly if FORCE2
+		local msg="Can't found version string from '${@}'"
+		if [[ ${mode} == STRONG ]]; then
+			fatal "${msg}"
+		else
+			warning "${msg}"
+		fi
+		# Return directly
 		return 0
 	fi
 
@@ -68,6 +77,13 @@ add_ver() {
 	[[ ${Versions} ]] && Versions+=", "
 	Versions+="$@"
 }
+add_ver_weak() {
+	__add_ver WEAK "$@"
+}
+add_ver() {
+	__add_ver STRONG "$@"
+}
+
 add_os_ver() {
 	local os_env
 	[[ ! -e /etc/os-release ]] && fatal "Not found /etc/os-release"
@@ -95,16 +111,13 @@ add_cuda_ver() {
 	add_ver "CUDA ${ver}"
 }
 add_rocm_ver() {
-	local ver=$(${TOPDIR}/hpc/amd/rocm/version.sh)
-	add_ver "ROCm ${ver}"
+	add_ver_weak "ROCm $(${TOPDIR}/hpc/amd/rocm/version.sh)"
 }
 add_luca_ver() {
-	local ver=$(${TOPDIR}/hpc/cestc/luca/version.sh)
-	add_ver "LUCA ${ver}"
+	add_ver_weak "LUCA $(${TOPDIR}/hpc/cestc/luca/version.sh)"
 }
 add_hpcc_ver() {
-	local ver=$(${TOPDIR}/hpc/metax/hpcc/version.sh)
-	add_ver "HPCC ${ver}"
+	add_ver_weak "HPCC $(${TOPDIR}/hpc/metax/hpcc/version.sh)"
 }
 add_glibc_ver() {
 	add_ver "$(getconf GNU_LIBC_VERSION 2>/dev/null || :)"
