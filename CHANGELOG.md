@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - Obey the linux [.clang-format](https://raw.githubusercontent.com/torvalds/linux/master/.clang-format) rules;
 #### Added
+- template/bpf: add xdp.mk;
 - add .clang-format from https://raw.githubusercontent.com/torvalds/linux/master/.clang-format
 - tools: add code-formatter from ostools;
 - template: add gcc.mk;
