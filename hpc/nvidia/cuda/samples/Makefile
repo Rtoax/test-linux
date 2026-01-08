@@ -66,6 +66,9 @@ target-post-${HAVE_HPCC} += $(patsubst %,${OUTPUT}%-hpcc.hpcc.hcFatBinSegment,$(
 
 # LUCA
 target-lscc-${HAVE_LUCA} := $(patsubst %,%-luca,$(common-objs))
+target-post-${HAVE_LUCA} += $(patsubst %,${OUTPUT}%.luca.bitcode,$(common-objs))
+target-post-${HAVE_LUCA} += $(patsubst %,${OUTPUT}%.luca.devbin,$(common-objs))
+target-post-${HAVE_LUCA} += $(patsubst %,${OUTPUT}%.luca.fatbin,$(common-objs))
 
 # Pure C
 target-y := matrix-c-fp32 matrix-c-fp64

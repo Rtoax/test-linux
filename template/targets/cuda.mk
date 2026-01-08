@@ -134,37 +134,37 @@ ${OUTPUT}%.cu.o: %.cu | ${OUTPUT}
 	${Q}$(NVCC) -o $(@) -c $(<) $(CFLAGS_NVCC) $(CFLAGS_NVCC_$(*))
 
 ${OUTPUT}%.cu.ptx: %.cu | ${OUTPUT}
-	$(call log_obj,PTX,$(<),$(@))
+	$(call log_obj,NVCC PTX,$(<),$(@))
 	${Q}$(NVCC) -ptx -o $(@) -c $(<) $(CFLAGS_NVCC) $(CFLAGS_NVCC_$(*))
 
 ${OUTPUT}%.cu.cpp.ii: %.cu | ${OUTPUT}
-	$(call log_obj,II,$(<),$(@))
+	$(call log_obj,NVCC II,$(<),$(@))
 	${Q}$(NVCC) -cuda -o $(@) -c $(<) $(CFLAGS_NVCC) $(CFLAGS_NVCC_$(*))
 
 ${OUTPUT}%.cu.cubin: %.cu | ${OUTPUT}
-	$(call log_obj,CUBIN,$(<),$(@))
+	$(call log_obj,NVCC CUBIN,$(<),$(@))
 	${Q}$(NVCC) -o $(@) -c $(<) $(cflags-nvcc-cubin) $(CFLAGS_NVCC) $(CFLAGS_NVCC_$(*))
 
 ${OUTPUT}%.cu.fatbin: %.cu | ${OUTPUT}
-	$(call log_obj,FATBIN,$(<),$(@))
+	$(call log_obj,NVCC FATBIN,$(<),$(@))
 	${Q}$(NVCC) -o $(@) -c $(<) $(cflags-nvcc-fatbin) $(CFLAGS_NVCC) $(CFLAGS_NVCC_$(*))
 
 # Example format of nv_fatbin and nvFatBinSegment, see:
 # commit 0f8f83ac8109 ("targets/nvidia.mk: add .nv_fatbin and .nvFatBinSegment targets")
 ${OUTPUT}%.nv_fatbin: % | ${OUTPUT}
-	$(call log_obj,NV FATBIN,$(<),$(@))
+	$(call log_obj,CUDA FATBIN,$(<),$(@))
 	${Q}$(OBJCOPY) -O binary --only-section=.nv_fatbin $(<) $(@)
 
 ${OUTPUT}%.nvFatBinSegment: % | ${OUTPUT}
-	$(call log_obj,NV FATBIN SEG,$(<),$(@))
+	$(call log_obj,CUDA FATBIN SEG,$(<),$(@))
 	${Q}$(OBJCOPY) -O binary --only-section=.nvFatBinSegment $(<) $(@)
 
 ${OUTPUT}%.cu.sass.dump: ${OUTPUT}%.cu.o | ${OUTPUT}
-	$(call log_obj,NV SASS,$(<),$(@))
+	$(call log_obj,CUDA SASS,$(<),$(@))
 	${Q}${CUOBJDUMP} --dump-sass $(<) > ${@}
 
 ${OUTPUT}%.cu.ptx.dump: ${OUTPUT}%.cu.o | ${OUTPUT}
-	$(call log_obj,NV PTX,$(<),$(@))
+	$(call log_obj,CUDA PTX,$(<),$(@))
 	${Q}${CUOBJDUMP} --dump-ptx $(<) > ${@}
 
 ${OUTPUT}%.E.cu: %.cu | ${OUTPUT}

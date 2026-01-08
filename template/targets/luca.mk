@@ -6,6 +6,7 @@
 # - .luca.o
 # - .luca.so.o
 # - .luca.a.o
+# - .luca.bitcode
 # - .luca.devbin
 # - .luca.fatbin
 # - .luca.hc_fatbin
@@ -25,6 +26,7 @@ _TARGET_LUCA_LUCA = 1
 include gpu/luca.mk
 include dir.mk
 
+cflags-lscc-bitcode := -device-bc
 cflags-lscc-devbin := -device-bin
 cflags-lscc-fatbin := -fatbin
 cflags-lscc-so := -Xcompiler -fPIC
@@ -135,13 +137,17 @@ $${OUTPUT}%.luca.o: %.${1} | $${OUTPUT}
 	$(call log_obj,LSCC,$$(<),$$(@))
 	$${Q}$$(LSCC) -o $$(@) -c $$(<) $$(CFLAGS_LSCC) $$(CFLAGS_LSCC_$$(*))
 
+$${OUTPUT}%.luca.bitcode: %.${1} | $${OUTPUT}
+	$(call log_obj,LSCC BC,$$(<),$$(@))
+	$${Q}$$(LSCC) -o $$(@) -c $$(<) $$(cflags-lscc-bitcode) $$(CFLAGS_LSCC) $$(CFLAGS_LSCC_$$(*))
+
 $${OUTPUT}%.luca.devbin: %.${1} | $${OUTPUT}
-	$(call log_obj,DEVBIN,$$(<),$$(@))
+	$(call log_obj,LSCC DEVBIN,$$(<),$$(@))
 	$${Q}$$(LSCC) -o $$(@) -c $$(<) $$(cflags-lscc-devbin) $$(CFLAGS_LSCC) $$(CFLAGS_LSCC_$$(*))
 
 $${OUTPUT}%.luca.fatbin: %.${1} | $${OUTPUT}
-	$(call log_obj,FATBIN,$$(<),$$(@))
-	$${Q}$$(LSCC) -o $$(@) -c $$(<) $$(cflags-lscc-fatbin) $$(CFLAGS_LSCC) $$(CFLAGS_LSCC_$(*))
+	$(call log_obj,LSCC FATBIN,$$(<),$$(@))
+	$${Q}$$(LSCC) -o $$(@) -c $$(<) $$(cflags-lscc-fatbin) $$(CFLAGS_LSCC) $$(CFLAGS_LSCC_$$(*))
 endef
 # $1 - suffix of file: cu, luca
 define luca_obj_so

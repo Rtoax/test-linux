@@ -108,11 +108,11 @@ $${OUTPUT}%.hpcc.o: %.${1} | $${OUTPUT}
 	$${Q}$$(HTCC) -o $$(@) -c $$(<) $$(CFLAGS_HTCC) $$(CFLAGS_HTCC_$$(*))
 
 $${OUTPUT}%.hpcc.devbin: %.${1} | $${OUTPUT}
-	$(call log_obj,DEVBIN,$$(<),$$(@))
+	$(call log_obj,HTCC DEVBIN,$$(<),$$(@))
 	$${Q}$$(HTCC) -o $$(@) -c $$(<) $$(cflags-htcc-devbin) $$(CFLAGS_HTCC) $$(CFLAGS_HTCC_$$(*))
 
 $${OUTPUT}%.hpcc.fatbin: %.${1} | $${OUTPUT}
-	$(call log_obj,FATBIN,$$(<),$$(@))
+	$(call log_obj,HTCC FATBIN,$$(<),$$(@))
 	$${Q}$$(HTCC) -o $$(@) -c $$(<) $$(cflags-htcc-fatbin) $$(CFLAGS_HTCC) $$(CFLAGS_HTCC_$$(*))
 endef
 # $1 - suffix of file: hpcc, cu
