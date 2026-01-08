@@ -50,12 +50,16 @@ int main(void)
 	size_t workspaceSize = 1 << 22; // 4MB
 	int rslt;
 
-
-	CUDA_CHECK_EXIT(cudaMalloc((void**)&d_A, m * k * sizeof(float)));
-	CUDA_CHECK_EXIT(cudaMalloc((void**)&d_B, k * n * sizeof(float)));
-	CUDA_CHECK_EXIT(cudaMalloc((void**)&d_C, m * n * sizeof(float)));
-	CUDA_CHECK_EXIT(cudaMemcpy(d_A, h_A, m * k * sizeof(float), cudaMemcpyHostToDevice));
-	CUDA_CHECK_EXIT(cudaMemcpy(d_B, h_B, k * n * sizeof(float), cudaMemcpyHostToDevice));
+	CUDA_RUNTIME_CHECK_EXIT(
+		cudaMalloc((void **)&d_A, m * k * sizeof(float)));
+	CUDA_RUNTIME_CHECK_EXIT(
+		cudaMalloc((void **)&d_B, k * n * sizeof(float)));
+	CUDA_RUNTIME_CHECK_EXIT(
+		cudaMalloc((void **)&d_C, m * n * sizeof(float)));
+	CUDA_RUNTIME_CHECK_EXIT(cudaMemcpy(d_A, h_A, m * k * sizeof(float),
+					   cudaMemcpyHostToDevice));
+	CUDA_RUNTIME_CHECK_EXIT(cudaMemcpy(d_B, h_B, k * n * sizeof(float),
+					   cudaMemcpyHostToDevice));
 
 	CUBLAS_CHECK(cublasLtCreate(&ltHandle), exit(EXIT_FAILURE));
 
@@ -69,7 +73,7 @@ int main(void)
 	printMatrixLayout("B", layoutB);
 	printMatrixLayout("C", layoutC);
 
-	CUDA_CHECK_EXIT(cudaMalloc(&workspace, workspaceSize));
+	CUDA_RUNTIME_CHECK_EXIT(cudaMalloc(&workspace, workspaceSize));
 
 	CUBLAS_CHECK(cublasLtMatmulPreferenceCreate(&pref), exit(EXIT_FAILURE));
 	CUBLAS_CHECK(cublasLtMatmulPreferenceSetAttribute(pref,
@@ -104,9 +108,10 @@ int main(void)
 #endif
 				NULL /* No stream */), goto free);
 
-	CUDA_CHECK_EXIT(cudaDeviceSynchronize());
+	CUDA_RUNTIME_CHECK_EXIT(cudaDeviceSynchronize());
 
-	CUDA_CHECK_EXIT(cudaMemcpy(h_C, d_C, m * n * sizeof(float), cudaMemcpyDeviceToHost));
+	CUDA_RUNTIME_CHECK_EXIT(cudaMemcpy(h_C, d_C, m * n * sizeof(float),
+					   cudaMemcpyDeviceToHost));
 
 	printf("Result C = \n");
 	for (int i = 0; i < m; ++i) {

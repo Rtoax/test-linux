@@ -28,11 +28,13 @@ int main(void)
 	gpu_init(0);
 
 #ifdef __HIPCC__
-	CUDA_CHECK(hipMallocHost((void **)&ptr, sizeof(*ptr) * num), exit(1));
+	CUDA_RUNTIME_CHECK(hipMallocHost((void **)&ptr, sizeof(*ptr) * num),
+			   exit(1));
 #else
-	CUDA_CHECK(cudaMallocHost(&ptr, sizeof(*ptr) * num, 0), exit(1));
+	CUDA_RUNTIME_CHECK(cudaMallocHost(&ptr, sizeof(*ptr) * num, 0),
+			   exit(1));
 #endif
-	CUDA_CHECK(cudaMemset(ptr, 0, sizeof(*ptr) * num), exit(1));
+	CUDA_RUNTIME_CHECK(cudaMemset(ptr, 0, sizeof(*ptr) * num), exit(1));
 
 	hexdump(ptr, sizeof(*ptr) * num);
 
@@ -42,7 +44,7 @@ int main(void)
 
 	hexdump(ptr, sizeof(*ptr) * num);
 
-	CUDA_CHECK(cudaFreeHost(ptr), exit(1));
+	CUDA_RUNTIME_CHECK(cudaFreeHost(ptr), exit(1));
 
 	/* flush printf */
 	cudaDeviceSynchronize();

@@ -24,19 +24,19 @@
 	}
 #define CHECK_CUDA_ERROR_EXIT(expr) CHECK_CUDA_ERROR(expr, exit(-1))
 
-/* FIXME: This is cuda runtime check, rename it */
-#define CUDA_CHECK(CALL, ERROR_DO)	{				\
-	cudaError_t __err = CALL;					\
-	if (unlikely(__err != cudaSuccess)) {				\
-		fprintf(stderr, "\033[31m");				\
-		fprintf(stderr, "ERROR: %s:%d Call %s failed, %s\n",	\
-			__func__, __LINE__,				\
-			#CALL, cudaGetErrorString(__err));		\
-		fprintf(stderr, "\033[m");				\
-		ERROR_DO;						\
-	}								\
-}
-#define CUDA_CHECK_EXIT(CALL) CUDA_CHECK(CALL, exit(-1))
+#define CUDA_RUNTIME_CHECK(CALL, ERROR_DO)                                   \
+	{                                                                    \
+		cudaError_t __err = CALL;                                    \
+		if (unlikely(__err != cudaSuccess)) {                        \
+			fprintf(stderr, "\033[31m");                         \
+			fprintf(stderr, "ERROR: %s:%d Call %s failed, %s\n", \
+				__func__, __LINE__, #CALL,                   \
+				cudaGetErrorString(__err));                  \
+			fprintf(stderr, "\033[m");                           \
+			ERROR_DO;                                            \
+		}                                                            \
+	}
+#define CUDA_RUNTIME_CHECK_EXIT(CALL) CUDA_RUNTIME_CHECK(CALL, exit(-1))
 
 #define CUBLAS_CHECK(CALL, ERROR_DO)	{				\
 	cublasStatus_t __status = CALL;					\

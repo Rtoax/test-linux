@@ -120,7 +120,7 @@ void dev_mem_copy(struct device *from, struct device *to, cudaMemcpyKind kind,
 
 	cudaEventRecord(start, NULL);
 
-	CUDA_CHECK(cudaMemcpy(to_mem, from_mem, env.size, kind),);
+	CUDA_RUNTIME_CHECK(cudaMemcpy(to_mem, from_mem, env.size, kind), );
 
 	cudaEventRecord(end, NULL);
 	cudaEventSynchronize(end);

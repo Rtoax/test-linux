@@ -481,10 +481,14 @@ int main(int argc, char *argv[])
 
 	start = nsecs();
 
-	CUDA_CHECK(cudaMalloc(&dev_A, sizeof(TYPE) * env.m * env.k), goto Malloc_failed);
-	CUDA_CHECK(cudaMalloc(&dev_B, sizeof(TYPE) * env.k * env.n), goto Malloc_failed);
-	CUDA_CHECK(cudaMalloc(&dev_C, sizeof(TYPE) * env.m * env.n), goto Malloc_failed);
-	CUDA_CHECK(cudaMalloc(&dev_D, sizeof(TYPE) * env.m * env.n), goto Malloc_failed);
+	CUDA_RUNTIME_CHECK(cudaMalloc(&dev_A, sizeof(TYPE) * env.m * env.k),
+			   goto Malloc_failed);
+	CUDA_RUNTIME_CHECK(cudaMalloc(&dev_B, sizeof(TYPE) * env.k * env.n),
+			   goto Malloc_failed);
+	CUDA_RUNTIME_CHECK(cudaMalloc(&dev_C, sizeof(TYPE) * env.m * env.n),
+			   goto Malloc_failed);
+	CUDA_RUNTIME_CHECK(cudaMalloc(&dev_D, sizeof(TYPE) * env.m * env.n),
+			   goto Malloc_failed);
 
 	cudaMemset(dev_A, 0, sizeof(TYPE) * env.m * env.k);
 	cudaMemset(dev_B, 0, sizeof(TYPE) * env.k * env.n);

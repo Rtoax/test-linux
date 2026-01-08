@@ -41,7 +41,7 @@ void gpu_check_gpu_error(const char *msg)
 const char *gpu_name(int dev_id, char *buf, int buf_len)
 {
 	cudaDeviceProp prop;
-	CUDA_CHECK(cudaGetDeviceProperties(&prop, dev_id), return NULL);
+	CUDA_RUNTIME_CHECK(cudaGetDeviceProperties(&prop, dev_id), return NULL);
 	strncpy(buf, prop.name, buf_len);
 	return buf;
 }
@@ -50,11 +50,13 @@ int gpu_clock_rate(int dev_id)
 {
 #ifdef DEVPROP_HAVE_CLOCK_REATE
 	cudaDeviceProp prop;
-	CUDA_CHECK(cudaGetDeviceProperties(&prop, dev_id), return 0);
+	CUDA_RUNTIME_CHECK(cudaGetDeviceProperties(&prop, dev_id), return 0);
 	return prop.clockRate;
 #else
 	int rate;
-	CUDA_CHECK(cudaDeviceGetAttribute(&rate, cudaDevAttrClockRate, dev_id), return 0);
+	CUDA_RUNTIME_CHECK(cudaDeviceGetAttribute(&rate, cudaDevAttrClockRate,
+						  dev_id),
+			   return 0);
 	return rate;
 #endif
 }
@@ -62,7 +64,7 @@ int gpu_clock_rate(int dev_id)
 int gpu_max_threads_per_block(int dev_id)
 {
 	cudaDeviceProp prop;
-	CUDA_CHECK(cudaGetDeviceProperties(&prop, dev_id), return 0);
+	CUDA_RUNTIME_CHECK(cudaGetDeviceProperties(&prop, dev_id), return 0);
 	return prop.maxThreadsPerBlock;
 }
 

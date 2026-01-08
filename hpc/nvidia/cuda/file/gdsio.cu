@@ -424,8 +424,8 @@ void* xfer_between_storage__gpu(void *devPtr, bool alloc, enum op_type otype,
 	bool allocated = false;
 
 	if (!devPtr) {
-		CUDA_CHECK_EXIT(cudaMalloc(&devPtr, env.fsize));
-		CUDA_CHECK_EXIT(cudaMemset(devPtr, init, env.fsize));
+		CUDA_RUNTIME_CHECK_EXIT(cudaMalloc(&devPtr, env.fsize));
+		CUDA_RUNTIME_CHECK_EXIT(cudaMemset(devPtr, init, env.fsize));
 		allocated = true;
 	}
 
@@ -444,7 +444,7 @@ void* xfer_between_storage__gpu(void *devPtr, bool alloc, enum op_type otype,
 		CUFILE_CHECK_EXIT(cuFileBufDeregister(devPtr));
 
 	if (allocated && !alloc) {
-		CUDA_CHECK_EXIT(cudaFree(devPtr));
+		CUDA_RUNTIME_CHECK_EXIT(cudaFree(devPtr));
 		devPtr = NULL;
 	}
 
@@ -563,10 +563,12 @@ int workload_gpu_cpu(struct thread_arg *arg)
 
 	switch (otype) {
 	case OP_READ:
-		CUDA_CHECK_EXIT(cudaMemcpy(host_ptr, dev_ptr, size, cudaMemcpyDeviceToHost));
+		CUDA_RUNTIME_CHECK_EXIT(cudaMemcpy(host_ptr, dev_ptr, size,
+						   cudaMemcpyDeviceToHost));
 		break;
 	case OP_WRITE:
-		CUDA_CHECK_EXIT(cudaMemcpy(dev_ptr, host_ptr, size, cudaMemcpyHostToDevice));
+		CUDA_RUNTIME_CHECK_EXIT(cudaMemcpy(dev_ptr, host_ptr, size,
+						   cudaMemcpyHostToDevice));
 		break;
 	case OP_RANDREAD:
 	case OP_RANDWRITE:
@@ -596,8 +598,8 @@ int xfer_between_gpu__cpu(void **hostptr, void **devptr, bool alloc,
 	}
 
 	if (!dev_ptr) {
-		CUDA_CHECK_EXIT(cudaMalloc(&dev_ptr, env.fsize));
-		CUDA_CHECK_EXIT(cudaMemset(dev_ptr, init, env.fsize));
+		CUDA_RUNTIME_CHECK_EXIT(cudaMalloc(&dev_ptr, env.fsize));
+		CUDA_RUNTIME_CHECK_EXIT(cudaMemset(dev_ptr, init, env.fsize));
 		allocated_device = true;
 	}
 
@@ -613,7 +615,7 @@ int xfer_between_gpu__cpu(void **hostptr, void **devptr, bool alloc,
 	}
 
 	if (allocated_device && (!alloc || !devptr)) {
-		CUDA_CHECK_EXIT(cudaFree(dev_ptr));
+		CUDA_RUNTIME_CHECK_EXIT(cudaFree(dev_ptr));
 	} else if (alloc && allocated_device && devptr) {
 		*devptr = dev_ptr;
 	}
@@ -623,7 +625,7 @@ int xfer_between_gpu__cpu(void **hostptr, void **devptr, bool alloc,
 
 void cufile_init(void)
 {
-	CUDA_CHECK_EXIT(cudaSetDevice(env.gpu));
+	CUDA_RUNTIME_CHECK_EXIT(cudaSetDevice(env.gpu));
 	CUFILE_CHECK_EXIT(cuFileDriverOpen());
 
 	/* Set up GDS descriptor */
@@ -763,7 +765,7 @@ int main(int argc, char *argv[])
 			xfer_between_gpu__cpu(&host_ptr, &dev_ptr, true, OP_READ, 'D');
 			xfer_between_storage__cpu(host_ptr, false, OP_WRITE, 0);
 			free(host_ptr);
-			CUDA_CHECK_EXIT(cudaFree(dev_ptr));
+			CUDA_RUNTIME_CHECK_EXIT(cudaFree(dev_ptr));
 			break;
 		case OP_RANDREAD:
 		case OP_RANDWRITE:

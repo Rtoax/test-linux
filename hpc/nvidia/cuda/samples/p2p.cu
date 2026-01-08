@@ -28,7 +28,8 @@ void p2p_display_info(void)
 			printf("%-4d", can);
 			if (can) {
 				cudaSetDevice(i);
-				CUDA_CHECK(cudaDeviceEnablePeerAccess(j, 0),);
+				CUDA_RUNTIME_CHECK(
+					cudaDeviceEnablePeerAccess(j, 0), );
 			}
 		}
 		printf("\n");
@@ -79,7 +80,7 @@ void p2p_memory_transfer(void)
 
 int main(void)
 {
-	CUDA_CHECK_EXIT(cudaDeviceDisablePeerAccess(0));
+	CUDA_RUNTIME_CHECK_EXIT(cudaDeviceDisablePeerAccess(0));
 
 	p2p_display_info();
 	p2p_memory_transfer();

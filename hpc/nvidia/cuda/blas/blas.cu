@@ -473,7 +473,8 @@ int default_create_blasLt_type(struct test *test, cublasComputeType_t computeTyp
 	CUBLAS_CHECK(cublasLtMatrixLayoutCreate(&test->layoutA, Atype, env.m, env.k, env.m), exit(EXIT_FAILURE));
 	CUBLAS_CHECK(cublasLtMatrixLayoutCreate(&test->layoutB, Btype, env.k, env.n, env.k), exit(EXIT_FAILURE));
 	CUBLAS_CHECK(cublasLtMatrixLayoutCreate(&test->layoutC, Ctype, env.m, env.n, env.m), exit(EXIT_FAILURE));
-	CUDA_CHECK_EXIT(cudaMalloc(&test->workspace, test->workspaceSize));
+	CUDA_RUNTIME_CHECK_EXIT(
+		cudaMalloc(&test->workspace, test->workspaceSize));
 
 	CUBLAS_CHECK(cublasLtMatmulPreferenceCreate(&test->pref), exit(EXIT_FAILURE));
 	CUBLAS_CHECK(cublasLtMatmulPreferenceSetAttribute(test->pref,
@@ -580,7 +581,8 @@ int __alloc_matrix_pair_int8(const char *dpfx, int8_t **host, int8_t **dev,
 			printf("\n");
 	}
 
-	CUDA_CHECK(cudaMalloc(dev, x * y * sizeof(int8_t)), err = -ENOMEM);
+	CUDA_RUNTIME_CHECK(cudaMalloc(dev, x * y * sizeof(int8_t)),
+			   err = -ENOMEM);
 	CUBLAS_CHECK(cublasSetMatrix(x, y, sizeof(int8_t), *host, x, *dev, x), err = -1);
 
 	return err;
@@ -609,7 +611,8 @@ int __alloc_matrix_pair_int32(const char *dpfx, int32_t **host, int32_t **dev,
 			printf("\n");
 	}
 
-	CUDA_CHECK(cudaMalloc(dev, x * y * sizeof(int32_t)), err = -ENOMEM);
+	CUDA_RUNTIME_CHECK(cudaMalloc(dev, x * y * sizeof(int32_t)),
+			   err = -ENOMEM);
 	CUBLAS_CHECK(cublasSetMatrix(x, y, sizeof(int32_t), *host, x, *dev, x), err = -1);
 
 	return err;
@@ -638,7 +641,8 @@ int __alloc_matrix_pair_fp16(const char *dpfx, half **host, half **dev,
 			printf("\n");
 	}
 
-	CUDA_CHECK(cudaMalloc(dev, x * y * sizeof(half)), err = -ENOMEM);
+	CUDA_RUNTIME_CHECK(cudaMalloc(dev, x * y * sizeof(half)),
+			   err = -ENOMEM);
 	CUBLAS_CHECK(cublasSetMatrix(x, y, sizeof(half), *host, x, *dev, x), err = -1);
 
 	return err;
@@ -667,7 +671,8 @@ int __alloc_matrix_pair_fp32(const char *dpfx, float **host, float **dev,
 			printf("\n");
 	}
 
-	CUDA_CHECK(cudaMalloc(dev, x * y * sizeof(float)), err = -ENOMEM);
+	CUDA_RUNTIME_CHECK(cudaMalloc(dev, x * y * sizeof(float)),
+			   err = -ENOMEM);
 	CUBLAS_CHECK(cublasSetMatrix(x, y, sizeof(float), *host, x, *dev, x), err = -1);
 
 	return err;
@@ -696,7 +701,8 @@ int __alloc_matrix_pair_fp64(const char *dpfx, double **host, double **dev,
 			printf("\n");
 	}
 
-	CUDA_CHECK(cudaMalloc(dev, x * y * sizeof(double)), err = -ENOMEM);
+	CUDA_RUNTIME_CHECK(cudaMalloc(dev, x * y * sizeof(double)),
+			   err = -ENOMEM);
 	CUBLAS_CHECK(cublasSetMatrix(x, y, sizeof(double), *host, x, *dev, x), err = -1);
 
 	return err;
@@ -1135,7 +1141,10 @@ int __display_matrix_pair_int8(const char *pfx, struct test *test,
 	long sum = 0;
 
 	CUBLAS_CHECK(cublasGetMatrix(x, y, sizeof(int8_t), dev, x, host, x),
-		CUDA_CHECK(cudaMemcpy(host, dev, sizeof(int8_t) * x * y, cudaMemcpyDeviceToHost), return -1));
+		     CUDA_RUNTIME_CHECK(cudaMemcpy(host, dev,
+						   sizeof(int8_t) * x * y,
+						   cudaMemcpyDeviceToHost),
+					return -1));
 
 	output_write(test, host, sizeof(int8_t), x * y, TYPE_INT8);
 
@@ -1162,7 +1171,10 @@ int __display_matrix_pair_int32(const char *pfx, struct test *test,
 	long sum = 0;
 
 	CUBLAS_CHECK(cublasGetMatrix(x, y, sizeof(int32_t), dev, x, host, x),
-		CUDA_CHECK(cudaMemcpy(host, dev, sizeof(int32_t) * x * y, cudaMemcpyDeviceToHost), return -1));
+		     CUDA_RUNTIME_CHECK(cudaMemcpy(host, dev,
+						   sizeof(int32_t) * x * y,
+						   cudaMemcpyDeviceToHost),
+					return -1));
 
 	output_write(test, host, sizeof(int32_t), x * y, TYPE_INT32);
 
@@ -1189,7 +1201,10 @@ int __display_matrix_pair_fp16(const char *pfx, struct test *test,
 	float sum = 0.0;
 
 	CUBLAS_CHECK(cublasGetMatrix(x, y, sizeof(half), dev, x, host, x),
-		CUDA_CHECK(cudaMemcpy(host, dev, sizeof(half) * x * y, cudaMemcpyDeviceToHost), return -1));
+		     CUDA_RUNTIME_CHECK(cudaMemcpy(host, dev,
+						   sizeof(half) * x * y,
+						   cudaMemcpyDeviceToHost),
+					return -1));
 
 	output_write(test, host, sizeof(half), x * y, TYPE_FP16);
 
@@ -1222,7 +1237,10 @@ int __display_matrix_pair_fp32(const char *pfx, struct test *test,
 	 * just use memcpy instead of getmatrix here.
 	 */
 	CUBLAS_CHECK(cublasGetMatrix(x, y, sizeof(float), dev, x, host, x),
-		CUDA_CHECK(cudaMemcpy(host, dev, sizeof(float) * x * y, cudaMemcpyDeviceToHost), return -1));
+		     CUDA_RUNTIME_CHECK(cudaMemcpy(host, dev,
+						   sizeof(float) * x * y,
+						   cudaMemcpyDeviceToHost),
+					return -1));
 
 	output_write(test, host, sizeof(float), x * y, TYPE_FP32);
 
@@ -1264,7 +1282,10 @@ int __display_matrix_pair_fp64(const char *pfx, struct test *test,
 	 * just use memcpy instead of getmatrix here.
 	 */
 	CUBLAS_CHECK(cublasGetMatrix(x, y, sizeof(double), dev, x, host, x),
-		CUDA_CHECK(cudaMemcpy(host, dev, sizeof(double) * x * y, cudaMemcpyDeviceToHost), return -1));
+		     CUDA_RUNTIME_CHECK(cudaMemcpy(host, dev,
+						   sizeof(double) * x * y,
+						   cudaMemcpyDeviceToHost),
+					return -1));
 
 	output_write(test, host, sizeof(double), x * y, TYPE_FP64);
 

@@ -43,7 +43,7 @@ void graph_memory_square(int device)
 	for (size_t i = 0; i < numElements; i++)
 		input[i] = 2.f;
 
-	CUDA_CHECK_EXIT(cudaGraphCreate(&graph, 0));
+	CUDA_RUNTIME_CHECK_EXIT(cudaGraphCreate(&graph, 0));
 
 	memset(&allocParams, 0, sizeof(allocParams));
 	allocParams.bytesize = bytes;
@@ -51,16 +51,16 @@ void graph_memory_square(int device)
 	allocParams.poolProps.location.id = device;
 	allocParams.poolProps.location.type = cudaMemLocationTypeDevice;
 
-	CUDA_CHECK_EXIT(cudaGraphAddMemAllocNode(&allocNodeInput, graph, NULL,
-						 0, &allocParams));
+	CUDA_RUNTIME_CHECK_EXIT(cudaGraphAddMemAllocNode(
+		&allocNodeInput, graph, NULL, 0, &allocParams));
 	d_input = (float *)allocParams.dptr;
 
 	/* allocNodeSquare should depend on allocNodeInput */
-	CUDA_CHECK_EXIT(cudaGraphAddMemAllocNode(
+	CUDA_RUNTIME_CHECK_EXIT(cudaGraphAddMemAllocNode(
 		&allocNodeSquare, graph, &allocNodeInput, 1, &allocParams));
 	d_square = (float *)allocParams.dptr;
 
-	CUDA_CHECK_EXIT(cudaGraphAddMemcpyNode1D(
+	CUDA_RUNTIME_CHECK_EXIT(cudaGraphAddMemcpyNode1D(
 		&copyNodeInput, graph, &allocNodeSquare, 1, d_input, input,
 		bytes, cudaMemcpyHostToDevice));
 
@@ -73,28 +73,29 @@ void graph_memory_square(int device)
 	kernelNodeParams.func = (void *)squareArray;
 	kernelNodeParams.kernelParams = (void **)squareKernelArgs;
 
-	CUDA_CHECK_EXIT(cudaGraphAddKernelNode(&squareKernelNode, graph,
-					       &copyNodeInput, 1,
-					       &kernelNodeParams));
+	CUDA_RUNTIME_CHECK_EXIT(cudaGraphAddKernelNode(&squareKernelNode, graph,
+						       &copyNodeInput, 1,
+						       &kernelNodeParams));
 
-	CUDA_CHECK_EXIT(cudaGraphAddMemcpyNode1D(
+	CUDA_RUNTIME_CHECK_EXIT(cudaGraphAddMemcpyNode1D(
 		&copyNodeSquare, graph, &squareKernelNode, 1, square, d_square,
 		bytes, cudaMemcpyDeviceToHost));
 
-	CUDA_CHECK_EXIT(cudaGraphAddMemFreeNode(&freeNodeInput, graph,
-						&squareKernelNode, 1, d_input));
-	CUDA_CHECK_EXIT(cudaGraphAddMemFreeNode(
+	CUDA_RUNTIME_CHECK_EXIT(cudaGraphAddMemFreeNode(
+		&freeNodeInput, graph, &squareKernelNode, 1, d_input));
+	CUDA_RUNTIME_CHECK_EXIT(cudaGraphAddMemFreeNode(
 		&freeNodeSquare, graph, &squareKernelNode, 1, d_square));
 
-	CUDA_CHECK_EXIT(cudaGraphInstantiate(&graphExec, graph, NULL, NULL, 0));
-	CUDA_CHECK_EXIT(cudaGraphDestroy(graph));
+	CUDA_RUNTIME_CHECK_EXIT(
+		cudaGraphInstantiate(&graphExec, graph, NULL, NULL, 0));
+	CUDA_RUNTIME_CHECK_EXIT(cudaGraphDestroy(graph));
 
-	CUDA_CHECK_EXIT(
+	CUDA_RUNTIME_CHECK_EXIT(
 		cudaStreamCreateWithFlags(&stream, cudaStreamNonBlocking));
-	CUDA_CHECK_EXIT(cudaGraphLaunch(graphExec, stream));
-	CUDA_CHECK_EXIT(cudaStreamSynchronize(stream));
-	CUDA_CHECK_EXIT(cudaStreamDestroy(stream));
-	CUDA_CHECK_EXIT(cudaGraphExecDestroy(graphExec));
+	CUDA_RUNTIME_CHECK_EXIT(cudaGraphLaunch(graphExec, stream));
+	CUDA_RUNTIME_CHECK_EXIT(cudaStreamSynchronize(stream));
+	CUDA_RUNTIME_CHECK_EXIT(cudaStreamDestroy(stream));
+	CUDA_RUNTIME_CHECK_EXIT(cudaGraphExecDestroy(graphExec));
 
 	for (size_t i = 0; i < numElements; i++)
 		printf("input[%ld] ^ 2 = square[%ld] = %f ^ 2 = %f\n", i, i,
@@ -111,30 +112,32 @@ void graph_from_stream(void)
 	cudaGraph_t graph;
 	cudaGraphExec_t graphExec;
 
-	CUDA_CHECK_EXIT(
+	CUDA_RUNTIME_CHECK_EXIT(
 		cudaStreamCreateWithFlags(&stream, cudaStreamNonBlocking));
 
-	CUDA_CHECK_EXIT(
+	CUDA_RUNTIME_CHECK_EXIT(
 		cudaStreamBeginCapture(stream, cudaStreamCaptureModeGlobal));
 
-	CUDA_CHECK_EXIT(
+	CUDA_RUNTIME_CHECK_EXIT(
 		cudaMallocAsync((void **)&dev_str, sizeof(host_str), stream));
-	CUDA_CHECK_EXIT(cudaMemcpyAsync(dev_str, host_str, sizeof(host_str),
-					cudaMemcpyHostToDevice, stream));
+	CUDA_RUNTIME_CHECK_EXIT(
+		cudaMemcpyAsync(dev_str, host_str, sizeof(host_str),
+				cudaMemcpyHostToDevice, stream));
 
 	kernelHello<<<1, 1, 0, stream>>>(dev_str);
 
-	CUDA_CHECK_EXIT(cudaFreeAsync(dev_str, stream));
+	CUDA_RUNTIME_CHECK_EXIT(cudaFreeAsync(dev_str, stream));
 
-	CUDA_CHECK_EXIT(cudaStreamEndCapture(stream, &graph));
+	CUDA_RUNTIME_CHECK_EXIT(cudaStreamEndCapture(stream, &graph));
 
-	CUDA_CHECK_EXIT(cudaGraphInstantiate(&graphExec, graph, NULL, NULL, 0));
-	CUDA_CHECK_EXIT(cudaGraphDestroy(graph));
+	CUDA_RUNTIME_CHECK_EXIT(
+		cudaGraphInstantiate(&graphExec, graph, NULL, NULL, 0));
+	CUDA_RUNTIME_CHECK_EXIT(cudaGraphDestroy(graph));
 
-	CUDA_CHECK_EXIT(cudaGraphLaunch(graphExec, stream));
+	CUDA_RUNTIME_CHECK_EXIT(cudaGraphLaunch(graphExec, stream));
 
-	CUDA_CHECK_EXIT(cudaStreamSynchronize(stream));
-	CUDA_CHECK_EXIT(cudaStreamDestroy(stream));
+	CUDA_RUNTIME_CHECK_EXIT(cudaStreamSynchronize(stream));
+	CUDA_RUNTIME_CHECK_EXIT(cudaStreamDestroy(stream));
 }
 
 int main(void)
