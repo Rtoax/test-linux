@@ -17,30 +17,10 @@ const char prog_buffer[] = { " \
 
 const char *compile_opts[] = { "-arch=sm_86" };
 
-int main(void)
+void launch_from_ptx(nvrtcProgram prog)
 {
-	nvrtcProgram prog;
-	nvrtcResult ret;
-	size_t log_size, ptx_size;
+	size_t ptx_size;
 	char *ptx = NULL;
-
-	NVRTC_CHECK_EXIT(
-		nvrtcCreateProgram(&prog, prog_buffer, "hello", 0, NULL, NULL));
-
-	ret = nvrtcCompileProgram(prog, ARRAY_SIZE(compile_opts), compile_opts);
-	NVRTC_CHECK_EXIT(nvrtcGetProgramLogSize(prog, &log_size));
-	if (log_size > 1) {
-		char *log = (char *)malloc(log_size);
-		NVRTC_CHECK_EXIT(nvrtcGetProgramLog(prog, log));
-		printf("Compile log:\n%s\n", log);
-		free(log);
-	}
-
-	if (ret != NVRTC_SUCCESS) {
-		fprintf(stderr, "ERROR: CompileProgram failed, %s\n",
-			nvrtcGetErrorString(ret));
-		exit(EXIT_FAILURE);
-	}
 
 	NVRTC_CHECK_EXIT(nvrtcGetPTXSize(prog, &ptx_size));
 	if (ptx_size <= 1) {
@@ -71,12 +51,35 @@ int main(void)
 
 	CHECK_CUDA_ERROR_EXIT(cuCtxSynchronize());
 
-#ifdef __LUCA__
-	size_t codeSize;
-	nvrtcGetCodeSize(prog, &codeSize);
-#endif
-
 	CHECK_CUDA_ERROR_EXIT(cuModuleUnload(module));
 	CHECK_CUDA_ERROR_EXIT(cuCtxDestroy(ctx));
+}
+
+int main(void)
+{
+	nvrtcProgram prog;
+	nvrtcResult ret;
+	size_t log_size;
+
+	NVRTC_CHECK_EXIT(
+		nvrtcCreateProgram(&prog, prog_buffer, "hello", 0, NULL, NULL));
+
+	ret = nvrtcCompileProgram(prog, ARRAY_SIZE(compile_opts), compile_opts);
+	NVRTC_CHECK_EXIT(nvrtcGetProgramLogSize(prog, &log_size));
+	if (log_size > 1) {
+		char *log = (char *)malloc(log_size);
+		NVRTC_CHECK_EXIT(nvrtcGetProgramLog(prog, log));
+		printf("Compile log:\n%s\n", log);
+		free(log);
+	}
+
+	if (ret != NVRTC_SUCCESS) {
+		fprintf(stderr, "ERROR: CompileProgram failed, %s\n",
+			nvrtcGetErrorString(ret));
+		exit(EXIT_FAILURE);
+	}
+
+	launch_from_ptx(prog);
+
 	return 0;
 }
