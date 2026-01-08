@@ -2235,13 +2235,32 @@
 #define nvrtcProgram	__nv(rtcProgram)
 
 /**
+ * CUDA 13
+ * nvrtcResult nvrtcCreateProgram(nvrtcProgram *prog,
+ *                                const char *src,
+ *                                const char *name,
+ *                                int numHeaders,
+ *                                const char * const *headers,
+ *                                const char * const *includeNames);
+ *
+ * HIP
+ * hiprtcResult hiprtcCreateProgram(hiprtcProgram* prog,
+ *                                  const char* src,
+ *                                  const char* name,
+ *                                  int numHeaders,
+ *                                  const char** headers,
+ *                                  const char** includeNames);
+ */
+#define nvrtcCreateProgram __nv(rtcCreateProgram)
+
+/**
  * CUDA 12:
  * nvrtcResult nvrtcDestroyProgram(nvrtcProgram *prog);
  *
  * HIP:
  * hiprtcResult hiprtcDestroyProgram(hiprtcProgram* prog);
  */
-#define nvrtcDestroyProgram(prog)	__nv(rtcDestroyProgram(prog))
+#define nvrtcDestroyProgram(prog) __nv(rtcDestroyProgram(prog))
 
 /**
  * CUDA 12 and 13 don't have it?
@@ -2272,25 +2291,6 @@
  * hiprtcResult hiprtcGetProgramLog(hiprtcProgram prog, char* log);
  */
 #define nvrtcGetProgramLog(prog, log)	__nv(rtcGetProgramLog(prog, log))
-
-/**
- * CUDA 13
- * nvrtcResult nvrtcCreateProgram(nvrtcProgram *prog,
- *                                const char *src,
- *                                const char *name,
- *                                int numHeaders,
- *                                const char * const *headers,
- *                                const char * const *includeNames);
- *
- * HIP
- * hiprtcResult hiprtcCreateProgram(hiprtcProgram* prog,
- *                                  const char* src,
- *                                  const char* name,
- *                                  int numHeaders,
- *                                  const char** headers,
- *                                  const char** includeNames);
- */
-#define nvrtcCreateProgram	__nv(rtcCreateProgram)
 
 /**
  * CUDA 13

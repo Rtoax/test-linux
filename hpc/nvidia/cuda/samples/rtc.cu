@@ -81,5 +81,7 @@ int main(void)
 
 	launch_from_ptx(prog);
 
+	NVRTC_CHECK_EXIT(nvrtcDestroyProgram(&prog));
+
 	return 0;
 }
