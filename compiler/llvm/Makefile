@@ -1,5 +1,3 @@
-include llvm.mk
-
 subdir-y := c
 subdir-y += lr
 subdir-y += samples
