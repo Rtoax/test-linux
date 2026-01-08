@@ -17,6 +17,7 @@ const char prog_buffer[] = { " \
 		printf(\"Hello from GPU.\\n\"); \
 	}" };
 
+/* TODO: luca's lscc and hip's hipcc */
 const char *compile_opts[] = { "-arch=sm_86" };
 
 #if defined(__NVCC__)
@@ -24,6 +25,9 @@ void launch_from_ptx(nvrtcProgram prog)
 {
 	size_t ptx_size;
 	char *ptx = NULL;
+	CUdevice device;
+	CUcontext ctx;
+	CUmodule module;
 
 	NVRTC_CHECK_EXIT(nvrtcGetPTXSize(prog, &ptx_size));
 	if (ptx_size <= 1) {
@@ -35,15 +39,11 @@ void launch_from_ptx(nvrtcProgram prog)
 	NVRTC_CHECK_EXIT(nvrtcGetPTX(prog, ptx));
 	printf("PTX size %ld, PTX:\n%s\n", ptx_size, ptx);
 
-	CUdevice device;
 	CHECK_CUDA_ERROR_EXIT(cuDeviceGet(&device, 0));
 
-	CUcontext ctx;
 	CHECK_CUDA_ERROR_EXIT(cuCtxCreate(&ctx, NULL, 0, device));
 
-	CUmodule module;
 	CHECK_CUDA_ERROR_EXIT(cuModuleLoadData(&module, ptx));
-	free(ptx);
 
 	CUfunction kernel;
 	CHECK_CUDA_ERROR_EXIT(
@@ -56,6 +56,7 @@ void launch_from_ptx(nvrtcProgram prog)
 
 	CHECK_CUDA_ERROR_EXIT(cuModuleUnload(module));
 	CHECK_CUDA_ERROR_EXIT(cuCtxDestroy(ctx));
+	free(ptx);
 }
 #define launch_prog launch_from_ptx
 #elif defined(__LUCA__) || defined(__HIPCC__)
