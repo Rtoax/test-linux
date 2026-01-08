@@ -8,9 +8,9 @@ obj-ast := $(addsuffix .llvm.ast, $(target-y))
 obj-ll := $(addsuffix .llvm.ll, $(target-y))
 obj-ll.s := $(addsuffix .llvm.ll.s, $(target-y))
 obj-bc := $(addsuffix .llvm.bc, $(target-y))
-obj-dis.ll := $(addsuffix .llvm.dis.ll, $(target-y))
+obj-bc.dis := $(addsuffix .llvm.bc.dis, $(target-y))
 
-target-post-y := ${obj-ast} ${obj-ll} ${obj-ll.s} ${obj-bc} ${obj-dis.ll}
+target-post-y := ${obj-ast} ${obj-ll} ${obj-ll.s} ${obj-bc} ${obj-bc.dis}
 
 include main.mk
 

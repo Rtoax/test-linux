@@ -5,7 +5,7 @@
 # - .llvm.ast
 # - .llvm.ll
 # - .llvm.bc
-# - .llvm.dis.ll
+# - .llvm.bc.dis
 # - .llvm.ll.s
 # - target-llvm-ll-y
 #
@@ -42,7 +42,7 @@ CLANG_AST_CFLAGS := -Xclang -ast-dump -fsyntax-only
 	$(call log_obj,LLVM AS,$(<),$(@))
 	${Q}$(LLVM_AS) $(<) -o $(@)
 
-%.llvm.dis.ll: %.llvm.bc
+%.llvm.bc.dis: %.llvm.bc
 	$(call log_obj,LLVM DIS,$(<),$(@))
 	${Q}$(LLVM_DIS) $(<) -o $(@)
 
