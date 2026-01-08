@@ -2,8 +2,8 @@
 # Copyright (C) 2025-2026 Rong Tao
 #
 # Output definitions:
-# - HAVE_BCC=
-# - LIBBCC_PATH=
+# - HAVE_BCC=[y]
+# - LIBBCC_PATH=[/lib64/libbcc.so.0]
 # - bcc-cflags=
 # - bcc-ldflags=
 #
