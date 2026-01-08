@@ -8,6 +8,7 @@
 # - .luca.a.o
 # - .luca.bitcode
 # - .luca.devbin
+# - .luca.fatbc
 # - .luca.fatbin
 # - .luca.hc_fatbin
 # - .luca.hcFatBinSegment
@@ -28,6 +29,7 @@ include dir.mk
 
 cflags-lscc-bitcode := -device-bc
 cflags-lscc-devbin := -device-bin
+cflags-lscc-fatbc := -fatbc
 cflags-lscc-fatbin := -fatbin
 cflags-lscc-so := -Xcompiler -fPIC
 ldflags-lscc-so := -shared -Xcompiler -fPIC
@@ -148,6 +150,10 @@ $${OUTPUT}%.luca.devbin: %.${1} | $${OUTPUT}
 $${OUTPUT}%.luca.fatbin: %.${1} | $${OUTPUT}
 	$(call log_obj,LSCC FATBIN,$$(<),$$(@))
 	$${Q}$$(LSCC) -o $$(@) -c $$(<) $$(cflags-lscc-fatbin) $$(CFLAGS_LSCC) $$(CFLAGS_LSCC_$$(*))
+
+$${OUTPUT}%.luca.fatbc: %.${1} | $${OUTPUT}
+	$(call log_obj,LSCC FATBC,$$(<),$$(@))
+	$${Q}$$(LSCC) -o $$(@) -c $$(<) $$(cflags-lscc-fatbc) $$(CFLAGS_LSCC) $$(CFLAGS_LSCC_$$(*))
 endef
 # $1 - suffix of file: cu, luca
 define luca_obj_so

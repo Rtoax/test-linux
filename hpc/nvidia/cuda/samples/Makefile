@@ -69,6 +69,7 @@ target-lscc-${HAVE_LUCA} := $(patsubst %,%-luca,$(common-objs))
 target-post-${HAVE_LUCA} += $(patsubst %,${OUTPUT}%.luca.bitcode,$(common-objs))
 target-post-${HAVE_LUCA} += $(patsubst %,${OUTPUT}%.luca.devbin,$(common-objs))
 target-post-${HAVE_LUCA} += $(patsubst %,${OUTPUT}%.luca.fatbin,$(common-objs))
+target-post-${HAVE_LUCA} += $(patsubst %,${OUTPUT}%.luca.fatbc,$(common-objs))
 
 # Pure C
 target-y := matrix-c-fp32 matrix-c-fp64
