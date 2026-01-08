@@ -28,6 +28,7 @@ void launch_from_ptx(nvrtcProgram prog)
 	CUdevice device;
 	CUcontext ctx;
 	CUmodule module;
+	CUfunction kernel;
 
 	NVRTC_CHECK_EXIT(nvrtcGetPTXSize(prog, &ptx_size));
 	if (ptx_size <= 1) {
@@ -45,7 +46,6 @@ void launch_from_ptx(nvrtcProgram prog)
 
 	CHECK_CUDA_ERROR_EXIT(cuModuleLoadData(&module, ptx));
 
-	CUfunction kernel;
 	CHECK_CUDA_ERROR_EXIT(
 		cuModuleGetFunction(&kernel, module, "kernelHello"));
 
@@ -64,6 +64,8 @@ void launch_from_bitcode(nvrtcProgram prog)
 {
 	size_t bc_size;
 	char *bc;
+	CUmodule module;
+	CUfunction kernel;
 
 	NVRTC_CHECK_EXIT(hiprtcGetBitcodeSize(prog, &bc_size));
 	if (bc_size <= 1) {
@@ -75,7 +77,16 @@ void launch_from_bitcode(nvrtcProgram prog)
 	NVRTC_CHECK_EXIT(hiprtcGetBitcode(prog, bc));
 	printf("Bitcode size %ld, bitcode:\n%s\n", bc_size, bc);
 
-	/* TODO: finish me */
+	CHECK_CUDA_ERROR_EXIT(cuModuleLoadData(&module, bc));
+	CHECK_CUDA_ERROR_EXIT(
+		cuModuleGetFunction(&kernel, module, "kernelHello"));
+
+	/* TODO: adapt to hip */
+	CHECK_CUDA_ERROR_EXIT(lcModuleLaunchKernel(kernel, 1, 1, 1, 1, 1, 1, 0,
+						   NULL, NULL, NULL));
+
+	CHECK_CUDA_ERROR_EXIT(cuModuleUnload(module));
+	free(bc);
 }
 #define launch_prog launch_from_bitcode
 #else
