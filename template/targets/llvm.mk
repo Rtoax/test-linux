@@ -2,11 +2,11 @@
 # Copyright (C) 2025-2026 Rong Tao
 #
 # Targets list:
-# - .ast
-# - .ll
-# - .bc
-# - .dis.ll
-# - .ll.s
+# - .llvm.ast
+# - .llvm.ll
+# - .llvm.bc
+# - .llvm.dis.ll
+# - .llvm.ll.s
 # - target-llvm-ll-y
 #
 # Input definitions:
@@ -30,23 +30,23 @@ LLVM_LDFLAGS += $(shell ${LLVM_CONFIG} --ldflags)
 CLANG_AST_CFLAGS := -Xclang -ast-dump -fsyntax-only
 
 # AST: Abstract Syntax Tree
-%.ast: %.c
+%.llvm.ast: %.c
 	$(call log_obj,CLANG AST,$(<),$(@))
 	${Q}$(CLANG) $(<) ${CLANG_AST_CFLAGS} $(CFLAGS) $(CFLAGS_$(*)) > $(@)
 
-%.ll: %.c
+%.llvm.ll: %.c
 	$(call log_obj,CLANG LL,$(<),$(@))
 	${Q}$(CLANG) -S -emit-llvm $(<) -o $(@) $(CFLAGS) $(CFLAGS_$(*))
 
-%.bc: %.ll
+%.llvm.bc: %.llvm.ll
 	$(call log_obj,LLVM AS,$(<),$(@))
 	${Q}$(LLVM_AS) $(<) -o $(@)
 
-%.dis.ll: %.bc
+%.llvm.dis.ll: %.llvm.bc
 	$(call log_obj,LLVM DIS,$(<),$(@))
 	${Q}$(LLVM_DIS) $(<) -o $(@)
 
-%.ll.s: %.ll
+%.llvm.ll.s: %.llvm.ll
 	$(call log_obj,LLC,$(<),$(@))
 	${Q}$(LLC) $(<) -o $(@)
 

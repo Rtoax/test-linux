@@ -97,7 +97,6 @@ include user.mk
 include verbose.mk
 include arch.mk
 include dir.mk
-include llvm.mk
 include log.mk
 
 include pie.mk
@@ -186,7 +185,7 @@ endif
 ifneq ($(target-libso-y)$(target-libso-cpp-y),)
   include targets/libso.mk
 endif
-ifneq ($(HAVE_LLVM)$(target-llvm-ll-y),)
+ifneq ($(USE_LLVM)$(target-llvm-ll-y),)
   include targets/llvm.mk
 endif
 ifneq ($(target-bpf-y)$(target-btf-y),)

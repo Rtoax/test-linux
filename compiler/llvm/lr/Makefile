@@ -4,4 +4,4 @@ CFLAGS += -Wno-override-module
 
 include main.mk
 
-main: main.ll
+main: main.llvm.ll
