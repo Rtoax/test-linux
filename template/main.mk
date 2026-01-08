@@ -97,6 +97,7 @@ include user.mk
 include verbose.mk
 include arch.mk
 include dir.mk
+include llvm.mk
 include log.mk
 
 include pie.mk
