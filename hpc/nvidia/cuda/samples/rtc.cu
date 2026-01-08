@@ -58,27 +58,27 @@ void launch_from_ptx(nvrtcProgram prog)
 	CHECK_CUDA_ERROR_EXIT(cuCtxDestroy(ctx));
 }
 #define launch_prog launch_from_ptx
-#elif defined(__LUCA__)
+#elif defined(__LUCA__) || defined(__HIPCC__)
 void launch_from_bitcode(nvrtcProgram prog)
 {
 	size_t bc_size;
 	char *bc;
 
-	NVRTC_CHECK_EXIT(lcrtcGetBitcodeSize(prog, &bc_size));
+	NVRTC_CHECK_EXIT(hiprtcGetBitcodeSize(prog, &bc_size));
 	if (bc_size <= 1) {
 		fprintf(stderr, "ERROR: Get bitcode failed\n");
 		return;
 	}
 
 	bc = (char *)malloc(bc_size);
-	NVRTC_CHECK_EXIT(lcrtcGetBitcode(prog, bc));
+	NVRTC_CHECK_EXIT(hiprtcGetBitcode(prog, bc));
 	printf("Bitcode size %ld, bitcode:\n%s\n", bc_size, bc);
 
 	/* TODO: finish me */
 }
 #define launch_prog launch_from_bitcode
 #else
-#error "You are not NVCC or LUCA, develope me"
+#error "You are not one of NVCC/LUCA/HIP, develope me"
 #endif
 
 int main(void)

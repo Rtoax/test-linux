@@ -2301,10 +2301,15 @@
  */
 #define nvrtcGetProgramLogSize	__nv(rtcGetProgramLogSize)
 
+#define nvrtcGetPTXSize __nv(rtcGetPTXSize)
+#define nvrtcGetPTX __nv(rtcGetPTX)
+
 /**
- * HIP:
- *
+ * WARNING: cuda don't has Bitcode functions, this use to normalize development.
+ * LUCA/HPCC like ROCm HIP, thus, just define HIP here.
  */
+#define hiprtcGetBitcodeSize __nv(rtcGetBitcodeSize)
+#define hiprtcGetBitcode __nv(rtcGetBitcode)
 
 /**
  * There are store some special macros from here.
