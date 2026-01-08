@@ -87,6 +87,20 @@
 }
 #define CUPTI_CHECK_EXIT(CALL)	CUPTI_CHECK(CALL, exit(-1))
 
+#define NVRTC_CHECK(CALL, ERROR_DO)                                          \
+	{                                                                    \
+		nvrtcResult __err = CALL;                                    \
+		if (unlikely(__err != NVRTC_SUCCESS)) {                      \
+			fprintf(stderr, "\033[31m");                         \
+			fprintf(stderr, "ERROR: %s:%d Call %s failed, %s\n", \
+				__func__, __LINE__, #CALL,                   \
+				nvrtcGetErrorString(__err));                 \
+			fprintf(stderr, "\033[m");                           \
+			ERROR_DO;                                            \
+		}                                                            \
+	}
+#define NVRTC_CHECK_EXIT(CALL) NVRTC_CHECK(CALL, exit(-1))
+
 #ifdef __NVCC__
 # if CUDA_VERSION < 13000
 #  define DEVPROP_HAVE_CLOCK_REATE	1

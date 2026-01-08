@@ -87,6 +87,7 @@ LDFLAGS_NVCC += -lcufft
 LDFLAGS_NVCC += -lcurand
 LDFLAGS_NVCC += -lcusparse
 LDFLAGS_NVCC += -lcusolver
+LDFLAGS_NVCC += -lnvrtc
 ifdef HAVE_NCCL
   LDFLAGS_NVCC += -lnccl
 endif
