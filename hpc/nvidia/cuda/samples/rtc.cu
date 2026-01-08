@@ -12,7 +12,7 @@
 
 const char prog_buffer[] = { " \
 	extern \"C\" __global__ void kernelHello(void) { \
-		printf(\"Hello from GPU.\n\"); \
+		printf(\"Hello from GPU.\\n\"); \
 	}" };
 
 const char *compile_opts[] = { "-arch=sm_86" };
