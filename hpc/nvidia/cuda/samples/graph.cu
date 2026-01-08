@@ -109,6 +109,7 @@ void graph_from_stream(void)
 	char host_str[128] = { "Rong Tao" };
 	cudaStream_t stream;
 	cudaGraph_t graph;
+	cudaGraphExec_t graphExec;
 
 	CUDA_CHECK_EXIT(
 		cudaStreamCreateWithFlags(&stream, cudaStreamNonBlocking));
@@ -125,8 +126,15 @@ void graph_from_stream(void)
 
 	CUDA_CHECK_EXIT(cudaFreeAsync(dev_str, stream));
 
-	CUDA_CHECK_EXIT(cudaStreamDestroy(stream));
 	CUDA_CHECK_EXIT(cudaStreamEndCapture(stream, &graph));
+
+	CUDA_CHECK_EXIT(cudaGraphInstantiate(&graphExec, graph, NULL, NULL, 0));
+	CUDA_CHECK_EXIT(cudaGraphDestroy(graph));
+
+	CUDA_CHECK_EXIT(cudaGraphLaunch(graphExec, stream));
+
+	CUDA_CHECK_EXIT(cudaStreamSynchronize(stream));
+	CUDA_CHECK_EXIT(cudaStreamDestroy(stream));
 }
 
 int main(void)
