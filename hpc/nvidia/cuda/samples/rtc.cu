@@ -1,8 +1,10 @@
 // SPDX-License-Identifier: GPL-3.0
+/* Copyright (C) 2026 Rong Tao */
 /**
  * RTC - RunTime Compilation
  *
- * Copyright (C) 2026 Rong Tao
+ * CUDA: PTX
+ * LUCA: Bitcode
  */
 #include <stdio.h>
 #include "cuda_compat.h"
@@ -17,6 +19,7 @@ const char prog_buffer[] = { " \
 
 const char *compile_opts[] = { "-arch=sm_86" };
 
+#if defined(__NVCC__)
 void launch_from_ptx(nvrtcProgram prog)
 {
 	size_t ptx_size;
@@ -25,12 +28,12 @@ void launch_from_ptx(nvrtcProgram prog)
 	NVRTC_CHECK_EXIT(nvrtcGetPTXSize(prog, &ptx_size));
 	if (ptx_size <= 1) {
 		fprintf(stderr, "ERROR: Get PTX failed\n");
-		exit(EXIT_FAILURE);
+		return;
 	}
 
 	ptx = (char *)malloc(ptx_size);
 	NVRTC_CHECK_EXIT(nvrtcGetPTX(prog, ptx));
-	printf("PTX:\n%s\n", ptx);
+	printf("PTX size %ld, PTX:\n%s\n", ptx_size, ptx);
 
 	CUdevice device;
 	CHECK_CUDA_ERROR_EXIT(cuDeviceGet(&device, 0));
@@ -54,6 +57,29 @@ void launch_from_ptx(nvrtcProgram prog)
 	CHECK_CUDA_ERROR_EXIT(cuModuleUnload(module));
 	CHECK_CUDA_ERROR_EXIT(cuCtxDestroy(ctx));
 }
+#define launch_prog launch_from_ptx
+#elif defined(__LUCA__)
+void launch_from_bitcode(nvrtcProgram prog)
+{
+	size_t bc_size;
+	char *bc;
+
+	NVRTC_CHECK_EXIT(lcrtcGetBitcodeSize(prog, &bc_size));
+	if (bc_size <= 1) {
+		fprintf(stderr, "ERROR: Get bitcode failed\n");
+		return;
+	}
+
+	bc = (char *)malloc(bc_size);
+	NVRTC_CHECK_EXIT(lcrtcGetBitcode(prog, bc));
+	printf("Bitcode size %ld, bitcode:\n%s\n", bc_size, bc);
+
+	/* TODO: finish me */
+}
+#define launch_prog launch_from_bitcode
+#else
+#error "You are not NVCC or LUCA, develope me"
+#endif
 
 int main(void)
 {
@@ -79,7 +105,7 @@ int main(void)
 		exit(EXIT_FAILURE);
 	}
 
-	launch_from_ptx(prog);
+	launch_prog(prog);
 
 	NVRTC_CHECK_EXIT(nvrtcDestroyProgram(&prog));
 
