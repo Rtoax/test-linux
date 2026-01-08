@@ -115,6 +115,23 @@
  */
 #define cudaGetErrorName(error)	__cuda(GetErrorName(error))
 
+/**
+ * CUDA 13:
+ * CUresult cuGetErrorName(CUresult error, const char **pStr);
+ *
+ * LUCA:
+ * const char *lcGetErrorName(lcError_t lc_error);
+ */
+#ifdef __USE_LUCA__
+#define cuGetErrorName(error, pStr)              \
+	do {                                     \
+		const char **__pstr = pStr;      \
+		*__pstr = lcGetErrorName(error); \
+	} while (0)
+#else
+#define cuGetErrorName __cu(GetErrorName)
+#endif
+
 #define cudaLimit	__cuda(Limit_t)
 #define cudaLimitStackSize	__cuda(LimitStackSize)
 #define cudaLimitPrintfFifoSize	__cuda(LimitPrintfFifoSize)
@@ -496,6 +513,20 @@
  */
 #define cudaLaunchKernel(func, g, b, args, mem, stream) \
 	__cuda(LaunchKernel(func, g, b, args, mem, stream))
+
+/**
+ * CUDA 13
+ * CUresult cuLaunchKernel(CUfunction f, unsigned int gridDimX,
+ *                         unsigned int gridDimY, unsigned int gridDimZ,
+ *                         unsigned int blockDimX, unsigned int blockDimY,
+ *                         unsigned int blockDimZ, unsigned int sharedMemBytes,
+ *                         CUstream hStream, void **kernelParams, void **extra);
+ *
+ * LUCA:
+ * lcError_t lcLaunchKernel(const void *function_address, dim3 numBlocks,
+ *                          dim3 dimBlocks, void **args,
+ */
+#define cuLaunchKernel __cu(LaunchKernel)
 
 /**
  * CUDA 12:
@@ -2181,9 +2212,9 @@
 #define CUjit_option	__CU(jit_option)
 #define cuModuleLoadDataEx	__cu(ModuleLoadDataEx)
 
-/**
- * NV RTC
- */
+/******************************************************************************\
+ *             RTC                                                            *
+\******************************************************************************/
 #define nvrtcResult	__nv(rtcResult)
 #define NVRTC_SUCCESS	__NV(RTC_SUCCESS)
 #define NVRTC_ERROR_OUT_OF_MEMORY	__NV(RTC_ERROR_OUT_OF_MEMORY)
@@ -2198,6 +2229,8 @@
 #define NVRTC_ERROR_NAME_EXPRESSION_NOT_VALID	__NV(RTC_ERROR_NAME_EXPRESSION_NOT_VALID)
 #define NVRTC_ERROR_INTERNAL_ERROR	__NV(RTC_ERROR_INTERNAL_ERROR)
 #define NVRTC_ERROR_TIME_FILE_WRITE_FAILED	__NV(RTC_ERROR_TIME_FILE_WRITE_FAILED)
+
+#define nvrtcGetErrorString __nv(rtcGetErrorString)
 
 #define nvrtcProgram	__nv(rtcProgram)
 
@@ -2793,6 +2826,14 @@
 #define cudaMalloc_v3020_params	__cuda(Malloc_params)
 
 #define CUcontext	__CU(context)
+#define cuCtxCreate __cu(CtxCreate)
+#define cuCtxDestroy __cu(CtxDestroy)
+
+/**
+ * LUCA: lcError_t lcCtxSynchronize();
+ */
+#define cuCtxSynchronize __cu(CtxSynchronize)
+
 #define CUpti_Activity	__CU(pti_Activity)
 #define CUpti_ActivityKernel	__CU(pti_ActivityKernel)
 #define CUpti_ActivityKernel1	__CU(pti_ActivityKernel1)
