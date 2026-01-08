@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - Obey the linux [.clang-format](https://raw.githubusercontent.com/torvalds/linux/master/.clang-format) rules;
 #### Added
+- cuda/samples: add rtc.cu;
 - luca: add cmake subdir;
 - bpftool: add version.sh;
 - distributions: add version.sh;

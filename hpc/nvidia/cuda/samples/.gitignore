@@ -87,6 +87,10 @@
 /properties-hip
 /properties-hpcc
 /properties-luca
+/rtc-nv
+/rtc-hip
+/rtc-hpcc
+/rtc-luca
 /stream-nv
 /stream-hip
 /stream-hpcc

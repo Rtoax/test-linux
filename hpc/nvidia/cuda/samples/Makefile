@@ -33,6 +33,7 @@ common-objs += module
 common-objs += p2p
 common-objs += parallel
 common-objs += properties
+common-objs += rtc
 common-objs += version
 
 # NVIDIA CUDA
