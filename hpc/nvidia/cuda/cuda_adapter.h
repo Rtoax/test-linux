@@ -529,7 +529,7 @@
 #define cuLaunchKernel __cu(LaunchKernel)
 
 /**
- * CUDA 12:
+ * CUDA 12/13:
  * don't have nvModuleLaunchKernel, cudaModuleLaunchKernel, cuModuleLaunchKernel
  * but cuLaunchKernel looks like hipModuleLaunchKernel.
  *
@@ -540,7 +540,16 @@
  *                                  unsigned int blockDimY, unsigned int blockDimZ,
  *                                  unsigned int sharedMemBytes, hipStream_t stream,
  *                                  void** kernelParams, void** extra);
+ *
+ * LUCA:
+ * lcError_t lcModuleLaunchKernel(lcFunction_t f,
+ *                                unsigned int gridDimX, unsigned int gridDimY,
+ *                                unsigned int gridDimZ, unsigned int blockDimX,
+ *                                unsigned int blockDimY, unsigned int blockDimZ,
+ *                                unsigned int sharedMemBytes, lcStream_t hStream,
+ *                                void **kernelParams, void **extra);
  */
+#define hipModuleLaunchKernel __cu(ModuleLaunchKernel)
 
 /**
  * HPCC 3.0.0:

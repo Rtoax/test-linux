@@ -82,8 +82,8 @@ void launch_from_bitcode(nvrtcProgram prog)
 		cuModuleGetFunction(&kernel, module, "kernelHello"));
 
 	/* TODO: adapt to hip */
-	CHECK_CUDA_ERROR_EXIT(lcModuleLaunchKernel(kernel, 1, 1, 1, 1, 1, 1, 0,
-						   NULL, NULL, NULL));
+	CHECK_CUDA_ERROR_EXIT(hipModuleLaunchKernel(kernel, 1, 1, 1, 1, 1, 1, 0,
+						    NULL, NULL, NULL));
 
 	CHECK_CUDA_ERROR_EXIT(cuModuleUnload(module));
 	free(bc);
