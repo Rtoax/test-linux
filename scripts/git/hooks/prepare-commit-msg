@@ -158,6 +158,7 @@ add_pciutils_ver() { add_ver "PCIUtils $(${TOPDIR}/driver/pcie/pciutils/version.
 add_git_ver() { add_ver "GIT $(${TOPDIR}/scripts/git/version.sh)"; }
 add_numactl_ver() { add_ver "NUMACTL $(${TOPDIR}/numa/numactl/version.sh)"; }
 add_bpftrace_ver() { add_ver "BPFTrace $(${TOPDIR}/bpf/bpftrace/version.sh)"; }
+add_bpftool_ver() { add_ver "bpftool $(${TOPDIR}/bpf/bpftool/version.sh)"; }
 add_bcc_ver() { add_ver "BCC $(${TOPDIR}/bpf/bcc/version.sh)"; }
 add_libbpf_ver() { add_ver "LIBBPF $(${TOPDIR}/bpf/libbpf/version.sh)"; }
 add_py_ver() { add_ver "Python $(${TOPDIR}/python/version.sh)"; }
@@ -228,6 +229,10 @@ fi
 
 if [[ "$(have_type bt)$(have_key bpftrace)" ]]; then
 	add_bpftrace_ver
+fi
+
+if [[ "$(have_key bpftool)" ]]; then
+	add_bpftool_ver
 fi
 
 if [[ "$(have_key llvm bt nvidia)" ]]; then
