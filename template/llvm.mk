@@ -1,5 +1,12 @@
 # SPDX-License-Identifier: GPL-3.0
+# Copyright (C) 2025-2026 Rong Tao
+#
+# Output definitions:
+# - WHEREIS_LLVM=[/usr/include/llvm]
+#
 _LLVM_MK = 1
+
+WHEREIS_LLVM := $(shell whereis llvm | awk '{print $$2}')
 
 CLANG := $(shell which clang 2>/dev/null)
 CLANGXX := $(shell which clang++ 2>/dev/null)
