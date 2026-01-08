@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0
 /**
- * RTC - RunTime Compile
+ * RTC - RunTime Compilation
  *
  * Copyright (C) 2026 Rong Tao
  */
@@ -10,21 +10,36 @@
 
 #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof(arr[0]))
 
-char prog_buffer[] = { " \
-	__global__ void kernelHello(void) { \
+const char prog_buffer[] = { " \
+	extern \"C\" __global__ void kernelHello(void) { \
 		printf(\"Hello from GPU.\n\"); \
 	}" };
 
-const char *compile_opts[] = { "-x luca" };
+const char *compile_opts[] = { "-arch=sm_86" };
 
 int main(void)
 {
 	nvrtcProgram prog;
+	nvrtcResult ret;
+	size_t log_size;
 
 	NVRTC_CHECK_EXIT(
 		nvrtcCreateProgram(&prog, prog_buffer, "hello", 0, NULL, NULL));
-	NVRTC_CHECK_EXIT(nvrtcCompileProgram(prog, ARRAY_SIZE(compile_opts),
-					     compile_opts));
+
+	ret = nvrtcCompileProgram(prog, ARRAY_SIZE(compile_opts), compile_opts);
+	NVRTC_CHECK_EXIT(nvrtcGetProgramLogSize(prog, &log_size));
+	if (log_size > 1) {
+		char *log = (char *)malloc(log_size);
+		NVRTC_CHECK_EXIT(nvrtcGetProgramLog(prog, log));
+		printf("Compile log:\n%s\n", log);
+		free(log);
+	}
+
+	if (ret != NVRTC_SUCCESS) {
+		fprintf(stderr, "ERROR: CompileProgram failed, %s\n",
+			nvrtcGetErrorString(ret));
+		exit(EXIT_FAILURE);
+	}
 
 #ifdef __LUCA__
 	size_t codeSize;
