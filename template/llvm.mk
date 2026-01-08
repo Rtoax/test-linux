@@ -33,7 +33,7 @@ LLVM_DIS := $(shell which llvm-dis 2>/dev/null)
 LLC := $(shell which llc 2>/dev/null)
 
 # Note: Yep, i always store under this path
-LLVM_SRC_ROOT := /home/rongtao/Git/llvm/
+LLVM_SRC_ROOT := $(HOME)/Git/llvm/
 CLANG_SRC_ROOT := ${LLVM_SRC_ROOT}/clang/
 
 # $1 - target name

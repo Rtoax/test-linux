@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-LINUX_ROOT=/home/rongtao/Git/linux/
+LINUX_ROOT=${HOME}/Git/linux/
 
 linux_syscalls_name() {
 	local tbl=$1
@@ -23,4 +23,3 @@ if [[ -e ${LINUX_ROOT} ]]; then
 	linux_syscalls_name ${LINUX_ROOT}/arch/powerpc/kernel/syscalls/syscall.tbl | tee syscalls-ppc64.h
 	linux_syscalls_name ${LINUX_ROOT}/arch/s390/kernel/syscalls/syscall.tbl | tee syscalls-s390.h
 fi
-

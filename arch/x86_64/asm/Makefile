@@ -38,7 +38,7 @@ ifneq ($(shell uname -m),x86_64)
   CC = x86_64-linux-gnu-gcc
   LD = x86_64-linux-gnu-ld
   RUN_PFX = qemu-x86_64
-  LDFLAGS += --sysroot /home/rongtao/rootfs-x86_64
+  LDFLAGS += --sysroot $(HOME)/rootfs-x86_64
 endif
 
 CFLAGS_write-c-loop := -DINFINITE_LOOP=1

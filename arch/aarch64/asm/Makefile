@@ -30,7 +30,7 @@ ifneq ($(shell uname -m),aarch64)
   LD := aarch64-linux-gnu-ld
   OBJDUMP := aarch64-linux-gnu-objdump
   RUN_PFX := qemu-aarch64
-  ASMLDFLAGS += --sysroot /home/rongtao/rootfs-aarch64/
+  ASMLDFLAGS += --sysroot $(HOME)/rootfs-aarch64/
 else ifeq ($(shell uname -m),aarch64)
   target-y += add-c
   target-y += loop-c

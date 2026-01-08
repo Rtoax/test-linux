@@ -1,7 +1,7 @@
 #!/bin/bash
 # link: https://github.com/brendangregg/FlameGraph
 
-FLAMEGRAPH_ROOT=/home/rongtao/Git/brendangregg/FlameGraph/
+FLAMEGRAPH_ROOT=${HOME}/Git/brendangregg/FlameGraph/
 
 function perf_pid_record()
 {

@@ -15,6 +15,6 @@ rmmod:
 	sudo rmmod vhost_test
 
 sync:
-	cp /home/rongtao/Git/linux/drivers/vhost/test.c .
-	cp /home/rongtao/Git/linux/drivers/vhost/test.h .
-	cp /home/rongtao/Git/linux/drivers/vhost/vhost.h .
+	cp $(HOME)/Git/linux/drivers/vhost/test.c .
+	cp $(HOME)/Git/linux/drivers/vhost/test.h .
+	cp $(HOME)/Git/linux/drivers/vhost/vhost.h .
