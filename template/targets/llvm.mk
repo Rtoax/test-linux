@@ -1,4 +1,16 @@
 # SPDX-License-Identifier: GPL-3.0
+# Copyright (C) 2025-2026 Rong Tao
+#
+# Targets list:
+# - .ast
+# - .ll
+# - .bc
+# - .dis.ll
+# - .ll.s
+# - target-llvm-ll-y
+#
+# Input definitions:
+#
 _TARGET_LLVM_MK = 1
 
 include llvm.mk

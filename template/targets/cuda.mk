@@ -4,21 +4,21 @@
 # This makefile use to compile Nvidia targets.
 #
 # Targets list:
-# .cu.o
-# .cu.so.o
-# .cu.a.o
-# .cu.ptx
-# .cu.cpp.ii
-# .cu.cubin
-# .cu.fatbin
-# .nv_fatbin
-# .nvFatBinSegment
-# .cu.ptx.dump
-# .cu.sass.dump
-# .E.cu
-# target-nvcc-y
-# target-nvcc-libso-y
-# target-nvcc-liba-y
+# - .cu.o
+# - .cu.so.o
+# - .cu.a.o
+# - .cu.ptx
+# - .cu.cpp.ii
+# - .cu.cubin
+# - .cu.fatbin
+# - .nv_fatbin
+# - .nvFatBinSegment
+# - .cu.ptx.dump
+# - .cu.sass.dump
+# - .E.cu
+# - target-nvcc-y
+# - target-nvcc-libso-y
+# - target-nvcc-liba-y
 #
 # Input definitions:
 # - HAVE_NCCL
