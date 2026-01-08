@@ -21,7 +21,8 @@ int main(void)
 {
 	nvrtcProgram prog;
 	nvrtcResult ret;
-	size_t log_size;
+	size_t log_size, ptx_size;
+	char *ptx = NULL;
 
 	NVRTC_CHECK_EXIT(
 		nvrtcCreateProgram(&prog, prog_buffer, "hello", 0, NULL, NULL));
@@ -41,10 +42,19 @@ int main(void)
 		exit(EXIT_FAILURE);
 	}
 
+	NVRTC_CHECK_EXIT(nvrtcGetPTXSize(prog, &ptx_size));
+	if (ptx_size > 1) {
+		ptx = (char *)malloc(ptx_size);
+		NVRTC_CHECK_EXIT(nvrtcGetPTX(prog, ptx));
+		printf("PTX:\n%s\n", ptx);
+	}
+
 #ifdef __LUCA__
 	size_t codeSize;
 	nvrtcGetCodeSize(prog, &codeSize);
 #endif
 
+	if (ptx)
+		free(ptx);
 	return 0;
 }
