@@ -9,6 +9,22 @@
 # define unlikely(x)  __builtin_expect(!!(x), 0)
 #endif
 
+#define CHECK_CUDA_ERROR(expr, ERROR_DO)                                     \
+	{                                                                    \
+		CUresult __result = expr;                                    \
+		if (__result != CUDA_SUCCESS) {                              \
+			const char *__err_name;                              \
+			cuGetErrorName(__result, &__err_name);               \
+			fprintf(stderr, "\033[31m");                         \
+			fprintf(stderr, "ERROR: %s:%d Call %s failed, %s\n", \
+				__func__, __LINE__, #expr, __err_name);      \
+			fprintf(stderr, "\033[m");                           \
+			ERROR_DO;                                            \
+		}                                                            \
+	}
+#define CHECK_CUDA_ERROR_EXIT(expr) CHECK_CUDA_ERROR(expr, exit(-1))
+
+/* FIXME: This is cuda runtime check, rename it */
 #define CUDA_CHECK(CALL, ERROR_DO)	{				\
 	cudaError_t __err = CALL;					\
 	if (unlikely(__err != cudaSuccess)) {				\

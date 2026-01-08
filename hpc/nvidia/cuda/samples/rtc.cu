@@ -43,18 +43,40 @@ int main(void)
 	}
 
 	NVRTC_CHECK_EXIT(nvrtcGetPTXSize(prog, &ptx_size));
-	if (ptx_size > 1) {
-		ptx = (char *)malloc(ptx_size);
-		NVRTC_CHECK_EXIT(nvrtcGetPTX(prog, ptx));
-		printf("PTX:\n%s\n", ptx);
+	if (ptx_size <= 1) {
+		fprintf(stderr, "ERROR: Get PTX failed\n");
+		exit(EXIT_FAILURE);
 	}
+
+	ptx = (char *)malloc(ptx_size);
+	NVRTC_CHECK_EXIT(nvrtcGetPTX(prog, ptx));
+	printf("PTX:\n%s\n", ptx);
+
+	CUdevice device;
+	CHECK_CUDA_ERROR_EXIT(cuDeviceGet(&device, 0));
+
+	CUcontext ctx;
+	CHECK_CUDA_ERROR_EXIT(cuCtxCreate(&ctx, NULL, 0, device));
+
+	CUmodule module;
+	CHECK_CUDA_ERROR_EXIT(cuModuleLoadData(&module, ptx));
+	free(ptx);
+
+	CUfunction kernel;
+	CHECK_CUDA_ERROR_EXIT(
+		cuModuleGetFunction(&kernel, module, "kernelHello"));
+
+	CHECK_CUDA_ERROR_EXIT(
+		cuLaunchKernel(kernel, 1, 1, 1, 1, 1, 1, 0, NULL, NULL, NULL));
+
+	CHECK_CUDA_ERROR_EXIT(cuCtxSynchronize());
 
 #ifdef __LUCA__
 	size_t codeSize;
 	nvrtcGetCodeSize(prog, &codeSize);
 #endif
 
-	if (ptx)
-		free(ptx);
+	CHECK_CUDA_ERROR_EXIT(cuModuleUnload(module));
+	CHECK_CUDA_ERROR_EXIT(cuCtxDestroy(ctx));
 	return 0;
 }
