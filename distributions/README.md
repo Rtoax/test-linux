@@ -1,6 +1,17 @@
 OS Distrobutions
 =================
 
+# Linux Kernel Reference
+
+* 6.18.3-200 (fedora43)
+* 6.17.12-300 (fedora43)
+* 6.16.3-200 (fedora42)
+* 6.12.57 (debian13)
+* 5.15.0
+* 5.14.0
+* 5.10.13
+
+
 # Repository
 
 - [阿里巴巴开源镜像站](https://developer.aliyun.com/mirror/)
