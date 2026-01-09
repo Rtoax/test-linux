@@ -24,6 +24,7 @@ squashfs-root
 *.output*
 *.btf
 *.bpf.disasm
+*.dis
 *.run
 
 # Precompiled Headers
