@@ -1,10 +1,6 @@
 Uprobes
 ==========
 
-# CONFIG
-
-- `CONFIG_UPROBES`
-
 
 # Links
 
