@@ -55,7 +55,7 @@ list_all() {
 }
 
 find_name() {
-	list_all | grep -i " .*${name}.*:" ${word:+-w}
+	list_all | grep -i ".*${name}.*=" ${word:+-w}
 }
 
 if [[ ${name} ]]; then
