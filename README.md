@@ -25,6 +25,7 @@ You could always use [man-pages](https://git.kernel.org/pub/scm/docs/man-pages/m
 
 # Linux Kernel Reference
 
+* 6.18.3-200 (fedora43)
 * 6.17.12-300 (fedora43)
 * 6.16.3-200 (fedora42)
 * 6.12.57 (debian13)
