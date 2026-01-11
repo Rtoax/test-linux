@@ -11,6 +11,11 @@ ifdef DEBUG
   RUNPROG += --verbose
 endif
 
-%.make.log: %.make
-	$(call log_exe,MAKE,$(<),$(@))
-	$(Q)$(RUNPROG) --log $(@) -- $(MAKE) -f $(<) $(ARGS_$(*))
+# $1 - suffix of file: mk, mak
+define make_obj
+%.${1}.log: %.${1}
+	$$(call log_exe,MAKE,$$(<),$$(@))
+	$$(Q)$$(RUNPROG) --log $$(@) -- $$(MAKE) -f $$(<) $$(ARGS_$$(*))
+endef
+$(eval $(call make_obj,mk))
+$(eval $(call make_obj,mak))

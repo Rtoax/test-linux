@@ -128,12 +128,22 @@ build-targets += $(target-lscc-libso-y)
 build-targets += $(target-lscc-liba-y)
 build-targets += $(target-go-y)
 build-targets += $(target-java-y)
-build-targets += $(patsubst %.sh,%.sh.log,$(target-shell-y))
-build-targets += $(patsubst %.py,%.py.log,$(target-python-y))
-build-targets += $(patsubst %.make,%.make.log,$(target-mk-y))
-build-targets += $(patsubst %.bt,%.bt.log,$(target-bt-y))
+
+# Here we need to perform filter-out. For example, both mk and mak are
+# target-mk-y added in the original Makefile. This means that origin
+# targets targets-from-src may contain targets for .mk and .mak, which
+# will cause the original files to be deleted during clean. Therefore,
+# we need to filter out the original files here.
+targets-from-src += $(patsubst %.sh,%.sh.log,$(target-shell-y))
+targets-from-src += $(patsubst %.py,%.py.log,$(target-python-y))
+targets-from-src += $(patsubst %.mk,%.mk.log,$(target-mk-y))
+targets-from-src += $(patsubst %.mak,%.mak.log,$(target-mk-y))
+targets-from-src += $(patsubst %.bt,%.bt.log,$(target-bt-y))
+build-targets := $(filter-out %.sh %.py %.mk %.mak %.bt, $(targets-from-src))
+
 build-targets += $(subdir-y-build)
 build-targets += $(target-post-y)
+
 
 ifdef DEBUG
   $(info CFLAGS = ${CFLAGS})

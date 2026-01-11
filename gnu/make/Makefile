@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
 include dir.mk
 
-target-mk-y := $(shell ls *.make)
+target-mk-y := $(shell ls *.mak)
 
 MAKEFLAGS += --include-dir=${TOPDIR}
 MAKEFLAGS += --include-dir=${TOPDIR}/template

@@ -16,6 +16,7 @@ $(info $(filter a,a b c))
 
 $(info filter-out $${OUTPUT} = $(filter-out .output2/,${OUTPUT}))
 $(info filter-out $${OUTPUT} = $(filter-out .output3/%,${OUTPUT}))
+$(info filter-out $${OUTPUT} = $(filter-out .output2% .output3%,${OUTPUT}))
 
 .PHONY: build
 build:
