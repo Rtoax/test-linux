@@ -1,10 +1,5 @@
-target-y :=
-
-ifeq ($(shell uname -m),x86_64)
-  target-y += macro
-else
-  $(warning Not support arch except x86_64)
-endif
+include arch.mk
+target-${IS_X86_64} += macro
 
 include main.mk
 

@@ -1,14 +1,8 @@
-LDS := ld-alternative.lds
+include arch.mk
 
-target-y :=
+target-${IS_X86_64} += main
 
-ifeq ($(shell uname -m),x86_64)
-  target-y += main
-else
-  $(warning Not support arch except x86_64)
-endif
-
-LDFLAGS += -Wl,-T${LDS}
+LDFLAGS += -Wl,-Tld-alternative.lds
 ifneq ($(shell ld --help | grep -o no-warn-rwx-segments),)
   LDFLAGS += -Wl,--no-warn-rwx-segments
 endif

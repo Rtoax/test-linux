@@ -53,4 +53,3 @@ int main(void)
 	mb();
 	return 0;
 }
-
