@@ -91,8 +91,8 @@ printf-main: printf-main.o
 say_hello: say_hello.o
 exit: exit.as.o
 nanosleep: nanosleep.as.o
-hello_sve: hello_sve.o
-daxpy: daxpy.o daxpy_sve.o daxpy-c.co
+hello_sve: hello_sve.as.o
+daxpy: daxpy.as.o daxpy_sve.as.o daxpy-c.o
 add-c: add-c.o
 loop-c: loop-c.o
 paciasp-c: paciasp-c.o
