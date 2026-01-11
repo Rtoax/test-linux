@@ -57,6 +57,7 @@ Linus Torvalds releases a new kernel and opens a **2-week merge window**.
 * Each **drawio** contains relate directory diagrams.
 * Never call `include` in `*.mk` file, only call `include` in Makefile.
 * Each `kconfig` contains kernel CONFIG, each CONFIG is placed in the kconfig of the corresponding directory, and the public CONFIG is placed in the kconfig of the top-level directory.
+	- scripts: `./kconfig.sh` to check all kernel config;
 * Each `*_helpers*` is helpers program/script of current directory, better `LGPL-2.1 OR BSD-2-Clause` license.
 * Each `requirements.txt` is Python pip --requirement for each directory.
 * Ignore file (check `.gitignore`).
