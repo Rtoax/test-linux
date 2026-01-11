@@ -10,6 +10,19 @@ and this project adheres to
 ## Unreleased
 
 #### Breaking Changes
+#### Added
+#### Changed
+#### Deprecated
+#### Removed
+#### Fixed
+#### Security
+#### Docs
+#### Tools
+
+
+## [v2.3.13] 2026-01-11
+
+#### Breaking Changes
 - Obey the linux [.clang-format](https://raw.githubusercontent.com/torvalds/linux/master/.clang-format) rules;
 #### Added
 - template: add file.mk;
