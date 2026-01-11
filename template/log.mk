@@ -1,18 +1,14 @@
 # SPDX-License-Identifier: GPL-3.0
 # Copyright (C) 2022-2026 Rong Tao
+#
 _LOG_MK = 1
 
-include shell.mk
 include dir.mk
 include ansi.mk
+include file.mk
 
 LOG_FILE_INFO := $(TOPDIR)/info.log
 LOG_FILE_FAILED := $(TOPDIR)/failed.log
-
-ifdef DEBUG
-  $(info LOG_FILE_INFO = ${LOG_FILE_INFO})
-  $(info LOG_FILE_FAILED = ${LOG_FILE_FAILED})
-endif
 
 # Timestamp
 define TS
@@ -46,16 +42,8 @@ printf '$(call TS) $(call green,$1)\n' | tee --append ${LOG_FILE_INFO}
 endef
 
 define log_reset_files
-	${Q}function ___rename_log() { \
-		if [[ -e $${1} ]]; then \
-			if [[ -e $${1}.old ]]; then \
-				___rename_log $${1}.old; \
-			fi; \
-			mv $${1} $${1}.old; \
-		fi; \
-	}; \
-	___rename_log $(LOG_FILE_FAILED); \
-	___rename_log $(LOG_FILE_INFO)
+	${Q}$(call reset_file,${LOG_FILE_FAILED}); \
+	$(call reset_file,${LOG_FILE_INFO})
 endef
 
 define log_display_failed
@@ -63,3 +51,10 @@ define log_display_failed
 		cat $(LOG_FILE_FAILED) ; \
 	fi
 endef
+
+ifdef DEBUG
+  $(info LOG_FILE_INFO = ${LOG_FILE_INFO})
+  $(info LOG_FILE_FAILED = ${LOG_FILE_FAILED})
+endif
+
+export LOG_FILE_INFO LOG_FILE_FAILED

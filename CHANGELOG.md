@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - Obey the linux [.clang-format](https://raw.githubusercontent.com/torvalds/linux/master/.clang-format) rules;
 #### Added
+- template: add file.mk;
 - template: add map.mk;
 - add history.sh;
 - add kconfig.sh;
