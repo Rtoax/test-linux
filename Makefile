@@ -81,6 +81,7 @@ target-prep-y := reset
 target-post-y := done
 
 target-shell-y := abbrev.sh
+target-shell-y += history.sh
 target-shell-y += kconfig.sh
 
 ifeq ($(KMOD),0)
