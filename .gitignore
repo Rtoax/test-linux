@@ -108,6 +108,7 @@ __pycache__
 # Log
 *.log
 *.log.old
+*.log.*.old
 *.log.[0-9]
 *.blktrace.[0-9]*
 *.dump

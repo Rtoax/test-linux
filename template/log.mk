@@ -2,6 +2,7 @@
 # Copyright (C) 2022-2026 Rong Tao
 _LOG_MK = 1
 
+include shell.mk
 include dir.mk
 include ansi.mk
 
@@ -45,13 +46,16 @@ printf '$(call TS) $(call green,$1)\n' | tee --append ${LOG_FILE_INFO}
 endef
 
 define log_reset_files
-	${Q}if [[ -e $(LOG_FILE_FAILED) ]]; then \
-		mv $(LOG_FILE_FAILED) $(LOG_FILE_FAILED).old; \
-	fi; \
-	if [[ -e $(LOG_FILE_INFO) ]]; then \
-		mv $(LOG_FILE_INFO) $(LOG_FILE_INFO).old; \
-	fi; \
-	rm -f $(LOG_FILE_FAILED) $(LOG_FILE_INFO)
+	${Q}function ___rename_log() { \
+		if [[ -e $${1} ]]; then \
+			if [[ -e $${1}.old ]]; then \
+				___rename_log $${1}.old; \
+			fi; \
+			mv $${1} $${1}.old; \
+		fi; \
+	}; \
+	___rename_log $(LOG_FILE_FAILED); \
+	___rename_log $(LOG_FILE_INFO)
 endef
 
 define log_display_failed
