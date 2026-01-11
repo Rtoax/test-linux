@@ -1,9 +1,3 @@
-/**
- *	File ida_alloc.c
- *	Time 2021.11.24
- *	Author Rong Tao
- *
- */
 #include <linux/module.h>
 #include <linux/idr.h>
 #include <linux/kernel.h>
@@ -47,4 +41,3 @@ module_init(test_init);
 module_exit(test_exit);
 MODULE_AUTHOR("Rong Tao");
 MODULE_LICENSE("GPL");
-
