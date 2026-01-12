@@ -9,12 +9,21 @@
 #include "cuda_compat.h"
 #include "cuda_helpers.h"
 
-
 __device__ int dev_a = 0;
 __constant__ __device__ int dev_const_a = 0;
 
-/* call by kernel/device, run by device */
-__device__ void dev_foo(void)
+/**
+ * Function to read the GPU nanosecond timer in a kernel
+ * see cuda-samples/Samples/6_Performance/cudaGraphsPerfScaling
+ */
+__device__ __forceinline__ unsigned long long __globaltimer(void)
+{
+	unsigned long long globaltimer;
+	asm volatile("mov.u64 %0, %globaltimer;" : "=l"(globaltimer));
+	return globaltimer;
+}
+
+__device__ __forceinline__ unsigned int __laneid(void)
 {
 	unsigned int laneid;
 #if defined(__LUCA__) || defined(__HIPCC__)
@@ -22,7 +31,14 @@ __device__ void dev_foo(void)
 #else
 	asm("mov.u32 %0, %%laneid;" : "=r"(laneid));
 #endif
-	printf("Hello from GPU foo, laneid=%d.\n", laneid);
+	return laneid;
+}
+
+/* call by kernel/device, run by device */
+__device__ void dev_foo(void)
+{
+	printf("Hello from GPU, laneid=%d, globaltimer=%ld.\n", __laneid(),
+	       __globaltimer());
 }
 
 /* call by host, run by device */
@@ -33,7 +49,8 @@ __global__ void kern_func(void)
 #else
 	/* Host code */
 #endif
-	printf("Hello from GPU.\n");
+	printf("Hello from GPU, laneid=%d, globaltimer=%ld.\n", __laneid(),
+	       __globaltimer());
 	dev_foo();
 
 	__syncthreads();
@@ -51,9 +68,7 @@ int main(void)
 	kern_func<<<1, 1, 0>>>();
 	host_func();
 
-#ifdef __LUCA__
 	/* flush printf */
 	cudaDeviceSynchronize();
-#endif
 	return 0;
 }
