@@ -210,6 +210,10 @@ __getopt__() {
 	ARGS="$@"
 }
 
+if ! [[ " ${DISTS_RHEL_LIKE[@]} ${DISTS_DEBIAN_LIKE[@]} " =~ " ${ID} " ]]; then
+	error "not support os ${ID}"
+fi
+
 __getopt__ $@
 eval set -- "$ARGS"
 
