@@ -4,28 +4,28 @@ LUCA
 # SMI Informations
 
 - **ht-smi**
-	- commit 8d1bcc8c1667 ("LingSpeed X710-M: SMI with LUCA 3.2.1.18")
-	- commit 11a97301832e ("LingSpeed X710-M: SMI") LUCA 3.1.3.4
-	- commit 2b840df91018 ("LingSpeed X710-E: SMI with LUCA 3.2.1.18")
+  - commit 8d1bcc8c1667 ("LingSpeed X710-M: SMI with LUCA 3.2.1.18")
+  - commit 11a97301832e ("LingSpeed X710-M: SMI") LUCA 3.1.3.4
+  - commit 2b840df91018 ("LingSpeed X710-E: SMI with LUCA 3.2.1.18")
 - **ht-smi topo**
-	- commit 94c2f4dea425 ("Lingspeed X710-M: SMI topo matrix")
-	- commit 3651b4d81e8e ("Lingspeed X710-M: SMI topo nic")
-	- commit a17ec5ff0ee9 ("Lingspeed X710-E: SMI topo matrix (2-Card)")
+  - commit 94c2f4dea425 ("Lingspeed X710-M: SMI topo matrix")
+  - commit 3651b4d81e8e ("Lingspeed X710-M: SMI topo nic")
+  - commit a17ec5ff0ee9 ("Lingspeed X710-E: SMI topo matrix (2-Card)")
 
 # Benchmarks
 
 - **htvs devices**
-	- commit 9e34db9890eb ("Lingspeed X710-M: htvs devices")
+  - commit 9e34db9890eb ("Lingspeed X710-M: htvs devices")
 - **htvs marslink benchmark [--mode=<ingress|egress>]**
-	- commit b9001754cfa7 ("Lingspeed X710-M: htvs marslink benchmark")
-	- commit 2509b9568f6f ("Lingspeed X710-M: htvs marslink benchmark ingress")
-	- commit f4874c020e89 ("Lingspeed X710-M: htvs marslink benchmark egress")
+  - commit b9001754cfa7 ("Lingspeed X710-M: htvs marslink benchmark")
+  - commit 2509b9568f6f ("Lingspeed X710-M: htvs marslink benchmark ingress")
+  - commit f4874c020e89 ("Lingspeed X710-M: htvs marslink benchmark egress")
 - **htvs marslink parallel unidirection**
 - **htvs memory benchmark**
-	- commit 99ff1ee3f597 ("Lingspeed X710-M: htvs memory benchmark")
-	- commit 6362c8f62fc4 ("Lingspeed X710-M: htvs memory benchmark kernel-copy")
-	- display **htvs memory bandwidth**
-		- Lingspeed X710-E: lsvs memory bandwidth
-		- commit 77bf78e41723 ("Lingspeed X710-M: htvs memory bandwidth")
+  - commit 99ff1ee3f597 ("Lingspeed X710-M: htvs memory benchmark")
+  - commit 6362c8f62fc4 ("Lingspeed X710-M: htvs memory benchmark kernel-copy")
+  - display **htvs memory bandwidth**
+    - commit 5fa3915012d6 ("Lingspeed X710-E: lsvs memory bandwidth")
+    - commit 77bf78e41723 ("Lingspeed X710-M: htvs memory bandwidth")
 - **htvs ops**
-	- commit 44114c3d66f5 ("Lingspeed X710-M: htvs ops")
+  - commit 44114c3d66f5 ("Lingspeed X710-M: htvs ops")
