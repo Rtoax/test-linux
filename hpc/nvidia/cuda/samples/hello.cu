@@ -17,7 +17,7 @@ __constant__ __device__ int dev_const_a = 0;
 __device__ void dev_foo(void)
 {
 	unsigned int laneid;
-#ifdef __LUCA__
+#if defined(__LUCA__) || defined(__HIPCC__)
 	laneid = __lane_id();
 #else
 	asm("mov.u32 %0, %%laneid;" : "=r"(laneid));
