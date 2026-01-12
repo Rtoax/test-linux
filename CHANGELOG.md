@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- python: add cupy subdir;
 #### Changed
 #### Deprecated
 #### Removed
