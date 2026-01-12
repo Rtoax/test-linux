@@ -16,7 +16,13 @@ __constant__ __device__ int dev_const_a = 0;
 /* call by kernel/device, run by device */
 __device__ void dev_foo(void)
 {
-	printf("Hello from GPU foo, laneid=%d.\n", __lane_id());
+	unsigned int laneid;
+#ifdef __LUCA__
+	laneid = __lane_id();
+#else
+	asm("mov.u32 %0, %%laneid;" : "=r"(laneid));
+#endif
+	printf("Hello from GPU foo, laneid=%d.\n", laneid);
 }
 
 /* call by host, run by device */
