@@ -25,6 +25,7 @@ LUCA
 	- commit 99ff1ee3f597 ("Lingspeed X710-M: htvs memory benchmark")
 	- commit 6362c8f62fc4 ("Lingspeed X710-M: htvs memory benchmark kernel-copy")
 	- display **htvs memory bandwidth**
+		- Lingspeed X710-E: lsvs memory bandwidth
 		- commit 77bf78e41723 ("Lingspeed X710-M: htvs memory bandwidth")
 - **htvs ops**
 	- commit 44114c3d66f5 ("Lingspeed X710-M: htvs ops")
