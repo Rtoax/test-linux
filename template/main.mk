@@ -139,7 +139,7 @@ targets-from-src += $(patsubst %.py,%.py.log,$(target-python-y))
 targets-from-src += $(patsubst %.mk,%.mk.log,$(target-mk-y))
 targets-from-src += $(patsubst %.mak,%.mak.log,$(target-mk-y))
 targets-from-src += $(patsubst %.bt,%.bt.log,$(target-bt-y))
-build-targets := $(filter-out %.sh %.py %.mk %.mak %.bt, $(targets-from-src))
+build-targets += $(filter-out %.sh %.py %.mk %.mak %.bt, $(targets-from-src))
 
 build-targets += $(subdir-y-build)
 build-targets += $(target-post-y)
