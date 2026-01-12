@@ -19,7 +19,11 @@ __constant__ __device__ int dev_const_a = 0;
 __device__ __forceinline__ unsigned long long __globaltimer(void)
 {
 	unsigned long long globaltimer;
+#if defined(__LUCA__) || defined(__HIPCC__)
+	globaltimer = 0;
+#endif
 	asm volatile("mov.u64 %0, %globaltimer;" : "=l"(globaltimer));
+#endif
 	return globaltimer;
 }
 
