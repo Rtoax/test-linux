@@ -26,7 +26,15 @@ clang_format=$(which git-clang-format 2>/dev/null || :)
 if  [[ -z ${clang_format} ]] && [[ -z ${FORCE1} ]]; then
 	fatal "Not found git-clang-format, please install or FORCE1=1"
 elif [[ -z ${FORCE1} ]]; then
-	${clang_format} --diff origin/main --extensions c,cpp,cu,h,hpp || {
+	repository=$(basename ${GIT_TOPDIR})
+	if [[ " ostools ulpatch " =~ " ${repository} " ]]; then
+		branch=origin/master
+	elif [[ " test-linux tst-linux " =~ " ${repository} " ]]; then
+		branch=origin/main
+	else
+		fatal "Unknown repository, please develop me!"
+	fi
+	${clang_format} --diff ${branch} --extensions c,cpp,cu,h,hpp || {
 		fatal "Bad code format, please modify according to the above diff or FORCE1=1"
 	}
 fi
