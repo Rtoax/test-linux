@@ -10,11 +10,12 @@ void gpu_init(int dev_id)
 {
 	int deviceId;
 
-	cudaSetDevice(dev_id);
+	CUDA_RUNTIME_CHECK_EXIT(cudaSetDevice(dev_id));
 	gpu_check_gpu_error("Failed to initialize device!");
-	cudaDeviceSetLimit(cudaLimitPrintfFifoSize, 1048576);
+	CUDA_RUNTIME_CHECK_EXIT(
+		cudaDeviceSetLimit(cudaLimitPrintfFifoSize, 1048576));
 
-	cudaGetDevice(&deviceId);
+	CUDA_RUNTIME_CHECK_EXIT(cudaGetDevice(&deviceId));
 	if (deviceId != dev_id) {
 		fprintf(stderr, "Set device failed.\n");
 		exit(1);
@@ -24,7 +25,7 @@ void gpu_init(int dev_id)
 int gpu_num(void)
 {
 	int count;
-	cudaGetDeviceCount(&count);
+	CUDA_RUNTIME_CHECK(cudaGetDeviceCount(&count), return -1);
 	return count;
 }
 

@@ -82,9 +82,9 @@ void dev_mem_alloc(int dev_id, struct device *dev)
 	if (env.verbose)
 		printf("Alloc memory for device %d\n", dev_id);
 	dev->dev_id = dev_id;
-	cudaSetDevice(dev_id);
-	cudaMalloc(&dev->dev_mem, env.size);
-	cudaMemset(dev->dev_mem, 0, env.size);
+	CUDA_RUNTIME_CHECK_EXIT(cudaSetDevice(dev_id));
+	CUDA_RUNTIME_CHECK_EXIT(cudaMalloc(&dev->dev_mem, env.size));
+	CUDA_RUNTIME_CHECK_EXIT(cudaMemset(dev->dev_mem, 0, env.size));
 	dev->host_mem = malloc(env.size);
 }
 
@@ -92,7 +92,7 @@ void dev_mem_free(struct device *dev)
 {
 	if (env.verbose)
 		printf("Free memory of device %d\n", dev->dev_id);
-	cudaFree(dev->dev_mem);
+	CUDA_RUNTIME_CHECK_EXIT(cudaFree(dev->dev_mem));
 	free(dev->host_mem);
 }
 
@@ -125,24 +125,23 @@ void dev_mem_copy(struct device *from, struct device *to, cudaMemcpyKind kind,
 		return;
 	}
 
-	cudaEventCreate(&start);
-	cudaEventCreate(&end);
+	CUDA_RUNTIME_CHECK_EXIT(cudaEventCreate(&start));
+	CUDA_RUNTIME_CHECK_EXIT(cudaEventCreate(&end));
 
-	cudaEventRecord(start, NULL);
+	CUDA_RUNTIME_CHECK_EXIT(cudaEventRecord(start, NULL));
 
 	for (unsigned int i = 0; i < MEMCOPY_ITERATIONS; i++) {
-		CUDA_RUNTIME_CHECK(cudaMemcpy(to_mem, from_mem, env.size,
-					      kind),
-				   assert(0));
+		CUDA_RUNTIME_CHECK(cudaMemcpy(to_mem, from_mem, env.size, kind),
+				   assert(0 && "Memcpy"));
 	}
 
-	cudaEventRecord(end, NULL);
-	cudaEventSynchronize(end);
+	CUDA_RUNTIME_CHECK_EXIT(cudaEventRecord(end, NULL));
+	CUDA_RUNTIME_CHECK_EXIT(cudaEventSynchronize(end));
 
-	cudaEventElapsedTime(elapse_ms, start, end);
+	CUDA_RUNTIME_CHECK_EXIT(cudaEventElapsedTime(elapse_ms, start, end));
 
-	cudaEventDestroy(start);
-	cudaEventDestroy(end);
+	CUDA_RUNTIME_CHECK_EXIT(cudaEventDestroy(start));
+	CUDA_RUNTIME_CHECK_EXIT(cudaEventDestroy(end));
 }
 
 void test_memcpy(struct device *devices, int devNum, cudaMemcpyKind kind)
