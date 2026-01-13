@@ -23,7 +23,7 @@
  * cuda-samples/Samples/1_Utilities/bandwidthTest/bandwidthTest.cu
  *
  * Memory copy tests:
- * - commit b4a41493a8a1 ("memory.cu: Memcpy: LingSpeed X710-M OAM 10GB")
+ * - "memory.cu: Memcpy: LingSpeed X710-M OAM 10GB"
  */
 #include <argp.h>
 #include <stdbool.h>
