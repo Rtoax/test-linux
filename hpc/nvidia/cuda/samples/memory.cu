@@ -11,6 +11,10 @@
 #include "cuda_compat.h"
 #include "cuda_helpers.h"
 
+#define KiB	1024
+#define MiB	(KiB * 1024)
+#define GiB	(MiB * 1024)
+
 struct device {
 	int dev_id;
 	void *dev_mem;
@@ -22,7 +26,7 @@ struct {
 	unsigned long size;
 } env = {
 	.verbose = false,
-	.size = 1024 * 1024 * 512,
+	.size = 512 * MiB,
 };
 
 const char *version = "v0.0.1";
@@ -133,17 +137,21 @@ void test_memcpy(struct device *devices, int devNum, cudaMemcpyKind kind)
 {
 	int i, j;
 
-	printf("%-5s ", "\0");
+	printf("%-5s ", "GB/s");
 	for (i = 0; i < devNum; i++) {
-		printf("GPU%-5d", i);
+		printf("GPU%-3d ", i);
 	}
 	printf("\n");
 	for (i = 0; i < devNum; i++) {
 		printf("GPU%-2d ", i);
 		for (j = 0; j < devNum; j++) {
+			if (i == j) {
+				printf("%-7s", "-");
+				continue;
+			}
 			float ms = 0;
 			dev_mem_copy(&devices[i], &devices[j], kind, &ms);
-			printf("%-7.2f ", ms);
+			printf("%-7.2f", env.size * 1000.f / GiB / ms);
 		}
 		printf("\n");
 	}
