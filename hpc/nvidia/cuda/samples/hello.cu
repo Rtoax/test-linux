@@ -19,7 +19,7 @@ __constant__ __device__ int dev_const_a = 0;
 __device__ __forceinline__ unsigned long long __globaltimer(void)
 {
 	unsigned long long globaltimer;
-#if defined(__LUCA__) || defined(__HIPCC__)
+#if defined(__HPCC__) || defined(__LUCA__) || defined(__HIPCC__)
 	globaltimer = 0;
 #else
 	asm volatile("mov.u64 %0, %globaltimer;" : "=l"(globaltimer));
@@ -30,7 +30,7 @@ __device__ __forceinline__ unsigned long long __globaltimer(void)
 __device__ __forceinline__ unsigned int __laneid(void)
 {
 	unsigned int laneid;
-#if defined(__LUCA__) || defined(__HIPCC__)
+#if defined(__HPCC__) || defined(__LUCA__) || defined(__HIPCC__)
 	laneid = __lane_id();
 #else
 	asm("mov.u32 %0, %%laneid;" : "=r"(laneid));
@@ -41,19 +41,14 @@ __device__ __forceinline__ unsigned int __laneid(void)
 /* call by kernel/device, run by device */
 __device__ void dev_foo(void)
 {
-	printf("Hello from GPU, laneid=%d, globaltimer=%ld.\n", __laneid(),
+	printf("Hello from GPU, laneid=%d, globaltimer=%lld.\n", __laneid(),
 	       __globaltimer());
 }
 
 /* call by host, run by device */
 __global__ void kern_func(void)
 {
-#ifdef __HPCC_ARCH__
-	/* Device code */
-#else
-	/* Host code */
-#endif
-	printf("Hello from GPU, laneid=%d, globaltimer=%ld.\n", __laneid(),
+	printf("Hello from GPU, laneid=%d, globaltimer=%lld.\n", __laneid(),
 	       __globaltimer());
 	dev_foo();
 
