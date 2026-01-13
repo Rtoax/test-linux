@@ -24,3 +24,7 @@ NVIDIA
 
 - [NVIDIA Tensor Cores](https://www.nvidia.com/en-us/data-center/tensor-cores/)
   - commit 19ef63452ada ("nvidia: tensor core precisions of Blackwell and Hopper")
+
+## DGX Spark
+
+- https://github.com/NVIDIA/dgx-spark-playbooks
