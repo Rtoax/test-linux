@@ -19,7 +19,7 @@
 # define __cuda(name)	hc##name
 # define __CU(name)	HC##name
 # define __CU_cuda(n1, n2)	HC##n1##hc##n2
-# define __cuda_Cuda(n1, n2)	HC##n1##Hpcc##n2
+# define __cuda_Cuda(n1, n2)	hc##n1##Hpcc##n2
 # define __CUDA(name)	HC_##name
 # define __CUDA_ERROR(name)	HCC_STATUS_##name
 # define __nv(name)	hc##name
