@@ -59,7 +59,7 @@ void launch_from_ptx(nvrtcProgram prog)
 	free(ptx);
 }
 #define launch_prog launch_from_ptx
-#elif defined(__LUCA__) || defined(__HIPCC__)
+#elif defined(__HPCC__) || defined(__LUCA__) || defined(__HIPCC__)
 void launch_from_bitcode(nvrtcProgram prog)
 {
 	size_t bc_size;

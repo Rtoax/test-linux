@@ -122,11 +122,11 @@
  * LUCA:
  * const char *lcGetErrorName(lcError_t lc_error);
  */
-#ifdef __USE_LUCA__
-#define cuGetErrorName(error, pStr)              \
-	do {                                     \
-		const char **__pstr = pStr;      \
-		*__pstr = lcGetErrorName(error); \
+#if defined(__USE_LUCA__) || defined(__USE_HPCC__)
+#define cuGetErrorName(error, pStr)                  \
+	do {                                         \
+		const char **__pstr = pStr;          \
+		*__pstr = __cu(GetErrorName(error)); \
 	} while (0)
 #else
 #define cuGetErrorName __cu(GetErrorName)
