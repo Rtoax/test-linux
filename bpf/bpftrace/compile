@@ -7,6 +7,7 @@ readonly prog=bpftrace-compile
 flags_deps=
 flags_cmake=
 flags_install=
+flags_test=
 use_jobs=$(nproc)
 llvm_version=
 llvm_dir=
@@ -67,6 +68,8 @@ ARGUMENT
 	-d, --deps              install depends
 	-c, --cmake             execute the cmake to generate Makefile
 	-i, --install           execute the make install
+	-t, --test              execute the bpftrace_test
+
 	-j, --jobs [N]          set number of jobs, default: ${use_jobs}
 	--llvm-version          specify LLVM Version
 	--llvm-dir              specify LLVM directory, like: /usr/lib/llvm-18/
@@ -86,10 +89,11 @@ SEE ALSO
 	exit ${1-0}
 }
 
-TEMP_ARGS=$(getopt --options dcij:vh \
+TEMP_ARGS=$(getopt --options dcitj:vh \
 	--long deps \
 	--long cmake \
 	--long install \
+	--long test \
 	--long jobs: \
 	--long llvm-version: \
 	--long llvm-dir: \
@@ -115,6 +119,10 @@ while true; do
 	-i | --install)
 		shift
 		flags_install=YES
+		;;
+	-t | --test)
+		shift
+		flags_test=YES
 		;;
 	-j | --jobs)
 		shift
@@ -181,3 +189,7 @@ make -j${use_jobs} ${verbose:+VERBOSE=1}
 
 # Check for the clang-format
 git clang-format --diff origin/master --extensions cpp,h
+
+if [[ ${flags_test} ]]; then
+	sudo ./tests/bpftrace_test
+fi
