@@ -1,6 +1,9 @@
 // SPDX-License-Identifier: GPL-3.0
 /* Copyright (C) 2025-2026 Rong Tao */
 /**
+ * See also https://github.com/NVIDIA/cuda-samples.git
+ * cuda-samples/Samples/1_Utilities/bandwidthTest/bandwidthTest.cu
+ *
  * Memory copy tests:
  * - commit b4a41493a8a1 ("memory.cu: Memcpy: LingSpeed X710-M OAM 10GB")
  */
@@ -15,6 +18,9 @@
 #define MiB	(KiB * 1024)
 #define GiB	(MiB * 1024)
 
+#define MEMCOPY_ITERATIONS	100
+#define DEFAULT_SIZE	(32 * MiB)
+
 struct device {
 	int dev_id;
 	void *dev_mem;
@@ -26,7 +32,7 @@ struct {
 	unsigned long size;
 } env = {
 	.verbose = false,
-	.size = 512 * MiB,
+	.size = DEFAULT_SIZE,
 };
 
 const char *version = "v0.0.1";
@@ -124,13 +130,19 @@ void dev_mem_copy(struct device *from, struct device *to, cudaMemcpyKind kind,
 
 	cudaEventRecord(start, NULL);
 
-	CUDA_RUNTIME_CHECK(cudaMemcpy(to_mem, from_mem, env.size, kind), );
+	for (unsigned int i = 0; i < MEMCOPY_ITERATIONS; i++) {
+		CUDA_RUNTIME_CHECK(cudaMemcpy(to_mem, from_mem, env.size,
+					      kind),
+				   assert(0));
+	}
 
 	cudaEventRecord(end, NULL);
 	cudaEventSynchronize(end);
 
 	cudaEventElapsedTime(elapse_ms, start, end);
-	cudaDeviceSynchronize();
+
+	cudaEventDestroy(start);
+	cudaEventDestroy(end);
 }
 
 void test_memcpy(struct device *devices, int devNum, cudaMemcpyKind kind)
@@ -151,7 +163,11 @@ void test_memcpy(struct device *devices, int devNum, cudaMemcpyKind kind)
 			}
 			float ms = 0;
 			dev_mem_copy(&devices[i], &devices[j], kind, &ms);
-			printf("%-7.2f", env.size * 1000.f / GiB / ms);
+			double time_s = ms / 1e3;
+			double bandwidthGBs = .0f;
+			bandwidthGBs = (2.f * env.size * (float)MEMCOPY_ITERATIONS) / GiB;
+			bandwidthGBs /= time_s;
+			printf("%-7.2lf", bandwidthGBs);
 		}
 		printf("\n");
 	}
