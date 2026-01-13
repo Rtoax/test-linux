@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- lingspeed: add gpuname.sh;
 - glibc: add assert subdir;
 - python: add cupy subdir;
 #### Changed

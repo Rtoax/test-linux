@@ -250,6 +250,7 @@ if [[ "$(have_key cuda nvidia rocm amd ROCm AMD)" ]]; then
 fi
 
 if [[ "$(have_key cuda nvidia luca LUCA cestc CESTC)" ]]; then
+	add_env "Lingspeed $(${TOPDIR}/hpc/cestc/lingspeed/gpuname.sh)"
 	add_luca_ver
 	add_llvm_ver
 fi

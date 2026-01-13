@@ -1,6 +1,24 @@
 // SPDX-License-Identifier: GPL-3.0
 /* Copyright (C) 2025-2026 Rong Tao */
 /**
+ * Test gpu memory bandwidth
+ *
+ *             GPU1                           GPU2
+ * ┌─────────────────────────┐    ┌─────────────────────────┐
+ * │ ┌─────────HBM─────────┐ │    │ ┌─────────HBM─────────┐ │
+ * │ │┌──────┐     ┌──────┐│ │    │ │┌──────┐     ┌──────┐│ │
+ * │ ││ mem1 │◀━━━▶│ mem2 ││ │    │ ││ mem1 │◀━━━▶│ mem2 ││ │
+ * │ │└──▲───┘ (1) └───▲──┘│ │    │ │└──────┘     └───▲──┘│ │
+ * │ └───┼─────────────╫───┘ │    │ └─────────────────╫───┘ │
+ * └─────┼─────────────╫─────┘    └───────────────────╫─────┘
+ *       │(2)          ╚══════════════════════════════╝(3)
+ *       │
+ * ┌─────┼──────────────────────────────────────────────────┐
+ * │  ┌──▼───┐                                              │
+ * │  │ mem  │                                              │
+ * │  └──────┘                                  Host Memory │
+ * └────────────────────────────────────────────────────────┘
+ *
  * See also https://github.com/NVIDIA/cuda-samples.git
  * cuda-samples/Samples/1_Utilities/bandwidthTest/bandwidthTest.cu
  *
@@ -23,7 +41,8 @@
 
 struct device {
 	int dev_id;
-	void *dev_mem;
+	void *dev_mem1;
+	void *dev_mem2;
 	void *host_mem;
 };
 
@@ -83,8 +102,10 @@ void dev_mem_alloc(int dev_id, struct device *dev)
 		printf("Alloc memory for device %d\n", dev_id);
 	dev->dev_id = dev_id;
 	CUDA_RUNTIME_CHECK_EXIT(cudaSetDevice(dev_id));
-	CUDA_RUNTIME_CHECK_EXIT(cudaMalloc(&dev->dev_mem, env.size));
-	CUDA_RUNTIME_CHECK_EXIT(cudaMemset(dev->dev_mem, 0, env.size));
+	CUDA_RUNTIME_CHECK_EXIT(cudaMalloc(&dev->dev_mem1, env.size));
+	CUDA_RUNTIME_CHECK_EXIT(cudaMalloc(&dev->dev_mem2, env.size));
+	CUDA_RUNTIME_CHECK_EXIT(cudaMemset(dev->dev_mem1, '1', env.size));
+	CUDA_RUNTIME_CHECK_EXIT(cudaMemset(dev->dev_mem2, '2', env.size));
 	dev->host_mem = malloc(env.size);
 }
 
@@ -92,7 +113,8 @@ void dev_mem_free(struct device *dev)
 {
 	if (env.verbose)
 		printf("Free memory of device %d\n", dev->dev_id);
-	CUDA_RUNTIME_CHECK_EXIT(cudaFree(dev->dev_mem));
+	CUDA_RUNTIME_CHECK_EXIT(cudaFree(dev->dev_mem1));
+	CUDA_RUNTIME_CHECK_EXIT(cudaFree(dev->dev_mem2));
 	free(dev->host_mem);
 }
 
@@ -104,20 +126,20 @@ void dev_mem_copy(struct device *from, struct device *to, cudaMemcpyKind kind,
 
 	switch (kind) {
 	case cudaMemcpyDeviceToHost:
-		from_mem = from->dev_mem;
+		from_mem = from->dev_mem1;
 		to_mem = to->host_mem;
 		break;
 	case cudaMemcpyHostToDevice:
 		from_mem = from->host_mem;
-		to_mem = to->dev_mem;
+		to_mem = to->dev_mem1;
 		break;
 	case cudaMemcpyHostToHost:
 		from_mem = from->host_mem;
 		to_mem = to->host_mem;
 		break;
 	case cudaMemcpyDeviceToDevice:
-		from_mem = from->dev_mem;
-		to_mem = to->dev_mem;
+		from_mem = from->dev_mem1;
+		to_mem = to->dev_mem2;
 		break;
 	case cudaMemcpyDefault:
 	default:
@@ -150,23 +172,19 @@ void test_memcpy(struct device *devices, int devNum, cudaMemcpyKind kind)
 
 	printf("%-5s ", "GB/s");
 	for (i = 0; i < devNum; i++) {
-		printf("GPU%-3d ", i);
+		printf("GPU%-6d ", i);
 	}
 	printf("\n");
 	for (i = 0; i < devNum; i++) {
 		printf("GPU%-2d ", i);
 		for (j = 0; j < devNum; j++) {
-			if (i == j) {
-				printf("%-7s", "-");
-				continue;
-			}
 			float ms = 0;
 			dev_mem_copy(&devices[i], &devices[j], kind, &ms);
 			double time_s = ms / 1e3;
 			double bandwidthGBs = .0f;
 			bandwidthGBs = (2.f * env.size * (float)MEMCOPY_ITERATIONS) / GiB;
 			bandwidthGBs /= time_s;
-			printf("%-7.2lf", bandwidthGBs);
+			printf("%-10.2lf", bandwidthGBs);
 		}
 		printf("\n");
 	}

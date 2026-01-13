@@ -1,2 +1,3 @@
-subdir-y := luca
+subdir-y := lingspeed
+subdir-y += luca
 include main.mk
