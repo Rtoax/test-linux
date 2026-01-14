@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- pytest: add README.md;
 - nvidia: add gpuname.sh;
 - template: add fs/tracefs.mk;
 - lingspeed: add gpuname.sh;
