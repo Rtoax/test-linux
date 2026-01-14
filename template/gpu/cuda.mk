@@ -14,9 +14,10 @@
 # - CUOBJDUMP=
 # - NVDISASM=
 # - CUDA_ROOT=
-# - CUDA_VERSION_MAJOR=
-# - CUDA_VERSION_MINOR=
-# - CUDA_VERSION_PATCH=
+# - CUDA_VERSION_CODE=
+# - CUDA_VERSION_MAJOR=[0]
+# - CUDA_VERSION_MINOR=[0]
+# - CUDA_VERSION_PATCH=[0]
 #
 # Modify definitions:
 # - target-nvcc-y
@@ -74,9 +75,9 @@ ifeq ($(wildcard $(NVCC)),)
   NVCC :=
   CUOBJDUMP :=
   NVDISASM :=
-  CUDA_VERSION_MAJOR :=
-  CUDA_VERSION_MINOR :=
-  CUDA_VERSION_PATCH :=
+  CUDA_VERSION_MAJOR := 0
+  CUDA_VERSION_MINOR := 0
+  CUDA_VERSION_PATCH := 0
 # Found NVCC
 else
   CUDA_VERSION_RAW := $(shell ${NVCC} --version | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+' 2>/dev/null || true)
@@ -94,6 +95,9 @@ else
   endif
 endif
 
+CUDA_VERSION_CODE := $(shell echo "$$(( (${CUDA_VERSION_MAJOR}*1000) + \
+					(${CUDA_VERSION_MINOR}*10) ))" )
+
 $(call check_file_and_def,${CUDA_ROOT}/include/nccl.h,HAVE_NCCL)
 $(call check_file_and_def,${CUDA_ROOT}/include/cudnn.h,HAVE_CUDNN)
 $(call check_file_and_def,${CUDA_ROOT}/include/cupti.h,HAVE_CUPTI)
@@ -109,6 +113,7 @@ ifdef DEBUG
   endif
   $(info NVCC = ${NVCC})
   $(info NVCC VERSION: $(shell ${NVCC} --version))
+  $(info CUDA_VERSION_CODE = ${CUDA_VERSION_CODE})
   $(info CUDA_VERSION_MAJOR = ${CUDA_VERSION_MAJOR})
   $(info CUDA_VERSION_MINOR = ${CUDA_VERSION_MINOR})
   $(info CUDA_VERSION_PATCH = ${CUDA_VERSION_PATCH})
