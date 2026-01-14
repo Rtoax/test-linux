@@ -12,6 +12,9 @@ endif
 ifdef V
   MKFLAGS += V=${V}
 endif
+ifdef DEBUG
+  MKFLAGS += DEBUG=${DEBUG}
+endif
 ifdef ERROR
   MKFLAGS += ERROR=${ERROR}
 endif
