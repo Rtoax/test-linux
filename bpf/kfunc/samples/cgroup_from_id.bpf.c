@@ -17,6 +17,9 @@
  */
 #include "vmlinux.h"
 
+extern struct cgroup *bpf_cgroup_from_id(u64 cgid) __weak __ksym;
+extern void bpf_cgroup_release(struct cgroup *cgrp) __weak __ksym;
+
 void test(void)
 {
 	u64 cgrpid = bpf_get_current_cgroup_id();
