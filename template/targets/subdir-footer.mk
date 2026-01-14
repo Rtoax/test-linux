@@ -11,14 +11,14 @@ endif
 # $1: build, test, clean
 # $2: subdir-y
 define make_sub_dir
-	$(call log_info,${1} $(call relative_path,$(2)))
+	$(call log_info,${1} $(call remove_topdir,$(2)))
 	$(Q)pushd $(2) >/dev/null; \
 	make ${1}; \
 	if [ $$? -ne 0 ]; then \
-		$(call log_failed,${EMOJI_CROSS} Failed ${1} $(call relative_path,$(2))); \
+		$(call log_failed,${EMOJI_CROSS} Failed ${1} $(call remove_topdir,$(2))); \
 		${CHECK_ERROR_EXIT} \
 	else	\
-		$(call log_success,${EMOJI_CHECK} Success ${1} $(call relative_path,$(2))); \
+		$(call log_success,${EMOJI_CHECK} Success ${1} $(call remove_topdir,$(2))); \
 	fi; \
 	popd >/dev/null
 endef
@@ -36,13 +36,13 @@ define make_sub_dir_clean
 endef
 
 $(subdir-y-build):
-	$(call log_start,sub-build,$(call relative_path,$(patsubst %.build,%,$(@))))
+	$(call log_start,sub-build,$(call remove_topdir,$(patsubst %.build,%,$(@))))
 	$(call make_sub_dir_build,$(@:.build=))
 
 $(subdir-y-test):
-	$(call log_start,sub-test,$(call relative_path,$(patsubst %.test,%,$(@))))
+	$(call log_start,sub-test,$(call remove_topdir,$(patsubst %.test,%,$(@))))
 	$(call make_sub_dir_test,$(@:.test=))
 
 $(subdir-y-clean):
-	$(call log_start,sub-clean,$(call relative_path,$(patsubst %.clean,%,$(@))))
+	$(call log_start,sub-clean,$(call remove_topdir,$(patsubst %.clean,%,$(@))))
 	$(call make_sub_dir_clean,$(@:.clean=))

@@ -157,11 +157,11 @@ export CFLAGS LDFLAGS CXXFLAGS LDXXFLAGS CFLAGS_PIE LDFLAGS_PIE MAKEFLAGS
 
 .PHONY: build
 build: $(build-targets)
-	$(call log_end,build,$(call relative_path,$(shell realpath .)))
+	$(call log_end,build,$(call remove_topdir,$(shell realpath .)))
 
 .PHONY: test
 test: $(build-targets) $(subdir-y-test) $(target-test-y)
-	$(call log_end,test,$(call relative_path,$(shell realpath .)))
+	$(call log_end,test,$(call remove_topdir,$(shell realpath .)))
 
 .PHONY: clean
 clean: $(subdir-y-clean) $(target-clean-y)
@@ -170,7 +170,7 @@ clean: $(subdir-y-clean) $(target-clean-y)
 	${Q}rm -f *.o *.log *.out *.class
 	${Q}rm -f *.so *.so.* *.a
 	${Q}rm -f *.dat *.bin
-	$(call log_end,clean,$(call relative_path,$(shell realpath .)))
+	$(call log_end,clean,$(call remove_topdir,$(shell realpath .)))
 
 .PHONY: reset
 reset:

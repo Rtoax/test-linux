@@ -2,8 +2,11 @@
 # Copyright (C) 2025-2026 Rong Tao
 #
 # Output definitions:
-# - TOPDIR
-# - CURDIR
+# - TOPDIR=
+# - CURDIR=
+#
+# Functions:
+# - remove_topdir()
 #
 _DIR_MK = 1
 
@@ -18,7 +21,8 @@ ifeq (${CURDIR},)
   $(error Could not found current directory in anywhere)
 endif
 
-define relative_path
+# remove test-linux root directory from $1
+define remove_topdir
 $(patsubst ${TOPDIR}%,%,$(1))
 endef
 
