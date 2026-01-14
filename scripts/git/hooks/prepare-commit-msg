@@ -240,6 +240,10 @@ if [[ "$(have_key llvm bt nvidia)" ]]; then
 fi
 
 if [[ "$(have_key cuda nvidia)" ]]; then
+	name=$(${TOPDIR}/hpc/nvidia/gpuname.sh)
+	if [[ ! -z ${name} ]]; then
+		add_env "${name}"
+	fi
 	add_cuda_ver
 	add_llvm_ver
 fi
