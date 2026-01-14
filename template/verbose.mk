@@ -1,6 +1,15 @@
 # SPDX-License-Identifier: GPL-3.0
 # Copyright (C) 2025-2026 Rong Tao
-
+#
+# Input definitions:
+# - V=1
+#
+# Output definitions:
+# - Q=[@]
+#
+# Append definitions:
+# - MAKEFLAGS+=
+#
 _VERBOSE_MK = 1
 
 ifeq ($(V),1)
