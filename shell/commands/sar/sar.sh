@@ -1,17 +1,16 @@
 #!/bin/bash
+set -e
 
 sar_log_dir=/var/log/sa/
 
 if [[ ! -e ${sar_log_dir} ]]; then
-	echo "ERROR: No ${sar_log_dir} exist"
-	exit 1
+	echo "WARNING: No ${sar_log_dir} exist"
 fi
 
-sar_history_logs=( $(ls /var/log/sa/) )
+sar_history_logs=( $(ls ${sar_log_dir} || :) )
 
 if [[ -z "${sar_history_logs[@]}" ]]; then
-	echo "ERROR: No history sar recorded."
-	exit 1
+	echo "WARNING: No history sar recorded."
 fi
 
 
@@ -48,4 +47,3 @@ do
 	stat_IO_rate $f
 	stat_load $f
 done
-
