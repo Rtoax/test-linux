@@ -7,7 +7,7 @@
 # - BPFTRACE_VERSION_MAJOR=
 # - BPFTRACE_VERSION_MINOR=
 #
-_BPFTRACE = 1
+_BPFTRACE_MK = 1
 
 BPFTRACE := $(shell which bpftrace 2>/dev/null)
 ifeq ($(BPFTRACE),)
