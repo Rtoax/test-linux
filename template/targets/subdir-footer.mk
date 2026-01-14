@@ -9,12 +9,19 @@ ifneq ($(CHECK_ERROR),)
   CHECK_ERROR_EXIT = exit 1;
 endif
 
+ifdef V
+  MKFLAGS += V=${V}
+endif
+ifdef ERROR
+  MKFLAGS += ERROR=${ERROR}
+endif
+
 # $1: build, test, clean
 # $2: subdir-y
 define make_sub_dir
 	$(call log_info,${1} $(call remove_topdir,$(2)))
 	$(Q)pushd $(2) >/dev/null; \
-	make ${1}; \
+	make ${1} ${MKFLAGS}; \
 	if [ $$? -ne 0 ]; then \
 		$(call log_failed,${EMOJI_CROSS} Failed ${1} $(call remove_topdir,$(2))); \
 		${CHECK_ERROR_EXIT} \
