@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
 # Copyright (C) 2025-2026 Rong Tao
-_ASCII = 1
+_ASCII_MK = 1
 
 ASCII191 := ┐
 ASCII192 := └
