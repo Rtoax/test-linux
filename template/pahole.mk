@@ -23,6 +23,8 @@
 ifndef _PAHOLE_MK
 _PAHOLE_MK = 1
 
+include shell.mk
+
 PAHOLE := $(shell which pahole 2>/dev/null)
 ifeq ($(PAHOLE),)
   ifndef __IGNORE_NOTFOUND_ERROR__
