@@ -25,6 +25,7 @@
 # may not match the environment inside the container, so it is normal if
 # compilation errors occur.
 #
+ifndef _KERNEL_MK
 _KERNEL_MK = 1
 
 include shell.mk
@@ -135,4 +136,6 @@ ifdef DEBUG
   $(info kver_eq(${KVERSION},${KPATCHLEVEL},${KSUBLEVEL}) = \
          $(call kver_eq,${KVERSION},${KPATCHLEVEL},${KSUBLEVEL}))
   $(info kver_lt(7,0,0) = $(call kver_lt,7,0,0))
+endif
+
 endif

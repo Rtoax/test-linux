@@ -20,6 +20,7 @@
 # - pahole_lt()=[y|n]
 # - pahole_le()=[y|n]
 #
+ifndef _PAHOLE_MK
 _PAHOLE_MK = 1
 
 PAHOLE := $(shell which pahole 2>/dev/null)
@@ -109,4 +110,6 @@ endif
 # The newest pahole is v1.31 right now.
 ifneq ($(call pahole_lt,1,32),y)
   $(error "Call pahole_lt failed")
+endif
+
 endif

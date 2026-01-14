@@ -6,6 +6,7 @@
 # - toupper_shell()
 # - tolower()
 #
+ifndef _STRING_MK
 _STRING_MK = 1
 
 define toupper
@@ -27,4 +28,6 @@ ifneq ($(call toupper_shell,abcDEF),ABCDEF)
 endif
 ifneq ($(call tolower_shell,abcDEF),abcdef)
   $(error "ERROR: toupper failed, $(call tolower_shell,abcDEF)")
+endif
+
 endif

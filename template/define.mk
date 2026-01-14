@@ -4,6 +4,7 @@
 # Functions:
 # - check_file_and_def()
 #
+ifndef _DEFINE_MK
 _DEFINE_MK = 1
 
 # $1 - file path, like: /usr/include/stdio.h
@@ -24,4 +25,6 @@ ifndef HAVE_STDIO_H
 endif
 ifdef HAVE_NOTEXIST
   $(error "Never found HAVE_NOTEXIST")
+endif
+
 endif

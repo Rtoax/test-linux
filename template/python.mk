@@ -3,6 +3,7 @@
 # Output definitions:
 # - PYTHON=
 #
+ifndef _PYTHON_MK
 _PYTHON_MK = 1
 
 PYTHON := $(shell which python 2>/dev/null || true)
@@ -17,4 +18,6 @@ export PYTHON
 
 ifdef DEBUG
   $(info PYTHON = ${PYTHON})
+endif
+
 endif

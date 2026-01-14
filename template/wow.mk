@@ -1,5 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
 # Copyright (C) 2024-2026 Rong Tao
+ifndef _WOW_MK
 _WOW_MK = 1
 
 # $1 - prefix
@@ -25,3 +26,5 @@ define wow
 @echo >&2 -e "$(1)     ▐▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▀▀          "
 @echo >&2 -e ""
 endef
+
+endif

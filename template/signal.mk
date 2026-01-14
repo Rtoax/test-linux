@@ -1,4 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
+ifndef _SIGNAL_MK
 _SIGNAL_MK = 1
 
 SIGRT_PROBE := '\#include <stdio.h>\n'
@@ -12,4 +13,6 @@ SIGRT_CFLAGS := $(shell printf '%b\n' $(SIGRT_PROBE) | \
 
 ifdef DEBUG
   $(info SIGRT_CFLAGS = ${SIGRT_CFLAGS})
+endif
+
 endif

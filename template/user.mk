@@ -7,6 +7,7 @@
 # Append:
 # - CFLAGS
 #
+ifndef _USER_MK
 _USER_MK = 1
 
 CONFIG_UID := $(shell id -u)
@@ -14,3 +15,5 @@ CONFIG_UID := $(shell id -u)
 CFLAGS += -DCONFIG_UID=${CONFIG_UID}
 
 export CONFIG_UID
+
+endif

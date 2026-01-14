@@ -12,6 +12,7 @@
 # - LLVM_SRC_ROOT=
 # - CLANG_SRC_ROOT=
 #
+ifndef _LLVM_MK
 _LLVM_MK = 1
 
 include shell.mk
@@ -59,3 +60,5 @@ endif
 export CLANG CLANGXX
 export LLVM_CONFIG LLVM_AS LLVM_DIS LLC
 export LLVM_SRC_ROOT CLANG_SRC_ROOT
+
+endif

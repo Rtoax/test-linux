@@ -5,6 +5,7 @@
 # - SUDO=sudo
 # - SUDO_NON_INTERACTIVE=y
 #
+ifndef _SUDO_MK
 _SUDO_MK = 1
 
 # If command require superuser privileges to be executed. Otherwise, EPERM
@@ -26,3 +27,5 @@ ifdef DEBUG
 endif
 
 export SUDO SUDO_NON_INTERACTIVE
+
+endif

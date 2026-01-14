@@ -10,6 +10,7 @@
 # - IS_RISCV64=y
 # - IS_SW_64=y
 #
+ifndef _ARCH_MK
 _ARCH_MK = 1
 
 cflags-arch :=
@@ -32,3 +33,5 @@ else ifeq ($(shell uname -m),riscv64)
 endif
 
 export cflags-arch
+
+endif

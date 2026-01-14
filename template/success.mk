@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
 # Copyright (C) 2024-2026 Rong Tao
 
+ifndef _SUCCESS_MK
 _SUCCESS_MK = 1
 
 define success
@@ -38,3 +39,4 @@ define success
 	@echo >&2 -e " 	                   SL               S"
 endef
 
+endif

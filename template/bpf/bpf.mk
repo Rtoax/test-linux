@@ -5,6 +5,7 @@
 # - BPF_TARGET_ARCH=
 # - CFLAG_BPF_TARGET_ARCH=
 #
+ifndef _BPF_BPF_MK
 _BPF_BPF_MK = 1
 
 BPF_TARGET_ARCH := $(shell uname -m | sed 's/x86_64/x86/' \
@@ -23,4 +24,6 @@ CFLAG_BPF_TARGET_ARCH := -D__TARGET_ARCH_$(BPF_TARGET_ARCH)
 ifdef DEBUG
   $(info BPF_TARGET_ARCH = ${BPF_TARGET_ARCH})
   $(info CFLAG_BPF_TARGET_ARCH = ${CFLAG_BPF_TARGET_ARCH})
+endif
+
 endif

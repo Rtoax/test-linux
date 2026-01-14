@@ -5,6 +5,7 @@
 # - OS_ID=[fedora]
 # - OS_VERSION_ID=[43]
 #
+ifndef _OS_MK
 _OS_MK = 1
 
 OS_ID := $(shell grep ^ID= /etc/os-release | sed 's/ID=//g' | tr -d '"')
@@ -20,3 +21,5 @@ ifdef DEBUG
 endif
 
 export OS_ID OS_VERSION_ID
+
+endif

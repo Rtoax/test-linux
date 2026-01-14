@@ -3,4 +3,7 @@
 #
 # Output definitions:
 #
+ifndef _BPF_SCHED_EXT_MK
 _BPF_SCHED_EXT_MK = 1
+
+endif

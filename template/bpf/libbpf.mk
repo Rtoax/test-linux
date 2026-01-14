@@ -5,6 +5,7 @@
 # - LIBBPF_MAJOR_VERSION=
 # - LIBBPF_MINOR_VERSION=
 #
+ifndef _BPF_LIBBPF_MK
 _BPF_LIBBPF_MK = 1
 
 include ldconfig.mk
@@ -32,4 +33,6 @@ ifeq (${LIBBPF_MAJOR_VERSION},)
 endif
 ifeq (${LIBBPF_MINOR_VERSION},)
   $(error "Could not get libbpf LIBBPF_MINOR_VERSION")
+endif
+
 endif

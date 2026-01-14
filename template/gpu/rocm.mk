@@ -18,6 +18,7 @@
 # - target-hipcc-liba-y
 # - target-hipcc-libso-y
 #
+ifndef _GPU_ROCM_MK
 _GPU_ROCM_MK = 1
 
 include define.mk
@@ -65,4 +66,6 @@ ifdef DEBUG
   ifneq (${HIPCONFIG},)
     $(info HIPCONFIG: $(shell ${HIPCONFIG} --full))
   endif
+endif
+
 endif

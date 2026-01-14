@@ -7,6 +7,7 @@
 # - BPFTOOL_VERSION_MAJOR=
 # - BPFTOOL_VERSION_MINOR=
 #
+ifndef _BPF_BPFTOOL_MK
 _BPF_BPFTOOL_MK = 1
 
 include dir.mk
@@ -27,4 +28,6 @@ endif
 
 ifdef DEBUG
   $(info BPFTOOL: ${BPFTOOL} version ${BPFTOOL_VERSION_MAJOR}.${BPFTOOL_VERSION_MINOR})
+endif
+
 endif

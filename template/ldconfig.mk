@@ -3,6 +3,7 @@
 # Output definitions
 # - LDCONFIG=
 #
+ifndef _LDCONFIG_MK
 _LDCONFIG_MK = 1
 
 LDCONFIG := $(shell which ldconfig 2>/dev/null || true)
@@ -14,3 +15,5 @@ ifeq ($(LDCONFIG),)
   endif
 endif
 
+
+endif

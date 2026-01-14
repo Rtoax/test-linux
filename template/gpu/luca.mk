@@ -18,6 +18,7 @@
 # - LUCA_VERSION_MINOR=
 # - LUCA_VERSION_PATCH=
 #
+ifndef _GPU_LUCA_MK
 _GPU_LUCA_MK = 1
 
 include define.mk
@@ -91,4 +92,6 @@ ifdef DEBUG
   $(info LUCA_VERSION_MAJOR = ${LUCA_VERSION_MAJOR})
   $(info LUCA_VERSION_MINOR = ${LUCA_VERSION_MINOR})
   $(info LUCA_VERSION_PATCH = ${LUCA_VERSION_PATCH})
+endif
+
 endif

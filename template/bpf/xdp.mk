@@ -3,4 +3,7 @@
 #
 # Output definitions:
 #
+ifndef _BPF_XDP_MK
 _BPF_XDP_MK = 1
+
+endif

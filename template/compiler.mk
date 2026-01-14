@@ -16,6 +16,7 @@
 # - cflags-support-headers-y=
 # - ldflags-support-headers-y=
 #
+ifndef _COMPILER_MK
 _COMPILER_MK = 1
 
 include shell.mk
@@ -66,3 +67,5 @@ export CC_FULLVERSION CC_VERSION CC_MAJOR CC_MINOR CC_PATCHLEVEL
 export cflags-support-types-y
 export cflags-support-headers-y
 export ldflags-support-headers-y
+
+endif

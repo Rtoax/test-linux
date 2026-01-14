@@ -4,6 +4,7 @@
 # Export functions:
 # - reset_file($file)
 #
+ifndef _FILE_MK
 _FILE_MK = 1
 
 include shell.mk
@@ -21,3 +22,5 @@ define reset_file
   }; \
   __reset_file $1
 endef
+
+endif

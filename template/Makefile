@@ -10,6 +10,7 @@ MAKES := $(filter-out ./main.mk,${MAKES})
 
 $(info MAKES = ${MAKES})
 
-$(foreach mk, ${MAKES}, $(eval include ${mk}))
+# include each mk for twice to test ifndef-endif pair
+$(foreach mk, ${MAKES} ${MAKES}, $(eval include ${mk}))
 
 include main.mk

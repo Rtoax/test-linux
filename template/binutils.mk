@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
 # Copyright (C) 2024-2026 Rong Tao
 #
+ifndef _BINUTILS_MK
 _BINUTILS_MK = 1
 
 LD_BFD := $(shell which ld.bfd 2>/dev/null)
@@ -20,4 +21,6 @@ endif
 ifdef DEBUG
   $(info LD_BFD = ${LD_BFD})
   $(info Binutils version ${BINUTILS_VERSION_MAJOR}.${BINUTILS_VERSION_MINOR})
+endif
+
 endif

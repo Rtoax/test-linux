@@ -18,6 +18,7 @@
 # - target-htcc-liba-y=
 # - target-htcc-libso-y=
 
+ifndef _GPU_HPCC_MK
 _GPU_HPCC_MK = 1
 
 include define.mk
@@ -79,4 +80,6 @@ ifdef DEBUG
   $(info HPCC_VERSION_MAJOR = ${HPCC_VERSION_MAJOR})
   $(info HPCC_VERSION_MINOR = ${HPCC_VERSION_MINOR})
   $(info HPCC_VERSION_PATCH = ${HPCC_VERSION_PATCH})
+endif
+
 endif

@@ -5,6 +5,7 @@
 # - cpu-feature-cflags=
 # - CPU_HAVE_${FEATURE}=y
 #
+ifndef _BITS_CPU_FEATURE_MK
 _BITS_CPU_FEATURE_MK = 1
 
 include string.mk
@@ -29,4 +30,6 @@ $(call define_cpufeature,asimd) # neon
 
 ifdef DEBUG
   $(info cpu-feature-cflags = ${cpu-feature-cflags})
+endif
+
 endif

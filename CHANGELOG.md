@@ -10,6 +10,7 @@ and this project adheres to
 ## Unreleased
 
 #### Breaking Changes
+- template: only include .mk once;
 #### Added
 - pytest: add README.md;
 - nvidia: add gpuname.sh;

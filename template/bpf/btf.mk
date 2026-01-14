@@ -4,6 +4,7 @@
 # Output definitions:
 # - HAVE_BTF: Check your system support BTF or not
 #
+ifndef _BPF_BTF_MK
 _BPF_BTF_MK = 1
 
 include shell.mk
@@ -79,4 +80,6 @@ ifneq (${HAVE_BTF},)
   ifneq ($(shell $(call vmlinux_has_sym,task_struct)),y)
     $(error Not found task_struct in vmlinux.h)
   endif
+endif
+
 endif

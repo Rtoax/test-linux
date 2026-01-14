@@ -4,6 +4,7 @@
 # - SUPPORT_$(upcase kfunc name)=[y]
 # - bpf-helper-cflags=
 #
+ifndef _BPF_HELPER_MK
 _BPF_HELPER_MK = 1
 _BPF_KFUNC_MK = 1
 
@@ -141,4 +142,6 @@ export bpf-helper-cflags
 
 ifdef DEBUG
   $(info bpf-helper-cflags = ${bpf-helper-cflags})
+endif
+
 endif

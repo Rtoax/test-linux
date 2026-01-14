@@ -5,6 +5,7 @@
 #
 # Output definitions:
 #
+ifndef _GCC_MK
 _GCC_MK = 1
 
 GCC := gcc
@@ -18,4 +19,6 @@ include compiler.mk
 ifdef DEBUG
   $(info GCC = ${GCC})
   $(info GXX = ${GXX})
+endif
+
 endif

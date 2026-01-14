@@ -1,5 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
 # Copyright (C) 2022-2026 Rong Tao
+ifndef _MAIN_MK
 _MAIN_MK = 1
 
 CC ?= gcc
@@ -237,4 +238,6 @@ endif
 
 ifneq ($(subdir-y),)
   include targets/subdir-footer.mk
+endif
+
 endif

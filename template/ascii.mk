@@ -1,5 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
 # Copyright (C) 2025-2026 Rong Tao
+ifndef _ASCII_MK
 _ASCII_MK = 1
 
 ASCII191 := ┐
@@ -32,3 +33,5 @@ ASCII219 := █
 ASCII220 := ▄
 ASCII223 := ▀
 ASCII254 := ■
+
+endif

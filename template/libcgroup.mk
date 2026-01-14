@@ -1,5 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
 # Copyright (C) 2025-2026 Rong Tao
+ifndef _LIBCGROUP_MK
 _LIBCGROUP_MK = 1
 
 LIBCGROUP_HDR := /usr/include/libcgroup.h
@@ -13,4 +14,6 @@ ifneq ($(wildcard $(LIBCGROUP_HDR)),)
   endif
 else
   $(warning "WARNING: You need to install libcgroup")
+endif
+
 endif

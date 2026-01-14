@@ -10,6 +10,7 @@
 # Append definitions:
 # - MAKEFLAGS+=
 #
+ifndef _VERBOSE_MK
 _VERBOSE_MK = 1
 
 ifeq ($(V),1)
@@ -21,3 +22,5 @@ else
   MAKEFLAGS += --no-print-directory
 endif
 export Q MAKEFLAGS
+
+endif

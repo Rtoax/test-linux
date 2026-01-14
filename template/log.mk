@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
 # Copyright (C) 2022-2026 Rong Tao
 #
+ifndef _LOG_MK
 _LOG_MK = 1
 
 include dir.mk
@@ -58,3 +59,5 @@ ifdef DEBUG
 endif
 
 export LOG_FILE_INFO LOG_FILE_FAILED
+
+endif

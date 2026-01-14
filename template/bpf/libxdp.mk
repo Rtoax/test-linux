@@ -4,6 +4,7 @@
 # Output definitions:
 # - HAVE_LIBXDP=[y]
 #
+ifndef _BPF_LIBXDP_MK
 _BPF_LIBXDP_MK = 1
 
 include define.mk
@@ -14,4 +15,6 @@ $(call check_file_and_def,${LIBXDP_H},HAVE_LIBXDP)
 
 ifdef DEBUG
   $(info HAVE_LIBXDP = ${HAVE_LIBXDP})
+endif
+
 endif

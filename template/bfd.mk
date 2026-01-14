@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
 # Copyright (C) 2024-2026 Rong Tao
 #
+ifndef _BFD_MK
 _BFD_MK = 1
 
 pound := \#
@@ -205,3 +206,5 @@ define probe_bfd_has_bfd_get_symbol_version_string
     $(CC) -x c -Wall -Werror -lbfd - $(1) -S -o - >/dev/null 2>&1 \
       && echo 1)
 endef
+
+endif

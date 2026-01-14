@@ -11,6 +11,7 @@
 # - HAVE_LINGSPEED_X710M=y
 # - HAVE_LINGSPEED_X710P=y
 #
+ifndef _GPU_LINGSPEED_MK
 _GPU_LINGSPEED_MK = 1
 
 LSSMI := $(shell which ls-smi 2>/dev/null)
@@ -46,4 +47,6 @@ ifdef DEBUG
   $(info HAVE_LINGSPEED_X710E = ${HAVE_LINGSPEED_X710E})
   $(info HAVE_LINGSPEED_X710M = ${HAVE_LINGSPEED_X710M})
   $(info HAVE_LINGSPEED_X710P = ${HAVE_LINGSPEED_X710P})
+endif
+
 endif

@@ -8,6 +8,7 @@
 # Functions:
 # - remove_topdir()
 #
+ifndef _DIR_MK
 _DIR_MK = 1
 
 TOPDIR := $(dir $(shell realpath $(abspath $(lastword $(MAKEFILE_LIST))/../)))
@@ -32,3 +33,5 @@ ifdef DEBUG
 endif
 
 export TOPDIR CURDIR
+
+endif

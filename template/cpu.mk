@@ -5,6 +5,7 @@
 # - CPU_VENDOR_ID=
 # - CPU_L3LINESIZE=[64]
 #
+ifndef _CPU_MK
 _CPU_MK = 1
 
 include bits/cpu-feature.mk
@@ -46,3 +47,5 @@ endif
 CFLAGS += -DCPU_L3LINESIZE=$(CPU_L3LINESIZE)
 
 export CPU_VENDOR_ID CPU_L3LINESIZE
+
+endif

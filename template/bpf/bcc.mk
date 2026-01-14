@@ -7,6 +7,7 @@
 # - bcc-cflags=
 # - bcc-ldflags=
 #
+ifndef _BPF_BCC_MK
 _BPF_BCC_MK = 1
 
 LIBBCC_PATH := $(shell ldconfig -p | grep libbcc.so 2>/dev/null | awk '{print $$NF}' | head -1)
@@ -25,4 +26,6 @@ ifdef DEBUG
   $(info LIBBCC_PATH = ${LIBBCC_PATH})
   $(info bcc-cflags = ${bcc-cflags})
   $(info bcc-ldflags = ${bcc-ldflags})
+endif
+
 endif

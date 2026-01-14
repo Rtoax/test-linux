@@ -1,5 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
 # Copyright (C) 2024-2026 Rong Tao
+ifndef _BPF_LOGO_MK
 _BPF_LOGO_MK = 1
 
 include ansi.mk
@@ -87,3 +88,5 @@ define bpf_logo_summit_2021_nocolor
 @echo -e "         #@@@@@@@@@@@@@@                       @@@@@@@@@@@@@@@"
 @echo -e "         *@@@@@@@@@@@@@@                       @@@@@@@@@@@@@@@"
 endef
+
+endif

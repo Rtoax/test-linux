@@ -5,6 +5,7 @@
 #
 # Cross compile aarch64
 # $ make CROSS_COMPILE=aarch64-linux-gnu-
+ifndef _CROSS_COMPILE_MK
 _CROSS_COMPILE_MK = 1
 
 CC ?= gcc
@@ -78,3 +79,5 @@ else
   endif
 endif
 export CC CXX AS LD CFLAGS LDFLAGS STRIP
+
+endif

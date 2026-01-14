@@ -35,6 +35,7 @@
 # - CFLAGS_HTCC
 # - LDFLAGS
 #
+ifndef _HELPERS_MK
 _HELPERS_MK = 1
 
 include dir.mk
@@ -103,4 +104,6 @@ ifdef DEBUG
   $(info BPF_HELPERS = ${BPF_HELPERS})
   $(info BTF_HELPERS = ${BTF_HELPERS})
   $(info BPF_INSN_SAMPLES = ${BPF_INSN_SAMPLES})
+endif
+
 endif

@@ -6,6 +6,7 @@
 # - CONFIG_CURDIR_KCONFIG=
 # - AUTOCONFIG_H=
 #
+ifndef _KCONFIG_MK
 _KCONFIG_MK = 1
 
 include dir.mk
@@ -42,3 +43,5 @@ define display_all_kconfig
 	@configs=($$(find ${TOPDIR} -name kconfig -type f)); \
 		cat $${configs[@]} | grep -e '^CONFIG_' -e '^# CONFIG_' | sort -u
 endef
+
+endif

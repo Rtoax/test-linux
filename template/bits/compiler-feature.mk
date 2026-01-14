@@ -5,6 +5,7 @@
 # - CC=gcc
 # - CXX=c++
 #
+ifndef _BITS_COMPILER_FEATURE_MK
 _BITS_COMPILER_FEATURE_MK = 1
 
 # Check compiler support option or not
@@ -105,4 +106,6 @@ ifdef DEBUG
   $(info feature-fcf-protection2 ${feature-fcf-protection2})
 
   $(info CC_H_quadmath_h ${CC_H_quadmath_h})
+endif
+
 endif

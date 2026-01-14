@@ -24,6 +24,7 @@
 # - target-nvcc-liba-y
 # - target-nvcc-libso-y
 #
+ifndef _GPU_CUDA_MK
 _GPU_CUDA_MK = 1
 
 include define.mk
@@ -117,4 +118,6 @@ ifdef DEBUG
   $(info CUDA_VERSION_MAJOR = ${CUDA_VERSION_MAJOR})
   $(info CUDA_VERSION_MINOR = ${CUDA_VERSION_MINOR})
   $(info CUDA_VERSION_PATCH = ${CUDA_VERSION_PATCH})
+endif
+
 endif

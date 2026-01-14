@@ -6,6 +6,7 @@
 #
 # Exports:
 #
+ifndef _ANSI_MK
 _ANSI_MK = 1
 
 # Black
@@ -86,3 +87,5 @@ endef
 define bold
 ${ANSI_BOLD}${1}${ANSI_RST}
 endef
+
+endif
