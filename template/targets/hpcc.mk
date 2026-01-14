@@ -22,7 +22,8 @@
 # Input definitions:
 # - HPCC_ROOT
 # - NODEFAULTRPATH
-
+#
+ifndef _TARGET_HPCC_MK
 _TARGET_HPCC_MK = 1
 
 include gpu/hpcc.mk
@@ -155,3 +156,5 @@ $(target-htcc-libso-y): %:
 $(target-htcc-liba-y): %:
 	$(call log_exe,HTCC AR,$(<),$(@))
 	${Q}ar rcs $(@) $(^)
+
+endif

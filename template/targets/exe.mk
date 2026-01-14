@@ -1,4 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
+ifndef _TARGET_EXE_MK
 _TARGET_EXE_MK = 1
 
 CC ?= gcc
@@ -53,3 +54,5 @@ ${target-cpp-y}: %:
 ${target-asm-y}: %:
 	$(call log_exe,LD ASM,$(<),$(@))
 	${Q}$(LD) -o $(@) $(^) $(ASMLDFLAGS) $(ASMLDFLAGS_$(*))
+
+endif

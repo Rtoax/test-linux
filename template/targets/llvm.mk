@@ -11,6 +11,7 @@
 #
 # Input definitions:
 #
+ifndef _TARGET_LLVM_MK
 _TARGET_LLVM_MK = 1
 
 include llvm.mk
@@ -53,3 +54,5 @@ CLANG_AST_CFLAGS := -Xclang -ast-dump -fsyntax-only
 ${target-llvm-ll-y}: %:
 	$(call log_exe,LLVM LL,$(<),$(@))
 	${Q}$(CLANG) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*))
+
+endif

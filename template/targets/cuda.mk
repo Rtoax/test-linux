@@ -26,7 +26,9 @@
 # - HAVE_CUFILE
 # - HAVE_CUPTI
 #
+ifndef _TARGET_NVIDIA_MK
 _TARGET_NVIDIA_MK = 1
+
 _SYSTEM_HAVE_NVIDIA_GPU :=
 
 # Your system has Nvidia GPU card
@@ -191,3 +193,5 @@ $(target-nvcc-libso-y): %:
 $(target-nvcc-liba-y): %:
 	$(call log_exe,NVCC AR,$(<),$(@))
 	${Q}ar rcs $(@) $(^)
+
+endif

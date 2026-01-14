@@ -21,7 +21,8 @@
 # - CFLAGS_HIPCC_A=
 # - LDFLAGS_HIPCC=
 # - LDFLAGS_HIPCC_SO=
-
+#
+ifndef _TARGET_HIP_MK
 _TARGET_HIP_MK = 1
 
 include gpu/rocm.mk
@@ -130,3 +131,5 @@ $(target-hipcc-libso-y): %:
 $(target-hipcc-liba-y): %:
 	$(call log_exe,HIPCC AR,$(<),$(@))
 	${Q}ar rcs $(@) $(^)
+
+endif

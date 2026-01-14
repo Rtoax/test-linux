@@ -1,4 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
+ifndef _TARGET_LIBA_MK
 _TARGET_LIBA_MK = 1
 
 CC ?= gcc
@@ -17,3 +18,5 @@ ${OUTPUT}%.a.o: %.c | ${OUTPUT}
 $(target-liba-y): %:
 	$(call log_exe,AR,$(<),$(@))
 	${Q}ar rcs $(@) $(^)
+
+endif

@@ -1,4 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
+ifndef _TARGET_MAKE_MK
 _TARGET_MAKE_MK = 1
 
 MAKE := make
@@ -19,3 +20,5 @@ define make_obj
 endef
 $(eval $(call make_obj,mk))
 $(eval $(call make_obj,mak))
+
+endif

@@ -1,4 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
+ifndef _TARGET_SUBDIR_FOOTER_MK
 _TARGET_SUBDIR_FOOTER_MK = 1
 
 include verbose.mk
@@ -46,3 +47,4 @@ $(subdir-y-test):
 $(subdir-y-clean):
 	$(call log_start,sub-clean,$(call remove_topdir,$(patsubst %.clean,%,$(@))))
 	$(call make_sub_dir_clean,$(@:.clean=))
+endif

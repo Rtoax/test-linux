@@ -1,4 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
+ifndef _TARGET_BPF_MK
 _TARGET_BPF_MK = 1
 
 CLANG := $(shell which clang 2>/dev/null)
@@ -74,3 +75,5 @@ ${target-btf-y}: | ${OUTPUT}
 ${VMLINUX_H}: | ${OUTPUT}
 	$(call log_tgt,BTF_H,$(@))
 	$(call btf_gen_hdr,vmlinux,${VMLINUX_H})
+
+endif

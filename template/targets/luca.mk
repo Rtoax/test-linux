@@ -22,6 +22,7 @@
 # - LSCORE1000=1
 # - LSCORE1002=1
 #
+ifndef _TARGET_LUCA_LUCA
 _TARGET_LUCA_LUCA = 1
 
 include gpu/luca.mk
@@ -197,3 +198,5 @@ $(target-lscc-libso-y): %:
 $(target-lscc-liba-y): %:
 	$(call log_exe,LSCC AR,$(<),$(@))
 	${Q}ar rcs $(@) $(^)
+
+endif

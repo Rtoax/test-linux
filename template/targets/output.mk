@@ -1,4 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
+ifndef _TARGET_OUTPUT_MK
 _TARGET_OUTPUT_MK = 1
 
 MKDIR ?= mkdir
@@ -14,3 +15,5 @@ endif
 ${OUTPUT}:
 	$(call log_tgt,MKDIR,$(@))
 	${Q}${MKDIR} -p $(@)
+
+endif

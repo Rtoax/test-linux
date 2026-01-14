@@ -3,6 +3,7 @@
 # Input defintions:
 # - NOSUBDIR: use for skip all sub-directory
 #
+ifndef _TARGET_SUBDIR_HEADER_MK
 _TARGET_SUBDIR_HEADER_MK = 1
 
 subdir-y ?=
@@ -20,4 +21,6 @@ subdir-y-clean := $(addprefix $(CURRENT_DIR)/,$(subdir-y:=.clean))
 
 ifdef DEBUG
   $(info subdir-y = ${subdir-y})
+endif
+
 endif

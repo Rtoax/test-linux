@@ -1,4 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
+ifndef _TARGET_LIBSO_MK
 _TARGET_LIBSO_MK = 1
 
 cflags-so := -fPIC
@@ -46,3 +47,5 @@ $(target-libso-cpp-y): %:
 	$(call log_exe,SO CPP,$(<),$(@))
 	${Q}$(CXX) -o $(@) $(^) $(LDXXFLAGS_SO) $(LDXXFLAGS_SO_$(*)) -Wl,-soname=$(@)
 	${Q}${SHELL} ${LIBSO_SH} multi-version $(@)
+
+endif

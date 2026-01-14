@@ -19,6 +19,7 @@
 # - __USE_LUCA_HELPERS__=y
 # - __USE_HPCC_HELPERS__=y
 #
+ifndef _TARGET_HELPERS_MK
 _TARGET_HELPERS_MK = 1
 
 include helpers.mk
@@ -39,3 +40,5 @@ $(eval $(call add_helper_target,${HPCC_HELPERS},${__USE_HPCC_HELPERS__}))
 $(eval $(call add_helper_target,${BPF_HELPERS},${__USE_BPF_HELPERS__}))
 $(eval $(call add_helper_target,${BTF_HELPERS},${__USE_BTF_HELPERS__}))
 $(eval $(call add_helper_target,${BPF_INSN_SAMPLES},${__USE_BPF_INSN_SAMPLES__}))
+
+endif
