@@ -17,6 +17,7 @@ include pahole.mk
 include bpf/bpf.mk
 include bpf/btf.mk
 include bpf/bpftool.mk
+include bpf/helper.mk
 
 OBJDUMP_ARGS :=
 
@@ -30,6 +31,7 @@ CFLAGS_BPF += -mcpu=v3
 CFLAGS_BPF += -std=gnu89 -Drestrict=
 CFLAGS_BPF += $(CFLAG_BPF_TARGET_ARCH)
 CFLAGS_BPF += -DCONFIG_UID=${CONFIG_UID}
+CFLAGS_BPF += ${bpf-helper-cflags}
 
 ifdef DEBUG
   CFLAGS_BPF += -DDEBUG=${DEBUG}
