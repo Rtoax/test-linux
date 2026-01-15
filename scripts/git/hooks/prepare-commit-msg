@@ -31,7 +31,7 @@ if [ "$COMMIT_SOURCE" = "commit" ] && [ "$COMMIT_SHA1" = "HEAD" ]; then
 	CHANGED_FILES+=( ${LAST_SUBMITTED_FILES[@]} )
 fi
 
-for f in ${UNCOMMITTED_FILES[@]}; do
+for f in ${CHANGED_FILES[@]}; do
 	ext=${f##*.}
 	# Remove documents, since document modifications typically do not
 	# depend on the environment or software version, for example, if
@@ -109,7 +109,7 @@ have_key() {
 	for key in ${@}
 	do
 		# Match the whole word
-		if [[ "$(echo ${CHANGED_FILES[@]} | grep -wo ${key})" ]]; then
+		if [[ "$(echo ${CHANGED_FILES_FILTEROUT[@]} | grep -wo ${key})" ]]; then
 			echo "YES"
 			return 0
 		fi
@@ -124,7 +124,7 @@ have_type() {
 	for ext in ${@}
 	do
 		# a.c b.sh -> c sh
-		if [[ " ${CHANGED_FILES[@]##*.} " =~ " ${ext} " ]]; then
+		if [[ " ${CHANGED_FILES_FILTEROUT[@]##*.} " =~ " ${ext} " ]]; then
 			echo "YES"
 			return 0
 		fi

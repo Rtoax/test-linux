@@ -6,7 +6,6 @@ user-list-y += algorithm
 user-list-y += alternative
 user-list-y += arch
 user-list-y += audit
-user-list-y += binutils
 user-list-y += bpf
 user-list-y += c
 user-list-y += capstone

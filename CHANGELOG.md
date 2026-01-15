@@ -23,6 +23,7 @@ and this project adheres to
 - glibc: add assert subdir;
 - python: add cupy subdir;
 #### Changed
+- Move binutils into gnu directory;
 #### Deprecated
 #### Removed
 - remove luca/luca-container.sh;

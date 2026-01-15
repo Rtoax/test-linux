@@ -12,7 +12,7 @@
 #include "proc_helpers.h"
 #include "bfd_helpers.h"
 
-#define BFD_ERR	bfd_errmsg(bfd_get_error())
+#define BFD_ERR bfd_errmsg(bfd_get_error())
 
 static unsigned long base_vma = 0;
 static bool test_libc = 0;
@@ -23,13 +23,13 @@ int main(int argc, char *argv[]);
 
 void usage(const char *prog)
 {
-	fprintf(stderr, "\n"
+	fprintf(stderr,
+		"\n"
 		"-f, --file     specify file to bfd, default: %s\n"
 		"-b, --base     specify base vma address, format: 0x0xxxx\n"
 		"-c, --libc     test libc.so\n"
 		"-h, --help     print this info\n",
-		prog
-	);
+		prog);
 }
 
 void handle_sym(const char *prefix, asymbol *sym, bool firstline)
@@ -54,8 +54,8 @@ void handle_sym(const char *prefix, asymbol *sym, bool firstline)
 #else
 	if (firstline)
 		printf("%-4s %-16s %-4s %-8s %-16s %-16s %-16s %-8s\n", "PFX",
-			"VALUE", "TYPE", "LOCAL", "VMA", "LMA", "SECTION",
-			"SYM");
+		       "VALUE", "TYPE", "LOCAL", "VMA", "LMA", "SECTION",
+		       "SYM");
 #endif
 
 #if defined(BFD_HAS_BFD_ASYMBOL_SECTION)
@@ -182,7 +182,8 @@ int main(int argc, char *argv[])
 
 	while (1) {
 		int option_index = 0;
-		int c = getopt_long(argc, argv, "f:b:ch", options, &option_index);
+		int c = getopt_long(argc, argv, "f:b:ch", options,
+				    &option_index);
 
 		if (c == -1)
 			break;
@@ -193,13 +194,15 @@ int main(int argc, char *argv[])
 			printf("Set file name %s\n", filepath);
 			break;
 		case 'c':
-			filepath = proc_maps_libc_base_name(buffer, sizeof(buffer));
+			filepath = proc_maps_libc_base_name(buffer,
+							    sizeof(buffer));
 			base_vma = proc_maps_libc_base_addr(NULL);
 			printf("Set libc %s\n", filepath);
 			break;
 		case 'b':
 			if (optarg[0] != '0' || optarg[1] != 'x') {
-				fprintf(stderr, "Wrong format, start with '0x'\n");
+				fprintf(stderr,
+					"Wrong format, start with '0x'\n");
 				exit(1);
 			}
 			base_vma = strtoull(optarg, NULL, 16);
@@ -210,7 +213,8 @@ int main(int argc, char *argv[])
 			break;
 		case '?':
 			usage(argv[0]);
-			fprintf(stderr, "Unknown option or requires an argument.\n");
+			fprintf(stderr,
+				"Unknown option or requires an argument.\n");
 			exit(1);
 			break;
 		default:
@@ -268,16 +272,17 @@ load_dynamic_sym:
 	 */
 	dynamic_storage_needed = bfd_get_dynamic_symtab_upper_bound(abfd);
 	dynamic_symbol_table = (asymbol **)malloc(dynamic_storage_needed);
-	number_of_dynamic_symbols = bfd_canonicalize_dynamic_symtab(abfd, dynamic_symbol_table);
+	number_of_dynamic_symbols =
+		bfd_canonicalize_dynamic_symtab(abfd, dynamic_symbol_table);
 
 	/**
 	 * What's synthetic symtab?
 	 * All print symbol has '@plt' suffix
 	 */
-	number_of_synth_symbols = bfd_get_synthetic_symtab(abfd,
-				number_of_symbols, symbol_table,
-				number_of_dynamic_symbols, dynamic_symbol_table,
-				&synthetic_symbols);
+	number_of_synth_symbols = bfd_get_synthetic_symtab(
+		abfd, number_of_symbols, symbol_table,
+		number_of_dynamic_symbols, dynamic_symbol_table,
+		&synthetic_symbols);
 
 	printf("Scanning %ld symbols\n", number_of_symbols);
 	printf("Scanning %ld dynamic symbols\n", number_of_dynamic_symbols);

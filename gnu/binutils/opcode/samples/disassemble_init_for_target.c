@@ -74,14 +74,16 @@ int styled_fprintf(void *stream, enum disassembler_style style,
 	va_start(args, format);
 	vsnprintf(buffer, sizeof(buffer), format, args);
 	if (!ss->reenter) {
-		asprintf(&ss->insn_buffer, "%s%s%s", color_prefix, buffer, color_suffix);
+		asprintf(&ss->insn_buffer, "%s%s%s", color_prefix, buffer,
+			 color_suffix);
 		ss->reenter = true;
 	} else {
 		char *tmp;
 		asprintf(&tmp, "%s%s%s", color_prefix, buffer, color_suffix);
 
 		char *tmp2;
-		asprintf(&tmp2, "%s%s%s%s", ss->insn_buffer, color_suffix, tmp, color_suffix);
+		asprintf(&tmp2, "%s%s%s%s", ss->insn_buffer, color_suffix, tmp,
+			 color_suffix);
 		free(ss->insn_buffer);
 		free(tmp);
 		ss->insn_buffer = tmp2;
@@ -141,13 +143,13 @@ char *disassemble_raw(uint8_t *input_buffer, size_t input_buffer_size)
 int main(int argc, char const *argv[])
 {
 	uint8_t input_buffer[] = {
-		0x55,			/* push rbp */
-		0x48, 0x89, 0xe5,	/* mov rbp, rsp */
-		0x89, 0x7d, 0xfc,	/* mov DWORD PTR [rbp-0x4], edi */
-		0x8b, 0x45, 0xfc,	/* mov eax, DWORD PTR [rbp-0x4] */
-		0x0f, 0xaf, 0xc0,	/* imul eax, rax */
-		0x5d,			/* pop ebp */
-		0xc3,			/* ret */
+		0x55, /* push rbp */
+		0x48, 0x89, 0xe5, /* mov rbp, rsp */
+		0x89, 0x7d, 0xfc, /* mov DWORD PTR [rbp-0x4], edi */
+		0x8b, 0x45, 0xfc, /* mov eax, DWORD PTR [rbp-0x4] */
+		0x0f, 0xaf, 0xc0, /* imul eax, rax */
+		0x5d, /* pop ebp */
+		0xc3, /* ret */
 	};
 	size_t input_buffer_size = sizeof(input_buffer);
 	char *disassembled;
@@ -158,4 +160,3 @@ int main(int argc, char const *argv[])
 
 	return 0;
 }
-
