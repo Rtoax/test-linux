@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - template: only include .mk once;
 #### Added
+- Add empty .clang-tidy;
 - sglang: add README.md;
 - pytest: add README.md;
 - nvidia: add gpuname.sh;

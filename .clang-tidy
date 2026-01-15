@@ -1,0 +1,8 @@
+Checks:
+  - -*
+
+CheckOptions:
+
+WarningsAsErrors: "*"
+UseColor: true
+HeaderFilterRegex: ".*"
