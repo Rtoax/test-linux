@@ -4,7 +4,7 @@ _GNU_MK = 1
 
 include ansi.mk
 
-define gnu_logo
+define logo_gnu
 	@echo -e '${ANSI_BOLD}${ANSI_GRE}    _-`````-,           ,- `- .${ANSI_RST}'
 	@echo -e '${ANSI_BOLD}${ANSI_GRE}  .`   .- - |          | - -.  `.${ANSI_RST}'
 	@echo -e '${ANSI_BOLD}${ANSI_GRE} /.`  /                     `.   \ ${ANSI_RST}'

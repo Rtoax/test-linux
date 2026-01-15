@@ -14,7 +14,7 @@ G := ${ANSI_GRAY}${ANSI_REVE}
 C := ${ANSI_CYAN}${ANSI_REVE}
 R := ${ANSI_RST}
 
-define bpf_logo_summit_2021
+define logo_bpf_summit_2021
 @echo -e "                     ${w}.${R}${b}####-${R}                ${b}.+@@@@-${R}"
 @echo -e "                     ${w}.${R}${b}####=${R}                ${b}.+@@@@-${R}"
 @echo -e "                ${w}:${R}${b}*####${R}                 ${b}@@@@@+${R}"
@@ -48,7 +48,7 @@ define bpf_logo_summit_2021
 @echo -e "${W}:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::${R}"
 endef
 
-define bpf_logo_summit_2021_nocolor
+define logo_bpf_summit_2021_nocolor
 @echo -e "                        @@@@*                  @@@@@-"
 @echo -e "                        @@@@#                  @@@@@-"
 @echo -e "                   +++++-----             +++++=====."

@@ -5,7 +5,7 @@ _LOGO_MK = 1
 
 include ansi.mk
 
-define tl_logo1
+define logo_test_linux
 @echo >&2 -e "$(1)${GB}88888888${RG}                        ${RGB}  88${RG}${RST}"
 @echo >&2 -e "$(1)${GB}   88${RG}                      ,d   ${RGB}  88${RG}      88${RST}"
 @echo >&2 -e "$(1)${GB}   88${RG}                      88   ${RGB}  88${RG}${RST}"
@@ -17,7 +17,7 @@ define tl_logo1
 endef
 
 # https://www.ascii-art.de/ascii/jkl/linux.txt
-define tl_linux_tux_logo1
+define logo_linux_tux
 @echo >&2 -e "$(1)                                                                 ${BB}#####${RST}"
 @echo >&2 -e "$(1)                                                                ${BB}#######${RST}"
 @echo >&2 -e "$(1)                   #                                            ${BB}##${RST}O${BB}#${RST}O${BB}##${RST}"
@@ -33,7 +33,7 @@ define tl_linux_tux_logo1
 endef
 
 # https://asciiart.website/cat.php?category_id=183
-define tl_tux_logo1
+define logo_tux
 @echo >&2 -e "$(1)                ${BB}.88888888:.${RST}"
 @echo >&2 -e "$(1)               ${BB}88888888.88888.${RST}"
 @echo >&2 -e "$(1)             ${BB}.8888888888888888.${RST}"

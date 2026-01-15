@@ -18,6 +18,9 @@ target-post-y := logo
 include main.mk
 
 logo:
-	$(call tl_logo1,*** )
-	$(call tl_tux_logo1,*** )
-	$(call tl_linux_tux_logo1,*** )
+	$(call logo_bpf_summit_2021)
+	$(call logo_bpf_summit_2021_nocolor)
+	$(call logo_gnu,*** )
+	$(call logo_linux_tux,*** )
+	$(call logo_test_linux,*** )
+	$(call logo_tux,*** )

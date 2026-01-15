@@ -9,8 +9,6 @@ include sudo.mk
 include wow.mk
 include cpu.mk
 include os.mk
-include gnu.mk
-include bpf/logo.mk
 
 subdir-y := git
 
@@ -30,8 +28,5 @@ test_call:
 	$(call success)
 	$(call wow)
 	$(call wow,PREFIX)
-	$(call bpf_logo_summit_2021)
-	$(call bpf_logo_summit_2021_nocolor)
-	$(call gnu_logo)
 	$(call git_config)
 	$(call git_archive)

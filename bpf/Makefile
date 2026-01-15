@@ -36,4 +36,4 @@ tcpdump.bpf.o: vmlinux.h
 
 post0:
 	$(Q)./tcpdump.sh
-	$(call bpf_logo_summit_2021)
+	$(call logo_bpf_summit_2021)

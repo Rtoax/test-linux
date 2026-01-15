@@ -88,7 +88,7 @@ target-post-y := post
 include main.mk
 
 post:
-	@$(call gnu_logo)
+	@$(call logo_gnu)
 
 gnu_get_libc_version: ${OUTPUT}gnu_get_libc_version.o
 environ: ${OUTPUT}environ.o
