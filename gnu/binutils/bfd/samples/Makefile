@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
-CC := gcc
 __USE_PROC_HELPERS__ = y
+
+OUTPUT = .output/
 
 include bfd.mk
 
@@ -107,27 +108,24 @@ CFLAGS += -DBINUTILS_VERSION_MINOR=${BINUTILS_VERSION_MINOR}
 CFLAGS_bfd_print_symbol_vandf := -DTEST_bfd_print_symbol_vandf=1
 CFLAGS_symbol-value := -DTEST_SYMBOL_VALUE=1
 
-# TODO: use this
-define bfd_strip
-  @strip $(1) -o $(1).strip
-endef
-
 include main.mk
 
-bfd_helpers.o: bfd_helpers.h
+BFD_HELPER_O := ${OUTPUT}bfd_helpers.o
 
-bfd_init: bfd_init.o bfd_helpers.o
-build_id: build_id.o bfd_helpers.o
-bfd_symbol_info: bfd_symbol_info.o bfd_helpers.o ${PROC_HELPERS}
-bfd_get_start_address: bfd_get_start_address.o
-bfd_get_flavour: bfd_get_flavour.o
-bfd_elf_bfd_from_remote_memory: bfd_elf_bfd_from_remote_memory.o
-phdr: phdr.o
-sections: sections.o
-symbol: symbol.o bfd_helpers.o ${PROC_HELPERS}
-symbol-value: symbol-value.o bfd_helpers.o ${PROC_HELPERS}
-breakpoint_tst: breakpoint_tst.o
-breakpoint_bfd: breakpoint_bfd.o
-reloc: reloc.o
-reloc-name: reloc-name.o
-bfd_print_symbol_vandf: bfd_print_symbol_vandf.o bfd_helpers.o ${PROC_HELPERS}
+${BFD_HELPER_O}: bfd_helpers.h
+
+bfd_init: ${OUTPUT}bfd_init.o ${BFD_HELPER_O}
+build_id: ${OUTPUT}build_id.o ${BFD_HELPER_O}
+bfd_symbol_info: ${OUTPUT}bfd_symbol_info.o ${BFD_HELPER_O} ${PROC_HELPERS}
+bfd_get_start_address: ${OUTPUT}bfd_get_start_address.o
+bfd_get_flavour: ${OUTPUT}bfd_get_flavour.o
+bfd_elf_bfd_from_remote_memory: ${OUTPUT}bfd_elf_bfd_from_remote_memory.o
+phdr: ${OUTPUT}phdr.o
+sections: ${OUTPUT}sections.o
+symbol: ${OUTPUT}symbol.o ${BFD_HELPER_O} ${PROC_HELPERS}
+symbol-value: ${OUTPUT}symbol-value.o ${BFD_HELPER_O} ${PROC_HELPERS}
+breakpoint_tst: ${OUTPUT}breakpoint_tst.o
+breakpoint_bfd: ${OUTPUT}breakpoint_bfd.o
+reloc: ${OUTPUT}reloc.o
+reloc-name: ${OUTPUT}reloc-name.o
+bfd_print_symbol_vandf: ${OUTPUT}bfd_print_symbol_vandf.o ${BFD_HELPER_O} ${PROC_HELPERS}
