@@ -13,9 +13,14 @@ $(info MAKES = ${MAKES})
 # include each mk for twice to test ifndef-endif pair
 $(foreach mk, ${MAKES} ${MAKES}, $(eval include ${mk}))
 
-target-post-y := logo
+target-post-y := git
+target-post-y += logo
 
 include main.mk
+
+git:
+	$(call git_config)
+	$(call git_archive)
 
 logo:
 	$(call logo_bpf_summit_2021)

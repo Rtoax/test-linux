@@ -5,11 +5,10 @@
 # - GIT_TOPDIR=
 # - GIT_CONFIG_CORE_HOOKSPATH=
 #
+ifndef _GIT_MK
 _GIT_MK = 1
 
-ifndef _DIR_MK
-  include dir.mk
-endif
+include dir.mk
 
 GIT_TOPDIR := $(shell git rev-parse --show-toplevel 2>/dev/null || :)
 
@@ -35,3 +34,5 @@ define git_clean
 		${SHELL} ${TOPDIR}/scripts/git/clean.sh; \
 	fi
 endef
+
+endif
