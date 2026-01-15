@@ -8,25 +8,30 @@ readonly COMMIT_MSG_FILE=$1
 readonly COMMIT_SOURCE=$2 # commit, merge
 readonly COMMIT_SHA1=$3
 
-# Remove old Env first.
-sed -i '/^Vers:/d' ${COMMIT_MSG_FILE}
-sed -i '/^Envs:/d' ${COMMIT_MSG_FILE}
-
 readonly MY_DIRECTORY=$(dirname $(realpath $0))
 readonly TOPDIR=$(realpath ${MY_DIRECTORY}/../../../)
 readonly first_nonempyline=$(sed -n '/[^[:space:]]/ { =; q }' ${COMMIT_MSG_FILE})
 readonly first_commentline=$(sed -n '/^#/ { =; q }' ${COMMIT_MSG_FILE})
 readonly signed_off_by_line=$(awk '/^Signed-off-by:/{print NR; exit}' ${COMMIT_MSG_FILE})
 
+readonly UNCOMMITTED_FILES=( $( ${MY_DIRECTORY}/../uncommitted-files ) )
+readonly LAST_SUBMITTED_FILES=( $(git log -1 --oneline --name-only --pretty=format:) )
+
 # Changed file list (new, deleted, added, modified)
-CHANGED_FILES=( $( ${MY_DIRECTORY}/../uncommitted-files ) )
+declare -a CHANGED_FILES
+
+# Remove old Env first.
+sed -i '/^Vers:/d' ${COMMIT_MSG_FILE}
+sed -i '/^Envs:/d' ${COMMIT_MSG_FILE}
+
+CHANGED_FILES+=( ${UNCOMMITTED_FILES[@]} )
 
 # git commit --amend
 if [ "$COMMIT_SOURCE" = "commit" ] && [ "$COMMIT_SHA1" = "HEAD" ]; then
-	CHANGED_FILES+=( $(git log -1 --oneline --name-only --pretty=format:) )
+	CHANGED_FILES+=( ${LAST_SUBMITTED_FILES[@]} )
 fi
 
-for f in ${CHANGED_FILES[@]}; do
+for f in ${UNCOMMITTED_FILES[@]}; do
 	ext=${f##*.}
 	# Remove documents, since document modifications typically do not
 	# depend on the environment or software version, for example, if
