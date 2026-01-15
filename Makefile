@@ -36,13 +36,20 @@ endif
 
 ifeq ($(wildcard /etc/profile.d/make_tl.sh),)
   ifeq ($(filter $(MAKECMDGOALS),install gitconfig deps),)
-    $(error You MUST run 'make install' first!!)
+    $(error You MUST run 'make install' first, then start a new bash session!!)
   endif
+endif
+
+ifndef __USE_TEST_LINUX_MAKE__
+  $(error Must use test-linux make_tl.sh)
+else
+  include logo.mk
 endif
 
 # Default help
 .PHONY: help
 help:
+	$(call logo_linux_tux,*** )
 	@echo >&2 -e "***"
 	@echo >&2 -e "*** TOPDIR ${TOPDIR}"
 	@echo >&2 -e "*** GIT_TOPDIR ${GIT_TOPDIR}"

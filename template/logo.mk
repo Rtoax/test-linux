@@ -18,18 +18,18 @@ endef
 
 # https://www.ascii-art.de/ascii/jkl/linux.txt
 define logo_linux_tux
-@echo >&2 -e "$(1)                                                                 ${BB}#####${RST}"
-@echo >&2 -e "$(1)                                                                ${BB}#######${RST}"
-@echo >&2 -e "$(1)                   #                                            ${BB}##${RST}O${BB}#${RST}O${BB}##${RST}"
-@echo >&2 -e "$(1)  ######          ###                                           ${BB}#${RST}${RB}VVVVV${RST}${BB}#${RST}"
-@echo >&2 -e "$(1)    ##             #                                          ${BB}##${RST}  ${RB}VVV${RST}  ${BB}##${RST}"
-@echo >&2 -e "$(1)    ##         ###    ### ####   ###    ###  ##### #####     ${BB}#${RST}          ${BB}##${RST}"
-@echo >&2 -e "$(1)    ##        #  ##    ###    ##  ##     ##    ##   ##      ${BB}#${RST}            ${BB}##${RST}"
-@echo >&2 -e "$(1)    ##       #   ##    ##     ##  ##     ##      ###        ${BB}#${RST}            ${BB}###${RST}"
-@echo >&2 -e "$(1)    ##          ###    ##     ##  ##     ##      ###       ${YB}QQ${RST}${RST}${BB}#${RST}           ${BB}##${RST}${YB}Q${RST}"
-@echo >&2 -e "$(1)    ##       # ###     ##     ##  ##     ##     ## ##    ${YB}QQQQQQ${RST}${BB}#${RST}       ${BB}#${RST}${YB}QQQQQQ${RST}"
-@echo >&2 -e "$(1)    ##      ## ### #   ##     ##  ###   ###    ##   ##   ${YB}QQQQQQQ${RST}${BB}#${RST}     ${BB}#${RST}${YB}QQQQQQQ${RST}"
-@echo >&2 -e "$(1)  ############  ###   ####   ####   #### ### ##### #####   ${YB}QQQQQ${RST}${BB}#######${RST}${YB}QQQQQ${RST}"
+@echo >&2 -e "$(1)                                                               ${BB}#####${RST}"
+@echo >&2 -e "$(1)                                                              ${BB}#######${RST}"
+@echo >&2 -e "$(1)                 #                                            ${BB}##${RST}O${BB}#${RST}O${BB}##${RST}"
+@echo >&2 -e "$(1)######          ###                                           ${BB}#${RST}${RB}VVVVV${RST}${BB}#${RST}"
+@echo >&2 -e "$(1)  ##             #                                          ${BB}##${RST}  ${RB}VVV${RST}  ${BB}##${RST}"
+@echo >&2 -e "$(1)  ##         ###    ### ####   ###    ###  ##### #####     ${BB}#${RST}          ${BB}##${RST}"
+@echo >&2 -e "$(1)  ##        #  ##    ###    ##  ##     ##    ##   ##      ${BB}#${RST}            ${BB}##${RST}"
+@echo >&2 -e "$(1)  ##       #   ##    ##     ##  ##     ##      ###        ${BB}#${RST}            ${BB}###${RST}"
+@echo >&2 -e "$(1)  ##          ###    ##     ##  ##     ##      ###       ${YB}QQ${RST}${RST}${BB}#${RST}           ${BB}##${RST}${YB}Q${RST}"
+@echo >&2 -e "$(1)  ##       # ###     ##     ##  ##     ##     ## ##    ${YB}QQQQQQ${RST}${BB}#${RST}       ${BB}#${RST}${YB}QQQQQQ${RST}"
+@echo >&2 -e "$(1)  ##      ## ### #   ##     ##  ###   ###    ##   ##   ${YB}QQQQQQQ${RST}${BB}#${RST}     ${BB}#${RST}${YB}QQQQQQQ${RST}"
+@echo >&2 -e "$(1)############  ###   ####   ####   #### ### ##### #####   ${YB}QQQQQ${RST}${BB}#######${RST}${YB}QQQQQ${RST}"
 endef
 
 # https://asciiart.website/cat.php?category_id=183

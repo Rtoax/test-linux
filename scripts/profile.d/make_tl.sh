@@ -11,6 +11,7 @@ make_tl() {
 	if [[ " $(realpath .)" =~ " ${TEST_LINUX_ROOT}" ]] ||
 	   [[ "$(realpath .)" =~ "ostools" ]] ||
 	   [[ "$(realpath .)" =~ "test-linux" ]]; then
+		make_args+=( __USE_TEST_LINUX_MAKE__=1 )
 		make_args+=( -I${TEST_LINUX_ROOT}/template/ )
 		make ${make_args[@]} $@
 	else
