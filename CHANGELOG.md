@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - template: only include .mk once;
 #### Added
+- sglang: add README.md;
 - pytest: add README.md;
 - nvidia: add gpuname.sh;
 - template: add fs/tracefs.mk;
