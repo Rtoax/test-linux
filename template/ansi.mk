@@ -36,11 +36,6 @@ ANSI_REVE := \033[7m
 ANSI_RST := \033[m
 TPUT_RST := $(shell tput sgr0 2>/dev/null)
 
-GB := ${ANSI_GRE}${ANSI_BOLD}
-RGB := ${ANSI_RST}${ANSI_GRE}${ANSI_BOLD}
-RG := ${ANSI_RST}${ANSI_GRE}${ANSI_GRAY}
-RST := ${ANSI_RST}
-
 ifdef ANSI_NONE
   ANSI_BLK :=
   ANSI_RED :=
@@ -63,11 +58,15 @@ ifdef ANSI_NONE
   ANSI_REVE :=
   ANSI_RST :=
   TPUT_RST :=
-  GB :=
-  RGB :=
-  RG :=
-  RST :=
 endif
+
+BB := ${ANSI_BLK}${ANSI_BOLD}
+GB := ${ANSI_GRE}${ANSI_BOLD}
+RB := ${ANSI_RED}${ANSI_BOLD}
+YB := ${ANSI_YEL}${ANSI_BOLD}
+RGB := ${ANSI_RST}${ANSI_GRE}${ANSI_BOLD}
+RG := ${ANSI_RST}${ANSI_GRE}${ANSI_GRAY}
+RST := ${ANSI_RST}
 
 define green
 ${ANSI_GRE}${1}${ANSI_RST}

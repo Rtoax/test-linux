@@ -18,18 +18,18 @@ endef
 
 # https://www.ascii-art.de/ascii/jkl/linux.txt
 define tl_linux_tux_logo1
-@echo >&2 -e "                                                                 #####"
-@echo >&2 -e "                                                                #######"
-@echo >&2 -e "                   #                                            ##O#O##"
-@echo >&2 -e "  ######          ###                                           #VVVVV#"
-@echo >&2 -e "    ##             #                                          ##  VVV  ##"
-@echo >&2 -e "    ##         ###    ### ####   ###    ###  ##### #####     #          ##"
-@echo >&2 -e "    ##        #  ##    ###    ##  ##     ##    ##   ##      #            ##"
-@echo >&2 -e "    ##       #   ##    ##     ##  ##     ##      ###        #            ###"
-@echo >&2 -e "    ##          ###    ##     ##  ##     ##      ###       QQ#           ##Q"
-@echo >&2 -e "    ##       # ###     ##     ##  ##     ##     ## ##    QQQQQQ#       #QQQQQQ"
-@echo >&2 -e "    ##      ## ### #   ##     ##  ###   ###    ##   ##   QQQQQQQ#     #QQQQQQQ"
-@echo >&2 -e "  ############  ###   ####   ####   #### ### ##### #####   QQQQQ#######QQQQQ"
+@echo >&2 -e "                                                                 ${BB}#####${RST}"
+@echo >&2 -e "                                                                ${BB}#######${RST}"
+@echo >&2 -e "                   #                                            ${BB}##${RST}O${BB}#${RST}O${BB}##${RST}"
+@echo >&2 -e "  ######          ###                                           ${BB}#${RST}${RB}VVVVV${RST}${BB}#${RST}"
+@echo >&2 -e "    ##             #                                          ${BB}##${RST}  ${RB}VVV${RST}  ${BB}##${RST}"
+@echo >&2 -e "    ##         ###    ### ####   ###    ###  ##### #####     ${BB}#${RST}          ${BB}##${RST}"
+@echo >&2 -e "    ##        #  ##    ###    ##  ##     ##    ##   ##      ${BB}#${RST}            ${BB}##${RST}"
+@echo >&2 -e "    ##       #   ##    ##     ##  ##     ##      ###        ${BB}#${RST}            ${BB}###${RST}"
+@echo >&2 -e "    ##          ###    ##     ##  ##     ##      ###       ${YB}QQ${RST}${RST}${BB}#${RST}           ${BB}##${RST}${YB}Q${RST}"
+@echo >&2 -e "    ##       # ###     ##     ##  ##     ##     ## ##    ${YB}QQQQQQ${RST}${BB}#${RST}       ${BB}#${RST}${YB}QQQQQQ${RST}"
+@echo >&2 -e "    ##      ## ### #   ##     ##  ###   ###    ##   ##   ${YB}QQQQQQQ${RST}${BB}#${RST}     ${BB}#${RST}${YB}QQQQQQQ${RST}"
+@echo >&2 -e "  ############  ###   ####   ####   #### ### ##### #####   ${YB}QQQQQ${RST}${BB}#######${RST}${YB}QQQQQ${RST}"
 endef
 
 # https://asciiart.website/cat.php?category_id=183
