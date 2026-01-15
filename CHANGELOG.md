@@ -24,6 +24,7 @@ and this project adheres to
 - python: add cupy subdir;
 #### Changed
 - Move binutils into gnu directory;
+- Move gdb into gnu directory;
 #### Deprecated
 #### Removed
 - remove luca/luca-container.sh;

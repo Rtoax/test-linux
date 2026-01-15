@@ -7,10 +7,10 @@ struct namelist {
 	struct namelist *next;
 };
 
-struct namelist rt1 = {"rt1", NULL};
-struct namelist rt2 = {"rt2", NULL};
-struct namelist rt3 = {"rt3", NULL};
-struct namelist rt4 = {"rt4", NULL};
+struct namelist rt1 = { "rt1", NULL };
+struct namelist rt2 = { "rt2", NULL };
+struct namelist rt3 = { "rt3", NULL };
+struct namelist rt4 = { "rt4", NULL };
 
 int main(int argc, char *argv[])
 {

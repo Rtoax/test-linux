@@ -1,8 +1,9 @@
 #!/bin/bash
 # Copyright (C) 2025-2026 Rong Tao
 #
-# Env: [FORCE2=1] git commit ...
+# Env: [VERBOSE2=1] [FORCE2=1] git commit ...
 #
+[[ ${VERBOSE2} ]] && set -x
 
 readonly COMMIT_MSG_FILE=$1
 readonly COMMIT_SOURCE=$2 # commit, merge
@@ -46,7 +47,7 @@ Versions=""
 Environments=""
 
 fatal() {
-	echo >&2 "FATAL: "${@}", use FORCE2=1 environment"
+	echo >&2 "FATAL: "${@}", set FORCE2=1 or VERBOSE2=1"
 	[[ -z ${FORCE2} ]] && exit 1
 }
 

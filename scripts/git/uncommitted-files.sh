@@ -6,7 +6,7 @@ readonly GIT_TOPDIR=$(git rev-parse --show-toplevel 2>/dev/null || :)
 
 # '^?' for not added new files
 # '^ ' for not added modified files
-files=( $(realpath $(git status --short | grep -v -e '^?' -e '^ ' | awk '{print $NF}') 2>/dev/null) )
+files=( $(realpath $(git status --short | grep -v -e '^?' -e '^ ' | awk '{print $NF}') 2>/dev/null || true) )
 
 for f in ${files[@]}
 do

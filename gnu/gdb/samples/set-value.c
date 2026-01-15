@@ -3,7 +3,6 @@
  */
 #include <stdio.h>
 
-
 static int alloc(void)
 {
 	return 0;

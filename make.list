@@ -21,7 +21,6 @@ user-list-y += distributions
 user-list-y += driver
 user-list-y += elf
 user-list-y += fs
-user-list-y += gdb
 user-list-y += glibc
 user-list-y += gnome
 user-list-y += gnu
