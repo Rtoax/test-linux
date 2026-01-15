@@ -19,7 +19,7 @@ readonly first_commentline=$(sed -n '/^#/ { =; q }' ${COMMIT_MSG_FILE})
 readonly signed_off_by_line=$(awk '/^Signed-off-by:/{print NR; exit}' ${COMMIT_MSG_FILE})
 
 # Changed file list (new, deleted, added, modified)
-CHANGED_FILES=( $( ${MY_DIRECTORY}/get-commit-file-list ) )
+CHANGED_FILES=( $( ${MY_DIRECTORY}/../uncommitted-files ) )
 
 # git commit --amend
 if [ "$COMMIT_SOURCE" = "commit" ] && [ "$COMMIT_SHA1" = "HEAD" ]; then
