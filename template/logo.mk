@@ -16,4 +16,20 @@ define tl_logo1
 @echo >&2 -e "$(1)${GB}   88${RG}   *Ybd8*   *YbdP*    *Y88 ${RGB}  8888888${RG} 88 88     88  \"YdP:Y8 8P/   'Y8 ${RST}"
 endef
 
+# https://www.ascii-art.de/ascii/jkl/linux.txt
+define tl_linux_logo1
+@echo >&2 -e "                                                                 #####"
+@echo >&2 -e "                                                                #######"
+@echo >&2 -e "                   #                                            ##O#O##"
+@echo >&2 -e "  ######          ###                                           #VVVVV#"
+@echo >&2 -e "    ##             #                                          ##  VVV  ##"
+@echo >&2 -e "    ##         ###    ### ####   ###    ###  ##### #####     #          ##"
+@echo >&2 -e "    ##        #  ##    ###    ##  ##     ##    ##   ##      #            ##"
+@echo >&2 -e "    ##       #   ##    ##     ##  ##     ##      ###        #            ###"
+@echo >&2 -e "    ##          ###    ##     ##  ##     ##      ###       QQ#           ##Q"
+@echo >&2 -e "    ##       # ###     ##     ##  ##     ##     ## ##    QQQQQQ#       #QQQQQQ"
+@echo >&2 -e "    ##      ## ### #   ##     ##  ###   ###    ##   ##   QQQQQQQ#     #QQQQQQQ"
+@echo >&2 -e "  ############  ###   ####   ####   #### ### ##### #####   QQQQQ#######QQQQQ"
+endef
+
 endif
