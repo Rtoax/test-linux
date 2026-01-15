@@ -24,3 +24,5 @@ logo:
 	$(call logo_linux_tux,*** )
 	$(call logo_test_linux,*** )
 	$(call logo_tux,*** )
+	$(call success,*** )
+	$(call wow,*** )

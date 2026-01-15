@@ -4,9 +4,7 @@ include glibc.mk
 include ansi.mk
 include dir.mk
 include git.mk
-include success.mk
 include sudo.mk
-include wow.mk
 include cpu.mk
 include os.mk
 
@@ -25,8 +23,5 @@ SHELL_ARGS_kconfig_compare.sh := --base ../kconfig --config ../kconfig --display
 include main.mk
 
 test_call:
-	$(call success)
-	$(call wow)
-	$(call wow,PREFIX)
 	$(call git_config)
 	$(call git_archive)
