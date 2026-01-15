@@ -29,9 +29,10 @@ define git_archive
 	fi
 endef
 
+# $1: Y or N
 define git_clean
 	@if [[ ! -z $(TOPDIR) ]]; then \
-		${SHELL} ${TOPDIR}/scripts/git/clean.sh; \
+		${SHELL} ${TOPDIR}/scripts/git/clean.sh $(1); \
 	fi
 endef
 

@@ -21,6 +21,7 @@ include main.mk
 git:
 	$(call git_config)
 	$(call git_archive)
+	$(call git_clean,Y)
 
 logo:
 	$(call logo_bpf_summit_2021)

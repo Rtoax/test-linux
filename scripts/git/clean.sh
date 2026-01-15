@@ -76,24 +76,30 @@ if [[ -z ${git_root} ]]; then
 	exit 1
 fi
 
-if [[ ${answer} != y ]] && [[ -z ${FORCE} ]]; then
-	while pre_check && read -p "Are you sure? [N/y] " answer
-	do
-		case $answer in
-		[Yy]|[Yy][Ee]|[Yy][Ee][Ss])
-			break
-			;;
-		[Nn]|[Nn][On])
-			echo "Bye!"
-			exit 0
-			;;
-		*)
-			echo "WARNING: Unknown $answer"
-			continue
-			;;
-		esac
-	done
-fi
+case $answer in
+[Yy]|[Yy][Ee]|[Yy][Ee][Ss])
+	;;
+*)
+	if [[ ${answer} != y ]] && [[ -z ${FORCE} ]]; then
+		while pre_check && read -p "Are you sure? [N/y] " answer
+		do
+			case $answer in
+			[Yy]|[Yy][Ee]|[Yy][Ee][Ss])
+				break
+				;;
+			[Nn]|[Nn][On])
+				echo "Bye!"
+				exit 0
+				;;
+			*)
+				echo "WARNING: Unknown $answer"
+				continue
+				;;
+			esac
+		done
+	fi
+;;
+esac
 
 git clean -dfx
 echo "Clean git"
