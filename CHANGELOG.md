@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - template: only include .mk once;
 #### Added
+- virt: add virttype.sh;
 - add scripts/clang-format.sh from git/hooks/pre-commit;
 - Add empty .clang-tidy;
 - sglang: add README.md;

@@ -180,14 +180,7 @@ fi
 # __main__
 add_env "CPU $(cpu_info)"
 add_env "Arch $(uname -m)"
-
-SYSTEMD_DETECT_VIRT=$(which systemd-detect-virt 2>/dev/null || :)
-if [[ ${SYSTEMD_DETECT_VIRT} ]]; then
-	virt=$( ${SYSTEMD_DETECT_VIRT} )
-	if [[ ${virt} != none ]]; then
-		add_env "VIRT-${virt}"
-	fi
-fi
+add_env "$(${TOPDIR}/virt/virttype.sh)"
 
 add_os_ver
 add_ver "Linux $(uname -r)"
