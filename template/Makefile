@@ -13,4 +13,11 @@ $(info MAKES = ${MAKES})
 # include each mk for twice to test ifndef-endif pair
 $(foreach mk, ${MAKES} ${MAKES}, $(eval include ${mk}))
 
+target-post-y := logo
+
 include main.mk
+
+logo:
+	$(call tl_logo1,*** )
+	$(call tl_tux_logo1,*** )
+	$(call tl_linux_tux_logo1,*** )
