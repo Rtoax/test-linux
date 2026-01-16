@@ -17,6 +17,11 @@ OPENSSL_VERSION_MAJOR := $(shell echo ${OPENSSL_VERSION} | awk -F '.' '{print $$
 OPENSSL_VERSION_MINOR := $(shell echo ${OPENSSL_VERSION} | awk -F '.' '{print $$2}')
 OPENSSL_VERSION_PATCH := $(shell echo ${OPENSSL_VERSION} | awk -F '.' '{print $$3}')
 
+# $1: output pem file name
+define openssl_genrsa
+${Q}${OPENSSL} genrsa -out $(1) -3 3072
+endef
+
 ifdef DEBUG
   $(info OPENSSL_VERSION ${OPENSSL_VERSION})
   $(info OPENSSL_VERSION_MAJOR ${OPENSSL_VERSION_MAJOR})
