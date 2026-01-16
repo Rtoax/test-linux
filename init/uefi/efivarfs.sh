@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # ref: https://docs.kernel.org/filesystems/efivarfs.html
 mnt_efivarfs() {
