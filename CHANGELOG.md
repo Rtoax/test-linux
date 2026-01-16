@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - template: only include .mk once;
 #### Added
+- template: add intel/linux-sgx.mk;
 - security: add security/sgx directory;
 - template: add bits/cpu-cache.mk;
 - add `__USE_TEST_LINUX_MAKE__` to make definition;
