@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - template: only include .mk once;
 #### Added
+- template: add bits/cpu-cache.mk;
 - add `__USE_TEST_LINUX_MAKE__` to make definition;
 - virt: add virttype.sh;
 - add scripts/clang-format.sh from git/hooks/pre-commit;
