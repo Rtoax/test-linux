@@ -17,3 +17,4 @@ SGX - Software Guard Extensions (软件防护扩展) @Intel
 
 - https://github.com/intel/linux-sgx
 - https://github.com/intel/confidential-computing.sgx
+- [Linux Doc Software Guard eXtensions (SGX)](https://www.kernel.org/doc/html/next/x86/sgx.html)
