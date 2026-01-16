@@ -9,6 +9,10 @@ target-prep-y += enclave_t.c enclave_t.h
 CFLAGS := -I/home/rongtao/Git/intel/linux-sgx/common/inc/
 CFLAGS += -I/usr/x86_64-intel-sgx/include/tlibc/
 
+LDFLAGS := -lsgx_urts
+LDFLAGS += -lsgx_launch
+LDFLAGS += -lsgx_enclave_common
+
 include main.mk
 
 app: app.o enclave_u.o enclave_t.o
