@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - template: only include .mk once;
 #### Added
+- kmod: add dkms directory;
 - uefi: add secureboot directory;
 - sgx: add enclave(飞地) directory;
 - openssl: add version.sh;
