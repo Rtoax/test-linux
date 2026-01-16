@@ -6,4 +6,6 @@ subdir-y += commands
 subdir-y += hello
 subdir-y += samples
 
+target-shell-y := version.sh
+
 include main.mk

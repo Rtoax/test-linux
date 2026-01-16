@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - template: only include .mk once;
 #### Added
+- openssl: add version.sh;
 - template: add intel/linux-sgx.mk;
 - security: add security/sgx directory;
 - template: add bits/cpu-cache.mk;
