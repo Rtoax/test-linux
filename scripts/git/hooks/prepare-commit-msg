@@ -179,11 +179,10 @@ if [[ -z ${signed_off_by_line} ]]; then
 	exit 0
 fi
 
-if [[ "$(have_type asm s S)$(have_key asm arch insn qemu qcow)" ]]; then
-	add_env "Arch $(uname -m)"
-	add_env "CPU $(cpu_info)"
-	add_env "$(${TOPDIR}/virt/virttype.sh)"
-fi
+# __main__
+add_env "CPU $(cpu_info)"
+add_env "Arch $(uname -m)"
+add_env "$(${TOPDIR}/virt/virttype.sh)"
 
 add_os_ver
 add_ver "Linux $(uname -r)"
