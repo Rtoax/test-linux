@@ -7,6 +7,7 @@ target-prep-y := enclave_u.c enclave_u.h
 target-prep-y += enclave_t.c enclave_t.h
 
 CFLAGS := -I/home/rongtao/Git/intel/linux-sgx/common/inc/
+CFLAGS += -I/usr/x86_64-intel-sgx/include/tlibc/
 
 include main.mk
 
