@@ -8,6 +8,7 @@
 ifndef _BITS_CPU_FEATURE_MK
 _BITS_CPU_FEATURE_MK = 1
 
+include arch.mk
 include string.mk
 
 # $1: cpu feature, like avx512f
@@ -22,11 +23,22 @@ define define_cpufeature
   $(eval $(call ___define_cpufeature,${1}))
 endef
 
-$(call define_cpufeature,avx2)
-$(call define_cpufeature,avx512f)
-$(call define_cpufeature,sve)
-$(call define_cpufeature,sve2)
-$(call define_cpufeature,asimd) # neon
+ifeq (${ARCH},aarch64)
+  $(call define_cpufeature,asimd) # neon
+  $(call define_cpufeature,sve)
+  $(call define_cpufeature,sve2)
+  # For modern AArch64 CPUs that conform to the ARMv8-A and above architecture
+  # specifications, ASIMD is a mandatory built-in baseline feature, not an
+  # optional extension.
+  ifndef CPU_HAVE_ASIMD
+    $(error "Not found asimd(neon) in your CPU, please check with 'lscpu'")
+  endif
+else ifeq (${ARCH},x86_64)
+  $(call define_cpufeature,avx2)
+  $(call define_cpufeature,avx512f)
+  $(call define_cpufeature,sgx)
+# MORE
+endif
 
 ifdef DEBUG
   $(info cpu-feature-cflags = ${cpu-feature-cflags})
