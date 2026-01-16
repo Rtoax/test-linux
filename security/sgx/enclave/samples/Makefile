@@ -10,8 +10,8 @@ CFLAGS := -I/home/rongtao/Git/intel/linux-sgx/common/inc/
 CFLAGS += -I/usr/x86_64-intel-sgx/include/tlibc/
 
 LDFLAGS := -lsgx_urts
-LDFLAGS += -lsgx_launch
 LDFLAGS += -lsgx_enclave_common
+LDFLAGS += /usr/x86_64-intel-sgx/lib64/libsgx_tstdc.a
 
 include main.mk
 
