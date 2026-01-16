@@ -1,1 +1,10 @@
+- AE: Architectural Enclaves (架构飞地)
+- AEX: Asynchronous Exit (异步退出)
+- ECALL: Enclave Call () @OCALL
+- EPC: Enclave Page Cache (飞地页缓存)
+- EPCM: EPC Metadata (EPC 元数据)
+- MEE: Memory Encryption Engine (内存加密引擎)
+- OCALL: Out Call () @ECALL
 - SGX: Software Guard Extensions (软件防护扩展) @Intel
+- tRTS: Trusted Runtimes (可信运行时) @uRTS
+- uRTS: Untrusted Runtimes (非可信运行时) @tRTS
