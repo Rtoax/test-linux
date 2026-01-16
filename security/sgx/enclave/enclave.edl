@@ -1,0 +1,13 @@
+/* EDL file. */
+
+enclave {
+	untrusted {
+		void ocall_print_string([in, string] const char *str);
+	};
+
+	trusted {
+		public void ecall_type_char(char val);
+		public void ecall_type_int(int val);
+		public void ecall_type_size_t(size_t val);
+	};
+};
