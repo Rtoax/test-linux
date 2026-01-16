@@ -8,8 +8,11 @@
 ifndef _OS_MK
 _OS_MK = 1
 
-OS_ID := $(shell grep ^ID= /etc/os-release | sed 's/ID=//g' | tr -d '"')
-OS_VERSION_ID := $(shell grep ^VERSION_ID= /etc/os-release | sed 's/VERSION_ID=//g' | tr -d '"')
+get_distr_info = $(patsubst "%",%,$(shell grep $(1) /etc/os-release 2>/dev/null | \
+					awk -F'=' '{print $$2}'))
+
+OS_ID := $(call get_distr_info, '^ID=')
+OS_VERSION_ID := $(call get_distr_info, '^VERSION_ID=')
 
 ifeq ($(OS_VERSION_ID),)
   $(error Not found VERSION_ID in /etc/os-release)
