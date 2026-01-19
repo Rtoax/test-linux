@@ -1,6 +1,10 @@
 # SPDX-License-Identifier: GPL-3.0
 # Copyright (C) 2025-2026 Rong Tao
 #
+# WARNING: If you are inside a container, the kernel version queried by uame -r
+# may not match the environment inside the container, so it is normal if
+# compilation errors occur.
+#
 # Exports:
 # - KVERSION=
 # - KPATCHLEVEL=
@@ -10,6 +14,7 @@
 # - KUAPIPATCHLEVEL=
 # - KUAPISUBLEVEL=
 # - KUAPIVERSION_CODE=
+# - KFLAGS=
 #
 # Functions:
 # - kver_gt()=[y|n]
@@ -20,10 +25,6 @@
 # - kver_uapi_gt()=[y|n]
 # - kver_uapi_eq()=[y|n]
 # - kver_uapi_lt()=[y|n]
-#
-# WARNING: If you are inside a container, the kernel version queried by uame -r
-# may not match the environment inside the container, so it is normal if
-# compilation errors occur.
 #
 ifndef _KERNEL_MK
 _KERNEL_MK = 1
@@ -126,10 +127,12 @@ endif
 
 export KVERSION KPATCHLEVEL KSUBLEVEL KVERSION_CODE
 export KUAPIVERSION KUAPIPATCHLEVEL KUAPISUBLEVEL KUAPIVERSION_CODE
+export KFLAGS
 
 ifdef DEBUG
   $(info KVERSION = ${KVERSION}.${KPATCHLEVEL}.${KSUBLEVEL}, CODE ${KVERSION_CODE})
   $(info KUAPIVERSION = ${KUAPIVERSION}.${KUAPIPATCHLEVEL}.${KUAPISUBLEVEL}, CODE ${KUAPIVERSION_CODE})
+  $(info KFLAGS = ${KFLAGS})
   $(info kernel_version(${KVERSION},${KPATCHLEVEL},${KSUBLEVEL}) = \
          $(call kernel_version,${KVERSION},${KPATCHLEVEL},${KSUBLEVEL}))
   $(info kver_gt(1,1,1) = $(call kver_gt,1,1,1))
