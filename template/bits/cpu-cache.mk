@@ -12,30 +12,26 @@ _BITS_CPU_CACHE_MK = 1
 
 CPU_L3LINESIZE :=
 
-DEFAULT_L3LINESIZE := 64
-SYS_DEV_L3LINESIZE := $(shell cat /sys/devices/system/cpu/cpu1/cache/index3/coherency_line_size 2>/dev/null || true)
-CONF_L3LINESIZE := $(shell getconf LEVEL3_CACHE_LINESIZE 2>/dev/null || true)
+default-l3linesize := 64
+sysfs-l3linesize := $(shell cat /sys/devices/system/cpu/cpu0/cache/index3/coherency_line_size 2>/dev/null || true)
+getconf-l3linesize := $(shell getconf LEVEL3_CACHE_LINESIZE 2>/dev/null || true)
 
-ifeq ($(SYS_DEV_L3LINESIZE),0)
-  $(warning Not found L3 cache in /sys/devices/system/cpu)
-else ifeq (${SYS_DEV_L3LINESIZE},)
-  CPU_L3LINESIZE := ${DEFAULT_L3LINESIZE}
-else
-  CPU_L3LINESIZE := ${SYS_DEV_L3LINESIZE}
+ifeq ($(sysfs-l3linesize),0)
+  $(warning Not found L3 cache in /sys/devices/system/cpu/cpu0/)
+else ifneq (${sysfs-l3linesize},)
+  CPU_L3LINESIZE := ${sysfs-l3linesize}
 endif
 
-ifeq ($(CONF_L3LINESIZE),0)
-  $(warning Not found L3 cache with getconf command)
-else
-  CPU_L3LINESIZE := ${CONF_L3LINESIZE}
-endif
-
-ifneq ($(SYS_DEV_L3LINESIZE),$(CONF_L3LINESIZE))
-  $(error Bad L3 cache linesize, $(SYS_DEV_L3LINESIZE) != $(CONF_L3LINESIZE))
+ifeq (${CPU_L3LINESIZE},)
+  ifeq ($(getconf-l3linesize),0)
+    $(warning Not found L3 cache with getconf command)
+  else
+    CPU_L3LINESIZE := ${getconf-l3linesize}
+  endif
 endif
 
 ifeq ($(CPU_L3LINESIZE),)
-  CPU_L3LINESIZE = $(DEFAULT_L3LINESIZE)
+  CPU_L3LINESIZE = $(default-l3linesize)
 endif
 
 ifdef DEBUG
