@@ -20,8 +20,8 @@ int main(int argc, char *argv[])
 	props.location.id = 0; /* device id */
 	props.location.type = cudaMemLocationTypeDevice;
 
-	cudaMemPoolCreate(&pool, &props);
+	CUDA_RUNTIME_CHECK_EXIT(cudaMemPoolCreate(&pool, &props));
 
-	cudaMemPoolDestroy(pool);
+	CUDA_RUNTIME_CHECK_EXIT(cudaMemPoolDestroy(pool));
 	return 0;
 }
