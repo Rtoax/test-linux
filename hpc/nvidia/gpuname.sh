@@ -11,4 +11,4 @@ if [[ -z ${NVSMI} ]]; then
 	exit 0
 fi
 
-${NVSMI} --query-gpu=name | grep -v ^name
+${NVSMI} --query-gpu=name | grep -v -e ^name -e failed || :
