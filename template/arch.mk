@@ -4,7 +4,7 @@
 # Output definitions:
 # - cflags-arch=
 #
-# - ARCH=[x86_64|aarch64|sw_64|loongarch64|riscv64|...]
+# - CPU_ARCH=[x86_64|aarch64|sw_64|loongarch64|riscv64|...]
 # - IS_X86_64=[y]
 # - IS_AARCH64=[y]
 # - IS_LOONGARCH64=[y]
@@ -14,7 +14,7 @@
 ifndef _ARCH_MK
 _ARCH_MK = 1
 
-CPU_ARCH=$(shell uname -m)
+CPU_ARCH := $(shell uname -m)
 cflags-arch :=
 
 ifeq (${CPU_ARCH},x86_64)
