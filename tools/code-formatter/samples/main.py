@@ -7,4 +7,4 @@ def hello(name):
     print("Hello World! %s" % (name))
 
 
-hello("OSTools")
+hello("Test Linux")
