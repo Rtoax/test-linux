@@ -1,9 +1,9 @@
-ARCH := $(shell uname -m)
+include arch.mk
 
 target-prep-y :=
 LIBS :=
 
-ifeq (${ARCH},x86_64)
+ifeq (${CPU_ARCH},x86_64)
   target-prep-y += hello
   target-prep-y += basic-vm
   target-prep-y += load-payload01
@@ -13,7 +13,7 @@ ifeq (${ARCH},x86_64)
   target-prep-y += ia32e-paging
   target-prep-y += protected-mode-with-paging
   target-prep-y += exceptions
-else ifeq (${ARCH},aarch64)
+else ifeq (${CPU_ARCH},aarch64)
 endif
 
 CC := gcc

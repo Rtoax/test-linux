@@ -23,7 +23,7 @@ define define_cpufeature
   $(eval $(call ___define_cpufeature,${1}))
 endef
 
-ifeq (${ARCH},aarch64)
+ifeq (${CPU_ARCH},aarch64)
   $(call define_cpufeature,asimd) # neon
   $(call define_cpufeature,sve)
   $(call define_cpufeature,sve2)
@@ -33,7 +33,7 @@ ifeq (${ARCH},aarch64)
   ifndef CPU_HAVE_ASIMD
     $(error "Not found asimd(neon) in your CPU, please check with 'lscpu'")
   endif
-else ifeq (${ARCH},x86_64)
+else ifeq (${CPU_ARCH},x86_64)
   $(call define_cpufeature,avx2)
   $(call define_cpufeature,avx512f)
   $(call define_cpufeature,sgx)

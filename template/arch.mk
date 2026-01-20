@@ -14,27 +14,27 @@
 ifndef _ARCH_MK
 _ARCH_MK = 1
 
-ARCH=$(shell uname -m)
+CPU_ARCH=$(shell uname -m)
 cflags-arch :=
 
-ifeq (${ARCH},x86_64)
+ifeq (${CPU_ARCH},x86_64)
   export IS_X86_64 := y
-else ifeq (${ARCH},aarch64)
+else ifeq (${CPU_ARCH},aarch64)
   export IS_AARCH64 := y
-else ifeq (${ARCH},sw_64)
+else ifeq (${CPU_ARCH},sw_64)
   ifeq ($(shell lscpu | grep -o WX-H8000 || true),WX-H8000)
     cflags-arch += -mcpu=sw8a
   else ifeq ($(shell lscpu | grep -o SW3231 || true),SW3231)
     cflags-arch += -mcpu=sw6b
   endif
   export IS_SW_64 := y
-else ifeq (${ARCH},loongarch64)
+else ifeq (${CPU_ARCH},loongarch64)
   export IS_LOONGARCH64 := y
-else ifeq (${ARCH},riscv64)
+else ifeq (${CPU_ARCH},riscv64)
   export IS_RISCV64 := y
 endif
 
-export ARCH
+export CPU_ARCH
 export cflags-arch
 
 endif
