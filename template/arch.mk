@@ -5,6 +5,7 @@
 # - cflags-arch=
 #
 # - CPU_ARCH=[x86_64|aarch64|sw_64|loongarch64|riscv64|...]
+# - LINUX_ARCH=[x86|arm64|...]
 # - IS_X86_64=[y]
 # - IS_AARCH64=[y]
 # - IS_LOONGARCH64=[y]
@@ -32,6 +33,21 @@ else ifeq (${CPU_ARCH},loongarch64)
   export IS_LOONGARCH64 := y
 else ifeq (${CPU_ARCH},riscv64)
   export IS_RISCV64 := y
+endif
+
+# see linux scripts/subarch.include
+LINUX_ARCH := $(shell uname -m | sed -e s/i.86/x86/ -e s/x86_64/x86/ \
+				     -e s/sun4u/sparc64/ \
+				     -e /^arm64$$/!s/arm.*/arm/ -e s/sa110/arm/ \
+				     -e s/s390x/s390/ \
+				     -e s/ppc.*/powerpc/ -e s/mips.*/mips/ \
+				     -e s/sh[234].*/sh/ -e s/aarch64.*/arm64/ \
+				     -e s/riscv.*/riscv/ -e s/loongarch.*/loongarch/)
+
+ifdef DEBUG
+  $(info CPU_ARCH = ${CPU_ARCH})
+  $(info LINUX_ARCH = ${LINUX_ARCH})
+  $(info cflags-arch = ${cflags-arch})
 endif
 
 export CPU_ARCH
