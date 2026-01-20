@@ -8,7 +8,11 @@
 ifndef _GIT_MK
 _GIT_MK = 1
 
-include dir.mk
+# Note: top Makefile use git.mk, before install, we could not include template
+# mk in here.
+ifndef _DIR_MK
+  include dir.mk
+endif
 
 GIT_TOPDIR := $(shell git rev-parse --show-toplevel 2>/dev/null || :)
 
