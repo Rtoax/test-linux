@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: GPL-3.0
+/* Copyright (C) 2025-2026 Rong Tao */
 /**
  * https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__PEER.html
  */
@@ -27,7 +29,7 @@ void p2p_display_info(void)
 			cudaDeviceCanAccessPeer(&can, i, j);
 			printf("%-4d", can);
 			if (can) {
-				cudaSetDevice(i);
+				CUDA_RUNTIME_CHECK_EXIT(cudaSetDevice(i));
 				CUDA_RUNTIME_CHECK(
 					cudaDeviceEnablePeerAccess(j, 0), );
 			}
@@ -62,17 +64,17 @@ void p2p_memory_transfer(void)
 	for (int src = 0; src < nGPUs; src++) {
 		printf("%-4d", src);
 		for (int dst = 0; dst < nGPUs; dst++) {
-			cudaSetDevice(src);
-			cudaMalloc(&s, size);
+			CUDA_RUNTIME_CHECK_EXIT(cudaSetDevice(src));
+			CUDA_RUNTIME_CHECK_EXIT(cudaMalloc(&s, size));
 
-			cudaSetDevice(dst);
-			cudaMalloc(&d, size);
+			CUDA_RUNTIME_CHECK_EXIT(cudaSetDevice(dst));
+			CUDA_RUNTIME_CHECK_EXIT(cudaMalloc(&d, size));
 
 			err = cudaMemcpyPeer(d, dst, s, src, size);
 			printf("%-4d", err == cudaSuccess ? 1 : 0);
 
-			cudaFree(d);
-			cudaFree(s);
+			CUDA_RUNTIME_CHECK_EXIT(cudaFree(d));
+			CUDA_RUNTIME_CHECK_EXIT(cudaFree(s));
 		}
 		printf("\n");
 	}
