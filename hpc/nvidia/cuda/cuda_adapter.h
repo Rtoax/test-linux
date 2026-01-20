@@ -528,6 +528,13 @@
 	__cuda(LaunchKernel(func, g, b, args, mem, stream))
 
 /**
+ * cudaError_t cudaLaunchDevice(void *func, void *parameterBuffer,
+ *                              dim3 gridDimension, dim3 blockDimension,
+ *                              unsigned int sharedMemSize, cudaStream_t stream);
+ */
+#define cudaLaunchDevice __cuda(LaunchDevice)
+
+/**
  * CUDA 13
  * CUresult cuLaunchKernel(CUfunction f, unsigned int gridDimX,
  *                         unsigned int gridDimY, unsigned int gridDimZ,
@@ -606,6 +613,11 @@
  * hipError_t hipFuncSetAttribute(const void* func, hipFuncAttribute attr, int value);
  */
 #define cudaFuncSetAttribute(f, a, v)	__cuda(FuncSetAttribute(f, a, v))
+
+/**
+ * cudaError_t cudaGetFuncBySymbol(cudaFunction_t* functionPtr, const void* symbolPtr);
+ */
+#define cudaGetFuncBySymbol __cuda(GetFuncBySymbol)
 
 /**
  * cudaStream_t is a data type in CUDA used to represent a stream. A stream in
