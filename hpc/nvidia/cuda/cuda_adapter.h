@@ -12,7 +12,6 @@
 /******************************************************************************\
  * HPCC: High Performance Computing Communications                            *
 \******************************************************************************/
-/* FIXME: LUCA has it's own prefix macros */
 #if defined(__USE_HPCC__)
 /* HPCC has CUDA-compatible APIs */
 # define __cu(name)	hc##name
