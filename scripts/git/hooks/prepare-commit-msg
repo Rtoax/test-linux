@@ -154,6 +154,7 @@ add_cuda_ver() { add_ver "CUDA $(${TOPDIR}/hpc/nvidia/cuda/version.sh)"; }
 add_gcc_ver() { add_ver "GCC $(${TOPDIR}/gnu/gcc/version.sh)"; }
 add_git_ver() { add_ver "GIT $(${TOPDIR}/scripts/git/version.sh)"; }
 add_glibc_ver() { add_ver "$(getconf GNU_LIBC_VERSION 2>/dev/null)"; }
+add_gnome_ver() { add_ver "GNOME $(${TOPDIR}/gnome/version.sh)"; }
 add_hpcc_ver() { add_ver_weak "HPCC $(${TOPDIR}/hpc/metax/hpcc/version.sh)"; }
 add_libbpf_ver() { add_ver "LIBBPF $(${TOPDIR}/bpf/libbpf/version.sh)"; }
 add_llvm_ver() { add_ver "LLVM $(${TOPDIR}/compiler/llvm/version.sh)"; }
@@ -205,6 +206,10 @@ fi
 
 if [[ "$(have_type mk make)$(have_key make Makefile)" ]]; then
 	add_make_ver
+fi
+
+if [[ "$(have_key gnome)" ]]; then
+	add_gnome_ver
 fi
 
 if [[ "$(have_type vim)$(have_key vim)" ]]; then

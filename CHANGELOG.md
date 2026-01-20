@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - template: only include .mk once;
 #### Added
+- gnome: add version.sh;
 - tools: add conda directory;
 - vllm: add build/ubuntu.sh;
 - kmod: add dkms directory;
