@@ -23,7 +23,8 @@
  * cuda-samples/Samples/1_Utilities/bandwidthTest/bandwidthTest.cu
  *
  * Memory copy tests:
- * - commit 2d59f523b664 ("memory.cu: Memcpy: Lingspeed X710-M:8 OAM")
+ * - commit 2d59f523b664 ("memory.cu: Memcpy: Lingspeed X710-M:8 OAM on Phytium 5000C")
+ * - memory.cu: Memcpy: Lingspeed X710-M:8 OAM on Hygon C86-4G (OPN:7470)
  */
 #include <argp.h>
 #include <stdbool.h>
