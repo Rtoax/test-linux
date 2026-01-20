@@ -2,6 +2,7 @@
 /* Copyright (C) 2026 Rong Tao */
 /**
  * cudaError_t cudaMemPoolCreate(cudaMemPool_t *memPool, const struct cudaMemPoolProps *poolProps);
+ * cudaError_t cudaMemPoolDestroy(cudaMemPool_t memPool);
  */
 #include <argp.h>
 #include <stdbool.h>
@@ -21,5 +22,6 @@ int main(int argc, char *argv[])
 
 	cudaMemPoolCreate(&pool, &props);
 
+	cudaMemPoolDestroy(pool);
 	return 0;
 }
