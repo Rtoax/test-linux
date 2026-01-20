@@ -26,12 +26,14 @@ void p2p_display_info(void)
 	for (i = 0; i < nGPUs; i++) {
 		printf("%-4d", i);
 		for (j = 0; j < nGPUs; j++) {
-			cudaDeviceCanAccessPeer(&can, i, j);
+			CUDA_RUNTIME_CHECK_EXIT(cudaDeviceCanAccessPeer(&can, i, j));
 			printf("%-4d", can);
 			if (can) {
 				CUDA_RUNTIME_CHECK_EXIT(cudaSetDevice(i));
 				CUDA_RUNTIME_CHECK(
 					cudaDeviceEnablePeerAccess(j, 0), );
+				CUDA_RUNTIME_CHECK(
+					cudaDeviceDisablePeerAccess(j), );
 			}
 		}
 		printf("\n");
@@ -82,8 +84,6 @@ void p2p_memory_transfer(void)
 
 int main(void)
 {
-	CUDA_RUNTIME_CHECK_EXIT(cudaDeviceDisablePeerAccess(0));
-
 	p2p_display_info();
 	p2p_memory_transfer();
 

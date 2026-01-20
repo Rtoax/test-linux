@@ -1295,7 +1295,11 @@
 #define cudaDeviceEnablePeerAccess(peerdev, flag)	__cuda(DeviceEnablePeerAccess(peerdev, flag))
 
 /**
+ * CUDA
  * cudaError_t cudaDeviceDisablePeerAccess(int peerDevice);
+ *
+ * LUCA
+ * lcError_t lcDeviceDisablePeerAccess(int peerDeviceId);
  */
 #define cudaDeviceDisablePeerAccess(dev)	__cuda(DeviceDisablePeerAccess(dev))
 
