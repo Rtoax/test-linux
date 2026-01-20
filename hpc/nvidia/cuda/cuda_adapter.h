@@ -436,6 +436,19 @@
 #define cudaMemLocationTypeHostNumaCurrent	__cuda(MemLocationTypeHostNumaCurrent)
 
 #define cudaMemPool_t	__cuda(MemPool_t)
+#define cudaMemPoolProps __cuda(MemPoolProps)
+
+/**
+ * cudaError_t cudaMemPoolCreate(cudaMemPool_t *memPool,
+ *                               const struct cudaMemPoolProps *poolProps);
+ */
+#define cudaMemPoolCreate __cuda(MemPoolCreate)
+
+/**
+ * cudaError_t cudaMemPoolDestroy(cudaMemPool_t memPool);
+ */
+#define cudaMemPoolDestroy __cuda(MemPoolDestroy)
+
 /**
  * CUDA V13.0.48
  * cudaError_t cudaDeviceGetDefaultMemPool(cudaMemPool_t *memPool, int device);
