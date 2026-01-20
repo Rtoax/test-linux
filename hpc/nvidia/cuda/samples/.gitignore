@@ -71,6 +71,10 @@
 /memory-hip
 /memory-hpcc
 /memory-luca
+/mempool-nv
+/mempool-hip
+/mempool-hpcc
+/mempool-luca
 /module-nv
 /module-hip
 /module-hpcc

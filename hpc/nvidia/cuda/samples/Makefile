@@ -28,6 +28,7 @@ common-objs += malloc
 common-objs += mallocHost
 common-objs += mallocManaged
 common-objs += memory
+common-objs += mempool
 common-objs += matrix-fp16 matrix-fp32 matrix-fp64 matrix-int8
 common-objs += module
 common-objs += p2p
