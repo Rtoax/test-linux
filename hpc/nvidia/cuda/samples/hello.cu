@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include "cuda_compat.h"
 #include "cuda_helpers.h"
+#include "cuda_kernel_misc.h"
 
 __device__ int dev_a = 0;
 __constant__ __device__ int dev_const_a = 0;
@@ -25,17 +26,6 @@ __device__ __forceinline__ unsigned long long __globaltimer(void)
 	asm volatile("mov.u64 %0, %globaltimer;" : "=l"(globaltimer));
 #endif
 	return globaltimer;
-}
-
-__device__ __forceinline__ unsigned int __laneid(void)
-{
-	unsigned int laneid;
-#if defined(__HPCC__) || defined(__LUCA__) || defined(__HIPCC__)
-	laneid = __lane_id();
-#else
-	asm("mov.u32 %0, %%laneid;" : "=r"(laneid));
-#endif
-	return laneid;
 }
 
 /* call by kernel/device, run by device */

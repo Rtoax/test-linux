@@ -7,6 +7,7 @@
 #include <string.h>
 #include "cuda_compat.h"
 #include "cuda_helpers.h"
+#include "cuda_kernel_misc.h"
 
 #define LOG_GLOBAL(fmt...) do {	\
 		printf("\033[1m");	\
@@ -37,6 +38,7 @@ __global__ void checkIndex(int it)
 
 	int rank = g.thread_rank();
 	int size = g.size();
+	int laneid = __laneid();
 
 	int ix = threadIdx.x + blockDim.x * blockIdx.x;
 	int iy = threadIdx.y + blockDim.y * blockIdx.y;
@@ -52,14 +54,11 @@ __global__ void checkIndex(int it)
 		bix = blockIdx.x, biy = blockIdx.y, biz = blockIdx.z, \
 		gdx = gridDim.x, gdy = gridDim.y, gdz = gridDim.z;
 
-	LOG_GLOBAL("threadIdx(%d,%d,%d), blockIdx(%d,%d,%d), blockDim(%d,%d,%d), gridDim(%d,%d,%d) " \
-		"(rank=%d,size=%d) (x=%d,y=%d,z=%d)\n",
-		tix, tiy, tiz,
-		bdx, bdy, bdz,
-		bix, biy, biz,
-		gdx, gdy, gdz,
-		rank, size,
-		ix, iy, iz);
+	LOG_GLOBAL(
+		"threadIdx(%d,%d,%d), blockIdx(%d,%d,%d), blockDim(%d,%d,%d), gridDim(%d,%d,%d) "
+		"(rank=%d,size=%d,laneid=%d) (x=%d,y=%d,z=%d)\n",
+		tix, tiy, tiz, bdx, bdy, bdz, bix, biy, biz, gdx, gdy, gdz,
+		rank, size, laneid, ix, iy, iz);
 
 	/**
 	 * Note: printf display wrong/zero %d under version 3.0.0, add printf

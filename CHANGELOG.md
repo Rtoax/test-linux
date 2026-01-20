@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - template: only include .mk once;
 #### Added
+- cuda: add `cuda_kernel_misc.h`;
 - gnome: add version.sh;
 - tools: add conda directory;
 - vllm: add build/ubuntu.sh;
