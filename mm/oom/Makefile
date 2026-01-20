@@ -2,11 +2,7 @@ __USE_C_HELPERS__ = y
 __USE_PROC_HELPERS__ = y
 __USE_OOM_HELPERS__ = y
 
-ifdef STATIC
-  $(warning "WARNING: subdir adaptive-oom-score not support STATIC!!!")
-else
-  subdir-y := adaptive-oom-score
-endif
+subdir-y := adaptive-oom-score
 
 target-y := oom
 target-y += oom_minimal
