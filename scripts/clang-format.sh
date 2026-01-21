@@ -25,7 +25,9 @@ elif [[ -z ${FORCE1} ]]; then
 		fatal "Unknown repository '${repository}', please develop me!"
 	fi
 	patch="$( ${clang_format} --diff ${branch} --extensions c,cpp,cu,h,hpp | \
-			grep -v 'no modified files to format' || :)"
+			grep -v 'no modified files to format' \
+			     -v 'clang-format did not modify any files' \
+			     || :)"
 	if [[ $? != 0 ]] || [[ "${patch}" ]]; then
 		echo "${patch}"
 		fatal "Bad code format, please modify according to the above diff or FORCE1=1"

@@ -11,10 +11,17 @@
 int main(int argc, char *argv[])
 {
 	lcVPUInst encInst;
+	lcVPUEncParamterType cfg;
 
 	CUDA_RUNTIME_CHECK_EXIT(lcVpueOpen(&encInst));
 
-	// TODO
+	memset(&cfg, 0, sizeof(lcVPUEncParamterType));
+	cfg.code_type = lcVpuH264;
+	cfg.width = 1920;
+	cfg.height = 1080;
+	cfg.pixfmt = lcEncYuv420Planar;
+
+	CUDA_RUNTIME_CHECK_EXIT(lcVpueCtrl(encInst, lcSetEncAll, (void *)&cfg));
 
 	CUDA_RUNTIME_CHECK_EXIT(lcVpueClose(encInst));
 	return 0;
