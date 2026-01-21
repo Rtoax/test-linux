@@ -4,6 +4,9 @@
 #include "cuda_compat.h"
 #include "cuda_helpers.h"
 
+#ifndef __LUCA__
+# error "Only support LUCA right now"
+#endif
 
 int main(int argc, char *argv[])
 {
