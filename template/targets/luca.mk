@@ -51,6 +51,9 @@ endif
 ifdef HAVE_LCPTI
   CFLAGS_LSCC += -DHAVE_LCPTI=1
 endif
+ifdef HAVE_LSVPU
+  CFLAGS_LSCC += -DHAVE_LSVPU=1
+endif
 
 ifneq ($(LUCA_VERSION_MAJOR}),)
   CFLAGS_LSCC += -DLUCA_VERSION_MAJOR=${LUCA_VERSION_MAJOR}
@@ -75,6 +78,9 @@ ifdef LUCA_PHASE_II_PROJECT
   ifdef HAVE_LCPTI
     LDFLAGS_LSCC += -llcpti
   endif
+  ifdef HAVE_LSVPU
+    LDFLAGS_LSCC += -llsvpu
+  endif
 else
   # FIXME: In file included from sparse.luca:6:
   # In file included from /opt/luca/include/hcsparse/hcsparse.h:9:
@@ -95,6 +101,9 @@ else
   endif
   ifdef HAVE_LCPTI
     LDFLAGS_LSCC += -lhcpti
+  endif
+  ifdef HAVE_LSVPU
+    LDFLAGS_LSCC += -lhcvpu
   endif
 endif
 

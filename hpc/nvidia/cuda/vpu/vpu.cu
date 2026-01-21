@@ -7,6 +7,12 @@
 
 int main(int argc, char *argv[])
 {
+	lcVPUInst encInst;
+
+	CUDA_RUNTIME_CHECK_EXIT(lcVpueOpen(&encInst));
+
 	// TODO
+
+	CUDA_RUNTIME_CHECK_EXIT(lcVpueClose(encInst));
 	return 0;
 }

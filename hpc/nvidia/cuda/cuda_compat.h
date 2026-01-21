@@ -20,6 +20,7 @@
  * - HAVE_LCFILE
  * - HAVE_CUPTI
  * - HAVE_LCPTI
+ * - HAVE_LSVPU
  * - HAVE_HIP
  * - HAVE_HIPBLASLT
  * - HAVE_HIP_FP8
@@ -87,6 +88,9 @@
 #  ifdef HAVE_LCPTI
 #   include <lcpti/lcpti.h>
 #  endif
+#  ifdef HAVE_LSVPU
+#   include <lcr/lc_vpu_api.h>
+#  endif
 # else /* LUCA_PHASE_II_PROJECT */
 #  include <hcr/hc_runtime.h>
 #  include <hcr/hcrtc.h>
@@ -106,6 +110,9 @@
 #  endif
 #  ifdef HAVE_LCPTI
 #   include <hcpti/hcpti.h>
+#  endif
+#  ifdef HAVE_LSVPU
+#   include <hcr/hc_vpu_api.h>
 #  endif
 # endif /* LUCA_PHASE_II_PROJECT */
 # ifndef __NOT_USE_FP8__

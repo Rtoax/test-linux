@@ -5,11 +5,12 @@
 # - __IGNORE_NOTFOUND_ERROR__
 #
 # Output definitions:
-# - HAVE_LUCA=y
-# - HAVE_LCDNN=y
-# - HAVE_LCFILE=y
-# - HAVE_LCPTI=y
-# - LUCA_ROOT=
+# - HAVE_LUCA=[y]
+# - HAVE_LCDNN=[y]
+# - HAVE_LCFILE=[y]
+# - HAVE_LCPTI=[y]
+# - HAVE_LSVPU=[y]
+# - LUCA_ROOT=[/opt/luca]
 # - LUCA_PHASE_II_PROJECT=  In the second phase of LUCA development, the
 #                           filename changed, and the definition was deleted
 #                           once development was completed.
@@ -74,10 +75,12 @@ ifeq (${LUCA_PHASE_II_PROJECT},y)
   $(call check_file_and_def,${LUCA_ROOT}/include/lcdnn/lcdnn.h,HAVE_LCDNN)
   $(call check_file_and_def,${LUCA_ROOT}/include/lcfile.h,HAVE_LCFILE)
   $(call check_file_and_def,${LUCA_ROOT}/include/lcpti/lcpti.h,HAVE_LCPTI)
+  $(call check_file_and_def,${LUCA_ROOT}/include/lcr/lc_vpu_api.h,HAVE_LSVPU)
 else
   $(call check_file_and_def,${LUCA_ROOT}/include/hcdnn/hcdnn.h,HAVE_LCDNN)
   $(call check_file_and_def,${LUCA_ROOT}/include/hcfile.h,HAVE_LCFILE)
   $(call check_file_and_def,${LUCA_ROOT}/include/hcpti/hcpti.h,HAVE_LCPTI)
+  $(call check_file_and_def,${LUCA_ROOT}/include/hcr/hc_vpu_api.h,HAVE_LSVPU)
 endif
 
 export LUCA_ROOT
