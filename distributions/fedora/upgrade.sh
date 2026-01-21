@@ -43,5 +43,5 @@ if [[ $(systemd-detect-virt) == none ]] ||
 	# sudo hostnamectl set-hostname --static XXXX
 else
 	# Direct upgrade for container
-	sudo dnf up --releasever=${newest_fedora}
+	sudo dnf up -y --releasever=${newest_fedora}
 fi
