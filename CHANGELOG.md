@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - template: only include .mk once;
 #### Added
+- cuda: add vpu directory;
 - cuda: add mempool.cu;
 - cuda: add `cuda_kernel_misc.h`;
 - gnome: add version.sh;

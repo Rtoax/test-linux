@@ -17,6 +17,7 @@ subdir-y += pti
 subdir-y += rand
 subdir-y += sparse
 subdir-y += solver
+subdir-y += vpu
 subdir-y += intrinsics
 subdir-y += fakeCUDA
 
