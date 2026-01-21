@@ -165,6 +165,7 @@ add_openssl_ver() { add_ver "OpenSSL $(${TOPDIR}/security/openssl/version.sh)"; 
 add_os_ver() { add_ver "$(${TOPDIR}/distributions/version.sh)"; }
 add_pahole_ver() { add_ver "Pahole $(${TOPDIR}/pahole/version.sh)"; }
 add_pciutils_ver() { add_ver "PCIUtils $(${TOPDIR}/driver/pcie/pciutils/version.sh)"; }
+add_podman_ver() { add_ver "Podman $(${TOPDIR}/tools/podman/version.sh)"; }
 add_py_ver() { add_ver "Python $(${TOPDIR}/python/version.sh)"; }
 add_qemu_ver() { add_ver "QEMU $(${TOPDIR}/qemu/version.sh)"; }
 add_rocm_ver() { add_ver_weak "ROCm $(${TOPDIR}/hpc/amd/rocm/version.sh)"; }
@@ -206,6 +207,10 @@ fi
 
 if [[ "$(have_type mk make)$(have_key make Makefile)" ]]; then
 	add_make_ver
+fi
+
+if [[ "$(have_key podman Dockerfile)" ]]; then
+	add_podman_ver
 fi
 
 if [[ "$(have_key gnome)" ]]; then
