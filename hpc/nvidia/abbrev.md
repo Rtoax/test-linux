@@ -5,3 +5,4 @@
 - SASS: Shader Assembly (NVIDIA GPU机器码) @PTX
 - SXM: Server PCI Express Module (服务PCIe模组)
 - UM: Unified Memory (统一内存)
+- VPU: Vector Processing Unit (向量处理单元)
