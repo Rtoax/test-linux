@@ -2,6 +2,8 @@
 ifndef _SIGNAL_MK
 _SIGNAL_MK = 1
 
+include bits/signum-generic.mk
+
 SIGRT_PROBE := '\#include <stdio.h>\n'
 SIGRT_PROBE += '\#include <signal.h>\n'
 SIGRT_PROBE += 'int main(void) {\n'
