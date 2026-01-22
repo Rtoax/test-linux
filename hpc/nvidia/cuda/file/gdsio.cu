@@ -21,7 +21,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include "cuda_compat.h"
-#include "../cuda_helpers.h"
+#include "cuda_helpers.h"
 
 #define VERSION	"v1.0.1"
 
