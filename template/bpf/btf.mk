@@ -31,7 +31,7 @@ ifeq ($(wildcard ${BTF_ROOT}),)
   endif
   HAVE_BTF := n
 endif
-ifneq (${BPFTOOL}, y)
+ifeq (${BPFTOOL},)
   HAVE_BTF := n
 endif
 
