@@ -31,4 +31,4 @@ clean0:
 	$(call log_exe,STRIP,$(<),$(@))
 	${Q}strip --strip-debug $(<) -o $(<).no-debug
 	${Q}eu-strip $(<) -f $(<).debug -o $(<).strip
-	${Q}objcopy --strip-debug $(<)
+	${Q}objcopy --strip-debug $(<) $(<).strip2
