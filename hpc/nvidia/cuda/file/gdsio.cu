@@ -424,8 +424,24 @@ void* xfer_between_storage__gpu(void *devPtr, bool alloc, enum op_type otype,
 	bool allocated = false;
 
 	if (!devPtr) {
+		uint8_t init0 = init;
+		/**
+		 * Fill something different from 'init', so we can distinguish
+		 * the data is successfully transfered or not during
+		 * verification stage.
+		 */
+		if (otype == OP_READ) {
+			init0 = ~init;
+		}
+
 		CUDA_RUNTIME_CHECK_EXIT(cudaMalloc(&devPtr, env.fsize));
-		CUDA_RUNTIME_CHECK_EXIT(cudaMemset(devPtr, init, env.fsize));
+		CUDA_RUNTIME_CHECK_EXIT(cudaMemset(devPtr, init0, env.fsize));
+
+		/**
+		 * cuFile API lacks CUDA stream awareness, sync manually,
+		 * otherwise cudaMemset may corrupt data readed by cuFileRead.
+		 */
+		cudaDeviceSynchronize();
 		allocated = true;
 	}
 
@@ -642,14 +658,25 @@ void cufile_destroy(void)
 
 __global__ void __verify_io_kernel(void *devptr, size_t size, uint8_t expect)
 {
+#ifdef DEBUG
+	printf("GPU: Doing verify.\n");
+#endif
 	for (size_t i = 0; i < size; i++) {
 		uint8_t real = *(uint8_t *)((char *)devptr + i);
 		if (real != expect) {
 			printf("GPU: Verify IO failed at device memory (vaddr %p, off %ld)"
 			       " with value 0x%x, expect 0x%x\n",
 			       devptr, i, real, expect);
+			/**
+			 * We must return immediately, or we may be stuck
+			 * here for hours due to too many errors.
+			 */
+			return;
 		}
 	}
+#ifdef DEBUG
+	printf("GPU: Verify Success.\n");
+#endif
 }
 
 void verify_io_devmem(void *devptr, size_t size, uint8_t expect)
