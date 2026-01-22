@@ -40,6 +40,7 @@ CFLAGS_HIPCC_half := -Wno-c99-designator -Wno-c++20-designator
 
 # FIXME and TODO: I just install cuda13.0 on fedora 43, but cuda13.0 not support
 # fedora43 yet. If cuda support fedora43, then remove FEDORA43_CFLAGS.
+# see commit c10a95f14208 ("cuda13.0: skip compile error on fedora 43")
 ifeq (${OS_ID}:${OS_VERSION_ID},fedora:43)
   FEDORA43_CFLAGS := -DOS_IS_FEDORA43=1
 endif
