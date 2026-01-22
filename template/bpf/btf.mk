@@ -2,7 +2,16 @@
 # Copyright (C) 2025-2026 Rong Tao
 #
 # Output definitions:
-# - HAVE_BTF: Check your system support BTF or not
+# - HAVE_BTF=[y|n]                 Check your system support BTF or not
+# - BTF_ROOT=[/sys/kernel/btf]
+#
+# Functions:
+# - btf_gen_hdr()
+# - auto_gen_vmlinux_h()
+# - vmlinux_has_struct()
+# - vmlinux_has_struct_shell()
+# - vmlinux_has_sym()
+# - vmlinux_has_sym_shell()
 #
 ifndef _BPF_BTF_MK
 _BPF_BTF_MK = 1
@@ -15,23 +24,37 @@ BTF_ROOT := /sys/kernel/btf
 HAVE_BTF := y
 
 ifeq ($(wildcard ${BTF_ROOT}),)
-  $(warning Not found BTF in your system, see CONFIG_DEBUG_INFO_BTF in your kernel config!!)
-  HAVE_BTF :=
+  ifdef __IGNORE_NOTFOUND_ERROR__
+    $(warning Not found BTF in your system, skipping!!)
+  else
+    $(error Not found BTF in your system, see CONFIG_DEBUG_INFO_BTF in your kernel config!!)
+  endif
+  HAVE_BTF := n
+endif
+ifneq (${BPFTOOL}, y)
+  HAVE_BTF := n
 endif
 
-ifneq (${HAVE_BTF},)
-# Use the bpftool command to generate a series of btf header files.
-# $1 - btf file name under /sys/kernel/btf
-# $2 - btf header file name or fullpath
-define btf_gen_hdr
-  mkdir -p $$(dirname ${2}); \
-  ${BPFTOOL} btf dump file ${BTF_ROOT}/${1} format c > ${2}
-endef
+ifeq (${HAVE_BTF}, y)
+  # Use the bpftool command to generate a series of btf header files.
+  # $1 - btf file name under /sys/kernel/btf, like "vmlinux"
+  # $2 - btf header file name or fullpath
+  define btf_gen_hdr
+    mkdir -p $$(dirname ${2}); \
+    ${BPFTOOL} btf dump file ${BTF_ROOT}/${1} format c > ${2}
+  endef
 else
-define btf_gen_hdr
-$(error Your system not support BTF, see CONFIG_DEBUG_INFO_BTF)
-endef
-endif
+  ifdef __IGNORE_NOTFOUND_ERROR__
+    define btf_gen_hdr
+    $(warning Your system not support BTF, see CONFIG_DEBUG_INFO_BTF, generate empty ${2})
+    touch ${2}
+    endef
+  else
+    define btf_gen_hdr
+    $(error Your system not support BTF, see CONFIG_DEBUG_INFO_BTF)
+    endef
+  endif
+endif # end of HAVE_BTF
 
 define auto_gen_vmlinux_h
   if [[ ! -e ${VMLINUX_H} ]]; then \
@@ -67,13 +90,15 @@ define vmlinux_has_sym_shell
 $(shell $(call vmlinux_has_sym,${1}))
 endef
 
-export HAVE_BTF
-
 ifdef DEBUG
   $(info HAVE_BTF = ${HAVE_BTF})
+  $(info BTF_ROOT = ${BTF_ROOT})
 endif
 
-ifneq (${HAVE_BTF},)
+export HAVE_BTF
+export BTF_ROOT
+
+ifeq (${HAVE_BTF}, y)
   ifneq ($(shell $(call vmlinux_has_struct,task_struct)),y)
     $(error Not found task_struct in vmlinux.h)
   endif
@@ -82,4 +107,4 @@ ifneq (${HAVE_BTF},)
   endif
 endif
 
-endif
+endif # end of _BPF_BTF_MK
