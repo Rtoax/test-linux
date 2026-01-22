@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - template: only include .mk once;
 #### Added
+- template: add cgroup.mk;
 - libcgroup.mk: add `HAVE_LIBCGROUP` and libcgroup-{cflags,ldflags};
 - cgroup/v1: add cpu/chrt.sh to test chrt return EPERM;
 - tools: add podman directory;
