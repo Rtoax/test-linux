@@ -300,13 +300,13 @@ void *thread_func(void *targ)
 
 	pthread_mutex_lock(&mutex);
 #ifdef DEBUG
-	fprintf(stderr, "Thread %d waiting.\n", arg->idx);
+	fprintf(stderr, "Thread %d is waiting.\n", arg->idx);
 #endif
 	pthread_cond_wait(&cond, &mutex);
 	pthread_mutex_unlock(&mutex);
 
 #ifdef DEBUG
-	fprintf(stderr, "Thread %d working.\n", arg->idx);
+	fprintf(stderr, "Thread %d is working.\n", arg->idx);
 #endif
 	err = arg->workload(arg);
 
