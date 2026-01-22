@@ -36,6 +36,8 @@ Linus Torvalds releases a new kernel and opens a **2-week merge window**.
 - `Tested-by`: This tag indicates that the patch has been tested by the person named in the tag.
 - `Suggested-by`: This tag indicates that the patch has been tested by the person named in the tag.
 - `Fixes`: This tag indicates that the patch fixes an issue in a previous commit referenced by its Commit ID. This tag allows us to track where the bug originated.
+- `Envs`: This tag indicates the env of your system.
+- `Vers`: This tag indicates the software/hardware version of your system.
 
 
 ## Sub-Directories
