@@ -9,8 +9,6 @@
 #include <linux/kfifo.h> // misc
 #include <linux/version.h>
 
-
-//每个文件系统需要一个MAGIC number
 #define MYFS_MAGIC 0X64668735
 #define MYFS "myfs"
 
@@ -27,26 +25,16 @@ DEFINE_KFIFO(mydemo_fifo, char, 64);
 
 int g_val;
 
-//*****************************************************************************
-//	底层创建函数
-//*****************************************************************************
 static struct inode * myfs_get_inode(struct super_block * sb, int mode, dev_t dev)
 {
 	struct inode *inode = new_inode(sb);
 
 	if (inode) {
 		inode->i_mode = mode;
-		//@i_uid：user id
-		inode->i_uid  = current_fsuid();
-		//@i_gid：group id组标识符
-		inode->i_gid  = current_fsgid();
-		//@i_size：文件长度
+		inode->i_uid = current_fsuid();
+		inode->i_gid = current_fsgid();
 		inode->i_size = VMACACHE_SIZE;
-		//@i_blocks：指定文件按块计算的长度
 		inode->i_blocks = 0;
-		//@i_atime：最后访问时间
-		//@i_mtime：最后修改时间
-		//@i_ctime：最后修改inode时间
 		struct timespec64 curtime = current_time(inode);
 /**
  * kernel commit 3aa63a569c64 ("fs: switch timespec64 fields in inode to discrete integers")
@@ -72,12 +60,8 @@ static struct inode * myfs_get_inode(struct super_block * sb, int mode, dev_t de
 				break;
 			case S_IFDIR:
 				printk("creat a content\n");
-				//inode_operations
 				inode->i_op = &simple_dir_inode_operations;
-				//file_operation
 				inode->i_fop = &simple_dir_operations;
-				//@：文件的链接计数，使用stat命令可以看到Links的值，硬链接数目
-				//inode->i_nlink++;
 				inc_nlink(inode);
 				break;
 			default:
@@ -88,8 +72,8 @@ static struct inode * myfs_get_inode(struct super_block * sb, int mode, dev_t de
 	return inode;
 }
 
-//把创建的inode和dentry连接起来
-static int myfs_mknod(struct inode * dir, struct dentry * dentry, int mode, dev_t dev)
+static int myfs_mknod(struct inode *dir, struct dentry *dentry, int mode,
+		      dev_t dev)
 {
 	struct inode * inode;
 	int error = -EPERM;
@@ -105,10 +89,6 @@ static int myfs_mknod(struct inode * dir, struct dentry * dentry, int mode, dev_
 	}
 	return error;
 }
-
-//************************************************************************
-//	创建目录，文件
-//************************************************************************
 
 static int myfs_mkdir(struct inode * dir, struct dentry * dentry, int mode)
 {
@@ -126,29 +106,12 @@ static int myfs_creat(struct inode * dir, struct dentry * dentry, int mode)
 	return myfs_mknod(dir, dentry, mode|S_IFREG, 0);
 }
 
-
-//************************************************************************
-//　注册信息
-//************************************************************************
 static int myfs_fill_super(struct super_block *sb, void *data, int silent)
 {
-	//struct tree_descr {
-	//	const char *name;
-	//	const struct file_operations *ops;
-	//	int mode;
-	//};
 	static struct tree_descr debug_files[] = {{""}};
 
-	return simple_fill_super(sb,MYFS_MAGIC,debug_files);
+	return simple_fill_super(sb, MYFS_MAGIC, debug_files);
 }
-
-/*
- * 这个函数是按照内核代码中的样子改的，是struct dentry *类型，这里是一个封装，
- * 这里可以返回好几种函数：
- * mount_single
- * mount_bdev　
- * mount_nodev
- */
 
 static struct dentry *myfs_get_sb(struct file_system_type *fs_type, int flags,
 		const char *dev_name, void *data)
@@ -156,17 +119,12 @@ static struct dentry *myfs_get_sb(struct file_system_type *fs_type, int flags,
 	return mount_single(fs_type, flags, data, myfs_fill_super);
 }
 
-/*********************************************************************
-文件操作部分
-*********************************************************************/
-//对应于打开aufs文件的方法
 static int myfs_file_open(struct inode *inode, struct file *file)
 {
 	printk("已打开文件");
 	return 0;
 }
 
-//对应于读取的aufs文件的读取方法
 static ssize_t myfs_file_read(struct file *file, char __user *buf, size_t count, loff_t *ppos)
 {
 	int actual_readed;
@@ -180,7 +138,7 @@ static ssize_t myfs_file_read(struct file *file, char __user *buf, size_t count,
 
 	return actual_readed;
 }
-//对应于写入的aufs文件的写入方法
+
 static ssize_t myfs_file_write(struct file *file, const char __user *buf, size_t count, loff_t *ppos)
 {
 	unsigned int actual_write;
@@ -250,9 +208,9 @@ static int myfs_creat_by_name(const char *name, mode_t mode,
 	return error;
 }
 
-static struct dentry *myfs_creat_file(const char * name, mode_t mode,
-				      struct dentry * parent, void * data,
-				      struct file_operations * fops)
+static struct dentry *myfs_creat_file(const char *name, mode_t mode,
+				      struct dentry *parent, void *data,
+				      struct file_operations *fops)
 {
 	struct dentry * dentry = NULL;
 	int error;
@@ -277,31 +235,21 @@ exit:
 	return dentry;
 }
 
-static struct dentry *myfs_creat_dir(const char * name, struct dentry * parent)
+static struct dentry *myfs_creat_dir(const char *name, struct dentry *parent)
 {
-	//使用man creat查找
-	//@S_IFREG：表示一个目录
-	//@S_IRWXU：user (file owner) has read,  write,  and  execute　permission
-	//@S_IRUGO：用户读｜用户组读｜其他读
 	return myfs_creat_file(name, S_IFDIR|S_IRWXU|S_IRUGO, parent, NULL, NULL);
 }
-
-//*************************************************************************
-//	模块注册退出
-//*************************************************************************
 
 static int __init myfs_init(void)
 {
 	int retval;
 	struct dentry * pslot;
 
-	//将文件系统登录到系统中去
 	retval = register_filesystem(&my_fs_type);
 
 	if (!retval) {
-		//创建super_block根dentry的inode
+		/* create super_block dentry's inode */
 		myfs_mount = kern_mount(&my_fs_type);
-		//如果装载错误就卸载文件系统
 		if (IS_ERR(myfs_mount)) {
 			printk("--ERROR:aufs could not mount!--\n");
 			unregister_filesystem(&my_fs_type);
@@ -310,8 +258,6 @@ static int __init myfs_init(void)
 	}
 
 	pslot = myfs_creat_dir("First", NULL);
-	//@S_IFREG：表示一个文件
-	//@S_IRUGO：用户读｜用户组读｜其他读
 	myfs_creat_file("one", S_IFREG|S_IRUGO|S_IWUSR, pslot, NULL, &myfs_file_operations);
 	myfs_creat_file("two", S_IFREG|S_IRUGO|S_IWUSR, pslot, NULL, &myfs_file_operations);
 
@@ -324,11 +270,8 @@ static int __init myfs_init(void)
 
 static void __exit myfs_exit(void)
 {
-	//退出函数中卸载super_block根dentry的inode
-	simple_release_fs(&myfs_mount,&myfs_mount_count);
-	//卸载文件系统
+	simple_release_fs(&myfs_mount, &myfs_mount_count);
 	unregister_filesystem(&my_fs_type);
-	//aufs_mount = NULL;
 }
 
 module_init(myfs_init);
