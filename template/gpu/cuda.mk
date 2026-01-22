@@ -13,7 +13,7 @@
 # - NVCC=
 # - CUOBJDUMP=
 # - NVDISASM=
-# - CUDA_ROOT=
+# - CUDA_ROOT=[/usr/local/cuda/,/usr/]
 # - CUDA_VERSION_CODE=
 # - CUDA_VERSION_MAJOR=[0]
 # - CUDA_VERSION_MINOR=[0]
@@ -91,8 +91,7 @@ else
   CUDA_VERSION_PATCH := $(shell echo ${CUDA_VERSION_RAW} | awk -F '.' '{print $$3}')
 
   ifndef HAVE_CUDA
-    HAVE_CUDA := y
-    export HAVE_CUDA
+    export HAVE_CUDA := y
   endif
 endif
 
@@ -103,9 +102,6 @@ $(call check_file_and_def,${CUDA_ROOT}/include/nccl.h,HAVE_NCCL)
 $(call check_file_and_def,${CUDA_ROOT}/include/cudnn.h,HAVE_CUDNN)
 $(call check_file_and_def,${CUDA_ROOT}/include/cupti.h,HAVE_CUPTI)
 $(call check_file_and_def,${CUDA_ROOT}/include/cufile.h,HAVE_CUFILE)
-
-export NVCC CUOBJDUMP NVDISASM CUDA_ROOT
-export CUDA_VERSION_MAJOR CUDA_VERSION_MINOR CUDA_VERSION_PATCH
 
 ifdef DEBUG
   $(info HAVE_CUDA = ${HAVE_CUDA})
@@ -119,5 +115,8 @@ ifdef DEBUG
   $(info CUDA_VERSION_MINOR = ${CUDA_VERSION_MINOR})
   $(info CUDA_VERSION_PATCH = ${CUDA_VERSION_PATCH})
 endif
+
+export NVCC CUOBJDUMP NVDISASM CUDA_ROOT
+export CUDA_VERSION_MAJOR CUDA_VERSION_MINOR CUDA_VERSION_PATCH
 
 endif
