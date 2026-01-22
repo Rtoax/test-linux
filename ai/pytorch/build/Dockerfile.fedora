@@ -5,3 +5,10 @@ FROM fedora:43
 RUN dnf install -y cmake make rpm-build
 RUN dnf install -y FP16-devel cpuinfo-devel eigen3-devel flexiblas-devel fmt-devel foxi-devel fxdiv-devel gcc-c++ gcc-gfortran hipblas-devel hipblaslt-devel hipcub-devel hipfft-devel hiprand-devel hipsolver-devel hipsparse-devel hipsparselt-devel json-devel libomp-devel magma-devel miopen-devel ninja-build numactl-devel onnx-devel openmpi-devel pocketfft-devel protobuf-devel psimd-devel pthreadpool-devel python3-devel python3-filelock python3-fsspec python3-jinja2 python3-networkx python3-numpy python3-pip python3-pybind11 python3-pyyaml python3-setuptools python3-sphinx python3-sympy python3-typing-extensions rccl-devel rocblas-devel rocfft-devel rocm-cmake rocm-comgr-devel rocm-compilersupport-macros rocm-core-devel rocm-hip-devel rocm-rpm-macros rocm-runtime-devel rocm-smi-devel rocprim-devel rocrand-devel rocsolver-devel rocthrust-devel roctracer-devel sleef-devel valgrind-devel xnnpack-devel
 
+# Download CUDA13 and install
+# ref: https://developer.nvidia.com/cuda-downloads
+RUN wget https://developer.download.nvidia.com/compute/cuda/13.1.1/local_installers/cuda-repo-fedora42-13-1-local-13.1.1_590.48.01-1.x86_64.rpm
+RUN dnf install -y cuda-repo-fedora42-13-0-local-13.0.0_580.65.06-1.x86_64.rpm
+RUN dnf install -y cuda-toolkit
+RUN dnf remove -y cuda-repo-fedora42-13-0-local
+RUN rm -f cuda-repo-fedora42-13-0-local-13.0.0_580.65.06-1.x86_64.rpm
