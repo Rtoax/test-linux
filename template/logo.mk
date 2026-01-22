@@ -1,5 +1,11 @@
 # SPDX-License-Identifier: GPL-3.0
 # Copyright (C) 2025-2026 Rong Tao
+#
+# Functions:
+# - logo_test_linux()
+# - logo_linux_tux()
+# - logo_tux()
+#
 ifndef _LOGO_MK
 _LOGO_MK = 1
 
