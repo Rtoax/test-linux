@@ -29,4 +29,4 @@ RUN dnf remove -y cuda-repo-fedora42-13-0-local
 RUN rm -f cuda-repo-fedora42-13-0-local-13.0.0_580.65.06-1.x86_64.rpm
 
 # Direct compile pytorch source code
-RUN make
+RUN make PYTORCH_ROCM_ARCH="gfx900;gfx906:xnack-;gfx908:xnack-;gfx90a:xnack+;gfx90a:xnack-;gfx942;gfx950;gfx1010;gfx1012;gfx1030;gfx1031;gfx1035;gfx1100;gfx1101;gfx1102;gfx1103;gfx1150;gfx1151;gfx1152;gfx1153;gfx1200;gfx1201"
