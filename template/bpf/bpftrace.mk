@@ -2,7 +2,7 @@
 # Copyright (C) 2025-2026 Rong Tao
 #
 # Output definitions:
-# - HAVE_BPFTRACE=y
+# - HAVE_BPFTRACE=[y|n]
 # - BPFTRACE=
 # - BPFTRACE_VERSION_MAJOR=
 # - BPFTRACE_VERSION_MINOR=
@@ -12,20 +12,23 @@ _BPFTRACE_MK = 1
 
 BPFTRACE := $(shell which bpftrace 2>/dev/null)
 ifeq ($(BPFTRACE),)
-  $(error "Not found bpftrace, install first")
-endif
+  ifndef __IGNORE_NOTFOUND_ERROR__
+    $(error "Not found bpftrace, install first")
+  else
+    $(warning "Not found bpftrace, skipping")
+  endif
+  export HAVE_BPFTRACE := n
+else
+  BPFTRACE_VERSION := $(shell ${BPFTRACE} --version | grep -o v[0-9].[0-9]\. | sed -n '1p')
+  BPFTRACE_VERSION_MAJOR := $(shell echo ${BPFTRACE_VERSION} | awk -F '.' '{print $$1}')
+  BPFTRACE_VERSION_MINOR := $(shell echo ${BPFTRACE_VERSION} | awk -F '.' '{print $$2}')
 
-HAVE_BPFTRACE := y
+  ifdef DEBUG
+    $(info ${BPFTRACE} version ${BPFTRACE_VERSION_MAJOR}.${BPFTRACE_VERSION_MINOR})
+  endif
 
-BPFTRACE_VERSION := $(shell ${BPFTRACE} --version | grep -o v[0-9].[0-9]\. | sed -n '1p')
-BPFTRACE_VERSION_MAJOR := $(shell echo ${BPFTRACE_VERSION} | awk -F '.' '{print $$1}')
-BPFTRACE_VERSION_MINOR := $(shell echo ${BPFTRACE_VERSION} | awk -F '.' '{print $$2}')
-
-export HAVE_BPFTRACE
-export BPFTRACE BPFTRACE_VERSION_MAJOR BPFTRACE_VERSION_MINOR
-
-ifdef DEBUG
-  $(info ${BPFTRACE} version ${BPFTRACE_VERSION_MAJOR}.${BPFTRACE_VERSION_MINOR})
+  export HAVE_BPFTRACE := y
+  export BPFTRACE BPFTRACE_VERSION_MAJOR BPFTRACE_VERSION_MINOR
 endif
 
 endif

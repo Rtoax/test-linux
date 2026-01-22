@@ -3,7 +3,7 @@
 #
 # Output definitions:
 # - WHEREIS_LLVM=[/usr/include/llvm]
-# - HAVE_LLVM=[y]
+# - HAVE_LLVM=[y|n]
 # - CLANG=
 # - CLANGXX=
 # - LLVM_CONFIG=
@@ -11,6 +11,9 @@
 # - LLVM_DIS=
 # - LLVM_SRC_ROOT=
 # - CLANG_SRC_ROOT=
+#
+# Functions:
+# - llvm_support_target()
 #
 ifndef _LLVM_MK
 _LLVM_MK = 1
@@ -20,10 +23,13 @@ include shell.mk
 WHEREIS_LLVM := $(shell whereis llvm | awk '{print $$2}')
 
 ifeq (${WHEREIS_LLVM},)
-  $(error "Not found llvm, you must install llvm first")
+  ifndef __IGNORE_NOTFOUND_ERROR__
+    $(error "Not found llvm, you must install llvm first")
+  else
+    $(warning "Not found llvm, skipping")
+  endif
+  export HAVE_LLVM := n
 else
-  export HAVE_LLVM := y
-endif
 
 CLANG := $(shell which clang 2>/dev/null)
 CLANGXX := $(shell which clang++ 2>/dev/null)
@@ -57,8 +63,10 @@ ifdef DEBUG
   $(info LLVM support AMDGCN = $(call llvm_support_target,amdgcn))
 endif
 
+export HAVE_LLVM := y
 export CLANG CLANGXX
 export LLVM_CONFIG LLVM_AS LLVM_DIS LLC
 export LLVM_SRC_ROOT CLANG_SRC_ROOT
+endif # end of found WHEREIS_LLVM
 
-endif
+endif # end of _LLVM_MK

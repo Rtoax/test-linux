@@ -2,7 +2,7 @@
 #
 # Output definitions:
 # - NUMACTL=
-# - HAVE_LIBNUMA=y
+# - HAVE_LIBNUMA=[y|n]
 # - NUMACTL_VERSION_MAJOR=
 # - NUMACTL_VERSION_MINOR=
 # - NUMACTL_VERSION_PATCH=
@@ -18,12 +18,16 @@ NUMACTL := $(shell which numactl 2>/dev/null || :)
 LIBNUMA_HDR := /usr/include/numa.h
 LIBNUMAIF_HDR := /usr/include/numaif.h
 
-ifneq (${NUMACTL},)
-  # Get numactl version
-  NUMACTL_VERSION := $(shell ${TOPDIR}/numa/numactl/version.sh)
+ifeq (${NUMACTL},)
+  ifndef __IGNORE_NOTFOUND_ERROR__
+    $(error Not found numactl, please install first)
+  else
+    $(warning Not found numactl, please install first)
+  endif
+  export HAVE_LIBNUMA := n
 else
-  $(warning Not found numactl, please install first)
-endif
+# Get numactl version
+NUMACTL_VERSION := $(shell ${TOPDIR}/numa/numactl/version.sh)
 
 $(call check_file_and_def,${LIBNUMA_HDR},HAVE_LIBNUMA)
 
@@ -39,7 +43,9 @@ ifneq (${NUMACTL_VERSION_MAJOR},2)
   $(error Not support numactl ${NUMACTL_VERSION})
 endif
 
+export HAVE_LIBNUMA := y
 export NUMACTL
 export NUMACTL_VERSION_MAJOR NUMACTL_VERSION_MINOR NUMACTL_VERSION_PATCH
+endif # end of founc NUMACTL
 
-endif
+endif # end of _NUMACTL_MK

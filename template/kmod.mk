@@ -10,7 +10,13 @@ _KMOD_MK = 1
 KDIR := /lib/modules/$(shell uname -r)/build/
 
 ifeq ($(wildcard ${KDIR}),)
-  $(error Not found ${KDIR}, install kernel development package first)
+  ifndef __IGNORE_NOTFOUND_ERROR__
+    $(error Not found ${KDIR}, install kernel development package first)
+  else
+    $(warning Not found ${KDIR}, skipping)
+  endif
+else
+  export KDIR
 endif
 
 endif

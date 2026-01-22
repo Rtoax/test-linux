@@ -7,6 +7,7 @@
 # - __IGNORE_NOTFOUND_ERROR__
 #
 # Output definitions:
+# - HAVE_PAHOLE=[y|n]
 # - PAHOLE=
 # - PAHOLE_VERSION_MAJOR=DWARVES_MINOR_VERSION=
 # - PAHOLE_VERSION_MINOR=DWARVES_MINOR_VERSION=
@@ -30,9 +31,10 @@ ifeq ($(PAHOLE),)
   ifndef __IGNORE_NOTFOUND_ERROR__
     $(error "Not found pahole, install first")
   else
-    $(warning "Not found pahole, install first")
+    $(warning "Not found pahole, skipping")
   endif
-endif
+  export HAVE_PAHOLE := n
+else
 
 PAHOLE_VERSION := 0.0
 PAHOLE_VERSION_MAJOR := 0
@@ -40,34 +42,27 @@ PAHOLE_VERSION_MINOR := 0
 DWARVES_MAJOR_VERSION := 0
 DWARVES_MINOR_VERSION := 0
 
+PAHOLE_VERSION := $(shell ${PAHOLE} --version | grep -o -E '[0-9].[0-9]*?')
+PAHOLE_VERSION_MAJOR := $(shell echo ${PAHOLE_VERSION} | awk -F '.' '{print $$1}')
+PAHOLE_VERSION_MINOR := $(shell echo ${PAHOLE_VERSION} | awk -F '.' '{print $$2}')
 
-ifneq ($(PAHOLE),)
-  PAHOLE_VERSION := $(shell ${PAHOLE} --version | grep -o -E '[0-9].[0-9]*?')
-  PAHOLE_VERSION_MAJOR := $(shell echo ${PAHOLE_VERSION} | awk -F '.' '{print $$1}')
-  PAHOLE_VERSION_MINOR := $(shell echo ${PAHOLE_VERSION} | awk -F '.' '{print $$2}')
-
-  ifdef DEBUG
-    $(info ${PAHOLE} version ${PAHOLE_VERSION_MAJOR}.${PAHOLE_VERSION_MINOR})
-  endif
-
-  ifneq (${PAHOLE_VERSION},${PAHOLE_VERSION_MAJOR}.${PAHOLE_VERSION_MINOR})
-    $(error FATAL: parse ${PAHOLE} version failed, ${PAHOLE_VERSION} != ${PAHOLE_VERSION_MAJOR}.${PAHOLE_VERSION_MINOR})
-  endif
-
-  export PAHOLE PAHOLE_VERSION_MAJOR PAHOLE_VERSION_MINOR
-
-  # see linux:scripts/pahole-version.sh,scripts/Makefile.btf
-  pahole-ver := $(shell ${PAHOLE} --version | sed -E 's/v([0-9]+)\.([0-9]+)/\1\2/')
-  ifdef DEBUG
-    $(info pahole-ver = ${pahole-ver})
-  endif
-
-  # https://git.kernel.org/pub/scm/devel/pahole/pahole.git use dwarves cmake macros
-  DWARVES_MAJOR_VERSION := ${PAHOLE_VERSION_MAJOR}
-  DWARVES_MINOR_VERSION := ${PAHOLE_VERSION_MINOR}
-
-  export DWARVES_MAJOR_VERSION DWARVES_MINOR_VERSION
+ifdef DEBUG
+  $(info ${PAHOLE} version ${PAHOLE_VERSION_MAJOR}.${PAHOLE_VERSION_MINOR})
 endif
+
+ifneq (${PAHOLE_VERSION},${PAHOLE_VERSION_MAJOR}.${PAHOLE_VERSION_MINOR})
+  $(error FATAL: parse ${PAHOLE} version failed, ${PAHOLE_VERSION} != ${PAHOLE_VERSION_MAJOR}.${PAHOLE_VERSION_MINOR})
+endif
+
+# see linux:scripts/pahole-version.sh,scripts/Makefile.btf
+pahole-ver := $(shell ${PAHOLE} --version | sed -E 's/v([0-9]+)\.([0-9]+)/\1\2/')
+ifdef DEBUG
+  $(info pahole-ver = ${pahole-ver})
+endif
+
+# https://git.kernel.org/pub/scm/devel/pahole/pahole.git use dwarves cmake macros
+DWARVES_MAJOR_VERSION := ${PAHOLE_VERSION_MAJOR}
+DWARVES_MINOR_VERSION := ${PAHOLE_VERSION_MINOR}
 
 define pahole_version_code
 $(shell echo "$$(( (${1}<<16) + (${2}<<8) ))")
@@ -114,4 +109,9 @@ ifneq ($(call pahole_lt,1,32),y)
   $(error "Call pahole_lt failed")
 endif
 
-endif
+export HAVE_PAHOLE := y
+export PAHOLE PAHOLE_VERSION_MAJOR PAHOLE_VERSION_MINOR
+export DWARVES_MAJOR_VERSION DWARVES_MINOR_VERSION
+
+endif # end of pahole is found
+endif # end of _PAHOLE_MK
