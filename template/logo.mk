@@ -23,13 +23,13 @@ define logo_linux_tux
 @echo -e "$(1)                 ${GB}#${RST}                                            ${BB}##${RST}O${BB}#${RST}O${BB}##${RST}"
 @echo -e "$(1)${YB}######${RST}          ${GB}###${RST}                                           ${BB}#${RST}${RB}VVVVV${RST}${BB}#${RST}"
 @echo -e "$(1)${YB}  ##${RST}             ${GB}#${RST}                                          ${BB}##${RST}  ${RB}VVV${RST}  ${BB}##${RST}"
-@echo -e "$(1)${YB}  ##${RST}         ${GB}###${RST}    ### ####   ###    ###  ##### #####     ${BB}#${RST}          ${BB}##${RST}"
-@echo -e "$(1)${YB}  ##${RST}        ${GB}#  ##${RST}    ###    ##  ##     ##    ##   ##      ${BB}#${RST}            ${BB}##${RST}"
-@echo -e "$(1)${YB}  ##${RST}       ${GB}#   ##${RST}    ##     ##  ##     ##      ###        ${BB}#${RST}            ${BB}###${RST}"
-@echo -e "$(1)${YB}  ##${RST}          ${GB}###${RST}    ##     ##  ##     ##      ###       ${YB}QQ${RST}${RST}${BB}#${RST}           ${BB}##${RST}${YB}Q${RST}"
-@echo -e "$(1)${YB}  ##       #${RST} ${GB}###${RST}     ##     ##  ##     ##     ## ##    ${YB}QQQQQQ${RST}${BB}#${RST}       ${BB}#${RST}${YB}QQQQQQ${RST}"
-@echo -e "$(1)${YB}  ##      ##${RST} ${GB}### #${RST}   ##     ##  ###   ###    ##   ##   ${YB}QQQQQQQ${RST}${BB}#${RST}     ${BB}#${RST}${YB}QQQQQQQ${RST}"
-@echo -e "$(1)${YB}############${RST}  ${GB}###${RST}   ####   ####   #### ### ##### #####   ${YB}QQQQQ${RST}${BB}#######${RST}${YB}QQQQQ${RST}"
+@echo -e "$(1)${YB}  ##${RST}         ${GB}###${RST}    ${YB}### ####   ###    ###  ##### #####${RST}     ${BB}#${RST}          ${BB}##${RST}"
+@echo -e "$(1)${YB}  ##${RST}        ${GB}#  ##${RST}    ${YB}###    ##  ##     ##    ##   ##${RST}      ${BB}#${RST}            ${BB}##${RST}"
+@echo -e "$(1)${YB}  ##${RST}       ${GB}#   ##${RST}    ${YB}##     ##  ##     ##      ###${RST}        ${BB}#${RST}            ${BB}###${RST}"
+@echo -e "$(1)${YB}  ##${RST}          ${GB}###${RST}    ${YB}##     ##  ##     ##      ###${RST}       ${YB}QQ${RST}${RST}${BB}#${RST}           ${BB}##${RST}${YB}Q${RST}"
+@echo -e "$(1)${YB}  ##       #${RST} ${GB}###${RST}     ${YB}##     ##  ##     ##     ## ##${RST}    ${YB}QQQQQQ${RST}${BB}#${RST}       ${BB}#${RST}${YB}QQQQQQ${RST}"
+@echo -e "$(1)${YB}  ##      ##${RST} ${GB}### #${RST}   ${YB}##     ##  ###   ###    ##   ##${RST}   ${YB}QQQQQQQ${RST}${BB}#${RST}     ${BB}#${RST}${YB}QQQQQQQ${RST}"
+@echo -e "$(1)${YB}############${RST}  ${GB}###${RST}   ${YB}####   ####   #### ### ##### #####${RST}   ${YB}QQQQQ${RST}${BB}#######${RST}${YB}QQQQQ${RST}"
 endef
 
 # https://asciiart.website/cat.php?category_id=183
