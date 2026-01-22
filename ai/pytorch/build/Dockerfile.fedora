@@ -3,7 +3,8 @@ FROM fedora:43
 
 # RUN dnf group install -y c-development development-tools
 RUN dnf install -y cmake make rpm-build
-RUN dnf install -y FP16-devel cpuinfo-devel eigen3-devel flexiblas-devel \
+RUN dnf install -y FP16-devel \
+	asmjit-devel cpuinfo-devel eigen3-devel flexiblas-devel \
 	fmt-devel foxi-devel fxdiv-devel gcc-c++ gcc-gfortran hipblas-devel \
 	hipblaslt-devel hipcub-devel hipfft-devel hiprand-devel \
 	hipsolver-devel hipsparse-devel hipsparselt-devel json-devel \
