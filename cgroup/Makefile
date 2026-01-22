@@ -1,8 +1,10 @@
+include cgroup.mk
 include kconfig.mk
 include libcgroup.mk
 
 subdir-${HAVE_LIBCGROUP} += libcgroup
 subdir-y += tools
+subdir-${CGROUP_V2} += v2
 
 target-y := cgroup_examples
 
