@@ -24,6 +24,7 @@ include template/verbose.mk
 include template/dir.mk
 include template/git.mk
 include template/shell.mk
+include template/sudo.mk
 
 # If in git-tree, need check something already config.
 ifneq (${GIT_TOPDIR},)
@@ -108,7 +109,7 @@ ifeq ($(filter $(MAKECMDGOALS),install uninstall gitconfig deps),)
 endif
 
 define installdeps
-	${SHELL} scripts/install-deps.sh --all --force --noupgrade
+	${SUDO} ${SHELL} scripts/install-deps.sh --all --force --noupgrade
 endef
 
 .PHONY: deps
