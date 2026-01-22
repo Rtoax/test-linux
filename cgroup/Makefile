@@ -1,6 +1,7 @@
 include kconfig.mk
+include libcgroup.mk
 
-subdir-y := libcgroup
+subdir-${HAVE_LIBCGROUP} += libcgroup
 subdir-y += tools
 
 target-y := cgroup_examples

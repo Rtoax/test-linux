@@ -1,9 +1,13 @@
+include libcgroup.mk
+
 target-y :=
 target-y += cgroup_version
 target-y += cgroup_get_subsys_mount_point
 target-y += cgroup_new_cgroup
 
-include libcgroup.mk
+CFLAGS += ${libcgroup-cflags}
+LDFLAGS += ${libcgroup-ldflags}
+
 include main.mk
 
 cgroup_version: cgroup_version.o

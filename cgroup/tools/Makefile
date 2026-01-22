@@ -1,7 +1,4 @@
-target-y :=
 target-y += cgroup_event_listener
-
-CFLAGS :=
 
 include main.mk
 
