@@ -5,17 +5,19 @@
 # make(such as GNU Make 4.4.1 fedora 43) works fine.
 #
 
+readonly sys_make=$(which make)
+
 make_tl() {
-	local make_args
+	local make_args=()
 	local TEST_LINUX_ROOT=$(realpath $(dirname $(realpath ${BASH_SOURCE[0]}))/../../)
 	if [[ " $(realpath .)" =~ " ${TEST_LINUX_ROOT}" ]] ||
 	   [[ "$(realpath .)" =~ "ostools" ]] ||
 	   [[ "$(realpath .)" =~ "test-linux" ]]; then
 		make_args+=( __USE_TEST_LINUX_MAKE__=1 )
 		make_args+=( -I${TEST_LINUX_ROOT}/template/ )
-		make ${make_args[@]} $@
+		${sys_make} ${make_args[@]} $@
 	else
-		make $@
+		${sys_make} $@
 	fi
 }
 
