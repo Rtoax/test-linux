@@ -23,7 +23,7 @@
 #include "cuda_compat.h"
 #include "cuda_helpers.h"
 
-#define VERSION	"v1.0.1"
+#define VERSION "v1.0.2"
 
 #define __stringify_1(x...)	#x
 #define __stringify(x...)	__stringify_1(x)
@@ -645,8 +645,9 @@ __global__ void __verify_io_kernel(void *devptr, size_t size, uint8_t expect)
 	for (size_t i = 0; i < size; i++) {
 		uint8_t real = *(uint8_t *)((char *)devptr + i);
 		if (real != expect) {
-			printf("GPU: Verify IO failed with value 0x%x, expect 0x%x\n",
-				real, expect);
+			printf("GPU: Verify IO failed at device memory (vaddr %p, off %ld)"
+			       " with value 0x%x, expect 0x%x\n",
+			       devptr, i, real, expect);
 		}
 	}
 }
