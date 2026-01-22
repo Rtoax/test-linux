@@ -1,0 +1,2 @@
+CONFIG_RT_GROUP_SCHED=y # RHEL8, openEuler24.03
+# CONFIG_RT_GROUP_SCHED is not set # RHEL9, Fedora43
