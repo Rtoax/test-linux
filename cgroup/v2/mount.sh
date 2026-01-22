@@ -11,3 +11,5 @@ sudo mount --type cgroup2 ${NAME} ${MNT_POINT}
 # Show some information
 mount | grep ${NAME}
 findmnt
+sudo umount ${MNT_POINT}
+rmdir ${MNT_POINT}
