@@ -1,5 +1,5 @@
-cgroup
-===============
+cgroup - Control Group
+======================
 
 * `Namespace` 资源的隔离，名字隔离
 * `cgroup` 资源的限制 (首字母永远不大写, never capitalized)
@@ -55,4 +55,3 @@ sudo systemctl reboot
 
 - [[译] Control Group v2（cgroupv2 权威指南）（KernelDoc, 2021）](https://arthurchiao.art/blog/cgroupv2-zh/)
 - https://www.kernel.org/doc/html/latest/admin-guide/cgroup-v1/devices.html
-
