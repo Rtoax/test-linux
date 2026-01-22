@@ -143,11 +143,12 @@ static int myfs_fill_super(struct super_block *sb, void *data, int silent)
 }
 
 /*
-这个函数是按照内核代码中的样子改的，是struct dentry *类型，这里是一个封装，这里可以返回好几种函数：
-　－　mount_single
-　－　mount_bdev　
-　－　mount_nodev
-*/
+ * 这个函数是按照内核代码中的样子改的，是struct dentry *类型，这里是一个封装，
+ * 这里可以返回好几种函数：
+ * mount_single
+ * mount_bdev　
+ * mount_nodev
+ */
 
 static struct dentry *myfs_get_sb(struct file_system_type *fs_type, int flags,
 		const char *dev_name, void *data)
@@ -206,9 +207,8 @@ static struct file_operations myfs_file_operations = {
 	.write = myfs_file_write,
 };
 
-
-static int myfs_creat_by_name(const char * name, mode_t mode,
-			      struct dentry * parent, struct dentry ** dentry)
+static int myfs_creat_by_name(const char *name, mode_t mode,
+			      struct dentry *parent, struct dentry **dentry)
 {
 	int error = 0;
 
@@ -226,7 +226,15 @@ static int myfs_creat_by_name(const char * name, mode_t mode,
 	*dentry = NULL;
 
 	inode_lock(d_inode(parent));
-	*dentry = lookup_one_len(name,parent,strlen(name));
+/**
+ * linux commit fa6fe07d1536 ("VFS: rename lookup_one_len family to lookup_noperm and remove permission check")
+ * v6.15-rc1-4-gfa6fe07d1536
+ */
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(6, 15, 0)
+	*dentry = lookup_noperm(&QSTR(name), parent);
+#else
+	*dentry = lookup_one_len(name, parent, strlen(name));
+#endif
 	if (!IS_ERR(*dentry)) {
 		if ((mode & S_IFMT) == S_IFDIR) {
 			error = myfs_mkdir(parent->d_inode, *dentry, mode);
