@@ -8,6 +8,7 @@ RUN dnf install -y FP16-devel \
 	fmt-devel foxi-devel fxdiv-devel gcc-c++ gcc-gfortran hipblas-devel \
 	hipblaslt-devel hipcub-devel hipfft-devel hiprand-devel \
 	hipsolver-devel hipsparse-devel hipsparselt-devel json-devel \
+	libnccl-devel \
 	libomp-devel magma-devel miopen-devel ninja-build numactl-devel \
 	onnx-devel openmpi-devel pocketfft-devel protobuf-devel psimd-devel \
 	pthreadpool-devel python3-devel python3-filelock python3-fsspec \
