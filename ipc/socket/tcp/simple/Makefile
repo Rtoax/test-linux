@@ -1,9 +1,10 @@
-target-y :=
 target-y += server
 target-y += server-fork-pipe
 target-y += server-pthread
 target-y += client
 target-y += client-pthread
+
+LDFLAGS := -pthread
 
 include main.mk
 
