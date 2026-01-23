@@ -28,12 +28,12 @@
 #include "oom_helpers.h"
 #include "proc_helpers.h"
 
-#define ANSI_RED	"\033[31m"
-#define ANSI_GRE	"\033[32m"
-#define ANSI_YEL	"\033[33m"
-#define ANSI_BLU	"\033[34m"
-#define ANSI_PUR	"\033[35m"
-#define ANSI_RST	"\033[m"
+#define ANSI_RED "\033[31m"
+#define ANSI_GREEN "\033[32m"
+#define ANSI_YELLOW "\033[33m"
+#define ANSI_BLUE "\033[34m"
+#define ANSI_PURPLE "\033[35m"
+#define ANSI_RST "\033[m"
 
 static pthread_t thread;
 static pthread_spinlock_t info_lock;
@@ -62,10 +62,11 @@ static unsigned long PAGESIZE, TOTALPAGE, FREEPAGE;
 #define VERBOSE_LOG_DEBUG(fmt...)
 #endif
 
-#define WARNING(fmt...) do {	\
-		fprintf(stderr, ANSI_PUR);	\
-		fprintf(stderr, fmt);	\
-		fprintf(stderr, ANSI_RST);	\
+#define WARNING(fmt...)                       \
+	do {                                  \
+		fprintf(stderr, ANSI_PURPLE); \
+		fprintf(stderr, fmt);         \
+		fprintf(stderr, ANSI_RST);    \
 	} while (0)
 
 #define INFO_LOCK()	pthread_spin_lock(&info_lock)

@@ -9,17 +9,16 @@
 ifndef _ANSI_MK
 _ANSI_MK = 1
 
-# Black
-ANSI_BLK := \033[30m
+ANSI_BLACK := \033[30m
 ANSI_RED := \033[31m
 TPUT_RED := $(shell tput setaf 1 2>/dev/null)
-ANSI_GRE := \033[32m
-TPUT_GRE := $(shell tput setaf 2 2>/dev/null)
-ANSI_YEL := \033[33m
-TPUT_YEL := $(shell tput setaf 3 2>/dev/null)
-ANSI_BLU := \033[34m
-TPUT_BLU := $(shell tput setaf 6 2>/dev/null)
-ANSI_PUR := \033[35m
+ANSI_GREEN := \033[32m
+TPUT_GREEN := $(shell tput setaf 2 2>/dev/null)
+ANSI_YELLOW := \033[33m
+TPUT_YELLOW := $(shell tput setaf 3 2>/dev/null)
+ANSI_BLUE := \033[34m
+TPUT_BLUE := $(shell tput setaf 6 2>/dev/null)
+ANSI_PURPLE := \033[35m
 ANSI_CYAN := \033[36m
 ANSI_DARK_WHITE := \033[37m
 
@@ -37,16 +36,16 @@ ANSI_RST := \033[m
 TPUT_RST := $(shell tput sgr0 2>/dev/null)
 
 ifdef ANSI_NONE
-  ANSI_BLK :=
+  ANSI_BLACK :=
   ANSI_RED :=
   TPUT_RED :=
-  ANSI_GRE :=
-  TPUT_GRE :=
-  ANSI_YEL :=
-  TPUT_YEL :=
-  ANSI_BLU :=
-  TPUT_BLU :=
-  ANSI_PUR :=
+  ANSI_GREEN :=
+  TPUT_GREEN :=
+  ANSI_YELLOW :=
+  TPUT_YELLOW :=
+  ANSI_BLUE :=
+  TPUT_BLUE :=
+  ANSI_PURPLE :=
   ANSI_CYAN :=
   ANSI_DARK_WHITE :=
   ANSI_BRIGHT_BLACK :=
@@ -60,31 +59,32 @@ ifdef ANSI_NONE
   TPUT_RST :=
 endif
 
-BB := ${ANSI_BLK}${ANSI_BOLD}
-BBR := ${ANSI_BLK}${ANSI_BOLD}${ANSI_REVE}
-GB := ${ANSI_GRE}${ANSI_BOLD}
+BB := ${ANSI_BLACK}${ANSI_BOLD}
+BBR := ${ANSI_BLACK}${ANSI_BOLD}${ANSI_REVE}
+CYB := ${ANSI_CYAN}${ANSI_BOLD}
+GB := ${ANSI_GREEN}${ANSI_BOLD}
 RB := ${ANSI_RED}${ANSI_BOLD}
 RBR := ${ANSI_RED}${ANSI_BOLD}${ANSI_REVE}
-YB := ${ANSI_YEL}${ANSI_BOLD}
-YBR := ${ANSI_YEL}${ANSI_BOLD}${ANSI_REVE}
-RGB := ${ANSI_RST}${ANSI_GRE}${ANSI_BOLD}
-RG := ${ANSI_RST}${ANSI_GRE}${ANSI_GRAY}
+YB := ${ANSI_YELLOW}${ANSI_BOLD}
+YBR := ${ANSI_YELLOW}${ANSI_BOLD}${ANSI_REVE}
+RGB := ${ANSI_RST}${ANSI_GREEN}${ANSI_BOLD}
+RG := ${ANSI_RST}${ANSI_GREEN}${ANSI_GRAY}
 RST := ${ANSI_RST}
 
 define green
-${ANSI_GRE}${1}${ANSI_RST}
+${ANSI_GREEN}${1}${ANSI_RST}
 endef
 define bgreen
-${ANSI_BOLD}${ANSI_GRE}${1}${ANSI_RST}
+${ANSI_BOLD}${ANSI_GREEN}${1}${ANSI_RST}
 endef
 define red
 ${ANSI_RED}${1}${ANSI_RST}
 endef
 define yellow
-${ANSI_YEL}${1}${ANSI_RST}
+${ANSI_YELLOW}${1}${ANSI_RST}
 endef
 define byellow
-${ANSI_BOLD}${ANSI_YEL}${1}${ANSI_RST}
+${ANSI_BOLD}${ANSI_YELLOW}${1}${ANSI_RST}
 endef
 define bold
 ${ANSI_BOLD}${1}${ANSI_RST}
