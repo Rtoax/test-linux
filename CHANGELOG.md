@@ -19,7 +19,7 @@ and this project adheres to
 - libcgroup.mk: add `HAVE_LIBCGROUP` and libcgroup-{cflags,ldflags};
 - cgroup/v1: add cpu/chrt.sh to test chrt return EPERM;
 - tools: add podman directory;
-- pytorch: add build/Dockerfile.fedora;
+- pytorch: add build/Dockerfile.{fedora,debian};
 - cuda: add vpu directory;
 - cuda: add mempool.cu;
 - cuda: add `cuda_kernel_misc.h`;

@@ -1,0 +1,4 @@
+# Build pytorch with newest Debian
+FROM debian:13
+
+RUN apt install -y libcufile-dev
