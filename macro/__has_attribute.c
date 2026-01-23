@@ -1,0 +1,1 @@
+../compiler/__attribute__/__has_attribute.c
