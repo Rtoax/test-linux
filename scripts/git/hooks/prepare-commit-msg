@@ -134,9 +134,9 @@ have_type() {
 }
 
 cpu_info() {
-	readonly CPU_MODEL=$(lscpu | grep "Model name" | \
+	readonly CPU_MODEL=$(lscpu | grep -e "^Model name" -e "^型号名称" | \
 			awk '{ for(i=3; i<=NF; i++) printf "%s", $i (i==NF ? "\n" : " ") }')
-	readonly CPU_VENDOR=$(lscpu | grep "^Vendor ID" | \
+	readonly CPU_VENDOR=$(lscpu | grep -e "^Vendor ID" -e "^厂商 ID" | \
 			awk '{ for(i=3; i<=NF; i++) printf "%s", $i (i==NF ? "\n" : " ") }')
 	if [[ ${CPU_MODEL} ]]; then
 		echo ${CPU_MODEL}
