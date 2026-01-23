@@ -1,6 +1,6 @@
 target-y := latency
 
-CFLAGS_multi-thread := -pthread
+LDFLAGS := -pthread -lrt
 
 include main.mk
 

@@ -193,7 +193,7 @@ if [[ "$(have_type c cpp c++ h hpp)$(have_key gcc compiler)" ]]; then
 	add_gcc_ver
 fi
 
-if [[ "$(have_type c cpp c++ h hpp)$(have_key glibc)" ]]; then
+if [[ "$(have_type c cpp c++ h hpp)$(have_key glibc ipc socket)" ]]; then
 	add_glibc_ver
 fi
 
