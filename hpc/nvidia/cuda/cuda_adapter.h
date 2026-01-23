@@ -121,7 +121,7 @@
  * LUCA:
  * const char *lcGetErrorName(lcError_t lc_error);
  */
-#if defined(__USE_LUCA__) || defined(__USE_HPCC__)
+#if defined(__USE_LUCA__) || defined(__USE_HPCC__) || defined(__USE_HIP__)
 #define cuGetErrorName(error, pStr)                  \
 	do {                                         \
 		const char **__pstr = pStr;          \
@@ -2228,7 +2228,7 @@
 
 /**
  * CUDA 13:
- * CUresult CUDAAPI cuModuleLoadData(CUmodule *module, const void *image);
+ * CUresult cuModuleLoadData(CUmodule *module, const void *image);
  *
  * HIP
  * hipError_t hipModuleLoadData(hipModule_t* module, const void* image);
