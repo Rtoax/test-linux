@@ -4,6 +4,9 @@ ifndef _SHELL_MK
 _SHELL_MK = 1
 
 SHELL := bash
+ifneq ($(CHECK_ERROR),)
+  .SHELLFLAGS := -eu -o pipefail -c
+endif
 
 ifdef DEBUG
   $(info SHELL = ${SHELL})
