@@ -1,4 +1,5 @@
-target-y :=
+include bpf/libbpf.mk
+
 target-y += socketpair
 target-y += getsockopt
 target-y += setsockopt
@@ -11,7 +12,7 @@ target-y += connect
 target-y += shutdown
 target-y += recv
 target-y += tcp-srv-1 tcp-clt-1
-target-y += AF_XDP
+target-${HAVE_LIBBPF} += AF_XDP
 
 include main.mk
 
