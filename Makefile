@@ -42,7 +42,7 @@ ifeq ($(wildcard /etc/profile.d/make_tl.sh),)
 endif
 
 ifndef __USE_TEST_LINUX_MAKE__
-  ifeq ($(filter $(MAKECMDGOALS),install uninstall),)
+  ifeq ($(filter $(MAKECMDGOALS),install uninstall gitconfig),)
     $(error Must use test-linux make_tl.sh, start new bash session if you already make install)
   endif
 else
