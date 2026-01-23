@@ -68,7 +68,7 @@ fi
 ${_sudo} dd if=/proc/${pid}/mem of=${vdso_so} \
 		ibs=1 skip=$(printf %ld 0x${addr_range[0]}) \
 		count=${vdso_sz} 2>/dev/null
-${_sudo} chmod +x ${vdso_so}
+${_sudo} chmod +x,a+r ${vdso_so}
 
 echo ${vdso_so}
 
