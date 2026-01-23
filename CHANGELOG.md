@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - template: only include .mk once;
 #### Added
+- tput: add allcolor.sh test;
 - template: add signum-{arch,generic}.mk;
 - cgroup.mk: add `CGROUP_V1/CGROUP_V2`;
 - template: add cgroup.mk;
