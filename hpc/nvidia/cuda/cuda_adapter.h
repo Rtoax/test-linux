@@ -2574,7 +2574,12 @@
  *   } ncclConfig_t;
  */
 #define ncclConfig_t		__nccl(Config_t)
+/**
+ * ROCm rccl already define this in /usr/include/rccl/rccl.h
+ */
+#ifndef NCCL_CONFIG_INITIALIZER
 #define NCCL_CONFIG_INITIALIZER	__NCCL(_CONFIG_INITIALIZER)
+#endif
 #define ncclResult_t		__nccl(Result_t)
 #define ncclSuccess		__nccl(Success)	/* 0 */
 #ifdef __USE_HPCC__
