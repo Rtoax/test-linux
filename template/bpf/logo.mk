@@ -1,5 +1,10 @@
 # SPDX-License-Identifier: GPL-3.0
 # Copyright (C) 2024-2026 Rong Tao
+#
+# Functions:
+# - logo_bpf_summit_2021()
+# - logo_bpf_summit_2021_nocolor()
+#
 ifndef _BPF_LOGO_MK
 _BPF_LOGO_MK = 1
 

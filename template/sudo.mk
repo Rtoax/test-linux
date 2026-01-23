@@ -2,8 +2,8 @@
 # Copyright (C) 2025-2026 Rong Tao
 #
 # Output definitions:
-# - SUDO=sudo
-# - SUDO_NON_INTERACTIVE=y
+# - SUDO=[sudo]
+# - SUDO_NON_INTERACTIVE=[y]
 #
 ifndef _SUDO_MK
 _SUDO_MK = 1
@@ -18,6 +18,7 @@ SUDO := $(shell if sudo --non-interactive true 2>/dev/null; then \
 ifneq (${SUDO},)
   SUDO_NON_INTERACTIVE := y
 else
+  SUDO_NON_INTERACTIVE := n
   $(warning "sudo need password, you need to edit /etc/sudoers with NOPASSWD:")
 endif
 
