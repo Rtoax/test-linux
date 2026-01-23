@@ -46,14 +46,17 @@ define make_sub_dir_clean
 	$(call make_sub_dir,clean,${1})
 endef
 
+.PHONY: $(subdir-y-build)
 $(subdir-y-build):
 	$(call log_start,sub-build,$(call remove_topdir,$(patsubst %.build,%,$(@))))
 	$(call make_sub_dir_build,$(@:.build=))
 
+.PHONY: $(subdir-y-test)
 $(subdir-y-test):
 	$(call log_start,sub-test,$(call remove_topdir,$(patsubst %.test,%,$(@))))
 	$(call make_sub_dir_test,$(@:.test=))
 
+.PHONY: $(subdir-y-clean)
 $(subdir-y-clean):
 	$(call log_start,sub-clean,$(call remove_topdir,$(patsubst %.clean,%,$(@))))
 	$(call make_sub_dir_clean,$(@:.clean=))

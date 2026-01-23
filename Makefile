@@ -184,7 +184,7 @@ check:
 	@echo "Check"
 	$(call check_links)
 
-# Clean git repo useless file and directory
+.PHONY: cleangit
 cleangit:
 	@echo "=== clean git repo"
 	$(call git_clean)
