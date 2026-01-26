@@ -4,10 +4,10 @@
 set -e
 
 readonly prog=pytorch-compile
-declare -a cmake_args
+declare -a cmake_args cmake_build_args
 declare flags_cmake flags_build flags_install
 declare dry_run
-declare use_jobs verbose
+declare verbose
 
 __usage__()
 {
@@ -26,7 +26,7 @@ ARGUMENT
 	-b, --build             execute the build
 	-i, --install           execute the make install
 
-	-j, --jobs [N]          set number of jobs, default: ${use_jobs}
+	-j, --jobs [N]          set number of jobs
 	-u, --dry-run           do nothing except show commands
 	-v, --verbose           run with verbose mode
 	-h, --help              show this info
@@ -82,7 +82,7 @@ while true; do
 		;;
 	-j | --jobs)
 		shift
-		use_jobs=$1
+		cmake_build_args+=( --parallel $1 )
 		shift
 		;;
 	-u | --dry-run)
@@ -131,7 +131,7 @@ if [[ ${flags_cmake} ]]; then
 fi
 
 if [[ ${flags_build} ]]; then
-	_eval cmake --build . --parallel ${use_jobs}
+	_eval cmake --build . "${cmake_build_args[@]}"
 fi
 
 if [[ ${flags_install} ]]; then
