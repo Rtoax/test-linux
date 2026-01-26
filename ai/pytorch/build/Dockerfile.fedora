@@ -23,11 +23,12 @@ RUN dnf install -y FP16-devel \
 
 # Download CUDA13 and install
 # ref: https://developer.nvidia.com/cuda-downloads
-RUN wget https://developer.download.nvidia.com/compute/cuda/13.1.1/local_installers/cuda-repo-fedora42-13-1-local-13.1.1_590.48.01-1.x86_64.rpm
-RUN dnf install -y cuda-repo-fedora42-13-0-local-13.0.0_580.65.06-1.x86_64.rpm
-RUN dnf install -y cuda-toolkit
-RUN dnf remove -y cuda-repo-fedora42-13-0-local
-RUN rm -f cuda-repo-fedora42-13-0-local-13.0.0_580.65.06-1.x86_64.rpm
+# For example:
+# $ wget https://developer.download.nvidia.com/compute/cuda/13.1.1/local_installers/cuda-repo-fedora42-13-1-local-13.1.1_590.48.01-1.x86_64.rpm
+# $ sudo dnf install -y cuda-repo-fedora42-13-0-local-13.0.0_580.65.06-1.x86_64.rpm
+# $ sudo dnf install -y cuda-toolkit
+# $ sudo dnf remove -y cuda-repo-fedora42-13-0-local
+# $ sudo rm -f cuda-repo-fedora42-13-0-local-13.0.0_580.65.06-1.x86_64.rpm
 
 # If you want to build from pytorch srpm, you should:
 # $ dnf download --source python3-torch
