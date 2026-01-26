@@ -94,6 +94,8 @@ export PYTORCH_ROCM_ARCH="gfx900;gfx906:xnack-;gfx908:xnack-;gfx90a:xnack+;gfx90
 cmake_args+=( -DCMAKE_BUILD_TYPE=Release )
 cmake_args+=( -DBUILD_SHARED_LIBS=ON )
 cmake_args+=( -DBUILD_TEST=OFF )
+cmake_args+=( -DUSE_CUDA=ON )
+cmake_args+=( -DUSE_ROCM=ON )
 cmake_args+=( -DCUDA_TOOLKIT_ROOT_DIR=/usr/local/cuda )
 cmake_args+=( -DCUDNN_INCLUDE_DIR=/usr/include )
 cmake_args+=( -DCUDNN_LIBRARY=/usr/lib64/libcudnn.so )
