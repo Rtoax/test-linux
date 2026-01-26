@@ -5,7 +5,7 @@ set -e
 
 readonly prog=pytorch-compile
 declare -a cmake_args cmake_build_args
-declare flags_cmake flags_build flags_install
+declare flags_deps flags_cmake flags_build flags_install
 declare nr_jobs
 declare dry_run
 declare verbose
@@ -23,6 +23,7 @@ DESCRIPTION
 	Compile pytorch.
 
 ARGUMENT
+	-d, --deps              execute depends installation
 	-c, --cmake             execute the cmake to generate Makefile
 	-b, --build             execute the build
 	-i, --install           execute the make install
@@ -54,7 +55,8 @@ _eval()
 	fi
 }
 
-TEMP_ARGS=$(getopt --options cbij:uvh \
+TEMP_ARGS=$(getopt --options cdbij:uvh \
+	--long deps \
 	--long cmake \
 	--long install \
 	--long jobs: \
@@ -69,6 +71,10 @@ eval set -- "$TEMP_ARGS"
 
 while true; do
 	case $1 in
+	-d | --deps)
+		shift
+		flags_deps=YES
+		;;
 	-c | --cmake)
 		shift
 		flags_cmake=YES
@@ -113,6 +119,15 @@ fi
 if [[ -z ${dry_run} ]]; then
 	export PYTORCH_ROCM_ARCH="gfx900;gfx906:xnack-;gfx908:xnack-;gfx90a:xnack+;gfx90a:xnack-;gfx942;gfx950;gfx1010;gfx1012;gfx1030;gfx1031;gfx1035;gfx1100;gfx1101;gfx1102;gfx1103;gfx1150;gfx1151;gfx1152;gfx1153;gfx1200;gfx1201"
 fi
+
+install_deps() {
+	. /etc/os-release
+	if [[ " debian ubuntu " =~ " ${ID} " ]]; then
+		_eval sudo apt install -y libcpuinfo-dev
+	else
+		_eval sudo dnf install -y cpuinfo-devel
+	fi
+}
 
 cmake_args+=(
 	-DBUILD_CUSTOM_PROTOBUF=OFF
@@ -173,6 +188,10 @@ if [[ ${nr_jobs} ]]; then
 	export MAX_JOBS=${nr_jobs}
 else
 	export MAX_JOBS=1
+fi
+
+if [[ ${flags_deps} ]]; then
+	install_deps
 fi
 
 if [[ ${flags_cmake} ]]; then
