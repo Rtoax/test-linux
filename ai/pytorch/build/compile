@@ -123,7 +123,7 @@ fi
 install_deps() {
 	. /etc/os-release
 	if [[ " debian ubuntu " =~ " ${ID} " ]]; then
-		_eval sudo apt install -y libcpuinfo-dev
+		_eval sudo apt install -y libcpuinfo-dev libonnx-dev
 	else
 		_eval sudo dnf install -y cpuinfo-devel
 	fi
