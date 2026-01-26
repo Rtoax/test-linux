@@ -6,6 +6,7 @@ set -e
 readonly prog=pytorch-compile
 declare -a cmake_args
 declare flags_cmake flags_build flags_install
+declare dry_run
 declare use_jobs verbose
 
 __usage__()
@@ -26,6 +27,7 @@ ARGUMENT
 	-i, --install           execute the make install
 
 	-j, --jobs [N]          set number of jobs, default: ${use_jobs}
+	-u, --dry-run           do nothing except show commands
 	-v, --verbose           run with verbose mode
 	-h, --help              show this info
 
@@ -40,11 +42,23 @@ SEE ALSO
 	exit ${1-0}
 }
 
-TEMP_ARGS=$(getopt --options cbij:vh \
+_eval()
+{
+	if [[ -z ${dry_run} ]]; then
+		echo >&2 -e "\033[1;32mStartup: $@\033[m"
+		eval "$@"
+		echo >&2 -e "\033[1;33mDone: $@\033[m"
+	else
+		echo "$@"
+	fi
+}
+
+TEMP_ARGS=$(getopt --options cbij:uvh \
 	--long cmake \
 	--long install \
 	--long jobs: \
 	--long verbose \
+	--long dry-run \
 	--long help \
 	--name ${prog} -- "$@")
 
@@ -71,6 +85,10 @@ while true; do
 		use_jobs=$1
 		shift
 		;;
+	-u | --dry-run)
+		shift
+		dry_run=YES
+		;;
 	-v | --verbose)
 		shift
 		verbose=YES
@@ -86,12 +104,14 @@ while true; do
 	esac
 done
 
-if [[ ${verbose} ]]; then
+if [[ -z ${dry_run} ]] && [[ ${verbose} ]]; then
 	export PS4='+${BASH_SOURCE}:${LINENO}:${FUNCNAME[0]}: '
 	set -x
 fi
 
-export PYTORCH_ROCM_ARCH="gfx900;gfx906:xnack-;gfx908:xnack-;gfx90a:xnack+;gfx90a:xnack-;gfx942;gfx950;gfx1010;gfx1012;gfx1030;gfx1031;gfx1035;gfx1100;gfx1101;gfx1102;gfx1103;gfx1150;gfx1151;gfx1152;gfx1153;gfx1200;gfx1201"
+if [[ -z ${dry_run} ]]; then
+	export PYTORCH_ROCM_ARCH="gfx900;gfx906:xnack-;gfx908:xnack-;gfx90a:xnack+;gfx90a:xnack-;gfx942;gfx950;gfx1010;gfx1012;gfx1030;gfx1031;gfx1035;gfx1100;gfx1101;gfx1102;gfx1103;gfx1150;gfx1151;gfx1152;gfx1153;gfx1200;gfx1201"
+fi
 
 cmake_args+=( -DCMAKE_BUILD_TYPE=Release )
 cmake_args+=( -DBUILD_SHARED_LIBS=ON )
@@ -107,11 +127,11 @@ cmake_args+=( -DCMAKE_INSTALL_PREFIX=/pytorch-install )
 cmake_args+=( -G Ninja )
 
 if [[ ${flags_cmake} ]]; then
-	cmake .. "${cmake_args[@]}"
+	_eval cmake .. "${cmake_args[@]}"
 fi
 
 if [[ ${flags_build} ]]; then
-	cmake --build . --parallel ${use_jobs}
+	_eval cmake --build . --parallel ${use_jobs}
 fi
 
 if [[ ${flags_install} ]]; then
