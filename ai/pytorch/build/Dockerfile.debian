@@ -1,4 +1,6 @@
 # Build pytorch with newest Debian
 FROM debian:13
 
-RUN apt install -y libcpuinfo-dev libcufile-dev
+RUN apt install -y cmake make ninja-build
+RUN apt install -y ccache libfp16-dev libasmjit-dev libcpuinfo-dev \
+	libcufile-dev libeigen3-dev libfmt-dev libfxdiv-dev
