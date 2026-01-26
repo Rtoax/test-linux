@@ -7,5 +7,6 @@ if [[ -z ${OPENSSL} ]]; then
 	echo >&2 "ERROR: not found OPENSSL in your system"
 	exit 0
 fi
-${OPENSSL} --version | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+' 2>/dev/null | \
-	head -1 || true
+${OPENSSL} --version 2>/dev/null | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+' || {
+	${OPENSSL} version 2>/dev/null | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+'
+} | head -1

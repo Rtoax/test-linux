@@ -10,7 +10,7 @@ _OPENSSL_MK = 1
 OPENSSL := openssl
 
 OPENSSL_VERSION := $(shell openssl version | \
-		grep -m1 -ow -E '^OpenSSL [0-9]*?.[0-9]*?.[0-9]*?' | \
+		grep -m1 -o -E '^OpenSSL [0-9]*?.[0-9]*?.[0-9]*?' | \
 		awk '{print $$2}' )
 
 OPENSSL_VERSION_MAJOR := $(shell echo ${OPENSSL_VERSION} | awk -F '.' '{print $$1}')
