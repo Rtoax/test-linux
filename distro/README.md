@@ -1,4 +1,4 @@
-OS Distrobutions
+OS Distributions
 =================
 
 # Linux Kernel Reference
