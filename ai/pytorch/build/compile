@@ -1,0 +1,21 @@
+#!/bin/bash
+set -e
+
+declare -a cmake_args
+
+export PYTORCH_ROCM_ARCH="gfx900;gfx906:xnack-;gfx908:xnack-;gfx90a:xnack+;gfx90a:xnack-;gfx942;gfx950;gfx1010;gfx1012;gfx1030;gfx1031;gfx1035;gfx1100;gfx1101;gfx1102;gfx1103;gfx1150;gfx1151;gfx1152;gfx1153;gfx1200;gfx1201"
+
+cmake .. \
+	-DCMAKE_BUILD_TYPE=Release \
+	-DBUILD_SHARED_LIBS=ON \
+	-DBUILD_TEST=OFF \
+	-DPYTORCH_BUILD_CUDA=ON \
+	-DCUDA_TOOLKIT_ROOT_DIR=/usr/local/cuda \
+	-DCUDNN_INCLUDE_DIR=/usr/include \
+	-DCUDNN_LIBRARY=/usr/lib64/libcudnn.so \
+	-DTORCH_USE_CUDNN=ON \
+	-DCUDA_ARCH_LIST=Auto \
+	-DPYTHON_EXECUTABLE=$(which python3) \
+	-DCMAKE_INSTALL_PREFIX=~/pytorch-install \
+	-G Ninja \
+	"${cmake_args[@]}"

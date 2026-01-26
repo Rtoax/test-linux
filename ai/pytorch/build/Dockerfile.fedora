@@ -42,4 +42,5 @@ RUN if [ "$(uname -m)" = "x86_64" ]; then \
 # Compile pytorch source code
 # $ git clone https://github.com/pytorch/pytorch.git
 # $ git submodule update --init --depth 1 --recursive
-RUN make PYTORCH_ROCM_ARCH="gfx900;gfx906:xnack-;gfx908:xnack-;gfx90a:xnack+;gfx90a:xnack-;gfx942;gfx950;gfx1010;gfx1012;gfx1030;gfx1031;gfx1035;gfx1100;gfx1101;gfx1102;gfx1103;gfx1150;gfx1151;gfx1152;gfx1153;gfx1200;gfx1201"
+# Then,
+# $ ./compile
