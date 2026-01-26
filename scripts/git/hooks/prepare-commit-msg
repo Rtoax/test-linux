@@ -162,7 +162,7 @@ add_luca_ver() { add_ver_weak "LUCA $(${TOPDIR}/hpc/cestc/luca/version.sh)"; }
 add_make_ver() { add_ver "MAKE $(${TOPDIR}/gnu/make/version.sh)"; }
 add_numactl_ver() { add_ver "NUMACTL $(${TOPDIR}/numa/numactl/version.sh)"; }
 add_openssl_ver() { add_ver "OpenSSL $(${TOPDIR}/security/openssl/version.sh)"; }
-add_os_ver() { add_ver "$(${TOPDIR}/distributions/version.sh)"; }
+add_os_ver() { add_ver "$(${TOPDIR}/distro/version.sh)"; }
 add_pahole_ver() { add_ver "Pahole $(${TOPDIR}/pahole/version.sh)"; }
 add_pciutils_ver() { add_ver "PCIUtils $(${TOPDIR}/driver/pcie/pciutils/version.sh)"; }
 add_podman_ver() { add_ver "Podman $(${TOPDIR}/tools/podman/version.sh)"; }

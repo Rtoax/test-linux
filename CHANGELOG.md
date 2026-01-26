@@ -45,6 +45,7 @@ and this project adheres to
 - glibc: add assert subdir;
 - python: add cupy subdir;
 #### Changed
+- Rename distributions to distro;
 - Move binutils into gnu directory;
 - Move gdb into gnu directory;
 #### Deprecated
