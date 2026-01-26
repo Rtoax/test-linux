@@ -36,6 +36,10 @@ static pthread_mutex_t mutex_dev = PTHREAD_MUTEX_INITIALIZER;
 #define DEV_LOCK()	pthread_mutex_lock(&mutex_dev)
 #define DEV_UNLOCK()	pthread_mutex_unlock(&mutex_dev)
 
+/**
+ * FIXME: on GCC 7.3.0
+ * sorry, unimplemented: non-trivial designated initializers not supported
+ */
 static struct device all_devices[] = {
 	[0] = DEV_NVIDIA_H800_INITIALIZER(0),
 	[1] = DEV_NVIDIA_H800_INITIALIZER(1),
