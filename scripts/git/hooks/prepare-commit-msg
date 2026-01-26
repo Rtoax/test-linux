@@ -181,7 +181,7 @@ add_podman_ver() { add_ver "Podman $(${TOPDIR}/tools/podman/version.sh)"; }
 add_py_ver() { add_ver "Python $(${TOPDIR}/python/version.sh)"; }
 add_qemu_ver() { add_ver "QEMU $(${TOPDIR}/qemu/version.sh)"; }
 add_rocm_ver() { add_ver_weak "ROCm $(${TOPDIR}/hpc/amd/rocm/version.sh)"; }
-add_shell_ver() { add_ver "BASH $(${TOPDIR}/shell/version.sh)"; }
+add_shell_ver() { add_ver "$(${TOPDIR}/shell/version.sh --name) $(${TOPDIR}/shell/version.sh)"; }
 add_vim_ver() { add_ver "Vim $(${TOPDIR}/tools/vim/version.sh)"; }
 
 if [[ -z ${signed_off_by_line} ]] && [[ ${COMMIT_SOURCE} != merge ]]; then

@@ -25,7 +25,7 @@ target-shell-y += stat.sh
 target-shell-y += sudo.sh
 target-shell-y += tracing.sh
 target-shell-y += trap.sh
-target-shell-y += version.sh
+target-shell-y += version.sh version_.sh
 target-shell-y += while.sh
 
 SHELL_ARGS_stat.sh := /etc/os-release /etc/hosts
