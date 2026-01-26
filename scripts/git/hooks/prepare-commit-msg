@@ -19,7 +19,7 @@ readonly UNCOMMITTED_FILES=( $( ${MY_DIRECTORY}/../uncommitted-files.sh ) )
 readonly LAST_SUBMITTED_FILES=( $(git log -1 --oneline --name-only --pretty=format:) )
 
 # Changed file list (new, deleted, added, modified)
-declare -a CHANGED_FILES
+declare -a CHANGED_FILES SHEBANGS
 
 # Remove old Env first.
 sed -i '/^Vers:/d' ${COMMIT_MSG_FILE}
@@ -39,6 +39,14 @@ for f in ${CHANGED_FILES[@]}; do
 	# you only modify README.md, there is no need to add Envs: and Vers:.
 	if ! [[ " md log " =~ " ${ext} " ]]; then
 		filter+=( ${f} )
+	fi
+
+	# This file have no extension, try to get it's shebang.
+	if [[ ${ext} == ${f} ]]; then
+		shebang="$(grep ^'#!' ${TOPDIR}${f} 2>/dev/null | tr -d '#!' || true)"
+		if [[ ! -z ${shebang} ]]; then
+			SHEBANGS+=( ${shebang} )
+		fi
 	fi
 done
 readonly CHANGED_FILES_FILTEROUT=( ${filter[@]} )
@@ -111,6 +119,10 @@ have_key() {
 	do
 		# Match the whole word
 		if [[ "$(echo ${CHANGED_FILES_FILTEROUT[@]} | grep -wo ${key})" ]]; then
+			echo "YES"
+			return 0
+		fi
+		if [[ "$(echo ${SHEBANGS[@]} | grep -wo ${key})" ]]; then
 			echo "YES"
 			return 0
 		fi
