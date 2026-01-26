@@ -4,8 +4,7 @@ FROM fedora:43
 # RUN dnf group install -y c-development development-tools
 RUN dnf install -y cmake make rpm-build
 RUN dnf install -y FP16-devel \
-	asmjit-devel blas-devel ccache cpuinfo-devel eigen3-devel \
-	flexiblas-devel \
+	asmjit-devel ccache cpuinfo-devel eigen3-devel flexiblas-devel \
 	fmt-devel foxi-devel fxdiv-devel gcc-c++ gcc-gfortran json-devel \
 	libomp-devel ninja-build numactl-devel \
 	onnx-devel openmpi-devel pocketfft-devel protobuf-devel psimd-devel \
