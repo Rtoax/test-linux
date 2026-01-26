@@ -7,8 +7,10 @@
 
 int main(int argc, char *argv[])
 {
-#if defined(__HPCC__) || defined(__LUCA__)
+#if defined(__HPCC__)
 	printf("hcDNN version %d.%d.%d\n", HCDNN_MAJOR, HCDNN_MINOR, HCDNN_PATCHLEVEL);
+#elif defined(__LUCA__)
+	printf("lcDNN version %d.%d.%d\n", LCDNN_MAJOR, LCDNN_MINOR, LCDNN_PATCHLEVEL);
 #endif
 	printf("cuDNN version %d.%d.%d\n", CUDNN_MAJOR, CUDNN_MINOR, CUDNN_PATCHLEVEL);
 	return 0;
