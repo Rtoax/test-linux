@@ -3,15 +3,18 @@ OS Distrobutions
 
 # Linux Kernel Reference
 
+* 6.18.6 (fedora43)
 * 6.18.5 (fedora43)
 * 6.18.3 (fedora43)
 * 6.17.12 (fedora43)
 * 6.16.3 (fedora42)
 * 6.14.0 (ubuntu24.04)
+* 6.12.63 (debian13.3)
 * 6.12.57 (debian13)
 * 5.15.0
 * 5.14.0
 * 5.10.13
+* 4.19.90 (kylinv10)
 
 
 # Repository
