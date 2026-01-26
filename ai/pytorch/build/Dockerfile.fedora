@@ -5,21 +5,24 @@ FROM fedora:43
 RUN dnf install -y cmake make rpm-build
 RUN dnf install -y FP16-devel \
 	asmjit-devel cpuinfo-devel eigen3-devel flexiblas-devel \
-	fmt-devel foxi-devel fxdiv-devel gcc-c++ gcc-gfortran hipblas-devel \
-	hipblaslt-devel hipcub-devel hipfft-devel hiprand-devel \
-	hipsolver-devel hipsparse-devel hipsparselt-devel json-devel \
-	libnccl-devel \
-	libomp-devel magma-devel miopen-devel ninja-build numactl-devel \
+	fmt-devel foxi-devel fxdiv-devel gcc-c++ gcc-gfortran json-devel \
+	libomp-devel ninja-build numactl-devel \
 	onnx-devel openmpi-devel pocketfft-devel protobuf-devel psimd-devel \
 	pthreadpool-devel python3-devel python3-filelock python3-fsspec \
 	python3-jinja2 python3-networkx python3-numpy python3-pip \
 	python3-pybind11 python3-pyyaml python3-setuptools python3-sphinx \
-	python3-sympy python3-typing-extensions rccl-devel rocblas-devel \
-	rocfft-devel rocm-cmake rocm-comgr-devel rocm-compilersupport-macros \
-	rocm-core-devel rocm-hip-devel rocm-rpm-macros rocm-runtime-devel \
-	rocm-smi-devel rocprim-devel rocrand-devel rocsolver-devel \
-	rocthrust-devel roctracer-devel sleef-devel valgrind-devel \
+	python3-sympy python3-typing-extensions sleef-devel valgrind-devel \
 	xnnpack-devel
+
+RUN if [ "$(uname -m)" = "x86_64" ]; then \
+	dnf install -y hipblas-devel hipblaslt-devel hipcub-devel hipfft-devel \
+		hiprand-devel hipsolver-devel hipsparse-devel hipsparselt-devel \
+		libnccl-devel magma-devel miopen-devel rccl-devel rocblas-devel \
+		rocfft-devel rocm-comgr-devel rocm-compilersupport-macros \
+		rocm-core-devel rocm-hip-devel rocm-rpm-macros \
+		rocm-runtime-devel rocprim-devel rocrand-devel rocsolver-devel \
+		rocthrust-devel roctracer-devel \
+	fi
 
 # Download CUDA13 and install
 # ref: https://developer.nvidia.com/cuda-downloads

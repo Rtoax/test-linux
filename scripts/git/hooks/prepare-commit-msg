@@ -134,9 +134,9 @@ have_type() {
 }
 
 cpu_info() {
-	readonly CPU_MODEL=$(lscpu | grep "Model name" | \
+	readonly CPU_MODEL=$(lscpu | grep -e "^Model name" -e "^型号名称" | \
 			awk '{ for(i=3; i<=NF; i++) printf "%s", $i (i==NF ? "\n" : " ") }')
-	readonly CPU_VENDOR=$(lscpu | grep "^Vendor ID" | \
+	readonly CPU_VENDOR=$(lscpu | grep -e "^Vendor ID" -e "^厂商 ID" | \
 			awk '{ for(i=3; i<=NF; i++) printf "%s", $i (i==NF ? "\n" : " ") }')
 	if [[ ${CPU_MODEL} ]]; then
 		echo ${CPU_MODEL}
@@ -162,7 +162,7 @@ add_luca_ver() { add_ver_weak "LUCA $(${TOPDIR}/hpc/cestc/luca/version.sh)"; }
 add_make_ver() { add_ver "MAKE $(${TOPDIR}/gnu/make/version.sh)"; }
 add_numactl_ver() { add_ver "NUMACTL $(${TOPDIR}/numa/numactl/version.sh)"; }
 add_openssl_ver() { add_ver "OpenSSL $(${TOPDIR}/security/openssl/version.sh)"; }
-add_os_ver() { add_ver "$(${TOPDIR}/distributions/version.sh)"; }
+add_os_ver() { add_ver "$(${TOPDIR}/distro/version.sh)"; }
 add_pahole_ver() { add_ver "Pahole $(${TOPDIR}/pahole/version.sh)"; }
 add_pciutils_ver() { add_ver "PCIUtils $(${TOPDIR}/driver/pcie/pciutils/version.sh)"; }
 add_podman_ver() { add_ver "Podman $(${TOPDIR}/tools/podman/version.sh)"; }
@@ -193,7 +193,7 @@ if [[ "$(have_type c cpp c++ h hpp)$(have_key gcc compiler)" ]]; then
 	add_gcc_ver
 fi
 
-if [[ "$(have_type c cpp c++ h hpp)$(have_key glibc)" ]]; then
+if [[ "$(have_type c cpp c++ h hpp)$(have_key glibc ipc socket)" ]]; then
 	add_glibc_ver
 fi
 

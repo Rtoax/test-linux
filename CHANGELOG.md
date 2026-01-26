@@ -10,6 +10,19 @@ and this project adheres to
 ## Unreleased
 
 #### Breaking Changes
+#### Added
+#### Changed
+#### Deprecated
+#### Removed
+#### Fixed
+#### Security
+#### Docs
+#### Tools
+
+
+## [v2.3.14] 2026-01-26
+
+#### Breaking Changes
 - template: only include .mk once;
 #### Added
 - tput: add allcolor.sh test;
@@ -45,6 +58,7 @@ and this project adheres to
 - glibc: add assert subdir;
 - python: add cupy subdir;
 #### Changed
+- Rename distributions to distro;
 - Move binutils into gnu directory;
 - Move gdb into gnu directory;
 #### Deprecated

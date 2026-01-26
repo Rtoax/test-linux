@@ -17,7 +17,9 @@ char *vsock_cid_name(unsigned int cid)
 	switch (cid) {
 	case VMADDR_CID_ANY: return "VMADDR_CID_ANY";
 	case VMADDR_CID_HOST: return "VMADDR_CID_HOST";
+#ifdef VMADDR_CID_LOCAL
 	case VMADDR_CID_LOCAL: return "VMADDR_CID_LOCAL";
+#endif
 	default: return "NUM";
 	}
 }
@@ -54,8 +56,10 @@ unsigned int vsock_get_cid_from_args(int argc, char *argv[])
 				cid = VMADDR_CID_ANY;
 			else if (!strcasecmp(s_cid, "host"))
 				cid = VMADDR_CID_HOST;
+#ifdef VMADDR_CID_LOCAL
 			else if (!strcasecmp(s_cid, "local"))
 				cid = VMADDR_CID_LOCAL;
+#endif
 			else
 				cid = atoi(s_cid);
 		}

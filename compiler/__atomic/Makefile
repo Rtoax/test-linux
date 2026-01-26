@@ -1,7 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
 include libatomic.mk
 
-target-y :=
 target-y += test1
 target-y += load-store
 target-y += load-store-atomic-relaxed
@@ -17,7 +16,7 @@ target-y += signal_fence
 target-${HAVE_LIBATOMIC} += always_lock_free
 target-${HAVE_LIBATOMIC} += is_lock_free
 
-CFLAGS += -pthread
+LDFLAGS += -pthread
 
 CFLAGS_load-store := -DTEST_C_RAW=1
 CFLAGS_load-store-atomic-relaxed := -DTEST_ATOMIC_RELAXED=1

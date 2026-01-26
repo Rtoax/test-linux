@@ -8,9 +8,9 @@
 # cloc will be better (add cloc output to commit message).
 VERSION = 2
 PATCHLEVEL = 3
-SUBLEVEL = 13
+SUBLEVEL = 14
 EXTRAVERSION =
-NAME = BMW
+NAME = Duck
 
 TEST_LINUX_VERSION := $(VERSION)$(if $(PATCHLEVEL),.$(PATCHLEVEL)$(if $(SUBLEVEL),.$(SUBLEVEL)))$(EXTRAVERSION)
 TEST_LINUX_GIT_VERSION := $(shell git describe --abbrev=6 --dirty --tags 2>/dev/null || :)
@@ -42,7 +42,7 @@ ifeq ($(wildcard /etc/profile.d/make_tl.sh),)
 endif
 
 ifndef __USE_TEST_LINUX_MAKE__
-  ifeq ($(filter $(MAKECMDGOALS),install uninstall),)
+  ifeq ($(filter $(MAKECMDGOALS),install uninstall gitconfig),)
     $(error Must use test-linux make_tl.sh, start new bash session if you already make install)
   endif
 else

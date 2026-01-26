@@ -1,6 +1,6 @@
 target-y := main
 
-CFLAGS += -lpthread
+LDFLAGS += -lpthread
 
 include main.mk
 
