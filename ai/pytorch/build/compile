@@ -1,11 +1,97 @@
 #!/bin/bash
 set -e
 
+readonly prog=pytorch-compile
 declare -a cmake_args
+declare flags_cmake flags_build flags_install
+declare use_jobs verbose
+
+__usage__()
+{
+	echo -e "
+NAME
+	${prog} - Compile pytorch
+
+SYNOPSIS
+	${prog} [--cmake] [--build] [--help] [--verbose]
+
+DESCRIPTION
+	Compile pytorch.
+
+ARGUMENT
+	-c, --cmake             execute the cmake to generate Makefile
+	-b, --build             execute the build
+	-i, --install           execute the make install
+
+	-j, --jobs [N]          set number of jobs, default: ${use_jobs}
+	-v, --verbose           run with verbose mode
+	-h, --help              show this info
+
+EXAMPLES
+	$ ./compile -c -b
+
+LINKS
+	https://github.com/pytorch/pytorch/
+
+SEE ALSO
+"
+	exit ${1-0}
+}
+
+TEMP_ARGS=$(getopt --options cbij:vh \
+	--long cmake \
+	--long install \
+	--long jobs: \
+	--long verbose \
+	--long help \
+	--name ${prog} -- "$@")
+
+test $? != 0 && __usage__ 1
+
+eval set -- "$TEMP_ARGS"
+
+while true; do
+	case $1 in
+	-c | --cmake)
+		shift
+		flags_cmake=YES
+		;;
+	-b | --build)
+		shift
+		flags_build=YES
+		;;
+	-i | --install)
+		shift
+		flags_install=YES
+		;;
+	-j | --jobs)
+		shift
+		use_jobs=$1
+		shift
+		;;
+	-v | --verbose)
+		shift
+		verbose=YES
+		;;
+	-h | --help)
+		shift
+		__usage__
+		;;
+	--)
+		shift
+		break
+		;;
+	esac
+done
+
+if [[ ${verbose} ]]; then
+	export PS4='+${BASH_SOURCE}:${LINENO}:${FUNCNAME[0]}: '
+	set -x
+fi
 
 export PYTORCH_ROCM_ARCH="gfx900;gfx906:xnack-;gfx908:xnack-;gfx90a:xnack+;gfx90a:xnack-;gfx942;gfx950;gfx1010;gfx1012;gfx1030;gfx1031;gfx1035;gfx1100;gfx1101;gfx1102;gfx1103;gfx1150;gfx1151;gfx1152;gfx1153;gfx1200;gfx1201"
 
-cmake .. \
+[[ ${flags_cmake} ]] && cmake .. \
 	-DCMAKE_BUILD_TYPE=Release \
 	-DBUILD_SHARED_LIBS=ON \
 	-DBUILD_TEST=OFF \
@@ -19,3 +105,7 @@ cmake .. \
 	-DCMAKE_INSTALL_PREFIX=~/pytorch-install \
 	-G Ninja \
 	"${cmake_args[@]}"
+
+[[ ${flags_build} ]] && cmake --build . \
+
+[[ ${flags_install} ]] && echo "TODO:" && false
