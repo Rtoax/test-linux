@@ -6,6 +6,7 @@ set -e
 readonly prog=pytorch-compile
 declare -a cmake_args cmake_build_args
 declare flags_cmake flags_build flags_install
+declare nr_jobs
 declare dry_run
 declare verbose
 
@@ -82,7 +83,7 @@ while true; do
 		;;
 	-j | --jobs)
 		shift
-		cmake_build_args+=( --parallel $1 )
+		nr_jobs=$1
 		shift
 		;;
 	-u | --dry-run)
@@ -125,6 +126,13 @@ cmake_args+=( -DCUDA_ARCH_LIST=Auto )
 cmake_args+=( -DPYTHON_EXECUTABLE=$(which python3) )
 cmake_args+=( -DCMAKE_INSTALL_PREFIX=/pytorch-install )
 cmake_args+=( -G Ninja )
+
+if [[ ${nr_jobs} ]]; then
+	cmake_build_args+=( --parallel ${nr_jobs} )
+	export MAX_JOBS=${nr_jobs}
+else
+	export MAX_JOBS=1
+fi
 
 if [[ ${flags_cmake} ]]; then
 	_eval cmake .. "${cmake_args[@]}"
