@@ -106,10 +106,9 @@ $(call check_file_and_def,${CUDA_ROOT}/include/cufile.h,HAVE_CUFILE)
 ifdef DEBUG
   $(info HAVE_CUDA = ${HAVE_CUDA})
   ifneq (${NVCC},)
-    $(info $(shell ${NVCC} --version))
+    $(info NVCC Version $(shell ${NVCC} --version))
   endif
   $(info NVCC = ${NVCC})
-  $(info NVCC VERSION: $(shell ${NVCC} --version))
   $(info CUDA_VERSION_CODE = ${CUDA_VERSION_CODE})
   $(info CUDA_VERSION_MAJOR = ${CUDA_VERSION_MAJOR})
   $(info CUDA_VERSION_MINOR = ${CUDA_VERSION_MINOR})
