@@ -21,12 +21,12 @@ ifeq ($(shell uname -m),x86_64)
   target-y += spin-demo3 spin-demo3-nonlock
 endif
 
-CFLAGS :=
-CFLAGS += -lpthread
 CFLAGS_spin-demo3-nonlock := -DNONLOCK=1
 # Warn when "__sync_fetch_and_nand" and "__sync_nand_and_fetch" built-in
 # functions are used.  These functions changed semantics in GCC 4.4.
 CFLAGS___sync_nand_and_fetch := -Wsync-nand
+
+LDFLAGS += -lpthread
 
 include main.mk
 
