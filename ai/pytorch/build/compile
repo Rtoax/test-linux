@@ -116,10 +116,6 @@ if [[ -z ${dry_run} ]] && [[ ${verbose} ]]; then
 	set -x
 fi
 
-if [[ -z ${dry_run} ]]; then
-	export PYTORCH_ROCM_ARCH="gfx900;gfx906:xnack-;gfx908:xnack-;gfx90a:xnack+;gfx90a:xnack-;gfx942;gfx950;gfx1010;gfx1012;gfx1030;gfx1031;gfx1035;gfx1100;gfx1101;gfx1102;gfx1103;gfx1150;gfx1151;gfx1152;gfx1153;gfx1200;gfx1201"
-fi
-
 install_deps() {
 	. /etc/os-release
 	if [[ " debian ubuntu " =~ " ${ID} " ]]; then
@@ -175,7 +171,17 @@ cmake_args+=(
 	-DUSE_SYSTEM_XNNPACK=OFF
 )
 cmake_args+=( -DUSE_CUDA=ON )
-cmake_args+=( -DUSE_ROCM=ON )
+HIPCONFIG=$(which hipconfig)
+if [[ ! -z "${HIPCONFIG}" ]]; then
+	cmake_args+=( -DUSE_ROCM=ON )
+	cmake_args+=( -DUSE_ROCM_CK=OFF )
+	cmake_args+=( -DUSE_MAGMA=ON )
+	cmake_args+=( -DHIP_PATH=$(${HIPCONFIG} -p) )
+	cmake_args+=( -DROCM_PATH=$(${HIPCONFIG} -R) )
+
+	export PYTORCH_ROCM_ARCH="gfx900;gfx906:xnack-;gfx908:xnack-;gfx90a:xnack+;gfx90a:xnack-;gfx942;gfx950;gfx1010;gfx1012;gfx1030;gfx1031;gfx1035;gfx1100;gfx1101;gfx1102;gfx1103;gfx1150;gfx1151;gfx1152;gfx1153;gfx1200;gfx1201"
+	cmake_args+=( -DPYTORCH_ROCM_ARCH="'${PYTORCH_ROCM_ARCH}'" )
+fi
 cmake_args+=( -DCUDA_TOOLKIT_ROOT_DIR=/usr/local/cuda )
 cmake_args+=( -DCUDNN_INCLUDE_DIR=/usr/include )
 cmake_args+=( -DCUDNN_LIBRARY=/usr/lib64/libcudnn.so )
