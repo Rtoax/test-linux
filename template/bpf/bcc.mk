@@ -11,14 +11,15 @@ ifndef _BPF_BCC_MK
 _BPF_BCC_MK = 1
 
 LIBBCC_PATH := $(shell ldconfig -p | grep libbcc.so 2>/dev/null | awk '{print $$NF}' | head -1)
-LIBBCC_PATH := $(shell realpath ${LIBBCC_PATH})
 
 ifneq ($(LIBBCC_PATH),)
   bcc-cflags := -DHAVE_BCC=1
   bcc-ldflags := -lbcc
-  HAVE_BCC := y
-  export HAVE_BCC
+  export HAVE_BCC := y
+  export LIBBCC_PATH := $(shell realpath ${LIBBCC_PATH})
   export bcc-cflags bcc-ldflags
+else
+  export HAVE_BCC := y
 endif
 
 ifdef DEBUG
