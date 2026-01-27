@@ -9,6 +9,9 @@
 # - LLVM_DIS=
 # - LLVM_SRC_ROOT=
 # - CLANG_SRC_ROOT=
+# - llvm-cflags=
+# - llvm-cxxflags=
+# - llvm-ldflags=
 #
 # Functions:
 # - llvm_support_target()
@@ -36,6 +39,10 @@ else
   LLVM_SRC_ROOT := $(HOME)/Git/llvm/
   CLANG_SRC_ROOT := ${LLVM_SRC_ROOT}/clang/
 
+  llvm-cflags := $(shell ${LLVM_CONFIG} --cflags)
+  llvm-cxxflags := $(shell ${LLVM_CONFIG} --cxxflags)
+  llvm-ldflags := $(shell ${LLVM_CONFIG} --ldflags)
+
   # $1 - target name
   define llvm_support_target
   $(shell if [[ $$(${CLANG} -print-targets | grep -ow $1) == $1 ]]; then echo y; fi)
@@ -48,6 +55,9 @@ else
     $(info LLC = ${LLC})
     $(info LLVM_SRC_ROOT = ${LLVM_SRC_ROOT})
     $(info CLANG_SRC_ROOT = ${CLANG_SRC_ROOT})
+    $(info llvm-cflags = ${llvm-cflags})
+    $(info llvm-cxxflags = ${llvm-cxxflags})
+    $(info llvm-ldflags = ${llvm-ldflags})
     $(info LLVM support NON_EXIST = $(call llvm_support_target,NON_EXIST))
     $(info LLVM support NVPTX = $(call llvm_support_target,nvptx))
     $(info LLVM support NVPTX64 = $(call llvm_support_target,nvptx64))

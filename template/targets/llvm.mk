@@ -23,11 +23,6 @@ ifeq ($(LLVM_CONFIG),)
   $(error Not found llvm-config, please install llvm first)
 endif
 
-LLVM_CFLAGS += $(shell ${LLVM_CONFIG} --cflags)
-LLVM_CXXFLAGS += $(shell ${LLVM_CONFIG} --cxxflags)
-
-LLVM_LDFLAGS += $(shell ${LLVM_CONFIG} --ldflags)
-
 CLANG_AST_CFLAGS := -Xclang -ast-dump -fsyntax-only
 
 # AST: Abstract Syntax Tree
