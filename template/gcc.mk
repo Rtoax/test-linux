@@ -31,7 +31,7 @@ GXX := g++
 CC = ${GCC}
 CXX = ${GXX}
 
-GCC_FULLVERSION := $(shell $(GCC) -dumpfullversion -dumpversion)
+GCC_FULLVERSION := $(shell $(GCC) -dumpfullversion)
 GCC_VERSION := $(shell $(GCC) -dumpversion)
 GCC_MAJOR := $(shell echo ${GCC_FULLVERSION} | awk -F '.' '{print $$1}')
 GCC_MINOR := $(shell echo ${GCC_FULLVERSION} | awk -F '.' '{print $$2}')
@@ -82,8 +82,8 @@ ifdef DEBUG
 endif
 
 # Do some checks
-ifneq (${GCC_VERSION},${GCC_MAJOR}.${GCC_MINOR}.${GCC_PATCHLEVEL})
-  $(error Failed to parse GCC version)
+ifneq (${GCC_FULLVERSION},${GCC_MAJOR}.${GCC_MINOR}.${GCC_PATCHLEVEL})
+  $(error Failed to parse GCC version, ${GCC_FULLVERSION} != ${GCC_MAJOR}.${GCC_MINOR}.${GCC_PATCHLEVEL})
 endif
 
 ifneq ($(call gcc_version_code,${GCC_MAJOR},${GCC_MINOR},${GCC_PATCHLEVEL}),${GCC_VERSION_CODE})
