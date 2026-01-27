@@ -12,6 +12,8 @@
 # - HAVE_RCCL=y
 # - HIPCC=$(which hipcc)
 # - HIPCONFIG=$(which hipconfig)
+# - HIP_PATH=[/usr]
+# - ROCM_PATH=[/usr]
 #
 # Modify definitions:
 # - target-hipcc-y
@@ -55,16 +57,21 @@ $(call check_file_and_def,/usr/include/hipsolver/hipsolver.h,HAVE_HIPSOLVER)
 $(call check_file_and_def,/usr/include/hipblaslt/hipblaslt.h,HAVE_HIPBLASLT)
 $(call check_file_and_def,/usr/include/hip/hip_fp8.h,HAVE_HIP_FP8)
 
+HIP_PATH := $(shell ${HIPCONFIG} -p)
+ROCM_PATH := $(shell ${HIPCONFIG} -R)
+
 ifdef DEBUG
   $(info HAVE_HIP = ${HAVE_HIP})
   $(info HIPCC = ${HIPCC})
-  $(info HIPCONFIG = ${HIPCONFIG})
   $(info HIPCC: $(shell ${HIPCC} --version))
-  $(info HIPCONFIG: $(shell ${HIPCONFIG} --full))
+  $(info HIPCONFIG = ${HIPCONFIG})
+  $(info HIPCONFIG : $(shell ${HIPCONFIG} --full))
 endif
 
 export HAVE_HIP := y
 export HIPCC HIPCONFIG
+export HIP_PATH
+export ROCM_PATH
 
 endif # end of HIPCC
 
