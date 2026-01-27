@@ -28,11 +28,7 @@ include shell.mk
 
 PAHOLE := $(shell which pahole 2>/dev/null)
 ifeq ($(PAHOLE),)
-  ifndef __IGNORE_NOTFOUND_ERROR__
-    $(error "Not found pahole, install first")
-  else
-    $(warning "Not found pahole, skipping")
-  endif
+  $(warning "Not found pahole, skipping")
   export HAVE_PAHOLE := n
 else
 
