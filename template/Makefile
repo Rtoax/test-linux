@@ -11,7 +11,7 @@ MAKES := $(filter-out ./main.mk,${MAKES})
 $(info MAKES = ${MAKES})
 
 # include each mk for twice to test ifndef-endif pair
-$(foreach mk, ${MAKES} ${MAKES}, $(eval include ${mk}))
+$(foreach mk, ${MAKES} ${MAKES}, $(info Including ${mk}) $(eval include ${mk}))
 
 target-post-y := git
 target-post-y += logo
