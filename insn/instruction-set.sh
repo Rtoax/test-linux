@@ -2,6 +2,7 @@
 set -e
 
 readonly GCC=gcc
+readonly CPUID=$(which cpuid 2>/dev/null)
 
 [[ -z ${CC} ]] && CC=${GCC}
 

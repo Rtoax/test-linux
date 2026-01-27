@@ -563,6 +563,7 @@ pkgs_base+=( bpftrace )
 pkgs_base+=( cargo )                # The Rust package manager
 pkgs_base+=( codespell )
 pkgs_base+=( cowsay )
+pkgs_base+=( cpuid )
 pkgs_base+=( cscope )
 pkgs_base+=( dialog kdialog )
 pkgs_base+=( dwz )                  # DWARF optimization and duplicate removal tool
