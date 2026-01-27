@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- template: add clang.mk;
 - pytorch: add compile script;
 #### Changed
 #### Deprecated

@@ -1,7 +1,9 @@
 # SPDX-License-Identifier: GPL-3.0
 OUTPUT := .output/
 
-target-y :=
+include clang.mk
+include compiler.mk
+
 target-y += alias
 target-y += always_inline
 target-y += noinline
@@ -31,9 +33,7 @@ target-y += __mode__
 target-y += no_instrument_function
 target-y += visibility
 
-target-bpf-y := preserve_access_index.bpf.o
-
-include compiler.mk
+target-bpf-${HAVE_CLANG} := preserve_access_index.bpf.o
 
 ifeq ($(CC_-fcf-protection),y)
   CFLAGS_nocf_check := -fcf-protection

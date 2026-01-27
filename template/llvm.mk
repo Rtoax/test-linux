@@ -4,8 +4,6 @@
 # Output definitions:
 # - WHEREIS_LLVM=[/usr/include/llvm]
 # - HAVE_LLVM=[y|n]
-# - CLANG=
-# - CLANGXX=
 # - LLVM_CONFIG=
 # - LLVM_AS=
 # - LLVM_DIS=
@@ -19,55 +17,46 @@ ifndef _LLVM_MK
 _LLVM_MK = 1
 
 include shell.mk
+include clang.mk
 
 WHEREIS_LLVM := $(shell whereis llvm | awk '{print $$2}')
 
 ifeq (${WHEREIS_LLVM},)
-  ifndef __IGNORE_NOTFOUND_ERROR__
-    $(error "Not found llvm, you must install llvm first")
-  else
-    $(warning "Not found llvm, skipping")
-  endif
+  $(warning "Not found llvm, maybe you should install llvm first")
   export HAVE_LLVM := n
 else
 
-CLANG := $(shell which clang 2>/dev/null)
-CLANGXX := $(shell which clang++ 2>/dev/null)
+  LLVM_CONFIG := $(shell which llvm-config 2>/dev/null)
+  LLVM_AS := $(shell which llvm-as 2>/dev/null)
+  LLVM_DIS := $(shell which llvm-dis 2>/dev/null)
+  LLVM_OBJDUMP := $(shell which llvm-objdump 2>/dev/null)
+  LLC := $(shell which llc 2>/dev/null)
 
-LLVM_CONFIG := $(shell which llvm-config 2>/dev/null)
-LLVM_AS := $(shell which llvm-as 2>/dev/null)
-LLVM_DIS := $(shell which llvm-dis 2>/dev/null)
-LLVM_OBJDUMP := $(shell which llvm-objdump 2>/dev/null)
-LLC := $(shell which llc 2>/dev/null)
+  # Note: Yep, i always store under this path
+  LLVM_SRC_ROOT := $(HOME)/Git/llvm/
+  CLANG_SRC_ROOT := ${LLVM_SRC_ROOT}/clang/
 
-# Note: Yep, i always store under this path
-LLVM_SRC_ROOT := $(HOME)/Git/llvm/
-CLANG_SRC_ROOT := ${LLVM_SRC_ROOT}/clang/
+  # $1 - target name
+  define llvm_support_target
+  $(shell if [[ $$(${CLANG} -print-targets | grep -ow $1) == $1 ]]; then echo y; fi)
+  endef
 
-# $1 - target name
-define llvm_support_target
-$(shell if [[ $$(${CLANG} -print-targets | grep -ow $1) == $1 ]]; then echo y; fi)
-endef
+  ifdef DEBUG
+    $(info LLVM_CONFIG = ${LLVM_CONFIG})
+    $(info LLVM_AS = ${LLVM_AS})
+    $(info LLVM_DIS = ${LLVM_DIS})
+    $(info LLC = ${LLC})
+    $(info LLVM_SRC_ROOT = ${LLVM_SRC_ROOT})
+    $(info CLANG_SRC_ROOT = ${CLANG_SRC_ROOT})
+    $(info LLVM support NON_EXIST = $(call llvm_support_target,NON_EXIST))
+    $(info LLVM support NVPTX = $(call llvm_support_target,nvptx))
+    $(info LLVM support NVPTX64 = $(call llvm_support_target,nvptx64))
+    $(info LLVM support AMDGCN = $(call llvm_support_target,amdgcn))
+  endif
 
-ifdef DEBUG
-  $(info CLANG = ${CLANG})
-  $(info CLANGXX = ${CLANGXX})
-  $(info LLVM_CONFIG = ${LLVM_CONFIG})
-  $(info LLVM_AS = ${LLVM_AS})
-  $(info LLVM_DIS = ${LLVM_DIS})
-  $(info LLC = ${LLC})
-  $(info LLVM_SRC_ROOT = ${LLVM_SRC_ROOT})
-  $(info CLANG_SRC_ROOT = ${CLANG_SRC_ROOT})
-  $(info LLVM support NON_EXIST = $(call llvm_support_target,NON_EXIST))
-  $(info LLVM support NVPTX = $(call llvm_support_target,nvptx))
-  $(info LLVM support NVPTX64 = $(call llvm_support_target,nvptx64))
-  $(info LLVM support AMDGCN = $(call llvm_support_target,amdgcn))
-endif
-
-export HAVE_LLVM := y
-export CLANG CLANGXX
-export LLVM_CONFIG LLVM_AS LLVM_DIS LLC
-export LLVM_SRC_ROOT CLANG_SRC_ROOT
+  export HAVE_LLVM := y
+  export LLVM_CONFIG LLVM_AS LLVM_DIS LLC
+  export LLVM_SRC_ROOT CLANG_SRC_ROOT
 endif # end of found WHEREIS_LLVM
 
 endif # end of _LLVM_MK
