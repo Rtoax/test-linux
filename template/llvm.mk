@@ -37,6 +37,7 @@ CLANGXX := $(shell which clang++ 2>/dev/null)
 LLVM_CONFIG := $(shell which llvm-config 2>/dev/null)
 LLVM_AS := $(shell which llvm-as 2>/dev/null)
 LLVM_DIS := $(shell which llvm-dis 2>/dev/null)
+LLVM_OBJDUMP := $(shell which llvm-objdump 2>/dev/null)
 LLC := $(shell which llc 2>/dev/null)
 
 # Note: Yep, i always store under this path

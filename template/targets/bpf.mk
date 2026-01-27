@@ -2,22 +2,30 @@
 ifndef _TARGET_BPF_MK
 _TARGET_BPF_MK = 1
 
-CLANG := $(shell which clang 2>/dev/null)
-LLVM_OBJDUMP := $(shell which llvm-objdump 2>/dev/null)
-
-ifeq ($(CLANG),)
-  $(error Not found clang, please install clang first)
-endif
-
-ifeq ($(LLVM_OBJDUMP),)
-  $(error Not found llvm-objdump, please install llvm first)
-endif
-
+include llvm.mk
 include pahole.mk
 include bpf/bpf.mk
 include bpf/btf.mk
 include bpf/bpftool.mk
 include bpf/helper.mk
+
+ifeq ($(CLANG),)
+  ifdef __IGNORE_NOTFOUND_ERROR__
+    $(warning Not found clang, skipping bpf targets)
+    CLANG := echo
+  else
+    $(error Not found clang, please install clang first)
+  endif
+endif
+
+ifeq ($(LLVM_OBJDUMP),)
+  ifdef __IGNORE_NOTFOUND_ERROR__
+    $(warning Not found llvm-objdump, skipping some bpf targets)
+    LLVM_OBJDUMP := echo
+  else
+    $(error Not found llvm-objdump, please install llvm first)
+  endif
+endif
 
 OBJDUMP_ARGS :=
 
