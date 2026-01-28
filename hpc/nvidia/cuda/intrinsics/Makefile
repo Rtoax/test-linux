@@ -3,7 +3,7 @@ OUTPUT := .output/
 __IGNORE_NOTFOUND_ERROR__ := 1
 
 include os.mk
-include gpu/cuda.mk
+include nvidia/cuda.mk
 include gpu/rocm.mk
 include gpu/luca.mk
 include gpu/hpcc.mk

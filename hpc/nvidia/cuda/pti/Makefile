@@ -2,7 +2,7 @@
 # Copyright (C) 2025-2026 Rong Tao
 OUTPUT := .output/
 
-include gpu/cuda.mk
+include nvidia/cuda.mk
 include gpu/luca.mk
 
 common-objs := activity

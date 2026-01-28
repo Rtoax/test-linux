@@ -24,8 +24,8 @@
 # - target-nvcc-liba-y
 # - target-nvcc-libso-y
 #
-ifndef _GPU_CUDA_MK
-_GPU_CUDA_MK = 1
+ifndef _NVIDIA_CUDA_MK
+_NVIDIA_CUDA_MK = 1
 
 include define.mk
 
