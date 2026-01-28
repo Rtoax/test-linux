@@ -1,4 +1,0 @@
-# Build pytorch with newest Ubuntu
-FROM ubuntu:latest
-
-RUN apt install -y libcufile-13-0

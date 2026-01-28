@@ -25,6 +25,8 @@ fi
 readonly PYTORCH_ROOT=${_root}
 readonly ID=$(grep -oP '(?<=^ID=).+' /etc/os-release | tr -d '"')
 readonly VERSION_ID=$(grep -oP '(?<=^VERSION_ID=).+' /etc/os-release | tr -d '"')
+readonly CUDA_MAJOR="$(nvcc --version | grep -oE 'V[1-9]+' | tr -d V || true)"
+
 
 __usage__()
 {
@@ -176,6 +178,21 @@ install_apt_base() {
 	_eval sudo apt install -y \
 		libcpuinfo-dev libfp16-dev libonnx-dev libsleef-dev
 
+}
+
+install_apt_cuda() {
+	local cuda_deps
+	case ${CUDA_MAJOR} in
+	13)
+		cuda_deps+=" libcufile-${CUDA_MAJOR}-0"
+		;;
+	*)
+		;;
+	esac
+
+	if [[ " ubuntu " =~ " ${ID} " ]]; then
+		_eval sudo apt install -y ${cuda_deps}
+	fi
 }
 
 install_deps() {
