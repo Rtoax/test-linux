@@ -100,7 +100,7 @@ ifdef HAVE_CUDA
   CXXFLAGS_SO += -DHAVE_CUDA=1
 endif
 
-ifdef HAVE_HIP
+ifeq (${HAVE_HIP},y)
   $(info HAVE_HIP)
   target-libso-cpp-y += ${libso-hip}
 
