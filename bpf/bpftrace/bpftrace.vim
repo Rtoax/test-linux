@@ -56,6 +56,8 @@ syntax keyword btPatterns	BEGIN END begin end
 
 syntax keyword btType	bool int8 int16 int32 int64 uint8 uint16 uint32 uint64 string union struct
 
+syntax region btString		start=+"+ skip=+\\\\\|\\"+ end=+"+ contains=@Spell extend
+
 syntax match btc_def /#.*/
 	\ containedin=ALL
 
@@ -88,3 +90,4 @@ hi def link btTodo		Todo
 hi def link btType		Type
 hi def link btPatterns		Special
 hi def link btProbe		Identifier
+hi def link btString		String
