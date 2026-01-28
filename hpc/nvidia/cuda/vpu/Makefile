@@ -3,7 +3,7 @@ OUTPUT := .output/
 
 __IGNORE_NOTFOUND_ERROR__ := 1
 
-include gpu/luca.mk
+include cestc/luca.mk
 include compiler.mk
 
 common-objs := vpu

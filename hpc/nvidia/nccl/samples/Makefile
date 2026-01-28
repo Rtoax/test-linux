@@ -5,7 +5,7 @@ __IGNORE_NOTFOUND_ERROR__ := 1
 
 include nvidia/cuda.mk
 include amd/rocm.mk
-include gpu/luca.mk
+include cestc/luca.mk
 include metax/hpcc.mk
 
 common-objs := version

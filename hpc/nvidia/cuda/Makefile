@@ -6,7 +6,7 @@ __IGNORE_NOTFOUND_ERROR__ = y
 include nvidia/cuda.mk
 include amd/rocm.mk
 include metax/hpcc.mk
-include gpu/luca.mk
+include cestc/luca.mk
 
 subdir-y := samples
 subdir-y += blas

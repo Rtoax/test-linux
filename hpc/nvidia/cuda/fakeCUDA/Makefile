@@ -6,7 +6,7 @@ subdir-y := frontend
 include nvidia/cuda.mk
 include amd/rocm.mk
 include metax/hpcc.mk
-include gpu/luca.mk
+include cestc/luca.mk
 
 libso-hpcc := libhccompiler.so
 libso-hpcc += libhcruntime.so

@@ -19,8 +19,8 @@
 # - LUCA_VERSION_MINOR=
 # - LUCA_VERSION_PATCH=
 #
-ifndef _GPU_LUCA_MK
-_GPU_LUCA_MK = 1
+ifndef _CESTC_LUCA_MK
+_CESTC_LUCA_MK = 1
 
 include define.mk
 

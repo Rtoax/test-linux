@@ -3,7 +3,7 @@
 OUTPUT := .output/
 
 include nvidia/cuda.mk
-include gpu/luca.mk
+include cestc/luca.mk
 
 common-objs := activity
 common-objs += subscribe
