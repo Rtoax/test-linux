@@ -40,12 +40,8 @@ readonly DISTS_RHEL_LIKE=( fedora centos rhel almalinux openEuler cclinux
 readonly DISTS_DEBIAN_LIKE=( debian ubuntu )
 readonly DISTS_SUSE_LIKE=( suse opensuse opensuse-leap )
 
-echo "OS: ${OS}"
-echo "OSV: ${OSV}"
-echo "VIRT: ${VIRT_TYPE} (IS_PHY: ${IS_PHY})"
-
-have_base=YES
-have_upgrade=YES
+have_base=
+have_upgrade=
 have_ai=
 have_cuda=
 have_gpu=
@@ -70,6 +66,10 @@ have_cxl=
 
 have_services=
 have_3rd_party=
+
+has_pkgs() {
+	echo ${have_compiler}${have_build}${have_docs}${have_devel}${have_container}${have_virt}${have_pip}${have_desktop}${have_math}${have_media}${have_bench}${have_net}${have_fs}${have_ai}${have_gpu}${have_cuda}${have_db}${have_storage}${have_3rd_party}${have_video}${have_boot}${have_cxl}${have_services}
+}
 
 enable_all()
 {
@@ -101,6 +101,10 @@ enable_all()
 
 enable_auto()
 {
+	if [[ -z $(has_pkgs) ]]; then
+		return 0
+	fi
+
 	if [[ $(systemctl get-default || :) == graphical.target ]]; then
 		have_desktop=YES
 		have_media=YES
@@ -109,6 +113,9 @@ enable_auto()
 
 goodbye()
 {
+	if [[ -z $(has_pkgs) ]]; then
+		exit 0
+	fi
 	local ret=$?
 	if [[ ${ret} != 0 ]]; then
 		echo >&2 -e "\033[1;31mRunning ${prog} failed!\033[m"
@@ -538,6 +545,15 @@ while true; do
 		;;
 	esac
 done
+
+if [[ -z $(has_pkgs) ]]; then
+	echo "WARNING: nothing to do, see --help"
+	exit 0
+fi
+
+echo "OS: ${OS}"
+echo "OSV: ${OSV}"
+echo "VIRT: ${VIRT_TYPE} (IS_PHY: ${IS_PHY})"
 
 if [[ ${verbose} ]]; then
 	export PS4='+${BASH_SOURCE}:${LINENO}:${FUNCNAME[0]}: '

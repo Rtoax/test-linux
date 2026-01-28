@@ -14,6 +14,7 @@ and this project adheres to
 - template: add clang.mk, pytorch.mk;
 - pytorch: add compile script;
 #### Changed
+- scripts/install-deps.sh: default install nothing;
 - template: add nvidia,amd,metax,cestc directory;
 #### Deprecated
 #### Removed
