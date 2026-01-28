@@ -1,31 +1,34 @@
 #!/bin/bash
+set -e
 
 name="Rong Tao"
 email=rtoax@foxmail.com
 
+gitcmd() {
+	git config --global "${@}"
+}
+
 git_config()
 {
-	git config --global user.name "$name"
-	git config --global user.email "$email"
-	git config --global credential.helper store
-	git config --global http.sslVerify false
-	git config --global core.editor "vim"
-	git config --global pull.rebase false # Merge by default
+	gitcmd user.name "$name"
+	gitcmd user.email "$email"
+	gitcmd credential.helper store
+	gitcmd http.sslVerify false
+	gitcmd core.editor "vim"
+	gitcmd pull.rebase false # Merge by default
 
 	# Try to fix: fatal: The remote end hung up unexpectedly
 	# - Give 1GB
-	git config --global http.postBuffer 1048576000
+	gitcmd http.postBuffer 1048576000
 
-	git_alias() {
-		git config --global alias.lf "log --follow"
-	}
-	git_alias
+	# Alias
+	gitcmd alias.lf "log --follow"
 
 	# Set Proxy
-	#git config --global http.proxy http://USER:PASSWORD@127.0.0.1:8080
-	#git config --global https.proxy https://USER:PASSWORD@127.0.0.1:8080
-	#git config --global --get http.proxy
-	#git config --global --get https.proxy
+	#gitcmd http.proxy http://USER:PASSWORD@127.0.0.1:8080
+	#gitcmd https.proxy https://USER:PASSWORD@127.0.0.1:8080
+	#gitcmd --get http.proxy
+	#gitcmd --get https.proxy
 
 	# Ignore filemode
 	#git config core.filemode false
@@ -34,8 +37,8 @@ git_config()
 	# true: rebase
 	git config pull.rebase false
 
-	git config --global --list
-	git config --global core.compression 0
+	gitcmd --list
+	gitcmd core.compression 0
 }
 
 git_config
