@@ -11,7 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
-- template: add clang.mk;
+- template: add clang.mk, pytorch.mk;
 - pytorch: add compile script;
 #### Changed
 - template: add nvidia,amd,metax,cestc directory;
