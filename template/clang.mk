@@ -16,6 +16,9 @@ include shell.mk
 CLANG := $(shell which clang 2>/dev/null)
 CLANGXX := $(shell which clang++ 2>/dev/null)
 
+CC ?= ${CLANG}
+CXX ?= ${CLANGXX}
+
 ifeq ($(CLANG),)
   $(warning Not found clang, skipping all clang targets)
   export HAVE_CLANG := n

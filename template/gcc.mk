@@ -28,8 +28,8 @@ _GCC_MK = 1
 GCC := gcc
 GXX := g++
 
-CC = ${GCC}
-CXX = ${GXX}
+CC ?= ${GCC}
+CXX ?= ${GXX}
 
 GCC_FULLVERSION := $(shell $(GCC) -dumpfullversion)
 GCC_VERSION := $(shell $(GCC) -dumpversion)

@@ -4,12 +4,6 @@ include kconfig.mk
 
 subdir-y := readline
 
-target-libso-y :=
-target-liba-y :=
-target-y :=
-CFLAGS :=
-target-test-y :=
-
 target-y += byteswap
 target-y += endian
 target-y += file

@@ -2,10 +2,8 @@
 OUTPUT := .output/
 
 include kconfig.mk
-CC := gcc
 include compiler.mk
 
-target-y :=
 target-y += arg
 target-y += argv
 target-y += auto
