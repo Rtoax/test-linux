@@ -285,6 +285,12 @@ cmake_args+=(
 	-DUSE_SYSTEM_XNNPACK=OFF
 )
 cmake_args+=( -DUSE_CUDA=ON )
+
+# Use third_party/cpuinfo first instead use system library if compile newest
+if [[ -e ${PYTORCH_ROOT}/third_party/cpuinfo/README.md ]]; then
+	cmake_args+=( -DUSE_SYSTEM_CPUINFO=OFF )
+fi
+
 HIPCONFIG=$(which hipconfig 2>/dev/null || :)
 if [[ ! -z "${HIPCONFIG}" ]]; then
 	cmake_args+=( -DUSE_ROCM=ON )
