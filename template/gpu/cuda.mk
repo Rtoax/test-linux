@@ -5,7 +5,7 @@
 # - __IGNORE_NOTFOUND_ERROR__
 #
 # Output macros:
-# - HAVE_CUDA=y
+# - HAVE_CUDA=[y]
 # - HAVE_NCCL=y
 # - HAVE_CUDNN=y
 # - HAVE_CUFILE=y	GPUDirect Storage
@@ -70,7 +70,7 @@ ifeq ($(wildcard $(NVCC)),)
       $(error Not found nvcc with target nvcc not empty, install cuda first)
     endif
   else
-    $(warning Although not found nvcc, but you don't have target nvcc)
+    $(warning Although not found nvcc, but you do not have target nvcc)
   endif
 
   NVCC :=
@@ -90,9 +90,7 @@ else
   CUDA_VERSION_MINOR := $(shell echo ${CUDA_VERSION_RAW} | awk -F '.' '{print $$2}')
   CUDA_VERSION_PATCH := $(shell echo ${CUDA_VERSION_RAW} | awk -F '.' '{print $$3}')
 
-  ifndef HAVE_CUDA
-    export HAVE_CUDA := y
-  endif
+  export HAVE_CUDA := y
 endif
 
 CUDA_VERSION_CODE := $(shell echo "$$(( (${CUDA_VERSION_MAJOR}*1000) + \
