@@ -6,7 +6,7 @@ __IGNORE_NOTFOUND_ERROR__ := 1
 include nvidia/cuda.mk
 include amd/rocm.mk
 include gpu/luca.mk
-include gpu/hpcc.mk
+include metax/hpcc.mk
 
 __USE_CUDA_HELPERS__ = ${HAVE_CUDNN}
 __USE_HIP_HELPERS__ = ${HAVE_HIPDNN}

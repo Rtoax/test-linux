@@ -14,7 +14,7 @@ and this project adheres to
 - template: add clang.mk;
 - pytorch: add compile script;
 #### Changed
-- template: add nvidia,amd directory;
+- template: add nvidia,amd,metax directory;
 #### Deprecated
 #### Removed
 #### Fixed

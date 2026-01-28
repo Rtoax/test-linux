@@ -18,8 +18,8 @@
 # - target-htcc-liba-y=
 # - target-htcc-libso-y=
 
-ifndef _GPU_HPCC_MK
-_GPU_HPCC_MK = 1
+ifndef _METAX_HPCC_MK
+_METAX_HPCC_MK = 1
 
 include define.mk
 
