@@ -81,6 +81,7 @@ help:
 	@echo >&2 -e "***  ERROR=1       compile with error mode"
 	@echo >&2 -e "***  FORCE=1       compile with force mode"
 	@echo >&2 -e "***  M32=1         compile with -m32 if possible"
+	@echo >&2 -e "***  [PIE|NOPIE]=1 compile pie or not"
 	@echo >&2 -e "***  NOSUBDIR=1    skip all sub-directory"
 	@echo >&2 -e "***  CHECK_ERROR=1 stop immediately when an error occurs"
 	@echo >&2 -e "***"
