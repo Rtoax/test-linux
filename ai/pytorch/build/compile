@@ -171,7 +171,7 @@ cmake_args+=(
 	-DUSE_SYSTEM_XNNPACK=OFF
 )
 cmake_args+=( -DUSE_CUDA=ON )
-HIPCONFIG=$(which hipconfig)
+HIPCONFIG=$(which hipconfig || :)
 if [[ ! -z "${HIPCONFIG}" ]]; then
 	cmake_args+=( -DUSE_ROCM=ON )
 	cmake_args+=( -DUSE_ROCM_CK=OFF )
