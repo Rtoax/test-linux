@@ -24,8 +24,8 @@
 # Functions:
 # - gen_hipcc_macro_hdr()
 #
-ifndef _GPU_ROCM_MK
-_GPU_ROCM_MK = 1
+ifndef _AMD_ROCM_MK
+_AMD_ROCM_MK = 1
 
 include define.mk
 
@@ -81,4 +81,4 @@ export rocm-cflags
 
 endif # end of HIPCC
 
-endif # end of _GPU_ROCM_MK
+endif # end of _AMD_ROCM_MK

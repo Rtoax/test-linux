@@ -4,7 +4,7 @@ __IGNORE_NOTFOUND_ERROR__ := 1
 
 include os.mk
 include nvidia/cuda.mk
-include gpu/rocm.mk
+include amd/rocm.mk
 include gpu/luca.mk
 include gpu/hpcc.mk
 include compiler.mk
