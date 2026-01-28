@@ -658,7 +658,7 @@ if [[ $(is_os debian:12 ubuntu:25.04 fedora:42) ]]; then
 	pkgs_compiler+=( hipcc )
 fi
 if [[ $(is_os debian:12 ubuntu:25.04) ]]; then
-	pkgs_compiler+=( nvidia-cuda-toolkit )
+	pkgs_cuda+=( nvidia-cuda-toolkit )
 fi
 
 pkgs_devel+=( patchelf ) # https://github.com/NixOS/patchelf
@@ -1121,6 +1121,7 @@ apt_add_packages()
 
 	if [[ $(is_os ubuntu) ]]; then
 		pkgs_cuda+=( cuda-toolkit )
+		pkgs_cuda+=( cudnn9 )
 	fi
 
 	pkgs_net+=( apache2 )
