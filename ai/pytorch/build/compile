@@ -201,8 +201,11 @@ install_apt_clang() {
 
 # see pytorch/.ci/docker/common/install_docs_reqs.sh
 install_apt_docs_reqs() {
-	_eval apt install -y doxygen yarn
-	#_eval yarn global add katex --prefix /usr/local
+	_eval apt install -y doxygen
+	if [[ " ubuntu " =~ " ${ID} " ]]; then
+		_eval apt install -y yarn
+		#_eval yarn global add katex --prefix /usr/local
+	fi
 }
 
 install_apt_cuda() {
