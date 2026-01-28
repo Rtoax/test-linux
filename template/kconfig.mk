@@ -39,9 +39,4 @@ ifdef DEBUG
   $(info CONFIG_CURDIR_KCONFIG = ${CONFIG_CURDIR_KCONFIG})
 endif
 
-define display_all_kconfig
-	@configs=($$(find ${TOPDIR} -name kconfig -type f)); \
-		cat $${configs[@]} | grep -e '^CONFIG_' -e '^# CONFIG_' | sort -u
-endef
-
 endif
