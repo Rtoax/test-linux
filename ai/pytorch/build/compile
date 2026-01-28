@@ -25,8 +25,9 @@ fi
 readonly PYTORCH_ROOT=${_root}
 readonly ID=$(grep -oP '(?<=^ID=).+' /etc/os-release | tr -d '"')
 readonly VERSION_ID=$(grep -oP '(?<=^VERSION_ID=).+' /etc/os-release | tr -d '"')
-readonly CUDA_MAJOR="$(nvcc --version | grep -oE 'V[1-9]+' | tr -d V || true)"
 
+readonly CUDA_MAJOR="$(nvcc --version | grep -oE 'V[1-9]+' | tr -d V || true)"
+readonly CLANG_MAJOR="$(clang -dumpversion | grep -oE '^[0-9]+' || true)"
 
 __usage__()
 {
@@ -180,6 +181,24 @@ install_apt_base() {
 
 }
 
+# see pytorch/.ci/docker/common/install_clang.sh
+install_apt_clang() {
+	local clang_deps
+	if [[ ${CLANG_MAJOR} -ge 18 ]]; then
+		clang_deps+=" libomp-${CLANG_MAJOR}-dev"
+		clang_deps+=" libclang-rt-${CLANG_MAJOR}-dev"
+		clang_deps+=" clang-$CLANG_MAJOR"
+		clang_deps+=" llvm-$CLANG_MAJOR"
+	else
+		echo >&2 "ERROR: not support clang ${CLANG_MAJOR}"
+		exit 1
+	fi
+
+	if [[ " ubuntu " =~ " ${ID} " ]]; then
+		_eval sudo apt install -y ${clang_deps}
+	fi
+}
+
 install_apt_cuda() {
 	local cuda_deps
 	case ${CUDA_MAJOR} in
@@ -198,6 +217,7 @@ install_apt_cuda() {
 install_deps() {
 	if [[ " debian ubuntu " =~ " ${ID} " ]]; then
 		install_apt_base
+		install_apt_clang
 	else
 		_eval sudo dnf install -y cpuinfo-devel
 	fi
