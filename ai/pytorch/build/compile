@@ -199,6 +199,12 @@ install_apt_clang() {
 	fi
 }
 
+# see pytorch/.ci/docker/common/install_docs_reqs.sh
+install_apt_docs_reqs() {
+	_eval sudo apt install -y doxygen yarn
+	_eval sudo yarn global add katex --prefix /usr/local
+}
+
 install_apt_cuda() {
 	local cuda_deps
 	case ${CUDA_MAJOR} in
@@ -218,6 +224,7 @@ install_deps() {
 	if [[ " debian ubuntu " =~ " ${ID} " ]]; then
 		install_apt_base
 		install_apt_clang
+		install_apt_docs_reqs
 	else
 		_eval sudo dnf install -y cpuinfo-devel
 	fi
