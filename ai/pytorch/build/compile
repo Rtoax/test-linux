@@ -36,14 +36,14 @@ NAME
 	${prog} - Compile pytorch
 
 SYNOPSIS
-	${prog} [--cmake] [--build] [--help] [--verbose]
+	${prog} [--config] [--build] [--help] [--verbose]
 
 DESCRIPTION
 	Compile pytorch.
 
 ARGUMENT
 	-d, --deps              execute depends installation
-	-c, --cmake             execute the cmake to generate Makefile
+	-c, --config            execute configuration to generate Makefile
 	-b, --build             execute the build
 	-w, --wheel             generate pip wheel
 
