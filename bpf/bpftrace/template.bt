@@ -23,6 +23,8 @@ BEGIN
 /* kprobe/kretprobe/kfunc/kretfunc/tracepoint/usdt/uprobe/uretprobe/fentry/fexit/probe/interval, etc. */
 interval:s:1
 {
+	let $a = (uint64)(1 + 9);
+
 	time("%H:%M:%S ");
 	printf("%-8d %-16s\n", pid, comm);
 

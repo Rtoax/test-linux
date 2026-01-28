@@ -1,7 +1,7 @@
 " Vim syntax file
 " Language:	bpftrace
 " Maintainer:	Rong Tao <rongtao@cestc.cn>
-" Last Chnage:	2026 Jan 5
+" Last Change:	2026 Jan 28
 
 " Quit when a syntax file was already loaded
 if exists("b:current_syntax")
@@ -58,6 +58,11 @@ syntax keyword btType	bool int8 int16 int32 int64 uint8 uint16 uint32 uint64 str
 
 syntax region btString		start=+"+ skip=+\\\\\|\\"+ end=+"+ contains=@Spell extend
 
+" Arithmetic operators: +, and - take care of ++, and --
+syntax match btOperator		"+\|-\|\*\|/\|%\|="
+syntax match btOperator		"+=\|-=\|\*=\|/=\|%="
+syntax match btOperator		"\^\|\^="
+
 syntax match btc_def /#.*/
 	\ containedin=ALL
 
@@ -91,3 +96,4 @@ hi def link btType		Type
 hi def link btPatterns		Special
 hi def link btProbe		Identifier
 hi def link btString		String
+hi def link btOperator		Special
