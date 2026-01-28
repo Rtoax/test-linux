@@ -52,6 +52,7 @@ syntax keyword btFunction	syscall_name system
 syntax keyword btFunction	tid time uaddr uid unwatch uptr usermode username ustack usym
 syntax keyword btFunction	warnf zero avg count
 syntax keyword btFunction	hist lhist max min stats sum tseries
+syntax keyword btPatterns	BEGIN END begin end
 
 syntax keyword btType	bool int8 int16 int32 int64 uint8 uint16 uint32 uint64 string union struct
 
@@ -71,10 +72,6 @@ syntax match btprobe
 	\ containedin=ALL
 
 syntax match btprobe
-	\ /\v^(BEGIN|begin|END|end)/
-	\ containedin=ALL
-
-syntax match btprobe
 	\ /\v(uprobe|uretprobe|kfunc|kretfunc|tracepoint|usdt|fentry|fexit|probe|interval):.*:.*/
 	\ containedin=ALL
 
@@ -89,3 +86,5 @@ hi def link btShebang		Comment
 hi def link btComment		Comment
 hi def link btTodo		Todo
 hi def link btType		Type
+hi def link btPatterns		Special
+hi def link btProbe		Identifier
