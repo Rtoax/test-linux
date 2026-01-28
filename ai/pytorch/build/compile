@@ -67,7 +67,7 @@ _eval()
 {
 	if [[ -z ${dry_run} ]]; then
 		echo >&2 -e "\033[1;32mStartup: $@\033[m"
-		eval "$@"
+		eval sudo "$@"
 		echo >&2 -e "\033[1;33mDone: $@\033[m"
 	else
 		echo "$@"
@@ -142,7 +142,7 @@ install_apt_base() {
 	local numpy_deps="gfortran"
 
 	if [[ " ubuntu " =~ " ${ID} " ]]; then
-		_eval sudo apt install -y \
+		_eval apt install -y \
 			$ccache_deps \
 			$numpy_deps \
 			$deploy_deps \
@@ -176,7 +176,7 @@ install_apt_base() {
 			bc
 	fi
 
-	_eval sudo apt install -y \
+	_eval apt install -y \
 		libcpuinfo-dev libfp16-dev libonnx-dev libsleef-dev
 
 }
@@ -195,14 +195,14 @@ install_apt_clang() {
 	fi
 
 	if [[ " ubuntu " =~ " ${ID} " ]]; then
-		_eval sudo apt install -y ${clang_deps}
+		_eval apt install -y ${clang_deps}
 	fi
 }
 
 # see pytorch/.ci/docker/common/install_docs_reqs.sh
 install_apt_docs_reqs() {
-	_eval sudo apt install -y doxygen yarn
-	_eval sudo yarn global add katex --prefix /usr/local
+	_eval apt install -y doxygen yarn
+	_eval yarn global add katex --prefix /usr/local
 }
 
 install_apt_cuda() {
@@ -216,7 +216,7 @@ install_apt_cuda() {
 	esac
 
 	if [[ " ubuntu " =~ " ${ID} " ]]; then
-		_eval sudo apt install -y ${cuda_deps}
+		_eval apt install -y ${cuda_deps}
 	fi
 }
 
@@ -226,7 +226,7 @@ install_deps() {
 		install_apt_clang
 		install_apt_docs_reqs
 	else
-		_eval sudo dnf install -y cpuinfo-devel
+		_eval dnf install -y cpuinfo-devel
 	fi
 }
 
