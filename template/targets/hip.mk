@@ -25,7 +25,7 @@
 ifndef _TARGET_HIP_MK
 _TARGET_HIP_MK = 1
 
-include gpu/rocm.mk
+include amd/rocm.mk
 include dir.mk
 
 cflags-hipcc-so := -Xcompiler -fPIC

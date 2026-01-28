@@ -26,7 +26,7 @@
 ifndef _TARGET_HPCC_MK
 _TARGET_HPCC_MK = 1
 
-include gpu/hpcc.mk
+include metax/hpcc.mk
 include dir.mk
 
 cflags-htcc-devbin := -device-bin
