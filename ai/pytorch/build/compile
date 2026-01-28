@@ -23,6 +23,8 @@ if [[ ! -e ${_root}/version.txt ]]; then
 fi
 
 readonly PYTORCH_ROOT=${_root}
+readonly ID=$(grep -oP '(?<=^ID=).+' /etc/os-release | tr -d '"')
+readonly VERSION_ID=$(grep -oP '(?<=^VERSION_ID=).+' /etc/os-release | tr -d '"')
 
 __usage__()
 {
@@ -130,19 +132,55 @@ if [[ -z ${dry_run} ]] && [[ ${verbose} ]]; then
 	set -x
 fi
 
-install_apt_deps() {
+# see pytorch/.ci/docker/common/install_base.sh
+install_apt_base() {
+	local ccache_deps="asciidoc docbook-xml docbook-xsl xsltproc"
+	local deploy_deps="libffi-dev libbz2-dev libreadline-dev libncurses5-dev libncursesw5-dev libgdbm-dev libsqlite3-dev uuid-dev tk-dev"
+	local numpy_deps="gfortran"
+
+	if [[ " ubuntu " =~ " ${ID} " ]]; then
+		_eval sudo apt install -y \
+			$ccache_deps \
+			$numpy_deps \
+			$deploy_deps \
+			cmake \
+			apt-transport-https \
+			autoconf \
+			autoconf \
+			automake \
+			build-essential \
+			ca-certificates \
+			curl \
+			git \
+			libatlas-base-dev \
+			libc6-dbg \
+			libyaml-dev \
+			libz-dev \
+			libjemalloc2 \
+			libjpeg-dev \
+			libasound2-dev \
+			libsndfile-dev \
+			software-properties-common \
+			wget \
+			sudo \
+			vim \
+			jq \
+			libtool \
+			vim \
+			unzip \
+			gpg-agent \
+			gdb \
+			bc
+	fi
+
 	_eval sudo apt install -y \
 		libcpuinfo-dev libfp16-dev libonnx-dev libsleef-dev
+
 }
 
 install_deps() {
-	. /etc/os-release
-	if [[ " ubuntu " =~ " ${ID} " ]]; then
-		_eval pushd ${PYTORCH_ROOT}
-		_eval sudo UBUNTU_VERSION=${VERSION_ID} .ci/docker/common/install_base.sh
-		_eval popd
-	elif [[ " debian " =~ " ${ID} " ]]; then
-		install_apt_deps
+	if [[ " debian ubuntu " =~ " ${ID} " ]]; then
+		install_apt_base
 	else
 		_eval sudo dnf install -y cpuinfo-devel
 	fi
