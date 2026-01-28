@@ -311,7 +311,9 @@ cmake_args+=( -DCUDA_TOOLKIT_ROOT_DIR=/usr/local/cuda )
 cmake_args+=( -DCMAKE_CUDA_COMPILER=/usr/local/cuda/bin/nvcc )
 cmake_args+=( -DCUDNN_INCLUDE_DIR=/usr/include )
 cmake_args+=( -DCUDNN_LIBRARY=/usr/lib64/libcudnn.so )
-cmake_args+=( -DCUDA_ARCH_LIST=Auto )
+# see pytorch/cmake/Modules_CUDA_fix/upstream/FindCUDA/select_compute_arch.cmake
+# CUDA_ARCH_LIST=[All|Common|Auto]
+cmake_args+=( -DTORCH_CUDA_ARCH_LIST=Auto )
 cmake_args+=( -DPython_EXECUTABLE=$(which python3) )
 cmake_args+=( -DCMAKE_INSTALL_PREFIX=$PWD/pytorch-install )
 cmake_args+=( -G Ninja )
