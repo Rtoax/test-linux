@@ -130,6 +130,11 @@ if [[ -z ${dry_run} ]] && [[ ${verbose} ]]; then
 	set -x
 fi
 
+install_apt_deps() {
+	_eval sudo apt install -y \
+		libcpuinfo-dev libfp16-dev libonnx-dev libsleef-dev
+}
+
 install_deps() {
 	. /etc/os-release
 	if [[ " ubuntu " =~ " ${ID} " ]]; then
@@ -137,8 +142,7 @@ install_deps() {
 		_eval sudo UBUNTU_VERSION=${VERSION_ID} .ci/docker/common/install_base.sh
 		_eval popd
 	elif [[ " debian " =~ " ${ID} " ]]; then
-		_eval sudo apt install -y \
-			libcpuinfo-dev libfp16-dev libonnx-dev libsleef-dev
+		install_apt_deps
 	else
 		_eval sudo dnf install -y cpuinfo-devel
 	fi
