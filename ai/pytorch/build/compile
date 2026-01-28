@@ -300,7 +300,7 @@ cmake_args+=( -DCUDA_TOOLKIT_ROOT_DIR=/usr/local/cuda )
 cmake_args+=( -DCUDNN_INCLUDE_DIR=/usr/include )
 cmake_args+=( -DCUDNN_LIBRARY=/usr/lib64/libcudnn.so )
 cmake_args+=( -DCUDA_ARCH_LIST=Auto )
-cmake_args+=( -DPYTHON_EXECUTABLE=$(which python3) )
+cmake_args+=( -DPython_EXECUTABLE=$(which python3) )
 cmake_args+=( -DCMAKE_INSTALL_PREFIX=$PWD/pytorch-install )
 cmake_args+=( -G Ninja )
 
