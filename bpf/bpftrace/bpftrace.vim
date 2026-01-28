@@ -20,10 +20,6 @@ highlight btprobe
 	\ ctermfg=blue cterm=bold
 	\ guifg=#FF0000 guibg=NONE gui=bold
 
-highlight btc_def
-	\ ctermfg=red cterm=bold
-	\ guifg=#00FF00 gui=italic
-
 highlight btstring
 	\ ctermfg=yellow
 	\ guifg=#FFFF00
@@ -63,9 +59,6 @@ syntax match btOperator		"+\|-\|\*\|/\|%\|="
 syntax match btOperator		"+=\|-=\|\*=\|/=\|%="
 syntax match btOperator		"\^\|\^="
 
-syntax match btc_def /#.*/
-	\ containedin=ALL
-
 syntax match btComment /\/\/.*/ contains=@Spell,btTodo
 
 syntax region btComment
@@ -83,6 +76,9 @@ syntax match btprobe
 	\ containedin=ALL
 
 syntax match btShebang /\%^#![^[].*/
+syntax region btIncluded	display contained start=+"+ skip=+\\\\\|\\"+ end=+"+
+syntax match btIncluded	display contained "<[^>]*>"
+syntax match btInclude	display "^\s*\zs\%(%:\|#\)\s*include\>\s*["<]" contains=btIncluded
 
 " Define the default highlighting.
 hi def link btConditional	Conditional
@@ -97,3 +93,5 @@ hi def link btPatterns		Special
 hi def link btProbe		Identifier
 hi def link btString		String
 hi def link btOperator		Special
+hi def link btIncluded		btString
+hi def link btInclude		Include
