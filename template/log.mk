@@ -13,7 +13,7 @@ LOG_FILE_FAILED := $(TOPDIR)/failed.log
 
 # Timestamp
 define TS
-[$(shell date '+%H:%M:%S')]
+[$(shell date '+%Y/%m/%d %H:%M:%S')]
 endef
 define log_obj
 @printf '$(call TS) %-8s $(call bold,%s) -> $(call bold,%s)\n' "${1}" "$(2)" "$(3)"
