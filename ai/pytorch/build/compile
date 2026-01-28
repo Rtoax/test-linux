@@ -10,6 +10,20 @@ declare nr_jobs
 declare dry_run
 declare verbose
 
+_root=$PWD
+if [[ ! -e ${_root}/version.txt ]]; then
+	if [[ -e ${_root}/../version.txt ]]; then
+		_root=$(realpath ${_root}/../)
+	elif [[ -e ${_root}/../../version.txt ]]; then
+		_root=$(realpath ${_root}/../../)
+	else
+		echo >&2 "ERROR: you are not in pytorch git repositry"
+		exit 1
+	fi
+fi
+
+readonly PYTORCH_ROOT=${_root}
+
 __usage__()
 {
 	echo -e "
@@ -118,7 +132,11 @@ fi
 
 install_deps() {
 	. /etc/os-release
-	if [[ " debian ubuntu " =~ " ${ID} " ]]; then
+	if [[ " ubuntu " =~ " ${ID} " ]]; then
+		_eval pushd ${PYTORCH_ROOT}
+		_eval sudo UBUNTU_VERSION=${VERSION_ID} .ci/docker/common/install_base.sh
+		_eval popd
+	elif [[ " debian " =~ " ${ID} " ]]; then
 		_eval sudo apt install -y \
 			libcpuinfo-dev libfp16-dev libonnx-dev libsleef-dev
 	else
@@ -171,7 +189,7 @@ cmake_args+=(
 	-DUSE_SYSTEM_XNNPACK=OFF
 )
 cmake_args+=( -DUSE_CUDA=ON )
-HIPCONFIG=$(which hipconfig || :)
+HIPCONFIG=$(which hipconfig 2>/dev/null || :)
 if [[ ! -z "${HIPCONFIG}" ]]; then
 	cmake_args+=( -DUSE_ROCM=ON )
 	cmake_args+=( -DUSE_ROCM_CK=OFF )
