@@ -18,7 +18,7 @@ declare -a dnf_args apt_args zypper_args
 declare -a pkgs_inst pkgs_compiler pkgs_desktop pkgs_bench pkgs_math pkgs_db
 declare -a pkgs_storage pkgs_net pkgs_container pkgs_virt pkgs_base pkgs_fs
 declare -a pkgs_media pkgs_build pkgs_devel pkgs_docs pkgs_video pkgs_boot
-declare -a pkgs_cxl pkgs_ai pkgs_gpu
+declare -a pkgs_cxl pkgs_ai pkgs_gpu pkgs_cuda
 
 declare -a pkgs_skip
 
@@ -47,6 +47,7 @@ echo "VIRT: ${VIRT_TYPE} (IS_PHY: ${IS_PHY})"
 have_base=YES
 have_upgrade=YES
 have_ai=
+have_cuda=
 have_gpu=
 have_fs=
 have_pip=
@@ -87,6 +88,7 @@ enable_all()
 	have_fs=YES
 	have_ai=YES
 	have_gpu=YES
+	have_cuda=YES
 	have_db=YES
 	have_storage=YES
 	#have_3rd_party=YES
@@ -323,6 +325,7 @@ ARGUMENT
 	--fs               install filesystem relate packages
 	--ai               install AI relate packages
 	--gpu              install GPU relate packages
+	--cuda             install CUDA relate packages
 	--video            install video relate software, such as video editor
 	--boot             install boot/bootloader relate software
 
@@ -376,6 +379,9 @@ TEMP_ARGS=$(getopt --options uvhfk: \
 	--long db \
 	--long storage \
 	--long video \
+	--long ai \
+	--long gpu \
+	--long cuda \
 	--long boot \
 	--long net \
 	--long cxl \
@@ -417,6 +423,10 @@ while true; do
 	--ai)
 		shift
 		have_ai=YES
+		;;
+	--cuda)
+		shift
+		have_cuda=YES
 		;;
 	--gpu)
 		shift
@@ -1093,6 +1103,10 @@ apt_add_packages()
 
 	pkgs_gpu+=( libdrm-dev )
 
+	if [[ $(is_os ubuntu) ]]; then
+		pkgs_cuda+=( cuda-toolkit )
+	fi
+
 	pkgs_net+=( apache2 )
 	pkgs_net+=( libxdp1 )
 
@@ -1249,6 +1263,7 @@ os_packages
 [[ ${have_base} ]] && pkgs_inst+=( ${pkgs_base[@]} )
 [[ ${have_ai} ]] && pkgs_inst+=( ${pkgs_ai[@]} )
 [[ ${have_gpu} ]] && pkgs_inst+=( ${pkgs_gpu[@]} )
+[[ ${have_cuda} ]] && pkgs_inst+=( ${pkgs_cuda[@]} )
 [[ ${have_fs} ]] && pkgs_inst+=( ${pkgs_fs[@]} )
 [[ ${have_compiler} ]] && pkgs_inst+=( ${pkgs_compiler[@]} )
 [[ ${have_build} ]] && pkgs_inst+=( ${pkgs_build[@]} )
