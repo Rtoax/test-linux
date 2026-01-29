@@ -1,0 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0
+CMAKE_MINIMUM_REQUIRED(VERSION 3.5)
+
+PROJECT(CMakeSamples)

@@ -1,4 +1,5 @@
-subdir-y := template
+subdir-y := samples
+subdir-y += template
 
 target-shell-y := version.sh
 
