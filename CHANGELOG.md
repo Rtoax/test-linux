@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- transformers: First commit;
 - cmake: add version.sh, samples directory;
 - template: add clang.mk, pytorch.mk;
 - pytorch: add compile script;
