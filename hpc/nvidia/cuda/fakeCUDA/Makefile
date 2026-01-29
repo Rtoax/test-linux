@@ -91,7 +91,7 @@ ifdef HAVE_LUCA
   endif
 endif
 
-ifdef HAVE_CUDA
+ifeq (${HAVE_CUDA},y)
   $(info HAVE_CUDA)
   CXXFLAGS_SO += -I/usr/local/cuda/include/
   CXXFLAGS_SO += -DCUDA_VERSION_MAJOR=${CUDA_VERSION_MAJOR}

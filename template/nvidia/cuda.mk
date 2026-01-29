@@ -5,7 +5,7 @@
 # - __IGNORE_NOTFOUND_ERROR__
 #
 # Output macros:
-# - HAVE_CUDA=[y]
+# - HAVE_CUDA=[y|n]
 # - HAVE_NCCL=y
 # - HAVE_CUDNN=y
 # - HAVE_CUFILE=y	GPUDirect Storage
@@ -79,6 +79,8 @@ ifeq ($(wildcard $(NVCC)),)
   CUDA_VERSION_MAJOR := 0
   CUDA_VERSION_MINOR := 0
   CUDA_VERSION_PATCH := 0
+
+  export HAVE_CUDA := n
 # Found NVCC
 else
   CUDA_VERSION_RAW := $(shell ${NVCC} --version | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+' 2>/dev/null || true)
