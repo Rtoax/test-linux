@@ -74,6 +74,7 @@ int gpu_max_threads_per_block(int dev_id)
  * https://www.nvidia.com/en-us/data-center/technologies/blackwell-architecture/
  * https://www.nvidia.com/en-us/data-center/technologies/hopper-architecture/
  * https://www.nvidia.com/en-us/data-center/ampere-architecture/
+ * PyTorch: cmake/Modules_CUDA_fix/upstream/FindCUDA/select_compute_arch.cmake
  */
 const char *gpu_compute_cap_str_of_nvidia(int major, int minor)
 {
@@ -87,12 +88,20 @@ const char *gpu_compute_cap_str_of_nvidia(int major, int minor)
 			return "GB10 Grace Blackwell";
 			break;
 		default:
+			return "Blackwell";
 			break;
 		}
 		break;
 	/* Year 2024 */
 	case 10:
-		return "Blackwell";
+		switch (minor) {
+		case 1:
+			return "Blackwell+Tegra";
+			break;
+		default:
+			return "Blackwell";
+			break;
+		}
 		break;
 	/* Year 2022 */
 	case 9:
@@ -103,8 +112,10 @@ const char *gpu_compute_cap_str_of_nvidia(int major, int minor)
 		switch (minor) {
 		case 0:
 		case 6:
+			return "Ampere";
+			break;
 		case 7:
-			return "Ampere A100";
+			return "Ampere+Tegra";
 			break;
 		/* Year 2022 */
 		case 9:
@@ -118,7 +129,10 @@ const char *gpu_compute_cap_str_of_nvidia(int major, int minor)
 	case 7:
 		switch (minor) {
 		case 0:
-			return "Volta V100";
+			return "Volta";
+			break;
+		case 2:
+			return "Volta+Tegra";
 			break;
 		case 5:
 			return "Turing";
@@ -132,7 +146,8 @@ const char *gpu_compute_cap_str_of_nvidia(int major, int minor)
 	case 6:
 		switch (minor) {
 		case 0:
-			return "Pascal P100";
+		case 1:
+			return "Pascal";
 			break;
 		default:
 			return "Pascal";
@@ -141,7 +156,18 @@ const char *gpu_compute_cap_str_of_nvidia(int major, int minor)
 		break;
 	/* Year 2014 */
 	case 5:
-		return "Maxwell";
+		switch (minor) {
+		case 0:
+		case 2:
+			return "Maxwell";
+			break;
+		case 3:
+			return "Maxwell+Tegra";
+			break;
+		default:
+			return "Unknown(Maxwell)";
+			break;
+		}
 		break;
 	/* Year 2012 */
 	case 3:
@@ -151,6 +177,9 @@ const char *gpu_compute_cap_str_of_nvidia(int major, int minor)
 			break;
 		case 5:
 			return "Kepler K20";
+			break;
+		case 7:
+			return "Kepler+Tesla";
 			break;
 		default:
 			return "Kepler";
