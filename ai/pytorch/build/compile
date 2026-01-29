@@ -176,6 +176,7 @@ install_apt_base() {
 			libjpeg-dev \
 			libasound2-dev \
 			libsndfile-dev \
+			protobuf-compiler \
 			software-properties-common \
 			wget \
 			sudo \
@@ -193,7 +194,7 @@ install_apt_base() {
 		_eval_s apt install -y ccache libfp16-dev libasmjit-dev \
 			libcpuinfo-dev libcufile-dev libeigen3-dev \
 			libfmt-dev libfxdiv-dev libonnx-dev \
-			libsleef-dev
+			libsleef-dev protobuf-compiler
 	fi
 
 	_eval_s apt install -y \
@@ -325,6 +326,7 @@ if [[ -e ${PYTORCH_ROOT}/third_party/cpuinfo/README.md ]]; then
 	cmake_args+=( -DUSE_SYSTEM_CPUINFO=OFF )
 fi
 
+# If use submodule onnx, need to install protobuf-compiler
 if [[ -e ${PYTORCH_ROOT}/third_party/onnx/README.md ]]; then
 	cmake_args+=( -DUSE_SYSTEM_ONNX=OFF )
 fi

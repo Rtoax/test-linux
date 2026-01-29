@@ -7,7 +7,8 @@ RUN dnf install -y FP16-devel \
 	asmjit-devel ccache cpuinfo-devel eigen3-devel flexiblas-devel \
 	fmt-devel foxi-devel fxdiv-devel gcc-c++ gcc-gfortran json-devel \
 	libomp-devel ninja-build numactl-devel \
-	onnx-devel openmpi-devel pocketfft-devel protobuf-devel psimd-devel \
+	onnx-devel openmpi-devel pocketfft-devel protobuf-compiler \
+	protobuf-devel psimd-devel \
 	pthreadpool-devel python3-devel python3-filelock python3-fsspec \
 	python3-jinja2 python3-networkx python3-numpy python3-pip \
 	python3-pybind11 python3-pyyaml python3-setuptools python3-sphinx \
