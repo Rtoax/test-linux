@@ -324,6 +324,7 @@ if [[ ${CUDA_TOOLKIT_ROOT_DIR} ]]; then
 	cmake_args+=( -DCUDNN_INCLUDE_DIR=/usr/include )
 	cmake_args+=( -DCUDNN_LIBRARY=/usr/lib64/libcudnn.so )
 else
+	cmake_args+=( -DUSE_CUDA=OFF )
 	warning "Not found CUDA Toolkit"
 fi
 
