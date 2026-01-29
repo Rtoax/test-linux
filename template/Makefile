@@ -3,13 +3,21 @@
 # Test all template mk
 #
 __IGNORE_NOTFOUND_ERROR__ = 1
+OUTPUT := .output/
 
-MAKES := $(shell find -name '*.mk')
-MAKES := $(filter-out ./targets/%,${MAKES})
-MAKES := $(filter-out ./main.mk,${MAKES})
+MK_ALL := $(shell find -name '*.mk')
 
-$(info MAKES = ${MAKES})
+MK_TGT := $(filter ./targets/%,${MK_ALL})
 
+MK_TST := $(filter-out ./targets/%,${MK_ALL})
+MK_TST := $(filter-out ./main.mk,${MK_TST})
+
+$(info MK_ALL = ${MK_ALL})
+$(info MK_TGT = ${MK_TGT})
+$(info MK_TST = ${MK_TST})
+
+# Sometimes including an mk file takes too long, and this function can be
+# used to effectively measure the time required to include the mk.
 define include_stat
   $(eval _mk := $(1))
   $(eval _mk_id := $(subst /,_,$(subst .,_,$(1))))
@@ -21,12 +29,15 @@ define include_stat
 endef
 
 # include each mk for twice to test ifndef-endif pair
-$(foreach mk, ${MAKES} ${MAKES}, $(eval $(call include_stat,${mk})))
+$(foreach mk, ${MK_TST} ${MK_TST}, $(eval $(call include_stat,${mk})))
 
 target-post-y := git
 target-post-y += logo
 
+# __main__
 $(call include_stat,main.mk)
+
+$(foreach mk, ${MK_TGT}, $(eval $(call include_stat,${mk})))
 
 git:
 	$(call git_config)
