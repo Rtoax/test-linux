@@ -365,11 +365,12 @@ if [[ ${flags_deps} ]]; then
 fi
 
 if [[ ${flags_cmake} ]]; then
-	_eval_s cmake .. "${cmake_args[@]}"
+	# Because cmake will use some ENV, thus, do not use _eval_s with sudo
+	_eval cmake .. "${cmake_args[@]}"
 fi
 
 if [[ ${flags_build} ]]; then
-	_eval_s cmake --build . "${cmake_build_args[@]}"
+	_eval cmake --build . "${cmake_build_args[@]}"
 fi
 
 if [[ ${flags_wheel} ]]; then
