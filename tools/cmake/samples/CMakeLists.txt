@@ -2,3 +2,5 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 3.5)
 
 PROJECT(CMakeSamples)
+
+include(string/replace.cmake)
