@@ -11,15 +11,16 @@ MAKES := $(filter-out ./main.mk,${MAKES})
 $(info MAKES = ${MAKES})
 
 define include_stat
-  start_$(1)_ms := $(shell date +%s%6N | awk '{print int($$1 / 1000)}')
-  include $(1)
-  end_$(1)_ms := $(shell date +%s%6N | awk '{print int($$1 / 1000)}')
-  cost_$(1)_ms := $(shell echo $(end_$(1)_ms) - $(start_$(1)_ms) | bc)
-  $(info Including $(1) cost $(cost_$(1)_ms) ms)
+  $(eval _mk := $(1))
+  $(eval _mk_id := $(subst /,_,$(subst .,_,$(1))))
+  $(eval _start_$(_mk_id) := $(shell date +%s%6N))
+  $(eval include $(_mk))
+  $(eval _end_$(_mk_id) := $(shell date +%s%6N))
+  $(eval _cost_$(_mk_id) := $(shell echo "scale=3; ($(_end_$(_mk_id)) - $(_start_$(_mk_id))) / 1000" | bc))
+  $(info Including $(_mk) -> Done. Took $(_cost_$(_mk_id)) ms)
 endef
 
 # include each mk for twice to test ifndef-endif pair
-#$(foreach mk, ${MAKES} ${MAKES}, $(info Including ${mk}) $(eval include ${mk}))
 $(foreach mk, ${MAKES} ${MAKES}, $(eval $(call include_stat,${mk})))
 
 target-post-y := git
