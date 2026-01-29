@@ -24,15 +24,15 @@ target-y += sigsuspend
 target-y += sigprocmask
 target-y += signalfd
 
+target-prep-y := sig.h
+target-test-y := test0
+
 CFLAGS += -I../../../
 
 LDFLAGS_tkill := -pthread
 LDFLAGS_tgkill := -pthread
 CFLAGS_tgkill := -DTGKILL=1
-CFLAGS_SIGRTMAX := ${SIGRT_CFLAGS}
-
-target-prep-y := sig.h
-target-test-y := test0
+CFLAGS_SIGRTMAX := ${sig-cflags}
 
 include main.mk
 
