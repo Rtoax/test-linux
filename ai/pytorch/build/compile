@@ -3,6 +3,15 @@
 # Copyright (C) 2026 Rong Tao
 set -e
 
+error() {
+	echo -e >&2 "${RED}ERROR: ${@}${RST}"
+	exit 1
+}
+
+warning() {
+	echo -e >&2 "${RED}WARNING: ${@}${RST}"
+}
+
 readonly prog=pytorch-compile
 declare -a cmake_args cmake_build_args
 declare flags_deps flags_cmake flags_build flags_wheel
@@ -17,8 +26,7 @@ if [[ ! -e ${_root}/version.txt ]]; then
 	elif [[ -e ${_root}/../../version.txt ]]; then
 		_root=$(realpath ${_root}/../../)
 	else
-		echo >&2 "ERROR: you are not in pytorch git repositry"
-		exit 1
+		error "you are not in pytorch git repositry"
 	fi
 fi
 
@@ -202,8 +210,7 @@ install_apt_clang() {
 		clang_deps+=" clang-$CLANG_MAJOR"
 		clang_deps+=" llvm-$CLANG_MAJOR"
 	else
-		echo >&2 "ERROR: not support clang ${CLANG_MAJOR}"
-		exit 1
+		error "not support clang ${CLANG_MAJOR}"
 	fi
 
 	if [[ " ubuntu " =~ " ${ID} " ]]; then
@@ -309,7 +316,7 @@ if [[ ${CUDA_TOOLKIT_ROOT_DIR} ]]; then
 	cmake_args+=( -DCUDNN_INCLUDE_DIR=/usr/include )
 	cmake_args+=( -DCUDNN_LIBRARY=/usr/lib64/libcudnn.so )
 else
-	echo "Not found CUDA Toolkit"
+	warning "Not found CUDA Toolkit"
 fi
 
 # Use third_party/cpuinfo first instead use system library if compile newest,
