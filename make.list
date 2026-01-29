@@ -2,7 +2,6 @@
 # Copyright (C) 2022-2026 Rong Tao
 user-list-y :=
 user-list-y += algorithm
-user-list-y += alternative
 user-list-y += arch
 user-list-y += audit
 user-list-y += bpf

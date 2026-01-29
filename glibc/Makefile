@@ -6,6 +6,7 @@ include glibc.mk
 OUTPUT := .output/
 
 subdir-y := alloca
+subdir-y += aio
 subdir-y += assert
 subdir-y += arpa
 subdir-y += byteswap
