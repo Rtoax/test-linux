@@ -121,6 +121,7 @@ deps:
 .PHONY: install
 install: uninstall
 	@echo "Install"
+	${Q}ln -s ${TOPDIR}/ai/pytorch/build/compile /usr/bin/pytorch-compile
 	${Q}ln -s ${TOPDIR}/scripts/git/bigfile.sh /usr/bin/git-bigfile
 	${Q}ln -s ${TOPDIR}/scripts/git/statistic.sh /usr/bin/git-statistic
 	${Q}ln -s ${TOPDIR}/scripts/git/statistic.py /usr/bin/git-statistic.py
@@ -137,7 +138,8 @@ install: uninstall
 .PHONY: uninstall
 uninstall:
 	@echo "Uninstall"
-	${Q}rm -f /usr/bin/git-bigfile \
+	${Q}rm -f /usr/bin/pytorch-compile \
+		/usr/bin/git-bigfile \
 		/usr/bin/git-statistic \
 		/usr/bin/git-statistic.py \
 		/usr/bin/git-push-remote-all \
