@@ -49,7 +49,10 @@ ARGUMENT
 	-h, --help              show this info
 
 EXAMPLES
-	$ ./compile -d -c -b -w
+	$ ${prog} -d            # install depends
+	$ ${prog} -c            # do configurate
+	$ ${prog} -dcbw         # do All
+	$ ${prog} -dcbw -u      # do All with dry run mode
 
 LINKS
 	https://github.com/pytorch/pytorch/
