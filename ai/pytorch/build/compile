@@ -290,16 +290,27 @@ cmake_args+=(
 	-DUSE_SYSTEM_XNNPACK=OFF
 )
 
-cmake_args+=( -DUSE_CUDA=ON )
-cmake_args+=( -DCUDA_TOOLKIT_ROOT_DIR=/usr/local/cuda )
-cmake_args+=( -DCMAKE_CUDA_COMPILER=/usr/local/cuda/bin/nvcc )
-# see pytorch/cmake/Modules_CUDA_fix/upstream/FindCUDA/select_compute_arch.cmake
-# CUDA_ARCH_LIST=[All|Common|Auto]
-cmake_args+=( -DTORCH_CUDA_ARCH_LIST=Auto )
-# You could install cudnn:
-# debian: $ sudo apt install -y nvidia-cudnn
-cmake_args+=( -DCUDNN_INCLUDE_DIR=/usr/include )
-cmake_args+=( -DCUDNN_LIBRARY=/usr/lib64/libcudnn.so )
+CUDA_TOOLKIT_ROOT_DIR=
+if [[ -e /usr/local/cuda/bin/nvcc ]]; then
+	CUDA_TOOLKIT_ROOT_DIR=/usr/local/cuda/
+elif [[ -e /usr/bin/nvcc ]]; then
+	CUDA_TOOLKIT_ROOT_DIR=/usr/
+fi
+
+if [[ ${CUDA_TOOLKIT_ROOT_DIR} ]]; then
+	cmake_args+=( -DUSE_CUDA=ON )
+	cmake_args+=( -DCUDA_TOOLKIT_ROOT_DIR=${CUDA_TOOLKIT_ROOT_DIR} )
+	cmake_args+=( -DCMAKE_CUDA_COMPILER=${CUDA_TOOLKIT_ROOT_DIR}/bin/nvcc )
+	# see pytorch/cmake/Modules_CUDA_fix/upstream/FindCUDA/select_compute_arch.cmake
+	# CUDA_ARCH_LIST=[All|Common|Auto]
+	cmake_args+=( -DTORCH_CUDA_ARCH_LIST=Auto )
+	# You could install cudnn:
+	# debian: $ sudo apt install -y nvidia-cudnn
+	cmake_args+=( -DCUDNN_INCLUDE_DIR=/usr/include )
+	cmake_args+=( -DCUDNN_LIBRARY=/usr/lib64/libcudnn.so )
+else
+	echo "Not found CUDA Toolkit"
+fi
 
 # Use third_party/cpuinfo first instead use system library if compile newest,
 # see commit cd15f7275858 ("pytorch: compile: use third_party/cpuinfo first")
