@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- cmake: add version.sh;
 - template: add clang.mk, pytorch.mk;
 - pytorch: add compile script;
 #### Changed
