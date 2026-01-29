@@ -67,11 +67,16 @@ _eval()
 {
 	if [[ -z ${dry_run} ]]; then
 		echo >&2 -e "\033[1;32mStartup: $@\033[m"
-		eval sudo "$@"
+		eval "$@"
 		echo >&2 -e "\033[1;33mDone: $@\033[m"
 	else
 		echo "$@"
 	fi
+}
+
+_eval_s()
+{
+	_eval sudo "$@"
 }
 
 TEMP_ARGS=$(getopt --options cdbwj:uvh \
@@ -142,7 +147,7 @@ install_apt_base() {
 	local numpy_deps="gfortran"
 
 	if [[ " ubuntu " =~ " ${ID} " ]]; then
-		_eval apt install -y \
+		_eval_s apt install -y \
 			$ccache_deps \
 			$numpy_deps \
 			$deploy_deps \
@@ -176,14 +181,14 @@ install_apt_base() {
 			bc
 
 	elif [[ " debian " =~ " ${ID} " ]]; then
-		_eval apt install -y cmake make ninja-build
-		_eval apt install -y ccache libfp16-dev libasmjit-dev \
+		_eval_s apt install -y cmake make ninja-build
+		_eval_s apt install -y ccache libfp16-dev libasmjit-dev \
 			libcpuinfo-dev libcufile-dev libeigen3-dev \
 			libfmt-dev libfxdiv-dev libonnx-dev \
 			libsleef-dev
 	fi
 
-	_eval apt install -y \
+	_eval_s apt install -y \
 		libcpuinfo-dev libfp16-dev libonnx-dev libsleef-dev
 
 }
@@ -202,16 +207,16 @@ install_apt_clang() {
 	fi
 
 	if [[ " ubuntu " =~ " ${ID} " ]]; then
-		_eval apt install -y ${clang_deps}
+		_eval_s apt install -y ${clang_deps}
 	fi
 }
 
 # see pytorch/.ci/docker/common/install_docs_reqs.sh
 install_apt_docs_reqs() {
-	_eval apt install -y doxygen
+	_eval_s apt install -y doxygen
 	if [[ " ubuntu " =~ " ${ID} " ]]; then
-		_eval apt install -y yarn
-		#_eval yarn global add katex --prefix /usr/local
+		_eval_s apt install -y yarn
+		#_eval_s yarn global add katex --prefix /usr/local
 	fi
 }
 
@@ -226,7 +231,7 @@ install_apt_cuda() {
 	esac
 
 	if [[ " ubuntu " =~ " ${ID} " ]]; then
-		_eval apt install -y ${cuda_deps}
+		_eval_s apt install -y ${cuda_deps}
 	fi
 }
 
@@ -236,7 +241,7 @@ install_deps() {
 		install_apt_clang
 		install_apt_docs_reqs
 	else
-		_eval dnf install -y cpuinfo-devel
+		_eval_s dnf install -y cpuinfo-devel
 	fi
 }
 
@@ -330,15 +335,15 @@ if [[ ${flags_deps} ]]; then
 fi
 
 if [[ ${flags_cmake} ]]; then
-	_eval cmake .. "${cmake_args[@]}"
+	_eval_s cmake .. "${cmake_args[@]}"
 fi
 
 if [[ ${flags_build} ]]; then
-	_eval cmake --build . "${cmake_build_args[@]}"
+	_eval_s cmake --build . "${cmake_build_args[@]}"
 fi
 
 if [[ ${flags_wheel} ]]; then
-	_eval pushd ..
-	_eval python3 setup.py bdist_wheel
+	_eval pushd ${PYTORCH_ROOT}
+	_eval_s python3 setup.py bdist_wheel
 	_eval popd
 fi
