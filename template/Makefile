@@ -26,7 +26,7 @@ $(foreach mk, ${MAKES} ${MAKES}, $(eval $(call include_stat,${mk})))
 target-post-y := git
 target-post-y += logo
 
-include main.mk
+$(call include_stat,main.mk)
 
 git:
 	$(call git_config)
