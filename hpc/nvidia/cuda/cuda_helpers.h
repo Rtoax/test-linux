@@ -2,6 +2,10 @@
 /* Copyright (C) 2025-2026 Rong Tao */
 #pragma once
 
+#define CUDA_HELPERS_MAJOR 1
+#define CUDA_HELPERS_MINOR 0
+#define CUDA_HELPERS_PATCH 0
+
 #ifndef likely
 # define likely(x)    __builtin_expect(!!(x), 1)
 #endif

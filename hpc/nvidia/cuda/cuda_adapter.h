@@ -9,6 +9,10 @@
  */
 #pragma once
 
+#define CUDA_ADAPTER_MAJOR 1
+#define CUDA_ADAPTER_MINOR 0
+#define CUDA_ADAPTER_PATCH 0
+
 /******************************************************************************\
  * HPCC: High Performance Computing Communications                            *
 \******************************************************************************/

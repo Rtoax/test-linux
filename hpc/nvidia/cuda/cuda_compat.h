@@ -28,6 +28,10 @@
 #ifndef __CUDA_COMPAT_H
 #define __CUDA_COMPAT_H	1
 
+#define CUDA_COMPAT_MAJOR 1
+#define CUDA_COMPAT_MINOR 0
+#define CUDA_COMPAT_PATCH 0
+
 /******************************************************************************\
  * HPCC: High Performance Computing Communications                            *
 \******************************************************************************/
