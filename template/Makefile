@@ -10,8 +10,17 @@ MAKES := $(filter-out ./main.mk,${MAKES})
 
 $(info MAKES = ${MAKES})
 
+define include_stat
+  start_$(1)_ms := $(shell date +%s%6N | awk '{print int($$1 / 1000)}')
+  include $(1)
+  end_$(1)_ms := $(shell date +%s%6N | awk '{print int($$1 / 1000)}')
+  cost_$(1)_ms := $(shell echo $(end_$(1)_ms) - $(start_$(1)_ms) | bc)
+  $(info Including $(1) cost $(cost_$(1)_ms) ms)
+endef
+
 # include each mk for twice to test ifndef-endif pair
-$(foreach mk, ${MAKES} ${MAKES}, $(info Including ${mk}) $(eval include ${mk}))
+#$(foreach mk, ${MAKES} ${MAKES}, $(info Including ${mk}) $(eval include ${mk}))
+$(foreach mk, ${MAKES} ${MAKES}, $(eval $(call include_stat,${mk})))
 
 target-post-y := git
 target-post-y += logo
