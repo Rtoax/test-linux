@@ -19,18 +19,6 @@ declare nr_jobs
 declare dry_run
 declare verbose
 
-_root=$PWD
-if [[ ! -e ${_root}/version.txt ]]; then
-	if [[ -e ${_root}/../version.txt ]]; then
-		_root=$(realpath ${_root}/../)
-	elif [[ -e ${_root}/../../version.txt ]]; then
-		_root=$(realpath ${_root}/../../)
-	else
-		error "you are not in pytorch git repositry"
-	fi
-fi
-
-readonly PYTORCH_ROOT=${_root}
 readonly ID=$(grep -oP '(?<=^ID=).+' /etc/os-release | tr -d '"')
 readonly VERSION_ID=$(grep -oP '(?<=^VERSION_ID=).+' /etc/os-release | tr -d '"')
 
@@ -147,6 +135,22 @@ if [[ -z ${dry_run} ]] && [[ ${verbose} ]]; then
 	export PS4='+${BASH_SOURCE}:${LINENO}:${FUNCNAME[0]}: '
 	set -x
 fi
+
+_root=$PWD
+if [[ ! -e ${_root}/version.txt ]]; then
+	if [[ -e ${_root}/../version.txt ]]; then
+		_root=$(realpath ${_root}/../)
+	elif [[ -e ${_root}/../../version.txt ]]; then
+		_root=$(realpath ${_root}/../../)
+	elif [[ ${flags_cmake} ]] || \
+	     [[ ${flags_build} ]] || \
+	     [[ ${flags_wheel} ]]; then
+		error "you are not in pytorch git repositry"
+	fi
+	_root=""
+fi
+
+readonly PYTORCH_ROOT=${_root}
 
 # see pytorch/.ci/docker/common/install_base.sh
 install_apt_base() {
