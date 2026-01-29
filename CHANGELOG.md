@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- ai: paddle: first commit;
 - transformers: First commit;
 - cmake: add version.sh, samples directory;
 - template: add clang.mk, pytorch.mk;
