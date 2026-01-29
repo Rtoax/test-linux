@@ -290,6 +290,13 @@ cmake_args+=(
 	-DUSE_SYSTEM_XNNPACK=OFF
 )
 cmake_args+=( -DUSE_CUDA=ON )
+cmake_args+=( -DCUDA_TOOLKIT_ROOT_DIR=/usr/local/cuda )
+cmake_args+=( -DCMAKE_CUDA_COMPILER=/usr/local/cuda/bin/nvcc )
+# see pytorch/cmake/Modules_CUDA_fix/upstream/FindCUDA/select_compute_arch.cmake
+# CUDA_ARCH_LIST=[All|Common|Auto]
+cmake_args+=( -DTORCH_CUDA_ARCH_LIST=Auto )
+cmake_args+=( -DCUDNN_INCLUDE_DIR=/usr/include )
+cmake_args+=( -DCUDNN_LIBRARY=/usr/lib64/libcudnn.so )
 
 # Use third_party/cpuinfo first instead use system library if compile newest,
 # see commit cd15f7275858 ("pytorch: compile: use third_party/cpuinfo first")
@@ -312,13 +319,6 @@ if [[ ! -z "${HIPCONFIG}" ]]; then
 	export PYTORCH_ROCM_ARCH="gfx900;gfx906:xnack-;gfx908:xnack-;gfx90a:xnack+;gfx90a:xnack-;gfx942;gfx950;gfx1010;gfx1012;gfx1030;gfx1031;gfx1035;gfx1100;gfx1101;gfx1102;gfx1103;gfx1150;gfx1151;gfx1152;gfx1153;gfx1200;gfx1201"
 	cmake_args+=( -DPYTORCH_ROCM_ARCH="'${PYTORCH_ROCM_ARCH}'" )
 fi
-cmake_args+=( -DCUDA_TOOLKIT_ROOT_DIR=/usr/local/cuda )
-cmake_args+=( -DCMAKE_CUDA_COMPILER=/usr/local/cuda/bin/nvcc )
-cmake_args+=( -DCUDNN_INCLUDE_DIR=/usr/include )
-cmake_args+=( -DCUDNN_LIBRARY=/usr/lib64/libcudnn.so )
-# see pytorch/cmake/Modules_CUDA_fix/upstream/FindCUDA/select_compute_arch.cmake
-# CUDA_ARCH_LIST=[All|Common|Auto]
-cmake_args+=( -DTORCH_CUDA_ARCH_LIST=Auto )
 cmake_args+=( -DPython_EXECUTABLE=$(which python3) )
 cmake_args+=( -DCMAKE_INSTALL_PREFIX=$PWD/pytorch-install )
 cmake_args+=( -G Ninja )
