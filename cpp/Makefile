@@ -1,6 +1,4 @@
 # SPDX-License-Identifier: GPL-3.0
-CXX := g++
-
 include compiler.mk
 
 OUTPUT := .output/
@@ -29,7 +27,6 @@ target-cpp-y += __STDC__c++23
 target-cpp-y += expired
 target-cpp-y += unordered_map
 
-CXXFLAGS :=
 CXXFLAGS += -DCPP
 
 CXXFLAGS_return := -Wno-error=return-type

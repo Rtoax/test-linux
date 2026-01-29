@@ -202,7 +202,7 @@ add_env "$(${TOPDIR}/virt/virttype.sh)"
 add_os_ver
 add_ver "Linux $(uname -r)"
 
-if [[ "$(have_type c cpp c++ h hpp)$(have_key gcc compiler)" ]]; then
+if [[ "$(have_type c cpp c++ h hpp)$(have_key cpp gcc compiler)" ]]; then
 	add_gcc_ver
 fi
 
