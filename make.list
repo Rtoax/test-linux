@@ -1,7 +1,6 @@
 # test-linux make list
 # Copyright (C) 2022-2026 Rong Tao
 user-list-y :=
-user-list-y += aio
 user-list-y += algorithm
 user-list-y += alternative
 user-list-y += arch

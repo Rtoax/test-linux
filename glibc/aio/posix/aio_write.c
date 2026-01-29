@@ -7,7 +7,6 @@
 #include <fcntl.h>
 #include <aio.h>
 
-
 #define BUFFER_SIZE 1025
 
 static char doc[] = {
@@ -16,7 +15,7 @@ static char doc[] = {
 	"I love you, as everyone knows.\n"
 };
 
-int main(int argc,char **argv)
+int main(int argc, char **argv)
 {
 	struct aiocb wr;
 	int ret, fd;

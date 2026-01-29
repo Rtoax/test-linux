@@ -8,11 +8,10 @@
 #include <fcntl.h>
 #include <aio.h>
 
-
 #define BUFFER_SIZE 1025
 #define MAX_LIST 2
 
-int main(int argc,char **argv)
+int main(int argc, char **argv)
 {
 	struct aiocb *listio[MAX_LIST];
 	struct aiocb rd, wr;

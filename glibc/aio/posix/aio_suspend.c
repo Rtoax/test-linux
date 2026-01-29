@@ -7,11 +7,10 @@
 #include <fcntl.h>
 #include <aio.h>
 
-
 #define BUFFER_SIZE 1024
 #define MAX_LIST 2
 
-int main(int argc,char **argv)
+int main(int argc, char **argv)
 {
 	struct aiocb rd;
 	int fd, ret, counter;
@@ -24,13 +23,13 @@ int main(int argc,char **argv)
 		exit(1);
 	}
 
-	bzero(&rd,sizeof(rd));
+	bzero(&rd, sizeof(rd));
 
 	buf = malloc(BUFFER_SIZE + 1);
 
 	rd.aio_buf = buf;
 	rd.aio_fildes = fd;
-	rd.aio_nbytes =  BUFFER_SIZE;
+	rd.aio_nbytes = BUFFER_SIZE;
 	rd.aio_offset = 0;
 
 	aiocb_list[0] = &rd;
@@ -53,7 +52,7 @@ int main(int argc,char **argv)
 	ret = aio_suspend(aiocb_list, MAX_LIST, NULL);
 
 	ret = aio_return(&rd);
-	printf("\nReturn: %d\n",ret);
+	printf("\nReturn: %d\n", ret);
 
 	free(buf);
 	return 0;

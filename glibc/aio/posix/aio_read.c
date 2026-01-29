@@ -8,10 +8,9 @@
 #include <aio.h>
 #include <sys/stat.h>
 
-
 #define BUFFER_SIZE 1024
 
-int main(int argc,char **argv)
+int main(int argc, char **argv)
 {
 	struct aiocb rd;
 	const char *filename = "/etc/os-release";
@@ -51,8 +50,8 @@ int main(int argc,char **argv)
 	}
 
 	ret = aio_return(&rd);
-	printf("\nReturn: %d, counter %d, stat size %ld (times %d)\n",
-		ret, counter, stat.st_size, times);
+	printf("\nReturn: %d, counter %d, stat size %ld (times %d)\n", ret,
+	       counter, stat.st_size, times);
 
 	free(buf);
 
