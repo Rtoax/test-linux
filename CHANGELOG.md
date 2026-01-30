@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- ai: add models/stella;
 - qemu: add compile.sh, gdb.sh from ostools;
 - ai: paddle: first commit;
 - transformers: First commit;
