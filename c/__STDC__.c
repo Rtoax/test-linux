@@ -122,9 +122,19 @@ int main(void)
 #ifdef __HPCC__
 	printf("__HPCC__ = %d\n", __HPCC__);
 #endif
-#ifdef __HIPCC__	/* ROCm HIPCC */
+
+/**
+ * Note:
+ * /usr/lib64/rocm/llvm/bin/clang++ do not defined __HIP__ and __HIPCC__
+ * /usr/bin/hipcc define __HIP__ and __HIPCC__
+ */
+#ifdef __HIP__ /* ROCm HIP */
+	printf("__HIP__ = %d\n", __HIP__);
+#endif
+#ifdef __HIPCC__ /* ROCm HIPCC */
 	printf("__HIPCC__ = %d\n", __HIPCC__);
 #endif
+
 /* TODO: add luca's lscc */
 
 	return 0;
