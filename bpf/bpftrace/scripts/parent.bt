@@ -13,10 +13,6 @@
 BEGIN
 {
 	printf("   %-8s %-8s %-16s\n", "PID", "TID", "COMM");
-}
-
-tracepoint:syscalls:sys_enter_execve*
-{
 	$current = curtask;
 	$parent = $current->real_parent;
 
