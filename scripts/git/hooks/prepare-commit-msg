@@ -303,7 +303,7 @@ if [[ "$(have_key libbpf bcc bpf)" ]]; then
 	add_libbpf_ver
 fi
 
-if [[ "$(have_key python py)" ]]; then
+if [[ "$(have_key ai pytorch python py)" ]]; then
 	add_py_ver
 fi
 

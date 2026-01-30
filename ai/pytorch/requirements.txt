@@ -1,3 +1,4 @@
 skorch
 torch
+torchcodec # A video decoder for PyTorch
 torchvision
