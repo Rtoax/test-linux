@@ -80,7 +80,13 @@ _eval()
 
 _eval_s()
 {
-	_eval sudo "$@"
+	local SUDO
+	if sudo --non-interactive true 2>/dev/null; then
+		SUDO="sudo"
+	else
+		warning "Run without sudo"
+	fi
+	_eval ${SUDO} "$@"
 }
 
 TEMP_ARGS=$(getopt --options cdbwj:uvh \
