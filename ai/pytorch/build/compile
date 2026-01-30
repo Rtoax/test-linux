@@ -125,6 +125,7 @@ while true; do
 	--enable-cuda)
 		shift
 		[[ ${enable_rocm} ]] && error "already specify --enable-rocm"
+		[[ -z ${CUDA_MAJOR} ]] && error "not found CUDA in you system"
 		enable_cuda=YES
 		enable_rocm=
 		;;
@@ -358,7 +359,8 @@ if [[ ${CUDA_TOOLKIT_ROOT_DIR} ]] && [[ ${enable_cuda} ]]; then
 	cmake_args+=( -DCUDNN_LIBRARY=/usr/lib64/libcudnn.so )
 else
 	cmake_args+=( -DUSE_CUDA=OFF )
-	warning "Not found CUDA Toolkit"
+	warning "Enable CUDA but not found CUDA Toolkit"
+	unset enable_cuda
 fi
 
 # Use third_party/cpuinfo first instead use system library if compile newest,
@@ -372,7 +374,7 @@ if [[ -e ${PYTORCH_ROOT}/third_party/onnx/README.md ]]; then
 	cmake_args+=( -DUSE_SYSTEM_ONNX=OFF )
 fi
 
-HIPCONFIG=$(which hipconfig 2>/dev/null || :)
+readonly HIPCONFIG=$(which hipconfig 2>/dev/null || :)
 if [[ ! -z "${HIPCONFIG}" ]] && [[ ${enable_rocm} ]]; then
 	cmake_args+=( -DUSE_ROCM=ON )
 	cmake_args+=( -DUSE_ROCM_CK=OFF )
@@ -384,6 +386,9 @@ if [[ ! -z "${HIPCONFIG}" ]] && [[ ${enable_rocm} ]]; then
 	cmake_args+=( -DPYTORCH_ROCM_ARCH="'${PYTORCH_ROCM_ARCH}'" )
 	# For FindHIP.cmake
 	cmake_args+=( -DCMAKE_MODULE_PATH="/usr/lib64/cmake/hip/" )
+else
+	warning "Enable rocm but not found ROCm"
+	unset enable_rocm
 fi
 cmake_args+=( -DPython_EXECUTABLE=$(which python3) )
 cmake_args+=( -DCMAKE_INSTALL_PREFIX=$PWD/pytorch-install )
