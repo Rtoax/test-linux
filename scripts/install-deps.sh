@@ -18,7 +18,7 @@ declare -a dnf_args apt_args zypper_args
 declare -a pkgs_inst pkgs_compiler pkgs_desktop pkgs_bench pkgs_math pkgs_db
 declare -a pkgs_storage pkgs_net pkgs_container pkgs_virt pkgs_base pkgs_fs
 declare -a pkgs_media pkgs_build pkgs_devel pkgs_docs pkgs_video pkgs_boot
-declare -a pkgs_cxl pkgs_ai pkgs_gpu pkgs_cuda
+declare -a pkgs_cxl pkgs_ai pkgs_gpu pkgs_cuda pkgs_rocm
 
 declare -a pkgs_skip
 
@@ -44,6 +44,7 @@ have_base=
 have_upgrade=
 have_ai=
 have_cuda=
+have_rocm=
 have_gpu=
 have_fs=
 have_pip=
@@ -68,7 +69,7 @@ have_services=
 have_3rd_party=
 
 has_pkgs() {
-	echo ${have_compiler}${have_build}${have_docs}${have_devel}${have_container}${have_virt}${have_pip}${have_desktop}${have_math}${have_media}${have_bench}${have_net}${have_fs}${have_ai}${have_gpu}${have_cuda}${have_db}${have_storage}${have_3rd_party}${have_video}${have_boot}${have_cxl}${have_services}
+	echo ${have_compiler}${have_build}${have_docs}${have_devel}${have_container}${have_virt}${have_pip}${have_desktop}${have_math}${have_media}${have_bench}${have_net}${have_fs}${have_ai}${have_gpu}${have_cuda}${have_db}${have_storage}${have_3rd_party}${have_video}${have_boot}${have_cxl}${have_services}${have_rocm}
 }
 
 enable_all()
@@ -89,6 +90,7 @@ enable_all()
 	have_ai=YES
 	have_gpu=YES
 	have_cuda=YES
+	have_rocm=YES
 	have_db=YES
 	have_storage=YES
 	#have_3rd_party=YES
@@ -333,6 +335,7 @@ ARGUMENT
 	--ai               install AI relate packages
 	--gpu              install GPU relate packages
 	--cuda             install CUDA relate packages
+	--rocm             install ROCm relate packages
 	--video            install video relate software, such as video editor
 	--boot             install boot/bootloader relate software
 
@@ -389,6 +392,7 @@ TEMP_ARGS=$(getopt --options uvhfk: \
 	--long ai \
 	--long gpu \
 	--long cuda \
+	--long rocm \
 	--long boot \
 	--long net \
 	--long cxl \
@@ -434,6 +438,10 @@ while true; do
 	--cuda)
 		shift
 		have_cuda=YES
+		;;
+	--rocm)
+		shift
+		have_rocm=YES
 		;;
 	--gpu)
 		shift
@@ -1281,6 +1289,7 @@ os_packages
 [[ ${have_ai} ]] && pkgs_inst+=( ${pkgs_ai[@]} )
 [[ ${have_gpu} ]] && pkgs_inst+=( ${pkgs_gpu[@]} )
 [[ ${have_cuda} ]] && pkgs_inst+=( ${pkgs_cuda[@]} )
+[[ ${have_rocm} ]] && pkgs_inst+=( ${pkgs_rocm[@]} )
 [[ ${have_fs} ]] && pkgs_inst+=( ${pkgs_fs[@]} )
 [[ ${have_compiler} ]] && pkgs_inst+=( ${pkgs_compiler[@]} )
 [[ ${have_build} ]] && pkgs_inst+=( ${pkgs_build[@]} )
