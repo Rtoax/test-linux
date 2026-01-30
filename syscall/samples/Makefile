@@ -23,7 +23,6 @@ subdir-y += time
 subdir-y += timerfd
 subdir-y += times
 subdir-y += flock
-subdir-y += fs
 subdir-y += vfs
 subdir-y += fanotify
 subdir-y += inotify
