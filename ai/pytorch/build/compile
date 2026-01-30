@@ -386,7 +386,9 @@ if [[ ! -z "${HIPCONFIG}" ]] && [[ ${enable_rocm} ]]; then
 	cmake_args+=( -DUSE_ROCM_CK=OFF )
 	cmake_args+=( -DUSE_MAGMA=ON )
 	cmake_args+=( -DHIP_PATH=$(${HIPCONFIG} -p) )
-	cmake_args+=( -DROCM_PATH=$(${HIPCONFIG} -R) )
+
+	export ROCM_PATH=$(${HIPCONFIG} -R)
+	cmake_args+=( -DROCM_PATH=${ROCM_PATH} )
 
 	export PYTORCH_ROCM_ARCH="gfx900;gfx906:xnack-;gfx908:xnack-;gfx90a:xnack+;gfx90a:xnack-;gfx942;gfx950;gfx1010;gfx1012;gfx1030;gfx1031;gfx1035;gfx1100;gfx1101;gfx1102;gfx1103;gfx1150;gfx1151;gfx1152;gfx1153;gfx1200;gfx1201"
 	cmake_args+=( -DPYTORCH_ROCM_ARCH="'${PYTORCH_ROCM_ARCH}'" )
