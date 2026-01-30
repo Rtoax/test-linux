@@ -668,6 +668,9 @@ fi
 if [[ $(is_os debian:12 ubuntu:25.04) ]]; then
 	pkgs_cuda+=( nvidia-cuda-toolkit )
 fi
+if [[ $(is_os fedora:43) ]]; then
+	pkgs_rocm+=( rocm )
+fi
 
 pkgs_devel+=( patchelf ) # https://github.com/NixOS/patchelf
 
