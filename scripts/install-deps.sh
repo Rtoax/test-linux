@@ -662,10 +662,10 @@ pkgs_compiler+=( flex )
 pkgs_compiler+=( gcc )
 pkgs_compiler+=( lld )                    # ELF linker from the LLVM project
 pkgs_compiler+=( llvm )                   # llvm-as llvm-dis llc
-if [[ $(is_os debian:12 ubuntu:25.04 fedora:42) ]]; then
+if [[ $(is_os debian:12 debian:13 ubuntu:25.04 fedora:42) ]]; then
 	pkgs_compiler+=( hipcc )
 fi
-if [[ $(is_os debian:12 ubuntu:25.04) ]]; then
+if [[ $(is_os debian:12 debian:13 ubuntu:25.04) ]]; then
 	pkgs_cuda+=( nvidia-cuda-toolkit )
 fi
 if [[ $(is_os fedora:43) ]]; then
@@ -1201,7 +1201,7 @@ apt_add_packages()
 	pkgs_devel+=( systemtap-sdt-dev )
 	pkgs_devel+=( zlib1g-dev )
 	# For ROCm HIP
-	if [[ $(is_os debian:12 ubuntu:25.04 fedora:42) ]]; then
+	if [[ $(is_os debian:12 debian:13 ubuntu:25.04 fedora:42) ]]; then
 		pkgs_devel+=( libhipblas-dev )
 		pkgs_devel+=( libhipfft-dev )
 		pkgs_devel+=( libhiprand-dev )
