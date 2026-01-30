@@ -18,5 +18,6 @@ attention_mask = batch_data["attention_mask"]
 model_output = model(**batch_data)
 last_hidden = model_output.last_hidden_state.masked_fill(~attention_mask[..., None].bool(), 0.0)
 vectors = last_hidden.sum(dim=1) / attention_mask.sum(dim=1)[..., None]
-vectors = normalize(vectors, norm="l2", axis=1, )
-print(vectors.shape)  # 2,768
+vectors_np = vectors.detach().cpu().numpy()
+vectors_normalized = normalize(vectors_np, norm="l2", axis=1)
+print(vectors_normalized.shape)  # 2,768
