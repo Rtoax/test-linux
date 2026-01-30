@@ -28,13 +28,13 @@ define TS
 [$(shell date '+%Y/%m/%d %H:%M:%S')]
 endef
 define log_obj
-@printf '$(call TS) %-8s $(call bold,%s) -> $(call bold,%s)\n' "${1}" "$(2)" "$(3)"
+@printf "$(call TS) %-8s $(call bold,%s) -> $(call bold,%s)\n" "${1}" "$(2)" "$(3)"
 endef
 define log_exe
-@printf '$(call TS) %-8s $(call bold,%s) -> $(call bgreen,%s)\n' "${1}" "$(2)" "$(3)"
+@printf "$(call TS) %-8s $(call bold,%s) -> $(call bgreen,%s)\n" "${1}" "$(2)" "$(3)"
 endef
 define log_tgt
-@printf '$(call TS) %-8s $(call bold,%s)\n' "${1}" "$(2)"
+@printf "$(call TS) %-8s $(call bold,%s)\n" "${1}" "$(2)"
 endef
 
 define log_start
@@ -45,14 +45,14 @@ define log_end
 endef
 
 define log_info
-printf '$(call TS) $1\n' | tee --append ${LOG_FILE_INFO}
+printf "$(call TS) $1\n" | tee --append ${LOG_FILE_INFO}
 endef
 
 define log_failed
-printf '$(call TS) $(call red,$1)\n' | tee --append ${LOG_FILE_FAILED}
+printf "$(call TS) $(call red,$1)\n" | tee --append ${LOG_FILE_FAILED}
 endef
 define log_success
-printf '$(call TS) $(call green,$1)\n' | tee --append ${LOG_FILE_INFO}
+printf "$(call TS) $(call green,$1)\n" | tee --append ${LOG_FILE_INFO}
 endef
 
 define log_reset_files

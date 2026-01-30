@@ -24,12 +24,15 @@ endif
 define make_sub_dir
 	$(call log_info,${1} $(call remove_topdir,$(2)))
 	$(Q)pushd $(2) >/dev/null; \
+	start_ms=$$(date +%s%3N); \
 	make ${1} ${MKFLAGS}; \
+	end_ms=$$(date +%s%3N); \
+	cost_ms=$$((end_ms - start_ms)); \
 	if [ $$? -ne 0 ]; then \
-		$(call log_failed,${EMOJI_CROSS} Failed ${1} $(call remove_topdir,$(2))); \
+		$(call log_failed,${EMOJI_CROSS} Failed ${1} $(call remove_topdir,$(2)) cost $${cost_ms} ms); \
 		${CHECK_ERROR_EXIT} \
 	else	\
-		$(call log_success,${EMOJI_CHECK} Success ${1} $(call remove_topdir,$(2))); \
+		$(call log_success,${EMOJI_CHECK} Success ${1} $(call remove_topdir,$(2)) cost $${cost_ms} ms); \
 	fi; \
 	popd >/dev/null
 endef
