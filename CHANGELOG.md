@@ -11,7 +11,6 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
-- rocm: add sources.list.d/rocm.list;
 - ai: add models/stella;
 - qemu: add compile.sh, gdb.sh from ostools;
 - ai: paddle: first commit;
