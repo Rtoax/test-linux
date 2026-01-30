@@ -174,11 +174,19 @@ if [[ ! -e ${_root}/version.txt ]]; then
 	     [[ ${flags_build} ]] || \
 	     [[ ${flags_wheel} ]]; then
 		error "you are not in pytorch git repositry"
+	else
+		_root=""
 	fi
-	_root=""
 fi
 
 readonly PYTORCH_ROOT=${_root}
+readonly BUILD_AMD=tools/amd_build/build_amd.py
+
+if [[ ${enable_rocm} ]]; then
+	if [[ ! -e ${PYTORCH_ROOT}/${BUILD_AMD} ]]; then
+		error "Not found ${BUILD_AMD} under ${PYTORCH_ROOT}"
+	fi
+fi
 
 # see pytorch/.ci/docker/common/install_base.sh
 install_apt_base() {
@@ -393,6 +401,11 @@ if [[ ${flags_deps} ]]; then
 fi
 
 if [[ ${flags_config} ]]; then
+	if [[ ${enable_rocm} ]]; then
+		_eval pushd ${PYTORCH_ROOT}
+		_eval ${BUILD_AMD}
+		_eval popd
+	fi
 	# Because cmake will use some ENV, thus, do not use _eval_s with sudo
 	_eval cmake .. "${cmake_args[@]}"
 fi
