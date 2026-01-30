@@ -14,7 +14,7 @@ warning() {
 
 readonly prog=pytorch-compile
 declare -a cmake_args cmake_build_args
-declare flags_deps flags_cmake flags_build flags_wheel
+declare flags_deps flags_config flags_build flags_wheel
 declare enable_cuda enable_rocm
 declare nr_jobs
 declare dry_run
@@ -85,7 +85,7 @@ _eval_s()
 
 TEMP_ARGS=$(getopt --options cdbwj:uvh \
 	--long deps \
-	--long cmake \
+	--long config \
 	--long wheel \
 	--long enable-cuda \
 	--long enable-rocm \
@@ -105,9 +105,9 @@ while true; do
 		shift
 		flags_deps=YES
 		;;
-	-c | --cmake)
+	-c | --config)
 		shift
-		flags_cmake=YES
+		flags_config=YES
 		;;
 	-b | --build)
 		shift
@@ -170,7 +170,7 @@ if [[ ! -e ${_root}/version.txt ]]; then
 		_root=$(realpath ${_root}/../)
 	elif [[ -e ${_root}/../../version.txt ]]; then
 		_root=$(realpath ${_root}/../../)
-	elif [[ ${flags_cmake} ]] || \
+	elif [[ ${flags_config} ]] || \
 	     [[ ${flags_build} ]] || \
 	     [[ ${flags_wheel} ]]; then
 		error "you are not in pytorch git repositry"
@@ -392,7 +392,7 @@ if [[ ${flags_deps} ]]; then
 	install_deps
 fi
 
-if [[ ${flags_cmake} ]]; then
+if [[ ${flags_config} ]]; then
 	# Because cmake will use some ENV, thus, do not use _eval_s with sudo
 	_eval cmake .. "${cmake_args[@]}"
 fi
