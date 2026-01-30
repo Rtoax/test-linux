@@ -11,7 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
-- qemu: add compile.sh from ostools;
+- qemu: add compile.sh, gdb.sh from ostools;
 - ai: paddle: first commit;
 - transformers: First commit;
 - cmake: add version.sh, samples directory;
