@@ -17,6 +17,7 @@ and this project adheres to
 - template: add clang.mk, pytorch.mk, runprog.mk;
 - pytorch: add compile script;
 #### Changed
+- Move vfs into fs directory;
 - Move alternative directory into insn directory;
 - Move aio directory into glibc;
 - scripts/install-deps.sh: default install nothing;
