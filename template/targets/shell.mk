@@ -9,12 +9,7 @@ _TARGET_SHELL_MK = 1
 
 include shell.mk
 include dir.mk
-
-RUNPROG := ${TOPDIR}/scripts/runprog.sh
-
-ifdef DEBUG
-  RUNPROG += --verbose
-endif
+include runprog.mk
 
 %.sh.log: %.sh
 	$(call log_exe,SHELL,$(<),$(@))

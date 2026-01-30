@@ -5,12 +5,7 @@ _TARGET_BPFTRACE_MK = 1
 include dir.mk
 include sudo.mk
 include bpf/bpftrace.mk
-
-RUNPROG := ${TOPDIR}/scripts/runprog.sh
-
-ifdef DEBUG
-  RUNPROG += --verbose
-endif
+include runprog.mk
 
 %.bt.log: %.bt
 	$(call log_exe,BPFTRACE,$(<),$(@))

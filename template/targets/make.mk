@@ -4,13 +4,7 @@ _TARGET_MAKE_MK = 1
 
 MAKE := make
 
-include dir.mk
-
-RUNPROG := ${TOPDIR}/scripts/runprog.sh
-
-ifdef DEBUG
-  RUNPROG += --verbose
-endif
+include runprog.mk
 
 # $1 - suffix of file: mk, mak
 define make_obj

@@ -14,7 +14,7 @@ and this project adheres to
 - ai: paddle: first commit;
 - transformers: First commit;
 - cmake: add version.sh, samples directory;
-- template: add clang.mk, pytorch.mk;
+- template: add clang.mk, pytorch.mk, runprog.mk;
 - pytorch: add compile script;
 #### Changed
 - Move alternative directory into insn directory;

@@ -1,5 +1,10 @@
 #!/bin/bash
+# Running a program, this script be called in template.
+#
+# Copyright (C) 2025-2026 Rong Tao
+#
 # Usage: runprog.sh [options] -- EXE [ARGS]
+#
 set -e
 
 readonly prog_name=runprog
