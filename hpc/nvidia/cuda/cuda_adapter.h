@@ -1496,12 +1496,31 @@
  */
 #define cudaIpcCloseMemHandle(p)	__cuda(IpcCloseMemHandle(p))
 
-/**
+/******************************************************************************\
  * BLAS: Basic Linear Algebra Subprograms
  * see /usr/local/cuda-12.9/targets/x86_64-linux/include/cublas_api.h
  *
  * refs:
  * - https://docs.nvidia.com/cuda/cublas/index.html
+\******************************************************************************/
+
+/* cublasStatus cublasInit(void); */
+#define cublasInit __cu(blasInit)
+/* cublasStatus cublasShutdown(void); */
+#define cublasShutdown __cu(blasShutdown)
+/* cublasStatus cublasGetError(void); */
+#define cublasGetError __cu(blasGetError)
+
+/* cublasStatus cublasGetVersion(int* version); */
+#define cublasGetVersion __cu(blasGetVersion)
+
+/* cublasStatus cublasAlloc(int n, int elemSize, void** devicePtr); */
+#define cublasAlloc __cu(blasAlloc)
+
+/* cublasStatus cublasFree(void* devicePtr); */
+#define cublasFree __cu(blasFree)
+
+/*
  *
  * CUDA V12.2.140
  * const char* cublasGetStatusString(cublasStatus_t status);
@@ -1529,7 +1548,6 @@
 #define cublasCreate(handle)	__cu(blasCreate(handle))
 #define cublasDestroy(handle)	__cu(blasDestroy(handle))
 
-#define cublasGetVersion(handle, pversion)	__cu(blasGetVersion(handle, pversion))
 /**
  * CUDA: size_t CUBLASWINAPI cublasLtGetVersion(void);
  * HIP: hipblasStatus_t hipblasLtGetVersion(hipblasLtHandle_t handle, int* version);
