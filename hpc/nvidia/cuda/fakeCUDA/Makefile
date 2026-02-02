@@ -4,6 +4,7 @@ OUTPUT = .output/
 subdir-y := frontend
 
 include nvidia/cuda.mk
+include nvidia/nccl.mk
 include amd/rocm.mk
 include metax/hpcc.mk
 include cestc/luca.mk

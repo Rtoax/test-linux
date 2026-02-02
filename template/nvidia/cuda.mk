@@ -6,7 +6,6 @@
 #
 # Output macros:
 # - HAVE_CUDA=[y|n]
-# - HAVE_NCCL=y
 # - HAVE_CUDNN=y
 # - HAVE_CUFILE=y	GPUDirect Storage
 # - HAVE_CUPTI=y	CUDA Profiling Tools Interface
@@ -105,7 +104,6 @@ endif
 CUDA_VERSION_CODE := $(shell echo "$$(( (${CUDA_VERSION_MAJOR}*1000) + \
 					(${CUDA_VERSION_MINOR}*10) ))" )
 
-$(call check_file_and_def,${CUDA_ROOT}/include/nccl.h,HAVE_NCCL)
 $(call check_file_and_def,${CUDA_ROOT}/include/cudnn.h,HAVE_CUDNN)
 $(call check_file_and_def,${CUDA_ROOT}/include/cupti.h,HAVE_CUPTI)
 $(call check_file_and_def,${CUDA_ROOT}/include/cufile.h,HAVE_CUFILE)

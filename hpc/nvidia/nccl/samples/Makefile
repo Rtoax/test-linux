@@ -4,6 +4,7 @@ OUTPUT := .output/
 __IGNORE_NOTFOUND_ERROR__ := 1
 
 include nvidia/cuda.mk
+include nvidia/nccl.mk
 include amd/rocm.mk
 include cestc/luca.mk
 include metax/hpcc.mk
