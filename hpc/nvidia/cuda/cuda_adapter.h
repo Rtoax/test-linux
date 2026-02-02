@@ -7,7 +7,8 @@
  * - __USE_LUCA__		Luca
  *   LUCA_PHASE_II_PROJECT
  */
-#pragma once
+#ifndef __CUDA_ADAPTER_H
+#define __CUDA_ADAPTER_H 1
 
 #define CUDA_ADAPTER_MAJOR 1
 #define CUDA_ADAPTER_MINOR 0
@@ -2984,3 +2985,5 @@
 #define CUpti_Profiler_Host_Deinitialize_Params	__CU(pti_Profiler_Host_Deinitialize_Params)
 #define CUpti_Profiler_Initialize_Params	__CU(pti_Profiler_Initialize_Params)
 #define CUpti_Device_GetChipName_Params	__CU(pti_Device_GetChipName_Params)
+
+#endif
