@@ -110,6 +110,7 @@ $(call check_file_and_def,${CUDA_ROOT}/include/cufile.h,HAVE_CUFILE)
 
 ifdef DEBUG
   $(info HAVE_CUDA = ${HAVE_CUDA})
+  $(info CUDA_ROOT = ${CUDA_ROOT})
   ifneq (${NVCC},)
     $(info NVCC Version $(shell ${NVCC} --version))
   endif
