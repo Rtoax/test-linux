@@ -10,11 +10,15 @@
 # - HAVE_CUDNN=y
 # - HAVE_CUFILE=y	GPUDirect Storage
 # - HAVE_CUPTI=y	CUDA Profiling Tools Interface
+#
+# - CUDA_ROOT=[/usr/local/cuda/,/usr/]
+#
 # - NVCC=
 # - CUOBJDUMP=
 # - NVDISASM=
-# - CUDA_ROOT=[/usr/local/cuda/,/usr/]
-# - CUDA_VERSION_CODE=
+#
+# - SYS_CUDA_VERSION=[13000]
+# - CUDA_VERSION_CODE=[13000]
 # - CUDA_VERSION_MAJOR=[0]
 # - CUDA_VERSION_MINOR=[0]
 # - CUDA_VERSION_PATCH=[0]
@@ -76,6 +80,7 @@ ifeq ($(wildcard $(NVCC)),)
   NVCC :=
   CUOBJDUMP :=
   NVDISASM :=
+  SYS_CUDA_VERSION := 0
   CUDA_VERSION_MAJOR := 0
   CUDA_VERSION_MINOR := 0
   CUDA_VERSION_PATCH := 0
@@ -83,6 +88,8 @@ ifeq ($(wildcard $(NVCC)),)
   export HAVE_CUDA := n
 # Found NVCC
 else
+  SYS_CUDA_VERSION := $(shell grep '^#define CUDA_VERSION' ${CUDA_ROOT}/include/cuda.h | awk '{print $$3}')
+
   CUDA_VERSION_RAW := $(shell ${NVCC} --version | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+' 2>/dev/null || true)
   ifeq (${CUDA_VERSION_RAW},)
     $(error Not found CUDA Version in ${NVCC} --version)
@@ -109,10 +116,15 @@ ifdef DEBUG
     $(info NVCC Version $(shell ${NVCC} --version))
   endif
   $(info NVCC = ${NVCC})
+  $(info SYS_CUDA_VERSION = ${SYS_CUDA_VERSION})
   $(info CUDA_VERSION_CODE = ${CUDA_VERSION_CODE})
   $(info CUDA_VERSION_MAJOR = ${CUDA_VERSION_MAJOR})
   $(info CUDA_VERSION_MINOR = ${CUDA_VERSION_MINOR})
   $(info CUDA_VERSION_PATCH = ${CUDA_VERSION_PATCH})
+endif
+
+ifneq (${SYS_CUDA_VERSION},${CUDA_VERSION_CODE})
+  $(error "SYS_CUDA_VERSION(${SYS_CUDA_VERSION}) != CUDA_VERSION_CODE(${CUDA_VERSION_CODE})")
 endif
 
 export NVCC CUOBJDUMP NVDISASM CUDA_ROOT
