@@ -392,6 +392,7 @@ if [[ -e ${PYTORCH_ROOT}/third_party/onnx/README.md ]]; then
 	cmake_args+=( -DUSE_SYSTEM_ONNX=OFF )
 fi
 
+# TODO: compile ROCm version
 readonly HIPCONFIG=$(which hipconfig 2>/dev/null || :)
 readonly HIPCC=$(which hipcc 2>/dev/null || :)
 if [[ ! -z "${HIPCC}" ]] && [[ ! -z "${HIPCONFIG}" ]] && [[ ${enable_rocm} ]]; then
