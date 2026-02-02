@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- cuda: add adapter directory;
 - template/nvidia: add nccl.mk;
 - luca: add cu-bridge-envs.sh;
 - ai: add models/stella;
