@@ -23,6 +23,11 @@
 # define SUPPORT_FP128
 #endif
 
+#if defined(__LUCA__) && defined(__x86_64__) && defined(SUPPORT__Float128)
+#undef SUPPORT__Float128
+#warning "LUCA not support _Float128 on x86_64"
+#endif
+
 #if defined(SUPPORT__Float128)
 # define fp128	_Float128
 #elif defined(SUPPORT___float128)
