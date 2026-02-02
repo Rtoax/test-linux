@@ -1,4 +1,6 @@
-/* This header must used to CUDA like compiler. */
+// SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
+/* Copyright (C) 2025-2026 Rong Tao */
+/* This header must used to CUDA liked compiler. */
 #pragma once
 #include <stdio.h>
 #include <stdint.h>

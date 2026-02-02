@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
+/* Copyright (C) 2025-2026 Rong Tao */
 #pragma once
 
 #define PI_FLOAT	3.141592653f
