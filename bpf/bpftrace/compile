@@ -5,7 +5,7 @@ set -e
 readonly prog=bpftrace-compile
 
 flags_deps=
-flags_cmake=
+flags_config=
 flags_install=
 flags_test=
 use_jobs=$(nproc)
@@ -59,14 +59,14 @@ NAME
 	${prog} - Compile bpftrace
 
 SYNOPSIS
-	${prog} [--deps] [--cmake] [--help] [--verbose]
+	${prog} [--deps] [--config] [--help] [--verbose]
 
 DESCRIPTION
 	Compile bpftrace.
 
 ARGUMENT
 	-d, --deps              install depends
-	-c, --cmake             execute the cmake to generate Makefile
+	-c, --config            execute the config to generate Makefile
 	-i, --install           execute the make install
 	-t, --test              execute the bpftrace_test
 
@@ -91,7 +91,7 @@ SEE ALSO
 
 TEMP_ARGS=$(getopt --options dcitj:vh \
 	--long deps \
-	--long cmake \
+	--long config \
 	--long install \
 	--long test \
 	--long jobs: \
@@ -112,9 +112,9 @@ while true; do
 		shift
 		flags_deps=YES
 		;;
-	-c | --cmake)
+	-c | --config)
 		shift
-		flags_cmake=YES
+		flags_config=YES
 		;;
 	-i | --install)
 		shift
@@ -173,7 +173,7 @@ if [[ ${flags_deps} ]]; then
 	fi
 fi
 
-if [[ ${flags_cmake} ]]; then
+if [[ ${flags_config} ]]; then
 	cmake \
 		-DCMAKE_INSTALL_PREFIX=/usr/ \
 		-DCMAKE_BUILD_TYPE=Debug \
