@@ -24,6 +24,9 @@
 #define __NV_NOSAT ____NV_(NOSAT)
 #define __NV_SATFINITE ____NV_(SATFINITE)
 
+#define __nv_cvt_halfraw_to_fp8 ____nv_(cvt_halfraw_to_fp8)
+#define __nv_cvt_halfraw2_to_fp8x2 ____nv_(cvt_halfraw2_to_fp8x2)
+
 #define __nv_fp8_e4m3 ____nv_(fp8_e4m3)
 #define __nv_fp8_e5m2 ____nv_(fp8_e5m2)
 #define __nv_fp8_e8m0 ____nv_(fp8_e8m0)
