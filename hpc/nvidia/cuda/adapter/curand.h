@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
-/* Copyright (C) 2026 Rong Tao */
-#ifndef __CUDA_ADAPTER_RAND_H
-#define __CUDA_ADAPTER_RAND_H 1
-
+/* Copyright (C) 2025-2026 Rong Tao */
 /**
  * refs
  * - https://docs.nvidia.com/cuda/curand/group__HOST.html
  */
+#ifndef __CUDA_ADAPTER_RAND_H
+#define __CUDA_ADAPTER_RAND_H 1
+
 #define curandStatus_t __cu(randStatus_t)
 #define CURAND_STATUS_SUCCESS __CU(RAND_STATUS_SUCCESS)
 #define CURAND_STATUS_SUCCESS __CU(RAND_STATUS_SUCCESS)

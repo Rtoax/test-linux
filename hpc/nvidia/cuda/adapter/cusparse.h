@@ -1,11 +1,8 @@
 // SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
-/* Copyright (C) 2026 Rong Tao */
+/* Copyright (C) 2025-2026 Rong Tao */
 #ifndef __CUDA_ADAPTER_SPARSE_H
 #define __CUDA_ADAPTER_SPARSE_H 1
 
-/**
- * SPARSE
- */
 #define cusparseStatus_t __cu(sparseStatus_t)
 /**
  * HIP 5.7.1 has no hipsparseGetProperty()

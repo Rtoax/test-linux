@@ -11,7 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
-- cuda/adapter: add cublas.h, cufft.h, cusparse.h, curand.h, cupti.h, cufile.h;
+- cuda/adapter: add cublas.h, cufft.h, cusparse.h, curand.h, cupti.h, cufile.h, nccl.h;
 - template/nvidia: add nccl.mk;
 - luca: add cu-bridge-envs.sh;
 - ai: add models/stella;
