@@ -11,7 +11,7 @@
 #define __CUDA_ADAPTER_H 1
 
 #define CUDA_ADAPTER_MAJOR 1
-#define CUDA_ADAPTER_MINOR 0
+#define CUDA_ADAPTER_MINOR 1
 #define CUDA_ADAPTER_PATCH 0
 
 /******************************************************************************\
