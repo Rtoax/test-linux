@@ -1,6 +1,7 @@
 - CCCL: CUDA Core Compute Libraries (CUDA 核心计算库)
 - MIG: Multi-Instance GPU (多实例 GPU)
 - NVLINK/NVL: (Nvidia Link) @NVIDIA @CXL
+- NVVM: NVIDIA Virtual Machine (NVIDIA 虚拟机)
 - PTX: Parallel Thread eXecution (并行线程执行，NVIDIA GPU中间表示) @SASS
 - SASS: Shader Assembly (NVIDIA GPU机器码) @PTX
 - SXM: Server PCI Express Module (服务PCIe模组)
