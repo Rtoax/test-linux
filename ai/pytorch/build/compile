@@ -67,11 +67,15 @@ SEE ALSO
 	exit ${1-0}
 }
 
+declare current_cmd
+
 _eval()
 {
 	if [[ -z ${dry_run} ]]; then
 		echo >&2 -e "\033[1;32mStartup: $@\033[m"
+		current_cmd="${@}"
 		eval "$@"
+		current_cmd=""
 		echo >&2 -e "\033[1;33mDone: $@\033[m"
 	else
 		echo "$@"
@@ -88,6 +92,14 @@ _eval_s()
 	fi
 	_eval ${SUDO} "$@"
 }
+
+goodbye() {
+	local ret=$?
+	if [[ ${ret} -ne 0 ]]; then
+		error "${current_cmd}"
+	fi
+}
+trap goodbye EXIT
 
 TEMP_ARGS=$(getopt --options cdbwj:uvh \
 	--long deps \
