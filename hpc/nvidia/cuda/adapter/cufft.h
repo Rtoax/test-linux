@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
 /* Copyright (C) 2026 Rong Tao */
-#ifndef __CUDA_ADAPTER_H
-#define __CUDA_ADAPTER_H 1
+#ifndef __CUDA_ADAPTER_FFT_H
+#define __CUDA_ADAPTER_FFT_H 1
 
 #define cufftResult __cu(fftResult)
 #define CUFFT_SUCCESS __CU(FFT_SUCCESS)
