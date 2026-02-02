@@ -1828,11 +1828,7 @@
 #define __nv_cvt_fp8_to_halfraw		____nv_(cvt_fp8_to_halfraw)
 #define __nv_cvt_fp8x2_to_halfraw2	____nv_(cvt_fp8x2_to_halfraw2)
 
-/******************************************************************************\
- *             DNN                                                            *
-\******************************************************************************/
-// TODO
-
+#include "adapter/cudnn.h"
 #include "adapter/cusolver.h"
 #include "adapter/cufile.h"
 #include "adapter/cupti.h"
