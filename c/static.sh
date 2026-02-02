@@ -1,2 +1,4 @@
 #!/bin/bash
-make STATIC=1 "${@}"
+. ../scripts/profile.d/make_tl.sh
+make_tl clean
+make_tl STATIC=1 "${@}"

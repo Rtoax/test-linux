@@ -1,2 +1,5 @@
 #!/bin/bash
-make DEBUG=1 "${@}"
+set -e
+
+. ../scripts/profile.d/make_tl.sh
+make_tl DEBUG=1 "${@}"

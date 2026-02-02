@@ -1,3 +1,5 @@
 #!/bin/bash
+. ../scripts/profile.d/make_tl.sh
+
 # Default: gcc
-make CC=clang "${@}"
+make_tl CC=clang "${@}"

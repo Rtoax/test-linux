@@ -1,3 +1,6 @@
 #!/bin/bash
-make clean
-make NOPIE=1
+
+. ../scripts/profile.d/make_tl.sh
+
+make_tl clean
+make_tl NOPIE=1

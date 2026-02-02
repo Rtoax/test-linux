@@ -1,4 +1,7 @@
 #!/bin/bash
+set -e
+
+. ../scripts/profile.d/make_tl.sh
 
 case $(basename $0) in
 aarch64.sh) ARCH=aarch64 ;;
@@ -8,6 +11,6 @@ esac
 
 [[ $(uname -m) == ${ARCH} ]] && echo >&2 "ERROR: You already on ${ARCH}, no need to cross compile" && exit 1
 
-make clean
-make STATIC=1 ARCH=${ARCH} CROSS_COMPILE=${ARCH}-linux-gnu- SYSROOT=/home/rongtao/rootfs-${ARCH} "${@}"
+make_tl clean
+make_tl STATIC=1 ARCH=${ARCH} CROSS_COMPILE=${ARCH}-linux-gnu- SYSROOT=/home/rongtao/rootfs-${ARCH} "${@}"
 
