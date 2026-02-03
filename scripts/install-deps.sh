@@ -18,6 +18,7 @@ declare -a dnf_args apt_args zypper_args
 declare -a pkgs_inst pkgs_compiler pkgs_desktop pkgs_bench pkgs_math pkgs_db
 declare -a pkgs_storage pkgs_net pkgs_container pkgs_virt pkgs_base pkgs_fs
 declare -a pkgs_media pkgs_build pkgs_devel pkgs_docs pkgs_video pkgs_boot
+declare -a pkgs_rdma
 declare -a pkgs_cxl pkgs_ai pkgs_gpu pkgs_cuda pkgs_rocm
 
 declare -a pkgs_skip
@@ -63,13 +64,14 @@ have_storage=
 have_net=
 have_video=
 have_boot=
+have_rdma=
 have_cxl=
 
 have_services=
 have_3rd_party=
 
 has_pkgs() {
-	echo ${have_compiler}${have_build}${have_docs}${have_devel}${have_container}${have_virt}${have_pip}${have_desktop}${have_math}${have_media}${have_bench}${have_net}${have_fs}${have_ai}${have_gpu}${have_cuda}${have_db}${have_storage}${have_3rd_party}${have_video}${have_boot}${have_cxl}${have_services}${have_rocm}
+	echo ${have_compiler}${have_build}${have_docs}${have_devel}${have_container}${have_virt}${have_pip}${have_desktop}${have_math}${have_media}${have_bench}${have_net}${have_fs}${have_ai}${have_gpu}${have_cuda}${have_db}${have_storage}${have_3rd_party}${have_video}${have_boot}${have_rdma}${have_cxl}${have_services}${have_rocm}
 }
 
 enable_all()
@@ -97,6 +99,7 @@ enable_all()
 	#not set video for --all
 	#have_video=YES
 	have_boot=YES
+	have_rdma=YES
 	have_cxl=YES
 	have_services=YES
 }
@@ -338,6 +341,7 @@ ARGUMENT
 	--rocm             install ROCm relate packages
 	--video            install video relate software, such as video editor
 	--boot             install boot/bootloader relate software
+	--rdma             install RDMA relate software
 
 	--cxl              install CXL relate software
 
@@ -394,6 +398,7 @@ TEMP_ARGS=$(getopt --options uvhfk: \
 	--long cuda \
 	--long rocm \
 	--long boot \
+	--long rdma \
 	--long net \
 	--long cxl \
 	--long 3rd \
@@ -502,6 +507,10 @@ while true; do
 	--boot)
 		shift
 		have_boot=YES
+		;;
+	--rdma)
+		shift
+		have_rdma=YES
 		;;
 	--net)
 		shift
@@ -927,6 +936,9 @@ dnf_add_packages()
 	pkgs_bench+=( rtla )
 	pkgs_bench+=( sysbench )
 
+	pkgs_rdma+=( libibverbs )
+	pkgs_rdma+=( libibverbs-utils )
+
 	pkgs_gpu+=( libdrm-devel )
 
 	# Filesystem
@@ -1126,6 +1138,9 @@ apt_add_packages()
 		pkgs_boot+=( shim-unsigned )
 	fi
 
+	pkgs_rdma+=( libibverbs-dev )
+	pkgs_rdma+=( ibverbs-utils )
+
 	pkgs_build+=( ninja-build )
 
 	pkgs_gpu+=( libdrm-dev )
@@ -1309,6 +1324,7 @@ os_packages
 [[ ${have_net} ]] && pkgs_inst+=( ${pkgs_net[@]} )
 [[ ${have_video} ]] && pkgs_inst+=( ${pkgs_video[@]} )
 [[ ${have_boot} ]] && pkgs_inst+=( ${pkgs_boot[@]} )
+[[ ${have_rdma} ]] && pkgs_inst+=( ${pkgs_rdma[@]} )
 [[ ${have_cxl} ]] && pkgs_inst+=( ${pkgs_cxl[@]} )
 
 # Sort and remove duplicate items
