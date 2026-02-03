@@ -26,7 +26,7 @@ print_list() {
 	for ((i = 0; i < ${#list[@]}; i++))
 	do
 		printf "\t%s\n" ${list[$i]}
-	done
+	done | nl
 }
 
 pre_check() {
