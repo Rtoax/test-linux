@@ -1,6 +1,8 @@
 # SPDX-License-Identifier: GPL-3.0
 OUTPUT = .output/
 
+include llvm.mk
+
 CC := clang
 CXX := clang++
 
@@ -11,6 +13,7 @@ test-exe := hello
 target-y := ${test-exe}
 
 CFLAGS += -fplugin=./fakecuda_plugin.so
+CXXFLAGS_SO += ${llvm-cflags}
 
 include main.mk
 
