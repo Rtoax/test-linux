@@ -938,6 +938,8 @@ dnf_add_packages()
 
 	pkgs_rdma+=( libibverbs )
 	pkgs_rdma+=( libibverbs-utils )
+	pkgs_rdma+=( rdma-core-devel )
+	pkgs_rdma+=( rdma-core )
 
 	pkgs_gpu+=( libdrm-devel )
 
@@ -1019,7 +1021,6 @@ dnf_add_packages()
 	pkgs_devel+=( python3-build )
 	pkgs_devel+=( python3-devel )
 	pkgs_devel+=( python3-installer )
-	pkgs_devel+=( rdma-core-devel )
 	pkgs_devel+=( scdoc )
 	pkgs_devel+=( snappy-devel )
 	pkgs_devel+=( systemd-devel )
@@ -1140,6 +1141,7 @@ apt_add_packages()
 
 	pkgs_rdma+=( libibverbs-dev )
 	pkgs_rdma+=( ibverbs-utils )
+	pkgs_rdma+=( rdma-core )
 
 	pkgs_build+=( ninja-build )
 
