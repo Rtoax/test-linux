@@ -6,7 +6,7 @@
 - DoS: Denial of Service (拒绝服务)
 - DPDK: Data Plane Development Kit (数据面开发工具)
 - HTTP: Hypertext Transfer Protocol (超文本传输协议，RFC 2616)
-- IB: InfiniBand
+- IB: InfiniBand () @RDMA
 - ICMP: Internet Control Message Protocol (网络控制消息协议)
 - IETF: Internet Engineering Task Force (互联网工程任务组) @RFC
 - IP: Internet Protocol (互联网协议, RFC 791)

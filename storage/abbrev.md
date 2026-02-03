@@ -11,9 +11,7 @@
 - GPT: GUID Partition Table (GUID 分区表) @MBR
 - HDD: Hard Disk Drives (硬盘驱动)
 - iSCSI: Internet Small Computer Systems Interface (互联网小型计算机系统接口) @SCSI
-- iSER: iSCSI Extensions for RDMA (RDMA 的 iSCSI 扩展) @iSCSI
-- iWARP: RDMA over TCP
-- IB: InfiniBand
+- iSER: iSCSI Extensions for RDMA (RDMA 的 iSCSI 扩展) @iSCSI @RDMA
 - JBOD: Just a Bunch Of Disks / Just a Bunch Of Drives ("简单磁盘捆绑"或者“磁盘簇”，通常又称为Span)
 - LSM: Live Storage Migration (存储热迁移) @LVM
 - LVM: Logical Volume Manager (逻辑卷管理)
@@ -34,12 +32,10 @@
 - OFED: OpenFabrics Enterprise Distribution (OpenFabrics企业分发)
 - PD: Physical Disk (物理磁盘)
 - RAID: Redundant Arrays of Independent Disks (独立磁盘冗余阵列)
-- RDMA: Remote Direct Memory Access (远程直接内存访问)
-- RoCE: RDMA over Converged Ethernet (聚合以太网上的 RDMA)
 - SAN: Storage Area Network (存储区域网络)
 - SDS: Software Defined Storage (软件定义存储)
 - SSD: Solid-State Drive (固态驱动)
 - SCSI: Small Computer Systems Interface (小型计算机系统接口) @iSCSI
 - SPDK: Storage Performance Development Kit (存储性能开发套件) @bdev
-- SRP: SCSI RDMA Protocol
+- SRP: SCSI RDMA Protocol ()
 - VBR: Volume Boot Record (卷启动记录) @EBR
