@@ -2,7 +2,7 @@
 # Copyright (C) 2025-2026 Rong Tao
 #
 # Usage:
-# V2=1 F2=1 git commit ...
+# ALL=1 V2=1 F2=1 git commit ...
 #
 [[ ${V2} ]] && set -x
 
@@ -116,6 +116,9 @@ add_env() {
 # echo "YES" if any key matched.
 have_key() {
 	local key
+
+	[[ ${ALL} ]] && echo "YES" && return 0
+
 	for key in ${@}
 	do
 		# Match the whole word
@@ -135,6 +138,9 @@ have_key() {
 # echo "YES" if any file type matched.
 have_type() {
 	local ext
+
+	[[ ${ALL} ]] && echo "YES" && return 0
+
 	for ext in ${@}
 	do
 		# a.c b.sh -> c sh
