@@ -1,7 +1,8 @@
 #!/bin/bash
 # Copyright (C) 2025-2026 Rong Tao
 #
-# Env: [V2=1] [F2=1] git commit ...
+# Usage:
+# V2=1 F2=1 git commit ...
 #
 [[ ${V2} ]] && set -x
 

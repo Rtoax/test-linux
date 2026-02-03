@@ -1,5 +1,9 @@
 #!/bin/bash
 # Copyright (C) 2024-2026 Rong Tao
+#
+# Usage:
+# $ F1=1 NR_MOD=n NR_ADD=n NR_DEL=n git commit ...
+#
 set -e
 
 readonly GIT_TOPDIR=$(git rev-parse --show-toplevel 2>/dev/null || :)
