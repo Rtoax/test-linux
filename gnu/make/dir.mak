@@ -1,11 +1,13 @@
 # SPDX-License-Identifier: GPL-3.0
 path := /a/b/c-d.c
+path += /a/b/c/d/e/f
 path += /c/d/e.c
 
 $(info path = ${path})
 $(info path obj = ${path:.c=.o})
 $(info path obj c name = $(subst -,_,${path:.c=.o}))
 $(info dir $${path} = $(dir ${path}))
+$(info dir dir $${path} = $(dir $(dir ${path})))
 $(info dir $$* = $(dir $*))
 $(info notdir = $(notdir ${path}))
 $(info basename = $(basename ${path}))

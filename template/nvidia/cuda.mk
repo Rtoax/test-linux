@@ -36,6 +36,11 @@ NVCC := $(shell which nvcc 2>/dev/null)
 CUOBJDUMP := $(shell which cuobjdump 2>/dev/null)
 NVDISASM := $(shell which nvdisasm 2>/dev/null)
 
+SYS_CUDA_VERSION := 0
+CUDA_VERSION_MAJOR := 0
+CUDA_VERSION_MINOR := 0
+CUDA_VERSION_PATCH := 0
+
 # After install CUDA, the /usr/local/cuda/ is symlink.
 # refs
 # - https://developer.download.nvidia.cn/compute/cuda/repos/rhel9/x86_64/
@@ -62,6 +67,13 @@ ifeq ($(NVCC),)
 else
   NVCC := $(shell realpath ${NVCC})
   CUOBJDUMP := $(shell realpath ${CUOBJDUMP})
+  NVDISASM := $(shell realpath ${NVDISASM})
+
+  # When use cu-bridge, NVCC is not empty, however, CUDA_ROOT is empty. Thus,
+  # just set cuda root to cu-bridge.
+  ifeq (${CUDA_ROOT},)
+    CUDA_ROOT := $(shell realpath $(dir ${NVCC})/../)
+  endif
 endif
 
 # If not found NVCC
@@ -79,16 +91,10 @@ ifeq ($(wildcard $(NVCC)),)
   NVCC :=
   CUOBJDUMP :=
   NVDISASM :=
-  SYS_CUDA_VERSION := 0
-  CUDA_VERSION_MAJOR := 0
-  CUDA_VERSION_MINOR := 0
-  CUDA_VERSION_PATCH := 0
 
   export HAVE_CUDA := n
 # Found NVCC
 else
-  SYS_CUDA_VERSION := $(shell grep '^#define CUDA_VERSION' ${CUDA_ROOT}/include/cuda.h | awk '{print $$3}')
-
   CUDA_VERSION_RAW := $(shell ${NVCC} --version | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+' 2>/dev/null || true)
   ifeq (${CUDA_VERSION_RAW},)
     $(error Not found CUDA Version in ${NVCC} --version)
@@ -99,6 +105,13 @@ else
   CUDA_VERSION_PATCH := $(shell echo ${CUDA_VERSION_RAW} | awk -F '.' '{print $$3}')
 
   export HAVE_CUDA := y
+endif
+
+ifneq (${CUDA_ROOT},)
+  SYS_CUDA_VERSION := $(shell grep '^#define CUDA_VERSION' ${CUDA_ROOT}/include/cuda.h | awk '{print $$3}')
+  ifeq (${SYS_CUDA_VERSION},)
+    SYS_CUDA_VERSION := 0
+  endif
 endif
 
 CUDA_VERSION_CODE := $(shell echo "$$(( (${CUDA_VERSION_MAJOR}*1000) + \
@@ -122,8 +135,11 @@ ifdef DEBUG
   $(info CUDA_VERSION_PATCH = ${CUDA_VERSION_PATCH})
 endif
 
-ifneq (${SYS_CUDA_VERSION},${CUDA_VERSION_CODE})
-  $(error "SYS_CUDA_VERSION(${SYS_CUDA_VERSION}) != CUDA_VERSION_CODE(${CUDA_VERSION_CODE})")
+# When use cu-bridge, NVCC is cu-bridge symlink, CUDA_VERSION_CODE is not zero.
+ifneq (${SYS_CUDA_VERSION},0)
+  ifneq (${SYS_CUDA_VERSION},${CUDA_VERSION_CODE})
+    $(error "SYS_CUDA_VERSION(${SYS_CUDA_VERSION}) != CUDA_VERSION_CODE(${CUDA_VERSION_CODE})")
+  endif
 endif
 
 export NVCC CUOBJDUMP NVDISASM CUDA_ROOT
