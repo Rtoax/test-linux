@@ -9,9 +9,9 @@ readonly MY_DIRECTORY=$(realpath $(dirname $(realpath $0))/../../../)
 [[ -z ${NR_MOD} ]] && NR_MOD=4
 [[ -z ${NR_ADD} ]] && NR_ADD=1
 [[ -z ${NR_DEL} ]] && NR_DEL=1
-[[ -z ${FORCE1} ]] && FORCE1=
+[[ -z ${F1} ]] && F1=
 
-if [[ ${V} ]] || [[ ${VERBOSE} ]]; then
+if [[ ${V} ]] || [[ ${V1} ]]; then
 	set -x
 fi
 
@@ -36,14 +36,14 @@ hint_changelog() {
 	  ! [[ -L ${GIT_TOPDIR}/CHANGELOG.md ]]; then
 		if ! [[ " ${try_modify[@]} " =~ " CHANGELOG.md " ]]; then
 			git status --short
-			fatal "${@}" "you forgot modify CHANGELOG!!! Try FORCE1=1???"
+			fatal "${@}" "you forgot modify CHANGELOG!!! Try F1=1???"
 		fi
 	fi
 	if [[ -f ${GIT_TOPDIR}/docs/en/CHANGELOG.md ]]; then
 		if [[ ! " ${try_modify[@]} " =~ " docs/en/CHANGELOG.md " ]] ||
 		   [[ ! " ${try_modify[@]} " =~ " docs/zh/CHANGELOG.md " ]]; then
 			git status --short
-			fatal "${@}" "you forgot modify docs/{en,zh}/CHANGELOG.md!!! Try FORCE1=1???"
+			fatal "${@}" "you forgot modify docs/{en,zh}/CHANGELOG.md!!! Try F1=1???"
 		fi
 	fi
 }
@@ -70,8 +70,8 @@ do
 	if [[ $(basename $f) == vmlinux.h ]]; then
 		fatal "vmlinux.h is too big, generate it with bpftool command!!!"
 	fi
-	if [[ $(file $f | awk '{print $NF}') == data ]] && [[ -z ${FORCE1} ]]; then
-		fatal "$f is considered a data file!!! try FORCE1"
+	if [[ $(file $f | awk '{print $NF}') == data ]] && [[ -z ${F1} ]]; then
+		fatal "$f is considered a data file!!! try F1"
 	fi
 done
 
