@@ -8,4 +8,26 @@
  */
 #define CUstream_st __CU(stream_st)
 
+/**
+ * typedef struct CUstream_st *CUstream;
+ */
+#define CUstream __CU(stream)
+
+/**
+ * CUDA 13:
+ * CUresult cuGetErrorName(CUresult error, const char **pStr);
+ *
+ * LUCA:
+ * const char *lcGetErrorName(lcError_t lc_error);
+ */
+#if defined(__USE_LUCA__) || defined(__USE_HPCC__) || defined(__USE_HIP__)
+#define cuGetErrorName(error, pStr)                  \
+	do {                                         \
+		const char **__pstr = pStr;          \
+		*__pstr = __cu(GetErrorName(error)); \
+	} while (0)
+#else
+#define cuGetErrorName __cu(GetErrorName)
+#endif
+
 #endif

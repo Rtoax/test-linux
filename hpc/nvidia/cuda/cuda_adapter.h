@@ -94,45 +94,8 @@
 
 #include "adapter/cuda.h"
 #include "adapter/cuda_runtime.h"
+#include "adapter/cuda_runtime_api.h"
 #include "adapter/driver_types.h"
-
-/**
- * CUDA 13
- * cudaError_t cudaPeekAtLastError(void);
- *
- * HIP 6.3.42133-0
- * hipError_t hipPeekAtLastError(void);
- */
-#define cudaPeekAtLastError()	__cuda(PeekAtLastError())
-
-#define cudaGetLastError()	__cuda(GetLastError())
-#define cudaGetErrorString(err)	__cuda(GetErrorString(err))
-
-/**
- * CUDA 13:
- * const char* cudaGetErrorName(cudaError_t error);
- *
- * HIP 6.3.42133-0
- * const char* hipGetErrorName(hipError_t hip_error);
- */
-#define cudaGetErrorName(error)	__cuda(GetErrorName(error))
-
-/**
- * CUDA 13:
- * CUresult cuGetErrorName(CUresult error, const char **pStr);
- *
- * LUCA:
- * const char *lcGetErrorName(lcError_t lc_error);
- */
-#if defined(__USE_LUCA__) || defined(__USE_HPCC__) || defined(__USE_HIP__)
-#define cuGetErrorName(error, pStr)                  \
-	do {                                         \
-		const char **__pstr = pStr;          \
-		*__pstr = __cu(GetErrorName(error)); \
-	} while (0)
-#else
-#define cuGetErrorName __cu(GetErrorName)
-#endif
 
 #define cudaLimit	__cuda(Limit_t)
 #define cudaLimitStackSize	__cuda(LimitStackSize)
