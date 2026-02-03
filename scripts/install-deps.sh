@@ -1154,6 +1154,7 @@ apt_add_packages()
 
 	pkgs_net+=( apache2 )
 	pkgs_net+=( libxdp1 )
+	pkgs_net+=( infiniband-diags )
 
 	pkgs_compiler+=( build-essential )
 	pkgs_compiler+=( gcc-doc )
