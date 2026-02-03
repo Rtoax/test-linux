@@ -32,6 +32,7 @@ endef
 $(foreach mk, ${MK_TST} ${MK_TST}, $(eval $(call include_stat,${mk})))
 
 target-post-y := git
+target-post-y += log
 target-post-y += logo
 
 # __main__
@@ -43,6 +44,9 @@ git:
 	$(call git_config)
 	$(call git_archive)
 	$(call git_clean,Y)
+
+log:
+	$(call log_failed,Test log_failed())
 
 logo:
 	$(call logo_bpf_summit_2021)
