@@ -37,4 +37,18 @@
 #define __nv_fp8x4_e5m2 ____nv_(fp8x4_e5m2)
 #define __nv_fp8x4_e8m0 ____nv_(fp8x4_e8m0)
 
+#define __nv_cvt_double2_to_e8m0x2 ____nv_(cvt_double2_to_e8m0x2)
+#define __nv_cvt_double2_to_fp8x2 ____nv_(cvt_double2_to_fp8x2)
+#define __nv_cvt_double_to_e8m0 ____nv_(cvt_double_to_e8m0)
+#define __nv_cvt_double_to_fp8 ____nv_(cvt_double_to_fp8)
+
+#define __nv_cvt_float2_to_e8m0x2 ____nv_(cvt_float2_to_e8m0x2)
+#define __nv_cvt_float2_to_fp8x2 ____nv_(cvt_float2_to_fp8x2)
+
+#define __nv_cvt_float_to_e8m0 ____nv_(cvt_float_to_e8m0)
+#define __nv_cvt_float_to_fp8 ____nv_(cvt_float_to_fp8)
+
+#define __nv_cvt_fp8_to_halfraw ____nv_(cvt_fp8_to_halfraw)
+#define __nv_cvt_fp8x2_to_halfraw2 ____nv_(cvt_fp8x2_to_halfraw2)
+
 #endif
