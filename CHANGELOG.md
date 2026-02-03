@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- rdma: add kconfig;
 - cuda: add cu-bridge and adapt to template/nvidia/cuda.mk;
 - cuda/adapter: add cublas.h, cufft.h, cusparse.h, curand.h, cupti.h, cufile.h, nccl.h, cusolver.h, cudnn.h, nvrtc.h, `cuda_fp6.h`, `cuda_fp8.h`, `cuda_bf16.h`, `cuda_runtime.h`, cuda.h, `cuda_runtime_api.h`, `driver_types.h`;
 - template/nvidia: add nccl.mk;
