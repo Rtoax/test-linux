@@ -43,6 +43,12 @@ hint_changelog() {
 			fatal "${@}" "you forgot modify CHANGELOG!!! Try F1=1???"
 		fi
 	fi
+	if [[ -f ${GIT_TOPDIR}/docs/CHANGELOG.md ]]; then
+		if ! [[ " ${try_modify[@]} " =~ " docs/CHANGELOG.md " ]]; then
+			git status --short
+			fatal "${@}" "you forgot modify docs/CHANGELOG!!! Try F1=1???"
+		fi
+	fi
 	if [[ -f ${GIT_TOPDIR}/docs/en/CHANGELOG.md ]]; then
 		if [[ ! " ${try_modify[@]} " =~ " docs/en/CHANGELOG.md " ]] ||
 		   [[ ! " ${try_modify[@]} " =~ " docs/zh/CHANGELOG.md " ]]; then
