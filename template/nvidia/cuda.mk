@@ -74,6 +74,13 @@ else
   ifeq (${CUDA_ROOT},)
     CUDA_ROOT := $(shell realpath $(dir ${NVCC})/../)
   endif
+
+  # When use cu-bridge and cuda-toolkit was installed. because NVCC is set to
+  # cu-bridge, but CUDA_ROOT is real cuda path, we shoud reset CUDA_ROOT to
+  # cu-bridge.
+  ifneq ($(filter ${CUDA_ROOT},${NVCC}),${CUDA_ROOT})
+    CUDA_ROOT := $(shell realpath $(dir ${NVCC})/../)
+  endif
 endif
 
 # If not found NVCC

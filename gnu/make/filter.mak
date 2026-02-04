@@ -12,7 +12,7 @@ ifneq ($(filter %/,$(OUTPUT)),)
   $(info end with /)
 endif
 
-$(info $(filter a,a b c))
+$(info a = $(filter a,a b c))
 
 $(info filter-out $${OUTPUT} = $(filter-out .output2/,${OUTPUT}))
 $(info filter-out $${OUTPUT} = $(filter-out .output3/%,${OUTPUT}))
