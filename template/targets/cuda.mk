@@ -32,6 +32,7 @@ _TARGET_NVIDIA_MK = 1
 
 include dir.mk
 include nvidia/cuda.mk
+include nvidia/gpu.mk
 include nvidia/nccl.mk
 
 cflags-nvcc-cubin := --cubin
