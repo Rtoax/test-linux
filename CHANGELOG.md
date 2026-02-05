@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- tools: add cri/crictl.sh
 - tools: add containerd/containerd.sh;
 - template: add rdma.mk;
 - rdma: add kconfig;
