@@ -36,8 +36,9 @@ ifneq ($(shell lspci | grep -oi nvidia),)
   _SYSTEM_HAVE_NVIDIA_GPU := 1
 endif
 
-include nvidia/cuda.mk
 include dir.mk
+include nvidia/cuda.mk
+include nvidia/nccl.mk
 
 cflags-nvcc-cubin := --cubin
 cflags-nvcc-fatbin := --fatbin
