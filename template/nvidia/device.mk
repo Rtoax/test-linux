@@ -4,13 +4,16 @@
 # Output definitions:
 # - HAVE_NVIDIA_GPU=[y|n]
 #
-ifndef _NVIDIA_NCCL_MK
-_NVIDIA_NCCL_MK = 1
+ifndef _NVIDIA_DEVICE_MK
+_NVIDIA_DEVICE_MK = 1
+
+# https://admin.pci-ids.ucw.cz/read/PC/10DE
+NVIDIA_PCI_VENDOR_ID := 10DE
 
 HAVE_NVIDIA_GPU := n
 
 # Your system has Nvidia GPU card
-ifneq ($(shell lspci | grep -oi nvidia),)
+ifneq ($(shell lspci -d ${NVIDIA_PCI_VENDOR_ID}:*),)
   HAVE_NVIDIA_GPU := y
 endif
 

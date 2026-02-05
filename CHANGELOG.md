@@ -11,7 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
-- template: add nvidia/gpu.mk;
+- template: add nvidia/device.mk;
 - podman: add privileged/reboot.sh;
 - tools: add cri/crictl.sh
 - tools: add containerd/containerd.sh;
