@@ -23,6 +23,7 @@ ifndef _TARGET_HELPERS_MK
 _TARGET_HELPERS_MK = 1
 
 include helpers.mk
+include flags.mk
 
 # $1 - helper library absolute path
 # $2 - turn on with 'y', otherwise turn off
@@ -45,7 +46,7 @@ ifeq ($(2),y)
   endif
 endif
 ${1}:
-	@make --no-print-directory --silent -C $$(shell dirname ${1}) $$(shell basename ${1})
+	${Q}make --no-print-directory --silent ${SUBMKFLAGS} -C $$(shell dirname ${1}) $$(shell basename ${1})
 endef
 
 $(eval $(call add_helper_target,${C_HELPERS},${__USE_C_HELPERS__}))
