@@ -7,10 +7,13 @@
 # - HAVE_LCFILE=[y]
 # - HAVE_LCPTI=[y]
 # - HAVE_LSVPU=[y]
+#
 # - LUCA_ROOT=[/opt/luca]
-# - LUCA_PHASE_II_PROJECT=  In the second phase of LUCA development, the
-#                           filename changed, and the definition was deleted
-#                           once development was completed.
+# - LUCA_LLVM=${LUCA_ROOT}/[htgpu_llvm|lsgpu_llvm]
+#
+# - LUCA_PHASE_II_PROJECT=[y] In the second phase of LUCA development, the
+#                             filename changed, and the definition was deleted
+#                             once development was completed.
 # - LSCC=
 # - LUCA_VERSION_MAJOR=
 # - LUCA_VERSION_MINOR=
@@ -68,6 +71,7 @@ else
 endif
 
 export LUCA_ROOT
+export LUCA_LLVM
 export LSCC
 export LUCA_VERSION_MAJOR LUCA_VERSION_MINOR LUCA_VERSION_PATCH
 
