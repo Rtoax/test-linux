@@ -31,8 +31,7 @@ LUCA_LLVM := ${LUCA_ROOT}/htgpu_llvm/
 # Note: During the LUCA development process, the path and file name changed.
 ifeq ($(wildcard ${LUCA_LLVM}),)
   LUCA_LLVM := ${LUCA_ROOT}/lsgpu_llvm/
-  LUCA_PHASE_II_PROJECT := y
-  export LUCA_PHASE_II_PROJECT
+  export LUCA_PHASE_II_PROJECT := y
 endif
 LSCC := ${LUCA_LLVM}/bin/htcc
 ifeq ($(wildcard ${LSCC}),)
@@ -49,20 +48,19 @@ ifeq ($(wildcard ${LSCC}),)
   endif
 endif
 
-ifneq ($(wildcard ${LUCA_ROOT}),)
+ifeq ($(wildcard ${LUCA_ROOT}),)
+  $(warning Not found LUCA_ROOT="${LUCA_ROOT}")
+  LUCA_VERSION_MAJOR :=
+  LUCA_VERSION_MINOR :=
+  LUCA_VERSION_PATCH :=
+else
   GREP := grep -Eo '[0-9]+\.[0-9]+\.[0-9]+'
   LUCA_VERSION_RAW := $(shell echo ${LUCA_ROOT} | ${GREP} | head -1)
   LUCA_VERSION_MAJOR := $(shell echo ${LUCA_VERSION_RAW} | awk -F '.' '{print $$1}')
   LUCA_VERSION_MINOR := $(shell echo ${LUCA_VERSION_RAW} | awk -F '.' '{print $$2}')
   LUCA_VERSION_PATCH := $(shell echo ${LUCA_VERSION_RAW} | awk -F '.' '{print $$3}')
 
-  HAVE_LUCA := y
-  export HAVE_LUCA
-else
-  $(warning Not found LUCA_ROOT="${LUCA_ROOT}")
-  LUCA_VERSION_MAJOR :=
-  LUCA_VERSION_MINOR :=
-  LUCA_VERSION_PATCH :=
+  export HAVE_LUCA := y
 endif
 
 ifneq (${LUCA_ROOT},)
