@@ -66,3 +66,22 @@ sudo ctr container rm demo
 
 # Remove a image
 sudo ctr image remove localhost/swos:latest
+
+fedora_test() {
+	local tar_archive=fedora.tar
+
+	if [[ ! -e ${tar_archive} ]]; then
+		sudo podman save registry.fedoraproject.org/fedora:43 -o ${tar_archive}
+	fi
+
+	sudo systemctl restart containerd.service
+	sudo systemctl status containerd.service | tee
+
+	sudo ctr image import --base-name localhost/fedora ${tar_archive}
+
+	sudo ctr image list -q
+
+	sudo ctr run -d --rm registry.fedoraproject.org/fedora:43 demo_1 cat /etc/os-release
+
+	sudo ctr container rm demo_1
+}
