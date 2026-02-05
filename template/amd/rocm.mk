@@ -1,9 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
 # Copyright (C) 2025-2026 Rong Tao
 #
-# Input definitions:
-# - __IGNORE_NOTFOUND_ERROR__
-#
 # Output macros:
 # - HAVE_HIP=[y|n]
 # - HAVE_HIPSOLVER=y
@@ -34,18 +31,7 @@ HIPCONFIG := $(shell which hipconfig 2>/dev/null)
 rocm-cflags :=
 
 ifeq ($(HIPCC),)
-  ifneq ($(target-hipcc-y)$(target-hipcc-liba-y)$(target-hipcc-libso-y),)
-    ifdef __IGNORE_NOTFOUND_ERROR__
-      $(warning Not found hipcc with target hipcc not empty, but __IGNORE_NOTFOUND_ERROR__)
-    else
-      $(error Not found hipcc with target hipcc not empty, install cuda first)
-    endif
-  else
-    $(warning Although not found hipcc, but you do not have target hipcc)
-  endif
-
-  HIPCC :=
-  HIPCONFIG :=
+  $(warning Not found hipcc, please install ROCm!!!)
   export HAVE_HIP := n
 else
 
@@ -74,7 +60,8 @@ ifdef DEBUG
 endif
 
 export HAVE_HIP := y
-export HIPCC HIPCONFIG
+export HIPCC
+export HIPCONFIG
 export HIP_PATH
 export ROCM_PATH
 export rocm-cflags
