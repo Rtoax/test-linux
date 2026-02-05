@@ -1,9 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
 # Copyright (C) 2025-2026 Rong Tao
 #
-# Input definitions:
-# - __IGNORE_NOTFOUND_ERROR__
-#
 # Output definitions:
 # - HAVE_LUCA=[y]
 # - HAVE_LCDNN=[y]
@@ -56,16 +53,6 @@ ifneq ($(wildcard ${HTCC}),)
   LSCC := ${HTCC}
 else
   LSCC := ${LUCA_LLVM}/bin/lscc
-endif
-
-ifeq ($(wildcard ${LSCC}),)
-  ifneq ($(target-lscc-y)$(target-lscc-libso-y)$(target-lscc-liba-y),)
-    ifdef __IGNORE_NOTFOUND_ERROR__
-      $(warning Not found lscc with target lscc not empty, but __IGNORE_NOTFOUND_ERROR__)
-    else
-      $(error Not found lscc with target lscc not empty, install LUCA first)
-    endif
-  endif
 endif
 
 ifeq (${LUCA_PHASE_II_PROJECT},y)
