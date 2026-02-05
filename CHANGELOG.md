@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- tools: add containerd/containerd.sh;
 - template: add rdma.mk;
 - rdma: add kconfig;
 - cuda: add cu-bridge and adapt to template/nvidia/cuda.mk;
