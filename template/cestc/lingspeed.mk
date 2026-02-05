@@ -5,7 +5,7 @@
 # - __IGNORE_NOTFOUND_ERROR__
 #
 # Output definitions:
-# - LSSMI=/usr/bin/ls-smi
+# - LSSMI=[/usr/bin/ls-smi]
 # - HAVE_LINGSPEED_GPU=[y|n]
 # - HAVE_LINGSPEED_X710E=[y|n]
 # - HAVE_LINGSPEED_X710M=[y|n]
@@ -14,31 +14,38 @@
 ifndef _CESTC_LINGSPEED_MK
 _CESTC_LINGSPEED_MK = 1
 
+# CECloud Computing Technology Co., Ltd.
+# https://admin.pci-ids.ucw.cz/read/PC/20e1
+CESTC_PCI_VENDOR_ID := 20e1
+X710E_PCI_DEVICE_ID := 7101
+X710M_PCI_DEVICE_ID := 7103
+X710P_PCI_DEVICE_ID := 7104
+
+HAVE_LINGSPEED_GPU := n
+HAVE_LINGSPEED_X710E := n
+HAVE_LINGSPEED_X710M := n
+HAVE_LINGSPEED_X710P := n
+
 LSSMI := $(shell which ls-smi 2>/dev/null)
 
 ifeq ($(wildcard ${LSSMI}),)
-  $(warning No found ls-smi, please install lingspeed driver)
+  $(warning Not found ls-smi, please install lingspeed driver)
+  LSSMI :=
 endif
 
-ifneq ($(LSSMI),)
-  ifeq ($(shell ${LSSMI} | grep -oe "X710-E"),X710-E)
-    export HAVE_LINGSPEED_X710E := y
-    export HAVE_LINGSPEED_GPU := y
-  endif
-  ifeq ($(shell ${LSSMI} | grep -oe "X710-M"),X710-M)
-    export HAVE_LINGSPEED_X710M := y
-    export HAVE_LINGSPEED_GPU := y
-  endif
-  ifeq ($(shell ${LSSMI} | grep -oe "X710-P"),X710-P)
-    export HAVE_LINGSPEED_X710P := y
-    export HAVE_LINGSPEED_GPU := y
-  endif
-  export LSSMI
-else
-  export HAVE_LINGSPEED_X710E := n
-  export HAVE_LINGSPEED_X710M := n
-  export HAVE_LINGSPEED_X710P := n
-  export HAVE_LINGSPEED_GPU := n
+ifneq ($(shell lspci -d ${CESTC_PCI_VENDOR_ID}:${X710E_PCI_DEVICE_ID}),)
+  export HAVE_LINGSPEED_X710E := y
+  export HAVE_LINGSPEED_GPU := y
+endif
+
+ifneq ($(shell lspci -d ${CESTC_PCI_VENDOR_ID}:${X710M_PCI_DEVICE_ID}),)
+  export HAVE_LINGSPEED_X710M := y
+  export HAVE_LINGSPEED_GPU := y
+endif
+
+ifneq ($(shell lspci -d ${CESTC_PCI_VENDOR_ID}:${X710P_PCI_DEVICE_ID}),)
+  export HAVE_LINGSPEED_X710P := y
+  export HAVE_LINGSPEED_GPU := y
 endif
 
 ifdef DEBUG
@@ -48,5 +55,7 @@ ifdef DEBUG
   $(info HAVE_LINGSPEED_X710M = ${HAVE_LINGSPEED_X710M})
   $(info HAVE_LINGSPEED_X710P = ${HAVE_LINGSPEED_X710P})
 endif
+
+export LSSMI
 
 endif
