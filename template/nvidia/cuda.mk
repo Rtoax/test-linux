@@ -22,11 +22,6 @@
 # - CUDA_VERSION_MINOR=[0]
 # - CUDA_VERSION_PATCH=[0]
 #
-# Modify definitions:
-# - target-nvcc-y
-# - target-nvcc-liba-y
-# - target-nvcc-libso-y
-#
 ifndef _NVIDIA_CUDA_MK
 _NVIDIA_CUDA_MK = 1
 
@@ -53,7 +48,7 @@ else
   ifneq ($(wildcard /usr/include/cuda.h),)
     CUDA_ROOT := /usr/
   else
-    # Not found cuda in anywhere
+    $(info Not found cuda toolkit, please install cuda-toolkit first!)
     CUDA_ROOT :=
   endif
 endif
@@ -64,7 +59,9 @@ ifeq ($(NVCC),)
     NVCC := ${CUDA_ROOT}/bin/nvcc
     CUOBJDUMP := ${CUDA_ROOT}/bin/cuobjdump
   endif
-else
+endif
+
+ifneq ($(NVCC),)
   NVCC := $(shell realpath ${NVCC})
   CUOBJDUMP := $(shell realpath ${CUOBJDUMP})
   NVDISASM := $(shell realpath ${NVDISASM})
@@ -85,15 +82,7 @@ endif
 
 # If not found NVCC
 ifeq ($(wildcard $(NVCC)),)
-  ifneq ($(target-nvcc-y)$(target-nvcc-libs-y)$(target-nvcc-libso-y),)
-    ifdef __IGNORE_NOTFOUND_ERROR__
-      $(warning Not found nvcc with target nvcc not empty, but __IGNORE_NOTFOUND_ERROR__)
-    else
-      $(error Not found nvcc with target nvcc not empty, install cuda first)
-    endif
-  else
-    $(warning Although not found nvcc, but you do not have target nvcc)
-  endif
+  $(warning Not found nvcc, please install cuda-toolkit first!)
 
   NVCC :=
   CUOBJDUMP :=
