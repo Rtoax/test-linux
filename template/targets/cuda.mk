@@ -25,16 +25,10 @@
 # - HAVE_CUDNN
 # - HAVE_CUFILE
 # - HAVE_CUPTI
+# - HAVE_NVIDIA_GPU
 #
 ifndef _TARGET_NVIDIA_MK
 _TARGET_NVIDIA_MK = 1
-
-_SYSTEM_HAVE_NVIDIA_GPU :=
-
-# Your system has Nvidia GPU card
-ifneq ($(shell lspci | grep -oi nvidia),)
-  _SYSTEM_HAVE_NVIDIA_GPU := 1
-endif
 
 include dir.mk
 include nvidia/cuda.mk
@@ -70,7 +64,7 @@ CFLAGS_NVCC += -DCUDA_VERSION_PATCH=${CUDA_VERSION_PATCH}
 # Ampere (sm_80+)
 # Ada Lovelace (sm_89+)
 # Hopper (sm_90+)
-ifneq (${_SYSTEM_HAVE_NVIDIA_GPU},)
+ifeq (${HAVE_NVIDIA_GPU},y)
   CFLAGS_NVCC += -arch=native
   LDFLAGS_NVCC += -arch=native
 else
