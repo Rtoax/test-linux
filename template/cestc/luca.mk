@@ -34,7 +34,7 @@ LUCA_VERSION_MINOR :=
 LUCA_VERSION_PATCH :=
 
 ifeq ($(wildcard ${LUCA_ROOT}),)
-  $(warning Not found LUCA_ROOT="${LUCA_ROOT}")
+  $(warning Not found LUCA_ROOT="${LUCA_ROOT}", please install LUCA SDK!)
 else # Found LUCA
 
 export HAVE_LUCA := y
@@ -80,7 +80,6 @@ endif # End of found LUCA
 ifdef DEBUG
   $(info LUCA_ROOT = ${LUCA_ROOT})
   $(info LSCC = ${LSCC})
-  $(info $(shell ${LSCC} --version))
   $(info LUCA_VERSION_RAW = ${LUCA_VERSION_RAW})
   $(info LUCA_VERSION_MAJOR = ${LUCA_VERSION_MAJOR})
   $(info LUCA_VERSION_MINOR = ${LUCA_VERSION_MINOR})
