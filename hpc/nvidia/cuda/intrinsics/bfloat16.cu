@@ -53,8 +53,19 @@ __global__ void k_bfloat16_arithmetic(void)
 	PBF16(__hdiv(one, pi));
 	PBF16((one / pi));
 	PBF16((tmp /= pi));
-	/* FMA: x * y + z */
-	PBF16(__hfma(one, two, three)); /* fused multiply-add in round-to-nearest-even mode */
+	/**
+	 * fused multiply-add in round-to-nearest-even mode
+	 *
+	 * FMA: x * y + z
+	 *
+	 * __nv_bfloat16 __hfma(const __nv_bfloat16 a,
+	 *                      const __nv_bfloat16 b,
+	 *                      const __nv_bfloat16 c);
+	 * __luca_bfloat16 __hfma(const __luca_bfloat16 a,
+	 *                        const __luca_bfloat16 b,
+	 *                        const __luca_bfloat16 c);
+	 */
+	PBF16(__hfma(one, two, three));
 #if !defined(__HIPCC__)
 	PBF16(__hfma_relu(one, two, three));
 	PBF16(__hfma_sat(one, two, three));
