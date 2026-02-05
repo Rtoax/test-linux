@@ -65,6 +65,9 @@ CFLAGS_NVCC += -DCUDA_VERSION_PATCH=${CUDA_VERSION_PATCH}
 ifeq (${HAVE_NVIDIA_GPU},y)
   CFLAGS_NVCC += -arch=native
   LDFLAGS_NVCC += -arch=native
+else
+  CFLAGS_NVCC += -arch=sm_80
+  LDFLAGS_NVCC += -arch=sm_80
 endif
 
 # Use to test fakeCUDA
