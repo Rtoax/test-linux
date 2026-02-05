@@ -58,6 +58,7 @@ ifeq ($(NVCC),)
   ifneq (${CUDA_ROOT},)
     NVCC := ${CUDA_ROOT}/bin/nvcc
     CUOBJDUMP := ${CUDA_ROOT}/bin/cuobjdump
+    NVDISASM := ${CUDA_ROOT}/bin/nvdisasm
   endif
 endif
 
