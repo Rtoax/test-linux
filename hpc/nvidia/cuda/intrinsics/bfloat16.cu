@@ -379,6 +379,11 @@ __global__ void k_bfloat162_arithmetic(void)
 	PBF162(__hmul2_rn(one, two));
 	PBF162(__hmul2_sat(one, two));
 #endif
+	/**
+	 * __nv_bfloat162 __hfma2(const __nv_bfloat162 a,
+	 *                        const __nv_bfloat162 b,
+	 *                        const __nv_bfloat162 c);
+	 */
 	PBF162(__hfma2(one, two, three));
 #if !defined(__HIPCC__)
 	PBF162(__hfma2_relu(one, two, three));

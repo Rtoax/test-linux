@@ -398,6 +398,9 @@ __global__ void k_half2_arithmetic(void)
 #if !defined(__HIPCC__)
 	PHALF2(__hcmadd(h2_1, h2_2, h2_3));
 #endif
+	/**
+	 * __half2 __hfma2(const __half2 a, const __half2 b, const __half2 c);
+	 */
 	PHALF2(__hfma2(h2_1, h2_2, h2_3));
 #if !defined(__HIPCC__)
 	PHALF2(__hfma2_relu(h2_1, h2_2, h2_3));
