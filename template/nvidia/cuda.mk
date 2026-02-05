@@ -6,9 +6,10 @@
 #
 # Output macros:
 # - HAVE_CUDA=[y|n]
-# - HAVE_CUDNN=y
-# - HAVE_CUFILE=y	GPUDirect Storage
-# - HAVE_CUPTI=y	CUDA Profiling Tools Interface
+# - HAVE_CUDNN=[y]
+# - HAVE_CUFILE=[y]	GPUDirect Storage
+# - HAVE_CUPTI=[y]	CUDA Profiling Tools Interface
+# - HAVE_NVRTC=[y]      RTC: RunTime Compilation
 #
 # - CUDA_ROOT=[/usr/local/cuda/,/usr/]
 #
@@ -116,6 +117,7 @@ CUDA_VERSION_CODE := $(shell echo "$$(( (${CUDA_VERSION_MAJOR}*1000) + \
 
 $(call check_file_and_def,${CUDA_ROOT}/include/cudnn.h,HAVE_CUDNN)
 $(call check_file_and_def,${CUDA_ROOT}/include/cupti.h,HAVE_CUPTI)
+$(call check_file_and_def,${CUDA_ROOT}/include/nvrtc.h,HAVE_NVRTC)
 $(call check_file_and_def,${CUDA_ROOT}/include/cufile.h,HAVE_CUFILE)
 
 ifdef DEBUG

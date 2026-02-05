@@ -12,6 +12,7 @@
  *
  * - HAVE_NCCL
  * - HAVE_CUDNN
+ * - HAVE_NVRTC
  * - HAVE_RCCL
  * - HAVE_HPCC
  * - HAVE_HCDNN
@@ -174,7 +175,9 @@
  * - CUDA_VERSION
  *   12020: V12.2.140
  */
-# include <nvrtc.h>
+# ifdef HAVE_NVRTC
+#  include <nvrtc.h>
+# endif
 # include <cuda.h>
 # include <cuda_runtime.h>
 # include <cuda_runtime_api.h>

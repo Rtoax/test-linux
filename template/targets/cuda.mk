@@ -25,6 +25,7 @@
 # - HAVE_CUDNN
 # - HAVE_CUFILE
 # - HAVE_CUPTI
+# - HAVE_NVRTC
 # - HAVE_NVIDIA_GPU
 #
 ifndef _TARGET_NVIDIA_MK
@@ -54,6 +55,9 @@ endif
 ifdef HAVE_CUPTI
   CFLAGS_NVCC += -DHAVE_CUPTI=1
 endif
+ifdef HAVE_NVRTC
+  CFLAGS_NVCC += -DHAVE_NVRTC=1
+endif
 CFLAGS_NVCC += -DCUDA_VERSION_MAJOR=${CUDA_VERSION_MAJOR}
 CFLAGS_NVCC += -DCUDA_VERSION_MINOR=${CUDA_VERSION_MINOR}
 CFLAGS_NVCC += -DCUDA_VERSION_PATCH=${CUDA_VERSION_PATCH}
@@ -75,7 +79,6 @@ LDFLAGS_NVCC += -lcufft
 LDFLAGS_NVCC += -lcurand
 LDFLAGS_NVCC += -lcusparse
 LDFLAGS_NVCC += -lcusolver
-LDFLAGS_NVCC += -lnvrtc
 ifdef HAVE_NCCL
   LDFLAGS_NVCC += -lnccl
 endif
@@ -87,6 +90,9 @@ ifdef HAVE_CUFILE
 endif
 ifdef HAVE_CUPTI
   LDFLAGS_NVCC += -lcupti
+endif
+ifdef HAVE_NVRTC
+  LDFLAGS_NVCC += -lnvrtc
 endif
 LDFLAGS_NVCC += ${ldflags-cudart}
 
