@@ -70,11 +70,16 @@ int gpu_max_threads_per_block(int dev_id)
 }
 
 /**
- * https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html
- * https://www.nvidia.com/en-us/data-center/technologies/blackwell-architecture/
- * https://www.nvidia.com/en-us/data-center/technologies/hopper-architecture/
- * https://www.nvidia.com/en-us/data-center/ampere-architecture/
- * PyTorch: cmake/Modules_CUDA_fix/upstream/FindCUDA/select_compute_arch.cmake
+ * See also
+ * - nvcc --gpu-architecture=sm_NN
+ * - test-linux/hpc/nvidia/README.GPU.md
+ *
+ * Refs:
+ * - https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html
+ * - https://www.nvidia.com/en-us/data-center/technologies/blackwell-architecture/
+ * - https://www.nvidia.com/en-us/data-center/technologies/hopper-architecture/
+ * - https://www.nvidia.com/en-us/data-center/ampere-architecture/
+ * - PyTorch: cmake/Modules_CUDA_fix/upstream/FindCUDA/select_compute_arch.cmake
  */
 const char *gpu_compute_cap_str_of_nvidia(int major, int minor)
 {

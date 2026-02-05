@@ -1,7 +1,22 @@
 GPU - Graphics Processing Unit
 ==============================
 
-# GPUs
+# Architecture and Compute Capability
+
+| Architecture | Major.Minor | nvcc -arch |
+| ------------ | ----------- | ---------- |
+| Blackwell    | 12.         | `sm_120+`  |
+| Blackwell    | 10.         | `sm_100+`  |
+| Hopper       | 9.          | `sm_90+`   |
+| Ada Lovelace | 8.9         | `sm_89+`   |
+| Ampere       | 8.          | `sm_80+`   |
+| Turing       | 7.5         | `sm_75+`   |
+| Volta        | 7.0         | `sm_70+`   |
+| Pascal       | 6.0         | `sm_60+`   |
+| Maxwell      | 5.          | `sm_50+`   |
+
+
+# GPU Devices
 
 | GPU                  | SMs   | CUDA Cores  | Tensor Core |
 | -------------------- | ----- | ----------- | ----------- |

@@ -58,13 +58,6 @@ CFLAGS_NVCC += -DCUDA_VERSION_MAJOR=${CUDA_VERSION_MAJOR}
 CFLAGS_NVCC += -DCUDA_VERSION_MINOR=${CUDA_VERSION_MINOR}
 CFLAGS_NVCC += -DCUDA_VERSION_PATCH=${CUDA_VERSION_PATCH}
 
-# NVCC: --gpu-architecture
-# Pascal (sm_60+)
-# Volta (sm_70+)
-# Turing (sm_75+)
-# Ampere (sm_80+)
-# Ada Lovelace (sm_89+)
-# Hopper (sm_90+)
 ifeq (${HAVE_NVIDIA_GPU},y)
   CFLAGS_NVCC += -arch=native
   LDFLAGS_NVCC += -arch=native
