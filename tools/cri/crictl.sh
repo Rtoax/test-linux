@@ -6,7 +6,7 @@
 
 set -e
 
-image_fedora=fedora:latest
+image_fedora=registry.fedoraproject.org/fedora:43
 
 # Check informations
 sudo crictl pods

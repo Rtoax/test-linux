@@ -1,0 +1,14 @@
+{
+  "metadata": {
+    "name": "fedora"
+  },
+  "image":{
+    "image": "registry.fedoraproject.org/fedora:43"
+  },
+  "command": [
+    "top"
+  ],
+  "log_path":"busybox.log",
+  "linux": {
+  }
+}
