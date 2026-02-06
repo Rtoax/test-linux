@@ -1,21 +1,16 @@
 # SPDX-License-Identifier: GPL-3.0
 include compiler.mk
 
-# Compile to dynamic library.
-CFLAGS_PIC := -fPIC
-
-target-y :=
-target-libso-y :=
-
 target-y += main
-ifeq ($(CC_-mfentry),1)
-  target-y += fentry
-endif
+target-${feature-mfentry} += fentry
 
 target-libso-y += libmcount-nop.so
 target-libso-y += libconstructor-obj.so
 
 target-test-y := test0
+
+# Compile to dynamic library.
+CFLAGS_PIC := -fPIC
 
 CFLAGS_main := -pg
 CFLAGS_fentry := -pg -mfentry

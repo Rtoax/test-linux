@@ -46,9 +46,9 @@ define check_gcc_option
 	$(call check_compiler_option,gcc,$(1))
 endef
 
-CC_-mfentry := $(findstring y,$(call check_compiler_option,$(CC),-mfentry))
 CC_-mavx2 := $(findstring y,$(call check_compiler_option,$(CC),-mavx2))
 
+feature-mfentry := $(findstring y,$(call check_compiler_option,$(CC),-mfentry))
 feature-sve2 := $(findstring y,$(call check_compiler_option,$(CC),-march=armv8-a+sve+sve2))
 feature-avx512 := $(findstring y,$(call check_compiler_option,$(CC),-mavx512))
 feature-lse := $(findstring y,$(call check_compiler_option,$(CC),-march=armv8-a+lse))
@@ -60,7 +60,7 @@ ifdef DEBUG
 
   $(info CC_-mavx2 ${CC_-mavx2})
 
-  $(info fentry: $(CC_-mfentry))
+  $(info feature-mfentry $(feature-mfentry))
   $(info feature-sve2 ${feature-sve2})
   $(info feature-avx512 ${feature-avx512})
   $(info feature-lse ${feature-lse})
