@@ -14,10 +14,11 @@ target-shell-y += gotoxy.sh
 target-shell-y += libso-multiver_examples.sh
 target-shell-y += termplot_examples.sh
 target-shell-y += kconfig_compare.sh
-target-shell-y += kversion.sh
+target-shell-y += kversion.sh kversion.sh.1
 target-shell-y += patchset_examples.sh
 
 SHELL_ARGS_kconfig_compare.sh := --base ../kconfig --config ../kconfig --display all
 SHELL_ARGS_kversion.sh := short
+SHELL_ARGS_kversion.sh.1 := full
 
 include main.mk
