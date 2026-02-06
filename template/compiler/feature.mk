@@ -4,8 +4,8 @@
 # Input definitions:
 # - CC=[cc]
 #
-ifndef _BITS_COMPILER_FEATURE_MK
-_BITS_COMPILER_FEATURE_MK = 1
+ifndef _COMPILER_FEATURE_MK
+_COMPILER_FEATURE_MK = 1
 
 # Check compiler support option or not
 # $(1) - compiler, for example: gcc, clang, etc.
