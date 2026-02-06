@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- cu-bridge: add metax2lingspeed.sh;
 - distro: add README.md.check.sh;
 - scripts: add kversion.sh;
 - template: add flags.mk;
