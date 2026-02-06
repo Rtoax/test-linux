@@ -39,11 +39,13 @@ $(shell echo -e '#include <$(2)> \nint main(void) { return 0; }' | \
 endef
 
 define check_clang_option
-	$(call check_compiler_option,clang,$(1))
+$(call check_compiler_option,clang,$(1))
 endef
 
 define check_gcc_option
-	$(call check_compiler_option,gcc,$(1))
+$(call check_compiler_option,gcc,$(1))
 endef
 
+ifneq ($(call check_compiler_support_type,int),y)
+  $(error "${CC} not support int type!!")
 endif
