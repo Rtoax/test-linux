@@ -12,6 +12,6 @@ readonly README=${THISPATH}/README.md
 grep -E '^\* [0-9]+\.[0-9]+\.[0-9]+ \([^)]+\)$' ${README}
 
 if [[ -z "$(grep -E "^\* ${kver_short} \(${os_short}\)$" ${README})" ]]; then
-	echo >&2 "ERROR: Missing '* ${kver_short} (${os_short})'"
+	echo >&2 "ERROR: Missing '* ${kver_short} (${os_short})' in ${README}"
 	exit 1
 fi
