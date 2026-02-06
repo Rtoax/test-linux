@@ -1,4 +1,6 @@
 #!/bin/bash
+# Usage: [F1=1] clang-format.sh
+
 set -e
 
 fatal() {
@@ -13,9 +15,9 @@ readonly GIT_TOPDIR=$(git rev-parse --show-toplevel 2>/dev/null || :)
 # Check code format wich git-clang-format
 readonly clang_format=$(which git-clang-format 2>/dev/null || :)
 
-if  [[ -z ${clang_format} ]] && [[ -z ${FORCE1} ]]; then
-	fatal "Not found git-clang-format, please install or FORCE1=1"
-elif [[ -z ${FORCE1} ]]; then
+if  [[ -z ${clang_format} ]] && [[ -z ${F1} ]]; then
+	fatal "Not found git-clang-format, please install or F1=1"
+elif [[ -z ${F1} ]]; then
 	repository=$(basename ${GIT_TOPDIR})
 	if [[ " ostools tools ulpatch " =~ " ${repository} " ]]; then
 		branch=origin/master
@@ -29,7 +31,7 @@ elif [[ -z ${FORCE1} ]]; then
 				-e 'clang-format did not modify any files' || :)"
 	if [[ $? != 0 ]] || [[ "${patch}" ]]; then
 		echo "${patch}"
-		fatal "Bad code format, please modify according to the above diff or FORCE1=1"
+		fatal "Bad code format, please modify according to the above diff or F1=1"
 	fi
 fi
 
