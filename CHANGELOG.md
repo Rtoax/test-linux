@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- scripts: add kversion.sh;
 - template: add flags.mk;
 - template: add nvidia/device.mk;
 - podman: add privileged/reboot.sh;
