@@ -13,5 +13,16 @@ do
 		echo "skip doc file ${f}"
 		continue
 	fi
+
 	sed -i 's/MACA/LUCA/g' "$f"
+	sed -i 's/maca/luca/g' "$f"
+
+	sed -i 's/mc_/lc_/g' "$f"
+
+	sed -i 's/mxSml/lsSml/g' "$f"
+	sed -i 's/mxsml/lssml/g' "$f"
+
+	sed -i 's/mcrand/lcrand/g' "$f"
+	sed -i 's/mcrtc/lcrtc/g' "$f"
+	sed -i 's/mcruntime/lcruntime/g' "$f"
 done
