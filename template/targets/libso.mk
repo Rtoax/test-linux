@@ -12,7 +12,7 @@ LDXXFLAGS_SO += ${ldflags-so}
 
 include dir.mk
 
-LIBSO_SH := ${TOPDIR}/template/targets/libso.sh
+LIBSO_SH := ${TOPDIR}/scripts/libso-multiver.sh
 
 ifdef DEBUG
   LIBSO_SH += --verbose
