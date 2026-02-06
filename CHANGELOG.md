@@ -11,7 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
-- targets/shell.mk: support .sh.1 for test shell twice;
+- targets/shell.mk: support `.sh.[1-9]` for test one shell for 10 times;
 - cu-bridge: add metax2lingspeed.sh;
 - distro: add README.md.check.sh;
 - scripts: add kversion.sh;
