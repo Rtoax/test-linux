@@ -12,7 +12,7 @@ readonly README=${THISPATH}/README.md
 [[ ${VERBOSE} ]] && grep -E '^\* [0-9]+\.[0-9]+\.[0-9]+ \([^)]+\)$' ${README}
 
 if [[ -z "$(grep -E "^\* ${kver_short} \(.*${os_short}.*\)$" ${README})" ]]; then
-	oldline=$(grep -E "^\* ${kver_short} \([^)]+\)$" ${README})
+	oldline=$(grep -E "^\* ${kver_short} \([^)]+\)$" ${README} || :)
 	if [[ ! -z ${oldline} ]]; then
 		echo >&2 "ERROR: Missing '${os_short}' in '${oldline}' in ${README}"
 	else
