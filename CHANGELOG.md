@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- distro: add README.md.check.sh;
 - scripts: add kversion.sh;
 - template: add flags.mk;
 - template: add nvidia/device.mk;
