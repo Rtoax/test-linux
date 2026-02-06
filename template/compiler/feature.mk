@@ -46,14 +46,11 @@ define check_gcc_option
 	$(call check_compiler_option,gcc,$(1))
 endef
 
-CC_M32 := $(findstring y,$(call check_compiler_option_noS,$(CC),-m32))
-
 CC_-fcf-protection := $(findstring y,$(call check_compiler_option,$(CC),-fcf-protection))
 CC_-fpatchable-function-entry := $(findstring y,$(call check_compiler_option,$(CC),-fpatchable-function-entry=5,2))
 CC_-mfentry := $(findstring y,$(call check_compiler_option,$(CC),-mfentry))
 CC_-mavx2 := $(findstring y,$(call check_compiler_option,$(CC),-mavx2))
 
-feature-m32 := $(findstring y,$(call check_compiler_option,$(CC),-m32))
 feature-sve2 := $(findstring y,$(call check_compiler_option,$(CC),-march=armv8-a+sve+sve2))
 feature-avx512 := $(findstring y,$(call check_compiler_option,$(CC),-mavx512))
 feature-lse := $(findstring y,$(call check_compiler_option,$(CC),-march=armv8-a+lse))
@@ -62,13 +59,11 @@ feature-fcf-protection2 := $(findstring y,$(call check_clang_option,-fcf-protect
 
 ifdef DEBUG
   $(info CC: ${CC})
-  $(info CC_M32: ${CC_M32})
 
   $(info CC_-mavx2 ${CC_-mavx2})
 
   $(info fcf-protection: ${CC_-fcf-protection})
   $(info fentry: $(CC_-mfentry))
-  $(info feature-m32 ${feature-m32})
   $(info feature-sve2 ${feature-sve2})
   $(info feature-avx512 ${feature-avx512})
   $(info feature-lse ${feature-lse})

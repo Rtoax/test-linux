@@ -22,6 +22,7 @@ _COMPILER_MK = 1
 include shell.mk
 include compiler/feature.mk
 include compiler/std.mk
+include compiler/m32.mk
 include compiler/types.mk
 
 ifndef CROSS_COMPILE
