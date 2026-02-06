@@ -35,7 +35,7 @@ target-y += visibility
 
 target-bpf-${HAVE_CLANG} := preserve_access_index.bpf.o
 
-ifeq ($(CC_-fcf-protection),y)
+ifeq ($(feature-fcf-protection1),y)
   CFLAGS_nocf_check := -fcf-protection
 else
   $(warning WARNING: ${CC} not support -fcf-protection=full)

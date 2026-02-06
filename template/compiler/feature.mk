@@ -46,7 +46,6 @@ define check_gcc_option
 	$(call check_compiler_option,gcc,$(1))
 endef
 
-CC_-fcf-protection := $(findstring y,$(call check_compiler_option,$(CC),-fcf-protection))
 CC_-fpatchable-function-entry := $(findstring y,$(call check_compiler_option,$(CC),-fpatchable-function-entry=5,2))
 CC_-mfentry := $(findstring y,$(call check_compiler_option,$(CC),-mfentry))
 CC_-mavx2 := $(findstring y,$(call check_compiler_option,$(CC),-mavx2))
@@ -62,7 +61,6 @@ ifdef DEBUG
 
   $(info CC_-mavx2 ${CC_-mavx2})
 
-  $(info fcf-protection: ${CC_-fcf-protection})
   $(info fentry: $(CC_-mfentry))
   $(info feature-sve2 ${feature-sve2})
   $(info feature-avx512 ${feature-avx512})

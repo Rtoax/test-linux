@@ -1,5 +1,3 @@
-CC := gcc
-
 include compiler.mk
 
 subdir-y := bss
@@ -16,14 +14,12 @@ target-y += finput-charset
 target-y += fno-zero-initialized-in-bss fzero-initialized-in-bss
 target-y += fplt fno-plt
 target-y += fuse-ld
-target-${CC_-fcf-protection} += fcf-protection
+target-${feature-fcf-protection1} += fcf-protection
 target-${CC_-fpatchable-function-entry} += fpatchable-function-entry
 
 # command-line option ‘-fwpa’ is valid for LTO but not for C
 # target-y += fwpa
 # target-y += fltrans
-
-CFLAGS :=
 
 # gcc: -fcf-protection=[full|branch|return|none|check]
 CFLAGS_fcf-protection := -fcf-protection
