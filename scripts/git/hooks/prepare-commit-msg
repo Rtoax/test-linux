@@ -35,12 +35,6 @@ fi
 
 for f in ${CHANGED_FILES[@]}; do
 	ext=${f##*.}
-	# Remove documents, since document modifications typically do not
-	# depend on the environment or software version, for example, if
-	# you only modify README.md, there is no need to add Envs: and Vers:.
-	if ! [[ " md log " =~ " ${ext} " ]]; then
-		filter+=( ${f} )
-	fi
 
 	# This file have no extension, try to get it's shebang.
 	if [[ ${ext} == ${f} ]]; then
@@ -50,7 +44,7 @@ for f in ${CHANGED_FILES[@]}; do
 		fi
 	fi
 done
-readonly CHANGED_FILES_FILTEROUT=( ${filter[@]} )
+readonly CHANGED_FILES_RO=( ${CHANGED_FILES[@]} )
 
 Versions=""
 Environments=""
@@ -70,7 +64,7 @@ __add_ver() {
 	shift
 
 	[[ -z "${@}" ]] && fatal "Bad call of add_ver()"
-	[[ -z ${CHANGED_FILES_FILTEROUT} ]] && return 0
+	[[ -z ${CHANGED_FILES_RO} ]] && return 0
 
 	if [[ -z "$(echo ${@} | grep -oE '[0-9]')" ]]; then
 		local msg="Can't found version string from '${@}'"
@@ -99,7 +93,7 @@ add_ver() {
 }
 
 add_env() {
-	[[ -z ${CHANGED_FILES_FILTEROUT} ]] && return 0
+	[[ -z ${CHANGED_FILES_RO} ]] && return 0
 
 	[[ -z "${@}" ]] && return 0
 
@@ -122,7 +116,7 @@ have_key() {
 	for key in ${@}
 	do
 		# Match the whole word
-		if [[ "$(echo ${CHANGED_FILES_FILTEROUT[@]} | grep -wo ${key})" ]]; then
+		if [[ "$(echo ${CHANGED_FILES_RO[@]} | grep -wo ${key})" ]]; then
 			echo "YES"
 			return 0
 		fi
@@ -144,7 +138,7 @@ have_type() {
 	for ext in ${@}
 	do
 		# a.c b.sh -> c sh
-		if [[ " ${CHANGED_FILES_FILTEROUT[@]##*.} " =~ " ${ext} " ]]; then
+		if [[ " ${CHANGED_FILES_RO[@]##*.} " =~ " ${ext} " ]]; then
 			echo "YES"
 			return 0
 		fi

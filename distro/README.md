@@ -13,6 +13,7 @@ OS Distributions
 * 6.14.0 (ubuntu24.04)
 * 6.12.63 (debian13.3)
 * 6.12.57 (debian13)
+* 6.12.0 (centos10)
 * 5.15.131 (cclinux22.09.2)
 * 5.15.0 ()
 * 5.14.0 (almalinux9.7)
