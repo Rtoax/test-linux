@@ -18,6 +18,7 @@ OS Distributions
 * 5.14.0 (almalinux9.7)
 * 5.10.13 ()
 * 4.19.90 (kylinv10)
+* 4.18.0 (cclinux21.08.2)
 
 
 # Repository
