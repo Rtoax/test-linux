@@ -34,6 +34,7 @@ and this project adheres to
 - template: add clang.mk, pytorch.mk, runprog.mk;
 - pytorch: add compile script;
 #### Changed
+- template: Move bits/compiler-feature.mk to compiler/feature.mk;
 - Move template/targets/libso.sh to scripts/libso-multiver.sh;
 - Move vfs into fs directory;
 - Move alternative directory into insn directory;

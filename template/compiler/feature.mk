@@ -2,8 +2,7 @@
 # Copyright (C) 2025-2026 Rong Tao
 #
 # Input definitions:
-# - CC=gcc
-# - CXX=c++
+# - CC=[cc]
 #
 ifndef _BITS_COMPILER_FEATURE_MK
 _BITS_COMPILER_FEATURE_MK = 1
@@ -84,6 +83,7 @@ feature-fcf-protection1 := $(findstring y,$(call check_compiler_option,$(CC),-fc
 feature-fcf-protection2 := $(findstring y,$(call check_clang_option,-fcf-protection))
 
 ifdef DEBUG
+  $(info CC: ${CC})
   $(info fcf-protection: ${CC_-fcf-protection})
   $(info fentry: $(CC_-mfentry))
   $(info CC_M32: ${CC_M32})

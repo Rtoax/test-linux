@@ -20,7 +20,7 @@ ifndef _COMPILER_MK
 _COMPILER_MK = 1
 
 include shell.mk
-include bits/compiler-feature.mk
+include compiler/feature.mk
 
 ifndef CROSS_COMPILE
   MARCH_NATIVE := -march=native
