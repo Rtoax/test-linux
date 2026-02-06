@@ -15,7 +15,7 @@ OS Distributions
 * 6.12.57 (debian13)
 * 5.15.131 (cclinux22.09.2)
 * 5.15.0 ()
-* 5.14.0 ()
+* 5.14.0 (almalinux9.7)
 * 5.10.13 ()
 * 4.19.90 (kylinv10)
 
