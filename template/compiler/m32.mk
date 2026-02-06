@@ -4,7 +4,7 @@
 ifndef _COMPILER_M32_MK
 _COMPILER_M32_MK = 1
 
-include compiler/feature.mk
+include compiler/check.mk
 
 CC_M32 := $(findstring y,$(call check_compiler_option_noS,$(CC),-m32))
 feature-m32 := $(findstring y,$(call check_compiler_option,$(CC),-m32))

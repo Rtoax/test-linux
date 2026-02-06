@@ -4,7 +4,7 @@
 ifndef _COMPILER_TYPES_MK
 _COMPILER_TYPES_MK = 1
 
-include compiler/feature.mk
+include compiler/check.mk
 
 # see https://clang.llvm.org/docs/LanguageExtensions.html
 CC__Float16 := $(findstring y,$(call check_compiler_support_type,$(CC),_Float16))
