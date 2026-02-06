@@ -9,7 +9,7 @@ readonly os_short=$(${THISPATH}/version.sh short)
 readonly README=${THISPATH}/README.md
 
 # Show all
-grep -E '^\* [0-9]+\.[0-9]+\.[0-9]+ \([^)]+\)$' ${README}
+[[ ${VERBOSE} ]] && grep -E '^\* [0-9]+\.[0-9]+\.[0-9]+ \([^)]+\)$' ${README}
 
 if [[ -z "$(grep -E "^\* ${kver_short} \(.*${os_short}.*\)$" ${README})" ]]; then
 	oldline=$(grep -E "^\* ${kver_short} \([^)]+\)$" ${README})
