@@ -21,6 +21,8 @@ _COMPILER_MK = 1
 
 include shell.mk
 include compiler/feature.mk
+include compiler/std.mk
+include compiler/types.mk
 
 ifndef CROSS_COMPILE
   MARCH_NATIVE := -march=native

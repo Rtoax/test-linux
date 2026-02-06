@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- template: add compiler/{types,std}.mk;
 - targets/shell.mk: support `.sh.[1-9]` for test one shell for 10 times;
 - cu-bridge: add metax2lingspeed.sh;
 - distro: add README.md.check.sh;

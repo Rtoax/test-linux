@@ -47,28 +47,6 @@ define check_gcc_option
 endef
 
 CC_M32 := $(findstring y,$(call check_compiler_option_noS,$(CC),-m32))
-CC_STD_C11 := $(findstring y,$(call check_compiler_option,$(CC),-std=c11))
-CC_STD_GNU11 := $(findstring y,$(call check_compiler_option,$(CC),-std=gnu11))
-CC_STD_C17 := $(findstring y,$(call check_compiler_option,$(CC),-std=c17))
-CC_STD_GNU17 := $(findstring y,$(call check_compiler_option,$(CC),-std=gnu17))
-CC_STD_GNU++20 := $(findstring y,$(call check_compiler_option,$(CC),-std=gnu++20))
-CC_STD_C++20 := $(findstring y,$(call check_compiler_option,$(CC),-std=c++20))
-
-# see https://clang.llvm.org/docs/LanguageExtensions.html
-CC__Float16 := $(findstring y,$(call check_compiler_support_type,$(CC),_Float16))
-CC___fp16 := $(findstring y,$(call check_compiler_support_type,$(CC),__fp16))
-CC___bf16 := $(findstring y,$(call check_compiler_support_type,$(CC),__bf16))
-# GCC Additional Floating Types: https://gcc.gnu.org/onlinedocs/gcc/Floating-Types.html
-# - NVRTC on Linux
-# - GCC version 4.1 or later on x86_64/amd64
-# - Clang version 3.9 or later on x86_64/amd64
-# - NVHPC version 21.1 or later on x86_64/amd64
-CC___float128 := $(findstring y,$(call check_compiler_support_type,$(CC),__float128))
-CC__Float128 := $(findstring y,$(call check_compiler_support_type,$(CC),_Float128))
-CC___float80 := $(findstring y,$(call check_compiler_support_type,$(CC),__float80))
-CC___uint128_t := $(findstring y,$(call check_compiler_support_type,$(CC),__uint128_t))
-
-CC_H_quadmath_h := $(findstring y,$(call check_compiler_support_header,$(CC),quadmath.h))
 
 CC_-fcf-protection := $(findstring y,$(call check_compiler_option,$(CC),-fcf-protection))
 CC_-fpatchable-function-entry := $(findstring y,$(call check_compiler_option,$(CC),-fpatchable-function-entry=5,2))
@@ -84,32 +62,18 @@ feature-fcf-protection2 := $(findstring y,$(call check_clang_option,-fcf-protect
 
 ifdef DEBUG
   $(info CC: ${CC})
+  $(info CC_M32: ${CC_M32})
+
+  $(info CC_-mavx2 ${CC_-mavx2})
+
   $(info fcf-protection: ${CC_-fcf-protection})
   $(info fentry: $(CC_-mfentry))
-  $(info CC_M32: ${CC_M32})
-  $(info CC_STD_C11: ${CC_STD_C11})
-  $(info CC_STD_GNU11: ${CC_STD_GNU11})
-  $(info CC_STD_C17: ${CC_STD_C17})
-  $(info CC_STD_GNU17: ${CC_STD_GNU17})
-  $(info CC_STD_GNU++20: ${CC_STD_GNU++20})
-  $(info CC_STD_C++20: ${CC_STD_C++20})
-  $(info CC_-mavx2 ${CC_-mavx2})
-  $(info CC__Float16: ${CC__Float16})
-  $(info CC___fp16: ${CC___fp16})
-  $(info CC___bf16: ${CC___bf16})
-  $(info CC___float128: ${CC___float128})
-  $(info CC__Float128: ${CC__Float128})
-  $(info CC___float80: ${CC___float80})
-  $(info CC___uint128_t: ${CC___uint128_t})
-
   $(info feature-m32 ${feature-m32})
   $(info feature-sve2 ${feature-sve2})
   $(info feature-avx512 ${feature-avx512})
   $(info feature-lse ${feature-lse})
   $(info feature-fcf-protection1 ${feature-fcf-protection1})
   $(info feature-fcf-protection2 ${feature-fcf-protection2})
-
-  $(info CC_H_quadmath_h ${CC_H_quadmath_h})
 endif
 
 endif
