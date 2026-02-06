@@ -2,6 +2,13 @@
 #include <string.h>
 #include <signal.h>
 
+/**
+ * sigabbrev_np: glibc >= 2.32 see strsignal(3)
+ */
+#if (__GLIBC__ < 2) || (__GLIBC__ == 2 && __GLIBC_MINOR__ < 32)
+#define sigabbrev_np(nr) "\'sigabbrev_np is not support when glibc < 2.32\'"
+#endif
+
 int main(void)
 {
 	int i, flags[NSIG] = {0};
