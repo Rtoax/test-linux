@@ -13,6 +13,16 @@
 # endif
 #endif
 
+/**
+ * Since Linux 2.5.75, glibc 2.30, see tkill(2).
+ */
+#if (__GLIBC__ < 2) || (__GLIBC__ == 2 && __GLIBC_MINOR__ < 30)
+static int tgkill(int tgid, int tid, int sig)
+{
+	return syscall(SYS_tgkill, tgid, tid, sig);
+}
+#endif
+
 static pid_t child_tid;
 
 void *thread_func(void* arg)
