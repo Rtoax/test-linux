@@ -137,6 +137,11 @@ $(foreach sfx, 1 2 3 4 5 6 7 8 9, \
 )
 
 targets-from-src += $(patsubst %.bt,%.bt.log,$(target-bt-y))
+$(foreach sfx, 1 2 3 4 5 6 7 8 9, \
+  $(eval remove-suffix += %.bt.${sfx}) \
+  $(eval targets-from-src += $(patsubst %.bt.${sfx},%.bt.log.${sfx},$(target-bt-y))) \
+)
+
 build-targets += $(filter-out ${remove-suffix} %.sh %.py %.mk %.mak %.bt, $(targets-from-src))
 
 build-targets += $(subdir-y-build)

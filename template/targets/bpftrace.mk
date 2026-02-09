@@ -11,4 +11,13 @@ include runprog.mk
 	$(call log_exe,BPFTRACE,$(<),$(@))
 	$(Q)${SUDO} $(RUNPROG) --log $(@) -- $(BPFTRACE) $(<) $(ARGS_$(*))
 
+# $1: 1, 2, 3, ...
+define bt_target
+%.bt.log.${1}: %.bt
+	$$(call log_exe,BPFTRACE,$$(<),$$(@))
+	$$(Q)$${SUDO} $$(RUNPROG) --log $$(@) -- $$(BPFTRACE) $$(<) $$(ARGS_$$(<).${1})
+endef
+
+$(foreach sfx, 1 2 3 4 5 6 7 8 9, $(eval $(call bt_target,${sfx})))
+
 endif

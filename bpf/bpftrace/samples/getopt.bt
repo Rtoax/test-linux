@@ -1,0 +1,6 @@
+#!/bin/env bpftrace
+
+BEGIN
+{
+	printf("%d\n", getopt("num", 0));
+}
