@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- virt-manager: add virt-clone directory;
 - tools: add libosinfo directory;
 - gnu: add findutils directory;
 - template: add compiler/{types,std,m32,check}.mk;
