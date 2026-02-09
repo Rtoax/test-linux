@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- distro: add dnf/rpm directory;
 - tigervnc: add server.sh from ostools;
 - libguestfs: add guestmount/qcow2.sh, guestfish directory;
 - raid: add boardcom/storcli/storcli.sh
