@@ -17,7 +17,7 @@ and this project adheres to
 - targets/shell.mk: support `.sh.[1-9]` for test one shell for 10 times;
 - cu-bridge: add metax2lingspeed.sh;
 - distro: add README.md.check.sh;
-- scripts: add kversion.sh;
+- scripts: add kversion.sh, code-count.sh;
 - template: add flags.mk;
 - template: add nvidia/device.mk;
 - podman: add privileged/reboot.sh;

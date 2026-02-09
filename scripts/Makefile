@@ -9,7 +9,8 @@ include os.mk
 
 subdir-y := git
 
-target-shell-y := moonlight.sh
+target-shell-y := code-count.sh
+target-shell-y += moonlight.sh
 target-shell-y += gotoxy.sh
 target-shell-y += libso-multiver_examples.sh
 target-shell-y += termplot_examples.sh
