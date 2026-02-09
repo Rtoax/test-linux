@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- virt-install: add cdrom.sh and links;
 - virt-manager: add virt-clone directory;
 - tools: add libosinfo directory;
 - gnu: add findutils directory;
