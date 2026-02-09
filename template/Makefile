@@ -8,6 +8,7 @@ OUTPUT := .output/
 MK_ALL := $(shell find -name '*.mk')
 
 MK_TGT := $(filter ./targets/%,${MK_ALL})
+MK_TGT := $(filter-out ./targets/test/%,${MK_TGT})
 
 MK_TST := $(filter-out ./targets/%,${MK_ALL})
 MK_TST := $(filter-out ./main.mk,${MK_TST})
@@ -30,6 +31,8 @@ endef
 
 # include each mk for twice to test ifndef-endif pair
 $(foreach mk, ${MK_TST} ${MK_TST}, $(eval $(call include_stat,${mk})))
+
+subdir-y := targets/test/
 
 target-post-y := git
 target-post-y += log
