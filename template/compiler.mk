@@ -3,8 +3,8 @@
 #
 # Input definitions:
 # - CROSS_COMPILE=
-# - CC=gcc
-# - CXX=c++
+# - CC=[cc]
+# - CXX=[c++]
 #
 # Output definitions:
 # - CC_FULLVERSION=
@@ -25,6 +25,10 @@ include compiler/std.mk
 include compiler/m32.mk
 include compiler/types.mk
 
+cflags-support-types-y :=
+cflags-support-headers-y :=
+ldflags-support-headers-y :=
+
 ifndef CROSS_COMPILE
   MARCH_NATIVE := -march=native
 endif
@@ -39,7 +43,6 @@ define gen_compiler_macro_hdr
 $(call __gen_compiler_macro_hdr,$(CC),$(1))
 endef
 
-cflags-support-types-y :=
 cflags-support-types-${CC__Float16} += -DSUPPORT__Float16=1
 cflags-support-types-${CC___fp16} += -DSUPPORT___fp16=1
 cflags-support-types-${CC___bf16} += -DSUPPORT___bf16=1
@@ -48,9 +51,7 @@ cflags-support-types-${CC__Float128} += -DSUPPORT__Float128=1
 cflags-support-types-${CC___float80} += -DSUPPORT___float80=1
 cflags-support-types-${CC___uint128_t} += -DSUPPORT___uint128_t=1
 
-cflags-support-headers-y :=
 cflags-support-headers-${CC_H_quadmath_h} += -DSUPPORT_quadmath_h=1
-ldflags-support-headers-y :=
 ldflags-support-headers-${CC_H_quadmath_h} += -lquadmath
 
 CC_FULLVERSION := $(shell $(CC) -dumpfullversion -dumpversion)
@@ -66,7 +67,11 @@ ifdef DEBUG
   $(info ldflags-support-headers-y: ${ldflags-support-headers-y})
 endif
 
-export CC_FULLVERSION CC_VERSION CC_MAJOR CC_MINOR CC_PATCHLEVEL
+export CC_FULLVERSION
+export CC_VERSION
+export CC_MAJOR
+export CC_MINOR
+export CC_PATCHLEVEL
 export cflags-support-types-y
 export cflags-support-headers-y
 export ldflags-support-headers-y
