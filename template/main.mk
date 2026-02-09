@@ -108,28 +108,36 @@ build-targets += $(target-lscc-liba-y)
 build-targets += $(target-go-y)
 build-targets += $(target-java-y)
 
+remove-suffix :=
+
 # Here we need to perform filter-out. For example, both mk and mak are
 # target-mk-y added in the original Makefile. This means that origin
 # targets targets-from-src may contain targets for .mk and .mak, which
 # will cause the original files to be deleted during clean. Therefore,
 # we need to filter out the original files here.
 targets-from-src += $(patsubst %.sh,%.sh.log,$(target-shell-y))
-targets-from-src += $(patsubst %.mk,%.mk.log,$(target-mk-y))
-targets-from-src += $(patsubst %.mak,%.mak.log,$(target-mk-y))
-remove-suffix :=
 $(foreach sfx, 1 2 3 4 5 6 7 8 9, \
   $(eval remove-suffix += %.sh.${sfx}) \
   $(eval targets-from-src += $(patsubst %.sh.${sfx},%.sh.log.${sfx},$(target-shell-y))) \
 )
+
+targets-from-src += $(patsubst %.mk,%.mk.log,$(target-mk-y))
+targets-from-src += $(patsubst %.mak,%.mak.log,$(target-mk-y))
 $(foreach sfx, 1 2 3 4 5 6 7 8 9, \
   $(eval remove-suffix += %.mk.${sfx}) \
   $(eval remove-suffix += %.mak.${sfx}) \
   $(eval targets-from-src += $(patsubst %.mk.${sfx},%.mk.log.${sfx},$(target-mk-y))) \
   $(eval targets-from-src += $(patsubst %.mak.${sfx},%.mak.log.${sfx},$(target-mak-y))) \
 )
+
 targets-from-src += $(patsubst %.py,%.py.log,$(target-python-y))
+$(foreach sfx, 1 2 3 4 5 6 7 8 9, \
+  $(eval remove-suffix += %.py.${sfx}) \
+  $(eval targets-from-src += $(patsubst %.py.${sfx},%.py.log.${sfx},$(target-python-y))) \
+)
+
 targets-from-src += $(patsubst %.bt,%.bt.log,$(target-bt-y))
-build-targets += $(filter-out %.sh ${remove-suffix} %.py %.mk %.mak %.bt, $(targets-from-src))
+build-targets += $(filter-out ${remove-suffix} %.sh %.py %.mk %.mak %.bt, $(targets-from-src))
 
 build-targets += $(subdir-y-build)
 build-targets += $(target-post-y)
