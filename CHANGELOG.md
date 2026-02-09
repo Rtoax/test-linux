@@ -11,6 +11,26 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+#### Changed
+- template: Move bits/compiler-feature.mk to compiler/feature.mk;
+- Move template/targets/libso.sh to scripts/libso-multiver.sh;
+- Move vfs into fs directory;
+- Move alternative directory into insn directory;
+- Move aio directory into glibc;
+- scripts/install-deps.sh: default install nothing;
+- template: add nvidia,amd,metax,cestc directory;
+#### Deprecated
+#### Removed
+#### Fixed
+#### Security
+#### Docs
+#### Tools
+
+
+## [v2.3.15] 2026-02-09
+
+#### Breaking Changes
+#### Added
 - distro: add dnf/rpm directory;
 - tigervnc: add server.sh from ostools;
 - libguestfs: add guestmount/qcow2.sh, guestfish directory;
