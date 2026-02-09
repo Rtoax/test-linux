@@ -11,7 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
-- libguestfs: First commit;
+- libguestfs: add guestmount/qcow2.sh;
 - raid: add boardcom/storcli/storcli.sh
 - rootfs: add README.md;
 - virt-install: add cdrom.sh and links;
