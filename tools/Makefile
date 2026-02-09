@@ -1,6 +1,7 @@
 subdir-y := cmake
 subdir-y += code-formatter
 subdir-y += fstabd
+subdir-y += libosinfo
 subdir-y += perf
 subdir-y += podman
 subdir-y += vim

@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- tools: add libosinfo directory;
 - gnu: add findutils directory;
 - template: add compiler/{types,std,m32,check}.mk;
 - targets/shell.mk: support `.sh.[1-9]` for test one shell for 10 times;
