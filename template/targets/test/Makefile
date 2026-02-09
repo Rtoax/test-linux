@@ -10,4 +10,12 @@ SHELL_ARGS_env.sh := abc
 SHELL_ARGS_env.sh.1 := def
 SHELL_ARGS_env.sh.9 := xyz
 
+target-mk-y := test.mk
+target-mk-y += test.mk.1
+target-mk-y += test.mk.9
+
+ARGS_test.mk := TEST_MK_DEF_1=0
+ARGS_test.mk.1 := TEST_MK_DEF_1=1
+ARGS_test.mk.9 := TEST_MK_DEF_1=9
+
 include main.mk
