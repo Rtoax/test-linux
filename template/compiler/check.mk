@@ -46,6 +46,8 @@ define check_gcc_option
 $(call check_compiler_option,gcc,$(1))
 endef
 
-ifneq ($(call check_compiler_support_type,int),y)
+ifneq ($(call check_compiler_support_type,${CC},int),y)
   $(error "${CC} not support int type!!")
+endif
+
 endif
