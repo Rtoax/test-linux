@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- rootfs: add README.md;
 - virt-install: add cdrom.sh and links;
 - virt-manager: add virt-clone directory;
 - tools: add libosinfo directory;
