@@ -166,6 +166,7 @@ add_bpftrace_ver() { add_ver "BPFTrace $(${TOPDIR}/bpf/bpftrace/version.sh)"; }
 add_cmake_ver() { add_ver "CMake $(${TOPDIR}/tools/cmake/version.sh)"; }
 add_cuda_ver() { add_ver "CUDA $(${TOPDIR}/hpc/nvidia/cuda/version.sh)"; }
 add_gcc_ver() { add_ver "GCC $(${TOPDIR}/gnu/gcc/version.sh)"; }
+add_findutils_ver() { add_ver "Findutils $(${TOPDIR}/gnu/findutils/version.sh)"; }
 add_git_ver() { add_ver "Git $(${TOPDIR}/scripts/git/version.sh)"; }
 add_glibc_ver() { add_ver "$(getconf GNU_LIBC_VERSION 2>/dev/null)"; }
 add_gnome_ver() { add_ver "GNOME $(${TOPDIR}/gnome/version.sh)"; }
@@ -205,6 +206,10 @@ add_ver "Linux $(uname -r)"
 
 if [[ "$(have_type c cpp c++ h hpp)$(have_key cpp gcc compiler)" ]]; then
 	add_gcc_ver
+fi
+
+if [[ "$(have_key find)" ]]; then
+	add_findutils_ver
 fi
 
 if [[ "$(have_type c cpp c++ h hpp)$(have_key glibc ipc socket)" ]]; then
